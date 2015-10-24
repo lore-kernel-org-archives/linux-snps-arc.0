@@ -1,16 +1,11 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 22 Oct 2015 08:37:55 +0000
-Subject: test mail
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F44CBAB4@IN01WEMBXA.internal.synopsys.com>
-References: <C2D7FE5348E1B147BCA15975FBA23075F44CBAB4@IN01WEMBXA.internal.synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Sat, 24 Oct 2015 08:03:21 +0000
+Subject: ARC Linux mailing list and Newsgroup
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1445503075.3913.68.camel@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44CBF09@IN01WEMBXA.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Ok, I had to subscribe first to get my emails accepted by the mailing list.
-Trying now with subscription.
+Welcome to ARC Linux mailing list.
+Please post messages / patches here pertaining to Linux kernel for ARC, platform support.
 
--Alexey
-
-On Thu, 2015-10-22@07:57 +0000, Vineet Gupta wrote:
-First posting to ARC Linux public mailing list !
+This list is also mirrored @ Newsgroup: gmane.linux.kernel.arc
