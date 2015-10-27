@@ -1,8 +1,10 @@
-From: dwmw2@infradead.org (David Woodhouse)
-Date: Tue, 27 Oct 2015 23:28:04 +0900
-Subject: test
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue, 27 Oct 2015 14:35:19 +0000
+Subject: Another test
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <E1Zr5EK-0001eN-P9@shinybook.infradead.org>
+Message-ID: <1445956519.3691.2.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-test
+This time it works?
+
+-Alexey
