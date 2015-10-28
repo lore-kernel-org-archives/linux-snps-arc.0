@@ -1,10 +1,8 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 27 Oct 2015 14:35:19 +0000
-Subject: Another test
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 28 Oct 2015 08:10:22 +0000
+Subject: test mail #3 for gmane
+References: <C2D7FE5348E1B147BCA15975FBA23075F44CDBF3@IN01WEMBXA.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1445956519.3691.2.camel@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44CDC2A@IN01WEMBXA.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This time it works?
-
--Alexey
