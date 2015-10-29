@@ -1,97 +1,67 @@
-From: mans@mansr.com (=?iso-8859-1?Q?M=E5ns_Rullg=E5rd?=)
-Date: Thu, 29 Oct 2015 13:37:13 +0000
-Subject: [PATCH] __div64_32: implement division by multiplication for
- 32-bit arches
-In-Reply-To: <1446123944.3203.8.camel@synopsys.com> (Alexey Brodkin's message
- of "Thu, 29 Oct 2015 13:05:44 +0000")
-References: <1446072455-16074-1-git-send-email-abrodkin@synopsys.com>
- <yw1xr3kddegu.fsf@unicorn.mansr.com>
- <1446123944.3203.8.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 29 Oct 2015 15:58:16 +0000
+Subject: [RFC] perf: fix building for ARCv1
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F44CB4BF@IN01WEMBXA.internal.synopsys.com>
+References: <C2D7FE5348E1B147BCA15975FBA23075F44C9DD2@IN01WEMBXA.internal.synopsys.com>
+ <1445166916.9672.10.camel@synopsys.com>
+ <87a8rf6a6p.fsf@tassilo.jf.intel.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44C9E9A@IN01WEMBXA.internal.synopsys.com>
+ <8761235rwe.fsf@tassilo.jf.intel.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CAFF9@IN01WEMBXA.internal.synopsys.com>
+ <20151019093549.GK3816@twins.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CB023@IN01WEMBXA.internal.synopsys.com>
+ <20151019095157.GM3816@twins.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CB43D@IN01WEMBXA.internal.synopsys.com>
+ <20151020101133.GA17308@twins.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CB4BF@IN01WEMBXA.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <yw1xmvv1dcdy.fsf@unicorn.mansr.com>
+Message-ID: <1446134296.3203.27.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Alexey Brodkin <Alexey.Brodkin at synopsys.com> writes:
+Hi Vineet,
 
-> Hi mans,
->
-> On Thu, 2015-10-29@12:52 +0000, M?ns Rullg?rd wrote:
->> Alexey Brodkin <Alexey.Brodkin at synopsys.com> writes:
->> 
->> > Existing default implementation of __div64_32() for 32-bit arches unfolds
->> > into huge routine with tons of arithmetics like +, -, * and all of them
->> > in loops. That leads to obvious performance degradation if do_div() is
->> > frequently used.
->> > 
->> > Good example is extensive TCP/IP traffic.
->> > That's what I'm getting with perf out of iperf3:
->> >  -------------->8--------------
->> >     30.05%  iperf3   [kernel.kallsyms]        [k] copy_from_iter
->> >     11.77%  iperf3   [kernel.kallsyms]        [k] __div64_32
->> >      5.44%  iperf3   [kernel.kallsyms]        [k] memset
->> >      5.32%  iperf3   [kernel.kallsyms]        [k] stmmac_xmit
->> >      2.70%  iperf3   [kernel.kallsyms]        [k] skb_segment
->> >      2.56%  iperf3   [kernel.kallsyms]        [k] tcp_ack
->> >  -------------->8--------------
->> > 
->> > do_div() here is mostly used in skb_mstamp_get() to convert nanoseconds
->> > received from local_clock() to microseconds used in timestamp.
->> > BTW conversion itself is as simple as "/=1000".
->> > 
->> > Fortunately we already have much better __div64_32() for 32-bit ARM.
->> > There in case of division by constant preprocessor calculates so-called
->> > "magic number" which is later used in multiplications instead of divisions.
->> > It's really nice and very optimal but obviously works only for ARM
->> > because ARM assembly is involved.
->> > 
->> > Now why don't we extend the same approach to all other 32-bit arches
->> > with multiplication part implemented in pure C. With good compiler
->> > resulting assembly will be quite close to manually written assembly.
->> > 
->> > And that change implements that.
->> > 
->> > But there's at least 1 problem which I don't know how to solve.
->> > Preprocessor magic only happens if __div64_32() is inlined (that's
->> > obvious - preprocessor has to know if divider is constant or not).
->> > 
->> > But __div64_32() is already marked as weak function (which in its turn
->> > is required to allow some architectures to provide its own optimal
->> > implementations). I.e. addition of "inline" for __div64_32() is not an
->> > option.
->> > 
->> > So I do want to hear opinions on how to proceed with that patch.
->> > Indeed there's the simplest solution - use this implementation only in
->> > my architecture of preference (read ARC) but IMHO this change may
->> > benefit other architectures as well.
->> 
->> I tried something similar for MIPS a while ago after noticing a similar
->> perf report.  Adapting Nico's ARM code gave some nice speedups, but only
->> when I used MIPS assembly for the long multiplies.  Apparently gcc is
->> still too stupid to do the sane thing.
->
-> Could you please elaborate a little bit on what was a problem with gcc
-> compared to hand-written asm?
+On Tue, 2015-10-20@10:45 +0000, Vineet Gupta wrote:
+> On Tuesday 20 October 2015 03:41 PM, Peter Zijlstra wrote:
+> > > > Can we use existing syscall(s) - again this is what our good old pthread library
+> > > > code did.
+> > > > 
+> > > > static void __pthread_acquire(int * spinlock)
+> > > > {
+> > > >   int cnt = 0;
+> > > >   struct timespec tm;
+> > > > 
+> > > >   READ_MEMORY_BARRIER();
+> > > > 
+> > > >   while (testandset(spinlock)) {   <---- atomic EXchange
+> > > >     if (cnt < 50) {
+> > > >       sched_yield();
+> > > >       cnt++;
+> > > >     } else {
+> > > >       tm.tv_sec = 0;
+> > > >       tm.tv_nsec = 2000001;
+> > > >       nanosleep(&tm, ((void *)0));
+> > > >       cnt = 0;
+> > > >     }
+> > > >   }
+> > *shudder* that is quite horrible.
+> > 
+> > This means all your 'atomics' are broken for anything SCHED_FIFO and the
+> > like. You simply _cannot_ run a realtime system.
+> 
+> The code above is from uClibc old threading library which we don't use anymore.
+> The NPTL version doesn't have all of this song-n-dance and relies on futexes. The
+> change we are talking about is only for the atomics in perf itself. I do
+> understand your POV though.
+> 
+> > (also, for ACQUIRE you want the READ_MEMORY_BARRIER() _after_ the
+> > test-and-set control dependency.)
+> 
+> Absolutely and in this case it will have to be added both inside the loop and one
+> at the end to cover both the scenarios !
+> 
 
-In the final multiplications (the ones using ARM assembly), gcc has a
-tendency to multiply things by zero and add the (zero) result to
-something.  This generally happens when multiplying a 64-bit value by a
-32-bit one.  The 32-bit value is simply converted to 64-bit by the usual
-promotion rules, and gcc forgets that the upper half is know to be zero.
+I'm wondering what are our plans for now?
+Are we going to accept proposed fix just for ARC in 4.4 (and to all stables then)
+or we'll try to come up with more general solution?
 
-> The point is if preprocessor does proper constant propagation then compiler
-> will need to implement only calculations marked "run-time calculations".
-> And in its turn those are pretty straight-forward 32-bit + and *.
-
-The constant calculation is fine.  It's the final multiplication that's
-the problem.
-
-> And at least on ARC I saw with that change perf no longer captures
-> __div64_32() during iperf and iperf results itself improved for about 10%.
-> So I'd say advantage is quite noticeable.
-
-There was an improvement without assembly as well, but with the MIPS
-equivalent of the ARM assembly, it got much better.
-
--- 
-M?ns Rullg?rd
-mans at mansr.com
+-Alexey
