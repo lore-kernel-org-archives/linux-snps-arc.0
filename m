@@ -1,73 +1,66 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 30 Oct 2015 06:19:21 +0000
-Subject: [RFC] perf: fix building for ARCv1
-References: <C2D7FE5348E1B147BCA15975FBA23075F44C9DD2@IN01WEMBXA.internal.synopsys.com>
- <1445166916.9672.10.camel@synopsys.com>
- <87a8rf6a6p.fsf@tassilo.jf.intel.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44C9E9A@IN01WEMBXA.internal.synopsys.com>
- <8761235rwe.fsf@tassilo.jf.intel.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44CAFF9@IN01WEMBXA.internal.synopsys.com>
- <20151019093549.GK3816@twins.programming.kicks-ass.net>
- <C2D7FE5348E1B147BCA15975FBA23075F44CB023@IN01WEMBXA.internal.synopsys.com>
- <20151019095157.GM3816@twins.programming.kicks-ass.net>
- <C2D7FE5348E1B147BCA15975FBA23075F44CB43D@IN01WEMBXA.internal.synopsys.com>
- <20151020101133.GA17308@twins.programming.kicks-ass.net>
- <C2D7FE5348E1B147BCA15975FBA23075F44CB4BF@IN01WEMBXA.internal.synopsys.com>
- <1446134296.3203.27.camel@synopsys.com>
+From: mans@mansr.com (=?iso-8859-1?Q?M=E5ns_Rullg=E5rd?=)
+Date: Fri, 30 Oct 2015 12:40:19 +0000
+Subject: [PATCH] __div64_32: implement division by multiplication for
+ 32-bit arches
+In-Reply-To: <alpine.LFD.2.20.1510292112590.630@knanqh.ubzr> (Nicolas Pitre's
+ message of "Thu, 29 Oct 2015 21:26:25 -0400 (EDT)")
+References: <1446072455-16074-1-git-send-email-abrodkin@synopsys.com>
+ <alpine.LFD.2.20.1510281907170.630@knanqh.ubzr>
+ <alpine.LFD.2.20.1510292112590.630@knanqh.ubzr>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44CE67A@IN01WEMBXA.internal.synopsys.com>
+Message-ID: <yw1xa8r0cyx8.fsf@unicorn.mansr.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thursday 29 October 2015 09:28 PM, Alexey Brodkin wrote:
-> Hi Vineet,
+Nicolas Pitre <nicolas.pitre at linaro.org> writes:
+
+> On Wed, 28 Oct 2015, Nicolas Pitre wrote:
 >
-> On Tue, 2015-10-20@10:45 +0000, Vineet Gupta wrote:
->> On Tuesday 20 October 2015 03:41 PM, Peter Zijlstra wrote:
->>>>> Can we use existing syscall(s) - again this is what our good old pthread library
->>>>> code did.
->>>>>
->>>>> static void __pthread_acquire(int * spinlock)
->>>>> {
->>>>>   int cnt = 0;
->>>>>   struct timespec tm;
->>>>>
->>>>>   READ_MEMORY_BARRIER();
->>>>>
->>>>>   while (testandset(spinlock)) {   <---- atomic EXchange
->>>>>     if (cnt < 50) {
->>>>>       sched_yield();
->>>>>       cnt++;
->>>>>     } else {
->>>>>       tm.tv_sec = 0;
->>>>>       tm.tv_nsec = 2000001;
->>>>>       nanosleep(&tm, ((void *)0));
->>>>>       cnt = 0;
->>>>>     }
->>>>>   }
->>> *shudder* that is quite horrible.
->>>
->>> This means all your 'atomics' are broken for anything SCHED_FIFO and the
->>> like. You simply _cannot_ run a realtime system.
->> The code above is from uClibc old threading library which we don't use anymore.
->> The NPTL version doesn't have all of this song-n-dance and relies on futexes. The
->> change we are talking about is only for the atomics in perf itself. I do
->> understand your POV though.
->>
->>> (also, for ACQUIRE you want the READ_MEMORY_BARRIER() _after_ the
->>> test-and-set control dependency.)
->> Absolutely and in this case it will have to be added both inside the loop and one
->> at the end to cover both the scenarios !
->>
-> I'm wondering what are our plans for now?
-> Are we going to accept proposed fix just for ARC in 4.4 (and to all stables then)
-> or we'll try to come up with more general solution?
+>> On Thu, 29 Oct 2015, Alexey Brodkin wrote:
+>> 
+>> > Fortunately we already have much better __div64_32() for 32-bit ARM.
+>> > There in case of division by constant preprocessor calculates so-called
+>> > "magic number" which is later used in multiplications instead of divisions.
+>> 
+>> It's not magic, it is science.  :-)
+>> 
+>> > It's really nice and very optimal but obviously works only for ARM
+>> > because ARM assembly is involved.
+>> > 
+>> > Now why don't we extend the same approach to all other 32-bit arches
+>> > with multiplication part implemented in pure C. With good compiler
+>> > resulting assembly will be quite close to manually written assembly.
+>
+> Well... not as close at least on ARM.  Maybe 2x to 3x more costly than 
+> the one with assembly.  Still better than 100x or so without this 
+> optimization.
 
-I agree with the current solution to add -atomic to for arc700 builds.
-Although making that default for arc700 tools will be better but that will not fix
-things before next release of tools etc.
+That's more or less what I found on MIPS too.
 
-But we *do* need to improve generic solution
-1. Add atomics detection in perf to add fall back arch stubs
-2. ARC needs to add syscall for facilitating atomic r-m-w !
+>> > But there's at least 1 problem which I don't know how to solve.
+>> > Preprocessor magic only happens if __div64_32() is inlined (that's
+>> > obvious - preprocessor has to know if divider is constant or not).
+>> > 
+>> > But __div64_32() is already marked as weak function (which in its turn
+>> > is required to allow some architectures to provide its own optimal
+>> > implementations). I.e. addition of "inline" for __div64_32() is not an
+>> > option.
+>> 
+>> You can't inline __div64_32().  It should remain as is and used only for 
+>> the slow path.
+>> 
+>> For the constant based optimization to work, you need to modify do_div() 
+>> in include/asm-generic/div64.h directly.
+>
+> OK... I was intrigued, so I adapted my ARM code to the generic case, 
+> including the overflow avoidance optimizations.  Please have look and 
+> tell me how this works for you.
+>
+> If this patch is accepted upstream, then it could be possible to 
+> abstract only the actual multiplication part with some architecture 
+> specific assembly.
 
--Vineet
+Good idea.
+
+-- 
+M?ns Rullg?rd
+mans at mansr.com
