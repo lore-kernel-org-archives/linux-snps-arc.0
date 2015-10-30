@@ -1,52 +1,73 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 30 Oct 2015 06:21:56 +0000
+Date: Fri, 30 Oct 2015 06:19:21 +0000
 Subject: [RFC] perf: fix building for ARCv1
-References: <1445088959-3058-1-git-send-email-abrodkin@synopsys.com>
+References: <C2D7FE5348E1B147BCA15975FBA23075F44C9DD2@IN01WEMBXA.internal.synopsys.com>
+ <1445166916.9672.10.camel@synopsys.com>
+ <87a8rf6a6p.fsf@tassilo.jf.intel.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44C9E9A@IN01WEMBXA.internal.synopsys.com>
+ <8761235rwe.fsf@tassilo.jf.intel.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CAFF9@IN01WEMBXA.internal.synopsys.com>
+ <20151019093549.GK3816@twins.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CB023@IN01WEMBXA.internal.synopsys.com>
+ <20151019095157.GM3816@twins.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CB43D@IN01WEMBXA.internal.synopsys.com>
+ <20151020101133.GA17308@twins.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CB4BF@IN01WEMBXA.internal.synopsys.com>
+ <1446134296.3203.27.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44CE691@IN01WEMBXA.internal.synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44CE67A@IN01WEMBXA.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Saturday 17 October 2015 07:06 PM, Alexey Brodkin wrote:
-> Perf uses atomic options and so it is required to have atomics enabled
-> in toolchain.
+On Thursday 29 October 2015 09:28 PM, Alexey Brodkin wrote:
+> Hi Vineet,
 >
-> In case of ARC atomics are enabled by default for ARCv2 but disabled for
-> ARCv1. Now we explicitly enable atomics for either ARC achitecture
-> version so perf could be successfully built.
->
-> Currently on attempt to build perf for ARCv1 you'll see tons of:
-> ----------------->8-----------------
-> undefined reference to `__sync_add_and_fetch_4'
-> ----------------->8-----------------
->
-> Still note if ARCv1 CPU is configured without LL/SC perf will crash on
-> execution once "llock" instruction is attempted to be executed.
->
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: Peter Zijlstra <peterz at infradead.org>
-> Cc: Arnaldo Carvalho de Melo <acme at kernel.org>
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> On Tue, 2015-10-20@10:45 +0000, Vineet Gupta wrote:
+>> On Tuesday 20 October 2015 03:41 PM, Peter Zijlstra wrote:
+>>>>> Can we use existing syscall(s) - again this is what our good old pthread library
+>>>>> code did.
+>>>>>
+>>>>> static void __pthread_acquire(int * spinlock)
+>>>>> {
+>>>>>   int cnt = 0;
+>>>>>   struct timespec tm;
+>>>>>
+>>>>>   READ_MEMORY_BARRIER();
+>>>>>
+>>>>>   while (testandset(spinlock)) {   <---- atomic EXchange
+>>>>>     if (cnt < 50) {
+>>>>>       sched_yield();
+>>>>>       cnt++;
+>>>>>     } else {
+>>>>>       tm.tv_sec = 0;
+>>>>>       tm.tv_nsec = 2000001;
+>>>>>       nanosleep(&tm, ((void *)0));
+>>>>>       cnt = 0;
+>>>>>     }
+>>>>>   }
+>>> *shudder* that is quite horrible.
+>>>
+>>> This means all your 'atomics' are broken for anything SCHED_FIFO and the
+>>> like. You simply _cannot_ run a realtime system.
+>> The code above is from uClibc old threading library which we don't use anymore.
+>> The NPTL version doesn't have all of this song-n-dance and relies on futexes. The
+>> change we are talking about is only for the atomics in perf itself. I do
+>> understand your POV though.
+>>
+>>> (also, for ACQUIRE you want the READ_MEMORY_BARRIER() _after_ the
+>>> test-and-set control dependency.)
+>> Absolutely and in this case it will have to be added both inside the loop and one
+>> at the end to cover both the scenarios !
+>>
+> I'm wondering what are our plans for now?
+> Are we going to accept proposed fix just for ARC in 4.4 (and to all stables then)
+> or we'll try to come up with more general solution?
 
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
+I agree with the current solution to add -atomic to for arc700 builds.
+Although making that default for arc700 tools will be better but that will not fix
+things before next release of tools etc.
 
+But we *do* need to improve generic solution
+1. Add atomics detection in perf to add fall back arch stubs
+2. ARC needs to add syscall for facilitating atomic r-m-w !
 
-> ---
->  tools/perf/config/Makefile | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/tools/perf/config/Makefile b/tools/perf/config/Makefile
-> index 38a0853..dc7c0a8 100644
-> --- a/tools/perf/config/Makefile
-> +++ b/tools/perf/config/Makefile
-> @@ -47,6 +47,11 @@ ifeq ($(ARCH),arm64)
->    LIBUNWIND_LIBS = -lunwind -lunwind-aarch64
->  endif
->  
-> +# Additional ARCH settings for ARC
-> +ifeq ($(ARCH),arc)
-> +  CFLAGS += -matomic
-> +endif
-> +
->  ifeq ($(NO_PERF_REGS),0)
->    $(call detected,CONFIG_PERF_REGS)
->  endif
+-Vineet
