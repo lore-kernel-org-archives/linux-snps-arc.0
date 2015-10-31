@@ -1,45 +1,39 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 31 Oct 2015 15:15:23 +0200
-Subject: [PATCH v1 16/20] ARC: [plat-eznps] Use dedicated cpu_relax()
+Date: Sat, 31 Oct 2015 15:15:24 +0200
+Subject: [PATCH v1 17/20] ARC: [plat-eznps] Use dedicated COMMAND_LINE_SIZE
 In-Reply-To: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1446297327-16298-17-git-send-email-noamc@ezchip.com>
+Message-ID: <1446297327-16298-18-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Tal Zilcer <talz@ezchip.com>
+From: Noam Camus <noamc@ezchip.com>
 
-Since the CTOP is SMT hardware multi-threaded, we need to hint
-the HW that now will be a very good time to do a hardware
-thread context switching. This is done by issuing the schd.rw
-instruction (binary coded here so as to not require specific
-revision of GCC to build the kernel).
-sched.rw means that Thread becomes eligible for execution by
-the threads scheduler after all pending read/write
-transactions were completed.
+The default 256 bytes sometimes is just not enough.
+We usually provide earlycon=... and console=... and ip=...
+All this and more may need more room.
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
-Cc: Peter Zijlstra <peterz at infradead.org>
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/include/asm/processor.h |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
+ arch/arc/include/asm/setup.h |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
-index 7266ede..f1a51a6 100644
---- a/arch/arc/include/asm/processor.h
-+++ b/arch/arc/include/asm/processor.h
-@@ -58,7 +58,12 @@ struct task_struct;
-  * get optimised away by gcc
-  */
- #ifdef CONFIG_SMP
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+#define cpu_relax()     \
-+	__asm__ __volatile__ (".word %0" : : "i"(CTOP_INST_SCHD_RW) : "memory")
+diff --git a/arch/arc/include/asm/setup.h b/arch/arc/include/asm/setup.h
+index 3078466..48b37c6 100644
+--- a/arch/arc/include/asm/setup.h
++++ b/arch/arc/include/asm/setup.h
+@@ -12,7 +12,11 @@
+ #include <linux/types.h>
+ #include <uapi/asm/setup.h>
+ 
++#ifdef CONFIG_ARC_PLAT_EZNPS
++#define COMMAND_LINE_SIZE 2048
 +#else
- #define cpu_relax()	__asm__ __volatile__ ("" : : : "memory")
+ #define COMMAND_LINE_SIZE 256
 +#endif
- #else
- #define cpu_relax()	do { } while (0)
- #endif
+ 
+ /*
+  * Data structure to map a ID to string
 -- 
 1.7.1
