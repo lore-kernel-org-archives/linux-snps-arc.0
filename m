@@ -1,113 +1,167 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 31 Oct 2015 15:15:07 +0200
-Subject: [PATCH v1 00/20] eznps a new ARC platform
+Date: Sat, 31 Oct 2015 15:15:09 +0200
+Subject: [PATCH v1 02/20] clocksource: Add NPS400 timers driver
+In-Reply-To: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
+References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
+Message-ID: <1446297327-16298-3-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-This set introduce new platform to ARC architecture.
-Platform name called "eznps" for working with EZchip NPS400
-Network Proccessor.
-NPS400 is targeted to service "fast path" network applications.
+Add internal tick generator which is shared by all cores.
+Each cluster of cores view it through dedicated address.
+This is used for SMP system where all CPUs synced by same
+clock source.
 
-NPS400 got mesh of 256 extended ARC cores (AKA CTOP), each core
-got 16 HW threats. This is basically SMT core where at any point of
-time only one HW thread is active.
-Each core have HW scheduler that round robin between eligible HW
-threads. Totaly, kernel sees 4096 CPUs which I belive is a high record.
-There is no cache coherency between cores so generic user applications
-and kernel do not use D$.
-
-Cores got special memory mappings for huge pages (8MB).
-Mapping is static and should provide application enough memory without
-any "TLB miss". This mapping is on top of TLB mapping.
-
-This is a basic set that will later be followed with additional
-set of patches with all advanced features.
-
-Many thanks to all people helping to make this happen.
-
-Regards,
-Noam Camus
-
-Noam Camus (17):
-  Documentation: Add EZchip vendor to binding list
-  clocksource: Add NPS400 timers driver
-  irqchip: add nps Internal and external irqchips
-  ARC: Set vmalloc size from configuration
-  ARC: rwlock: disable interrupts in !LLSC variant
-  ARC: Mark cpu online only after it has executed the per cpu init
-    hook.
-  ARC: mm: use generic macros _BITUL()
-  ARC: add CONFIG_CLKSRC_OF support to time_init()
-  ARC: [plat-eznps] Add eznps board defconfig and dts
-  ARC: [plat-eznps] Add eznps platform
-  ARC: [plat-eznps] Use dedicated user stack top
-  ARC: [plat-eznps] Use dedicated bitops/atomic/cmpxchg
-  ARC: [plat-eznps] Use dedicated SMP barriers
-  ARC: [plat-eznps] Use dedicated identity auxiliary register.
-  ARC: [plat-eznps] Use dedicated COMMAND_LINE_SIZE
-  ARC: [plat-eznps] define IPI_IRQ
-  ARC: Add eznps platform to Kconfig and Makefile
-
-Tal Zilcer (3):
-  ARC: Use res_service as entry point for secondaries
-  ARC: [plat-eznps] Use dedicated cpu_relax()
-  ARC: [plat-eznps] replace sync with proper cpu barrier
-
- Documentation/devicetree/bindings/arc/eznps.txt    |    7 +
- .../interrupt-controller/ezchip,nps400-ic.txt      |   17 ++
- .../bindings/timer/ezchip,nps400-timer.txt         |   11 +
- .../devicetree/bindings/vendor-prefixes.txt        |    1 +
- MAINTAINERS                                        |    6 +
- arch/arc/Kconfig                                   |    9 +
- arch/arc/Makefile                                  |    9 +
- arch/arc/boot/dts/eznps.dts                        |   76 ++++++
- arch/arc/configs/nps_defconfig                     |   85 +++++++
- arch/arc/include/asm/atomic.h                      |   69 +++++
- arch/arc/include/asm/barrier.h                     |    8 +
- arch/arc/include/asm/bitops.h                      |   49 ++++
- arch/arc/include/asm/cmpxchg.h                     |   49 ++++
- arch/arc/include/asm/entry-compact.h               |    8 +
- arch/arc/include/asm/irq.h                         |    4 +
- arch/arc/include/asm/pgtable.h                     |    2 +-
- arch/arc/include/asm/processor.h                   |   32 ++-
- arch/arc/include/asm/setup.h                       |    4 +
- arch/arc/include/asm/smp.h                         |    2 +-
- arch/arc/include/asm/spinlock.h                    |   14 +
- arch/arc/kernel/ctx_sw.c                           |   20 ++
- arch/arc/kernel/smp.c                              |    9 +-
- arch/arc/kernel/time.c                             |    4 +
- arch/arc/mm/tlb.c                                  |   12 +
- arch/arc/plat-eznps/Kconfig                        |   34 +++
- arch/arc/plat-eznps/Makefile                       |    7 +
- arch/arc/plat-eznps/entry.S                        |   76 ++++++
- arch/arc/plat-eznps/include/plat/ctop.h            |  265 ++++++++++++++++++++
- arch/arc/plat-eznps/include/plat/mtm.h             |   60 +++++
- arch/arc/plat-eznps/include/plat/smp.h             |   27 ++
- arch/arc/plat-eznps/mtm.c                          |  152 +++++++++++
- arch/arc/plat-eznps/platform.c                     |   40 +++
- arch/arc/plat-eznps/smp.c                          |  160 ++++++++++++
+Signed-off-by: Noam Camus <noamc at ezchip.com>
+Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+Cc: Rob Herring <robh+dt at kernel.org>
+---
+ .../bindings/timer/ezchip,nps400-timer.txt         |   11 ++
  drivers/clocksource/Makefile                       |    1 +
- drivers/clocksource/timer-nps.c                    |  103 ++++++++
- drivers/irqchip/Makefile                           |    1 +
- drivers/irqchip/irq-eznps.c                        |  222 ++++++++++++++++
- 37 files changed, 1644 insertions(+), 11 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/arc/eznps.txt
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
+ drivers/clocksource/timer-nps.c                    |  103 ++++++++++++++++++++
+ 3 files changed, 115 insertions(+), 0 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
- create mode 100644 arch/arc/boot/dts/eznps.dts
- create mode 100644 arch/arc/configs/nps_defconfig
- create mode 100644 arch/arc/plat-eznps/Kconfig
- create mode 100644 arch/arc/plat-eznps/Makefile
- create mode 100644 arch/arc/plat-eznps/entry.S
- create mode 100644 arch/arc/plat-eznps/include/plat/ctop.h
- create mode 100644 arch/arc/plat-eznps/include/plat/mtm.h
- create mode 100644 arch/arc/plat-eznps/include/plat/smp.h
- create mode 100644 arch/arc/plat-eznps/mtm.c
- create mode 100644 arch/arc/plat-eznps/platform.c
- create mode 100644 arch/arc/plat-eznps/smp.c
  create mode 100644 drivers/clocksource/timer-nps.c
- create mode 100644 drivers/irqchip/irq-eznps.c
+
+diff --git a/Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt b/Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+new file mode 100644
+index 0000000..c5102c2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+@@ -0,0 +1,11 @@
++NPS Network Processor
++
++Required properties:
++
++- compatible :	should be "ezchip,nps400-timer"
++
++Example:
++
++timer {
++	compatible = "ezchip,nps400-timer";
++};
+diff --git a/drivers/clocksource/Makefile b/drivers/clocksource/Makefile
+index 5c00863..28c17dc 100644
+--- a/drivers/clocksource/Makefile
++++ b/drivers/clocksource/Makefile
+@@ -45,6 +45,7 @@ obj-$(CONFIG_VF_PIT_TIMER)	+= vf_pit_timer.o
+ obj-$(CONFIG_CLKSRC_QCOM)	+= qcom-timer.o
+ obj-$(CONFIG_MTK_TIMER)		+= mtk_timer.o
+ obj-$(CONFIG_CLKSRC_PISTACHIO)	+= time-pistachio.o
++obj-$(CONFIG_ARC_PLAT_EZNPS)	+= timer-nps.o
+ 
+ obj-$(CONFIG_ARM_ARCH_TIMER)		+= arm_arch_timer.o
+ obj-$(CONFIG_ARM_GLOBAL_TIMER)		+= arm_global_timer.o
+diff --git a/drivers/clocksource/timer-nps.c b/drivers/clocksource/timer-nps.c
+new file mode 100644
+index 0000000..83a0a9d
+--- /dev/null
++++ b/drivers/clocksource/timer-nps.c
+@@ -0,0 +1,103 @@
++/*
++ * Copyright(c) 2015 EZchip Technologies.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * The full GNU General Public License is included in this distribution in
++ * the file called "COPYING".
++ */
++
++#include <linux/clk.h>
++#include <linux/clockchips.h>
++#include <linux/delay.h>
++#include <linux/interrupt.h>
++#include <linux/irq.h>
++#include <linux/irqreturn.h>
++#include <linux/reset.h>
++#include <linux/slab.h>
++#include <linux/of.h>
++#include <linux/of_address.h>
++#include <linux/of_irq.h>
++#include <linux/of_fdt.h>
++#include <plat/ctop.h>
++
++#define NPS_MSU_TICK_LOW	0xC8
++#define NPS_CLUSTER_OFFSET	8
++#define NPS_CLUSTER_NUM		16
++
++static u32 nps_msu_reg_low_addr[NPS_CLUSTER_NUM] __read_mostly;
++
++/*
++ * To get the value from the Global Timer Counter register proceed as follows:
++ * 1. Read the upper 32-bit timer counter register
++ * 2. Read the lower 32-bit timer counter register
++ * 3. Read the upper 32-bit timer counter register again. If the value is
++ *  different to the 32-bit upper value read previously, go back to step 2.
++ *  Otherwise the 64-bit timer counter value is correct.
++ */
++static cycle_t nps_clksrc_read(struct clocksource *clksrc)
++{
++	u64 counter;
++	u32 lower;
++	u32 upper, old_upper;
++	int cpu;
++	int cluster;
++	void *lower_p, *upper_p;
++	unsigned long flags;
++
++	local_irq_save(flags);
++	cpu = smp_processor_id();
++	cluster = cpu >> NPS_CLUSTER_OFFSET;
++	lower_p = (void *)nps_msu_reg_low_addr[cluster];
++	upper_p = lower_p + 4;
++	local_irq_restore(flags);
++
++	upper = ioread32be(upper_p);
++	do {
++		old_upper = upper;
++		lower = ioread32be(lower_p);
++		upper = ioread32be(upper_p);
++	} while (upper != old_upper);
++
++	counter = upper;
++	counter <<= 32;
++	counter |= lower;
++	return (cycle_t)counter;
++}
++
++static struct clocksource nps_counter = {
++	.name	= "EZnps-tick",
++	.rating = 301,
++	.read   = nps_clksrc_read,
++	.mask   = CLOCKSOURCE_MASK(64),
++	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
++};
++
++static void __init nps_setup_clocksource(struct device_node *node)
++{
++	struct clocksource *clksrc = &nps_counter;
++	unsigned long rate, dt_root;
++	int ret, cluster;
++
++	for (cluster = 0; cluster < NPS_CLUSTER_NUM; cluster++)
++		nps_msu_reg_low_addr[cluster] =
++			nps_host_reg((cluster << NPS_CLUSTER_OFFSET),
++				 NPS_MSU_BLKID, NPS_MSU_TICK_LOW);
++
++	dt_root = of_get_flat_dt_root();
++	rate = (u32)of_get_flat_dt_prop(dt_root, "clock-frequency", NULL);
++
++	ret = clocksource_register_hz(clksrc, rate);
++	if (ret)
++		pr_err("Couldn't register clock source.\n");
++}
++
++CLOCKSOURCE_OF_DECLARE(nps_400, "nps,400-timer",
++		       nps_setup_clocksource);
+-- 
+1.7.1
