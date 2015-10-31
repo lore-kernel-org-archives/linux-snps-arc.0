@@ -1,54 +1,34 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 31 Oct 2015 15:15:13 +0200
-Subject: [PATCH v1 06/20] ARC: Mark cpu online only after it has executed the
- per cpu init hook.
+Date: Sat, 31 Oct 2015 15:15:14 +0200
+Subject: [PATCH v1 07/20] ARC: mm: use generic macros _BITUL()
 In-Reply-To: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1446297327-16298-7-git-send-email-noamc@ezchip.com>
+Message-ID: <1446297327-16298-8-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-In SMP setup, master loops for each_present_cpu calling cpu_up() which
-for ARC returns as soon as new cpu's status becomes online,
-but it could still be initializing (see start_kernel_secondary())
-Thus master can start cpu up for 2nd core,
-while prev is still not fully up.
-This can be issue for SMT system,
-where first h/w thread of a core needs to be fully up before
-moving on to next threads.
+PGDIR_SIZE() cannot use "1UL" since it is called from mm/tlbex.S
+by VMALLOC_START. _BITUL() solves this build error.
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/smp.c |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
+ arch/arc/include/asm/pgtable.h |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-index 5805878..946109f 100644
---- a/arch/arc/kernel/smp.c
-+++ b/arch/arc/kernel/smp.c
-@@ -126,6 +126,10 @@ void start_kernel_secondary(void)
- 	current->active_mm = mm;
- 	cpumask_set_cpu(cpu, mm_cpumask(mm));
+diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
+index 57af2f0..372a282 100644
+--- a/arch/arc/include/asm/pgtable.h
++++ b/arch/arc/include/asm/pgtable.h
+@@ -210,7 +210,7 @@
+ #define BITS_FOR_PGD	(32 - BITS_FOR_PTE - BITS_IN_PAGE)
  
-+	/* Before we turn online */
-+	if (machine_desc->init_cpu_smp)
-+		machine_desc->init_cpu_smp(cpu);
-+
- 	notify_cpu_starting(cpu);
- 	set_cpu_online(cpu, true);
+ #define PGDIR_SHIFT	(32 - BITS_FOR_PGD)
+-#define PGDIR_SIZE	(1UL << PGDIR_SHIFT)	/* vaddr span, not PDG sz */
++#define PGDIR_SIZE	_BITUL(PGDIR_SHIFT)	/* vaddr span, not PDG sz */
+ #define PGDIR_MASK	(~(PGDIR_SIZE-1))
  
-@@ -135,9 +139,6 @@ void start_kernel_secondary(void)
- 	if (plat_smp_ops.init_irq_cpu)
- 		plat_smp_ops.init_irq_cpu(cpu);
- 
--	if (machine_desc->init_cpu_smp)
--		machine_desc->init_cpu_smp(cpu);
--
- 	arc_local_timer_setup();
- 
- 	local_irq_enable();
+ #define	PTRS_PER_PTE	_BITUL(BITS_FOR_PTE)
 -- 
 1.7.1
