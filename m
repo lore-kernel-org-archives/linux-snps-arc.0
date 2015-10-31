@@ -1,37 +1,48 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 31 Oct 2015 15:15:25 +0200
-Subject: [PATCH v1 18/20] ARC: [plat-eznps] define IPI_IRQ
+Date: Sat, 31 Oct 2015 15:15:26 +0200
+Subject: [PATCH v1 19/20] ARC: [plat-eznps] replace sync with proper cpu
+ barrier
 In-Reply-To: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1446297327-16298-19-git-send-email-noamc@ezchip.com>
+Message-ID: <1446297327-16298-20-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamc@ezchip.com>
+From: Tal Zilcer <talz@ezchip.com>
 
-We add IPI irq definition to be used later by any
-irqchip such NPS400 IC.
-
+In SMT system like we have the generic "sync" is not working with
+HW threads. The replacement is "schd.rw" instruction that is served
+as cpu barrier for HW threads.
 Signed-off-by: Noam Camus <noamc at ezchip.com>
 ---
- arch/arc/include/asm/irq.h |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+ arch/arc/kernel/ctx_sw.c |    7 +++++++
+ 1 files changed, 7 insertions(+), 0 deletions(-)
 
-diff --git a/arch/arc/include/asm/irq.h b/arch/arc/include/asm/irq.h
-index 4fd7d62..c5f8f0f 100644
---- a/arch/arc/include/asm/irq.h
-+++ b/arch/arc/include/asm/irq.h
-@@ -16,7 +16,11 @@
- #ifdef CONFIG_ISA_ARCOMPACT
- #define TIMER0_IRQ      3
- #define TIMER1_IRQ      4
-+#if defined(CONFIG_SMP) && defined(CONFIG_ARC_PLAT_EZNPS)
-+#define IPI_IRQ         5
+diff --git a/arch/arc/kernel/ctx_sw.c b/arch/arc/kernel/ctx_sw.c
+index 92e2e82..2a2f50e 100644
+--- a/arch/arc/kernel/ctx_sw.c
++++ b/arch/arc/kernel/ctx_sw.c
+@@ -61,7 +61,11 @@ __switch_to(struct task_struct *prev_task, struct task_struct *next_task)
+ 		"st      sp, [r24]       \n\t"
+ #endif
+ 
++#ifdef CONFIG_EZNPS_MTM_EXT
++		".word %5   \n\t"
 +#else
- #define IPI_IRQ		(NR_CPU_IRQS-1) /* dummy to enable SMP build for up hardware */
+ 		"sync   \n\t"
 +#endif
- #else
- #define TIMER0_IRQ      16
- #define TIMER1_IRQ      17
+ 
+ 		/*
+ 		 * setup _current_task with incoming tsk.
+@@ -122,6 +126,9 @@ __switch_to(struct task_struct *prev_task, struct task_struct *next_task)
+ #ifdef CONFIG_ARC_PLAT_EZNPS
+ 		, "i"(CTOP_AUX_LOGIC_GLOBAL_ID)
+ #endif
++#ifdef CONFIG_EZNPS_MTM_EXT
++		, "i"(CTOP_INST_SCHD_RW)
++#endif
+ 		: "blink"
+ 	);
+ 
 -- 
 1.7.1
