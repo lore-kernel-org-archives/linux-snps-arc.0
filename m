@@ -1,34 +1,48 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 31 Oct 2015 15:15:14 +0200
-Subject: [PATCH v1 07/20] ARC: mm: use generic macros _BITUL()
+Date: Sat, 31 Oct 2015 15:15:15 +0200
+Subject: [PATCH v1 08/20] ARC: Use res_service as entry point for secondaries
 In-Reply-To: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1446297327-16298-8-git-send-email-noamc@ezchip.com>
+Message-ID: <1446297327-16298-9-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamc@ezchip.com>
+From: Tal Zilcer <talz@ezchip.com>
 
-PGDIR_SIZE() cannot use "1UL" since it is called from mm/tlbex.S
-by VMALLOC_START. _BITUL() solves this build error.
+At cpu_kick() we call res_service which can be implement by each
+platform and override gerneric weak definition.
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
 ---
- arch/arc/include/asm/pgtable.h |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ arch/arc/include/asm/smp.h |    2 +-
+ arch/arc/kernel/smp.c      |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index 57af2f0..372a282 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -210,7 +210,7 @@
- #define BITS_FOR_PGD	(32 - BITS_FOR_PTE - BITS_IN_PAGE)
+diff --git a/arch/arc/include/asm/smp.h b/arch/arc/include/asm/smp.h
+index 133c867..db05793 100644
+--- a/arch/arc/include/asm/smp.h
++++ b/arch/arc/include/asm/smp.h
+@@ -30,7 +30,7 @@ extern void arch_send_call_function_ipi_mask(const struct cpumask *mask);
+  * APIs provided by arch SMP code to rest of arch code
+  */
+ extern void __init smp_init_cpus(void);
+-extern void first_lines_of_secondary(void);
++extern void res_service(void);
+ extern const char *arc_platform_smp_cpuinfo(void);
  
- #define PGDIR_SHIFT	(32 - BITS_FOR_PGD)
--#define PGDIR_SIZE	(1UL << PGDIR_SHIFT)	/* vaddr span, not PDG sz */
-+#define PGDIR_SIZE	_BITUL(PGDIR_SHIFT)	/* vaddr span, not PDG sz */
- #define PGDIR_MASK	(~(PGDIR_SIZE-1))
+ /*
+diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
+index 946109f..546079f 100644
+--- a/arch/arc/kernel/smp.c
++++ b/arch/arc/kernel/smp.c
+@@ -167,7 +167,7 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
  
- #define	PTRS_PER_PTE	_BITUL(BITS_FOR_PTE)
+ 	if (plat_smp_ops.cpu_kick)
+ 		plat_smp_ops.cpu_kick(cpu,
+-				(unsigned long)first_lines_of_secondary);
++				(unsigned long)res_service);
+ 	else
+ 		arc_default_smp_cpu_kick(cpu, (unsigned long)NULL);
+ 
 -- 
 1.7.1
