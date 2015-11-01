@@ -1,52 +1,31 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 31 Oct 2015 15:15:08 +0200
-Subject: [PATCH v1 01/20] Documentation: Add EZchip vendor to binding list
-In-Reply-To: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
-References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
+Date: Sun, 1 Nov 2015 20:37:37 +0000
+Subject: [PATCH] arc: dts - remove default value if
+ CONFIG_ARC_BUILTIN_DTB_NAME is blank
+In-Reply-To: <1446333671-32095-1-git-send-email-abrodkin@synopsys.com>
+References: <1446333671-32095-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1446297327-16298-2-git-send-email-noamc@ezchip.com>
+Message-ID: <DB5PR02MB1141A1EDC8370F67B5C0A862D62D0@DB5PR02MB1141.eurprd02.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamc@ezchip.com>
+> From: linux-snps-arc <linux-snps-arc-bounces at lists.infradead.org> on behalf of Alexey Brodkin <Alexey.Brodkin at synopsys.com>
+> Sent: Sunday, November 1, 2015 1:21 AM
+> To: linux-snps-arc at lists.infradead.org
+> Cc: Vineet Gupta; Alexey Brodkin; linux-kernel at vger.kernel.org
+> Subject: [PATCH] arc: dts - remove default value if CONFIG_ARC_BUILTIN_DTB_NAME is blank
 
-Add EZchip to vendor prefixes list.
-EZchip introduce the NPS platform for the ARC architecture.
+> As of today default .dtb will be built (and subsequently will be built-in
+> kernel binary) even if CONFIG_ARC_BUILTIN_DTB_NAME is not set.
 
-Signed-off-by: Noam Camus <noamc at ezchip.com>
-Cc: Rob Herring <robh+dt at kernel.org>
-Cc: Pawel Moll <pawel.moll at arm.com>
-Cc: Mark Rutland <mark.rutland at arm.com>
-Cc: Kumar Gala <galak at codeaurora.org>
----
- Documentation/devicetree/bindings/arc/eznps.txt    |    7 +++++++
- .../devicetree/bindings/vendor-prefixes.txt        |    1 +
- 2 files changed, 8 insertions(+), 0 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/arc/eznps.txt
+> But it is possible we're going to use external .dtb and so we don't want to
+have .dtb built-in kernel binary.
 
-diff --git a/Documentation/devicetree/bindings/arc/eznps.txt b/Documentation/devicetree/bindings/arc/eznps.txt
-new file mode 100644
-index 0000000..f8b5e9b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/arc/eznps.txt
-@@ -0,0 +1,7 @@
-+EZchip NPS Network Proccessor Platforms Device Tree Bindings
-+---------------------------------------------------------------------------
-+
-+Appliance main board with NPS400 ASIC.
-+
-+Required root node properties:
-+    - compatible = "ezchip,arc-nps";
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.txt b/Documentation/devicetree/bindings/vendor-prefixes.txt
-index 82d2ac9..5a752cc 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.txt
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.txt
-@@ -80,6 +80,7 @@ eukrea  Eukr??a Electromatique
- everest	Everest Semiconductor Co. Ltd.
- everspin	Everspin Technologies, Inc.
- excito	Excito
-+ezchip	EZchip Semiconductor
- fcs	Fairchild Semiconductor
- firefly	Firefly
- fsl	Freescale Semiconductor
--- 
-1.7.1
+> For example that could be the case with:
+> a) U-Boot which loads .dtb in DDR and passes its address to the kernel
+> b) OpenWRT which embeds .dtb in existing kernel binary
+
+> This change excludes .dtb building if CONFIG_ARC_BUILTIN_DTB_NAME is
+blank.
+
+You can add my Ack (worked on my platform)
+Noam
