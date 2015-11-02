@@ -1,47 +1,49 @@
 From: peterz@infradead.org (Peter Zijlstra)
-Date: Mon, 2 Nov 2015 10:16:39 +0100
-Subject: [PATCH v1 05/20] ARC: rwlock: disable interrupts in !LLSC variant
-In-Reply-To: <1446297327-16298-6-git-send-email-noamc@ezchip.com>
+Date: Mon, 2 Nov 2015 10:21:42 +0100
+Subject: [PATCH v1 16/20] ARC: [plat-eznps] Use dedicated cpu_relax()
+In-Reply-To: <1446297327-16298-17-git-send-email-noamc@ezchip.com>
 References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
- <1446297327-16298-6-git-send-email-noamc@ezchip.com>
+ <1446297327-16298-17-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20151102091639.GK17308@twins.programming.kicks-ass.net>
+Message-ID: <20151102092142.GL17308@twins.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-On Sat, Oct 31, 2015@03:15:12PM +0200, Noam Camus wrote:
-> From: Noam Camus <noamc at ezchip.com>
+On Sat, Oct 31, 2015@03:15:23PM +0200, Noam Camus wrote:
+> From: Tal Zilcer <talz at ezchip.com>
 > 
-> If we hold rw->lock_mutex and interrupt occures we may
-> end up spinning on it for ever during softirq.
-> 
-> Below you may see an example for interrupt we get while
-> nl_table_lock is holding its rw->lock_mutex and we spinned
-> on it for ever.
-> 
-> The concept for the fix was taken from SPARC.
-> 
-> [2015-05-12 19:16:12] Stack Trace:
-> [2015-05-12 19:16:12]   arc_unwind_core+0xb8/0x11c
-> [2015-05-12 19:16:12]   dump_stack+0x68/0xac
-> [2015-05-12 19:16:12]   _raw_read_lock+0xa8/0xac
-> [2015-05-12 19:16:12]   netlink_broadcast_filtered+0x56/0x35c
-> [2015-05-12 19:16:12]   nlmsg_notify+0x42/0xa4
-> [2015-05-12 19:16:13]   neigh_update+0x1fe/0x44c
-> [2015-05-12 19:16:13]   neigh_event_ns+0x40/0xa4
-> [2015-05-12 19:16:13]   arp_process+0x46e/0x5a8
-> [2015-05-12 19:16:13]   __netif_receive_skb_core+0x358/0x500
-> [2015-05-12 19:16:13]   process_backlog+0x92/0x154
-> [2015-05-12 19:16:13]   net_rx_action+0xb8/0x188
-> [2015-05-12 19:16:13]   __do_softirq+0xda/0x1d8
-> [2015-05-12 19:16:14]   irq_exit+0x8a/0x8c
-> [2015-05-12 19:16:14]   arch_do_IRQ+0x6c/0xa8
-> [2015-05-12 19:16:14]   handle_interrupt_level1+0xe4/0xf0
+> Since the CTOP is SMT hardware multi-threaded, we need to hint
+> the HW that now will be a very good time to do a hardware
+> thread context switching. This is done by issuing the schd.rw
+> instruction (binary coded here so as to not require specific
+> revision of GCC to build the kernel).
+> sched.rw means that Thread becomes eligible for execution by
+> the threads scheduler after all pending read/write
+> transactions were completed.
 > 
 > Signed-off-by: Noam Camus <noamc at ezchip.com>
 > Cc: Peter Zijlstra <peterz at infradead.org>
+> ---
+>  arch/arc/include/asm/processor.h |    5 +++++
+>  1 files changed, 5 insertions(+), 0 deletions(-)
+> 
+> diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
+> index 7266ede..f1a51a6 100644
+> --- a/arch/arc/include/asm/processor.h
+> +++ b/arch/arc/include/asm/processor.h
+> @@ -58,7 +58,12 @@ struct task_struct;
+>   * get optimised away by gcc
+>   */
+>  #ifdef CONFIG_SMP
+> +#ifdef CONFIG_EZNPS_MTM_EXT
+> +#define cpu_relax()     \
+> +	__asm__ __volatile__ (".word %0" : : "i"(CTOP_INST_SCHD_RW) : "memory")
+> +#else
+>  #define cpu_relax()	__asm__ __volatile__ ("" : : : "memory")
+> +#endif
+>  #else
+>  #define cpu_relax()	do { } while (0)
+>  #endif
 
-It might make sense to note that this is a lock internal lock and since
-the lock is free to be used from any context, the lock needs to be
-IRQ-safe.
+At which point you might want to revisit:
 
-Acked-by: Peter Zijlstra (Intel) <peterz at infradead.org>
+arch/arc/include/asm/processor.h:#define cpu_relax_lowlatency() cpu_relax()
