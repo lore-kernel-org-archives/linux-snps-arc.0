@@ -1,14 +1,14 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 2 Nov 2015 15:12:49 +0530
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Mon, 2 Nov 2015 10:16:39 +0100
 Subject: [PATCH v1 05/20] ARC: rwlock: disable interrupts in !LLSC variant
 In-Reply-To: <1446297327-16298-6-git-send-email-noamc@ezchip.com>
 References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
  <1446297327-16298-6-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56373019.6080501@synopsys.com>
+Message-ID: <20151102091639.GK17308@twins.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-On Saturday 31 October 2015 06:45 PM, Noam Camus wrote:
+On Sat, Oct 31, 2015@03:15:12PM +0200, Noam Camus wrote:
 > From: Noam Camus <noamc at ezchip.com>
 > 
 > If we hold rw->lock_mutex and interrupt occures we may
@@ -39,78 +39,9 @@ On Saturday 31 October 2015 06:45 PM, Noam Camus wrote:
 > 
 > Signed-off-by: Noam Camus <noamc at ezchip.com>
 > Cc: Peter Zijlstra <peterz at infradead.org>
-> ---
->  arch/arc/include/asm/spinlock.h |   14 ++++++++++++++
->  1 files changed, 14 insertions(+), 0 deletions(-)
-> 
-> diff --git a/arch/arc/include/asm/spinlock.h b/arch/arc/include/asm/spinlock.h
-> index db8c59d..800e7c4 100644
-> --- a/arch/arc/include/asm/spinlock.h
-> +++ b/arch/arc/include/asm/spinlock.h
-> @@ -610,7 +610,9 @@ static inline void arch_spin_unlock(arch_spinlock_t *lock)
->  static inline int arch_read_trylock(arch_rwlock_t *rw)
->  {
->  	int ret = 0;
-> +	unsigned long flags;
->  
-> +	local_irq_save(flags);
->  	arch_spin_lock(&(rw->lock_mutex));
->  
->  	/*
-> @@ -623,6 +625,7 @@ static inline int arch_read_trylock(arch_rwlock_t *rw)
->  	}
->  
->  	arch_spin_unlock(&(rw->lock_mutex));
-> +	local_irq_restore(flags);
->  
->  	smp_mb();
->  	return ret;
-> @@ -632,7 +635,9 @@ static inline int arch_read_trylock(arch_rwlock_t *rw)
->  static inline int arch_write_trylock(arch_rwlock_t *rw)
->  {
->  	int ret = 0;
-> +	unsigned long flags;
->  
-> +	local_irq_save(flags);
->  	arch_spin_lock(&(rw->lock_mutex));
->  
->  	/*
-> @@ -646,6 +651,7 @@ static inline int arch_write_trylock(arch_rwlock_t *rw)
->  		ret = 1;
->  	}
->  	arch_spin_unlock(&(rw->lock_mutex));
-> +	local_irq_restore(flags);
->  
->  	return ret;
->  }
-> @@ -664,16 +670,24 @@ static inline void arch_write_lock(arch_rwlock_t *rw)
->  
->  static inline void arch_read_unlock(arch_rwlock_t *rw)
->  {
-> +	unsigned long flags;
-> +
-> +	local_irq_save(flags);
->  	arch_spin_lock(&(rw->lock_mutex));
 
+It might make sense to note that this is a lock internal lock and since
+the lock is free to be used from any context, the lock needs to be
+IRQ-safe.
 
-Isn't raw_spin_lock_irqsave() equivalent and more concise ?
-
-
->  	rw->counter++;
->  	arch_spin_unlock(&(rw->lock_mutex));
-> +	local_irq_restore(flags);
->  }
->  
->  static inline void arch_write_unlock(arch_rwlock_t *rw)
->  {
-> +	unsigned long flags;
-> +
-> +	local_irq_save(flags);
->  	arch_spin_lock(&(rw->lock_mutex));
->  	rw->counter = __ARCH_RW_LOCK_UNLOCKED__;
->  	arch_spin_unlock(&(rw->lock_mutex));
-> +	local_irq_restore(flags);
->  }
->  
->  #endif
-> 
+Acked-by: Peter Zijlstra (Intel) <peterz at infradead.org>
