@@ -1,56 +1,74 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 2 Nov 2015 06:38:27 +0000
-Subject: [PATCH v1 08/20] ARC: Use res_service as entry point for
- secondaries
-References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
- <1446297327-16298-9-git-send-email-noamc@ezchip.com>
+Date: Mon, 2 Nov 2015 06:54:28 +0000
+Subject: [PATCH] arc: dts - remove default value if
+ CONFIG_ARC_BUILTIN_DTB_NAME is blank
+References: <1446333671-32095-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44CFC9F@IN01WEMBXA.internal.synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44CFCB9@IN01WEMBXA.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Saturday 31 October 2015 06:50 PM, Noam Camus wrote:
-> From: Tal Zilcer <talz at ezchip.com>
+On Sunday 01 November 2015 04:51 AM, Alexey Brodkin wrote:
+> As of today default .dtb will be built (and subsequently will be built-in
+> kernel binary) even if CONFIG_ARC_BUILTIN_DTB_NAME is not set.
 >
-> At cpu_kick() we call res_service which can be implement by each
-> platform and override gerneric weak definition.
+> But it is possible we're going to use external .dtb and so we don't want to
+> have .dtb built-in kernel binary.
 >
-> Signed-off-by: Noam Camus <noamc at ezchip.com>
+> For example that could be the case with:
+>  a) U-Boot which loads .dtb in DDR and passes its address to the kernel
+>  b) OpenWRT which embeds .dtb in existing kernel binary
+>
+> This change excludes .dtb building if CONFIG_ARC_BUILTIN_DTB_NAME is
+> blank.
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+
+Rob has been doing a series to build all DTBs and he also provided a fix to ARC
+makefiles to use common make variables which collides with ur patch.
+
+@Alexey, can u wait until rc1 comes out and rebase it on top, assuming Rob's
+series is merged in 4.4 window ?
+If his doesn't, I will merge this as it is for rc2 !
+
+-Vineet
+
 > ---
->  arch/arc/include/asm/smp.h |    2 +-
->  arch/arc/kernel/smp.c      |    2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  arch/arc/Makefile          | 2 ++
+>  arch/arc/boot/dts/Makefile | 6 ++----
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/arch/arc/include/asm/smp.h b/arch/arc/include/asm/smp.h
-> index 133c867..db05793 100644
-> --- a/arch/arc/include/asm/smp.h
-> +++ b/arch/arc/include/asm/smp.h
-> @@ -30,7 +30,7 @@ extern void arch_send_call_function_ipi_mask(const struct cpumask *mask);
->   * APIs provided by arch SMP code to rest of arch code
->   */
->  extern void __init smp_init_cpus(void);
-> -extern void first_lines_of_secondary(void);
-> +extern void res_service(void);
->  extern const char *arc_platform_smp_cpuinfo(void);
+> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+> index 8a27a48..b0cb6de 100644
+> --- a/arch/arc/Makefile
+> +++ b/arch/arc/Makefile
+> @@ -94,7 +94,9 @@ head-y		:= arch/arc/kernel/head.o
+>  core-y		+= arch/arc/
 >  
->  /*
-> diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-> index 946109f..546079f 100644
-> --- a/arch/arc/kernel/smp.c
-> +++ b/arch/arc/kernel/smp.c
-> @@ -167,7 +167,7 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
+>  # w/o this dtb won't embed into kernel binary
+> +ifneq ($(CONFIG_ARC_BUILTIN_DTB_NAME),"")
+>  core-y		+= arch/arc/boot/dts/
+> +endif
 >  
->  	if (plat_smp_ops.cpu_kick)
->  		plat_smp_ops.cpu_kick(cpu,
-> -				(unsigned long)first_lines_of_secondary);
-> +				(unsigned long)res_service);
-
-So I recently added the explicit handling of halt-on-reset vs. run-on-reset (for
-non master cores)
-This will cause infinite loop for non masters for run-on-reset ?
-
-I'd suggest leave this arg alone and use whatever PC is needed inside your kick
-routine
-
->  	else
->  		arc_default_smp_cpu_kick(cpu, (unsigned long)NULL);
+>  core-$(CONFIG_ARC_PLAT_SIM)	+= arch/arc/plat-sim/
+>  core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
+> diff --git a/arch/arc/boot/dts/Makefile b/arch/arc/boot/dts/Makefile
+> index b0e3f19..4dcab5b 100644
+> --- a/arch/arc/boot/dts/Makefile
+> +++ b/arch/arc/boot/dts/Makefile
+> @@ -1,13 +1,11 @@
+>  # Built-in dtb
+> -builtindtb-y		:= nsim_700
 >  
+>  ifneq ($(CONFIG_ARC_BUILTIN_DTB_NAME),"")
+>  	builtindtb-y	:= $(patsubst "%",%,$(CONFIG_ARC_BUILTIN_DTB_NAME))
+> +	obj-y   += $(builtindtb-y).dtb.o
+> +	targets += $(builtindtb-y).dtb
+>  endif
+>  
+> -obj-y   += $(builtindtb-y).dtb.o
+> -targets += $(builtindtb-y).dtb
+> -
+>  .SECONDARY: $(obj)/$(builtindtb-y).dtb.S
+>  
+>  dtbs:  $(addprefix  $(obj)/, $(builtindtb-y).dtb)
