@@ -1,47 +1,34 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 2 Nov 2015 07:54:16 +0000
-Subject: [PATCH v1 16/20] ARC: [plat-eznps] Use dedicated cpu_relax()
+From: noamc@ezchip.com (Noam Camus)
+Date: Mon, 2 Nov 2015 07:57:43 +0000
+Subject: [PATCH v1 02/20] clocksource: Add NPS400 timers driver
+In-Reply-To: <5636799B.50307@linaro.org>
 References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
- <1446297327-16298-17-git-send-email-noamc@ezchip.com>
+ <1446297327-16298-3-git-send-email-noamc@ezchip.com>
+ <5636799B.50307@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44CFD70@IN01WEMBXA.internal.synopsys.com>
+Message-ID: <DB5PR02MB1141FD51E1411651A7316D74D62C0@DB5PR02MB1141.eurprd02.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Saturday 31 October 2015 06:52 PM, Noam Camus wrote:
-> From: Tal Zilcer <talz at ezchip.com>
->
-> Since the CTOP is SMT hardware multi-threaded, we need to hint
-> the HW that now will be a very good time to do a hardware
-> thread context switching. This is done by issuing the schd.rw
-> instruction (binary coded here so as to not require specific
-> revision of GCC to build the kernel).
-> sched.rw means that Thread becomes eligible for execution by
-> the threads scheduler after all pending read/write
-> transactions were completed.
->
-> Signed-off-by: Noam Camus <noamc at ezchip.com>
-> Cc: Peter Zijlstra <peterz at infradead.org>
+> From: Daniel Lezcano [mailto:daniel.lezcano at linaro.org] 
+> Sent: Sunday, November 01, 2015 10:44 PM
 
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
+> Please add an entry in the clocksource's Kconfig.
 
-> ---
->  arch/arc/include/asm/processor.h |    5 +++++
->  1 files changed, 5 insertions(+), 0 deletions(-)
->
-> diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
-> index 7266ede..f1a51a6 100644
-> --- a/arch/arc/include/asm/processor.h
-> +++ b/arch/arc/include/asm/processor.h
-> @@ -58,7 +58,12 @@ struct task_struct;
->   * get optimised away by gcc
->   */
->  #ifdef CONFIG_SMP
-> +#ifdef CONFIG_EZNPS_MTM_EXT
-> +#define cpu_relax()     \
-> +	__asm__ __volatile__ (".word %0" : : "i"(CTOP_INST_SCHD_RW) : "memory")
-> +#else
->  #define cpu_relax()	__asm__ __volatile__ ("" : : : "memory")
-> +#endif
->  #else
->  #define cpu_relax()	do { } while (0)
->  #endif
+> eg:
+OK
+
+> Are you sure all the headers are needed ?
+Thanks, will revise this part.
+
+> Why do you need to disable the interrupt here ?
+Thanks, seem like left over from past issue, I will remove.
+
+
+> May be you can consider using only the 32bits. Sometimes it is faster than using 64bits arithmetic and reading the register three times.
+
+> https://lkml.org/lkml/2014/6/20/431
+Our device can reach 1000MHz.
+That means that the 32-bit half of the counter rolls over every ~4 seconds.
+I am not sure optimization is justified.
+
+-Noam
