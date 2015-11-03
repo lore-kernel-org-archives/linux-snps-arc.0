@@ -1,28 +1,42 @@
-From: noamc@ezchip.com (Noam Camus)
-Date: Tue, 3 Nov 2015 15:59:59 +0000
-Subject: [PATCH v1 11/20] ARC: [plat-eznps] Add eznps platform
-In-Reply-To: <56374160.5070002@synopsys.com>
-References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
- <1446297327-16298-12-git-send-email-noamc@ezchip.com>
- <56374160.5070002@synopsys.com>
+From: Lada.Trimasova@synopsys.com (Lada Trimasova)
+Date: Tue,  3 Nov 2015 20:34:59 +0300
+Subject: [PATCH] Arc: fix entry point calculation for locales other than
+ english
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <DB5PR02MB11419F2B0F641AB8C8A94ABAD62B0@DB5PR02MB1141.eurprd02.prod.outlook.com>
+Message-ID: <1446572099-2450-1-git-send-email-ltrimas@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
->From: Vineet Gupta [mailto:Vineet.Gupta1 at synopsys.com] 
->Sent: Monday, November 02, 2015 12:57 PM
+The problem was detected while making uImage.
+To find the line with entry point address in the result
+of the "readelf -h vmlinux" command "grep ENTRY POINT" is used.
 
+But if the operating system locale is not english,
+command readelf returns lines in local language.
 
->When trying to build with 2015.06 BE tools,
+Grep cannot find the line which contains "ENTRY POINT" in english.
+Our decision uses readelf key which displays the symbol table.
+Using grep _stext it finds the line with entry point in this table.
 
->../arch/arc/plat-eznps/entry.S: Assembler messages:
->../arch/arc/plat-eznps/entry.S:51: Error: bad instruction `sr (1<<28),[(0xFFFFF800+0x024)]'
->make[3]: *** [arch/arc/plat-eznps/entry.o] Error 1
->make[2]: *** [arch/arc/plat-eznps] Error 2
+Signed-off-by: Lada Trimasova <ltrimas at synopsys.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/boot/Makefile | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Need more info since I tried it locally with no success.
-Can you try this single line on separate assembly test file.
-I will then try such synthetic case here.
-Please supply command line as well for GCC/AS. 
-
--Noam
+diff --git a/arch/arc/boot/Makefile b/arch/arc/boot/Makefile
+index e597cb34..fa89a47 100644
+--- a/arch/arc/boot/Makefile
++++ b/arch/arc/boot/Makefile
+@@ -6,8 +6,7 @@ targets := vmlinux.bin vmlinux.bin.gz uImage
+ 
+ OBJCOPYFLAGS= -O binary -R .note -R .note.gnu.build-id -R .comment -S
+ 
+-LINUX_START_TEXT = $$(readelf -h vmlinux | \
+-			grep "Entry point address" | grep -o 0x.*)
++LINUX_START_TEXT = $$(readelf -s vmlinux | grep _stext | awk '{print $$2}')
+ 
+ UIMAGE_LOADADDR    = $(CONFIG_LINUX_LINK_BASE)
+ UIMAGE_ENTRYADDR   = $(LINUX_START_TEXT)
+-- 
+1.9.1
