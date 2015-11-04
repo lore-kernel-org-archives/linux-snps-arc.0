@@ -1,32 +1,35 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 4 Nov 2015 17:42:32 +0000
-Subject: [PATCH v1 00/20] eznps a new ARC platform
-In-Reply-To: <DB5PR02MB1141B8ED0541B952B3792784D62A0@DB5PR02MB1141.eurprd02.prod.outlook.com>
-References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
- <563A25B1.2000201@synopsys.com>,
- <DB5PR02MB1141B8ED0541B952B3792784D62A0@DB5PR02MB1141.eurprd02.prod.outlook.com>
+From: nicolas.pitre@linaro.org (Nicolas Pitre)
+Date: Wed, 4 Nov 2015 18:46:44 -0500 (EST)
+Subject: [PATCH] __div64_32: implement division by multiplication for
+ 32-bit arches
+In-Reply-To: <yw1xy4ekb68f.fsf@unicorn.mansr.com>
+References: <1446072455-16074-1-git-send-email-abrodkin@synopsys.com>
+ <alpine.LFD.2.20.1510281907170.630@knanqh.ubzr>
+ <alpine.LFD.2.20.1510292112590.630@knanqh.ubzr>
+ <yw1xa8r0cyx8.fsf@unicorn.mansr.com>
+ <alpine.LFD.2.20.1510301113530.630@knanqh.ubzr>
+ <1446220442.4394.42.camel@synopsys.com>
+ <alpine.LFD.2.20.1510301253140.630@knanqh.ubzr>
+ <yw1xy4ekb68f.fsf@unicorn.mansr.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44D06D5@IN01WEMBXA.internal.synopsys.com>
+Message-ID: <alpine.LFD.2.20.1511041835380.630@knanqh.ubzr>
 To: linux-snps-arc@lists.infradead.org
 
-don't post it yet - im yet to finish the review of mail patch !
+On Fri, 30 Oct 2015, M?ns Rullg?rd wrote:
 
-________________________________________
-From: Noam Camus [noamc@ezchip.com]
-Sent: Wednesday, November 04, 2015 9:23 PM
-To: Vineet Gupta; linux-snps-arc at lists.infradead.org
-Cc: linux-kernel at vger.kernel.org; Tal Zilcer; Gil Fruchter; Chris Metcalf
-Subject: RE: [PATCH v1 00/20] eznps a new ARC platform
+> Nicolas Pitre <nicolas.pitre at linaro.org> writes:
+> 
+> > I'm going to do it anyway given that I already have it for ARM.  It'll 
+> > be opt-in, so if your arch doesn't provide it then the current C 
+> > implementation will be used by default.
+> 
+> Great.  I'll try it out on MIPS once you've posted the patch.
 
->From: Vineet Gupta [mailto:vineetg76 at gmail.com] On Behalf Of Vineet Gupta
->Sent: Wednesday, November 04, 2015 5:35 PM
+You should have seen the patches by now.
 
->> NPS400 got mesh of 256 extended ARC cores (AKA CTOP), each core got 16
->> HW threats.
+I've put them along with a bunch of do_div() usage fixes here:
 
->threads - although it might as well be a thread to others doing network SoC :-)
-Thanks
+  http://git.linaro.org/people/nicolas.pitre/linux.git
 
-V2 is ready :)
 
--Noam
+Nicolas
