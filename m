@@ -1,48 +1,49 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 7 Nov 2015 12:52:36 +0200
-Subject: [PATCH v2 18/19] ARC: [plat-eznps] replace sync with proper cpu
- barrier
+Date: Sat, 7 Nov 2015 12:52:37 +0200
+Subject: [PATCH v2 19/19] ARC: Add eznps platform to Kconfig and Makefile
 In-Reply-To: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1446893557-29748-19-git-send-email-noamc@ezchip.com>
+Message-ID: <1446893557-29748-20-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Tal Zilcer <talz@ezchip.com>
+From: Noam Camus <noamc@ezchip.com>
 
-In SMT system like we have the generic "sync" is not working with
-HW threads. The replacement is "schd.rw" instruction that is served
-as cpu barrier for HW threads.
+This commit should be left last since only now eznps platform
+is in state which one can actually use.
 Signed-off-by: Noam Camus <noamc at ezchip.com>
 ---
- arch/arc/kernel/ctx_sw.c |    7 +++++++
- 1 files changed, 7 insertions(+), 0 deletions(-)
+ arch/arc/Kconfig  |    1 +
+ arch/arc/Makefile |    5 +++++
+ 2 files changed, 6 insertions(+), 0 deletions(-)
 
-diff --git a/arch/arc/kernel/ctx_sw.c b/arch/arc/kernel/ctx_sw.c
-index 92e2e82..2a2f50e 100644
---- a/arch/arc/kernel/ctx_sw.c
-+++ b/arch/arc/kernel/ctx_sw.c
-@@ -61,7 +61,11 @@ __switch_to(struct task_struct *prev_task, struct task_struct *next_task)
- 		"st      sp, [r24]       \n\t"
- #endif
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 689ccb3..8153b79 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -91,6 +91,7 @@ source "arch/arc/plat-sim/Kconfig"
+ source "arch/arc/plat-tb10x/Kconfig"
+ source "arch/arc/plat-axs10x/Kconfig"
+ #New platform adds here
++source "arch/arc/plat-eznps/Kconfig"
  
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+		".word %5   \n\t"
-+#else
- 		"sync   \n\t"
-+#endif
+ endmenu
  
- 		/*
- 		 * setup _current_task with incoming tsk.
-@@ -122,6 +126,9 @@ __switch_to(struct task_struct *prev_task, struct task_struct *next_task)
- #ifdef CONFIG_ARC_PLAT_EZNPS
- 		, "i"(CTOP_AUX_LOGIC_GLOBAL_ID)
- #endif
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+		, "i"(CTOP_INST_SCHD_RW)
-+#endif
- 		: "blink"
- 	);
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index 8a27a48..ebaab13 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -99,6 +99,11 @@ core-y		+= arch/arc/boot/dts/
+ core-$(CONFIG_ARC_PLAT_SIM)	+= arch/arc/plat-sim/
+ core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
+ core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
++core-$(CONFIG_ARC_PLAT_EZNPS)	+= arch/arc/plat-eznps/
++
++ifdef CONFIG_ARC_PLAT_EZNPS
++KBUILD_CPPFLAGS += -I$(srctree)/arch/arc/plat-eznps/include
++endif
+ 
+ drivers-$(CONFIG_OPROFILE)	+= arch/arc/oprofile/
  
 -- 
 1.7.1
