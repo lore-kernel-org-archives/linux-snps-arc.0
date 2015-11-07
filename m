@@ -1,49 +1,49 @@
-From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 7 Nov 2015 12:52:37 +0200
-Subject: [PATCH v2 19/19] ARC: Add eznps platform to Kconfig and Makefile
-In-Reply-To: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Sat, 7 Nov 2015 12:26:10 +0100 (CET)
+Subject: [PATCH v2 03/19] clocksource: Add NPS400 timers driver
+In-Reply-To: <1446893557-29748-4-git-send-email-noamc@ezchip.com>
 References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
+ <1446893557-29748-4-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1446893557-29748-20-git-send-email-noamc@ezchip.com>
+Message-ID: <alpine.DEB.2.11.1511071222340.4032@nanos>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamc@ezchip.com>
+On Sat, 7 Nov 2015, Noam Camus wrote:
+> +/*
+> + * To get the value from the Global Timer Counter register proceed as follows:
+> + * 1. Read the upper 32-bit timer counter register
+> + * 2. Read the lower 32-bit timer counter register
+> + * 3. Read the upper 32-bit timer counter register again. If the value is
+> + *  different to the 32-bit upper value read previously, go back to step 2.
+> + *  Otherwise the 64-bit timer counter value is correct.
+> + */
+> +static cycle_t nps_clksrc_read(struct clocksource *clksrc)
+> +{
+> +	u64 counter;
+> +	u32 lower, upper, old_upper;
+> +	void *lower_p, *upper_p;
+> +	int cluster = (smp_processor_id() >> NPS_CLUSTER_OFFSET);
+> +
+> +	lower_p = nps_msu_reg_low_addr[cluster];
+> +	upper_p = lower_p + 4;
+> +
+> +	upper = ioread32be(upper_p);
+> +	do {
+> +		old_upper = upper;
+> +		lower = ioread32be(lower_p);
+> +		upper = ioread32be(upper_p);
+> +	} while (upper != old_upper);
+> +
+> +	counter = (upper << 32) | lower;
+> +	return (cycle_t)counter;
 
-This commit should be left last since only now eznps platform
-is in state which one can actually use.
-Signed-off-by: Noam Camus <noamc at ezchip.com>
----
- arch/arc/Kconfig  |    1 +
- arch/arc/Makefile |    5 +++++
- 2 files changed, 6 insertions(+), 0 deletions(-)
+So that clocksource goes up to 1GHz. That means u32 fits ~4.29
+seconds. Unless you are striving for NOHZ idle sleep times above that
+there is no point in doing that 64bit dance.
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 689ccb3..8153b79 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -91,6 +91,7 @@ source "arch/arc/plat-sim/Kconfig"
- source "arch/arc/plat-tb10x/Kconfig"
- source "arch/arc/plat-axs10x/Kconfig"
- #New platform adds here
-+source "arch/arc/plat-eznps/Kconfig"
- 
- endmenu
- 
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 8a27a48..ebaab13 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -99,6 +99,11 @@ core-y		+= arch/arc/boot/dts/
- core-$(CONFIG_ARC_PLAT_SIM)	+= arch/arc/plat-sim/
- core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
- core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
-+core-$(CONFIG_ARC_PLAT_EZNPS)	+= arch/arc/plat-eznps/
-+
-+ifdef CONFIG_ARC_PLAT_EZNPS
-+KBUILD_CPPFLAGS += -I$(srctree)/arch/arc/plat-eznps/include
-+endif
- 
- drivers-$(CONFIG_OPROFILE)	+= arch/arc/oprofile/
- 
--- 
-1.7.1
+The timekeeping code is perfectly fine with a 32bit value. You just
+have to set the proper mask.
+
+Thanks,
+
+	tglx
