@@ -1,53 +1,35 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 7 Nov 2015 12:52:26 +0200
-Subject: [PATCH v2 08/19] ARC: Mark secondary cpu online only after all HW
- setup is done
+Date: Sat, 7 Nov 2015 12:52:27 +0200
+Subject: [PATCH v2 09/19] ARC: add CONFIG_CLKSRC_OF support to time_init()
 In-Reply-To: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1446893557-29748-9-git-send-email-noamc@ezchip.com>
+Message-ID: <1446893557-29748-10-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-In SMP setup, master loops for each_present_cpu calling cpu_up().
-For ARC it returns as soon as new cpu's status becomes online,
-However secondary may still do HW initializing,
-machine or platform hook level.
-
-So turn secondary online only after all HW setup is done.
+External clock source can be used if included by one of
+DTS file of a chosen platform.
 Signed-off-by: Noam Camus <noamc at ezchip.com>
 ---
- arch/arc/kernel/smp.c |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+ arch/arc/kernel/time.c |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-index 0b061a4..bc0e4f6 100644
---- a/arch/arc/kernel/smp.c
-+++ b/arch/arc/kernel/smp.c
-@@ -126,11 +126,6 @@ void start_kernel_secondary(void)
- 	current->active_mm = mm;
- 	cpumask_set_cpu(cpu, mm_cpumask(mm));
+diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+index dfad287..5313961 100644
+--- a/arch/arc/kernel/time.c
++++ b/arch/arc/kernel/time.c
+@@ -283,6 +283,10 @@ void __init time_init(void)
+ 		 */
+ 		clocksource_register_hz(&arc_counter, arc_get_core_freq());
  
--	notify_cpu_starting(cpu);
--	set_cpu_online(cpu, true);
--
--	pr_info("## CPU%u LIVE ##: Executing Code...\n", cpu);
--
- 	/* Some SMP H/w setup - for each cpu */
- 	if (plat_smp_ops.init_per_cpu)
- 		plat_smp_ops.init_per_cpu(cpu);
-@@ -138,6 +133,11 @@ void start_kernel_secondary(void)
- 	if (machine_desc->init_cpu_smp)
- 		machine_desc->init_cpu_smp(cpu);
- 
-+	notify_cpu_starting(cpu);
-+	set_cpu_online(cpu, true);
++#ifdef CONFIG_CLKSRC_OF
++	clocksource_of_init();
++#endif
 +
-+	pr_info("## CPU%u LIVE ##: Executing Code...\n", cpu);
-+
+ 	/* sets up the periodic event timer */
  	arc_local_timer_setup();
- 
- 	local_irq_enable();
+ }
 -- 
 1.7.1
