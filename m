@@ -1,53 +1,57 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Sat, 14 Nov 2015 13:21:40 +0530
-Subject: [GIT PULL] ARC urgent fixes for 4.4-rc1
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Mon, 16 Nov 2015 09:28:09 +0100
+Subject: using IS_ENABLED(CONFIG_xyz) effectively
+In-Reply-To: <56498D0A.3070000@synopsys.com>
+References: <5613F3DE.4010406@suse.cz>
+ <1444165543-2209-1-git-send-email-linux@rasmusvillemoes.dk>
+ <56498D0A.3070000@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5646E80C.1010807@synopsys.com>
+Message-ID: <CAMuHMdVEK041TFY3JJ1kvYE_e_C72+FcRu3ewDipLPi-kN-h=A@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+Hi Vineet,
 
-Found a couple of brown paper bag bugs with the prev pull request (including a SMP
-build breakage report from Guenter). Since these are urgent I also decided to send
-over a bunch of other pending fixes which could have otherwise waited an rc or
-two. Please pull.
+On Mon, Nov 16, 2015 at 9:00 AM, Vineet Gupta
+<Vineet.Gupta1@synopsys.com> wrote:
+> I've been using IS_ENABLED for some time and once in a while run into an issue
+> which prevents seamless use. Hence posing this question to experts in the area.
+>
+> C macro processor evaluates the ensuing control block even if IS_ENABLED evaluates
+> to false. This requires dummy #defines or worse still removing usage of IS_ENABLED
+> altogether.
+>
+> e.g. In example below even for ARCOMPACT builds, we need the ARCV2 specific define
+> ARCV2_IRQ_DEF_PRIO.
+>
+> void arch_cpu_idle(void)
+> {
+>         if (is_isa_arcompact()) {    <---- IS_ENABLED(CONFIG_ISA_ARCOMPACT)
+>                 __asm__("sleep 0x3");
+>         } else {
+>                 const int arg = 0x10 | ARCV2_IRQ_DEF_PRIO;
+>                __asm__("sleep 0x10");
+>         }
+> }
+>
+> One could argue that the interface needs to be cleanly defined to not have such
+> specific #defines in common code in first place. However sometime that becomes
+> just too tedious.
+>
+> Is there a way to get around by this ?
 
-Thx,
--Vineet
------------------>
-The following changes since commit 5a364c2a1762e8a78721fafc93144509c0b6cb84:
+Use #ifdef CONFIG_...?
 
-  ARC: mm: PAE40 support (2015-10-29 18:41:30 +0530)
+The advantage of IS_ENABLED() over #ifdef is that it allows compile-testing of
+the disabled code path. Of course it should only be compiled if it makes
+sense. And that's exactly what you're running into.
 
-are available in the git repository at:
+Gr{oetje,eeting}s,
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.4-rc1-part2
+                        Geert
 
-for you to fetch changes up to 30b9dbee895ff0d5cbf155bd1ef3f0f5992bca6f:
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
 
-  ARC: Fix silly typo in MAINTAINERS file (2015-11-14 13:12:31 +0530)
-
-----------------------------------------------------------------
-ARC fixes for 4.4-rc1
-- A bunch of brown paper bag bugs (MAINTAINERS list email, SMP build failure)
-- cpu_relax() now compiler barrier for UP as well
-- Handling of userspace Bus Errors for ARCompact builds
-
-----------------------------------------------------------------
-Vineet Gupta (6):
-      ARCv2: lib: memcpy: use local symbols
-      ARC: remove extraneous header include
-      ARC: [arcompact] Handle bus error from userspace as Interrupt not exception
-      ARC: use ASL assembler mnemonic
-      ARC: cpu_relax() to be compiler barrier even for UP
-      ARC: Fix silly typo in MAINTAINERS file
-
- MAINTAINERS                      |  2 +-
- arch/arc/include/asm/processor.h |  4 ----
- arch/arc/kernel/entry-arcv2.S    | 19 +++++++++++++++
- arch/arc/kernel/entry-compact.S  | 29 ++++++++++++++++++----
- arch/arc/kernel/entry.S          | 17 -------------
- arch/arc/lib/memcpy-archs.S      | 52 ++++++++++++++++++++--------------------
- arch/arc/mm/tlbex.S              |  6 ++---
- arch/arc/plat-sim/platform.c     |  1 -
- 8 files changed, 74 insertions(+), 56 deletions(-)
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
