@@ -1,57 +1,55 @@
-From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Mon, 16 Nov 2015 09:28:09 +0100
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 16 Nov 2015 08:35:05 +0000
 Subject: using IS_ENABLED(CONFIG_xyz) effectively
-In-Reply-To: <56498D0A.3070000@synopsys.com>
 References: <5613F3DE.4010406@suse.cz>
  <1444165543-2209-1-git-send-email-linux@rasmusvillemoes.dk>
  <56498D0A.3070000@synopsys.com>
+ <CAMuHMdVEK041TFY3JJ1kvYE_e_C72+FcRu3ewDipLPi-kN-h=A@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdVEK041TFY3JJ1kvYE_e_C72+FcRu3ewDipLPi-kN-h=A@mail.gmail.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44D1969@IN01WEMBXA.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+Hi Geert,
 
-On Mon, Nov 16, 2015 at 9:00 AM, Vineet Gupta
-<Vineet.Gupta1@synopsys.com> wrote:
-> I've been using IS_ENABLED for some time and once in a while run into an issue
-> which prevents seamless use. Hence posing this question to experts in the area.
+On Monday 16 November 2015 01:58 PM, Geert Uytterhoeven wrote:
+> Hi Vineet,
 >
-> C macro processor evaluates the ensuing control block even if IS_ENABLED evaluates
-> to false. This requires dummy #defines or worse still removing usage of IS_ENABLED
-> altogether.
+> On Mon, Nov 16, 2015 at 9:00 AM, Vineet Gupta
+> <Vineet.Gupta1@synopsys.com> wrote:
+>> I've been using IS_ENABLED for some time and once in a while run into an issue
+>> which prevents seamless use. Hence posing this question to experts in the area.
+>>
+>> C macro processor evaluates the ensuing control block even if IS_ENABLED evaluates
+>> to false. This requires dummy #defines or worse still removing usage of IS_ENABLED
+>> altogether.
+>>
+>> e.g. In example below even for ARCOMPACT builds, we need the ARCV2 specific define
+>> ARCV2_IRQ_DEF_PRIO.
+>>
+>> void arch_cpu_idle(void)
+>> {
+>>         if (is_isa_arcompact()) {    <---- IS_ENABLED(CONFIG_ISA_ARCOMPACT)
+>>                 __asm__("sleep 0x3");
+>>         } else {
+>>                 const int arg = 0x10 | ARCV2_IRQ_DEF_PRIO;
+>>                __asm__("sleep 0x10");
+>>         }
+>> }
+>>
+>> One could argue that the interface needs to be cleanly defined to not have such
+>> specific #defines in common code in first place. However sometime that becomes
+>> just too tedious.
+>>
+>> Is there a way to get around by this ?
+> Use #ifdef CONFIG_...?
 >
-> e.g. In example below even for ARCOMPACT builds, we need the ARCV2 specific define
-> ARCV2_IRQ_DEF_PRIO.
->
-> void arch_cpu_idle(void)
-> {
->         if (is_isa_arcompact()) {    <---- IS_ENABLED(CONFIG_ISA_ARCOMPACT)
->                 __asm__("sleep 0x3");
->         } else {
->                 const int arg = 0x10 | ARCV2_IRQ_DEF_PRIO;
->                __asm__("sleep 0x10");
->         }
-> }
->
-> One could argue that the interface needs to be cleanly defined to not have such
-> specific #defines in common code in first place. However sometime that becomes
-> just too tedious.
->
-> Is there a way to get around by this ?
+> The advantage of IS_ENABLED() over #ifdef is that it allows compile-testing of
+> the disabled code path. Of course it should only be compiled if it makes
+> sense. And that's exactly what you're running into.
 
-Use #ifdef CONFIG_...?
+And I thought it was to de-uglify the code with same semantics - which doesn't
+seem to be the case !
+Oh well !
 
-The advantage of IS_ENABLED() over #ifdef is that it allows compile-testing of
-the disabled code path. Of course it should only be compiled if it makes
-sense. And that's exactly what you're running into.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thx,
+-Vineet
