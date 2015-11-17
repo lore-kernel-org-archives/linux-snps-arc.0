@@ -1,42 +1,44 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Tue, 17 Nov 2015 14:59:32 +0100
-Subject: [PATCH v2 18/19] ARC: [plat-eznps] replace sync with proper cpu
- barrier
-In-Reply-To: <564B2C50.3080401@synopsys.com>
-References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
- <1446893557-29748-19-git-send-email-noamc@ezchip.com>
- <564B0BB1.8080709@synopsys.com>
- <20151117112343.GW3816@twins.programming.kicks-ass.net>
- <564B1182.7050107@synopsys.com>
- <20151117122208.GX3816@twins.programming.kicks-ass.net>
- <564B1F74.6090709@synopsys.com>
- <20151117124421.GY17308@twins.programming.kicks-ass.net>
- <564B2C50.3080401@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 17 Nov 2015 18:23:21 +0530
+Subject: NMI for ARC
+In-Reply-To: <20151117122540.GL11639@twins.programming.kicks-ass.net>
+References: <1445286926.3913.13.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44D210D@IN01WEMBXA.internal.synopsys.com>
+ <20151117110749.GT3816@twins.programming.kicks-ass.net>
+ <564B0E18.3040207@synopsys.com>
+ <20151117122401.GY3816@twins.programming.kicks-ass.net>
+ <20151117122540.GL11639@twins.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20151117135932.GA3816@twins.programming.kicks-ass.net>
+Message-ID: <564B2341.4030409@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Nov 17, 2015@07:02:00PM +0530, Vineet Gupta wrote:
-> > You should never report more than PERF_MAX_STACK_DEPTH thingies anyway,
-> > so once you've done that many loops, you're good to bail, right?
+On Tuesday 17 November 2015 05:55 PM, Peter Zijlstra wrote:
+
+> This is assuming you now have these NMIs we talked about earlier. If all
+> you have are regular IRQs this is not possible, for we should be calling
+> ->read() with IRQs disabled.
 > 
-> Yeah, although I need to ensure if arch code needs to check that. Plus the
-> unwinder is also used for things like ps wchan, /proc/<pid>/stack, crash dump etc.
 
-Ah, ok. On x86 we have a separate unwinder for perf. Trying to touch
-userspace memory from NMI context is a tad tricky.
+No we don't yet. The first stab at it fell flat on floor.
 
-(imagine the NMI interrupting a page-fault and then itself triggering a
-page-fault again)
+The NMI support from hardware is that is it provides different priorities, higher
+one obviously able to interrupt lower one. However instructions like CLRI (disable
+interrupts) will still lock out all interrupts.
 
-> > You're likely to call this code from interrupt/NMI context, there is no
-> > ^C or scheduling going to help you there.
-> 
-> For perf case, but there are other uses of unwinder as described above.
-> 
-> So in light of above, do u think that the cond_resched() + signal_pending check is
-> not needed and the bail if over N iters will be fine !
+Thus local_irq_save()/restore() and local_irq_enable()/disable() now need to be
+contextual.
 
-It can't hurt, but you want to engineer it to be robust for the most
-constrained environment, so I would say the bail over N iters had
-better be robust, otherwise you're screwed anyhow ;-)
+  - When running in prio 0 mode, they only need to enable 0
+  - In prio 1, they need to enable both 0 and 1
+
+For irq_save()/restore() this is achievable by doing an additional STATUS32 read
+at the time of save and passing that value to restore - so there's an additional
+overhead - but ignoring that for now.
+
+Bummer is irq_disable()/enable() case: there's need to pass old prio state from
+enable to disabled, so we need some sort of global state tracking - which in case
+of SMP needs to be per cpu.... either keep something hot in a reg or pay the cost
+of additional mem/cache line miss.
+
+I've not investigated how other arches do that. PPC seems to be using some sort of
+soft irq state anyways.
