@@ -1,45 +1,27 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 17 Nov 2015 16:53:04 +0530
-Subject: local64_cmpxchg() in arc_perf_event_update()
-In-Reply-To: <20151117110749.GT3816@twins.programming.kicks-ass.net>
-References: <1445286926.3913.13.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44D210D@IN01WEMBXA.internal.synopsys.com>
- <20151117110749.GT3816@twins.programming.kicks-ass.net>
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Tue, 17 Nov 2015 12:23:43 +0100
+Subject: [PATCH v2 18/19] ARC: [plat-eznps] replace sync with proper cpu
+ barrier
+In-Reply-To: <564B0BB1.8080709@synopsys.com>
+References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
+ <1446893557-29748-19-git-send-email-noamc@ezchip.com>
+ <564B0BB1.8080709@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <564B0E18.3040207@synopsys.com>
+Message-ID: <20151117112343.GW3816@twins.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-On Tuesday 17 November 2015 04:37 PM, Peter Zijlstra wrote:
-> On Tue, Nov 17, 2015@09:14:59AM +0000, Vineet Gupta wrote:
->> > Let's check with Peter as I'm not sure how exactly the read call will
->> > nest for same counter on same core ?
-> Various possible ways, but the easiest is userspace doing a sys_read()
-> on the counter while the NMI happens.
+On Tue, Nov 17, 2015@04:42:49PM +0530, Vineet Gupta wrote:
+> On Saturday 07 November 2015 04:22 PM, Noam Camus wrote:
+> > From: Tal Zilcer <talz at ezchip.com>
+> > 
+> > In SMT system like we have the generic "sync" is not working with
+> > HW threads. The replacement is "schd.rw" instruction that is served
+> > as cpu barrier for HW threads.
 > 
-> 
+> As discussed in v2 of this patch, SYNC or some such in __switch_to is completely
+> superfluous. We don't need this patch, you may instead wanna submit a patch which
+> removes the sync. Also please do that in assembler version of this file as well !
 
-That means Alexey need to revert the hunk ?
-
- static void arc_perf_event_update(struct perf_event *event,
- 				  struct hw_perf_event *hwc, int idx)
- {
--	uint64_t prev_raw_count, new_raw_count;
--	int64_t delta;
--
--	do {
--		prev_raw_count = local64_read(&hwc->prev_count);
--		new_raw_count = arc_pmu_read_counter(idx);
--	} while (local64_cmpxchg(&hwc->prev_count, prev_raw_count,
--				 new_raw_count) != prev_raw_count);
--
--	delta = (new_raw_count - prev_raw_count) &
--		((1ULL << arc_pmu->counter_size) - 1ULL);
-+	uint64_t prev_raw_count = local64_read(&hwc->prev_count);
-+	uint64_t new_raw_count = arc_pmu_read_counter(idx);
-+	int64_t delta = new_raw_count - prev_raw_count;
-
-+	/*
-+	 * We don't afaraid of hwc->prev_count changing beneath our feet
-+	 * because there's no way for us to re-enter this function anytime.
-+	 */
-+	local64_set(&hwc->prev_count, new_raw_count);
+Do test it though; as is ARC-SMP seems to have a _lot_ of superfluous
+barriers many of which have no explanation yet (I'm thinking of those
+extra smp_mb()s in the lock primitives).
