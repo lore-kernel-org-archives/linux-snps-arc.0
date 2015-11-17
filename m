@@ -1,57 +1,45 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 17 Nov 2015 16:47:15 +0530
-Subject: [PATCH v2 08/19] ARC: Mark secondary cpu online only after all HW
- setup is done
-In-Reply-To: <1446893557-29748-9-git-send-email-noamc@ezchip.com>
-References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
- <1446893557-29748-9-git-send-email-noamc@ezchip.com>
+Date: Tue, 17 Nov 2015 16:53:04 +0530
+Subject: local64_cmpxchg() in arc_perf_event_update()
+In-Reply-To: <20151117110749.GT3816@twins.programming.kicks-ass.net>
+References: <1445286926.3913.13.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44D210D@IN01WEMBXA.internal.synopsys.com>
+ <20151117110749.GT3816@twins.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <564B0CBB.8060206@synopsys.com>
+Message-ID: <564B0E18.3040207@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Saturday 07 November 2015 04:22 PM, Noam Camus wrote:
-> From: Noam Camus <noamc at ezchip.com>
+On Tuesday 17 November 2015 04:37 PM, Peter Zijlstra wrote:
+> On Tue, Nov 17, 2015@09:14:59AM +0000, Vineet Gupta wrote:
+>> > Let's check with Peter as I'm not sure how exactly the read call will
+>> > nest for same counter on same core ?
+> Various possible ways, but the easiest is userspace doing a sys_read()
+> on the counter while the NMI happens.
 > 
-> In SMP setup, master loops for each_present_cpu calling cpu_up().
-> For ARC it returns as soon as new cpu's status becomes online,
-> However secondary may still do HW initializing,
-> machine or platform hook level.
 > 
-> So turn secondary online only after all HW setup is done.
-> Signed-off-by: Noam Camus <noamc at ezchip.com>
 
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
+That means Alexey need to revert the hunk ?
 
-> ---
->  arch/arc/kernel/smp.c |   10 +++++-----
->  1 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-> index 0b061a4..bc0e4f6 100644
-> --- a/arch/arc/kernel/smp.c
-> +++ b/arch/arc/kernel/smp.c
-> @@ -126,11 +126,6 @@ void start_kernel_secondary(void)
->  	current->active_mm = mm;
->  	cpumask_set_cpu(cpu, mm_cpumask(mm));
->  
-> -	notify_cpu_starting(cpu);
-> -	set_cpu_online(cpu, true);
-> -
-> -	pr_info("## CPU%u LIVE ##: Executing Code...\n", cpu);
-> -
->  	/* Some SMP H/w setup - for each cpu */
->  	if (plat_smp_ops.init_per_cpu)
->  		plat_smp_ops.init_per_cpu(cpu);
-> @@ -138,6 +133,11 @@ void start_kernel_secondary(void)
->  	if (machine_desc->init_cpu_smp)
->  		machine_desc->init_cpu_smp(cpu);
->  
-> +	notify_cpu_starting(cpu);
-> +	set_cpu_online(cpu, true);
-> +
-> +	pr_info("## CPU%u LIVE ##: Executing Code...\n", cpu);
-> +
->  	arc_local_timer_setup();
->  
->  	local_irq_enable();
-> 
+ static void arc_perf_event_update(struct perf_event *event,
+ 				  struct hw_perf_event *hwc, int idx)
+ {
+-	uint64_t prev_raw_count, new_raw_count;
+-	int64_t delta;
+-
+-	do {
+-		prev_raw_count = local64_read(&hwc->prev_count);
+-		new_raw_count = arc_pmu_read_counter(idx);
+-	} while (local64_cmpxchg(&hwc->prev_count, prev_raw_count,
+-				 new_raw_count) != prev_raw_count);
+-
+-	delta = (new_raw_count - prev_raw_count) &
+-		((1ULL << arc_pmu->counter_size) - 1ULL);
++	uint64_t prev_raw_count = local64_read(&hwc->prev_count);
++	uint64_t new_raw_count = arc_pmu_read_counter(idx);
++	int64_t delta = new_raw_count - prev_raw_count;
+
++	/*
++	 * We don't afaraid of hwc->prev_count changing beneath our feet
++	 * because there's no way for us to re-enter this function anytime.
++	 */
++	local64_set(&hwc->prev_count, new_raw_count);
