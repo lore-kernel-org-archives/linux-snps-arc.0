@@ -1,74 +1,43 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 17 Nov 2015 17:48:48 +0530
-Subject: "compatible" and "model" properties in .dts for ARC boards
-In-Reply-To: <563C8788.9090301@openwrt.org>
-References: <1446749422.3151.29.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44D0C84@IN01WEMBXA.internal.synopsys.com>
- <82634871.ymdF4uL7TN@wuerfel> <563C8788.9090301@openwrt.org>
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Tue, 17 Nov 2015 13:22:08 +0100
+Subject: [PATCH v2 18/19] ARC: [plat-eznps] replace sync with proper cpu
+ barrier
+In-Reply-To: <564B1182.7050107@synopsys.com>
+References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
+ <1446893557-29748-19-git-send-email-noamc@ezchip.com>
+ <564B0BB1.8080709@synopsys.com>
+ <20151117112343.GW3816@twins.programming.kicks-ass.net>
+ <564B1182.7050107@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <564B1B28.5090403@synopsys.com>
+Message-ID: <20151117122208.GX3816@twins.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-On Friday 06 November 2015 04:27 PM, Jonas Gorski wrote:
-> On 06.11.2015 09:59, Arnd Bergmann wrote:
->> On Friday 06 November 2015 04:45:24 Vineet Gupta wrote:
->>>>
->>>> During OpenWRT upsreaming process one interesting topic was raised.
->>>> See in the middle of https://lists.openwrt.org/pipermail/openwrt-devel/2015-November/036959.html
->>>>
->>>> In Device Tree descriptions for our boards we don't use "model" property
->>>> even though it is a required one as specified by ePAPR, see
->>>> http://free-electrons.com/~thomas/pub/Power_ePAPR_APPROVED_v1.0.pdf,
->>>> page 39 "Table 3-1 Root node properties".
->>>>
->>>> Instead we put 2 items in "compatible" property.
->>>>
->>>> For example:
->>>> ------------------->8----------------
->>>> compatible = "snps,axs101", "snps,arc-sdp";
->>>> ------------------->8----------------
->>>>
->>>> And from ePAPR standpoint it makes sense to split contents of that "compatible"
->>>> property in 2:
->>>> ------------------->8----------------
->>>> compatible = "snps,arc-sdp";
->>>> model = "snps,axs101";
->>>> ------------------->8----------------
->>>
->>> It seems model is just a descriptive label and we can surely add them to existing DT.
->>> compatible on the other hand is more fundamental used for exact comparisons etc
->>> and follows the vendor,device convention.
->>> It is pretty common for compatible to have multiple strings for exactly the same
->>> reason as I have them here. Both axs101 and axs103 are based on sdp thus we want
->>> the ability to have both pieces of information and use as needed.
->>
->> Correct.
->>
->> The model should also be a human readable name of the machine, just one
->> string like "Synapsys AXS101 Development Board" (or whatever that is called).
+On Tue, Nov 17, 2015@05:07:38PM +0530, Vineet Gupta wrote:
+> > as is ARC-SMP seems to have a _lot_ of superfluous
+> > barriers many of which have no explanation yet (I'm thinking of those
+> > extra smp_mb()s in the lock primitives).
 > 
-> This contradicts ePAPR, which says the model's recommended* format is the same as
-> the compatible one's (<vendor>,<model>). Most PowerPC and some MIPS dts files
-> follow that, while ARM(64) uses the free text form.
-> 
-> To me it looks like the intended usage was
-> model = <actual_model>; compatible = <platform>;
-> but the actual usage in arm is
-> model = <human readable string>; compatible = <actual_model>, <platform>;
-> 
-> Of course for changing this in the existing dts files it might be a bit late, but it
-> would be good to decide which of these two is the actually expected format. 
-> 
-> It also is a required property, and we have a few boards not having a model property,
-> including the example in Documentation/devicetree/usage-model.txt.
-> 
-> 
-> Jonas
-> 
-> * compatible strings are also only "recommended" to be in that format.
-> 
+> Other than the lock primitives can u think of any more.
 
-Alexey, can u please rework the DT files per Jonas' suggestion above.
+Not of the top of my head.
 
-Thx,
--Vineet
+> I verified that with llock/scond based spinlocks, those smp_mb() can be safely
+> removed.
+
+Good!
+
+> I didn't send that patch over yet as part of puzzle is why removing them
+> in EX based locks causes hackbench to jitter on quad core builds. This required
+> some perf investigation but that seems to be causing some sort of livelock with
+> callgraph profiling which is what I'm debugging currently :-)
+
+So there's two superfluous barriers right; the one before LOCK and the
+one after UNLOCK. Does removing either cause the jitter? I'm thinking
+that maybe its the smp_mb after UNLOCK that force flushes the store
+buffer that helps (MIPS has something similar).
+
+> BTW since we are on the topic we have this loop in stack unwinder which can
+> potentially cause RCU stalls, actual lockups etc. I was planning to add the
+> following - does that seem fine to you.
+
+Worries me more than anything. How could you get stuck in there?
