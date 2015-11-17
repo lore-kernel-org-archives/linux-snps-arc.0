@@ -1,16 +1,54 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Tue, 17 Nov 2015 12:07:49 +0100
-Subject: local64_cmpxchg() in arc_perf_event_update()
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F44D210D@IN01WEMBXA.internal.synopsys.com>
-References: <1445286926.3913.13.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44D210D@IN01WEMBXA.internal.synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 17 Nov 2015 16:42:49 +0530
+Subject: [PATCH v2 18/19] ARC: [plat-eznps] replace sync with proper cpu
+ barrier
+In-Reply-To: <1446893557-29748-19-git-send-email-noamc@ezchip.com>
+References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
+ <1446893557-29748-19-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20151117110749.GT3816@twins.programming.kicks-ass.net>
+Message-ID: <564B0BB1.8080709@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Nov 17, 2015@09:14:59AM +0000, Vineet Gupta wrote:
-> Let's check with Peter as I'm not sure how exactly the read call will
-> nest for same counter on same core ?
+On Saturday 07 November 2015 04:22 PM, Noam Camus wrote:
+> From: Tal Zilcer <talz at ezchip.com>
+> 
+> In SMT system like we have the generic "sync" is not working with
+> HW threads. The replacement is "schd.rw" instruction that is served
+> as cpu barrier for HW threads.
 
-Various possible ways, but the easiest is userspace doing a sys_read()
-on the counter while the NMI happens.
+As discussed in v2 of this patch, SYNC or some such in __switch_to is completely
+superfluous. We don't need this patch, you may instead wanna submit a patch which
+removes the sync. Also please do that in assembler version of this file as well !
+
+> Signed-off-by: Noam Camus <noamc at ezchip.com>
+> ---
+>  arch/arc/kernel/ctx_sw.c |    7 +++++++
+>  1 files changed, 7 insertions(+), 0 deletions(-)
+> 
+> diff --git a/arch/arc/kernel/ctx_sw.c b/arch/arc/kernel/ctx_sw.c
+> index 92e2e82..2a2f50e 100644
+> --- a/arch/arc/kernel/ctx_sw.c
+> +++ b/arch/arc/kernel/ctx_sw.c
+> @@ -61,7 +61,11 @@ __switch_to(struct task_struct *prev_task, struct task_struct *next_task)
+>  		"st      sp, [r24]       \n\t"
+>  #endif
+>  
+> +#ifdef CONFIG_EZNPS_MTM_EXT
+> +		".word %5   \n\t"
+> +#else
+>  		"sync   \n\t"
+> +#endif
+>  
+>  		/*
+>  		 * setup _current_task with incoming tsk.
+> @@ -122,6 +126,9 @@ __switch_to(struct task_struct *prev_task, struct task_struct *next_task)
+>  #ifdef CONFIG_ARC_PLAT_EZNPS
+>  		, "i"(CTOP_AUX_LOGIC_GLOBAL_ID)
+>  #endif
+> +#ifdef CONFIG_EZNPS_MTM_EXT
+> +		, "i"(CTOP_INST_SCHD_RW)
+> +#endif
+>  		: "blink"
+>  	);
+>  
+> 
