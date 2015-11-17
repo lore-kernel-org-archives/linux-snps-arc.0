@@ -1,29 +1,50 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 17 Nov 2015 18:54:11 +0530
-Subject: local64_cmpxchg() in arc_perf_event_update()
-In-Reply-To: <20151117122540.GL11639@twins.programming.kicks-ass.net>
-References: <1445286926.3913.13.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44D210D@IN01WEMBXA.internal.synopsys.com>
- <20151117110749.GT3816@twins.programming.kicks-ass.net>
- <564B0E18.3040207@synopsys.com>
- <20151117122401.GY3816@twins.programming.kicks-ass.net>
- <20151117122540.GL11639@twins.programming.kicks-ass.net>
+Date: Tue, 17 Nov 2015 19:02:00 +0530
+Subject: [PATCH v2 18/19] ARC: [plat-eznps] replace sync with proper cpu
+ barrier
+In-Reply-To: <20151117124421.GY17308@twins.programming.kicks-ass.net>
+References: <1446297327-16298-1-git-send-email-noamc@ezchip.com>
+ <1446893557-29748-19-git-send-email-noamc@ezchip.com>
+ <564B0BB1.8080709@synopsys.com>
+ <20151117112343.GW3816@twins.programming.kicks-ass.net>
+ <564B1182.7050107@synopsys.com>
+ <20151117122208.GX3816@twins.programming.kicks-ass.net>
+ <564B1F74.6090709@synopsys.com>
+ <20151117124421.GY17308@twins.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <564B2A7B.8050707@synopsys.com>
+Message-ID: <564B2C50.3080401@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tuesday 17 November 2015 05:55 PM, Peter Zijlstra wrote:
-> On Tue, Nov 17, 2015@01:24:01PM +0100, Peter Zijlstra wrote:
->> > On Tue, Nov 17, 2015@04:53:04PM +0530, Vineet Gupta wrote:
->>> > > That means Alexey need to revert the hunk ?
->> > 
->> > Yes, I think so.
-> This is assuming you now have these NMIs we talked about earlier. If all
-> you have are regular IRQs this is not possible, for we should be calling
-> ->read() with IRQs disabled.
+On Tuesday 17 November 2015 06:14 PM, Peter Zijlstra wrote:
+> On Tue, Nov 17, 2015@06:07:08PM +0530, Vineet Gupta wrote:
+>> On Tuesday 17 November 2015 05:52 PM, Peter Zijlstra wrote:
+>>>>> BTW since we are on the topic we have this loop in stack unwinder which can
+>>>>> potentially cause RCU stalls, actual lockups etc. I was planning to add the
+>>>>> following - does that seem fine to you.
+>>> Worries me more than anything. How could you get stuck in there?
+>>
+>> No we not getting stuck in there - but this has potential to - if say unwind info
+>> were corrupt (not seen that ever though).
+> 
+> Better put in a failsafe for that anyway, just out of sheer paranoia :-)
 
-Ok then there is not need for this change ATM. I'll queue up the revert in the
-branch which brings NMI support !
+Indeed, loop for say 32 times at max or some such.
 
-Thx,
--Vineet
+
+> You should never report more than PERF_MAX_STACK_DEPTH thingies anyway,
+> so once you've done that many loops, you're good to bail, right?
+
+Yeah, although I need to ensure if arch code needs to check that. Plus the
+unwinder is also used for things like ps wchan, /proc/<pid>/stack, crash dump etc.
+
+>> The old code won't even respond to say a Ctrl+C if it were stuck !
+>> Plus the reschedule there will keeps sched happy when say unraveling deep stack
+>> frames with perf ?
+> 
+> You're likely to call this code from interrupt/NMI context, there is no
+> ^C or scheduling going to help you there.
+
+For perf case, but there are other uses of unwinder as described above.
+
+So in light of above, do u think that the cond_resched() + signal_pending check is
+not needed and the bail if over N iters will be fine !
