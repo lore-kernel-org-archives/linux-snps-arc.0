@@ -1,44 +1,137 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 17 Nov 2015 18:23:21 +0530
-Subject: NMI for ARC
-In-Reply-To: <20151117122540.GL11639@twins.programming.kicks-ass.net>
-References: <1445286926.3913.13.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44D210D@IN01WEMBXA.internal.synopsys.com>
- <20151117110749.GT3816@twins.programming.kicks-ass.net>
- <564B0E18.3040207@synopsys.com>
- <20151117122401.GY3816@twins.programming.kicks-ass.net>
- <20151117122540.GL11639@twins.programming.kicks-ass.net>
+From: xili_gchen_5257@hotmail.com (Chen Gang)
+Date: Thu, 19 Nov 2015 03:40:25 +0800
+Subject: [PATCH] include: asm-generic: page.h: Remove useless get_user_page
+ and free_user_page
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <564B2341.4030409@synopsys.com>
+Message-ID: <COL130-W7B5F0BB94C76AF6B12EA7B91C0@phx.gbl>
 To: linux-snps-arc@lists.infradead.org
 
-On Tuesday 17 November 2015 05:55 PM, Peter Zijlstra wrote:
+>From ba7c00c4cb976109b6a35812ce9649aaeda81e2d Mon Sep 17 00:00:00 2001
+From: Chen Gang <gang.chen.5i5j@gmail.com>
+Date: Thu, 19 Nov 2015 03:24:42 +0800
+Subject: [PATCH] include: asm-generic: page.h: Remove useless get_user_page and free_user_page
 
-> This is assuming you now have these NMIs we talked about earlier. If all
-> you have are regular IRQs this is not possible, for we should be calling
-> ->read() with IRQs disabled.
-> 
+They are not symmetric with each other, neither are used in real world
+(can not be found by grep command in source code root directory), so
+remove them.
 
-No we don't yet. The first stab at it fell flat on floor.
+Signed-off-by: Chen Gang <gang.chen.5i5j at gmail.com>
+---
+?arch/arc/include/asm/page.h ? ? ? | 3 ---
+?arch/arm/include/asm/page-nommu.h | 3 ---
+?arch/frv/include/asm/page.h ? ? ? | 3 ---
+?arch/m68k/include/asm/page_mm.h ? | 3 ---
+?arch/m68k/include/asm/page_no.h ? | 3 ---
+?arch/openrisc/include/asm/page.h ?| 3 ---
+?include/asm-generic/page.h ? ? ? ?| 3 ---
+?7 files changed, 21 deletions(-)
 
-The NMI support from hardware is that is it provides different priorities, higher
-one obviously able to interrupt lower one. However instructions like CLRI (disable
-interrupts) will still lock out all interrupts.
+diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
+index 429957f..adf5cbb 100644
+--- a/arch/arc/include/asm/page.h
++++ b/arch/arc/include/asm/page.h
+@@ -13,9 +13,6 @@
+?
+?#ifndef __ASSEMBLY__
+?
+-#define get_user_page(vaddr)		__get_free_page(GFP_KERNEL)
+-#define free_user_page(page, addr)	free_page(addr)
+-
+?#define clear_page(paddr)		memset((paddr), 0, PAGE_SIZE)
+?#define copy_page(to, from)		memcpy((to), (from), PAGE_SIZE)
+?
+diff --git a/arch/arm/include/asm/page-nommu.h b/arch/arm/include/asm/page-nommu.h
+index d1b162a..503f488 100644
+--- a/arch/arm/include/asm/page-nommu.h
++++ b/arch/arm/include/asm/page-nommu.h
+@@ -17,9 +17,6 @@
+?#define KTHREAD_SIZE PAGE_SIZE
+?#endif
+??
+-#define get_user_page(vaddr)		__get_free_page(GFP_KERNEL)
+-#define free_user_page(page, addr)	free_page(addr)
+-
+?#define clear_page(page)	memset((page), 0, PAGE_SIZE)
+?#define copy_page(to,from)	memcpy((to), (from), PAGE_SIZE)
+?
+diff --git a/arch/frv/include/asm/page.h b/arch/frv/include/asm/page.h
+index 8c97068..52ace96 100644
+--- a/arch/frv/include/asm/page.h
++++ b/arch/frv/include/asm/page.h
+@@ -8,9 +8,6 @@
+?
+?#ifndef __ASSEMBLY__
+?
+-#define get_user_page(vaddr)			__get_free_page(GFP_KERNEL)
+-#define free_user_page(page, addr)		free_page(addr)
+-
+?#define clear_page(pgaddr)			memset((pgaddr), 0, PAGE_SIZE)
+?#define copy_page(to,from)			memcpy((to), (from), PAGE_SIZE)
+?
+diff --git a/arch/m68k/include/asm/page_mm.h b/arch/m68k/include/asm/page_mm.h
+index 5029f73..e7a1946 100644
+--- a/arch/m68k/include/asm/page_mm.h
++++ b/arch/m68k/include/asm/page_mm.h
+@@ -6,9 +6,6 @@
+?#include <linux/compiler.h>
+?#include <asm/module.h>
+?
+-#define get_user_page(vaddr)		__get_free_page(GFP_KERNEL)
+-#define free_user_page(page, addr)	free_page(addr)
+-
+?/*
+? * We don't need to check for alignment etc.
+? */
+diff --git a/arch/m68k/include/asm/page_no.h b/arch/m68k/include/asm/page_no.h
+index ef20916..fa7f32d 100644
+--- a/arch/m68k/include/asm/page_no.h
++++ b/arch/m68k/include/asm/page_no.h
+@@ -6,9 +6,6 @@
+?extern unsigned long memory_start;
+?extern unsigned long memory_end;
+?
+-#define get_user_page(vaddr)		__get_free_page(GFP_KERNEL)
+-#define free_user_page(page, addr)	free_page(addr)
+-
+?#define clear_page(page)	memset((page), 0, PAGE_SIZE)
+?#define copy_page(to,from)	memcpy((to), (from), PAGE_SIZE)
+?
+diff --git a/arch/openrisc/include/asm/page.h b/arch/openrisc/include/asm/page.h
+index 108906f..e613d36 100644
+--- a/arch/openrisc/include/asm/page.h
++++ b/arch/openrisc/include/asm/page.h
+@@ -40,9 +40,6 @@
+?
+?#ifndef __ASSEMBLY__
+?
+-#define get_user_page(vaddr) ? ? ? ? ? ?__get_free_page(GFP_KERNEL)
+-#define free_user_page(page, addr) ? ? ?free_page(addr)
+-
+?#define clear_page(page)	memset((page), 0, PAGE_SIZE)
+?#define copy_page(to, from)	memcpy((to), (from), PAGE_SIZE)
+?
+diff --git a/include/asm-generic/page.h b/include/asm-generic/page.h
+index 37d1fe2..67cfb7d 100644
+--- a/include/asm-generic/page.h
++++ b/include/asm-generic/page.h
+@@ -24,9 +24,6 @@
+?
+?#ifndef __ASSEMBLY__
+?
+-#define get_user_page(vaddr)		__get_free_page(GFP_KERNEL)
+-#define free_user_page(page, addr)	free_page(addr)
+-
+?#define clear_page(page)	memset((page), 0, PAGE_SIZE)
+?#define copy_page(to,from)	memcpy((to), (from), PAGE_SIZE)
+?
+--?
+1.9.3
 
-Thus local_irq_save()/restore() and local_irq_enable()/disable() now need to be
-contextual.
-
-  - When running in prio 0 mode, they only need to enable 0
-  - In prio 1, they need to enable both 0 and 1
-
-For irq_save()/restore() this is achievable by doing an additional STATUS32 read
-at the time of save and passing that value to restore - so there's an additional
-overhead - but ignoring that for now.
-
-Bummer is irq_disable()/enable() case: there's need to pass old prio state from
-enable to disabled, so we need some sort of global state tracking - which in case
-of SMP needs to be per cpu.... either keep something hot in a reg or pay the cost
-of additional mem/cache line miss.
-
-I've not investigated how other arches do that. PPC seems to be using some sort of
-soft irq state anyways.
+ 		 	   		  
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-include-asm-generic-page.h-Remove-useless-get_user_p.patch
+Type: application/octet-stream
+Size: 4034 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20151119/4822539a/attachment.obj>
