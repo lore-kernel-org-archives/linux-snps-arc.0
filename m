@@ -1,146 +1,29 @@
-From: gerg@uclinux.org (Greg Ungerer)
-Date: Fri, 20 Nov 2015 22:15:09 +1000
-Subject: [PATCH] include: asm-generic: page.h: Remove useless
- get_user_page and free_user_page
-In-Reply-To: <COL130-W7B5F0BB94C76AF6B12EA7B91C0@phx.gbl>
-References: <COL130-W7B5F0BB94C76AF6B12EA7B91C0@phx.gbl>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 23 Nov 2015 13:03:59 +0000
+Subject: dwarf unwinder question
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <564F0ECD.2050109@uclinux.org>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F44D2DF8@IN01WEMBXA.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Chen,
+Hi Jan,
 
-On 19/11/15 05:40, Chen Gang wrote:
->>From ba7c00c4cb976109b6a35812ce9649aaeda81e2d Mon Sep 17 00:00:00 2001
-> From: Chen Gang <gang.chen.5i5j at gmail.com>
-> Date: Thu, 19 Nov 2015 03:24:42 +0800
-> Subject: [PATCH] include: asm-generic: page.h: Remove useless get_user_page and free_user_page
->
-> They are not symmetric with each other, neither are used in real world
-> (can not be found by grep command in source code root directory), so
-> remove them.
->
-> Signed-off-by: Chen Gang <gang.chen.5i5j at gmail.com>
+ARC port has kernel dwarf unwinder shamelessly copied from your original code
+which existed in tree at the time (circa 2008)
 
-Compile and run tested on m68k (MMU and noMMU) targets.
-No problems found. So for those parts:
+I was wondering if u could answer a question in that respect: arch/arc/kernel/unwind.c
 
-Acked-by: Greg Ungerer <gerg at uclinux.org>
+If the binary search for a PC fails, it resorts to linear search, which for our
+case was taking 3 million cycles (vs. normal ~2000).
+Do you remember why this linear search step was needed - after all the binary
+lookup table is created out of early parsing of the same data.
 
-Regards
-Greg
+The fail scenario is for hand asm symbols lacking gcc generated dwarf info and we
+don't have yet the CFI pseudo ops support in assembler.
+I can fix memset etc to have empty dwarf info, still unwinder needs this fixing.
 
+In case of perf, an overflow interrupt in hand optimized memset leads into the
+unwinder slow path linear search which causes RCU stalls and such.
+I'm going to remove it but was wondering if u could provide some historic background.
 
-> ---
->   arch/arc/include/asm/page.h       | 3 ---
->   arch/arm/include/asm/page-nommu.h | 3 ---
->   arch/frv/include/asm/page.h       | 3 ---
->   arch/m68k/include/asm/page_mm.h   | 3 ---
->   arch/m68k/include/asm/page_no.h   | 3 ---
->   arch/openrisc/include/asm/page.h  | 3 ---
->   include/asm-generic/page.h        | 3 ---
->   7 files changed, 21 deletions(-)
->
-> diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-> index 429957f..adf5cbb 100644
-> --- a/arch/arc/include/asm/page.h
-> +++ b/arch/arc/include/asm/page.h
-> @@ -13,9 +13,6 @@
->
->   #ifndef __ASSEMBLY__
->
-> -#define get_user_page(vaddr)		__get_free_page(GFP_KERNEL)
-> -#define free_user_page(page, addr)	free_page(addr)
-> -
->   #define clear_page(paddr)		memset((paddr), 0, PAGE_SIZE)
->   #define copy_page(to, from)		memcpy((to), (from), PAGE_SIZE)
->
-> diff --git a/arch/arm/include/asm/page-nommu.h b/arch/arm/include/asm/page-nommu.h
-> index d1b162a..503f488 100644
-> --- a/arch/arm/include/asm/page-nommu.h
-> +++ b/arch/arm/include/asm/page-nommu.h
-> @@ -17,9 +17,6 @@
->   #define KTHREAD_SIZE PAGE_SIZE
->   #endif
->
-> -#define get_user_page(vaddr)		__get_free_page(GFP_KERNEL)
-> -#define free_user_page(page, addr)	free_page(addr)
-> -
->   #define clear_page(page)	memset((page), 0, PAGE_SIZE)
->   #define copy_page(to,from)	memcpy((to), (from), PAGE_SIZE)
->
-> diff --git a/arch/frv/include/asm/page.h b/arch/frv/include/asm/page.h
-> index 8c97068..52ace96 100644
-> --- a/arch/frv/include/asm/page.h
-> +++ b/arch/frv/include/asm/page.h
-> @@ -8,9 +8,6 @@
->
->   #ifndef __ASSEMBLY__
->
-> -#define get_user_page(vaddr)			__get_free_page(GFP_KERNEL)
-> -#define free_user_page(page, addr)		free_page(addr)
-> -
->   #define clear_page(pgaddr)			memset((pgaddr), 0, PAGE_SIZE)
->   #define copy_page(to,from)			memcpy((to), (from), PAGE_SIZE)
->
-> diff --git a/arch/m68k/include/asm/page_mm.h b/arch/m68k/include/asm/page_mm.h
-> index 5029f73..e7a1946 100644
-> --- a/arch/m68k/include/asm/page_mm.h
-> +++ b/arch/m68k/include/asm/page_mm.h
-> @@ -6,9 +6,6 @@
->   #include <linux/compiler.h>
->   #include <asm/module.h>
->
-> -#define get_user_page(vaddr)		__get_free_page(GFP_KERNEL)
-> -#define free_user_page(page, addr)	free_page(addr)
-> -
->   /*
->    * We don't need to check for alignment etc.
->    */
-> diff --git a/arch/m68k/include/asm/page_no.h b/arch/m68k/include/asm/page_no.h
-> index ef20916..fa7f32d 100644
-> --- a/arch/m68k/include/asm/page_no.h
-> +++ b/arch/m68k/include/asm/page_no.h
-> @@ -6,9 +6,6 @@
->   extern unsigned long memory_start;
->   extern unsigned long memory_end;
->
-> -#define get_user_page(vaddr)		__get_free_page(GFP_KERNEL)
-> -#define free_user_page(page, addr)	free_page(addr)
-> -
->   #define clear_page(page)	memset((page), 0, PAGE_SIZE)
->   #define copy_page(to,from)	memcpy((to), (from), PAGE_SIZE)
->
-> diff --git a/arch/openrisc/include/asm/page.h b/arch/openrisc/include/asm/page.h
-> index 108906f..e613d36 100644
-> --- a/arch/openrisc/include/asm/page.h
-> +++ b/arch/openrisc/include/asm/page.h
-> @@ -40,9 +40,6 @@
->
->   #ifndef __ASSEMBLY__
->
-> -#define get_user_page(vaddr)            __get_free_page(GFP_KERNEL)
-> -#define free_user_page(page, addr)      free_page(addr)
-> -
->   #define clear_page(page)	memset((page), 0, PAGE_SIZE)
->   #define copy_page(to, from)	memcpy((to), (from), PAGE_SIZE)
->
-> diff --git a/include/asm-generic/page.h b/include/asm-generic/page.h
-> index 37d1fe2..67cfb7d 100644
-> --- a/include/asm-generic/page.h
-> +++ b/include/asm-generic/page.h
-> @@ -24,9 +24,6 @@
->
->   #ifndef __ASSEMBLY__
->
-> -#define get_user_page(vaddr)		__get_free_page(GFP_KERNEL)
-> -#define free_user_page(page, addr)	free_page(addr)
-> -
->   #define clear_page(page)	memset((page), 0, PAGE_SIZE)
->   #define copy_page(to,from)	memcpy((to), (from), PAGE_SIZE)
->
-> --
-> 1.9.3
->
->   		 	   		
->
+TIA,
+-Vineet
