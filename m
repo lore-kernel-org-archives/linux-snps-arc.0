@@ -1,96 +1,21 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 25 Nov 2015 11:05:04 +0530
-Subject: [PATCH] ARC: dw2 unwind: Remove falllback linear search thru FDE
- entries
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Wed, 25 Nov 2015 10:46:36 -0600
+Subject: [PATCH 2/2] PCI support added to ARC
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F44D3B42@IN01WEMBXA.internal.synopsys.com>
+References: <cover.1448375184.git.jpinto@synopsys.com>
+ <9b80d6c1db4d7e2b5ee5dc0056a3d8284e7c2b9b.1448375184.git.jpinto@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44D3B42@IN01WEMBXA.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1448429704-3423-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <20151125164636.GB1380@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-Fixes STAR 9000953410: "perf callgraph profiling causing RCU stalls"
+On Wed, Nov 25, 2015@05:25:37AM +0000, Vineet Gupta wrote:
+> On Tuesday 24 November 2015 08:02 PM, Joao Pinto wrote:
 
-| perf record -g -c 15000 -e cycles /sbin/hackbench
-|
-| INFO: rcu_preempt self-detected stall on CPU
-| 1: (1 GPs behind) idle=609/140000000000002/0 softirq=2914/2915 fqs=603
-| Task dump for CPU 1:
+> > +			pr_err("PCI: Device %s not available because"/
+> > +			       " of resource collisions\n", pci_name(dev));
+> 
+> Better not to break strings - even if they sometime exceed line sz limit of 80.
+> You could anyways reduce the string content herer.
 
-in-kernel dwarf unwinder has a fast binary lookup and a fallback linear
-search (which iterates thru each of ~11K entries) thus takes 2 orders of
-magnitude longer (~3 million cycles vs. 2000). Routines written in hand
-assembler lack dwarf info (as we don't support assembler CFI pseudo-ops
-yet) fail the unwinder binary lookup, hit linear search, failing
-nevertheless in the end.
-
-However the linear search is pointless as binary lookup tables are created
-from it in first place. It is impossible to have binary lookup fail while
-succeed the linear search. It is pure waste of cycles thus removed by
-this patch.
-
-This manifested as RCU stalls / NMI watchdog splat when running
-hackbench under perf with callgraph profiling. The triggering condition
-was perf counter overflowing in routine lacking dwarf info (like memset)
-leading to patheic 3 million cycle unwinder slow path and by the time it
-returned new interrupts were already pending (Timer, IPI) and taken
-rightaway. The original memset didn't make forward progress, system kept
-accruing more interrupts and more unwinder delayes in a vicious feedback
-loop, ultimately triggering the NMI diagnostic.
-
-Cc: stable at vger.kernel.org
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/kernel/unwind.c | 37 ++++---------------------------------
- 1 file changed, 4 insertions(+), 33 deletions(-)
-
-diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index 93c6ea52b671..7352475451f6 100644
---- a/arch/arc/kernel/unwind.c
-+++ b/arch/arc/kernel/unwind.c
-@@ -986,42 +986,13 @@ int arc_unwind(struct unwind_frame_info *frame)
- 							    (const u8 *)(fde +
- 									 1) +
- 							    *fde, ptrType);
--				if (pc >= endLoc)
-+				if (pc >= endLoc) {
- 					fde = NULL;
--			} else
--				fde = NULL;
--		}
--		if (fde == NULL) {
--			for (fde = table->address, tableSize = table->size;
--			     cie = NULL, tableSize > sizeof(*fde)
--			     && tableSize - sizeof(*fde) >= *fde;
--			     tableSize -= sizeof(*fde) + *fde,
--			     fde += 1 + *fde / sizeof(*fde)) {
--				cie = cie_for_fde(fde, table);
--				if (cie == &bad_cie) {
- 					cie = NULL;
--					break;
- 				}
--				if (cie == NULL
--				    || cie == &not_fde
--				    || (ptrType = fde_pointer_type(cie)) < 0)
--					continue;
--				ptr = (const u8 *)(fde + 2);
--				startLoc = read_pointer(&ptr,
--							(const u8 *)(fde + 1) +
--							*fde, ptrType);
--				if (!startLoc)
--					continue;
--				if (!(ptrType & DW_EH_PE_indirect))
--					ptrType &=
--					    DW_EH_PE_FORM | DW_EH_PE_signed;
--				endLoc =
--				    startLoc + read_pointer(&ptr,
--							    (const u8 *)(fde +
--									 1) +
--							    *fde, ptrType);
--				if (pc >= startLoc && pc < endLoc)
--					break;
-+			} else {
-+				fde = NULL;
-+				cie = NULL;
- 			}
- 		}
- 	}
--- 
-1.9.1
+Also use dev_err() instead of pr_err().
