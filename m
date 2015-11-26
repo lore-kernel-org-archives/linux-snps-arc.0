@@ -1,64 +1,33 @@
-From: mpe@ellerman.id.au (Michael Ellerman)
-Date: Thu, 26 Nov 2015 18:04:47 +1100
-Subject: + arc-convert-to-dma_map_ops.patch added to -mm tree
-In-Reply-To: <56544C89.7060302@synopsys.com>
-References: <564b9e3a.DaXj5xWV8Mzu1fPX%akpm@linux-foundation.org>
- <C2D7FE5348E1B147BCA15975FBA23075F44D2EEF@IN01WEMBXA.internal.synopsys.com>
- <20151124075047.GA29572@lst.de>
- <C2D7FE5348E1B147BCA15975FBA23075F44D3928@IN01WEMBXA.internal.synopsys.com>
- <1448362882.32654.1.camel@ellerman.id.au> <56544C89.7060302@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 26 Nov 2015 15:08:45 +0000
+Subject: [PATCH] ARC SDP AXS101 support for HDMI ADV7511 DRM I2C driver.
+In-Reply-To: <1448546022-16024-1-git-send-email-palminha@synopsys.com>
+References: <1448546022-16024-1-git-send-email-palminha@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1448521487.19291.1.camel@ellerman.id.au>
+Message-ID: <1448550525.4631.50.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 2015-11-24@17:09 +0530, Vineet Gupta wrote:
-> Hi Michael,
-> On Tuesday 24 November 2015 04:31 PM, Michael Ellerman wrote:
-> > On Tue, 2015-11-24@09:46 +0000, Vineet Gupta wrote:
-> > > > On Tuesday 24 November 2015 01:20 PM, hch@lst.de wrote:
-> > > > > > Hi Vineet,
-> > > > > > 
-> > > > > > the original version went through the buildbot, which succeeded.  It seems
-> > > > > > like the official buildbot does not support arc, and might benefit from
-> > > > > > helping to set up an arc environment. 
-> > > > 
-> > > > I have in the past asked kisskb service folks - but haven't heard back from them.
-> > > > Stephan, Michael could you please add ARC toolchain to kisskb build service. I can
-> > > > buy you guys a beer (or some other beverage of choice) next time we meet :-)
-> > Sure, where do I get a toolchain? Can I just build upstream binutils + GCC?
-> > 
-> We are in the process of revamping upstream support for GNU tools (they were added
-> many years ago, bit-rotted and now are being redone again).
-> 
-> The current tools are hoisted on github.
-> https://github.com/foss-for-synopsys-dwc-arc-processors/
-> 
-> You could use upstream buildroot which automatically picks up relevant tools
-> branches from our github repos.
-> 
-> Please note that ARC cores are based off two ISA: ARCompact and recently announced
-> ARCv2. Thus it would be awesome if we could build following kernel configs on
-> regular basis:
->  - axs101_defconfig
->  - axs103_smp_defconfig
-> 
-> This however needs 2 toolchain installs as we don't have multilibed tools which
-> support both ISA.
-> 
-> You can do following to generate the tools (this first pass builds the kernel as
-> well which can be disabled if u so wish).
-> 
-> $ wget http://buildroot.uclibc.org/downloads/buildroot-2015.08.1.tar.gz
-> $ tar -xvf buildroot-2015.08.1.tar.gz
-> $ cd buildroot-2015.08.1; mkdir arcv2 arcomp
-> 
-> $ make O=arcv2 snps_axs103_defconfig ; cd arcv2; make ; cd .. # for ARCv2 tools
-> $ make O=arcomp snps_axs101_defconfig ; cd arcomp; make # for ARCompact tools
+Hi Carlos,
 
-OK. In general I'm not inclined to support custom toolchains, simply because of
-the extra work required.
+On Thu, 2015-11-26@13:53 +0000, Carlos Palminha wrote:
+> Device tree and config support for ADV7511 in ARC SDP AXS101.
+> Supporting ADV7511 HDMI I2C DRM  will allow the development of a DRM ARC PGU driver.
 
-But seeing as you asked nicely and gave me instructions I'll try and build it
-and see how I go :)
+Unfortunately there's no DRM ARC PGU driver at the moment.
+We still only have ARC PGU driver as a part of off-the-tree arc-3.18 branch,
+see https://github.com/foss-for-synopsys-dwc-arc-processors/linux/blob/arc-3.18/drivers/video/fbdev/arcpgu.c
 
-cheers
+And without PGU driver that ADI I2C is useless because this interface is
+only used in HDMI for control data exchange like display mode setting etc.
+
+Once we upstream ARC PGU driver (we plan to do it in 4.6/4.7 timeframe)
+that change will make perfect sense.
+
+So for now we won't accept that patch.
+
+Still if you want to help us with ARC PGU upstreaming please feel free to
+use mentioned implementation as a reference and create your clean
+implementation basing on linux-next. If you're going to do that please let
+me know so we don't do the same work twice.
+
+-Alexey
