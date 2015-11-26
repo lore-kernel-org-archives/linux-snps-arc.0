@@ -1,32 +1,24 @@
-From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Thu, 26 Nov 2015 15:41:29 +0000
-Subject: [PATCH 2/2] PCI support added to ARC
-In-Reply-To: <20151125164636.GB1380@localhost>
-References: <cover.1448375184.git.jpinto@synopsys.com>
- <9b80d6c1db4d7e2b5ee5dc0056a3d8284e7c2b9b.1448375184.git.jpinto@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44D3B42@IN01WEMBXA.internal.synopsys.com>
- <20151125164636.GB1380@localhost>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 26 Nov 2015 20:08:45 +0000
+Subject: [PATCH] ARC SDP AXS101 support for HDMI ADV7511 DRM I2C driver.
+In-Reply-To: <56574111.7080307@synopsys.com>
+References: <1448546022-16024-1-git-send-email-palminha@synopsys.com>
+ <1448550525.4631.50.camel@synopsys.com> <56574111.7080307@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56572829.4090102@synopsys.com>
+Message-ID: <1448568525.2773.1.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Bjorn,
+Hi Carlos,
 
-On 11/25/2015 4:46 PM, Bjorn Helgaas wrote:
-> On Wed, Nov 25, 2015@05:25:37AM +0000, Vineet Gupta wrote:
->> On Tuesday 24 November 2015 08:02 PM, Joao Pinto wrote:
+On Thu, 2015-11-26@17:27 +0000, Carlos Palminha wrote:
+> Hi Alexey,
 > 
->>> +			pr_err("PCI: Device %s not available because"/
->>> +			       " of resource collisions\n", pci_name(dev));
->>
->> Better not to break strings - even if they sometime exceed line sz limit of 80.
->> You could anyways reduce the string content herer.
+> It's true that without the GPU this patch is somehow useless... :(
+> But because i was thinking on preparing the support for a minimal ARC PGU DRM in mainline i thought that it would be
+> nice to already have the ARC AXS101 ready for it...
 > 
-> Also use dev_err() instead of pr_err().
-> 
+> Do you have already some work for the GPU in the mainline?
 
-Thanks for the review. Could you please check PATCH 1/2 regarding the new
-platform driver? This way I would produce a v2 of the patch set.
+Unfortunately no ARC PGU-related patches have been sent upstream yet.
 
-Thanks,
-Joao
+-Alexey
