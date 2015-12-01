@@ -1,39 +1,49 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Tue, 1 Dec 2015 15:03:04 +0200
-Subject: [PATCH v3 17/18] ARC: [plat-eznps] Use dedicated COMMAND_LINE_SIZE
+Date: Tue, 1 Dec 2015 15:03:05 +0200
+Subject: [PATCH v3 18/18] ARC: Add eznps platform to Kconfig and Makefile
 In-Reply-To: <1448974985-11487-1-git-send-email-noamc@ezchip.com>
 References: <1448974985-11487-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1448974985-11487-18-git-send-email-noamc@ezchip.com>
+Message-ID: <1448974985-11487-19-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-The default 256 bytes sometimes is just not enough.
-We usually provide earlycon=... and console=... and ip=...
-All this and more may need more room.
-
+This commit should be left last since only now eznps platform
+is in state which one can actually use.
 Signed-off-by: Noam Camus <noamc at ezchip.com>
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/include/asm/setup.h |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+ arch/arc/Kconfig  |    1 +
+ arch/arc/Makefile |    5 +++++
+ 2 files changed, 6 insertions(+), 0 deletions(-)
 
-diff --git a/arch/arc/include/asm/setup.h b/arch/arc/include/asm/setup.h
-index 3078466..48b37c6 100644
---- a/arch/arc/include/asm/setup.h
-+++ b/arch/arc/include/asm/setup.h
-@@ -12,7 +12,11 @@
- #include <linux/types.h>
- #include <uapi/asm/setup.h>
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 689ccb3..8153b79 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -91,6 +91,7 @@ source "arch/arc/plat-sim/Kconfig"
+ source "arch/arc/plat-tb10x/Kconfig"
+ source "arch/arc/plat-axs10x/Kconfig"
+ #New platform adds here
++source "arch/arc/plat-eznps/Kconfig"
  
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+#define COMMAND_LINE_SIZE 2048
-+#else
- #define COMMAND_LINE_SIZE 256
-+#endif
+ endmenu
  
- /*
-  * Data structure to map a ID to string
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index cf0cf34..1357e48 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -99,6 +99,11 @@ core-y		+= arch/arc/boot/dts/
+ core-$(CONFIG_ARC_PLAT_SIM)	+= arch/arc/plat-sim/
+ core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
+ core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
++core-$(CONFIG_ARC_PLAT_EZNPS)	+= arch/arc/plat-eznps/
++
++ifdef CONFIG_ARC_PLAT_EZNPS
++KBUILD_CPPFLAGS += -I$(srctree)/arch/arc/plat-eznps/include
++endif
+ 
+ drivers-$(CONFIG_OPROFILE)	+= arch/arc/oprofile/
+ 
 -- 
 1.7.1
