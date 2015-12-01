@@ -1,50 +1,37 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Tue, 1 Dec 2015 15:02:48 +0200
-Subject: [PATCH v3 01/18] Documentation: Add EZchip vendor to binding list
+Date: Tue, 1 Dec 2015 15:02:49 +0200
+Subject: [PATCH v3 02/18] ARC: [plat-eznps] define IPI_IRQ
 In-Reply-To: <1448974985-11487-1-git-send-email-noamc@ezchip.com>
 References: <1448974985-11487-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1448974985-11487-2-git-send-email-noamc@ezchip.com>
+Message-ID: <1448974985-11487-3-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-Add EZchip to vendor prefixes list.
-EZchip introduce the NPS platform for the ARC architecture.
+We add IPI irq definition to be used later by any
+irqchip such NPS400 IC.
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
-Acked-by: Rob Herring <robh+dt at kernel.org>
-Cc: Pawel Moll <pawel.moll at arm.com>
 ---
- Documentation/devicetree/bindings/arc/eznps.txt    |    7 +++++++
- .../devicetree/bindings/vendor-prefixes.txt        |    1 +
- 2 files changed, 8 insertions(+), 0 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/arc/eznps.txt
+ arch/arc/include/asm/irq.h |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/arc/eznps.txt b/Documentation/devicetree/bindings/arc/eznps.txt
-new file mode 100644
-index 0000000..f8b5e9b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/arc/eznps.txt
-@@ -0,0 +1,7 @@
-+EZchip NPS Network Proccessor Platforms Device Tree Bindings
-+---------------------------------------------------------------------------
-+
-+Appliance main board with NPS400 ASIC.
-+
-+Required root node properties:
-+    - compatible = "ezchip,arc-nps";
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.txt b/Documentation/devicetree/bindings/vendor-prefixes.txt
-index 55df1d4..d7bff8a 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.txt
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.txt
-@@ -82,6 +82,7 @@ eukrea  Eukr??a Electromatique
- everest	Everest Semiconductor Co. Ltd.
- everspin	Everspin Technologies, Inc.
- excito	Excito
-+ezchip	EZchip Semiconductor
- fcs	Fairchild Semiconductor
- firefly	Firefly
- focaltech	FocalTech Systems Co.,Ltd
+diff --git a/arch/arc/include/asm/irq.h b/arch/arc/include/asm/irq.h
+index 4fd7d62..c5f8f0f 100644
+--- a/arch/arc/include/asm/irq.h
++++ b/arch/arc/include/asm/irq.h
+@@ -16,7 +16,11 @@
+ #ifdef CONFIG_ISA_ARCOMPACT
+ #define TIMER0_IRQ      3
+ #define TIMER1_IRQ      4
++#if defined(CONFIG_SMP) && defined(CONFIG_ARC_PLAT_EZNPS)
++#define IPI_IRQ         5
++#else
+ #define IPI_IRQ		(NR_CPU_IRQS-1) /* dummy to enable SMP build for up hardware */
++#endif
+ #else
+ #define TIMER0_IRQ      16
+ #define TIMER1_IRQ      17
 -- 
 1.7.1
