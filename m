@@ -1,64 +1,75 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Dec 2015 18:11:14 +0530
-Subject: [PATCH 16/17] ARC: dw2 unwind: skip regs not updated
+Date: Thu, 3 Dec 2015 18:11:09 +0530
+Subject: [PATCH 11/17] ARC: dw2 unwind: Elide REG_INVALID check
 In-Reply-To: <1449146475-15335-1-git-send-email-vgupta@synopsys.com>
 References: <1449146475-15335-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1449146475-15335-17-git-send-email-vgupta@synopsys.com>
+Message-ID: <1449146475-15335-12-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
+
+REG_INVALID checks if reg_info[*].width is zero, which is compile time
+contant set to NON zero. No point in checking it.
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/unwind.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ arch/arc/kernel/unwind.c | 20 ++------------------
+ 1 file changed, 2 insertions(+), 18 deletions(-)
 
 diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index e02d974ea789..d5ffb4a78104 100644
+index f2a486d9dac2..b1a520afcbcb 100644
 --- a/arch/arc/kernel/unwind.c
 +++ b/arch/arc/kernel/unwind.c
-@@ -142,13 +142,14 @@ struct unwind_item {
+@@ -48,10 +48,6 @@ static const struct {
+ 	unsigned width:BITS_PER_LONG / 2;
+ } reg_info[] = { UNW_REGISTER_INFO };
  
- struct unwind_state {
- 	uleb128_t loc, org;
-+	uleb128_t first_reg;
- 	uleb128_t codeAlign;
- 	sleb128_t dataAlign;
- 	struct cfa {
- 		uleb128_t reg, offs;
- 	} cfa;
- 	struct unwind_item regs[ARRAY_SIZE(reg_info)];
--	unsigned stackDepth:8, has_cfa_register:8;
-+	unsigned stackDepth:8, has_cfa_register:8, pad:16;
- 	const u8 *label;
- 	const u8 *stack[MAX_STACK_DEPTH];
- };
-@@ -597,6 +598,7 @@ static void set_rule(uleb128_t reg, enum item_location where, uleb128_t value,
- 	if (reg < ARRAY_SIZE(state->regs)) {
- 		state->regs[reg].where = where;
- 		state->regs[reg].value = value;
-+		state->first_reg = min(reg, state->first_reg);
+-#ifndef REG_INVALID
+-#define REG_INVALID(r) (reg_info[r].width == 0)
+-#endif
+-
+ #define DW_CFA_nop                          0x00
+ #define DW_CFA_set_loc                      0x01
+ #define DW_CFA_advance_loc1                 0x02
+@@ -868,9 +864,7 @@ static int cie_validate(const u32 *cie, struct cie *t_cie)
+ 	t_cie->fde_pointer_type = ptrType;
  
- #ifdef UNWIND_DEBUG
- 		switch (where) {
-@@ -979,6 +981,7 @@ int arc_unwind(struct unwind_frame_info *frame)
- 			goto bad_unw;
- 	}
+ 	if (ptr > end
+-	    || retAddrReg >= ARRAY_SIZE(reg_info)
+-	    || REG_INVALID(retAddrReg)
+-	    || reg_info[retAddrReg].width != sizeof(unsigned long))
++	    || retAddrReg >= ARRAY_SIZE(reg_info))
+ 		return 0;
  
-+	state.first_reg = 13;
- 	state.org = state.loc = startLoc;
- 	memcpy(&state.cfa, &seed_CFA, sizeof(state.cfa));
- 	state.codeAlign = table->cie.codeAlign;
-@@ -1032,9 +1035,9 @@ int arc_unwind(struct unwind_frame_info *frame)
- 		}
- 	}
+ 	unw_debug("\nDwarf Unwinder setup: CIE Info:\n");
+@@ -1017,19 +1011,11 @@ int arc_unwind(struct unwind_frame_info *frame)
+ 		  state.cfa.reg, state.cfa.offs, cfa);
  
--	unw_debug("\nRegister state after evaluation with realtime Stack:\n");
-+	unw_debug("\nRegister state after evaluation with realtime Stack @ %ld :\n", state.first_reg);
+ 	for (i = 0; i < ARRAY_SIZE(state.regs); ++i) {
+-		if (REG_INVALID(i)) {
+-			if (state.regs[i].where == Nowhere)
+-				continue;
+-			return -EIO;
+-		}
+ 		switch (state.regs[i].where) {
+ 		default:
+ 			break;
+ 		case Register:
+-			if (state.regs[i].value >= ARRAY_SIZE(reg_info)
+-			    || REG_INVALID(state.regs[i].value)
+-			    || reg_info[i].width >
+-			    reg_info[state.regs[i].value].width)
++			if (state.regs[i].value >= ARRAY_SIZE(reg_info))
+ 				return -EIO;
+ 			switch (reg_info[state.regs[i].value].width) {
+ 			case sizeof(u8):
+@@ -1061,8 +1047,6 @@ int arc_unwind(struct unwind_frame_info *frame)
  	fptr = (unsigned long *)(&frame->regs);
--	for (i = 0; i < ARRAY_SIZE(state.regs); ++i, fptr++) {
-+	for (i = state.first_reg; i < ARRAY_SIZE(state.regs); ++i, fptr++) {
+ 	for (i = 0; i < ARRAY_SIZE(state.regs); ++i, fptr++) {
  
+-		if (REG_INVALID(i))
+-			continue;
  		switch (state.regs[i].where) {
  		case Nowhere:
+ 			if (reg_info[i].width != sizeof(UNW_SP(frame))
 -- 
 1.9.1
