@@ -1,98 +1,86 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Dec 2015 18:11:00 +0530
-Subject: [PATCH 02/17] ARC: dw2 unwind: remove unused cruft
+Date: Thu, 3 Dec 2015 18:11:07 +0530
+Subject: [PATCH 09/17] ARC: dw2 unwind: Use striaght forward code to implement
+ binary lookup
 In-Reply-To: <1449146475-15335-1-git-send-email-vgupta@synopsys.com>
 References: <1449146475-15335-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1449146475-15335-3-git-send-email-vgupta@synopsys.com>
+Message-ID: <1449146475-15335-10-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
+
+The {start, pc} entries are already word aligned, no need to use
+read_pointer() inefficiency !
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/include/asm/unwind.h | 34 +++++++++-------------------------
- arch/arc/kernel/unwind.c      | 15 +--------------
- 2 files changed, 10 insertions(+), 39 deletions(-)
+ arch/arc/kernel/unwind.c | 40 +++++++++++++++++-----------------------
+ 1 file changed, 17 insertions(+), 23 deletions(-)
 
-diff --git a/arch/arc/include/asm/unwind.h b/arch/arc/include/asm/unwind.h
-index 7ca628b6ee2a..0e7f48e2686a 100644
---- a/arch/arc/include/asm/unwind.h
-+++ b/arch/arc/include/asm/unwind.h
-@@ -72,6 +72,15 @@ struct unwind_frame_info {
- 
- #define STACK_LIMIT(ptr)	(((ptr) - 1) & ~(THREAD_SIZE - 1))
- 
-+#define EXTRA_INFO(f) { \
-+		BUILD_BUG_ON_ZERO(offsetof(struct unwind_frame_info, f) \
-+				% FIELD_SIZEOF(struct unwind_frame_info, f)) \
-+				+ offsetof(struct unwind_frame_info, f) \
-+				/ FIELD_SIZEOF(struct unwind_frame_info, f), \
-+				FIELD_SIZEOF(struct unwind_frame_info, f) \
-+	}
-+#define PTREGS_INFO(f) EXTRA_INFO(regs.f)
-+
- #define UNW_REGISTER_INFO \
- 	PTREGS_INFO(r0), \
- 	PTREGS_INFO(r1), \
-@@ -117,31 +126,6 @@ extern void *unwind_add_table(struct module *module, const void *table_start,
- 			      unsigned long table_size);
- extern void unwind_remove_table(void *handle, int init_only);
- 
--static inline int
--arch_unwind_init_running(struct unwind_frame_info *info,
--			 int (*callback) (struct unwind_frame_info *info,
--					  void *arg),
--			 void *arg)
--{
--	return 0;
--}
--
--static inline int arch_unw_user_mode(const struct unwind_frame_info *info)
--{
--	return 0;
--}
--
--static inline void arch_unw_init_blocked(struct unwind_frame_info *info)
--{
--	return;
--}
--
--static inline void arch_unw_init_frame_info(struct unwind_frame_info *info,
--					    struct pt_regs *regs)
--{
--	return;
--}
--
- #else
- 
- #define UNW_PC(frame) ((void)(frame), 0)
 diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index 7352475451f6..44983b4d9e78 100644
+index 9b34038a7582..6a09ffa0b697 100644
 --- a/arch/arc/kernel/unwind.c
 +++ b/arch/arc/kernel/unwind.c
-@@ -43,23 +43,10 @@ do {						\
+@@ -866,7 +866,7 @@ int arc_unwind(struct unwind_frame_info *frame)
+ 	const u8 *ptr = NULL, *end = NULL;
+ 	unsigned long pc = UNW_PC(frame);
+ 	unsigned long startLoc = 0, endLoc = 0, cfa;
+-	unsigned i;
++	unsigned i, s, e;
+ 	signed ptrType = -1;
+ 	uleb128_t retAddrReg = 0;
+ 	const struct unwind_table *table;
+@@ -874,7 +874,6 @@ int arc_unwind(struct unwind_frame_info *frame)
+ 	unsigned long *fptr;
+ 	unsigned long addr;
+ 	struct eh_frame_header *hdr;
+-	unsigned long hdrEntrySz;
  
- #define MAX_STACK_DEPTH 8
+ 	unw_debug("\nUNWIND FRAME: -------------------------------------\n");
+ 	unw_debug("PC\t\t: 0x%lx %pS\nr31 [BLINK]\t: 0x%lx %pS\nr28 [SP]\t: 0x%lx\nr27 [FP]\t: 0x%lx\n",
+@@ -903,28 +902,23 @@ int arc_unwind(struct unwind_frame_info *frame)
+ 	if (hdr == NULL)
+ 		return -EINVAL;
  
--#define EXTRA_INFO(f) { \
--		BUILD_BUG_ON_ZERO(offsetof(struct unwind_frame_info, f) \
--				% FIELD_SIZEOF(struct unwind_frame_info, f)) \
--				+ offsetof(struct unwind_frame_info, f) \
--				/ FIELD_SIZEOF(struct unwind_frame_info, f), \
--				FIELD_SIZEOF(struct unwind_frame_info, f) \
--	}
--#define PTREGS_INFO(f) EXTRA_INFO(regs.f)
+-	hdrEntrySz = sizeof(unsigned long);
+-	BUILD_BUG_ON(hdrEntrySz != sizeof(hdr->table[0].start));
++	s = i = 0;
++	e = hdr->fde_count - 1;
+ 
+-	ptr = (const u8*)(hdr->table);
+-	end = (const u8*)(hdr) + table->hdrsz;
+-	i = hdr->fde_count;
 -
- static const struct {
- 	unsigned offs:BITS_PER_LONG / 2;
- 	unsigned width:BITS_PER_LONG / 2;
--} reg_info[] = {
--UNW_REGISTER_INFO};
+-			do {
+-				const u8 *cur = ptr + (i / 2) * (2 * hdrEntrySz);
 -
--#undef PTREGS_INFO
--#undef EXTRA_INFO
-+} reg_info[] = { UNW_REGISTER_INFO };
+-				startLoc = read_pointer(&cur, cur + hdrEntrySz, hdr->table_enc);
+-				if (pc < startLoc)
+-					i /= 2;
+-				else {
+-					ptr = cur - hdrEntrySz;
+-					i = (i + 1) / 2;
+-				}
+-			} while (startLoc && i > 1);
+-			if (i == 1
+-			    && (startLoc = read_pointer(&ptr, ptr + hdrEntrySz, hdr->table_enc)) != 0
+-			    && pc >= startLoc)
+-				fde = (void *)read_pointer(&ptr, ptr + hdrEntrySz, hdr->table_enc);
++	do {
++		if (pc < startLoc)
++			e = i;
++		else
++			s = i;
++		i = s + (e - s) / 2;
++		startLoc = hdr->table[i].start;
++		unw_debug("s %d e %d i %d startLoc %lx\n", s, e, i, startLoc)
++	} while ((e - s) > 1);
++
++	if (pc >= startLoc)
++		fde = (u32 *)hdr->table[i].fde;
++	else
++		return -EINVAL;
  
- #ifndef REG_INVALID
- #define REG_INVALID(r) (reg_info[r].width == 0)
+ 	if (fde != NULL) {
+ 		cie = cie_for_fde(fde, table);
 -- 
 1.9.1
