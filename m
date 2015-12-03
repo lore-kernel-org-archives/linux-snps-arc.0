@@ -1,130 +1,102 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Dec 2015 18:11:13 +0530
-Subject: [PATCH 15/17] ARC: dw2 unwind: Single exit point for instrumentation
-In-Reply-To: <1449146475-15335-1-git-send-email-vgupta@synopsys.com>
-References: <1449146475-15335-1-git-send-email-vgupta@synopsys.com>
+From: marc.zyngier@arm.com (Marc Zyngier)
+Date: Thu, 03 Dec 2015 18:33:35 +0000
+Subject: [PATCH v3 04/18] irqchip: add nps Internal and external irqchips
+In-Reply-To: <DB5PR02MB114150510832BA29D46A8A4AD60E0@DB5PR02MB1141.eurprd02.prod.outlook.com>
+References: <1448974985-11487-1-git-send-email-noamc@ezchip.com>
+ <1448974985-11487-5-git-send-email-noamc@ezchip.com>
+ <565DA0B6.5080903@arm.com>
+ <DB5PR02MB114150510832BA29D46A8A4AD60E0@DB5PR02MB1141.eurprd02.prod.outlook.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1449146475-15335-16-git-send-email-vgupta@synopsys.com>
+Message-ID: <56608AFF.80302@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/kernel/unwind.c | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+Hi Noam,
 
-diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index 4f739716f908..e02d974ea789 100644
---- a/arch/arc/kernel/unwind.c
-+++ b/arch/arc/kernel/unwind.c
-@@ -904,6 +904,7 @@ int arc_unwind(struct unwind_frame_info *frame)
- 	unsigned long *fptr;
- 	unsigned long addr;
- 	struct eh_frame_header *hdr;
-+	int ret = -EINVAL;
- 
- 	unw_debug("\nUNWIND FRAME: -------------------------------------\n");
- 	unw_debug("PC\t\t: 0x%lx %pS\nr31 [BLINK]\t: 0x%lx %pS\nr28 [SP]\t: 0x%lx\nr27 [FP]\t: 0x%lx\n",
-@@ -912,7 +913,7 @@ int arc_unwind(struct unwind_frame_info *frame)
- 		  UNW_SP(frame), UNW_FP(frame));
- 
- 	if (UNW_PC(frame) == 0)
--		return -EINVAL;
-+		goto bad_unw;
- 
- #ifdef UNWIND_DEBUG0
- 	{
-@@ -926,11 +927,11 @@ int arc_unwind(struct unwind_frame_info *frame)
- 
- 	table = find_table(pc);
- 	if (table == NULL)
--		return -EINVAL;
-+		goto bad_unw;
- 
- 	hdr = table->header;
- 	if (hdr == NULL)
--		return -EINVAL;
-+		goto bad_unw;
- 
- 	s = i = 0;
- 	e = hdr->fde_count - 1;
-@@ -948,7 +949,7 @@ int arc_unwind(struct unwind_frame_info *frame)
- 	if (pc >= startLoc)
- 		fde = (u32 *)hdr->table[i].fde;
- 	else
--		return -EINVAL;
-+		goto bad_unw;
- 
- 	memset(&state, 0, sizeof(state));
- 	ptr = (const u8 *)(fde + 2);
-@@ -956,7 +957,7 @@ int arc_unwind(struct unwind_frame_info *frame)
- 
- 	ptrType = table->cie.fde_pointer_type;
- 	if (read_pointer(&ptr, end, ptrType) != startLoc)
--		return -EINVAL;
-+		goto bad_unw;
- 
- 	if (!(ptrType & DW_EH_PE_indirect))
- 		ptrType &= DW_EH_PE_FORM | DW_EH_PE_signed;
-@@ -967,14 +968,15 @@ int arc_unwind(struct unwind_frame_info *frame)
- 	if (pc >= endLoc) {
- 		unw_debug("Unwindo info missing for PC %lx: {%lx,%lx}\n",
- 			  pc, startLoc, endLoc);
--		return -EINVAL;
-+		ret = -ENOENT;
-+		goto bad_unw;
- 	}
- 
- 	if (table->cie.aug) {
- 		uleb128_t augSize = get_uleb128(&ptr, end);
- 
- 		if ((ptr += augSize) > end)
--			return -EINVAL;
-+			goto bad_unw;
- 	}
- 
- 	state.org = state.loc = startLoc;
-@@ -995,8 +997,10 @@ int arc_unwind(struct unwind_frame_info *frame)
- 	    || state.loc > endLoc
- /*	   || state.regs[retAddrReg].where == Nowhere */
- 	    || state.cfa.reg >= ARRAY_SIZE(reg_info)
--	    || state.cfa.offs % sizeof(unsigned long))
--		return -EIO;
-+	    || state.cfa.offs % sizeof(unsigned long)) {
-+		ret = -EIO;
-+		goto bad_unw;
-+	}
- 
- 	cfa = FRAME_REG(state.cfa.reg, unsigned long) + state.cfa.offs;
- 	startLoc = min_t(unsigned long, UNW_SP(frame), cfa);
-@@ -1022,7 +1026,7 @@ int arc_unwind(struct unwind_frame_info *frame)
- 	for (i = 0; state.has_cfa_register && i < ARRAY_SIZE(state.regs); ++i) {
- 		if (state.regs[i].where == Register) {
- 			if (state.regs[i].value >= ARRAY_SIZE(reg_info))
--				return -EIO;
-+				goto bad_unw;
- 
- 			state.regs[i].value = FRAME_REG(state.regs[i].value, unsigned long);
- 		}
-@@ -1054,7 +1058,7 @@ int arc_unwind(struct unwind_frame_info *frame)
- 			    || addr < startLoc
- 			    || addr + sizeof(unsigned long) < addr
- 			    || addr + sizeof(unsigned long) > endLoc)
--					return -EIO;
-+					goto bad_unw;
- 
- 			FRAME_REG(i, unsigned long) = *(unsigned long *)addr;
- 			break;
-@@ -1062,7 +1066,10 @@ int arc_unwind(struct unwind_frame_info *frame)
- 		unw_debug("r%d: 0x%lx\n", i, *fptr);
- 	}
- 
--	return 0;
-+	ret = 0;
-+bad_unw:
-+
-+	return ret;
- #undef FRAME_REG
- }
- EXPORT_SYMBOL(arc_unwind);
+On 02/12/15 15:08, Noam Camus wrote:
+>> From: Marc Zyngier [mailto:marc.zyngier at arm.com] 
+>> Sent: Tuesday, December 01, 2015 3:29 PM
+> 
+>> +  interrupt source. The value shall be 1.
+> 
+>> So you never have to encode the interrupt trigger type? Do you only support edge or level?
+> I Always use level sensitive.
+> 
+>> +
+>> +#define NPS_GIM_P_EN	0x100	/* Peripheral interrupts source enable */
+>> +#define NPS_GIM_P_BLK	0x118	/* Peripheral interrupts blocking for sources */
+> 
+>>> Are these the interrupts the peripherals are using? If yes, they really have nothing to do here...
+> I will move this from here 
+>>> +	__asm__ __volatile__ (
+>>> +	"       .word %0\n"
+>>> +	:
+>>> +	: "i"(CTOP_INST_RSPI_GIC_0_R12)
+>>> +	: "memory");
+> 
+>> Silly question: why cannot you just write the actual instruction
+>> instead of shoving the instruction like this? Also, .inst would be
+>> more appropriate...
+> [Noam Camus] Since this is instruction that yet is not part of
+> up-streamed binutils of ARC.  Now ARC maintainer can build our kernel
+> with generic ARC toolchain.
+
+OK. If you decide to carry on using this, I'd still recommend using
+.inst instead of .word, so that you can get a proper disassembly.
+
+>>> +static int nps400_irq_map(struct irq_domain *d, unsigned int irq,
+>>> +			  irq_hw_number_t hw)
+>>> +{
+>>> +	switch (irq) {
+>>> +	case TIMER0_IRQ:
+>>> +#if defined(CONFIG_SMP)
+>>> +	case IPI_IRQ:
+>>> +#endif
+>>> +		irq_set_chip_and_handler(irq, &nps400_irq_chip_percpu,
+>>> +					 handle_percpu_irq);
+>>> +	break;
+>>> +	default:
+>>> +		irq_set_chip_and_handler(irq, &nps400_irq_chip_fasteoi,
+>>> +					 handle_fasteoi_irq);
+>>> +	break;
+>>> +	}
+> 
+>> No. This is just wrong. Either you get per interrupt information
+>> from the device tree to configure the interrupt the right way, or
+>> you have different interrupt controllers for each device.
+> I am not sure how you want me to get it from DTB? Please refer to
+> some reference.
+
+Here, you are assuming that 'irq' is a hardware number, while there is
+no reason why it should be (it only works because you are using legacy
+domains, more on that later).
+
+Your switch/case statement should be based on the 'hw' parameter,
+because that is your HW IRQ number. the irq parameter can be completely
+random, and will eventually be once you fix the rest of the driver.
+
+Also, can you always tell the per-cpu property of your interrupt based
+on its number? If you can, then it is fine.
+
+>> But using the Linux irq number is always wrong. You should only consider the hwirq.
+> I will change
+> 
+>> +
+>> +	nps400_root_domain = irq_domain_add_legacy(node, NR_CPU_IRQS, 0, 0,
+>> +						   &nps400_irq_ops, NULL);
+> 
+>> And that's why you can get away with the above horror. Don't use
+>> legacy domains. This stuff is by no mean legacy.
+> So what is my alternative here?
+
+Your alternative is to use irq_domain_add_linear, for example, and to
+make sure that you always refer to the hw number when manipulating the
+HW. You will quickly notice that the Linux IRQ number has nothing to do
+with the HW one, and you'll be able to quickly iron out the bugs.
+
+Looking forward to reviewing your next version.
+
+Thanks,
+
+	M.
 -- 
-1.9.1
+Jazz is not dead. It just smells funny...
