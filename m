@@ -1,65 +1,102 @@
-From: noamc@ezchip.com (Noam Camus)
-Date: Wed, 2 Dec 2015 15:08:51 +0000
-Subject: [PATCH v3 04/18] irqchip: add nps Internal and external irqchips
-In-Reply-To: <565DA0B6.5080903@arm.com>
-References: <1448974985-11487-1-git-send-email-noamc@ezchip.com>
- <1448974985-11487-5-git-send-email-noamc@ezchip.com>
- <565DA0B6.5080903@arm.com>
+From: CARLOS.PALMINHA@synopsys.com (Carlos Palminha)
+Date: Thu, 3 Dec 2015 00:24:02 +0000
+Subject: Non existing DMA functions in ARC: dma_alloc_attrs,
+ dma_free_attrs, dma_mmap_attrs
+In-Reply-To: <C060B4F571DB524BB6D72E2C236D8FB002199FE6@DE02WEMBXB.internal.synopsys.com>
+References: <C060B4F571DB524BB6D72E2C236D8FB002199FE6@DE02WEMBXB.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <DB5PR02MB114150510832BA29D46A8A4AD60E0@DB5PR02MB1141.eurprd02.prod.outlook.com>
+Message-ID: <565F8BA2.4000506@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
->From: Marc Zyngier [mailto:marc.zyngier at arm.com] 
->Sent: Tuesday, December 01, 2015 3:29 PM
+Hi Vineet,
 
-> +  interrupt source. The value shall be 1.
+I cherry picked those commits and now i'm getting a different error.
 
->So you never have to encode the interrupt trigger type? Do you only support edge or level?
-I Always use level sensitive.
+any clue? Am i testing "untested" code?! :)
 
-> +
-> +#define NPS_GIM_P_EN	0x100	/* Peripheral interrupts source enable */
-> +#define NPS_GIM_P_BLK	0x118	/* Peripheral interrupts blocking for sources */
+Regards,
+C.Palminha
 
->>Are these the interrupts the peripherals are using? If yes, they really have nothing to do here...
-I will move this from here 
->> +	__asm__ __volatile__ (
->> +	"       .word %0\n"
->> +	:
->> +	: "i"(CTOP_INST_RSPI_GIC_0_R12)
->> +	: "memory");
+---
+  CC      init/do_mounts.o
+In file included from include/linux/skbuff.h:34:0,
+                 from include/linux/icmpv6.h:4,
+                 from include/linux/ipv6.h:71,
+                 from include/net/ipv6.h:16,
+                 from include/linux/sunrpc/clnt.h:27,
+                 from include/linux/nfs_fs.h:30,
+                 from init/do_mounts.c:32:
+include/linux/dma-mapping.h: In function ?dma_set_coherent_mask?:
+include/linux/dma-mapping.h:104:2: error: implicit declaration of function ?dma_supported? [-Werror=implicit-function-declaration]
+  if (!dma_supported(dev, mask))
+  ^
+include/linux/dma-mapping.h: In function ?dma_set_mask_and_coherent?:
+include/linux/dma-mapping.h:119:2: error: implicit declaration of function ?dma_set_mask? [-Werror=implicit-function-declaration]
+  int rc = dma_set_mask(dev, mask);
+  ^
+include/linux/dma-mapping.h: In function ?dma_zalloc_coherent?:
+include/linux/dma-mapping.h:190:2: error: implicit declaration of function ?dma_alloc_coherent? [-Werror=implicit-function-declaration]
+  void *ret = dma_alloc_coherent(dev, size, dma_handle,
+  ^
+include/linux/dma-mapping.h:190:14: warning: initialization makes pointer from integer without a cast [enabled by default]
+  void *ret = dma_alloc_coherent(dev, size, dma_handle,
+              ^
+In file included from include/linux/icmpv6.h:4:0,
+                 from include/linux/ipv6.h:71,
+                 from include/net/ipv6.h:16,
+                 from include/linux/sunrpc/clnt.h:27,
+                 from include/linux/nfs_fs.h:30,
+                 from init/do_mounts.c:32:
+include/linux/skbuff.h: In function ?skb_frag_dma_map?:
+include/linux/skbuff.h:2510:2: error: implicit declaration of function ?dma_map_page? [-Werror=implicit-function-declaration]
+  return dma_map_page(dev, skb_frag_page(frag),
 
->Silly question: why cannot you just write the actual instruction instead of shoving the instruction like this? Also, .inst would be more appropriate...
-[Noam Camus] Since this is instruction that yet is not part of up-streamed binutils of ARC.  Now ARC maintainer can build our kernel with generic ARC toolchain. 
 
->> +static int nps400_irq_map(struct irq_domain *d, unsigned int irq,
->> +			  irq_hw_number_t hw)
->> +{
->> +	switch (irq) {
->> +	case TIMER0_IRQ:
->> +#if defined(CONFIG_SMP)
->> +	case IPI_IRQ:
->> +#endif
->> +		irq_set_chip_and_handler(irq, &nps400_irq_chip_percpu,
->> +					 handle_percpu_irq);
->> +	break;
->> +	default:
->> +		irq_set_chip_and_handler(irq, &nps400_irq_chip_fasteoi,
->> +					 handle_fasteoi_irq);
->> +	break;
->> +	}
 
->No. This is just wrong. Either you get per interrupt information from the device tree to configure the interrupt the right way, or you have different interrupt controllers for each device.
-I am not sure how you want me to get it from DTB? Please refer to some reference.
-
->But using the Linux irq number is always wrong. You should only consider the hwirq.
-I will change
-
-> +
-> +	nps400_root_domain = irq_domain_add_legacy(node, NR_CPU_IRQS, 0, 0,
-> +						   &nps400_irq_ops, NULL);
-
->And that's why you can get away with the above horror. Don't use legacy domains. This stuff is by no mean legacy.
-So what is my alternative here?
-
--Noam
+On 02-12-2015 13:19, Carlos Palminha wrote:
+> Hi Vineet,
+> 
+> I'm using drm-next (its currently based on 4.4-rc3).
+> 
+> Regarding linux-next DMA patches I assume you are talking about these 3 commits:
+> * 19ab4d3aff0426058fe36aae4ac56320a6e4c6be
+> * 8ee24f794c2dfff85930f25eab4f11a9bde7f920
+> * c27a81903ba596c879a45e3028135a4f37fb1837
+> 
+> Regards,
+> C.Palminha
+> 
+> -----Original Message-----
+> From: Vineet Gupta 
+> Sent: quarta-feira, 2 de Dezembro de 2015 06:32
+> To: Carlos Palminha; linux-snps-arc at lists.infradead.org
+> Cc: Alexey Brodkin
+> Subject: Re: Non existing DMA functions in ARC: dma_alloc_attrs, dma_free_attrs, dma_mmap_attrs
+> 
+> On Wednesday 02 December 2015 01:09 AM, Carlos Palminha wrote:
+>> Hi guys,
+>>
+>> I'm bringing up a new ARC PGU driver for DRM framework with latest kernel tree.
+>> I'm using ARC AXS101 as a base and selected one the DRM required config: HAVE_DMA_ATTRS due to some memory allocation helpers in DRM.
+>>
+>> I'm getting some errors with DMA functions not implemented in ARC: dma_alloc_attrs, dma_free_attrs, dma_mmap_attrs
+>>
+>> Any clue?
+>>
+>> Regards,
+>> C.Palminha
+>>
+>> ---
+>> include/linux/dma-mapping.h: In function 'dma_alloc_writecombine':
+>> include/linux/dma-mapping.h:283:2: error: implicit declaration of function 'dma_alloc_attrs' [-Werror=implicit-function-declaration]
+>>   return dma_alloc_attrs(dev, size, dma_addr, gfp, &attrs);
+> 
+> This is because ARC port current lacks support for dma_attr_t and associated helpers.
+> There is a series in flight in linux-next, by Christoph, which already addresses that.
+> 
+> You can either cherry-pick those or in the interim use the hack attached.
+> 
+> P.S. Per your comment at top, I'm assuming you are working off of mainline 4.3 or 4.4
+> 
+> -Vineet
+> 
