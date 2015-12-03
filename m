@@ -1,67 +1,64 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Dec 2015 18:11:15 +0530
-Subject: [PATCH 17/17] xxx: instrument
+Date: Thu, 3 Dec 2015 18:11:14 +0530
+Subject: [PATCH 16/17] ARC: dw2 unwind: skip regs not updated
 In-Reply-To: <1449146475-15335-1-git-send-email-vgupta@synopsys.com>
 References: <1449146475-15335-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1449146475-15335-18-git-send-email-vgupta@synopsys.com>
+Message-ID: <1449146475-15335-17-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/unwind.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ arch/arc/kernel/unwind.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index d5ffb4a78104..91f310465970 100644
+index e02d974ea789..d5ffb4a78104 100644
 --- a/arch/arc/kernel/unwind.c
 +++ b/arch/arc/kernel/unwind.c
-@@ -889,6 +889,19 @@ static int cie_validate(const u32 *cie, struct cie *t_cie)
- 	return end - (const u8 *)cie;
- }
+@@ -142,13 +142,14 @@ struct unwind_item {
  
-+#define UNWIND_INSTRUMENT
-+
-+#ifdef UNWIND_INSTRUMENT
-+u32 unw_t_min = 0xffffff, unw_t_max, unw_t_n;
-+u64 unw_t_avg;
-+
-+static unsigned int get_c(void)
-+{
-+       write_aux_reg(0x600, 0x42);             // ARC_REG_MCIP_CMD
-+       return read_aux_reg(0x602);     // ARC_REG_MCIP_READBACK
-+}
-+#endif
-+
- /* Unwind to previous to frame.  Returns 0 if successful, negative
-  * number in case of an error. */
- int arc_unwind(struct unwind_frame_info *frame)
-@@ -907,7 +920,9 @@ int arc_unwind(struct unwind_frame_info *frame)
- 	unsigned long addr;
- 	struct eh_frame_header *hdr;
- 	int ret = -EINVAL;
--
-+#ifdef UNWIND_INSTRUMENT
-+	unsigned int t0 = get_c(), t1, delta;
-+#endif
- 	unw_debug("\nUNWIND FRAME: -------------------------------------\n");
- 	unw_debug("PC\t\t: 0x%lx %pS\nr31 [BLINK]\t: 0x%lx %pS\nr28 [SP]\t: 0x%lx\nr27 [FP]\t: 0x%lx\n",
- 		  UNW_PC(frame), (void *)UNW_PC(frame),
-@@ -1072,6 +1087,15 @@ int arc_unwind(struct unwind_frame_info *frame)
- 	ret = 0;
- bad_unw:
+ struct unwind_state {
+ 	uleb128_t loc, org;
++	uleb128_t first_reg;
+ 	uleb128_t codeAlign;
+ 	sleb128_t dataAlign;
+ 	struct cfa {
+ 		uleb128_t reg, offs;
+ 	} cfa;
+ 	struct unwind_item regs[ARRAY_SIZE(reg_info)];
+-	unsigned stackDepth:8, has_cfa_register:8;
++	unsigned stackDepth:8, has_cfa_register:8, pad:16;
+ 	const u8 *label;
+ 	const u8 *stack[MAX_STACK_DEPTH];
+ };
+@@ -597,6 +598,7 @@ static void set_rule(uleb128_t reg, enum item_location where, uleb128_t value,
+ 	if (reg < ARRAY_SIZE(state->regs)) {
+ 		state->regs[reg].where = where;
+ 		state->regs[reg].value = value;
++		state->first_reg = min(reg, state->first_reg);
  
-+#ifdef UNWIND_INSTRUMENT
-+	t1 = get_c();
-+	delta = t1 - t0;
-+	unw_t_min = min(unw_t_min, delta);
-+	unw_t_max = max(unw_t_max, delta);
-+	unw_t_n++;
-+	unw_t_avg += delta;
-+	printk("unw %d %s %lx\n", delta, !ret ? "O K":"nok", pc);
-+#endif
- 	return ret;
- #undef FRAME_REG
- }
+ #ifdef UNWIND_DEBUG
+ 		switch (where) {
+@@ -979,6 +981,7 @@ int arc_unwind(struct unwind_frame_info *frame)
+ 			goto bad_unw;
+ 	}
+ 
++	state.first_reg = 13;
+ 	state.org = state.loc = startLoc;
+ 	memcpy(&state.cfa, &seed_CFA, sizeof(state.cfa));
+ 	state.codeAlign = table->cie.codeAlign;
+@@ -1032,9 +1035,9 @@ int arc_unwind(struct unwind_frame_info *frame)
+ 		}
+ 	}
+ 
+-	unw_debug("\nRegister state after evaluation with realtime Stack:\n");
++	unw_debug("\nRegister state after evaluation with realtime Stack @ %ld :\n", state.first_reg);
+ 	fptr = (unsigned long *)(&frame->regs);
+-	for (i = 0; i < ARRAY_SIZE(state.regs); ++i, fptr++) {
++	for (i = state.first_reg; i < ARRAY_SIZE(state.regs); ++i, fptr++) {
+ 
+ 		switch (state.regs[i].where) {
+ 		case Nowhere:
 -- 
 1.9.1
