@@ -1,102 +1,41 @@
-From: marc.zyngier@arm.com (Marc Zyngier)
-Date: Thu, 03 Dec 2015 18:33:35 +0000
-Subject: [PATCH v3 04/18] irqchip: add nps Internal and external irqchips
-In-Reply-To: <DB5PR02MB114150510832BA29D46A8A4AD60E0@DB5PR02MB1141.eurprd02.prod.outlook.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Fri, 4 Dec 2015 09:07:29 +0100
+Subject: [PATCH v3 01/18] Documentation: Add EZchip vendor to binding list
+In-Reply-To: <1448974985-11487-2-git-send-email-noamc@ezchip.com>
 References: <1448974985-11487-1-git-send-email-noamc@ezchip.com>
- <1448974985-11487-5-git-send-email-noamc@ezchip.com>
- <565DA0B6.5080903@arm.com>
- <DB5PR02MB114150510832BA29D46A8A4AD60E0@DB5PR02MB1141.eurprd02.prod.outlook.com>
+ <1448974985-11487-2-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56608AFF.80302@arm.com>
+Message-ID: <566149C1.8070502@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Noam,
+On 12/01/2015 02:02 PM, Noam Camus wrote:
+> From: Noam Camus <noamc at ezchip.com>
+>
+> Add EZchip to vendor prefixes list.
+> EZchip introduce the NPS platform for the ARC architecture.
+>
+> Signed-off-by: Noam Camus <noamc at ezchip.com>
+> Acked-by: Rob Herring <robh+dt at kernel.org>
+> Cc: Pawel Moll <pawel.moll at arm.com>
+> ---
+>   Documentation/devicetree/bindings/arc/eznps.txt    |    7 +++++++
+>   .../devicetree/bindings/vendor-prefixes.txt        |    1 +
+>   2 files changed, 8 insertions(+), 0 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/arc/eznps.txt
+>
+> diff --git a/Documentation/devicetree/bindings/arc/eznps.txt b/Documentation/devicetree/bindings/arc/eznps.txt
+> new file mode 100644
+> index 0000000..f8b5e9b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/arc/eznps.txt
+> @@ -0,0 +1,7 @@
+> +EZchip NPS Network Proccessor Platforms Device Tree Bindings
 
-On 02/12/15 15:08, Noam Camus wrote:
->> From: Marc Zyngier [mailto:marc.zyngier at arm.com] 
->> Sent: Tuesday, December 01, 2015 3:29 PM
-> 
->> +  interrupt source. The value shall be 1.
-> 
->> So you never have to encode the interrupt trigger type? Do you only support edge or level?
-> I Always use level sensitive.
-> 
->> +
->> +#define NPS_GIM_P_EN	0x100	/* Peripheral interrupts source enable */
->> +#define NPS_GIM_P_BLK	0x118	/* Peripheral interrupts blocking for sources */
-> 
->>> Are these the interrupts the peripherals are using? If yes, they really have nothing to do here...
-> I will move this from here 
->>> +	__asm__ __volatile__ (
->>> +	"       .word %0\n"
->>> +	:
->>> +	: "i"(CTOP_INST_RSPI_GIC_0_R12)
->>> +	: "memory");
-> 
->> Silly question: why cannot you just write the actual instruction
->> instead of shoving the instruction like this? Also, .inst would be
->> more appropriate...
-> [Noam Camus] Since this is instruction that yet is not part of
-> up-streamed binutils of ARC.  Now ARC maintainer can build our kernel
-> with generic ARC toolchain.
+Processor
 
-OK. If you decide to carry on using this, I'd still recommend using
-.inst instead of .word, so that you can get a proper disassembly.
-
->>> +static int nps400_irq_map(struct irq_domain *d, unsigned int irq,
->>> +			  irq_hw_number_t hw)
->>> +{
->>> +	switch (irq) {
->>> +	case TIMER0_IRQ:
->>> +#if defined(CONFIG_SMP)
->>> +	case IPI_IRQ:
->>> +#endif
->>> +		irq_set_chip_and_handler(irq, &nps400_irq_chip_percpu,
->>> +					 handle_percpu_irq);
->>> +	break;
->>> +	default:
->>> +		irq_set_chip_and_handler(irq, &nps400_irq_chip_fasteoi,
->>> +					 handle_fasteoi_irq);
->>> +	break;
->>> +	}
-> 
->> No. This is just wrong. Either you get per interrupt information
->> from the device tree to configure the interrupt the right way, or
->> you have different interrupt controllers for each device.
-> I am not sure how you want me to get it from DTB? Please refer to
-> some reference.
-
-Here, you are assuming that 'irq' is a hardware number, while there is
-no reason why it should be (it only works because you are using legacy
-domains, more on that later).
-
-Your switch/case statement should be based on the 'hw' parameter,
-because that is your HW IRQ number. the irq parameter can be completely
-random, and will eventually be once you fix the rest of the driver.
-
-Also, can you always tell the per-cpu property of your interrupt based
-on its number? If you can, then it is fine.
-
->> But using the Linux irq number is always wrong. You should only consider the hwirq.
-> I will change
-> 
->> +
->> +	nps400_root_domain = irq_domain_add_legacy(node, NR_CPU_IRQS, 0, 0,
->> +						   &nps400_irq_ops, NULL);
-> 
->> And that's why you can get away with the above horror. Don't use
->> legacy domains. This stuff is by no mean legacy.
-> So what is my alternative here?
-
-Your alternative is to use irq_domain_add_linear, for example, and to
-make sure that you always refer to the hw number when manipulating the
-HW. You will quickly notice that the Linux IRQ number has nothing to do
-with the HW one, and you'll be able to quickly iron out the bugs.
-
-Looking forward to reviewing your next version.
-
-Thanks,
-
-	M.
 -- 
-Jazz is not dead. It just smells funny...
+  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
