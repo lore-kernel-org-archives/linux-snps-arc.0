@@ -1,35 +1,33 @@
-From: noamc@ezchip.com (Noam Camus)
-Date: Mon, 7 Dec 2015 11:19:28 +0000
-Subject: [PATCH v3 04/18] irqchip: add nps Internal and external irqchips
-In-Reply-To: <56608AFF.80302@arm.com>
-References: <1448974985-11487-1-git-send-email-noamc@ezchip.com>
- <1448974985-11487-5-git-send-email-noamc@ezchip.com>
- <565DA0B6.5080903@arm.com>
- <DB5PR02MB114150510832BA29D46A8A4AD60E0@DB5PR02MB1141.eurprd02.prod.outlook.com>
- <56608AFF.80302@arm.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon,  7 Dec 2015 14:21:37 +0300
+Subject: [PATCH] ARC: [axs10x] cap ethernet phy to 100 Mbit/sec
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <DB5PR02MB114151DD38ACFD58CFFDB2C3D6090@DB5PR02MB1141.eurprd02.prod.outlook.com>
+Message-ID: <1449487297-10093-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Marc Zyngier [mailto:marc.zyngier@arm.com] 
-Sent: Thursday, December 03, 2015 8:34 PM
+Current ARC SDP boards cannot reliably handle 1Gbit
+Ethernet connections due to limitations in hardware.
 
->>> Silly question: why cannot you just write the actual instruction 
->>> instead of shoving the instruction like this? Also, .inst would be 
->>> more appropriate...
->> [Noam Camus] Since this is instruction that yet is not part of 
->> up-streamed binutils of ARC.  Now ARC maintainer can build our kernel 
->> with generic ARC toolchain.
+To make sure networking is stable on the board we're
+limiting phy to 100 Mbit.
 
->OK. If you decide to carry on using this, I'd still recommend using .inst instead of .word, so that you can get a proper disassembly.
-Seem to me that ".inst" is ARM Machine directive.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/boot/dts/axs10x_mb.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
->Also, can you always tell the per-cpu property of your interrupt based on its number? If you can, then it is fine.
-Yes I can, and I am using this knowledge.
-
->Your alternative is to use irq_domain_add_linear, for example, and to make sure that you always refer to the hw number when manipulating the HW. You will quickly notice that the Linux IRQ number has nothing to do with the HW one, and you'll be able to quickly iron out the bugs.
-
-Indeed when I moved from legacy to linear map I had to call irq_create_mapping() for my percpu IRQs and that's it.
-Thanks
-
--Noam
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index f3db321..44a578c 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -46,6 +46,7 @@
+ 			snps,pbl = < 32 >;
+ 			clocks = <&apbclk>;
+ 			clock-names = "stmmaceth";
++			max-speed = <100>;
+ 		};
+ 
+ 		ehci at 0x40000 {
+-- 
+2.5.0
