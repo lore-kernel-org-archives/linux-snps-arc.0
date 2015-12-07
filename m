@@ -1,36 +1,35 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 7 Dec 2015 09:12:27 +0000
-Subject: [PATCH] ARC: [axs10x] enable DW DMA controller
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F44D4B6E@IN01WEMBXA.internal.synopsys.com>
-References: <1449256926-16786-1-git-send-email-abrodkin@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44D4B6E@IN01WEMBXA.internal.synopsys.com>
+From: noamc@ezchip.com (Noam Camus)
+Date: Mon, 7 Dec 2015 11:19:28 +0000
+Subject: [PATCH v3 04/18] irqchip: add nps Internal and external irqchips
+In-Reply-To: <56608AFF.80302@arm.com>
+References: <1448974985-11487-1-git-send-email-noamc@ezchip.com>
+ <1448974985-11487-5-git-send-email-noamc@ezchip.com>
+ <565DA0B6.5080903@arm.com>
+ <DB5PR02MB114150510832BA29D46A8A4AD60E0@DB5PR02MB1141.eurprd02.prod.outlook.com>
+ <56608AFF.80302@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1449479546.2772.3.camel@synopsys.com>
+Message-ID: <DB5PR02MB114151DD38ACFD58CFFDB2C3D6090@DB5PR02MB1141.eurprd02.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+From: Marc Zyngier [mailto:marc.zyngier@arm.com] 
+Sent: Thursday, December 03, 2015 8:34 PM
 
-On Sat, 2015-12-05@10:14 +0000, Vineet Gupta wrote:
-> On Saturday 05 December 2015 12:52 AM, Alexey Brodkin wrote:
-> > From: Nelson Pereira <npereira at synopsys.com>
-> > 
-> > ARC SDP baseboard among other peripherals sports
-> > DesignWare DMA controller.
-> > 
-> > This enables support of that device.
-> > Note typically DW DMA controller is used with external devices
-> > connected to ARC SDP board via HAPS Extension bus.
-> 
-> Such a board config needs to have it's own defconfig / DT (if needed). There's no
-> point in enabling this for rest of the world who don't have a use case for this IP.
-> 
-> So nack !
+>>> Silly question: why cannot you just write the actual instruction 
+>>> instead of shoving the instruction like this? Also, .inst would be 
+>>> more appropriate...
+>> [Noam Camus] Since this is instruction that yet is not part of 
+>> up-streamed binutils of ARC.  Now ARC maintainer can build our kernel 
+>> with generic ARC toolchain.
 
-I see rationale behind this decision but:
-1) How enabled DMA controller hurts other users of the same SDP board
-2) That DMA controller exists in SDP anyway - that's not a special flavor of ARC SDP
-3) Another defconfig and .dts adds another item for verification while
-   enabling DW DMA in our current defconfigs allows usage of the same one binaries for
-   all purposes on ARC SDP.
+>OK. If you decide to carry on using this, I'd still recommend using .inst instead of .word, so that you can get a proper disassembly.
+Seem to me that ".inst" is ARM Machine directive.
 
--Alexey
+>Also, can you always tell the per-cpu property of your interrupt based on its number? If you can, then it is fine.
+Yes I can, and I am using this knowledge.
+
+>Your alternative is to use irq_domain_add_linear, for example, and to make sure that you always refer to the hw number when manipulating the HW. You will quickly notice that the Linux IRQ number has nothing to do with the HW one, and you'll be able to quickly iron out the bugs.
+
+Indeed when I moved from legacy to linear map I had to call irq_create_mapping() for my percpu IRQs and that's it.
+Thanks
+
+-Noam
