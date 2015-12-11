@@ -1,130 +1,105 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 11 Dec 2015 16:49:13 +0530
-Subject: [PATCH 3/3] ARCv2: perf: Ensure perf intr gets enabled on all cores
-In-Reply-To: <1449832753-6767-1-git-send-email-vgupta@synopsys.com>
-References: <1449832753-6767-1-git-send-email-vgupta@synopsys.com>
+From: marc.zyngier@arm.com (Marc Zyngier)
+Date: Fri, 11 Dec 2015 11:23:56 +0000
+Subject: percpu irq APIs and perf
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F44D59B9@IN01WEMBXA.internal.synopsys.com>
+References: <C2D7FE5348E1B147BCA15975FBA23075F44D580B@IN01WEMBXA.internal.synopsys.com>
+ <56694C0E.5050707@arm.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44D59B9@IN01WEMBXA.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1449832753-6767-4-git-send-email-vgupta@synopsys.com>
+Message-ID: <566AB24C.3040407@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-This was the second perf intr issue
+On Fri, 11 Dec 2015 05:26:02 +0000
+Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
 
-perf sampling on multicore requires intr to be enabled on all cores.
-ARC perf probe code used helper arc_request_percpu_irq() which calls
- - request_percpu_irq() on core0
- - enable_percpu_irq() on all all cores (including core0)
+Hi Vineet,
 
-genirq requires that request be made ahead of enable call.
-However if perf probe happened on non core0 (observed on a 3.18 kernel),
-enable would get called ahead of request, failing obviously and
-rendering perf intr disabled on all such cores
+> Hi Marc,
+> 
+> On Thursday 10 December 2015 03:26 PM, Marc Zyngier wrote:
+> > Hi Vinnet,
+> >
+> > On 10/12/15 09:25, Vineet Gupta wrote:
+> >> Hi Marc / Daniel / Jason,
+> >>
+> >> I had a couple of questions about percpu irq API, hopefully you can help answer.
+> >>
+> >> On ARM, how do u handle requesting per cpu IRQs - specifically usage
+> >> of request_percpu_irq() / enable_percpu_irq() API.
+> >> It seems, for using them, we obviously need to explicitly set irq as
+> >> percpu and as a consequence explicitly enable autoen (since former
+> >> disables that). See arch/arc/kernel/irq.c: arc_request_percpu_irq()
+> >> called by ARC per cpu timer setup.
+> > Indeed. The interrupt controller code flags these interrupts as being
+> > per-cpu, and we do rely on each CPU performing an enable_percpu_irq().
+> >
+> > So the way the whole thing flows is as such:
+> > - Interrupt controller (GIC) flags the PPIs (Private Peripheral
+> > Interrupt) as per-CPU (hwirq 16 to 31 are replicated per CPU) very early
+> > in the boot process
+> 
+> Thx for your reply and the pointers
+> 
+> irq-gic.c seems to be doing
+> 
+>    irq_set_status_flags(irq, IRQ_NOAUTOEN);
+> 
+> So it is setting NOAUTOEN, which is already the case per side effect of
+> irq_set_percpu_devid(). No harm in making it explicit.
 
-[   11.120000] 1 ARC perf       : 8 counters (48 bits), 113 conditions, [overflow IRQ support]
-[   11.130000] 1 -----> enable_percpu_irq() IRQ 20 failed
-[   11.140000] 3 -----> enable_percpu_irq() IRQ 20 failed
-[   11.140000] 2 -----> enable_percpu_irq() IRQ 20 failed
-[   11.140000] 0 =====> request_percpu_irq() IRQ 20
-[   11.140000] 0 -----> enable_percpu_irq() IRQ 20
+Indeed, this looks completely superfluous. I'll fix that.
 
-Fix this fragility, by calling request_percpu_irq() on whatever core
-calls probe (there is no requirement on which core calls this anyways)
-and then calling enable on each cores.
+> So this will make __setup_irq() skip irq_startup() and instead rely on
+> enable_precpu_irq() to be called even for the local core.
+> 
+> I think we can make percpu irq API a bit easier to use.
+> 
+> (1) First thing which request_percpu_irq() does is check for
+> irq_settings_is_per_cpu_devid(). Thus irq_set_percpu_devid() can be built into the
+> API itself eliding the need to set it apriori.
 
-Interestingly this started as invesigation of STAR 9000838902:
-"sporadically IRQs enabled on perf prob"
+I don't think we can. At least in the case I'm concerned about (GIC's
+PPIs), this is a hardware requirement. You cannot turn a global
+interrupt into a per-CPU one, nor the other way around. We also have
+drivers (at least our PMUs) that do test the state of that interrupt
+(per-CPU or not) to find out how they should be requested.
 
-which was about occassional boot spew as request_percpu_irq got called
-non-locally (from an IPI), and re-enabled interrupts in following path
-proc_mkdir ->  spin_unlock_irq()
+I agree that the API is probably not the ideal one, but there is HW
+constraints that we cannot just ignore.
 
-which the irq work code didn't like.
+> (2) It seems that disabling autoen by default for percpu irq makes sense as
+> evident from drivers/net/ethernet/marvell/mvneta.c where users want to control
+> this. However the comment there is misleading
+> 
+>     /* Even though the documentation says that request_percpu_irq
+>      * doesn't enable the interrupts automatically, it actually
+>      * does so on the local CPU.
+>      *
+>      * Make sure it's disabled.
+>      */
+> 
+> Either sme core code is clearing NOAUTOEN or calling enable_precpu_irq() making
+> request_percpu_irq() enable it.
 
-| ARC perf     : 8 counters (48 bits), 113 conditions, [overflow IRQ support]
-|
-| BUG: failure at ../kernel/irq_work.c:135/irq_work_run_list()!
-| CPU: 0 PID: 0 Comm: swapper/0 Not tainted 3.18.10-01127-g285efb8e66d1 #2
-|
-| Stack Trace:
-|  arc_unwind_core.constprop.1+0x94/0x104
-|  dump_stack+0x62/0x98
-|  irq_work_run_list+0xb0/0xb4
-|  irq_work_run+0x22/0x3c
-|  do_IPI+0x74/0x9c
-|  handle_irq_event_percpu+0x34/0x164
-|  handle_percpu_irq+0x58/0x78
-|  generic_handle_irq+0x1e/0x2c
-|  arch_do_IRQ+0x3c/0x60
-|  ret_from_exception+0x0/0x8
+If that's the case, this is a bug. Nobody should enable that interrupt
+until the driver has chosen to do so.
 
-Cc: Marc Zyngier <marc.zyngier at arm.com>
-Cc: Peter Zijlstra <peterz at infradead.org>
-Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: linux-kernel at vger.kernel.org
-Cc: Alexey Brodkin <abrodkin at synopsys.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/kernel/perf_event.c | 32 +++++++++-----------------------
- 1 file changed, 9 insertions(+), 23 deletions(-)
+> IMHO it makes more sense to make autoen explicit in the API.
+> Perhaps introduce a API flavour, which takes the autoen as arg.
+> It could take flags to make it more extensible / future safe but that will be an
+> overkill I think.
 
-diff --git a/arch/arc/kernel/perf_event.c b/arch/arc/kernel/perf_event.c
-index 0c08bb1ce15a..8b134cfe5e1f 100644
---- a/arch/arc/kernel/perf_event.c
-+++ b/arch/arc/kernel/perf_event.c
-@@ -428,12 +428,11 @@ static irqreturn_t arc_pmu_intr(int irq, void *dev)
- 
- #endif /* CONFIG_ISA_ARCV2 */
- 
--void arc_cpu_pmu_irq_init(void)
-+static void arc_cpu_pmu_irq_init(void *data)
- {
--	struct arc_pmu_cpu *pmu_cpu = this_cpu_ptr(&arc_pmu_cpu);
-+	int irq = *(int *)data;
- 
--	arc_request_percpu_irq(arc_pmu->irq, smp_processor_id(), arc_pmu_intr,
--			       "ARC perf counters", pmu_cpu);
-+	enable_percpu_irq(irq, IRQ_TYPE_NONE);
- 
- 	/* Clear all pending interrupt flags */
- 	write_aux_reg(ARC_REG_PCT_INT_ACT, 0xffffffff);
-@@ -515,7 +514,6 @@ static int arc_pmu_device_probe(struct platform_device *pdev)
- 
- 	if (has_interrupts) {
- 		int irq = platform_get_irq(pdev, 0);
--		unsigned long flags;
- 
- 		if (irq < 0) {
- 			pr_err("Cannot get IRQ number for the platform\n");
-@@ -524,24 +522,12 @@ static int arc_pmu_device_probe(struct platform_device *pdev)
- 
- 		arc_pmu->irq = irq;
- 
--		/*
--		 * arc_cpu_pmu_irq_init() needs to be called on all cores for
--		 * their respective local PMU.
--		 * However we use opencoded on_each_cpu() to ensure it is called
--		 * on core0 first, so that arc_request_percpu_irq() sets up
--		 * AUTOEN etc. Otherwise enable_percpu_irq() fails to enable
--		 * perf IRQ on non master cores.
--		 * see arc_request_percpu_irq()
--		 */
--		preempt_disable();
--		local_irq_save(flags);
--		arc_cpu_pmu_irq_init();
--		local_irq_restore(flags);
--		smp_call_function((smp_call_func_t)arc_cpu_pmu_irq_init, 0, 1);
--		preempt_enable();
--
--		/* Clean all pending interrupt flags */
--		write_aux_reg(ARC_REG_PCT_INT_ACT, 0xffffffff);
-+		/* intc map function ensures irq_set_percpu_devid() called */
-+		request_percpu_irq(irq, arc_pmu_intr, "ARC perf counters",
-+				   this_cpu_ptr(&arc_pmu_cpu));
-+
-+		on_each_cpu(arc_cpu_pmu_irq_init, &irq, 1);
-+
- 	} else
- 		arc_pmu->pmu.capabilities |= PERF_PMU_CAP_NO_INTERRUPT;
- 
+But auto-enabling cannot be done from a single CPU. It can only be done
+from the core that is going to be delivered that interrupt. This
+requires access to registers that are simply not available to other CPUs.
+
+> Do let me know what you think and I can send RFC patches to same effect.
+
+If you can find an elegant way to do this and keep the existing
+semantics, I'm all ear!
+
+Thanks,
+
+	M.
 -- 
-1.9.1
+Jazz is not dead. It just smells funny.
