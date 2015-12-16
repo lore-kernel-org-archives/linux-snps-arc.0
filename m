@@ -1,61 +1,144 @@
-From: maxime.ripard@free-electrons.com (maxime.ripard@free-electrons.com)
-Date: Mon, 14 Dec 2015 09:43:24 +0100
-Subject: percpu irq APIs and perf
-In-Reply-To: <566ABF86.9030308@synopsys.com>
-References: <C2D7FE5348E1B147BCA15975FBA23075F44D580B@IN01WEMBXA.internal.synopsys.com>
- <56694C0E.5050707@arm.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44D59B9@IN01WEMBXA.internal.synopsys.com>
- <566AB24C.3040407@arm.com> <566ABF86.9030308@synopsys.com>
+From: noamc@ezchip.com (Noam Camus)
+Date: Wed, 16 Dec 2015 03:10:19 +0200
+Subject: [PATCH v4 00/19] Adding plat-eznps to ARC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20151214084324.GE19456@lukather>
+Message-ID: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+From: Noam Camus <noamc@ezchip.com>
 
-On Fri, Dec 11, 2015@05:50:22PM +0530, Vineet Gupta wrote:
-> >> (2) It seems that disabling autoen by default for percpu irq makes sense as
-> >> evident from drivers/net/ethernet/marvell/mvneta.c where users want to control
-> >> this. However the comment there is misleading
-> >>
-> >>     /* Even though the documentation says that request_percpu_irq
-> >>      * doesn't enable the interrupts automatically, it actually
-> >>      * does so on the local CPU.
-> >>      *
-> >>      * Make sure it's disabled.
-> >>      */
-> >>
-> >> Either sme core code is clearing NOAUTOEN or calling enable_precpu_irq() making
-> >> request_percpu_irq() enable it.
-> > 
-> > If that's the case, this is a bug. Nobody should enable that interrupt
-> > until the driver has chosen to do so.
-> 
-> Perhaps Maxim can shed more light as this seems to be his comment.
+v4:
+1) irqchip -- use irq_domain_add_linear()
+2) clocksource -- use of_clk_get()
+3) New header at include/soc use by platform and drivers
+4) update DTS file for above fixed drivers
 
-I don't really have the full context here, but we did this in order to
-allow RX queue interrupts to be enabled on a particular CPU.
+v3:
+1)	irqchip: use MACROS instead of structures to decribe
+	registers.
+2)	clocksource: use 32bit counter and avoid 2 halfs read
+	of 64bit dance.
 
-The IP was supposed to do that by itself, but we hadn't figure that
-out at the time. So what we ended up doing is disabling the interrupts
-by default and then enable it only on the CPU meant to receive the
-queue interrupts.
+v2:
+1)	Remove out of tree platform include path
+2)	Move atomic/bitop/cmpxchg for platform to end.
+	Remove macro duplication.
+	Fix some bad implementation.
+3)	define cpu_relax_lowlatency() for platform.
+4)	rename init_irq_cpu() to init_per_cpu()
+	reorder call to init_per_cpu() for secondary
+	use it instead of init_cpu_smp().
+5)	set res_service to call stext
+6)	fix build failure for CTOP_AUX_BASE at assembly code
+7)	Use ilog2 for mtm_init_nat()
+8)	Add CLKSRC_NPS option to Kconfig
+	change nps_clksrc_read() to be more readable.
 
-What we found out doing so was that the per-cpu interrupts were
-enabled on the cpu calling request_percpu_irq, and so that's why it
-ended up with that comment.
+General summay:
+This set introduce new platform to ARC architecture.
+Platform name called "eznps" for working with EZchip NPS400
+Network Proccessor.
+NPS400 is targeted to service "fast path" network applications.
 
-I also fixed the documentation accordingly in a1b7febd725a.
+NPS400 got mesh of 256 extended ARC cores (AKA CTOP), each core
+got 16 HW threads. This is basically SMT core where at any point of
+time only one HW thread is active.
+Each core have HW scheduler that round robin between eligible HW
+threads. Totaly, kernel sees 4096 CPUs which I belive is a high record.
+There is no cache coherency between cores so generic user applications
+and kernel do not use D$.
 
-Maxime
+Cores got special memory mappings for huge pages (8MB).
+Mapping is static and should provide application enough memory without
+any "TLB miss". This mapping is on top of TLB mapping.
 
--- 
-Maxime Ripard, Free Electrons
-Embedded Linux, Kernel and Android engineering
-http://free-electrons.com
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 819 bytes
-Desc: Digital signature
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20151214/540099ea/attachment.sig>
+This is a basic set that will later be followed with additional
+set of patches with all advanced features.
+
+Many thanks to all people helping to make this happen.
+
+Regards,
+Noam Camus
+
+Noam Camus (18):
+  Documentation: Add EZchip vendor to binding list
+  soc: Support for EZchip SoC
+  ARC: [plat-eznps] define IPI_IRQ
+  clocksource: Add NPS400 timers driver
+  irqchip: add nps Internal and external irqchips
+  ARC: Set vmalloc size from configuration
+  ARC: rwlock: disable interrupts in !LLSC variant
+  ARC: rename smp operation init_irq_cpu() to init_per_cpu()
+  ARC: Mark secondary cpu online only after all HW setup is done
+  ARC: Add clock from device tree to time_init()
+  ARC: [plat-eznps] Add eznps board defconfig and dts
+  ARC: [plat-eznps] Add eznps platform
+  ARC: [plat-eznps] Use dedicated user stack top
+  ARC: [plat-eznps] Use dedicated atomic/bitops/cmpxchg
+  ARC: [plat-eznps] Use dedicated SMP barriers
+  ARC: [plat-eznps] Use dedicated identity auxiliary register.
+  ARC: [plat-eznps] Use dedicated COMMAND_LINE_SIZE
+  ARC: Add eznps platform to Kconfig and Makefile
+
+Tal Zilcer (1):
+  ARC: [plat-eznps] Use dedicated cpu_relax()
+
+ Documentation/devicetree/bindings/arc/eznps.txt    |    7 +
+ .../interrupt-controller/ezchip,nps400-ic.txt      |   17 ++
+ .../bindings/timer/ezchip,nps400-timer.txt         |   15 ++
+ .../devicetree/bindings/vendor-prefixes.txt        |    1 +
+ MAINTAINERS                                        |    6 +
+ arch/arc/Kconfig                                   |    9 +
+ arch/arc/Makefile                                  |    5 +
+ arch/arc/boot/dts/eznps.dts                        |   93 +++++++++
+ arch/arc/configs/nps_defconfig                     |   85 +++++++++
+ arch/arc/include/asm/atomic.h                      |   79 ++++++++-
+ arch/arc/include/asm/barrier.h                     |    8 +
+ arch/arc/include/asm/bitops.h                      |   54 ++++++
+ arch/arc/include/asm/cmpxchg.h                     |   87 +++++++--
+ arch/arc/include/asm/entry-compact.h               |    8 +
+ arch/arc/include/asm/irq.h                         |    4 +
+ arch/arc/include/asm/pgtable.h                     |    2 +-
+ arch/arc/include/asm/processor.h                   |   36 +++-
+ arch/arc/include/asm/setup.h                       |    4 +
+ arch/arc/include/asm/smp.h                         |    4 +-
+ arch/arc/include/asm/spinlock.h                    |   14 ++
+ arch/arc/kernel/ctx_sw.c                           |   13 ++
+ arch/arc/kernel/irq.c                              |    4 +-
+ arch/arc/kernel/mcip.c                             |    2 +-
+ arch/arc/kernel/smp.c                              |   14 +-
+ arch/arc/kernel/time.c                             |   10 +-
+ arch/arc/mm/tlb.c                                  |   12 ++
+ arch/arc/plat-eznps/Kconfig                        |   34 ++++
+ arch/arc/plat-eznps/Makefile                       |    7 +
+ arch/arc/plat-eznps/entry.S                        |   75 ++++++++
+ arch/arc/plat-eznps/include/plat/ctop.h            |  198 ++++++++++++++++++++
+ arch/arc/plat-eznps/include/plat/mtm.h             |   60 ++++++
+ arch/arc/plat-eznps/include/plat/smp.h             |   26 +++
+ arch/arc/plat-eznps/mtm.c                          |  133 +++++++++++++
+ arch/arc/plat-eznps/platform.c                     |  102 ++++++++++
+ arch/arc/plat-eznps/smp.c                          |  156 +++++++++++++++
+ drivers/clocksource/Kconfig                        |    7 +
+ drivers/clocksource/Makefile                       |    1 +
+ drivers/clocksource/timer-nps.c                    |   68 +++++++
+ drivers/irqchip/Makefile                           |    1 +
+ drivers/irqchip/irq-eznps.c                        |  131 +++++++++++++
+ include/soc/nps/common.h                           |  123 ++++++++++++
+ 41 files changed, 1678 insertions(+), 37 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arc/eznps.txt
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+ create mode 100644 arch/arc/boot/dts/eznps.dts
+ create mode 100644 arch/arc/configs/nps_defconfig
+ create mode 100644 arch/arc/plat-eznps/Kconfig
+ create mode 100644 arch/arc/plat-eznps/Makefile
+ create mode 100644 arch/arc/plat-eznps/entry.S
+ create mode 100644 arch/arc/plat-eznps/include/plat/ctop.h
+ create mode 100644 arch/arc/plat-eznps/include/plat/mtm.h
+ create mode 100644 arch/arc/plat-eznps/include/plat/smp.h
+ create mode 100644 arch/arc/plat-eznps/mtm.c
+ create mode 100644 arch/arc/plat-eznps/platform.c
+ create mode 100644 arch/arc/plat-eznps/smp.c
+ create mode 100644 drivers/clocksource/timer-nps.c
+ create mode 100644 drivers/irqchip/irq-eznps.c
+ create mode 100644 include/soc/nps/common.h
