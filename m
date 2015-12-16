@@ -1,81 +1,160 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 16 Dec 2015 17:54:00 +0530
-Subject: [PATCH 2/2] ARC: dw2 unwind: Ignore CIE version !=1 gracefully
- instead of bailing
+Date: Wed, 16 Dec 2015 17:53:59 +0530
+Subject: [PATCH 1/2] ARC: dw2 unwind: Reinstante unwinding out of modules
 In-Reply-To: <1450268640-23055-1-git-send-email-vgupta@synopsys.com>
 References: <1450268640-23055-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1450268640-23055-3-git-send-email-vgupta@synopsys.com>
+Message-ID: <1450268640-23055-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-ARC dwarf unwinder only supports CIE version == 1
-The boot time dwarf sanitizer (part of binary lookup table constructor)
-would simply bail if it saw CIE version == 3, rendering unwinder with a
-NULL lookup table.
+The fix which removed linear searching of dwarf (because binary lookup
+data always exists) missed out on the fact that modules don't get the
+binary lookup tables info. This caused unwinding out of modules to stop
+working.
 
-It seems libgcc linked with kernel does have such entries.
+So add binary lookup header setup (equivalent of eh_frame_hdr setup) to
+modules as well.
 
-With fallback linear search removed, and a NULL binary lookup table,
-unwinder fails to generate any stack trace.
-
-So allow graceful ignoring of unsupported CIE entries.
-
-This problem was initially seen in Alexey's setup (and not mine) as he
-was using buildroot built toolchain (libgcc) which doesn't get built with
-CFLAGS_FOR_TARGET="-gdwarf-2 which is my default
-
-Fixes STAR 9000985048: "kernel unwinder broken with stock tools"
+While at it, confine the header setup to within unwinder code,
+reducing one API exposed out of unwinder code.
 
 Fixes: 2e22502c080f ARC: dw2 unwind: Remove falllback linear search thru FDE entries
-Reported-by Alexey Brodkin <abrodkin at synopsys.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/unwind.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ arch/arc/include/asm/unwind.h |  4 ----
+ arch/arc/kernel/setup.c       |  1 -
+ arch/arc/kernel/unwind.c      | 40 ++++++++++++++++++++++++++--------------
+ 3 files changed, 26 insertions(+), 19 deletions(-)
 
+diff --git a/arch/arc/include/asm/unwind.h b/arch/arc/include/asm/unwind.h
+index 7ca628b6ee2a..c11a25bb8158 100644
+--- a/arch/arc/include/asm/unwind.h
++++ b/arch/arc/include/asm/unwind.h
+@@ -112,7 +112,6 @@ struct unwind_frame_info {
+ 
+ extern int arc_unwind(struct unwind_frame_info *frame);
+ extern void arc_unwind_init(void);
+-extern void arc_unwind_setup(void);
+ extern void *unwind_add_table(struct module *module, const void *table_start,
+ 			      unsigned long table_size);
+ extern void unwind_remove_table(void *handle, int init_only);
+@@ -152,9 +151,6 @@ static inline void arc_unwind_init(void)
+ {
+ }
+ 
+-static inline void arc_unwind_setup(void)
+-{
+-}
+ #define unwind_add_table(a, b, c)
+ #define unwind_remove_table(a, b)
+ 
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index c33e77c0ad3e..e1b87444ea9a 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -429,7 +429,6 @@ void __init setup_arch(char **cmdline_p)
+ #endif
+ 
+ 	arc_unwind_init();
+-	arc_unwind_setup();
+ }
+ 
+ static int __init customize_machine(void)
 diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index 9f9ecc15556e..cf2828ab0905 100644
+index 7352475451f6..9f9ecc15556e 100644
 --- a/arch/arc/kernel/unwind.c
 +++ b/arch/arc/kernel/unwind.c
-@@ -293,13 +293,13 @@ static void init_unwind_hdr(struct unwind_table *table,
- 		const u32 *cie = cie_for_fde(fde, table);
- 		signed ptrType;
+@@ -170,6 +170,23 @@ static struct unwind_table *find_table(unsigned long pc)
  
--		if (cie == &not_fde)
-+		if (cie == &not_fde)	/* only process FDE here */
- 			continue;
- 		if (cie == NULL || cie == &bad_cie)
--			return;
-+			continue;	/* say FDE->CIE.version != 1 */
- 		ptrType = fde_pointer_type(cie);
- 		if (ptrType < 0)
--			return;
-+			continue;
- 
- 		ptr = (const u8 *)(fde + 2);
- 		if (!read_pointer(&ptr, (const u8 *)(fde + 1) + *fde,
-@@ -343,6 +343,10 @@ static void init_unwind_hdr(struct unwind_table *table,
- 
- 		if (fde[1] == 0xffffffff)
- 			continue;	/* this is a CIE */
+ static unsigned long read_pointer(const u8 **pLoc,
+ 				  const void *end, signed ptrType);
++static void init_unwind_hdr(struct unwind_table *table,
++			    void *(*alloc) (unsigned long));
 +
-+		if (*(u8 *)(cie + 2) != 1)
-+			continue;	/* FDE->CIE.version not supported */
++/*
++ * wrappers for header alloc (vs. calling one vs. other at call site)
++ * to elide section mismatches warnings
++ */
++static void *__init unw_hdr_alloc_early(unsigned long sz)
++{
++	return __alloc_bootmem_nopanic(sz, sizeof(unsigned int),
++				       MAX_DMA_ADDRESS);
++}
 +
- 		ptr = (const u8 *)(fde + 2);
- 		header->table[n].start = read_pointer(&ptr,
- 						      (const u8 *)(fde + 1) +
-@@ -519,7 +523,8 @@ static const u32 *cie_for_fde(const u32 *fde, const struct unwind_table *table)
++static void *unw_hdr_alloc(unsigned long sz)
++{
++	return kmalloc(sz, GFP_KERNEL);
++}
  
- 	if (*cie <= sizeof(*cie) + 4 || *cie >= fde[1] - sizeof(*fde)
- 	    || (*cie & (sizeof(*cie) - 1))
--	    || (cie[1] != 0xffffffff))
-+	    || (cie[1] != 0xffffffff)
-+	    || ( *(u8 *)(cie + 2) != 1))   /* version 1 supported */
- 		return NULL;	/* this is not a (valid) CIE */
- 	return cie;
+ static void init_unwind_table(struct unwind_table *table, const char *name,
+ 			      const void *core_start, unsigned long core_size,
+@@ -209,6 +226,8 @@ void __init arc_unwind_init(void)
+ 			  __start_unwind, __end_unwind - __start_unwind,
+ 			  NULL, 0);
+ 	  /*__start_unwind_hdr, __end_unwind_hdr - __start_unwind_hdr);*/
++
++	init_unwind_hdr(&root_table, unw_hdr_alloc_early);
  }
+ 
+ static const u32 bad_cie, not_fde;
+@@ -241,8 +260,8 @@ static void swap_eh_frame_hdr_table_entries(void *p1, void *p2, int size)
+ 	e2->fde = v;
+ }
+ 
+-static void __init setup_unwind_table(struct unwind_table *table,
+-				      void *(*alloc) (unsigned long))
++static void init_unwind_hdr(struct unwind_table *table,
++			    void *(*alloc) (unsigned long))
+ {
+ 	const u8 *ptr;
+ 	unsigned long tableSize = table->size, hdrSize;
+@@ -300,9 +319,11 @@ static void __init setup_unwind_table(struct unwind_table *table,
+ 
+ 	hdrSize = 4 + sizeof(unsigned long) + sizeof(unsigned int)
+ 	    + 2 * n * sizeof(unsigned long);
++
+ 	header = alloc(hdrSize);
+ 	if (!header)
+ 		return;
++
+ 	header->version = 1;
+ 	header->eh_frame_ptr_enc = DW_EH_PE_abs | DW_EH_PE_native;
+ 	header->fde_count_enc = DW_EH_PE_abs | DW_EH_PE_data4;
+@@ -342,18 +363,6 @@ static void __init setup_unwind_table(struct unwind_table *table,
+ 	table->header = (const void *)header;
+ }
+ 
+-static void *__init balloc(unsigned long sz)
+-{
+-	return __alloc_bootmem_nopanic(sz,
+-				       sizeof(unsigned int),
+-				       __pa(MAX_DMA_ADDRESS));
+-}
+-
+-void __init arc_unwind_setup(void)
+-{
+-	setup_unwind_table(&root_table, balloc);
+-}
+-
+ #ifdef CONFIG_MODULES
+ 
+ static struct unwind_table *last_table;
+@@ -377,6 +386,8 @@ void *unwind_add_table(struct module *module, const void *table_start,
+ 			  table_start, table_size,
+ 			  NULL, 0);
+ 
++	init_unwind_hdr(table, unw_hdr_alloc);
++
+ #ifdef UNWIND_DEBUG
+ 	unw_debug("Table added for [%s] %lx %lx\n",
+ 		module->name, table->core.pc, table->core.range);
+@@ -439,6 +450,7 @@ void unwind_remove_table(void *handle, int init_only)
+ 	info.init_only = init_only;
+ 
+ 	unlink_table(&info); /* XXX: SMP */
++	kfree(table->header);
+ 	kfree(table);
+ }
+ 
 -- 
 1.9.1
