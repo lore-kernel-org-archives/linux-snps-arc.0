@@ -1,201 +1,116 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Wed, 16 Dec 2015 03:10:24 +0200
-Subject: [PATCH v4 05/19] irqchip: add nps Internal and external irqchips
+Date: Wed, 16 Dec 2015 03:10:25 +0200
+Subject: [PATCH v4 06/19] ARC: Set vmalloc size from configuration
 In-Reply-To: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
 References: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1450228238-4499-6-git-send-email-noamc@ezchip.com>
+Message-ID: <1450228238-4499-7-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-Adding EZchip NPS400 support.
-NPS internal interrupts are internally handled at
-Multi Thread Manager (MTM) that is signaled for deactivating
-an interrupt.
-External interrupts is handled also at Global Interrupt
-Controller (GIC) e.g. serial and network devices.
+User space use lower 2G of the virtual address space.
+However kernel steals upper 512M of this space.
+This stolen space is used partially for vmalloc and the rest
+serves as gutter between kernel and user space.
+The vmalloc size is depend on NR_CPUS since "per cpu" mechanism
+use vmalloc to allocate chunks for its use.
+
+Historically vmalloc size was 256M however it is not enough in
+case of many CPUs e.g. 4K CPUs. For such case an extra 192M is
+allocated.
+We are setting default vmalloc size to be 256M, any addtional
+space will be taken from kernel/user gutter.
+
+This introduce build error since PGDIR_SIZE() cannot use "1UL"
+ibecause it is called from mm/tlbex.S by VMALLOC_START.
+Using _BITUL() solves this build error.
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
-Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: Jason Cooper <jason at lakedaemon.net>
-Cc: Marc Zyngier <marc.zyngier at arm.com>
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- .../interrupt-controller/ezchip,nps400-ic.txt      |   17 +++
- drivers/irqchip/Makefile                           |    1 +
- drivers/irqchip/irq-eznps.c                        |  131 ++++++++++++++++++++
- 3 files changed, 149 insertions(+), 0 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
- create mode 100644 drivers/irqchip/irq-eznps.c
+ arch/arc/Kconfig                 |    8 ++++++++
+ arch/arc/include/asm/pgtable.h   |    2 +-
+ arch/arc/include/asm/processor.h |   10 +++++-----
+ arch/arc/mm/tlb.c                |    6 ++++++
+ 4 files changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt b/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
-new file mode 100644
-index 0000000..888b2b9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
-@@ -0,0 +1,17 @@
-+EZchip NPS Interrupt Controller
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 2c2ac3f..689ccb3 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -468,6 +468,14 @@ config ARCH_PHYS_ADDR_T_64BIT
+ config ARCH_DMA_ADDR_T_64BIT
+ 	bool
+ 
++config ARC_VMALLOC_SIZE
++	hex "Vmalloc size (MB)"
++	range 0 512
++	default "256"
++	help
++	  By default equals to 256MB and the rest of 512MB is
++	  left for gutter between kernel and user space.
 +
-+Required properties:
+ config ARC_CURR_IN_REG
+ 	bool "Dedicate Register r25 for current_task pointer"
+ 	default y
+diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
+index 57af2f0..372a282 100644
+--- a/arch/arc/include/asm/pgtable.h
++++ b/arch/arc/include/asm/pgtable.h
+@@ -210,7 +210,7 @@
+ #define BITS_FOR_PGD	(32 - BITS_FOR_PTE - BITS_IN_PAGE)
+ 
+ #define PGDIR_SHIFT	(32 - BITS_FOR_PGD)
+-#define PGDIR_SIZE	(1UL << PGDIR_SHIFT)	/* vaddr span, not PDG sz */
++#define PGDIR_SIZE	_BITUL(PGDIR_SHIFT)	/* vaddr span, not PDG sz */
+ #define PGDIR_MASK	(~(PGDIR_SIZE-1))
+ 
+ #define	PTRS_PER_PTE	_BITUL(BITS_FOR_PTE)
+diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
+index 1d694c1..8a77ccd 100644
+--- a/arch/arc/include/asm/processor.h
++++ b/arch/arc/include/asm/processor.h
+@@ -109,18 +109,18 @@ extern unsigned int get_wchan(struct task_struct *p);
+  * 0xC000_0000		0xFFFF_FFFF	(peripheral uncached space)
+  * -----------------------------------------------------------------------------
+  */
+-#define VMALLOC_START	0x70000000
+ 
+ /*
+  * 1 PGDIR_SIZE each for fixmap/pkmap, 2 PGDIR_SIZE gutter
+  * See asm/highmem.h for details
+  */
+-#define VMALLOC_SIZE	(PAGE_OFFSET - VMALLOC_START - PGDIR_SIZE * 4)
+-#define VMALLOC_END	(VMALLOC_START + VMALLOC_SIZE)
++#define VMALLOC_END	(PAGE_OFFSET - PGDIR_SIZE * 4)
++#define VMALLOC_SIZE	(CONFIG_ARC_VMALLOC_SIZE << 20)
++#define VMALLOC_START	(VMALLOC_END - VMALLOC_SIZE)
+ 
+-#define USER_KERNEL_GUTTER    0x10000000
++#define TASK_SIZE	0x60000000
+ 
+-#define TASK_SIZE	(VMALLOC_START - USER_KERNEL_GUTTER)
++#define USER_KERNEL_GUTTER    (VMALLOC_START - TASK_SIZE)
+ 
+ #define STACK_TOP       TASK_SIZE
+ #define STACK_TOP_MAX   STACK_TOP
+diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
+index daf2bf5..843e1a5 100644
+--- a/arch/arc/mm/tlb.c
++++ b/arch/arc/mm/tlb.c
+@@ -814,6 +814,12 @@ void arc_mmu_init(void)
+ 
+ 	printk(arc_mmu_mumbojumbo(0, str, sizeof(str)));
+ 
++	/*
++	 * vmalloc size (in MB) sanity check,
++	 * Can't be done in processor.h due to header include depenedencies
++	 */
++	BUILD_BUG_ON(!IS_ALIGNED((CONFIG_ARC_VMALLOC_SIZE << 20), PMD_SIZE));
 +
-+- compatible : should be "ezchip,nps400-ic"
-+- interrupt-controller : Identifies the node as an interrupt controller
-+- #interrupt-cells : Specifies the number of cells needed to encode an
-+  interrupt source. The value shall be 1.
-+
-+
-+Example:
-+
-+intc: interrupt-controller {
-+	compatible = "ezchip,nps400-ic";
-+	interrupt-controller;
-+	#interrupt-cells = <1>;
-+};
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index 177f78f..b95b954 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -55,3 +55,4 @@ obj-$(CONFIG_RENESAS_H8S_INTC)		+= irq-renesas-h8s.o
- obj-$(CONFIG_ARCH_SA1100)		+= irq-sa11x0.o
- obj-$(CONFIG_INGENIC_IRQ)		+= irq-ingenic.o
- obj-$(CONFIG_IMX_GPCV2)			+= irq-imx-gpcv2.o
-+obj-$(CONFIG_ARC_PLAT_EZNPS)		+= irq-eznps.o
-diff --git a/drivers/irqchip/irq-eznps.c b/drivers/irqchip/irq-eznps.c
-new file mode 100644
-index 0000000..fc6d59a
---- /dev/null
-+++ b/drivers/irqchip/irq-eznps.c
-@@ -0,0 +1,131 @@
-+/*
-+ * Copyright(c) 2015 EZchip Technologies.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * The full GNU General Public License is included in this distribution in
-+ * the file called "COPYING".
-+ */
-+
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/irqdomain.h>
-+#include <linux/irqchip.h>
-+#include <asm/irq.h>
-+
-+/*
-+ * NPS400 core includes a Interrupt Controller (IC) support.
-+ * All cores can deactivate level irqs at first level control
-+ * at cores mesh layer called MTM.
-+ * For devices out side chip e.g. uart, network there is another
-+ * level called Global Interrupt Manager (GIM).
-+ * This second level can control level and edge interrupt.
-+ *
-+ * NOTE: AUX_IENABLE and CTOP_AUX_IACK are auxiliary registers
-+ * with private HW copy per CPU.
-+ */
-+
-+static void nps400_irq_mask(struct irq_data *data)
-+{
-+	unsigned int ienb;
-+
-+	ienb = read_aux_reg(AUX_IENABLE);
-+	ienb &= ~(1 << data->hwirq);
-+	write_aux_reg(AUX_IENABLE, ienb);
-+}
-+
-+static void nps400_irq_unmask(struct irq_data *data)
-+{
-+	unsigned int ienb;
-+
-+	ienb = read_aux_reg(AUX_IENABLE);
-+	ienb |= (1 << data->hwirq);
-+	write_aux_reg(AUX_IENABLE, ienb);
-+}
-+
-+static void nps400_irq_eoi_global(struct irq_data *data)
-+{
-+	write_aux_reg(CTOP_AUX_IACK, 1 << data->hwirq);
-+
-+	/* Don't ack before all device access is done */
-+	mb();
-+
-+	__asm__ __volatile__ (
-+	"       .word %0\n"
-+	:
-+	: "i"(CTOP_INST_RSPI_GIC_0_R12)
-+	: "memory");
-+}
-+
-+static void nps400_irq_eoi(struct irq_data *data)
-+{
-+	write_aux_reg(CTOP_AUX_IACK, 1 << data->hwirq);
-+}
-+
-+static struct irq_chip nps400_irq_chip_fasteoi = {
-+	.name		= "NPS400 IC Global",
-+	.irq_mask	= nps400_irq_mask,
-+	.irq_unmask	= nps400_irq_unmask,
-+	.irq_eoi	= nps400_irq_eoi_global,
-+};
-+
-+static struct irq_chip nps400_irq_chip_percpu = {
-+	.name		= "NPS400 IC",
-+	.irq_mask	= nps400_irq_mask,
-+	.irq_unmask	= nps400_irq_unmask,
-+	.irq_eoi	= nps400_irq_eoi,
-+};
-+
-+static int nps400_irq_map(struct irq_domain *d, unsigned int virq,
-+			  irq_hw_number_t hw)
-+{
-+	switch (hw) {
-+	case TIMER0_IRQ:
-+#if defined(CONFIG_SMP)
-+	case IPI_IRQ:
-+#endif
-+		irq_set_chip_and_handler(virq, &nps400_irq_chip_percpu,
-+					 handle_percpu_irq);
-+	break;
-+	default:
-+		irq_set_chip_and_handler(virq, &nps400_irq_chip_fasteoi,
-+					 handle_fasteoi_irq);
-+	break;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct irq_domain_ops nps400_irq_ops = {
-+	.xlate = irq_domain_xlate_onecell,
-+	.map = nps400_irq_map,
-+};
-+
-+static struct irq_domain *nps400_root_domain;
-+
-+static int __init nps400_of_init(struct device_node *node,
-+				 struct device_node *parent)
-+{
-+	if (parent)
-+		panic("DeviceTree incore ic not a root irq controller\n");
-+
-+	nps400_root_domain = irq_domain_add_linear(node, NR_CPU_IRQS,
-+						   &nps400_irq_ops, NULL);
-+
-+	if (!nps400_root_domain)
-+		panic("nps400 root irq domain not avail\n");
-+
-+	/* with this we don't need to export nps400_root_domain */
-+	irq_set_default_host(nps400_root_domain);
-+
-+	return 0;
-+}
-+IRQCHIP_DECLARE(ezchip_nps400_ic, "ezchip,nps400-ic", nps400_of_init);
+ 	/* For efficiency sake, kernel is compile time built for a MMU ver
+ 	 * This must match the hardware it is running on.
+ 	 * Linux built for MMU V2, if run on MMU V1 will break down because V1
 -- 
 1.7.1
