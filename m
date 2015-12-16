@@ -1,50 +1,152 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Wed, 16 Dec 2015 03:10:20 +0200
-Subject: [PATCH v4 01/19] Documentation: Add EZchip vendor to binding list
+Date: Wed, 16 Dec 2015 03:10:21 +0200
+Subject: [PATCH v4 02/19] soc: Support for EZchip SoC
 In-Reply-To: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
 References: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1450228238-4499-2-git-send-email-noamc@ezchip.com>
+Message-ID: <1450228238-4499-3-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-Add EZchip to vendor prefixes list.
-EZchip introduce the NPS platform for the ARC architecture.
+This header file is for NPS400 SoC.
+It includes macros for accessing memory mapped registers.
+These are functional registers that core can use to configure SoC.
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
-Acked-by: Rob Herring <robh+dt at kernel.org>
-Cc: Pawel Moll <pawel.moll at arm.com>
 ---
- Documentation/devicetree/bindings/arc/eznps.txt    |    7 +++++++
- .../devicetree/bindings/vendor-prefixes.txt        |    1 +
- 2 files changed, 8 insertions(+), 0 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/arc/eznps.txt
+ include/soc/nps/common.h |  123 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 123 insertions(+), 0 deletions(-)
+ create mode 100644 include/soc/nps/common.h
 
-diff --git a/Documentation/devicetree/bindings/arc/eznps.txt b/Documentation/devicetree/bindings/arc/eznps.txt
+diff --git a/include/soc/nps/common.h b/include/soc/nps/common.h
 new file mode 100644
-index 0000000..1aa50c6
+index 0000000..3bc30a8
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/arc/eznps.txt
-@@ -0,0 +1,7 @@
-+EZchip NPS Network Processor Platforms Device Tree Bindings
-+---------------------------------------------------------------------------
++++ b/include/soc/nps/common.h
+@@ -0,0 +1,123 @@
++/*
++ * Copyright(c) 2015 EZchip Technologies.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * The full GNU General Public License is included in this distribution in
++ * the file called "COPYING".
++ */
 +
-+Appliance main board with NPS400 ASIC.
++#ifndef SOC_NPS_COMMON_H
++#define SOC_NPS_COMMON_H
 +
-+Required root node properties:
-+    - compatible = "ezchip,arc-nps";
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.txt b/Documentation/devicetree/bindings/vendor-prefixes.txt
-index 55df1d4..d7bff8a 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.txt
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.txt
-@@ -82,6 +82,7 @@ eukrea  Eukr??a Electromatique
- everest	Everest Semiconductor Co. Ltd.
- everspin	Everspin Technologies, Inc.
- excito	Excito
-+ezchip	EZchip Semiconductor
- fcs	Fairchild Semiconductor
- firefly	Firefly
- focaltech	FocalTech Systems Co.,Ltd
++#define NPS_HOST_REG_BASE			0xF6000000
++#define CTOP_INST_MOV2B_FLIP_R3_B1_B2_INST	0x5B60
++#define CTOP_INST_MOV2B_FLIP_R3_B1_B2_LIMM	0x00010422
++
++#ifndef __ASSEMBLY__
++/* CPU global ID */
++struct global_id {
++	union {
++		struct {
++#ifdef CONFIG_EZNPS_MTM_EXT
++			u32 __reserved:20, cluster:4, core:4, thread:4;
++#else
++			u32 __reserved:24, cluster:4, core:4;
++#endif
++		};
++		u32 value;
++	};
++};
++
++/*
++ * Convert logical to physical CPU IDs
++ *
++ * The conversion swap bits 1 and 2 of cluster id (out of 4 bits)
++ * Now quad of logical clusters id's are adjacent physically,
++ * and not like the id's physically came with each cluster.
++ * Below table is 4x4 mesh of core clusters as it layout on chip.
++ * Cluster ids are in format: logical (physical)
++ *
++ *    -----------------   ------------------
++ * 3 |  5 (3)   7 (7)  | | 13 (11)   15 (15)|
++ *
++ * 2 |  4 (2)   6 (6)  | | 12 (10)   14 (14)|
++ *    -----------------   ------------------
++ * 1 |  1 (1)   3 (5)  | |  9  (9)   11 (13)|
++ *
++ * 0 |  0 (0)   2 (4)  | |  8  (8)   10 (12)|
++ *    -----------------   ------------------
++ *       0       1            2        3
++ */
++static inline int nps_cluster_logic_to_phys(int cluster)
++{
++	 __asm__ __volatile__(
++	"       mov r3,%0\n"
++	"       .short %1\n"
++	"       .word %2\n"
++	"       mov %0,r3\n"
++	: "+r"(cluster)
++	: "i"(CTOP_INST_MOV2B_FLIP_R3_B1_B2_INST),
++	  "i"(CTOP_INST_MOV2B_FLIP_R3_B1_B2_LIMM)
++	: "r3");
++
++	return cluster;
++}
++
++#define NPS_CPU_TO_CLUSTER_NUM(cpu) \
++	({ struct global_id gid; gid.value = cpu; \
++		nps_cluster_logic_to_phys(gid.cluster); })
++
++struct nps_host_reg_address {
++	union {
++		struct {
++			u32 base:8, cl_x:4, cl_y:4,
++			blkid:6, reg:8, __reserved:2;
++		};
++		u32 value;
++	};
++};
++
++struct nps_host_reg_address_non_cl {
++	union {
++		struct {
++			u32 base:7, blkid:11, reg:12, __reserved:2;
++		};
++		u32 value;
++	};
++};
++
++static inline void *nps_host_reg_non_cl(u32 blkid, u32 reg)
++{
++	struct nps_host_reg_address_non_cl reg_address;
++
++	reg_address.value = NPS_HOST_REG_BASE;
++	reg_address.blkid = blkid;
++	reg_address.reg = reg;
++
++	return (void *)reg_address.value;
++}
++
++static inline void *nps_host_reg(u32 cpu, u32 blkid, u32 reg)
++{
++	struct nps_host_reg_address reg_address;
++	u32 cl = NPS_CPU_TO_CLUSTER_NUM(cpu);
++
++	reg_address.value = NPS_HOST_REG_BASE;
++	reg_address.cl_x  = (cl >> 2) & 0x3;
++	reg_address.cl_y  = cl & 0x3;
++	reg_address.blkid = blkid;
++	reg_address.reg   = reg;
++
++	return (void *)reg_address.value;
++}
++#endif /* __ASSEMBLY__ */
++
++#endif /* SOC_NPS_COMMON_H */
 -- 
 1.7.1
