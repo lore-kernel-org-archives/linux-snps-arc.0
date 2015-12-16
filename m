@@ -1,113 +1,91 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Wed, 16 Dec 2015 03:10:26 +0200
-Subject: [PATCH v4 07/19] ARC: rwlock: disable interrupts in !LLSC variant
+Date: Wed, 16 Dec 2015 03:10:27 +0200
+Subject: [PATCH v4 08/19] ARC: rename smp operation init_irq_cpu() to
+ init_per_cpu()
 In-Reply-To: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
 References: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1450228238-4499-8-git-send-email-noamc@ezchip.com>
+Message-ID: <1450228238-4499-9-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-If we hold rwlock and interrupt occures we may
-end up spinning on it for ever during softirq.
-Note that this lock is an internal lock
-and since the lock is free to be used from any context,
-the lock needs to be IRQ-safe.
-
-Below you may see an example for interrupt we get while
-nl_table_lock is holding its rw->lock_mutex and we spinned
-on it for ever.
-
-The concept for the fix was taken from SPARC.
-
-[2015-05-12 19:16:12] Stack Trace:
-[2015-05-12 19:16:12]   arc_unwind_core+0xb8/0x11c
-[2015-05-12 19:16:12]   dump_stack+0x68/0xac
-[2015-05-12 19:16:12]   _raw_read_lock+0xa8/0xac
-[2015-05-12 19:16:12]   netlink_broadcast_filtered+0x56/0x35c
-[2015-05-12 19:16:12]   nlmsg_notify+0x42/0xa4
-[2015-05-12 19:16:13]   neigh_update+0x1fe/0x44c
-[2015-05-12 19:16:13]   neigh_event_ns+0x40/0xa4
-[2015-05-12 19:16:13]   arp_process+0x46e/0x5a8
-[2015-05-12 19:16:13]   __netif_receive_skb_core+0x358/0x500
-[2015-05-12 19:16:13]   process_backlog+0x92/0x154
-[2015-05-12 19:16:13]   net_rx_action+0xb8/0x188
-[2015-05-12 19:16:13]   __do_softirq+0xda/0x1d8
-[2015-05-12 19:16:14]   irq_exit+0x8a/0x8c
-[2015-05-12 19:16:14]   arch_do_IRQ+0x6c/0xa8
-[2015-05-12 19:16:14]   handle_interrupt_level1+0xe4/0xf0
+This will better reflect its description i.e. "any needed setup..."
+and not just do an "IPI request".
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
-Acked-by: Peter Zijlstra <peterz at infradead.org>
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/include/asm/spinlock.h |   14 ++++++++++++++
- 1 files changed, 14 insertions(+), 0 deletions(-)
+ arch/arc/include/asm/smp.h |    4 ++--
+ arch/arc/kernel/irq.c      |    4 ++--
+ arch/arc/kernel/mcip.c     |    2 +-
+ arch/arc/kernel/smp.c      |    4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arc/include/asm/spinlock.h b/arch/arc/include/asm/spinlock.h
-index db8c59d..800e7c4 100644
---- a/arch/arc/include/asm/spinlock.h
-+++ b/arch/arc/include/asm/spinlock.h
-@@ -610,7 +610,9 @@ static inline void arch_spin_unlock(arch_spinlock_t *lock)
- static inline int arch_read_trylock(arch_rwlock_t *rw)
- {
- 	int ret = 0;
-+	unsigned long flags;
+diff --git a/arch/arc/include/asm/smp.h b/arch/arc/include/asm/smp.h
+index 133c867..9913804 100644
+--- a/arch/arc/include/asm/smp.h
++++ b/arch/arc/include/asm/smp.h
+@@ -48,7 +48,7 @@ extern int smp_ipi_irq_setup(int cpu, int irq);
+  * @init_early_smp:	A SMP specific h/w block can init itself
+  * 			Could be common across platforms so not covered by
+  * 			mach_desc->init_early()
+- * @init_irq_cpu:	Called for each core so SMP h/w block driver can do
++ * @init_per_cpu:	Called for each core so SMP h/w block driver can do
+  * 			any needed setup per cpu (e.g. IPI request)
+  * @cpu_kick:		For Master to kickstart a cpu (optionally at a PC)
+  * @ipi_send:		To send IPI to a @cpu
+@@ -57,7 +57,7 @@ extern int smp_ipi_irq_setup(int cpu, int irq);
+ struct plat_smp_ops {
+ 	const char 	*info;
+ 	void		(*init_early_smp)(void);
+-	void		(*init_irq_cpu)(int cpu);
++	void		(*init_per_cpu)(int cpu);
+ 	void		(*cpu_kick)(int cpu, unsigned long pc);
+ 	void		(*ipi_send)(int cpu);
+ 	void		(*ipi_clear)(int irq);
+diff --git a/arch/arc/kernel/irq.c b/arch/arc/kernel/irq.c
+index 2ee2265..a650650 100644
+--- a/arch/arc/kernel/irq.c
++++ b/arch/arc/kernel/irq.c
+@@ -29,8 +29,8 @@ void __init init_IRQ(void)
  
-+	local_irq_save(flags);
- 	arch_spin_lock(&(rw->lock_mutex));
+ #ifdef CONFIG_SMP
+ 	/* a SMP H/w block could do IPI IRQ request here */
+-	if (plat_smp_ops.init_irq_cpu)
+-		plat_smp_ops.init_irq_cpu(smp_processor_id());
++	if (plat_smp_ops.init_per_cpu)
++		plat_smp_ops.init_per_cpu(smp_processor_id());
  
- 	/*
-@@ -623,6 +625,7 @@ static inline int arch_read_trylock(arch_rwlock_t *rw)
- 	}
+ 	if (machine_desc->init_cpu_smp)
+ 		machine_desc->init_cpu_smp(smp_processor_id());
+diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
+index 74a9b07..bd237ac 100644
+--- a/arch/arc/kernel/mcip.c
++++ b/arch/arc/kernel/mcip.c
+@@ -132,7 +132,7 @@ static void mcip_probe_n_setup(void)
+ struct plat_smp_ops plat_smp_ops = {
+ 	.info		= smp_cpuinfo_buf,
+ 	.init_early_smp	= mcip_probe_n_setup,
+-	.init_irq_cpu	= mcip_setup_per_cpu,
++	.init_per_cpu	= mcip_setup_per_cpu,
+ 	.ipi_send	= mcip_ipi_send,
+ 	.ipi_clear	= mcip_ipi_clear,
+ };
+diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
+index 5805878..0b061a4 100644
+--- a/arch/arc/kernel/smp.c
++++ b/arch/arc/kernel/smp.c
+@@ -132,8 +132,8 @@ void start_kernel_secondary(void)
+ 	pr_info("## CPU%u LIVE ##: Executing Code...\n", cpu);
  
- 	arch_spin_unlock(&(rw->lock_mutex));
-+	local_irq_restore(flags);
+ 	/* Some SMP H/w setup - for each cpu */
+-	if (plat_smp_ops.init_irq_cpu)
+-		plat_smp_ops.init_irq_cpu(cpu);
++	if (plat_smp_ops.init_per_cpu)
++		plat_smp_ops.init_per_cpu(cpu);
  
- 	smp_mb();
- 	return ret;
-@@ -632,7 +635,9 @@ static inline int arch_read_trylock(arch_rwlock_t *rw)
- static inline int arch_write_trylock(arch_rwlock_t *rw)
- {
- 	int ret = 0;
-+	unsigned long flags;
- 
-+	local_irq_save(flags);
- 	arch_spin_lock(&(rw->lock_mutex));
- 
- 	/*
-@@ -646,6 +651,7 @@ static inline int arch_write_trylock(arch_rwlock_t *rw)
- 		ret = 1;
- 	}
- 	arch_spin_unlock(&(rw->lock_mutex));
-+	local_irq_restore(flags);
- 
- 	return ret;
- }
-@@ -664,16 +670,24 @@ static inline void arch_write_lock(arch_rwlock_t *rw)
- 
- static inline void arch_read_unlock(arch_rwlock_t *rw)
- {
-+	unsigned long flags;
-+
-+	local_irq_save(flags);
- 	arch_spin_lock(&(rw->lock_mutex));
- 	rw->counter++;
- 	arch_spin_unlock(&(rw->lock_mutex));
-+	local_irq_restore(flags);
- }
- 
- static inline void arch_write_unlock(arch_rwlock_t *rw)
- {
-+	unsigned long flags;
-+
-+	local_irq_save(flags);
- 	arch_spin_lock(&(rw->lock_mutex));
- 	rw->counter = __ARCH_RW_LOCK_UNLOCKED__;
- 	arch_spin_unlock(&(rw->lock_mutex));
-+	local_irq_restore(flags);
- }
- 
- #endif
+ 	if (machine_desc->init_cpu_smp)
+ 		machine_desc->init_cpu_smp(cpu);
 -- 
 1.7.1
