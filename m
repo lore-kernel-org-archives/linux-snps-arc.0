@@ -1,36 +1,45 @@
-From: akpm@linux-foundation.org (Andrew Morton)
-Date: Wed, 16 Dec 2015 21:43:26 -0800
-Subject: + arc-convert-to-dma_map_ops.patch added to -mm tree
-In-Reply-To: <56724817.7090003@synopsys.com>
-References: <564b9e3a.DaXj5xWV8Mzu1fPX%akpm@linux-foundation.org>
- <C2D7FE5348E1B147BCA15975FBA23075F44D2EEF@IN01WEMBXA.internal.synopsys.com>
- <20151124075047.GA29572@lst.de> <56724817.7090003@synopsys.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Thu, 17 Dec 2015 14:12:20 +0100
+Subject: [PATCH v4 04/19] clocksource: Add NPS400 timers driver
+In-Reply-To: <1450228238-4499-5-git-send-email-noamc@ezchip.com>
+References: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
+ <1450228238-4499-5-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20151216214326.82515ce1.akpm@linux-foundation.org>
+Message-ID: <5672B4B4.2010305@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, 17 Dec 2015 10:58:55 +0530 Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
+On 12/16/2015 02:10 AM, Noam Camus wrote:
+> From: Noam Camus <noamc at ezchip.com>
+>
+> Add internal tick generator which is shared by all cores.
+> Each cluster of cores view it through dedicated address.
+> This is used for SMP system where all CPUs synced by same
+> clock source.
+>
+> Signed-off-by: Noam Camus <noamc at ezchip.com>
+> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Cc: Rob Herring <robh+dt at kernel.org>
+> Cc: Thomas Gleixner <tglx at linutronix.de>
+> Cc: John Stultz <john.stultz at linaro.org>
+> Acked-by: Vineet Gupta <vgupta at synopsys.com>
 
-> On Tuesday 24 November 2015 01:20 PM, hch@lst.de wrote:
-> > Hi Vineet,
-> > 
-> > the original version went through the buildbot, which succeeded.  It seems
-> > like the official buildbot does not support arc, and might benefit from
-> > helping to set up an arc environment.  However in the meantime Guenther
-> > send me output from his buildbot and I sent a fix for arc.
-> > 
-> 
-> Hi Andrew, Christoph
-> 
-> The dma mapping conversion build error fixlet (below) exists as a separate patch
-> which will break bisectability. Will it be possible to squash it into the orig commit.
-> 
+[ ... ]
 
-That's the plan.  In http://ozlabs.org/~akpm/mmots/series you'll see
+> +	clk_prepare_enable(clk);
+> +	rate = clk_get_rate(clk);
 
-arc-convert-to-dma_map_ops.patch
-arc-convert-to-dma_map_ops-fix.patch
+With the return value checked:
 
-I keep the base patch(es) and its fixes separate for various
-tacking/history/bookkeeping reasons and fold them all together just
-before sending things off to Linus.
+Acked-by: Daniel Lezcano <daniel.lezcano at linaro.org>
+
+Thanks !
+
+   -- Daniel
+
+
+-- 
+  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
