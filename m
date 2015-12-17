@@ -1,160 +1,37 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 16 Dec 2015 17:53:59 +0530
-Subject: [PATCH 1/2] ARC: dw2 unwind: Reinstante unwinding out of modules
-In-Reply-To: <1450268640-23055-1-git-send-email-vgupta@synopsys.com>
-References: <1450268640-23055-1-git-send-email-vgupta@synopsys.com>
+Date: Thu, 17 Dec 2015 10:58:55 +0530
+Subject: + arc-convert-to-dma_map_ops.patch added to -mm tree
+In-Reply-To: <20151124075047.GA29572@lst.de>
+References: <564b9e3a.DaXj5xWV8Mzu1fPX%akpm@linux-foundation.org>
+ <C2D7FE5348E1B147BCA15975FBA23075F44D2EEF@IN01WEMBXA.internal.synopsys.com>
+ <20151124075047.GA29572@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1450268640-23055-2-git-send-email-vgupta@synopsys.com>
+Message-ID: <56724817.7090003@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-The fix which removed linear searching of dwarf (because binary lookup
-data always exists) missed out on the fact that modules don't get the
-binary lookup tables info. This caused unwinding out of modules to stop
-working.
+On Tuesday 24 November 2015 01:20 PM, hch@lst.de wrote:
+> Hi Vineet,
+> 
+> the original version went through the buildbot, which succeeded.  It seems
+> like the official buildbot does not support arc, and might benefit from
+> helping to set up an arc environment.  However in the meantime Guenther
+> send me output from his buildbot and I sent a fix for arc.
+> 
 
-So add binary lookup header setup (equivalent of eh_frame_hdr setup) to
-modules as well.
+Hi Andrew, Christoph
 
-While at it, confine the header setup to within unwinder code,
-reducing one API exposed out of unwinder code.
+The dma mapping conversion build error fixlet (below) exists as a separate patch
+which will break bisectability. Will it be possible to squash it into the orig commit.
 
-Fixes: 2e22502c080f ARC: dw2 unwind: Remove falllback linear search thru FDE entries
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/include/asm/unwind.h |  4 ----
- arch/arc/kernel/setup.c       |  1 -
- arch/arc/kernel/unwind.c      | 40 ++++++++++++++++++++++++++--------------
- 3 files changed, 26 insertions(+), 19 deletions(-)
+Thx,
+-Vineet
 
-diff --git a/arch/arc/include/asm/unwind.h b/arch/arc/include/asm/unwind.h
-index 7ca628b6ee2a..c11a25bb8158 100644
---- a/arch/arc/include/asm/unwind.h
-+++ b/arch/arc/include/asm/unwind.h
-@@ -112,7 +112,6 @@ struct unwind_frame_info {
- 
- extern int arc_unwind(struct unwind_frame_info *frame);
- extern void arc_unwind_init(void);
--extern void arc_unwind_setup(void);
- extern void *unwind_add_table(struct module *module, const void *table_start,
- 			      unsigned long table_size);
- extern void unwind_remove_table(void *handle, int init_only);
-@@ -152,9 +151,6 @@ static inline void arc_unwind_init(void)
- {
- }
- 
--static inline void arc_unwind_setup(void)
--{
--}
- #define unwind_add_table(a, b, c)
- #define unwind_remove_table(a, b)
- 
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index c33e77c0ad3e..e1b87444ea9a 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -429,7 +429,6 @@ void __init setup_arch(char **cmdline_p)
- #endif
- 
- 	arc_unwind_init();
--	arc_unwind_setup();
- }
- 
- static int __init customize_machine(void)
-diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index 7352475451f6..9f9ecc15556e 100644
---- a/arch/arc/kernel/unwind.c
-+++ b/arch/arc/kernel/unwind.c
-@@ -170,6 +170,23 @@ static struct unwind_table *find_table(unsigned long pc)
- 
- static unsigned long read_pointer(const u8 **pLoc,
- 				  const void *end, signed ptrType);
-+static void init_unwind_hdr(struct unwind_table *table,
-+			    void *(*alloc) (unsigned long));
-+
-+/*
-+ * wrappers for header alloc (vs. calling one vs. other at call site)
-+ * to elide section mismatches warnings
-+ */
-+static void *__init unw_hdr_alloc_early(unsigned long sz)
-+{
-+	return __alloc_bootmem_nopanic(sz, sizeof(unsigned int),
-+				       MAX_DMA_ADDRESS);
-+}
-+
-+static void *unw_hdr_alloc(unsigned long sz)
-+{
-+	return kmalloc(sz, GFP_KERNEL);
-+}
- 
- static void init_unwind_table(struct unwind_table *table, const char *name,
- 			      const void *core_start, unsigned long core_size,
-@@ -209,6 +226,8 @@ void __init arc_unwind_init(void)
- 			  __start_unwind, __end_unwind - __start_unwind,
- 			  NULL, 0);
- 	  /*__start_unwind_hdr, __end_unwind_hdr - __start_unwind_hdr);*/
-+
-+	init_unwind_hdr(&root_table, unw_hdr_alloc_early);
- }
- 
- static const u32 bad_cie, not_fde;
-@@ -241,8 +260,8 @@ static void swap_eh_frame_hdr_table_entries(void *p1, void *p2, int size)
- 	e2->fde = v;
- }
- 
--static void __init setup_unwind_table(struct unwind_table *table,
--				      void *(*alloc) (unsigned long))
-+static void init_unwind_hdr(struct unwind_table *table,
-+			    void *(*alloc) (unsigned long))
- {
- 	const u8 *ptr;
- 	unsigned long tableSize = table->size, hdrSize;
-@@ -300,9 +319,11 @@ static void __init setup_unwind_table(struct unwind_table *table,
- 
- 	hdrSize = 4 + sizeof(unsigned long) + sizeof(unsigned int)
- 	    + 2 * n * sizeof(unsigned long);
-+
- 	header = alloc(hdrSize);
- 	if (!header)
- 		return;
-+
- 	header->version = 1;
- 	header->eh_frame_ptr_enc = DW_EH_PE_abs | DW_EH_PE_native;
- 	header->fde_count_enc = DW_EH_PE_abs | DW_EH_PE_data4;
-@@ -342,18 +363,6 @@ static void __init setup_unwind_table(struct unwind_table *table,
- 	table->header = (const void *)header;
- }
- 
--static void *__init balloc(unsigned long sz)
--{
--	return __alloc_bootmem_nopanic(sz,
--				       sizeof(unsigned int),
--				       __pa(MAX_DMA_ADDRESS));
--}
--
--void __init arc_unwind_setup(void)
--{
--	setup_unwind_table(&root_table, balloc);
--}
--
- #ifdef CONFIG_MODULES
- 
- static struct unwind_table *last_table;
-@@ -377,6 +386,8 @@ void *unwind_add_table(struct module *module, const void *table_start,
- 			  table_start, table_size,
- 			  NULL, 0);
- 
-+	init_unwind_hdr(table, unw_hdr_alloc);
-+
- #ifdef UNWIND_DEBUG
- 	unw_debug("Table added for [%s] %lx %lx\n",
- 		module->name, table->core.pc, table->core.range);
-@@ -439,6 +450,7 @@ void unwind_remove_table(void *handle, int init_only)
- 	info.init_only = init_only;
- 
- 	unlink_table(&info); /* XXX: SMP */
-+	kfree(table->header);
- 	kfree(table);
- }
- 
--- 
-1.9.1
+commit 7f33b4a409493b81c24741dbad6700aae99d8ed0
+Author: Christoph Hellwig <hch at lst.de>
+Date:   Fri Dec 11 15:59:33 2015 +1100
+
+    arc: dma mapping fixes
+
+    Signed-off-by: Christoph Hellwig <hch at lst.de>
+    Reported-by: Guenter Roeck <linux at roeck-us.net>
+    Signed-off-by: Andrew Morton <akpm at linux-foundation.org>
