@@ -1,66 +1,63 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 18 Dec 2015 12:11:09 +0000
-Subject: [GIT PULL] ARC fixes for 4.4-rc6
+From: noamc@ezchip.com (Noam Camus)
+Date: Fri, 18 Dec 2015 14:29:29 +0000
+Subject: [PATCH v4 05/19] irqchip: add nps Internal and external irqchips
+In-Reply-To: <5673EC2D.5040307@arm.com>
+References: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
+ <1450228238-4499-6-git-send-email-noamc@ezchip.com>
+ <56712F50.6050404@arm.com>
+ <DB5PR02MB1141324364E0253DAA030DF1D6E10@DB5PR02MB1141.eurprd02.prod.outlook.com>
+ <5673EC2D.5040307@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E81E1F@us01wembx1.internal.synopsys.com>
+Message-ID: <DB5PR02MB1141A1E0BE574A713957650BD6E10@DB5PR02MB1141.eurprd02.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+>From: Marc Zyngier [mailto:marc.zyngier at arm.com] 
+>Sent: Friday, December 18, 2015 1:21 PM
 
-We ran into a bunch of show stopper issues for perf and stack unwinding.
-Please pull.
+>> I need this for my per CPU irqs such timer and IPI which do not come 
+>> from some external device but from CPUs. For these IRQs I am calling 
+>> to irq_create_mapping() from my platform at arch/arc and at that point 
+>> I got no irqdomain and using irq_find_host() is not good since I got 
+>> no device_node (at most I can have DT root).
 
------------------>
-The following changes since commit 31ade3b83e1821da5fbb2f11b5b3d4ab2ec39db8:
+>That's a problem. You should never do that for your timer (doing a request_irq will do the right thing, and that's what your timer driver already does).
 
-  Linux 4.4-rc3 (2015-11-29 18:58:26 -0800)
+Please be more specific, from all that I wrote what is the problem?
+When I use request_irq() it fail without the mapping and mapping fail without a domain.
+Never do what?
+What should I do then?
 
-are available in the git repository at:
+>As for initializing your IPIs, they are usually outside of the IRQ space, so you should handle them separately (and get your irqchip to initialize them).
+I am handling all my IRQs within same irqchip, which is the only one I have. So I am not sure what you expect here.
+Please be more elaborate.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/
-tags/arc-fixes-for-4.4-rc6
+>> 
+>> Another thing I'm not seeing here is where is the interrupt actually taken. This code only contains the EOI part, but not the ACK side, as well as the reverse lookup hwirq -> irq). Where is that code?
+>> 
+>> ACK is an optional handler and is not needed by my platform.
+>> I will add comment that since my IRQs are EOI based I do not need an ACK.
 
-for you to fetch changes up to 575a9d4e2c09675c05db2bc781c5c33153ce932f:
+>What I'm talking about is not the irq_ack method that the irqchip can provide, but the action your perform on your interrupt controller to extract the hwirq number and find out what corresponding Linux interrupt has fired.
 
-  ARC: smp: Rename platform hook @init_cpu_smp -> @init_per_cpu (2015-12-17
-12:56:56 +0530)
+>> 
+>> I do not understand reverse lookup remark, where is it missing?
+>> Could you point me to an example for such reverse lookup? 
 
-----------------------------------------------------------------
-ARC Fixes
+>See for example:
 
- - perf interrupts on SMP: Not enabled (at boot) and disabled (at runtime)
- - stack unwinder regression (for modules, ignoring dwarf3)
- - nsim hosed for non default kernel link base builds
+>https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/drivers/irqchip/irq-sun4i.c#n136
 
-----------------------------------------------------------------
-Alexey Brodkin (1):
-      ARC: [axs10x] cap ethernet phy to 100 Mbit/sec
+>This is the function (sun4i_handle_irq) that is executed almost immediately after the IRQ is asserted. The CPU reads the hwirq from the interrupt controller, and use handle_domain_irq() to call the corresponding handler (by doing a lookup in the domain).
 
-Noam Camus (1):
-      ARC: rename smp operation init_irq_cpu() to init_per_cpu()
+>I couldn't find out in your platform code where you are doing that.
 
-Vineet Gupta (8):
-      ARCv2: intc: Fix random perf irq disabling in SMP setup
-      ARC: intc: No need to clear IRQ_NOAUTOEN
-      ARCv2: perf: Ensure perf intr gets enabled on all cores
-      ARC: intc: Document arc_request_percpu_irq() better
-      ARC: [plat-sim] unbork non default CONFIG_LINUX_LINK_BASE
-      ARC: dw2 unwind: Reinstante unwinding out of modules
-      ARC: dw2 unwind: Ignore CIE version !=1 gracefully instead of bailing
-      ARC: smp: Rename platform hook @init_cpu_smp -> @init_per_cpu
+OK, this is seem much like exclusively ARM stuff.
+Note that I am working with ARC (seem alike) here and we do not define CONFIG_HANDLE_DOMAIN_IRQ and do not implement set_handle_irq().
 
- arch/arc/Kconfig                 |  1 +
- arch/arc/boot/dts/axs10x_mb.dtsi |  1 +
- arch/arc/boot/dts/nsim_hs.dts    |  3 ++-
- arch/arc/include/asm/mach_desc.h |  4 +--
- arch/arc/include/asm/smp.h       |  4 +--
- arch/arc/include/asm/unwind.h    |  4 ---
- arch/arc/kernel/intc-arcv2.c     | 15 ++++++++++--
- arch/arc/kernel/irq.c            | 33 ++++++++++++++++++-------
- arch/arc/kernel/mcip.c           |  2 +-
- arch/arc/kernel/perf_event.c     | 32 +++++++-----------------
- arch/arc/kernel/setup.c          |  1 -
- arch/arc/kernel/smp.c            |  8 +++---
- arch/arc/kernel/unwind.c         | 53 ++++++++++++++++++++++++++--------------
- arch/arc/mm/init.c               |  4 ++-
- 14 files changed, 97 insertions(+), 68 deletions(-)
+So for ARC this reverse mapping is something we can leave without (maybe because we are kind of a legacy domain).
+
+Note that this patch is part of a set I introduce to ARC as a new platform.
+You can view my tree and the patch set at:
+https://github.com/EZchip/linux/commits/EZ-arc-for-next-basic-reviewd-DO-NOT-COMMENT
+
+-Noam
