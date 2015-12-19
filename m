@@ -1,52 +1,34 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 18 Dec 2015 22:28:51 +0300
-Subject: [PATCH] ARC: fix building for MMU v2
+From: noamc@ezchip.com (Noam Camus)
+Date: Sat, 19 Dec 2015 09:30:26 +0000
+Subject: [PATCH v4 05/19] irqchip: add nps Internal and external irqchips
+In-Reply-To: <567434DF.2030201@arm.com>
+References: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
+ <1450228238-4499-6-git-send-email-noamc@ezchip.com>
+ <56712F50.6050404@arm.com>
+ <DB5PR02MB1141324364E0253DAA030DF1D6E10@DB5PR02MB1141.eurprd02.prod.outlook.com>
+ <5673EC2D.5040307@arm.com>
+ <DB5PR02MB1141A1E0BE574A713957650BD6E10@DB5PR02MB1141.eurprd02.prod.outlook.com>
+ <567434DF.2030201@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1450466931-13355-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <DB5PR02MB11415D584CC523B99476DEB1D6E20@DB5PR02MB1141.eurprd02.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-ARC700 cores with MMU v2 don't have IC_PTAG AUX register and so we only
-define ARC_REG_IC_PTAG for MMU versions >= 3.
+>From: Marc Zyngier [mailto:marc.zyngier at arm.com] 
+>Sent: Friday, December 18, 2015 6:31 PM
 
-But current implementation of cache_line_loop_vX() routines assumes
-availability of all of them (v2, v3 and v4) simultaneously.
+>> Note that I am working with ARC (seem alike) here and we do not define 
+>> CONFIG_HANDLE_DOMAIN_IRQ and do not implement set_handle_irq().
+>> 
+>> So for ARC this reverse mapping is something we can leave without 
+>> (maybe because we are kind of a legacy domain).
 
-And given undefined ARC_REG_IC_PTAG if CONFIG_MMU_VER=2 we're seeing
-compilation problem:
----------------------------------->8-------------------------------
-  CC      arch/arc/mm/cache.o
-arch/arc/mm/cache.c: In function '__cache_line_loop_v3':
-arch/arc/mm/cache.c:270:13: error: 'ARC_REG_IC_PTAG' undeclared (first use in this function)
-   aux_tag = ARC_REG_IC_PTAG;
-             ^
-arch/arc/mm/cache.c:270:13: note: each undeclared identifier is reported only once for each function it appears in
-scripts/Makefile.build:258: recipe for target 'arch/arc/mm/cache.o' failed
----------------------------------->8-------------------------------
+>Yeah, I just located the crap: arch_do_IRQ() happily takes a hwirq (the vector number), and uses that as a Linux IRQ. This looks a lot like ARM pre-DT, about 10 years ago.
 
-The simples fix is to have ARC_REG_IC_PTAG defined regardless MMU
-version being used.
+>Well, time to meet the 21st century. If you intend to use DT, please fix your arch port. Otherwise, just hardcode everything in your platform and don't pretend to support device tree.
 
-We don't use it in cache_line_loop_v2() anyways so who cares.
+Thank you very much. 
+I have the complete picture now.
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/include/asm/cache.h | 2 --
- 1 file changed, 2 deletions(-)
+Will discuss with ARC maintainer and see what best way to do this change. 
 
-diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
-index abf06e8..210ef3e 100644
---- a/arch/arc/include/asm/cache.h
-+++ b/arch/arc/include/asm/cache.h
-@@ -62,9 +62,7 @@ extern int ioc_exists;
- #define ARC_REG_IC_IVIC		0x10
- #define ARC_REG_IC_CTRL		0x11
- #define ARC_REG_IC_IVIL		0x19
--#if defined(CONFIG_ARC_MMU_V3) || defined(CONFIG_ARC_MMU_V4)
- #define ARC_REG_IC_PTAG		0x1E
--#endif
- #define ARC_REG_IC_PTAG_HI	0x1F
- 
- /* Bit val in IC_CTRL */
--- 
-2.4.3
+-Noam
