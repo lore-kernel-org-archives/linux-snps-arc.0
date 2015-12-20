@@ -1,34 +1,134 @@
-From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 19 Dec 2015 09:30:26 +0000
-Subject: [PATCH v4 05/19] irqchip: add nps Internal and external irqchips
-In-Reply-To: <567434DF.2030201@arm.com>
-References: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
- <1450228238-4499-6-git-send-email-noamc@ezchip.com>
- <56712F50.6050404@arm.com>
- <DB5PR02MB1141324364E0253DAA030DF1D6E10@DB5PR02MB1141.eurprd02.prod.outlook.com>
- <5673EC2D.5040307@arm.com>
- <DB5PR02MB1141A1E0BE574A713957650BD6E10@DB5PR02MB1141.eurprd02.prod.outlook.com>
- <567434DF.2030201@arm.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Sun, 20 Dec 2015 20:07:29 -0000
+Subject: kisskb: OK linus/axs101_defconfig/arcompact Mon Dec 21, 07:06
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <DB5PR02MB11415D584CC523B99476DEB1D6E20@DB5PR02MB1141.eurprd02.prod.outlook.com>
+Message-ID: <20151220200729.1.11953@21ab0802fddb>
 To: linux-snps-arc@lists.infradead.org
 
->From: Marc Zyngier [mailto:marc.zyngier at arm.com] 
->Sent: Friday, December 18, 2015 6:31 PM
+OK linus/axs101_defconfig/arcompact Mon Dec 21, 07:06
 
->> Note that I am working with ARC (seem alike) here and we do not define 
->> CONFIG_HANDLE_DOMAIN_IRQ and do not implement set_handle_irq().
->> 
->> So for ARC this reverse mapping is something we can leave without 
->> (maybe because we are kind of a legacy domain).
+http://kisskb.ellerman.id.au/kisskb/buildresult/12573408/
 
->Yeah, I just located the crap: arch_do_IRQ() happily takes a hwirq (the vector number), and uses that as a Linux IRQ. This looks a lot like ARM pre-DT, about 10 years ago.
+Commit:   Merge tag 'rtc-4.4-3' of git://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux
+          9f7e43278605a0daf4edf7025c52c25e9ace6875
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
->Well, time to meet the 21st century. If you intend to use DT, please fix your arch port. Otherwise, just hardcode everything in your platform and don't pretend to support device tree.
+Possible errors
+---------------
 
-Thank you very much. 
-I have the complete picture now.
+      rtc: da9063: fix access ordering error during RTC interrupt at system power on
+     harderr = icmp_err_convert[code].fatal;
 
-Will discuss with ARC maintainer and see what best way to do this change. 
+Possible warnings (110)
+----------------------
 
--Noam
+kernel/sched/core.c:3062:1: warning: control reaches end of non-void function [-Wreturn-type]
+kernel/sysctl.c:1892:12: warning: 'kbuf' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1892:12: warning: 'kbuf' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1892:12: warning: 'kbuf' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1892:12: warning: 'kbuf' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1892:12: warning: 'kbuf' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1892:12: warning: 'kbuf' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1892:12: warning: 'kbuf' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1892:12: warning: 'kbuf' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1892:12: warning: 'kbuf' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/kernel.h:724:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+ipc/shm.c:1219:2: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/rbtree.h:83:28: warning: 'rb_parent' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/rbtree.h:86:11: warning: 'rb_link' may be used uninitialized in this function [-Wmaybe-uninitialized]
+mm/mmap.c:660:17: warning: 'prev' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:818:21: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:95:8: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:695:17: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:1268:13: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/namei.c:1759:10: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+block/cfq-iosched.c:3775:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/namei.c:3161:10: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
+include/asm-generic/bug.h:74:48: warning: 'fn' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:548:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:548:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:548:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:548:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:548:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:548:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:548:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:548:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/base/regmap/regmap-mmio.c:86:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/buffer_head.h:363:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/buffer_head.h:370:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/packet/af_packet.c:2098:33: warning: 'hdrlen' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/core/ethtool.c:260:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/xfrm/xfrm_policy.c:2876:17: warning: 'xfrm_dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<Uae40>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<Uae40>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:26: warning: 'saddr.<Uae40>.a4.vif' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<Uae40>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.<Uae40>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/tcp_metrics.c:1079:7: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<Uae40>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<Uae40>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_extents.h:224:8: warning: '*((void *)&zero_ex+8)' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_extents.h:225:12: warning: '*((void *)&zero_ex+6)' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/extents.c:3113:2: warning: 'zero_ex.ee_block' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/unix/af_unix.c:1694:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1026:20: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1237:8: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1116:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/extents.c:2306:14: warning: 'lblock' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/extents.c:2305:14: warning: 'len' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1694:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/sunrpc/svc_xprt.h:174:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/ping.c:559:37: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:532:3: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:513:48: warning: 'icmph' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:690:21: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:476:63: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/svcsock.c:779:6: warning: 'optname' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/svcsock.c:779:6: warning: 'level' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/core/neighbour.c:3180:10: warning: 'p_name' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/svcauth_unix.c:282:12: warning: 'sin6' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/fib_trie.c:911:11: warning: 'local_tp' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/tcp_input.c:4224:49: warning: array subscript is above array bounds [-Warray-bounds]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1207:12: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/storage/transport.c:499:15: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/storage/transport.c:473:40: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/tty/serial/8250/8250_core.c:250:10: warning: 'i' may be used uninitialized in this function [-Wmaybe-uninitialized]
