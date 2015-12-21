@@ -1,56 +1,43 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 21 Dec 2015 12:54:46 +0530
-Subject: [PATCH] ARC: Fix linking errors with CONFIG_MODULE +
- CONFIG_CC_OPTIMIZE_FOR_SIZE
+From: Joao.Pinto@synopsys.com (Joao Pinto)
+Date: Mon, 21 Dec 2015 15:44:14 +0000
+Subject: [PATCH v3 0/2] adding PCI support to AXS10x
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1450682686-837-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <cover.1450694884.git.jpinto@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-At -Os, ARC gcc generates millicode thunk for function prologue/epilogue,
-which are served by libgcc.
+This patch set has the goal to add suppport for DesignWare PCIe RC in ARC
+AXS10x. It includes the necessary tweaks to the ARC architecture, necessary
+tweaks to the PCI subsystem and a new driver (pcie-snpsdev).
+This new driver will be used extensively in the PCIe RC Prototyping Kit.
 
-Modules historically are NOT linked with libgcc to avoid code bloat, reducing
-runtime relocation fixups etc. I even once tried doign that but got lost
-in makefile intricacies.
+The patches were produced against Bjorn Helgaas' repository. It was properly
+tested in an IP Prototyping Kit.
 
-However CONFIG_MODULE + CONFIG_CC_OPTIMIZE_FOR_SIZE causes link errors
+Joao Pinto (2):
+  PCI support added to ARC
+  add new platform driver for PCI RC
 
-| MODPOST 5 modules
-| ERROR: "__ld_r13_to_r18" [crypto/sha256_generic.ko] undefined!
-| ERROR: "__ld_r13_to_r18_ret" [crypto/sha256_generic.ko] undefined!
-| ERROR: "__st_r13_to_r18" [crypto/sha256_generic.ko] undefined!
-| ERROR: "__ld_r13_to_r17_ret" [crypto/sha256_generic.ko] undefined!
-| ERROR: "__st_r13_to_r17" [crypto/sha256_generic.ko] undefined!
-| ERROR: "__ld_r13_to_r16_ret" [crypto/sha256_generic.ko] undefined!
-| ERROR: "__st_r13_to_r16" [crypto/sha256_generic.ko] undefined!
-|....
-|....
+ .../devicetree/bindings/pci/pcie-snpsdev.txt       |  33 +++
+ MAINTAINERS                                        |   7 +
+ arch/arc/Kconfig                                   |  23 ++
+ arch/arc/include/asm/dma.h                         |   5 +
+ arch/arc/include/asm/io.h                          |  10 +
+ arch/arc/include/asm/pci.h                         |  43 ++++
+ arch/arc/kernel/Makefile                           |   1 +
+ arch/arc/kernel/pcibios.c                          |  55 ++++
+ arch/arc/mm/ioremap.c                              |  10 +-
+ arch/arc/plat-axs10x/Kconfig                       |   1 +
+ drivers/pci/Makefile                               |   1 +
+ drivers/pci/host/Kconfig                           |   5 +
+ drivers/pci/host/Makefile                          |   1 +
+ drivers/pci/host/pcie-designware.c                 |  11 +
+ drivers/pci/host/pcie-designware.h                 |   1 +
+ drivers/pci/host/pcie-snpsdev.c                    | 286 +++++++++++++++++++++
+ 16 files changed, 492 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/pcie-snpsdev.txt
+ create mode 100644 arch/arc/include/asm/pci.h
+ create mode 100644 arch/arc/kernel/pcibios.c
+ create mode 100644 drivers/pci/host/pcie-snpsdev.c
 
-Workaround that by inhibiting millicode thunks for loadable modules
-
-Fixes STAR 9000641864:
-("Linux built with optimizations for size emits errors for modules")
-
-Reported-by: Anton Kolesov <akolesov at synosys.com>
-Cc: Michal Marek <mmarek at suse.cz>
-Cc: linux-kernel at vger.kernel.org
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index cf0cf34eeb24..aeb19021099e 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -81,7 +81,7 @@ endif
- LIBGCC	:= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
- 
- # Modules with short calls might break for calls into builtin-kernel
--KBUILD_CFLAGS_MODULE	+= -mlong-calls
-+KBUILD_CFLAGS_MODULE	+= -mlong-calls -mno-millicode
- 
- # Finally dump eveything into kernel build system
- KBUILD_CFLAGS	+= $(cflags-y)
 -- 
-1.9.1
+1.8.1.5
