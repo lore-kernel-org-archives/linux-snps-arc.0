@@ -1,463 +1,372 @@
-From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Mon, 21 Dec 2015 15:44:16 +0000
-Subject: [PATCH v3 2/2] add new platform driver for PCI RC
-In-Reply-To: <cover.1450694884.git.jpinto@synopsys.com>
-References: <cover.1450694884.git.jpinto@synopsys.com>
+From: CARLOS.PALMINHA@synopsys.com (Carlos Palminha)
+Date: Mon, 21 Dec 2015 18:30:09 +0000
+Subject: ARC AXS101 problems with linux next-20151221
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5d0ef02da7c69534420aac36a8a0a375873bae99.1450694884.git.jpinto@synopsys.com>
+Message-ID: <56784531.1000007@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This patch adds a new driver that will be the reference platform driver for all
-PCI RC IP Protoyping Kits based on ARC SDP. This patch is composed by:
+Hi guys,
 
--Changes to pcie-designware driver add a function that enables the feature of
-starting the LTSSM (Link Train Status State) used by the new driver
--MAINTAINERS file was updated to include the new driver
--Documentation/devicetree/bindings/pci was updated to include the new driver
-documentation
--New driver called pcie-snpsdev
+I just compiled the kernel for axs101_defconfig based on linux next tag 'next-20151221'.
+I can't boot it due to the following errors causing strange stack traces after freeing unused kernel memory (check log below).
 
-Signed-off-by: Joao Pinto <jpinto at synopsys.com>
----
-Changes v2 -> v3:
-- link init stuff was moved to a snpsdev_pcie_establish_link() function in
-pcie-snpsdev (Bjorn Helgaas)
-- pcie-snpsdev driver declaration was changed to be more 
-standard (Bjorn Helgaas)
-- pcie-designware' dw_pcie_link_retrain() now use standard registers from
-pci-regs.h (Bjorn Helgaas)
-- pcie-snpsdev.txt was complemented with more info (Mark Rutland)
+Any clue?
+Do you more info to understand the issue?
 
-Changes v1 -> v2 (Bjorn Helgaas):
-- Fixups snpsdev_pcie_fixup_bridge() and snpsdev_pcie_fixup_res() were removed
-from the driver (these functions were for specific tests only and not usefull
-in mainline)
-- Driver' comments were reviewed (fix Typos and excessive comments removal)
-- Removed unnecessary definitions in the driver source (PCIE_PHY_CTRL and
-PCIE_PHY_STAT)
+Regards,
+C.Palminha
 
- .../devicetree/bindings/pci/pcie-snpsdev.txt       |  33 +++
- MAINTAINERS                                        |   7 +
- drivers/pci/host/Kconfig                           |   5 +
- drivers/pci/host/Makefile                          |   1 +
- drivers/pci/host/pcie-designware.c                 |  11 +
- drivers/pci/host/pcie-designware.h                 |   1 +
- drivers/pci/host/pcie-snpsdev.c                    | 286 +++++++++++++++++++++
- 7 files changed, 344 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/pci/pcie-snpsdev.txt
- create mode 100644 drivers/pci/host/pcie-snpsdev.c
 
-diff --git a/Documentation/devicetree/bindings/pci/pcie-snpsdev.txt b/Documentation/devicetree/bindings/pci/pcie-snpsdev.txt
-new file mode 100644
-index 0000000..cae548b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/pci/pcie-snpsdev.txt
-@@ -0,0 +1,33 @@
-+Synopsys PCI RC IP Prototyping Kit
-+----------------------------------
-+
-+This is the reference platform driver to be used in the Synopsys PCI Root
-+Complex IP Prototyping Kit.
-+
-+Required properties:
-+- compatible: set to "snps,pcie-snpsdev";
-+- reg: base address and length of the pcie controller registers.
-+- #address-cells: set to <3>
-+- #size-cells: set to <2>
-+- device_type: set to "pci"
-+- ranges: ranges for the PCI memory and I/O regions.
-+- interrupts: one interrupt source for MSI interrupts, followed by interrupt
-+	source for hardware related interrupts.
-+- #interrupt-cells: set to <1>
-+- num-lanes: set to <1>;
-+
-+Example configuration:
-+
-+	pcie: pcie at 0xdffff000 {
-+		compatible = "snps,pcie-snpsdev";
-+		reg = <0xdffff000 0x1000>;
-+		#address-cells = <3>;
-+		#size-cells = <2>;
-+		device_type = "pci";
-+		ranges = <0x00000800 0 0xd0000000 0xd0000000 0 0x00002000>,
-+			 <0x81000000 0 0x00000000 0xde000000 0 0x00010000>,
-+			 <0x82000000 0 0xd0400000 0xd0400000 0 0x0d000000>;
-+		interrupts = <25>, <24>;
-+		#interrupt-cells = <1>;
-+		num-lanes = <1>;
-+	};
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e9caa4b..d2e4506 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8230,6 +8230,13 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/pci/hisilicon-pcie.txt
- F:	drivers/pci/host/pcie-hisi.c
- 
-+PCI DRIVER FOR SYNOPSYS PROTOTYPING DEVICE
-+M:	Joao Pinto <jpinto at synopsys.com>
-+L:	linux-pci at vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/pci/pcie-snpsdev.txt
-+F:	drivers/pci/host/pcie-snpsdev.c
-+
- PCMCIA SUBSYSTEM
- P:	Linux PCMCIA Team
- L:	linux-pcmcia at lists.infradead.org
-diff --git a/drivers/pci/host/Kconfig b/drivers/pci/host/Kconfig
-index f131ba9..a874b1e 100644
---- a/drivers/pci/host/Kconfig
-+++ b/drivers/pci/host/Kconfig
-@@ -172,4 +172,9 @@ config PCI_HISI
- 	help
- 	  Say Y here if you want PCIe controller support on HiSilicon HIP05 SoC
- 
-+config PCIE_SNPSDEV
-+	bool "Platform Driver for Synopsys Device"
-+	select PCIEPORTBUS
-+	select PCIE_DW
-+
- endmenu
-diff --git a/drivers/pci/host/Makefile b/drivers/pci/host/Makefile
-index 9d4d3c6..e422f65 100644
---- a/drivers/pci/host/Makefile
-+++ b/drivers/pci/host/Makefile
-@@ -20,3 +20,4 @@ obj-$(CONFIG_PCIE_IPROC_BCMA) += pcie-iproc-bcma.o
- obj-$(CONFIG_PCIE_ALTERA) += pcie-altera.o
- obj-$(CONFIG_PCIE_ALTERA_MSI) += pcie-altera-msi.o
- obj-$(CONFIG_PCI_HISI) += pcie-hisi.o
-+obj-$(CONFIG_PCIE_SNPSDEV) += pcie-snpsdev.o
-diff --git a/drivers/pci/host/pcie-designware.c b/drivers/pci/host/pcie-designware.c
-index 540f077..99fad62 100644
---- a/drivers/pci/host/pcie-designware.c
-+++ b/drivers/pci/host/pcie-designware.c
-@@ -22,6 +22,8 @@
- #include <linux/pci_regs.h>
- #include <linux/platform_device.h>
- #include <linux/types.h>
-+#include <linux/delay.h>
-+#include <linux/sizes.h>
- 
- #include "pcie-designware.h"
- 
-@@ -706,6 +708,15 @@ static struct pci_ops dw_pcie_ops = {
- 	.write = dw_pcie_wr_conf,
- };
- 
-+void dw_pcie_link_retrain(struct pcie_port *pp)
-+{
-+	u32 val = 0;
-+
-+	dw_pcie_readl_rc(pp, PCI_EXP_LNKCTL+0x70, &val);
-+	val = val | PCI_EXP_LNKCTL_RL;
-+	dw_pcie_writel_rc(pp, val, PCI_EXP_LNKCTL+0x70);
-+}
-+
- void dw_pcie_setup_rc(struct pcie_port *pp)
- {
- 	u32 val;
-diff --git a/drivers/pci/host/pcie-designware.h b/drivers/pci/host/pcie-designware.h
-index 2356d29..249b631 100644
---- a/drivers/pci/host/pcie-designware.h
-+++ b/drivers/pci/host/pcie-designware.h
-@@ -79,5 +79,6 @@ void dw_pcie_msi_init(struct pcie_port *pp);
- int dw_pcie_link_up(struct pcie_port *pp);
- void dw_pcie_setup_rc(struct pcie_port *pp);
- int dw_pcie_host_init(struct pcie_port *pp);
-+void dw_pcie_link_retrain(struct pcie_port *pp);
- 
- #endif /* _PCIE_DESIGNWARE_H */
-diff --git a/drivers/pci/host/pcie-snpsdev.c b/drivers/pci/host/pcie-snpsdev.c
-new file mode 100644
-index 0000000..4ca7ec5
---- /dev/null
-+++ b/drivers/pci/host/pcie-snpsdev.c
-@@ -0,0 +1,286 @@
-+/*
-+ * PCIe RC driver for Synopsys Designware Core
-+ *
-+ * Copyright (C) 2015-2016 Synopsys, Inc. (www.synopsys.com)
-+ *
-+ * Authors: Manjunath Bettegowda <manjumb at synopsys.com>,
-+ *	    Jie Deng <jiedeng at synopsys.com>
-+ *	    Joao Pinto <jpinto at synopsys.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/gpio.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of_gpio.h>
-+#include <linux/pci.h>
-+#include <linux/platform_device.h>
-+#include <linux/resource.h>
-+#include <linux/signal.h>
-+#include <linux/types.h>
-+
-+#include "pcie-designware.h"
-+
-+#define to_snpsdev_pcie(x)	container_of(x, struct snpsdev_pcie, pp)
-+
-+struct snpsdev_pcie {
-+	void __iomem		*mem_base; /* Memory Base to access Core's [RC]
-+					    * Config Space Layout
-+					    */
-+	struct pcie_port	pp;        /* RC Root Port specific structure -
-+					    * DWC_PCIE_RC stuff
-+					    */
-+};
-+
-+#define PCI_EQUAL_CONTROL_PHY 0x00000707
-+
-+/* PCIe Port Logic registers (memory-mapped) */
-+#define PLR_OFFSET 0x700
-+#define PCIE_PHY_DEBUG_R0 (PLR_OFFSET + 0x28) /* 0x728 */
-+#define PCIE_PHY_DEBUG_R1 (PLR_OFFSET + 0x2c) /* 0x72c */
-+
-+/* This handler was created for future work */
-+static irqreturn_t snpsdev_pcie_irq_handler(int irq, void *arg)
-+{
-+	return IRQ_NONE;
-+}
-+
-+static irqreturn_t snpsdev_pcie_msi_irq_handler(int irq, void *arg)
-+{
-+	struct pcie_port *pp = arg;
-+
-+	dw_handle_msi_irq(pp);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static void snpsdev_pcie_init_phy(struct pcie_port *pp)
-+{
-+	/* write Lane 0 Equalization Control fields register */
-+	writel(PCI_EQUAL_CONTROL_PHY, pp->dbi_base + 0x154);
-+}
-+
-+static int snpsdev_pcie_deassert_core_reset(struct pcie_port *pp)
-+{
-+	return 0;
-+}
-+
-+static void snpsdev_pcie_establish_link(struct pcie_port *pp)
-+{
-+	int count = 0;
-+
-+	/* Initialize Phy (Reset/poweron/control-inputs ) */
-+	snpsdev_pcie_init_phy(pp);
-+
-+	/* de-assert core reset */
-+	snpsdev_pcie_deassert_core_reset(pp);
-+
-+	/* We expect the PCIe Link to be up by this time */
-+	dw_pcie_setup_rc(pp);
-+
-+	/* Start LTSSM here */
-+	dw_pcie_link_retrain(pp);
-+
-+	while (!dw_pcie_link_up(pp)) {
-+		usleep_range(1000, 1100);
-+		count++;
-+		if (count == 20) {
-+			dev_err(pp->dev, "phy link never came up\n");
-+			dev_dbg(pp->dev,
-+				"PL_DEBUG0: 0x%08x, DEBUG_R1: 0x%08x\n",
-+				readl(pp->dbi_base + PCIE_PHY_DEBUG_R0),
-+				readl(pp->dbi_base + PCIE_PHY_DEBUG_R1));
-+			break;
-+		}
-+	}
-+}
-+
-+/*
-+ * snpsdev_pcie_host_init()
-+ * Platform specific host/RC initialization
-+ *	a. Assert the core reset
-+ *	b. Assert and deassert phy reset and initialize the phy
-+ *	c. De-Assert the core reset
-+ *	d. Initializet the Root Port (BARs/Memory Or IO/ Interrupt/ Commnad Reg)
-+ *	e. Initiate Link startup procedure
-+ *
-+ */
-+static void snpsdev_pcie_host_init(struct pcie_port *pp)
-+{
-+	/* Establish link */
-+	snpsdev_pcie_establish_link(pp);
-+
-+	if (IS_ENABLED(CONFIG_PCI_MSI))
-+		dw_pcie_msi_init(pp);
-+}
-+
-+static int snpsdev_pcie_link_up(struct pcie_port *pp)
-+{
-+	u32 status;
-+
-+	/* Bit number 36: reports LTSSM PHY Link UP; Available in bit 3 of
-+	 * PCIE_PHY_DEBUG_R1
-+	 */
-+	status = readl(pp->dbi_base + PCIE_PHY_DEBUG_R1) & (0x1 << 4);
-+	if (status != 0)
-+		return 1;
-+
-+	/* TODO:Now Link is in L0;Initiate GEN2/GEN3 migration if RC Supports*/
-+	return 0;
-+}
-+
-+/**
-+ * This is RC operation structure
-+ * snpsdev_pcie_link_up: the function which initiates the phy link up procedure
-+ * snpsdev_pcie_host_init: the function which does the host/RC Root port
-+ * initialization.
-+ */
-+static struct pcie_host_ops snpsdev_pcie_host_ops = {
-+	.link_up = snpsdev_pcie_link_up,
-+	.host_init = snpsdev_pcie_host_init,
-+};
-+
-+/**
-+ * snpsdev_add_pcie_port
-+ * This function
-+ * a. installs the interrupt handler
-+ * b. registers host operations in the pcie_port structure
-+ */
-+static int snpsdev_add_pcie_port(struct pcie_port *pp,
-+				 struct platform_device *pdev)
-+{
-+	int ret;
-+
-+	pp->irq = platform_get_irq(pdev, 1);
-+
-+	if (pp->irq < 0) {
-+		if (pp->irq != -EPROBE_DEFER)
-+			dev_err(&pdev->dev, "cannot get irq\n");
-+		return pp->irq;
-+	}
-+
-+	ret = devm_request_irq(&pdev->dev, pp->irq, snpsdev_pcie_irq_handler,
-+				IRQF_SHARED, "snpsdev-pcie", pp);
-+
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to request irq\n");
-+		return ret;
-+	}
-+
-+	if (IS_ENABLED(CONFIG_PCI_MSI)) {
-+		pp->msi_irq = platform_get_irq(pdev, 0);
-+
-+		if (pp->msi_irq < 0) {
-+			if (pp->msi_irq != -EPROBE_DEFER)
-+				dev_err(&pdev->dev, "cannot get msi irq\n");
-+			return pp->msi_irq;
-+		}
-+
-+		ret = devm_request_irq(&pdev->dev, pp->msi_irq,
-+					snpsdev_pcie_msi_irq_handler,
-+					IRQF_SHARED, "snpsdev-pcie-msi", pp);
-+		if (ret) {
-+			dev_err(&pdev->dev, "failed to request msi irq\n");
-+			return ret;
-+		}
-+	}
-+
-+	pp->root_bus_nr = -1;
-+	pp->ops = &snpsdev_pcie_host_ops;
-+
-+	/* Below function:
-+	 * Checks for range property from DT
-+	 * Gets the IO and MEMORY and CONFIG-Space ranges from DT
-+	 * Does IOREMAPS on the physical addresses
-+	 * Gets the num-lanes from DT
-+	 * Gets MSI capability from DT
-+	 * Calls the platform specific host initialization
-+	 * Program the correct class, BAR0, Link width, in Config space
-+	 * Then it calls pci common init routine
-+	 * Then it calls function to assign "unassigned resources"
-+	 */
-+	ret = dw_pcie_host_init(pp);
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to initialize host\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * snpsdev_pcie_rc_probe()
-+ * This function gets called as part of pcie registration. if the id matches
-+ * the platform driver framework will call this function.
-+ *
-+ * @pdev: Pointer to the platform_device structure
-+ *
-+ * Returns zero on success; Negative errorno on failure
-+ */
-+static int snpsdev_pcie_rc_probe(struct platform_device *pdev)
-+{
-+	struct snpsdev_pcie *snpsdev_pcie;
-+	struct pcie_port *pp;
-+	struct resource *dwc_pcie_rc_res;  /* Resource from DT */
-+	int ret;
-+
-+	snpsdev_pcie = devm_kzalloc(&pdev->dev, sizeof(*snpsdev_pcie),
-+					GFP_KERNEL);
-+	if (!snpsdev_pcie)
-+		return -ENOMEM;
-+
-+	pp = &snpsdev_pcie->pp;
-+	pp->dev = &pdev->dev;
-+
-+	dwc_pcie_rc_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+
-+	if (!dwc_pcie_rc_res)
-+		return -ENODEV;
-+
-+	snpsdev_pcie->mem_base = devm_ioremap_resource(&pdev->dev,
-+							dwc_pcie_rc_res);
-+	if (IS_ERR(snpsdev_pcie->mem_base)) {
-+		ret = PTR_ERR(snpsdev_pcie->mem_base);
-+		return ret;
-+	}
-+	pp->dbi_base = snpsdev_pcie->mem_base;
-+
-+	ret = snpsdev_add_pcie_port(pp, pdev);
-+	if (ret < 0)
-+		return ret;
-+
-+	platform_set_drvdata(pdev, snpsdev_pcie);
-+
-+	return 0;
-+}
-+
-+static int snpsdev_pcie_rc_remove(struct platform_device *pdev)
-+{
-+	return 0;
-+}
-+
-+static const struct of_device_id snpsdev_pcie_rc_of_match[] = {
-+	{ .compatible = "snps,pcie-snpsdev", },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, snpsdev_pcie_rc_of_match);
-+
-+static struct platform_driver snpsdev_pcie_rc_driver = {
-+	.driver = {
-+		.name	= "pcie-snpsdev",
-+		.of_match_table = snpsdev_pcie_rc_of_match,
-+	},
-+	.probe = snpsdev_pcie_rc_probe,
-+};
-+
-+module_platform_driver(snpsdev_pcie_rc_driver);
-+
-+MODULE_AUTHOR("Manjunath Bettegowda <manjumb at synopsys.com>");
-+MODULE_DESCRIPTION("Platform Driver for Synopsys Device");
-+MODULE_LICENSE("GPL v2");
--- 
-1.8.1.5
+Welcome to the ARC Software Development Platform
+axs101 login: mmc0: card b368 removed
+mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual 396825HZ div = 63)
+mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 25000000Hz, actual 25000000HZ div = 1)
+mmc0: new SD card at address b368
+blk_queue_max_segment_size: set to minimum 8192
+mmcblk0: mmc0:b368 SDC   1.83 GiB
+ mmcblk0: p1
+
+
+U-Boot 2015.10 (Nov 17 2015 - 19:28:48 +0100)
+
+I2C:   ready
+DRAM:  512 MiB
+NAND:  512 MiB
+MMC:   Synopsys Mobile storage: 0
+In:    serial0 at e0022000
+Out:   serial0 at e0022000
+Err:   serial0 at e0022000
+Net:   eth0: ethernet at e0018000
+Hit any key to stop autoboot:  0
+reading uImage
+7285668 bytes read in 624 ms (11.1 MiB/s)
+## Booting kernel from Legacy Image at 82000000 ...
+   Image Name:   Linux-4.4.0-rc5-next-20151221
+   Image Type:   ARC Linux Kernel Image (uncompressed)
+   Data Size:    7285604 Bytes = 6.9 MiB
+   Load Address: 80000000
+   Entry Point:  800cc000
+   Verifying Checksum ... OK
+   Loading Kernel Image ... OK
+
+Starting kernel ...
+
+Linux version 4.4.0-rc5-next-20151221 (palminha at palminha-vm) (gcc version 4.8.4 (Buildroot 2015.08.1) ) #2 PREEMPT Mon Dec 21 18:22:27 WET 2015
+Memory @ 80000000 [512M]
+Machine model: snps,axs101
+earlycon: Early serial console at MMIO32 0xe0022000 (options '115200n8')
+bootconsole [uart0] enabled
+AXS: MainBoard v3 FPGA Date: 25-6-2015
+
+IDENTITY        : ARCVER [0x34] ARCNUM [0x4] CHIPID [ 0x0]
+processor [0]   : ARC 700 R4.10 (ARCompact ISA)
+CPU speed       : 750.00 Mhz
+Timers          : Timer0 Timer1
+ISA Extn        : atomic
+                : mpy norm barrel-shift swap minmax swape
+BPU             : partial match, cache:512, Predict Table:512
+MMU [v3]        : 8k PAGE, JTLB 512 (128x4), uDTLB 8, uITLB 4
+I-Cache         : 32K, 2way/set, 32B Line, VIPT aliasing
+D-Cache         : 32K, 4way/set, 32B Line, VIPT
+Vector Table    : 0x80000000
+Uncached Base   : 0xc0000000
+FPU             : SP DP
+DEBUG           : ActionPoint smaRT
+OS ABI [v3]     : no-legacy-syscalls
+CONFIG_ARC_FPU_SAVE_RESTORE needed for working apps
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 65248
+Kernel command line: earlycon=uart8250,mmio32,0xe0022000,115200n8 console=tty0 console=ttyS3,115200n8 consoleblank=0
+PID hash table entries: 2048 (order: 0, 8192 bytes)
+Dentry cache hash table entries: 65536 (order: 5, 262144 bytes)
+Inode-cache hash table entries: 32768 (order: 4, 131072 bytes)
+Memory: 514288K/524288K available (4521K kernel code, 132K rwdata, 816K rodata, 928K init, 266K bss, 10000K reserved, 0K cma-reserved)
+SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+Preemptible hierarchical RCU implementation.
+        Build-time adjustment of leaf fanout to 32.
+NR_IRQS:128
+clocksource: ARC Timer1: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 2548347262 ns
+Console: colour dummy device 80x25
+console [tty0] enabled
+Calibrating delay loop... 743.83 BogoMIPS (lpj=3719168)
+pid_max: default: 32768 minimum: 301
+Mount-cache hash table entries: 2048 (order: 0, 8192 bytes)
+Mountpoint-cache hash table entries: 2048 (order: 0, 8192 bytes)
+devtmpfs: initialized
+clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+NET: Registered protocol family 16
+irq: no irq domain found for /cpu_card/dw-apb-gpio at 0x2000/gpio-controller at 0 !
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+i2c_designware e001e000.i2c: Unknown Synopsys component type: 0x00000030
+pps_core: LinuxPPS API ver. 1 registered
+pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti at linux.it>
+PTP clock support registered
+clocksource: Switched to clocksource ARC Timer1
+NET: Registered protocol family 2
+TCP established hash table entries: 4096 (order: 1, 16384 bytes)
+TCP bind hash table entries: 4096 (order: 1, 16384 bytes)
+TCP: Hash tables configured (established 4096 bind 4096)
+UDP hash table entries: 512 (order: 0, 8192 bytes)
+UDP-Lite hash table entries: 512 (order: 0, 8192 bytes)
+NET: Registered protocol family 1
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+ARC perf        : 8 counters (48 bits), 199 conditions
+futex hash table entries: 256 (order: -2, 3072 bytes)
+ntfs: driver 2.1.32 [Flags: R/O].
+Block layer SCSI generic (bsg) driver version 0.4 loaded (major 252)
+io scheduler noop registered
+io scheduler deadline registered
+io scheduler cfq registered (default)
+Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
+f0005000.dw-apb-uart: ttyS0 at MMIO 0xf0005000 (irq = 60, base_baud = 2083312) is a 16550A
+e0020000.uart: ttyS1 at MMIO 0xe0020000 (irq = 35, base_baud = 2083333) is a 16550A
+e0021000.uart: ttyS2 at MMIO 0xe0021000 (irq = 36, base_baud = 2083333) is a 16550A
+console [ttyS3] disabled
+e0022000.uart: ttyS3 at MMIO 0xe0022000 (irq = 37, base_baud = 2083333) is a 16550A
+console [ttyS3] enabled
+console [ttyS3] enabled
+bootconsole [uart0] disabled
+bootconsole [uart0] disabled
+stmmaceth e0018000.ethernet: no reset control found
+stmmac - user ID: 0x10, Synopsys ID: 0x37
+ Ring mode enabled
+ DMA HW capability register supported
+ Normal descriptors
+ RX Checksum Offload Engine supported (type 2)
+ TX Checksum insertion supported
+ Enable RX Mitigation via HW Watchdog Timer
+stmmaceth e0018000.ethernet eth0: NO MDIO subnode
+ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+ehci-platform: EHCI generic platform driver
+ehci-platform e0040000.ehci: EHCI Host Controller
+ehci-platform e0040000.ehci: new USB bus registered, assigned bus number 1
+ehci-platform e0040000.ehci: irq 33, io mem 0xe0040000
+ehci-platform e0040000.ehci: USB 2.0 started, EHCI 1.00
+hub 1-0:1.0: USB hub found
+hub 1-0:1.0: 1 port detected
+ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+ohci-platform: OHCI generic platform driver
+ohci-platform e0060000.ohci: Generic Platform OHCI controller
+ohci-platform e0060000.ohci: new USB bus registered, assigned bus number 2
+ohci-platform e0060000.ohci: irq 33, io mem 0xe0060000
+hub 2-0:1.0: USB hub found
+hub 2-0:1.0: 1 port detected
+usbcore: registered new interface driver usb-storage
+mousedev: PS/2 mouse device common for all mice
+usbcore: registered new interface driver synaptics_usb
+i2c /dev entries driver
+sdhci: Secure Digital Host Controller Interface driver
+sdhci: Copyright(c) Pierre Ossman
+Synopsys Designware Multimedia Card Interface Driver
+dw_mmc e0015000.mmc: IDMAC supports 32-bit address mode.
+dw_mmc e0015000.mmc: Using internal DMA controller.
+dw_mmc e0015000.mmc: Version ID is 270a
+dw_mmc e0015000.mmc: DW MMC controller at irq 34,32 bit host data width,16 deep fifo
+dw_mmc e0015000.mmc: 1 slots initialized
+sdhci-pltfm: SDHCI platform and OF driver helper
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+NET: Registered protocol family 17
+NET: Registered protocol family 15
+ttyS3 - failed to request DMA
+Freeing unused kernel memory: 928K (80002000 - 800ea000)
+INFO: rcu_preempt self-detected stall on CPU
+        0-...: (2100 ticks this GP) idle=011/140000000000001/0 softirq=92/92 fqs=0
+         (t=2100 jiffies g=-261 c=-262 q=60)
+rcu_preempt kthread starved for 2100 jiffies! g4294967035 c4294967034 f0x0 RCU_GP_WAIT_FQS(3) ->state=0x1
+rcu_preempt     S 8053879e     0     7      2 0x00000000
+
+Stack Trace:
+  __switch_to+0x0/0x94
+  __schedule+0x1c2/0x724
+  schedule+0x2a/0x74
+  schedule_timeout+0x126/0x198
+  rcu_gp_kthread+0x5fa/0xee8
+  kthread+0xe2/0xf4
+  ret_from_fork+0x18/0x1c
+Task dump for CPU 0:
+kworker/0:1     R running      0    19      2 0x00000008
+Workqueue: events_freezable mmc_rescan
+
+Stack Trace:
+  __switch_to+0x0/0x94
+NMI watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [kworker/0:1:19]
+Modules linked in:
+Path: (null)
+CPU: 0 PID: 19 Comm: kworker/0:1 Not tainted 4.4.0-rc5-next-20151221 #2
+Workqueue: events_freezable mmc_rescan
+task: 9f0ce000 ti: 9f0d0000 task.ti: 9f0d0000
+
+[ECR   ]: 0x0031abcd => Check Programmer's Manual
+[EFA   ]: 0x00000000
+[BLINK ]: arc_dma_map_sg+0x50/0xe4
+[ERET  ]: arc_dma_map_page+0x5e/0x98
+[STAT32]: 0x00000006 : K         E2 E1
+BTA: 0x800f57c8  SP: 0x9f0d1d00  FP: 0x00000000
+LPS: 0x80323e80 LPE: 0x80323e84 LPC: 0x00000000
+r00: 0x9f04310c r01: 0x9ffeeda4 r02: 0x00001a40
+r03: 0x00000040 r04: 0x00000002 r05: 0x9fdc0000
+r06: 0x800f5794 r07: 0x00000000 r08: 0x23b345fc
+r09: 0x00000000 r10: 0x00000007 r11: 0x00000000
+r12: 0x00000000
+NMI watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [kworker/0:1:19]
+Modules linked in:
+Path: (null)
+CPU: 0 PID: 19 Comm: kworker/0:1 Tainted: G             L  4.4.0-rc5-next-20151221 #2
+Workqueue: events_freezable mmc_rescan
+task: 9f0ce000 ti: 9f0d0000 task.ti: 9f0d0000
+
+[ECR   ]: 0x0031abcd => Check Programmer's Manual
+[EFA   ]: 0x00000000
+[BLINK ]: arc_dma_map_sg+0x50/0xe4
+[ERET  ]: arc_dma_map_page+0x3c/0x98
+[STAT32]: 0x00000006 : K         E2 E1
+BTA: 0x800f57c8  SP: 0x9f0d1cfc  FP: 0x00000000
+LPS: 0x80323e80 LPE: 0x80323e84 LPC: 0x00000000
+r00: 0x9f04310c r01: 0x0008bb69 r02: 0x1f0c3a40
+r03: 0x00000040 r04: 0x00000002 r05: 0x9fdc0000
+r06: 0x800f5794 r07: 0x00000000 r08: 0x23b345fc
+r09: 0x00000000 r10: 0x00000007 r11: 0x00000000
+r12: 0x00000000
+random: nonblocking pool is initialized
+INFO: rcu_preempt self-detected stall on CPU
+        0-...: (8386 ticks this GP) idle=011/140000000000001/0 softirq=92/92 fqs=0
+         (t=8403 jiffies g=-261 c=-262 q=60)
+rcu_preempt kthread starved for 8403 jiffies! g4294967035 c4294967034 f0x0 RCU_GP_WAIT_FQS(3) ->state=0x1
+rcu_preempt     S 8053879e     0     7      2 0x00000000
+
+Stack Trace:
+  __switch_to+0x0/0x94
+  __schedule+0x1c2/0x724
+  schedule+0x2a/0x74
+  schedule_timeout+0x126/0x198
+  rcu_gp_kthread+0x5fa/0xee8
+  kthread+0xe2/0xf4
+  ret_from_fork+0x18/0x1c
+Task dump for CPU 0:
+kworker/0:1     R running      0    19      2 0x00000008
+Workqueue: events_freezable mmc_rescan
+
+Stack Trace:
+  __switch_to+0x0/0x94
+NMI watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [kworker/0:1:19]
+Modules linked in:
+Path: (null)
+CPU: 0 PID: 19 Comm: kworker/0:1 Tainted: G             L  4.4.0-rc5-next-20151221 #2
+Workqueue: events_freezable mmc_rescan
+task: 9f0ce000 ti: 9f0d0000 task.ti: 9f0d0000
+
+[ECR   ]: 0x0031abcd => Check Programmer's Manual
+[EFA   ]: 0x00000000
+[BLINK ]: arc_dma_map_sg+0x50/0xe4
+[ERET  ]: arc_dma_map_page+0x1c/0x98
+[STAT32]: 0x00000006 : K         E2 E1
+BTA: 0x800f5795  SP: 0x9f0d1d00  FP: 0x00000000
+LPS: 0x80323e80 LPE: 0x80323e84 LPC: 0x00000000
+r00: 0x9f04310c r01: 0x0008bb69 r02: 0x00001a40
+r03: 0x00000040 r04: 0x00000002 r05: 0x9fdc0000
+r06: 0x800f5794 r07: 0x00000000 r08: 0x23b345fc
+r09: 0x00000000 r10: 0x00000007 r11: 0x00000000
+r12: 0x00000000
+NMI watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [kworker/0:1:19]
+Modules linked in:
+Path: (null)
+CPU: 0 PID: 19 Comm: kworker/0:1 Tainted: G             L  4.4.0-rc5-next-20151221 #2
+Workqueue: events_freezable mmc_rescan
+task: 9f0ce000 ti: 9f0d0000 task.ti: 9f0d0000
+
+[ECR   ]: 0x0031abcd => Check Programmer's Manual
+[EFA   ]: 0x00000000
+[BLINK ]: arc_dma_map_sg+0x50/0xe4
+[ERET  ]: arc_dma_map_page+0x8/0x98
+[STAT32]: 0x00000006 : K         E2 E1
+BTA: 0x800f5795  SP: 0x9f0d1d10  FP: 0x00000000
+LPS: 0x80323e80 LPE: 0x80323e84 LPC: 0x00000000
+r00: 0x9f04310c r01: 0x9ffeeda4 r02: 0x00001a40
+r03: 0x00000040 r04: 0x00000002 r05: 0x9fdc0000
+r06: 0x800f5794 r07: 0x00000000 r08: 0x23b345fc
+r09: 0x00000000 r10: 0x00000007 r11: 0x00000000
+r12: 0x00000000
+INFO: rcu_preempt self-detected stall on CPU
+        0-...: (14672 ticks this GP) idle=011/140000000000001/0 softirq=92/92 fqs=0
+         (t=14706 jiffies g=-261 c=-262 q=60)
+rcu_preempt kthread starved for 14706 jiffies! g4294967035 c4294967034 f0x0 RCU_GP_WAIT_FQS(3) ->state=0x1
+rcu_preempt     S 8053879e     0     7      2 0x00000000
+
+Stack Trace:
+  __switch_to+0x0/0x94
+  __schedule+0x1c2/0x724
+  schedule+0x2a/0x74
+  schedule_timeout+0x126/0x198
+  rcu_gp_kthread+0x5fa/0xee8
+  kthread+0xe2/0xf4
+  ret_from_fork+0x18/0x1c
+Task dump for CPU 0:
+kworker/0:1     R running      0    19      2 0x00000008
+Workqueue: events_freezable mmc_rescan
+
+Stack Trace:
+  __switch_to+0x0/0x94
+NMI watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [kworker/0:1:19]
+Modules linked in:
+Path: (null)
+CPU: 0 PID: 19 Comm: kworker/0:1 Tainted: G             L  4.4.0-rc5-next-20151221 #2
+Workqueue: events_freezable mmc_rescan
+task: 9f0ce000 ti: 9f0d0000 task.ti: 9f0d0000
+
+[ECR   ]: 0x0031abcd => Check Programmer's Manual
+[EFA   ]: 0x00000000
+[BLINK ]: arc_dma_map_sg+0x50/0xe4
+[ERET  ]: arc_dma_map_page+0x28/0x98
+[STAT32]: 0x00000006 : K         E2 E1
+BTA: 0x800f5795  SP: 0x9f0d1d00  FP: 0x00000000
+LPS: 0x80323e80 LPE: 0x80323e84 LPC: 0x00000000
+r00: 0x9f04310c r01: 0x0008bb69 r02: 0x00001a40
+r03: 0x00000040 r04: 0x00000002 r05: 0x9fdc0000
+r06: 0x800f5794 r07: 0x00000000 r08: 0x23b345fc
+r09: 0x00000000 r10: 0x00000007 r11: 0x00000000
+r12: 0x00000000
+NMI watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [kworker/0:1:19]
+Modules linked in:
+Path: (null)
+CPU: 0 PID: 19 Comm: kworker/0:1 Tainted: G             L  4.4.0-rc5-next-20151221 #2
+Workqueue: events_freezable mmc_rescan
+task: 9f0ce000 ti: 9f0d0000 task.ti: 9f0d0000
+
+[ECR   ]: 0x0031abcd => Check Programmer's Manual
+[EFA   ]: 0x00000000
+[BLINK ]: arc_dma_map_sg+0x50/0xe4
+[ERET  ]: arc_dma_map_page+0x4e/0x98
+[STAT32]: 0x00000006 : K         E2 E1
+BTA: 0x800f57c8  SP: 0x9f0d1d00  FP: 0x00000000
+LPS: 0x80323e80 LPE: 0x80323e84 LPC: 0x00000000
+r00: 0x9f04310c r01: 0x0008bb69 r02: 0x00001a40
+r03: 0x00000040 r04: 0x00000002 r05: 0x9fdc0000
+r06: 0x800f5794 r07: 0x00000000 r08: 0x23b345fc
+r09: 0x00000000 r10: 0x00000007 r11: 0x00000000
+r12: 0x00000000
+INFO: rcu_preempt self-detected stall on CPU
+        0-...: (20958 ticks this GP) idle=011/140000000000001/0 softirq=92/92 fqs=0
+         (t=21009 jiffies g=-261 c=-262 q=60)
+rcu_preempt kthread starved for 21009 jiffies! g4294967035 c4294967034 f0x0 RCU_GP_WAIT_FQS(3) ->state=0x1
+rcu_preempt     S 8053879e     0     7      2 0x00000000
+
+Stack Trace:
+  __switch_to+0x0/0x94
+  __schedule+0x1c2/0x724
+  schedule+0x2a/0x74
+  schedule_timeout+0x126/0x198
+  rcu_gp_kthread+0x5fa/0xee8
+  kthread+0xe2/0xf4
+  ret_from_fork+0x18/0x1c
+Task dump for CPU 0:
+kworker/0:1     R running      0    19      2 0x00000008
+Workqueue: events_freezable mmc_rescan
+
+Stack Trace:
+  __switch_to+0x0/0x94
