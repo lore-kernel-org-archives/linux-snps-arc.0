@@ -1,51 +1,153 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Sat, 26 Dec 2015 07:01:22 +0000
-Subject: [GIT PULL] ARC fixes for 4.4-rc7
+From: noamc@ezchip.com (Noam Camus)
+Date: Sun, 27 Dec 2015 15:23:19 +0200
+Subject: [PATCH v5 00/20] Adding plat-eznps to ARC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E82F2C@us01wembx1.internal.synopsys.com>
+Message-ID: <1451222619-3610-1-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+From: Noam Camus <noamc@ezchip.com>
 
-Sorry for this late pull request, but these are all important fixes for code
-introduced/updated in this release which we will otherwise end up back porting.
+v5:
+1) irqchip -- work with handle_domain_irq(), and remove use of irq_set_default_host()
+2) clocksource -- initialize clockevents as well by parsing interrupts node of DT
+3) Do not use IPI with irq generic infrastructure
 
-Please pull and wish you happy holidays !
+v4:
+1) irqchip -- use irq_domain_add_linear()
+2) clocksource -- use of_clk_get()
+3) New header at include/soc use by platform and drivers
+4) update DTS file for above fixed drivers
 
-Thx,
--Vineet
---------------->
-The following changes since commit 4ef7675344d687a0ef5b0d7c0cee12da005870c0:
+v3:
+1)	irqchip: use MACROS instead of structures to decribe
+	registers.
+2)	clocksource: use 32bit counter and avoid 2 halfs read
+	of 64bit dance.
 
-  Linux 4.4-rc6 (2015-12-20 16:06:09 -0800)
+v2:
+1)	Remove out of tree platform include path
+2)	Move atomic/bitop/cmpxchg for platform to end.
+	Remove macro duplication.
+	Fix some bad implementation.
+3)	define cpu_relax_lowlatency() for platform.
+4)	rename init_irq_cpu() to init_per_cpu()
+	reorder call to init_per_cpu() for secondary
+	use it instead of init_cpu_smp().
+5)	set res_service to call stext
+6)	fix build failure for CTOP_AUX_BASE at assembly code
+7)	Use ilog2 for mtm_init_nat()
+8)	Add CLKSRC_NPS option to Kconfig
+	change nps_clksrc_read() to be more readable.
 
-are available in the git repository at:
+General summay:
+This set introduce new platform to ARC architecture.
+Platform name called "eznps" for working with EZchip NPS400
+Network Proccessor.
+NPS400 is targeted to service "fast path" network applications.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.4-rc7-fixes
+NPS400 got mesh of 256 extended ARC cores (AKA CTOP), each core
+got 16 HW threads. This is basically SMT core where at any point of
+time only one HW thread is active.
+Each core have HW scheduler that round robin between eligible HW
+threads. Totaly, kernel sees 4096 CPUs which I belive is a high record.
+There is no cache coherency between cores so generic user applications
+and kernel do not use D$.
 
-for you to fetch changes up to 6b538db7c6b091960c57b23feae5431fc82286e7:
+Cores got special memory mappings for huge pages (8MB).
+Mapping is static and should provide application enough memory without
+any "TLB miss". This mapping is on top of TLB mapping.
 
-  ARC: dw2 unwind: Catch Dwarf SNAFUs early (2015-12-21 14:01:49 +0530)
+This is a basic set that will later be followed with additional
+set of patches with all advanced features.
 
-----------------------------------------------------------------
-ARC fixes for
- - Unwinder rework (A revert followed by better fix)
- - Build errors: MMUv2, modules with -Os
- - highmem section mismatch build splat
+Many thanks to all people helping to make this happen.
 
-----------------------------------------------------------------
-Alexey Brodkin (1):
-      ARC: mm: fix building for MMU v2
+Regards,
+Noam Camus
 
-Vineet Gupta (5):
-      ARC: mm: HIGHMEM: Fix section mismatch splat
-      ARC: Fix linking errors with CONFIG_MODULE + CONFIG_CC_OPTIMIZE_FOR_SIZE
-      Revert "ARC: dw2 unwind: Ignore CIE version !=1 gracefully instead of bailing"
-      ARC: dw2 unwind: Don't bail for CIE.version != 1
-      ARC: dw2 unwind: Catch Dwarf SNAFUs early
+Noam Camus (19):
+  Documentation: Add EZchip vendor to binding list
+  soc: Support for EZchip SoC
+  ARC: [plat-eznps] define IPI_IRQ
+  clocksource: Add NPS400 timers driver
+  irqchip: add nps Internal and external irqchips
+  ARC: Set vmalloc size from configuration
+  ARC: rwlock: disable interrupts in !LLSC variant
+  ARC: Mark secondary cpu online only after all HW setup is done
+  ARC: IRQ: use device tree to get timer device configuration
+  ARC: IRQ: do not use hwirq directly at arch_do_IRQ()
+  ARC: IPI: do not use generic IRQ domain
+  ARC: [plat-eznps] Add eznps board defconfig and dts
+  ARC: [plat-eznps] Add eznps platform
+  ARC: [plat-eznps] Use dedicated user stack top
+  ARC: [plat-eznps] Use dedicated atomic/bitops/cmpxchg
+  ARC: [plat-eznps] Use dedicated SMP barriers
+  ARC: [plat-eznps] Use dedicated identity auxiliary register.
+  ARC: [plat-eznps] Use dedicated COMMAND_LINE_SIZE
+  ARC: Add eznps platform to Kconfig and Makefile
 
- arch/arc/Makefile            |  2 +-
- arch/arc/include/asm/cache.h |  2 --
- arch/arc/kernel/unwind.c     | 28 +++++++++++-----------------
- arch/arc/mm/highmem.c        |  4 ++--
- 4 files changed, 14 insertions(+), 22 deletions(-)
+Tal Zilcer (1):
+  ARC: [plat-eznps] Use dedicated cpu_relax()
+
+ Documentation/devicetree/bindings/arc/eznps.txt    |    7 +
+ .../interrupt-controller/ezchip,nps400-ic.txt      |   17 ++
+ .../bindings/timer/ezchip,nps400-timer.txt         |   17 ++
+ .../devicetree/bindings/vendor-prefixes.txt        |    1 +
+ MAINTAINERS                                        |    6 +
+ arch/arc/Kconfig                                   |   10 +
+ arch/arc/Makefile                                  |    5 +
+ arch/arc/boot/dts/eznps.dts                        |   94 +++++++++
+ arch/arc/configs/nps_defconfig                     |   85 +++++++++
+ arch/arc/include/asm/Kbuild                        |    1 -
+ arch/arc/include/asm/atomic.h                      |   79 ++++++++-
+ arch/arc/include/asm/barrier.h                     |    8 +
+ arch/arc/include/asm/bitops.h                      |   54 ++++++
+ arch/arc/include/asm/cmpxchg.h                     |   87 +++++++--
+ arch/arc/include/asm/entry-compact.h               |    8 +
+ arch/arc/include/asm/hardirq.h                     |   22 +++
+ arch/arc/include/asm/irq.h                         |    9 +
+ arch/arc/include/asm/pgtable.h                     |    2 +-
+ arch/arc/include/asm/processor.h                   |   36 +++-
+ arch/arc/include/asm/setup.h                       |    4 +
+ arch/arc/include/asm/smp.h                         |    6 +
+ arch/arc/include/asm/spinlock.h                    |   14 ++
+ arch/arc/kernel/ctx_sw.c                           |   13 ++
+ arch/arc/kernel/irq.c                              |   25 +++
+ arch/arc/kernel/setup.c                            |    1 -
+ arch/arc/kernel/smp.c                              |   39 ++++-
+ arch/arc/kernel/time.c                             |    8 +
+ arch/arc/mm/tlb.c                                  |   12 ++
+ arch/arc/plat-eznps/Kconfig                        |   34 ++++
+ arch/arc/plat-eznps/Makefile                       |    7 +
+ arch/arc/plat-eznps/entry.S                        |   70 +++++++
+ arch/arc/plat-eznps/include/plat/ctop.h            |  198 +++++++++++++++++++
+ arch/arc/plat-eznps/include/plat/mtm.h             |   60 ++++++
+ arch/arc/plat-eznps/include/plat/smp.h             |   26 +++
+ arch/arc/plat-eznps/mtm.c                          |  133 +++++++++++++
+ arch/arc/plat-eznps/platform.c                     |  102 ++++++++++
+ arch/arc/plat-eznps/smp.c                          |  154 +++++++++++++++
+ drivers/clocksource/Kconfig                        |    7 +
+ drivers/clocksource/Makefile                       |    1 +
+ drivers/clocksource/timer-nps.c                    |  199 ++++++++++++++++++++
+ drivers/irqchip/Makefile                           |    1 +
+ drivers/irqchip/irq-eznps.c                        |  139 ++++++++++++++
+ include/soc/nps/common.h                           |  123 ++++++++++++
+ 43 files changed, 1893 insertions(+), 31 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arc/eznps.txt
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+ create mode 100644 arch/arc/boot/dts/eznps.dts
+ create mode 100644 arch/arc/configs/nps_defconfig
+ create mode 100644 arch/arc/include/asm/hardirq.h
+ create mode 100644 arch/arc/plat-eznps/Kconfig
+ create mode 100644 arch/arc/plat-eznps/Makefile
+ create mode 100644 arch/arc/plat-eznps/entry.S
+ create mode 100644 arch/arc/plat-eznps/include/plat/ctop.h
+ create mode 100644 arch/arc/plat-eznps/include/plat/mtm.h
+ create mode 100644 arch/arc/plat-eznps/include/plat/smp.h
+ create mode 100644 arch/arc/plat-eznps/mtm.c
+ create mode 100644 arch/arc/plat-eznps/platform.c
+ create mode 100644 arch/arc/plat-eznps/smp.c
+ create mode 100644 drivers/clocksource/timer-nps.c
+ create mode 100644 drivers/irqchip/irq-eznps.c
+ create mode 100644 include/soc/nps/common.h
