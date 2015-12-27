@@ -1,49 +1,29 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sun, 27 Dec 2015 15:23:39 +0200
-Subject: [PATCH v5 20/20] ARC: Add eznps platform to Kconfig and Makefile
-In-Reply-To: <1451222619-3610-1-git-send-email-noamc@ezchip.com>
-References: <1451222619-3610-1-git-send-email-noamc@ezchip.com>
+Date: Sun, 27 Dec 2015 21:41:05 +0000
+Subject: [PATCH v5 04/20] clocksource: Add NPS400 timers driver
+In-Reply-To: <201512272200.4NfpC6DB%fengguang.wu@intel.com>
+References: <1451222619-3610-5-git-send-email-noamc@ezchip.com>,
+ <201512272200.4NfpC6DB%fengguang.wu@intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1451222619-3610-21-git-send-email-noamc@ezchip.com>
+Message-ID: <HE1PR02MB13872391DF4E87BD2A7B7EC6D6FA0@HE1PR02MB1387.eurprd02.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamc@ezchip.com>
+>From: kbuild test robot <lkp at intel.com>
+>Sent: Sunday, December 27, 2015 4:55 PM
 
-This commit should be left last since only now eznps platform
-is in state which one can actually use.
-Signed-off-by: Noam Camus <noamc at ezchip.com>
----
- arch/arc/Kconfig  |    1 +
- arch/arc/Makefile |    5 +++++
- 2 files changed, 6 insertions(+), 0 deletions(-)
+>[if your patch is applied to the wrong git tree, please drop us a note to help improving the system]
+>Hi Noam,
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 079946e..9d828a3 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -92,6 +92,7 @@ source "arch/arc/plat-sim/Kconfig"
- source "arch/arc/plat-tb10x/Kconfig"
- source "arch/arc/plat-axs10x/Kconfig"
- #New platform adds here
-+source "arch/arc/plat-eznps/Kconfig"
- 
- endmenu
- 
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index aeb1902..6212fea 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -99,6 +99,11 @@ core-y		+= arch/arc/boot/dts/
- core-$(CONFIG_ARC_PLAT_SIM)	+= arch/arc/plat-sim/
- core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
- core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
-+core-$(CONFIG_ARC_PLAT_EZNPS)	+= arch/arc/plat-eznps/
-+
-+ifdef CONFIG_ARC_PLAT_EZNPS
-+KBUILD_CPPFLAGS += -I$(srctree)/arch/arc/plat-eznps/include
-+endif
- 
- drivers-$(CONFIG_OPROFILE)	+= arch/arc/oprofile/
- 
--- 
-1.7.1
+>[auto build test ERROR on arc/for-next]
+>[also build test ERROR on v4.4-rc6 next-20151223]
+
+>url:    https://github.com/0day-ci/linux/commits/Noam-Camus/Adding-plat-eznps-to-ARC/20151227-220433
+>base:   https://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc for-next
+>config: i386-allmodconfig (attached as .config)
+>reproduce:
+>       # save the attached .config to linux build tree
+>      make ARCH=i386
+
+This is meant for ARC only (not i386), I will add to the Kconfig file a dependency on my platform. 
+
+-Noam
