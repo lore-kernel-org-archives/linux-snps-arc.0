@@ -1,116 +1,113 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sun, 27 Dec 2015 15:23:25 +0200
-Subject: [PATCH v5 06/20] ARC: Set vmalloc size from configuration
+Date: Sun, 27 Dec 2015 15:23:26 +0200
+Subject: [PATCH v5 07/20] ARC: rwlock: disable interrupts in !LLSC variant
 In-Reply-To: <1451222619-3610-1-git-send-email-noamc@ezchip.com>
 References: <1451222619-3610-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1451222619-3610-7-git-send-email-noamc@ezchip.com>
+Message-ID: <1451222619-3610-8-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-User space use lower 2G of the virtual address space.
-However kernel steals upper 512M of this space.
-This stolen space is used partially for vmalloc and the rest
-serves as gutter between kernel and user space.
-The vmalloc size is depend on NR_CPUS since "per cpu" mechanism
-use vmalloc to allocate chunks for its use.
+If we hold rwlock and interrupt occures we may
+end up spinning on it for ever during softirq.
+Note that this lock is an internal lock
+and since the lock is free to be used from any context,
+the lock needs to be IRQ-safe.
 
-Historically vmalloc size was 256M however it is not enough in
-case of many CPUs e.g. 4K CPUs. For such case an extra 192M is
-allocated.
-We are setting default vmalloc size to be 256M, any addtional
-space will be taken from kernel/user gutter.
+Below you may see an example for interrupt we get while
+nl_table_lock is holding its rw->lock_mutex and we spinned
+on it for ever.
 
-This introduce build error since PGDIR_SIZE() cannot use "1UL"
-ibecause it is called from mm/tlbex.S by VMALLOC_START.
-Using _BITUL() solves this build error.
+The concept for the fix was taken from SPARC.
+
+[2015-05-12 19:16:12] Stack Trace:
+[2015-05-12 19:16:12]   arc_unwind_core+0xb8/0x11c
+[2015-05-12 19:16:12]   dump_stack+0x68/0xac
+[2015-05-12 19:16:12]   _raw_read_lock+0xa8/0xac
+[2015-05-12 19:16:12]   netlink_broadcast_filtered+0x56/0x35c
+[2015-05-12 19:16:12]   nlmsg_notify+0x42/0xa4
+[2015-05-12 19:16:13]   neigh_update+0x1fe/0x44c
+[2015-05-12 19:16:13]   neigh_event_ns+0x40/0xa4
+[2015-05-12 19:16:13]   arp_process+0x46e/0x5a8
+[2015-05-12 19:16:13]   __netif_receive_skb_core+0x358/0x500
+[2015-05-12 19:16:13]   process_backlog+0x92/0x154
+[2015-05-12 19:16:13]   net_rx_action+0xb8/0x188
+[2015-05-12 19:16:13]   __do_softirq+0xda/0x1d8
+[2015-05-12 19:16:14]   irq_exit+0x8a/0x8c
+[2015-05-12 19:16:14]   arch_do_IRQ+0x6c/0xa8
+[2015-05-12 19:16:14]   handle_interrupt_level1+0xe4/0xf0
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
+Acked-by: Peter Zijlstra <peterz at infradead.org>
 ---
- arch/arc/Kconfig                 |    8 ++++++++
- arch/arc/include/asm/pgtable.h   |    2 +-
- arch/arc/include/asm/processor.h |   10 +++++-----
- arch/arc/mm/tlb.c                |    6 ++++++
- 4 files changed, 20 insertions(+), 6 deletions(-)
+ arch/arc/include/asm/spinlock.h |   14 ++++++++++++++
+ 1 files changed, 14 insertions(+), 0 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 6312f60..7be1020 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -469,6 +469,14 @@ config ARCH_PHYS_ADDR_T_64BIT
- config ARCH_DMA_ADDR_T_64BIT
- 	bool
+diff --git a/arch/arc/include/asm/spinlock.h b/arch/arc/include/asm/spinlock.h
+index db8c59d..800e7c4 100644
+--- a/arch/arc/include/asm/spinlock.h
++++ b/arch/arc/include/asm/spinlock.h
+@@ -610,7 +610,9 @@ static inline void arch_spin_unlock(arch_spinlock_t *lock)
+ static inline int arch_read_trylock(arch_rwlock_t *rw)
+ {
+ 	int ret = 0;
++	unsigned long flags;
  
-+config ARC_VMALLOC_SIZE
-+	hex "Vmalloc size (MB)"
-+	range 0 512
-+	default "256"
-+	help
-+	  By default equals to 256MB and the rest of 512MB is
-+	  left for gutter between kernel and user space.
++	local_irq_save(flags);
+ 	arch_spin_lock(&(rw->lock_mutex));
+ 
+ 	/*
+@@ -623,6 +625,7 @@ static inline int arch_read_trylock(arch_rwlock_t *rw)
+ 	}
+ 
+ 	arch_spin_unlock(&(rw->lock_mutex));
++	local_irq_restore(flags);
+ 
+ 	smp_mb();
+ 	return ret;
+@@ -632,7 +635,9 @@ static inline int arch_read_trylock(arch_rwlock_t *rw)
+ static inline int arch_write_trylock(arch_rwlock_t *rw)
+ {
+ 	int ret = 0;
++	unsigned long flags;
+ 
++	local_irq_save(flags);
+ 	arch_spin_lock(&(rw->lock_mutex));
+ 
+ 	/*
+@@ -646,6 +651,7 @@ static inline int arch_write_trylock(arch_rwlock_t *rw)
+ 		ret = 1;
+ 	}
+ 	arch_spin_unlock(&(rw->lock_mutex));
++	local_irq_restore(flags);
+ 
+ 	return ret;
+ }
+@@ -664,16 +670,24 @@ static inline void arch_write_lock(arch_rwlock_t *rw)
+ 
+ static inline void arch_read_unlock(arch_rwlock_t *rw)
+ {
++	unsigned long flags;
 +
- config ARC_CURR_IN_REG
- 	bool "Dedicate Register r25 for current_task pointer"
- 	default y
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index 57af2f0..372a282 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -210,7 +210,7 @@
- #define BITS_FOR_PGD	(32 - BITS_FOR_PTE - BITS_IN_PAGE)
++	local_irq_save(flags);
+ 	arch_spin_lock(&(rw->lock_mutex));
+ 	rw->counter++;
+ 	arch_spin_unlock(&(rw->lock_mutex));
++	local_irq_restore(flags);
+ }
  
- #define PGDIR_SHIFT	(32 - BITS_FOR_PGD)
--#define PGDIR_SIZE	(1UL << PGDIR_SHIFT)	/* vaddr span, not PDG sz */
-+#define PGDIR_SIZE	_BITUL(PGDIR_SHIFT)	/* vaddr span, not PDG sz */
- #define PGDIR_MASK	(~(PGDIR_SIZE-1))
- 
- #define	PTRS_PER_PTE	_BITUL(BITS_FOR_PTE)
-diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
-index 1d694c1..8a77ccd 100644
---- a/arch/arc/include/asm/processor.h
-+++ b/arch/arc/include/asm/processor.h
-@@ -109,18 +109,18 @@ extern unsigned int get_wchan(struct task_struct *p);
-  * 0xC000_0000		0xFFFF_FFFF	(peripheral uncached space)
-  * -----------------------------------------------------------------------------
-  */
--#define VMALLOC_START	0x70000000
- 
- /*
-  * 1 PGDIR_SIZE each for fixmap/pkmap, 2 PGDIR_SIZE gutter
-  * See asm/highmem.h for details
-  */
--#define VMALLOC_SIZE	(PAGE_OFFSET - VMALLOC_START - PGDIR_SIZE * 4)
--#define VMALLOC_END	(VMALLOC_START + VMALLOC_SIZE)
-+#define VMALLOC_END	(PAGE_OFFSET - PGDIR_SIZE * 4)
-+#define VMALLOC_SIZE	(CONFIG_ARC_VMALLOC_SIZE << 20)
-+#define VMALLOC_START	(VMALLOC_END - VMALLOC_SIZE)
- 
--#define USER_KERNEL_GUTTER    0x10000000
-+#define TASK_SIZE	0x60000000
- 
--#define TASK_SIZE	(VMALLOC_START - USER_KERNEL_GUTTER)
-+#define USER_KERNEL_GUTTER    (VMALLOC_START - TASK_SIZE)
- 
- #define STACK_TOP       TASK_SIZE
- #define STACK_TOP_MAX   STACK_TOP
-diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
-index daf2bf5..843e1a5 100644
---- a/arch/arc/mm/tlb.c
-+++ b/arch/arc/mm/tlb.c
-@@ -814,6 +814,12 @@ void arc_mmu_init(void)
- 
- 	printk(arc_mmu_mumbojumbo(0, str, sizeof(str)));
- 
-+	/*
-+	 * vmalloc size (in MB) sanity check,
-+	 * Can't be done in processor.h due to header include depenedencies
-+	 */
-+	BUILD_BUG_ON(!IS_ALIGNED((CONFIG_ARC_VMALLOC_SIZE << 20), PMD_SIZE));
+ static inline void arch_write_unlock(arch_rwlock_t *rw)
+ {
++	unsigned long flags;
 +
- 	/* For efficiency sake, kernel is compile time built for a MMU ver
- 	 * This must match the hardware it is running on.
- 	 * Linux built for MMU V2, if run on MMU V1 will break down because V1
++	local_irq_save(flags);
+ 	arch_spin_lock(&(rw->lock_mutex));
+ 	rw->counter = __ARCH_RW_LOCK_UNLOCKED__;
+ 	arch_spin_unlock(&(rw->lock_mutex));
++	local_irq_restore(flags);
+ }
+ 
+ #endif
 -- 
 1.7.1
