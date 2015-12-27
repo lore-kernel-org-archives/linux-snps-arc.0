@@ -1,93 +1,71 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sun, 27 Dec 2015 15:23:23 +0200
-Subject: [PATCH v5 04/20] clocksource: Add NPS400 timers driver
+Date: Sun, 27 Dec 2015 15:23:24 +0200
+Subject: [PATCH v5 05/20] irqchip: add nps Internal and external irqchips
 In-Reply-To: <1451222619-3610-1-git-send-email-noamc@ezchip.com>
 References: <1451222619-3610-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1451222619-3610-5-git-send-email-noamc@ezchip.com>
+Message-ID: <1451222619-3610-6-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-Add internal tick generator which is shared by all cores.
-Each cluster of cores view it through dedicated address.
-This is used for SMP system where all CPUs synced by same
-clock source.
+Adding EZchip NPS400 support.
+NPS internal interrupts are internally handled at
+Multi Thread Manager (MTM) that is signaled for deactivating
+an interrupt.
+External interrupts is handled also at Global Interrupt
+Controller (GIC) e.g. serial and network devices.
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
-Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-Cc: Rob Herring <robh+dt at kernel.org>
 Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: John Stultz <john.stultz at linaro.org>
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
+Cc: Jason Cooper <jason at lakedaemon.net>
+Cc: Marc Zyngier <marc.zyngier at arm.com>
 ---
- .../bindings/timer/ezchip,nps400-timer.txt         |   17 ++
- drivers/clocksource/Kconfig                        |    7 +
- drivers/clocksource/Makefile                       |    1 +
- drivers/clocksource/timer-nps.c                    |  199 ++++++++++++++++++++
- 4 files changed, 224 insertions(+), 0 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
- create mode 100644 drivers/clocksource/timer-nps.c
+ .../interrupt-controller/ezchip,nps400-ic.txt      |   17 +++
+ drivers/irqchip/Makefile                           |    1 +
+ drivers/irqchip/irq-eznps.c                        |  139 ++++++++++++++++++++
+ 3 files changed, 157 insertions(+), 0 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
+ create mode 100644 drivers/irqchip/irq-eznps.c
 
-diff --git a/Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt b/Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt b/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
 new file mode 100644
-index 0000000..eeb26d7
+index 0000000..888b2b9
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
++++ b/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
 @@ -0,0 +1,17 @@
-+NPS Network Processor
++EZchip NPS Interrupt Controller
 +
 +Required properties:
 +
-+- compatible :	should be "ezchip,nps400-timer"
++- compatible : should be "ezchip,nps400-ic"
++- interrupt-controller : Identifies the node as an interrupt controller
++- #interrupt-cells : Specifies the number of cells needed to encode an
++  interrupt source. The value shall be 1.
 +
-+Clocks required for compatible = "ezchip,nps400-timer":
-+- clocks : Must contain a single entry describing the clock input
-+- interrupts : The interrupt of the first timer
 +
 +Example:
 +
-+timer {
-+	compatible = "ezchip,nps400-timer";
-+	clocks = <&sysclk>;
-+	interrupts = <3>;
++intc: interrupt-controller {
++	compatible = "ezchip,nps400-ic";
++	interrupt-controller;
++	#interrupt-cells = <1>;
 +};
-diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
-index 2eb5f0e..859e83d 100644
---- a/drivers/clocksource/Kconfig
-+++ b/drivers/clocksource/Kconfig
-@@ -132,6 +132,13 @@ config CLKSRC_TI_32K
- 	  This option enables support for Texas Instruments 32.768 Hz clocksource
- 	  available on many OMAP-like platforms.
- 
-+config CLKSRC_NPS
-+	bool "NPS400 clocksource driver" if COMPILE_TEST
-+	select CLKSRC_OF if OF
-+	help
-+	  NPS400 clocksource support.
-+	  Got 64 bit counter with update rate up to 1000MHz.
-+
- config CLKSRC_STM32
- 	bool "Clocksource for STM32 SoCs" if !ARCH_STM32
- 	depends on OF && ARM && (ARCH_STM32 || COMPILE_TEST)
-diff --git a/drivers/clocksource/Makefile b/drivers/clocksource/Makefile
-index 56bd16e..056cffd 100644
---- a/drivers/clocksource/Makefile
-+++ b/drivers/clocksource/Makefile
-@@ -46,6 +46,7 @@ obj-$(CONFIG_CLKSRC_QCOM)	+= qcom-timer.o
- obj-$(CONFIG_MTK_TIMER)		+= mtk_timer.o
- obj-$(CONFIG_CLKSRC_PISTACHIO)	+= time-pistachio.o
- obj-$(CONFIG_CLKSRC_TI_32K)	+= timer-ti-32k.o
-+obj-$(CONFIG_CLKSRC_NPS)	+= timer-nps.o
- 
- obj-$(CONFIG_ARM_ARCH_TIMER)		+= arm_arch_timer.o
- obj-$(CONFIG_ARM_GLOBAL_TIMER)		+= arm_global_timer.o
-diff --git a/drivers/clocksource/timer-nps.c b/drivers/clocksource/timer-nps.c
+diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+index 177f78f..b95b954 100644
+--- a/drivers/irqchip/Makefile
++++ b/drivers/irqchip/Makefile
+@@ -55,3 +55,4 @@ obj-$(CONFIG_RENESAS_H8S_INTC)		+= irq-renesas-h8s.o
+ obj-$(CONFIG_ARCH_SA1100)		+= irq-sa11x0.o
+ obj-$(CONFIG_INGENIC_IRQ)		+= irq-ingenic.o
+ obj-$(CONFIG_IMX_GPCV2)			+= irq-imx-gpcv2.o
++obj-$(CONFIG_ARC_PLAT_EZNPS)		+= irq-eznps.o
+diff --git a/drivers/irqchip/irq-eznps.c b/drivers/irqchip/irq-eznps.c
 new file mode 100644
-index 0000000..b3fc9ba
+index 0000000..5a5d649
 --- /dev/null
-+++ b/drivers/clocksource/timer-nps.c
-@@ -0,0 +1,199 @@
++++ b/drivers/irqchip/irq-eznps.c
+@@ -0,0 +1,139 @@
 +/*
 + * Copyright(c) 2015 EZchip Technologies.
 + *
@@ -104,188 +82,128 @@ index 0000000..b3fc9ba
 + * the file called "COPYING".
 + */
 +
-+#include <linux/clocksource.h>
-+#include <linux/clockchips.h>
-+#include <linux/clk.h>
++#include <linux/interrupt.h>
++#include <linux/module.h>
 +#include <linux/of.h>
-+#include <linux/of_irq.h>
-+#include <linux/cpu.h>
-+#include <soc/nps/common.h>
++#include <linux/irqdomain.h>
++#include <linux/irqchip.h>
++#include <asm/irq.h>
 +
-+#define NPS_MSU_TICK_LOW	0xC8
-+#define NPS_CLUSTER_OFFSET	8
-+#define NPS_CLUSTER_NUM		16
++/*
++ * NPS400 core includes an Interrupt Controller (IC) support.
++ * All cores can deactivate level irqs at first level control
++ * at cores mesh layer called MTM.
++ * For devices out side chip e.g. uart, network there is another
++ * level called Global Interrupt Manager (GIM).
++ * This second level can control level and edge interrupt.
++ *
++ * NOTE: AUX_IENABLE and CTOP_AUX_IACK are auxiliary registers
++ * with private HW copy per CPU.
++ */
 +
-+/* Timer related Aux registers */
-+#define ARC_REG_TIMER0_LIMIT    0x23    /* timer 0 limit */
-+#define ARC_REG_TIMER0_CTRL     0x22    /* timer 0 control */
-+#define ARC_REG_TIMER0_CNT      0x21    /* timer 0 count */
-+
-+#define TIMER_CTRL_IE           (1 << 0) /* Interupt when Count reachs limit */
-+#define TIMER_CTRL_NH           (1 << 1) /* Count only when CPU NOT halted */
-+
-+/* This array is per cluster of CPUs (Each NPS400 cluster got 256 CPUs) */
-+static void *nps_msu_reg_low_addr[NPS_CLUSTER_NUM] __read_mostly;
-+
-+static unsigned long nps_timer_rate;
-+static int nps_timer_irq;
-+
-+static cycle_t nps_clksrc_read(struct clocksource *clksrc)
++static void nps400_irq_mask(struct irq_data *irqd)
 +{
-+	int cluster = raw_smp_processor_id() >> NPS_CLUSTER_OFFSET;
++	unsigned int ienb;
++	unsigned int irq = irqd_to_hwirq(irqd);
 +
-+	return (cycle_t)ioread32be(nps_msu_reg_low_addr[cluster]);
++	ienb = read_aux_reg(AUX_IENABLE);
++	ienb &= ~(1 << irq);
++	write_aux_reg(AUX_IENABLE, ienb);
 +}
 +
-+static struct clocksource nps_counter = {
-+	.name	= "EZnps-tick",
-+	.rating = 301,
-+	.read   = nps_clksrc_read,
-+	.mask   = CLOCKSOURCE_MASK(32),
-+	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
++static void nps400_irq_unmask(struct irq_data *irqd)
++{
++	unsigned int ienb;
++	unsigned int irq = irqd_to_hwirq(irqd);
++
++	ienb = read_aux_reg(AUX_IENABLE);
++	ienb |= (1 << irq);
++	write_aux_reg(AUX_IENABLE, ienb);
++}
++
++static void nps400_irq_eoi_global(struct irq_data *irqd)
++{
++	unsigned int irq = irqd_to_hwirq(irqd);
++
++	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
++
++	/* Don't ack before all device access attempts are done */
++	mb();
++
++	__asm__ __volatile__ (
++	"       .word %0\n"
++	:
++	: "i"(CTOP_INST_RSPI_GIC_0_R12)
++	: "memory");
++}
++
++static void nps400_irq_eoi(struct irq_data *irqd)
++{
++	unsigned int irq = irqd_to_hwirq(irqd);
++
++	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
++}
++
++static struct irq_chip nps400_irq_chip_fasteoi = {
++	.name		= "NPS400 IC Global",
++	.irq_mask	= nps400_irq_mask,
++	.irq_unmask	= nps400_irq_unmask,
++	.irq_eoi	= nps400_irq_eoi_global,
 +};
 +
-+static void nps_timer_event_setup(unsigned int cycles)
-+{
-+	write_aux_reg(ARC_REG_TIMER0_LIMIT, cycles);
-+	write_aux_reg(ARC_REG_TIMER0_CNT, 0);   /* start from 0 */
-+
-+	write_aux_reg(ARC_REG_TIMER0_CTRL, TIMER_CTRL_IE | TIMER_CTRL_NH);
-+}
-+
-+static int nps_clkevent_set_next_event(unsigned long delta,
-+				       struct clock_event_device *dev)
-+{
-+	nps_timer_event_setup(delta);
-+	return 0;
-+}
-+
-+static int nps_clkevent_set_periodic(struct clock_event_device *dev)
-+{
-+	/*
-+	 * At X Hz, 1 sec = 1000ms -> X cycles;
-+	 *                    10ms -> X / 100 cycles
-+	 */
-+	nps_timer_event_setup(nps_timer_rate / HZ);
-+	return 0;
-+}
-+
-+static DEFINE_PER_CPU(struct clock_event_device, nps_clockevent_device) = {
-+	.name			= "nps_sys_timer",
-+	.features               = CLOCK_EVT_FEAT_ONESHOT |
-+				  CLOCK_EVT_FEAT_PERIODIC,
-+	.rating                 = 300,
-+	.set_next_event         = nps_clkevent_set_next_event,
-+	.set_state_periodic     = nps_clkevent_set_periodic,
++static struct irq_chip nps400_irq_chip_percpu = {
++	.name		= "NPS400 IC",
++	.irq_mask	= nps400_irq_mask,
++	.irq_unmask	= nps400_irq_unmask,
++	.irq_eoi	= nps400_irq_eoi,
 +};
 +
-+static int nps_timer_cpu_notify(struct notifier_block *self,
-+				unsigned long action, void *hcpu)
++static int nps400_irq_map(struct irq_domain *d, unsigned int virq,
++			  irq_hw_number_t hw)
 +{
-+	struct clock_event_device *evt = this_cpu_ptr(&nps_clockevent_device);
-+
-+	evt->irq = nps_timer_irq;
-+	evt->cpumask = cpumask_of(smp_processor_id());
-+
-+	/*
-+	 * Grab cpu pointer in each case to avoid spurious
-+	 * preemptible warnings
-+	 */
-+	switch (action & ~CPU_TASKS_FROZEN) {
-+	case CPU_STARTING:
-+		enable_percpu_irq(nps_timer_irq, 0);
-+		clockevents_config_and_register(evt, nps_timer_rate,
-+						0, ULONG_MAX);
-+		break;
-+	case CPU_DYING:
-+		disable_percpu_irq(nps_timer_irq);
-+		break;
++	switch (hw) {
++	case TIMER0_IRQ:
++		irq_set_percpu_devid(virq);
++		irq_set_chip_and_handler(virq, &nps400_irq_chip_percpu,
++					 handle_percpu_devid_irq);
++	break;
++	default:
++		irq_set_chip_and_handler(virq, &nps400_irq_chip_fasteoi,
++					 handle_fasteoi_irq);
++	break;
 +	}
 +
-+	return NOTIFY_OK;
++	return 0;
 +}
 +
-+static struct notifier_block nps_timer_cpu_nb = {
-+	.notifier_call = nps_timer_cpu_notify,
++static const struct irq_domain_ops nps400_irq_ops = {
++	.xlate = irq_domain_xlate_onecell,
++	.map = nps400_irq_map,
 +};
 +
-+static irqreturn_t nps_timer_irq_handler(int irq, void *dev_id)
++static struct irq_domain *nps400_root_domain;
++
++static void nps400_handle_irq(unsigned int hwirq, struct pt_regs *regs)
 +{
-+	struct clock_event_device *evt = this_cpu_ptr(&nps_clockevent_device);
-+	int irq_reenable = clockevent_state_periodic(evt);
-+
-+	/*
-+	 * Any write to CTRL reg ACks the interrupt, we rewrite the
-+	 * Count when [N]ot [H]alted bit.
-+	 * And re-arm it if perioid by [I]nterrupt [E]nable bit
-+	 */
-+	write_aux_reg(ARC_REG_TIMER0_CTRL, irq_reenable | TIMER_CTRL_NH);
-+
-+	evt->event_handler(evt);
-+
-+	return IRQ_HANDLED;
++	handle_domain_irq(nps400_root_domain, hwirq, regs);
 +}
 +
-+static void __init nps_setup_clocksource(struct device_node *node,
-+					 struct clk *clk, int irq)
++static int __init nps400_of_init(struct device_node *node,
++				 struct device_node *parent)
 +{
-+	struct clocksource *clksrc = &nps_counter;
-+	int ret, cluster;
++	if (parent)
++		panic("DeviceTree incore ic not a root irq controller\n");
 +
-+	for (cluster = 0; cluster < NPS_CLUSTER_NUM; cluster++)
-+		nps_msu_reg_low_addr[cluster] =
-+			nps_host_reg((cluster << NPS_CLUSTER_OFFSET),
-+				 NPS_MSU_BLKID, NPS_MSU_TICK_LOW);
++	nps400_root_domain = irq_domain_add_linear(node, NR_CPU_IRQS,
++						   &nps400_irq_ops, NULL);
 +
-+	ret = clk_prepare_enable(clk);
-+	if (ret)
-+		pr_err("Couldn't enable parent clock\n");
++	if (!nps400_root_domain)
++		panic("nps400 root irq domain not avail\n");
 +
-+	nps_timer_rate = clk_get_rate(clk);
++	set_handle_irq(nps400_handle_irq);
 +
-+	ret = clocksource_register_hz(clksrc, nps_timer_rate);
-+	if (ret)
-+		pr_err("Couldn't register clock source.\n");
++	return 0;
 +}
-+
-+static void __init nps_setup_clockevents(struct device_node *node,
-+					 struct clk *clk, int irq)
-+{
-+	struct clock_event_device *evt = this_cpu_ptr(&nps_clockevent_device);
-+	int ret;
-+
-+	register_cpu_notifier(&nps_timer_cpu_nb);
-+
-+	evt->irq = irq;
-+	evt->cpumask = cpumask_of(smp_processor_id());
-+
-+	clockevents_config_and_register(evt, nps_timer_rate, 0, ULONG_MAX);
-+
-+	enable_percpu_irq(irq, 0);
-+
-+	ret = request_percpu_irq(irq, nps_timer_irq_handler,
-+				 "timer", evt);
-+	if (ret)
-+		pr_err("Unable to register interrupt\n");
-+}
-+
-+static void __init nps_timer_init(struct device_node *node)
-+{
-+	struct clk *clk;
-+
-+	nps_timer_irq = irq_of_parse_and_map(node, 0);
-+	if (nps_timer_irq <= 0)
-+		panic("Can't parse IRQ");
-+
-+	clk = of_clk_get(node, 0);
-+	if (IS_ERR(clk))
-+		panic("Can't get timer clock");
-+
-+	nps_setup_clocksource(node, clk, nps_timer_irq);
-+	nps_setup_clockevents(node, clk, nps_timer_irq);
-+}
-+
-+CLOCKSOURCE_OF_DECLARE(ezchip_nps400_clksrc, "ezchip,nps400-timer",
-+		       nps_timer_init);
++IRQCHIP_DECLARE(ezchip_nps400_ic, "ezchip,nps400-ic", nps400_of_init);
 -- 
 1.7.1
