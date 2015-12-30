@@ -1,119 +1,131 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 30 Dec 2015 16:50:08 +0530
-Subject: [PATCH v5 09/20] ARC: IRQ: use device tree to get timer device
- configuration
-In-Reply-To: <1451222619-3610-10-git-send-email-noamc@ezchip.com>
-References: <1451222619-3610-1-git-send-email-noamc@ezchip.com>
- <1451222619-3610-10-git-send-email-noamc@ezchip.com>
+Date: Wed, 30 Dec 2015 17:05:20 +0530
+Subject: [PATCH v4 05/19] irqchip: add nps Internal and external irqchips
+In-Reply-To: <567434DF.2030201@arm.com>
+References: <1450228238-4499-1-git-send-email-noamc@ezchip.com>
+ <1450228238-4499-6-git-send-email-noamc@ezchip.com>
+ <56712F50.6050404@arm.com>
+ <DB5PR02MB1141324364E0253DAA030DF1D6E10@DB5PR02MB1141.eurprd02.prod.outlook.com>
+ <5673EC2D.5040307@arm.com>
+ <DB5PR02MB1141A1E0BE574A713957650BD6E10@DB5PR02MB1141.eurprd02.prod.outlook.com>
+ <567434DF.2030201@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5683BDE8.4010200@synopsys.com>
+Message-ID: <5683C178.7080706@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Sunday 27 December 2015 06:53 PM, Noam Camus wrote:
-> From: Noam Camus <noamc at ezchip.com>
+On Friday 18 December 2015 10:01 PM, Marc Zyngier wrote:
+> On 18/12/15 14:29, Noam Camus wrote:
+>>> From: Marc Zyngier [mailto:marc.zyngier at arm.com] 
+>>> Sent: Friday, December 18, 2015 1:21 PM
+>>
+>>>> I need this for my per CPU irqs such timer and IPI which do not come 
+>>>> from some external device but from CPUs. For these IRQs I am calling 
+>>>> to irq_create_mapping() from my platform at arch/arc and at that point 
+>>>> I got no irqdomain and using irq_find_host() is not good since I got 
+>>>> no device_node (at most I can have DT root).
+>>
+>>> That's a problem. You should never do that for your timer (doing a request_irq will do the right thing, and that's what your timer driver already does).
+>>
+>> Please be more specific, from all that I wrote what is the problem?
 > 
-> We've designated:
-> TIMER0 for events (clockevents)
-> TIMER1 for free running (clocksource)
+> Calling irq_create_mapping out of the blue like you do it here:
 > 
-> Till now timer configuration was done on arch/arc/kernel/time.c
-> with constant values.
+> +static void eznps_init_per_cpu(int cpu)
+> +{
+> +	/* Create mapping for all per cpu IRQs */
+> +	if (cpu == 0) {
+> +		irq_create_mapping(NULL, TIMER0_IRQ);
+> +		irq_create_mapping(NULL, IPI_IRQ);
+> +	}
 > 
-> This commit add device tree support so we can do this work
-> at dedicated clocksource driver which parse the DT blob.
+> is simply not acceptable.
 > 
-> Such driver will get clocksource rate as well as interrupt line
-> from DT and use them for setting clocksourcse and clockevents.
-
-Rephrase above part please...
-
-Enable DT based clocksources/clockevents to be probed on ARC. Both clk and IRQ are
-furnished by DT.
-
+>> When I use request_irq() it fail without the mapping and mapping fail without a domain.
 > 
-> Note that lately called of_clk_init() is moved before we call
-> clocksource_probe() since at that time device from DT
-> need a "provider" (clocks) which will be available only after
-> we call to of_clk_init().
-
-Rephrase...
-
-Also move of_clk_init() from a late'ish arch_initcall into time_init() to ensure
-clocksource_probe() gets the "provide" clocks.
-
-
+> Grmbl...
 > 
-> Signed-off-by: Noam Camus <noamc at ezchip.com>
-> Acked-by: Vineet Gupta <vgupta at synopsys.com>
-> ---
->  arch/arc/kernel/setup.c |    1 -
->  arch/arc/kernel/smp.c   |    2 ++
->  arch/arc/kernel/time.c  |    8 ++++++++
->  3 files changed, 10 insertions(+), 1 deletions(-)
+> That's not completely surprising:
 > 
-> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-> index e1b8744..4681e9c 100644
-> --- a/arch/arc/kernel/setup.c
-> +++ b/arch/arc/kernel/setup.c
-> @@ -433,7 +433,6 @@ void __init setup_arch(char **cmdline_p)
->  
->  static int __init customize_machine(void)
->  {
-> -	of_clk_init(NULL);
->  	/*
->  	 * Traverses flattened DeviceTree - registering platform devices
->  	 * (if any) complete with their resources
-> diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-> index 2cfe135..ec6a5c1 100644
-> --- a/arch/arc/kernel/smp.c
-> +++ b/arch/arc/kernel/smp.c
-> @@ -138,7 +138,9 @@ void start_kernel_secondary(void)
->  
->  	pr_info("## CPU%u LIVE ##: Executing Code...\n", cpu);
->  
-> +#ifndef CONFIG_CLKSRC_OF
->  	arc_local_timer_setup();
-> +#endif
->  
->  	local_irq_enable();
->  	preempt_disable();
-> diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
-> index dfad287..be6dd9e 100644
-> --- a/arch/arc/kernel/time.c
-> +++ b/arch/arc/kernel/time.c
-> @@ -38,6 +38,7 @@
->  #include <linux/init.h>
->  #include <linux/timex.h>
->  #include <linux/profile.h>
-> +#include <linux/clk-provider.h>
->  #include <linux/clocksource.h>
->  #include <linux/clockchips.h>
->  #include <asm/irq.h>
-> @@ -283,6 +284,13 @@ void __init time_init(void)
->  		 */
->  		clocksource_register_hz(&arc_counter, arc_get_core_freq());
->  
-> +#ifdef CONFIG_COMMON_CLK
-> +	of_clk_init(NULL);
-> +#endif
-> +#ifdef CONFIG_CLKSRC_OF
-> +	clocksource_probe();
-> +#else
-
-You don't need the #ifdef for both as stub versions already exist.
-
->  	/* sets up the periodic event timer */
->  	arc_local_timer_setup();
-
-simply do #ifndef CONFIG_CLKSRC_OF just as you do above.
-
-I wanted to remove arc_local_timer_setup from ARC altogether and just switch over
-to DT, but it seems I first need to figure out how the timer clk will work with
-existing *hack* in plat-axs where we change the clk value for SMP / QUAD configs.
-
-Perhaps needs a clk driver !
-
-
-> +#endif
->  }
+> +		timer {
+> +			compatible = "ezchip,nps400-timer";
+> +			clocks = <&sysclk>;
+> +			clock-names="sysclk";
+> +		};
 > 
+> Where is the interrupt?
+> 
+>> Never do what?
+>> What should I do then?
+> 
+> Maybe you should start by looking how the other architectures have
+> solved that exact problem at least half a dozen time.
+> 
+>>
+>>> As for initializing your IPIs, they are usually outside of the IRQ
+>>> space, so you should handle them separately (and get your irqchip
+>>> to initialize them).
+>> I am handling all my IRQs within same irqchip, which is the only one 
+>> I have. So I am not sure what you expect here. Please be more 
+>> elaborate.
+> 
+> Do not create a mapping for IPIs. Full stop. Handle them independently
+> from your normal IRQs.
+> 
+>>>>
+>>>> Another thing I'm not seeing here is where is the interrupt actually taken. This code only contains the EOI part, but not the ACK side, as well as the reverse lookup hwirq -> irq). Where is that code?
+>>>>
+>>>> ACK is an optional handler and is not needed by my platform.
+>>>> I will add comment that since my IRQs are EOI based I do not need an ACK.
+>>
+>>> What I'm talking about is not the irq_ack method that the irqchip can provide, but the action your perform on your interrupt controller to extract the hwirq number and find out what corresponding Linux interrupt has fired.
+>>
+>>>>
+>>>> I do not understand reverse lookup remark, where is it missing?
+>>>> Could you point me to an example for such reverse lookup? 
+>>
+>>> See for example:
+>>
+>>> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/drivers/irqchip/irq-sun4i.c#n136
+>>
+>>> This is the function (sun4i_handle_irq) that is executed almost immediately after the IRQ is asserted. The CPU reads the hwirq from the interrupt controller, and use handle_domain_irq() to call the corresponding handler (by doing a lookup in the domain).
+>>
+>>> I couldn't find out in your platform code where you are doing that.
+>>
+>> OK, this is seem much like exclusively ARM stuff.
+> 
+> No, this is not. Can you please stop looking at the surface of things
+> and start taking an interest in how things actually *work*? Almost
+> *nothing* in the interrupt handling code is architecture specific.
+> 
+>> Note that I am working with ARC (seem alike) here and we do not
+>> define CONFIG_HANDLE_DOMAIN_IRQ and do not implement
+>> set_handle_irq().
+>>
+>> So for ARC this reverse mapping is something we can leave without
+>> (maybe because we are kind of a legacy domain).
+> 
+> Yeah, I just located the crap: arch_do_IRQ() happily takes a hwirq (the
+> vector number), and uses that as a Linux IRQ. This looks a lot like ARM
+> pre-DT, about 10 years ago.
+> 
+> Well, time to meet the 21st century. If you intend to use DT, please fix
+> your arch port. Otherwise, just hardcode everything in your platform and
+> don't pretend to support device tree.
+
+Hi Marc,
+
+Taking your rant in a positive stride and I'm all up for making this as
+nice/modern as possible. I don't have issues with enabling
+CONFIG_HANDLE_DOMAIN_IRQ for ARC (although it might add a few cycles o/h to each ISR)
+
+However currently (4.4-rcX) it is only enabled for arm/arm64/openrisc and from the
+looks of it in drivers/irqchip, only ARM based SoCs use the handle_domain_irq()
+calls by plugging into ARM top level handler.
+
+Why is that not a problem for other arches like PPC/MIPS which also use DT
+heavily. Or perhaps they are also subtly broken as ARC is !
+
+What am I missing ?
+
+Thx,
+-Vineet
