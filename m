@@ -1,45 +1,74 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 28 Dec 2015 17:12:55 +0530
-Subject: [PATCH v5 09/20] ARC: IRQ: use device tree to get timer device
- configuration
-In-Reply-To: <1451222619-3610-10-git-send-email-noamc@ezchip.com>
+Date: Wed, 30 Dec 2015 15:38:24 +0530
+Subject: [PATCH v5 05/20] irqchip: add nps Internal and external irqchips
+In-Reply-To: <1451222619-3610-6-git-send-email-noamc@ezchip.com>
 References: <1451222619-3610-1-git-send-email-noamc@ezchip.com>
- <1451222619-3610-10-git-send-email-noamc@ezchip.com>
+ <1451222619-3610-6-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5681203F.1010907@synopsys.com>
+Message-ID: <5683AD18.7090603@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 On Sunday 27 December 2015 06:53 PM, Noam Camus wrote:
 > From: Noam Camus <noamc at ezchip.com>
-> 
-> We've designated:
-> TIMER0 for events (clockevents)
-> TIMER1 for free running (clocksource)
-> 
-> Till now timer configuration was done on arch/arc/kernel/time.c
-> with constant values.
-> 
-> This commit add device tree support so we can do this work
-> at dedicated clocksource driver which parse the DT blob.
-> 
-> Such driver will get clocksource rate as well as interrupt line
-> from DT and use them for setting clocksourcse and clockevents.
-> 
-> Note that lately called of_clk_init() is moved before we call
-> clocksource_probe() since at that time device from DT
-> need a "provider" (clocks) which will be available only after
-> we call to of_clk_init().
-> 
-> Signed-off-by: Noam Camus <noamc at ezchip.com>
-> Acked-by: Vineet Gupta <vgupta at synopsys.com>
 
-For patches which change semantically, ACK should not be copied over from prev
-version. I do have some reservation with this patch.
+[snip..]
 
-I think we should just fix ARC once and for all by removing the legacy
-registration. This would be a flag day change but I think we should be fine !
-No point in keeping 2 implementations !
+> +
+> +static int nps400_irq_map(struct irq_domain *d, unsigned int virq,
+> +			  irq_hw_number_t hw)
+> +{
+> +	switch (hw) {
+> +	case TIMER0_IRQ:
+> +		irq_set_percpu_devid(virq);
+> +		irq_set_chip_and_handler(virq, &nps400_irq_chip_percpu,
+> +					 handle_percpu_devid_irq);
+> +	break;
+> +	default:
+> +		irq_set_chip_and_handler(virq, &nps400_irq_chip_fasteoi,
+> +					 handle_fasteoi_irq);
+> +	break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct irq_domain_ops nps400_irq_ops = {
+> +	.xlate = irq_domain_xlate_onecell,
+> +	.map = nps400_irq_map,
+> +};
+> +
+> +static struct irq_domain *nps400_root_domain;
+> +
+> +static void nps400_handle_irq(unsigned int hwirq, struct pt_regs *regs)
+> +{
+> +	handle_domain_irq(nps400_root_domain, hwirq, regs);
+> +}
+> +
+> +static int __init nps400_of_init(struct device_node *node,
+> +				 struct device_node *parent)
+> +{
+> +	if (parent)
+> +		panic("DeviceTree incore ic not a root irq controller\n");
+> +
+> +	nps400_root_domain = irq_domain_add_linear(node, NR_CPU_IRQS,
+> +						   &nps400_irq_ops, NULL);
+> +
+> +	if (!nps400_root_domain)
+> +		panic("nps400 root irq domain not avail\n");
+> +
+> +	set_handle_irq(nps400_handle_irq);
 
-@Noam let me take a stab at it - OK !
 
--Vineet
+Your series is NOT bisectable - u introduce this call later in series.
+But do you need this song and dance anyways. Will handle_domain_irq() NOT work for
+ARC in general for the core intc which are instantiated in legacy domain !
+
+I'm ok with extra cost per int handling - given it is the right thing to do which
+we've been missing so far !
+
+
+> +
+> +	return 0;
+> +}
+> +IRQCHIP_DECLARE(ezchip_nps400_ic, "ezchip,nps400-ic", nps400_of_init);
+> 
