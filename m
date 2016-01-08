@@ -1,36 +1,49 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 7 Jan 2016 23:20:22 +0000
-Subject: [PATCH] arc: Removed local initramfs source file from axs101
- configuration.
-In-Reply-To: <1451919315-18115-1-git-send-email-palminha@synopsys.com>
-References: <1451919315-18115-1-git-send-email-palminha@synopsys.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Fri, 8 Jan 2016 14:33:58 -0600
+Subject: [PATCH v3 0/2] adding PCI support to AXS10x
+In-Reply-To: <cover.1450694884.git.jpinto@synopsys.com>
+References: <cover.1450694884.git.jpinto@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1452208821.18725.9.camel@synopsys.com>
+Message-ID: <20160108203358.GI5354@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Carlos,
+Hi Joao,
 
-On Mon, 2016-01-04@14:55 +0000, palminha@synopsys.com wrote:
-> From: Carlos Palminha <palminha at synopsys.com>
+On Mon, Dec 21, 2015@03:44:14PM +0000, Joao Pinto wrote:
+> This patch set has the goal to add suppport for DesignWare PCIe RC in ARC
+> AXS10x. It includes the necessary tweaks to the ARC architecture, necessary
+> tweaks to the PCI subsystem and a new driver (pcie-snpsdev).
+> This new driver will be used extensively in the PCIe RC Prototyping Kit.
 > 
-> Cannot compile kernel with INITRAMFS SOURCE option.
-> Please move this option to a buildroot patch.
+> The patches were produced against Bjorn Helgaas' repository. It was properly
+> tested in an IP Prototyping Kit.
+> 
+> Joao Pinto (2):
+>   PCI support added to ARC
+>   add new platform driver for PCI RC
+> 
+>  .../devicetree/bindings/pci/pcie-snpsdev.txt       |  33 +++
+>  MAINTAINERS                                        |   7 +
+>  arch/arc/Kconfig                                   |  23 ++
+>  arch/arc/include/asm/dma.h                         |   5 +
+>  arch/arc/include/asm/io.h                          |  10 +
+>  arch/arc/include/asm/pci.h                         |  43 ++++
+>  arch/arc/kernel/Makefile                           |   1 +
+>  arch/arc/kernel/pcibios.c                          |  55 ++++
+>  arch/arc/mm/ioremap.c                              |  10 +-
+>  arch/arc/plat-axs10x/Kconfig                       |   1 +
+>  drivers/pci/Makefile                               |   1 +
+>  drivers/pci/host/Kconfig                           |   5 +
+>  drivers/pci/host/Makefile                          |   1 +
+>  drivers/pci/host/pcie-designware.c                 |  11 +
+>  drivers/pci/host/pcie-designware.h                 |   1 +
+>  drivers/pci/host/pcie-snpsdev.c                    | 286 +++++++++++++++++++++
+>  16 files changed, 492 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/pci/pcie-snpsdev.txt
+>  create mode 100644 arch/arc/include/asm/pci.h
+>  create mode 100644 arch/arc/kernel/pcibios.c
+>  create mode 100644 drivers/pci/host/pcie-snpsdev.c
 
-First of all if your problem is only related to Buildroot then
-there's not much sense in adding linux-snps-arc at lists.infradead.org
-which is used for pure Linux kernel discussions.
+This failed the kbuild test, so I'm waiting for a refresh to fix that.
 
-Then even in case of Buildroot CONFIG_INITRAMFS_SOURCE could be a problem
-only if you don't set Buildroot's BR2_TARGET_ROOTFS_INITRAMFS=y, see
-how it is done in snps_axs101_defconfig here
-https://git.busybox.net/buildroot/tree/configs/snps_axs101_defconfig#n7
-
-What happens if BR2_TARGET_ROOTFS_INITRAMFS=y then existing in kernel's
-defconfig CONFIG_INITRAMFS_SOURCE gets overridden with new value, see
-https://git.busybox.net/buildroot/tree/linux/linux.mk#n217
-
-Now if you really want to not use built-in kernel initramfs then simplest
-thing to do is to run "make linux-menuconfig" from your Buildroot's folder
-and disable or set with nothing CONFIG_INITRAMFS_SOURCE.
-
--Alexey
+Bjorn
