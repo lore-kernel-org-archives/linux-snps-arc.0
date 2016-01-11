@@ -1,13 +1,12 @@
 From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Mon, 11 Jan 2016 10:38:01 +0000
+Date: Mon, 11 Jan 2016 14:31:51 +0000
 Subject: [PATCH v3 0/2] adding PCI support to AXS10x
 In-Reply-To: <20160108203358.GI5354@localhost>
 References: <cover.1450694884.git.jpinto@synopsys.com>
  <20160108203358.GI5354@localhost>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56938609.5050304@synopsys.com>
+Message-ID: <5693BCD7.4050703@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
-
 
 Hi Bjorn,
 
@@ -50,10 +49,31 @@ On 1/8/2016 8:33 PM, Bjorn Helgaas wrote:
 >>  create mode 100644 drivers/pci/host/pcie-snpsdev.c
 > 
 > This failed the kbuild test, so I'm waiting for a refresh to fix that.
+
+Just checked the kbuild robot error and it is happening in ARC git tree when
+built for i386 arch and the problem is independent from my patches. The build
+error is the following:
+
+   drivers/pci/host/pcie-designware.c: In function 'dw_pcie_host_init':
+>> drivers/pci/host/pcie-designware.c:556:7: error: implicit declaration of function
+'pci_has_flag' [-Werror=implicit-function-declaration]
+     if (!pci_has_flag(PCI_PROBE_ONLY)) {
+          ^
+>> drivers/pci/host/pcie-designware.c:556:20: error: 'PCI_PROBE_ONLY' undeclared
+(first use in
+this function)
+     if (!pci_has_flag(PCI_PROBE_ONLY)) {
+                       ^
+This problem has been already identified by Stephen Rothwell as you can see in
+the following mailing list thread:
+
+http://www.gossamer-threads.com/lists/linux/kernel/2341200
+
+If there's something for me to do please let me know.
+
 > 
 > Bjorn
 > 
 
-I am going to check what happened and send you an update ASAP.
-
+Thanks,
 Joao
