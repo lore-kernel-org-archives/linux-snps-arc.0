@@ -1,40 +1,42 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 12 Jan 2016 10:49:07 +0000
-Subject: [PATCH v4 1/2] PCI support added to ARC
-References: <cover.1452526707.git.jpinto@synopsys.com>
- <b46c0fbfe3d383ca527e8eb7cbf953e59d346577.1452526707.git.jpinto@synopsys.com>
- <569497AE.3030405@synopsys.com> <5694CD8F.1060706@synopsys.com>
+From: Joao.Pinto@synopsys.com (Joao Pinto)
+Date: Tue, 12 Jan 2016 15:45:31 +0000
+Subject: [PATCH v5 0/2] adding PCI support to AXS10x
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E84825@us01wembx1.internal.synopsys.com>
+Message-ID: <cover.1452611234.git.jpinto@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tuesday 12 January 2016 03:25 PM, Joao Pinto wrote:
-> Hi Vineet,
->
-> On 1/12/2016 6:05 AM, Vineet Gupta wrote:
->> On Monday 11 January 2016 10:54 PM, Joao Pinto wrote:
->>> This patch adds PCI support to ARC and updates drivers/pci Makefile enabling
->>> the ARC arch to use the generic PCI setup functions.
->>>
->>> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
->> BTW this patch has whitespace errors still - can you make sure they are not in the
->> next version(s)
-> By executing checkpatch.pl no whitespaces were detected:
->
-> WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-> #9:
-> This patch adds PCI support to ARC and updates drivers/pci Makefile enabling
->
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> #132:
-> new file mode 100644
->
-> total: 0 errors, 2 warnings, 212 lines checked
->
-> 0001-PCI-support-added-to-ARC.patch has style problems, please review.
+This patch set has the goal to add suppport for DesignWare PCIe RC in ARC
+AXS10x. It includes the necessary tweaks to the ARC architecture, 
+necessary tweaks to the PCI subsystem and a new driver (pcie-snpsdev).
+This new driver will be used extensively in the PCIe RC Prototyping Kit.
 
-git am /tmp/1.eml  
-Applying: PCI support added to ARC
-~/k.org/.git/rebase-apply/patch:167: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
+The patches were produced against Bjorn Helgaas' repository. It was properly
+tested in an IP Prototyping Kit.
+
+Joao Pinto (2):
+  PCI support added to ARC
+  add new platform driver for PCI RC
+
+ .../devicetree/bindings/pci/pcie-snpsdev.txt       |  33 +++
+ MAINTAINERS                                        |   7 +
+ arch/arc/Kconfig                                   |  23 ++
+ arch/arc/include/asm/dma.h                         |   5 +
+ arch/arc/include/asm/io.h                          |   9 +
+ arch/arc/include/asm/pci.h                         |  31 +++
+ arch/arc/kernel/Makefile                           |   1 +
+ arch/arc/kernel/pcibios.c                          |  24 ++
+ arch/arc/plat-axs10x/Kconfig                       |   1 +
+ drivers/pci/Makefile                               |   1 +
+ drivers/pci/host/Kconfig                           |   8 +
+ drivers/pci/host/Makefile                          |   1 +
+ drivers/pci/host/pcie-designware.c                 |   9 +
+ drivers/pci/host/pcie-designware.h                 |   1 +
+ drivers/pci/host/pcie-snpsdev.c                    | 286 +++++++++++++++++++++
+ 15 files changed, 440 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pci/pcie-snpsdev.txt
+ create mode 100644 arch/arc/include/asm/pci.h
+ create mode 100644 arch/arc/kernel/pcibios.c
+ create mode 100644 drivers/pci/host/pcie-snpsdev.c
+
+-- 
+1.8.1.5
