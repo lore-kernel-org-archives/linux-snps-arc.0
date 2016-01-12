@@ -1,45 +1,47 @@
-From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Tue, 12 Jan 2016 09:55:27 +0000
-Subject: [PATCH v4 1/2] PCI support added to ARC
-In-Reply-To: <569497AE.3030405@synopsys.com>
-References: <cover.1452526707.git.jpinto@synopsys.com>
- <b46c0fbfe3d383ca527e8eb7cbf953e59d346577.1452526707.git.jpinto@synopsys.com>
- <569497AE.3030405@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 12 Jan 2016 10:41:50 +0000
+Subject: for-next
+References: <HE1PR02MB138793412FB23A86E7E5AB51D6FE0@HE1PR02MB1387.eurprd02.prod.outlook.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5694CD8F.1060706@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E8480F@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+On Friday 01 January 2016 04:14 AM, Noam Camus wrote:
+>
+> Hi Vineet,
+>
+>
+>  Few things I encountered lately:
+>
+>  1. Too early invisible panic due to link base not matching DT.
+>
 
-On 1/12/2016 6:05 AM, Vineet Gupta wrote:
-> On Monday 11 January 2016 10:54 PM, Joao Pinto wrote:
->> This patch adds PCI support to ARC and updates drivers/pci Makefile enabling
->> the ARC arch to use the generic PCI setup functions.
->>
->> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
-> 
-> BTW this patch has whitespace errors still - can you make sure they are not in the
-> next version(s)
+You need to fix the DT which u already did.
+How do you propose to fix this anyways - show me a patch ?
 
-By executing checkpatch.pl no whitespaces were detected:
+>  1. uapi/asm/ headers which uses CONFIG_* which are not declared by user
+>     application.
+>
 
-WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-#9:
-This patch adds PCI support to ARC and updates drivers/pci Makefile enabling
+I agree that we can align it better for BE/LE. Can u send a patch ?
 
-WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-#132:
-new file mode 100644
+But this is not fool proof for other things. e.g. for 4K page the config items are
+different. Alexey initially wanted to make uClibc options same which I turned down
+since I don't want to keep a dependency on namespace. kernel developers shd be
+free to do stuff w/o worrying about trickling name change in other projects. And
+this is not because I'm mainly a kernel developer :-) It is just about software
+engineering !
 
-total: 0 errors, 2 warnings, 212 lines checked
+>  1. bus error from user space is not L2 at nSIM.
+>
 
-0001-PCI-support-added-to-ARC.patch has style problems, please review.
+You need to create a nsim STAR for that !
 
-> 
-> -Vineet
-> 
+-Vineet
 
-I am going to check your comments and make the necessary adjustments.
-
-Thanks,
-Joao
+> Let me know your opinion here. 
+>
+> Happy new year
+> Noam
+>
+>
