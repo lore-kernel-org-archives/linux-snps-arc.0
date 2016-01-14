@@ -1,54 +1,84 @@
-From: Lada.Trimasova@synopsys.com (Lada Trimasova)
-Date: Wed, 13 Jan 2016 17:48:01 +0300
-Subject: [PATCH] Fixing io-pgtable-arm build failure
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 14 Jan 2016 05:26:58 +0000
+Subject: [PATCH v5 1/2] PCI support added to ARC
+References: <cover.1452611234.git.jpinto@synopsys.com>
+ <24c9b782dfade515bbed20ce75d85200a00a2e66.1452611234.git.jpinto@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1452696481-2030-1-git-send-email-ltrimas@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E84C55@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Trying to build kernel for ARC with both options
-CONFIG_COMPILE_TEST and CONFIG_IOMMU_IO_PGTABLE_LPAE enabled
-(which happened really in "allyesconfig") I'm seeing this:
----------------->8----------------
-$ make ARCH=arc
-...sic...
-CC drivers/iommu/io-pgtable-arm.o
-linux/drivers/iommu/io-pgtable-arm.c: In
-function ?__arm_lpae_alloc_pages?:
-linux/drivers/iommu/io-pgtable-arm.c:221:3:
-error: implicit declaration of function ?dma_map_single?
-[-Werror=implicit-function-declaration]
-dma = dma_map_single(dev, pages, size, DMA_TO_DEVICE);
-^
-linux/drivers/iommu/io-pgtable-arm.c:221:42:
-error: ?DMA_TO_DEVICE? undeclared (first use in this function)
-dma = dma_map_single(dev, pages, size, DMA_TO_DEVICE);
-^
----------------->8----------------
-and so on.
++CC Arnd
 
-IOMMU_IO_PGTABLE_LPAE depends on DMA API.
-So io-pgtable-arm.c should include linux/dma-mapping.h.
+On Tuesday 12 January 2016 09:15 PM, Joao Pinto wrote:
+> This patch adds PCI support to ARC and updates drivers/pci Makefile
+> enabling the ARC arch to use the generic PCI setup functions.
+>
+> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
 
-Signed-off-by: Lada Trimasova <ltrimas at synopsys.com>
-Cc: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Will Deacon <will.deacon at arm.com>
-Cc: Joerg Roedel <joro at 8bytes.org>
----
- drivers/iommu/io-pgtable-arm.c | 1 +
- 1 file changed, 1 insertion(+)
+Much better now. I have one small question below and if that is not contended fine
+by me.
 
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index 7df9777..0b1aca0 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -25,6 +25,7 @@
- #include <linux/sizes.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-+#include <linux/dma-mapping.h>
- 
- #include <asm/barrier.h>
- 
--- 
-2.5.0
+> diff --git a/arch/arc/kernel/pcibios.c b/arch/arc/kernel/pcibios.c
+> new file mode 100644
+> index 0000000..12ea45a
+> --- /dev/null
+> +++ b/arch/arc/kernel/pcibios.c
+> @@ -0,0 +1,24 @@
+> +/*
+> + * Copyright (C) 2014-2015 Synopsys, Inc. (www.synopsys.com)
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License version 2 as
+> + * published by the Free Software Foundation.
+> + *
+> + */
+> +
+> +#include <linux/pci.h>
+> +
+> +/*
+> + * We don't have to worry about legacy ISA devices, so nothing to do here
+> + */
+> +resource_size_t pcibios_align_resource(void *data, const struct resource *res,
+> +				resource_size_t size, resource_size_t align)
+> +{
+> +	return res->start;
+> +}
+
+Doesn't this have to be EXPORT_SYMBOL_xxx as well given that the call
+(setup-res.c) can build as module ?
+
+> +
+> +void pcibios_fixup_bus(struct pci_bus *bus)
+> +{
+> +}
+> +EXPORT_SYMBOL(pcibios_fixup_bus);
+
+EXPORT_SYMBOL_GPL ?
+
+As a seperate enhancement, it would be nicer if these 2 functions are defined weak
+in common code. That would make basic PCI support almost arch independent !
+
+> diff --git a/arch/arc/plat-axs10x/Kconfig b/arch/arc/plat-axs10x/Kconfig
+> index d475f9d..426ac4b 100644
+> --- a/arch/arc/plat-axs10x/Kconfig
+> +++ b/arch/arc/plat-axs10x/Kconfig
+> @@ -11,6 +11,7 @@ menuconfig ARC_PLAT_AXS10X
+>  	select DW_APB_ICTL
+>  	select GPIO_DWAPB
+>  	select OF_GPIO
+> +	select MIGHT_HAVE_PCI
+>  	select GENERIC_IRQ_CHIP
+>  	select ARCH_REQUIRE_GPIOLIB
+>  	help
+> diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+> index be3f631..2154092 100644
+> --- a/drivers/pci/Makefile
+> +++ b/drivers/pci/Makefile
+> @@ -32,6 +32,7 @@ obj-$(CONFIG_PCI_IOV) += iov.o
+>  # Some architectures use the generic PCI setup functions
+>  #
+>  obj-$(CONFIG_ALPHA) += setup-irq.o
+> +obj-$(CONFIG_ARC) += setup-irq.o
+>  obj-$(CONFIG_ARM) += setup-irq.o
+>  obj-$(CONFIG_ARM64) += setup-irq.o
+>  obj-$(CONFIG_UNICORE32) += setup-irq.o
