@@ -1,55 +1,67 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 14 Jan 2016 17:41:40 +0530
-Subject: [PATCH v5 1/2] PCI support added to ARC
-In-Reply-To: <4888629.rSv29HOrHE@wuerfel>
-References: <cover.1452611234.git.jpinto@synopsys.com>
- <56977B80.2040600@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F4E84DC7@us01wembx1.internal.synopsys.com>
- <4888629.rSv29HOrHE@wuerfel>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 15 Jan 2016 10:49:15 +0000
+Subject: [PATCH 2/2] arc770: move arc patches to taregt/linux/generic
+In-Reply-To: <5698CDBD.2010908@openwrt.org>
+References: <1452813142-9857-1-git-send-email-abrodkin@synopsys.com>
+ <1452813142-9857-3-git-send-email-abrodkin@synopsys.com>
+ <5698CDBD.2010908@openwrt.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5697907C.4030602@synopsys.com>
+Message-ID: <1452854954.18381.37.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thursday 14 January 2016 05:29 PM, Arnd Bergmann wrote:
-> On Thursday 14 January 2016 10:51:32 Vineet Gupta wrote:
->>>>
->>>> A somewhat nicer method would be to have callback pointers in struct
->>>> pci_host_bridge, and call those when they are non-NULL so we can
->>>> remove the global pcibios_* functions from the API. That would also
->>>> bring us a big step closer to having PCI support itself as a loadable
->>>> module, and it would better reflect that those functions are really
->>>> host bridge specific rather than architecture specific. When you use
->>>> the same host bridge on multiple architectures, you typically have
->>>> the same requirements for hacks in there, but each architectures may
->>>> need to support multiple host bridges with different requirements.
->>> Since we will be constantly improving the driver and the core itself, I suggest
->>> that this functions be made __weak and in an update we can turn it struct
->>> pointers just like Arnd suggested. Is this good for you?
->>
->> There is no point in making it weak, w/o a fallback version in generic code. For
->> this series, I suggest you just remove the straggler EXPORT_SYMBOL and respin.
->>
-> 
-> To clarify: I don't particularly like __weak functions anywhere, but they
-> are already common in drivers/pci, so we can add a couple more to reach
-> the goal of removing all architecture specific code.
+Hi Felix,
 
-But I see quite a bit of "weak design pattern" in kernel is common when an API
-needs to be implemented across arches and it same for most of them. I agree that
-this is not as ideal from code flow analysis but saves a lot of duplication.
+On Fri, 2016-01-15@11:45 +0100, Felix Fietkau wrote:
+> On 2016-01-15 00:12, Alexey Brodkin wrote:
+> > Given those patches are relevant to any ARC platform and even
+> > ISA version it makes perfect sense for patches to exist
+> > in one place instead of being duplicated for each new ARC-based ASIC.
+> > 
+> > Note this is a prerequisite for upstreaming of ARC HS38 support in
+> > OpenWRT.
+> > 
+> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> > Cc: Felix Fietkau <nbd at openwrt.org>
+> > Cc: Jo-Philipp Wich <jow at openwrt.org>
+> > Cc: Jonas Gorski <jogo at openwrt.org>
+> > --- /dev/null
+> > +++ b/target/linux/generic/patches-4.4/331-arc-remove-dependency-on-DEVTMPFS.patch
+> > @@ -0,0 +1,36 @@
+> > +From adfbf9e6cad93281cffceab078e7f6f2a8e094f9 Mon Sep 17 00:00:00 2001
+> > +From: Alexey Brodkin <abrodkin at synopsys.com>
+> > +Date: Thu, 13 Aug 2015 01:56:02 +0300
+> > +Subject: [PATCH 1/2] openwrt: arc - remove dependency on DEVTMPFS
+> > +
+> > +OpenWRT builds initramfs so that it doesn't require DEVTMPFS so dropping
+> > +this dependency. That helps to escape 2 separate kernel rebuilds with
+> > +and without initramfs.
+> > +
+> > +2 builds happen because OpenWRT first builds kernel and later modules.
+> > +When building entire kernel with simple "make" INITRAMFS sets to a real
+> > +value and so was triggering DEVTMPFS selection. Then when building only
+> > +modules with "make modules" command INITRAMFS is zeroed and so kernel
+> > +config was changing that lead to full kernel rebuild.
+> > +
+> > +Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> > +---
+> > + arch/arc/Kconfig | 2 --
+> > + 1 file changed, 2 deletions(-)
+> > +
+> > +diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+> > +index 6312f60..a95bab3 100644
+> > +--- a/arch/arc/Kconfig
+> > ++++ b/arch/arc/Kconfig
+> > +@@ -12,8 +12,6 @@ config ARC
+> > + 	select BUILDTIME_EXTABLE_SORT
+> > + 	select COMMON_CLK
+> > + 	select CLONE_BACKWARDS
+> > +-	# ARC Busybox based initramfs absolutely relies on DEVTMPFS for /dev
+> > +-	select DEVTMPFS if !INITRAMFS_SOURCE=""
+> > + 	select GENERIC_ATOMIC64
+> > + 	select GENERIC_CLOCKEVENTS
+> > + 	select GENERIC_FIND_FIRST_BIT
+> Could you please send this one upstream as well?
 
+Adding Vineet so he may comment if that change makes sense upstream.
 
-> However, there should never be a reason to add a __weak function in
-> arch code that gets overridden by common code, that would be very confusing
-> and not helpful.
-
-Agree. That was never my suggestion anyways. I'd asked __weak version be defined
-in common code so we could reuse it and elide the ARC version and at the same time
-not breaking others, and in longer run removing the dups elsewhere.
-
-Thx,
--Vineet
-
-> 
-> 	Arnd
-> 
+-Alexey
