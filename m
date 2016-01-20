@@ -1,36 +1,26 @@
-From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Mon, 18 Jan 2016 11:30:13 +0000
-Subject: [PATCH v6 1/2] PCI support added to ARC
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F4E84E0E@us01wembx1.internal.synopsys.com>
-References: <cover.1452611234.git.jpinto@synopsys.com>
- <24c9b782dfade515bbed20ce75d85200a00a2e66.1452611234.git.jpinto@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F4E84E0E@us01wembx1.internal.synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 20 Jan 2016 13:35:49 +0530
+Subject: [PATCH 2/2] arc770: move arc patches to taregt/linux/generic
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F4E851F3@us01wembx1.internal.synopsys.com>
+References: <1452813142-9857-1-git-send-email-abrodkin@synopsys.com>
+ <1452813142-9857-3-git-send-email-abrodkin@synopsys.com>
+ <5698CDBD.2010908@openwrt.org> <1452854954.18381.37.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F4E8518B@us01wembx1.internal.synopsys.com>
+ <5698ED16.1040107@openwrt.org>
+ <C2D7FE5348E1B147BCA15975FBA23075F4E851F3@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <569CCCC5.3070906@synopsys.com>
+Message-ID: <569F3FDD.6090805@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Bjorn,
+On Friday 15 January 2016 06:47 PM, Vineet Gupta wrote:
+>>  I also don't think there's anything architecture
+>> > specific about requiring DEVTMPFS or not, so I'd say it doesn't make any
+>> > sense to select it from arch/arc/Kconfig.
+> You are indeed right - Kconfig is not the "ideal" place to add this (it's not like
+> we support PCI or not) and it best belongs to *defconfigs.
 
-On 1/14/2016 11:11 AM, Vineet Gupta wrote:
-> On Thursday 14 January 2016 04:34 PM, Joao Pinto wrote:
->> This patch adds PCI support to ARC and updates drivers/pci Makefile
->> enabling the ARC arch to use the generic PCI setup functions.
->>
->> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
-> 
-> Acked-by: Vineet Gupta <vgupta at synopsys.com>
-> 
-> @Bjorn are you happy with the driver bits.
-> Although ARC support is independent of driver, and I can pick it up separately,
-> it would be better if you took it along with the driver. I don't see potential
-> for any conflicts.
-> 
-> Thx,
-> -Vineet
+Alexey do u mind spinning a patchset which
+1. Adds DEVTMFS to our defconfigs where we need them
+2. Removes the select for same from Kconfig
 
-In your opinion the patch set is ready for merge or do you need me to make any
-more tweaks?
-
-Thanks a lot.
-
-Joao
+-Vineet
