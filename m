@@ -1,56 +1,23 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Mon, 25 Jan 2016 12:36:50 +0200
-Subject: [PATCH 07/15] dmaengine: dw: revisit data_width property
-In-Reply-To: <yw1xfuxmkl19.fsf@unicorn.mansr.com>
-References: <1453663322-14474-1-git-send-email-mans@mansr.com>
- <1453663322-14474-8-git-send-email-mans@mansr.com>
- <C2D7FE5348E1B147BCA15975FBA23075F4E86560@us01wembx1.internal.synopsys.com>
- <1453711547.2521.209.camel@linux.intel.com>
- <yw1xfuxmkl19.fsf@unicorn.mansr.com>
+From: jslaby@suse.cz (Jiri Slaby)
+Date: Mon, 25 Jan 2016 12:35:56 +0100
+Subject: ARC stable backport request
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F44D433E@IN01WEMBXA.internal.synopsys.com>
+References: <C2D7FE5348E1B147BCA15975FBA23075F44D433E@IN01WEMBXA.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1453718210.2521.219.camel@linux.intel.com>
+Message-ID: <56A6089C.4050407@suse.cz>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, 2016-01-25@10:31 +0000, M?ns Rullg?rd wrote:
-> Andy Shevchenko <andriy.shevchenko at linux.intel.com> writes:
+On 12/01/2015, 09:30 AM, Vineet Gupta wrote:
+> Hi,
 > 
-> > On Mon, 2016-01-25@07:32 +0000, Vineet Gupta wrote:
-> > > On Monday 25 January 2016 12:55 AM, Mans Rullgard wrote:
-
-> > > > --- a/Documentation/devicetree/bindings/dma/snps-dma.txt
-> > > > +++ b/Documentation/devicetree/bindings/dma/snps-dma.txt
-> > > > @@ -13,8 +13,7 @@ Required properties:
-> > > > ?- chan_priority: priority of channels. 0 (default): increase
-> > > > from
-> > > > chan 0->n, 1:
-> > > > ???increase from chan n->0
-> > > > ?- block_size: Maximum block size supported by the controller
-> > > > -- data_width: Maximum data width supported by hardware per AHB
-> > > > master
-> > > > -??(0 - 8bits, 1 - 16bits, ..., 5 - 256bits)
-> > > > +- data-width: Maximum data width supported by hardware (in
-> > > > bytes)
-> > > 
-> > > To the reader this suggests a value truely byte granular, but
-> > > code
-> > > uses ffs
-> > > implying that it is still power of 2.
-> > > Can you mention this here (....in bytes, always power of 2).
-> > 
-> > While this comment is good, I have still note that using non-power
-> > of 2
-> > values will not break anything. Least power of two number will be
-> > used
-> > in that case. So, means I would suggest to replace 'always' by
-> > 'better
-> > to be' or something like that.
+> Please add upstream commit 30b9dbee895ff ("ARC: Fix silly typo in MAINTAINERS
+> file") to stable releases.
 > 
-> Although the code rounds down, the hardware actually works in powers
-> of
-> two, and it's better to document this.
+> This depends on 9acdc911b55569145 ("MAINTAINERS: Add public mailing list for ARC")
+> which was already marked for stable inclusion and is hitting the stable trees ATM.
 
-Let's do "(in bytes, power of 2)" then?
+Applied both to 3.12. Thanks.
 
 -- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+js
+suse labs
