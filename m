@@ -1,36 +1,34 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Wed, 27 Jan 2016 14:26:23 +0200
-Subject: [PATCH 07/15] dmaengine: dw: revisit data_width property
-In-Reply-To: <20160126210726.GA4096@rob-hp-laptop>
-References: <1453663322-14474-1-git-send-email-mans@mansr.com>
- <1453663322-14474-8-git-send-email-mans@mansr.com>
- <20160126210726.GA4096@rob-hp-laptop>
+From: Joao.Pinto@synopsys.com (Joao Pinto)
+Date: Wed, 27 Jan 2016 14:29:21 +0000
+Subject: [PATCH v6 1/2] PCI support added to ARC
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F4E84E0E@us01wembx1.internal.synopsys.com>
+References: <cover.1452611234.git.jpinto@synopsys.com>
+ <24c9b782dfade515bbed20ce75d85200a00a2e66.1452611234.git.jpinto@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F4E84E0E@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1453897583.2521.246.camel@linux.intel.com>
+Message-ID: <56A8D441.8080608@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 2016-01-26@15:07 -0600, Rob Herring wrote:
-> On Sun, Jan 24, 2016@07:21:54PM +0000, Mans Rullgard wrote:
+Hi Bjorn,
+Could you please tell me what are the perspectives of pulling this patch set to
+mainline?
 
-> > This patch changes the DT binding, so it should probably be amended
-> > for
-> > compatibility with old device trees.??I've included it as is since
-> > I think
-> > the change as such is good.
+On 1/14/2016 11:11 AM, Vineet Gupta wrote:
+> On Thursday 14 January 2016 04:34 PM, Joao Pinto wrote:
+>> This patch adds PCI support to ARC and updates drivers/pci Makefile
+>> enabling the ARC arch to use the generic PCI setup functions.
+>>
+>> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
 > 
-> Just because you update the dts files, it doesn't make the change
-> okay.?
-> I'm fine with the DT change, but the driver would have to support
-> both?
-> old and new property names.
+> Acked-by: Vineet Gupta <vgupta at synopsys.com>
+> 
+> @Bjorn are you happy with the driver bits.
+> Although ARC support is independent of driver, and I can pick it up separately,
+> it would be better if you took it along with the driver. I don't see potential
+> for any conflicts.
+> 
+> Thx,
+> -Vineet
 
-We will fix this.
-
->  Doesn't really seem worth doing to me.
-
-The big issue with DT, you know, is hanging around names. This moves
-name to be de facto standard for similar in the other drivers.
-
--- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+Thanks,
+Joao
