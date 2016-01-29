@@ -1,36 +1,37 @@
-From: jeffmerkey@gmail.com (Jeffrey Merkey)
-Date: Thu, 28 Jan 2016 12:46:44 -0700
-Subject: [PATCH 11/31] Add debugger entry points for ARC
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 29 Jan 2016 13:06:34 +0530
+Subject: [PATCH 0/5] ARC IRQ setup changes
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1454010404-28845-1-git-send-email-jeffmerkey@gmail.com>
+Message-ID: <1454052999-5349-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This patch series adds an export which can be set by system debuggers to
-direct the hard lockup and soft lockup detector to trigger a breakpoint
-exception and enter a debugger if one is active.  It is assumed that if
-someone sets this variable, then an breakpoint handler of some sort will
-be actively loaded or registered via the notify die handler chain.
+Hi,
 
-This addition is extremely useful for debugging hard and soft lockups
-real time and quickly from a console debugger.
+This series came out as a result of discussions during EZChip platform code
+review.
 
-Signed-off-by: Jeffrey Merkey <jeffmerkey at gmail.com>
----
- arch/arc/include/asm/kdebug.h | 4 ++++
- 1 file changed, 4 insertions(+)
+There is one real fix for irq domain lookup as pointed by Marc.
 
-diff --git a/arch/arc/include/asm/kdebug.h b/arch/arc/include/asm/kdebug.h
-index 3fbe6c4..f476ed7 100644
---- a/arch/arc/include/asm/kdebug.h
-+++ b/arch/arc/include/asm/kdebug.h
-@@ -16,4 +16,8 @@ enum die_val {
- 	DIE_OOPS
- };
- 
-+static inline void arch_breakpoint(void)
-+{
-+	__asm__ __volatile__ ("trap_s	0x4\n");
-+}
- #endif
+Please have alook.
+
+Thx,
+-Vineet
+
+Vineet Gupta (5):
+  ARC: [intc-compact] Remove IPI setup from ARCompact port
+  ARC: [intc-compact] setup TIMER as percpu_dev
+  ARC: [intc] opencode arc_request_percpu_irq
+  ARC: [intc-*] Do a domain lookup in primary handler for hwirq -> linux
+    virq
+  ARC: [intc-*] switch to linear domain
+
+ arch/arc/Kconfig               |  1 +
+ arch/arc/include/asm/irq.h     |  8 +------
+ arch/arc/kernel/intc-arcv2.c   | 13 ++++++-----
+ arch/arc/kernel/intc-compact.c | 18 +++++++--------
+ arch/arc/kernel/irq.c          | 50 ++----------------------------------------
+ arch/arc/kernel/smp.c          | 11 +++++++++-
+ 6 files changed, 31 insertions(+), 70 deletions(-)
+
 -- 
-1.8.3.1
+2.5.0
