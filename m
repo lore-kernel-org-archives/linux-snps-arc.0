@@ -1,37 +1,51 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 29 Jan 2016 13:06:34 +0530
-Subject: [PATCH 0/5] ARC IRQ setup changes
+Date: Fri, 29 Jan 2016 13:06:35 +0530
+Subject: [PATCH 1/5] ARC: [intc-compact] Remove IPI setup from ARCompact port
+In-Reply-To: <1454052999-5349-1-git-send-email-vgupta@synopsys.com>
+References: <1454052999-5349-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1454052999-5349-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1454052999-5349-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+There is no real ARC700 based SMP SoC so remove IPI definition.
+EZChip's SMP ARC700 is going to use a different intc and IPI provider
+anyways.
 
-This series came out as a result of discussions during EZChip platform code
-review.
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/include/asm/irq.h     | 5 +----
+ arch/arc/kernel/intc-compact.c | 3 ---
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-There is one real fix for irq domain lookup as pointed by Marc.
-
-Please have alook.
-
-Thx,
--Vineet
-
-Vineet Gupta (5):
-  ARC: [intc-compact] Remove IPI setup from ARCompact port
-  ARC: [intc-compact] setup TIMER as percpu_dev
-  ARC: [intc] opencode arc_request_percpu_irq
-  ARC: [intc-*] Do a domain lookup in primary handler for hwirq -> linux
-    virq
-  ARC: [intc-*] switch to linear domain
-
- arch/arc/Kconfig               |  1 +
- arch/arc/include/asm/irq.h     |  8 +------
- arch/arc/kernel/intc-arcv2.c   | 13 ++++++-----
- arch/arc/kernel/intc-compact.c | 18 +++++++--------
- arch/arc/kernel/irq.c          | 50 ++----------------------------------------
- arch/arc/kernel/smp.c          | 11 +++++++++-
- 6 files changed, 31 insertions(+), 70 deletions(-)
-
+diff --git a/arch/arc/include/asm/irq.h b/arch/arc/include/asm/irq.h
+index 44b6ea85e8fb..c9b4d83c70f7 100644
+--- a/arch/arc/include/asm/irq.h
++++ b/arch/arc/include/asm/irq.h
+@@ -12,10 +12,7 @@
+ #define NR_CPU_IRQS	32  /* number of interrupt lines of ARC770 CPU */
+ #define NR_IRQS		128 /* allow some CPU external IRQ handling */
+ 
+-/* Platform Independent IRQs */
+-#ifdef CONFIG_ISA_ARCOMPACT
+-#define IPI_IRQ		(NR_CPU_IRQS-1) /* dummy to enable SMP build for up hardware */
+-#else
++#ifdef CONFIG_ISA_ARCV2
+ #define IPI_IRQ         19
+ #endif
+ 
+diff --git a/arch/arc/kernel/intc-compact.c b/arch/arc/kernel/intc-compact.c
+index 5d390958d233..2955b39ea2b0 100644
+--- a/arch/arc/kernel/intc-compact.c
++++ b/arch/arc/kernel/intc-compact.c
+@@ -83,9 +83,6 @@ static int arc_intc_domain_map(struct irq_domain *d, unsigned int irq,
+ {
+ 	switch (irq) {
+ 	case TIMER0_IRQ:
+-#ifdef CONFIG_SMP
+-	case IPI_IRQ:
+-#endif
+ 		irq_set_chip_and_handler(irq, &onchip_intc, handle_percpu_irq);
+ 		break;
+ 	default:
 -- 
 2.5.0
