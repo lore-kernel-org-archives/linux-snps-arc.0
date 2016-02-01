@@ -1,32 +1,40 @@
-From: linux.mdb@gmail.com (Jeff Merkey)
-Date: Mon, 1 Feb 2016 09:04:33 -0700
-Subject: [PATCH 11/31] Add debugger entry points for ARC
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F4E875A7@us01wembx1.internal.synopsys.com>
-References: <1454010404-28845-1-git-send-email-jeffmerkey@gmail.com>
- <C2D7FE5348E1B147BCA15975FBA23075F4E875A7@us01wembx1.internal.synopsys.com>
+From: Joao.Pinto@synopsys.com (Joao Pinto)
+Date: Mon,  1 Feb 2016 18:07:43 +0000
+Subject: [PATCH v7 0/2] adding PCI support to AXS10x
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAO6TR8XCfoMkw4y0D11r-+NXRJR6e0Yg=rsQShdw=Qou-iwGaQ@mail.gmail.com>
+Message-ID: <cover.1454349430.git.jpinto@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 2/1/16, Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
-> On Friday 29 January 2016 01:16 AM, Jeffrey Merkey wrote:
->> This patch series adds an export which can be set by system debuggers to
->> direct the hard lockup and soft lockup detector to trigger a breakpoint
->> exception and enter a debugger if one is active.  It is assumed that if
->> someone sets this variable, then an breakpoint handler of some sort will
->> be actively loaded or registered via the notify die handler chain.
->>
->> This addition is extremely useful for debugging hard and soft lockups
->> real time and quickly from a console debugger.
->>
->> Signed-off-by: Jeffrey Merkey <jeffmerkey at gmail.com>
->
-> To reduce duplication, maybe later this could be used to replace
-> arch_kgdb_breakpoint()
->
-> Acked-by: Vineet Gupta <vgupta at synopsys.com>
->
+This patch set has the goal to add suppport for DesignWare PCIe RC in ARC
+AXS10x. It includes the necessary tweaks to the ARC architecture, 
+necessary tweaks to the PCI subsystem and a new driver (pcie-synopsys).
+This new driver will be used extensively in the PCIe RC Prototyping Kit.
 
-You can drop this patch series, I am rethinking a better way to do this.
+The patches were produced against Bjorn Helgaas' repository. It was properly
+tested in an IP Prototyping Kit.
 
-Jeff
+Joao Pinto (2):
+  PCI support added to ARC
+  add new platform driver for PCI RC
+
+ .../devicetree/bindings/pci/pcie-synopsys.txt      |  33 +++
+ MAINTAINERS                                        |   7 +
+ arch/arc/Kconfig                                   |  23 ++
+ arch/arc/include/asm/dma.h                         |   5 +
+ arch/arc/include/asm/io.h                          |   9 +
+ arch/arc/include/asm/pci.h                         |  31 +++
+ arch/arc/kernel/Makefile                           |   1 +
+ arch/arc/kernel/pcibios.c                          |  23 ++
+ arch/arc/plat-axs10x/Kconfig                       |   1 +
+ drivers/pci/Makefile                               |   1 +
+ drivers/pci/host/Kconfig                           |   8 +
+ drivers/pci/host/Makefile                          |   1 +
+ drivers/pci/host/pcie-synopsys.c                   | 257 +++++++++++++++++++++
+ 13 files changed, 400 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pci/pcie-synopsys.txt
+ create mode 100644 arch/arc/include/asm/pci.h
+ create mode 100644 arch/arc/kernel/pcibios.c
+ create mode 100644 drivers/pci/host/pcie-synopsys.c
+
+-- 
+1.8.1.5
