@@ -1,240 +1,410 @@
 From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Mon,  1 Feb 2016 18:07:44 +0000
-Subject: [PATCH v7 1/2] PCI support added to ARC
+Date: Mon,  1 Feb 2016 18:07:45 +0000
+Subject: [PATCH v7 2/2] add new platform driver for PCI RC
 In-Reply-To: <cover.1454349430.git.jpinto@synopsys.com>
 References: <cover.1454349430.git.jpinto@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <cd8c068e6a2adca346769f0f9c1e0c291d001048.1454349430.git.jpinto@synopsys.com>
+Message-ID: <10b29adcdb0a31eb8f8071b271da267e44ad8a04.1454349430.git.jpinto@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This patch adds PCI support to ARC and updates drivers/pci Makefile
-enabling the ARC arch to use the generic PCI setup functions.
+This patch adds a new driver that will be the reference platform driver
+for all PCI RC IP Protoyping Kits based on ARC SDP.
+This patch is composed by:
+
+-MAINTAINERS file was updated to include the new driver
+-Documentation/devicetree/bindings/pci was updated to include the new
+driver documentation
+-New driver called pcie-synopsys
 
 Signed-off-by: Joao Pinto <jpinto at synopsys.com>
 ---
 Change v6 -> v7 (Bjorn Helgaas):
-- Parenthesis removed from definitions
-Change v5 -> v6 (Vineet Gupta):
-- Removed EXPORT_SYMBOL(pcibios_fixup_bus) from pcibios.c
-Change v4 -> v5 (Vineet Gupta):
-- pcibios.c unused functions, variables and includes were removed
-- ioremap.c has no need for changes (no patch is necessary)
-- pci.h unused functions and variables were removed
-Change v3 -> v4:
+- driver name was changed from pcie-snpsdev to pcie-synopsys
+- driver internals (functions and certain variables) also changed name
+accordingly
+- devicetree bindings documentation also changed accordingly
+- quirk function dw_pcie_link_retrain() was removed (tests were made
+successfully without it)
+- driver was changed to meet pci standards (link up confirmation routine,
+init rc functions, etc.)
+- EPROBE_DEFER were removed
+Change v5 -> v6:
 - Nothing changed (just to keep up with patch set version).
-Change v2 -> v3 (Bjorn Helgaas):
-- arch/arc/kernel/pcibios.c unused functions were removed and also the
-arch/arc/include/asm/mach/pci.h was removed because was no longer necessary
-Change v1 -> v2:
-- In arch/arc/Kconfig, the new menu entry (Bus Configuration) was moved to the
-slot between sourcing of drivers/Kconfig and fs/Kconfig (Vineet Gupta)
-- In arch/arc/plat-axs10x/Kconfig the "select MIGHT_HAVE_PCI" option was placed
-in order as suggested (Vineet Gupta)
-- ioport_map() and ioport_unmap() were static inlined and included in
-the io.h (Vineet Gupta)
-- pcibios_min_io and pcibios_min_mem declaration moved to
-pcibios.c (Vineet Gupta)
-- pr_err() replaced by dev_err() in pcibios_enable_device() (Bjorn Helgaas)
-- string simplified in pcibios_enable_device() (Vineet Gupta)
-- pci_host_bridge_window structure was replaced by resource_entry structure, and
-list_for_each_entry() for resource_list_for_each_entry() in pcibios.c
+Change v4 -> v5:
+- Nothing changed (just to keep up with patch set version).
+Changes v3 -> v4 (Bjorn Helgaas):
+- ARCH dependencies were added to the drivers/pci/host/kconfig for the
+PCIE_SNPSDEV.
+Changes v2 -> v3 (Bjorn Helgaas):
+- link init stuff was moved to a snpsdev_pcie_establish_link() function in
+pcie-snpsdev
+- pcie-snpsdev driver declaration was changed to be more 
+standard (Bjorn Helgaas)
+- pcie-designware' dw_pcie_link_retrain() now use standard registers from
+pci-regs.h (Bjorn Helgaas)
+- pcie-snpsdev.txt was complemented with more info (Mark Rutland)
+Changes v1 -> v2 (Bjorn Helgaas):
+- Fixups snpsdev_pcie_fixup_bridge() and snpsdev_pcie_fixup_res() were removed
+from the driver (these functions were for specific tests only and not usefull
+in mainline)
+- Driver' comments were reviewed (fix Typos and excessive comments removal)
+- Removed unnecessary definitions in the driver source (PCIE_PHY_CTRL and
+PCIE_PHY_STAT)
 
- arch/arc/Kconfig             | 23 +++++++++++++++++++++++
- arch/arc/include/asm/dma.h   |  5 +++++
- arch/arc/include/asm/io.h    |  9 +++++++++
- arch/arc/include/asm/pci.h   | 31 +++++++++++++++++++++++++++++++
- arch/arc/kernel/Makefile     |  1 +
- arch/arc/kernel/pcibios.c    | 23 +++++++++++++++++++++++
- arch/arc/plat-axs10x/Kconfig |  1 +
- drivers/pci/Makefile         |  1 +
- 8 files changed, 94 insertions(+)
- create mode 100644 arch/arc/include/asm/pci.h
- create mode 100644 arch/arc/kernel/pcibios.c
+ .../devicetree/bindings/pci/pcie-synopsys.txt      |  33 +++
+ MAINTAINERS                                        |   7 +
+ drivers/pci/host/Kconfig                           |   8 +
+ drivers/pci/host/Makefile                          |   1 +
+ drivers/pci/host/pcie-synopsys.c                   | 257 +++++++++++++++++++++
+ 5 files changed, 306 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pci/pcie-synopsys.txt
+ create mode 100644 drivers/pci/host/pcie-synopsys.c
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 2c2ac3f..98b32c1 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -19,6 +19,7 @@ config ARC
- 	select GENERIC_FIND_FIRST_BIT
- 	# for now, we don't need GENERIC_IRQ_PROBE, CONFIG_GENERIC_IRQ_CHIP
- 	select GENERIC_IRQ_SHOW
-+	select GENERIC_PCI_IOMAP
- 	select GENERIC_PENDING_IRQ if SMP
- 	select GENERIC_SMP_IDLE_THREAD
- 	select HAVE_ARCH_KGDB
-@@ -39,6 +40,9 @@ config ARC
- 	select PERF_USE_VMALLOC
- 	select HAVE_DEBUG_STACKOVERFLOW
- 
-+config MIGHT_HAVE_PCI
-+	bool
-+
- config TRACE_IRQFLAGS_SUPPORT
- 	def_bool y
- 
-@@ -570,6 +574,25 @@ endmenu	 # "ARC Architecture Configuration"
- source "mm/Kconfig"
- source "net/Kconfig"
- source "drivers/Kconfig"
-+
-+menu "Bus Support"
-+
-+config PCI
-+	bool "PCI support" if MIGHT_HAVE_PCI
-+	help
-+	  PCI is the name of a bus system, i.e. the way the CPU talks to the other stuff inside
-+	  your box.Find out if your board/platform have PCI.
-+	  Note: PCIE support for Synopsys Device will be available only when
-+	  HAPS DX is configured with PCIE RC bitmap. If you have PCI, say Y, otherwise N.
-+
-+config PCI_SYSCALL
-+	def_bool PCI
-+
-+source "drivers/pci/Kconfig"
-+source "drivers/pci/pcie/Kconfig"
-+
-+endmenu
-+
- source "fs/Kconfig"
- source "arch/arc/Kconfig.debug"
- source "security/Kconfig"
-diff --git a/arch/arc/include/asm/dma.h b/arch/arc/include/asm/dma.h
-index ca7c451..01e47a6 100644
---- a/arch/arc/include/asm/dma.h
-+++ b/arch/arc/include/asm/dma.h
-@@ -10,5 +10,10 @@
- #define ASM_ARC_DMA_H
- 
- #define MAX_DMA_ADDRESS 0xC0000000
-+#ifdef CONFIG_PCI
-+extern int isa_dma_bridge_buggy;
-+#else
-+#define isa_dma_bridge_buggy	0
-+#endif
- 
- #endif
-diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
-index 694ece8..947bf0c 100644
---- a/arch/arc/include/asm/io.h
-+++ b/arch/arc/include/asm/io.h
-@@ -16,6 +16,15 @@
- extern void __iomem *ioremap(unsigned long physaddr, unsigned long size);
- extern void __iomem *ioremap_prot(phys_addr_t offset, unsigned long size,
- 				  unsigned long flags);
-+static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
-+{
-+	return (void __iomem *)port;
-+}
-+
-+static inline void ioport_unmap(void __iomem *addr)
-+{
-+}
-+
- extern void iounmap(const void __iomem *addr);
- 
- #define ioremap_nocache(phy, sz)	ioremap(phy, sz)
-diff --git a/arch/arc/include/asm/pci.h b/arch/arc/include/asm/pci.h
+diff --git a/Documentation/devicetree/bindings/pci/pcie-synopsys.txt b/Documentation/devicetree/bindings/pci/pcie-synopsys.txt
 new file mode 100644
-index 0000000..2f2011c
+index 0000000..f18507c
 --- /dev/null
-+++ b/arch/arc/include/asm/pci.h
-@@ -0,0 +1,31 @@
++++ b/Documentation/devicetree/bindings/pci/pcie-synopsys.txt
+@@ -0,0 +1,33 @@
++Synopsys PCI RC IP Prototyping Kit
++----------------------------------
++
++This is the reference platform driver to be used in the Synopsys PCI Root
++Complex IP Prototyping Kit.
++
++Required properties:
++- compatible: set to "snps,pcie-synopsys";
++- reg: base address and length of the pcie controller registers.
++- #address-cells: set to <3>
++- #size-cells: set to <2>
++- device_type: set to "pci"
++- ranges: ranges for the PCI memory and I/O regions.
++- interrupts: one interrupt source for MSI interrupts, followed by interrupt
++	source for hardware related interrupts.
++- #interrupt-cells: set to <1>
++- num-lanes: set to <1>;
++
++Example configuration:
++
++	pcie: pcie at 0xdffff000 {
++		compatible = "snps,pcie-synopsys";
++		reg = <0xdffff000 0x1000>;
++		#address-cells = <3>;
++		#size-cells = <2>;
++		device_type = "pci";
++		ranges = <0x00000800 0 0xd0000000 0xd0000000 0 0x00002000>,
++			 <0x81000000 0 0x00000000 0xde000000 0 0x00010000>,
++			 <0x82000000 0 0xd0400000 0xd0400000 0 0x0d000000>;
++		interrupts = <25>, <24>;
++		#interrupt-cells = <1>;
++		num-lanes = <1>;
++	};
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e9caa4b..d2e4506 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8230,6 +8230,13 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/pci/hisilicon-pcie.txt
+ F:	drivers/pci/host/pcie-hisi.c
+ 
++PCI DRIVER FOR SYNOPSYS PROTOTYPING DEVICE
++M:	Joao Pinto <jpinto at synopsys.com>
++L:	linux-pci at vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/pci/pcie-snpsdev.txt
++F:	drivers/pci/host/pcie-snpsdev.c
++
+ PCMCIA SUBSYSTEM
+ P:	Linux PCMCIA Team
+ L:	linux-pcmcia at lists.infradead.org
+diff --git a/drivers/pci/host/Kconfig b/drivers/pci/host/Kconfig
+index f131ba9..58c5bb1 100644
+--- a/drivers/pci/host/Kconfig
++++ b/drivers/pci/host/Kconfig
+@@ -172,4 +172,12 @@ config PCI_HISI
+ 	help
+ 	  Say Y here if you want PCIe controller support on HiSilicon HIP05 SoC
+ 
++config PCIE_SYNOPSYS
++	bool "Platform Driver for Synopsys Device"
++	depends on ARC && OF
++	select PCIEPORTBUS
++	select PCIE_DW
++	help
++	  Say Y here if you want to enable PCIe controller support on the
++	  Synopsys IP Prototyping Kits.
+ endmenu
+diff --git a/drivers/pci/host/Makefile b/drivers/pci/host/Makefile
+index 9d4d3c6..bb79b29 100644
+--- a/drivers/pci/host/Makefile
++++ b/drivers/pci/host/Makefile
+@@ -20,3 +20,4 @@ obj-$(CONFIG_PCIE_IPROC_BCMA) += pcie-iproc-bcma.o
+ obj-$(CONFIG_PCIE_ALTERA) += pcie-altera.o
+ obj-$(CONFIG_PCIE_ALTERA_MSI) += pcie-altera-msi.o
+ obj-$(CONFIG_PCI_HISI) += pcie-hisi.o
++obj-$(CONFIG_PCIE_SYNOPSYS) += pcie-synopsys.o
+diff --git a/drivers/pci/host/pcie-synopsys.c b/drivers/pci/host/pcie-synopsys.c
+new file mode 100644
+index 0000000..9702e79
+--- /dev/null
++++ b/drivers/pci/host/pcie-synopsys.c
+@@ -0,0 +1,257 @@
 +/*
++ * PCIe RC driver for Synopsys Designware Core
++ *
 + * Copyright (C) 2015-2016 Synopsys, Inc. (www.synopsys.com)
 + *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#ifndef _ASM_ARC_PCI_H
-+#define _ASM_ARC_PCI_H
-+
-+#ifdef __KERNEL__
-+#include <asm-generic/pci-dma-compat.h>
-+#include <asm-generic/pci-bridge.h>
-+
-+#include <linux/ioport.h>
-+
-+#define PCIBIOS_MIN_IO 0x100
-+#define PCIBIOS_MIN_MEM 0x100000
-+
-+#define pcibios_assign_all_busses()	1
-+/*
-+ * The PCI address space does equal the physical memory address space.
-+ * The networking and block device layers use this boolean for bounce
-+ * buffer decisions.
-+ */
-+#define PCI_DMA_BUS_IS_PHYS	1
-+
-+#endif /* __KERNEL__ */
-+
-+#endif /* _ASM_ARC_PCI_H */
-diff --git a/arch/arc/kernel/Makefile b/arch/arc/kernel/Makefile
-index e7f3625..1bc2036 100644
---- a/arch/arc/kernel/Makefile
-+++ b/arch/arc/kernel/Makefile
-@@ -12,6 +12,7 @@ obj-y	:= arcksyms.o setup.o irq.o time.o reset.o ptrace.o process.o devtree.o
- obj-y	+= signal.o traps.o sys.o troubleshoot.o stacktrace.o disasm.o clk.o
- obj-$(CONFIG_ISA_ARCOMPACT)		+= entry-compact.o intc-compact.o
- obj-$(CONFIG_ISA_ARCV2)			+= entry-arcv2.o intc-arcv2.o
-+obj-$(CONFIG_PCI)  			+= pcibios.o
- 
- obj-$(CONFIG_MODULES)			+= arcksyms.o module.o
- obj-$(CONFIG_SMP) 			+= smp.o
-diff --git a/arch/arc/kernel/pcibios.c b/arch/arc/kernel/pcibios.c
-new file mode 100644
-index 0000000..7bc3a42
---- /dev/null
-+++ b/arch/arc/kernel/pcibios.c
-@@ -0,0 +1,23 @@
-+/*
-+ * Copyright (C) 2014-2015 Synopsys, Inc. (www.synopsys.com)
++ * Authors: Manjunath Bettegowda <manjumb at synopsys.com>,
++ *	    Jie Deng <jiedeng at synopsys.com>
++ *	    Joao Pinto <jpinto at synopsys.com>
 + *
 + * This program is free software; you can redistribute it and/or modify
 + * it under the terms of the GNU General Public License version 2 as
 + * published by the Free Software Foundation.
-+ *
 + */
 +
++#include <linux/clk.h>
++#include <linux/delay.h>
++#include <linux/gpio.h>
++#include <linux/interrupt.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of_gpio.h>
 +#include <linux/pci.h>
++#include <linux/platform_device.h>
++#include <linux/resource.h>
++#include <linux/signal.h>
++#include <linux/types.h>
++
++#include "pcie-designware.h"
++
++#define to_synopsys_pcie(x)	container_of(x, struct synopsys_pcie, pp)
++
++struct synopsys_pcie {
++	void __iomem		*mem_base; /* Memory Base to access Core's [RC]
++					    * Config Space Layout
++					    */
++	struct pcie_port	pp;        /* RC Root Port specific structure -
++					    * DWC_PCIE_RC stuff
++					    */
++};
++
++#define PCI_EQUAL_CONTROL_PHY 0x00000707
++#define PCIE_PHY_DEBUG_R1_LINK_UP 0x00000010
++
++/* PCIe Port Logic registers (memory-mapped) */
++#define PLR_OFFSET 0x700
++#define PCIE_PHY_DEBUG_R0 (PLR_OFFSET + 0x28) /* 0x728 */
++#define PCIE_PHY_DEBUG_R1 (PLR_OFFSET + 0x2c) /* 0x72c */
++
++/* This handler was created for future work */
++static irqreturn_t synopsys_pcie_irq_handler(int irq, void *arg)
++{
++	return IRQ_NONE;
++}
++
++static irqreturn_t synopsys_pcie_msi_irq_handler(int irq, void *arg)
++{
++	struct pcie_port *pp = arg;
++
++	dw_handle_msi_irq(pp);
++
++	return dw_handle_msi_irq(pp);
++}
++
++static void synopsys_pcie_init_phy(struct pcie_port *pp)
++{
++	/* write Lane 0 Equalization Control fields register */
++	writel(PCI_EQUAL_CONTROL_PHY, pp->dbi_base + 0x154);
++}
++
++static int synopsys_pcie_deassert_core_reset(struct pcie_port *pp)
++{
++	return 0;
++}
++
++static void synopsys_pcie_establish_link(struct pcie_port *pp)
++{
++	int retries = 0;
++
++	/* check if the link is up or not */
++	for (retries = 0; retries < 10; retries++) {
++		if (dw_pcie_link_up(pp)) {
++			dev_info(pp->dev, "Link up\n");
++			return;
++		}
++		mdelay(100);
++	}
++}
 +
 +/*
-+ * We don't have to worry about legacy ISA devices, so nothing to do here
++ * synopsys_pcie_host_init()
++ * Platform specific host/RC initialization
++ *	a. Assert the core reset
++ *	b. Assert and deassert phy reset and initialize the phy
++ *	c. De-Assert the core reset
++ *	d. Initializet the Root Port (BARs/Memory Or IO/ Interrupt/ Commnad Reg)
++ *	e. Initiate Link startup procedure
++ *
 + */
-+resource_size_t pcibios_align_resource(void *data, const struct resource *res,
-+				resource_size_t size, resource_size_t align)
++static void synopsys_pcie_host_init(struct pcie_port *pp)
 +{
-+	return res->start;
++	/* Initialize Phy (Reset/poweron/control-inputs ) */
++	synopsys_pcie_init_phy(pp);
++
++	synopsys_pcie_deassert_core_reset(pp);
++
++	dw_pcie_setup_rc(pp);
++
++	synopsys_pcie_establish_link(pp);
++
++	if (IS_ENABLED(CONFIG_PCI_MSI))
++		dw_pcie_msi_init(pp);
 +}
 +
-+void pcibios_fixup_bus(struct pci_bus *bus)
++static int synopsys_pcie_link_up(struct pcie_port *pp)
 +{
++	u32 val;
++
++	val = readl(pp->dbi_base + PCIE_PHY_DEBUG_R1);
++	return val & PCIE_PHY_DEBUG_R1_LINK_UP;
 +}
-diff --git a/arch/arc/plat-axs10x/Kconfig b/arch/arc/plat-axs10x/Kconfig
-index d475f9d..426ac4b 100644
---- a/arch/arc/plat-axs10x/Kconfig
-+++ b/arch/arc/plat-axs10x/Kconfig
-@@ -11,6 +11,7 @@ menuconfig ARC_PLAT_AXS10X
- 	select DW_APB_ICTL
- 	select GPIO_DWAPB
- 	select OF_GPIO
-+	select MIGHT_HAVE_PCI
- 	select GENERIC_IRQ_CHIP
- 	select ARCH_REQUIRE_GPIOLIB
- 	help
-diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
-index be3f631..2154092 100644
---- a/drivers/pci/Makefile
-+++ b/drivers/pci/Makefile
-@@ -32,6 +32,7 @@ obj-$(CONFIG_PCI_IOV) += iov.o
- # Some architectures use the generic PCI setup functions
- #
- obj-$(CONFIG_ALPHA) += setup-irq.o
-+obj-$(CONFIG_ARC) += setup-irq.o
- obj-$(CONFIG_ARM) += setup-irq.o
- obj-$(CONFIG_ARM64) += setup-irq.o
- obj-$(CONFIG_UNICORE32) += setup-irq.o
++
++/**
++ * This is RC operation structure
++ * synopsys_pcie_link_up: the function which initiates the phy link up procedure
++ * synopsys_pcie_host_init: the function which does the host/RC Root port
++ * initialization.
++ */
++static struct pcie_host_ops synopsys_pcie_host_ops = {
++	.link_up = synopsys_pcie_link_up,
++	.host_init = synopsys_pcie_host_init,
++};
++
++/**
++ * synopsys_add_pcie_port
++ * This function
++ * a. installs the interrupt handler
++ * b. registers host operations in the pcie_port structure
++ */
++static int synopsys_add_pcie_port(struct pcie_port *pp,
++				 struct platform_device *pdev)
++{
++	int ret;
++
++	pp->irq = platform_get_irq(pdev, 1);
++
++	if (pp->irq < 0)
++		return pp->irq;
++
++	ret = devm_request_irq(&pdev->dev, pp->irq, synopsys_pcie_irq_handler,
++				IRQF_SHARED, "synopsys-pcie", pp);
++
++	if (ret) {
++		dev_err(&pdev->dev, "failed to request irq\n");
++		return ret;
++	}
++
++	if (IS_ENABLED(CONFIG_PCI_MSI)) {
++		pp->msi_irq = platform_get_irq(pdev, 0);
++
++		if (pp->msi_irq < 0)
++			return pp->msi_irq;
++
++		ret = devm_request_irq(&pdev->dev, pp->msi_irq,
++					synopsys_pcie_msi_irq_handler,
++					IRQF_SHARED, "synopsys-pcie-msi", pp);
++		if (ret) {
++			dev_err(&pdev->dev, "failed to request msi irq\n");
++			return ret;
++		}
++	}
++
++	pp->root_bus_nr = -1;
++	pp->ops = &synopsys_pcie_host_ops;
++
++	/* Below function:
++	 * Checks for range property from DT
++	 * Gets the IO and MEMORY and CONFIG-Space ranges from DT
++	 * Does IOREMAPS on the physical addresses
++	 * Gets the num-lanes from DT
++	 * Gets MSI capability from DT
++	 * Calls the platform specific host initialization
++	 * Program the correct class, BAR0, Link width, in Config space
++	 * Then it calls pci common init routine
++	 * Then it calls function to assign "unassigned resources"
++	 */
++	ret = dw_pcie_host_init(pp);
++	if (ret) {
++		dev_err(&pdev->dev, "failed to initialize host\n");
++		return ret;
++	}
++
++	return 0;
++}
++
++/**
++ * synopsys_pcie_probe()
++ * This function gets called as part of pcie registration. if the id matches
++ * the platform driver framework will call this function.
++ *
++ * @pdev: Pointer to the platform_device structure
++ *
++ * Returns zero on success; Negative errorno on failure
++ */
++static int synopsys_pcie_probe(struct platform_device *pdev)
++{
++	struct synopsys_pcie *synopsys_pcie;
++	struct pcie_port *pp;
++	struct resource *res;  /* Resource from DT */
++	int ret;
++
++	synopsys_pcie = devm_kzalloc(&pdev->dev, sizeof(*synopsys_pcie),
++					GFP_KERNEL);
++	if (!synopsys_pcie)
++		return -ENOMEM;
++
++	pp = &synopsys_pcie->pp;
++	pp->dev = &pdev->dev;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++
++	if (!res)
++		return -ENODEV;
++
++	synopsys_pcie->mem_base = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(synopsys_pcie->mem_base))
++		return PTR_ERR(synopsys_pcie->mem_base);
++
++	pp->dbi_base = synopsys_pcie->mem_base;
++
++	ret = synopsys_add_pcie_port(pp, pdev);
++	if (ret < 0)
++		return ret;
++
++	platform_set_drvdata(pdev, synopsys_pcie);
++
++	return 0;
++}
++
++static const struct of_device_id synopsys_pcie_of_match[] = {
++	{ .compatible = "snps,pcie-synopsys", },
++	{},
++};
++MODULE_DEVICE_TABLE(of, synopsys_pcie_of_match);
++
++static struct platform_driver synopsys_pcie_driver = {
++	.driver = {
++		.name	= "pcie-synopsys",
++		.of_match_table = synopsys_pcie_of_match,
++	},
++	.probe = synopsys_pcie_probe,
++};
++
++module_platform_driver(synopsys_pcie_driver);
++
++MODULE_AUTHOR("Manjunath Bettegowda <manjumb at synopsys.com>");
++MODULE_DESCRIPTION("Synopsys PCIe host controller driver");
++MODULE_LICENSE("GPL v2");
 -- 
 1.8.1.5
