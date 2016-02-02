@@ -1,97 +1,47 @@
-From: vgupta@synopsys.com (Vineet Gupta)
-Date: Tue, 2 Feb 2016 19:59:03 +0530
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue, 2 Feb 2016 15:36:14 +0000
 Subject: [PATCH 2/9] ARC: [dts] Introduce Timer bindings
-In-Reply-To: <1454418916.25997.18.camel@synopsys.com>
+In-Reply-To: <56B0BD2F.5080409@synopsys.com>
 References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
  <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
- <1454418916.25997.18.camel@synopsys.com>
+ <1454418916.25997.18.camel@synopsys.com> <56B0BD2F.5080409@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56B0BD2F.5080409@synopsys.com>
+Message-ID: <1454427373.25997.24.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Alexey,
+Hi Vineet,
 
-On Tuesday 02 February 2016 06:45 PM, Alexey Brodkin wrote:
-> Hi Vineet,
+On Tue, 2016-02-02@19:59 +0530, Vineet Gupta wrote:
+> Hi Alexey,
 > 
-> On Tue, 2016-02-02@16:28 +0530, Vineet Gupta wrote:
->> +
->> +Required properties:
->> +
->> +- compatible : should be "snps,arc-timer0"
->> +- interrupts : single Interrupt going into parent intc
->> +	       (16 for ARCHS cores, 3 for ARC700 cores)
->> +- clocks     : phandle to the source clock
+> On Tuesday 02 February 2016 06:45 PM, Alexey Brodkin wrote:
+> > Hi Vineet,
+> > 
+> > On Tue, 2016-02-02@16:28 +0530, Vineet Gupta wrote:
+> > > +
+> > > +Required properties:
+> > > +
+> > > +- compatible : should be "snps,arc-timer0"
+> > > +- interrupts : single Interrupt going into parent intc
+> > > +	       (16 for ARCHS cores, 3 for ARC700 cores)
+> > > +- clocks     : phandle to the source clock
+> > 
+> > Actually we're not flexible here.
+> > See we have hard-coded "core_clk" in [PATCH 8/9].
+> > We use it directly in show_cpuinfo() for reading clock speed
+> > as well as in axs103_early_init().
+> > 
+> > So "source clock" here MUST be "core_clk", otherwise
+> > /proc/cpuinfo will report junk instead of meaningful data at least.
 > 
-> Actually we're not flexible here.
-> See we have hard-coded "core_clk" in [PATCH 8/9].
-> We use it directly in show_cpuinfo() for reading clock speed
-> as well as in axs103_early_init().
-> 
-> So "source clock" here MUST be "core_clk", otherwise
-> /proc/cpuinfo will report junk instead of meaningful data at least.
+> Using hardcoded DT names in generic code is total BS and I slap myself for missing
+> that in reviewing 8/9. Please fix it !
 
-Using hardcoded DT names in generic code is total BS and I slap myself for missing
-that in reviewing 8/9. Please fix it !
+But the only other alternative to hard-coded name is use of some internal variable
+like "arc_timer_freq".
 
-FWIW, it is OK to have such hardcoding in say AXS103 DTS and AXS103 platform code
-but it is not the way to go in setup.c
+I.e. we make "arc_timer_freq" global and use it for displaying core frequency.
 
->> +Required properties:
->> +
->> +- compatible : should be "snps,arc-timer1"
->> +- clocks     : phandle to the source clock
->> +
->> +Example:
->> +
->> +	timer1: timer_clksrc {
->> +		compatible = "snps,arc-timer1";
->> +		clocks = <&timer0_clk>;
-> 
-> Ditto, "clocks = <&core_clk>".
+Are you OK with that?
 
-Yeah I fixed all those !
-
->> diff --git a/arch/arc/boot/dts/abilis_tb10x.dtsi b/arch/arc/boot/dts/abilis_tb10x.dtsi
->> index cfb5052239a1..f9f138efa92c 100644
->> --- a/arch/arc/boot/dts/abilis_tb10x.dtsi
->> +++ b/arch/arc/boot/dts/abilis_tb10x.dtsi
->> @@ -35,6 +35,18 @@
->>  		};
->>  	};
->>  
->> +	timer0: timer_clkevt {
->> +		compatible = "snps,arc-timer0";
->> +		interrupts = <3>;
->> +		interrupt-parent = <&intc>;
->> +		clocks = <&cpu_clk>;
->>
->> +	};
->> +
->> +	timer1: timer_clksrc {
->> +		compatible = "snps,arc-timer1";
->> +		clocks = <&cpu_clk>;
->> +	};
->> +
-> 
-> Hm now that's a question how to fix /proc/cpuinfo output
-> for Abilis? There's no "core_clk" DTS node for Abilis and so
-> show_cpuinfo() won't get proper clock value.
-> 
-> Probably we may fix it with modification of their "pll" node
-> from
-> ------------------------>8----------------------
-> 		pll0: oscillator {
-> 			clock-frequency  = <1000000000>;
-> 		};
-> ------------------------>8----------------------
-> 
-> to
-> ------------------------>8----------------------
-> 		core_clk: oscillator {
-> 			clock
-> -frequency  = <1000000000>;
-> 		};
-> ------------------------>8----------------------
-
-This is all moot once we fix the orig problem.
+-Alexey
