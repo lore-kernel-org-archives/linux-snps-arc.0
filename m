@@ -1,78 +1,218 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 2 Feb 2016 16:28:50 +0530
-Subject: [PATCH 0/9] ARC clockevent/clocksource modernization
+Date: Tue, 2 Feb 2016 16:28:51 +0530
+Subject: [PATCH 1/9] ARC: [dts] Add clk feeding into timers to DTs
+In-Reply-To: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
+References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1454410739-24444-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+This allows us to introduce timers in DT in next commit
 
-This mini-series came out as a result of discussions during EZChip platform
-code review.
+Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+Cc: Rob Herring <robh at kernel.org>
+Cc: devicetree at vger.kernel.org
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/boot/dts/axc001.dtsi         | 6 ++++++
+ arch/arc/boot/dts/axc003.dtsi         | 6 ++++++
+ arch/arc/boot/dts/axc003_idu.dtsi     | 6 ++++++
+ arch/arc/boot/dts/nsim_700.dts        | 6 ++++++
+ arch/arc/boot/dts/nsim_hs.dts         | 6 ++++++
+ arch/arc/boot/dts/nsim_hs_idu.dts     | 6 ++++++
+ arch/arc/boot/dts/nsimosci.dts        | 6 ++++++
+ arch/arc/boot/dts/nsimosci_hs.dts     | 6 ++++++
+ arch/arc/boot/dts/nsimosci_hs_idu.dts | 6 ++++++
+ arch/arc/boot/dts/vdk_axc003.dtsi     | 6 ++++++
+ arch/arc/boot/dts/vdk_axc003_idu.dtsi | 6 ++++++
+ 11 files changed, 66 insertions(+)
 
-This switches ARC timers to DT based probe and removes the homebrew clk API
-we had before.
-
-@Rob could you please take a look at the DT bindings.
-@Daniel any comments would be appreciated !
-
-Thx,
--Vineet
-
-Alexey Brodkin (3):
-  ARC: use fixed frequencies in arc_set_early_base_baud()
-  ARC: [plat-axs] Don't use arc_{get|set}_core_freq() for manipulating
-    core clk
-  ARC: RIP arc_{get|set}_core_freq() clk API
-
-Noam Camus (2):
-  ARC: clockevent: switch to cpu notifier for clockevent setup
-  ARC: clockevent: Prepare for DT based probe
-
-Vineet Gupta (4):
-  ARC: [dts] Add clk feeding into timers to DTs
-  ARC: [dts] Introduce Timer bindings
-  ARC: clockevent: DT based probe
-  ARC: clocksource: DT based probe
-
- .../devicetree/bindings/timer/snps,arc-timer0.txt  |  23 +++
- .../devicetree/bindings/timer/snps,arc-timer1.txt  |  17 ++
- .../devicetree/bindings/timer/snps,archs-gfrc.txt  |  14 ++
- .../devicetree/bindings/timer/snps,archs-rtc.txt   |  14 ++
- arch/arc/Kconfig                                   |   3 +-
- arch/arc/boot/dts/abilis_tb10x.dtsi                |  12 ++
- arch/arc/boot/dts/axc001.dtsi                      |   6 +
- arch/arc/boot/dts/axc003.dtsi                      |   6 +
- arch/arc/boot/dts/axc003_idu.dtsi                  |   6 +
- arch/arc/boot/dts/nsim_700.dts                     |   6 +
- arch/arc/boot/dts/nsim_hs.dts                      |   6 +
- arch/arc/boot/dts/nsim_hs_idu.dts                  |   6 +
- arch/arc/boot/dts/nsimosci.dts                     |   6 +
- arch/arc/boot/dts/nsimosci_hs.dts                  |   6 +
- arch/arc/boot/dts/nsimosci_hs_idu.dts              |   6 +
- arch/arc/boot/dts/skeleton.dtsi                    |  12 ++
- arch/arc/boot/dts/skeleton_hs.dtsi                 |  12 ++
- arch/arc/boot/dts/skeleton_hs_idu.dtsi             |  12 ++
- arch/arc/boot/dts/vdk_axc003.dtsi                  |   6 +
- arch/arc/boot/dts/vdk_axc003_idu.dtsi              |   6 +
- arch/arc/include/asm/clk.h                         |  22 ---
- arch/arc/include/asm/irq.h                         |   5 -
- arch/arc/kernel/Makefile                           |   2 +-
- arch/arc/kernel/clk.c                              |  21 ---
- arch/arc/kernel/devtree.c                          |  13 +-
- arch/arc/kernel/intc-compact.c                     |   2 +
- arch/arc/kernel/mcip.c                             |   4 +-
- arch/arc/kernel/setup.c                            |  16 +-
- arch/arc/kernel/smp.c                              |   2 -
- arch/arc/kernel/time.c                             | 208 +++++++++++++--------
- arch/arc/plat-axs10x/axs10x.c                      |  27 ++-
- 31 files changed, 352 insertions(+), 155 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer0.txt
- create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
- create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
- create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
- delete mode 100644 arch/arc/include/asm/clk.h
- delete mode 100644 arch/arc/kernel/clk.c
-
+diff --git a/arch/arc/boot/dts/axc001.dtsi b/arch/arc/boot/dts/axc001.dtsi
+index e7a83d19c5a3..40bcecfc3687 100644
+--- a/arch/arc/boot/dts/axc001.dtsi
++++ b/arch/arc/boot/dts/axc001.dtsi
+@@ -26,6 +26,12 @@
+ 
+ 		ranges = <0x00000000 0xf0000000 0x10000000>;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <750000000>;
++		};
++
+ 		core_intc: arc700-intc at cpu {
+ 			compatible = "snps,arc700-intc";
+ 			interrupt-controller;
+diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
+index b0e3ccdf8fc7..cabe0deeb2d8 100644
+--- a/arch/arc/boot/dts/axc003.dtsi
++++ b/arch/arc/boot/dts/axc003.dtsi
+@@ -25,6 +25,12 @@
+ 
+ 		ranges = <0x00000000 0xf0000000 0x10000000>;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <90000000>;
++		};
++
+ 		core_intc: archs-intc at cpu {
+ 			compatible = "snps,archs-intc";
+ 			interrupt-controller;
+diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
+index f87ae409c8ed..8955881db794 100644
+--- a/arch/arc/boot/dts/axc003_idu.dtsi
++++ b/arch/arc/boot/dts/axc003_idu.dtsi
+@@ -25,6 +25,12 @@
+ 
+ 		ranges = <0x00000000 0xf0000000 0x10000000>;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <90000000>;
++		};
++
+ 		core_intc: archs-intc at cpu {
+ 			compatible = "snps,archs-intc";
+ 			interrupt-controller;
+diff --git a/arch/arc/boot/dts/nsim_700.dts b/arch/arc/boot/dts/nsim_700.dts
+index 987921f711c1..5d5e373e0ebc 100644
+--- a/arch/arc/boot/dts/nsim_700.dts
++++ b/arch/arc/boot/dts/nsim_700.dts
+@@ -32,6 +32,12 @@
+ 		/* child and parent address space 1:1 mapped */
+ 		ranges;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <80000000>;
++		};
++
+ 		core_intc: interrupt-controller {
+ 			compatible = "snps,arc700-intc";
+ 			interrupt-controller;
+diff --git a/arch/arc/boot/dts/nsim_hs.dts b/arch/arc/boot/dts/nsim_hs.dts
+index bd46aec88c6a..cbd08fa38339 100644
+--- a/arch/arc/boot/dts/nsim_hs.dts
++++ b/arch/arc/boot/dts/nsim_hs.dts
+@@ -38,6 +38,12 @@
+ 		/* only perip space at end of low mem accessible */
+ 		ranges = <0x80000000 0x0 0x80000000 0x80000000>;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <80000000>;
++		};
++
+ 		core_intc: core-interrupt-controller {
+ 			compatible = "snps,archs-intc";
+ 			interrupt-controller;
+diff --git a/arch/arc/boot/dts/nsim_hs_idu.dts b/arch/arc/boot/dts/nsim_hs_idu.dts
+index cc82781727a1..99eabe1a2bf6 100644
+--- a/arch/arc/boot/dts/nsim_hs_idu.dts
++++ b/arch/arc/boot/dts/nsim_hs_idu.dts
+@@ -29,6 +29,12 @@
+ 		/* child and parent address space 1:1 mapped */
+ 		ranges;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <80000000>;
++		};
++
+ 		core_intc: core-interrupt-controller {
+ 			compatible = "snps,archs-intc";
+ 			interrupt-controller;
+diff --git a/arch/arc/boot/dts/nsimosci.dts b/arch/arc/boot/dts/nsimosci.dts
+index 1c169dc74ad1..bc3161ab8f82 100644
+--- a/arch/arc/boot/dts/nsimosci.dts
++++ b/arch/arc/boot/dts/nsimosci.dts
+@@ -35,6 +35,12 @@
+ 		/* child and parent address space 1:1 mapped */
+ 		ranges;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <20000000>;
++		};
++
+ 		intc: interrupt-controller {
+ 			compatible = "snps,arc700-intc";
+ 			interrupt-controller;
+diff --git a/arch/arc/boot/dts/nsimosci_hs.dts b/arch/arc/boot/dts/nsimosci_hs.dts
+index 9444956156d9..273dcce2cc66 100644
+--- a/arch/arc/boot/dts/nsimosci_hs.dts
++++ b/arch/arc/boot/dts/nsimosci_hs.dts
+@@ -35,6 +35,12 @@
+ 		/* child and parent address space 1:1 mapped */
+ 		ranges;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <20000000>;
++		};
++
+ 		core_intc: core-interrupt-controller {
+ 			compatible = "snps,archs-intc";
+ 			interrupt-controller;
+diff --git a/arch/arc/boot/dts/nsimosci_hs_idu.dts b/arch/arc/boot/dts/nsimosci_hs_idu.dts
+index ff11388ee484..8fe60967a4c5 100644
+--- a/arch/arc/boot/dts/nsimosci_hs_idu.dts
++++ b/arch/arc/boot/dts/nsimosci_hs_idu.dts
+@@ -33,6 +33,12 @@
+ 		/* child and parent address space 1:1 mapped */
+ 		ranges;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <5000000>;
++		};
++
+ 		core_intc: core-interrupt-controller {
+ 			compatible = "snps,archs-intc";
+ 			interrupt-controller;
+diff --git a/arch/arc/boot/dts/vdk_axc003.dtsi b/arch/arc/boot/dts/vdk_axc003.dtsi
+index 035759ee62a5..ad4ee43bd2ac 100644
+--- a/arch/arc/boot/dts/vdk_axc003.dtsi
++++ b/arch/arc/boot/dts/vdk_axc003.dtsi
+@@ -25,6 +25,12 @@
+ 
+ 		ranges = <0x00000000 0xf0000000 0x10000000>;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <50000000>;
++		};
++
+ 		core_intc: archs-intc at cpu {
+ 			compatible = "snps,archs-intc";
+ 			interrupt-controller;
+diff --git a/arch/arc/boot/dts/vdk_axc003_idu.dtsi b/arch/arc/boot/dts/vdk_axc003_idu.dtsi
+index 90e18f404889..a3cb6263c581 100644
+--- a/arch/arc/boot/dts/vdk_axc003_idu.dtsi
++++ b/arch/arc/boot/dts/vdk_axc003_idu.dtsi
+@@ -26,6 +26,12 @@
+ 
+ 		ranges = <0x00000000 0xf0000000 0x10000000>;
+ 
++		core_clk: core_clk {
++			#clock-cells = <0>;
++			compatible = "fixed-clock";
++			clock-frequency = <50000000>;
++		};
++
+ 		core_intc: archs-intc at cpu {
+ 			compatible = "snps,archs-intc";
+ 			interrupt-controller;
 -- 
 2.5.0
