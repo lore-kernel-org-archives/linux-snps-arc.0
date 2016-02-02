@@ -1,47 +1,53 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 2 Feb 2016 12:48:28 +0000
-Subject: [PATCH 2/9] ARC: [dts] Introduce Timer bindings
-In-Reply-To: <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
+Date: Tue, 2 Feb 2016 12:53:26 +0000
+Subject: [PATCH 7/9] ARC: use fixed frequencies in
+ arc_set_early_base_baud()
+In-Reply-To: <1454410739-24444-8-git-send-email-vgupta@synopsys.com>
 References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
- <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
+ <1454410739-24444-8-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1454417306.25997.5.camel@synopsys.com>
+Message-ID: <1454417606.25997.7.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+Adding Christian for Abilis TB10x clocks review.
 
 On Tue, 2016-02-02@16:28 +0530, Vineet Gupta wrote:
-> ARC Timers have historically been probed directly.
-> As precursor to start probing Timers thru DT introduce these bindings
+> From: Alexey Brodkin <abrodkin at synopsys.com>
 > 
-> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-> Cc: Rob Herring <robh at kernel.org>
-> Cc: devicetree at vger.kernel.org
+> UARTs usually have fixed clock so we're switching to use of
+> constant values instead of something derived from core clock
+> frequency.
+> 
+> Among other things this will allow us to get rid of
+> arc_{get|set}_core_freq() and switch to generic clock
+> framework later on.
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 > Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 > ---
-
-[snip]
-
-> +Required properties:
-> +
-> +- compatible : should be "snps,arc-timer0"
-> +- interrupts : single Interrupt going into parent intc
-> +	       (16 for ARCHS cores, 3 for ARC700 cores)
-> +- clocks     : phandle to the source clock
-> +
-> +Optional properties:
-> +
-> +- interrupt-parent : phandle to parent intc
-> +
-> +Example:
-> +
-> +	timer0: timer_clkevt {
-> +		compatible = "snps,arc-timer0";
-> +		interrupts = <3>;
-> +		interrupt-parent = <&core_intc>;
-> +		clocks = <&timer0_clk>;
-
-Even though this is an example maybe we may
-use the same "core_clk" as in real .dts below?
+>  arch/arc/kernel/devtree.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arc/kernel/devtree.c b/arch/arc/kernel/devtree.c
+> index 7e844fd8213f..e155126c79b1 100644
+> --- a/arch/arc/kernel/devtree.c
+> +++ b/arch/arc/kernel/devtree.c
+> @@ -28,14 +28,12 @@ unsigned int __init arc_early_base_baud(void)
+>  
+>  static void __init arc_set_early_base_baud(unsigned long dt_root)
+>  {
+> -	unsigned int core_clk = arc_get_core_freq();
+> -
+>  	if (of_flat_dt_is_compatible(dt_root, "abilis,arc-tb10x"))
+> -		arc_base_baud = core_clk/3;
+> +		arc_base_baud = 166666667;	/* Fixed 166.7MHz clk (TB10x) */
+>  	else if (of_flat_dt_is_compatible(dt_root, "snps,arc-sdp"))
+>  		arc_base_baud = 33333333;	/* Fixed 33MHz clk (AXS10x) */
+>  	else
+> -		arc_base_baud = core_clk;
+> +		arc_base_baud = 50000000;	/* Fixed default 50MHz */
+>  }
+>  #else
+>  #define arc_set_early_base_baud(dt_root)
 
 -Alexey
