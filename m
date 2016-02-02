@@ -1,53 +1,34 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 2 Feb 2016 22:57:26 +0000
-Subject: [PATCH 2/9] ARC: [dts] Introduce Timer bindings
-In-Reply-To: <1454427373.25997.24.camel@synopsys.com>
-References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
- <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
- <1454418916.25997.18.camel@synopsys.com> <56B0BD2F.5080409@synopsys.com>
- <1454427373.25997.24.camel@synopsys.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Tue, 2 Feb 2016 17:14:49 -0600
+Subject: [PATCH v7 2/2] add new platform driver for PCI RC
+In-Reply-To: <8223655.W63T0XOVm1@wuerfel>
+References: <cover.1454349430.git.jpinto@synopsys.com>
+ <10b29adcdb0a31eb8f8071b271da267e44ad8a04.1454349430.git.jpinto@synopsys.com>
+ <8223655.W63T0XOVm1@wuerfel>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1454453846.25997.31.camel@synopsys.com>
+Message-ID: <20160202231449.GA18009@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
-
-On Tue, 2016-02-02@18:36 +0300, Alexey Brodkin wrote:
-> Hi Vineet,
+On Tue, Feb 02, 2016@09:25:25PM +0100, Arnd Bergmann wrote:
+> On Monday 01 February 2016 18:07:45 Joao Pinto wrote:
+> > +static void synopsys_pcie_establish_link(struct pcie_port *pp)
+> > +{
+> > +	int retries = 0;
+> > +
+> > +	/* check if the link is up or not */
+> > +	for (retries = 0; retries < 10; retries++) {
+> > +		if (dw_pcie_link_up(pp)) {
+> > +			dev_info(pp->dev, "Link up\n");
+> > +			return;
+> > +		}
+> > +		mdelay(100);
+> > +	}
+> > +}
 > 
-> On Tue, 2016-02-02@19:59 +0530, Vineet Gupta wrote:
-> > Hi Alexey,
-> > 
-> > On Tuesday 02 February 2016 06:45 PM, Alexey Brodkin wrote:
-> > > Hi Vineet,
-> > > 
-> > > On Tue, 2016-02-02@16:28 +0530, Vineet Gupta wrote:
-> > > > +
-> > > > +Required properties:
-> > > > +
-> > > > +- compatible : should be "snps,arc-timer0"
-> > > > +- interrupts : single Interrupt going into parent intc
-> > > > +	       (16 for ARCHS cores, 3 for ARC700 cores)
-> > > > +- clocks     : phandle to the source clock
-> > > 
-> > > Actually we're not flexible here.
-> > > See we have hard-coded "core_clk" in [PATCH 8/9].
-> > > We use it directly in show_cpuinfo() for reading clock speed
-> > > as well as in axs103_early_init().
-> > > 
-> > > So "source clock" here MUST be "core_clk", otherwise
-> > > /proc/cpuinfo will report junk instead of meaningful data at least.
-> > 
-> > Using hardcoded DT names in generic code is total BS and I slap myself for missing
-> > that in reviewing 8/9. Please fix it !
-> 
-> But the only other alternative to hard-coded name is use of some internal variable
-> like "arc_timer_freq".
-> 
-> I.e. we make "arc_timer_freq" global and use it for displaying core frequency.
+> That mdelay() needs to be an msleep(). You should never waste
+> a whole second worth of CPU time in a driver.
 
-Well actually there's another possibility that is used on many other platforms
-(ARM both 32 and 64-bit flavors is a good example) - just print bogomips instead
-of additional core frequency.
+There are six other copies of this code, and two of them (exynos and
+spear) have the same problem.
 
--Alexey
+Bjorn
