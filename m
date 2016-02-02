@@ -1,248 +1,129 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 2 Feb 2016 16:28:56 +0530
-Subject: [PATCH 6/9] ARC: clocksource: DT based probe
+Date: Tue, 2 Feb 2016 16:28:59 +0530
+Subject: [PATCH 9/9] ARC: RIP arc_{get|set}_core_freq() clk API
 In-Reply-To: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
 References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1454410739-24444-7-git-send-email-vgupta@synopsys.com>
+Message-ID: <1454410739-24444-10-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-- Remove explicit clocksource setup and let it be done by OF framework
-  by defining CLOCKSOURCE_OF_DECLARE() for various timers
+From: Alexey Brodkin <abrodkin@synopsys.com>
 
-- This allows multiple clocksources to be potentially registered
-  simultaneouly: previously we could only do one - as all of them had
-  same arc_counter_setup() routine for registration
+There are no more users of this - so RIP!
 
-- Setup routines also ensure that the underlying timer actually exists.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+[vgupta: update changelog]
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 
-- Remove some of the panic() calls if underlying timer is NOT detcted as
-  a fallback clocksource might still be available
-  1. If GRFC doesn't exist, jiffies clocksource gets registered anyways
-  2. if RTC doesn't exist, TIMER1 cetainly will take over (as it is
-     always present)
-
-Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/mcip.c  |   4 +-
- arch/arc/kernel/setup.c |   3 --
- arch/arc/kernel/time.c  | 111 +++++++++++++++++++++++++-----------------------
- 3 files changed, 60 insertions(+), 58 deletions(-)
+ arch/arc/include/asm/clk.h | 22 ----------------------
+ arch/arc/kernel/Makefile   |  2 +-
+ arch/arc/kernel/clk.c      | 21 ---------------------
+ arch/arc/kernel/devtree.c  |  7 -------
+ 4 files changed, 1 insertion(+), 51 deletions(-)
+ delete mode 100644 arch/arc/include/asm/clk.h
+ delete mode 100644 arch/arc/kernel/clk.c
 
-diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-index bc771f58fefb..79c09d20c905 100644
---- a/arch/arc/kernel/mcip.c
-+++ b/arch/arc/kernel/mcip.c
-@@ -118,15 +118,13 @@ static void mcip_probe_n_setup(void)
- 		IS_AVAIL1(mp.dbg, "DEBUG "),
- 		IS_AVAIL1(mp.gfrc, "GFRC"));
- 
-+	cpuinfo_arc700[0].extn.gfrc = mp.gfrc;
- 	idu_detected = mp.idu;
- 
- 	if (mp.dbg) {
- 		__mcip_cmd_data(CMD_DEBUG_SET_SELECT, 0, 0xf);
- 		__mcip_cmd_data(CMD_DEBUG_SET_MASK, 0xf, 0xf);
- 	}
+diff --git a/arch/arc/include/asm/clk.h b/arch/arc/include/asm/clk.h
+deleted file mode 100644
+index bf9d29f5bd53..000000000000
+--- a/arch/arc/include/asm/clk.h
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/*
+- * Copyright (C) 2012 Synopsys, Inc. (www.synopsys.com)
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation.
+- */
 -
--	if (IS_ENABLED(CONFIG_ARC_HAS_GFRC) && !mp.gfrc)
--		panic("kernel trying to use non-existent GFRC\n");
- }
- 
- struct plat_smp_ops plat_smp_ops = {
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 8129c8e8f20b..953068e9c9e1 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -304,9 +304,6 @@ static void arc_chk_core_config(void)
- 	if (!cpu->extn.timer1)
- 		panic("Timer1 is not present!\n");
- 
--	if (IS_ENABLED(CONFIG_ARC_HAS_RTC) && !cpu->extn.rtc)
--		panic("RTC is not present\n");
+-#ifndef _ASM_ARC_CLK_H
+-#define _ASM_ARC_CLK_H
 -
- #ifdef CONFIG_ARC_HAS_DCCM
- 	/*
- 	 * DCCM can be arbit placed in hardware.
-diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
-index 43ef22853473..0987de53ed95 100644
---- a/arch/arc/kernel/time.c
-+++ b/arch/arc/kernel/time.c
-@@ -77,12 +77,7 @@ static void noinline arc_get_timer_clk(struct device_node *node)
- 
- #ifdef CONFIG_ARC_HAS_GFRC
- 
--static int arc_counter_setup(void)
+-/* Although we can't really hide core_freq, the accessor is still better way */
+-extern unsigned long core_freq;
+-
+-static inline unsigned long arc_get_core_freq(void)
 -{
--	return 1;
+-	return core_freq;
 -}
 -
--static cycle_t arc_counter_read(struct clocksource *cs)
-+static cycle_t arc_read_gfrc(struct clocksource *cs)
- {
- 	unsigned long flags;
- 	union {
-@@ -107,15 +102,28 @@ static cycle_t arc_counter_read(struct clocksource *cs)
- 	return stamp.full;
- }
- 
--static struct clocksource arc_counter = {
-+static struct clocksource arc_counter_gfrc = {
- 	.name   = "ARConnect GFRC",
- 	.rating = 400,
--	.read   = arc_counter_read,
-+	.read   = arc_read_gfrc,
- 	.mask   = CLOCKSOURCE_MASK(64),
- 	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
- };
- 
--#else
-+static void __init arc_cs_setup_gfrc(struct device_node *node)
-+{
-+	int exists = cpuinfo_arc700[0].extn.gfrc;
-+
-+	if (WARN(!exists, "Global-64-bit-Ctr clocksource not detected"))
-+		return;
-+
-+	arc_get_timer_clk(node);
-+
-+	clocksource_register_hz(&arc_counter_gfrc, arc_timer_freq);
-+}
-+CLOCKSOURCE_OF_DECLARE(arc_gfrc, "snps,archs-timer-gfrc", arc_cs_setup_gfrc);
-+
-+#endif
- 
- #ifdef CONFIG_ARC_HAS_RTC
- 
-@@ -123,15 +131,7 @@ static struct clocksource arc_counter = {
- #define AUX_RTC_LOW	0x104
- #define AUX_RTC_HIGH	0x105
- 
--int arc_counter_setup(void)
--{
--	write_aux_reg(AUX_RTC_CTRL, 1);
+-extern int arc_set_core_freq(unsigned long);
 -
--	/* Not usable in SMP */
--	return !IS_ENABLED(CONFIG_SMP);
--}
+-#endif
+diff --git a/arch/arc/kernel/Makefile b/arch/arc/kernel/Makefile
+index e7f3625a19b5..4f16967a0871 100644
+--- a/arch/arc/kernel/Makefile
++++ b/arch/arc/kernel/Makefile
+@@ -9,7 +9,7 @@
+ CFLAGS_ptrace.o		+= -DUTS_MACHINE='"$(UTS_MACHINE)"'
+ 
+ obj-y	:= arcksyms.o setup.o irq.o time.o reset.o ptrace.o process.o devtree.o
+-obj-y	+= signal.o traps.o sys.o troubleshoot.o stacktrace.o disasm.o clk.o
++obj-y	+= signal.o traps.o sys.o troubleshoot.o stacktrace.o disasm.o
+ obj-$(CONFIG_ISA_ARCOMPACT)		+= entry-compact.o intc-compact.o
+ obj-$(CONFIG_ISA_ARCV2)			+= entry-arcv2.o intc-arcv2.o
+ 
+diff --git a/arch/arc/kernel/clk.c b/arch/arc/kernel/clk.c
+deleted file mode 100644
+index 10c7b0b5a079..000000000000
+--- a/arch/arc/kernel/clk.c
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/*
+- * Copyright (C) 2012 Synopsys, Inc. (www.synopsys.com)
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation.
+- */
 -
--static cycle_t arc_counter_read(struct clocksource *cs)
-+static cycle_t arc_read_rtc(struct clocksource *cs)
- {
- 	unsigned long status;
- 	union {
-@@ -155,44 +155,67 @@ static cycle_t arc_counter_read(struct clocksource *cs)
- 	return stamp.full;
- }
- 
--static struct clocksource arc_counter = {
-+static struct clocksource arc_counter_rtc = {
- 	.name   = "ARCv2 RTC",
- 	.rating = 350,
--	.read   = arc_counter_read,
-+	.read   = arc_read_rtc,
- 	.mask   = CLOCKSOURCE_MASK(64),
- 	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
- };
- 
--#else /* !CONFIG_ARC_HAS_RTC */
+-#include <asm/clk.h>
+-
+-unsigned long core_freq = 80000000;
 -
 -/*
-- * set 32bit TIMER1 to keep counting monotonically and wraparound
+- * As of now we default to device-tree provided clock
+- * In future we can determine this in early boot
 - */
--int arc_counter_setup(void)
-+static void __init arc_cs_setup_rtc(struct device_node *node)
+-int arc_set_core_freq(unsigned long freq)
+-{
+-	core_freq = freq;
+-	return 0;
+-}
+diff --git a/arch/arc/kernel/devtree.c b/arch/arc/kernel/devtree.c
+index e155126c79b1..1b2234517d65 100644
+--- a/arch/arc/kernel/devtree.c
++++ b/arch/arc/kernel/devtree.c
+@@ -14,7 +14,6 @@
+ #include <linux/memblock.h>
+ #include <linux/of.h>
+ #include <linux/of_fdt.h>
+-#include <asm/clk.h>
+ #include <asm/mach_desc.h>
+ 
+ #ifdef CONFIG_SERIAL_EARLYCON
+@@ -63,8 +62,6 @@ const struct machine_desc * __init setup_machine_fdt(void *dt)
  {
--	write_aux_reg(ARC_REG_TIMER1_LIMIT, ARC_TIMER_MAX);
--	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
--	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
-+	int exists = cpuinfo_arc700[smp_processor_id()].extn.rtc;
-+
-+	if (WARN(!exists, "Local-64-bit-Ctr clocksource not detected"))
-+		return;
-+
-+	/* Local to CPU hence not usable in SMP */
-+	if (WARN(IS_ENABLED(CONFIG_SMP), "Local-64-bit-Ctr not usable in SMP"))
-+		return;
+ 	const struct machine_desc *mdesc;
+ 	unsigned long dt_root;
+-	const void *clk;
+-	int len;
  
--	/* Not usable in SMP */
--	return !IS_ENABLED(CONFIG_SMP);
-+	arc_get_timer_clk(node);
-+
-+	write_aux_reg(AUX_RTC_CTRL, 1);
-+
-+	clocksource_register_hz(&arc_counter_rtc, arc_timer_freq);
- }
-+CLOCKSOURCE_OF_DECLARE(arc_rtc, "snps,archs-timer-rtc", arc_cs_setup_rtc);
-+
-+#endif
+ 	if (!early_init_dt_scan(dt))
+ 		return NULL;
+@@ -74,10 +71,6 @@ const struct machine_desc * __init setup_machine_fdt(void *dt)
+ 		machine_halt();
  
--static cycle_t arc_counter_read(struct clocksource *cs)
-+/*
-+ * 32bit TIMER1 to keep counting monotonically and wraparound
-+ */
-+
-+static cycle_t arc_read_timer1(struct clocksource *cs)
- {
- 	return (cycle_t) read_aux_reg(ARC_REG_TIMER1_CNT);
- }
- 
--static struct clocksource arc_counter = {
-+static struct clocksource arc_counter_timer1 = {
- 	.name   = "ARC Timer1",
- 	.rating = 300,
--	.read   = arc_counter_read,
-+	.read   = arc_read_timer1,
- 	.mask   = CLOCKSOURCE_MASK(32),
- 	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
- };
- 
--#endif
--#endif
-+static void __init arc_cs_setup_timer1(struct device_node *node)
-+{
-+	/* Local to CPU hence not usable in SMP */
-+	if (IS_ENABLED(CONFIG_SMP))
-+		return;
-+
-+	arc_get_timer_clk(node);
-+
-+	write_aux_reg(ARC_REG_TIMER1_LIMIT, ARC_TIMER_MAX);
-+	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
-+	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
-+
-+	clocksource_register_hz(&arc_counter_timer1, arc_timer_freq);
-+}
-+CLOCKSOURCE_OF_DECLARE(arc_timer1, "snps,arc-timer1", arc_cs_setup_timer1);
- 
- /********** Clock Event Device *********/
- 
-@@ -317,25 +340,9 @@ CLOCKSOURCE_OF_DECLARE(arc_clkevt, "snps,arc-timer0", arc_clockevent_setup);
- 
- /*
-  * Called from start_kernel() - boot CPU only
-- *
-- * -Sets up h/w timers as applicable on boot cpu
-- * -Also sets up any global state needed for timer subsystem:
-- *    - for "counting" timer, registers a clocksource, usable across CPUs
-- *      (provided that underlying counter h/w is synchronized across cores)
-  */
- void __init time_init(void)
- {
- 	of_clk_init(NULL);
- 	clocksource_probe();
+ 	dt_root = of_get_flat_dt_root();
+-	clk = of_get_flat_dt_prop(dt_root, "clock-frequency", &len);
+-	if (clk)
+-		arc_set_core_freq(of_read_ulong(clk, len/4));
 -
--	/*
--	 * sets up the timekeeping free-flowing counter which also returns
--	 * whether the counter is usable as clocksource
--	 */
--	if (arc_counter_setup())
--		/*
--		 * CLK upto 4.29 GHz can be safely represented in 32 bits
--		 * because Max 32 bit number is 4,294,967,295
--		 */
--		clocksource_register_hz(&arc_counter, arc_timer_freq);
- }
+ 	arc_set_early_base_baud(dt_root);
+ 
+ 	return mdesc;
 -- 
 2.5.0
