@@ -1,217 +1,77 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 2 Feb 2016 16:28:52 +0530
-Subject: [PATCH 2/9] ARC: [dts] Introduce Timer bindings
+Date: Tue, 2 Feb 2016 16:28:54 +0530
+Subject: [PATCH 4/9] ARC: clockevent: Prepare for DT based probe
 In-Reply-To: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
 References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
+Message-ID: <1454410739-24444-5-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-ARC Timers have historically been probed directly.
-As precursor to start probing Timers thru DT introduce these bindings
+From: Noam Camus <noamc@ezchip.com>
+
+ - call clocksource_probe()
+ - This in turns needs of_clk_init() to be called earlier
 
 Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-Cc: Rob Herring <robh at kernel.org>
-Cc: devicetree at vger.kernel.org
+Signed-off-by: Noam Camus <noamc at ezchip.com>
+[vgupta: broken off from a bigger patch]
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- .../devicetree/bindings/timer/snps,arc-timer0.txt  | 23 ++++++++++++++++++++++
- .../devicetree/bindings/timer/snps,arc-timer1.txt  | 17 ++++++++++++++++
- .../devicetree/bindings/timer/snps,archs-gfrc.txt  | 14 +++++++++++++
- .../devicetree/bindings/timer/snps,archs-rtc.txt   | 14 +++++++++++++
- arch/arc/boot/dts/abilis_tb10x.dtsi                | 12 +++++++++++
- arch/arc/boot/dts/skeleton.dtsi                    | 12 +++++++++++
- arch/arc/boot/dts/skeleton_hs.dtsi                 | 12 +++++++++++
- arch/arc/boot/dts/skeleton_hs_idu.dtsi             | 12 +++++++++++
- 8 files changed, 116 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer0.txt
- create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
- create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
- create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
+ arch/arc/Kconfig        | 3 ++-
+ arch/arc/kernel/setup.c | 1 -
+ arch/arc/kernel/time.c  | 4 ++++
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/timer/snps,arc-timer0.txt b/Documentation/devicetree/bindings/timer/snps,arc-timer0.txt
-new file mode 100644
-index 000000000000..ceb80c72a90b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/timer/snps,arc-timer0.txt
-@@ -0,0 +1,23 @@
-+Synopsys ARC Local Timer with Interrupt Capabilities
-+- Found on all ARC CPUs (ARC700/ARCHS)
-+- Mandatory clockevent provider
-+
-+Required properties:
-+
-+- compatible : should be "snps,arc-timer0"
-+- interrupts : single Interrupt going into parent intc
-+	       (16 for ARCHS cores, 3 for ARC700 cores)
-+- clocks     : phandle to the source clock
-+
-+Optional properties:
-+
-+- interrupt-parent : phandle to parent intc
-+
-+Example:
-+
-+	timer0: timer_clkevt {
-+		compatible = "snps,arc-timer0";
-+		interrupts = <3>;
-+		interrupt-parent = <&core_intc>;
-+		clocks = <&timer0_clk>;
-+	};
-diff --git a/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt b/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
-new file mode 100644
-index 000000000000..4886192ce2f2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
-@@ -0,0 +1,17 @@
-+Synopsys ARC Free Running Local 32-bit Timer
-+- Found on all ARC CPUs (ARC700/ARCHS)
-+- Mandatory clocksource provider on ARC700
-+- Optional clocksource provider on UP ARC HS CPUs
-+  (and if better timer archs-rtc not available in SoC)
-+
-+Required properties:
-+
-+- compatible : should be "snps,arc-timer1"
-+- clocks     : phandle to the source clock
-+
-+Example:
-+
-+	timer1: timer_clksrc {
-+		compatible = "snps,arc-timer1";
-+		clocks = <&timer0_clk>;
-+	};
-diff --git a/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
-new file mode 100644
-index 000000000000..cce60e16aa0d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
-@@ -0,0 +1,14 @@
-+Synopsys ARC Free Running 64-bit Global Timer for ARC HS CPUs
-+- clocksourc provider for SMP SoC
-+
-+Required properties:
-+
-+- compatible : should be "snps,archs-gfrc"
-+- clocks     : phandle to the source clock
-+
-+Example:
-+
-+	timer1: timer_clksrc {
-+		compatible = "snps,archs-gfrc";
-+		clocks = <&timer0_clk>;
-+	};
-diff --git a/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
-new file mode 100644
-index 000000000000..f3b49938812b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
-@@ -0,0 +1,14 @@
-+Synopsys ARC Free Running 64-bit Local Timer for ARC HS CPUs
-+- clocksourc provider for UP SoC
-+
-+Required properties:
-+
-+- compatible : should be "snps,archs-rtc"
-+- clocks     : phandle to the source clock
-+
-+Example:
-+
-+	timer1: timer_clksrc {
-+		compatible = "snps,arc-rtc";
-+		clocks = <&timer0_clk>;
-+	};
-diff --git a/arch/arc/boot/dts/abilis_tb10x.dtsi b/arch/arc/boot/dts/abilis_tb10x.dtsi
-index cfb5052239a1..f9f138efa92c 100644
---- a/arch/arc/boot/dts/abilis_tb10x.dtsi
-+++ b/arch/arc/boot/dts/abilis_tb10x.dtsi
-@@ -35,6 +35,18 @@
- 		};
- 	};
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index bb15e8062b1f..0faf954c860c 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -10,8 +10,9 @@ config ARC
+ 	def_bool y
+ 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
+ 	select BUILDTIME_EXTABLE_SORT
+-	select COMMON_CLK
++	select CLKSRC_OF
+ 	select CLONE_BACKWARDS
++	select COMMON_CLK
+ 	# ARC Busybox based initramfs absolutely relies on DEVTMPFS for /dev
+ 	select DEVTMPFS if !INITRAMFS_SOURCE=""
+ 	select GENERIC_ATOMIC64
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 7f0a3cb300a8..8129c8e8f20b 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -438,7 +438,6 @@ void __init setup_arch(char **cmdline_p)
  
-+	timer0: timer_clkevt {
-+		compatible = "snps,arc-timer0";
-+		interrupts = <3>;
-+		interrupt-parent = <&intc>;
-+		clocks = <&cpu_clk>;
-+	};
+ static int __init customize_machine(void)
+ {
+-	of_clk_init(NULL);
+ 	/*
+ 	 * Traverses flattened DeviceTree - registering platform devices
+ 	 * (if any) complete with their resources
+diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+index bdfc621d5d85..1f5a6fe03bcc 100644
+--- a/arch/arc/kernel/time.c
++++ b/arch/arc/kernel/time.c
+@@ -38,6 +38,7 @@
+ #include <linux/init.h>
+ #include <linux/timex.h>
+ #include <linux/profile.h>
++#include <linux/clk-provider.h>
+ #include <linux/clocksource.h>
+ #include <linux/clockchips.h>
+ #include <asm/irq.h>
+@@ -305,6 +306,9 @@ static void __init arc_clockevent_setup()
+  */
+ void __init time_init(void)
+ {
++	of_clk_init(NULL);
++	clocksource_probe();
 +
-+	timer1: timer_clksrc {
-+		compatible = "snps,arc-timer1";
-+		clocks = <&cpu_clk>;
-+	};
-+
- 	soc100 {
- 		#address-cells	= <1>;
- 		#size-cells	= <1>;
-diff --git a/arch/arc/boot/dts/skeleton.dtsi b/arch/arc/boot/dts/skeleton.dtsi
-index 296d371a335c..bcb08b36210d 100644
---- a/arch/arc/boot/dts/skeleton.dtsi
-+++ b/arch/arc/boot/dts/skeleton.dtsi
-@@ -30,6 +30,18 @@
- 		};
- 	};
- 
-+	timer0: timer_clkevt {
-+		compatible = "snps,arc-timer0";
-+		interrupts = <3>;
-+		interrupt-parent = <&core_intc>;
-+		clocks = <&core_clk>;
-+	};
-+
-+	timer1: timer_clksrc {
-+		compatible = "snps,arc-timer1";
-+		clocks = <&core_clk>;
-+	};
-+
- 	memory {
- 		device_type = "memory";
- 		reg = <0x80000000 0x10000000>;	/* 256M */
-diff --git a/arch/arc/boot/dts/skeleton_hs.dtsi b/arch/arc/boot/dts/skeleton_hs.dtsi
-index a53876669030..46c5b05aea90 100644
---- a/arch/arc/boot/dts/skeleton_hs.dtsi
-+++ b/arch/arc/boot/dts/skeleton_hs.dtsi
-@@ -25,6 +25,18 @@
- 		};
- 	};
- 
-+	timer0: timer_clkevt {
-+		compatible = "snps,arc-timer0";
-+		interrupts = <16>;
-+		interrupt-parent = <&core_intc>;
-+		clocks = <&core_clk>;
-+	};
-+
-+	timer1: timer_clksrc {
-+		compatible = "snps,arc-timer1";
-+		clocks = <&core_clk>;
-+	};
-+
- 	memory {
- 		device_type = "memory";
- 		reg = <0x80000000 0x10000000>;	/* 256M */
-diff --git a/arch/arc/boot/dts/skeleton_hs_idu.dtsi b/arch/arc/boot/dts/skeleton_hs_idu.dtsi
-index 74898d017f7a..2a40bd9e2e2a 100644
---- a/arch/arc/boot/dts/skeleton_hs_idu.dtsi
-+++ b/arch/arc/boot/dts/skeleton_hs_idu.dtsi
-@@ -25,6 +25,18 @@
- 		};
- 	};
- 
-+	timer0: timer_clkevt {
-+		compatible = "snps,arc-timer0";
-+		interrupts = <16>;
-+		interrupt-parent = <&core_intc>;
-+		clocks = <&core_clk>;
-+	};
-+
-+	timer1: timer_clksrc {
-+		compatible = "snps,archs-timer-gfrc";
-+		clocks = <&core_clk>;
-+	};
-+
- 	memory {
- 		device_type = "memory";
- 		reg = <0x80000000 0x10000000>;	/* 256M */
+ 	/*
+ 	 * sets up the timekeeping free-flowing counter which also returns
+ 	 * whether the counter is usable as clocksource
 -- 
 2.5.0
