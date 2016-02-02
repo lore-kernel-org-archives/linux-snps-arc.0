@@ -1,97 +1,139 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Tue, 02 Feb 2016 21:25:25 +0100
-Subject: [PATCH v7 2/2] add new platform driver for PCI RC
-In-Reply-To: <10b29adcdb0a31eb8f8071b271da267e44ad8a04.1454349430.git.jpinto@synopsys.com>
-References: <cover.1454349430.git.jpinto@synopsys.com>
- <10b29adcdb0a31eb8f8071b271da267e44ad8a04.1454349430.git.jpinto@synopsys.com>
+From: robh@kernel.org (Rob Herring)
+Date: Tue, 2 Feb 2016 16:03:53 -0600
+Subject: [PATCH 2/9] ARC: [dts] Introduce Timer bindings
+In-Reply-To: <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
+References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
+ <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <8223655.W63T0XOVm1@wuerfel>
+Message-ID: <20160202220353.GA10273@rob-hp-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-On Monday 01 February 2016 18:07:45 Joao Pinto wrote:
-> This patch adds a new driver that will be the reference platform driver
-> for all PCI RC IP Protoyping Kits based on ARC SDP.
-> This patch is composed by:
+On Tue, Feb 02, 2016@04:28:52PM +0530, Vineet Gupta wrote:
+> ARC Timers have historically been probed directly.
+> As precursor to start probing Timers thru DT introduce these bindings
 > 
-> -MAINTAINERS file was updated to include the new driver
-> -Documentation/devicetree/bindings/pci was updated to include the new
-> driver documentation
-> -New driver called pcie-synopsys
+> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Cc: Rob Herring <robh at kernel.org>
+> Cc: devicetree at vger.kernel.org
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  .../devicetree/bindings/timer/snps,arc-timer0.txt  | 23 ++++++++++++++++++++++
+>  .../devicetree/bindings/timer/snps,arc-timer1.txt  | 17 ++++++++++++++++
+>  .../devicetree/bindings/timer/snps,archs-gfrc.txt  | 14 +++++++++++++
+>  .../devicetree/bindings/timer/snps,archs-rtc.txt   | 14 +++++++++++++
+>  arch/arc/boot/dts/abilis_tb10x.dtsi                | 12 +++++++++++
+>  arch/arc/boot/dts/skeleton.dtsi                    | 12 +++++++++++
+>  arch/arc/boot/dts/skeleton_hs.dtsi                 | 12 +++++++++++
+>  arch/arc/boot/dts/skeleton_hs_idu.dtsi             | 12 +++++++++++
+>  8 files changed, 116 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer0.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
 > 
-> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
-
-I must have completely missed all the earlier submissions and just happened
-to see this one now that it was merged.
-
-I have a couple of comments, maybe you can send a follow up patch to address
-them:
-
-> +----------------------------------
-> +
-> +This is the reference platform driver to be used in the Synopsys PCI Root
-> +Complex IP Prototyping Kit.
+> diff --git a/Documentation/devicetree/bindings/timer/snps,arc-timer0.txt b/Documentation/devicetree/bindings/timer/snps,arc-timer0.txt
+> new file mode 100644
+> index 000000000000..ceb80c72a90b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/timer/snps,arc-timer0.txt
+> @@ -0,0 +1,23 @@
+> +Synopsys ARC Local Timer with Interrupt Capabilities
+> +- Found on all ARC CPUs (ARC700/ARCHS)
+> +- Mandatory clockevent provider
 > +
 > +Required properties:
-> +- compatible: set to "snps,pcie-synopsys";
-
-Please also include the exact version of the designware PCIe part that
-is used in here, such as "snps,dw-pcie-1.234". I'm sure you can find
-out the version.
-
-"snps,pcie-synopsys" by itself is about the worst possible compatible
-string because it says nothing about the specific hardware. Half the
-machines we support all have a designware PCIe host that was made
-by synopsys. Please use the name of the SoC for the most specific
-string.
-
-> +- reg: base address and length of the pcie controller registers.
-> +- #address-cells: set to <3>
-> +- #size-cells: set to <2>
-> +- device_type: set to "pci"
-> +- ranges: ranges for the PCI memory and I/O regions.
-> +- interrupts: one interrupt source for MSI interrupts, followed by interrupt
-> +	source for hardware related interrupts.
-> +- #interrupt-cells: set to <1>
-> +- num-lanes: set to <1>;
 > +
-> +Example configuration:
+> +- compatible : should be "snps,arc-timer0"
+
+timer0 and timer1 are different h/w blocks, not just different 
+instances?
+
+> +- interrupts : single Interrupt going into parent intc
+> +	       (16 for ARCHS cores, 3 for ARC700 cores)
+> +- clocks     : phandle to the source clock
 > +
-> +	pcie: pcie at 0xdffff000 {
-> +		compatible = "snps,pcie-synopsys";
-> +		reg = <0xdffff000 0x1000>;
-> +		#address-cells = <3>;
-> +		#size-cells = <2>;
-> +		device_type = "pci";
-> +		ranges = <0x00000800 0 0xd0000000 0xd0000000 0 0x00002000>,
-
-This line looks misplaced here and does not match the documentation. It's
-probably a leftover from an earlier version that had the config space
-in the ranges, so you need to remove that.
-
-> +/* This handler was created for future work */
-> +static irqreturn_t synopsys_pcie_irq_handler(int irq, void *arg)
-> +{
-> +	return IRQ_NONE;
-> +}
-
-It's not harmful, but we generally don't add code "for future work",
-better remove it for now.
-
-> +static void synopsys_pcie_establish_link(struct pcie_port *pp)
-> +{
-> +	int retries = 0;
+> +Optional properties:
 > +
-> +	/* check if the link is up or not */
-> +	for (retries = 0; retries < 10; retries++) {
-> +		if (dw_pcie_link_up(pp)) {
-> +			dev_info(pp->dev, "Link up\n");
-> +			return;
-> +		}
-> +		mdelay(100);
-> +	}
-> +}
+> +- interrupt-parent : phandle to parent intc
+> +
+> +Example:
+> +
+> +	timer0: timer_clkevt {
 
-That mdelay() needs to be an msleep(). You should never waste
-a whole second worth of CPU time in a driver.
+just "timer" for node name. clkevt is a Linuxism.
 
-	Arnd
+> +		compatible = "snps,arc-timer0";
+> +		interrupts = <3>;
+> +		interrupt-parent = <&core_intc>;
+> +		clocks = <&timer0_clk>;
+> +	};
+> diff --git a/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt b/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
+> new file mode 100644
+> index 000000000000..4886192ce2f2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
+> @@ -0,0 +1,17 @@
+> +Synopsys ARC Free Running Local 32-bit Timer
+> +- Found on all ARC CPUs (ARC700/ARCHS)
+> +- Mandatory clocksource provider on ARC700
+> +- Optional clocksource provider on UP ARC HS CPUs
+> +  (and if better timer archs-rtc not available in SoC)
+> +
+> +Required properties:
+> +
+> +- compatible : should be "snps,arc-timer1"
+> +- clocks     : phandle to the source clock
+
+No interrupt because it doesn't have one or you use this as a 
+clocksource and don't need it?
+
+> +
+> +Example:
+> +
+> +	timer1: timer_clksrc {
+> +		compatible = "snps,arc-timer1";
+> +		clocks = <&timer0_clk>;
+> +	};
+> diff --git a/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
+> new file mode 100644
+> index 000000000000..cce60e16aa0d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
+> @@ -0,0 +1,14 @@
+> +Synopsys ARC Free Running 64-bit Global Timer for ARC HS CPUs
+> +- clocksourc provider for SMP SoC
+> +
+> +Required properties:
+> +
+> +- compatible : should be "snps,archs-gfrc"
+> +- clocks     : phandle to the source clock
+> +
+> +Example:
+> +
+> +	timer1: timer_clksrc {
+> +		compatible = "snps,archs-gfrc";
+> +		clocks = <&timer0_clk>;
+> +	};
+> diff --git a/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
+> new file mode 100644
+> index 000000000000..f3b49938812b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
+> @@ -0,0 +1,14 @@
+> +Synopsys ARC Free Running 64-bit Local Timer for ARC HS CPUs
+> +- clocksourc provider for UP SoC
+
+local timer on a UP processor?
+
+> +
+> +Required properties:
+> +
+> +- compatible : should be "snps,archs-rtc"
+> +- clocks     : phandle to the source clock
+> +
+> +Example:
+> +
+> +	timer1: timer_clksrc {
+> +		compatible = "snps,arc-rtc";
+> +		clocks = <&timer0_clk>;
+> +	};
