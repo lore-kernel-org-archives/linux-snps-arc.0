@@ -1,56 +1,97 @@
-From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Tue, 2 Feb 2016 17:24:13 +0000
-Subject: [PATCH v7 0/2] adding PCI support to AXS10x
-In-Reply-To: <56B0E4C6.6040200@synopsys.com>
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Tue, 02 Feb 2016 21:25:25 +0100
+Subject: [PATCH v7 2/2] add new platform driver for PCI RC
+In-Reply-To: <10b29adcdb0a31eb8f8071b271da267e44ad8a04.1454349430.git.jpinto@synopsys.com>
 References: <cover.1454349430.git.jpinto@synopsys.com>
- <20160202171437.GD11085@localhost> <56B0E4C6.6040200@synopsys.com>
+ <10b29adcdb0a31eb8f8071b271da267e44ad8a04.1454349430.git.jpinto@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56B0E63D.7030805@synopsys.com>
+Message-ID: <8223655.W63T0XOVm1@wuerfel>
 To: linux-snps-arc@lists.infradead.org
 
-Found it. Thanks.
+On Monday 01 February 2016 18:07:45 Joao Pinto wrote:
+> This patch adds a new driver that will be the reference platform driver
+> for all PCI RC IP Protoyping Kits based on ARC SDP.
+> This patch is composed by:
+> 
+> -MAINTAINERS file was updated to include the new driver
+> -Documentation/devicetree/bindings/pci was updated to include the new
+> driver documentation
+> -New driver called pcie-synopsys
+> 
+> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
 
-On 2/2/2016 5:17 PM, Joao Pinto wrote:
-> Hi Bjorn,
-> Thanks. Could you please send me the git URL for me to give it a try?
-> 
-> Joao
-> 
-> On 2/2/2016 5:14 PM, Bjorn Helgaas wrote:
->> On Mon, Feb 01, 2016@06:07:43PM +0000, Joao Pinto wrote:
->>> This patch set has the goal to add suppport for DesignWare PCIe RC in ARC
->>> AXS10x. It includes the necessary tweaks to the ARC architecture, 
->>> necessary tweaks to the PCI subsystem and a new driver (pcie-synopsys).
->>> This new driver will be used extensively in the PCIe RC Prototyping Kit.
->>>
->>> The patches were produced against Bjorn Helgaas' repository. It was properly
->>> tested in an IP Prototyping Kit.
->>>
->>> Joao Pinto (2):
->>>   PCI support added to ARC
->>>   add new platform driver for PCI RC
->>>
->>>  .../devicetree/bindings/pci/pcie-synopsys.txt      |  33 +++
->>>  MAINTAINERS                                        |   7 +
->>>  arch/arc/Kconfig                                   |  23 ++
->>>  arch/arc/include/asm/dma.h                         |   5 +
->>>  arch/arc/include/asm/io.h                          |   9 +
->>>  arch/arc/include/asm/pci.h                         |  31 +++
->>>  arch/arc/kernel/Makefile                           |   1 +
->>>  arch/arc/kernel/pcibios.c                          |  23 ++
->>>  arch/arc/plat-axs10x/Kconfig                       |   1 +
->>>  drivers/pci/Makefile                               |   1 +
->>>  drivers/pci/host/Kconfig                           |   8 +
->>>  drivers/pci/host/Makefile                          |   1 +
->>>  drivers/pci/host/pcie-synopsys.c                   | 257 +++++++++++++++++++++
->>>  13 files changed, 400 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/pci/pcie-synopsys.txt
->>>  create mode 100644 arch/arc/include/asm/pci.h
->>>  create mode 100644 arch/arc/kernel/pcibios.c
->>>  create mode 100644 drivers/pci/host/pcie-synopsys.c
->>
->> I applied these to pci/host-synopsys, and I plan to merge them for v4.5.
->>
->> Bjorn
->>
-> 
+I must have completely missed all the earlier submissions and just happened
+to see this one now that it was merged.
+
+I have a couple of comments, maybe you can send a follow up patch to address
+them:
+
+> +----------------------------------
+> +
+> +This is the reference platform driver to be used in the Synopsys PCI Root
+> +Complex IP Prototyping Kit.
+> +
+> +Required properties:
+> +- compatible: set to "snps,pcie-synopsys";
+
+Please also include the exact version of the designware PCIe part that
+is used in here, such as "snps,dw-pcie-1.234". I'm sure you can find
+out the version.
+
+"snps,pcie-synopsys" by itself is about the worst possible compatible
+string because it says nothing about the specific hardware. Half the
+machines we support all have a designware PCIe host that was made
+by synopsys. Please use the name of the SoC for the most specific
+string.
+
+> +- reg: base address and length of the pcie controller registers.
+> +- #address-cells: set to <3>
+> +- #size-cells: set to <2>
+> +- device_type: set to "pci"
+> +- ranges: ranges for the PCI memory and I/O regions.
+> +- interrupts: one interrupt source for MSI interrupts, followed by interrupt
+> +	source for hardware related interrupts.
+> +- #interrupt-cells: set to <1>
+> +- num-lanes: set to <1>;
+> +
+> +Example configuration:
+> +
+> +	pcie: pcie at 0xdffff000 {
+> +		compatible = "snps,pcie-synopsys";
+> +		reg = <0xdffff000 0x1000>;
+> +		#address-cells = <3>;
+> +		#size-cells = <2>;
+> +		device_type = "pci";
+> +		ranges = <0x00000800 0 0xd0000000 0xd0000000 0 0x00002000>,
+
+This line looks misplaced here and does not match the documentation. It's
+probably a leftover from an earlier version that had the config space
+in the ranges, so you need to remove that.
+
+> +/* This handler was created for future work */
+> +static irqreturn_t synopsys_pcie_irq_handler(int irq, void *arg)
+> +{
+> +	return IRQ_NONE;
+> +}
+
+It's not harmful, but we generally don't add code "for future work",
+better remove it for now.
+
+> +static void synopsys_pcie_establish_link(struct pcie_port *pp)
+> +{
+> +	int retries = 0;
+> +
+> +	/* check if the link is up or not */
+> +	for (retries = 0; retries < 10; retries++) {
+> +		if (dw_pcie_link_up(pp)) {
+> +			dev_info(pp->dev, "Link up\n");
+> +			return;
+> +		}
+> +		mdelay(100);
+> +	}
+> +}
+
+That mdelay() needs to be an msleep(). You should never waste
+a whole second worth of CPU time in a driver.
+
+	Arnd
