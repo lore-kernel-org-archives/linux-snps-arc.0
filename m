@@ -1,76 +1,165 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Tue, 2 Feb 2016 22:36:13 +0800
-Subject: [PATCH v2 2/3] clocksource: Add NPS400 timers driver
-In-Reply-To: <1454418899-25500-3-git-send-email-noamc@ezchip.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Tue, 2 Feb 2016 11:12:21 -0600
+Subject: [PATCH v7 2/2] add new platform driver for PCI RC
+In-Reply-To: <10b29adcdb0a31eb8f8071b271da267e44ad8a04.1454349430.git.jpinto@synopsys.com>
+References: <cover.1454349430.git.jpinto@synopsys.com>
+ <10b29adcdb0a31eb8f8071b271da267e44ad8a04.1454349430.git.jpinto@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201602022210.NRpZdezG%fengguang.wu@intel.com>
+Message-ID: <20160202171221.GC11085@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Noam,
+On Mon, Feb 01, 2016@06:07:45PM +0000, Joao Pinto wrote:
+> This patch adds a new driver that will be the reference platform driver
+> for all PCI RC IP Protoyping Kits based on ARC SDP.
+> This patch is composed by:
+> 
+> -MAINTAINERS file was updated to include the new driver
+> -Documentation/devicetree/bindings/pci was updated to include the new
+> driver documentation
+> -New driver called pcie-synopsys
+> 
+> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
 
-[auto build test WARNING on tip/irq/core]
-[also build test WARNING on v4.5-rc2 next-20160201]
-[if your patch is applied to the wrong git tree, please drop us a note to help improving the system]
+I applied the following changes.  Mostly whitespace/comment cleanup, but
+also removed some include files that I don't think you need and added a
+message when the link fails to come up.  Please test and make sure this
+still works.
 
-url:    https://github.com/0day-ci/linux/commits/Noam-Camus/Adding-NPS400-drivers/20160202-213530
-config: x86_64-allmodconfig (attached as .config)
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=x86_64 
+Bjorn
 
-All warnings (new ones prefixed by >>):
 
-   In file included from drivers/clocksource/timer-nps.c:24:0:
-   include/soc/nps/common.h: In function 'nps_host_reg_non_cl':
->> include/soc/nps/common.h:122:9: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     return (void *)reg_address.value;
-            ^
-   include/soc/nps/common.h: In function 'nps_host_reg':
-   include/soc/nps/common.h:136:9: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     return (void *)reg_address.value;
-            ^
-
-vim +122 include/soc/nps/common.h
-
-f44c724c Noam Camus 2016-02-02  106  	union {
-f44c724c Noam Camus 2016-02-02  107  		struct {
-f44c724c Noam Camus 2016-02-02  108  			u32 base:7, blkid:11, reg:12, __reserved:2;
-f44c724c Noam Camus 2016-02-02  109  		};
-f44c724c Noam Camus 2016-02-02  110  		u32 value;
-f44c724c Noam Camus 2016-02-02  111  	};
-f44c724c Noam Camus 2016-02-02  112  };
-f44c724c Noam Camus 2016-02-02  113  
-f44c724c Noam Camus 2016-02-02  114  static inline void *nps_host_reg_non_cl(u32 blkid, u32 reg)
-f44c724c Noam Camus 2016-02-02  115  {
-f44c724c Noam Camus 2016-02-02  116  	struct nps_host_reg_address_non_cl reg_address;
-f44c724c Noam Camus 2016-02-02  117  
-f44c724c Noam Camus 2016-02-02  118  	reg_address.value = NPS_HOST_REG_BASE;
-f44c724c Noam Camus 2016-02-02  119  	reg_address.blkid = blkid;
-f44c724c Noam Camus 2016-02-02  120  	reg_address.reg = reg;
-f44c724c Noam Camus 2016-02-02  121  
-f44c724c Noam Camus 2016-02-02 @122  	return (void *)reg_address.value;
-f44c724c Noam Camus 2016-02-02  123  }
-f44c724c Noam Camus 2016-02-02  124  
-f44c724c Noam Camus 2016-02-02  125  static inline void *nps_host_reg(u32 cpu, u32 blkid, u32 reg)
-f44c724c Noam Camus 2016-02-02  126  {
-f44c724c Noam Camus 2016-02-02  127  	struct nps_host_reg_address reg_address;
-f44c724c Noam Camus 2016-02-02  128  	u32 cl = NPS_CPU_TO_CLUSTER_NUM(cpu);
-f44c724c Noam Camus 2016-02-02  129  
-f44c724c Noam Camus 2016-02-02  130  	reg_address.value = NPS_HOST_REG_BASE;
-
-:::::: The code at line 122 was first introduced by commit
-:::::: f44c724ca34c57edebb15cae51eaa8d9b6976526 soc: Support for EZchip SoC
-
-:::::: TO: Noam Camus <noamc at ezchip.com>
-:::::: CC: 0day robot <fengguang.wu at intel.com>
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 51085 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160202/c7898ac1/attachment-0001.obj>
+diff --git a/drivers/pci/host/pcie-synopsys.c b/drivers/pci/host/pcie-synopsys.c
+index 9702e79..757ba30 100644
+--- a/drivers/pci/host/pcie-synopsys.c
++++ b/drivers/pci/host/pcie-synopsys.c
+@@ -3,7 +3,7 @@
+  *
+  * Copyright (C) 2015-2016 Synopsys, Inc. (www.synopsys.com)
+  *
+- * Authors: Manjunath Bettegowda <manjumb at synopsys.com>,
++ * Authors: Manjunath Bettegowda <manjumb at synopsys.com>
+  *	    Jie Deng <jiedeng at synopsys.com>
+  *	    Joao Pinto <jpinto at synopsys.com>
+  *
+@@ -12,17 +12,13 @@
+  * published by the Free Software Foundation.
+  */
+ 
+-#include <linux/clk.h>
+ #include <linux/delay.h>
+-#include <linux/gpio.h>
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_gpio.h>
+ #include <linux/pci.h>
+ #include <linux/platform_device.h>
+ #include <linux/resource.h>
+-#include <linux/signal.h>
+ #include <linux/types.h>
+ 
+ #include "pcie-designware.h"
+@@ -38,8 +34,8 @@ struct synopsys_pcie {
+ 					    */
+ };
+ 
+-#define PCI_EQUAL_CONTROL_PHY 0x00000707
+-#define PCIE_PHY_DEBUG_R1_LINK_UP 0x00000010
++#define PCI_EQUAL_CONTROL_PHY		0x00000707
++#define PCIE_PHY_DEBUG_R1_LINK_UP	0x00000010
+ 
+ /* PCIe Port Logic registers (memory-mapped) */
+ #define PLR_OFFSET 0x700
+@@ -56,8 +52,6 @@ static irqreturn_t synopsys_pcie_msi_irq_handler(int irq, void *arg)
+ {
+ 	struct pcie_port *pp = arg;
+ 
+-	dw_handle_msi_irq(pp);
+-
+ 	return dw_handle_msi_irq(pp);
+ }
+ 
+@@ -74,9 +68,9 @@ static int synopsys_pcie_deassert_core_reset(struct pcie_port *pp)
+ 
+ static void synopsys_pcie_establish_link(struct pcie_port *pp)
+ {
+-	int retries = 0;
++	int retries;
+ 
+-	/* check if the link is up or not */
++	/* wait for link to come up */
+ 	for (retries = 0; retries < 10; retries++) {
+ 		if (dw_pcie_link_up(pp)) {
+ 			dev_info(pp->dev, "Link up\n");
+@@ -84,6 +78,8 @@ static void synopsys_pcie_establish_link(struct pcie_port *pp)
+ 		}
+ 		mdelay(100);
+ 	}
++
++	dev_err(pp->dev, "Link fail\n");
+ }
+ 
+ /*
+@@ -142,21 +138,18 @@ static int synopsys_add_pcie_port(struct pcie_port *pp,
+ 	int ret;
+ 
+ 	pp->irq = platform_get_irq(pdev, 1);
+-
+ 	if (pp->irq < 0)
+ 		return pp->irq;
+ 
+ 	ret = devm_request_irq(&pdev->dev, pp->irq, synopsys_pcie_irq_handler,
+ 				IRQF_SHARED, "synopsys-pcie", pp);
+-
+ 	if (ret) {
+-		dev_err(&pdev->dev, "failed to request irq\n");
++		dev_err(&pdev->dev, "failed to request IRQ %d\n", pp->irq);
+ 		return ret;
+ 	}
+ 
+ 	if (IS_ENABLED(CONFIG_PCI_MSI)) {
+ 		pp->msi_irq = platform_get_irq(pdev, 0);
+-
+ 		if (pp->msi_irq < 0)
+ 			return pp->msi_irq;
+ 
+@@ -164,7 +157,8 @@ static int synopsys_add_pcie_port(struct pcie_port *pp,
+ 					synopsys_pcie_msi_irq_handler,
+ 					IRQF_SHARED, "synopsys-pcie-msi", pp);
+ 		if (ret) {
+-			dev_err(&pdev->dev, "failed to request msi irq\n");
++			dev_err(&pdev->dev, "failed to request MSI IRQ %d\n",
++				pp->msi_irq);
+ 			return ret;
+ 		}
+ 	}
+@@ -194,18 +188,18 @@ static int synopsys_add_pcie_port(struct pcie_port *pp,
+ 
+ /**
+  * synopsys_pcie_probe()
+- * This function gets called as part of pcie registration. if the id matches
++ * This function gets called as part of PCIe registration. If the ID matches
+  * the platform driver framework will call this function.
+  *
+  * @pdev: Pointer to the platform_device structure
+  *
+- * Returns zero on success; Negative errorno on failure
++ * Returns zero on success; Negative errno on failure
+  */
+ static int synopsys_pcie_probe(struct platform_device *pdev)
+ {
+ 	struct synopsys_pcie *synopsys_pcie;
+ 	struct pcie_port *pp;
+-	struct resource *res;  /* Resource from DT */
++	struct resource *res;
+ 	int ret;
+ 
+ 	synopsys_pcie = devm_kzalloc(&pdev->dev, sizeof(*synopsys_pcie),
+@@ -217,7 +211,6 @@ static int synopsys_pcie_probe(struct platform_device *pdev)
+ 	pp->dev = &pdev->dev;
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-
+ 	if (!res)
+ 		return -ENODEV;
+ 
