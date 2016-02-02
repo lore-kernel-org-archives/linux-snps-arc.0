@@ -1,90 +1,61 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Tue, 2 Feb 2016 14:35:12 +0100 (CET)
-Subject: [PATCH v2 3/3] irqchip: add nps Internal and external irqchips
-In-Reply-To: <1454418899-25500-4-git-send-email-noamc@ezchip.com>
-References: <1454418899-25500-1-git-send-email-noamc@ezchip.com>
- <1454418899-25500-4-git-send-email-noamc@ezchip.com>
+From: christian.ruppert@alitech.com (christian.ruppert@alitech.com)
+Date: Tue, 2 Feb 2016 14:43:02 +0100
+Subject: [PATCH 7/9] ARC: use fixed frequencies in
+ arc_set_early_base_baud()
+In-Reply-To: <1454417606.25997.7.camel@synopsys.com>
+References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>	
+ <1454410739-24444-8-git-send-email-vgupta@synopsys.com>
+ <1454417606.25997.7.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.11.1602021425430.25254@nanos>
+Message-ID: <OFC064FA19.A440461D-ONC1257F4D.004B05DC-C1257F4D.004B3D60@alitech.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 2 Feb 2016, Noam Camus wrote:
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/irqdomain.h>
-> +#include <linux/irqchip.h>
-> +#include <soc/nps/common.h>
-> +
-> +#undef NR_CPU_IRQS
+Alexey Brodkin <Alexey.Brodkin at synopsys.com> wrote on 02.02.2016 13:53:26:
+> 
+> Adding Christian for Abilis TB10x clocks review.
+> 
+> On Tue, 2016-02-02@16:28 +0530, Vineet Gupta wrote:
+> > From: Alexey Brodkin <abrodkin at synopsys.com>
+> > 
+> > UARTs usually have fixed clock so we're switching to use of
+> > constant values instead of something derived from core clock
+> > frequency.
+> > 
+> > Among other things this will allow us to get rid of
+> > arc_{get|set}_core_freq() and switch to generic clock
+> > framework later on.
+> > 
+> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> > Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> > ---
+> >  arch/arc/kernel/devtree.c | 6 ++----
+> >  1 file changed, 2 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/arch/arc/kernel/devtree.c b/arch/arc/kernel/devtree.c
+> > index 7e844fd8213f..e155126c79b1 100644
+> > --- a/arch/arc/kernel/devtree.c
+> > +++ b/arch/arc/kernel/devtree.c
+> > @@ -28,14 +28,12 @@ unsigned int __init arc_early_base_baud(void)
+> > 
+> >  static void __init arc_set_early_base_baud(unsigned long dt_root)
+> >  {
+> > -   unsigned int core_clk = arc_get_core_freq();
+> > -
+> >     if (of_flat_dt_is_compatible(dt_root, "abilis,arc-tb10x"))
+> > -      arc_base_baud = core_clk/3;
+> > +      arc_base_baud = 166666667;   /* Fixed 166.7MHz clk (TB10x) */
 
-What's that #undef for?
+Actually, (int)core_clk/(int)3 is 166666666 not 166666667.
+I seem to remember that this rounding detail did make a difference at some 
+point. Unluckily, the details are long forgotten in the mist of time...
 
-> +#define NR_CPU_IRQS	8  /* number of interrupt lines of NPS400 CPU */
-> +#define TIMER0_IRQ	3
-
-> +static void nps400_irq_eoi_global(struct irq_data *irqd)
-> +{
-> +	unsigned int __maybe_unused irq = irqd_to_hwirq(irqd);
-> +
-> +	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
-> +
-> +	/* Don't ack before all device access attempts are done */
-> +	mb();
-
-And what is that memory barrier for if this is not on ARC?
-
-> +
-> +#ifdef __arc__
-> +	__asm__ __volatile__ (
-> +	"       .word %0\n"
-
-First of all this wants to be .inst not .word.
-
-> +	:
-> +	: "i"(CTOP_INST_RSPI_GIC_0_R12)
-> +	: "memory");
-
-And this needs be defined as an inline somewhere in arch/arc and not in the
-driver. In the driver you do:
-
-#ifdef CONFIG_ARCH_ARC
-# include <arch/....>
-#else
-static inline void arc_ack_gic(void) { }
-#endif
-
-static void nps400_irq_eoi_global
-{
-	....
-	arc_ack_gic();
-}
-
-Hmm?
-
-> +static int nps400_irq_map(struct irq_domain *d, unsigned int virq,
-> +			  irq_hw_number_t hw)
-> +{
-> +	switch (hw) {
-> +	case TIMER0_IRQ:
-> +#ifdef CONFIG_SMP
-> +	case IPI_IRQ:
-> +#endif
-> +		irq_set_percpu_devid(virq);
-> +		irq_set_chip_and_handler(virq, &nps400_irq_chip_percpu,
-> +					 handle_percpu_devid_irq);
-> +	break;
-
-		break;
-Please
-
-> +	default:
-> +		irq_set_chip_and_handler(virq, &nps400_irq_chip_fasteoi,
-> +					 handle_fasteoi_irq);
-> +	break;
-
-Ditto.
-
-Thanks,
-
-	tglx
+> >     else if (of_flat_dt_is_compatible(dt_root, "snps,arc-sdp"))
+> >        arc_base_baud = 33333333;   /* Fixed 33MHz clk (AXS10x) */
+> >     else
+> > -      arc_base_baud = core_clk;
+> > +      arc_base_baud = 50000000;   /* Fixed default 50MHz */
+> >  }
+> >  #else
+> >  #define arc_set_early_base_baud(dt_root)
+> 
+> -Alexey
