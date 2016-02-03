@@ -1,142 +1,45 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Wed, 3 Feb 2016 12:38:44 -0600
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Wed, 03 Feb 2016 22:01:54 +0100
 Subject: [PATCH v7 2/2] add new platform driver for PCI RC
-In-Reply-To: <56B242F0.6040704@synopsys.com>
+In-Reply-To: <20160203183844.GC10879@localhost>
 References: <cover.1454349430.git.jpinto@synopsys.com>
- <10b29adcdb0a31eb8f8071b271da267e44ad8a04.1454349430.git.jpinto@synopsys.com>
- <8223655.W63T0XOVm1@wuerfel> <20160203180514.GA10879@localhost>
- <56B242F0.6040704@synopsys.com>
+ <56B242F0.6040704@synopsys.com> <20160203183844.GC10879@localhost>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160203183844.GC10879@localhost>
+Message-ID: <2915520.tvWP9ESSNu@wuerfel>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Feb 03, 2016@06:12:00PM +0000, Joao Pinto wrote:
-> Hi Bjorn,
+On Wednesday 03 February 2016 12:38:44 Bjorn Helgaas wrote:
+> On Wed, Feb 03, 2016@06:12:00PM +0000, Joao Pinto wrote:
 > 
-> Are these tasks enough?
+> > - replace "snps,pcie-synopsys" for "snps,pcie-synopsys-ipk"?
 > 
-> - replace mdelay() for msleep()
-> - remove synopsys_pcie_irq_handler()
-
-Above are fine with me.
-
-> - replace "snps,pcie-synopsys" for "snps,pcie-synopsys-ipk"?
-
-This is a question for Arnd.
-
-> - rename the driver to pcie-synopsys-ipk?
-
-It doesn't seem necessary to me to include both "synopsys" and "ipk" in the
-filename and the driver name.  Take a look at what the existing drivers do,
-and do something similar.
-
-> - update the devicetree documentation referring that the ranges also include the
-> config space
-
-Another one for Arnd.
-
-
-> On 2/3/2016 6:05 PM, Bjorn Helgaas wrote:
-> > Hi Joao & Arnd,
-> > 
-> > On Tue, Feb 02, 2016@09:25:25PM +0100, Arnd Bergmann wrote:
-> >> On Monday 01 February 2016 18:07:45 Joao Pinto wrote:
-> >>> This patch adds a new driver that will be the reference platform driver
-> >>> for all PCI RC IP Protoyping Kits based on ARC SDP.
-> >>> This patch is composed by:
-> >>>
-> >>> -MAINTAINERS file was updated to include the new driver
-> >>> -Documentation/devicetree/bindings/pci was updated to include the new
-> >>> driver documentation
-> >>> -New driver called pcie-synopsys
-> >>>
-> >>> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
-> >>
-> >> I must have completely missed all the earlier submissions and just happened
-> >> to see this one now that it was merged.
-> >>
-> >> I have a couple of comments, maybe you can send a follow up patch to address
-> >> them:
-> > 
-> > These seem pretty easy to address, so I pulled these patches out of
-> > for-linus temporarily while we fix them.
-> > 
-> > Joao, you can just fix the mdelay() in your driver; don't worry about 
-> > fixing other drivers with the same problem or consolidating them.
-> > 
-> > Bjorn
-> > 
-> >>> +----------------------------------
-> >>> +
-> >>> +This is the reference platform driver to be used in the Synopsys PCI Root
-> >>> +Complex IP Prototyping Kit.
-> >>> +
-> >>> +Required properties:
-> >>> +- compatible: set to "snps,pcie-synopsys";
-> >>
-> >> Please also include the exact version of the designware PCIe part that
-> >> is used in here, such as "snps,dw-pcie-1.234". I'm sure you can find
-> >> out the version.
-> >>
-> >> "snps,pcie-synopsys" by itself is about the worst possible compatible
-> >> string because it says nothing about the specific hardware. Half the
-> >> machines we support all have a designware PCIe host that was made
-> >> by synopsys. Please use the name of the SoC for the most specific
-> >> string.
-> >>
-> >>> +- reg: base address and length of the pcie controller registers.
-> >>> +- #address-cells: set to <3>
-> >>> +- #size-cells: set to <2>
-> >>> +- device_type: set to "pci"
-> >>> +- ranges: ranges for the PCI memory and I/O regions.
-> >>> +- interrupts: one interrupt source for MSI interrupts, followed by interrupt
-> >>> +	source for hardware related interrupts.
-> >>> +- #interrupt-cells: set to <1>
-> >>> +- num-lanes: set to <1>;
-> >>> +
-> >>> +Example configuration:
-> >>> +
-> >>> +	pcie: pcie at 0xdffff000 {
-> >>> +		compatible = "snps,pcie-synopsys";
-> >>> +		reg = <0xdffff000 0x1000>;
-> >>> +		#address-cells = <3>;
-> >>> +		#size-cells = <2>;
-> >>> +		device_type = "pci";
-> >>> +		ranges = <0x00000800 0 0xd0000000 0xd0000000 0 0x00002000>,
-> >>
-> >> This line looks misplaced here and does not match the documentation. It's
-> >> probably a leftover from an earlier version that had the config space
-> >> in the ranges, so you need to remove that.
-> >>
-> >>> +/* This handler was created for future work */
-> >>> +static irqreturn_t synopsys_pcie_irq_handler(int irq, void *arg)
-> >>> +{
-> >>> +	return IRQ_NONE;
-> >>> +}
-> >>
-> >> It's not harmful, but we generally don't add code "for future work",
-> >> better remove it for now.
-> >>
-> >>> +static void synopsys_pcie_establish_link(struct pcie_port *pp)
-> >>> +{
-> >>> +	int retries = 0;
-> >>> +
-> >>> +	/* check if the link is up or not */
-> >>> +	for (retries = 0; retries < 10; retries++) {
-> >>> +		if (dw_pcie_link_up(pp)) {
-> >>> +			dev_info(pp->dev, "Link up\n");
-> >>> +			return;
-> >>> +		}
-> >>> +		mdelay(100);
-> >>> +	}
-> >>> +}
-> >>
-> >> That mdelay() needs to be an msleep(). You should never waste
-> >> a whole second worth of CPU time in a driver.
-> >>
-> >> 	Arnd
-> >> --
-> >> To unsubscribe from this list: send the line "unsubscribe linux-pci" in
-> >> the body of a message to majordomo at vger.kernel.org
-> >> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> This is a question for Arnd.
 > 
+> > - rename the driver to pcie-synopsys-ipk?
+> 
+> It doesn't seem necessary to me to include both "synopsys" and "ipk" in the
+> filename and the driver name.  Take a look at what the existing drivers do,
+> and do something similar.
+
+The "synopsys" can go away, it's already in the vendor field of the
+string. "ipk" is still a bit unspecific, I was hoping to see a specific
+chip and/or version of the PCIe part. Something like
+
+	compatible = "snps,ipk2040-pcie", "snps,ipk-pcie", "snps,dw-pcie-1.23", "snps,dw-pcie";
+
+which would indicate that there is a chip called "ipk2040" in a family called "ipk",
+and this includes the designware pcie implementation in version 1.23.
+
+> > - update the devicetree documentation referring that the ranges also include the
+> > config space
+> 
+> Another one for Arnd.
+
+This one is wrong, the ranges should *not* include the config space, and if they
+currently do, you must change the driver. The generic dw-pcie driver still
+accepts the config space in the ranges for backwards compatibility with some
+of the earlier front-ends that mistakenly did this, but new driver should not
+do the same, and we should probably add some code in the common driver to
+prevent it for front-ends other than the ones we have to keep compatibility with.
+
+	Arnd
