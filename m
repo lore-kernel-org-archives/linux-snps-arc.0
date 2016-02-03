@@ -1,98 +1,85 @@
-From: robh@kernel.org (Rob Herring)
-Date: Wed, 3 Feb 2016 09:39:15 -0600
-Subject: [PATCH 2/9] ARC: [dts] Introduce Timer bindings
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F4E87B33@us01wembx1.internal.synopsys.com>
-References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
- <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
- <20160202220353.GA10273@rob-hp-laptop>
- <C2D7FE5348E1B147BCA15975FBA23075F4E87B33@us01wembx1.internal.synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 3 Feb 2016 16:20:56 +0000
+Subject: [RFC] perf: fix building for ARCv1
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F44CE67A@IN01WEMBXA.internal.synopsys.com>
+References: <C2D7FE5348E1B147BCA15975FBA23075F44C9DD2@IN01WEMBXA.internal.synopsys.com>
+ <1445166916.9672.10.camel@synopsys.com>
+ <87a8rf6a6p.fsf@tassilo.jf.intel.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44C9E9A@IN01WEMBXA.internal.synopsys.com>
+ <8761235rwe.fsf@tassilo.jf.intel.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CAFF9@IN01WEMBXA.internal.synopsys.com>
+ <20151019093549.GK3816@twins.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CB023@IN01WEMBXA.internal.synopsys.com>
+ <20151019095157.GM3816@twins.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CB43D@IN01WEMBXA.internal.synopsys.com>
+ <20151020101133.GA17308@twins.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CB4BF@IN01WEMBXA.internal.synopsys.com>
+ <1446134296.3203.27.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F44CE67A@IN01WEMBXA.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAL_Jsq+15SERAN8B5vcKVG=O8=pLLw5_0-p2STHjyGUu7mx-7Q@mail.gmail.com>
+Message-ID: <1454516455.2811.4.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Feb 3, 2016@2:04 AM, Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
-> Hi Rob,
->
-> On Wednesday 03 February 2016 03:33 AM, Rob Herring wrote:
->> On Tue, Feb 02, 2016@04:28:52PM +0530, Vineet Gupta wrote:
->>> +Required properties:
->>> +
->>> +- compatible : should be "snps,arc-timer0"
->>
->> timer0 and timer1 are different h/w blocks, not just different
->> instances?
->
-> Functionality wise they are identical (only the address of aux regs used to
-> program them are different). Either can be configured to interrupt-on-limit or
-> free-run-and-wrap-around. So we can indeed consider them 2 instances. ARC Linux
-> uses timer0 for tick handling, timer1 for gtod.
->
-> Do you prefer they not be differentiated as timer0 and timer1 ?
->
-> So we have
->
-> CLOCKSOURCE_OF_DECLARE(arc_clkevt, "snps,arc-timer0", arc_clockevent_setup);
-> CLOCKSOURCE_OF_DECLARE(arc_timer1, "snps,arc-timer1", arc_cs_setup_timer1);
->
-> I don't know how to achieve above, by keeping the DT names the same.
+Hi Vineet,
 
-You just need a single CLOCKSOURCE_OF_DECLARE which will be called
-twice. On the first call, setup one timer and on the 2nd call setup
-the other one. IIRC the sp804 timer has something similar.
+On Fri, 2015-10-30@06:19 +0000, Vineet Gupta wrote:
+> On Thursday 29 October 2015 09:28 PM, Alexey Brodkin wrote:
+> > Hi Vineet,
+> > 
+> > On Tue, 2015-10-20@10:45 +0000, Vineet Gupta wrote:
+> > > On Tuesday 20 October 2015 03:41 PM, Peter Zijlstra wrote:
+> > > > > > Can we use existing syscall(s) - again this is what our good old pthread library
+> > > > > > code did.
+> > > > > > 
+> > > > > > static void __pthread_acquire(int * spinlock)
+> > > > > > {
+> > > > > >   int cnt = 0;
+> > > > > >   struct timespec tm;
+> > > > > > 
+> > > > > >   READ_MEMORY_BARRIER();
+> > > > > > 
+> > > > > >   while (testandset(spinlock)) {   <---- atomic EXchange
+> > > > > >     if (cnt < 50) {
+> > > > > >       sched_yield();
+> > > > > >       cnt++;
+> > > > > >     } else {
+> > > > > >       tm.tv_sec = 0;
+> > > > > >       tm.tv_nsec = 2000001;
+> > > > > >       nanosleep(&tm, ((void *)0));
+> > > > > >       cnt = 0;
+> > > > > >     }
+> > > > > >   }
+> > > > *shudder* that is quite horrible.
+> > > > 
+> > > > This means all your 'atomics' are broken for anything SCHED_FIFO and the
+> > > > like. You simply _cannot_ run a realtime system.
+> > > The code above is from uClibc old threading library which we don't use anymore.
+> > > The NPTL version doesn't have all of this song-n-dance and relies on futexes. The
+> > > change we are talking about is only for the atomics in perf itself. I do
+> > > understand your POV though.
+> > > 
+> > > > (also, for ACQUIRE you want the READ_MEMORY_BARRIER() _after_ the
+> > > > test-and-set control dependency.)
+> > > Absolutely and in this case it will have to be added both inside the loop and one
+> > > at the end to cover both the scenarios !
+> > > 
+> > I'm wondering what are our plans for now?
+> > Are we going to accept proposed fix just for ARC in 4.4 (and to all stables then)
+> > or we'll try to come up with more general solution?
+> 
+> I agree with the current solution to add -atomic to for arc700 builds.
+> Although making that default for arc700 tools will be better but that will not fix
+> things before next release of tools etc.
+> 
+> But we *do* need to improve generic solution
+> 1. Add atomics detection in perf to add fall back arch stubs
+> 2. ARC needs to add syscall for facilitating atomic r-m-w !
 
-You'll need a unit address in the node name to distinguish them.
+So the most recent ARC GNU tools (2015.12) were just released yesterday
+and still atomics are disabled by default for ARCv1.
+That means perf will continue to fail on building for now.
 
->
->>
->>> +- interrupts : single Interrupt going into parent intc
->>> +           (16 for ARCHS cores, 3 for ARC700 cores)
->>> +- clocks     : phandle to the source clock
->>> +
->>> +Optional properties:
->>> +
->>> +- interrupt-parent : phandle to parent intc
->>> +
->>> +Example:
->>> +
->>> +    timer0: timer_clkevt {
->>
->> just "timer" for node name. clkevt is a Linuxism.
->
-> OK. So to document that this is for clockevent, change the label ?
+Do you think we may apply my initial fix to 4.5 while it is in development and
+then to stable trees as well?
 
-That shouldn't be documented in the DT at all.
-
->
-> timer_clkevent: timer {
->
->>
->>> +            compatible = "snps,arc-timer0";
->>> +            interrupts = <3>;
->>> +            interrupt-parent = <&core_intc>;
->>> +            clocks = <&timer0_clk>;
->>> +    };
->>> diff --git a/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt b/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
->>> new file mode 100644
->>> index 000000000000..4886192ce2f2
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
->>> @@ -0,0 +1,17 @@
->>> +Synopsys ARC Free Running Local 32-bit Timer
->>> +- Found on all ARC CPUs (ARC700/ARCHS)
->>> +- Mandatory clocksource provider on ARC700
->>> +- Optional clocksource provider on UP ARC HS CPUs
->>> +  (and if better timer archs-rtc not available in SoC)
->>> +
->>> +Required properties:
->>> +
->>> +- compatible : should be "snps,arc-timer1"
->>> +- clocks     : phandle to the source clock
->>
->> No interrupt because it doesn't have one or you use this as a
->> clocksource and don't need it?
->
-> Latter !
-
-Then you should have the interrupt in the DT anyway.
-
-Rob
+-Alexey
