@@ -1,15 +1,18 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 3 Feb 2016 13:44:02 +0000
+Date: Wed, 3 Feb 2016 13:50:28 +0000
 Subject: [PATCH 2/9] ARC: [dts] Introduce Timer bindings
-In-Reply-To: <1454453846.25997.31.camel@synopsys.com>
+In-Reply-To: <1454507041.3375.39.camel@synopsys.com>
 References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
  <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
  <1454418916.25997.18.camel@synopsys.com> <56B0BD2F.5080409@synopsys.com>
  <1454427373.25997.24.camel@synopsys.com>
  <1454453846.25997.31.camel@synopsys.com>
+ <1454507041.3375.39.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1454507041.3375.39.camel@synopsys.com>
+Message-ID: <1454507428.3375.44.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
+
+(re-sending because Mike's email @ti is no longer valid)
 
 Hi Mike,
 
@@ -31,7 +34,7 @@ On Wed, 2016-02-03@01:57 +0300, Alexey Brodkin wrote:
 > > > > > +
 > > > > > +- compatible : should be "snps,arc-timer0"
 > > > > > +- interrupts : single Interrupt going into parent intc
-> > > > > +	       (16 for ARCHS cores, 3 for ARC700 cores)
+> > > > > +            (16 for ARCHS cores, 3 for ARC700 cores)
 > > > > > +- clocks     : phandle to the source clock
 > > > > 
 > > > > Actually we're not flexible here.
