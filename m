@@ -1,144 +1,83 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 3 Feb 2016 08:04:03 +0000
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 3 Feb 2016 13:44:02 +0000
 Subject: [PATCH 2/9] ARC: [dts] Introduce Timer bindings
+In-Reply-To: <1454453846.25997.31.camel@synopsys.com>
 References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
  <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
- <20160202220353.GA10273@rob-hp-laptop>
+ <1454418916.25997.18.camel@synopsys.com> <56B0BD2F.5080409@synopsys.com>
+ <1454427373.25997.24.camel@synopsys.com>
+ <1454453846.25997.31.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E87B33@us01wembx1.internal.synopsys.com>
+Message-ID: <1454507041.3375.39.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Rob,
+Hi Mike,
 
-On Wednesday 03 February 2016 03:33 AM, Rob Herring wrote:
-> On Tue, Feb 02, 2016@04:28:52PM +0530, Vineet Gupta wrote:
->> +Required properties:
->> +
->> +- compatible : should be "snps,arc-timer0"
+On Wed, 2016-02-03@01:57 +0300, Alexey Brodkin wrote:
+> Hi Vineet,
 > 
-> timer0 and timer1 are different h/w blocks, not just different 
-> instances?
-
-Functionality wise they are identical (only the address of aux regs used to
-program them are different). Either can be configured to interrupt-on-limit or
-free-run-and-wrap-around. So we can indeed consider them 2 instances. ARC Linux
-uses timer0 for tick handling, timer1 for gtod.
-
-Do you prefer they not be differentiated as timer0 and timer1 ?
-
-So we have
-
-CLOCKSOURCE_OF_DECLARE(arc_clkevt, "snps,arc-timer0", arc_clockevent_setup);
-CLOCKSOURCE_OF_DECLARE(arc_timer1, "snps,arc-timer1", arc_cs_setup_timer1);
-
-I don't know how to achieve above, by keeping the DT names the same.
-
+> On Tue, 2016-02-02@18:36 +0300, Alexey Brodkin wrote:
+> > Hi Vineet,
+> > 
+> > On Tue, 2016-02-02@19:59 +0530, Vineet Gupta wrote:
+> > > Hi Alexey,
+> > > 
+> > > On Tuesday 02 February 2016 06:45 PM, Alexey Brodkin wrote:
+> > > > Hi Vineet,
+> > > > 
+> > > > On Tue, 2016-02-02@16:28 +0530, Vineet Gupta wrote:
+> > > > > +
+> > > > > +Required properties:
+> > > > > +
+> > > > > +- compatible : should be "snps,arc-timer0"
+> > > > > +- interrupts : single Interrupt going into parent intc
+> > > > > +	       (16 for ARCHS cores, 3 for ARC700 cores)
+> > > > > +- clocks     : phandle to the source clock
+> > > > 
+> > > > Actually we're not flexible here.
+> > > > See we have hard-coded "core_clk" in [PATCH 8/9].
+> > > > We use it directly in show_cpuinfo() for reading clock speed
+> > > > as well as in axs103_early_init().
+> > > > 
+> > > > So "source clock" here MUST be "core_clk", otherwise
+> > > > /proc/cpuinfo will report junk instead of meaningful data at least.
+> > > 
+> > > Using hardcoded DT names in generic code is total BS and I slap myself for missing
+> > > that in reviewing 8/9. Please fix it !
+> > 
+> > But the only other alternative to hard-coded name is use of some internal variable
+> > like "arc_timer_freq".
+> > 
+> > I.e. we make "arc_timer_freq" global and use it for displaying core frequency.
 > 
->> +- interrupts : single Interrupt going into parent intc
->> +	       (16 for ARCHS cores, 3 for ARC700 cores)
->> +- clocks     : phandle to the source clock
->> +
->> +Optional properties:
->> +
->> +- interrupt-parent : phandle to parent intc
->> +
->> +Example:
->> +
->> +	timer0: timer_clkevt {
-> 
-> just "timer" for node name. clkevt is a Linuxism.
+> Well actually there's another possibility that is used on many other platforms
+> (ARM both 32 and 64-bit flavors is a good example) - just print bogomips instead
+> of additional core frequency.
 
-OK. So to document that this is for clockevent, change the label ?
+We're in the process of switching ARC to generic clk framework.
 
-timer_clkevent: timer {
+One of the problems we're trying to solve now is how to obtain
+precise CPU frequency value for outputting it for example by /proc/cpuinfo.
 
-> 
->> +		compatible = "snps,arc-timer0";
->> +		interrupts = <3>;
->> +		interrupt-parent = <&core_intc>;
->> +		clocks = <&timer0_clk>;
->> +	};
->> diff --git a/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt b/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
->> new file mode 100644
->> index 000000000000..4886192ce2f2
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/timer/snps,arc-timer1.txt
->> @@ -0,0 +1,17 @@
->> +Synopsys ARC Free Running Local 32-bit Timer
->> +- Found on all ARC CPUs (ARC700/ARCHS)
->> +- Mandatory clocksource provider on ARC700
->> +- Optional clocksource provider on UP ARC HS CPUs
->> +  (and if better timer archs-rtc not available in SoC)
->> +
->> +Required properties:
->> +
->> +- compatible : should be "snps,arc-timer1"
->> +- clocks     : phandle to the source clock
-> 
-> No interrupt because it doesn't have one or you use this as a 
-> clocksource and don't need it?
+This precise (in terms of what value was set via Device Tree or extracted and decoded
+from CPU configuration registers) CPU frequency is very useful for example for
+benchmarking. In comparison bogomips might be misleading at times.
 
-Latter !
+Before moving to clk framework we used to have 2 ARC-specific calls
+arc_get_core_freq() and  arc_set_core_freq() which were basically wrappers for
+one variable where we stored CPU frequency.
 
+I took a look at what other architectures do and so far saw these options:
+ [1] Just print bogomips (ARM both 32- and 64-bit, m64k, Microblaze, Mips,
+                          mn10300, openrisc, s390, sh, um, unicore32, )
+ [2] Get frequency from some kind of architecture-specific structure or variable
+     (Alpha, AVR32, c6x, nios2, powerpc, sparc, tile, xtensa) 
+ [3] Get frequency from cpufreq framework (ia64, x86)
+ [4] Decode frequency from hardware registers (Blackfin)
 
->> +
->> +Example:
->> +
->> +	timer1: timer_clksrc {
->> +		compatible = "snps,arc-timer1";
->> +		clocks = <&timer0_clk>;
->> +	};
->> diff --git a/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
->> new file mode 100644
->> index 000000000000..cce60e16aa0d
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
->> @@ -0,0 +1,14 @@
->> +Synopsys ARC Free Running 64-bit Global Timer for ARC HS CPUs
->> +- clocksourc provider for SMP SoC
->> +
->> +Required properties:
->> +
->> +- compatible : should be "snps,archs-gfrc"
->> +- clocks     : phandle to the source clock
->> +
->> +Example:
->> +
->> +	timer1: timer_clksrc {
->> +		compatible = "snps,archs-gfrc";
->> +		clocks = <&timer0_clk>;
->> +	};
->> diff --git a/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
->> new file mode 100644
->> index 000000000000..f3b49938812b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
->> @@ -0,0 +1,14 @@
->> +Synopsys ARC Free Running 64-bit Local Timer for ARC HS CPUs
->> +- clocksourc provider for UP SoC
-> 
-> local timer on a UP processor?
+Any thoughts on what's the best way to get CPU frequency in run-time
+(preferably with use of clk framework so we'll need no arch-specific
+variables)?
 
-Not sure what you mean to change.
-
-This timer could be present in UP or SMP hardware configs but only usable as
-clocksource for UP since it is local and we don't do tick broadcast etc for SMP.
-
-To me clocksource is one level higher in level of abstraction than processor and
-thus applies to overall system / SoC than the processor.
-
-Thx,
--Vineet
-
->> +Required properties:
->> +
->> +- compatible : should be "snps,archs-rtc"
->> +- clocks     : phandle to the source clock
->> +
->> +Example:
->> +
->> +	timer1: timer_clksrc {
->> +		compatible = "snps,arc-rtc";
->> +		clocks = <&timer0_clk>;
->> +	};
-> --
+Regards,
+Alexey
