@@ -1,58 +1,28 @@
 From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Thu, 4 Feb 2016 11:10:55 +0000
+Date: Thu, 4 Feb 2016 11:14:00 +0000
 Subject: [PATCH v7 2/2] add new platform driver for PCI RC
-In-Reply-To: <2915520.tvWP9ESSNu@wuerfel>
+In-Reply-To: <20160203183844.GC10879@localhost>
 References: <cover.1454349430.git.jpinto@synopsys.com>
+ <10b29adcdb0a31eb8f8071b271da267e44ad8a04.1454349430.git.jpinto@synopsys.com>
+ <8223655.W63T0XOVm1@wuerfel> <20160203180514.GA10879@localhost>
  <56B242F0.6040704@synopsys.com> <20160203183844.GC10879@localhost>
- <2915520.tvWP9ESSNu@wuerfel>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56B331BF.2000406@synopsys.com>
+Message-ID: <56B33278.3000408@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Arnd and Bjorn,
+Hi Bjorn,
 
-On 2/3/2016 9:01 PM, Arnd Bergmann wrote:
-> On Wednesday 03 February 2016 12:38:44 Bjorn Helgaas wrote:
->> On Wed, Feb 03, 2016@06:12:00PM +0000, Joao Pinto wrote:
+On 2/3/2016 6:38 PM, Bjorn Helgaas wrote:
+> On Wed, Feb 03, 2016@06:12:00PM +0000, Joao Pinto wrote:
+>> Hi Bjorn,
 >>
->>> - replace "snps,pcie-synopsys" for "snps,pcie-synopsys-ipk"?
+>> Are these tasks enough?
 >>
->> This is a question for Arnd.
->>
->>> - rename the driver to pcie-synopsys-ipk?
->>
->> It doesn't seem necessary to me to include both "synopsys" and "ipk" in the
->> filename and the driver name.  Take a look at what the existing drivers do,
->> and do something similar.
+>> - replace mdelay() for msleep()
+>> - remove synopsys_pcie_irq_handler()
 > 
-> The "synopsys" can go away, it's already in the vendor field of the
-> string. "ipk" is still a bit unspecific, I was hoping to see a specific
-> chip and/or version of the PCIe part. Something like
-> 
-> 	compatible = "snps,ipk2040-pcie", "snps,ipk-pcie", "snps,dw-pcie-1.23", "snps,dw-pcie";
-> 
-> which would indicate that there is a chip called "ipk2040" in a family called "ipk",
-> and this includes the designware pcie implementation in version 1.23.
-> 
+> Above are fine with me.
 
-"snps,dw-pcie" seems a good idea!
-
->>> - update the devicetree documentation referring that the ranges also include the
->>> config space
->>
->> Another one for Arnd.
-> 
-> This one is wrong, the ranges should *not* include the config space, and if they
-> currently do, you must change the driver. The generic dw-pcie driver still
-> accepts the config space in the ranges for backwards compatibility with some
-> of the earlier front-ends that mistakenly did this, but new driver should not
-> do the same, and we should probably add some code in the common driver to
-> prevent it for front-ends other than the ones we have to keep compatibility with.
-> 
-
-I am going to remove the config space from the ranges and test the driver.
-
-> 	Arnd
-> 
+Ok, I'll to that.
 
 Thanks.
