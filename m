@@ -1,48 +1,58 @@
-From: noamc@ezchip.com (Noam Camus)
-Date: Fri, 5 Feb 2016 11:18:52 +0000
-Subject: [RFC] perf: fix building for ARCv1
-In-Reply-To: <56B2CFF2.4030503@synopsys.com>
-References: <C2D7FE5348E1B147BCA15975FBA23075F44C9DD2@IN01WEMBXA.internal.synopsys.com>
- <1445166916.9672.10.camel@synopsys.com> <87a8rf6a6p.fsf@tassilo.jf.intel.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44C9E9A@IN01WEMBXA.internal.synopsys.com>
- <8761235rwe.fsf@tassilo.jf.intel.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44CAFF9@IN01WEMBXA.internal.synopsys.com>
- <20151019093549.GK3816@twins.programming.kicks-ass.net>
- <C2D7FE5348E1B147BCA15975FBA23075F44CB023@IN01WEMBXA.internal.synopsys.com>
- <20151019095157.GM3816@twins.programming.kicks-ass.net>
- <C2D7FE5348E1B147BCA15975FBA23075F44CB43D@IN01WEMBXA.internal.synopsys.com>
- <20151020101133.GA17308@twins.programming.kicks-ass.net>
- <C2D7FE5348E1B147BCA15975FBA23075F44CB4BF@IN01WEMBXA.internal.synopsys.com>
- <1446134296.3203.27.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44CE67A@IN01WEMBXA.internal.synopsys.com>
- <1454516455.2811.4.camel__10775.5710989752$1454516490$gmane$org@synopsys.com>,
- <56B2CFF2.4030503@synopsys.com>
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Fri, 05 Feb 2016 15:39:05 +0100
+Subject: [PATCH v8 2/2] add new platform driver for PCI RC
+In-Reply-To: <56B47D0D.5030204@synopsys.com>
+References: <cover.1454600622.git.jpinto@synopsys.com>
+ <20160204234334.GH7031@localhost> <56B47D0D.5030204@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <HE1PR02MB13872D4A7A43E49B8440AEB5D6D20@HE1PR02MB1387.eurprd02.prod.outlook.com>
+Message-ID: <4427983.0G6mVNKP5W@wuerfel>
 To: linux-snps-arc@lists.infradead.org
 
+On Friday 05 February 2016 10:44:29 Joao Pinto wrote:
+> Hi,
+> 
+> On 2/4/2016 11:43 PM, Bjorn Helgaas wrote:
+> >> What do you think?
+> > 
+> > I don't think the "dw" part is relevant (none of the other
+> > DesignWare-based drivers includes it in the driver or file name).
+> > 
+> > How do people typically refer to this board?
+> > 
+> > I really like "synopsys" because it fits the pattern of being
+> > recognizable and pronounceable like "altera", "designware", "qcom",
+> > "keystone", "layerscape", "tegra", etc.  But I can't tell whether it's
+> > too generic.
+> > 
+> > "ipk" or "haps" would be fine with me.  I think it's OK if it doesn't
+> > cover 100% of the possible systems.
+> 
+> I think we should follow the iproc example: pcie-iproc-platform.c
+> In this case we would have pcie-designware-platform.c
+> I think this would be the best name because the driver is a non soc specific
+> designware platform driver.
+> 
+> Arnd and Bjorn agree on this name?
 
+Sorry, I did not realize that your submission was for the generic dw-pcie
+implementation rather than a particular product integrating it.
 
-________________________________________
->From: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
->Sent: Thursday, February 4, 2016 6:13 AM
->Noam, what's the atomic story for EZChip. Do you support such things for user
-space in GNU tools. If -atomic is added to perf user space builds are you guys OK!
+I think in this case, we should do this completely differently:
 
-Well here for EZchip I also see the:
-undefined reference to `__sync_add_and_fetch_4'
-undefined reference to `__sync_sub_and_fetch_4'
+How about putting all the new code into drivers/pci/host/pcie-designware.c
+as functions that can be used by the other drivers in absence of a chip
+specific handler?
 
-This is since at file tools/include/asm/atomic.h we use the generic implementation
-If for ARC I could use just like x86 my own header file then functions like:
-atomic_inc()
-atomic_dec_and_test()
-Are easy to implement and you may see an example for such atomic methods in my patch set for the new platform.
+Instead of providing a new instance of struct pcie_host_ops, maybe add
+it as a default implementation in dw_pcie_link_up() and dw_pcie_host_init()
+for drivers that don't provide their own. "hisi_pcie_host_ops" currently
+provides no host_init() callback function, so you will have to change
+the hisi frontend to a provide nop-function.
 
-You however wants to use some GCC flag -matomic which I assume somehow will implement the above __sync*.
-I can't find the implementation but if it uses LLSC then it won't work for me since I am not supporting LLSC.
+For all other drivers, check if they can be changed to use your generic
+implementation and remove their private callbacks if possible.
 
-So seem that either I have my own header at kernel or that I need to change the GCC implementation for __sync* to use my atomic instructions.
-I am personally tend to the x86 solution and not the generic one since changing GCC will require to have new compiler dependency.
- 
--Noam
+I think the MSI implementation should be split out into a separate file
+though, as not everyone uses this.
+
+	Arnd
