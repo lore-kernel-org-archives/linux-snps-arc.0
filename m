@@ -1,96 +1,65 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 5 Feb 2016 17:32:48 -0600
-Subject: [PATCH v8 2/2] add new platform driver for PCI RC
-In-Reply-To: <4427983.0G6mVNKP5W@wuerfel>
-References: <cover.1454600622.git.jpinto@synopsys.com>
- <20160204234334.GH7031@localhost> <56B47D0D.5030204@synopsys.com>
- <4427983.0G6mVNKP5W@wuerfel>
+From: noamc@ezchip.com (Noam Camus)
+Date: Sat, 6 Feb 2016 18:16:43 +0200
+Subject: [PATCH v3 0/3] Adding NPS400 drivers
+In-Reply-To: <1454418899-25500-1-git-send-email-noamc@ezchip.com>
+References: <1454418899-25500-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160205233248.GC11780@localhost>
+Message-ID: <1454775406-25277-1-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Feb 05, 2016@03:39:05PM +0100, Arnd Bergmann wrote:
-> On Friday 05 February 2016 10:44:29 Joao Pinto wrote:
-> > Hi,
-> > 
-> > On 2/4/2016 11:43 PM, Bjorn Helgaas wrote:
-> > >> What do you think?
-> > > 
-> > > I don't think the "dw" part is relevant (none of the other
-> > > DesignWare-based drivers includes it in the driver or file name).
-> > > 
-> > > How do people typically refer to this board?
-> > > 
-> > > I really like "synopsys" because it fits the pattern of being
-> > > recognizable and pronounceable like "altera", "designware", "qcom",
-> > > "keystone", "layerscape", "tegra", etc.  But I can't tell whether it's
-> > > too generic.
-> > > 
-> > > "ipk" or "haps" would be fine with me.  I think it's OK if it doesn't
-> > > cover 100% of the possible systems.
-> > 
-> > I think we should follow the iproc example: pcie-iproc-platform.c
-> > In this case we would have pcie-designware-platform.c
-> > I think this would be the best name because the driver is a non soc specific
-> > designware platform driver.
-> > 
-> > Arnd and Bjorn agree on this name?
-> 
-> Sorry, I did not realize that your submission was for the generic dw-pcie
-> implementation rather than a particular product integrating it.
-> 
-> I think in this case, we should do this completely differently:
-> 
-> How about putting all the new code into drivers/pci/host/pcie-designware.c
-> as functions that can be used by the other drivers in absence of a chip
-> specific handler?
-> 
-> Instead of providing a new instance of struct pcie_host_ops, maybe add
-> it as a default implementation in dw_pcie_link_up() and dw_pcie_host_init()
-> for drivers that don't provide their own. "hisi_pcie_host_ops" currently
-> provides no host_init() callback function, so you will have to change
-> the hisi frontend to a provide nop-function.
-> 
-> For all other drivers, check if they can be changed to use your generic
-> implementation and remove their private callbacks if possible.
-> 
-> I think the MSI implementation should be split out into a separate file
-> though, as not everyone uses this.
+From: Noam Camus <noamc@ezchip.com>
 
-I'm not sure I understand what you're proposing, Arnd, so let me
-ramble and you can direct me back on course.
+Change Log--
+v3
+irqchip - Fix ARM build failure by adding missing include of linux/irq.h
+clocksource -- Avoid 64bit arch's to build driver by adding new dependency !PHYS_ADDR_T_64BIT
+				This is since we use explicit io access of 32 bit. So for test coverage we allow
+				not only build for ARC, but restrict it to 32 bit arch's.
+irqchip - Apply all Thomas comments (Thank you)
 
-Currently drivers/pci/host/pcie-designware.c is not usable by itself;
-it doesn't register a platform_driver.
+v2:
+Add header file include/soc/nps/common.h.
+Now to build we do not depend on ARC subtree.
 
-There's hardly any code in Joao's patches; it looks like they add a
-minimal wrapper around the functionality in pcie-designware.c and
-register it as a platform_driver.
+General summay:
+Both drivers are now apart of previous basic patch set of new platform for ARC.
+The rest is now can be seen at ARC srctree:
+https://git.kernel.org/cgit/linux/kernel/git/vgupta/arc.git/
 
-Are you suggesting that we should just add that functionality directly
-in pcie-designware.c so that file could both be a minimal driver with
-the functionality of Joao's patches, *and* continue to provide the
-shared code used by all the existing DesignWare-based drivers?  Maybe
-the platform_driver registration part could be controlled by its own
-separate Kconfig option.
+Now ARC is supporting DT for clockevents and the interrupt controller ARC
+uses irq domain handling.
 
-For example, he could make dw_pcie_link_up() look like:
+Compare to last version now clocksource driver do not include clockevent registration
+since NPS400 can use ARC generic driver.
 
-  int dw_pcie_link_up(struct pcie_port *pp)
-  {
-    u32 val;
+Compare to last version now irqchip driver sets domain as default since it is the root domain.
+Also mapping of IPI is done in this driver.
 
-    if (pp->ops->link_up)
-      return pp->ops->link_up(pp);
+Last thing is that drivers can be build cleanly for i386 (still runs only for ARC)
+Note: in order to build we need to merge drivers into srctree which includes new header:
+soc/nps/common.h
+This header is part of patch set applied to ARC srctree.
 
-    val = readl(pp->dbi_base + PCIE_PHY_DEBUG_R1);
-    return val & PCIE_PHY_DEBUG_R1_LINK_UP;
-  }
+Regards,
+Noam Camus
 
-That seems like it would make sense to me.  It would resolve the
-filename question, since there wouldn't be a new file.  And if this is
-merely a driver for the generic DesignWare core without any
-extensions, I'm happy with some sort of "dw"-based driver name and
-compatibility string.
+Noam Camus (3):
+  soc: Support for EZchip SoC
+  clocksource: Add NPS400 timers driver
+  irqchip: add nps Internal and external irqchips
 
-Bjorn
+ .../interrupt-controller/ezchip,nps400-ic.txt      |   17 +++
+ .../bindings/timer/ezchip,nps400-timer.txt         |   15 ++
+ drivers/clocksource/Kconfig                        |    9 ++
+ drivers/clocksource/Makefile                       |    1 +
+ drivers/clocksource/timer-nps.c                    |   84 +++++++++++
+ drivers/irqchip/Kconfig                            |    6 +
+ drivers/irqchip/Makefile                           |    1 +
+ drivers/irqchip/irq-eznps.c                        |  145 +++++++++++++++++++
+ include/soc/nps/common.h                           |  150 ++++++++++++++++++++
+ 9 files changed, 428 insertions(+), 0 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+ create mode 100644 drivers/clocksource/timer-nps.c
+ create mode 100644 drivers/irqchip/irq-eznps.c
+ create mode 100644 include/soc/nps/common.h
