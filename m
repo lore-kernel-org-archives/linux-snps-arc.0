@@ -1,30 +1,93 @@
 From: noamc@ezchip.com (Noam Camus)
-Date: Sat, 6 Feb 2016 18:16:44 +0200
-Subject: [PATCH v3 1/3] soc: Support for EZchip SoC
+Date: Sat, 6 Feb 2016 18:16:45 +0200
+Subject: [PATCH v3 2/3] clocksource: Add NPS400 timers driver
 In-Reply-To: <1454418899-25500-1-git-send-email-noamc@ezchip.com>
 References: <1454418899-25500-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1454775406-25277-2-git-send-email-noamc@ezchip.com>
+Message-ID: <1454775406-25277-3-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-This header file is for NPS400 SoC.
-It includes macros for accessing memory mapped registers.
-These are functional registers that core can use to configure SoC.
+Add internal tick generator which is shared by all cores.
+Each cluster of cores view it through dedicated address.
+This is used for SMP system where all CPUs synced by same
+clock source.
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
+Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+Cc: Rob Herring <robh+dt at kernel.org>
+Cc: Thomas Gleixner <tglx at linutronix.de>
+Cc: John Stultz <john.stultz at linaro.org>
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- include/soc/nps/common.h |  150 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 files changed, 150 insertions(+), 0 deletions(-)
- create mode 100644 include/soc/nps/common.h
+ .../bindings/timer/ezchip,nps400-timer.txt         |   15 ++++
+ drivers/clocksource/Kconfig                        |    9 ++
+ drivers/clocksource/Makefile                       |    1 +
+ drivers/clocksource/timer-nps.c                    |   84 ++++++++++++++++++++
+ 4 files changed, 109 insertions(+), 0 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+ create mode 100644 drivers/clocksource/timer-nps.c
 
-diff --git a/include/soc/nps/common.h b/include/soc/nps/common.h
+diff --git a/Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt b/Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
 new file mode 100644
-index 0000000..35ebb00
+index 0000000..c8c03d7
 --- /dev/null
-+++ b/include/soc/nps/common.h
-@@ -0,0 +1,150 @@
++++ b/Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+@@ -0,0 +1,15 @@
++NPS Network Processor
++
++Required properties:
++
++- compatible :	should be "ezchip,nps400-timer"
++
++Clocks required for compatible = "ezchip,nps400-timer":
++- clocks : Must contain a single entry describing the clock input
++
++Example:
++
++timer {
++	compatible = "ezchip,nps400-timer";
++	clocks = <&sysclk>;
++};
+diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
+index 2eb5f0e..0d0ba91 100644
+--- a/drivers/clocksource/Kconfig
++++ b/drivers/clocksource/Kconfig
+@@ -132,6 +132,15 @@ config CLKSRC_TI_32K
+ 	  This option enables support for Texas Instruments 32.768 Hz clocksource
+ 	  available on many OMAP-like platforms.
+ 
++config CLKSRC_NPS
++	bool "NPS400 clocksource driver" if COMPILE_TEST
++	depends on !PHYS_ADDR_T_64BIT
++	select CLKSRC_OF if OF
++	help
++	  NPS400 clocksource support.
++	  Got 64 bit counter with update rate up to 1000MHz.
++	  This counter is accessed via couple of 32 bit memory mapped registers.
++
+ config CLKSRC_STM32
+ 	bool "Clocksource for STM32 SoCs" if !ARCH_STM32
+ 	depends on OF && ARM && (ARCH_STM32 || COMPILE_TEST)
+diff --git a/drivers/clocksource/Makefile b/drivers/clocksource/Makefile
+index 56bd16e..056cffd 100644
+--- a/drivers/clocksource/Makefile
++++ b/drivers/clocksource/Makefile
+@@ -46,6 +46,7 @@ obj-$(CONFIG_CLKSRC_QCOM)	+= qcom-timer.o
+ obj-$(CONFIG_MTK_TIMER)		+= mtk_timer.o
+ obj-$(CONFIG_CLKSRC_PISTACHIO)	+= time-pistachio.o
+ obj-$(CONFIG_CLKSRC_TI_32K)	+= timer-ti-32k.o
++obj-$(CONFIG_CLKSRC_NPS)	+= timer-nps.o
+ 
+ obj-$(CONFIG_ARM_ARCH_TIMER)		+= arm_arch_timer.o
+ obj-$(CONFIG_ARM_GLOBAL_TIMER)		+= arm_global_timer.o
+diff --git a/drivers/clocksource/timer-nps.c b/drivers/clocksource/timer-nps.c
+new file mode 100644
+index 0000000..bf9a490
+--- /dev/null
++++ b/drivers/clocksource/timer-nps.c
+@@ -0,0 +1,84 @@
 +/*
 + * Copyright(c) 2015 EZchip Technologies.
 + *
@@ -41,139 +104,73 @@ index 0000000..35ebb00
 + * the file called "COPYING".
 + */
 +
-+#ifndef SOC_NPS_COMMON_H
-+#define SOC_NPS_COMMON_H
++#include <linux/interrupt.h>
++#include <linux/clocksource.h>
++#include <linux/clockchips.h>
++#include <linux/clk.h>
++#include <linux/of.h>
++#include <linux/of_irq.h>
++#include <linux/cpu.h>
++#include <soc/nps/common.h>
 +
-+#ifdef CONFIG_SMP
-+#define IPI_IRQ					5
-+#endif
++#define NPS_MSU_TICK_LOW	0xC8
++#define NPS_CLUSTER_OFFSET	8
++#define NPS_CLUSTER_NUM		16
 +
-+#define NPS_HOST_REG_BASE			0xF6000000
++/* This array is per cluster of CPUs (Each NPS400 cluster got 256 CPUs) */
++static void *nps_msu_reg_low_addr[NPS_CLUSTER_NUM] __read_mostly;
 +
-+#define NPS_MSU_BLKID				0x018
++static unsigned long nps_timer_rate;
 +
-+#define CTOP_INST_RSPI_GIC_0_R12		0x3C56117E
-+#define CTOP_INST_MOV2B_FLIP_R3_B1_B2_INST	0x5B60
-+#define CTOP_INST_MOV2B_FLIP_R3_B1_B2_LIMM	0x00010422
-+
-+#ifndef __ASSEMBLY__
-+
-+/* In order to increase compilation test coverage */
-+#ifdef CONFIG_ARC
-+static inline void nps_ack_gic(void)
++static cycle_t nps_clksrc_read(struct clocksource *clksrc)
 +{
-+	__asm__ __volatile__ (
-+	"       .word %0\n"
-+	:
-+	: "i"(CTOP_INST_RSPI_GIC_0_R12)
-+	: "memory");
-+}
-+#else
-+static inline void nps_ack_gic(void) { }
-+#define write_aux_reg(r, v)
-+#define read_aux_reg(r) 0
-+#endif
++	int cluster = raw_smp_processor_id() >> NPS_CLUSTER_OFFSET;
 +
-+/* CPU global ID */
-+struct global_id {
-+	union {
-+		struct {
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+			u32 __reserved:20, cluster:4, core:4, thread:4;
-+#else
-+			u32 __reserved:24, cluster:4, core:4;
-+#endif
-+		};
-+		u32 value;
-+	};
++	return (cycle_t)ioread32be(nps_msu_reg_low_addr[cluster]);
++}
++
++static struct clocksource nps_counter = {
++	.name	= "EZnps-tick",
++	.rating = 301,
++	.read   = nps_clksrc_read,
++	.mask   = CLOCKSOURCE_MASK(32),
++	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
 +};
 +
-+/*
-+ * Convert logical to physical CPU IDs
-+ *
-+ * The conversion swap bits 1 and 2 of cluster id (out of 4 bits)
-+ * Now quad of logical clusters id's are adjacent physically,
-+ * and not like the id's physically came with each cluster.
-+ * Below table is 4x4 mesh of core clusters as it layout on chip.
-+ * Cluster ids are in format: logical (physical)
-+ *
-+ *    -----------------   ------------------
-+ * 3 |  5 (3)   7 (7)  | | 13 (11)   15 (15)|
-+ *
-+ * 2 |  4 (2)   6 (6)  | | 12 (10)   14 (14)|
-+ *    -----------------   ------------------
-+ * 1 |  1 (1)   3 (5)  | |  9  (9)   11 (13)|
-+ *
-+ * 0 |  0 (0)   2 (4)  | |  8  (8)   10 (12)|
-+ *    -----------------   ------------------
-+ *       0       1            2        3
-+ */
-+static inline int nps_cluster_logic_to_phys(int cluster)
++static void __init nps_setup_clocksource(struct device_node *node,
++					 struct clk *clk)
 +{
-+#ifdef __arc__
-+	 __asm__ __volatile__(
-+	"       mov r3,%0\n"
-+	"       .short %1\n"
-+	"       .word %2\n"
-+	"       mov %0,r3\n"
-+	: "+r"(cluster)
-+	: "i"(CTOP_INST_MOV2B_FLIP_R3_B1_B2_INST),
-+	  "i"(CTOP_INST_MOV2B_FLIP_R3_B1_B2_LIMM)
-+	: "r3");
-+#endif
++	struct clocksource *clksrc = &nps_counter;
++	int ret, cluster;
 +
-+	return cluster;
++	for (cluster = 0; cluster < NPS_CLUSTER_NUM; cluster++)
++		nps_msu_reg_low_addr[cluster] =
++			nps_host_reg((cluster << NPS_CLUSTER_OFFSET),
++				 NPS_MSU_BLKID, NPS_MSU_TICK_LOW);
++
++	ret = clk_prepare_enable(clk);
++	if (ret)
++		pr_err("Couldn't enable parent clock\n");
++
++	nps_timer_rate = clk_get_rate(clk);
++
++	ret = clocksource_register_hz(clksrc, nps_timer_rate);
++	if (ret)
++		pr_err("Couldn't register clock source.\n");
 +}
 +
-+#define NPS_CPU_TO_CLUSTER_NUM(cpu) \
-+	({ struct global_id gid; gid.value = cpu; \
-+		nps_cluster_logic_to_phys(gid.cluster); })
-+
-+struct nps_host_reg_address {
-+	union {
-+		struct {
-+			u32 base:8, cl_x:4, cl_y:4,
-+			blkid:6, reg:8, __reserved:2;
-+		};
-+		u32 value;
-+	};
-+};
-+
-+struct nps_host_reg_address_non_cl {
-+	union {
-+		struct {
-+			u32 base:7, blkid:11, reg:12, __reserved:2;
-+		};
-+		u32 value;
-+	};
-+};
-+
-+static inline void *nps_host_reg_non_cl(u32 blkid, u32 reg)
++static void __init nps_timer_init(struct device_node *node)
 +{
-+	struct nps_host_reg_address_non_cl reg_address;
++	struct clk *clk;
 +
-+	reg_address.value = NPS_HOST_REG_BASE;
-+	reg_address.blkid = blkid;
-+	reg_address.reg = reg;
++	clk = of_clk_get(node, 0);
++	if (IS_ERR(clk))
++		panic("Can't get timer clock");
 +
-+	return (void *)reg_address.value;
++	nps_setup_clocksource(node, clk);
 +}
 +
-+static inline void *nps_host_reg(u32 cpu, u32 blkid, u32 reg)
-+{
-+	struct nps_host_reg_address reg_address;
-+	u32 cl = NPS_CPU_TO_CLUSTER_NUM(cpu);
-+
-+	reg_address.value = NPS_HOST_REG_BASE;
-+	reg_address.cl_x  = (cl >> 2) & 0x3;
-+	reg_address.cl_y  = cl & 0x3;
-+	reg_address.blkid = blkid;
-+	reg_address.reg   = reg;
-+
-+	return (void *)reg_address.value;
-+}
-+#endif /* __ASSEMBLY__ */
-+
-+#endif /* SOC_NPS_COMMON_H */
++CLOCKSOURCE_OF_DECLARE(ezchip_nps400_clksrc, "ezchip,nps400-timer",
++		       nps_timer_init);
 -- 
 1.7.1
