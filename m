@@ -1,74 +1,50 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Mon, 8 Feb 2016 15:21:54 +0100
-Subject: [PATCH v3 2/3] clocksource: Add NPS400 timers driver
-In-Reply-To: <1454775406-25277-3-git-send-email-noamc@ezchip.com>
-References: <1454418899-25500-1-git-send-email-noamc@ezchip.com>
- <1454775406-25277-3-git-send-email-noamc@ezchip.com>
+From: Joao.Pinto@synopsys.com (Joao Pinto)
+Date: Mon,  8 Feb 2016 17:45:09 +0000
+Subject: [PATCH v9 0/2] adding PCI support to AXS10x
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56B8A482.8040302@linaro.org>
+Message-ID: <cover.1454952698.git.jpinto@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 02/06/2016 05:16 PM, Noam Camus wrote:
-> From: Noam Camus <noamc at ezchip.com>
->
-> Add internal tick generator which is shared by all cores.
-> Each cluster of cores view it through dedicated address.
-> This is used for SMP system where all CPUs synced by same
-> clock source.
->
-> Signed-off-by: Noam Camus <noamc at ezchip.com>
-> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-> Cc: Rob Herring <robh+dt at kernel.org>
-> Cc: Thomas Gleixner <tglx at linutronix.de>
-> Cc: John Stultz <john.stultz at linaro.org>
-> Acked-by: Vineet Gupta <vgupta at synopsys.com>
-> ---
+This patch set has the goal to add suppport for DesignWare PCIe RC in ARC
+AXS10x. It includes the necessary tweaks to:
+ - the ARC architecture (PCI support)
+ - the PCI subsystem (ARC CPU support)
+ - to pcie-designware (Centralisation of wait for link routine)
+ - to dra7xx, exynos, imx6 and spear13xx drivers to use the centralised
+ code for link wait
 
-[ ... ]
+A simple module was (pcie-designware-plat) was created to contain the 
+specific platform init code.
 
-> +static cycle_t nps_clksrc_read(struct clocksource *clksrc)
-> +{
-> +	int cluster = raw_smp_processor_id() >> NPS_CLUSTER_OFFSET;
-> +
-> +	return (cycle_t)ioread32be(nps_msu_reg_low_addr[cluster]);
-> +}
-> +
-> +static struct clocksource nps_counter = {
-> +	.name	= "EZnps-tick",
-> +	.rating = 301,
-> +	.read   = nps_clksrc_read,
-> +	.mask   = CLOCKSOURCE_MASK(32),
-> +	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
-> +};
-> +
-> +static void __init nps_setup_clocksource(struct device_node *node,
-> +					 struct clk *clk)
-> +{
-> +	struct clocksource *clksrc = &nps_counter;
-> +	int ret, cluster;
-> +
-> +	for (cluster = 0; cluster < NPS_CLUSTER_NUM; cluster++)
-> +		nps_msu_reg_low_addr[cluster] =
-> +			nps_host_reg((cluster << NPS_CLUSTER_OFFSET),
-> +				 NPS_MSU_BLKID, NPS_MSU_TICK_LOW);
-> +
-> +	ret = clk_prepare_enable(clk);
-> +	if (ret)
-> +		pr_err("Couldn't enable parent clock\n");
-> +
-> +	nps_timer_rate = clk_get_rate(clk);
+The patches were produced against Bjorn Helgaas' repository. It was properly
+tested in an IP Prototyping Kit.
 
-If there is an error, you continue the execution of the code. I guess 
-you expect the system to hang in any case with the error in the console, 
-right ?
+Joao Pinto (2):
+  PCI support added to ARC
+  pcie-designware platform driver
 
-> +	ret = clocksource_register_hz(clksrc, nps_timer_rate);
-
-You can simplify the driver even more by using clocksource_mmio_init.
+ .../devicetree/bindings/pci/designware-pcie.txt    |  17 +++
+ arch/arc/Kconfig                                   |  23 ++++
+ arch/arc/include/asm/dma.h                         |   5 +
+ arch/arc/include/asm/io.h                          |   9 ++
+ arch/arc/include/asm/pci.h                         |  31 +++++
+ arch/arc/kernel/Makefile                           |   1 +
+ arch/arc/kernel/pcibios.c                          |  23 ++++
+ arch/arc/plat-axs10x/Kconfig                       |   1 +
+ drivers/pci/Makefile                               |   1 +
+ drivers/pci/host/Kconfig                           |  11 ++
+ drivers/pci/host/Makefile                          |   1 +
+ drivers/pci/host/pci-dra7xx.c                      |  11 +-
+ drivers/pci/host/pci-exynos.c                      |  11 +-
+ drivers/pci/host/pci-imx6.c                        |  11 +-
+ drivers/pci/host/pcie-designware-plat.c            | 143 +++++++++++++++++++++
+ drivers/pci/host/pcie-designware.c                 |  31 ++++-
+ drivers/pci/host/pcie-designware.h                 |   6 +
+ drivers/pci/host/pcie-spear13xx.c                  |  12 +-
+ 18 files changed, 311 insertions(+), 37 deletions(-)
+ create mode 100644 arch/arc/include/asm/pci.h
+ create mode 100644 arch/arc/kernel/pcibios.c
+ create mode 100644 drivers/pci/host/pcie-designware-plat.c
 
 -- 
-  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+1.8.1.5
