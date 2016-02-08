@@ -1,113 +1,24 @@
-From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Mon, 8 Feb 2016 12:52:47 +0000
-Subject: [PATCH v8 2/2] add new platform driver for PCI RC
-In-Reply-To: <2803103.hQZUPM7HZf@wuerfel>
-References: <cover.1454600622.git.jpinto@synopsys.com>
- <4427983.0G6mVNKP5W@wuerfel> <20160205233248.GC11780@localhost>
- <2803103.hQZUPM7HZf@wuerfel>
+From: dcb314@hotmail.com (David Binderman)
+Date: Mon, 8 Feb 2016 13:37:25 +0000
+Subject: linux-4.5-rc3/arch/arc/kernel/unwind.c:629: undefined behaviour ?
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56B88F9F.7020907@synopsys.com>
+Message-ID: <DUB128-W14BBCF3C8444D1C16443DE9CD50@phx.gbl>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Bjorn and Arnd,
+Hello there,
 
-I agree with you in adding the platform register mechanism to the
-pcie-designware core driver. This feature is excellent for who wants to quickly
-have a taste of a pcie-designware platform drive for their Synopsys PCIe RC
-controller.
+[linux-4.5-rc3/arch/arc/kernel/unwind.c:629]: (warning) Invalid test for overflow 'ptr+len<ptr'. Condition is always false unless there is overflow, and overflow is Undefined Behaviour.
 
-Do you have some example for me to check in order to follow the same logic.
-Adding something like this in pcie-designware:
+Source code is
 
-#ifdef CONFIG_PCIE_DW_PLAT
-<add compatibility and platform register code>
-#endif
+??????? if (ptr + len < ptr || ptr + len> end)
+??????????? return -1;
 
-would be acceptable? maybe the platform tweeks should be external makeing it
-cleaner like Arnd suggested. An example to follow would be nice.
+Suggest code rework.
 
-Thanks,
-Joao
 
-On 2/8/2016 12:31 PM, Arnd Bergmann wrote:
-> On Friday 05 February 2016 17:32:48 Bjorn Helgaas wrote:
->> On Fri, Feb 05, 2016@03:39:05PM +0100, Arnd Bergmann wrote:
->>> On Friday 05 February 2016 10:44:29 Joao Pinto wrote:
-> 
->>> I think in this case, we should do this completely differently:
->>>
->>> How about putting all the new code into drivers/pci/host/pcie-designware.c
->>> as functions that can be used by the other drivers in absence of a chip
->>> specific handler?
->>>
->>> Instead of providing a new instance of struct pcie_host_ops, maybe add
->>> it as a default implementation in dw_pcie_link_up() and dw_pcie_host_init()
->>> for drivers that don't provide their own. "hisi_pcie_host_ops" currently
->>> provides no host_init() callback function, so you will have to change
->>> the hisi frontend to a provide nop-function.
->>>
->>> For all other drivers, check if they can be changed to use your generic
->>> implementation and remove their private callbacks if possible.
->>>
->>> I think the MSI implementation should be split out into a separate file
->>> though, as not everyone uses this.
->>
->> I'm not sure I understand what you're proposing, Arnd, so let me
->> ramble and you can direct me back on course.
->>
->> Currently drivers/pci/host/pcie-designware.c is not usable by itself;
->> it doesn't register a platform_driver.
->>
->> There's hardly any code in Joao's patches; it looks like they add a
->> minimal wrapper around the functionality in pcie-designware.c and
->> register it as a platform_driver.
->>
->> Are you suggesting that we should just add that functionality directly
->> in pcie-designware.c so that file could both be a minimal driver with
->> the functionality of Joao's patches, *and* continue to provide the
->> shared code used by all the existing DesignWare-based drivers?  Maybe
->> the platform_driver registration part could be controlled by its own
->> separate Kconfig option.
-> 
-> Either way is fine, we just have to be a little careful about the
-> initialization ordering.
-> 
->> For example, he could make dw_pcie_link_up() look like:
->>
->>   int dw_pcie_link_up(struct pcie_port *pp)
->>   {
->>     u32 val;
->>
->>     if (pp->ops->link_up)
->>       return pp->ops->link_up(pp);
->>
->>     val = readl(pp->dbi_base + PCIE_PHY_DEBUG_R1);
->>     return val & PCIE_PHY_DEBUG_R1_LINK_UP;
->>   }
-> 
-> This is definitely good (after checking that all existing drivers
-> either work with the generic version, or provide their own callbacks
-> already).
-> 
->> That seems like it would make sense to me.  It would resolve the
->> filename question, since there wouldn't be a new file.  And if this is
->> merely a driver for the generic DesignWare core without any
->> extensions, I'm happy with some sort of "dw"-based driver name and
->> compatibility string.
-> 
-> The important part I think is that the new driver should not require
-> and code that is seen as soc-specific: If it works with any implementation
-> of pci-dw rather than a specific system, the driver should know how
-> to do the right thing.
-> 
-> It may be helpful to move the actual matching on the compatible string
-> and calling of the generic probe function into another module, if we
-> are going forward with loadable PCI host drivers as posted by 
-> Paul Gortmaker today. Otherwise we end up with a device being bound
-> to the generic driver when a more specific one exists and both
-> are loadable modules, because the generic driver is always loaded
-> first.  As long as both drivers are built-in, it works fine because
-> we first look for a driver matching the most specific compatible string.
-> 
-> 	Arnd
-> 
+Regards
+
+David Binderman
+
+ 		 	   		  
