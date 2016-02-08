@@ -1,45 +1,90 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 8 Feb 2016 17:53:04 +0530
-Subject: [PATCH 6/9] ARC: clocksource: DT based probe
-In-Reply-To: <56B885B2.6060408@linaro.org>
-References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
- <1454410739-24444-7-git-send-email-vgupta@synopsys.com>
- <56B885B2.6060408@linaro.org>
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Mon, 08 Feb 2016 13:31:38 +0100
+Subject: [PATCH v8 2/2] add new platform driver for PCI RC
+In-Reply-To: <20160205233248.GC11780@localhost>
+References: <cover.1454600622.git.jpinto@synopsys.com>
+ <4427983.0G6mVNKP5W@wuerfel> <20160205233248.GC11780@localhost>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56B888A8.5020306@synopsys.com>
+Message-ID: <2803103.hQZUPM7HZf@wuerfel>
 To: linux-snps-arc@lists.infradead.org
 
-On Monday 08 February 2016 05:40 PM, Daniel Lezcano wrote:
-> On 02/02/2016 11:58 AM, Vineet Gupta wrote:
->> - Remove explicit clocksource setup and let it be done by OF framework
->>    by defining CLOCKSOURCE_OF_DECLARE() for various timers
->>
->> - This allows multiple clocksources to be potentially registered
->>    simultaneouly: previously we could only do one - as all of them had
->>    same arc_counter_setup() routine for registration
->>
->> - Setup routines also ensure that the underlying timer actually exists.
->>
->> - Remove some of the panic() calls if underlying timer is NOT detcted as
->>    a fallback clocksource might still be available
->>    1. If GRFC doesn't exist, jiffies clocksource gets registered anyways
->>    2. if RTC doesn't exist, TIMER1 cetainly will take over (as it is
->>       always present)
->>
->> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
->> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+On Friday 05 February 2016 17:32:48 Bjorn Helgaas wrote:
+> On Fri, Feb 05, 2016@03:39:05PM +0100, Arnd Bergmann wrote:
+> > On Friday 05 February 2016 10:44:29 Joao Pinto wrote:
+
+> > I think in this case, we should do this completely differently:
+> > 
+> > How about putting all the new code into drivers/pci/host/pcie-designware.c
+> > as functions that can be used by the other drivers in absence of a chip
+> > specific handler?
+> > 
+> > Instead of providing a new instance of struct pcie_host_ops, maybe add
+> > it as a default implementation in dw_pcie_link_up() and dw_pcie_host_init()
+> > for drivers that don't provide their own. "hisi_pcie_host_ops" currently
+> > provides no host_init() callback function, so you will have to change
+> > the hisi frontend to a provide nop-function.
+> > 
+> > For all other drivers, check if they can be changed to use your generic
+> > implementation and remove their private callbacks if possible.
+> > 
+> > I think the MSI implementation should be split out into a separate file
+> > though, as not everyone uses this.
 > 
-> May be it is time to move these drivers into the drivers/clocksource directory
-> where they belong to.
+> I'm not sure I understand what you're proposing, Arnd, so let me
+> ramble and you can direct me back on course.
+> 
+> Currently drivers/pci/host/pcie-designware.c is not usable by itself;
+> it doesn't register a platform_driver.
+> 
+> There's hardly any code in Joao's patches; it looks like they add a
+> minimal wrapper around the functionality in pcie-designware.c and
+> register it as a platform_driver.
+> 
+> Are you suggesting that we should just add that functionality directly
+> in pcie-designware.c so that file could both be a minimal driver with
+> the functionality of Joao's patches, *and* continue to provide the
+> shared code used by all the existing DesignWare-based drivers?  Maybe
+> the platform_driver registration part could be controlled by its own
+> separate Kconfig option.
 
-I suppose we could, but that is only possible after this round of "moderization",
-i.e. usage of CLOCKSOURCE_OF_DECLARE() et al.
+Either way is fine, we just have to be a little careful about the
+initialization ordering.
 
-Plus the move will require a bunch of mechanical crap such as read_aux_reg() which
-only ARC defines (similar to headaches Noam had for his clksrc).
+> For example, he could make dw_pcie_link_up() look like:
+> 
+>   int dw_pcie_link_up(struct pcie_port *pp)
+>   {
+>     u32 val;
+> 
+>     if (pp->ops->link_up)
+>       return pp->ops->link_up(pp);
+> 
+>     val = readl(pp->dbi_base + PCIE_PHY_DEBUG_R1);
+>     return val & PCIE_PHY_DEBUG_R1_LINK_UP;
+>   }
 
-So if we could agree on the sanity of this round of changes, I can work towards
-the imminent move into drivers.
+This is definitely good (after checking that all existing drivers
+either work with the generic version, or provide their own callbacks
+already).
 
-Thx,
--Vineet
+> That seems like it would make sense to me.  It would resolve the
+> filename question, since there wouldn't be a new file.  And if this is
+> merely a driver for the generic DesignWare core without any
+> extensions, I'm happy with some sort of "dw"-based driver name and
+> compatibility string.
+
+The important part I think is that the new driver should not require
+and code that is seen as soc-specific: If it works with any implementation
+of pci-dw rather than a specific system, the driver should know how
+to do the right thing.
+
+It may be helpful to move the actual matching on the compatible string
+and calling of the generic probe function into another module, if we
+are going forward with loadable PCI host drivers as posted by 
+Paul Gortmaker today. Otherwise we end up with a device being bound
+to the generic driver when a more specific one exists and both
+are loadable modules, because the generic driver is always loaded
+first.  As long as both drivers are built-in, it works fine because
+we first look for a driver matching the most specific compatible string.
+
+	Arnd
