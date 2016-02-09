@@ -1,52 +1,40 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Tue, 9 Feb 2016 14:38:15 +0100
+From: noamc@ezchip.com (Noam Camus)
+Date: Tue, 9 Feb 2016 21:47:03 +0000
 Subject: [PATCH v3 2/3] clocksource: Add NPS400 timers driver
-In-Reply-To: <HE1PR02MB138769C4BA48A4D8884BC516D6D60@HE1PR02MB1387.eurprd02.prod.outlook.com>
+In-Reply-To: <56B9EBC7.4010703@linaro.org>
 References: <1454418899-25500-1-git-send-email-noamc@ezchip.com>
  <1454775406-25277-3-git-send-email-noamc@ezchip.com>
  <56B8A482.8040302@linaro.org>
- <HE1PR02MB138769C4BA48A4D8884BC516D6D60@HE1PR02MB1387.eurprd02.prod.outlook.com>
+ <HE1PR02MB138769C4BA48A4D8884BC516D6D60@HE1PR02MB1387.eurprd02.prod.outlook.com>,
+ <56B9EBC7.4010703@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56B9EBC7.4010703@linaro.org>
+Message-ID: <HE1PR02MB1387E31FF8EB39D42CCB2C3BD6D60@HE1PR02MB1387.eurprd02.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 02/09/2016 01:36 PM, Noam Camus wrote:
->> From: Daniel Lezcano [mailto:daniel.lezcano at linaro.org] Sent:
->> Monday, February 08, 2016 4:22 PM
->
->>> +	ret = clk_prepare_enable(clk); +	if (ret) +		pr_err("Couldn't
->>> enable parent clock\n"); + +	nps_timer_rate = clk_get_rate(clk);
->
->> If there is an error, you continue the execution of the code. I
->> guess you expect the system to hang in any case with the error in
->> the >console, right ?
->
-> Since our clock is root then returned value will always be valid. I
-> am far from being expert here, but no one checks for clk_get_rate()
-> return value for error. Could you refer to a single place at
-> clocksource drivers that checks for error in the return value.
+>From: Daniel Lezcano <daniel.lezcano at linaro.org>
+>Sent: Tuesday, February 9, 2016 3:38 PM
 
-Actually I was referring to clk_prepare_enable, clocksource_register_hz.
-Agree clk_get_rate is always valid.
+>Actually I was referring to clk_prepare_enable, clocksource_register_hz.
+>Agree clk_get_rate is always valid.
+Thanks for making this clear.
+Any way as you can see I do call pr_err() in case of error just like most drivers around.
+By "hang" do you mean calling panic()?
+What if there is another clocksource in DT (even with worse rating)?
+I still prefer using it then having non workable machine.
 
->>> +	ret = clocksource_register_hz(clksrc, nps_timer_rate);
->
->> You can simplify the driver even more by using
->> clocksource_mmio_init.
-> Since my base address depends on cluster number, which CPU is part
-> of,  this interface is not much of a use. On top of that it assumes
-> that I am little endian by using readl family accessories.
+>>
+>>> You can simplify the driver even more by using
+>>> clocksource_mmio_init.
+>> Since my base address depends on cluster number, which CPU is part
+>> of,  this interface is not much of a use. On top of that it assumes
+>> that I am little endian by using readl family accessories.
 
-Why can't you use ?
+>Why can't you use ?
 
-clocksource_mmio_init(nps_msu_reg_low_addr, "EZnps-tick", 
-nps_timer_rate, 32, nps_clksrc_read);
+>clocksource_mmio_init(nps_msu_reg_low_addr, "EZnps-tick",
+>nps_timer_rate, 32, nps_clksrc_read);
 
+I believe that the simplification is meant for drivers that can actually use the clocksource_mmio..() accessories. Could you explain what is the advantage here, for my case, to use clocksource_mmio driver?
 
-
--- 
-  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Thanks for your patience
+-Noam
