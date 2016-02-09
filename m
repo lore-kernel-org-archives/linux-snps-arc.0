@@ -1,64 +1,32 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Tue, 9 Feb 2016 05:29:15 +0800
-Subject: [PATCH v9 2/2] pcie-designware platform driver
-In-Reply-To: <9069117816a5cd9cc3314b6d584c26d457807b8e.1454952698.git.jpinto@synopsys.com>
+From: noamc@ezchip.com (Noam Camus)
+Date: Tue, 9 Feb 2016 12:36:35 +0000
+Subject: [PATCH v3 2/3] clocksource: Add NPS400 timers driver
+In-Reply-To: <56B8A482.8040302@linaro.org>
+References: <1454418899-25500-1-git-send-email-noamc@ezchip.com>
+ <1454775406-25277-3-git-send-email-noamc@ezchip.com>
+ <56B8A482.8040302@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201602090552.plkRtxUR%fengguang.wu@intel.com>
+Message-ID: <HE1PR02MB138769C4BA48A4D8884BC516D6D60@HE1PR02MB1387.eurprd02.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Joao,
+>From: Daniel Lezcano [mailto:daniel.lezcano at linaro.org] 
+>Sent: Monday, February 08, 2016 4:22 PM
 
-[auto build test ERROR on arc/for-next]
-[cannot apply to pci/next v4.5-rc3 next-20160208]
-[if your patch is applied to the wrong git tree, please drop us a note to help improving the system]
+>> +	ret = clk_prepare_enable(clk);
+>> +	if (ret)
+>> +		pr_err("Couldn't enable parent clock\n");
+>> +
+>> +	nps_timer_rate = clk_get_rate(clk);
 
-url:    https://github.com/0day-ci/linux/commits/Joao-Pinto/PCI-support-added-to-ARC/20160209-014808
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc for-next
-config: x86_64-allmodconfig (attached as .config)
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=x86_64 
+>If there is an error, you continue the execution of the code. I guess you expect the system to hang in any case with the error in the >console, right ?
 
-All errors (new ones prefixed by >>):
+Since our clock is root then returned value will always be valid.
+I am far from being expert here, but no one checks for clk_get_rate() return value for error.
+Could you refer to a single place at clocksource drivers that checks for error in the return value.
 
-   include/linux/compiler.h:228:8: sparse: attribute 'no_sanitize_address': unknown attribute
-   drivers/pci/host/pcie-designware.c:581:14: sparse: undefined identifier 'pci_has_flag'
-   drivers/pci/host/pcie-designware.c: In function 'dw_pcie_host_init':
->> drivers/pci/host/pcie-designware.c:581:7: error: implicit declaration of function 'pci_has_flag' [-Werror=implicit-function-declaration]
-     if (!pci_has_flag(PCI_PROBE_ONLY)) {
-          ^
->> drivers/pci/host/pcie-designware.c:581:20: error: 'PCI_PROBE_ONLY' undeclared (first use in this function)
-     if (!pci_has_flag(PCI_PROBE_ONLY)) {
-                       ^
-   drivers/pci/host/pcie-designware.c:581:20: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+>> +	ret = clocksource_register_hz(clksrc, nps_timer_rate);
 
-vim +/pci_has_flag +581 drivers/pci/host/pcie-designware.c
+>You can simplify the driver even more by using clocksource_mmio_init.
+Since my base address depends on cluster number, which CPU is part of,  this interface is not much of a use. On top of that it assumes that I am little endian by using readl family accessories.
 
-cbce7900 Zhou Wang   2015-10-29  575  
-cbce7900 Zhou Wang   2015-10-29  576  #ifdef CONFIG_ARM
-cbce7900 Zhou Wang   2015-10-29  577  	/* support old dtbs that incorrectly describe IRQs */
-cbce7900 Zhou Wang   2015-10-29  578  	pci_fixup_irqs(pci_common_swizzle, of_irq_parse_and_map_pci);
-0815f957 Yijing Wang 2014-11-11  579  #endif
-0815f957 Yijing Wang 2014-11-11  580  
-cbce7900 Zhou Wang   2015-10-29 @581  	if (!pci_has_flag(PCI_PROBE_ONLY)) {
-cbce7900 Zhou Wang   2015-10-29  582  		pci_bus_size_bridges(bus);
-cbce7900 Zhou Wang   2015-10-29  583  		pci_bus_assign_resources(bus);
-4b1ced84 Jingoo Han  2013-07-31  584  
-
-:::::: The code at line 581 was first introduced by commit
-:::::: cbce7900598c26a12652f8ca9c41c5b29034c38d PCI: designware: Make driver arch-agnostic
-
-:::::: TO: Zhou Wang <wangzhou1 at hisilicon.com>
-:::::: CC: Bjorn Helgaas <bhelgaas at google.com>
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 51059 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160209/966fa5e0/attachment-0001.obj>
+-Noam
