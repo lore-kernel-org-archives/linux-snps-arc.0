@@ -1,51 +1,53 @@
-From: kirill@shutemov.name (Kirill A. Shutemov)
-Date: Wed, 10 Feb 2016 12:50:12 +0200
-Subject: [PATCH] mm,thp: khugepaged: call pte flush at the time of collapse
-In-Reply-To: <1455080175-10987-1-git-send-email-vgupta@synopsys.com>
-References: <1455080175-10987-1-git-send-email-vgupta@synopsys.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Wed, 10 Feb 2016 14:38:49 +0100
+Subject: [PATCH 6/9] ARC: clocksource: DT based probe
+In-Reply-To: <56B888A8.5020306@synopsys.com>
+References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
+ <1454410739-24444-7-git-send-email-vgupta@synopsys.com>
+ <56B885B2.6060408@linaro.org> <56B888A8.5020306@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160210105012.GA23604@node.shutemov.name>
+Message-ID: <56BB3D69.9000606@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Feb 10, 2016@10:26:15AM +0530, Vineet Gupta wrote:
-> This showed up on ARC when running LMBench bw_mem tests as
-> Overlapping TLB Machine Check Exception triggered due to STLB entry
-> (2M pages) overlapping some NTLB entry (regular 8K page).
-> 
-> bw_mem 2m touches a large chunk of vaddr creating NTLB entries.
-> In the interim khugepaged kicks in, collapsing the contiguous ptes into
-> a single pmd. pmdp_collapse_flush()->flush_pmd_tlb_range() is called to
-> flush out NTLB entries for the ptes. This for ARC (by design) can only
-> shootdown STLB entries (for pmd). The stray NTLB entries cause the overlap
-> with the subsequent STLB entry for collapsed page.
-> So make pmdp_collapse_flush() call pte flush interface not pmd flush.
-> 
-> Note that originally all thp flush call sites in generic code called
-> flush_tlb_range() leaving it to architecture to implement the flush for
-> pte and/or pmd. Commit 12ebc1581ad11454 changed this by calling a new
-> opt-in API flush_pmd_tlb_range() which made the semantics more explicit
-> but failed to distinguish the pte vs pmd flush in generic code, which is
-> what this patch fixes.
-> 
-> Note that ARC can fixed w/o touching the generic pmdp_collapse_flush()
-> by defining a ARC version, but that defeats the purpose of generic
-> version, plus sementically this is the right thing to do.
-> 
-> Fixes STAR 9000961194: LMBench on AXS103 triggering duplicate TLB
-> exceptions with super pages
-> 
-> Cc: Kirill A. Shutemov <kirill.shutemov at linux.intel.com>
-> Cc: Aneesh Kumar K.V <aneesh.kumar at linux.vnet.ibm.com>
-> Cc: Andrea Arcangeli <aarcange at redhat.com>
-> Cc: Andrew Morton <akpm at linux-foundation.org>
-> Cc: <stable at vger.kernel.org> #4.4
-> Cc: <linux-snps-arc at lists.infradead.org>
-> Cc: linux-kernel at vger.kernel.org
-> Cc: linux-mm at kvack.org
-> Fixes: 12ebc1581ad11454 ("mm,thp: introduce flush_pmd_tlb_range")
-> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+On 02/08/2016 01:23 PM, Vineet Gupta wrote:
+> On Monday 08 February 2016 05:40 PM, Daniel Lezcano wrote:
+>> On 02/02/2016 11:58 AM, Vineet Gupta wrote:
+>>> - Remove explicit clocksource setup and let it be done by OF framework
+>>>     by defining CLOCKSOURCE_OF_DECLARE() for various timers
+>>>
+>>> - This allows multiple clocksources to be potentially registered
+>>>     simultaneouly: previously we could only do one - as all of them had
+>>>     same arc_counter_setup() routine for registration
+>>>
+>>> - Setup routines also ensure that the underlying timer actually exists.
+>>>
+>>> - Remove some of the panic() calls if underlying timer is NOT detcted as
+>>>     a fallback clocksource might still be available
+>>>     1. If GRFC doesn't exist, jiffies clocksource gets registered anyways
+>>>     2. if RTC doesn't exist, TIMER1 cetainly will take over (as it is
+>>>        always present)
+>>>
+>>> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+>>> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+>>
+>> May be it is time to move these drivers into the drivers/clocksource directory
+>> where they belong to.
+>
+> I suppose we could, but that is only possible after this round of "moderization",
+> i.e. usage of CLOCKSOURCE_OF_DECLARE() et al.
+>
+> Plus the move will require a bunch of mechanical crap such as read_aux_reg() which
+> only ARC defines (similar to headaches Noam had for his clksrc).
+>
+> So if we could agree on the sanity of this round of changes, I can work towards
+> the imminent move into drivers.
 
-Acked-by: Kirill A. Shutemov <kirill.shutemov at linux.intel.com>
+Ok, sounds good.
+
 
 -- 
- Kirill A. Shutemov
+  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
