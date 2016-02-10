@@ -1,46 +1,57 @@
-From: noamc@ezchip.com (Noam Camus)
-Date: Wed, 10 Feb 2016 08:01:45 +0000
-Subject: [PATCH v3 2/3] clocksource: Add NPS400 timers driver
-In-Reply-To: <56BA6E51.9040507@linaro.org>
-References: <1454418899-25500-1-git-send-email-noamc@ezchip.com>
- <1454775406-25277-3-git-send-email-noamc@ezchip.com>
- <56B8A482.8040302@linaro.org>
- <HE1PR02MB138769C4BA48A4D8884BC516D6D60@HE1PR02MB1387.eurprd02.prod.outlook.com>
- <56B9EBC7.4010703@linaro.org>
- <HE1PR02MB1387E31FF8EB39D42CCB2C3BD6D60@HE1PR02MB1387.eurprd02.prod.outlook.com>
- <56BA6E51.9040507@linaro.org>
+From: Joao.Pinto@synopsys.com (Joao Pinto)
+Date: Wed, 10 Feb 2016 09:48:39 +0000
+Subject: [PATCH v9 2/2] pcie-designware platform driver
+In-Reply-To: <20160208232808.GB1353@localhost>
+References: <9069117816a5cd9cc3314b6d584c26d457807b8e.1454952698.git.jpinto@synopsys.com>
+ <201602090552.plkRtxUR%fengguang.wu@intel.com>
+ <20160208232808.GB1353@localhost>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <HE1PR02MB138739E2CE482ECF2E53461BD6D70@HE1PR02MB1387.eurprd02.prod.outlook.com>
+Message-ID: <56BB0777.6080208@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
->From: Daniel Lezcano [mailto:daniel.lezcano at linaro.org] 
->Sent: Wednesday, February 10, 2016 12:55 AM
+Hi Bjorn,
 
->> pr_err() in case of error just like most drivers around. By "hang" do 
->> you mean calling panic()?
+On 2/8/2016 11:28 PM, Bjorn Helgaas wrote:
+>>      if (!pci_has_flag(PCI_PROBE_ONLY)) {
+>>                        ^
+>>    drivers/pci/host/pcie-designware.c:581:20: note: each undeclared identifier is reported only once for each function it appears in
+>>    cc1: some warnings being treated as errors
+> 
+> I have fixes for this on my pci/misc branch, so you don't need to
+> worry about these errors.  Basically I'm moving the PCI_PROBE_ONLY and
+> pci_has_flag() declarations from the arch-specific asm/pci-bridge.h
+> files to the generic linux/pci.h file.
 
->No. I meant the errors are caught but no action is taken, the execution continues normally as nothing wrong happened. This is why I asked if you expect the host to hang at boot time with the last error as a hint.
+Ok, thanks.
 
->I was expecting to see a call to clk_disable_unprepare if clocksource_register_hz fails, and returning 'ret' if clk_prepare_enable fails.
-Ok, I will fix that, and handle gracefull return. Thanks
+> 
+>> vim +/pci_has_flag +581 drivers/pci/host/pcie-designware.c
+>>
+>> cbce7900 Zhou Wang   2015-10-29  575  
+>> cbce7900 Zhou Wang   2015-10-29  576  #ifdef CONFIG_ARM
+>> cbce7900 Zhou Wang   2015-10-29  577  	/* support old dtbs that incorrectly describe IRQs */
+>> cbce7900 Zhou Wang   2015-10-29  578  	pci_fixup_irqs(pci_common_swizzle, of_irq_parse_and_map_pci);
+>> 0815f957 Yijing Wang 2014-11-11  579  #endif
+>> 0815f957 Yijing Wang 2014-11-11  580  
+>> cbce7900 Zhou Wang   2015-10-29 @581  	if (!pci_has_flag(PCI_PROBE_ONLY)) {
+>> cbce7900 Zhou Wang   2015-10-29  582  		pci_bus_size_bridges(bus);
+>> cbce7900 Zhou Wang   2015-10-29  583  		pci_bus_assign_resources(bus);
+>> 4b1ced84 Jingoo Han  2013-07-31  584  
+>>
+>> :::::: The code at line 581 was first introduced by commit
+>> :::::: cbce7900598c26a12652f8ca9c41c5b29034c38d PCI: designware: Make driver arch-agnostic
+>>
+>> :::::: TO: Zhou Wang <wangzhou1 at hisilicon.com>
+>> :::::: CC: Bjorn Helgaas <bhelgaas at google.com>
+>>
+>> ---
+>> 0-DAY kernel test infrastructure                Open Source Technology Center
+>> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+> 
+> 
 
+If there's anything else that is needed for the pcie-designware platform driver,
+please let me know.
 
->Using the mmio generic code will save:
-
->+static struct clocksource nps_counter = {
->+	.name	= "EZnps-tick",
->+	.rating = 301,
->+	.read   = nps_clksrc_read,
->+	.mask   = CLOCKSOURCE_MASK(32),
->+	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
->+};
-
->Up to you.
-I will do that, thanks again
-
-Noam
-
---
-  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook | <http://twitter.com/#!/linaroorg> Twitter | <http://www.linaro.org/linaro-blog/> Blog
+Thanks,
+Joao
