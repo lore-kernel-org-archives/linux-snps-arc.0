@@ -1,57 +1,51 @@
-From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Wed, 10 Feb 2016 09:48:39 +0000
-Subject: [PATCH v9 2/2] pcie-designware platform driver
-In-Reply-To: <20160208232808.GB1353@localhost>
-References: <9069117816a5cd9cc3314b6d584c26d457807b8e.1454952698.git.jpinto@synopsys.com>
- <201602090552.plkRtxUR%fengguang.wu@intel.com>
- <20160208232808.GB1353@localhost>
+From: kirill@shutemov.name (Kirill A. Shutemov)
+Date: Wed, 10 Feb 2016 12:50:12 +0200
+Subject: [PATCH] mm,thp: khugepaged: call pte flush at the time of collapse
+In-Reply-To: <1455080175-10987-1-git-send-email-vgupta@synopsys.com>
+References: <1455080175-10987-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56BB0777.6080208@synopsys.com>
+Message-ID: <20160210105012.GA23604@node.shutemov.name>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Bjorn,
-
-On 2/8/2016 11:28 PM, Bjorn Helgaas wrote:
->>      if (!pci_has_flag(PCI_PROBE_ONLY)) {
->>                        ^
->>    drivers/pci/host/pcie-designware.c:581:20: note: each undeclared identifier is reported only once for each function it appears in
->>    cc1: some warnings being treated as errors
+On Wed, Feb 10, 2016@10:26:15AM +0530, Vineet Gupta wrote:
+> This showed up on ARC when running LMBench bw_mem tests as
+> Overlapping TLB Machine Check Exception triggered due to STLB entry
+> (2M pages) overlapping some NTLB entry (regular 8K page).
 > 
-> I have fixes for this on my pci/misc branch, so you don't need to
-> worry about these errors.  Basically I'm moving the PCI_PROBE_ONLY and
-> pci_has_flag() declarations from the arch-specific asm/pci-bridge.h
-> files to the generic linux/pci.h file.
-
-Ok, thanks.
-
+> bw_mem 2m touches a large chunk of vaddr creating NTLB entries.
+> In the interim khugepaged kicks in, collapsing the contiguous ptes into
+> a single pmd. pmdp_collapse_flush()->flush_pmd_tlb_range() is called to
+> flush out NTLB entries for the ptes. This for ARC (by design) can only
+> shootdown STLB entries (for pmd). The stray NTLB entries cause the overlap
+> with the subsequent STLB entry for collapsed page.
+> So make pmdp_collapse_flush() call pte flush interface not pmd flush.
 > 
->> vim +/pci_has_flag +581 drivers/pci/host/pcie-designware.c
->>
->> cbce7900 Zhou Wang   2015-10-29  575  
->> cbce7900 Zhou Wang   2015-10-29  576  #ifdef CONFIG_ARM
->> cbce7900 Zhou Wang   2015-10-29  577  	/* support old dtbs that incorrectly describe IRQs */
->> cbce7900 Zhou Wang   2015-10-29  578  	pci_fixup_irqs(pci_common_swizzle, of_irq_parse_and_map_pci);
->> 0815f957 Yijing Wang 2014-11-11  579  #endif
->> 0815f957 Yijing Wang 2014-11-11  580  
->> cbce7900 Zhou Wang   2015-10-29 @581  	if (!pci_has_flag(PCI_PROBE_ONLY)) {
->> cbce7900 Zhou Wang   2015-10-29  582  		pci_bus_size_bridges(bus);
->> cbce7900 Zhou Wang   2015-10-29  583  		pci_bus_assign_resources(bus);
->> 4b1ced84 Jingoo Han  2013-07-31  584  
->>
->> :::::: The code at line 581 was first introduced by commit
->> :::::: cbce7900598c26a12652f8ca9c41c5b29034c38d PCI: designware: Make driver arch-agnostic
->>
->> :::::: TO: Zhou Wang <wangzhou1 at hisilicon.com>
->> :::::: CC: Bjorn Helgaas <bhelgaas at google.com>
->>
->> ---
->> 0-DAY kernel test infrastructure                Open Source Technology Center
->> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+> Note that originally all thp flush call sites in generic code called
+> flush_tlb_range() leaving it to architecture to implement the flush for
+> pte and/or pmd. Commit 12ebc1581ad11454 changed this by calling a new
+> opt-in API flush_pmd_tlb_range() which made the semantics more explicit
+> but failed to distinguish the pte vs pmd flush in generic code, which is
+> what this patch fixes.
 > 
+> Note that ARC can fixed w/o touching the generic pmdp_collapse_flush()
+> by defining a ARC version, but that defeats the purpose of generic
+> version, plus sementically this is the right thing to do.
 > 
+> Fixes STAR 9000961194: LMBench on AXS103 triggering duplicate TLB
+> exceptions with super pages
+> 
+> Cc: Kirill A. Shutemov <kirill.shutemov at linux.intel.com>
+> Cc: Aneesh Kumar K.V <aneesh.kumar at linux.vnet.ibm.com>
+> Cc: Andrea Arcangeli <aarcange at redhat.com>
+> Cc: Andrew Morton <akpm at linux-foundation.org>
+> Cc: <stable at vger.kernel.org> #4.4
+> Cc: <linux-snps-arc at lists.infradead.org>
+> Cc: linux-kernel at vger.kernel.org
+> Cc: linux-mm at kvack.org
+> Fixes: 12ebc1581ad11454 ("mm,thp: introduce flush_pmd_tlb_range")
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 
-If there's anything else that is needed for the pcie-designware platform driver,
-please let me know.
+Acked-by: Kirill A. Shutemov <kirill.shutemov at linux.intel.com>
 
-Thanks,
-Joao
+-- 
+ Kirill A. Shutemov
