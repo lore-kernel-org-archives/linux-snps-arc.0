@@ -1,36 +1,50 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 11 Feb 2016 07:23:32 +0000
-Subject: Signal handle without calling exit
-References: <C2D7FE5348E1B147BCA15975FBA23075F4E8910B@us01wembx1.internal.synopsys.com>
- <j9q7c9573c51t2kqcbtba86f.1455130610074@com.syntomo.email>
- <C2D7FE5348E1B147BCA15975FBA23075F4E89266@us01wembx1.internal.synopsys.com>
- <fc27ulxa4nta7q5fmdcs9tab.1455173426287@com.syntomo.email>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Thu, 11 Feb 2016 09:18:42 +0100
+Subject: [PATCH v4 2/3] clocksource: Add NPS400 timers driver
+In-Reply-To: <1455159741-21722-3-git-send-email-noamc@ezchip.com>
+References: <1454775406-25277-1-git-send-email-noamc@ezchip.com>
+ <1455159741-21722-3-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E892A5@us01wembx1.internal.synopsys.com>
+Message-ID: <56BC43E2.9030306@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
+On 02/11/2016 04:02 AM, Noam Camus wrote:
+> From: Noam Camus <noamc at ezchip.com>
+>
+> Add internal tick generator which is shared by all cores.
+> Each cluster of cores view it through dedicated address.
+> This is used for SMP system where all CPUs synced by same
+> clock source.
+>
+> Signed-off-by: Noam Camus <noamc at ezchip.com>
+> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Cc: Rob Herring <robh+dt at kernel.org>
+> Cc: Thomas Gleixner <tglx at linutronix.de>
+> Cc: John Stultz <john.stultz at linaro.org>
+> Acked-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
 
-On Thursday 11 February 2016 12:27 PM, Noam Camus wrote:
->
-> Hi Vineet,
->
-> In case user caused an exception that kernel turned into sinal that the user
-> caught with its own implementation without calling exit.
-> What we expect to happen when signal handler ends?
-> Would it return to the same instruction the one after it or other?
-> Is it in the first forbidden to not call exit?
->
-> Noam
->
+Acked-by: Daniel Lezcano <daniel.lezcano at linaro.org>
 
-Some signals can't be caught - and depending on default behaviour kernel will kill
-the task - it is not user task which calls exit.
-For those where catching is allowed - e.g. segv, if handler doesn't do anything -
-kernel will resume at exactly the same instruction.
-So u could have an interesting loop in app - if tries to access NULL pointer with
-signal handler installed for segv, and that handler does nothing.
-Now your signal handler can tweak the register corresponding to PC in sigcontext
-(ret for ARC) and kernel will use that for return to userspace - so the faulting
-instruction will be avoided.
+but ...
 
--Vineet
+[ ... ]
+
+> +	clk = of_clk_get(node, 0);
+> +	if (IS_ERR(clk))
+> +		panic("Can't get timer clock");
+
+                 ^^^^^^
+
+I failed to see that at in the previous review.
+
+Thanks
+
+   -- Daniel
+
+-- 
+  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
