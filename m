@@ -1,53 +1,69 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Wed, 10 Feb 2016 14:38:49 +0100
-Subject: [PATCH 6/9] ARC: clocksource: DT based probe
-In-Reply-To: <56B888A8.5020306@synopsys.com>
-References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
- <1454410739-24444-7-git-send-email-vgupta@synopsys.com>
- <56B885B2.6060408@linaro.org> <56B888A8.5020306@synopsys.com>
+From: noamc@ezchip.com (Noam Camus)
+Date: Thu, 11 Feb 2016 05:02:18 +0200
+Subject: [PATCH v4 0/3] Adding NPS400 drivers
+In-Reply-To: <1454775406-25277-1-git-send-email-noamc@ezchip.com>
+References: <1454775406-25277-1-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56BB3D69.9000606@linaro.org>
+Message-ID: <1455159741-21722-1-git-send-email-noamc@ezchip.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 02/08/2016 01:23 PM, Vineet Gupta wrote:
-> On Monday 08 February 2016 05:40 PM, Daniel Lezcano wrote:
->> On 02/02/2016 11:58 AM, Vineet Gupta wrote:
->>> - Remove explicit clocksource setup and let it be done by OF framework
->>>     by defining CLOCKSOURCE_OF_DECLARE() for various timers
->>>
->>> - This allows multiple clocksources to be potentially registered
->>>     simultaneouly: previously we could only do one - as all of them had
->>>     same arc_counter_setup() routine for registration
->>>
->>> - Setup routines also ensure that the underlying timer actually exists.
->>>
->>> - Remove some of the panic() calls if underlying timer is NOT detcted as
->>>     a fallback clocksource might still be available
->>>     1. If GRFC doesn't exist, jiffies clocksource gets registered anyways
->>>     2. if RTC doesn't exist, TIMER1 cetainly will take over (as it is
->>>        always present)
->>>
->>> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
->>> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
->>
->> May be it is time to move these drivers into the drivers/clocksource directory
->> where they belong to.
->
-> I suppose we could, but that is only possible after this round of "moderization",
-> i.e. usage of CLOCKSOURCE_OF_DECLARE() et al.
->
-> Plus the move will require a bunch of mechanical crap such as read_aux_reg() which
-> only ARC defines (similar to headaches Noam had for his clksrc).
->
-> So if we could agree on the sanity of this round of changes, I can work towards
-> the imminent move into drivers.
+From: Noam Camus <noamc@ezchip.com>
 
-Ok, sounds good.
+Change Log--
+v4:
+clocksource -- Apply all Daniel comments (Thanks)
+				Handle gracefull return and also using clocksoure mmio driver
 
+v3:
+irqchip - Fix ARM build failure by adding missing include of linux/irq.h
+clocksource -- Avoid 64bit arch's to build driver by adding new dependency !PHYS_ADDR_T_64BIT
+				This is since we use explicit io access of 32 bit. So for test coverage we allow
+				not only build for ARC, but restrict it to 32 bit arch's.
+irqchip - Apply all Thomas comments (Thank you)
 
--- 
-  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+v2:
+Add header file include/soc/nps/common.h.
+Now to build we do not depend on ARC subtree.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+General summay:
+Both drivers are now apart of previous basic patch set of new platform for ARC.
+The rest is now can be seen at ARC srctree:
+https://git.kernel.org/cgit/linux/kernel/git/vgupta/arc.git/
+
+Now ARC is supporting DT for clockevents and the interrupt controller ARC
+uses irq domain handling.
+
+Compare to last version now clocksource driver do not include clockevent registration
+since NPS400 can use ARC generic driver.
+
+Compare to last version now irqchip driver sets domain as default since it is the root domain.
+Also mapping of IPI is done in this driver.
+
+Last thing is that drivers can be build cleanly for i386 (still runs only for ARC)
+Note: in order to build we need to merge drivers into srctree which includes new header:
+soc/nps/common.h
+This header is part of patch set applied to ARC srctree.
+
+Regards,
+Noam Camus
+
+Noam Camus (3):
+  soc: Support for EZchip SoC
+  clocksource: Add NPS400 timers driver
+  irqchip: add nps Internal and external irqchips
+
+ .../interrupt-controller/ezchip,nps400-ic.txt      |   17 +++
+ .../bindings/timer/ezchip,nps400-timer.txt         |   15 ++
+ drivers/clocksource/Kconfig                        |   10 ++
+ drivers/clocksource/Makefile                       |    1 +
+ drivers/clocksource/timer-nps.c                    |   80 +++++++++++
+ drivers/irqchip/Kconfig                            |    6 +
+ drivers/irqchip/Makefile                           |    1 +
+ drivers/irqchip/irq-eznps.c                        |  145 +++++++++++++++++++
+ include/soc/nps/common.h                           |  150 ++++++++++++++++++++
+ 9 files changed, 425 insertions(+), 0 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+ create mode 100644 drivers/clocksource/timer-nps.c
+ create mode 100644 drivers/irqchip/irq-eznps.c
+ create mode 100644 include/soc/nps/common.h
