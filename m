@@ -1,48 +1,56 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 12 Feb 2016 16:11:01 +0530
-Subject: [PATCH] ARC, thp: remove infrastructure for handling splitting PMDs
+Date: Sat, 13 Feb 2016 11:47:56 +0000
+Subject: [GIT PULL] ARC fixes for 4.5
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1455273661-1918-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E899AD@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-With THP refcounting work, no need to mark PMDs splitting.
+Hi Linus,
 
-(ARC got missed under the sweeping arch change as THP support was likely
-not present in orig baseline)
+I'd been sitting on some of these fixes for a while.
+Please pill.
 
-Cc: Kirill A. Shutemov <kirill.shutemov at linux.intel.com>
-Cc: Andrew Morton <akpm at linux-foundation.org>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: linux-kernel at vger.kernel.org
-Cc: linux-mm at kvack.org
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/include/asm/hugepage.h | 3 ---
- 1 file changed, 3 deletions(-)
+Thx,
+-Vineet
+---------------->
+The following changes since commit afd2ff9b7e1b367172f18ba7f693dfb62bdcb2dc:
 
-diff --git a/arch/arc/include/asm/hugepage.h b/arch/arc/include/asm/hugepage.h
-index c5094de86403..7afe3356b770 100644
---- a/arch/arc/include/asm/hugepage.h
-+++ b/arch/arc/include/asm/hugepage.h
-@@ -30,19 +30,16 @@ static inline pmd_t pte_pmd(pte_t pte)
- #define pmd_mkyoung(pmd)	pte_pmd(pte_mkyoung(pmd_pte(pmd)))
- #define pmd_mkhuge(pmd)		pte_pmd(pte_mkhuge(pmd_pte(pmd)))
- #define pmd_mknotpresent(pmd)	pte_pmd(pte_mknotpresent(pmd_pte(pmd)))
--#define pmd_mksplitting(pmd)	pte_pmd(pte_mkspecial(pmd_pte(pmd)))
- #define pmd_mkclean(pmd)	pte_pmd(pte_mkclean(pmd_pte(pmd)))
- 
- #define pmd_write(pmd)		pte_write(pmd_pte(pmd))
- #define pmd_young(pmd)		pte_young(pmd_pte(pmd))
- #define pmd_pfn(pmd)		pte_pfn(pmd_pte(pmd))
- #define pmd_dirty(pmd)		pte_dirty(pmd_pte(pmd))
--#define pmd_special(pmd)	pte_special(pmd_pte(pmd))
- 
- #define mk_pmd(page, prot)	pte_pmd(mk_pte(page, prot))
- 
- #define pmd_trans_huge(pmd)	(pmd_val(pmd) & _PAGE_HW_SZ)
--#define pmd_trans_splitting(pmd)	(pmd_trans_huge(pmd) && pmd_special(pmd))
- 
- #define pfn_pmd(pfn, prot)	(__pmd(((pfn) << PAGE_SHIFT) | pgprot_val(prot)))
- 
--- 
-2.5.0
+  Linux 4.4 (2016-01-10 15:01:32 -0800)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.5-fixes
+
+for you to fetch changes up to 37eda9df5bd8444263418495632ea6ec750f03f9:
+
+  ARC: mm: Introduce explicit super page size support (2016-02-12 12:10:25 +0530)
+
+----------------------------------------------------------------
+ARC fixes for 4.5
+
+- Corner case of returning to delay slot from interrupt
+- Changing default interrupt prioiry level
+- Kconfig'ize support for super pages
+- Other minor fixes
+
+----------------------------------------------------------------
+Vineet Gupta (6):
+      ARCv2: STAR 9000950267: Handle return from intr to Delay Slot #2
+      ARCv2: clocksource: Rename GRTC -> GFRC ...
+      ARC: shrink cpuinfo by not saving full timer BCR
+      ARCv2: Check for LL-SC livelock only if LLSC is enabled
+      ARCv2: intc: Allow interruption by lowest priority interrupt
+      ARC: mm: Introduce explicit super page size support
+
+ arch/arc/Kconfig                        | 21 ++++++++++++++-
+ arch/arc/configs/vdk_hs38_smp_defconfig |  2 +-
+ arch/arc/include/asm/arcregs.h          |  3 +--
+ arch/arc/include/asm/irqflags-arcv2.h   |  7 +++--
+ arch/arc/include/asm/mcip.h             |  4 +--
+ arch/arc/include/asm/pgtable.h          | 45 +++++++++++++++++++--------------
+ arch/arc/kernel/entry-arcv2.S           | 19 +++++++++++++-
+ arch/arc/kernel/intc-arcv2.c            | 41 +++++++++++++++++-------------
+ arch/arc/kernel/mcip.c                  | 10 ++++----
+ arch/arc/kernel/setup.c                 | 20 ++++++++++-----
+ arch/arc/kernel/time.c                  |  8 +++---
+ 11 files changed, 119 insertions(+), 61 deletions(-)
