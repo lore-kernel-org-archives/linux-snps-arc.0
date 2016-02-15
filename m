@@ -1,50 +1,65 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 15 Feb 2016 19:37:47 +0300
-Subject: [PATCH] arc: make sure __delay() never gets executed with 0 loops
+From: Joao.Pinto@synopsys.com (Joao Pinto)
+Date: Mon, 15 Feb 2016 18:15:55 +0000
+Subject: [PATCH v9 2/2] pcie-designware platform driver
+In-Reply-To: <56BB0777.6080208@synopsys.com>
+References: <9069117816a5cd9cc3314b6d584c26d457807b8e.1454952698.git.jpinto@synopsys.com>
+ <201602090552.plkRtxUR%fengguang.wu@intel.com>
+ <20160208232808.GB1353@localhost> <56BB0777.6080208@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1455554267-23886-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <56C215DB.50603@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Current implementation of __delay() function uses so-called
-zero-delay loops. And the only condition to exit that loop is
-LP_COUNT (loop count register) = 1 (but not 0 as it might be easily
-imagined).
+Hi Bjorn!
+Did you have opportunity to check the v9 patch set?
+Thanks.
 
-So if our calculation of "loops" gives 0 (and that is pretty possible
-given result of multiplication being >> 32) then zero-delay loop
-mechanism starts with LP_COUNT=0 and it ends up decrementing LP_COUNT
-while staying in the loop effectively producing close to infinite delay
-instead of very short one.
+Joao
 
-I bumped into it with AXS101 + external DDR controller and caches
-disabled. In that case I've got very small
-loops_per_jiffy=0xf00:
------------------------->8--------------------
-Calibrating delay loop... 0.77 BogoMIPS (lpj=3862)
------------------------->8--------------------
-
-And on console output delays were way too long.
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Vineet Gupta <vgupta at synopsys.com>
- Please enter the commit message for your changes. Lines starting
----
- arch/arc/include/asm/delay.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arc/include/asm/delay.h b/arch/arc/include/asm/delay.h
-index 08e7e2a..1a7a1dc 100644
---- a/arch/arc/include/asm/delay.h
-+++ b/arch/arc/include/asm/delay.h
-@@ -57,7 +57,8 @@ static inline void __udelay(unsigned long usecs)
- 	 */
- 	loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
- 
--	__delay(loops);
-+	if (loops)
-+		__delay(loops);
- }
- 
- #define udelay(n) (__builtin_constant_p(n) ? ((n) > 20000 ? __bad_udelay() \
--- 
-2.4.3
+On 2/10/2016 9:48 AM, Joao Pinto wrote:
+> Hi Bjorn,
+> 
+> On 2/8/2016 11:28 PM, Bjorn Helgaas wrote:
+>>>      if (!pci_has_flag(PCI_PROBE_ONLY)) {
+>>>                        ^
+>>>    drivers/pci/host/pcie-designware.c:581:20: note: each undeclared identifier is reported only once for each function it appears in
+>>>    cc1: some warnings being treated as errors
+>>
+>> I have fixes for this on my pci/misc branch, so you don't need to
+>> worry about these errors.  Basically I'm moving the PCI_PROBE_ONLY and
+>> pci_has_flag() declarations from the arch-specific asm/pci-bridge.h
+>> files to the generic linux/pci.h file.
+> 
+> Ok, thanks.
+> 
+>>
+>>> vim +/pci_has_flag +581 drivers/pci/host/pcie-designware.c
+>>>
+>>> cbce7900 Zhou Wang   2015-10-29  575  
+>>> cbce7900 Zhou Wang   2015-10-29  576  #ifdef CONFIG_ARM
+>>> cbce7900 Zhou Wang   2015-10-29  577  	/* support old dtbs that incorrectly describe IRQs */
+>>> cbce7900 Zhou Wang   2015-10-29  578  	pci_fixup_irqs(pci_common_swizzle, of_irq_parse_and_map_pci);
+>>> 0815f957 Yijing Wang 2014-11-11  579  #endif
+>>> 0815f957 Yijing Wang 2014-11-11  580  
+>>> cbce7900 Zhou Wang   2015-10-29 @581  	if (!pci_has_flag(PCI_PROBE_ONLY)) {
+>>> cbce7900 Zhou Wang   2015-10-29  582  		pci_bus_size_bridges(bus);
+>>> cbce7900 Zhou Wang   2015-10-29  583  		pci_bus_assign_resources(bus);
+>>> 4b1ced84 Jingoo Han  2013-07-31  584  
+>>>
+>>> :::::: The code at line 581 was first introduced by commit
+>>> :::::: cbce7900598c26a12652f8ca9c41c5b29034c38d PCI: designware: Make driver arch-agnostic
+>>>
+>>> :::::: TO: Zhou Wang <wangzhou1 at hisilicon.com>
+>>> :::::: CC: Bjorn Helgaas <bhelgaas at google.com>
+>>>
+>>> ---
+>>> 0-DAY kernel test infrastructure                Open Source Technology Center
+>>> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+>>
+>>
+> 
+> If there's anything else that is needed for the pcie-designware platform driver,
+> please let me know.
+> 
+> Thanks,
+> Joao
+> 
