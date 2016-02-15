@@ -1,126 +1,50 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Sat, 13 Feb 2016 22:51:35 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Sun Feb 14, 09:50
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 15 Feb 2016 19:37:47 +0300
+Subject: [PATCH] arc: make sure __delay() never gets executed with 0 loops
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160213225135.1.10401@21ab0802fddb>
+Message-ID: <1455554267-23886-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Sun Feb 14, 09:50
+Current implementation of __delay() function uses so-called
+zero-delay loops. And the only condition to exit that loop is
+LP_COUNT (loop count register) = 1 (but not 0 as it might be easily
+imagined).
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12609847/
+So if our calculation of "loops" gives 0 (and that is pretty possible
+given result of multiplication being >> 32) then zero-delay loop
+mechanism starts with LP_COUNT=0 and it ends up decrementing LP_COUNT
+while staying in the loop effectively producing close to infinite delay
+instead of very short one.
 
-Commit:   Merge branch 'fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal
-          4617c2203fbc36f496e6d1060299ba27b8e4d01c
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+I bumped into it with AXS101 + external DDR controller and caches
+disabled. In that case I've got very small
+loops_per_jiffy=0xf00:
+------------------------>8--------------------
+Calibrating delay loop... 0.77 BogoMIPS (lpj=3862)
+------------------------>8--------------------
 
-Possible errors
----------------
+And on console output delays were way too long.
 
-     harderr = icmp_err_convert[code].fatal;
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+ Please enter the commit message for your changes. Lines starting
+---
+ arch/arc/include/asm/delay.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Possible warnings (103)
-----------------------
-
-kernel/sched/core.c:3162:1: warning: control reaches end of non-void function [-Wreturn-type]
-kernel/sysctl.c:1928:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/sysctl.c:1928:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:818:21: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:95:8: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:695:17: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:1268:13: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/kernel.h:752:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-ipc/shm.c:1219:2: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/rbtree.h:83:28: warning: 'rb_parent' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/rbtree.h:86:11: warning: 'rb_link' may be used uninitialized in this function [-Wmaybe-uninitialized]
-mm/mmap.c:682:17: warning: 'prev' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/namei.c:1760:10: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/namei.c:3223:10: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-block/cfq-iosched.c:3775:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/buffer_head.h:363:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/core/datagram.c:99:5: warning: 'last' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/core/datagram.c:99:5: warning: 'last' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:559:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/buffer_head.h:370:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/inode.c:559:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:559:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:559:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/inode.c:559:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:559:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/asm-generic/bug.h:74:48: warning: 'fn' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:559:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_extents.h:224:8: warning: '*((void *)&zero_ex+8)' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_extents.h:225:12: warning: '*((void *)&zero_ex+6)' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/extents.c:3113:2: warning: 'zero_ex.ee_block' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/extents.c:2306:14: warning: 'lblock' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/extents.c:2305:14: warning: 'len' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/core/ethtool.c:294:1: warning: control reaches end of non-void function [-Wreturn-type]
-drivers/usb/storage/transport.c:499:15: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/storage/transport.c:473:40: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/tty/serial/8250/8250_core.c:250:10: warning: 'i' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/core/neighbour.c:3180:10: warning: 'p_name' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/base/regmap/regmap-mmio.c:113:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/net/inetpeer.h:141:6: warning: 'saddr.<Uf720>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<Uf720>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:26: warning: 'saddr.<Uf720>.a4.vif' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<Uf720>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.<Uf720>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/tcp_metrics.c:1079:7: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<Uf720>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<Uf720>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:559:37: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:532:3: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:513:48: warning: 'icmph' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:690:21: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:476:63: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/unix/af_unix.c:1036:20: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1251:8: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/svcsock.c:779:6: warning: 'optname' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/svcsock.c:779:6: warning: 'level' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/tcp_input.c:4225:49: warning: array subscript is above array bounds [-Warray-bounds]
-net/unix/af_unix.c:1130:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/fib_trie.c:909:11: warning: 'local_tp' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/svcauth_unix.c:282:12: warning: 'sin6' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/packet/af_packet.c:2098:33: warning: 'hdrlen' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1724:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1724:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1207:12: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+diff --git a/arch/arc/include/asm/delay.h b/arch/arc/include/asm/delay.h
+index 08e7e2a..1a7a1dc 100644
+--- a/arch/arc/include/asm/delay.h
++++ b/arch/arc/include/asm/delay.h
+@@ -57,7 +57,8 @@ static inline void __udelay(unsigned long usecs)
+ 	 */
+ 	loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
+ 
+-	__delay(loops);
++	if (loops)
++		__delay(loops);
+ }
+ 
+ #define udelay(n) (__builtin_constant_p(n) ? ((n) > 20000 ? __bad_udelay() \
+-- 
+2.4.3
