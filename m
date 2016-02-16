@@ -1,65 +1,48 @@
-From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Mon, 15 Feb 2016 18:15:55 +0000
-Subject: [PATCH v9 2/2] pcie-designware platform driver
-In-Reply-To: <56BB0777.6080208@synopsys.com>
-References: <9069117816a5cd9cc3314b6d584c26d457807b8e.1454952698.git.jpinto@synopsys.com>
- <201602090552.plkRtxUR%fengguang.wu@intel.com>
- <20160208232808.GB1353@localhost> <56BB0777.6080208@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 16 Feb 2016 14:14:20 +0530
+Subject: [PATCH 2/9] ARC: [dts] Introduce Timer bindings
+In-Reply-To: <CAL_Jsq+15SERAN8B5vcKVG=O8=pLLw5_0-p2STHjyGUu7mx-7Q@mail.gmail.com>
+References: <1454410739-24444-1-git-send-email-vgupta@synopsys.com>
+ <1454410739-24444-3-git-send-email-vgupta@synopsys.com>
+ <20160202220353.GA10273@rob-hp-laptop>
+ <C2D7FE5348E1B147BCA15975FBA23075F4E87B33@us01wembx1.internal.synopsys.com>
+ <CAL_Jsq+15SERAN8B5vcKVG=O8=pLLw5_0-p2STHjyGUu7mx-7Q@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56C215DB.50603@synopsys.com>
+Message-ID: <56C2E164.8020004@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Bjorn!
-Did you have opportunity to check the v9 patch set?
-Thanks.
+On Wednesday 03 February 2016 09:09 PM, Rob Herring wrote:
+> On Wed, Feb 3, 2016@2:04 AM, Vineet Gupta <Vineet.Gupta1-HKixBCOQz3hWk0Htik3J/w@public.gmane.org> wrote:
+>> Hi Rob,
+>>
+>> On Wednesday 03 February 2016 03:33 AM, Rob Herring wrote:
+>>> On Tue, Feb 02, 2016@04:28:52PM +0530, Vineet Gupta wrote:
+>>>> +Required properties:
+>>>> +
+>>>> +- compatible : should be "snps,arc-timer0"
+>>>
+>>> timer0 and timer1 are different h/w blocks, not just different
+>>> instances?
+>>
+>> Functionality wise they are identical (only the address of aux regs used to
+>> program them are different). Either can be configured to interrupt-on-limit or
+>> free-run-and-wrap-around. So we can indeed consider them 2 instances. ARC Linux
+>> uses timer0 for tick handling, timer1 for gtod.
+>>
+>> Do you prefer they not be differentiated as timer0 and timer1 ?
+>>
+>> So we have
+>>
+>> CLOCKSOURCE_OF_DECLARE(arc_clkevt, "snps,arc-timer0", arc_clockevent_setup);
+>> CLOCKSOURCE_OF_DECLARE(arc_timer1, "snps,arc-timer1", arc_cs_setup_timer1);
+>>
+>> I don't know how to achieve above, by keeping the DT names the same.
+> 
+> You just need a single CLOCKSOURCE_OF_DECLARE which will be called
+> twice. On the first call, setup one timer and on the 2nd call setup
+> the other one. IIRC the sp804 timer has something similar.
+> 
+> You'll need a unit address in the node name to distinguish them.
 
-Joao
-
-On 2/10/2016 9:48 AM, Joao Pinto wrote:
-> Hi Bjorn,
-> 
-> On 2/8/2016 11:28 PM, Bjorn Helgaas wrote:
->>>      if (!pci_has_flag(PCI_PROBE_ONLY)) {
->>>                        ^
->>>    drivers/pci/host/pcie-designware.c:581:20: note: each undeclared identifier is reported only once for each function it appears in
->>>    cc1: some warnings being treated as errors
->>
->> I have fixes for this on my pci/misc branch, so you don't need to
->> worry about these errors.  Basically I'm moving the PCI_PROBE_ONLY and
->> pci_has_flag() declarations from the arch-specific asm/pci-bridge.h
->> files to the generic linux/pci.h file.
-> 
-> Ok, thanks.
-> 
->>
->>> vim +/pci_has_flag +581 drivers/pci/host/pcie-designware.c
->>>
->>> cbce7900 Zhou Wang   2015-10-29  575  
->>> cbce7900 Zhou Wang   2015-10-29  576  #ifdef CONFIG_ARM
->>> cbce7900 Zhou Wang   2015-10-29  577  	/* support old dtbs that incorrectly describe IRQs */
->>> cbce7900 Zhou Wang   2015-10-29  578  	pci_fixup_irqs(pci_common_swizzle, of_irq_parse_and_map_pci);
->>> 0815f957 Yijing Wang 2014-11-11  579  #endif
->>> 0815f957 Yijing Wang 2014-11-11  580  
->>> cbce7900 Zhou Wang   2015-10-29 @581  	if (!pci_has_flag(PCI_PROBE_ONLY)) {
->>> cbce7900 Zhou Wang   2015-10-29  582  		pci_bus_size_bridges(bus);
->>> cbce7900 Zhou Wang   2015-10-29  583  		pci_bus_assign_resources(bus);
->>> 4b1ced84 Jingoo Han  2013-07-31  584  
->>>
->>> :::::: The code at line 581 was first introduced by commit
->>> :::::: cbce7900598c26a12652f8ca9c41c5b29034c38d PCI: designware: Make driver arch-agnostic
->>>
->>> :::::: TO: Zhou Wang <wangzhou1 at hisilicon.com>
->>> :::::: CC: Bjorn Helgaas <bhelgaas at google.com>
->>>
->>> ---
->>> 0-DAY kernel test infrastructure                Open Source Technology Center
->>> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
->>
->>
-> 
-> If there's anything else that is needed for the pcie-designware platform driver,
-> please let me know.
-> 
-> Thanks,
-> Joao
-> 
+So this is just to distinguish them in DT, but the callback uses a static counter
+to do 1st vs. 2nd (and this unit address is not really exposed to code) - correct ?
