@@ -1,77 +1,77 @@
-From: noamc@ezchip.com (Noam Camus)
-Date: Wed, 17 Feb 2016 07:05:40 +0000
-Subject: [PATCH v5 0/3] Adding NPS400 drivers
-In-Reply-To: <1455216059-29632-1-git-send-email-noamc@ezchip.com>
-References: <1455159741-21722-1-git-send-email-noamc@ezchip.com>
- <1455216059-29632-1-git-send-email-noamc@ezchip.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Thu, 18 Feb 2016 12:30:55 -0000
+Subject: kisskb: FAILED linux-next/axs103_smp_defconfig/arcv2 Thu Feb 18, 23:30
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <HE1PR02MB1387CDBA065A1CB7C745A7EFD6AE0@HE1PR02MB1387.eurprd02.prod.outlook.com>
+Message-ID: <20160218123055.1.16375@21ab0802fddb>
 To: linux-snps-arc@lists.infradead.org
 
-Waiting for your feedback on my v5 patch set :)
+FAILED linux-next/axs103_smp_defconfig/arcv2 Thu Feb 18, 23:30
 
------Original Message-----
-From: Noam Camus 
-Sent: Thursday, February 11, 2016 8:41 PM
-To: linux-kernel at vger.kernel.org
-Cc: linux-snps-arc at lists.infradead.org; daniel.lezcano at linaro.org; marc.zyngier at arm.com; Chris Metcalf; Tal Zilcer; Gilad Ben Yossef; Noam Camus
-Subject: [PATCH v5 0/3] Adding NPS400 drivers
+http://kisskb.ellerman.id.au/kisskb/buildresult/12613549/
 
-From: Noam Camus <noamc@ezchip.com>
+Commit:   Add linux-next specific files for 20160218
+          3ab40ddf03ac47be2ede7e1f86b12c311f121e50
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-Change Log--
-v5:
-Clocksource, irqchip - Fix gracefull return.
-				replace call to panic() with pr_err() and proper return value.
+Possible errors
+---------------
 
-v4:
-clocksource -- Apply all Daniel comments (Thanks)
-				Handle gracefull return and also using clocksoure mmio driver at init
+include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
+include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
+make[3]: *** [arch/arc/kernel/setup.o] Error 1
+include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
+include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
+make[3]: *** [arch/arc/mm/tlb.o] Error 1
+make[2]: *** [arch/arc/mm] Error 2
+include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
+include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
+include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
+include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
+make[2]: *** [kernel/exit.o] Error 1
+make[2]: *** [kernel/fork.o] Error 1
+include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
+include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
+include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
+include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
+make[2]: *** [kernel/module.o] Error 1
+make[3]: *** [kernel/sched/core.o] Error 1
+include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
+include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
+make[3]: *** [kernel/sched/idle.o] Error 1
+include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
+include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
+make[2]: *** [mm/oom_kill.o] Error 1
+include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
+include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
+include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
+include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
+make[2]: *** [fs/exec.o] Error 1
+make[2]: *** [mm/page_alloc.o] Error 1
+make[2]: *** [arch/arc/kernel] Error 2
+make[1]: *** [arch/arc] Error 2
+make[1]: *** [mm] Error 2
+make[2]: *** [kernel/sched] Error 2
+make[1]: *** [fs] Error 2
+make[1]: *** [kernel] Error 2
+make: *** [sub-make] Error 2
 
-v3:
-irqchip - Fix ARM build failure by adding missing include of linux/irq.h clocksource -- Avoid 64bit arch's to build driver by adding new dependency !PHYS_ADDR_T_64BIT
-				This is since we use explicit io access of 32 bit. So for test coverage we allow
-				not only build for ARC, but restrict it to 32 bit arch's.
-irqchip - Apply all Thomas comments (Thank you)
+Possible warnings (17)
+----------------------
 
-v2:
-Add header file include/soc/nps/common.h.
-Now to build we do not depend on ARC subtree.
-
-General summay:
-Both drivers are now apart of previous basic patch set of new platform for ARC.
-The rest is now can be seen at ARC srctree:
-https://git.kernel.org/cgit/linux/kernel/git/vgupta/arc.git/
-
-Now ARC is supporting DT for clockevents and the interrupt controller ARC uses irq domain handling.
-
-Compare to last version now clocksource driver do not include clockevent registration since NPS400 can use ARC generic driver.
-
-Compare to last version now irqchip driver sets domain as default since it is the root domain.
-Also mapping of IPI is done in this driver.
-
-Last thing is that drivers can be build cleanly for i386 (still runs only for ARC)
-Note: in order to build we need to merge drivers into srctree which includes new header:
-soc/nps/common.h
-This header is part of patch set applied to ARC srctree.
-
-Regards,
-Noam Camus
-
-Noam Camus (3):
-  soc: Support for EZchip SoC
-  clocksource: Add NPS400 timers driver
-  irqchip: add nps Internal and external irqchips
-
- .../interrupt-controller/ezchip,nps400-ic.txt      |   17 +++
- .../bindings/timer/ezchip,nps400-timer.txt         |   15 ++
- drivers/clocksource/Kconfig                        |   10 ++
- drivers/clocksource/Makefile                       |    1 +
- drivers/clocksource/timer-nps.c                    |   82 +++++++++++
- drivers/irqchip/Kconfig                            |    6 +
- drivers/irqchip/Makefile                           |    1 +
- drivers/irqchip/irq-eznps.c                        |  149 +++++++++++++++++++
- include/soc/nps/common.h                           |  150 ++++++++++++++++++++
- 9 files changed, 431 insertions(+), 0 deletions(-)  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
- create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
- create mode 100644 drivers/clocksource/timer-nps.c  create mode 100644 drivers/irqchip/irq-eznps.c  create mode 100644 include/soc/nps/common.h
+kernel/sched/core.c:3228:1: warning: control reaches end of non-void function [-Wreturn-type]
+kernel/sysctl.c:1948:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1948:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
+ipc/shm.c:1252:2: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:818:21: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:95:8: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:695:17: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:1268:13: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/namei.c:1760:10: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/namei.c:1715:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/namei.c:3223:10: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/core/hub.c:2767:16: warning: 'portchange' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/core/hub.c:2740:20: warning: 'portstatus' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/storage/transport.c:473:40: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/storage/transport.c:499:15: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/tty/serial/8250/8250_core.c:163:19: warning: 'i' may be used uninitialized in this function [-Wmaybe-uninitialized]
