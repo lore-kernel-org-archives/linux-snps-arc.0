@@ -1,77 +1,38 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Thu, 18 Feb 2016 12:30:55 -0000
-Subject: kisskb: FAILED linux-next/axs103_smp_defconfig/arcv2 Thu Feb 18, 23:30
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 19 Feb 2016 12:17:30 +0530
+Subject: Interesting csd deadlock on ARC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160218123055.1.16375@21ab0802fddb>
+Message-ID: <56C6BA82.1060909@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-FAILED linux-next/axs103_smp_defconfig/arcv2 Thu Feb 18, 23:30
+Hi Peter,
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12613549/
+I've been debugging a csd_lock_wait() deadlock on SMP+PREEMPT ARC HS38x2 and it
+turned out to be lot more interesting than I'd hoped for. This is stock v4.4
 
-Commit:   Add linux-next specific files for 20160218
-          3ab40ddf03ac47be2ede7e1f86b12c311f121e50
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+Trouble starts with an IPI to self which doesn't get delivered as the inter-core
+interrupt providing h/w is not capable of IPI to self (which I found as part of
+debugging this). Subsequent IPIs from other cores to this core get elided as well
+due to the IPI coalescing optimization in arch/arc/kernel/smp.c: ipi_send_msg_one()
 
-Possible errors
----------------
+There are ways to use a different h/w mechanism to solve the trigger issue and I'd
+hoped to just implement arch_irq_work_raise(). But the trouble is the call stack
+for this issue: IPI to self is triggered from
 
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[3]: *** [arch/arc/kernel/setup.o] Error 1
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[3]: *** [arch/arc/mm/tlb.o] Error 1
-make[2]: *** [arch/arc/mm] Error 2
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[2]: *** [kernel/exit.o] Error 1
-make[2]: *** [kernel/fork.o] Error 1
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[2]: *** [kernel/module.o] Error 1
-make[3]: *** [kernel/sched/core.o] Error 1
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[3]: *** [kernel/sched/idle.o] Error 1
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[2]: *** [mm/oom_kill.o] Error 1
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[2]: *** [fs/exec.o] Error 1
-make[2]: *** [mm/page_alloc.o] Error 1
-make[2]: *** [arch/arc/kernel] Error 2
-make[1]: *** [arch/arc] Error 2
-make[1]: *** [mm] Error 2
-make[2]: *** [kernel/sched] Error 2
-make[1]: *** [fs] Error 2
-make[1]: *** [kernel] Error 2
-make: *** [sub-make] Error 2
+sys_sched_setscheduler
+   __balance_callback
+       pull_rt_task
+         irq_work_queue_on  <-- called with @cpu == self
 
-Possible warnings (17)
-----------------------
+Looking into irq_work.c, irq_work_queue() is what is semantically needed,
+specifically arch_irq_work_raise() will not be called, which means I need
+arch_send_call_function_single_ipi() to be able to IPI to self cpu also. Is that
+expected from arch code....
 
-kernel/sched/core.c:3228:1: warning: control reaches end of non-void function [-Wreturn-type]
-kernel/sysctl.c:1948:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/sysctl.c:1948:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
-ipc/shm.c:1252:2: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:818:21: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:95:8: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:695:17: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:1268:13: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/namei.c:1760:10: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/namei.c:1715:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/namei.c:3223:10: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/core/hub.c:2767:16: warning: 'portchange' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/core/hub.c:2740:20: warning: 'portstatus' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/storage/transport.c:473:40: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/storage/transport.c:499:15: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/tty/serial/8250/8250_core.c:163:19: warning: 'i' may be used uninitialized in this function [-Wmaybe-uninitialized]
+Just wanted to understand before writing patches...
+
+Test case triggering is harmless looking LTP: trace_sched -c 1
+It is kind of scheduler fizzer as it triggers a whole bunch of sched activity.
+
+Thx,
+-Vineet
