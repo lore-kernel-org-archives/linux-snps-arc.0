@@ -1,38 +1,87 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 19 Feb 2016 12:17:30 +0530
-Subject: Interesting csd deadlock on ARC
+From: CARLOS.PALMINHA@synopsys.com (Carlos Palminha)
+Date: Fri, 19 Feb 2016 09:39:57 +0000
+Subject: [PATCH 2/4] ARC: axs10x: Update defconfigs so that audio is enabled
+In-Reply-To: <cover.1455872448.git.palminha@synopsys.com>
+References: <cover.1455872448.git.palminha@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56C6BA82.1060909@synopsys.com>
+Message-ID: <478afb116422fcd40ab5817daf053680bd32d24e.1455872448.git.palminha@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Peter,
+From: Jose Abreu <joabreu@synopsys.com>
 
-I've been debugging a csd_lock_wait() deadlock on SMP+PREEMPT ARC HS38x2 and it
-turned out to be lot more interesting than I'd hoped for. This is stock v4.4
+The defconfigs for the AXS boards were updated so that
+ALSA SoC is enabled and also the audio for the ADV7511
+HDMI transmitter.
 
-Trouble starts with an IPI to self which doesn't get delivered as the inter-core
-interrupt providing h/w is not capable of IPI to self (which I found as part of
-debugging this). Subsequent IPIs from other cores to this core get elided as well
-due to the IPI coalescing optimization in arch/arc/kernel/smp.c: ipi_send_msg_one()
+Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+---
+ arch/arc/configs/axs101_defconfig     | 3 +++
+ arch/arc/configs/axs103_defconfig     | 5 +++++
+ arch/arc/configs/axs103_smp_defconfig | 5 +++++
+ 3 files changed, 13 insertions(+)
 
-There are ways to use a different h/w mechanism to solve the trigger issue and I'd
-hoped to just implement arch_irq_work_raise(). But the trouble is the call stack
-for this issue: IPI to self is triggered from
-
-sys_sched_setscheduler
-   __balance_callback
-       pull_rt_task
-         irq_work_queue_on  <-- called with @cpu == self
-
-Looking into irq_work.c, irq_work_queue() is what is semantically needed,
-specifically arch_irq_work_raise() will not be called, which means I need
-arch_send_call_function_single_ipi() to be able to IPI to self cpu also. Is that
-expected from arch code....
-
-Just wanted to understand before writing patches...
-
-Test case triggering is harmless looking LTP: trace_sched -c 1
-It is kind of scheduler fizzer as it triggers a whole bunch of sched activity.
-
-Thx,
--Vineet
+diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
+index e359099..7c22163 100644
+--- a/arch/arc/configs/axs101_defconfig
++++ b/arch/arc/configs/axs101_defconfig
+@@ -113,3 +113,6 @@ CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=10
+ # CONFIG_SCHED_DEBUG is not set
+ # CONFIG_DEBUG_PREEMPT is not set
+ # CONFIG_FTRACE is not set
++CONFIG_SOUND=y
++CONFIG_SND=y
++CONFIG_SND_SOC=y
+diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
+index 323486d..d63aef0 100644
+--- a/arch/arc/configs/axs103_defconfig
++++ b/arch/arc/configs/axs103_defconfig
+@@ -76,12 +76,14 @@ CONFIG_SERIAL_OF_PLATFORM=y
+ CONFIG_I2C=y
+ CONFIG_I2C_CHARDEV=y
+ CONFIG_I2C_DESIGNWARE_PLATFORM=y
++CONFIG_DRM=y
+ # CONFIG_HWMON is not set
+ CONFIG_FB=y
+ # CONFIG_VGA_CONSOLE is not set
+ CONFIG_FRAMEBUFFER_CONSOLE=y
+ CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
+ CONFIG_LOGO=y
++CONFIG_DRM_I2C_ADV7511=y
+ # CONFIG_LOGO_LINUX_MONO is not set
+ # CONFIG_LOGO_LINUX_VGA16 is not set
+ # CONFIG_LOGO_LINUX_CLUT224 is not set
+@@ -114,3 +116,6 @@ CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=10
+ # CONFIG_SCHED_DEBUG is not set
+ # CONFIG_DEBUG_PREEMPT is not set
+ # CONFIG_FTRACE is not set
++CONFIG_SOUND=y
++CONFIG_SND=y
++CONFIG_SND_SOC=y
+diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
+index 66191cd..f4b51ce 100644
+--- a/arch/arc/configs/axs103_smp_defconfig
++++ b/arch/arc/configs/axs103_smp_defconfig
+@@ -77,12 +77,14 @@ CONFIG_SERIAL_OF_PLATFORM=y
+ CONFIG_I2C=y
+ CONFIG_I2C_CHARDEV=y
+ CONFIG_I2C_DESIGNWARE_PLATFORM=y
++CONFIG_DRM=y
+ # CONFIG_HWMON is not set
+ CONFIG_FB=y
+ # CONFIG_VGA_CONSOLE is not set
+ CONFIG_FRAMEBUFFER_CONSOLE=y
+ CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
+ CONFIG_LOGO=y
++CONFIG_DRM_I2C_ADV7511=y
+ # CONFIG_LOGO_LINUX_MONO is not set
+ # CONFIG_LOGO_LINUX_VGA16 is not set
+ # CONFIG_LOGO_LINUX_CLUT224 is not set
+@@ -115,3 +117,6 @@ CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=10
+ # CONFIG_SCHED_DEBUG is not set
+ # CONFIG_DEBUG_PREEMPT is not set
+ # CONFIG_FTRACE is not set
++CONFIG_SOUND=y
++CONFIG_SND=y
++CONFIG_SND_SOC=y
+-- 
+2.5.0
