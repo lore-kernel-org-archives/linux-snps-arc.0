@@ -1,44 +1,43 @@
-From: CARLOS.PALMINHA@synopsys.com (Carlos Palminha)
-Date: Fri, 19 Feb 2016 09:39:11 +0000
-Subject: [PATCH 0/4] Add I2S/ADV7511 audio support for ARC AXS10x boards.
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 19 Feb 2016 16:03:50 +0300
+Subject: [PATCH 0/4] drm: Add support of ARC PGU display controller
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <cover.1455872448.git.palminha@synopsys.com>
+Message-ID: <1455887034-7739-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-ARC AXS10x platforms consist of a mainboard with several peripherals.
-One of those peripherals is an HDMI output port controlled by ADV7511 transmitter.
+This series add support of ARC PGU display controller.
+ARC PGU is a quite simple byte streamer that gets data from the framebuffer
+and pushes it to hte connected encoder (DP or HDMI).
 
-This patch set adds audio for the ADV7511 transmitter and I2S audio for the 
-AXS10x platform.
- 
-Jose Abreu (4):
-  drm/i2c/adv7511: Add audio support
-  ARC: axs10x: Update defconfigs so that audio is enabled
-  ASoC: dwc: Add I2S HDMI audio support using custom platform
-  ARC: axs10x: Update defconfigs so that I2S is enabled
+It was tested on ARC SDP boards (axs101 in particular).
 
- arch/arc/boot/dts/axs10x_mb.dtsi      |   20 +-
- arch/arc/configs/axs101_defconfig     |    4 +
- arch/arc/configs/axs103_defconfig     |    6 +
- arch/arc/configs/axs103_smp_defconfig |    6 +
- drivers/gpu/drm/i2c/Kconfig           |    8 +
- drivers/gpu/drm/i2c/Makefile          |    2 +
- drivers/gpu/drm/i2c/adv7511.c         | 1024 ---------------------------------
- drivers/gpu/drm/i2c/adv7511.h         |   41 ++
- drivers/gpu/drm/i2c/adv7511_audio.c   |  310 ++++++++++
- drivers/gpu/drm/i2c/adv7511_core.c    | 1005 ++++++++++++++++++++++++++++++++
- include/sound/soc-dai.h               |    1 +
- sound/soc/dwc/Kconfig                 |    1 +
- sound/soc/dwc/Makefile                |    4 +-
- sound/soc/dwc/designware_i2s.c        |  139 ++++-
- sound/soc/dwc/designware_pcm.c        |  264 +++++++++
- sound/soc/dwc/designware_pcm.h        |   21 +
- 16 files changed, 1813 insertions(+), 1043 deletions(-)
- delete mode 100644 drivers/gpu/drm/i2c/adv7511.c
- create mode 100644 drivers/gpu/drm/i2c/adv7511_audio.c
- create mode 100644 drivers/gpu/drm/i2c/adv7511_core.c
- create mode 100644 sound/soc/dwc/designware_pcm.c
- create mode 100644 sound/soc/dwc/designware_pcm.h
+Alexey Brodkin (4):
+  drm: Add support of ARC PGU display controller
+  drm: Add DT bindings documentation for ARC PGU display controller
+  arc: axs10x - add support of ARC PGU
+  MAINTAINERS: Add maintainer for ARC PGU display controller
+
+ .../devicetree/bindings/display/snps,arcpgu.txt    |  74 ++++++
+ MAINTAINERS                                        |   6 +
+ arch/arc/boot/dts/axs10x_mb.dtsi                   |  54 ++++
+ drivers/gpu/drm/Kconfig                            |   2 +
+ drivers/gpu/drm/Makefile                           |   1 +
+ drivers/gpu/drm/arc/Kconfig                        |  10 +
+ drivers/gpu/drm/arc/Makefile                       |   2 +
+ drivers/gpu/drm/arc/arcpgu.h                       |  47 ++++
+ drivers/gpu/drm/arc/arcpgu_crtc.c                  | 274 +++++++++++++++++++++
+ drivers/gpu/drm/arc/arcpgu_drv.c                   | 239 ++++++++++++++++++
+ drivers/gpu/drm/arc/arcpgu_hdmi.c                  | 204 +++++++++++++++
+ drivers/gpu/drm/arc/arcpgu_regs.h                  |  36 +++
+ 12 files changed, 949 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/snps,arcpgu.txt
+ create mode 100644 drivers/gpu/drm/arc/Kconfig
+ create mode 100644 drivers/gpu/drm/arc/Makefile
+ create mode 100644 drivers/gpu/drm/arc/arcpgu.h
+ create mode 100644 drivers/gpu/drm/arc/arcpgu_crtc.c
+ create mode 100644 drivers/gpu/drm/arc/arcpgu_drv.c
+ create mode 100644 drivers/gpu/drm/arc/arcpgu_hdmi.c
+ create mode 100644 drivers/gpu/drm/arc/arcpgu_regs.h
 
 -- 
 2.5.0
