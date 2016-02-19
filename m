@@ -1,37 +1,48 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 19 Feb 2016 16:03:54 +0300
-Subject: [PATCH 4/4] MAINTAINERS: Add maintainer for ARC PGU display controller
-In-Reply-To: <1455887034-7739-1-git-send-email-abrodkin@synopsys.com>
-References: <1455887034-7739-1-git-send-email-abrodkin@synopsys.com>
+From: jason@lakedaemon.net (Jason Cooper)
+Date: Fri, 19 Feb 2016 14:03:53 +0000
+Subject: [PATCH v5 3/3] irqchip: add nps Internal and external irqchips
+In-Reply-To: <1455216059-29632-4-git-send-email-noamc@ezchip.com>
+References: <1455159741-21722-1-git-send-email-noamc@ezchip.com>
+ <1455216059-29632-4-git-send-email-noamc@ezchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1455887034-7739-5-git-send-email-abrodkin@synopsys.com>
+Message-ID: <20160219140353.GV5183@io.lakedaemon.net>
 To: linux-snps-arc@lists.infradead.org
 
-This updates MAINTEINERS file with information about maintainer of
-ARC PGU display controller driver.
+Hey Noam,
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: linux-snps-arc at lists.infradead.org
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+Could you please re-send and attach a changelog:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 28cd72b..26ac58c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -847,6 +847,12 @@ S:	Maintained
- F:	drivers/net/arcnet/
- F:	include/uapi/linux/if_arcnet.h
- 
-+ARC PGU DRM DRIVER
-+M:	Alexey Brodkin <abrodkin at synopsys.com>
-+S:	Supported
-+F:	drivers/gpu/drm/arc/
-+F:	Documentation/devicetree/bindings/display/snps,arcpgu.txt
-+
- ARM HDLCD DRM DRIVER
- M:	Liviu Dudau <liviu.dudau at arm.com>
- S:	Supported
--- 
-2.5.0
+On Thu, Feb 11, 2016@08:40:59PM +0200, Noam Camus wrote:
+> From: Noam Camus <noamc at ezchip.com>
+> 
+> Adding EZchip NPS400 support.
+> NPS internal interrupts are internally handled at
+> Multi Thread Manager (MTM) that is signaled for deactivating
+> an interrupt.
+> External interrupts is handled also at Global Interrupt
+> Controller (GIC) e.g. serial and network devices.
+> 
+> Signed-off-by: Noam Camus <noamc at ezchip.com>
+> Cc: Thomas Gleixner <tglx at linutronix.de>
+> Cc: Jason Cooper <jason at lakedaemon.net>
+> Cc: Marc Zyngier <marc.zyngier at arm.com>
+> ---
+
+* here?
+
+>  .../interrupt-controller/ezchip,nps400-ic.txt      |   17 +++
+>  drivers/irqchip/Kconfig                            |    6 +
+>  drivers/irqchip/Makefile                           |    1 +
+>  drivers/irqchip/irq-eznps.c                        |  149 ++++++++++++++++++++
+>  4 files changed, 173 insertions(+), 0 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
+>  create mode 100644 drivers/irqchip/irq-eznps.c
+
+Thanks, it greatly assists review.  If you need an example, please take
+a look at the patch submitted this morning by Thomas Petazzoni [1].
+
+thx,
+
+Jason.
+
+[1] https://lkml.kernel.org/r/1455888883-5127-1-git-send-email-thomas.petazzoni at free-electrons.com
