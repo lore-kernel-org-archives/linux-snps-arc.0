@@ -1,14 +1,17 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 19 Feb 2016 16:03:52 +0300
-Subject: [PATCH 2/4] drm: Add DT bindings documentation for ARC PGU display
- controller
+Date: Fri, 19 Feb 2016 16:03:53 +0300
+Subject: [PATCH 3/4] arc: axs10x - add support of ARC PGU
 In-Reply-To: <1455887034-7739-1-git-send-email-abrodkin@synopsys.com>
 References: <1455887034-7739-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1455887034-7739-3-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1455887034-7739-4-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This add DT bindings documentation for ARC PGU display controller.
+Synopsys DesignWare ARC SDP boards sport ARC SDP display
+controller attached to ADV7511 HDMI encoder.
+
+That change adds desctiption of both ARC PGU and ADV7511 in
+ARC SDP'd base-board Device Tree.
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 Cc: Rob Herring <robh+dt at kernel.org>
@@ -16,92 +19,90 @@ Cc: Pawel Moll <pawel.moll at arm.com>
 Cc: Mark Rutland <mark.rutland at arm.com>
 Cc: Ian Campbell <ijc+devicetree at hellion.org.uk>
 Cc: Kumar Gala <galak at codeaurora.org>
+Cc: Vineet Gupta <vgupta at synopsys.com>
 Cc: devicetree at vger.kernel.org
 Cc: linux-snps-arc at lists.infradead.org
 ---
- .../devicetree/bindings/display/snps,arcpgu.txt    | 74 ++++++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/snps,arcpgu.txt
+ arch/arc/boot/dts/axs10x_mb.dtsi | 54 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/snps,arcpgu.txt b/Documentation/devicetree/bindings/display/snps,arcpgu.txt
-new file mode 100644
-index 0000000..c8382fb
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/snps,arcpgu.txt
-@@ -0,0 +1,74 @@
-+ARC PGU
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index 44a578c..0d50bc3 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -147,6 +147,37 @@
+ 			clocks = <&i2cclk>;
+ 			interrupts = <16>;
+ 
++			adv7511:adv7511 at 0x39{
++				compatible="adi,adv7511";
++				reg = <0x39>;
++				interrupts = <23>;
++				adi,input-depth = <8>;
++				adi,input-colorspace = "rgb";
++				adi,input-clock = "1x";
++				adi,clock-delay = <0x03>;
 +
-+This is a display controller found on several development boards produced
-+by Synopsys. The ARC PGU is an RGB streamer that reads the data from a
-+framebuffer and sends it to a single digital encoder (usually HDMI).
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
 +
-+Required properties:
-+  - compatible: "snps,arcpgu"
-+  - reg: Physical base address and length of the controller's registers.
-+  - clocks: A list of phandle + clock-specifier pairs, one for each
-+    entry in 'clock-names'.
-+  - clock-names: A list of clock names. For ARC PGU it should contain:
-+      - "pxlclk" for the clock feeding the output PLL of the controller.
-+  - encoder-slave: Phandle of encoder chip.
-+
-+Required sub-nodes:
-+  - port: The PGU connection to an encoder chip. The connection is modelled
-+    using the OF graph bindings specified in
-+    Documentation/devicetree/bindings/graph.txt.
-+
-+Example:
-+
-+/ {
-+	...
-+
-+	pgu at 0xXXXXXXXX {
-+		compatible = "snps,arcpgu";
-+		reg = <0xXXXXXXXX 0x400>;
-+		clocks = <&clock_node>;
-+		clock-names = "pxlclk";
-+		encoder-slave = <&encoder_node>;
-+
-+		port {
-+			pgu_output: endpoint {
-+				remote-endpoint = <&hdmi_enc_input>;
-+			};
-+		};
-+	};
-+
-+	/* HDMI encoder on I2C bus */
-+	i2c at 0xXXXXXXXX {
-+		compatible = "...";
-+
-+		encoder_node:encoder_node at 0xXXXXXXXX{
-+			compatible="...";
-+
-+			ports {
-+				port at 0 {
-+					reg = <0>;
-+					hdmi_enc_input:endpoint {
++					/* RGB/YUV input */
++					port at 0 {
++						reg = <0>;
++						adv7511_input:endpoint {
 +						remote-endpoint = <&pgu_output>;
++						};
 +					};
-+				};
 +
-+				port at 1 {
-+					reg = <1>;
-+					hdmi_enc_output:endpoint {
-+						remote-endpoint = <&hdmi_connector_in>;
++					/* HDMI output */
++					port at 1 {
++						reg = <1>;
++						adv7511_output: endpoint {
++							remote-endpoint = <&hdmi_connector_in>;
++						};
 +					};
 +				};
 +			};
-+		};
-+	}
 +
-+	hdmi0: connector {
-+		compatible = "hdmi-connector";
-+
-+		port {
-+			hdmi_connector_in: endpoint {
-+				remote-endpoint = <&hdmi_enc_output>;
+ 			eeprom at 0x54{
+ 				compatible = "24c01";
+ 				reg = <0x54>;
+@@ -160,6 +191,16 @@
+ 			};
+ 		};
+ 
++		hdmi0: connector {
++			compatible = "hdmi-connector";
++			type = "a";
++			port {
++				hdmi_connector_in: endpoint {
++					remote-endpoint = <&adv7511_output>;
++				};
 +			};
 +		};
-+	};
-+};
++
+ 		gpio0:gpio at 13000 {
+ 			compatible = "snps,dw-apb-gpio";
+ 			reg = <0x13000 0x1000>;
+@@ -221,5 +262,18 @@
+ 				reg = <2>;
+ 			};
+ 		};
++
++		pgu at 0x17000 {
++			compatible = "snps,arcpgu";
++			reg = <0x17000 0x400>;
++			encoder-slave = <&adv7511>;
++			interrupts = <5>;
++
++			port {
++				pgu_output: endpoint {
++					remote-endpoint = <&adv7511_input>;
++					};
++			};
++		};
+ 	};
+ };
 -- 
 2.5.0
