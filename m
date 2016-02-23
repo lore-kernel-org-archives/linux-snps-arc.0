@@ -1,65 +1,46 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Tue, 23 Feb 2016 10:58:24 +0100
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 23 Feb 2016 15:51:23 +0530
 Subject: Interesting csd deadlock on ARC
-In-Reply-To: <56CBEC66.2030401@synopsys.com>
-References: <56C6BA82.1060909@synopsys.com>
- <56CBEC66.2030401@synopsys.com>
+In-Reply-To: <20160223095824.GH6356@twins.programming.kicks-ass.net>
+References: <56C6BA82.1060909@synopsys.com> <56CBEC66.2030401@synopsys.com>
+ <20160223095824.GH6356@twins.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160223095824.GH6356@twins.programming.kicks-ass.net>
+Message-ID: <56CC32A3.5020804@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Feb 23, 2016@10:51:42AM +0530, Vineet Gupta wrote:
-> On Friday 19 February 2016 12:17 PM, Vineet Gupta wrote:
-> > Hi Peter,
-> > 
-> > I've been debugging a csd_lock_wait() deadlock on SMP+PREEMPT ARC HS38x2 and it
-> > turned out to be lot more interesting than I'd hoped for. This is stock v4.4
-> > 
-> > Trouble starts with an IPI to self which doesn't get delivered as the inter-core
-> > interrupt providing h/w is not capable of IPI to self (which I found as part of
-> > debugging this). Subsequent IPIs from other cores to this core get elided as well
-> > due to the IPI coalescing optimization in arch/arc/kernel/smp.c: ipi_send_msg_one()
-> > 
-> > There are ways to use a different h/w mechanism to solve the trigger issue and I'd
-> > hoped to just implement arch_irq_work_raise(). 
-
-Yes, there are other architectures that use other means for self-IPI,
-IIRC PowerPC has to program their timer in the past to generate a local
-interrupt.
-
-> > But the trouble is the call stack
-> > for this issue: IPI to self is triggered from
-> > 
-> > sys_sched_setscheduler
-> >    __balance_callback
-> >        pull_rt_task
-> >          irq_work_queue_on  <-- called with @cpu == self
-> > 
-> > Looking into irq_work.c, irq_work_queue() is what is semantically needed,
-> > specifically arch_irq_work_raise() will not be called, which means I need
-> > arch_send_call_function_single_ipi() to be able to IPI to self cpu also. Is that
-> > expected from arch code....
+>> What I actually meant was is it OK for irq_work_queue_on() to be called locally
+>> (is this a sched bug/optimization(. Further if it is OK to be called, does it need
+>> to do behave more like irq_work_queue() i.e. call arch_irq_work_raise() or
+>> arch_send_call_function_single_ipi() is expected to handle sending IPI to self !
 > 
-> What I actually meant was is it OK for irq_work_queue_on() to be called locally
-> (is this a sched bug/optimization(. Further if it is OK to be called, does it need
-> to do behave more like irq_work_queue() i.e. call arch_irq_work_raise() or
-> arch_send_call_function_single_ipi() is expected to handle sending IPI to self !
+> Right, so I'm not actually sure we started out with this requirement.
+> But you're not the first to run into this, see:
+> 
+>   lkml.kernel.org/r/CAJZ5v0gLankSuziQq25qTCyNqeOX43yD9jnJu_XXwbdyajfmKg at mail.gmail.com
 
-Right, so I'm not actually sure we started out with this requirement.
-But you're not the first to run into this, see:
+Thx for the link, very helpful. I've posted fix for ARC which uses software
+interrupt and is thus UP/SMP safe.
 
-  lkml.kernel.org/r/CAJZ5v0gLankSuziQq25qTCyNqeOX43yD9jnJu_XXwbdyajfmKg at mail.gmail.com
+> Initially I think irq_work_queue_on() was only used remotely, but I
+> think it makes sense to allow the current cpu, esp. since people seem to
+> be using it like that.
+> 
+> Now the distinct difference between arch_irq_work_raise() and
+> arch_send_call_function_single_ipi() is that arch_irq_work_raise()
+> should be NMI-safe.
 
-Initially I think irq_work_queue_on() was only used remotely, but I
-think it makes sense to allow the current cpu, esp. since people seem to
-be using it like that.
+Ok - so when I implement interrupt priorities (aka NMI for ARC), this needs to be
+highest.
 
-Now the distinct difference between arch_irq_work_raise() and
-arch_send_call_function_single_ipi() is that arch_irq_work_raise()
-should be NMI-safe.
+> 
+> So on x86 it has to be extra careful about the lapic state, whereas the
+> regular IPI code doesn't.
+> 
+> I seem to have forgotten the status of NMIs on ARC, but this is
+> something to make a note of.
 
-So on x86 it has to be extra careful about the lapic state, whereas the
-regular IPI code doesn't.
+Not had a chance to go back to it since we last discussed.
+I've just been swamped with bug fixing like this one :-(
 
-I seem to have forgotten the status of NMIs on ARC, but this is
-something to make a note of.
+Thx,
+-Vineet
