@@ -1,48 +1,37 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 23 Feb 2016 10:51:42 +0530
-Subject: Interesting csd deadlock on ARC
-In-Reply-To: <56C6BA82.1060909@synopsys.com>
-References: <56C6BA82.1060909@synopsys.com>
+Date: Tue, 23 Feb 2016 07:02:28 +0000
+Subject: [PATCH] arc: get rid of DEVTMPFS dependency on INITRAMFS_SOURCE
+References: <1455973466-15611-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56CBEC66.2030401@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E8BA2D@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Friday 19 February 2016 12:17 PM, Vineet Gupta wrote:
-> Hi Peter,
-> 
-> I've been debugging a csd_lock_wait() deadlock on SMP+PREEMPT ARC HS38x2 and it
-> turned out to be lot more interesting than I'd hoped for. This is stock v4.4
-> 
-> Trouble starts with an IPI to self which doesn't get delivered as the inter-core
-> interrupt providing h/w is not capable of IPI to self (which I found as part of
-> debugging this). Subsequent IPIs from other cores to this core get elided as well
-> due to the IPI coalescing optimization in arch/arc/kernel/smp.c: ipi_send_msg_one()
-> 
-> There are ways to use a different h/w mechanism to solve the trigger issue and I'd
-> hoped to just implement arch_irq_work_raise(). But the trouble is the call stack
-> for this issue: IPI to self is triggered from
-> 
-> sys_sched_setscheduler
->    __balance_callback
->        pull_rt_task
->          irq_work_queue_on  <-- called with @cpu == self
-> 
-> Looking into irq_work.c, irq_work_queue() is what is semantically needed,
-> specifically arch_irq_work_raise() will not be called, which means I need
-> arch_send_call_function_single_ipi() to be able to IPI to self cpu also. Is that
-> expected from arch code....
+On Saturday 20 February 2016 06:35 PM, Alexey Brodkin wrote:
+> Even though DEVTMPFS is required when our pre-built initramfs
+> is used it is not the case in general. It is perfectly possible
+> to use initramfs with device nodes already populated or there
+> could be other usages, see discussion below for more detials:
+> http://thread.gmane.org/gmane.comp.embedded.openwrt.devel/37819/focus=37821
+>
+> This change removes mentioned dependency from arch/arc/Kconfig
+> updating instead those defconfigs that are usually used with this
+> kind of pre-build initramfs.
+>
+> And while at it all touched defconfigs were regenerated via
+> savedefconfig and some options were removed:
+>  * USB is selected by other options implicitly
+>  * VGA_CONSOLE is disableb for ARC since
+>    031e29b5877f31676739dc2f847d04c2c0732034
+>  * EXT3_FS automatically selects EXT4_FS
+>  * MTDxxx and JFFS2_FS make no sense for AXS because
+>    AXS NAND controller is not upstreamed
+>  * NET_OSCI_LAN is not in upstream as well
+>  * ARCPGU_xxx options make no sense because ARC PGU is not yet
+>    in upstream and when it gets there all config options would
+>    be taken from devicetree
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 
-What I actually meant was is it OK for irq_work_queue_on() to be called locally
-(is this a sched bug/optimization(. Further if it is OK to be called, does it need
-to do behave more like irq_work_queue() i.e. call arch_irq_work_raise() or
-arch_send_call_function_single_ipi() is expected to handle sending IPI to self !
+Thx for additional cleanup Alexey. Applied to for-curr (4.5)
 
-> 
-> Just wanted to understand before writing patches...
-> 
-> Test case triggering is harmless looking LTP: trace_sched -c 1
-> It is kind of scheduler fizzer as it triggers a whole bunch of sched activity.
-> 
-> Thx,
-> -Vineet
-> 
+-Vineet
