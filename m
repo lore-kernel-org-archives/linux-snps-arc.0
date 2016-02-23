@@ -1,22 +1,44 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Tue, 23 Feb 2016 10:58:29 +0000
-Subject: Interesting csd deadlock on ARC
-In-Reply-To: <20160223103950.GJ6356@twins.programming.kicks-ass.net>
-References: <56C6BA82.1060909@synopsys.com> <56CBEC66.2030401@synopsys.com>
- <20160223095824.GH6356@twins.programming.kicks-ass.net>
- <56CC32A3.5020804@synopsys.com>
- <20160223103950.GJ6356@twins.programming.kicks-ass.net>
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Tue, 23 Feb 2016 13:51:10 +0000
+Subject: [PATCH 0/4 RESEND] Add I2S/ADV7511 audio support for ARC AXS10x boards
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <HE1PR05MB162584392E880F4306659593AAA40@HE1PR05MB1625.eurprd05.prod.outlook.com>
+Message-ID: <cover.1456234503.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
->From: Peter Zijlstra [mailto:peterz at infradead.org] 
->Sent: Tuesday, February 23, 2016 12:40 PM
+ARC AXS10x platforms consist of a mainboard with several peripherals.
+One of those peripherals is an HDMI output port controlled by ADV7511 transmitter.
 
->The only requirement for irq_work is that it runs after the NMI completes and runs from regular IRQ context. >There are no strict interrupt priority requirements, only that it happens.
+This patch set adds audio for the ADV7511 transmitter and I2S audio for the
+AXS10x platform.
 
-We here already use self IPI and irq_work on ARC (with no NMI concerns).
-Please see patch at:
-https://github.com/EZchip/linux/commit/e42556738e610295f917c79dae166373cd11de88
+Jose Abreu (4):
+  [adv7511] Add audio support
+  [adv7511] Update defconfigs so that audio is enabled
+  [dwc] Add I2S HDMI audio support using custom platform driver
+  [dwc] Update defconfigs so that I2S is enabled
 
-Noam
+ arch/arc/boot/dts/axs10x_mb.dtsi      |   20 +-
+ arch/arc/configs/axs101_defconfig     |    4 +
+ arch/arc/configs/axs103_defconfig     |    6 +
+ arch/arc/configs/axs103_smp_defconfig |    6 +
+ drivers/gpu/drm/i2c/Kconfig           |    8 +
+ drivers/gpu/drm/i2c/Makefile          |    2 +
+ drivers/gpu/drm/i2c/adv7511.c         | 1024 ---------------------------------
+ drivers/gpu/drm/i2c/adv7511.h         |   41 ++
+ drivers/gpu/drm/i2c/adv7511_audio.c   |  310 ++++++++++
+ drivers/gpu/drm/i2c/adv7511_core.c    | 1005 ++++++++++++++++++++++++++++++++
+ include/sound/soc-dai.h               |    1 +
+ sound/soc/dwc/Kconfig                 |    1 +
+ sound/soc/dwc/Makefile                |    4 +-
+ sound/soc/dwc/designware_i2s.c        |  139 ++++-
+ sound/soc/dwc/designware_pcm.c        |  264 +++++++++
+ sound/soc/dwc/designware_pcm.h        |   21 +
+ 16 files changed, 1813 insertions(+), 1043 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i2c/adv7511.c
+ create mode 100644 drivers/gpu/drm/i2c/adv7511_audio.c
+ create mode 100644 drivers/gpu/drm/i2c/adv7511_core.c
+ create mode 100644 sound/soc/dwc/designware_pcm.c
+ create mode 100644 sound/soc/dwc/designware_pcm.h
+
+-- 
+1.9.1
