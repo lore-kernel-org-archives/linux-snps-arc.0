@@ -1,91 +1,65 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 23 Feb 2016 14:41:42 +0530
-Subject: [PATCH 5/5] ARC: SMP: No need for CONFIG_ARC_IPI_DBG
-In-Reply-To: <1456218702-11911-1-git-send-email-vgupta@synopsys.com>
-References: <1456218702-11911-1-git-send-email-vgupta@synopsys.com>
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Tue, 23 Feb 2016 10:58:24 +0100
+Subject: Interesting csd deadlock on ARC
+In-Reply-To: <56CBEC66.2030401@synopsys.com>
+References: <56C6BA82.1060909@synopsys.com>
+ <56CBEC66.2030401@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1456218702-11911-6-git-send-email-vgupta@synopsys.com>
+Message-ID: <20160223095824.GH6356@twins.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-This was more relevant during SMP bringup.
+On Tue, Feb 23, 2016@10:51:42AM +0530, Vineet Gupta wrote:
+> On Friday 19 February 2016 12:17 PM, Vineet Gupta wrote:
+> > Hi Peter,
+> > 
+> > I've been debugging a csd_lock_wait() deadlock on SMP+PREEMPT ARC HS38x2 and it
+> > turned out to be lot more interesting than I'd hoped for. This is stock v4.4
+> > 
+> > Trouble starts with an IPI to self which doesn't get delivered as the inter-core
+> > interrupt providing h/w is not capable of IPI to self (which I found as part of
+> > debugging this). Subsequent IPIs from other cores to this core get elided as well
+> > due to the IPI coalescing optimization in arch/arc/kernel/smp.c: ipi_send_msg_one()
+> > 
+> > There are ways to use a different h/w mechanism to solve the trigger issue and I'd
+> > hoped to just implement arch_irq_work_raise(). 
 
-The warning for bogus msg better be visible always.
+Yes, there are other architectures that use other means for self-IPI,
+IIRC PowerPC has to program their timer in the past to generate a local
+interrupt.
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/Kconfig       | 8 --------
- arch/arc/kernel/mcip.c | 9 +--------
- arch/arc/kernel/smp.c  | 3 ---
- 3 files changed, 1 insertion(+), 19 deletions(-)
+> > But the trouble is the call stack
+> > for this issue: IPI to self is triggered from
+> > 
+> > sys_sched_setscheduler
+> >    __balance_callback
+> >        pull_rt_task
+> >          irq_work_queue_on  <-- called with @cpu == self
+> > 
+> > Looking into irq_work.c, irq_work_queue() is what is semantically needed,
+> > specifically arch_irq_work_raise() will not be called, which means I need
+> > arch_send_call_function_single_ipi() to be able to IPI to self cpu also. Is that
+> > expected from arch code....
+> 
+> What I actually meant was is it OK for irq_work_queue_on() to be called locally
+> (is this a sched bug/optimization(. Further if it is OK to be called, does it need
+> to do behave more like irq_work_queue() i.e. call arch_irq_work_raise() or
+> arch_send_call_function_single_ipi() is expected to handle sending IPI to self !
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 4abc81907071..8a188bc1786a 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -532,14 +532,6 @@ config ARC_DBG_TLB_MISS_COUNT
- 	  Counts number of I and D TLB Misses and exports them via Debugfs
- 	  The counters can be cleared via Debugfs as well
- 
--if SMP
--
--config ARC_IPI_DBG
--	bool "Debug Inter Core interrupts"
--	default n
--
--endif
--
- endif
- 
- config ARC_UBOOT_SUPPORT
-diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-index 7afc3c703ed1..7b4af70ffd18 100644
---- a/arch/arc/kernel/mcip.c
-+++ b/arch/arc/kernel/mcip.c
-@@ -65,7 +65,6 @@ static void mcip_ipi_clear(int irq)
- {
- 	unsigned int cpu, c;
- 	unsigned long flags;
--	unsigned int __maybe_unused copy;
- 
- 	if (unlikely(irq == SOFTIRQ_IRQ)) {
- 		arc_softirq_clear(irq);
-@@ -77,7 +76,7 @@ static void mcip_ipi_clear(int irq)
- 	/* Who sent the IPI */
- 	__mcip_cmd(CMD_INTRPT_CHECK_SOURCE, 0);
- 
--	copy = cpu = read_aux_reg(ARC_REG_MCIP_READBACK);	/* 1,2,4,8... */
-+	cpu = read_aux_reg(ARC_REG_MCIP_READBACK);	/* 1,2,4,8... */
- 
- 	/*
- 	 * In rare case, multiple concurrent IPIs sent to same target can
-@@ -91,12 +90,6 @@ static void mcip_ipi_clear(int irq)
- 	} while (cpu);
- 
- 	raw_spin_unlock_irqrestore(&mcip_lock, flags);
--
--#ifdef CONFIG_ARC_IPI_DBG
--	if (c != __ffs(copy))
--		pr_info("IPIs from %x coalesced to %x\n",
--			copy, raw_smp_processor_id());
--#endif
- }
- 
- static void mcip_probe_n_setup(void)
-diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-index ef6e9e15b82a..424e937da5c8 100644
---- a/arch/arc/kernel/smp.c
-+++ b/arch/arc/kernel/smp.c
-@@ -336,11 +336,8 @@ irqreturn_t do_IPI(int irq, void *dev_id)
- 		int rc;
- 
- 		rc = __do_IPI(msg);
--#ifdef CONFIG_ARC_IPI_DBG
--		/* IPI received but no valid @msg */
- 		if (rc)
- 			pr_info("IPI with bogus msg %ld in %ld\n", msg, copy);
--#endif
- 		pending &= ~(1U << msg);
- 	} while (pending);
- 
--- 
-2.5.0
+Right, so I'm not actually sure we started out with this requirement.
+But you're not the first to run into this, see:
+
+  lkml.kernel.org/r/CAJZ5v0gLankSuziQq25qTCyNqeOX43yD9jnJu_XXwbdyajfmKg at mail.gmail.com
+
+Initially I think irq_work_queue_on() was only used remotely, but I
+think it makes sense to allow the current cpu, esp. since people seem to
+be using it like that.
+
+Now the distinct difference between arch_irq_work_raise() and
+arch_send_call_function_single_ipi() is that arch_irq_work_raise()
+should be NMI-safe.
+
+So on x86 it has to be extra careful about the lapic state, whereas the
+regular IPI code doesn't.
+
+I seem to have forgotten the status of NMIs on ARC, but this is
+something to make a note of.
