@@ -1,72 +1,65 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 24 Feb 2016 10:21:25 +0530
-Subject: Interesting csd deadlock on ARC
-In-Reply-To: <20160223095824.GH6356@twins.programming.kicks-ass.net>
-References: <56C6BA82.1060909@synopsys.com> <56CBEC66.2030401@synopsys.com>
- <20160223095824.GH6356@twins.programming.kicks-ass.net>
+Date: Wed, 24 Feb 2016 05:05:40 +0000
+Subject: [PATCH] arc: make sure __delay() never gets executed with 0 loops
+References: <1455554267-23886-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56CD36CD.2080303@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E8BD8E@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tuesday 23 February 2016 03:28 PM, Peter Zijlstra wrote:
-> On Tue, Feb 23, 2016@10:51:42AM +0530, Vineet Gupta wrote:
->> On Friday 19 February 2016 12:17 PM, Vineet Gupta wrote:
->>> Hi Peter,
->>>
->>> I've been debugging a csd_lock_wait() deadlock on SMP+PREEMPT ARC HS38x2 and it
->>> turned out to be lot more interesting than I'd hoped for. This is stock v4.4
->>>
->>> Trouble starts with an IPI to self which doesn't get delivered as the inter-core
->>> interrupt providing h/w is not capable of IPI to self (which I found as part of
->>> debugging this). Subsequent IPIs from other cores to this core get elided as well
->>> due to the IPI coalescing optimization in arch/arc/kernel/smp.c: ipi_send_msg_one()
->>>
->>> There are ways to use a different h/w mechanism to solve the trigger issue and I'd
->>> hoped to just implement arch_irq_work_raise(). 
-> 
-> Yes, there are other architectures that use other means for self-IPI,
-> IIRC PowerPC has to program their timer in the past to generate a local
-> interrupt.
-> 
->>> But the trouble is the call stack
->>> for this issue: IPI to self is triggered from
->>>
->>> sys_sched_setscheduler
->>>    __balance_callback
->>>        pull_rt_task
->>>          irq_work_queue_on  <-- called with @cpu == self
->>>
->>> Looking into irq_work.c, irq_work_queue() is what is semantically needed,
->>> specifically arch_irq_work_raise() will not be called, which means I need
->>> arch_send_call_function_single_ipi() to be able to IPI to self cpu also. Is that
->>> expected from arch code....
->>
->> What I actually meant was is it OK for irq_work_queue_on() to be called locally
->> (is this a sched bug/optimization(. Further if it is OK to be called, does it need
->> to do behave more like irq_work_queue() i.e. call arch_irq_work_raise() or
->> arch_send_call_function_single_ipi() is expected to handle sending IPI to self !
-> 
-> Right, so I'm not actually sure we started out with this requirement.
-> But you're not the first to run into this, see:
-> 
->   lkml.kernel.org/r/CAJZ5v0gLankSuziQq25qTCyNqeOX43yD9jnJu_XXwbdyajfmKg at mail.gmail.com
-> 
-> Initially I think irq_work_queue_on() was only used remotely, but I
-> think it makes sense to allow the current cpu, esp. since people seem to
-> be using it like that.
+On Monday 15 February 2016 10:07 PM, Alexey Brodkin wrote:
+> Current implementation of __delay() function uses so-called
+> zero-delay loops. And the only condition to exit that loop is
+> LP_COUNT (loop count register) = 1 (but not 0 as it might be easily
+> imagined).
 
-So it seems Russell's questions in the thread above stands still. IMO we need to
-massage irq_work_queue_on() to handle the case of called for local cpu. This will
-automatically take care of CONFIG_SMP kernel running on UP hardware.
+So u can fix this better by doing a lp.nz, but....
 
-> 
-> Now the distinct difference between arch_irq_work_raise() and
-> arch_send_call_function_single_ipi() is that arch_irq_work_raise()
-> should be NMI-safe.
-> 
-> So on x86 it has to be extra careful about the lapic state, whereas the
-> regular IPI code doesn't.
-> 
-> I seem to have forgotten the status of NMIs on ARC, but this is
-> something to make a note of.
-> 
+> So if our calculation of "loops" gives 0 (and that is pretty possible
+> given result of multiplication being >> 32) then zero-delay loop
+> mechanism starts with LP_COUNT=0 and it ends up decrementing LP_COUNT
+> while staying in the loop effectively producing close to infinite delay
+> instead of very short one.
+>
+> I bumped into it with AXS101 + external DDR controller and caches
+> disabled. In that case I've got very small
+> loops_per_jiffy=0xf00:
+
+I understand this gives you grief, but the code is doing exactly what it is asked to.
+Since the system is slow, You are getting only 0xf00 (3840) loop iterations in 10ms.
+So if you want say a delay of 1 micro-sec, you will need to loop for 3840 / 10000
+~ 0 loops
+
+This all assumes our lpj computation is correct - otherwise that needs fixing too.
+
+Anyways I think for genuine cases where the number of loops is indeed computed to
+0 because caller was passing too small a value, it is better to wait for looong
+time to catch the bugger rather than silently returning. This is one of the cases
+where disease is better than the cure !
+
+> ------------------------>8--------------------
+> Calibrating delay loop... 0.77 BogoMIPS (lpj=3862)
+> ------------------------>8--------------------
+>
+> And on console output delays were way too long.
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+>  Please enter the commit message for your changes. Lines starting
+> ---
+>  arch/arc/include/asm/delay.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arc/include/asm/delay.h b/arch/arc/include/asm/delay.h
+> index 08e7e2a..1a7a1dc 100644
+> --- a/arch/arc/include/asm/delay.h
+> +++ b/arch/arc/include/asm/delay.h
+> @@ -57,7 +57,8 @@ static inline void __udelay(unsigned long usecs)
+>  	 */
+>  	loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
+>  
+> -	__delay(loops);
+> +	if (loops)
+> +		__delay(loops);
+>  }
+>  
+>  #define udelay(n) (__builtin_constant_p(n) ? ((n) > 20000 ? __bad_udelay() \
