@@ -1,42 +1,49 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 24 Feb 2016 11:16:19 +0530
-Subject: [GIT PULL] ARC fixes for 4.5-rc6
+Date: Wed, 24 Feb 2016 14:30:09 +0530
+Subject: [GIT PULL] ARC fixes for 4.5-rc6 (updated)
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56CD43AB.5030008@synopsys.com>
+Message-ID: <56CD7119.6000502@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Hi Linus,
 
 A critical bug fix since the last pull request and a sweeping defconfig cleanup
-from Alexey.
+from Alexey. Please pull.
 
-Please pull.
+P.S. There was a SNAFU in my earlier pull request from this morning, please ignore
+that and sorry abt that.
 
 Thx,
 -Vineet
 
----->
+------------>
 The following changes since commit 18558cae0272f8fd9647e69d3fec1565a7949865:
 
   Linux 4.5-rc4 (2016-02-14 13:05:20 -0800)
 
 are available in the git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.5-rc6-fixes
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/
+tags/arc-4.5-rc6-fixes-upd
 
-for you to fetch changes up to d73b73f5626ac0b131b31b7b9457e19201bc570b:
+for you to fetch changes up to 9ef2d8be55652804205a34dcbfec78b933c0ea30:
 
-  ARC: SMP: No need for CONFIG_ARC_IPI_DBG (2016-02-24 11:07:32 +0530)
+  arc: SMP: CONFIG_ARC_IPI_DBG cleanup (2016-02-24 14:15:39 +0530)
 
 ----------------------------------------------------------------
-ARC fixes for 4.5-rc5
- - Fix for csd deadlock due to missing self IPI
- - Accompanying IPI cleanups / optimization
- - Some boot reporting updates for new features
+ARC fixes for 4.5-rc6
+- Fix for csd deadlock due to missing self IPI
+- Accompanying IPI cleanups / optimization
+- Brown paper bag bug in one of the cleanups above
+- Boot reporting updates for new hardware features
+- Don't force DEVTMPFS if INITRAMFS
 
 ----------------------------------------------------------------
 Alexey Brodkin (1):
       arc: get rid of DEVTMPFS dependency on INITRAMFS_SOURCE
+
+Valentin Rothberg (1):
+      arc: SMP: CONFIG_ARC_IPI_DBG cleanup
 
 Vineet Gupta (8):
       ARC: Assume multiplier is always present
@@ -65,7 +72,7 @@ Vineet Gupta (8):
  arch/arc/include/asm/irqflags-arcv2.h      | 11 ++++
  arch/arc/kernel/entry-arcv2.S              | 11 ++--
  arch/arc/kernel/intc-compact.c             |  3 --
- arch/arc/kernel/mcip.c                     | 55 ++++++++++----------
+ arch/arc/kernel/mcip.c                     | 60 +++++++++++-----------
  arch/arc/kernel/setup.c                    | 80 +++++++++++++++++++-----------
  arch/arc/kernel/smp.c                      |  3 --
- 20 files changed, 134 insertions(+), 158 deletions(-)
+ 20 files changed, 134 insertions(+), 163 deletions(-)
