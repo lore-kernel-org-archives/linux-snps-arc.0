@@ -1,65 +1,71 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 24 Feb 2016 05:05:40 +0000
-Subject: [PATCH] arc: make sure __delay() never gets executed with 0 loops
-References: <1455554267-23886-1-git-send-email-abrodkin@synopsys.com>
+Date: Wed, 24 Feb 2016 11:16:19 +0530
+Subject: [GIT PULL] ARC fixes for 4.5-rc6
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E8BD8E@us01wembx1.internal.synopsys.com>
+Message-ID: <56CD43AB.5030008@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Monday 15 February 2016 10:07 PM, Alexey Brodkin wrote:
-> Current implementation of __delay() function uses so-called
-> zero-delay loops. And the only condition to exit that loop is
-> LP_COUNT (loop count register) = 1 (but not 0 as it might be easily
-> imagined).
+Hi Linus,
 
-So u can fix this better by doing a lp.nz, but....
+A critical bug fix since the last pull request and a sweeping defconfig cleanup
+from Alexey.
 
-> So if our calculation of "loops" gives 0 (and that is pretty possible
-> given result of multiplication being >> 32) then zero-delay loop
-> mechanism starts with LP_COUNT=0 and it ends up decrementing LP_COUNT
-> while staying in the loop effectively producing close to infinite delay
-> instead of very short one.
->
-> I bumped into it with AXS101 + external DDR controller and caches
-> disabled. In that case I've got very small
-> loops_per_jiffy=0xf00:
+Please pull.
 
-I understand this gives you grief, but the code is doing exactly what it is asked to.
-Since the system is slow, You are getting only 0xf00 (3840) loop iterations in 10ms.
-So if you want say a delay of 1 micro-sec, you will need to loop for 3840 / 10000
-~ 0 loops
+Thx,
+-Vineet
 
-This all assumes our lpj computation is correct - otherwise that needs fixing too.
+---->
+The following changes since commit 18558cae0272f8fd9647e69d3fec1565a7949865:
 
-Anyways I think for genuine cases where the number of loops is indeed computed to
-0 because caller was passing too small a value, it is better to wait for looong
-time to catch the bugger rather than silently returning. This is one of the cases
-where disease is better than the cure !
+  Linux 4.5-rc4 (2016-02-14 13:05:20 -0800)
 
-> ------------------------>8--------------------
-> Calibrating delay loop... 0.77 BogoMIPS (lpj=3862)
-> ------------------------>8--------------------
->
-> And on console output delays were way too long.
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
->  Please enter the commit message for your changes. Lines starting
-> ---
->  arch/arc/include/asm/delay.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arc/include/asm/delay.h b/arch/arc/include/asm/delay.h
-> index 08e7e2a..1a7a1dc 100644
-> --- a/arch/arc/include/asm/delay.h
-> +++ b/arch/arc/include/asm/delay.h
-> @@ -57,7 +57,8 @@ static inline void __udelay(unsigned long usecs)
->  	 */
->  	loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
->  
-> -	__delay(loops);
-> +	if (loops)
-> +		__delay(loops);
->  }
->  
->  #define udelay(n) (__builtin_constant_p(n) ? ((n) > 20000 ? __bad_udelay() \
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.5-rc6-fixes
+
+for you to fetch changes up to d73b73f5626ac0b131b31b7b9457e19201bc570b:
+
+  ARC: SMP: No need for CONFIG_ARC_IPI_DBG (2016-02-24 11:07:32 +0530)
+
+----------------------------------------------------------------
+ARC fixes for 4.5-rc5
+ - Fix for csd deadlock due to missing self IPI
+ - Accompanying IPI cleanups / optimization
+ - Some boot reporting updates for new features
+
+----------------------------------------------------------------
+Alexey Brodkin (1):
+      arc: get rid of DEVTMPFS dependency on INITRAMFS_SOURCE
+
+Vineet Gupta (8):
+      ARC: Assume multiplier is always present
+      ARCv2: boot print Low Latency Memory
+      ARCv2: boot report CCMs (Closely Coupled Memories)
+      ARCv2: SMP: Emulate IPI to self using software triggered interrupt
+      ARC: [intc-compact] Remove IPI setup from ARCompact port
+      ARCv2: SMP: Push IPI_IRQ into IPI provider
+      ARCv2: Elide sending new cross core intr if receiver didn't ack prev
+      ARC: SMP: No need for CONFIG_ARC_IPI_DBG
+
+ arch/arc/Kconfig                           | 18 -------
+ arch/arc/Makefile                          |  4 --
+ arch/arc/configs/axs101_defconfig          |  4 +-
+ arch/arc/configs/axs103_defconfig          | 10 +---
+ arch/arc/configs/axs103_smp_defconfig      | 10 +---
+ arch/arc/configs/nsim_700_defconfig        |  5 +-
+ arch/arc/configs/nsim_hs_defconfig         |  3 +-
+ arch/arc/configs/nsim_hs_smp_defconfig     |  6 +--
+ arch/arc/configs/nsimosci_defconfig        |  2 +-
+ arch/arc/configs/nsimosci_hs_defconfig     |  3 +-
+ arch/arc/configs/nsimosci_hs_smp_defconfig | 12 +----
+ arch/arc/configs/tb10x_defconfig           | 18 +++----
+ arch/arc/include/asm/arcregs.h             | 32 +++++++-----
+ arch/arc/include/asm/irq.h                 |  2 -
+ arch/arc/include/asm/irqflags-arcv2.h      | 11 ++++
+ arch/arc/kernel/entry-arcv2.S              | 11 ++--
+ arch/arc/kernel/intc-compact.c             |  3 --
+ arch/arc/kernel/mcip.c                     | 55 ++++++++++----------
+ arch/arc/kernel/setup.c                    | 80 +++++++++++++++++++-----------
+ arch/arc/kernel/smp.c                      |  3 --
+ 20 files changed, 134 insertions(+), 158 deletions(-)
