@@ -1,217 +1,228 @@
 From: bhelgaas@google.com (Bjorn Helgaas)
-Date: Thu, 25 Feb 2016 11:37:28 -0600
-Subject: [PATCH v10 1/4] ARC: Add PCI support
+Date: Thu, 25 Feb 2016 11:37:36 -0600
+Subject: [PATCH v10 2/4] PCI: designware: Add generic dw_pcie_wait_for_link()
 In-Reply-To: <20160225172957.2103.8326.stgit@bhelgaas-glaptop2.roam.corp.google.com>
 References: <20160225172957.2103.8326.stgit@bhelgaas-glaptop2.roam.corp.google.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160225173728.2103.69952.stgit@bhelgaas-glaptop2.roam.corp.google.com>
+Message-ID: <20160225173736.2103.59017.stgit@bhelgaas-glaptop2.roam.corp.google.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Joao Pinto <Joao.Pinto@synopsys.com>
 
-Add PCI support to ARC and update drivers/pci Makefile enabling the ARC
-arch to use the generic PCI setup functions.
+Several DesignWare-based drivers (dra7xx, exynos, imx6 and spear13xx) had
+similar loops waiting for the link to come up.
 
+FIXME Doesn't update keystone
+FIXME Doesn't update qcom
+
+Add a generic dw_pcie_wait_for_link() for use by all these drivers so the
+waiting is done consistently, e.g., always using usleep_range() rather than
+mdelay() and using similar timeouts and retry counts.
+
+[bhelgaas: changelog, split into its own patch]
 Signed-off-by: Joao Pinto <jpinto at synopsys.com>
 Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/Kconfig             |   26 ++++++++++++++++++++++++++
- arch/arc/include/asm/dma.h   |    5 +++++
- arch/arc/include/asm/io.h    |    9 +++++++++
- arch/arc/include/asm/pci.h   |   31 +++++++++++++++++++++++++++++++
- arch/arc/kernel/Makefile     |    1 +
- arch/arc/kernel/pcibios.c    |   22 ++++++++++++++++++++++
- arch/arc/plat-axs10x/Kconfig |    1 +
- drivers/pci/Makefile         |    1 +
- 8 files changed, 96 insertions(+)
- create mode 100644 arch/arc/include/asm/pci.h
- create mode 100644 arch/arc/kernel/pcibios.c
+ drivers/pci/host/pci-dra7xx.c      |   11 +++--------
+ drivers/pci/host/pci-exynos.c      |   11 ++---------
+ drivers/pci/host/pci-imx6.c        |   11 +++--------
+ drivers/pci/host/pcie-designware.c |   19 +++++++++++++++++++
+ drivers/pci/host/pcie-designware.h |    6 ++++++
+ drivers/pci/host/pcie-spear13xx.c  |   12 ++----------
+ 6 files changed, 35 insertions(+), 35 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 76dde9d..f9e3b357 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -19,6 +19,7 @@ config ARC
- 	select GENERIC_FIND_FIRST_BIT
- 	# for now, we don't need GENERIC_IRQ_PROBE, CONFIG_GENERIC_IRQ_CHIP
- 	select GENERIC_IRQ_SHOW
-+	select GENERIC_PCI_IOMAP
- 	select GENERIC_PENDING_IRQ if SMP
- 	select GENERIC_SMP_IDLE_THREAD
- 	select HAVE_ARCH_KGDB
-@@ -39,6 +40,9 @@ config ARC
- 	select PERF_USE_VMALLOC
- 	select HAVE_DEBUG_STACKOVERFLOW
+diff --git a/drivers/pci/host/pci-dra7xx.c b/drivers/pci/host/pci-dra7xx.c
+index 923607b..8d3d350 100644
+--- a/drivers/pci/host/pci-dra7xx.c
++++ b/drivers/pci/host/pci-dra7xx.c
+@@ -10,7 +10,6 @@
+  * published by the Free Software Foundation.
+  */
  
-+config MIGHT_HAVE_PCI
-+	bool
-+
- config TRACE_IRQFLAGS_SUPPORT
- 	def_bool y
+-#include <linux/delay.h>
+ #include <linux/err.h>
+ #include <linux/interrupt.h>
+ #include <linux/irq.h>
+@@ -108,7 +107,6 @@ static int dra7xx_pcie_establish_link(struct pcie_port *pp)
+ {
+ 	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pp);
+ 	u32 reg;
+-	unsigned int retries;
  
-@@ -568,6 +572,28 @@ endmenu	 # "ARC Architecture Configuration"
- source "mm/Kconfig"
- source "net/Kconfig"
- source "drivers/Kconfig"
-+
-+menu "Bus Support"
-+
-+config PCI
-+	bool "PCI support" if MIGHT_HAVE_PCI
-+	help
-+	  PCI is the name of a bus system, i.e., the way the CPU talks to
-+	  the other stuff inside your box.  Find out if your board/platform
-+	  has PCI.
-+
-+	  Note: PCIe support for Synopsys Device will be available only
-+	  when HAPS DX is configured with PCIe RC bitmap. If you have PCI,
-+	  say Y, otherwise N.
-+
-+config PCI_SYSCALL
-+	def_bool PCI
-+
-+source "drivers/pci/Kconfig"
-+source "drivers/pci/pcie/Kconfig"
-+
-+endmenu
-+
- source "fs/Kconfig"
- source "arch/arc/Kconfig.debug"
- source "security/Kconfig"
-diff --git a/arch/arc/include/asm/dma.h b/arch/arc/include/asm/dma.h
-index ca7c451..01e47a6 100644
---- a/arch/arc/include/asm/dma.h
-+++ b/arch/arc/include/asm/dma.h
-@@ -10,5 +10,10 @@
- #define ASM_ARC_DMA_H
+ 	if (dw_pcie_link_up(pp)) {
+ 		dev_err(pp->dev, "link is already up\n");
+@@ -119,13 +117,10 @@ static int dra7xx_pcie_establish_link(struct pcie_port *pp)
+ 	reg |= LTSSM_EN;
+ 	dra7xx_pcie_writel(dra7xx, PCIECTRL_DRA7XX_CONF_DEVICE_CMD, reg);
  
- #define MAX_DMA_ADDRESS 0xC0000000
-+#ifdef CONFIG_PCI
-+extern int isa_dma_bridge_buggy;
-+#else
-+#define isa_dma_bridge_buggy	0
-+#endif
+-	for (retries = 0; retries < 1000; retries++) {
+-		if (dw_pcie_link_up(pp))
+-			return 0;
+-		usleep_range(10, 20);
+-	}
++	/* check if the link is up or not */
++	if (!dw_pcie_wait_for_link(pp))
++		return 0;
  
- #endif
-diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
-index 694ece8..947bf0c 100644
---- a/arch/arc/include/asm/io.h
-+++ b/arch/arc/include/asm/io.h
-@@ -16,6 +16,15 @@
- extern void __iomem *ioremap(unsigned long physaddr, unsigned long size);
- extern void __iomem *ioremap_prot(phys_addr_t offset, unsigned long size,
- 				  unsigned long flags);
-+static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
+-	dev_err(pp->dev, "link is not up\n");
+ 	return -EINVAL;
+ }
+ 
+diff --git a/drivers/pci/host/pci-exynos.c b/drivers/pci/host/pci-exynos.c
+index d997d22..41f3248 100644
+--- a/drivers/pci/host/pci-exynos.c
++++ b/drivers/pci/host/pci-exynos.c
+@@ -318,7 +318,6 @@ static int exynos_pcie_establish_link(struct pcie_port *pp)
+ {
+ 	struct exynos_pcie *exynos_pcie = to_exynos_pcie(pp);
+ 	u32 val;
+-	unsigned int retries;
+ 
+ 	if (dw_pcie_link_up(pp)) {
+ 		dev_err(pp->dev, "Link already up\n");
+@@ -357,13 +356,8 @@ static int exynos_pcie_establish_link(struct pcie_port *pp)
+ 			  PCIE_APP_LTSSM_ENABLE);
+ 
+ 	/* check if the link is up or not */
+-	for (retries = 0; retries < 10; retries++) {
+-		if (dw_pcie_link_up(pp)) {
+-			dev_info(pp->dev, "Link up\n");
+-			return 0;
+-		}
+-		mdelay(100);
+-	}
++	if (!dw_pcie_wait_for_link(pp))
++		return 0;
+ 
+ 	while (exynos_phy_readl(exynos_pcie, PCIE_PHY_PLL_LOCKED) == 0) {
+ 		val = exynos_blk_readl(exynos_pcie, PCIE_PHY_PLL_LOCKED);
+@@ -372,7 +366,6 @@ static int exynos_pcie_establish_link(struct pcie_port *pp)
+ 	/* power off phy */
+ 	exynos_pcie_power_off_phy(pp);
+ 
+-	dev_err(pp->dev, "PCIe Link Fail\n");
+ 	return -EINVAL;
+ }
+ 
+diff --git a/drivers/pci/host/pci-imx6.c b/drivers/pci/host/pci-imx6.c
+index fe60096..c53da17 100644
+--- a/drivers/pci/host/pci-imx6.c
++++ b/drivers/pci/host/pci-imx6.c
+@@ -330,15 +330,10 @@ static void imx6_pcie_init_phy(struct pcie_port *pp)
+ 
+ static int imx6_pcie_wait_for_link(struct pcie_port *pp)
+ {
+-	unsigned int retries;
+-
+-	for (retries = 0; retries < 200; retries++) {
+-		if (dw_pcie_link_up(pp))
+-			return 0;
+-		usleep_range(100, 1000);
+-	}
++	/* check if the link is up or not */
++	if (!dw_pcie_wait_for_link(pp))
++		return 0;
+ 
+-	dev_err(pp->dev, "phy link never came up\n");
+ 	dev_dbg(pp->dev, "DEBUG_R0: 0x%08x, DEBUG_R1: 0x%08x\n",
+ 		readl(pp->dbi_base + PCIE_PHY_DEBUG_R0),
+ 		readl(pp->dbi_base + PCIE_PHY_DEBUG_R1));
+diff --git a/drivers/pci/host/pcie-designware.c b/drivers/pci/host/pcie-designware.c
+index 2171682..4fff2d2 100644
+--- a/drivers/pci/host/pcie-designware.c
++++ b/drivers/pci/host/pcie-designware.c
+@@ -22,6 +22,7 @@
+ #include <linux/pci_regs.h>
+ #include <linux/platform_device.h>
+ #include <linux/types.h>
++#include <linux/delay.h>
+ 
+ #include "pcie-designware.h"
+ 
+@@ -380,6 +381,24 @@ static struct msi_controller dw_pcie_msi_chip = {
+ 	.teardown_irq = dw_msi_teardown_irq,
+ };
+ 
++int dw_pcie_wait_for_link(struct pcie_port *pp)
 +{
-+	return (void __iomem *)port;
++	int retries;
++
++	/* check if the link is up or not */
++	for (retries = 0; retries < LINK_WAIT_MAX_RETRIES; retries++) {
++		if (dw_pcie_link_up(pp)) {
++			dev_info(pp->dev, "link up\n");
++			return 0;
++		}
++		usleep_range(LINK_WAIT_USLEEP_MIN, LINK_WAIT_USLEEP_MAX);
++	}
++
++	dev_err(pp->dev, "phy link never came up\n");
++
++	return -EINVAL;
 +}
 +
-+static inline void ioport_unmap(void __iomem *addr)
-+{
-+}
-+
- extern void iounmap(const void __iomem *addr);
+ int dw_pcie_link_up(struct pcie_port *pp)
+ {
+ 	if (pp->ops->link_up)
+diff --git a/drivers/pci/host/pcie-designware.h b/drivers/pci/host/pcie-designware.h
+index 2356d29..f437f9b 100644
+--- a/drivers/pci/host/pcie-designware.h
++++ b/drivers/pci/host/pcie-designware.h
+@@ -22,6 +22,11 @@
+ #define MAX_MSI_IRQS			32
+ #define MAX_MSI_CTRLS			(MAX_MSI_IRQS / 32)
  
- #define ioremap_nocache(phy, sz)	ioremap(phy, sz)
-diff --git a/arch/arc/include/asm/pci.h b/arch/arc/include/asm/pci.h
-new file mode 100644
-index 0000000..2f2011c
---- /dev/null
-+++ b/arch/arc/include/asm/pci.h
-@@ -0,0 +1,31 @@
-+/*
-+ * Copyright (C) 2015-2016 Synopsys, Inc. (www.synopsys.com)
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
++/* Parameters for the waiting for link up routine */
++#define LINK_WAIT_MAX_RETRIES		10
++#define LINK_WAIT_USLEEP_MIN		90000
++#define LINK_WAIT_USLEEP_MAX		100000
 +
-+#ifndef _ASM_ARC_PCI_H
-+#define _ASM_ARC_PCI_H
-+
-+#ifdef __KERNEL__
-+#include <asm-generic/pci-dma-compat.h>
-+#include <asm-generic/pci-bridge.h>
-+
-+#include <linux/ioport.h>
-+
-+#define PCIBIOS_MIN_IO 0x100
-+#define PCIBIOS_MIN_MEM 0x100000
-+
-+#define pcibios_assign_all_busses()	1
-+/*
-+ * The PCI address space does equal the physical memory address space.
-+ * The networking and block device layers use this boolean for bounce
-+ * buffer decisions.
-+ */
-+#define PCI_DMA_BUS_IS_PHYS	1
-+
-+#endif /* __KERNEL__ */
-+
-+#endif /* _ASM_ARC_PCI_H */
-diff --git a/arch/arc/kernel/Makefile b/arch/arc/kernel/Makefile
-index e7f3625..1bc2036 100644
---- a/arch/arc/kernel/Makefile
-+++ b/arch/arc/kernel/Makefile
-@@ -12,6 +12,7 @@ obj-y	:= arcksyms.o setup.o irq.o time.o reset.o ptrace.o process.o devtree.o
- obj-y	+= signal.o traps.o sys.o troubleshoot.o stacktrace.o disasm.o clk.o
- obj-$(CONFIG_ISA_ARCOMPACT)		+= entry-compact.o intc-compact.o
- obj-$(CONFIG_ISA_ARCV2)			+= entry-arcv2.o intc-arcv2.o
-+obj-$(CONFIG_PCI)  			+= pcibios.o
+ struct pcie_port {
+ 	struct device		*dev;
+ 	u8			root_bus_nr;
+@@ -76,6 +81,7 @@ int dw_pcie_cfg_read(void __iomem *addr, int size, u32 *val);
+ int dw_pcie_cfg_write(void __iomem *addr, int size, u32 val);
+ irqreturn_t dw_handle_msi_irq(struct pcie_port *pp);
+ void dw_pcie_msi_init(struct pcie_port *pp);
++int dw_pcie_wait_for_link(struct pcie_port *pp);
+ int dw_pcie_link_up(struct pcie_port *pp);
+ void dw_pcie_setup_rc(struct pcie_port *pp);
+ int dw_pcie_host_init(struct pcie_port *pp);
+diff --git a/drivers/pci/host/pcie-spear13xx.c b/drivers/pci/host/pcie-spear13xx.c
+index a6cd823..0e5a2f1 100644
+--- a/drivers/pci/host/pcie-spear13xx.c
++++ b/drivers/pci/host/pcie-spear13xx.c
+@@ -13,7 +13,6 @@
+  */
  
- obj-$(CONFIG_MODULES)			+= arcksyms.o module.o
- obj-$(CONFIG_SMP) 			+= smp.o
-diff --git a/arch/arc/kernel/pcibios.c b/arch/arc/kernel/pcibios.c
-new file mode 100644
-index 0000000..72e1d73
---- /dev/null
-+++ b/arch/arc/kernel/pcibios.c
-@@ -0,0 +1,22 @@
-+/*
-+ * Copyright (C) 2014-2015 Synopsys, Inc. (www.synopsys.com)
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#include <linux/pci.h>
-+
-+/*
-+ * We don't have to worry about legacy ISA devices, so nothing to do here
-+ */
-+resource_size_t pcibios_align_resource(void *data, const struct resource *res,
-+				resource_size_t size, resource_size_t align)
-+{
-+	return res->start;
-+}
-+
-+void pcibios_fixup_bus(struct pci_bus *bus)
-+{
-+}
-diff --git a/arch/arc/plat-axs10x/Kconfig b/arch/arc/plat-axs10x/Kconfig
-index d475f9d..426ac4b 100644
---- a/arch/arc/plat-axs10x/Kconfig
-+++ b/arch/arc/plat-axs10x/Kconfig
-@@ -11,6 +11,7 @@ menuconfig ARC_PLAT_AXS10X
- 	select DW_APB_ICTL
- 	select GPIO_DWAPB
- 	select OF_GPIO
-+	select MIGHT_HAVE_PCI
- 	select GENERIC_IRQ_CHIP
- 	select ARCH_REQUIRE_GPIOLIB
- 	help
-diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
-index be3f631..2154092 100644
---- a/drivers/pci/Makefile
-+++ b/drivers/pci/Makefile
-@@ -32,6 +32,7 @@ obj-$(CONFIG_PCI_IOV) += iov.o
- # Some architectures use the generic PCI setup functions
- #
- obj-$(CONFIG_ALPHA) += setup-irq.o
-+obj-$(CONFIG_ARC) += setup-irq.o
- obj-$(CONFIG_ARM) += setup-irq.o
- obj-$(CONFIG_ARM64) += setup-irq.o
- obj-$(CONFIG_UNICORE32) += setup-irq.o
+ #include <linux/clk.h>
+-#include <linux/delay.h>
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+@@ -149,7 +148,6 @@ static int spear13xx_pcie_establish_link(struct pcie_port *pp)
+ 	struct spear13xx_pcie *spear13xx_pcie = to_spear13xx_pcie(pp);
+ 	struct pcie_app_reg *app_reg = spear13xx_pcie->app_base;
+ 	u32 exp_cap_off = EXP_CAP_ID_OFFSET;
+-	unsigned int retries;
+ 
+ 	if (dw_pcie_link_up(pp)) {
+ 		dev_err(pp->dev, "link already up\n");
+@@ -201,15 +199,9 @@ static int spear13xx_pcie_establish_link(struct pcie_port *pp)
+ 			&app_reg->app_ctrl_0);
+ 
+ 	/* check if the link is up or not */
+-	for (retries = 0; retries < 10; retries++) {
+-		if (dw_pcie_link_up(pp)) {
+-			dev_info(pp->dev, "link up\n");
+-			return 0;
+-		}
+-		mdelay(100);
+-	}
++	if (!dw_pcie_wait_for_link(pp))
++		return 0;
+ 
+-	dev_err(pp->dev, "link Fail\n");
+ 	return -EINVAL;
+ }
+ 
