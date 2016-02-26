@@ -1,37 +1,27 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 26 Feb 2016 07:00:02 +0000
-Subject: [PATCH 2/4 RESEND] ARC: axs10x: Update defconfigs so that audio
- is enabled
-References: <cover.1456234503.git.joabreu@synopsys.com>
- <174bd675951f46071d0db8ea1f67abb083053332.1456234503.git.joabreu@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F4E8BD53@us01wembx1.internal.synopsys.com>
- <1456323120.3392.31.camel@synopsys.com>
+Date: Fri, 26 Feb 2016 13:59:20 +0530
+Subject: [PATCH] ARC Build system tweak
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E8C535@us01wembx1.internal.synopsys.com>
+Message-ID: <1456475361-7754-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wednesday 24 February 2016 07:42 PM, Alexey Brodkin wrote:
->> Further per out off-list discussion - let us have a seperate config for ARC HS SDP
->> which supports the shipping single hardware configuration and add these fancy
->> things there as well as bumping the clk rate to 100 MHz . Current axs103* configs
->> are more of developer configs and I don't want to bloat their code with things we
->> don't build / download 10 times a day !
-> Agree but first we need to introduce those additional configs.
-> Let me draft those.
+Hi Michal,
 
-s/configs/config
-We only need one !
+Here's a ARC build system quirk that we are trying to change.
+I would appreciate if you could take a glance and suggest if that is silly
+or better way. Would we be inducing more shell invocations now for build ?
+Also I could not find an existing construct in /scripts/Kbuild.include
+so opencoded the pre-processor check.
 
-> In the meantime it would be helpful if you take a look at existing axs10x_defconfigs
-> and check which option you do want to keep and what are those extra once that should
-> go to new configs with all bells and whistles.
-
-I'd say leave current axs103* defconfigs as to what they are - we can trim them at
-leisure / seperately.
-Introduce a new config item which matches the shipping axs product (NR_CPU = 2
-etc) and a pairing defconfig
-and add all the fancy stuff there ! They can continue to share the DTs
-The other purpose of this config item is to elide the hack we have for setting clk
-for SMP (so it remains 90 or 100)
-
+Thx,
 -Vineet
+
+Vineet Gupta (1):
+  ARC: build: Better way to detect ISA compatible toolchain
+
+ arch/arc/Makefile              | 14 ++++++++++++++
+ arch/arc/include/asm/arcregs.h |  6 ------
+ 2 files changed, 14 insertions(+), 6 deletions(-)
+
+-- 
+2.5.0
