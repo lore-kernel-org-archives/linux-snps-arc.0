@@ -1,86 +1,254 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 26 Feb 2016 16:32:42 +0530
-Subject: [PATCH 4/5] ARCv2: Elide sending new cross core intr if receiver
- didn't ack prev
-In-Reply-To: <1456218702-11911-5-git-send-email-vgupta@synopsys.com>
-References: <1456218702-11911-1-git-send-email-vgupta@synopsys.com>
- <1456218702-11911-5-git-send-email-vgupta@synopsys.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Fri, 26 Feb 2016 10:06:19 -0600
+Subject: [PATCH v10 2/4] PCI: designware: Add generic
+ dw_pcie_wait_for_link()
+In-Reply-To: <56CFBBAF.4060203@synopsys.com>
+References: <20160225172957.2103.8326.stgit@bhelgaas-glaptop2.roam.corp.google.com>
+ <20160225173736.2103.59017.stgit@bhelgaas-glaptop2.roam.corp.google.com>
+ <56CFBBAF.4060203@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56D030D2.6070104@synopsys.com>
+Message-ID: <20160226160619.GA9512@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-On Tuesday 23 February 2016 02:41 PM, Vineet Gupta wrote:
-> ARConnect/MCIP IPI sending has a retry-wait loop in case caller had
-> not seen a previous such interrupt. Turns out that it is not needed at
-> all. Linux cross core calling allows coalescing multiple IPIs to same
-> receiver - it is fine as long as there is one.
-> 
-> This logic is built into upper layer already, at a higher level of
-> abstraction. ipi_send_msg_one() sets the actual msg payload, but it only
-> calls MCIP IPI sending if msg holder was empty (using
-> atomic-set-new-and-get-old construct). Thus it is unlikely that the
-> retry-wait looping was ever getting exercised at all.
+On Fri, Feb 26, 2016@10:42:55AM +0800, Joao Pinto wrote:
+> Hi! This patch seems OK also.
+> I did not received the 3/4 and 4/4 patches.
 
-Turns out that this patch was needed for more serious reasons.
-For experiment sake I reverted the IPI eliding optimization and immediately ran
-into a deadlock, with LTP:trace_sched !
+Huh.  I do see them in the list archives:
 
-@@ -241,7 +241,7 @@ static void ipi_send_msg_one(int cpu, enum ipi_msg_type msg)
-         * IPI handler, because !@old means it has not yet dequeued the msg(s)
-         * so @new msg can be a free-loader
-         */
--       if (plat_smp_ops.ipi_send && !old)
-+       if (plat_smp_ops.ipi_send)
+  http://marc.info/?l=linux-pci&m=145642190422528&w=2
+  http://marc.info/?l=linux-pci&m=145642190522529&w=2
 
--Vineet
+> On 2/26/2016 1:37 AM, Bjorn Helgaas wrote:
+> > From: Joao Pinto <Joao.Pinto at synopsys.com>
+> > 
+> > Several DesignWare-based drivers (dra7xx, exynos, imx6 and spear13xx) had
+> > similar loops waiting for the link to come up.
+> > 
+> > FIXME Doesn't update keystone
+> > FIXME Doesn't update qcom
 
-> 
-> Cc: Chuck Jordan <cjordan at synopsys.com>
-> Cc: Peter Zijlstra <peterz at infradead.org>
-> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-> ---
->  arch/arc/kernel/mcip.c | 27 ++++++++++-----------------
->  1 file changed, 10 insertions(+), 17 deletions(-)
-> 
-> diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-> index e30d5d428330..7afc3c703ed1 100644
-> --- a/arch/arc/kernel/mcip.c
-> +++ b/arch/arc/kernel/mcip.c
-> @@ -40,26 +40,19 @@ static void mcip_ipi_send(int cpu)
->  		return;
->  	}
->  
-> +	raw_spin_lock_irqsave(&mcip_lock, flags);
-> +
->  	/*
-> -	 * NOTE: We must spin here if the other cpu hasn't yet
-> -	 * serviced a previous message. This can burn lots
-> -	 * of time, but we MUST follows this protocol or
-> -	 * ipi messages can be lost!!!
-> -	 * Also, we must release the lock in this loop because
-> -	 * the other side may get to this same loop and not
-> -	 * be able to ack -- thus causing deadlock.
-> +	 * If receiver already has a pending interrupt, elide sending this one.
-> +	 * Linux cross core calling works well with concurrent IPIs
-> +	 * coalesced into one
-> +	 * see arch/arc/kernel/smp.c: ipi_send_msg_one()
->  	 */
-> +	__mcip_cmd(CMD_INTRPT_READ_STATUS, cpu);
-> +	ipi_was_pending = read_aux_reg(ARC_REG_MCIP_READBACK);
-> +	if (!ipi_was_pending)
-> +		__mcip_cmd(CMD_INTRPT_GENERATE_IRQ, cpu);
->  
-> -	do {
-> -		raw_spin_lock_irqsave(&mcip_lock, flags);
-> -		__mcip_cmd(CMD_INTRPT_READ_STATUS, cpu);
-> -		ipi_was_pending = read_aux_reg(ARC_REG_MCIP_READBACK);
-> -		if (ipi_was_pending == 0)
-> -			break; /* break out but keep lock */
-> -		raw_spin_unlock_irqrestore(&mcip_lock, flags);
-> -	} while (1);
-> -
-> -	__mcip_cmd(CMD_INTRPT_GENERATE_IRQ, cpu);
->  	raw_spin_unlock_irqrestore(&mcip_lock, flags);
->  
->  #ifdef CONFIG_ARC_IPI_DBG
+I do want to resolve these keystone and qcom questions, though.
+
+If I don't hear any responses, I'm going to go ahead and change them
+myself and ask forgiveness later.  I should have just done that to
+begin with :)
+
+> > Add a generic dw_pcie_wait_for_link() for use by all these drivers so the
+> > waiting is done consistently, e.g., always using usleep_range() rather than
+> > mdelay() and using similar timeouts and retry counts.
+> > 
+> > [bhelgaas: changelog, split into its own patch]
+> > Signed-off-by: Joao Pinto <jpinto at synopsys.com>
+> > Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
+> > ---
+> >  drivers/pci/host/pci-dra7xx.c      |   11 +++--------
+> >  drivers/pci/host/pci-exynos.c      |   11 ++---------
+> >  drivers/pci/host/pci-imx6.c        |   11 +++--------
+> >  drivers/pci/host/pcie-designware.c |   19 +++++++++++++++++++
+> >  drivers/pci/host/pcie-designware.h |    6 ++++++
+> >  drivers/pci/host/pcie-spear13xx.c  |   12 ++----------
+> >  6 files changed, 35 insertions(+), 35 deletions(-)
+> > 
+> > diff --git a/drivers/pci/host/pci-dra7xx.c b/drivers/pci/host/pci-dra7xx.c
+> > index 923607b..8d3d350 100644
+> > --- a/drivers/pci/host/pci-dra7xx.c
+> > +++ b/drivers/pci/host/pci-dra7xx.c
+> > @@ -10,7 +10,6 @@
+> >   * published by the Free Software Foundation.
+> >   */
+> >  
+> > -#include <linux/delay.h>
+> >  #include <linux/err.h>
+> >  #include <linux/interrupt.h>
+> >  #include <linux/irq.h>
+> > @@ -108,7 +107,6 @@ static int dra7xx_pcie_establish_link(struct pcie_port *pp)
+> >  {
+> >  	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pp);
+> >  	u32 reg;
+> > -	unsigned int retries;
+> >  
+> >  	if (dw_pcie_link_up(pp)) {
+> >  		dev_err(pp->dev, "link is already up\n");
+> > @@ -119,13 +117,10 @@ static int dra7xx_pcie_establish_link(struct pcie_port *pp)
+> >  	reg |= LTSSM_EN;
+> >  	dra7xx_pcie_writel(dra7xx, PCIECTRL_DRA7XX_CONF_DEVICE_CMD, reg);
+> >  
+> > -	for (retries = 0; retries < 1000; retries++) {
+> > -		if (dw_pcie_link_up(pp))
+> > -			return 0;
+> > -		usleep_range(10, 20);
+> > -	}
+> > +	/* check if the link is up or not */
+> > +	if (!dw_pcie_wait_for_link(pp))
+> > +		return 0;
+> >  
+> > -	dev_err(pp->dev, "link is not up\n");
+> >  	return -EINVAL;
+> >  }
+> >  
+> > diff --git a/drivers/pci/host/pci-exynos.c b/drivers/pci/host/pci-exynos.c
+> > index d997d22..41f3248 100644
+> > --- a/drivers/pci/host/pci-exynos.c
+> > +++ b/drivers/pci/host/pci-exynos.c
+> > @@ -318,7 +318,6 @@ static int exynos_pcie_establish_link(struct pcie_port *pp)
+> >  {
+> >  	struct exynos_pcie *exynos_pcie = to_exynos_pcie(pp);
+> >  	u32 val;
+> > -	unsigned int retries;
+> >  
+> >  	if (dw_pcie_link_up(pp)) {
+> >  		dev_err(pp->dev, "Link already up\n");
+> > @@ -357,13 +356,8 @@ static int exynos_pcie_establish_link(struct pcie_port *pp)
+> >  			  PCIE_APP_LTSSM_ENABLE);
+> >  
+> >  	/* check if the link is up or not */
+> > -	for (retries = 0; retries < 10; retries++) {
+> > -		if (dw_pcie_link_up(pp)) {
+> > -			dev_info(pp->dev, "Link up\n");
+> > -			return 0;
+> > -		}
+> > -		mdelay(100);
+> > -	}
+> > +	if (!dw_pcie_wait_for_link(pp))
+> > +		return 0;
+> >  
+> >  	while (exynos_phy_readl(exynos_pcie, PCIE_PHY_PLL_LOCKED) == 0) {
+> >  		val = exynos_blk_readl(exynos_pcie, PCIE_PHY_PLL_LOCKED);
+> > @@ -372,7 +366,6 @@ static int exynos_pcie_establish_link(struct pcie_port *pp)
+> >  	/* power off phy */
+> >  	exynos_pcie_power_off_phy(pp);
+> >  
+> > -	dev_err(pp->dev, "PCIe Link Fail\n");
+> >  	return -EINVAL;
+> >  }
+> >  
+> > diff --git a/drivers/pci/host/pci-imx6.c b/drivers/pci/host/pci-imx6.c
+> > index fe60096..c53da17 100644
+> > --- a/drivers/pci/host/pci-imx6.c
+> > +++ b/drivers/pci/host/pci-imx6.c
+> > @@ -330,15 +330,10 @@ static void imx6_pcie_init_phy(struct pcie_port *pp)
+> >  
+> >  static int imx6_pcie_wait_for_link(struct pcie_port *pp)
+> >  {
+> > -	unsigned int retries;
+> > -
+> > -	for (retries = 0; retries < 200; retries++) {
+> > -		if (dw_pcie_link_up(pp))
+> > -			return 0;
+> > -		usleep_range(100, 1000);
+> > -	}
+> > +	/* check if the link is up or not */
+> > +	if (!dw_pcie_wait_for_link(pp))
+> > +		return 0;
+> >  
+> > -	dev_err(pp->dev, "phy link never came up\n");
+> >  	dev_dbg(pp->dev, "DEBUG_R0: 0x%08x, DEBUG_R1: 0x%08x\n",
+> >  		readl(pp->dbi_base + PCIE_PHY_DEBUG_R0),
+> >  		readl(pp->dbi_base + PCIE_PHY_DEBUG_R1));
+> > diff --git a/drivers/pci/host/pcie-designware.c b/drivers/pci/host/pcie-designware.c
+> > index 2171682..4fff2d2 100644
+> > --- a/drivers/pci/host/pcie-designware.c
+> > +++ b/drivers/pci/host/pcie-designware.c
+> > @@ -22,6 +22,7 @@
+> >  #include <linux/pci_regs.h>
+> >  #include <linux/platform_device.h>
+> >  #include <linux/types.h>
+> > +#include <linux/delay.h>
+> >  
+> >  #include "pcie-designware.h"
+> >  
+> > @@ -380,6 +381,24 @@ static struct msi_controller dw_pcie_msi_chip = {
+> >  	.teardown_irq = dw_msi_teardown_irq,
+> >  };
+> >  
+> > +int dw_pcie_wait_for_link(struct pcie_port *pp)
+> > +{
+> > +	int retries;
+> > +
+> > +	/* check if the link is up or not */
+> > +	for (retries = 0; retries < LINK_WAIT_MAX_RETRIES; retries++) {
+> > +		if (dw_pcie_link_up(pp)) {
+> > +			dev_info(pp->dev, "link up\n");
+> > +			return 0;
+> > +		}
+> > +		usleep_range(LINK_WAIT_USLEEP_MIN, LINK_WAIT_USLEEP_MAX);
+> > +	}
+> > +
+> > +	dev_err(pp->dev, "phy link never came up\n");
+> > +
+> > +	return -EINVAL;
+> > +}
+> > +
+> >  int dw_pcie_link_up(struct pcie_port *pp)
+> >  {
+> >  	if (pp->ops->link_up)
+> > diff --git a/drivers/pci/host/pcie-designware.h b/drivers/pci/host/pcie-designware.h
+> > index 2356d29..f437f9b 100644
+> > --- a/drivers/pci/host/pcie-designware.h
+> > +++ b/drivers/pci/host/pcie-designware.h
+> > @@ -22,6 +22,11 @@
+> >  #define MAX_MSI_IRQS			32
+> >  #define MAX_MSI_CTRLS			(MAX_MSI_IRQS / 32)
+> >  
+> > +/* Parameters for the waiting for link up routine */
+> > +#define LINK_WAIT_MAX_RETRIES		10
+> > +#define LINK_WAIT_USLEEP_MIN		90000
+> > +#define LINK_WAIT_USLEEP_MAX		100000
+> > +
+> >  struct pcie_port {
+> >  	struct device		*dev;
+> >  	u8			root_bus_nr;
+> > @@ -76,6 +81,7 @@ int dw_pcie_cfg_read(void __iomem *addr, int size, u32 *val);
+> >  int dw_pcie_cfg_write(void __iomem *addr, int size, u32 val);
+> >  irqreturn_t dw_handle_msi_irq(struct pcie_port *pp);
+> >  void dw_pcie_msi_init(struct pcie_port *pp);
+> > +int dw_pcie_wait_for_link(struct pcie_port *pp);
+> >  int dw_pcie_link_up(struct pcie_port *pp);
+> >  void dw_pcie_setup_rc(struct pcie_port *pp);
+> >  int dw_pcie_host_init(struct pcie_port *pp);
+> > diff --git a/drivers/pci/host/pcie-spear13xx.c b/drivers/pci/host/pcie-spear13xx.c
+> > index a6cd823..0e5a2f1 100644
+> > --- a/drivers/pci/host/pcie-spear13xx.c
+> > +++ b/drivers/pci/host/pcie-spear13xx.c
+> > @@ -13,7 +13,6 @@
+> >   */
+> >  
+> >  #include <linux/clk.h>
+> > -#include <linux/delay.h>
+> >  #include <linux/interrupt.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/module.h>
+> > @@ -149,7 +148,6 @@ static int spear13xx_pcie_establish_link(struct pcie_port *pp)
+> >  	struct spear13xx_pcie *spear13xx_pcie = to_spear13xx_pcie(pp);
+> >  	struct pcie_app_reg *app_reg = spear13xx_pcie->app_base;
+> >  	u32 exp_cap_off = EXP_CAP_ID_OFFSET;
+> > -	unsigned int retries;
+> >  
+> >  	if (dw_pcie_link_up(pp)) {
+> >  		dev_err(pp->dev, "link already up\n");
+> > @@ -201,15 +199,9 @@ static int spear13xx_pcie_establish_link(struct pcie_port *pp)
+> >  			&app_reg->app_ctrl_0);
+> >  
+> >  	/* check if the link is up or not */
+> > -	for (retries = 0; retries < 10; retries++) {
+> > -		if (dw_pcie_link_up(pp)) {
+> > -			dev_info(pp->dev, "link up\n");
+> > -			return 0;
+> > -		}
+> > -		mdelay(100);
+> > -	}
+> > +	if (!dw_pcie_wait_for_link(pp))
+> > +		return 0;
+> >  
+> > -	dev_err(pp->dev, "link Fail\n");
+> >  	return -EINVAL;
+> >  }
+> >  
+> > 
+> > --
+> > To unsubscribe from this list: send the line "unsubscribe linux-pci" in
+> > the body of a message to majordomo at vger.kernel.org
+> > More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> > 
 > 
