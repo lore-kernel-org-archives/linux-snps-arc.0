@@ -1,254 +1,68 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 26 Feb 2016 10:06:19 -0600
-Subject: [PATCH v10 2/4] PCI: designware: Add generic
- dw_pcie_wait_for_link()
-In-Reply-To: <56CFBBAF.4060203@synopsys.com>
-References: <20160225172957.2103.8326.stgit@bhelgaas-glaptop2.roam.corp.google.com>
- <20160225173736.2103.59017.stgit@bhelgaas-glaptop2.roam.corp.google.com>
- <56CFBBAF.4060203@synopsys.com>
+From: bhelgaas@google.com (Bjorn Helgaas)
+Date: Fri, 26 Feb 2016 10:29:49 -0600
+Subject: [PATCH v11 0/4] ARC: Add PCI support
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160226160619.GA9512@localhost>
+Message-ID: <20160226162554.11964.96983.stgit@bhelgaas-glaptop2.roam.corp.google.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Feb 26, 2016@10:42:55AM +0800, Joao Pinto wrote:
-> Hi! This patch seems OK also.
-> I did not received the 3/4 and 4/4 patches.
+>From Joao's v9 posting
+(http://lkml.kernel.org/r/cover.1454952698.git.jpinto at synopsys.com):
 
-Huh.  I do see them in the list archives:
+  "This patch set has the goal to add suppport for DesignWare PCIe RC in ARC
+  AXS10x. It includes the necessary tweaks to:
 
-  http://marc.info/?l=linux-pci&m=145642190422528&w=2
-  http://marc.info/?l=linux-pci&m=145642190522529&w=2
+   - the ARC architecture (PCI support)
+   - the PCI subsystem (ARC CPU support)
+   - to pcie-designware (Centralisation of wait for link routine)
+   - to dra7xx, exynos, imx6 and spear13xx drivers to use the centralised
+     code for link wait
 
-> On 2/26/2016 1:37 AM, Bjorn Helgaas wrote:
-> > From: Joao Pinto <Joao.Pinto at synopsys.com>
-> > 
-> > Several DesignWare-based drivers (dra7xx, exynos, imx6 and spear13xx) had
-> > similar loops waiting for the link to come up.
-> > 
-> > FIXME Doesn't update keystone
-> > FIXME Doesn't update qcom
+  A simple module was (pcie-designware-plat) was created to contain the
+  specific platform init code."
 
-I do want to resolve these keystone and qcom questions, though.
+Changes from v10:
+  - Update keystone link establishment to wait longer for link to come up
+    before re-initiating link training
+  - Also use generic dw_pcie_wait_for_link() in keystone and qcom drivers
 
-If I don't hear any responses, I'm going to go ahead and change them
-myself and ask forgiveness later.  I should have just done that to
-begin with :)
+I would still like acks from DesignWare maintainers (Jingoo or
+Pratyush), from Murali for the Keystone changes, and from Arnd for the
+DT updates.
 
-> > Add a generic dw_pcie_wait_for_link() for use by all these drivers so the
-> > waiting is done consistently, e.g., always using usleep_range() rather than
-> > mdelay() and using similar timeouts and retry counts.
-> > 
-> > [bhelgaas: changelog, split into its own patch]
-> > Signed-off-by: Joao Pinto <jpinto at synopsys.com>
-> > Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
-> > ---
-> >  drivers/pci/host/pci-dra7xx.c      |   11 +++--------
-> >  drivers/pci/host/pci-exynos.c      |   11 ++---------
-> >  drivers/pci/host/pci-imx6.c        |   11 +++--------
-> >  drivers/pci/host/pcie-designware.c |   19 +++++++++++++++++++
-> >  drivers/pci/host/pcie-designware.h |    6 ++++++
-> >  drivers/pci/host/pcie-spear13xx.c  |   12 ++----------
-> >  6 files changed, 35 insertions(+), 35 deletions(-)
-> > 
-> > diff --git a/drivers/pci/host/pci-dra7xx.c b/drivers/pci/host/pci-dra7xx.c
-> > index 923607b..8d3d350 100644
-> > --- a/drivers/pci/host/pci-dra7xx.c
-> > +++ b/drivers/pci/host/pci-dra7xx.c
-> > @@ -10,7 +10,6 @@
-> >   * published by the Free Software Foundation.
-> >   */
-> >  
-> > -#include <linux/delay.h>
-> >  #include <linux/err.h>
-> >  #include <linux/interrupt.h>
-> >  #include <linux/irq.h>
-> > @@ -108,7 +107,6 @@ static int dra7xx_pcie_establish_link(struct pcie_port *pp)
-> >  {
-> >  	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pp);
-> >  	u32 reg;
-> > -	unsigned int retries;
-> >  
-> >  	if (dw_pcie_link_up(pp)) {
-> >  		dev_err(pp->dev, "link is already up\n");
-> > @@ -119,13 +117,10 @@ static int dra7xx_pcie_establish_link(struct pcie_port *pp)
-> >  	reg |= LTSSM_EN;
-> >  	dra7xx_pcie_writel(dra7xx, PCIECTRL_DRA7XX_CONF_DEVICE_CMD, reg);
-> >  
-> > -	for (retries = 0; retries < 1000; retries++) {
-> > -		if (dw_pcie_link_up(pp))
-> > -			return 0;
-> > -		usleep_range(10, 20);
-> > -	}
-> > +	/* check if the link is up or not */
-> > +	if (!dw_pcie_wait_for_link(pp))
-> > +		return 0;
-> >  
-> > -	dev_err(pp->dev, "link is not up\n");
-> >  	return -EINVAL;
-> >  }
-> >  
-> > diff --git a/drivers/pci/host/pci-exynos.c b/drivers/pci/host/pci-exynos.c
-> > index d997d22..41f3248 100644
-> > --- a/drivers/pci/host/pci-exynos.c
-> > +++ b/drivers/pci/host/pci-exynos.c
-> > @@ -318,7 +318,6 @@ static int exynos_pcie_establish_link(struct pcie_port *pp)
-> >  {
-> >  	struct exynos_pcie *exynos_pcie = to_exynos_pcie(pp);
-> >  	u32 val;
-> > -	unsigned int retries;
-> >  
-> >  	if (dw_pcie_link_up(pp)) {
-> >  		dev_err(pp->dev, "Link already up\n");
-> > @@ -357,13 +356,8 @@ static int exynos_pcie_establish_link(struct pcie_port *pp)
-> >  			  PCIE_APP_LTSSM_ENABLE);
-> >  
-> >  	/* check if the link is up or not */
-> > -	for (retries = 0; retries < 10; retries++) {
-> > -		if (dw_pcie_link_up(pp)) {
-> > -			dev_info(pp->dev, "Link up\n");
-> > -			return 0;
-> > -		}
-> > -		mdelay(100);
-> > -	}
-> > +	if (!dw_pcie_wait_for_link(pp))
-> > +		return 0;
-> >  
-> >  	while (exynos_phy_readl(exynos_pcie, PCIE_PHY_PLL_LOCKED) == 0) {
-> >  		val = exynos_blk_readl(exynos_pcie, PCIE_PHY_PLL_LOCKED);
-> > @@ -372,7 +366,6 @@ static int exynos_pcie_establish_link(struct pcie_port *pp)
-> >  	/* power off phy */
-> >  	exynos_pcie_power_off_phy(pp);
-> >  
-> > -	dev_err(pp->dev, "PCIe Link Fail\n");
-> >  	return -EINVAL;
-> >  }
-> >  
-> > diff --git a/drivers/pci/host/pci-imx6.c b/drivers/pci/host/pci-imx6.c
-> > index fe60096..c53da17 100644
-> > --- a/drivers/pci/host/pci-imx6.c
-> > +++ b/drivers/pci/host/pci-imx6.c
-> > @@ -330,15 +330,10 @@ static void imx6_pcie_init_phy(struct pcie_port *pp)
-> >  
-> >  static int imx6_pcie_wait_for_link(struct pcie_port *pp)
-> >  {
-> > -	unsigned int retries;
-> > -
-> > -	for (retries = 0; retries < 200; retries++) {
-> > -		if (dw_pcie_link_up(pp))
-> > -			return 0;
-> > -		usleep_range(100, 1000);
-> > -	}
-> > +	/* check if the link is up or not */
-> > +	if (!dw_pcie_wait_for_link(pp))
-> > +		return 0;
-> >  
-> > -	dev_err(pp->dev, "phy link never came up\n");
-> >  	dev_dbg(pp->dev, "DEBUG_R0: 0x%08x, DEBUG_R1: 0x%08x\n",
-> >  		readl(pp->dbi_base + PCIE_PHY_DEBUG_R0),
-> >  		readl(pp->dbi_base + PCIE_PHY_DEBUG_R1));
-> > diff --git a/drivers/pci/host/pcie-designware.c b/drivers/pci/host/pcie-designware.c
-> > index 2171682..4fff2d2 100644
-> > --- a/drivers/pci/host/pcie-designware.c
-> > +++ b/drivers/pci/host/pcie-designware.c
-> > @@ -22,6 +22,7 @@
-> >  #include <linux/pci_regs.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/types.h>
-> > +#include <linux/delay.h>
-> >  
-> >  #include "pcie-designware.h"
-> >  
-> > @@ -380,6 +381,24 @@ static struct msi_controller dw_pcie_msi_chip = {
-> >  	.teardown_irq = dw_msi_teardown_irq,
-> >  };
-> >  
-> > +int dw_pcie_wait_for_link(struct pcie_port *pp)
-> > +{
-> > +	int retries;
-> > +
-> > +	/* check if the link is up or not */
-> > +	for (retries = 0; retries < LINK_WAIT_MAX_RETRIES; retries++) {
-> > +		if (dw_pcie_link_up(pp)) {
-> > +			dev_info(pp->dev, "link up\n");
-> > +			return 0;
-> > +		}
-> > +		usleep_range(LINK_WAIT_USLEEP_MIN, LINK_WAIT_USLEEP_MAX);
-> > +	}
-> > +
-> > +	dev_err(pp->dev, "phy link never came up\n");
-> > +
-> > +	return -EINVAL;
-> > +}
-> > +
-> >  int dw_pcie_link_up(struct pcie_port *pp)
-> >  {
-> >  	if (pp->ops->link_up)
-> > diff --git a/drivers/pci/host/pcie-designware.h b/drivers/pci/host/pcie-designware.h
-> > index 2356d29..f437f9b 100644
-> > --- a/drivers/pci/host/pcie-designware.h
-> > +++ b/drivers/pci/host/pcie-designware.h
-> > @@ -22,6 +22,11 @@
-> >  #define MAX_MSI_IRQS			32
-> >  #define MAX_MSI_CTRLS			(MAX_MSI_IRQS / 32)
-> >  
-> > +/* Parameters for the waiting for link up routine */
-> > +#define LINK_WAIT_MAX_RETRIES		10
-> > +#define LINK_WAIT_USLEEP_MIN		90000
-> > +#define LINK_WAIT_USLEEP_MAX		100000
-> > +
-> >  struct pcie_port {
-> >  	struct device		*dev;
-> >  	u8			root_bus_nr;
-> > @@ -76,6 +81,7 @@ int dw_pcie_cfg_read(void __iomem *addr, int size, u32 *val);
-> >  int dw_pcie_cfg_write(void __iomem *addr, int size, u32 val);
-> >  irqreturn_t dw_handle_msi_irq(struct pcie_port *pp);
-> >  void dw_pcie_msi_init(struct pcie_port *pp);
-> > +int dw_pcie_wait_for_link(struct pcie_port *pp);
-> >  int dw_pcie_link_up(struct pcie_port *pp);
-> >  void dw_pcie_setup_rc(struct pcie_port *pp);
-> >  int dw_pcie_host_init(struct pcie_port *pp);
-> > diff --git a/drivers/pci/host/pcie-spear13xx.c b/drivers/pci/host/pcie-spear13xx.c
-> > index a6cd823..0e5a2f1 100644
-> > --- a/drivers/pci/host/pcie-spear13xx.c
-> > +++ b/drivers/pci/host/pcie-spear13xx.c
-> > @@ -13,7 +13,6 @@
-> >   */
-> >  
-> >  #include <linux/clk.h>
-> > -#include <linux/delay.h>
-> >  #include <linux/interrupt.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/module.h>
-> > @@ -149,7 +148,6 @@ static int spear13xx_pcie_establish_link(struct pcie_port *pp)
-> >  	struct spear13xx_pcie *spear13xx_pcie = to_spear13xx_pcie(pp);
-> >  	struct pcie_app_reg *app_reg = spear13xx_pcie->app_base;
-> >  	u32 exp_cap_off = EXP_CAP_ID_OFFSET;
-> > -	unsigned int retries;
-> >  
-> >  	if (dw_pcie_link_up(pp)) {
-> >  		dev_err(pp->dev, "link already up\n");
-> > @@ -201,15 +199,9 @@ static int spear13xx_pcie_establish_link(struct pcie_port *pp)
-> >  			&app_reg->app_ctrl_0);
-> >  
-> >  	/* check if the link is up or not */
-> > -	for (retries = 0; retries < 10; retries++) {
-> > -		if (dw_pcie_link_up(pp)) {
-> > -			dev_info(pp->dev, "link up\n");
-> > -			return 0;
-> > -		}
-> > -		mdelay(100);
-> > -	}
-> > +	if (!dw_pcie_wait_for_link(pp))
-> > +		return 0;
-> >  
-> > -	dev_err(pp->dev, "link Fail\n");
-> >  	return -EINVAL;
-> >  }
-> >  
-> > 
-> > --
-> > To unsubscribe from this list: send the line "unsubscribe linux-pci" in
-> > the body of a message to majordomo at vger.kernel.org
-> > More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> > 
-> 
+This series is in my pci/host-synopsys branch here:
+https://git.kernel.org/cgit/linux/kernel/git/helgaas/pci.git/log/?h=pci/host-syn
+opsys
+---
+
+Joao Pinto (4):
+      ARC: Add PCI support
+      PCI: designware: Add generic dw_pcie_wait_for_link()
+      PCI: designware: Add default link up check if sub-driver doesn't override
+      PCI: designware: Add driver for prototyping kits based on ARC SDP
+
+
+ .../devicetree/bindings/pci/designware-pcie.txt    |   17 ++
+ MAINTAINERS                                        |    7 +
+ arch/arc/Kconfig                                   |   26 ++++
+ arch/arc/include/asm/dma.h                         |    5 +
+ arch/arc/include/asm/io.h                          |    9 +
+ arch/arc/include/asm/pci.h                         |   31 ++++
+ arch/arc/kernel/Makefile                           |    1 
+ arch/arc/kernel/pcibios.c                          |   22 +++
+ arch/arc/plat-axs10x/Kconfig                       |    1 
+ drivers/pci/Makefile                               |    1 
+ drivers/pci/host/Kconfig                           |   11 ++
+ drivers/pci/host/Makefile                          |    1 
+ drivers/pci/host/pci-dra7xx.c                      |   11 --
+ drivers/pci/host/pci-exynos.c                      |   13 --
+ drivers/pci/host/pci-imx6.c                        |   13 +-
+ drivers/pci/host/pci-keystone.c                    |   10 +
+ drivers/pci/host/pcie-designware-plat.c            |  138 ++++++++++++++++++++
+ drivers/pci/host/pcie-designware.c                 |   29 ++++
+ drivers/pci/host/pcie-designware.h                 |    6 +
+ drivers/pci/host/pcie-qcom.c                       |   10 -
+ drivers/pci/host/pcie-spear13xx.c                  |   14 --
+ 21 files changed, 318 insertions(+), 58 deletions(-)
+ create mode 100644 arch/arc/include/asm/pci.h
+ create mode 100644 arch/arc/kernel/pcibios.c
+ create mode 100644 drivers/pci/host/pcie-designware-plat.c
