@@ -1,246 +1,230 @@
-From: bhelgaas@google.com (Bjorn Helgaas)
-Date: Thu, 25 Feb 2016 11:37:50 -0600
-Subject: [PATCH v10 4/4] PCI: designware: Add driver for prototyping kits
- based on ARC SDP
-In-Reply-To: <20160225172957.2103.8326.stgit@bhelgaas-glaptop2.roam.corp.google.com>
+From: Joao.Pinto@synopsys.com (Joao Pinto)
+Date: Fri, 26 Feb 2016 10:41:22 +0800
+Subject: [PATCH v10 1/4] ARC: Add PCI support
+In-Reply-To: <20160225173728.2103.69952.stgit@bhelgaas-glaptop2.roam.corp.google.com>
 References: <20160225172957.2103.8326.stgit@bhelgaas-glaptop2.roam.corp.google.com>
+ <20160225173728.2103.69952.stgit@bhelgaas-glaptop2.roam.corp.google.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160225173749.2103.9893.stgit@bhelgaas-glaptop2.roam.corp.google.com>
+Message-ID: <56CFBB52.2010909@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Joao Pinto <Joao.Pinto@synopsys.com>
+Hi!
+This patch is fine.
 
-Add a reference platform driver for PCI RC IP Protoyping Kits based on the
-ARC SDP.
+Joao
 
-[bhelgaas: changelog, split patch up, MAINTAINERS update]
-Signed-off-by: Joao Pinto <jpinto at synopsys.com>
-Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
----
- .../devicetree/bindings/pci/designware-pcie.txt    |   17 ++
- MAINTAINERS                                        |    7 +
- drivers/pci/host/Kconfig                           |   11 ++
- drivers/pci/host/Makefile                          |    1 
- drivers/pci/host/pcie-designware-plat.c            |  138 ++++++++++++++++++++
- 5 files changed, 174 insertions(+)
- create mode 100644 drivers/pci/host/pcie-designware-plat.c
-
-diff --git a/Documentation/devicetree/bindings/pci/designware-pcie.txt b/Documentation/devicetree/bindings/pci/designware-pcie.txt
-index 5b0853d..64f2fff 100644
---- a/Documentation/devicetree/bindings/pci/designware-pcie.txt
-+++ b/Documentation/devicetree/bindings/pci/designware-pcie.txt
-@@ -28,3 +28,20 @@ Optional properties:
- - clock-names: Must include the following entries:
- 	- "pcie"
- 	- "pcie_bus"
-+
-+Example configuration:
-+
-+	pcie: pcie at 0xdffff000 {
-+		compatible = "snps,dw-pcie";
-+		reg = <0xdffff000 0x1000>, /* Controller registers */
-+		      <0xd0000000 0x2000>; /* PCI config space */
-+		reg-names = "ctrlreg", "config";
-+		#address-cells = <3>;
-+		#size-cells = <2>;
-+		device_type = "pci";
-+		ranges = <0x81000000 0 0x00000000 0xde000000 0 0x00010000
-+			  0x82000000 0 0xd0400000 0xd0400000 0 0x0d000000>;
-+		interrupts = <25>, <24>;
-+		#interrupt-cells = <1>;
-+		num-lanes = <1>;
-+	};
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 30aca4a..e6c327b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8367,6 +8367,13 @@ L:	linux-pci at vger.kernel.org
- S:	Maintained
- F:	drivers/pci/host/*designware*
- 
-+PCI DRIVER FOR SYNOPSYS PROTOTYPING DEVICE
-+M:	Joao Pinto <jpinto at synopsys.com>
-+L:	linux-pci at vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/pci/designware-pcie.txt
-+F:	drivers/pci/host/pcie-designware-plat.c
-+
- PCI DRIVER FOR GENERIC OF HOSTS
- M:	Will Deacon <will.deacon at arm.com>
- L:	linux-pci at vger.kernel.org
-diff --git a/drivers/pci/host/Kconfig b/drivers/pci/host/Kconfig
-index 75a6054..7c47d69 100644
---- a/drivers/pci/host/Kconfig
-+++ b/drivers/pci/host/Kconfig
-@@ -16,6 +16,17 @@ config PCI_MVEBU
- 	depends on ARCH_MVEBU || ARCH_DOVE
- 	depends on OF
- 
-+config PCIE_DW_PLAT
-+	bool "Platform bus based DesignWare PCIe Controller"
-+	select PCIE_DW
-+	---help---
-+	 This selects the DesignWare PCIe controller support. Select this if
-+	 you have a PCIe controller on Platform bus.
-+
-+	 If you have a controller with this interface, say Y or M here.
-+
-+	 If unsure, say N.
-+
- config PCIE_DW
- 	bool
- 
-diff --git a/drivers/pci/host/Makefile b/drivers/pci/host/Makefile
-index 7b2f20c..7136a1e 100644
---- a/drivers/pci/host/Makefile
-+++ b/drivers/pci/host/Makefile
-@@ -1,4 +1,5 @@
- obj-$(CONFIG_PCIE_DW) += pcie-designware.o
-+obj-$(CONFIG_PCIE_DW_PLAT) += pcie-designware-plat.o
- obj-$(CONFIG_PCI_DRA7XX) += pci-dra7xx.o
- obj-$(CONFIG_PCI_EXYNOS) += pci-exynos.o
- obj-$(CONFIG_PCI_IMX6) += pci-imx6.o
-diff --git a/drivers/pci/host/pcie-designware-plat.c b/drivers/pci/host/pcie-designware-plat.c
-new file mode 100644
-index 0000000..b350099
---- /dev/null
-+++ b/drivers/pci/host/pcie-designware-plat.c
-@@ -0,0 +1,138 @@
-+/*
-+ * PCIe RC driver for Synopsys DesignWare Core
-+ *
-+ * Copyright (C) 2015-2016 Synopsys, Inc. (www.synopsys.com)
-+ *
-+ * Authors: Joao Pinto <jpinto at synopsys.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/gpio.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of_gpio.h>
-+#include <linux/pci.h>
-+#include <linux/platform_device.h>
-+#include <linux/resource.h>
-+#include <linux/signal.h>
-+#include <linux/types.h>
-+
-+#include "pcie-designware.h"
-+
-+struct dw_plat_pcie {
-+	void __iomem		*mem_base;
-+	struct pcie_port	pp;
-+};
-+
-+static irqreturn_t dw_plat_pcie_msi_irq_handler(int irq, void *arg)
-+{
-+	struct pcie_port *pp = arg;
-+
-+	return dw_handle_msi_irq(pp);
-+}
-+
-+static void dw_plat_pcie_host_init(struct pcie_port *pp)
-+{
-+	dw_pcie_setup_rc(pp);
-+	dw_pcie_wait_for_link(pp);
-+
-+	if (IS_ENABLED(CONFIG_PCI_MSI))
-+		dw_pcie_msi_init(pp);
-+}
-+
-+static struct pcie_host_ops dw_plat_pcie_host_ops = {
-+	.host_init = dw_plat_pcie_host_init,
-+};
-+
-+static int dw_plat_add_pcie_port(struct pcie_port *pp,
-+				 struct platform_device *pdev)
-+{
-+	int ret;
-+
-+	pp->irq = platform_get_irq(pdev, 1);
-+	if (pp->irq < 0)
-+		return pp->irq;
-+
-+	if (IS_ENABLED(CONFIG_PCI_MSI)) {
-+		pp->msi_irq = platform_get_irq(pdev, 0);
-+		if (pp->msi_irq < 0)
-+			return pp->msi_irq;
-+
-+		ret = devm_request_irq(&pdev->dev, pp->msi_irq,
-+					dw_plat_pcie_msi_irq_handler,
-+					IRQF_SHARED, "dw-plat-pcie-msi", pp);
-+		if (ret) {
-+			dev_err(&pdev->dev, "failed to request MSI IRQ\n");
-+			return ret;
-+		}
-+	}
-+
-+	pp->root_bus_nr = -1;
-+	pp->ops = &dw_plat_pcie_host_ops;
-+
-+	ret = dw_pcie_host_init(pp);
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to initialize host\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int dw_plat_pcie_probe(struct platform_device *pdev)
-+{
-+	struct dw_plat_pcie *dw_plat_pcie;
-+	struct pcie_port *pp;
-+	struct resource *res;  /* Resource from DT */
-+	int ret;
-+
-+	dw_plat_pcie = devm_kzalloc(&pdev->dev, sizeof(*dw_plat_pcie),
-+					GFP_KERNEL);
-+	if (!dw_plat_pcie)
-+		return -ENOMEM;
-+
-+	pp = &dw_plat_pcie->pp;
-+	pp->dev = &pdev->dev;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res)
-+		return -ENODEV;
-+
-+	dw_plat_pcie->mem_base = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(dw_plat_pcie->mem_base))
-+		return PTR_ERR(dw_plat_pcie->mem_base);
-+
-+	pp->dbi_base = dw_plat_pcie->mem_base;
-+
-+	ret = dw_plat_add_pcie_port(pp, pdev);
-+	if (ret < 0)
-+		return ret;
-+
-+	platform_set_drvdata(pdev, dw_plat_pcie);
-+	return 0;
-+}
-+
-+static const struct of_device_id dw_plat_pcie_of_match[] = {
-+	{ .compatible = "snps,dw-pcie", },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, dw_plat_pcie_of_match);
-+
-+static struct platform_driver dw_plat_pcie_driver = {
-+	.driver = {
-+		.name	= "dw-pcie",
-+		.of_match_table = dw_plat_pcie_of_match,
-+	},
-+	.probe = dw_plat_pcie_probe,
-+};
-+
-+module_platform_driver(dw_plat_pcie_driver);
-+
-+MODULE_AUTHOR("Joao Pinto <Joao.Pinto at synopsys.com>");
-+MODULE_DESCRIPTION("Synopsys PCIe host controller glue platform driver");
-+MODULE_LICENSE("GPL v2");
+On 2/26/2016 1:37 AM, Bjorn Helgaas wrote:
+> From: Joao Pinto <Joao.Pinto at synopsys.com>
+> 
+> Add PCI support to ARC and update drivers/pci Makefile enabling the ARC
+> arch to use the generic PCI setup functions.
+> 
+> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
+> Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
+> Acked-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  arch/arc/Kconfig             |   26 ++++++++++++++++++++++++++
+>  arch/arc/include/asm/dma.h   |    5 +++++
+>  arch/arc/include/asm/io.h    |    9 +++++++++
+>  arch/arc/include/asm/pci.h   |   31 +++++++++++++++++++++++++++++++
+>  arch/arc/kernel/Makefile     |    1 +
+>  arch/arc/kernel/pcibios.c    |   22 ++++++++++++++++++++++
+>  arch/arc/plat-axs10x/Kconfig |    1 +
+>  drivers/pci/Makefile         |    1 +
+>  8 files changed, 96 insertions(+)
+>  create mode 100644 arch/arc/include/asm/pci.h
+>  create mode 100644 arch/arc/kernel/pcibios.c
+> 
+> diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+> index 76dde9d..f9e3b357 100644
+> --- a/arch/arc/Kconfig
+> +++ b/arch/arc/Kconfig
+> @@ -19,6 +19,7 @@ config ARC
+>  	select GENERIC_FIND_FIRST_BIT
+>  	# for now, we don't need GENERIC_IRQ_PROBE, CONFIG_GENERIC_IRQ_CHIP
+>  	select GENERIC_IRQ_SHOW
+> +	select GENERIC_PCI_IOMAP
+>  	select GENERIC_PENDING_IRQ if SMP
+>  	select GENERIC_SMP_IDLE_THREAD
+>  	select HAVE_ARCH_KGDB
+> @@ -39,6 +40,9 @@ config ARC
+>  	select PERF_USE_VMALLOC
+>  	select HAVE_DEBUG_STACKOVERFLOW
+>  
+> +config MIGHT_HAVE_PCI
+> +	bool
+> +
+>  config TRACE_IRQFLAGS_SUPPORT
+>  	def_bool y
+>  
+> @@ -568,6 +572,28 @@ endmenu	 # "ARC Architecture Configuration"
+>  source "mm/Kconfig"
+>  source "net/Kconfig"
+>  source "drivers/Kconfig"
+> +
+> +menu "Bus Support"
+> +
+> +config PCI
+> +	bool "PCI support" if MIGHT_HAVE_PCI
+> +	help
+> +	  PCI is the name of a bus system, i.e., the way the CPU talks to
+> +	  the other stuff inside your box.  Find out if your board/platform
+> +	  has PCI.
+> +
+> +	  Note: PCIe support for Synopsys Device will be available only
+> +	  when HAPS DX is configured with PCIe RC bitmap. If you have PCI,
+> +	  say Y, otherwise N.
+> +
+> +config PCI_SYSCALL
+> +	def_bool PCI
+> +
+> +source "drivers/pci/Kconfig"
+> +source "drivers/pci/pcie/Kconfig"
+> +
+> +endmenu
+> +
+>  source "fs/Kconfig"
+>  source "arch/arc/Kconfig.debug"
+>  source "security/Kconfig"
+> diff --git a/arch/arc/include/asm/dma.h b/arch/arc/include/asm/dma.h
+> index ca7c451..01e47a6 100644
+> --- a/arch/arc/include/asm/dma.h
+> +++ b/arch/arc/include/asm/dma.h
+> @@ -10,5 +10,10 @@
+>  #define ASM_ARC_DMA_H
+>  
+>  #define MAX_DMA_ADDRESS 0xC0000000
+> +#ifdef CONFIG_PCI
+> +extern int isa_dma_bridge_buggy;
+> +#else
+> +#define isa_dma_bridge_buggy	0
+> +#endif
+>  
+>  #endif
+> diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
+> index 694ece8..947bf0c 100644
+> --- a/arch/arc/include/asm/io.h
+> +++ b/arch/arc/include/asm/io.h
+> @@ -16,6 +16,15 @@
+>  extern void __iomem *ioremap(unsigned long physaddr, unsigned long size);
+>  extern void __iomem *ioremap_prot(phys_addr_t offset, unsigned long size,
+>  				  unsigned long flags);
+> +static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
+> +{
+> +	return (void __iomem *)port;
+> +}
+> +
+> +static inline void ioport_unmap(void __iomem *addr)
+> +{
+> +}
+> +
+>  extern void iounmap(const void __iomem *addr);
+>  
+>  #define ioremap_nocache(phy, sz)	ioremap(phy, sz)
+> diff --git a/arch/arc/include/asm/pci.h b/arch/arc/include/asm/pci.h
+> new file mode 100644
+> index 0000000..2f2011c
+> --- /dev/null
+> +++ b/arch/arc/include/asm/pci.h
+> @@ -0,0 +1,31 @@
+> +/*
+> + * Copyright (C) 2015-2016 Synopsys, Inc. (www.synopsys.com)
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License version 2 as
+> + * published by the Free Software Foundation.
+> + */
+> +
+> +#ifndef _ASM_ARC_PCI_H
+> +#define _ASM_ARC_PCI_H
+> +
+> +#ifdef __KERNEL__
+> +#include <asm-generic/pci-dma-compat.h>
+> +#include <asm-generic/pci-bridge.h>
+> +
+> +#include <linux/ioport.h>
+> +
+> +#define PCIBIOS_MIN_IO 0x100
+> +#define PCIBIOS_MIN_MEM 0x100000
+> +
+> +#define pcibios_assign_all_busses()	1
+> +/*
+> + * The PCI address space does equal the physical memory address space.
+> + * The networking and block device layers use this boolean for bounce
+> + * buffer decisions.
+> + */
+> +#define PCI_DMA_BUS_IS_PHYS	1
+> +
+> +#endif /* __KERNEL__ */
+> +
+> +#endif /* _ASM_ARC_PCI_H */
+> diff --git a/arch/arc/kernel/Makefile b/arch/arc/kernel/Makefile
+> index e7f3625..1bc2036 100644
+> --- a/arch/arc/kernel/Makefile
+> +++ b/arch/arc/kernel/Makefile
+> @@ -12,6 +12,7 @@ obj-y	:= arcksyms.o setup.o irq.o time.o reset.o ptrace.o process.o devtree.o
+>  obj-y	+= signal.o traps.o sys.o troubleshoot.o stacktrace.o disasm.o clk.o
+>  obj-$(CONFIG_ISA_ARCOMPACT)		+= entry-compact.o intc-compact.o
+>  obj-$(CONFIG_ISA_ARCV2)			+= entry-arcv2.o intc-arcv2.o
+> +obj-$(CONFIG_PCI)  			+= pcibios.o
+>  
+>  obj-$(CONFIG_MODULES)			+= arcksyms.o module.o
+>  obj-$(CONFIG_SMP) 			+= smp.o
+> diff --git a/arch/arc/kernel/pcibios.c b/arch/arc/kernel/pcibios.c
+> new file mode 100644
+> index 0000000..72e1d73
+> --- /dev/null
+> +++ b/arch/arc/kernel/pcibios.c
+> @@ -0,0 +1,22 @@
+> +/*
+> + * Copyright (C) 2014-2015 Synopsys, Inc. (www.synopsys.com)
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License version 2 as
+> + * published by the Free Software Foundation.
+> + */
+> +
+> +#include <linux/pci.h>
+> +
+> +/*
+> + * We don't have to worry about legacy ISA devices, so nothing to do here
+> + */
+> +resource_size_t pcibios_align_resource(void *data, const struct resource *res,
+> +				resource_size_t size, resource_size_t align)
+> +{
+> +	return res->start;
+> +}
+> +
+> +void pcibios_fixup_bus(struct pci_bus *bus)
+> +{
+> +}
+> diff --git a/arch/arc/plat-axs10x/Kconfig b/arch/arc/plat-axs10x/Kconfig
+> index d475f9d..426ac4b 100644
+> --- a/arch/arc/plat-axs10x/Kconfig
+> +++ b/arch/arc/plat-axs10x/Kconfig
+> @@ -11,6 +11,7 @@ menuconfig ARC_PLAT_AXS10X
+>  	select DW_APB_ICTL
+>  	select GPIO_DWAPB
+>  	select OF_GPIO
+> +	select MIGHT_HAVE_PCI
+>  	select GENERIC_IRQ_CHIP
+>  	select ARCH_REQUIRE_GPIOLIB
+>  	help
+> diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+> index be3f631..2154092 100644
+> --- a/drivers/pci/Makefile
+> +++ b/drivers/pci/Makefile
+> @@ -32,6 +32,7 @@ obj-$(CONFIG_PCI_IOV) += iov.o
+>  # Some architectures use the generic PCI setup functions
+>  #
+>  obj-$(CONFIG_ALPHA) += setup-irq.o
+> +obj-$(CONFIG_ARC) += setup-irq.o
+>  obj-$(CONFIG_ARM) += setup-irq.o
+>  obj-$(CONFIG_ARM64) += setup-irq.o
+>  obj-$(CONFIG_UNICORE32) += setup-irq.o
+> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-pci" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
