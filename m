@@ -1,81 +1,61 @@
-From: robh@kernel.org (Rob Herring)
-Date: Fri, 4 Mar 2016 22:30:01 -0600
-Subject: [PATCH 2/4 v2] drm: Add DT bindings documentation for ARC PGU
- display controller
-In-Reply-To: <1457015956-30708-3-git-send-email-abrodkin@synopsys.com>
-References: <1457015956-30708-1-git-send-email-abrodkin@synopsys.com>
- <1457015956-30708-3-git-send-email-abrodkin@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 7 Mar 2016 10:39:27 +0000
+Subject: [LTP] [PATCH] rt_sigaction.h: adjust for ARC
+References: <1457090537-23825-1-git-send-email-vgupta@synopsys.com>
+ <20160307101319.GB3559@rei.suse.cz>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160305043001.GB13525@rob-hp-laptop>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E8E55A@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Mar 03, 2016@05:39:14PM +0300, Alexey Brodkin wrote:
-> This add DT bindings documentation for ARC PGU display controller.
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Rob Herring <robh+dt at kernel.org>
-> Cc: Pawel Moll <pawel.moll at arm.com>
-> Cc: Mark Rutland <mark.rutland at arm.com>
-> Cc: Ian Campbell <ijc+devicetree at hellion.org.uk>
-> Cc: Kumar Gala <galak at codeaurora.org>
-> Cc: devicetree at vger.kernel.org
-> Cc: linux-snps-arc at lists.infradead.org
-> ---
-> 
-> Changes v1 -> v2:
->  * Clean-up
+On Monday 07 March 2016 03:45 PM, Cyril Hrubis wrote:
+> Hi!
+>> To me all the song-and-dance in ltp_rt_sigaction() doesn't make sense.
+> These are required if you call the raw rt_sigaction syscall. Since
+> before signal handler is called the process context is saved on the
+> user-space stack and once signal is done it has to be restored. In order
+> to do that signal trampoline is called which calls sigreturn to restore
+> the context. And the way trapoline is executed is platform specific and
+> sometimes in the sa_restorer.
 
-Not really useful. What we like to see is what changed. Maintainers have 
-short memories and don't remember what they said previously (unless 
-comments are ignored).
+I'm well aware of all that having fixed a bunch of kernel issues in this exact
+area back in 2008 and also added the uClibc userspace default sigrestorer....
+The point is why is LTP calling raw rt_sigaction syscall at all. It needs to call
+sigaction which is the posix API and see how it behaves. I can understand the
+usage of raw syscalls for things which won't be present in a libc (e.g newer
+syscalls or perhaps obsoleted syscalls). sigaction is fairly standard. No ?
 
-> 
->  .../devicetree/bindings/display/snps,arcpgu.txt    | 33 ++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/snps,arcpgu.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/display/snps,arcpgu.txt b/Documentation/devicetree/bindings/display/snps,arcpgu.txt
-> new file mode 100644
-> index 0000000..57f3bc8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/snps,arcpgu.txt
-> @@ -0,0 +1,33 @@
-> +ARC PGU
-> +
-> +This is a display controller found on several development boards produced
-> +by Synopsys. The ARC PGU is an RGB streamer that reads the data from a
-> +framebuffer and sends it to a single digital encoder (usually HDMI).
-> +
-> +Required properties:
-> +  - compatible: "snps,arcpgu"
-> +  - reg: Physical base address and length of the controller's registers.
-> +  - clocks: A list of phandle + clock-specifier pairs, one for each
-> +    entry in 'clock-names'.
-> +  - clock-names: A list of clock names. For ARC PGU it should contain:
-> +      - "pxlclk" for the clock feeding the output PLL of the controller.
-> +
-> +Required sub-nodes:
-> +  - port: The PGU connection to an encoder chip. The connection is modelled
-> +    using the OF graph bindings specified in
-> +    Documentation/devicetree/bindings/graph.txt.
-> +
-> +Example:
-> +
-> +/ {
-> +	...
-> +
-> +	pgu at XXXXXXXX {
-> +		compatible = "snps,arcpgu";
-> +		reg = <0xXXXXXXXX 0x400>;
-> +		clocks = <&clock_node>;
-> +		clock-names = "pxlclk";
+>> The intent it to test whatever platform libc + kernel combination
+>> provides and to that end any fixups in LTP seem odd to me.
+>> So for ARC just call what libc provides and don't claim to support
+>> more/less.
+> These testcases are testing kernel syscall and some of the testcases
+> will not work with the libc wrapper.
 
-Where's the port? Didn't you previously say it was optional?
+I understand you want to test the -EFAULT code path in the kernel - but any arch
+with default sa restorer in libc can't do that at all.
+They have to provide the default sa restorer to successfully return from signal
+handler to invoke the sigreturn syscall.
+Look in uClibc - ARC is not the exception: ARM, Xtensa, MIPS, x86 all use such
+userspace default restorers and are all plagued by same issue.
 
-> +	};
-> +
-> +	...
-> +};
-> -- 
-> 2.5.0
-> 
+Before this patch, we had rt_sigaction01 crash on ARC - this was because it passed
+the test itself, but for sigreturn it went off to lala land since there was no
+restorer. So it failed anyways. With this patch we have that as passing: actually
+4 passes, 2 failures. I don't care abt this +4/-2. More importantly this is true
+reflection of how ARC GNU stack behaves. If you call sigaction(num, -1, 0) it will
+NOT return -EFAULT but crash.
+
+-rt_sigaction01 rt_sigaction01
+-rt_sigprocmask01 rt_sigprocmask01
+-rt_sigsuspend01 rt_sigsuspend01
++rt_sigaction02 rt_sigaction02
++rt_sigaction03 rt_sigaction03
+-signal_test_04 signal_test_04
+
+
+>  So NACK on the patch.
+
+But this patch only changes how ARC works - so whats the problem ? There are
+already arch specifix quirks in this file, there so how does one more hurt.
+
+-Vineet
