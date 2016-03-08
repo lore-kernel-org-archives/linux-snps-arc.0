@@ -1,57 +1,93 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 8 Mar 2016 17:56:10 +0530
-Subject: [PATCH v2 7/9] ARC: use fixed frequencies in arc_set_early_base_baud()
+Date: Tue, 8 Mar 2016 17:56:07 +0530
+Subject: [PATCH v2 4/9] ARC: clockevent: Prepare for DT based probe
 In-Reply-To: <1457439972-20285-1-git-send-email-vgupta@synopsys.com>
 References: <1457439972-20285-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1457439972-20285-8-git-send-email-vgupta@synopsys.com>
+Message-ID: <1457439972-20285-5-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Alexey Brodkin <abrodkin@synopsys.com>
+From: Noam Camus <noamc@ezchip.com>
 
-UARTs usually have fixed clock so we're switching to use of
-constant values instead of something derived from core clock
-frequency.
+ - call clocksource_probe()
+ - This in turns needs of_clk_init() to be called earlier
 
-Among other things this will allow us to get rid of
-arc_{get|set}_core_freq() and switch to generic clock
-framework later on.
-
-Cc: Christian Ruppert <christian.ruppert at alitech.com>
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+Signed-off-by: Noam Camus <noamc at ezchip.com>
+[vgupta: broken off from a bigger patch]
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
 Changes v1 -> v2
- - Base baud TB10x needs to be 166.66 not 166.67	[Christian]
+ - Rebased on 4.5-rc6
+ - Removed now not relevant header from setup.c
 
 v1:
- - http://lists.infradead.org/pipermail/linux-snps-arc/2016-February/000453.html
+ - http://lists.infradead.org/pipermail/linux-snps-arc/2016-February/000448.html
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/devtree.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ arch/arc/Kconfig        | 3 ++-
+ arch/arc/kernel/setup.c | 2 --
+ arch/arc/kernel/time.c  | 5 +++++
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arc/kernel/devtree.c b/arch/arc/kernel/devtree.c
-index 7e844fd8213f..fecbc96df828 100644
---- a/arch/arc/kernel/devtree.c
-+++ b/arch/arc/kernel/devtree.c
-@@ -28,14 +28,12 @@ unsigned int __init arc_early_base_baud(void)
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 8a188bc1786a..74689dfde0ae 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -10,8 +10,9 @@ config ARC
+ 	def_bool y
+ 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
+ 	select BUILDTIME_EXTABLE_SORT
+-	select COMMON_CLK
++	select CLKSRC_OF
+ 	select CLONE_BACKWARDS
++	select COMMON_CLK
+ 	select GENERIC_ATOMIC64
+ 	select GENERIC_CLOCKEVENTS
+ 	select GENERIC_FIND_FIRST_BIT
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index cdc821df1809..2dad49c71c09 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -13,7 +13,6 @@
+ #include <linux/console.h>
+ #include <linux/module.h>
+ #include <linux/cpu.h>
+-#include <linux/clk-provider.h>
+ #include <linux/of_fdt.h>
+ #include <linux/of_platform.h>
+ #include <linux/cache.h>
+@@ -459,7 +458,6 @@ void __init setup_arch(char **cmdline_p)
  
- static void __init arc_set_early_base_baud(unsigned long dt_root)
+ static int __init customize_machine(void)
  {
--	unsigned int core_clk = arc_get_core_freq();
--
- 	if (of_flat_dt_is_compatible(dt_root, "abilis,arc-tb10x"))
--		arc_base_baud = core_clk/3;
-+		arc_base_baud = 166666666;	/* Fixed 166.6MHz clk (TB10x) */
- 	else if (of_flat_dt_is_compatible(dt_root, "snps,arc-sdp"))
- 		arc_base_baud = 33333333;	/* Fixed 33MHz clk (AXS10x) */
- 	else
--		arc_base_baud = core_clk;
-+		arc_base_baud = 50000000;	/* Fixed default 50MHz */
- }
- #else
- #define arc_set_early_base_baud(dt_root)
+-	of_clk_init(NULL);
+ 	/*
+ 	 * Traverses flattened DeviceTree - registering platform devices
+ 	 * (if any) complete with their resources
+diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+index e97be743d47b..848353a27ac8 100644
+--- a/arch/arc/kernel/time.c
++++ b/arch/arc/kernel/time.c
+@@ -34,6 +34,8 @@
+ #include <linux/kernel.h>
+ #include <linux/time.h>
+ #include <linux/init.h>
++#include <linux/clk.h>
++#include <linux/clk-provider.h>
+ #include <linux/clocksource.h>
+ #include <linux/clockchips.h>
+ #include <linux/cpu.h>
+@@ -301,6 +303,9 @@ static void __init arc_clockevent_setup(void)
+  */
+ void __init time_init(void)
+ {
++	of_clk_init(NULL);
++	clocksource_probe();
++
+ 	/*
+ 	 * sets up the timekeeping free-flowing counter which also returns
+ 	 * whether the counter is usable as clocksource
 -- 
 2.5.0
