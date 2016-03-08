@@ -1,64 +1,85 @@
-From: vbabka@suse.cz (Vlastimil Babka)
-Date: Tue, 8 Mar 2016 16:32:29 +0100
+From: vgupta@synopsys.com (Vineet Gupta)
+Date: Tue, 8 Mar 2016 21:16:27 +0530
 Subject: [PATCH] mm: slub: Ensure that slab_unlock() is atomic
-In-Reply-To: <1457447457-25878-1-git-send-email-vgupta@synopsys.com>
+In-Reply-To: <alpine.DEB.2.20.1603080857360.4047@east.gentwo.org>
 References: <1457447457-25878-1-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.20.1603080857360.4047@east.gentwo.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56DEF08D.607@suse.cz>
+Message-ID: <56DEF3D3.6080008@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 03/08/2016 03:30 PM, Vineet Gupta wrote:
-> We observed livelocks on ARC SMP setup when running hackbench with SLUB.
-> This hardware configuration lacks atomic instructions (LLOCK/SCOND) thus
-> kernel resorts to a central @smp_bitops_lock to protect any R-M-W ops
-> suh as test_and_set_bit()
+On Tuesday 08 March 2016 08:30 PM, Christoph Lameter wrote:
+> On Tue, 8 Mar 2016, Vineet Gupta wrote:
+> 
+>> This in turn happened because slab_unlock() doesn't serialize properly
+>> (doesn't use atomic clear) with a concurrent running
+>> slab_lock()->test_and_set_bit()
+> 
+> This is intentional because of the increased latency of atomic
+> instructions. Why would the unlock need to be atomic? This patch will
+> cause regressions.
+> 
+> Guess this is an architecture specific issue of modified
+> cachelines not becoming visible to other processors?
 
-Sounds like this architecture should then redefine __clear_bit_unlock
-and perhaps other non-atomic __X_bit() variants to be atomic, and not
-defer this requirement to places that use the API?
+Absolutely not - we verified with the hardware coherency tracing that there was no
+foul play there. And I would dare not point finger at code which was last updated
+in 2011 w/o being absolutely sure.
 
-> The spinlock itself is implemented using Atomic [EX]change instruction
-> which is always available.
-> 
-> The race happened when both cores tried to slab_lock() the same page.
-> 
->    c1		    c0
-> -----------	-----------
-> slab_lock
-> 		slab_lock
-> slab_unlock
-> 		Not observing the unlock
-> 
-> This in turn happened because slab_unlock() doesn't serialize properly
-> (doesn't use atomic clear) with a concurrent running
-> slab_lock()->test_and_set_bit()
-> 
-> Cc: Christoph Lameter <cl at linux.com>
-> Cc: Pekka Enberg <penberg at kernel.org>
-> Cc: David Rientjes <rientjes at google.com>
-> Cc: Joonsoo Kim <iamjoonsoo.kim at lge.com>
-> Cc: Andrew Morton <akpm at linux-foundation.org>
-> Cc: Noam Camus <noamc at ezchip.com>
-> Cc: <stable at vger.kernel.org>
-> Cc: <linux-mm at kvack.org>
-> Cc: <linux-kernel at vger.kernel.org>
-> Cc: <linux-snps-arc at lists.infradead.org>
-> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-> ---
->  mm/slub.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index d8fbd4a6ed59..b7d345a508dc 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -345,7 +345,7 @@ static __always_inline void slab_lock(struct page *page)
->  static __always_inline void slab_unlock(struct page *page)
->  {
->  	VM_BUG_ON_PAGE(PageTail(page), page);
-> -	__bit_spin_unlock(PG_locked, &page->flags);
-> +	bit_spin_unlock(PG_locked, &page->flags);
->  }
->  
->  static inline void set_page_slub_counters(struct page *page, unsigned long counters_new)
-> 
+Let me explain this in bit more detail. Like I mentioned in commitlog, this config
+of ARC doesn't have exclusive load/stores (LLOCK/SCOND) so atomic ops are
+implemented using a "central" spin lock. The spin lock itself is implemented using
+EX instruction (atomic R-W)
+
+Generated code for slab_lock() - essentially bit_spin_lock() is below (I've
+removed generated code for CONFIG_PREEMPT for simplicity)
+
+80543b0c <slab_lock>:
+80543b0c:	push_s     blink
+...
+80543b3a:	mov_s      r15,0x809de168   <-- @smp_bitops_lock
+80543b40:	mov_s      r17,1
+80543b46:	mov_s      r16,0
+
+# spin lock() inside test_and_set_bit() - see arc bitops.h (!LLSC code)
+80543b78:	clri       r4
+80543b7c:	dmb        3
+80543b80:	mov_s      r2,r17
+80543b82:	ex         r2,[r15]
+80543b86:	breq       r2,1,80543b82
+80543b8a:	dmb        3
+
+# set the bit
+80543b8e:	ld_s       r2,[r13,0] <--- (A) Finds PG_locked is set
+80543b90:	or         r3,r2,1    <--- (B) other core unlocks right here
+80543b94:	st_s       r3,[r13,0] <--- (C) sets PG_locked (overwrites unlock)
+
+# spin_unlock
+80543b96:	dmb        3
+80543b9a:	mov_s      r3,r16
+80543b9c:	ex         r3,[r15]
+80543ba0:	dmb        3
+80543ba4:	seti       r4
+
+# check the old bit
+80543ba8:	bbit0      r2,0,80543bb8   <--- bit was set, branch not taken
+80543bac:	b_s        80543b68        <--- enter the test_bit() loop
+
+   80543b68:	ld_s       r2,[r13,0]	   <-- (C) reads the bit, set by SELF
+   80543b6a:	bbit1    r2,0,80543b68              spins infinitely
+
+...
+
+
+Now using hardware coherency tracing (and using the cycle timestamps) we verified
+(A) and (B)
+
+Thing is with exclusive load/store this race can't just happen since the
+intervening ST will cause the ST in (C) to NOT commit and the LD/ST will be retried.
+
+And there will be very few production systems which are SMP but lack exclusive
+load/stores.
+
+Are you convinced now !
+
+-Vineet
