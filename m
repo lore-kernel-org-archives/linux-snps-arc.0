@@ -1,129 +1,151 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 8 Mar 2016 17:56:12 +0530
-Subject: [PATCH v2 9/9] ARC: RIP arc_{get|set}_core_freq() clk API
+Date: Tue, 8 Mar 2016 17:56:11 +0530
+Subject: [PATCH v2 8/9] ARC: [plat-axs] Don't use arc_{get|set}_core_freq()
+ for manipulating core clk
 In-Reply-To: <1457439972-20285-1-git-send-email-vgupta@synopsys.com>
 References: <1457439972-20285-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1457439972-20285-10-git-send-email-vgupta@synopsys.com>
+Message-ID: <1457439972-20285-9-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Alexey Brodkin <abrodkin@synopsys.com>
 
-There are no more users of this - so RIP!
+For AXS103, certain bitfile configurations may not work with stock
+"clock-frequency" specified in DT. Instead of duplicating the DT files, we
+fixup the DT in-place.
+
+This used to be done differently - as in top level "clock-frequency" was
+read very early from FDT and exported using arc_{get|set}_core_freq()
+also used in setting up clockevent/clocksource timers
+
+This homebrew clk API served well for legacy timer probe (non DT)
+
+However TIMERS are now probed from DT and use "core_clk" defined in DT,
+and thus can no longer use the top level "clock-frequency".
+This change reduces the number of users of ARC clk hack and paves way
+for removal.
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-[vgupta: update changelog]
+[vgupta: broken out of from bigger patch]
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/include/asm/clk.h | 22 ----------------------
- arch/arc/kernel/Makefile   |  2 +-
- arch/arc/kernel/clk.c      | 21 ---------------------
- arch/arc/kernel/devtree.c  |  7 -------
- 4 files changed, 1 insertion(+), 51 deletions(-)
- delete mode 100644 arch/arc/include/asm/clk.h
- delete mode 100644 arch/arc/kernel/clk.c
+ arch/arc/kernel/setup.c       | 12 +++++++-----
+ arch/arc/plat-axs10x/axs10x.c | 27 +++++++++++++++++++++------
+ 2 files changed, 28 insertions(+), 11 deletions(-)
 
-diff --git a/arch/arc/include/asm/clk.h b/arch/arc/include/asm/clk.h
-deleted file mode 100644
-index bf9d29f5bd53..000000000000
---- a/arch/arc/include/asm/clk.h
-+++ /dev/null
-@@ -1,22 +0,0 @@
--/*
-- * Copyright (C) 2012 Synopsys, Inc. (www.synopsys.com)
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- */
--
--#ifndef _ASM_ARC_CLK_H
--#define _ASM_ARC_CLK_H
--
--/* Although we can't really hide core_freq, the accessor is still better way */
--extern unsigned long core_freq;
--
--static inline unsigned long arc_get_core_freq(void)
--{
--	return core_freq;
--}
--
--extern int arc_set_core_freq(unsigned long);
--
--#endif
-diff --git a/arch/arc/kernel/Makefile b/arch/arc/kernel/Makefile
-index e7f3625a19b5..4f16967a0871 100644
---- a/arch/arc/kernel/Makefile
-+++ b/arch/arc/kernel/Makefile
-@@ -9,7 +9,7 @@
- CFLAGS_ptrace.o		+= -DUTS_MACHINE='"$(UTS_MACHINE)"'
- 
- obj-y	:= arcksyms.o setup.o irq.o time.o reset.o ptrace.o process.o devtree.o
--obj-y	+= signal.o traps.o sys.o troubleshoot.o stacktrace.o disasm.o clk.o
-+obj-y	+= signal.o traps.o sys.o troubleshoot.o stacktrace.o disasm.o
- obj-$(CONFIG_ISA_ARCOMPACT)		+= entry-compact.o intc-compact.o
- obj-$(CONFIG_ISA_ARCV2)			+= entry-arcv2.o intc-arcv2.o
- 
-diff --git a/arch/arc/kernel/clk.c b/arch/arc/kernel/clk.c
-deleted file mode 100644
-index 10c7b0b5a079..000000000000
---- a/arch/arc/kernel/clk.c
-+++ /dev/null
-@@ -1,21 +0,0 @@
--/*
-- * Copyright (C) 2012 Synopsys, Inc. (www.synopsys.com)
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- */
--
--#include <asm/clk.h>
--
--unsigned long core_freq = 80000000;
--
--/*
-- * As of now we default to device-tree provided clock
-- * In future we can determine this in early boot
-- */
--int arc_set_core_freq(unsigned long freq)
--{
--	core_freq = freq;
--	return 0;
--}
-diff --git a/arch/arc/kernel/devtree.c b/arch/arc/kernel/devtree.c
-index fecbc96df828..f1e07c2344f8 100644
---- a/arch/arc/kernel/devtree.c
-+++ b/arch/arc/kernel/devtree.c
-@@ -14,7 +14,6 @@
- #include <linux/memblock.h>
- #include <linux/of.h>
- #include <linux/of_fdt.h>
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index b2921a3bd924..6fff28be695d 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -23,7 +23,6 @@
+ #include <asm/page.h>
+ #include <asm/irq.h>
+ #include <asm/unwind.h>
 -#include <asm/clk.h>
  #include <asm/mach_desc.h>
+ #include <asm/smp.h>
  
- #ifdef CONFIG_SERIAL_EARLYCON
-@@ -63,8 +62,6 @@ const struct machine_desc * __init setup_machine_fdt(void *dt)
- {
- 	const struct machine_desc *mdesc;
- 	unsigned long dt_root;
--	const void *clk;
--	int len;
+@@ -229,10 +228,6 @@ static char *arc_cpu_mumbojumbo(int cpu_id, char *buf, int len)
+ 	if (tbl->info.id == 0)
+ 		n += scnprintf(buf + n, len - n, "UNKNOWN ARC Processor\n");
  
- 	if (!early_init_dt_scan(dt))
- 		return NULL;
-@@ -74,10 +71,6 @@ const struct machine_desc * __init setup_machine_fdt(void *dt)
- 		machine_halt();
- 
- 	dt_root = of_get_flat_dt_root();
--	clk = of_get_flat_dt_prop(dt_root, "clock-frequency", &len);
--	if (clk)
--		arc_set_core_freq(of_read_ulong(clk, len/4));
+-	n += scnprintf(buf + n, len - n, "CPU speed\t: %u.%02u Mhz\n",
+-		       (unsigned int)(arc_get_core_freq() / 1000000),
+-		       (unsigned int)(arc_get_core_freq() / 10000) % 100);
 -
- 	arc_set_early_base_baud(dt_root);
+ 	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s\nISA Extn\t: ",
+ 		       IS_AVAIL1(cpu->extn.timer0, "Timer0 "),
+ 		       IS_AVAIL1(cpu->extn.timer1, "Timer1 "),
+@@ -487,6 +482,10 @@ static int show_cpuinfo(struct seq_file *m, void *v)
+ {
+ 	char *str;
+ 	int cpu_id = ptr_to_cpu(v);
++	struct device_node *pll = of_find_node_by_name(NULL, "core_clk");
++	u32 freq;
++
++	of_property_read_u32(pll, "clock-frequency", &freq);
  
- 	return mdesc;
+ 	if (!cpu_online(cpu_id)) {
+ 		seq_printf(m, "processor [%d]\t: Offline\n", cpu_id);
+@@ -498,6 +497,9 @@ static int show_cpuinfo(struct seq_file *m, void *v)
+ 		goto done;
+ 
+ 	seq_printf(m, arc_cpu_mumbojumbo(cpu_id, str, PAGE_SIZE));
++	seq_printf(m, "CPU speed\t: %u.%02u Mhz\n",
++		   (unsigned int)(freq / 1000000),
++		   (unsigned int)(freq / 10000) % 100);
+ 
+ 	seq_printf(m, "Bogo MIPS\t: %lu.%02lu\n",
+ 		   loops_per_jiffy / (500000 / HZ),
+diff --git a/arch/arc/plat-axs10x/axs10x.c b/arch/arc/plat-axs10x/axs10x.c
+index 1b0f0f458a2b..9701c93f315d 100644
+--- a/arch/arc/plat-axs10x/axs10x.c
++++ b/arch/arc/plat-axs10x/axs10x.c
+@@ -14,10 +14,11 @@
+  *
+  */
+ 
++#include <linux/of_fdt.h>
+ #include <linux/of_platform.h>
++#include <linux/libfdt.h>
+ 
+ #include <asm/asm-offsets.h>
+-#include <asm/clk.h>
+ #include <asm/io.h>
+ #include <asm/mach_desc.h>
+ #include <asm/mcip.h>
+@@ -389,6 +390,13 @@ axs103_set_freq(unsigned int id, unsigned int fd, unsigned int od)
+ 
+ static void __init axs103_early_init(void)
+ {
++	int offset = fdt_path_offset(initial_boot_params, "/cpu_card/core_clk");
++	const struct fdt_property *prop = fdt_get_property(initial_boot_params,
++							   offset,
++							   "clock-frequency",
++							   NULL);
++	u32 freq = be32_to_cpu(*(u32*)(prop->data)) / 1000000, orig = freq;
++
+ 	/*
+ 	 * AXS103 configurations for SMP/QUAD configurations share device tree
+ 	 * which defaults to 90 MHz. However recent failures of Quad config
+@@ -401,12 +409,12 @@ static void __init axs103_early_init(void)
+ #ifdef CONFIG_ARC_MCIP
+ 	unsigned int num_cores = (read_aux_reg(ARC_REG_MCIP_BCR) >> 16) & 0x3F;
+ 	if (num_cores > 2)
+-		arc_set_core_freq(50 * 1000000);
++		freq = 50;
+ 	else if (num_cores == 2)
+-		arc_set_core_freq(75 * 1000000);
++		freq = 75;
+ #endif
+ 
+-	switch (arc_get_core_freq()/1000000) {
++	switch (freq) {
+ 	case 33:
+ 		axs103_set_freq(1, 1, 1);
+ 		break;
+@@ -431,11 +439,18 @@ static void __init axs103_early_init(void)
+ 		 * DT "clock-frequency" might not match with board value.
+ 		 * Hence update it to match the board value.
+ 		 */
+-		arc_set_core_freq(axs103_get_freq() * 1000000);
++		freq = axs103_get_freq();
+ 		break;
+ 	}
+ 
+-	pr_info("Freq is %dMHz\n", axs103_get_freq());
++	pr_info("Freq is %dMHz\n", freq);
++
++	/* Patching .dtb in-place with new core clock value */
++	if (freq != orig ) {
++		freq = cpu_to_be32(freq * 1000000);
++		fdt_setprop_inplace(initial_boot_params, offset,
++				    "clock-frequency", &freq, sizeof(freq));
++	}
+ 
+ 	/* Memory maps already config in pre-bootloader */
+ 
 -- 
 2.5.0
