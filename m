@@ -1,58 +1,21 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 8 Mar 2016 20:00:57 +0530
+From: cl@linux.com (Christoph Lameter)
+Date: Tue, 8 Mar 2016 09:00:57 -0600 (CST)
 Subject: [PATCH] mm: slub: Ensure that slab_unlock() is atomic
+In-Reply-To: <1457447457-25878-1-git-send-email-vgupta@synopsys.com>
+References: <1457447457-25878-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1457447457-25878-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <alpine.DEB.2.20.1603080857360.4047@east.gentwo.org>
 To: linux-snps-arc@lists.infradead.org
 
-We observed livelocks on ARC SMP setup when running hackbench with SLUB.
-This hardware configuration lacks atomic instructions (LLOCK/SCOND) thus
-kernel resorts to a central @smp_bitops_lock to protect any R-M-W ops
-suh as test_and_set_bit()
+On Tue, 8 Mar 2016, Vineet Gupta wrote:
 
-The spinlock itself is implemented using Atomic [EX]change instruction
-which is always available.
+> This in turn happened because slab_unlock() doesn't serialize properly
+> (doesn't use atomic clear) with a concurrent running
+> slab_lock()->test_and_set_bit()
 
-The race happened when both cores tried to slab_lock() the same page.
+This is intentional because of the increased latency of atomic
+instructions. Why would the unlock need to be atomic? This patch will
+cause regressions.
 
-   c1		    c0
------------	-----------
-slab_lock
-		slab_lock
-slab_unlock
-		Not observing the unlock
-
-This in turn happened because slab_unlock() doesn't serialize properly
-(doesn't use atomic clear) with a concurrent running
-slab_lock()->test_and_set_bit()
-
-Cc: Christoph Lameter <cl at linux.com>
-Cc: Pekka Enberg <penberg at kernel.org>
-Cc: David Rientjes <rientjes at google.com>
-Cc: Joonsoo Kim <iamjoonsoo.kim at lge.com>
-Cc: Andrew Morton <akpm at linux-foundation.org>
-Cc: Noam Camus <noamc at ezchip.com>
-Cc: <stable at vger.kernel.org>
-Cc: <linux-mm at kvack.org>
-Cc: <linux-kernel at vger.kernel.org>
-Cc: <linux-snps-arc at lists.infradead.org>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- mm/slub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/mm/slub.c b/mm/slub.c
-index d8fbd4a6ed59..b7d345a508dc 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -345,7 +345,7 @@ static __always_inline void slab_lock(struct page *page)
- static __always_inline void slab_unlock(struct page *page)
- {
- 	VM_BUG_ON_PAGE(PageTail(page), page);
--	__bit_spin_unlock(PG_locked, &page->flags);
-+	bit_spin_unlock(PG_locked, &page->flags);
- }
- 
- static inline void set_page_slub_counters(struct page *page, unsigned long counters_new)
--- 
-2.5.0
+Guess this is an architecture specific issue of modified
+cachelines not becoming visible to other processors?
