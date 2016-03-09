@@ -1,31 +1,38 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Wed, 9 Mar 2016 13:22:17 +0100
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 9 Mar 2016 18:52:45 +0530
 Subject: [PATCH] mm: slub: Ensure that slab_unlock() is atomic
-In-Reply-To: <56E00EB6.4000201@synopsys.com>
+In-Reply-To: <20160309101349.GJ6344@twins.programming.kicks-ass.net>
 References: <1457447457-25878-1-git-send-email-vgupta@synopsys.com>
  <alpine.DEB.2.20.1603080857360.4047@east.gentwo.org>
  <56DEF3D3.6080008@synopsys.com>
  <alpine.DEB.2.20.1603081438020.4268@east.gentwo.org>
  <56DFC604.6070407@synopsys.com>
  <20160309101349.GJ6344@twins.programming.kicks-ass.net>
- <56E0024F.4070401@synopsys.com>
- <20160309114054.GJ6356@twins.programming.kicks-ass.net>
- <56E00EB6.4000201@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160309122217.GK6356@twins.programming.kicks-ass.net>
+Message-ID: <56E023A5.2000105@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Mar 09, 2016@05:23:26PM +0530, Vineet Gupta wrote:
-> > I did not follow through the maze, I think the few archs implementing
-> > this simply do not include this file at all.
-> > 
-> > I'll let the first person that cares about this worry about that :-)
+On Wednesday 09 March 2016 03:43 PM, Peter Zijlstra wrote:
+>> There is clearly a problem in slub code that it is pairing a test_and_set_bit()
+>> with a __clear_bit(). Latter can obviously clobber former if they are not a single
+>> instruction each unlike x86 or they use llock/scond kind of instructions where the
+>> interim store from other core is detected and causes a retry of whole llock/scond
+>> sequence.
 > 
-> Ok - that's be me :-) although I really don't see much gains in case of ARC LLSC.
-> 
-> For us, LD + BCLR + ST is very similar to LLOCK + BCLR + SCOND atleast in terms of
-> cache coherency transactions !
+> Yes, test_and_set_bit() + __clear_bit() is broken.
 
-The win would be in not having to ever retry the SCOND. Although in this
-case, the contending CPU would be doing reads -- which I assume will not
-cause a SCOND to fail, so it might indeed not make any difference.
+But in SLUB: bit_spin_lock() + __bit_spin_unlock() is acceptable ? How so
+(ignoring the performance thing for discussion sake, which is a side effect of
+this implementation).
+
+So despite the comment below in bit_spinlock.h I don't quite comprehend how this
+is allowable. And if say, by deduction, this is fine for LLSC or lock prefixed
+cases, then isn't this true in general for lot more cases in kernel, i.e. pairing
+atomic lock with non-atomic unlock ? I'm missing something !
+
+| /*
+|  *  bit-based spin_unlock()
+|  *  non-atomic version, which can be used eg. if the bit lock itself is
+|  *  protecting the rest of the flags in the word.
+|  */
+| static inline void __bit_spin_unlock(int bitnum, unsigned long *addr)
