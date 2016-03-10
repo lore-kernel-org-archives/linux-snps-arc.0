@@ -1,109 +1,89 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 10 Mar 2016 11:21:21 +0530
-Subject: [PATCH] mm: slub: Ensure that slab_unlock() is atomic
-In-Reply-To: <20160309145119.GN6356@twins.programming.kicks-ass.net>
-References: <1457447457-25878-1-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.20.1603080857360.4047@east.gentwo.org>
- <56DEF3D3.6080008@synopsys.com>
- <alpine.DEB.2.20.1603081438020.4268@east.gentwo.org>
- <56DFC604.6070407@synopsys.com>
- <20160309101349.GJ6344@twins.programming.kicks-ass.net>
- <56E023A5.2000105@synopsys.com>
- <20160309145119.GN6356@twins.programming.kicks-ass.net>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 10 Mar 2016 07:44:06 +0000
+Subject: [PATCH] arc: use little endian accesses
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F4E8EDF9@us01wembx1.internal.synopsys.com>
+References: <1457544064-16167-1-git-send-email-ltrimas@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F4E8EDF9@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56E10B59.1060700@synopsys.com>
+Message-ID: <1457595846.2868.10.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wednesday 09 March 2016 08:21 PM, Peter Zijlstra wrote:
->> But in SLUB: bit_spin_lock() + __bit_spin_unlock() is acceptable ? How so
->> (ignoring the performance thing for discussion sake, which is a side effect of
->> this implementation).
-> 
-> The sort answer is: Per definition. They are defined to work together,
-> which is what makes __clear_bit_unlock() such a special function.
-> 
->> So despite the comment below in bit_spinlock.h I don't quite comprehend how this
->> is allowable. And if say, by deduction, this is fine for LLSC or lock prefixed
->> cases, then isn't this true in general for lot more cases in kernel, i.e. pairing
->> atomic lock with non-atomic unlock ? I'm missing something !
-> 
-> x86 (and others) do in fact use non-atomic instructions for
-> spin_unlock(). But as this is all arch specific, we can make these
-> assumptions. Its just that generic code cannot rely on it.
+Hi Vineet,
 
-OK despite being obvious now, I was not seeing the similarity between spin_*lock()
-and bit_spin*lock() :-(
+On Thu, 2016-03-10@05:05 +0000, Vineet Gupta wrote:
+> +CC Noam
+> 
+> On Wednesday 09 March 2016 10:51 PM, Lada Trimasova wrote:
+> > 
+> > Memory access primitives should use cpu_to_le16, cpu_to_le32, le16_to_cpu
+> > and le32_to_cpu because it is not really guaranteed that drivers handles
+> > any ordering themselves.
+> That is the driver issue. readxx as API simply returns data in native endianness.
+> We've had EZChip running big endian and so far and they didn't need this change.
 
-ARC also uses standard ST for spin_unlock() so by analogy __bit_spin_unlock() (for
-LLSC case) would be correctly paired with bit_spin_lock().
+Let me disagree with you here.
+See what is said in "include/asm-generic/io.h":
+---------------------->8---------------------
+/*
+?* __raw_{read,write}{b,w,l,q}() access memory in native endianness.
+?*
+?* On some architectures memory mapped IO needs to be accessed differently.
+?* On the simple architectures, we just read/write the memory location
+?* directly.
+?*/
 
-But then why would anyone need bit_spin_unlock() at all. Specially after this
-patch from you which tightens __bit_spin_lock() even more for the general case.
+...
 
-Thing is if the API exists majority of people would would use the more
-conservative version w/o understand all these nuances. Can we pursue the path of
-moving bit_spin_unlock() over to __bit_spin_lock(): first changing the backend
-only and if proven stable replacing the call-sites themselves.
+/*
+?* {read,write}{b,w,l,q}() access little endian memory and return result in
+?* native endianness.
+?*/
+---------------------->8---------------------
 
-> 
-> So let me try and explain.
-> 
-> 
-> The problem as identified is:
-> 
-> CPU0						CPU1
-> 
-> bit_spin_lock()					__bit_spin_unlock()
-> 1:
-> 	/* fetch_or, r1 holds the old value */
-> 	spin_lock
-> 	load	r1, addr
-> 						load	r1, addr
-> 						bclr	r2, r1, 1
-> 						store	r2, addr
-> 	or	r2, r1, 1
-> 	store	r2, addr	/* lost the store from CPU1 */
-> 	spin_unlock
-> 
-> 	and	r1, 1
-> 	bnz	2	/* it was set, go wait */
-> 	ret
-> 
-> 2:
-> 	load	r1, addr
-> 	and	r1, 1
-> 	bnz	2	/* wait until its not set */
-> 
-> 	b	1	/* try again */
-> 
-> 
-> 
-> For LL/SC we replace:
-> 
-> 	spin_lock
-> 	load	r1, addr
-> 
-> 	...
-> 
-> 	store	r2, addr
-> 	spin_unlock
-> 
-> With the (obvious):
-> 
-> 1:
-> 	load-locked	r1, addr
-> 
-> 	...
-> 
-> 	store-cond	r2, addr
-> 	bnz		1 /* or whatever branch instruction is required to retry */
-> 
-> 
-> In this case the failure cannot happen, because the store from CPU1
-> would have invalidated the lock from CPU0 and caused the
-> store-cond to fail and retry the loop, observing the new value. 
+And that's an implementation we have for ARC:
+---------------------->8---------------------
+#define readb(c)		({ u8??__v = readb_relaxed(c); __iormb(); __v; })
+#define readw(c)		({ u16 __v = readw_relaxed(c); __iormb(); __v; })
+#define readl(c)		({ u32 __v = readl_relaxed(c); __iormb(); __v; })
 
-You did it again, A picture is worth thousand words !
+#define writeb(v,c)		({ __iowmb(); writeb_relaxed(v,c); })
+#define writew(v,c)		({ __iowmb(); writew_relaxed(v,c); })
+#define writel(v,c)		({ __iowmb(); writel_relaxed(v,c); })
 
-Thx,
--Vineet
+/*
+?* Relaxed API for drivers which can handle any ordering themselves
+?*/
+#define readb_relaxed(c)	__raw_readb(c)
+#define readw_relaxed(c)	__raw_readw(c)
+#define readl_relaxed(c)	__raw_readl(c)
+
+#define writeb_relaxed(v,c)	__raw_writeb(v,c)
+#define writew_relaxed(v,c)	__raw_writew(v,c)
+#define writel_relaxed(v,c)	__raw_writel(v,c)
+---------------------->8---------------------
+
+Which is effectively (related to endianess discussion):
+---------------------->8---------------------
+#define readX(c)	__raw_readX(c)
+#define writeX(v,c)	__raw_writeX(v,c)
+---------------------->8---------------------
+
+That looks IMHO incorrect if we read API description in "include/asm-generic/io.h".
+BTW description of {read,write}{b,w,l,q}() is a bit misleading in part saying
+"... and return result in __native_endianness__".
+
+But real implementation of {read,write}{b,w,l,q}() in "include/asm-generic/io.h"
+really shows what was meant - note?__leXX_to_cpu() and?cpu_to_leXX are used.
+
+> > 
+> > For example, serial port driver doesn't work when kernel is build for
+> > arc big endian architecture.
+> Last I tested Big Endian on SDP with 8250 part + 8250 driver it was working fine.
+> I presume this is the systemC model for device and standard 8250 driver and very
+> likely the model is not fixed endian or something.
+
+Model is indeed little-endian. We build it only once and than changing
+only "nsim_isa_big_endian" property (which changes only CPU core endianess) may use
+it equally well with little- and big-endian builds of Linux kernel.
+
+-Alexey
