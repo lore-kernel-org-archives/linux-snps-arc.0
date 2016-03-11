@@ -1,37 +1,227 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Thu, 10 Mar 2016 20:23:59 +0100
-Subject: [PATCH] arc: use little endian accesses
-In-Reply-To: <1457636268.457.34.camel@synopsys.com>
-References: <1457544064-16167-1-git-send-email-ltrimas@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F4E8F1A0@us01wembx1.internal.synopsys.com>
- <1457636268.457.34.camel@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 11 Mar 2016 04:19:23 +0000
+Subject: [PATCH v2 2/9] ARC: [dts] Introduce Timer bindings
+References: <1457439972-20285-1-git-send-email-vgupta@synopsys.com>
+ <1457439972-20285-3-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201603102023.59425.arnd@arndb.de>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E8F330@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thursday 10 March 2016, Lada Trimasova wrote:
-> Driver is 8250, kernel is built for BE arc, nsim option in model "nsim_isa_big_endian = 1".
-> 
-> With current "readl" and "writel" implementation for ARC we read word from memory without any endianess manipulation. So in case of little endian architecture we get what we want: the first memory byte is the low byte in the word. But in case of big endian architecture the word endianess is swapped: the first memory byte is the high word byte.
-> 
-> And for example, let's see what happens when we use "readl" in  function "serial8250_early_in" in driver/tty/serial/8250.
-> 
-> Take a look to one line from memory dump:
-> 0xf0000010: 0x0b    0x00    0x00    0x00    0x60    0x00    0x00    0x00
-> 
-> When kernel is built for little endian architecture, we read this data in status register in function "serial_putc" using "readl" function in driver/tty/serial/8250 as:
-> r0: 0x0000006
-> The low byte is 0x0b, so the condition "if ((status & BOTH_EMPTY) == BOTH_EMPTY)"  is true, as BOTH_EMPTY is some mask with low bytes set.
-> 
-> When kernel is built with "CPU_BIG_ENDIAN" and model nsim option is "nsim_isa_big_endian=1", we read this data as:
-> r0: 0x6000000
-> So as you can see the low byte is 0x00 and above mentioned condition never becomes true, we can't continue initialization.
-> 
+On Tuesday 08 March 2016 05:56 PM, Vineet Gupta wrote:
+> ARC Timers have historically been probed directly.
+> As precursor to start probing Timers thru DT introduce these bindings
+> Note that to keep series bisectable, these bindings are not yet used in
+> code.
+>
+> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Cc: Rob Herring <robh at kernel.org>
+> Cc: devicetree at vger.kernel.org
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+> Changes v1 -> v2
+>  - snps,arc-timer[0-1] folded into single snps-arc-timer	[Rob]
+>  - Node name in DT example fixed:				[Rob]
+>      "timer1: timer_clksrc {" -> timer at 1 {
+>  - Introduced 64bit RTC in skeleton_hs.dtsi			[Vineet]
+>
+> v1:
+>  - http://lists.infradead.org/pipermail/linux-snps-arc/2016-February/000447.html
+>
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 
-Ok, this sounds like a completely normal architecture implementation then,
-and your patch looks correct.
+Rob, sorry for pinging you sooner than I should. This must be busy time ahead of
+merge window. However if you can take a quick look at the DT bindings, we might be
+able to squeeze this into 4.6
+This code seems to be functionally working well and stable !
 
-If some other driver breaks because of this change, you should investigate
-what went wrong there, and treat it as a driver specific problem.
-
-	Arnd
+> ---
+>  .../devicetree/bindings/timer/snps,arc-timer.txt   | 26 ++++++++++++++++++++++
+>  .../devicetree/bindings/timer/snps,archs-gfrc.txt  | 14 ++++++++++++
+>  .../devicetree/bindings/timer/snps,archs-rtc.txt   | 14 ++++++++++++
+>  arch/arc/boot/dts/abilis_tb10x.dtsi                | 14 ++++++++++++
+>  arch/arc/boot/dts/skeleton.dtsi                    | 14 ++++++++++++
+>  arch/arc/boot/dts/skeleton_hs.dtsi                 | 20 +++++++++++++++++
+>  arch/arc/boot/dts/skeleton_hs_idu.dtsi             | 14 ++++++++++++
+>  7 files changed, 116 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
+>
+> diff --git a/Documentation/devicetree/bindings/timer/snps,arc-timer.txt b/Documentation/devicetree/bindings/timer/snps,arc-timer.txt
+> new file mode 100644
+> index 000000000000..9e02be24e805
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/timer/snps,arc-timer.txt
+> @@ -0,0 +1,26 @@
+> +Synopsys ARC Local Timer with Interrupt Capabilities
+> +- Found on all ARC CPUs (ARC700/ARCHS)
+> +- Can be optionally programmed to interrupt on Limit
+> +- Two idential copies TIMER0 and TIMER1 exist in ARC cores and historically
+> +  TIMER0 used as clockevent provider (true for all ARC cores)
+> +  TIMER1 used for clocksource (mandatory for ARC700, optional for ARC HS)
+> +
+> +Required properties:
+> +
+> +- compatible : should be "snps,arc-timer"
+> +- interrupts : single Interrupt going into parent intc
+> +	       (16 for ARCHS cores, 3 for ARC700 cores)
+> +- clocks     : phandle to the source clock
+> +
+> +Optional properties:
+> +
+> +- interrupt-parent : phandle to parent intc
+> +
+> +Example:
+> +
+> +	timer at 0 {
+> +		compatible = "snps,arc-timer0";
+> +		interrupts = <3>;
+> +		interrupt-parent = <&core_intc>;
+> +		clocks = <&core_clk>;
+> +	};
+> diff --git a/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
+> new file mode 100644
+> index 000000000000..aaab100f54e7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
+> @@ -0,0 +1,14 @@
+> +Synopsys ARC Free Running 64-bit Global Timer for ARC HS CPUs
+> +- clocksource provider for SMP SoC
+> +
+> +Required properties:
+> +
+> +- compatible : should be "snps,archs-gfrc"
+> +- clocks     : phandle to the source clock
+> +
+> +Example:
+> +
+> +	timer at 1 {
+> +		compatible = "snps,archs-gfrc";
+> +		clocks = <&core_clk>;
+> +	};
+> diff --git a/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
+> new file mode 100644
+> index 000000000000..13f756fa1d6d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
+> @@ -0,0 +1,14 @@
+> +Synopsys ARC Free Running 64-bit Local Timer for ARC HS CPUs
+> +- clocksource provider for UP SoC
+> +
+> +Required properties:
+> +
+> +- compatible : should be "snps,archs-rtc"
+> +- clocks     : phandle to the source clock
+> +
+> +Example:
+> +
+> +	timer at 1 {
+> +		compatible = "snps,arc-rtc";
+> +		clocks = <&core_clk>;
+> +	};
+> diff --git a/arch/arc/boot/dts/abilis_tb10x.dtsi b/arch/arc/boot/dts/abilis_tb10x.dtsi
+> index cfb5052239a1..eadbe71dfa22 100644
+> --- a/arch/arc/boot/dts/abilis_tb10x.dtsi
+> +++ b/arch/arc/boot/dts/abilis_tb10x.dtsi
+> @@ -35,6 +35,20 @@
+>  		};
+>  	};
+>  
+> +	/* TIMER0 with interrupt for clockevent */
+> +	timer at 0 {
+> +		compatible = "snps,arc-timer";
+> +		interrupts = <3>;
+> +		interrupt-parent = <&intc>;
+> +		clocks = <&cpu_clk>;
+> +	};
+> +
+> +	/* TIMER1 for free running clocksource */
+> +	timer at 1 {
+> +		compatible = "snps,arc-timer";
+> +		clocks = <&cpu_clk>;
+> +	};
+> +
+>  	soc100 {
+>  		#address-cells	= <1>;
+>  		#size-cells	= <1>;
+> diff --git a/arch/arc/boot/dts/skeleton.dtsi b/arch/arc/boot/dts/skeleton.dtsi
+> index 296d371a335c..f6109c2feba7 100644
+> --- a/arch/arc/boot/dts/skeleton.dtsi
+> +++ b/arch/arc/boot/dts/skeleton.dtsi
+> @@ -30,6 +30,20 @@
+>  		};
+>  	};
+>  
+> +	/* TIMER0 with interrupt for clockevent */
+> +	timer at 0 {
+> +		compatible = "snps,arc-timer";
+> +		interrupts = <3>;
+> +		interrupt-parent = <&core_intc>;
+> +		clocks = <&core_clk>;
+> +	};
+> +
+> +	/* TIMER1 for free running clocksource */
+> +	timer at 1 {
+> +		compatible = "snps,arc-timer";
+> +		clocks = <&core_clk>;
+> +	};
+> +
+>  	memory {
+>  		device_type = "memory";
+>  		reg = <0x80000000 0x10000000>;	/* 256M */
+> diff --git a/arch/arc/boot/dts/skeleton_hs.dtsi b/arch/arc/boot/dts/skeleton_hs.dtsi
+> index a53876669030..49caeabca37a 100644
+> --- a/arch/arc/boot/dts/skeleton_hs.dtsi
+> +++ b/arch/arc/boot/dts/skeleton_hs.dtsi
+> @@ -25,6 +25,26 @@
+>  		};
+>  	};
+>  
+> +	/* TIMER0 with interrupt for clockevent */
+> +	timer at 0 {
+> +		compatible = "snps,arc-timer";
+> +		interrupts = <16>;
+> +		interrupt-parent = <&core_intc>;
+> +		clocks = <&core_clk>;
+> +	};
+> +
+> +	/* 64-bit Local RTC: preferred clocksource for UP */
+> +	timer at 1 {
+> +		compatible = "snps,archs-timer-rtc";
+> +		clocks = <&core_clk>;
+> +	};
+> +
+> +	/* TIMER1 for free running clocksource: Fallback if rtc not found */
+> +	timer at 2 {
+> +		compatible = "snps,arc-timer";
+> +		clocks = <&core_clk>;
+> +	};
+> +
+>  	memory {
+>  		device_type = "memory";
+>  		reg = <0x80000000 0x10000000>;	/* 256M */
+> diff --git a/arch/arc/boot/dts/skeleton_hs_idu.dtsi b/arch/arc/boot/dts/skeleton_hs_idu.dtsi
+> index 74898d017f7a..7e301ff16200 100644
+> --- a/arch/arc/boot/dts/skeleton_hs_idu.dtsi
+> +++ b/arch/arc/boot/dts/skeleton_hs_idu.dtsi
+> @@ -25,6 +25,20 @@
+>  		};
+>  	};
+>  
+> +	/* TIMER0 with interrupt for clockevent */
+> +	timer at 0 {
+> +		compatible = "snps,arc-timer";
+> +		interrupts = <16>;
+> +		interrupt-parent = <&core_intc>;
+> +		clocks = <&core_clk>;
+> +	};
+> +
+> +	/* 64-bit Global Free Running Counter */
+> +	timer at 1 {
+> +		compatible = "snps,archs-timer-gfrc";
+> +		clocks = <&core_clk>;
+> +	};
+> +
+>  	memory {
+>  		device_type = "memory";
+>  		reg = <0x80000000 0x10000000>;	/* 256M */
