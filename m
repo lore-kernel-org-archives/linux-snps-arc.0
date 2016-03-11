@@ -1,130 +1,27 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 11 Mar 2016 18:42:38 +0300
-Subject: [PATCH 3/4 v3] arc: axs10x - add support of ARC PGU
-In-Reply-To: <1457710959-9562-1-git-send-email-abrodkin@synopsys.com>
-References: <1457710959-9562-1-git-send-email-abrodkin@synopsys.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Sat, 12 Mar 2016 00:45:42 +0800
+Subject: [PATCH 1/4 v3] drm: Add support of ARC PGU display controller
+In-Reply-To: <1457710959-9562-2-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1457710959-9562-4-git-send-email-abrodkin@synopsys.com>
+Message-ID: <201603120053.Dr2iFD2z%fengguang.wu@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-Synopsys DesignWare ARC SDP boards sport ARC SDP display
-controller attached to ADV7511 HDMI encoder.
+Hi Alexey,
 
-That change adds desctiption of both ARC PGU and ADV7511 in
-ARC SDP'd base-board Device Tree.
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on v4.5-rc7 next-20160311]
+[if your patch is applied to the wrong git tree, please drop us a note to help improving the system]
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Rob Herring <robh+dt at kernel.org>
-Cc: Pawel Moll <pawel.moll at arm.com>
-Cc: Mark Rutland <mark.rutland at arm.com>
-Cc: Ian Campbell <ijc+devicetree at hellion.org.uk>
-Cc: Kumar Gala <galak at codeaurora.org>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: David Airlie <airlied at linux.ie>
-Cc: dri-devel at lists.freedesktop.org
-Cc: devicetree at vger.kernel.org
-Cc: linux-snps-arc at lists.infradead.org
+url:    https://github.com/0day-ci/linux/commits/Alexey-Brodkin/drm-Add-support-of-ARC-PGU-display-controller/20160311-234824
+base:   git://people.freedesktop.org/~airlied/linux.git drm-next
+
+
+coccinelle warnings: (new ones prefixed by >>)
+
+>> drivers/gpu/drm/arc/arcpgu_drv.c:243:6-11: No need to set .owner here. The core will do it.
+
+Please review and possibly fold the followup patch.
+
 ---
-
-No changes v2 -> v3.
-
-Changes v1 -> v2:
- * Added missing "pxlclk" clock in axs10x_mb.dtsi
-
- arch/arc/boot/dts/axs10x_mb.dtsi | 61 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
-
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 44a578c..6e639c9 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -34,6 +34,12 @@
- 				clock-frequency = <50000000>;
- 				#clock-cells = <0>;
- 			};
-+
-+			pguclk: pguclk {
-+				#clock-cells = <0>;
-+				compatible = "fixed-clock";
-+				clock-frequency = <74440000>;
-+			};
- 		};
- 
- 		ethernet at 0x18000 {
-@@ -147,6 +153,37 @@
- 			clocks = <&i2cclk>;
- 			interrupts = <16>;
- 
-+			adv7511:adv7511 at 0x39{
-+				compatible="adi,adv7511";
-+				reg = <0x39>;
-+				interrupts = <23>;
-+				adi,input-depth = <8>;
-+				adi,input-colorspace = "rgb";
-+				adi,input-clock = "1x";
-+				adi,clock-delay = <0x03>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					/* RGB/YUV input */
-+					port at 0 {
-+						reg = <0>;
-+						adv7511_input:endpoint {
-+						remote-endpoint = <&pgu_output>;
-+						};
-+					};
-+
-+					/* HDMI output */
-+					port at 1 {
-+						reg = <1>;
-+						adv7511_output: endpoint {
-+							remote-endpoint = <&hdmi_connector_in>;
-+						};
-+					};
-+				};
-+			};
-+
- 			eeprom at 0x54{
- 				compatible = "24c01";
- 				reg = <0x54>;
-@@ -160,6 +197,16 @@
- 			};
- 		};
- 
-+		hdmi0: connector {
-+			compatible = "hdmi-connector";
-+			type = "a";
-+			port {
-+				hdmi_connector_in: endpoint {
-+					remote-endpoint = <&adv7511_output>;
-+				};
-+			};
-+		};
-+
- 		gpio0:gpio at 13000 {
- 			compatible = "snps,dw-apb-gpio";
- 			reg = <0x13000 0x1000>;
-@@ -221,5 +268,19 @@
- 				reg = <2>;
- 			};
- 		};
-+
-+		pgu at 0x17000 {
-+			compatible = "snps,arcpgu";
-+			reg = <0x17000 0x400>;
-+			encoder-slave = <&adv7511>;
-+			clocks = <&pguclk>;
-+			clock-names = "pxlclk";
-+
-+			port {
-+				pgu_output: endpoint {
-+					remote-endpoint = <&adv7511_input>;
-+				};
-+			};
-+		};
- 	};
- };
--- 
-2.5.0
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
