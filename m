@@ -1,28 +1,38 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 11 Mar 2016 14:57:19 +0530
-Subject: [PATCH 0/2] Big Endian build cleanups
+Date: Fri, 11 Mar 2016 14:57:20 +0530
+Subject: [PATCH 1/2] ARC: [BE] Select correct CROSS_COMPILE prefix
+In-Reply-To: <1457688441-31337-1-git-send-email-vgupta@synopsys.com>
+References: <1457688441-31337-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1457688441-31337-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1457688441-31337-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Vineet Gupta (2):
-  ARC: [BE] Select correct CROSS_COMPILE prefix
-  ARC: [*defconfig] No need to specify CONFIG_CROSS_COMPILE
+This allows CONFIG_CPU_BIG_ENDIAN=y to build correctly out of the box,
+w/o any other tweaks.
 
- arch/arc/Makefile                          | 4 ++++
- arch/arc/configs/axs101_defconfig          | 1 -
- arch/arc/configs/axs103_defconfig          | 1 -
- arch/arc/configs/axs103_smp_defconfig      | 1 -
- arch/arc/configs/nsim_700_defconfig        | 1 -
- arch/arc/configs/nsim_hs_defconfig         | 1 -
- arch/arc/configs/nsim_hs_smp_defconfig     | 1 -
- arch/arc/configs/nsimosci_defconfig        | 1 -
- arch/arc/configs/nsimosci_hs_defconfig     | 1 -
- arch/arc/configs/nsimosci_hs_smp_defconfig | 1 -
- arch/arc/configs/tb10x_defconfig           | 1 -
- arch/arc/configs/vdk_hs38_defconfig        | 1 -
- arch/arc/configs/vdk_hs38_smp_defconfig    | 1 -
- 13 files changed, 4 insertions(+), 12 deletions(-)
+Cc: Noam Camus <noamc at ezchip.com>
+Cc: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Anton Kolesov <akolesov at synosys.com>
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index c8230f3395f2..babc09c61c6c 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -9,7 +9,11 @@
+ UTS_MACHINE := arc
+ 
+ ifeq ($(CROSS_COMPILE),)
++ifndef CONFIG_CPU_BIG_ENDIAN
+ CROSS_COMPILE := arc-linux-
++else
++CROSS_COMPILE := arceb-linux-
++endif
+ endif
+ 
+ KBUILD_DEFCONFIG := nsim_700_defconfig
 -- 
 2.5.0
