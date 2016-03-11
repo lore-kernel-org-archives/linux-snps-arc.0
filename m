@@ -1,90 +1,56 @@
-From: Anton.Kolesov@synopsys.com (Anton Kolesov)
-Date: Fri, 11 Mar 2016 12:13:57 +0000
-Subject: big endian builds
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F4E8F662@us01wembx1.internal.synopsys.com>
-References: <C2D7FE5348E1B147BCA15975FBA23075F4E8F650@us01wembx1.internal.synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F4E8F662@us01wembx1.internal.synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 11 Mar 2016 12:44:28 +0000
+Subject: [PATCH] arc: use little endian accesses
+References: <1457544064-16167-1-git-send-email-ltrimas@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F4E8F1A0@us01wembx1.internal.synopsys.com>
+ <1457636268.457.34.camel@synopsys.com> <201603102023.59425.arnd@arndb.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <39A54937CC95F24AA2F794E2D2B66B13580BBABA@DE02WEMBXB.internal.synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E8F790@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Nightly verification script modifies CONFIG_CROSS_COMPILE in the .config file before build Linux - little or big endian doesn't matter, so path to tools is always correct. It sets full path in .config, instead of prepending PATH. CONFIG_CPU_BIG_ENDIAN is set accordingly.
+On Friday 11 March 2016 12:54 AM, Arnd Bergmann wrote:
+> On Thursday 10 March 2016, Lada Trimasova wrote:
+>> Driver is 8250, kernel is built for BE arc, nsim option in model "nsim_isa_big_endian = 1".
+>>
+>> With current "readl" and "writel" implementation for ARC we read word from memory without any endianess manipulation. So in case of little endian architecture we get what we want: the first memory byte is the low byte in the word. But in case of big endian architecture the word endianess is swapped: the first memory byte is the high word byte.
+>>
+>> And for example, let's see what happens when we use "readl" in  function "serial8250_early_in" in driver/tty/serial/8250.
+>>
+>> Take a look to one line from memory dump:
+>> 0xf0000010: 0x0b    0x00    0x00    0x00    0x60    0x00    0x00    0x00
+>>
+>> When kernel is built for little endian architecture, we read this data in status register in function "serial_putc" using "readl" function in driver/tty/serial/8250 as:
+>> r0: 0x0000006
+>> The low byte is 0x0b, so the condition "if ((status & BOTH_EMPTY) == BOTH_EMPTY)"  is true, as BOTH_EMPTY is some mask with low bytes set.
+>>
+>> When kernel is built with "CPU_BIG_ENDIAN" and model nsim option is "nsim_isa_big_endian=1", we read this data as:
+>> r0: 0x6000000
+>> So as you can see the low byte is 0x00 and above mentioned condition never becomes true, we can't continue initialization.
+>>
+> Ok, this sounds like a completely normal architecture implementation then,
+> and your patch looks correct.
+>
+> If some other driver breaks because of this change, you should investigate
+> what went wrong there, and treat it as a driver specific problem.
 
---------8<--------
+Although I believe Arnd the most, I was not convinced abt this (see below why) so
+did a bit of investigation and looks like this patch is indeed correct and Arnd as
+always is right :-)
 
-# Generate proper .config file from defconfig
-make $MAKEFLAGS -C $src_dir/linux O=$odir ARCH=arc olddefconfig
+The current upstream kernel doesn't boot on BE configured AXS103 is stuck
+similarly in uart. With this patch it comes up fine. My trouble was I'd seen BE
+work (w/o this patch) in our internal 3.18 branch. Turns out that in 3.18, ARC
+io.h used the asm-generic version of readX(). My patch b8a033023994 ("ARCv2:
+barriers") to upstream introduced the io barriers for ARCHS and in the process
+introduced our own readX() accessors, which were not the same as correct
+asm-generic ver. Thus I inadvertently introduced this bug.
 
-# Set toolchain path
-sed -i \
-    -e "s|CONFIG_CROSS_COMPILE=\".*\"|CONFIG_CROSS_COMPILE=\"$build_dir/$target_toolchain/bin/$target_prefix\"|" \
-    $odir/.config
+@Lada I will fix up the changelog to add some of the background behind this
+change, and mark this for stable backport as well.
 
-# Set proper endianness. It's necessary to set it explicitly because
-# we are not sure what value for CONFIG_CPU_BIG_ENDIAN flag is set
-# because of impact of allnoconfig or allyesconfig configurations.
-if [ $target_endian = eb ]; then
-    kconfig_enable_option $odir CONFIG_CPU_BIG_ENDIAN
-else
-    kconfig_disable_option $odir CONFIG_CPU_BIG_ENDIAN
-fi
+Thx,
+-Vineet
 
-
-# Regenerate .config with new CONFIG_CPU_BIG_ENDIAN option value. It's
-# necessary because this option may be not presented in platforms defconfigs
-# thus sed cannot fix it before generating the first version of .config.
-make $MAKEFLAGS -C $src_dir/linux O=$odir ARCH=arc olddefconfig
-
---------8<--------
-
-Anton
-
-> -----Original Message-----
-> From: Vineet Gupta [mailto:vgupta at synopsys.com]
-> Sent: Friday, March 11, 2016 9:53 AM
-> To: Vineet Gupta <Vineet.Gupta1 at synopsys.com>; Anton Kolesov <Anton.Kolesov at synopsys.com>; Alexey
-> Brodkin <Alexey.Brodkin at synopsys.com>; Noam Camus <noamc at ezchip.com>
-> Cc: arcml <linux-snps-arc at lists.infradead.org>
-> Subject: Re: big endian builds
-> 
-> On Friday 11 March 2016 12:18 PM, Vineet Gupta wrote:
-> > So for big endian kernel builds, just selecting the CONFIG_CPU_BIG_ENDIAN is not
-> > sufficient, we also need to manually change the CROSS_COMPILE prefix to arceb-xxx.
-> >
-> > @Anton, is that what you do for verification builds !
-> >
-> > @Noam I presume your defconfig has CONFIG_CROSS_COMPILE or you have set in env
-> > variable ?
-> >
-> >
-> > The kernel build system needs to take take care of that. Do you guys have issues
-> > with patch below
-> >
-> > ------------>
-> > diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-> > index c8230f3395f2..4abcdb89e391 100644
-> > --- a/arch/arc/Makefile
-> > +++ b/arch/arc/Makefile
-> > @@ -9,8 +9,12 @@
-> >  UTS_MACHINE := arc
-> >
-> >  ifeq ($(CROSS_COMPILE),)
-> > +ifndef CONFIG_CPU_BIG_ENDIAN
-> > +CROSS_COMPILE := arceb-linux-
-> > +else
-> 
-> Please pardon this nonsense as lack of caffeine - despite the obvious fixup, I
-> still need to change the .config.
-> I think we need to revert the defconfig patch for fixing the CROSS_COMPILE prefix
-> after all !
-> 
-> >  CROSS_COMPILE := arc-linux-
-> >  endif
-> > +endif
-> >
-> >
-> > _______________________________________________
-> > linux-snps-arc mailing list
-> > linux-snps-arc at lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-> >
+>
+> 	Arnd
+>
