@@ -1,56 +1,66 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 11 Mar 2016 12:44:28 +0000
-Subject: [PATCH] arc: use little endian accesses
-References: <1457544064-16167-1-git-send-email-ltrimas@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F4E8F1A0@us01wembx1.internal.synopsys.com>
- <1457636268.457.34.camel@synopsys.com> <201603102023.59425.arnd@arndb.de>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 11 Mar 2016 18:42:35 +0300
+Subject: [PATCH 0/4 v3] drm: Add support of ARC PGU display controller
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E8F790@us01wembx1.internal.synopsys.com>
+Message-ID: <1457710959-9562-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Friday 11 March 2016 12:54 AM, Arnd Bergmann wrote:
-> On Thursday 10 March 2016, Lada Trimasova wrote:
->> Driver is 8250, kernel is built for BE arc, nsim option in model "nsim_isa_big_endian = 1".
->>
->> With current "readl" and "writel" implementation for ARC we read word from memory without any endianess manipulation. So in case of little endian architecture we get what we want: the first memory byte is the low byte in the word. But in case of big endian architecture the word endianess is swapped: the first memory byte is the high word byte.
->>
->> And for example, let's see what happens when we use "readl" in  function "serial8250_early_in" in driver/tty/serial/8250.
->>
->> Take a look to one line from memory dump:
->> 0xf0000010: 0x0b    0x00    0x00    0x00    0x60    0x00    0x00    0x00
->>
->> When kernel is built for little endian architecture, we read this data in status register in function "serial_putc" using "readl" function in driver/tty/serial/8250 as:
->> r0: 0x0000006
->> The low byte is 0x0b, so the condition "if ((status & BOTH_EMPTY) == BOTH_EMPTY)"  is true, as BOTH_EMPTY is some mask with low bytes set.
->>
->> When kernel is built with "CPU_BIG_ENDIAN" and model nsim option is "nsim_isa_big_endian=1", we read this data as:
->> r0: 0x6000000
->> So as you can see the low byte is 0x00 and above mentioned condition never becomes true, we can't continue initialization.
->>
-> Ok, this sounds like a completely normal architecture implementation then,
-> and your patch looks correct.
->
-> If some other driver breaks because of this change, you should investigate
-> what went wrong there, and treat it as a driver specific problem.
+This series add support of ARC PGU display controller.
+ARC PGU is a quite simple byte streamer that gets data from the framebuffer
+and pushes it to hte connected encoder (DP or HDMI).
 
-Although I believe Arnd the most, I was not convinced abt this (see below why) so
-did a bit of investigation and looks like this patch is indeed correct and Arnd as
-always is right :-)
+It was tested on ARC SDP boards (axs101 in particular).
 
-The current upstream kernel doesn't boot on BE configured AXS103 is stuck
-similarly in uart. With this patch it comes up fine. My trouble was I'd seen BE
-work (w/o this patch) in our internal 3.18 branch. Turns out that in 3.18, ARC
-io.h used the asm-generic version of readX(). My patch b8a033023994 ("ARCv2:
-barriers") to upstream introduced the io barriers for ARCHS and in the process
-introduced our own readX() accessors, which were not the same as correct
-asm-generic ver. Thus I inadvertently introduced this bug.
+Changes v2 -> v3:
+ * Improved failure path if arcpgu_connector wasn't allocated.
+ * Fixed driver building as module.
+ * Implemented uncached mapping of user-space FB pages.
+ * Again updated DT bindings docs.
 
-@Lada I will fix up the changelog to add some of the background behind this
-change, and mark this for stable backport as well.
+Changes v1 -> v2:
+ * Clean-up of DT bindings documentation.
+ * Added missing "pxlclk" clock in axs10x_mb.dtsi.
 
-Thx,
--Vineet
+Cc: David Airlie <airlied at linux.ie>
+Cc: devicetree at vger.kernel.org
+Cc: dri-devel at lists.freedesktop.org
+Cc: Ian Campbell <ijc+devicetree at hellion.org.uk>
+Cc: Kumar Gala <galak at codeaurora.org>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: Mark Rutland <mark.rutland at arm.com>
+Cc: Pawel Moll <pawel.moll at arm.com>
+Cc: Rob Herring <robh+dt at kernel.org>
+Cc: Vineet Gupta <vgupta at synopsys.com>
 
->
-> 	Arnd
->
+Alexey Brodkin (4):
+  drm: Add support of ARC PGU display controller
+  drm: Add DT bindings documentation for ARC PGU display controller
+  arc: axs10x - add support of ARC PGU
+  MAINTAINERS: Add maintainer for ARC PGU display controller
+
+ .../devicetree/bindings/display/snps,arcpgu.txt    |  72 ++++++
+ MAINTAINERS                                        |   6 +
+ arch/arc/boot/dts/axs10x_mb.dtsi                   |  61 +++++
+ drivers/gpu/drm/Kconfig                            |   2 +
+ drivers/gpu/drm/Makefile                           |   1 +
+ drivers/gpu/drm/arc/Kconfig                        |  10 +
+ drivers/gpu/drm/arc/Makefile                       |   2 +
+ drivers/gpu/drm/arc/arcpgu.h                       |  50 ++++
+ drivers/gpu/drm/arc/arcpgu_crtc.c                  | 274 +++++++++++++++++++++
+ drivers/gpu/drm/arc/arcpgu_drv.c                   | 252 +++++++++++++++++++
+ drivers/gpu/drm/arc/arcpgu_fbdev.c                 | 245 ++++++++++++++++++
+ drivers/gpu/drm/arc/arcpgu_hdmi.c                  | 207 ++++++++++++++++
+ drivers/gpu/drm/arc/arcpgu_regs.h                  |  36 +++
+ 13 files changed, 1218 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/snps,arcpgu.txt
+ create mode 100644 drivers/gpu/drm/arc/Kconfig
+ create mode 100644 drivers/gpu/drm/arc/Makefile
+ create mode 100644 drivers/gpu/drm/arc/arcpgu.h
+ create mode 100644 drivers/gpu/drm/arc/arcpgu_crtc.c
+ create mode 100644 drivers/gpu/drm/arc/arcpgu_drv.c
+ create mode 100644 drivers/gpu/drm/arc/arcpgu_fbdev.c
+ create mode 100644 drivers/gpu/drm/arc/arcpgu_hdmi.c
+ create mode 100644 drivers/gpu/drm/arc/arcpgu_regs.h
+
+-- 
+2.5.0
