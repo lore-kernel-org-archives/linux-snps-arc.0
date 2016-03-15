@@ -1,52 +1,35 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 15 Mar 2016 12:29:10 +0300
-Subject: [PATCH] ARC: axs10x - add Ethernet PHY description in .dts
+From: Joao.Pinto@synopsys.com (Joao Pinto)
+Date: Tue, 15 Mar 2016 11:06:02 +0000
+Subject: [PATCH] Remove the inclusion of pci-bridge.h and pci-dma-compat.h
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1458034150-10766-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <d3ed7b3e4f746831a5d0469da5361b4cd176f5c6.1457978659.git.jpinto@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Following commit broke DW GMAC functionality on AXS10x boards:
-http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=e34d65696d2ef13dc32f2a162556c86c461ed763
+While building linux-next the test robot detected that the pci.h was including
+two removed header files (pci-dma-compat.h and pci-bridge.h) causing the
+process to fail:
+http://lists.infradead.org/pipermail/linux-snps-arc/2016-March/000711.html
 
-That's what happens on eth0 up:
---------------------------->8------------------------
-libphy: PHY stmmac-0:ffffffff not found
-eth0: Could not attach to PHY
-stmmac_open: Cannot attach to PHY (error: -19)
---------------------------->8------------------------
+This patch has the goal to fix the build problem.
 
-Simplest solution is to add PHY description in board's .dts.
-And so we do here.
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Rob Herring <robh at kernel.org>
-Cc: Phil Reid <preid at electromag.com.au>
-Cc: David S. Miller <davem at davemloft.net>
-Cc: linux-kernel at vger.kernel.org
-Cc: netdev at vger.kernel.org
-Cc: stable at vger.kernel.org # 4.5.x
+Signed-off-by: Joao Pinto <jpinto at synopsys.com>
 ---
- arch/arc/boot/dts/axs10x_mb.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arc/include/asm/pci.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 44a578c..04b999e 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -47,6 +47,14 @@
- 			clocks = <&apbclk>;
- 			clock-names = "stmmaceth";
- 			max-speed = <100>;
-+			mdio0 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				compatible = "snps,dwmac-mdio";
-+				phy0: ethernet-phy at 0 {
-+					reg = <1>;
-+				};
-+			};
- 		};
+diff --git a/arch/arc/include/asm/pci.h b/arch/arc/include/asm/pci.h
+index 2f2011c..ba56c23 100644
+--- a/arch/arc/include/asm/pci.h
++++ b/arch/arc/include/asm/pci.h
+@@ -10,9 +10,6 @@
+ #define _ASM_ARC_PCI_H
  
- 		ehci at 0x40000 {
+ #ifdef __KERNEL__
+-#include <asm-generic/pci-dma-compat.h>
+-#include <asm-generic/pci-bridge.h>
+-
+ #include <linux/ioport.h>
+ 
+ #define PCIBIOS_MIN_IO 0x100
 -- 
-2.5.0
+1.8.1.5
