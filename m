@@ -1,52 +1,54 @@
-From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Tue, 15 Mar 2016 14:24:01 +0000
-Subject: [PATCH] Remove the inclusion of pci-bridge.h and pci-dma-compat.h
-In-Reply-To: <20160315135127.GC19974@localhost>
-References: <d3ed7b3e4f746831a5d0469da5361b4cd176f5c6.1457978659.git.jpinto@synopsys.com>
- <20160315135127.GC19974@localhost>
+From: sergei.shtylyov@cogentembedded.com (Sergei Shtylyov)
+Date: Tue, 15 Mar 2016 17:38:30 +0300
+Subject: [PATCH] ARC: axs10x - add Ethernet PHY description in .dts
+In-Reply-To: <1458034150-10766-1-git-send-email-abrodkin@synopsys.com>
+References: <1458034150-10766-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56E81B01.3010400@synopsys.com>
+Message-ID: <56E81E66.6080706@cogentembedded.com>
 To: linux-snps-arc@lists.infradead.org
 
+Hello.
 
-No problem! Thanks!
+On 3/15/2016 12:29 PM, Alexey Brodkin wrote:
 
-On 3/15/2016 1:51 PM, Bjorn Helgaas wrote:
-> On Tue, Mar 15, 2016@11:06:02AM +0000, Joao Pinto wrote:
->> While building linux-next the test robot detected that the pci.h was including
->> two removed header files (pci-dma-compat.h and pci-bridge.h) causing the
->> process to fail:
->> http://lists.infradead.org/pipermail/linux-snps-arc/2016-March/000711.html
->>
->> This patch has the goal to fix the build problem.
->>
->> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
-> 
-> Thanks, Joao, I folded this fix into the original commit.  I should have
-> caught this myself, since I'm the one who removed pci-bridge.h.
-> 
->> ---
->>  arch/arc/include/asm/pci.h | 3 ---
->>  1 file changed, 3 deletions(-)
->>
->> diff --git a/arch/arc/include/asm/pci.h b/arch/arc/include/asm/pci.h
->> index 2f2011c..ba56c23 100644
->> --- a/arch/arc/include/asm/pci.h
->> +++ b/arch/arc/include/asm/pci.h
->> @@ -10,9 +10,6 @@
->>  #define _ASM_ARC_PCI_H
->>  
->>  #ifdef __KERNEL__
->> -#include <asm-generic/pci-dma-compat.h>
->> -#include <asm-generic/pci-bridge.h>
->> -
->>  #include <linux/ioport.h>
->>  
->>  #define PCIBIOS_MIN_IO 0x100
->> -- 
->> 1.8.1.5
->>
->> --
->> To unsubscribe from this list: send the line "unsubscribe linux-pci" in
->> the body of a message to majordomo at vger.kernel.org
->> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Following commit broke DW GMAC functionality on AXS10x boards:
+> http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=e34d65696d2ef13dc32f2a162556c86c461ed763
+>
+> That's what happens on eth0 up:
+> --------------------------->8------------------------
+> libphy: PHY stmmac-0:ffffffff not found
+> eth0: Could not attach to PHY
+> stmmac_open: Cannot attach to PHY (error: -19)
+> --------------------------->8------------------------
+>
+> Simplest solution is to add PHY description in board's .dts.
+> And so we do here.
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Rob Herring <robh at kernel.org>
+> Cc: Phil Reid <preid at electromag.com.au>
+> Cc: David S. Miller <davem at davemloft.net>
+> Cc: linux-kernel at vger.kernel.org
+> Cc: netdev at vger.kernel.org
+> Cc: stable at vger.kernel.org # 4.5.x
+> ---
+>   arch/arc/boot/dts/axs10x_mb.dtsi | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>
+> diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+> index 44a578c..04b999e 100644
+> --- a/arch/arc/boot/dts/axs10x_mb.dtsi
+> +++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+> @@ -47,6 +47,14 @@
+>   			clocks = <&apbclk>;
+>   			clock-names = "stmmaceth";
+>   			max-speed = <100>;
+> +			mdio0 {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +				compatible = "snps,dwmac-mdio";
+> +				phy0: ethernet-phy at 0 {
+
+    The naming is inconsistent with the "reg" prop specified, should be @1.
+
+MBR, Sergei
