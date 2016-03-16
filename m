@@ -1,219 +1,168 @@
-From: daniel@ffwll.ch (Daniel Vetter)
-Date: Tue, 15 Mar 2016 16:59:40 +0100
-Subject: [PATCH 1/4 v3] drm: Add support of ARC PGU display controller
-In-Reply-To: <1458055486.4174.16.camel@synopsys.com>
-References: <1457710959-9562-1-git-send-email-abrodkin@synopsys.com>
- <1457710959-9562-2-git-send-email-abrodkin@synopsys.com>
- <20160314070009.GN14170@phenom.ffwll.local>
- <1457954159.3306.24.camel@synopsys.com>
- <20160315081056.GS14170@phenom.ffwll.local>
- <1458055486.4174.16.camel@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Wed, 16 Mar 2016 14:01:37 -0000
+Subject: kisskb: OK linux-next/axs101_defconfig/arcompact Thu Mar 17, 01:00
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160315155940.GL14170@phenom.ffwll.local>
+Message-ID: <20160316140137.1.915@4cca3ee1040e>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Mar 15, 2016@03:24:46PM +0000, Alexey Brodkin wrote:
-> Hi Daniel,
-> 
-> On Tue, 2016-03-15@09:10 +0100, Daniel Vetter wrote:
-> > On Mon, Mar 14, 2016@11:15:59AM +0000, Alexey Brodkin wrote:
-> > > 
-> > > On Mon, 2016-03-14@08:00 +0100, Daniel Vetter wrote:
-> > > > 
-> > > > On Fri, Mar 11, 2016@06:42:36PM +0300, Alexey Brodkin wrote:
-> > > > > 
-> > > > > +static int arcpgu_atomic_commit(struct drm_device *dev,
-> > > > > +				????struct drm_atomic_state *state, bool async)
-> > > > > +{
-> > > > > +	return drm_atomic_helper_commit(dev, state, false);
-> > > > Note that this isn't really async if you ever get around to implement
-> > > > fence support or vblank support. Just fyi.
-> > > Ok but for now should I leave it as it is?
-> > Yeah ok as-is, hence just fyi.
-> 
-> Thanks. Just wanted to make sure we're on the same page :)
-> 
-> > > 
-> > > > 
-> > > > > 
-> > > > > +static struct drm_driver arcpgu_drm_driver = {
-> > > > > +	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_PRIME |
-> > > > > +			???DRIVER_ATOMIC,
-> > > > > +	.preclose = arcpgu_preclose,
-> > > > > +	.lastclose = arcpgu_lastclose,
-> > > > > +	.name = "drm-arcpgu",
-> > > > > +	.desc = "ARC PGU Controller",
-> > > > > +	.date = "20160219",
-> > > > > +	.major = 1,
-> > > > > +	.minor = 0,
-> > > > > +	.patchlevel = 0,
-> > > > > +	.fops = &arcpgu_drm_ops,
-> > > > > +	.load = arcpgu_load,
-> > > > > +	.unload = arcpgu_unload,
-> > > > Load and unload hooks are deprecated (it's a classic midlayer mistake).
-> > > > Please use drm_dev_alloc/register pairs directly instead, and put your
-> > > > device setup code in-between. Similar for unloading. There's a bunch of
-> > > > example drivers converted already.
-> > > Ok I took "atmel-hlcdc" as example.
-> > > And that's interesting.
-> > > 
-> > > If I put my?arcpgu_load() in between?drm_dev_alloc() and
-> > > drm_dev_register() then I'm getting this on the driver probe:
-> > > ---------------------------------->8-------------------------------
-> > > [drm] Initialized drm 1.1.0 20060810
-> > > arcpgu e0017000.pgu: arc_pgu ID: 0xabbabaab
-> > > ------------[ cut here ]------------
-> > > WARNING: CPU: 0 PID: 1 at lib/kobject.c:244 kobject_add_internal+0x17c/0x498()
-> > > kobject_add_internal failed for card0-HDMI-A-1 (error: -2 parent: card0)
-> > > Modules linked in:
-> > > CPU: 0 PID: 1 Comm: swapper Not tainted 4.5.0-rc3-01062-ga447822-dirty #17
-> > > 
-> > > Stack Trace:
-> > > ? arc_unwind_core.constprop.1+0xa4/0x110
-> > > ? warn_slowpath_fmt+0x6e/0xfc
-> > > ? kobject_add_internal+0x17c/0x498
-> > > ? kobject_add+0x98/0xe4
-> > > ? device_add+0xc6/0x734
-> > > ? device_create_with_groups+0x12a/0x144
-> > > ? drm_sysfs_connector_add+0x54/0xe8
-> > > ? arcpgu_drm_hdmi_init+0xd4/0x17c
-> > > ? arcpgu_probe+0x138/0x24c
-> > > ? platform_drv_probe+0x2e/0x6c
-> > > ? really_probe+0x212/0x35c
-> > > ? __driver_attach+0x90/0x94
-> > > ? bus_for_each_dev+0x46/0x80
-> > > ? bus_add_driver+0x14e/0x1b4
-> > > ? driver_register+0x64/0x108
-> > > ? do_one_initcall+0x86/0x194
-> > > ? kernel_init_freeable+0xf0/0x188
-> > > ---[ end trace c67166ad43ddcce2 ]---
-> > > [drm:drm_sysfs_connector_add] adding "HDMI-A-1" to sysfs
-> > > [drm:drm_sysfs_connector_add] *ERROR* failed to register connector device: -2
-> > > arcpgu e0017000.pgu: failed to regiter DRM connector and helper funcs
-> > > arcpgu: probe of e0017000.pgu failed with error -2
-> > > ---------------------------------->8-------------------------------
-> > > 
-> > > But if I move arcpgu_load() after drm_dev_register() then everything
-> > > starts properly and I may see HDMI screen works perfectly fine.
-> > > 
-> > > Any thoughts?
-> > Oops, yeah missed that detail. If you look at atmel it has a loop to
-> > register all the drm connectors _after_ calling drm_dev_register().
-> > Totally forgot about that. Can you pls
-> > - Extract a new drm_connector_register_all() function
-> > ? (atmel_hlcdc_dc_connector_plug_all seems to be the best template),
-> > ? including kerneldoc.
-> > - Adjust kerneldoc of drm_dev_register() to mention
-> > ? drm_connector_register_all() and that ordering constraint.
-> > - Roll that helper out to all the drivers that currently hand-roll it (one
-> > ? patch per driver).
-> > 
-> > I know a bit of work but imo not too much, and by doing some small
-> > refactoring every time someone stumbles over a drm pitfall we keep the
-> > subsystem clean&easy to understand. You're up for this? Would be a prep
-> > series, I'll happily review it to get it merged fast. Just a few weeks ago
-> > I merged 20+ patches to make ->mode_fixup hooks optional and remove dummy
-> > ones all over the subsystem, in other words: You'll have my full attention
-> > ;-)
-> 
-> Sure, I'm ready to pay that price :)
-> Stay tuned and patches will follow.
+OK linux-next/axs101_defconfig/arcompact Thu Mar 17, 01:00
 
-Awesome, looking forward to your patches.
+http://kisskb.ellerman.id.au/kisskb/buildresult/12636410/
 
-> > > 
-> > > > 
-> > > > > 
-> > > > > +	.dumb_create = drm_gem_cma_dumb_create,
-> > > > > +	.dumb_map_offset = drm_gem_cma_dumb_map_offset,
-> > > > > +	.dumb_destroy = drm_gem_dumb_destroy,
-> > > > > +	.get_vblank_counter = drm_vblank_no_hw_counter,
-> > > > > +	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-> > > > > +	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> > > > > +	.gem_free_object = drm_gem_cma_free_object,
-> > > > > +	.gem_vm_ops = &drm_gem_cma_vm_ops,
-> > > > > +	.gem_prime_export = drm_gem_prime_export,
-> > > > > +	.gem_prime_import = drm_gem_prime_import,
-> > > > > +	.gem_prime_get_sg_table = drm_gem_cma_prime_get_sg_table,
-> > > > > +	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-> > > > > +	.gem_prime_vmap = drm_gem_cma_prime_vmap,
-> > > > > +	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
-> > > > > +	.gem_prime_mmap = drm_gem_cma_prime_mmap,
-> > > > > +};
-> > > > > +
-> > > > > +static int arcpgu_probe(struct platform_device *pdev)
-> > > > > +{
-> > > > > +	return drm_platform_init(&arcpgu_drm_driver, pdev);
-> > > > ... or read the kerneldoc of this function, which also explains what you
-> > > > should do ;-)
-> > > Could you please point me to the relevant document?
-> > > I wasn't able to find anything related from the first glance :(
-> > The kerneldoc comment for drm_platform_init says it's deprecated, please
-> > use drm_dev_alloc/register instead.
-> 
-> Yeah I saw this. I was a bit confused with word "kerneldoc" thinking about
-> .txt files in Documentation folder.
+Commit:   Add linux-next specific files for 20160316
+          8559bac87dcf580b62d5cc751f5ab62d01832744
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-kerneldoc is the kernel-specific tool to parse the specially formatted
-in-source comments starting with /**. Run
+Possible errors
+---------------
 
-$ make htmldocs
+     harderr = icmp_err_convert[code].fatal;
 
-and you should have the generated gpu docs in Documentation/DocBook/gpu/
-which pulls all those together into something somewhat coherent.
+Possible warnings (145)
+----------------------
 
-> 
-> > > 
-> > > > 
-> > > > > 
-> > > > > +
-> > > > > +/*
-> > > > > + * This function is the only reason to have a copy of drm_fbdev_cma_init()
-> > > > > + * here in this driver.
-> > > > > + *
-> > > > > + * In its turn this mmap() is required to mark user-space page as non-cached
-> > > > > + * because it is just a mirror or real hardware frame-buffer.
-> > > > > + */
-> > > > > +static int arcpgu_mmap(struct fb_info *info, struct vm_area_struct *vma)
-> > > > > +{
-> > > > > +	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-> > > > > +	return vm_iomap_memory(vma, info->fix.smem_start, info->fix.smem_len);
-> > > > > +}
-> > > > This looks very fishy, no other drm driver even bothers with providing an
-> > > > fb_mmap hook. What exactly do you need this for? Assuming you've mmapped
-> > > > your fbcon drm_framebuffer correctly for kernel access things should just
-> > > > work ...
-> > > Indeed for kernel there's non need to that hack. Kernel deals directly with HW
-> > > frame-buffer area (that address we get from gem->paddr). And so every byte written gets
-> > > picked up by PGU and is then rendered on the display.
-> > > 
-> > > But when user-space opens /dev/fb0 and mmaps() it deals with memory pages which
-> > > are by default (at least on ARC) marked as "cached". I.e. user-space application
-> > > (I use that nice demo app?https://github.com/qtproject/qt/blob/4.8/examples/qws/framebuffer/main.c)
-> > > deals with frame-buffer via data cache. And that has 2 problems:
-> > > ?[1] Since no explicit cache flush gets executed some data is left in data cache,
-> > > ? ? ?i.e. some parts of the picture never reaches real PGU.
-> > > ? ? ?See what happens on display -?http://imgur.com/iAbnnx3
-> > > ? ? ?Those missing lines are exactly those 32-byte missing cache lines.
-> > > ?[2] Even if we manage to flush data somehow massive amount of data that goes
-> > > ? ? ?through data cache (let's sat 1080p at 30Hz) will thrash it and as a result
-> > > ? ? ?there will be no benefit for other cache users to use cache.
-> > > 
-> > > So we fix it simply marking pages mapped to user-space apps as uncached
-> > > that effectively routes all FB data directly to memry instead of polluting cache.
-> > > 
-> > > Hopefully that explanation makes sense.
-> > Still strange that you're the only one who needs this. I think best case
-> > would be to provide some mmap helpers for fbdev which remap to dumb buffer
-> > helpers or something similar. That way other drivers don't need to.
-> 
-> Ok I took another look and now see what's missing.
-> All other arches implement their own?fb_pgprotect() in arch/X/include/asm/fb.h
-> which does exactly what I need. So entire arcpgu_fbdev.c will be dumped in v4 :)
-
-Ah, excellent.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
+<stdin>:1310:2: warning: #warning syscall preadv2 not implemented [-Wcpp]
+<stdin>:1313:2: warning: #warning syscall pwritev2 not implemented [-Wcpp]
+Warning (unit_address_vs_reg): Node /cpu_card has a reg or ranges property, but no unit name
+Warning (unit_address_vs_reg): Node /cpu_card/arc700-intc at cpu has a unit name, but no reg property
+Warning (unit_address_vs_reg): Node /memory has a reg or ranges property, but no unit name
+Warning (unit_address_vs_reg): Node /axs10x_mb has a reg or ranges property, but no unit name
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+kernel/sched/core.c:3080:1: warning: control reaches end of non-void function [-Wreturn-type]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+kernel/sysctl.c:1949:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1949:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+ipc/shm.c:1252:2: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+include/linux/kernel.h:735:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+include/linux/rbtree.h:83:28: warning: 'rb_parent' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/rbtree.h:86:11: warning: 'rb_link' may be used uninitialized in this function [-Wmaybe-uninitialized]
+mm/mmap.c:558:17: warning: 'prev' may be used uninitialized in this function [-Wmaybe-uninitialized]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+fs/namei.c:1713:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:787:21: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:95:8: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:665:17: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/namei.c:1713:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:1238:13: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/asm-generic/bug.h:74:48: warning: 'fn' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/core/datagram.c:99:5: warning: 'last' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:315:21: warning: 'handle' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/core/datagram.c:99:5: warning: 'last' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/buffer_head.h:363:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/buffer_head.h:370:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/core/ethtool.c:295:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/core/neighbour.c:3180:10: warning: 'p_name' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/packet/af_packet.c:2159:33: warning: 'hdrlen' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1036:20: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1251:8: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1130:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1721:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_extents.h:224:8: warning: '*((void *)&zero_ex+8)' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_extents.h:225:12: warning: '*((void *)&zero_ex+6)' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/extents.c:3119:2: warning: 'zero_ex.ee_block' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1721:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/extents.c:2312:14: warning: 'lblock' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/extents.c:2311:14: warning: 'len' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/sunrpc/svcsock.c:779:6: warning: 'optname' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/svcsock.c:779:6: warning: 'level' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/core/hub.c:2767:16: warning: 'portchange' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/core/hub.c:2740:20: warning: 'portstatus' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/svcauth_unix.c:282:12: warning: 'sin6' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1207:12: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<U2980>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<U2980>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:26: warning: 'saddr.<U2980>.a4.vif' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<U2980>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.<U2980>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/tcp_metrics.c:1080:7: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<U2980>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<U2980>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/storage/transport.c:499:15: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/storage/transport.c:473:40: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
+net/ipv4/ping.c:561:37: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:534:3: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:515:48: warning: 'icmph' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:692:21: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:478:63: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/fib_trie.c:909:11: warning: 'local_tp' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/tty/serial/8250/8250_core.c:250:10: warning: 'i' may be used uninitialized in this function [-Wmaybe-uninitialized]
