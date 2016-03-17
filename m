@@ -1,168 +1,57 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Wed, 16 Mar 2016 14:01:37 -0000
-Subject: kisskb: OK linux-next/axs101_defconfig/arcompact Thu Mar 17, 01:00
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 17 Mar 2016 12:41:52 +0300
+Subject: [PATCH v2] ARC: axs10x - add Ethernet PHY description in .dts
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160316140137.1.915@4cca3ee1040e>
+Message-ID: <1458207712-29435-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linux-next/axs101_defconfig/arcompact Thu Mar 17, 01:00
+Following commit broke DW GMAC functionality on AXS10x boards:
+http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=e34d65696d2ef13dc32f2a162556c86c461ed763
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12636410/
+That's what happens on eth0 up:
+--------------------------->8------------------------
+libphy: PHY stmmac-0:ffffffff not found
+eth0: Could not attach to PHY
+stmmac_open: Cannot attach to PHY (error: -19)
+--------------------------->8------------------------
 
-Commit:   Add linux-next specific files for 20160316
-          8559bac87dcf580b62d5cc751f5ab62d01832744
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+Simplest solution is to add PHY description in board's .dts.
+And so we do here.
 
-Possible errors
----------------
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Rob Herring <robh at kernel.org>
+Cc: Phil Reid <preid at electromag.com.au>
+Cc: David S. Miller <davem at davemloft.net>
+Cc: linux-kernel at vger.kernel.org
+Cc: netdev at vger.kernel.org
+Cc: stable at vger.kernel.org # 4.5.x
+Cc: Sergei Shtylyov <sergei.shtylyov at cogentembedded.com>
+---
 
-     harderr = icmp_err_convert[code].fatal;
+Changes v1 -> v2:
+ * PHY node name changed to match real PHY number being used (Sergei)
 
-Possible warnings (145)
-----------------------
+ arch/arc/boot/dts/axs10x_mb.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
-<stdin>:1310:2: warning: #warning syscall preadv2 not implemented [-Wcpp]
-<stdin>:1313:2: warning: #warning syscall pwritev2 not implemented [-Wcpp]
-Warning (unit_address_vs_reg): Node /cpu_card has a reg or ranges property, but no unit name
-Warning (unit_address_vs_reg): Node /cpu_card/arc700-intc at cpu has a unit name, but no reg property
-Warning (unit_address_vs_reg): Node /memory has a reg or ranges property, but no unit name
-Warning (unit_address_vs_reg): Node /axs10x_mb has a reg or ranges property, but no unit name
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-kernel/sched/core.c:3080:1: warning: control reaches end of non-void function [-Wreturn-type]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-kernel/sysctl.c:1949:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/sysctl.c:1949:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-ipc/shm.c:1252:2: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-include/linux/kernel.h:735:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-include/linux/rbtree.h:83:28: warning: 'rb_parent' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/rbtree.h:86:11: warning: 'rb_link' may be used uninitialized in this function [-Wmaybe-uninitialized]
-mm/mmap.c:558:17: warning: 'prev' may be used uninitialized in this function [-Wmaybe-uninitialized]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-fs/namei.c:1713:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:787:21: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:95:8: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:665:17: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/namei.c:1713:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:1238:13: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-arch/arc/include/asm/tlbflush.h:29:0: warning: "flush_pmd_tlb_range" redefined [enabled by default]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/asm-generic/bug.h:74:48: warning: 'fn' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/core/datagram.c:99:5: warning: 'last' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:315:21: warning: 'handle' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/core/datagram.c:99:5: warning: 'last' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:556:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/buffer_head.h:363:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/buffer_head.h:370:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/core/ethtool.c:295:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/core/neighbour.c:3180:10: warning: 'p_name' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/packet/af_packet.c:2159:33: warning: 'hdrlen' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1036:20: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1251:8: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1130:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1721:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_extents.h:224:8: warning: '*((void *)&zero_ex+8)' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_extents.h:225:12: warning: '*((void *)&zero_ex+6)' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/extents.c:3119:2: warning: 'zero_ex.ee_block' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1721:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/extents.c:2312:14: warning: 'lblock' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/extents.c:2311:14: warning: 'len' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/sunrpc/svcsock.c:779:6: warning: 'optname' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/svcsock.c:779:6: warning: 'level' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/core/hub.c:2767:16: warning: 'portchange' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/core/hub.c:2740:20: warning: 'portstatus' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/svcauth_unix.c:282:12: warning: 'sin6' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1207:12: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<U2980>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<U2980>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:26: warning: 'saddr.<U2980>.a4.vif' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<U2980>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.<U2980>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/tcp_metrics.c:1080:7: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<U2980>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<U2980>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/storage/transport.c:499:15: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/storage/transport.c:473:40: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
-net/ipv4/ping.c:561:37: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:534:3: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:515:48: warning: 'icmph' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:692:21: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:478:63: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/fib_trie.c:909:11: warning: 'local_tp' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/tty/serial/8250/8250_core.c:250:10: warning: 'i' may be used uninitialized in this function [-Wmaybe-uninitialized]
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index 44a578c..ab5d570 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -47,6 +47,14 @@
+ 			clocks = <&apbclk>;
+ 			clock-names = "stmmaceth";
+ 			max-speed = <100>;
++			mdio0 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "snps,dwmac-mdio";
++				phy1: ethernet-phy at 1 {
++					reg = <1>;
++				};
++			};
+ 		};
+ 
+ 		ehci at 0x40000 {
+-- 
+2.5.0
