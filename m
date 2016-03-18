@@ -1,120 +1,228 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 17 Mar 2016 20:27:10 +0000
-Subject: [PATCH 1/4 v3] drm: Add support of ARC PGU display controller
-In-Reply-To: <20160315155940.GL14170@phenom.ffwll.local>
-References: <1457710959-9562-1-git-send-email-abrodkin@synopsys.com>
- <1457710959-9562-2-git-send-email-abrodkin@synopsys.com>
- <20160314070009.GN14170@phenom.ffwll.local>
- <1457954159.3306.24.camel@synopsys.com>
- <20160315081056.GS14170@phenom.ffwll.local>
- <1458055486.4174.16.camel@synopsys.com>
- <20160315155940.GL14170@phenom.ffwll.local>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 18 Mar 2016 10:56:29 +0530
+Subject: [PATCH v3] ARC: [dts] Introduce Timer bindings
+In-Reply-To: <20160317162421.GA21947@rob-hp-laptop>
+References: <20160317162421.GA21947@rob-hp-laptop>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1458246430.3134.14.camel@synopsys.com>
+Message-ID: <1458278789-18924-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Daniel,
+ARC Timers have historically been probed directly.
+As precursor to start probing Timers thru DT introduce these bindings
+Note that to keep series bisectable, these bindings are not yet used in
+code.
 
-On Tue, 2016-03-15@16:59 +0100, Daniel Vetter wrote:
-> On Tue, Mar 15, 2016@03:24:46PM +0000, Alexey Brodkin wrote:
-> > On Tue, 2016-03-15@09:10 +0100, Daniel Vetter wrote:
-> > > On Mon, Mar 14, 2016@11:15:59AM +0000, Alexey Brodkin wrote:
-> > > > On Mon, 2016-03-14@08:00 +0100, Daniel Vetter wrote:
-> > > > > On Fri, Mar 11, 2016@06:42:36PM +0300, Alexey Brodkin wrote:
-> > > > > >?
-> > > > > > +static struct drm_driver arcpgu_drm_driver = {
-> > > > > > +	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_PRIME |
-> > > > > > +			???DRIVER_ATOMIC,
-> > > > > > +	.preclose = arcpgu_preclose,
-> > > > > > +	.lastclose = arcpgu_lastclose,
-> > > > > > +	.name = "drm-arcpgu",
-> > > > > > +	.desc = "ARC PGU Controller",
-> > > > > > +	.date = "20160219",
-> > > > > > +	.major = 1,
-> > > > > > +	.minor = 0,
-> > > > > > +	.patchlevel = 0,
-> > > > > > +	.fops = &arcpgu_drm_ops,
-> > > > > > +	.load = arcpgu_load,
-> > > > > > +	.unload = arcpgu_unload,
-> > > > > Load and unload hooks are deprecated (it's a classic midlayer mistake).
-> > > > > Please use drm_dev_alloc/register pairs directly instead, and put your
-> > > > > device setup code in-between. Similar for unloading. There's a bunch of
-> > > > > example drivers converted already.
-> > > > Ok I took "atmel-hlcdc" as example.
-> > > > And that's interesting.
-> > > > 
-> > > > If I put my?arcpgu_load() in between?drm_dev_alloc() and
-> > > > drm_dev_register() then I'm getting this on the driver probe:
-> > > > ---------------------------------->8-------------------------------
-> > > > [drm] Initialized drm 1.1.0 20060810
-> > > > arcpgu e0017000.pgu: arc_pgu ID: 0xabbabaab
-> > > > ------------[ cut here ]------------
-> > > > WARNING: CPU: 0 PID: 1 at lib/kobject.c:244 kobject_add_internal+0x17c/0x498()
-> > > > kobject_add_internal failed for card0-HDMI-A-1 (error: -2 parent: card0)
-> > > > Modules linked in:
-> > > > CPU: 0 PID: 1 Comm: swapper Not tainted 4.5.0-rc3-01062-ga447822-dirty #17
-> > > > 
-> > > > Stack Trace:
-> > > > ? arc_unwind_core.constprop.1+0xa4/0x110
-> > > > ? warn_slowpath_fmt+0x6e/0xfc
-> > > > ? kobject_add_internal+0x17c/0x498
-> > > > ? kobject_add+0x98/0xe4
-> > > > ? device_add+0xc6/0x734
-> > > > ? device_create_with_groups+0x12a/0x144
-> > > > ? drm_sysfs_connector_add+0x54/0xe8
-> > > > ? arcpgu_drm_hdmi_init+0xd4/0x17c
-> > > > ? arcpgu_probe+0x138/0x24c
-> > > > ? platform_drv_probe+0x2e/0x6c
-> > > > ? really_probe+0x212/0x35c
-> > > > ? __driver_attach+0x90/0x94
-> > > > ? bus_for_each_dev+0x46/0x80
-> > > > ? bus_add_driver+0x14e/0x1b4
-> > > > ? driver_register+0x64/0x108
-> > > > ? do_one_initcall+0x86/0x194
-> > > > ? kernel_init_freeable+0xf0/0x188
-> > > > ---[ end trace c67166ad43ddcce2 ]---
-> > > > [drm:drm_sysfs_connector_add] adding "HDMI-A-1" to sysfs
-> > > > [drm:drm_sysfs_connector_add] *ERROR* failed to register connector device: -2
-> > > > arcpgu e0017000.pgu: failed to regiter DRM connector and helper funcs
-> > > > arcpgu: probe of e0017000.pgu failed with error -2
-> > > > ---------------------------------->8-------------------------------
-> > > > 
-> > > > But if I move arcpgu_load() after drm_dev_register() then everything
-> > > > starts properly and I may see HDMI screen works perfectly fine.
-> > > > 
-> > > > Any thoughts?
-> > > Oops, yeah missed that detail. If you look at atmel it has a loop to
-> > > register all the drm connectors _after_ calling drm_dev_register().
-> > > Totally forgot about that. Can you pls
-> > > - Extract a new drm_connector_register_all() function
-> > > ? (atmel_hlcdc_dc_connector_plug_all seems to be the best template),
-> > > ? including kerneldoc.
-> > > - Adjust kerneldoc of drm_dev_register() to mention
-> > > ? drm_connector_register_all() and that ordering constraint.
-> > > - Roll that helper out to all the drivers that currently hand-roll it (one
-> > > ? patch per driver).
-> > > 
-> > > I know a bit of work but imo not too much, and by doing some small
-> > > refactoring every time someone stumbles over a drm pitfall we keep the
-> > > subsystem clean&easy to understand. You're up for this? Would be a prep
-> > > series, I'll happily review it to get it merged fast. Just a few weeks ago
-> > > I merged 20+ patches to make ->mode_fixup hooks optional and remove dummy
-> > > ones all over the subsystem, in other words: You'll have my full attention
-> > > ;-)
-> > Sure, I'm ready to pay that price :)
-> > Stay tuned and patches will follow.
-> Awesome, looking forward to your patches.
+Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+Cc: Rob Herring <robh at kernel.org>
+Cc: devicetree at vger.kernel.org
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+v3:
+ - Renamed Node name to avoid new warnings when unit address used w/o regs [Rob]
+v2:
+ - http://lists.infradead.org/pipermail/linux-snps-arc/2016-March/000653.html
+ - snps,arc-timer[0-1] folded into single snps-arc-timer	[Rob]
+ - Node name in DT example fixed:				[Rob]
+     "timer1: timer_clksrc {" -> timer at 1 {
+ - Introduced 64bit RTC in skeleton_hs.dtsi			[Vineet]
+v1:
+ - http://lists.infradead.org/pipermail/linux-snps-arc/2016-February/000447.html
+---
+ .../devicetree/bindings/timer/snps,arc-timer.txt   | 32 ++++++++++++++++++++++
+ .../devicetree/bindings/timer/snps,archs-gfrc.txt  | 14 ++++++++++
+ .../devicetree/bindings/timer/snps,archs-rtc.txt   | 14 ++++++++++
+ arch/arc/boot/dts/abilis_tb10x.dtsi                | 14 ++++++++++
+ arch/arc/boot/dts/skeleton.dtsi                    | 14 ++++++++++
+ arch/arc/boot/dts/skeleton_hs.dtsi                 | 20 ++++++++++++++
+ arch/arc/boot/dts/skeleton_hs_idu.dtsi             | 14 ++++++++++
+ 7 files changed, 122 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
 
-Sorry it took longer for me to finally put my hands on that work but anyways.
-
-I'm looking now at how drivers use existing?drm_connector_unplug_all() and
-their implementation of what would be?drm_connector_plug_all() and see
-in some implementations people wraps both helpers with
-mutex_{lock|unlock}(&dev->mode_config.mutex). But not everybody does this.
-
-So essentially my questions are:
-?[1] If it's necessary to get hold of that mutex before execution of either helper?
-?[2] If this is really necessary then IMHO it makes sense to move mutex_lock/unlock
-? ? ?in helpers itself, right?
-
--Alexey
+diff --git a/Documentation/devicetree/bindings/timer/snps,arc-timer.txt b/Documentation/devicetree/bindings/timer/snps,arc-timer.txt
+new file mode 100644
+index 000000000000..29ba64432ad7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/timer/snps,arc-timer.txt
+@@ -0,0 +1,32 @@
++Synopsys ARC Local Timer with Interrupt Capabilities
++- Found on all ARC CPUs (ARC700/ARCHS)
++- Can be optionally programmed to interrupt on Limit
++- Two idential copies TIMER0 and TIMER1 exist in ARC cores and historically
++  TIMER0 used as clockevent provider (true for all ARC cores)
++  TIMER1 used for clocksource (mandatory for ARC700, optional for ARC HS)
++
++Required properties:
++
++- compatible : should be "snps,arc-timer"
++- interrupts : single Interrupt going into parent intc
++	       (16 for ARCHS cores, 3 for ARC700 cores)
++- clocks     : phandle to the source clock
++
++Optional properties:
++
++- interrupt-parent : phandle to parent intc
++
++Example:
++
++	timer0 {
++		compatible = "snps,arc-timer";
++		interrupts = <3>;
++		interrupt-parent = <&core_intc>;
++		clocks = <&core_clk>;
++	};
++
++
++	timer1 {
++		compatible = "snps,arc-timer";
++		clocks = <&core_clk>;
++	};
+diff --git a/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
+new file mode 100644
+index 000000000000..b6cd1b3922de
+--- /dev/null
++++ b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
+@@ -0,0 +1,14 @@
++Synopsys ARC Free Running 64-bit Global Timer for ARC HS CPUs
++- clocksource provider for SMP SoC
++
++Required properties:
++
++- compatible : should be "snps,archs-gfrc"
++- clocks     : phandle to the source clock
++
++Example:
++
++	gfrc {
++		compatible = "snps,archs-gfrc";
++		clocks = <&core_clk>;
++	};
+diff --git a/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
+new file mode 100644
+index 000000000000..47bd7a702f3f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
+@@ -0,0 +1,14 @@
++Synopsys ARC Free Running 64-bit Local Timer for ARC HS CPUs
++- clocksource provider for UP SoC
++
++Required properties:
++
++- compatible : should be "snps,archs-rtc"
++- clocks     : phandle to the source clock
++
++Example:
++
++	rtc {
++		compatible = "snps,arc-rtc";
++		clocks = <&core_clk>;
++	};
+diff --git a/arch/arc/boot/dts/abilis_tb10x.dtsi b/arch/arc/boot/dts/abilis_tb10x.dtsi
+index cfb5052239a1..663671f22680 100644
+--- a/arch/arc/boot/dts/abilis_tb10x.dtsi
++++ b/arch/arc/boot/dts/abilis_tb10x.dtsi
+@@ -35,6 +35,20 @@
+ 		};
+ 	};
+ 
++	/* TIMER0 with interrupt for clockevent */
++	timer0 {
++		compatible = "snps,arc-timer";
++		interrupts = <3>;
++		interrupt-parent = <&intc>;
++		clocks = <&cpu_clk>;
++	};
++
++	/* TIMER1 for free running clocksource */
++	timer1 {
++		compatible = "snps,arc-timer";
++		clocks = <&cpu_clk>;
++	};
++
+ 	soc100 {
+ 		#address-cells	= <1>;
+ 		#size-cells	= <1>;
+diff --git a/arch/arc/boot/dts/skeleton.dtsi b/arch/arc/boot/dts/skeleton.dtsi
+index 296d371a335c..3a10cc633e2b 100644
+--- a/arch/arc/boot/dts/skeleton.dtsi
++++ b/arch/arc/boot/dts/skeleton.dtsi
+@@ -30,6 +30,20 @@
+ 		};
+ 	};
+ 
++	/* TIMER0 with interrupt for clockevent */
++	timer0 {
++		compatible = "snps,arc-timer";
++		interrupts = <3>;
++		interrupt-parent = <&core_intc>;
++		clocks = <&core_clk>;
++	};
++
++	/* TIMER1 for free running clocksource */
++	timer1 {
++		compatible = "snps,arc-timer";
++		clocks = <&core_clk>;
++	};
++
+ 	memory {
+ 		device_type = "memory";
+ 		reg = <0x80000000 0x10000000>;	/* 256M */
+diff --git a/arch/arc/boot/dts/skeleton_hs.dtsi b/arch/arc/boot/dts/skeleton_hs.dtsi
+index a53876669030..71fd308a9298 100644
+--- a/arch/arc/boot/dts/skeleton_hs.dtsi
++++ b/arch/arc/boot/dts/skeleton_hs.dtsi
+@@ -25,6 +25,26 @@
+ 		};
+ 	};
+ 
++	/* TIMER0 with interrupt for clockevent */
++	timer0 {
++		compatible = "snps,arc-timer";
++		interrupts = <16>;
++		interrupt-parent = <&core_intc>;
++		clocks = <&core_clk>;
++	};
++
++	/* 64-bit Local RTC: preferred clocksource for UP */
++	rtc {
++		compatible = "snps,archs-timer-rtc";
++		clocks = <&core_clk>;
++	};
++
++	/* TIMER1 for free running clocksource: Fallback if rtc not found */
++	timer1 {
++		compatible = "snps,arc-timer";
++		clocks = <&core_clk>;
++	};
++
+ 	memory {
+ 		device_type = "memory";
+ 		reg = <0x80000000 0x10000000>;	/* 256M */
+diff --git a/arch/arc/boot/dts/skeleton_hs_idu.dtsi b/arch/arc/boot/dts/skeleton_hs_idu.dtsi
+index 74898d017f7a..d1cb25a66989 100644
+--- a/arch/arc/boot/dts/skeleton_hs_idu.dtsi
++++ b/arch/arc/boot/dts/skeleton_hs_idu.dtsi
+@@ -25,6 +25,20 @@
+ 		};
+ 	};
+ 
++	/* TIMER0 with interrupt for clockevent */
++	timer0 {
++		compatible = "snps,arc-timer";
++		interrupts = <16>;
++		interrupt-parent = <&core_intc>;
++		clocks = <&core_clk>;
++	};
++
++	/* 64-bit Global Free Running Counter */
++	gfrc {
++		compatible = "snps,archs-timer-gfrc";
++		clocks = <&core_clk>;
++	};
++
+ 	memory {
+ 		device_type = "memory";
+ 		reg = <0x80000000 0x10000000>;	/* 256M */
+-- 
+2.5.0
