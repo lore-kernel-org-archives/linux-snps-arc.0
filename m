@@ -1,228 +1,142 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 18 Mar 2016 10:56:29 +0530
-Subject: [PATCH v3] ARC: [dts] Introduce Timer bindings
-In-Reply-To: <20160317162421.GA21947@rob-hp-laptop>
-References: <20160317162421.GA21947@rob-hp-laptop>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Fri, 18 Mar 2016 06:35:08 -0000
+Subject: kisskb: OK linux-next/axs103_smp_defconfig/arcv2 Fri Mar 18, 17:34
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1458278789-18924-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <20160318063508.1.67928@4cca3ee1040e>
 To: linux-snps-arc@lists.infradead.org
 
-ARC Timers have historically been probed directly.
-As precursor to start probing Timers thru DT introduce these bindings
-Note that to keep series bisectable, these bindings are not yet used in
-code.
+OK linux-next/axs103_smp_defconfig/arcv2 Fri Mar 18, 17:34
 
-Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-Cc: Rob Herring <robh at kernel.org>
-Cc: devicetree at vger.kernel.org
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
-v3:
- - Renamed Node name to avoid new warnings when unit address used w/o regs [Rob]
-v2:
- - http://lists.infradead.org/pipermail/linux-snps-arc/2016-March/000653.html
- - snps,arc-timer[0-1] folded into single snps-arc-timer	[Rob]
- - Node name in DT example fixed:				[Rob]
-     "timer1: timer_clksrc {" -> timer at 1 {
- - Introduced 64bit RTC in skeleton_hs.dtsi			[Vineet]
-v1:
- - http://lists.infradead.org/pipermail/linux-snps-arc/2016-February/000447.html
----
- .../devicetree/bindings/timer/snps,arc-timer.txt   | 32 ++++++++++++++++++++++
- .../devicetree/bindings/timer/snps,archs-gfrc.txt  | 14 ++++++++++
- .../devicetree/bindings/timer/snps,archs-rtc.txt   | 14 ++++++++++
- arch/arc/boot/dts/abilis_tb10x.dtsi                | 14 ++++++++++
- arch/arc/boot/dts/skeleton.dtsi                    | 14 ++++++++++
- arch/arc/boot/dts/skeleton_hs.dtsi                 | 20 ++++++++++++++
- arch/arc/boot/dts/skeleton_hs_idu.dtsi             | 14 ++++++++++
- 7 files changed, 122 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer.txt
- create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
- create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
+http://kisskb.ellerman.id.au/kisskb/buildresult/12638735/
 
-diff --git a/Documentation/devicetree/bindings/timer/snps,arc-timer.txt b/Documentation/devicetree/bindings/timer/snps,arc-timer.txt
-new file mode 100644
-index 000000000000..29ba64432ad7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/timer/snps,arc-timer.txt
-@@ -0,0 +1,32 @@
-+Synopsys ARC Local Timer with Interrupt Capabilities
-+- Found on all ARC CPUs (ARC700/ARCHS)
-+- Can be optionally programmed to interrupt on Limit
-+- Two idential copies TIMER0 and TIMER1 exist in ARC cores and historically
-+  TIMER0 used as clockevent provider (true for all ARC cores)
-+  TIMER1 used for clocksource (mandatory for ARC700, optional for ARC HS)
-+
-+Required properties:
-+
-+- compatible : should be "snps,arc-timer"
-+- interrupts : single Interrupt going into parent intc
-+	       (16 for ARCHS cores, 3 for ARC700 cores)
-+- clocks     : phandle to the source clock
-+
-+Optional properties:
-+
-+- interrupt-parent : phandle to parent intc
-+
-+Example:
-+
-+	timer0 {
-+		compatible = "snps,arc-timer";
-+		interrupts = <3>;
-+		interrupt-parent = <&core_intc>;
-+		clocks = <&core_clk>;
-+	};
-+
-+
-+	timer1 {
-+		compatible = "snps,arc-timer";
-+		clocks = <&core_clk>;
-+	};
-diff --git a/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
-new file mode 100644
-index 000000000000..b6cd1b3922de
---- /dev/null
-+++ b/Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
-@@ -0,0 +1,14 @@
-+Synopsys ARC Free Running 64-bit Global Timer for ARC HS CPUs
-+- clocksource provider for SMP SoC
-+
-+Required properties:
-+
-+- compatible : should be "snps,archs-gfrc"
-+- clocks     : phandle to the source clock
-+
-+Example:
-+
-+	gfrc {
-+		compatible = "snps,archs-gfrc";
-+		clocks = <&core_clk>;
-+	};
-diff --git a/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
-new file mode 100644
-index 000000000000..47bd7a702f3f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
-@@ -0,0 +1,14 @@
-+Synopsys ARC Free Running 64-bit Local Timer for ARC HS CPUs
-+- clocksource provider for UP SoC
-+
-+Required properties:
-+
-+- compatible : should be "snps,archs-rtc"
-+- clocks     : phandle to the source clock
-+
-+Example:
-+
-+	rtc {
-+		compatible = "snps,arc-rtc";
-+		clocks = <&core_clk>;
-+	};
-diff --git a/arch/arc/boot/dts/abilis_tb10x.dtsi b/arch/arc/boot/dts/abilis_tb10x.dtsi
-index cfb5052239a1..663671f22680 100644
---- a/arch/arc/boot/dts/abilis_tb10x.dtsi
-+++ b/arch/arc/boot/dts/abilis_tb10x.dtsi
-@@ -35,6 +35,20 @@
- 		};
- 	};
- 
-+	/* TIMER0 with interrupt for clockevent */
-+	timer0 {
-+		compatible = "snps,arc-timer";
-+		interrupts = <3>;
-+		interrupt-parent = <&intc>;
-+		clocks = <&cpu_clk>;
-+	};
-+
-+	/* TIMER1 for free running clocksource */
-+	timer1 {
-+		compatible = "snps,arc-timer";
-+		clocks = <&cpu_clk>;
-+	};
-+
- 	soc100 {
- 		#address-cells	= <1>;
- 		#size-cells	= <1>;
-diff --git a/arch/arc/boot/dts/skeleton.dtsi b/arch/arc/boot/dts/skeleton.dtsi
-index 296d371a335c..3a10cc633e2b 100644
---- a/arch/arc/boot/dts/skeleton.dtsi
-+++ b/arch/arc/boot/dts/skeleton.dtsi
-@@ -30,6 +30,20 @@
- 		};
- 	};
- 
-+	/* TIMER0 with interrupt for clockevent */
-+	timer0 {
-+		compatible = "snps,arc-timer";
-+		interrupts = <3>;
-+		interrupt-parent = <&core_intc>;
-+		clocks = <&core_clk>;
-+	};
-+
-+	/* TIMER1 for free running clocksource */
-+	timer1 {
-+		compatible = "snps,arc-timer";
-+		clocks = <&core_clk>;
-+	};
-+
- 	memory {
- 		device_type = "memory";
- 		reg = <0x80000000 0x10000000>;	/* 256M */
-diff --git a/arch/arc/boot/dts/skeleton_hs.dtsi b/arch/arc/boot/dts/skeleton_hs.dtsi
-index a53876669030..71fd308a9298 100644
---- a/arch/arc/boot/dts/skeleton_hs.dtsi
-+++ b/arch/arc/boot/dts/skeleton_hs.dtsi
-@@ -25,6 +25,26 @@
- 		};
- 	};
- 
-+	/* TIMER0 with interrupt for clockevent */
-+	timer0 {
-+		compatible = "snps,arc-timer";
-+		interrupts = <16>;
-+		interrupt-parent = <&core_intc>;
-+		clocks = <&core_clk>;
-+	};
-+
-+	/* 64-bit Local RTC: preferred clocksource for UP */
-+	rtc {
-+		compatible = "snps,archs-timer-rtc";
-+		clocks = <&core_clk>;
-+	};
-+
-+	/* TIMER1 for free running clocksource: Fallback if rtc not found */
-+	timer1 {
-+		compatible = "snps,arc-timer";
-+		clocks = <&core_clk>;
-+	};
-+
- 	memory {
- 		device_type = "memory";
- 		reg = <0x80000000 0x10000000>;	/* 256M */
-diff --git a/arch/arc/boot/dts/skeleton_hs_idu.dtsi b/arch/arc/boot/dts/skeleton_hs_idu.dtsi
-index 74898d017f7a..d1cb25a66989 100644
---- a/arch/arc/boot/dts/skeleton_hs_idu.dtsi
-+++ b/arch/arc/boot/dts/skeleton_hs_idu.dtsi
-@@ -25,6 +25,20 @@
- 		};
- 	};
- 
-+	/* TIMER0 with interrupt for clockevent */
-+	timer0 {
-+		compatible = "snps,arc-timer";
-+		interrupts = <16>;
-+		interrupt-parent = <&core_intc>;
-+		clocks = <&core_clk>;
-+	};
-+
-+	/* 64-bit Global Free Running Counter */
-+	gfrc {
-+		compatible = "snps,archs-timer-gfrc";
-+		clocks = <&core_clk>;
-+	};
-+
- 	memory {
- 		device_type = "memory";
- 		reg = <0x80000000 0x10000000>;	/* 256M */
--- 
-2.5.0
+Commit:   Add linux-next specific files for 20160318
+          5e3497cca281616e7930b74a0076b7324dcc2057
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+
+Possible errors
+---------------
+
+     harderr = icmp_err_convert[code].fatal;
+
+Possible warnings (119)
+----------------------
+
+drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
+<stdin>:1310:2: warning: #warning syscall preadv2 not implemented [-Wcpp]
+<stdin>:1313:2: warning: #warning syscall pwritev2 not implemented [-Wcpp]
+Warning (unit_address_vs_reg): Node /cpu_card has a reg or ranges property, but no unit name
+Warning (unit_address_vs_reg): Node /cpu_card/archs-intc at cpu has a unit name, but no reg property
+Warning (unit_address_vs_reg): Node /memory has a reg or ranges property, but no unit name
+Warning (unit_address_vs_reg): Node /axs10x_mb has a reg or ranges property, but no unit name
+kernel/sched/core.c:3080:1: warning: control reaches end of non-void function [-Wreturn-type]
+kernel/sysctl.c:1949:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/sysctl.c:1949:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
+ipc/shm.c:1252:2: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:787:21: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:95:8: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:665:17: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
+kernel/time/posix-cpu-timers.c:1238:13: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/namei.c:1713:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/namei.c:1713:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/rbtree.h:83:28: warning: 'rb_parent' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/rbtree.h:86:11: warning: 'rb_link' may be used uninitialized in this function [-Wmaybe-uninitialized]
+mm/mmap.c:558:17: warning: 'prev' may be used uninitialized in this function [-Wmaybe-uninitialized]
+lib/cpumask.c:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:735:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+net/core/datagram.c:99:5: warning: 'last' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/core/datagram.c:99:5: warning: 'last' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+drivers/usb/core/hub.c:2767:16: warning: 'portchange' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/core/hub.c:2740:20: warning: 'portstatus' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/core/ethtool.c:295:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/buffer_head.h:363:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/storage/transport.c:473:40: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+drivers/usb/storage/transport.c:499:15: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/buffer_head.h:370:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:315:21: warning: 'handle' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/core/neighbour.c:3180:10: warning: 'p_name' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/inode.c:5638:6: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+drivers/tty/serial/8250/8250_core.c:163:19: warning: 'i' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/net/inetpeer.h:141:6: warning: 'saddr.<Ue850>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<Ue850>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:26: warning: 'saddr.<Ue850>.a4.vif' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<Ue850>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.<Ue850>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/tcp_metrics.c:1080:7: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<Ue850>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'saddr.<Ue850>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_extents.h:224:8: warning: '*((void *)&zero_ex+8)' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_extents.h:225:12: warning: '*((void *)&zero_ex+6)' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/extents.c:3129:2: warning: 'zero_ex.ee_block' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
+net/ipv4/ping.c:561:37: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:534:3: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:515:48: warning: 'icmph' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1721:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/packet/af_packet.c:2159:33: warning: 'hdrlen' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:692:21: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/ipv4/ping.c:478:63: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1036:20: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+fs/ext4/extents.c:2320:14: warning: 'len' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1251:8: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1130:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/unix/af_unix.c:1721:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
+include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/fib_trie.c:909:11: warning: 'local_tp' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/svcsock.c:779:6: warning: 'optname' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/svcsock.c:779:6: warning: 'level' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/svcauth_unix.c:282:12: warning: 'sin6' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1207:12: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
+net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
