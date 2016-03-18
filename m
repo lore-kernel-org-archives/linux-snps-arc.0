@@ -1,142 +1,137 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Fri, 18 Mar 2016 06:35:08 -0000
-Subject: kisskb: OK linux-next/axs103_smp_defconfig/arcv2 Fri Mar 18, 17:34
+From: daniel@ffwll.ch (Daniel Vetter)
+Date: Fri, 18 Mar 2016 09:02:57 +0100
+Subject: [PATCH 1/4 v3] drm: Add support of ARC PGU display controller
+In-Reply-To: <1458246430.3134.14.camel@synopsys.com>
+References: <1457710959-9562-1-git-send-email-abrodkin@synopsys.com>
+ <1457710959-9562-2-git-send-email-abrodkin@synopsys.com>
+ <20160314070009.GN14170@phenom.ffwll.local>
+ <1457954159.3306.24.camel@synopsys.com>
+ <20160315081056.GS14170@phenom.ffwll.local>
+ <1458055486.4174.16.camel@synopsys.com>
+ <20160315155940.GL14170@phenom.ffwll.local>
+ <1458246430.3134.14.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160318063508.1.67928@4cca3ee1040e>
+Message-ID: <20160318080257.GD14170@phenom.ffwll.local>
 To: linux-snps-arc@lists.infradead.org
 
-OK linux-next/axs103_smp_defconfig/arcv2 Fri Mar 18, 17:34
+On Thu, Mar 17, 2016@08:27:10PM +0000, Alexey Brodkin wrote:
+> Hi Daniel,
+> 
+> On Tue, 2016-03-15@16:59 +0100, Daniel Vetter wrote:
+> > On Tue, Mar 15, 2016@03:24:46PM +0000, Alexey Brodkin wrote:
+> > > On Tue, 2016-03-15@09:10 +0100, Daniel Vetter wrote:
+> > > > On Mon, Mar 14, 2016@11:15:59AM +0000, Alexey Brodkin wrote:
+> > > > > On Mon, 2016-03-14@08:00 +0100, Daniel Vetter wrote:
+> > > > > > On Fri, Mar 11, 2016@06:42:36PM +0300, Alexey Brodkin wrote:
+> > > > > > >?
+> > > > > > > +static struct drm_driver arcpgu_drm_driver = {
+> > > > > > > +	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_PRIME |
+> > > > > > > +			???DRIVER_ATOMIC,
+> > > > > > > +	.preclose = arcpgu_preclose,
+> > > > > > > +	.lastclose = arcpgu_lastclose,
+> > > > > > > +	.name = "drm-arcpgu",
+> > > > > > > +	.desc = "ARC PGU Controller",
+> > > > > > > +	.date = "20160219",
+> > > > > > > +	.major = 1,
+> > > > > > > +	.minor = 0,
+> > > > > > > +	.patchlevel = 0,
+> > > > > > > +	.fops = &arcpgu_drm_ops,
+> > > > > > > +	.load = arcpgu_load,
+> > > > > > > +	.unload = arcpgu_unload,
+> > > > > > Load and unload hooks are deprecated (it's a classic midlayer mistake).
+> > > > > > Please use drm_dev_alloc/register pairs directly instead, and put your
+> > > > > > device setup code in-between. Similar for unloading. There's a bunch of
+> > > > > > example drivers converted already.
+> > > > > Ok I took "atmel-hlcdc" as example.
+> > > > > And that's interesting.
+> > > > > 
+> > > > > If I put my?arcpgu_load() in between?drm_dev_alloc() and
+> > > > > drm_dev_register() then I'm getting this on the driver probe:
+> > > > > ---------------------------------->8-------------------------------
+> > > > > [drm] Initialized drm 1.1.0 20060810
+> > > > > arcpgu e0017000.pgu: arc_pgu ID: 0xabbabaab
+> > > > > ------------[ cut here ]------------
+> > > > > WARNING: CPU: 0 PID: 1 at lib/kobject.c:244 kobject_add_internal+0x17c/0x498()
+> > > > > kobject_add_internal failed for card0-HDMI-A-1 (error: -2 parent: card0)
+> > > > > Modules linked in:
+> > > > > CPU: 0 PID: 1 Comm: swapper Not tainted 4.5.0-rc3-01062-ga447822-dirty #17
+> > > > > 
+> > > > > Stack Trace:
+> > > > > ? arc_unwind_core.constprop.1+0xa4/0x110
+> > > > > ? warn_slowpath_fmt+0x6e/0xfc
+> > > > > ? kobject_add_internal+0x17c/0x498
+> > > > > ? kobject_add+0x98/0xe4
+> > > > > ? device_add+0xc6/0x734
+> > > > > ? device_create_with_groups+0x12a/0x144
+> > > > > ? drm_sysfs_connector_add+0x54/0xe8
+> > > > > ? arcpgu_drm_hdmi_init+0xd4/0x17c
+> > > > > ? arcpgu_probe+0x138/0x24c
+> > > > > ? platform_drv_probe+0x2e/0x6c
+> > > > > ? really_probe+0x212/0x35c
+> > > > > ? __driver_attach+0x90/0x94
+> > > > > ? bus_for_each_dev+0x46/0x80
+> > > > > ? bus_add_driver+0x14e/0x1b4
+> > > > > ? driver_register+0x64/0x108
+> > > > > ? do_one_initcall+0x86/0x194
+> > > > > ? kernel_init_freeable+0xf0/0x188
+> > > > > ---[ end trace c67166ad43ddcce2 ]---
+> > > > > [drm:drm_sysfs_connector_add] adding "HDMI-A-1" to sysfs
+> > > > > [drm:drm_sysfs_connector_add] *ERROR* failed to register connector device: -2
+> > > > > arcpgu e0017000.pgu: failed to regiter DRM connector and helper funcs
+> > > > > arcpgu: probe of e0017000.pgu failed with error -2
+> > > > > ---------------------------------->8-------------------------------
+> > > > > 
+> > > > > But if I move arcpgu_load() after drm_dev_register() then everything
+> > > > > starts properly and I may see HDMI screen works perfectly fine.
+> > > > > 
+> > > > > Any thoughts?
+> > > > Oops, yeah missed that detail. If you look at atmel it has a loop to
+> > > > register all the drm connectors _after_ calling drm_dev_register().
+> > > > Totally forgot about that. Can you pls
+> > > > - Extract a new drm_connector_register_all() function
+> > > > ? (atmel_hlcdc_dc_connector_plug_all seems to be the best template),
+> > > > ? including kerneldoc.
+> > > > - Adjust kerneldoc of drm_dev_register() to mention
+> > > > ? drm_connector_register_all() and that ordering constraint.
+> > > > - Roll that helper out to all the drivers that currently hand-roll it (one
+> > > > ? patch per driver).
+> > > > 
+> > > > I know a bit of work but imo not too much, and by doing some small
+> > > > refactoring every time someone stumbles over a drm pitfall we keep the
+> > > > subsystem clean&easy to understand. You're up for this? Would be a prep
+> > > > series, I'll happily review it to get it merged fast. Just a few weeks ago
+> > > > I merged 20+ patches to make ->mode_fixup hooks optional and remove dummy
+> > > > ones all over the subsystem, in other words: You'll have my full attention
+> > > > ;-)
+> > > Sure, I'm ready to pay that price :)
+> > > Stay tuned and patches will follow.
+> > Awesome, looking forward to your patches.
+> 
+> Sorry it took longer for me to finally put my hands on that work but anyways.
+> 
+> I'm looking now at how drivers use existing?drm_connector_unplug_all() and
+> their implementation of what would be?drm_connector_plug_all() and see
+> in some implementations people wraps both helpers with
+> mutex_{lock|unlock}(&dev->mode_config.mutex). But not everybody does this.
+> 
+> So essentially my questions are:
+> ?[1] If it's necessary to get hold of that mutex before execution of either helper?
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12638735/
+In plug_all I think so, unplug_all has a FIXME comment about how locking
+against sysfs is horrible and it's all going to blow up. But we did
+recently change the connector sysfs files, so maybe that's fixed now. Not
+sure.
 
-Commit:   Add linux-next specific files for 20160318
-          5e3497cca281616e7930b74a0076b7324dcc2057
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+> ?[2] If this is really necessary then IMHO it makes sense to move mutex_lock/unlock
+> ? ? ?in helpers itself, right?
 
-Possible errors
----------------
-
-     harderr = icmp_err_convert[code].fatal;
-
-Possible warnings (119)
-----------------------
-
-drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
-<stdin>:1310:2: warning: #warning syscall preadv2 not implemented [-Wcpp]
-<stdin>:1313:2: warning: #warning syscall pwritev2 not implemented [-Wcpp]
-Warning (unit_address_vs_reg): Node /cpu_card has a reg or ranges property, but no unit name
-Warning (unit_address_vs_reg): Node /cpu_card/archs-intc at cpu has a unit name, but no reg property
-Warning (unit_address_vs_reg): Node /memory has a reg or ranges property, but no unit name
-Warning (unit_address_vs_reg): Node /axs10x_mb has a reg or ranges property, but no unit name
-kernel/sched/core.c:3080:1: warning: control reaches end of non-void function [-Wreturn-type]
-kernel/sysctl.c:1949:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/sysctl.c:1949:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
-ipc/shm.c:1252:2: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:787:21: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:95:8: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:665:17: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:1238:13: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/namei.c:1713:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/namei.c:1713:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/rbtree.h:83:28: warning: 'rb_parent' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/rbtree.h:86:11: warning: 'rb_link' may be used uninitialized in this function [-Wmaybe-uninitialized]
-mm/mmap.c:558:17: warning: 'prev' may be used uninitialized in this function [-Wmaybe-uninitialized]
-lib/cpumask.c:179:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/kernel.h:735:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-net/core/datagram.c:99:5: warning: 'last' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/core/datagram.c:99:5: warning: 'last' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-drivers/usb/core/hub.c:2767:16: warning: 'portchange' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/core/hub.c:2740:20: warning: 'portstatus' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/core/ethtool.c:295:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/buffer_head.h:363:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/storage/transport.c:473:40: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/usb/storage/transport.c:499:15: warning: 'partial' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/buffer_head.h:370:2: warning: 'blocknr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:315:21: warning: 'handle' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/inode.c:561:5: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/core/neighbour.c:3180:10: warning: 'p_name' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/inode.c:5638:6: warning: 'retval' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-drivers/tty/serial/8250/8250_core.c:163:19: warning: 'i' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/net/inetpeer.h:141:6: warning: 'saddr.<Ue850>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<Ue850>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:26: warning: 'saddr.<Ue850>.a4.vif' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<Ue850>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.<Ue850>.a4.addr' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/tcp_metrics.c:1080:7: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<Ue850>.key[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'saddr.<Ue850>.key[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[3]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/net/inetpeer.h:141:6: warning: 'daddr.in6_u.u6_addr32[2]' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_extents.h:224:8: warning: '*((void *)&zero_ex+8)' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_extents.h:225:12: warning: '*((void *)&zero_ex+6)' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/extents.c:3129:2: warning: 'zero_ex.ee_block' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
-net/ipv4/ping.c:561:37: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:534:3: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:515:48: warning: 'icmph' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1721:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/packet/af_packet.c:2159:33: warning: 'hdrlen' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:692:21: warning: 'type' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/ipv4/ping.c:478:63: warning: 'code' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1036:20: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/ext4/extents.c:2320:14: warning: 'len' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1251:8: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1130:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/unix/af_unix.c:1721:9: warning: 'hash' may be used uninitialized in this function [-Wmaybe-uninitialized]
-include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/ipv4/fib_trie.c:909:11: warning: 'local_tp' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/xfrm/xfrm_policy.c:1599:7: warning: 'dst_ops' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/svcsock.c:779:6: warning: 'optname' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/svcsock.c:779:6: warning: 'level' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/svcauth_unix.c:282:12: warning: 'sin6' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1153:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1149:17: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1144:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1207:12: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1122:8: warning: 'subbuf.tail[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.page_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1118:19: warning: 'subbuf.pages' may be used uninitialized in this function [-Wmaybe-uninitialized]
-net/sunrpc/xdr.c:1113:8: warning: 'subbuf.head[0].iov_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+Yeah, locking in the helper makes imo sense. Aside: I'd vote for
+register_all/unregister_all for consistency with drm_connector_register.
+register/unregister has a very clear meaning of "publish the object to
+userspace/other kernel subsystems". plug/unplug is confusing in DRM
+because of hotplug.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
