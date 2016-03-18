@@ -1,49 +1,53 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 21 Mar 2016 05:02:36 +0000
-Subject: [PATCH v3] ARC: [dts] Introduce Timer bindings
-References: <20160317162421.GA21947@rob-hp-laptop>
- <1458278789-18924-1-git-send-email-vgupta@synopsys.com>
- <20160320004212.GA8061@rob-hp-laptop>
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Fri, 18 Mar 2016 13:13:32 +0100
+Subject: [PATCH] ARC: build: Turn off -Wmaybe-uninitialized for ARC gcc 4.8
+In-Reply-To: <56EBDBD0.6090001@synopsys.com>
+References: <1458290783-31491-1-git-send-email-vgupta@synopsys.com>
+ <3287558.oO5rz13nxZ@wuerfel> <56EBDBD0.6090001@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E90A92@us01wembx1.internal.synopsys.com>
+Message-ID: <4819806.6rjMriPpyK@wuerfel>
 To: linux-snps-arc@lists.infradead.org
 
-On Sunday 20 March 2016 06:12 AM, Rob Herring wrote:
-> On Fri, Mar 18, 2016@10:56:29AM +0530, Vineet Gupta wrote:
->> ARC Timers have historically been probed directly.
->> As precursor to start probing Timers thru DT introduce these bindings
->> Note that to keep series bisectable, these bindings are not yet used in
->> code.
->>
->> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
->> Cc: Rob Herring <robh at kernel.org>
->> Cc: devicetree at vger.kernel.org
->> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
->> ---
->> v3:
->>  - Renamed Node name to avoid new warnings when unit address used w/o regs [Rob]
->> v2:
->>  - http://lists.infradead.org/pipermail/linux-snps-arc/2016-March/000653.html
->>  - snps,arc-timer[0-1] folded into single snps-arc-timer	[Rob]
->>  - Node name in DT example fixed:				[Rob]
->>      "timer1: timer_clksrc {" -> timer at 1 {
->>  - Introduced 64bit RTC in skeleton_hs.dtsi			[Vineet]
->> v1:
->>  - http://lists.infradead.org/pipermail/linux-snps-arc/2016-February/000447.html
->> ---
->>  .../devicetree/bindings/timer/snps,arc-timer.txt   | 32 ++++++++++++++++++++++
->>  .../devicetree/bindings/timer/snps,archs-gfrc.txt  | 14 ++++++++++
->>  .../devicetree/bindings/timer/snps,archs-rtc.txt   | 14 ++++++++++
->>  arch/arc/boot/dts/abilis_tb10x.dtsi                | 14 ++++++++++
->>  arch/arc/boot/dts/skeleton.dtsi                    | 14 ++++++++++
->>  arch/arc/boot/dts/skeleton_hs.dtsi                 | 20 ++++++++++++++
->>  arch/arc/boot/dts/skeleton_hs_idu.dtsi             | 14 ++++++++++
->>  7 files changed, 122 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer.txt
->>  create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
->>  create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
-> Acked-by: Rob Herring <robh at kernel.org>
+On Friday 18 March 2016 16:13:28 Vineet Gupta wrote:
+> On Friday 18 March 2016 03:59 PM, Arnd Bergmann wrote:
+> > On Friday 18 March 2016 15:50:11 Vineet Gupta wrote:
+> >> Sure, but I prefer this to be only for gcc 4.8 as this warning seems to be
+> >> healthy in small doses  At least it keeps the door open for future discussion
+> >> with gcc guys !
+> > 
+> > FWIW, testing on ARM with gcc-6.0 -O3, I also get tons of maybe-uninitialized
+> > warnings. It's unlikely that this is architecture specific or fixed in newer
+> > compiler versions.
+> 
+> So we disable this for good just like -Os.
+> What a shame - seemed like a reasonable safety net for programming errors.
 
-Thx a bunch Rob !
+Yes, it's an immensely useful warning, if you manage to avoid the
+false positives.
 
--Vineet
+> >> The following nested construct actually works - does that look OK to you ?
+> >>
+> >> ARCH_CFLAGS += -O3 $(call cc-ifversion, -lt, 0408, $(call cc-disable-warning,maybe-uninitialized,))
+> > 
+> > Yes, that seems ok.
+> 
+> There was typo actually -lt needed to be -eq
+> 
+> > I don't really understand why -O3 is needed though, maybe it's better to
+> > assume that it won't be needed in future gcc versions and do
+> 
+> Not sure what you mean, -O3 for triggering the warnings or -O3 in ARC makefile at all.
+> Assuming it's latter, this is how its been forever and was added consciously as
+> performance seemed better with -O3 than the default -O2.
+
+I think it's dangerous to use -O3 in one architecture when nothing else
+uses it. If you don't have a strong reason to use -O3, maybe just drop that
+use the default -O2 -Wmaybe-uninitialized like everyone else does.
+
+On a related note, I have submitted a patch that turns CONFIG_CC_OPTIMIZE_FOR_SIZE
+into a choice statement, so we actually get the -Wmaybe-uninitialized warnings
+in an allyesconfig or allmodconfig build. It would be trivial to extend that
+to give the choice between -Os, -O2 and -O3, and then pick -O3 in a defconfig,
+over the -O2 default.
+
+	Arnd
