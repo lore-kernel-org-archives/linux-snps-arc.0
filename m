@@ -1,73 +1,45 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Sat, 19 Mar 2016 08:22:49 -0000
-Subject: kisskb: FAILED linus/axs103_smp_defconfig/arcv2 Sat Mar 19, 19:22
+From: robh@kernel.org (Rob Herring)
+Date: Sat, 19 Mar 2016 19:42:12 -0500
+Subject: [PATCH v3] ARC: [dts] Introduce Timer bindings
+In-Reply-To: <1458278789-18924-1-git-send-email-vgupta@synopsys.com>
+References: <20160317162421.GA21947@rob-hp-laptop>
+ <1458278789-18924-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160319082249.1.32265@4cca3ee1040e>
+Message-ID: <20160320004212.GA8061@rob-hp-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-FAILED linus/axs103_smp_defconfig/arcv2 Sat Mar 19, 19:22
+On Fri, Mar 18, 2016@10:56:29AM +0530, Vineet Gupta wrote:
+> ARC Timers have historically been probed directly.
+> As precursor to start probing Timers thru DT introduce these bindings
+> Note that to keep series bisectable, these bindings are not yet used in
+> code.
+> 
+> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Cc: Rob Herring <robh at kernel.org>
+> Cc: devicetree at vger.kernel.org
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+> v3:
+>  - Renamed Node name to avoid new warnings when unit address used w/o regs [Rob]
+> v2:
+>  - http://lists.infradead.org/pipermail/linux-snps-arc/2016-March/000653.html
+>  - snps,arc-timer[0-1] folded into single snps-arc-timer	[Rob]
+>  - Node name in DT example fixed:				[Rob]
+>      "timer1: timer_clksrc {" -> timer at 1 {
+>  - Introduced 64bit RTC in skeleton_hs.dtsi			[Vineet]
+> v1:
+>  - http://lists.infradead.org/pipermail/linux-snps-arc/2016-February/000447.html
+> ---
+>  .../devicetree/bindings/timer/snps,arc-timer.txt   | 32 ++++++++++++++++++++++
+>  .../devicetree/bindings/timer/snps,archs-gfrc.txt  | 14 ++++++++++
+>  .../devicetree/bindings/timer/snps,archs-rtc.txt   | 14 ++++++++++
+>  arch/arc/boot/dts/abilis_tb10x.dtsi                | 14 ++++++++++
+>  arch/arc/boot/dts/skeleton.dtsi                    | 14 ++++++++++
+>  arch/arc/boot/dts/skeleton_hs.dtsi                 | 20 ++++++++++++++
+>  arch/arc/boot/dts/skeleton_hs_idu.dtsi             | 14 ++++++++++
+>  7 files changed, 122 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/timer/snps,arc-timer.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-gfrc.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/snps,archs-rtc.txt
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12640067/
-
-Commit:   Merge branch 'for-4.6' of git://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup
-          6b5f04b6cf8ebab9a65d9c0026c650bb2538fd0f
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
-
-Possible errors
----------------
-
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[3]: *** [arch/arc/mm/tlb.o] Error 1
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[3]: *** [arch/arc/kernel/setup.o] Error 1
-make[2]: *** [arch/arc/mm] Error 2
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[2]: *** [kernel/exit.o] Error 1
-make[2]: *** [kernel/fork.o] Error 1
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[2]: *** [kernel/module.o] Error 1
-make[3]: *** [kernel/sched/core.o] Error 1
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[2]: *** [mm/page_alloc.o] Error 1
-make[2]: *** [arch/arc/kernel] Error 2
-make[1]: *** [arch/arc] Error 2
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[2]: *** [mm/vmscan.o] Error 1
-include/linux/compiler.h:485:2: error: expected identifier or '(' before 'do'
-include/linux/compiler.h:491:4: error: expected identifier or '(' before 'while'
-make[2]: *** [fs/exec.o] Error 1
-make[1]: *** [mm] Error 2
-make[2]: *** [kernel/sched] Error 2
-make[1]: *** [fs] Error 2
-make[1]: *** [kernel] Error 2
-make: *** [sub-make] Error 2
-
-Possible warnings (16)
-----------------------
-
-drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
-kernel/sched/core.c:3079:1: warning: control reaches end of non-void function [-Wreturn-type]
-kernel/sysctl.c:1949:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/sysctl.c:1949:12: warning: 'p' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:787:21: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:95:8: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:665:17: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
-kernel/time/posix-cpu-timers.c:1238:13: warning: 'now' may be used uninitialized in this function [-Wmaybe-uninitialized]
-ipc/shm.c:1252:2: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/namei.c:1720:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
-fs/namei.c:1720:2: warning: 'seq' may be used uninitialized in this function [-Wmaybe-uninitialized]
+Acked-by: Rob Herring <robh at kernel.org>
