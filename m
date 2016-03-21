@@ -1,250 +1,63 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Mon, 21 Mar 2016 16:24:32 +0200
-Subject: [PATCH v6 3/3] irqchip: add nps Internal and external irqchips
-In-Reply-To: <1458570272-23037-1-git-send-email-noamca@mellanox.com>
-References: <1458570272-23037-1-git-send-email-noamca@mellanox.com>
+From: linux@roeck-us.net (Guenter Roeck)
+Date: Mon, 21 Mar 2016 13:00:35 -0700
+Subject: Build error due to commit 458aa76d132dc ("mm/thp/migration: switch
+ from flush_tlb_range to flush_pmd_tlb_range")
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1458570272-23037-4-git-send-email-noamca@mellanox.com>
+Message-ID: <20160321200035.GA31544@roeck-us.net>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamc@ezchip.com>
+Hi,
 
-Adding EZchip NPS400 support.
-NPS internal interrupts are internally handled at
-Multi Thread Manager (MTM) that is signaled for deactivating
-an interrupt.
-External interrupts is handled also at Global Interrupt
-Controller (GIC) e.g. serial and network devices.
+Your commit 458aa76d132dc1 ("mm/thp/migration: switch from flush_tlb_range
+to flush_pmd_tlb_range") causes a build error when building
+arcv2:vdk_hs38_smp_defconfig.
 
-Signed-off-by: Noam Camus <noamc at ezchip.com>
-Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: Jason Cooper <jason at lakedaemon.net>
-Cc: Marc Zyngier <marc.zyngier at arm.com>
+include/asm-generic/pgtable.h:799:45: note: in expansion of macro ?BUILD_BUG?
+ #define flush_pmd_tlb_range(vma, addr, end) BUILD_BUG()
+                                              ^
+./arch/arc/include/asm/tlbflush.h:37:13: note:
+	in expansion of macro ?flush_pmd_tlb_range?
+
+The build triggers the newly introduced BUILD_BUG().
+
+When building the image without the BUILD_BUG(), ie with no definition
+of flush_pmd_tlb_range(), the problem is gone. This suggests that the
+function is not needed for this build.
+
+I could submit a patch to remove the BUILD_BUG(), but maybe you had a reason
+for introducing it. Can you elaborate why you introduced the BUILD_BUG() ?
+
+Thanks,
+Guenter
+
 ---
- .../interrupt-controller/ezchip,nps400-ic.txt      |   17 ++
- drivers/irqchip/Kconfig                            |    6 +
- drivers/irqchip/Makefile                           |    1 +
- drivers/irqchip/irq-eznps.c                        |  165 ++++++++++++++++++++
- 4 files changed, 189 insertions(+), 0 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
- create mode 100644 drivers/irqchip/irq-eznps.c
+Bisect log:
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt b/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
-new file mode 100644
-index 0000000..888b2b9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
-@@ -0,0 +1,17 @@
-+EZchip NPS Interrupt Controller
-+
-+Required properties:
-+
-+- compatible : should be "ezchip,nps400-ic"
-+- interrupt-controller : Identifies the node as an interrupt controller
-+- #interrupt-cells : Specifies the number of cells needed to encode an
-+  interrupt source. The value shall be 1.
-+
-+
-+Example:
-+
-+intc: interrupt-controller {
-+	compatible = "ezchip,nps400-ic";
-+	interrupt-controller;
-+	#interrupt-cells = <1>;
-+};
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index 4d7294e..bc5e775 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -193,3 +193,9 @@ config IRQ_MXS
- 	def_bool y if MACH_ASM9260 || ARCH_MXS
- 	select IRQ_DOMAIN
- 	select STMP_DEVICE
-+
-+config EZNPS_GIC
-+	bool "NPS400 Global Interrupt Manager (GIM)"
-+	select IRQ_DOMAIN
-+	help
-+	  Support the EZchip NPS400 global interrupt controller
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index 177f78f..1390142 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -55,3 +55,4 @@ obj-$(CONFIG_RENESAS_H8S_INTC)		+= irq-renesas-h8s.o
- obj-$(CONFIG_ARCH_SA1100)		+= irq-sa11x0.o
- obj-$(CONFIG_INGENIC_IRQ)		+= irq-ingenic.o
- obj-$(CONFIG_IMX_GPCV2)			+= irq-imx-gpcv2.o
-+obj-$(CONFIG_EZNPS_GIC)			+= irq-eznps.o
-diff --git a/drivers/irqchip/irq-eznps.c b/drivers/irqchip/irq-eznps.c
-new file mode 100644
-index 0000000..97e4294
---- /dev/null
-+++ b/drivers/irqchip/irq-eznps.c
-@@ -0,0 +1,165 @@
-+/*
-+ * Copyright (c) 2016, Mellanox Technologies. All rights reserved.
-+ *
-+ * This software is available to you under a choice of one of two
-+ * licenses.  You may choose to be licensed under the terms of the GNU
-+ * General Public License (GPL) Version 2, available from the file
-+ * COPYING in the main directory of this source tree, or the
-+ * OpenIB.org BSD license below:
-+ *
-+ *     Redistribution and use in source and binary forms, with or
-+ *     without modification, are permitted provided that the following
-+ *     conditions are met:
-+ *
-+ *      - Redistributions of source code must retain the above
-+ *        copyright notice, this list of conditions and the following
-+ *        disclaimer.
-+ *
-+ *      - Redistributions in binary form must reproduce the above
-+ *        copyright notice, this list of conditions and the following
-+ *        disclaimer in the documentation and/or other materials
-+ *        provided with the distribution.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-+ * SOFTWARE.
-+ */
-+
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/irq.h>
-+#include <linux/irqdomain.h>
-+#include <linux/irqchip.h>
-+#include <soc/nps/common.h>
-+
-+#define NPS_NR_CPU_IRQS 8  /* number of interrupt lines of NPS400 CPU */
-+#define NPS_TIMER0_IRQ  3
-+
-+/*
-+ * NPS400 core includes an Interrupt Controller (IC) support.
-+ * All cores can deactivate level irqs at first level control
-+ * at cores mesh layer called MTM.
-+ * For devices out side chip e.g. uart, network there is another
-+ * level called Global Interrupt Manager (GIM).
-+ * This second level can control level and edge interrupt.
-+ *
-+ * NOTE: AUX_IENABLE and CTOP_AUX_IACK are auxiliary registers
-+ * with private HW copy per CPU.
-+ */
-+
-+static void nps400_irq_mask(struct irq_data *irqd)
-+{
-+	unsigned int ienb;
-+	unsigned int irq = irqd_to_hwirq(irqd);
-+
-+	ienb = read_aux_reg(AUX_IENABLE);
-+	ienb &= ~(1 << irq);
-+	write_aux_reg(AUX_IENABLE, ienb);
-+}
-+
-+static void nps400_irq_unmask(struct irq_data *irqd)
-+{
-+	unsigned int ienb;
-+	unsigned int irq = irqd_to_hwirq(irqd);
-+
-+	ienb = read_aux_reg(AUX_IENABLE);
-+	ienb |= (1 << irq);
-+	write_aux_reg(AUX_IENABLE, ienb);
-+}
-+
-+static void nps400_irq_eoi_global(struct irq_data *irqd)
-+{
-+	unsigned int __maybe_unused irq = irqd_to_hwirq(irqd);
-+
-+	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
-+
-+	/* Don't ack GIC before all device access attempts are done */
-+	mb();
-+
-+	nps_ack_gic();
-+}
-+
-+static void nps400_irq_eoi(struct irq_data *irqd)
-+{
-+	unsigned int __maybe_unused irq = irqd_to_hwirq(irqd);
-+
-+	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
-+}
-+
-+static struct irq_chip nps400_irq_chip_fasteoi = {
-+	.name		= "NPS400 IC Global",
-+	.irq_mask	= nps400_irq_mask,
-+	.irq_unmask	= nps400_irq_unmask,
-+	.irq_eoi	= nps400_irq_eoi_global,
-+};
-+
-+static struct irq_chip nps400_irq_chip_percpu = {
-+	.name		= "NPS400 IC",
-+	.irq_mask	= nps400_irq_mask,
-+	.irq_unmask	= nps400_irq_unmask,
-+	.irq_eoi	= nps400_irq_eoi,
-+};
-+
-+static int nps400_irq_map(struct irq_domain *d, unsigned int virq,
-+			  irq_hw_number_t hw)
-+{
-+	switch (hw) {
-+	case NPS_TIMER0_IRQ:
-+#ifdef CONFIG_SMP
-+	case IPI_IRQ:
-+#endif
-+		irq_set_percpu_devid(virq);
-+		irq_set_chip_and_handler(virq, &nps400_irq_chip_percpu,
-+					 handle_percpu_devid_irq);
-+		break;
-+	default:
-+		irq_set_chip_and_handler(virq, &nps400_irq_chip_fasteoi,
-+					 handle_fasteoi_irq);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct irq_domain_ops nps400_irq_ops = {
-+	.xlate = irq_domain_xlate_onecell,
-+	.map = nps400_irq_map,
-+};
-+
-+static int __init nps400_of_init(struct device_node *node,
-+				 struct device_node *parent)
-+{
-+	static struct irq_domain *nps400_root_domain;
-+
-+	if (parent) {
-+		pr_err("DeviceTree incore ic not a root irq controller\n");
-+		return -EINVAL;
-+	}
-+
-+	nps400_root_domain = irq_domain_add_linear(node, NPS_NR_CPU_IRQS,
-+						   &nps400_irq_ops, NULL);
-+
-+	if (!nps400_root_domain) {
-+		pr_err("nps400 root irq domain not avail\n");
-+		return -ENOMEM;
-+	}
-+
-+	/*
-+	 * Needed for primary domain lookup to succeed
-+	 * This is a primary irqchip, and can never have a parent
-+	 */
-+	irq_set_default_host(nps400_root_domain);
-+
-+#ifdef CONFIG_SMP
-+	irq_create_mapping(nps400_root_domain, IPI_IRQ);
-+#endif
-+
-+	return 0;
-+}
-+IRQCHIP_DECLARE(ezchip_nps400_ic, "ezchip,nps400-ic", nps400_of_init);
--- 
-1.7.1
+# bad: [ce69f4538ef366cdd8932097331549be902365f9] unicore32: mm: Add missing parameter to arch_vma_access_permitted
+# good: [f7813ad5cbfd1fab2899914281b72a1ba0805c80] Merge tag 'for-linus-4.6' of git://git.code.sf.net/p/openipmi/linux-ipmi
+git bisect start 'HEAD' 'f7813ad'
+# good: [fb781c8e2a370d67acf7b8a8826e6f5e3ae1d7c6] clk: rockchip: add node-id for rk3036 emac hclk
+git bisect good fb781c8e2a370d67acf7b8a8826e6f5e3ae1d7c6
+# bad: [33b3d2e88c9efd701b6153ca4714d4aa6e9f5af0] Merge tag 'armsoc-soc' of git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc
+git bisect bad 33b3d2e88c9efd701b6153ca4714d4aa6e9f5af0
+# bad: [d5e2d00898bdfed9586472679760fc81a2ca2d02] Merge tag 'powerpc-4.6-1' of git://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux
+git bisect bad d5e2d00898bdfed9586472679760fc81a2ca2d02
+# bad: [6b5f04b6cf8ebab9a65d9c0026c650bb2538fd0f] Merge branch 'for-4.6' of git://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup
+git bisect bad 6b5f04b6cf8ebab9a65d9c0026c650bb2538fd0f
+# bad: [f9310b2f9a19b7f16c7b1c1558f8b649b9b933c1] sscanf: implement basic character sets
+git bisect bad f9310b2f9a19b7f16c7b1c1558f8b649b9b933c1
+# bad: [fec89c109f3a7737fe3a7bf0f40d1fb7709d353b] thp: rewrite freeze_page()/unfreeze_page() with generic rmap walkers
+git bisect bad fec89c109f3a7737fe3a7bf0f40d1fb7709d353b
+# good: [0a6b76dd23fa08c5fd7b68acdb55018a37afd4aa] mm: workingset: make shadow node shrinker memcg aware
+git bisect good 0a6b76dd23fa08c5fd7b68acdb55018a37afd4aa
+# bad: [fe896d1878949ea92ba547587bc3075cc688fb8f] mm: introduce page reference manipulation functions
+git bisect bad fe896d1878949ea92ba547587bc3075cc688fb8f
+# bad: [7eb50292d7f74ccb89155960d62b2697f2536b28] mm/Kconfig: remove redundant arch depend for memory hotplug
+git bisect bad 7eb50292d7f74ccb89155960d62b2697f2536b28
+# good: [39a1aa8e194ab67983de3b9d0b204ccee12e689a] mm: deduplicate memory overcommitment code
+git bisect good 39a1aa8e194ab67983de3b9d0b204ccee12e689a
+# bad: [458aa76d132dc1c3c60be0f0db99bcc0ce1767fc] mm/thp/migration: switch from flush_tlb_range to flush_pmd_tlb_range
+git bisect bad 458aa76d132dc1c3c60be0f0db99bcc0ce1767fc
+# good: [bcf6691797f425b301f629bb783b7ff2d0bcfa5a] mm, tracing: refresh __def_vmaflag_names
+git bisect good bcf6691797f425b301f629bb783b7ff2d0bcfa5a
+# first bad commit: [458aa76d132dc1c3c60be0f0db99bcc0ce1767fc] mm/thp/migration: switch from flush_tlb_range to flush_pmd_tlb_range
