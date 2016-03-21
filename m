@@ -1,82 +1,195 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Mon, 21 Mar 2016 16:24:29 +0200
-Subject: [PATCH v6 0/3] Adding NPS400 drivers
+Date: Mon, 21 Mar 2016 16:24:30 +0200
+Subject: [PATCH v6 1/3] soc: Support for EZchip SoC
+In-Reply-To: <1458570272-23037-1-git-send-email-noamca@mellanox.com>
+References: <1458570272-23037-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1458570272-23037-1-git-send-email-noamca@mellanox.com>
+Message-ID: <1458570272-23037-2-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamc@ezchip.com>
 
-Change Log--
-v6:
-Files headers changed to start with:
-Copyright (c) 2016, Mellanox Technologies
-...
+This header file is for NPS400 SoC.
+It includes macros for accessing memory mapped registers.
+These are functional registers that core can use to configure SoC.
 
-This is due to the acquisition of EZchip made by Mellanox.
-One can still find "EZchip" used in tree, and this is ok.
-
-This patch set is a requierement before I can insert new platform to ARC,
-one that supports the NPS400 SoC.
-
-v5:
-Clocksource, irqchip - Fix gracefull return.
-				replace call to panic() with pr_err() and proper return value.
-
-v4:
-clocksource -- Apply all Daniel comments (Thanks)
-				Handle gracefull return and also using clocksoure mmio driver at init
-
-v3:
-irqchip - Fix ARM build failure by adding missing include of linux/irq.h
-clocksource -- Avoid 64bit arch's to build driver by adding new dependency !PHYS_ADDR_T_64BIT
-				This is since we use explicit io access of 32 bit. So for test coverage we allow
-				not only build for ARC, but restrict it to 32 bit arch's.
-irqchip - Apply all Thomas comments (Thank you)
-
-v2:
-Add header file include/soc/nps/common.h.
-Now to build we do not depend on ARC subtree.
-
-General summay:
-Both drivers are now apart of previous basic patch set of new platform for ARC.
-The rest is now can be seen at ARC srctree:
-https://git.kernel.org/cgit/linux/kernel/git/vgupta/arc.git/
-
-Now ARC is supporting DT for clockevents and the interrupt controller ARC
-uses irq domain handling.
-
-Compare to last version now clocksource driver do not include clockevent registration
-since NPS400 can use ARC generic driver.
-
-Compare to last version now irqchip driver sets domain as default since it is the root domain.
-Also mapping of IPI is done in this driver.
-
-Last thing is that drivers can be build cleanly for i386 (still runs only for ARC)
-Note: in order to build we need to merge drivers into srctree which includes new header:
-soc/nps/common.h
-This header is part of patch set applied to ARC srctree.
-
-Regards,
-Noam Camus
-
-Noam Camus (3):
-  soc: Support for EZchip SoC
-  clocksource: Add NPS400 timers driver
-  irqchip: add nps Internal and external irqchips
-
- .../interrupt-controller/ezchip,nps400-ic.txt      |   17 ++
- .../bindings/timer/ezchip,nps400-timer.txt         |   15 ++
- drivers/clocksource/Kconfig                        |   10 ++
- drivers/clocksource/Makefile                       |    1 +
- drivers/clocksource/timer-nps.c                    |   98 ++++++++++++
- drivers/irqchip/Kconfig                            |    6 +
- drivers/irqchip/Makefile                           |    1 +
- drivers/irqchip/irq-eznps.c                        |  165 +++++++++++++++++++
- include/soc/nps/common.h                           |  166 ++++++++++++++++++++
- 9 files changed, 479 insertions(+), 0 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
- create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
- create mode 100644 drivers/clocksource/timer-nps.c
- create mode 100644 drivers/irqchip/irq-eznps.c
+Signed-off-by: Noam Camus <noamc at ezchip.com>
+---
+ include/soc/nps/common.h |  166 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 166 insertions(+), 0 deletions(-)
  create mode 100644 include/soc/nps/common.h
+
+diff --git a/include/soc/nps/common.h b/include/soc/nps/common.h
+new file mode 100644
+index 0000000..e959176
+--- /dev/null
++++ b/include/soc/nps/common.h
+@@ -0,0 +1,166 @@
++/*
++ * Copyright (c) 2016, Mellanox Technologies. All rights reserved.
++ *
++ * This software is available to you under a choice of one of two
++ * licenses.  You may choose to be licensed under the terms of the GNU
++ * General Public License (GPL) Version 2, available from the file
++ * COPYING in the main directory of this source tree, or the
++ * OpenIB.org BSD license below:
++ *
++ *     Redistribution and use in source and binary forms, with or
++ *     without modification, are permitted provided that the following
++ *     conditions are met:
++ *
++ *      - Redistributions of source code must retain the above
++ *        copyright notice, this list of conditions and the following
++ *        disclaimer.
++ *
++ *      - Redistributions in binary form must reproduce the above
++ *        copyright notice, this list of conditions and the following
++ *        disclaimer in the documentation and/or other materials
++ *        provided with the distribution.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ */
++
++#ifndef SOC_NPS_COMMON_H
++#define SOC_NPS_COMMON_H
++
++#ifdef CONFIG_SMP
++#define IPI_IRQ					5
++#endif
++
++#define NPS_HOST_REG_BASE			0xF6000000
++
++#define NPS_MSU_BLKID				0x018
++
++#define CTOP_INST_RSPI_GIC_0_R12		0x3C56117E
++#define CTOP_INST_MOV2B_FLIP_R3_B1_B2_INST	0x5B60
++#define CTOP_INST_MOV2B_FLIP_R3_B1_B2_LIMM	0x00010422
++
++#ifndef __ASSEMBLY__
++
++/* In order to increase compilation test coverage */
++#ifdef CONFIG_ARC
++static inline void nps_ack_gic(void)
++{
++	__asm__ __volatile__ (
++	"       .word %0\n"
++	:
++	: "i"(CTOP_INST_RSPI_GIC_0_R12)
++	: "memory");
++}
++#else
++static inline void nps_ack_gic(void) { }
++#define write_aux_reg(r, v)
++#define read_aux_reg(r) 0
++#endif
++
++/* CPU global ID */
++struct global_id {
++	union {
++		struct {
++#ifdef CONFIG_EZNPS_MTM_EXT
++			u32 __reserved:20, cluster:4, core:4, thread:4;
++#else
++			u32 __reserved:24, cluster:4, core:4;
++#endif
++		};
++		u32 value;
++	};
++};
++
++/*
++ * Convert logical to physical CPU IDs
++ *
++ * The conversion swap bits 1 and 2 of cluster id (out of 4 bits)
++ * Now quad of logical clusters id's are adjacent physically,
++ * and not like the id's physically came with each cluster.
++ * Below table is 4x4 mesh of core clusters as it layout on chip.
++ * Cluster ids are in format: logical (physical)
++ *
++ *    -----------------   ------------------
++ * 3 |  5 (3)   7 (7)  | | 13 (11)   15 (15)|
++ *
++ * 2 |  4 (2)   6 (6)  | | 12 (10)   14 (14)|
++ *    -----------------   ------------------
++ * 1 |  1 (1)   3 (5)  | |  9  (9)   11 (13)|
++ *
++ * 0 |  0 (0)   2 (4)  | |  8  (8)   10 (12)|
++ *    -----------------   ------------------
++ *       0       1            2        3
++ */
++static inline int nps_cluster_logic_to_phys(int cluster)
++{
++#ifdef __arc__
++	 __asm__ __volatile__(
++	"       mov r3,%0\n"
++	"       .short %1\n"
++	"       .word %2\n"
++	"       mov %0,r3\n"
++	: "+r"(cluster)
++	: "i"(CTOP_INST_MOV2B_FLIP_R3_B1_B2_INST),
++	  "i"(CTOP_INST_MOV2B_FLIP_R3_B1_B2_LIMM)
++	: "r3");
++#endif
++
++	return cluster;
++}
++
++#define NPS_CPU_TO_CLUSTER_NUM(cpu) \
++	({ struct global_id gid; gid.value = cpu; \
++		nps_cluster_logic_to_phys(gid.cluster); })
++
++struct nps_host_reg_address {
++	union {
++		struct {
++			u32 base:8, cl_x:4, cl_y:4,
++			blkid:6, reg:8, __reserved:2;
++		};
++		u32 value;
++	};
++};
++
++struct nps_host_reg_address_non_cl {
++	union {
++		struct {
++			u32 base:7, blkid:11, reg:12, __reserved:2;
++		};
++		u32 value;
++	};
++};
++
++static inline void *nps_host_reg_non_cl(u32 blkid, u32 reg)
++{
++	struct nps_host_reg_address_non_cl reg_address;
++
++	reg_address.value = NPS_HOST_REG_BASE;
++	reg_address.blkid = blkid;
++	reg_address.reg = reg;
++
++	return (void *)reg_address.value;
++}
++
++static inline void *nps_host_reg(u32 cpu, u32 blkid, u32 reg)
++{
++	struct nps_host_reg_address reg_address;
++	u32 cl = NPS_CPU_TO_CLUSTER_NUM(cpu);
++
++	reg_address.value = NPS_HOST_REG_BASE;
++	reg_address.cl_x  = (cl >> 2) & 0x3;
++	reg_address.cl_y  = cl & 0x3;
++	reg_address.blkid = blkid;
++	reg_address.reg   = reg;
++
++	return (void *)reg_address.value;
++}
++#endif /* __ASSEMBLY__ */
++
++#endif /* SOC_NPS_COMMON_H */
+-- 
+1.7.1
