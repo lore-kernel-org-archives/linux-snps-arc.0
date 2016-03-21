@@ -1,124 +1,82 @@
-From: robh@kernel.org (Rob Herring)
-Date: Mon, 21 Mar 2016 08:04:19 -0500
-Subject: [PATCH 2/4 v3] drm: Add DT bindings documentation for ARC PGU
- display controller
-In-Reply-To: <1457710959-9562-3-git-send-email-abrodkin@synopsys.com>
-References: <1457710959-9562-1-git-send-email-abrodkin@synopsys.com>
- <1457710959-9562-3-git-send-email-abrodkin@synopsys.com>
+From: noamca@mellanox.com (Noam Camus)
+Date: Mon, 21 Mar 2016 16:24:29 +0200
+Subject: [PATCH v6 0/3] Adding NPS400 drivers
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160321130419.GA23913@rob-hp-laptop>
+Message-ID: <1458570272-23037-1-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Mar 11, 2016@06:42:37PM +0300, Alexey Brodkin wrote:
-> This add DT bindings documentation for ARC PGU display controller.
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Rob Herring <robh+dt at kernel.org>
-> Cc: Pawel Moll <pawel.moll at arm.com>
-> Cc: Mark Rutland <mark.rutland at arm.com>
-> Cc: Ian Campbell <ijc+devicetree at hellion.org.uk>
-> Cc: Kumar Gala <galak at codeaurora.org>
-> Cc: David Airlie <airlied at linux.ie>
-> Cc: dri-devel at lists.freedesktop.org
-> Cc: devicetree at vger.kernel.org
-> Cc: linux-snps-arc at lists.infradead.org
-> ---
-> 
-> Changes v2 -> v3:
->  * Reverted back to initial larger version of example
->    with minor fixes (thanks Rob for spotting those).
-> 
-> Changes v1 -> v2:
->  * Removed everything except PGU node itself.
-> 
->  .../devicetree/bindings/display/snps,arcpgu.txt    | 72 ++++++++++++++++++++++
->  1 file changed, 72 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/snps,arcpgu.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/display/snps,arcpgu.txt b/Documentation/devicetree/bindings/display/snps,arcpgu.txt
-> new file mode 100644
-> index 0000000..b130924
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/snps,arcpgu.txt
-> @@ -0,0 +1,72 @@
-> +ARC PGU
-> +
-> +This is a display controller found on several development boards produced
-> +by Synopsys. The ARC PGU is an RGB streamer that reads the data from a
-> +framebuffer and sends it to a single digital encoder (usually HDMI).
-> +
-> +Required properties:
-> +  - compatible: "snps,arcpgu"
-> +  - reg: Physical base address and length of the controller's registers.
-> +  - clocks: A list of phandle + clock-specifier pairs, one for each
-> +    entry in 'clock-names'.
-> +  - clock-names: A list of clock names. For ARC PGU it should contain:
-> +      - "pxlclk" for the clock feeding the output PLL of the controller.
-> +  - encoder-slave: Phandle of encoder chip.
+From: Noam Camus <noamc@ezchip.com>
 
-Drop this as discussed.
+Change Log--
+v6:
+Files headers changed to start with:
+Copyright (c) 2016, Mellanox Technologies
+...
 
-> +
-> +Required sub-nodes:
-> +  - port: The PGU connection to an encoder chip.
-> +
-> +Example:
-> +
-> +/ {
-> +	...
-> +
-> +	pgu at XXXXXXXX {
-> +		compatible = "snps,arcpgu";
-> +		reg = <0xXXXXXXXX 0x400>;
-> +		clocks = <&clock_node>;
-> +		clock-names = "pxlclk";
-> +		encoder-slave = <&encoder_node>;
-> +
-> +		port {
-> +			pgu_output: endpoint {
-> +				remote-endpoint = <&hdmi_enc_input>;
-> +			};
-> +		};
-> +	};
-> +
-> +	/* HDMI encoder on I2C bus */
-> +	i2c at XXXXXXXX {
-> +		compatible = "...";
-> +
-> +		encoder_node:encoder_node at 0xXX{
+This is due to the acquisition of EZchip made by Mellanox.
+One can still find "EZchip" used in tree, and this is ok.
 
-Don't use underscores in node names. Just "hdmi at xx"
+This patch set is a requierement before I can insert new platform to ARC,
+one that supports the NPS400 SoC.
 
-> +			compatible="...";
-> +
-> +			ports {
-> +				port at 0 {
-> +					reg = <0>;
-> +					hdmi_enc_input:endpoint {
-> +						remote-endpoint = <&pgu_output>;
-> +					};
-> +				};
-> +
-> +				port at 1 {
-> +					reg = <1>;
-> +					hdmi_enc_output:endpoint {
-> +						remote-endpoint = <&hdmi_connector_in>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +	}
-> +
-> +	hdmi0: connector {
-> +		compatible = "hdmi-connector";
-> +
-> +		port {
-> +			hdmi_connector_in: endpoint {
-> +				remote-endpoint = <&hdmi_enc_output>;
-> +			};
-> +		};
-> +	};
-> +};
-> -- 
-> 2.5.0
-> 
+v5:
+Clocksource, irqchip - Fix gracefull return.
+				replace call to panic() with pr_err() and proper return value.
+
+v4:
+clocksource -- Apply all Daniel comments (Thanks)
+				Handle gracefull return and also using clocksoure mmio driver at init
+
+v3:
+irqchip - Fix ARM build failure by adding missing include of linux/irq.h
+clocksource -- Avoid 64bit arch's to build driver by adding new dependency !PHYS_ADDR_T_64BIT
+				This is since we use explicit io access of 32 bit. So for test coverage we allow
+				not only build for ARC, but restrict it to 32 bit arch's.
+irqchip - Apply all Thomas comments (Thank you)
+
+v2:
+Add header file include/soc/nps/common.h.
+Now to build we do not depend on ARC subtree.
+
+General summay:
+Both drivers are now apart of previous basic patch set of new platform for ARC.
+The rest is now can be seen at ARC srctree:
+https://git.kernel.org/cgit/linux/kernel/git/vgupta/arc.git/
+
+Now ARC is supporting DT for clockevents and the interrupt controller ARC
+uses irq domain handling.
+
+Compare to last version now clocksource driver do not include clockevent registration
+since NPS400 can use ARC generic driver.
+
+Compare to last version now irqchip driver sets domain as default since it is the root domain.
+Also mapping of IPI is done in this driver.
+
+Last thing is that drivers can be build cleanly for i386 (still runs only for ARC)
+Note: in order to build we need to merge drivers into srctree which includes new header:
+soc/nps/common.h
+This header is part of patch set applied to ARC srctree.
+
+Regards,
+Noam Camus
+
+Noam Camus (3):
+  soc: Support for EZchip SoC
+  clocksource: Add NPS400 timers driver
+  irqchip: add nps Internal and external irqchips
+
+ .../interrupt-controller/ezchip,nps400-ic.txt      |   17 ++
+ .../bindings/timer/ezchip,nps400-timer.txt         |   15 ++
+ drivers/clocksource/Kconfig                        |   10 ++
+ drivers/clocksource/Makefile                       |    1 +
+ drivers/clocksource/timer-nps.c                    |   98 ++++++++++++
+ drivers/irqchip/Kconfig                            |    6 +
+ drivers/irqchip/Makefile                           |    1 +
+ drivers/irqchip/irq-eznps.c                        |  165 +++++++++++++++++++
+ include/soc/nps/common.h                           |  166 ++++++++++++++++++++
+ 9 files changed, 479 insertions(+), 0 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+ create mode 100644 drivers/clocksource/timer-nps.c
+ create mode 100644 drivers/irqchip/irq-eznps.c
+ create mode 100644 include/soc/nps/common.h
