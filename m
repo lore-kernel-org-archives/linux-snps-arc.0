@@ -1,52 +1,45 @@
-From: linux@roeck-us.net (Guenter Roeck)
-Date: Tue, 22 Mar 2016 04:19:57 -0700
-Subject: Build error due to commit 458aa76d132dc ("mm/thp/migration:
- switch from flush_tlb_range to flush_pmd_tlb_range")
-In-Reply-To: <87k2kvt7p6.fsf@linux.vnet.ibm.com>
-References: <20160321200035.GA31544@roeck-us.net>
- <87k2kvt7p6.fsf@linux.vnet.ibm.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Tue, 22 Mar 2016 21:32:04 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Wed Mar 23, 08:31
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56F12A5D.7040904@roeck-us.net>
+Message-ID: <20160322213204.1.39585@37e79b8ac0a7>
 To: linux-snps-arc@lists.infradead.org
 
-On 03/21/2016 10:14 PM, Aneesh Kumar K.V wrote:
-> Guenter Roeck <linux at roeck-us.net> writes:
->
->> [ text/plain ]
->> Hi,
->>
->> Your commit 458aa76d132dc1 ("mm/thp/migration: switch from flush_tlb_range
->> to flush_pmd_tlb_range") causes a build error when building
->> arcv2:vdk_hs38_smp_defconfig.
->>
->> include/asm-generic/pgtable.h:799:45: note: in expansion of macro ?BUILD_BUG?
->>   #define flush_pmd_tlb_range(vma, addr, end) BUILD_BUG()
->>                                                ^
->> ./arch/arc/include/asm/tlbflush.h:37:13: note:
->> 	in expansion of macro ?flush_pmd_tlb_range?
->>
->> The build triggers the newly introduced BUILD_BUG().
->>
->> When building the image without the BUILD_BUG(), ie with no definition
->> of flush_pmd_tlb_range(), the problem is gone. This suggests that the
->> function is not needed for this build.
->>
->> I could submit a patch to remove the BUILD_BUG(), but maybe you had a reason
->> for introducing it. Can you elaborate why you introduced the BUILD_BUG() ?
->>
->
-> Isn't this going to be fixed by an update to ARC tree ?
->
-> http://article.gmane.org/gmane.linux.kernel.mm/148412
->
+OK linus/axs103_smp_defconfig/arcv2 Wed Mar 23, 08:31
 
-That wasn't a build error ?
+http://kisskb.ellerman.id.au/kisskb/buildresult/12643252/
 
-> I also don't understand why we would hit that BUILD_BUG, if we are not
-> calling flush_pmd_tlb_range().
->
-Good question.
+Commit:   Merge tag 'nfs-for-4.6-1' of git://git.linux-nfs.org/projects/trondmy/linux-nfs
+          01cde1538e1dff4254e340f606177a870131a01f
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-I'll wait for the commit window to close and report again if needed.
+No errors found in log
 
-Guenter
+Possible warnings (25)
+----------------------
+
+drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
+<stdin>:1310:2: warning: #warning syscall preadv2 not implemented [-Wcpp]
+<stdin>:1313:2: warning: #warning syscall pwritev2 not implemented [-Wcpp]
+kernel/sched/core.c:3080:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:754:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+lib/cpumask.c:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/core/ethtool.c:295:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
