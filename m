@@ -1,43 +1,128 @@
-From: aneesh.kumar@linux.vnet.ibm.com (Aneesh Kumar K.V)
-Date: Tue, 22 Mar 2016 10:44:45 +0530
-Subject: Build error due to commit 458aa76d132dc ("mm/thp/migration:
- switch from flush_tlb_range to flush_pmd_tlb_range")
-In-Reply-To: <20160321200035.GA31544@roeck-us.net>
-References: <20160321200035.GA31544@roeck-us.net>
+From: evgeny.voevodin@intel.com (Evgeny Voevodin)
+Date: Tue, 22 Mar 2016 09:50:35 +0300
+Subject: [PATCH] ARCv2: Additional trace IRQs to support locking correctness
+ validator
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <87k2kvt7p6.fsf@linux.vnet.ibm.com>
+Message-ID: <1458629435-33018-1-git-send-email-evgeny.voevodin@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-Guenter Roeck <linux at roeck-us.net> writes:
+Flags should be saved in the same format in which clri instruction saves
+them since they are passed directly to seti instruction over
+arch_local_save_flags/arch_local_irq_restore calls.
+Trace of all clri/seti assembly calls is added to support locking
+correctness validator properly.
+With this patch it is possible to use locking correctness framework which
+did stop itself due to incomplete support. Locking tests are also became
+available and work propely.
 
-> [ text/plain ]
-> Hi,
->
-> Your commit 458aa76d132dc1 ("mm/thp/migration: switch from flush_tlb_range
-> to flush_pmd_tlb_range") causes a build error when building
-> arcv2:vdk_hs38_smp_defconfig.
->
-> include/asm-generic/pgtable.h:799:45: note: in expansion of macro ?BUILD_BUG?
->  #define flush_pmd_tlb_range(vma, addr, end) BUILD_BUG()
->                                               ^
-> ./arch/arc/include/asm/tlbflush.h:37:13: note:
-> 	in expansion of macro ?flush_pmd_tlb_range?
->
-> The build triggers the newly introduced BUILD_BUG().
->
-> When building the image without the BUILD_BUG(), ie with no definition
-> of flush_pmd_tlb_range(), the problem is gone. This suggests that the
-> function is not needed for this build.
->
-> I could submit a patch to remove the BUILD_BUG(), but maybe you had a reason
-> for introducing it. Can you elaborate why you introduced the BUILD_BUG() ?
->
+Signed-off-by: Evgeny Voevodin <evgeny.voevodin at intel.com>
+---
+ arch/arc/include/asm/irqflags-arcv2.h | 31 ++++++++++++++++++++++++++++++-
+ arch/arc/kernel/entry-arcv2.S         | 14 +++++++++++++-
+ 2 files changed, 43 insertions(+), 2 deletions(-)
 
-Isn't this going to be fixed by an update to ARC tree ?
-
-http://article.gmane.org/gmane.linux.kernel.mm/148412
-
-I also don't understand why we would hit that BUILD_BUG, if we are not
-calling flush_pmd_tlb_range().
-
--aneesh
+diff --git a/arch/arc/include/asm/irqflags-arcv2.h b/arch/arc/include/asm/irqflags-arcv2.h
+index 37c2f75..bb17044 100644
+--- a/arch/arc/include/asm/irqflags-arcv2.h
++++ b/arch/arc/include/asm/irqflags-arcv2.h
+@@ -15,8 +15,13 @@
+ #define STATUS_AD_BIT	19   /* Disable Align chk: core supports non-aligned */
+ #define STATUS_IE_BIT	31
+ 
++/* status32 Bits stored on clri instruction */
++#define CLRI_STATUS_IE_BIT	4
++
+ #define STATUS_AD_MASK		(1<<STATUS_AD_BIT)
+ #define STATUS_IE_MASK		(1<<STATUS_IE_BIT)
++#define CLRI_STATUS_E_MASK	(0xF)
++#define CLRI_STATUS_IE_MASK	(1<<CLRI_STATUS_IE_BIT)
+ 
+ #define AUX_USER_SP		0x00D
+ #define AUX_IRQ_CTRL		0x00E
+@@ -100,6 +105,9 @@ static inline long arch_local_save_flags(void)
+ 	:
+ 	: "memory");
+ 
++	temp = (1 << 5) |
++		((!!(temp & STATUS_IE_MASK)) << CLRI_STATUS_IE_BIT) |
++		(temp & CLRI_STATUS_E_MASK);
+ 	return temp;
+ }
+ 
+@@ -108,7 +116,7 @@ static inline long arch_local_save_flags(void)
+  */
+ static inline int arch_irqs_disabled_flags(unsigned long flags)
+ {
+-	return !(flags & (STATUS_IE_MASK));
++	return !(flags & (CLRI_STATUS_IE_MASK));
+ }
+ 
+ static inline int arch_irqs_disabled(void)
+@@ -128,11 +136,32 @@ static inline void arc_softirq_clear(int irq)
+ 
+ #else
+ 
++#ifdef CONFIG_TRACE_IRQFLAGS
++
++.macro TRACE_ASM_IRQ_DISABLE
++	bl	trace_hardirqs_off
++.endm
++
++.macro TRACE_ASM_IRQ_ENABLE
++	bl	trace_hardirqs_on
++.endm
++
++#else
++
++.macro TRACE_ASM_IRQ_DISABLE
++.endm
++
++.macro TRACE_ASM_IRQ_ENABLE
++.endm
++
++#endif
+ .macro IRQ_DISABLE  scratch
+ 	clri
++	TRACE_ASM_IRQ_DISABLE
+ .endm
+ 
+ .macro IRQ_ENABLE  scratch
++	TRACE_ASM_IRQ_ENABLE
+ 	seti
+ .endm
+ 
+diff --git a/arch/arc/kernel/entry-arcv2.S b/arch/arc/kernel/entry-arcv2.S
+index c126460..24d9431 100644
+--- a/arch/arc/kernel/entry-arcv2.S
++++ b/arch/arc/kernel/entry-arcv2.S
+@@ -69,8 +69,11 @@ ENTRY(handle_interrupt)
+ 
+ 	clri		; To make status32.IE agree with CPU internal state
+ 
+-	lr  r0, [ICAUSE]
++#ifdef CONFIG_TRACE_IRQFLAGS
++	TRACE_ASM_IRQ_DISABLE
++#endif
+ 
++	lr  r0, [ICAUSE]
+ 	mov   blink, ret_from_exception
+ 
+ 	b.d  arch_do_IRQ
+@@ -173,6 +176,15 @@ END(EV_TLBProtV)
+ 	lr	r10, [AUX_IRQ_ACT]
+ 
+ 	bmsk	r11, r10, 15	; AUX_IRQ_ACT.ACTIVE
++#ifdef CONFIG_TRACE_IRQFLAGS
++	push r0
++	push r10
++	push r11
++	TRACE_ASM_IRQ_ENABLE
++	pop r11
++	pop r10
++	pop r0
++#endif
+ 	breq	r11, 0, .Lexcept_ret	; No intr active, ret from Exception
+ 
+ ;####### Return from Intr #######
+-- 
+1.8.5.4
