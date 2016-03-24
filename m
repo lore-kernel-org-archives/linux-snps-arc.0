@@ -1,140 +1,103 @@
-From: evgeny.voevodin@intel.com (Evgeny Voevodin)
-Date: Wed, 23 Mar 2016 12:26:52 +0300
-Subject: [PATCH] ARCv2: Additional trace IRQs to support locking correctness
- validator
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 24 Mar 2016 14:57:52 +0000
+Subject: [PATCH 2/4 v3] drm: Add DT bindings documentation for ARC PGU
+ display controller
+In-Reply-To: <20160321130419.GA23913@rob-hp-laptop>
+References: <1457710959-9562-1-git-send-email-abrodkin@synopsys.com>
+ <1457710959-9562-3-git-send-email-abrodkin@synopsys.com>
+ <20160321130419.GA23913@rob-hp-laptop>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1458725212-21215-1-git-send-email-evgeny.voevodin@intel.com>
+Message-ID: <1458831472.12765.8.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Flags should be saved in the same format in which clri instruction saves
-them since they are passed directly to seti instruction over
-arch_local_save_flags/arch_local_irq_restore calls.
-Trace of all clri/seti assembly calls is added to support locking
-correctness validator properly.
-With this patch it is possible to use locking correctness framework which
-did stop itself due to incomplete support. Locking tests are also became
-available and work propely.
+Hi Rob,
 
-Signed-off-by: Evgeny Voevodin <evgeny.voevodin at intel.com>
----
- arch/arc/include/asm/irqflags-arcv2.h | 31 ++++++++++++++++++++++++++++++-
- arch/arc/kernel/entry-arcv2.S         | 14 +++++++++++++-
- 2 files changed, 43 insertions(+), 2 deletions(-)
+On Mon, 2016-03-21@08:04 -0500, Rob Herring wrote:
+> On Fri, Mar 11, 2016@06:42:37PM +0300, Alexey Brodkin wrote:
+> > 
+> > This add DT bindings documentation for ARC PGU display controller.
+> > 
+> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> > Cc: Rob Herring <robh+dt at kernel.org>
+> > Cc: Pawel Moll <pawel.moll at arm.com>
+> > Cc: Mark Rutland <mark.rutland at arm.com>
+> > Cc: Ian Campbell <ijc+devicetree at hellion.org.uk>
+> > Cc: Kumar Gala <galak at codeaurora.org>
+> > Cc: David Airlie <airlied at linux.ie>
+> > Cc: dri-devel at lists.freedesktop.org
+> > Cc: devicetree at vger.kernel.org
+> > Cc: linux-snps-arc at lists.infradead.org
+> > ---
+> > 
+> > Changes v2 -> v3:
+> > ?* Reverted back to initial larger version of example
+> > ???with minor fixes (thanks Rob for spotting those).
+> > 
+> > Changes v1 -> v2:
+> > ?* Removed everything except PGU node itself.
+> > 
+> > ?.../devicetree/bindings/display/snps,arcpgu.txt????| 72 ++++++++++++++++++++++
+> > ?1 file changed, 72 insertions(+)
+> > ?create mode 100644 Documentation/devicetree/bindings/display/snps,arcpgu.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/snps,arcpgu.txt
+> > b/Documentation/devicetree/bindings/display/snps,arcpgu.txt
+> > new file mode 100644
+> > index 0000000..b130924
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/snps,arcpgu.txt
+> > @@ -0,0 +1,72 @@
+> > +ARC PGU
+> > +
+> > +This is a display controller found on several development boards produced
+> > +by Synopsys. The ARC PGU is an RGB streamer that reads the data from a
+> > +framebuffer and sends it to a single digital encoder (usually HDMI).
+> > +
+> > +Required properties:
+> > +??- compatible: "snps,arcpgu"
+> > +??- reg: Physical base address and length of the controller's registers.
+> > +??- clocks: A list of phandle + clock-specifier pairs, one for each
+> > +????entry in 'clock-names'.
+> > +??- clock-names: A list of clock names. For ARC PGU it should contain:
+> > +??????- "pxlclk" for the clock feeding the output PLL of the controller.
+> > +??- encoder-slave: Phandle of encoder chip.
+> Drop this as discussed.
 
-diff --git a/arch/arc/include/asm/irqflags-arcv2.h b/arch/arc/include/asm/irqflags-arcv2.h
-index 37c2f75..bb17044 100644
---- a/arch/arc/include/asm/irqflags-arcv2.h
-+++ b/arch/arc/include/asm/irqflags-arcv2.h
-@@ -15,8 +15,13 @@
- #define STATUS_AD_BIT	19   /* Disable Align chk: core supports non-aligned */
- #define STATUS_IE_BIT	31
- 
-+/* status32 Bits stored on clri instruction */
-+#define CLRI_STATUS_IE_BIT	4
-+
- #define STATUS_AD_MASK		(1<<STATUS_AD_BIT)
- #define STATUS_IE_MASK		(1<<STATUS_IE_BIT)
-+#define CLRI_STATUS_E_MASK	(0xF)
-+#define CLRI_STATUS_IE_MASK	(1<<CLRI_STATUS_IE_BIT)
- 
- #define AUX_USER_SP		0x00D
- #define AUX_IRQ_CTRL		0x00E
-@@ -100,6 +105,9 @@ static inline long arch_local_save_flags(void)
- 	:
- 	: "memory");
- 
-+	temp = (1 << 5) |
-+		((!!(temp & STATUS_IE_MASK)) << CLRI_STATUS_IE_BIT) |
-+		(temp & CLRI_STATUS_E_MASK);
- 	return temp;
- }
- 
-@@ -108,7 +116,7 @@ static inline long arch_local_save_flags(void)
-  */
- static inline int arch_irqs_disabled_flags(unsigned long flags)
- {
--	return !(flags & (STATUS_IE_MASK));
-+	return !(flags & (CLRI_STATUS_IE_MASK));
- }
- 
- static inline int arch_irqs_disabled(void)
-@@ -128,11 +136,32 @@ static inline void arc_softirq_clear(int irq)
- 
- #else
- 
-+#ifdef CONFIG_TRACE_IRQFLAGS
-+
-+.macro TRACE_ASM_IRQ_DISABLE
-+	bl	trace_hardirqs_off
-+.endm
-+
-+.macro TRACE_ASM_IRQ_ENABLE
-+	bl	trace_hardirqs_on
-+.endm
-+
-+#else
-+
-+.macro TRACE_ASM_IRQ_DISABLE
-+.endm
-+
-+.macro TRACE_ASM_IRQ_ENABLE
-+.endm
-+
-+#endif
- .macro IRQ_DISABLE  scratch
- 	clri
-+	TRACE_ASM_IRQ_DISABLE
- .endm
- 
- .macro IRQ_ENABLE  scratch
-+	TRACE_ASM_IRQ_ENABLE
- 	seti
- .endm
- 
-diff --git a/arch/arc/kernel/entry-arcv2.S b/arch/arc/kernel/entry-arcv2.S
-index c126460..24d9431 100644
---- a/arch/arc/kernel/entry-arcv2.S
-+++ b/arch/arc/kernel/entry-arcv2.S
-@@ -69,8 +69,11 @@ ENTRY(handle_interrupt)
- 
- 	clri		; To make status32.IE agree with CPU internal state
- 
--	lr  r0, [ICAUSE]
-+#ifdef CONFIG_TRACE_IRQFLAGS
-+	TRACE_ASM_IRQ_DISABLE
-+#endif
- 
-+	lr  r0, [ICAUSE]
- 	mov   blink, ret_from_exception
- 
- 	b.d  arch_do_IRQ
-@@ -173,6 +176,15 @@ END(EV_TLBProtV)
- 	lr	r10, [AUX_IRQ_ACT]
- 
- 	bmsk	r11, r10, 15	; AUX_IRQ_ACT.ACTIVE
-+#ifdef CONFIG_TRACE_IRQFLAGS
-+	push r0
-+	push r10
-+	push r11
-+	TRACE_ASM_IRQ_ENABLE
-+	pop r11
-+	pop r10
-+	pop r0
-+#endif
- 	breq	r11, 0, .Lexcept_ret	; No intr active, ret from Exception
- 
- ;####### Return from Intr #######
--- 
-1.8.5.4
+Ok I'll do that.
+But what about my example below?
+Do I need to remove encoder node from it as well?
 
+> > 
+> > +
+> > +Required sub-nodes:
+> > +??- port: The PGU connection to an encoder chip.
+> > +
+> > +Example:
+> > +
+> > +/ {
+> > +	...
+> > +
+> > +	pgu at XXXXXXXX {
+> > +		compatible = "snps,arcpgu";
+> > +		reg = <0xXXXXXXXX 0x400>;
+> > +		clocks = <&clock_node>;
+> > +		clock-names = "pxlclk";
+> > +		encoder-slave = <&encoder_node>;
+> > +
+> > +		port {
+> > +			pgu_output: endpoint {
+> > +				remote-endpoint = <&hdmi_enc_input>;
+> > +			};
+> > +		};
+> > +	};
+> > +
+> > +	/* HDMI encoder on I2C bus */
+> > +	i2c at XXXXXXXX {
+> > +		compatible = "...";
+> > +
+> > +		encoder_node:encoder_node at 0xXX{
+> Don't use underscores in node names. Just "hdmi at xx"
 
---------------------------------------------------------------------
-Joint Stock Company Intel A/O
-Registered legal address: Krylatsky Hills Business Park,
-17 Krylatskaya Str., Bldg 4, Moscow 121614,
-Russian Federation
+Ok still I may keep label "encoder_node" here, right?
 
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
+-Alexey
