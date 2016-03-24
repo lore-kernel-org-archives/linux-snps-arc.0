@@ -1,59 +1,116 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 24 Mar 2016 19:48:35 +0300
-Subject: [PATCH 4/5 v4] arc: Add our own implementation of fb_pgprotect()
+Date: Thu, 24 Mar 2016 19:48:33 +0300
+Subject: [PATCH 2/5 v4] drm: Add DT bindings documentation for ARC PGU display
+ controller
 In-Reply-To: <1458838116-24954-1-git-send-email-abrodkin@synopsys.com>
 References: <1458838116-24954-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1458838116-24954-5-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1458838116-24954-3-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-During mmaping of frame-buffer pages to user-space
-fb_protect() is called to set proper page settings.
-
-In case of ARC we need to mark pages that are mmaped to
-user as uncached because of 2 reasons:
- * Huge amount of data if passing through data cache will
-   thrash cache a lot making cache almost useless for other
-   less traffic hungry processes.
- * Data written by user in FB will be immediately available for
-   hardware (such as PGU etc) without requirements to flush data
-   cache regularly.
+This add DT bindings documentation for ARC PGU display controller.
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Rob Herring <robh+dt at kernel.org>
+Cc: Pawel Moll <pawel.moll at arm.com>
+Cc: Mark Rutland <mark.rutland at arm.com>
+Cc: Ian Campbell <ijc+devicetree at hellion.org.uk>
+Cc: Kumar Gala <galak at codeaurora.org>
+Cc: devicetree at vger.kernel.org
 Cc: linux-snps-arc at lists.infradead.org
 ---
 
-Changes v3 -> v4:
- * This change was introduced only in v4.
+Changes v3 -> v4: (addressing Rob's comments)
+ * Removed "encoder-slave" from required properties
+ * Removed "0x" from node names
 
- arch/arc/include/asm/fb.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 arch/arc/include/asm/fb.h
+Changes v2 -> v3:
+ * Reverted back to initial larger version of example
+   with minor fixes (thanks Rob for spotting those).
 
-diff --git a/arch/arc/include/asm/fb.h b/arch/arc/include/asm/fb.h
+Changes v1 -> v2:
+ * Removed everything except PGU node itself.
+
+ .../devicetree/bindings/display/snps,arcpgu.txt    | 71 ++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/snps,arcpgu.txt
+
+diff --git a/Documentation/devicetree/bindings/display/snps,arcpgu.txt b/Documentation/devicetree/bindings/display/snps,arcpgu.txt
 new file mode 100644
-index 0000000..bd3f68c
+index 0000000..b126577
 --- /dev/null
-+++ b/arch/arc/include/asm/fb.h
-@@ -0,0 +1,19 @@
-+#ifndef _ASM_FB_H_
-+#define _ASM_FB_H_
++++ b/Documentation/devicetree/bindings/display/snps,arcpgu.txt
+@@ -0,0 +1,71 @@
++ARC PGU
 +
-+#include <linux/fb.h>
-+#include <linux/fs.h>
-+#include <asm/page.h>
++This is a display controller found on several development boards produced
++by Synopsys. The ARC PGU is an RGB streamer that reads the data from a
++framebuffer and sends it to a single digital encoder (usually HDMI).
 +
-+static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
-+				unsigned long off)
-+{
-+	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-+}
++Required properties:
++  - compatible: "snps,arcpgu"
++  - reg: Physical base address and length of the controller's registers.
++  - clocks: A list of phandle + clock-specifier pairs, one for each
++    entry in 'clock-names'.
++  - clock-names: A list of clock names. For ARC PGU it should contain:
++      - "pxlclk" for the clock feeding the output PLL of the controller.
 +
-+static inline int fb_is_primary_device(struct fb_info *info)
-+{
-+	return 0;
-+}
++Required sub-nodes:
++  - port: The PGU connection to an encoder chip.
 +
-+#endif /* _ASM_FB_H_ */
++Example:
++
++/ {
++	...
++
++	pgu at XXXXXXXX {
++		compatible = "snps,arcpgu";
++		reg = <0xXXXXXXXX 0x400>;
++		clocks = <&clock_node>;
++		clock-names = "pxlclk";
++		encoder-slave = <&encoder_node>;
++
++		port {
++			pgu_output: endpoint {
++				remote-endpoint = <&hdmi_enc_input>;
++			};
++		};
++	};
++
++	/* HDMI encoder on I2C bus */
++	i2c at XXXXXXXX {
++		compatible = "...";
++
++		encoder_node:hdmi at XX{
++			compatible="...";
++
++			ports {
++				port at 0 {
++					reg = <0>;
++					hdmi_enc_input:endpoint {
++						remote-endpoint = <&pgu_output>;
++					};
++				};
++
++				port at 1 {
++					reg = <1>;
++					hdmi_enc_output:endpoint {
++						remote-endpoint = <&hdmi_connector_in>;
++					};
++				};
++			};
++		};
++	}
++
++	hdmi0: connector {
++		compatible = "hdmi-connector";
++
++		port {
++			hdmi_connector_in: endpoint {
++				remote-endpoint = <&hdmi_enc_output>;
++			};
++		};
++	};
++};
 -- 
 2.5.0
