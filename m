@@ -1,85 +1,59 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 24 Mar 2016 19:48:31 +0300
-Subject: [PATCH 0/5 v4] drm: Add support of ARC PGU display controller
+Date: Thu, 24 Mar 2016 19:48:35 +0300
+Subject: [PATCH 4/5 v4] arc: Add our own implementation of fb_pgprotect()
+In-Reply-To: <1458838116-24954-1-git-send-email-abrodkin@synopsys.com>
+References: <1458838116-24954-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1458838116-24954-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1458838116-24954-5-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This series add support of ARC PGU display controller.
-ARC PGU is a quite simple byte streamer that gets data from the framebuffer
-and pushes it to hte connected encoder (DP or HDMI).
+During mmaping of frame-buffer pages to user-space
+fb_protect() is called to set proper page settings.
 
-It was tested on ARC SDP boards (axs101/103 in particular).
+In case of ARC we need to mark pages that are mmaped to
+user as uncached because of 2 reasons:
+ * Huge amount of data if passing through data cache will
+   thrash cache a lot making cache almost useless for other
+   less traffic hungry processes.
+ * Data written by user in FB will be immediately available for
+   hardware (such as PGU etc) without requirements to flush data
+   cache regularly.
 
-Note following series that introduces
-drm_connector_register_all()/drm_connector_unregister_all() is a prerequisite
-now: https://lkml.org/lkml/2016/3/23/61
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+---
 
 Changes v3 -> v4:
- * Main driver author is now set properly (thanks Carlos for all your efforts)
- * Implemented correct hsync and vsync setup (thanks Jose)
- * Dummy call-backs were removed (as suggested by Daniel)
- * Obsolete load()/unload() call-backs were removed (as suggested by Daniel)
- * With above in mind we were able to adopt recently introduced
-   drm_connector_register_all()/drm_connector_unregister_all()
- * Implemented setup of properties (uncached) for FB user-pages
- * Minor clean-up in DT binding docs and axs10x_mb.dtsi
+ * This change was introduced only in v4.
 
-Changes v2 -> v3:
- * Improved failure path if arcpgu_connector wasn't allocated.
- * Fixed driver building as module.
- * Implemented uncached mapping of user-space FB pages.
- * Again updated DT bindings docs.
-
-Changes v1 -> v2:
- * Clean-up of DT bindings documentation.
- * Added missing "pxlclk" clock in axs10x_mb.dtsi.
-
-Cc: David Airlie <airlied at linux.ie>
-Cc: devicetree at vger.kernel.org
-Cc: dri-devel at lists.freedesktop.org
-Cc: Ian Campbell <ijc+devicetree at hellion.org.uk>
-Cc: Kumar Gala <galak at codeaurora.org>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: Mark Rutland <mark.rutland at arm.com>
-Cc: Pawel Moll <pawel.moll at arm.com>
-Cc: Rob Herring <robh+dt at kernel.org>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Jose Abreu <joabreu at synopsys.com>
-Cc: Carlos Palminha <palminha at synopsys.com>
-
-Alexey Brodkin (4):
-  drm: Add DT bindings documentation for ARC PGU display controller
-  MAINTAINERS: Add maintainer for ARC PGU display controller
-  arc: Add our own implementation of fb_pgprotect()
-  arc: axs10x - add support of ARC PGU
-
-Carlos Palminha (1):
-  drm: Add support of ARC PGU display controller
-
- .../devicetree/bindings/display/snps,arcpgu.txt    |  71 ++++++
- MAINTAINERS                                        |   6 +
- arch/arc/boot/dts/axs10x_mb.dtsi                   |  61 +++++
- arch/arc/include/asm/fb.h                          |  19 ++
- drivers/gpu/drm/Kconfig                            |   2 +
- drivers/gpu/drm/Makefile                           |   1 +
- drivers/gpu/drm/arc/Kconfig                        |  10 +
- drivers/gpu/drm/arc/Makefile                       |   2 +
- drivers/gpu/drm/arc/arcpgu.h                       |  50 ++++
- drivers/gpu/drm/arc/arcpgu_crtc.c                  | 257 +++++++++++++++++++
- drivers/gpu/drm/arc/arcpgu_drv.c                   | 282 +++++++++++++++++++++
- drivers/gpu/drm/arc/arcpgu_hdmi.c                  | 201 +++++++++++++++
- drivers/gpu/drm/arc/arcpgu_regs.h                  |  40 +++
- 13 files changed, 1002 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/snps,arcpgu.txt
+ arch/arc/include/asm/fb.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
  create mode 100644 arch/arc/include/asm/fb.h
- create mode 100644 drivers/gpu/drm/arc/Kconfig
- create mode 100644 drivers/gpu/drm/arc/Makefile
- create mode 100644 drivers/gpu/drm/arc/arcpgu.h
- create mode 100644 drivers/gpu/drm/arc/arcpgu_crtc.c
- create mode 100644 drivers/gpu/drm/arc/arcpgu_drv.c
- create mode 100644 drivers/gpu/drm/arc/arcpgu_hdmi.c
- create mode 100644 drivers/gpu/drm/arc/arcpgu_regs.h
 
+diff --git a/arch/arc/include/asm/fb.h b/arch/arc/include/asm/fb.h
+new file mode 100644
+index 0000000..bd3f68c
+--- /dev/null
++++ b/arch/arc/include/asm/fb.h
+@@ -0,0 +1,19 @@
++#ifndef _ASM_FB_H_
++#define _ASM_FB_H_
++
++#include <linux/fb.h>
++#include <linux/fs.h>
++#include <asm/page.h>
++
++static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
++				unsigned long off)
++{
++	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
++}
++
++static inline int fb_is_primary_device(struct fb_info *info)
++{
++	return 0;
++}
++
++#endif /* _ASM_FB_H_ */
 -- 
 2.5.0
