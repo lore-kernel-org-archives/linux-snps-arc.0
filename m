@@ -1,37 +1,40 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 28 Mar 2016 11:55:45 +0000
-Subject: [PATCH 3/4] ASoC: dwc: Add I2S HDMI audio support using custom
- platform driver
-In-Reply-To: <7aaad0b57652fc724be7b447790c194645321173.1458839710.git.joabreu@synopsys.com>
-References: <cover.1458839710.git.joabreu@synopsys.com>
- <7aaad0b57652fc724be7b447790c194645321173.1458839710.git.joabreu@synopsys.com>
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Mon, 28 Mar 2016 15:36:08 +0100
+Subject: [PATCH 0/3 v2] Add I2S/ADV7511 audio support for ARC AXS10x boards
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1459166144.4785.77.camel@synopsys.com>
+Message-ID: <cover.1459174494.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Jose,
+ARC AXS10x platforms consist of a mainboard with several peripherals.
+One of those peripherals is an HDMI output port controlled by the ADV7511
+transmitter.
 
-On Mon, 2016-03-28@10:41 +0100, Jose Abreu wrote:
-> HDMI audio support was added to the AXS board using an
-> I2S cpu driver and a custom platform driver.
-> 
-> The platform driver supports two channels @ 16 bits with
-> rates 32k, 44.1k and 48k. ALSA Simple audio card is used to
-> glue the cpu, platform and codec driver (adv7511).
-> 
-> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-> ---
-> ?arch/arc/boot/dts/axs10x_mb.dtsi |??20 +-
+This patch set adds audio for the ADV7511 transmitter and I2S audio for
+the AXS10x platform.
 
-You should not mix DT bindings for a particular board with generic driver
-fixes or improvements.
+Changes v1 -> v2:
+* DT bindings moved to separate patch (as suggested by Alexey Brodkin)
+* Removed defconfigs entries (as suggested by Alexey Brodkin)
 
-I think it makes sense to split this patch in 2:
-?1) Driver improvements
-?2) .dts update for boards that use this driver
+Jose Abreu (3):
+  drm/i2c/adv7511: Add audio support
+  ASoC: dwc: Add I2S HDMI audio support
+  arc: axs10x: Add support for Designware I2S on DT
 
-> ?sound/soc/dwc/Kconfig????????????|???1 +
-> ?sound/soc/dwc/designware_i2s.c???| 384 +++++++++++++++++++++++++++++++++++++--
-> ?3 files changed, 388 insertions(+), 17 deletions(-)
+ arch/arc/boot/dts/axs10x_mb.dtsi    |   49 +-
+ drivers/gpu/drm/i2c/Kconfig         |   11 +
+ drivers/gpu/drm/i2c/Makefile        |    2 +
+ drivers/gpu/drm/i2c/adv7511.c       | 1024 -----------------------------------
+ drivers/gpu/drm/i2c/adv7511.h       |   41 ++
+ drivers/gpu/drm/i2c/adv7511_audio.c |  310 +++++++++++
+ drivers/gpu/drm/i2c/adv7511_core.c  | 1005 ++++++++++++++++++++++++++++++++++
+ include/sound/soc-dai.h             |    1 +
+ sound/soc/dwc/Kconfig               |    1 +
+ sound/soc/dwc/designware_i2s.c      |  385 ++++++++++++-
+ 10 files changed, 1788 insertions(+), 1041 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i2c/adv7511.c
+ create mode 100644 drivers/gpu/drm/i2c/adv7511_audio.c
+ create mode 100644 drivers/gpu/drm/i2c/adv7511_core.c
 
--Alexey
+-- 
+1.9.1
