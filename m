@@ -1,62 +1,47 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 28 Mar 2016 14:36:38 +0300
-Subject: [PATCH 4/5 v5] arc: Add our own implementation of fb_pgprotect()
+Date: Mon, 28 Mar 2016 14:36:37 +0300
+Subject: [PATCH 3/5 v5] MAINTAINERS: Add maintainer for ARC PGU display
+ controller
 In-Reply-To: <1459164999-11850-1-git-send-email-abrodkin@synopsys.com>
 References: <1459164999-11850-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1459164999-11850-5-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1459164999-11850-4-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-During mmaping of frame-buffer pages to user-space
-fb_protect() is called to set proper page settings.
-
-In case of ARC we need to mark pages that are mmaped to
-user as uncached because of 2 reasons:
- * Huge amount of data if passing through data cache will
-   thrash cache a lot making cache almost useless for other
-   less traffic hungry processes.
- * Data written by user in FB will be immediately available for
-   hardware (such as PGU etc) without requirements to flush data
-   cache regularly.
+This updates MAINTEINERS file with information about maintainer of
+ARC PGU display controller driver.
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Vineet Gupta <vgupta at synopsys.com>
 Cc: linux-snps-arc at lists.infradead.org
 ---
 
 No changes v4 -> v5.
 
-Changes v3 -> v4:
- * This change was introduced only in v4.
+No changes v3 -> v4.
 
- arch/arc/include/asm/fb.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 arch/arc/include/asm/fb.h
+No changes v2 -> v3.
 
-diff --git a/arch/arc/include/asm/fb.h b/arch/arc/include/asm/fb.h
-new file mode 100644
-index 0000000..bd3f68c
---- /dev/null
-+++ b/arch/arc/include/asm/fb.h
-@@ -0,0 +1,19 @@
-+#ifndef _ASM_FB_H_
-+#define _ASM_FB_H_
+No changes v1 -> v2.
+
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ea1d1de..0dcba67 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -827,6 +827,12 @@ S:	Maintained
+ F:	drivers/net/arcnet/
+ F:	include/uapi/linux/if_arcnet.h
+ 
++ARC PGU DRM DRIVER
++M:	Alexey Brodkin <abrodkin at synopsys.com>
++S:	Supported
++F:	drivers/gpu/drm/arc/
++F:	Documentation/devicetree/bindings/display/snps,arcpgu.txt
 +
-+#include <linux/fb.h>
-+#include <linux/fs.h>
-+#include <asm/page.h>
-+
-+static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
-+				unsigned long off)
-+{
-+	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-+}
-+
-+static inline int fb_is_primary_device(struct fb_info *info)
-+{
-+	return 0;
-+}
-+
-+#endif /* _ASM_FB_H_ */
+ ARM HDLCD DRM DRIVER
+ M:	Liviu Dudau <liviu.dudau at arm.com>
+ S:	Supported
 -- 
 2.5.0
