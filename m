@@ -1,133 +1,38 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 28 Mar 2016 14:36:39 +0300
-Subject: [PATCH 5/5 v5] arc: axs10x - add support of ARC PGU
-In-Reply-To: <1459164999-11850-1-git-send-email-abrodkin@synopsys.com>
-References: <1459164999-11850-1-git-send-email-abrodkin@synopsys.com>
+Date: Mon, 28 Mar 2016 11:48:35 +0000
+Subject: [PATCH 2/4] ARC: axs10x: Update defconfigs so that audio is
+ enabled
+In-Reply-To: <88015401488eed4f253f49d5831be13e0007339f.1458839710.git.joabreu@synopsys.com>
+References: <cover.1458839710.git.joabreu@synopsys.com>
+ <88015401488eed4f253f49d5831be13e0007339f.1458839710.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1459164999-11850-6-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1459165715.4785.71.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Synopsys DesignWare ARC SDP boards sport ARC SDP display
-controller attached to ADV7511 HDMI encoder.
+Hi Jose,
 
-That change adds desctiption of both ARC PGU and ADV7511 in
-ARC SDP'd base-board Device Tree.
+On Mon, 2016-03-28@10:41 +0100, Jose Abreu wrote:
+> The defconfigs for the AXS boards were updated so that
+> ALSA SoC is enabled and also the audio for the ADV7511
+> HDMI transmitter.
+> 
+> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+> ---
+> ?arch/arc/configs/axs101_defconfig?????| 3 +++
+> ?arch/arc/configs/axs103_defconfig?????| 5 +++++
+> ?arch/arc/configs/axs103_smp_defconfig | 5 +++++
+> ?3 files changed, 13 insertions(+)
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Rob Herring <robh+dt at kernel.org>
-Cc: Pawel Moll <pawel.moll at arm.com>
-Cc: Mark Rutland <mark.rutland at arm.com>
-Cc: Ian Campbell <ijc+devicetree at hellion.org.uk>
-Cc: Kumar Gala <galak at codeaurora.org>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: devicetree at vger.kernel.org
-Cc: linux-snps-arc at lists.infradead.org
----
+As Vineet suggested here?http://lists.infradead.org/pipermail/linux-snps-arc/2016-February/000595.html
+let's not pollute axs10x_defconfigs with new stuff but instead add all new
+options to new configs that will cover everything available on ARC SDP boards.
 
-No changes v4 -> v5.
+Since those defconfigs for full SDP doesn't exist as of today please drop that change
+as well as "[PATCH 4/4] ARC: axs10x: Update defconfigs so that I2S is enabled" from that
+series.
 
-Changes v3 -> v4:
- * Removed "0x" from node names (as suggested by Rob)
+I'll try to come up with mentioed new configs ASAP and then if your series is
+already in upstream I'll add bits for audio through HDMI otherwise you'll add it
+in some follow-up series.
 
-No changes v2 -> v3.
-
-Changes v1 -> v2:
- * Added missing "pxlclk" clock in axs10x_mb.dtsi
-
- arch/arc/boot/dts/axs10x_mb.dtsi | 61 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
-
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 44a578c..8fee596 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -34,6 +34,12 @@
- 				clock-frequency = <50000000>;
- 				#clock-cells = <0>;
- 			};
-+
-+			pguclk: pguclk {
-+				#clock-cells = <0>;
-+				compatible = "fixed-clock";
-+				clock-frequency = <74440000>;
-+			};
- 		};
- 
- 		ethernet at 0x18000 {
-@@ -147,6 +153,37 @@
- 			clocks = <&i2cclk>;
- 			interrupts = <16>;
- 
-+			adv7511:adv7511 at 39{
-+				compatible="adi,adv7511";
-+				reg = <0x39>;
-+				interrupts = <23>;
-+				adi,input-depth = <8>;
-+				adi,input-colorspace = "rgb";
-+				adi,input-clock = "1x";
-+				adi,clock-delay = <0x03>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					/* RGB/YUV input */
-+					port at 0 {
-+						reg = <0>;
-+						adv7511_input:endpoint {
-+						remote-endpoint = <&pgu_output>;
-+						};
-+					};
-+
-+					/* HDMI output */
-+					port at 1 {
-+						reg = <1>;
-+						adv7511_output: endpoint {
-+							remote-endpoint = <&hdmi_connector_in>;
-+						};
-+					};
-+				};
-+			};
-+
- 			eeprom at 0x54{
- 				compatible = "24c01";
- 				reg = <0x54>;
-@@ -160,6 +197,16 @@
- 			};
- 		};
- 
-+		hdmi0: connector {
-+			compatible = "hdmi-connector";
-+			type = "a";
-+			port {
-+				hdmi_connector_in: endpoint {
-+					remote-endpoint = <&adv7511_output>;
-+				};
-+			};
-+		};
-+
- 		gpio0:gpio at 13000 {
- 			compatible = "snps,dw-apb-gpio";
- 			reg = <0x13000 0x1000>;
-@@ -221,5 +268,19 @@
- 				reg = <2>;
- 			};
- 		};
-+
-+		pgu at 17000 {
-+			compatible = "snps,arcpgu";
-+			reg = <0x17000 0x400>;
-+			encoder-slave = <&adv7511>;
-+			clocks = <&pguclk>;
-+			clock-names = "pxlclk";
-+
-+			port {
-+				pgu_output: endpoint {
-+					remote-endpoint = <&adv7511_input>;
-+				};
-+			};
-+		};
- 	};
- };
--- 
-2.5.0
+-Alexey
