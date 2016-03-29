@@ -1,138 +1,178 @@
-From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Mon, 28 Mar 2016 17:07:28 +0100
-Subject: [PATCH 2/3 v2] ASoC: dwc: Add I2S HDMI audio support
-In-Reply-To: <1459179345.4785.127.camel@synopsys.com>
+From: architt@codeaurora.org (Archit Taneja)
+Date: Tue, 29 Mar 2016 13:35:25 +0530
+Subject: [PATCH 1/3 v2] drm/i2c/adv7511: Add audio support
+In-Reply-To: <15b1936d307912ba12df7fa09ec3a7a80ac5fcef.1459174494.git.joabreu@synopsys.com>
 References: <cover.1459174494.git.joabreu@synopsys.com>
- <538be366488bf0d7633d702f2d0bab16707b7a47.1459174494.git.joabreu@synopsys.com>
- <1459179345.4785.127.camel@synopsys.com>
+ <15b1936d307912ba12df7fa09ec3a7a80ac5fcef.1459174494.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56F956C0.80705@synopsys.com>
+Message-ID: <56FA3745.3000807@codeaurora.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Alexey,
+Hi,
 
-On 28-03-2016 16:35, Alexey Brodkin wrote:
-> Hi Jose,
+On 03/28/2016 08:06 PM, Jose Abreu wrote:
+> This patch adds audio support for the ADV7511 HDMI transmitter
+> using ALSA SoC.
 >
-> On Mon, 2016-03-28@15:36 +0100, Jose Abreu wrote:
->> HDMI audio support was added to the AXS board using an
->> I2S cpu driver and a custom platform driver.
->>
->> The platform driver supports two channels @ 16 bits with
->> rates 32k, 44.1k and 48k. ALSA Simple audio card is used to
->> glue the cpu, platform and codec driver (adv7511).
->>
->> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
->> ---
->>
->> No changes v1 -> v2.
->>
->>  sound/soc/dwc/Kconfig          |   1 +
->>  sound/soc/dwc/designware_i2s.c | 385 +++++++++++++++++++++++++++++++++++++++--
->>  2 files changed, 373 insertions(+), 13 deletions(-)
->>
->> diff --git a/sound/soc/dwc/Kconfig b/sound/soc/dwc/Kconfig
->> index d50e085..bc3fae7 100644
->> --- a/sound/soc/dwc/Kconfig
->> +++ b/sound/soc/dwc/Kconfig
->> @@ -2,6 +2,7 @@ config SND_DESIGNWARE_I2S
->>  	tristate "Synopsys I2S Device Driver"
->>  	depends on CLKDEV_LOOKUP
->>  	select SND_SOC_GENERIC_DMAENGINE_PCM
->> +	select SND_SIMPLE_CARD
->>  	help
->>  	 Say Y or M if you want to add support for I2S driver for
->>  	 Synopsys desigwnware I2S device. The device supports upto
->> diff --git a/sound/soc/dwc/designware_i2s.c b/sound/soc/dwc/designware_i2s.c
->> index bff258d..0f2f588 100644
->> --- a/sound/soc/dwc/designware_i2s.c
->> +++ b/sound/soc/dwc/designware_i2s.c
->> @@ -84,11 +84,37 @@
->>  #define MAX_CHANNEL_NUM		8
->>  #define MIN_CHANNEL_NUM		2
->>  
->> +/* FPGA Version Info */
->> +#define FPGA_VER_INFO	0xE0011230
->> +#define FPGA_VER_27M	0x000FBED9
->> +
->> +/* PLL registers addresses */
->> +#define PLL_IDIV_ADDR	0xE00100A0
->> +#define PLL_FBDIV_ADDR	0xE00100A4
->> +#define PLL_ODIV0_ADDR	0xE00100A8
->> +#define PLL_ODIV1_ADDR	0xE00100AC
-> Well I think all is not acceptable.
-> See all these FPGA_VER_xxx as well as PLL_xxx
-> are strictly ARC SDP specific things and have nothing to do with generic driver.
+> The code was ported from Analog Devices linux tree from
+> commit 1770c4a1e32b ("Merge remote-tracking branch
+> 'xilinx/master' into xcomm_zynq"), which is available at:
+> 	- https://github.com/analogdevicesinc/linux/
 >
-> That's so pity we don't have a driver for all clocks/PLLs on ARC SDP yet.
-> So as of now I may only propose to use hard-coded fixed clocks as I did with
-> ARC PGU, see "pguclk" here:
-> http://lists.infradead.org/pipermail/linux-snps-arc/2016-March/000790.html
+> The main core file was renamed from adv7511.c to adv7511_core.c
+> so that audio and video compile into a single adv7511.ko module
+> and to keep up with Analog Devices kernel tree.
 >
-> Again I'll try to implement missing clock driver sometime soon because
-> more and more stuff requires it but for now let's use a work-around.
-Yes, this is a workaround that we are using so that the driver works in ARC SDP
-platforms. The driver still has the functionality to operate using a clock
-driver (it must be declared in device tree) but if the clock handle is not
-declared the driver will assume that must use the internal PLL config options.
-This is currently the only option to make it work in ARC SDP.
+> The audio can be disabled using menu-config so it is possible
+> to use only video mode.
+>
+> The HDMI mode is automatically started at boot and the audio
+> (when enabled) registers as a codec into ALSA.
 
-I will send a v3 soon without this workaround and when the missing clock drivers
-are implemented I will re-test this.
->> +struct dw_i2s_pll {
->> +	unsigned int rate;
->> +	unsigned int data_width;
->> +	unsigned int idiv;
->> +	unsigned int fbdiv;
->> +	unsigned int odiv0;
->> +	unsigned int odiv1;
->> +};
->> +
->> +static const struct dw_i2s_pll dw_i2s_pll_cfg_27m[] = {
->> +	/* 27Mhz */
->> +	{ 32000, 16, 0x104, 0x451, 0x10E38, 0x2000 },
->> +	{ 44100, 16, 0x104, 0x596, 0x10D35, 0x2000 },
->> +	{ 48000, 16, 0x208, 0xA28, 0x10B2C, 0x2000 },
->> +	{ 0, 0, 0, 0, 0, 0 },
->>  };
->>  
->> +static const struct dw_i2s_pll dw_i2s_pll_cfg_28m[] = {
->> +	/* 28.224Mhz */
->> +	{ 32000, 16, 0x82, 0x105, 0x107DF, 0x2000 },
->> +	{ 44100, 16, 0x28A, 0x1, 0x10001, 0x2000 },
->> +	{ 48000, 16, 0xA28, 0x187, 0x10042, 0x2000 },
->> +	{ 0, 0, 0, 0, 0, 0 },
->> +};
-> These 2 hunks as well should go in ARC SDP clocks.
->
->> +static int i2s_pll_cfg(struct i2s_clk_config_data *config)
->> +{
->> +	const struct dw_i2s_pll *pll_cfg;
->> +	u32 rate = config->sample_rate;
->> +	u32 data_width = config->data_width;
->> +	int i;
->> +
->> +	if (readl((void *)FPGA_VER_INFO) <= FPGA_VER_27M)
->> +		pll_cfg = dw_i2s_pll_cfg_27m;
->> +	else
->> +		pll_cfg = dw_i2s_pll_cfg_28m;
->> +
->> +	for (i = 0; pll_cfg[i].rate != 0; i++) {
->> +		if ((pll_cfg[i].rate == rate) &&
->> +				(pll_cfg[i].data_width == data_width)) {
->> +			writel(pll_cfg[i].idiv, (void *)PLL_IDIV_ADDR);
->> +			writel(pll_cfg[i].fbdiv, (void *)PLL_FBDIV_ADDR);
->> +			writel(pll_cfg[i].odiv0, (void *)PLL_ODIV0_ADDR);
->> +			writel(pll_cfg[i].odiv1, (void *)PLL_ODIV1_ADDR);
->> +			return 0;
->> +		}
->> +	}
->> +
->> +	return -EINVAL;
->> +}
-> Ditto.
->
-> -Alexey
+Is there a reason why we set the mode to HDMI at probe itself?
+Shouldn't it be okay to set the mode later once we read the
+EDID off the panel?
 
-Best regards,
-Jose Miguel Abreu
+Some more comments below.
+
+>
+> SPDIF DAI format was also added to ASoC as it is required
+> by adv7511 audio.
+>
+> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+> ---
+>
+> No changes v1 -> v2.
+>
+>   drivers/gpu/drm/i2c/Kconfig         |   11 +
+>   drivers/gpu/drm/i2c/Makefile        |    2 +
+>   drivers/gpu/drm/i2c/adv7511.c       | 1024 -----------------------------------
+>   drivers/gpu/drm/i2c/adv7511.h       |   41 ++
+>   drivers/gpu/drm/i2c/adv7511_audio.c |  310 +++++++++++
+>   drivers/gpu/drm/i2c/adv7511_core.c  | 1005 ++++++++++++++++++++++++++++++++++
+>   include/sound/soc-dai.h             |    1 +
+>   7 files changed, 1370 insertions(+), 1024 deletions(-)
+>   delete mode 100644 drivers/gpu/drm/i2c/adv7511.c
+>   create mode 100644 drivers/gpu/drm/i2c/adv7511_audio.c
+>   create mode 100644 drivers/gpu/drm/i2c/adv7511_core.c
+
+<snip>
+
+> +
+> +static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+> +{
+> +	struct adv7511_link_config link_config;
+> +	struct adv7511 *adv7511;
+> +	struct device *dev = &i2c->dev;
+> +	unsigned int val;
+> +	int ret;
+> +
+> +	if (!dev->of_node)
+> +		return -EINVAL;
+> +
+> +	adv7511 = devm_kzalloc(dev, sizeof(*adv7511), GFP_KERNEL);
+> +	if (!adv7511)
+> +		return -ENOMEM;
+> +
+> +	adv7511->powered = false;
+> +	adv7511->status = connector_status_disconnected;
+> +
+> +	ret = adv7511_parse_dt(dev->of_node, &link_config);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * The power down GPIO is optional. If present, toggle it from active to
+> +	 * inactive to wake up the encoder.
+> +	 */
+> +	adv7511->gpio_pd = devm_gpiod_get_optional(dev, "pd", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(adv7511->gpio_pd))
+> +		return PTR_ERR(adv7511->gpio_pd);
+> +
+> +	if (adv7511->gpio_pd) {
+> +		mdelay(5);
+> +		gpiod_set_value_cansleep(adv7511->gpio_pd, 0);
+> +	}
+> +
+> +	adv7511->regmap = devm_regmap_init_i2c(i2c, &adv7511_regmap_config);
+> +	if (IS_ERR(adv7511->regmap))
+> +		return PTR_ERR(adv7511->regmap);
+> +
+> +	ret = regmap_read(adv7511->regmap, ADV7511_REG_CHIP_REVISION, &val);
+> +	if (ret)
+> +		return ret;
+> +	dev_dbg(dev, "Rev. %d\n", val);
+> +
+> +	ret = regmap_register_patch(adv7511->regmap, adv7511_fixed_registers,
+> +				    ARRAY_SIZE(adv7511_fixed_registers));
+> +	if (ret)
+> +		return ret;
+> +
+> +	regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR, edid_i2c_addr);
+> +	regmap_write(adv7511->regmap, ADV7511_REG_PACKET_I2C_ADDR,
+> +		     packet_i2c_addr);
+> +	regmap_write(adv7511->regmap, ADV7511_REG_CEC_I2C_ADDR, cec_i2c_addr);
+> +	adv7511_packet_disable(adv7511, 0xffff);
+> +
+> +	adv7511->i2c_main = i2c;
+> +	adv7511->i2c_edid = i2c_new_dummy(i2c->adapter, edid_i2c_addr >> 1);
+> +	if (!adv7511->i2c_edid)
+> +		return -ENOMEM;
+> +
+> +	if (i2c->irq) {
+> +		init_waitqueue_head(&adv7511->wq);
+> +
+> +		ret = devm_request_threaded_irq(dev, i2c->irq, NULL,
+> +						adv7511_irq_handler,
+> +						IRQF_ONESHOT, dev_name(dev),
+> +						adv7511);
+> +		if (ret)
+> +			goto err_i2c_unregister_device;
+> +	}
+> +
+> +	/* CEC is unused for now */
+> +	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL,
+> +		     ADV7511_CEC_CTRL_POWER_DOWN);
+> +
+> +	adv7511_power_off(adv7511);
+> +
+> +	i2c_set_clientdata(i2c, adv7511);
+> +
+> +#ifdef CONFIG_DRM_I2C_ADV7511_AUDIO
+> +	adv7511_audio_init(&i2c->dev);
+> +#endif
+
+If we intend to have more audio funcs being used by the core in the
+future, it would be nice to have NOP audio funcs rather than having
+multiple #ifdef checks in the driver when CONFIG_DRM_I2C_ADV7511_AUDIO
+isn't set.
+
+> +
+> +	adv7511_set_link_config(adv7511, &link_config);
+> +
+> +	/* Enable HDMI mode */
+> +	regmap_update_bits(adv7511->regmap, ADV7511_REG_HDCP_HDMI_CFG,
+> +			ADV7511_HDMI_CFG_MODE_MASK,
+> +			ADV7511_HDMI_CFG_MODE_HDMI);
+> +
+> +	return 0;
+> +
+> +err_i2c_unregister_device:
+> +	i2c_unregister_device(adv7511->i2c_edid);
+> +
+> +	return ret;
+> +}
+> +
+> +static int adv7511_remove(struct i2c_client *i2c)
+> +{
+> +	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
+> +
+
+Are we missing a call to adv7511_audio_exit() here?
+
+Thanks,
+Archit
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
+Forum, hosted by The Linux Foundation
