@@ -1,13 +1,16 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 29 Mar 2016 12:36:50 +0000
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Tue, 29 Mar 2016 13:48:43 +0100
 Subject: [PATCH] clk/arc: Add I2S PLL clock driver
+In-Reply-To: <1459250707.3021.31.camel@synopsys.com>
 References: <e580aaf30e3c66d13693a4e6db0ced1996d37c04.1459246186.git.joabreu@synopsys.com>
  <1459250707.3021.31.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E915E9@us01wembx1.internal.synopsys.com>
+Message-ID: <56FA79AB.1040204@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tuesday 29 March 2016 04:55 PM, Alexey Brodkin wrote:
+Hi Alexey,
+
+On 29-03-2016 12:25, Alexey Brodkin wrote:
 > Hi Jose,
 >
 > On Tue, 2016-03-29@11:56 +0100, Jose Abreu wrote:
@@ -29,12 +32,7 @@ On Tuesday 29 March 2016 04:55 PM, Alexey Brodkin wrote:
 > they won't be lost in time and could be used later as
 > useful references.
 
-Please do also CC the common clk maintainers
-
-COMMON CLK FRAMEWORK
-M:    Michael Turquette <mturquette at baylibre.com>
-M:    Stephen Boyd <sboyd at codeaurora.org>
-L:    linux-clk at vger.kernel.org
+Agree.
 
 >
 >>  arch/arc/boot/dts/axs10x_mb.dtsi |   5 ++
@@ -77,7 +75,9 @@ L:    linux-clk at vger.kernel.org
 >
 >  [2] Something similar is applicable to folder name, I would suggest to
 >      use "drivers/clk/axs10x"
->
+
+I will rename to axs10x and use CONFIG_ARC_PLAT_AXS10X.
+
 >> diff --git a/drivers/clk/arc/Makefile b/drivers/clk/arc/Makefile
 >> new file mode 100644
 >> index 0000000..01996b8
@@ -121,6 +121,14 @@ L:    linux-clk at vger.kernel.org
 > and so it worth putting this code in some common location (I mean common
 > for all axs10x clock drivers).
 >
+
+This is not common to all clocks. We are expecting a new firmware release which
+will change the reference clock input for the I2S PLL from 27Mhz to 28.224 Mhz.
+To support both the old and the new firmware we check this version info register
+so that we can determine which firmware version is being used. Due to this
+change the PLL dividers are different. As the remaining clocks will be
+unaffected I think this can remain only in this driver.
+
 >> +/* PLL registers addresses */
 >> +#define PLL_IDIV_ADDR	0xE00100A0
 >> +#define PLL_FBDIV_ADDR	0xE00100A4
@@ -178,7 +186,9 @@ L:    linux-clk at vger.kernel.org
 >> +	return *prate;
 >> +}
 > These are now just dummy functions so probably they could be dropped.
->
+
+Agree but I will have to check if the clock core needs this functions to be defined.
+
 >> +static int i2s_pll_set_rate(struct clk_hw *hw, unsigned long rate,
 >> +			unsigned long parent_rate)
 >> +{
@@ -195,3 +205,8 @@ L:    linux-clk at vger.kernel.org
 > Otherwise it looks pretty nice!
 >
 > -Alexey
+
+Thanks for your comments!
+
+Best regards,
+Jose Miguel Abreu
