@@ -1,26 +1,35 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 31 Mar 2016 07:34:40 +0000
-Subject: [PATCH] clk/arc: Add I2S PLL clock driver
-References: <e580aaf30e3c66d13693a4e6db0ced1996d37c04.1459246186.git.joabreu@synopsys.com>
- <1459250707.3021.31.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F4E915E9@us01wembx1.internal.synopsys.com>
- <56FAC0A6.5000504@synopsys.com>
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Thu, 31 Mar 2016 10:37:20 +0100
+Subject: [PATCH 2/3 v2] ASoC: dwc: Add I2S HDMI audio support
+In-Reply-To: <20160329182222.GC2350@sirena.org.uk>
+References: <cover.1459174494.git.joabreu@synopsys.com>
+ <538be366488bf0d7633d702f2d0bab16707b7a47.1459174494.git.joabreu@synopsys.com>
+ <20160329173158.GB2350@sirena.org.uk> <56FAC355.1040705@synopsys.com>
+ <20160329182222.GC2350@sirena.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E91822@us01wembx1.internal.synopsys.com>
+Message-ID: <56FCEFD0.8090509@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tuesday 29 March 2016 11:21 PM, Jose Abreu wrote:
+Hi Mark,
 
-Well, this was just an experiment and I think this patch is still far from being
-ready to go mainline, that's why I did not cc'ed the clk maintainers. I will
-send a v2 soon so you can review and if you think its worth sending to mainline
-I will do that.
+On 29-03-2016 19:22, Mark Brown wrote:
+> On Tue, Mar 29, 2016@07:03:01PM +0100, Jose Abreu wrote:
+>
+>> The major part of this patch is the adding of an ALSA platform driver so that
+>> audio comes out of the box in AXS boards but we also added functionalities to
+>> the i2s driver and performed one bug fix related with the mask/unmask of
+>> interrupts. I will split the patches but they will depend on each other.
+> If you want to add a new platform driver you need to add a new platform
+> driver, not shove the code into an existing driver for a seperate IP.
+>
 
+I can separate the platform driver into a new file but they will have to be
+compiled into the same module as the new additions to the i2s driver depend on
+functions of the platform driver (see i2s_irq_handler()). Or should I divide
+this into two modules and add a Kconfig option to the platform driver? Besides
+this I first wanted the driver to be compiled into the same module so that it is
+compatible with kernel 3.18 where simple audio card requires that platform
+driver == cpu driver.
 
-It never hurts to CC actual maintainer as they will be able to provide you the best feedback.
-Each of us have our domain expertise so I may review your code superficially but only the person who knows the subsystem inside-out can tell you exactly what to do.
-
-They are grumpy at times and might bitch a bit but as they they "it is your code that gets criticized - not you"
-I've learnt this myself over the years :-)
-
--Vineet
+Best regards,
+Jose Miguel Abreu
