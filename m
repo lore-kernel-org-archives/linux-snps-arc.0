@@ -1,174 +1,86 @@
-From: laurent.pinchart@ideasonboard.com (Laurent Pinchart)
-Date: Fri, 01 Apr 2016 20:10:14 +0300
-Subject: [PATCH 1/3 v2] drm/i2c/adv7511: Add audio support
-In-Reply-To: <15b1936d307912ba12df7fa09ec3a7a80ac5fcef.1459174494.git.joabreu@synopsys.com>
-References: <cover.1459174494.git.joabreu@synopsys.com>
- <15b1936d307912ba12df7fa09ec3a7a80ac5fcef.1459174494.git.joabreu@synopsys.com>
+From: noamca@mellanox.com (Noam Camus)
+Date: Fri, 1 Apr 2016 23:21:22 +0300
+Subject: [PATCH v7 0/3] Adding NPS400 drivers
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5276355.2bQYPXCpz6@avalon>
+Message-ID: <1459542085-3065-1-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Jose,
+From: Noam Camus <noamca@mellanox.com>
 
-Thank you for the patch.
+Change Log--
+v7:
+Rebased on latest HEAD (4.6-rc1)
+Added change log to all patches to ease review.
 
-On Monday 28 Mar 2016 15:36:09 Jose Abreu wrote:
-> This patch adds audio support for the ADV7511 HDMI transmitter
-> using ALSA SoC.
-> 
-> The code was ported from Analog Devices linux tree from
-> commit 1770c4a1e32b ("Merge remote-tracking branch
-> 'xilinx/master' into xcomm_zynq"), which is available at:
-> 	- https://github.com/analogdevicesinc/linux/
-> 
-> The main core file was renamed from adv7511.c to adv7511_core.c
-> so that audio and video compile into a single adv7511.ko module
-> and to keep up with Analog Devices kernel tree.
-> 
-> The audio can be disabled using menu-config so it is possible
-> to use only video mode.
-> 
-> The HDMI mode is automatically started at boot and the audio
-> (when enabled) registers as a codec into ALSA.
-> 
-> SPDIF DAI format was also added to ASoC as it is required
-> by adv7511 audio.
-> 
-> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-> ---
-> 
-> No changes v1 -> v2.
-> 
->  drivers/gpu/drm/i2c/Kconfig         |   11 +
->  drivers/gpu/drm/i2c/Makefile        |    2 +
->  drivers/gpu/drm/i2c/adv7511.c       | 1024 -------------------------------
->  drivers/gpu/drm/i2c/adv7511.h       |   41 ++
->  drivers/gpu/drm/i2c/adv7511_audio.c |  310 +++++++++++
->  drivers/gpu/drm/i2c/adv7511_core.c  | 1005 ++++++++++++++++++++++++++++++
+v6:
+Files headers changed to start with:
+Copyright (c) 2016, Mellanox Technologies
+...
 
-Please use git-format-patch -M to detect renames if you send a new version of 
-this series, it will help with review.
+This is due to the acquisition of EZchip made by Mellanox.
+One can still find "EZchip" used in tree, and this is ok.
 
->  include/sound/soc-dai.h             |    1 +
->  7 files changed, 1370 insertions(+), 1024 deletions(-)
->  delete mode 100644 drivers/gpu/drm/i2c/adv7511.c
->  create mode 100644 drivers/gpu/drm/i2c/adv7511_audio.c
->  create mode 100644 drivers/gpu/drm/i2c/adv7511_core.c
+This patch set is a requierement before I can insert new platform to ARC,
+one that supports the NPS400 SoC.
 
-[snip]
+v5:
+Clocksource, irqchip - Fix gracefull return.
+				replace call to panic() with pr_err() and proper return value.
 
-> diff --git a/drivers/gpu/drm/i2c/adv7511_core.c
-> b/drivers/gpu/drm/i2c/adv7511_core.c new file mode 100644
-> index 0000000..d54256a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i2c/adv7511_core.c
+v4:
+clocksource -- Apply all Daniel comments (Thanks)
+				Handle gracefull return and also using clocksoure mmio driver at init
 
-[snip]
+v3:
+irqchip - Fix ARM build failure by adding missing include of linux/irq.h
+clocksource -- Avoid 64bit arch's to build driver by adding new dependency !PHYS_ADDR_T_64BIT
+				This is since we use explicit io access of 32 bit. So for test coverage we allow
+				not only build for ARC, but restrict it to 32 bit arch's.
+irqchip - Apply all Thomas comments (Thank you)
 
-> +static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id
-> *id) +{
-> +	struct adv7511_link_config link_config;
-> +	struct adv7511 *adv7511;
-> +	struct device *dev = &i2c->dev;
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	if (!dev->of_node)
-> +		return -EINVAL;
-> +
-> +	adv7511 = devm_kzalloc(dev, sizeof(*adv7511), GFP_KERNEL);
-> +	if (!adv7511)
-> +		return -ENOMEM;
-> +
-> +	adv7511->powered = false;
-> +	adv7511->status = connector_status_disconnected;
-> +
-> +	ret = adv7511_parse_dt(dev->of_node, &link_config);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * The power down GPIO is optional. If present, toggle it from active to
-> +	 * inactive to wake up the encoder.
-> +	 */
-> +	adv7511->gpio_pd = devm_gpiod_get_optional(dev, "pd", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(adv7511->gpio_pd))
-> +		return PTR_ERR(adv7511->gpio_pd);
-> +
-> +	if (adv7511->gpio_pd) {
-> +		mdelay(5);
-> +		gpiod_set_value_cansleep(adv7511->gpio_pd, 0);
-> +	}
-> +
-> +	adv7511->regmap = devm_regmap_init_i2c(i2c, &adv7511_regmap_config);
-> +	if (IS_ERR(adv7511->regmap))
-> +		return PTR_ERR(adv7511->regmap);
-> +
-> +	ret = regmap_read(adv7511->regmap, ADV7511_REG_CHIP_REVISION, &val);
-> +	if (ret)
-> +		return ret;
-> +	dev_dbg(dev, "Rev. %d\n", val);
-> +
-> +	ret = regmap_register_patch(adv7511->regmap, adv7511_fixed_registers,
-> +				    ARRAY_SIZE(adv7511_fixed_registers));
-> +	if (ret)
-> +		return ret;
-> +
-> +	regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR, edid_i2c_addr);
-> +	regmap_write(adv7511->regmap, ADV7511_REG_PACKET_I2C_ADDR,
-> +		     packet_i2c_addr);
-> +	regmap_write(adv7511->regmap, ADV7511_REG_CEC_I2C_ADDR, cec_i2c_addr);
-> +	adv7511_packet_disable(adv7511, 0xffff);
-> +
-> +	adv7511->i2c_main = i2c;
-> +	adv7511->i2c_edid = i2c_new_dummy(i2c->adapter, edid_i2c_addr >> 1);
-> +	if (!adv7511->i2c_edid)
-> +		return -ENOMEM;
-> +
-> +	if (i2c->irq) {
-> +		init_waitqueue_head(&adv7511->wq);
-> +
-> +		ret = devm_request_threaded_irq(dev, i2c->irq, NULL,
-> +						adv7511_irq_handler,
-> +						IRQF_ONESHOT, dev_name(dev),
-> +						adv7511);
-> +		if (ret)
-> +			goto err_i2c_unregister_device;
-> +	}
-> +
-> +	/* CEC is unused for now */
-> +	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL,
-> +		     ADV7511_CEC_CTRL_POWER_DOWN);
-> +
-> +	adv7511_power_off(adv7511);
-> +
-> +	i2c_set_clientdata(i2c, adv7511);
-> +
-> +#ifdef CONFIG_DRM_I2C_ADV7511_AUDIO
-> +	adv7511_audio_init(&i2c->dev);
-> +#endif
+v2:
+Add header file include/soc/nps/common.h.
+Now to build we do not depend on ARC subtree.
 
-Shouldn't we condition this to the audio channel being somehow described in DT 
-? If a board doesn't route audio signals to the ADV7511 audio input, there's 
-no need to register an audio codec.
+General summay:
+Both drivers are now apart of previous basic patch set of new platform for ARC.
+The rest is now can be seen at ARC srctree:
+https://git.kernel.org/cgit/linux/kernel/git/vgupta/arc.git/
 
-> +
-> +	adv7511_set_link_config(adv7511, &link_config);
-> +
-> +	/* Enable HDMI mode */
-> +	regmap_update_bits(adv7511->regmap, ADV7511_REG_HDCP_HDMI_CFG,
-> +			ADV7511_HDMI_CFG_MODE_MASK,
-> +			ADV7511_HDMI_CFG_MODE_HDMI);
-> +
-> +	return 0;
-> +
-> +err_i2c_unregister_device:
-> +	i2c_unregister_device(adv7511->i2c_edid);
-> +
-> +	return ret;
-> +}
+Now ARC is supporting DT for clockevents and the interrupt controller ARC
+uses irq domain handling.
 
--- 
+Compare to last version now clocksource driver do not include clockevent registration
+since NPS400 can use ARC generic driver.
+
+Compare to last version now irqchip driver sets domain as default since it is the root domain.
+Also mapping of IPI is done in this driver.
+
+Last thing is that drivers can be build cleanly for i386 (still runs only for ARC)
+Note: in order to build we need to merge drivers into srctree which includes new header:
+soc/nps/common.h
+This header is part of patch set applied to ARC srctree.
+
 Regards,
+Noam Camus
 
-Laurent Pinchart
+Noam Camus (3):
+  soc: Support for EZchip SoC
+  clocksource: Add NPS400 timers driver
+  irqchip: add nps Internal and external irqchips
+
+ .../interrupt-controller/ezchip,nps400-ic.txt      |   17 ++
+ .../bindings/timer/ezchip,nps400-timer.txt         |   15 ++
+ drivers/clocksource/Kconfig                        |   10 ++
+ drivers/clocksource/Makefile                       |    1 +
+ drivers/clocksource/timer-nps.c                    |   98 ++++++++++++
+ drivers/irqchip/Kconfig                            |    6 +
+ drivers/irqchip/Makefile                           |    1 +
+ drivers/irqchip/irq-eznps.c                        |  165 +++++++++++++++++++
+ include/soc/nps/common.h                           |  166 ++++++++++++++++++++
+ 9 files changed, 479 insertions(+), 0 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+ create mode 100644 drivers/clocksource/timer-nps.c
+ create mode 100644 drivers/irqchip/irq-eznps.c
+ create mode 100644 include/soc/nps/common.h
