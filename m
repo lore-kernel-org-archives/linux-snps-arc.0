@@ -1,305 +1,214 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Fri, 1 Apr 2016 23:21:25 +0300
-Subject: [PATCH v7 3/3] irqchip: add nps Internal and external irqchips
-In-Reply-To: <1459542085-3065-1-git-send-email-noamca@mellanox.com>
-References: <1459542085-3065-1-git-send-email-noamca@mellanox.com>
+From: sboyd@codeaurora.org (Stephen Boyd)
+Date: Fri, 1 Apr 2016 18:02:37 -0700
+Subject: [PATCH v3] clk/axs10x: Add I2S PLL clock driver
+In-Reply-To: <4018d5e586f6a5b37c665000fbec8f6aad9388f3.1459443839.git.joabreu@synopsys.com>
+References: <4018d5e586f6a5b37c665000fbec8f6aad9388f3.1459443839.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1459542085-3065-4-git-send-email-noamca@mellanox.com>
+Message-ID: <20160402010237.GY18567@codeaurora.org>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamc@ezchip.com>
+On 03/31, Jose Abreu wrote:
+>
+>  arch/arc/boot/dts/axs10x_mb.dtsi   |   5 ++
 
-Adding EZchip NPS400 support.
-Internal interrupts are handled by Multi Thread Manager (MTM)
-Once interrupt is serviced MTM is acked for deactivating the interrupt.
-External interrupts are handled by MTM as well as at Global Interrupt
-Controller (GIC) e.g. serial and network devices.
+Please remove this diff from this patch. dts changes go through
+non-clk trees.
 
-Signed-off-by: Noam Camus <noamc at ezchip.com>
-Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: Jason Cooper <jason at lakedaemon.net>
-Cc: Marc Zyngier <marc.zyngier at arm.com>
-Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
----
-v7:
-Rebased on latest HEAD (4.6-rc1)
+>  drivers/clk/Makefile               |   1 +
+>  drivers/clk/axs10x/Makefile        |   1 +
+>  drivers/clk/axs10x/i2s_pll_clock.c | 163 +++++++++++++++++++++++++++++++++++++
 
-v6:
-Files headers changed to start with:
-Copyright (c) 2016, Mellanox Technologies
-...
+Where is the binding document?
 
-This is due to the acquisition of EZchip made by Mellanox.
-One can still find "EZchip" used in tree, and this is ok.
+> diff --git a/drivers/clk/axs10x/i2s_pll_clock.c b/drivers/clk/axs10x/i2s_pll_clock.c
+> new file mode 100644
+> index 0000000..f050e70
+> --- /dev/null
+> +++ b/drivers/clk/axs10x/i2s_pll_clock.c
+> @@ -0,0 +1,163 @@
+> +/* FPGA Version Info */
+> +#define FPGA_VER_INFO	0xE0011230
+> +#define FPGA_VER_27M	0x000FBED9
+> +
+> +/* PLL registers addresses */
+> +#define PLL_IDIV_ADDR	0xE00100A0
+> +#define PLL_FBDIV_ADDR	0xE00100A4
+> +#define PLL_ODIV0_ADDR	0xE00100A8
+> +#define PLL_ODIV1_ADDR	0xE00100AC
+> +
+> +struct i2s_pll_cfg {
+> +	unsigned int rate;
+> +	unsigned int idiv;
+> +	unsigned int fbdiv;
+> +	unsigned int odiv0;
+> +	unsigned int odiv1;
+> +};
+> +
+> +static struct i2s_pll_cfg i2s_pll_cfg_27m[] = {
 
-This patch set is a requierement before I can insert new platform to ARC,
-one that supports the NPS400 SoC.
+const?
 
-v5:
-Clocksource, irqchip - Fix gracefull return.
-				replace call to panic() with pr_err() and proper return value.
+> +	/* 27 Mhz */
+> +	{ 1024000, 0x104, 0x451, 0x10E38, 0x2000 },
+> +	{ 1411200, 0x104, 0x596, 0x10D35, 0x2000 },
+> +	{ 1536000, 0x208, 0xA28, 0x10B2C, 0x2000 },
+> +	{ 2048000, 0x82, 0x451, 0x10E38, 0x2000 },
+> +	{ 2822400, 0x82, 0x596, 0x10D35, 0x2000 },
+> +	{ 3072000, 0x104, 0xA28, 0x10B2C, 0x2000 },
+> +	{ 2116800, 0x82, 0x3CF, 0x10C30, 0x2000 },
+> +	{ 2304000, 0x104, 0x79E, 0x10B2C, 0x2000 },
+> +	{ 0, 0, 0, 0, 0 },
+> +};
+> +
+> +static struct i2s_pll_cfg i2s_pll_cfg_28m[] = {
 
-v4:
-clocksource -- Apply all Daniel comments (Thanks)
-				Handle gracefull return and also using clocksoure mmio driver at init
+const?
 
-v3:
-irqchip - Fix ARM build failure by adding missing include of linux/irq.h
-clocksource -- Avoid 64bit arch's to build driver by adding new dependency !PHYS_ADDR_T_64BIT
-				This is since we use explicit io access of 32 bit. So for test coverage we allow
-				not only build for ARC, but restrict it to 32 bit arch's.
-irqchip - Apply all Thomas comments (Thank you)
+> +	/* 28.224 Mhz */
+> +	{ 1024000, 0x82, 0x105, 0x107DF, 0x2000 },
+> +	{ 1411200, 0x28A, 0x1, 0x10001, 0x2000 },
+> +	{ 1536000, 0xA28, 0x187, 0x10042, 0x2000 },
+> +	{ 2048000, 0x41, 0x105, 0x107DF, 0x2000 },
+> +	{ 2822400, 0x145, 0x1, 0x10001, 0x2000 },
+> +	{ 3072000, 0x514, 0x187, 0x10042, 0x2000 },
+> +	{ 2116800, 0x514, 0x42, 0x10001, 0x2000 },
+> +	{ 2304000, 0x619, 0x82, 0x10001, 0x2000 },
+> +	{ 0, 0, 0, 0, 0 },
+> +};
+> +
+> +struct i2s_pll_clk {
+> +	struct clk_hw hw;
+> +	unsigned long ref_clk;
+> +	struct i2s_pll_cfg *pll_cfg;
+> +};
+> +
+> +static inline struct i2s_pll_clk *to_i2s_pll_clk(struct clk_hw *hw)
+> +{
+> +	return container_of(hw, struct i2s_pll_clk, hw);
+> +}
+> +
+> +static unsigned int i2s_pll_get_value(unsigned int val)
+> +{
+> +	return ((val & 0x3F) + ((val >> 6) & 0x3F));
 
-v2:
-Add header file include/soc/nps/common.h.
-Now to build we do not depend on ARC subtree.
+Please drop extraneous parentheses.
 
-General summay:
-Both drivers are now apart of previous basic patch set of new platform for ARC.
-The rest is now can be seen at ARC srctree:
-https://git.kernel.org/cgit/linux/kernel/git/vgupta/arc.git/
+> +}
+> +
+> +static unsigned long i2s_pll_recalc_rate(struct clk_hw *hw,
+> +			unsigned long parent_rate)
+> +{
+> +	struct i2s_pll_clk *clk = to_i2s_pll_clk(hw);
+> +	unsigned int idiv, fbdiv, odiv;
+> +
+> +	idiv = i2s_pll_get_value(readl((void *)PLL_IDIV_ADDR));
 
-Now ARC is supporting DT for clockevents and the interrupt controller ARC
-uses irq domain handling.
+We need a real ioremap in this driver instead of casting physical
+addresses to pointers and calling readl on them.
 
-Compare to last version now clocksource driver do not include clockevent registration
-since NPS400 can use ARC generic driver.
+> +	fbdiv = i2s_pll_get_value(readl((void *)PLL_FBDIV_ADDR));
+> +	odiv = i2s_pll_get_value(readl((void *)PLL_ODIV0_ADDR));
+> +
+> +	return (((clk->ref_clk / idiv ) * fbdiv) / odiv);
 
-Compare to last version now irqchip driver sets domain as default since it is the root domain.
-Also mapping of IPI is done in this driver.
+Again, too many parentheses. Also, any concerns of 32-bit
+truncation here (i.e. is 64-bit math needed)?
 
-Last thing is that drivers can be build cleanly for i386 (still runs only for ARC)
-Note: in order to build we need to merge drivers into srctree which includes new header:
-soc/nps/common.h
-This header is part of patch set applied to ARC srctree.
+> +}
+> +
+> +static long i2s_pll_round_rate(struct clk_hw *hw, unsigned long rate,
+> +			unsigned long *prate)
+> +{
+> +	/* TODO: Round rate to nearest valid rate */
 
-Regards,
-Noam Camus
----
- .../interrupt-controller/ezchip,nps400-ic.txt      |   17 ++
- drivers/irqchip/Kconfig                            |    6 +
- drivers/irqchip/Makefile                           |    1 +
- drivers/irqchip/irq-eznps.c                        |  165 ++++++++++++++++++++
- 4 files changed, 189 insertions(+), 0 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
- create mode 100644 drivers/irqchip/irq-eznps.c
+At the least this should return the rate from the table if it's
+there or failure if it isn't an exact match. Basically do exactly
+what i2s_pll_set_rate() is doing without changing the rate.
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt b/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
-new file mode 100644
-index 0000000..888b2b9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
-@@ -0,0 +1,17 @@
-+EZchip NPS Interrupt Controller
-+
-+Required properties:
-+
-+- compatible : should be "ezchip,nps400-ic"
-+- interrupt-controller : Identifies the node as an interrupt controller
-+- #interrupt-cells : Specifies the number of cells needed to encode an
-+  interrupt source. The value shall be 1.
-+
-+
-+Example:
-+
-+intc: interrupt-controller {
-+	compatible = "ezchip,nps400-ic";
-+	interrupt-controller;
-+	#interrupt-cells = <1>;
-+};
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index 3e12479..1ab632a 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -244,3 +244,9 @@ config IRQ_MXS
- config MVEBU_ODMI
- 	bool
- 	select GENERIC_MSI_IRQ_DOMAIN
-+
-+config EZNPS_GIC
-+	bool "NPS400 Global Interrupt Manager (GIM)"
-+	select IRQ_DOMAIN
-+	help
-+	  Support the EZchip NPS400 global interrupt controller
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index b03cfcb..9d54d53 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -65,3 +65,4 @@ obj-$(CONFIG_INGENIC_IRQ)		+= irq-ingenic.o
- obj-$(CONFIG_IMX_GPCV2)			+= irq-imx-gpcv2.o
- obj-$(CONFIG_PIC32_EVIC)		+= irq-pic32-evic.o
- obj-$(CONFIG_MVEBU_ODMI)		+= irq-mvebu-odmi.o
-+obj-$(CONFIG_EZNPS_GIC)			+= irq-eznps.o
-diff --git a/drivers/irqchip/irq-eznps.c b/drivers/irqchip/irq-eznps.c
-new file mode 100644
-index 0000000..97e4294
---- /dev/null
-+++ b/drivers/irqchip/irq-eznps.c
-@@ -0,0 +1,165 @@
-+/*
-+ * Copyright (c) 2016, Mellanox Technologies. All rights reserved.
-+ *
-+ * This software is available to you under a choice of one of two
-+ * licenses.  You may choose to be licensed under the terms of the GNU
-+ * General Public License (GPL) Version 2, available from the file
-+ * COPYING in the main directory of this source tree, or the
-+ * OpenIB.org BSD license below:
-+ *
-+ *     Redistribution and use in source and binary forms, with or
-+ *     without modification, are permitted provided that the following
-+ *     conditions are met:
-+ *
-+ *      - Redistributions of source code must retain the above
-+ *        copyright notice, this list of conditions and the following
-+ *        disclaimer.
-+ *
-+ *      - Redistributions in binary form must reproduce the above
-+ *        copyright notice, this list of conditions and the following
-+ *        disclaimer in the documentation and/or other materials
-+ *        provided with the distribution.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-+ * SOFTWARE.
-+ */
-+
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/irq.h>
-+#include <linux/irqdomain.h>
-+#include <linux/irqchip.h>
-+#include <soc/nps/common.h>
-+
-+#define NPS_NR_CPU_IRQS 8  /* number of interrupt lines of NPS400 CPU */
-+#define NPS_TIMER0_IRQ  3
-+
-+/*
-+ * NPS400 core includes an Interrupt Controller (IC) support.
-+ * All cores can deactivate level irqs at first level control
-+ * at cores mesh layer called MTM.
-+ * For devices out side chip e.g. uart, network there is another
-+ * level called Global Interrupt Manager (GIM).
-+ * This second level can control level and edge interrupt.
-+ *
-+ * NOTE: AUX_IENABLE and CTOP_AUX_IACK are auxiliary registers
-+ * with private HW copy per CPU.
-+ */
-+
-+static void nps400_irq_mask(struct irq_data *irqd)
-+{
-+	unsigned int ienb;
-+	unsigned int irq = irqd_to_hwirq(irqd);
-+
-+	ienb = read_aux_reg(AUX_IENABLE);
-+	ienb &= ~(1 << irq);
-+	write_aux_reg(AUX_IENABLE, ienb);
-+}
-+
-+static void nps400_irq_unmask(struct irq_data *irqd)
-+{
-+	unsigned int ienb;
-+	unsigned int irq = irqd_to_hwirq(irqd);
-+
-+	ienb = read_aux_reg(AUX_IENABLE);
-+	ienb |= (1 << irq);
-+	write_aux_reg(AUX_IENABLE, ienb);
-+}
-+
-+static void nps400_irq_eoi_global(struct irq_data *irqd)
-+{
-+	unsigned int __maybe_unused irq = irqd_to_hwirq(irqd);
-+
-+	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
-+
-+	/* Don't ack GIC before all device access attempts are done */
-+	mb();
-+
-+	nps_ack_gic();
-+}
-+
-+static void nps400_irq_eoi(struct irq_data *irqd)
-+{
-+	unsigned int __maybe_unused irq = irqd_to_hwirq(irqd);
-+
-+	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
-+}
-+
-+static struct irq_chip nps400_irq_chip_fasteoi = {
-+	.name		= "NPS400 IC Global",
-+	.irq_mask	= nps400_irq_mask,
-+	.irq_unmask	= nps400_irq_unmask,
-+	.irq_eoi	= nps400_irq_eoi_global,
-+};
-+
-+static struct irq_chip nps400_irq_chip_percpu = {
-+	.name		= "NPS400 IC",
-+	.irq_mask	= nps400_irq_mask,
-+	.irq_unmask	= nps400_irq_unmask,
-+	.irq_eoi	= nps400_irq_eoi,
-+};
-+
-+static int nps400_irq_map(struct irq_domain *d, unsigned int virq,
-+			  irq_hw_number_t hw)
-+{
-+	switch (hw) {
-+	case NPS_TIMER0_IRQ:
-+#ifdef CONFIG_SMP
-+	case IPI_IRQ:
-+#endif
-+		irq_set_percpu_devid(virq);
-+		irq_set_chip_and_handler(virq, &nps400_irq_chip_percpu,
-+					 handle_percpu_devid_irq);
-+		break;
-+	default:
-+		irq_set_chip_and_handler(virq, &nps400_irq_chip_fasteoi,
-+					 handle_fasteoi_irq);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct irq_domain_ops nps400_irq_ops = {
-+	.xlate = irq_domain_xlate_onecell,
-+	.map = nps400_irq_map,
-+};
-+
-+static int __init nps400_of_init(struct device_node *node,
-+				 struct device_node *parent)
-+{
-+	static struct irq_domain *nps400_root_domain;
-+
-+	if (parent) {
-+		pr_err("DeviceTree incore ic not a root irq controller\n");
-+		return -EINVAL;
-+	}
-+
-+	nps400_root_domain = irq_domain_add_linear(node, NPS_NR_CPU_IRQS,
-+						   &nps400_irq_ops, NULL);
-+
-+	if (!nps400_root_domain) {
-+		pr_err("nps400 root irq domain not avail\n");
-+		return -ENOMEM;
-+	}
-+
-+	/*
-+	 * Needed for primary domain lookup to succeed
-+	 * This is a primary irqchip, and can never have a parent
-+	 */
-+	irq_set_default_host(nps400_root_domain);
-+
-+#ifdef CONFIG_SMP
-+	irq_create_mapping(nps400_root_domain, IPI_IRQ);
-+#endif
-+
-+	return 0;
-+}
-+IRQCHIP_DECLARE(ezchip_nps400_ic, "ezchip,nps400-ic", nps400_of_init);
+> +	return rate;
+> +}
+> +
+> +static int i2s_pll_set_rate(struct clk_hw *hw, unsigned long rate,
+> +			unsigned long parent_rate)
+> +{
+> +	struct i2s_pll_cfg *pll_cfg = to_i2s_pll_clk(hw)->pll_cfg;
+> +	int i;
+> +
+> +	for (i = 0; pll_cfg[i].rate != 0; i++) {
+> +		if (pll_cfg[i].rate == rate) {
+> +			writel(pll_cfg[i].idiv, (void *)PLL_IDIV_ADDR);
+> +			writel(pll_cfg[i].fbdiv, (void *)PLL_FBDIV_ADDR);
+> +			writel(pll_cfg[i].odiv0, (void *)PLL_ODIV0_ADDR);
+> +			writel(pll_cfg[i].odiv1, (void *)PLL_ODIV1_ADDR);
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	pr_err("%s: invalid rate=%ld, parent_rate=%ld\n", __func__,
+> +			rate, parent_rate);
+> +	return -EINVAL;
+> +}
+> +
+> +static const struct clk_ops i2s_pll_ops = {
+> +	.recalc_rate = i2s_pll_recalc_rate,
+> +	.round_rate = i2s_pll_round_rate,
+> +	.set_rate = i2s_pll_set_rate,
+> +};
+> +
+> +static void __init i2s_pll_clk_setup(struct device_node *node)
+> +{
+> +	const char *clk_name = node->name;
+> +	struct clk *clk;
+> +	struct i2s_pll_clk *pll_clk;
+> +	struct clk_init_data init;
+> +
+> +	pll_clk = kzalloc(sizeof(*pll_clk), GFP_KERNEL);
+> +	if (!pll_clk)
+> +		return;
+> +
+> +	init.name = clk_name;
+> +	init.ops = &i2s_pll_ops;
+> +	init.flags = CLK_IS_BASIC;
+
+Drop CLK_IS_BASIC unless you actually need it.
+
+> +	init.num_parents = 0;
+> +	pll_clk->hw.init = &init;
+> +
+> +	clk = clk_register(NULL, &pll_clk->hw);
+> +	if (IS_ERR(clk)) {
+> +		pr_err("%s: failed to register %s div clock (%ld)\n",
+> +				__func__, clk_name, PTR_ERR(clk));
+> +		goto free_clock;
+> +	}
+> +
+> +	if (readl((void *)FPGA_VER_INFO) <= FPGA_VER_27M) {
+> +		pll_clk->ref_clk = 27000000;
+
+Refclk sounds like parent clk. Perhaps the DTS file should have a
+fixes rate reference clk for this clk and then we could use
+parent/child relationships in the clk framework to pass the
+parent rate to the recalc/round_rate ops? I presume that the FPGA
+info isn't in the same device/region as this clk is.
+
+> +		pll_clk->pll_cfg = i2s_pll_cfg_27m;
+> +	} else {
+> +		pll_clk->ref_clk = 28224000;
+> +		pll_clk->pll_cfg = i2s_pll_cfg_28m;
+> +	}
+> +
+> +	of_clk_add_provider(node, of_clk_src_simple_get, clk);
+> +	return;
+> +
+> +free_clock:
+> +	kfree(pll_clk);
+> +}
+> +
+> +CLK_OF_DECLARE(i2s_pll_clk, "snps,i2s-pll-clock", i2s_pll_clk_setup);
+> +
+
+Can this be a platform driver instead of using CLK_OF_DECLARE?
+
 -- 
-1.7.1
+Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
