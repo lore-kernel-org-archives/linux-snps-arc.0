@@ -1,214 +1,81 @@
-From: sboyd@codeaurora.org (Stephen Boyd)
-Date: Fri, 1 Apr 2016 18:02:37 -0700
-Subject: [PATCH v3] clk/axs10x: Add I2S PLL clock driver
-In-Reply-To: <4018d5e586f6a5b37c665000fbec8f6aad9388f3.1459443839.git.joabreu@synopsys.com>
-References: <4018d5e586f6a5b37c665000fbec8f6aad9388f3.1459443839.git.joabreu@synopsys.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Sat, 2 Apr 2016 14:43:33 +0800
+Subject: [PATCH v7 3/3] irqchip: add nps Internal and external irqchips
+In-Reply-To: <1459542085-3065-4-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160402010237.GY18567@codeaurora.org>
+Message-ID: <201604021438.HeC3CfXe%fengguang.wu@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 03/31, Jose Abreu wrote:
->
->  arch/arc/boot/dts/axs10x_mb.dtsi   |   5 ++
+Hi Noam,
 
-Please remove this diff from this patch. dts changes go through
-non-clk trees.
+[auto build test WARNING on tip/irq/core]
+[also build test WARNING on v4.6-rc1 next-20160401]
+[if your patch is applied to the wrong git tree, please drop us a note to help improving the system]
 
->  drivers/clk/Makefile               |   1 +
->  drivers/clk/axs10x/Makefile        |   1 +
->  drivers/clk/axs10x/i2s_pll_clock.c | 163 +++++++++++++++++++++++++++++++++++++
+url:    https://github.com/0day-ci/linux/commits/Noam-Camus/Adding-NPS400-drivers/20160402-044058
+config: parisc-allyesconfig (attached as .config)
+reproduce:
+        wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        make.cross ARCH=parisc 
 
-Where is the binding document?
+All warnings (new ones prefixed by >>):
 
-> diff --git a/drivers/clk/axs10x/i2s_pll_clock.c b/drivers/clk/axs10x/i2s_pll_clock.c
-> new file mode 100644
-> index 0000000..f050e70
-> --- /dev/null
-> +++ b/drivers/clk/axs10x/i2s_pll_clock.c
-> @@ -0,0 +1,163 @@
-> +/* FPGA Version Info */
-> +#define FPGA_VER_INFO	0xE0011230
-> +#define FPGA_VER_27M	0x000FBED9
-> +
-> +/* PLL registers addresses */
-> +#define PLL_IDIV_ADDR	0xE00100A0
-> +#define PLL_FBDIV_ADDR	0xE00100A4
-> +#define PLL_ODIV0_ADDR	0xE00100A8
-> +#define PLL_ODIV1_ADDR	0xE00100AC
-> +
-> +struct i2s_pll_cfg {
-> +	unsigned int rate;
-> +	unsigned int idiv;
-> +	unsigned int fbdiv;
-> +	unsigned int odiv0;
-> +	unsigned int odiv1;
-> +};
-> +
-> +static struct i2s_pll_cfg i2s_pll_cfg_27m[] = {
+   In file included from drivers/irqchip/irq-eznps.c:39:0:
+>> include/soc/nps/common.h:37:0: warning: "IPI_IRQ" redefined
+    #define IPI_IRQ     5
+    ^
+   In file included from include/linux/irq.h:26:0,
+                    from arch/parisc/include/asm/hardirq.h:12,
+                    from include/linux/hardirq.h:8,
+                    from include/linux/interrupt.h:12,
+                    from drivers/irqchip/irq-eznps.c:33:
+   arch/parisc/include/asm/irq.h:24:0: note: this is the location of the previous definition
+    #define IPI_IRQ  (CPU_IRQ_BASE + 1)
+    ^
 
-const?
+vim +/IPI_IRQ +37 include/soc/nps/common.h
 
-> +	/* 27 Mhz */
-> +	{ 1024000, 0x104, 0x451, 0x10E38, 0x2000 },
-> +	{ 1411200, 0x104, 0x596, 0x10D35, 0x2000 },
-> +	{ 1536000, 0x208, 0xA28, 0x10B2C, 0x2000 },
-> +	{ 2048000, 0x82, 0x451, 0x10E38, 0x2000 },
-> +	{ 2822400, 0x82, 0x596, 0x10D35, 0x2000 },
-> +	{ 3072000, 0x104, 0xA28, 0x10B2C, 0x2000 },
-> +	{ 2116800, 0x82, 0x3CF, 0x10C30, 0x2000 },
-> +	{ 2304000, 0x104, 0x79E, 0x10B2C, 0x2000 },
-> +	{ 0, 0, 0, 0, 0 },
-> +};
-> +
-> +static struct i2s_pll_cfg i2s_pll_cfg_28m[] = {
+4ff0d081 Noam Camus 2016-04-01  21   *        provided with the distribution.
+4ff0d081 Noam Camus 2016-04-01  22   *
+4ff0d081 Noam Camus 2016-04-01  23   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+4ff0d081 Noam Camus 2016-04-01  24   * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+4ff0d081 Noam Camus 2016-04-01  25   * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+4ff0d081 Noam Camus 2016-04-01  26   * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+4ff0d081 Noam Camus 2016-04-01  27   * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+4ff0d081 Noam Camus 2016-04-01  28   * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+4ff0d081 Noam Camus 2016-04-01  29   * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+4ff0d081 Noam Camus 2016-04-01  30   * SOFTWARE.
+4ff0d081 Noam Camus 2016-04-01  31   */
+4ff0d081 Noam Camus 2016-04-01  32  
+4ff0d081 Noam Camus 2016-04-01  33  #ifndef SOC_NPS_COMMON_H
+4ff0d081 Noam Camus 2016-04-01  34  #define SOC_NPS_COMMON_H
+4ff0d081 Noam Camus 2016-04-01  35  
+4ff0d081 Noam Camus 2016-04-01  36  #ifdef CONFIG_SMP
+4ff0d081 Noam Camus 2016-04-01 @37  #define IPI_IRQ					5
+4ff0d081 Noam Camus 2016-04-01  38  #endif
+4ff0d081 Noam Camus 2016-04-01  39  
+4ff0d081 Noam Camus 2016-04-01  40  #define NPS_HOST_REG_BASE			0xF6000000
+4ff0d081 Noam Camus 2016-04-01  41  
+4ff0d081 Noam Camus 2016-04-01  42  #define NPS_MSU_BLKID				0x018
+4ff0d081 Noam Camus 2016-04-01  43  
+4ff0d081 Noam Camus 2016-04-01  44  #define CTOP_INST_RSPI_GIC_0_R12		0x3C56117E
+4ff0d081 Noam Camus 2016-04-01  45  #define CTOP_INST_MOV2B_FLIP_R3_B1_B2_INST	0x5B60
 
-const?
+:::::: The code at line 37 was first introduced by commit
+:::::: 4ff0d0814a05fc7aa0841df0a58bde13f7254c01 soc: Support for EZchip SoC
 
-> +	/* 28.224 Mhz */
-> +	{ 1024000, 0x82, 0x105, 0x107DF, 0x2000 },
-> +	{ 1411200, 0x28A, 0x1, 0x10001, 0x2000 },
-> +	{ 1536000, 0xA28, 0x187, 0x10042, 0x2000 },
-> +	{ 2048000, 0x41, 0x105, 0x107DF, 0x2000 },
-> +	{ 2822400, 0x145, 0x1, 0x10001, 0x2000 },
-> +	{ 3072000, 0x514, 0x187, 0x10042, 0x2000 },
-> +	{ 2116800, 0x514, 0x42, 0x10001, 0x2000 },
-> +	{ 2304000, 0x619, 0x82, 0x10001, 0x2000 },
-> +	{ 0, 0, 0, 0, 0 },
-> +};
-> +
-> +struct i2s_pll_clk {
-> +	struct clk_hw hw;
-> +	unsigned long ref_clk;
-> +	struct i2s_pll_cfg *pll_cfg;
-> +};
-> +
-> +static inline struct i2s_pll_clk *to_i2s_pll_clk(struct clk_hw *hw)
-> +{
-> +	return container_of(hw, struct i2s_pll_clk, hw);
-> +}
-> +
-> +static unsigned int i2s_pll_get_value(unsigned int val)
-> +{
-> +	return ((val & 0x3F) + ((val >> 6) & 0x3F));
+:::::: TO: Noam Camus <noamc at ezchip.com>
+:::::: CC: 0day robot <fengguang.wu at intel.com>
 
-Please drop extraneous parentheses.
-
-> +}
-> +
-> +static unsigned long i2s_pll_recalc_rate(struct clk_hw *hw,
-> +			unsigned long parent_rate)
-> +{
-> +	struct i2s_pll_clk *clk = to_i2s_pll_clk(hw);
-> +	unsigned int idiv, fbdiv, odiv;
-> +
-> +	idiv = i2s_pll_get_value(readl((void *)PLL_IDIV_ADDR));
-
-We need a real ioremap in this driver instead of casting physical
-addresses to pointers and calling readl on them.
-
-> +	fbdiv = i2s_pll_get_value(readl((void *)PLL_FBDIV_ADDR));
-> +	odiv = i2s_pll_get_value(readl((void *)PLL_ODIV0_ADDR));
-> +
-> +	return (((clk->ref_clk / idiv ) * fbdiv) / odiv);
-
-Again, too many parentheses. Also, any concerns of 32-bit
-truncation here (i.e. is 64-bit math needed)?
-
-> +}
-> +
-> +static long i2s_pll_round_rate(struct clk_hw *hw, unsigned long rate,
-> +			unsigned long *prate)
-> +{
-> +	/* TODO: Round rate to nearest valid rate */
-
-At the least this should return the rate from the table if it's
-there or failure if it isn't an exact match. Basically do exactly
-what i2s_pll_set_rate() is doing without changing the rate.
-
-> +	return rate;
-> +}
-> +
-> +static int i2s_pll_set_rate(struct clk_hw *hw, unsigned long rate,
-> +			unsigned long parent_rate)
-> +{
-> +	struct i2s_pll_cfg *pll_cfg = to_i2s_pll_clk(hw)->pll_cfg;
-> +	int i;
-> +
-> +	for (i = 0; pll_cfg[i].rate != 0; i++) {
-> +		if (pll_cfg[i].rate == rate) {
-> +			writel(pll_cfg[i].idiv, (void *)PLL_IDIV_ADDR);
-> +			writel(pll_cfg[i].fbdiv, (void *)PLL_FBDIV_ADDR);
-> +			writel(pll_cfg[i].odiv0, (void *)PLL_ODIV0_ADDR);
-> +			writel(pll_cfg[i].odiv1, (void *)PLL_ODIV1_ADDR);
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	pr_err("%s: invalid rate=%ld, parent_rate=%ld\n", __func__,
-> +			rate, parent_rate);
-> +	return -EINVAL;
-> +}
-> +
-> +static const struct clk_ops i2s_pll_ops = {
-> +	.recalc_rate = i2s_pll_recalc_rate,
-> +	.round_rate = i2s_pll_round_rate,
-> +	.set_rate = i2s_pll_set_rate,
-> +};
-> +
-> +static void __init i2s_pll_clk_setup(struct device_node *node)
-> +{
-> +	const char *clk_name = node->name;
-> +	struct clk *clk;
-> +	struct i2s_pll_clk *pll_clk;
-> +	struct clk_init_data init;
-> +
-> +	pll_clk = kzalloc(sizeof(*pll_clk), GFP_KERNEL);
-> +	if (!pll_clk)
-> +		return;
-> +
-> +	init.name = clk_name;
-> +	init.ops = &i2s_pll_ops;
-> +	init.flags = CLK_IS_BASIC;
-
-Drop CLK_IS_BASIC unless you actually need it.
-
-> +	init.num_parents = 0;
-> +	pll_clk->hw.init = &init;
-> +
-> +	clk = clk_register(NULL, &pll_clk->hw);
-> +	if (IS_ERR(clk)) {
-> +		pr_err("%s: failed to register %s div clock (%ld)\n",
-> +				__func__, clk_name, PTR_ERR(clk));
-> +		goto free_clock;
-> +	}
-> +
-> +	if (readl((void *)FPGA_VER_INFO) <= FPGA_VER_27M) {
-> +		pll_clk->ref_clk = 27000000;
-
-Refclk sounds like parent clk. Perhaps the DTS file should have a
-fixes rate reference clk for this clk and then we could use
-parent/child relationships in the clk framework to pass the
-parent rate to the recalc/round_rate ops? I presume that the FPGA
-info isn't in the same device/region as this clk is.
-
-> +		pll_clk->pll_cfg = i2s_pll_cfg_27m;
-> +	} else {
-> +		pll_clk->ref_clk = 28224000;
-> +		pll_clk->pll_cfg = i2s_pll_cfg_28m;
-> +	}
-> +
-> +	of_clk_add_provider(node, of_clk_src_simple_get, clk);
-> +	return;
-> +
-> +free_clock:
-> +	kfree(pll_clk);
-> +}
-> +
-> +CLK_OF_DECLARE(i2s_pll_clk, "snps,i2s-pll-clock", i2s_pll_clk_setup);
-> +
-
-Can this be a platform driver instead of using CLK_OF_DECLARE?
-
--- 
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/octet-stream
+Size: 43728 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160402/550b1f4b/attachment-0001.obj>
