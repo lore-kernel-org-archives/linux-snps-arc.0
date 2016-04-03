@@ -1,44 +1,90 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Sun, 03 Apr 2016 18:02:23 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Mon Apr 04, 04:01
+From: noamca@mellanox.com (Noam Camus)
+Date: Sun, 3 Apr 2016 21:14:56 +0300
+Subject: [PATCH v8 0/3] Adding NPS400 drivers
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160403180223.1.49860@5cdd4cf8fb63>
+Message-ID: <1459707299-31564-1-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Mon Apr 04, 04:01
+From: Noam Camus <noamca@mellanox.com>
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12653240/
+Change Log--
+v8:
+Change macro name from IPI_IRQ to NPS_IPI_IRQ.
+This was needed due to build warning when building for parsic.
 
-Commit:   Linux 4.6-rc2
-          9735a22799b9214d17d3c231fe377fc852f042e9
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+v7:
+Rebased on latest HEAD (4.6-rc1)
+Added change log to all patches to ease review.
 
-No errors found in log
+v6:
+Files headers changed to start with:
+Copyright (c) 2016, Mellanox Technologies
+...
 
-Possible warnings (24)
-----------------------
+This is due to the acquisition of EZchip made by Mellanox.
+One can still find "EZchip" used in tree, and this is ok.
 
-drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
-drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
-<stdin>:1310:2: warning: #warning syscall preadv2 not implemented [-Wcpp]
-<stdin>:1313:2: warning: #warning syscall pwritev2 not implemented [-Wcpp]
-kernel/sched/core.c:3098:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/kernel.h:735:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/core/ethtool.c:295:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
-fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+This patch set is a requierement before I can insert new platform to ARC,
+one that supports the NPS400 SoC.
+
+v5:
+Clocksource, irqchip - Fix gracefull return.
+				replace call to panic() with pr_err() and proper return value.
+
+v4:
+clocksource -- Apply all Daniel comments (Thanks)
+				Handle gracefull return and also using clocksoure mmio driver at init
+
+v3:
+irqchip - Fix ARM build failure by adding missing include of linux/irq.h
+clocksource -- Avoid 64bit arch's to build driver by adding new dependency !PHYS_ADDR_T_64BIT
+				This is since we use explicit io access of 32 bit. So for test coverage we allow
+				not only build for ARC, but restrict it to 32 bit arch's.
+irqchip - Apply all Thomas comments (Thank you)
+
+v2:
+Add header file include/soc/nps/common.h.
+Now to build we do not depend on ARC subtree.
+
+General summay:
+Both drivers are now apart of previous basic patch set of new platform for ARC.
+The rest is now can be seen at ARC srctree:
+https://git.kernel.org/cgit/linux/kernel/git/vgupta/arc.git/
+
+Now ARC is supporting DT for clockevents and the interrupt controller ARC
+uses irq domain handling.
+
+Compare to last version now clocksource driver do not include clockevent registration
+since NPS400 can use ARC generic driver.
+
+Compare to last version now irqchip driver sets domain as default since it is the root domain.
+Also mapping of IPI is done in this driver.
+
+Last thing is that drivers can be build cleanly for i386 (still runs only for ARC)
+Note: in order to build we need to merge drivers into srctree which includes new header:
+soc/nps/common.h
+This header is part of patch set applied to ARC srctree.
+
+Regards,
+Noam Camus
+
+Noam Camus (3):
+  soc: Support for EZchip SoC
+  clocksource: Add NPS400 timers driver
+  irqchip: add nps Internal and external irqchips
+
+ .../interrupt-controller/ezchip,nps400-ic.txt      |   17 ++
+ .../bindings/timer/ezchip,nps400-timer.txt         |   15 ++
+ drivers/clocksource/Kconfig                        |   10 ++
+ drivers/clocksource/Makefile                       |    1 +
+ drivers/clocksource/timer-nps.c                    |   98 ++++++++++++
+ drivers/irqchip/Kconfig                            |    6 +
+ drivers/irqchip/Makefile                           |    1 +
+ drivers/irqchip/irq-eznps.c                        |  165 +++++++++++++++++++
+ include/soc/nps/common.h                           |  166 ++++++++++++++++++++
+ 9 files changed, 479 insertions(+), 0 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+ create mode 100644 drivers/clocksource/timer-nps.c
+ create mode 100644 drivers/irqchip/irq-eznps.c
+ create mode 100644 include/soc/nps/common.h
