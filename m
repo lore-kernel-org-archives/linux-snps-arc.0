@@ -1,38 +1,44 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Sun, 3 Apr 2016 13:05:09 +0800
-Subject: [PATCH 1/3 v2] drm/i2c/adv7511: Add audio support
-In-Reply-To: <15b1936d307912ba12df7fa09ec3a7a80ac5fcef.1459174494.git.joabreu@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Sun, 03 Apr 2016 18:02:23 -0000
+Subject: kisskb: OK linus/axs101_defconfig/arcompact Mon Apr 04, 04:01
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201604031328.ss7HU7jS%fengguang.wu@intel.com>
+Message-ID: <20160403180223.1.49860@5cdd4cf8fb63>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Jose,
+OK linus/axs101_defconfig/arcompact Mon Apr 04, 04:01
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on v4.6-rc1 next-20160401]
-[if your patch is applied to the wrong git tree, please drop us a note to help improving the system]
+http://kisskb.ellerman.id.au/kisskb/buildresult/12653240/
 
-url:    https://github.com/0day-ci/linux/commits/Jose-Abreu/Add-I2S-ADV7511-audio-support-for-ARC-AXS10x-boards/20160328-224040
-base:   git://people.freedesktop.org/~airlied/linux.git drm-next
-config: x86_64-randconfig-s5-04031201 (attached as .config)
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=x86_64 
+Commit:   Linux 4.6-rc2
+          9735a22799b9214d17d3c231fe377fc852f042e9
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-All errors (new ones prefixed by >>):
+No errors found in log
 
-   drivers/built-in.o: In function `adv7511_audio_init':
->> (.text+0x1c608b): undefined reference to `snd_soc_register_codec'
-   drivers/built-in.o: In function `adv7511_audio_exit':
->> (.text+0x1c6096): undefined reference to `snd_soc_unregister_codec'
+Possible warnings (24)
+----------------------
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 23536 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160403/90c8d73c/attachment-0001.obj>
+drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:62:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:68:warning: choice value used outside its choice group
+drivers/pci/pcie/Kconfig:75:warning: choice value used outside its choice group
+<stdin>:1310:2: warning: #warning syscall preadv2 not implemented [-Wcpp]
+<stdin>:1313:2: warning: #warning syscall pwritev2 not implemented [-Wcpp]
+kernel/sched/core.c:3098:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:735:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/core/ethtool.c:295:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
+fs/ext4/ext4_jbd2.h:409:1: warning: control reaches end of non-void function [-Wreturn-type]
