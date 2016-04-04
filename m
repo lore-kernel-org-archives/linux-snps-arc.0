@@ -1,309 +1,189 @@
-From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Mon,  4 Apr 2016 19:00:57 +0100
-Subject: [PATCH v4] clk/axs10x: Add I2S PLL clock driver
+From: laurent.pinchart@ideasonboard.com (Laurent Pinchart)
+Date: Tue, 05 Apr 2016 00:41:27 +0300
+Subject: [PATCH 1/3 v2] drm/i2c/adv7511: Add audio support
+In-Reply-To: <57022E63.2010900@synopsys.com>
+References: <cover.1459174494.git.joabreu@synopsys.com>
+ <5276355.2bQYPXCpz6@avalon> <57022E63.2010900@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <50c75be8ecab225a1dd49628a173d211a02755b2.1459791946.git.joabreu@synopsys.com>
+Message-ID: <2037371.nWufVmEmFd@avalon>
 To: linux-snps-arc@lists.infradead.org
 
-The ARC SDP I2S clock can be programmed using a
-specific PLL.
+Hi Jose,
 
-This patch has the goal of adding a clock driver
-that programs this PLL.
+On Monday 04 Apr 2016 10:05:39 Jose Abreu wrote:
+> On 01-04-2016 18:10, Laurent Pinchart wrote:
+> > On Monday 28 Mar 2016 15:36:09 Jose Abreu wrote:
+> >> This patch adds audio support for the ADV7511 HDMI transmitter
+> >> using ALSA SoC.
+> >> 
+> >> The code was ported from Analog Devices linux tree from
+> >> commit 1770c4a1e32b ("Merge remote-tracking branch
+> >> 
+> >> 'xilinx/master' into xcomm_zynq"), which is available at:
+> >> 	- https://github.com/analogdevicesinc/linux/
+> >> 
+> >> The main core file was renamed from adv7511.c to adv7511_core.c
+> >> so that audio and video compile into a single adv7511.ko module
+> >> and to keep up with Analog Devices kernel tree.
+> >> 
+> >> The audio can be disabled using menu-config so it is possible
+> >> to use only video mode.
+> >> 
+> >> The HDMI mode is automatically started at boot and the audio
+> >> (when enabled) registers as a codec into ALSA.
+> >> 
+> >> SPDIF DAI format was also added to ASoC as it is required
+> >> by adv7511 audio.
+> >> 
+> >> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+> >> ---
+> >> 
+> >> No changes v1 -> v2.
+> >> 
+> >>  drivers/gpu/drm/i2c/Kconfig         |   11 +
+> >>  drivers/gpu/drm/i2c/Makefile        |    2 +
+> >>  drivers/gpu/drm/i2c/adv7511.c       | 1024 ----------------------------
+> >>  drivers/gpu/drm/i2c/adv7511.h       |   41 ++
+> >>  drivers/gpu/drm/i2c/adv7511_audio.c |  310 +++++++++++
+> >>  drivers/gpu/drm/i2c/adv7511_core.c  | 1005 ++++++++++++++++++++++++++++
+> > 
+> > Please use git-format-patch -M to detect renames if you send a new version
+> > of this series, it will help with review.
+> 
+> Ok, will do that in next version.
+> 
+> >>  include/sound/soc-dai.h             |    1 +
+> >>  7 files changed, 1370 insertions(+), 1024 deletions(-)
+> >>  delete mode 100644 drivers/gpu/drm/i2c/adv7511.c
+> >>  create mode 100644 drivers/gpu/drm/i2c/adv7511_audio.c
+> >>  create mode 100644 drivers/gpu/drm/i2c/adv7511_core.c
+> > 
+> > [snip]
+> > 
+> >> diff --git a/drivers/gpu/drm/i2c/adv7511_core.c
+> >> b/drivers/gpu/drm/i2c/adv7511_core.c new file mode 100644
+> >> index 0000000..d54256a
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/i2c/adv7511_core.c
+> > 
+> > [snip]
+> > 
+> >> +static int adv7511_probe(struct i2c_client *i2c, const struct
+> >> i2c_device_id *id) +{
+> >> +	struct adv7511_link_config link_config;
+> >> +	struct adv7511 *adv7511;
+> >> +	struct device *dev = &i2c->dev;
+> >> +	unsigned int val;
+> >> +	int ret;
+> >> +
+> >> +	if (!dev->of_node)
+> >> +		return -EINVAL;
+> >> +
+> >> +	adv7511 = devm_kzalloc(dev, sizeof(*adv7511), GFP_KERNEL);
+> >> +	if (!adv7511)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	adv7511->powered = false;
+> >> +	adv7511->status = connector_status_disconnected;
+> >> +
+> >> +	ret = adv7511_parse_dt(dev->of_node, &link_config);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	/*
+> >> +	 * The power down GPIO is optional. If present, toggle it from active
+> >> to
+> >> +	 * inactive to wake up the encoder.
+> >> +	 */
+> >> +	adv7511->gpio_pd = devm_gpiod_get_optional(dev, "pd", 
+GPIOD_OUT_HIGH);
+> >> +	if (IS_ERR(adv7511->gpio_pd))
+> >> +		return PTR_ERR(adv7511->gpio_pd);
+> >> +
+> >> +	if (adv7511->gpio_pd) {
+> >> +		mdelay(5);
+> >> +		gpiod_set_value_cansleep(adv7511->gpio_pd, 0);
+> >> +	}
+> >> +
+> >> +	adv7511->regmap = devm_regmap_init_i2c(i2c, &adv7511_regmap_config);
+> >> +	if (IS_ERR(adv7511->regmap))
+> >> +		return PTR_ERR(adv7511->regmap);
+> >> +
+> >> +	ret = regmap_read(adv7511->regmap, ADV7511_REG_CHIP_REVISION, &val);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +	dev_dbg(dev, "Rev. %d\n", val);
+> >> +
+> >> +	ret = regmap_register_patch(adv7511->regmap, adv7511_fixed_registers,
+> >> +				    ARRAY_SIZE(adv7511_fixed_registers));
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR,
+> >> edid_i2c_addr);
+> >> +	regmap_write(adv7511->regmap, ADV7511_REG_PACKET_I2C_ADDR,
+> >> +		     packet_i2c_addr);
+> >> +	regmap_write(adv7511->regmap, ADV7511_REG_CEC_I2C_ADDR, 
+cec_i2c_addr);
+> >> +	adv7511_packet_disable(adv7511, 0xffff);
+> >> +
+> >> +	adv7511->i2c_main = i2c;
+> >> +	adv7511->i2c_edid = i2c_new_dummy(i2c->adapter, edid_i2c_addr >> 1);
+> >> +	if (!adv7511->i2c_edid)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	if (i2c->irq) {
+> >> +		init_waitqueue_head(&adv7511->wq);
+> >> +
+> >> +		ret = devm_request_threaded_irq(dev, i2c->irq, NULL,
+> >> +						adv7511_irq_handler,
+> >> +						IRQF_ONESHOT, dev_name(dev),
+> >> +						adv7511);
+> >> +		if (ret)
+> >> +			goto err_i2c_unregister_device;
+> >> +	}
+> >> +
+> >> +	/* CEC is unused for now */
+> >> +	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL,
+> >> +		     ADV7511_CEC_CTRL_POWER_DOWN);
+> >> +
+> >> +	adv7511_power_off(adv7511);
+> >> +
+> >> +	i2c_set_clientdata(i2c, adv7511);
+> >> +
+> >> +#ifdef CONFIG_DRM_I2C_ADV7511_AUDIO
+> >> +	adv7511_audio_init(&i2c->dev);
+> >> +#endif
+> > 
+> > Shouldn't we condition this to the audio channel being somehow described
+> > in DT ? If a board doesn't route audio signals to the ADV7511 audio
+> > input, there's no need to register an audio codec.
+> 
+> I can do this but the audio is already conditionally compiled using
+> menuconfig. Is it really necessary to add this extra layer of condition?
 
-At this moment the rate values are hardcoded in
-a table but in the future it would be ideal to
-use a function which determines the PLL values
-given the desired rate.
+The idea is that enabling support for ADV7511 audio in the kernel isn't 
+coupled with whether the system includes audio support. It would be confusing, 
+and would also waste resources, to create a Linux sound device when no sound 
+channel is routed on the board.
 
-Signed-off-by: Jose Abreu <joabreu at synopsys.com>
----
+> >> +
+> >> +	adv7511_set_link_config(adv7511, &link_config);
+> >> +
+> >> +	/* Enable HDMI mode */
+> >> +	regmap_update_bits(adv7511->regmap, ADV7511_REG_HDCP_HDMI_CFG,
+> >> +			ADV7511_HDMI_CFG_MODE_MASK,
+> >> +			ADV7511_HDMI_CFG_MODE_HDMI);
+> >> +
+> >> +	return 0;
+> >> +
+> >> +err_i2c_unregister_device:
+> >> +	i2c_unregister_device(adv7511->i2c_edid);
+> >> +
+> >> +	return ret;
+> >> +}
 
-Changes v3 -> v4:
-* Added binding document (as suggested by Stephen Boyd)
-* Minor code style fixes (as suggested by Stephen Boyd)
-* Use ioremap (as suggested by Stephen Boyd)
-* Implement round_rate (as suggested by Stephen Boyd)
-* Change to platform driver (as suggested by Stephen Boyd)
-* Use {readl/writel}_relaxed (as suggested by Vineet Gupta)
-
-Changes v2 -> v3:
-* Implemented recalc_rate
-
-Changes v1 -> v2:
-* Renamed folder to axs10x (as suggested by Alexey Brodkin)
-* Added more supported rates
-
- .../devicetree/bindings/clock/i2s-pll-clock.txt    |  17 ++
- drivers/clk/Makefile                               |   1 +
- drivers/clk/axs10x/Makefile                        |   1 +
- drivers/clk/axs10x/i2s_pll_clock.c                 | 217 +++++++++++++++++++++
- 4 files changed, 236 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/clock/i2s-pll-clock.txt
- create mode 100644 drivers/clk/axs10x/Makefile
- create mode 100644 drivers/clk/axs10x/i2s_pll_clock.c
-
-diff --git a/Documentation/devicetree/bindings/clock/i2s-pll-clock.txt b/Documentation/devicetree/bindings/clock/i2s-pll-clock.txt
-new file mode 100644
-index 0000000..ff86a41
---- /dev/null
-+++ b/Documentation/devicetree/bindings/clock/i2s-pll-clock.txt
-@@ -0,0 +1,17 @@
-+Binding for the AXS10X I2S PLL clock
-+
-+This binding uses the common clock binding[1].
-+
-+[1] Documentation/devicetree/bindings/clock/clock-bindings.txt
-+
-+Required properties:
-+- compatible: shall be "snps,i2s-pll-clock"
-+- #clock-cells: from common clock binding; Should always be set to 0.
-+- reg : Address and length of the I2S PLL register set.
-+
-+Example:
-+	clock at 0x100a0 {
-+		compatible = "snps,i2s-pll-clock";
-+		reg = <0x100a0 0x10>;
-+		#clock-cells = <0>;
-+	};
-diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
-index 46869d6..2ca62dc6 100644
---- a/drivers/clk/Makefile
-+++ b/drivers/clk/Makefile
-@@ -84,3 +84,4 @@ obj-$(CONFIG_X86)			+= x86/
- obj-$(CONFIG_ARCH_ZX)			+= zte/
- obj-$(CONFIG_ARCH_ZYNQ)			+= zynq/
- obj-$(CONFIG_H8300)		+= h8300/
-+obj-$(CONFIG_ARC_PLAT_AXS10X)		+= axs10x/
-diff --git a/drivers/clk/axs10x/Makefile b/drivers/clk/axs10x/Makefile
-new file mode 100644
-index 0000000..01996b8
---- /dev/null
-+++ b/drivers/clk/axs10x/Makefile
-@@ -0,0 +1 @@
-+obj-y += i2s_pll_clock.o
-diff --git a/drivers/clk/axs10x/i2s_pll_clock.c b/drivers/clk/axs10x/i2s_pll_clock.c
-new file mode 100644
-index 0000000..3ba4e2f
---- /dev/null
-+++ b/drivers/clk/axs10x/i2s_pll_clock.c
-@@ -0,0 +1,217 @@
-+/*
-+ * Synopsys AXS10X SDP I2S PLL clock driver
-+ *
-+ * Copyright (C) 2016 Synopsys
-+ *
-+ * This file is licensed under the terms of the GNU General Public
-+ * License version 2. This program is licensed "as is" without any
-+ * warranty of any kind, whether express or implied.
-+ */
-+
-+#include <linux/platform_device.h>
-+#include <linux/module.h>
-+#include <linux/clk-provider.h>
-+#include <linux/err.h>
-+#include <linux/device.h>
-+#include <linux/of_address.h>
-+#include <linux/slab.h>
-+#include <linux/of.h>
-+
-+/* FPGA Version Info */
-+#define FPGA_VER_INFO	0xE0011230
-+#define FPGA_VER_27M	0x000FBED9
-+
-+/* PLL registers addresses */
-+#define PLL_IDIV_REG	0x0
-+#define PLL_FBDIV_REG	0x4
-+#define PLL_ODIV0_REG	0x8
-+#define PLL_ODIV1_REG	0xC
-+
-+struct i2s_pll_cfg {
-+	unsigned int rate;
-+	unsigned int idiv;
-+	unsigned int fbdiv;
-+	unsigned int odiv0;
-+	unsigned int odiv1;
-+};
-+
-+static const struct i2s_pll_cfg i2s_pll_cfg_27m[] = {
-+	/* 27 Mhz */
-+	{ 1024000, 0x104, 0x451, 0x10E38, 0x2000 },
-+	{ 1411200, 0x104, 0x596, 0x10D35, 0x2000 },
-+	{ 1536000, 0x208, 0xA28, 0x10B2C, 0x2000 },
-+	{ 2048000, 0x82, 0x451, 0x10E38, 0x2000 },
-+	{ 2822400, 0x82, 0x596, 0x10D35, 0x2000 },
-+	{ 3072000, 0x104, 0xA28, 0x10B2C, 0x2000 },
-+	{ 2116800, 0x82, 0x3CF, 0x10C30, 0x2000 },
-+	{ 2304000, 0x104, 0x79E, 0x10B2C, 0x2000 },
-+	{ 0, 0, 0, 0, 0 },
-+};
-+
-+static const struct i2s_pll_cfg i2s_pll_cfg_28m[] = {
-+	/* 28.224 Mhz */
-+	{ 1024000, 0x82, 0x105, 0x107DF, 0x2000 },
-+	{ 1411200, 0x28A, 0x1, 0x10001, 0x2000 },
-+	{ 1536000, 0xA28, 0x187, 0x10042, 0x2000 },
-+	{ 2048000, 0x41, 0x105, 0x107DF, 0x2000 },
-+	{ 2822400, 0x145, 0x1, 0x10001, 0x2000 },
-+	{ 3072000, 0x514, 0x187, 0x10042, 0x2000 },
-+	{ 2116800, 0x514, 0x42, 0x10001, 0x2000 },
-+	{ 2304000, 0x619, 0x82, 0x10001, 0x2000 },
-+	{ 0, 0, 0, 0, 0 },
-+};
-+
-+struct i2s_pll_clk {
-+	void __iomem *base;
-+	struct clk_hw hw;
-+	unsigned int ref_clk;
-+	const struct i2s_pll_cfg *pll_cfg;
-+};
-+
-+static inline void i2s_pll_write(struct i2s_pll_clk *clk, unsigned int reg,
-+		unsigned int val)
-+{
-+	writel_relaxed(val, clk->base + reg);
-+}
-+
-+static inline unsigned int i2s_pll_read(struct i2s_pll_clk *clk,
-+		unsigned int reg)
-+{
-+	return readl_relaxed(clk->base + reg);
-+}
-+
-+static inline struct i2s_pll_clk *to_i2s_pll_clk(struct clk_hw *hw)
-+{
-+	return container_of(hw, struct i2s_pll_clk, hw);
-+}
-+
-+static unsigned int i2s_pll_get_value(unsigned int val)
-+{
-+	return (val & 0x3F) + ((val >> 6) & 0x3F);
-+}
-+
-+static unsigned long i2s_pll_recalc_rate(struct clk_hw *hw,
-+			unsigned long parent_rate)
-+{
-+	struct i2s_pll_clk *clk = to_i2s_pll_clk(hw);
-+	unsigned int idiv, fbdiv, odiv;
-+
-+	idiv = i2s_pll_get_value(i2s_pll_read(clk, PLL_IDIV_REG));
-+	fbdiv = i2s_pll_get_value(i2s_pll_read(clk, PLL_FBDIV_REG));
-+	odiv = i2s_pll_get_value(i2s_pll_read(clk, PLL_ODIV0_REG));
-+
-+	return ((clk->ref_clk / idiv) * fbdiv) / odiv;
-+}
-+
-+static long i2s_pll_round_rate(struct clk_hw *hw, unsigned long rate,
-+			unsigned long *prate)
-+{
-+	const struct i2s_pll_cfg *pll_cfg = to_i2s_pll_clk(hw)->pll_cfg;
-+	int i;
-+
-+	for (i = 0; pll_cfg[i].rate != 0; i++)
-+		if (pll_cfg[i].rate == rate)
-+			return rate;
-+
-+	return -EINVAL;
-+}
-+
-+static int i2s_pll_set_rate(struct clk_hw *hw, unsigned long rate,
-+			unsigned long parent_rate)
-+{
-+	struct i2s_pll_clk *clk = to_i2s_pll_clk(hw);
-+	const struct i2s_pll_cfg *pll_cfg = clk->pll_cfg;
-+	int i;
-+
-+	for (i = 0; pll_cfg[i].rate != 0; i++) {
-+		if (pll_cfg[i].rate == rate) {
-+			i2s_pll_write(clk, PLL_IDIV_REG, pll_cfg[i].idiv);
-+			i2s_pll_write(clk, PLL_FBDIV_REG, pll_cfg[i].fbdiv);
-+			i2s_pll_write(clk, PLL_ODIV0_REG, pll_cfg[i].odiv0);
-+			i2s_pll_write(clk, PLL_ODIV1_REG, pll_cfg[i].odiv1);
-+			return 0;
-+		}
-+	}
-+
-+	pr_err("%s: invalid rate=%ld, parent_rate=%ld\n", __func__,
-+			rate, parent_rate);
-+	return -EINVAL;
-+}
-+
-+static const struct clk_ops i2s_pll_ops = {
-+	.recalc_rate = i2s_pll_recalc_rate,
-+	.round_rate = i2s_pll_round_rate,
-+	.set_rate = i2s_pll_set_rate,
-+};
-+
-+static int i2s_pll_clk_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *node = dev->of_node;
-+	const char *clk_name;
-+	struct clk *clk;
-+	struct i2s_pll_clk *pll_clk;
-+	struct clk_init_data init;
-+	struct resource *mem;
-+
-+	if (!node)
-+		return -ENODEV;
-+
-+	pll_clk = devm_kzalloc(dev, sizeof(*pll_clk), GFP_KERNEL);
-+	if (!pll_clk)
-+		return -ENOMEM;
-+
-+	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	pll_clk->base = devm_ioremap_resource(dev, mem);
-+	if (IS_ERR(pll_clk->base))
-+		return PTR_ERR(pll_clk->base);
-+
-+	clk_name = node->name;
-+	init.name = clk_name;
-+	init.ops = &i2s_pll_ops;
-+	init.num_parents = 0;
-+	pll_clk->hw.init = &init;
-+
-+	clk = clk_register(NULL, &pll_clk->hw);
-+	if (IS_ERR(clk)) {
-+		dev_err(dev, "failed to register %s div clock (%ld)\n",
-+				clk_name, PTR_ERR(clk));
-+		return PTR_ERR(clk);
-+	}
-+
-+	if (readl((void *)FPGA_VER_INFO) <= FPGA_VER_27M) {
-+		pll_clk->ref_clk = 27000000;
-+		pll_clk->pll_cfg = i2s_pll_cfg_27m;
-+	} else {
-+		pll_clk->ref_clk = 28224000;
-+		pll_clk->pll_cfg = i2s_pll_cfg_28m;
-+	}
-+
-+	return of_clk_add_provider(node, of_clk_src_simple_get, clk);
-+}
-+
-+static int i2s_pll_clk_remove(struct platform_device *pdev)
-+{
-+	of_clk_del_provider(pdev->dev.of_node);
-+	return 0;
-+}
-+
-+static const struct of_device_id i2s_pll_clk_id[] = {
-+	{ .compatible = "snps,i2s-pll-clock", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, i2s_pll_clk_id);
-+
-+static struct platform_driver i2s_pll_clk_driver = {
-+	.driver = {
-+		.name = "i2s-pll-clock",
-+		.of_match_table = of_match_ptr(i2s_pll_clk_id),
-+	},
-+	.probe = i2s_pll_clk_probe,
-+	.remove = i2s_pll_clk_remove,
-+};
-+module_platform_driver(i2s_pll_clk_driver);
-+
-+MODULE_AUTHOR("Jose Abreu <joabreu at synopsys.com>");
-+MODULE_DESCRIPTION("Synopsys AXS10X SDP I2S PLL Clock Driver");
-+MODULE_LICENSE("GPL v2");
 -- 
-1.9.1
+Regards,
+
+Laurent Pinchart
