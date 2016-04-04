@@ -1,309 +1,178 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Sun, 3 Apr 2016 21:14:59 +0300
-Subject: [PATCH v8 3/3] irqchip: add nps Internal and external irqchips
-In-Reply-To: <1459707299-31564-1-git-send-email-noamca@mellanox.com>
-References: <1459707299-31564-1-git-send-email-noamca@mellanox.com>
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Mon, 4 Apr 2016 10:05:39 +0100
+Subject: [PATCH 1/3 v2] drm/i2c/adv7511: Add audio support
+In-Reply-To: <5276355.2bQYPXCpz6@avalon>
+References: <cover.1459174494.git.joabreu@synopsys.com>
+ <15b1936d307912ba12df7fa09ec3a7a80ac5fcef.1459174494.git.joabreu@synopsys.com>
+ <5276355.2bQYPXCpz6@avalon>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1459707299-31564-4-git-send-email-noamca@mellanox.com>
+Message-ID: <57022E63.2010900@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamc@ezchip.com>
+Hi Laurent,
 
-Adding EZchip NPS400 support.
-Internal interrupts are handled by Multi Thread Manager (MTM)
-Once interrupt is serviced MTM is acked for deactivating the interrupt.
-External interrupts are handled by MTM as well as at Global Interrupt
-Controller (GIC) e.g. serial and network devices.
 
-Signed-off-by: Noam Camus <noamc at ezchip.com>
-Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: Jason Cooper <jason at lakedaemon.net>
-Cc: Marc Zyngier <marc.zyngier at arm.com>
-Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
----
-v8:
-Change macro name from IPI_IRQ to NPS_IPI_IRQ.
-This was needed due to build warning when building for parsic.
+On 01-04-2016 18:10, Laurent Pinchart wrote:
+> Hi Jose,
+>
+> Thank you for the patch.
+>
+> On Monday 28 Mar 2016 15:36:09 Jose Abreu wrote:
+>> This patch adds audio support for the ADV7511 HDMI transmitter
+>> using ALSA SoC.
+>>
+>> The code was ported from Analog Devices linux tree from
+>> commit 1770c4a1e32b ("Merge remote-tracking branch
+>> 'xilinx/master' into xcomm_zynq"), which is available at:
+>> 	- https://github.com/analogdevicesinc/linux/
+>>
+>> The main core file was renamed from adv7511.c to adv7511_core.c
+>> so that audio and video compile into a single adv7511.ko module
+>> and to keep up with Analog Devices kernel tree.
+>>
+>> The audio can be disabled using menu-config so it is possible
+>> to use only video mode.
+>>
+>> The HDMI mode is automatically started at boot and the audio
+>> (when enabled) registers as a codec into ALSA.
+>>
+>> SPDIF DAI format was also added to ASoC as it is required
+>> by adv7511 audio.
+>>
+>> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+>> ---
+>>
+>> No changes v1 -> v2.
+>>
+>>  drivers/gpu/drm/i2c/Kconfig         |   11 +
+>>  drivers/gpu/drm/i2c/Makefile        |    2 +
+>>  drivers/gpu/drm/i2c/adv7511.c       | 1024 -------------------------------
+>>  drivers/gpu/drm/i2c/adv7511.h       |   41 ++
+>>  drivers/gpu/drm/i2c/adv7511_audio.c |  310 +++++++++++
+>>  drivers/gpu/drm/i2c/adv7511_core.c  | 1005 ++++++++++++++++++++++++++++++
+> Please use git-format-patch -M to detect renames if you send a new version of 
+> this series, it will help with review.
 
-v7:
-Rebased on latest HEAD (4.6-rc1)
+Ok, will do that in next version.
 
-v6:
-Files headers changed to start with:
-Copyright (c) 2016, Mellanox Technologies
-...
+>>  include/sound/soc-dai.h             |    1 +
+>>  7 files changed, 1370 insertions(+), 1024 deletions(-)
+>>  delete mode 100644 drivers/gpu/drm/i2c/adv7511.c
+>>  create mode 100644 drivers/gpu/drm/i2c/adv7511_audio.c
+>>  create mode 100644 drivers/gpu/drm/i2c/adv7511_core.c
+> [snip]
+>
+>> diff --git a/drivers/gpu/drm/i2c/adv7511_core.c
+>> b/drivers/gpu/drm/i2c/adv7511_core.c new file mode 100644
+>> index 0000000..d54256a
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/i2c/adv7511_core.c
+> [snip]
+>
+>> +static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id
+>> *id) +{
+>> +	struct adv7511_link_config link_config;
+>> +	struct adv7511 *adv7511;
+>> +	struct device *dev = &i2c->dev;
+>> +	unsigned int val;
+>> +	int ret;
+>> +
+>> +	if (!dev->of_node)
+>> +		return -EINVAL;
+>> +
+>> +	adv7511 = devm_kzalloc(dev, sizeof(*adv7511), GFP_KERNEL);
+>> +	if (!adv7511)
+>> +		return -ENOMEM;
+>> +
+>> +	adv7511->powered = false;
+>> +	adv7511->status = connector_status_disconnected;
+>> +
+>> +	ret = adv7511_parse_dt(dev->of_node, &link_config);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/*
+>> +	 * The power down GPIO is optional. If present, toggle it from active to
+>> +	 * inactive to wake up the encoder.
+>> +	 */
+>> +	adv7511->gpio_pd = devm_gpiod_get_optional(dev, "pd", GPIOD_OUT_HIGH);
+>> +	if (IS_ERR(adv7511->gpio_pd))
+>> +		return PTR_ERR(adv7511->gpio_pd);
+>> +
+>> +	if (adv7511->gpio_pd) {
+>> +		mdelay(5);
+>> +		gpiod_set_value_cansleep(adv7511->gpio_pd, 0);
+>> +	}
+>> +
+>> +	adv7511->regmap = devm_regmap_init_i2c(i2c, &adv7511_regmap_config);
+>> +	if (IS_ERR(adv7511->regmap))
+>> +		return PTR_ERR(adv7511->regmap);
+>> +
+>> +	ret = regmap_read(adv7511->regmap, ADV7511_REG_CHIP_REVISION, &val);
+>> +	if (ret)
+>> +		return ret;
+>> +	dev_dbg(dev, "Rev. %d\n", val);
+>> +
+>> +	ret = regmap_register_patch(adv7511->regmap, adv7511_fixed_registers,
+>> +				    ARRAY_SIZE(adv7511_fixed_registers));
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR, edid_i2c_addr);
+>> +	regmap_write(adv7511->regmap, ADV7511_REG_PACKET_I2C_ADDR,
+>> +		     packet_i2c_addr);
+>> +	regmap_write(adv7511->regmap, ADV7511_REG_CEC_I2C_ADDR, cec_i2c_addr);
+>> +	adv7511_packet_disable(adv7511, 0xffff);
+>> +
+>> +	adv7511->i2c_main = i2c;
+>> +	adv7511->i2c_edid = i2c_new_dummy(i2c->adapter, edid_i2c_addr >> 1);
+>> +	if (!adv7511->i2c_edid)
+>> +		return -ENOMEM;
+>> +
+>> +	if (i2c->irq) {
+>> +		init_waitqueue_head(&adv7511->wq);
+>> +
+>> +		ret = devm_request_threaded_irq(dev, i2c->irq, NULL,
+>> +						adv7511_irq_handler,
+>> +						IRQF_ONESHOT, dev_name(dev),
+>> +						adv7511);
+>> +		if (ret)
+>> +			goto err_i2c_unregister_device;
+>> +	}
+>> +
+>> +	/* CEC is unused for now */
+>> +	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL,
+>> +		     ADV7511_CEC_CTRL_POWER_DOWN);
+>> +
+>> +	adv7511_power_off(adv7511);
+>> +
+>> +	i2c_set_clientdata(i2c, adv7511);
+>> +
+>> +#ifdef CONFIG_DRM_I2C_ADV7511_AUDIO
+>> +	adv7511_audio_init(&i2c->dev);
+>> +#endif
+> Shouldn't we condition this to the audio channel being somehow described in DT 
+> ? If a board doesn't route audio signals to the ADV7511 audio input, there's 
+> no need to register an audio codec.
 
-This is due to the acquisition of EZchip made by Mellanox.
-One can still find "EZchip" used in tree, and this is ok.
+I can do this but the audio is already conditionally compiled using menuconfig.
+Is it really necessary to add this extra layer of condition?
 
-This patch set is a requierement before I can insert new platform to ARC,
-one that supports the NPS400 SoC.
+>> +
+>> +	adv7511_set_link_config(adv7511, &link_config);
+>> +
+>> +	/* Enable HDMI mode */
+>> +	regmap_update_bits(adv7511->regmap, ADV7511_REG_HDCP_HDMI_CFG,
+>> +			ADV7511_HDMI_CFG_MODE_MASK,
+>> +			ADV7511_HDMI_CFG_MODE_HDMI);
+>> +
+>> +	return 0;
+>> +
+>> +err_i2c_unregister_device:
+>> +	i2c_unregister_device(adv7511->i2c_edid);
+>> +
+>> +	return ret;
+>> +}
 
-v5:
-Clocksource, irqchip - Fix gracefull return.
-				replace call to panic() with pr_err() and proper return value.
-
-v4:
-clocksource -- Apply all Daniel comments (Thanks)
-				Handle gracefull return and also using clocksoure mmio driver at init
-
-v3:
-irqchip - Fix ARM build failure by adding missing include of linux/irq.h
-clocksource -- Avoid 64bit arch's to build driver by adding new dependency !PHYS_ADDR_T_64BIT
-				This is since we use explicit io access of 32 bit. So for test coverage we allow
-				not only build for ARC, but restrict it to 32 bit arch's.
-irqchip - Apply all Thomas comments (Thank you)
-
-v2:
-Add header file include/soc/nps/common.h.
-Now to build we do not depend on ARC subtree.
-
-General summay:
-Both drivers are now apart of previous basic patch set of new platform for ARC.
-The rest is now can be seen at ARC srctree:
-https://git.kernel.org/cgit/linux/kernel/git/vgupta/arc.git/
-
-Now ARC is supporting DT for clockevents and the interrupt controller ARC
-uses irq domain handling.
-
-Compare to last version now clocksource driver do not include clockevent registration
-since NPS400 can use ARC generic driver.
-
-Compare to last version now irqchip driver sets domain as default since it is the root domain.
-Also mapping of IPI is done in this driver.
-
-Last thing is that drivers can be build cleanly for i386 (still runs only for ARC)
-Note: in order to build we need to merge drivers into srctree which includes new header:
-soc/nps/common.h
-This header is part of patch set applied to ARC srctree.
-
-Regards,
-Noam Camus
----
- .../interrupt-controller/ezchip,nps400-ic.txt      |   17 ++
- drivers/irqchip/Kconfig                            |    6 +
- drivers/irqchip/Makefile                           |    1 +
- drivers/irqchip/irq-eznps.c                        |  165 ++++++++++++++++++++
- 4 files changed, 189 insertions(+), 0 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
- create mode 100644 drivers/irqchip/irq-eznps.c
-
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt b/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
-new file mode 100644
-index 0000000..888b2b9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/interrupt-controller/ezchip,nps400-ic.txt
-@@ -0,0 +1,17 @@
-+EZchip NPS Interrupt Controller
-+
-+Required properties:
-+
-+- compatible : should be "ezchip,nps400-ic"
-+- interrupt-controller : Identifies the node as an interrupt controller
-+- #interrupt-cells : Specifies the number of cells needed to encode an
-+  interrupt source. The value shall be 1.
-+
-+
-+Example:
-+
-+intc: interrupt-controller {
-+	compatible = "ezchip,nps400-ic";
-+	interrupt-controller;
-+	#interrupt-cells = <1>;
-+};
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index 3e12479..1ab632a 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -244,3 +244,9 @@ config IRQ_MXS
- config MVEBU_ODMI
- 	bool
- 	select GENERIC_MSI_IRQ_DOMAIN
-+
-+config EZNPS_GIC
-+	bool "NPS400 Global Interrupt Manager (GIM)"
-+	select IRQ_DOMAIN
-+	help
-+	  Support the EZchip NPS400 global interrupt controller
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index b03cfcb..9d54d53 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -65,3 +65,4 @@ obj-$(CONFIG_INGENIC_IRQ)		+= irq-ingenic.o
- obj-$(CONFIG_IMX_GPCV2)			+= irq-imx-gpcv2.o
- obj-$(CONFIG_PIC32_EVIC)		+= irq-pic32-evic.o
- obj-$(CONFIG_MVEBU_ODMI)		+= irq-mvebu-odmi.o
-+obj-$(CONFIG_EZNPS_GIC)			+= irq-eznps.o
-diff --git a/drivers/irqchip/irq-eznps.c b/drivers/irqchip/irq-eznps.c
-new file mode 100644
-index 0000000..efbf0e4
---- /dev/null
-+++ b/drivers/irqchip/irq-eznps.c
-@@ -0,0 +1,165 @@
-+/*
-+ * Copyright (c) 2016, Mellanox Technologies. All rights reserved.
-+ *
-+ * This software is available to you under a choice of one of two
-+ * licenses.  You may choose to be licensed under the terms of the GNU
-+ * General Public License (GPL) Version 2, available from the file
-+ * COPYING in the main directory of this source tree, or the
-+ * OpenIB.org BSD license below:
-+ *
-+ *     Redistribution and use in source and binary forms, with or
-+ *     without modification, are permitted provided that the following
-+ *     conditions are met:
-+ *
-+ *      - Redistributions of source code must retain the above
-+ *        copyright notice, this list of conditions and the following
-+ *        disclaimer.
-+ *
-+ *      - Redistributions in binary form must reproduce the above
-+ *        copyright notice, this list of conditions and the following
-+ *        disclaimer in the documentation and/or other materials
-+ *        provided with the distribution.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-+ * SOFTWARE.
-+ */
-+
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/irq.h>
-+#include <linux/irqdomain.h>
-+#include <linux/irqchip.h>
-+#include <soc/nps/common.h>
-+
-+#define NPS_NR_CPU_IRQS 8  /* number of interrupt lines of NPS400 CPU */
-+#define NPS_TIMER0_IRQ  3
-+
-+/*
-+ * NPS400 core includes an Interrupt Controller (IC) support.
-+ * All cores can deactivate level irqs at first level control
-+ * at cores mesh layer called MTM.
-+ * For devices out side chip e.g. uart, network there is another
-+ * level called Global Interrupt Manager (GIM).
-+ * This second level can control level and edge interrupt.
-+ *
-+ * NOTE: AUX_IENABLE and CTOP_AUX_IACK are auxiliary registers
-+ * with private HW copy per CPU.
-+ */
-+
-+static void nps400_irq_mask(struct irq_data *irqd)
-+{
-+	unsigned int ienb;
-+	unsigned int irq = irqd_to_hwirq(irqd);
-+
-+	ienb = read_aux_reg(AUX_IENABLE);
-+	ienb &= ~(1 << irq);
-+	write_aux_reg(AUX_IENABLE, ienb);
-+}
-+
-+static void nps400_irq_unmask(struct irq_data *irqd)
-+{
-+	unsigned int ienb;
-+	unsigned int irq = irqd_to_hwirq(irqd);
-+
-+	ienb = read_aux_reg(AUX_IENABLE);
-+	ienb |= (1 << irq);
-+	write_aux_reg(AUX_IENABLE, ienb);
-+}
-+
-+static void nps400_irq_eoi_global(struct irq_data *irqd)
-+{
-+	unsigned int __maybe_unused irq = irqd_to_hwirq(irqd);
-+
-+	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
-+
-+	/* Don't ack GIC before all device access attempts are done */
-+	mb();
-+
-+	nps_ack_gic();
-+}
-+
-+static void nps400_irq_eoi(struct irq_data *irqd)
-+{
-+	unsigned int __maybe_unused irq = irqd_to_hwirq(irqd);
-+
-+	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
-+}
-+
-+static struct irq_chip nps400_irq_chip_fasteoi = {
-+	.name		= "NPS400 IC Global",
-+	.irq_mask	= nps400_irq_mask,
-+	.irq_unmask	= nps400_irq_unmask,
-+	.irq_eoi	= nps400_irq_eoi_global,
-+};
-+
-+static struct irq_chip nps400_irq_chip_percpu = {
-+	.name		= "NPS400 IC",
-+	.irq_mask	= nps400_irq_mask,
-+	.irq_unmask	= nps400_irq_unmask,
-+	.irq_eoi	= nps400_irq_eoi,
-+};
-+
-+static int nps400_irq_map(struct irq_domain *d, unsigned int virq,
-+			  irq_hw_number_t hw)
-+{
-+	switch (hw) {
-+	case NPS_TIMER0_IRQ:
-+#ifdef CONFIG_SMP
-+	case NPS_IPI_IRQ:
-+#endif
-+		irq_set_percpu_devid(virq);
-+		irq_set_chip_and_handler(virq, &nps400_irq_chip_percpu,
-+					 handle_percpu_devid_irq);
-+		break;
-+	default:
-+		irq_set_chip_and_handler(virq, &nps400_irq_chip_fasteoi,
-+					 handle_fasteoi_irq);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct irq_domain_ops nps400_irq_ops = {
-+	.xlate = irq_domain_xlate_onecell,
-+	.map = nps400_irq_map,
-+};
-+
-+static int __init nps400_of_init(struct device_node *node,
-+				 struct device_node *parent)
-+{
-+	static struct irq_domain *nps400_root_domain;
-+
-+	if (parent) {
-+		pr_err("DeviceTree incore ic not a root irq controller\n");
-+		return -EINVAL;
-+	}
-+
-+	nps400_root_domain = irq_domain_add_linear(node, NPS_NR_CPU_IRQS,
-+						   &nps400_irq_ops, NULL);
-+
-+	if (!nps400_root_domain) {
-+		pr_err("nps400 root irq domain not avail\n");
-+		return -ENOMEM;
-+	}
-+
-+	/*
-+	 * Needed for primary domain lookup to succeed
-+	 * This is a primary irqchip, and can never have a parent
-+	 */
-+	irq_set_default_host(nps400_root_domain);
-+
-+#ifdef CONFIG_SMP
-+	irq_create_mapping(nps400_root_domain, NPS_IPI_IRQ);
-+#endif
-+
-+	return 0;
-+}
-+IRQCHIP_DECLARE(ezchip_nps400_ic, "ezchip,nps400-ic", nps400_of_init);
--- 
-1.7.1
+Best regards,
+Jose Miguel Abreu
