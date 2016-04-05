@@ -1,265 +1,194 @@
-From: zhaoxiu.zeng@gmail.com (Zeng Zhaoxiu)
-Date: Tue, 5 Apr 2016 12:23:23 +0800
-Subject: [PATCH V2 02/30] Include generic parity.h in some architectures'
- bitops.h
-In-Reply-To: <57031D9D.801@gmail.com>
-References: <57031D9D.801@gmail.com>
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Tue, 5 Apr 2016 12:00:54 +0100
+Subject: [PATCH 1/3 v2] drm/i2c/adv7511: Add audio support
+In-Reply-To: <2037371.nWufVmEmFd@avalon>
+References: <cover.1459174494.git.joabreu@synopsys.com>
+ <5276355.2bQYPXCpz6@avalon> <57022E63.2010900@synopsys.com>
+ <2037371.nWufVmEmFd@avalon>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <57033DBB.6060600@gmail.com>
+Message-ID: <57039AE6.7050601@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Zhaoxiu Zeng <zhaoxiu.zeng@gmail.com>
+Hi Laurent,
 
-Use the generic version
----
-  arch/arc/include/asm/bitops.h      | 1 +
-  arch/arm/include/asm/bitops.h      | 1 +
-  arch/arm64/include/asm/bitops.h    | 1 +
-  arch/avr32/include/asm/bitops.h    | 1 +
-  arch/c6x/include/asm/bitops.h      | 1 +
-  arch/cris/include/asm/bitops.h     | 1 +
-  arch/frv/include/asm/bitops.h      | 1 +
-  arch/h8300/include/asm/bitops.h    | 1 +
-  arch/hexagon/include/asm/bitops.h  | 1 +
-  arch/m32r/include/asm/bitops.h     | 1 +
-  arch/m68k/include/asm/bitops.h     | 1 +
-  arch/metag/include/asm/bitops.h    | 1 +
-  arch/mn10300/include/asm/bitops.h  | 1 +
-  arch/openrisc/include/asm/bitops.h | 1 +
-  arch/parisc/include/asm/bitops.h   | 1 +
-  arch/s390/include/asm/bitops.h     | 1 +
-  arch/sh/include/asm/bitops.h       | 1 +
-  arch/xtensa/include/asm/bitops.h   | 1 +
-  18 files changed, 18 insertions(+)
 
-diff --git a/arch/arc/include/asm/bitops.h b/arch/arc/include/asm/bitops.h
-index 0352fb8..7967e47 100644
---- a/arch/arc/include/asm/bitops.h
-+++ b/arch/arc/include/asm/bitops.h
-@@ -370,6 +370,7 @@ static inline __attribute__ ((const)) int 
-__ffs(unsigned long x)
-  #define ffz(x)    __ffs(~(x))
+On 04-04-2016 22:41, Laurent Pinchart wrote:
+> Hi Jose,
+>
+> On Monday 04 Apr 2016 10:05:39 Jose Abreu wrote:
+>> On 01-04-2016 18:10, Laurent Pinchart wrote:
+>>> On Monday 28 Mar 2016 15:36:09 Jose Abreu wrote:
+>>>> This patch adds audio support for the ADV7511 HDMI transmitter
+>>>> using ALSA SoC.
+>>>>
+>>>> The code was ported from Analog Devices linux tree from
+>>>> commit 1770c4a1e32b ("Merge remote-tracking branch
+>>>>
+>>>> 'xilinx/master' into xcomm_zynq"), which is available at:
+>>>> 	- https://github.com/analogdevicesinc/linux/
+>>>>
+>>>> The main core file was renamed from adv7511.c to adv7511_core.c
+>>>> so that audio and video compile into a single adv7511.ko module
+>>>> and to keep up with Analog Devices kernel tree.
+>>>>
+>>>> The audio can be disabled using menu-config so it is possible
+>>>> to use only video mode.
+>>>>
+>>>> The HDMI mode is automatically started at boot and the audio
+>>>> (when enabled) registers as a codec into ALSA.
+>>>>
+>>>> SPDIF DAI format was also added to ASoC as it is required
+>>>> by adv7511 audio.
+>>>>
+>>>> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+>>>> ---
+>>>>
+>>>> No changes v1 -> v2.
+>>>>
+>>>>  drivers/gpu/drm/i2c/Kconfig         |   11 +
+>>>>  drivers/gpu/drm/i2c/Makefile        |    2 +
+>>>>  drivers/gpu/drm/i2c/adv7511.c       | 1024 ----------------------------
+>>>>  drivers/gpu/drm/i2c/adv7511.h       |   41 ++
+>>>>  drivers/gpu/drm/i2c/adv7511_audio.c |  310 +++++++++++
+>>>>  drivers/gpu/drm/i2c/adv7511_core.c  | 1005 ++++++++++++++++++++++++++++
+>>> Please use git-format-patch -M to detect renames if you send a new version
+>>> of this series, it will help with review.
+>> Ok, will do that in next version.
+>>
+>>>>  include/sound/soc-dai.h             |    1 +
+>>>>  7 files changed, 1370 insertions(+), 1024 deletions(-)
+>>>>  delete mode 100644 drivers/gpu/drm/i2c/adv7511.c
+>>>>  create mode 100644 drivers/gpu/drm/i2c/adv7511_audio.c
+>>>>  create mode 100644 drivers/gpu/drm/i2c/adv7511_core.c
+>>> [snip]
+>>>
+>>>> diff --git a/drivers/gpu/drm/i2c/adv7511_core.c
+>>>> b/drivers/gpu/drm/i2c/adv7511_core.c new file mode 100644
+>>>> index 0000000..d54256a
+>>>> --- /dev/null
+>>>> +++ b/drivers/gpu/drm/i2c/adv7511_core.c
+>>> [snip]
+>>>
+>>>> +static int adv7511_probe(struct i2c_client *i2c, const struct
+>>>> i2c_device_id *id) +{
+>>>> +	struct adv7511_link_config link_config;
+>>>> +	struct adv7511 *adv7511;
+>>>> +	struct device *dev = &i2c->dev;
+>>>> +	unsigned int val;
+>>>> +	int ret;
+>>>> +
+>>>> +	if (!dev->of_node)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	adv7511 = devm_kzalloc(dev, sizeof(*adv7511), GFP_KERNEL);
+>>>> +	if (!adv7511)
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	adv7511->powered = false;
+>>>> +	adv7511->status = connector_status_disconnected;
+>>>> +
+>>>> +	ret = adv7511_parse_dt(dev->of_node, &link_config);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>> +	/*
+>>>> +	 * The power down GPIO is optional. If present, toggle it from active
+>>>> to
+>>>> +	 * inactive to wake up the encoder.
+>>>> +	 */
+>>>> +	adv7511->gpio_pd = devm_gpiod_get_optional(dev, "pd", 
+> GPIOD_OUT_HIGH);
+>>>> +	if (IS_ERR(adv7511->gpio_pd))
+>>>> +		return PTR_ERR(adv7511->gpio_pd);
+>>>> +
+>>>> +	if (adv7511->gpio_pd) {
+>>>> +		mdelay(5);
+>>>> +		gpiod_set_value_cansleep(adv7511->gpio_pd, 0);
+>>>> +	}
+>>>> +
+>>>> +	adv7511->regmap = devm_regmap_init_i2c(i2c, &adv7511_regmap_config);
+>>>> +	if (IS_ERR(adv7511->regmap))
+>>>> +		return PTR_ERR(adv7511->regmap);
+>>>> +
+>>>> +	ret = regmap_read(adv7511->regmap, ADV7511_REG_CHIP_REVISION, &val);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +	dev_dbg(dev, "Rev. %d\n", val);
+>>>> +
+>>>> +	ret = regmap_register_patch(adv7511->regmap, adv7511_fixed_registers,
+>>>> +				    ARRAY_SIZE(adv7511_fixed_registers));
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>> +	regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR,
+>>>> edid_i2c_addr);
+>>>> +	regmap_write(adv7511->regmap, ADV7511_REG_PACKET_I2C_ADDR,
+>>>> +		     packet_i2c_addr);
+>>>> +	regmap_write(adv7511->regmap, ADV7511_REG_CEC_I2C_ADDR, 
+> cec_i2c_addr);
+>>>> +	adv7511_packet_disable(adv7511, 0xffff);
+>>>> +
+>>>> +	adv7511->i2c_main = i2c;
+>>>> +	adv7511->i2c_edid = i2c_new_dummy(i2c->adapter, edid_i2c_addr >> 1);
+>>>> +	if (!adv7511->i2c_edid)
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	if (i2c->irq) {
+>>>> +		init_waitqueue_head(&adv7511->wq);
+>>>> +
+>>>> +		ret = devm_request_threaded_irq(dev, i2c->irq, NULL,
+>>>> +						adv7511_irq_handler,
+>>>> +						IRQF_ONESHOT, dev_name(dev),
+>>>> +						adv7511);
+>>>> +		if (ret)
+>>>> +			goto err_i2c_unregister_device;
+>>>> +	}
+>>>> +
+>>>> +	/* CEC is unused for now */
+>>>> +	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL,
+>>>> +		     ADV7511_CEC_CTRL_POWER_DOWN);
+>>>> +
+>>>> +	adv7511_power_off(adv7511);
+>>>> +
+>>>> +	i2c_set_clientdata(i2c, adv7511);
+>>>> +
+>>>> +#ifdef CONFIG_DRM_I2C_ADV7511_AUDIO
+>>>> +	adv7511_audio_init(&i2c->dev);
+>>>> +#endif
+>>> Shouldn't we condition this to the audio channel being somehow described
+>>> in DT ? If a board doesn't route audio signals to the ADV7511 audio
+>>> input, there's no need to register an audio codec.
+>> I can do this but the audio is already conditionally compiled using
+>> menuconfig. Is it really necessary to add this extra layer of condition?
+> The idea is that enabling support for ADV7511 audio in the kernel isn't 
+> coupled with whether the system includes audio support. It would be confusing, 
+> and would also waste resources, to create a Linux sound device when no sound 
+> channel is routed on the board.
 
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/fls64.h>
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/lock.h>
-diff --git a/arch/arm/include/asm/bitops.h b/arch/arm/include/asm/bitops.h
-index e943e6c..99f28a6 100644
---- a/arch/arm/include/asm/bitops.h
-+++ b/arch/arm/include/asm/bitops.h
-@@ -313,6 +313,7 @@ static inline unsigned long __ffs(unsigned long x)
+Ok, will do that in next version. Another question: I am facing a problem when
+compiling ALSA as a module, as the ADV7511 audio is not embedded into ALSA the
+compilation fails with undefined references to ALSA functions. The solution that
+I am planning to use is to add a default value to the ADV7511 kconfig entry so
+that the driver is compiled as module when ALSA is a module and as embedded if
+ALSA is embedded. Is this okay or is there another solution without moving the
+ADV7511 audio to the ALSA directory?
 
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
+>
+>>>> +
+>>>> +	adv7511_set_link_config(adv7511, &link_config);
+>>>> +
+>>>> +	/* Enable HDMI mode */
+>>>> +	regmap_update_bits(adv7511->regmap, ADV7511_REG_HDCP_HDMI_CFG,
+>>>> +			ADV7511_HDMI_CFG_MODE_MASK,
+>>>> +			ADV7511_HDMI_CFG_MODE_HDMI);
+>>>> +
+>>>> +	return 0;
+>>>> +
+>>>> +err_i2c_unregister_device:
+>>>> +	i2c_unregister_device(adv7511->i2c_edid);
+>>>> +
+>>>> +	return ret;
+>>>> +}
 
-  #ifdef __ARMEB__
-diff --git a/arch/arm64/include/asm/bitops.h 
-b/arch/arm64/include/asm/bitops.h
-index 9c19594..eac4965 100644
---- a/arch/arm64/include/asm/bitops.h
-+++ b/arch/arm64/include/asm/bitops.h
-@@ -44,6 +44,7 @@ extern int test_and_change_bit(int nr, volatile 
-unsigned long *p);
-
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-
-  #include <asm-generic/bitops/non-atomic.h>
-diff --git a/arch/avr32/include/asm/bitops.h 
-b/arch/avr32/include/asm/bitops.h
-index 910d537..9f4a2ce 100644
---- a/arch/avr32/include/asm/bitops.h
-+++ b/arch/avr32/include/asm/bitops.h
-@@ -298,6 +298,7 @@ static inline int ffs(unsigned long word)
-  #include <asm-generic/bitops/fls64.h>
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-
-  extern unsigned long find_next_zero_bit_le(const void *addr,
-diff --git a/arch/c6x/include/asm/bitops.h b/arch/c6x/include/asm/bitops.h
-index f0ab012..94eb0d1 100644
---- a/arch/c6x/include/asm/bitops.h
-+++ b/arch/c6x/include/asm/bitops.h
-@@ -87,6 +87,7 @@ static inline int ffs(int x)
-
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-
-  #include <asm-generic/bitops/atomic.h>
-diff --git a/arch/cris/include/asm/bitops.h b/arch/cris/include/asm/bitops.h
-index 8062cb5..06bc246 100644
---- a/arch/cris/include/asm/bitops.h
-+++ b/arch/cris/include/asm/bitops.h
-@@ -36,6 +36,7 @@
-  #include <asm-generic/bitops/__fls.h>
-  #include <asm-generic/bitops/fls64.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/find.h>
-  #include <asm-generic/bitops/lock.h>
-
-diff --git a/arch/frv/include/asm/bitops.h b/arch/frv/include/asm/bitops.h
-index 0df8e95..f2a7ee8 100644
---- a/arch/frv/include/asm/bitops.h
-+++ b/arch/frv/include/asm/bitops.h
-@@ -314,6 +314,7 @@ int __ilog2_u64(u64 n)
-
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-
-  #include <asm-generic/bitops/le.h>
-diff --git a/arch/h8300/include/asm/bitops.h 
-b/arch/h8300/include/asm/bitops.h
-index 05999ab..e392db2 100644
---- a/arch/h8300/include/asm/bitops.h
-+++ b/arch/h8300/include/asm/bitops.h
-@@ -172,6 +172,7 @@ static inline unsigned long __ffs(unsigned long word)
-  #include <asm-generic/bitops/find.h>
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-  #include <asm-generic/bitops/le.h>
-  #include <asm-generic/bitops/ext2-atomic.h>
-diff --git a/arch/hexagon/include/asm/bitops.h 
-b/arch/hexagon/include/asm/bitops.h
-index 5e4a59b..2df614e 100644
---- a/arch/hexagon/include/asm/bitops.h
-+++ b/arch/hexagon/include/asm/bitops.h
-@@ -290,6 +290,7 @@ static inline unsigned long __fls(unsigned long word)
-  #include <asm-generic/bitops/fls64.h>
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-
-  #include <asm-generic/bitops/le.h>
-  #include <asm-generic/bitops/ext2-atomic.h>
-diff --git a/arch/m32r/include/asm/bitops.h b/arch/m32r/include/asm/bitops.h
-index 86ba2b4..e3cf46b 100644
---- a/arch/m32r/include/asm/bitops.h
-+++ b/arch/m32r/include/asm/bitops.h
-@@ -259,6 +259,7 @@ static __inline__ int test_and_change_bit(int nr, 
-volatile void * addr)
-  #include <asm-generic/bitops/find.h>
-  #include <asm-generic/bitops/ffs.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-
-  #endif /* __KERNEL__ */
-diff --git a/arch/m68k/include/asm/bitops.h b/arch/m68k/include/asm/bitops.h
-index b4a9b0d..fd673ea 100644
---- a/arch/m68k/include/asm/bitops.h
-+++ b/arch/m68k/include/asm/bitops.h
-@@ -519,6 +519,7 @@ static inline int __fls(int x)
-  #include <asm-generic/bitops/fls64.h>
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-  #endif /* __KERNEL__ */
-
-diff --git a/arch/metag/include/asm/bitops.h 
-b/arch/metag/include/asm/bitops.h
-index 2671134..ad13087 100644
---- a/arch/metag/include/asm/bitops.h
-+++ b/arch/metag/include/asm/bitops.h
-@@ -118,6 +118,7 @@ static inline int test_and_change_bit(unsigned int bit,
-  #include <asm-generic/bitops/__fls.h>
-  #include <asm-generic/bitops/fls64.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/le.h>
-diff --git a/arch/mn10300/include/asm/bitops.h 
-b/arch/mn10300/include/asm/bitops.h
-index fe6f8e2..60761b7 100644
---- a/arch/mn10300/include/asm/bitops.h
-+++ b/arch/mn10300/include/asm/bitops.h
-@@ -225,6 +225,7 @@ int ffs(int x)
-  #include <asm-generic/bitops/find.h>
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/ext2-atomic-setbit.h>
-  #include <asm-generic/bitops/le.h>
-
-diff --git a/arch/openrisc/include/asm/bitops.h 
-b/arch/openrisc/include/asm/bitops.h
-index 3003cda..8c97642 100644
---- a/arch/openrisc/include/asm/bitops.h
-+++ b/arch/openrisc/include/asm/bitops.h
-@@ -43,6 +43,7 @@
-  #include <asm-generic/bitops/sched.h>
-  #include <asm/bitops/ffs.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-
-  #include <asm-generic/bitops/atomic.h>
-diff --git a/arch/parisc/include/asm/bitops.h 
-b/arch/parisc/include/asm/bitops.h
-index 3f9406d..867ba10 100644
---- a/arch/parisc/include/asm/bitops.h
-+++ b/arch/parisc/include/asm/bitops.h
-@@ -211,6 +211,7 @@ static __inline__ int fls(int x)
-  #include <asm-generic/bitops/__fls.h>
-  #include <asm-generic/bitops/fls64.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-  #include <asm-generic/bitops/sched.h>
-
-diff --git a/arch/s390/include/asm/bitops.h b/arch/s390/include/asm/bitops.h
-index 8043f10..198eead 100644
---- a/arch/s390/include/asm/bitops.h
-+++ b/arch/s390/include/asm/bitops.h
-@@ -460,6 +460,7 @@ static inline int fls(int word)
-  #include <asm-generic/bitops/ffz.h>
-  #include <asm-generic/bitops/find.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/le.h>
-  #include <asm-generic/bitops/ext2-atomic-setbit.h>
-diff --git a/arch/sh/include/asm/bitops.h b/arch/sh/include/asm/bitops.h
-index fc8e652..4bf0c35 100644
---- a/arch/sh/include/asm/bitops.h
-+++ b/arch/sh/include/asm/bitops.h
-@@ -86,6 +86,7 @@ static inline unsigned long ffz(unsigned long word)
-  #include <asm-generic/bitops/find.h>
-  #include <asm-generic/bitops/ffs.h>
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-  #include <asm-generic/bitops/sched.h>
-  #include <asm-generic/bitops/le.h>
-diff --git a/arch/xtensa/include/asm/bitops.h 
-b/arch/xtensa/include/asm/bitops.h
-index 3f44fa2..981fa83 100644
---- a/arch/xtensa/include/asm/bitops.h
-+++ b/arch/xtensa/include/asm/bitops.h
-@@ -229,6 +229,7 @@ test_and_change_bit(unsigned int bit, volatile 
-unsigned long *p)
-  #include <asm-generic/bitops/ext2-atomic-setbit.h>
-
-  #include <asm-generic/bitops/hweight.h>
-+#include <asm-generic/bitops/parity.h>
-  #include <asm-generic/bitops/lock.h>
-  #include <asm-generic/bitops/sched.h>
-
--- 
-2.5.0
+Best regards,
+Jose Miguel Abreu
