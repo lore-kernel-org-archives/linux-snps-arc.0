@@ -1,55 +1,37 @@
-From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Tue,  5 Apr 2016 18:08:02 +0100
-Subject: [PATCH 3/3 v3] ASoC: dwc: Unmask I2S interrupts only for enabled
- channels
-In-Reply-To: <cover.1459875048.git.joabreu@synopsys.com>
-References: <cover.1459875048.git.joabreu@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue, 5 Apr 2016 18:35:05 +0000
+Subject: [PATCH 4/5 v5] arc: Add our own implementation of fb_pgprotect()
+In-Reply-To: <1459164999-11850-5-git-send-email-abrodkin@synopsys.com>
+References: <1459164999-11850-1-git-send-email-abrodkin@synopsys.com>,
+ <1459164999-11850-5-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <409b73fe04f1bd5155a8e6be701370a4594edc52.1459875048.git.joabreu@synopsys.com>
+Message-ID: <4881796E12491D4BB15146FE0209CE646778119B@DE02WEMBXB.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-There is no need to unmask all interrupts at I2S start. This
-can cause performance issues in slower platforms.
+Hi Vineet,
 
-Unmask only the interrupts for the used channels.
+> From: Alexey Brodkin [abrodkin at synopsys.com]
+> Sent: Monday, March 28, 2016 2:36 PM
+> To: dri-devel at lists.freedesktop.org
+> Cc: linux-kernel at vger.kernel.org; Alexey Brodkin; Vineet Gupta; linux-snps-arc at lists.infradead.org
+> Subject: [PATCH 4/5 v5] arc: Add our own implementation of fb_pgprotect()
+> 
+> During mmaping of frame-buffer pages to user-space
+> fb_protect() is called to set proper page settings.
+> 
+> In case of ARC we need to mark pages that are mmaped to
+> user as uncached because of 2 reasons:
+>  * Huge amount of data if passing through data cache will
+>    thrash cache a lot making cache almost useless for other
+>     less traffic hungry processes.
+>  * Data written by user in FB will be immediately available for
+>    hardware (such as PGU etc) without requirements to flush data
+>    cache regularly.
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: linux-snps-arc at lists.infradead.org
 
-Signed-off-by: Jose Abreu <joabreu at synopsys.com>
----
+Could you please pick up this patch in your tree so in DRM-related series won't be external dependencies any longer?
 
-Changes v2 -> v3:
-* Dropped custom platform driver, using now ALSA DMA engine
-* Dropped IRQ handler for I2S
-* Removed pll_config functions (as suggested by Alexey Brodkin)
-
-No changes v1 -> v2.
-
- sound/soc/dwc/designware_i2s.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/dwc/designware_i2s.c b/sound/soc/dwc/designware_i2s.c
-index bff258d..3effcd1 100644
---- a/sound/soc/dwc/designware_i2s.c
-+++ b/sound/soc/dwc/designware_i2s.c
-@@ -147,17 +147,18 @@ static inline void i2s_clear_irqs(struct dw_i2s_dev *dev, u32 stream)
- static void i2s_start(struct dw_i2s_dev *dev,
- 		      struct snd_pcm_substream *substream)
- {
-+	struct i2s_clk_config_data *config = &dev->config;
- 	u32 i, irq;
- 	i2s_write_reg(dev->i2s_base, IER, 1);
- 
- 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
--		for (i = 0; i < 4; i++) {
-+		for (i = 0; i < (config->chan_nr / 2); i++) {
- 			irq = i2s_read_reg(dev->i2s_base, IMR(i));
- 			i2s_write_reg(dev->i2s_base, IMR(i), irq & ~0x30);
- 		}
- 		i2s_write_reg(dev->i2s_base, ITER, 1);
- 	} else {
--		for (i = 0; i < 4; i++) {
-+		for (i = 0; i < (config->chan_nr / 2); i++) {
- 			irq = i2s_read_reg(dev->i2s_base, IMR(i));
- 			i2s_write_reg(dev->i2s_base, IMR(i), irq & ~0x03);
- 		}
--- 
-1.9.1
+-Alexey
