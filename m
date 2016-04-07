@@ -1,54 +1,99 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Fri, 8 Apr 2016 01:54:52 +0800
-Subject: [PATCH 4/5 v4] ASoC: dwc: Add custom PCM driver
-In-Reply-To: <cd6b78074e054bf5991dd0800959ac4cf1076dc3.1460047238.git.joabreu@synopsys.com>
+From: broonie@kernel.org (Mark Brown)
+Date: Thu, 07 Apr 2016 10:57:04 -0700
+Subject: Applied "ASoC: dwc: Use fifo depth to program FCR" to the asoc tree
+In-Reply-To: <5aa4bcb0eba226af2e78fc530ad7d0429d2c96ca.1460047238.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201604080100.XjcjGZqI%fengguang.wu@intel.com>
+Message-ID: <E1aoEAy-0001TQ-NW@finisterre>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Jose,
+The patch
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on v4.6-rc2 next-20160407]
-[if your patch is applied to the wrong git tree, please drop us a note to help improving the system]
+   ASoC: dwc: Use fifo depth to program FCR
 
-url:    https://github.com/0day-ci/linux/commits/Jose-Abreu/Add-I2S-ADV7511-audio-support-for-ARC-AXS10x-boards/20160408-005829
-base:   git://people.freedesktop.org/~airlied/linux.git drm-next
-config: i386-allmodconfig (attached as .config)
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=i386 
+has been applied to the asoc tree at
 
-All errors (new ones prefixed by >>):
+   git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git 
 
->> sound/soc/dwc/designware_pcm.c:46:5: error: redefinition of 'dw_pcm_transfer'
-    int dw_pcm_transfer(u32 *lsample, u32 *rsample, int bytes, int buf_size,
-        ^
-   In file included from sound/soc/dwc/designware_pcm.c:20:0:
-   sound/soc/dwc/designware.h:63:5: note: previous definition of 'dw_pcm_transfer' was here
-    int dw_pcm_transfer(u32 *lsample, u32 *rsample, int bytes, int buf_size,
-        ^
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
 
-vim +/dw_pcm_transfer +46 sound/soc/dwc/designware_pcm.c
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-    40		.period_bytes_min = PERIOD_BYTES_MIN,
-    41		.period_bytes_max = BUFFER_BYTES_MAX / PERIODS_MIN,
-    42		.periods_min = PERIODS_MIN,
-    43		.periods_max = BUFFER_BYTES_MAX / PERIOD_BYTES_MIN,
-    44	};
-    45	
-  > 46	int dw_pcm_transfer(u32 *lsample, u32 *rsample, int bytes, int buf_size,
-    47			struct dw_pcm_binfo *bi)
-    48	{
-    49		struct snd_pcm_runtime *rt = bi->stream->runtime;
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
+>From 3fafd14d9422c46f5c2a142298384dc15dbf88b2 Mon Sep 17 00:00:00 2001
+From: Jose Abreu <Jose.Abreu@synopsys.com>
+Date: Thu, 7 Apr 2016 17:53:57 +0100
+Subject: [PATCH] ASoC: dwc: Use fifo depth to program FCR
+
+This patch makes Designware I2S driver use the fifo
+depth value to program the fifo configuration register
+instead of using hardcoded values.
+
+Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+Signed-off-by: Mark Brown <broonie at kernel.org>
 ---
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 54459 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160408/fe14ec37/attachment-0001.obj>
+ sound/soc/dwc/designware_i2s.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/dwc/designware_i2s.c b/sound/soc/dwc/designware_i2s.c
+index 3effcd1a7df8..0db69b7e9617 100644
+--- a/sound/soc/dwc/designware_i2s.c
++++ b/sound/soc/dwc/designware_i2s.c
+@@ -100,6 +100,7 @@ struct dw_i2s_dev {
+ 	struct device *dev;
+ 	u32 ccr;
+ 	u32 xfer_resolution;
++	u32 fifo_th;
+ 
+ 	/* data related to DMA transfers b/w i2s and DMAC */
+ 	union dw_i2s_snd_dma_data play_dma_data;
+@@ -232,14 +233,16 @@ static void dw_i2s_config(struct dw_i2s_dev *dev, int stream)
+ 		if (stream == SNDRV_PCM_STREAM_PLAYBACK) {
+ 			i2s_write_reg(dev->i2s_base, TCR(ch_reg),
+ 				      dev->xfer_resolution);
+-			i2s_write_reg(dev->i2s_base, TFCR(ch_reg), 0x02);
++			i2s_write_reg(dev->i2s_base, TFCR(ch_reg),
++				      dev->fifo_th - 1);
+ 			irq = i2s_read_reg(dev->i2s_base, IMR(ch_reg));
+ 			i2s_write_reg(dev->i2s_base, IMR(ch_reg), irq & ~0x30);
+ 			i2s_write_reg(dev->i2s_base, TER(ch_reg), 1);
+ 		} else {
+ 			i2s_write_reg(dev->i2s_base, RCR(ch_reg),
+ 				      dev->xfer_resolution);
+-			i2s_write_reg(dev->i2s_base, RFCR(ch_reg), 0x07);
++			i2s_write_reg(dev->i2s_base, RFCR(ch_reg),
++				      dev->fifo_th - 1);
+ 			irq = i2s_read_reg(dev->i2s_base, IMR(ch_reg));
+ 			i2s_write_reg(dev->i2s_base, IMR(ch_reg), irq & ~0x03);
+ 			i2s_write_reg(dev->i2s_base, RER(ch_reg), 1);
+@@ -499,6 +502,7 @@ static int dw_configure_dai(struct dw_i2s_dev *dev,
+ 	 */
+ 	u32 comp1 = i2s_read_reg(dev->i2s_base, dev->i2s_reg_comp1);
+ 	u32 comp2 = i2s_read_reg(dev->i2s_base, dev->i2s_reg_comp2);
++	u32 fifo_depth = 1 << (1 + COMP1_FIFO_DEPTH_GLOBAL(comp1));
+ 	u32 idx;
+ 
+ 	if (dev->capability & DWC_I2S_RECORD &&
+@@ -537,6 +541,7 @@ static int dw_configure_dai(struct dw_i2s_dev *dev,
+ 		dev->capability |= DW_I2S_SLAVE;
+ 	}
+ 
++	dev->fifo_th = fifo_depth / 2;
+ 	return 0;
+ }
+ 
+-- 
+2.8.0.rc3
