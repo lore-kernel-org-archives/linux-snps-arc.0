@@ -1,49 +1,76 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 7 Apr 2016 14:52:33 +0530
-Subject: [PATCH v6 2/3] clocksource: Add NPS400 timers driver
-In-Reply-To: <56FA8172.5020008@linaro.org>
-References: <1458570272-23037-1-git-send-email-noamca@mellanox.com>
- <1458570272-23037-3-git-send-email-noamca@mellanox.com>
- <56FA7A77.6080901@synopsys.com> <56FA8172.5020008@linaro.org>
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Thu,  7 Apr 2016 17:53:54 +0100
+Subject: [PATCH 0/5 v4] Add I2S/ADV7511 audio support for ARC AXS10x boards
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <570626D9.4050809@synopsys.com>
+Message-ID: <cover.1460047238.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tuesday 29 March 2016 06:51 PM, Daniel Lezcano wrote:
-> On 03/29/2016 02:52 PM, Vineet Gupta wrote:
->> On Monday 21 March 2016 07:54 PM, Noam Camus wrote:
->>> From: Noam Camus <noamc at ezchip.com>
->>>
->>> Add internal tick generator which is shared by all cores.
->>> Each cluster of cores view it through dedicated address.
->>> This is used for SMP system where all CPUs synced by same
->>> clock source.
->>>
->>> Signed-off-by: Noam Camus <noamc at ezchip.com>
->>> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
->>> Cc: Rob Herring <robh+dt at kernel.org>
->>> Cc: Thomas Gleixner <tglx at linutronix.de>
->>> Cc: John Stultz <john.stultz at linaro.org>
->>> Acked-by: Vineet Gupta <vgupta at synopsys.com>
->>
->> @Noam, AFAIKR, Daniel did ack the prev version - can you please double check and
->> repost this again.
->>
->> @Daniel, this patch depends on a include/soc header introduced by patch 1/3 of the
->> series. For 4.7, how should we merge it - take both via ARC tree !
-> 
-> There are two ways to do this when there are multiple tree dependencies:
->   - put a common branch to be shared between trees
->   - ask for the maintainer for an acked-by and pick it in a single tree
-> 
-> Given the nature of the patch (initial submission), I agree you pick it through
-> your tree.
+ARC AXS10x platforms consist of a mainboard with several peripherals.
+One of those peripherals is an HDMI output port controlled by the ADV7511
+transmitter.
 
-BTW, you'd acked the v4 of this patch - can you take a quick look and provide your
-ACK for v8 2/3, ditto for 1/3 which introduces the common soc header.
+This patch set adds audio for the ADV7511 transmitter and I2S audio for
+the AXS10x platform.
 
-Quick link to v8 is:
-http://lists.infradead.org/pipermail/linux-snps-arc/2016-April/000830.html
+Changes v3 -> v4:
+* Reintroduced custom PCM driver (see note below)
+* Use DT boolean to switch between ALSA DMA engine PCM or custom PCM
+* Use fifo depth to program I2S FCR
+* Update I2S documentation
 
-Thx,
--Vineet
+Changes v2 -> v3:
+* Removed pll_config functions (as suggested by Alexey Brodkin)
+* Removed HDMI start at adv7511_core (as suggested by Archit Taneja)
+* Use NOP functions for adv7511_audio (as suggested by Archit Taneja)
+* Added adv7511_audio_exit() function (as suggested by Archit Taneja)
+* Moved adv7511 to its own folder (as suggested by Archit Taneja)
+* Separated file rename of adv7511_core (as suggested by Emil Velikov)
+* Compile adv7511 as module if ALSA SoC is compiled as module
+* Load adv7511 audio only if declared in device tree (as suggested by Laurent Pinchart)
+* Dropped custom platform driver, using now ALSA DMA engine
+* Dropped IRQ handler for I2S
+
+Changes v1 -> v2:
+* DT bindings moved to separate patch (as suggested by Alexey Brodkin)
+* Removed defconfigs entries (as suggested by Alexey Brodkin)
+
+
+NOTE:
+Although the mainline I2S driver uses ALSA DMA engine,
+this controller can be built without DMA support so it
+was necessary to add this custom platform driver so that
+HDMI audio works in AXS boards.
+
+Jose Abreu (5):
+  drm/i2c/adv7511: Rename and move to separate folder
+  drm/i2c/adv7511: Add audio support
+  ASoC: dwc: Use fifo depth to program FCR
+  ASoC: dwc: Add custom PCM driver
+  ASoC: dwc: Update DOCUMENTATION for I2S Driver
+
+ .../bindings/display/bridge/adi,adv7511.txt        |   3 +
+ .../devicetree/bindings/sound/designware-i2s.txt   |   5 +
+ drivers/gpu/drm/i2c/Kconfig                        |   6 +-
+ drivers/gpu/drm/i2c/Makefile                       |   2 +-
+ drivers/gpu/drm/i2c/adv7511/Kconfig                |  18 ++
+ drivers/gpu/drm/i2c/adv7511/Makefile               |   3 +
+ drivers/gpu/drm/i2c/{ => adv7511}/adv7511.h        |  53 ++++
+ drivers/gpu/drm/i2c/adv7511/adv7511_audio.c        | 310 +++++++++++++++++++++
+ .../drm/i2c/{adv7511.c => adv7511/adv7511_core.c}  |  43 +--
+ include/sound/soc-dai.h                            |   1 +
+ sound/soc/dwc/Kconfig                              |   9 +
+ sound/soc/dwc/Makefile                             |   1 +
+ sound/soc/dwc/designware.h                         |  70 +++++
+ sound/soc/dwc/designware_i2s.c                     | 106 +++++--
+ sound/soc/dwc/designware_pcm.c                     | 230 +++++++++++++++
+ 15 files changed, 796 insertions(+), 64 deletions(-)
+ create mode 100644 drivers/gpu/drm/i2c/adv7511/Kconfig
+ create mode 100644 drivers/gpu/drm/i2c/adv7511/Makefile
+ rename drivers/gpu/drm/i2c/{ => adv7511}/adv7511.h (90%)
+ create mode 100644 drivers/gpu/drm/i2c/adv7511/adv7511_audio.c
+ rename drivers/gpu/drm/i2c/{adv7511.c => adv7511/adv7511_core.c} (97%)
+ create mode 100644 sound/soc/dwc/designware.h
+ create mode 100644 sound/soc/dwc/designware_pcm.c
+
+-- 
+1.9.1
