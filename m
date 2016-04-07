@@ -1,191 +1,70 @@
 From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Thu,  7 Apr 2016 17:53:55 +0100
-Subject: [PATCH 1/5 v4] drm/i2c/adv7511: Rename and move to separate folder
+Date: Thu,  7 Apr 2016 17:53:57 +0100
+Subject: [PATCH 3/5 v4] ASoC: dwc: Use fifo depth to program FCR
 In-Reply-To: <cover.1460047238.git.joabreu@synopsys.com>
 References: <cover.1460047238.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b72bf705db61fd9d9e6dfccbfbb8b142e3538d3d.1460047238.git.joabreu@synopsys.com>
+Message-ID: <5aa4bcb0eba226af2e78fc530ad7d0429d2c96ca.1460047238.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Main file of adv7511 driver was renamed from adv7511.c
-to adv7511_core.c and moved to separate folder in order
-to prepare the adding of audio support.
-
-Struct adv7511 was moved to adv7511.h and functions
-adv7511_packet_enable() and adv7511_packet_disable()
-were made public also to prepare the adding of audio
-support.
+This patch makes Designware I2S driver use the fifo
+depth value to program the fifo configuration register
+instead of using hardcoded values.
 
 Signed-off-by: Jose Abreu <joabreu at synopsys.com>
 ---
 
-No changes v3 -> v4.
+This patch was only introduced in v4.
 
-This patch was only introduced in v3.
+ sound/soc/dwc/designware_i2s.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/i2c/Kconfig                        |  6 +---
- drivers/gpu/drm/i2c/Makefile                       |  2 +-
- drivers/gpu/drm/i2c/adv7511/Kconfig                |  6 ++++
- drivers/gpu/drm/i2c/adv7511/Makefile               |  2 ++
- drivers/gpu/drm/i2c/{ => adv7511}/adv7511.h        | 31 +++++++++++++++++++++
- .../drm/i2c/{adv7511.c => adv7511/adv7511_core.c}  | 32 ++--------------------
- 6 files changed, 43 insertions(+), 36 deletions(-)
- create mode 100644 drivers/gpu/drm/i2c/adv7511/Kconfig
- create mode 100644 drivers/gpu/drm/i2c/adv7511/Makefile
- rename drivers/gpu/drm/i2c/{ => adv7511}/adv7511.h (93%)
- rename drivers/gpu/drm/i2c/{adv7511.c => adv7511/adv7511_core.c} (97%)
-
-diff --git a/drivers/gpu/drm/i2c/Kconfig b/drivers/gpu/drm/i2c/Kconfig
-index 22c7ed6..9258daf 100644
---- a/drivers/gpu/drm/i2c/Kconfig
-+++ b/drivers/gpu/drm/i2c/Kconfig
-@@ -1,11 +1,7 @@
- menu "I2C encoder or helper chips"
-      depends on DRM && DRM_KMS_HELPER && I2C
+diff --git a/sound/soc/dwc/designware_i2s.c b/sound/soc/dwc/designware_i2s.c
+index 3effcd1..0db69b7 100644
+--- a/sound/soc/dwc/designware_i2s.c
++++ b/sound/soc/dwc/designware_i2s.c
+@@ -100,6 +100,7 @@ struct dw_i2s_dev {
+ 	struct device *dev;
+ 	u32 ccr;
+ 	u32 xfer_resolution;
++	u32 fifo_th;
  
--config DRM_I2C_ADV7511
--	tristate "AV7511 encoder"
--	select REGMAP_I2C
--	help
--	  Support for the Analog Device ADV7511(W) and ADV7513 HDMI encoders.
-+source "drivers/gpu/drm/i2c/adv7511/Kconfig"
+ 	/* data related to DMA transfers b/w i2s and DMAC */
+ 	union dw_i2s_snd_dma_data play_dma_data;
+@@ -232,14 +233,16 @@ static void dw_i2s_config(struct dw_i2s_dev *dev, int stream)
+ 		if (stream == SNDRV_PCM_STREAM_PLAYBACK) {
+ 			i2s_write_reg(dev->i2s_base, TCR(ch_reg),
+ 				      dev->xfer_resolution);
+-			i2s_write_reg(dev->i2s_base, TFCR(ch_reg), 0x02);
++			i2s_write_reg(dev->i2s_base, TFCR(ch_reg),
++				      dev->fifo_th - 1);
+ 			irq = i2s_read_reg(dev->i2s_base, IMR(ch_reg));
+ 			i2s_write_reg(dev->i2s_base, IMR(ch_reg), irq & ~0x30);
+ 			i2s_write_reg(dev->i2s_base, TER(ch_reg), 1);
+ 		} else {
+ 			i2s_write_reg(dev->i2s_base, RCR(ch_reg),
+ 				      dev->xfer_resolution);
+-			i2s_write_reg(dev->i2s_base, RFCR(ch_reg), 0x07);
++			i2s_write_reg(dev->i2s_base, RFCR(ch_reg),
++				      dev->fifo_th - 1);
+ 			irq = i2s_read_reg(dev->i2s_base, IMR(ch_reg));
+ 			i2s_write_reg(dev->i2s_base, IMR(ch_reg), irq & ~0x03);
+ 			i2s_write_reg(dev->i2s_base, RER(ch_reg), 1);
+@@ -499,6 +502,7 @@ static int dw_configure_dai(struct dw_i2s_dev *dev,
+ 	 */
+ 	u32 comp1 = i2s_read_reg(dev->i2s_base, dev->i2s_reg_comp1);
+ 	u32 comp2 = i2s_read_reg(dev->i2s_base, dev->i2s_reg_comp2);
++	u32 fifo_depth = 1 << (1 + COMP1_FIFO_DEPTH_GLOBAL(comp1));
+ 	u32 idx;
  
- config DRM_I2C_CH7006
- 	tristate "Chrontel ch7006 TV encoder"
-diff --git a/drivers/gpu/drm/i2c/Makefile b/drivers/gpu/drm/i2c/Makefile
-index 2c72eb5..f144830 100644
---- a/drivers/gpu/drm/i2c/Makefile
-+++ b/drivers/gpu/drm/i2c/Makefile
-@@ -1,6 +1,6 @@
- ccflags-y := -Iinclude/drm
+ 	if (dev->capability & DWC_I2S_RECORD &&
+@@ -537,6 +541,7 @@ static int dw_configure_dai(struct dw_i2s_dev *dev,
+ 		dev->capability |= DW_I2S_SLAVE;
+ 	}
  
--obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511.o
-+obj-y += adv7511/
- 
- ch7006-y := ch7006_drv.o ch7006_mode.o
- obj-$(CONFIG_DRM_I2C_CH7006) += ch7006.o
-diff --git a/drivers/gpu/drm/i2c/adv7511/Kconfig b/drivers/gpu/drm/i2c/adv7511/Kconfig
-new file mode 100644
-index 0000000..302c8e34
---- /dev/null
-+++ b/drivers/gpu/drm/i2c/adv7511/Kconfig
-@@ -0,0 +1,6 @@
-+config DRM_I2C_ADV7511
-+	tristate "AV7511 encoder"
-+	select REGMAP_I2C
-+	help
-+	  Support for the Analog Device ADV7511(W) and ADV7513 HDMI encoders.
-+
-diff --git a/drivers/gpu/drm/i2c/adv7511/Makefile b/drivers/gpu/drm/i2c/adv7511/Makefile
-new file mode 100644
-index 0000000..c13f5a1
---- /dev/null
-+++ b/drivers/gpu/drm/i2c/adv7511/Makefile
-@@ -0,0 +1,2 @@
-+adv7511-y := adv7511_core.o
-+obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511.o
-diff --git a/drivers/gpu/drm/i2c/adv7511.h b/drivers/gpu/drm/i2c/adv7511/adv7511.h
-similarity index 93%
-rename from drivers/gpu/drm/i2c/adv7511.h
-rename to drivers/gpu/drm/i2c/adv7511/adv7511.h
-index 38515b3..fcae1ee 100644
---- a/drivers/gpu/drm/i2c/adv7511.h
-+++ b/drivers/gpu/drm/i2c/adv7511/adv7511.h
-@@ -286,4 +286,35 @@ struct adv7511_video_config {
- 	struct hdmi_avi_infoframe avi_infoframe;
- };
- 
-+struct adv7511 {
-+	struct i2c_client *i2c_main;
-+	struct i2c_client *i2c_edid;
-+
-+	struct regmap *regmap;
-+	struct regmap *packet_memory_regmap;
-+	enum drm_connector_status status;
-+	bool powered;
-+
-+	unsigned int f_tmds;
-+
-+	unsigned int current_edid_segment;
-+	uint8_t edid_buf[256];
-+	bool edid_read;
-+
-+	wait_queue_head_t wq;
-+	struct drm_encoder *encoder;
-+
-+	bool embedded_sync;
-+	enum adv7511_sync_polarity vsync_polarity;
-+	enum adv7511_sync_polarity hsync_polarity;
-+	bool rgb;
-+
-+	struct edid *edid;
-+
-+	struct gpio_desc *gpio_pd;
-+};
-+
-+int adv7511_packet_enable(struct adv7511 *adv7511, unsigned int packet);
-+int adv7511_packet_disable(struct adv7511 *adv7511, unsigned int packet);
-+
- #endif /* __DRM_I2C_ADV7511_H__ */
-diff --git a/drivers/gpu/drm/i2c/adv7511.c b/drivers/gpu/drm/i2c/adv7511/adv7511_core.c
-similarity index 97%
-rename from drivers/gpu/drm/i2c/adv7511.c
-rename to drivers/gpu/drm/i2c/adv7511/adv7511_core.c
-index a02112b..2b00581 100644
---- a/drivers/gpu/drm/i2c/adv7511.c
-+++ b/drivers/gpu/drm/i2c/adv7511/adv7511_core.c
-@@ -20,34 +20,6 @@
- 
- #include "adv7511.h"
- 
--struct adv7511 {
--	struct i2c_client *i2c_main;
--	struct i2c_client *i2c_edid;
--
--	struct regmap *regmap;
--	struct regmap *packet_memory_regmap;
--	enum drm_connector_status status;
--	bool powered;
--
--	unsigned int f_tmds;
--
--	unsigned int current_edid_segment;
--	uint8_t edid_buf[256];
--	bool edid_read;
--
--	wait_queue_head_t wq;
--	struct drm_encoder *encoder;
--
--	bool embedded_sync;
--	enum adv7511_sync_polarity vsync_polarity;
--	enum adv7511_sync_polarity hsync_polarity;
--	bool rgb;
--
--	struct edid *edid;
--
--	struct gpio_desc *gpio_pd;
--};
--
- static struct adv7511 *encoder_to_adv7511(struct drm_encoder *encoder)
- {
- 	return to_encoder_slave(encoder)->slave_priv;
-@@ -194,7 +166,7 @@ static void adv7511_set_colormap(struct adv7511 *adv7511, bool enable,
- 			   ADV7511_CSC_UPDATE_MODE, 0);
- }
- 
--static int adv7511_packet_enable(struct adv7511 *adv7511, unsigned int packet)
-+int adv7511_packet_enable(struct adv7511 *adv7511, unsigned int packet)
- {
- 	if (packet & 0xff)
- 		regmap_update_bits(adv7511->regmap, ADV7511_REG_PACKET_ENABLE0,
-@@ -209,7 +181,7 @@ static int adv7511_packet_enable(struct adv7511 *adv7511, unsigned int packet)
++	dev->fifo_th = fifo_depth / 2;
  	return 0;
  }
  
--static int adv7511_packet_disable(struct adv7511 *adv7511, unsigned int packet)
-+int adv7511_packet_disable(struct adv7511 *adv7511, unsigned int packet)
- {
- 	if (packet & 0xff)
- 		regmap_update_bits(adv7511->regmap, ADV7511_REG_PACKET_ENABLE0,
 -- 
 1.9.1
