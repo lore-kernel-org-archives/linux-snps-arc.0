@@ -1,84 +1,26 @@
-From: lars@metafoo.de (Lars-Peter Clausen)
-Date: Mon, 11 Apr 2016 14:23:56 +0200
-Subject: [alsa-devel] [PATCH 2/5 v4] drm/i2c/adv7511: Add audio support
-In-Reply-To: <570B8B59.7000900@synopsys.com>
-References: <cover.1460047238.git.joabreu@synopsys.com>
- <d56087fae14074198f6c1bc749ce4da3cab62324.1460047238.git.joabreu@synopsys.com>
- <5707D249.5040707@metafoo.de> <5707D88A.3010400@synopsys.com>
- <57091999.4010906@metafoo.de> <570B6DF2.1080008@synopsys.com>
- <570B6F7B.2020906@metafoo.de> <570B8B59.7000900@synopsys.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Mon, 11 Apr 2016 14:47:31 +0200
+Subject: [PATCH v8 1/3] soc: Support for EZchip SoC
+In-Reply-To: <1459707299-31564-2-git-send-email-noamca@mellanox.com>
+References: <1459707299-31564-1-git-send-email-noamca@mellanox.com>
+ <1459707299-31564-2-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <570B975C.50702@metafoo.de>
+Message-ID: <570B9CE3.6090809@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 04/11/2016 01:32 PM, Jose Abreu wrote:
-> Hi Lars,
-> 
-> 
-> On 11-04-2016 10:33, Lars-Peter Clausen wrote:
->> On 04/11/2016 11:27 AM, Jose Abreu wrote:
->>> Hi Lars,
->>>
->>>
->>> On 09-04-2016 16:02, Lars-Peter Clausen wrote:
->>>> On 04/08/2016 06:12 PM, Jose Abreu wrote:
->>>> [...]
->>>>>> [...]
->>>>>>> +- adi,enable-audio: If set the ADV7511 driver will register a codec interface
->>>>>>> +  into ALSA SoC.
->>>>>> This is not a description of the hardware.
->>>>> Is this okay: "adi,enable-audio: Set this boolean parameter if ADV7511
->>>>> transmitter routes audio signals" ?
->>>> I don't think we need this property. There is no problem with registering
->>>> the audio part unconditionally. As long as there is no connection we wont
->>>> create a sound card that is exposed to userspace.
->>>>
->>> This change was suggested by Laurent Pinchart and was introduced in v3. Quoting
->>> Laurent:
->>> "The idea is that enabling support for ADV7511 audio in the kernel isn't coupled
->>> with whether the system includes audio support. It would be confusing, and would
->>> also waste resources, to create a Linux sound device when no sound channel is
->>> routed on the board."
->> I wouldn't care too much about this at this point, the extra amount of
->> resources required for registering the CODEC (but not the sound card) is
->> just a few bytes (sizeof(struct snd_soc_codec)).
->>
->> Nevertheless what we should do is describe the hardware and from this
->> information infer whether there is a audio connection or not and if there is
->> none we might skip registering the CODEC. In my opinion this hardware
->> description should be modeled using of-graph, having a connection between
->> the SoC side and the adv7511 SPDIF or I2S port.
->>
-> 
-> You mean something like this:
-> 
-> sound_playback: sound_playback {
->     compatible = "simple-audio-card";
->     [...]
->     simple-audio-card,format = "i2s";
->     [...]
-> }
-> 
-> adv7511 at xx {
->     compatible = "adi,adv7511";
->     [...]
-> 
->     ports {
->         [...]
->         /* Audio Output */
->         port at x {
->             reg = <x>;
->             endpoint {
->                 remote-endpoint = <&sound_playback>;
->             }
->         }
->     }
-> }
+On 04/03/2016 08:14 PM, Noam Camus wrote:
+> From: Noam Camus <noamc at ezchip.com>
 
-Yes, something like that. Not exactly like that, but similar. One of the
-core concepts of of-graph is that there is always a description of the
-connection from both sides, this way each side can independently figure out
-where it is connected.
+[ ... ]
 
-Currently there is also zero support of of-graph in ASoC, so a bit of work
-is required to get this integrated properly.
+AFAICT, Acked-by: Daniel Lezcano <daniel.lezcano at linaro.org>
+
+
+
+
+-- 
+  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
