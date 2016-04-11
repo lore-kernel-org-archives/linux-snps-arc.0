@@ -1,99 +1,42 @@
-From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Mon, 11 Apr 2016 15:08:39 +0100
-Subject: [alsa-devel] [PATCH 2/5 v4] drm/i2c/adv7511: Add audio support
-In-Reply-To: <570B975C.50702@metafoo.de>
-References: <cover.1460047238.git.joabreu@synopsys.com>
- <d56087fae14074198f6c1bc749ce4da3cab62324.1460047238.git.joabreu@synopsys.com>
- <5707D249.5040707@metafoo.de> <5707D88A.3010400@synopsys.com>
- <57091999.4010906@metafoo.de> <570B6DF2.1080008@synopsys.com>
- <570B6F7B.2020906@metafoo.de> <570B8B59.7000900@synopsys.com>
- <570B975C.50702@metafoo.de>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 11 Apr 2016 14:09:58 +0000
+Subject: [PATCH v8 3/3] irqchip: add nps Internal and external irqchips
+References: <1459707299-31564-1-git-send-email-noamca@mellanox.com>
+ <1459707299-31564-4-git-send-email-noamca@mellanox.com>
+ <570B9E46.7050402@arm.com>
+ <HE1PR05MB1625D947050070BDA6E92557AA940@HE1PR05MB1625.eurprd05.prod.outlook.com>
+ <570BA01F.2060100@arm.com>
+ <HE1PR05MB16250C8C5CC09899BB36D84EAA940@HE1PR05MB1625.eurprd05.prod.outlook.com>
+ <570BA277.5090202@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <570BAFE7.8040206@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E9D47D@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Lars,
+On Monday 11 April 2016 06:41 PM, Marc Zyngier wrote:
+>> >> It doesn't mean I really approve of it. The default domain thing is
+>> >> going to end-up biting you in the rear. But hey, better having this
+>> >> supported upstream than leaving these patches up in the air...
 
+Hi Marc,
 
-On 11-04-2016 13:23, Lars-Peter Clausen wrote:
-> On 04/11/2016 01:32 PM, Jose Abreu wrote:
->> Hi Lars,
->>
->>
->> On 11-04-2016 10:33, Lars-Peter Clausen wrote:
->>> On 04/11/2016 11:27 AM, Jose Abreu wrote:
->>>> Hi Lars,
->>>>
->>>>
->>>> On 09-04-2016 16:02, Lars-Peter Clausen wrote:
->>>>> On 04/08/2016 06:12 PM, Jose Abreu wrote:
->>>>> [...]
->>>>>>> [...]
->>>>>>>> +- adi,enable-audio: If set the ADV7511 driver will register a codec interface
->>>>>>>> +  into ALSA SoC.
->>>>>>> This is not a description of the hardware.
->>>>>> Is this okay: "adi,enable-audio: Set this boolean parameter if ADV7511
->>>>>> transmitter routes audio signals" ?
->>>>> I don't think we need this property. There is no problem with registering
->>>>> the audio part unconditionally. As long as there is no connection we wont
->>>>> create a sound card that is exposed to userspace.
->>>>>
->>>> This change was suggested by Laurent Pinchart and was introduced in v3. Quoting
->>>> Laurent:
->>>> "The idea is that enabling support for ADV7511 audio in the kernel isn't coupled
->>>> with whether the system includes audio support. It would be confusing, and would
->>>> also waste resources, to create a Linux sound device when no sound channel is
->>>> routed on the board."
->>> I wouldn't care too much about this at this point, the extra amount of
->>> resources required for registering the CODEC (but not the sound card) is
->>> just a few bytes (sizeof(struct snd_soc_codec)).
->>>
->>> Nevertheless what we should do is describe the hardware and from this
->>> information infer whether there is a audio connection or not and if there is
->>> none we might skip registering the CODEC. In my opinion this hardware
->>> description should be modeled using of-graph, having a connection between
->>> the SoC side and the adv7511 SPDIF or I2S port.
->>>
->> You mean something like this:
->>
->> sound_playback: sound_playback {
->>     compatible = "simple-audio-card";
->>     [...]
->>     simple-audio-card,format = "i2s";
->>     [...]
->> }
->>
->> adv7511 at xx {
->>     compatible = "adi,adv7511";
->>     [...]
->>
->>     ports {
->>         [...]
->>         /* Audio Output */
->>         port at x {
->>             reg = <x>;
->>             endpoint {
->>                 remote-endpoint = <&sound_playback>;
->>             }
->>         }
->>     }
->> }
-> Yes, something like that. Not exactly like that, but similar. One of the
-> core concepts of of-graph is that there is always a description of the
-> connection from both sides, this way each side can independently figure out
-> where it is connected.
->
-> Currently there is also zero support of of-graph in ASoC, so a bit of work
-> is required to get this integrated properly.
->
+Aside of this - there's been serious rework of ARC intc / timers code spurred by
+some of your comments for this irqchip driver.
 
-I also believe this would be the better option but in the meantime can't I
-integrate the audio like it is being done in the dw-hdmi driver[1]? In this
-driver the audio is registered as a sound card and is conditionally built using
-Kconfig, just like I was doing in the previous versions. I know you said the
-HDMI audio is still an open issue but it seems that for this case it was accepted.
+- We now probe timers via DT (so timer irq comes off of DT as well)
+- We have now switched to linear irq domain (vs. legacy)
 
-[1] http://lxr.free-electrons.com/source/drivers/gpu/drm/bridge/dw-hdmi-ahb-audio.c
+IMHO a bunch of ugliness / non-desirability remains (there's likely more)
+- calling irq_set_default_host()
+- calling irq_create_mapping with NULL for IPIs
 
-Best regards,
-Jose Miguel Abreu
+I really want to do things in better way - make it more modern ... hence would
+request you to please take a look at my latest series (I can post the patches here
+if that helps - although it felt I was spamming you and you got pissed off or
+something and were not responding of late :-)
+
+git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git   #for-next
+
+Pray tell me, what is not right and I'm all up for fixing it
+
+Thx,
+-Vineet
