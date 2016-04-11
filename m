@@ -1,65 +1,40 @@
 From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Mon, 11 Apr 2016 10:24:54 +0100
-Subject: [alsa-devel] [PATCH 5/5 v4] ASoC: dwc: Update DOCUMENTATION for
- I2S Driver
-In-Reply-To: <570917E9.8020804@metafoo.de>
+Date: Mon, 11 Apr 2016 10:27:14 +0100
+Subject: [alsa-devel] [PATCH 2/5 v4] drm/i2c/adv7511: Add audio support
+In-Reply-To: <57091999.4010906@metafoo.de>
 References: <cover.1460047238.git.joabreu@synopsys.com>
- <ce97e6bb7ddb71e532c4066334ceead4d4d3e692.1460047238.git.joabreu@synopsys.com>
- <20160407175326.GX1924@sirena.org.uk> <570782BF.10402@synopsys.com>
- <5707D3AD.8030308@metafoo.de> <5707D780.4050406@synopsys.com>
- <570917E9.8020804@metafoo.de>
+ <d56087fae14074198f6c1bc749ce4da3cab62324.1460047238.git.joabreu@synopsys.com>
+ <5707D249.5040707@metafoo.de> <5707D88A.3010400@synopsys.com>
+ <57091999.4010906@metafoo.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <570B6D66.4080309@synopsys.com>
+Message-ID: <570B6DF2.1080008@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Hi Lars,
 
 
-On 09-04-2016 15:55, Lars-Peter Clausen wrote:
-> On 04/08/2016 06:08 PM, Jose Abreu wrote:
->> Hi Lars,
->>
->>
->> On 08-04-2016 16:52, Lars-Peter Clausen wrote:
->>> On 04/08/2016 12:06 PM, Jose Abreu wrote:
->>>> Hi Mark,
->>>>
->>>>
->>>> On 07-04-2016 18:53, Mark Brown wrote:
->>>>> On Thu, Apr 07, 2016@05:53:59PM +0100, Jose Abreu wrote:
->>>>>
->>>>>> + Optional properties:
->>>>>> + - snps,use-dmaengine: If set the driver will use ALSA DMA engine. If set
->>>>>> +   it is required to use the properties 'dmas' and 'dma-names'.
->>>>> This is not a good interface, it's describing Linux internal APIs.  If
->>>>> the device needs to operate in PIO mode it should just do that.
->>>> I added this interface because there is no direct way to check if DMA is
->>>> available on the I2S controller so it is not possible to automatically change
->>>> between DMA and PIO mode. As the I2S controller can be built with or without DMA
->>>> support it is necessary to somehow check if DMA is enabled or not and according
->>>> to that use either ALSA DMA engine or the custom platform driver sent in these
->>>> patches. I did not want to remove drivers functionality so I added this property
->>>> to the DT. This way a user can select between DMA and PIO mode.
->>> That's OK, but you need to describe the hardware, not the indented behavior
->>> of the software driver.
->>>
->> Is this okay: "snps,use-dmaengine: Set this boolean paramater if I2S controller
->> has DMA support. If set the properties 'dmas' and 'dma-names' must be also set" ?
-> The description is better. But the name of the property is still imperative
-> rather then descriptive. It tells the software what should be done rather
-> then describing what the hardware looks like.
+On 09-04-2016 16:02, Lars-Peter Clausen wrote:
+> On 04/08/2016 06:12 PM, Jose Abreu wrote:
+> [...]
+>>> [...]
+>>>> +- adi,enable-audio: If set the ADV7511 driver will register a codec interface
+>>>> +  into ALSA SoC.
+>>> This is not a description of the hardware.
+>> Is this okay: "adi,enable-audio: Set this boolean parameter if ADV7511
+>> transmitter routes audio signals" ?
+> I don't think we need this property. There is no problem with registering
+> the audio part unconditionally. As long as there is no connection we wont
+> create a sound card that is exposed to userspace.
 >
-> Since there is already the dmas property which is present if a DMA is
-> connected and is absent when no DMA is present it should be enough to just
-> check that property rather than requiring an additional one.
 
-Ok, will then use the DMA property to decide which mode to use: PIO or DMA.
+This change was suggested by Laurent Pinchart and was introduced in v3. Quoting
+Laurent:
+"The idea is that enabling support for ADV7511 audio in the kernel isn't coupled
+with whether the system includes audio support. It would be confusing, and would
+also waste resources, to create a Linux sound device when no sound channel is
+routed on the board."
 
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel at lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Should I revert this?
 
 Best regards,
 Jose Miguel Abreu
