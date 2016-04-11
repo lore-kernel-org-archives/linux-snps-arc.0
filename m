@@ -1,131 +1,48 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 11 Apr 2016 16:47:51 +0000
-Subject: [RESEND PATCH v4] clk/axs10x: Add I2S PLL clock driver
-In-Reply-To: <50c75be8ecab225a1dd49628a173d211a02755b2.1459791946.git.joabreu@synopsys.com>
-References: <50c75be8ecab225a1dd49628a173d211a02755b2.1459791946.git.joabreu@synopsys.com>
+Date: Mon, 11 Apr 2016 17:31:47 +0000
+Subject: [PATCH v2 02/30] Include generic parity.h in some
+ architectures' bitops.h
+In-Reply-To: <1459932086-6394-1-git-send-email-zengzhaoxiu@163.com>
+References: <57033DBB.6060600@gmail.com>
+ <1459932086-6394-1-git-send-email-zengzhaoxiu@163.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1460393270.5119.20.camel@synopsys.com>
+Message-ID: <1460395905.5119.43.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Jose,
+Hi?Zhaoxiu,
 
-On Mon, 2016-04-11@11:41 +0100, Jose Abreu wrote:
-> The ARC SDP I2S clock can be programmed using a
-> specific PLL.
+On Wed, 2016-04-06@16:41 +0800, zengzhaoxiu@163.com wrote:
+> From: Zhaoxiu Zeng <zhaoxiu.zeng at gmail.com>
 > 
-> This patch has the goal of adding a clock driver
-> that programs this PLL.
+> Use the generic version
 > 
-> At this moment the rate values are hardcoded in
-> a table but in the future it would be ideal to
-> use a function which determines the PLL values
-> given the desired rate.
-> 
-> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+> Signed-off-by: Zhaoxiu Zeng <zhaoxiu.zeng at gmail.com>
 > ---
-> 
-> Changes v3 -> v4:
-> * Added binding document (as suggested by Stephen Boyd)
-> * Minor code style fixes (as suggested by Stephen Boyd)
-> * Use ioremap (as suggested by Stephen Boyd)
-> * Implement round_rate (as suggested by Stephen Boyd)
-> * Change to platform driver (as suggested by Stephen Boyd)
-> * Use {readl/writel}_relaxed (as suggested by Vineet Gupta)
-> 
-> Changes v2 -> v3:
-> * Implemented recalc_rate
-> 
-> Changes v1 -> v2:
-> * Renamed folder to axs10x (as suggested by Alexey Brodkin)
-> * Added more supported rates
+> ?arch/arc/include/asm/bitops.h??????| 1 +
+> ?arch/arm/include/asm/bitops.h??????| 1 +
+> ?arch/arm64/include/asm/bitops.h????| 1 +
+> ?arch/avr32/include/asm/bitops.h????| 1 +
+> ?arch/c6x/include/asm/bitops.h??????| 1 +
+> ?arch/cris/include/asm/bitops.h?????| 1 +
+> ?arch/frv/include/asm/bitops.h??????| 1 +
+> ?arch/h8300/include/asm/bitops.h????| 1 +
+> ?arch/hexagon/include/asm/bitops.h??| 1 +
+> ?arch/m32r/include/asm/bitops.h?????| 1 +
+> ?arch/m68k/include/asm/bitops.h?????| 1 +
+> ?arch/metag/include/asm/bitops.h????| 1 +
+> ?arch/mn10300/include/asm/bitops.h??| 1 +
+> ?arch/openrisc/include/asm/bitops.h | 1 +
+> ?arch/parisc/include/asm/bitops.h???| 1 +
+> ?arch/s390/include/asm/bitops.h?????| 1 +
+> ?arch/sh/include/asm/bitops.h???????| 1 +
+> ?arch/xtensa/include/asm/bitops.h???| 1 +
+> ?18 files changed, 18 insertions(+)
 
-[snip]
+Could you please include a changelog below your commit message?
+Otherwise it's barely possible to understand what that v2 improves/fixes.
 
-> diff --git a/Documentation/devicetree/bindings/clock/i2s-pll-clock.txt b/Documentation/devicetree/bindings/clock/i2s-
-> pll-clock.txt
-> new file mode 100644
-> index 0000000..ff86a41
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/i2s-pll-clock.txt
-> @@ -0,0 +1,17 @@
-> +Binding for the AXS10X I2S PLL clock
-> +
-> +This binding uses the common clock binding[1].
-> +
-> +[1] Documentation/devicetree/bindings/clock/clock-bindings.txt
-> +
-> +Required properties:
-> +- compatible: shall be "snps,i2s-pll-clock"
-> +- #clock-cells: from common clock binding; Should always be set to 0.
-> +- reg : Address and length of the I2S PLL register set.
-> +
-> +Example:
-> +	clock at 0x100a0 {
-
-Please remove "0x" from node name.
-
-> +		compatible = "snps,i2s-pll-clock";
-> +		reg = <0x100a0 0x10>;
-> +		#clock-cells = <0>;
-> +	};
-> diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
-> index 46869d6..2ca62dc6 100644
-> --- a/drivers/clk/Makefile
-> +++ b/drivers/clk/Makefile
-> @@ -84,3 +84,4 @@ obj-$(CONFIG_X86)			+= x86/
-> ?obj-$(CONFIG_ARCH_ZX)			+= zte/
-> ?obj-$(CONFIG_ARCH_ZYNQ)			+= zynq/
-> ?obj-$(CONFIG_H8300)		+= h8300/
-> +obj-$(CONFIG_ARC_PLAT_AXS10X)		+= axs10x/
-> diff --git a/drivers/clk/axs10x/Makefile b/drivers/clk/axs10x/Makefile
-> new file mode 100644
-> index 0000000..01996b8
-> --- /dev/null
-> +++ b/drivers/clk/axs10x/Makefile
-> @@ -0,0 +1 @@
-> +obj-y += i2s_pll_clock.o
-> diff --git a/drivers/clk/axs10x/i2s_pll_clock.c b/drivers/clk/axs10x/i2s_pll_clock.c
-> new file mode 100644
-> index 0000000..3ba4e2f
-> --- /dev/null
-> +++ b/drivers/clk/axs10x/i2s_pll_clock.c
-> @@ -0,0 +1,217 @@
-> +/*
-> + * Synopsys AXS10X SDP I2S PLL clock driver
-> + *
-> + * Copyright (C) 2016 Synopsys
-> + *
-> + * This file is licensed under the terms of the GNU General Public
-> + * License version 2. This program is licensed "as is" without any
-> + * warranty of any kind, whether express or implied.
-> + */
-> +
-> +#include <linux/platform_device.h>
-> +#include <linux/module.h>
-> +#include <linux/clk-provider.h>
-> +#include <linux/err.h>
-> +#include <linux/device.h>
-
-"linux/platform_device.h" includes "linux/device.h" so you may make this list of headers
-a little bit shorter.
-
-> +#include <linux/of_address.h>
-> +#include <linux/slab.h>
-> +#include <linux/of.h>
-
-"linux/of_address.h" already includes "linux/of.h".
-
-[snip]
-
-> +
-> +static const struct of_device_id i2s_pll_clk_id[] = {
-> +	{ .compatible = "snps,i2s-pll-clock", },
-
-I would think that it makes sense to add the board name in
-this compatible string. So something like?"snps,axs10x-i2s-pll-clock"
-IMHO looks much more informative.
-
-Also adding Rob Herring and DT mailing list in Cc.
-Please make sure Rod acks your bindings and corresponding docs.
+Also it makes sense to send at least cover letter to all people mentioned
+at least in one patch of the series. That gives an idea what this series
+does and in particular why patch I'm mentioned in is required.
 
 -Alexey
