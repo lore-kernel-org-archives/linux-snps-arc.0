@@ -1,30 +1,37 @@
-From: lars@metafoo.de (Lars-Peter Clausen)
-Date: Mon, 11 Apr 2016 21:34:26 +0200
-Subject: [alsa-devel] [PATCH 2/5 v4] drm/i2c/adv7511: Add audio support
-In-Reply-To: <570BAFE7.8040206@synopsys.com>
-References: <cover.1460047238.git.joabreu@synopsys.com>
- <d56087fae14074198f6c1bc749ce4da3cab62324.1460047238.git.joabreu@synopsys.com>
- <5707D249.5040707@metafoo.de> <5707D88A.3010400@synopsys.com>
- <57091999.4010906@metafoo.de> <570B6DF2.1080008@synopsys.com>
- <570B6F7B.2020906@metafoo.de> <570B8B59.7000900@synopsys.com>
- <570B975C.50702@metafoo.de> <570BAFE7.8040206@synopsys.com>
+From: sboyd@codeaurora.org (sboyd@codeaurora.org)
+Date: Mon, 11 Apr 2016 15:03:20 -0700
+Subject: [RESEND PATCH v4] clk/axs10x: Add I2S PLL clock driver
+In-Reply-To: <1460393270.5119.20.camel@synopsys.com>
+References: <50c75be8ecab225a1dd49628a173d211a02755b2.1459791946.git.joabreu@synopsys.com>
+ <1460393270.5119.20.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <570BFC42.7040705@metafoo.de>
+Message-ID: <20160411220320.GB14441@codeaurora.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 04/11/2016 04:08 PM, Jose Abreu wrote:
-[...]
->> Currently there is also zero support of of-graph in ASoC, so a bit of work
->> is required to get this integrated properly.
->>
+On 04/11, Alexey Brodkin wrote:
+> On Mon, 2016-04-11@11:41 +0100, Jose Abreu wrote:
+> > + * warranty of any kind, whether express or implied.
+> > + */
+> > +
+> > +#include <linux/platform_device.h>
+> > +#include <linux/module.h>
+> > +#include <linux/clk-provider.h>
+> > +#include <linux/err.h>
+> > +#include <linux/device.h>
 > 
-> I also believe this would be the better option but in the meantime can't I
-> integrate the audio like it is being done in the dw-hdmi driver[1]? In this
-> driver the audio is registered as a sound card and is conditionally built using
-> Kconfig, just like I was doing in the previous versions. I know you said the
-> HDMI audio is still an open issue but it seems that for this case it was accepted.
+> "linux/platform_device.h" includes "linux/device.h" so you may make this list of headers
+> a little bit shorter.
 > 
-> [1] http://lxr.free-electrons.com/source/drivers/gpu/drm/bridge/dw-hdmi-ahb-audio.c
+> > +#include <linux/of_address.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/of.h>
+> 
+> "linux/of_address.h" already includes "linux/of.h".
 
-Maybe, but I'm not sure it would work in this case. Resources are probably
-better invested in working towards a proper solution.
+It's ok to include things twice. In fact, its better to avoid any
+implicit includes so that if we ever want to remove includes from
+other headers we can do so without disturbing this driver.
+
+-- 
+Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
