@@ -1,37 +1,38 @@
-From: sboyd@codeaurora.org (sboyd@codeaurora.org)
-Date: Mon, 11 Apr 2016 15:03:20 -0700
-Subject: [RESEND PATCH v4] clk/axs10x: Add I2S PLL clock driver
-In-Reply-To: <1460393270.5119.20.camel@synopsys.com>
-References: <50c75be8ecab225a1dd49628a173d211a02755b2.1459791946.git.joabreu@synopsys.com>
- <1460393270.5119.20.camel@synopsys.com>
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Tue, 12 Apr 2016 10:14:23 +0100
+Subject: [PATCH 2/2 v5] arc: axs10x: Add DT bindings for I2S PLL Clock
+In-Reply-To: <cover.1460451903.git.joabreu@synopsys.com>
+References: <cover.1460451903.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160411220320.GB14441@codeaurora.org>
+Message-ID: <2e7f7ffb48ea246cd10f2a9b36f74254c699ba49.1460451903.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 04/11, Alexey Brodkin wrote:
-> On Mon, 2016-04-11@11:41 +0100, Jose Abreu wrote:
-> > + * warranty of any kind, whether express or implied.
-> > + */
-> > +
-> > +#include <linux/platform_device.h>
-> > +#include <linux/module.h>
-> > +#include <linux/clk-provider.h>
-> > +#include <linux/err.h>
-> > +#include <linux/device.h>
-> 
-> "linux/platform_device.h" includes "linux/device.h" so you may make this list of headers
-> a little bit shorter.
-> 
-> > +#include <linux/of_address.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/of.h>
-> 
-> "linux/of_address.h" already includes "linux/of.h".
+Add device tree bindings for AXS10X I2S PLL Clock driver.
 
-It's ok to include things twice. In fact, its better to avoid any
-implicit includes so that if we ever want to remove includes from
-other headers we can do so without disturbing this driver.
+Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+---
 
+This patch was only introduced in v5.
+
+ arch/arc/boot/dts/axs10x_mb.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index ab5d570..227b215 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -16,6 +16,12 @@
+ 		ranges = <0x00000000 0xe0000000 0x10000000>;
+ 		interrupt-parent = <&mb_intc>;
+ 
++		i2sclk: i2sclk at 100a0 {
++			compatible = "snps,axs10x-i2s-pll-clock";
++			reg = <0x100a0 0x10>;
++			#clock-cells = <0>;
++		};
++
+ 		clocks {
+ 			i2cclk: i2cclk {
+ 				compatible = "fixed-clock";
 -- 
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+1.9.1
