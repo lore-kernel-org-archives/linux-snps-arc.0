@@ -1,55 +1,27 @@
 From: robh@kernel.org (Rob Herring)
-Date: Wed, 13 Apr 2016 12:35:38 -0500
-Subject: [PATCH 1/2 v5] clk/axs10x: Add I2S PLL clock driver
-In-Reply-To: <faab7d0fa8f93a815fc1114c7b752eddcdc2cfca.1460451903.git.joabreu@synopsys.com>
-References: <cover.1460451903.git.joabreu@synopsys.com>
- <faab7d0fa8f93a815fc1114c7b752eddcdc2cfca.1460451903.git.joabreu@synopsys.com>
+Date: Wed, 13 Apr 2016 15:17:09 -0500
+Subject: [PATCH 2/2 v5] ASoC: dwc: Update DOCUMENTATION for I2S Driver
+In-Reply-To: <a922e60747eb00182eba573baf9497fff8772337.1460384521.git.joabreu@synopsys.com>
+References: <cover.1460384521.git.joabreu@synopsys.com>
+ <a922e60747eb00182eba573baf9497fff8772337.1460384521.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160413173538.GA21769@rob-hp-laptop>
+Message-ID: <20160413201708.GA24579@rob-hp-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Apr 12, 2016@10:14:22AM +0100, Jose Abreu wrote:
-> The ARC SDP I2S clock can be programmed using a
-> specific PLL.
-> 
-> This patch has the goal of adding a clock driver
-> that programs this PLL.
-> 
-> At this moment the rate values are hardcoded in
-> a table but in the future it would be ideal to
-> use a function which determines the PLL values
-> given the desired rate.
+On Tue, Apr 12, 2016@01:56:28PM +0100, Jose Abreu wrote:
+> This patch updates documentation for the Designware I2S
+> driver.
 > 
 > Signed-off-by: Jose Abreu <joabreu at synopsys.com>
 > ---
 > 
 > Changes v4 -> v5:
-> * Documentation update (as suggested by Alexey Brodkin)
-> * Changed compatible string to "snps,axs10x-i2s-pll-clock" (as suggested by Alexey Brodkin)
+> * interrupts is now required property
+> * Drop 'snps-use-dmaengine' property
 > 
-> Changes v3 -> v4:
-> * Added binding document (as suggested by Stephen Boyd)
-> * Minor code style fixes (as suggested by Stephen Boyd)
-> * Use ioremap (as suggested by Stephen Boyd)
-> * Implement round_rate (as suggested by Stephen Boyd)
-> * Change to platform driver (as suggested by Stephen Boyd)
-> * Use {readl/writel}_relaxed (as suggested by Vineet Gupta)
+> This patch was only introduced in v4.
 > 
-> Changes v2 -> v3:
-> * Implemented recalc_rate
-> 
-> Changes v1 -> v2:
-> * Renamed folder to axs10x (as suggested by Alexey Brodkin)
-> * Added more supported rates
-> 
->  .../bindings/clock/axs10x-i2s-pll-clock.txt        |  17 ++
+>  Documentation/devicetree/bindings/sound/designware-i2s.txt | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 
 Acked-by: Rob Herring <robh at kernel.org>
-
->  drivers/clk/Makefile                               |   1 +
->  drivers/clk/axs10x/Makefile                        |   1 +
->  drivers/clk/axs10x/i2s_pll_clock.c                 | 217 +++++++++++++++++++++
->  4 files changed, 236 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/clock/axs10x-i2s-pll-clock.txt
->  create mode 100644 drivers/clk/axs10x/Makefile
->  create mode 100644 drivers/clk/axs10x/i2s_pll_clock.c
