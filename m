@@ -1,10 +1,8 @@
 From: zengzhaoxiu@163.com (zengzhaoxiu@163.com)
-Date: Thu, 14 Apr 2016 12:18:40 +0800
+Date: Thu, 14 Apr 2016 10:36:41 +0800
 Subject: [PATCH V3 00/29] bitops: add parity functions
-In-Reply-To: <1460601525-3822-1-git-send-email-zengzhaoxiu@163.com>
-References: <1460601525-3822-1-git-send-email-zengzhaoxiu@163.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1460607523-6560-1-git-send-email-zengzhaoxiu@163.com>
+Message-ID: <1460601525-3822-1-git-send-email-zengzhaoxiu@163.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Zhaoxiu Zeng <zhaoxiu.zeng@gmail.com>
