@@ -1,108 +1,23 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 14 Apr 2016 15:02:38 +0530
-Subject: [PATCH v4 1/5] ARC: clockevent: DT based probe
-In-Reply-To: <20160413125922.GA14715@linaro.org>
+Date: Thu, 14 Apr 2016 15:06:10 +0530
+Subject: [PATCH v4 2/5] ARC: clocksource: DT based probe
+In-Reply-To: <570F63A1.3070904@arm.com>
 References: <1460547605-26184-1-git-send-email-vgupta@synopsys.com>
- <1460547605-26184-2-git-send-email-vgupta@synopsys.com>
- <20160413125922.GA14715@linaro.org>
+ <1460547605-26184-3-git-send-email-vgupta@synopsys.com>
+ <570E7263.8070108@arm.com> <570F623B.3000105@synopsys.com>
+ <570F63A1.3070904@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <570F63B6.1070409@synopsys.com>
+Message-ID: <570F648A.2060307@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wednesday 13 April 2016 06:29 PM, Daniel Lezcano wrote:
-> On Wed, Apr 13, 2016@05:10:01PM +0530, Vineet Gupta wrote:
->>  - timer frequency is derived from DT (no longer rely on top level
->>    DT "clock-frequency" probed early and exported by asm/clk.h)
->>
->>  - TIMER0_IRQ need not be exported across arch code, confined to intc as
->>    it is property of same
->>
->> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
->> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
->> ---
-> 
-> [ ... ]
-> 
->> +static void noinline arc_get_timer_clk(struct device_node *node)
->> +{
->> +	struct clk *clk;
->> +	int ret;
->> +
->> +	clk = of_clk_get(node, 0);
->> +	if (IS_ERR(clk))
->> +		panic("Can't get timer clock");
->> +
-> 
-> Don't panic here. Change the function to return an error and let the
-> caller to handle it.
-> 
->> +	ret = clk_prepare_enable(clk);
->> +	if (ret)
->> +		pr_err("Couldn't enable parent clock\n");
+On Thursday 14 April 2016 03:02 PM, Marc Zyngier wrote:
+>> This is clocksource, not clockevent. cs needs to synchronized across all cores so
+>> > that concurrent gtod call from threads on different cores gives you similar
+>> > values. This obviously is not true for the local RTC hardware timer.
+> Unsynchronized counters on SMP HW, who would have thought! ;-) I guess
+> each and every architecture has to repeat the same mistakes.
 
-I suppose we need to return here too ?
-
->> +
->> +	arc_timer_freq = clk_get_rate(clk);
->> +}
->> +
-> 
-> [ ... ]
-> 
->> +static void __init arc_clockevent_setup(struct device_node *node)
->>  {
->>  	struct clock_event_device *evt = this_cpu_ptr(&arc_clockevent_device);
->>  	int ret;
->>  
->>  	register_cpu_notifier(&arc_timer_cpu_nb);
->>  
->> +	arc_timer_irq = irq_of_parse_and_map(node, 0);
->> +	if (arc_timer_irq <= 0)
->> +		panic("Can't parse IRQ");
->> +
->> +	arc_get_timer_clk(node);
-> 
-> Connected to the comment above, check the return code.
-
-Right and if there's error, bail from here too ? This will leave a system w/o a
-working clockevent and our lpj setup loop will spin forever. Better to add a WARN
-so that user knows to fix his DT.
-
-> 
->> +
->> +	evt->irq = arc_timer_irq;
->>  	evt->cpumask = cpumask_of(smp_processor_id());
->> -	clockevents_config_and_register(evt, arc_get_core_freq(),
->> +	clockevents_config_and_register(evt, arc_timer_freq,
->>  					0, ARC_TIMER_MAX);
->>  
->>  	/* Needs apriori irq_set_percpu_devid() done in intc map function */
->> @@ -291,6 +312,7 @@ static void __init arc_clockevent_setup(void)
->>  
->>  	enable_percpu_irq(arc_timer_irq, 0);
->>  }
->> +CLOCKSOURCE_OF_DECLARE(arc_clkevt, "snps,arc-timer", arc_clockevent_setup);
->>  
->>  /*
->>   * Called from start_kernel() - boot CPU only
->> @@ -299,7 +321,6 @@ static void __init arc_clockevent_setup(void)
->>   * -Also sets up any global state needed for timer subsystem:
->>   *    - for "counting" timer, registers a clocksource, usable across CPUs
->>   *      (provided that underlying counter h/w is synchronized across cores)
->> - *    - for "event" timer, sets up TIMER0 IRQ (as that is platform agnostic)
->>   */
->>  void __init time_init(void)
->>  {
->> @@ -315,7 +336,5 @@ void __init time_init(void)
->>  		 * CLK upto 4.29 GHz can be safely represented in 32 bits
->>  		 * because Max 32 bit number is 4,294,967,295
->>  		 */
->> -		clocksource_register_hz(&arc_counter, arc_get_core_freq());
->> -
->> -	arc_clockevent_setup();
->> +		clocksource_register_hz(&arc_counter, arc_timer_freq);
->>  }
->> -- 
->> 2.5.0
->>
-> 
+Not really - hardware wise the SMP support is pretty recent and before that we
+only had UP cores. So transition from 32 TIMER1 to 64 bit RTC was only a natural
+progression in improvements and in theory SoC guys throw in this local timer into
+the config. We just prevent SMP linux from using it.
