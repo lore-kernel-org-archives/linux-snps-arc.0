@@ -1,65 +1,208 @@
-From: robdclark@gmail.com (Rob Clark)
-Date: Sat, 16 Apr 2016 17:48:04 -0400
-Subject: Allocation of frame buffer at a specific memory range or address
-In-Reply-To: <5711D698.4030606@synopsys.com>
-References: <1460735338.3248.21.camel@synopsys.com>
- <5711D698.4030606@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 18 Apr 2016 12:16:10 +0530
+Subject: [PATCH v5] ARC: clockevent: DT based probe
+In-Reply-To: <20160414100518.GB15250@linaro.org>
+References: <20160414100518.GB15250@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAF6AEGv5p_t_dWhE0J67Jx0pg=jB07E95j5nq=N3VfvEi+YHhQ@mail.gmail.com>
+Message-ID: <1460961970-20696-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Sat, Apr 16, 2016 at 2:07 AM, Vineet Gupta
-<Vineet.Gupta1@synopsys.com> wrote:
-> On Friday 15 April 2016 09:18 PM, Alexey Brodkin wrote:
->
->> And now the question is how to force DRM subsystem or just that driver
->> to use whatever predefined (say via device tree) location in memory
->> for data buffer allocation.
->
-> It seems this is pretty easy to do with DT reserved-memory binding.
->
-> You need to partition memory into @memory and @reserved-memory.
-> Later can be subdivided into more granular regions and your driver can refer to
-> one of the regions.
+ - timer frequency is derived from DT (no longer rely on top level
+   DT "clock-frequency" probed early and exported by asm/clk.h)
 
-jfyi, it might be useful to look at msm_init_vram() which has support
-to wrap vram carveout as gem buffer, for exact same purpose..
+ - TIMER0_IRQ need not be exported across arch code, confined to intc as
+   it is property of same
 
-BR,
--R
+ - Any failures in clockevent setup are considered pedantic and system
+   panic()'s as there is no generic fallback (unlike clocksource where
+   a jiffies based soft clocksource always exists)
 
+Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+Changes since v4 [*]
+- clockevent setup failure panic()s bubbled up to top level function [Daniel]
+- arc_get_timer_clk() returns error status vs. void [Daniel]
+- For consistency, straggler pr_err() in setup function also converted to panic
 
-> Something like below (untested)
->
-> +       memory {
-> +               device_type = "memory";
-> +               reg = <0x0 0x80000000 0x0 0xA0000000>;
-> +               #address-cells = <2>;
-> +               #size-cells = <2>;
-> +       };
-> +
-> +       reserved-memory {
-> +               #address-cells = <2>;
-> +               #size-cells = <2>;
-> +               ranges;
-> +               /* This memory bypasses IOC port */
-> +               fb_reserved at A0000000 {
-> +                       reg = <0x0 0xA0000000 0x0 0xAF000000>;
-> +                       #address-cells = <2>;
-> +                       #size-cells = <2>;
-> +                       /* no-map;   */
-> +               };
-> +       };
-> +
-> +
-> +       fb0: video at 12300000 {
-> +               memory-region = <&fb_reserved>;
-> +               /* ... */
-> +       };
->
-> This might also need a DT helper in ARC mm init code.
->
-> +       early_init_fdt_scan_reserved_mem();
->
-> HTH,
-> -Vineet
+[*] http://lists.infradead.org/pipermail/linux-snps-arc/2016-April/000903.html
+---
+ arch/arc/include/asm/irq.h     |  9 -------
+ arch/arc/kernel/intc-compact.c |  2 ++
+ arch/arc/kernel/time.c         | 58 ++++++++++++++++++++++++++++++------------
+ 3 files changed, 44 insertions(+), 25 deletions(-)
+
+diff --git a/arch/arc/include/asm/irq.h b/arch/arc/include/asm/irq.h
+index 5c0b5abda67a..a6ac89dc228f 100644
+--- a/arch/arc/include/asm/irq.h
++++ b/arch/arc/include/asm/irq.h
+@@ -12,15 +12,6 @@
+ #define NR_CPU_IRQS	32  /* number of interrupt lines of ARC770 CPU */
+ #define NR_IRQS		128 /* allow some CPU external IRQ handling */
+ 
+-/* Platform Independent IRQs */
+-#ifdef CONFIG_ISA_ARCOMPACT
+-#define TIMER0_IRQ      3
+-#define TIMER1_IRQ      4
+-#else
+-#define TIMER0_IRQ      16
+-#define TIMER1_IRQ      17
+-#endif
+-
+ #include <linux/interrupt.h>
+ #include <asm-generic/irq.h>
+ 
+diff --git a/arch/arc/kernel/intc-compact.c b/arch/arc/kernel/intc-compact.c
+index 4195eedeb6d1..d31bc647146d 100644
+--- a/arch/arc/kernel/intc-compact.c
++++ b/arch/arc/kernel/intc-compact.c
+@@ -14,6 +14,8 @@
+ #include <linux/irqchip.h>
+ #include <asm/irq.h>
+ 
++#define TIMER0_IRQ	3	/* Fixed by ISA */
++
+ /*
+  * Early Hardware specific Interrupt setup
+  * -Platform independent, needed for each CPU (not foldable into init_IRQ)
+diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+index 848353a27ac8..83e2c0eb2d68 100644
+--- a/arch/arc/kernel/time.c
++++ b/arch/arc/kernel/time.c
+@@ -30,19 +30,15 @@
+  */
+ 
+ #include <linux/interrupt.h>
+-#include <linux/module.h>
+-#include <linux/kernel.h>
+-#include <linux/time.h>
+-#include <linux/init.h>
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
+ #include <linux/clocksource.h>
+ #include <linux/clockchips.h>
+ #include <linux/cpu.h>
++#include <linux/of.h>
++#include <linux/of_irq.h>
+ #include <asm/irq.h>
+ #include <asm/arcregs.h>
+-#include <asm/clk.h>
+-#include <asm/mach_desc.h>
+ 
+ #include <asm/mcip.h>
+ 
+@@ -59,6 +55,29 @@
+ 
+ #define ARC_TIMER_MAX	0xFFFFFFFF
+ 
++static unsigned long arc_timer_freq;
++
++static int noinline arc_get_timer_clk(struct device_node *node)
++{
++	struct clk *clk;
++	int ret = -1;
++
++	clk = of_clk_get(node, 0);
++	if (IS_ERR(clk)) {
++		pr_err("timer missing clk");
++		return ret;
++	}
++
++	ret = clk_prepare_enable(clk);
++	if (ret) {
++		pr_err("Couldn't enable parent clk\n");
++		return ret;
++	}
++
++	arc_timer_freq = clk_get_rate(clk);
++	return ret;
++}
++
+ /********** Clock Source Device *********/
+ 
+ #ifdef CONFIG_ARC_HAS_GFRC
+@@ -182,7 +201,7 @@ static struct clocksource arc_counter = {
+ 
+ /********** Clock Event Device *********/
+ 
+-static int arc_timer_irq = TIMER0_IRQ;
++static int arc_timer_irq;
+ 
+ /*
+  * Arm the timer to interrupt after @cycles
+@@ -210,7 +229,7 @@ static int arc_clkevent_set_periodic(struct clock_event_device *dev)
+ 	 * At X Hz, 1 sec = 1000ms -> X cycles;
+ 	 *		      10ms -> X / 100 cycles
+ 	 */
+-	arc_timer_event_setup(arc_get_core_freq() / HZ);
++	arc_timer_event_setup(arc_timer_freq / HZ);
+ 	return 0;
+ }
+ 
+@@ -253,7 +272,7 @@ static int arc_timer_cpu_notify(struct notifier_block *self,
+ 
+ 	switch (action & ~CPU_TASKS_FROZEN) {
+ 	case CPU_STARTING:
+-		clockevents_config_and_register(evt, arc_get_core_freq(),
++		clockevents_config_and_register(evt, arc_timer_freq,
+ 						0, ULONG_MAX);
+ 		enable_percpu_irq(arc_timer_irq, 0);
+ 		break;
+@@ -272,25 +291,35 @@ static struct notifier_block arc_timer_cpu_nb = {
+ /*
+  * clockevent setup for boot CPU
+  */
+-static void __init arc_clockevent_setup(void)
++static void __init arc_clockevent_setup(struct device_node *node)
+ {
+ 	struct clock_event_device *evt = this_cpu_ptr(&arc_clockevent_device);
+ 	int ret;
+ 
+ 	register_cpu_notifier(&arc_timer_cpu_nb);
+ 
++	arc_timer_irq = irq_of_parse_and_map(node, 0);
++	if (arc_timer_irq <= 0)
++		panic("clockevent: missing irq");
++
++	ret = arc_get_timer_clk(node);
++	if (ret)
++		panic("clockevent: missing clk");
++
++	evt->irq = arc_timer_irq;
+ 	evt->cpumask = cpumask_of(smp_processor_id());
+-	clockevents_config_and_register(evt, arc_get_core_freq(),
++	clockevents_config_and_register(evt, arc_timer_freq,
+ 					0, ARC_TIMER_MAX);
+ 
+ 	/* Needs apriori irq_set_percpu_devid() done in intc map function */
+ 	ret = request_percpu_irq(arc_timer_irq, timer_irq_handler,
+ 				 "Timer0 (per-cpu-tick)", evt);
+ 	if (ret)
+-		pr_err("Unable to register interrupt\n");
++		panic("clockevent: unable to request irq\n");
+ 
+ 	enable_percpu_irq(arc_timer_irq, 0);
+ }
++CLOCKSOURCE_OF_DECLARE(arc_clkevt, "snps,arc-timer", arc_clockevent_setup);
+ 
+ /*
+  * Called from start_kernel() - boot CPU only
+@@ -299,7 +328,6 @@ static void __init arc_clockevent_setup(void)
+  * -Also sets up any global state needed for timer subsystem:
+  *    - for "counting" timer, registers a clocksource, usable across CPUs
+  *      (provided that underlying counter h/w is synchronized across cores)
+- *    - for "event" timer, sets up TIMER0 IRQ (as that is platform agnostic)
+  */
+ void __init time_init(void)
+ {
+@@ -315,7 +343,5 @@ void __init time_init(void)
+ 		 * CLK upto 4.29 GHz can be safely represented in 32 bits
+ 		 * because Max 32 bit number is 4,294,967,295
+ 		 */
+-		clocksource_register_hz(&arc_counter, arc_get_core_freq());
+-
+-	arc_clockevent_setup();
++		clocksource_register_hz(&arc_counter, arc_timer_freq);
+ }
+-- 
+2.5.0
