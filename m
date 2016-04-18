@@ -1,69 +1,57 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 18 Apr 2016 12:21:55 +0530
-Subject: [PATCH v4 5/5] ARC: [intc-*] switch to linear domain
-In-Reply-To: <1460547605-26184-6-git-send-email-vgupta@synopsys.com>
-References: <1460547605-26184-1-git-send-email-vgupta@synopsys.com>
- <1460547605-26184-6-git-send-email-vgupta@synopsys.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Mon, 18 Apr 2016 11:08:18 +0200
+Subject: [PATCH v5] ARC: clockevent: DT based probe
+In-Reply-To: <1460961970-20696-1-git-send-email-vgupta@synopsys.com>
+References: <20160414100518.GB15250@linaro.org>
+ <1460961970-20696-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5714840B.5080309@synopsys.com>
+Message-ID: <20160418090818.GA14358@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Marc,
-
-On Wednesday 13 April 2016 05:10 PM, Vineet Gupta wrote:
-> Now that we have Timers probed from DT, don't need legacy domain
+On Mon, Apr 18, 2016@12:16:10PM +0530, Vineet Gupta wrote:
+>  - timer frequency is derived from DT (no longer rely on top level
+>    DT "clock-frequency" probed early and exported by asm/clk.h)
 > 
-> This however requires mapping to be called explicitly for the IRQ which
-> still can't (and probably never) be probed from DT such as IPI and
-> SOFTIRQ
+>  - TIMER0_IRQ need not be exported across arch code, confined to intc as
+>    it is property of same
 > 
+>  - Any failures in clockevent setup are considered pedantic and system
+>    panic()'s as there is no generic fallback (unlike clocksource where
+>    a jiffies based soft clocksource always exists)
+> 
+> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
 > Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 > ---
->  arch/arc/kernel/intc-arcv2.c   | 8 ++++++--
->  arch/arc/kernel/intc-compact.c | 2 +-
->  2 files changed, 7 insertions(+), 3 deletions(-)
+> Changes since v4 [*]
+> - clockevent setup failure panic()s bubbled up to top level function [Daniel]
+> - arc_get_timer_clk() returns error status vs. void [Daniel]
+> - For consistency, straggler pr_err() in setup function also converted to panic
 > 
-> diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
-> index 592cc977151e..6c24faf48b16 100644
-> --- a/arch/arc/kernel/intc-arcv2.c
-> +++ b/arch/arc/kernel/intc-arcv2.c
-> @@ -146,8 +146,7 @@ init_onchip_IRQ(struct device_node *intc, struct device_node *parent)
->  	if (parent)
->  		panic("DeviceTree incore intc not a root irq controller\n");
->  
-> -	root_domain = irq_domain_add_legacy(intc, NR_CPU_IRQS, 0, 0,
-> -					    &arcv2_irq_ops, NULL);
-> +	root_domain = irq_domain_add_linear(intc, NR_CPU_IRQS, &arcv2_irq_ops, NULL);
->  	if (!root_domain)
->  		panic("root irq domain not avail\n");
->  
-> @@ -157,6 +156,11 @@ init_onchip_IRQ(struct device_node *intc, struct device_node *parent)
->  	 */
->  	irq_set_default_host(root_domain);
->  
-> +#ifdef CONFIG_SMP
-> +	irq_create_mapping(root_domain, IPI_IRQ);
-> +#endif
-> +	irq_create_mapping(root_domain, SOFTIRQ_IRQ);
+> [*] http://lists.infradead.org/pipermail/linux-snps-arc/2016-April/000903.html
+
+[ ... ]
+
+> +static int noinline arc_get_timer_clk(struct device_node *node)
+> +{
+> +	struct clk *clk;
+> +	int ret = -1;
 > +
->  	return 0;
->  }
->  
-> diff --git a/arch/arc/kernel/intc-compact.c b/arch/arc/kernel/intc-compact.c
-> index 48a8b24de23e..c5cceca36118 100644
-> --- a/arch/arc/kernel/intc-compact.c
-> +++ b/arch/arc/kernel/intc-compact.c
-> @@ -105,7 +105,7 @@ init_onchip_IRQ(struct device_node *intc, struct device_node *parent)
->  	if (parent)
->  		panic("DeviceTree incore intc not a root irq controller\n");
->  
-> -	root_domain = irq_domain_add_legacy(intc, NR_CPU_IRQS, 0, 0,
-> +	root_domain = irq_domain_add_linear(intc, NR_CPU_IRQS,
->  					    &arc_intc_domain_ops, NULL);
->  	if (!root_domain)
->  		panic("root irq domain not avail\n");
-> 
+> +	clk = of_clk_get(node, 0);
+> +	if (IS_ERR(clk)) {
+> +		pr_err("timer missing clk");
+> +		return ret;
+> +	}
 
-Does this patch look ok to you ? Do you want to see any other improvements here.
+return PTR_ERR(clk);
 
--Vineet
+> +	ret = clk_prepare_enable(clk);
+> +	if (ret) {
+> +		pr_err("Couldn't enable parent clk\n");
+> +		return ret;
+> +	}
+> +
+> +	arc_timer_freq = clk_get_rate(clk);
+> +	return ret;
+> +}
+
+With the change above: Acked-by: Daniel Lezcano <daniel.lezcano at linaro.org>
