@@ -1,36 +1,66 @@
-From: sboyd@codeaurora.org (Stephen Boyd)
-Date: Tue, 19 Apr 2016 18:54:51 -0700
-Subject: [RESEND PATCH v4] clk/axs10x: Add I2S PLL clock driver
-In-Reply-To: <5715F6AC.7090501@synopsys.com>
-References: <50c75be8ecab225a1dd49628a173d211a02755b2.1459791946.git.joabreu@synopsys.com>
- <20160415234631.GB4690@codeaurora.org>
- <5714B763.8010109@synopsys.com> <5714C9BA.8040004@synopsys.com>
- <5715F6AC.7090501@synopsys.com>
+From: linus.walleij@linaro.org (Linus Walleij)
+Date: Wed, 20 Apr 2016 10:58:00 +0200
+Subject: [PATCH 02/23] arc: select GPIOLIB directly
+In-Reply-To: <1461142701-21096-1-git-send-email-linus.walleij@linaro.org>
+References: <1461142701-21096-1-git-send-email-linus.walleij@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160420015451.GH15324@codeaurora.org>
+Message-ID: <1461142701-21096-3-git-send-email-linus.walleij@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 04/19, Jose Abreu wrote:
-> 
-> @Stephen: can you give some input so that I can submit a v6?
-> 
+Instead of indirectly selecting GPIOLIB via the
+ARCH_REQUIRE_GPIOLIB symbol, just select GPIOLIB.
 
-I don't prefer putting the second register in the same DT node,
-but that's really up to the DT reviewers to approve such a
-design. The current binding has been acked by Rob right?
+Cc: Michael B?sch <m at bues.ch>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+Signed-off-by: Linus Walleij <linus.walleij at linaro.org>
+---
+Various arch maintainers:
 
-Assuming the new binding is acked/reviewed then that solution is
-fine.
+either ACK this and I will merge it into the GPIO tree for v4.7
+anticipating no clashes, or you wait until I have the enabling patch
+upstream (patch 1 in this series, removing deps on
+ARCH_[WANTS_OPTIONAL|REQUIRES]_GPIOLIB), and you will be able to
+merge it to your arch trees yourselves for late v4.7
+(post GPIO tree merge) or for v4.8.
 
-Otherwise, I still prefer two DTS files for the two different FPGA
-versions. At the least, please use ioremap for any pointers that
-you readl/writel here.
+You can also ask me for an immutable branch if you prefer that, I
+will put the enabling patch on a branch and the patch for your arch
+on top and ask you to pull it.
 
-Beyond that, we should have a fixed rate source clk somewhere in
-the software view of the clk tree, because that reflects reality.
-Hardcoding the parent rate in the structure works, but doesn't
-properly express the clk tree.
+Select your option from the menu, silence probably means I will
+merge it to the GPIO tree. Unless you are X86 or ARM in which case
+I will be cautious.
+---
+ arch/arc/plat-axs10x/Kconfig | 2 +-
+ arch/arc/plat-tb10x/Kconfig  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/arch/arc/plat-axs10x/Kconfig b/arch/arc/plat-axs10x/Kconfig
+index 426ac4b8bb39..c54d1ae57fe0 100644
+--- a/arch/arc/plat-axs10x/Kconfig
++++ b/arch/arc/plat-axs10x/Kconfig
+@@ -13,7 +13,7 @@ menuconfig ARC_PLAT_AXS10X
+ 	select OF_GPIO
+ 	select MIGHT_HAVE_PCI
+ 	select GENERIC_IRQ_CHIP
+-	select ARCH_REQUIRE_GPIOLIB
++	select GPIOLIB
+ 	help
+ 	  Support for the ARC AXS10x Software Development Platforms.
+ 
+diff --git a/arch/arc/plat-tb10x/Kconfig b/arch/arc/plat-tb10x/Kconfig
+index d14b3d3c5dfd..149e0917645d 100644
+--- a/arch/arc/plat-tb10x/Kconfig
++++ b/arch/arc/plat-tb10x/Kconfig
+@@ -21,7 +21,7 @@ menuconfig ARC_PLAT_TB10X
+ 	select PINCTRL
+ 	select PINCTRL_TB10X
+ 	select PINMUX
+-	select ARCH_REQUIRE_GPIOLIB
++	select GPIOLIB
+ 	select GPIO_TB10X
+ 	select TB10X_IRQC
+ 	help
 -- 
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.4.11
