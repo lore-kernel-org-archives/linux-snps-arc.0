@@ -1,40 +1,53 @@
-From: Lada.Trimasova@synopsys.com (Lada Trimasova)
-Date: Fri, 22 Apr 2016 13:25:23 +0000
-Subject: Misleading hint to select CONFIG_PERF_EVENTS if driver sets
- PERF_PMU_CAP_NO_INTERRUPT
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 22 Apr 2016 14:55:06 +0000
+Subject: [PATCH 2/2 v6] arc: axs10x: Add DT bindings for I2S PLL Clock
+In-Reply-To: <e98c3f738b3a8f6755793959d89b4e43c9410fb1.1461258787.git.joabreu@synopsys.com>
+References: <cover.1461258787.git.joabreu@synopsys.com>
+ <e98c3f738b3a8f6755793959d89b4e43c9410fb1.1461258787.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1461331523.3403.11.camel@synopsys.com>
+Message-ID: <1461336899.3205.11.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-I have a question about user-space perf handling error numbers.
-The problem is that PMU interrupts are not supported in arc700
-architecture and it is impossible to evaluate `perf record` command.
-In our perf implementation we set PERF_PMU_CAP_NO_INTERRUPT flag so
-core perf infrastructure knows we don't have interrupts.
+Hi Jose,
 
-Kernel `sys_perf_event_open` handler checks if PMU interrupts are
-supported and returns ENOTSUPP (524) error code.
-I'd expect that perf implementation checks the return value of syscalls
-and gives the user understandable error message.
-But now I see:
---------------------------------->8-----------------------------------
-# perf record ls
-The sys_perf_event_open() syscall returned with 524 (Unknown error 524)
-for event (cycles:ppp).
-/bin/dmesg may provide additional information.
-No CONFIG_PERF_EVENTS=y kernel support configured?
---------------------------------->8-----------------------------------
+On Thu, 2016-04-21@18:19 +0100, Jose Abreu wrote:
+> Add device tree bindings for AXS10X I2S PLL Clock driver.
+> 
+> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+> ---
+> 
+> Changes v5 -> v6:
+> * Added 'clocks' field
+> 
+> This patch was only introduced in v5.
+> 
+> ?arch/arc/boot/dts/axs10x_mb.dtsi | 13 +++++++++++++
+> ?1 file changed, 13 insertions(+)
+> 
+> diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+> index ab5d570..5c6489e 100644
+> --- a/arch/arc/boot/dts/axs10x_mb.dtsi
+> +++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+> @@ -16,7 +16,20 @@
+> ?		ranges = <0x00000000 0xe0000000 0x10000000>;
+> ?		interrupt-parent = <&mb_intc>;
+> ?
+> +		i2sclk: i2sclk at 100a0 {
+> +			compatible = "snps,axs10x-i2s-pll-clock";
+> +			reg = <0x100a0 0x10>;
+> +			clocks = <&i2spll_clk>;
+> +			#clock-cells = <0>;
+> +		};
+> +
+> ?		clocks {
+> +			i2spll_clk: i2spll_clk {
+> +				compatible = "fixed-clock";
+> +				clock-frequency = <27000000>;
+> +				#clock-cells = <0>;
+> +			};
+> +
+> ?			i2cclk: i2cclk {
+> ?				compatible = "fixed-clock";
+> ?				clock-frequency = <50000000>;
 
-As you can see the root cause of this error message is not obvious.
-CONFIG_PERF_EVENTS is selected but still there's a problem while
-existing suggestion barely makes any sense.
-So probably there could be a way to determine if CONFIG_PERF_EVENTS was
-selected or not.
-
-I am not sure about the correct way of solving this problem. Maybe I
-should add some checks of syscalls return values and give user
-a warning when not PMU interrupts are available.?
-Any suggestions are appreciated.
-
-Regards,
-Lada Trimasova.
+Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
