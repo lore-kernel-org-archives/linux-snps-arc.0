@@ -1,26 +1,40 @@
-From: dmitry.torokhov@gmail.com (Dmitry Torokhov)
-Date: Sun, 17 Apr 2016 05:38:57 -0700
-Subject: [PATCH V3 00/29] bitops: add parity functions
-In-Reply-To: <1460601525-3822-1-git-send-email-zengzhaoxiu@163.com>
-References: <1460601525-3822-1-git-send-email-zengzhaoxiu@163.com>
+From: Lada.Trimasova@synopsys.com (Lada Trimasova)
+Date: Fri, 22 Apr 2016 13:25:23 +0000
+Subject: Misleading hint to select CONFIG_PERF_EVENTS if driver sets
+ PERF_PMU_CAP_NO_INTERRUPT
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160417123857.GD33215@dtor-ws>
+Message-ID: <1461331523.3403.11.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Apr 14, 2016@10:36:41AM +0800, zengzhaoxiu@163.com wrote:
->  drivers/input/joystick/grip_mp.c             |  16 +--
->  drivers/input/joystick/sidewinder.c          |  24 +----
->  drivers/input/mouse/elantech.c               |  10 +-
->  drivers/input/mouse/elantech.h               |   1 -
->  drivers/input/serio/ams_delta_serio.c        |   8 +-
->  drivers/input/serio/pcips2.c                 |   2 +-
->  drivers/input/serio/sa1111ps2.c              |   2 +-
+I have a question about user-space perf handling error numbers.
+The problem is that PMU interrupts are not supported in arc700
+architecture and it is impossible to evaluate `perf record` command.
+In our perf implementation we set PERF_PMU_CAP_NO_INTERRUPT flag so
+core perf infrastructure knows we don't have interrupts.
 
-For input bits:
+Kernel `sys_perf_event_open` handler checks if PMU interrupts are
+supported and returns ENOTSUPP (524) error code.
+I'd expect that perf implementation checks the return value of syscalls
+and gives the user understandable error message.
+But now I see:
+--------------------------------->8-----------------------------------
+# perf record ls
+The sys_perf_event_open() syscall returned with 524 (Unknown error 524)
+for event (cycles:ppp).
+/bin/dmesg may provide additional information.
+No CONFIG_PERF_EVENTS=y kernel support configured?
+--------------------------------->8-----------------------------------
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov at gmail.com>
+As you can see the root cause of this error message is not obvious.
+CONFIG_PERF_EVENTS is selected but still there's a problem while
+existing suggestion barely makes any sense.
+So probably there could be a way to determine if CONFIG_PERF_EVENTS was
+selected or not.
 
-Thanks.
+I am not sure about the correct way of solving this problem. Maybe I
+should add some checks of syscalls return values and give user
+a warning when not PMU interrupts are available.?
+Any suggestions are appreciated.
 
--- 
-Dmitry
+Regards,
+Lada Trimasova.
