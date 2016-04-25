@@ -1,43 +1,18 @@
-From: eric@engestrom.ch (Eric Engestrom)
-Date: Mon, 25 Apr 2016 01:24:04 +0100
-Subject: [PATCH 07/41] Documentation: dt: arc: fix spelling mistakes
-In-Reply-To: <1461543878-3639-1-git-send-email-eric@engestrom.ch>
-References: <1461543878-3639-1-git-send-email-eric@engestrom.ch>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 25 Apr 2016 04:24:14 +0000
+Subject: [PATCH 2/2 v6] arc: axs10x: Add DT bindings for I2S PLL Clock
+References: <cover.1461258787.git.joabreu@synopsys.com>
+ <e98c3f738b3a8f6755793959d89b4e43c9410fb1.1461258787.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1461543878-3639-8-git-send-email-eric@engestrom.ch>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4E9F117@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Signed-off-by: Eric Engestrom <eric at engestrom.ch>
----
- Documentation/devicetree/bindings/arc/archs-pct.txt | 2 +-
- Documentation/devicetree/bindings/arc/pct.txt       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Thursday 21 April 2016 10:49 PM, Jose Abreu wrote:
+> Add device tree bindings for AXS10X I2S PLL Clock driver.
+>
+> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
 
-diff --git a/Documentation/devicetree/bindings/arc/archs-pct.txt b/Documentation/devicetree/bindings/arc/archs-pct.txt
-index 1ae98b87..e4b9dce 100644
---- a/Documentation/devicetree/bindings/arc/archs-pct.txt
-+++ b/Documentation/devicetree/bindings/arc/archs-pct.txt
-@@ -2,7 +2,7 @@
- 
- The ARC HS can be configured with a pipeline performance monitor for counting
- CPU and cache events like cache misses and hits. Like conventional PCT there
--are 100+ hardware conditions dynamically mapped to upto 32 counters.
-+are 100+ hardware conditions dynamically mapped to up to 32 counters.
- It also supports overflow interrupts.
- 
- Required properties:
-diff --git a/Documentation/devicetree/bindings/arc/pct.txt b/Documentation/devicetree/bindings/arc/pct.txt
-index 7b95884..4e874d9 100644
---- a/Documentation/devicetree/bindings/arc/pct.txt
-+++ b/Documentation/devicetree/bindings/arc/pct.txt
-@@ -2,7 +2,7 @@
- 
- The ARC700 can be configured with a pipeline performance monitor for counting
- CPU and cache events like cache misses and hits. Like conventional PCT there
--are 100+ hardware conditions dynamically mapped to upto 32 counters
-+are 100+ hardware conditions dynamically mapped to up to 32 counters
- 
- Note that:
-  * The ARC 700 PCT does not support interrupts; although HW events may be
--- 
-2.8.0
+Lets worry about different firmware versions et all after basic patch is merged.
+I presume this patch will be merged via clk tree ?
+
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
