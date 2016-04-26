@@ -1,65 +1,57 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 26 Apr 2016 15:28:10 +0000
-Subject: [GIT PULL] drm: Add support of ARC PGU display controller
-In-Reply-To: <1461336820.3205.10.camel@synopsys.com>
-References: <1461071980-5916-1-git-send-email-abrodkin@synopsys.com>
- <1461336820.3205.10.camel@synopsys.com>
+Date: Tue, 26 Apr 2016 19:29:34 +0300
+Subject: [PATCH 2/2] ARC: add support for reserved memory defined by device
+ tree
+In-Reply-To: <1461688174-8936-1-git-send-email-abrodkin@synopsys.com>
+References: <1461688174-8936-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1461684480.2955.31.camel@synopsys.com>
+Message-ID: <1461688174-8936-3-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Dave,
+Enable reserved memory initialization from device tree.
 
-This is DRM driver for ARC PGU - simple bitstreamer used on
-Synopsys ARC SDP boards (both AXS101 and AXS103).
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Grant Likely <grant.likely at linaro.org>
+Cc: Marek Szyprowski <m.szyprowski at samsung.com>
+Cc: linux-kernel at vger.kernel.org
+---
+ arch/arc/Kconfig   | 1 +
+ arch/arc/mm/init.c | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-Those sources are from v6 series floated to mailing list here
-https://lists.freedesktop.org/archives/dri-devel/2016-April/105156.html
-
-and based on top of today's drm-next branch.
-
-Best regards,
-Alexey
-
-The following changes since commit 027b3f8ba9277410c3191d72d1ed2c6146d8a668:
-
-? drm/modes: stop handling framebuffer special (2016-04-22 10:47:16 +1000)
-
-are available in the git repository at:
-
-? https://github.com/foss-for-synopsys-dwc-arc-processors/linux.git topic-arcpgu-v6
-
-for you to fetch changes up to b8c1eca1e089e8f4247b19b73955c875bf7b18ae:
-
-? arc: axs10x - add support of ARC PGU (2016-04-26 18:26:54 +0300)
-
-----------------------------------------------------------------
-Alexey Brodkin (3):
-??????drm: Add DT bindings documentation for ARC PGU display controller
-??????MAINTAINERS: Add maintainer for ARC PGU display controller
-??????arc: axs10x - add support of ARC PGU
-
-Carlos Palminha (1):
-??????drm: Add support of ARC PGU display controller
-
-?Documentation/devicetree/bindings/display/snps,arcpgu.txt |??35 +++++++
-?MAINTAINERS???????????????????????????????????????????????|???6 ++
-?arch/arc/boot/dts/axs10x_mb.dtsi??????????????????????????|??61 ++++++++++++
-?drivers/gpu/drm/Kconfig???????????????????????????????????|???2 +
-?drivers/gpu/drm/Makefile??????????????????????????????????|???1 +
-?drivers/gpu/drm/arc/Kconfig???????????????????????????????|??10 ++
-?drivers/gpu/drm/arc/Makefile??????????????????????????????|???2 +
-?drivers/gpu/drm/arc/arcpgu.h??????????????????????????????|??50 ++++++++++
-?drivers/gpu/drm/arc/arcpgu_crtc.c?????????????????????????| 257 +++++++++++++++++++++++++++++++++++++++++++++++
-?drivers/gpu/drm/arc/arcpgu_drv.c??????????????????????????| 282 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-?drivers/gpu/drm/arc/arcpgu_hdmi.c?????????????????????????| 201 +++++++++++++++++++++++++++++++++++++
-?drivers/gpu/drm/arc/arcpgu_regs.h?????????????????????????|??40 ++++++++
-?12 files changed, 947 insertions(+)
-?create mode 100644 Documentation/devicetree/bindings/display/snps,arcpgu.txt
-?create mode 100644 drivers/gpu/drm/arc/Kconfig
-?create mode 100644 drivers/gpu/drm/arc/Makefile
-?create mode 100644 drivers/gpu/drm/arc/arcpgu.h
-?create mode 100644 drivers/gpu/drm/arc/arcpgu_crtc.c
-?create mode 100644 drivers/gpu/drm/arc/arcpgu_drv.c
-?create mode 100644 drivers/gpu/drm/arc/arcpgu_hdmi.c
-?create mode 100644 drivers/gpu/drm/arc/arcpgu_regs.h
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 61d69e6..33c1fc7 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -35,6 +35,7 @@ config ARC
+ 	select NO_BOOTMEM
+ 	select OF
+ 	select OF_EARLY_FLATTREE
++	select OF_RESERVED_MEM
+ 	select PERF_USE_VMALLOC
+ 	select HAVE_DEBUG_STACKOVERFLOW
+ 	select HAVE_GENERIC_DMA_COHERENT
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index 7d2c4fb..5487d0b 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -13,6 +13,7 @@
+ #ifdef CONFIG_BLK_DEV_INITRD
+ #include <linux/initrd.h>
+ #endif
++#include <linux/of_fdt.h>
+ #include <linux/swap.h>
+ #include <linux/module.h>
+ #include <linux/highmem.h>
+@@ -136,6 +137,9 @@ void __init setup_arch_memory(void)
+ 		memblock_reserve(__pa(initrd_start), initrd_end - initrd_start);
+ #endif
+ 
++	early_init_fdt_reserve_self();
++	early_init_fdt_scan_reserved_mem();
++
+ 	memblock_dump_all();
+ 
+ 	/*----------------- node/zones setup --------------------------*/
+-- 
+2.5.5
