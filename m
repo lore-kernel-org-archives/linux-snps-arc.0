@@ -1,29 +1,23 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 26 Apr 2016 19:29:33 +0300
-Subject: [PATCH 1/2] ARC: support generic per-device coherent dma mem
-In-Reply-To: <1461688174-8936-1-git-send-email-abrodkin@synopsys.com>
-References: <1461688174-8936-1-git-send-email-abrodkin@synopsys.com>
+From: airlied@gmail.com (Dave Airlie)
+Date: Wed, 27 Apr 2016 09:40:28 +1000
+Subject: [GIT PULL] drm: Add support of ARC PGU display controller
+In-Reply-To: <1461684480.2955.31.camel@synopsys.com>
+References: <1461071980-5916-1-git-send-email-abrodkin@synopsys.com>
+ <1461336820.3205.10.camel@synopsys.com>
+ <1461684480.2955.31.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1461688174-8936-2-git-send-email-abrodkin@synopsys.com>
+Message-ID: <CAPM=9tybf_ewAoy8n_87+HSUpJMXSFh57pSrpxrhrvw83SWDdg@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: linux-kernel at vger.kernel.org
----
- arch/arc/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+On 27 April 2016@01:28, Alexey Brodkin <Alexey.Brodkin@synopsys.com> wrote:
+> Hi Dave,
+>
+> This is DRM driver for ARC PGU - simple bitstreamer used on
+> Synopsys ARC SDP boards (both AXS101 and AXS103).
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 208aae0..61d69e6 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -37,6 +37,7 @@ config ARC
- 	select OF_EARLY_FLATTREE
- 	select PERF_USE_VMALLOC
- 	select HAVE_DEBUG_STACKOVERFLOW
-+	select HAVE_GENERIC_DMA_COHERENT
- 
- config MIGHT_HAVE_PCI
- 	bool
--- 
-2.5.5
+Hi Alexey,
+
+I've pulled this tree into drm-next now, it seems to at least build here,
+
+Thanks,
+Dave.
