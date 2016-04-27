@@ -1,52 +1,33 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 27 Apr 2016 19:45:52 +0530
-Subject: [GIT PULL] ARC fixes for 4.6-rc4
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 27 Apr 2016 17:34:59 +0300
+Subject: [PATCH 0/2] drm/arcpgu: Get use of dedicated memory area for frame
+ buffer
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5720C998.9020308@synopsys.com>
+Message-ID: <1461767701-12208-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+This mini-series allows to allocate frame buffer memory in desired
+location. Allocation of a frame buffer memory in a special memory region
+allows bypassing of so-called IO Coherency aperture which is typically set
+as a range 0x8z-0xAz.
 
-Please pull.
+I.e. all data traffic to PGU bypasses IO Coherency block
+and saves its bandwidth for other peripherals.
 
-Thx,
--Vineet
--------------->
-The following changes since commit c3b46c73264b03000d1e18b22f5caf63332547c9:
+Cc: Cc: Dave Airlie <airlied at gmail.com>
+Cc: Daniel Vetter <daniel at ffwll.ch>
+Cc: devicetree at vger.kernel.org
 
-  Linux 4.6-rc4 (2016-04-17 19:13:32 -0700)
-
-are available in the git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.6-rc6-fixes
-
-for you to fetch changes up to 1b10cb21d888c021bedbe678f7c26aee1bf04ffa:
-
-  ARC: add support for reserved memory defined by device tree (2016-04-27 17:06:56
-+0530)
-
-----------------------------------------------------------------
-ARC fixes for 4.6-rc6
-
- - LOCKDEP now words for ARCv2 builds
- - Enabling DT reserved-memory binding to work (for forthcoming HDMI driver)
-
-----------------------------------------------------------------
 Alexey Brodkin (2):
-      ARC: support generic per-device coherent dma mem
-      ARC: add support for reserved memory defined by device tree
+  drm/arcpgu: use dedicated memory area for frame buffer
+  ARC: [axs10x] Specify reserved memory for frame buffer
 
-Eric Engestrom (1):
-      Documentation: dt: arc: fix spelling mistakes
+ arch/arc/boot/dts/axc001.dtsi     | 20 +++++++++++++++++++-
+ arch/arc/boot/dts/axc003.dtsi     | 14 ++++++++++++++
+ arch/arc/boot/dts/axc003_idu.dtsi | 14 ++++++++++++++
+ arch/arc/boot/dts/axs10x_mb.dtsi  |  2 +-
+ drivers/gpu/drm/arc/arcpgu_drv.c  |  6 ++++++
+ 5 files changed, 54 insertions(+), 2 deletions(-)
 
-Evgeny Voevodin (1):
-      ARCv2: Enable LOCKDEP
-
- .../devicetree/bindings/arc/archs-pct.txt          |  2 +-
- Documentation/devicetree/bindings/arc/pct.txt      |  2 +-
- arch/arc/Kconfig                                   |  2 ++
- arch/arc/include/asm/irqflags-arcv2.h              | 36 +++++++++++++++++++++-
- arch/arc/kernel/entry-arcv2.S                      | 10 +++++-
- arch/arc/kernel/entry-compact.S                    |  3 ++
- arch/arc/mm/init.c                                 |  4 +++
- 7 files changed, 55 insertions(+), 4 deletions(-)
+-- 
+2.5.5
