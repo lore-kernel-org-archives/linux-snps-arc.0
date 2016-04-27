@@ -1,51 +1,121 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 27 Apr 2016 17:35:00 +0300
-Subject: [PATCH 1/2] drm/arcpgu: use dedicated memory area for frame buffer
+Date: Wed, 27 Apr 2016 17:35:01 +0300
+Subject: [PATCH 2/2] ARC: [axs10x] Specify reserved memory for frame buffer
 In-Reply-To: <1461767701-12208-1-git-send-email-abrodkin@synopsys.com>
 References: <1461767701-12208-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1461767701-12208-2-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1461767701-12208-3-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Now when ARC supports reserved memory areas and
-per-device coherent DMA allocations we may switch ARC PGU
-to use of those dedicated areas.
+Allocation of a frame buffer memory in a special memory region
+allows bypassing of so-called IO Coherency aperture
+which is typically set as a range 0x8z-0xAz.
 
-One of the benefits we may move frame-buffer area out
-from IO Coherency aperture and so significantly
-reduce IOC utilization allowing less demanding
-peripherals to use all perks of IOC.
+I.e. all data traffic to PGU bypasses IO Coherency block
+and saves its bandwidth for other peripherals.
+
+Even though for AXS101 (which sorts ARC770 CPU) IOC is not
+an option for a sake of keeping one DT description for the
+base-board (axs10x_mb.dtsi) we're still defining reserved
+memory location in the very end of DDR.
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Dave Airlie <airlied at gmail.com>
-Cc: Daniel Vetter <daniel at ffwll.ch>
+Cc: devicetree at vger.kernel.org
 ---
- drivers/gpu/drm/arc/arcpgu_drv.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/arc/boot/dts/axc001.dtsi     | 20 +++++++++++++++++++-
+ arch/arc/boot/dts/axc003.dtsi     | 14 ++++++++++++++
+ arch/arc/boot/dts/axc003_idu.dtsi | 14 ++++++++++++++
+ arch/arc/boot/dts/axs10x_mb.dtsi  |  2 +-
+ 4 files changed, 48 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-index 5b35e5db..76e187a 100644
---- a/drivers/gpu/drm/arc/arcpgu_drv.c
-+++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-@@ -19,6 +19,7 @@
- #include <drm/drm_fb_cma_helper.h>
- #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_atomic_helper.h>
-+#include <linux/of_reserved_mem.h>
- 
- #include "arcpgu.h"
- #include "arcpgu_regs.h"
-@@ -135,6 +136,11 @@ static int arcpgu_load(struct drm_device *drm)
- 	dev_info(drm->dev, "arc_pgu ID: 0x%x\n",
- 		 arc_pgu_read(arcpgu, ARCPGU_REG_ID));
- 
-+	/* Get the optional framebuffer memory resource */
-+	ret = of_reserved_mem_device_init(drm->dev);
-+	if (ret && ret != -ENODEV)
-+		return ret;
+diff --git a/arch/arc/boot/dts/axc001.dtsi b/arch/arc/boot/dts/axc001.dtsi
+index 420dcfd..ae6162d 100644
+--- a/arch/arc/boot/dts/axc001.dtsi
++++ b/arch/arc/boot/dts/axc001.dtsi
+@@ -95,6 +95,24 @@
+ 		#size-cells = <1>;
+ 		ranges = <0x00000000 0x80000000 0x40000000>;
+ 		device_type = "memory";
+-		reg = <0x80000000 0x20000000>;	/* 512MiB */
++		reg = <0x80000000 0x1f000000>;	/* 512 - 16 MiB */
++	};
 +
- 	if (dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(32)))
- 		return -ENODEV;
- 
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++		/*
++		 * We just move frame buffer area to the very end of
++		 * available DDR. And even though in case of ARC770 there's
++		 * no strict requirement for a frame-buffer to be in any
++		 * particular location it allows us to use the same
++		 * base board's DT node for ARC PGU as for ARc HS38.
++		 */
++		frame_buffer: frame_buffer at 9f000000 {
++			compatible = "shared-dma-pool";
++			reg = <0x9f000000 0x1000000>;
++			no-map;
++		};
+ 	};
+ };
+diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
+index f90fadf..c7a95c2 100644
+--- a/arch/arc/boot/dts/axc003.dtsi
++++ b/arch/arc/boot/dts/axc003.dtsi
+@@ -100,4 +100,18 @@
+ 		device_type = "memory";
+ 		reg = <0x80000000 0x20000000>;	/* 512MiB */
+ 	};
++
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++		/*
++		 * Move frame buffer out of IOC aperture (0x8z-0xAz).
++		 */
++		frame_buffer: frame_buffer at a0000000 {
++			compatible = "shared-dma-pool";
++			reg = <0xa0000000 0x1000000>;
++			no-map;
++		};
++	};
+ };
+diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
+index 06a9f29..929ec8c 100644
+--- a/arch/arc/boot/dts/axc003_idu.dtsi
++++ b/arch/arc/boot/dts/axc003_idu.dtsi
+@@ -123,4 +123,18 @@
+ 		device_type = "memory";
+ 		reg = <0x80000000 0x20000000>;	/* 512MiB */
+ 	};
++
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++		/*
++		 * Move frame buffer out of IOC aperture (0x8z-0xAz).
++		 */
++		frame_buffer: frame_buffer at a0000000 {
++			compatible = "shared-dma-pool";
++			reg = <0xa0000000 0x1000000>;
++			no-map;
++		};
++	};
+ };
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index 823f15c..64b063d 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -283,7 +283,7 @@
+ 			encoder-slave = <&adv7511>;
+ 			clocks = <&pguclk>;
+ 			clock-names = "pxlclk";
+-
++			memory-region = <&frame_buffer>;
+ 			port {
+ 				pgu_output: endpoint {
+ 					remote-endpoint = <&adv7511_input>;
 -- 
 2.5.5
