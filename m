@@ -1,22 +1,38 @@
-From: vgupta@synopsys.com (Vineet Gupta)
-Date: Thu, 28 Apr 2016 19:26:35 +0530
-Subject: [PATCH 2/2] ARC: [axs10x] Specify reserved memory for frame buffer
-In-Reply-To: <1461851171.3673.30.camel@synopsys.com>
-References: <1461767701-12208-1-git-send-email-abrodkin@synopsys.com>
- <1461767701-12208-3-git-send-email-abrodkin@synopsys.com>
- <572190F3.3020709@synopsys.com> <1461851171.3673.30.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 28 Apr 2016 17:19:54 +0300
+Subject: [PATCH 0/2 v2] drm/arcpgu: Get use of dedicated memory area for frame
+ buffer
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <57221693.50401@synopsys.com>
+Message-ID: <1461853196-15599-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thursday 28 April 2016 07:16 PM, Alexey Brodkin wrote:
->> > Note that the IOC start alignment needs to follow
->> > max(4k, size). What will be maximum size of frame buffer - 16M always !
-> What do you mean by that?
+This mini-series allows to allocate frame buffer memory in desired
+location. Allocation of a frame buffer memory in a special memory region
+allows bypassing of so-called IO Coherency aperture which is typically set
+as a range 0x8z-0xAz.
 
-For HS38, we intend to bypass the frame buffer traffic from IOC port. So the frame
-buffer start needs to be inside the IOC aperture base address. That value can't be
-arbitrary - it is atleast 4K aligned value and further also needs to be aligned to
-the size of aperture. So if the size is 16M it needs to be 16M aligned etc...
+I.e. all data traffic to PGU bypasses IO Coherency block
+and saves its bandwidth for other peripherals.
 
--Vineet
+Cc: Dave Airlie <airlied at gmail.com>
+Cc: Daniel Vetter <daniel at ffwll.ch>
+Cc: devicetree at vger.kernel.org
+
+Changes v1 -> v2:
+ * Reserved memory size bumped from 16Mb to 32Mb.
+
+ * Reserved area in AXS103 boards moved to the very end of available DDR.
+
+Alexey Brodkin (2):
+  drm/arcpgu: use dedicated memory area for frame buffer
+  ARC: [axs10x] Specify reserved memory for frame buffer
+
+ arch/arc/boot/dts/axc001.dtsi     | 22 ++++++++++++++++++++--
+ arch/arc/boot/dts/axc003.dtsi     | 14 ++++++++++++++
+ arch/arc/boot/dts/axc003_idu.dtsi | 14 ++++++++++++++
+ arch/arc/boot/dts/axs10x_mb.dtsi  |  2 +-
+ drivers/gpu/drm/arc/arcpgu_drv.c  |  6 ++++++
+ 5 files changed, 55 insertions(+), 3 deletions(-)
+
+-- 
+2.5.5
