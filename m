@@ -1,54 +1,33 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 28 Apr 2016 17:19:55 +0300
-Subject: [PATCH 1/2 v2] drm/arcpgu: use dedicated memory area for frame buffer
-In-Reply-To: <1461853196-15599-1-git-send-email-abrodkin@synopsys.com>
-References: <1461853196-15599-1-git-send-email-abrodkin@synopsys.com>
+Date: Thu, 28 Apr 2016 14:38:18 +0000
+Subject: [PATCH 2/2] ARC: [axs10x] Specify reserved memory for frame buffer
+In-Reply-To: <57221693.50401@synopsys.com>
+References: <1461767701-12208-1-git-send-email-abrodkin@synopsys.com>
+ <1461767701-12208-3-git-send-email-abrodkin@synopsys.com>
+ <572190F3.3020709@synopsys.com> <1461851171.3673.30.camel@synopsys.com>
+ <57221693.50401@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1461853196-15599-2-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1461854287.3673.50.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Now when ARC supports reserved memory areas and
-per-device coherent DMA allocations we may switch ARC PGU
-to use of those dedicated areas.
+Hi Vineet,
 
-One of the benefits we may move frame-buffer area out
-from IO Coherency aperture and so significantly
-reduce IOC utilization allowing less demanding
-peripherals to use all perks of IOC.
+On Thu, 2016-04-28@19:26 +0530, Vineet Gupta wrote:
+> On Thursday 28 April 2016 07:16 PM, Alexey Brodkin wrote:
+> > 
+> > > 
+> > > > 
+> > > > Note that the IOC start alignment needs to follow
+> > > > max(4k, size). What will be maximum size of frame buffer - 16M always !
+> > What do you mean by that?
+> For HS38, we intend to bypass the frame buffer traffic from IOC port. So the frame
+> buffer start needs to be inside the IOC aperture base address. That value can't be
+> arbitrary - it is atleast 4K aligned value and further also needs to be aligned to
+> the size of aperture. So if the size is 16M it needs to be 16M aligned etc...
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Dave Airlie <airlied at gmail.com>
-Cc: Daniel Vetter <daniel at ffwll.ch>
----
+The point is we want to put frame buffer memory OUTSIDE IOC aperture.
+So we allocate FB memory in the very end of DDR which is far away from IOC.
 
-No changes v1 -> v2.
+And in that case IOC alignment issues are out of the question here.
 
- drivers/gpu/drm/arc/arcpgu_drv.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-index 5b35e5db..76e187a 100644
---- a/drivers/gpu/drm/arc/arcpgu_drv.c
-+++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-@@ -19,6 +19,7 @@
- #include <drm/drm_fb_cma_helper.h>
- #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_atomic_helper.h>
-+#include <linux/of_reserved_mem.h>
- 
- #include "arcpgu.h"
- #include "arcpgu_regs.h"
-@@ -135,6 +136,11 @@ static int arcpgu_load(struct drm_device *drm)
- 	dev_info(drm->dev, "arc_pgu ID: 0x%x\n",
- 		 arc_pgu_read(arcpgu, ARCPGU_REG_ID));
- 
-+	/* Get the optional framebuffer memory resource */
-+	ret = of_reserved_mem_device_init(drm->dev);
-+	if (ret && ret != -ENODEV)
-+		return ret;
-+
- 	if (dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(32)))
- 		return -ENODEV;
- 
--- 
-2.5.5
+-Alexey
