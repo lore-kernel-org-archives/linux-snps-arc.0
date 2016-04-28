@@ -1,141 +1,54 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 28 Apr 2016 17:19:56 +0300
-Subject: [PATCH 2/2 v2] ARC: [axs10x] Specify reserved memory for frame buffer
+Date: Thu, 28 Apr 2016 17:19:55 +0300
+Subject: [PATCH 1/2 v2] drm/arcpgu: use dedicated memory area for frame buffer
 In-Reply-To: <1461853196-15599-1-git-send-email-abrodkin@synopsys.com>
 References: <1461853196-15599-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1461853196-15599-3-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1461853196-15599-2-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Allocation of a frame buffer memory in a special memory region
-allows bypassing of so-called IO Coherency aperture
-which is typically set as a range 0x8z-0xAz.
+Now when ARC supports reserved memory areas and
+per-device coherent DMA allocations we may switch ARC PGU
+to use of those dedicated areas.
 
-I.e. all data traffic to PGU bypasses IO Coherency block
-and saves its bandwidth for other peripherals.
-
-Even though for AXS101 (which sorts ARC770 CPU) IOC is not
-an option for a sake of keeping one DT description for the
-base-board (axs10x_mb.dtsi) we're still defining reserved
-memory location in the very end of DDR.
+One of the benefits we may move frame-buffer area out
+from IO Coherency aperture and so significantly
+reduce IOC utilization allowing less demanding
+peripherals to use all perks of IOC.
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: devicetree at vger.kernel.org
+Cc: Dave Airlie <airlied at gmail.com>
+Cc: Daniel Vetter <daniel at ffwll.ch>
 ---
 
-Changes v1 -> v2:
- * Reserved memory size bumped from 16Mb to 32Mb.
-   Given the corner case 1920x1080x24bpp and tripl-buffering
-   we'll need ~18Mb in the future so let's reserve 32Mb today
-   and don't think about that any more.
+No changes v1 -> v2.
 
- * Reserved area in AXS103 boards moved to the very end of the first Gb.
-   Even though we use only 512Mb for kernel on AXS103 board
-   we have 1Gb of DDR really. So let's move reserved area in the very
-   end of available mamory. This way we'll be able to keep this mapping
-   when we'll want to use > 512Mb in the kernel.
+ drivers/gpu/drm/arc/arcpgu_drv.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- * And while at it correct "ranges" value for AXS101 board: we do have
-   only 512 Mb of DDR on the board so let's not temp users to try to use more.
-
- arch/arc/boot/dts/axc001.dtsi     | 22 ++++++++++++++++++++--
- arch/arc/boot/dts/axc003.dtsi     | 14 ++++++++++++++
- arch/arc/boot/dts/axc003_idu.dtsi | 14 ++++++++++++++
- arch/arc/boot/dts/axs10x_mb.dtsi  |  2 +-
- 4 files changed, 49 insertions(+), 3 deletions(-)
-
-diff --git a/arch/arc/boot/dts/axc001.dtsi b/arch/arc/boot/dts/axc001.dtsi
-index 420dcfd..262496a 100644
---- a/arch/arc/boot/dts/axc001.dtsi
-+++ b/arch/arc/boot/dts/axc001.dtsi
-@@ -93,8 +93,26 @@
- 	memory {
- 		#address-cells = <1>;
- 		#size-cells = <1>;
--		ranges = <0x00000000 0x80000000 0x40000000>;
-+		ranges = <0x00000000 0x80000000 0x20000000>;
- 		device_type = "memory";
--		reg = <0x80000000 0x20000000>;	/* 512MiB */
-+		reg = <0x80000000 0x1b000000>;	/* (512 - 32) MiB */
-+	};
+diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
+index 5b35e5db..76e187a 100644
+--- a/drivers/gpu/drm/arc/arcpgu_drv.c
++++ b/drivers/gpu/drm/arc/arcpgu_drv.c
+@@ -19,6 +19,7 @@
+ #include <drm/drm_fb_cma_helper.h>
+ #include <drm/drm_gem_cma_helper.h>
+ #include <drm/drm_atomic_helper.h>
++#include <linux/of_reserved_mem.h>
+ 
+ #include "arcpgu.h"
+ #include "arcpgu_regs.h"
+@@ -135,6 +136,11 @@ static int arcpgu_load(struct drm_device *drm)
+ 	dev_info(drm->dev, "arc_pgu ID: 0x%x\n",
+ 		 arc_pgu_read(arcpgu, ARCPGU_REG_ID));
+ 
++	/* Get the optional framebuffer memory resource */
++	ret = of_reserved_mem_device_init(drm->dev);
++	if (ret && ret != -ENODEV)
++		return ret;
 +
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+		/*
-+		 * We just move frame buffer area to the very end of
-+		 * available DDR. And even though in case of ARC770 there's
-+		 * no strict requirement for a frame-buffer to be in any
-+		 * particular location it allows us to use the same
-+		 * base board's DT node for ARC PGU as for ARc HS38.
-+		 */
-+		frame_buffer: frame_buffer at 9e000000 {
-+			compatible = "shared-dma-pool";
-+			reg = <0x9e000000 0x2000000>;
-+			no-map;
-+		};
- 	};
- };
-diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
-index f90fadf..35ece04 100644
---- a/arch/arc/boot/dts/axc003.dtsi
-+++ b/arch/arc/boot/dts/axc003.dtsi
-@@ -100,4 +100,18 @@
- 		device_type = "memory";
- 		reg = <0x80000000 0x20000000>;	/* 512MiB */
- 	};
-+
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+		/*
-+		 * Move frame buffer out of IOC aperture (0x8z-0xAz).
-+		 */
-+		frame_buffer: frame_buffer at be000000 {
-+			compatible = "shared-dma-pool";
-+			reg = <0xbe000000 0x2000000>;
-+			no-map;
-+		};
-+	};
- };
-diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
-index 06a9f29..df9ddb6 100644
---- a/arch/arc/boot/dts/axc003_idu.dtsi
-+++ b/arch/arc/boot/dts/axc003_idu.dtsi
-@@ -123,4 +123,18 @@
- 		device_type = "memory";
- 		reg = <0x80000000 0x20000000>;	/* 512MiB */
- 	};
-+
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+		/*
-+		 * Move frame buffer out of IOC aperture (0x8z-0xAz).
-+		 */
-+		frame_buffer: frame_buffer at be000000 {
-+			compatible = "shared-dma-pool";
-+			reg = <0xbe000000 0x2000000>;
-+			no-map;
-+		};
-+	};
- };
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 823f15c..64b063d 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -283,7 +283,7 @@
- 			encoder-slave = <&adv7511>;
- 			clocks = <&pguclk>;
- 			clock-names = "pxlclk";
--
-+			memory-region = <&frame_buffer>;
- 			port {
- 				pgu_output: endpoint {
- 					remote-endpoint = <&adv7511_input>;
+ 	if (dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(32)))
+ 		return -ENODEV;
+ 
 -- 
 2.5.5
