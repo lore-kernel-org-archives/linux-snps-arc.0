@@ -1,47 +1,38 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 5 May 2016 16:35:08 +0530
-Subject: [PATCH 1/7] asm-generic/io.h: add io{read,write}64 accessors
-In-Reply-To: <4560398.4eHNWD6mu5@wuerfel>
-References: <1462382179-11889-1-git-send-email-horia.geanta@nxp.com>
- <16429831.u9JK7qO1GE@wuerfel>
- <C2D7FE5348E1B147BCA15975FBA23075F4EA07DD@us01wembx1.internal.synopsys.com>
- <4560398.4eHNWD6mu5@wuerfel>
+Date: Thu, 5 May 2016 18:51:09 +0530
+Subject: Misleading hint to select CONFIG_PERF_EVENTS if driver sets
+ PERF_PMU_CAP_NO_INTERRUPT
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075F4E9F42D@us01wembx1.internal.synopsys.com>
+References: <1461331523.3403.11.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075F4E9F42D@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <572B28E4.3090700@synopsys.com>
+Message-ID: <572B48C5.6090401@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thursday 05 May 2016 04:26 PM, Arnd Bergmann wrote:
-> On Thursday 05 May 2016 08:16:47 Vineet Gupta wrote:
->> > Thx for noticing this Arnd and the heads up. Does the patch below look ok to you ?
->> > 
->> > ----------->
->> > rom b7e719831c389ab4fa338b2e2e7c0d1ff90dabb0 Mon Sep 17 00:00:00 2001
->> > From: Vineet Gupta <vgupta at synopsys.com>
->> > Date: Thu, 5 May 2016 13:32:34 +0530
->> > Subject: [PATCH] ARC: Add missing io barriers to io{read,write}{16,32}be()
->> > 
->> > While reviewing a different change to asm-generic/io.h Arnd spotted that
->> > ARC ioread32 and ioread32be both of which come from asm-generic versions
->> > are not symmetrical in terms of calling the io barriers.
->> > 
->> > generic ioread32   -> ARC readl()                  [ has barriers]
->> > generic ioread32be -> __be32_to_cpu(__raw_readl()) [ lacks barriers]
->> > 
->> > While generic ioread32be is being remediated to call readl(), that involves
->> > a swab32(), causing double swaps on ioread32be() on Big Endian systems.
->> > 
->> > So provide our versions of big endian IO accessors to ensure io barrier
->> > calls while also keeping them optimal
->> > 
->> > Suggested-by: Arnd Bergmann <arnd at arndb.de>
->> > Cc: stable at vger.kernel.org  [4.2+]
->> > Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
->
-> Yes, that looks correct. We probably want this regardless of the change
-> I proposed for the generic file, to avoid the double swap.
+On Tuesday 26 April 2016 06:12 PM, Vineet Gupta wrote:
+> On Friday 22 April 2016 06:56 PM, Lada Trimasova wrote:
+>> I have a question about user-space perf handling error numbers.
+>> The problem is that PMU interrupts are not supported in arc700
+>> architecture and it is impossible to evaluate `perf record` command.
+>> In our perf implementation we set PERF_PMU_CAP_NO_INTERRUPT flag so
+>> core perf infrastructure knows we don't have interrupts.
+>>
+>> Kernel `sys_perf_event_open` handler checks if PMU interrupts are
+>> supported and returns ENOTSUPP (524) error code.
+>> I'd expect that perf implementation checks the return value of syscalls
+>> and gives the user understandable error message.
+>> But now I see:
+>> --------------------------------->8-----------------------------------
+>> # perf record ls
+>> The sys_perf_event_open() syscall returned with 524 (Unknown error 524)
+>> for event (cycles:ppp).
+>> /bin/dmesg may provide additional information.
+>> No CONFIG_PERF_EVENTS=y kernel support configured?
+>> --------------------------------->8-----------------------------------
 
-Indeed so - I've queued this for 4.6 fixes !
+Guys, is the ABI change for returning -EOPNOTSUPP vs. -ENOTSUPP for
+is_sampling_event() && (event->pmu->capabilities & PERF_PMU_CAP_NO_INTERRUPT)
+acceptable ? We could use this in userspace to print pretty rather than half
+cooked error msg above !
 
-> Acked-by: Arnd Bergmann <arnd at arndb.de>
-
-Thx !
+-Vineet
