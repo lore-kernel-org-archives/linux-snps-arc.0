@@ -1,124 +1,150 @@
-From: broonie@kernel.org (Mark Brown)
-Date: Wed, 4 May 2016 18:35:53 +0100
-Subject: [PATCH 1/2 v6] ASoC: dwc: Add custom PCM driver
-In-Reply-To: <1467b43ff009213277fe8f092da40f0bb7609af4.1461749984.git.joabreu@synopsys.com>
-References: <cover.1461749984.git.joabreu@synopsys.com>
- <1467b43ff009213277fe8f092da40f0bb7609af4.1461749984.git.joabreu@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 5 May 2016 08:16:47 +0000
+Subject: [PATCH 1/7] asm-generic/io.h: add io{read,write}64 accessors
+References: <1462382179-11889-1-git-send-email-horia.geanta@nxp.com>
+ <16429831.u9JK7qO1GE@wuerfel>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160504173553.GD6292@sirena.org.uk>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075F4EA07DD@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Apr 27, 2016@11:05:19AM +0100, Jose Abreu wrote:
+On Thursday 05 May 2016 04:06 AM, Arnd Bergmann wrote:
+> On Wednesday 04 May 2016 20:16:19 Horia Geant? wrote:
+>> @@ -625,6 +645,16 @@ static inline u32 ioread32be(const volatile void __iomem *addr)
+>>  }
+>>  #endif
+>>  
+>> +#ifdef CONFIG_64BIT
+>> +#ifndef ioread64be
+>> +#define ioread64be ioread64be
+>> +static inline u64 ioread64be(const volatile void __iomem *addr)
+>> +{
+>> +       return __be64_to_cpu(__raw_readq(addr));
+>> +}
+>> +#endif
+>> +#endif /* CONFIG_64BIT */
+>> +
+>>  #ifndef iowrite16be
+>>  #define iowrite16be iowrite16be
+>>  static inline void iowrite16be(u16 value, void volatile __iomem *addr)
+>> @@ -641,6 +671,16 @@ static inline void iowrite32be(u32 value, volatile void __iomem *addr)
+>>  }
+>>  #endif
+>>  
+>> +#ifdef CONFIG_64BIT
+>> +#ifndef iowrite64be
+>> +#define iowrite64be iowrite64be
+>> +static inline void iowrite64be(u64 value, volatile void __iomem *addr)
+>> +{
+>> +       __raw_writeq(__cpu_to_be64(value), addr);
+>> +}
+>> +#endif
+>> +#endif /* CONFIG_64BIT */
+>> +
+>>
+> I just noticed that these two are both a bit wrong, but they copy the
+> mistake that already exists in the 16 and 32 bit versions: If an
+> architecture overrides readq/writeq to have barriers but does not override
+> ioread64be/iowrite64be, this will lack the barriers and behave differently
+> from the little-endian version. I think the only affected architecture
+> is ARC, since ARM and ARM64 both override the big-endian accessors to
+> have the correct barriers, and all others don't use barriers at all.
+>
+> Maybe you can add a patch before this one to replace the 16/32-bit accessors
+> with ones that do a
+>
+> static inline void iowrite32be(u32 value, volatile void __iomem *addr)
+> {
+> 	writel(swab32(value), addr);
+> }
+>
+> This will lead to a double-swap on architectures that don't override it,
+> but it will work correctly on all architectures without them having
+> to override the big-endian accessors.
 
-> +	for (i = 0; i < 4; i++)
-> +		isr[i] = i2s_read_reg(dev->i2s_base, ISR(i));
-> +
-> +	i2s_clear_irqs(dev, SNDRV_PCM_STREAM_PLAYBACK);
-> +	i2s_clear_irqs(dev, SNDRV_PCM_STREAM_CAPTURE);
-> +
-> +	if (dev->use_dmaengine)
-> +		return IRQ_HANDLED;
+Thx for noticing this Arnd and the heads up. Does the patch below look ok to you ?
 
-The driver should not report that it handled interrupts unless it
-actually did so otherwise shared interrupts won't work and if something
-goes wrong that causes the interrupt to scream then the interrupt core
-won't be able to do any error handling.  The driver should instead check
-to see if any interrupts occurred and only acknowledge those it actually
-handled.
+----------->
+rom b7e719831c389ab4fa338b2e2e7c0d1ff90dabb0 Mon Sep 17 00:00:00 2001
+From: Vineet Gupta <vgupta@synopsys.com>
+Date: Thu, 5 May 2016 13:32:34 +0530
+Subject: [PATCH] ARC: Add missing io barriers to io{read,write}{16,32}be()
 
-> @@ -649,6 +673,19 @@ static int dw_i2s_probe(struct platform_device *pdev)
->  	if (IS_ERR(dev->i2s_base))
->  		return PTR_ERR(dev->i2s_base);
->  
-> +	irq_number = platform_get_irq(pdev, 0);
-> +	if (irq_number <= 0) {
-> +		dev_err(&pdev->dev, "get_irq fail\n");
-> +		return -EINVAL;
-> +	}
+While reviewing a different change to asm-generic/io.h Arnd spotted that
+ARC ioread32 and ioread32be both of which come from asm-generic versions
+are not symmetrical in terms of calling the io barriers.
 
-This will unconditionally fail if an interrupt is not provided which
-will be incompatible with existing systems given that we don't currently
-use the interrupt, I'm pretty sure you can find some in-tree devices
-that get broken by this.  It's not like we even use the interrupt on
-most systems so we should handle it being missing gracefully.
+generic ioread32   -> ARC readl()                  [ has barriers]
+generic ioread32be -> __be32_to_cpu(__raw_readl()) [ lacks barriers]
 
-I'm also not seeing any code which masks or unmasks interrupts, if we
-unconditionally enable interrupts we've no intention of using I'd expect
-that will cause needless overhead for systems that don't use them.
-Requesting it is fine but I'd expect to see the FIFO interrupts masked
-in the device.
+While generic ioread32be is being remediated to call readl(), that involves
+a swab32(), causing double swaps on ioread32be() on Big Endian systems.
 
-> +	ret = devm_request_irq(&pdev->dev, irq_number, dw_i2s_irq_handler,
-> +			IRQF_SHARED, "dw_i2s_irq_handler", dev);
-> +	if (ret < 0) {
-> +		dev_err(&pdev->dev, "request_irq fail\n");
-> +		return ret;
-> +	}
+So provide our versions of big endian IO accessors to ensure io barrier
+calls while also keeping them optimal
 
-Are you *sure* that this results in safe freeing of the interrupt?
-Until the interrupt is freed the interrupt could still fire so the
-handler would need to support things being freed while the interrupt is
-firing.  It is safer to manually free.
+Suggested-by: Arnd Bergmann <arnd at arndb.de>
+Cc: stable at vger.kernel.org  [4.2+]
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/include/asm/io.h | 27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
-> +		dev->use_dmaengine = of_property_read_bool(pdev->dev.of_node,
-> +				"dmas");
-
-> -	if (!pdata) {
-> +	if (dev->use_dmaengine) {
->  		ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
-
-This breaks non-DT users like the AMD graphics card.
-
-> +int dw_pcm_transfer(u32 *lsample, u32 *rsample, int bytes, int buf_size,
-> +		struct dw_pcm_binfo *bi)
-> +{
-> +	struct snd_pcm_runtime *rt = bi->stream->runtime;
-> +	int dir = bi->stream->stream;
-> +	int i;
-> +
-> +	for (i = 0; i < buf_size; i++) {
-> +		if (dir == SNDRV_PCM_STREAM_PLAYBACK) {
-> +			memcpy(&lsample[i], bi->dma_pointer, bytes);
-> +			bi->dma_pointer += bytes;
-> +			memcpy(&rsample[i], bi->dma_pointer, bytes);
-> +			bi->dma_pointer += bytes;
-
-This code does not do DMA but it's using identifiers saying that it is
-(which hence look like obvious bugs given that they're not using DMA
-safe memory accesses).  This is just a scratch holding buffer AFAICT,
-I'd expect to see code which says that explicitly.
-
-It's not entirely clear that we have any bounds checking or anything to
-make sure we stay within the buffer, there's an end of period reset but
-it's hard to tell if that's enough.  I'm also not entirely sure why the
-memcpy() is there at all - we appear to copy then immediately write to
-FIFO which doesn't seem to add anything.
-
-I'd also recommend looking at the xtfpga-i2s driver, it is for similar
-hardware but avoids things like the memcpy().
-
-> +static int dw_pcm_close(struct snd_pcm_substream *substream)
-> +{
-> +	return 0;
-> +}
-
-Remove empty functions, if that's not possible that's usually a sign
-that the function needs to do something.
-
-> +#ifdef CONFIG_OF
-> +static const struct of_device_id dw_pcm_of[] = {
-> +	{ .compatible = "snps,designware-pcm" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, dw_pcm_of);
-> +#endif
-
-This is adding a device tree binding but not documenting it.  All new
-device tree bindings need to be documented.
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 473 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160504/5058cb3e/attachment.sig>
+diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
+index 17f85c9c73cf..c22b181e8206 100644
+--- a/arch/arc/include/asm/io.h
++++ b/arch/arc/include/asm/io.h
+@@ -13,6 +13,15 @@
+ #include <asm/byteorder.h>
+ #include <asm/page.h>
+ 
++#ifdef CONFIG_ISA_ARCV2
++#include <asm/barrier.h>
++#define __iormb()        rmb()
++#define __iowmb()        wmb()
++#else
++#define __iormb()        do { } while (0)
++#define __iowmb()        do { } while (0)
++#endif
++
+ extern void __iomem *ioremap(phys_addr_t paddr, unsigned long size);
+ extern void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
+                   unsigned long flags);
+@@ -31,6 +40,15 @@ extern void iounmap(const void __iomem *addr);
+ #define ioremap_wc(phy, sz)        ioremap(phy, sz)
+ #define ioremap_wt(phy, sz)        ioremap(phy, sz)
+ 
++/*
++ * io{read,write}{16,32}be() macros
++ */
++#define ioread16be(p)        ({ u16 __v = be16_to_cpu((__force
+__be16)__raw_readw(p)); __iormb(); __v; })
++#define ioread32be(p)        ({ u32 __v = be32_to_cpu((__force
+__be32)__raw_readl(p)); __iormb(); __v; })
++
++#define iowrite16be(v,p)    ({ __iowmb(); __raw_writew((__force
+u16)cpu_to_be16(v), p); })
++#define iowrite32be(v,p)    ({ __iowmb(); __raw_writel((__force
+u32)cpu_to_be32(v), p); })
++
+ /* Change struct page to physical address */
+ #define page_to_phys(page)        (page_to_pfn(page) << PAGE_SHIFT)
+ 
+@@ -108,15 +126,6 @@ static inline void __raw_writel(u32 w, volatile void __iomem
+*addr)
+ 
+ }
+ 
+-#ifdef CONFIG_ISA_ARCV2
+-#include <asm/barrier.h>
+-#define __iormb()        rmb()
+-#define __iowmb()        wmb()
+-#else
+-#define __iormb()        do { } while (0)
+-#define __iowmb()        do { } while (0)
+-#endif
+-
+ /*
+  * MMIO can also get buffered/optimized in micro-arch, so barriers needed
+  * Based on ARM model for the typical use case
+-- 
+2.5.0
