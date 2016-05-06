@@ -1,54 +1,32 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 6 May 2016 17:52:25 +0530
-Subject: [GIT PULL] ARC updates for 4.6-rc7
+From: sboyd@codeaurora.org (Stephen Boyd)
+Date: Fri, 6 May 2016 10:35:31 -0700
+Subject: [RESEND PATCH 1/2 v6] clk/axs10x: Add I2S PLL clock driver
+In-Reply-To: <6bae37562ffc6c62c015e12b7bf6a35c9a3e734d.1461258787.git.joabreu@synopsys.com>
+References: <cover.1461258787.git.joabreu@synopsys.com>
+ <6bae37562ffc6c62c015e12b7bf6a35c9a3e734d.1461258787.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <572C8C81.5080203@synopsys.com>
+Message-ID: <20160506173531.GU3492@codeaurora.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+On 05/02, Jose Abreu wrote:
+> The ARC SDP I2S clock can be programmed using a
+> specific PLL.
+> 
+> This patch has the goal of adding a clock driver
+> that programs this PLL.
+> 
+> At this moment the rate values are hardcoded in
+> a table but in the future it would be ideal to
+> use a function which determines the PLL values
+> given the desired rate.
+> 
+> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+> ---
 
-Late in the cycle, but this has fixes for couple of issues: a PAE40 boot crash and
-Arnd spotting lack of barriers in BE io-accessors. The 3rd patch for enabling
-highmem in low physical mem ;-) honestly is more than a "fix" but its been in
-works for some time, seems to be stable in testing and enables 2 of our customers
-to go forward with 4.6 kernel.
+Applied to clk-next
 
-Please pull !
+I'm not applying the arc dts file (patch #2 in this series).
 
-Thx,
--Vineet
-
-------------->
-The following changes since commit 1b10cb21d888c021bedbe678f7c26aee1bf04ffa:
-
-  ARC: add support for reserved memory defined by device tree (2016-04-27 17:06:56
-+0530)
-
-are available in the git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.6-rc7-fixes
-
-for you to fetch changes up to 26f9d5fd82ca20fe536cb493ec7cf5628f8997e5:
-
-  ARC: support HIGHMEM even without PAE40 (2016-05-05 16:35:46 +0530)
-
-----------------------------------------------------------------
-ARC fixes for 4.6-rc7
-
- - Fix for PTE truncation in PAE40 builds
- - Fix for big endian IO accessors lacking IO barrier
- - Allow HIGHMEM to work with low physical addresses
-
-----------------------------------------------------------------
-Vineet Gupta (3):
-      ARC: Add missing io barriers to io{read,write}{16,32}be()
-      ARC: Fix PAE40 boot failures due to PTE truncation
-      ARC: support HIGHMEM even without PAE40
-
- arch/arc/Kconfig               | 13 ++++++++++
- arch/arc/include/asm/io.h      | 27 ++++++++++++++-------
- arch/arc/include/asm/mmzone.h  | 43 +++++++++++++++++++++++++++++++++
- arch/arc/include/asm/page.h    | 15 ++++++++----
- arch/arc/include/asm/pgtable.h | 13 +++++-----
- arch/arc/mm/init.c             | 54 ++++++++++++++++++++++++++++++------------
- 6 files changed, 130 insertions(+), 35 deletions(-)
+-- 
+Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
