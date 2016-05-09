@@ -1,85 +1,77 @@
-From: zengzhaoxiu@163.com (Zhaoxiu Zeng)
-Date: Sun, 8 May 2016 20:52:52 +0800
-Subject: [patch V4] lib: GCD: Use binary GCD algorithm instead of Euclidean
-In-Reply-To: <20160507084129.7284.qmail@ns.horizon.com>
-References: <20160507084129.7284.qmail@ns.horizon.com>
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Mon, 9 May 2016 10:12:18 +0100
+Subject: [RESEND PATCH 2/2 v6] arc: axs10x: Add DT bindings for I2S PLL
+ Clock
+In-Reply-To: <e98c3f738b3a8f6755793959d89b4e43c9410fb1.1461258787.git.joabreu@synopsys.com>
+References: <cover.1461258787.git.joabreu@synopsys.com>
+ <e98c3f738b3a8f6755793959d89b4e43c9410fb1.1461258787.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <042bae7f-51d6-93e8-549d-a38bcb4c9cf5@163.com>
+Message-ID: <57305472.2000507@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-? 2016/5/7 16:41, George Spelvin ??:
-> Nothing critical, but a bit of kibitzing.
-> (That is slang in the Yiddish language for a person
-> who offers annoying and unwanted advice.)
+Hi Vineet,
+
+
+On 02-05-2016 10:39, Jose Abreu wrote:
+> Add device tree bindings for AXS10X I2S PLL Clock driver.
 >
->> The binary GCD algorithm is based on the following facts:
->> 	1. If a and b are all evens, then gcd(a,b) = 2 * gcd(a/2, b/2)
->> 	2. If a is even and b is odd, then gcd(a,b) = gcd(a/2, b)
->> 	3. If a and b are all odds, then gcd(a,b) = gcd((a-b)/2, b) = gcd((a+b)/2, b)
-> 1) "even" and "odd" are adjectives.  In English, adjectives to not have
->    plural suffixes.  Thus, "they are even" or "they are odd".
-> 2) Although "all" is not exactly wrong, it sounds odd.  Since there are
->    exactly two of them it's clearer to say "both".
+> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+> Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Acked-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
 >
-> If I also rephrase the last line to fit into 80 columns, you get:
+> Changes v5 -> v6:
+> * Added 'clocks' field
 >
->   The binary GCD algorithm is based on the following facts:
-> - 	1. If a and b are all evens, then gcd(a,b) = 2 * gcd(a/2, b/2)
-> + 	1. If a and b are both even, then gcd(a,b) = 2 * gcd(a/2, b/2)
->  	2. If a is even and b is odd, then gcd(a,b) = gcd(a/2, b)
-> -	3. If a and b are all odds, then gcd(a,b) = gcd((a-b)/2, b) = gcd((a+b)/2, b)
-> +	3. If both are odd, then gcd(a,b) = gcd((a-b)/2, b) = gcd((a+b)/2, b)
+> This patch was only introduced in v5.
 >
-> 3) Negative config options are always confusing.
+> Cc: Carlos Palminha <palminha at synopsys.com>
+> Cc: Rob Herring <robh at kernel.org>
+> Cc: Pawel Moll <pawel.moll at arm.com>
+> Cc: Mark Rutland <mark.rutland at arm.com>
+> Cc: Ian Campbell <ijc+devicetree at hellion.org.uk>
+> Cc: Kumar Gala <galak at codeaurora.org>
+> Cc: Michael Turquette <mturquette at baylibre.com>
+> Cc: Stephen Boyd <sboyd at codeaurora.org>
+> Cc: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: linux-snps-arc at lists.infradead.org
+> Cc: devicetree at vger.kernel.org
+> Cc: linux-kernel at vger.kernel.org
+> Cc: linux-clk at vger.kernel.org
 >
-> Would it be better to call it CONFIG_INEFFICIEBNT_FFS, or even simpler
-> CONFIG_SLOW_FFS?
+>  arch/arc/boot/dts/axs10x_mb.dtsi | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 >
-> Also, you're allowed to add "help" to a non-interactive config option,
-> and some documentation might be useful.
-> E.g.
->
-> +config CPU_SLOW_FFS
-> +	def_bool n
-> +	help
-> +	  If n, the CPU supports a fast __ffs (__builtin_ctz) operation,
-> +	  either directly or via a short code sequence using a count
-> +	  leading zeros or population count instruction.  If y, the
-> +	  operation is emulated by slower software, such as an unrolled
-> +	  binary search.
+> diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+> index ab5d570..5c6489e 100644
+> --- a/arch/arc/boot/dts/axs10x_mb.dtsi
+> +++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+> @@ -16,7 +16,20 @@
+>  		ranges = <0x00000000 0xe0000000 0x10000000>;
+>  		interrupt-parent = <&mb_intc>;
+>  
+> +		i2sclk: i2sclk at 100a0 {
+> +			compatible = "snps,axs10x-i2s-pll-clock";
+> +			reg = <0x100a0 0x10>;
+> +			clocks = <&i2spll_clk>;
+> +			#clock-cells = <0>;
+> +		};
 > +
-> +	  This is purely an optimization option; the kernel
-> +	  will function correctly regardless of how it is set.
+>  		clocks {
+> +			i2spll_clk: i2spll_clk {
+> +				compatible = "fixed-clock";
+> +				clock-frequency = <27000000>;
+> +				#clock-cells = <0>;
+> +			};
 > +
+>  			i2cclk: i2cclk {
+>  				compatible = "fixed-clock";
+>  				clock-frequency = <50000000>;
 
-Thanks a lot.
+Can you apply this to arc-next? Main driver was already merged into clk-next. We
+still have to check how to deal with the parent clock frequency that will change
+in the next firmware release.
 
-> Your benchmark code doesn't have to have a separate code path if
-> __x86_64__; rdtsc works on 32-bit code just as well.  paths.  And the
-> way you subtract the end and start times is unnecessarily complicated.
-> The C language guarantees that unsigned arithmetic simply wraps modulo
-> 2^bits as expected.
-
-rdsc works on x86, the other path is prepared for other architectures.
-
-> Here are some more timings, with the same flags as your tests:
->
-> First, 32 bit code:
-> 		gcd0	gcd1	gcd2	gcd3	gcd4
-> Ivy Bridge	3156	1192	1740	1160	1640	PASS
-> AMD Phenom	7150	2564	2348	2975	2843	PASS
-> Core 2		4176	2592	4164	2604	3900	PASS
-> Pentium 4	11492	4784	7632	4852	6452	PASS
->
-> And 64-bit (longer times becuase the inputs are larger):
-> Ivy Bridge	10636	2496	3500	2432	3360	PASS
-> AMD Phenom	19482	4058	6030	5001	6845	PASS
->
-> Looking at those, I'm not sure how much better the gcd3/4 versions are
-> than gcd1/2.  The difference seems pretty minor and sometimes negative.
->
-
-The worst case of binary GCD is that one number is power of 2,
-for example a is 0xffffffff (0xcccccccc for the "even/odd" variant) and b is 1.
-
-The gcd3/4 versions can handle this properly.
+Best regards,
+Jose Miguel Abreu
