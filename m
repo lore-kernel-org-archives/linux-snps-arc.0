@@ -1,41 +1,23 @@
-From: catalin.marinas@arm.com (Catalin Marinas)
-Date: Wed, 11 May 2016 11:42:05 +0100
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 11 May 2016 19:22:28 +0530
 Subject: [patch V4 02/31] bitops: Include generic parity.h in some
  architectures' bitops.h
 In-Reply-To: <1462957641-24241-1-git-send-email-zengzhaoxiu@163.com>
 References: <1462955158-28394-1-git-send-email-zengzhaoxiu@163.com>
  <1462957641-24241-1-git-send-email-zengzhaoxiu@163.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160511104205.GE3051@e104818-lin.cambridge.arm.com>
+Message-ID: <5733391C.1080609@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, May 11, 2016@05:06:17PM +0800, zengzhaoxiu@163.com wrote:
+On Wednesday 11 May 2016 02:36 PM, zengzhaoxiu@163.com wrote:
 > From: Zhaoxiu Zeng <zhaoxiu.zeng at gmail.com>
 > 
 > Simply use the generic version.
 > 
 > Signed-off-by: Zhaoxiu Zeng <zhaoxiu.zeng at gmail.com>
 > Acked-by: Hans-Christian Noren Egtvedt <egtvedt at samfundet.no> [for avr32]
-> ---
->  arch/arc/include/asm/bitops.h      | 1 +
->  arch/arm/include/asm/bitops.h      | 1 +
->  arch/arm64/include/asm/bitops.h    | 1 +
->  arch/avr32/include/asm/bitops.h    | 1 +
->  arch/c6x/include/asm/bitops.h      | 1 +
->  arch/cris/include/asm/bitops.h     | 1 +
->  arch/frv/include/asm/bitops.h      | 1 +
->  arch/h8300/include/asm/bitops.h    | 1 +
->  arch/hexagon/include/asm/bitops.h  | 1 +
->  arch/m32r/include/asm/bitops.h     | 1 +
->  arch/m68k/include/asm/bitops.h     | 1 +
->  arch/metag/include/asm/bitops.h    | 1 +
->  arch/mn10300/include/asm/bitops.h  | 1 +
->  arch/openrisc/include/asm/bitops.h | 1 +
->  arch/parisc/include/asm/bitops.h   | 1 +
->  arch/s390/include/asm/bitops.h     | 1 +
->  arch/sh/include/asm/bitops.h       | 1 +
->  arch/xtensa/include/asm/bitops.h   | 1 +
 
-For arm64:
+Acked-by: Vineet Gupta <vgupta at synopsys.com>  # for arch/arc
 
-Acked-by: Catalin Marinas <catalin.marinas at arm.com>
+Thx,
+-Vineet
