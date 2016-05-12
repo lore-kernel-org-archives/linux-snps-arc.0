@@ -1,35 +1,33 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Thu, 12 May 2016 23:03:35 +0200
-Subject: [PATCH] irqchip: nps: add 64BIT dependency
+From: vincent.weaver@maine.edu (Vince Weaver)
+Date: Thu, 12 May 2016 19:04:58 -0400 (EDT)
+Subject: [RFC 2/2] perf/core: change errno for sampling event not supported
+ in hardware
+In-Reply-To: <20160512072542.GM3192@twins.programming.kicks-ass.net>
+References: <1462786660-2900-1-git-send-email-vgupta@synopsys.com>
+ <1462786660-2900-3-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.20.1605090923460.27332@macbook-air>
+ <5730C79F.3060307@synopsys.com>
+ <20160511193627.GH3190@twins.programming.kicks-ass.net>
+ <5734229B.90706@synopsys.com>
+ <20160512064201.GL3192@twins.programming.kicks-ass.net>
+ <573428A1.3060402@synopsys.com>
+ <20160512072542.GM3192@twins.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1463087038-2522527-1-git-send-email-arnd@arndb.de>
+Message-ID: <alpine.DEB.2.20.1605121903470.18777@macbook-air>
 To: linux-snps-arc@lists.infradead.org
 
-The newly added nps irqchip driver causes build warnings on ARM64.
+On Thu, 12 May 2016, Peter Zijlstra wrote:
 
-include/soc/nps/common.h: In function 'nps_host_reg_non_cl':
-include/soc/nps/common.h:148:9: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+> Ah.. which might be a hint that nobody is actually explicitly testing
+> for this and we might just get away with changing the ABI.
+> 
+> Vince, what say you; shall we try and get away with it? ;-)
 
-As the driver is only used on ARC, we don't need to see it without
-COMPILE_TEST elsewhere, and we can avoid the warnings by only
-building on 32-bit architectures even with CONFIG_COMPILE_TEST.
+It's probably worth trying.
 
-Signed-off-by: Arnd Bergmann <arnd at arndb.de>
----
- drivers/irqchip/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+The only other time anyone else noticed was in this thread
+	https://lkml.org/lkml/2015/6/11/136
+and I think the conclusion at the end of that was also that it's probably 
+worth changing.
 
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index 83775f148158..37289cf6b449 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -253,6 +253,7 @@ config MVEBU_ODMI
- 
- config EZNPS_GIC
- 	bool "NPS400 Global Interrupt Manager (GIM)"
-+	depends on ARC || (COMPILE_TEST && !64BIT)
- 	select IRQ_DOMAIN
- 	help
- 	  Support the EZchip NPS400 global interrupt controller
--- 
-2.7.0
+Vince
