@@ -1,33 +1,35 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 13 May 2016 14:05:41 +0530
-Subject: [PATCH] irqchip: nps: add 64BIT dependency
-In-Reply-To: <57358F52.706@arm.com>
-References: <1463087038-2522527-1-git-send-email-arnd@arndb.de>
- <57358F52.706@arm.com>
+Date: Fri, 13 May 2016 14:06:40 +0530
+Subject: [RFC 2/2] perf/core: change errno for sampling event not
+ supported in hardware
+In-Reply-To: <alpine.DEB.2.20.1605121903470.18777@macbook-air>
+References: <1462786660-2900-1-git-send-email-vgupta@synopsys.com>
+ <1462786660-2900-3-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.20.1605090923460.27332@macbook-air>
+ <5730C79F.3060307@synopsys.com>
+ <20160511193627.GH3190@twins.programming.kicks-ass.net>
+ <5734229B.90706@synopsys.com>
+ <20160512064201.GL3192@twins.programming.kicks-ass.net>
+ <573428A1.3060402@synopsys.com>
+ <20160512072542.GM3192@twins.programming.kicks-ass.net>
+ <alpine.DEB.2.20.1605121903470.18777@macbook-air>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <573591DD.6040403@synopsys.com>
+Message-ID: <57359218.6030105@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Friday 13 May 2016 01:54 PM, Marc Zyngier wrote:
-> On 12/05/16 22:03, Arnd Bergmann wrote:
-...
->>  
->>  config EZNPS_GIC
->>  	bool "NPS400 Global Interrupt Manager (GIM)"
->> +	depends on ARC || (COMPILE_TEST && !64BIT)
->>  	select IRQ_DOMAIN
->>  	help
->>  	  Support the EZchip NPS400 global interrupt controller
+On Friday 13 May 2016 04:34 AM, Vince Weaver wrote:
+> On Thu, 12 May 2016, Peter Zijlstra wrote:
+> 
+>> Ah.. which might be a hint that nobody is actually explicitly testing
+>> for this and we might just get away with changing the ABI.
 >>
+>> Vince, what say you; shall we try and get away with it? ;-)
 > 
-> Acked-by: Marc Zyngier <narc.zyngier at arm.com>
+> It's probably worth trying.
 > 
-> As I've already started collecting fixes that are aimed at -rc1 (mostly
-> to avoid dependencies), I can queue that as well.
+> The only other time anyone else noticed was in this thread
+> 	https://lkml.org/lkml/2015/6/11/136
+> and I think the conclusion at the end of that was also that it's probably 
+> worth changing.
 
-There is a slight logistics issue here - as agreed the driver will go in 4.7-rc1
-via ARC tree. So either I pick the fix for rc1 or you apply it post rc1 - or
-towards the end of rc1 ?
-
-Thx,
--Vineet
+I presume that the RFC patches I posted are fine or do we want any changes.
