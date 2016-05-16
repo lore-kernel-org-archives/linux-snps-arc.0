@@ -1,59 +1,54 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 16 May 2016 08:22:23 +0000
-Subject: [GIT PULL] drm/arcpgu: use dedicated memory area for frame buffer
-In-Reply-To: <1462873872.3135.0.camel@synopsys.com>
-References: <1461684480.2955.31.camel@synopsys.com>
- <1461929790.3020.8.camel@synopsys.com>
- <1462873872.3135.0.camel@synopsys.com>
+Date: Mon, 16 May 2016 12:57:43 +0300
+Subject: [PATCH] arc: axs103_smp: Fix CPU frequency to 100MHz for dual-core
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1463386919.3008.18.camel@synopsys.com>
+Message-ID: <1463392663-12952-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Dave,
+The most recent release of AXS103 [v1.1] is proven to work
+at 100 MHz in dual-core mode so this change uses mentioned feature.
+For that we:
+ * Update axc003_idu.dtsi with mention of really-used CPU clock freq
+ * Remove clock override in AXS platform code for dual-core HW
 
-On Tue, 2016-05-10@09:51 +0000, Alexey Brodkin wrote:
-> Hi Dave,
-> 
-> On Fri, 2016-04-29@11:36 +0000, Alexey Brodkin wrote:
-> > 
-> > Hi Dave,
-> > 
-> > Please pull this mini-series that allows ARC PGU to use
-> > dedicated memory location as framebuffer backing storage.
-> > 
-> > v2 of that series was reviewed here
-> > https://lists.freedesktop.org/archives/dri-devel/2016-April/106279.html
-> > 
-> > It is based on top of today's drm-next branch.
-> > 
-> > Best regards,
-> > Alexey
-> > 
-> > The following changes since commit b89359bdf0f1e95a4c5f92300594ba9dde323fc4:
-> > 
-> > ? Merge branch 'for-next' of http://git.agner.ch/git/linux-drm-fsl-dcu into drm-next (2016-04-29 14:57:51 +1000)
-> > 
-> > are available in the git repository at:
-> > 
-> > ? https://github.com/foss-for-synopsys-dwc-arc-processors/linux.git topic-arcpgu-updates
-> > 
-> > for you to fetch changes up to cb2ad5e5339c5122166265cea579cc6a356d46de:
-> > 
-> > ? ARC: [axs10x] Specify reserved memory for frame buffer (2016-04-29 14:34:13 +0300)
-> > 
-> > ----------------------------------------------------------------
-> > Alexey Brodkin (2):
-> > ??????drm/arcpgu: use dedicated memory area for frame buffer
-> > ??????ARC: [axs10x] Specify reserved memory for frame buffer
-> > 
-> > ?arch/arc/boot/dts/axc001.dtsi?????| 22 ++++++++++++++++++++--
-> > ?arch/arc/boot/dts/axc003.dtsi?????| 14 ++++++++++++++
-> > ?arch/arc/boot/dts/axc003_idu.dtsi | 14 ++++++++++++++
-> > ?arch/arc/boot/dts/axs10x_mb.dtsi??|??2 +-
-> > ?drivers/gpu/drm/arc/arcpgu_drv.c??|??6 ++++++
-> > ?5 files changed, 55 insertions(+), 3 deletions(-)
-> Could you please take a look at this pull request?
+Note we're still leaving a hack for clock "downgrade" on early boot
+for quad-core hardware.
 
-Another polite reminder.
+Also note this change will break functionality of AXS103 v1.0 hardware.
+That means all users of AXS103 __must__ upgrade their boards with the
+most recent firmware.
 
--Alexey
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/boot/dts/axc003_idu.dtsi | 2 +-
+ arch/arc/plat-axs10x/axs10x.c     | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
+index 8955881d..ed1674b 100644
+--- a/arch/arc/boot/dts/axc003_idu.dtsi
++++ b/arch/arc/boot/dts/axc003_idu.dtsi
+@@ -28,7 +28,7 @@
+ 		core_clk: core_clk {
+ 			#clock-cells = <0>;
+ 			compatible = "fixed-clock";
+-			clock-frequency = <90000000>;
++			clock-frequency = <100000000>;
+ 		};
+ 
+ 		core_intc: archs-intc at cpu {
+diff --git a/arch/arc/plat-axs10x/axs10x.c b/arch/arc/plat-axs10x/axs10x.c
+index 9701c93..8654870 100644
+--- a/arch/arc/plat-axs10x/axs10x.c
++++ b/arch/arc/plat-axs10x/axs10x.c
+@@ -410,8 +410,6 @@ static void __init axs103_early_init(void)
+ 	unsigned int num_cores = (read_aux_reg(ARC_REG_MCIP_BCR) >> 16) & 0x3F;
+ 	if (num_cores > 2)
+ 		freq = 50;
+-	else if (num_cores == 2)
+-		freq = 75;
+ #endif
+ 
+ 	switch (freq) {
+-- 
+2.5.5
