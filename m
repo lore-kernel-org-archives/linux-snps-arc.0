@@ -1,30 +1,38 @@
 From: torvalds@linux-foundation.org (Linus Torvalds)
-Date: Thu, 19 May 2016 09:50:59 -0700
+Date: Thu, 19 May 2016 13:34:48 -0700
 Subject: [GIT PULL] ARC updates for 4.7-rc1
 In-Reply-To: <573D5C31.8010100@synopsys.com>
 References: <573D5C31.8010100@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CA+55aFzHZB8e5+4G2eSZSWrNF76FcD=pP6rCEUjH8f119J7TSw@mail.gmail.com>
+Message-ID: <CA+55aFyQ7bzCJ9owuhe9Lmgozhc-_qkjts0majgHqUzY9kQf1Q@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
 On Wed, May 18, 2016 at 11:24 PM, Vineet Gupta
 <Vineet.Gupta1@synopsys.com> wrote:
-> Hi Linus,
 >
-> We have a relatively big changeset for ARC for 4.7.
+> The highlight is support for EZChip (now Mellanox) NPS-400 network processor [..]
 
-.. this pull request is missing the diffstat, though, so it's hard to
-see that your "big changeset" matches what I actually get.
+Oh, and that brought in the
 
-To make matters worse, the shortlog doesn't match what I get _either_.
-It looks like the message was just cut off in the middle, and it's
-missing the last third of the shortlog and the diffstat it is supposed
-to have.
+    drivers/irqchip/irq-eznps.c
 
-I did pull it, because the last commit info matched, and the diffstat
-and shortlog look reasonable despite not matching what is in the pull
-request.
+driver that is compile-test enabled.
 
-But please please PLEASE make sure this doesn't keep happening.
+And that driver is not 64-bit clean:
 
-               Linus
+  In file included from drivers/irqchip/irq-eznps.c:39:0:
+  include/soc/nps/common.h: In function ?nps_host_reg_non_cl?:
+  include/soc/nps/common.h:148:9: warning: cast to pointer from
+integer of different size [-Wint-to-pointer-cast]
+    return (void *)reg_address.value;
+           ^
+  include/soc/nps/common.h: In function ?nps_host_reg?:
+  include/soc/nps/common.h:162:9: warning: cast to pointer from
+integer of different size [-Wint-to-pointer-cast]
+    return (void *)reg_address.value;
+           ^
+
+so it needs to either be disabled or fixed. Annoying everybody else
+with warnings is not an option.
+
+            Linus
