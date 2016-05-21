@@ -1,27 +1,27 @@
 From: andrea.gelmini@gelma.net (Andrea Gelmini)
-Date: Sat, 21 May 2016 13:45:59 +0200
-Subject: [PATCH 0069/1529] Fix typo
+Date: Sat, 21 May 2016 13:46:07 +0200
+Subject: [PATCH 0070/1529] Fix typo
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160521114559.2665-1-andrea.gelmini@gelma.net>
+Message-ID: <20160521114607.2715-1-andrea.gelmini@gelma.net>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Andrea Gelmini <andrea.gelmini at gelma.net>
 ---
- arch/arc/include/asm/pgtable.h | 2 +-
+ arch/arc/include/asm/processor.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index 034bbdc..858f98e 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -47,7 +47,7 @@
-  * Page Tables are purely for Linux VM's consumption and the bits below are
-  * suited to that (uniqueness). Hence some are not implemented in the TLB and
-  * some have different value in TLB.
-- * e.g. MMU v2: K_READ bit is 8 and so is GLOBAL (possible becoz they live in
-+ * e.g. MMU v2: K_READ bit is 8 and so is GLOBAL (possible because they live in
-  *      seperate PD0 and PD1, which combined forms a translation entry)
-  *      while for PTE perspective, they are 8 and 9 respectively
-  * with MMU v3: Most bits (except SHARED) represent the exact hardware pos
+diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
+index f904899..16b630f 100644
+--- a/arch/arc/include/asm/processor.h
++++ b/arch/arc/include/asm/processor.h
+@@ -78,7 +78,7 @@ struct task_struct;
+ #define KSTK_ESP(tsk)   (task_pt_regs(tsk)->sp)
+ 
+ /*
+- * Where abouts of Task's sp, fp, blink when it was last seen in kernel mode.
++ * Where about of Task's sp, fp, blink when it was last seen in kernel mode.
+  * Look in process.c for details of kernel stack layout
+  */
+ #define TSK_K_ESP(tsk)		(tsk->thread.ksp)
 -- 
 2.8.2.534.g1f66975
