@@ -1,19 +1,59 @@
 From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Mon, 23 May 2016 11:02:22 +0100
-Subject: [PATCH 1/4 v7] ASoC: dwc: Add helper functions to disable/enable irqs
-In-Reply-To: <cover.1463996627.git.joabreu@synopsys.com>
-References: <cover.1463996627.git.joabreu@synopsys.com>
+Date: Mon, 23 May 2016 11:02:21 +0100
+Subject: [PATCH 0/4 v7] Add I2S audio support for ARC AXS10x boards
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <fb4a046bc20f0e0839082527b39e7737de128367.1463996627.git.joabreu@synopsys.com>
+Message-ID: <cover.1463996627.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Helper functions to disable and enable the I2S interrupts were
-added. Only the interrupts of the used channels are enabled.
+ARC AXS10x platforms consist of a mainboard with several peripherals.
+One of those peripherals is an HDMI output port controlled by the ADV7511
+transmitter.
 
-Also, there is no need to enable irqs at dw_i2s_config(), they
-are already enabled at startup.
+This patch set adds I2S audio for the AXS10x platform.
 
-Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+NOTE:
+Although the mainline I2S driver uses ALSA DMA engine, this controller
+can be built without DMA support so it was necessary to add this
+custom platform driver so that HDMI audio works in AXS boards.
+
+Changes v6 -> v7:
+* Discard the use of memcpy
+* Report IRQ_HANDLED only when there is an IRQ
+* Use interrupts to check if PIO mode is in use
+* Unmask interrupts only when in PIO mode
+* Remove empty functions
+
+Changes v5 -> v6:
+* Use SNDRV_DMA_TYPE_CONTINUOUS
+
+Changes v4 -> v5:
+* Resolve undefined references when compiling as module
+* Dropped adv7511 audio patches
+* Use DMA properties in I2S to check which mode to use: PIO or DMA (as suggested by Lars-Peter Clausen)
+
+Changes v3 -> v4:
+* Reintroduced custom PCM driver (see note below)
+* Use DT boolean to switch between ALSA DMA engine PCM or custom PCM
+* Use fifo depth to program I2S FCR
+* Update I2S documentation
+
+Changes v2 -> v3:
+* Removed pll_config functions (as suggested by Alexey Brodkin)
+* Removed HDMI start at adv7511_core (as suggested by Archit Taneja)
+* Use NOP functions for adv7511_audio (as suggested by Archit Taneja)
+* Added adv7511_audio_exit() function (as suggested by Archit Taneja)
+* Moved adv7511 to its own folder (as suggested by Archit Taneja)
+* Separated file rename of adv7511_core (as suggested by Emil Velikov)
+* Compile adv7511 as module if ALSA SoC is compiled as module
+* Load adv7511 audio only if declared in device tree (as suggested by Laurent Pinchart)
+* Dropped custom platform driver, using now ALSA DMA engine
+* Dropped IRQ handler for I2S
+
+Changes v1 -> v2:
+* DT bindings moved to separate patch (as suggested by Alexey Brodkin)
+* Removed defconfigs entries (as suggested by Alexey Brodkin)
+
+
 Cc: Carlos Palminha <palminha at synopsys.com>
 Cc: Mark Brown <broonie at kernel.org>
 Cc: Liam Girdwood <lgirdwood at gmail.com>
@@ -25,134 +65,22 @@ Cc: linux-snps-arc at lists.infradead.org
 Cc: alsa-devel at alsa-project.org
 Cc: devicetree at vger.kernel.org
 Cc: linux-kernel at vger.kernel.org
----
 
-This patch was only introduced in v7.
+Jose Abreu (4):
+  ASoC: dwc: Add helper functions to disable/enable irqs
+  ASoC: dwc: Do not use devm_clk_get() if using platform data
+  ASoC: dwc: Add PIO PCM extension
+  ASoC: dwc: Add irq parameter to DOCUMENTATION
 
- sound/soc/dwc/designware_i2s.c | 68 +++++++++++++++++++++++++-----------------
- 1 file changed, 41 insertions(+), 27 deletions(-)
+ .../devicetree/bindings/sound/designware-i2s.txt   |   4 +
+ sound/soc/dwc/Kconfig                              |   9 +
+ sound/soc/dwc/Makefile                             |   5 +-
+ sound/soc/dwc/designware_i2s.c                     | 229 ++++++++++-----------
+ sound/soc/dwc/designware_pcm.c                     | 220 ++++++++++++++++++++
+ sound/soc/dwc/local.h                              | 122 +++++++++++
+ 6 files changed, 467 insertions(+), 122 deletions(-)
+ create mode 100644 sound/soc/dwc/designware_pcm.c
+ create mode 100644 sound/soc/dwc/local.h
 
-diff --git a/sound/soc/dwc/designware_i2s.c b/sound/soc/dwc/designware_i2s.c
-index 0db69b7..4c4f0dc 100644
---- a/sound/soc/dwc/designware_i2s.c
-+++ b/sound/soc/dwc/designware_i2s.c
-@@ -145,26 +145,54 @@ static inline void i2s_clear_irqs(struct dw_i2s_dev *dev, u32 stream)
- 	}
- }
- 
--static void i2s_start(struct dw_i2s_dev *dev,
--		      struct snd_pcm_substream *substream)
-+static inline void i2s_disable_irqs(struct dw_i2s_dev *dev, u32 stream,
-+				    int chan_nr)
- {
--	struct i2s_clk_config_data *config = &dev->config;
- 	u32 i, irq;
--	i2s_write_reg(dev->i2s_base, IER, 1);
- 
--	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
--		for (i = 0; i < (config->chan_nr / 2); i++) {
-+	if (stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		for (i = 0; i < (chan_nr / 2); i++) {
-+			irq = i2s_read_reg(dev->i2s_base, IMR(i));
-+			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x30);
-+		}
-+	} else {
-+		for (i = 0; i < (chan_nr / 2); i++) {
-+			irq = i2s_read_reg(dev->i2s_base, IMR(i));
-+			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x03);
-+		}
-+	}
-+}
-+
-+static inline void i2s_enable_irqs(struct dw_i2s_dev *dev, u32 stream,
-+				   int chan_nr)
-+{
-+	u32 i, irq;
-+
-+	if (stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		for (i = 0; i < (chan_nr / 2); i++) {
- 			irq = i2s_read_reg(dev->i2s_base, IMR(i));
- 			i2s_write_reg(dev->i2s_base, IMR(i), irq & ~0x30);
- 		}
--		i2s_write_reg(dev->i2s_base, ITER, 1);
- 	} else {
--		for (i = 0; i < (config->chan_nr / 2); i++) {
-+		for (i = 0; i < (chan_nr / 2); i++) {
- 			irq = i2s_read_reg(dev->i2s_base, IMR(i));
- 			i2s_write_reg(dev->i2s_base, IMR(i), irq & ~0x03);
- 		}
--		i2s_write_reg(dev->i2s_base, IRER, 1);
- 	}
-+}
-+
-+static void i2s_start(struct dw_i2s_dev *dev,
-+		      struct snd_pcm_substream *substream)
-+{
-+	struct i2s_clk_config_data *config = &dev->config;
-+
-+	i2s_write_reg(dev->i2s_base, IER, 1);
-+	i2s_enable_irqs(dev, substream->stream, config->chan_nr);
-+
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-+		i2s_write_reg(dev->i2s_base, ITER, 1);
-+	else
-+		i2s_write_reg(dev->i2s_base, IRER, 1);
- 
- 	i2s_write_reg(dev->i2s_base, CER, 1);
- }
-@@ -172,24 +200,14 @@ static void i2s_start(struct dw_i2s_dev *dev,
- static void i2s_stop(struct dw_i2s_dev *dev,
- 		struct snd_pcm_substream *substream)
- {
--	u32 i = 0, irq;
- 
- 	i2s_clear_irqs(dev, substream->stream);
--	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
- 		i2s_write_reg(dev->i2s_base, ITER, 0);
--
--		for (i = 0; i < 4; i++) {
--			irq = i2s_read_reg(dev->i2s_base, IMR(i));
--			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x30);
--		}
--	} else {
-+	else
- 		i2s_write_reg(dev->i2s_base, IRER, 0);
- 
--		for (i = 0; i < 4; i++) {
--			irq = i2s_read_reg(dev->i2s_base, IMR(i));
--			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x03);
--		}
--	}
-+	i2s_disable_irqs(dev, substream->stream, 8);
- 
- 	if (!dev->active) {
- 		i2s_write_reg(dev->i2s_base, CER, 0);
-@@ -223,7 +241,7 @@ static int dw_i2s_startup(struct snd_pcm_substream *substream,
- 
- static void dw_i2s_config(struct dw_i2s_dev *dev, int stream)
- {
--	u32 ch_reg, irq;
-+	u32 ch_reg;
- 	struct i2s_clk_config_data *config = &dev->config;
- 
- 
-@@ -235,16 +253,12 @@ static void dw_i2s_config(struct dw_i2s_dev *dev, int stream)
- 				      dev->xfer_resolution);
- 			i2s_write_reg(dev->i2s_base, TFCR(ch_reg),
- 				      dev->fifo_th - 1);
--			irq = i2s_read_reg(dev->i2s_base, IMR(ch_reg));
--			i2s_write_reg(dev->i2s_base, IMR(ch_reg), irq & ~0x30);
- 			i2s_write_reg(dev->i2s_base, TER(ch_reg), 1);
- 		} else {
- 			i2s_write_reg(dev->i2s_base, RCR(ch_reg),
- 				      dev->xfer_resolution);
- 			i2s_write_reg(dev->i2s_base, RFCR(ch_reg),
- 				      dev->fifo_th - 1);
--			irq = i2s_read_reg(dev->i2s_base, IMR(ch_reg));
--			i2s_write_reg(dev->i2s_base, IMR(ch_reg), irq & ~0x03);
- 			i2s_write_reg(dev->i2s_base, RER(ch_reg), 1);
- 		}
- 
 -- 
 1.9.1
