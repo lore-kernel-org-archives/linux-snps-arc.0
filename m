@@ -1,188 +1,91 @@
-From: broonie@kernel.org (Mark Brown)
-Date: Mon, 23 May 2016 18:50:17 +0100
-Subject: Applied "ASoC: dwc: Add helper functions to disable/enable irqs" to
- the asoc tree
-In-Reply-To: <fb4a046bc20f0e0839082527b39e7737de128367.1463996627.git.joabreu@synopsys.com>
+From: airlied@redhat.com (David Airlie)
+Date: Mon, 23 May 2016 15:23:55 -0400 (EDT)
+Subject: [GIT PULL] drm/arcpgu: use dedicated memory area for frame buffer
+In-Reply-To: <1463999470.3116.5.camel@synopsys.com>
+References: <1461684480.2955.31.camel@synopsys.com>
+ <1461929790.3020.8.camel@synopsys.com> <1462873872.3135.0.camel@synopsys.com>
+ <1463386919.3008.18.camel@synopsys.com>
+ <1463999470.3116.5.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <E1b4tzd-0006ZX-EN@debutante>
+Message-ID: <2061570567.65179164.1464031435094.JavaMail.zimbra@redhat.com>
 To: linux-snps-arc@lists.infradead.org
 
-The patch
 
-   ASoC: dwc: Add helper functions to disable/enable irqs
 
-has been applied to the asoc tree at
 
-   git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git 
+----- Original Message -----
+> From: "Alexey Brodkin" <Alexey.Brodkin at synopsys.com>
+> To: airlied at redhat.com, daniel at ffwll.ch, "Vineet Gupta" <Vineet.Gupta1 at synopsys.com>, airlied at linux.ie
+> Cc: dri-devel at lists.freedesktop.org, linux-kernel at vger.kernel.org, linux-snps-arc at lists.infradead.org
+> Sent: Monday, 23 May, 2016 8:31:41 PM
+> Subject: Re: [GIT PULL] drm/arcpgu: use dedicated memory area for frame buffer
+> 
+> Hi Dave,
+> 
+> On Mon, 2016-05-16@08:22 +0000, Alexey Brodkin wrote:
+> > Hi Dave,
+> > 
+> > On Tue, 2016-05-10@09:51 +0000, Alexey Brodkin wrote:
+> > > 
+> > > Hi Dave,
+> > > 
+> > > On Fri, 2016-04-29@11:36 +0000, Alexey Brodkin wrote:
+> > > > 
+> > > > 
+> > > > Hi Dave,
+> > > > 
+> > > > Please pull this mini-series that allows ARC PGU to use
+> > > > dedicated memory location as framebuffer backing storage.
+> > > > 
+> > > > v2 of that series was reviewed here
+> > > > https://lists.freedesktop.org/archives/dri-devel/2016-April/106279.html
+> > > > 
+> > > > It is based on top of today's drm-next branch.
+> > > > 
+> > > > Best regards,
+> > > > Alexey
+> > > > 
+> > > > The following changes since commit
+> > > > b89359bdf0f1e95a4c5f92300594ba9dde323fc4:
+> > > > 
+> > > > ? Merge branch 'for-next' of http://git.agner.ch/git/linux-drm-fsl-dcu
+> > > > ? into drm-next (2016-04-29 14:57:51 +1000)
+> > > > 
+> > > > are available in the git repository at:
+> > > > 
+> > > > ? https://github.com/foss-for-synopsys-dwc-arc-processors/linux.git
+> > > > ? topic-arcpgu-updates
+> > > > 
+> > > > for you to fetch changes up to
+> > > > cb2ad5e5339c5122166265cea579cc6a356d46de:
+> > > > 
+> > > > ? ARC: [axs10x] Specify reserved memory for frame buffer (2016-04-29
+> > > > ? 14:34:13 +0300)
+> > > > 
+> > > > ----------------------------------------------------------------
+> > > > Alexey Brodkin (2):
+> > > > ??????drm/arcpgu: use dedicated memory area for frame buffer
+> > > > ??????ARC: [axs10x] Specify reserved memory for frame buffer
+> > > > 
+> > > > ?arch/arc/boot/dts/axc001.dtsi?????| 22 ++++++++++++++++++++--
+> > > > ?arch/arc/boot/dts/axc003.dtsi?????| 14 ++++++++++++++
+> > > > ?arch/arc/boot/dts/axc003_idu.dtsi | 14 ++++++++++++++
+> > > > ?arch/arc/boot/dts/axs10x_mb.dtsi??|??2 +-
+> > > > ?drivers/gpu/drm/arc/arcpgu_drv.c??|??6 ++++++
+> > > > ?5 files changed, 55 insertions(+), 3 deletions(-)
+> > > Could you please take a look at this pull request?
+> > Another polite reminder.
+> 
+> Could you please pull this one?
+> Indeed it was created quite some time ago so if required I may
+> rebase it on top of whatever current you'd like.
+> 
+> Alternatively you may just apply the first patch from the series
+> (could be found here
+> ?https://lists.freedesktop.org/archives/dri-devel/2016-April/106280.html)
+> and the second patch will be picked up by ARC maintainer (Vineet Gupta).
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
+I thought I did pull this, please check drm-next.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
->From df4e7be1832a1ca9fccfb2ed8771a17da6f7fa57 Mon Sep 17 00:00:00 2001
-From: Jose Abreu <Jose.Abreu@synopsys.com>
-Date: Mon, 23 May 2016 11:02:22 +0100
-Subject: [PATCH] ASoC: dwc: Add helper functions to disable/enable irqs
-
-Helper functions to disable and enable the I2S interrupts were
-added. Only the interrupts of the used channels are enabled.
-
-Also, there is no need to enable irqs at dw_i2s_config(), they
-are already enabled at startup.
-
-Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-Cc: Carlos Palminha <palminha at synopsys.com>
-Cc: Mark Brown <broonie at kernel.org>
-Cc: Liam Girdwood <lgirdwood at gmail.com>
-Cc: Jaroslav Kysela <perex at perex.cz>
-Cc: Takashi Iwai <tiwai at suse.com>
-Cc: Rob Herring <robh at kernel.org>
-Cc: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: alsa-devel at alsa-project.org
-Cc: devicetree at vger.kernel.org
-Cc: linux-kernel at vger.kernel.org
-Signed-off-by: Mark Brown <broonie at kernel.org>
----
- sound/soc/dwc/designware_i2s.c | 68 +++++++++++++++++++++++++-----------------
- 1 file changed, 41 insertions(+), 27 deletions(-)
-
-diff --git a/sound/soc/dwc/designware_i2s.c b/sound/soc/dwc/designware_i2s.c
-index 0db69b7e9617..4c4f0dc24f10 100644
---- a/sound/soc/dwc/designware_i2s.c
-+++ b/sound/soc/dwc/designware_i2s.c
-@@ -145,26 +145,54 @@ static inline void i2s_clear_irqs(struct dw_i2s_dev *dev, u32 stream)
- 	}
- }
- 
--static void i2s_start(struct dw_i2s_dev *dev,
--		      struct snd_pcm_substream *substream)
-+static inline void i2s_disable_irqs(struct dw_i2s_dev *dev, u32 stream,
-+				    int chan_nr)
- {
--	struct i2s_clk_config_data *config = &dev->config;
- 	u32 i, irq;
--	i2s_write_reg(dev->i2s_base, IER, 1);
- 
--	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
--		for (i = 0; i < (config->chan_nr / 2); i++) {
-+	if (stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		for (i = 0; i < (chan_nr / 2); i++) {
-+			irq = i2s_read_reg(dev->i2s_base, IMR(i));
-+			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x30);
-+		}
-+	} else {
-+		for (i = 0; i < (chan_nr / 2); i++) {
-+			irq = i2s_read_reg(dev->i2s_base, IMR(i));
-+			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x03);
-+		}
-+	}
-+}
-+
-+static inline void i2s_enable_irqs(struct dw_i2s_dev *dev, u32 stream,
-+				   int chan_nr)
-+{
-+	u32 i, irq;
-+
-+	if (stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		for (i = 0; i < (chan_nr / 2); i++) {
- 			irq = i2s_read_reg(dev->i2s_base, IMR(i));
- 			i2s_write_reg(dev->i2s_base, IMR(i), irq & ~0x30);
- 		}
--		i2s_write_reg(dev->i2s_base, ITER, 1);
- 	} else {
--		for (i = 0; i < (config->chan_nr / 2); i++) {
-+		for (i = 0; i < (chan_nr / 2); i++) {
- 			irq = i2s_read_reg(dev->i2s_base, IMR(i));
- 			i2s_write_reg(dev->i2s_base, IMR(i), irq & ~0x03);
- 		}
--		i2s_write_reg(dev->i2s_base, IRER, 1);
- 	}
-+}
-+
-+static void i2s_start(struct dw_i2s_dev *dev,
-+		      struct snd_pcm_substream *substream)
-+{
-+	struct i2s_clk_config_data *config = &dev->config;
-+
-+	i2s_write_reg(dev->i2s_base, IER, 1);
-+	i2s_enable_irqs(dev, substream->stream, config->chan_nr);
-+
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-+		i2s_write_reg(dev->i2s_base, ITER, 1);
-+	else
-+		i2s_write_reg(dev->i2s_base, IRER, 1);
- 
- 	i2s_write_reg(dev->i2s_base, CER, 1);
- }
-@@ -172,24 +200,14 @@ static void i2s_start(struct dw_i2s_dev *dev,
- static void i2s_stop(struct dw_i2s_dev *dev,
- 		struct snd_pcm_substream *substream)
- {
--	u32 i = 0, irq;
- 
- 	i2s_clear_irqs(dev, substream->stream);
--	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
- 		i2s_write_reg(dev->i2s_base, ITER, 0);
--
--		for (i = 0; i < 4; i++) {
--			irq = i2s_read_reg(dev->i2s_base, IMR(i));
--			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x30);
--		}
--	} else {
-+	else
- 		i2s_write_reg(dev->i2s_base, IRER, 0);
- 
--		for (i = 0; i < 4; i++) {
--			irq = i2s_read_reg(dev->i2s_base, IMR(i));
--			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x03);
--		}
--	}
-+	i2s_disable_irqs(dev, substream->stream, 8);
- 
- 	if (!dev->active) {
- 		i2s_write_reg(dev->i2s_base, CER, 0);
-@@ -223,7 +241,7 @@ static int dw_i2s_startup(struct snd_pcm_substream *substream,
- 
- static void dw_i2s_config(struct dw_i2s_dev *dev, int stream)
- {
--	u32 ch_reg, irq;
-+	u32 ch_reg;
- 	struct i2s_clk_config_data *config = &dev->config;
- 
- 
-@@ -235,16 +253,12 @@ static void dw_i2s_config(struct dw_i2s_dev *dev, int stream)
- 				      dev->xfer_resolution);
- 			i2s_write_reg(dev->i2s_base, TFCR(ch_reg),
- 				      dev->fifo_th - 1);
--			irq = i2s_read_reg(dev->i2s_base, IMR(ch_reg));
--			i2s_write_reg(dev->i2s_base, IMR(ch_reg), irq & ~0x30);
- 			i2s_write_reg(dev->i2s_base, TER(ch_reg), 1);
- 		} else {
- 			i2s_write_reg(dev->i2s_base, RCR(ch_reg),
- 				      dev->xfer_resolution);
- 			i2s_write_reg(dev->i2s_base, RFCR(ch_reg),
- 				      dev->fifo_th - 1);
--			irq = i2s_read_reg(dev->i2s_base, IMR(ch_reg));
--			i2s_write_reg(dev->i2s_base, IMR(ch_reg), irq & ~0x03);
- 			i2s_write_reg(dev->i2s_base, RER(ch_reg), 1);
- 		}
- 
--- 
-2.8.1
+Dave.
