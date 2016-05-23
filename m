@@ -1,59 +1,20 @@
 From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Mon, 23 May 2016 11:02:21 +0100
-Subject: [PATCH 0/4 v7] Add I2S audio support for ARC AXS10x boards
+Date: Mon, 23 May 2016 11:02:23 +0100
+Subject: [PATCH 2/4 v7] ASoC: dwc: Do not use devm_clk_get() if using platform
+ data
+In-Reply-To: <cover.1463996627.git.joabreu@synopsys.com>
+References: <cover.1463996627.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <cover.1463996627.git.joabreu@synopsys.com>
+Message-ID: <d288d87fc0f1c07f4d301dc08d32b1bf9915446c.1463996627.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-ARC AXS10x platforms consist of a mainboard with several peripherals.
-One of those peripherals is an HDMI output port controlled by the ADV7511
-transmitter.
+When using platform data the devm_clk_get() function is
+called causing a probe failure if the clock is not
+declared. As we can pass the clock handler by platform
+data call only devm_clk_get() when platform data is not
+used.
 
-This patch set adds I2S audio for the AXS10x platform.
-
-NOTE:
-Although the mainline I2S driver uses ALSA DMA engine, this controller
-can be built without DMA support so it was necessary to add this
-custom platform driver so that HDMI audio works in AXS boards.
-
-Changes v6 -> v7:
-* Discard the use of memcpy
-* Report IRQ_HANDLED only when there is an IRQ
-* Use interrupts to check if PIO mode is in use
-* Unmask interrupts only when in PIO mode
-* Remove empty functions
-
-Changes v5 -> v6:
-* Use SNDRV_DMA_TYPE_CONTINUOUS
-
-Changes v4 -> v5:
-* Resolve undefined references when compiling as module
-* Dropped adv7511 audio patches
-* Use DMA properties in I2S to check which mode to use: PIO or DMA (as suggested by Lars-Peter Clausen)
-
-Changes v3 -> v4:
-* Reintroduced custom PCM driver (see note below)
-* Use DT boolean to switch between ALSA DMA engine PCM or custom PCM
-* Use fifo depth to program I2S FCR
-* Update I2S documentation
-
-Changes v2 -> v3:
-* Removed pll_config functions (as suggested by Alexey Brodkin)
-* Removed HDMI start at adv7511_core (as suggested by Archit Taneja)
-* Use NOP functions for adv7511_audio (as suggested by Archit Taneja)
-* Added adv7511_audio_exit() function (as suggested by Archit Taneja)
-* Moved adv7511 to its own folder (as suggested by Archit Taneja)
-* Separated file rename of adv7511_core (as suggested by Emil Velikov)
-* Compile adv7511 as module if ALSA SoC is compiled as module
-* Load adv7511 audio only if declared in device tree (as suggested by Laurent Pinchart)
-* Dropped custom platform driver, using now ALSA DMA engine
-* Dropped IRQ handler for I2S
-
-Changes v1 -> v2:
-* DT bindings moved to separate patch (as suggested by Alexey Brodkin)
-* Removed defconfigs entries (as suggested by Alexey Brodkin)
-
-
+Signed-off-by: Jose Abreu <joabreu at synopsys.com>
 Cc: Carlos Palminha <palminha at synopsys.com>
 Cc: Mark Brown <broonie at kernel.org>
 Cc: Liam Girdwood <lgirdwood at gmail.com>
@@ -65,22 +26,40 @@ Cc: linux-snps-arc at lists.infradead.org
 Cc: alsa-devel at alsa-project.org
 Cc: devicetree at vger.kernel.org
 Cc: linux-kernel at vger.kernel.org
+---
 
-Jose Abreu (4):
-  ASoC: dwc: Add helper functions to disable/enable irqs
-  ASoC: dwc: Do not use devm_clk_get() if using platform data
-  ASoC: dwc: Add PIO PCM extension
-  ASoC: dwc: Add irq parameter to DOCUMENTATION
+This patch was only introduced in v7.
 
- .../devicetree/bindings/sound/designware-i2s.txt   |   4 +
- sound/soc/dwc/Kconfig                              |   9 +
- sound/soc/dwc/Makefile                             |   5 +-
- sound/soc/dwc/designware_i2s.c                     | 229 ++++++++++-----------
- sound/soc/dwc/designware_pcm.c                     | 220 ++++++++++++++++++++
- sound/soc/dwc/local.h                              | 122 +++++++++++
- 6 files changed, 467 insertions(+), 122 deletions(-)
- create mode 100644 sound/soc/dwc/designware_pcm.c
- create mode 100644 sound/soc/dwc/local.h
+ sound/soc/dwc/designware_i2s.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
+diff --git a/sound/soc/dwc/designware_i2s.c b/sound/soc/dwc/designware_i2s.c
+index 4c4f0dc..a97be8e 100644
+--- a/sound/soc/dwc/designware_i2s.c
++++ b/sound/soc/dwc/designware_i2s.c
+@@ -690,15 +690,16 @@ static int dw_i2s_probe(struct platform_device *pdev)
+ 				dev_err(&pdev->dev, "no clock configure method\n");
+ 				return -ENODEV;
+ 			}
+-		}
+-		dev->clk = devm_clk_get(&pdev->dev, clk_id);
++		} else {
++			dev->clk = devm_clk_get(&pdev->dev, clk_id);
+ 
+-		if (IS_ERR(dev->clk))
+-			return PTR_ERR(dev->clk);
++			if (IS_ERR(dev->clk))
++				return PTR_ERR(dev->clk);
+ 
+-		ret = clk_prepare_enable(dev->clk);
+-		if (ret < 0)
+-			return ret;
++			ret = clk_prepare_enable(dev->clk);
++			if (ret < 0)
++				return ret;
++		}
+ 	}
+ 
+ 	dev_set_drvdata(&pdev->dev, dev);
 -- 
 1.9.1
