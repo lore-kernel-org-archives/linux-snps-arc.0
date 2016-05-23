@@ -1,36 +1,158 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Mon, 23 May 2016 06:10:50 -0000
-Subject: kisskb: OK linux-next/axs101_defconfig/arcompact Mon May 23, 16:09
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Mon, 23 May 2016 11:02:22 +0100
+Subject: [PATCH 1/4 v7] ASoC: dwc: Add helper functions to disable/enable irqs
+In-Reply-To: <cover.1463996627.git.joabreu@synopsys.com>
+References: <cover.1463996627.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160523061050.1.88660@08800a7a10de>
+Message-ID: <fb4a046bc20f0e0839082527b39e7737de128367.1463996627.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linux-next/axs101_defconfig/arcompact Mon May 23, 16:09
+Helper functions to disable and enable the I2S interrupts were
+added. Only the interrupts of the used channels are enabled.
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12697499/
+Also, there is no need to enable irqs at dw_i2s_config(), they
+are already enabled at startup.
 
-Commit:   Merge branch 'akpm/master'
-          c47ac29733ca78a1ce8ab2a1e7d036fed06a7652
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+Cc: Carlos Palminha <palminha at synopsys.com>
+Cc: Mark Brown <broonie at kernel.org>
+Cc: Liam Girdwood <lgirdwood at gmail.com>
+Cc: Jaroslav Kysela <perex at perex.cz>
+Cc: Takashi Iwai <tiwai at suse.com>
+Cc: Rob Herring <robh at kernel.org>
+Cc: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: alsa-devel at alsa-project.org
+Cc: devicetree at vger.kernel.org
+Cc: linux-kernel at vger.kernel.org
+---
 
-No errors found in log
+This patch was only introduced in v7.
 
-Possible warnings (16)
-----------------------
+ sound/soc/dwc/designware_i2s.c | 68 +++++++++++++++++++++++++-----------------
+ 1 file changed, 41 insertions(+), 27 deletions(-)
 
-kernel/sched/core.c:3206:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/kernel.h:742:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/core/ethtool.c:299:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
+diff --git a/sound/soc/dwc/designware_i2s.c b/sound/soc/dwc/designware_i2s.c
+index 0db69b7..4c4f0dc 100644
+--- a/sound/soc/dwc/designware_i2s.c
++++ b/sound/soc/dwc/designware_i2s.c
+@@ -145,26 +145,54 @@ static inline void i2s_clear_irqs(struct dw_i2s_dev *dev, u32 stream)
+ 	}
+ }
+ 
+-static void i2s_start(struct dw_i2s_dev *dev,
+-		      struct snd_pcm_substream *substream)
++static inline void i2s_disable_irqs(struct dw_i2s_dev *dev, u32 stream,
++				    int chan_nr)
+ {
+-	struct i2s_clk_config_data *config = &dev->config;
+ 	u32 i, irq;
+-	i2s_write_reg(dev->i2s_base, IER, 1);
+ 
+-	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+-		for (i = 0; i < (config->chan_nr / 2); i++) {
++	if (stream == SNDRV_PCM_STREAM_PLAYBACK) {
++		for (i = 0; i < (chan_nr / 2); i++) {
++			irq = i2s_read_reg(dev->i2s_base, IMR(i));
++			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x30);
++		}
++	} else {
++		for (i = 0; i < (chan_nr / 2); i++) {
++			irq = i2s_read_reg(dev->i2s_base, IMR(i));
++			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x03);
++		}
++	}
++}
++
++static inline void i2s_enable_irqs(struct dw_i2s_dev *dev, u32 stream,
++				   int chan_nr)
++{
++	u32 i, irq;
++
++	if (stream == SNDRV_PCM_STREAM_PLAYBACK) {
++		for (i = 0; i < (chan_nr / 2); i++) {
+ 			irq = i2s_read_reg(dev->i2s_base, IMR(i));
+ 			i2s_write_reg(dev->i2s_base, IMR(i), irq & ~0x30);
+ 		}
+-		i2s_write_reg(dev->i2s_base, ITER, 1);
+ 	} else {
+-		for (i = 0; i < (config->chan_nr / 2); i++) {
++		for (i = 0; i < (chan_nr / 2); i++) {
+ 			irq = i2s_read_reg(dev->i2s_base, IMR(i));
+ 			i2s_write_reg(dev->i2s_base, IMR(i), irq & ~0x03);
+ 		}
+-		i2s_write_reg(dev->i2s_base, IRER, 1);
+ 	}
++}
++
++static void i2s_start(struct dw_i2s_dev *dev,
++		      struct snd_pcm_substream *substream)
++{
++	struct i2s_clk_config_data *config = &dev->config;
++
++	i2s_write_reg(dev->i2s_base, IER, 1);
++	i2s_enable_irqs(dev, substream->stream, config->chan_nr);
++
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++		i2s_write_reg(dev->i2s_base, ITER, 1);
++	else
++		i2s_write_reg(dev->i2s_base, IRER, 1);
+ 
+ 	i2s_write_reg(dev->i2s_base, CER, 1);
+ }
+@@ -172,24 +200,14 @@ static void i2s_start(struct dw_i2s_dev *dev,
+ static void i2s_stop(struct dw_i2s_dev *dev,
+ 		struct snd_pcm_substream *substream)
+ {
+-	u32 i = 0, irq;
+ 
+ 	i2s_clear_irqs(dev, substream->stream);
+-	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+ 		i2s_write_reg(dev->i2s_base, ITER, 0);
+-
+-		for (i = 0; i < 4; i++) {
+-			irq = i2s_read_reg(dev->i2s_base, IMR(i));
+-			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x30);
+-		}
+-	} else {
++	else
+ 		i2s_write_reg(dev->i2s_base, IRER, 0);
+ 
+-		for (i = 0; i < 4; i++) {
+-			irq = i2s_read_reg(dev->i2s_base, IMR(i));
+-			i2s_write_reg(dev->i2s_base, IMR(i), irq | 0x03);
+-		}
+-	}
++	i2s_disable_irqs(dev, substream->stream, 8);
+ 
+ 	if (!dev->active) {
+ 		i2s_write_reg(dev->i2s_base, CER, 0);
+@@ -223,7 +241,7 @@ static int dw_i2s_startup(struct snd_pcm_substream *substream,
+ 
+ static void dw_i2s_config(struct dw_i2s_dev *dev, int stream)
+ {
+-	u32 ch_reg, irq;
++	u32 ch_reg;
+ 	struct i2s_clk_config_data *config = &dev->config;
+ 
+ 
+@@ -235,16 +253,12 @@ static void dw_i2s_config(struct dw_i2s_dev *dev, int stream)
+ 				      dev->xfer_resolution);
+ 			i2s_write_reg(dev->i2s_base, TFCR(ch_reg),
+ 				      dev->fifo_th - 1);
+-			irq = i2s_read_reg(dev->i2s_base, IMR(ch_reg));
+-			i2s_write_reg(dev->i2s_base, IMR(ch_reg), irq & ~0x30);
+ 			i2s_write_reg(dev->i2s_base, TER(ch_reg), 1);
+ 		} else {
+ 			i2s_write_reg(dev->i2s_base, RCR(ch_reg),
+ 				      dev->xfer_resolution);
+ 			i2s_write_reg(dev->i2s_base, RFCR(ch_reg),
+ 				      dev->fifo_th - 1);
+-			irq = i2s_read_reg(dev->i2s_base, IMR(ch_reg));
+-			i2s_write_reg(dev->i2s_base, IMR(ch_reg), irq & ~0x03);
+ 			i2s_write_reg(dev->i2s_base, RER(ch_reg), 1);
+ 		}
+ 
+-- 
+1.9.1
