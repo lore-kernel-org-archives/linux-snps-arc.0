@@ -1,72 +1,73 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 23 May 2016 10:31:41 +0000
-Subject: [GIT PULL] drm/arcpgu: use dedicated memory area for frame buffer
-In-Reply-To: <1463386919.3008.18.camel@synopsys.com>
-References: <1461684480.2955.31.camel@synopsys.com>
- <1461929790.3020.8.camel@synopsys.com>
- <1462873872.3135.0.camel@synopsys.com>
- <1463386919.3008.18.camel@synopsys.com>
+Date: Mon, 23 May 2016 17:31:38 +0300
+Subject: [PATCH] ldso: Force disable -mlong-calls when compiling ldso for ARC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1463999470.3116.5.camel@synopsys.com>
+Message-ID: <1464013898-27459-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Dave,
+Even though by default for ARC uClibc gets compiled with
+disabled long-calls user may provide UCLIBC_EXTRA_CFLAGS
+with "-mlong-calls". With this option uClibc will be
+successfully compiled but later it will fail in runtime
+because dynamic loader cannot deal with relocations
+at least very early on its start.
 
-On Mon, 2016-05-16@08:22 +0000, Alexey Brodkin wrote:
-> Hi Dave,
-> 
-> On Tue, 2016-05-10@09:51 +0000, Alexey Brodkin wrote:
-> > 
-> > Hi Dave,
-> > 
-> > On Fri, 2016-04-29@11:36 +0000, Alexey Brodkin wrote:
-> > > 
-> > > 
-> > > Hi Dave,
-> > > 
-> > > Please pull this mini-series that allows ARC PGU to use
-> > > dedicated memory location as framebuffer backing storage.
-> > > 
-> > > v2 of that series was reviewed here
-> > > https://lists.freedesktop.org/archives/dri-devel/2016-April/106279.html
-> > > 
-> > > It is based on top of today's drm-next branch.
-> > > 
-> > > Best regards,
-> > > Alexey
-> > > 
-> > > The following changes since commit b89359bdf0f1e95a4c5f92300594ba9dde323fc4:
-> > > 
-> > > ? Merge branch 'for-next' of http://git.agner.ch/git/linux-drm-fsl-dcu into drm-next (2016-04-29 14:57:51 +1000)
-> > > 
-> > > are available in the git repository at:
-> > > 
-> > > ? https://github.com/foss-for-synopsys-dwc-arc-processors/linux.git topic-arcpgu-updates
-> > > 
-> > > for you to fetch changes up to cb2ad5e5339c5122166265cea579cc6a356d46de:
-> > > 
-> > > ? ARC: [axs10x] Specify reserved memory for frame buffer (2016-04-29 14:34:13 +0300)
-> > > 
-> > > ----------------------------------------------------------------
-> > > Alexey Brodkin (2):
-> > > ??????drm/arcpgu: use dedicated memory area for frame buffer
-> > > ??????ARC: [axs10x] Specify reserved memory for frame buffer
-> > > 
-> > > ?arch/arc/boot/dts/axc001.dtsi?????| 22 ++++++++++++++++++++--
-> > > ?arch/arc/boot/dts/axc003.dtsi?????| 14 ++++++++++++++
-> > > ?arch/arc/boot/dts/axc003_idu.dtsi | 14 ++++++++++++++
-> > > ?arch/arc/boot/dts/axs10x_mb.dtsi??|??2 +-
-> > > ?drivers/gpu/drm/arc/arcpgu_drv.c??|??6 ++++++
-> > > ?5 files changed, 55 insertions(+), 3 deletions(-)
-> > Could you please take a look at this pull request?
-> Another polite reminder.
+In particular it will be seen as call to non-relocated
+symbol _dl_parse_dynamic_info() which ends-up as a segfault
+like this:
+------------------------>8--------------------
+potentially unexpected fatal signal 11.
+Path: /bin/test
+CPU: 0 PID: 63 Comm: test Not tainted 4.5.2 #7
+task: 9f13f180 ti: 9f166000 task.ti: 9f166000
 
-Could you please pull this one?
-Indeed it was created quite some time ago so if required I may
-rebase it on top of whatever current you'd like.
+[ECR   ]: 0x00040000 => Insn could not be fetched
+[EFA   ]: 0x0000283c
+[BLINK ]: 0x2000407c
+[ERET  ]: 0x283c
+    @No matching VMA found
+[STAT32]: 0x8008009e : IE U
+BTA: 0x0000283c  SP: 0x5fef5ccc  FP: 0x00000000
+LPS: 0x20004080 LPE: 0x20004064 LPC: 0x00000000
+r00: 0x20006684 r01: 0x5fef5db0 r02: 0x00000000
+r03: 0x20000000 r04: 0x80808080 r05: 0x2f2f2f2f
+r06: 0x41464d00 r07: 0x00000080 r08: 0x000000dd
+r09: 0x00000000 r10: 0x00000073 r11: 0x80808080
+r12: 0x2000407c r13: 0x20000000 r14: 0x5fef5e74
+r15: 0x000ceb3c r16: 0x5fef5e7c r17: 0x5fef5d44
+r18: 0x000ceb0c r19: 0xffffffff r20: 0x000ceb1c
+r21: 0x00000000 r22: 0x00000000 r23: 0x000d08a5
+r24: 0x00000000 r25: 0x80808080
 
-Alternatively you may just apply the first patch from the series
-(could be found here?https://lists.freedesktop.org/archives/dri-devel/2016-April/106280.html)
-and the second patch will be picked up by ARC maintainer (Vineet Gupta).
+Segmentation fault
+------------------------>8--------------------
 
--Alexey
+Solution to this issue is simple we make sure dynamic
+loader never gets compiled with "-mlong-calls" by forcing
+"-mno-long-calls" on it.
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Anton Kolesov <akolesov at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+---
+ ldso/ldso/Makefile.in | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/ldso/ldso/Makefile.in b/ldso/ldso/Makefile.in
+index d85646a..dde6a53 100644
+--- a/ldso/ldso/Makefile.in
++++ b/ldso/ldso/Makefile.in
+@@ -34,6 +34,10 @@ CFLAGS-$(DODEBUG)-ldso/ldso := -O2 -g
+ 
+ CFLAGS-ldso.c := -DLDSO_ELFINTERP=\"$(TARGET_ARCH)/elfinterp.c\"
+ 
++ifeq ($(TARGET_ARCH),arc)
++CFLAGS-ldso.c += -mno-long-calls
++endif
++
+ LDFLAGS-$(UCLIBC_FORMAT_DSBT_ELF)-$(UCLIBC_LDSO_NAME).so := -Wl,--dsbt-index=1
+ ifneq ($(SUPPORT_LD_DEBUG),y)
+ LDFLAGS-$(UCLIBC_LDSO_NAME).so := $(LDFLAGS)
+-- 
+2.5.5
