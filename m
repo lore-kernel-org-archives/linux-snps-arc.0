@@ -1,31 +1,87 @@
-From: broonie@kernel.org (Mark Brown)
-Date: Wed, 25 May 2016 14:41:04 +0100
-Subject: [PATCH 3/4 v7] ASoC: dwc: Add PIO PCM extension
-In-Reply-To: <57458328.8080900@synopsys.com>
-References: <cover.1463996627.git.joabreu@synopsys.com>
- <d81055d826825874c9d76922d2275688b2586fa6.1463996627.git.joabreu@synopsys.com>
- <20160524164151.GM8206@sirena.org.uk>
- <57448A42.9050606@synopsys.com>
- <20160524175144.GO8206@sirena.org.uk>
- <57457A63.5060702@synopsys.com>
- <20160525101801.GT8206@sirena.org.uk>
- <57458328.8080900@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 26 May 2016 11:39:05 +0000
+Subject: Unaligned flush_dcache_range in axs101.c
+In-Reply-To: <5710F165.9040008@denx.de>
+References: <570219DD.4020007@suse.de>
+ <1460396935.5119.57.camel@synopsys.com> <570BE4D8.9050303@denx.de>
+ <1460398438.5119.73.camel@synopsys.com> <570BF185.2050705@denx.de>
+ <1460725252.3025.55.camel@synopsys.com> <5710F165.9040008@denx.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160525134104.GZ8206@sirena.org.uk>
+Message-ID: <1464262710.4578.17.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, May 25, 2016@11:49:12AM +0100, Jose Abreu wrote:
+Hi Marek,
 
-> Ok, will do that. I noticed the last I2S patch that you merged
-> ("ASoC: dwc: Add helper functions to disable/enable irqs") is not
-> in for-next yet. Should I base my work on 'topic/dwc' branch?
+On Fri, 2016-04-15@15:49 +0200, Marek Vasut wrote:
+> On 04/15/2016 03:00 PM, Alexey Brodkin wrote:
+> > Cache management functions should be implemented per arch or platform and so
+> > that they match requirements of underlying hardware. If hardware may only work on
+> > whole cache line then cache routines must do exactly this.
+> Is ARC designed this way ?
+> 
+> > 
+> > As an extra options there could be a check for input arguments in those functions
+> > that will warn a user if he or she passes unaligned start and/or end addresses.
+> Right, ARMv7 does it already, ARM926 too, others need fixing.
+> 
+> > 
+> > Now speaking about data layout your example is very correct and we saw a lot of
+> > such real use-cases - developer of drivers should design data layout such that
+> > cache management doesn't lead to data corruption.
+> Right.
+> 
+> > 
+> > But again the code in question has nothing to do with cache line.
+> > I only need to writeback 1 word and don't care what really happens with
+> > all remaining words in the same cache line. And my implementation of
+> > flush_dcache_range() will do everything perfectly correct - it will
+> > flush exactly 1 line that contains my word I modified.
+> And this will lead to silent corruption which is hard to track down and
+> debug. I would rather have a check-and-refuse behavior than
+> silently-fix-and-permit.
 
-We are in the merge window.  No new non-bugfix patches will be merged
-until the merge window ends, most likely sometime this weekend.
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 473 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160525/da02775e/attachment.sig>
+Even though that discussion is still not finished very related issue
+actually hit me recently. So it looks like there's more here to discuss and
+probably with wider audience.
+
+So what happens: in our newer ARC HS38 cores we may have so-called IO Coherency
+block. This hardware block basically makes sure data exchanged between CPU cores
+(we may have single-core CPU or multi-core CPU) and DMA masters are coherent.
+That means if IOC exists and enabled in the core we:
+?1) Don't need to do manual cache management when sending data to peripherals and
+? ? getting data back. IOC makes all work for us.
+?2) We must not do manual cache management when sending data to peripherals and
+? ? getting data back. Simply because our manual actions will:
+? ? a) Interfere with what IOC already does
+? ? b) Introduce extra performance overhead which we wanted to get rid of with
+? ? ? ?invention of IOC.
+
+So with peripherals it is all cool now.
+I was just disabling all cache management routines if IOC gets detected on boot.
+
+But returning back to your initial complaint.
+
+In the code you were referring what I wanted to modify reset vector of the slave core.
+And while we were living without IOC it was all OK. My code above wrote-back
+(or as we used to call it within ARC "flushed") L1 data cache with modified
+reset vector contents to L2 (which is combined data and instruction cache in case of ARC)
+and once slave core was unhalted it read reset vector contents via instruction
+fetch hardware and executed right what I wanted.
+
+Now with IOC enabled and as I wrote above with disabled cache operations new reset
+vector value gets stuck in L1 data cache of the master core. And slave cores never get
+proper value in reset vector effectively going into the wild on unhalt.
+
+The same actually applies to U-Boot relocation and happens even on single-core setups.
+We copy U-Boot's image to the new location in the memory and until we explicitly flush
+L1 data cache to the underlying L2 or DDR (if L2 doesn't exist) something may not make its
+way back to the CPU when it starts fetching instructions from that new location.
+
+So as a summary I would say that we may want to introduce different cache handling routines:
+?[1] DMA related
+?[2] Non-DMA related
+
+Any thoughts? I'm especially interested if something similar happens on other arches and
+how people deal with it.
+
+-Alexey
