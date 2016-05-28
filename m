@@ -1,108 +1,62 @@
-From: marex@denx.de (Marek Vasut)
-Date: Fri, 27 May 2016 15:21:50 +0200
-Subject: Unaligned flush_dcache_range in axs101.c
-In-Reply-To: <1464262710.4578.17.camel@synopsys.com>
-References: <570219DD.4020007@suse.de>	
- <1460396935.5119.57.camel@synopsys.com> <570BE4D8.9050303@denx.de>	
- <1460398438.5119.73.camel@synopsys.com> <570BF185.2050705@denx.de>	
- <1460725252.3025.55.camel@synopsys.com> <5710F165.9040008@denx.de>
- <1464262710.4578.17.camel@synopsys.com>
+From: wbx@uclibc-ng.org (Waldemar Brodkorb)
+Date: Sat, 28 May 2016 21:55:33 +0200
+Subject: [PATCH] ldso: Force disable -mlong-calls when compiling ldso for
+ ARC
+In-Reply-To: <1464013898-27459-1-git-send-email-abrodkin@synopsys.com>
+References: <1464013898-27459-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <574849EE.7030108@denx.de>
+Message-ID: <20160528195533.GP22609@waldemar-brodkorb.de>
 To: linux-snps-arc@lists.infradead.org
 
-On 05/26/2016 01:39 PM, Alexey Brodkin wrote:
-> Hi Marek,
+Hi Alexey,
+Alexey Brodkin wrote,
 
-Hi!
+> Even though by default for ARC uClibc gets compiled with
+> disabled long-calls user may provide UCLIBC_EXTRA_CFLAGS
+> with "-mlong-calls". With this option uClibc will be
+> successfully compiled but later it will fail in runtime
+> because dynamic loader cannot deal with relocations
+> at least very early on its start.
+> 
+> In particular it will be seen as call to non-relocated
+> symbol _dl_parse_dynamic_info() which ends-up as a segfault
+> like this:
+> ------------------------>8--------------------
+> potentially unexpected fatal signal 11.
+> Path: /bin/test
+> CPU: 0 PID: 63 Comm: test Not tainted 4.5.2 #7
+> task: 9f13f180 ti: 9f166000 task.ti: 9f166000
+> 
+> [ECR   ]: 0x00040000 => Insn could not be fetched
+> [EFA   ]: 0x0000283c
+> [BLINK ]: 0x2000407c
+> [ERET  ]: 0x283c
+>     @No matching VMA found
+> [STAT32]: 0x8008009e : IE U
+> BTA: 0x0000283c  SP: 0x5fef5ccc  FP: 0x00000000
+> LPS: 0x20004080 LPE: 0x20004064 LPC: 0x00000000
+> r00: 0x20006684 r01: 0x5fef5db0 r02: 0x00000000
+> r03: 0x20000000 r04: 0x80808080 r05: 0x2f2f2f2f
+> r06: 0x41464d00 r07: 0x00000080 r08: 0x000000dd
+> r09: 0x00000000 r10: 0x00000073 r11: 0x80808080
+> r12: 0x2000407c r13: 0x20000000 r14: 0x5fef5e74
+> r15: 0x000ceb3c r16: 0x5fef5e7c r17: 0x5fef5d44
+> r18: 0x000ceb0c r19: 0xffffffff r20: 0x000ceb1c
+> r21: 0x00000000 r22: 0x00000000 r23: 0x000d08a5
+> r24: 0x00000000 r25: 0x80808080
+> 
+> Segmentation fault
+> ------------------------>8--------------------
+> 
+> Solution to this issue is simple we make sure dynamic
+> loader never gets compiled with "-mlong-calls" by forcing
+> "-mno-long-calls" on it.
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Anton Kolesov <akolesov at synopsys.com>
+> Cc: linux-snps-arc at lists.infradead.org
 
-> On Fri, 2016-04-15@15:49 +0200, Marek Vasut wrote:
->> On 04/15/2016 03:00 PM, Alexey Brodkin wrote:
->>> Cache management functions should be implemented per arch or platform and so
->>> that they match requirements of underlying hardware. If hardware may only work on
->>> whole cache line then cache routines must do exactly this.
->> Is ARC designed this way ?
->>
->>>
->>> As an extra options there could be a check for input arguments in those functions
->>> that will warn a user if he or she passes unaligned start and/or end addresses.
->> Right, ARMv7 does it already, ARM926 too, others need fixing.
->>
->>>
->>> Now speaking about data layout your example is very correct and we saw a lot of
->>> such real use-cases - developer of drivers should design data layout such that
->>> cache management doesn't lead to data corruption.
->> Right.
->>
->>>
->>> But again the code in question has nothing to do with cache line.
->>> I only need to writeback 1 word and don't care what really happens with
->>> all remaining words in the same cache line. And my implementation of
->>> flush_dcache_range() will do everything perfectly correct - it will
->>> flush exactly 1 line that contains my word I modified.
->> And this will lead to silent corruption which is hard to track down and
->> debug. I would rather have a check-and-refuse behavior than
->> silently-fix-and-permit.
-> 
-> Even though that discussion is still not finished very related issue
-> actually hit me recently. So it looks like there's more here to discuss and
-> probably with wider audience.
-> 
-> So what happens: in our newer ARC HS38 cores we may have so-called IO Coherency
-> block. This hardware block basically makes sure data exchanged between CPU cores
-> (we may have single-core CPU or multi-core CPU) and DMA masters are coherent.
-> That means if IOC exists and enabled in the core we:
->  1) Don't need to do manual cache management when sending data to peripherals and
->     getting data back. IOC makes all work for us.
->  2) We must not do manual cache management when sending data to peripherals and
->     getting data back. Simply because our manual actions will:
->     a) Interfere with what IOC already does
->     b) Introduce extra performance overhead which we wanted to get rid of with
->        invention of IOC.
-> 
-> So with peripherals it is all cool now.
-> I was just disabling all cache management routines if IOC gets detected on boot.
-> 
-> But returning back to your initial complaint.
-> 
-> In the code you were referring what I wanted to modify reset vector of the slave core.
-> And while we were living without IOC it was all OK. My code above wrote-back
-> (or as we used to call it within ARC "flushed") L1 data cache with modified
-> reset vector contents to L2 (which is combined data and instruction cache in case of ARC)
-> and once slave core was unhalted it read reset vector contents via instruction
-> fetch hardware and executed right what I wanted.
-
-Do you plan to run multiple u-boot instances in parallel ?
-btw. can you read core ID to discern the master core (core 0) and the
-slave cores (anything which you need to unhalt)?
-
-> Now with IOC enabled and as I wrote above with disabled cache operations new reset
-> vector value gets stuck in L1 data cache of the master core. And slave cores never get
-> proper value in reset vector effectively going into the wild on unhalt.
-> 
-> The same actually applies to U-Boot relocation and happens even on single-core setups.
-> We copy U-Boot's image to the new location in the memory and until we explicitly flush
-> L1 data cache to the underlying L2 or DDR (if L2 doesn't exist) something may not make its
-> way back to the CPU when it starts fetching instructions from that new location.
-> 
-> So as a summary I would say that we may want to introduce different cache handling routines:
->  [1] DMA related
->  [2] Non-DMA related
-> 
-> Any thoughts? I'm especially interested if something similar happens on other arches and
-> how people deal with it.
-
-I would suggest you to implement lowlevel_init() where you check the
-core ID and if it's slave core, just make it loop while invalidating
-it's caches. That way, the core would always fetch fresh data. Also,
-you can make the secondary core check some variable which the core 0
-would set to make the slave exit the loop and execute on. Maybe use
-another variable to specify execution address too.
-
-> -Alexey
-> 
-
-
--- 
-Best regards,
-Marek Vasut
+applied and pushed,
+ Thanks
+  Waldemar
