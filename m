@@ -1,45 +1,37 @@
 From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Sun, 29 May 2016 04:25:56 -0000
-Subject: kisskb: FAILED linus/axs101_defconfig/arcompact Sun May 29, 14:25
+Date: Sun, 29 May 2016 08:39:14 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Sun May 29, 18:38
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201605290427.u4T4OCqO035311@mx0a-001b2d01.pphosted.com>
+Message-ID: <201605290840.u4T8cc48012409@mx0a-001b2d01.pphosted.com>
 To: linux-snps-arc@lists.infradead.org
 
-FAILED linus/axs101_defconfig/arcompact Sun May 29, 14:25
+OK linus/axs103_smp_defconfig/arcv2 Sun May 29, 18:38
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12704253/
+http://kisskb.ellerman.id.au/kisskb/buildresult/12704515/
 
-Commit:   hpfs: implement the show_options method
-          037369b872940cd923835a0a589763180c4a36bc
+Commit:   Rename other copy of hash_string to hashlen_string
+          f2a031b66ec6da1512f9db228e4174ad2c7d2688
 Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-Possible errors
----------------
+No errors found in log
 
-fs/dcache.c:1673: undefined reference to `hashlen_string'
-include/linux/sunrpc/svcauth.h:175: undefined reference to `hashlen_string'
-include/linux/sunrpc/svcauth.h:175: undefined reference to `hashlen_string'
-include/linux/sunrpc/svcauth.h:175: undefined reference to `hashlen_string'
-include/linux/sunrpc/svcauth.h:175: undefined reference to `hashlen_string'
-make[1]: *** [vmlinux] Error 1
-make: *** [sub-make] Error 2
-
-Possible warnings (16)
+Possible warnings (17)
 ----------------------
 
 kernel/sched/core.c:3210:1: warning: control reaches end of non-void function [-Wreturn-type]
 include/linux/kernel.h:742:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/core/ethtool.c:299:1: warning: control reaches end of non-void function [-Wreturn-type]
 fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
 arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
 fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
+lib/cpumask.c:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/core/ethtool.c:299:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
 fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
 net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
