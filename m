@@ -1,35 +1,39 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 30 May 2016 17:01:44 +0530
-Subject: [PATCH-REBASED 0/2] report perf sampling failing due to PMU lacking
- overflow intr support
-In-Reply-To: <alpine.DEB.2.20.1605121903470.18777@macbook-air>
+Date: Mon, 30 May 2016 17:01:45 +0530
+Subject: [PATCH-REBASED 1/2] tools/perf: Handle EOPNOTSUPP for sampling events
+In-Reply-To: <1464607906-16012-1-git-send-email-vgupta@synopsys.com>
 References: <alpine.DEB.2.20.1605121903470.18777@macbook-air>
+ <1464607906-16012-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1464607906-16012-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1464607906-16012-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+This allows (with next change to perf core) for calling out in userspace
+the exact reason for perf record failing when PMU doesn't support
+overflow interrupts
 
-This is a repost of RFC [1], rebased on 4.7-rc1, to print pretty PMU lacking
-overflow interrupt support if user tries perf sampling.
-
-At the time of RFC review, both PeterZ and Vince seemed convinced to go ahead
-with this patch despite the ABI change [2].
-
-Thx,
--Vineet
-
-
-[1] http://lists.infradead.org/pipermail/linux-snps-arc/2016-May/001014.html
-[2] http://lists.infradead.org/pipermail/linux-snps-arc/2016-May/001032.html
-
-Vineet Gupta (2):
-  tools/perf: Handle EOPNOTSUPP for sampling events
-  perf/core: change errno for sampling event not supported in hardware
-
- kernel/events/core.c    | 2 +-
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
  tools/perf/util/evsel.c | 7 +++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ 1 file changed, 7 insertions(+)
 
+diff --git a/tools/perf/util/evsel.c b/tools/perf/util/evsel.c
+index 5d7037ef7d3b..1578e67c7357 100644
+--- a/tools/perf/util/evsel.c
++++ b/tools/perf/util/evsel.c
+@@ -2372,6 +2372,13 @@ int perf_evsel__open_strerror(struct perf_evsel *evsel, struct target *target,
+ 	 "No such device - did you specify an out-of-range profile CPU?");
+ 		break;
+ 	case EOPNOTSUPP:
++		/*
++		 * Needs to be tested ahead of precise_ip check as
++		 * that seems to be true for this case as well
++		 */
++		if (evsel->attr.sample_period != 0)
++			return scnprintf(msg, size, "%s",
++	"PMU Hardware doesn't support sampling/overflow-interrupts.");
+ 		if (evsel->attr.precise_ip)
+ 			return scnprintf(msg, size, "%s",
+ 	"\'precise\' request may not be supported. Try removing 'p' modifier.");
 -- 
 2.5.0
