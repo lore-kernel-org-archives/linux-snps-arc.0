@@ -1,39 +1,88 @@
-From: maarten.lankhorst@linux.intel.com (Maarten Lankhorst)
-Date: Mon, 30 May 2016 11:36:06 +0200
-Subject: [Intel-gfx] [PATCH 15/26] drm/arc: Implement nonblocking commit
- correctly
-In-Reply-To: <20160530092422.GF27098@phenom.ffwll.local>
-References: <1464546923-13439-1-git-send-email-daniel.vetter@ffwll.ch>
- <1464546923-13439-16-git-send-email-daniel.vetter@ffwll.ch>
- <656c6841-1070-0535-1ff0-97b75fd6f7ba@linux.intel.com>
- <20160530092422.GF27098@phenom.ffwll.local>
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Mon, 30 May 2016 10:53:14 +0100
+Subject: [PATCH 0/2 v8] Add I2S audio support for ARC AXS10x boards
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <29c1b351-eb21-b6a8-928d-608a6081038e@linux.intel.com>
+Message-ID: <cover.1464601439.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Op 30-05-16 om 11:24 schreef Daniel Vetter:
-> On Mon, May 30, 2016@10:15:14AM +0200, Maarten Lankhorst wrote:
->> Op 29-05-16 om 20:35 schreef Daniel Vetter:
->>> Committing with block it is not.
->>>
->>> Thanks to the fixed up vblank event handling we can just use the
->>> helper support for nonblocking commits now.
->>>
->>> Cc: Carlos Palminha <palminha at synopsys.com>
->>> Cc: Alexey Brodkin <abrodkin at synopsys.com>
->>> Cc: linux-snps-arc at lists.infradead.org
->>> Signed-off-by: Daniel Vetter <daniel.vetter at intel.com>
->> This breaks page flip on arc, it uses drm_atomic_helper_page_flip.
-> How exactly does this break page_flip? Note that the commit to implement
-> generic nonblocking commit in drm_atomic_helper_commit is _before_ this
-> patch in the series.
-> -Daniel
+ARC AXS10x platforms consist of a mainboard with several peripherals.
+One of those peripherals is an HDMI output port controlled by the ADV7511
+transmitter.
 
-This is patch 15/16, I found this in patch 21/26:
+This patch set adds I2S audio for the AXS10x platform.
 
-@@ -1147,8 +1206,11 @@ int drm_atomic_helper_commit(struct drm_device *dev,
- {
- 	int ret;
- 
--	if (nonblock)
--		return -EBUSY;
+NOTE:
+Although the mainline I2S driver uses ALSA DMA engine, this controller
+can be built without DMA support so it was necessary to add this
+custom platform driver so that HDMI audio works in AXS boards.
+
+Changes v7 -> v8:
+* Build PIO PCM as module
+* Always unmask interrupts even when in DMA mode
+* Fallback to PIO mode only if ALSA DMA engine probe fails
+
+Changes v6 -> v7:
+* Discard the use of memcpy
+* Report IRQ_HANDLED only when there is an IRQ
+* Use interrupts to check if PIO mode is in use
+* Unmask interrupts only when in PIO mode
+* Remove empty functions
+
+Changes v5 -> v6:
+* Use SNDRV_DMA_TYPE_CONTINUOUS
+
+Changes v4 -> v5:
+* Resolve undefined references when compiling as module
+* Dropped adv7511 audio patches
+* Use DMA properties in I2S to check which mode to use: PIO or DMA (as suggested by Lars-Peter Clausen)
+
+Changes v3 -> v4:
+* Reintroduced custom PCM driver (see note below)
+* Use DT boolean to switch between ALSA DMA engine PCM or custom PCM
+* Use fifo depth to program I2S FCR
+* Update I2S documentation
+
+Changes v2 -> v3:
+* Removed pll_config functions (as suggested by Alexey Brodkin)
+* Removed HDMI start at adv7511_core (as suggested by Archit Taneja)
+* Use NOP functions for adv7511_audio (as suggested by Archit Taneja)
+* Added adv7511_audio_exit() function (as suggested by Archit Taneja)
+* Moved adv7511 to its own folder (as suggested by Archit Taneja)
+* Separated file rename of adv7511_core (as suggested by Emil Velikov)
+* Compile adv7511 as module if ALSA SoC is compiled as module
+* Load adv7511 audio only if declared in device tree (as suggested by Laurent Pinchart)
+* Dropped custom platform driver, using now ALSA DMA engine
+* Dropped IRQ handler for I2S
+
+Changes v1 -> v2:
+* DT bindings moved to separate patch (as suggested by Alexey Brodkin)
+* Removed defconfigs entries (as suggested by Alexey Brodkin)
+
+
+Cc: Carlos Palminha <palminha at synopsys.com>
+Cc: Mark Brown <broonie at kernel.org>
+Cc: Liam Girdwood <lgirdwood at gmail.com>
+Cc: Jaroslav Kysela <perex at perex.cz>
+Cc: Takashi Iwai <tiwai at suse.com>
+Cc: Rob Herring <robh at kernel.org>
+Cc: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: alsa-devel at alsa-project.org
+Cc: linux-kernel at vger.kernel.org
+
+Jose Abreu (2):
+  ASoC: dwc: Add PIO PCM extension
+  ASoC: dwc: Add irq parameter to DOCUMENTATION
+
+ .../devicetree/bindings/sound/designware-i2s.txt   |   4 +
+ sound/soc/dwc/Kconfig                              |   9 +
+ sound/soc/dwc/Makefile                             |   1 +
+ sound/soc/dwc/designware_i2s.c                     | 152 ++++++--------
+ sound/soc/dwc/designware_pcm.c                     | 222 +++++++++++++++++++++
+ sound/soc/dwc/local.h                              | 122 +++++++++++
+ 6 files changed, 422 insertions(+), 88 deletions(-)
+ create mode 100644 sound/soc/dwc/designware_pcm.c
+ create mode 100644 sound/soc/dwc/local.h
+
+-- 
+1.9.1
