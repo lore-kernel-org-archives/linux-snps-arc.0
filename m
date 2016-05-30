@@ -1,59 +1,35 @@
-From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Mon, 30 May 2016 10:53:16 +0100
-Subject: [PATCH 2/2 v8] ASoC: dwc: Add irq parameter to DOCUMENTATION
-In-Reply-To: <cover.1464601439.git.joabreu@synopsys.com>
-References: <cover.1464601439.git.joabreu@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 30 May 2016 17:01:44 +0530
+Subject: [PATCH-REBASED 0/2] report perf sampling failing due to PMU lacking
+ overflow intr support
+In-Reply-To: <alpine.DEB.2.20.1605121903470.18777@macbook-air>
+References: <alpine.DEB.2.20.1605121903470.18777@macbook-air>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <7788db367a1ebc5734ac20ee5c6218e754cf76a4.1464601439.git.joabreu@synopsys.com>
+Message-ID: <1464607906-16012-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-A parameter description for the interruptions of the
-I2S controller was added.
+Hi,
 
-Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-Acked-by: Rob Herring <robh at kernel.org>
-Cc: Carlos Palminha <palminha at synopsys.com>
-Cc: Mark Brown <broonie at kernel.org>
-Cc: Liam Girdwood <lgirdwood at gmail.com>
-Cc: Jaroslav Kysela <perex at perex.cz>
-Cc: Takashi Iwai <tiwai at suse.com>
-Cc: Rob Herring <robh at kernel.org>
-Cc: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: alsa-devel at alsa-project.org
-Cc: linux-kernel at vger.kernel.org
----
+This is a repost of RFC [1], rebased on 4.7-rc1, to print pretty PMU lacking
+overflow interrupt support if user tries perf sampling.
 
-No changes v7 -> v8.
+At the time of RFC review, both PeterZ and Vince seemed convinced to go ahead
+with this patch despite the ABI change [2].
 
-Changes v6 -> v7:
-* interrupts is now optional property
+Thx,
+-Vineet
 
-No changes v5 -> v6.
 
-Changes v4 -> v5:
-* interrupts is now required property
-* Drop 'snps-use-dmaengine' property
+[1] http://lists.infradead.org/pipermail/linux-snps-arc/2016-May/001014.html
+[2] http://lists.infradead.org/pipermail/linux-snps-arc/2016-May/001032.html
 
-This patch was only introduced in v4.
+Vineet Gupta (2):
+  tools/perf: Handle EOPNOTSUPP for sampling events
+  perf/core: change errno for sampling event not supported in hardware
 
- Documentation/devicetree/bindings/sound/designware-i2s.txt | 4 ++++
- 1 file changed, 4 insertions(+)
+ kernel/events/core.c    | 2 +-
+ tools/perf/util/evsel.c | 7 +++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/designware-i2s.txt b/Documentation/devicetree/bindings/sound/designware-i2s.txt
-index 7bb5424..6a536d5 100644
---- a/Documentation/devicetree/bindings/sound/designware-i2s.txt
-+++ b/Documentation/devicetree/bindings/sound/designware-i2s.txt
-@@ -12,6 +12,10 @@ Required properties:
-    one for receive.
-  - dma-names : "tx" for the transmit channel, "rx" for the receive channel.
- 
-+Optional properties:
-+ - interrupts: The interrupt line number for the I2S controller. Add this
-+   parameter if the I2S controller that you are using does not support DMA.
-+
- For more details on the 'dma', 'dma-names', 'clock' and 'clock-names'
- properties please check:
- 	* resource-names.txt
 -- 
-1.9.1
+2.5.0
