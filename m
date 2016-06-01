@@ -1,53 +1,100 @@
-From: daniel@ffwll.ch (Daniel Vetter)
-Date: Mon, 30 May 2016 17:10:52 +0200
-Subject: [Intel-gfx] [PATCH 15/26] drm/arc: Implement nonblocking commit
- correctly
-In-Reply-To: <29c1b351-eb21-b6a8-928d-608a6081038e@linux.intel.com>
-References: <1464546923-13439-1-git-send-email-daniel.vetter@ffwll.ch>
- <1464546923-13439-16-git-send-email-daniel.vetter@ffwll.ch>
- <656c6841-1070-0535-1ff0-97b75fd6f7ba@linux.intel.com>
- <20160530092422.GF27098@phenom.ffwll.local>
- <29c1b351-eb21-b6a8-928d-608a6081038e@linux.intel.com>
+From: daniel.vetter@ffwll.ch (Daniel Vetter)
+Date: Thu,  2 Jun 2016 00:06:37 +0200
+Subject: [PATCH 14/38] drm/arc: Nuke event_list
+In-Reply-To: <1464818821-5736-1-git-send-email-daniel.vetter@ffwll.ch>
+References: <1464818821-5736-1-git-send-email-daniel.vetter@ffwll.ch>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160530151052.GP27098@phenom.ffwll.local>
+Message-ID: <1464818821-5736-15-git-send-email-daniel.vetter@ffwll.ch>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, May 30, 2016@11:36:06AM +0200, Maarten Lankhorst wrote:
-> Op 30-05-16 om 11:24 schreef Daniel Vetter:
-> > On Mon, May 30, 2016@10:15:14AM +0200, Maarten Lankhorst wrote:
-> >> Op 29-05-16 om 20:35 schreef Daniel Vetter:
-> >>> Committing with block it is not.
-> >>>
-> >>> Thanks to the fixed up vblank event handling we can just use the
-> >>> helper support for nonblocking commits now.
-> >>>
-> >>> Cc: Carlos Palminha <palminha at synopsys.com>
-> >>> Cc: Alexey Brodkin <abrodkin at synopsys.com>
-> >>> Cc: linux-snps-arc at lists.infradead.org
-> >>> Signed-off-by: Daniel Vetter <daniel.vetter at intel.com>
-> >> This breaks page flip on arc, it uses drm_atomic_helper_page_flip.
-> > How exactly does this break page_flip? Note that the commit to implement
-> > generic nonblocking commit in drm_atomic_helper_commit is _before_ this
-> > patch in the series.
-> > -Daniel
-> 
-> This is patch 15/16, I found this in patch 21/26:
-> 
-> @@ -1147,8 +1206,11 @@ int drm_atomic_helper_commit(struct drm_device *dev,
->  {
->  	int ret;
->  
-> -	if (nonblock)
-> -		return -EBUSY;
+This is just used for cleanup in preclose, and with the reworked event
+handling code this is now done properly by the core.
 
-Oh right, I mixed things up. Most of the prep work is for drm event
-handling. We need to do that _before_ the non-blocking commit lands for
-the drivers that just directly reuse drm_atomic_helper_commit, since the
-nonblocking helpers will time out when drm events don't work.
+Nuke it!
 
-But this one indeed should only happen after that commit. I'll reorder.
--Daniel
+But it also shows that arc totally fails at sending out drm events for
+flips. Next patch will hack that up.
+
+Cc: Carlos Palminha <palminha at synopsys.com>
+Cc: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+Signed-off-by: Daniel Vetter <daniel.vetter at intel.com>
+---
+ drivers/gpu/drm/arc/arcpgu.h      |  1 -
+ drivers/gpu/drm/arc/arcpgu_crtc.c |  4 ----
+ drivers/gpu/drm/arc/arcpgu_drv.c  | 19 -------------------
+ 3 files changed, 24 deletions(-)
+
+diff --git a/drivers/gpu/drm/arc/arcpgu.h b/drivers/gpu/drm/arc/arcpgu.h
+index 86574b698a78..8c01a25d279a 100644
+--- a/drivers/gpu/drm/arc/arcpgu.h
++++ b/drivers/gpu/drm/arc/arcpgu.h
+@@ -22,7 +22,6 @@ struct arcpgu_drm_private {
+ 	struct clk		*clk;
+ 	struct drm_fbdev_cma	*fbdev;
+ 	struct drm_framebuffer	*fb;
+-	struct list_head	event_list;
+ 	struct drm_crtc		crtc;
+ 	struct drm_plane	*plane;
+ };
+diff --git a/drivers/gpu/drm/arc/arcpgu_crtc.c b/drivers/gpu/drm/arc/arcpgu_crtc.c
+index 92f8beff8e60..d5ca0c280e68 100644
+--- a/drivers/gpu/drm/arc/arcpgu_crtc.c
++++ b/drivers/gpu/drm/arc/arcpgu_crtc.c
+@@ -155,10 +155,6 @@ static void arc_pgu_crtc_atomic_begin(struct drm_crtc *crtc,
+ 		event->pipe = drm_crtc_index(crtc);
+ 
+ 		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+-
+-		spin_lock_irqsave(&crtc->dev->event_lock, flags);
+-		list_add_tail(&event->base.link, &arcpgu->event_list);
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
+index bc53ebb83f75..d407fd79a400 100644
+--- a/drivers/gpu/drm/arc/arcpgu_drv.c
++++ b/drivers/gpu/drm/arc/arcpgu_drv.c
+@@ -81,22 +81,6 @@ static const struct file_operations arcpgu_drm_ops = {
+ 	.mmap = arcpgu_gem_mmap,
+ };
+ 
+-static void arcpgu_preclose(struct drm_device *drm, struct drm_file *file)
+-{
+-	struct arcpgu_drm_private *arcpgu = drm->dev_private;
+-	struct drm_pending_vblank_event *e, *t;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&drm->event_lock, flags);
+-	list_for_each_entry_safe(e, t, &arcpgu->event_list, base.link) {
+-		if (e->base.file_priv != file)
+-			continue;
+-		list_del(&e->base.link);
+-		e->base.destroy(&e->base);
+-	}
+-	spin_unlock_irqrestore(&drm->event_lock, flags);
+-}
+-
+ static void arcpgu_lastclose(struct drm_device *drm)
+ {
+ 	struct arcpgu_drm_private *arcpgu = drm->dev_private;
+@@ -122,8 +106,6 @@ static int arcpgu_load(struct drm_device *drm)
+ 	if (IS_ERR(arcpgu->clk))
+ 		return PTR_ERR(arcpgu->clk);
+ 
+-	INIT_LIST_HEAD(&arcpgu->event_list);
+-
+ 	arcpgu_setup_mode_config(drm);
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+@@ -192,7 +174,6 @@ int arcpgu_unload(struct drm_device *drm)
+ static struct drm_driver arcpgu_drm_driver = {
+ 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_PRIME |
+ 			   DRIVER_ATOMIC,
+-	.preclose = arcpgu_preclose,
+ 	.lastclose = arcpgu_lastclose,
+ 	.name = "drm-arcpgu",
+ 	.desc = "ARC PGU Controller",
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.8.1
