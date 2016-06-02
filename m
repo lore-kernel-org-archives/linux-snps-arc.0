@@ -1,11 +1,10 @@
 From: k.kozlowski@samsung.com (Krzysztof Kozlowski)
-Date: Thu, 02 Jun 2016 17:39:14 +0200
-Subject: [RFC v3 12/45] drm/exynos: dma-mapping: Use unsigned long for
- dma_attrs
+Date: Thu, 02 Jun 2016 17:39:16 +0200
+Subject: [RFC v3 14/45] drm/msm: dma-mapping: Use unsigned long for dma_attrs
 In-Reply-To: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
 References: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1464881987-13203-13-git-send-email-k.kozlowski@samsung.com>
+Message-ID: <1464881987-13203-15-git-send-email-k.kozlowski@samsung.com>
 To: linux-snps-arc@lists.infradead.org
 
 Split out subsystem specific changes for easier reviews. This will be
@@ -13,179 +12,52 @@ squashed with main commit.
 
 Signed-off-by: Krzysztof Kozlowski <k.kozlowski at samsung.com>
 ---
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c |  2 +-
- drivers/gpu/drm/exynos/exynos_drm_g2d.c   | 12 +++++-------
- drivers/gpu/drm/exynos/exynos_drm_gem.c   | 20 ++++++++++----------
- drivers/gpu/drm/exynos/exynos_drm_gem.h   |  2 +-
- 4 files changed, 17 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-index 67dcd6831291..dd091175fc2d 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-@@ -52,7 +52,7 @@ static int exynos_drm_fb_mmap(struct fb_info *info,
- 
- 	ret = dma_mmap_attrs(to_dma_dev(helper->dev), vma, exynos_gem->cookie,
- 			     exynos_gem->dma_addr, exynos_gem->size,
--			     &exynos_gem->dma_attrs);
-+			     exynos_gem->dma_attrs);
- 	if (ret < 0) {
- 		DRM_ERROR("failed to mmap.\n");
- 		return ret;
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-index 493552368295..15539aea8415 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-@@ -17,7 +17,6 @@
- #include <linux/slab.h>
- #include <linux/workqueue.h>
- #include <linux/dma-mapping.h>
--#include <linux/dma-attrs.h>
- #include <linux/of.h>
- 
- #include <drm/drmP.h>
-@@ -235,7 +234,7 @@ struct g2d_data {
- 	struct mutex			cmdlist_mutex;
- 	dma_addr_t			cmdlist_pool;
- 	void				*cmdlist_pool_virt;
--	struct dma_attrs		cmdlist_dma_attrs;
-+	unsigned long			cmdlist_dma_attrs;
- 
- 	/* runqueue*/
- 	struct g2d_runqueue_node	*runqueue_node;
-@@ -256,13 +255,12 @@ static int g2d_init_cmdlist(struct g2d_data *g2d)
- 	int ret;
- 	struct g2d_buf_info *buf_info;
- 
--	init_dma_attrs(&g2d->cmdlist_dma_attrs);
--	dma_set_attr(DMA_ATTR_WRITE_COMBINE, &g2d->cmdlist_dma_attrs);
-+	g2d->cmdlist_dma_attrs = DMA_ATTR_WRITE_COMBINE;
- 
- 	g2d->cmdlist_pool_virt = dma_alloc_attrs(to_dma_dev(subdrv->drm_dev),
- 						G2D_CMDLIST_POOL_SIZE,
- 						&g2d->cmdlist_pool, GFP_KERNEL,
--						&g2d->cmdlist_dma_attrs);
-+						g2d->cmdlist_dma_attrs);
- 	if (!g2d->cmdlist_pool_virt) {
- 		dev_err(dev, "failed to allocate dma memory\n");
- 		return -ENOMEM;
-@@ -295,7 +293,7 @@ static int g2d_init_cmdlist(struct g2d_data *g2d)
- err:
- 	dma_free_attrs(to_dma_dev(subdrv->drm_dev), G2D_CMDLIST_POOL_SIZE,
- 			g2d->cmdlist_pool_virt,
--			g2d->cmdlist_pool, &g2d->cmdlist_dma_attrs);
-+			g2d->cmdlist_pool, g2d->cmdlist_dma_attrs);
- 	return ret;
- }
- 
-@@ -309,7 +307,7 @@ static void g2d_fini_cmdlist(struct g2d_data *g2d)
- 		dma_free_attrs(to_dma_dev(subdrv->drm_dev),
- 				G2D_CMDLIST_POOL_SIZE,
- 				g2d->cmdlist_pool_virt,
--				g2d->cmdlist_pool, &g2d->cmdlist_dma_attrs);
-+				g2d->cmdlist_pool, g2d->cmdlist_dma_attrs);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-index cdf9f1af4347..f2ae72ba7d5a 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-@@ -24,7 +24,7 @@
- static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem)
- {
- 	struct drm_device *dev = exynos_gem->base.dev;
--	enum dma_attr attr;
-+	unsigned long attr;
- 	unsigned int nr_pages;
- 	struct sg_table sgt;
- 	int ret = -ENOMEM;
-@@ -34,7 +34,7 @@ static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem)
- 		return 0;
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 1f7de47d817e..9b806e576d35 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -230,11 +230,10 @@ static int msm_drm_uninit(struct device *dev)
  	}
  
--	init_dma_attrs(&exynos_gem->dma_attrs);
-+	exynos_gem->dma_attrs = 0;
+ 	if (priv->vram.paddr) {
+-		DEFINE_DMA_ATTRS(attrs);
+-		dma_set_attr(DMA_ATTR_NO_KERNEL_MAPPING, &attrs);
++		unsigned long attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+ 		drm_mm_takedown(&priv->vram.mm);
+ 		dma_free_attrs(dev, priv->vram.size, NULL,
+-			       priv->vram.paddr, &attrs);
++			       priv->vram.paddr, attrs);
+ 	}
  
- 	/*
- 	 * if EXYNOS_BO_CONTIG, fully physically contiguous memory
-@@ -42,7 +42,7 @@ static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem)
- 	 * as possible.
- 	 */
- 	if (!(exynos_gem->flags & EXYNOS_BO_NONCONTIG))
--		dma_set_attr(DMA_ATTR_FORCE_CONTIGUOUS, &exynos_gem->dma_attrs);
-+		exynos_gem->dma_attrs |= DMA_ATTR_FORCE_CONTIGUOUS;
+ 	component_unbind_all(dev, ddev);
+@@ -299,21 +298,21 @@ static int msm_init_vram(struct drm_device *dev)
+ 	}
  
- 	/*
- 	 * if EXYNOS_BO_WC or EXYNOS_BO_NONCACHABLE, writecombine mapping
-@@ -54,8 +54,8 @@ static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem)
- 	else
- 		attr = DMA_ATTR_NON_CONSISTENT;
+ 	if (size) {
+-		DEFINE_DMA_ATTRS(attrs);
++		unsigned long attrs = 0;
+ 		void *p;
  
--	dma_set_attr(attr, &exynos_gem->dma_attrs);
--	dma_set_attr(DMA_ATTR_NO_KERNEL_MAPPING, &exynos_gem->dma_attrs);
-+	exynos_gem->dma_attrs |= attr;
-+	exynos_gem->dma_attrs |= DMA_ATTR_NO_KERNEL_MAPPING;
+ 		priv->vram.size = size;
  
- 	nr_pages = exynos_gem->size >> PAGE_SHIFT;
+ 		drm_mm_init(&priv->vram.mm, 0, (size >> PAGE_SHIFT) - 1);
  
-@@ -67,7 +67,7 @@ static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem)
+-		dma_set_attr(DMA_ATTR_NO_KERNEL_MAPPING, &attrs);
+-		dma_set_attr(DMA_ATTR_WRITE_COMBINE, &attrs);
++		attrs |= DMA_ATTR_NO_KERNEL_MAPPING;
++		attrs |= DMA_ATTR_WRITE_COMBINE;
  
- 	exynos_gem->cookie = dma_alloc_attrs(to_dma_dev(dev), exynos_gem->size,
- 					     &exynos_gem->dma_addr, GFP_KERNEL,
--					     &exynos_gem->dma_attrs);
-+					     exynos_gem->dma_attrs);
- 	if (!exynos_gem->cookie) {
- 		DRM_ERROR("failed to allocate buffer.\n");
- 		goto err_free;
-@@ -75,7 +75,7 @@ static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem)
- 
- 	ret = dma_get_sgtable_attrs(to_dma_dev(dev), &sgt, exynos_gem->cookie,
- 				    exynos_gem->dma_addr, exynos_gem->size,
--				    &exynos_gem->dma_attrs);
-+				    exynos_gem->dma_attrs);
- 	if (ret < 0) {
- 		DRM_ERROR("failed to get sgtable.\n");
- 		goto err_dma_free;
-@@ -99,7 +99,7 @@ err_sgt_free:
- 	sg_free_table(&sgt);
- err_dma_free:
- 	dma_free_attrs(to_dma_dev(dev), exynos_gem->size, exynos_gem->cookie,
--		       exynos_gem->dma_addr, &exynos_gem->dma_attrs);
-+		       exynos_gem->dma_addr, exynos_gem->dma_attrs);
- err_free:
- 	drm_free_large(exynos_gem->pages);
- 
-@@ -120,7 +120,7 @@ static void exynos_drm_free_buf(struct exynos_drm_gem *exynos_gem)
- 
- 	dma_free_attrs(to_dma_dev(dev), exynos_gem->size, exynos_gem->cookie,
- 			(dma_addr_t)exynos_gem->dma_addr,
--			&exynos_gem->dma_attrs);
-+			exynos_gem->dma_attrs);
- 
- 	drm_free_large(exynos_gem->pages);
- }
-@@ -346,7 +346,7 @@ static int exynos_drm_gem_mmap_buffer(struct exynos_drm_gem *exynos_gem,
- 
- 	ret = dma_mmap_attrs(to_dma_dev(drm_dev), vma, exynos_gem->cookie,
- 			     exynos_gem->dma_addr, exynos_gem->size,
--			     &exynos_gem->dma_attrs);
-+			     exynos_gem->dma_attrs);
- 	if (ret < 0) {
- 		DRM_ERROR("failed to mmap.\n");
- 		return ret;
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.h b/drivers/gpu/drm/exynos/exynos_drm_gem.h
-index 78100742281d..df7c543d6558 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_gem.h
-+++ b/drivers/gpu/drm/exynos/exynos_drm_gem.h
-@@ -50,7 +50,7 @@ struct exynos_drm_gem {
- 	void			*cookie;
- 	void __iomem		*kvaddr;
- 	dma_addr_t		dma_addr;
--	struct dma_attrs	dma_attrs;
-+	unsigned long		dma_attrs;
- 	struct page		**pages;
- 	struct sg_table		*sgt;
- };
+ 		/* note that for no-kernel-mapping, the vaddr returned
+ 		 * is bogus, but non-null if allocation succeeded:
+ 		 */
+ 		p = dma_alloc_attrs(dev->dev, size,
+-				&priv->vram.paddr, GFP_KERNEL, &attrs);
++				&priv->vram.paddr, GFP_KERNEL, attrs);
+ 		if (!p) {
+ 			dev_err(dev->dev, "failed to allocate VRAM\n");
+ 			priv->vram.paddr = 0;
 -- 
 1.9.1
