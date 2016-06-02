@@ -1,11 +1,10 @@
 From: k.kozlowski@samsung.com (Krzysztof Kozlowski)
-Date: Thu, 02 Jun 2016 17:39:18 +0200
-Subject: [RFC v3 16/45] drm/rockship: dma-mapping: Use unsigned long for
- dma_attrs
+Date: Thu, 02 Jun 2016 17:39:22 +0200
+Subject: [RFC v3 20/45] xen: dma-mapping: Use unsigned long for dma_attrs
 In-Reply-To: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
 References: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1464881987-13203-17-git-send-email-k.kozlowski@samsung.com>
+Message-ID: <1464881987-13203-21-git-send-email-k.kozlowski@samsung.com>
 To: linux-snps-arc@lists.infradead.org
 
 Split out subsystem specific changes for easier reviews. This will be
@@ -13,90 +12,117 @@ squashed with main commit.
 
 Signed-off-by: Krzysztof Kozlowski <k.kozlowski at samsung.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 17 +++++++----------
- drivers/gpu/drm/rockchip/rockchip_drm_gem.h |  2 +-
- 2 files changed, 8 insertions(+), 11 deletions(-)
+ drivers/xen/swiotlb-xen.c | 14 +++++++-------
+ include/xen/swiotlb-xen.h | 12 ++++++------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-index 9c2d8a894093..7b1788e2a808 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-@@ -17,8 +17,6 @@
- #include <drm/drm_gem.h>
- #include <drm/drm_vma_manager.h>
- 
--#include <linux/dma-attrs.h>
--
- #include "rockchip_drm_drv.h"
- #include "rockchip_drm_gem.h"
- 
-@@ -28,15 +26,14 @@ static int rockchip_gem_alloc_buf(struct rockchip_gem_object *rk_obj,
- 	struct drm_gem_object *obj = &rk_obj->base;
- 	struct drm_device *drm = obj->dev;
- 
--	init_dma_attrs(&rk_obj->dma_attrs);
--	dma_set_attr(DMA_ATTR_WRITE_COMBINE, &rk_obj->dma_attrs);
-+	rk_obj->dma_attrs = DMA_ATTR_WRITE_COMBINE;
- 
- 	if (!alloc_kmap)
--		dma_set_attr(DMA_ATTR_NO_KERNEL_MAPPING, &rk_obj->dma_attrs);
-+		rk_obj->dma_attrs |= DMA_ATTR_NO_KERNEL_MAPPING;
- 
- 	rk_obj->kvaddr = dma_alloc_attrs(drm->dev, obj->size,
- 					 &rk_obj->dma_addr, GFP_KERNEL,
--					 &rk_obj->dma_attrs);
-+					 rk_obj->dma_attrs);
- 	if (!rk_obj->kvaddr) {
- 		DRM_ERROR("failed to allocate %#x byte dma buffer", obj->size);
- 		return -ENOMEM;
-@@ -51,7 +48,7 @@ static void rockchip_gem_free_buf(struct rockchip_gem_object *rk_obj)
- 	struct drm_device *drm = obj->dev;
- 
- 	dma_free_attrs(drm->dev, obj->size, rk_obj->kvaddr, rk_obj->dma_addr,
--		       &rk_obj->dma_attrs);
-+		       rk_obj->dma_attrs);
- }
- 
- static int rockchip_drm_gem_object_mmap(struct drm_gem_object *obj,
-@@ -70,7 +67,7 @@ static int rockchip_drm_gem_object_mmap(struct drm_gem_object *obj,
- 	vma->vm_pgoff = 0;
- 
- 	ret = dma_mmap_attrs(drm->dev, vma, rk_obj->kvaddr, rk_obj->dma_addr,
--			     obj->size, &rk_obj->dma_attrs);
-+			     obj->size, rk_obj->dma_attrs);
- 	if (ret)
- 		drm_gem_vm_close(vma);
- 
-@@ -262,7 +259,7 @@ struct sg_table *rockchip_gem_prime_get_sg_table(struct drm_gem_object *obj)
- 
- 	ret = dma_get_sgtable_attrs(drm->dev, sgt, rk_obj->kvaddr,
- 				    rk_obj->dma_addr, obj->size,
--				    &rk_obj->dma_attrs);
-+				    rk_obj->dma_attrs);
- 	if (ret) {
- 		DRM_ERROR("failed to allocate sgt, %d\n", ret);
- 		kfree(sgt);
-@@ -276,7 +273,7 @@ void *rockchip_gem_prime_vmap(struct drm_gem_object *obj)
+diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
+index 7399782c0998..87e6035c9e81 100644
+--- a/drivers/xen/swiotlb-xen.c
++++ b/drivers/xen/swiotlb-xen.c
+@@ -294,7 +294,7 @@ error:
+ void *
+ xen_swiotlb_alloc_coherent(struct device *hwdev, size_t size,
+ 			   dma_addr_t *dma_handle, gfp_t flags,
+-			   struct dma_attrs *attrs)
++			   unsigned long attrs)
  {
- 	struct rockchip_gem_object *rk_obj = to_rockchip_obj(obj);
+ 	void *ret;
+ 	int order = get_order(size);
+@@ -346,7 +346,7 @@ EXPORT_SYMBOL_GPL(xen_swiotlb_alloc_coherent);
  
--	if (dma_get_attr(DMA_ATTR_NO_KERNEL_MAPPING, &rk_obj->dma_attrs))
-+	if (dma_get_attr(DMA_ATTR_NO_KERNEL_MAPPING, rk_obj->dma_attrs))
- 		return NULL;
+ void
+ xen_swiotlb_free_coherent(struct device *hwdev, size_t size, void *vaddr,
+-			  dma_addr_t dev_addr, struct dma_attrs *attrs)
++			  dma_addr_t dev_addr, unsigned long attrs)
+ {
+ 	int order = get_order(size);
+ 	phys_addr_t phys;
+@@ -378,7 +378,7 @@ EXPORT_SYMBOL_GPL(xen_swiotlb_free_coherent);
+ dma_addr_t xen_swiotlb_map_page(struct device *dev, struct page *page,
+ 				unsigned long offset, size_t size,
+ 				enum dma_data_direction dir,
+-				struct dma_attrs *attrs)
++				unsigned long attrs)
+ {
+ 	phys_addr_t map, phys = page_to_phys(page) + offset;
+ 	dma_addr_t dev_addr = xen_phys_to_bus(phys);
+@@ -434,7 +434,7 @@ EXPORT_SYMBOL_GPL(xen_swiotlb_map_page);
+  */
+ static void xen_unmap_single(struct device *hwdev, dma_addr_t dev_addr,
+ 			     size_t size, enum dma_data_direction dir,
+-				 struct dma_attrs *attrs)
++			     unsigned long attrs)
+ {
+ 	phys_addr_t paddr = xen_bus_to_phys(dev_addr);
  
- 	return rk_obj->kvaddr;
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-index ad22618473a4..18b3488db4ec 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-@@ -23,7 +23,7 @@ struct rockchip_gem_object {
+@@ -462,7 +462,7 @@ static void xen_unmap_single(struct device *hwdev, dma_addr_t dev_addr,
  
- 	void *kvaddr;
- 	dma_addr_t dma_addr;
--	struct dma_attrs dma_attrs;
-+	unsigned long dma_attrs;
- };
+ void xen_swiotlb_unmap_page(struct device *hwdev, dma_addr_t dev_addr,
+ 			    size_t size, enum dma_data_direction dir,
+-			    struct dma_attrs *attrs)
++			    unsigned long attrs)
+ {
+ 	xen_unmap_single(hwdev, dev_addr, size, dir, attrs);
+ }
+@@ -538,7 +538,7 @@ EXPORT_SYMBOL_GPL(xen_swiotlb_sync_single_for_device);
+ int
+ xen_swiotlb_map_sg_attrs(struct device *hwdev, struct scatterlist *sgl,
+ 			 int nelems, enum dma_data_direction dir,
+-			 struct dma_attrs *attrs)
++			 unsigned long attrs)
+ {
+ 	struct scatterlist *sg;
+ 	int i;
+@@ -599,7 +599,7 @@ EXPORT_SYMBOL_GPL(xen_swiotlb_map_sg_attrs);
+ void
+ xen_swiotlb_unmap_sg_attrs(struct device *hwdev, struct scatterlist *sgl,
+ 			   int nelems, enum dma_data_direction dir,
+-			   struct dma_attrs *attrs)
++			   unsigned long attrs)
+ {
+ 	struct scatterlist *sg;
+ 	int i;
+diff --git a/include/xen/swiotlb-xen.h b/include/xen/swiotlb-xen.h
+index 8b2eb93ae8ba..7c35e279d1e3 100644
+--- a/include/xen/swiotlb-xen.h
++++ b/include/xen/swiotlb-xen.h
+@@ -9,30 +9,30 @@ extern int xen_swiotlb_init(int verbose, bool early);
+ extern void
+ *xen_swiotlb_alloc_coherent(struct device *hwdev, size_t size,
+ 			    dma_addr_t *dma_handle, gfp_t flags,
+-			    struct dma_attrs *attrs);
++			    unsigned long attrs);
  
- struct sg_table *rockchip_gem_prime_get_sg_table(struct drm_gem_object *obj);
+ extern void
+ xen_swiotlb_free_coherent(struct device *hwdev, size_t size,
+ 			  void *vaddr, dma_addr_t dma_handle,
+-			  struct dma_attrs *attrs);
++			  unsigned long attrs);
+ 
+ extern dma_addr_t xen_swiotlb_map_page(struct device *dev, struct page *page,
+ 				       unsigned long offset, size_t size,
+ 				       enum dma_data_direction dir,
+-				       struct dma_attrs *attrs);
++				       unsigned long attrs);
+ 
+ extern void xen_swiotlb_unmap_page(struct device *hwdev, dma_addr_t dev_addr,
+ 				   size_t size, enum dma_data_direction dir,
+-				   struct dma_attrs *attrs);
++				   unsigned long attrs);
+ extern int
+ xen_swiotlb_map_sg_attrs(struct device *hwdev, struct scatterlist *sgl,
+ 			 int nelems, enum dma_data_direction dir,
+-			 struct dma_attrs *attrs);
++			 unsigned long attrs);
+ 
+ extern void
+ xen_swiotlb_unmap_sg_attrs(struct device *hwdev, struct scatterlist *sgl,
+ 			   int nelems, enum dma_data_direction dir,
+-			   struct dma_attrs *attrs);
++			   unsigned long attrs);
+ 
+ extern void
+ xen_swiotlb_sync_single_for_cpu(struct device *hwdev, dma_addr_t dev_addr,
 -- 
 1.9.1
