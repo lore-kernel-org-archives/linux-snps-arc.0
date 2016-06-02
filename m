@@ -1,73 +1,113 @@
 From: k.kozlowski@samsung.com (Krzysztof Kozlowski)
-Date: Thu, 02 Jun 2016 17:39:47 +0200
-Subject: [RFC v3 45/45] dma-mapping: Document the DMA attributes right in
- declaration
+Date: Thu, 02 Jun 2016 17:39:39 +0200
+Subject: [RFC v3 37/45] misc: mic: dma-mapping: Use unsigned long for dma_attrs
 In-Reply-To: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
 References: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1464881987-13203-46-git-send-email-k.kozlowski@samsung.com>
+Message-ID: <1464881987-13203-38-git-send-email-k.kozlowski@samsung.com>
 To: linux-snps-arc@lists.infradead.org
 
-Copy documentation abstract about each DMA attribute from
-Documentation/DMA-attributes.txt to the place with declaration.
+Split out subsystem specific changes for easier reviews. This will be
+squashed with main commit.
 
-Suggested-by: Christoph Hellwig <hch at infradead.org>
 Signed-off-by: Krzysztof Kozlowski <k.kozlowski at samsung.com>
 ---
- include/linux/dma-mapping.h | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ drivers/misc/mic/host/mic_boot.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 6d013ba94213..f349df4cb009 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -14,14 +14,47 @@
- /**
-  * List of possible attributes associated with a DMA mapping. The semantics
-  * of each attribute should be defined in Documentation/DMA-attributes.txt.
-+ *
-+ * DMA_ATTR_WRITE_BARRIER: DMA to a memory region with this attribute
-+ * forces all pending DMA writes to complete.
-  */
- #define DMA_ATTR_WRITE_BARRIER		(1UL << 1)
-+/*
-+ * DMA_ATTR_WEAK_ORDERING: Specifies that reads and writes to the mapping
-+ * may be weakly ordered, that is that reads and writes may pass each other.
-+ */
- #define DMA_ATTR_WEAK_ORDERING		(1UL << 2)
-+/*
-+ * DMA_ATTR_WRITE_COMBINE: Specifies that writes to the mapping may be
-+ * buffered to improve performance.
-+ */
- #define DMA_ATTR_WRITE_COMBINE		(1UL << 3)
-+/*
-+ * DMA_ATTR_NON_CONSISTENT: Lets the platform to choose to return either
-+ * consistent or non-consistent memory as it sees fit.
-+ */
- #define DMA_ATTR_NON_CONSISTENT		(1UL << 4)
-+/*
-+ * DMA_ATTR_NO_KERNEL_MAPPING: Lets the platform to avoid creating a kernel
-+ * virtual mapping for the allocated buffer.
-+ */
- #define DMA_ATTR_NO_KERNEL_MAPPING	(1UL << 5)
-+/*
-+ * DMA_ATTR_SKIP_CPU_SYNC: Allows platform code to skip synchronization of
-+ * the CPU cache for the given buffer assuming that it has been already
-+ * transferred to 'device' domain.
-+ */
- #define DMA_ATTR_SKIP_CPU_SYNC		(1UL << 6)
-+/*
-+ * DMA_ATTR_FORCE_CONTIGUOUS: Forces contiguous allocation of the buffer
-+ * in physical memory.
-+ */
- #define DMA_ATTR_FORCE_CONTIGUOUS	(1UL << 7)
-+/*
-+ * DMA_ATTR_ALLOC_SINGLE_PAGES: This is a hint to the DMA-mapping subsystem
-+ * that it's probably not worth the time to try to allocate memory to in a way
-+ * that gives better TLB efficiency.
-+ */
- #define DMA_ATTR_ALLOC_SINGLE_PAGES	(1UL << 8)
+diff --git a/drivers/misc/mic/host/mic_boot.c b/drivers/misc/mic/host/mic_boot.c
+index e047efd83f57..9599d732aff3 100644
+--- a/drivers/misc/mic/host/mic_boot.c
++++ b/drivers/misc/mic/host/mic_boot.c
+@@ -38,7 +38,7 @@ static inline struct mic_device *vpdev_to_mdev(struct device *dev)
+ static dma_addr_t
+ _mic_dma_map_page(struct device *dev, struct page *page,
+ 		  unsigned long offset, size_t size,
+-		  enum dma_data_direction dir, struct dma_attrs *attrs)
++		  enum dma_data_direction dir, unsigned long attrs)
+ {
+ 	void *va = phys_to_virt(page_to_phys(page)) + offset;
+ 	struct mic_device *mdev = vpdev_to_mdev(dev);
+@@ -48,7 +48,7 @@ _mic_dma_map_page(struct device *dev, struct page *page,
  
- /*
+ static void _mic_dma_unmap_page(struct device *dev, dma_addr_t dma_addr,
+ 				size_t size, enum dma_data_direction dir,
+-				struct dma_attrs *attrs)
++				unsigned long attrs)
+ {
+ 	struct mic_device *mdev = vpdev_to_mdev(dev);
+ 
+@@ -144,7 +144,7 @@ static inline struct mic_device *scdev_to_mdev(struct scif_hw_dev *scdev)
+ 
+ static void *__mic_dma_alloc(struct device *dev, size_t size,
+ 			     dma_addr_t *dma_handle, gfp_t gfp,
+-			     struct dma_attrs *attrs)
++			     unsigned long attrs)
+ {
+ 	struct scif_hw_dev *scdev = dev_get_drvdata(dev);
+ 	struct mic_device *mdev = scdev_to_mdev(scdev);
+@@ -164,7 +164,7 @@ static void *__mic_dma_alloc(struct device *dev, size_t size,
+ }
+ 
+ static void __mic_dma_free(struct device *dev, size_t size, void *vaddr,
+-			   dma_addr_t dma_handle, struct dma_attrs *attrs)
++			   dma_addr_t dma_handle, unsigned long attrs)
+ {
+ 	struct scif_hw_dev *scdev = dev_get_drvdata(dev);
+ 	struct mic_device *mdev = scdev_to_mdev(scdev);
+@@ -176,7 +176,7 @@ static void __mic_dma_free(struct device *dev, size_t size, void *vaddr,
+ static dma_addr_t
+ __mic_dma_map_page(struct device *dev, struct page *page, unsigned long offset,
+ 		   size_t size, enum dma_data_direction dir,
+-		   struct dma_attrs *attrs)
++		   unsigned long attrs)
+ {
+ 	void *va = phys_to_virt(page_to_phys(page)) + offset;
+ 	struct scif_hw_dev *scdev = dev_get_drvdata(dev);
+@@ -188,7 +188,7 @@ __mic_dma_map_page(struct device *dev, struct page *page, unsigned long offset,
+ static void
+ __mic_dma_unmap_page(struct device *dev, dma_addr_t dma_addr,
+ 		     size_t size, enum dma_data_direction dir,
+-		     struct dma_attrs *attrs)
++		     unsigned long attrs)
+ {
+ 	struct scif_hw_dev *scdev = dev_get_drvdata(dev);
+ 	struct mic_device *mdev = scdev_to_mdev(scdev);
+@@ -198,7 +198,7 @@ __mic_dma_unmap_page(struct device *dev, dma_addr_t dma_addr,
+ 
+ static int __mic_dma_map_sg(struct device *dev, struct scatterlist *sg,
+ 			    int nents, enum dma_data_direction dir,
+-			    struct dma_attrs *attrs)
++			    unsigned long attrs)
+ {
+ 	struct scif_hw_dev *scdev = dev_get_drvdata(dev);
+ 	struct mic_device *mdev = scdev_to_mdev(scdev);
+@@ -229,7 +229,7 @@ err:
+ static void __mic_dma_unmap_sg(struct device *dev,
+ 			       struct scatterlist *sg, int nents,
+ 			       enum dma_data_direction dir,
+-			       struct dma_attrs *attrs)
++			       unsigned long attrs)
+ {
+ 	struct scif_hw_dev *scdev = dev_get_drvdata(dev);
+ 	struct mic_device *mdev = scdev_to_mdev(scdev);
+@@ -327,7 +327,7 @@ static inline struct mic_device *mbdev_to_mdev(struct mbus_device *mbdev)
+ static dma_addr_t
+ mic_dma_map_page(struct device *dev, struct page *page,
+ 		 unsigned long offset, size_t size, enum dma_data_direction dir,
+-		 struct dma_attrs *attrs)
++		 unsigned long attrs)
+ {
+ 	void *va = phys_to_virt(page_to_phys(page)) + offset;
+ 	struct mic_device *mdev = dev_get_drvdata(dev->parent);
+@@ -338,7 +338,7 @@ mic_dma_map_page(struct device *dev, struct page *page,
+ static void
+ mic_dma_unmap_page(struct device *dev, dma_addr_t dma_addr,
+ 		   size_t size, enum dma_data_direction dir,
+-		   struct dma_attrs *attrs)
++		   unsigned long attrs)
+ {
+ 	struct mic_device *mdev = dev_get_drvdata(dev->parent);
+ 	mic_unmap_single(mdev, dma_addr, size);
 -- 
 1.9.1
