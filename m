@@ -1,10 +1,10 @@
 From: k.kozlowski@samsung.com (Krzysztof Kozlowski)
-Date: Thu, 02 Jun 2016 17:39:20 +0200
-Subject: [RFC v3 18/45] iommu: dma-mapping: Use unsigned long for dma_attrs
+Date: Thu, 02 Jun 2016 17:39:23 +0200
+Subject: [RFC v3 21/45] swiotlb: dma-mapping: Use unsigned long for dma_attrs
 In-Reply-To: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
 References: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1464881987-13203-19-git-send-email-k.kozlowski@samsung.com>
+Message-ID: <1464881987-13203-22-git-send-email-k.kozlowski@samsung.com>
 To: linux-snps-arc@lists.infradead.org
 
 Split out subsystem specific changes for easier reviews. This will be
@@ -12,124 +12,109 @@ squashed with main commit.
 
 Signed-off-by: Krzysztof Kozlowski <k.kozlowski at samsung.com>
 ---
- drivers/iommu/amd_iommu.c | 12 ++++++------
- drivers/iommu/dma-iommu.c |  6 +++---
- include/linux/dma-iommu.h |  6 +++---
- 3 files changed, 12 insertions(+), 12 deletions(-)
+ include/linux/swiotlb.h | 10 +++++-----
+ lib/swiotlb.c           | 13 +++++++------
+ 2 files changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index 634f636393d5..afbb0de6a7f5 100644
---- a/drivers/iommu/amd_iommu.c
-+++ b/drivers/iommu/amd_iommu.c
-@@ -2716,7 +2716,7 @@ static void __unmap_single(struct dma_ops_domain *dma_dom,
- static dma_addr_t map_page(struct device *dev, struct page *page,
- 			   unsigned long offset, size_t size,
- 			   enum dma_data_direction dir,
--			   struct dma_attrs *attrs)
-+			   unsigned long attrs)
- {
- 	phys_addr_t paddr = page_to_phys(page) + offset;
- 	struct protection_domain *domain;
-@@ -2738,7 +2738,7 @@ static dma_addr_t map_page(struct device *dev, struct page *page,
-  * The exported unmap_single function for dma_ops.
-  */
- static void unmap_page(struct device *dev, dma_addr_t dma_addr, size_t size,
--		       enum dma_data_direction dir, struct dma_attrs *attrs)
-+		       enum dma_data_direction dir, unsigned long attrs)
- {
- 	struct protection_domain *domain;
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index 017fced60242..5f81f8a187f2 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -6,7 +6,6 @@
+ #include <linux/types.h>
  
-@@ -2755,7 +2755,7 @@ static void unmap_page(struct device *dev, dma_addr_t dma_addr, size_t size,
-  */
- static int map_sg(struct device *dev, struct scatterlist *sglist,
- 		  int nelems, enum dma_data_direction dir,
--		  struct dma_attrs *attrs)
-+		  unsigned long attrs)
- {
- 	struct protection_domain *domain;
- 	int i;
-@@ -2803,7 +2803,7 @@ unmap:
-  */
- static void unmap_sg(struct device *dev, struct scatterlist *sglist,
- 		     int nelems, enum dma_data_direction dir,
--		     struct dma_attrs *attrs)
-+		     unsigned long attrs)
- {
- 	struct protection_domain *domain;
- 	struct scatterlist *s;
-@@ -2825,7 +2825,7 @@ static void unmap_sg(struct device *dev, struct scatterlist *sglist,
-  */
- static void *alloc_coherent(struct device *dev, size_t size,
- 			    dma_addr_t *dma_addr, gfp_t flag,
+ struct device;
+-struct dma_attrs;
+ struct page;
+ struct scatterlist;
+ 
+@@ -68,10 +67,10 @@ swiotlb_free_coherent(struct device *hwdev, size_t size,
+ extern dma_addr_t swiotlb_map_page(struct device *dev, struct page *page,
+ 				   unsigned long offset, size_t size,
+ 				   enum dma_data_direction dir,
+-				   struct dma_attrs *attrs);
++				   unsigned long attrs);
+ extern void swiotlb_unmap_page(struct device *hwdev, dma_addr_t dev_addr,
+ 			       size_t size, enum dma_data_direction dir,
+-			       struct dma_attrs *attrs);
++			       unsigned long attrs);
+ 
+ extern int
+ swiotlb_map_sg(struct device *hwdev, struct scatterlist *sg, int nents,
+@@ -83,12 +82,13 @@ swiotlb_unmap_sg(struct device *hwdev, struct scatterlist *sg, int nents,
+ 
+ extern int
+ swiotlb_map_sg_attrs(struct device *hwdev, struct scatterlist *sgl, int nelems,
+-		     enum dma_data_direction dir, struct dma_attrs *attrs);
++		     enum dma_data_direction dir,
++		     unsigned long attrs);
+ 
+ extern void
+ swiotlb_unmap_sg_attrs(struct device *hwdev, struct scatterlist *sgl,
+ 		       int nelems, enum dma_data_direction dir,
+-		       struct dma_attrs *attrs);
++		       unsigned long attrs);
+ 
+ extern void
+ swiotlb_sync_single_for_cpu(struct device *hwdev, dma_addr_t dev_addr,
+diff --git a/lib/swiotlb.c b/lib/swiotlb.c
+index 76f29ecba8f4..22e13a0e19d7 100644
+--- a/lib/swiotlb.c
++++ b/lib/swiotlb.c
+@@ -738,7 +738,7 @@ swiotlb_full(struct device *dev, size_t size, enum dma_data_direction dir,
+ dma_addr_t swiotlb_map_page(struct device *dev, struct page *page,
+ 			    unsigned long offset, size_t size,
+ 			    enum dma_data_direction dir,
 -			    struct dma_attrs *attrs)
 +			    unsigned long attrs)
  {
- 	u64 dma_mask = dev->coherent_dma_mask;
- 	struct protection_domain *domain;
-@@ -2879,7 +2879,7 @@ out_free:
-  */
- static void free_coherent(struct device *dev, size_t size,
- 			  void *virt_addr, dma_addr_t dma_addr,
--			  struct dma_attrs *attrs)
-+			  unsigned long attrs)
- {
- 	struct protection_domain *domain;
- 	struct page *page;
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index ea5a9ebf0f78..6c1bda504fb1 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -286,7 +286,7 @@ void iommu_dma_free(struct device *dev, struct page **pages, size_t size,
-  *	   or NULL on failure.
-  */
- struct page **iommu_dma_alloc(struct device *dev, size_t size, gfp_t gfp,
--		struct dma_attrs *attrs, int prot, dma_addr_t *handle,
-+		unsigned long attrs, int prot, dma_addr_t *handle,
- 		void (*flush_page)(struct device *, const void *, phys_addr_t))
- {
- 	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
-@@ -400,7 +400,7 @@ dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
- }
+ 	phys_addr_t map, phys = page_to_phys(page) + offset;
+ 	dma_addr_t dev_addr = phys_to_dma(dev, phys);
+@@ -807,7 +807,7 @@ static void unmap_single(struct device *hwdev, dma_addr_t dev_addr,
  
- void iommu_dma_unmap_page(struct device *dev, dma_addr_t handle, size_t size,
--		enum dma_data_direction dir, struct dma_attrs *attrs)
-+		enum dma_data_direction dir, unsigned long attrs)
+ void swiotlb_unmap_page(struct device *hwdev, dma_addr_t dev_addr,
+ 			size_t size, enum dma_data_direction dir,
+-			struct dma_attrs *attrs)
++			unsigned long attrs)
  {
- 	__iommu_dma_unmap(iommu_get_domain_for_dev(dev), handle);
+ 	unmap_single(hwdev, dev_addr, size, dir);
  }
-@@ -560,7 +560,7 @@ out_restore_sg:
+@@ -877,7 +877,7 @@ EXPORT_SYMBOL(swiotlb_sync_single_for_device);
+  */
+ int
+ swiotlb_map_sg_attrs(struct device *hwdev, struct scatterlist *sgl, int nelems,
+-		     enum dma_data_direction dir, struct dma_attrs *attrs)
++		     enum dma_data_direction dir, unsigned long attrs)
+ {
+ 	struct scatterlist *sg;
+ 	int i;
+@@ -914,7 +914,7 @@ int
+ swiotlb_map_sg(struct device *hwdev, struct scatterlist *sgl, int nelems,
+ 	       enum dma_data_direction dir)
+ {
+-	return swiotlb_map_sg_attrs(hwdev, sgl, nelems, dir, NULL);
++	return swiotlb_map_sg_attrs(hwdev, sgl, nelems, dir, 0);
  }
+ EXPORT_SYMBOL(swiotlb_map_sg);
  
- void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg, int nents,
--		enum dma_data_direction dir, struct dma_attrs *attrs)
-+		enum dma_data_direction dir, unsigned long attrs)
+@@ -924,7 +924,8 @@ EXPORT_SYMBOL(swiotlb_map_sg);
+  */
+ void
+ swiotlb_unmap_sg_attrs(struct device *hwdev, struct scatterlist *sgl,
+-		       int nelems, enum dma_data_direction dir, struct dma_attrs *attrs)
++		       int nelems, enum dma_data_direction dir,
++		       unsigned long attrs)
  {
- 	/*
- 	 * The scatterlist segments are mapped into a single
-diff --git a/include/linux/dma-iommu.h b/include/linux/dma-iommu.h
-index 8443bbb5c071..81c5c8d167ad 100644
---- a/include/linux/dma-iommu.h
-+++ b/include/linux/dma-iommu.h
-@@ -39,7 +39,7 @@ int dma_direction_to_prot(enum dma_data_direction dir, bool coherent);
-  * the arch code to take care of attributes and cache maintenance
-  */
- struct page **iommu_dma_alloc(struct device *dev, size_t size, gfp_t gfp,
--		struct dma_attrs *attrs, int prot, dma_addr_t *handle,
-+		unsigned long attrs, int prot, dma_addr_t *handle,
- 		void (*flush_page)(struct device *, const void *, phys_addr_t));
- void iommu_dma_free(struct device *dev, struct page **pages, size_t size,
- 		dma_addr_t *handle);
-@@ -56,9 +56,9 @@ int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
-  * directly as DMA mapping callbacks for simplicity
-  */
- void iommu_dma_unmap_page(struct device *dev, dma_addr_t handle, size_t size,
--		enum dma_data_direction dir, struct dma_attrs *attrs);
-+		enum dma_data_direction dir, unsigned long attrs);
- void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg, int nents,
--		enum dma_data_direction dir, struct dma_attrs *attrs);
-+		enum dma_data_direction dir, unsigned long attrs);
- int iommu_dma_supported(struct device *dev, u64 mask);
- int iommu_dma_mapping_error(struct device *dev, dma_addr_t dma_addr);
+ 	struct scatterlist *sg;
+ 	int i;
+@@ -941,7 +942,7 @@ void
+ swiotlb_unmap_sg(struct device *hwdev, struct scatterlist *sgl, int nelems,
+ 		 enum dma_data_direction dir)
+ {
+-	return swiotlb_unmap_sg_attrs(hwdev, sgl, nelems, dir, NULL);
++	return swiotlb_unmap_sg_attrs(hwdev, sgl, nelems, dir, 0);
+ }
+ EXPORT_SYMBOL(swiotlb_unmap_sg);
  
 -- 
 1.9.1
