@@ -1,45 +1,27 @@
 From: tipbot@zytor.com (tip-bot for Vineet Gupta)
-Date: Fri, 3 Jun 2016 03:51:53 -0700
-Subject: [tip:perf/core] perf/abi: Change the errno for sampling event not
- supported in hardware
-In-Reply-To: <1462786660-2900-3-git-send-email-vgupta@synopsys.com>
-References: <1462786660-2900-3-git-send-email-vgupta@synopsys.com>
+Date: Fri, 3 Jun 2016 03:52:18 -0700
+Subject: [tip:perf/core] tools/perf: Handle -EOPNOTSUPP for sampling events
+In-Reply-To: <1462786660-2900-2-git-send-email-vgupta@synopsys.com>
+References: <1462786660-2900-2-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <tip-a1396555abff9ff9b74c2e4da13e27e81fd094b2@git.kernel.org>
+Message-ID: <tip-dc89e75a9412db5b1105a140182ec1e35a8351b4@git.kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-Commit-ID:  a1396555abff9ff9b74c2e4da13e27e81fd094b2
-Gitweb:     http://git.kernel.org/tip/a1396555abff9ff9b74c2e4da13e27e81fd094b2
+Commit-ID:  dc89e75a9412db5b1105a140182ec1e35a8351b4
+Gitweb:     http://git.kernel.org/tip/dc89e75a9412db5b1105a140182ec1e35a8351b4
 Author:     Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-AuthorDate: Mon, 9 May 2016 15:07:40 +0530
+AuthorDate: Mon, 9 May 2016 15:07:39 +0530
 Committer:  Ingo Molnar <mingo at kernel.org>
-CommitDate: Fri, 3 Jun 2016 09:40:42 +0200
+CommitDate: Fri, 3 Jun 2016 09:41:11 +0200
 
-perf/abi: Change the errno for sampling event not supported in hardware
+tools/perf: Handle -EOPNOTSUPP for sampling events
 
-Change the return code for sampling event not supported from -ENOTSUPP
-to -EOPNOTSUPP.
+This allows (with a previous change to the perf error return ABI) for
+calling out in userspace the exact reason for perf record failing
+when PMU doesn't support overflow interrupts.
 
-This allows userspace to identify this case specifically, instead of
-printing the catch-all error message it did previously.
-
-Technically this is an ABI change, but we think we can get away
-with it.
-
-Old behavior:
- -------
- | # perf record ls
- | Error:
- | The sys_perf_event_open() syscall returned with 524 (Unknown error 524)
- | for event (cycles:ppp).
- | /bin/dmesg may provide additional information.
- | No CONFIG_PERF_EVENTS=y kernel support configured?
-
-New behavior:
- -------
- | # perf record ls
- | Error:
- | PMU Hardware doesn't support sampling/overflow-interrupts.
+Note that this needs to be put ahead of existing precise_ip check as
+that gets hit otherwise for the sampling fail case as well.
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz at infradead.org>
@@ -55,22 +37,23 @@ Cc: Stephane Eranian <eranian at google.com>
 Cc: Thomas Gleixner <tglx at linutronix.de>
 Cc: Vince Weaver <vincent.weaver at maine.edu>
 Cc: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-Link: http://lkml.kernel.org/r/1462786660-2900-3-git-send-email-vgupta at synopsys.com
+Link: http://lkml.kernel.org/r/1462786660-2900-2-git-send-email-vgupta at synopsys.com
 Signed-off-by: Ingo Molnar <mingo at kernel.org>
 ---
- kernel/events/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/perf/util/evsel.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index f94f164..5d48306 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -9309,7 +9309,7 @@ SYSCALL_DEFINE5(perf_event_open,
- 
- 	if (is_sampling_event(event)) {
- 		if (event->pmu->capabilities & PERF_PMU_CAP_NO_INTERRUPT) {
--			err = -ENOTSUPP;
-+			err = -EOPNOTSUPP;
- 			goto err_alloc;
- 		}
- 	}
+diff --git a/tools/perf/util/evsel.c b/tools/perf/util/evsel.c
+index 245ac50..8d30cbd 100644
+--- a/tools/perf/util/evsel.c
++++ b/tools/perf/util/evsel.c
+@@ -2384,6 +2384,9 @@ int perf_evsel__open_strerror(struct perf_evsel *evsel, struct target *target,
+ 	 "No such device - did you specify an out-of-range profile CPU?");
+ 		break;
+ 	case EOPNOTSUPP:
++		if (evsel->attr.sample_period != 0)
++			return scnprintf(msg, size, "%s",
++	"PMU Hardware doesn't support sampling/overflow-interrupts.");
+ 		if (evsel->attr.precise_ip)
+ 			return scnprintf(msg, size, "%s",
+ 	"\'precise\' request may not be supported. Try removing 'p' modifier.");
