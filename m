@@ -1,40 +1,76 @@
-From: k.kozlowski@samsung.com (Krzysztof Kozlowski)
-Date: Fri, 03 Jun 2016 09:55:48 +0200
-Subject: [RFC v3 01/45] powerpc: dma-mapping: Don't hard-code the value of
- DMA_ATTR_WEAK_ORDERING
-In-Reply-To: <1464881987-13203-2-git-send-email-k.kozlowski@samsung.com>
-References: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
- <1464881987-13203-2-git-send-email-k.kozlowski@samsung.com>
+From: tipbot@zytor.com (tip-bot for Vineet Gupta)
+Date: Fri, 3 Jun 2016 03:51:53 -0700
+Subject: [tip:perf/core] perf/abi: Change the errno for sampling event not
+ supported in hardware
+In-Reply-To: <1462786660-2900-3-git-send-email-vgupta@synopsys.com>
+References: <1462786660-2900-3-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <57513804.9020309@samsung.com>
+Message-ID: <tip-a1396555abff9ff9b74c2e4da13e27e81fd094b2@git.kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 06/02/2016 05:39 PM, Krzysztof Kozlowski wrote:
-> Hard-coded value of DMA_ATTR_WEAK_ORDERING is then compared with the
-> symbol.  This will stop matching if the value of symbol is changed (when
-> switching DMA attributes to unsigned long).
-> 
-> Signed-off-by: Krzysztof Kozlowski <k.kozlowski at samsung.com>
-> ---
->  arch/powerpc/platforms/cell/iommu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/powerpc/platforms/cell/iommu.c b/arch/powerpc/platforms/cell/iommu.c
-> index 14a582b21274..0c2794d2b6c0 100644
-> --- a/arch/powerpc/platforms/cell/iommu.c
-> +++ b/arch/powerpc/platforms/cell/iommu.c
-> @@ -1162,7 +1162,7 @@ static int __init setup_iommu_fixed(char *str)
->  	pciep = of_find_node_by_type(NULL, "pcie-endpoint");
->  
->  	if (strcmp(str, "weak") == 0 || (pciep && strcmp(str, "strong") != 0))
-> -		iommu_fixed_is_weak = 1;
-> +		iommu_fixed_is_weak = DMA_ATTR_WEAK_ORDERING;
+Commit-ID:  a1396555abff9ff9b74c2e4da13e27e81fd094b2
+Gitweb:     http://git.kernel.org/tip/a1396555abff9ff9b74c2e4da13e27e81fd094b2
+Author:     Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+AuthorDate: Mon, 9 May 2016 15:07:40 +0530
+Committer:  Ingo Molnar <mingo at kernel.org>
+CommitDate: Fri, 3 Jun 2016 09:40:42 +0200
 
-After some more thoughts given to this, I think my fix is not correct.
-The 'iommu_fixed_is_weak' stores the bool and it is used to compare with
-result of test_bit().
+perf/abi: Change the errno for sampling event not supported in hardware
 
-Please ignore this patch.
+Change the return code for sampling event not supported from -ENOTSUPP
+to -EOPNOTSUPP.
 
-Best regards,
-Krzysztof
+This allows userspace to identify this case specifically, instead of
+printing the catch-all error message it did previously.
+
+Technically this is an ABI change, but we think we can get away
+with it.
+
+Old behavior:
+ -------
+ | # perf record ls
+ | Error:
+ | The sys_perf_event_open() syscall returned with 524 (Unknown error 524)
+ | for event (cycles:ppp).
+ | /bin/dmesg may provide additional information.
+ | No CONFIG_PERF_EVENTS=y kernel support configured?
+
+New behavior:
+ -------
+ | # perf record ls
+ | Error:
+ | PMU Hardware doesn't support sampling/overflow-interrupts.
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+Signed-off-by: Peter Zijlstra (Intel) <peterz at infradead.org>
+Cc: <acme at redhat.com>
+Cc: <linux-snps-arc at lists.infradead.org>
+Cc: <vincent.weaver at maine.edu>
+Cc: Alexander Shishkin <alexander.shishkin at linux.intel.com>
+Cc: Arnaldo Carvalho de Melo <acme at redhat.com>
+Cc: Jiri Olsa <jolsa at redhat.com>
+Cc: Linus Torvalds <torvalds at linux-foundation.org>
+Cc: Peter Zijlstra <peterz at infradead.org>
+Cc: Stephane Eranian <eranian at google.com>
+Cc: Thomas Gleixner <tglx at linutronix.de>
+Cc: Vince Weaver <vincent.weaver at maine.edu>
+Cc: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+Link: http://lkml.kernel.org/r/1462786660-2900-3-git-send-email-vgupta at synopsys.com
+Signed-off-by: Ingo Molnar <mingo at kernel.org>
+---
+ kernel/events/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index f94f164..5d48306 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -9309,7 +9309,7 @@ SYSCALL_DEFINE5(perf_event_open,
+ 
+ 	if (is_sampling_event(event)) {
+ 		if (event->pmu->capabilities & PERF_PMU_CAP_NO_INTERRUPT) {
+-			err = -ENOTSUPP;
++			err = -EOPNOTSUPP;
+ 			goto err_alloc;
+ 		}
+ 	}
