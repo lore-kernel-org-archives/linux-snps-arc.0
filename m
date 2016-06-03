@@ -1,34 +1,21 @@
-From: k.kozlowski@samsung.com (Krzysztof Kozlowski)
-Date: Fri, 03 Jun 2016 09:50:40 +0200
-Subject: [RFC v3 02/45] dma-mapping: Use unsigned long for dma_attrs
-In-Reply-To: <CAMuHMdXWMf7Dt77wSUj8NytQqb99jzDiAz46kJkAEz+6BX3Uvw@mail.gmail.com>
+From: jesper.nilsson@axis.com (Jesper Nilsson)
+Date: Fri, 3 Jun 2016 09:52:19 +0200
+Subject: [RFC v3 10/45] cris: dma-mapping: Use unsigned long for dma_attrs
+In-Reply-To: <1464881987-13203-11-git-send-email-k.kozlowski@samsung.com>
 References: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
- <1464881987-13203-3-git-send-email-k.kozlowski@samsung.com>
- <CAMuHMdXWMf7Dt77wSUj8NytQqb99jzDiAz46kJkAEz+6BX3Uvw@mail.gmail.com>
+ <1464881987-13203-11-git-send-email-k.kozlowski@samsung.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <575136D0.6000101@samsung.com>
+Message-ID: <20160603075219.GF3183@axis.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 06/03/2016 09:17 AM, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Thu, Jun 2, 2016 at 5:39 PM, Krzysztof Kozlowski
-> <k.kozlowski@samsung.com> wrote:
->> --- a/include/linux/dma-mapping.h
->> +++ b/include/linux/dma-mapping.h
->> @@ -5,13 +5,25 @@
-> 
->> +/**
->> + * List of possible attributes associated with a DMA mapping. The semantics
->> + * of each attribute should be defined in Documentation/DMA-attributes.txt.
->> + */
->> +#define DMA_ATTR_WRITE_BARRIER         (1UL << 1)
-> 
-> Any particular reason they start at 2, not 1?
+On Thu, Jun 02, 2016@05:39:12PM +0200, Krzysztof Kozlowski wrote:
+> Split out subsystem specific changes for easier reviews. This will be
+> squashed with main commit.
 
-No reason. I'll fix this in next version (and trim Cc-list). Anyway the
-values of constants won't match old ones but that should not be problem
-(unless they are hard-coded somewhere).
+Acked-by: Jesper Nilsson <jesper.nilsson at axis.com>
 
-Best regards,
-Krzysztof
+> Signed-off-by: Krzysztof Kozlowski <k.kozlowski at samsung.com>
+
+/^JN - Jesper Nilsson
+-- 
+               Jesper Nilsson -- jesper.nilsson at axis.com
