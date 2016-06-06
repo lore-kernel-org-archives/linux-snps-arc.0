@@ -1,59 +1,69 @@
-From: tipbot@zytor.com (tip-bot for Vineet Gupta)
-Date: Fri, 3 Jun 2016 03:52:18 -0700
-Subject: [tip:perf/core] tools/perf: Handle -EOPNOTSUPP for sampling events
-In-Reply-To: <1462786660-2900-2-git-send-email-vgupta@synopsys.com>
-References: <1462786660-2900-2-git-send-email-vgupta@synopsys.com>
+From: egtvedt@samfundet.no (Hans-Christian Noren Egtvedt)
+Date: Mon, 6 Jun 2016 08:45:12 +0200
+Subject: [RFC v3 44/45] dma-mapping: Remove dma_get_attr
+In-Reply-To: <1464881987-13203-45-git-send-email-k.kozlowski@samsung.com>
+References: <1464881987-13203-1-git-send-email-k.kozlowski@samsung.com>
+ <1464881987-13203-45-git-send-email-k.kozlowski@samsung.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <tip-dc89e75a9412db5b1105a140182ec1e35a8351b4@git.kernel.org>
+Message-ID: <20160606064512.GB7998@samfundet.no>
 To: linux-snps-arc@lists.infradead.org
 
-Commit-ID:  dc89e75a9412db5b1105a140182ec1e35a8351b4
-Gitweb:     http://git.kernel.org/tip/dc89e75a9412db5b1105a140182ec1e35a8351b4
-Author:     Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-AuthorDate: Mon, 9 May 2016 15:07:39 +0530
-Committer:  Ingo Molnar <mingo at kernel.org>
-CommitDate: Fri, 3 Jun 2016 09:41:11 +0200
+Around Thu 02 Jun 2016 17:39:46 +0200 or thereabout, Krzysztof Kozlowski wrote:
+> After switching DMA attributes to unsigned long it is easier to just
+> compare the bits.
+> 
+> Signed-off-by: Krzysztof Kozlowski <k.kozlowski at samsung.com>
+> ---
+>  Documentation/DMA-API.txt                      |  4 +--
+>  arch/arc/mm/dma.c                              |  4 +--
+>  arch/arm/mm/dma-mapping.c                      | 36 ++++++++++++--------------
+>  arch/arm/xen/mm.c                              |  4 +--
+>  arch/arm64/mm/dma-mapping.c                    | 10 +++----
+>  arch/avr32/mm/dma-coherent.c                   |  4 +--
 
-tools/perf: Handle -EOPNOTSUPP for sampling events
+For the AVR32 related change
 
-This allows (with a previous change to the perf error return ABI) for
-calling out in userspace the exact reason for perf record failing
-when PMU doesn't support overflow interrupts.
+Acked-by: Hans-Christian Noren Egtvedt <egtvedt at samfundet.no>
 
-Note that this needs to be put ahead of existing precise_ip check as
-that gets hit otherwise for the sampling fail case as well.
+>  arch/ia64/sn/pci/pci_dma.c                     | 10 ++-----
+>  arch/metag/kernel/dma.c                        |  2 +-
+>  arch/mips/mm/dma-default.c                     |  6 ++---
+>  arch/openrisc/kernel/dma.c                     |  4 +--
+>  arch/parisc/kernel/pci-dma.c                   |  2 +-
+>  arch/powerpc/platforms/cell/iommu.c            | 10 +++----
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c    |  2 +-
+>  drivers/iommu/dma-iommu.c                      |  2 +-
+>  drivers/media/v4l2-core/videobuf2-dma-contig.c |  2 +-
+>  include/linux/dma-mapping.h                    | 13 ----------
+>  16 files changed, 46 insertions(+), 69 deletions(-)
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Peter Zijlstra (Intel) <peterz at infradead.org>
-Cc: <acme at redhat.com>
-Cc: <linux-snps-arc at lists.infradead.org>
-Cc: <vincent.weaver at maine.edu>
-Cc: Alexander Shishkin <alexander.shishkin at linux.intel.com>
-Cc: Arnaldo Carvalho de Melo <acme at redhat.com>
-Cc: Jiri Olsa <jolsa at redhat.com>
-Cc: Linus Torvalds <torvalds at linux-foundation.org>
-Cc: Peter Zijlstra <peterz at infradead.org>
-Cc: Stephane Eranian <eranian at google.com>
-Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: Vince Weaver <vincent.weaver at maine.edu>
-Cc: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-Link: http://lkml.kernel.org/r/1462786660-2900-2-git-send-email-vgupta at synopsys.com
-Signed-off-by: Ingo Molnar <mingo at kernel.org>
----
- tools/perf/util/evsel.c | 3 +++
- 1 file changed, 3 insertions(+)
+<snipp non-AVR32>
 
-diff --git a/tools/perf/util/evsel.c b/tools/perf/util/evsel.c
-index 245ac50..8d30cbd 100644
---- a/tools/perf/util/evsel.c
-+++ b/tools/perf/util/evsel.c
-@@ -2384,6 +2384,9 @@ int perf_evsel__open_strerror(struct perf_evsel *evsel, struct target *target,
- 	 "No such device - did you specify an out-of-range profile CPU?");
- 		break;
- 	case EOPNOTSUPP:
-+		if (evsel->attr.sample_period != 0)
-+			return scnprintf(msg, size, "%s",
-+	"PMU Hardware doesn't support sampling/overflow-interrupts.");
- 		if (evsel->attr.precise_ip)
- 			return scnprintf(msg, size, "%s",
- 	"\'precise\' request may not be supported. Try removing 'p' modifier.");
+> diff --git a/arch/avr32/mm/dma-coherent.c b/arch/avr32/mm/dma-coherent.c
+> index fc51f4421933..58610d0df7ed 100644
+> --- a/arch/avr32/mm/dma-coherent.c
+> +++ b/arch/avr32/mm/dma-coherent.c
+> @@ -109,7 +109,7 @@ static void *avr32_dma_alloc(struct device *dev, size_t size,
+>  		return NULL;
+>  	phys = page_to_phys(page);
+>  
+> -	if (dma_get_attr(DMA_ATTR_WRITE_COMBINE, attrs)) {
+> +	if (attrs & DMA_ATTR_WRITE_COMBINE) {
+>  		/* Now, map the page into P3 with write-combining turned on */
+>  		*handle = phys;
+>  		return __ioremap(phys, size, _PAGE_BUFFER);
+> @@ -123,7 +123,7 @@ static void avr32_dma_free(struct device *dev, size_t size,
+>  {
+>  	struct page *page;
+>  
+> -	if (dma_get_attr(DMA_ATTR_WRITE_COMBINE, attrs)) {
+> +	if (attrs & DMA_ATTR_WRITE_COMBINE) {
+>  		iounmap(cpu_addr);
+>  
+>  		page = phys_to_page(handle);
+
+<snipp non-AVR32>
+
+-- 
+mvh
+Hans-Christian Noren Egtvedt
