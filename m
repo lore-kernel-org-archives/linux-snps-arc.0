@@ -1,280 +1,50 @@
-From: daniel@ffwll.ch (Daniel Vetter)
-Date: Mon, 6 Jun 2016 16:13:44 +0200
-Subject: [PATCH 1/3] drm/arcpgu: Make ARC PGU usable on simulation
- platforms
-In-Reply-To: <1465210585-13284-2-git-send-email-abrodkin@synopsys.com>
-References: <1465210585-13284-1-git-send-email-abrodkin@synopsys.com>
- <1465210585-13284-2-git-send-email-abrodkin@synopsys.com>
+From: broonie@kernel.org (Mark Brown)
+Date: Tue, 7 Jun 2016 18:30:45 +0100
+Subject: [PATCH 1/2 v8] ASoC: dwc: Add PIO PCM extension
+In-Reply-To: <09988b615638750c435d95f87906d7974f2b239c.1464601439.git.joabreu@synopsys.com>
+References: <cover.1464601439.git.joabreu@synopsys.com>
+ <09988b615638750c435d95f87906d7974f2b239c.1464601439.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160606141344.GJ14529@phenom.ffwll.local>
+Message-ID: <20160607173045.GE7510@sirena.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Jun 06, 2016@01:56:23PM +0300, Alexey Brodkin wrote:
-> From: Ruud Derwig <rderwig at synopsys.com>
-> 
-> Initially ARC PGU required real encoder/trnasmitter to exist.
-> That was fine for real HW such as ARC SDP boards.
-> 
-> But on some simulaiton platroms like ARC VDK or nSIM OSCI we have model
-> of the same ARC PGU and ability to output video data in a virtual LCD.
-> 
-> To make ARC PGU driver usable in those virtual platforms we need to istantiate
-> virtual encoder instead of a real one because in the model's virtual LCD
-> we're rendering whatever appears in frame-buffer memory.
-> 
-> Signed-off-by: Ruud Derwig <rderwig at synopsys.com>
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> ---
->  drivers/gpu/drm/arc/Makefile     |   2 +-
->  drivers/gpu/drm/arc/arcpgu.h     |   1 +
->  drivers/gpu/drm/arc/arcpgu_drv.c |  15 ++--
->  drivers/gpu/drm/arc/arcpgu_sim.c | 177 +++++++++++++++++++++++++++++++++++++++
->  4 files changed, 187 insertions(+), 8 deletions(-)
->  create mode 100644 drivers/gpu/drm/arc/arcpgu_sim.c
-> 
-> diff --git a/drivers/gpu/drm/arc/Makefile b/drivers/gpu/drm/arc/Makefile
-> index d48fda7..73de56a 100644
-> --- a/drivers/gpu/drm/arc/Makefile
-> +++ b/drivers/gpu/drm/arc/Makefile
-> @@ -1,2 +1,2 @@
-> -arcpgu-y := arcpgu_crtc.o arcpgu_hdmi.o arcpgu_drv.o
-> +arcpgu-y := arcpgu_crtc.o arcpgu_hdmi.o arcpgu_sim.o arcpgu_drv.o
->  obj-$(CONFIG_DRM_ARCPGU) += arcpgu.o
-> diff --git a/drivers/gpu/drm/arc/arcpgu.h b/drivers/gpu/drm/arc/arcpgu.h
-> index 86574b6..329ac75 100644
-> --- a/drivers/gpu/drm/arc/arcpgu.h
-> +++ b/drivers/gpu/drm/arc/arcpgu.h
-> @@ -43,6 +43,7 @@ static inline u32 arc_pgu_read(struct arcpgu_drm_private *arcpgu,
->  
->  int arc_pgu_setup_crtc(struct drm_device *dev);
->  int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *np);
-> +int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np);
->  struct drm_fbdev_cma *arcpgu_fbdev_cma_init(struct drm_device *dev,
->  	unsigned int preferred_bpp, unsigned int num_crtc,
->  	unsigned int max_conn_count);
-> diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-> index 69b5be0..5f1f303 100644
-> --- a/drivers/gpu/drm/arc/arcpgu_drv.c
-> +++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-> @@ -149,15 +149,16 @@ static int arcpgu_load(struct drm_device *drm)
->  
->  	/* find the encoder node and initialize it */
->  	encoder_node = of_parse_phandle(drm->dev->of_node, "encoder-slave", 0);
-> -	if (!encoder_node) {
-> -		dev_err(drm->dev, "failed to get an encoder slave node\n");
-> -		return -ENODEV;
-> +	if (encoder_node) {
-> +		ret = arcpgu_drm_hdmi_init(drm, encoder_node);
-> +		if (ret < 0)
-> +			return ret;
-> +	} else {
-> +		ret = arcpgu_drm_sim_init(drm, 0);
-> +		if (ret < 0)
-> +			return ret;
->  	}
->  
-> -	ret = arcpgu_drm_hdmi_init(drm, encoder_node);
-> -	if (ret < 0)
-> -		return ret;
-> -
->  	drm_mode_config_reset(drm);
->  	drm_kms_helper_poll_init(drm);
->  
-> diff --git a/drivers/gpu/drm/arc/arcpgu_sim.c b/drivers/gpu/drm/arc/arcpgu_sim.c
-> new file mode 100644
-> index 0000000..122e069
-> --- /dev/null
-> +++ b/drivers/gpu/drm/arc/arcpgu_sim.c
-> @@ -0,0 +1,177 @@
-> +/*
-> + * ARC PGU DRM driver.
-> + *
-> + * Copyright (C) 2016 Synopsys, Inc. (www.synopsys.com)
-> + *
-> + * This program is free software; you can redistribute it and/or modify
-> + * it under the terms of the GNU General Public License version 2 as
-> + * published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + */
-> +
-> +#include <drm/drm_crtc_helper.h>
-> +#include <drm/drm_encoder_slave.h>
-> +#include <drm/drm_atomic_helper.h>
-> +
-> +#include "arcpgu.h"
-> +
-> +#define XRES_DEF	640
-> +#define YRES_DEF	480
-> +
-> +#define XRES_MAX	8192
-> +#define YRES_MAX	8192
-> +
-> +
-> +struct arcpgu_drm_connector {
-> +	struct drm_connector connector;
-> +	struct drm_encoder_slave *encoder_slave;
-> +};
-> +
-> +static int arcpgu_drm_connector_get_modes(struct drm_connector *connector)
-> +{
-> +	int count;
-> +
-> +	count = drm_add_modes_noedid(connector, XRES_MAX, YRES_MAX);
-> +	drm_set_preferred_mode(connector, XRES_DEF, YRES_DEF);
-> +	return count;
-> +}
-> +
-> +static struct drm_encoder *
-> +arcpgu_drm_connector_best_encoder(struct drm_connector *connector)
-> +{
-> +	struct drm_encoder_slave *slave;
-> +	struct arcpgu_drm_connector *con =
-> +		container_of(connector, struct arcpgu_drm_connector, connector);
-> +
-> +	slave = con->encoder_slave;
-> +	if (slave == NULL) {
-> +		dev_err(connector->dev->dev,
-> +			"connector_best_encoder: cannot find slave encoder for connector\n");
-> +		return NULL;
-> +	}
-> +
-> +	return &slave->base;
-> +}
-> +
-> +static enum drm_connector_status
-> +arcpgu_drm_connector_detect(struct drm_connector *connector, bool force)
-> +{
-> +	return connector_status_connected;
-> +}
-> +
-> +static void arcpgu_drm_connector_destroy(struct drm_connector *connector)
-> +{
-> +	drm_connector_unregister(connector);
-> +	drm_connector_cleanup(connector);
-> +}
-> +
-> +static const struct drm_connector_helper_funcs
-> +arcpgu_drm_connector_helper_funcs = {
-> +	.get_modes = arcpgu_drm_connector_get_modes,
-> +	.best_encoder = arcpgu_drm_connector_best_encoder,
-> +};
-> +
-> +static const struct drm_connector_funcs arcpgu_drm_connector_funcs = {
-> +	.dpms = drm_helper_connector_dpms,
-> +	.reset = drm_atomic_helper_connector_reset,
-> +	.detect = arcpgu_drm_connector_detect,
-> +	.fill_modes = drm_helper_probe_single_connector_modes,
-> +	.destroy = arcpgu_drm_connector_destroy,
-> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +};
-> +
-> +static bool sim_enc_mode_fixup(struct drm_encoder *encoder,
-> +				   const struct drm_display_mode *mode,
-> +				   struct drm_display_mode *adjusted_mode)
-> +{
-> +	return true;
-> +}
-> +
-> +static void sim_enc_mode_set(struct drm_encoder *encoder,
-> +				 struct drm_display_mode *mode,
-> +				 struct drm_display_mode *adjusted_mode)
-> +{
-> +}
-> +
-> +static void sim_enc_enable(struct drm_encoder *encoder)
-> +{
-> +}
-> +
-> +static void sim_enc_disable(struct drm_encoder *encoder)
-> +{
-> +}
+On Mon, May 30, 2016@10:53:15AM +0100, Jose Abreu wrote:
 
-There's no more need for dummy functions like these. Please also remove
-them from all the other places in your driver if you have them. And if
-that means you don't have a helper_funcs table any more, you don't even
-need that one.
--Daniel
+A few small things but this looks basically fine.
+
+> +		if (isr[i] & 0x33)
+> +			irq_valid = true;
+
+This checks for a mask of 0x33 but...
 
 > +
-> +static struct drm_encoder_helper_funcs arcpgu_drm_encoder_helper_funcs = {
-> +	.mode_fixup = sim_enc_mode_fixup,
-> +	.mode_set   = sim_enc_mode_set,
-> +	.enable     = sim_enc_enable,
-> +	.disable    = sim_enc_disable,
-> +};
+> +		/*
+> +		 * Check if TX fifo is empty. If empty fill FIFO with samples
+> +		 * NOTE: Only two channels supported
+> +		 */
+> +		if ((isr[i] & 0x10) && (i == 0) && dev->use_pio)
+> +			dw_pcm_push_tx(dev);
 > +
-> +static struct drm_encoder_funcs arcpgu_drm_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
-> +int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
-> +{
-> +	struct arcpgu_drm_connector *arcpgu_connector;
-> +	struct drm_encoder_slave *encoder;
-> +	struct drm_connector *connector;
-> +	int ret;
-> +
-> +	encoder = devm_kzalloc(drm->dev, sizeof(*encoder), GFP_KERNEL);
-> +	if (encoder == NULL)
-> +		return -ENOMEM;
-> +
-> +	encoder->base.possible_crtcs = 1;
-> +	encoder->base.possible_clones = 0;
-> +
-> +	ret = drm_encoder_init(drm, &encoder->base, &arcpgu_drm_encoder_funcs,
-> +			       DRM_MODE_ENCODER_VIRTUAL, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_encoder_helper_add(&encoder->base,
-> +			       &arcpgu_drm_encoder_helper_funcs);
-> +
-> +	arcpgu_connector = devm_kzalloc(drm->dev, sizeof(*arcpgu_connector),
-> +					GFP_KERNEL);
-> +	if (!arcpgu_connector) {
-> +		ret = -ENOMEM;
-> +		goto error_encoder_cleanup;
-> +	}
-> +
-> +	connector = &arcpgu_connector->connector;
-> +	drm_connector_helper_add(connector, &arcpgu_drm_connector_helper_funcs);
-> +
-> +	ret = drm_connector_init(drm, connector, &arcpgu_drm_connector_funcs,
-> +			DRM_MODE_CONNECTOR_VIRTUAL);
-> +	if (ret < 0) {
-> +		dev_err(drm->dev, "failed to initialize drm connector\n");
-> +		goto error_encoder_cleanup;
-> +	}
-> +
-> +	ret = drm_mode_connector_attach_encoder(connector, &encoder->base);
-> +	if (ret < 0) {
-> +		dev_err(drm->dev, "could not attach connector to encoder\n");
-> +		drm_connector_unregister(connector);
-> +		goto error_connector_cleanup;
-> +	}
-> +
-> +	arcpgu_connector->encoder_slave = encoder;
-> +
-> +	return 0;
-> +
-> +error_connector_cleanup:
-> +	drm_connector_cleanup(connector);
-> +
-> +error_encoder_cleanup:
-> +	drm_encoder_cleanup(&encoder->base);
-> +	return ret;
-> +}
-> -- 
-> 2.5.5
-> 
+> +		/* Error Handling */
+> +		if (isr[i] & 0x20)
+> +			dev_err(dev->dev, "TX overrun (ch_id=%d)\n", i);
+> +		if (isr[i] & 0x02)
+> +			dev_err(dev->dev, "RX overrun (ch_id=%d)\n", i);
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+...only 0x32 seem to actually be handled, and then only sometimes.  It's
+going to be clearer and more robust to just set the handled flag to true
+when handling, that way we don't have to match up different numerical
+masks.  Some defines would help legibility too.
+
+> +	ret = snd_pcm_lib_malloc_pages(substream,
+> +			params_buffer_bytes(hw_params));
+> +	return (ret < 0) ? ret : 0;
+
+Write normal if statements please, it helps legibility.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 473 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160607/a295cf1c/attachment.sig>
