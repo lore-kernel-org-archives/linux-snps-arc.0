@@ -1,50 +1,102 @@
-From: broonie@kernel.org (Mark Brown)
-Date: Tue, 7 Jun 2016 18:30:45 +0100
-Subject: [PATCH 1/2 v8] ASoC: dwc: Add PIO PCM extension
-In-Reply-To: <09988b615638750c435d95f87906d7974f2b239c.1464601439.git.joabreu@synopsys.com>
-References: <cover.1464601439.git.joabreu@synopsys.com>
- <09988b615638750c435d95f87906d7974f2b239c.1464601439.git.joabreu@synopsys.com>
+From: daniel.vetter@ffwll.ch (Daniel Vetter)
+Date: Wed,  8 Jun 2016 14:18:54 +0200
+Subject: [PATCH 02/27] drm/arc: Nuke event_list
+In-Reply-To: <1465388359-8070-1-git-send-email-daniel.vetter@ffwll.ch>
+References: <1465388359-8070-1-git-send-email-daniel.vetter@ffwll.ch>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160607173045.GE7510@sirena.org.uk>
+Message-ID: <1465388359-8070-2-git-send-email-daniel.vetter@ffwll.ch>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, May 30, 2016@10:53:15AM +0100, Jose Abreu wrote:
+This is just used for cleanup in preclose, and with the reworked event
+handling code this is now done properly by the core.
 
-A few small things but this looks basically fine.
+Nuke it!
 
-> +		if (isr[i] & 0x33)
-> +			irq_valid = true;
+But it also shows that arc totally fails at sending out drm events for
+flips. Next patch will hack that up.
 
-This checks for a mask of 0x33 but...
+v2: Rebase it!
 
-> +
-> +		/*
-> +		 * Check if TX fifo is empty. If empty fill FIFO with samples
-> +		 * NOTE: Only two channels supported
-> +		 */
-> +		if ((isr[i] & 0x10) && (i == 0) && dev->use_pio)
-> +			dw_pcm_push_tx(dev);
-> +
-> +		/* Error Handling */
-> +		if (isr[i] & 0x20)
-> +			dev_err(dev->dev, "TX overrun (ch_id=%d)\n", i);
-> +		if (isr[i] & 0x02)
-> +			dev_err(dev->dev, "RX overrun (ch_id=%d)\n", i);
+Cc: Carlos Palminha <palminha at synopsys.com>
+Cc: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+Signed-off-by: Daniel Vetter <daniel.vetter at intel.com>
+---
+ drivers/gpu/drm/arc/arcpgu.h      |  1 -
+ drivers/gpu/drm/arc/arcpgu_crtc.c |  4 ----
+ drivers/gpu/drm/arc/arcpgu_drv.c  | 19 -------------------
+ 3 files changed, 24 deletions(-)
 
-...only 0x32 seem to actually be handled, and then only sometimes.  It's
-going to be clearer and more robust to just set the handled flag to true
-when handling, that way we don't have to match up different numerical
-masks.  Some defines would help legibility too.
-
-> +	ret = snd_pcm_lib_malloc_pages(substream,
-> +			params_buffer_bytes(hw_params));
-> +	return (ret < 0) ? ret : 0;
-
-Write normal if statements please, it helps legibility.
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 473 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160607/a295cf1c/attachment.sig>
+diff --git a/drivers/gpu/drm/arc/arcpgu.h b/drivers/gpu/drm/arc/arcpgu.h
+index 86574b698a78..8c01a25d279a 100644
+--- a/drivers/gpu/drm/arc/arcpgu.h
++++ b/drivers/gpu/drm/arc/arcpgu.h
+@@ -22,7 +22,6 @@ struct arcpgu_drm_private {
+ 	struct clk		*clk;
+ 	struct drm_fbdev_cma	*fbdev;
+ 	struct drm_framebuffer	*fb;
+-	struct list_head	event_list;
+ 	struct drm_crtc		crtc;
+ 	struct drm_plane	*plane;
+ };
+diff --git a/drivers/gpu/drm/arc/arcpgu_crtc.c b/drivers/gpu/drm/arc/arcpgu_crtc.c
+index 92f8beff8e60..d5ca0c280e68 100644
+--- a/drivers/gpu/drm/arc/arcpgu_crtc.c
++++ b/drivers/gpu/drm/arc/arcpgu_crtc.c
+@@ -155,10 +155,6 @@ static void arc_pgu_crtc_atomic_begin(struct drm_crtc *crtc,
+ 		event->pipe = drm_crtc_index(crtc);
+ 
+ 		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+-
+-		spin_lock_irqsave(&crtc->dev->event_lock, flags);
+-		list_add_tail(&event->base.link, &arcpgu->event_list);
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
+index 7675bbc70133..d407fd79a400 100644
+--- a/drivers/gpu/drm/arc/arcpgu_drv.c
++++ b/drivers/gpu/drm/arc/arcpgu_drv.c
+@@ -81,22 +81,6 @@ static const struct file_operations arcpgu_drm_ops = {
+ 	.mmap = arcpgu_gem_mmap,
+ };
+ 
+-static void arcpgu_preclose(struct drm_device *drm, struct drm_file *file)
+-{
+-	struct arcpgu_drm_private *arcpgu = drm->dev_private;
+-	struct drm_pending_vblank_event *e, *t;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&drm->event_lock, flags);
+-	list_for_each_entry_safe(e, t, &arcpgu->event_list, base.link) {
+-		if (e->base.file_priv != file)
+-			continue;
+-		list_del(&e->base.link);
+-		kfree(&e->base);
+-	}
+-	spin_unlock_irqrestore(&drm->event_lock, flags);
+-}
+-
+ static void arcpgu_lastclose(struct drm_device *drm)
+ {
+ 	struct arcpgu_drm_private *arcpgu = drm->dev_private;
+@@ -122,8 +106,6 @@ static int arcpgu_load(struct drm_device *drm)
+ 	if (IS_ERR(arcpgu->clk))
+ 		return PTR_ERR(arcpgu->clk);
+ 
+-	INIT_LIST_HEAD(&arcpgu->event_list);
+-
+ 	arcpgu_setup_mode_config(drm);
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+@@ -192,7 +174,6 @@ int arcpgu_unload(struct drm_device *drm)
+ static struct drm_driver arcpgu_drm_driver = {
+ 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_PRIME |
+ 			   DRIVER_ATOMIC,
+-	.preclose = arcpgu_preclose,
+ 	.lastclose = arcpgu_lastclose,
+ 	.name = "drm-arcpgu",
+ 	.desc = "ARC PGU Controller",
+-- 
+2.8.1
