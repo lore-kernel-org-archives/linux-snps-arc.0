@@ -1,21 +1,41 @@
-From: maarten.lankhorst@linux.intel.com (Maarten Lankhorst)
-Date: Wed, 8 Jun 2016 16:27:05 +0200
-Subject: [PATCH 11/27] drm/arc: Implement nonblocking commit correctly
-In-Reply-To: <1465388359-8070-11-git-send-email-daniel.vetter@ffwll.ch>
+From: daniel@ffwll.ch (Daniel Vetter)
+Date: Wed, 8 Jun 2016 16:30:04 +0200
+Subject: [PATCH 03/27] drm/arc: Actually bother with handling atomic
+ events.
+In-Reply-To: <a29a4f82-1699-1c33-73ea-5b8043b53e35@linux.intel.com>
 References: <1465388359-8070-1-git-send-email-daniel.vetter@ffwll.ch>
- <1465388359-8070-11-git-send-email-daniel.vetter@ffwll.ch>
+ <1465388359-8070-3-git-send-email-daniel.vetter@ffwll.ch>
+ <a29a4f82-1699-1c33-73ea-5b8043b53e35@linux.intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <adca6ee7-bcb0-6ec3-ab7e-cd9a1e6764a4@linux.intel.com>
+Message-ID: <20160608143004.GE3363@phenom.ffwll.local>
 To: linux-snps-arc@lists.infradead.org
 
-Op 08-06-16 om 14:19 schreef Daniel Vetter:
-> Committing with block it is not.
->
-> Thanks to the fixed up vblank event handling we can just use the
-> helper support for nonblocking commits now.
->
-> Cc: Carlos Palminha <palminha at synopsys.com>
-> Cc: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: linux-snps-arc at lists.infradead.org
-> Signed-off-by: Daniel Vetter <daniel.vetter at intel.com>
-Reviewed-by: Maarten Lankhorst <maarten.lankhorst at linux.intel.com>
+On Wed, Jun 08, 2016@04:14:38PM +0200, Maarten Lankhorst wrote:
+> Op 08-06-16 om 14:18 schreef Daniel Vetter:
+> > The drm core has a nice ready-made helper for exactly the simple case
+> > where it should fire on the next vblank.
+> >
+> > Note that arming the vblank event in _begin is probably too early, and
+> > might easily result in the vblank firing too early, before the new set
+> > of planes are actually disabled. But that's kinda a minor issue
+> > compared to just outright hanging userspace.
+> >
+> > v2: Be more robust and either arm, when the CRTC is on, or just send
+> > the event out right away.
+> >
+> > Cc: Carlos Palminha <palminha at synopsys.com>
+> > Cc: Alexey Brodkin <abrodkin at synopsys.com>
+> > Cc: linux-snps-arc at lists.infradead.org
+> > Signed-off-by: Daniel Vetter <daniel.vetter at intel.com>
+> Wouldn't it be better to do this in atomic_flush then?
+
+I'm not going to fix up other people's drivers completely, just enough to
+hopefully not break them. If arc also blocks vblank interrupts with the go
+bit, then doing this in _begin is correct. Either way it needs hw-specific
+knowledge to asses whether it's correct, since doing the vblank event
+stuff in _flush is also racy without some prevention.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
