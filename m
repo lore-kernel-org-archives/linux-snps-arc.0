@@ -1,48 +1,48 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 9 Jun 2016 10:54:45 +0000
-Subject: [PATCH 03/27] drm/arc: Actually bother with handling atomic
- events.
-In-Reply-To: <20160608143004.GE3363@phenom.ffwll.local>
-References: <1465388359-8070-1-git-send-email-daniel.vetter@ffwll.ch>
- <1465388359-8070-3-git-send-email-daniel.vetter@ffwll.ch>
- <a29a4f82-1699-1c33-73ea-5b8043b53e35@linux.intel.com>
- <20160608143004.GE3363@phenom.ffwll.local>
+From: mpe@ellerman.id.au (Michael Ellerman)
+Date: Thu, 09 Jun 2016 21:29:23 +1000
+Subject: kisskb: FAILED linux-next/axs103_smp_defconfig/arcv2 Thu Jun
+ 09, 17:31
+In-Reply-To: <1465461796.3203.25.camel@synopsys.com>
+References: <20160609073240.1.68347@7e2e7264739d>
+ <57592981.2060604@synopsys.com> <1465461796.3203.25.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1465469639.3203.57.camel@synopsys.com>
+Message-ID: <1465471763.31662.12.camel@ellerman.id.au>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Daniel,
-
-On Wed, 2016-06-08@16:30 +0200, Daniel Vetter wrote:
-> On Wed, Jun 08, 2016@04:14:38PM +0200, Maarten Lankhorst wrote:
+On Thu, 2016-06-09@08:44 +0000, Alexey Brodkin wrote:
+> Hi Michael,
+> 
+> On Thu, 2016-06-09@14:02 +0530, Vineet Gupta wrote:
+> > Hi Michael,
 > > 
-> > Op 08-06-16 om 14:18 schreef Daniel Vetter:
+> > On Thursday 09 June 2016 01:02 PM, noreply@ellerman.id.au wrote:
 > > > 
-> > > The drm core has a nice ready-made helper for exactly the simple case
-> > > where it should fire on the next vblank.
+> > > FAILED linux-next/axs103_smp_defconfig/arcv2 Thu Jun 09, 17:31
 > > > 
-> > > Note that arming the vblank event in _begin is probably too early, and
-> > > might easily result in the vblank firing too early, before the new set
-> > > of planes are actually disabled. But that's kinda a minor issue
-> > > compared to just outright hanging userspace.
+> > > http://kisskb.ellerman.id.au/kisskb/buildresult/12713783/
 > > > 
-> > > v2: Be more robust and either arm, when the CRTC is on, or just send
-> > > the event out right away.
+> > > Commit:   Add linux-next specific files for 20160609
+> > >           8f6027f7e808ed7c1fd8c8d37fc7a5076c683c4f
+> > > Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 > > > 
-> > > Cc: Carlos Palminha <palminha at synopsys.com>
-> > > Cc: Alexey Brodkin <abrodkin at synopsys.com>
-> > > Cc: linux-snps-arc at lists.infradead.org
-> > > Signed-off-by: Daniel Vetter <daniel.vetter at intel.com>
-> > Wouldn't it be better to do this in atomic_flush then?
-> I'm not going to fix up other people's drivers completely, just enough to
-> hopefully not break them. If arc also blocks vblank interrupts with the go
-> bit, then doing this in _begin is correct. Either way it needs hw-specific
-> knowledge to asses whether it's correct, since doing the vblank event
-> stuff in _flush is also racy without some prevention.
+> > > Possible errors
+> > > ---------------
+> > > 
+> > > {standard input}:18606: Error: Instruction with long immediate data in delay slot
+> > > make[2]: *** [block/cfq-iosched.o] Error 1
+> > > make[1]: *** [block] Error 2
+> > > make: *** [sub-make] Error 2
+> > This problem has been fixed in tools since - can you switch to a newer toolchain -
+> > such as one released last month. @Alexey can you point Michael to right buildroot
+> > version ?
+> 
+> Unfortunately our most recent tools were released a little bit too late to get in
+> the most recent Buildroot version and so you'll need to build your toolchain
+> from Buildroot's master branch. Basically everything after the following commit will
+> should work: https://git.busybox.net/buildroot/commit/?id=caf515e25e699eb306d0b24986734790de80af28
 
-Actually in ARC PGU driver that was one of many other copy-pastes from
-other drivers. I.e. for me this is another boilerplate and if that's the
-same for other drivers as well probably that's a good candidate for
-generalization into something like?drm_helper_crtc_atomic_check().
+OK thanks.
 
--Alexey
+I'll try and get it build next week. Ping me if I forget.
+
+cheers
