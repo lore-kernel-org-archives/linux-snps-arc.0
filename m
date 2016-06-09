@@ -1,41 +1,93 @@
-From: daniel@ffwll.ch (Daniel Vetter)
-Date: Wed, 8 Jun 2016 16:30:04 +0200
-Subject: [PATCH 03/27] drm/arc: Actually bother with handling atomic
- events.
-In-Reply-To: <a29a4f82-1699-1c33-73ea-5b8043b53e35@linux.intel.com>
-References: <1465388359-8070-1-git-send-email-daniel.vetter@ffwll.ch>
- <1465388359-8070-3-git-send-email-daniel.vetter@ffwll.ch>
- <a29a4f82-1699-1c33-73ea-5b8043b53e35@linux.intel.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 9 Jun 2016 09:46:38 +0530
+Subject: [GIT PULL] ARC fixes for 4.7-rc3
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160608143004.GE3363@phenom.ffwll.local>
+Message-ID: <5758EDA6.8080407@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Jun 08, 2016@04:14:38PM +0200, Maarten Lankhorst wrote:
-> Op 08-06-16 om 14:18 schreef Daniel Vetter:
-> > The drm core has a nice ready-made helper for exactly the simple case
-> > where it should fire on the next vblank.
-> >
-> > Note that arming the vblank event in _begin is probably too early, and
-> > might easily result in the vblank firing too early, before the new set
-> > of planes are actually disabled. But that's kinda a minor issue
-> > compared to just outright hanging userspace.
-> >
-> > v2: Be more robust and either arm, when the CRTC is on, or just send
-> > the event out right away.
-> >
-> > Cc: Carlos Palminha <palminha at synopsys.com>
-> > Cc: Alexey Brodkin <abrodkin at synopsys.com>
-> > Cc: linux-snps-arc at lists.infradead.org
-> > Signed-off-by: Daniel Vetter <daniel.vetter at intel.com>
-> Wouldn't it be better to do this in atomic_flush then?
+Hi Linus,
 
-I'm not going to fix up other people's drivers completely, just enough to
-hopefully not break them. If arc also blocks vblank interrupts with the go
-bit, then doing this in _begin is correct. Either way it needs hw-specific
-knowledge to asses whether it's correct, since doing the vblank event
-stuff in _flush is also racy without some prevention.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Please pull !
+
+Thx,
+-Vineet
+
+---------------->
+The following changes since commit 1a695a905c18548062509178b98bc91e67510864:
+
+  Linux 4.7-rc1 (2016-05-29 09:29:24 -0700)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.7-rc3
+
+for you to fetch changes up to ed6aefed726a305bd36344e230d2a9e9301226fc:
+
+  Revert "ARCv2: spinlock/rwlock/atomics: Delayed retry of failed SCOND with
+exponential backoff" (2016-06-02 10:59:23 +0530)
+
+----------------------------------------------------------------
+ARC updates for 4.7-rc3
+
+- Revert of ll-sc backoff retry workaround in atomics/spinlocks as hardware
+  is now proven to work just fine
+
+- Typo fixes (Thanks Andrea Gelmini)
+
+- Removal of obsolete DT property (Alexey)
+
+- Other minor fixes
+
+----------------------------------------------------------------
+Alexey Brodkin (1):
+      arc: Get rid of root core-frequency property
+
+Andrea Gelmini (1):
+      Fix typos
+
+Vineet Gupta (5):
+      ARC: [intc-compact] simplify code for 2 priority levels
+      ARC: don't enable DISCONTIGMEM unconditionally
+      Revert "ARCv2: spinlock/rwlock/atomics: reduce 1 instruction in exponential
+backoff"
+      Revert "ARCv2: spinlock/rwlock: Reset retry delay when starting a new
+spin-wait cycle"
+      Revert "ARCv2: spinlock/rwlock/atomics: Delayed retry of failed SCOND with
+exponential backoff"
+
+ arch/arc/Kconfig                       |  31 +---
+ arch/arc/Makefile                      |   2 +-
+ arch/arc/boot/dts/abilis_tb100.dtsi    |   2 -
+ arch/arc/boot/dts/abilis_tb101.dtsi    |   2 -
+ arch/arc/boot/dts/axc001.dtsi          |   1 -
+ arch/arc/boot/dts/axc003.dtsi          |   1 -
+ arch/arc/boot/dts/axc003_idu.dtsi      |   1 -
+ arch/arc/boot/dts/eznps.dts            |   1 -
+ arch/arc/boot/dts/nsim_700.dts         |   1 -
+ arch/arc/boot/dts/nsimosci.dts         |   1 -
+ arch/arc/boot/dts/nsimosci_hs.dts      |   1 -
+ arch/arc/boot/dts/nsimosci_hs_idu.dts  |   1 -
+ arch/arc/boot/dts/skeleton.dtsi        |   1 -
+ arch/arc/boot/dts/skeleton_hs.dtsi     |   1 -
+ arch/arc/boot/dts/skeleton_hs_idu.dtsi |   1 -
+ arch/arc/boot/dts/vdk_axc003.dtsi      |   1 -
+ arch/arc/boot/dts/vdk_axc003_idu.dtsi  |   1 -
+ arch/arc/include/asm/atomic.h          |  45 +----
+ arch/arc/include/asm/entry-compact.h   |   4 +-
+ arch/arc/include/asm/mmu_context.h     |   2 +-
+ arch/arc/include/asm/pgtable.h         |   2 +-
+ arch/arc/include/asm/processor.h       |   2 +-
+ arch/arc/include/asm/smp.h             |   2 +-
+ arch/arc/include/asm/spinlock.h        | 292 ---------------------------------
+ arch/arc/include/asm/thread_info.h     |   2 +-
+ arch/arc/include/asm/uaccess.h         |   2 +-
+ arch/arc/include/uapi/asm/swab.h       |   2 +-
+ arch/arc/kernel/entry-compact.S        |  18 +-
+ arch/arc/kernel/intc-compact.c         |   6 +-
+ arch/arc/kernel/perf_event.c           |   2 +-
+ arch/arc/kernel/setup.c                |   2 +-
+ arch/arc/kernel/signal.c               |   2 +-
+ arch/arc/kernel/troubleshoot.c         |   2 +-
+ arch/arc/mm/cache.c                    |   6 +-
+ arch/arc/mm/dma.c                      |   2 +-
+ 35 files changed, 30 insertions(+), 415 deletions(-)
