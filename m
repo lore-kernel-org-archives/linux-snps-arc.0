@@ -1,17 +1,18 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 10 Jun 2016 16:24:22 +0530
-Subject: [PATCH v4 03/44] arc: dma-mapping: Use unsigned long for dma_attrs
-In-Reply-To: <1465553521-27303-4-git-send-email-k.kozlowski@samsung.com>
+Date: Fri, 10 Jun 2016 10:55:52 +0000
+Subject: [PATCH v4 43/44] dma-mapping: Remove dma_get_attr
 References: <1465553521-27303-1-git-send-email-k.kozlowski@samsung.com>
- <1465553521-27303-4-git-send-email-k.kozlowski@samsung.com>
+ <1465553521-27303-44-git-send-email-k.kozlowski@samsung.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <575A9C5E.2060607@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501069390A9@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Friday 10 June 2016 03:41 PM, Krzysztof Kozlowski wrote:
-> Split out subsystem specific changes for easier reviews. This will be
-> squashed with main commit.
-> 
+On Friday 10 June 2016 03:44 PM, Krzysztof Kozlowski wrote:
+> After switching DMA attributes to unsigned long it is easier to just
+> compare the bits.
+>
 > Signed-off-by: Krzysztof Kozlowski <k.kozlowski at samsung.com>
+> [for avr32]
+> Acked-by: Hans-Christian Noren Egtvedt <egtvedt at samfundet.no>
 
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
+Acked-by: Vineet Gupta <vgupta at synopsys.com>   #for arch/arc
