@@ -1,11 +1,9 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 10 Jun 2016 17:29:13 +0300
-Subject: [PATCH 3/3] ARC: [nsimosci] Enable ARC PGU on nSIM OSCI virtual
+Date: Fri, 10 Jun 2016 17:30:22 +0300
+Subject: [PATCH 3/3 v2] ARC: [nsimosci] Enable ARC PGU on nSIM OSCI virtual
  platforms
-In-Reply-To: <1465568953-21893-1-git-send-email-abrodkin@synopsys.com>
-References: <1465568953-21893-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1465568953-21893-4-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1465569022-22660-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 With required ARC PGU updates that allow it to be used on simulation
