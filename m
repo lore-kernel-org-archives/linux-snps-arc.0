@@ -1,93 +1,57 @@
-From: robin.murphy@arm.com (Robin Murphy)
-Date: Fri, 10 Jun 2016 11:58:53 +0100
-Subject: [PATCH v4 43/44] dma-mapping: Remove dma_get_attr
-In-Reply-To: <1465553521-27303-44-git-send-email-k.kozlowski@samsung.com>
-References: <1465553521-27303-1-git-send-email-k.kozlowski@samsung.com>
- <1465553521-27303-44-git-send-email-k.kozlowski@samsung.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 10 Jun 2016 13:23:22 +0000
+Subject: [PATCH 03/27] drm/arc: Actually bother with handling atomic
+ events.
+In-Reply-To: <CAKMK7uGjoLcKib6zXnO5wFBzOvKhbWZg9o8zi_BwA+vNGDoToA@mail.gmail.com>
+References: <1465388359-8070-1-git-send-email-daniel.vetter@ffwll.ch>
+ <1465388359-8070-3-git-send-email-daniel.vetter@ffwll.ch>
+ <a29a4f82-1699-1c33-73ea-5b8043b53e35@linux.intel.com>
+ <20160608143004.GE3363@phenom.ffwll.local>
+ <1465469639.3203.57.camel@synopsys.com>
+ <20160609122631.GO3363@phenom.ffwll.local>
+ <1465476465.3203.66.camel@synopsys.com>
+ <20160609132327.GQ3363@phenom.ffwll.local>
+ <1465478829.3203.68.camel@synopsys.com>
+ <20160609135222.GS3363@phenom.ffwll.local>
+ <1465482496.3203.73.camel@synopsys.com>
+ <CAKMK7uGmLNhJmtT+FyZ-uyGbv2Th96hJfqMUEStjqp3HKYdjMg@mail.gmail.com>
+ <CAKMK7uGjoLcKib6zXnO5wFBzOvKhbWZg9o8zi_BwA+vNGDoToA@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <575A9D6D.9040808@arm.com>
+Message-ID: <1465564954.2942.40.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/06/16 11:12, Krzysztof Kozlowski wrote:
-> After switching DMA attributes to unsigned long it is easier to just
-> compare the bits.
->
-> Signed-off-by: Krzysztof Kozlowski <k.kozlowski at samsung.com>
-> [for avr32]
-> Acked-by: Hans-Christian Noren Egtvedt <egtvedt at samfundet.no>
-> ---
-[...]
->   arch/arm64/mm/dma-mapping.c                    | 10 +++----
-[...]
->   drivers/iommu/dma-iommu.c                      |  2 +-
-[...]
-> diff --git a/arch/arm64/mm/dma-mapping.c b/arch/arm64/mm/dma-mapping.c
-> index a7686028dfeb..06c068ca3541 100644
-> --- a/arch/arm64/mm/dma-mapping.c
-> +++ b/arch/arm64/mm/dma-mapping.c
-> @@ -32,7 +32,7 @@
->   static pgprot_t __get_dma_pgprot(unsigned long attrs, pgprot_t prot,
->   				 bool coherent)
->   {
-> -	if (!coherent || dma_get_attr(DMA_ATTR_WRITE_COMBINE, attrs))
-> +	if (!coherent || (attrs & DMA_ATTR_WRITE_COMBINE))
->   		return pgprot_writecombine(prot);
->   	return prot;
->   }
-> @@ -702,7 +702,7 @@ static dma_addr_t __iommu_map_page(struct device *dev, struct page *page,
->   	dma_addr_t dev_addr = iommu_dma_map_page(dev, page, offset, size, prot);
->
->   	if (!iommu_dma_mapping_error(dev, dev_addr) &&
-> -	    !dma_get_attr(DMA_ATTR_SKIP_CPU_SYNC, attrs))
-> +	    (attrs & DMA_ATTR_SKIP_CPU_SYNC) == 0)
->   		__iommu_sync_single_for_device(dev, dev_addr, size, dir);
->
->   	return dev_addr;
-> @@ -712,7 +712,7 @@ static void __iommu_unmap_page(struct device *dev, dma_addr_t dev_addr,
->   			       size_t size, enum dma_data_direction dir,
->   			       unsigned long attrs)
->   {
-> -	if (!dma_get_attr(DMA_ATTR_SKIP_CPU_SYNC, attrs))
-> +	if ((attrs & DMA_ATTR_SKIP_CPU_SYNC) == 0)
->   		__iommu_sync_single_for_cpu(dev, dev_addr, size, dir);
->
->   	iommu_dma_unmap_page(dev, dev_addr, size, dir, attrs);
-> @@ -752,7 +752,7 @@ static int __iommu_map_sg_attrs(struct device *dev, struct scatterlist *sgl,
->   {
->   	bool coherent = is_device_dma_coherent(dev);
->
-> -	if (!dma_get_attr(DMA_ATTR_SKIP_CPU_SYNC, attrs))
-> +	if ((attrs & DMA_ATTR_SKIP_CPU_SYNC) == 0)
->   		__iommu_sync_sg_for_device(dev, sgl, nelems, dir);
->
->   	return iommu_dma_map_sg(dev, sgl, nelems,
-> @@ -764,7 +764,7 @@ static void __iommu_unmap_sg_attrs(struct device *dev,
->   				   enum dma_data_direction dir,
->   				   unsigned long attrs)
->   {
-> -	if (!dma_get_attr(DMA_ATTR_SKIP_CPU_SYNC, attrs))
-> +	if ((attrs & DMA_ATTR_SKIP_CPU_SYNC) == 0)
->   		__iommu_sync_sg_for_cpu(dev, sgl, nelems, dir);
->
->   	iommu_dma_unmap_sg(dev, sgl, nelems, dir, attrs);
-[...]
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index 6c1bda504fb1..08a1e2f3690f 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -306,7 +306,7 @@ struct page **iommu_dma_alloc(struct device *dev, size_t size, gfp_t gfp,
->   	} else {
->   		size = ALIGN(size, min_size);
->   	}
-> -	if (dma_get_attr(DMA_ATTR_ALLOC_SINGLE_PAGES, attrs))
-> +	if (attrs & DMA_ATTR_ALLOC_SINGLE_PAGES)
->   		alloc_sizes = min_size;
->
->   	count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-[...]
+Hi Daniel,
 
-These all look appropriate to me; thanks!
+On Thu, 2016-06-09@16:37 +0200, Daniel Vetter wrote:
+> On Thu, Jun 9, 2016@4:31 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > 
+> > On Thu, Jun 9, 2016 at 4:29 PM, Alexey Brodkin
+> > <Alexey.Brodkin@synopsys.com> wrote:
+> > > 
+> > > Hi Daniel,
+> > > 
+> > > On Thu, 2016-06-09@15:52 +0200, Daniel Vetter wrote:
+> > > > 
+> > > > 
+> > > > The fake implementation is fundamentally racy, and I don't want to write
+> > > > helpers which can't be used correctly. Anyway I think without this patch
+> > > > (or something similar) arcpgu will stall badly with the new nonblocking
+> > > > helpers, because arcpgu didn't bother at all to implement nonblocking. Can
+> > > > you pls ack this, or even better, test the entire patch series? The
+> > > > helpers themselves should work, but in all 5 drivers tested thus far they
+> > > > discovered some bugs.
+> > > Sure I will happily test this series.
+> > > The only question then is what should I use as a proper base?
+> > It should apply on drm-next from Dave.
+>
+> And indeed it won't work at all because arcpgu doesn't call
+> drm_crtc_handle_vblank anywhere. So you need to add your patch to
+> enable vblank interrupts somewhere. Note that as long as you leave
+> max_vblank_counter as 0, the only bits you need is drm_vblank_init and
+> drm_crtc_handle_vblanke() from the irq handler.
 
-For arm64 and dma-iommu:
+So is there any sense in testing that series if vblank interrupt is not yet
+supported (I'm looking forward to implementing it sometime soon but definitely
+I'm not there yet)?
 
-Acked-by: Robin Murphy <robin.murphy at arm.com>
+-Alexey
