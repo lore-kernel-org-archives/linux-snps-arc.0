@@ -1,168 +1,68 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 10 Jun 2016 17:30:22 +0300
-Subject: [PATCH 3/3 v2] ARC: [nsimosci] Enable ARC PGU on nSIM OSCI virtual
- platforms
+From: daniel@ffwll.ch (Daniel Vetter)
+Date: Fri, 10 Jun 2016 16:54:02 +0200
+Subject: [PATCH 03/27] drm/arc: Actually bother with handling atomic
+ events.
+In-Reply-To: <20160610141927.GA3363@phenom.ffwll.local>
+References: <20160609122631.GO3363@phenom.ffwll.local>
+ <1465476465.3203.66.camel@synopsys.com>
+ <20160609132327.GQ3363@phenom.ffwll.local>
+ <1465478829.3203.68.camel@synopsys.com>
+ <20160609135222.GS3363@phenom.ffwll.local>
+ <1465482496.3203.73.camel@synopsys.com>
+ <CAKMK7uGmLNhJmtT+FyZ-uyGbv2Th96hJfqMUEStjqp3HKYdjMg@mail.gmail.com>
+ <CAKMK7uGjoLcKib6zXnO5wFBzOvKhbWZg9o8zi_BwA+vNGDoToA@mail.gmail.com>
+ <1465564954.2942.40.camel@synopsys.com>
+ <20160610141927.GA3363@phenom.ffwll.local>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1465569022-22660-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <20160610145402.GG3363@phenom.ffwll.local>
 To: linux-snps-arc@lists.infradead.org
 
-With required ARC PGU updates that allow it to be used on simulation
-platforms we may finally utilize ARC PGU in nSIM OSCI virtual platforms
-with modern Linux kernels.
+On Fri, Jun 10, 2016@04:19:27PM +0200, Daniel Vetter wrote:
+> On Fri, Jun 10, 2016@01:23:22PM +0000, Alexey Brodkin wrote:
+> > Hi Daniel,
+> > 
+> > On Thu, 2016-06-09@16:37 +0200, Daniel Vetter wrote:
+> > > On Thu, Jun 9, 2016@4:31 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > 
+> > > > On Thu, Jun 9, 2016 at 4:29 PM, Alexey Brodkin
+> > > > <Alexey.Brodkin@synopsys.com> wrote:
+> > > > > 
+> > > > > Hi Daniel,
+> > > > > 
+> > > > > On Thu, 2016-06-09@15:52 +0200, Daniel Vetter wrote:
+> > > > > > 
+> > > > > > 
+> > > > > > The fake implementation is fundamentally racy, and I don't want to write
+> > > > > > helpers which can't be used correctly. Anyway I think without this patch
+> > > > > > (or something similar) arcpgu will stall badly with the new nonblocking
+> > > > > > helpers, because arcpgu didn't bother at all to implement nonblocking. Can
+> > > > > > you pls ack this, or even better, test the entire patch series? The
+> > > > > > helpers themselves should work, but in all 5 drivers tested thus far they
+> > > > > > discovered some bugs.
+> > > > > Sure I will happily test this series.
+> > > > > The only question then is what should I use as a proper base?
+> > > > It should apply on drm-next from Dave.
+> > >
+> > > And indeed it won't work at all because arcpgu doesn't call
+> > > drm_crtc_handle_vblank anywhere. So you need to add your patch to
+> > > enable vblank interrupts somewhere. Note that as long as you leave
+> > > max_vblank_counter as 0, the only bits you need is drm_vblank_init and
+> > > drm_crtc_handle_vblanke() from the irq handler.
+> > 
+> > So is there any sense in testing that series if vblank interrupt is not yet
+> > supported (I'm looking forward to implementing it sometime soon but definitely
+> > I'm not there yet)?
+> 
+> Well, it might break your driver, so yes. I'm ofc happy to help unbreak it,
+> but without someone who tests there's not much I can do, so will just go
+> ahead and apply and hope it works.
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
-
-No changes in v2.
-
- arch/arc/boot/dts/nsimosci.dts             | 14 +++++++++++---
- arch/arc/boot/dts/nsimosci_hs.dts          | 14 +++++++++++---
- arch/arc/boot/dts/nsimosci_hs_idu.dts      | 14 +++++++++++---
- arch/arc/configs/nsimosci_defconfig        |  3 ++-
- arch/arc/configs/nsimosci_hs_defconfig     |  3 ++-
- arch/arc/configs/nsimosci_hs_smp_defconfig |  3 ++-
- 6 files changed, 39 insertions(+), 12 deletions(-)
-
-diff --git a/arch/arc/boot/dts/nsimosci.dts b/arch/arc/boot/dts/nsimosci.dts
-index b5b060a..37c416d 100644
---- a/arch/arc/boot/dts/nsimosci.dts
-+++ b/arch/arc/boot/dts/nsimosci.dts
-@@ -20,7 +20,7 @@
- 		/* this is for console on PGU */
- 		/* bootargs = "console=tty0 consoleblank=0"; */
- 		/* this is for console on serial */
--		bootargs = "earlycon=uart8250,mmio32,0xf0000000,115200n8 console=tty0 console=ttyS0,115200n8 consoleblank=0 debug";
-+		bootargs = "earlycon=uart8250,mmio32,0xf0000000,115200n8 console=tty0 console=ttyS0,115200n8 consoleblank=0 debug video=640x480-24";
- 	};
- 
- 	aliases {
-@@ -58,9 +58,17 @@
- 			no-loopback-test = <1>;
- 		};
- 
--		pgu0: pgu at f9000000 {
--			compatible = "snps,arcpgufb";
-+		pguclk: pguclk {
-+			#clock-cells = <0>;
-+			compatible = "fixed-clock";
-+			clock-frequency = <25175000>;
-+		};
-+
-+		pgu at f9000000 {
-+			compatible = "snps,arcpgu";
- 			reg = <0xf9000000 0x400>;
-+			clocks = <&pguclk>;
-+			clock-names = "pxlclk";
- 		};
- 
- 		ps2: ps2 at f9001000 {
-diff --git a/arch/arc/boot/dts/nsimosci_hs.dts b/arch/arc/boot/dts/nsimosci_hs.dts
-index 325e730..f2a22c4 100644
---- a/arch/arc/boot/dts/nsimosci_hs.dts
-+++ b/arch/arc/boot/dts/nsimosci_hs.dts
-@@ -20,7 +20,7 @@
- 		/* this is for console on PGU */
- 		/* bootargs = "console=tty0 consoleblank=0"; */
- 		/* this is for console on serial */
--		bootargs = "earlycon=uart8250,mmio32,0xf0000000,115200n8 console=tty0 console=ttyS0,115200n8 consoleblank=0 debug";
-+		bootargs = "earlycon=uart8250,mmio32,0xf0000000,115200n8 console=tty0 console=ttyS0,115200n8 consoleblank=0 debug video=640x480-24";
- 	};
- 
- 	aliases {
-@@ -58,9 +58,17 @@
- 			no-loopback-test = <1>;
- 		};
- 
--		pgu0: pgu at f9000000 {
--			compatible = "snps,arcpgufb";
-+		pguclk: pguclk {
-+			#clock-cells = <0>;
-+			compatible = "fixed-clock";
-+			clock-frequency = <25175000>;
-+		};
-+
-+		pgu at f9000000 {
-+			compatible = "snps,arcpgu";
- 			reg = <0xf9000000 0x400>;
-+			clocks = <&pguclk>;
-+			clock-names = "pxlclk";
- 		};
- 
- 		ps2: ps2 at f9001000 {
-diff --git a/arch/arc/boot/dts/nsimosci_hs_idu.dts b/arch/arc/boot/dts/nsimosci_hs_idu.dts
-index ee03d71..34457a5 100644
---- a/arch/arc/boot/dts/nsimosci_hs_idu.dts
-+++ b/arch/arc/boot/dts/nsimosci_hs_idu.dts
-@@ -18,7 +18,7 @@
- 
- 	chosen {
- 		/* this is for console on serial */
--		bootargs = "earlycon=uart8250,mmio32,0xf0000000,115200n8 console=tty0 console=ttyS0,115200n8 consoleblan=0 debug";
-+		bootargs = "earlycon=uart8250,mmio32,0xf0000000,115200n8 console=tty0 console=ttyS0,115200n8 consoleblan=0 debug video=640x480-24";
- 	};
- 
- 	aliases {
-@@ -77,9 +77,17 @@
- 			no-loopback-test = <1>;
- 		};
- 
--		pgu0: pgu at f9000000 {
--			compatible = "snps,arcpgufb";
-+		pguclk: pguclk {
-+			#clock-cells = <0>;
-+			compatible = "fixed-clock";
-+			clock-frequency = <25175000>;
-+		};
-+
-+		pgu at f9000000 {
-+			compatible = "snps,arcpgu";
- 			reg = <0xf9000000 0x400>;
-+			clocks = <&pguclk>;
-+			clock-names = "pxlclk";
- 		};
- 
- 		ps2: ps2 at f9001000 {
-diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
-index 42bafa5..98cf209 100644
---- a/arch/arc/configs/nsimosci_defconfig
-+++ b/arch/arc/configs/nsimosci_defconfig
-@@ -58,7 +58,8 @@ CONFIG_SERIAL_8250_RUNTIME_UARTS=1
- CONFIG_SERIAL_OF_PLATFORM=y
- # CONFIG_HW_RANDOM is not set
- # CONFIG_HWMON is not set
--CONFIG_FB=y
-+CONFIG_DRM=y
-+CONFIG_DRM_ARCPGU=y
- CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_LOGO=y
- # CONFIG_HID is not set
-diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
-index 4bb60c1..ddf8b96 100644
---- a/arch/arc/configs/nsimosci_hs_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_defconfig
-@@ -57,7 +57,8 @@ CONFIG_SERIAL_8250_RUNTIME_UARTS=1
- CONFIG_SERIAL_OF_PLATFORM=y
- # CONFIG_HW_RANDOM is not set
- # CONFIG_HWMON is not set
--CONFIG_FB=y
-+CONFIG_DRM=y
-+CONFIG_DRM_ARCPGU=y
- CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_LOGO=y
- # CONFIG_HID is not set
-diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
-index 7e88f4c..ceb9074 100644
---- a/arch/arc/configs/nsimosci_hs_smp_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
-@@ -70,7 +70,8 @@ CONFIG_SERIAL_8250_DW=y
- CONFIG_SERIAL_OF_PLATFORM=y
- # CONFIG_HW_RANDOM is not set
- # CONFIG_HWMON is not set
--CONFIG_FB=y
-+CONFIG_DRM=y
-+CONFIG_DRM_ARCPGU=y
- CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_LOGO=y
- # CONFIG_HID is not set
+Ok I went ahead and pushed a slight revised version of that patch which
+just unconditionally sends out the event. That's not correct, but at least
+that way the nonblocking changes won't totally break arcpgu and I can move
+ahead with those.
+-Daniel
 -- 
-2.5.5
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
