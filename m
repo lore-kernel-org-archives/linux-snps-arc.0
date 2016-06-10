@@ -1,8 +1,8 @@
-From: daniel@ffwll.ch (Daniel Vetter)
-Date: Fri, 10 Jun 2016 17:09:00 +0200
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 10 Jun 2016 15:16:36 +0000
 Subject: [PATCH 03/27] drm/arc: Actually bother with handling atomic
  events.
-In-Reply-To: <1465570815.7097.4.camel@synopsys.com>
+In-Reply-To: <20160610150900.GH3363@phenom.ffwll.local>
 References: <20160609132327.GQ3363@phenom.ffwll.local>
  <1465478829.3203.68.camel@synopsys.com>
  <20160609135222.GS3363@phenom.ffwll.local>
@@ -13,78 +13,36 @@ References: <20160609132327.GQ3363@phenom.ffwll.local>
  <20160610141927.GA3363@phenom.ffwll.local>
  <20160610145402.GG3363@phenom.ffwll.local>
  <1465570815.7097.4.camel@synopsys.com>
+ <20160610150900.GH3363@phenom.ffwll.local>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160610150900.GH3363@phenom.ffwll.local>
+Message-ID: <1465571748.7097.9.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Jun 10, 2016@03:01:03PM +0000, Alexey Brodkin wrote:
-> Hi Daniel,
-> 
-> On Fri, 2016-06-10@16:54 +0200, Daniel Vetter wrote:
-> > On Fri, Jun 10, 2016@04:19:27PM +0200, Daniel Vetter wrote:
-> > > 
-> > > On Fri, Jun 10, 2016@01:23:22PM +0000, Alexey Brodkin wrote:
-> > > > 
-> > > > Hi Daniel,
-> > > > 
-> > > > On Thu, 2016-06-09@16:37 +0200, Daniel Vetter wrote:
-> > > > > 
-> > > > > On Thu, Jun 9, 2016@4:31 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > 
-> > > > > > 
-> > > > > > On Thu, Jun 9, 2016 at 4:29 PM, Alexey Brodkin
-> > > > > > <Alexey.Brodkin@synopsys.com> wrote:
-> > > > > > > 
-> > > > > > > 
-> > > > > > > Hi Daniel,
-> > > > > > > 
-> > > > > > > On Thu, 2016-06-09@15:52 +0200, Daniel Vetter wrote:
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > The fake implementation is fundamentally racy, and I don't want to write
-> > > > > > > > helpers which can't be used correctly. Anyway I think without this patch
-> > > > > > > > (or something similar) arcpgu will stall badly with the new nonblocking
-> > > > > > > > helpers, because arcpgu didn't bother at all to implement nonblocking. Can
-> > > > > > > > you pls ack this, or even better, test the entire patch series? The
-> > > > > > > > helpers themselves should work, but in all 5 drivers tested thus far they
-> > > > > > > > discovered some bugs.
-> > > > > > > Sure I will happily test this series.
-> > > > > > > The only question then is what should I use as a proper base?
-> > > > > > It should apply on drm-next from Dave.
-> > > > > And indeed it won't work at all because arcpgu doesn't call
-> > > > > drm_crtc_handle_vblank anywhere. So you need to add your patch to
-> > > > > enable vblank interrupts somewhere. Note that as long as you leave
-> > > > > max_vblank_counter as 0, the only bits you need is drm_vblank_init and
-> > > > > drm_crtc_handle_vblanke() from the irq handler.
-> > > > So is there any sense in testing that series if vblank interrupt is not yet
-> > > > supported (I'm looking forward to implementing it sometime soon but definitely
-> > > > I'm not there yet)?
-> > > Well, it might break your driver, so yes. I'm ofc happy to help unbreak it,
-> > > but without someone who tests there's not much I can do, so will just go
-> > > ahead and apply and hope it works.
-> >
-> > Ok I went ahead and pushed a slight revised version of that patch which
-> > just unconditionally sends out the event. That's not correct, but at least
-> > that way the nonblocking changes won't totally break arcpgu and I can move
-> > ahead with those.
-> 
-> Thanks for that.
-> In the meantime I tried previously sent patches:
-> --------------->8-------------
-> 9267484 drm/arc: Actually bother with handling atomic events.
-> cf4a489 drm/arc: Nuke event_list
-> 9c3152e drm/atomic-helper: Massage swap_state signature somewhat
-> --------------->8-------------
-> and on both boards (axs103 and nSIM OSCI) video works quite fine.
+Hi Daniel,
 
-The possible breakage only starts when you move further into the series,
-up to patch 10. That implements generic nonblocking commit, but that
-support relies upon crtc_state->event being signalled. Anyway I'm pulling
-it all into drm-misc now, so you can just test that branch (or linux-next
-when it's rebuild next week).
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On Fri, 2016-06-10@17:09 +0200, Daniel Vetter wrote:
+> On Fri, Jun 10, 2016@03:01:03PM +0000, Alexey Brodkin wrote:
+> >?
+> > > Ok I went ahead and pushed a slight revised version of that patch which
+> > > just unconditionally sends out the event. That's not correct, but at least
+> > > that way the nonblocking changes won't totally break arcpgu and I can move
+> > > ahead with those.
+> > Thanks for that.
+> > In the meantime I tried previously sent patches:
+> > --------------->8-------------
+> > 9267484 drm/arc: Actually bother with handling atomic events.
+> > cf4a489 drm/arc: Nuke event_list
+> > 9c3152e drm/atomic-helper: Massage swap_state signature somewhat
+> > --------------->8-------------
+> > and on both boards (axs103 and nSIM OSCI) video works quite fine.
+>
+> The possible breakage only starts when you move further into the series,
+> up to patch 10. That implements generic nonblocking commit, but that
+> support relies upon crtc_state->event being signalled. Anyway I'm pulling
+> it all into drm-misc now, so you can just test that branch (or linux-next
+> when it's rebuild next week).
+
+Ok thanks anyways.
+I'll try linux-next once it gets updated with your changes.
+
+-Alexey
