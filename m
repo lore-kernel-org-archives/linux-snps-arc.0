@@ -1,48 +1,28 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 10 Jun 2016 15:16:36 +0000
-Subject: [PATCH 03/27] drm/arc: Actually bother with handling atomic
- events.
-In-Reply-To: <20160610150900.GH3363@phenom.ffwll.local>
-References: <20160609132327.GQ3363@phenom.ffwll.local>
- <1465478829.3203.68.camel@synopsys.com>
- <20160609135222.GS3363@phenom.ffwll.local>
- <1465482496.3203.73.camel@synopsys.com>
- <CAKMK7uGmLNhJmtT+FyZ-uyGbv2Th96hJfqMUEStjqp3HKYdjMg@mail.gmail.com>
- <CAKMK7uGjoLcKib6zXnO5wFBzOvKhbWZg9o8zi_BwA+vNGDoToA@mail.gmail.com>
- <1465564954.2942.40.camel@synopsys.com>
- <20160610141927.GA3363@phenom.ffwll.local>
- <20160610145402.GG3363@phenom.ffwll.local>
- <1465570815.7097.4.camel@synopsys.com>
- <20160610150900.GH3363@phenom.ffwll.local>
+Date: Mon, 13 Jun 2016 12:17:38 +0000
+Subject: Patches for ARC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1465571748.7097.9.camel@synopsys.com>
+Message-ID: <1465820208.4130.11.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Daniel,
+Hi Waldemar,
 
-On Fri, 2016-06-10@17:09 +0200, Daniel Vetter wrote:
-> On Fri, Jun 10, 2016@03:01:03PM +0000, Alexey Brodkin wrote:
-> >?
-> > > Ok I went ahead and pushed a slight revised version of that patch which
-> > > just unconditionally sends out the event. That's not correct, but at least
-> > > that way the nonblocking changes won't totally break arcpgu and I can move
-> > > ahead with those.
-> > Thanks for that.
-> > In the meantime I tried previously sent patches:
-> > --------------->8-------------
-> > 9267484 drm/arc: Actually bother with handling atomic events.
-> > cf4a489 drm/arc: Nuke event_list
-> > 9c3152e drm/atomic-helper: Massage swap_state signature somewhat
-> > --------------->8-------------
-> > and on both boards (axs103 and nSIM OSCI) video works quite fine.
->
-> The possible breakage only starts when you move further into the series,
-> up to patch 10. That implements generic nonblocking commit, but that
-> support relies upon crtc_state->event being signalled. Anyway I'm pulling
-> it all into drm-misc now, so you can just test that branch (or linux-next
-> when it's rebuild next week).
+Just saw that new change for ARC ("arc: use generic lowlevellock",
+http://cgit.uclibc-ng.org/cgi/cgit/uclibc-ng.git/commit/?id=1b49dc96d103e0151fee290d55cea55aa12c906d).
 
-Ok thanks anyways.
-I'll try linux-next once it gets updated with your changes.
+Even though this is very nice to see fixes and improvements done by people
+outside Synopsys IMHO it still makes sense to add SNPS people in the loop so
+we may review submitted patches.
+
+So could you please first get an Ack from either Vineet (in Cc) or me before
+committing stuff for ARC? Alternatively just Cc?linux-snps-arc at lists.infradead.org.
+
+Again I'm very happy with uClibc-ng and appreciate a lot all your efforts
+and to make uClibc-ng more robust let's review stuff together.
+
+Also it was hard for me to find a relevant patch on the mailing list
+because I was expecting patch to be sent via git "send-email" (which I think
+should be a standard way for patch submissions in uClibc). Only going through a relevant
+thread for ARM I found a message with attached files.
 
 -Alexey
