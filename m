@@ -1,28 +1,31 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 13 Jun 2016 12:17:38 +0000
-Subject: Patches for ARC
+Date: Mon, 13 Jun 2016 12:47:33 +0000
+Subject: [PATCH 1/3 v2] drm/arcpgu: Make ARC PGU usable on simulation
+ platforms
+In-Reply-To: <1465568953-21893-2-git-send-email-abrodkin@synopsys.com>
+References: <1465568953-21893-1-git-send-email-abrodkin@synopsys.com>
+ <1465568953-21893-2-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1465820208.4130.11.camel@synopsys.com>
+Message-ID: <1465822003.4130.22.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Waldemar,
+Hi Daniel,
 
-Just saw that new change for ARC ("arc: use generic lowlevellock",
-http://cgit.uclibc-ng.org/cgi/cgit/uclibc-ng.git/commit/?id=1b49dc96d103e0151fee290d55cea55aa12c906d).
+On Fri, 2016-06-10@17:29 +0300, Alexey Brodkin wrote:
+> From: Ruud Derwig <rderwig at synopsys.com>
+> 
+> In case of simulation there's no real encoder/transmitter device
+> because in the model's virtual LCD??we're rendering whatever
+> appears in frame-buffer memory.
+> 
+> Signed-off-by: Ruud Derwig <rderwig at synopsys.com>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> ---
+> 
+> Changes v1 -> v2:
+> ?* Got rid of dummy arcpgu_drm_encoder_helper_funcs and now rely on default
+> ???best encoder
 
-Even though this is very nice to see fixes and improvements done by people
-outside Synopsys IMHO it still makes sense to add SNPS people in the loop so
-we may review submitted patches.
-
-So could you please first get an Ack from either Vineet (in Cc) or me before
-committing stuff for ARC? Alternatively just Cc?linux-snps-arc at lists.infradead.org.
-
-Again I'm very happy with uClibc-ng and appreciate a lot all your efforts
-and to make uClibc-ng more robust let's review stuff together.
-
-Also it was hard for me to find a relevant patch on the mailing list
-because I was expecting patch to be sent via git "send-email" (which I think
-should be a standard way for patch submissions in uClibc). Only going through a relevant
-thread for ARM I found a message with attached files.
+If that version looks good to you could you please provide your Ack?
 
 -Alexey
