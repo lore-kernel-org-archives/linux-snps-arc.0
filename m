@@ -1,31 +1,27 @@
-From: matthias.bgg@gmail.com (Matthias Brugger)
-Date: Fri, 17 Jun 2016 18:18:12 +0200
-Subject: [PATCH V2 63/63] clocksources: Switch back to the clksrc table
-In-Reply-To: <1466112442-31105-64-git-send-email-daniel.lezcano@linaro.org>
-References: <1466112442-31105-1-git-send-email-daniel.lezcano@linaro.org>
- <1466112442-31105-64-git-send-email-daniel.lezcano@linaro.org>
+From: vgupta@synopsys.com (Vineet Gupta)
+Date: Fri, 17 Jun 2016 22:22:46 +0200
+Subject: Build failures in -next due to 'locking/atomic, arch/arc:
+ Implement atomic_fetch_{add,sub,and,andnot,or,xor}()'
+In-Reply-To: <20160617160438.GA24148@gmail.com>
+References: <57640B08.4090007@roeck-us.net>
+ <20160617143942.GV30154@twins.programming.kicks-ass.net>
+ <20160617144136.GK30927@twins.programming.kicks-ass.net>
+ <20160617160438.GA24148@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <576422C4.2000104@gmail.com>
+Message-ID: <57645C16.9040300@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
+On Friday 17 June 2016 06:04 PM, Ingo Molnar wrote:
+>> I've misplaced my arc compiler, but does this make it go again?
+> There's no arc compiler on korg's cross-building directory.
 
+Yeah, I'd requested that a few times...
 
-On 16/06/16 23:27, Daniel Lezcano wrote:
-> All the clocksource drivers's init function are now converted to return
-> an error code. CLOCKSOURCE_OF_DECLARE is no longer used as well as the
-> clksrc-of table.
->
-> Let's convert back the names:
->   - CLOCKSOURCE_OF_DECLARE_RET => CLOCKSOURCE_OF_DECLARE
->   - clksrc-of-ret              => clksrc-of
->
-> Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
-> ---
->   arch/arc/kernel/time.c                    |  6 +++---
+However we do have ARC kernels building at atleast 2 places
+1. Guenther's build service which sent this error report
+2. kisskb build by Michale Ellerman
 
-[...]
+Although I don't know if it is possible to download cross tools from either of above.
 
->   drivers/clocksource/mtk_timer.c           |  2 +-
-
-For mediatek driver:
-Acked-by: Matthias Brugger <matthias.bgg at gmail.com>
+@Peter, upstream buildroot allows you to build toolchain for ARC ! Trust me it
+does build :-)
