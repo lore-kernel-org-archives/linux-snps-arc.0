@@ -1,58 +1,83 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 17 Jun 2016 06:47:47 +0000
-Subject: of_reserved_mem_device_init_by_idx() returns -EINVAL if
- "memory-region" is missing
-In-Reply-To: <b26dcbc6-758a-a08f-b258-945548aab3dc@samsung.com>
-References: <1466095574.4442.53.camel@synopsys.com>
- <b26dcbc6-758a-a08f-b258-945548aab3dc@samsung.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 17 Jun 2016 10:59:44 +0200
+Subject: [PATCH V2 61/63] clocksource/drivers/arc: Convert init function
+ to return error
+In-Reply-To: <1466112442-31105-62-git-send-email-daniel.lezcano@linaro.org>
+References: <1466112442-31105-1-git-send-email-daniel.lezcano@linaro.org>
+ <1466112442-31105-62-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1466146013.2948.1.camel@synopsys.com>
+Message-ID: <5763BC00.1030101@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Marek,
+On Thursday 16 June 2016 11:27 PM, Daniel Lezcano wrote:
+> The init functions do not return any error. They behave as the following:
+> 
+>   - panic, thus leading to a kernel crash while another timer may work and
+>        make the system boot up correctly
+> 
+>   or
+> 
+>   - print an error and let the caller unaware if the state of the system
+> 
+> Change that by converting the init functions to return an error conforming
+> to the CLOCKSOURCE_OF_RET prototype.
+> 
+> Proper error handling (rollback, errno value) will be changed later case
+> by case, thus this change just return back an error or success in the init
+> function.
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
+> ---
 
-On Fri, 2016-06-17@07:28 +0200, Marek Szyprowski wrote:
-> Hi Alexey
-> 
-> 
-> On 2016-06-16 18:47, Alexey Brodkin wrote:
-> > 
-> > Hi Marek,
-> > 
-> > We used to use of_reserved_mem_device_init() in such a context in GPU drivers:
-> > -------------------->8-------------------
-> > 	/* Get the optional framebuffer memory resource */
-> > 	ret = of_reserved_mem_device_init(drm->dev);
-> > 	if (ret && ret != -ENODEV)
-> > 		return ret;
-> > -------------------->8-------------------
-> > 
-> > The point is we may have a dedicated reserved memory area or may not have (depends on a particular .dts).
-> > Our expectation is if reserved memory area is missing then of_reserved_mem_device_init()
-> > just returns -ENODEV and it used to work like this.
-> > 
-> > Now with your commit 59ce4039727e "of: reserved_mem: add support for using more than one region for given device"
-> > behavior is different. of_reserved_mem_device_init_by_idx() has this:
-> > -------------------->8-------------------
-> > 	target = of_parse_phandle(np, "memory-region", idx);
-> > 	if (!target)
-> > 		return -EINVAL;
-> > -------------------->8-------------------
-> > 
-> > So I'm wondering which part should be fixed:
-> > ? 1) of_reserved_mem itself or
-> > ? 2) users of of_reserved_mem_device_init()
-> > 
-> > Any thoughts?
-> 
-> This was my fault. The fix is already queued to linux-next, see commit
-> 9f5a802b1d51dc80a27d828a5f7dcc8ec4a72f03 ("[media] of: reserved_mem: restore
-> old behavior when no region is defined"),
-> http://www.spinics.net/lists/linux-media/msg100972.html
-> 
+[...]
 
-Indeed with mentioned fix GPU driver now works again!
-Sorry for the noise and thank you for fixing it that fast.
+>  
+> @@ -172,27 +172,27 @@ static struct clocksource arc_counter_rtc = {
+>  	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
+>  };
+>  
+> -static void __init arc_cs_setup_rtc(struct device_node *node)
+> +static int __init arc_cs_setup_rtc(struct device_node *node)
+>  {
+>  	int exists = cpuinfo_arc700[smp_processor_id()].extn.rtc;
+>  	int ret;
+>  
+>  	if (WARN(!exists, "Local-64-bit-Ctr clocksource not detected"))
+> -		return;
+> +		return -ENXIO;
+>  
+>  	/* Local to CPU hence not usable in SMP */
+>  	if (WARN(IS_ENABLED(CONFIG_SMP), "Local-64-bit-Ctr not usable in SMP"))
+> -		return;
+> +		return -EINVAL;
+>  
+>  	ret = arc_get_timer_clk(node);
+>  	if (ret)
+> -		return;
+> +		return ret;
+>  
+>  	write_aux_reg(AUX_RTC_CTRL, 1);
+>  
+> -	clocksource_register_hz(&arc_counter_rtc, arc_timer_freq);
+> +	return clocksource_register_hz(&arc_counter_rtc, arc_timer_freq);
+>  }
+> -CLOCKSOURCE_OF_DECLARE(arc_rtc, "snps,archs-timer-rtc", arc_cs_setup_rtc);
+> +CLOCKSOURCE_OF_DECLARE_RET(arc_rtc, "snps,archs-timer-rtc", arc_cs_setup_rtc);
+>  
+>  #endif
+>  
+> @@ -213,23 +213,23 @@ static struct clocksource arc_counter_timer1 = {
+>  	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
+>  };
+>  
+> -static void __init arc_cs_setup_timer1(struct device_node *node)
+> +static int __init arc_cs_setup_timer1(struct device_node *node)
+>  {
+>  	int ret;
+>  
+>  	/* Local to CPU hence not usable in SMP */
+>  	if (IS_ENABLED(CONFIG_SMP))
+> -		return;
+> +		return 0;
 
-Regards,
-Alexey
+-EINVAL to keep it similar as rtc above
