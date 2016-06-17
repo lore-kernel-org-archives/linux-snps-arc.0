@@ -1,21 +1,38 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 17 Jun 2016 17:36:11 +0200
+From: mingo@kernel.org (Ingo Molnar)
+Date: Fri, 17 Jun 2016 18:04:38 +0200
 Subject: Build failures in -next due to 'locking/atomic, arch/arc:
  Implement atomic_fetch_{add,sub,and,andnot,or,xor}()'
-In-Reply-To: <20160617152208.GX30154@twins.programming.kicks-ass.net>
+In-Reply-To: <20160617144136.GK30927@twins.programming.kicks-ass.net>
 References: <57640B08.4090007@roeck-us.net>
  <20160617143942.GV30154@twins.programming.kicks-ass.net>
  <20160617144136.GK30927@twins.programming.kicks-ass.net>
- <57640EB5.8090604@roeck-us.net> <576410AB.6050204@synopsys.com>
- <20160617152208.GX30154@twins.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <576418EB.5090607@synopsys.com>
+Message-ID: <20160617160438.GA24148@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Friday 17 June 2016 05:22 PM, Peter Zijlstra wrote:
-> Question; why does atomic_read() have a full memory clobber on arc?
-> 
-> Will thinks its because you don't use a memory constraint for *v.
 
-So that is only for CONFIG_ARC_PLAT_EZNPS and very liekly not needed. Although NPS
-has some design constraints which Noam knows of better !
+* Peter Zijlstra <peterz@infradead.org> wrote:
+
+> On Fri, Jun 17, 2016@04:39:42PM +0200, Peter Zijlstra wrote:
+> > On Fri, Jun 17, 2016@07:36:56AM -0700, Guenter Roeck wrote:
+> > > Hi Peter,
+> > > 
+> > > I am seeing build failures in -next when trying to build arc / arcv2 targets.
+> > > 
+> > > arch/arc/include/asm/atomic.h:74:2: error: ?SCOND_FAIL_RETRY_VAR_DEF? undeclared
+> > > arch/arc/include/asm/atomic.h:87:2: error: expected ?:? or ?)? before ?SCOND_FAIL_RETRY_ASM?
+> > > 
+> > > Problems seem to be caused by 'locking/atomic, arch/arc: Implement
+> > > atomic_fetch_{add,sub,and,andnot,or,xor}()'. Both SCOND_FAIL_RETRY_VAR_DEF and
+> > > SCOND_FAIL_RETRY_ASM are undefined.
+> > 
+> > Crud, I messed up the rebase against the backoff reverts. Lemme go do
+> > fixups.
+> 
+> I've misplaced my arc compiler, but does this make it go again?
+
+There's no arc compiler on korg's cross-building directory.
+
+Thanks,
+
+	Ingo
