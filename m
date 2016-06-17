@@ -1,51 +1,49 @@
-From: m.szyprowski@samsung.com (Marek Szyprowski)
-Date: Fri, 17 Jun 2016 07:28:48 +0200
-Subject: of_reserved_mem_device_init_by_idx() returns -EINVAL if
- "memory-region" is missing
-In-Reply-To: <1466095574.4442.53.camel@synopsys.com>
-References: <1466095574.4442.53.camel@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Fri, 17 Jun 2016 05:58:40 -0000
+Subject: kisskb: FAILED linux-next/axs101_defconfig/arcompact Fri Jun 17, 15:58
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b26dcbc6-758a-a08f-b258-945548aab3dc@samsung.com>
+Message-ID: <20160617055840.1.11495@7e2e7264739d>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Alexey
+FAILED linux-next/axs101_defconfig/arcompact Fri Jun 17, 15:58
 
+http://kisskb.ellerman.id.au/kisskb/buildresult/12719853/
 
-On 2016-06-16 18:47, Alexey Brodkin wrote:
-> Hi Marek,
->
-> We used to use of_reserved_mem_device_init() in such a context in GPU drivers:
-> -------------------->8-------------------
-> 	/* Get the optional framebuffer memory resource */
-> 	ret = of_reserved_mem_device_init(drm->dev);
-> 	if (ret && ret != -ENODEV)
-> 		return ret;
-> -------------------->8-------------------
->
-> The point is we may have a dedicated reserved memory area or may not have (depends on a particular .dts).
-> Our expectation is if reserved memory area is missing then of_reserved_mem_device_init()
-> just returns -ENODEV and it used to work like this.
->
-> Now with your commit 59ce4039727e "of: reserved_mem: add support for using more than one region for given device"
-> behavior is different. of_reserved_mem_device_init_by_idx() has this:
-> -------------------->8-------------------
-> 	target = of_parse_phandle(np, "memory-region", idx);
-> 	if (!target)
-> 		return -EINVAL;
-> -------------------->8-------------------
->
-> So I'm wondering which part should be fixed:
->   1) of_reserved_mem itself or
->   2) users of of_reserved_mem_device_init()
->
-> Any thoughts?
+Commit:   Add linux-next specific files for 20160617
+          ce24ed9ec7532bc79485f23dff59923c0271f6d3
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-This was my fault. The fix is already queued to linux-next, see commit
-9f5a802b1d51dc80a27d828a5f7dcc8ec4a72f03 ("[media] of: reserved_mem: restore
-old behavior when no region is defined"),
-http://www.spinics.net/lists/linux-media/msg100972.html
+Possible errors
+---------------
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+arch/arc/include/asm/atomic.h:74:2: error: 'SCOND_FAIL_RETRY_VAR_DEF' undeclared (first use in this function)
+include/linux/compiler-gcc.h:15:19: error: expected ';' before '__asm__'
+arch/arc/include/asm/atomic.h:87:2: error: expected ':' or ')' before 'SCOND_FAIL_RETRY_ASM'
+arch/arc/include/asm/atomic.h:74:2: error: 'SCOND_FAIL_RETRY_VAR_DEF' undeclared (first use in this function)
+include/linux/compiler-gcc.h:15:19: error: expected ';' before '__asm__'
+arch/arc/include/asm/atomic.h:87:2: error: expected ':' or ')' before 'SCOND_FAIL_RETRY_ASM'
+arch/arc/include/asm/atomic.h:74:2: error: 'SCOND_FAIL_RETRY_VAR_DEF' undeclared (first use in this function)
+include/linux/compiler-gcc.h:15:19: error: expected ';' before '__asm__'
+arch/arc/include/asm/atomic.h:87:2: error: expected ':' or ')' before 'SCOND_FAIL_RETRY_ASM'
+arch/arc/include/asm/atomic.h:74:2: error: 'SCOND_FAIL_RETRY_VAR_DEF' undeclared (first use in this function)
+include/linux/compiler-gcc.h:15:19: error: expected ';' before '__asm__'
+arch/arc/include/asm/atomic.h:87:2: error: expected ':' or ')' before 'SCOND_FAIL_RETRY_ASM'
+arch/arc/include/asm/atomic.h:74:2: error: 'SCOND_FAIL_RETRY_VAR_DEF' undeclared (first use in this function)
+include/linux/compiler-gcc.h:15:19: error: expected ';' before '__asm__'
+arch/arc/include/asm/atomic.h:87:2: error: expected ':' or ')' before 'SCOND_FAIL_RETRY_ASM'
+arch/arc/include/asm/atomic.h:74:2: error: 'SCOND_FAIL_RETRY_VAR_DEF' undeclared (first use in this function)
+include/linux/compiler-gcc.h:15:19: error: expected ';' before '__asm__'
+arch/arc/include/asm/atomic.h:87:2: error: expected ':' or ')' before 'SCOND_FAIL_RETRY_ASM'
+make[2]: *** [arch/arc/kernel/asm-offsets.s] Error 1
+make[1]: *** [prepare0] Error 2
+make: *** [sub-make] Error 2
+
+Possible warnings (6)
+----------------------
+
+arch/arc/include/asm/atomic.h:73:15: warning: unused variable 'val' [-Wunused-variable]
+arch/arc/include/asm/atomic.h:73:15: warning: unused variable 'val' [-Wunused-variable]
+arch/arc/include/asm/atomic.h:73:15: warning: unused variable 'val' [-Wunused-variable]
+arch/arc/include/asm/atomic.h:73:15: warning: unused variable 'val' [-Wunused-variable]
+arch/arc/include/asm/atomic.h:73:15: warning: unused variable 'val' [-Wunused-variable]
+arch/arc/include/asm/atomic.h:73:15: warning: unused variable 'val' [-Wunused-variable]
