@@ -1,39 +1,37 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Sat, 18 Jun 2016 09:05:01 +0200
-Subject: Build failures in -next due to 'locking/atomic, arch/arc:
- Implement atomic_fetch_{add,sub,and,andnot,or,xor}()'
-In-Reply-To: <57645C16.9040300@synopsys.com>
-References: <57640B08.4090007@roeck-us.net>
- <20160617143942.GV30154@twins.programming.kicks-ass.net>
- <20160617144136.GK30927@twins.programming.kicks-ass.net>
- <20160617160438.GA24148@gmail.com> <57645C16.9040300@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Sun, 19 Jun 2016 18:11:53 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Mon Jun 20, 04:10
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160618070501.GC30154@twins.programming.kicks-ass.net>
+Message-ID: <20160619181153.1.74552@2186539ca1fc>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Jun 17, 2016@10:22:46PM +0200, Vineet Gupta wrote:
-> On Friday 17 June 2016 06:04 PM, Ingo Molnar wrote:
-> >> I've misplaced my arc compiler, but does this make it go again?
-> > There's no arc compiler on korg's cross-building directory.
-> 
-> Yeah, I'd requested that a few times...
-> 
-> However we do have ARC kernels building at atleast 2 places
-> 1. Guenther's build service which sent this error report
-> 2. kisskb build by Michale Ellerman
-> 
-> Although I don't know if it is possible to download cross tools from either of above.
-> 
-> @Peter, upstream buildroot allows you to build toolchain for ARC ! Trust me it
-> does build :-)
+OK linus/axs103_smp_defconfig/arcv2 Mon Jun 20, 04:10
 
-I use segher's buildall script.
+http://kisskb.ellerman.id.au/kisskb/buildresult/12722325/
 
-buildroot doesn't look useful. I seems to build to only build one target
-at a time, and build a crapload of cross-userspace, I just want a
-compiler. And I'm most certainly not going to build the compilers one
-by one.
+Commit:   Merge branch 'for_linus' of git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs
+          c3695331f3a326a468bd6a5b6f05b481b399726b
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-The buildall script I put to work and after about an hour I have however
-many of the 20+ targets that build with gcc.git and binutils.git cross
-compilers.
+No errors found in log
+
+Possible warnings (17)
+----------------------
+
+kernel/sched/core.c:3225:1: warning: control reaches end of non-void function [-Wreturn-type]
+block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:742:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+net/core/ethtool.c:299:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+lib/cpumask.c:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/sunrpc/svc_xprt.h:176:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
