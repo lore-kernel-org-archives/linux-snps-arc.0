@@ -1,14 +1,14 @@
-From: narmstrong@baylibre.com (Neil Armstrong)
-Date: Mon, 20 Jun 2016 11:19:21 +0200
+From: slemieux.tyco@gmail.com (Sylvain Lemieux)
+Date: Mon, 20 Jun 2016 13:03:27 -0400
 Subject: [PATCH V2 63/63] clocksources: Switch back to the clksrc table
 In-Reply-To: <1466112442-31105-64-git-send-email-daniel.lezcano@linaro.org>
 References: <1466112442-31105-1-git-send-email-daniel.lezcano@linaro.org>
  <1466112442-31105-64-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5767B519.5010501@baylibre.com>
+Message-ID: <1466442207.1887.3.camel@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-On 06/16/2016 11:27 PM, Daniel Lezcano wrote:
+On Thu, 2016-06-16@23:27 +0200, Daniel Lezcano wrote:
 > All the clocksource drivers's init function are now converted to return
 > an error code. CLOCKSOURCE_OF_DECLARE is no longer used as well as the
 > clksrc-of table.
@@ -83,25 +83,18 @@ On 06/16/2016 11:27 PM, Daniel Lezcano wrote:
 >  include/linux/clocksource.h               |  5 +----
 >  62 files changed, 98 insertions(+), 117 deletions(-)
 > 
+[..]
 
-[...]
-
-> diff --git a/drivers/clocksource/timer-oxnas-rps.c b/drivers/clocksource/timer-oxnas-rps.c
-> index 0d99f40..bd887e2 100644
-> --- a/drivers/clocksource/timer-oxnas-rps.c
-> +++ b/drivers/clocksource/timer-oxnas-rps.c
-> @@ -293,5 +293,5 @@ err_alloc:
+> diff --git a/drivers/clocksource/time-lpc32xx.c b/drivers/clocksource/time-lpc32xx.c
+> index cb5b866..9649cfd 100644
+> --- a/drivers/clocksource/time-lpc32xx.c
+> +++ b/drivers/clocksource/time-lpc32xx.c
+> @@ -311,4 +311,4 @@ static int __init lpc32xx_timer_init(struct device_node *np)
+>  
 >  	return ret;
 >  }
->  
-> -CLOCKSOURCE_OF_DECLARE_RET(ox810se_rps,
-> -			   "oxsemi,ox810se-rps-timer", oxnas_rps_timer_init);
-> +CLOCKSOURCE_OF_DECLARE(ox810se_rps,
-> +		       "oxsemi,ox810se-rps-timer", oxnas_rps_timer_init);
+> -CLOCKSOURCE_OF_DECLARE_RET(lpc32xx_timer, "nxp,lpc3220-timer", lpc32xx_timer_init);
+> +CLOCKSOURCE_OF_DECLARE(lpc32xx_timer, "nxp,lpc3220-timer", lpc32xx_timer_init);
 
-For the OXNAS part :
-
-Acked-by: Neil Armstrong <narmstrong at baylibre.com>
-
-Thanks,
-Neil
+For LPC32xx driver:
+Acked-by: Sylvain Lemieux <slemieux.tyco at gmail.com>
