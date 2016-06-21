@@ -1,22 +1,24 @@
-From: slemieux.tyco@gmail.com (Sylvain Lemieux)
-Date: Mon, 20 Jun 2016 13:03:27 -0400
+From: ray.jui@broadcom.com (Ray Jui)
+Date: Mon, 20 Jun 2016 23:00:22 -0700
 Subject: [PATCH V2 63/63] clocksources: Switch back to the clksrc table
 In-Reply-To: <1466112442-31105-64-git-send-email-daniel.lezcano@linaro.org>
 References: <1466112442-31105-1-git-send-email-daniel.lezcano@linaro.org>
  <1466112442-31105-64-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1466442207.1887.3.camel@localhost>
+Message-ID: <35869d12-1686-98d3-185c-cedacbc7eed1@broadcom.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, 2016-06-16@23:27 +0200, Daniel Lezcano wrote:
+Hi Daniel,
+
+On 6/16/2016 2:27 PM, Daniel Lezcano wrote:
 > All the clocksource drivers's init function are now converted to return
 > an error code. CLOCKSOURCE_OF_DECLARE is no longer used as well as the
 > clksrc-of table.
-> 
+>
 > Let's convert back the names:
 >  - CLOCKSOURCE_OF_DECLARE_RET => CLOCKSOURCE_OF_DECLARE
 >  - clksrc-of-ret              => clksrc-of
-> 
+>
 > Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
 > ---
 >  arch/arc/kernel/time.c                    |  6 +++---
@@ -82,19 +84,30 @@ On Thu, 2016-06-16@23:27 +0200, Daniel Lezcano wrote:
 >  include/asm-generic/vmlinux.lds.h         |  2 --
 >  include/linux/clocksource.h               |  5 +----
 >  62 files changed, 98 insertions(+), 117 deletions(-)
-> 
+
 [..]
 
-> diff --git a/drivers/clocksource/time-lpc32xx.c b/drivers/clocksource/time-lpc32xx.c
-> index cb5b866..9649cfd 100644
-> --- a/drivers/clocksource/time-lpc32xx.c
-> +++ b/drivers/clocksource/time-lpc32xx.c
-> @@ -311,4 +311,4 @@ static int __init lpc32xx_timer_init(struct device_node *np)
->  
->  	return ret;
+> diff --git a/drivers/clocksource/bcm_kona_timer.c b/drivers/clocksource/bcm_kona_timer.c
+> index 98bc2a2..ee07e7e3 100644
+> --- a/drivers/clocksource/bcm_kona_timer.c
+> +++ b/drivers/clocksource/bcm_kona_timer.c
+> @@ -200,9 +200,9 @@ static int __init kona_timer_init(struct device_node *node)
+>  	return 0;
 >  }
-> -CLOCKSOURCE_OF_DECLARE_RET(lpc32xx_timer, "nxp,lpc3220-timer", lpc32xx_timer_init);
-> +CLOCKSOURCE_OF_DECLARE(lpc32xx_timer, "nxp,lpc3220-timer", lpc32xx_timer_init);
+>
+> -CLOCKSOURCE_OF_DECLARE_RET(brcm_kona, "brcm,kona-timer", kona_timer_init);
+> +CLOCKSOURCE_OF_DECLARE(brcm_kona, "brcm,kona-timer", kona_timer_init);
+>  /*
+>   * bcm,kona-timer is deprecated by brcm,kona-timer
+>   * being kept here for driver compatibility
+>   */
+> -CLOCKSOURCE_OF_DECLARE_RET(bcm_kona, "bcm,kona-timer", kona_timer_init);
+> +CLOCKSOURCE_OF_DECLARE(bcm_kona, "bcm,kona-timer", kona_timer_init);
 
-For LPC32xx driver:
-Acked-by: Sylvain Lemieux <slemieux.tyco at gmail.com>
+For Broadcom Kona timer change:
+
+Acked-by: Ray Jui <ray.jui at broadcom.com>
+
+Thanks!
+
+Ray
