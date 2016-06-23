@@ -1,66 +1,41 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Wed, 22 Jun 2016 12:24:29 +0200
-Subject: Build failures in -next due to 'locking/atomic, arch/arc:
- Implement atomic_fetch_{add,sub,and,andnot,or,xor}()'
-In-Reply-To: <576A62C6.5080207@synopsys.com>
-References: <57640B08.4090007@roeck-us.net>
- <20160617143942.GV30154@twins.programming.kicks-ass.net>
- <20160617144136.GK30927@twins.programming.kicks-ass.net>
- <576A62C6.5080207@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 23 Jun 2016 11:00:39 +0300
+Subject: [PATCH] arc: warn only once if DW2_UNWIND is disabled
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160622102429.GC30154@twins.programming.kicks-ass.net>
+Message-ID: <1466668839-28210-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Jun 22, 2016@03:34:54PM +0530, Vineet Gupta wrote:
-> 
-> Peter the fixlet below doesn't show up in linux-next yet. Could you please do that
-> soon. Our internal build lords are yelling at me :-)
-> 
-> To keep things bisectable, it would be desirable to squash this with the orig commit !
+If CONFIG_ARC_DW2_UNWIND is disabled every time arc_unwind_core()
+gets called following message gets printed in debug console:
+----------------->8---------------
+CONFIG_ARC_DW2_UNWIND needs to be enabled
+----------------->8---------------
 
-The fix seems to be in tip/locking/arch-atomic, albeit not squashed.
+That message makes sense if user indeed wants to see a backtrace or
+get nice function call-graphs in perf but what if user disabled
+unwinder for the purpose? Why pollute his debug console?
 
-Ingo?
+So instead we'll warn user about possibly missing feature once and
+let him decide if that was what he or she really wanted.
 
-if you're going to rebase that branch, I have one more fix for
-tilepro, so let me know.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: stable at vger.kernel.org  [3.18+]
+---
+ arch/arc/kernel/stacktrace.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > ---
-> >  arch/arc/include/asm/atomic.h | 8 --------
-> >  1 file changed, 8 deletions(-)
-> > 
-> > diff --git a/arch/arc/include/asm/atomic.h b/arch/arc/include/asm/atomic.h
-> > index bd9c51cb2bfd..4e3c1b6b0806 100644
-> > --- a/arch/arc/include/asm/atomic.h
-> > +++ b/arch/arc/include/asm/atomic.h
-> > @@ -71,7 +71,6 @@ static inline int atomic_##op##_return(int i, atomic_t *v)		\
-> >  static inline int atomic_fetch_##op(int i, atomic_t *v)			\
-> >  {									\
-> >  	unsigned int val, orig;						\
-> > -	SCOND_FAIL_RETRY_VAR_DEF                                        \
-> >  									\
-> >  	/*								\
-> >  	 * Explicit full memory barrier needed before/after as		\
-> > @@ -84,11 +83,8 @@ static inline int atomic_fetch_##op(int i, atomic_t *v)			\
-> >  	"	" #asm_op " %[val], %[orig], %[i]	\n"		\
-> >  	"	scond   %[val], [%[ctr]]		\n"		\
-> >  	"						\n"		\
-> > -	SCOND_FAIL_RETRY_ASM						\
-> > -									\
-> >  	: [val]	"=&r"	(val),						\
-> >  	  [orig] "=&r" (orig)						\
-> > -	  SCOND_FAIL_RETRY_VARS						\
-> >  	: [ctr]	"r"	(&v->counter),					\
-> >  	  [i]	"ir"	(i)						\
-> >  	: "cc");							\
-> > @@ -199,10 +195,6 @@ ATOMIC_OPS(andnot, &= ~, bic)
-> >  ATOMIC_OPS(or, |=, or)
-> >  ATOMIC_OPS(xor, ^=, xor)
-> >  
-> > -#undef SCOND_FAIL_RETRY_VAR_DEF
-> > -#undef SCOND_FAIL_RETRY_ASM
-> > -#undef SCOND_FAIL_RETRY_VARS
-> > -
-> >  #else /* CONFIG_ARC_PLAT_EZNPS */
-> >  
-> >  static inline int atomic_read(const atomic_t *v)
+diff --git a/arch/arc/kernel/stacktrace.c b/arch/arc/kernel/stacktrace.c
+index e0efff1..b9192a6 100644
+--- a/arch/arc/kernel/stacktrace.c
++++ b/arch/arc/kernel/stacktrace.c
+@@ -142,7 +142,7 @@ arc_unwind_core(struct task_struct *tsk, struct pt_regs *regs,
+ 	 * prelogue is setup (callee regs saved and then fp set and not other
+ 	 * way around
+ 	 */
+-	pr_warn("CONFIG_ARC_DW2_UNWIND needs to be enabled\n");
++	pr_warn_once("CONFIG_ARC_DW2_UNWIND needs to be enabled\n");
+ 	return 0;
+ 
+ #endif
+-- 
+2.5.5
