@@ -1,30 +1,26 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Fri, 24 Jun 2016 09:55:55 +0200
-Subject: [PATCH V3] clocksource/drivers/arc: Convert init function to
- return error
-In-Reply-To: <576CE6CA.8020808@synopsys.com>
-References: <5763BC00.1030101@synopsys.com>
- <1466158167-23126-1-git-send-email-daniel.lezcano@linaro.org>
- <576CB1B6.9090003@synopsys.com> <576CD60D.1020103@linaro.org>
- <576CE6CA.8020808@synopsys.com>
+From: wens@csie.org (Chen-Yu Tsai)
+Date: Fri, 24 Jun 2016 15:13:20 +0800
+Subject: [PATCH V2 63/63] clocksources: Switch back to the clksrc table
+In-Reply-To: <1466112442-31105-64-git-send-email-daniel.lezcano@linaro.org>
+References: <1466112442-31105-1-git-send-email-daniel.lezcano@linaro.org>
+ <1466112442-31105-64-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <576CE78B.6000305@linaro.org>
+Message-ID: <CAGb2v64Qk822h2Mqp1Moc1yV7uXSEQBGiurkyFLSZdJ6NOO3Vg@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 06/24/2016 09:52 AM, Vineet Gupta wrote:
-> On Friday 24 June 2016 12:11 PM, Daniel Lezcano wrote:
->> Do you agree to move the driver to drivers/clocksource, so we can add the
->> COMPILE_TEST option ?
+On Fri, Jun 17, 2016 at 5:27 AM, Daniel Lezcano
+<daniel.lezcano@linaro.org> wrote:
+> All the clocksource drivers's init function are now converted to return
+> an error code. CLOCKSOURCE_OF_DECLARE is no longer used as well as the
+> clksrc-of table.
 >
-> Sure, this will require some common header adjustments etc. After the current
-> fire-drill I'm pulled into ATM, I'll work on it next week'ish !
+> Let's convert back the names:
+>  - CLOCKSOURCE_OF_DECLARE_RET => CLOCKSOURCE_OF_DECLARE
+>  - clksrc-of-ret              => clksrc-of
+>
+> Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
+> ---
+>  drivers/clocksource/sun4i_timer.c         |  2 +-
+>  drivers/clocksource/timer-sun5i.c         |  4 ++--
 
-Great, thanks !
-
-
--- 
-  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Acked-by: Chen-Yu Tsai <wens at csie.org>
