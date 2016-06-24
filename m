@@ -1,41 +1,49 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 23 Jun 2016 11:00:39 +0300
-Subject: [PATCH] arc: warn only once if DW2_UNWIND is disabled
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 24 Jun 2016 09:36:14 +0530
+Subject: [PATCH V3] clocksource/drivers/arc: Convert init function to
+ return error
+In-Reply-To: <1466158167-23126-1-git-send-email-daniel.lezcano@linaro.org>
+References: <5763BC00.1030101@synopsys.com>
+ <1466158167-23126-1-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1466668839-28210-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <576CB1B6.9090003@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-If CONFIG_ARC_DW2_UNWIND is disabled every time arc_unwind_core()
-gets called following message gets printed in debug console:
------------------>8---------------
-CONFIG_ARC_DW2_UNWIND needs to be enabled
------------------>8---------------
+On Friday 17 June 2016 03:39 PM, Daniel Lezcano wrote:
+> The init functions do not return any error. They behave as the following:
+> 
+>   - panic, thus leading to a kernel crash while another timer may work and
+>        make the system boot up correctly
+> 
+>   or
+> 
+>   - print an error and let the caller unaware if the state of the system
+> 
+> Change that by converting the init functions to return an error conforming
+> to the CLOCKSOURCE_OF_RET prototype.
+> 
+> Proper error handling (rollback, errno value) will be changed later case
+> by case, thus this change just return back an error or success in the init
+> function.
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
+> ---
+>  arch/arc/kernel/time.c | 69 ++++++++++++++++++++++++++++++--------------------
 
-That message makes sense if user indeed wants to see a backtrace or
-get nice function call-graphs in perf but what if user disabled
-unwinder for the purpose? Why pollute his debug console?
+[...]
 
-So instead we'll warn user about possibly missing feature once and
-let him decide if that was what he or she really wanted.
+>  	evt->cpumask = cpumask_of(smp_processor_id());
+> @@ -347,24 +355,31 @@ static void __init arc_clockevent_setup(struct device_node *node)
+>  	/* Needs apriori irq_set_percpu_devid() done in intc map function */
+>  	ret = request_percpu_irq(arc_timer_irq, timer_irq_handler,
+>  				 "Timer0 (per-cpu-tick)", evt);
+> -	if (ret)
+> -		panic("clockevent: unable to request irq\n");
+> +	if (ret) {
+> +		pr_err("clockevent: unable to request irq\n");
+> +		returnr ret;
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: stable at vger.kernel.org  [3.18+]
----
- arch/arc/kernel/stacktrace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+oops I missed the typo here !
+Daniel can u squash this to ur patch !
 
-diff --git a/arch/arc/kernel/stacktrace.c b/arch/arc/kernel/stacktrace.c
-index e0efff1..b9192a6 100644
---- a/arch/arc/kernel/stacktrace.c
-+++ b/arch/arc/kernel/stacktrace.c
-@@ -142,7 +142,7 @@ arc_unwind_core(struct task_struct *tsk, struct pt_regs *regs,
- 	 * prelogue is setup (callee regs saved and then fp set and not other
- 	 * way around
- 	 */
--	pr_warn("CONFIG_ARC_DW2_UNWIND needs to be enabled\n");
-+	pr_warn_once("CONFIG_ARC_DW2_UNWIND needs to be enabled\n");
- 	return 0;
- 
- #endif
--- 
-2.5.5
+-Vineet
