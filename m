@@ -1,37 +1,39 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Tue, 28 Jun 2016 05:34:15 -0000
-Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Tue Jun 28, 15:31
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue, 28 Jun 2016 05:38:59 +0000
+Subject: [PATCH] arc: warn only once if DW2_UNWIND is disabled
+In-Reply-To: <5771FD80.1090906@synopsys.com>
+References: <1466668839-28210-1-git-send-email-abrodkin@synopsys.com>
+ <5771FD80.1090906@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160628053415.1.74953@2186539ca1fc>
+Message-ID: <1467092276.3231.7.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs103_smp_defconfig/arcv2 Tue Jun 28, 15:31
+Hi Vineet,
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12729513/
+On Tue, 2016-06-28@10:00 +0530, Vineet Gupta wrote:
+> On Thursday 23 June 2016 01:30 PM, Alexey Brodkin wrote:
+> > 
+> > If CONFIG_ARC_DW2_UNWIND is disabled every time arc_unwind_core()
+> > gets called following message gets printed in debug console:
+> > ----------------->8---------------
+> > CONFIG_ARC_DW2_UNWIND needs to be enabled
+> > ----------------->8---------------
+> > 
+> > That message makes sense if user indeed wants to see a backtrace or
+> > get nice function call-graphs in perf but what if user disabled
+> > unwinder for the purpose? Why pollute his debug console?
+> > 
+> > So instead we'll warn user about possibly missing feature once and
+> > let him decide if that was what he or she really wanted.
+> > 
+> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> > Cc: stable at vger.kernel.org??[3.18+]
+>
+> Does this really need to be stable backport ?
 
-Commit:   Merge branch 'rc-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/mmarek/kbuild
-          3992a272a72c7a258236cf035f74396ec4f89941
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+I think it makes perfect sense for any kernel version because
+it saves debug console from being polluted with messages which
+most probably have no point (Ok I disabled unwinder in kernel config,
+why then spam me with proposals to enable it)?
 
-No errors found in log
-
-Possible warnings (17)
-----------------------
-
-kernel/sched/core.c:3226:1: warning: control reaches end of non-void function [-Wreturn-type]
-arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
-lib/cpumask.c:179:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/core/ethtool.c:299:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/kernel.h:742:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/sunrpc/svc_xprt.h:176:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
+-Alexey
