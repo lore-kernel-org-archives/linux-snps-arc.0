@@ -1,132 +1,200 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 7 Jul 2016 05:16:08 +0000
-Subject: ath9k-htc on OHCI -> bogus usb xfer
-In-Reply-To: <577CDE24.2030600@de.bosch.com>
-References: <1467721137.3144.81.camel@synopsys.com>
- <577BED2D.7070209@rempel-privat.de> <1467739821.3086.13.camel@synopsys.com>
- <577C041C.7080905@rempel-privat.de> <1467790987.3086.15.camel@synopsys.com>
- <577CC035.1000404@de.bosch.com> <1467793848.3086.37.camel@synopsys.com>
- <577CC3A2.5070607@de.bosch.com> <1467794679.3086.42.camel@synopsys.com>
- <577CCAB8.90003@de.bosch.com> <1467797356.3086.48.camel@synopsys.com>
- <577CDE24.2030600@de.bosch.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Thu,  7 Jul 2016 10:01:43 +0200
+Subject: [PATCH 70/93] clocksource/drivers/arc: Convert init function to
+ return error
+In-Reply-To: <1467878526-1238-1-git-send-email-daniel.lezcano@linaro.org>
+References: <577E0BED.3020608@linaro.org>
+ <1467878526-1238-1-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1467868495.23055.1.camel@synopsys.com>
+Message-ID: <1467878526-1238-70-git-send-email-daniel.lezcano@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi?Oleksij,
+The init functions do not return any error. They behave as the following:
 
-On Wed, 2016-07-06@12:32 +0200, fixed-term.Oleksij.Rempel wrote:
-> 
-> On 06.07.2016 11:30, Alexey Brodkin wrote:
-> > 
-> > Hi Oleksij,
-> > 
-> > On Wed, 2016-07-06@11:09 +0200, fixed-term.Oleksij.Rempel wrote:
-> > > 
-> > > 
-> > > On 06.07.2016 10:45, Alexey Brodkin wrote:
-> > > > 
-> > > > 
-> > > > Hi Oleksij,
-> > > > 
-> > > > On Wed, 2016-07-06@10:38 +0200, fixed-term.Oleksij.Rempel wrote:
-> > > > > 
-> > > > > 
-> > > > > 
-> > > > > On 06.07.2016 10:32, Alexey Brodkin wrote:
-> > > > > > 
-> > > > > > 
-> > > > > > 
-> > > > > > Hi Oleksij,
-> > > > > > 
-> > > > > > On Wed, 2016-07-06@10:24 +0200, fixed-term.Oleksij.Rempel wrote:
-> > > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > ?
-> > > > > > > Hm... this Endpoint should be Interrupt, not Bulk. If you search for
-> > > > > > > lsusb of this kind of adapter all of them list EP3 and EP4 as Interrupt.
-> > > > > > > 
-> > > > > > > what did went wrong here? Is it not working in USB High Speed mode?
-> > > > > > Unfortunately as of now on that board EHCI doesn't work.
-> > > > > > 
-> > > > > > That's not a problem of a particular USB device but something in either
-> > > > > > ECHI host controller or its integration. I do hope we will fix it sometime soon
-> > > > > > (this is a development board and USB controller is implemented in FPGA so
-> > > > > > there's a chance to fix stuff later on).
-> > > > > > 
-> > > > > > So given only OHCI works on the board I went forward and attempted to use it
-> > > > > > with Wi-Fi USB dongle.
-> > > > > I did some tests for 2 years on OHCI controller on x86. There was no
-> > > > > noticable issues. It was even a bit faster then Intels EHCI. I don't
-> > > > > think OHCI alone is the source of this problem.
-> > > > Well I was also surprised how well that dongle works with that board in
-> > > > OHCI mode. I saw quite consistent ~4-5 Mbit/second rates when doing Speedtest
-> > > > from my smartphone. So IMHO it's completely usable. Especially on that kind of
-> > > > HW which has main CPU running at just 100MHz.
-> > > > 
-> > > > > 
-> > > > > 
-> > > > > On other side, so far i know, this adapter claims to provide usb full
-> > > > > speed support, (Not only high speed) and may use different usb
-> > > > > descriptor for this. May be this is the problem.
-> > > > So is there something we may do with all that?
-> > > Sure...
-> > > 
-> > > This shows that EP4 is Bluk in full speed mode. And it is defined by a
-> > > boot loader of this chip:
-> > > grep -R USB_FS_EP4_ATTRIBUTE *
-> > > sboot/magpie_1_1/sboot/hif/usb/src/usb_table.c:
-> > > m2BYTE(USB_FS_EP4_ATTRIBUTE, USB_FS_EP4_MAX_PACKET_SIZE),
-> > > sboot/magpie_1_1/sboot/hif/usb/src/usb_table.h:#define
-> > > USB_FS_EP4_ATTRIBUTE????????????bUSB_EP_TYPE_BULK
-> > > sboot/magpie_1_1/inc/usb_table.h:#define USB_FS_EP4_ATTRIBUTE
-> > > ?bUSB_EP_TYPE_BULK
-> > > target_firmware/magpie_fw_dev/target/inc/k2/usb_table.h:#define
-> > > USB_FS_EP4_ATTRIBUTE????????????bUSB_EP_TYPE_BULK
-> > > target_firmware/magpie_fw_dev/target/inc/magpie/usb_table.h:#define
-> > > USB_FS_EP4_ATTRIBUTE????????????bUSB_EP_TYPE_BULK
-> > > 
-> > > 
-> > > So, there are fallowing variants to fix it:
-> > > a) patch full speed usb descriptor in firmware and add usb reinit
-> > > support to the driver.
-> > > b) add support of different EP4 types.
-> > > 
-> > > In any case, some one need to implement it... right now i have time only
-> > > for mentoring.
-> > That's understood.
-> > 
-> > > 
-> > > It is hard to say, which solution is better. It will affect performance
-> > > and stability. We will need lots of testing on different HW variants to
-> > > know it.
-> > > May be usb maeling list can give some input here?
-> > Let's hope so :)
-> > 
-> > > 
-> > > Currently we have fallowing issues:
-> > > - if EP4 and EP3 are Interrupt, it works slower on High Speed controller.
-> > > - if EP4 and EP3 are Bulk, the work better on High Speed and brake on
-> > > Super Speed controllers. This adapter support my 64B packets and if we
-> > > have more, fifo of this adapter will overrun.
-> > > - Full Speed is currently unknown field for me, and it looks like it was
-> > > never actually working properly.
-> > But given that dongle seem to work fine with muted warning do you think it's
-> > fine to continue that way or not?
-> > 
-> > I mean if there's a chance this "bogus usb xfer" might affect something during
-> > execution? Otherwise if that's just not a crucial problem or not a problem at all
-> > may be we may just think how to make this warning not so annoying (in my case
-> > I saw never ending flood of those warnings so that basically stopped me from using
-> > the board after that warning started to appear.
->
-> I'll answer with an example:
-> on USB3 hw this warning was ignore and caused hard reproducible bug
-> which cost me some week to debug. The result was a FIFO overflow on
-> adapter side.
+  - panic, thus leading to a kernel crash while another timer may work and
+       make the system boot up correctly
 
-Yeah that makes a perfect sense then.
-Let's see if there're any other suggestions on the topic.
+  or
 
--Alexey
+  - print an error and let the caller unaware if the state of the system
+
+Change that by converting the init functions to return an error conforming
+to the CLOCKSOURCE_OF_RET prototype.
+
+Proper error handling (rollback, errno value) will be changed later case
+by case, thus this change just return back an error or success in the init
+function.
+
+Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
+---
+ arch/arc/kernel/time.c | 69 ++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 42 insertions(+), 27 deletions(-)
+
+diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+index 4549ab2..09de669 100644
+--- a/arch/arc/kernel/time.c
++++ b/arch/arc/kernel/time.c
+@@ -116,21 +116,21 @@ static struct clocksource arc_counter_gfrc = {
+ 	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
+ };
+ 
+-static void __init arc_cs_setup_gfrc(struct device_node *node)
++static int __init arc_cs_setup_gfrc(struct device_node *node)
+ {
+ 	int exists = cpuinfo_arc700[0].extn.gfrc;
+ 	int ret;
+ 
+ 	if (WARN(!exists, "Global-64-bit-Ctr clocksource not detected"))
+-		return;
++		return -ENXIO;
+ 
+ 	ret = arc_get_timer_clk(node);
+ 	if (ret)
+-		return;
++		return ret;
+ 
+-	clocksource_register_hz(&arc_counter_gfrc, arc_timer_freq);
++	return clocksource_register_hz(&arc_counter_gfrc, arc_timer_freq);
+ }
+-CLOCKSOURCE_OF_DECLARE(arc_gfrc, "snps,archs-timer-gfrc", arc_cs_setup_gfrc);
++CLOCKSOURCE_OF_DECLARE_RET(arc_gfrc, "snps,archs-timer-gfrc", arc_cs_setup_gfrc);
+ 
+ #endif
+ 
+@@ -172,27 +172,27 @@ static struct clocksource arc_counter_rtc = {
+ 	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
+ };
+ 
+-static void __init arc_cs_setup_rtc(struct device_node *node)
++static int __init arc_cs_setup_rtc(struct device_node *node)
+ {
+ 	int exists = cpuinfo_arc700[smp_processor_id()].extn.rtc;
+ 	int ret;
+ 
+ 	if (WARN(!exists, "Local-64-bit-Ctr clocksource not detected"))
+-		return;
++		return -ENXIO;
+ 
+ 	/* Local to CPU hence not usable in SMP */
+ 	if (WARN(IS_ENABLED(CONFIG_SMP), "Local-64-bit-Ctr not usable in SMP"))
+-		return;
++		return -EINVAL;
+ 
+ 	ret = arc_get_timer_clk(node);
+ 	if (ret)
+-		return;
++		return ret;
+ 
+ 	write_aux_reg(AUX_RTC_CTRL, 1);
+ 
+-	clocksource_register_hz(&arc_counter_rtc, arc_timer_freq);
++	return clocksource_register_hz(&arc_counter_rtc, arc_timer_freq);
+ }
+-CLOCKSOURCE_OF_DECLARE(arc_rtc, "snps,archs-timer-rtc", arc_cs_setup_rtc);
++CLOCKSOURCE_OF_DECLARE_RET(arc_rtc, "snps,archs-timer-rtc", arc_cs_setup_rtc);
+ 
+ #endif
+ 
+@@ -213,23 +213,23 @@ static struct clocksource arc_counter_timer1 = {
+ 	.flags  = CLOCK_SOURCE_IS_CONTINUOUS,
+ };
+ 
+-static void __init arc_cs_setup_timer1(struct device_node *node)
++static int __init arc_cs_setup_timer1(struct device_node *node)
+ {
+ 	int ret;
+ 
+ 	/* Local to CPU hence not usable in SMP */
+ 	if (IS_ENABLED(CONFIG_SMP))
+-		return;
++		return -EINVAL;
+ 
+ 	ret = arc_get_timer_clk(node);
+ 	if (ret)
+-		return;
++		return ret;
+ 
+ 	write_aux_reg(ARC_REG_TIMER1_LIMIT, ARC_TIMER_MAX);
+ 	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
+ 	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
+ 
+-	clocksource_register_hz(&arc_counter_timer1, arc_timer_freq);
++	return clocksource_register_hz(&arc_counter_timer1, arc_timer_freq);
+ }
+ 
+ /********** Clock Event Device *********/
+@@ -324,20 +324,28 @@ static struct notifier_block arc_timer_cpu_nb = {
+ /*
+  * clockevent setup for boot CPU
+  */
+-static void __init arc_clockevent_setup(struct device_node *node)
++static int __init arc_clockevent_setup(struct device_node *node)
+ {
+ 	struct clock_event_device *evt = this_cpu_ptr(&arc_clockevent_device);
+ 	int ret;
+ 
+-	register_cpu_notifier(&arc_timer_cpu_nb);
++	ret = register_cpu_notifier(&arc_timer_cpu_nb);
++	if (ret) {
++		pr_err("Failed to register cpu notifier");
++		return ret;
++	}
+ 
+ 	arc_timer_irq = irq_of_parse_and_map(node, 0);
+-	if (arc_timer_irq <= 0)
+-		panic("clockevent: missing irq");
++	if (arc_timer_irq <= 0) {
++		pr_err("clockevent: missing irq");
++		return -EINVAL;
++	}
+ 
+ 	ret = arc_get_timer_clk(node);
+-	if (ret)
+-		panic("clockevent: missing clk");
++	if (ret) {
++		pr_err("clockevent: missing clk");
++		return ret;
++	}
+ 
+ 	evt->irq = arc_timer_irq;
+ 	evt->cpumask = cpumask_of(smp_processor_id());
+@@ -347,24 +355,31 @@ static void __init arc_clockevent_setup(struct device_node *node)
+ 	/* Needs apriori irq_set_percpu_devid() done in intc map function */
+ 	ret = request_percpu_irq(arc_timer_irq, timer_irq_handler,
+ 				 "Timer0 (per-cpu-tick)", evt);
+-	if (ret)
+-		panic("clockevent: unable to request irq\n");
++	if (ret) {
++		pr_err("clockevent: unable to request irq\n");
++		return ret;
++	}
+ 
+ 	enable_percpu_irq(arc_timer_irq, 0);
++
++	return 0;
+ }
+ 
+-static void __init arc_of_timer_init(struct device_node *np)
++static int __init arc_of_timer_init(struct device_node *np)
+ {
+ 	static int init_count = 0;
++	int ret;
+ 
+ 	if (!init_count) {
+ 		init_count = 1;
+-		arc_clockevent_setup(np);
++		ret = arc_clockevent_setup(np);
+ 	} else {
+-		arc_cs_setup_timer1(np);
++		ret = arc_cs_setup_timer1(np);
+ 	}
++
++	return ret;
+ }
+-CLOCKSOURCE_OF_DECLARE(arc_clkevt, "snps,arc-timer", arc_of_timer_init);
++CLOCKSOURCE_OF_DECLARE_RET(arc_clkevt, "snps,arc-timer", arc_of_timer_init);
+ 
+ /*
+  * Called from start_kernel() - boot CPU only
+-- 
+1.9.1
