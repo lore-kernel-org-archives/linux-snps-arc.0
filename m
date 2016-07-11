@@ -1,107 +1,37 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 11 Jul 2016 06:15:58 +0000
-Subject: [LEDE-DEV] DHCP via bridge in case of IPv4
-In-Reply-To: <87shviklio.fsf@husum.klickitat.com>
-References: <1468053400.5007.5.camel@synopsys.com>
- <CAKNoO9oK-_sf=iGAW0caAhauLSbAW5YjDUi6gDnKsO6+W0Pcgg@mail.gmail.com>
- <1468065830.5007.10.camel@synopsys.com>
- <87shviklio.fsf@husum.klickitat.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Mon, 11 Jul 2016 09:02:46 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Mon Jul 11, 19:02
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1468217682.5588.4.camel@synopsys.com>
+Message-ID: <20160711090246.1.16080@2186539ca1fc>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Russel,
+OK linus/axs103_smp_defconfig/arcv2 Mon Jul 11, 19:02
 
-On Sun, 2016-07-10@00:19 -0700, Russell Senior wrote:
-> > 
-> > > 
-> > > > 
-> > > > > 
-> > > > > > 
-> > > > > > "Alexey" == Alexey Brodkin <Alexey.Brodkin at synopsys.com> writes:
-> Alexey> Hi Aaron,
-> Alexey> On Sat, 2016-07-09@07:47 -0400, Aaron Z wrote:
-> > 
-> > > 
-> > > On Sat, Jul 9, 2016 at 4:37 AM, Alexey Brodkin
-> > > <Alexey.Brodkin@synopsys.com> wrote:
-> > > > 
-> > > > 
-> > > > Hello,
-> > > > 
-> > > > I was playing with quite simple bridged setup on different boards
-> > > with > very recent kernels (4.6.3 as of this writing) and found one
-> > > interesting > behavior that I cannot yet understand and googling
-> > > din't help here as well.
-> > > > 
-> > > > 
-> > > > My setup is pretty simple: >
-> > > -------------???????------------------???????-------------------------
-> > > > 
-> > > > > 
-> > > > > 
-> > > > > HOST??????|???????| "Dumb AP"??????|???????| Wireless
-> > > client???????| > > with DHCP |<----->(eth0)?????(wlan0)<----->|
-> > > attempting to?????????| > > server????|???????|????\ br0
-> > > /?????|???????| get settings via DHCP | >
-> > > -------------???????------------------???????-------------------------
-> > > > 
-> > > > 
-> > > > * HOST is my laptop with DHCP server that works for sure.??> *
-> > > "Dumb AP" is a separate board (I tried ARM-based Wandboard and
-> > > ARC-based > ? AXS10x boards but results are exactly the same) with
-> > > wired (eth0) and wireless > ? (wlan0) network controllers bridged
-> > > together (br0). That "br0" bridge flawlessly > ? gets its settings
-> > > from DHCP server on host.??> * Wireless client could be either a
-> > > smatrphone or another laptop etc but > ? what's important it should
-> > > be configured to get network settings by DHCP as well.
-> > > > 
-> > > > 
-> > > > So what happens "br0" always gets network settings from DHCP server
-> > > on HOST.??> That's fine. But wireless client only reliably gets
-> > > settings from DHCP server > if IPv6 is enabled on "Dumb AP" board. If
-> > > IPv6 is disabled I may see that > wireless client sends "DHCP
-> > > Discover" then server replies with "DHCP Offer" but > that offer
-> > > never reaches wireless client.
-> > > 
-> > > 
-> > > Do you have WDS enabled? If not, DHCP has issues in that scenario:
-> > > https://wiki.openwrt.org/doc/howto/clientmode
-> If the Dumb AP's wireless interface is in ap-mode, then this shouldn't
-> be an issue.??It's only client-mode interfaces that have trouble with bridging.
-> 
-> I'd suggest running tcpdump on the Dumb AP's wireless interface and the
-> client's wireless interface and see which of them sees the various parts
-> of the DHCP handshake.
+http://kisskb.ellerman.id.au/kisskb/buildresult/12742500/
 
-So I did but for DHCP server and wireless client (had no tcpdump on Dump AP
-at the moment).
+Commit:   tmpfs: fix regression hang in fallocate undo
+          7f556567036cb7f89aabe2f0954b08566b4efb53
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-That's what I see on the server:
------------------------------>8-------------------------------
-No. Time????????Source?????Destination??????Protocol Length Info
-?3 0.151181000??0.0.0.0????255.255.255.255??DHCP?????342????DHCP Discover - Transaction ID 0x31dc321f
-11 2.760796000??10.42.0.1??10.42.0.13???????DHCP?????342????DHCP Offer????- Transaction ID 0x31dc321f
-14 5.220985000??0.0.0.0????255.255.255.255??DHCP?????342????DHCP Discover - Transaction ID 0x31dc321f
-15 5.221150000??10.42.0.1??10.42.0.13???????DHCP?????342????DHCP Offer????- Transaction ID 0x31dc321f
-23 15.649835000 0.0.0.0????255.255.255.255??DHCP?????342????DHCP Discover - Transaction ID 0x31dc321f
-24 15.650017000 10.42.0.1??10.42.0.13???????DHCP?????342????DHCP Offer????- Transaction ID 0x31dc321f
-32 25.648589000 0.0.0.0????255.255.255.255??DHCP?????342????DHCP Discover - Transaction ID 0x31dc321f
-33 25.648758000 10.42.0.1??10.42.0.13???????DHCP?????342????DHCP Offer????- Transaction ID 0x31dc321f
-43 35.864567000 0.0.0.0????255.255.255.255??DHCP?????342????DHCP Discover - Transaction ID 0x31dc321f
-48 38.832837000 10.42.0.1??10.42.0.13???????DHCP?????342????DHCP Offer????- Transaction ID 0x31dc321f
------------------------------>8-------------------------------
+No errors found in log
 
-That's on the wireless client:
------------------------------>8-------------------------------
-No.??Time???????????Source???Destination??????Protocol Length Info
-1171 94.192971000???0.0.0.0??255.255.255.255??DHCP?????342????DHCP Discover - Transaction ID 0x31dc321f
-1182 99.263686000???0.0.0.0??255.255.255.255??DHCP?????342????DHCP Discover - Transaction ID 0x31dc321f
-1185 109.692642000??0.0.0.0??255.255.255.255??DHCP?????342????DHCP Discover - Transaction ID 0x31dc321f
-1186 119.691474000??0.0.0.0??255.255.255.255??DHCP?????342????DHCP Discover - Transaction ID 0x31dc321f
-1190 129.907507000??0.0.0.0??255.255.255.255??DHCP?????342????DHCP Discover - Transaction ID 0x31dc321f
------------------------------>8-------------------------------
+Possible warnings (17)
+----------------------
 
-I'll try to capture data from Dumb AP sometime soon and will reply to the thread.
-
--Alexey
+kernel/sched/core.c:3226:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:742:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+block/cfq-iosched.c:3793:1: warning: control reaches end of non-void function [-Wreturn-type]
+lib/cpumask.c:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/core/ethtool.c:299:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/sunrpc/svc_xprt.h:176:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/tcp_input.c:4273:49: warning: array subscript is above array bounds [-Warray-bounds]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:420:1: warning: control reaches end of non-void function [-Wreturn-type]
