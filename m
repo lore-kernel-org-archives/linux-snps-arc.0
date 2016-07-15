@@ -1,20 +1,38 @@
-From: gregkh@linuxfoundation.org (Greg KH)
-Date: Thu, 14 Jul 2016 07:42:18 +0900
-Subject: ARC stable backport request for 4.4 and 4.2
-In-Reply-To: <5786A82F.2040303@synopsys.com>
-References: <5786A82F.2040303@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Fri, 15 Jul 2016 10:25:59 -0000
+Subject: kisskb: OK linux-next/axs101_defconfig/arcompact Fri Jul 15, 20:24
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160713224218.GC12156@kroah.com>
+Message-ID: <20160715102559.1.51009@2186539ca1fc>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Jul 13, 2016@01:44:31PM -0700, Vineet Gupta wrote:
-> Hi,
-> 
-> Could you please backport the following upstream commits for v4.4 and v4.2
-> 
-> 4d0cb15fccd1db9 ("ARCv2: Check for LL-SC livelock only if LLSC is enabled")
-> b31ac42697bef4a ("ARCv2: LLSC: software backoff is NOT needed starting HS2.1c")
+OK linux-next/axs101_defconfig/arcompact Fri Jul 15, 20:24
 
-Applied to 4.4-stable, thanks.
+http://kisskb.ellerman.id.au/kisskb/buildresult/12746259/
 
-greg k-h
+Commit:   Add linux-next specific files for 20160715
+          084458fea6ce5a47d8e60267deb2c1396fbf4059
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+
+No errors found in log
+
+Possible warnings (18)
+----------------------
+
+kernel/sched/core.c:3243:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:742:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+block/cfq-iosched.c:3813:1: warning: control reaches end of non-void function [-Wreturn-type]
+arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/core/ethtool.c:300:1: warning: control reaches end of non-void function [-Wreturn-type]
+drivers/scsi/sd.c:1154:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+drivers/video/fbdev/core/fbmon.c:1497:67: warning: parameter 'specs' set but not used [-Wunused-but-set-parameter]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/tcp_input.c:4281:49: warning: array subscript is above array bounds [-Warray-bounds]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/sunrpc/svc_xprt.h:175:1: warning: control reaches end of non-void function [-Wreturn-type]
