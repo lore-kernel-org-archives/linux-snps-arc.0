@@ -1,48 +1,58 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 29 Jul 2016 12:50:18 -0700
-Subject: [GIT PULL] ARC changes for 4.8-rc1
+Date: Fri, 29 Jul 2016 13:03:56 -0700
+Subject: Build failure in linux mainline when building arcv2 images
+In-Reply-To: <579B5D79.8060907@roeck-us.net>
+References: <579ACC26.9020106@roeck-us.net>
+ <25e43ee1-5015-9dc3-777e-6101872f2ec4@synopsys.com>
+ <579B5D79.8060907@roeck-us.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b01a01e6-c1c8-891f-9c75-6fee1897bff4@synopsys.com>
+Message-ID: <66774d12-285a-438f-c050-fba65601bd3c@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+On 07/29/2016 06:43 AM, Guenter Roeck wrote:
+> On 07/28/2016 10:20 PM, Vineet Gupta wrote:
+>> Hi Guenter,
+>>
+>> On 07/28/2016 08:23 PM, Guenter Roeck wrote:
+>>> Hi Vineet,
+>>>
+>>> Mainline fails to build arcv2 images with the following error.
+>>>
+>>> {standard input}: Assembler messages:
+>>> {standard input}:19174: Error: Instruction with long immediate data in delay slot
+>>> make[2]: *** [block/cfq-iosched.o] Error 1
+>>>
+>>> Bisect points to commit 9a7f38c42c2 ("cfq-iosched: Convert from jiffies to
+>>> nanoseconds"),
+>>> but I don't really hold it responsible. It looks more like a compiler / binutils
+>>> problem
+>>> to me.
+>>
+>> Indeed - triggers a latent bug in ARC gcc !
+>>
+>>> I am using a toolchain built with buildroot (gcc 4.8.3). Is there a more recent
+>>> toolchain
+>>> than the one in buildroot available, by any chance ? If yes, where do I find it ?
+>>
+>> Yeah there's a 4.8.5 based one (referred to as GNU 2016.03) - will prebuilt
+>> toolchain suffice or would you prefer building on your own. Prebuilt could be
+>> found below.
+>>
+>> https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/tag/arc-2016.03
+>>
+>>
+>> For building on your own, Alexey can point to upstream buildroot which enabled
+>> 2016.03 tools.
+>>
+> 
+> Unfortunately, I get the same error when using "arc-linux-gcc.br_real (Buildroot
+> 2016.05) 4.8.5".
 
-Please pull.
+Weird - I don't see this when building mainline of now using prebuilt 2016.03
+tools on github . I'm building axs103_smp_defconfig.
+
+What exact buildroot commit did u use to build your tools BTW - I can try and
+replicate that here !
 
 Thx,
 -Vineet
-
------>
-The following changes since commit 92d21ac74a9e3c09b0b01c764e530657e4c85c49:
-
-  Linux 4.7-rc7 (2016-07-10 20:24:59 -0700)
-
-are available in the git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.8-rc1
-
-for you to fetch changes up to 3925a16ae980c79d1a8fd182d7f9487da1edd4dc:
-
-  ARC: mm: don't loose PTE_SPECIAL in pte_modify() (2016-07-28 12:38:17 -0700)
-
-----------------------------------------------------------------
-ARC updates for 4.8-rc1
-
-Things have been calm here - nothing much except for a few fixes
-
-----------------------------------------------------------------
-Alexey Brodkin (1):
-      ARC: typo fix in mm/ioremap.c
-
-Vineet Gupta (2):
-      ARC: fix linux-next build breakage
-      ARC: mm: don't loose PTE_SPECIAL in pte_modify()
-
-Vladimir Kondratiev (1):
-      ARC: dma: fix address translation in arc_dma_free
-
- arch/arc/include/asm/pgtable.h | 2 +-
- arch/arc/kernel/setup.c        | 1 +
- arch/arc/mm/dma.c              | 3 ++-
- arch/arc/mm/ioremap.c          | 2 +-
- 4 files changed, 5 insertions(+), 3 deletions(-)
