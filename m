@@ -1,56 +1,47 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 1 Jul 2016 12:06:06 +0530
-Subject: Handling Machine check
-In-Reply-To: <DB3PR05MB0953FF620928D24A19514D33AA250@DB3PR05MB0953.eurprd05.prod.outlook.com>
-References: <DB3PR05MB0953FF620928D24A19514D33AA250@DB3PR05MB0953.eurprd05.prod.outlook.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 1 Aug 2016 09:53:47 +0000
+Subject: Build failure in linux mainline when building arcv2 images
+In-Reply-To: <579C2C9E.6040904@roeck-us.net>
+References: <579ACC26.9020106@roeck-us.net>
+ <25e43ee1-5015-9dc3-777e-6101872f2ec4@synopsys.com>
+ <579B5D79.8060907@roeck-us.net>
+ <66774d12-285a-438f-c050-fba65601bd3c@synopsys.com>
+ <20160729214854.GA21977@roeck-us.net>
+ <1cc37edf-d48e-9b98-1bb6-f20e319cf12b@synopsys.com>
+ <579C2C9E.6040904@roeck-us.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <57760F56.7000600@synopsys.com>
+Message-ID: <1470045132.28725.39.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Friday 01 July 2016 09:29 AM, Noam Camus wrote:
->
-> Hi Vineet,
->
->
-> I wish to ask about how kernel should handle machine check.
->
-> Why it is a dead end unlike other exceptions e.g. " mem error", "inst err"?
->
->
-> What will happen if I do call ret_from_exception?
->
-> Where I going to find my self after the rtie?
->
-> should all relevant auxiliary registers needed for proper return from rtie are
-> expected to be valid?
->
->
-> Is there any difference if such exception caused during user or kernel mode?
->
->
-> All above comes from special case we have:
->
-> Our chip creates machine check when user code goes beyound memory space 
-> boundary, Inside EV handler I called to FAKE, do_memory_error and
-> ret_from_exception and I got SIGBUS as expected and I didn't noticed any thing
-> strange, so I am not sure why we treat this as DEAD END?
->
->
-> Note: it is not double fault but rather first exception.
->
->
+Hi Vineet,?Guenter,
 
-With standard ARCompact ISA / ARC cores, machine check is typically for fatal
-errors in *kernel* mode and this by definition is non-recoverable. e.g. if Bus
-returned error in kernel mode- how do u handle it - i mean u can't RTIE to same
-instruction and it is not correct to assume to return to next one either.
+On Fri, 2016-07-29@21:27 -0700, Guenter Roeck wrote:
+> On 07/29/2016 03:46 PM, Vineet Gupta wrote:
+> 
+> > 
+> > What you want is
+> > 2016-05-19 09439560b9f9 toolchain: bump ARC tools to arc-2016.03 release
+> > 
+> > which seems to be present in released 2016.05, but when I checkout 2016.05 tag (or
+> > aa6fd11feebff) that patch is not there !
+> > 
+> 
+> A toolchain build off SHA 09439560b9f9 works.
 
-Moreover machine check is taken for nested exceptions - where system is really
-hosed as ERET/ERSTATUS of orig exception are already clobbered/lost.
+Indeed we were a little-bit too late for BR 2016.05 release with
+our toolchain bump so the patch in question only made its way in BR repo
+right after BR release.
 
-So the umbrella handling for machine check is halt - otherwise at time of crash -
-code just keeps spinning/running.
-If there are new cases where it can be gracefully handled - I'm open to patches to
-same effect !
+Anyways good to know your issue is resolved now.
 
--Vineet
+Note with arc-2016.03 we still see a lot of issues here and there
+because that's the first version that uses our rewritten from scratch binutils
+(the base for binutils port upstreaming for ARC). And so in BR we continue to
+update ARC tools to so-called engineering builds of our current development
+branches of gcc and binutils. That information might be useful if you face any
+other issues building stuff for ARC.
+
+Or don't hesitate to email us so we'll try to point you to something that
+should work :)
+
+-Alexey
