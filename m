@@ -1,43 +1,29 @@
-From: Joao.Pinto@synopsys.com (Joao Pinto)
-Date: Tue,  9 Aug 2016 16:49:37 +0100
-Subject: [PATCH] pci: adding support for PCI_MSI_IRQ_DOMAIN in ARC arch
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 10 Aug 2016 11:06:50 +0000
+Subject: dmatest no longer works on ARC SDP with DW DMAC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <fdd37b0b995d178fddb34fdbdb5daf5981822f52.1470757628.git.jpinto@synopsys.com>
+Message-ID: <1470827209.21247.12.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-To fix this, this patch adds ARC as a PCI_MSI_IRQ_DOMAIN supportive
-platform and adds the generation of msi.h in the ARC arch.
+dmatest on ARC SDP with DW DMAC became broken after df5c7386
+("dmaengine: dw: some Intel devices has no memcpy support") and
+30cb2639 ("dmaengine: dw: don't override platform data with autocfg")
+commits.
+* After df5c7386 commit "DMA_MEMCPY" capability option doesn't
+get set correctly in platform driver version.
+* After 30cb2639 commit
+"data_width" and "nollp" parameters don't get set correctly in platform
+driver version.
 
-Signed-off-by: Joao Pinto <jpinto at synopsys.com>
----
- arch/arc/include/asm/Kbuild | 1 +
- drivers/pci/Kconfig         | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+This happens because in old driver version there are three sources?
+of parameters: pdata, device tree and autoconfig hardware registers.?
+Some parameters were read from pdata and others from autoconfig
+hardware registers. If pdata was absent some pdata structure?
+fields were filled with parameters from device tree. But 30cb2639
+commit disabled overriding pdata with autocfg, so if we use platform
+driver version without pdata some parameters will not be set.
 
-diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
-index 0b10ef2..c332604 100644
---- a/arch/arc/include/asm/Kbuild
-+++ b/arch/arc/include/asm/Kbuild
-@@ -25,6 +25,7 @@ generic-y += mcs_spinlock.h
- generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += msgbuf.h
-+generic-y += msi.h
- generic-y += param.h
- generic-y += parport.h
- generic-y += pci.h
-diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
-index 67f9916..6555eb7 100644
---- a/drivers/pci/Kconfig
-+++ b/drivers/pci/Kconfig
-@@ -25,7 +25,7 @@ config PCI_MSI
- 	   If you don't know what to do here, say Y.
- 
- config PCI_MSI_IRQ_DOMAIN
--	def_bool ARM || ARM64 || X86
-+	def_bool ARC || ARM || ARM64 || X86
- 	depends on PCI_MSI
- 	select GENERIC_MSI_IRQ_DOMAIN
- 
--- 
-1.8.1.5
+I'm wondering what would be the best way to fix this situation?
+Should we strictly read parameters from only one source (pdata/device
+tree/autoconfig) or we may mix some of them (for example getting
+missing data from autoconf regs)?
