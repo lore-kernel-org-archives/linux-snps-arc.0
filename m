@@ -1,38 +1,25 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 10 Aug 2016 10:19:34 -0700
-Subject: [PATCH] ARC: Elide redundant setup of DMA callbacks
+Date: Wed, 10 Aug 2016 10:22:22 -0700
+Subject: Problems building arc-2016.09-eng007 toolchain with 2.6.35 kernel
+ headers
+In-Reply-To: <20160810170333.GS22524@waldemar-brodkorb.de>
+References: <CAGXr9JG_P19fWQMtGN7gzJ7SYOVy=b=8DiD9M8++6_wngZ8NvA@mail.gmail.com>
+ <7a1076af-3db3-7c92-c6bd-9b67cca6422c@synopsys.com>
+ <20160810170333.GS22524@waldemar-brodkorb.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1470849574-11615-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <8053f41e-055b-051e-7b2f-5a446c2b947e@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-For resources shared by all cores such as SLC and IOC, only the master
-core needs to do any setups / enabling / disabling etc.
+On 08/10/2016 10:03 AM, Waldemar Brodkorb wrote:
+>>> 2) Is uclibc-ng 1.0.17 supposed to be compatible with 2.6.x kernel headers?
+>> > 
+>> > No - modern/upstream uClibc-ng is not compatible with 2.6.35
+>> > You need to use the uClibc of the time - with pairing gcc/binutils - although that
+>> > will be a can of worms
+> This is only the case for ARC, right?
+> Other architectures should work fine, like MIPS or ARM.
 
-Cc: <stable at vger.kernel.org>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/mm/cache.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Perhaps they will - I'm not sure. ARC certainly has issues due to the syscall ABI
+change from 2.6.35 to upstream 3.8 !
 
-diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index 5a294b2c3cb3..0b10efe3a6a7 100644
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -921,6 +921,15 @@ void arc_cache_init(void)
- 
- 	printk(arc_cache_mumbojumbo(0, str, sizeof(str)));
- 
-+	/*
-+	 * Only master CPU needs to execute rest of function:
-+	 *  - Assume SMP so all cores will have same cache config so
-+	 *    any geomtry checks will be same for all
-+	 *  - IOC setup / dma callbacks only need to be setup once
-+	 */
-+	if (cpu)
-+		return;
-+
- 	if (IS_ENABLED(CONFIG_ARC_HAS_ICACHE)) {
- 		struct cpuinfo_arc_cache *ic = &cpuinfo_arc700[cpu].icache;
- 
--- 
-2.7.4
+-Vineet
