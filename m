@@ -1,25 +1,51 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 10 Aug 2016 10:22:22 -0700
-Subject: Problems building arc-2016.09-eng007 toolchain with 2.6.35 kernel
- headers
-In-Reply-To: <20160810170333.GS22524@waldemar-brodkorb.de>
-References: <CAGXr9JG_P19fWQMtGN7gzJ7SYOVy=b=8DiD9M8++6_wngZ8NvA@mail.gmail.com>
- <7a1076af-3db3-7c92-c6bd-9b67cca6422c@synopsys.com>
- <20160810170333.GS22524@waldemar-brodkorb.de>
+Date: Wed, 10 Aug 2016 10:55:45 -0700
+Subject: [PATCH] pci: adding support for PCI_MSI_IRQ_DOMAIN in ARC arch
+In-Reply-To: <fdd37b0b995d178fddb34fdbdb5daf5981822f52.1470757628.git.jpinto@synopsys.com>
+References: <fdd37b0b995d178fddb34fdbdb5daf5981822f52.1470757628.git.jpinto@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <8053f41e-055b-051e-7b2f-5a446c2b947e@synopsys.com>
+Message-ID: <64d6513b-13f1-953d-410b-a4aeea6908c3@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/10/2016 10:03 AM, Waldemar Brodkorb wrote:
->>> 2) Is uclibc-ng 1.0.17 supposed to be compatible with 2.6.x kernel headers?
->> > 
->> > No - modern/upstream uClibc-ng is not compatible with 2.6.35
->> > You need to use the uClibc of the time - with pairing gcc/binutils - although that
->> > will be a can of worms
-> This is only the case for ARC, right?
-> Other architectures should work fine, like MIPS or ARM.
+On 08/09/2016 08:51 AM, Joao Pinto wrote:
+> Due to the added dependency on PCI_MSI_IRQ_DOMAIN for all PCIe RC 
+> drivers, we were unable to build a RC solution for an ARC platform.
+>
+> To fix this, this patch adds ARC as a PCI_MSI_IRQ_DOMAIN supportive
+> platform and adds the generation of msi.h in the ARC arch.
+>
+> Signed-off-by: Joao Pinto <jpinto at synopsys.com>
 
-Perhaps they will - I'm not sure. ARC certainly has issues due to the syscall ABI
-change from 2.6.35 to upstream 3.8 !
+LGTM - Bjorn I presume you will pick this up ?
 
 -Vineet
+> ---
+>  arch/arc/include/asm/Kbuild | 1 +
+>  drivers/pci/Kconfig         | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
+> index 0b10ef2..c332604 100644
+> --- a/arch/arc/include/asm/Kbuild
+> +++ b/arch/arc/include/asm/Kbuild
+> @@ -25,6 +25,7 @@ generic-y += mcs_spinlock.h
+>  generic-y += mm-arch-hooks.h
+>  generic-y += mman.h
+>  generic-y += msgbuf.h
+> +generic-y += msi.h
+>  generic-y += param.h
+>  generic-y += parport.h
+>  generic-y += pci.h
+> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+> index 67f9916..6555eb7 100644
+> --- a/drivers/pci/Kconfig
+> +++ b/drivers/pci/Kconfig
+> @@ -25,7 +25,7 @@ config PCI_MSI
+>  	   If you don't know what to do here, say Y.
+>  
+>  config PCI_MSI_IRQ_DOMAIN
+> -	def_bool ARM || ARM64 || X86
+> +	def_bool ARC || ARM || ARM64 || X86
+>  	depends on PCI_MSI
+>  	select GENERIC_MSI_IRQ_DOMAIN
+>  
