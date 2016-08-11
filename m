@@ -1,63 +1,65 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 11 Aug 2016 05:48:22 +0000
-Subject: Problems building arc-2016.09-eng007 toolchain with 2.6.35
- kernel headers
-In-Reply-To: <20160810170333.GS22524@waldemar-brodkorb.de>
-References: <CAGXr9JG_P19fWQMtGN7gzJ7SYOVy=b=8DiD9M8++6_wngZ8NvA@mail.gmail.com>
- <7a1076af-3db3-7c92-c6bd-9b67cca6422c@synopsys.com>
- <20160810170333.GS22524@waldemar-brodkorb.de>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 11 Aug 2016 16:38:33 -0700
+Subject: Problems with support of file locks for ARC (maybe for other
+ targets too)
+In-Reply-To: <3ABF60118B9B784CA5BF7C841D2F00ECFFF6E1@de02wembxa.internal.synopsys.com>
+References: <3ABF60118B9B784CA5BF7C841D2F00ECFFEBBD@de02wembxa.internal.synopsys.com>
+ <c7eb5d55-fb26-6423-23dc-11a9aeba5897@synopsys.com>
+ <3ABF60118B9B784CA5BF7C841D2F00ECFFF6E1@de02wembxa.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1470894399.903.7.camel@synopsys.com>
+Message-ID: <005bcb5f-f2a6-8a07-f07d-540721e2cf67@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Waldemar,
+On 08/11/2016 09:12 AM, Yuriy Kolerov wrote:
+>
+>>>  Moreover the whole uClibc and every application must be compiled with
+>> those macros. Here is my question. Is it acceptable just to compile toolchain
+>> itself using CFLAGS_FOR_TARGET with those macros and don?t define them
+>> manually in each application?
+>>
+>> If you enable LFS support in build system (uClibc or buildroot) these macros
+>> will be automatically defined - no point or need to pass them as CFLAGS etc -
+>> infact that would be wrong IMO.
+> If you enable __UCLIBC_HAS_LFS__ while configuring uClibc then _LARGEFILE64_SOURCE and _FILE_OFFSET_BITS=64 will not be defined automatically. 
 
-On Wed, 2016-08-10@19:03 +0200, Waldemar Brodkorb wrote:
-> Hi,
-> Vineet Gupta wrote,
-> 
-> > 
-> > On 08/08/2016 02:44 PM, Petri Gynther wrote:
-> > > 
-> > > uclibc-ng & ARC developers:
-> > > 
-> > > I'm trying to use buildroot to build the latest ARC toolchain
-> > > (arc-2016.09-eng007) against our vendor-provided 2.6.35.12 ARC Linux
-> > > kernel. (Yes, it is an ancient kernel, but that's what I have to work
-> > > with for now, unfortunately.)
-> > > 
-> > > ...
-> > > 
-> > > 
-> > > Questions:
-> > > 1) Does the latest ARC toolchain use some new ABI for binaries that
-> > > makes them incompatible with 2.6.35.12 kernel?
-> > 
-> > Indeed even if you were to build it successfully - you will run into ABI issues -
-> > 2.6.35 is ABI v1 and we are currently at v3 (which is going to change soon even
-> > further to v4 - for ARC HS processors)
-> > More details at:
-> > https://github.com/foss-for-synopsys-dwc-arc-processors/linux/wiki/ARC-Linux-Syscall-ABI-Compatibility
-> > 
-> > > 
-> > > 2) Is uclibc-ng 1.0.17 supposed to be compatible with 2.6.x kernel headers?
-> > 
-> > No - modern/upstream uClibc-ng is not compatible with 2.6.35
-> > You need to use the uClibc of the time - with pairing gcc/binutils - although that
-> > will be a can of worms
-> 
-> This is only the case for ARC, right?
-> Other architectures should work fine, like MIPS or ARM.
+What was I smoking when replying ? You are correct - these macros have to be added
+to each application's makefile or at top level as target C flags.
 
-As Vineet mentioned above that's the case for ARC because of ABI changes, see
-Wiki page above.
+> E.g. Buildroot has this generic line in Makefile for packages:
+>
+> TARGET_CPPFLAGS += -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
 
-As for arches that were supported in Linux for much longer time like ARM and MISP most
-probably up-to-date uClibc would work with 2.6.x kernels but frankly I haven't tried that
-myself.
+Actually BR dropped support for disabling LFS in 2015 - before that the line above
+used to be guarded by BR2_LARGEFILE.
 
-Still newer arches like Nios and Extensa may have similar issues as we have.
-But again I barely have any experience with those arches so asking their maintainers
-might be a good idea.
+> These defines are not placed to config.h or somewhere else. They must be defined each time you compile anything. uClibc may be built by Buildroot with these flags by default (actually it is not true at least for ARC - Buildroot must be fixed but it is not a subject of this discussion). However you must define these macros manually when building every application later.
 
--Alexey
+Right, I stand corrected.
+
+> I don?t understand this thing - is it possible to compile uClibc with full support of LFS (see macros above) and don?t use this feature in applications and everything will be ok? 
+
+Indeed this is the case - if you don't build with LFS, xxx64 won't even be
+available to begin with.
+
+> And is it possible to compile uClibc without _LARGEFILE64_SOURCE and _FILE_OFFSET_BITS=64 and compile applications with them and everything will be ok? 
+
+This mostly likely won't work as those defines will not be present in headers to
+use in application.
+
+> Right now when we build toolchain for ARC using Buildroot uClibc is compiled without them and e.g. BusyBox is compiled with -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 ...
+
+Buildroot now assumes LFS to be default (and you can't switch it off) so
+everything including uClibc / Busybox has LFS enabled already.
+
+>
+>> So you really don't need LFS to be able to use locks - but need to make sure
+>> that for common generic ABI - user struct flock pairs correctly with kernel
+>> struct
+>> flock64 with or w/o LFS.
+
+But this point remains valid - for our ABI - kernel uses struct flock64 and this
+needs to be binary compatible with uClibc struct flock and struct flock64 (LFS only)
+
+Read the comment in libc/sysdeps/linux/common-generic/bits/stat.h
+
+-Vineet
