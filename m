@@ -1,90 +1,96 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Fri, 12 Aug 2016 17:08:28 +0300
-Subject: Wrong "nollp" DW DMAC parameter value on ARC SDP.
-In-Reply-To: <1471008972.21247.40.camel@synopsys.com>
-References: <1470988994.21247.33.camel@synopsys.com>
- <1470999584.4887.94.camel@linux.intel.com>
- <1471008972.21247.40.camel@synopsys.com>
+From: Yuriy.Kolerov@synopsys.com (Yuriy Kolerov)
+Date: Fri, 12 Aug 2016 17:47:16 +0000
+Subject: Problems with support of file locks for ARC (maybe for other
+ targets too)
+In-Reply-To: <005bcb5f-f2a6-8a07-f07d-540721e2cf67@synopsys.com>
+References: <3ABF60118B9B784CA5BF7C841D2F00ECFFEBBD@de02wembxa.internal.synopsys.com>
+ <c7eb5d55-fb26-6423-23dc-11a9aeba5897@synopsys.com>
+ <3ABF60118B9B784CA5BF7C841D2F00ECFFF6E1@de02wembxa.internal.synopsys.com>
+ <005bcb5f-f2a6-8a07-f07d-540721e2cf67@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1471010908.4887.100.camel@linux.intel.com>
+Message-ID: <3ABF60118B9B784CA5BF7C841D2F00ECFFFEC3@de02wembxa.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, 2016-08-12@13:36 +0000, Eugeniy Paltsev wrote:
-> On Fri, 2016-08-12@13:59 +0300, Andy Shevchenko wrote:
-> > 
-> > On Fri, 2016-08-12@08:03 +0000, Eugeniy Paltsev wrote:
-> > > 
-> > > 
-> > > Hi,
-> > > 
-> > > "nollp" parameter defines if DW DMAC channel supports multi block
-> > > transfer or not.
-> > > 
-> > > It is calculated in runtime, but differently depending on on
-> > > availability of pdata. If pdata is absent "nollp" is calculated
-> > > using
-> > > autoconfig hardware registers. Otherwise "nollp" is calculated
-> > > using
-> > > the next code construction:
-> > > channel_writel(dwc, LLP, DWC_LLP_LOC(0xffffffff));
-> > > dwc->nollp = DWC_LLP_LOC(channel_readl(dwc, LLP)) == 0;
-> > > channel_writel(dwc, LLP, 0);
-> > > 
-> > > I realized that these methods give different results.
-> > > For example on ARC AXS101 SDP in case of using autoconfig "nollp"
-> > > was
-> > > calculated as "true" (and DMAC works fine),?
-> > > otherwise "nollp" was calculated as "false" (and DMAC doesn't
-> > > work).
-> > Can you show out what the value you read back?
+
+
+> -----Original Message-----
+> From: Vineet Gupta
+> Sent: Friday, August 12, 2016 2:39 AM
+> To: Yuriy Kolerov <ykolerov at synopsys.com>; uclibc at uclibc.org
+> Cc: Waldemar Brodkorb <wbx at openadk.org>; Alexey Brodkin
+> <abrodkin at synopsys.com>; Anton Kolesov <akolesov at synopsys.com>;
+> arcml <linux-snps-arc at lists.infradead.org>
+> Subject: Re: Problems with support of file locks for ARC (maybe for other
+> targets too)
 > 
-> channel_readl(dwc, LLP) return 0xfffffffc
-
-Nice.
-
-Oh, forgot to ask, what are the DW_PARAMS and DWC_PARAMS[x] are on the
-same hardware?
-
-I assume we are talking about that one which has no hardware LLP
-support.
-
-> > > So I'm wondering how the code in question really works?
-> > > From DW AHB DMAC databook I wasn't able to find anything relevant
-> > > to
-> > > this tricky implementation. Could you please clarify a little but
-> > > what
-> > > happens here?
-> > "Table 4-1:
-> > ...
-> > Hardcode Channel x LLP register to 0?
-> > ...
-> > Description: If set to 1, hardcodes channel x Linked List Pointer
-> > register to 0 (LLPx.LOC == 0), ..."
-
-So, any comment on this one? I suppose you may have an access to some
-internal Synopsys documentation which might shed a light. Or maybe I
-missed something else which should be considered.
-
-> > > Maybe we should add "nollp" field in pdata structure and receive
-> > > it
-> > > from pdata/device tree (like we use "is_private" or "is_memcpu"
-> > > fields)
-> > Yeah, perhaps we can remove that trick since we need this flag to be
-> > set
-> > on Intel Quark which might have the same issue as your case [1].
-> > 
-> > [1]?http://www.spinics.net/lists/linux-serial/msg22948.html
-> > 
+> On 08/11/2016 09:12 AM, Yuriy Kolerov wrote:
+> >
+> >>>  Moreover the whole uClibc and every application must be compiled
+> >>> with
+> >> those macros. Here is my question. Is it acceptable just to compile
+> >> toolchain itself using CFLAGS_FOR_TARGET with those macros and don?t
+> >> define them manually in each application?
+> >>
+> >> If you enable LFS support in build system (uClibc or buildroot) these
+> >> macros will be automatically defined - no point or need to pass them
+> >> as CFLAGS etc - infact that would be wrong IMO.
+> > If you enable __UCLIBC_HAS_LFS__ while configuring uClibc then
+> _LARGEFILE64_SOURCE and _FILE_OFFSET_BITS=64 will not be defined
+> automatically.
 > 
-> In which tree I can find this patch applied,?so I may base my work on
-> it?
+> What was I smoking when replying ? You are correct - these macros have to
+> be added to each application's makefile or at top level as target C flags.
+> 
+> > E.g. Buildroot has this generic line in Makefile for packages:
+> >
+> > TARGET_CPPFLAGS += -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE
+> > -D_FILE_OFFSET_BITS=64
+> 
+> Actually BR dropped support for disabling LFS in 2015 - before that the line
+> above used to be guarded by BR2_LARGEFILE.
+> 
+> > These defines are not placed to config.h or somewhere else. They must be
+> defined each time you compile anything. uClibc may be built by Buildroot
+> with these flags by default (actually it is not true at least for ARC - Buildroot
+> must be fixed but it is not a subject of this discussion). However you must
+> define these macros manually when building every application later.
+> 
+> Right, I stand corrected.
+> 
+> > I don?t understand this thing - is it possible to compile uClibc with full
+> support of LFS (see macros above) and don?t use this feature in applications
+> and everything will be ok?
+> 
+> Indeed this is the case - if you don't build with LFS, xxx64 won't even be
+> available to begin with.
+> 
+> > And is it possible to compile uClibc without _LARGEFILE64_SOURCE and
+> _FILE_OFFSET_BITS=64 and compile applications with them and everything
+> will be ok?
+> 
+> This mostly likely won't work as those defines will not be present in headers
+> to use in application.
 
-The series is under review. I'm preparing v10, so, I would like to re-
-make this patch with regarding to your input.
+But actually it works... As for now uClibc in Buildroot is built without -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 because uClibc does not use global TARGET_CFLAGS. And all other applications (e.g. BusyBox) use those flags. Again - all those defines are presented in features.h and must be activating just by passing those -D options. I'll try to push a patch to Buildroot to force using LFS flags but what frustrates me is that everything works somehow together.
 
-For now I would prefer just to remove the trick, but I still wonder what
-the circumstances are to bring it not working.
-
--- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+> > Right now when we build toolchain for ARC using Buildroot uClibc is
+> compiled without them and e.g. BusyBox is compiled with -
+> D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
+> ...
+> 
+> Buildroot now assumes LFS to be default (and you can't switch it off) so
+> everything including uClibc / Busybox has LFS enabled already.
+> 
+> >
+> >> So you really don't need LFS to be able to use locks - but need to
+> >> make sure that for common generic ABI - user struct flock pairs
+> >> correctly with kernel struct
+> >> flock64 with or w/o LFS.
+> 
+> But this point remains valid - for our ABI - kernel uses struct flock64 and this
+> needs to be binary compatible with uClibc struct flock and struct flock64 (LFS
+> only)
+> 
+> Read the comment in libc/sysdeps/linux/common-generic/bits/stat.h
+> 
+> -Vineet
