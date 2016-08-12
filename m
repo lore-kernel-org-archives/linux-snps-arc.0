@@ -1,26 +1,56 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 12 Aug 2016 08:03:14 +0000
+From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
+Date: Fri, 12 Aug 2016 13:59:44 +0300
 Subject: Wrong "nollp" DW DMAC parameter value on ARC SDP.
+In-Reply-To: <1470988994.21247.33.camel@synopsys.com>
+References: <1470988994.21247.33.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1470988994.21247.33.camel@synopsys.com>
+Message-ID: <1470999584.4887.94.camel@linux.intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+On Fri, 2016-08-12@08:03 +0000, Eugeniy Paltsev wrote:
+> Hi,
+> 
+> "nollp" parameter defines if DW DMAC channel supports multi block
+> transfer or not.
+> 
+> It is calculated in runtime, but differently depending on on
+> availability of pdata. If pdata is absent "nollp" is calculated using
+> autoconfig hardware registers. Otherwise "nollp" is calculated using
+> the next code construction:
+> channel_writel(dwc, LLP, DWC_LLP_LOC(0xffffffff));
+> dwc->nollp = DWC_LLP_LOC(channel_readl(dwc, LLP)) == 0;
+> channel_writel(dwc, LLP, 0);
+> 
+> I realized that these methods give different results.
+> For example on ARC AXS101 SDP in case of using autoconfig "nollp" was
+> calculated as "true" (and DMAC works fine),?
+> otherwise "nollp" was calculated as "false" (and DMAC doesn't work).
 
-"nollp" parameter defines if DW DMAC channel supports multi block
-transfer or not.
+Can you show out what the value you read back?
 
-It is calculated in runtime, but differently depending on on
-availability of pdata. If pdata is absent "nollp" is calculated using
-autoconfig hardware registers. Otherwise "nollp" is calculated using
-the next code construction:
-channel_writel(dwc, LLP, DWC_LLP_LOC(0xffffffff));
-dwc->nollp = DWC_LLP_LOC(channel_readl(dwc, LLP)) == 0;
-channel_writel(dwc, LLP, 0);
+> 
+> So I'm wondering how the code in question really works?
+> From DW AHB DMAC databook I wasn't able to find anything relevant to
+> this tricky implementation. Could you please clarify a little but what
+> happens here?
 
-I realized that these methods give different results.
-For example on ARC AXS101 SDP in case of using autoconfig "nollp" was
-calculated as "true" (and DMAC works fine),?
-otherwise "nollp" was calculated as "false" (and DMAC doesn't work).
+"Table 4-1:
+...
+Hardcode Channel x LLP register to 0?
+...
+Description: If set to 1, hardcodes channel x Linked List Pointer
+register to 0 (LLPx.LOC == 0), ..."
 
-So I'm wondering how the code in question really works?
+
+> Maybe we should add "nollp" field in pdata structure and receive it
+> from pdata/device tree (like we use "is_private" or "is_memcpu"
+> fields)
+
+Yeah, perhaps we can remove that trick since we need this flag to be set
+on Intel Quark which might have the same issue as your case [1].
+
+[1]?http://www.spinics.net/lists/linux-serial/msg22948.html
+
+-- 
+Andy Shevchenko <andriy.shevchenko at linux.intel.com>
+Intel Finland Oy
