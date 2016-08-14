@@ -1,96 +1,17 @@
-From: Yuriy.Kolerov@synopsys.com (Yuriy Kolerov)
-Date: Fri, 12 Aug 2016 17:47:16 +0000
-Subject: Problems with support of file locks for ARC (maybe for other
- targets too)
-In-Reply-To: <005bcb5f-f2a6-8a07-f07d-540721e2cf67@synopsys.com>
-References: <3ABF60118B9B784CA5BF7C841D2F00ECFFEBBD@de02wembxa.internal.synopsys.com>
- <c7eb5d55-fb26-6423-23dc-11a9aeba5897@synopsys.com>
- <3ABF60118B9B784CA5BF7C841D2F00ECFFF6E1@de02wembxa.internal.synopsys.com>
- <005bcb5f-f2a6-8a07-f07d-540721e2cf67@synopsys.com>
+From: greg@kroah.com (Greg KH)
+Date: Sun, 14 Aug 2016 17:39:44 +0200
+Subject: ARC stable backport request
+In-Reply-To: <57458FE3.1070205@synopsys.com>
+References: <57458FE3.1070205@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3ABF60118B9B784CA5BF7C841D2F00ECFFFEC3@de02wembxa.internal.synopsys.com>
+Message-ID: <20160814153944.GG20560@kroah.com>
 To: linux-snps-arc@lists.infradead.org
 
+On Wed, May 25, 2016@05:13:31PM +0530, Vineet Gupta wrote:
+> Hi,
+> 
+> Can we please backport a6416f57ce57fb390b "ARC: use ASL assembler mnemonic".
+> Newer binutils don't like ASL instruction and fail to build kernels prior to v4.4
+> which added this fix.
 
-
-> -----Original Message-----
-> From: Vineet Gupta
-> Sent: Friday, August 12, 2016 2:39 AM
-> To: Yuriy Kolerov <ykolerov at synopsys.com>; uclibc at uclibc.org
-> Cc: Waldemar Brodkorb <wbx at openadk.org>; Alexey Brodkin
-> <abrodkin at synopsys.com>; Anton Kolesov <akolesov at synopsys.com>;
-> arcml <linux-snps-arc at lists.infradead.org>
-> Subject: Re: Problems with support of file locks for ARC (maybe for other
-> targets too)
-> 
-> On 08/11/2016 09:12 AM, Yuriy Kolerov wrote:
-> >
-> >>>  Moreover the whole uClibc and every application must be compiled
-> >>> with
-> >> those macros. Here is my question. Is it acceptable just to compile
-> >> toolchain itself using CFLAGS_FOR_TARGET with those macros and don?t
-> >> define them manually in each application?
-> >>
-> >> If you enable LFS support in build system (uClibc or buildroot) these
-> >> macros will be automatically defined - no point or need to pass them
-> >> as CFLAGS etc - infact that would be wrong IMO.
-> > If you enable __UCLIBC_HAS_LFS__ while configuring uClibc then
-> _LARGEFILE64_SOURCE and _FILE_OFFSET_BITS=64 will not be defined
-> automatically.
-> 
-> What was I smoking when replying ? You are correct - these macros have to
-> be added to each application's makefile or at top level as target C flags.
-> 
-> > E.g. Buildroot has this generic line in Makefile for packages:
-> >
-> > TARGET_CPPFLAGS += -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE
-> > -D_FILE_OFFSET_BITS=64
-> 
-> Actually BR dropped support for disabling LFS in 2015 - before that the line
-> above used to be guarded by BR2_LARGEFILE.
-> 
-> > These defines are not placed to config.h or somewhere else. They must be
-> defined each time you compile anything. uClibc may be built by Buildroot
-> with these flags by default (actually it is not true at least for ARC - Buildroot
-> must be fixed but it is not a subject of this discussion). However you must
-> define these macros manually when building every application later.
-> 
-> Right, I stand corrected.
-> 
-> > I don?t understand this thing - is it possible to compile uClibc with full
-> support of LFS (see macros above) and don?t use this feature in applications
-> and everything will be ok?
-> 
-> Indeed this is the case - if you don't build with LFS, xxx64 won't even be
-> available to begin with.
-> 
-> > And is it possible to compile uClibc without _LARGEFILE64_SOURCE and
-> _FILE_OFFSET_BITS=64 and compile applications with them and everything
-> will be ok?
-> 
-> This mostly likely won't work as those defines will not be present in headers
-> to use in application.
-
-But actually it works... As for now uClibc in Buildroot is built without -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 because uClibc does not use global TARGET_CFLAGS. And all other applications (e.g. BusyBox) use those flags. Again - all those defines are presented in features.h and must be activating just by passing those -D options. I'll try to push a patch to Buildroot to force using LFS flags but what frustrates me is that everything works somehow together.
-
-> > Right now when we build toolchain for ARC using Buildroot uClibc is
-> compiled without them and e.g. BusyBox is compiled with -
-> D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-> ...
-> 
-> Buildroot now assumes LFS to be default (and you can't switch it off) so
-> everything including uClibc / Busybox has LFS enabled already.
-> 
-> >
-> >> So you really don't need LFS to be able to use locks - but need to
-> >> make sure that for common generic ABI - user struct flock pairs
-> >> correctly with kernel struct
-> >> flock64 with or w/o LFS.
-> 
-> But this point remains valid - for our ABI - kernel uses struct flock64 and this
-> needs to be binary compatible with uClibc struct flock and struct flock64 (LFS
-> only)
-> 
-> Read the comment in libc/sysdeps/linux/common-generic/bits/stat.h
-> 
-> -Vineet
+Fails to apply to 3.14-stable :(
