@@ -1,111 +1,193 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Mon, 15 Aug 2016 15:41:52 +0300
-Subject: Wrong "nollp" DW DMAC parameter value on ARC SDP.
-In-Reply-To: <1471259434.21247.47.camel@synopsys.com>
-References: <1470988994.21247.33.camel@synopsys.com>
- <1470999584.4887.94.camel@linux.intel.com>
- <1471008972.21247.40.camel@synopsys.com>
- <1471010908.4887.100.camel@linux.intel.com>
- <1471259434.21247.47.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 15 Aug 2016 15:56:16 +0300
+Subject: [PATCH] arc: Add "model" properly in device tree description of all
+ boards
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1471264912.4887.117.camel@linux.intel.com>
+Message-ID: <1471265776-29495-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, 2016-08-15@11:10 +0000, Eugeniy Paltsev wrote:
-> On Fri, 2016-08-12@17:08 +0300, Andy Shevchenko wrote:
-> > ?
-> > > > > "nollp" parameter defines if DW DMAC channel supports multi
-> > > > > block
-> > > > > transfer or not.
-> > > > > ?
-> > > > > It is calculated in runtime, but differently depending on on
-> > > > > availability of pdata. If pdata is absent "nollp" is
-> > > > > calculated
-> > > > > using
-> > > > > autoconfig hardware registers. Otherwise "nollp" is calculated
-> > > > > using
-> > > > > the next code construction:
-> > > > > channel_writel(dwc, LLP, DWC_LLP_LOC(0xffffffff));
-> > > > > dwc->nollp = DWC_LLP_LOC(channel_readl(dwc, LLP)) == 0;
-> > > > > channel_writel(dwc, LLP, 0);
-> > > > > ?
-> > > > > I realized that these methods give different results.
-> > > > > For example on ARC AXS101 SDP in case of using autoconfig
-> > > > > "nollp"
-> > > > > was
-> > > > > calculated as "true" (and DMAC works fine),?
-> > > > > otherwise "nollp" was calculated as "false" (and DMAC doesn't
-> > > > > work).
-> > > > Can you show out what the value you read back?
-> > > channel_readl(dwc, LLP) return 0xfffffffc
-> > Nice.
-> > ?
-> > Oh, forgot to ask, what are the DW_PARAMS and DWC_PARAMS[x] are on
-> > the same hardware?
-> DW_PARAMS: 0x38280b0c
+As it was discussed quite some time ago (see
+https://lkml.org/lkml/2015/11/5/862) it's a good practice to add
+"model" property in .dts. Moreover as per ePAPR "model" property is
+required and should look like "manufacturer,model" so we do here.
 
-Wow, you have two masters with number 3 and 4? (Just out of curiosity)
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Jonas Gorski <jonas.gorski at gmail.com>
+Cc: Arnd Bergmann <arnd at arndb.de>
+Cc: Rob Herring <robh at kernel.org>
+Cc: Christian Ruppert <christian.ruppert at alitech.com>
+---
+ arch/arc/boot/dts/abilis_tb100_dvk.dts | 1 +
+ arch/arc/boot/dts/abilis_tb101_dvk.dts | 1 +
+ arch/arc/boot/dts/axs101.dts           | 1 +
+ arch/arc/boot/dts/axs103.dts           | 1 +
+ arch/arc/boot/dts/axs103_idu.dts       | 1 +
+ arch/arc/boot/dts/nsim_700.dts         | 1 +
+ arch/arc/boot/dts/nsim_hs.dts          | 1 +
+ arch/arc/boot/dts/nsim_hs_idu.dts      | 1 +
+ arch/arc/boot/dts/nsimosci.dts         | 1 +
+ arch/arc/boot/dts/nsimosci_hs.dts      | 1 +
+ arch/arc/boot/dts/nsimosci_hs_idu.dts  | 1 +
+ arch/arc/boot/dts/vdk_hs38.dts         | 1 +
+ arch/arc/boot/dts/vdk_hs38_smp.dts     | 1 +
+ 13 files changed, 13 insertions(+)
 
-> DWC_PARAMS[0]: 0x4926d300
-> DWC_PARAMS[1]: 0x4926d300
-> DWC_PARAMS[2]: 0x4926d300
-> DWC_PARAMS[3]: 0x4926d300
-
-A-ha, seems you have CHx_HC_LLP == 0. That may explain.
-?
-> > > > > So I'm wondering how the code in question really works?
-> > > > > From DW AHB DMAC databook I wasn't able to find anything
-> > > > > relevant
-> > > > > to
-> > > > > this tricky implementation. Could you please clarify a little
-> > > > > but
-> > > > > what
-> > > > > happens here?
-> > > > "Table 4-1:
-> > > > ...
-> > > > Hardcode Channel x LLP register to 0?
-> > > > ...
-> > > > Description: If set to 1, hardcodes channel x Linked List
-> > > > Pointer
-> > > > register to 0 (LLPx.LOC == 0), ..."
-> > So, any comment on this one? I suppose you may have an access to
-> > some
-> > internal Synopsys documentation which might shed a light. Or maybe I
-> > missed something else which should be considered.
-> Looks like this code based on idea, what if DMA ip-core doesn't have?
-> LLP support it will not have LLP registers. It is not necessarily
-> true.
-
-Yep.
-
-Consider to review?
-http://www.spinics.net/lists/dmaengine/msg10682.html
-
-
-> > ?
-> Please add this code to read "is_memcpy" and "is_nollp" property?
-> from device tree.
-> ----------------------------->8------------------------------
-> diff --git a/drivers/dma/dw/platform.c b/drivers/dma/dw/platform.c
-> index 5bda0eb..2712602 100644
-> --- a/drivers/dma/dw/platform.c
-> +++ b/drivers/dma/dw/platform.c
-> @@ -129,6 +129,12 @@ dw_dma_parse_dt(struct platform_device *pdev)
-> ????????if (of_property_read_bool(np, "is_private"))
-> ????????????????pdata->is_private = true;
-> ?
-> +???????if (of_property_read_bool(np, "is_memcpy"))
-> +???????????????pdata->is_memcpy = true;
-> +
-> +???????if (of_property_read_bool(np, "is_nollp"))
-> +???????????????pdata->is_nollp = true;
-> +
-> ????????if (!of_property_read_u32(np, "chan_allocation_order", &tmp))
-> ????????????????pdata->chan_allocation_order = (unsigned char)tmp;
-
-Please, make this as a patch and submit either separately, or with your
-series mentioning that it has a dependency to my 8250 LPSS series.
-
+diff --git a/arch/arc/boot/dts/abilis_tb100_dvk.dts b/arch/arc/boot/dts/abilis_tb100_dvk.dts
+index 3dd6ed9..3acf04d 100644
+--- a/arch/arc/boot/dts/abilis_tb100_dvk.dts
++++ b/arch/arc/boot/dts/abilis_tb100_dvk.dts
+@@ -24,6 +24,7 @@
+ /include/ "abilis_tb100.dtsi"
+ 
+ / {
++	model = "abilis,tb100";
+ 	chosen {
+ 		bootargs = "earlycon=uart8250,mmio32,0xff100000,9600n8 console=ttyS0,9600n8";
+ 	};
+diff --git a/arch/arc/boot/dts/abilis_tb101_dvk.dts b/arch/arc/boot/dts/abilis_tb101_dvk.dts
+index 1cf51c2..37d88c5 100644
+--- a/arch/arc/boot/dts/abilis_tb101_dvk.dts
++++ b/arch/arc/boot/dts/abilis_tb101_dvk.dts
+@@ -24,6 +24,7 @@
+ /include/ "abilis_tb101.dtsi"
+ 
+ / {
++	model = "abilis,tb101";
+ 	chosen {
+ 		bootargs = "earlycon=uart8250,mmio32,0xff100000,9600n8 console=ttyS0,9600n8";
+ 	};
+diff --git a/arch/arc/boot/dts/axs101.dts b/arch/arc/boot/dts/axs101.dts
+index 3f9b058..d9b9b9d 100644
+--- a/arch/arc/boot/dts/axs101.dts
++++ b/arch/arc/boot/dts/axs101.dts
+@@ -13,6 +13,7 @@
+ /include/ "axs10x_mb.dtsi"
+ 
+ / {
++	model = "snps,axs101";
+ 	compatible = "snps,axs101", "snps,arc-sdp";
+ 
+ 	chosen {
+diff --git a/arch/arc/boot/dts/axs103.dts b/arch/arc/boot/dts/axs103.dts
+index e6d0e31..ec7fb27 100644
+--- a/arch/arc/boot/dts/axs103.dts
++++ b/arch/arc/boot/dts/axs103.dts
+@@ -16,6 +16,7 @@
+ /include/ "axs10x_mb.dtsi"
+ 
+ / {
++	model = "snps,axs103";
+ 	compatible = "snps,axs103", "snps,arc-sdp";
+ 
+ 	chosen {
+diff --git a/arch/arc/boot/dts/axs103_idu.dts b/arch/arc/boot/dts/axs103_idu.dts
+index f999fef..070c297 100644
+--- a/arch/arc/boot/dts/axs103_idu.dts
++++ b/arch/arc/boot/dts/axs103_idu.dts
+@@ -16,6 +16,7 @@
+ /include/ "axs10x_mb.dtsi"
+ 
+ / {
++	model = "snps,axs103-smp";
+ 	compatible = "snps,axs103", "snps,arc-sdp";
+ 
+ 	chosen {
+diff --git a/arch/arc/boot/dts/nsim_700.dts b/arch/arc/boot/dts/nsim_700.dts
+index 6397051..ce0ccd20 100644
+--- a/arch/arc/boot/dts/nsim_700.dts
++++ b/arch/arc/boot/dts/nsim_700.dts
+@@ -10,6 +10,7 @@
+ /include/ "skeleton.dtsi"
+ 
+ / {
++	model = "snps,nsim";
+ 	compatible = "snps,nsim";
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+diff --git a/arch/arc/boot/dts/nsim_hs.dts b/arch/arc/boot/dts/nsim_hs.dts
+index bf05fe5..fa6fde8 100644
+--- a/arch/arc/boot/dts/nsim_hs.dts
++++ b/arch/arc/boot/dts/nsim_hs.dts
+@@ -10,6 +10,7 @@
+ /include/ "skeleton_hs.dtsi"
+ 
+ / {
++	model = "snps,nsim";
+ 	compatible = "snps,nsim_hs";
+ 	#address-cells = <2>;
+ 	#size-cells = <2>;
+diff --git a/arch/arc/boot/dts/nsim_hs_idu.dts b/arch/arc/boot/dts/nsim_hs_idu.dts
+index 99eabe1..1f02808 100644
+--- a/arch/arc/boot/dts/nsim_hs_idu.dts
++++ b/arch/arc/boot/dts/nsim_hs_idu.dts
+@@ -10,6 +10,7 @@
+ /include/ "skeleton_hs_idu.dtsi"
+ 
+ / {
++	model = "snps,nsim-smp";
+ 	compatible = "snps,nsim_hs";
+ 	interrupt-parent = <&core_intc>;
+ 
+diff --git a/arch/arc/boot/dts/nsimosci.dts b/arch/arc/boot/dts/nsimosci.dts
+index e659a34..bcf6031 100644
+--- a/arch/arc/boot/dts/nsimosci.dts
++++ b/arch/arc/boot/dts/nsimosci.dts
+@@ -10,6 +10,7 @@
+ /include/ "skeleton.dtsi"
+ 
+ / {
++	model = "snps,nsimosci";
+ 	compatible = "snps,nsimosci";
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+diff --git a/arch/arc/boot/dts/nsimosci_hs.dts b/arch/arc/boot/dts/nsimosci_hs.dts
+index 16ce5d6..6609240 100644
+--- a/arch/arc/boot/dts/nsimosci_hs.dts
++++ b/arch/arc/boot/dts/nsimosci_hs.dts
+@@ -10,6 +10,7 @@
+ /include/ "skeleton_hs.dtsi"
+ 
+ / {
++	model = "snps,nsimosci";
+ 	compatible = "snps,nsimosci_hs";
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+diff --git a/arch/arc/boot/dts/nsimosci_hs_idu.dts b/arch/arc/boot/dts/nsimosci_hs_idu.dts
+index ce8dfbc..4926c73 100644
+--- a/arch/arc/boot/dts/nsimosci_hs_idu.dts
++++ b/arch/arc/boot/dts/nsimosci_hs_idu.dts
+@@ -10,6 +10,7 @@
+ /include/ "skeleton_hs_idu.dtsi"
+ 
+ / {
++	model = "snps,nsimosci-smp";
+ 	compatible = "snps,nsimosci_hs";
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+diff --git a/arch/arc/boot/dts/vdk_hs38.dts b/arch/arc/boot/dts/vdk_hs38.dts
+index 5d803dd..ab2968e 100644
+--- a/arch/arc/boot/dts/vdk_hs38.dts
++++ b/arch/arc/boot/dts/vdk_hs38.dts
+@@ -13,6 +13,7 @@
+ /include/ "vdk_axs10x_mb.dtsi"
+ 
+ / {
++	model = "snps,vdk";
+ 	compatible = "snps,axs103";
+ 
+ 	chosen {
+diff --git a/arch/arc/boot/dts/vdk_hs38_smp.dts b/arch/arc/boot/dts/vdk_hs38_smp.dts
+index 2ba60c39..a39fd38 100644
+--- a/arch/arc/boot/dts/vdk_hs38_smp.dts
++++ b/arch/arc/boot/dts/vdk_hs38_smp.dts
+@@ -13,6 +13,7 @@
+ /include/ "vdk_axs10x_mb.dtsi"
+ 
+ / {
++	model = "snps,vdk-smp";
+ 	compatible = "snps,axs103";
+ 
+ 	chosen {
 -- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+2.7.4
