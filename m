@@ -1,31 +1,54 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Tue, 16 Aug 2016 14:46:27 +0300
-Subject: Wrong "nollp" DW DMAC parameter value on ARC SDP.
-In-Reply-To: <1471347132.21247.55.camel@synopsys.com>
-References: <1470988994.21247.33.camel@synopsys.com>
- <1470999584.4887.94.camel@linux.intel.com>
- <1471008972.21247.40.camel@synopsys.com>
- <1471010908.4887.100.camel@linux.intel.com>
- <1471259434.21247.47.camel@synopsys.com>
- <1471264912.4887.117.camel@linux.intel.com>
- <1471347132.21247.55.camel@synopsys.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Tue, 16 Aug 2016 20:19:14 +0800
+Subject: [PATCH] DW: Read "is_memcpy" and "is_nollp" property from device
+ tree.
+In-Reply-To: <1471347080-1411-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1471347987.4887.127.camel@linux.intel.com>
+Message-ID: <201608162047.gPvHvyyO%fengguang.wu@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 2016-08-16@11:32 +0000, Eugeniy Paltsev wrote:
-> On Mon, 2016-08-15@15:41 +0300, Andy Shevchenko wrote:
-> > On Mon, 2016-08-15@11:10 +0000, Eugeniy Paltsev wrote:
+Hi Eugeniy,
 
-> > Consider to review?
-> > http://www.spinics.net/lists/dmaengine/msg10682.html
-> Looks good to me.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v4.8-rc2 next-20160815]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-> Reviewed-by: Eugeniy Platsev <Eugeniy.Paltsev at synopsys.com>
+url:    https://github.com/0day-ci/linux/commits/Eugeniy-Paltsev/DW-Read-is_memcpy-and-is_nollp-property-from-device-tree/20160816-193459
+config: sparc64-allyesconfig (attached as .config)
+compiler: sparc64-linux-gnu-gcc (Debian 5.4.0-6) 5.4.0 20160609
+reproduce:
+        wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        make.cross ARCH=sparc64 
 
-I assume that was related to my patch. Please, send this as an answer to
-that thread.
+All errors (new ones prefixed by >>):
 
--- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+   drivers/dma/dw/platform.c: In function 'dw_dma_parse_dt':
+>> drivers/dma/dw/platform.c:136:8: error: 'struct dw_dma_platform_data' has no member named 'is_nollp'
+      pdata->is_nollp = true;
+           ^
+
+vim +136 drivers/dma/dw/platform.c
+
+   130			pdata->is_private = true;
+   131	
+   132		if (of_property_read_bool(np, "is_memcpy"))
+   133			pdata->is_memcpy = true;
+   134	
+   135		if (of_property_read_bool(np, "is_nollp"))
+ > 136			pdata->is_nollp = true;
+   137	
+   138		if (!of_property_read_u32(np, "chan_allocation_order", &tmp))
+   139			pdata->chan_allocation_order = (unsigned char)tmp;
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/octet-stream
+Size: 47053 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160816/cba84cdb/attachment-0001.obj>
