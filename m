@@ -1,54 +1,26 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Tue, 16 Aug 2016 20:19:14 +0800
-Subject: [PATCH] DW: Read "is_memcpy" and "is_nollp" property from device
- tree.
-In-Reply-To: <1471347080-1411-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
+Date: Tue, 16 Aug 2016 15:49:01 +0300
+Subject: [LTP] [PATCH v2] syscalls/fcntl34: Use flock64 instead of flock
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201608162047.gPvHvyyO%fengguang.wu@intel.com>
+Message-ID: <1471351741-20639-1-git-send-email-yuriy.kolerov@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Eugeniy,
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v4.8-rc2 next-20160815]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+This test uses OFD locks which are supported only by 64-bit ABI.
+Thus OFD locks must be used with flock64 structure for sure in this
+test. It is necessary because on some 32-bit targets (e.g. 32-bit
+uClibc) flock is not mapped to flock64 when _FILE_OFFSET_BITS is not
+set to 64.
 
-url:    https://github.com/0day-ci/linux/commits/Eugeniy-Paltsev/DW-Read-is_memcpy-and-is_nollp-property-from-device-tree/20160816-193459
-config: sparc64-allyesconfig (attached as .config)
-compiler: sparc64-linux-gnu-gcc (Debian 5.4.0-6) 5.4.0 20160609
-reproduce:
-        wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        make.cross ARCH=sparc64 
-
-All errors (new ones prefixed by >>):
-
-   drivers/dma/dw/platform.c: In function 'dw_dma_parse_dt':
->> drivers/dma/dw/platform.c:136:8: error: 'struct dw_dma_platform_data' has no member named 'is_nollp'
-      pdata->is_nollp = true;
-           ^
-
-vim +136 drivers/dma/dw/platform.c
-
-   130			pdata->is_private = true;
-   131	
-   132		if (of_property_read_bool(np, "is_memcpy"))
-   133			pdata->is_memcpy = true;
-   134	
-   135		if (of_property_read_bool(np, "is_nollp"))
- > 136			pdata->is_nollp = true;
-   137	
-   138		if (!of_property_read_u32(np, "chan_allocation_order", &tmp))
-   139			pdata->chan_allocation_order = (unsigned char)tmp;
-
+Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
 ---
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+ testcases/kernel/syscalls/fcntl/fcntl34.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -------------- next part --------------
 A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 47053 bytes
+Name: 0001-syscalls-fcntl34-Use-flock64-instead-of-flock.patch
+Type: text/x-patch
+Size: 428 bytes
 Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160816/cba84cdb/attachment-0001.obj>
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160816/d962680c/attachment.bin>
