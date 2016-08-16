@@ -1,211 +1,54 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 16 Aug 2016 13:04:06 -0700
-Subject: [PATCH v2] arc: Add "model" properly in device tree description
- of all boards
-In-Reply-To: <1471321591-6812-1-git-send-email-abrodkin@synopsys.com>
-References: <1471321591-6812-1-git-send-email-abrodkin@synopsys.com>
+Date: Tue, 16 Aug 2016 15:04:27 -0700
+Subject: [uClibc] ARC: Support syscall ABI v4
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <7d10f6b2-715d-1c1a-c211-55f28c1643c7@synopsys.com>
+Message-ID: <1471385067-1671-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Arnd,
+The syscall ABI includes the gcc functional calling ABI since a syscall
+implies userland caller and kernel callee.
 
-On 08/15/2016 09:28 PM, Alexey Brodkin wrote:
-> As it was discussed quite some time ago (see
-> https://lkml.org/lkml/2015/11/5/862) it's a good practice to add
-> "model" property in .dts. Moreover as per ePAPR "model" property is
-> required and should look like "manufacturer,model" so we do here.
+The current gcc ABI (v3) for ARCv2 ISA required 64-bit data be passed in
+even-odd register pairs, (potentially punching reg holes when passing such
+values as args). This was partly driven by the fact that the double-word
+LDD/STD instructions in ARCv2 expect the register alignment and thus gcc
+forcing this avoids extra MOV at the cost of a few unused register (which we
+have plenty anyways).
 
-I went back to the discussion above and you mentioned that "model" needs to be a
-descriptive name.
-However per Documentation/booting-without-of.txt "model" is type/model - more like
-"compatible" which is what Alexey's patch does. I don't have a preference either
-ways !
+This however was rejected as part of upstreaming gcc port to HS. So the new
+ABI v4 doesn't enforce the even-odd reg restriction.
 
--Vineet
+Do note that for ARCompact ISA builds v3 and v4 are practically the same in
+terms of gcc code generation.
 
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: Jonas Gorski <jonas.gorski at gmail.com>
-> Cc: Arnd Bergmann <arnd at arndb.de>
-> Cc: Rob Herring <robh at kernel.org>
-> Cc: Christian Ruppert <christian.ruppert at alitech.com>
-> ---
->
-> Changes v1 -> v2:
->  * Added "hs" postfix for boards based on ARC HS core
->  * Added "archs" postfix in VDK's .dts to distinguish VDKs for
->    ARC cores from those for ARM cores
->
->  arch/arc/boot/dts/abilis_tb100_dvk.dts | 1 +
->  arch/arc/boot/dts/abilis_tb101_dvk.dts | 1 +
->  arch/arc/boot/dts/axs101.dts           | 1 +
->  arch/arc/boot/dts/axs103.dts           | 1 +
->  arch/arc/boot/dts/axs103_idu.dts       | 1 +
->  arch/arc/boot/dts/nsim_700.dts         | 1 +
->  arch/arc/boot/dts/nsim_hs.dts          | 1 +
->  arch/arc/boot/dts/nsim_hs_idu.dts      | 1 +
->  arch/arc/boot/dts/nsimosci.dts         | 1 +
->  arch/arc/boot/dts/nsimosci_hs.dts      | 1 +
->  arch/arc/boot/dts/nsimosci_hs_idu.dts  | 1 +
->  arch/arc/boot/dts/vdk_hs38.dts         | 1 +
->  arch/arc/boot/dts/vdk_hs38_smp.dts     | 1 +
->  13 files changed, 13 insertions(+)
->
-> diff --git a/arch/arc/boot/dts/abilis_tb100_dvk.dts b/arch/arc/boot/dts/abilis_tb100_dvk.dts
-> index 3dd6ed9..3acf04d 100644
-> --- a/arch/arc/boot/dts/abilis_tb100_dvk.dts
-> +++ b/arch/arc/boot/dts/abilis_tb100_dvk.dts
-> @@ -24,6 +24,7 @@
->  /include/ "abilis_tb100.dtsi"
->  
->  / {
-> +	model = "abilis,tb100";
->  	chosen {
->  		bootargs = "earlycon=uart8250,mmio32,0xff100000,9600n8 console=ttyS0,9600n8";
->  	};
-> diff --git a/arch/arc/boot/dts/abilis_tb101_dvk.dts b/arch/arc/boot/dts/abilis_tb101_dvk.dts
-> index 1cf51c2..37d88c5 100644
-> --- a/arch/arc/boot/dts/abilis_tb101_dvk.dts
-> +++ b/arch/arc/boot/dts/abilis_tb101_dvk.dts
-> @@ -24,6 +24,7 @@
->  /include/ "abilis_tb101.dtsi"
->  
->  / {
-> +	model = "abilis,tb101";
->  	chosen {
->  		bootargs = "earlycon=uart8250,mmio32,0xff100000,9600n8 console=ttyS0,9600n8";
->  	};
-> diff --git a/arch/arc/boot/dts/axs101.dts b/arch/arc/boot/dts/axs101.dts
-> index 3f9b058..d9b9b9d 100644
-> --- a/arch/arc/boot/dts/axs101.dts
-> +++ b/arch/arc/boot/dts/axs101.dts
-> @@ -13,6 +13,7 @@
->  /include/ "axs10x_mb.dtsi"
->  
->  / {
-> +	model = "snps,axs101";
->  	compatible = "snps,axs101", "snps,arc-sdp";
->  
->  	chosen {
-> diff --git a/arch/arc/boot/dts/axs103.dts b/arch/arc/boot/dts/axs103.dts
-> index e6d0e31..ec7fb27 100644
-> --- a/arch/arc/boot/dts/axs103.dts
-> +++ b/arch/arc/boot/dts/axs103.dts
-> @@ -16,6 +16,7 @@
->  /include/ "axs10x_mb.dtsi"
->  
->  / {
-> +	model = "snps,axs103";
->  	compatible = "snps,axs103", "snps,arc-sdp";
->  
->  	chosen {
-> diff --git a/arch/arc/boot/dts/axs103_idu.dts b/arch/arc/boot/dts/axs103_idu.dts
-> index f999fef..070c297 100644
-> --- a/arch/arc/boot/dts/axs103_idu.dts
-> +++ b/arch/arc/boot/dts/axs103_idu.dts
-> @@ -16,6 +16,7 @@
->  /include/ "axs10x_mb.dtsi"
->  
->  / {
-> +	model = "snps,axs103-smp";
->  	compatible = "snps,axs103", "snps,arc-sdp";
->  
->  	chosen {
-> diff --git a/arch/arc/boot/dts/nsim_700.dts b/arch/arc/boot/dts/nsim_700.dts
-> index 6397051..ce0ccd20 100644
-> --- a/arch/arc/boot/dts/nsim_700.dts
-> +++ b/arch/arc/boot/dts/nsim_700.dts
-> @@ -10,6 +10,7 @@
->  /include/ "skeleton.dtsi"
->  
->  / {
-> +	model = "snps,nsim";
->  	compatible = "snps,nsim";
->  	#address-cells = <1>;
->  	#size-cells = <1>;
-> diff --git a/arch/arc/boot/dts/nsim_hs.dts b/arch/arc/boot/dts/nsim_hs.dts
-> index bf05fe5..3772c40 100644
-> --- a/arch/arc/boot/dts/nsim_hs.dts
-> +++ b/arch/arc/boot/dts/nsim_hs.dts
-> @@ -10,6 +10,7 @@
->  /include/ "skeleton_hs.dtsi"
->  
->  / {
-> +	model = "snps,nsim_hs";
->  	compatible = "snps,nsim_hs";
->  	#address-cells = <2>;
->  	#size-cells = <2>;
-> diff --git a/arch/arc/boot/dts/nsim_hs_idu.dts b/arch/arc/boot/dts/nsim_hs_idu.dts
-> index 99eabe1..48434d7c 100644
-> --- a/arch/arc/boot/dts/nsim_hs_idu.dts
-> +++ b/arch/arc/boot/dts/nsim_hs_idu.dts
-> @@ -10,6 +10,7 @@
->  /include/ "skeleton_hs_idu.dtsi"
->  
->  / {
-> +	model = "snps,nsim_hs-smp";
->  	compatible = "snps,nsim_hs";
->  	interrupt-parent = <&core_intc>;
->  
-> diff --git a/arch/arc/boot/dts/nsimosci.dts b/arch/arc/boot/dts/nsimosci.dts
-> index e659a34..bcf6031 100644
-> --- a/arch/arc/boot/dts/nsimosci.dts
-> +++ b/arch/arc/boot/dts/nsimosci.dts
-> @@ -10,6 +10,7 @@
->  /include/ "skeleton.dtsi"
->  
->  / {
-> +	model = "snps,nsimosci";
->  	compatible = "snps,nsimosci";
->  	#address-cells = <1>;
->  	#size-cells = <1>;
-> diff --git a/arch/arc/boot/dts/nsimosci_hs.dts b/arch/arc/boot/dts/nsimosci_hs.dts
-> index 16ce5d6..14a727c 100644
-> --- a/arch/arc/boot/dts/nsimosci_hs.dts
-> +++ b/arch/arc/boot/dts/nsimosci_hs.dts
-> @@ -10,6 +10,7 @@
->  /include/ "skeleton_hs.dtsi"
->  
->  / {
-> +	model = "snps,nsimosci_hs";
->  	compatible = "snps,nsimosci_hs";
->  	#address-cells = <1>;
->  	#size-cells = <1>;
-> diff --git a/arch/arc/boot/dts/nsimosci_hs_idu.dts b/arch/arc/boot/dts/nsimosci_hs_idu.dts
-> index ce8dfbc..cbf65b6 100644
-> --- a/arch/arc/boot/dts/nsimosci_hs_idu.dts
-> +++ b/arch/arc/boot/dts/nsimosci_hs_idu.dts
-> @@ -10,6 +10,7 @@
->  /include/ "skeleton_hs_idu.dtsi"
->  
->  / {
-> +	model = "snps,nsimosci_hs-smp";
->  	compatible = "snps,nsimosci_hs";
->  	#address-cells = <1>;
->  	#size-cells = <1>;
-> diff --git a/arch/arc/boot/dts/vdk_hs38.dts b/arch/arc/boot/dts/vdk_hs38.dts
-> index 5d803dd..3c51103 100644
-> --- a/arch/arc/boot/dts/vdk_hs38.dts
-> +++ b/arch/arc/boot/dts/vdk_hs38.dts
-> @@ -13,6 +13,7 @@
->  /include/ "vdk_axs10x_mb.dtsi"
->  
->  / {
-> +	model = "snps,vdk_archs";
->  	compatible = "snps,axs103";
->  
->  	chosen {
-> diff --git a/arch/arc/boot/dts/vdk_hs38_smp.dts b/arch/arc/boot/dts/vdk_hs38_smp.dts
-> index 2ba60c39..6be6800 100644
-> --- a/arch/arc/boot/dts/vdk_hs38_smp.dts
-> +++ b/arch/arc/boot/dts/vdk_hs38_smp.dts
-> @@ -13,6 +13,7 @@
->  /include/ "vdk_axs10x_mb.dtsi"
->  
->  / {
-> +	model = "snps,vdk_archs-smp";
->  	compatible = "snps,axs103";
->  
->  	chosen {
+This change is dormant for now (gcc 4.8.x based tools) and will only kick
+in with switch to gcc 6.x based tools.
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ libc/sysdeps/linux/arc/bits/uClibc_arch_features.h | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/libc/sysdeps/linux/arc/bits/uClibc_arch_features.h b/libc/sysdeps/linux/arc/bits/uClibc_arch_features.h
+index 51607240cd82..94e089d5dfa8 100755
+--- a/libc/sysdeps/linux/arc/bits/uClibc_arch_features.h
++++ b/libc/sysdeps/linux/arc/bits/uClibc_arch_features.h
+@@ -41,8 +41,14 @@
+ /* The default ';' is a comment on ARC. */
+ #define __UCLIBC_ASM_LINE_SEP__ `
+ 
+-/* does your target align 64bit values in register pairs ? (32bit arches only) */
+-#if defined(__A7__)
++/* does your target align 64bit values in register pairs ? (32bit arches only)
++ *  - ARC700 never had any constraint on reg pairs (even if ABI v3)
++ *  - Inital HS ABI (v3: non upstream gcc) had 64-bit data aligned in even-odd
++ *     reg pairs (thus allowed reg holes when passing such args to calls)
++ *  - Upstream gcc (6.x) HS ABI doesn't have that restriction
++ */
++
++#if defined(__A7__) || (__GNUC__ > 4)
+ #undef __UCLIBC_SYSCALL_ALIGN_64BIT__
+ #else
+ #define __UCLIBC_SYSCALL_ALIGN_64BIT__
+-- 
+2.7.4
