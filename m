@@ -1,78 +1,54 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 16 Aug 2016 13:21:06 +0000
-Subject: [PATCH v10 03/11] dmaengine: dw: override LLP support if asked
- in platform data
-In-Reply-To: <1471017716-44893-4-git-send-email-andriy.shevchenko@linux.intel.com>
-References: <1471017716-44893-1-git-send-email-andriy.shevchenko@linux.intel.com>
- <1471017716-44893-4-git-send-email-andriy.shevchenko@linux.intel.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 16 Aug 2016 08:47:07 -0700
+Subject: [PATCH] ARC: Change ld.as instruction to regular ld.
+In-Reply-To: <1471353226.3980.42.camel@synopsys.com>
+References: <1471334135-21801-1-git-send-email-liavr@mellanox.com>
+ <1471353226.3980.42.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1471353666.1562.3.camel@synopsys.com>
+Message-ID: <1c425ae8-6df6-3937-9358-742ac57196a9@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, 2016-08-12@19:01 +0300, Andy Shevchenko wrote:
-> There are at least two known devices, e.g. DMA controller found on
-> ARC AXS101
-> SDP board, that have LLP register and no multi block transfer support
-> at the
-> same time.
+On 08/16/2016 06:15 AM, Alexey Brodkin wrote:
+> Hi Liav,
 > 
-> Override autodetection by user provided data.
+> On Tue, 2016-08-16@10:55 +0300, Liav Rehana wrote:
+>> From: Liav Rehana <liavr at mellanox.com>
+>>
+>> The instruction ld.as takes as operands a base address and an offset,
+>> and doesn't access the sum of these two, but the sum of the base
+>> address and a shifted version of the offset.
+>> This isn't what we want in that case, since it causes a bug during
+>> the push and pop of r25, since his actual offset is given during
+>> resume_user_mode_begin.
+>> Thus, the use of ld solves this problem.
+>>
+>> Signed-off-by: Liav Rehana <liavr at mellanox.com>
+>> ---
 > 
-> Reported-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-> ---
-> ?drivers/dma/dw/core.c????????????????| 6 +-----
-> ?include/linux/platform_data/dma-dw.h | 2 ++
-> ?2 files changed, 3 insertions(+), 5 deletions(-)
+> Very nice catch!
 > 
-> diff --git a/drivers/dma/dw/core.c b/drivers/dma/dw/core.c
-> index 80e7421..da18b18 100644
-> --- a/drivers/dma/dw/core.c
-> +++ b/drivers/dma/dw/core.c
-> @@ -1571,11 +1571,7 @@ int dw_dma_probe(struct dw_dma_chip *chip)
-> ?				(dwc_params >> DWC_PARAMS_MBLK_EN &
-> 0x1) == 0;
-> ?		} else {
-> ?			dwc->block_size = pdata->block_size;
-> -
-> -			/* Check if channel supports multi block
-> transfer */
-> -			channel_writel(dwc, LLP,
-> DWC_LLP_LOC(0xffffffff));
-> -			dwc->nollp = DWC_LLP_LOC(channel_readl(dwc,
-> LLP)) == 0;
-> -			channel_writel(dwc, LLP, 0);
-> +			dwc->nollp = pdata->is_nollp;
-> ?		}
-> ?	}
-> ?
-> diff --git a/include/linux/platform_data/dma-dw.h
-> b/include/linux/platform_data/dma-dw.h
-> index 4636c93..5f0e11e 100644
-> --- a/include/linux/platform_data/dma-dw.h
-> +++ b/include/linux/platform_data/dma-dw.h
-> @@ -40,6 +40,7 @@ struct dw_dma_slave {
-> ? * @is_private: The device channels should be marked as private and
-> not for
-> ? *	by the general purpose DMA channel allocator.
-> ? * @is_memcpy: The device channels do support memory-to-memory
-> transfers.
-> + * @is_nollp: The device channels does not support multi block
-> transfers.
-> ? * @chan_allocation_order: Allocate channels starting from 0 or 7
-> ? * @chan_priority: Set channel priority increasing from 0 to 7 or 7
-> to 0.
-> ? * @block_size: Maximum block size supported by the controller
-> @@ -51,6 +52,7 @@ struct dw_dma_platform_data {
-> ?	unsigned int	nr_channels;
-> ?	bool		is_private;
-> ?	bool		is_memcpy;
-> +	bool		is_nollp;
-> ?#define CHAN_ALLOCATION_ASCENDING	0	/* zero to seven
-> */
-> ?#define CHAN_ALLOCATION_DESCENDING	1	/* seven to zero
-> */
-> ?	unsigned char	chan_allocation_order;
+> But IMHO description could be improved a little bit.
+> Probably something like that:
+> --------------------->8---------------------
+> "PT_user_r25" is offset in bytes within pt_regs structure.
+> 
+> In its turn what "ld.as r1, [r2, x]" really does is
+> r1 <- load_from(r2 + (x << data_size)) = load_from(r2 + x*4).
+> 
+> But the code in question is supposed to load_from(r2 + x).
+> 
+> This leads to obvious stack corruption.
+> --------------------->8---------------------
 
-Looks good to me.
-Reviewed-by: Eugeniy Platsev <Eugeniy.Paltsev at synopsys.com>
+Right - this is much better. A good changelog also needs to explain the context of
+problem. How does below sound ...
+
+-------->
+User mode callee regs are explicitly collected before signal delivery or
+breakpoint trap. r25 is special for kernel as it serves as task pointer,
+so user mode value is clobbered very early. It is saved in pt_regs where
+generally only scratch (caller saved) res are saved.
+
+The code to access the corresponding pt_regs location had a subtle bug as
+it was using load/store with scaling of offset, whereas the offset was already
+byte wise correct. So fix this by replacing LD.AS with a standard LD
