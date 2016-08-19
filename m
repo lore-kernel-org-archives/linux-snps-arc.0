@@ -1,84 +1,52 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Fri, 19 Aug 2016 17:39:26 +0300
-Subject: [PATCH] DW: Read "is_memcpy" and "is_nollp" property from
- device tree.
-In-Reply-To: <1471347080-1411-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
-References: <1471347080-1411-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+From: viro@ZenIV.linux.org.uk (Al Viro)
+Date: Fri, 19 Aug 2016 18:06:42 +0100
+Subject: [arc] get_user() not clearing destination on failure
+In-Reply-To: <41c1db61-8b1c-fbc8-f7aa-f1a4504913f9@synopsys.com>
+References: <20160818030045.GN2356@ZenIV.linux.org.uk>
+ <41c1db61-8b1c-fbc8-f7aa-f1a4504913f9@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1471617566.4887.184.camel@linux.intel.com>
+Message-ID: <20160819170641.GQ2356@ZenIV.linux.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 2016-08-16@14:31 +0300, Eugeniy Paltsev wrote:
-> DW DMAC on ARC SDP became broken after df5c7386 ("dmaengine: dw: some
-> Intel
-> devices has no memcpy support") and 30cb2639 ("dmaengine: dw: don't
-> override
-> platform data with autocfg") commits.
+On Thu, Aug 18, 2016@11:11:09PM -0700, Vineet Gupta wrote:
+> On 08/17/2016 08:00 PM, Al Viro wrote:
 
-I'm not sure that word 'broken' is a correct one here. Is the platform
-code using this driver in the upstream already? If so, where is it
-located?
-
+> Just curious - why is that. The typical usage paradigm is check for return value
+> and if 0 only then proceed to use the actual value.
 > 
-> * After df5c7386 commit "DMA_MEMCPY" capability option doesn't get set
-> correctly in platform driver version.
-> * After 30cb2639 commit "nollp" parameters don't get set correctly in
-> platform driver version.
+> Also for discussion sake, will eliminating the intermediate __x be helpful - so it
+> would use the actual variable defined in caller of get_user() so if it is init
+> properly, the value would be "retained" for -EFAULT. Anyways all of this is just
+> for understanding better.
 
-> 
-> This happens because in old driver version there are three sources of
-> parameters: pdata, device tree and autoconfig hardware registers. Some
-> parameters were read from pdata and others from autoconfig hardware
-> registers. If pdata was absent some pdata structure fields were filled
-> with parameters from device tree.
+The effect of __get_user(v, p) should mirror that of v = *p had p been a kernel
+pointer.  Including the sign expansion/truncation/etc.
 
+That's what those casts and assignments are about, and unless you want to
+play with doing usual arithmetical conversion in your assembler bits, it
+has to stay in C.  Sure, we could have __get_user(v, p) use v instead of
+(in your case) __x and do v = (__typeof(*p))v; to trigger the conversions,
+but... that's where the second problem bites: __get_user() has to be a macro,
+and __get_user(a[i++], p) would obviously break with that approach.
 
-> But 30cb2639 commit disabled overriding pdata with autocfg, so if we
-> use platform driver version without pdata some parameters will not be
-> set.
-> This leads to inoperability of DW DMAC.
+So there's no realistic way to get rid of that intermediate - not without
+a massive PITA with folding conversions into asm part and playing with
+__builtin_choose_expr/__builtin_types_compatible_p, which is going to be
+both painful and very easy to get wrong.
 
-My suggestion is still the same, i.e. split platform data to actual
-hardware properties and platform quirks. We might be able to use quirks
-even in case of auto configuration.
+As for checking for error and discarding the results if it has happened...
+not always possible or reasonable.  If you are using __get_user() in the
+first place, you are likely to be on a fairly hot path (otherwise the
+normal get_user() would've worked just as well).  And having explicit test
+and branch after each of those can be unpleasant enough.  Which means that
+you do something like a series of err |= __get_user(...); and check err
+once in the end (or have something like __get_user_err(..., err) or
+__get_user_ex() as x86 does, etc.).  Which means that by the time you get
+to "OK, we sod off now" path, you don't know which of __get_user() has
+failed.  If any of the destinations are not immediately destroyed, you
+get a fun questions along the lines of "which ones do I clean?", and even
+simpler "how do I make sure that none of them is missed by an accident?"
 
-> 
-> This patch adds reading missed parameters from device tree.
-> 
-> Note there's a prerequisite http://www.spinics.net/lists/dmaengine/msg
-> 10682.html
-> 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
-> ?drivers/dma/dw/platform.c | 6 ++++++
-> ?1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/dma/dw/platform.c b/drivers/dma/dw/platform.c
-> index 5bda0eb..2712602 100644
-> --- a/drivers/dma/dw/platform.c
-> +++ b/drivers/dma/dw/platform.c
-> @@ -129,6 +129,12 @@ dw_dma_parse_dt(struct platform_device *pdev)
-> ?	if (of_property_read_bool(np, "is_private"))
-> ?		pdata->is_private = true;
-> ?
-> +	if (of_property_read_bool(np, "is_memcpy"))
-> +		pdata->is_memcpy = true;
-> +
-> +	if (of_property_read_bool(np, "is_nollp"))
-> +		pdata->is_nollp = true;
-
-I'm pretty sure this one (besides that fact that it misses documentation
-update and '-' instead of '_' as ordered by DT policy) is unacceptable
-in DT since it represents *OS related* quirks. (Btw, is_private is also
-should not be there in the first place)
-
-Rob Herring (Cc'ed) might shed a light how to proceed in this case.
-
-> +
-> ?	if (!of_property_read_u32(np, "chan_allocation_order", &tmp))
-> ?		pdata->chan_allocation_order = (unsigned char)tmp;
-> ?
-
--- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+The same goes for get_user(), except that instead of "we use it on hot paths"
+we have "it's used by arseloads of ioctls in arseloads of drivers, with
+general code quality being what one would expect"...
