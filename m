@@ -1,52 +1,112 @@
-From: viro@ZenIV.linux.org.uk (Al Viro)
-Date: Fri, 19 Aug 2016 18:06:42 +0100
-Subject: [arc] get_user() not clearing destination on failure
-In-Reply-To: <41c1db61-8b1c-fbc8-f7aa-f1a4504913f9@synopsys.com>
-References: <20160818030045.GN2356@ZenIV.linux.org.uk>
- <41c1db61-8b1c-fbc8-f7aa-f1a4504913f9@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 19 Aug 2016 11:01:49 -0700
+Subject: [PATCH] tools lib: Reinstate strlcpy() header guard with
+ __UCLIBC__
+In-Reply-To: <20160819142207.GA4966@kernel.org>
+References: <1471464050-18044-1-git-send-email-vgupta@synopsys.com>
+ <20160818140722.GC16916@redhat.com>
+ <852a8516-7fc0-3520-4913-b66c9e8ff3d2@synopsys.com>
+ <20160819142207.GA4966@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160819170641.GQ2356@ZenIV.linux.org.uk>
+Message-ID: <868d62af-a673-80f8-2071-9043394f20fe@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Aug 18, 2016@11:11:09PM -0700, Vineet Gupta wrote:
-> On 08/17/2016 08:00 PM, Al Viro wrote:
-
-> Just curious - why is that. The typical usage paradigm is check for return value
-> and if 0 only then proceed to use the actual value.
+On 08/19/2016 07:22 AM, Arnaldo Carvalho de Melo wrote:
+> Em Thu, Aug 18, 2016 at 09:03:08AM -0700, Vineet Gupta escreveu:
+>> On 08/18/2016 07:07 AM, Arnaldo Carvalho de Melo wrote:
+>>> Are you aware of any readily available tarball or docker image that has
+>>> a uclibc based devel env that I could grab? I'd add it to my build setup
+>>> to make sure I (and my downstreamers) don't break uclibc environments in
+>>> the future.
+>>
+>> A prebuilt toolchain would just suffice.
+>>
+>> https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/download/arc-2016.03/arc_gnu_2016.03_prebuilt_uclibc_le_archs_linux_install.tar.gz
 > 
-> Also for discussion sake, will eliminating the intermediate __x be helpful - so it
-> would use the actual variable defined in caller of get_user() so if it is init
-> properly, the value would be "retained" for -EFAULT. Anyways all of this is just
-> for understanding better.
+> So, I did just that, from now on, before pushing things to Ingo, that
+> prebuilt toolchain will be used in a docker container, please take a
+> look at the Dockerfile and see if there is something missing from the
+> cross build make command line:
+> 
+> # -------------------- 8< -------------------------------
+> # docker.io/acmel/linux-perf-tools-build-fedora:24-x-ARC-uClibc
+> FROM docker.io/fedora:24
+> MAINTAINER Arnaldo Carvalho de Melo <acme at kernel.org>
+> ENV TOOLCHAIN=arc_gnu_2016.03_prebuilt_uclibc_le_archs_linux_install
+> RUN SOURCEFILE=${TOOLCHAIN}.tar.gz && \
+>     dnf -y install make flex bison tar gzip && \
+>     dnf -y clean all && \
+>     mkdir -m 777 -p /tmp/build/perf && \
+>     curl -OL https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/download/arc-2016.03/${SOURCEFILE} && \
+>     tar xf ${SOURCEFILE} && \
+>     rm -f ${SOURCEFILE} && \
+>     groupadd -r perfbuilder && \
+>     useradd -r -g perfbuilder perfbuilder
+> USER perfbuilder
+> ENTRYPOINT make -C /git/linux/tools/perf O=/tmp/build/perf ARCH=arc CROSS_COMPILE=/${TOOLCHAIN}/bin/arc-linux-
 
-The effect of __get_user(v, p) should mirror that of v = *p had p been a kernel
-pointer.  Including the sign expansion/truncation/etc.
+This is interesting. I thought CROSS_COMPILE provided the prefixes to make vars
+and that PATH was still needed. But good if this works too so u don't have to
+fudge PATH with ARC tools in your env.
 
-That's what those casts and assignments are about, and unless you want to
-play with doing usual arithmetical conversion in your assembler bits, it
-has to stay in C.  Sure, we could have __get_user(v, p) use v instead of
-(in your case) __x and do v = (__typeof(*p))v; to trigger the conversions,
-but... that's where the second problem bites: __get_user() has to be a macro,
-and __get_user(a[i++], p) would obviously break with that approach.
 
-So there's no realistic way to get rid of that intermediate - not without
-a massive PITA with folding conversions into asm part and playing with
-__builtin_choose_expr/__builtin_types_compatible_p, which is going to be
-both painful and very easy to get wrong.
+> # -------------------- 8< -------------------------------
+> 
+> Do I have to pass some extra flags? Perhaps for sysroot?
 
-As for checking for error and discarding the results if it has happened...
-not always possible or reasonable.  If you are using __get_user() in the
-first place, you are likely to be on a fairly hot path (otherwise the
-normal get_user() would've worked just as well).  And having explicit test
-and branch after each of those can be unpleasant enough.  Which means that
-you do something like a series of err |= __get_user(...); and check err
-once in the end (or have something like __get_user_err(..., err) or
-__get_user_ex() as x86 does, etc.).  Which means that by the time you get
-to "OK, we sod off now" path, you don't know which of __get_user() has
-failed.  If any of the destinations are not immediately destroyed, you
-get a fun questions along the lines of "which ones do I clean?", and even
-simpler "how do I make sure that none of them is missed by an accident?"
+No - the default sysroot just works.
 
-The same goes for get_user(), except that instead of "we use it on hot paths"
-we have "it's used by arseloads of ioctls in arseloads of drivers, with
-general code quality being what one would expect"...
+> 
+> With the above I get:
+> 
+>   # dm fedora:24-x-ARC-uClibc
+>   1: 29.108592825 fedora:24-x-ARC-uClibc: Ok
+>   # 
+> 
+> Which selected these features: 
+> 
+>   make: Entering directory '/git/linux/tools/perf'
+>     BUILD:   Doing 'make -j4' parallel build
+>   sh: line 0: command: -c: invalid option
+>   command: usage: command [-pVv] command [arg ...]
+> 
+>   Auto-detecting system features:
+>   ...                         dwarf: [ OFF ]
+>   ...            dwarf_getlocations: [ OFF ]
+>   ...                         glibc: [ on  ]
+>   ...                          gtk2: [ OFF ]
+>   ...                      libaudit: [ OFF ]
+>   ...                        libbfd: [ OFF ]
+>   ...                        libelf: [ OFF ]
+>   ...                       libnuma: [ OFF ]
+>   ...        numa_num_possible_cpus: [ OFF ]
+>   ...                       libperl: [ OFF ]
+>   ...                     libpython: [ OFF ]
+>   ...                      libslang: [ OFF ]
+>   ...                     libcrypto: [ OFF ]
+>   ...                     libunwind: [ OFF ]
+>   ...            libdw-dwarf-unwind: [ OFF ]
+>   ...                          zlib: [ OFF ]
+>   ...                          lzma: [ OFF ]
+>   ...                     get_cpuid: [ OFF ]
+>   ...                           bpf: [ on  ]
+> 
+>   Makefile.config:260: No libelf found, disables 'probe' tool and BPF support in 'perf record', please install libelf-dev, libelf-devel or elfutils-libelf-devel
+>   Makefile.config:360: No sys/sdt.h found, no SDT events are defined, please install systemtap-sdt-devel or systemtap-sdt-dev
+>   Makefile.config:433: Disabling post unwind, no support found.
+>   Makefile.config:479: No libaudit.h found, disables 'trace' tool, please install audit-libs-devel or libaudit-dev
+>   Makefile.config:490: No libcrypto.h found, disables jitted code injection, please install libssl-devel or libssl-dev
+>   Makefile.config:505: slang not found, disables TUI support. Please install slang-devel, libslang-dev or libslang2-dev
+>   Makefile.config:519: GTK2 not found, disables GTK2 support. Please install gtk2-devel or libgtk2.0-dev
+>   Makefile.config:547: Missing perl devel files. Disabling perl scripting support, please install perl-ExtUtils-Embed/libperl-dev
+>   Makefile.config:573: No python interpreter was found: disables Python support - please install python-devel/python-dev
+>   Makefile.config:680: No liblzma found, disables xz kernel module decompression, please install xz-devel/liblzma-dev
+>   Makefile.config:693: No numa.h found, disables 'perf bench numa mem' benchmark, please install numactl-devel/libnuma-devel/libnuma-dev
+>   Makefile.config:750: Your gcc lacks the __get_cpuid() builtin, disables support for auxtrace/Intel PT, please install a newer gcc
+
+Awesome - I presume it ran to completion and builds perf successfully.
+
+Thx a bunch for doing this Arnaldo - CROSS build and uclibc had a tendency to
+break here and there so this will catch errors early.
+
+-Vineet
