@@ -1,88 +1,96 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 18 Aug 2016 23:11:09 -0700
-Subject: [arc] get_user() not clearing destination on failure
-In-Reply-To: <20160818030045.GN2356@ZenIV.linux.org.uk>
-References: <20160818030045.GN2356@ZenIV.linux.org.uk>
+From: acme@kernel.org (Arnaldo Carvalho de Melo)
+Date: Fri, 19 Aug 2016 11:22:07 -0300
+Subject: [PATCH] tools lib: Reinstate strlcpy() header guard with
+ __UCLIBC__
+In-Reply-To: <852a8516-7fc0-3520-4913-b66c9e8ff3d2@synopsys.com>
+References: <1471464050-18044-1-git-send-email-vgupta@synopsys.com>
+ <20160818140722.GC16916@redhat.com>
+ <852a8516-7fc0-3520-4913-b66c9e8ff3d2@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <41c1db61-8b1c-fbc8-f7aa-f1a4504913f9@synopsys.com>
+Message-ID: <20160819142207.GA4966@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/17/2016 08:00 PM, Al Viro wrote:
-> First of all, my apologies if I'd managed to misread the ARC assembler
-> in uaccess.h.  AFAICS, neither __arc_get_user_one() nor __arc_get_user_one_64()
-> end up zeroing the destination upon exception.  Your __get_user_fn() is
-> ({                                                              \
->         long __ret = 0; /* success by default */        \
->         switch (sz) {                                           \
->         case 1: __arc_get_user_one(*(k), u, "ldb", __ret); break;       \
->         case 2: __arc_get_user_one(*(k), u, "ldw", __ret); break;       \
->         case 4: __arc_get_user_one(*(k), u, "ld", __ret);  break;       \
->         case 8: __arc_get_user_one_64(*(k), u, __ret);     break;       \
->         }                                                       \
->         __ret;                                                  \
-> })
-> so it doesn't do that on its own either.  Neither does __get_user() (from
-> asm-generic/uaccess.h) nor get_user() (ditto), so unless I've missed something
-> subtle about your exception handling, after
-> 	char c = 0;
-> 	int y = get_user(c, unmapped_address);
-> you will get -EFAULT in y and random junk in c.  We get to __get_user(c, ...),
-> which turns into
-> 	int __gu_err = -EFAULT;
-> 	unsigned char __x;	// uninitialized
-> 	__gu_err = __get_user_fn(1, unmapped_address, &__x);
-> 	c = (char) __x;
-> 	y = __gu_err;
-> i.e.
-> 	int __gu_err = -EFAULT;
-> 	unsigned char __x;
-> 	long __ret = 0;
->         __arc_get_user_one(*(&__x), unmapped_address, "ldb", __ret);
-> 	__gu_err = __ret;
-> 	c = (char) __x;
-> 	y = __gu_err;
-> and AFAICS your assembler in __arc_get_user_one() will boil down to something
-> along the lines of
-> 	r2 = unmapped_address;
-> 1:	r1 = *(unsigned char *)r2;
-> 2:
-> 	__x = r1;
->
-> fixup(1):
-> 	__ret = -EFAULT;
-> 	goto 2;
-> with nothing to clear r1 on the fixup path.
->
-> *IF* the above is correct 
+Em Thu, Aug 18, 2016 at 09:03:08AM -0700, Vineet Gupta escreveu:
+> On 08/18/2016 07:07 AM, Arnaldo Carvalho de Melo wrote:
+> > Are you aware of any readily available tarball or docker image that has
+> > a uclibc based devel env that I could grab? I'd add it to my build setup
+> > to make sure I (and my downstreamers) don't break uclibc environments in
+> > the future.
+> 
+> A prebuilt toolchain would just suffice.
+> 
+> https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/download/arc-2016.03/arc_gnu_2016.03_prebuilt_uclibc_le_archs_linux_install.tar.gz
 
-It is - you got it all right
+So, I did just that, from now on, before pushing things to Ingo, that
+prebuilt toolchain will be used in a docker container, please take a
+look at the Dockerfile and see if there is something missing from the
+cross build make command line:
 
-> (and I'm really unfamiliar with the architecture
-> in question), you have a problem.  get_user() and __get_user() ought to
-> clear the destination even in case of EFAULT. 
+# -------------------- 8< -------------------------------
+# docker.io/acmel/linux-perf-tools-build-fedora:24-x-ARC-uClibc
+FROM docker.io/fedora:24
+MAINTAINER Arnaldo Carvalho de Melo <acme at kernel.org>
+ENV TOOLCHAIN=arc_gnu_2016.03_prebuilt_uclibc_le_archs_linux_install
+RUN SOURCEFILE=${TOOLCHAIN}.tar.gz && \
+    dnf -y install make flex bison tar gzip && \
+    dnf -y clean all && \
+    mkdir -m 777 -p /tmp/build/perf && \
+    curl -OL https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/download/arc-2016.03/${SOURCEFILE} && \
+    tar xf ${SOURCEFILE} && \
+    rm -f ${SOURCEFILE} && \
+    groupadd -r perfbuilder && \
+    useradd -r -g perfbuilder perfbuilder
+USER perfbuilder
+ENTRYPOINT make -C /git/linux/tools/perf O=/tmp/build/perf ARCH=arc CROSS_COMPILE=/${TOOLCHAIN}/bin/arc-linux-
+# -------------------- 8< -------------------------------
 
-Just curious - why is that. The typical usage paradigm is check for return value
-and if 0 only then proceed to use the actual value.
+Do I have to pass some extra flags? Perhaps for sysroot?
 
-Also for discussion sake, will eliminating the intermediate __x be helpful - so it
-would use the actual variable defined in caller of get_user() so if it is init
-properly, the value would be "retained" for -EFAULT. Anyways all of this is just
-for understanding better.
+With the above I get:
 
->  There definitely is a bug
-> in asm-generic get_user() (it doesn't clear destination in case of access_ok()
-> failure), but that's not ARC-specific.  I won't try to slap together a fix
-> (no idea which forms of "zero that register" are better, for starters), but
-> something like mov %1,0 in the fixup part might be needed.  
+  # dm fedora:24-x-ARC-uClibc
+  1: 29.108592825 fedora:24-x-ARC-uClibc: Ok
+  # 
 
-I'll send that over tomorrow - after a bit of testing.
+Which selected these features: 
 
-> And I've really
-> no idea whatsoever about the syntax in __arc_get_user_one_64() - it needs to
-> clear the entire 64bit value there.
+  make: Entering directory '/git/linux/tools/perf'
+    BUILD:   Doing 'make -j4' parallel build
+  sh: line 0: command: -c: invalid option
+  command: usage: command [-pVv] command [arg ...]
 
-Yeah the %R asm modifier seems to be undocumented in gcc manual - and it has been
-there forever. But I checked that it correctly generates a register pair for the
-64-bit word.
+  Auto-detecting system features:
+  ...                         dwarf: [ OFF ]
+  ...            dwarf_getlocations: [ OFF ]
+  ...                         glibc: [ on  ]
+  ...                          gtk2: [ OFF ]
+  ...                      libaudit: [ OFF ]
+  ...                        libbfd: [ OFF ]
+  ...                        libelf: [ OFF ]
+  ...                       libnuma: [ OFF ]
+  ...        numa_num_possible_cpus: [ OFF ]
+  ...                       libperl: [ OFF ]
+  ...                     libpython: [ OFF ]
+  ...                      libslang: [ OFF ]
+  ...                     libcrypto: [ OFF ]
+  ...                     libunwind: [ OFF ]
+  ...            libdw-dwarf-unwind: [ OFF ]
+  ...                          zlib: [ OFF ]
+  ...                          lzma: [ OFF ]
+  ...                     get_cpuid: [ OFF ]
+  ...                           bpf: [ on  ]
 
--Vineet
+  Makefile.config:260: No libelf found, disables 'probe' tool and BPF support in 'perf record', please install libelf-dev, libelf-devel or elfutils-libelf-devel
+  Makefile.config:360: No sys/sdt.h found, no SDT events are defined, please install systemtap-sdt-devel or systemtap-sdt-dev
+  Makefile.config:433: Disabling post unwind, no support found.
+  Makefile.config:479: No libaudit.h found, disables 'trace' tool, please install audit-libs-devel or libaudit-dev
+  Makefile.config:490: No libcrypto.h found, disables jitted code injection, please install libssl-devel or libssl-dev
+  Makefile.config:505: slang not found, disables TUI support. Please install slang-devel, libslang-dev or libslang2-dev
+  Makefile.config:519: GTK2 not found, disables GTK2 support. Please install gtk2-devel or libgtk2.0-dev
+  Makefile.config:547: Missing perl devel files. Disabling perl scripting support, please install perl-ExtUtils-Embed/libperl-dev
+  Makefile.config:573: No python interpreter was found: disables Python support - please install python-devel/python-dev
+  Makefile.config:680: No liblzma found, disables xz kernel module decompression, please install xz-devel/liblzma-dev
+  Makefile.config:693: No numa.h found, disables 'perf bench numa mem' benchmark, please install numactl-devel/libnuma-devel/libnuma-dev
+  Makefile.config:750: Your gcc lacks the __get_cpuid() builtin, disables support for auxtrace/Intel PT, please install a newer gcc
+
+- Arnaldo
