@@ -1,107 +1,88 @@
-From: mingo@kernel.org (Ingo Molnar)
-Date: Thu, 18 Aug 2016 22:51:04 +0200
-Subject: [GIT PULL 0/3] perf/urgent fixes
-In-Reply-To: <1471552854-26972-1-git-send-email-acme@kernel.org>
-References: <1471552854-26972-1-git-send-email-acme@kernel.org>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 18 Aug 2016 23:11:09 -0700
+Subject: [arc] get_user() not clearing destination on failure
+In-Reply-To: <20160818030045.GN2356@ZenIV.linux.org.uk>
+References: <20160818030045.GN2356@ZenIV.linux.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160818205104.GA31954@gmail.com>
+Message-ID: <41c1db61-8b1c-fbc8-f7aa-f1a4504913f9@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
+On 08/17/2016 08:00 PM, Al Viro wrote:
+> First of all, my apologies if I'd managed to misread the ARC assembler
+> in uaccess.h.  AFAICS, neither __arc_get_user_one() nor __arc_get_user_one_64()
+> end up zeroing the destination upon exception.  Your __get_user_fn() is
+> ({                                                              \
+>         long __ret = 0; /* success by default */        \
+>         switch (sz) {                                           \
+>         case 1: __arc_get_user_one(*(k), u, "ldb", __ret); break;       \
+>         case 2: __arc_get_user_one(*(k), u, "ldw", __ret); break;       \
+>         case 4: __arc_get_user_one(*(k), u, "ld", __ret);  break;       \
+>         case 8: __arc_get_user_one_64(*(k), u, __ret);     break;       \
+>         }                                                       \
+>         __ret;                                                  \
+> })
+> so it doesn't do that on its own either.  Neither does __get_user() (from
+> asm-generic/uaccess.h) nor get_user() (ditto), so unless I've missed something
+> subtle about your exception handling, after
+> 	char c = 0;
+> 	int y = get_user(c, unmapped_address);
+> you will get -EFAULT in y and random junk in c.  We get to __get_user(c, ...),
+> which turns into
+> 	int __gu_err = -EFAULT;
+> 	unsigned char __x;	// uninitialized
+> 	__gu_err = __get_user_fn(1, unmapped_address, &__x);
+> 	c = (char) __x;
+> 	y = __gu_err;
+> i.e.
+> 	int __gu_err = -EFAULT;
+> 	unsigned char __x;
+> 	long __ret = 0;
+>         __arc_get_user_one(*(&__x), unmapped_address, "ldb", __ret);
+> 	__gu_err = __ret;
+> 	c = (char) __x;
+> 	y = __gu_err;
+> and AFAICS your assembler in __arc_get_user_one() will boil down to something
+> along the lines of
+> 	r2 = unmapped_address;
+> 1:	r1 = *(unsigned char *)r2;
+> 2:
+> 	__x = r1;
+>
+> fixup(1):
+> 	__ret = -EFAULT;
+> 	goto 2;
+> with nothing to clear r1 on the fixup path.
+>
+> *IF* the above is correct 
 
-* Arnaldo Carvalho de Melo <acme@kernel.org> wrote:
+It is - you got it all right
 
-> Hi Ingo,
-> 
-> 	Please consider pulling,
-> 
-> - Arnaldo
-> 
-> Build stats at the end of this message.
-> 
-> The following changes since commit 3cace81ea5bb0b3f2b97cab8e2c8e1fae2feb7ed:
-> 
->   Merge tag 'perf-urgent-for-mingo-20160815' of git://git.kernel.org/pub/scm/linux/kernel/git/acme/linux into perf/urgent (2016-08-16 20:08:56 +0200)
-> 
-> are available in the git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/acme/linux.git tags/perf-urgent-for-mingo-20160818
-> 
-> for you to fetch changes up to c53412ee8c7ec31373a4176ff7f3a6b79296c05c:
-> 
->   perf evsel: Do not access outside hw cache name arrays (2016-08-18 16:39:46 -0300)
-> 
-> ----------------------------------------------------------------
-> perf/urgent fixes:
-> 
-> - Do not access outside hw cache name arrays (Arnaldo Carvalho de Melo)
-> 
-> - Use addr_location::addr instead of ip for entries when unwinding using
->   DWARF CFI, fixing the "srcline" information for userspace application
->   callchains (Milian Wolff)
-> 
-> - Reinstate strlcpy() header guard with __UCLIBC__, fixing the build
->   with uclibc, detected when building for the ARC architecture (Vineet Gupta)
-> 
-> Signed-off-by: Arnaldo Carvalho de Melo <acme at redhat.com>
-> 
-> ----------------------------------------------------------------
-> Arnaldo Carvalho de Melo (1):
->       perf evsel: Do not access outside hw cache name arrays
-> 
-> Milian Wolff (1):
->       perf unwind: Use addr_location::addr instead of ip for entries
-> 
-> Vineet Gupta (1):
->       tools lib: Reinstate strlcpy() header guard with __UCLIBC__
-> 
->  tools/include/linux/string.h             | 6 +++++-
->  tools/perf/util/evsel.c                  | 6 +++---
->  tools/perf/util/unwind-libdw.c           | 2 +-
->  tools/perf/util/unwind-libunwind-local.c | 2 +-
->  4 files changed, 10 insertions(+), 6 deletions(-)
-> 
-> Build stats, now only android-ndk doesn't build with NO_LIBELF=1, as it
-> doesn't even have libelf to cross build with, and the non-cross builds
-> build objtool, uClibc and an ARC architecture cross build image are in
-> the works:
-> 
->   # time dm
->    1 77.199181517 alpine:3.4: Ok
->    2 30.215940343 android-ndk:r12b-arm: Ok
->    3 80.593965325 archlinux:latest: Ok
->    4 45.102186377 centos:5: Ok
->    5 67.078635441 centos:6: Ok
->    6 73.582617061 centos:7: Ok
->    7 65.462644128 debian:7: Ok
->    8 69.919139691 debian:8: Ok
->    9 77.192563446 debian:experimental: Ok
->   10 80.651363745 fedora:20: Ok
->   11 85.566954259 fedora:21: Ok
->   12 87.547437162 fedora:22: Ok
->   13 94.866327046 fedora:23: Ok
->   14 93.829320269 fedora:24: Ok
->   15 94.860933711 fedora:rawhide: Ok
->   16 88.890456556 mageia:5: Ok
->   17 85.622890293 opensuse:13.2: Ok
->   18 87.232034972 opensuse:42.1: Ok
->   19 94.807172866 opensuse:tumbleweed: Ok
->   20 72.189153053 ubuntu:12.04.5: Ok
->   21 86.275708891 ubuntu:14.04.4: Ok
->   22 90.743742216 ubuntu:15.10: Ok
->   23 86.931085419 ubuntu:16.04: Ok
->   24 67.823595709 ubuntu:16.04-x-arm: Ok
->   25 62.985390761 ubuntu:16.04-x-arm64: Ok
->   26 64.727635984 ubuntu:16.04-x-powerpc64: Ok
->   27 63.208264990 ubuntu:16.04-x-powerpc64el: Ok
->   28 64.685772233 ubuntu:16.04-x-s390: Ok
->   29 85.089091168 ubuntu:16.10: Ok
->    2224.88s
-> 
->   real	37m6.200s
->   user	0m1.830s
->   sys	0m2.653s
->   #
+> (and I'm really unfamiliar with the architecture
+> in question), you have a problem.  get_user() and __get_user() ought to
+> clear the destination even in case of EFAULT. 
 
-Pulled, thanks a lot Arnaldo!
+Just curious - why is that. The typical usage paradigm is check for return value
+and if 0 only then proceed to use the actual value.
 
-	Ingo
+Also for discussion sake, will eliminating the intermediate __x be helpful - so it
+would use the actual variable defined in caller of get_user() so if it is init
+properly, the value would be "retained" for -EFAULT. Anyways all of this is just
+for understanding better.
+
+>  There definitely is a bug
+> in asm-generic get_user() (it doesn't clear destination in case of access_ok()
+> failure), but that's not ARC-specific.  I won't try to slap together a fix
+> (no idea which forms of "zero that register" are better, for starters), but
+> something like mov %1,0 in the fixup part might be needed.  
+
+I'll send that over tomorrow - after a bit of testing.
+
+> And I've really
+> no idea whatsoever about the syntax in __arc_get_user_one_64() - it needs to
+> clear the entire 64bit value there.
+
+Yeah the %R asm modifier seems to be undocumented in gcc manual - and it has been
+there forever. But I checked that it correctly generates a register pair for the
+64-bit word.
+
+-Vineet
