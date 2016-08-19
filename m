@@ -1,96 +1,84 @@
-From: acme@kernel.org (Arnaldo Carvalho de Melo)
-Date: Fri, 19 Aug 2016 11:22:07 -0300
-Subject: [PATCH] tools lib: Reinstate strlcpy() header guard with
- __UCLIBC__
-In-Reply-To: <852a8516-7fc0-3520-4913-b66c9e8ff3d2@synopsys.com>
-References: <1471464050-18044-1-git-send-email-vgupta@synopsys.com>
- <20160818140722.GC16916@redhat.com>
- <852a8516-7fc0-3520-4913-b66c9e8ff3d2@synopsys.com>
+From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
+Date: Fri, 19 Aug 2016 17:39:26 +0300
+Subject: [PATCH] DW: Read "is_memcpy" and "is_nollp" property from
+ device tree.
+In-Reply-To: <1471347080-1411-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+References: <1471347080-1411-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160819142207.GA4966@kernel.org>
+Message-ID: <1471617566.4887.184.camel@linux.intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-Em Thu, Aug 18, 2016 at 09:03:08AM -0700, Vineet Gupta escreveu:
-> On 08/18/2016 07:07 AM, Arnaldo Carvalho de Melo wrote:
-> > Are you aware of any readily available tarball or docker image that has
-> > a uclibc based devel env that I could grab? I'd add it to my build setup
-> > to make sure I (and my downstreamers) don't break uclibc environments in
-> > the future.
+On Tue, 2016-08-16@14:31 +0300, Eugeniy Paltsev wrote:
+> DW DMAC on ARC SDP became broken after df5c7386 ("dmaengine: dw: some
+> Intel
+> devices has no memcpy support") and 30cb2639 ("dmaengine: dw: don't
+> override
+> platform data with autocfg") commits.
+
+I'm not sure that word 'broken' is a correct one here. Is the platform
+code using this driver in the upstream already? If so, where is it
+located?
+
 > 
-> A prebuilt toolchain would just suffice.
+> * After df5c7386 commit "DMA_MEMCPY" capability option doesn't get set
+> correctly in platform driver version.
+> * After 30cb2639 commit "nollp" parameters don't get set correctly in
+> platform driver version.
+
 > 
-> https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/download/arc-2016.03/arc_gnu_2016.03_prebuilt_uclibc_le_archs_linux_install.tar.gz
+> This happens because in old driver version there are three sources of
+> parameters: pdata, device tree and autoconfig hardware registers. Some
+> parameters were read from pdata and others from autoconfig hardware
+> registers. If pdata was absent some pdata structure fields were filled
+> with parameters from device tree.
 
-So, I did just that, from now on, before pushing things to Ingo, that
-prebuilt toolchain will be used in a docker container, please take a
-look at the Dockerfile and see if there is something missing from the
-cross build make command line:
 
-# -------------------- 8< -------------------------------
-# docker.io/acmel/linux-perf-tools-build-fedora:24-x-ARC-uClibc
-FROM docker.io/fedora:24
-MAINTAINER Arnaldo Carvalho de Melo <acme at kernel.org>
-ENV TOOLCHAIN=arc_gnu_2016.03_prebuilt_uclibc_le_archs_linux_install
-RUN SOURCEFILE=${TOOLCHAIN}.tar.gz && \
-    dnf -y install make flex bison tar gzip && \
-    dnf -y clean all && \
-    mkdir -m 777 -p /tmp/build/perf && \
-    curl -OL https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/download/arc-2016.03/${SOURCEFILE} && \
-    tar xf ${SOURCEFILE} && \
-    rm -f ${SOURCEFILE} && \
-    groupadd -r perfbuilder && \
-    useradd -r -g perfbuilder perfbuilder
-USER perfbuilder
-ENTRYPOINT make -C /git/linux/tools/perf O=/tmp/build/perf ARCH=arc CROSS_COMPILE=/${TOOLCHAIN}/bin/arc-linux-
-# -------------------- 8< -------------------------------
+> But 30cb2639 commit disabled overriding pdata with autocfg, so if we
+> use platform driver version without pdata some parameters will not be
+> set.
+> This leads to inoperability of DW DMAC.
 
-Do I have to pass some extra flags? Perhaps for sysroot?
+My suggestion is still the same, i.e. split platform data to actual
+hardware properties and platform quirks. We might be able to use quirks
+even in case of auto configuration.
 
-With the above I get:
+> 
+> This patch adds reading missed parameters from device tree.
+> 
+> Note there's a prerequisite http://www.spinics.net/lists/dmaengine/msg
+> 10682.html
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+> ?drivers/dma/dw/platform.c | 6 ++++++
+> ?1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/dma/dw/platform.c b/drivers/dma/dw/platform.c
+> index 5bda0eb..2712602 100644
+> --- a/drivers/dma/dw/platform.c
+> +++ b/drivers/dma/dw/platform.c
+> @@ -129,6 +129,12 @@ dw_dma_parse_dt(struct platform_device *pdev)
+> ?	if (of_property_read_bool(np, "is_private"))
+> ?		pdata->is_private = true;
+> ?
+> +	if (of_property_read_bool(np, "is_memcpy"))
+> +		pdata->is_memcpy = true;
+> +
+> +	if (of_property_read_bool(np, "is_nollp"))
+> +		pdata->is_nollp = true;
 
-  # dm fedora:24-x-ARC-uClibc
-  1: 29.108592825 fedora:24-x-ARC-uClibc: Ok
-  # 
+I'm pretty sure this one (besides that fact that it misses documentation
+update and '-' instead of '_' as ordered by DT policy) is unacceptable
+in DT since it represents *OS related* quirks. (Btw, is_private is also
+should not be there in the first place)
 
-Which selected these features: 
+Rob Herring (Cc'ed) might shed a light how to proceed in this case.
 
-  make: Entering directory '/git/linux/tools/perf'
-    BUILD:   Doing 'make -j4' parallel build
-  sh: line 0: command: -c: invalid option
-  command: usage: command [-pVv] command [arg ...]
+> +
+> ?	if (!of_property_read_u32(np, "chan_allocation_order", &tmp))
+> ?		pdata->chan_allocation_order = (unsigned char)tmp;
+> ?
 
-  Auto-detecting system features:
-  ...                         dwarf: [ OFF ]
-  ...            dwarf_getlocations: [ OFF ]
-  ...                         glibc: [ on  ]
-  ...                          gtk2: [ OFF ]
-  ...                      libaudit: [ OFF ]
-  ...                        libbfd: [ OFF ]
-  ...                        libelf: [ OFF ]
-  ...                       libnuma: [ OFF ]
-  ...        numa_num_possible_cpus: [ OFF ]
-  ...                       libperl: [ OFF ]
-  ...                     libpython: [ OFF ]
-  ...                      libslang: [ OFF ]
-  ...                     libcrypto: [ OFF ]
-  ...                     libunwind: [ OFF ]
-  ...            libdw-dwarf-unwind: [ OFF ]
-  ...                          zlib: [ OFF ]
-  ...                          lzma: [ OFF ]
-  ...                     get_cpuid: [ OFF ]
-  ...                           bpf: [ on  ]
-
-  Makefile.config:260: No libelf found, disables 'probe' tool and BPF support in 'perf record', please install libelf-dev, libelf-devel or elfutils-libelf-devel
-  Makefile.config:360: No sys/sdt.h found, no SDT events are defined, please install systemtap-sdt-devel or systemtap-sdt-dev
-  Makefile.config:433: Disabling post unwind, no support found.
-  Makefile.config:479: No libaudit.h found, disables 'trace' tool, please install audit-libs-devel or libaudit-dev
-  Makefile.config:490: No libcrypto.h found, disables jitted code injection, please install libssl-devel or libssl-dev
-  Makefile.config:505: slang not found, disables TUI support. Please install slang-devel, libslang-dev or libslang2-dev
-  Makefile.config:519: GTK2 not found, disables GTK2 support. Please install gtk2-devel or libgtk2.0-dev
-  Makefile.config:547: Missing perl devel files. Disabling perl scripting support, please install perl-ExtUtils-Embed/libperl-dev
-  Makefile.config:573: No python interpreter was found: disables Python support - please install python-devel/python-dev
-  Makefile.config:680: No liblzma found, disables xz kernel module decompression, please install xz-devel/liblzma-dev
-  Makefile.config:693: No numa.h found, disables 'perf bench numa mem' benchmark, please install numactl-devel/libnuma-devel/libnuma-dev
-  Makefile.config:750: Your gcc lacks the __get_cpuid() builtin, disables support for auxtrace/Intel PT, please install a newer gcc
-
-- Arnaldo
+-- 
+Andy Shevchenko <andriy.shevchenko at linux.intel.com>
+Intel Finland Oy
