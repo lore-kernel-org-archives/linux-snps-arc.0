@@ -1,68 +1,49 @@
-From: acme@kernel.org (Arnaldo Carvalho de Melo)
-Date: Fri, 19 Aug 2016 20:02:10 -0300
-Subject: [PATCH] tools lib: Reinstate strlcpy() header guard with
- __UCLIBC__
-In-Reply-To: <20160819214207.GC20810@kernel.org>
-References: <1471464050-18044-1-git-send-email-vgupta@synopsys.com>
- <20160818140722.GC16916@redhat.com>
- <852a8516-7fc0-3520-4913-b66c9e8ff3d2@synopsys.com>
- <20160819142207.GA4966@kernel.org>
- <868d62af-a673-80f8-2071-9043394f20fe@synopsys.com>
- <20160819192302.GA20810@kernel.org>
- <20160819200843.GB20810@kernel.org>
- <0ad144ea-21b2-ab10-3ef5-68078ee32631@synopsys.com>
- <20160819214207.GC20810@kernel.org>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 22 Aug 2016 20:33:42 +0300
+Subject: [PATCH] perf tools: Fix static building
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160819230210.GD20810@kernel.org>
+Message-ID: <1471887222-26270-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Em Fri, Aug 19, 2016 at 06:42:07PM -0300, Arnaldo Carvalho de Melo escreveu:
-> Em Fri, Aug 19, 2016 at 02:27:58PM -0700, Vineet Gupta escreveu:
-> > On 08/19/2016 02:10 PM, Arnaldo Carvalho de Melo wrote:
-> > >> But one question: when you test build, do you have any extra devel
-> > >> > packages installed besides what is in this prebuilt toolchain tarball?
-> > >> > 
-> > >> > I'll add at least zlib and elfutils to the mix, building it in the
-> > >> > docker image creation process, and then testing with/without
-> > >> > NO_LIBELF=1, as I do to other cross-building images:
-> > > Trying to build elfutils 0.166:
-> > >
-> > > checking whether gcc accepts -Wduplicated-cond... no
-> > > checking whether gcc accepts -Wnull-dereference... no
-> > > configure: WARNING: "libc does not have argp"
-> > > checking for argp_parse in -largp... no
-> > > configure: error: "no libargp found"
-> > >
-> > > ----
-> > >
-> > > will go errands now, will try to check what is needed to build elfutils
-> > > with uclibc, ideas?
-> > 
-> > So back in 3.2 days I ran into these issues with elfutils - the workaround was to
-> > use the standalone libelf
-> > http://www.mr511.de/software/libelf-0.8.9.tar.gz.
-> 
-> Ok, so I'll git it a try with libelf, lets see...
+With commit e3d09ec8126f ("tools lib traceevent: Export dynamic symbols
+used by traceevent plugins") we started to add "--dynamic-list" in
+LDFLAGS. One side-effect of that was inability to build really
+statically-linked perf.
 
-Argh, give up, now it is refusing to build shared libraries:
+I.e. even if "LDFLAGS=-static" were passed on perf building command-line
+it had no effect and perf was built dynamically.
 
-  checking for native ELF system... no
-  configure: warning: shared libraries not supported for arc-snps-linux-uclibc
+This change disables setup of "--dynamic-list" if LDFLAGS contains
+"-static" option.
 
-And also it says ELF64 isn't support and thus GElf, some more details,
-anyway.
-  
-> > Not sure if you will be willing to take that path.
-> > 
-> > OTOH, you could use standalone argp @ http://www.lysator.liu.se/~nisse/archive but
-> > it seems that requires a bunch of patches too - from looking into the
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Arnaldo Carvalho de Melo <acme at redhat.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Wang Nan <wangnan0 at huawei.com>
+Cc: Jiri Olsa <jolsa at kernel.org>
+Cc: He Kuang <hekuang at huawei.com>
+Cc: Masami Hiramatsu <masami.hiramatsu.pt at hitachi.com>
+Cc: Namhyung Kim <namhyung at kernel.org>
+Cc: Peter Zijlstra <a.p.zijlstra at chello.nl>
+Cc: Zefan Li <lizefan at huawei.com>
+Cc: pi3orama at 163.com
+---
+ tools/perf/Makefile.perf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> > corresponding buildroot package folder. Give this a shot - otherwise it is easier
-> > to just build a custom toolchain with pre-req packages from buildroot. Or can be
-> > provided if you so deem fit !
-
-Please, if you do that, then I'll be able to test more stuff, I already
-had enough fun trying to get elfutils, argp-standalone and libelf built
-on this env :-\
-
-- Arnaldo
+diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
+index 2d908750..e9acc7c 100644
+--- a/tools/perf/Makefile.perf
++++ b/tools/perf/Makefile.perf
+@@ -236,7 +236,9 @@ LIBTRACEEVENT = $(TE_PATH)libtraceevent.a
+ export LIBTRACEEVENT
+ 
+ LIBTRACEEVENT_DYNAMIC_LIST = $(TE_PATH)libtraceevent-dynamic-list
++ifeq ($(filter -static,$(LDFLAGS)),)
+ LIBTRACEEVENT_DYNAMIC_LIST_LDFLAGS = -Xlinker --dynamic-list=$(LIBTRACEEVENT_DYNAMIC_LIST)
++endif
+ 
+ LIBAPI = $(API_PATH)libapi.a
+ export LIBAPI
+-- 
+2.7.4
