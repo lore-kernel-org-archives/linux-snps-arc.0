@@ -1,94 +1,64 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 22 Aug 2016 18:01:08 +0000
-Subject: [PATCH] tools lib: Reinstate strlcpy() header guard with
- __UCLIBC__
-In-Reply-To: <20160819230210.GD20810@kernel.org>
-References: <1471464050-18044-1-git-send-email-vgupta@synopsys.com>
- <20160818140722.GC16916@redhat.com>
- <852a8516-7fc0-3520-4913-b66c9e8ff3d2@synopsys.com>
- <20160819142207.GA4966@kernel.org>
- <868d62af-a673-80f8-2071-9043394f20fe@synopsys.com>
- <20160819192302.GA20810@kernel.org> <20160819200843.GB20810@kernel.org>
- <0ad144ea-21b2-ab10-3ef5-68078ee32631@synopsys.com>
- <20160819214207.GC20810@kernel.org> <20160819230210.GD20810@kernel.org>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 22 Aug 2016 11:05:54 -0700
+Subject: [GIT PULL] ARC fixes for 4.8 rc4
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1471888754.8888.15.camel@synopsys.com>
+Message-ID: <58648cc6-9a62-e8e0-868e-584120739f88@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Arnaldo,
+Hi Linus,
 
-On Fri, 2016-08-19@20:02 -0300, Arnaldo Carvalho de Melo wrote:
-> Em Fri, Aug 19, 2016 at 06:42:07PM -0300, Arnaldo Carvalho de Melo escreveu:
-> > 
-> > Em Fri, Aug 19, 2016 at 02:27:58PM -0700, Vineet Gupta escreveu:
-> > > 
-> > > On 08/19/2016 02:10 PM, Arnaldo Carvalho de Melo wrote:
-> > > > 
-> > > > > 
-> > > > > But one question: when you test build, do you have any extra devel
-> > > > > > 
-> > > > > > packages installed besides what is in this prebuilt toolchain tarball?
-> > > > > > 
-> > > > > > I'll add at least zlib and elfutils to the mix, building it in the
-> > > > > > docker image creation process, and then testing with/without
-> > > > > > NO_LIBELF=1, as I do to other cross-building images:
-> > > > Trying to build elfutils 0.166:
-> > > > 
-> > > > checking whether gcc accepts -Wduplicated-cond... no
-> > > > checking whether gcc accepts -Wnull-dereference... no
-> > > > configure: WARNING: "libc does not have argp"
-> > > > checking for argp_parse in -largp... no
-> > > > configure: error: "no libargp found"
-> > > > 
-> > > > ----
-> > > > 
-> > > > will go errands now, will try to check what is needed to build elfutils
-> > > > with uclibc, ideas?
-> > > 
-> > > So back in 3.2 days I ran into these issues with elfutils - the workaround was to
-> > > use the standalone libelf
-> > > http://www.mr511.de/software/libelf-0.8.9.tar.gz.
-> > 
-> > Ok, so I'll git it a try with libelf, lets see...
-> 
-> Argh, give up, now it is refusing to build shared libraries:
-> 
-> ? checking for native ELF system... no
-> ? configure: warning: shared libraries not supported for arc-snps-linux-uclibc
-> 
-> And also it says ELF64 isn't support and thus GElf, some more details,
-> anyway.
-> ??
-> > 
-> > > 
-> > > Not sure if you will be willing to take that path.
-> > > 
-> > > OTOH, you could use standalone argp @ http://www.lysator.liu.se/~nisse/archive but
-> > > it seems that requires a bunch of patches too - from looking into the
-> 
-> > 
-> > > 
-> > > corresponding buildroot package folder. Give this a shot - otherwise it is easier
-> > > to just build a custom toolchain with pre-req packages from buildroot. Or can be
-> > > provided if you so deem fit !
-> 
-> Please, if you do that, then I'll be able to test more stuff, I already
-> had enough fun trying to get elfutils, argp-standalone and libelf built
-> on this env :-\
+Please pull.
 
-Please find a tarball with prebuilt toolchain for ARC HS38 by that link:
-https://www.dropbox.com/s/uvqla26pmq03h5u/br-2016.08-rc2-65-g11109fd-archs38.tar.gz?dl=0
+Thx,
+-Vineet
 
-Just FYI I built it from today's BR sources, i.e. this is gcc6 based with all latest fixes
-for ARC on top of vanilla gcc 6.1.1.
+-------------------->
+The following changes since commit 29b4817d4018df78086157ea3a55c1d9424a7cfc:
 
-That's a defconfig I used in Buildroot:
--------------------->8---------------------
-BR2_arcle=y
-BR2_archs38=y
-BR2_TOOLCHAIN_BUILDROOT_INET_RPC=y
-BR2_TOOLCHAIN_BUILDROOT_LOCALE=y
-BR2_PACKAGE_ELFUTILS=y
--------------------->8---------------------
+  Linux 4.8-rc1 (2016-08-07 18:18:00 -0700)
 
--Alexey
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.8-rc4-fixes
+
+for you to fetch changes up to c57653dc94d0db7bf63067433ceaa97bdcd0a312:
+
+  ARC: export __udivdi3 for modules (2016-08-19 14:09:33 -0700)
+
+----------------------------------------------------------------
+ARC Fixes for 4.8-rc4
+
+- Support for Syscall ABI v4 with upstream gcc 6.x
+
+- Lockdep fix (Daniel Mentz)
+
+- gdb register clobber (Liav Rehana)
+
+- Couple of missing exports for modules
+
+- Other fixes here and there
+
+----------------------------------------------------------------
+Daniel Mentz (1):
+      ARC: Call trace_hardirqs_on() before enabling irqs
+
+Liav Rehana (1):
+      ARC: use correct offset in pt_regs for saving/restoring user mode r25
+
+Vineet Gupta (5):
+      ARC: Elide redundant setup of DMA callbacks
+      ARC: Support syscall ABI v4
+      ARC: export kmap
+      ARC: mm: fix build breakage with STRICT_MM_TYPECHECKS
+      ARC: export __udivdi3 for modules
+
+ arch/arc/include/asm/entry.h            |  4 ++--
+ arch/arc/include/asm/irqflags-compact.h |  2 +-
+ arch/arc/include/asm/pgtable.h          |  2 +-
+ arch/arc/include/uapi/asm/elf.h         | 11 +++++++++--
+ arch/arc/kernel/arcksyms.c              |  2 ++
+ arch/arc/kernel/process.c               |  2 +-
+ arch/arc/kernel/setup.c                 |  6 ++++--
+ arch/arc/mm/cache.c                     |  9 +++++++++
+ arch/arc/mm/highmem.c                   |  1 +
+ 9 files changed, 30 insertions(+), 9 deletions(-)
