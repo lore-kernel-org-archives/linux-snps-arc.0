@@ -1,40 +1,34 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 25 Aug 2016 10:40:17 -0700
-Subject: [PATCH] ARC: Change ld.as instruction to regular ld.
-In-Reply-To: <1472126602.2600.14.camel@synopsys.com>
-References: <1471415037-14544-1-git-send-email-liavr@mellanox.com>
- <1472126602.2600.14.camel@synopsys.com>
+Date: Fri, 26 Aug 2016 10:30:24 -0700
+Subject: [PATCH] arc: perf: Enable generic "cache-references" and
+ "cache-misses" events
+In-Reply-To: <1472125647-518-1-git-send-email-abrodkin@synopsys.com>
+References: <1472125647-518-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <57ce386e-d8f1-90f0-fb7c-c1f7b4589fa9@synopsys.com>
+Message-ID: <6074e252-6e18-bb01-4de1-023bd7e82f03@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/25/2016 05:05 AM, Alexey Brodkin wrote:
-> Hi Liav,
->
-> On Wed, 2016-08-17@09:23 +0300, Liav Rehana wrote:
->> From: Liav Rehana <liavr at mellanox.com>
->>
->> User mode callee regs are explicitly collected before signal delivery
->> or breakpoint trap. r25 is special for kernel as it serves as task
->> pointer, so user mode value is clobbered very early. It is saved in
->> pt_regs where generally only scratch (caller saved) res are saved.
->> The code to access the corresponding pt_regs location had a subtle bug
->> as it was using load/store with scaling of offset, whereas the offset
->> was already byte wise correct. So fix this by replacing LD.AS with a
->> standard LD
->>
->> Signed-off-by: Liav Rehana <liavr at mellanox.com>
-> That nice patch really fixes quite annoying issue when r25 got
-> printed improperly in gdb!
->
-> So
->
-> Tested-by: Alexey Brodkin <abrodkin at synopsys.com>
+On 08/25/2016 04:49 AM, Alexey Brodkin wrote:
+> ...
+>  	[PERF_COUNT_ARC_EDTLB] = "edtlb",	/* D-TLB Miss */
+>  	[PERF_COUNT_ARC_EITLB] = "eitlb",	/* I-TLB Miss */
+> +
+> +	[PERF_COUNT_HW_CACHE_REFERENCES] = "imemrdc",	/* Instr: mem read cached */
+> +	[PERF_COUNT_HW_CACHE_MISSES] = "dclm",		/* D-cache Load Miss */
+
+I think this is duplicating a mistake we already have. I vaguely remember when
+doing some hackbench profiling last year with range based profiling confined to
+memset routine and saw that L1-dcache-misses was counting zero. This is because it
+only counts LD misses while memset only does ST.
+
+Performance counter stats for '/sbin/hackbench':
+
+     0 L1-dcache-misses
+     0 L1-dcache-load-misses
+     1846082 L1-dcache-store-misses
 
 
-Indeed this becomes even more important given that r25 is Thread pointer regs in
-ARC ABI !
-This patch is already merged upstream by Linus.
+@PeterZ do you concur that is wrong and we ought to setup 2 counters to do this
+correctly ?
 
-Thx,
 -Vineet
