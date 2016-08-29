@@ -1,34 +1,33 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 26 Aug 2016 10:30:24 -0700
-Subject: [PATCH] arc: perf: Enable generic "cache-references" and
- "cache-misses" events
-In-Reply-To: <1472125647-518-1-git-send-email-abrodkin@synopsys.com>
-References: <1472125647-518-1-git-send-email-abrodkin@synopsys.com>
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Mon, 29 Aug 2016 18:18:15 +0200
+Subject: Build regressions/improvements in v4.8-rc1
+In-Reply-To: <89010fe1-8f08-0cd9-a23e-455e5288f136@synopsys.com>
+References: <alpine.DEB.2.10.1608081032130.9359@ayla.of.borg>
+ <CAMuHMdW_fPP5dyOtRC98gh1kG-zuW_KxV7vAME_7b8Z-U10N_g@mail.gmail.com>
+ <89010fe1-8f08-0cd9-a23e-455e5288f136@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <6074e252-6e18-bb01-4de1-023bd7e82f03@synopsys.com>
+Message-ID: <CAMuHMdXJpH06VCP8wtidXoCgcQ+0PO_x-=+uc0wCubb3OFcq5w@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/25/2016 04:49 AM, Alexey Brodkin wrote:
-> ...
->  	[PERF_COUNT_ARC_EDTLB] = "edtlb",	/* D-TLB Miss */
->  	[PERF_COUNT_ARC_EITLB] = "eitlb",	/* I-TLB Miss */
-> +
-> +	[PERF_COUNT_HW_CACHE_REFERENCES] = "imemrdc",	/* Instr: mem read cached */
-> +	[PERF_COUNT_HW_CACHE_MISSES] = "dclm",		/* D-cache Load Miss */
+Hi Vineet,
 
-I think this is duplicating a mistake we already have. I vaguely remember when
-doing some hackbench profiling last year with range based profiling confined to
-memset routine and saw that L1-dcache-misses was counting zero. This is because it
-only counts LD misses while memset only does ST.
+On Mon, Aug 8, 2016@6:28 PM, Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
+> On 08/08/2016 01:38 AM, Geert Uytterhoeven wrote:
+>>>   + {standard input}: Error: Instruction with long immediate data in delay slot:  => 18728
+>> arcv2/axs103_smp_defconfig
+>
+> What build service/farm does this use. Recently Guenter ran into this too and
+> updated his toolchain to work around the gcc bug.
 
-Performance counter stats for '/sbin/hackbench':
+http://kisskb.ellerman.id.au/kisskb/ from the linux-next team.
 
-     0 L1-dcache-misses
-     0 L1-dcache-load-misses
-     1846082 L1-dcache-store-misses
+Gr{oetje,eeting}s,
 
+                        Geert
 
-@PeterZ do you concur that is wrong and we ought to setup 2 counters to do this
-correctly ?
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
 
--Vineet
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
