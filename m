@@ -1,33 +1,56 @@
-From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Mon, 29 Aug 2016 18:18:15 +0200
-Subject: Build regressions/improvements in v4.8-rc1
-In-Reply-To: <89010fe1-8f08-0cd9-a23e-455e5288f136@synopsys.com>
-References: <alpine.DEB.2.10.1608081032130.9359@ayla.of.borg>
- <CAMuHMdW_fPP5dyOtRC98gh1kG-zuW_KxV7vAME_7b8Z-U10N_g@mail.gmail.com>
- <89010fe1-8f08-0cd9-a23e-455e5288f136@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 30 Aug 2016 09:21:30 -0700
+Subject: [PATCH] perf tools: Fix static building
+In-Reply-To: <1471887222-26270-1-git-send-email-abrodkin@synopsys.com>
+References: <1471887222-26270-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdXJpH06VCP8wtidXoCgcQ+0PO_x-=+uc0wCubb3OFcq5w@mail.gmail.com>
+Message-ID: <dc87aae2-5cfd-35f4-c23a-fc2a0ee1dd5f@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
-
-On Mon, Aug 8, 2016@6:28 PM, Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
-> On 08/08/2016 01:38 AM, Geert Uytterhoeven wrote:
->>>   + {standard input}: Error: Instruction with long immediate data in delay slot:  => 18728
->> arcv2/axs103_smp_defconfig
+On 08/22/2016 10:35 AM, Alexey Brodkin wrote:
+> With commit e3d09ec8126f ("tools lib traceevent: Export dynamic symbols
+> used by traceevent plugins") we started to add "--dynamic-list" in
+> LDFLAGS. One side-effect of that was inability to build really
+> statically-linked perf.
 >
-> What build service/farm does this use. Recently Guenter ran into this too and
-> updated his toolchain to work around the gcc bug.
+> I.e. even if "LDFLAGS=-static" were passed on perf building command-line
+> it had no effect and perf was built dynamically.
+>
+> This change disables setup of "--dynamic-list" if LDFLAGS contains
+> "-static" option.
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Arnaldo Carvalho de Melo <acme at redhat.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Wang Nan <wangnan0 at huawei.com>
+> Cc: Jiri Olsa <jolsa at kernel.org>
+> Cc: He Kuang <hekuang at huawei.com>
+> Cc: Masami Hiramatsu <masami.hiramatsu.pt at hitachi.com>
+> Cc: Namhyung Kim <namhyung at kernel.org>
+> Cc: Peter Zijlstra <a.p.zijlstra at chello.nl>
+> Cc: Zefan Li <lizefan at huawei.com>
+> Cc: pi3orama at 163.com
+> ---
+>  tools/perf/Makefile.perf | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
+> index 2d908750..e9acc7c 100644
+> --- a/tools/perf/Makefile.perf
+> +++ b/tools/perf/Makefile.perf
+> @@ -236,7 +236,9 @@ LIBTRACEEVENT = $(TE_PATH)libtraceevent.a
+>  export LIBTRACEEVENT
+>  
+>  LIBTRACEEVENT_DYNAMIC_LIST = $(TE_PATH)libtraceevent-dynamic-list
+> +ifeq ($(filter -static,$(LDFLAGS)),)
+>  LIBTRACEEVENT_DYNAMIC_LIST_LDFLAGS = -Xlinker --dynamic-list=$(LIBTRACEEVENT_DYNAMIC_LIST)
+> +endif
+>  
+>  LIBAPI = $(API_PATH)libapi.a
+>  export LIBAPI
 
-http://kisskb.ellerman.id.au/kisskb/ from the linux-next team.
+Gentle Ping while Alexey is away on vacation !
+Arnaldo are you ok with this patch.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thx,
+-Vineet
