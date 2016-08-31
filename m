@@ -1,10 +1,10 @@
 From: jolsa@redhat.com (Jiri Olsa)
-Date: Wed, 31 Aug 2016 09:21:28 +0200
+Date: Wed, 31 Aug 2016 09:24:09 +0200
 Subject: [PATCH] perf tools: Fix static building
 In-Reply-To: <1471887222-26270-1-git-send-email-abrodkin@synopsys.com>
 References: <1471887222-26270-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160831072128.GB4740@krava>
+Message-ID: <20160831072409.GC4740@krava>
 To: linux-snps-arc@lists.infradead.org
 
 On Mon, Aug 22, 2016@08:33:42PM +0300, Alexey Brodkin wrote:
@@ -12,21 +12,49 @@ On Mon, Aug 22, 2016@08:33:42PM +0300, Alexey Brodkin wrote:
 > used by traceevent plugins") we started to add "--dynamic-list" in
 > LDFLAGS. One side-effect of that was inability to build really
 > statically-linked perf.
+> 
+> I.e. even if "LDFLAGS=-static" were passed on perf building command-line
+> it had no effect and perf was built dynamically.
+> 
+> This change disables setup of "--dynamic-list" if LDFLAGS contains
+> "-static" option.
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Arnaldo Carvalho de Melo <acme at redhat.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Wang Nan <wangnan0 at huawei.com>
+> Cc: Jiri Olsa <jolsa at kernel.org>
+> Cc: He Kuang <hekuang at huawei.com>
+> Cc: Masami Hiramatsu <masami.hiramatsu.pt at hitachi.com>
+> Cc: Namhyung Kim <namhyung at kernel.org>
+> Cc: Peter Zijlstra <a.p.zijlstra at chello.nl>
+> Cc: Zefan Li <lizefan at huawei.com>
+> Cc: pi3orama at 163.com
+> ---
+>  tools/perf/Makefile.perf | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
+> index 2d908750..e9acc7c 100644
+> --- a/tools/perf/Makefile.perf
+> +++ b/tools/perf/Makefile.perf
+> @@ -236,7 +236,9 @@ LIBTRACEEVENT = $(TE_PATH)libtraceevent.a
+>  export LIBTRACEEVENT
+>  
+>  LIBTRACEEVENT_DYNAMIC_LIST = $(TE_PATH)libtraceevent-dynamic-list
+> +ifeq ($(filter -static,$(LDFLAGS)),)
+>  LIBTRACEEVENT_DYNAMIC_LIST_LDFLAGS = -Xlinker --dynamic-list=$(LIBTRACEEVENT_DYNAMIC_LIST)
+> +endif
 
-IIRC --dynamic-list forces perf to exports some symbols to
-be used by plugins.. don't see this breaking static build
+hum, e3d09ec8126f changelog mentioned python feature adding this by default
 
-also it's working properly for me:
+but not sure python could be added within static build
 
-[jolsa at krava perf]$ make LDFLAGS=-static
-...
-[jolsa at krava perf]$ ldd ./perf
-        not a dynamic executable
-
-unless I miss what you mean by 'really statically-linked' ;-)
-
-Maybe different features enabled/build environment could you
-please send the .config-detected along with the build error?
-
-thanks,
 jirka
+
+>  
+>  LIBAPI = $(API_PATH)libapi.a
+>  export LIBAPI
+> -- 
+> 2.7.4
+> 
