@@ -1,66 +1,248 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 7 Sep 2016 09:38:25 -0700
-Subject: WTF: patch "[PATCH] ARC: Support syscall ABI v4" was seriously
- submitted to be applied to the 4.7-stable tree?
-In-Reply-To: <20160907062852.GA1287@kroah.com>
-References: <1473080592214136@kroah.com>
- <584a8fcd-6876-de0d-3c5e-8b4dad12c49d@synopsys.com>
- <20160906193810.GB22028@kroah.com>
- <7ab12d76-875a-c06f-08e3-ef628edda1b9@synopsys.com>
- <1e3ae422-d8ff-326e-29bd-b58002b5163b@synopsys.com>
- <20160907062852.GA1287@kroah.com>
+Date: Thu, 8 Sep 2016 09:28:18 -0700
+Subject: [PATCH] atomic64: No need for CONFIG_ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <df4f96e8-fb05-ec81-6b32-ff6bc54ad853@synopsys.com>
+Message-ID: <1473352098-5822-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 09/06/2016 11:28 PM, Greg Kroah-Hartman wrote:
-> On Tue, Sep 06, 2016@01:28:45PM -0700, Vineet Gupta wrote:
->> On 09/06/2016 01:22 PM, Vineet Gupta wrote:
->>>> Not "we need to support gcc6 for
->>>> old kernels", as really, if someone wants to update userspace, they
->>>> don't update their kernel?
->> FWIW, I'm not arguing for the backport inclusion - I'm just trying to explain the
->> context more.
->>
->> Thing is your regular user/customer don't really care/know about these details. So
->> there are tools bugs and more often than not the easy answer for tools providers
->> is "this is a known issue in gcc x.y which has been fixed in gcc x2.y2 so consider
->> upgrading". So it is for such class of users that having such backports makes life
->> a little easy.
-> That's fine, but who would be upgrading their userspace gcc and then
-> wanting to rebuild their kernel for an old kernel release? 
+This came to light when implementing native 64-bit atomics for ARCv2.
 
-IMHO those are totally unrelated things. user-space gcc/tools upgrade can be
-forced upon customers by processor vendors (us) saying new tools come with boat
-load of fixes etc and more often that not it is indeed the case. OTOH, customers
-typically like to lock into a specific kernel baseline for longish duration
-because (1) they have out of tree drivers - (2) they have production systems,
-where they would be iffy to change to a new kernel because prev one is stable etc.
-I know above seem like made up points and it is easy to dismiss them given that
-(1)  We don't really work our processes for "enabling" out of tree stuff and (2) a
-new gcc is more unstable than a new kernel. But that is the mindset when you talk
-to them.
+The atomic64 self-test code uses CONFIG_ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+to check whether atomic64_dec_if_positive() is available.
+It seems it was needed when not every arch defined it.
+However as of current code the Kconfig option seems needless
 
->  What prevents them from also updating their kernel?
+- for CONFIG_GENERIC_ATOMIC64 it is auto-enabled in lib/Kconfig and a
+  generic definition of API is present lib/atomic64.c
+- arches with native 64-bit atomics select it in arch/*/Kconfig and
+  define the API in their headers
 
-Their platform baseline and out of tree drivers. Given my experience with
-maintaining arch port, in the past, an arch rebase has been easier than rebasing
-the drivers because of the framework improvements, API changes....
+So I see no point in keeping the Kconfig option
 
+Compile tested for 2 representatives:
+ - blackfin (CONFIG_GENERIC_ATOMIC64)
+ - x86 (!CONFIG_GENERIC_ATOMIC64)
 
-> I understand the context, I'm just trying to say that this really is a
-> "new feature" you are wanting here from what I can tell.  I'd recommend
-> just having people upgrade their kernel :)
+Also logistics wise it seemed simpler to just do this in 1 patch vs.
+splitting per arch - but I can break it up if maintainer feel that
+is better to avoid conflicts.
 
-That's what I recommend them too, all the time, but forcing this with a tools
-upgrade really enforces them and they need to pick a side, before 4.x or after 4.x
-which is not nice....
+Cc: Richard Henderson <rth at twiddle.net>
+Cc: Ivan Kokshaysky <ink at jurassic.park.msu.ru>
+Cc: Matt Turner <mattst88 at gmail.com>
+Cc: Russell King <linux at armlinux.org.uk>
+Cc: Catalin Marinas <catalin.marinas at arm.com>
+Cc: Will Deacon <will.deacon at arm.com>
+Cc: Ralf Baechle <ralf at linux-mips.org>
+Cc: "James E.J. Bottomley" <jejb at parisc-linux.org>
+Cc: Helge Deller <deller at gmx.de>
+Cc: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+Cc: Paul Mackerras <paulus at samba.org>
+Cc: Michael Ellerman <mpe at ellerman.id.au>
+Cc: Martin Schwidefsky <schwidefsky at de.ibm.com>
+Cc: Heiko Carstens <heiko.carstens at de.ibm.com>
+Cc: "David S. Miller" <davem at davemloft.net>
+Cc: Chris Metcalf <cmetcalf at mellanox.com>
+Cc: Thomas Gleixner <tglx at linutronix.de>
+Cc: Ingo Molnar <mingo at redhat.com>
+Cc: "H. Peter Anvin" <hpa at zytor.com>
+Cc: x86 at kernel.org
+Cc: Andrew Morton <akpm at linux-foundation.org>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Zhaoxiu Zeng <zhaoxiu.zeng at gmail.com>
+Cc: Linus Walleij <linus.walleij at linaro.org>
+Cc: Matthew Wilcox <willy at linux.intel.com>
+Cc: Alexander Potapenko <glider at google.com>
+Cc: Andrey Ryabinin <aryabinin at virtuozzo.com>
+Cc: Herbert Xu <herbert at gondor.apana.org.au>
+Cc: Ming Lin <ming.l at ssi.samsung.com>
+Cc: Arnd Bergmann <arnd at arndb.de>
+Cc: Geert Uytterhoeven <geert at linux-m68k.org>
+Cc: Peter Zijlstra <peterz at infradead.org>
+Cc: Borislav Petkov <bp at suse.de>
+Cc: Andi Kleen <ak at linux.intel.com>
+Cc: Boqun Feng <boqun.feng at gmail.com>
+Cc: linux-alpha at vger.kernel.org
+Cc: linux-kernel at vger.kernel.org
+Cc: linux-arm-kernel at lists.infradead.org
+Cc: linux-mips at linux-mips.org
+Cc: linux-parisc at vger.kernel.org
+Cc: linuxppc-dev at lists.ozlabs.org
+Cc: linux-s390 at vger.kernel.org
+Cc: sparclinux at vger.kernel.org
+Cc: linux-snps-arc at lists.infradead.org
+Cc: linux-arch at vger.kernel.org
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/alpha/Kconfig   | 1 -
+ arch/arm/Kconfig     | 1 -
+ arch/arm64/Kconfig   | 1 -
+ arch/mips/Kconfig    | 1 -
+ arch/parisc/Kconfig  | 1 -
+ arch/powerpc/Kconfig | 1 -
+ arch/s390/Kconfig    | 1 -
+ arch/sparc/Kconfig   | 1 -
+ arch/tile/Kconfig    | 1 -
+ arch/x86/Kconfig     | 1 -
+ lib/Kconfig          | 3 ---
+ lib/atomic64_test.c  | 4 ----
+ 12 files changed, 17 deletions(-)
 
-Thx,
--Vineet
-
->
-> thanks,
->
-> greg k-h
->
+diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+index 7f312d80b43b..0e49d39ea74a 100644
+--- a/arch/alpha/Kconfig
++++ b/arch/alpha/Kconfig
+@@ -15,7 +15,6 @@ config ALPHA
+ 	select GENERIC_IRQ_SHOW
+ 	select ARCH_WANT_IPC_PARSE_VERSION
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
+-	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	select AUDIT_ARCH
+ 	select GENERIC_CLOCKEVENTS
+ 	select GENERIC_SMP_IDLE_THREAD
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index a9c4e48bb7ec..2a50957c7bfb 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -1,7 +1,6 @@
+ config ARM
+ 	bool
+ 	default y
+-	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+ 	select ARCH_HAS_ELF_RANDOMIZE
+ 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index bc3f00f586f1..3df2ca7efbcc 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -6,7 +6,6 @@ config ARM64
+ 	select ACPI_MCFG if ACPI
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+ 	select ARCH_HAS_ACPI_TABLE_UPGRADE if ACPI
+-	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	select ARCH_HAS_ELF_RANDOMIZE
+ 	select ARCH_HAS_GCOV_PROFILE_ALL
+ 	select ARCH_HAS_KCOV
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index 26388562e300..5bbea197c220 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -30,7 +30,6 @@ config MIPS
+ 	select HAVE_ARCH_TRANSPARENT_HUGEPAGE if CPU_SUPPORTS_HUGEPAGES && 64BIT
+ 	select RTC_LIB if !MACH_LOONGSON64
+ 	select GENERIC_ATOMIC64 if !64BIT
+-	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	select HAVE_DMA_CONTIGUOUS
+ 	select HAVE_DMA_API_DEBUG
+ 	select GENERIC_IRQ_PROBE
+diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
+index cd8778103165..9e40b52c0721 100644
+--- a/arch/parisc/Kconfig
++++ b/arch/parisc/Kconfig
+@@ -15,7 +15,6 @@ config PARISC
+ 	select BUILDTIME_EXTABLE_SORT
+ 	select HAVE_PERF_EVENTS
+ 	select GENERIC_ATOMIC64 if !64BIT
+-	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	select BROKEN_RODATA
+ 	select GENERIC_IRQ_PROBE
+ 	select GENERIC_PCI_IOMAP
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 927d2ab2ce08..18d1b42cf545 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -113,7 +113,6 @@ config PPC
+ 	select HAVE_DEBUG_KMEMLEAK
+ 	select ARCH_HAS_SG_CHAIN
+ 	select GENERIC_ATOMIC64 if PPC32
+-	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	select HAVE_PERF_EVENTS
+ 	select HAVE_PERF_REGS
+ 	select HAVE_PERF_USER_STACK_DUMP
+diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
+index e751fe25d6ab..af52b07efde2 100644
+--- a/arch/s390/Kconfig
++++ b/arch/s390/Kconfig
+@@ -67,7 +67,6 @@ config DEBUG_RODATA
+ 
+ config S390
+ 	def_bool y
+-	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	select ARCH_HAS_DEBUG_STRICT_USER_COPY_CHECKS
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+ 	select ARCH_HAS_ELF_RANDOMIZE
+diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
+index 59b09600dd32..bfedbe0cb7b2 100644
+--- a/arch/sparc/Kconfig
++++ b/arch/sparc/Kconfig
+@@ -22,7 +22,6 @@ config SPARC
+ 	select HAVE_ARCH_TRACEHOOK
+ 	select HAVE_EXIT_THREAD
+ 	select SYSCTL_EXCEPTION_TRACE
+-	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	select RTC_CLASS
+ 	select RTC_DRV_M48T59
+ 	select RTC_SYSTOHC
+diff --git a/arch/tile/Kconfig b/arch/tile/Kconfig
+index 4820a02838ac..12eda5440c93 100644
+--- a/arch/tile/Kconfig
++++ b/arch/tile/Kconfig
+@@ -3,7 +3,6 @@
+ 
+ config TILE
+ 	def_bool y
+-	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	select ARCH_HAS_DEBUG_STRICT_USER_COPY_CHECKS
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index c580d8c33562..0cf609998550 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -23,7 +23,6 @@ config X86
+ 	select ARCH_CLOCKSOURCE_DATA
+ 	select ARCH_DISCARD_MEMBLOCK
+ 	select ARCH_HAS_ACPI_TABLE_UPGRADE if ACPI
+-	select ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	select ARCH_HAS_DEBUG_STRICT_USER_COPY_CHECKS
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+ 	select ARCH_HAS_ELF_RANDOMIZE
+diff --git a/lib/Kconfig b/lib/Kconfig
+index d79909dc01ec..0e74df3c5441 100644
+--- a/lib/Kconfig
++++ b/lib/Kconfig
+@@ -457,9 +457,6 @@ config NLATTR
+ config GENERIC_ATOMIC64
+        bool
+ 
+-config ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+-	def_bool y if GENERIC_ATOMIC64
+-
+ config LRU_CACHE
+ 	tristate
+ 
+diff --git a/lib/atomic64_test.c b/lib/atomic64_test.c
+index dbb369145dda..46042901130f 100644
+--- a/lib/atomic64_test.c
++++ b/lib/atomic64_test.c
+@@ -213,7 +213,6 @@ static __init void test_atomic64(void)
+ 	r += one;
+ 	BUG_ON(v.counter != r);
+ 
+-#ifdef CONFIG_ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+ 	INIT(onestwos);
+ 	BUG_ON(atomic64_dec_if_positive(&v) != (onestwos - 1));
+ 	r -= one;
+@@ -226,9 +225,6 @@ static __init void test_atomic64(void)
+ 	INIT(-one);
+ 	BUG_ON(atomic64_dec_if_positive(&v) != (-one - one));
+ 	BUG_ON(v.counter != r);
+-#else
+-#warning Please implement atomic64_dec_if_positive for your architecture and select the above Kconfig symbol
+-#endif
+ 
+ 	INIT(onestwos);
+ 	BUG_ON(!atomic64_inc_not_zero(&v));
+-- 
+2.7.4
