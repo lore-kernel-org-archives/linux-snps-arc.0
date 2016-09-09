@@ -1,63 +1,326 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 9 Sep 2016 10:08:39 -0700
-Subject: WTF: patch "[PATCH] ARC: Support syscall ABI v4" was seriously
- submitted to be applied to the 4.7-stable tree?
-In-Reply-To: <20160909113911.GD28372@kroah.com>
-References: <1473080592214136@kroah.com>
- <584a8fcd-6876-de0d-3c5e-8b4dad12c49d@synopsys.com>
- <20160906193810.GB22028@kroah.com>
- <7ab12d76-875a-c06f-08e3-ef628edda1b9@synopsys.com>
- <1e3ae422-d8ff-326e-29bd-b58002b5163b@synopsys.com>
- <20160907062852.GA1287@kroah.com>
- <df4f96e8-fb05-ec81-6b32-ff6bc54ad853@synopsys.com>
- <20160909113911.GD28372@kroah.com>
+Date: Fri, 9 Sep 2016 11:20:51 -0700
+Subject: [PATCH v2] ARCv2: Implement atomic64 based on LLOCKD/SCONDD
+ instructions
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3a40ba02-36a6-d92b-0187-148c96488816@synopsys.com>
+Message-ID: <1473445251-18260-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 09/09/2016 04:39 AM, Greg Kroah-Hartman wrote:
-> On Wed, Sep 07, 2016@09:38:25AM -0700, Vineet Gupta wrote:
->> On 09/06/2016 11:28 PM, Greg Kroah-Hartman wrote:
->>> On Tue, Sep 06, 2016@01:28:45PM -0700, Vineet Gupta wrote:
->>>> On 09/06/2016 01:22 PM, Vineet Gupta wrote:
->>>>>> Not "we need to support gcc6 for
->>>>>> old kernels", as really, if someone wants to update userspace, they
->>>>>> don't update their kernel?
->>>> FWIW, I'm not arguing for the backport inclusion - I'm just trying to explain the
->>>> context more.
->>>>
->>>> Thing is your regular user/customer don't really care/know about these details. So
->>>> there are tools bugs and more often than not the easy answer for tools providers
->>>> is "this is a known issue in gcc x.y which has been fixed in gcc x2.y2 so consider
->>>> upgrading". So it is for such class of users that having such backports makes life
->>>> a little easy.
->>> That's fine, but who would be upgrading their userspace gcc and then
->>> wanting to rebuild their kernel for an old kernel release? 
->> IMHO those are totally unrelated things. user-space gcc/tools upgrade can be
->> forced upon customers by processor vendors (us) saying new tools come with boat
->> load of fixes etc and more often that not it is indeed the case. OTOH, customers
->> typically like to lock into a specific kernel baseline for longish duration
->> because (1) they have out of tree drivers - (2) they have production systems,
->> where they would be iffy to change to a new kernel because prev one is stable etc.
->> I know above seem like made up points and it is easy to dismiss them given that
->> (1)  We don't really work our processes for "enabling" out of tree stuff and (2) a
->> new gcc is more unstable than a new kernel. But that is the mindset when you talk
->> to them.
->>
->>>  What prevents them from also updating their kernel?
->> Their platform baseline and out of tree drivers. Given my experience with
->> maintaining arch port, in the past, an arch rebase has been easier than rebasing
->> the drivers because of the framework improvements, API changes....
-> If they have huge patches for their kernels, adding yet-another-one for
-> the gcc change should be just fine, right? 
+ARCv2 ISA provides 64-bit exclusive load/stores so use them to implement
+the 64-bit atomics and elide the spinlock based generic 64-bit atomics
 
-That is true.
+boot tested with atomic64 self-test (and GOD bless the person who wrote
+them, I realized my inline assmebly is sloppy as hell)
 
->  And you know they aren't
-> updating their base stable kernel release number, so even if this was
-> added to the stable trees, they wouldn't see it :(
+Cc: Peter Zijlstra <peterz at infradead.org>
+Cc: Will Deacon <will.deacon at arm.com>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: linux-kernel at vger.kernel.org
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+changes since v2
+ - Removed questions aboutt compiler barrier from changelog
+ - added some comments to same effect in atomic64_set()
+ - fixes a few spellos in comment/changelog
+---
+ arch/arc/Kconfig              |   2 +-
+ arch/arc/include/asm/atomic.h | 262 +++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 261 insertions(+), 3 deletions(-)
 
-I'd presume they will follow the stable bumps - otherwise it is pointless to ask
-for backport in first place.
-
--Vineet
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 0d3e59f56974..073b3582544b 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -13,7 +13,7 @@ config ARC
+ 	select CLKSRC_OF
+ 	select CLONE_BACKWARDS
+ 	select COMMON_CLK
+-	select GENERIC_ATOMIC64
++	select GENERIC_ATOMIC64 if !ISA_ARCV2 || !(ARC_HAS_LL64 && ARC_HAS_LLSC)
+ 	select GENERIC_CLOCKEVENTS
+ 	select GENERIC_FIND_FIRST_BIT
+ 	# for now, we don't need GENERIC_IRQ_PROBE, CONFIG_GENERIC_IRQ_CHIP
+diff --git a/arch/arc/include/asm/atomic.h b/arch/arc/include/asm/atomic.h
+index 4e3c1b6b0806..288ad07b69b5 100644
+--- a/arch/arc/include/asm/atomic.h
++++ b/arch/arc/include/asm/atomic.h
+@@ -20,6 +20,7 @@
+ #ifndef CONFIG_ARC_PLAT_EZNPS
+ 
+ #define atomic_read(v)  READ_ONCE((v)->counter)
++#define ATOMIC_INIT(i)	{ (i) }
+ 
+ #ifdef CONFIG_ARC_HAS_LLSC
+ 
+@@ -343,10 +344,267 @@ ATOMIC_OPS(xor, ^=, CTOP_INST_AXOR_DI_R2_R2_R3)
+ 
+ #define atomic_add_negative(i, v)	(atomic_add_return(i, v) < 0)
+ 
+-#define ATOMIC_INIT(i)			{ (i) }
++
++#ifdef CONFIG_GENERIC_ATOMIC64
+ 
+ #include <asm-generic/atomic64.h>
+ 
+-#endif
++#else	/* Kconfig ensures this is only enabled with needed h/w assist */
++
++/*
++ * ARCv2 supports 64-bit exclusive load (LLOCKD) / store (SCONDD)
++ *  - The address HAS to be 64-bit aligned
++ *  - There are 2 semantics involved here:
++ *    = exclusive implies no interim update between load/store to same addr
++ *    = both words are observed/updated together: this is guaranteed even
++ *      for regular 64-bit load (LDD) / store (STD). Thus atomic64_set()
++ *      is NOT required to use LLOCKD+SCONDD, STD suffices
++ */
++
++typedef struct {
++	aligned_u64 counter;
++} atomic64_t;
++
++#define ATOMIC64_INIT(a) { (a) }
++
++static inline long long atomic64_read(const atomic64_t *v)
++{
++	unsigned long long val;
++
++	__asm__ __volatile__(
++	"	ldd   %0, [%1]	\n"
++	: "=r"(val)
++	: "r"(&v->counter));
++
++	return val;
++}
++
++static inline void atomic64_set(atomic64_t *v, long long a)
++{
++	/*
++	 * This could have been a simple assignment in "C" but would need
++	 * explicit volatile. Otherwise gcc optimizers could elide the store
++	 * which borked atomic64 self-test
++	 * In the inline asm version, memory clobber needed for exact same reson,
++	 * to tell gcc about the store.
++	 *
++	 * This however is not needed for sibling atomic64_add() etc since
++	 * both load/store are explicitly done in inline asm. As long as API
++	 * is called for each access, gcc has no way to optimize away and of the
++	 * load or store
++	 */
++	__asm__ __volatile__(
++	"	std   %0, [%1]	\n"
++	:
++	: "r"(a), "r"(&v->counter)
++	: "memory");
++}
++
++#define ATOMIC64_OP(op, op1, op2)					\
++static inline void atomic64_##op(long long a, atomic64_t *v)		\
++{									\
++	unsigned long long val;						\
++									\
++	__asm__ __volatile__(						\
++	"1:				\n"				\
++	"	llockd  %0, [%1]	\n"				\
++	"	" #op1 " %L0, %L0, %L2	\n"				\
++	"	" #op2 " %H0, %H0, %H2	\n"				\
++	"	scondd   %0, [%1]	\n"				\
++	"	bnz     1b		\n"				\
++	: "=&r"(val)							\
++	: "r"(&v->counter), "ir"(a)					\
++	: "cc");						\
++}									\
++
++#define ATOMIC64_OP_RETURN(op, op1, op2)		        	\
++static inline long long atomic64_##op##_return(long long a, atomic64_t *v)	\
++{									\
++	unsigned long long val;						\
++									\
++	smp_mb();							\
++									\
++	__asm__ __volatile__(						\
++	"1:				\n"				\
++	"	llockd   %0, [%1]	\n"				\
++	"	" #op1 " %L0, %L0, %L2	\n"				\
++	"	" #op2 " %H0, %H0, %H2	\n"				\
++	"	scondd   %0, [%1]	\n"				\
++	"	bnz     1b		\n"				\
++	: [val] "=&r"(val)						\
++	: "r"(&v->counter), "ir"(a)					\
++	: "cc");	/* memory clobber comes from smp_mb() */	\
++									\
++	smp_mb();							\
++									\
++	return val;							\
++}
++
++#define ATOMIC64_FETCH_OP(op, op1, op2)		        		\
++static inline long long atomic64_fetch_##op(long long a, atomic64_t *v)	\
++{									\
++	unsigned long long val, orig;					\
++									\
++	smp_mb();							\
++									\
++	__asm__ __volatile__(						\
++	"1:				\n"				\
++	"	llockd   %0, [%2]	\n"				\
++	"	" #op1 " %L1, %L0, %L3	\n"				\
++	"	" #op2 " %H1, %H0, %H3	\n"				\
++	"	scondd   %1, [%2]	\n"				\
++	"	bnz     1b		\n"				\
++	: "=&r"(orig), "=&r"(val)					\
++	: "r"(&v->counter), "ir"(a)					\
++	: "cc");	/* memory clobber comes from smp_mb() */	\
++									\
++	smp_mb();							\
++									\
++	return orig;							\
++}
++
++#define ATOMIC64_OPS(op, op1, op2)					\
++	ATOMIC64_OP(op, op1, op2)					\
++	ATOMIC64_OP_RETURN(op, op1, op2)				\
++	ATOMIC64_FETCH_OP(op, op1, op2)
++
++#define atomic64_andnot atomic64_andnot
++
++ATOMIC64_OPS(add, add.f, adc)
++ATOMIC64_OPS(sub, sub.f, sbc)
++ATOMIC64_OPS(and, and, and)
++ATOMIC64_OPS(andnot, bic, bic)
++ATOMIC64_OPS(or, or, or)
++ATOMIC64_OPS(xor, xor, xor)
++
++#undef ATOMIC64_OPS
++#undef ATOMIC64_FETCH_OP
++#undef ATOMIC64_OP_RETURN
++#undef ATOMIC64_OP
++
++static inline long long
++atomic64_cmpxchg(atomic64_t *ptr, long long expected, long long new)
++{
++	long long prev;
++
++	smp_mb();
++
++	__asm__ __volatile__(
++	"1:	llockd  %0, [%1]	\n"
++	"	brne    %L0, %L2, 2f	\n"
++	"	brne    %H0, %H2, 2f	\n"
++	"	scondd  %3, [%1]	\n"
++	"	bnz     1b		\n"
++	"2:				\n"
++	: "=&r"(prev)
++	: "r"(ptr), "ir"(expected), "r"(new)
++	: "cc");	/* memory clobber comes from smp_mb() */
++
++	smp_mb();
++
++	return prev;
++}
++
++static inline long long atomic64_xchg(atomic64_t *ptr, long long new)
++{
++	long long prev;
++
++	smp_mb();
++
++	__asm__ __volatile__(
++	"1:	llockd  %0, [%1]	\n"
++	"	scondd  %2, [%1]	\n"
++	"	bnz     1b		\n"
++	"2:				\n"
++	: "=&r"(prev)
++	: "r"(ptr), "r"(new)
++	: "cc");	/* memory clobber comes from smp_mb() */
++
++	smp_mb();
++
++	return prev;
++}
++
++/**
++ * atomic64_dec_if_positive - decrement by 1 if old value positive
++ * @v: pointer of type atomic64_t
++ *
++ * The function returns the old value of *v minus 1, even if
++ * the atomic variable, v, was not decremented.
++ */
++
++static inline long long atomic64_dec_if_positive(atomic64_t *v)
++{
++	long long val;
++
++	smp_mb();
++
++	__asm__ __volatile__(
++	"1:	llockd  %0, [%1]	\n"
++	"	sub.f   %L0, %L0, 1	# w0 - 1, set C on borrow\n"
++	"	sub.c   %H0, %H0, 1	# if C set, w1 - 1\n"
++	"	brlt    %H0, 0, 2f	\n"
++	"	scondd  %0, [%1]	\n"
++	"	bnz     1b		\n"
++	"2:				\n"
++	: "=&r"(val)
++	: "r"(&v->counter)
++	: "cc");	/* memory clobber comes from smp_mb() */
++
++	smp_mb();
++
++	return val;
++}
++
++/**
++ * atomic64_add_unless - add unless the number is a given value
++ * @v: pointer of type atomic64_t
++ * @a: the amount to add to v...
++ * @u: ...unless v is equal to u.
++ *
++ * if (v != u) { v += a; ret = 1} else {ret = 0}
++ * Returns 1 iff @v was not @u (i.e. if add actually happened)
++ */
++static inline int atomic64_add_unless(atomic64_t *v, long long a, long long u)
++{
++	long long val;
++	int op_done;
++
++	smp_mb();
++
++	__asm__ __volatile__(
++	"1:	llockd  %0, [%2]	\n"
++	"	mov	%1, 1		\n"
++	"	brne	%L0, %L4, 2f	# continue to add since v != u \n"
++	"	breq.d	%H0, %H4, 3f	# return since v == u \n"
++	"	mov	%1, 0		\n"
++	"2:				\n"
++	"	add.f   %L0, %L0, %L3	\n"
++	"	adc     %H0, %H0, %H3	\n"
++	"	scondd  %0, [%2]	\n"
++	"	bnz     1b		\n"
++	"3:				\n"
++	: "=&r"(val), "=&r" (op_done)
++	: "r"(&v->counter), "r"(a), "r"(u)
++	: "cc");	/* memory clobber comes from smp_mb() */
++
++	smp_mb();
++
++	return op_done;
++}
++
++#define atomic64_add_negative(a, v)	(atomic64_add_return((a), (v)) < 0)
++#define atomic64_inc(v)			atomic64_add(1LL, (v))
++#define atomic64_inc_return(v)		atomic64_add_return(1LL, (v))
++#define atomic64_inc_and_test(v)	(atomic64_inc_return(v) == 0)
++#define atomic64_sub_and_test(a, v)	(atomic64_sub_return((a), (v)) == 0)
++#define atomic64_dec(v)			atomic64_sub(1LL, (v))
++#define atomic64_dec_return(v)		atomic64_sub_return(1LL, (v))
++#define atomic64_dec_and_test(v)	(atomic64_dec_return((v)) == 0)
++#define atomic64_inc_not_zero(v)	atomic64_add_unless((v), 1LL, 0LL)
++
++#endif	/* !CONFIG_GENERIC_ATOMIC64 */
++
++#endif	/* !__ASSEMBLY__ */
+ 
+ #endif
+-- 
+2.7.4
