@@ -1,63 +1,61 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Fri, 9 Sep 2016 09:40:44 +0200
-Subject: [PATCH] ARCv2: Implement atomic64 based on LLOCKD/SCONDD
- instructions
-In-Reply-To: <7012c761-a355-d830-22bf-48db96a12452@synopsys.com>
-References: <1473362967-23750-1-git-send-email-vgupta@synopsys.com>
- <7012c761-a355-d830-22bf-48db96a12452@synopsys.com>
+From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
+Date: Fri, 9 Sep 2016 13:39:11 +0200
+Subject: WTF: patch "[PATCH] ARC: Support syscall ABI v4" was seriously
+ submitted to be applied to the 4.7-stable tree?
+In-Reply-To: <df4f96e8-fb05-ec81-6b32-ff6bc54ad853@synopsys.com>
+References: <1473080592214136@kroah.com>
+ <584a8fcd-6876-de0d-3c5e-8b4dad12c49d@synopsys.com>
+ <20160906193810.GB22028@kroah.com>
+ <7ab12d76-875a-c06f-08e3-ef628edda1b9@synopsys.com>
+ <1e3ae422-d8ff-326e-29bd-b58002b5163b@synopsys.com>
+ <20160907062852.GA1287@kroah.com>
+ <df4f96e8-fb05-ec81-6b32-ff6bc54ad853@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160909074044.GC10153@twins.programming.kicks-ass.net>
+Message-ID: <20160909113911.GD28372@kroah.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Sep 08, 2016@03:24:10PM -0700, Vineet Gupta wrote:
-> On 09/08/2016 12:29 PM, Vineet Gupta wrote:
-> > One thing I'm not sure of is the lack of explicit memory clobber in
-> > barrier-less ops e.g. atomic64_add() (BTW same is true for 32-bit
-> > atomic_add() as well). Per commit 398aa66827 ("ARM: 6212/1: atomic ops:
-> > add memory constraints to inline asm ") Will fixed ARM code by adding
-> > appropriate constraint to atomic64_add(). For ARC instead adding memory
-> > clobber to atomic64_set() does the trick (otherwise self-test is broked)
-> > This is on ARC we can't possibly use "m" in atomic64_add() since that make gcc
-> > emit register relative effective addresses which LLOCKD/SCONDD are not
-> > allowed by ISA
+On Wed, Sep 07, 2016@09:38:25AM -0700, Vineet Gupta wrote:
+> On 09/06/2016 11:28 PM, Greg Kroah-Hartman wrote:
+> > On Tue, Sep 06, 2016@01:28:45PM -0700, Vineet Gupta wrote:
+> >> On 09/06/2016 01:22 PM, Vineet Gupta wrote:
+> >>>> Not "we need to support gcc6 for
+> >>>> old kernels", as really, if someone wants to update userspace, they
+> >>>> don't update their kernel?
+> >> FWIW, I'm not arguing for the backport inclusion - I'm just trying to explain the
+> >> context more.
+> >>
+> >> Thing is your regular user/customer don't really care/know about these details. So
+> >> there are tools bugs and more often than not the easy answer for tools providers
+> >> is "this is a known issue in gcc x.y which has been fixed in gcc x2.y2 so consider
+> >> upgrading". So it is for such class of users that having such backports makes life
+> >> a little easy.
+> > That's fine, but who would be upgrading their userspace gcc and then
+> > wanting to rebuild their kernel for an old kernel release? 
 > 
-> So interestingly my self-test run fine, but I had this oldish version stashed
-> somewhere which did something liek below and that clearly generates wrong code.
+> IMHO those are totally unrelated things. user-space gcc/tools upgrade can be
+> forced upon customers by processor vendors (us) saying new tools come with boat
+> load of fixes etc and more often that not it is indeed the case. OTOH, customers
+> typically like to lock into a specific kernel baseline for longish duration
+> because (1) they have out of tree drivers - (2) they have production systems,
+> where they would be iffy to change to a new kernel because prev one is stable etc.
+> I know above seem like made up points and it is easy to dismiss them given that
+> (1)  We don't really work our processes for "enabling" out of tree stuff and (2) a
+> new gcc is more unstable than a new kernel. But that is the mindset when you talk
+> to them.
 > 
-> int my_test_atomic(void)
-> {
->     long v0 = 0x33333333;
->     long onestwos = 0x11112222;
+> >  What prevents them from also updating their kernel?
 > 
->     atomic_t v = ATOMIC_INIT(v0);
->     long long r = v0;
->     int ret = 0;
-> 
->     atomic_set(&v, v0); r = v0;
->     atomic_add(onestwos, &v);
->     r += onestwos;
->     if (v.counter != r) {      /* <------ */
->                 ret = 3;   /* error */
->     }
-> 
->     return ret;
-> }
-> 
-> key here is the check - if we access the atomic directly, I get error. If I use
-> atomic_read() which forces a reload due to volatile, things are hunky dory. So it
-> seems to me we don't need memory clobber or equivalent in barrier less atomics
-> except the set. Seems too fragile ?
+> Their platform baseline and out of tree drivers. Given my experience with
+> maintaining arch port, in the past, an arch rebase has been easier than rebasing
+> the drivers because of the framework improvements, API changes....
 
-Accessing atomic_t::counter without the accessors is undefined behaviour
-and you pretty much get to keep whatever pieces, although volatile
-accesses generally work (except when it doesn't, see blackfin SMP for
-example).
+If they have huge patches for their kernels, adding yet-another-one for
+the gcc change should be just fine, right?  And you know they aren't
+updating their base stable kernel release number, so even if this was
+added to the stable trees, they wouldn't see it :(
 
-atomic_set() should be at least WRITE_ONCE().
-atomic_read() should be at least READ_ONCE().
+Unless ARC customers are better than others?
 
-atomic_$op(), atomic_fetch_$op_relaxed() and atomic_$op_return_relaxed()
-need not imply any sort of barrier, compiler or otherwise.
+thanks,
 
-atomic_fetch_$op() and atomic_$op_return(), which imply memory ordering,
-also very much imply a compiler barrier, since all memory barriers do.
+greg k-h
