@@ -1,31 +1,40 @@
-From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
-Date: Mon, 12 Sep 2016 18:55:03 +0300
-Subject: [PATCH] ARCv2: intc: Use kflag if STATUS32.IE must be reset
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 12 Sep 2016 10:47:10 -0700
+Subject: [PATCH v2 0/2] Getting rid of CONFIG_ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1473695703-29547-1-git-send-email-yuriy.kolerov@synopsys.com>
+Message-ID: <1473702432-8116-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-In the end of "arc_init_IRQ" STATUS32.IE flag is going to be affected by
-"flag" instruction but "flag" never touches IE flag on ARCv2. So "kflag"
-instruction must be used instead of "flag".
+Hi Peter / Tony.
 
-Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
----
- arch/arc/kernel/intc-arcv2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So kbuild service reported build failure of ia64 with my prev patch.
+I've added an untested atomic64_dec_if_positive() to ia64, shamelessly
+copied from s390 with some adjustments 64-bit long etc. Could you please
+double check.
 
-diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
-index 6c24faf..62b59409 100644
---- a/arch/arc/kernel/intc-arcv2.c
-+++ b/arch/arc/kernel/intc-arcv2.c
-@@ -74,7 +74,7 @@ void arc_init_IRQ(void)
- 	tmp = read_aux_reg(0xa);
- 	tmp |= STATUS_AD_MASK | (irq_prio << 1);
- 	tmp &= ~STATUS_IE_MASK;
--	asm volatile("flag %0	\n"::"r"(tmp));
-+	asm volatile("kflag %0	\n"::"r"(tmp));
- }
- 
- static void arcv2_irq_mask(struct irq_data *data)
+It builds fine with ia64 cross compiler.
+
+Thx,
+-Vineet
+
+Vineet Gupta (2):
+  ia64: implement atomic64_dec_if_positive
+  atomic64: No need for CONFIG_ARCH_HAS_ATOMIC64_DEC_IF_POSITIVE
+
+ arch/alpha/Kconfig             |  1 -
+ arch/arm/Kconfig               |  1 -
+ arch/arm64/Kconfig             |  1 -
+ arch/ia64/include/asm/atomic.h | 16 ++++++++++++++++
+ arch/mips/Kconfig              |  1 -
+ arch/parisc/Kconfig            |  1 -
+ arch/powerpc/Kconfig           |  1 -
+ arch/s390/Kconfig              |  2 +-
+ arch/sparc/Kconfig             |  1 -
+ arch/tile/Kconfig              |  2 +-
+ arch/x86/Kconfig               |  2 +-
+ lib/Kconfig                    |  3 ---
+ lib/atomic64_test.c            |  4 ----
+ 13 files changed, 19 insertions(+), 17 deletions(-)
+
 -- 
 2.7.4
