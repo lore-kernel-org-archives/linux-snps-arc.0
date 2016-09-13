@@ -1,32 +1,71 @@
-From: tony.luck@intel.com (Luck, Tony)
-Date: Mon, 12 Sep 2016 18:26:07 +0000
-Subject: [PATCH v2 1/2] ia64: implement atomic64_dec_if_positive
-In-Reply-To: <1473702432-8116-2-git-send-email-vgupta@synopsys.com>
-References: <1473702432-8116-1-git-send-email-vgupta@synopsys.com>
- <1473702432-8116-2-git-send-email-vgupta@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 13 Sep 2016 15:37:17 -0700
+Subject: [PATCH] ARC: module: provide linker script to discard debug sections
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3908561D78D1C84285E8C5FCA982C28F3A1C7978@ORSMSX114.amr.corp.intel.com>
+Message-ID: <1473806237-16800-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-+static __inline__ long atomic64_dec_if_positive(atomic64_t *v)
+The module .ko files seem to  bloated due to lot of needless sections,
+most of which come due to -gdwarf-2 toggle (needed in turn to get
+.debug_frame which kernel stack unwinder usese).
+
+However there's no reason for the other .debug_* sections, so discard
+them using arch specific linker script (linker collates module-common.lds
+and arch specific lds)
+
+For a very simply module using DEBUG_FS
+
+before
+| There are 35 section headers, starting at offset 0x205a0:
+| ls -sh q_proc.ko
+| 132K q_proc.ko
+
+after
+| There are 25 section headers, starting at offset 0x205a0:
+| ls -sh q_proc.ko
+| 8K q_proc.ko
+
+Reported-by: Daniel Mentz <danielmentz at google.com>
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/Makefile          |  5 +++++
+ arch/arc/kernel/module.lds | 12 ++++++++++++
+ 2 files changed, 17 insertions(+)
+ create mode 100644 arch/arc/kernel/module.lds
+
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index 85814e74677d..fe1b702f5c69 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -97,6 +97,11 @@ LIBGCC	:= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
+ # Modules with short calls might break for calls into builtin-kernel
+ KBUILD_CFLAGS_MODULE	+= -mlong-calls -mno-millicode
+ 
++# toss away debug section, ifdef not allowed in the linker script
++ifndef CONFIG_DEBUG_INFO
++KBUILD_LDFLAGS_MODULE += -T $(srctree)/arch/arc/kernel/module.lds
++endif
++
+ # Finally dump eveything into kernel build system
+ KBUILD_CFLAGS	+= $(cflags-y)
+ KBUILD_AFLAGS	+= $(KBUILD_CFLAGS)
+diff --git a/arch/arc/kernel/module.lds b/arch/arc/kernel/module.lds
+new file mode 100644
+index 000000000000..c9839be105fc
+--- /dev/null
++++ b/arch/arc/kernel/module.lds
+@@ -0,0 +1,12 @@
++SECTIONS
 +{
-+	long c, old, dec;
-+	c = atomic64_read(v);
-+	for (;;) {
-+		dec = c - 1;
-+		if (unlikely(dec < 0))
-+			break;
-+		old = atomic64_cmpxchg((v), c, dec);
-+		if (likely(old == c))
-+			break;
-+		c = old;
-+	}
-+	return dec;
++	/DISCARD/ : { *(.debug_aranges) }
++	/DISCARD/ : { *(.debug_pubnames) }
++	/DISCARD/ : { *(.debug_info) }
++	/DISCARD/ : { *(.debug_abbrev) }
++	/DISCARD/ : { *(.debug_line) }
++	/DISCARD/ : { *(.debug_str) }
++	/DISCARD/ : { *(.debug_loc) }
++	/DISCARD/ : { *(.debug_macinfo) }
++	/DISCARD/ : { *(.debug_ranges) }
 +}
-
-I was about to say "add a cpu_relax()" in the bottom of that loop. But none of the other
-atomic ops that spin on a cmpxchg do that ... so:
-
-Acked-by: Tony Luck <tony.luck at intel.com>
-
--Tony
+-- 
+2.7.4
