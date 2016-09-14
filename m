@@ -1,71 +1,83 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 13 Sep 2016 15:37:17 -0700
-Subject: [PATCH] ARC: module: provide linker script to discard debug sections
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 14 Sep 2016 16:21:12 +0000
+Subject: [PATCH] perf tools: Fix static building
+In-Reply-To: <8deeb70b-6fe8-32c5-9f6f-65b2d6bd70eb@synopsys.com>
+References: <1471887222-26270-1-git-send-email-abrodkin@synopsys.com>
+ <20160831072128.GB4740@krava>
+ <8deeb70b-6fe8-32c5-9f6f-65b2d6bd70eb@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1473806237-16800-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1473869942.3766.32.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-The module .ko files seem to  bloated due to lot of needless sections,
-most of which come due to -gdwarf-2 toggle (needed in turn to get
-.debug_frame which kernel stack unwinder usese).
+Hi Vineet, Jiri,
 
-However there's no reason for the other .debug_* sections, so discard
-them using arch specific linker script (linker collates module-common.lds
-and arch specific lds)
+On Thu, 2016-09-01@11:28 -0700, Vineet Gupta wrote:
+> On 08/31/2016 12:21 AM, Jiri Olsa wrote:
+> > 
+> > On Mon, Aug 22, 2016@08:33:42PM +0300, Alexey Brodkin wrote:
+> > > 
+> > > With commit e3d09ec8126f ("tools lib traceevent: Export dynamic symbols
+> > > used by traceevent plugins") we started to add "--dynamic-list" in
+> > > LDFLAGS. One side-effect of that was inability to build really
+> > > statically-linked perf.
+> > 
+> > IIRC --dynamic-list forces perf to exports some symbols to
+> > be used by plugins.. don't see this breaking static build
+> > 
+> > also it's working properly for me:
+> > 
+> > [jolsa at krava perf]$ make LDFLAGS=-static
+> > ...
+> > [jolsa at krava perf]$ ldd ./perf
+> > ????????not a dynamic executable
+> > 
+> > unless I miss what you mean by 'really statically-linked' ;-)
+> 
+> Right - so I tried this as well and indeed I can confirm that it builds for me as
+> static. Atleast the build system doesn;t need changing as -sattic being propagated
+> to fianl link cmd.
+> 
+> There seems to be some weirdness with ARC tools: file reports
+> 
+> > 
+> > ELF 32-bit LSB executable, *unknown arch 0xc3* version 1 (SYSV),
+> > dynamically linked, interpreter *empty*, for GNU/Linux 3.9.0, not stripped
+> 
+> 
+> That is clearly wrong !
+> 
+> And the static binary as expected doesn't seem to run on target - exits with -EACCESS.
 
-For a very simply module using DEBUG_FS
+I may confirm what Vineet said already adding just that funny ldd output on target:
+-------------------->8-----------------
+# ldd /home/perf?
+	 =>??(0x00000000)
+-------------------->8-----------------
 
-before
-| There are 35 section headers, starting at offset 0x205a0:
-| ls -sh q_proc.ko
-| 132K q_proc.ko
+Just for comparison that's ldd output for dynamically built perf:
+-------------------->8-----------------
+# ldd /usr/bin/perf?
+checking sub-depends for '/lib/libpthread.so.0'
+checking sub-depends for '/lib/librt.so.0'
+checking sub-depends for '/lib/libm.so.0'
+checking sub-depends for '/lib/libdl.so.0'
+checking sub-depends for '/lib/libc.so.0'
+	libpthread.so.0 => /lib/libpthread.so.0 (0x00000000)
+	librt.so.0 => /lib/librt.so.0 (0x00000000)
+	libm.so.0 => /lib/libm.so.0 (0x00000000)
+	libdl.so.0 => /lib/libdl.so.0 (0x00000000)
+	libc.so.0 => /lib/libc.so.0 (0x00000000)
+	/lib/ld-uClibc.so.1 => /lib/ld-uClibc.so.1 (0x00000000)
+-------------------->8-----------------
 
-after
-| There are 25 section headers, starting at offset 0x205a0:
-| ls -sh q_proc.ko
-| 8K q_proc.ko
+And most probably the reason for me to think perf built with LDFLAGS=-static
+was not static is indeed "file" output:
+-------------------->8-----------------
+file tools/perf/perf
+tools/perf/perf: ELF 32-bit LSB executable, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux
+3.9.0, not stripped
+-------------------->8-----------------
 
-Reported-by: Daniel Mentz <danielmentz at google.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/Makefile          |  5 +++++
- arch/arc/kernel/module.lds | 12 ++++++++++++
- 2 files changed, 17 insertions(+)
- create mode 100644 arch/arc/kernel/module.lds
+Sorry for the noise.
 
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 85814e74677d..fe1b702f5c69 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -97,6 +97,11 @@ LIBGCC	:= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
- # Modules with short calls might break for calls into builtin-kernel
- KBUILD_CFLAGS_MODULE	+= -mlong-calls -mno-millicode
- 
-+# toss away debug section, ifdef not allowed in the linker script
-+ifndef CONFIG_DEBUG_INFO
-+KBUILD_LDFLAGS_MODULE += -T $(srctree)/arch/arc/kernel/module.lds
-+endif
-+
- # Finally dump eveything into kernel build system
- KBUILD_CFLAGS	+= $(cflags-y)
- KBUILD_AFLAGS	+= $(KBUILD_CFLAGS)
-diff --git a/arch/arc/kernel/module.lds b/arch/arc/kernel/module.lds
-new file mode 100644
-index 000000000000..c9839be105fc
---- /dev/null
-+++ b/arch/arc/kernel/module.lds
-@@ -0,0 +1,12 @@
-+SECTIONS
-+{
-+	/DISCARD/ : { *(.debug_aranges) }
-+	/DISCARD/ : { *(.debug_pubnames) }
-+	/DISCARD/ : { *(.debug_info) }
-+	/DISCARD/ : { *(.debug_abbrev) }
-+	/DISCARD/ : { *(.debug_line) }
-+	/DISCARD/ : { *(.debug_str) }
-+	/DISCARD/ : { *(.debug_loc) }
-+	/DISCARD/ : { *(.debug_macinfo) }
-+	/DISCARD/ : { *(.debug_ranges) }
-+}
--- 
-2.7.4
+-Alexey
