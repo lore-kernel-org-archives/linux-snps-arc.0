@@ -1,220 +1,65 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Thu, 15 Sep 2016 16:14:13 +0300
-Subject: [PATCH] dmaengine: DW DMAC: split pdata to hardware properties and
- platform quirks
+From: lkp@intel.com (kbuild test robot)
+Date: Thu, 15 Sep 2016 23:04:48 +0800
+Subject: [PATCH] dmaengine: DW DMAC: split pdata to hardware properties
+ and platform quirks
+In-Reply-To: <1473945253-16649-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1473945253-16649-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <201609152333.AbSSpwAg%fengguang.wu@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-This patch is to address a proposal by Andy in this thread:
-http://www.spinics.net/lists/dmaengine/msg10754.html
-Split platform data to actual hardware properties, and platform quirks.
-Now we able to use quirks and hardware properties separately from
-different sources (pdata, device tree or autoconfig registers)
+Hi Eugeniy,
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+[auto build test ERROR on slave-dma/next]
+[also build test ERROR on next-20160915]
+[cannot apply to linus/master linux/master v4.8-rc6]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+[Suggest to use git(>=2.9.0) format-patch --base=<commit> (or --base=auto for convenience) to record what (public, well-known) commit your patch series was built on]
+[Check https://git-scm.com/docs/git-format-patch for more information]
+
+url:    https://github.com/0day-ci/linux/commits/Eugeniy-Paltsev/dmaengine-DW-DMAC-split-pdata-to-hardware-properties-and-platform-quirks/20160915-211634
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/slave-dma.git next
+config: i386-defconfig (attached as .config)
+compiler: gcc-6 (Debian 6.1.1-9) 6.1.1 20160705
+reproduce:
+        # save the attached .config to linux build tree
+        make ARCH=i386 
+
+All errors (new ones prefixed by >>):
+
+>> drivers/tty/serial/8250/8250_lpss.c:159:2: error: unknown field 'is_private' specified in initializer
+     .is_private = true,
+     ^
+>> drivers/tty/serial/8250/8250_lpss.c:160:2: error: unknown field 'is_nollp' specified in initializer
+     .is_nollp = true,
+     ^
+
+vim +/is_private +159 drivers/tty/serial/8250/8250_lpss.c
+
+a13e19cf Andy Shevchenko 2016-08-17  153  	return 0;
+a13e19cf Andy Shevchenko 2016-08-17  154  }
+a13e19cf Andy Shevchenko 2016-08-17  155  
+fecdef93 Andy Shevchenko 2016-08-17  156  #ifdef CONFIG_SERIAL_8250_DMA
+fecdef93 Andy Shevchenko 2016-08-17  157  static const struct dw_dma_platform_data qrk_serial_dma_pdata = {
+fecdef93 Andy Shevchenko 2016-08-17  158  	.nr_channels = 2,
+fecdef93 Andy Shevchenko 2016-08-17 @159  	.is_private = true,
+fecdef93 Andy Shevchenko 2016-08-17 @160  	.is_nollp = true,
+fecdef93 Andy Shevchenko 2016-08-17  161  	.chan_allocation_order = CHAN_ALLOCATION_ASCENDING,
+fecdef93 Andy Shevchenko 2016-08-17  162  	.chan_priority = CHAN_PRIORITY_ASCENDING,
+fecdef93 Andy Shevchenko 2016-08-17  163  	.block_size = 4095,
+
+:::::: The code at line 159 was first introduced by commit
+:::::: fecdef932b0093b4a7e1ae88b1dbd63eb74ecc34 serial: 8250_lpss: enable DMA on Intel Quark UART
+
+:::::: TO: Andy Shevchenko <andriy.shevchenko at linux.intel.com>
+:::::: CC: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+
 ---
- drivers/dma/dw/core.c                | 31 +++++++++++++++-----------
- drivers/dma/dw/platform.c            | 42 +++++++++++++++++++++---------------
- include/linux/platform_data/dma-dw.h | 20 +++++++++++------
- 3 files changed, 57 insertions(+), 36 deletions(-)
-
-diff --git a/drivers/dma/dw/core.c b/drivers/dma/dw/core.c
-index c2c0a61..9352735 100644
---- a/drivers/dma/dw/core.c
-+++ b/drivers/dma/dw/core.c
-@@ -1451,10 +1451,25 @@ int dw_dma_probe(struct dw_dma_chip *chip)
- 
- 	dw->regs = chip->regs;
- 	chip->dw = dw;
-+	/* Reassign the platform data pointer */
-+	pdata = dw->pdata;
- 
- 	pm_runtime_get_sync(chip->dev);
- 
--	if (!chip->pdata) {
-+	if ((!chip->pdata) ||
-+	   (chip->pdata && test_bit(QUIRKS_ONLY_USED, &chip->pdata->quirks))) {
-+
-+		/*
-+		 * Fill quirks with the default values in case of pdata absence
-+		 */
-+		if (!chip->pdata) {
-+			set_bit(QUIRKS_IS_PRIVATE, &pdata->quirks);
-+			set_bit(QUIRKS_IS_MEMCPY, &pdata->quirks);
-+			set_bit(QUIRKS_IS_NOLLP, &pdata->quirks);
-+		} else {
-+			pdata->quirks = chip->pdata->quirks;
-+		}
-+
- 		dw_params = dma_readl(dw, DW_PARAMS);
- 		dev_dbg(chip->dev, "DW_PARAMS: 0x%08x\n", dw_params);
- 
-@@ -1464,9 +1479,6 @@ int dw_dma_probe(struct dw_dma_chip *chip)
- 			goto err_pdata;
- 		}
- 
--		/* Reassign the platform data pointer */
--		pdata = dw->pdata;
--
- 		/* Get hardware configuration parameters */
- 		pdata->nr_channels = (dw_params >> DW_PARAMS_NR_CHAN & 7) + 1;
- 		pdata->nr_masters = (dw_params >> DW_PARAMS_NR_MASTER & 3) + 1;
-@@ -1477,8 +1489,6 @@ int dw_dma_probe(struct dw_dma_chip *chip)
- 		pdata->block_size = dma_readl(dw, MAX_BLK_SIZE);
- 
- 		/* Fill platform data with the default values */
--		pdata->is_private = true;
--		pdata->is_memcpy = true;
- 		pdata->chan_allocation_order = CHAN_ALLOCATION_ASCENDING;
- 		pdata->chan_priority = CHAN_PRIORITY_ASCENDING;
- 	} else if (chip->pdata->nr_channels > DW_DMA_MAX_NR_CHANNELS) {
-@@ -1486,9 +1496,6 @@ int dw_dma_probe(struct dw_dma_chip *chip)
- 		goto err_pdata;
- 	} else {
- 		memcpy(dw->pdata, chip->pdata, sizeof(*dw->pdata));
--
--		/* Reassign the platform data pointer */
--		pdata = dw->pdata;
- 	}
- 
- 	dw->chan = devm_kcalloc(chip->dev, pdata->nr_channels, sizeof(*dw->chan),
-@@ -1569,7 +1576,7 @@ int dw_dma_probe(struct dw_dma_chip *chip)
- 				(dwc_params >> DWC_PARAMS_MBLK_EN & 0x1) == 0;
- 		} else {
- 			dwc->block_size = pdata->block_size;
--			dwc->nollp = pdata->is_nollp;
-+			dwc->nollp = test_bit(QUIRKS_IS_NOLLP, &pdata->quirks);
- 		}
- 	}
- 
-@@ -1582,9 +1589,9 @@ int dw_dma_probe(struct dw_dma_chip *chip)
- 
- 	/* Set capabilities */
- 	dma_cap_set(DMA_SLAVE, dw->dma.cap_mask);
--	if (pdata->is_private)
-+	if (test_bit(QUIRKS_IS_PRIVATE, &pdata->quirks))
- 		dma_cap_set(DMA_PRIVATE, dw->dma.cap_mask);
--	if (pdata->is_memcpy)
-+	if (test_bit(QUIRKS_IS_MEMCPY, &pdata->quirks))
- 		dma_cap_set(DMA_MEMCPY, dw->dma.cap_mask);
- 
- 	dw->dma.dev = chip->dev;
-diff --git a/drivers/dma/dw/platform.c b/drivers/dma/dw/platform.c
-index 5bda0eb..308b977 100644
---- a/drivers/dma/dw/platform.c
-+++ b/drivers/dma/dw/platform.c
-@@ -12,6 +12,7 @@
-  * published by the Free Software Foundation.
-  */
- 
-+#include <linux/bitops.h>
- #include <linux/module.h>
- #include <linux/device.h>
- #include <linux/clk.h>
-@@ -111,41 +112,48 @@ dw_dma_parse_dt(struct platform_device *pdev)
- 		return NULL;
- 	}
- 
--	if (of_property_read_u32(np, "dma-masters", &nr_masters))
--		return NULL;
--	if (nr_masters < 1 || nr_masters > DW_DMA_MAX_NR_MASTERS)
--		return NULL;
--
--	if (of_property_read_u32(np, "dma-channels", &nr_channels))
--		return NULL;
--
- 	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
- 	if (!pdata)
- 		return NULL;
- 
-+	set_bit(QUIRKS_ONLY_USED, &pdata->quirks);
-+
-+	if (of_property_read_bool(np, "is-private"))
-+		set_bit(QUIRKS_IS_PRIVATE, &pdata->quirks);
-+
-+	if (of_property_read_bool(np, "is-memcpy"))
-+		set_bit(QUIRKS_IS_MEMCPY, &pdata->quirks);
-+
-+	if (of_property_read_bool(np, "is-nollp"))
-+		set_bit(QUIRKS_IS_NOLLP, &pdata->quirks);
-+
-+	if (of_property_read_u32(np, "dma-masters", &nr_masters))
-+		return pdata;
-+	if (nr_masters < 1 || nr_masters > DW_DMA_MAX_NR_MASTERS)
-+		return pdata;
-+
- 	pdata->nr_masters = nr_masters;
--	pdata->nr_channels = nr_channels;
- 
--	if (of_property_read_bool(np, "is_private"))
--		pdata->is_private = true;
-+	if (of_property_read_u32(np, "dma-channels", &nr_channels))
-+		return pdata;
- 
--	if (!of_property_read_u32(np, "chan_allocation_order", &tmp))
-+	pdata->nr_channels = nr_channels;
-+
-+	if (!of_property_read_u32(np, "chan-allocation-order", &tmp))
- 		pdata->chan_allocation_order = (unsigned char)tmp;
- 
--	if (!of_property_read_u32(np, "chan_priority", &tmp))
-+	if (!of_property_read_u32(np, "chan-priority", &tmp))
- 		pdata->chan_priority = tmp;
- 
--	if (!of_property_read_u32(np, "block_size", &tmp))
-+	if (!of_property_read_u32(np, "block-size", &tmp))
- 		pdata->block_size = tmp;
- 
- 	if (!of_property_read_u32_array(np, "data-width", arr, nr_masters)) {
- 		for (tmp = 0; tmp < nr_masters; tmp++)
- 			pdata->data_width[tmp] = arr[tmp];
--	} else if (!of_property_read_u32_array(np, "data_width", arr, nr_masters)) {
--		for (tmp = 0; tmp < nr_masters; tmp++)
--			pdata->data_width[tmp] = BIT(arr[tmp] & 0x07);
- 	}
- 
-+	clear_bit(QUIRKS_ONLY_USED, &pdata->quirks);
- 	return pdata;
- }
- #else
-diff --git a/include/linux/platform_data/dma-dw.h b/include/linux/platform_data/dma-dw.h
-index 5f0e11e..9cd8199 100644
---- a/include/linux/platform_data/dma-dw.h
-+++ b/include/linux/platform_data/dma-dw.h
-@@ -37,10 +37,7 @@ struct dw_dma_slave {
- /**
-  * struct dw_dma_platform_data - Controller configuration parameters
-  * @nr_channels: Number of channels supported by hardware (max 8)
-- * @is_private: The device channels should be marked as private and not for
-- *	by the general purpose DMA channel allocator.
-- * @is_memcpy: The device channels do support memory-to-memory transfers.
-- * @is_nollp: The device channels does not support multi block transfers.
-+ * @quirks: Bit field with platform quirks
-  * @chan_allocation_order: Allocate channels starting from 0 or 7
-  * @chan_priority: Set channel priority increasing from 0 to 7 or 7 to 0.
-  * @block_size: Maximum block size supported by the controller
-@@ -50,9 +47,18 @@ struct dw_dma_slave {
-  */
- struct dw_dma_platform_data {
- 	unsigned int	nr_channels;
--	bool		is_private;
--	bool		is_memcpy;
--	bool		is_nollp;
-+/* Only use quirks from platform data structure */
-+#define QUIRKS_ONLY_USED	0
-+/*
-+ * The device channels should be marked as private and not for
-+ * by the general purpose DMA channel allocator.
-+ */
-+#define QUIRKS_IS_PRIVATE	1
-+/* The device channels do support memory-to-memory transfers. */
-+#define QUIRKS_IS_MEMCPY	2
-+/* The device channels do not support multi block transfers. */
-+#define QUIRKS_IS_NOLLP		3
-+	unsigned long	quirks;
- #define CHAN_ALLOCATION_ASCENDING	0	/* zero to seven */
- #define CHAN_ALLOCATION_DESCENDING	1	/* seven to zero */
- 	unsigned char	chan_allocation_order;
--- 
-2.5.5
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/octet-stream
+Size: 25021 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20160915/76c45537/attachment-0001.obj>
