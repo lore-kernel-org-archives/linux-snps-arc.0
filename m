@@ -1,42 +1,57 @@
-From: vgupta@synopsys.com (Vineet Gupta)
-Date: Wed, 14 Sep 2016 10:53:48 -0700
-Subject: [PATCH] arc: perf: Enable generic "cache-references" and
- "cache-misses" events
-In-Reply-To: <6074e252-6e18-bb01-4de1-023bd7e82f03@synopsys.com>
-References: <1472125647-518-1-git-send-email-abrodkin@synopsys.com>
- <6074e252-6e18-bb01-4de1-023bd7e82f03@synopsys.com>
+From: appana.durga.rao@xilinx.com (Appana Durga Kedareswara Rao)
+Date: Thu, 15 Sep 2016 03:24:38 +0000
+Subject: [PATCH] dmaengine: dmatest: Restore "memcpy" as default mode
+In-Reply-To: <1473874838-13744-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+References: <1473874838-13744-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <e9ee8ab7-815b-f213-d61b-30dcf1cbf61f@synopsys.com>
+Message-ID: <C246CAC1457055469EF09E3A7AC4E11A4A5EC400@XAP-PVEXMBX01.xlnx.xilinx.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/26/2016 10:30 AM, Vineet Gupta wrote:
-> On 08/25/2016 04:49 AM, Alexey Brodkin wrote:
->> ...
->>  	[PERF_COUNT_ARC_EDTLB] = "edtlb",	/* D-TLB Miss */
->>  	[PERF_COUNT_ARC_EITLB] = "eitlb",	/* I-TLB Miss */
->> +
->> +	[PERF_COUNT_HW_CACHE_REFERENCES] = "imemrdc",	/* Instr: mem read cached */
->> +	[PERF_COUNT_HW_CACHE_MISSES] = "dclm",		/* D-cache Load Miss */
-> 
-> I think this is duplicating a mistake we already have. I vaguely remember when
-> doing some hackbench profiling last year with range based profiling confined to
-> memset routine and saw that L1-dcache-misses was counting zero. This is because it
-> only counts LD misses while memset only does ST.
 
-So given that this is the best we got, I'm going to merge this anyways.
 
--Vineet
+> -----Original Message-----
+> From: Eugeniy Paltsev [mailto:Eugeniy.Paltsev at synopsys.com]
+> Sent: Wednesday, September 14, 2016 11:11 PM
+> To: dmaengine at vger.kernel.org
+> Cc: linux-kernel at vger.kernel.org; Appana Durga Kedareswara Rao
+> <appanad at xilinx.com>; vinod.koul at intel.com; dan.j.williams at intel.com;
+> andriy.shevchenko at linux.intel.com; linux-snps-arc at lists.infradead.org; Eugeniy
+> Paltsev <Eugeniy.Paltsev at synopsys.com>
+> Subject: [PATCH] dmaengine: dmatest: Restore "memcpy" as default mode
+> 
+> Commit 0d4cb44da6ca0e8 ("dmaengine: dmatest: Add support for scatter-
+> gather DMA mode") changes default "dmatest" behavior by changing default
+> mode from "memcpy" to "scatter-gather".
+> Now "memcpy" gets back as default mode.
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 
+Reviewed-by: Kedareswara rao Appana <appanad at xilinx.com>
+
+
+Thanks,
+Kedar.
+
+> ---
+>  drivers/dma/dmatest.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Performance counter stats for '/sbin/hackbench':
+> diff --git a/drivers/dma/dmatest.c b/drivers/dma/dmatest.c index
+> 53e9728..cf76fc6 100644
+> --- a/drivers/dma/dmatest.c
+> +++ b/drivers/dma/dmatest.c
+> @@ -56,10 +56,10 @@ module_param(sg_buffers, uint, S_IRUGO | S_IWUSR);
+> MODULE_PARM_DESC(sg_buffers,
+>  		"Number of scatter gather buffers (default: 1)");
 > 
->      0 L1-dcache-misses
->      0 L1-dcache-load-misses
->      1846082 L1-dcache-store-misses
+> -static unsigned int dmatest = 1;
+> +static unsigned int dmatest;
+>  module_param(dmatest, uint, S_IRUGO | S_IWUSR);
+> MODULE_PARM_DESC(dmatest,
+> -		"dmatest 0-memcpy 1-slave_sg (default: 1)");
+> +		"dmatest 0-memcpy 1-slave_sg (default: 0)");
 > 
-> 
-> @PeterZ do you concur that is wrong and we ought to setup 2 counters to do this
-> correctly ?
-> 
-> -Vineet
-> 
+>  static unsigned int xor_sources = 3;
+>  module_param(xor_sources, uint, S_IRUGO | S_IWUSR);
+> --
+> 2.5.5
