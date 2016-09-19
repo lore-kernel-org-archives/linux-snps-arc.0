@@ -1,72 +1,39 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 16 Sep 2016 15:01:59 +0000
-Subject: [PATCH RFC v1 00/29] ARC cores
-In-Reply-To: <1473373930-31547-1-git-send-email-mrolnik@gmail.com>
-References: <1473373930-31547-1-git-send-email-mrolnik@gmail.com>
+From: noamca@mellanox.com (Noam Camus)
+Date: Mon, 19 Sep 2016 08:34:40 +0300
+Subject: [PATCH] ARC: [plat-eznps] add missing atomic_fetch_xxx operations
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1474038116.3042.10.camel@synopsys.com>
+Message-ID: <1474263280-26203-1-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Michael,
+From: Noam Camus <noamca@mellanox.com>
 
-On Fri, 2016-09-09@01:31 +0300, Michael Rolnik wrote:
-> This series of patches adds ARC target to QEMU. It indends to support
-> ????- ARCtangent-A5 processor
-> ????- ARC 600 processor
-> ????- ARC 700 processor
-> 
-> All instructions except ASLS are implemented. Not fully tested yet.
-> However I was able to execute correctly recursive fibonacci calculation.
-> Reset vector is assumed to be some hardcoded value which worked for my test.
-> I am planning to get FreeRTOS for ARC, once I get it, I will able to verify
-> and complete interrupt support.
+Build brekeage since last changes to generic atomic operations.
+Added couple of missing macros which are now mandatory
 
-That's both very unexpected and cool!
+Signed-off-by: Noam Camus <noamca at mellanox.com>
+---
+ arch/arc/include/asm/atomic.h |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-I tried your patches on top of current QEMU git master and it:
-?a) Builds for ARC
-?b) Very simple code really works!
-
-I was able to single-step with GDB through program as simple as:
---------------------->8---------------------
-.global _start
-_start:
-	mov	r0, 1
-	mov	r1, 2
-	mov	r1, r0
---------------------->8---------------------
-
-That's what I saw in GDB:
---------------------->8---------------------
-(gdb) disassemble?
-Dump of assembler code for function _start:
-=> 0x00000100 <+0>:	mov	r0,0x1
-???0x00000104 <+4>:	mov	r1,0x2
-???0x00000108 <+8>:	mov	r1,r0
-End of assembler dump.
-(gdb) p $r0
-$1 = 0
-(gdb) stepi
-0x00000104 in _start ()
-(gdb) p $r0
-$2 = 1
-(gdb) stepi
-0x00000108 in _start ()
-(gdb) p $r1
-$3 = 2
-(gdb) stepi
-0x0000010c in ?? ()
-(gdb) p $r1
-$4 = 1
---------------------->8---------------------
-
-So again this is very promising even though a lot is essentially missing from
-this very first implementation.
-
-Anyways IMHO it would be good to have these patches accepted so people may start
-playing with that stuff adding missing things one by one.
-
-Let me know if you need any help from my side.
-
-Regards,
-Alexey
+diff --git a/arch/arc/include/asm/atomic.h b/arch/arc/include/asm/atomic.h
+index 4e3c1b6..4f732bf 100644
+--- a/arch/arc/include/asm/atomic.h
++++ b/arch/arc/include/asm/atomic.h
+@@ -284,6 +284,7 @@ static inline int atomic_fetch_##op(int i, atomic_t *v)			\
+ ATOMIC_OPS(add, +=, CTOP_INST_AADD_DI_R2_R2_R3)
+ #define atomic_sub(i, v) atomic_add(-(i), (v))
+ #define atomic_sub_return(i, v) atomic_add_return(-(i), (v))
++#define atomic_fetch_sub(i, v) atomic_fetch_add(-(i), (v))
+ 
+ #undef ATOMIC_OPS
+ #define ATOMIC_OPS(op, c_op, asm_op)					\
+@@ -292,6 +293,7 @@ ATOMIC_OPS(add, +=, CTOP_INST_AADD_DI_R2_R2_R3)
+ 
+ ATOMIC_OPS(and, &=, CTOP_INST_AAND_DI_R2_R2_R3)
+ #define atomic_andnot(mask, v) atomic_and(~(mask), (v))
++#define atomic_fetch_andnot(mask, v) atomic_fetch_and(~(mask), (v))
+ ATOMIC_OPS(or, |=, CTOP_INST_AOR_DI_R2_R2_R3)
+ ATOMIC_OPS(xor, ^=, CTOP_INST_AXOR_DI_R2_R2_R3)
+ 
+-- 
+1.7.1
