@@ -1,59 +1,76 @@
-From: vgupta@synopsys.com (Vineet Gupta)
-Date: Mon, 19 Sep 2016 23:13:42 -0700
-Subject: [PATCH 0/3] ARC unwinder switch to .eh_frame
-In-Reply-To: <CAE2F3rA0FrrNiHe6W6DSqYmpTyTiVD3h-wpGtW7rJ07RJLqqgw@mail.gmail.com>
-References: <1474321773-18166-1-git-send-email-vgupta@synopsys.com>
- <CAE2F3rA0FrrNiHe6W6DSqYmpTyTiVD3h-wpGtW7rJ07RJLqqgw@mail.gmail.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 20 Sep 2016 13:56:20 -0700
+Subject: perf event grouping for dummies (was Re: [PATCH] arc: perf: Enable
+ generic "cache-references" and "cache-misses" events)
+In-Reply-To: <20160901083324.GM10153@twins.programming.kicks-ass.net>
+References: <1472125647-518-1-git-send-email-abrodkin@synopsys.com>
+ <6074e252-6e18-bb01-4de1-023bd7e82f03@synopsys.com>
+ <5f65fa04-8d33-e525-115d-4e6991a7668e@synopsys.com>
+ <20160901083324.GM10153@twins.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <2aa8d6d7-b489-e51e-dc18-fceb5300f6d2@synopsys.com>
+Message-ID: <2a18ae06-3abd-c3a1-e980-f04c511b08e5@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 09/19/2016 06:21 PM, Daniel Mentz wrote:
-> Hi Vineet,
+On 09/01/2016 01:33 AM, Peter Zijlstra wrote:
+>> - is that what perf event grouping is ?
+>
+> Again, nope. Perf event groups are single counter (so no implicit
+> addition) that are co-scheduled on the PMU.
+
+I'm not sure I understand - does this require specific PMU/arch support - as in
+multiple conditions feeding to same counter. How does perf user make use of this
+info - I tried googling around but can't seem to find anything which explains the
+semantics.
+
+I can see that group events to work on ARC (although in our case a counter can
+cont one condition at a time only) and the results seem to be similar whther we
+group or not.
+
+------------->8------------
+[ARCLinux]# perf stat -e {cycles,instructions} hackbench
+Running with 10*40 (== 400) tasks.
+Time: 37.430
+
+ Performance counter stats for 'hackbench':
+
+        3487777173    cycles
+        1351709784    instructions            #    0.39  insn per cycle
+
+      38.957481536 seconds time elapsed
+
+[ARCLinux]# perf stat -e cycles hackbench
+Running with 10*40 (== 400) tasks.
+Time: 36.735
+
+ Performance counter stats for 'hackbench':
+
+        3426151391    cycles
+
+      38.247235981 seconds time elapsed
+
+[ARCLinux]#
+[ARCLinux]# perf stat -e instructions hackbench
+Running with 10*40 (== 400) tasks.
+Time: 37.537
+
+ Performance counter stats for 'hackbench':
+
+        1355421559    instructions
+
+      39.061784281 seconds time elapsed
+------------->8------------
+
+...
 > 
-> Thank you for your patches. I applied them, and verified that
-> unwinding works with code that is compiled into the kernel image as
-> well as kernel modules.
-> I confirmed that the .eh_frame section is present and that the
-> .debug_frame section is absent. I also verified that the file size of
-> the .ko files are small enough for our embedded platform and that
-> unnecessary sections like .debug_info, .debug_line, .debug_str etc.
-> are also absent.
-> Is there anything else you want me to test?
-> Thanks
-> Daniel
+> You can do it like:
+> 
+> 	perf stat -e '{cycles,instructions}'
+> 
+> Which will place the cycles event and the instructions event in a group
+> and thereby guarantee they're co-scheduled.
 
-Nope - that is it. Just wanted to make sure it is "field" tested :-)
+Again when you say co-scheduled what do you mean - why would anyone use the event
+grouping - is it when they only have 1 counter and they want to count 2
+conditions/events at the same time - isn't this same as event multiplexing ?
 
-Thx,
 -Vineet
-
-
-> On Mon, Sep 19, 2016 at 2:49 PM, Vineet Gupta
-> <Vineet.Gupta1@synopsys.com> wrote:
->> Hi Daniel,
->>
->> Give these a shot and let me know if they work fine for you.
->> I'm working on some more improvements to unwinder which will follow
->> a bit later.
->>
->> Thx,
->> -Vineet
->>
->> Vineet Gupta (3):
->>   ARC: module: support R_ARC_32_PCREL relocation
->>   ARC: dw2 unwind: factor CIE specifics for .eh_frame/.debug_frame
->>   ARC: dw2 unwind: switch to .eh_frame based unwinding
->>
->>  arch/arc/Makefile             |  2 ++
->>  arch/arc/include/asm/elf.h    |  3 +--
->>  arch/arc/kernel/entry.S       | 12 ------------
->>  arch/arc/kernel/module.c      | 19 ++++++++-----------
->>  arch/arc/kernel/unwind.c      | 24 +++++++++++++++++-------
->>  arch/arc/kernel/vmlinux.lds.S | 15 +++++----------
->>  6 files changed, 33 insertions(+), 42 deletions(-)
->>
->> --
->> 2.7.4
->>
-> 
