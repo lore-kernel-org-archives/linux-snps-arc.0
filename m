@@ -1,20 +1,35 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 20 Sep 2016 14:48:48 -0700
-Subject: [PATCH] ARCv2: intc: Use kflag if STATUS32.IE must be reset
-In-Reply-To: <1473695703-29547-1-git-send-email-yuriy.kolerov@synopsys.com>
-References: <1473695703-29547-1-git-send-email-yuriy.kolerov@synopsys.com>
+From: noamca@mellanox.com (Noam Camus)
+Date: Wed, 21 Sep 2016 13:51:48 +0300
+Subject: [PATCH] ARC: CONFIG_NODES_SHIFT fix default values
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <d78e66ad-6909-b90e-6061-7ef414e94d4a@synopsys.com>
+Message-ID: <1474455108-13550-1-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 09/12/2016 08:55 AM, Yuriy Kolerov wrote:
-> In the end of "arc_init_IRQ" STATUS32.IE flag is going to be affected by
-> "flag" instruction but "flag" never touches IE flag on ARCv2. So "kflag"
-> instruction must be used instead of "flag".
-> 
-> Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
+From: Noam Camus <noamca@mellanox.com>
 
-Applied to for-next for 4.9 + stable backport.
+Seem like values assigned as absolute number and not and
+shift value, i.e. should be 0 for one node (2^0) and 1 for
+couple of nodes (2^1)
 
-Thx,
--Vineet
+Signed-off-by: Noam Camus <noamca at mellanox.com>
+---
+ arch/arc/Kconfig |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 6af0b43..f347715 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -383,8 +383,8 @@ endchoice
+ 
+ config NODES_SHIFT
+ 	int "Maximum NUMA Nodes (as a power of 2)"
+-	default "1" if !DISCONTIGMEM
+-	default "2" if DISCONTIGMEM
++	default "0" if !DISCONTIGMEM
++	default "1" if DISCONTIGMEM
+ 	depends on NEED_MULTIPLE_NODES
+ 	---help---
+ 	  Accessing memory beyond 1GB (with or w/o PAE) requires 2 memory
+-- 
+1.7.1
