@@ -1,17 +1,16 @@
 From: jslaby@suse.cz (Jiri Slaby)
-Date: Thu, 29 Sep 2016 11:06:35 +0200
-Subject: [patch added to 3.12-stable] ARC: uaccess: get_user to zero out dest
- in cause of fault
-In-Reply-To: <20160929090654.27405-1-jslaby@suse.cz>
-References: <20160929090654.27405-1-jslaby@suse.cz>
+Date: Thu, 29 Sep 2016 12:25:36 +0200
+Subject: [PATCH 3.12 100/119] ARC: uaccess: get_user to zero out dest in cause
+ of fault
+In-Reply-To: <a528a0fa6d67ebe60bfc762c72b316d28ed21dea.1475144721.git.jslaby@suse.cz>
+References: <a528a0fa6d67ebe60bfc762c72b316d28ed21dea.1475144721.git.jslaby@suse.cz>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20160929090654.27405-24-jslaby@suse.cz>
+Message-ID: <27f32d12e690e61a9b356f84e54f496a2cb64f6e.1475144721.git.jslaby@suse.cz>
 To: linux-snps-arc@lists.infradead.org
 
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 
-This patch has been added to the 3.12 stable tree. If you have any
-objections, please let us know.
+3.12-stable review patch.  If anyone has any objections, please let me know.
 
 ===============
 
