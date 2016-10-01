@@ -1,44 +1,44 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 30 Sep 2016 14:18:35 -0700
-Subject: [PATCH] ARCv2: intc: Use kflag if STATUS32.IE must be reset
-In-Reply-To: <1473695703-29547-1-git-send-email-yuriy.kolerov@synopsys.com>
-References: <1473695703-29547-1-git-send-email-yuriy.kolerov@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Sat, 01 Oct 2016 15:45:09 -0000
+Subject: kisskb: FAILED linus/axs103_smp_defconfig/arcv2 Sun Oct 02, 01:44
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b95120e6-010b-0822-e915-2f1abf964a56@synopsys.com>
+Message-ID: <20161001154509.1.40402@8e2d6d7be827>
 To: linux-snps-arc@lists.infradead.org
 
-On 09/12/2016 08:55 AM, Yuriy Kolerov wrote:
-> In the end of "arc_init_IRQ" STATUS32.IE flag is going to be affected by
-> "flag" instruction but "flag" never touches IE flag on ARCv2. So "kflag"
-> instruction must be used instead of "flag".
-> 
-> Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
-> ---
->  arch/arc/kernel/intc-arcv2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
-> index 6c24faf..62b59409 100644
-> --- a/arch/arc/kernel/intc-arcv2.c
-> +++ b/arch/arc/kernel/intc-arcv2.c
-> @@ -74,7 +74,7 @@ void arc_init_IRQ(void)
->  	tmp = read_aux_reg(0xa);
->  	tmp |= STATUS_AD_MASK | (irq_prio << 1);
->  	tmp &= ~STATUS_IE_MASK;
-> -	asm volatile("flag %0	\n"::"r"(tmp));
-> +	asm volatile("kflag %0	\n"::"r"(tmp));
+FAILED linus/axs103_smp_defconfig/arcv2 Sun Oct 02, 01:44
 
-Revisiting this in light of ongoing 2 priority interrupt support for HS38 cores.
+http://kisskb.ellerman.id.au/kisskb/buildresult/12818837/
 
-It seems there is no need to fiddle with interrupt bits here at all.
+Commit:   Merge tag 'scsi-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi
+          f51fdffad5b7709d0ade40736b58a2da2707fa15
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-init/main.c now has well known checkpoints where it explicitly disables the
-interrupts in early boot code and enables them when time is right. So when we land
-in arc_init_IRQ() interrupts have already been disabled.
+Possible errors
+---------------
 
-So I'm dropping this patch and instead adding another one which removes the intr
-bits touching part !
+{standard input}:18729: Error: Instruction with long immediate data in delay slot
+make[2]: *** [block/cfq-iosched.o] Error 1
+make[1]: *** [block] Error 2
+make: *** [sub-make] Error 2
 
-OK ?
+Possible warnings (18)
+----------------------
 
--Vineet
+kernel/sched/core.c:3277:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:742:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+block/cfq-iosched.c:3819:1: warning: control reaches end of non-void function [-Wreturn-type]
+lib/cpumask.c:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/core/ethtool.c:300:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/tcp_input.c:4286:49: warning: array subscript is above array bounds [-Warray-bounds]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+drivers/scsi/sd.c:1154:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/sunrpc/svc_xprt.h:176:1: warning: control reaches end of non-void function [-Wreturn-type]
