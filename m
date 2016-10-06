@@ -1,59 +1,49 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 6 Oct 2016 09:10:53 +0000
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 6 Oct 2016 10:10:47 -0700
 Subject: [PATCH] ARCv2: intc: untangle SMP, MCIP and IDU
-In-Reply-To: <1475699962-11711-1-git-send-email-vgupta@synopsys.com>
+In-Reply-To: <1475745033.3301.5.camel@synopsys.com>
 References: <1475699962-11711-1-git-send-email-vgupta@synopsys.com>
+ <1475745033.3301.5.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1475745033.3301.5.camel@synopsys.com>
+Message-ID: <62f431fd-8c66-143b-2129-a1b996a0a98c@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
-
-On Wed, 2016-10-05@13:39 -0700, Vineet Gupta wrote:
-> The IDU intc is technically part of MCIP (Multi-core IP) hence
-> historically was only available in a SMP hardware build (and thus only
-> in a SMP kernel build). Now that hardware restriction has been lifted,
-> so a UP kernel needs to support it.
+On 10/06/2016 02:10 AM, Alexey Brodkin wrote:
+>> +struct mcip_bcr {
+>> +#ifdef CONFIG_CPU_BIG_ENDIAN
+>> +		unsigned int pad3:8,
+>> +			     idu:1, llm:1, num_cores:6,
+>> +			     iocoh:1,  gfrc:1, dbg:1, pad2:1,
+>> +			     msg:1, sem:1, ipi:1, pad:1,
+>> +			     ver:8;
+>> +#else
+>> +		unsigned int ver:8,
+>> +			     pad:1, ipi:1, sem:1, msg:1,
+>> +			     pad2:1, dbg:1, gfrc:1, iocoh:1,
+>> +			     num_cores:6, llm:1, idu:1,
+>> +			     pad3:8;
+>> +#endif
+>> +};
 > 
-> This requires breaking mcip.c into parts which are strictly SMP
-> (inter-core interrupts) and IDU which in reality is just another
-> intc and thus has no bearing on SMP.
-> 
-> This change allows IDU in UP builds and with a suitable device tree, we
-> can have the cascaded intc system
-> 
-> ????ARCv2 core intc <---> ARCv2 IDU intc <---> periperals
-> 
-> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-> ---
+> IMHO we should stop using this kind of constructions because they
+> are ugly and what's more important not portable.
 
-[snip]
-?
-> +struct mcip_bcr {
-> +#ifdef CONFIG_CPU_BIG_ENDIAN
-> +		unsigned int pad3:8,
-> +			?????idu:1, llm:1, num_cores:6,
-> +			?????iocoh:1,??gfrc:1, dbg:1, pad2:1,
-> +			?????msg:1, sem:1, ipi:1, pad:1,
-> +			?????ver:8;
-> +#else
-> +		unsigned int ver:8,
-> +			?????pad:1, ipi:1, sem:1, msg:1,
-> +			?????pad2:1, dbg:1, gfrc:1, iocoh:1,
-> +			?????num_cores:6, llm:1, idu:1,
-> +			?????pad3:8;
-> +#endif
-> +};
+They are ugly I agree - but not portable - really ? The whole point is to make
+this work on BE w/o changing the src code - this details remains hidden in an
+obscure header.
 
-IMHO we should stop using this kind of constructions because they
-are ugly and what's more important not portable.
+> Even though we have it now working for both LE and BE configurations
+> it won't work for 64-bit cores. We'll need to add ifdeffed 32-bit paddings
+> then which will make that construction even more ugly.
 
-Even though we have it now working for both LE and BE configurations
-it won't work for 64-bit cores. We'll need to add ifdeffed 32-bit paddings
-then which will make that construction even more ugly.
+When we get to 64-bit a lot things would have to change - and possibly the aux reg
+layout. There is no way to make this exact code 64-bit ready !
 
-Probably that's not the right patch to address my complaint but just
-to reiterate this topic once again and think about clean-up series on
-that regard :)
 
--Alexey
+> Probably that's not the right patch to address my complaint but just
+> to reiterate this topic once again and think about clean-up series on
+> that regard :)
+
+Patches are welcome ;-)
+
+-Vineet
