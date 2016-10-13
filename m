@@ -1,21 +1,31 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 11 Oct 2016 11:04:41 -0700
-Subject: Is conditional calling of restore_altstack() correct for ARC
+Date: Thu, 13 Oct 2016 10:46:14 -0700
+Subject: [PATCH] ARC: update .note.ABI-tag for ABIv4
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <c8ead7fd-9444-da25-74e9-f755da6296d5@synopsys.com>
+Message-ID: <1476380774-25566-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Al,
+Cc: Anton Kolesov <akolesov at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ libc/sysdeps/linux/arc/crt1.S | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-I spotted a possible anomaly with ARC sigaltstack() handling and was wondering if
-you could confirm if it was wrong (I don't have a test case to prove one way or
-the other).
-
-We have a micro-optimization which elides calling restore_altstack() in sigreturn
-path, based on a "magic" value, set at the time of sigaction (SA_SIGINFO). So
-essentially we only restore ss_{sp,size,flags} if SA_SIGINFO was set.
-
-Do you think this needs to be done unconditionally like other ports do ?
-
-Thx,
--Vineet
+diff --git a/libc/sysdeps/linux/arc/crt1.S b/libc/sysdeps/linux/arc/crt1.S
+index ae863e7acf5f..70a06e058d3b 100644
+--- a/libc/sysdeps/linux/arc/crt1.S
++++ b/libc/sysdeps/linux/arc/crt1.S
+@@ -72,5 +72,9 @@ __start:
+ 0:	.asciz "GNU"		/* Vendor name */
+ 1:	.align 4
+ 2:	.long 0			/* Note data: Linux executable */
+-	.long 3,9,0		/* Earliest compatible kernel */
++#if (__GNUC__ > 4)
++	.long 4,8,0		/* Earliest compatible kernel for ABI v4 */
++#else
++	.long 3,9,0		/* Earliest compatible kernel for ABI v3 */
++#endif
+ 3:	.align 4		/* Pad out section */
+-- 
+2.7.4
