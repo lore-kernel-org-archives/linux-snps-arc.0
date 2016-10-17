@@ -1,42 +1,43 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 17 Oct 2016 09:25:54 -0700
-Subject: [PATCH] ARC-setup: Use seq_putc() in show_cpuinfo()
-In-Reply-To: <164a402a-de20-645d-00af-9a414cf745c4@users.sourceforge.net>
-References: <164a402a-de20-645d-00af-9a414cf745c4@users.sourceforge.net>
+Date: Mon, 17 Oct 2016 09:59:24 -0700
+Subject: Build regressions/improvements in v4.9-rc1
+In-Reply-To: <CAMuHMdVety8LeBgM1ZHfqw=NMjH5_=sQR=LLypQ1-YjxnuvaiQ@mail.gmail.com>
+References: <1476688913-15648-1-git-send-email-geert@linux-m68k.org>
+ <CAMuHMdVety8LeBgM1ZHfqw=NMjH5_=sQR=LLypQ1-YjxnuvaiQ@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <579aaf85-c22d-b680-5ce8-3c0e23ab6d7e@synopsys.com>
+Message-ID: <00b16c44-79b8-43b8-6516-13c8bb92eb03@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/15/2016 12:56 PM, SF Markus Elfring wrote:
-> From: Markus Elfring <elfring at users.sourceforge.net>
-> Date: Sat, 15 Oct 2016 21:31:16 +0200
->
-> A single character (line break) should be put into a sequence.
-> Thus use the corresponding function "seq_putc".
++CC Arnd, Michal
 
-Perhaps reword the changelog to say that seqc_putc is more efficient than
-seqc_printf to output a single char.
-I mean _printf is not wrong but not as efficient ?
+Hi Geert, Arnd
 
->
-> This issue was detected by using the Coccinelle software.
->
-> Signed-off-by: Markus Elfring <elfring at users.sourceforge.net>
-> ---
->  arch/arc/kernel/setup.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-> index 3df7f9c..e3f5432 100644
-> --- a/arch/arc/kernel/setup.c
-> +++ b/arch/arc/kernel/setup.c
-> @@ -494,8 +494,7 @@ static int show_cpuinfo(struct seq_file *m, void *v)
->  
->  	free_page((unsigned long)str);
->  done:
-> -	seq_printf(m, "\n");
-> -
-> +	seq_putc(m, '\n');
->  	return 0;
->  }
->  
+Need some guidance here.
+
+On 10/17/2016 12:34 AM, Geert Uytterhoeven wrote:
+>> 48 error regressions:
+>> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r0]':  => 476
+>> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r13]':  => 475
+
+[snip...]
+
+>> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r4,[r8]':  => 516
+>> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r6,[r3]':  => 478
+> arcv2/axs103_smp_defconfig
+
+
+I'm thinking how to address this correctly.
+
+This is due to the older version of compiler.  The fix itself is trivial - add an
+"call as-instr" construct in Makefile to get -DARC_TOOLS_SUPPORT_LLOCKD
+
+However the atomic64 API variant (CONFIG_GENERIC_ATOMIC64 or arch native) which
+gets included in build comes from Kconfig (ISA supports them or not). How do we
+tie the Makefile info into the Kconfig.
+
+We could trigger a build failure for invalid combinations of GENERIC_ATOMIC64 and
+ARC_TOOLS_SUPPORT_LLOCKD but that would be less than ideal out of box experience.
+
+Or the simpler solution is that kisskb upgrades the ARC GNU compiler ;-)
+
+-Vineet
