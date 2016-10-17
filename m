@@ -1,82 +1,42 @@
-From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Mon, 17 Oct 2016 09:34:53 +0200
-Subject: Build regressions/improvements in v4.9-rc1
-In-Reply-To: <1476688913-15648-1-git-send-email-geert@linux-m68k.org>
-References: <1476688913-15648-1-git-send-email-geert@linux-m68k.org>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 17 Oct 2016 09:25:54 -0700
+Subject: [PATCH] ARC-setup: Use seq_putc() in show_cpuinfo()
+In-Reply-To: <164a402a-de20-645d-00af-9a414cf745c4@users.sourceforge.net>
+References: <164a402a-de20-645d-00af-9a414cf745c4@users.sourceforge.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdVety8LeBgM1ZHfqw=NMjH5_=sQR=LLypQ1-YjxnuvaiQ@mail.gmail.com>
+Message-ID: <579aaf85-c22d-b680-5ce8-3c0e23ab6d7e@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Oct 17, 2016 at 9:21 AM, Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> Below is the list of build error/warning regressions/improvements in
-> v4.9-rc1[1] compared to v4.8[2].
+On 10/15/2016 12:56 PM, SF Markus Elfring wrote:
+> From: Markus Elfring <elfring at users.sourceforge.net>
+> Date: Sat, 15 Oct 2016 21:31:16 +0200
+>
+> A single character (line break) should be put into a sequence.
+> Thus use the corresponding function "seq_putc".
 
-> [1] http://kisskb.ellerman.id.au/kisskb/head/11053/ (all 262 configs)
-> [2] http://kisskb.ellerman.id.au/kisskb/head/10989/ (all 262 configs)
+Perhaps reword the changelog to say that seqc_putc is more efficient than
+seqc_printf to output a single char.
+I mean _printf is not wrong but not as efficient ?
 
-> 48 error regressions:
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r0]':  => 476
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r13]':  => 475
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r4]':  => 475
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r5]':  => 475
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r6]':  => 475, 476
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r8]':  => 476, 475, 515
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r4,[r11]':  => 476
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r4,[r13]':  => 493, 475
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r4,[r14]':  => 475
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r4,[r18]':  => 493
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r4,[r21]':  => 493
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r4,[r6]':  => 476, 475, 515
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r4,[r7]':  => 475
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r6,[r12]':  => 493
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r6,[r3]':  => 475
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r6,[r8]':  => 493
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r6,[r9]':  => 493
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r0,[r6]':  => 516
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r10,[r12]':  => 496
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r14,[r9]':  => 496
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r16,[r8]':  => 496
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r2,[r0]':  => 479
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r2,[r13]':  => 496, 478
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r2,[r18]':  => 496
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r2,[r21]':  => 496
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r2,[r4]':  => 478
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r2,[r5]':  => 478
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r2,[r6]':  => 478, 516, 479
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r2,[r8]':  => 479, 478
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r4,[r11]':  => 479
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r4,[r13]':  => 478
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r4,[r14]':  => 478
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r4,[r6]':  => 479, 478
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r4,[r7]':  => 478
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r4,[r8]':  => 516
->   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r6,[r3]':  => 478
-
-arcv2/axs103_smp_defconfig
-
->   + /home/kisskb/slave/src/arch/powerpc/kvm/book3s_hv_rm_xics.c: error: implicit declaration of function 'get_hard_smp_processor_id' [-Werror=implicit-function-declaration]:  => 758:2
-
-powerpc/ppc64_defconfig+UP
-
->   + /home/kisskb/slave/src/drivers/dma/omap-dma.c: error: unrecognizable insn::  => 350:1
-
-cris-allyesconfig
-cris-allmodconfig
-
->   + error: ".irq_set_parent" [drivers/mfd/tps65217.ko] undefined!:  => N/A
->   + error: "irq_set_parent" [drivers/mfd/tps65217.ko] undefined!:  => N/A
-
-ppc64le/allmodconfig+ppc64le
-powerpc/powerpc-allmodconfig
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>
+> This issue was detected by using the Coccinelle software.
+>
+> Signed-off-by: Markus Elfring <elfring at users.sourceforge.net>
+> ---
+>  arch/arc/kernel/setup.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+> index 3df7f9c..e3f5432 100644
+> --- a/arch/arc/kernel/setup.c
+> +++ b/arch/arc/kernel/setup.c
+> @@ -494,8 +494,7 @@ static int show_cpuinfo(struct seq_file *m, void *v)
+>  
+>  	free_page((unsigned long)str);
+>  done:
+> -	seq_printf(m, "\n");
+> -
+> +	seq_putc(m, '\n');
+>  	return 0;
+>  }
+>  
