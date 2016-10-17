@@ -1,62 +1,168 @@
 From: arnd@arndb.de (Arnd Bergmann)
-Date: Mon, 17 Oct 2016 23:02:02 +0200
-Subject: Build regressions/improvements in v4.9-rc1
-In-Reply-To: <00b16c44-79b8-43b8-6516-13c8bb92eb03@synopsys.com>
-References: <1476688913-15648-1-git-send-email-geert@linux-m68k.org>
- <CAMuHMdVety8LeBgM1ZHfqw=NMjH5_=sQR=LLypQ1-YjxnuvaiQ@mail.gmail.com>
- <00b16c44-79b8-43b8-6516-13c8bb92eb03@synopsys.com>
+Date: Tue, 18 Oct 2016 00:19:11 +0200
+Subject: [PATCH 28/28] Kbuild: bring back -Wmaybe-uninitialized warning
+In-Reply-To: <20161017220342.1627073-1-arnd@arndb.de>
+References: <20161017220342.1627073-1-arnd@arndb.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5541266.ySlPfDOezF@wuerfel>
+Message-ID: <20161017222000.1934898-1-arnd@arndb.de>
 To: linux-snps-arc@lists.infradead.org
 
-On Monday, October 17, 2016 9:59:24 AM CEST Vineet Gupta wrote:
-> +CC Arnd, Michal
-> 
-> Hi Geert, Arnd
-> 
-> Need some guidance here.
-> 
-> On 10/17/2016 12:34 AM, Geert Uytterhoeven wrote:
-> >> 48 error regressions:
-> >> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r0]':  => 476
-> >> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r13]':  => 475
-> 
-> [snip...]
-> 
-> >> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r4,[r8]':  => 516
-> >> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r6,[r3]':  => 478
-> > arcv2/axs103_smp_defconfig
-> 
-> 
-> I'm thinking how to address this correctly.
-> 
-> This is due to the older version of compiler.  The fix itself is trivial - add an
-> "call as-instr" construct in Makefile to get -DARC_TOOLS_SUPPORT_LLOCKD
-> 
-> However the atomic64 API variant (CONFIG_GENERIC_ATOMIC64 or arch native) which
-> gets included in build comes from Kconfig (ISA supports them or not). How do we
-> tie the Makefile info into the Kconfig.
-> 
-> We could trigger a build failure for invalid combinations of GENERIC_ATOMIC64 and
-> ARC_TOOLS_SUPPORT_LLOCKD but that would be less than ideal out of box experience.
-> 
-> Or the simpler solution is that kisskb upgrades the ARC GNU compiler 
+Traditionally, we have always had warnings about uninitialized variables
+enabled, as this is part of -Wall, and generally a good idea [1], but it
+also always produced false positives, mainly because this is a variation
+of the halting problem and provably impossible to get right in all cases
+[2].
 
-Some ideas, none of which are perfect:
+Various people have identified cases that are particularly bad for false
+positives, and in commit e74fc973b6e5 ("Turn off -Wmaybe-uninitialized
+when building with -Os"), I turned off the warning for any build that
+was done with CC_OPTIMIZE_FOR_SIZE.  This drastically reduced the number
+of false positive warnings in the default build but unfortunately had
+the side effect of turning the warning off completely in 'allmodconfig'
+builds, which in turn led to a lot of warnings (both actual bugs, and
+remaining false positives) to go in unnoticed.
 
-- add an #ifndef ARC_TOOLS_SUPPORT_LLOCKD clause in asm/atomic.h that uses
-  .long with hardcoded opcodes in place of the mnemonics.
+With commit 877417e6ffb9 ("Kbuild: change CC_OPTIMIZE_FOR_SIZE
+definition") enabled the warning again for allmodconfig builds in v4.7
+and in v4.8-rc1, I had finally managed to address all warnings I get in
+an ARM allmodconfig build and most other maybe-uninitialized warnings
+for ARM randconfig builds.
 
-- instead of setting CONFIG_GENERIC_ATOMIC64 from Kconfig, add a file
-  in arch/arc/kernel/ that includes lib/atomic64.c if ARC_TOOLS_SUPPORT_LLOCKD
-  is not set.
+However, commit 6e8d666e9253 ("Disable "maybe-uninitialized" warning
+globally") was merged at the same time and disabled it completely for
+all configurations, because of false-positive warnings on x86 that
+I had not addressed until then. This caused a lot of actual bugs to
+get merged into mainline, and I sent several dozen patches for these
+during the v4.9 development cycle. Most of these are actual bugs,
+some are for correct code that is safe because it is only called
+under external constraints that make it impossible to run into
+the case that gcc sees, and in a few cases gcc is just stupid and
+finds something that can obviously never happen.
 
-- add "-DCONFIG_GENERIC_ATOMIC64" to cflags-y from arch/arc/Makefile if
-  old binutils are found.
+I have now done a few thousand randconfig builds on x86 and collected
+all patches that I needed to address every single warning I got
+(I can provide the combined patch for the other warnings if anyone
+is interested), so I hope we can get the warning back and let people
+catch the actual bugs earlier.
 
-I think someone was suggesting in the past that Kconfig could be extended
-to make decisions based on the gcc version, and the same thing could
-be done for binutils. Don't remember who that was though. I think a number
-of awkward hacks in the kernel could be simplified if we had this.
+Note that the majority of the patches I created are for the third kind
+of problem (stupid false-positives), for one of two reasons:
+- some of them only get triggered in certain combinations of config
+  options, so we don't always run into them, and
+- the actual bugs tend to get addressed much quicker as they also
+  lead to incorrect runtime behavior.
 
-	And
+These 27 patches address the warnings that either occur in one of the more
+common configurations (defconfig, allmodconfig, or something built by the
+kbuild robot or kernelci.org), or they are about a real bug. It would be
+good to get these all into v4.9 if we want to turn on the warning again.
+I have tested these extensively with gcc-4.9 and gcc-6 and done a bit
+of testing with gcc-5, and all of these should now be fine. gcc-4.8
+is much worse about the false-positive warnings and is also fairly old
+now, so I'm leaving the warning disabled with that version. gcc-4.7 and
+older don't understand the -Wno-maybe-uninitialized option and are not
+affected by this patch either way.
+
+I have another (smaller) series of patches for warnings that are both
+harmless and not as easy to trigger, and I will send them for inclusion
+in v4.10.
+
+Link: https://rusty.ozlabs.org/?p=232 [1]
+Link: https://gcc.gnu.org/wiki/Better_Uninitialized_Warnings [2]
+Signed-off-by: Arnd Bergmann <arnd at arndb.de>
+---
+ Makefile               | 10 ++++++----
+ arch/arc/Makefile      |  4 +++-
+ scripts/Makefile.ubsan |  4 ++++
+ 3 files changed, 13 insertions(+), 5 deletions(-)
+
+Cc: x86 at kernel.org
+Cc: linux-media at vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab at kernel.org>
+Cc: Martin Schwidefsky <schwidefsky at de.ibm.com>
+Cc: linux-s390 at vger.kernel.org
+Cc: Ilya Dryomov <idryomov at gmail.com>
+Cc: dri-devel at lists.freedesktop.org
+Cc: linux-mtd at lists.infradead.org
+Cc: Herbert Xu <herbert at gondor.apana.org.au>
+Cc: linux-crypto at vger.kernel.org
+Cc: "David S. Miller" <davem at davemloft.net>
+Cc: netdev at vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Cc: ceph-devel at vger.kernel.org
+Cc: linux-f2fs-devel at lists.sourceforge.net
+Cc: linux-ext4 at vger.kernel.org
+Cc: netfilter-devel at vger.kernel.org
+
+diff --git a/Makefile b/Makefile
+index 512e47a..43cd3d9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -370,7 +370,7 @@ LDFLAGS_MODULE  =
+ CFLAGS_KERNEL	=
+ AFLAGS_KERNEL	=
+ LDFLAGS_vmlinux =
+-CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage -fno-tree-loop-im
++CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage -fno-tree-loop-im  -Wno-maybe-uninitialized
+ CFLAGS_KCOV	:= $(call cc-option,-fsanitize-coverage=trace-pc,)
+ 
+ 
+@@ -620,7 +620,6 @@ ARCH_CFLAGS :=
+ include arch/$(SRCARCH)/Makefile
+ 
+ KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
+-KBUILD_CFLAGS	+= $(call cc-disable-warning,maybe-uninitialized,)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning,frame-address,)
+ 
+ ifdef CONFIG_LD_DEAD_CODE_DATA_ELIMINATION
+@@ -629,15 +628,18 @@ KBUILD_CFLAGS	+= $(call cc-option,-fdata-sections,)
+ endif
+ 
+ ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+-KBUILD_CFLAGS	+= -Os
++KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
+ else
+ ifdef CONFIG_PROFILE_ALL_BRANCHES
+-KBUILD_CFLAGS	+= -O2
++KBUILD_CFLAGS	+= -O2 $(call cc-disable-warning,maybe-uninitialized,)
+ else
+ KBUILD_CFLAGS   += -O2
+ endif
+ endif
+ 
++KBUILD_CFLAGS += $(call cc-ifversion, -lt, 0409, \
++			$(call cc-disable-warning,maybe-uninitialized,))
++
+ # Tell gcc to never replace conditional load with a non-conditional one
+ KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
+ 
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index aa82d13..19cce22 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -71,7 +71,9 @@ cflags-$(CONFIG_ARC_DW2_UNWIND)		+= -fasynchronous-unwind-tables $(cfi)
+ ifndef CONFIG_CC_OPTIMIZE_FOR_SIZE
+ # Generic build system uses -O2, we want -O3
+ # Note: No need to add to cflags-y as that happens anyways
+-ARCH_CFLAGS += -O3
++#
++# Disable the false maybe-uninitialized warings gcc spits out at -O3
++ARCH_CFLAGS += -O3 $(call cc-disable-warning,maybe-uninitialized,)
+ endif
+ 
+ # small data is default for elf32 tool-chain. If not usable, disable it
+diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+index dd779c4..3b1b138 100644
+--- a/scripts/Makefile.ubsan
++++ b/scripts/Makefile.ubsan
+@@ -17,4 +17,8 @@ endif
+ ifdef CONFIG_UBSAN_NULL
+       CFLAGS_UBSAN += $(call cc-option, -fsanitize=null)
+ endif
++
++      # -fsanitize=* options makes GCC less smart than usual and
++      # increase number of 'maybe-uninitialized false-positives
++      CFLAGS_UBSAN += $(call cc-option, -Wno-maybe-uninitialized)
+ endif
+-- 
+2.9.0
