@@ -1,28 +1,33 @@
-From: elfring@users.sourceforge.net (SF Markus Elfring)
-Date: Mon, 17 Oct 2016 19:19:14 +0200
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 17 Oct 2016 10:23:39 -0700
 Subject: ARC-setup: Use seq_putc() in show_cpuinfo()
-In-Reply-To: <579aaf85-c22d-b680-5ce8-3c0e23ab6d7e@synopsys.com>
+In-Reply-To: <d8738585-21f3-8691-4c53-bfbafef925be@users.sourceforge.net>
 References: <164a402a-de20-645d-00af-9a414cf745c4@users.sourceforge.net>
  <579aaf85-c22d-b680-5ce8-3c0e23ab6d7e@synopsys.com>
+ <d8738585-21f3-8691-4c53-bfbafef925be@users.sourceforge.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <d8738585-21f3-8691-4c53-bfbafef925be@users.sourceforge.net>
+Message-ID: <10542905-ebe1-49f5-190b-3783137e7854@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
->> A single character (line break) should be put into a sequence.
->> Thus use the corresponding function "seq_putc".
-> 
-> Perhaps reword the changelog to say that seqc_putc is more efficient than
-> seqc_printf to output a single char.
-> I mean _printf is not wrong but not as efficient ?
+On 10/17/2016 10:19 AM, SF Markus Elfring wrote:
+>>> A single character (line break) should be put into a sequence.
+>>> Thus use the corresponding function "seq_putc".
+>> Perhaps reword the changelog to say that seqc_putc is more efficient than
+>> seqc_printf to output a single char.
+>> I mean _printf is not wrong but not as efficient ?
+> I came along source files for a few other software modules with similar
+> change possibilities.
+> Unfortunately, the corresponding developers are not convinced yet
+> to replace a call of the function "seq_printf" at the end by
+> a "seq_putc" because of software efficiency reasons.
 
-I came along source files for a few other software modules with similar
-change possibilities.
-Unfortunately, the corresponding developers are not convinced yet
-to replace a call of the function "seq_printf" at the end by
-a "seq_putc" because of software efficiency reasons.
+I was ambivalent so far - but not anymore :-)
+what is the objection - can you point me to a few links where people don't think
+this is not a good idea.
 
-Do you find this update suggestion acceptable to some degree
-for the function "setup"?
-
-Regards,
-Markus
+> Do you find this update suggestion acceptable to some degree
+> for the function "setup"?
+>
+> Regards,
+> Markus
+>
