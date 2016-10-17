@@ -1,46 +1,62 @@
-From: elfring@users.sourceforge.net (SF Markus Elfring)
-Date: Mon, 17 Oct 2016 19:39:41 +0200
-Subject: ARC-setup: Use seq_putc() in show_cpuinfo()
-In-Reply-To: <10542905-ebe1-49f5-190b-3783137e7854@synopsys.com>
-References: <164a402a-de20-645d-00af-9a414cf745c4@users.sourceforge.net>
- <579aaf85-c22d-b680-5ce8-3c0e23ab6d7e@synopsys.com>
- <d8738585-21f3-8691-4c53-bfbafef925be@users.sourceforge.net>
- <10542905-ebe1-49f5-190b-3783137e7854@synopsys.com>
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Mon, 17 Oct 2016 23:02:02 +0200
+Subject: Build regressions/improvements in v4.9-rc1
+In-Reply-To: <00b16c44-79b8-43b8-6516-13c8bb92eb03@synopsys.com>
+References: <1476688913-15648-1-git-send-email-geert@linux-m68k.org>
+ <CAMuHMdVety8LeBgM1ZHfqw=NMjH5_=sQR=LLypQ1-YjxnuvaiQ@mail.gmail.com>
+ <00b16c44-79b8-43b8-6516-13c8bb92eb03@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <418ba237-d501-c8d1-cf2b-3ec4b6d46785@users.sourceforge.net>
+Message-ID: <5541266.ySlPfDOezF@wuerfel>
 To: linux-snps-arc@lists.infradead.org
 
->>> Perhaps reword the changelog to say that seqc_putc is more efficient than
->>> seqc_printf to output a single char.
->>> I mean _printf is not wrong but not as efficient ?
->> I came along source files for a few other software modules with similar
->> change possibilities.
->> Unfortunately, the corresponding developers are not convinced yet
->> to replace a call of the function "seq_printf" at the end by
->> a "seq_putc" because of software efficiency reasons.
+On Monday, October 17, 2016 9:59:24 AM CEST Vineet Gupta wrote:
+> +CC Arnd, Michal
 > 
-> I was ambivalent so far - but not anymore :-)
+> Hi Geert, Arnd
+> 
+> Need some guidance here.
+> 
+> On 10/17/2016 12:34 AM, Geert Uytterhoeven wrote:
+> >> 48 error regressions:
+> >> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r0]':  => 476
+> >> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `llockd r2,[r13]':  => 475
+> 
+> [snip...]
+> 
+> >> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r4,[r8]':  => 516
+> >> >   + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad instruction `scondd r6,[r3]':  => 478
+> > arcv2/axs103_smp_defconfig
+> 
+> 
+> I'm thinking how to address this correctly.
+> 
+> This is due to the older version of compiler.  The fix itself is trivial - add an
+> "call as-instr" construct in Makefile to get -DARC_TOOLS_SUPPORT_LLOCKD
+> 
+> However the atomic64 API variant (CONFIG_GENERIC_ATOMIC64 or arch native) which
+> gets included in build comes from Kconfig (ISA supports them or not). How do we
+> tie the Makefile info into the Kconfig.
+> 
+> We could trigger a build failure for invalid combinations of GENERIC_ATOMIC64 and
+> ARC_TOOLS_SUPPORT_LLOCKD but that would be less than ideal out of box experience.
+> 
+> Or the simpler solution is that kisskb upgrades the ARC GNU compiler 
 
-Interesting ?
+Some ideas, none of which are perfect:
 
+- add an #ifndef ARC_TOOLS_SUPPORT_LLOCKD clause in asm/atomic.h that uses
+  .long with hardcoded opcodes in place of the mnemonics.
 
-> what is the objection - can you point me to a few links where people don't think
-> this is not a good idea.
+- instead of setting CONFIG_GENERIC_ATOMIC64 from Kconfig, add a file
+  in arch/arc/kernel/ that includes lib/atomic64.c if ARC_TOOLS_SUPPORT_LLOCKD
+  is not set.
 
-Yes, of course. - Does the double negation in this wording indicate another
-special software development concern?
+- add "-DCONFIG_GENERIC_ATOMIC64" to cflags-y from arch/arc/Makefile if
+  old binutils are found.
 
-How do you think about another update suggestion like "[PATCH] MD-RAID: Use seq_putc()
-in three status functions" (from 2016-10-16)?
-https://patchwork.kernel.org/patch/9378055/
-https://lkml.kernel.org/r/<77fb6fdc-7480-8607-0af1-42f73c125b9d at users.sourceforge.net>
+I think someone was suggesting in the past that Kconfig could be extended
+to make decisions based on the gcc version, and the same thing could
+be done for binutils. Don't remember who that was though. I think a number
+of awkward hacks in the kernel could be simplified if we had this.
 
-
->> Do you find this update suggestion acceptable to some degree
->> for the function "setup"?
-
-I am curious what your opinions will be for further development of the
-function "show_cpuinfo" in the source file "arch/arc/kernel/setup.c".
-
-Regards,
-Markus
+	And
