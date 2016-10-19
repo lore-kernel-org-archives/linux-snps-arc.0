@@ -1,44 +1,25 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Wed, 19 Oct 2016 14:25:03 +0300
-Subject: [PATCH v2] ARC: Adjust cpuinfo for non-continuous cpu ids
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 19 Oct 2016 11:43:07 +0000
+Subject: [PATCH] dmaengine: DW DMAC: split pdata to hardware properties
+ and platform quirks
+In-Reply-To: <1475838342.11323.291.camel@linux.intel.com>
+References: <1473945253-16649-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1475680464.7320.44.camel@synopsys.com>
+ <1475838342.11323.291.camel@linux.intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1476876303-18768-1-git-send-email-noamca@mellanox.com>
+Message-ID: <1476877387.2882.3.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamc@ezchip.com>
+Hi?Andy,
+On Fri, 2016-10-07@14:05 +0300, Andy Shevchenko wrote:
+> On Wed, 2016-10-05@15:14 +0000, Eugeniy Paltsev wrote:
+> > 
+> > Hi?Andy,
+> > what do you think about?these changes?
+> I was off for few weeks, will look at this next week.
+> 
+I was wondering you to tell yours ideas about this patch, if you have
+any time for this.
 
-num_possible_cpus() returns how many CPUs may be present on system.
-However we want the highest possible CPU number.
-This may be differ in a sparsed possible CPUs map.
-Such map achived by OF for plat-eznps.
-
-For example if we have:
-possible cpus mask 0,3
-
-Then:
-num_possible_cpus() is equal 2
-	while
-nr_cpu_ids is equal 4.
-
-Only for value 4 c_start() will provide correct cpuinfo at procfs.
-
-Signed-off-by: Noam Camus <noamc at ezchip.com>
----
- arch/arc/kernel/setup.c |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 64907de..bd2e3a4 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -512,7 +512,7 @@ static void *c_start(struct seq_file *m, loff_t *pos)
- 	 * way to pass it w/o having to kmalloc/free a 2 byte string.
- 	 * Encode cpu-id as 0xFFcccc, which is decoded by show routine.
- 	 */
--	return *pos < num_possible_cpus() ? cpu_to_ptr(*pos) : NULL;
-+	return *pos < nr_cpu_ids ? cpu_to_ptr(*pos) : NULL;
- }
- 
- static void *c_next(struct seq_file *m, void *v, loff_t *pos)
 -- 
-1.7.1
+?Paltsev Eugeniy
