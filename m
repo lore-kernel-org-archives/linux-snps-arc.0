@@ -1,51 +1,67 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 19 Oct 2016 10:02:35 -0700
-Subject: [PATCH v2] ARC: Adjust cpuinfo for non-continuous cpu ids
-In-Reply-To: <1476876303-18768-1-git-send-email-noamca@mellanox.com>
-References: <1476876303-18768-1-git-send-email-noamca@mellanox.com>
+From: thomas.petazzoni@free-electrons.com (Thomas Petazzoni)
+Date: Wed, 19 Oct 2016 22:32:00 +0200
+Subject: Build regressions/improvements in v4.9-rc1
+In-Reply-To: <1476879762.26312.12.camel@synopsys.com>
+References: <1476688913-15648-1-git-send-email-geert@linux-m68k.org>
+ <CAMuHMdVety8LeBgM1ZHfqw=NMjH5_=sQR=LLypQ1-YjxnuvaiQ@mail.gmail.com>
+ <00b16c44-79b8-43b8-6516-13c8bb92eb03@synopsys.com>
+ <5541266.ySlPfDOezF@wuerfel>
+ <9a0f80b3-adb3-36de-d59f-885ac29ea2e6@synopsys.com>
+ <87inso4kxb.fsf@concordia.ellerman.id.au>
+ <1476879762.26312.12.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <81c8e00d-2a78-d5ca-e75a-aeafbe3020cf@synopsys.com>
+Message-ID: <20161019223200.21003f60@free-electrons.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/19/2016 04:25 AM, Noam Camus wrote:
-> From: Noam Camus <noamc at ezchip.com>
->
-> num_possible_cpus() returns how many CPUs may be present on system.
-> However we want the highest possible CPU number.
-> This may be differ in a sparsed possible CPUs map.
-> Such map achived by OF for plat-eznps.
->
-> For example if we have:
-> possible cpus mask 0,3
->
-> Then:
-> num_possible_cpus() is equal 2
-> 	while
-> nr_cpu_ids is equal 4.
->
-> Only for value 4 c_start() will provide correct cpuinfo at procfs.
+Hello,
 
-This is much much better. Applied to for-curr !
+On Wed, 19 Oct 2016 12:23:12 +0000, Alexey Brodkin wrote:
 
-Thx,
--Vineet
+> > I tried building a new toolchain with buildroot, using the instructions
+> > from last time, but the resulting toolchain doesn't relocate, ie. it has
+> > hard-coded paths in it. Any ideas?  
+> 
+> Hm... that's strange - it used to work but doesn't work with newer Buildroot...
+> 
+> Anyways if something very simple (i.e. with no extra libraries) works for you just go
+> ahead and grab pre-built image that Thomas Petazzoni builds.
+> 
+> That's the most recent one:
+> http://autobuild.buildroot.org/toolchains/tarballs/br-arcle-hs38-full-2016.08-613-ge98b4dd.tar.bz2
+> 
+> If I'm not mistaken Thomas runs some post-processing script to make these toolchains
+> relocatable.
+> 
+> Maybe Thomas may comment on that and even maybe will share his post-processing technique
+> so you'll be able to build your customized toolchain.
 
->
-> Signed-off-by: Noam Camus <noamc at ezchip.com>
-> ---
->  arch/arc/kernel/setup.c |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-> index 64907de..bd2e3a4 100644
-> --- a/arch/arc/kernel/setup.c
-> +++ b/arch/arc/kernel/setup.c
-> @@ -512,7 +512,7 @@ static void *c_start(struct seq_file *m, loff_t *pos)
->  	 * way to pass it w/o having to kmalloc/free a 2 byte string.
->  	 * Encode cpu-id as 0xFFcccc, which is decoded by show routine.
->  	 */
-> -	return *pos < num_possible_cpus() ? cpu_to_ptr(*pos) : NULL;
-> +	return *pos < nr_cpu_ids ? cpu_to_ptr(*pos) : NULL;
->  }
->  
->  static void *c_next(struct seq_file *m, void *v, loff_t *pos)
+I simply have two patches on top of Buildroot to build the toolchains
+available at http://autobuild.buildroot.org/toolchains/tarballs/ :
+
+ - One patch that builds mpc, gmp and mpfr statically. This is needed
+   since the host tools are built with an absolute rpath, so once the
+   toolchain is moved, it can't find the host shared libraries that
+   have been built for it. Using static linking is a temporary
+   work-around, our idea is to fix the rpath to use relative path using
+   $ORIGIN. There are some patches from Samuel Martin doing this, we
+   have discussed them during the Buildroot Developers Meeting last
+   week-end, and we proposed to Samuel to investigate a slightly
+   different approach (namely add more features to the upstream
+   patchelf utility).
+
+ - One patch that fixes the toolchain wrapper logic so that it works
+   fine when the toolchain is moved out of the usr/ sub-directory. We
+   started discussing it during the meeting, but I got drowned into
+   other discussions, so we haven't had the time to get to the bottom
+   of it.
+
+If people are interested, I can prepare a tutorial on how to build
+re-usable and relocatable toolchains with Buildroot.
+
+Best regards,
+
+Thomas
+-- 
+Thomas Petazzoni, CTO, Free Electrons
+Embedded Linux and Kernel engineering
+http://free-electrons.com
