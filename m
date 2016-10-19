@@ -1,37 +1,44 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 19 Oct 2016 09:32:38 +0000
-Subject: [PATCH v2] drm/arcpgu: Accommodate adv7511 switch to DRM bridge
-In-Reply-To: <26a8cad6-118f-146f-f6ea-e9d539fc40a1@codeaurora.org>
-References: <1476863178-15237-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <26a8cad6-118f-146f-f6ea-e9d539fc40a1@codeaurora.org>
+From: noamca@mellanox.com (Noam Camus)
+Date: Wed, 19 Oct 2016 14:25:03 +0300
+Subject: [PATCH v2] ARC: Adjust cpuinfo for non-continuous cpu ids
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1476869529.3348.27.camel@synopsys.com>
+Message-ID: <1476876303-18768-1-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Archit, all,
+From: Noam Camus <noamc@ezchip.com>
 
-On Wed, 2016-10-19@14:43 +0530, Archit Taneja wrote:
-> 
-> On 10/19/2016 01:16 PM, Eugeniy Paltsev wrote:
-> > 
-> > ARC PGU driver starts crashing on initialization after
-> > 'commit e12c2f645557 ("drm/i2c: adv7511: Convert to drm_bridge")'
-> > This happenes because in "arcpgu_drm_hdmi_init" function we get pointer
-> > of "drm_i2c_encoder_driver" structure, which doesn't exist after
-> > adv7511 hdmi encoder interface changed from slave encoder to drm bridge.
-> > So, when we call "encoder_init" function from this structure driver
-> > crashes.
+num_possible_cpus() returns how many CPUs may be present on system.
+However we want the highest possible CPU number.
+This may be differ in a sparsed possible CPUs map.
+Such map achived by OF for plat-eznps.
 
-[snip]
+For example if we have:
+possible cpus mask 0,3
 
-> Looks good now.
-> 
-> Reviewed-by: Archit Taneja <architt at codeaurora.org>
+Then:
+num_possible_cpus() is equal 2
+	while
+nr_cpu_ids is equal 4.
 
-And IMHO it would be really good to get this one back-ported to 4.8
-because it really fixes kernel crash if ARC PGU driver is used.
+Only for value 4 c_start() will provide correct cpuinfo at procfs.
 
-It might be a bit of a problem because patch itself a little-bit larger
-than formal requirement for stable backports but let's see if it gets accepted.
+Signed-off-by: Noam Camus <noamc at ezchip.com>
+---
+ arch/arc/kernel/setup.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
--Alexey
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 64907de..bd2e3a4 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -512,7 +512,7 @@ static void *c_start(struct seq_file *m, loff_t *pos)
+ 	 * way to pass it w/o having to kmalloc/free a 2 byte string.
+ 	 * Encode cpu-id as 0xFFcccc, which is decoded by show routine.
+ 	 */
+-	return *pos < num_possible_cpus() ? cpu_to_ptr(*pos) : NULL;
++	return *pos < nr_cpu_ids ? cpu_to_ptr(*pos) : NULL;
+ }
+ 
+ static void *c_next(struct seq_file *m, void *v, loff_t *pos)
+-- 
+1.7.1
