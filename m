@@ -1,44 +1,33 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 18 Oct 2016 11:58:26 -0700
-Subject: [RFC] perf: fix building for ARCv1
-In-Reply-To: <20151019093549.GK3816@twins.programming.kicks-ass.net>
-References: <1445088959-3058-1-git-send-email-abrodkin@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44C9DD2@IN01WEMBXA.internal.synopsys.com>
- <1445166916.9672.10.camel@synopsys.com> <87a8rf6a6p.fsf@tassilo.jf.intel.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44C9E9A@IN01WEMBXA.internal.synopsys.com>
- <8761235rwe.fsf@tassilo.jf.intel.com>
- <C2D7FE5348E1B147BCA15975FBA23075F44CAFF9@IN01WEMBXA.internal.synopsys.com>
- <20151019093549.GK3816@twins.programming.kicks-ass.net>
+From: vinod.koul@intel.com (Vinod Koul)
+Date: Wed, 19 Oct 2016 09:04:57 +0530
+Subject: [PATCH] dmaengine: dmatest: Restore "memcpy" as default mode
+In-Reply-To: <ca16ea1f-2c15-b581-2375-4e805e6b1e0e@intel.com>
+References: <1473874838-13744-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <20160915154818.GW13920@localhost>
+ <ca16ea1f-2c15-b581-2375-4e805e6b1e0e@intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <9e22e4b1-7e36-1a74-3620-a4790a5d1bfd@synopsys.com>
+Message-ID: <20161019033456.GG2467@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/19/2015 02:35 AM, Peter Zijlstra wrote:
-> On Mon, Oct 19, 2015@09:28:43AM +0000, Vineet Gupta wrote:
->> On Monday 19 October 2015 11:20 AM, Andi Kleen wrote:
->>> Vineet Gupta <Vineet.Gupta1 at synopsys.com> writes:
->>>> But this user space - so IMHO UP/SMP doesn't matter and we can't simulate them in
->>>> C just by itself.
->>> It matters when you access the perf ring buffer which is updated by kernel.
->> That's part of the problem. The issue is with atomic_* APIs proliferation in perf
->> user space code which assumes native atomix r-m-w support which is not always
->> true. So I think we still need a feature detection mechanism and if absent leave
->> the ball in arch court by calling arch_atomic_* which can use creative or half
->> working measures so perf will work to some extent atleast and not bomb outright.
->>
->> Also can u please elaborate a bit on "simulate them in C" - u mean just simple
->> unprotected LD, OP, ST or do u fancy usage of futex etc?
-> Doesn't ARMv5 have a cmpxchg syscall to deal with this? It does an
-> IRQ-disabled load-op-store sequence.
+On Tue, Oct 18, 2016@11:14:08AM -0700, Dave Jiang wrote:
+> On 09/15/2016 08:48 AM, Vinod Koul wrote:
+> > On Wed, Sep 14, 2016@08:40:38PM +0300, Eugeniy Paltsev wrote:
+> >> Commit 0d4cb44da6ca0e8 ("dmaengine: dmatest: Add support for
+> >> scatter-gather DMA mode") changes default "dmatest" behavior by
+> >> changing default mode from "memcpy" to "scatter-gather".
+> >> Now "memcpy" gets back as default mode.
+> > 
+> > Applied, thanks
+> 
+> Did that go into stable? It's breaking the default expected behavior in
+> 4.8 without the fix.
 
-So I got around to addressing this - now that someone actually is trying to use
-NPTL (which uses llock/scond) on ARC700 lacking those instructions. However given
-that we are going this route, FWIW ARM kernel got rid of this syscall with
-db695c0509d6ec ("ARM: remove user cmpxchg syscall") citing some security hole.
-Even of we were to disregard, the code at the time had some open code MM trickery,
-which I'd rather not replicate. My use case is simple - I only need to support UP
-config - and a simple {get,put}_user would suffice - given that that can
-potentially take a TLB refill Miss or worse still a full page fault. I'm going to
-cook that patch to add that syscall, but wanted to get some thoughts ahead of that.
+No it wasnt, and it should have...
 
--Vineet
+I send to stable and lokks like it should applied on 4.7 and 4.8.
+Commit 0d4cb44da6ca0e8 ("dmaengine: dmatest: Add support for scatter-gather
+DMA mode") came in 4.7 IIUC..
+
+Thanks
+-- 
+~Vinod
