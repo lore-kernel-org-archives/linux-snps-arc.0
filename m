@@ -1,85 +1,55 @@
 From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
-Date: Sat, 22 Oct 2016 01:15:29 +0300
-Subject: [PATCH 3/5] ARC: MCIP: Use hwirq instead of virq for resolution of
- IDU IRQ handlers
+Date: Sat, 22 Oct 2016 01:15:31 +0300
+Subject: [PATCH 5/5] ARC: MCIP: Use IDU_M_DISTRI_DEST mode if there is only 1
+ destination core
 In-Reply-To: <1477088131-15822-1-git-send-email-yuriy.kolerov@synopsys.com>
 References: <1477088131-15822-1-git-send-email-yuriy.kolerov@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1477088131-15822-3-git-send-email-yuriy.kolerov@synopsys.com>
+Message-ID: <1477088131-15822-5-git-send-email-yuriy.kolerov@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Multicore ARC configurations use IDU (Interrupt Distribution Unit) for
-distributing of common interrupts. In fact IDU is a interrupt controller
-on top of main per core interrupt controller.
+ARC linux uses 2 distribution modes for common interrupts: round robin
+mode (IDU_M_DISTRI_RR) and a simple destination mode (IDU_M_DISTRI_DEST).
+The first one is used when more than 1 cores may handle a common interrupt
+and the second one is used when only 1 core may handle a common interrupt.
 
-All common IRQs are physically and linearly mapped to per core
-interrupts. E.g. <0, 1, 2, 3> common IDU interrupts may be mapped to per
-core <24, 25, 26, 27> interrupts. An initialization code of IDU
-controller (idu_of_init) creates mappings for all parent interrupts
-<24, 25, ...> and sets a chained IDU handler for them. In the same
-time idu_of_init must save the first met parent hwirq (idu_first_irq)
-thus in future it is possible to figure out what common hwirq has come
-by subtracting of idu_first_irq from the current parent hwirq (see
-idu_cascade_isr).
-
-The problem is that idu_of_init and idu_cascade_isr use parent virtual
-IRQs as hardware IRQs and perform all the above-described manipulations
-on virtual IRQs. But it is wrong and hardware IRQs must be used instead.
+However idu_irq_set_affinity always sets IDU_M_DISTRI_RR for all affinity
+values. But there is no sense in setting of such mode if only 1 core must
+handle a common interrupt.
 
 Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
 ---
- arch/arc/kernel/mcip.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+ arch/arc/kernel/mcip.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-index 28ff766..51a218c 100644
+index 090f0a1..75e6d73 100644
 --- a/arch/arc/kernel/mcip.c
 +++ b/arch/arc/kernel/mcip.c
-@@ -220,16 +220,14 @@ static struct irq_chip idu_irq_chip = {
- 
- };
- 
--static int idu_first_irq;
-+static irq_hw_number_t idu_first_hwirq;
- 
- static void idu_cascade_isr(struct irq_desc *desc)
+@@ -197,6 +197,7 @@ idu_irq_set_affinity(struct irq_data *data, const struct cpumask *cpumask,
  {
--	struct irq_domain *domain = irq_desc_get_handler_data(desc);
--	unsigned int core_irq = irq_desc_get_irq(desc);
--	unsigned int idu_irq;
--
--	idu_irq = core_irq - idu_first_irq;
--	generic_handle_irq(irq_find_mapping(domain, idu_irq));
-+	struct irq_domain *idu_domain = irq_desc_get_handler_data(desc);
-+	irq_hw_number_t core_hwirq = irqd_to_hwirq(irq_desc_get_irq_data(desc));
-+	irq_hw_number_t idu_hwirq = core_hwirq - idu_first_hwirq;
-+	generic_handle_irq(irq_find_mapping(idu_domain, idu_hwirq));
- }
+ 	unsigned long flags;
+ 	cpumask_t online;
++	unsigned long dest_bits;
  
- static int idu_irq_map(struct irq_domain *d, unsigned int virq, irq_hw_number_t hwirq)
-@@ -295,7 +293,7 @@ idu_of_init(struct device_node *intc, struct device_node *parent)
- 	struct irq_domain *domain;
- 	/* Read IDU BCR to confirm nr_irqs */
- 	int nr_irqs = of_irq_count(intc);
--	int i, irq;
-+	int i, virq;
+ 	/* errout if no online cpu per @cpumask */
+ 	if (!cpumask_and(&online, cpumask, cpu_online_mask))
+@@ -204,8 +205,14 @@ idu_irq_set_affinity(struct irq_data *data, const struct cpumask *cpumask,
  
- 	if (!idu_detected)
- 		panic("IDU not detected, but DeviceTree using it");
-@@ -313,11 +311,11 @@ idu_of_init(struct device_node *intc, struct device_node *parent)
- 		 * however we need it to get the parent virq and set IDU handler
- 		 * as first level isr
- 		 */
--		irq = irq_of_parse_and_map(intc, i);
-+		virq = irq_of_parse_and_map(intc, i);
- 		if (!i)
--			idu_first_irq = irq;
-+			idu_first_hwirq = irqd_to_hwirq(irq_get_irq_data(virq));
+ 	raw_spin_lock_irqsave(&mcip_lock, flags);
  
--		irq_set_chained_handler_and_data(irq, idu_cascade_isr, domain);
-+		irq_set_chained_handler_and_data(virq, idu_cascade_isr, domain);
- 	}
+-	idu_set_dest(data->hwirq, cpumask_bits(&online)[0]);
+-	idu_set_mode(data->hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_RR);
++	dest_bits = cpumask_bits(&online)[0];
++	idu_set_dest(data->hwirq, dest_bits);
++
++	if (ffs(dest_bits) == fls(dest_bits)) {
++		idu_set_mode(data->hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_DEST);
++	} else {
++		idu_set_mode(data->hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_RR);
++	}
  
- 	__mcip_cmd(CMD_IDU_ENABLE, 0);
+ 	raw_spin_unlock_irqrestore(&mcip_lock, flags);
+ 
 -- 
 2.7.4
