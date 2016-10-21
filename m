@@ -1,74 +1,85 @@
 From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
-Date: Sat, 22 Oct 2016 01:15:28 +0300
-Subject: [PATCH 2/5] ARC: SMP: Pass virq to smp_ipi_irq_setup instead of hwirq
+Date: Sat, 22 Oct 2016 01:15:29 +0300
+Subject: [PATCH 3/5] ARC: MCIP: Use hwirq instead of virq for resolution of
+ IDU IRQ handlers
 In-Reply-To: <1477088131-15822-1-git-send-email-yuriy.kolerov@synopsys.com>
 References: <1477088131-15822-1-git-send-email-yuriy.kolerov@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1477088131-15822-2-git-send-email-yuriy.kolerov@synopsys.com>
+Message-ID: <1477088131-15822-3-git-send-email-yuriy.kolerov@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This function takes a cpu number and a virq number and registers an
-appropriate handler per cpu. However smp_ipi_irq_setup is incorrectly
-used in several places of ARC platform code - hwirq is passed instead of
-virq. There is a code with an example of inccorect usage of smp_ipi_irq_setup:
+Multicore ARC configurations use IDU (Interrupt Distribution Unit) for
+distributing of common interrupts. In fact IDU is a interrupt controller
+on top of main per core interrupt controller.
 
-    smp_ipi_irq_setup(cpu, IPI_IRQ);
-    smp_ipi_irq_setup(cpu, SOFTIRQ_IRQ);
+All common IRQs are physically and linearly mapped to per core
+interrupts. E.g. <0, 1, 2, 3> common IDU interrupts may be mapped to per
+core <24, 25, 26, 27> interrupts. An initialization code of IDU
+controller (idu_of_init) creates mappings for all parent interrupts
+<24, 25, ...> and sets a chained IDU handler for them. In the same
+time idu_of_init must save the first met parent hwirq (idu_first_irq)
+thus in future it is possible to figure out what common hwirq has come
+by subtracting of idu_first_irq from the current parent hwirq (see
+idu_cascade_isr).
 
-where IPI_IRQ and SOFTIRQ_IRQ are hwirq numbers for per cpu interrupts.
-Since smp_ipi_irq_setup must be taken a virq number insdead of a hwirq
-number then it is necessary to fix usage of this function this way:
-
-    smp_ipi_irq_setup(cpu, irq_find_mapping(NULL, IPI_IRQ));
-    smp_ipi_irq_setup(cpu, irq_find_mapping(NULL, SOFTIRQ_IRQ));
-
-The idea is to find an appropriate mapping of <domain, hwirq> to virq
-by using irq_find_mapping function. NULL value is used as a domain
-argument (a default domain) since smp_ipi_irq_setup is used for
-registering an IRQ handler for a root interrupt controller (a default
-IRQ domain must be used).
+The problem is that idu_of_init and idu_cascade_isr use parent virtual
+IRQs as hardware IRQs and perform all the above-described manipulations
+on virtual IRQs. But it is wrong and hardware IRQs must be used instead.
 
 Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
 ---
- arch/arc/kernel/mcip.c    | 5 +++--
- arch/arc/plat-eznps/smp.c | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ arch/arc/kernel/mcip.c | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
 diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-index 72f9179..28ff766 100644
+index 28ff766..51a218c 100644
 --- a/arch/arc/kernel/mcip.c
 +++ b/arch/arc/kernel/mcip.c
-@@ -11,6 +11,7 @@
- #include <linux/smp.h>
- #include <linux/irq.h>
- #include <linux/spinlock.h>
-+#include <linux/irqdomain.h>
- #include <asm/irqflags-arcv2.h>
- #include <asm/mcip.h>
- #include <asm/setup.h>
-@@ -22,8 +23,8 @@ static DEFINE_RAW_SPINLOCK(mcip_lock);
+@@ -220,16 +220,14 @@ static struct irq_chip idu_irq_chip = {
  
- static void mcip_setup_per_cpu(int cpu)
+ };
+ 
+-static int idu_first_irq;
++static irq_hw_number_t idu_first_hwirq;
+ 
+ static void idu_cascade_isr(struct irq_desc *desc)
  {
--	smp_ipi_irq_setup(cpu, IPI_IRQ);
--	smp_ipi_irq_setup(cpu, SOFTIRQ_IRQ);
-+	smp_ipi_irq_setup(cpu, irq_find_mapping(NULL, IPI_IRQ));
-+	smp_ipi_irq_setup(cpu, irq_find_mapping(NULL, SOFTIRQ_IRQ));
+-	struct irq_domain *domain = irq_desc_get_handler_data(desc);
+-	unsigned int core_irq = irq_desc_get_irq(desc);
+-	unsigned int idu_irq;
+-
+-	idu_irq = core_irq - idu_first_irq;
+-	generic_handle_irq(irq_find_mapping(domain, idu_irq));
++	struct irq_domain *idu_domain = irq_desc_get_handler_data(desc);
++	irq_hw_number_t core_hwirq = irqd_to_hwirq(irq_desc_get_irq_data(desc));
++	irq_hw_number_t idu_hwirq = core_hwirq - idu_first_hwirq;
++	generic_handle_irq(irq_find_mapping(idu_domain, idu_hwirq));
  }
  
- static void mcip_ipi_send(int cpu)
-diff --git a/arch/arc/plat-eznps/smp.c b/arch/arc/plat-eznps/smp.c
-index 5e901f8..dd996e0 100644
---- a/arch/arc/plat-eznps/smp.c
-+++ b/arch/arc/plat-eznps/smp.c
-@@ -134,7 +134,7 @@ static void eznps_ipi_send(int cpu)
+ static int idu_irq_map(struct irq_domain *d, unsigned int virq, irq_hw_number_t hwirq)
+@@ -295,7 +293,7 @@ idu_of_init(struct device_node *intc, struct device_node *parent)
+ 	struct irq_domain *domain;
+ 	/* Read IDU BCR to confirm nr_irqs */
+ 	int nr_irqs = of_irq_count(intc);
+-	int i, irq;
++	int i, virq;
  
- static void eznps_init_per_cpu(int cpu)
- {
--	smp_ipi_irq_setup(cpu, NPS_IPI_IRQ);
-+	smp_ipi_irq_setup(cpu, irq_find_mapping(NULL, NPS_IPI_IRQ));
+ 	if (!idu_detected)
+ 		panic("IDU not detected, but DeviceTree using it");
+@@ -313,11 +311,11 @@ idu_of_init(struct device_node *intc, struct device_node *parent)
+ 		 * however we need it to get the parent virq and set IDU handler
+ 		 * as first level isr
+ 		 */
+-		irq = irq_of_parse_and_map(intc, i);
++		virq = irq_of_parse_and_map(intc, i);
+ 		if (!i)
+-			idu_first_irq = irq;
++			idu_first_hwirq = irqd_to_hwirq(irq_get_irq_data(virq));
  
- 	eznps_init_core(cpu);
- 	mtm_enable_core(cpu);
+-		irq_set_chained_handler_and_data(irq, idu_cascade_isr, domain);
++		irq_set_chained_handler_and_data(virq, idu_cascade_isr, domain);
+ 	}
+ 
+ 	__mcip_cmd(CMD_IDU_ENABLE, 0);
 -- 
 2.7.4
