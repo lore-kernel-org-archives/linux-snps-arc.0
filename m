@@ -1,57 +1,83 @@
-From: Ramiro.Oliveira@synopsys.com (Ramiro Oliveira)
-Date: Fri, 21 Oct 2016 15:56:25 +0100
-Subject: [PATCH v2] drm/arcpgu: Accommodate adv7511 switch to DRM bridge
+From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
+Date: Fri, 21 Oct 2016 22:00:49 +0300
+Subject: [PATCH] dmaengine: DW DMAC: split pdata to hardware properties
+ and platform quirks
+In-Reply-To: <1476969404.2882.26.camel@synopsys.com>
+References: <1473945253-16649-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1476960501.3693.19.camel@linux.intel.com>
+ <1476969404.2882.26.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <121c0f99-7262-fc75-876d-bb9c27a4e25e@synopsys.com>
+Message-ID: <1477076449.6423.14.camel@linux.intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/19/2016 01:16 PM, Eugeniy Paltsev wrote:
-> ARC PGU driver starts crashing on initialization after
-> 'commit e12c2f645557 ("drm/i2c: adv7511: Convert to drm_bridge")'
-> This happenes because in "arcpgu_drm_hdmi_init" function we get pointer
-> of "drm_i2c_encoder_driver" structure, which doesn't exist after
-> adv7511 hdmi encoder interface changed from slave encoder to drm bridge.
-> So, when we call "encoder_init" function from this structure driver
-> crashes.
-> 
-> Bootlog:
-> ------------------------------------->8--------------------------------
-> [drm] Initialized drm 1.1.0 20060810
-> arcpgu e0017000.pgu: arc_pgu ID: 0xabbabaab
-> arcpgu e0017000.pgu: assigned reserved memory node frame_buffer at 9e000000
-> Path: (null)
-> CPU: 0 PID: 1 Comm: swapper Not tainted 4.8.0-00001-gb5642252fa01-dirty #8
-> task: 9a058000 task.stack: 9a032000
-> 
-> [ECR   ]: 0x00220100 => Invalid Read @ 0x00000004 by insn @ 0x803934e8
-> [EFA   ]: 0x00000004
-> [BLINK ]: drm_atomic_helper_connector_dpms+0xa6/0x230
-> [ERET  ]: drm_atomic_helper_connector_dpms+0xa4/0x230
-> [STAT32]: 0x00000846 : K DE       E2 E1
-> BTA: 0x8016d949  SP: 0x9a033e34  FP: 0x00000000
-> LPS: 0x8036f6fc LPE: 0x8036f700 LPC: 0x00000000
-> r00: 0x8063c118 r01: 0x805b98ac r02: 0x00000b11
-> r03: 0x00000000 r04: 0x9a010f54 r05: 0x00000000
-> r06: 0x00000001 r07: 0x00000000 r08: 0x00000028
-> r09: 0x00000001 r10: 0x00000007 r11: 0x00000054
-> r12: 0x720a3033
-> 
-> Stack Trace:
->   drm_atomic_helper_connector_dpms+0xa4/0x230
->   arcpgu_drm_hdmi_init+0xbc/0x228
->   arcpgu_probe+0x168/0x244
->   platform_drv_probe+0x26/0x64
->   really_probe+0x1f0/0x32c
->   __driver_attach+0xa8/0xd0
->   bus_for_each_dev+0x3c/0x74
->   bus_add_driver+0xc2/0x184
->   driver_register+0x50/0xec
->   do_one_initcall+0x3a/0x120
->   kernel_init_freeable+0x108/0x1a0
-> ------------------------------------->8--------------------------------
-> 
-> Fix ARC PGU driver to be able work with drm bridge hdmi encoder
-> interface. The hdmi connector code isn't needed anymore as we expect
-> the adv7511 bridge driver to create/manage the connector.
+On Thu, 2016-10-20@13:16 +0000, Eugeniy Paltsev wrote:
+> On Thu, 2016-10-20@13:48 +0300, Andy Shevchenko wrote:
+> > On Thu, 2016-09-15@16:14 +0300, Eugeniy Paltsev wrote:
+> > > 
+> > > This patch is to address a proposal by Andy in this thread:
+> > > http://www.spinics.net/lists/dmaengine/msg10754.html
+> > > Split platform data to actual hardware properties, and platform
+> > > quirks.
+> > > Now we able to use quirks and hardware properties separately from
+> > > different sources (pdata, device tree or autoconfig registers)
 
-Tested-by: Ramiro Oliveira <Ramiro.Oliveira at synopsys.com>
+
+> > -	if (!chip->pdata) {
+> > > +	if ((!chip->pdata) ||
+> > > +	???(chip->pdata && test_bit(QUIRKS_ONLY_USED, &chip-
+> > > > pdata-
+> > 
+> > I don't think you need atomic test / set of those bits.
+> 
+> I don't need?atomic bit operations here, I just used standard bit API
+> to make code more clear.
+
+I gave more thoughts to that and I think we would leave boolean
+variables in platform data. It would be cleaner for users how they
+defined quirks. Besides that any additional quirk or modification of the
+existing one will produce simple and readable change.
+
+> 
+> > > +		?*/
+> > > +		if (!chip->pdata) {
+> > > +			set_bit(QUIRKS_IS_PRIVATE, &pdata-
+> > > > quirks);
+> > > 
+> > > +			set_bit(QUIRKS_IS_MEMCPY, &pdata-
+> > > >quirks);
+> > > +			set_bit(QUIRKS_IS_NOLLP, &pdata->quirks);
+>>> +		} else {
+> > > +			pdata->quirks = chip->pdata->quirks;
+> > > +		}
+
+Ditto.
+
+> > > @@ -1569,7 +1576,7 @@ int dw_dma_probe(struct dw_dma_chip *chip)
+> > > ?				(dwc_params >> DWC_PARAMS_MBLK_EN
+> > > &
+> > > 0x1) == 0;
+> > > ?		} else {
+> > > ?			dwc->block_size = pdata->block_size;
+> > > -			dwc->nollp = pdata->is_nollp;
+> > > +			dwc->nollp = test_bit(QUIRKS_IS_NOLLP,
+> > > &pdata->quirks);
+> > 
+> > Perhaps you need another patch which actually moves nollp to dwc-
+> > > flags.
+> 
+> As I can see, we already have?DW_DMA_IS_SOFT_LLP flag in "dwc->flags"
+> with same functionality, which is set if "dwc->nollp" is true.
+> Probably
+> we can use this flag and get rid of "dwc->nollp".
+> But I'm a bit confused why we clear DW_DMA_IS_SOFT_LLP bit in
+> "dwc_scan_descriptors" and "dwc_terminate_all" functions.
+> Any ideas about that?
+
+Sounds like a plan. I think you are right, the property quite unlikely
+can be changed run-time (though I have one patch regarding Braswell and
+CherryView platforms that have a chicken bit to enable / disable the
+feature). So, please, get rid of an additional boolean field.
+
+-- 
+Andy Shevchenko <andriy.shevchenko at linux.intel.com>
+Intel Finland Oy
