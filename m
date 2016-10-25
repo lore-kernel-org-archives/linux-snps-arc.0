@@ -1,102 +1,37 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 25 Oct 2016 11:28:15 -0700
-Subject: [PATCH v2 4/5] ARC: MCIP: Set an initial affinity value in
- idu_irq_map
-In-Reply-To: <1477313194-2310-4-git-send-email-yuriy.kolerov@synopsys.com>
-References: <1477313194-2310-1-git-send-email-yuriy.kolerov@synopsys.com>
- <1477313194-2310-4-git-send-email-yuriy.kolerov@synopsys.com>
+From: alexander.h.duyck@intel.com (Alexander Duyck)
+Date: Tue, 25 Oct 2016 11:37:09 -0400
+Subject: [net-next PATCH 04/27] arch/arc: Add option to skip sync on DMA
+ mapping
+In-Reply-To: <20161025153220.4815.61239.stgit@ahduyck-blue-test.jf.intel.com>
+References: <20161025153220.4815.61239.stgit@ahduyck-blue-test.jf.intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <39eae1ef-85d1-6dfb-b9fc-a052012c1fbf@synopsys.com>
+Message-ID: <20161025153709.4815.82720.stgit@ahduyck-blue-test.jf.intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/24/2016 05:46 AM, Yuriy Kolerov wrote:
-> Originally an initial distribution mode (its value resides in Device Tree)
-> for each common interrupt is set in idu_irq_xlate. This leads to the
-> following problems. idu_irq_xlate may be called several times during parsing
-> of the Device Tree and it is semantically wrong to configure an initial
-> distribution mode here. Also a value of affinity (CPUs bitmap) is not saved
-> to irq_desc structure for the virq - later (after parsing of the DT) kernel
-> sees that affinity is not set and sets a default value of affinity (all
-> cores in round robin mode). As a result a value of affinity from Device
-> Tree is ignored.
-> 
-> To fix it I created a buffer for initial CPUs bitmaps from Device Tree.
-> In idu_irq_xlate those bitmaps are saved to the buffer. Then affinity
-> for virq is set manually in idu_irq_map. It works because idu_irq_xlate
-> is always called before idu_irq_map.
-> 
-> Despite the fact that it works I think that it must be rewritten to
-> eliminate usage of the buffer and move all logic to idu_irq_map but
-> I do not know how to do it correctly.
-> 
-> Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
-> ---
->  arch/arc/kernel/mcip.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-> index 51a218c..090f0a1 100644
-> --- a/arch/arc/kernel/mcip.c
-> +++ b/arch/arc/kernel/mcip.c
-> @@ -12,12 +12,15 @@
->  #include <linux/irq.h>
->  #include <linux/spinlock.h>
->  #include <linux/irqdomain.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/cpumask.h>
->  #include <asm/irqflags-arcv2.h>
->  #include <asm/mcip.h>
->  #include <asm/setup.h>
->  
->  static char smp_cpuinfo_buf[128];
->  static int idu_detected;
-> +static unsigned long idu_cirq_to_dest[CONFIG_ARC_NUMBER_OF_INTERRUPTS];
->  
->  static DEFINE_RAW_SPINLOCK(mcip_lock);
->  
-> @@ -232,9 +235,15 @@ static void idu_cascade_isr(struct irq_desc *desc)
->  
->  static int idu_irq_map(struct irq_domain *d, unsigned int virq, irq_hw_number_t hwirq)
->  {
-> +	cpumask_t mask;
-> +
->  	irq_set_chip_and_handler(virq, &idu_irq_chip, handle_level_irq);
->  	irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
->  
-> +	cpumask_clear(&mask);
-> +	cpumask_bits(&mask)[0] |= idu_cirq_to_dest[hwirq];
-> +	irq_set_affinity(virq, &mask);
-> +
->  	return 0;
->  }
->  
-> @@ -252,8 +261,7 @@ static int idu_irq_xlate(struct irq_domain *d, struct device_node *n,
->  	if (distri == 0) {
->  		/* 0 - Round Robin to all cpus, otherwise 1 bit per core */
->  		raw_spin_lock_irqsave(&mcip_lock, flags);
-> -		idu_set_dest(hwirq, BIT(num_online_cpus()) - 1);
-> -		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_RR);
-> +		idu_cirq_to_dest[hwirq] = BIT(num_online_cpus()) - 1;
->  		raw_spin_unlock_irqrestore(&mcip_lock, flags);
->  	} else {
->  		/*
-> @@ -267,8 +275,7 @@ static int idu_irq_xlate(struct irq_domain *d, struct device_node *n,
->  				hwirq, cpu);
->  
->  		raw_spin_lock_irqsave(&mcip_lock, flags);
-> -		idu_set_dest(hwirq, cpu);
-> -		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_DEST);
-> +		idu_cirq_to_dest[hwirq] = cpu;
->  		raw_spin_unlock_irqrestore(&mcip_lock, flags);
->  	}
-> 
+This change allows us to pass DMA_ATTR_SKIP_CPU_SYNC which allows us to
+avoid invoking cache line invalidation if the driver will just handle it
+later via a sync_for_cpu or sync_for_device call.
 
-So I missed this part - you are not touching the hardware here at all - and so we
-don't really need the spin lock check. Nevertheless, as you said off list, this
-patch is more of a hack and we really need to find a saner way of doing this !
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
+---
+ arch/arc/mm/dma.c |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-@Marc, @tglx any guidance here - changelog at the top has the motivation for this
-hack !
-
-Thx,
--Vineet
+diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
+index 20afc65..6303c34 100644
+--- a/arch/arc/mm/dma.c
++++ b/arch/arc/mm/dma.c
+@@ -133,7 +133,10 @@ static dma_addr_t arc_dma_map_page(struct device *dev, struct page *page,
+ 		unsigned long attrs)
+ {
+ 	phys_addr_t paddr = page_to_phys(page) + offset;
+-	_dma_cache_sync(paddr, size, dir);
++
++	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
++		_dma_cache_sync(paddr, size, dir);
++
+ 	return plat_phys_to_dma(dev, paddr);
+ }
+ 
