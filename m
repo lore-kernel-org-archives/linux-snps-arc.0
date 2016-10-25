@@ -1,236 +1,89 @@
-From: shorne@gmail.com (Stafford Horne)
-Date: Tue, 25 Oct 2016 21:51:09 +0900 (JST)
-Subject: [PATCH] asm-generic: Drop getrlimit and setrlimit syscalls from
- default list
-In-Reply-To: <CAFiDJ59PdOiqiF8wFVFrkB4k0B6S5cTGVQPUpdjZ=83iv7GQag@mail.gmail.com>
-References: <1477138444-14993-1-git-send-email-ynorov@caviumnetworks.com>
- <20161024090931.GR7370@jhogan-linux.le.imgtec.org>
- <CAFiDJ59PdOiqiF8wFVFrkB4k0B6S5cTGVQPUpdjZ=83iv7GQag@mail.gmail.com>
+From: Yuriy.Kolerov@synopsys.com (Yuriy Kolerov)
+Date: Tue, 25 Oct 2016 17:26:04 +0000
+Subject: [PATCH v2 1/5] ARC: SMP: Use "unsigned virq" in
+ smp_ipi_irq_setup instead of "signed irq"
+In-Reply-To: <ceff7ce9-4de3-f0f4-61b9-1afdb3e837a0@synopsys.com>
+References: <1477313194-2310-1-git-send-email-yuriy.kolerov@synopsys.com>
+ <ceff7ce9-4de3-f0f4-61b9-1afdb3e837a0@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.LFD.2.20.1610252150280.3778@lianli.shorne-pla.net>
+Message-ID: <3ABF60118B9B784CA5BF7C841D2F00EC010185E9@de02wembxa.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
+Hi Vineet,
 
+Yes, I agree with you and I will squash these patches.
 
-On Tue, 25 Oct 2016, Ley Foon Tan wrote:
-
-> On Mon, Oct 24, 2016@5:09 PM, James Hogan <james.hogan@imgtec.com> wrote:
->> On Sat, Oct 22, 2016@03:14:04PM +0300, Yury Norov wrote:
->>> The newer prlimit64 syscall provides all the functionality provided by
->>> the getrlimit and setrlimit syscalls and adds the pid of target process,
->>> so future architectures won't need to include getrlimit and setrlimit.
->>>
->>> Therefore drop getrlimit and setrlimit syscalls from the generic syscall
->>> list unless __ARCH_WANT_SET_GET_RLIMIT is defined by the architecture's
->>> unistd.h prior to including asm-generic/unistd.h, and adjust all
->>> architectures using the generic syscall list to define it so that no
->>> in-tree architectures are affected.
->>>
->>> Cc: Vineet Gupta <vgupta at synopsys.com>
->>> Cc: Catalin Marinas <catalin.marinas at arm.com>
->>> Cc: Will Deacon <will.deacon at arm.com>
->>> Cc: Mark Salter <msalter at redhat.com>
->>> Cc: Aurelien Jacquiot <a-jacquiot at ti.com>
->>> Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
->>> Cc: Richard Kuo <rkuo at codeaurora.org>
->>> Cc: James Hogan <james.hogan at imgtec.com>
->>> Cc: Ley Foon Tan <lftan at altera.com>
->>> Cc: Jonas Bonn <jonas at southpole.se>
->>> Cc: Chen Liqin <liqin.linux at gmail.com>
->>> Cc: Lennox Wu <lennox.wu at gmail.com>
->>> Cc: Chris Metcalf <cmetcalf at mellanox.com>
->>> Cc: Guan Xuetao <gxt at mprc.pku.edu.cn>
->>> Cc: Arnd Bergmann <arnd at arndb.de>
->>> Cc: Andrew Pinski <Andrew.Pinski at cavium.com>
->>> Cc: linux-snps-arc at lists.infradead.org
->>> Cc: linux-kernel at vger.kernel.org
->>> Cc: linux-arm-kernel at lists.infradead.org
->>> Cc: linux-c6x-dev at linux-c6x.org
->>> Cc: uclinux-h8-devel at lists.sourceforge.jp
->>> Cc: linux-hexagon at vger.kernel.org
->>> Cc: linux-metag at vger.kernel.org
->>> Cc: nios2-dev at lists.rocketboards.org
->>> Cc: linux-arch at vger.kernel.or
->>> Signed-off-by: Yury Norov <ynorov at caviumnetworks.com>
->>>
->>> ---
->>>  arch/arc/include/uapi/asm/unistd.h       | 1 +
->>>  arch/arm64/include/uapi/asm/unistd.h     | 1 +
->>>  arch/c6x/include/uapi/asm/unistd.h       | 1 +
->>>  arch/h8300/include/uapi/asm/unistd.h     | 1 +
->>>  arch/hexagon/include/uapi/asm/unistd.h   | 1 +
->>>  arch/metag/include/uapi/asm/unistd.h     | 1 +
->>
->> Acked-by: James Hogan <james.hogan at imgtec.com> [metag]
->>
->> Cheers
->> James
->>
->>>  arch/nios2/include/uapi/asm/unistd.h     | 1 +
-> Acked-by: Ley Foon Tan <lftan at altera.com> [nios2]
->
->
->>>  arch/openrisc/include/uapi/asm/unistd.h  | 1 +
-
-Acked-by: Stafford Horne <shorne at gmail.com> [openrisc]
-
->>>  arch/score/include/uapi/asm/unistd.h     | 1 +
->>>  arch/tile/include/uapi/asm/unistd.h      | 1 +
->>>  arch/unicore32/include/uapi/asm/unistd.h | 1 +
->>>  include/uapi/asm-generic/unistd.h        | 5 +++++
->>>  12 files changed, 16 insertions(+)
->>>
->>> diff --git a/arch/arc/include/uapi/asm/unistd.h b/arch/arc/include/uapi/asm/unistd.h
->>> index 41fa2ec..928546d 100644
->>> --- a/arch/arc/include/uapi/asm/unistd.h
->>> +++ b/arch/arc/include/uapi/asm/unistd.h
->>> @@ -16,6 +16,7 @@
->>>  #define _UAPI_ASM_ARC_UNISTD_H
->>>
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>  #define __ARCH_WANT_SYS_EXECVE
->>>  #define __ARCH_WANT_SYS_CLONE
->>>  #define __ARCH_WANT_SYS_VFORK
->>> diff --git a/arch/arm64/include/uapi/asm/unistd.h b/arch/arm64/include/uapi/asm/unistd.h
->>> index 043d17a..48355a6 100644
->>> --- a/arch/arm64/include/uapi/asm/unistd.h
->>> +++ b/arch/arm64/include/uapi/asm/unistd.h
->>> @@ -15,5 +15,6 @@
->>>   */
->>>
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>
->>>  #include <asm-generic/unistd.h>
->>> diff --git a/arch/c6x/include/uapi/asm/unistd.h b/arch/c6x/include/uapi/asm/unistd.h
->>> index 12d73d9..f676231 100644
->>> --- a/arch/c6x/include/uapi/asm/unistd.h
->>> +++ b/arch/c6x/include/uapi/asm/unistd.h
->>> @@ -15,6 +15,7 @@
->>>   */
->>>
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>  #define __ARCH_WANT_SYS_CLONE
->>>
->>>  /* Use the standard ABI for syscalls. */
->>> diff --git a/arch/h8300/include/uapi/asm/unistd.h b/arch/h8300/include/uapi/asm/unistd.h
->>> index 7dd20ef..2f98394 100644
->>> --- a/arch/h8300/include/uapi/asm/unistd.h
->>> +++ b/arch/h8300/include/uapi/asm/unistd.h
->>> @@ -1,5 +1,6 @@
->>>  #define __ARCH_NOMMU
->>>
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>
->>>  #include <asm-generic/unistd.h>
->>> diff --git a/arch/hexagon/include/uapi/asm/unistd.h b/arch/hexagon/include/uapi/asm/unistd.h
->>> index 2151760..52d585c 100644
->>> --- a/arch/hexagon/include/uapi/asm/unistd.h
->>> +++ b/arch/hexagon/include/uapi/asm/unistd.h
->>> @@ -28,6 +28,7 @@
->>>
->>>  #define sys_mmap2 sys_mmap_pgoff
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>  #define __ARCH_WANT_SYS_EXECVE
->>>  #define __ARCH_WANT_SYS_CLONE
->>>  #define __ARCH_WANT_SYS_VFORK
->>> diff --git a/arch/metag/include/uapi/asm/unistd.h b/arch/metag/include/uapi/asm/unistd.h
->>> index 459b6ec..16b5cb3 100644
->>> --- a/arch/metag/include/uapi/asm/unistd.h
->>> +++ b/arch/metag/include/uapi/asm/unistd.h
->>> @@ -8,6 +8,7 @@
->>>   */
->>>
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>
->>>  /* Use the standard ABI for syscalls. */
->>>  #include <asm-generic/unistd.h>
->>> diff --git a/arch/nios2/include/uapi/asm/unistd.h b/arch/nios2/include/uapi/asm/unistd.h
->>> index 51a32c7..b0dda4d 100644
->>> --- a/arch/nios2/include/uapi/asm/unistd.h
->>> +++ b/arch/nios2/include/uapi/asm/unistd.h
->>> @@ -18,6 +18,7 @@
->>>   #define sys_mmap2 sys_mmap_pgoff
->>>
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>
->>>  /* Use the standard ABI for syscalls */
->>>  #include <asm-generic/unistd.h>
->>> diff --git a/arch/openrisc/include/uapi/asm/unistd.h b/arch/openrisc/include/uapi/asm/unistd.h
->>> index 471905b..6812d81 100644
->>> --- a/arch/openrisc/include/uapi/asm/unistd.h
->>> +++ b/arch/openrisc/include/uapi/asm/unistd.h
->>> @@ -21,6 +21,7 @@
->>>  #define sys_mmap2 sys_mmap_pgoff
->>>
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>  #define __ARCH_WANT_SYS_FORK
->>>  #define __ARCH_WANT_SYS_CLONE
->>>
->>> diff --git a/arch/score/include/uapi/asm/unistd.h b/arch/score/include/uapi/asm/unistd.h
->>> index d4008c3..7ad1bdc 100644
->>> --- a/arch/score/include/uapi/asm/unistd.h
->>> +++ b/arch/score/include/uapi/asm/unistd.h
->>> @@ -1,6 +1,7 @@
->>>  #define __ARCH_HAVE_MMU
->>>
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>  #define __ARCH_WANT_SYSCALL_NO_AT
->>>  #define __ARCH_WANT_SYSCALL_NO_FLAGS
->>>  #define __ARCH_WANT_SYSCALL_OFF_T
->>> diff --git a/arch/tile/include/uapi/asm/unistd.h b/arch/tile/include/uapi/asm/unistd.h
->>> index 24e9187..cf0505f 100644
->>> --- a/arch/tile/include/uapi/asm/unistd.h
->>> +++ b/arch/tile/include/uapi/asm/unistd.h
->>> @@ -13,6 +13,7 @@
->>>   */
->>>
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>  #if !defined(__LP64__) || defined(__SYSCALL_COMPAT)
->>>  /* Use the flavor of this syscall that matches the 32-bit API better. */
->>>  #define __ARCH_WANT_SYNC_FILE_RANGE2
->>> diff --git a/arch/unicore32/include/uapi/asm/unistd.h b/arch/unicore32/include/uapi/asm/unistd.h
->>> index 1f63c47..ef25aec 100644
->>> --- a/arch/unicore32/include/uapi/asm/unistd.h
->>> +++ b/arch/unicore32/include/uapi/asm/unistd.h
->>> @@ -11,6 +11,7 @@
->>>   */
->>>
->>>  #define __ARCH_WANT_RENAMEAT
->>> +#define __ARCH_WANT_SET_GET_RLIMIT
->>>
->>>  /* Use the standard ABI for syscalls. */
->>>  #include <asm-generic/unistd.h>
->>> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
->>> index 9b1462e..bbaeac0 100644
->>> --- a/include/uapi/asm-generic/unistd.h
->>> +++ b/include/uapi/asm-generic/unistd.h
->>> @@ -465,10 +465,15 @@ __SYSCALL(__NR_uname, sys_newuname)
->>>  __SYSCALL(__NR_sethostname, sys_sethostname)
->>>  #define __NR_setdomainname 162
->>>  __SYSCALL(__NR_setdomainname, sys_setdomainname)
->>> +
->>> +#ifdef __ARCH_WANT_SET_GET_RLIMIT
->>> +/* getrlimit and setrlimit are superseded with prlimit64 */
->>>  #define __NR_getrlimit 163
->>>  __SC_COMP(__NR_getrlimit, sys_getrlimit, compat_sys_getrlimit)
->>>  #define __NR_setrlimit 164
->>>  __SC_COMP(__NR_setrlimit, sys_setrlimit, compat_sys_setrlimit)
->>> +#endif
->>> +
->>>  #define __NR_getrusage 165
->>>  __SC_COMP(__NR_getrusage, sys_getrusage, compat_sys_getrusage)
->>>  #define __NR_umask 166
->>> --
->>> 2.7.4
->>>
->
+> -----Original Message-----
+> From: Vineet Gupta [mailto:vgupta at synopsys.com]
+> Sent: Tuesday, October 25, 2016 5:29 AM
+> To: Yuriy Kolerov <yuriy.kolerov at synopsys.com>; linux-snps-
+> arc at lists.infradead.org
+> Cc: Alexey.Brodkin at synopsys.com; marc.zyngier at arm.com;
+> tglx at linutronix.de; linux-kernel at vger.kernel.org
+> Subject: Re: [PATCH v2 1/5] ARC: SMP: Use "unsigned virq" in
+> smp_ipi_irq_setup instead of "signed irq"
+> 
+> On 10/24/2016 05:46 AM, Yuriy Kolerov wrote:
+> > This function takes a cpu number and a virq number and registers an
+> > appropriate handler per cpu. However smp_ipi_irq_setup is incorrectly
+> > used in several places of ARC platform code - hwirq is passed instead
+> > of virq. This patch is intended to clarify declaration of virq
+> > argument to prevent passing of hwirq instead of virq in future.
+> >
+> > Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
+> > ---
+> >  arch/arc/include/asm/smp.h | 4 ++--
+> >  arch/arc/kernel/smp.c      | 8 ++++----
+> >  2 files changed, 6 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/arch/arc/include/asm/smp.h b/arch/arc/include/asm/smp.h
+> > index 89fdd1b..3ebebbc 100644
+> > --- a/arch/arc/include/asm/smp.h
+> > +++ b/arch/arc/include/asm/smp.h
+> > @@ -37,9 +37,9 @@ extern const char *arc_platform_smp_cpuinfo(void);
+> >   * API expected BY platform smp code (FROM arch smp code)
+> >   *
+> >   * smp_ipi_irq_setup:
+> > - *	Takes @cpu and @irq to which the arch-common ISR is hooked up
+> > + *	Takes @cpu and @virq to which the arch-common ISR is hooked up
+> 
+> If you agree to my comment on 2/5, then yeah change here to say hwirq, but
+> IMO this can be squashed with 2/5.
+> 
+> >   */
+> > -extern int smp_ipi_irq_setup(int cpu, int irq);
+> > +extern int smp_ipi_irq_setup(int cpu, unsigned int virq);
+> >
+> >  /*
+> >   * struct plat_smp_ops	- SMP callbacks provided by platform to ARC
+> SMP
+> > diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c index
+> > f183cc6..ec4d956 100644
+> > --- a/arch/arc/kernel/smp.c
+> > +++ b/arch/arc/kernel/smp.c
+> > @@ -351,7 +351,7 @@ irqreturn_t do_IPI(int irq, void *dev_id)
+> >   */
+> >  static DEFINE_PER_CPU(int, ipi_dev);
+> >
+> > -int smp_ipi_irq_setup(int cpu, int irq)
+> > +int smp_ipi_irq_setup(int cpu, unsigned int virq)
+> >  {
+> >  	int *dev = per_cpu_ptr(&ipi_dev, cpu);
+> >
+> > @@ -359,12 +359,12 @@ int smp_ipi_irq_setup(int cpu, int irq)
+> >  	if (!cpu) {
+> >  		int rc;
+> >
+> > -		rc = request_percpu_irq(irq, do_IPI, "IPI Interrupt", dev);
+> > +		rc = request_percpu_irq(virq, do_IPI, "IPI Interrupt", dev);
+> >  		if (rc)
+> > -			panic("Percpu IRQ request failed for %d\n", irq);
+> > +			panic("Percpu IRQ request failed for %d\n", virq);
+> >  	}
+> >
+> > -	enable_percpu_irq(irq, 0);
+> > +	enable_percpu_irq(virq, 0);
+> >
+> >  	return 0;
+> >  }
+> >
