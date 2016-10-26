@@ -1,54 +1,140 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 26 Oct 2016 10:21:46 -0700
-Subject: [PATCH v2 4/5] ARC: MCIP: Set an initial affinity value in
- idu_irq_map
-In-Reply-To: <861sz39iek.fsf@arm.com>
-References: <1477313194-2310-1-git-send-email-yuriy.kolerov@synopsys.com>
- <1477313194-2310-4-git-send-email-yuriy.kolerov@synopsys.com>
- <39eae1ef-85d1-6dfb-b9fc-a052012c1fbf@synopsys.com>
- <127dbe3b-c9a9-3718-a711-128505ee363f@arm.com>
- <e656b0e5-419e-7984-7b5d-2115955cef4b@synopsys.com> <861sz39iek.fsf@arm.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 26 Oct 2016 22:22:44 +0300
+Subject: [RFC] dma-mapping: fix dma_common_mmap() for ARC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <486a41ac-1bbf-c0f2-662e-3fea1d1f446b@synopsys.com>
+Message-ID: <1477509764-18370-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/26/2016 09:36 AM, Marc Zyngier wrote:
-> On Wed, Oct 26 2016@05:17:34 PM, Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
->> On 10/26/2016 07:05 AM, Marc Zyngier wrote:
->>> It definitely feels weird to encode the interrupt affinity in the DT
->>> (the kernel and possible userspace usually know much better than the
->>> firmware). What is the actual reason for storing the affinity there?
->>
->> The IDU intc supports various interrupt distribution modes (Round
->> Robin, send to one cpu only etc) whcih in turn map to affinity
->> setting. When doing the DT binding, we decided to add that this to DT
->> to get the "seed" value for affinity - which user could optionally
->> changed after boot. This seemed like a benign design choice at the
->> time.
-> 
-> Right. But is this initial setting something that the kernel has to
-> absolutely honor? 
+ARC CPU with enabled MMU sees entire 32-bit address space divided in 2
+big parts:
+ 1) 0 - 0x7fff_ffff (lower 2Gb): translated memory
+    I.e. all reads/writes from/to this region go through MMU and after
+    translation land somewhere in physical memory.
 
-Not necessarily.
+ 2) 0x8000_0000 - 0xffff_ffff: untranslated memory
+    ARC CPU in kernel mode accesses this memory directly, i.e. MMU is
+    not used at all.
+    One important note: data accesses in this region go through data
+    cache!
 
-> The usual behavior is to let kernel pick something
-> sensible, and let the user mess with it afterwards.
+If some peripheral wants to use DMA Linux kernel just allocates data
+buffer in upper 2Gb (i.e. above 0x8000_0000).
+In that case dma_addr = cpu_addr. Everything is simple.
 
-Right !
+But if a driver wants to allocate uncached buffer for DMA (very good
+example and that's how I actually caught the issue is DRM frame-buffer)
+things become a little-bit more complicated.
 
+Now kernel wants to write data in memory bypassing data cache.
+For that to happen we have to program MMU so that TLB entry gets
+"cached flag" reset for a particular page(s). And keeping in mind
+explanation above the only way to utilize MMU is to access data via
+lower part of address space. In other words we implement page mapping
+similarly to what we do for user-space, see:
+------------------------>8-----------------------
+arc_dma_alloc()
+  ioremap_nocache() AKA ioremap()
+    ioremap_prot()
+      get_vm_area() + ioremap_page_range() on obtained vaddr
+------------------------>8-----------------------
 
-> Is there any part of the kernel that would otherwise depend on this
-> affinity being set to a particular mode? If the answer is "none", then I
-> believe we can safely ignore that part of the binding (and maybe
-> deprecate it in the documentation).
+As a result we get TLB entry of the following kind:
+------------------------>8-----------------------
+    vaddr = 0x7200_0000
+    paddr = 0x8200_0000
+    flags = _uncached_
+------------------------>8-----------------------
 
-Not really. It was relevant for initial bring up of IDU software and hardware.
-e.g. checking that uart behind idu works fine in both modes for very first user
-mode prints, which is before you could make the init script cmds to change the
-affinity etc. But that bridge has long been crossed.
+Kerenl thinks frame buffer is located @ 0x7200_0000 and uses it
+perfectly fine.
 
-So agree that we will ignore the affinity settings from DT and deprecate the binding.
+But here comes a time for user-space application to request frame buffer
+to be mapped for it. That happens easily with the following call path:
+------------------------>8-----------------------
+fb_mmap()
+  drm_fb_cma_mmap()
+    dma_mmap_writecombine() AKA dma_mmap_wc()
+      dma_mmap_attrs()
+        dma_common_mmap() since we don't [yet] have dma_map_ops.mmap()
+                          for ARC
+------------------------>8-----------------------
 
-Thx for steering us in the right direction. Much appreciated.
+And in dma_common_mmap() we first calculate pfn of what we think is
+"physical page" and then do remap_pfn_range() to that "physical page".
 
--Vineet
+Here we're getting to the interesting thing - how pfn is calculated.
+As of now this is done as simple as:
+------------------------>8-----------------------
+    pfn = page_to_pfn(virt_to_page(cpu_addr));
+------------------------>8-----------------------
+
+Below is a nice set of defines we need to use to evaluate pfn:
+------------------------>8-----------------------
+ #define virt_to_pfn(kaddr)      (__pa(kaddr) >> PAGE_SHIFT)
+ #define virt_to_page(kaddr)     pfn_to_page(virt_to_pfn(kaddr))
+ #define page_to_pfn __page_to_pfn
+ #define pfn_to_page __pfn_to_page
+ #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+ #define __page_to_pfn(page)     ((unsigned long)((page) - mem_map) + \
+                                   ARCH_PFN_OFFSET)
+------------------------>8-----------------------
+
+If we do some obvious calculations we'll get:
+------------------------>8-----------------------
+    pfn = cpu_addr >> PAGE_SHIFT;
+------------------------>8-----------------------
+
+In our case cpu_addr here is 0x7200_0000 from TLB entry above and this
+what is used to create another TLB entry this time for user-space app.
+We'll get something like this:
+------------------------>8-----------------------
+    vaddr = 0x0200_0000
+    paddr = 0x7200_0000
+    flags = _uncached_
+------------------------>8-----------------------
+
+This is obviously wrong! We cannot map vaddr to vaddr with MMU.
+
+Simplest fix for ARC is to use dma_addr instead because it matches
+real physical memory address and so mapping for user-space we're
+getting then is this:
+------------------------>8-----------------------
+    vaddr = 0x0200_0000
+    paddr = 0x8200_0000
+    flags = _uncached_
+------------------------>8-----------------------
+And it works perfectly fine.
+
+But I'm pretty sure that's not the best approach for other
+architectures. Indeed we may create ARC-specific dma_map_ops.mmap()
+which only differs from dma_common_mmap() with addr being used
+but IMHO it's not the best idea to duplicate that much of code
+for such a simple change.
+
+Would be interesting to get more opinions on how to handle that thing in
+the most graceful way.
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Cc: Marek Szyprowski <m.szyprowski at samsung.com>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: linux-arch at vger.kernel.org
+---
+ drivers/base/dma-mapping.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/base/dma-mapping.c b/drivers/base/dma-mapping.c
+index 8f8b68c80986..16307eed453f 100644
+--- a/drivers/base/dma-mapping.c
++++ b/drivers/base/dma-mapping.c
+@@ -252,7 +252,7 @@ int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
+ #if defined(CONFIG_MMU) && !defined(CONFIG_ARCH_NO_COHERENT_DMA_MMAP)
+ 	unsigned long user_count = vma_pages(vma);
+ 	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+-	unsigned long pfn = page_to_pfn(virt_to_page(cpu_addr));
++	unsigned long pfn = page_to_pfn(virt_to_page(dma_addr));
+ 	unsigned long off = vma->vm_pgoff;
+ 
+ 	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+-- 
+2.7.4
