@@ -1,111 +1,26 @@
-From: marc.zyngier@arm.com (Marc Zyngier)
-Date: Wed, 26 Oct 2016 15:05:31 +0100
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 26 Oct 2016 09:17:34 -0700
 Subject: [PATCH v2 4/5] ARC: MCIP: Set an initial affinity value in
  idu_irq_map
-In-Reply-To: <39eae1ef-85d1-6dfb-b9fc-a052012c1fbf@synopsys.com>
+In-Reply-To: <127dbe3b-c9a9-3718-a711-128505ee363f@arm.com>
 References: <1477313194-2310-1-git-send-email-yuriy.kolerov@synopsys.com>
  <1477313194-2310-4-git-send-email-yuriy.kolerov@synopsys.com>
  <39eae1ef-85d1-6dfb-b9fc-a052012c1fbf@synopsys.com>
+ <127dbe3b-c9a9-3718-a711-128505ee363f@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <127dbe3b-c9a9-3718-a711-128505ee363f@arm.com>
+Message-ID: <e656b0e5-419e-7984-7b5d-2115955cef4b@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 25/10/16 19:28, Vineet Gupta wrote:
-> On 10/24/2016 05:46 AM, Yuriy Kolerov wrote:
->> Originally an initial distribution mode (its value resides in Device Tree)
->> for each common interrupt is set in idu_irq_xlate. This leads to the
->> following problems. idu_irq_xlate may be called several times during parsing
->> of the Device Tree and it is semantically wrong to configure an initial
->> distribution mode here. Also a value of affinity (CPUs bitmap) is not saved
->> to irq_desc structure for the virq - later (after parsing of the DT) kernel
->> sees that affinity is not set and sets a default value of affinity (all
->> cores in round robin mode). As a result a value of affinity from Device
->> Tree is ignored.
->>
->> To fix it I created a buffer for initial CPUs bitmaps from Device Tree.
->> In idu_irq_xlate those bitmaps are saved to the buffer. Then affinity
->> for virq is set manually in idu_irq_map. It works because idu_irq_xlate
->> is always called before idu_irq_map.
->>
->> Despite the fact that it works I think that it must be rewritten to
->> eliminate usage of the buffer and move all logic to idu_irq_map but
->> I do not know how to do it correctly.
->>
->> Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
->> ---
->>  arch/arc/kernel/mcip.c | 15 +++++++++++----
->>  1 file changed, 11 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
->> index 51a218c..090f0a1 100644
->> --- a/arch/arc/kernel/mcip.c
->> +++ b/arch/arc/kernel/mcip.c
->> @@ -12,12 +12,15 @@
->>  #include <linux/irq.h>
->>  #include <linux/spinlock.h>
->>  #include <linux/irqdomain.h>
->> +#include <linux/interrupt.h>
->> +#include <linux/cpumask.h>
->>  #include <asm/irqflags-arcv2.h>
->>  #include <asm/mcip.h>
->>  #include <asm/setup.h>
->>  
->>  static char smp_cpuinfo_buf[128];
->>  static int idu_detected;
->> +static unsigned long idu_cirq_to_dest[CONFIG_ARC_NUMBER_OF_INTERRUPTS];
->>  
->>  static DEFINE_RAW_SPINLOCK(mcip_lock);
->>  
->> @@ -232,9 +235,15 @@ static void idu_cascade_isr(struct irq_desc *desc)
->>  
->>  static int idu_irq_map(struct irq_domain *d, unsigned int virq, irq_hw_number_t hwirq)
->>  {
->> +	cpumask_t mask;
->> +
->>  	irq_set_chip_and_handler(virq, &idu_irq_chip, handle_level_irq);
->>  	irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
->>  
->> +	cpumask_clear(&mask);
->> +	cpumask_bits(&mask)[0] |= idu_cirq_to_dest[hwirq];
->> +	irq_set_affinity(virq, &mask);
->> +
->>  	return 0;
->>  }
->>  
->> @@ -252,8 +261,7 @@ static int idu_irq_xlate(struct irq_domain *d, struct device_node *n,
->>  	if (distri == 0) {
->>  		/* 0 - Round Robin to all cpus, otherwise 1 bit per core */
->>  		raw_spin_lock_irqsave(&mcip_lock, flags);
->> -		idu_set_dest(hwirq, BIT(num_online_cpus()) - 1);
->> -		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_RR);
->> +		idu_cirq_to_dest[hwirq] = BIT(num_online_cpus()) - 1;
->>  		raw_spin_unlock_irqrestore(&mcip_lock, flags);
->>  	} else {
->>  		/*
->> @@ -267,8 +275,7 @@ static int idu_irq_xlate(struct irq_domain *d, struct device_node *n,
->>  				hwirq, cpu);
->>  
->>  		raw_spin_lock_irqsave(&mcip_lock, flags);
->> -		idu_set_dest(hwirq, cpu);
->> -		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_DEST);
->> +		idu_cirq_to_dest[hwirq] = cpu;
->>  		raw_spin_unlock_irqrestore(&mcip_lock, flags);
->>  	}
->>
-> 
-> So I missed this part - you are not touching the hardware here at all - and so we
-> don't really need the spin lock check. Nevertheless, as you said off list, this
-> patch is more of a hack and we really need to find a saner way of doing this !
-> 
-> @Marc, @tglx any guidance here - changelog at the top has the motivation for this
-> hack !
+On 10/26/2016 07:05 AM, Marc Zyngier wrote:
+> It definitely feels weird to encode the interrupt affinity in the DT
+> (the kernel and possible userspace usually know much better than the
+> firmware). What is the actual reason for storing the affinity there?
 
-It definitely feels weird to encode the interrupt affinity in the DT
-(the kernel and possible userspace usually know much better than the
-firmware). What is the actual reason for storing the affinity there?
+The IDU intc supports various interrupt distribution modes (Round Robin, send to
+one cpu only etc) whcih in turn map to affinity setting. When doing the DT
+binding, we decided to add that this to DT to get the "seed" value for affinity -
+which user could optionally changed after boot. This seemed like a benign design
+choice at the time.
 
-Thanks,
-
-	M.
--- 
-Jazz is not dead. It just smells funny...
+Thx,
+-Vineet
