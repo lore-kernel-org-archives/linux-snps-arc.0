@@ -1,56 +1,107 @@
-From: vgupta@synopsys.com (Vineet Gupta)
-Date: Thu, 27 Oct 2016 10:21:16 -0700
-Subject: Build regressions/improvements in v4.9-rc1
-In-Reply-To: <1477561144.2561.19.camel@synopsys.com>
-References: <1476688913-15648-1-git-send-email-geert@linux-m68k.org>
- <CAMuHMdVety8LeBgM1ZHfqw=NMjH5_=sQR=LLypQ1-YjxnuvaiQ@mail.gmail.com>
- <00b16c44-79b8-43b8-6516-13c8bb92eb03@synopsys.com>
- <5541266.ySlPfDOezF@wuerfel>
- <9a0f80b3-adb3-36de-d59f-885ac29ea2e6@synopsys.com>
- <87inso4kxb.fsf@concordia.ellerman.id.au>
- <1476879762.26312.12.camel@synopsys.com>
- <87shriwtpp.fsf@concordia.ellerman.id.au>
- <20161027090722.3ba2badc@free-electrons.com>
- <1477559240.2561.8.camel@synopsys.com>
- <20161027111118.5c585d51@free-electrons.com>
- <CAMuHMdUER2iSdACaU6uEO=122XyBPiVyKn3gW_uJJr2xbJMHYw@mail.gmail.com>
- <1477561144.2561.19.camel@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Thu, 27 Oct 2016 18:39:51 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Fri Oct 28, 05:39
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <dd827f68-2ad1-8193-53cd-ce7e9ac8eeb6@synopsys.com>
+Message-ID: <20161027183951.1.78855@8e2d6d7be827>
 To: linux-snps-arc@lists.infradead.org
 
-+CC Claudiu
+OK linus/axs103_smp_defconfig/arcv2 Fri Oct 28, 05:39
 
-On 10/27/2016 02:39 AM, Alexey Brodkin wrote:
->
-> And these are functions required by U-Boot (most probably the same is applied to kernel):
-> 1) so-called millicode, stuff like __ld_rX_to_rY, __st_rX_to_rX
+http://kisskb.ellerman.id.au/kisskb/buildresult/12843293/
 
-This kicks in only at -Os and even there can be inhibited with a toggle.
-I don't like it anyways, seems like a costly contraption in terms of microarch
-cost of 2 extra long branches for both prologue and epilogue.
+Commit:   Merge branch 'for-linus' of git://git.kernel.dk/linux-block
+          9c953d639c2fb97e4e96f7398acbf4b675713b76
+Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824
 
-> 2) shifts: __ashldi3, __ashrdi3, __lshrdi3, 
-> 3) divisions: udivmodsi4, __divsi3, __modsi3, __udivsi3, __umodsi3
+Possible errors
+---------------
 
-Note that this list is not constant. I recently had to export another libgcc
-symbol for modules, when a customer switched to ARC gnu 2016.03 for supposedly
-building the same kernel code.
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
 
-> Indeed it is possible to have so-called private libgcc in kernel as well but
-> benefit will be only for people building kernels but not user-space because
-> in absence of multilibbed toolchain 2 separate toolchains will be required anyways.
+Possible warnings (81)
+----------------------
 
-True, but a lot of people only care about builds (and not actually run), so for
-them having to carry only one toolchain is an improvement.
-
-> Still we'll have to pay an additional maintenance price to keep kernel's libgcc in
-> sync with the one from gcc.
-
-True, but libgcc math emulation is likely one off thing. GNU folks will write them
-once and we use a snapshot - syncing back changes - if any around major gnu releases.
-
-So I'm tending to include the libgcc code in kernel. @Arnd, @Claudiu do you know
-of any potential licensing issues ?
-
--Vineet
+kernel/sched/core.c:3292:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+mm/percpu.c:890:14: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:890:14: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+mm/percpu.c:1457:27: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1457:32: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1457:37: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1457:42: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1457:52: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1457:56: warning: format '%zu' expects argument of type 'size_t', but argument 8 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+mm/slab_common.c:786:45: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+mm/dmapool.c:96:46: warning: format '%Zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:51: warning: format '%Zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+drivers/base/component.c:101:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+fs/buffer.c:242:37: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+arch/arc/include/asm/elf.h:57:29: warning: integer overflow in expression [-Woverflow]
+block/cfq-iosched.c:3826:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+fs/ext4/inode.c:3329:12: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+fs/ext4/page-io.c:163:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kern_levels.h:4:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka const unsigned int}' [-Wformat=]
+drivers/base/regmap/regmap.c:1396:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+drivers/base/regmap/regcache.c:717:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+lib/cpumask.c:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+net/core/ethtool.c:300:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+net/ipv4/tcp_input.c:4284:49: warning: array subscript is above array bounds [-Warray-bounds]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+net/sunrpc/xprtsock.c:2553:16: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/scsi/sd.c:1155:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+drivers/usb/host/ehci-q.c:378:2: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/usb/host/ehci-q.c:378:2: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+net/sunrpc/svc.c:1258:33: warning: format '%Zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/sunrpc/svc_xprt.h:176:1: warning: control reaches end of non-void function [-Wreturn-type]
