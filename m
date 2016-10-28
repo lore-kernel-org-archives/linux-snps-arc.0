@@ -1,122 +1,71 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 28 Oct 2016 13:16:17 -0700
-Subject: [PATCH] ARC: Enable PERF_EVENTS in nSIM driven platforms
-In-Reply-To: <1477644065-23644-1-git-send-email-abrodkin@synopsys.com>
-References: <1477644065-23644-1-git-send-email-abrodkin@synopsys.com>
+Date: Fri, 28 Oct 2016 14:03:21 -0700
+Subject: [PATCH] lpfc: use %zd format string for size_t
+In-Reply-To: <20161017123605.2217411-1-arnd@arndb.de>
+References: <20161017123605.2217411-1-arnd@arndb.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0039882f-8c0e-d72c-a052-77b857f50826@synopsys.com>
+Message-ID: <26e675e3-af5b-eaf7-fea0-b4aff9767332@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/28/2016 01:41 AM, Alexey Brodkin wrote:
-> Now when we have properly working performance counters in nSIM
-> even with interrupt support (fix should be a part of upcoming
-> nSIM engineering build 2016.12-005) we may enable perf support
-> by default for all platforms that use nSIM for ARC cores simulation.
+Hi Arnd,
+
+On 10/17/2016 05:35 AM, Arnd Bergmann wrote:
+> A recent bugfix introduced a harmless warning in the lpfc driver:
 > 
-> Note all defconfigs were regenerated with "make savedefconfig"
-> which led to some clean-ups in nsimosci_hs_smp_defconfig:
-> CONFIG_FRAMEBUFFER_CONSOLE=y was removed because it is automatically
-> selected now by DRM.
+> drivers/scsi/lpfc/lpfc_init.c: In function 'lpfc_write_firmware':
+> drivers/scsi/lpfc/lpfc_logmsg.h:56:45: error: format '%ld' expects argument of type 'long int', but argument 9 has type 'size_t {aka const unsigned int}' [-Werror=format=]
 > 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> 'size_t' is always the same width as 'long' in the kernel, but the compiler
+> doesn't know that. The %z modifier is what the standard expects to be
+> used here, and this shuts up the warning.
+> 
+> Fixes: 679053c651fb ("scsi: lpfc: Fix fw download on SLI-4 FC adapters")
+> Signed-off-by: Arnd Bergmann <arnd at arndb.de>
 > ---
->  arch/arc/configs/nsim_700_defconfig        | 1 +
->  arch/arc/configs/nsim_hs_defconfig         | 1 +
->  arch/arc/configs/nsim_hs_smp_defconfig     | 1 +
->  arch/arc/configs/nsimosci_defconfig        | 1 +
-
-The DTB corresponding to nsimosci_defconfig needs to include snps,arc700-pct ?
-
->  arch/arc/configs/nsimosci_hs_defconfig     | 1 +
->  arch/arc/configs/nsimosci_hs_smp_defconfig | 3 +--
->  6 files changed, 6 insertions(+), 2 deletions(-)
+>  drivers/scsi/lpfc/lpfc_init.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
-> index 7314f538847b..b0066a749d4c 100644
-> --- a/arch/arc/configs/nsim_700_defconfig
-> +++ b/arch/arc/configs/nsim_700_defconfig
-> @@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
->  CONFIG_INITRAMFS_SOURCE="../arc_initramfs/"
->  CONFIG_KALLSYMS_ALL=y
->  CONFIG_EMBEDDED=y
-> +CONFIG_PERF_EVENTS=y
->  # CONFIG_SLUB_DEBUG is not set
->  # CONFIG_COMPAT_BRK is not set
->  CONFIG_KPROBES=y
-> diff --git a/arch/arc/configs/nsim_hs_defconfig b/arch/arc/configs/nsim_hs_defconfig
-> index 65ab9fbf83f2..ebe9ebb92933 100644
-> --- a/arch/arc/configs/nsim_hs_defconfig
-> +++ b/arch/arc/configs/nsim_hs_defconfig
-> @@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
->  CONFIG_INITRAMFS_SOURCE="../../arc_initramfs_hs/"
->  CONFIG_KALLSYMS_ALL=y
->  CONFIG_EMBEDDED=y
-> +CONFIG_PERF_EVENTS=y
->  # CONFIG_SLUB_DEBUG is not set
->  # CONFIG_COMPAT_BRK is not set
->  CONFIG_KPROBES=y
-> diff --git a/arch/arc/configs/nsim_hs_smp_defconfig b/arch/arc/configs/nsim_hs_smp_defconfig
-> index 3b3990cddbe1..4bde43278be6 100644
-> --- a/arch/arc/configs/nsim_hs_smp_defconfig
-> +++ b/arch/arc/configs/nsim_hs_smp_defconfig
-> @@ -12,6 +12,7 @@ CONFIG_BLK_DEV_INITRD=y
->  CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
->  CONFIG_KALLSYMS_ALL=y
->  CONFIG_EMBEDDED=y
-> +CONFIG_PERF_EVENTS=y
->  # CONFIG_SLUB_DEBUG is not set
->  # CONFIG_COMPAT_BRK is not set
->  CONFIG_KPROBES=y
-> diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
-> index 98cf20933bbb..f6fb3d26557e 100644
-> --- a/arch/arc/configs/nsimosci_defconfig
-> +++ b/arch/arc/configs/nsimosci_defconfig
-> @@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
->  CONFIG_INITRAMFS_SOURCE="../arc_initramfs/"
->  CONFIG_KALLSYMS_ALL=y
->  CONFIG_EMBEDDED=y
-> +CONFIG_PERF_EVENTS=y
->  # CONFIG_SLUB_DEBUG is not set
->  # CONFIG_COMPAT_BRK is not set
->  CONFIG_KPROBES=y
-> diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
-> index ddf8b96d494e..b9f0fe00044b 100644
-> --- a/arch/arc/configs/nsimosci_hs_defconfig
-> +++ b/arch/arc/configs/nsimosci_hs_defconfig
-> @@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
->  CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
->  CONFIG_KALLSYMS_ALL=y
->  CONFIG_EMBEDDED=y
-> +CONFIG_PERF_EVENTS=y
->  # CONFIG_SLUB_DEBUG is not set
->  # CONFIG_COMPAT_BRK is not set
->  CONFIG_KPROBES=y
-> diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
-> index ceb90745326e..6da71ba253a9 100644
-> --- a/arch/arc/configs/nsimosci_hs_smp_defconfig
-> +++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
-> @@ -10,6 +10,7 @@ CONFIG_IKCONFIG_PROC=y
->  # CONFIG_PID_NS is not set
->  CONFIG_BLK_DEV_INITRD=y
->  CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
-> +CONFIG_PERF_EVENTS=y
->  # CONFIG_COMPAT_BRK is not set
->  CONFIG_KPROBES=y
->  CONFIG_MODULES=y
-> @@ -34,7 +35,6 @@ CONFIG_INET=y
->  # CONFIG_INET_XFRM_MODE_TRANSPORT is not set
->  # CONFIG_INET_XFRM_MODE_TUNNEL is not set
->  # CONFIG_INET_XFRM_MODE_BEET is not set
-> -# CONFIG_INET_LRO is not set
->  # CONFIG_IPV6 is not set
->  # CONFIG_WIRELESS is not set
->  CONFIG_DEVTMPFS=y
-> @@ -72,7 +72,6 @@ CONFIG_SERIAL_OF_PLATFORM=y
->  # CONFIG_HWMON is not set
->  CONFIG_DRM=y
->  CONFIG_DRM_ARCPGU=y
-> -CONFIG_FRAMEBUFFER_CONSOLE=y
->  CONFIG_LOGO=y
->  # CONFIG_HID is not set
->  # CONFIG_USB_SUPPORT is not set
+> diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+> index 7be9b8a7bb19..4776fd85514f 100644
+> --- a/drivers/scsi/lpfc/lpfc_init.c
+> +++ b/drivers/scsi/lpfc/lpfc_init.c
+> @@ -10332,7 +10332,7 @@ lpfc_write_firmware(const struct firmware *fw, void *context)
+>  	    ftype != LPFC_FILE_TYPE_GROUP || fsize != fw->size) {
+>  		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+>  				"3022 Invalid FW image found. "
+> -				"Magic:%x Type:%x ID:%x Size %d %ld\n",
+> +				"Magic:%x Type:%x ID:%x Size %d %zd\n",
+>  				magic_number, ftype, fid, fsize, fw->size);
+>  		rc = -EINVAL;
+>  		goto release_out;
 > 
+
+I'm trying to use about to be released ARC gcc 6.x with current kernels and see a
+flood of warnings due to these legit fixes - i.e.g arc gcc 6.2 complains when it
+sees -zx formats.
+
+CC      mm/percpu.o
+../mm/percpu.c: In function ?pcpu_alloc?:
+../mm/percpu.c:890:14: warning: format ?%zu? expects argument of type ?size_t?,
+but argument 4 has type ?unsigned int? [-Wformat=]
+   WARN(true, "illegal size (%zu) or align (%zu) for percpu allocation\n",
+
+I'm not sure what is going on since the data type is size_t alright - although
+from posix_types.h is
+
+typedef unsigned int __kernel_size_t;
+typedef __kernel_size_t size_t;
+
+And this seems to be same for ARC as well as ARM. I tried ARM gcc 6.1 @
+https://snapshots.linaro.org/components/toolchain/binaries/6.1-2016.08-rc1/arm-linux-gnueabihf/
+
+which doesn't seem to be complaining.
+
+With V=1, I checked the respective ARM and ARC toggles in play, but nothing
+related to this seems to be standing out.
+
+I know this is more of a question to our GNU folks, but was wondering if you had
+more insight into it - which you almost always do :-)
+
+Thx,
+-Vineet
