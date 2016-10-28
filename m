@@ -1,128 +1,122 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 28 Oct 2016 13:04:11 -0700
-Subject: [PATCH] ARC: [SMP] get CPUs mask from DT
-In-Reply-To: <1477469071-2282-1-git-send-email-noamca@mellanox.com>
-References: <1477469071-2282-1-git-send-email-noamca@mellanox.com>
+Date: Fri, 28 Oct 2016 13:16:17 -0700
+Subject: [PATCH] ARC: Enable PERF_EVENTS in nSIM driven platforms
+In-Reply-To: <1477644065-23644-1-git-send-email-abrodkin@synopsys.com>
+References: <1477644065-23644-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <ee0054ec-a8cb-052e-3cab-02da18f75ee5@synopsys.com>
+Message-ID: <0039882f-8c0e-d72c-a052-77b857f50826@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-
-On 10/26/2016 01:04 AM, Noam Camus wrote:
-> From: Noam Camus <noamca at mellanox.com>
+On 10/28/2016 01:41 AM, Alexey Brodkin wrote:
+> Now when we have properly working performance counters in nSIM
+> even with interrupt support (fix should be a part of upcoming
+> nSIM engineering build 2016.12-005) we may enable perf support
+> by default for all platforms that use nSIM for ARC cores simulation.
 > 
-> Today we use smp_init_cpus() to set cpu possible mask
-> and we use smp_prepare_cpus() to set cpu present mask.
-> For possible mask we use all CPUs at range [0-NR_CPUS] and
-> for present mask we use all CPUs at range [0-max_cpus]
-> which is actually the same as possible mask (no hutplug).
+> Note all defconfigs were regenerated with "make savedefconfig"
+> which led to some clean-ups in nsimosci_hs_smp_defconfig:
+> CONFIG_FRAMEBUFFER_CONSOLE=y was removed because it is automatically
+> selected now by DRM.
 > 
-> For platform like eznps we wish to have more configurable range then
-> being statically defined by NR_CPUS (actuall derived from CONFIG_NR_CPUS).
-> For this purpose we added two new entries at our device tree root level:
-> possible-cpus
-> present-cpus
-> 
-> The format of this new entries is same like for all similar kernel
-> parameters which provide cpu list (see Documentation/kernel-parameters.txt)
-> example of use would be (assume CONFIG_NR_CPUS=8):
-> present-cpus = "0-1,6-7";
-> possible-cpus = "0-7";
-> 
-> Now if we provide such list in our DT then we won't use the statically range.
-> In our example above only CPUs 0,1,6,7 will be up after boot.
-> 
-> Signed-off-by: Noam Camus <noamca at mellanox.com>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 > ---
->  arch/arc/kernel/smp.c |   32 ++++++++++++++++++++++++++++----
->  1 files changed, 28 insertions(+), 4 deletions(-)
+>  arch/arc/configs/nsim_700_defconfig        | 1 +
+>  arch/arc/configs/nsim_hs_defconfig         | 1 +
+>  arch/arc/configs/nsim_hs_smp_defconfig     | 1 +
+>  arch/arc/configs/nsimosci_defconfig        | 1 +
+
+The DTB corresponding to nsimosci_defconfig needs to include snps,arc700-pct ?
+
+>  arch/arc/configs/nsimosci_hs_defconfig     | 1 +
+>  arch/arc/configs/nsimosci_hs_smp_defconfig | 3 +--
+>  6 files changed, 6 insertions(+), 2 deletions(-)
 > 
-> diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-> index 03d5151..5855403 100644
-> --- a/arch/arc/kernel/smp.c
-> +++ b/arch/arc/kernel/smp.c
-> @@ -16,6 +16,7 @@
->  #include <linux/sched.h>
->  #include <linux/interrupt.h>
->  #include <linux/profile.h>
-> +#include <linux/of_fdt.h>
->  #include <linux/mm.h>
->  #include <linux/cpu.h>
->  #include <linux/irq.h>
-> @@ -34,6 +35,21 @@ arch_spinlock_t smp_bitops_lock = __ARCH_SPIN_LOCK_UNLOCKED;
->  
->  struct plat_smp_ops  __weak plat_smp_ops;
->  
-> +/* Get CPUs mask from device tree */
-> +static int __init smp_get_cpumask(const char *name, struct cpumask *cpumask)
-> +{
-> +	unsigned long dt_root = of_get_flat_dt_root();
-> +	const char *buf;
-> +
-> +	buf = of_get_flat_dt_prop(dt_root, name, NULL);
-> +	if (!buf)
-> +		return 0;
-> +
-> +	cpulist_parse(buf, cpumask);
-> +
-> +	return 1;
-> +}
-> +
->  /* XXX: per cpu ? Only needed once in early seconday boot */
->  struct task_struct *secondary_idle_tsk;
->  
-> @@ -54,9 +70,13 @@ void __init smp_prepare_boot_cpu(void)
->  void __init smp_init_cpus(void)
->  {
->  	unsigned int i;
-> +	struct cpumask cpumask;
->  
-> -	for (i = 0; i < NR_CPUS; i++)
-> -		set_cpu_possible(i, true);
-> +	if (smp_get_cpumask("possible-cpus", &cpumask))
-> +		init_cpu_possible(&cpumask);
-> +	else
-> +		for (i = 0; i < NR_CPUS; i++)
-> +			set_cpu_possible(i, true);
-
-This is not checkpatch clean, need to enclose the if / else in { }
-
-Anyhow, it seems we don't need this as ARC set_cpu_possible() will be overridden
-by your init_early_smp() hook anyways ? We don't need to generalize it as I don't
-foresee other platforms needing it.
-
->  
->  	if (plat_smp_ops.init_early_smp)
->  		plat_smp_ops.init_early_smp();
-> @@ -66,13 +86,17 @@ void __init smp_init_cpus(void)
->  void __init smp_prepare_cpus(unsigned int max_cpus)
->  {
->  	int i;
-> +	struct cpumask cpumask;
->  
->  	/*
->  	 * Initialise the present map, which describes the set of CPUs
->  	 * actually populated at the present time.
->  	 */
-> -	for (i = 0; i < max_cpus; i++)
-> -		set_cpu_present(i, true);
-> +	if (smp_get_cpumask("present-cpus", &cpumask))
-> +		init_cpu_present(&cpumask);
-> +	else
-> +		for (i = 0; i < max_cpus; i++)
-> +			set_cpu_present(i, true);
->  }
-
-With the existing DT based cpu bitmap setting in your platform code, can we
-instead do something like below in smp_prepare_cpus():
-
-   if (num_present_cpus() <= 1) { /* boot already marked present in init/main.c */
-	for (i = 0; i < max_cpus; i++)
-		set_cpu_present(i, true);
-   }
-
-So to summarize you keep the existing DT based cpu bitmap settings in your
-platform code and just add one workaround to not over-ride present map in ARC
-common code.
-
--Vineet
+> diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
+> index 7314f538847b..b0066a749d4c 100644
+> --- a/arch/arc/configs/nsim_700_defconfig
+> +++ b/arch/arc/configs/nsim_700_defconfig
+> @@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
+>  CONFIG_INITRAMFS_SOURCE="../arc_initramfs/"
+>  CONFIG_KALLSYMS_ALL=y
+>  CONFIG_EMBEDDED=y
+> +CONFIG_PERF_EVENTS=y
+>  # CONFIG_SLUB_DEBUG is not set
+>  # CONFIG_COMPAT_BRK is not set
+>  CONFIG_KPROBES=y
+> diff --git a/arch/arc/configs/nsim_hs_defconfig b/arch/arc/configs/nsim_hs_defconfig
+> index 65ab9fbf83f2..ebe9ebb92933 100644
+> --- a/arch/arc/configs/nsim_hs_defconfig
+> +++ b/arch/arc/configs/nsim_hs_defconfig
+> @@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
+>  CONFIG_INITRAMFS_SOURCE="../../arc_initramfs_hs/"
+>  CONFIG_KALLSYMS_ALL=y
+>  CONFIG_EMBEDDED=y
+> +CONFIG_PERF_EVENTS=y
+>  # CONFIG_SLUB_DEBUG is not set
+>  # CONFIG_COMPAT_BRK is not set
+>  CONFIG_KPROBES=y
+> diff --git a/arch/arc/configs/nsim_hs_smp_defconfig b/arch/arc/configs/nsim_hs_smp_defconfig
+> index 3b3990cddbe1..4bde43278be6 100644
+> --- a/arch/arc/configs/nsim_hs_smp_defconfig
+> +++ b/arch/arc/configs/nsim_hs_smp_defconfig
+> @@ -12,6 +12,7 @@ CONFIG_BLK_DEV_INITRD=y
+>  CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
+>  CONFIG_KALLSYMS_ALL=y
+>  CONFIG_EMBEDDED=y
+> +CONFIG_PERF_EVENTS=y
+>  # CONFIG_SLUB_DEBUG is not set
+>  # CONFIG_COMPAT_BRK is not set
+>  CONFIG_KPROBES=y
+> diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
+> index 98cf20933bbb..f6fb3d26557e 100644
+> --- a/arch/arc/configs/nsimosci_defconfig
+> +++ b/arch/arc/configs/nsimosci_defconfig
+> @@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
+>  CONFIG_INITRAMFS_SOURCE="../arc_initramfs/"
+>  CONFIG_KALLSYMS_ALL=y
+>  CONFIG_EMBEDDED=y
+> +CONFIG_PERF_EVENTS=y
+>  # CONFIG_SLUB_DEBUG is not set
+>  # CONFIG_COMPAT_BRK is not set
+>  CONFIG_KPROBES=y
+> diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
+> index ddf8b96d494e..b9f0fe00044b 100644
+> --- a/arch/arc/configs/nsimosci_hs_defconfig
+> +++ b/arch/arc/configs/nsimosci_hs_defconfig
+> @@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
+>  CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
+>  CONFIG_KALLSYMS_ALL=y
+>  CONFIG_EMBEDDED=y
+> +CONFIG_PERF_EVENTS=y
+>  # CONFIG_SLUB_DEBUG is not set
+>  # CONFIG_COMPAT_BRK is not set
+>  CONFIG_KPROBES=y
+> diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
+> index ceb90745326e..6da71ba253a9 100644
+> --- a/arch/arc/configs/nsimosci_hs_smp_defconfig
+> +++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
+> @@ -10,6 +10,7 @@ CONFIG_IKCONFIG_PROC=y
+>  # CONFIG_PID_NS is not set
+>  CONFIG_BLK_DEV_INITRD=y
+>  CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
+> +CONFIG_PERF_EVENTS=y
+>  # CONFIG_COMPAT_BRK is not set
+>  CONFIG_KPROBES=y
+>  CONFIG_MODULES=y
+> @@ -34,7 +35,6 @@ CONFIG_INET=y
+>  # CONFIG_INET_XFRM_MODE_TRANSPORT is not set
+>  # CONFIG_INET_XFRM_MODE_TUNNEL is not set
+>  # CONFIG_INET_XFRM_MODE_BEET is not set
+> -# CONFIG_INET_LRO is not set
+>  # CONFIG_IPV6 is not set
+>  # CONFIG_WIRELESS is not set
+>  CONFIG_DEVTMPFS=y
+> @@ -72,7 +72,6 @@ CONFIG_SERIAL_OF_PLATFORM=y
+>  # CONFIG_HWMON is not set
+>  CONFIG_DRM=y
+>  CONFIG_DRM_ARCPGU=y
+> -CONFIG_FRAMEBUFFER_CONSOLE=y
+>  CONFIG_LOGO=y
+>  # CONFIG_HID is not set
+>  # CONFIG_USB_SUPPORT is not set
+> 
