@@ -1,111 +1,48 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 28 Oct 2016 19:00:01 +0300
-Subject: [PATCH v3 2/3] dmaengine: DW DMAC: convert to unified device property
- API
+From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
+Date: Fri, 28 Oct 2016 19:15:57 +0300
+Subject: [PATCH v3 0/3] dmaengine: DW DMAC: split pdata to hardware
+ properties
 In-Reply-To: <1477670402-23943-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
 References: <1477670402-23943-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1477670402-23943-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1477671357.5295.51.camel@linux.intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-Convert device tree properties reading to unified device
-property API, update properties names as ordered by DT policy.
+On Fri, 2016-10-28@18:59 +0300, Eugeniy Paltsev wrote:
+> This series is to address a proposal by Andy in these threads:
+> http://www.spinics.net/lists/dmaengine/msg11506.html
+> http://www.spinics.net/lists/dmaengine/msg11541.html
+> Split platform data to actual hardware properties, and platform
+> quirks.
+> Now we able to use quirks and hardware properties separately from
+> different sources (pdata, device tree or autoconfig registers)
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- drivers/dma/dw/platform.c | 33 ++++++++++++++-------------------
- 1 file changed, 14 insertions(+), 19 deletions(-)
+Thanks for an update I will comment them later.
 
-diff --git a/drivers/dma/dw/platform.c b/drivers/dma/dw/platform.c
-index 77cde375..85368bc 100644
---- a/drivers/dma/dw/platform.c
-+++ b/drivers/dma/dw/platform.c
-@@ -98,56 +98,51 @@ static inline void dw_dma_acpi_controller_register(struct dw_dma *dw) {}
- 
- #ifdef CONFIG_OF
- static struct dw_dma_platform_data *
--dw_dma_parse_dt(struct platform_device *pdev)
-+dw_dma_parse_properties(struct device *dev)
- {
--	struct device_node *np = pdev->dev.of_node;
- 	struct dw_dma_platform_data *pdata;
- 	u32 tmp, arr[DW_DMA_MAX_NR_MASTERS];
- 	u32 nr_masters;
- 	u32 nr_channels;
- 
--	if (!np) {
--		dev_err(&pdev->dev, "Missing DT data\n");
--		return NULL;
--	}
--
--	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
-+	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
- 	if (!pdata)
- 		return NULL;
- 
- 	pdata->only_quirks_used = true;
- 
--	if (of_property_read_bool(np, "is_private"))
-+	if (device_property_read_bool(dev, "is-private"))
- 		pdata->is_private = true;
- 
--	if (of_property_read_bool(np, "is-memcpy"))
-+	if (device_property_read_bool(dev, "is-memcpy"))
- 		pdata->is_memcpy = true;
- 
--	if (of_property_read_u32(np, "dma-masters", &nr_masters))
-+	if (device_property_read_u32(dev, "dma-masters", &nr_masters))
- 		return pdata;
- 	if (nr_masters < 1 || nr_masters > DW_DMA_MAX_NR_MASTERS)
- 		return pdata;
- 
- 	pdata->nr_masters = nr_masters;
- 
--	if (of_property_read_u32(np, "dma-channels", &nr_channels))
-+	if (device_property_read_u32(dev, "dma-channels", &nr_channels))
- 		return pdata;
- 
- 	pdata->nr_channels = nr_channels;
- 
--	if (of_property_read_bool(np, "is-nollp"))
-+	if (device_property_read_bool(dev, "is-nollp"))
- 		pdata->is_nollp = true;
- 
--	if (!of_property_read_u32(np, "chan_allocation_order", &tmp))
-+	if (!device_property_read_u32(dev, "chan-allocation-order", &tmp))
- 		pdata->chan_allocation_order = (unsigned char)tmp;
- 
--	if (!of_property_read_u32(np, "chan_priority", &tmp))
-+	if (!device_property_read_u32(dev, "chan-priority", &tmp))
- 		pdata->chan_priority = tmp;
- 
--	if (!of_property_read_u32(np, "block_size", &tmp))
-+	if (!device_property_read_u32(dev, "block-size", &tmp))
- 		pdata->block_size = tmp;
- 
--	if (!of_property_read_u32_array(np, "data-width", arr, nr_masters)) {
-+	if (!device_property_read_u32_array(dev, "data-width", arr,
-+					    nr_masters)) {
- 		for (tmp = 0; tmp < nr_masters; tmp++)
- 			pdata->data_width[tmp] = arr[tmp];
- 	}
-@@ -158,7 +153,7 @@ dw_dma_parse_dt(struct platform_device *pdev)
- }
- #else
- static inline struct dw_dma_platform_data *
--dw_dma_parse_dt(struct platform_device *pdev)
-+dw_dma_parse_properties(struct device *dev)
- {
- 	return NULL;
- }
-@@ -191,7 +186,7 @@ static int dw_probe(struct platform_device *pdev)
- 
- 	pdata = dev_get_platdata(dev);
- 	if (!pdata)
--		pdata = dw_dma_parse_dt(pdev);
-+		pdata = dw_dma_parse_properties(dev);
- 
- 	chip->dev = dev;
- 	chip->pdata = pdata;
+> 
+> Changes for v3:
+> ?-???Split changes to separate patches.
+> ?-???Add "DW_DMA_IS_LLP_SUPPORTED" flag and get rid of "dwc->nollp"
+> ?????as separate variable.
+> ?-???Make "dw_dma_slave" documentation comments more clear about
+> quirks.
+> ?????"is_memcpy" and "is_private" are quirks, "is_nollp" is regular?
+> ?????pdata property.
+> 
+> Eugeniy Paltsev (3):
+> ? dmaengine: DW DMAC: split pdata to hardware properties and platform
+> ????quirks
+> ? dmaengine: DW DMAC: convert to unified device property API
+> ? dmaengine: DW DMAC: move "nollp" to "dwc->flags"
+> 
+> ?drivers/dma/dw/core.c????????????????| 34 +++++++++++++----------
+> ?drivers/dma/dw/platform.c????????????| 53 +++++++++++++++++++------
+> -----------
+> ?drivers/dma/dw/regs.h????????????????|??2 +-
+> ?include/linux/platform_data/dma-dw.h |??5 ++++
+> ?4 files changed, 54 insertions(+), 40 deletions(-)
+> 
+
 -- 
-2.5.5
+Andy Shevchenko <andriy.shevchenko at linux.intel.com>
+Intel Finland Oy
