@@ -1,64 +1,85 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 28 Oct 2016 16:16:48 -0700
-Subject: [PATCH] lpfc: use %zd format string for size_t
-In-Reply-To: <369474356.SFgOVPi7rO@wuerfel>
-References: <20161017123605.2217411-1-arnd@arndb.de>
- <3374da57-ecd8-6376-5fca-0466fb799777@synopsys.com>
- <05a8b6f6-b21a-0d77-ba52-23b568967584@synopsys.com>
- <369474356.SFgOVPi7rO@wuerfel>
+Date: Fri, 28 Oct 2016 16:46:41 -0700
+Subject: [GIT PULL] ARC updates for 4.9-rc3
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0be16cae-62a1-33a5-70c5-f880e32f849d@synopsys.com>
+Message-ID: <a586a3c9-82e8-8445-264d-803b8758a202@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/28/2016 03:03 PM, Arnd Bergmann wrote:
-> On Friday, October 28, 2016 2:58:33 PM CEST Vineet Gupta wrote:
->> On 10/28/2016 02:52 PM, Vineet Gupta wrote:
->>> On 10/28/2016 02:44 PM, Vineet Gupta wrote:
->>>> This is configuration specific, and something caused your compiler to
->>>>> be built assuming that size_t is unsigned long, while the kernel
->>>>> headers are assuming it should be unsigned int.
->>>
->>> So yes this seems to be target specific gcc thing
->>>
->>> for ARC 4.8
->>>
->>> #define PTRDIFF_TYPE "int"
->>>
->>> ARM
->>>
->>> #ifndef PTRDIFF_TYPE
->>> #define PTRDIFF_TYPE (TARGET_AAPCS_BASED ? "int" : "long int")
->>> #endif
->>>
->>> ARC gcc 6.2
->>>
->>> #undef PTRDIFF_TYPE
->>> #define PTRDIFF_TYPE "long int"
->>
->> Actually we need to adjust SIZE_TYPE (unsigned int) and PTRDIFF_TYPE (int) in the
->> gcc 6.x to fix this issue. And that is exactly what ARC gcc 4.8 have.
-> 
-> What compiler versions are most commonly used these days?
+Hi Linus,
 
-gcc 4.8 is used in production, but internally we are now moving towards 6.0 (to be
-officially released soon)
+Please pull
 
-> You should probably stay with the version that most people have
-> and then update either the compiler or the kernel, whichever
-> diverges from it.
-
-In this case, the issue is simple - gcc 6.x doesn't behave the same as 4.8 so it
-needs fixing.
-
-> I see in the gcc git log that the version that had "int" got removed
-> at some point, and the version that had "unsigned int" was added
-> later.
-
-The upstream version (per initial port) always had
-
-#define SIZE_TYPE "long unsigned int"
-
-which we fixed out-of-tree for 4.8 and this needs to be fixed now for gcc 6.x in
-upstream too.
-
+Thx,
 -Vineet
+
+------>
+The following changes since commit 1001354ca34179f3db924eb66672442a173147dc:
+
+  Linux 4.9-rc1 (2016-10-15 12:17:50 -0700)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.9-rc3
+
+for you to fetch changes up to b75dcd9c7d352c7d9ea9010e95c708595094896a:
+
+  ARC: module: print pretty section names (2016-10-28 10:10:29 -0700)
+
+----------------------------------------------------------------
+ARC updates for 4.9-rc4
+
+- supporting IDU intc for UP builds
+
+- Support gz, lzma compressed uImage [Daniel Mentz]
+
+- Adjust /proc/cpuinfo for non-continuous cpu ids [Noam Camus]
+
+- syscall for userspace cmpxchg assist for configs lacking hardware atomics
+
+- rework of boot log printing mainly for identifying older arc700 cores
+
+- retiring some old code, build toggles
+
+----------------------------------------------------------------
+Daniel Mentz (1):
+      ARC: [build] Support gz, lzma compressed uImage
+
+Noam Camus (1):
+      ARC: Adjust cpuinfo for non-continuous cpu ids
+
+Vineet Gupta (13):
+      ARCv2: intc: untangle SMP, MCIP and IDU
+      ARC: fix build warning in elf.h
+      ARC: syscall for userspace cmpxchg assist
+      ARCv2: IOC: use @ioc_enable not @ioc_exist where intended
+      ARCv2: boot log: print IOC exists as well as enabled status
+      ARC: boot log: refactor printing abt features not captured in BCRs
+      ARC: boot log: don't assume SWAPE instruction support
+      ARC: boot log: remove awkward space comma from MMU line
+      ARC: boot log: refactor cpu name/release printing
+      ARC: build: retire old toggles
+      ARC: mm: retire ARC_DBG_TLB_MISS_COUNT...
+      ARC: module: elide loop to save reference to .eh_frame
+      ARC: module: print pretty section names
+
+ arch/arc/Kconfig                   |  27 ++++-----
+ arch/arc/Makefile                  |   3 -
+ arch/arc/boot/Makefile             |  16 +++++-
+ arch/arc/include/asm/arcregs.h     |   3 +-
+ arch/arc/include/asm/cache.h       |   2 +-
+ arch/arc/include/asm/elf.h         |   2 +-
+ arch/arc/include/asm/mcip.h        |  16 ++++++
+ arch/arc/include/asm/module.h      |   1 +
+ arch/arc/include/asm/setup.h       |   6 +-
+ arch/arc/include/asm/syscalls.h    |   1 +
+ arch/arc/include/uapi/asm/unistd.h |   9 +--
+ arch/arc/kernel/mcip.c             |  31 ++++------
+ arch/arc/kernel/module.c           |  53 +++++++++--------
+ arch/arc/kernel/process.c          |  33 +++++++++++
+ arch/arc/kernel/setup.c            | 113 +++++++++++++++++++++----------------
+ arch/arc/kernel/troubleshoot.c     | 110 ------------------------------------
+ arch/arc/mm/cache.c                |  19 +++----
+ arch/arc/mm/dma.c                  |   4 +-
+ arch/arc/mm/tlb.c                  |   6 +-
+ arch/arc/mm/tlbex.S                |  21 -------
+ 20 files changed, 203 insertions(+), 273 deletions(-)
