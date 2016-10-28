@@ -1,117 +1,63 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 28 Oct 2016 11:41:05 +0300
-Subject: [PATCH] ARC: Enable PERF_EVENTS in nSIM driven platforms
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Fri, 28 Oct 2016 12:42:25 +0200
+Subject: Build regressions/improvements in v4.9-rc1
+In-Reply-To: <dd827f68-2ad1-8193-53cd-ce7e9ac8eeb6@synopsys.com>
+References: <1476688913-15648-1-git-send-email-geert@linux-m68k.org>
+ <1477561144.2561.19.camel@synopsys.com>
+ <dd827f68-2ad1-8193-53cd-ce7e9ac8eeb6@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1477644065-23644-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <4261133.nGEyC6LumW@wuerfel>
 To: linux-snps-arc@lists.infradead.org
 
-Now when we have properly working performance counters in nSIM
-even with interrupt support (fix should be a part of upcoming
-nSIM engineering build 2016.12-005) we may enable perf support
-by default for all platforms that use nSIM for ARC cores simulation.
+On Thursday, October 27, 2016 10:21:16 AM CEST Vineet Gupta wrote:
+> 
+> On 10/27/2016 02:39 AM, Alexey Brodkin wrote:
+> >
+> > And these are functions required by U-Boot (most probably the same is applied to kernel):
+> > 1) so-called millicode, stuff like __ld_rX_to_rY, __st_rX_to_rX
+> 
+> This kicks in only at -Os and even there can be inhibited with a toggle.
+> I don't like it anyways, seems like a costly contraption in terms of microarch
+> cost of 2 extra long branches for both prologue and epilogue.
+> 
+> > 2) shifts: __ashldi3, __ashrdi3, __lshrdi3, 
+> > 3) divisions: udivmodsi4, __divsi3, __modsi3, __udivsi3, __umodsi3
+> 
+> Note that this list is not constant. I recently had to export another libgcc
+> symbol for modules, when a customer switched to ARC gnu 2016.03 for supposedly
+> building the same kernel code.
+> 
+> > Indeed it is possible to have so-called private libgcc in kernel as well but
+> > benefit will be only for people building kernels but not user-space because
+> > in absence of multilibbed toolchain 2 separate toolchains will be required anyways.
+> 
+> True, but a lot of people only care about builds (and not actually run), so for
+> them having to carry only one toolchain is an improvement.
+> 
+> > Still we'll have to pay an additional maintenance price to keep kernel's libgcc in
+> > sync with the one from gcc.
+> 
+> True, but libgcc math emulation is likely one off thing. GNU folks will write them
+> once and we use a snapshot - syncing back changes - if any around major gnu releases.
+> 
+> So I'm tending to include the libgcc code in kernel. @Arnd, @Claudiu do you know
+> of any potential licensing issues ?
+> 
 
-Note all defconfigs were regenerated with "make savedefconfig"
-which led to some clean-ups in nsimosci_hs_smp_defconfig:
-CONFIG_FRAMEBUFFER_CONSOLE=y was removed because it is automatically
-selected now by DRM.
+I'd be surprised if there were any licensing issues, as libgcc is intentionally
+meant to be included in everything built by gcc, and the architectures that don't
+link against it tend to have a direct copy.
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
- arch/arc/configs/nsim_700_defconfig        | 1 +
- arch/arc/configs/nsim_hs_defconfig         | 1 +
- arch/arc/configs/nsim_hs_smp_defconfig     | 1 +
- arch/arc/configs/nsimosci_defconfig        | 1 +
- arch/arc/configs/nsimosci_hs_defconfig     | 1 +
- arch/arc/configs/nsimosci_hs_smp_defconfig | 3 +--
- 6 files changed, 6 insertions(+), 2 deletions(-)
+The main advantage of copying libgcc sources into the kernel instead of linking
+directly to it is probably that you have better control over which functions
+are actually used, as not everything in libgcc makes sense in kernel space.
 
-diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
-index 7314f538847b..b0066a749d4c 100644
---- a/arch/arc/configs/nsim_700_defconfig
-+++ b/arch/arc/configs/nsim_700_defconfig
-@@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
- CONFIG_INITRAMFS_SOURCE="../arc_initramfs/"
- CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
-+CONFIG_PERF_EVENTS=y
- # CONFIG_SLUB_DEBUG is not set
- # CONFIG_COMPAT_BRK is not set
- CONFIG_KPROBES=y
-diff --git a/arch/arc/configs/nsim_hs_defconfig b/arch/arc/configs/nsim_hs_defconfig
-index 65ab9fbf83f2..ebe9ebb92933 100644
---- a/arch/arc/configs/nsim_hs_defconfig
-+++ b/arch/arc/configs/nsim_hs_defconfig
-@@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
- CONFIG_INITRAMFS_SOURCE="../../arc_initramfs_hs/"
- CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
-+CONFIG_PERF_EVENTS=y
- # CONFIG_SLUB_DEBUG is not set
- # CONFIG_COMPAT_BRK is not set
- CONFIG_KPROBES=y
-diff --git a/arch/arc/configs/nsim_hs_smp_defconfig b/arch/arc/configs/nsim_hs_smp_defconfig
-index 3b3990cddbe1..4bde43278be6 100644
---- a/arch/arc/configs/nsim_hs_smp_defconfig
-+++ b/arch/arc/configs/nsim_hs_smp_defconfig
-@@ -12,6 +12,7 @@ CONFIG_BLK_DEV_INITRD=y
- CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
- CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
-+CONFIG_PERF_EVENTS=y
- # CONFIG_SLUB_DEBUG is not set
- # CONFIG_COMPAT_BRK is not set
- CONFIG_KPROBES=y
-diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
-index 98cf20933bbb..f6fb3d26557e 100644
---- a/arch/arc/configs/nsimosci_defconfig
-+++ b/arch/arc/configs/nsimosci_defconfig
-@@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
- CONFIG_INITRAMFS_SOURCE="../arc_initramfs/"
- CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
-+CONFIG_PERF_EVENTS=y
- # CONFIG_SLUB_DEBUG is not set
- # CONFIG_COMPAT_BRK is not set
- CONFIG_KPROBES=y
-diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
-index ddf8b96d494e..b9f0fe00044b 100644
---- a/arch/arc/configs/nsimosci_hs_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_defconfig
-@@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
- CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
- CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
-+CONFIG_PERF_EVENTS=y
- # CONFIG_SLUB_DEBUG is not set
- # CONFIG_COMPAT_BRK is not set
- CONFIG_KPROBES=y
-diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
-index ceb90745326e..6da71ba253a9 100644
---- a/arch/arc/configs/nsimosci_hs_smp_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
-@@ -10,6 +10,7 @@ CONFIG_IKCONFIG_PROC=y
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
- CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
-+CONFIG_PERF_EVENTS=y
- # CONFIG_COMPAT_BRK is not set
- CONFIG_KPROBES=y
- CONFIG_MODULES=y
-@@ -34,7 +35,6 @@ CONFIG_INET=y
- # CONFIG_INET_XFRM_MODE_TRANSPORT is not set
- # CONFIG_INET_XFRM_MODE_TUNNEL is not set
- # CONFIG_INET_XFRM_MODE_BEET is not set
--# CONFIG_INET_LRO is not set
- # CONFIG_IPV6 is not set
- # CONFIG_WIRELESS is not set
- CONFIG_DEVTMPFS=y
-@@ -72,7 +72,6 @@ CONFIG_SERIAL_OF_PLATFORM=y
- # CONFIG_HWMON is not set
- CONFIG_DRM=y
- CONFIG_DRM_ARCPGU=y
--CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_LOGO=y
- # CONFIG_HID is not set
- # CONFIG_USB_SUPPORT is not set
--- 
-2.7.4
+The most common example is probably the 64-bit division, which is a libgcc
+function on most architectures, and in the kernel we intentionally don't
+implement that function in order to catch drivers trying to do that (and
+change them to either explicit div_u64() or not do a 64-bit division).
+
+Another example of a libgcc function you don't want is anything calling
+abort(), which makes no sense in the kernel.
+
+	Arnd
