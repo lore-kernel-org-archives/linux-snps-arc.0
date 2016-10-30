@@ -1,51 +1,84 @@
-From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Sun, 30 Oct 2016 14:01:24 +0100
-Subject: Build regressions/improvements in v4.9-rc3
-In-Reply-To: <1477829325-4495-1-git-send-email-geert@linux-m68k.org>
-References: <1477829325-4495-1-git-send-email-geert@linux-m68k.org>
+From: catalin.marinas@arm.com (Catalin Marinas)
+Date: Sun, 30 Oct 2016 12:14:47 +0000
+Subject: [RFC] dma-mapping: fix dma_common_mmap() for ARC
+In-Reply-To: <1477509764-18370-1-git-send-email-abrodkin@synopsys.com>
+References: <1477509764-18370-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdUU0h1w5p_p54G8gZa7vmJU5cSWGg8MP0HBADBf6FSFiQ@mail.gmail.com>
+Message-ID: <20161030121447.2lku7etlqqbsfr2i@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-On Sun, Oct 30, 2016 at 1:08 PM, Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> Below is the list of build error/warning regressions/improvements in
-> v4.9-rc3[1] compared to v4.8[2].
->
-> Summarized:
->   - build errors: +176/-3
+On Wed, Oct 26, 2016@10:22:44PM +0300, Alexey Brodkin wrote:
+> ------------------------>8-----------------------
+> arc_dma_alloc()
+>   ioremap_nocache() AKA ioremap()
+>     ioremap_prot()
+>       get_vm_area() + ioremap_page_range() on obtained vaddr
+> ------------------------>8-----------------------
+> 
+> As a result we get TLB entry of the following kind:
+> ------------------------>8-----------------------
+>     vaddr = 0x7200_0000
+>     paddr = 0x8200_0000
+>     flags = _uncached_
+> ------------------------>8-----------------------
+> 
+> Kerenl thinks frame buffer is located @ 0x7200_0000 and uses it
+> perfectly fine.
+> 
+> But here comes a time for user-space application to request frame buffer
+> to be mapped for it. That happens easily with the following call path:
+> ------------------------>8-----------------------
+> fb_mmap()
+>   drm_fb_cma_mmap()
+>     dma_mmap_writecombine() AKA dma_mmap_wc()
+>       dma_mmap_attrs()
+>         dma_common_mmap() since we don't [yet] have dma_map_ops.mmap()
+>                           for ARC
+> ------------------------>8-----------------------
+> 
+> And in dma_common_mmap() we first calculate pfn of what we think is
+> "physical page" and then do remap_pfn_range() to that "physical page".
+> 
+> Here we're getting to the interesting thing - how pfn is calculated.
+> As of now this is done as simple as:
+> ------------------------>8-----------------------
+>     pfn = page_to_pfn(virt_to_page(cpu_addr));
+> ------------------------>8-----------------------
 
-  + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad
-instruction `llock r2,[r0]':  => 184, 185
-  + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad
-instruction `scond r2,[r0]':  => 186, 187
-    [...]
-  + /home/kisskb/slave/src/include/uapi/linux/swab.h: Error: bad
-instruction `swape r3,r3':  => 58
-  + /home/kisskb/slave/src/include/uapi/linux/swab.h: Error: bad
-instruction `swape r4,r4':  => 58
+The virt_to_page() function here only works for addresses in the kernel
+linear map. In your case, the DMA buffer is mapped out of the ioremap
+space, so the cpu_addr you pass in here would return the incorrect pfn
+(as you've already noticed).
 
-arcompact/axs101_defconfig
+> Simplest fix for ARC is to use dma_addr instead because it matches
+> real physical memory address and so mapping for user-space we're
+> getting then is this:
+> ------------------------>8-----------------------
+>     vaddr = 0x0200_0000
+>     paddr = 0x8200_0000
+>     flags = _uncached_
+> ------------------------>8-----------------------
+> And it works perfectly fine.
 
-  + /home/kisskb/slave/src/drivers/pci/host/pci-rcar-gen2.c: error:
-implicit declaration of function 'of_n_addr_cells'
-[-Werror=implicit-function-declaration]:  => 303:2
+But it breaks the other architectures where dma_addr is actually closer
+to the phys_addr than the kernel linear map.
 
-arm-randconfig
+> diff --git a/drivers/base/dma-mapping.c b/drivers/base/dma-mapping.c
+> index 8f8b68c80986..16307eed453f 100644
+> --- a/drivers/base/dma-mapping.c
+> +++ b/drivers/base/dma-mapping.c
+> @@ -252,7 +252,7 @@ int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
+>  #if defined(CONFIG_MMU) && !defined(CONFIG_ARCH_NO_COHERENT_DMA_MMAP)
+>  	unsigned long user_count = vma_pages(vma);
+>  	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> -	unsigned long pfn = page_to_pfn(virt_to_page(cpu_addr));
+> +	unsigned long pfn = page_to_pfn(virt_to_page(dma_addr));
 
-See https://patchwork.kernel.org/patch/4289161/ and
-https://patchwork.kernel.org/patch/8209431/
+As I said above, this is incorrect. I would suggest that you implement
+an arc specific mmap operation. We do this for arm64 using
+remap_pfn_range; see __swiotlb_mmap under arch/arm64/mm/dma-mapping.c
+where the pfn is calculated using an arm64-specific dma_to_phys()
+function.
 
-> [1] http://kisskb.ellerman.id.au/kisskb/head/11140/ (all 262 configs)
-> [3] http://kisskb.ellerman.id.au/kisskb/head/11104/ (all 262 configs)
-
-Gr{oetje,eeting}s,
-
-                         Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Catalin
