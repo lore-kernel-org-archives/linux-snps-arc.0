@@ -1,65 +1,43 @@
-From: james.hogan@imgtec.com (James Hogan)
-Date: Sun, 30 Oct 2016 00:06:07 +0100
-Subject: [PATCH] asm-generic: Drop getrlimit and setrlimit syscalls from
- default list
-In-Reply-To: <20161029214541.GA20037@yury-N73SV>
-References: <1477138444-14993-1-git-send-email-ynorov@caviumnetworks.com>
- <2502005.4risrb1P1I@wuerfel> <20161029214541.GA20037@yury-N73SV>
+From: noamca@mellanox.com (Noam Camus)
+Date: Sun, 30 Oct 2016 09:48:42 +0200
+Subject: [PATCH] ARC: [SMP] avoid overriding present cpumask
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0B167874-4C33-4FEC-80AA-DC936AA56E4D@imgtec.com>
+Message-ID: <1477813722-30832-1-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 29 October 2016 22:45:41 BST, Yury Norov <ynorov@caviumnetworks.com> wrote:
->On Sat, Oct 29, 2016@11:02:40PM +0200, Arnd Bergmann wrote:
->> On Saturday, October 22, 2016 3:14:04 PM CEST Yury Norov wrote:
->> > The newer prlimit64 syscall provides all the functionality provided
->by
->> > the getrlimit and setrlimit syscalls and adds the pid of target
->process,
->> > so future architectures won't need to include getrlimit and
->setrlimit.
->> > 
->> > Therefore drop getrlimit and setrlimit syscalls from the generic
->syscall
->> > list unless __ARCH_WANT_SET_GET_RLIMIT is defined by the
->architecture's
->> > unistd.h prior to including asm-generic/unistd.h, and adjust all
->> > architectures using the generic syscall list to define it so that
->no
->> > in-tree architectures are affected.
->> 
->> The patch looks good, but shouldn't we also hide the actual syscall
->> implementation if the symbol is not set? It's just dead code
->otherwise
->> for new architectures.
->
->I was thinking on it. The patch of James Hogan, b0da6d4415
->(asm-generic:
->Drop renameat syscall from default list) doesn't do it for renameat(),
->so
->I decided not to do it too. It's not so easy to disable syscalls
->because arch
->may support few ABIs, and some of them may require the syscall. For
->example,
->arm64 supports lp64, aarch32 and ilp32, and first two ABIs need
->renameat()
->and getrlimit/setrlimit.
->
->At now there's no arches that doesn't need renameat() and
->getrlimit/setrlimit,
->and there will be no such arch in nearest future. So there will be no
->dead code.
->
->But I agree with you that we need make that implementations 
->conditional. If I understand it correctly, we need something like
->__ARCH_WANT_SET_GET_RLIMIT in all existing Kconfigs, correct?
->
->I think this patch may be applied as is, and if needed I can send
->another patch that disables renameat() and getrlimit/setrlimit soon.
->
->James, what do you think?
+From: Noam Camus <noamca@mellanox.com>
 
-For renameat my main concern was the ABI, and I didn't think it was worth the effort or slightly increased complexity to ifdef the implementation since it was such a trivial wrapper around renameat2. Getrlimit and setrlimit aren't much more complex, just a user copy in addition to the standard doprlimit, so i probably wouldn't have bothered for them either.
+At smp_prepare_cpus() we set present cpu mask as part of init
+for all CPUs at range [0-max_cpus].
+This is done without checking if this mask is already being set.
+At platform of eznps this mask is already being initialized at
+smp_init_cpus() by using hook plat_smp_ops.init_early_smp().
+So to avoid overriding of present cpu mask we check the number of
+bits which are set in this mask. At the begin only bit for boot CPU
+is set so if number of bits already set is no more than one we can be
+assure that there is no overriding of this mask.
 
-cheers
-James Hogan
+Signed-off-by: Noam Camus <noamca at mellanox.com>
+---
+ arch/arc/kernel/smp.c |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
+index 03d5151..8c0eec9 100644
+--- a/arch/arc/kernel/smp.c
++++ b/arch/arc/kernel/smp.c
+@@ -71,8 +71,10 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
+ 	 * Initialise the present map, which describes the set of CPUs
+ 	 * actually populated at the present time.
+ 	 */
+-	for (i = 0; i < max_cpus; i++)
+-		set_cpu_present(i, true);
++	if (num_present_cpus() <= 1) {
++		for (i = 0; i < max_cpus; i++)
++			set_cpu_present(i, true);
++	}
+ }
+ 
+ void __init smp_cpus_done(unsigned int max_cpus)
+-- 
+1.7.1
