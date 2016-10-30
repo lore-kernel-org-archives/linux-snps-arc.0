@@ -1,43 +1,51 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Sun, 30 Oct 2016 09:48:42 +0200
-Subject: [PATCH] ARC: [SMP] avoid overriding present cpumask
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Sun, 30 Oct 2016 14:01:24 +0100
+Subject: Build regressions/improvements in v4.9-rc3
+In-Reply-To: <1477829325-4495-1-git-send-email-geert@linux-m68k.org>
+References: <1477829325-4495-1-git-send-email-geert@linux-m68k.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1477813722-30832-1-git-send-email-noamca@mellanox.com>
+Message-ID: <CAMuHMdUU0h1w5p_p54G8gZa7vmJU5cSWGg8MP0HBADBf6FSFiQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamca@mellanox.com>
+On Sun, Oct 30, 2016 at 1:08 PM, Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+> Below is the list of build error/warning regressions/improvements in
+> v4.9-rc3[1] compared to v4.8[2].
+>
+> Summarized:
+>   - build errors: +176/-3
 
-At smp_prepare_cpus() we set present cpu mask as part of init
-for all CPUs at range [0-max_cpus].
-This is done without checking if this mask is already being set.
-At platform of eznps this mask is already being initialized at
-smp_init_cpus() by using hook plat_smp_ops.init_early_smp().
-So to avoid overriding of present cpu mask we check the number of
-bits which are set in this mask. At the begin only bit for boot CPU
-is set so if number of bits already set is no more than one we can be
-assure that there is no overriding of this mask.
+  + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad
+instruction `llock r2,[r0]':  => 184, 185
+  + /home/kisskb/slave/src/arch/arc/include/asm/atomic.h: Error: bad
+instruction `scond r2,[r0]':  => 186, 187
+    [...]
+  + /home/kisskb/slave/src/include/uapi/linux/swab.h: Error: bad
+instruction `swape r3,r3':  => 58
+  + /home/kisskb/slave/src/include/uapi/linux/swab.h: Error: bad
+instruction `swape r4,r4':  => 58
 
-Signed-off-by: Noam Camus <noamca at mellanox.com>
----
- arch/arc/kernel/smp.c |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+arcompact/axs101_defconfig
 
-diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-index 03d5151..8c0eec9 100644
---- a/arch/arc/kernel/smp.c
-+++ b/arch/arc/kernel/smp.c
-@@ -71,8 +71,10 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
- 	 * Initialise the present map, which describes the set of CPUs
- 	 * actually populated at the present time.
- 	 */
--	for (i = 0; i < max_cpus; i++)
--		set_cpu_present(i, true);
-+	if (num_present_cpus() <= 1) {
-+		for (i = 0; i < max_cpus; i++)
-+			set_cpu_present(i, true);
-+	}
- }
- 
- void __init smp_cpus_done(unsigned int max_cpus)
--- 
-1.7.1
+  + /home/kisskb/slave/src/drivers/pci/host/pci-rcar-gen2.c: error:
+implicit declaration of function 'of_n_addr_cells'
+[-Werror=implicit-function-declaration]:  => 303:2
+
+arm-randconfig
+
+See https://patchwork.kernel.org/patch/4289161/ and
+https://patchwork.kernel.org/patch/8209431/
+
+> [1] http://kisskb.ellerman.id.au/kisskb/head/11140/ (all 262 configs)
+> [3] http://kisskb.ellerman.id.au/kisskb/head/11104/ (all 262 configs)
+
+Gr{oetje,eeting}s,
+
+                         Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
