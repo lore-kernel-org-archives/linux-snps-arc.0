@@ -1,84 +1,140 @@
-From: catalin.marinas@arm.com (Catalin Marinas)
-Date: Sun, 30 Oct 2016 12:14:47 +0000
-Subject: [RFC] dma-mapping: fix dma_common_mmap() for ARC
-In-Reply-To: <1477509764-18370-1-git-send-email-abrodkin@synopsys.com>
-References: <1477509764-18370-1-git-send-email-abrodkin@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 31 Oct 2016 15:59:11 +0300
+Subject: [PATCH v2] ARC: Enable PERF_EVENTS in nSIM driven platforms
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161030121447.2lku7etlqqbsfr2i@localhost>
+Message-ID: <1477918751-28058-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Oct 26, 2016@10:22:44PM +0300, Alexey Brodkin wrote:
-> ------------------------>8-----------------------
-> arc_dma_alloc()
->   ioremap_nocache() AKA ioremap()
->     ioremap_prot()
->       get_vm_area() + ioremap_page_range() on obtained vaddr
-> ------------------------>8-----------------------
-> 
-> As a result we get TLB entry of the following kind:
-> ------------------------>8-----------------------
->     vaddr = 0x7200_0000
->     paddr = 0x8200_0000
->     flags = _uncached_
-> ------------------------>8-----------------------
-> 
-> Kerenl thinks frame buffer is located @ 0x7200_0000 and uses it
-> perfectly fine.
-> 
-> But here comes a time for user-space application to request frame buffer
-> to be mapped for it. That happens easily with the following call path:
-> ------------------------>8-----------------------
-> fb_mmap()
->   drm_fb_cma_mmap()
->     dma_mmap_writecombine() AKA dma_mmap_wc()
->       dma_mmap_attrs()
->         dma_common_mmap() since we don't [yet] have dma_map_ops.mmap()
->                           for ARC
-> ------------------------>8-----------------------
-> 
-> And in dma_common_mmap() we first calculate pfn of what we think is
-> "physical page" and then do remap_pfn_range() to that "physical page".
-> 
-> Here we're getting to the interesting thing - how pfn is calculated.
-> As of now this is done as simple as:
-> ------------------------>8-----------------------
->     pfn = page_to_pfn(virt_to_page(cpu_addr));
-> ------------------------>8-----------------------
+Now when we have properly working performance counters in nSIM
+even with interrupt support (fix should be a part of upcoming
+nSIM engineering build 2016.12-005) we may enable perf support
+by default for all platforms that use nSIM for ARC cores simulation.
 
-The virt_to_page() function here only works for addresses in the kernel
-linear map. In your case, the DMA buffer is mapped out of the ioremap
-space, so the cpu_addr you pass in here would return the incorrect pfn
-(as you've already noticed).
+Note 1: PCT node was missing for some reason in nsimosci.dts
+        while all other nSIM-related .dts files already had
+        PCT node for quite some time, so adding it now.
 
-> Simplest fix for ARC is to use dma_addr instead because it matches
-> real physical memory address and so mapping for user-space we're
-> getting then is this:
-> ------------------------>8-----------------------
->     vaddr = 0x0200_0000
->     paddr = 0x8200_0000
->     flags = _uncached_
-> ------------------------>8-----------------------
-> And it works perfectly fine.
+Note 2: All defconfigs were regenerated with "make savedefconfig"
+        which led to some clean-ups in nsimosci_hs_smp_defconfig:
+        CONFIG_FRAMEBUFFER_CONSOLE=y was removed because it is
+        automatically selected now by DRM.
 
-But it breaks the other architectures where dma_addr is actually closer
-to the phys_addr than the kernel linear map.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
 
-> diff --git a/drivers/base/dma-mapping.c b/drivers/base/dma-mapping.c
-> index 8f8b68c80986..16307eed453f 100644
-> --- a/drivers/base/dma-mapping.c
-> +++ b/drivers/base/dma-mapping.c
-> @@ -252,7 +252,7 @@ int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
->  #if defined(CONFIG_MMU) && !defined(CONFIG_ARCH_NO_COHERENT_DMA_MMAP)
->  	unsigned long user_count = vma_pages(vma);
->  	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> -	unsigned long pfn = page_to_pfn(virt_to_page(cpu_addr));
-> +	unsigned long pfn = page_to_pfn(virt_to_page(dma_addr));
+changes v1 -> v2:
+ * Added missing PCT Device Tree node in nsimosci.dts
 
-As I said above, this is incorrect. I would suggest that you implement
-an arc specific mmap operation. We do this for arm64 using
-remap_pfn_range; see __swiotlb_mmap under arch/arm64/mm/dma-mapping.c
-where the pfn is calculated using an arm64-specific dma_to_phys()
-function.
+ arch/arc/boot/dts/nsimosci.dts             | 4 ++++
+ arch/arc/configs/nsim_700_defconfig        | 1 +
+ arch/arc/configs/nsim_hs_defconfig         | 1 +
+ arch/arc/configs/nsim_hs_smp_defconfig     | 1 +
+ arch/arc/configs/nsimosci_defconfig        | 1 +
+ arch/arc/configs/nsimosci_hs_defconfig     | 1 +
+ arch/arc/configs/nsimosci_hs_smp_defconfig | 3 +--
+ 7 files changed, 10 insertions(+), 2 deletions(-)
 
+diff --git a/arch/arc/boot/dts/nsimosci.dts b/arch/arc/boot/dts/nsimosci.dts
+index bcf603142a33..7fe184435956 100644
+--- a/arch/arc/boot/dts/nsimosci.dts
++++ b/arch/arc/boot/dts/nsimosci.dts
+@@ -83,5 +83,9 @@
+ 			reg = <0xf0003000 0x44>;
+ 			interrupts = <7>;
+ 		};
++
++		arcpct0: pct {
++			compatible = "snps,archs-pct";
++		};
+ 	};
+ };
+diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
+index 7314f538847b..b0066a749d4c 100644
+--- a/arch/arc/configs/nsim_700_defconfig
++++ b/arch/arc/configs/nsim_700_defconfig
+@@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
+ CONFIG_INITRAMFS_SOURCE="../arc_initramfs/"
+ CONFIG_KALLSYMS_ALL=y
+ CONFIG_EMBEDDED=y
++CONFIG_PERF_EVENTS=y
+ # CONFIG_SLUB_DEBUG is not set
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_KPROBES=y
+diff --git a/arch/arc/configs/nsim_hs_defconfig b/arch/arc/configs/nsim_hs_defconfig
+index 65ab9fbf83f2..ebe9ebb92933 100644
+--- a/arch/arc/configs/nsim_hs_defconfig
++++ b/arch/arc/configs/nsim_hs_defconfig
+@@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
+ CONFIG_INITRAMFS_SOURCE="../../arc_initramfs_hs/"
+ CONFIG_KALLSYMS_ALL=y
+ CONFIG_EMBEDDED=y
++CONFIG_PERF_EVENTS=y
+ # CONFIG_SLUB_DEBUG is not set
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_KPROBES=y
+diff --git a/arch/arc/configs/nsim_hs_smp_defconfig b/arch/arc/configs/nsim_hs_smp_defconfig
+index 3b3990cddbe1..4bde43278be6 100644
+--- a/arch/arc/configs/nsim_hs_smp_defconfig
++++ b/arch/arc/configs/nsim_hs_smp_defconfig
+@@ -12,6 +12,7 @@ CONFIG_BLK_DEV_INITRD=y
+ CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
+ CONFIG_KALLSYMS_ALL=y
+ CONFIG_EMBEDDED=y
++CONFIG_PERF_EVENTS=y
+ # CONFIG_SLUB_DEBUG is not set
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_KPROBES=y
+diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
+index 98cf20933bbb..f6fb3d26557e 100644
+--- a/arch/arc/configs/nsimosci_defconfig
++++ b/arch/arc/configs/nsimosci_defconfig
+@@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
+ CONFIG_INITRAMFS_SOURCE="../arc_initramfs/"
+ CONFIG_KALLSYMS_ALL=y
+ CONFIG_EMBEDDED=y
++CONFIG_PERF_EVENTS=y
+ # CONFIG_SLUB_DEBUG is not set
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_KPROBES=y
+diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
+index ddf8b96d494e..b9f0fe00044b 100644
+--- a/arch/arc/configs/nsimosci_hs_defconfig
++++ b/arch/arc/configs/nsimosci_hs_defconfig
+@@ -14,6 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
+ CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
+ CONFIG_KALLSYMS_ALL=y
+ CONFIG_EMBEDDED=y
++CONFIG_PERF_EVENTS=y
+ # CONFIG_SLUB_DEBUG is not set
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_KPROBES=y
+diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
+index ceb90745326e..6da71ba253a9 100644
+--- a/arch/arc/configs/nsimosci_hs_smp_defconfig
++++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
+@@ -10,6 +10,7 @@ CONFIG_IKCONFIG_PROC=y
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+ CONFIG_INITRAMFS_SOURCE="../arc_initramfs_hs/"
++CONFIG_PERF_EVENTS=y
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_KPROBES=y
+ CONFIG_MODULES=y
+@@ -34,7 +35,6 @@ CONFIG_INET=y
+ # CONFIG_INET_XFRM_MODE_TRANSPORT is not set
+ # CONFIG_INET_XFRM_MODE_TUNNEL is not set
+ # CONFIG_INET_XFRM_MODE_BEET is not set
+-# CONFIG_INET_LRO is not set
+ # CONFIG_IPV6 is not set
+ # CONFIG_WIRELESS is not set
+ CONFIG_DEVTMPFS=y
+@@ -72,7 +72,6 @@ CONFIG_SERIAL_OF_PLATFORM=y
+ # CONFIG_HWMON is not set
+ CONFIG_DRM=y
+ CONFIG_DRM_ARCPGU=y
+-CONFIG_FRAMEBUFFER_CONSOLE=y
+ CONFIG_LOGO=y
+ # CONFIG_HID is not set
+ # CONFIG_USB_SUPPORT is not set
 -- 
-Catalin
+2.7.4
