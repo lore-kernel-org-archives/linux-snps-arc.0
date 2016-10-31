@@ -1,43 +1,36 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 31 Oct 2016 15:48:09 -0700
-Subject: [PATCH 2/9] ARC: timer: rtc: implement read loop in "C" vs. inline asm
+Date: Mon, 31 Oct 2016 15:48:10 -0700
+Subject: [PATCH 3/9] ARC: timer: gfrc: boot print alongside other timers
 In-Reply-To: <1477954096-770-1-git-send-email-vgupta@synopsys.com>
 References: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
  <1477954096-770-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1477954096-770-3-git-send-email-vgupta@synopsys.com>
+Message-ID: <1477954096-770-4-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
-
-To allow for easy movement into drivers/clocksource
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/time.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ arch/arc/kernel/setup.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
-index a2db010cde18..2c51e3cafad0 100644
---- a/arch/arc/kernel/time.c
-+++ b/arch/arc/kernel/time.c
-@@ -153,14 +153,11 @@ static cycle_t arc_read_rtc(struct clocksource *cs)
- 		cycle_t  full;
- 	} stamp;
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 0385df77a697..595d06900061 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -234,11 +234,11 @@ static char *arc_cpu_mumbojumbo(int cpu_id, char *buf, int len)
+ 		       is_isa_arcompact() ? "ARCompact" : "ARCv2",
+ 		       IS_AVAIL1(cpu->isa.be, "[Big-Endian]"));
  
--
--	__asm__ __volatile(
--	"1:						\n"
--	"	lr		%0, [AUX_RTC_LOW]	\n"
--	"	lr		%1, [AUX_RTC_HIGH]	\n"
--	"	lr		%2, [AUX_RTC_CTRL]	\n"
--	"	bbit0.nt	%2, 31, 1b		\n"
--	: "=r" (stamp.low), "=r" (stamp.high), "=r" (status));
-+	do {
-+		stamp.low = read_aux_reg(AUX_RTC_LOW);
-+		stamp.high = read_aux_reg(AUX_RTC_HIGH);
-+		status = read_aux_reg(AUX_RTC_CTRL);
-+	} while (!(status & 0x80000000UL));
+-	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s\nISA Extn\t: ",
++	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s%s%s\nISA Extn\t: ",
+ 		       IS_AVAIL1(cpu->extn.timer0, "Timer0 "),
+ 		       IS_AVAIL1(cpu->extn.timer1, "Timer1 "),
+-		       IS_AVAIL2(cpu->extn.rtc, "Local-64-bit-Ctr ",
+-				 CONFIG_ARC_HAS_RTC));
++		       IS_AVAIL2(cpu->extn.rtc, "RTC [UP 64-bit] ", CONFIG_ARC_HAS_RTC),
++		       IS_AVAIL2(cpu->extn.gfrc, "GFRC [SMP 64-bit] ", CONFIG_ARC_HAS_GFRC));
  
- 	return stamp.full;
- }
+ 	n += i = scnprintf(buf + n, len - n, "%s%s%s%s%s",
+ 			   IS_AVAIL2(cpu->isa.atomic, "atomic ", CONFIG_ARC_HAS_LLSC),
 -- 
 2.7.4
