@@ -1,53 +1,49 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 31 Oct 2016 15:48:08 -0700
-Subject: [PATCH 1/9] ARC: timer: gfrc,
- rtc: Read BCR to detect whether hardware exists ...
-In-Reply-To: <1477954096-770-1-git-send-email-vgupta@synopsys.com>
+Date: Mon, 31 Oct 2016 15:48:07 -0700
+Subject: [PATCH 0/9] Move ARC timer code into drivers/clocksource/
+In-Reply-To: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
 References: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
- <1477954096-770-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1477954096-770-2-git-send-email-vgupta@synopsys.com>
+Message-ID: <1477954096-770-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-... don't rely on cpuinfo populated in arc boot code. This paves wat for
-moving this code in drivers/clocksource/
+Hi,
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/kernel/time.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+This series addresses the long pending move of ARC timer code into
+drivers/clocksource/.
 
-diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
-index f927b8dc6edd..a2db010cde18 100644
---- a/arch/arc/kernel/time.c
-+++ b/arch/arc/kernel/time.c
-@@ -118,10 +118,11 @@ static struct clocksource arc_counter_gfrc = {
- 
- static int __init arc_cs_setup_gfrc(struct device_node *node)
- {
--	int exists = cpuinfo_arc700[0].extn.gfrc;
-+	struct mcip_bcr mp;
- 	int ret;
- 
--	if (WARN(!exists, "Global-64-bit-Ctr clocksource not detected"))
-+	READ_BCR(ARC_REG_MCIP_BCR, mp);
-+	if (WARN(!mp.gfrc, "Global-64-bit-Ctr clocksource not detected"))
- 		return -ENXIO;
- 
- 	ret = arc_get_timer_clk(node);
-@@ -174,10 +175,11 @@ static struct clocksource arc_counter_rtc = {
- 
- static int __init arc_cs_setup_rtc(struct device_node *node)
- {
--	int exists = cpuinfo_arc700[smp_processor_id()].extn.rtc;
-+	struct bcr_timer timer;
- 	int ret;
- 
--	if (WARN(!exists, "Local-64-bit-Ctr clocksource not detected"))
-+	READ_BCR(ARC_REG_TIMERS_BCR, timer);
-+	if (WARN(!timer.rtc, "Local-64-bit-Ctr clocksource not detected"))
- 		return -ENXIO;
- 
- 	/* Local to CPU hence not usable in SMP */
+- patches [1-4]/9 are improvements to arc code, paving way for later code motion.
+- patches [5-8]/9 refactor the arc headers to be shared between arc and drivers
+- patch 9/9 moves out the driver code/build/Kconfig bits
+
+As review progresses/concludes, I'd like to merge [1-8] for this merge window and
+clocksource maintainers can pick up the actual switch for 4.10 or even 4.9 as they
+prefer.
+
+Thx,
+-Vineet
+
+ MAINTAINERS                                        |  1 +
+ arch/arc/Kconfig                                   | 12 +--
+ arch/arc/configs/nsimosci_hs_smp_defconfig         |  2 +-
+ arch/arc/configs/vdk_hs38_smp_defconfig            |  2 +-
+ arch/arc/include/asm/arcregs.h                     | 94 +---------------------
+ arch/arc/kernel/Makefile                           |  2 +-
+ arch/arc/kernel/mcip.c                             |  2 +-
+ arch/arc/kernel/setup.c                            | 17 +++-
+ arch/arc/plat-axs10x/axs10x.c                      |  2 +-
+ drivers/clocksource/Kconfig                        | 24 ++++++
+ drivers/clocksource/Makefile                       |  1 +
+ .../time.c => drivers/clocksource/arc_timer.c      | 69 +++++-----------
+ include/soc/arc/aux.h                              | 52 ++++++++++++
+ {arch/arc/include/asm => include/soc/arc}/mcip.h   | 10 +--
+ include/soc/arc/timers.h                           | 24 ++++++
+ include/soc/nps/common.h                           |  4 +-
+ 16 files changed, 151 insertions(+), 167 deletions(-)
+ rename arch/arc/kernel/time.c => drivers/clocksource/arc_timer.c (83%)
+ create mode 100644 include/soc/arc/aux.h
+ rename {arch/arc/include/asm => include/soc/arc}/mcip.h (95%)
+ create mode 100644 include/soc/arc/timers.h
+
 -- 
 2.7.4
