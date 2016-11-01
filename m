@@ -1,489 +1,218 @@
-From: cov@codeaurora.org (Christopher Covington)
-Date: Tue,  1 Nov 2016 11:11:01 -0600
-Subject: [RFC v2 7/7] mm: Remove mm-arch-hooks.h
-In-Reply-To: <20161101171101.24704-1-cov@codeaurora.org>
-References: <20161101171101.24704-1-cov@codeaurora.org>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Tue, 1 Nov 2016 21:42:57 +0100
+Subject: [PATCH 9/9] clocksource: import ARC timer driver
+In-Reply-To: <1477954096-770-10-git-send-email-vgupta@synopsys.com>
+References: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
+ <1477954096-770-1-git-send-email-vgupta@synopsys.com>
+ <1477954096-770-10-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161101171101.24704-7-cov@codeaurora.org>
+Message-ID: <20161101204257.GG1506@mai>
 To: linux-snps-arc@lists.infradead.org
 
-The only use case, VDSO remap support for PowerPC, has been made generic
-instead of architecture-specific. Since the infrastructure is no longer
-needed, remove it.
+On Mon, Oct 31, 2016@03:48:16PM -0700, Vineet Gupta wrote:
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  MAINTAINERS                                        |  1 +
+>  arch/arc/Kconfig                                   | 12 +--------
+>  arch/arc/kernel/Makefile                           |  2 +-
+>  drivers/clocksource/Kconfig                        | 24 ++++++++++++++++++
+>  drivers/clocksource/Makefile                       |  1 +
+>  .../time.c => drivers/clocksource/arc_timer.c      | 29 ++++++----------------
+>  6 files changed, 35 insertions(+), 34 deletions(-)
+>  rename arch/arc/kernel/time.c => drivers/clocksource/arc_timer.c (90%)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3d838cf49f81..57b56ff1dd68 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11632,6 +11632,7 @@ S:	Supported
+>  F:	arch/arc/
+>  F:	Documentation/devicetree/bindings/arc/*
+>  F:	Documentation/devicetree/bindings/interrupt-controller/snps,arc*
+> +F:	drivers/clocksource/arc_timer.c
+>  F:	drivers/tty/serial/arc_uart.c
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git
+>  
+> diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+> index b4499f97035a..8768a509d5e7 100644
+> --- a/arch/arc/Kconfig
+> +++ b/arch/arc/Kconfig
+> @@ -8,9 +8,9 @@
+>  
+>  config ARC
+>  	def_bool y
+> +	select ARC_TIMER
+>  	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
+>  	select BUILDTIME_EXTABLE_SORT
+> -	select CLKSRC_OF
+>  	select CLONE_BACKWARDS
+>  	select COMMON_CLK
+>  	select GENERIC_ATOMIC64 if !ISA_ARCV2 || !(ARC_HAS_LL64 && ARC_HAS_LLSC)
+> @@ -410,16 +410,6 @@ config ARC_HAS_DIV_REM
+>  	bool "Insn: div, divu, rem, remu"
+>  	default y
+>  
+> -config ARC_TIMER_RTC
+> -	bool "Local 64-bit r/o cycle counter"
+> -	default n
+> -	depends on !SMP
+> -
+> -config ARC_TIMER_GFRC
+> -	bool "SMP synchronized 64-bit cycle counter"
+> -	default y
+> -	depends on SMP
+> -
+>  config ARC_NUMBER_OF_INTERRUPTS
+>  	int "Number of interrupts"
+>  	range 8 240
+> diff --git a/arch/arc/kernel/Makefile b/arch/arc/kernel/Makefile
+> index cfcdedf52ff8..8942c5c3b4c5 100644
+> --- a/arch/arc/kernel/Makefile
+> +++ b/arch/arc/kernel/Makefile
+> @@ -8,7 +8,7 @@
+>  # Pass UTS_MACHINE for user_regset definition
+>  CFLAGS_ptrace.o		+= -DUTS_MACHINE='"$(UTS_MACHINE)"'
+>  
+> -obj-y	:= arcksyms.o setup.o irq.o time.o reset.o ptrace.o process.o devtree.o
+> +obj-y	:= arcksyms.o setup.o irq.o reset.o ptrace.o process.o devtree.o
+>  obj-y	+= signal.o traps.o sys.o troubleshoot.o stacktrace.o disasm.o
+>  obj-$(CONFIG_ISA_ARCOMPACT)		+= entry-compact.o intc-compact.o
+>  obj-$(CONFIG_ISA_ARCV2)			+= entry-arcv2.o intc-arcv2.o
+> diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
+> index e2c6e43cf8ca..73feaadc1924 100644
+> --- a/drivers/clocksource/Kconfig
+> +++ b/drivers/clocksource/Kconfig
+> @@ -282,6 +282,30 @@ config CLKSRC_MPS2
+>  	select CLKSRC_MMIO
+>  	select CLKSRC_OF
+>  
+> +config ARC_TIMER
+> +	bool "Enable timers for ARC Cores"
+> +	select CLKSRC_OF if OF
+> +
+> +if ARC_TIMER
+> +
+> +config ARC_TIMER_RTC
+> +	bool "64-bit cycle counter in HS38 cores"
+> +	default y if ARC
+> +	depends on !SMP
+> +	help
+> +	  This counter provides 64-bit resolution vs. the 32-bit TIMER1.
+> +	  It is implemented inside the core thus can't be used in SMP systems
+> +
+> +config ARC_TIMER_GFRC
+> +	bool "64-bit cycle counter in ARConnect block in HS38x cores"
+> +	default y if ARC
+> +	depends on SMP
+> +	help
+> +	  This counter can be used as clocksource in SMP HS38 SoCs.
+> +	  It sits outside the core thus can be used in SMP systems
+> +
+> +endif
+> +
 
-Signed-off-by: Christopher Covington <cov at codeaurora.org>
----
- arch/alpha/include/asm/Kbuild      |  1 -
- arch/arc/include/asm/Kbuild        |  1 -
- arch/arm/include/asm/Kbuild        |  1 -
- arch/arm64/include/asm/Kbuild      |  1 -
- arch/avr32/include/asm/Kbuild      |  1 -
- arch/blackfin/include/asm/Kbuild   |  1 -
- arch/c6x/include/asm/Kbuild        |  1 -
- arch/cris/include/asm/Kbuild       |  1 -
- arch/frv/include/asm/Kbuild        |  1 -
- arch/h8300/include/asm/Kbuild      |  1 -
- arch/hexagon/include/asm/Kbuild    |  1 -
- arch/ia64/include/asm/Kbuild       |  1 -
- arch/m32r/include/asm/Kbuild       |  1 -
- arch/m68k/include/asm/Kbuild       |  1 -
- arch/metag/include/asm/Kbuild      |  1 -
- arch/microblaze/include/asm/Kbuild |  1 -
- arch/mips/include/asm/Kbuild       |  1 -
- arch/mn10300/include/asm/Kbuild    |  1 -
- arch/nios2/include/asm/Kbuild      |  1 -
- arch/openrisc/include/asm/Kbuild   |  1 -
- arch/parisc/include/asm/Kbuild     |  1 -
- arch/s390/include/asm/Kbuild       |  1 -
- arch/score/include/asm/Kbuild      |  1 -
- arch/sh/include/asm/Kbuild         |  1 -
- arch/sparc/include/asm/Kbuild      |  1 -
- arch/tile/include/asm/Kbuild       |  1 -
- arch/um/include/asm/Kbuild         |  1 -
- arch/unicore32/include/asm/Kbuild  |  1 -
- arch/x86/include/asm/Kbuild        |  1 -
- arch/xtensa/include/asm/Kbuild     |  1 -
- include/asm-generic/mm_hooks.h     | 16 ----------------
- mm/mremap.c                        | 20 +++++++++++++++++---
- 32 files changed, 17 insertions(+), 49 deletions(-)
+Please stay consistent with the rest of the Kconfig.
 
-diff --git a/arch/alpha/include/asm/Kbuild b/arch/alpha/include/asm/Kbuild
-index bf8475c..0a5e0ec 100644
---- a/arch/alpha/include/asm/Kbuild
-+++ b/arch/alpha/include/asm/Kbuild
-@@ -6,7 +6,6 @@ generic-y += exec.h
- generic-y += export.h
- generic-y += irq_work.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += preempt.h
- generic-y += sections.h
- generic-y += trace_clock.h
-diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
-index c332604..e6059a8 100644
---- a/arch/arc/include/asm/Kbuild
-+++ b/arch/arc/include/asm/Kbuild
-@@ -22,7 +22,6 @@ generic-y += kvm_para.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += msgbuf.h
- generic-y += msi.h
-diff --git a/arch/arm/include/asm/Kbuild b/arch/arm/include/asm/Kbuild
-index 0745538..44b717c 100644
---- a/arch/arm/include/asm/Kbuild
-+++ b/arch/arm/include/asm/Kbuild
-@@ -15,7 +15,6 @@ generic-y += irq_regs.h
- generic-y += kdebug.h
- generic-y += local.h
- generic-y += local64.h
--generic-y += mm-arch-hooks.h
- generic-y += msgbuf.h
- generic-y += msi.h
- generic-y += param.h
-diff --git a/arch/arm64/include/asm/Kbuild b/arch/arm64/include/asm/Kbuild
-index 44e1d7f..a42a136 100644
---- a/arch/arm64/include/asm/Kbuild
-+++ b/arch/arm64/include/asm/Kbuild
-@@ -20,7 +20,6 @@ generic-y += kvm_para.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += msgbuf.h
- generic-y += msi.h
-diff --git a/arch/avr32/include/asm/Kbuild b/arch/avr32/include/asm/Kbuild
-index 241b9b9..519810d 100644
---- a/arch/avr32/include/asm/Kbuild
-+++ b/arch/avr32/include/asm/Kbuild
-@@ -12,7 +12,6 @@ generic-y += irq_work.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += param.h
- generic-y += percpu.h
- generic-y += preempt.h
-diff --git a/arch/blackfin/include/asm/Kbuild b/arch/blackfin/include/asm/Kbuild
-index 91d49c0..c80181e 100644
---- a/arch/blackfin/include/asm/Kbuild
-+++ b/arch/blackfin/include/asm/Kbuild
-@@ -21,7 +21,6 @@ generic-y += kvm_para.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += msgbuf.h
- generic-y += mutex.h
-diff --git a/arch/c6x/include/asm/Kbuild b/arch/c6x/include/asm/Kbuild
-index 64465e7..1b9cbed 100644
---- a/arch/c6x/include/asm/Kbuild
-+++ b/arch/c6x/include/asm/Kbuild
-@@ -27,7 +27,6 @@ generic-y += kdebug.h
- generic-y += kmap_types.h
- generic-y += local.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += mmu.h
- generic-y += mmu_context.h
-diff --git a/arch/cris/include/asm/Kbuild b/arch/cris/include/asm/Kbuild
-index 1778805..8e98d03 100644
---- a/arch/cris/include/asm/Kbuild
-+++ b/arch/cris/include/asm/Kbuild
-@@ -24,7 +24,6 @@ generic-y += linkage.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += module.h
- generic-y += msgbuf.h
-diff --git a/arch/frv/include/asm/Kbuild b/arch/frv/include/asm/Kbuild
-index 1fa084c..2c987dc 100644
---- a/arch/frv/include/asm/Kbuild
-+++ b/arch/frv/include/asm/Kbuild
-@@ -4,7 +4,6 @@ generic-y += cputime.h
- generic-y += exec.h
- generic-y += irq_work.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += preempt.h
- generic-y += trace_clock.h
- generic-y += word-at-a-time.h
-diff --git a/arch/h8300/include/asm/Kbuild b/arch/h8300/include/asm/Kbuild
-index 373cb23..2a63a32 100644
---- a/arch/h8300/include/asm/Kbuild
-+++ b/arch/h8300/include/asm/Kbuild
-@@ -33,7 +33,6 @@ generic-y += linkage.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += mmu.h
- generic-y += mmu_context.h
-diff --git a/arch/hexagon/include/asm/Kbuild b/arch/hexagon/include/asm/Kbuild
-index db8ddab..0988816 100644
---- a/arch/hexagon/include/asm/Kbuild
-+++ b/arch/hexagon/include/asm/Kbuild
-@@ -28,7 +28,6 @@ generic-y += kmap_types.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += msgbuf.h
- generic-y += pci.h
-diff --git a/arch/ia64/include/asm/Kbuild b/arch/ia64/include/asm/Kbuild
-index 502a91d..dc05773 100644
---- a/arch/ia64/include/asm/Kbuild
-+++ b/arch/ia64/include/asm/Kbuild
-@@ -4,7 +4,6 @@ generic-y += exec.h
- generic-y += irq_work.h
- generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += preempt.h
- generic-y += trace_clock.h
- generic-y += vtime.h
-diff --git a/arch/m32r/include/asm/Kbuild b/arch/m32r/include/asm/Kbuild
-index 860e440..f09a5fd 100644
---- a/arch/m32r/include/asm/Kbuild
-+++ b/arch/m32r/include/asm/Kbuild
-@@ -5,7 +5,6 @@ generic-y += exec.h
- generic-y += irq_work.h
- generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += module.h
- generic-y += preempt.h
- generic-y += sections.h
-diff --git a/arch/m68k/include/asm/Kbuild b/arch/m68k/include/asm/Kbuild
-index eb85bd9..1555bc1 100644
---- a/arch/m68k/include/asm/Kbuild
-+++ b/arch/m68k/include/asm/Kbuild
-@@ -18,7 +18,6 @@ generic-y += kvm_para.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += mutex.h
- generic-y += percpu.h
-diff --git a/arch/metag/include/asm/Kbuild b/arch/metag/include/asm/Kbuild
-index 29acb89d..611c0df 100644
---- a/arch/metag/include/asm/Kbuild
-+++ b/arch/metag/include/asm/Kbuild
-@@ -25,7 +25,6 @@ generic-y += kvm_para.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += msgbuf.h
- generic-y += mutex.h
- generic-y += param.h
-diff --git a/arch/microblaze/include/asm/Kbuild b/arch/microblaze/include/asm/Kbuild
-index b0ae88c..cefeaba 100644
---- a/arch/microblaze/include/asm/Kbuild
-+++ b/arch/microblaze/include/asm/Kbuild
-@@ -6,7 +6,6 @@ generic-y += device.h
- generic-y += exec.h
- generic-y += irq_work.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += preempt.h
- generic-y += syscalls.h
- generic-y += trace_clock.h
-diff --git a/arch/mips/include/asm/Kbuild b/arch/mips/include/asm/Kbuild
-index 9740066..f0ce0ae 100644
---- a/arch/mips/include/asm/Kbuild
-+++ b/arch/mips/include/asm/Kbuild
-@@ -8,7 +8,6 @@ generic-y += emergency-restart.h
- generic-y += irq_work.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mutex.h
- generic-y += parport.h
- generic-y += percpu.h
-diff --git a/arch/mn10300/include/asm/Kbuild b/arch/mn10300/include/asm/Kbuild
-index 1c8dd0f..27cbc02 100644
---- a/arch/mn10300/include/asm/Kbuild
-+++ b/arch/mn10300/include/asm/Kbuild
-@@ -5,7 +5,6 @@ generic-y += cputime.h
- generic-y += exec.h
- generic-y += irq_work.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += preempt.h
- generic-y += sections.h
- generic-y += trace_clock.h
-diff --git a/arch/nios2/include/asm/Kbuild b/arch/nios2/include/asm/Kbuild
-index d63330e..e224789 100644
---- a/arch/nios2/include/asm/Kbuild
-+++ b/arch/nios2/include/asm/Kbuild
-@@ -30,7 +30,6 @@ generic-y += kmap_types.h
- generic-y += kvm_para.h
- generic-y += local.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += module.h
- generic-y += msgbuf.h
-diff --git a/arch/openrisc/include/asm/Kbuild b/arch/openrisc/include/asm/Kbuild
-index 2832f03..2a2e39b 100644
---- a/arch/openrisc/include/asm/Kbuild
-+++ b/arch/openrisc/include/asm/Kbuild
-@@ -36,7 +36,6 @@ generic-y += kmap_types.h
- generic-y += kvm_para.h
- generic-y += local.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += module.h
- generic-y += msgbuf.h
-diff --git a/arch/parisc/include/asm/Kbuild b/arch/parisc/include/asm/Kbuild
-index f9b3a81..12b341d 100644
---- a/arch/parisc/include/asm/Kbuild
-+++ b/arch/parisc/include/asm/Kbuild
-@@ -15,7 +15,6 @@ generic-y += kvm_para.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mutex.h
- generic-y += param.h
- generic-y += percpu.h
-diff --git a/arch/s390/include/asm/Kbuild b/arch/s390/include/asm/Kbuild
-index 20f196b..c1ef825 100644
---- a/arch/s390/include/asm/Kbuild
-+++ b/arch/s390/include/asm/Kbuild
-@@ -4,7 +4,6 @@ generic-y += clkdev.h
- generic-y += export.h
- generic-y += irq_work.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += preempt.h
- generic-y += trace_clock.h
- generic-y += word-at-a-time.h
-diff --git a/arch/score/include/asm/Kbuild b/arch/score/include/asm/Kbuild
-index a05218f..ff19975 100644
---- a/arch/score/include/asm/Kbuild
-+++ b/arch/score/include/asm/Kbuild
-@@ -7,7 +7,6 @@ generic-y += clkdev.h
- generic-y += cputime.h
- generic-y += irq_work.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += preempt.h
- generic-y += sections.h
- generic-y += trace_clock.h
-diff --git a/arch/sh/include/asm/Kbuild b/arch/sh/include/asm/Kbuild
-index 751c337..7d1fb2c 100644
---- a/arch/sh/include/asm/Kbuild
-+++ b/arch/sh/include/asm/Kbuild
-@@ -17,7 +17,6 @@ generic-y += kvm_para.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += msgbuf.h
- generic-y += param.h
-diff --git a/arch/sparc/include/asm/Kbuild b/arch/sparc/include/asm/Kbuild
-index cfc9180..0867d5a 100644
---- a/arch/sparc/include/asm/Kbuild
-+++ b/arch/sparc/include/asm/Kbuild
-@@ -13,7 +13,6 @@ generic-y += linkage.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += module.h
- generic-y += mutex.h
- generic-y += preempt.h
-diff --git a/arch/tile/include/asm/Kbuild b/arch/tile/include/asm/Kbuild
-index ba35c41..40d22b4 100644
---- a/arch/tile/include/asm/Kbuild
-+++ b/arch/tile/include/asm/Kbuild
-@@ -19,7 +19,6 @@ generic-y += irq_regs.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += msgbuf.h
- generic-y += mutex.h
- generic-y += param.h
-diff --git a/arch/um/include/asm/Kbuild b/arch/um/include/asm/Kbuild
-index 904f3eb..33c1d3e 100644
---- a/arch/um/include/asm/Kbuild
-+++ b/arch/um/include/asm/Kbuild
-@@ -16,7 +16,6 @@ generic-y += irq_regs.h
- generic-y += irq_work.h
- generic-y += kdebug.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mutex.h
- generic-y += param.h
- generic-y += pci.h
-diff --git a/arch/unicore32/include/asm/Kbuild b/arch/unicore32/include/asm/Kbuild
-index 256c45b..932070c 100644
---- a/arch/unicore32/include/asm/Kbuild
-+++ b/arch/unicore32/include/asm/Kbuild
-@@ -26,7 +26,6 @@ generic-y += kdebug.h
- generic-y += kmap_types.h
- generic-y += local.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += mman.h
- generic-y += module.h
- generic-y += msgbuf.h
-diff --git a/arch/x86/include/asm/Kbuild b/arch/x86/include/asm/Kbuild
-index 2cfed17..51b3d95 100644
---- a/arch/x86/include/asm/Kbuild
-+++ b/arch/x86/include/asm/Kbuild
-@@ -15,4 +15,3 @@ generic-y += cputime.h
- generic-y += dma-contiguous.h
- generic-y += early_ioremap.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
-diff --git a/arch/xtensa/include/asm/Kbuild b/arch/xtensa/include/asm/Kbuild
-index 28cf4c5..bdade99 100644
---- a/arch/xtensa/include/asm/Kbuild
-+++ b/arch/xtensa/include/asm/Kbuild
-@@ -18,7 +18,6 @@ generic-y += linkage.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
--generic-y += mm-arch-hooks.h
- generic-y += percpu.h
- generic-y += preempt.h
- generic-y += resource.h
-diff --git a/include/asm-generic/mm_hooks.h b/include/asm-generic/mm_hooks.h
-index 73f09f1..f4d43aa 100644
---- a/include/asm-generic/mm_hooks.h
-+++ b/include/asm-generic/mm_hooks.h
-@@ -3,7 +3,6 @@
-  * included in asm-FOO/mmu_context.h for any arch FOO which doesn't need to
-  * specially hook these.
-  *
-- * arch_remap originally from include/linux-mm-arch-hooks.h
-  * arch_unmap originally from arch/powerpc/include/asm/mmu_context.h
-  * Copyright (C) 2015, IBM Corporation
-  * Author: Laurent Dufour <ldufour at linux.vnet.ibm.com>
-@@ -35,21 +34,6 @@ static inline void arch_unmap(struct mm_struct *mm,
- #endif /* CONFIG_GENERIC_VDSO */
- }
- 
--static inline void arch_remap(struct mm_struct *mm,
--			      unsigned long old_start, unsigned long old_end,
--			      unsigned long new_start, unsigned long new_end)
--{
--#ifdef CONFIG_GENERIC_VDSO
--	/*
--	 * mremap() doesn't allow moving multiple vmas so we can limit the
--	 * check to old_addr == vdso.
--	 */
--	if (old_addr == mm->context.vdso)
--		mm->context.vdso = new_addr;
--
--#endif /* CONFIG_GENERIC_VDSO */
--}
--
- static inline void arch_bprm_mm_init(struct mm_struct *mm,
- 				     struct vm_area_struct *vma)
- {
-diff --git a/mm/mremap.c b/mm/mremap.c
-index da22ad2..0d0ea14 100644
---- a/mm/mremap.c
-+++ b/mm/mremap.c
-@@ -5,6 +5,14 @@
-  *
-  *	Address space accounting code	<alan at lxorguk.ukuu.org.uk>
-  *	(C) Copyright 2002 Red Hat Inc, All Rights Reserved
-+ *
-+ *	arch_remap originally from include/linux-mm-arch-hooks.h
-+ *	Copyright (C) 2015, IBM Corporation
-+ *	Author: Laurent Dufour <ldufour at linux.vnet.ibm.com>
-+ *
-+ *	This program is free software; you can redistribute it and/or modify
-+ *	it under the terms of the GNU General Public License version 2 as
-+ *	published by the Free Software Foundation.
-  */
- 
- #include <linux/mm.h>
-@@ -21,7 +29,6 @@
- #include <linux/syscalls.h>
- #include <linux/mmu_notifier.h>
- #include <linux/uaccess.h>
--#include <linux/mm-arch-hooks.h>
- 
- #include <asm/cacheflush.h>
- #include <asm/tlbflush.h>
-@@ -293,8 +300,15 @@ static unsigned long move_vma(struct vm_area_struct *vma,
- 		old_addr = new_addr;
- 		new_addr = err;
- 	} else {
--		arch_remap(mm, old_addr, old_addr + old_len,
--			   new_addr, new_addr + new_len);
-+#ifdef CONFIG_GENERIC_VDSO
-+		/*
-+		 * mremap() doesn't allow moving multiple vmas so we can limit
-+		 * the check to old_addr == vdso.
-+		 */
-+		if (old_addr == mm->context.vdso)
-+			mm->context.vdso = new_addr;
-+
-+#endif /* CONFIG_GENERIC_VDSO */
- 	}
- 
- 	/* Conceal VM_ACCOUNT so old reservation is not undone */
--- 
-Qualcomm Datacenter Technologies as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the
-Code Aurora Forum, a Linux Foundation Collaborative Project.
+config ARC_TIMER_RTC
+	bool "64-bit cycle counter in HS38 cores" if COMPILE_TEST
+	select CLKSRC_OF
+	help
+	  This counter provides 64-bit resolution vs. the 32-bit TIMER1.
+	  It is implemented inside the core thus can't be used in SMP systems.
+
+config ARC_TIMER_GFRC
+	bool "64-bit cycle counter in ARConnect block in HS38x cores" if COMPILE_TEST
+	select CLKSRC_OF
+	help
+	  This counter can be used as clocksource in SMP HS38 SoCs.
+	  It sits outside the core thus can be used in SMP systems
+
+
+Then in the ARC's Kconfig you select ARC_TIMER_RTC or ARC_TIMER_GFRC depending
+it is SMP or not.
+
+One question:
+
+Why ARC_TIMER_RTC can't be used in a SMP system ? Doesn't have each core its
+own clocksource ? It seems you are assuming a clocksource can be used on SMP
+only if the clocksource is unique and shared across the cores.
+
+
+>  config ARM_ARCH_TIMER
+>  	bool
+>  	select CLKSRC_OF if OF
+> diff --git a/drivers/clocksource/Makefile b/drivers/clocksource/Makefile
+> index cf87f407f1ad..e78480cb47f4 100644
+> --- a/drivers/clocksource/Makefile
+> +++ b/drivers/clocksource/Makefile
+> @@ -69,3 +69,4 @@ obj-$(CONFIG_H8300_TMR16)		+= h8300_timer16.o
+>  obj-$(CONFIG_H8300_TPU)			+= h8300_tpu.o
+>  obj-$(CONFIG_CLKSRC_ST_LPC)		+= clksrc_st_lpc.o
+>  obj-$(CONFIG_X86_NUMACHIP)		+= numachip.o
+> +obj-$(CONFIG_ARC_TIMER)			+= arc_timer.o
+> diff --git a/arch/arc/kernel/time.c b/drivers/clocksource/arc_timer.c
+> similarity index 90%
+> rename from arch/arc/kernel/time.c
+> rename to drivers/clocksource/arc_timer.c
+> index 676b14b7a9be..ec37b6c5e903 100644
+> --- a/arch/arc/kernel/time.c
+> +++ b/drivers/clocksource/arc_timer.c
+> @@ -1,32 +1,18 @@
+>  /*
+> + * Copyright (C) 2016-17 Synopsys, Inc. (www.synopsys.com)
+>   * Copyright (C) 2004, 2007-2010, 2011-2012 Synopsys, Inc. (www.synopsys.com)
+>   *
+>   * This program is free software; you can redistribute it and/or modify
+>   * it under the terms of the GNU General Public License version 2 as
+>   * published by the Free Software Foundation.
+> - *
+> - * vineetg: Jan 1011
+> - *  -sched_clock( ) no longer jiffies based. Uses the same clocksource
+> - *   as gtod
+> - *
+> - * Rajeshwarr/Vineetg: Mar 2008
+> - *  -Implemented CONFIG_GENERIC_TIME (rather deleted arch specific code)
+> - *   for arch independent gettimeofday()
+> - *  -Implemented CONFIG_GENERIC_CLOCKEVENTS as base for hrtimers
+> - *
+> - * Vineetg: Mar 2008: Forked off from time.c which now is time-jiff.c
+>   */
+>  
+> -/* ARC700 has two 32bit independent prog Timers: TIMER0 and TIMER1
+> - * Each can programmed to go from @count to @limit and optionally
+> - * interrupt when that happens.
+> - * A write to Control Register clears the Interrupt
+> - *
+> - * We've designated TIMER0 for events (clockevents)
+> - * while TIMER1 for free running (clocksource)
+> +/* ARC700 has two 32bit independent prog Timers: TIMER0 and TIMER1, Each can be
+> + * programmed to go from @count to @limit and optionally interrupt.
+> + * We've designated TIMER0 for clockevents and TIMER1 for clocksource
+>   *
+> - * Newer ARC700 cores have 64bit clk fetching RTSC insn, preferred over TIMER1
+> - * which however is currently broken
+> + * ARCv2 based HS38 cores have RTC (in-core) and GFRC (inside ARConnect/MCIP)
+> + * which are suitable for UP and SMP based clocksources respectively
+>   */
+>  
+>  #include <linux/interrupt.h>
+> @@ -37,7 +23,6 @@
+>  #include <linux/cpu.h>
+>  #include <linux/of.h>
+>  #include <linux/of_irq.h>
+> -#include <asm/irq.h>
+>  
+>  #include <soc/arc/timers.h>
+>  #include <soc/arc/mcip.h>
+> @@ -281,7 +266,7 @@ static irqreturn_t timer_irq_handler(int irq, void *dev_id)
+>  	 * irq_set_chip_and_handler() asked for handle_percpu_devid_irq()
+>  	 */
+>  	struct clock_event_device *evt = this_cpu_ptr(&arc_clockevent_device);
+> -	int irq_reenable = clockevent_state_periodic(evt);
+> +	int irq_reenable __maybe_unused = clockevent_state_periodic(evt);
+>  
+>  	/*
+>  	 * Any write to CTRL reg ACks the interrupt, we rewrite the
+> -- 
+> 2.7.4
+> 
