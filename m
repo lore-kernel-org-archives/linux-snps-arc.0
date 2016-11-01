@@ -1,37 +1,32 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Sat, 01 Oct 2016 05:57:56 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Sat Oct 01, 15:56
+From: noamca@mellanox.com (Noam Camus)
+Date: Tue, 1 Nov 2016 07:49:57 +0000
+Subject: [PATCH 5/9] ARC: breakout aux handling into a seperate header
+In-Reply-To: <1477954096-770-6-git-send-email-vgupta@synopsys.com>
+References: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
+ <1477954096-770-1-git-send-email-vgupta@synopsys.com>
+ <1477954096-770-6-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161001055756.1.84691@8e2d6d7be827>
+Message-ID: <DB6PR0501MB25185BC1DEA31D83F95BBEC5AAA10@DB6PR0501MB2518.eurprd05.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Sat Oct 01, 15:56
+>From: Vineet Gupta [mailto:Vineet.Gupta1 at synopsys.com] 
+>Sent: Tuesday, November 1, 2016 12:48 AM
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12818575/
+>ARC timers use aux registers for programming and this paves way for moving ARC timer drivers into drivers/clocksource
 
-Commit:   Merge branch 'for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input
-          2161a2a644a6d33a29d68395518d103ed805758f
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+Maybe in this patch or just another one could you move from timer.c to the new soc header all timer related Aux registers definitions?
+This could be used by timer-nps driver.
+ 
+i.e.:
+/* Timer related Aux registers */
+#define ARC_REG_TIMER0_LIMIT    0x23    /* timer 0 limit */
+#define ARC_REG_TIMER0_CTRL     0x22    /* timer 0 control */
+#define ARC_REG_TIMER0_CNT      0x21    /* timer 0 count */
+#define ARC_REG_TIMER1_LIMIT    0x102   /* timer 1 limit */
+#define ARC_REG_TIMER1_CTRL     0x101   /* timer 1 control */
+#define ARC_REG_TIMER1_CNT      0x100   /* timer 1 count */
 
-No errors found in log
+#define TIMER_CTRL_IE   (1 << 0) /* Interrupt when Count reaches limit */
+#define TIMER_CTRL_NH   (1 << 1) /* Count only when CPU NOT halted */
 
-Possible warnings (17)
-----------------------
-
-net/core/ethtool.c:300:1: warning: control reaches end of non-void function [-Wreturn-type]
-block/cfq-iosched.c:3819:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/kernel.h:742:17: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-net/ipv4/tcp_input.c:4286:49: warning: array subscript is above array bounds [-Warray-bounds]
-kernel/sched/core.c:3277:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/sunrpc/svc_xprt.h:176:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-drivers/scsi/sd.c:1154:1: warning: control reaches end of non-void function [-Wreturn-type]
-arch/arc/include/asm/elf.h:58:29: warning: integer overflow in expression [-Woverflow]
+#define ARC_TIMER_MAX   0xFFFFFFFF
