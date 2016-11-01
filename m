@@ -1,56 +1,42 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 31 Oct 2016 16:58:07 -0700
-Subject: [PATCH v2] ARC: Enable PERF_EVENTS in nSIM driven platforms
-In-Reply-To: <1477918751-28058-1-git-send-email-abrodkin@synopsys.com>
-References: <1477918751-28058-1-git-send-email-abrodkin@synopsys.com>
+Date: Mon, 31 Oct 2016 17:45:32 -0700
+Subject: [PATCH 9/9] clocksource: import ARC timer driver
+In-Reply-To: <201611010729.RHZWyA5l%fengguang.wu@intel.com>
+References: <1477954096-770-10-git-send-email-vgupta@synopsys.com>
+ <201611010729.RHZWyA5l%fengguang.wu@intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b6ab5d25-964c-5e03-4439-9b3cdf663eb1@synopsys.com>
+Message-ID: <6dac5b54-dd48-3c23-94af-b5fceef8269e@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/31/2016 06:00 AM, Alexey Brodkin wrote:
-> Now when we have properly working performance counters in nSIM
-> even with interrupt support (fix should be a part of upcoming
-> nSIM engineering build 2016.12-005) we may enable perf support
-> by default for all platforms that use nSIM for ARC cores simulation.
->
-> Note 1: PCT node was missing for some reason in nsimosci.dts
->         while all other nSIM-related .dts files already had
->         PCT node for quite some time, so adding it now.
->
-> Note 2: All defconfigs were regenerated with "make savedefconfig"
->         which led to some clean-ups in nsimosci_hs_smp_defconfig:
->         CONFIG_FRAMEBUFFER_CONSOLE=y was removed because it is
->         automatically selected now by DRM.
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> ---
->
-> changes v1 -> v2:
->  * Added missing PCT Device Tree node in nsimosci.dts
->
->  arch/arc/boot/dts/nsimosci.dts             | 4 ++++
->  arch/arc/configs/nsim_700_defconfig        | 1 +
->  arch/arc/configs/nsim_hs_defconfig         | 1 +
->  arch/arc/configs/nsim_hs_smp_defconfig     | 1 +
->  arch/arc/configs/nsimosci_defconfig        | 1 +
->  arch/arc/configs/nsimosci_hs_defconfig     | 1 +
->  arch/arc/configs/nsimosci_hs_smp_defconfig | 3 +--
->  7 files changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arc/boot/dts/nsimosci.dts b/arch/arc/boot/dts/nsimosci.dts
-> index bcf603142a33..7fe184435956 100644
-> --- a/arch/arc/boot/dts/nsimosci.dts
-> +++ b/arch/arc/boot/dts/nsimosci.dts
-> @@ -83,5 +83,9 @@
->  			reg = <0xf0003000 0x44>;
->  			interrupts = <7>;
->  		};
-> +
-> +		arcpct0: pct {
-> +			compatible = "snps,archs-pct";
-> +		};
->  	};
+On 10/31/2016 05:01 PM, kbuild test robot wrote:
+> Hi Vineet,
+> 
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v4.9-rc3]
+> [cannot apply to arc/for-next]
+> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+> [Suggest to use git(>=2.9.0) format-patch --base=<commit> (or --base=auto for convenience) to record what (public, well-known) commit your patch series was built on]
+> [Check https://git-scm.com/docs/git-format-patch for more information]
+> 
+> url:    https://github.com/0day-ci/linux/commits/Vineet-Gupta/Move-ARC-timer-code-into-drivers-clocksource/20161101-065452
+> config: ia64-allmodconfig (attached as .config)
+> compiler: ia64-linux-gcc (GCC) 6.2.0
+> reproduce:
+>         wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # save the attached .config to linux build tree
+>         make.cross ARCH=ia64 
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>>> >> drivers/clocksource/arc_timer.c:237:19: warning: 'struct clock_event_device' declared inside parameter list will not be visible outside of this definition or declaration
+>                struct clock_event_device *dev)
+>                       ^~~~~~~~~~~~~~~~~~
+>    drivers/clocksource/arc_timer.c:243:45: warning: 'struct clock_event_device' declared inside parameter list will not be visible outside of this definition or declaration
 
-This is not the right binding for 700 pct - I've fixed it and pushed to for-next !
+So I'd build tested the series for ARM (32 bit) and x86 (64 bit).
+Seems this requires a depends on GENERIC_CLOCKEVENTS. Will fix it along with other
+comments !
 
+Thx for reporting.
 -Vineet
