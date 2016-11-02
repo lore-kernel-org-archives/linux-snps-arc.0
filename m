@@ -1,47 +1,78 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 2 Nov 2016 11:55:08 +0000
-Subject: [PATCH v3 0/3] dmaengine: DW DMAC: split pdata to hardware
- properties
-In-Reply-To: <1477670402-23943-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
-References: <1477670402-23943-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed,  2 Nov 2016 15:19:43 +0300
+Subject: [PATCH] arc: Implement arch-specific dma_map_ops.mmap
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478087707.2603.7.camel@synopsys.com>
+Message-ID: <1478089183-6458-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Andy,
-Could you possibly tell me your ideas about these changes?
-Thanks.
+We used to use generic implementation of dma_map_ops.mmap which is
+dma_common_mmap() but that only worked for simpler cached mappings when
+vaddr = paddr.
 
-On Fri, 2016-10-28@18:59 +0300, Eugeniy Paltsev wrote:
-> This series is to address a proposal by Andy in these threads:
-> http://www.spinics.net/lists/dmaengine/msg11506.html
-> http://www.spinics.net/lists/dmaengine/msg11541.html
-> Split platform data to actual hardware properties, and platform
-> quirks.
-> Now we able to use quirks and hardware properties separately from
-> different sources (pdata, device tree or autoconfig registers)
-> 
-> Changes for v3:
-> ?-???Split changes to separate patches.
-> ?-???Add "DW_DMA_IS_LLP_SUPPORTED" flag and get rid of "dwc->nollp"
-> ?????as separate variable.
-> ?-???Make "dw_dma_slave" documentation comments more clear about
-> quirks.
-> ?????"is_memcpy" and "is_private" are quirks, "is_nollp" is regular?
-> ?????pdata property.
-> 
-> Eugeniy Paltsev (3):
-> ? dmaengine: DW DMAC: split pdata to hardware properties and platform
-> ????quirks
-> ? dmaengine: DW DMAC: convert to unified device property API
-> ? dmaengine: DW DMAC: move "nollp" to "dwc->flags"
-> 
-> ?drivers/dma/dw/core.c????????????????| 34 +++++++++++++----------
-> ?drivers/dma/dw/platform.c????????????| 53 +++++++++++++++++++-------
-> ----------
-> ?drivers/dma/dw/regs.h????????????????|??2 +-
-> ?include/linux/platform_data/dma-dw.h |??5 ++++
-> ?4 files changed, 54 insertions(+), 40 deletions(-)
-> 
+If a driver requests uncached DMA buffer kernel maps it to virtual
+address so that MMU gets involved and page uncached status takes into
+account. In that case usage of dma_common_mmap() lead to mapping of
+vaddr to vaddr for user-space which is obviously wrong. For more detals
+please refer to verbose explanation here [1].
+
+So here we implement our own version of mmap() which always deals
+with dma_addr and maps underlying memory to user-space properly
+(note that DMA buffer mapped to user-space is always uncached
+because there's no way to properly manage cache from user-space).
+
+[1] https://lkml.org/lkml/2016/10/26/973
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Catalin Marinas <catalin.marinas at arm.com>
+Cc: Marek Szyprowski <m.szyprowski at samsung.com>
+Cc: stable at vger.kernel.org
+---
+ arch/arc/mm/dma.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
+index 20afc65e22dc..034ec6a8a764 100644
+--- a/arch/arc/mm/dma.c
++++ b/arch/arc/mm/dma.c
+@@ -105,6 +105,31 @@ static void arc_dma_free(struct device *dev, size_t size, void *vaddr,
+ 	__free_pages(page, get_order(size));
+ }
+ 
++static int arc_dma_mmap(struct device *dev, struct vm_area_struct *vma,
++			void *cpu_addr, dma_addr_t dma_addr, size_t size,
++			unsigned long attrs)
++{
++	unsigned long user_count = vma_pages(vma);
++	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
++	unsigned long pfn = __phys_to_pfn(dma_addr);
++	unsigned long off = vma->vm_pgoff;
++	int ret = -ENXIO;
++
++	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
++
++	if (dma_mmap_from_coherent(dev, vma, cpu_addr, size, &ret))
++		return ret;
++
++	if (off < count && user_count <= (count - off)) {
++		ret = remap_pfn_range(vma, vma->vm_start,
++				      pfn + off,
++				      user_count << PAGE_SHIFT,
++				      vma->vm_page_prot);
++	}
++
++	return ret;
++}
++
+ /*
+  * streaming DMA Mapping API...
+  * CPU accesses page via normal paddr, thus needs to explicitly made
+@@ -193,6 +218,7 @@ static int arc_dma_supported(struct device *dev, u64 dma_mask)
+ struct dma_map_ops arc_dma_ops = {
+ 	.alloc			= arc_dma_alloc,
+ 	.free			= arc_dma_free,
++	.mmap			= arc_dma_mmap,
+ 	.map_page		= arc_dma_map_page,
+ 	.map_sg			= arc_dma_map_sg,
+ 	.sync_single_for_device	= arc_dma_sync_single_for_device,
 -- 
-?Paltsev Eugeniy
+2.7.4
