@@ -1,83 +1,90 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu,  3 Nov 2016 18:06:13 +0300
-Subject: [PATCH v2] arc: Implement arch-specific dma_map_ops.mmap
+Date: Thu, 3 Nov 2016 16:17:56 +0000
+Subject: stmmac: GMAC_RGSMIIIS reports bogus values
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478185573-12871-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1478189833.4072.65.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-We used to use generic implementation of dma_map_ops.mmap which is
-dma_common_mmap() but that only worked for simpler cached mappings when
-vaddr = paddr.
+Hello,
 
-If a driver requests uncached DMA buffer kernel maps it to virtual
-address so that MMU gets involved and page uncached status takes into
-account. In that case usage of dma_common_mmap() lead to mapping of
-vaddr to vaddr for user-space which is obviously wrong. For more detals
-please refer to verbose explanation here [1].
+I'm seeing pretty strange issue with GMAC reporting a lot of link state changes
+based on bits in GMAC_RGSMIIIS. It looks like that:
+-------------------------->8-----------------------
+Link is Down
+Link is Up - 10/Full
+Link is Down
+Link is Up - 10/Half
+Link is Down
+Link is Down
+Link is Up - 10/Half
+Link is Up -
+1000/Half
+Link is Down
+Link is Down
+Link is Down
+Link is Down
+Link is Up - 10/Half
+Link is Down
+Link is Down
+Link is Up -
+1000/Half
+Link is Up - 1000/Full
+-------------------------->8-----------------------
 
-So here we implement our own version of mmap() which always deals
-with dma_addr and maps underlying memory to user-space properly
-(note that DMA buffer mapped to user-space is always uncached
-because there's no way to properly manage cache from user-space).
+What's especially interesting my board with GMAC is connected to 100Mbit device
+which means there's no chance for 1Gb mode to be set.
 
-[1] https://lkml.org/lkml/2016/10/26/973
+Also this has nothing to do with link state detected and reported by PHY via MDIO.
+So obviously GMAC_RGSMIIIS bits are wrong. But given the fact that GMAC_RGSMIIIS bits
+are set based on state of RXD[3:0] lines of RGMII I may only thing that it's
+PHY (in my case DP83865) who's?sending random data on the RXD during inter-frame gap.
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Reviewed-by: Catalin Marinas <catalin.marinas at arm.com>
-Cc: Marek Szyprowski <m.szyprowski at samsung.com>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: <stable at vger.kernel.org>
----
+Note data transferred through that networking connection is perfectly correct and
+actually I haven't see those link state prints before kernel v4.8 basically
+because the prints in question were implemented with pr_debug() and then with [1]
+we got pr_info() that made prints visible by default.
 
-Changes v1 -> v2:
- * Added plat_dma_to_phys wrapper around dma_addr
+Since I don't have any means to capture all required GMII signals to do better
+analysis and my data is not corrupted in the end I'm thinking about way how to
+mute these pretty senseless messages.
 
- arch/arc/mm/dma.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+One thing I may think of we may disable checking of GMAC_RGSMIIIS if a particular
+board uses MDIO for PHY setup. Something like that:
+-------------------------->8-----------------------
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
+@@ -337,7 +337,7 @@ static int dwmac1000_irq_status(struct mac_device_info *hw,
+?
+????????dwmac_pcs_isr(ioaddr, GMAC_PCS_BASE, intr_status, x);
+?
+-???????if (intr_status & PCS_RGSMIIIS_IRQ)
++???????if (!priv->use_mdio && (intr_status & PCS_RGSMIIIS_IRQ))
+????????????????dwmac1000_rgsmii(ioaddr, x);
+?
+????????return ret;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 6c85b61aaa0b..34e9de0450ba 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -3356,11 +3356,13 @@ int stmmac_dvr_probe(struct device *device,
+?
+????????stmmac_check_pcs_mode(priv);
+?
++???????priv->use_mdio = 0;
+????????if (priv->hw->pcs != STMMAC_PCS_RGMII??&&
+????????????priv->hw->pcs != STMMAC_PCS_TBI &&
+????????????priv->hw->pcs != STMMAC_PCS_RTBI) {
+????????????????/* MDIO bus Registration */
+????????????????ret = stmmac_mdio_register(ndev);
++???????????????priv->use_mdio = 1;
+????????????????if (ret < 0) {
+????????????????????????pr_debug("%s: MDIO bus (id: %d) registration failed",
+?????????????????????????????????__func__, priv->plat->bus_id);
+-------------------------->8-----------------------
 
-diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
-index 20afc65e22dc..9288851d43a0 100644
---- a/arch/arc/mm/dma.c
-+++ b/arch/arc/mm/dma.c
-@@ -105,6 +105,31 @@ static void arc_dma_free(struct device *dev, size_t size, void *vaddr,
- 	__free_pages(page, get_order(size));
- }
- 
-+static int arc_dma_mmap(struct device *dev, struct vm_area_struct *vma,
-+			void *cpu_addr, dma_addr_t dma_addr, size_t size,
-+			unsigned long attrs)
-+{
-+	unsigned long user_count = vma_pages(vma);
-+	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-+	unsigned long pfn = __phys_to_pfn(plat_dma_to_phys(dev, dma_addr));
-+	unsigned long off = vma->vm_pgoff;
-+	int ret = -ENXIO;
-+
-+	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-+
-+	if (dma_mmap_from_coherent(dev, vma, cpu_addr, size, &ret))
-+		return ret;
-+
-+	if (off < count && user_count <= (count - off)) {
-+		ret = remap_pfn_range(vma, vma->vm_start,
-+				      pfn + off,
-+				      user_count << PAGE_SHIFT,
-+				      vma->vm_page_prot);
-+	}
-+
-+	return ret;
-+}
-+
- /*
-  * streaming DMA Mapping API...
-  * CPU accesses page via normal paddr, thus needs to explicitly made
-@@ -193,6 +218,7 @@ static int arc_dma_supported(struct device *dev, u64 dma_mask)
- struct dma_map_ops arc_dma_ops = {
- 	.alloc			= arc_dma_alloc,
- 	.free			= arc_dma_free,
-+	.mmap			= arc_dma_mmap,
- 	.map_page		= arc_dma_map_page,
- 	.map_sg			= arc_dma_map_sg,
- 	.sync_single_for_device	= arc_dma_sync_single_for_device,
--- 
-2.7.4
+Any thoughts on that are much appreciated!
+
+Regards,
+Alexey
+
+[1]?http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=70523e639bf8ca09b3357371c3546cee55c06351
