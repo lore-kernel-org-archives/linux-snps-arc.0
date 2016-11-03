@@ -1,51 +1,92 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Thu, 3 Nov 2016 18:02:56 +0100
-Subject: [PATCH 2/9] ARC: timer: rtc: implement read loop in "C" vs.
- inline asm
-In-Reply-To: <1477954096-770-3-git-send-email-vgupta@synopsys.com>
-References: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
- <1477954096-770-1-git-send-email-vgupta@synopsys.com>
- <1477954096-770-3-git-send-email-vgupta@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 3 Nov 2016 10:03:37 -0700
+Subject: [PATCH v2] arc: Implement arch-specific dma_map_ops.mmap
+In-Reply-To: <1478185573-12871-1-git-send-email-abrodkin@synopsys.com>
+References: <1478185573-12871-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161103170256.GC1859@mai>
+Message-ID: <5fcface9-1402-85b7-2caa-624d650d311e@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Oct 31, 2016@03:48:09PM -0700, Vineet Gupta wrote:
-> To allow for easy movement into drivers/clocksource
+On 11/03/2016 08:06 AM, Alexey Brodkin wrote:
+> We used to use generic implementation of dma_map_ops.mmap which is
+> dma_common_mmap() but that only worked for simpler cached mappings when
+> vaddr = paddr.
 > 
-> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> If a driver requests uncached DMA buffer kernel maps it to virtual
+> address so that MMU gets involved and page uncached status takes into
+> account. In that case usage of dma_common_mmap() lead to mapping of
+> vaddr to vaddr for user-space which is obviously wrong. For more detals
+> please refer to verbose explanation here [1].
+> 
+> So here we implement our own version of mmap() which always deals
+> with dma_addr and maps underlying memory to user-space properly
+> (note that DMA buffer mapped to user-space is always uncached
+> because there's no way to properly manage cache from user-space).
+> 
+> [1] https://lkml.org/lkml/2016/10/26/973
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Reviewed-by: Catalin Marinas <catalin.marinas at arm.com>
+> Cc: Marek Szyprowski <m.szyprowski at samsung.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: <stable at vger.kernel.org>
+
+I've added a stable 4.5+, since ARC didn't use dma ops until 4.5-rc1.
+Pushed to for-curr !
+
+Thx,
+-Vineet
+
 > ---
->  arch/arc/kernel/time.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
 > 
-> diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
-> index a2db010cde18..2c51e3cafad0 100644
-> --- a/arch/arc/kernel/time.c
-> +++ b/arch/arc/kernel/time.c
-> @@ -153,14 +153,11 @@ static cycle_t arc_read_rtc(struct clocksource *cs)
->  		cycle_t  full;
->  	} stamp;
->  
-> -
-> -	__asm__ __volatile(
-> -	"1:						\n"
-> -	"	lr		%0, [AUX_RTC_LOW]	\n"
-> -	"	lr		%1, [AUX_RTC_HIGH]	\n"
-> -	"	lr		%2, [AUX_RTC_CTRL]	\n"
-> -	"	bbit0.nt	%2, 31, 1b		\n"
-> -	: "=r" (stamp.low), "=r" (stamp.high), "=r" (status));
-> +	do {
-> +		stamp.low = read_aux_reg(AUX_RTC_LOW);
-> +		stamp.high = read_aux_reg(AUX_RTC_HIGH);
-> +		status = read_aux_reg(AUX_RTC_CTRL);
-> +	} while (!(status & 0x80000000UL));
-
-Replace the literal 0x80000000UL by a macro.
-
-What is the 'status' for ?
-  
->  	return stamp.full;
+> Changes v1 -> v2:
+>  * Added plat_dma_to_phys wrapper around dma_addr
+> 
+>  arch/arc/mm/dma.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
+> index 20afc65e22dc..9288851d43a0 100644
+> --- a/arch/arc/mm/dma.c
+> +++ b/arch/arc/mm/dma.c
+> @@ -105,6 +105,31 @@ static void arc_dma_free(struct device *dev, size_t size, void *vaddr,
+>  	__free_pages(page, get_order(size));
 >  }
-> -- 
-> 2.7.4
+>  
+> +static int arc_dma_mmap(struct device *dev, struct vm_area_struct *vma,
+> +			void *cpu_addr, dma_addr_t dma_addr, size_t size,
+> +			unsigned long attrs)
+> +{
+> +	unsigned long user_count = vma_pages(vma);
+> +	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> +	unsigned long pfn = __phys_to_pfn(plat_dma_to_phys(dev, dma_addr));
+> +	unsigned long off = vma->vm_pgoff;
+> +	int ret = -ENXIO;
+> +
+> +	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+> +
+> +	if (dma_mmap_from_coherent(dev, vma, cpu_addr, size, &ret))
+> +		return ret;
+> +
+> +	if (off < count && user_count <= (count - off)) {
+> +		ret = remap_pfn_range(vma, vma->vm_start,
+> +				      pfn + off,
+> +				      user_count << PAGE_SHIFT,
+> +				      vma->vm_page_prot);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  /*
+>   * streaming DMA Mapping API...
+>   * CPU accesses page via normal paddr, thus needs to explicitly made
+> @@ -193,6 +218,7 @@ static int arc_dma_supported(struct device *dev, u64 dma_mask)
+>  struct dma_map_ops arc_dma_ops = {
+>  	.alloc			= arc_dma_alloc,
+>  	.free			= arc_dma_free,
+> +	.mmap			= arc_dma_mmap,
+>  	.map_page		= arc_dma_map_page,
+>  	.map_sg			= arc_dma_map_sg,
+>  	.sync_single_for_device	= arc_dma_sync_single_for_device,
 > 
