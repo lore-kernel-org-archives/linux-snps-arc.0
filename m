@@ -1,114 +1,67 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 14:31:37 -0700
-Subject: [PATCH v2 06/10] ARC: timer: Build gfrc,
- rtc under same option (64-bit timers)
+Date: Thu, 3 Nov 2016 14:31:34 -0700
+Subject: [PATCH v2 03/10] ARC: timer: gfrc,
+ rtc: Read BCR to detect whether hardware exists ...
 In-Reply-To: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
 References: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478208701-30923-7-git-send-email-vgupta@synopsys.com>
+Message-ID: <1478208701-30923-4-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-The original distinction was done as they were deveoped at different
-times and primarily becuse they are specific to UP (RTC) and SMP (GFRC).
+... don't rely on cpuinfo populated in arc boot code. This paves way for
+moving this code in drivers/clocksource/
 
-But given that driver now handles that at runtime, (i.e. not allowing
-RTC as clocksource in SMP), we can simplify things a bit.
+And while at it, convert the WARN() to pr_warn() as sugested by Daniel
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/Kconfig                           | 10 ++--------
- arch/arc/configs/nsimosci_hs_smp_defconfig |  2 +-
- arch/arc/configs/vdk_hs38_smp_defconfig    |  2 +-
- arch/arc/kernel/setup.c                    |  4 ++--
- arch/arc/kernel/time.c                     |  6 +-----
- 5 files changed, 7 insertions(+), 17 deletions(-)
+ arch/arc/kernel/time.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index bd204bfa29ed..bde3e558d8bc 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -410,15 +410,9 @@ config ARC_HAS_DIV_REM
- 	bool "Insn: div, divu, rem, remu"
- 	default y
- 
--config ARC_HAS_RTC
--	bool "Local 64-bit r/o cycle counter"
--	default n
--	depends on !SMP
--
--config ARC_HAS_GFRC
--	bool "SMP synchronized 64-bit cycle counter"
-+config ARC_TIMERS_64BIT
-+	bool "64-bit r/o cycle counters RTC (up) and GFRC (smp)"
- 	default y
--	depends on SMP
- 
- config ARC_NUMBER_OF_INTERRUPTS
- 	int "Number of interrupts"
-diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
-index 6da71ba253a9..155add7761ed 100644
---- a/arch/arc/configs/nsimosci_hs_smp_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
-@@ -21,7 +21,7 @@ CONFIG_MODULES=y
- CONFIG_ARC_PLAT_SIM=y
- CONFIG_ISA_ARCV2=y
- CONFIG_SMP=y
--# CONFIG_ARC_HAS_GFRC is not set
-+# CONFIG_ARC_TIMERS_64BIT is not set
- CONFIG_ARC_BUILTIN_DTB_NAME="nsimosci_hs_idu"
- CONFIG_PREEMPT=y
- # CONFIG_COMPACTION is not set
-diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
-index 969b206d6c67..573028f19de7 100644
---- a/arch/arc/configs/vdk_hs38_smp_defconfig
-+++ b/arch/arc/configs/vdk_hs38_smp_defconfig
-@@ -15,7 +15,7 @@ CONFIG_ARC_PLAT_AXS10X=y
- CONFIG_AXS103=y
- CONFIG_ISA_ARCV2=y
- CONFIG_SMP=y
--# CONFIG_ARC_HAS_GFRC is not set
-+# CONFIG_ARC_TIMERS_64BIT is not set
- CONFIG_ARC_UBOOT_SUPPORT=y
- CONFIG_ARC_BUILTIN_DTB_NAME="vdk_hs38_smp"
- CONFIG_PREEMPT=y
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 5865bd34a7fa..3093fa898a23 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -239,8 +239,8 @@ static char *arc_cpu_mumbojumbo(int cpu_id, char *buf, int len)
- 	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s%s%s\nISA Extn\t: ",
- 		       IS_AVAIL1(cpu->extn.timer0, "Timer0 "),
- 		       IS_AVAIL1(cpu->extn.timer1, "Timer1 "),
--		       IS_AVAIL2(cpu->extn.rtc, "RTC [UP 64-bit] ", CONFIG_ARC_HAS_RTC),
--		       IS_AVAIL2(cpu->extn.gfrc, "GFRC [SMP 64-bit] ", CONFIG_ARC_HAS_GFRC));
-+		       IS_AVAIL2(cpu->extn.rtc, "RTC [UP 64-bit] ", CONFIG_ARC_TIMERS_64BIT),
-+		       IS_AVAIL2(cpu->extn.gfrc, "GFRC [SMP 64-bit] ", CONFIG_ARC_TIMERS_64BIT));
- 
- 	n += i = scnprintf(buf + n, len - n, "%s%s%s%s%s",
- 			   IS_AVAIL2(cpu->isa.atomic, "atomic ", CONFIG_ARC_HAS_LLSC),
 diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
-index 05a583414c65..9bb7e3105ca9 100644
+index 71bcdc1f9bd0..d2335ca49c80 100644
 --- a/arch/arc/kernel/time.c
 +++ b/arch/arc/kernel/time.c
-@@ -81,7 +81,7 @@ static int noinline arc_get_timer_clk(struct device_node *node)
+@@ -111,11 +111,14 @@ static struct clocksource arc_counter_gfrc = {
  
- /********** Clock Source Device *********/
- 
--#ifdef CONFIG_ARC_HAS_GFRC
-+#ifdef CONFIG_ARC_TIMERS_64BIT
- 
- static cycle_t arc_read_gfrc(struct clocksource *cs)
+ static int __init arc_cs_setup_gfrc(struct device_node *node)
  {
-@@ -128,10 +128,6 @@ static int __init arc_cs_setup_gfrc(struct device_node *node)
- }
- CLOCKSOURCE_OF_DECLARE(arc_gfrc, "snps,archs-timer-gfrc", arc_cs_setup_gfrc);
+-	int exists = cpuinfo_arc700[0].extn.gfrc;
++	struct mcip_bcr mp;
+ 	int ret;
  
--#endif
--
--#ifdef CONFIG_ARC_HAS_RTC
--
- #define AUX_RTC_CTRL	0x103
- #define AUX_RTC_LOW	0x104
- #define AUX_RTC_HIGH	0x105
+-	if (WARN(!exists, "Global-64-bit-Ctr clocksource not detected"))
++	READ_BCR(ARC_REG_MCIP_BCR, mp);
++	if (!mp.gfrc) {
++		pr_warn("Global-64-bit-Ctr clocksource not detected");
+ 		return -ENXIO;
++	}
+ 
+ 	ret = arc_get_timer_clk(node);
+ 	if (ret)
+@@ -163,15 +166,20 @@ static struct clocksource arc_counter_rtc = {
+ 
+ static int __init arc_cs_setup_rtc(struct device_node *node)
+ {
+-	int exists = cpuinfo_arc700[smp_processor_id()].extn.rtc;
++	struct bcr_timer timer;
+ 	int ret;
+ 
+-	if (WARN(!exists, "Local-64-bit-Ctr clocksource not detected"))
++	READ_BCR(ARC_REG_TIMERS_BCR, timer);
++	if (!timer.rtc) {
++		pr_warn("Local-64-bit-Ctr clocksource not detected");
+ 		return -ENXIO;
++	}
+ 
+ 	/* Local to CPU hence not usable in SMP */
+-	if (WARN(IS_ENABLED(CONFIG_SMP), "Local-64-bit-Ctr not usable in SMP"))
++	if (IS_ENABLED(CONFIG_SMP)) {
++		pr_warn("Local-64-bit-Ctr not usable in SMP");
+ 		return -EINVAL;
++	}
+ 
+ 	ret = arc_get_timer_clk(node);
+ 	if (ret)
 -- 
 2.7.4
