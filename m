@@ -1,32 +1,71 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 11:47:59 -0700
-Subject: [PATCH 9/9] clocksource: import ARC timer driver
-In-Reply-To: <20161103173317.GI1859@mai>
-References: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
- <1477954096-770-1-git-send-email-vgupta@synopsys.com>
- <1477954096-770-10-git-send-email-vgupta@synopsys.com>
- <20161101204257.GG1506@mai>
- <188a2912-3369-19a3-86af-cbb154ff7e44@synopsys.com>
- <20161103173317.GI1859@mai>
+Date: Thu, 3 Nov 2016 14:21:12 -0700
+Subject: [PATCH v2 00/10] Move ARC timer code into drivers/clocksource/
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <a9d49247-014b-c383-da66-a3e59a7db7b0@synopsys.com>
+Message-ID: <1478208082-26875-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/03/2016 10:33 AM, Daniel Lezcano wrote:
-> As now the clksrc-probe is correctly handling the errors, if the rtc and the
-> gfrc are both defined in the DT, you can fail to init the rtc one with a simple
-> test in the init function:
-> 
-> 	if (IS_DEFINED(CONFIG_SMP))
-> 		return -EINVAL;
-> 
-> So, you can inconditionaly compile in both RTC and GFRC, no ? That would be
-> cleaner and prevent a different kernel config.
+Hi,
 
-That's a very good idea. So now I envision
-CONFIG_ARC_TIMERS		# legacy TIMER0 / TIMER1
-CONFIG_ARC_64BIT_TIMERS		# rtc, gfrc
+This series addresses the long pending move of ARC timer code into
+drivers/clocksource/.
 
-I need this distinction at the min to be able to select them from ARC Kconfig.
-
+Thx,
 -Vineet
+
+v1 -> v2
+
+- Now 10 patches instead of 9 to handle BIG ENDIAN in arch agnostic way
+
+- Moved fix for RTC (v1 2/9) ahead of queue (v2 1/10) to allow for easier
+  stable backport
+
+- Folded the Kconfig items for RTC and GFRC into single ARC_TIMERS_64BIT
+  So no special casing for UP/SMP in Kconfig.
+  Driver already handles the UP vs. SMP at runtime as needed
+
+- convert WARN() to pr_warn()				[Daniel]
+- Use of _BITUL() vs. constant 0x8000_0000		[Daniel]
+- changelog spellos:					[Daniel]
+  s/depedency/dependency/
+  s/seperate/separate/
+
+
+v1: http://lists.infradead.org/pipermail/linux-snps-arc/2016-October/001676.html
+
+Vineet Gupta (10):
+  ARC: timer: rtc: implement read loop in "C" vs. inline asm
+  ARC: timer: gfrc, rtc: deuglify big endian code
+  ARC: timer: gfrc, rtc: Read BCR to detect whether hardware exists ...
+  ARC: timer: gfrc: boot print alongside other timers
+  ARC: time: move time_init() out of the driver
+  ARC: timer: Build gfrc, rtc under same option (64-bit timers)
+  ARC: breakout aux handling into a separate header
+  ARC: move mcip.h into include/soc and adjust the includes
+  ARC: breakout timer include code into separate header ...
+  clocksource: import ARC timer driver
+
+ MAINTAINERS                                        |   1 +
+ arch/arc/Kconfig                                   |  13 +--
+ arch/arc/configs/nsimosci_hs_smp_defconfig         |   2 +-
+ arch/arc/configs/vdk_hs38_smp_defconfig            |   2 +-
+ arch/arc/include/asm/arcregs.h                     |  94 +--------------
+ arch/arc/kernel/Makefile                           |   2 +-
+ arch/arc/kernel/mcip.c                             |   2 +-
+ arch/arc/kernel/setup.c                            |  17 ++-
+ arch/arc/plat-axs10x/axs10x.c                      |   2 +-
+ drivers/clocksource/Kconfig                        |  19 +++
+ drivers/clocksource/Makefile                       |   1 +
+ .../time.c => drivers/clocksource/arc_timer.c      | 129 +++++++--------------
+ include/soc/arc/aux.h                              |  52 +++++++++
+ {arch/arc/include/asm => include/soc/arc}/mcip.h   |  10 +-
+ include/soc/arc/timers.h                           |  38 ++++++
+ include/soc/nps/common.h                           |   4 +-
+ 16 files changed, 181 insertions(+), 207 deletions(-)
+ rename arch/arc/kernel/time.c => drivers/clocksource/arc_timer.c (71%)
+ create mode 100644 include/soc/arc/aux.h
+ rename {arch/arc/include/asm => include/soc/arc}/mcip.h (95%)
+ create mode 100644 include/soc/arc/timers.h
+
+-- 
+2.7.4
