@@ -1,114 +1,223 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 16:33:31 -0700
-Subject: [PATCH v3 06/10] ARC: timer: Build gfrc,
- rtc under same option (64-bit timers)
+Date: Thu, 3 Nov 2016 16:33:32 -0700
+Subject: [PATCH v3 07/10] ARC: breakout aux handling into a separate header
 In-Reply-To: <1478216015-18931-1-git-send-email-vgupta@synopsys.com>
 References: <1478216015-18931-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478216015-18931-7-git-send-email-vgupta@synopsys.com>
+Message-ID: <1478216015-18931-8-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-The original distinction was done as they were developed at different
-times and primarily because they are specific to UP (RTC) and SMP (GFRC).
-
-But given that driver handles that at runtime, (i.e. not allowing
-RTC as clocksource in SMP), we can simplify things a bit.
+ARC timers use aux registers for programming and this paves way for
+moving ARC timer drivers into drivers/clocksource
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/Kconfig                           | 10 ++--------
- arch/arc/configs/nsimosci_hs_smp_defconfig |  2 +-
- arch/arc/configs/vdk_hs38_smp_defconfig    |  2 +-
- arch/arc/kernel/setup.c                    |  4 ++--
- arch/arc/kernel/time.c                     |  6 +-----
- 5 files changed, 7 insertions(+), 17 deletions(-)
+ arch/arc/include/asm/arcregs.h | 85 +-----------------------------------------
+ arch/arc/include/asm/mcip.h    |  2 +-
+ include/soc/arc/aux.h          | 63 +++++++++++++++++++++++++++++++
+ include/soc/nps/common.h       |  4 +-
+ 4 files changed, 67 insertions(+), 87 deletions(-)
+ create mode 100644 include/soc/arc/aux.h
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index bd204bfa29ed..bde3e558d8bc 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -410,15 +410,9 @@ config ARC_HAS_DIV_REM
- 	bool "Insn: div, divu, rem, remu"
- 	default y
+diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
+index 7f3f9f63708c..ccf5dc96713b 100644
+--- a/arch/arc/include/asm/arcregs.h
++++ b/arch/arc/include/asm/arcregs.h
+@@ -110,90 +110,7 @@
  
--config ARC_HAS_RTC
--	bool "Local 64-bit r/o cycle counter"
--	default n
--	depends on !SMP
+ #ifndef __ASSEMBLY__
+ 
+-/*
+- ******************************************************************
+- *      Inline ASM macros to read/write AUX Regs
+- *      Essentially invocation of lr/sr insns from "C"
+- */
 -
--config ARC_HAS_GFRC
--	bool "SMP synchronized 64-bit cycle counter"
-+config ARC_TIMERS_64BIT
-+	bool "64-bit r/o cycle counters RTC (up) and GFRC (smp)"
- 	default y
--	depends on SMP
- 
- config ARC_NUMBER_OF_INTERRUPTS
- 	int "Number of interrupts"
-diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
-index 6da71ba253a9..155add7761ed 100644
---- a/arch/arc/configs/nsimosci_hs_smp_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
-@@ -21,7 +21,7 @@ CONFIG_MODULES=y
- CONFIG_ARC_PLAT_SIM=y
- CONFIG_ISA_ARCV2=y
- CONFIG_SMP=y
--# CONFIG_ARC_HAS_GFRC is not set
-+# CONFIG_ARC_TIMERS_64BIT is not set
- CONFIG_ARC_BUILTIN_DTB_NAME="nsimosci_hs_idu"
- CONFIG_PREEMPT=y
- # CONFIG_COMPACTION is not set
-diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
-index 969b206d6c67..573028f19de7 100644
---- a/arch/arc/configs/vdk_hs38_smp_defconfig
-+++ b/arch/arc/configs/vdk_hs38_smp_defconfig
-@@ -15,7 +15,7 @@ CONFIG_ARC_PLAT_AXS10X=y
- CONFIG_AXS103=y
- CONFIG_ISA_ARCV2=y
- CONFIG_SMP=y
--# CONFIG_ARC_HAS_GFRC is not set
-+# CONFIG_ARC_TIMERS_64BIT is not set
- CONFIG_ARC_UBOOT_SUPPORT=y
- CONFIG_ARC_BUILTIN_DTB_NAME="vdk_hs38_smp"
- CONFIG_PREEMPT=y
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 5865bd34a7fa..3093fa898a23 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -239,8 +239,8 @@ static char *arc_cpu_mumbojumbo(int cpu_id, char *buf, int len)
- 	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s%s%s\nISA Extn\t: ",
- 		       IS_AVAIL1(cpu->extn.timer0, "Timer0 "),
- 		       IS_AVAIL1(cpu->extn.timer1, "Timer1 "),
--		       IS_AVAIL2(cpu->extn.rtc, "RTC [UP 64-bit] ", CONFIG_ARC_HAS_RTC),
--		       IS_AVAIL2(cpu->extn.gfrc, "GFRC [SMP 64-bit] ", CONFIG_ARC_HAS_GFRC));
-+		       IS_AVAIL2(cpu->extn.rtc, "RTC [UP 64-bit] ", CONFIG_ARC_TIMERS_64BIT),
-+		       IS_AVAIL2(cpu->extn.gfrc, "GFRC [SMP 64-bit] ", CONFIG_ARC_TIMERS_64BIT));
- 
- 	n += i = scnprintf(buf + n, len - n, "%s%s%s%s%s",
- 			   IS_AVAIL2(cpu->isa.atomic, "atomic ", CONFIG_ARC_HAS_LLSC),
-diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
-index 7f06662f53e7..417d32e031d3 100644
---- a/arch/arc/kernel/time.c
-+++ b/arch/arc/kernel/time.c
-@@ -81,7 +81,7 @@ static int noinline arc_get_timer_clk(struct device_node *node)
- 
- /********** Clock Source Device *********/
- 
--#ifdef CONFIG_ARC_HAS_GFRC
-+#ifdef CONFIG_ARC_TIMERS_64BIT
- 
- static cycle_t arc_read_gfrc(struct clocksource *cs)
- {
-@@ -128,10 +128,6 @@ static int __init arc_cs_setup_gfrc(struct device_node *node)
- }
- CLOCKSOURCE_OF_DECLARE(arc_gfrc, "snps,archs-timer-gfrc", arc_cs_setup_gfrc);
- 
+-#if 1
+-
+-#define read_aux_reg(reg)	__builtin_arc_lr(reg)
+-
+-/* gcc builtin sr needs reg param to be long immediate */
+-#define write_aux_reg(reg_immed, val)		\
+-		__builtin_arc_sr((unsigned int)(val), reg_immed)
+-
+-#else
+-
+-#define read_aux_reg(reg)		\
+-({					\
+-	unsigned int __ret;		\
+-	__asm__ __volatile__(		\
+-	"	lr    %0, [%1]"		\
+-	: "=r"(__ret)			\
+-	: "i"(reg));			\
+-	__ret;				\
+-})
+-
+-/*
+- * Aux Reg address is specified as long immediate by caller
+- * e.g.
+- *    write_aux_reg(0x69, some_val);
+- * This generates tightest code.
+- */
+-#define write_aux_reg(reg_imm, val)	\
+-({					\
+-	__asm__ __volatile__(		\
+-	"	sr   %0, [%1]	\n"	\
+-	:				\
+-	: "ir"(val), "i"(reg_imm));	\
+-})
+-
+-/*
+- * Aux Reg address is specified in a variable
+- *  * e.g.
+- *      reg_num = 0x69
+- *      write_aux_reg2(reg_num, some_val);
+- * This has to generate glue code to load the reg num from
+- *  memory to a reg hence not recommended.
+- */
+-#define write_aux_reg2(reg_in_var, val)		\
+-({						\
+-	unsigned int tmp;			\
+-						\
+-	__asm__ __volatile__(			\
+-	"	ld   %0, [%2]	\n\t"		\
+-	"	sr   %1, [%0]	\n\t"		\
+-	: "=&r"(tmp)				\
+-	: "r"(val), "memory"(&reg_in_var));	\
+-})
+-
 -#endif
 -
--#ifdef CONFIG_ARC_HAS_RTC
+-#define READ_BCR(reg, into)				\
+-{							\
+-	unsigned int tmp;				\
+-	tmp = read_aux_reg(reg);			\
+-	if (sizeof(tmp) == sizeof(into)) {		\
+-		into = *((typeof(into) *)&tmp);		\
+-	} else {					\
+-		extern void bogus_undefined(void);	\
+-		bogus_undefined();			\
+-	}						\
+-}
 -
- #define AUX_RTC_CTRL	0x103
- #define AUX_RTC_LOW	0x104
- #define AUX_RTC_HIGH	0x105
+-#define WRITE_AUX(reg, into)				\
+-{							\
+-	unsigned int tmp;				\
+-	if (sizeof(tmp) == sizeof(into)) {		\
+-		tmp = (*(unsigned int *)&(into));	\
+-		write_aux_reg(reg, tmp);		\
+-	} else  {					\
+-		extern void bogus_undefined(void);	\
+-		bogus_undefined();			\
+-	}						\
+-}
++#include <soc/arc/aux.h>
+ 
+ /* Helpers */
+ #define TO_KB(bytes)		((bytes) >> 10)
+diff --git a/arch/arc/include/asm/mcip.h b/arch/arc/include/asm/mcip.h
+index c8fbe4114bad..fc28d0944801 100644
+--- a/arch/arc/include/asm/mcip.h
++++ b/arch/arc/include/asm/mcip.h
+@@ -13,7 +13,7 @@
+ 
+ #ifdef CONFIG_ISA_ARCV2
+ 
+-#include <asm/arcregs.h>
++#include <soc/arc/aux.h>
+ 
+ #define ARC_REG_MCIP_BCR	0x0d0
+ #define ARC_REG_MCIP_CMD	0x600
+diff --git a/include/soc/arc/aux.h b/include/soc/arc/aux.h
+new file mode 100644
+index 000000000000..8c3fb13e0452
+--- /dev/null
++++ b/include/soc/arc/aux.h
+@@ -0,0 +1,63 @@
++/*
++ * Copyright (C) 2016-2017 Synopsys, Inc. (www.synopsys.com)
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ */
++
++#ifndef __SOC_ARC_AUX_H__
++#define __SOC_ARC_AUX_H__
++
++#ifdef CONFIG_ARC
++
++#define read_aux_reg(r)		__builtin_arc_lr(r)
++
++/* gcc builtin sr needs reg param to be long immediate */
++#define write_aux_reg(r, v)	__builtin_arc_sr((unsigned int)(v), r)
++
++#else	/* !CONFIG_ARC */
++
++static inline int read_aux_reg(u32 r)
++{
++	return 0;
++}
++
++/*
++ * function helps elide unused variable warning
++ * see: http://lists.infradead.org/pipermail/linux-snps-arc/2016-November/001748.html
++ */
++static inline void write_aux_reg(u32 r, u32 v)
++{
++	;
++}
++
++#endif
++
++#define READ_BCR(reg, into)				\
++{							\
++	unsigned int tmp;				\
++	tmp = read_aux_reg(reg);			\
++	if (sizeof(tmp) == sizeof(into)) {		\
++		into = *((typeof(into) *)&tmp);		\
++	} else {					\
++		extern void bogus_undefined(void);	\
++		bogus_undefined();			\
++	}						\
++}
++
++#define WRITE_AUX(reg, into)				\
++{							\
++	unsigned int tmp;				\
++	if (sizeof(tmp) == sizeof(into)) {		\
++		tmp = (*(unsigned int *)&(into));	\
++		write_aux_reg(reg, tmp);		\
++	} else  {					\
++		extern void bogus_undefined(void);	\
++		bogus_undefined();			\
++	}						\
++}
++
++
++#endif
+diff --git a/include/soc/nps/common.h b/include/soc/nps/common.h
+index 9b1d43d671a3..b7ba05b3993f 100644
+--- a/include/soc/nps/common.h
++++ b/include/soc/nps/common.h
+@@ -47,6 +47,8 @@
+ 
+ #ifndef __ASSEMBLY__
+ 
++#include <soc/arc/aux.h>
++
+ /* In order to increase compilation test coverage */
+ #ifdef CONFIG_ARC
+ static inline void nps_ack_gic(void)
+@@ -59,8 +61,6 @@ static inline void nps_ack_gic(void)
+ }
+ #else
+ static inline void nps_ack_gic(void) { }
+-#define write_aux_reg(r, v)
+-#define read_aux_reg(r) 0
+ #endif
+ 
+ /* CPU global ID */
 -- 
 2.7.4
