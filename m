@@ -1,92 +1,43 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 10:03:37 -0700
-Subject: [PATCH v2] arc: Implement arch-specific dma_map_ops.mmap
-In-Reply-To: <1478185573-12871-1-git-send-email-abrodkin@synopsys.com>
-References: <1478185573-12871-1-git-send-email-abrodkin@synopsys.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Thu, 3 Nov 2016 18:09:41 +0100
+Subject: [PATCH 3/9] ARC: timer: gfrc: boot print alongside other timers
+In-Reply-To: <1477954096-770-4-git-send-email-vgupta@synopsys.com>
+References: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
+ <1477954096-770-1-git-send-email-vgupta@synopsys.com>
+ <1477954096-770-4-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5fcface9-1402-85b7-2caa-624d650d311e@synopsys.com>
+Message-ID: <20161103170941.GD1859@mai>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/03/2016 08:06 AM, Alexey Brodkin wrote:
-> We used to use generic implementation of dma_map_ops.mmap which is
-> dma_common_mmap() but that only worked for simpler cached mappings when
-> vaddr = paddr.
-> 
-> If a driver requests uncached DMA buffer kernel maps it to virtual
-> address so that MMU gets involved and page uncached status takes into
-> account. In that case usage of dma_common_mmap() lead to mapping of
-> vaddr to vaddr for user-space which is obviously wrong. For more detals
-> please refer to verbose explanation here [1].
-> 
-> So here we implement our own version of mmap() which always deals
-> with dma_addr and maps underlying memory to user-space properly
-> (note that DMA buffer mapped to user-space is always uncached
-> because there's no way to properly manage cache from user-space).
-> 
-> [1] https://lkml.org/lkml/2016/10/26/973
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Reviewed-by: Catalin Marinas <catalin.marinas at arm.com>
-> Cc: Marek Szyprowski <m.szyprowski at samsung.com>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: <stable at vger.kernel.org>
+On Mon, Oct 31, 2016@03:48:10PM -0700, Vineet Gupta wrote:
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 
-I've added a stable 4.5+, since ARC didn't use dma ops until 4.5-rc1.
-Pushed to for-curr !
-
-Thx,
--Vineet
+Why not add a message in drivers/clocksource/clksrc-probe.c when a timer inits
+successfully ? and then get rid of this code.
 
 > ---
+>  arch/arc/kernel/setup.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> Changes v1 -> v2:
->  * Added plat_dma_to_phys wrapper around dma_addr
-> 
->  arch/arc/mm/dma.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-> 
-> diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
-> index 20afc65e22dc..9288851d43a0 100644
-> --- a/arch/arc/mm/dma.c
-> +++ b/arch/arc/mm/dma.c
-> @@ -105,6 +105,31 @@ static void arc_dma_free(struct device *dev, size_t size, void *vaddr,
->  	__free_pages(page, get_order(size));
->  }
+> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+> index 0385df77a697..595d06900061 100644
+> --- a/arch/arc/kernel/setup.c
+> +++ b/arch/arc/kernel/setup.c
+> @@ -234,11 +234,11 @@ static char *arc_cpu_mumbojumbo(int cpu_id, char *buf, int len)
+>  		       is_isa_arcompact() ? "ARCompact" : "ARCv2",
+>  		       IS_AVAIL1(cpu->isa.be, "[Big-Endian]"));
 >  
-> +static int arc_dma_mmap(struct device *dev, struct vm_area_struct *vma,
-> +			void *cpu_addr, dma_addr_t dma_addr, size_t size,
-> +			unsigned long attrs)
-> +{
-> +	unsigned long user_count = vma_pages(vma);
-> +	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> +	unsigned long pfn = __phys_to_pfn(plat_dma_to_phys(dev, dma_addr));
-> +	unsigned long off = vma->vm_pgoff;
-> +	int ret = -ENXIO;
-> +
-> +	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-> +
-> +	if (dma_mmap_from_coherent(dev, vma, cpu_addr, size, &ret))
-> +		return ret;
-> +
-> +	if (off < count && user_count <= (count - off)) {
-> +		ret = remap_pfn_range(vma, vma->vm_start,
-> +				      pfn + off,
-> +				      user_count << PAGE_SHIFT,
-> +				      vma->vm_page_prot);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  /*
->   * streaming DMA Mapping API...
->   * CPU accesses page via normal paddr, thus needs to explicitly made
-> @@ -193,6 +218,7 @@ static int arc_dma_supported(struct device *dev, u64 dma_mask)
->  struct dma_map_ops arc_dma_ops = {
->  	.alloc			= arc_dma_alloc,
->  	.free			= arc_dma_free,
-> +	.mmap			= arc_dma_mmap,
->  	.map_page		= arc_dma_map_page,
->  	.map_sg			= arc_dma_map_sg,
->  	.sync_single_for_device	= arc_dma_sync_single_for_device,
+> -	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s\nISA Extn\t: ",
+> +	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s%s%s\nISA Extn\t: ",
+>  		       IS_AVAIL1(cpu->extn.timer0, "Timer0 "),
+>  		       IS_AVAIL1(cpu->extn.timer1, "Timer1 "),
+> -		       IS_AVAIL2(cpu->extn.rtc, "Local-64-bit-Ctr ",
+> -				 CONFIG_ARC_HAS_RTC));
+> +		       IS_AVAIL2(cpu->extn.rtc, "RTC [UP 64-bit] ", CONFIG_ARC_HAS_RTC),
+> +		       IS_AVAIL2(cpu->extn.gfrc, "GFRC [SMP 64-bit] ", CONFIG_ARC_HAS_GFRC));
+>  
+>  	n += i = scnprintf(buf + n, len - n, "%s%s%s%s%s",
+>  			   IS_AVAIL2(cpu->isa.atomic, "atomic ", CONFIG_ARC_HAS_LLSC),
+> -- 
+> 2.7.4
 > 
