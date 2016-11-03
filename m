@@ -1,36 +1,63 @@
 From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Thu, 3 Nov 2016 17:50:32 +0100
-Subject: [PATCH 9/9] clocksource: import ARC timer driver
-In-Reply-To: <ff516208-8014-f12a-2081-cbfb69dd6a2d@synopsys.com>
+Date: Thu, 3 Nov 2016 18:00:56 +0100
+Subject: [PATCH 1/9] ARC: timer: gfrc, rtc: Read BCR to detect whether
+ hardware exists ...
+In-Reply-To: <1477954096-770-2-git-send-email-vgupta@synopsys.com>
 References: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
  <1477954096-770-1-git-send-email-vgupta@synopsys.com>
- <1477954096-770-10-git-send-email-vgupta@synopsys.com>
- <20161101204257.GG1506@mai>
- <188a2912-3369-19a3-86af-cbb154ff7e44@synopsys.com>
- <20161102001925.GH1506@mai>
- <2dcf87ce-a278-8ef8-3c8e-3cf7124603c9@synopsys.com>
- <ff516208-8014-f12a-2081-cbfb69dd6a2d@synopsys.com>
+ <1477954096-770-2-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161103165032.GA1859@mai>
+Message-ID: <20161103170056.GB1859@mai>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Nov 03, 2016@09:40:23AM -0700, Vineet Gupta wrote:
-> On 11/01/2016 06:03 PM, Vineet Gupta wrote:
-> >>> Because of the git mv you, diff didn't include bulk of driver code which would
-> >>> >> make for bulk of review anyways. So perhaps in v2 I don't do the git mv. OK ?
-> >> > 
-> >> > That means I will review and comment existing code. It is not a problem for me
-> >> > if you agree to do the changes.
-> > Sure, the whole point is to make things better as an outcome of review. I have no
-> > issues changing code provided we don't add major performance regressions.
+On Mon, Oct 31, 2016@03:48:08PM -0700, Vineet Gupta wrote:
+> ... don't rely on cpuinfo populated in arc boot code. This paves wat for
+> moving this code in drivers/clocksource/
 > 
-> So just wondering if I could have some comments on the initial import of driver
-> before I send out a v2.
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  arch/arc/kernel/time.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+> index f927b8dc6edd..a2db010cde18 100644
+> --- a/arch/arc/kernel/time.c
+> +++ b/arch/arc/kernel/time.c
+> @@ -118,10 +118,11 @@ static struct clocksource arc_counter_gfrc = {
+>  
+>  static int __init arc_cs_setup_gfrc(struct device_node *node)
+>  {
+> -	int exists = cpuinfo_arc700[0].extn.gfrc;
+> +	struct mcip_bcr mp;
+>  	int ret;
+>  
+> -	if (WARN(!exists, "Global-64-bit-Ctr clocksource not detected"))
+> +	READ_BCR(ARC_REG_MCIP_BCR, mp);
+> +	if (WARN(!mp.gfrc, "Global-64-bit-Ctr clocksource not detected"))
 
-Yeah, ok. Let me comment the other patches of the series and then you can send a V2.
- 
-> The issue is git mv didn't show bulk of code being moved. Shall I send a v2 with a
-> different ordering so I introduce the driver first, with new headers, new Kconfig
-> items etc and then as a subsequent patch prune those bits from arch/arc/* ?
+Take the opportunity to replace this WARN by a pr_err.
+
+>  		return -ENXIO;
+>  
+>  	ret = arc_get_timer_clk(node);
+> @@ -174,10 +175,11 @@ static struct clocksource arc_counter_rtc = {
+>  
+>  static int __init arc_cs_setup_rtc(struct device_node *node)
+>  {
+> -	int exists = cpuinfo_arc700[smp_processor_id()].extn.rtc;
+> +	struct bcr_timer timer;
+>  	int ret;
+>  
+> -	if (WARN(!exists, "Local-64-bit-Ctr clocksource not detected"))
+> +	READ_BCR(ARC_REG_TIMERS_BCR, timer);
+> +	if (WARN(!timer.rtc, "Local-64-bit-Ctr clocksource not detected"))
+>  		return -ENXIO;o
+
+Ditto and                    ^^
+
+So the READ_BCR() is only there to check the timer is physically present ?
+
+>  	/* Local to CPU hence not usable in SMP */
+> -- 
+> 2.7.4
 > 
-> -Vineet
