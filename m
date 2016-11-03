@@ -1,67 +1,35 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 14:31:34 -0700
-Subject: [PATCH v2 03/10] ARC: timer: gfrc,
- rtc: Read BCR to detect whether hardware exists ...
+Date: Thu, 3 Nov 2016 14:31:35 -0700
+Subject: [PATCH v2 04/10] ARC: timer: gfrc: boot print alongside other timers
 In-Reply-To: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
 References: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478208701-30923-4-git-send-email-vgupta@synopsys.com>
+Message-ID: <1478208701-30923-5-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
-
-... don't rely on cpuinfo populated in arc boot code. This paves way for
-moving this code in drivers/clocksource/
-
-And while at it, convert the WARN() to pr_warn() as sugested by Daniel
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/time.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ arch/arc/kernel/setup.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
-index 71bcdc1f9bd0..d2335ca49c80 100644
---- a/arch/arc/kernel/time.c
-+++ b/arch/arc/kernel/time.c
-@@ -111,11 +111,14 @@ static struct clocksource arc_counter_gfrc = {
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 0385df77a697..595d06900061 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -234,11 +234,11 @@ static char *arc_cpu_mumbojumbo(int cpu_id, char *buf, int len)
+ 		       is_isa_arcompact() ? "ARCompact" : "ARCv2",
+ 		       IS_AVAIL1(cpu->isa.be, "[Big-Endian]"));
  
- static int __init arc_cs_setup_gfrc(struct device_node *node)
- {
--	int exists = cpuinfo_arc700[0].extn.gfrc;
-+	struct mcip_bcr mp;
- 	int ret;
+-	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s\nISA Extn\t: ",
++	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s%s%s\nISA Extn\t: ",
+ 		       IS_AVAIL1(cpu->extn.timer0, "Timer0 "),
+ 		       IS_AVAIL1(cpu->extn.timer1, "Timer1 "),
+-		       IS_AVAIL2(cpu->extn.rtc, "Local-64-bit-Ctr ",
+-				 CONFIG_ARC_HAS_RTC));
++		       IS_AVAIL2(cpu->extn.rtc, "RTC [UP 64-bit] ", CONFIG_ARC_HAS_RTC),
++		       IS_AVAIL2(cpu->extn.gfrc, "GFRC [SMP 64-bit] ", CONFIG_ARC_HAS_GFRC));
  
--	if (WARN(!exists, "Global-64-bit-Ctr clocksource not detected"))
-+	READ_BCR(ARC_REG_MCIP_BCR, mp);
-+	if (!mp.gfrc) {
-+		pr_warn("Global-64-bit-Ctr clocksource not detected");
- 		return -ENXIO;
-+	}
- 
- 	ret = arc_get_timer_clk(node);
- 	if (ret)
-@@ -163,15 +166,20 @@ static struct clocksource arc_counter_rtc = {
- 
- static int __init arc_cs_setup_rtc(struct device_node *node)
- {
--	int exists = cpuinfo_arc700[smp_processor_id()].extn.rtc;
-+	struct bcr_timer timer;
- 	int ret;
- 
--	if (WARN(!exists, "Local-64-bit-Ctr clocksource not detected"))
-+	READ_BCR(ARC_REG_TIMERS_BCR, timer);
-+	if (!timer.rtc) {
-+		pr_warn("Local-64-bit-Ctr clocksource not detected");
- 		return -ENXIO;
-+	}
- 
- 	/* Local to CPU hence not usable in SMP */
--	if (WARN(IS_ENABLED(CONFIG_SMP), "Local-64-bit-Ctr not usable in SMP"))
-+	if (IS_ENABLED(CONFIG_SMP)) {
-+		pr_warn("Local-64-bit-Ctr not usable in SMP");
- 		return -EINVAL;
-+	}
- 
- 	ret = arc_get_timer_clk(node);
- 	if (ret)
+ 	n += i = scnprintf(buf + n, len - n, "%s%s%s%s%s",
+ 			   IS_AVAIL2(cpu->isa.atomic, "atomic ", CONFIG_ARC_HAS_LLSC),
 -- 
 2.7.4
