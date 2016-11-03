@@ -1,83 +1,56 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 16:33:25 -0700
-Subject: [PATCH v3 00/10] Move ARC timer code into drivers/clocksource/
+Date: Thu, 3 Nov 2016 16:33:26 -0700
+Subject: [PATCH v3 01/10] ARC: timer: rtc: implement read loop in "C" vs.
+ inline asm
+In-Reply-To: <1478216015-18931-1-git-send-email-vgupta@synopsys.com>
+References: <1478216015-18931-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478216015-18931-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1478216015-18931-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+The current code doesn't even compile as somehow the inline assembly
+can't see the register names defined as ARC_RTC_*
+I'm pretty sure It worked when I first got it merged, but the tools were
+definitely different then.
 
-This series addresses the long pending move of ARC timer code into
-drivers/clocksource/.
+So better to write this in "C" anyways.
 
-Thx,
--Vineet
+CC: stable at vger.kernel.org
+Acked-by: Daniel Lezcano <daniel.lezcano at linaro.org>
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/kernel/time.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-v2 -> v3
-
-- Fixed a bunch of typos in changelogs				[Daniel]
-
-- aux.h: stubs for {read,write}_aux_reg() inline functions(vs. macros)
-  to cleanly avoid warnings in !ARC builds			[Daniel]
-
-- Remove __maybe_used in driver given above			[Daniel]
-
-- Ran checkpatch and fixed some space/tab issues
-
-v1 -> v2
-
-- Now 10 patches instead of 9 to handle BIG ENDIAN in arch agnostic way
-
-- Moved fix for RTC (v1 2/9) ahead of queue (v2 1/10) to allow for easier
-  stable backport
-
-- Folded the Kconfig items for RTC and GFRC into single ARC_TIMERS_64BIT
-  So no special casing for UP/SMP in Kconfig.
-  Driver already handles the UP vs. SMP at runtime as needed
-
-- convert WARN() to pr_warn()				[Daniel]
-- Use of _BITUL() vs. constant 0x8000_0000		[Daniel]
-- changelog spellos:					[Daniel]
-  s/depedency/dependency/
-  s/seperate/separate/
-
-
-v2: http://lists.infradead.org/pipermail/linux-snps-arc/2016-November/001724.html
-v1: http://lists.infradead.org/pipermail/linux-snps-arc/2016-October/001676.html
-
-Vineet Gupta (10):
-  ARC: timer: rtc: implement read loop in "C" vs. inline asm
-  ARC: timer: gfrc, rtc: deuglify big endian code
-  ARC: timer: gfrc, rtc: Read BCR to detect whether hardware exists ...
-  ARC: timer: gfrc: boot print alongside other timers
-  ARC: time: move time_init() out of the driver
-  ARC: timer: Build gfrc, rtc under same option (64-bit timers)
-  ARC: breakout aux handling into a separate header
-  ARC: move mcip.h into include/soc and adjust the includes
-  ARC: breakout timer include code into separate header ...
-  clocksource: import ARC timer driver
-
- MAINTAINERS                                        |   1 +
- arch/arc/Kconfig                                   |  13 +--
- arch/arc/configs/nsimosci_hs_smp_defconfig         |   2 +-
- arch/arc/configs/vdk_hs38_smp_defconfig            |   2 +-
- arch/arc/include/asm/arcregs.h                     |  94 +---------------
- arch/arc/kernel/Makefile                           |   2 +-
- arch/arc/kernel/mcip.c                             |   2 +-
- arch/arc/kernel/setup.c                            |  17 ++-
- arch/arc/plat-axs10x/axs10x.c                      |   2 +-
- drivers/clocksource/Kconfig                        |  19 ++++
- drivers/clocksource/Makefile                       |   1 +
- .../time.c => drivers/clocksource/arc_timer.c      | 125 +++++++--------------
- include/soc/arc/aux.h                              |  63 +++++++++++
- {arch/arc/include/asm => include/soc/arc}/mcip.h   |  10 +-
- include/soc/arc/timers.h                           |  38 +++++++
- include/soc/nps/common.h                           |   4 +-
- 16 files changed, 191 insertions(+), 204 deletions(-)
- rename arch/arc/kernel/time.c => drivers/clocksource/arc_timer.c (72%)
- create mode 100644 include/soc/arc/aux.h
- rename {arch/arc/include/asm => include/soc/arc}/mcip.h (95%)
- create mode 100644 include/soc/arc/timers.h
-
+diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+index f927b8dc6edd..c10390d1ddb6 100644
+--- a/arch/arc/kernel/time.c
++++ b/arch/arc/kernel/time.c
+@@ -152,14 +152,17 @@ static cycle_t arc_read_rtc(struct clocksource *cs)
+ 		cycle_t  full;
+ 	} stamp;
+ 
+-
+-	__asm__ __volatile(
+-	"1:						\n"
+-	"	lr		%0, [AUX_RTC_LOW]	\n"
+-	"	lr		%1, [AUX_RTC_HIGH]	\n"
+-	"	lr		%2, [AUX_RTC_CTRL]	\n"
+-	"	bbit0.nt	%2, 31, 1b		\n"
+-	: "=r" (stamp.low), "=r" (stamp.high), "=r" (status));
++	/*
++	 * hardware has an internal state machine which tracks readout of
++	 * low/high and updates the CTRL.status if
++	 *  - interrupt/exception taken between the two reads
++	 *  - high increments after low has been read
++	 */
++	do {
++		stamp.low = read_aux_reg(AUX_RTC_LOW);
++		stamp.high = read_aux_reg(AUX_RTC_HIGH);
++		status = read_aux_reg(AUX_RTC_CTRL);
++	} while (!(status & _BITUL(31)));
+ 
+ 	return stamp.full;
+ }
 -- 
 2.7.4
