@@ -1,28 +1,42 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Thu, 3 Nov 2016 18:51:55 +0100
-Subject: [PATCH 3/9] ARC: timer: gfrc: boot print alongside other timers
-In-Reply-To: <fff6abb9-3e19-3865-2b1c-9616ebfba5a9@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 3 Nov 2016 10:57:48 -0700
+Subject: [PATCH 9/9] clocksource: import ARC timer driver
+In-Reply-To: <20161103165032.GA1859@mai>
 References: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
  <1477954096-770-1-git-send-email-vgupta@synopsys.com>
- <1477954096-770-4-git-send-email-vgupta@synopsys.com>
- <20161103170941.GD1859@mai>
- <fff6abb9-3e19-3865-2b1c-9616ebfba5a9@synopsys.com>
+ <1477954096-770-10-git-send-email-vgupta@synopsys.com>
+ <20161101204257.GG1506@mai>
+ <188a2912-3369-19a3-86af-cbb154ff7e44@synopsys.com>
+ <20161102001925.GH1506@mai>
+ <2dcf87ce-a278-8ef8-3c8e-3cf7124603c9@synopsys.com>
+ <ff516208-8014-f12a-2081-cbfb69dd6a2d@synopsys.com>
+ <20161103165032.GA1859@mai>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161103175155.GJ1859@mai>
+Message-ID: <f73c498d-d2f4-2fc8-49ec-9fbf5c5c96b7@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Nov 03, 2016@10:47:19AM -0700, Vineet Gupta wrote:
-> On 11/03/2016 10:09 AM, Daniel Lezcano wrote:
-> > On Mon, Oct 31, 2016@03:48:10PM -0700, Vineet Gupta wrote:
-> >> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-> > 
-> > Why not add a message in drivers/clocksource/clksrc-probe.c when a timer inits
-> > successfully ? and then get rid of this code.
-> 
-> At boot I have bunch of cod which prints all the major hardware blocks and thus
-> would like to print it. We also print if a feature is present but not supported
-> etc. So I like to keep all of that here.
-> 
-> Also same code is used for /proc/cpuinfo.
+Hi Daniel,
 
-Ok, I see. Thanks for the clarification.
+On 11/03/2016 09:50 AM, Daniel Lezcano wrote:
+> On Thu, Nov 03, 2016@09:40:23AM -0700, Vineet Gupta wrote:
+>> On 11/01/2016 06:03 PM, Vineet Gupta wrote:
+>>>>> Because of the git mv you, diff didn't include bulk of driver code which would
+>>>>>>> make for bulk of review anyways. So perhaps in v2 I don't do the git mv. OK ?
+>>>>>
+>>>>> That means I will review and comment existing code. It is not a problem for me
+>>>>> if you agree to do the changes.
+>>> Sure, the whole point is to make things better as an outcome of review. I have no
+>>> issues changing code provided we don't add major performance regressions.
+>>
+>> So just wondering if I could have some comments on the initial import of driver
+>> before I send out a v2.
+> 
+> Yeah, ok. Let me comment the other patches of the series and then you can send a V2.
+
+Thx for taking a quick look - this is a good start. How about the actual driver
+itself, do you want to take a quick look there as well before v2 ?
+
+>  
+>> The issue is git mv didn't show bulk of code being moved. Shall I send a v2 with a
+>> different ordering so I introduce the driver first, with new headers, new Kconfig
+>> items etc and then as a subsequent patch prune those bits from arch/arc/* ?
