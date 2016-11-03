@@ -1,90 +1,32 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 3 Nov 2016 16:17:56 +0000
-Subject: stmmac: GMAC_RGSMIIIS reports bogus values
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 3 Nov 2016 09:40:23 -0700
+Subject: [PATCH 9/9] clocksource: import ARC timer driver
+In-Reply-To: <2dcf87ce-a278-8ef8-3c8e-3cf7124603c9@synopsys.com>
+References: <35bde193-8492-83e0-fb03-8385d8afd007@synopsys.com>
+ <1477954096-770-1-git-send-email-vgupta@synopsys.com>
+ <1477954096-770-10-git-send-email-vgupta@synopsys.com>
+ <20161101204257.GG1506@mai>
+ <188a2912-3369-19a3-86af-cbb154ff7e44@synopsys.com>
+ <20161102001925.GH1506@mai>
+ <2dcf87ce-a278-8ef8-3c8e-3cf7124603c9@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478189833.4072.65.camel@synopsys.com>
+Message-ID: <ff516208-8014-f12a-2081-cbfb69dd6a2d@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hello,
+On 11/01/2016 06:03 PM, Vineet Gupta wrote:
+>>> Because of the git mv you, diff didn't include bulk of driver code which would
+>>> >> make for bulk of review anyways. So perhaps in v2 I don't do the git mv. OK ?
+>> > 
+>> > That means I will review and comment existing code. It is not a problem for me
+>> > if you agree to do the changes.
+> Sure, the whole point is to make things better as an outcome of review. I have no
+> issues changing code provided we don't add major performance regressions.
 
-I'm seeing pretty strange issue with GMAC reporting a lot of link state changes
-based on bits in GMAC_RGSMIIIS. It looks like that:
--------------------------->8-----------------------
-Link is Down
-Link is Up - 10/Full
-Link is Down
-Link is Up - 10/Half
-Link is Down
-Link is Down
-Link is Up - 10/Half
-Link is Up -
-1000/Half
-Link is Down
-Link is Down
-Link is Down
-Link is Down
-Link is Up - 10/Half
-Link is Down
-Link is Down
-Link is Up -
-1000/Half
-Link is Up - 1000/Full
--------------------------->8-----------------------
+So just wondering if I could have some comments on the initial import of driver
+before I send out a v2.
 
-What's especially interesting my board with GMAC is connected to 100Mbit device
-which means there's no chance for 1Gb mode to be set.
+The issue is git mv didn't show bulk of code being moved. Shall I send a v2 with a
+different ordering so I introduce the driver first, with new headers, new Kconfig
+items etc and then as a subsequent patch prune those bits from arch/arc/* ?
 
-Also this has nothing to do with link state detected and reported by PHY via MDIO.
-So obviously GMAC_RGSMIIIS bits are wrong. But given the fact that GMAC_RGSMIIIS bits
-are set based on state of RXD[3:0] lines of RGMII I may only thing that it's
-PHY (in my case DP83865) who's?sending random data on the RXD during inter-frame gap.
-
-Note data transferred through that networking connection is perfectly correct and
-actually I haven't see those link state prints before kernel v4.8 basically
-because the prints in question were implemented with pr_debug() and then with [1]
-we got pr_info() that made prints visible by default.
-
-Since I don't have any means to capture all required GMII signals to do better
-analysis and my data is not corrupted in the end I'm thinking about way how to
-mute these pretty senseless messages.
-
-One thing I may think of we may disable checking of GMAC_RGSMIIIS if a particular
-board uses MDIO for PHY setup. Something like that:
--------------------------->8-----------------------
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
-@@ -337,7 +337,7 @@ static int dwmac1000_irq_status(struct mac_device_info *hw,
-?
-????????dwmac_pcs_isr(ioaddr, GMAC_PCS_BASE, intr_status, x);
-?
--???????if (intr_status & PCS_RGSMIIIS_IRQ)
-+???????if (!priv->use_mdio && (intr_status & PCS_RGSMIIIS_IRQ))
-????????????????dwmac1000_rgsmii(ioaddr, x);
-?
-????????return ret;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 6c85b61aaa0b..34e9de0450ba 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -3356,11 +3356,13 @@ int stmmac_dvr_probe(struct device *device,
-?
-????????stmmac_check_pcs_mode(priv);
-?
-+???????priv->use_mdio = 0;
-????????if (priv->hw->pcs != STMMAC_PCS_RGMII??&&
-????????????priv->hw->pcs != STMMAC_PCS_TBI &&
-????????????priv->hw->pcs != STMMAC_PCS_RTBI) {
-????????????????/* MDIO bus Registration */
-????????????????ret = stmmac_mdio_register(ndev);
-+???????????????priv->use_mdio = 1;
-????????????????if (ret < 0) {
-????????????????????????pr_debug("%s: MDIO bus (id: %d) registration failed",
-?????????????????????????????????__func__, priv->plat->bus_id);
--------------------------->8-----------------------
-
-Any thoughts on that are much appreciated!
-
-Regards,
-Alexey
-
-[1]?http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=70523e639bf8ca09b3357371c3546cee55c06351
+-Vineet
