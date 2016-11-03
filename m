@@ -1,35 +1,50 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 14:31:35 -0700
-Subject: [PATCH v2 04/10] ARC: timer: gfrc: boot print alongside other timers
+Date: Thu, 3 Nov 2016 14:31:32 -0700
+Subject: [PATCH v2 01/10] ARC: timer: rtc: implement read loop in "C" vs.
+ inline asm
 In-Reply-To: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
 References: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478208701-30923-5-git-send-email-vgupta@synopsys.com>
+Message-ID: <1478208701-30923-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
+The current code doesn't even compile ....
+
+CC: stable at vger.kernel.org
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/setup.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/arc/kernel/time.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 0385df77a697..595d06900061 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -234,11 +234,11 @@ static char *arc_cpu_mumbojumbo(int cpu_id, char *buf, int len)
- 		       is_isa_arcompact() ? "ARCompact" : "ARCv2",
- 		       IS_AVAIL1(cpu->isa.be, "[Big-Endian]"));
+diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+index f927b8dc6edd..1a117b999c0c 100644
+--- a/arch/arc/kernel/time.c
++++ b/arch/arc/kernel/time.c
+@@ -152,14 +152,17 @@ static cycle_t arc_read_rtc(struct clocksource *cs)
+ 		cycle_t  full;
+ 	} stamp;
  
--	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s\nISA Extn\t: ",
-+	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s%s%s\nISA Extn\t: ",
- 		       IS_AVAIL1(cpu->extn.timer0, "Timer0 "),
- 		       IS_AVAIL1(cpu->extn.timer1, "Timer1 "),
--		       IS_AVAIL2(cpu->extn.rtc, "Local-64-bit-Ctr ",
--				 CONFIG_ARC_HAS_RTC));
-+		       IS_AVAIL2(cpu->extn.rtc, "RTC [UP 64-bit] ", CONFIG_ARC_HAS_RTC),
-+		       IS_AVAIL2(cpu->extn.gfrc, "GFRC [SMP 64-bit] ", CONFIG_ARC_HAS_GFRC));
+-
+-	__asm__ __volatile(
+-	"1:						\n"
+-	"	lr		%0, [AUX_RTC_LOW]	\n"
+-	"	lr		%1, [AUX_RTC_HIGH]	\n"
+-	"	lr		%2, [AUX_RTC_CTRL]	\n"
+-	"	bbit0.nt	%2, 31, 1b		\n"
+-	: "=r" (stamp.low), "=r" (stamp.high), "=r" (status));
++        /*
++         * hardware has an internal state machine which tracks readout of
++         * low/high and updates the CTRL.status if
++         *  - interrupt/exception taken between the two reads
++         *  - high increments after low has been read
++         */
++	do {
++		stamp.low = read_aux_reg(AUX_RTC_LOW);
++		stamp.high = read_aux_reg(AUX_RTC_HIGH);
++		status = read_aux_reg(AUX_RTC_CTRL);
++	} while (!(status & _BITUL(31)));
  
- 	n += i = scnprintf(buf + n, len - n, "%s%s%s%s%s",
- 			   IS_AVAIL2(cpu->isa.atomic, "atomic ", CONFIG_ARC_HAS_LLSC),
+ 	return stamp.full;
+ }
 -- 
 2.7.4
