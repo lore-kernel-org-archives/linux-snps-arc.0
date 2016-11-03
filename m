@@ -1,199 +1,139 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 14:31:41 -0700
-Subject: [PATCH v2 10/10] clocksource: import ARC timer driver
+Date: Thu, 3 Nov 2016 14:31:40 -0700
+Subject: [PATCH v2 09/10] ARC: breakout timer include code into separate
+ header ...
 In-Reply-To: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
 References: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478208701-30923-11-git-send-email-vgupta@synopsys.com>
+Message-ID: <1478208701-30923-10-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This adds support for
-
- - CONFIG_ARC_TIMERS : legacy 32-bit TIMER0 and TIMER1 which count UP
-   from @CNT to @LIMIT, before optionally triggering an interrupt.
-   These are programmed using ARC auxiliary register interface.
-   These are present in all ARC cores (ARC700 and ARC HS38)
-   TIMER0 serves as clockevent for all ARC linux builds.
-   TIMER1 is used for clocksource in arc700 builds.
-
- - CONFIG_ARC_TIMERS_64BIT: 64-bit counters, RTC and GFRC found in
-   ARC HS38 cores. These are independnet IP blocks with different
-   programming model respectively.
+... which allows for use in drivers/clocksource later
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- MAINTAINERS                                        |  1 +
- arch/arc/Kconfig                                   |  7 ++----
- arch/arc/kernel/Makefile                           |  2 +-
- drivers/clocksource/Kconfig                        | 19 ++++++++++++++
- drivers/clocksource/Makefile                       |  1 +
- .../time.c => drivers/clocksource/arc_timer.c      | 29 ++++++----------------
- 6 files changed, 31 insertions(+), 28 deletions(-)
- rename arch/arc/kernel/time.c => drivers/clocksource/arc_timer.c (90%)
+ arch/arc/include/asm/arcregs.h |  9 +--------
+ arch/arc/kernel/time.c         | 18 +++---------------
+ include/soc/arc/timers.h       | 38 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 42 insertions(+), 23 deletions(-)
+ create mode 100644 include/soc/arc/timers.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3d838cf49f81..57b56ff1dd68 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11632,6 +11632,7 @@ S:	Supported
- F:	arch/arc/
- F:	Documentation/devicetree/bindings/arc/*
- F:	Documentation/devicetree/bindings/interrupt-controller/snps,arc*
-+F:	drivers/clocksource/arc_timer.c
- F:	drivers/tty/serial/arc_uart.c
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git
+diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
+index ccf5dc96713b..a17aa4558832 100644
+--- a/arch/arc/include/asm/arcregs.h
++++ b/arch/arc/include/asm/arcregs.h
+@@ -20,7 +20,6 @@
+ #define ARC_REG_FP_V2_BCR	0xc8	/* ARCv2 FPU */
+ #define ARC_REG_SLC_BCR		0xce
+ #define ARC_REG_DCCM_BUILD	0x74	/* DCCM size (common) */
+-#define ARC_REG_TIMERS_BCR	0x75
+ #define ARC_REG_AP_BCR		0x76
+ #define ARC_REG_ICCM_BUILD	0x78	/* ICCM size (common) */
+ #define ARC_REG_XY_MEM_BCR	0x79
+@@ -206,13 +205,7 @@ struct bcr_fp_arcv2 {
+ #endif
+ };
  
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index bde3e558d8bc..ab12723d39a0 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -8,9 +8,9 @@
+-struct bcr_timer {
+-#ifdef CONFIG_CPU_BIG_ENDIAN
+-	unsigned int pad2:15, rtsc:1, pad1:5, rtc:1, t1:1, t0:1, ver:8;
+-#else
+-	unsigned int ver:8, t0:1, t1:1, rtc:1, pad1:5, rtsc:1, pad2:15;
+-#endif
+-};
++#include <soc/arc/timers.h>
  
- config ARC
- 	def_bool y
-+	select ARC_TIMERS
- 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
- 	select BUILDTIME_EXTABLE_SORT
--	select CLKSRC_OF
- 	select CLONE_BACKWARDS
- 	select COMMON_CLK
- 	select GENERIC_ATOMIC64 if !ISA_ARCV2 || !(ARC_HAS_LL64 && ARC_HAS_LLSC)
-@@ -115,6 +115,7 @@ config ISA_ARCOMPACT
- 
- config ISA_ARCV2
- 	bool "ARC ISA v2"
-+	select ARC_TIMERS_64BIT
- 	help
- 	  ISA for the Next Generation ARC-HS cores
- 
-@@ -410,10 +411,6 @@ config ARC_HAS_DIV_REM
- 	bool "Insn: div, divu, rem, remu"
- 	default y
- 
--config ARC_TIMERS_64BIT
--	bool "64-bit r/o cycle counters RTC (up) and GFRC (smp)"
--	default y
--
- config ARC_NUMBER_OF_INTERRUPTS
- 	int "Number of interrupts"
- 	range 8 240
-diff --git a/arch/arc/kernel/Makefile b/arch/arc/kernel/Makefile
-index cfcdedf52ff8..8942c5c3b4c5 100644
---- a/arch/arc/kernel/Makefile
-+++ b/arch/arc/kernel/Makefile
-@@ -8,7 +8,7 @@
- # Pass UTS_MACHINE for user_regset definition
- CFLAGS_ptrace.o		+= -DUTS_MACHINE='"$(UTS_MACHINE)"'
- 
--obj-y	:= arcksyms.o setup.o irq.o time.o reset.o ptrace.o process.o devtree.o
-+obj-y	:= arcksyms.o setup.o irq.o reset.o ptrace.o process.o devtree.o
- obj-y	+= signal.o traps.o sys.o troubleshoot.o stacktrace.o disasm.o
- obj-$(CONFIG_ISA_ARCOMPACT)		+= entry-compact.o intc-compact.o
- obj-$(CONFIG_ISA_ARCV2)			+= entry-arcv2.o intc-arcv2.o
-diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
-index e2c6e43cf8ca..a53bd50164e7 100644
---- a/drivers/clocksource/Kconfig
-+++ b/drivers/clocksource/Kconfig
-@@ -282,6 +282,25 @@ config CLKSRC_MPS2
- 	select CLKSRC_MMIO
- 	select CLKSRC_OF
- 
-+config ARC_TIMERS
-+	bool "Support for 32-bit TIMERn counters in ARC Cores" if COMPILE_TEST
-+	depends on GENERIC_CLOCKEVENTS
-+	select CLKSRC_OF
-+	help
-+	  These are legacy 32-bit TIMER0 and TIMER1 counters found on all ARC cores
-+	  (ARC700 as well as ARC HS38).
-+	  TIMER0 serves as clockevent while TIMER1 provides clocksource
-+
-+config ARC_TIMERS_64BIT
-+	bool "Support for 64-bit counters in ARC HS38 cores" if COMPILE_TEST
-+	depends on GENERIC_CLOCKEVENTS
-+	select CLKSRC_OF
-+	help
-+	  This enables 2 different 64-bit timers: RTC (for UP) and GFRC (for SMP)
-+	  RTC is implemented inside the core, while GFRC sits outside the core in
-+	  ARConnect IP block. Driver automatically picks one of them for clocksource
-+	  as appropriate.
-+
- config ARM_ARCH_TIMER
- 	bool
- 	select CLKSRC_OF if OF
-diff --git a/drivers/clocksource/Makefile b/drivers/clocksource/Makefile
-index cf87f407f1ad..a14111e1f087 100644
---- a/drivers/clocksource/Makefile
-+++ b/drivers/clocksource/Makefile
-@@ -51,6 +51,7 @@ obj-$(CONFIG_CLKSRC_TI_32K)	+= timer-ti-32k.o
- obj-$(CONFIG_CLKSRC_NPS)	+= timer-nps.o
- obj-$(CONFIG_OXNAS_RPS_TIMER)	+= timer-oxnas-rps.o
- 
-+obj-$(CONFIG_ARC_TIMERS)		+= arc_timer.o
- obj-$(CONFIG_ARM_ARCH_TIMER)		+= arm_arch_timer.o
- obj-$(CONFIG_ARM_GLOBAL_TIMER)		+= arm_global_timer.o
- obj-$(CONFIG_ARMV7M_SYSTICK)		+= armv7m_systick.o
-diff --git a/arch/arc/kernel/time.c b/drivers/clocksource/arc_timer.c
-similarity index 90%
-rename from arch/arc/kernel/time.c
-rename to drivers/clocksource/arc_timer.c
-index 878c71dda8b9..cb13d9490208 100644
+ struct bcr_bpu_arcompact {
+ #ifdef CONFIG_CPU_BIG_ENDIAN
+diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+index f0b6e6bc1e36..878c71dda8b9 100644
 --- a/arch/arc/kernel/time.c
-+++ b/drivers/clocksource/arc_timer.c
-@@ -1,32 +1,18 @@
- /*
-+ * Copyright (C) 2016-17 Synopsys, Inc. (www.synopsys.com)
-  * Copyright (C) 2004, 2007-2010, 2011-2012 Synopsys, Inc. (www.synopsys.com)
-  *
-  * This program is free software; you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License version 2 as
-  * published by the Free Software Foundation.
-- *
-- * vineetg: Jan 1011
-- *  -sched_clock( ) no longer jiffies based. Uses the same clocksource
-- *   as gtod
-- *
-- * Rajeshwarr/Vineetg: Mar 2008
-- *  -Implemented CONFIG_GENERIC_TIME (rather deleted arch specific code)
-- *   for arch independent gettimeofday()
-- *  -Implemented CONFIG_GENERIC_CLOCKEVENTS as base for hrtimers
-- *
-- * Vineetg: Mar 2008: Forked off from time.c which now is time-jiff.c
-  */
- 
--/* ARC700 has two 32bit independent prog Timers: TIMER0 and TIMER1
-- * Each can programmed to go from @count to @limit and optionally
-- * interrupt when that happens.
-- * A write to Control Register clears the Interrupt
-- *
-- * We've designated TIMER0 for events (clockevents)
-- * while TIMER1 for free running (clocksource)
-+/* ARC700 has two 32bit independent prog Timers: TIMER0 and TIMER1, Each can be
-+ * programmed to go from @count to @limit and optionally interrupt.
-+ * We've designated TIMER0 for clockevents and TIMER1 for clocksource
-  *
-- * Newer ARC700 cores have 64bit clk fetching RTSC insn, preferred over TIMER1
-- * which however is currently broken
-+ * ARCv2 based HS38 cores have RTC (in-core) and GFRC (inside ARConnect/MCIP)
-+ * which are suitable for UP and SMP based clocksources respectively
-  */
- 
- #include <linux/interrupt.h>
-@@ -37,7 +23,6 @@
- #include <linux/cpu.h>
++++ b/arch/arc/kernel/time.c
+@@ -38,22 +38,10 @@
  #include <linux/of.h>
  #include <linux/of_irq.h>
--#include <asm/irq.h>
+ #include <asm/irq.h>
+-#include <asm/arcregs.h>
  
- #include <soc/arc/timers.h>
++#include <soc/arc/timers.h>
  #include <soc/arc/mcip.h>
-@@ -263,7 +248,7 @@ static irqreturn_t timer_irq_handler(int irq, void *dev_id)
- 	 * irq_set_chip_and_handler() asked for handle_percpu_devid_irq()
- 	 */
- 	struct clock_event_device *evt = this_cpu_ptr(&arc_clockevent_device);
--	int irq_reenable = clockevent_state_periodic(evt);
-+	int irq_reenable __maybe_unused = clockevent_state_periodic(evt);
  
- 	/*
- 	 * Any write to CTRL reg ACks the interrupt, we rewrite the
+-/* Timer related Aux registers */
+-#define ARC_REG_TIMER0_LIMIT	0x23	/* timer 0 limit */
+-#define ARC_REG_TIMER0_CTRL	0x22	/* timer 0 control */
+-#define ARC_REG_TIMER0_CNT	0x21	/* timer 0 count */
+-#define ARC_REG_TIMER1_LIMIT	0x102	/* timer 1 limit */
+-#define ARC_REG_TIMER1_CTRL	0x101	/* timer 1 control */
+-#define ARC_REG_TIMER1_CNT	0x100	/* timer 1 count */
+-
+-#define TIMER_CTRL_IE	(1 << 0) /* Interrupt when Count reaches limit */
+-#define TIMER_CTRL_NH	(1 << 1) /* Count only when CPU NOT halted */
+-
+-#define ARC_TIMER_MAX	0xFFFFFFFF
+ 
+ static unsigned long arc_timer_freq;
+ 
+@@ -218,7 +206,7 @@ static int __init arc_cs_setup_timer1(struct device_node *node)
+ 	if (ret)
+ 		return ret;
+ 
+-	write_aux_reg(ARC_REG_TIMER1_LIMIT, ARC_TIMER_MAX);
++	write_aux_reg(ARC_REG_TIMER1_LIMIT, ARC_TIMERN_MAX);
+ 	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
+ 	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
+ 
+@@ -296,7 +284,7 @@ static int arc_timer_starting_cpu(unsigned int cpu)
+ 
+ 	evt->cpumask = cpumask_of(smp_processor_id());
+ 
+-	clockevents_config_and_register(evt, arc_timer_freq, 0, ARC_TIMER_MAX);
++	clockevents_config_and_register(evt, arc_timer_freq, 0, ARC_TIMERN_MAX);
+ 	enable_percpu_irq(arc_timer_irq, 0);
+ 	return 0;
+ }
+diff --git a/include/soc/arc/timers.h b/include/soc/arc/timers.h
+new file mode 100644
+index 000000000000..a20ed2fbc432
+--- /dev/null
++++ b/include/soc/arc/timers.h
+@@ -0,0 +1,38 @@
++/*
++ * Copyright (C) 2016-17 Synopsys, Inc. (www.synopsys.com)
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#ifndef __SOC_ARC_TIMERS_H
++#define __SOC_ARC_TIMERS_H
++
++#include <soc/arc/aux.h>
++
++/* Timer related Aux registers */
++#define ARC_REG_TIMER0_LIMIT	0x23	/* timer 0 limit */
++#define ARC_REG_TIMER0_CTRL	0x22	/* timer 0 control */
++#define ARC_REG_TIMER0_CNT	0x21	/* timer 0 count */
++#define ARC_REG_TIMER1_LIMIT	0x102	/* timer 1 limit */
++#define ARC_REG_TIMER1_CTRL	0x101	/* timer 1 control */
++#define ARC_REG_TIMER1_CNT	0x100	/* timer 1 count */
++
++/* CTRL reg bits */
++#define TIMER_CTRL_IE	        (1 << 0) /* Interrupt when Count reaches limit */
++#define TIMER_CTRL_NH	        (1 << 1) /* Count only when CPU NOT halted */
++
++#define ARC_TIMERN_MAX		0xFFFFFFFF
++
++#define ARC_REG_TIMERS_BCR	0x75
++
++struct bcr_timer {
++#ifdef CONFIG_CPU_BIG_ENDIAN
++	unsigned int pad2:15, rtsc:1, pad1:5, rtc:1, t1:1, t0:1, ver:8;
++#else
++	unsigned int ver:8, t0:1, t1:1, rtc:1, pad1:5, rtsc:1, pad2:15;
++#endif
++};
++
++#endif
 -- 
 2.7.4
