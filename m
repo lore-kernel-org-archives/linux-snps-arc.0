@@ -1,139 +1,60 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 14:31:40 -0700
-Subject: [PATCH v2 09/10] ARC: breakout timer include code into separate
- header ...
-In-Reply-To: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Thu, 3 Nov 2016 22:52:21 +0100
+Subject: [PATCH v2 01/10] ARC: timer: rtc: implement read loop in "C" vs.
+ inline asm
+In-Reply-To: <1478208701-30923-2-git-send-email-vgupta@synopsys.com>
 References: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
+ <1478208701-30923-2-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478208701-30923-10-git-send-email-vgupta@synopsys.com>
+Message-ID: <20161103215221.GM1859@mai>
 To: linux-snps-arc@lists.infradead.org
 
-... which allows for use in drivers/clocksource later
+On Thu, Nov 03, 2016@02:31:32PM -0700, Vineet Gupta wrote:
+> The current code doesn't even compile ....
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/include/asm/arcregs.h |  9 +--------
- arch/arc/kernel/time.c         | 18 +++---------------
- include/soc/arc/timers.h       | 38 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 42 insertions(+), 23 deletions(-)
- create mode 100644 include/soc/arc/timers.h
+Give a better description in the log, especially if this patch is supposed to
+go to stable@
+ 
+> CC: stable at vger.kernel.org
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  arch/arc/kernel/time.c | 19 +++++++++++--------
+>  1 file changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+> index f927b8dc6edd..1a117b999c0c 100644
+> --- a/arch/arc/kernel/time.c
+> +++ b/arch/arc/kernel/time.c
+> @@ -152,14 +152,17 @@ static cycle_t arc_read_rtc(struct clocksource *cs)
+>  		cycle_t  full;
+>  	} stamp;
+>  
+> -
+> -	__asm__ __volatile(
+> -	"1:						\n"
+> -	"	lr		%0, [AUX_RTC_LOW]	\n"
+> -	"	lr		%1, [AUX_RTC_HIGH]	\n"
+> -	"	lr		%2, [AUX_RTC_CTRL]	\n"
+> -	"	bbit0.nt	%2, 31, 1b		\n"
+> -	: "=r" (stamp.low), "=r" (stamp.high), "=r" (status));
+> +        /*
+> +         * hardware has an internal state machine which tracks readout of
+> +         * low/high and updates the CTRL.status if
+> +         *  - interrupt/exception taken between the two reads
+> +         *  - high increments after low has been read
+> +         */
+> +	do {
+> +		stamp.low = read_aux_reg(AUX_RTC_LOW);
+> +		stamp.high = read_aux_reg(AUX_RTC_HIGH);
+> +		status = read_aux_reg(AUX_RTC_CTRL);
+> +	} while (!(status & _BITUL(31)));
 
-diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
-index ccf5dc96713b..a17aa4558832 100644
---- a/arch/arc/include/asm/arcregs.h
-+++ b/arch/arc/include/asm/arcregs.h
-@@ -20,7 +20,6 @@
- #define ARC_REG_FP_V2_BCR	0xc8	/* ARCv2 FPU */
- #define ARC_REG_SLC_BCR		0xce
- #define ARC_REG_DCCM_BUILD	0x74	/* DCCM size (common) */
--#define ARC_REG_TIMERS_BCR	0x75
- #define ARC_REG_AP_BCR		0x76
- #define ARC_REG_ICCM_BUILD	0x78	/* ICCM size (common) */
- #define ARC_REG_XY_MEM_BCR	0x79
-@@ -206,13 +205,7 @@ struct bcr_fp_arcv2 {
- #endif
- };
- 
--struct bcr_timer {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--	unsigned int pad2:15, rtsc:1, pad1:5, rtc:1, t1:1, t0:1, ver:8;
--#else
--	unsigned int ver:8, t0:1, t1:1, rtc:1, pad1:5, rtsc:1, pad2:15;
--#endif
--};
-+#include <soc/arc/timers.h>
- 
- struct bcr_bpu_arcompact {
- #ifdef CONFIG_CPU_BIG_ENDIAN
-diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
-index f0b6e6bc1e36..878c71dda8b9 100644
---- a/arch/arc/kernel/time.c
-+++ b/arch/arc/kernel/time.c
-@@ -38,22 +38,10 @@
- #include <linux/of.h>
- #include <linux/of_irq.h>
- #include <asm/irq.h>
--#include <asm/arcregs.h>
- 
-+#include <soc/arc/timers.h>
- #include <soc/arc/mcip.h>
- 
--/* Timer related Aux registers */
--#define ARC_REG_TIMER0_LIMIT	0x23	/* timer 0 limit */
--#define ARC_REG_TIMER0_CTRL	0x22	/* timer 0 control */
--#define ARC_REG_TIMER0_CNT	0x21	/* timer 0 count */
--#define ARC_REG_TIMER1_LIMIT	0x102	/* timer 1 limit */
--#define ARC_REG_TIMER1_CTRL	0x101	/* timer 1 control */
--#define ARC_REG_TIMER1_CNT	0x100	/* timer 1 count */
--
--#define TIMER_CTRL_IE	(1 << 0) /* Interrupt when Count reaches limit */
--#define TIMER_CTRL_NH	(1 << 1) /* Count only when CPU NOT halted */
--
--#define ARC_TIMER_MAX	0xFFFFFFFF
- 
- static unsigned long arc_timer_freq;
- 
-@@ -218,7 +206,7 @@ static int __init arc_cs_setup_timer1(struct device_node *node)
- 	if (ret)
- 		return ret;
- 
--	write_aux_reg(ARC_REG_TIMER1_LIMIT, ARC_TIMER_MAX);
-+	write_aux_reg(ARC_REG_TIMER1_LIMIT, ARC_TIMERN_MAX);
- 	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
- 	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
- 
-@@ -296,7 +284,7 @@ static int arc_timer_starting_cpu(unsigned int cpu)
- 
- 	evt->cpumask = cpumask_of(smp_processor_id());
- 
--	clockevents_config_and_register(evt, arc_timer_freq, 0, ARC_TIMER_MAX);
-+	clockevents_config_and_register(evt, arc_timer_freq, 0, ARC_TIMERN_MAX);
- 	enable_percpu_irq(arc_timer_irq, 0);
- 	return 0;
- }
-diff --git a/include/soc/arc/timers.h b/include/soc/arc/timers.h
-new file mode 100644
-index 000000000000..a20ed2fbc432
---- /dev/null
-+++ b/include/soc/arc/timers.h
-@@ -0,0 +1,38 @@
-+/*
-+ * Copyright (C) 2016-17 Synopsys, Inc. (www.synopsys.com)
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#ifndef __SOC_ARC_TIMERS_H
-+#define __SOC_ARC_TIMERS_H
-+
-+#include <soc/arc/aux.h>
-+
-+/* Timer related Aux registers */
-+#define ARC_REG_TIMER0_LIMIT	0x23	/* timer 0 limit */
-+#define ARC_REG_TIMER0_CTRL	0x22	/* timer 0 control */
-+#define ARC_REG_TIMER0_CNT	0x21	/* timer 0 count */
-+#define ARC_REG_TIMER1_LIMIT	0x102	/* timer 1 limit */
-+#define ARC_REG_TIMER1_CTRL	0x101	/* timer 1 control */
-+#define ARC_REG_TIMER1_CNT	0x100	/* timer 1 count */
-+
-+/* CTRL reg bits */
-+#define TIMER_CTRL_IE	        (1 << 0) /* Interrupt when Count reaches limit */
-+#define TIMER_CTRL_NH	        (1 << 1) /* Count only when CPU NOT halted */
-+
-+#define ARC_TIMERN_MAX		0xFFFFFFFF
-+
-+#define ARC_REG_TIMERS_BCR	0x75
-+
-+struct bcr_timer {
-+#ifdef CONFIG_CPU_BIG_ENDIAN
-+	unsigned int pad2:15, rtsc:1, pad1:5, rtc:1, t1:1, t0:1, ver:8;
-+#else
-+	unsigned int ver:8, t0:1, t1:1, rtc:1, pad1:5, rtsc:1, pad2:15;
-+#endif
-+};
-+
-+#endif
--- 
-2.7.4
+Is the condition correct ? If I refer to your previous answer, the bit will be
+set for status if the counter wrapped up. So in this case, we won't exit the
+loop until we wrap up, no ?
+
+>  	return stamp.full;
+>  }
+> -- 
+> 2.7.4
+> 
