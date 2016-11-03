@@ -1,57 +1,83 @@
-From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
-Date: Thu,  3 Nov 2016 15:23:08 +0300
-Subject: [PATCH v3 3/3] ARCv2: MCIP: Use IDU_M_DISTRI_DEST mode if there is
- only 1 destination core
-In-Reply-To: <1478175788-3118-1-git-send-email-yuriy.kolerov@synopsys.com>
-References: <1478175788-3118-1-git-send-email-yuriy.kolerov@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu,  3 Nov 2016 18:06:13 +0300
+Subject: [PATCH v2] arc: Implement arch-specific dma_map_ops.mmap
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478175788-3118-4-git-send-email-yuriy.kolerov@synopsys.com>
+Message-ID: <1478185573-12871-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-ARC linux uses 2 distribution modes for common interrupts: round robin
-mode (IDU_M_DISTRI_RR) and a simple destination mode (IDU_M_DISTRI_DEST).
-The first one is used when more than 1 cores may handle a common interrupt
-and the second one is used when only 1 core may handle a common interrupt.
+We used to use generic implementation of dma_map_ops.mmap which is
+dma_common_mmap() but that only worked for simpler cached mappings when
+vaddr = paddr.
 
-However idu_irq_set_affinity always sets IDU_M_DISTRI_RR for all affinity
-values. But there is no sense in setting of such mode if only 1 core must
-handle a common interrupt.
+If a driver requests uncached DMA buffer kernel maps it to virtual
+address so that MMU gets involved and page uncached status takes into
+account. In that case usage of dma_common_mmap() lead to mapping of
+vaddr to vaddr for user-space which is obviously wrong. For more detals
+please refer to verbose explanation here [1].
 
-Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
+So here we implement our own version of mmap() which always deals
+with dma_addr and maps underlying memory to user-space properly
+(note that DMA buffer mapped to user-space is always uncached
+because there's no way to properly manage cache from user-space).
+
+[1] https://lkml.org/lkml/2016/10/26/973
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Reviewed-by: Catalin Marinas <catalin.marinas at arm.com>
+Cc: Marek Szyprowski <m.szyprowski at samsung.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: <stable at vger.kernel.org>
 ---
- arch/arc/kernel/mcip.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-index 4f4f04b..90f9934 100644
---- a/arch/arc/kernel/mcip.c
-+++ b/arch/arc/kernel/mcip.c
-@@ -193,6 +193,8 @@ idu_irq_set_affinity(struct irq_data *data, const struct cpumask *cpumask,
- {
- 	unsigned long flags;
- 	cpumask_t online;
-+	unsigned int destination_bits;
-+	unsigned int distribution_mode;
+Changes v1 -> v2:
+ * Added plat_dma_to_phys wrapper around dma_addr
+
+ arch/arc/mm/dma.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
+index 20afc65e22dc..9288851d43a0 100644
+--- a/arch/arc/mm/dma.c
++++ b/arch/arc/mm/dma.c
+@@ -105,6 +105,31 @@ static void arc_dma_free(struct device *dev, size_t size, void *vaddr,
+ 	__free_pages(page, get_order(size));
+ }
  
- 	/* errout if no online cpu per @cpumask */
- 	if (!cpumask_and(&online, cpumask, cpu_online_mask))
-@@ -200,8 +202,15 @@ idu_irq_set_affinity(struct irq_data *data, const struct cpumask *cpumask,
- 
- 	raw_spin_lock_irqsave(&mcip_lock, flags);
- 
--	idu_set_dest(data->hwirq, cpumask_bits(&online)[0]);
--	idu_set_mode(data->hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_RR);
-+	destination_bits = cpumask_bits(&online)[0];
-+	idu_set_dest(data->hwirq, destination_bits);
++static int arc_dma_mmap(struct device *dev, struct vm_area_struct *vma,
++			void *cpu_addr, dma_addr_t dma_addr, size_t size,
++			unsigned long attrs)
++{
++	unsigned long user_count = vma_pages(vma);
++	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
++	unsigned long pfn = __phys_to_pfn(plat_dma_to_phys(dev, dma_addr));
++	unsigned long off = vma->vm_pgoff;
++	int ret = -ENXIO;
 +
-+	if (ffs(destination_bits) == fls(destination_bits))
-+		distribution_mode = IDU_M_DISTRI_DEST;
-+	else
-+		distribution_mode = IDU_M_DISTRI_RR;
++	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
 +
-+	idu_set_mode(data->hwirq, IDU_M_TRIG_LEVEL, distribution_mode);
- 
- 	raw_spin_unlock_irqrestore(&mcip_lock, flags);
- 
++	if (dma_mmap_from_coherent(dev, vma, cpu_addr, size, &ret))
++		return ret;
++
++	if (off < count && user_count <= (count - off)) {
++		ret = remap_pfn_range(vma, vma->vm_start,
++				      pfn + off,
++				      user_count << PAGE_SHIFT,
++				      vma->vm_page_prot);
++	}
++
++	return ret;
++}
++
+ /*
+  * streaming DMA Mapping API...
+  * CPU accesses page via normal paddr, thus needs to explicitly made
+@@ -193,6 +218,7 @@ static int arc_dma_supported(struct device *dev, u64 dma_mask)
+ struct dma_map_ops arc_dma_ops = {
+ 	.alloc			= arc_dma_alloc,
+ 	.free			= arc_dma_free,
++	.mmap			= arc_dma_mmap,
+ 	.map_page		= arc_dma_map_page,
+ 	.map_sg			= arc_dma_map_sg,
+ 	.sync_single_for_device	= arc_dma_sync_single_for_device,
 -- 
 2.7.4
