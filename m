@@ -1,71 +1,212 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 14:31:31 -0700
-Subject: [PATCH v2 00/10] Move ARC timer code into drivers/clocksource/
+Date: Thu, 3 Nov 2016 14:31:38 -0700
+Subject: [PATCH v2 07/10] ARC: breakout aux handling into a separate header
+In-Reply-To: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
+References: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478208701-30923-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1478208701-30923-8-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+ARC timers use aux registers for programming and this paves way for
+moving ARC timer drivers into drivers/clocksource
 
-This series addresses the long pending move of ARC timer code into
-drivers/clocksource/.
-
-Thx,
--Vineet
-
-v1 -> v2
-
-- Now 10 patches instead of 9 to handle BIG ENDIAN in arch agnostic way
-
-- Moved fix for RTC (v1 2/9) ahead of queue (v2 1/10) to allow for easier
-  stable backport
-
-- Folded the Kconfig items for RTC and GFRC into single ARC_TIMERS_64BIT
-  So no special casing for UP/SMP in Kconfig.
-  Driver already handles the UP vs. SMP at runtime as needed
-
-- convert WARN() to pr_warn()				[Daniel]
-- Use of _BITUL() vs. constant 0x8000_0000		[Daniel]
-- changelog spellos:					[Daniel]
-  s/depedency/dependency/
-  s/seperate/separate/
-
-
-v1: http://lists.infradead.org/pipermail/linux-snps-arc/2016-October/001676.html
-
-Vineet Gupta (10):
-  ARC: timer: rtc: implement read loop in "C" vs. inline asm
-  ARC: timer: gfrc, rtc: deuglify big endian code
-  ARC: timer: gfrc, rtc: Read BCR to detect whether hardware exists ...
-  ARC: timer: gfrc: boot print alongside other timers
-  ARC: time: move time_init() out of the driver
-  ARC: timer: Build gfrc, rtc under same option (64-bit timers)
-  ARC: breakout aux handling into a separate header
-  ARC: move mcip.h into include/soc and adjust the includes
-  ARC: breakout timer include code into separate header ...
-  clocksource: import ARC timer driver
-
- MAINTAINERS                                        |   1 +
- arch/arc/Kconfig                                   |  13 +--
- arch/arc/configs/nsimosci_hs_smp_defconfig         |   2 +-
- arch/arc/configs/vdk_hs38_smp_defconfig            |   2 +-
- arch/arc/include/asm/arcregs.h                     |  94 +--------------
- arch/arc/kernel/Makefile                           |   2 +-
- arch/arc/kernel/mcip.c                             |   2 +-
- arch/arc/kernel/setup.c                            |  17 ++-
- arch/arc/plat-axs10x/axs10x.c                      |   2 +-
- drivers/clocksource/Kconfig                        |  19 +++
- drivers/clocksource/Makefile                       |   1 +
- .../time.c => drivers/clocksource/arc_timer.c      | 129 +++++++--------------
- include/soc/arc/aux.h                              |  52 +++++++++
- {arch/arc/include/asm => include/soc/arc}/mcip.h   |  10 +-
- include/soc/arc/timers.h                           |  38 ++++++
- include/soc/nps/common.h                           |   4 +-
- 16 files changed, 181 insertions(+), 207 deletions(-)
- rename arch/arc/kernel/time.c => drivers/clocksource/arc_timer.c (71%)
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/include/asm/arcregs.h | 85 +-----------------------------------------
+ arch/arc/include/asm/mcip.h    |  2 +-
+ include/soc/arc/aux.h          | 52 ++++++++++++++++++++++++++
+ include/soc/nps/common.h       |  4 +-
+ 4 files changed, 56 insertions(+), 87 deletions(-)
  create mode 100644 include/soc/arc/aux.h
- rename {arch/arc/include/asm => include/soc/arc}/mcip.h (95%)
- create mode 100644 include/soc/arc/timers.h
 
+diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
+index 7f3f9f63708c..ccf5dc96713b 100644
+--- a/arch/arc/include/asm/arcregs.h
++++ b/arch/arc/include/asm/arcregs.h
+@@ -110,90 +110,7 @@
+ 
+ #ifndef __ASSEMBLY__
+ 
+-/*
+- ******************************************************************
+- *      Inline ASM macros to read/write AUX Regs
+- *      Essentially invocation of lr/sr insns from "C"
+- */
+-
+-#if 1
+-
+-#define read_aux_reg(reg)	__builtin_arc_lr(reg)
+-
+-/* gcc builtin sr needs reg param to be long immediate */
+-#define write_aux_reg(reg_immed, val)		\
+-		__builtin_arc_sr((unsigned int)(val), reg_immed)
+-
+-#else
+-
+-#define read_aux_reg(reg)		\
+-({					\
+-	unsigned int __ret;		\
+-	__asm__ __volatile__(		\
+-	"	lr    %0, [%1]"		\
+-	: "=r"(__ret)			\
+-	: "i"(reg));			\
+-	__ret;				\
+-})
+-
+-/*
+- * Aux Reg address is specified as long immediate by caller
+- * e.g.
+- *    write_aux_reg(0x69, some_val);
+- * This generates tightest code.
+- */
+-#define write_aux_reg(reg_imm, val)	\
+-({					\
+-	__asm__ __volatile__(		\
+-	"	sr   %0, [%1]	\n"	\
+-	:				\
+-	: "ir"(val), "i"(reg_imm));	\
+-})
+-
+-/*
+- * Aux Reg address is specified in a variable
+- *  * e.g.
+- *      reg_num = 0x69
+- *      write_aux_reg2(reg_num, some_val);
+- * This has to generate glue code to load the reg num from
+- *  memory to a reg hence not recommended.
+- */
+-#define write_aux_reg2(reg_in_var, val)		\
+-({						\
+-	unsigned int tmp;			\
+-						\
+-	__asm__ __volatile__(			\
+-	"	ld   %0, [%2]	\n\t"		\
+-	"	sr   %1, [%0]	\n\t"		\
+-	: "=&r"(tmp)				\
+-	: "r"(val), "memory"(&reg_in_var));	\
+-})
+-
+-#endif
+-
+-#define READ_BCR(reg, into)				\
+-{							\
+-	unsigned int tmp;				\
+-	tmp = read_aux_reg(reg);			\
+-	if (sizeof(tmp) == sizeof(into)) {		\
+-		into = *((typeof(into) *)&tmp);		\
+-	} else {					\
+-		extern void bogus_undefined(void);	\
+-		bogus_undefined();			\
+-	}						\
+-}
+-
+-#define WRITE_AUX(reg, into)				\
+-{							\
+-	unsigned int tmp;				\
+-	if (sizeof(tmp) == sizeof(into)) {		\
+-		tmp = (*(unsigned int *)&(into));	\
+-		write_aux_reg(reg, tmp);		\
+-	} else  {					\
+-		extern void bogus_undefined(void);	\
+-		bogus_undefined();			\
+-	}						\
+-}
++#include <soc/arc/aux.h>
+ 
+ /* Helpers */
+ #define TO_KB(bytes)		((bytes) >> 10)
+diff --git a/arch/arc/include/asm/mcip.h b/arch/arc/include/asm/mcip.h
+index c8fbe4114bad..fc28d0944801 100644
+--- a/arch/arc/include/asm/mcip.h
++++ b/arch/arc/include/asm/mcip.h
+@@ -13,7 +13,7 @@
+ 
+ #ifdef CONFIG_ISA_ARCV2
+ 
+-#include <asm/arcregs.h>
++#include <soc/arc/aux.h>
+ 
+ #define ARC_REG_MCIP_BCR	0x0d0
+ #define ARC_REG_MCIP_CMD	0x600
+diff --git a/include/soc/arc/aux.h b/include/soc/arc/aux.h
+new file mode 100644
+index 000000000000..8c41c096a51b
+--- /dev/null
++++ b/include/soc/arc/aux.h
+@@ -0,0 +1,52 @@
++/*
++ * Copyright (C) 2016-2017 Synopsys, Inc. (www.synopsys.com)
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ */
++
++#ifndef __SOC_ARC_AUX_H__
++#define __SOC_ARC_AUX_H__
++
++#ifdef CONFIG_ARC
++
++#define read_aux_reg(r)		__builtin_arc_lr(r)
++
++/* gcc builtin sr needs reg param to be long immediate */
++#define write_aux_reg(r, v)	__builtin_arc_sr((unsigned int)(v), r)
++
++#else
++
++#define read_aux_reg(r)		0
++#define write_aux_reg(r, v)
++
++#endif
++
++#define READ_BCR(reg, into)				\
++{							\
++	unsigned int tmp;				\
++	tmp = read_aux_reg(reg);			\
++	if (sizeof(tmp) == sizeof(into)) {		\
++		into = *((typeof(into) *)&tmp);		\
++	} else {					\
++		extern void bogus_undefined(void);	\
++		bogus_undefined();			\
++	}						\
++}
++
++#define WRITE_AUX(reg, into)				\
++{							\
++	unsigned int tmp;				\
++	if (sizeof(tmp) == sizeof(into)) {		\
++		tmp = (*(unsigned int *)&(into));	\
++		write_aux_reg(reg, tmp);		\
++	} else  {					\
++		extern void bogus_undefined(void);	\
++		bogus_undefined();			\
++	}						\
++}
++
++
++#endif
+diff --git a/include/soc/nps/common.h b/include/soc/nps/common.h
+index 9b1d43d671a3..b7ba05b3993f 100644
+--- a/include/soc/nps/common.h
++++ b/include/soc/nps/common.h
+@@ -47,6 +47,8 @@
+ 
+ #ifndef __ASSEMBLY__
+ 
++#include <soc/arc/aux.h>
++
+ /* In order to increase compilation test coverage */
+ #ifdef CONFIG_ARC
+ static inline void nps_ack_gic(void)
+@@ -59,8 +61,6 @@ static inline void nps_ack_gic(void)
+ }
+ #else
+ static inline void nps_ack_gic(void) { }
+-#define write_aux_reg(r, v)
+-#define read_aux_reg(r) 0
+ #endif
+ 
+ /* CPU global ID */
 -- 
 2.7.4
