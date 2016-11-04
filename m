@@ -1,139 +1,90 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 3 Nov 2016 16:33:34 -0700
-Subject: [PATCH v3 09/10] ARC: breakout timer include code into separate
- header ...
-In-Reply-To: <1478216015-18931-1-git-send-email-vgupta@synopsys.com>
-References: <1478216015-18931-1-git-send-email-vgupta@synopsys.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Fri, 4 Nov 2016 08:40:20 +0800
+Subject: [PATCH v3 07/10] ARC: breakout aux handling into a separate header
+In-Reply-To: <1478216015-18931-8-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478216015-18931-10-git-send-email-vgupta@synopsys.com>
+Message-ID: <201611040843.A8Q0VBao%fengguang.wu@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-... which allows for use in drivers/clocksource later
+Hi Vineet,
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+[auto build test ERROR on linus/master]
+[also build test ERROR on v4.9-rc3 next-20161028]
+[cannot apply to arc/for-next]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/Vineet-Gupta/Move-ARC-timer-code-into-drivers-clocksource/20161104-074042
+config: i386-allmodconfig (attached as .config)
+compiler: gcc-6 (Debian 6.2.0-3) 6.2.0 20160901
+reproduce:
+        # save the attached .config to linux build tree
+        make ARCH=i386 
+
+All errors (new ones prefixed by >>):
+
+   drivers/irqchip/irq-eznps.c: In function 'nps400_irq_mask':
+>> drivers/irqchip/irq-eznps.c:61:22: error: 'AUX_IENABLE' undeclared (first use in this function)
+     ienb = read_aux_reg(AUX_IENABLE);
+                         ^~~~~~~~~~~
+   drivers/irqchip/irq-eznps.c:61:22: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/irqchip/irq-eznps.c: In function 'nps400_irq_unmask':
+   drivers/irqchip/irq-eznps.c:71:22: error: 'AUX_IENABLE' undeclared (first use in this function)
+     ienb = read_aux_reg(AUX_IENABLE);
+                         ^~~~~~~~~~~
+   drivers/irqchip/irq-eznps.c: In function 'nps400_irq_eoi_global':
+>> drivers/irqchip/irq-eznps.c:80:16: error: 'CTOP_AUX_IACK' undeclared (first use in this function)
+     write_aux_reg(CTOP_AUX_IACK, 1 << irq);
+                   ^~~~~~~~~~~~~
+   drivers/irqchip/irq-eznps.c: In function 'nps400_irq_ack':
+   drivers/irqchip/irq-eznps.c:92:16: error: 'CTOP_AUX_IACK' undeclared (first use in this function)
+     write_aux_reg(CTOP_AUX_IACK, 1 << irq);
+                   ^~~~~~~~~~~~~
+
+vim +/AUX_IENABLE +61 drivers/irqchip/irq-eznps.c
+
+44df427c8 Noam Camus 2015-10-29  55  
+44df427c8 Noam Camus 2015-10-29  56  static void nps400_irq_mask(struct irq_data *irqd)
+44df427c8 Noam Camus 2015-10-29  57  {
+44df427c8 Noam Camus 2015-10-29  58  	unsigned int ienb;
+44df427c8 Noam Camus 2015-10-29  59  	unsigned int irq = irqd_to_hwirq(irqd);
+44df427c8 Noam Camus 2015-10-29  60  
+44df427c8 Noam Camus 2015-10-29 @61  	ienb = read_aux_reg(AUX_IENABLE);
+44df427c8 Noam Camus 2015-10-29  62  	ienb &= ~(1 << irq);
+44df427c8 Noam Camus 2015-10-29  63  	write_aux_reg(AUX_IENABLE, ienb);
+44df427c8 Noam Camus 2015-10-29  64  }
+44df427c8 Noam Camus 2015-10-29  65  
+44df427c8 Noam Camus 2015-10-29  66  static void nps400_irq_unmask(struct irq_data *irqd)
+44df427c8 Noam Camus 2015-10-29  67  {
+44df427c8 Noam Camus 2015-10-29  68  	unsigned int ienb;
+44df427c8 Noam Camus 2015-10-29  69  	unsigned int irq = irqd_to_hwirq(irqd);
+44df427c8 Noam Camus 2015-10-29  70  
+44df427c8 Noam Camus 2015-10-29  71  	ienb = read_aux_reg(AUX_IENABLE);
+44df427c8 Noam Camus 2015-10-29  72  	ienb |= (1 << irq);
+44df427c8 Noam Camus 2015-10-29  73  	write_aux_reg(AUX_IENABLE, ienb);
+44df427c8 Noam Camus 2015-10-29  74  }
+44df427c8 Noam Camus 2015-10-29  75  
+44df427c8 Noam Camus 2015-10-29  76  static void nps400_irq_eoi_global(struct irq_data *irqd)
+44df427c8 Noam Camus 2015-10-29  77  {
+44df427c8 Noam Camus 2015-10-29  78  	unsigned int __maybe_unused irq = irqd_to_hwirq(irqd);
+44df427c8 Noam Camus 2015-10-29  79  
+44df427c8 Noam Camus 2015-10-29 @80  	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
+44df427c8 Noam Camus 2015-10-29  81  
+44df427c8 Noam Camus 2015-10-29  82  	/* Don't ack GIC before all device access attempts are done */
+44df427c8 Noam Camus 2015-10-29  83  	mb();
+
+:::::: The code at line 61 was first introduced by commit
+:::::: 44df427c894a4357e43bb35769baefa7cdf09833 irqchip: add nps Internal and external irqchips
+
+:::::: TO: Noam Camus <noamc at ezchip.com>
+:::::: CC: Vineet Gupta <vgupta at synopsys.com>
+
 ---
- arch/arc/include/asm/arcregs.h |  9 +--------
- arch/arc/kernel/time.c         | 18 +++---------------
- include/soc/arc/timers.h       | 38 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 42 insertions(+), 23 deletions(-)
- create mode 100644 include/soc/arc/timers.h
-
-diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
-index ccf5dc96713b..a17aa4558832 100644
---- a/arch/arc/include/asm/arcregs.h
-+++ b/arch/arc/include/asm/arcregs.h
-@@ -20,7 +20,6 @@
- #define ARC_REG_FP_V2_BCR	0xc8	/* ARCv2 FPU */
- #define ARC_REG_SLC_BCR		0xce
- #define ARC_REG_DCCM_BUILD	0x74	/* DCCM size (common) */
--#define ARC_REG_TIMERS_BCR	0x75
- #define ARC_REG_AP_BCR		0x76
- #define ARC_REG_ICCM_BUILD	0x78	/* ICCM size (common) */
- #define ARC_REG_XY_MEM_BCR	0x79
-@@ -206,13 +205,7 @@ struct bcr_fp_arcv2 {
- #endif
- };
- 
--struct bcr_timer {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--	unsigned int pad2:15, rtsc:1, pad1:5, rtc:1, t1:1, t0:1, ver:8;
--#else
--	unsigned int ver:8, t0:1, t1:1, rtc:1, pad1:5, rtsc:1, pad2:15;
--#endif
--};
-+#include <soc/arc/timers.h>
- 
- struct bcr_bpu_arcompact {
- #ifdef CONFIG_CPU_BIG_ENDIAN
-diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
-index ec1b896f27b2..94b9cd169374 100644
---- a/arch/arc/kernel/time.c
-+++ b/arch/arc/kernel/time.c
-@@ -38,22 +38,10 @@
- #include <linux/of.h>
- #include <linux/of_irq.h>
- #include <asm/irq.h>
--#include <asm/arcregs.h>
- 
-+#include <soc/arc/timers.h>
- #include <soc/arc/mcip.h>
- 
--/* Timer related Aux registers */
--#define ARC_REG_TIMER0_LIMIT	0x23	/* timer 0 limit */
--#define ARC_REG_TIMER0_CTRL	0x22	/* timer 0 control */
--#define ARC_REG_TIMER0_CNT	0x21	/* timer 0 count */
--#define ARC_REG_TIMER1_LIMIT	0x102	/* timer 1 limit */
--#define ARC_REG_TIMER1_CTRL	0x101	/* timer 1 control */
--#define ARC_REG_TIMER1_CNT	0x100	/* timer 1 count */
--
--#define TIMER_CTRL_IE	(1 << 0) /* Interrupt when Count reaches limit */
--#define TIMER_CTRL_NH	(1 << 1) /* Count only when CPU NOT halted */
--
--#define ARC_TIMER_MAX	0xFFFFFFFF
- 
- static unsigned long arc_timer_freq;
- 
-@@ -218,7 +206,7 @@ static int __init arc_cs_setup_timer1(struct device_node *node)
- 	if (ret)
- 		return ret;
- 
--	write_aux_reg(ARC_REG_TIMER1_LIMIT, ARC_TIMER_MAX);
-+	write_aux_reg(ARC_REG_TIMER1_LIMIT, ARC_TIMERN_MAX);
- 	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
- 	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
- 
-@@ -296,7 +284,7 @@ static int arc_timer_starting_cpu(unsigned int cpu)
- 
- 	evt->cpumask = cpumask_of(smp_processor_id());
- 
--	clockevents_config_and_register(evt, arc_timer_freq, 0, ARC_TIMER_MAX);
-+	clockevents_config_and_register(evt, arc_timer_freq, 0, ARC_TIMERN_MAX);
- 	enable_percpu_irq(arc_timer_irq, 0);
- 	return 0;
- }
-diff --git a/include/soc/arc/timers.h b/include/soc/arc/timers.h
-new file mode 100644
-index 000000000000..a20ed2fbc432
---- /dev/null
-+++ b/include/soc/arc/timers.h
-@@ -0,0 +1,38 @@
-+/*
-+ * Copyright (C) 2016-17 Synopsys, Inc. (www.synopsys.com)
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#ifndef __SOC_ARC_TIMERS_H
-+#define __SOC_ARC_TIMERS_H
-+
-+#include <soc/arc/aux.h>
-+
-+/* Timer related Aux registers */
-+#define ARC_REG_TIMER0_LIMIT	0x23	/* timer 0 limit */
-+#define ARC_REG_TIMER0_CTRL	0x22	/* timer 0 control */
-+#define ARC_REG_TIMER0_CNT	0x21	/* timer 0 count */
-+#define ARC_REG_TIMER1_LIMIT	0x102	/* timer 1 limit */
-+#define ARC_REG_TIMER1_CTRL	0x101	/* timer 1 control */
-+#define ARC_REG_TIMER1_CNT	0x100	/* timer 1 count */
-+
-+/* CTRL reg bits */
-+#define TIMER_CTRL_IE	        (1 << 0) /* Interrupt when Count reaches limit */
-+#define TIMER_CTRL_NH	        (1 << 1) /* Count only when CPU NOT halted */
-+
-+#define ARC_TIMERN_MAX		0xFFFFFFFF
-+
-+#define ARC_REG_TIMERS_BCR	0x75
-+
-+struct bcr_timer {
-+#ifdef CONFIG_CPU_BIG_ENDIAN
-+	unsigned int pad2:15, rtsc:1, pad1:5, rtc:1, t1:1, t0:1, ver:8;
-+#else
-+	unsigned int ver:8, t0:1, t1:1, rtc:1, pad1:5, rtsc:1, pad2:15;
-+#endif
-+};
-+
-+#endif
--- 
-2.7.4
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 56826 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20161104/bddf77d4/attachment-0001.gz>
