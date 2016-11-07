@@ -1,47 +1,206 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 7 Nov 2016 10:54:09 -0800
-Subject: [PATCH] ARC: [plat-eznps] remove IPI clear from SMP operations
-In-Reply-To: <1478504061-4668-1-git-send-email-noamca@mellanox.com>
-References: <1478504061-4668-1-git-send-email-noamca@mellanox.com>
+Date: Mon, 7 Nov 2016 13:18:51 -0800
+Subject: [PATCH v4 07/10] ARC: breakout aux handling into a separate header
+In-Reply-To: <1478553531-20757-1-git-send-email-vgupta@synopsys.com>
+References: <201611040843.A8Q0VBao%fengguang.wu@intel.com>
+ <1478553531-20757-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <cdb487f1-b23b-1b01-e4a5-be5a3714055a@synopsys.com>
+Message-ID: <1478553531-20757-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/06/2016 11:34 PM, Noam Camus wrote:
-> From: Noam Camus <noamca at mellanox.com>
->
-> Generic IRQ mechanism is already acknowledge the IPI IRQ.
-> Doing this once more time in IPI handler is not needed.
+ARC timers use aux registers for programming and this paves way for
+moving ARC timer drivers into drivers/clocksource
 
-Changelog can be improved !
-Generic IRQ mechanism can't ack the irq. The NPQ irqchip driver does this for all
-irqs already - so no special handling is needed for IPI in NPS case.
+Reviewed-by: kbuild test robot <fengguang.wu at intel.com>
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+v3 -> v4
+ - rolled back update of nps header to use the new aux header as that
+   requires prior fixing.
+---
+ arch/arc/include/asm/arcregs.h | 85 +-----------------------------------------
+ arch/arc/include/asm/mcip.h    |  2 +-
+ include/soc/arc/aux.h          | 63 +++++++++++++++++++++++++++++++
+ 3 files changed, 65 insertions(+), 85 deletions(-)
+ create mode 100644 include/soc/arc/aux.h
 
--Vineet
->
-> Signed-off-by: Noam Camus <noamca at mellanox.com>
-> ---
->  arch/arc/plat-eznps/smp.c |    6 ------
->  1 files changed, 0 insertions(+), 6 deletions(-)
->
-> diff --git a/arch/arc/plat-eznps/smp.c b/arch/arc/plat-eznps/smp.c
-> index 5e901f8..56a4c85 100644
-> --- a/arch/arc/plat-eznps/smp.c
-> +++ b/arch/arc/plat-eznps/smp.c
-> @@ -140,16 +140,10 @@ static void eznps_init_per_cpu(int cpu)
->  	mtm_enable_core(cpu);
->  }
->  
-> -static void eznps_ipi_clear(int irq)
-> -{
-> -	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
-> -}
-> -
->  struct plat_smp_ops plat_smp_ops = {
->  	.info		= smp_cpuinfo_buf,
->  	.init_early_smp	= eznps_init_cpumasks,
->  	.cpu_kick	= eznps_smp_wakeup_cpu,
->  	.ipi_send	= eznps_ipi_send,
->  	.init_per_cpu	= eznps_init_per_cpu,
-> -	.ipi_clear	= eznps_ipi_clear,
->  };
+diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
+index 7f3f9f63708c..ccf5dc96713b 100644
+--- a/arch/arc/include/asm/arcregs.h
++++ b/arch/arc/include/asm/arcregs.h
+@@ -110,90 +110,7 @@
+ 
+ #ifndef __ASSEMBLY__
+ 
+-/*
+- ******************************************************************
+- *      Inline ASM macros to read/write AUX Regs
+- *      Essentially invocation of lr/sr insns from "C"
+- */
+-
+-#if 1
+-
+-#define read_aux_reg(reg)	__builtin_arc_lr(reg)
+-
+-/* gcc builtin sr needs reg param to be long immediate */
+-#define write_aux_reg(reg_immed, val)		\
+-		__builtin_arc_sr((unsigned int)(val), reg_immed)
+-
+-#else
+-
+-#define read_aux_reg(reg)		\
+-({					\
+-	unsigned int __ret;		\
+-	__asm__ __volatile__(		\
+-	"	lr    %0, [%1]"		\
+-	: "=r"(__ret)			\
+-	: "i"(reg));			\
+-	__ret;				\
+-})
+-
+-/*
+- * Aux Reg address is specified as long immediate by caller
+- * e.g.
+- *    write_aux_reg(0x69, some_val);
+- * This generates tightest code.
+- */
+-#define write_aux_reg(reg_imm, val)	\
+-({					\
+-	__asm__ __volatile__(		\
+-	"	sr   %0, [%1]	\n"	\
+-	:				\
+-	: "ir"(val), "i"(reg_imm));	\
+-})
+-
+-/*
+- * Aux Reg address is specified in a variable
+- *  * e.g.
+- *      reg_num = 0x69
+- *      write_aux_reg2(reg_num, some_val);
+- * This has to generate glue code to load the reg num from
+- *  memory to a reg hence not recommended.
+- */
+-#define write_aux_reg2(reg_in_var, val)		\
+-({						\
+-	unsigned int tmp;			\
+-						\
+-	__asm__ __volatile__(			\
+-	"	ld   %0, [%2]	\n\t"		\
+-	"	sr   %1, [%0]	\n\t"		\
+-	: "=&r"(tmp)				\
+-	: "r"(val), "memory"(&reg_in_var));	\
+-})
+-
+-#endif
+-
+-#define READ_BCR(reg, into)				\
+-{							\
+-	unsigned int tmp;				\
+-	tmp = read_aux_reg(reg);			\
+-	if (sizeof(tmp) == sizeof(into)) {		\
+-		into = *((typeof(into) *)&tmp);		\
+-	} else {					\
+-		extern void bogus_undefined(void);	\
+-		bogus_undefined();			\
+-	}						\
+-}
+-
+-#define WRITE_AUX(reg, into)				\
+-{							\
+-	unsigned int tmp;				\
+-	if (sizeof(tmp) == sizeof(into)) {		\
+-		tmp = (*(unsigned int *)&(into));	\
+-		write_aux_reg(reg, tmp);		\
+-	} else  {					\
+-		extern void bogus_undefined(void);	\
+-		bogus_undefined();			\
+-	}						\
+-}
++#include <soc/arc/aux.h>
+ 
+ /* Helpers */
+ #define TO_KB(bytes)		((bytes) >> 10)
+diff --git a/arch/arc/include/asm/mcip.h b/arch/arc/include/asm/mcip.h
+index c8fbe4114bad..fc28d0944801 100644
+--- a/arch/arc/include/asm/mcip.h
++++ b/arch/arc/include/asm/mcip.h
+@@ -13,7 +13,7 @@
+ 
+ #ifdef CONFIG_ISA_ARCV2
+ 
+-#include <asm/arcregs.h>
++#include <soc/arc/aux.h>
+ 
+ #define ARC_REG_MCIP_BCR	0x0d0
+ #define ARC_REG_MCIP_CMD	0x600
+diff --git a/include/soc/arc/aux.h b/include/soc/arc/aux.h
+new file mode 100644
+index 000000000000..8c3fb13e0452
+--- /dev/null
++++ b/include/soc/arc/aux.h
+@@ -0,0 +1,63 @@
++/*
++ * Copyright (C) 2016-2017 Synopsys, Inc. (www.synopsys.com)
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ */
++
++#ifndef __SOC_ARC_AUX_H__
++#define __SOC_ARC_AUX_H__
++
++#ifdef CONFIG_ARC
++
++#define read_aux_reg(r)		__builtin_arc_lr(r)
++
++/* gcc builtin sr needs reg param to be long immediate */
++#define write_aux_reg(r, v)	__builtin_arc_sr((unsigned int)(v), r)
++
++#else	/* !CONFIG_ARC */
++
++static inline int read_aux_reg(u32 r)
++{
++	return 0;
++}
++
++/*
++ * function helps elide unused variable warning
++ * see: http://lists.infradead.org/pipermail/linux-snps-arc/2016-November/001748.html
++ */
++static inline void write_aux_reg(u32 r, u32 v)
++{
++	;
++}
++
++#endif
++
++#define READ_BCR(reg, into)				\
++{							\
++	unsigned int tmp;				\
++	tmp = read_aux_reg(reg);			\
++	if (sizeof(tmp) == sizeof(into)) {		\
++		into = *((typeof(into) *)&tmp);		\
++	} else {					\
++		extern void bogus_undefined(void);	\
++		bogus_undefined();			\
++	}						\
++}
++
++#define WRITE_AUX(reg, into)				\
++{							\
++	unsigned int tmp;				\
++	if (sizeof(tmp) == sizeof(into)) {		\
++		tmp = (*(unsigned int *)&(into));	\
++		write_aux_reg(reg, tmp);		\
++	} else  {					\
++		extern void bogus_undefined(void);	\
++		bogus_undefined();			\
++	}						\
++}
++
++
++#endif
+-- 
+2.7.4
