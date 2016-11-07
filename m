@@ -1,40 +1,62 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Mon, 7 Nov 2016 09:34:21 +0200
-Subject: [PATCH] ARC: [plat-eznps] remove IPI clear from SMP operations
+From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
+Date: Mon, 07 Nov 2016 15:55:08 +0200
+Subject: [PATCH v3 0/3] dmaengine: DW DMAC: split pdata to hardware
+ properties
+In-Reply-To: <1478087707.2603.7.camel@synopsys.com>
+References: <1477670402-23943-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1478087707.2603.7.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478504061-4668-1-git-send-email-noamca@mellanox.com>
+Message-ID: <1478526908.5295.67.camel@linux.intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamca@mellanox.com>
+On Wed, 2016-11-02@11:55 +0000, Eugeniy Paltsev wrote:
+> Hi Andy,
+> Could you possibly tell me your ideas about these changes?
+> Thanks.
 
-Generic IRQ mechanism is already acknowledge the IPI IRQ.
-Doing this once more time in IPI handler is not needed.
+Thanks for an update, but, please, answer to all my comments to your
+patch v2. Either you are okay with them, then you didn't address few, or
+you are not okay, I didn't get why. Deffer newer version until we get an
+agreement on the implementation.
 
-Signed-off-by: Noam Camus <noamca at mellanox.com>
----
- arch/arc/plat-eznps/smp.c |    6 ------
- 1 files changed, 0 insertions(+), 6 deletions(-)
+> 
+> On Fri, 2016-10-28@18:59 +0300, Eugeniy Paltsev wrote:
+> > This series is to address a proposal by Andy in these threads:
+> > http://www.spinics.net/lists/dmaengine/msg11506.html
+> > http://www.spinics.net/lists/dmaengine/msg11541.html
+> > Split platform data to actual hardware properties, and platform
+> > quirks.
+> > Now we able to use quirks and hardware properties separately from
+> > different sources (pdata, device tree or autoconfig registers)
+> > 
+> > Changes for v3:
+> > ?-???Split changes to separate patches.
+> > ?-???Add "DW_DMA_IS_LLP_SUPPORTED" flag and get rid of "dwc->nollp"
+> > ?????as separate variable.
+> > ?-???Make "dw_dma_slave" documentation comments more clear about
+> > quirks.
+> > ?????"is_memcpy" and "is_private" are quirks, "is_nollp" is regular?
+> > ?????pdata property.
+> > 
+> > Eugeniy Paltsev (3):
+> > ? dmaengine: DW DMAC: split pdata to hardware properties and
+> > platform
+> > ????quirks
+> > ? dmaengine: DW DMAC: convert to unified device property API
+> > ? dmaengine: DW DMAC: move "nollp" to "dwc->flags"
+> > 
+> > ?drivers/dma/dw/core.c????????????????| 34 +++++++++++++----------
+> > ?drivers/dma/dw/platform.c????????????| 53 +++++++++++++++++++----
+> > ---
+> > ----------
+> > ?drivers/dma/dw/regs.h????????????????|??2 +-
+> > ?include/linux/platform_data/dma-dw.h |??5 ++++
+> > ?4 files changed, 54 insertions(+), 40 deletions(-)
+> > 
+> 
+> --?
+> ?Paltsev Eugeniy
 
-diff --git a/arch/arc/plat-eznps/smp.c b/arch/arc/plat-eznps/smp.c
-index 5e901f8..56a4c85 100644
---- a/arch/arc/plat-eznps/smp.c
-+++ b/arch/arc/plat-eznps/smp.c
-@@ -140,16 +140,10 @@ static void eznps_init_per_cpu(int cpu)
- 	mtm_enable_core(cpu);
- }
- 
--static void eznps_ipi_clear(int irq)
--{
--	write_aux_reg(CTOP_AUX_IACK, 1 << irq);
--}
--
- struct plat_smp_ops plat_smp_ops = {
- 	.info		= smp_cpuinfo_buf,
- 	.init_early_smp	= eznps_init_cpumasks,
- 	.cpu_kick	= eznps_smp_wakeup_cpu,
- 	.ipi_send	= eznps_ipi_send,
- 	.init_per_cpu	= eznps_init_per_cpu,
--	.ipi_clear	= eznps_ipi_clear,
- };
 -- 
-1.7.1
+Andy Shevchenko <andriy.shevchenko at linux.intel.com>
+Intel Finland Oy
