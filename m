@@ -1,11 +1,10 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 7 Nov 2016 13:18:51 -0800
+Date: Mon, 7 Nov 2016 13:18:50 -0800
 Subject: [PATCH v4 07/10] ARC: breakout aux handling into a separate header
-In-Reply-To: <1478553531-20757-1-git-send-email-vgupta@synopsys.com>
+In-Reply-To: <201611040843.A8Q0VBao%fengguang.wu@intel.com>
 References: <201611040843.A8Q0VBao%fengguang.wu@intel.com>
- <1478553531-20757-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478553531-20757-2-git-send-email-vgupta@synopsys.com>
+Message-ID: <1478553531-20757-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 ARC timers use aux registers for programming and this paves way for
