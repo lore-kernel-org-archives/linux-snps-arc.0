@@ -1,123 +1,33 @@
-From: Luis.Oliveira@synopsys.com (Luis Oliveira)
-Date: Tue, 8 Nov 2016 10:41:32 +0000
-Subject: Errors building kernel 4.9-rc4
+From: noamca@mellanox.com (Noam Camus)
+Date: Tue, 8 Nov 2016 13:04:36 +0200
+Subject: [PATCH] ARC: [plat-eznps] set default baud for early console
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1fb6ab4d-0942-714e-06d7-e663bc20aa49@synopsys.com>
+Message-ID: <1478603076-23459-1-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi all,
+From: Noam Camus <noamca@mellanox.com>
 
-Below is a list of errors while compiling a clean image of kernel 4.9-rc4.
+For CONFIG_SERIAL_EARLYCON we need 800MHz for NPS SoC
+The early console driver uses BASE_BAUD (and not using dtb) and
+default of 50MHz is good for NPS SoC.
 
-Regards,
-Luis
----------
+Signed-off-by: Noam Camus <noamca at mellanox.com>
+---
+ arch/arc/kernel/devtree.c |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-./arch/arc/include/asm/bitops.h: Assembler messages:
-./arch/arc/include/asm/bitops.h:233: Error: bad instruction `llock r2,[r3]'
-./arch/arc/include/asm/bitops.h:235: Error: bad instruction `scond r4,[r3]'
-make[4]: *** [arch/arc/mm/tlb.o] Error 1
-make[4]: *** Waiting for unfinished jobs....
- 
-/home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/bin/arc-buildroot-linux-uclibc-gcc
--Wp,-MD,arch/arc/kernel/.process.o.d  -nostdinc -isystem
-/home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/lib/gcc/arc-buildroot-linux-uclibc/4.8.5/include
--I./arch/arc/include -I./arch/arc/include/generated/uapi
--I./arch/arc/include/generated  -I./include -I./arch/arc/include/uapi
--I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h
--include ./arch/arc/include/asm/current.h -D__KERNEL__ -Wall -Wundef
--Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common
--Werror-implicit-function-declaration -Wno-format-security -std=gnu89
--fno-common -pipe -fno-builtin -D__linux__ -mA7 -fsection-anchors
--fasynchronous-unwind-tables -mno-sdata -fcall-used-gp
--fno-delete-null-pointer-checks -Wno-maybe-uninitialized -O2
---param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector
--Wno-unused-but-set-variable -fomit-frame-pointer -fno-var-tracking-assignments
--Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow
--fconserve-stack -Werror=implicit-int -Werror=strict-prototypes
--DCC_HAVE_ASM_GOTO -O3    -DKBUILD_BASENAME='"process"' 
--DKBUILD_MODNAME='"process"' -c -o arch/arc/kernel/process.o
-arch/arc/kernel/process.c
- 
-/home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/bin/arc-buildroot-linux-uclibc-gcc
--Wp,-MD,arch/arc/kernel/.devtree.o.d  -nostdinc -isystem
-/home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/lib/gcc/arc-buildroot-linux-uclibc/4.8.5/include
--I./arch/arc/include -I./arch/arc/include/generated/uapi
--I./arch/arc/include/generated  -I./include -I./arch/arc/include/uapi
--I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h
--include ./arch/arc/include/asm/current.h -D__KERNEL__ -Wall -Wundef
--Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common
--Werror-implicit-function-declaration -Wno-format-security -std=gnu89
--fno-common -pipe -fno-builtin -D__linux__ -mA7 -fsection-anchors
--fasynchronous-unwind-tables -mno-sdata -fcall-used-gp
--fno-delete-null-pointer-checks -Wno-maybe-uninitialized -O2
---param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector
--Wno-unused-but-set-variable -fomit-frame-pointer -fno-var-tracking-assignments
--Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow
--fconserve-stack -Werror=implicit-int -Werror=strict-prototypes
--DCC_HAVE_ASM_GOTO -O3    -DKBUILD_BASENAME='"devtree"' 
--DKBUILD_MODNAME='"devtree"' -c -o arch/arc/kernel/devtree.o
-arch/arc/kernel/devtree.c
-./arch/arc/include/asm/bitops.h: Assembler messages:
-./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r2,[r0]'
-./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r2,[r0]'
-./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r2,[r15]'
-./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r2,[r15]'
-./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r2,[r14]'
-./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r2,[r14]'
-./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r2,[r13]'
-./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r2,[r13]'
-make[4]: *** [arch/arc/mm/cache.o] Error 1
-make[3]: *** [arch/arc/mm] Error 2
-make[3]: *** Waiting for unfinished jobs....
- 
-/home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/bin/arc-buildroot-linux-uclibc-gcc
--Wp,-MD,arch/arc/kernel/.signal.o.d  -nostdinc -isystem
-/home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/lib/gcc/arc-buildroot-linux-uclibc/4.8.5/include
--I./arch/arc/include -I./arch/arc/include/generated/uapi
--I./arch/arc/include/generated  -I./include -I./arch/arc/include/uapi
--I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h
--include ./arch/arc/include/asm/current.h -D__KERNEL__ -Wall -Wundef
--Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common
--Werror-implicit-function-declaration -Wno-format-security -std=gnu89
--fno-common -pipe -fno-builtin -D__linux__ -mA7 -fsection-anchors
--fasynchronous-unwind-tables -mno-sdata -fcall-used-gp
--fno-delete-null-pointer-checks -Wno-maybe-uninitialized -O2
---param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector
--Wno-unused-but-set-variable -fomit-frame-pointer -fno-var-tracking-assignments
--Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow
--fconserve-stack -Werror=implicit-int -Werror=strict-prototypes
--DCC_HAVE_ASM_GOTO -O3    -DKBUILD_BASENAME='"signal"' 
--DKBUILD_MODNAME='"signal"' -c -o arch/arc/kernel/signal.o arch/arc/kernel/signal.c
- 
-/home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/bin/arc-buildroot-linux-uclibc-gcc
--Wp,-MD,arch/arc/kernel/.traps.o.d  -nostdinc -isystem
-/home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/lib/gcc/arc-buildroot-linux-uclibc/4.8.5/include
--I./arch/arc/include -I./arch/arc/include/generated/uapi
--I./arch/arc/include/generated  -I./include -I./arch/arc/include/uapi
--I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h
--include ./arch/arc/include/asm/current.h -D__KERNEL__ -Wall -Wundef
--Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common
--Werror-implicit-function-declaration -Wno-format-security -std=gnu89
--fno-common -pipe -fno-builtin -D__linux__ -mA7 -fsection-anchors
--fasynchronous-unwind-tables -mno-sdata -fcall-used-gp
--fno-delete-null-pointer-checks -Wno-maybe-uninitialized -O2
---param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector
--Wno-unused-but-set-variable -fomit-frame-pointer -fno-var-tracking-assignments
--Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow
--fconserve-stack -Werror=implicit-int -Werror=strict-prototypes
--DCC_HAVE_ASM_GOTO -O3    -DKBUILD_BASENAME='"traps"' 
--DKBUILD_MODNAME='"traps"' -c -o arch/arc/kernel/traps.o arch/arc/kernel/traps.c
-./arch/arc/include/asm/bitops.h: Assembler messages:
-./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r3,[r2]'
-./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r4,[r2]'
-./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r3,[r2]'
-./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r4,[r2]'
-make[4]: *** [arch/arc/kernel/signal.o] Error 1
-make[4]: *** Waiting for unfinished jobs....
-make[3]: *** [arch/arc/kernel] Error 2
-make[2]: *** [arch/arc] Error 2
-make[1]: ***
-[/home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/build/linux-custom/.stamp_built]
-Error 2
-make: *** [_all] Error 2
+diff --git a/arch/arc/kernel/devtree.c b/arch/arc/kernel/devtree.c
+index f1e07c2..3b67f53 100644
+--- a/arch/arc/kernel/devtree.c
++++ b/arch/arc/kernel/devtree.c
+@@ -31,6 +31,8 @@ static void __init arc_set_early_base_baud(unsigned long dt_root)
+ 		arc_base_baud = 166666666;	/* Fixed 166.6MHz clk (TB10x) */
+ 	else if (of_flat_dt_is_compatible(dt_root, "snps,arc-sdp"))
+ 		arc_base_baud = 33333333;	/* Fixed 33MHz clk (AXS10x) */
++	else if (of_flat_dt_is_compatible(dt_root, "ezchip,arc-nps"))
++		arc_base_baud = 800000000;      /* Fixed 800MHz clk (NPS) */
+ 	else
+ 		arc_base_baud = 50000000;	/* Fixed default 50MHz */
+ }
+-- 
+1.7.1
