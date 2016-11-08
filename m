@@ -1,26 +1,20 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 8 Nov 2016 14:08:08 +0000
+From: noamca@mellanox.com (Noam Camus)
+Date: Tue, 8 Nov 2016 14:13:14 +0000
 Subject: [PATCH v2] ARC: [plat-eznps] set default baud for early console
-In-Reply-To: <1478611259-4477-1-git-send-email-noamca@mellanox.com>
+In-Reply-To: <1478614041.5131.53.camel@synopsys.com>
 References: <1478611259-4477-1-git-send-email-noamca@mellanox.com>
+ <1478614041.5131.53.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478614041.5131.53.camel@synopsys.com>
+Message-ID: <DB6PR0501MB25184677C0582EB877C5E99DAAA60@DB6PR0501MB2518.eurprd05.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Noam,
+> From: Alexey Brodkin [mailto:Alexey.Brodkin at synopsys.com] 
+> Sent: Tuesday, November 8, 2016 4:08 PM
 
-On Tue, 2016-11-08@15:20 +0200, Noam Camus wrote:
-> From: Noam Camus <noamca at mellanox.com>
-> 
-> For CONFIG_SERIAL_EARLYCON we need 800MHz for NPS SoC
-> The early console driver uses BASE_BAUD and not using dtb.
-> 
-> The default of 50MHz is NOT good for NPS SoC.
-> 
-> Signed-off-by: Noam Camus <noamca at mellanox.com>
+>Could you please provide a changelog (v1 -> v2) so reviewers may have a hint about changes you made if any.
+... Just fix some typos in log
+This line somehow was removed from patch while sending (It is at patch head followed by line with ---)
+Basically in V1 I wrote that default value is good while I meant is NOT good (fixed in V2).
 
-Could you please provide a changelog (v1 -> v2) so reviewers
-may have a hint about changes you made if any.
-
-Regards,
-Alexey
+Thanks,
+Noam
