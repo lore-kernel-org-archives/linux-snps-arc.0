@@ -1,141 +1,164 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 8 Nov 2016 11:11:29 +0000
-Subject: Errors building kernel 4.9-rc4
-In-Reply-To: <695506bc-3546-8469-0f3b-b47f013156b7@synopsys.com>
-References: <1fb6ab4d-0942-714e-06d7-e663bc20aa49@synopsys.com>
- <695506bc-3546-8469-0f3b-b47f013156b7@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 8 Nov 2016 12:22:51 +0000
+Subject: [PATCH v3 0/3] dmaengine: DW DMAC: split pdata to hardware
+ properties
+In-Reply-To: <1478526908.5295.67.camel@linux.intel.com>
+References: <1477670402-23943-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1478087707.2603.7.camel@synopsys.com>
+ <1478526908.5295.67.camel@linux.intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478603442.5131.18.camel@synopsys.com>
+Message-ID: <1478607771.2603.31.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hello Luis,
+On Mon, 2016-11-07@15:55 +0200, Andy Shevchenko wrote:
+>?
+> Thanks for an update, but, please, answer to all my comments to your
+> patch v2. Either you are okay with them, then you didn't address few,
+> or
+> you are not okay, I didn't get why. Deffer newer version until we get
+> an
+> agreement on the implementation.
+>?
 
-It looks like you use old GCC for building up to date Linux kernel.
-Could you please just switch to the most recent Buildroot, for example
-2016.11-rc1 and see if it helps (it should).
+Thanks for response.
+My comments are given inline?below.
 
-Regards,
-Alexey
 
-On Tue, 2016-11-08@10:51 +0000, Luis Oliveira wrote:
-> Hi all,
-> 
-> Below is a list of errors while compiling a clean image of kernel 4.9-rc4.
-> 
-> Regards,
-> Luis
-> ---------
-> 
-> ./arch/arc/include/asm/bitops.h: Assembler messages:
-> ./arch/arc/include/asm/bitops.h:233: Error: bad instruction `llock r2,[r3]'
-> ./arch/arc/include/asm/bitops.h:235: Error: bad instruction `scond r4,[r3]'
-> make[4]: *** [arch/arc/mm/tlb.o] Error 1
-> make[4]: *** Waiting for unfinished jobs....
-> ?
-> /home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/bin/arc-buildroot-linux-uclibc-gcc
-> -Wp,-MD,arch/arc/kernel/.process.o.d??-nostdinc -isystem
-> /home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/lib/gcc/arc-buildroot-linux-
-> uclibc/4.8.5/include
-> -I./arch/arc/include -I./arch/arc/include/generated/uapi
-> -I./arch/arc/include/generated??-I./include -I./arch/arc/include/uapi
-> -I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h
-> -include ./arch/arc/include/asm/current.h -D__KERNEL__ -Wall -Wundef
-> -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common
-> -Werror-implicit-function-declaration -Wno-format-security -std=gnu89
-> -fno-common -pipe -fno-builtin -D__linux__ -mA7 -fsection-anchors
-> -fasynchronous-unwind-tables -mno-sdata -fcall-used-gp
-> -fno-delete-null-pointer-checks -Wno-maybe-uninitialized -O2
-> --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector
-> -Wno-unused-but-set-variable -fomit-frame-pointer -fno-var-tracking-assignments
-> -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow
-> -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes
-> -DCC_HAVE_ASM_GOTO -O3????-DKBUILD_BASENAME='"process"'?
-> -DKBUILD_MODNAME='"process"' -c -o arch/arc/kernel/process.o
-> arch/arc/kernel/process.c
-> ?
-> /home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/bin/arc-buildroot-linux-uclibc-gcc
-> -Wp,-MD,arch/arc/kernel/.devtree.o.d??-nostdinc -isystem
-> /home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/lib/gcc/arc-buildroot-linux-
-> uclibc/4.8.5/include
-> -I./arch/arc/include -I./arch/arc/include/generated/uapi
-> -I./arch/arc/include/generated??-I./include -I./arch/arc/include/uapi
-> -I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h
-> -include ./arch/arc/include/asm/current.h -D__KERNEL__ -Wall -Wundef
-> -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common
-> -Werror-implicit-function-declaration -Wno-format-security -std=gnu89
-> -fno-common -pipe -fno-builtin -D__linux__ -mA7 -fsection-anchors
-> -fasynchronous-unwind-tables -mno-sdata -fcall-used-gp
-> -fno-delete-null-pointer-checks -Wno-maybe-uninitialized -O2
-> --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector
-> -Wno-unused-but-set-variable -fomit-frame-pointer -fno-var-tracking-assignments
-> -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow
-> -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes
-> -DCC_HAVE_ASM_GOTO -O3????-DKBUILD_BASENAME='"devtree"'?
-> -DKBUILD_MODNAME='"devtree"' -c -o arch/arc/kernel/devtree.o
-> arch/arc/kernel/devtree.c
-> ./arch/arc/include/asm/bitops.h: Assembler messages:
-> ./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r2,[r0]'
-> ./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r2,[r0]'
-> ./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r2,[r15]'
-> ./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r2,[r15]'
-> ./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r2,[r14]'
-> ./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r2,[r14]'
-> ./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r2,[r13]'
-> ./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r2,[r13]'
-> make[4]: *** [arch/arc/mm/cache.o] Error 1
-> make[3]: *** [arch/arc/mm] Error 2
-> make[3]: *** Waiting for unfinished jobs....
-> ?
-> /home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/bin/arc-buildroot-linux-uclibc-gcc
-> -Wp,-MD,arch/arc/kernel/.signal.o.d??-nostdinc -isystem
-> /home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/lib/gcc/arc-buildroot-linux-
-> uclibc/4.8.5/include
-> -I./arch/arc/include -I./arch/arc/include/generated/uapi
-> -I./arch/arc/include/generated??-I./include -I./arch/arc/include/uapi
-> -I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h
-> -include ./arch/arc/include/asm/current.h -D__KERNEL__ -Wall -Wundef
-> -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common
-> -Werror-implicit-function-declaration -Wno-format-security -std=gnu89
-> -fno-common -pipe -fno-builtin -D__linux__ -mA7 -fsection-anchors
-> -fasynchronous-unwind-tables -mno-sdata -fcall-used-gp
-> -fno-delete-null-pointer-checks -Wno-maybe-uninitialized -O2
-> --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector
-> -Wno-unused-but-set-variable -fomit-frame-pointer -fno-var-tracking-assignments
-> -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow
-> -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes
-> -DCC_HAVE_ASM_GOTO -O3????-DKBUILD_BASENAME='"signal"'?
-> -DKBUILD_MODNAME='"signal"' -c -o arch/arc/kernel/signal.o arch/arc/kernel/signal.c
-> ?
-> /home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/bin/arc-buildroot-linux-uclibc-gcc
-> -Wp,-MD,arch/arc/kernel/.traps.o.d??-nostdinc -isystem
-> /home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/host/usr/lib/gcc/arc-buildroot-linux-
-> uclibc/4.8.5/include
-> -I./arch/arc/include -I./arch/arc/include/generated/uapi
-> -I./arch/arc/include/generated??-I./include -I./arch/arc/include/uapi
-> -I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h
-> -include ./arch/arc/include/asm/current.h -D__KERNEL__ -Wall -Wundef
-> -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common
-> -Werror-implicit-function-declaration -Wno-format-security -std=gnu89
-> -fno-common -pipe -fno-builtin -D__linux__ -mA7 -fsection-anchors
-> -fasynchronous-unwind-tables -mno-sdata -fcall-used-gp
-> -fno-delete-null-pointer-checks -Wno-maybe-uninitialized -O2
-> --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector
-> -Wno-unused-but-set-variable -fomit-frame-pointer -fno-var-tracking-assignments
-> -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow
-> -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes
-> -DCC_HAVE_ASM_GOTO -O3????-DKBUILD_BASENAME='"traps"'?
-> -DKBUILD_MODNAME='"traps"' -c -o arch/arc/kernel/traps.o arch/arc/kernel/traps.c
-> ./arch/arc/include/asm/bitops.h: Assembler messages:
-> ./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r3,[r2]'
-> ./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r4,[r2]'
-> ./arch/arc/include/asm/bitops.h:234: Error: bad instruction `llock r3,[r2]'
-> ./arch/arc/include/asm/bitops.h:236: Error: bad instruction `scond r4,[r2]'
-> make[4]: *** [arch/arc/kernel/signal.o] Error 1
-> make[4]: *** Waiting for unfinished jobs....
-> make[3]: *** [arch/arc/kernel] Error 2
-> make[2]: *** [arch/arc] Error 2
-> make[1]: ***
-> [/home/lolivei/Desktop/SW/i2c/buildroot/buildroot-arc-2016.02-rc2/output/build/linux-custom/.stamp_built]
-> Error 2
-> make: *** [_all] Error 2
-> 
+---
+> > Changes for v2:
+> >????- use separate bool values for quirks in "dw_dma_platform_data"
+> > instead of
+> >??????common bit field.
+> >?
+> >????- convert device tree properties reading to unified device
+> > property
+> > API.
+> This should be a separate patch.
+>?
+Agree. Implemented as?separate patch in?PATCH v3 series.
+
+> >?
+> >?
+> > I was wrong about DW_DMA_IS_SOFT_LLP flag - it is used to check
+> > about
+> > ongoing soft llp transfer. So DW_DMA_IS_SOFT_LLP flag and "dwc-
+> > >?
+> > > nollp"?
+> > variable have different functions and I couldn't just get rid of
+> > "dwc-
+> > >?
+> > > nollp"
+> > and use DW_DMA_IS_SOFT_LLP flag instead. So I left "dwc->nollp"
+> > untouched.
+> So, then perhaps we may convert it to another flag let's say
+> DW_DMA_IS_LLP_SUPPORTED.
+>?
+> But this is other story independent of the subject.
+
+Implemented in?PATCH v3 series.?
+"dwc->nollp" was converted to "DW_DMA_IS_LLP_SUPPORTED" flag.
+
+> >?
+> > --- a/drivers/dma/dw/core.c
+> > +++ b/drivers/dma/dw/core.c
+> > @@ -1452,9 +1452,24 @@ int dw_dma_probe(struct dw_dma_chip *chip)
+> >??	dw->regs = chip->regs;
+> >??	chip->dw = dw;
+> >??
+> > +	/* Reassign the platform data pointer */
+> > +	pdata = dw->pdata;
+> > +
+> >??	pm_runtime_get_sync(chip->dev);
+> >??
+> > -	if (!chip->pdata) {
+> > +	if ((!chip->pdata) || (chip->pdata && chip->pdata-
+> > >?
+> > > only_quirks_used)) {
+> It's simple as
+> if (!chip->pdata || chip->pdata->only_quirks_used)
+>?
+> > ?[--sources--]
+> >?
+> Would we leave the first part in the place it is now and add new
+> piece
+> after?
+>?
+> > [--sources--]
+> >?
+> ...like
+>?
+> /* Apply platform defined quirks */
+> if (chip->data && chip->data->only_quirks_used) {
+>??...
+> }
+Agree. That looks better.
+
+>?
+> >?
+> > -	if (of_property_read_u32(np, "dma-channels",
+> > &nr_channels))
+> > -		return NULL;
+> > +	if (device_property_read_bool(dev, "is-private"))
+> As I mentioned above, please do a separate patch for this.
+Implemented as?separate patch in?PATCH v3 series.?
+
+>?
+> >?
+> > @@ -183,7 +186,7 @@ static int dw_probe(struct platform_device
+> > *pdev)
+> >??
+> >??	pdata = dev_get_platdata(dev);
+> >??	if (!pdata)
+> > -		pdata = dw_dma_parse_dt(pdev);
+> > +		pdata = dw_dma_parse_dt(dev);
+> Perhaps you might rename the function to something like
+>?
+> dw_dma_parse_properties(dev);
+Implemented in?PATCH v3 series.
+
+>?
+> >?
+> > + * @only_quirks_used: Only read quirks (like "is_private" or
+> > "is_memcpy") from
+> > + *	platform data structure. Read other parameters from
+> > device
+> > tree
+> > + *	node (if exists) or from hardware autoconfig registers.
+> Can you somehow be more clear that all listed quirks will be copied
+> from
+> platform data.
+See?comment below.
+
+>?
+> >?
+> >???* @is_nollp: The device channels does not support multi block
+> > transfers.
+> >???* @chan_allocation_order: Allocate channels starting from 0 or 7
+> >???* @chan_priority: Set channel priority increasing from 0 to 7 or
+> > 7
+> > to 0.
+> > @@ -52,6 +55,7 @@ struct dw_dma_platform_data {
+> >??	unsigned int	nr_channels;
+> >??	bool		is_private;
+> >??	bool		is_memcpy;
+> >?
+> > +	bool		only_quirks_used;
+> Perhaps add if at the end of quirk list and name just?
+>?
+> >?
+> >??	bool		is_nollp;
+> ...here
+>?
+> bool use_quirks;
+>?
+
+I don't treat "is_nollp" as quirks like "is_private" or "is_memcpy".
+It is like general pdata field: we can easily?read it from autoconfig
+registers (and we don't have any problem with that) in case of
+pdata/device-tree absence (as opposed to quirks like "is_private" or
+"is_memcpy")
+
+So, in PATCH v3 series "is_nollp" used as regular pdata field.
+
+--?
+?Paltsev Eugeniy
