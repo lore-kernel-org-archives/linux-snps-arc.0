@@ -1,205 +1,92 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 7 Nov 2016 13:18:50 -0800
-Subject: [PATCH v4 07/10] ARC: breakout aux handling into a separate header
-In-Reply-To: <201611040843.A8Q0VBao%fengguang.wu@intel.com>
-References: <201611040843.A8Q0VBao%fengguang.wu@intel.com>
+Date: Mon, 7 Nov 2016 17:58:38 -0800
+Subject: [PATCH v3 2/3] ARCv2: MCIP: Use hwirq instead of virq for
+ resolution of IDU IRQ handlers
+In-Reply-To: <1478175788-3118-3-git-send-email-yuriy.kolerov@synopsys.com>
+References: <1478175788-3118-1-git-send-email-yuriy.kolerov@synopsys.com>
+ <1478175788-3118-3-git-send-email-yuriy.kolerov@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478553531-20757-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <dcd10fb2-5fa4-805e-5379-972941c81be0@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-ARC timers use aux registers for programming and this paves way for
-moving ARC timer drivers into drivers/clocksource
+On 11/03/2016 05:23 AM, Yuriy Kolerov wrote:
+> Multicore ARC configurations use IDU (Interrupt Distribution Unit) for
+> distributing of common interrupts. In fact IDU is a interrupt controller
+> on top of main per core interrupt controller.
+> 
+> All common IRQs are physically and linearly mapped to per core
+> interrupts. E.g. <0, 1, 2, 3> common IDU interrupts may be mapped to per
+> core <24, 25, 26, 27> interrupts. An initialization code of IDU
+> controller (idu_of_init) creates mappings for all parent interrupts
+> <24, 25, ...> and sets a chained IDU handler for them. In the same
+> time idu_of_init must save the first met parent hwirq (idu_first_irq)
+> thus in future it is possible to figure out what common hwirq has come
+> by subtracting of idu_first_irq from the current parent hwirq (see
+> idu_cascade_isr).
+> 
+> The problem is that idu_of_init and idu_cascade_isr use parent virtual
+> IRQs as hardware IRQs and perform all the above-described manipulations
+> on virtual IRQs. But it is wrong and hardware IRQs must be used instead.
 
-Reviewed-by: kbuild test robot <fengguang.wu at intel.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
-v3 -> v4
- - rolled back update of nps header to use the new aux header as that
-   requires prior fixing.
----
- arch/arc/include/asm/arcregs.h | 85 +-----------------------------------------
- arch/arc/include/asm/mcip.h    |  2 +-
- include/soc/arc/aux.h          | 63 +++++++++++++++++++++++++++++++
- 3 files changed, 65 insertions(+), 85 deletions(-)
- create mode 100644 include/soc/arc/aux.h
+Is this series bisectable ?
 
-diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
-index 7f3f9f63708c..ccf5dc96713b 100644
---- a/arch/arc/include/asm/arcregs.h
-+++ b/arch/arc/include/asm/arcregs.h
-@@ -110,90 +110,7 @@
- 
- #ifndef __ASSEMBLY__
- 
--/*
-- ******************************************************************
-- *      Inline ASM macros to read/write AUX Regs
-- *      Essentially invocation of lr/sr insns from "C"
-- */
--
--#if 1
--
--#define read_aux_reg(reg)	__builtin_arc_lr(reg)
--
--/* gcc builtin sr needs reg param to be long immediate */
--#define write_aux_reg(reg_immed, val)		\
--		__builtin_arc_sr((unsigned int)(val), reg_immed)
--
--#else
--
--#define read_aux_reg(reg)		\
--({					\
--	unsigned int __ret;		\
--	__asm__ __volatile__(		\
--	"	lr    %0, [%1]"		\
--	: "=r"(__ret)			\
--	: "i"(reg));			\
--	__ret;				\
--})
--
--/*
-- * Aux Reg address is specified as long immediate by caller
-- * e.g.
-- *    write_aux_reg(0x69, some_val);
-- * This generates tightest code.
-- */
--#define write_aux_reg(reg_imm, val)	\
--({					\
--	__asm__ __volatile__(		\
--	"	sr   %0, [%1]	\n"	\
--	:				\
--	: "ir"(val), "i"(reg_imm));	\
--})
--
--/*
-- * Aux Reg address is specified in a variable
-- *  * e.g.
-- *      reg_num = 0x69
-- *      write_aux_reg2(reg_num, some_val);
-- * This has to generate glue code to load the reg num from
-- *  memory to a reg hence not recommended.
-- */
--#define write_aux_reg2(reg_in_var, val)		\
--({						\
--	unsigned int tmp;			\
--						\
--	__asm__ __volatile__(			\
--	"	ld   %0, [%2]	\n\t"		\
--	"	sr   %1, [%0]	\n\t"		\
--	: "=&r"(tmp)				\
--	: "r"(val), "memory"(&reg_in_var));	\
--})
--
--#endif
--
--#define READ_BCR(reg, into)				\
--{							\
--	unsigned int tmp;				\
--	tmp = read_aux_reg(reg);			\
--	if (sizeof(tmp) == sizeof(into)) {		\
--		into = *((typeof(into) *)&tmp);		\
--	} else {					\
--		extern void bogus_undefined(void);	\
--		bogus_undefined();			\
--	}						\
--}
--
--#define WRITE_AUX(reg, into)				\
--{							\
--	unsigned int tmp;				\
--	if (sizeof(tmp) == sizeof(into)) {		\
--		tmp = (*(unsigned int *)&(into));	\
--		write_aux_reg(reg, tmp);		\
--	} else  {					\
--		extern void bogus_undefined(void);	\
--		bogus_undefined();			\
--	}						\
--}
-+#include <soc/arc/aux.h>
- 
- /* Helpers */
- #define TO_KB(bytes)		((bytes) >> 10)
-diff --git a/arch/arc/include/asm/mcip.h b/arch/arc/include/asm/mcip.h
-index c8fbe4114bad..fc28d0944801 100644
---- a/arch/arc/include/asm/mcip.h
-+++ b/arch/arc/include/asm/mcip.h
-@@ -13,7 +13,7 @@
- 
- #ifdef CONFIG_ISA_ARCV2
- 
--#include <asm/arcregs.h>
-+#include <soc/arc/aux.h>
- 
- #define ARC_REG_MCIP_BCR	0x0d0
- #define ARC_REG_MCIP_CMD	0x600
-diff --git a/include/soc/arc/aux.h b/include/soc/arc/aux.h
-new file mode 100644
-index 000000000000..8c3fb13e0452
---- /dev/null
-+++ b/include/soc/arc/aux.h
-@@ -0,0 +1,63 @@
-+/*
-+ * Copyright (C) 2016-2017 Synopsys, Inc. (www.synopsys.com)
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ *
-+ */
-+
-+#ifndef __SOC_ARC_AUX_H__
-+#define __SOC_ARC_AUX_H__
-+
-+#ifdef CONFIG_ARC
-+
-+#define read_aux_reg(r)		__builtin_arc_lr(r)
-+
-+/* gcc builtin sr needs reg param to be long immediate */
-+#define write_aux_reg(r, v)	__builtin_arc_sr((unsigned int)(v), r)
-+
-+#else	/* !CONFIG_ARC */
-+
-+static inline int read_aux_reg(u32 r)
-+{
-+	return 0;
-+}
-+
-+/*
-+ * function helps elide unused variable warning
-+ * see: http://lists.infradead.org/pipermail/linux-snps-arc/2016-November/001748.html
-+ */
-+static inline void write_aux_reg(u32 r, u32 v)
-+{
-+	;
-+}
-+
-+#endif
-+
-+#define READ_BCR(reg, into)				\
-+{							\
-+	unsigned int tmp;				\
-+	tmp = read_aux_reg(reg);			\
-+	if (sizeof(tmp) == sizeof(into)) {		\
-+		into = *((typeof(into) *)&tmp);		\
-+	} else {					\
-+		extern void bogus_undefined(void);	\
-+		bogus_undefined();			\
-+	}						\
-+}
-+
-+#define WRITE_AUX(reg, into)				\
-+{							\
-+	unsigned int tmp;				\
-+	if (sizeof(tmp) == sizeof(into)) {		\
-+		tmp = (*(unsigned int *)&(into));	\
-+		write_aux_reg(reg, tmp);		\
-+	} else  {					\
-+		extern void bogus_undefined(void);	\
-+		bogus_undefined();			\
-+	}						\
-+}
-+
-+
-+#endif
--- 
-2.7.4
+So if one only applies patch 1/3 (and not 2/3) - as might happen in case of a
+bisect for some arbit problem, will it still work - to me it seems not.
+
+> 
+> Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
+> ---
+>  arch/arc/kernel/mcip.c | 20 +++++++++-----------
+>  1 file changed, 9 insertions(+), 11 deletions(-)
+> 
+> diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
+> index 72f9179..4f4f04b 100644
+> --- a/arch/arc/kernel/mcip.c
+> +++ b/arch/arc/kernel/mcip.c
+> @@ -219,16 +219,14 @@ static struct irq_chip idu_irq_chip = {
+>  
+>  };
+>  
+> -static int idu_first_irq;
+> +static irq_hw_number_t idu_first_hwirq;
+>  
+>  static void idu_cascade_isr(struct irq_desc *desc)
+>  {
+> -	struct irq_domain *domain = irq_desc_get_handler_data(desc);
+> -	unsigned int core_irq = irq_desc_get_irq(desc);
+> -	unsigned int idu_irq;
+> -
+> -	idu_irq = core_irq - idu_first_irq;
+> -	generic_handle_irq(irq_find_mapping(domain, idu_irq));
+> +	struct irq_domain *idu_domain = irq_desc_get_handler_data(desc);
+> +	irq_hw_number_t core_hwirq = irqd_to_hwirq(irq_desc_get_irq_data(desc));
+> +	irq_hw_number_t idu_hwirq = core_hwirq - idu_first_hwirq;
+> +	generic_handle_irq(irq_find_mapping(idu_domain, idu_hwirq));
+>  }
+>  
+>  static int idu_irq_map(struct irq_domain *d, unsigned int virq, irq_hw_number_t hwirq)
+> @@ -294,7 +292,7 @@ idu_of_init(struct device_node *intc, struct device_node *parent)
+>  	struct irq_domain *domain;
+>  	/* Read IDU BCR to confirm nr_irqs */
+>  	int nr_irqs = of_irq_count(intc);
+> -	int i, irq;
+> +	int i, virq;
+>  
+>  	if (!idu_detected)
+>  		panic("IDU not detected, but DeviceTree using it");
+> @@ -312,11 +310,11 @@ idu_of_init(struct device_node *intc, struct device_node *parent)
+>  		 * however we need it to get the parent virq and set IDU handler
+>  		 * as first level isr
+>  		 */
+> -		irq = irq_of_parse_and_map(intc, i);
+> +		virq = irq_of_parse_and_map(intc, i);
+>  		if (!i)
+> -			idu_first_irq = irq;
+> +			idu_first_hwirq = irqd_to_hwirq(irq_get_irq_data(virq));
+>  
+> -		irq_set_chained_handler_and_data(irq, idu_cascade_isr, domain);
+> +		irq_set_chained_handler_and_data(virq, idu_cascade_isr, domain);
+>  	}
+>  
+>  	__mcip_cmd(CMD_IDU_ENABLE, 0);
+> 
