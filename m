@@ -1,34 +1,72 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Tue, 8 Nov 2016 15:20:59 +0200
-Subject: [PATCH v2] ARC: [plat-eznps] set default baud for early console
+From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
+Date: Tue, 08 Nov 2016 15:36:30 +0200
+Subject: [PATCH v3 0/3] dmaengine: DW DMAC: split pdata to hardware
+ properties
+In-Reply-To: <1478607771.2603.31.camel@synopsys.com>
+References: <1477670402-23943-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1478087707.2603.7.camel@synopsys.com>
+ <1478526908.5295.67.camel@linux.intel.com>
+ <1478607771.2603.31.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1478611259-4477-1-git-send-email-noamca@mellanox.com>
+Message-ID: <1478612190.5295.92.camel@linux.intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamca@mellanox.com>
+On Tue, 2016-11-08@12:22 +0000, Eugeniy Paltsev wrote:
+> On Mon, 2016-11-07@15:55 +0200, Andy Shevchenko wrote:
+?
+> > > + * @only_quirks_used: Only read quirks (like "is_private" or
+> > > "is_memcpy") from
+> > > + *	platform data structure. Read other parameters from
+> > > device
+> > > tree
+> > > + *	node (if exists) or from hardware autoconfig registers.
+> > 
+> > Can you somehow be more clear that all listed quirks will be copied
+> > from
+> > platform data.
+> 
+> See?comment below.
+> 
+> > ?
+> > > ?
+> > > ???* @is_nollp: The device channels does not support multi block
+> > > transfers.
+> > > ???* @chan_allocation_order: Allocate channels starting from 0 or
+> > > 7
+> > > ???* @chan_priority: Set channel priority increasing from 0 to 7
+> > > or
+> > > 7
+> > > to 0.
+> > > @@ -52,6 +55,7 @@ struct dw_dma_platform_data {
+> > > ??	unsigned int	nr_channels;
+> > > ??	bool		is_private;
+> > > ??	bool		is_memcpy;
+> > > ?
+> > > +	bool		only_quirks_used;
+> > 
+> > Perhaps add if at the end of quirk list and name just?
+> > ?
+> > > ?
+> > > ??	bool		is_nollp;
+> > 
+> > ...here
+> > ?
+> > bool use_quirks;
 
-For CONFIG_SERIAL_EARLYCON we need 800MHz for NPS SoC
-The early console driver uses BASE_BAUD and not using dtb.
+What do think about shorten name?
 
-The default of 50MHz is NOT good for NPS SoC.
+> 
+> I don't treat "is_nollp" as quirks like "is_private" or "is_memcpy".
+> It is like general pdata field: we can easily?read it from autoconfig
+> registers (and we don't have any problem with that) in case of
+> pdata/device-tree absence (as opposed to quirks like "is_private" or
+> "is_memcpy")
+> 
+> So, in PATCH v3 series "is_nollp" used as regular pdata field.
 
-Signed-off-by: Noam Camus <noamca at mellanox.com>
----
- arch/arc/kernel/devtree.c |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+I still would consider is_nollp as a quirk since nothing prevents to
+override the hardware value (see Intel Quark case).
 
-diff --git a/arch/arc/kernel/devtree.c b/arch/arc/kernel/devtree.c
-index f1e07c2..3b67f53 100644
---- a/arch/arc/kernel/devtree.c
-+++ b/arch/arc/kernel/devtree.c
-@@ -31,6 +31,8 @@ static void __init arc_set_early_base_baud(unsigned long dt_root)
- 		arc_base_baud = 166666666;	/* Fixed 166.6MHz clk (TB10x) */
- 	else if (of_flat_dt_is_compatible(dt_root, "snps,arc-sdp"))
- 		arc_base_baud = 33333333;	/* Fixed 33MHz clk (AXS10x) */
-+	else if (of_flat_dt_is_compatible(dt_root, "ezchip,arc-nps"))
-+		arc_base_baud = 800000000;      /* Fixed 800MHz clk (NPS) */
- 	else
- 		arc_base_baud = 50000000;	/* Fixed default 50MHz */
- }
 -- 
-1.7.1
+Andy Shevchenko <andriy.shevchenko at linux.intel.com>
+Intel Finland Oy
