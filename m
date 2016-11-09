@@ -1,36 +1,40 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Wed, 09 Nov 2016 06:59:18 -0000
-Subject: kisskb: OK linux-next/axs101_defconfig/arcompact Wed Nov 09, 17:58
+From: marc.zyngier@arm.com (Marc Zyngier)
+Date: Wed, 9 Nov 2016 09:36:13 +0000
+Subject: [RFC] ARCv2: MCIP: Deprecate setting of affinity in Device Tree
+In-Reply-To: <86621069-d68c-a87e-508f-d1e7b7c8948f@synopsys.com>
+References: <1478261791-2793-1-git-send-email-yuriy.kolerov@synopsys.com>
+ <86621069-d68c-a87e-508f-d1e7b7c8948f@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161109065918.1.94352@8e2d6d7be827>
+Message-ID: <f6fc7248-f573-344d-4b85-98735965e265@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linux-next/axs101_defconfig/arcompact Wed Nov 09, 17:58
+Hi Vineet,
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/12851013/
+On 08/11/16 20:57, Vineet Gupta wrote:
+> +CC MarcZ
+> 
+> Hi Marc,
+> 
+> I have a question below
+> 
 
-Commit:   Add linux-next specific files for 20161109
-          6b9ac964c292bfc0f8e948392ec1914e40abae63
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+[...]
 
-No errors found in log
+> So as discussed in a prior thread, we no longer support setting the default
+> affinity via DT (so removed from xlate function). However we are now using the
+> domain map function to set "seed" affinity based on cpu_online_mask(). Will that
+> be the wrong place again to do this too.
+> Also as Yuriy notes above, it is not guaranteed that all cpus will be online when
+> the map function is called. So then better to set to boot cpu only : wondering
+> what approach you guys take for ARM ?
 
-Possible warnings (16)
-----------------------
+For global interrupts (that can target any CPU), we make them affine to
+the boot CPU, and let userspace move them around if required. Note that
+we do not support round-robin on any of our recent interrupt
+controllers, but maybe that's an acceptable configuration for you.
 
-kernel/sched/core.c:3293:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/kernel.h:744:16: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-block/cfq-iosched.c:3817:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/core/ethtool.c:300:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-drivers/scsi/sd.c:1179:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/ipv4/tcp_input.c:4284:49: warning: array subscript is above array bounds [-Warray-bounds]
-fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/sunrpc/svc_xprt.h:176:1: warning: control reaches end of non-void function [-Wreturn-type]
+Thanks,
+
+	M.
+-- 
+Jazz is not dead. It just smells funny...
