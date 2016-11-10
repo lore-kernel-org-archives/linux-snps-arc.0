@@ -1,49 +1,55 @@
 From: arnd@arndb.de (Arnd Bergmann)
-Date: Thu, 10 Nov 2016 17:44:54 +0100
-Subject: [PATCH v2 11/11] Kbuild: enable -Wmaybe-uninitialized warnings by
- default
+Date: Thu, 10 Nov 2016 17:44:51 +0100
+Subject: [PATCH v2 08/11] crypto: aesni: shut up -Wmaybe-uninitialized warning
 In-Reply-To: <20161110164454.293477-1-arnd@arndb.de>
 References: <20161110164454.293477-1-arnd@arndb.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161110164454.293477-12-arnd@arndb.de>
+Message-ID: <20161110164454.293477-9-arnd@arndb.de>
 To: linux-snps-arc@lists.infradead.org
 
-Previously the warnings were added back at the W=1 level and above,
-this now turns them on again by default, assuming that we have addressed
-all warnings and again have a clean build for v4.10.
+The rfc4106 encrypy/decrypt helper functions cause an annoying
+false-positive warning in allmodconfig if we turn on
+-Wmaybe-uninitialized warnings again:
 
-I found a number of new warnings in linux-next already and submitted
-bugfixes for those. Hopefully they are caught by the 0day builder
-in the future as soon as this patch is merged.
+arch/x86/crypto/aesni-intel_glue.c: In function ?helper_rfc4106_decrypt?:
+include/linux/scatterlist.h:67:31: warning: ?dst_sg_walk.sg? may be used uninitialized in this function [-Wmaybe-uninitialized]
+
+The problem seems to be that the compiler doesn't track the state of the
+'one_entry_in_sg' variable across the kernel_fpu_begin/kernel_fpu_end
+section.
+
+This takes the easy way out by adding a bogus initialization, which
+should be harmless enough to get the patch into v4.9 so we can turn
+on this warning again by default without producing useless output.
+A follow-up patch for v4.10 rearranges the code to make the warning
+go away.
 
 Signed-off-by: Arnd Bergmann <arnd at arndb.de>
 ---
-Please check if there are any remaining warnings with this
-patch before applying.
+ arch/x86/crypto/aesni-intel_glue.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The one known issue right now is commit 32cb7d27e65d ("iio:
-maxim_thermocouple: detect invalid storage size in read()"), which
-is currently in linux-next but not yet in mainline.
-
-There are a couple of warnings that I get with randconfig builds,
-and I have submitted patches for all of them at some point and
-will follow up on them to make sure they get addressed eventually.
----
- scripts/Makefile.extrawarn | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index 7fc2c5a..7c321a6 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -60,8 +60,6 @@ endif
- KBUILD_CFLAGS += $(warning)
- else
+diff --git a/arch/x86/crypto/aesni-intel_glue.c b/arch/x86/crypto/aesni-intel_glue.c
+index 0ab5ee1..aa8b067 100644
+--- a/arch/x86/crypto/aesni-intel_glue.c
++++ b/arch/x86/crypto/aesni-intel_glue.c
+@@ -888,7 +888,7 @@ static int helper_rfc4106_encrypt(struct aead_request *req)
+ 	unsigned long auth_tag_len = crypto_aead_authsize(tfm);
+ 	u8 iv[16] __attribute__ ((__aligned__(AESNI_ALIGN)));
+ 	struct scatter_walk src_sg_walk;
+-	struct scatter_walk dst_sg_walk;
++	struct scatter_walk dst_sg_walk = {};
+ 	unsigned int i;
  
--KBUILD_CFLAGS += $(call cc-disable-warning, maybe-uninitialized)
--
- ifeq ($(cc-name),clang)
- KBUILD_CFLAGS += $(call cc-disable-warning, initializer-overrides)
- KBUILD_CFLAGS += $(call cc-disable-warning, unused-value)
+ 	/* Assuming we are supporting rfc4106 64-bit extended */
+@@ -968,7 +968,7 @@ static int helper_rfc4106_decrypt(struct aead_request *req)
+ 	u8 iv[16] __attribute__ ((__aligned__(AESNI_ALIGN)));
+ 	u8 authTag[16];
+ 	struct scatter_walk src_sg_walk;
+-	struct scatter_walk dst_sg_walk;
++	struct scatter_walk dst_sg_walk = {};
+ 	unsigned int i;
+ 
+ 	if (unlikely(req->assoclen != 16 && req->assoclen != 20))
 -- 
 2.9.0
