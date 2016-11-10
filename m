@@ -1,56 +1,49 @@
 From: arnd@arndb.de (Arnd Bergmann)
-Date: Thu, 10 Nov 2016 17:44:45 +0100
-Subject: [PATCH v2 02/11] NFSv4.1: work around -Wmaybe-uninitialized warning
+Date: Thu, 10 Nov 2016 17:44:54 +0100
+Subject: [PATCH v2 11/11] Kbuild: enable -Wmaybe-uninitialized warnings by
+ default
 In-Reply-To: <20161110164454.293477-1-arnd@arndb.de>
 References: <20161110164454.293477-1-arnd@arndb.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161110164454.293477-3-arnd@arndb.de>
+Message-ID: <20161110164454.293477-12-arnd@arndb.de>
 To: linux-snps-arc@lists.infradead.org
 
-A bugfix introduced a harmless gcc warning in nfs4_slot_seqid_in_use
-if we enable -Wmaybe-uninitialized again:
+Previously the warnings were added back at the W=1 level and above,
+this now turns them on again by default, assuming that we have addressed
+all warnings and again have a clean build for v4.10.
 
-fs/nfs/nfs4session.c:203:54: error: 'cur_seq' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+I found a number of new warnings in linux-next already and submitted
+bugfixes for those. Hopefully they are caught by the 0day builder
+in the future as soon as this patch is merged.
 
-gcc is not smart enough to conclude that the IS_ERR/PTR_ERR pair
-results in a nonzero return value here. Using PTR_ERR_OR_ZERO()
-instead makes this clear to the compiler.
-
-Fixes: e09c978aae5b ("NFSv4.1: Fix Oopsable condition in server callback races")
 Signed-off-by: Arnd Bergmann <arnd at arndb.de>
 ---
-First submitted on Aug 31, but ended up not getting applied then
-as the warning was disabled in v4.8-rc
+Please check if there are any remaining warnings with this
+patch before applying.
 
-Anna Schumaker said at the kernel summit that she had applied
-it and would send it for 4.9, but as of 2016-11-09 it has not
-made it into linux-next.
+The one known issue right now is commit 32cb7d27e65d ("iio:
+maxim_thermocouple: detect invalid storage size in read()"), which
+is currently in linux-next but not yet in mainline.
 
- fs/nfs/nfs4session.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+There are a couple of warnings that I get with randconfig builds,
+and I have submitted patches for all of them at some point and
+will follow up on them to make sure they get addressed eventually.
+---
+ scripts/Makefile.extrawarn | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/fs/nfs/nfs4session.c b/fs/nfs/nfs4session.c
-index b629730..150c5a1 100644
---- a/fs/nfs/nfs4session.c
-+++ b/fs/nfs/nfs4session.c
-@@ -178,12 +178,14 @@ static int nfs4_slot_get_seqid(struct nfs4_slot_table  *tbl, u32 slotid,
- 	__must_hold(&tbl->slot_tbl_lock)
- {
- 	struct nfs4_slot *slot;
-+	int ret;
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 7fc2c5a..7c321a6 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -60,8 +60,6 @@ endif
+ KBUILD_CFLAGS += $(warning)
+ else
  
- 	slot = nfs4_lookup_slot(tbl, slotid);
--	if (IS_ERR(slot))
--		return PTR_ERR(slot);
--	*seq_nr = slot->seq_nr;
--	return 0;
-+	ret = PTR_ERR_OR_ZERO(slot);
-+	if (!ret)
-+		*seq_nr = slot->seq_nr;
-+
-+	return ret;
- }
- 
- /*
+-KBUILD_CFLAGS += $(call cc-disable-warning, maybe-uninitialized)
+-
+ ifeq ($(cc-name),clang)
+ KBUILD_CFLAGS += $(call cc-disable-warning, initializer-overrides)
+ KBUILD_CFLAGS += $(call cc-disable-warning, unused-value)
 -- 
 2.9.0
