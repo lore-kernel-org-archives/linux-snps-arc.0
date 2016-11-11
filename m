@@ -1,44 +1,85 @@
-From: alexey.brodkin@gmail.com (=?UTF-8?B?0JDQu9C10LrRgdC10Lkg0JHRgNC+0LTQutC40L0=?=)
-Date: Fri, 11 Nov 2016 04:52:40 +0300
-Subject: [GIT PULL] drm/arcpgu: Accommodate adv7511 switch to DRM bridge
+From: andy.shevchenko@gmail.com (Andy Shevchenko)
+Date: Fri, 11 Nov 2016 13:05:57 +0200
+Subject: [PATCH v3 0/3] dmaengine: DW DMAC: split pdata to hardware
+ properties
+In-Reply-To: <1478795309.2603.55.camel@synopsys.com>
+References: <1477670402-23943-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1478087707.2603.7.camel@synopsys.com>
+ <1478526908.5295.67.camel@linux.intel.com>
+ <1478607771.2603.31.camel@synopsys.com>
+ <1478612190.5295.92.camel@linux.intel.com>
+ <1478795309.2603.55.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAML3pwWo0ZFVRNb+JQhpqbDHLpBMj_H-qsLGtDLe_SmfFtOc+w@mail.gmail.com>
+Message-ID: <CAHp75VdUPDXk-TMHGkoHAYmtJnR+0hdG8S7Rkkd=ftUp_AAcWg@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Dave,
+On Thu, Nov 10, 2016 at 6:28 PM, Eugeniy Paltsev
+<Eugeniy.Paltsev@synopsys.com> wrote:
+> On Tue, 2016-11-08@15:36 +0200, Andy Shevchenko wrote:
+>> On Tue, 2016-11-08@12:22 +0000, Eugeniy Paltsev wrote:
+>> > On Mon, 2016-11-07@15:55 +0200, Andy Shevchenko wrote:
 
-Please pull that change for ARC PGU that fixes driver instantiation on
-AXS 10x boards.
-The patch was published for review here:
-https://lists.freedesktop.org/archives/dri-devel/2016-October/121245.html
+>> > > > @@ -52,6 +55,7 @@ struct dw_dma_platform_data {
+>> > > >         unsigned int    nr_channels;
+>> > > >         bool            is_private;
+>> > > >         bool            is_memcpy;
+>> > > >
+>> > > > +       bool            only_quirks_used;
 
-It is based on today's "drm-next" branch.
+>> > > Perhaps add if at the end of quirk list and name just
 
-Probably it's already too late for 4.9 but if there's a chance to
-squeeze it there it will
-be super nice because it's a fix for inevitable driver crash right on start.
+>> > > >         bool            is_nollp;
+>> > > ...here
+>> > >
+>> > > bool use_quirks;
+>> What do think about shorten name?
+>>
+> I don't know better short and understandable name for "use_quirks"
+> variable. You can suggest your ideas if you want.
 
-Best regards,
-Alexey
+This is my suggestion. In your patch I saw longer one.
 
-The following changes since commit fa860a1751e388385a7f249dd3f24a6c76db0ba9:
+>
+>> >
+>> > I don't treat "is_nollp" as quirks like "is_private" or
+>> > "is_memcpy".
+>> > It is like general pdata field: we can easily read it from
+>> > autoconfig
+>> > registers (and we don't have any problem with that) in case of
+>> > pdata/device-tree absence (as opposed to quirks like "is_private"
+>> > or
+>> > "is_memcpy")
+>> >
+>> > So, in PATCH v3 series "is_nollp" used as regular pdata field.
+>> I still would consider is_nollp as a quirk since nothing prevents to
+>> override the hardware value (see Intel Quark case).
+>>
+> Do you mean this issue:
+> http://www.spinics.net/lists/linux-serial/msg22948.html
+> ?
+>
+> As I remember, we had problems with next code:
+> ---------------------------->8--------------------------
+> channel_writel(dwc, LLP, DWC_LLP_LOC(0xffffffff));
+> dwc->nollp = DWC_LLP_LOC(channel_readl(dwc, LLP)) == 0;
+> channel_writel(dwc, LLP, 0);
+> ---------------------------->8--------------------------
+> which was executed if we didn't use autoconfig registers.
+> This code doesn't used anymore.
+>
+> And we don't have any problems with autoconfig registers!
 
-  drm: Print device information again in debugfs (2016-10-17 16:20:53 +1000)
+Yeah, but we have a quirk.
 
-are available in the git repository at:
+> So in case of Intel Quark we will read "nollp" parameter from pdata or
+> from autoconfig registers (in case of pdata absence). It should work
+> fine in both cases.
+> Please correct me if I'm wrong.
+>
+> So, in my opinion, "is_nollp" should be used as regular pdata field.
 
-  https://github.com/foss-for-synopsys-dwc-arc-processors/linux.git
-topic-arcpgu-fixes
+Let's discuss it a bit later.
 
-for you to fetch changes up to 7bc61cc5df808008b77a3b72cf814960c675518b:
-
-  drm/arcpgu: Accommodate adv7511 switch to DRM bridge (2016-11-11
-04:31:35 +0300)
-
-----------------------------------------------------------------
-Eugeniy Paltsev (1):
-      drm/arcpgu: Accommodate adv7511 switch to DRM bridge
-
- drivers/gpu/drm/arc/arcpgu_hdmi.c | 159
-+++++++++-------------------------------------------------------------------
- 1 file changed, 17 insertions(+), 142 deletions(-)
+-- 
+With Best Regards,
+Andy Shevchenko
