@@ -1,79 +1,87 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Fri, 11 Nov 2016 20:49:48 +0100
-Subject: [PATCH v2 00/11] getting back -Wmaybe-uninitialized
-In-Reply-To: <CA+55aFx_scFVFKU__TBmoffw_iHvrdAU2dj5u1WKfWJXAkS4QA@mail.gmail.com>
-References: <20161110164454.293477-1-arnd@arndb.de>
- <CA+55aFx_scFVFKU__TBmoffw_iHvrdAU2dj5u1WKfWJXAkS4QA@mail.gmail.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 11 Nov 2016 13:38:45 -0800
+Subject: [PATCH v4 1/8] ARC: timer: gfrc, rtc: deuglify big endian code
+In-Reply-To: <1478900332-24279-1-git-send-email-vgupta@synopsys.com>
+References: <1478900332-24279-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <2695221.kyRJMsRMjs@wuerfel>
+Message-ID: <1478900332-24279-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Friday, November 11, 2016 9:13:00 AM CET Linus Torvalds wrote:
-> On Thu, Nov 10, 2016@8:44 AM, Arnd Bergmann <arnd@arndb.de> wrote:
-> >
-> > Please merge these directly if you are happy with the result.
-> 
-> I will take this.
+A standard "C" shift will be handled appropriately by the compiler
+depending on the endian for the build. So we don't need the
+explicit distinction in code
 
-Thanks a lot!
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/kernel/time.c | 30 ++++++++----------------------
+ 1 file changed, 8 insertions(+), 22 deletions(-)
+
+diff --git a/arch/arc/kernel/time.c b/arch/arc/kernel/time.c
+index c10390d1ddb6..8d66bb446209 100644
+--- a/arch/arc/kernel/time.c
++++ b/arch/arc/kernel/time.c
+@@ -86,26 +86,19 @@ static int noinline arc_get_timer_clk(struct device_node *node)
+ static cycle_t arc_read_gfrc(struct clocksource *cs)
+ {
+ 	unsigned long flags;
+-	union {
+-#ifdef CONFIG_CPU_BIG_ENDIAN
+-		struct { u32 h, l; };
+-#else
+-		struct { u32 l, h; };
+-#endif
+-		cycle_t  full;
+-	} stamp;
++	u32 l, h;
  
-> I do see two warnings, but they both seem to be valid and recent,
-> though, so I have no issues with the spurious cases.
-
-Ok, both of them should have my fixes coming your way already.
-
-> Warning #1:
-> 
->   sound/soc/qcom/lpass-platform.c: In function ?lpass_platform_pcmops_open?:
->   sound/soc/qcom/lpass-platform.c:83:29: warning: ?dma_ch? may be used
-> uninitialized in this function [-Wmaybe-uninitialized]
->     drvdata->substream[dma_ch] = substream;
->     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-> 
-> and 'dma_ch' usage there really is crazy and wrong. Broken by
-> 022d00ee0b55 ("ASoC: lpass-platform: Fix broken pcm data usage")
-
-Right, the patches crossed here, the bugfix patch that introduced
-this came into linux-next over the kernel summit, and the fix I
-sent on Tuesday made it into Mark Brown's tree on Wednesday but not
-before you pulled alsa tree. It should be fixed the next time you
-pull from the alsa tree, the commit is
-
-3b89e4b77ef9 ("ASoC: lpass-platform: initialize dma channel number")
+ 	local_irq_save(flags);
  
-> Warning #2 is not a real bug, but it's reasonable that gcc doesn't
-> know that storage_bytes (chip->read_size) has to be 2/4. Again,
-> introduced recently by commit 231147ee77f3 ("iio: maxim_thermocouple:
-> Align 16 bit big endian value of raw reads"), so you didn't see it.
-
-This is the one I mentioned in the commit message as one that
-is fixed in linux-next and that should make it in soon.
-
->   drivers/iio/temperature/maxim_thermocouple.c: In function
-> ?maxim_thermocouple_read_raw?:
->   drivers/iio/temperature/maxim_thermocouple.c:141:5: warning: ?ret?
-> may be used uninitialized in this function [-Wmaybe-uninitialized]
->     if (ret)
->        ^
->   drivers/iio/temperature/maxim_thermocouple.c:128:6: note: ?ret? was
-> declared here
->     int ret;
->         ^~~
-> 
-> and I guess that code can just initialize 'ret' to '-EINVAL' or
-> something to just make the theoretical "somehow we had a wrong
-> chip->read_size" case error out cleanly.
-
-Right, that was my conclusion too. I sent the bugfix on Oct 25
-for linux-next but it didn't make it in until this Monday, after
-you pulled the patch that introduced it on Oct 29.
-
-The commit in staging-testing is
-32cb7d27e65d ("iio: maxim_thermocouple: detect invalid storage size in read()")
-
-Greg and Jonathan, I see now that this is part of the 'iio-for-4.10b'
-branch, so I suspect you were not planning to send this before the
-merge window. Could you make sure this ends up in v4.9 so we get
-a clean build when -Wmaybe-uninitialized gets enabled again?
-
-	Arnd
+ 	__mcip_cmd(CMD_GFRC_READ_LO, 0);
+-	stamp.l = read_aux_reg(ARC_REG_MCIP_READBACK);
++	l = read_aux_reg(ARC_REG_MCIP_READBACK);
+ 
+ 	__mcip_cmd(CMD_GFRC_READ_HI, 0);
+-	stamp.h = read_aux_reg(ARC_REG_MCIP_READBACK);
++	h = read_aux_reg(ARC_REG_MCIP_READBACK);
+ 
+ 	local_irq_restore(flags);
+ 
+-	return stamp.full;
++	return (((cycle_t)h) << 32) | l;
+ }
+ 
+ static struct clocksource arc_counter_gfrc = {
+@@ -143,14 +136,7 @@ CLOCKSOURCE_OF_DECLARE(arc_gfrc, "snps,archs-timer-gfrc", arc_cs_setup_gfrc);
+ static cycle_t arc_read_rtc(struct clocksource *cs)
+ {
+ 	unsigned long status;
+-	union {
+-#ifdef CONFIG_CPU_BIG_ENDIAN
+-		struct { u32 high, low; };
+-#else
+-		struct { u32 low, high; };
+-#endif
+-		cycle_t  full;
+-	} stamp;
++	u32 l, h;
+ 
+ 	/*
+ 	 * hardware has an internal state machine which tracks readout of
+@@ -159,12 +145,12 @@ static cycle_t arc_read_rtc(struct clocksource *cs)
+ 	 *  - high increments after low has been read
+ 	 */
+ 	do {
+-		stamp.low = read_aux_reg(AUX_RTC_LOW);
+-		stamp.high = read_aux_reg(AUX_RTC_HIGH);
++		l = read_aux_reg(AUX_RTC_LOW);
++		h = read_aux_reg(AUX_RTC_HIGH);
+ 		status = read_aux_reg(AUX_RTC_CTRL);
+ 	} while (!(status & _BITUL(31)));
+ 
+-	return stamp.full;
++	return (((cycle_t)h) << 32) | l;
+ }
+ 
+ static struct clocksource arc_counter_rtc = {
+-- 
+2.7.4
