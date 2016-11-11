@@ -1,80 +1,79 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 11 Nov 2016 11:04:49 -0800
-Subject: [GIT PULL] ARC updates for 4.9-rc5
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Fri, 11 Nov 2016 20:49:48 +0100
+Subject: [PATCH v2 00/11] getting back -Wmaybe-uninitialized
+In-Reply-To: <CA+55aFx_scFVFKU__TBmoffw_iHvrdAU2dj5u1WKfWJXAkS4QA@mail.gmail.com>
+References: <20161110164454.293477-1-arnd@arndb.de>
+ <CA+55aFx_scFVFKU__TBmoffw_iHvrdAU2dj5u1WKfWJXAkS4QA@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <e3d08b2a-7d95-b2d9-df5c-9557ed0f4cd4@synopsys.com>
+Message-ID: <2695221.kyRJMsRMjs@wuerfel>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+On Friday, November 11, 2016 9:13:00 AM CET Linus Torvalds wrote:
+> On Thu, Nov 10, 2016@8:44 AM, Arnd Bergmann <arnd@arndb.de> wrote:
+> >
+> > Please merge these directly if you are happy with the result.
+> 
+> I will take this.
 
-Here's a bunch of fixes for ARC for latest RC. Please pull.
+Thanks a lot!
+ 
+> I do see two warnings, but they both seem to be valid and recent,
+> though, so I have no issues with the spurious cases.
 
-Thx,
--Vineet
+Ok, both of them should have my fixes coming your way already.
 
------------->
+> Warning #1:
+> 
+>   sound/soc/qcom/lpass-platform.c: In function ?lpass_platform_pcmops_open?:
+>   sound/soc/qcom/lpass-platform.c:83:29: warning: ?dma_ch? may be used
+> uninitialized in this function [-Wmaybe-uninitialized]
+>     drvdata->substream[dma_ch] = substream;
+>     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+> 
+> and 'dma_ch' usage there really is crazy and wrong. Broken by
+> 022d00ee0b55 ("ASoC: lpass-platform: Fix broken pcm data usage")
 
-  Linux 4.9-rc3 (2016-10-29 13:52:02 -0700)
+Right, the patches crossed here, the bugfix patch that introduced
+this came into linux-next over the kernel summit, and the fix I
+sent on Tuesday made it into Mark Brown's tree on Wednesday but not
+before you pulled alsa tree. It should be fixed the next time you
+pull from the alsa tree, the commit is
 
-are available in the git repository at:
+3b89e4b77ef9 ("ASoC: lpass-platform: initialize dma channel number")
+ 
+> Warning #2 is not a real bug, but it's reasonable that gcc doesn't
+> know that storage_bytes (chip->read_size) has to be 2/4. Again,
+> introduced recently by commit 231147ee77f3 ("iio: maxim_thermocouple:
+> Align 16 bit big endian value of raw reads"), so you didn't see it.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.9-rc5
+This is the one I mentioned in the commit message as one that
+is fixed in linux-next and that should make it in soon.
 
-for you to fetch changes up to 0a0a047def15b7c8bcd27671d2be2de3d37fb30d:
+>   drivers/iio/temperature/maxim_thermocouple.c: In function
+> ?maxim_thermocouple_read_raw?:
+>   drivers/iio/temperature/maxim_thermocouple.c:141:5: warning: ?ret?
+> may be used uninitialized in this function [-Wmaybe-uninitialized]
+>     if (ret)
+>        ^
+>   drivers/iio/temperature/maxim_thermocouple.c:128:6: note: ?ret? was
+> declared here
+>     int ret;
+>         ^~~
+> 
+> and I guess that code can just initialize 'ret' to '-EINVAL' or
+> something to just make the theoretical "somehow we had a wrong
+> chip->read_size" case error out cleanly.
 
-  ARCv2: MCIP: Use IDU_M_DISTRI_DEST mode if there is only 1 destination core
-(2016-11-08 12:22:52 -0800)
+Right, that was my conclusion too. I sent the bugfix on Oct 25
+for linux-next but it didn't make it in until this Monday, after
+you pulled the patch that introduced it on Oct 29.
 
-----------------------------------------------------------------
-ARC fixes for 4.9-rc5
+The commit in staging-testing is
+32cb7d27e65d ("iio: maxim_thermocouple: detect invalid storage size in read()")
 
- - mmap handler for dma ops as generic handler no longer works for us [Alexey]
+Greg and Jonathan, I see now that this is part of the 'iio-for-4.10b'
+branch, so I suspect you were not planning to send this before the
+merge window. Could you make sure this ends up in v4.9 so we get
+a clean build when -Wmaybe-uninitialized gets enabled again?
 
- - Fixes for EZChip platform [Noam]
-
- - Fix RTC clocksource driver build issue
-
- - ARC IRQ handling fixes [Yuriy]
-
- - Revert a recent makefile change which doesn't go well with oldish tools out in
- the wild
-
-----------------------------------------------------------------
-Alexey Brodkin (2):
-      ARC: Enable PERF_EVENTS in nSIM driven platforms
-      arc: Implement arch-specific dma_map_ops.mmap
-
-Noam Camus (3):
-      ARC: [SMP] avoid overriding present cpumask
-      ARC: [plat-eznps] remove IPI clear from SMP operations
-      ARC: [plat-eznps] set default baud for early console
-
-Vineet Gupta (3):
-      ARC: change return value of userspace cmpxchg assist syscall
-      ARC: timer: rtc: implement read loop in "C" vs. inline asm
-      Revert "ARC: build: retire old toggles"
-
-Yuriy Kolerov (2):
-      ARC: IRQ: Do not use hwirq as virq and vice versa
-      ARCv2: MCIP: Use IDU_M_DISTRI_DEST mode if there is only 1 destination core
-
- arch/arc/Makefile                          |  3 +++
- arch/arc/boot/dts/axc001.dtsi              |  2 +-
- arch/arc/boot/dts/nsim_700.dts             |  2 +-
- arch/arc/boot/dts/nsimosci.dts             |  4 ++++
- arch/arc/configs/nsim_700_defconfig        |  1 +
- arch/arc/configs/nsim_hs_defconfig         |  1 +
- arch/arc/configs/nsim_hs_smp_defconfig     |  1 +
- arch/arc/configs/nsimosci_defconfig        |  1 +
- arch/arc/configs/nsimosci_hs_defconfig     |  1 +
- arch/arc/configs/nsimosci_hs_smp_defconfig |  3 +--
- arch/arc/include/asm/arcregs.h             |  2 ++
- arch/arc/include/asm/smp.h                 |  4 ++--
- arch/arc/kernel/devtree.c                  |  2 ++
- arch/arc/kernel/mcip.c                     | 32 +++++++++++++++++++-----------
- arch/arc/kernel/process.c                  | 20 ++++++++++---------
- arch/arc/kernel/smp.c                      | 23 +++++++++++++--------
- arch/arc/kernel/time.c                     | 19 ++++++++++--------
- arch/arc/mm/dma.c                          | 26 ++++++++++++++++++++++++
- arch/arc/plat-eznps/smp.c                  |  6 ------
- 19 files changed, 104 insertions(+), 49 deletions(-)
+	Arnd
