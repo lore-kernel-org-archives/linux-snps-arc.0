@@ -1,85 +1,135 @@
-From: andy.shevchenko@gmail.com (Andy Shevchenko)
-Date: Fri, 11 Nov 2016 13:05:57 +0200
-Subject: [PATCH v3 0/3] dmaengine: DW DMAC: split pdata to hardware
- properties
-In-Reply-To: <1478795309.2603.55.camel@synopsys.com>
-References: <1477670402-23943-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <1478087707.2603.7.camel@synopsys.com>
- <1478526908.5295.67.camel@linux.intel.com>
- <1478607771.2603.31.camel@synopsys.com>
- <1478612190.5295.92.camel@linux.intel.com>
- <1478795309.2603.55.camel@synopsys.com>
+From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
+Date: Fri, 11 Nov 2016 17:38:44 +0300
+Subject: [PATCH] ARCv2: MCIP: Deprecate setting of affinity in Device Tree
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAHp75VdUPDXk-TMHGkoHAYmtJnR+0hdG8S7Rkkd=ftUp_AAcWg@mail.gmail.com>
+Message-ID: <1478875124-23787-1-git-send-email-yuriy.kolerov@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Nov 10, 2016 at 6:28 PM, Eugeniy Paltsev
-<Eugeniy.Paltsev@synopsys.com> wrote:
-> On Tue, 2016-11-08@15:36 +0200, Andy Shevchenko wrote:
->> On Tue, 2016-11-08@12:22 +0000, Eugeniy Paltsev wrote:
->> > On Mon, 2016-11-07@15:55 +0200, Andy Shevchenko wrote:
+Ignore value of interrupt distribution mode for common interrupts in
+IDU since setting of affinity using value from Device Tree is deprecated
+in ARC. Originally it is done in idu_irq_xlate() function and it is
+semantically wrong and does not guaranty that an affinity value will be
+set properly.
 
->> > > > @@ -52,6 +55,7 @@ struct dw_dma_platform_data {
->> > > >         unsigned int    nr_channels;
->> > > >         bool            is_private;
->> > > >         bool            is_memcpy;
->> > > >
->> > > > +       bool            only_quirks_used;
+However it is necessary to set a default affinity value manually for all
+common interrupts since initially all of them are disabled by IDU (a
+CPU mask for common interrupts is set to 0 after CPU reset) and in
+some cases the kernel cannot do it itself after initialization of
+endpoint devices (e.g. when IRQ chip below of IDU does not support
+setting of affinity and it cannot propagate an affinity value to IDU).
 
->> > > Perhaps add if at the end of quirk list and name just
+By default send all common interrupts to the first online CPU.
+Usually it is a boot CPU. If the kernel is built without support
+of SMP then idu_irq_set_affinity() must be called manually since
+irq_set_affinity() does nothing in this case.
 
->> > > >         bool            is_nollp;
->> > > ...here
->> > >
->> > > bool use_quirks;
->> What do think about shorten name?
->>
-> I don't know better short and understandable name for "use_quirks"
-> variable. You can suggest your ideas if you want.
+Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
+---
+ .../interrupt-controller/snps,archs-idu-intc.txt   |  3 ++
+ arch/arc/kernel/mcip.c                             | 51 +++++++++-------------
+ 2 files changed, 24 insertions(+), 30 deletions(-)
 
-This is my suggestion. In your patch I saw longer one.
-
->
->> >
->> > I don't treat "is_nollp" as quirks like "is_private" or
->> > "is_memcpy".
->> > It is like general pdata field: we can easily read it from
->> > autoconfig
->> > registers (and we don't have any problem with that) in case of
->> > pdata/device-tree absence (as opposed to quirks like "is_private"
->> > or
->> > "is_memcpy")
->> >
->> > So, in PATCH v3 series "is_nollp" used as regular pdata field.
->> I still would consider is_nollp as a quirk since nothing prevents to
->> override the hardware value (see Intel Quark case).
->>
-> Do you mean this issue:
-> http://www.spinics.net/lists/linux-serial/msg22948.html
-> ?
->
-> As I remember, we had problems with next code:
-> ---------------------------->8--------------------------
-> channel_writel(dwc, LLP, DWC_LLP_LOC(0xffffffff));
-> dwc->nollp = DWC_LLP_LOC(channel_readl(dwc, LLP)) == 0;
-> channel_writel(dwc, LLP, 0);
-> ---------------------------->8--------------------------
-> which was executed if we didn't use autoconfig registers.
-> This code doesn't used anymore.
->
-> And we don't have any problems with autoconfig registers!
-
-Yeah, but we have a quirk.
-
-> So in case of Intel Quark we will read "nollp" parameter from pdata or
-> from autoconfig registers (in case of pdata absence). It should work
-> fine in both cases.
-> Please correct me if I'm wrong.
->
-> So, in my opinion, "is_nollp" should be used as regular pdata field.
-
-Let's discuss it a bit later.
-
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt b/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt
+index 0dcb7c7..0607bab 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt
++++ b/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt
+@@ -15,6 +15,9 @@ Properties:
+   Second cell specifies the irq distribution mode to cores
+      0=Round Robin; 1=cpu0, 2=cpu1, 4=cpu2, 8=cpu3
+ 
++  The second cell in interrupts property is deprecated and ignored. All common
++  interrupts are sent to the boot CPU core by default.
++
+   intc accessed via the special ARC AUX register interface, hence "reg" property
+   is not specified.
+ 
+diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
+index 6d90e4b..f36b8d7 100644
+--- a/arch/arc/kernel/mcip.c
++++ b/arch/arc/kernel/mcip.c
+@@ -174,7 +174,6 @@ static void idu_irq_unmask(struct irq_data *data)
+ 	raw_spin_unlock_irqrestore(&mcip_lock, flags);
+ }
+ 
+-#ifdef CONFIG_SMP
+ static int
+ idu_irq_set_affinity(struct irq_data *data, const struct cpumask *cpumask,
+ 		     bool force)
+@@ -204,7 +203,6 @@ idu_irq_set_affinity(struct irq_data *data, const struct cpumask *cpumask,
+ 
+ 	return IRQ_SET_MASK_OK;
+ }
+-#endif
+ 
+ static struct irq_chip idu_irq_chip = {
+ 	.name			= "MCIP IDU Intc",
+@@ -228,9 +226,24 @@ static void idu_cascade_isr(struct irq_desc *desc)
+ 
+ static int idu_irq_map(struct irq_domain *d, unsigned int virq, irq_hw_number_t hwirq)
+ {
++	cpumask_t affinity;
++
+ 	irq_set_chip_and_handler(virq, &idu_irq_chip, handle_level_irq);
+ 	irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
+ 
++	/* By default send all common interrupts to the first online CPU.
++	 * Usually it is a boot CPU. If the kernel is built without support
++	 * of SMP then idu_irq_set_affinity() must be called manually since
++	 * irq_set_affinity() does nothing in this case.
++	 */
++	cpumask_copy(&affinity, cpumask_of(cpumask_first(cpu_online_mask)));
++
++#ifdef CONFIG_SMP
++	irq_set_affinity(virq, &affinity);
++#else
++	idu_irq_set_affinity(irq_get_irq_data(virq), &affinity, false);
++#endif
++
+ 	return 0;
+ }
+ 
+@@ -238,36 +251,14 @@ static int idu_irq_xlate(struct irq_domain *d, struct device_node *n,
+ 			 const u32 *intspec, unsigned int intsize,
+ 			 irq_hw_number_t *out_hwirq, unsigned int *out_type)
+ {
+-	irq_hw_number_t hwirq = *out_hwirq = intspec[0];
+-	int distri = intspec[1];
+-	unsigned long flags;
+-
++	/*
++	 * Ignore value of interrupt distribution mode for common interrupts in
++	 * IDU which resides in intspec[1] since setting an affinity using value
++	 * from Device Tree is deprecated in ARC.
++	 */
++	*out_hwirq = intspec[0];
+ 	*out_type = IRQ_TYPE_NONE;
+ 
+-	/* XXX: validate distribution scheme again online cpu mask */
+-	if (distri == 0) {
+-		/* 0 - Round Robin to all cpus, otherwise 1 bit per core */
+-		raw_spin_lock_irqsave(&mcip_lock, flags);
+-		idu_set_dest(hwirq, BIT(num_online_cpus()) - 1);
+-		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_RR);
+-		raw_spin_unlock_irqrestore(&mcip_lock, flags);
+-	} else {
+-		/*
+-		 * DEST based distribution for Level Triggered intr can only
+-		 * have 1 CPU, so generalize it to always contain 1 cpu
+-		 */
+-		int cpu = ffs(distri);
+-
+-		if (cpu != fls(distri))
+-			pr_warn("IDU irq %lx distri mode set to cpu %x\n",
+-				hwirq, cpu);
+-
+-		raw_spin_lock_irqsave(&mcip_lock, flags);
+-		idu_set_dest(hwirq, cpu);
+-		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_DEST);
+-		raw_spin_unlock_irqrestore(&mcip_lock, flags);
+-	}
+-
+ 	return 0;
+ }
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.7.4
