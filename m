@@ -1,76 +1,111 @@
-From: ben@decadent.org.uk (Ben Hutchings)
-Date: Mon, 14 Nov 2016 00:14:20 +0000
-Subject: [PATCH 3.16 278/346] ARC: uaccess: get_user to zero out dest in
- cause of fault
-In-Reply-To: <lsq.1479082458.755945576@decadent.org.uk>
+From: peppe.cavallaro@st.com (Giuseppe CAVALLARO)
+Date: Mon, 14 Nov 2016 09:14:46 +0100
+Subject: stmmac: GMAC_RGSMIIIS reports bogus values
+In-Reply-To: <1478189833.4072.65.camel@synopsys.com>
+References: <1478189833.4072.65.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <lsq.1479082460.893783481@decadent.org.uk>
+Message-ID: <a1f114cc-6120-154c-a3f7-3e0389d38e36@st.com>
 To: linux-snps-arc@lists.infradead.org
 
-3.16.39-rc1 review patch.  If anyone has any objections, please let me know.
+Hello Alexey
 
-------------------
+Sorry for my late reply. In that case, I think that the stmmac
+is using own RGMII/SGMII support (PCS) to dialog with the
+transceiver. I think, from the HW capability register
+this feature is present and the driver is using it as default.
 
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+I kindly ask you to verify if this is your setup or if you
+do not want to use it. In that case, it is likely we need to
+add some code in the driver.
 
-commit 05d9d0b96e53c52a113fd783c0c97c830c8dc7af upstream.
+Also I wonder if, other version of the stmmac worked on this platform
+before.
 
-Al reported potential issue with ARC get_user() as it wasn't clearing
-out destination pointer in case of fault due to bad address etc.
+Regards
+Peppe
 
-Verified using following
-
-| {
-|  	u32 bogus1 = 0xdeadbeef;
-|	u64 bogus2 = 0xdead;
-|	int rc1, rc2;
-|
-|  	pr_info("Orig values %x %llx\n", bogus1, bogus2);
-|	rc1 = get_user(bogus1, (u32 __user *)0x40000000);
-|	rc2 = get_user(bogus2, (u64 __user *)0x50000000);
-|	pr_info("access %d %d, new values %x %llx\n",
-|		rc1, rc2, bogus1, bogus2);
-| }
-
-| [ARCLinux]# insmod /mnt/kernel-module/qtn.ko
-| Orig values deadbeef dead
-| access -14 -14, new values 0 0
-
-Reported-by: Al Viro <viro at ZenIV.linux.org.uk>
-Cc: Linus Torvalds <torvalds at linux-foundation.org>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: linux-kernel at vger.kernel.org
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Al Viro <viro at zeniv.linux.org.uk>
-Signed-off-by: Ben Hutchings <ben at decadent.org.uk>
----
- arch/arc/include/asm/uaccess.h | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
---- a/arch/arc/include/asm/uaccess.h
-+++ b/arch/arc/include/asm/uaccess.h
-@@ -83,7 +83,10 @@
- 	"2:	;nop\n"				\
- 	"	.section .fixup, \"ax\"\n"	\
- 	"	.align 4\n"			\
--	"3:	mov %0, %3\n"			\
-+	"3:	# return -EFAULT\n"		\
-+	"	mov %0, %3\n"			\
-+	"	# zero out dst ptr\n"		\
-+	"	mov %1,  0\n"			\
- 	"	j   2b\n"			\
- 	"	.previous\n"			\
- 	"	.section __ex_table, \"a\"\n"	\
-@@ -101,7 +104,11 @@
- 	"2:	;nop\n"				\
- 	"	.section .fixup, \"ax\"\n"	\
- 	"	.align 4\n"			\
--	"3:	mov %0, %3\n"			\
-+	"3:	# return -EFAULT\n"		\
-+	"	mov %0, %3\n"			\
-+	"	# zero out dst ptr\n"		\
-+	"	mov %1,  0\n"			\
-+	"	mov %R1, 0\n"			\
- 	"	j   2b\n"			\
- 	"	.previous\n"			\
- 	"	.section __ex_table, \"a\"\n"	\
+On 11/3/2016 5:17 PM, Alexey Brodkin wrote:
+> Hello,
+>
+> I'm seeing pretty strange issue with GMAC reporting a lot of link state changes
+> based on bits in GMAC_RGSMIIIS. It looks like that:
+> -------------------------->8-----------------------
+> Link is Down
+> Link is Up - 10/Full
+> Link is Down
+> Link is Up - 10/Half
+> Link is Down
+> Link is Down
+> Link is Up - 10/Half
+> Link is Up -
+> 1000/Half
+> Link is Down
+> Link is Down
+> Link is Down
+> Link is Down
+> Link is Up - 10/Half
+> Link is Down
+> Link is Down
+> Link is Up -
+> 1000/Half
+> Link is Up - 1000/Full
+> -------------------------->8-----------------------
+>
+> What's especially interesting my board with GMAC is connected to 100Mbit device
+> which means there's no chance for 1Gb mode to be set.
+>
+> Also this has nothing to do with link state detected and reported by PHY via MDIO.
+> So obviously GMAC_RGSMIIIS bits are wrong. But given the fact that GMAC_RGSMIIIS bits
+> are set based on state of RXD[3:0] lines of RGMII I may only thing that it's
+> PHY (in my case DP83865) who's sending random data on the RXD during inter-frame gap.
+>
+> Note data transferred through that networking connection is perfectly correct and
+> actually I haven't see those link state prints before kernel v4.8 basically
+> because the prints in question were implemented with pr_debug() and then with [1]
+> we got pr_info() that made prints visible by default.
+>
+> Since I don't have any means to capture all required GMII signals to do better
+> analysis and my data is not corrupted in the end I'm thinking about way how to
+> mute these pretty senseless messages.
+>
+> One thing I may think of we may disable checking of GMAC_RGSMIIIS if a particular
+> board uses MDIO for PHY setup. Something like that:
+> -------------------------->8-----------------------
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
+> @@ -337,7 +337,7 @@ static int dwmac1000_irq_status(struct mac_device_info *hw,
+>
+>         dwmac_pcs_isr(ioaddr, GMAC_PCS_BASE, intr_status, x);
+>
+> -       if (intr_status & PCS_RGSMIIIS_IRQ)
+> +       if (!priv->use_mdio && (intr_status & PCS_RGSMIIIS_IRQ))
+>                 dwmac1000_rgsmii(ioaddr, x);
+>
+>         return ret;
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> index 6c85b61aaa0b..34e9de0450ba 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> @@ -3356,11 +3356,13 @@ int stmmac_dvr_probe(struct device *device,
+>
+>         stmmac_check_pcs_mode(priv);
+>
+> +       priv->use_mdio = 0;
+>         if (priv->hw->pcs != STMMAC_PCS_RGMII  &&
+>             priv->hw->pcs != STMMAC_PCS_TBI &&
+>             priv->hw->pcs != STMMAC_PCS_RTBI) {
+>                 /* MDIO bus Registration */
+>                 ret = stmmac_mdio_register(ndev);
+> +               priv->use_mdio = 1;
+>                 if (ret < 0) {
+>                         pr_debug("%s: MDIO bus (id: %d) registration failed",
+>                                  __func__, priv->plat->bus_id);
+> -------------------------->8-----------------------
+>
+> Any thoughts on that are much appreciated!
+>
+> Regards,
+> Alexey
+>
+> [1] http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=70523e639bf8ca09b3357371c3546cee55c06351
+>
