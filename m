@@ -1,61 +1,35 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Tue, 15 Nov 2016 11:30:52 +0100
-Subject: [PATCH v4 8/8] clocksource: import ARC timer driver
-In-Reply-To: <CAKnoXLzY7Qxw39R029cprqzy4WvKXYf5PReutORO+JyMvaxeqA@mail.gmail.com>
-References: <1478900332-24279-1-git-send-email-vgupta@synopsys.com>
- <1478900332-24279-9-git-send-email-vgupta@synopsys.com>
- <20161111231132.GA4186@mai>
- <0385e24e-b118-7243-fbee-4bad052b1eb2@synopsys.com>
- <CAKnoXLzY7Qxw39R029cprqzy4WvKXYf5PReutORO+JyMvaxeqA@mail.gmail.com>
+From: Ramiro.Oliveira@synopsys.com (Ramiro Oliveira)
+Date: Tue, 15 Nov 2016 15:45:35 +0000
+Subject: [PATCH v2] arc: Implement arch-specific dma_map_ops.mmap
+In-Reply-To: <1478185573-12871-1-git-send-email-abrodkin@synopsys.com>
+References: <1478185573-12871-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <9c03641f-b6a4-9e3b-53ee-03788771dbeb@linaro.org>
+Message-ID: <a5cd26c2-519e-c541-8044-b24685df8f35@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/11/2016 11:19, Daniel Lezcano wrote:
-> Yes.
+On 11/3/2016 3:06 PM, Alexey Brodkin wrote:
+> We used to use generic implementation of dma_map_ops.mmap which is
+> dma_common_mmap() but that only worked for simpler cached mappings when
+> vaddr = paddr.
 > 
+> If a driver requests uncached DMA buffer kernel maps it to virtual
+> address so that MMU gets involved and page uncached status takes into
+> account. In that case usage of dma_common_mmap() lead to mapping of
+> vaddr to vaddr for user-space which is obviously wrong. For more detals
+> please refer to verbose explanation here [1].
 > 
-> Le 12 nov. 2016 1:53 AM, "Vineet Gupta" <Vineet.Gupta1 at synopsys.com
-> <mailto:Vineet.Gupta1 at synopsys.com>> a ?crit :
+> So here we implement our own version of mmap() which always deals
+> with dma_addr and maps underlying memory to user-space properly
+> (note that DMA buffer mapped to user-space is always uncached
+> because there's no way to properly manage cache from user-space).
 > 
->     On 11/11/2016 03:11 PM, Daniel Lezcano wrote:
->     > On Fri, Nov 11, 2016@01:38:52PM -0800, Vineet Gupta wrote:
->     >> This adds support for
->     >>
->     >>  - CONFIG_ARC_TIMERS : legacy 32-bit TIMER0 and TIMER1 which count UP
->     >>    from @CNT to @LIMIT, before optionally triggering an interrupt.
->     >>    These are programmed using ARC auxiliary register interface.
->     >>    These are present in all ARC cores (ARC700 and ARC HS38)
->     >>    TIMER0 serves as clockevent for all ARC linux builds.
->     >>    TIMER1 is used for clocksource in arc700 builds.
->     >>
->     >>  - CONFIG_ARC_TIMERS_64BIT: 64-bit counters, RTC and GFRC found in
->     >>    ARC HS38 cores. These are independnet IP blocks with different
->     >>    programming model respectively.
->     >>
->     >> Signed-off-by: Vineet Gupta <vgupta at synopsys.com
->     <mailto:vgupta at synopsys.com>>
->     >> ---
->     >
->     > Acked-by: Daniel Lezcano <daniel.lezcano at linaro.org
->     <mailto:daniel.lezcano at linaro.org>>
->     >
+> [1] https://lkml.org/lkml/2016/10/26/973
 > 
-> 
->     Thx Daniel. So I suppose for 4.10, I will get these merged,
->     including the
->     driver/clocksource bits. OK ?
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Reviewed-by: Catalin Marinas <catalin.marinas at arm.com>
+> Cc: Marek Szyprowski <m.szyprowski at samsung.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: <stable at vger.kernel.org>
+> ---
 
-Hi Vineet,
-
-I just want to clarify. Do you want the entire series to go through my
-tree ? Or through your tree ?
-
-
-
--- 
- <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Tested-by: Ramiro Oliveira <Ramiro.Oliveira at synopsys.com>
