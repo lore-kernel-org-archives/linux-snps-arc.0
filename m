@@ -1,35 +1,27 @@
-From: Ramiro.Oliveira@synopsys.com (Ramiro Oliveira)
-Date: Tue, 15 Nov 2016 15:45:35 +0000
-Subject: [PATCH v2] arc: Implement arch-specific dma_map_ops.mmap
-In-Reply-To: <1478185573-12871-1-git-send-email-abrodkin@synopsys.com>
-References: <1478185573-12871-1-git-send-email-abrodkin@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 15 Nov 2016 09:16:44 -0800
+Subject: [PATCH v4 8/8] clocksource: import ARC timer driver
+In-Reply-To: <9c03641f-b6a4-9e3b-53ee-03788771dbeb@linaro.org>
+References: <1478900332-24279-1-git-send-email-vgupta@synopsys.com>
+ <1478900332-24279-9-git-send-email-vgupta@synopsys.com>
+ <20161111231132.GA4186@mai>
+ <0385e24e-b118-7243-fbee-4bad052b1eb2@synopsys.com>
+ <CAKnoXLzY7Qxw39R029cprqzy4WvKXYf5PReutORO+JyMvaxeqA@mail.gmail.com>
+ <9c03641f-b6a4-9e3b-53ee-03788771dbeb@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <a5cd26c2-519e-c541-8044-b24685df8f35@synopsys.com>
+Message-ID: <de38a2d1-d868-77fe-70ae-7ca7b3c8b975@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/3/2016 3:06 PM, Alexey Brodkin wrote:
-> We used to use generic implementation of dma_map_ops.mmap which is
-> dma_common_mmap() but that only worked for simpler cached mappings when
-> vaddr = paddr.
+On 11/15/2016 02:30 AM, Daniel Lezcano wrote:
+>>     Thx Daniel. So I suppose for 4.10, I will get these merged,
+>> >     including the
+>> >     driver/clocksource bits. OK ?
+> Hi Vineet,
 > 
-> If a driver requests uncached DMA buffer kernel maps it to virtual
-> address so that MMU gets involved and page uncached status takes into
-> account. In that case usage of dma_common_mmap() lead to mapping of
-> vaddr to vaddr for user-space which is obviously wrong. For more detals
-> please refer to verbose explanation here [1].
-> 
-> So here we implement our own version of mmap() which always deals
-> with dma_addr and maps underlying memory to user-space properly
-> (note that DMA buffer mapped to user-space is always uncached
-> because there's no way to properly manage cache from user-space).
-> 
-> [1] https://lkml.org/lkml/2016/10/26/973
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Reviewed-by: Catalin Marinas <catalin.marinas at arm.com>
-> Cc: Marek Szyprowski <m.szyprowski at samsung.com>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: <stable at vger.kernel.org>
-> ---
+> I just want to clarify. Do you want the entire series to go through my
+> tree ? Or through your tree ?
 
-Tested-by: Ramiro Oliveira <Ramiro.Oliveira at synopsys.com>
+I'd prefer my tree ! FWIW per our last agreement, I already pushed it to my
+for-next :-)
+
+-Vineet
