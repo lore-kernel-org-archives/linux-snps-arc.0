@@ -1,48 +1,92 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Tue, 15 Nov 2016 20:29:39 +0100
-Subject: [PATCH v4 8/8] clocksource: import ARC timer driver
-In-Reply-To: <DB6PR0501MB25183F3E7B3B5D224F646F79AABF0@DB6PR0501MB2518.eurprd05.prod.outlook.com>
-References: <20161111231132.GA4186@mai>
- <0385e24e-b118-7243-fbee-4bad052b1eb2@synopsys.com>
- <CAKnoXLzY7Qxw39R029cprqzy4WvKXYf5PReutORO+JyMvaxeqA@mail.gmail.com>
- <9c03641f-b6a4-9e3b-53ee-03788771dbeb@linaro.org>
- <de38a2d1-d868-77fe-70ae-7ca7b3c8b975@synopsys.com>
- <20161115172324.GA13606@mai>
- <429ee35c-4c51-a43e-cb7c-40bbd6821e23@synopsys.com>
- <DB6PR0501MB2518CBABEBEB7499F0D023A0AABF0@DB6PR0501MB2518.eurprd05.prod.outlook.com>
- <20161115174904.GA1628@mai>
- <DB6PR0501MB25183F3E7B3B5D224F646F79AABF0@DB6PR0501MB2518.eurprd05.prod.outlook.com>
+From: noamca@mellanox.com (Noam Camus)
+Date: Wed, 16 Nov 2016 08:31:10 +0200
+Subject: [RESEND PATCH v7 0/3] Add clockevent for timer-nps driver to NPS400
+ SoC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161115192939.GA1591@mai>
+Message-ID: <1479277873-18994-1-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Nov 15, 2016@06:05:32PM +0000, Noam Camus wrote:
-> >From: Daniel Lezcano <daniel.lezcano at linaro.org>
-> 
-> >Sent: Tuesday, November 15, 2016 7:49 PM
-> 
-> > I believe the request was for you.
-> Indeed it was.
-> 
-> However no formal Ack was made by you.  Since I got no tree I preferred that
-> you will take the series into your tree instead of getting your ack.  Now
-> that Vineet is helping I got an alternative.  I will add "acked-by" in your
-> name in each of my patches (V7) and reply-all + CC to linux-snps-arc
+From: Noam Camus <noamca@mellanox.com>
 
-It will be simpler for Vineet and for the review process to resend the v7 with my
-acked-by prefixed with [RESEND PATCH v7 x/3].
+Change log
+---
+V6 --> V7
+Apply several comments made by Daniel Lezcano:
+1) Remove CLOCK_EVT_FEAT_PERIODIC support. This way it is
+ pure oneshot driver. This simplifies driver so that:
+ nps_clkevent_add_thread()
+ nps_clkevent_rm_thread()
+ are more clearer without any vague logic if to change
+ TSI bit of current HW thread or not.
+2) tick_resume is also calls nps_clkevent_rm_thread()
+3) Few (hopefully last) typo fixes. 
 
-> Many Thanks for your review Bye till next time Noam
+V5 --> V6
+Apply several comments made by Daniel Lezcano:
+1) nps_get_timer_clk() - use clk_put() on error scenario
+2) nps_get_timer_clk() - return EINVAL and not plain 1
+3) Fix typos in log (double checked with spell checker)
 
-You are welcome.
+V4 --> V5
+Apply several comments made by Daniel Lezcano:
+1) Add __init attribute to nps_get_timer_clk()
+2) Fix return value of nps_get_timer_clk()
+ when failing to get clk rate
+3) Change clocksource rate from 301 -> 300
 
-  -- Daniel
+V3 --> V4
+Main changes are [Thanks for the review]:
+Fix many typos at log [Daniel]
+Add handling for bad return values [Daniel and Thomas]
+Replace use of internal irqchip pointers with existing IRQ API [Thomas]
+Provide interrupt handler (percpu) with dev_id equal to evt [Thomas]
+Fix passing *clk by reference to nps_get_timer_clk() [Daniel]
 
+V2 --> V3
+Apply Rob Herring comment about backword compatibility
 
--- 
+V1 --> V2
+Apply Daniel Lezcano comments:
+	CLOCKSOURCE_OF_DECLARE return value
+	update hotplug callbacks usage
+	squash of 2 first commits.
+In this version I created new commit to serve as preperation for adding clockevents.
+This way the last patch is more readable with clockevent content.
+---
 
- <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+In first version of this driver we supported clocksource for the NPS400.
+The support for clockevent was taken from Synopsys ARC timer driver.
+This was good for working with our simulator of NPS400.
+However in NPS400 ASIC the timers behave differently than simulation.
+The timers in ASIC are shared between all threads whithin a core
+and hence need different driver to support this behaviour.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+The idea of this design is that we got 16 HW threads per core
+each represented at bimask in a shared register in this core.
+So when thread wants that next clockevent expiration will produce
+timer interrupt to itself the correspondance bit in this register
+should be set.
+So theoretically if all 16 bits are set then all HW threads will get
+timer interrupt on next expiration of timer 0.
+
+Note that we use Synopsys ARC design naming convention for the timers
+where:
+timer0 is used for clockevents
+timer1 is used for clocksource.
+
+Noam Camus (3):
+  soc: Support for NPS HW scheduling
+  clocksource: update "fn" at CLOCKSOURCE_OF_DECLARE() of nps400 timer
+  clocksource: Add clockevent support to NPS400 driver
+
+ .../bindings/timer/ezchip,nps400-timer.txt         |   15 --
+ .../bindings/timer/ezchip,nps400-timer0.txt        |   17 ++
+ .../bindings/timer/ezchip,nps400-timer1.txt        |   15 ++
+ arch/arc/plat-eznps/include/plat/ctop.h            |    2 -
+ drivers/clocksource/timer-nps.c                    |  223 ++++++++++++++++++--
+ include/soc/nps/mtm.h                              |   59 +++++
+ 6 files changed, 294 insertions(+), 37 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer0.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer1.txt
+ create mode 100644 include/soc/nps/mtm.h
