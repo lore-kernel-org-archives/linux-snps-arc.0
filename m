@@ -1,55 +1,33 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Wed, 16 Nov 2016 17:18:58 +0200
-Subject: [PATCH 0/4] DW DMAC: update device tree
-In-Reply-To: <1479304615-11360-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 16 Nov 2016 17:01:23 +0000
+Subject: [PATCH 4/4] Update device tree Synopsys DW DMAC documentation
+In-Reply-To: <1479309042.24056.40.camel@linux.intel.com>
 References: <1479304615-11360-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1479304615-11360-5-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1479309042.24056.40.camel@linux.intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1479309538.24056.49.camel@linux.intel.com>
+Message-ID: <1479315682.2534.20.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, 2016-11-16@16:56 +0300, Eugeniy Paltsev wrote:
-> It wasn't possible to enable some features like
-> memory-to-memory transfers or multi block transfers via DT.
-> It is fixed by these patches.
-> 
-> ?* Rename is_private to is-private as ordered by DT policy.
-> ?(just for cleanup) The change leaves the support for the?
-> ?old format.
-> 
-> ?* Add is-memcpu property, so it is possible to
-> ?enable memory-to-memory transfers support via DT.
-> 
-> ?* Add hw-llp property, so it is possible to enable
-> ?hardware multi block transfers support via DT.
-> 
-> ?* Update DW DMAC device tree documentation.
+Hi?Andy,
 
-I have few comments I posted. Besides that don't forget about current
-users of the DT properties you standardized (by naming). Better you
-convert them at the same time. Older DT (blobs) are being still
-supported.
-
-Otherwise looks okay after you address all my comments and maybe others
-will do some. The DT people ACK is a must before this goes somewhere.
-
-Also, please keep Cc list as small as possible. For example I'm not sure
-Viresh has time to look at them, but he might keep an eye on the
-dmaengine mailing list. Same about Dan.
-
+On Wed, 2016-11-16@17:10 +0200, Andy Shevchenko wrote:
+> Overall, since we are going to expose some properties to the Device
+> Tree
+> I would really think twice about naming. Better if we reuse something
+> existing already.
 > 
-> Eugeniy Paltsev (4):
-> ? DW DMAC: rename is_private property as ordered by DT policy
-> ? DW DMAC: add is-memcpu property to device tree
-> ? DW DMAC: add hw-llp property to device tree
-> ? Update device tree Synopsys DW DMAC documentation
+> So, what I can see is
 > 
-> ?Documentation/devicetree/bindings/dma/snps-dma.txt | 10 ++++++++--
-> ?drivers/dma/dw/core.c??????????????????????????????|??2 +-
-> ?drivers/dma/dw/platform.c??????????????????????????| 10 ++++++++++
-> ?include/linux/platform_data/dma-dw.h???????????????|??4 ++--
-> ?4 files changed, 21 insertions(+), 5 deletions(-)
+> dmacap,private
+> dmacap,memcpy
 > 
+> Here is a selling point as well, i.e. standardization.
+> 
+As I can see these property name used only in "mv_xor" driver. And?
+they are marked as?deprecated.
+So, I'm not sure if I should used these names.
 
+I agree with other comments.
 -- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+?Paltsev Eugeniy
