@@ -1,92 +1,106 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Wed, 16 Nov 2016 08:31:10 +0200
-Subject: [RESEND PATCH v7 0/3] Add clockevent for timer-nps driver to NPS400
- SoC
+Date: Wed, 16 Nov 2016 08:31:11 +0200
+Subject: [RESEND PATCH v7 1/3] soc: Support for NPS HW scheduling
+In-Reply-To: <1479277873-18994-1-git-send-email-noamca@mellanox.com>
+References: <1479277873-18994-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1479277873-18994-1-git-send-email-noamca@mellanox.com>
+Message-ID: <1479277873-18994-2-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamca@mellanox.com>
 
-Change log
+This new header file is for NPS400 SoC (part of ARC architecture).
+The header file includes macros for save/restore of HW scheduling.
+The control of HW scheduling is achieved by writing core registers.
+This code was moved from arc/plat-eznps so it can be used
+from drivers/clocksource/, available only for CONFIG_EZNPS_MTM_EXT.
+
+Signed-off-by: Noam Camus <noamca at mellanox.com>
+Acked-by: Daniel Lezcano <daniel.lezcano at linaro.org>
 ---
-V6 --> V7
-Apply several comments made by Daniel Lezcano:
-1) Remove CLOCK_EVT_FEAT_PERIODIC support. This way it is
- pure oneshot driver. This simplifies driver so that:
- nps_clkevent_add_thread()
- nps_clkevent_rm_thread()
- are more clearer without any vague logic if to change
- TSI bit of current HW thread or not.
-2) tick_resume is also calls nps_clkevent_rm_thread()
-3) Few (hopefully last) typo fixes. 
-
-V5 --> V6
-Apply several comments made by Daniel Lezcano:
-1) nps_get_timer_clk() - use clk_put() on error scenario
-2) nps_get_timer_clk() - return EINVAL and not plain 1
-3) Fix typos in log (double checked with spell checker)
-
-V4 --> V5
-Apply several comments made by Daniel Lezcano:
-1) Add __init attribute to nps_get_timer_clk()
-2) Fix return value of nps_get_timer_clk()
- when failing to get clk rate
-3) Change clocksource rate from 301 -> 300
-
-V3 --> V4
-Main changes are [Thanks for the review]:
-Fix many typos at log [Daniel]
-Add handling for bad return values [Daniel and Thomas]
-Replace use of internal irqchip pointers with existing IRQ API [Thomas]
-Provide interrupt handler (percpu) with dev_id equal to evt [Thomas]
-Fix passing *clk by reference to nps_get_timer_clk() [Daniel]
-
-V2 --> V3
-Apply Rob Herring comment about backword compatibility
-
-V1 --> V2
-Apply Daniel Lezcano comments:
-	CLOCKSOURCE_OF_DECLARE return value
-	update hotplug callbacks usage
-	squash of 2 first commits.
-In this version I created new commit to serve as preperation for adding clockevents.
-This way the last patch is more readable with clockevent content.
----
-
-In first version of this driver we supported clocksource for the NPS400.
-The support for clockevent was taken from Synopsys ARC timer driver.
-This was good for working with our simulator of NPS400.
-However in NPS400 ASIC the timers behave differently than simulation.
-The timers in ASIC are shared between all threads whithin a core
-and hence need different driver to support this behaviour.
-
-The idea of this design is that we got 16 HW threads per core
-each represented at bimask in a shared register in this core.
-So when thread wants that next clockevent expiration will produce
-timer interrupt to itself the correspondance bit in this register
-should be set.
-So theoretically if all 16 bits are set then all HW threads will get
-timer interrupt on next expiration of timer 0.
-
-Note that we use Synopsys ARC design naming convention for the timers
-where:
-timer0 is used for clockevents
-timer1 is used for clocksource.
-
-Noam Camus (3):
-  soc: Support for NPS HW scheduling
-  clocksource: update "fn" at CLOCKSOURCE_OF_DECLARE() of nps400 timer
-  clocksource: Add clockevent support to NPS400 driver
-
- .../bindings/timer/ezchip,nps400-timer.txt         |   15 --
- .../bindings/timer/ezchip,nps400-timer0.txt        |   17 ++
- .../bindings/timer/ezchip,nps400-timer1.txt        |   15 ++
- arch/arc/plat-eznps/include/plat/ctop.h            |    2 -
- drivers/clocksource/timer-nps.c                    |  223 ++++++++++++++++++--
- include/soc/nps/mtm.h                              |   59 +++++
- 6 files changed, 294 insertions(+), 37 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer.txt
- create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer0.txt
- create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer1.txt
+ arch/arc/plat-eznps/include/plat/ctop.h |    2 -
+ include/soc/nps/mtm.h                   |   59 +++++++++++++++++++++++++++++++
+ 2 files changed, 59 insertions(+), 2 deletions(-)
  create mode 100644 include/soc/nps/mtm.h
+
+diff --git a/arch/arc/plat-eznps/include/plat/ctop.h b/arch/arc/plat-eznps/include/plat/ctop.h
+index 9d6718c..ee2e32d 100644
+--- a/arch/arc/plat-eznps/include/plat/ctop.h
++++ b/arch/arc/plat-eznps/include/plat/ctop.h
+@@ -46,9 +46,7 @@
+ #define CTOP_AUX_UDMC				(CTOP_AUX_BASE + 0x300)
+ 
+ /* EZchip core instructions */
+-#define CTOP_INST_HWSCHD_OFF_R3			0x3B6F00BF
+ #define CTOP_INST_HWSCHD_OFF_R4			0x3C6F00BF
+-#define CTOP_INST_HWSCHD_RESTORE_R3		0x3E6F70C3
+ #define CTOP_INST_HWSCHD_RESTORE_R4		0x3E6F7103
+ #define CTOP_INST_SCHD_RW			0x3E6F7004
+ #define CTOP_INST_SCHD_RD			0x3E6F7084
+diff --git a/include/soc/nps/mtm.h b/include/soc/nps/mtm.h
+new file mode 100644
+index 0000000..d2f5e7e
+--- /dev/null
++++ b/include/soc/nps/mtm.h
+@@ -0,0 +1,59 @@
++/*
++ * Copyright (c) 2016, Mellanox Technologies. All rights reserved.
++ *
++ * This software is available to you under a choice of one of two
++ * licenses.  You may choose to be licensed under the terms of the GNU
++ * General Public License (GPL) Version 2, available from the file
++ * COPYING in the main directory of this source tree, or the
++ * OpenIB.org BSD license below:
++ *
++ *     Redistribution and use in source and binary forms, with or
++ *     without modification, are permitted provided that the following
++ *     conditions are met:
++ *
++ *      - Redistributions of source code must retain the above
++ *        copyright notice, this list of conditions and the following
++ *        disclaimer.
++ *
++ *      - Redistributions in binary form must reproduce the above
++ *        copyright notice, this list of conditions and the following
++ *        disclaimer in the documentation and/or other materials
++ *        provided with the distribution.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ */
++
++#ifndef SOC_NPS_MTM_H
++#define SOC_NPS_MTM_H
++
++#define CTOP_INST_HWSCHD_OFF_R3                 0x3B6F00BF
++#define CTOP_INST_HWSCHD_RESTORE_R3             0x3E6F70C3
++
++static inline void hw_schd_save(unsigned int *flags)
++{
++	__asm__ __volatile__(
++	"       .word %1\n"
++	"       st r3,[%0]\n"
++	:
++	: "r"(flags), "i"(CTOP_INST_HWSCHD_OFF_R3)
++	: "r3", "memory");
++}
++
++static inline void hw_schd_restore(unsigned int flags)
++{
++	__asm__ __volatile__(
++	"       mov r3, %0\n"
++	"       .word %1\n"
++	:
++	: "r"(flags), "i"(CTOP_INST_HWSCHD_RESTORE_R3)
++	: "r3");
++}
++
++#endif /* SOC_NPS_MTM_H */
+-- 
+1.7.1
