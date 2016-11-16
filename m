@@ -1,106 +1,130 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Wed, 16 Nov 2016 08:31:11 +0200
-Subject: [RESEND PATCH v7 1/3] soc: Support for NPS HW scheduling
+Date: Wed, 16 Nov 2016 08:31:12 +0200
+Subject: [RESEND PATCH v7 2/3] clocksource: update "fn" at
+ CLOCKSOURCE_OF_DECLARE() of nps400 timer
 In-Reply-To: <1479277873-18994-1-git-send-email-noamca@mellanox.com>
 References: <1479277873-18994-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1479277873-18994-2-git-send-email-noamca@mellanox.com>
+Message-ID: <1479277873-18994-3-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamca@mellanox.com>
 
-This new header file is for NPS400 SoC (part of ARC architecture).
-The header file includes macros for save/restore of HW scheduling.
-The control of HW scheduling is achieved by writing core registers.
-This code was moved from arc/plat-eznps so it can be used
-from drivers/clocksource/, available only for CONFIG_EZNPS_MTM_EXT.
+nps_setup_clocksource() should take node as only argument as defined by
+typedef int (*of_init_fn_1_ret)(struct device_node *)
+
+Therefore need to replace:
+int __init nps_setup_clocksource(struct device_node *node, struct clk *clk)
+with
+int __init nps_setup_clocksource(struct device_node *node)
+
+This patch also serve as preparation for next patch which add support
+for clockevents to nps400.
+Specifically we add new function nps_get_timer_clk() to serve clocksource
+and later clockevent registration.
 
 Signed-off-by: Noam Camus <noamca at mellanox.com>
 Acked-by: Daniel Lezcano <daniel.lezcano at linaro.org>
 ---
- arch/arc/plat-eznps/include/plat/ctop.h |    2 -
- include/soc/nps/mtm.h                   |   59 +++++++++++++++++++++++++++++++
- 2 files changed, 59 insertions(+), 2 deletions(-)
- create mode 100644 include/soc/nps/mtm.h
+ drivers/clocksource/timer-nps.c |   65 +++++++++++++++++++++++---------------
+ 1 files changed, 39 insertions(+), 26 deletions(-)
 
-diff --git a/arch/arc/plat-eznps/include/plat/ctop.h b/arch/arc/plat-eznps/include/plat/ctop.h
-index 9d6718c..ee2e32d 100644
---- a/arch/arc/plat-eznps/include/plat/ctop.h
-+++ b/arch/arc/plat-eznps/include/plat/ctop.h
-@@ -46,9 +46,7 @@
- #define CTOP_AUX_UDMC				(CTOP_AUX_BASE + 0x300)
+diff --git a/drivers/clocksource/timer-nps.c b/drivers/clocksource/timer-nps.c
+index 70c149a..0c8e21f 100644
+--- a/drivers/clocksource/timer-nps.c
++++ b/drivers/clocksource/timer-nps.c
+@@ -46,7 +46,35 @@
+ /* This array is per cluster of CPUs (Each NPS400 cluster got 256 CPUs) */
+ static void *nps_msu_reg_low_addr[NPS_CLUSTER_NUM] __read_mostly;
  
- /* EZchip core instructions */
--#define CTOP_INST_HWSCHD_OFF_R3			0x3B6F00BF
- #define CTOP_INST_HWSCHD_OFF_R4			0x3C6F00BF
--#define CTOP_INST_HWSCHD_RESTORE_R3		0x3E6F70C3
- #define CTOP_INST_HWSCHD_RESTORE_R4		0x3E6F7103
- #define CTOP_INST_SCHD_RW			0x3E6F7004
- #define CTOP_INST_SCHD_RD			0x3E6F7084
-diff --git a/include/soc/nps/mtm.h b/include/soc/nps/mtm.h
-new file mode 100644
-index 0000000..d2f5e7e
---- /dev/null
-+++ b/include/soc/nps/mtm.h
-@@ -0,0 +1,59 @@
-+/*
-+ * Copyright (c) 2016, Mellanox Technologies. All rights reserved.
-+ *
-+ * This software is available to you under a choice of one of two
-+ * licenses.  You may choose to be licensed under the terms of the GNU
-+ * General Public License (GPL) Version 2, available from the file
-+ * COPYING in the main directory of this source tree, or the
-+ * OpenIB.org BSD license below:
-+ *
-+ *     Redistribution and use in source and binary forms, with or
-+ *     without modification, are permitted provided that the following
-+ *     conditions are met:
-+ *
-+ *      - Redistributions of source code must retain the above
-+ *        copyright notice, this list of conditions and the following
-+ *        disclaimer.
-+ *
-+ *      - Redistributions in binary form must reproduce the above
-+ *        copyright notice, this list of conditions and the following
-+ *        disclaimer in the documentation and/or other materials
-+ *        provided with the distribution.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-+ * SOFTWARE.
-+ */
-+
-+#ifndef SOC_NPS_MTM_H
-+#define SOC_NPS_MTM_H
-+
-+#define CTOP_INST_HWSCHD_OFF_R3                 0x3B6F00BF
-+#define CTOP_INST_HWSCHD_RESTORE_R3             0x3E6F70C3
-+
-+static inline void hw_schd_save(unsigned int *flags)
+-static unsigned long nps_timer_rate;
++static int __init nps_get_timer_clk(struct device_node *node,
++			     unsigned long *timer_freq,
++			     struct clk **clk)
 +{
-+	__asm__ __volatile__(
-+	"       .word %1\n"
-+	"       st r3,[%0]\n"
-+	:
-+	: "r"(flags), "i"(CTOP_INST_HWSCHD_OFF_R3)
-+	: "r3", "memory");
-+}
++	int ret;
 +
-+static inline void hw_schd_restore(unsigned int flags)
-+{
-+	__asm__ __volatile__(
-+	"       mov r3, %0\n"
-+	"       .word %1\n"
-+	:
-+	: "r"(flags), "i"(CTOP_INST_HWSCHD_RESTORE_R3)
-+	: "r3");
-+}
++	*clk = of_clk_get(node, 0);
++	if (IS_ERR(*clk)) {
++		pr_err("timer missing clk");
++		return PTR_ERR(*clk);
++	}
 +
-+#endif /* SOC_NPS_MTM_H */
++	ret = clk_prepare_enable(*clk);
++	if (ret) {
++		pr_err("Couldn't enable parent clk\n");
++		clk_put(*clk);
++		return ret;
++	}
++
++	*timer_freq = clk_get_rate(*clk);
++	if (!(*timer_freq)) {
++		pr_err("Couldn't get clk rate\n");
++		clk_disable_unprepare(*clk);
++		clk_put(*clk);
++		return -EINVAL;
++	}
++
++	return 0;
++}
+ 
+ static cycle_t nps_clksrc_read(struct clocksource *clksrc)
+ {
+@@ -55,26 +83,24 @@ static cycle_t nps_clksrc_read(struct clocksource *clksrc)
+ 	return (cycle_t)ioread32be(nps_msu_reg_low_addr[cluster]);
+ }
+ 
+-static int __init nps_setup_clocksource(struct device_node *node,
+-					struct clk *clk)
++static int __init nps_setup_clocksource(struct device_node *node)
+ {
+ 	int ret, cluster;
++	struct clk *clk;
++	unsigned long nps_timer1_freq;
++
+ 
+ 	for (cluster = 0; cluster < NPS_CLUSTER_NUM; cluster++)
+ 		nps_msu_reg_low_addr[cluster] =
+ 			nps_host_reg((cluster << NPS_CLUSTER_OFFSET),
+-				 NPS_MSU_BLKID, NPS_MSU_TICK_LOW);
++				     NPS_MSU_BLKID, NPS_MSU_TICK_LOW);
+ 
+-	ret = clk_prepare_enable(clk);
+-	if (ret) {
+-		pr_err("Couldn't enable parent clock\n");
++	ret = nps_get_timer_clk(node, &nps_timer1_freq, &clk);
++	if (ret)
+ 		return ret;
+-	}
+ 
+-	nps_timer_rate = clk_get_rate(clk);
+-
+-	ret = clocksource_mmio_init(nps_msu_reg_low_addr, "EZnps-tick",
+-				    nps_timer_rate, 301, 32, nps_clksrc_read);
++	ret = clocksource_mmio_init(nps_msu_reg_low_addr, "nps-tick",
++				    nps_timer1_freq, 300, 32, nps_clksrc_read);
+ 	if (ret) {
+ 		pr_err("Couldn't register clock source.\n");
+ 		clk_disable_unprepare(clk);
+@@ -83,18 +109,5 @@ static int __init nps_setup_clocksource(struct device_node *node,
+ 	return ret;
+ }
+ 
+-static int __init nps_timer_init(struct device_node *node)
+-{
+-	struct clk *clk;
+-
+-	clk = of_clk_get(node, 0);
+-	if (IS_ERR(clk)) {
+-		pr_err("Can't get timer clock.\n");
+-		return PTR_ERR(clk);
+-	}
+-
+-	return nps_setup_clocksource(node, clk);
+-}
+-
+ CLOCKSOURCE_OF_DECLARE(ezchip_nps400_clksrc, "ezchip,nps400-timer",
+-		       nps_timer_init);
++		       nps_setup_clocksource);
 -- 
 1.7.1
