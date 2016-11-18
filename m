@@ -1,79 +1,67 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Fri, 18 Nov 2016 21:33:13 +0200
-Subject: [PATCH v3 2/2] DW DMAC: add multi-block property to device tree
-In-Reply-To: <1479496356-27834-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
-References: <1479496356-27834-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <1479496356-27834-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 18 Nov 2016 14:22:28 -0800
+Subject: [PATCH] ARC: rename Zebu platform support to HAPS
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1479497593.22212.45.camel@linux.intel.com>
+Message-ID: <1479507748-20263-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, 2016-11-18@22:12 +0300, Eugeniy Paltsev wrote:
-> Several versions of DW DMAC have multi block transfers hardware
-> support. Hardware support of multi block transfers is disabled
-> by default if we use DT to configure DMAC and software emulation
-> of multi block transfers used instead.
-> Add multi-block property, so it is possible to enable hardware
-> multi block transfers (if present) via DT.
-> 
-> Switch from per device is_nollp variable to multi_block array
-> to be able enable/disable multi block transfers separately per
-> channel.
-> 
+There are more ARC Linux HAPS users than Zebu ones.
 
-> Update DT documentation.
-> 
-> Update existing platform data.
+Same kernel would work fine on both, even with embedded DT, assuming the FPGA
+bitfile configuration is same
 
-Kinda useless for commit message, but might go after --- delimiter.
+Suggested-by: Francois Bedard <fbedard at ynopsys.com>
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/boot/dts/{zebu_hs.dts => haps_hs.dts}                    | 0
+ arch/arc/boot/dts/{zebu_hs_idu.dts => haps_hs_idu.dts}            | 0
+ arch/arc/configs/{zebu_hs_defconfig => haps_hs_defconfig}         | 2 +-
+ arch/arc/configs/{zebu_hs_smp_defconfig => haps_hs_smp_defconfig} | 2 +-
+ 4 files changed, 2 insertions(+), 2 deletions(-)
+ rename arch/arc/boot/dts/{zebu_hs.dts => haps_hs.dts} (100%)
+ rename arch/arc/boot/dts/{zebu_hs_idu.dts => haps_hs_idu.dts} (100%)
+ rename arch/arc/configs/{zebu_hs_defconfig => haps_hs_defconfig} (98%)
+ rename arch/arc/configs/{zebu_hs_smp_defconfig => haps_hs_smp_defconfig} (98%)
 
-> 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
-> ?Documentation/devicetree/bindings/dma/snps-dma.txt | 2 ++
-> ?drivers/dma/dw/core.c??????????????????????????????| 2 +-
-> ?drivers/dma/dw/platform.c??????????????????????????| 5 +++++
-> ?drivers/tty/serial/8250/8250_lpss.c????????????????| 2 +-
-> ?include/linux/platform_data/dma-dw.h???????????????| 4 ++--
-> ?5 files changed, 11 insertions(+), 4 deletions(-)
-
-> --- a/Documentation/devicetree/bindings/dma/snps-dma.txt
-> +++ b/Documentation/devicetree/bindings/dma/snps-dma.txt
-> @@ -27,6 +27,8 @@ Optional properties:
-> ???that services interrupts for this device
-> ?- is_private: The device channels should be marked as private and not
-> for by the
-> ???general purpose DMA channel allocator. False if not passed.
-> +- multi-block: Multi block transfers supported by hardware per AHB
-> master.
-> +??0 (default): not supported, 1: supported.
-> ?
-> ?Example:
-> ?
-> diff --git a/drivers/dma/dw/core.c b/drivers/dma/dw/core.c
-> index c2c0a61..f2a3d06 100644
-> --- a/drivers/dma/dw/core.c
-> +++ b/drivers/dma/dw/core.c
-> @@ -1569,7 +1569,7 @@ int dw_dma_probe(struct dw_dma_chip *chip)
-> ?				(dwc_params >> DWC_PARAMS_MBLK_EN &
-> 0x1) == 0;
-> ?		} else {
-> ?			dwc->block_size = pdata->block_size;
-> -			dwc->nollp = pdata->is_nollp;
-> +			dwc->nollp = pdata->multi_block[i];
-
-You missed the point. You assign positive value to negative variable.
-It's a bug. Have you tested this? How?
-
-In case of positive property you have to update DTS. By the way, I'm
-pretty sure that spare13xx boards has auto configuration enabled, though
-it has to be checked with vendor (I assume you may have fast response
-from them).
-
-> ?		}
-> ?	}
-> ?
-
+diff --git a/arch/arc/boot/dts/zebu_hs.dts b/arch/arc/boot/dts/haps_hs.dts
+similarity index 100%
+rename from arch/arc/boot/dts/zebu_hs.dts
+rename to arch/arc/boot/dts/haps_hs.dts
+diff --git a/arch/arc/boot/dts/zebu_hs_idu.dts b/arch/arc/boot/dts/haps_hs_idu.dts
+similarity index 100%
+rename from arch/arc/boot/dts/zebu_hs_idu.dts
+rename to arch/arc/boot/dts/haps_hs_idu.dts
+diff --git a/arch/arc/configs/zebu_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
+similarity index 98%
+rename from arch/arc/configs/zebu_hs_defconfig
+rename to arch/arc/configs/haps_hs_defconfig
+index 9f6166be7145..57b3e599322f 100644
+--- a/arch/arc/configs/zebu_hs_defconfig
++++ b/arch/arc/configs/haps_hs_defconfig
+@@ -23,7 +23,7 @@ CONFIG_MODULES=y
+ # CONFIG_IOSCHED_CFQ is not set
+ CONFIG_ARC_PLAT_SIM=y
+ CONFIG_ISA_ARCV2=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="zebu_hs"
++CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/zebu_hs_smp_defconfig b/arch/arc/configs/haps_hs_smp_defconfig
+similarity index 98%
+rename from arch/arc/configs/zebu_hs_smp_defconfig
+rename to arch/arc/configs/haps_hs_smp_defconfig
+index 44e9693f4257..f85985adebb2 100644
+--- a/arch/arc/configs/zebu_hs_smp_defconfig
++++ b/arch/arc/configs/haps_hs_smp_defconfig
+@@ -26,7 +26,7 @@ CONFIG_MODULES=y
+ CONFIG_ARC_PLAT_SIM=y
+ CONFIG_ISA_ARCV2=y
+ CONFIG_SMP=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="zebu_hs_idu"
++CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs_idu"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
 -- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+2.7.4
