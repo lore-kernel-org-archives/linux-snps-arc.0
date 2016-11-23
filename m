@@ -1,66 +1,56 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 23 Nov 2016 19:40:15 +0000
-Subject: [PATCH 3/6] arc: Use full path in KBUILD_IMAGE definition
-In-Reply-To: <20161122213434.14788-3-mmarek@suse.com>
-References: <20161122213434.14788-1-mmarek@suse.com>
- <20161122213434.14788-3-mmarek@suse.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 23 Nov 2016 12:33:04 -0800
+Subject: [PATCH] ARCv2: MCIP: Deprecate setting of affinity in Device Tree
+In-Reply-To: <8548fefd-15e1-5ce4-0e23-05022286841f@arm.com>
+References: <1478875124-23787-1-git-send-email-yuriy.kolerov@synopsys.com>
+ <d5cb9467-a6d7-e47d-7b25-15396c4d65cb@arm.com>
+ <3ABF60118B9B784CA5BF7C841D2F00EC0101D90B@de02wembxa.internal.synopsys.com>
+ <8548fefd-15e1-5ce4-0e23-05022286841f@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1479929955.3931.28.camel@synopsys.com>
+Message-ID: <56a05936-ab5c-da79-39b9-571ec708f3b9@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Michal,
+On 11/22/2016 03:22 AM, Marc Zyngier wrote:
+>> 2. The kernel will not call idu_irq_set_affinity() for IDU interrupt
+>> > controller in some cases. It happens when the top interrupt
+>> > controller does not support setting of the affinity and does not even
+>> > support propagating of it (e.g. a GPIO interrupt controller on top of
+>> > IDU which funnels all interrupts in one line). However
+>> > idu_irq_set_affinity() must be called to unmask common interrupts in
+>> > IDU. And if I want to make an affinity in irq_desc to match a real
+>> > affinity I must call irq_set_affinity() instead of just
+>> > idu_irq_set_affinity() .
+>
+> My brain has just melted. Can you describe this a bit more, possibly
+> using some ASCII diagrams? I really don't understand what the affinity
+> settings have to do with unmasking the interrupt... It is that you mask
+> an interrupt by routing it to a dummy CPU?
 
-On Tue, 2016-11-22@22:34 +0100, Michal Marek wrote:
-> The KBUILD_IMAGE variable is used by the rpm and deb-pkg targets, which
-> expect it to point to the image file in the build directory. The
-> builddeb script has a workaround for architectures which only provide
-> the basename, but let's provide a clean interface for packaging tools.
-> 
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: linux-snps-arc at lists.infradead.org
-> Signed-off-by: Michal Marek <mmarek at suse.com>
-> ---
-> ?arch/arc/Makefile | 4 ++--
-> ?1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-> index 19cce226d1a8..44ef35d33956 100644
-> --- a/arch/arc/Makefile
-> +++ b/arch/arc/Makefile
-> @@ -123,9 +123,9 @@ libs-y		+= arch/arc/lib/ $(LIBGCC)
-> ?boot		:= arch/arc/boot
-> ?
-> ?#default target for make without any arguments.
-> -KBUILD_IMAGE	:= bootpImage
-> +KBUILD_IMAGE	:= $(boot)/bootpImage
-> ?
-> -all:	$(KBUILD_IMAGE)
-> +all:	bootpImage
-> ?bootpImage: vmlinux
-> ?
-> ?boot_targets += uImage uImage.bin uImage.gz
+The AXS SDP board has an "interesting" cascade of interrupt controllers.
+Exact setup in arch/arc/boot/dts/{axc003_idu,axs10x_mb}.dtsi
 
-I tried to find any examples on how that?KBUILD_IMAGE thingy is used
-but to no avail. It looks like for ARC "bootpImage" makes not much
-sense and if you really want to get something useful in .deb/.rpm
-most probably something like below may work much better:
------------------------->8--------------------------
-KBUILD_IMAGE	:= $(boot)/uImage
------------------------->8--------------------------
 
-And I don't know context of KBUILD_IMAGE usage but in
-case of ARC our default target is "vmlinux" so I'm not sure then if
-KBUILD_IMAGE may point to non-default target.
-
-For example in "arch/avr32/Makefile" I see more complicated construction:
------------------------->8--------------------------
-? ? ? ? ? ? ?KBUILD_IMAGE := $(boot)/uImage
-vmlinux.elf: KBUILD_IMAGE := $(boot)/vmlinux.elf
-vmlinux.cso: KBUILD_IMAGE := $(boot)/vmlinux.cso
-uImage.srec: KBUILD_IMAGE := $(boot)/uImage.srec
-uImage:??????KBUILD_IMAGE := $(boot)/uImage
------------------------->8--------------------------
-and may imagine that we need something similar for ARC obviously with
-default being "$(boot)/vmlinux".
-
--Alexey
+	/*
+	 * Peripherals on CPU Card and Mother Board are wired to cpu intc via
+	 * intermediate DW APB GPIO blocks (mainly for debouncing)
+	 *
+	 *        --------------------
+	 *        |  snps,archs-intc |
+	 *        --------------------
+	 *          | #24   	  |#25
+	 * 	  --------------------
+	 * 	  |  snps,archs-intc |
+	 * 	  --------------------
+	 *          | #0          | #1
+	 * -------------------   -------------------
+	 * | snps,dw-apb-gpio |  | snps,dw-apb-gpio |
+	 * |   (pass thru)    |  |                  |
+	 * -------------------   -------------------
+	 *        | #12                     |
+	 *        |                 [ Debug UART on cpu card ]
+	 *        |
+	 * ------------------------
+	 * | snps,dw-apb-intc (MB)|
+	 * ------------------------
+	 *  |      |       |      |
+	 * [eth] [uart]        [... other perip on Main Board]
