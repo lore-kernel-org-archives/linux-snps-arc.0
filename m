@@ -1,129 +1,66 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 23 Nov 2016 21:37:48 +0300
-Subject: [PATCH v4 2/2] DW DMAC: add multi-block property to device tree
-In-Reply-To: <1479926268-29050-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
-References: <1479926268-29050-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 23 Nov 2016 19:40:15 +0000
+Subject: [PATCH 3/6] arc: Use full path in KBUILD_IMAGE definition
+In-Reply-To: <20161122213434.14788-3-mmarek@suse.com>
+References: <20161122213434.14788-1-mmarek@suse.com>
+ <20161122213434.14788-3-mmarek@suse.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1479926268-29050-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1479929955.3931.28.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Several versions of DW DMAC have multi block transfers hardware
-support. Hardware support of multi block transfers is disabled
-by default if we use DT to configure DMAC and software emulation
-of multi block transfers used instead.
-Add multi-block property, so it is possible to enable hardware
-multi block transfers (if present) via DT.
+Hi Michal,
 
-Switch from per device is_nollp variable to multi_block array
-to be able enable/disable multi block transfers separately per
-channel.
+On Tue, 2016-11-22@22:34 +0100, Michal Marek wrote:
+> The KBUILD_IMAGE variable is used by the rpm and deb-pkg targets, which
+> expect it to point to the image file in the build directory. The
+> builddeb script has a workaround for architectures which only provide
+> the basename, but let's provide a clean interface for packaging tools.
+> 
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: linux-snps-arc at lists.infradead.org
+> Signed-off-by: Michal Marek <mmarek at suse.com>
+> ---
+> ?arch/arc/Makefile | 4 ++--
+> ?1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+> index 19cce226d1a8..44ef35d33956 100644
+> --- a/arch/arc/Makefile
+> +++ b/arch/arc/Makefile
+> @@ -123,9 +123,9 @@ libs-y		+= arch/arc/lib/ $(LIBGCC)
+> ?boot		:= arch/arc/boot
+> ?
+> ?#default target for make without any arguments.
+> -KBUILD_IMAGE	:= bootpImage
+> +KBUILD_IMAGE	:= $(boot)/bootpImage
+> ?
+> -all:	$(KBUILD_IMAGE)
+> +all:	bootpImage
+> ?bootpImage: vmlinux
+> ?
+> ?boot_targets += uImage uImage.bin uImage.gz
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
-Also:
- Update DT documentation.
- Update existing platform data.
+I tried to find any examples on how that?KBUILD_IMAGE thingy is used
+but to no avail. It looks like for ARC "bootpImage" makes not much
+sense and if you really want to get something useful in .deb/.rpm
+most probably something like below may work much better:
+------------------------>8--------------------------
+KBUILD_IMAGE	:= $(boot)/uImage
+------------------------>8--------------------------
 
- Documentation/devicetree/bindings/dma/snps-dma.txt | 3 +++
- drivers/dma/dw/core.c                              | 2 +-
- drivers/dma/dw/platform.c                          | 5 +++++
- drivers/tty/serial/8250/8250_lpss.c                | 2 +-
- include/linux/platform_data/dma-dw.h               | 4 ++--
- 5 files changed, 12 insertions(+), 4 deletions(-)
+And I don't know context of KBUILD_IMAGE usage but in
+case of ARC our default target is "vmlinux" so I'm not sure then if
+KBUILD_IMAGE may point to non-default target.
 
-diff --git a/Documentation/devicetree/bindings/dma/snps-dma.txt b/Documentation/devicetree/bindings/dma/snps-dma.txt
-index 0f55832..0c6256d 100644
---- a/Documentation/devicetree/bindings/dma/snps-dma.txt
-+++ b/Documentation/devicetree/bindings/dma/snps-dma.txt
-@@ -27,6 +27,9 @@ Optional properties:
-   that services interrupts for this device
- - is_private: The device channels should be marked as private and not for by the
-   general purpose DMA channel allocator. False if not passed.
-+- multi-block: Multi block transfers supported by hardware per AHB master.
-+  Array property with one cell per master. 0 (default): not supported,
-+  1: supported.
- 
- Example:
- 
-diff --git a/drivers/dma/dw/core.c b/drivers/dma/dw/core.c
-index c2c0a61..e5adf5d 100644
---- a/drivers/dma/dw/core.c
-+++ b/drivers/dma/dw/core.c
-@@ -1569,7 +1569,7 @@ int dw_dma_probe(struct dw_dma_chip *chip)
- 				(dwc_params >> DWC_PARAMS_MBLK_EN & 0x1) == 0;
- 		} else {
- 			dwc->block_size = pdata->block_size;
--			dwc->nollp = pdata->is_nollp;
-+			dwc->nollp = !pdata->multi_block[i];
- 		}
- 	}
- 
-diff --git a/drivers/dma/dw/platform.c b/drivers/dma/dw/platform.c
-index aa7a5c1..b262fd3 100644
---- a/drivers/dma/dw/platform.c
-+++ b/drivers/dma/dw/platform.c
-@@ -152,6 +152,11 @@ dw_dma_parse_dt(struct platform_device *pdev)
- 			pdata->data_width[tmp] = BIT(arr[tmp] & 0x07);
- 	}
- 
-+	if (!of_property_read_u32_array(np, "multi-block", arr, nr_masters)) {
-+		for (tmp = 0; tmp < nr_masters; tmp++)
-+			pdata->multi_block[tmp] = arr[tmp];
-+	}
-+
- 	return pdata;
- }
- #else
-diff --git a/drivers/tty/serial/8250/8250_lpss.c b/drivers/tty/serial/8250/8250_lpss.c
-index f607946..58cbb30 100644
---- a/drivers/tty/serial/8250/8250_lpss.c
-+++ b/drivers/tty/serial/8250/8250_lpss.c
-@@ -157,12 +157,12 @@ static int byt_serial_setup(struct lpss8250 *lpss, struct uart_port *port)
- static const struct dw_dma_platform_data qrk_serial_dma_pdata = {
- 	.nr_channels = 2,
- 	.is_private = true,
--	.is_nollp = true,
- 	.chan_allocation_order = CHAN_ALLOCATION_ASCENDING,
- 	.chan_priority = CHAN_PRIORITY_ASCENDING,
- 	.block_size = 4095,
- 	.nr_masters = 1,
- 	.data_width = {4},
-+	.multi_block = {0},
- };
- 
- static void qrk_serial_setup_dma(struct lpss8250 *lpss, struct uart_port *port)
-diff --git a/include/linux/platform_data/dma-dw.h b/include/linux/platform_data/dma-dw.h
-index 5f0e11e..0773bb4 100644
---- a/include/linux/platform_data/dma-dw.h
-+++ b/include/linux/platform_data/dma-dw.h
-@@ -40,19 +40,18 @@ struct dw_dma_slave {
-  * @is_private: The device channels should be marked as private and not for
-  *	by the general purpose DMA channel allocator.
-  * @is_memcpy: The device channels do support memory-to-memory transfers.
-- * @is_nollp: The device channels does not support multi block transfers.
-  * @chan_allocation_order: Allocate channels starting from 0 or 7
-  * @chan_priority: Set channel priority increasing from 0 to 7 or 7 to 0.
-  * @block_size: Maximum block size supported by the controller
-  * @nr_masters: Number of AHB masters supported by the controller
-  * @data_width: Maximum data width supported by hardware per AHB master
-  *		(in bytes, power of 2)
-+ * @multi_block: Multi block transfers supported by hardware per AHB master.
-  */
- struct dw_dma_platform_data {
- 	unsigned int	nr_channels;
- 	bool		is_private;
- 	bool		is_memcpy;
--	bool		is_nollp;
- #define CHAN_ALLOCATION_ASCENDING	0	/* zero to seven */
- #define CHAN_ALLOCATION_DESCENDING	1	/* seven to zero */
- 	unsigned char	chan_allocation_order;
-@@ -62,6 +61,7 @@ struct dw_dma_platform_data {
- 	unsigned int	block_size;
- 	unsigned char	nr_masters;
- 	unsigned char	data_width[DW_DMA_MAX_NR_MASTERS];
-+	unsigned char	multi_block[DW_DMA_MAX_NR_MASTERS];
- };
- 
- #endif /* _PLATFORM_DATA_DMA_DW_H */
--- 
-2.5.5
+For example in "arch/avr32/Makefile" I see more complicated construction:
+------------------------>8--------------------------
+? ? ? ? ? ? ?KBUILD_IMAGE := $(boot)/uImage
+vmlinux.elf: KBUILD_IMAGE := $(boot)/vmlinux.elf
+vmlinux.cso: KBUILD_IMAGE := $(boot)/vmlinux.cso
+uImage.srec: KBUILD_IMAGE := $(boot)/uImage.srec
+uImage:??????KBUILD_IMAGE := $(boot)/uImage
+------------------------>8--------------------------
+and may imagine that we need something similar for ARC obviously with
+default being "$(boot)/vmlinux".
+
+-Alexey
