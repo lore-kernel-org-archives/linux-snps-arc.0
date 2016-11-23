@@ -1,39 +1,51 @@
-From: mmarek@suse.com (Michal Marek)
-Date: Tue, 22 Nov 2016 22:34:31 +0100
-Subject: [PATCH 3/6] arc: Use full path in KBUILD_IMAGE definition
-In-Reply-To: <20161122213434.14788-1-mmarek@suse.com>
-References: <20161122213434.14788-1-mmarek@suse.com>
+From: vinod.koul@intel.com (Vinod Koul)
+Date: Wed, 23 Nov 2016 09:36:03 +0530
+Subject: [PATCH v3 0/2] DW DMAC: update device tree
+In-Reply-To: <1479724626.22212.50.camel@linux.intel.com>
+References: <1479496356-27834-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1479497189.22212.41.camel@linux.intel.com>
+ <1479722477.2487.5.camel@synopsys.com>
+ <1479724626.22212.50.camel@linux.intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161122213434.14788-3-mmarek@suse.com>
+Message-ID: <20161123040603.GD2698@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-The KBUILD_IMAGE variable is used by the rpm and deb-pkg targets, which
-expect it to point to the image file in the build directory. The
-builddeb script has a workaround for architectures which only provide
-the basename, but let's provide a clean interface for packaging tools.
+On Mon, Nov 21, 2016@12:37:06PM +0200, Andy Shevchenko wrote:
+> On Mon, 2016-11-21@10:02 +0000, Alexey Brodkin wrote:
+> > Hi Andy,
+> > 
+> > On Fri, 2016-11-18@21:26 +0200, Andy Shevchenko wrote:
+> > > On Fri, 2016-11-18@22:12 +0300, Eugeniy Paltsev wrote:
+> > > > 
+> > > > It wasn't possible to enable some features like
+> > > > memory-to-memory transfers or multi block transfers via DT.
+> > > > It is fixed by these patches.
+> > > 
+> > > First of all, please, give time to reviewers to comment the patches.
+> > > Usually it should be at least 24h (for the series that has been sent
+> > > first time 1 week approximately).
+> > 
+> > I'm not really sure a lot of people get disturbed by this series
+> > and given this all has been discussed for months now I'd really like
+> > to see changes required for our HW to work to land in upstream ASAP.
+> 
+> I understand your concern, I'm often in the same position in many areas,
+> including this driver (I'm not a maintainer of slave DMA subsystem).
+> 
+> Though let's face the issues we have with the series:
+> - stuff regarding to style and alike (would be fixed in a day)
+> - DTS naming and conventions, this is apparently a big area, where I
+> might share opinion, but can't decide for
+> - last word by the subsystem maintainer
+> 
+> > Too bad we're late for 4.9 (which is supposed to be the next LTS) but
+> > > we need to make sure this series hits 4.10 for sure.
+> 
+> Vinod, is it possible to get in for this series (if we get Ack from DT
+> people)?
 
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: linux-snps-arc at lists.infradead.org
-Signed-off-by: Michal Marek <mmarek at suse.com>
----
- arch/arc/Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+We still have a week or so... But holding race agaisnt upstream is a bad
+idea... Doesnt work that way.
 
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 19cce226d1a8..44ef35d33956 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -123,9 +123,9 @@ libs-y		+= arch/arc/lib/ $(LIBGCC)
- boot		:= arch/arc/boot
- 
- #default target for make without any arguments.
--KBUILD_IMAGE	:= bootpImage
-+KBUILD_IMAGE	:= $(boot)/bootpImage
- 
--all:	$(KBUILD_IMAGE)
-+all:	bootpImage
- bootpImage: vmlinux
- 
- boot_targets += uImage uImage.bin uImage.gz
 -- 
-2.10.0
+~Vinod
