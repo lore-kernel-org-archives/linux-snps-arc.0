@@ -1,51 +1,33 @@
 From: vinod.koul@intel.com (Vinod Koul)
-Date: Wed, 23 Nov 2016 09:36:03 +0530
-Subject: [PATCH v3 0/2] DW DMAC: update device tree
-In-Reply-To: <1479724626.22212.50.camel@linux.intel.com>
+Date: Wed, 23 Nov 2016 09:45:13 +0530
+Subject: [PATCH v3 2/2] DW DMAC: add multi-block property to device tree
+In-Reply-To: <1479497593.22212.45.camel@linux.intel.com>
 References: <1479496356-27834-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <1479497189.22212.41.camel@linux.intel.com>
- <1479722477.2487.5.camel@synopsys.com>
- <1479724626.22212.50.camel@linux.intel.com>
+ <1479496356-27834-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1479497593.22212.45.camel@linux.intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20161123040603.GD2698@localhost>
+Message-ID: <20161123041513.GF2698@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Nov 21, 2016@12:37:06PM +0200, Andy Shevchenko wrote:
-> On Mon, 2016-11-21@10:02 +0000, Alexey Brodkin wrote:
-> > Hi Andy,
-> > 
-> > On Fri, 2016-11-18@21:26 +0200, Andy Shevchenko wrote:
-> > > On Fri, 2016-11-18@22:12 +0300, Eugeniy Paltsev wrote:
-> > > > 
-> > > > It wasn't possible to enable some features like
-> > > > memory-to-memory transfers or multi block transfers via DT.
-> > > > It is fixed by these patches.
-> > > 
-> > > First of all, please, give time to reviewers to comment the patches.
-> > > Usually it should be at least 24h (for the series that has been sent
-> > > first time 1 week approximately).
-> > 
-> > I'm not really sure a lot of people get disturbed by this series
-> > and given this all has been discussed for months now I'd really like
-> > to see changes required for our HW to work to land in upstream ASAP.
+On Fri, Nov 18, 2016@09:33:13PM +0200, Andy Shevchenko wrote:
+> > @@ -1569,7 +1569,7 @@ int dw_dma_probe(struct dw_dma_chip *chip)
+> > ?				(dwc_params >> DWC_PARAMS_MBLK_EN &
+> > 0x1) == 0;
+> > ?		} else {
+> > ?			dwc->block_size = pdata->block_size;
+> > -			dwc->nollp = pdata->is_nollp;
+> > +			dwc->nollp = pdata->multi_block[i];
 > 
-> I understand your concern, I'm often in the same position in many areas,
-> including this driver (I'm not a maintainer of slave DMA subsystem).
+> You missed the point. You assign positive value to negative variable.
+> It's a bug. Have you tested this? How?
 > 
-> Though let's face the issues we have with the series:
-> - stuff regarding to style and alike (would be fixed in a day)
-> - DTS naming and conventions, this is apparently a big area, where I
-> might share opinion, but can't decide for
-> - last word by the subsystem maintainer
-> 
-> > Too bad we're late for 4.9 (which is supposed to be the next LTS) but
-> > > we need to make sure this series hits 4.10 for sure.
-> 
-> Vinod, is it possible to get in for this series (if we get Ack from DT
-> people)?
+> In case of positive property you have to update DTS. By the way, I'm
+> pretty sure that spare13xx boards has auto configuration enabled, though
+> it has to be checked with vendor (I assume you may have fast response
+> from them).
 
-We still have a week or so... But holding race agaisnt upstream is a bad
-idea... Doesnt work that way.
+Yeah why are we not using auto configuration here would be the first
+question..
 
 -- 
 ~Vinod
