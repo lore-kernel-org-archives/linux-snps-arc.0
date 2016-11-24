@@ -1,56 +1,38 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 23 Nov 2016 12:33:04 -0800
-Subject: [PATCH] ARCv2: MCIP: Deprecate setting of affinity in Device Tree
-In-Reply-To: <8548fefd-15e1-5ce4-0e23-05022286841f@arm.com>
-References: <1478875124-23787-1-git-send-email-yuriy.kolerov@synopsys.com>
- <d5cb9467-a6d7-e47d-7b25-15396c4d65cb@arm.com>
- <3ABF60118B9B784CA5BF7C841D2F00EC0101D90B@de02wembxa.internal.synopsys.com>
- <8548fefd-15e1-5ce4-0e23-05022286841f@arm.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 24 Nov 2016 18:04:37 +0300
+Subject: [PATCH v5 1/2] DW DMAC: enable memory-to-memory transfers support
+In-Reply-To: <1479999878-19120-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+References: <1479999878-19120-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <56a05936-ab5c-da79-39b9-571ec708f3b9@synopsys.com>
+Message-ID: <1479999878-19120-2-git-send-email-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/22/2016 03:22 AM, Marc Zyngier wrote:
->> 2. The kernel will not call idu_irq_set_affinity() for IDU interrupt
->> > controller in some cases. It happens when the top interrupt
->> > controller does not support setting of the affinity and does not even
->> > support propagating of it (e.g. a GPIO interrupt controller on top of
->> > IDU which funnels all interrupts in one line). However
->> > idu_irq_set_affinity() must be called to unmask common interrupts in
->> > IDU. And if I want to make an affinity in irq_desc to match a real
->> > affinity I must call irq_set_affinity() instead of just
->> > idu_irq_set_affinity() .
->
-> My brain has just melted. Can you describe this a bit more, possibly
-> using some ASCII diagrams? I really don't understand what the affinity
-> settings have to do with unmasking the interrupt... It is that you mask
-> an interrupt by routing it to a dummy CPU?
+All known devices, which use DT for configuration, support
+memory-to-memory transfers. So enable it by default, if we read
+configuration from DT.
 
-The AXS SDP board has an "interesting" cascade of interrupt controllers.
-Exact setup in arch/arc/boot/dts/{axc003_idu,axs10x_mb}.dtsi
+Acked-by: Andy Shevchenko <andriy.shevchenko at linux.intel.com>
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ drivers/dma/dw/platform.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-
-	/*
-	 * Peripherals on CPU Card and Mother Board are wired to cpu intc via
-	 * intermediate DW APB GPIO blocks (mainly for debouncing)
-	 *
-	 *        --------------------
-	 *        |  snps,archs-intc |
-	 *        --------------------
-	 *          | #24   	  |#25
-	 * 	  --------------------
-	 * 	  |  snps,archs-intc |
-	 * 	  --------------------
-	 *          | #0          | #1
-	 * -------------------   -------------------
-	 * | snps,dw-apb-gpio |  | snps,dw-apb-gpio |
-	 * |   (pass thru)    |  |                  |
-	 * -------------------   -------------------
-	 *        | #12                     |
-	 *        |                 [ Debug UART on cpu card ]
-	 *        |
-	 * ------------------------
-	 * | snps,dw-apb-intc (MB)|
-	 * ------------------------
-	 *  |      |       |      |
-	 * [eth] [uart]        [... other perip on Main Board]
+diff --git a/drivers/dma/dw/platform.c b/drivers/dma/dw/platform.c
+index 5bda0eb..aa7a5c1 100644
+--- a/drivers/dma/dw/platform.c
++++ b/drivers/dma/dw/platform.c
+@@ -129,6 +129,12 @@ dw_dma_parse_dt(struct platform_device *pdev)
+ 	if (of_property_read_bool(np, "is_private"))
+ 		pdata->is_private = true;
+ 
++	/*
++	 * All known devices, which use DT for configuration, support
++	 * memory-to-memory transfers. So enable it by default.
++	 */
++	pdata->is_memcpy = true;
++
+ 	if (!of_property_read_u32(np, "chan_allocation_order", &tmp))
+ 		pdata->chan_allocation_order = (unsigned char)tmp;
+ 
+-- 
+2.5.5
