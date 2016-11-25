@@ -1,82 +1,78 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Fri, 25 Nov 2016 13:48:58 +0200
-Subject: [PATCH v5 2/2] DW DMAC: add multi-block property to device tree
-In-Reply-To: <1480074030.2534.46.camel@synopsys.com>
-References: <1479999878-19120-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <1479999878-19120-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <1480002728.20074.15.camel@linux.intel.com>
- <1480003098.20074.18.camel@linux.intel.com>
- <1480074030.2534.46.camel@synopsys.com>
+From: mmarek@suse.com (Michal Marek)
+Date: Fri, 25 Nov 2016 15:21:26 +0100
+Subject: [PATCH 3/6] arc: Use full path in KBUILD_IMAGE definition
+In-Reply-To: <1479929955.3931.28.camel@synopsys.com>
+References: <20161122213434.14788-1-mmarek@suse.com>
+ <20161122213434.14788-3-mmarek@suse.com>
+ <1479929955.3931.28.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1480074538.20074.24.camel@linux.intel.com>
+Message-ID: <f6370f48-238a-523d-fc06-d44e7a15bcad@suse.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, 2016-11-25@11:40 +0000, Eugeniy Paltsev wrote:
-> On Thu, 2016-11-24@17:58 +0200, Andy Shevchenko wrote:
-> > On Thu, 2016-11-24@17:52 +0200, Andy Shevchenko wrote:
-> > > 
-> > > On Thu, 2016-11-24@18:04 +0300, Eugeniy Paltsev wrote:
-> > > > 
-> > > > Several versions of DW DMAC have multi block transfers hardware
-> > > > support. Hardware support of multi block transfers is disabled
-> > > > by default if we use DT to configure DMAC and software emulation
-> > > > of multi block transfers used instead.
-> > > > Add multi-block property, so it is possible to enable hardware
-> > > > multi block transfers (if present) via DT.
-> > > > 
-> > > > Switch from per device is_nollp variable to multi_block array
-> > > > to be able enable/disable multi block transfers separately per
-> > > > channel.
-> > > 
-> > > Thanks for an update. Basically I'm fine with this one.
-> > > 
-> > > So, we still have question about autoconfiguration in SPEAr SoCs,
-> > > and
-> > > your ARC SoC but it's a different story. I would expect once you
-> > > will
-> > > clarify it.
-> > > 
-> > > Another one is minor listed below, otherwise
-> > > 
-> > > Acked-by: Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-> > > 
-> > > > 
-> > > > @@ -152,6 +154,11 @@ dw_dma_parse_dt(struct platform_device
-> > > > *pdev)
-> > > > ?			pdata->data_width[tmp] = BIT(arr[tmp] &
-> > > > 0x07);
-> > > > ?	}
-> > > > ?
-> > > > +	if (!of_property_read_u32_array(np, "multi-block",
-> > > > chan,
-> > > > nr_channels)) {
-> > > > +		for (tmp = 0; tmp < nr_channels; tmp++)
-> > > > +			pdata->multi_block[tmp] = chan[tmp];
-> > > 
-> > > ...mb (as short of multi-block) would suit better.
-> > 
-> > Oh, sorry, guys, but one more important thing. If there is no such
-> > property, keep a default to "supported". Otherwise you will break
-> > old
-> > (working) DTBs.
+Dne 23.11.2016 v 20:40 Alexey Brodkin napsal(a):
+>> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+>> index 19cce226d1a8..44ef35d33956 100644
+>> --- a/arch/arc/Makefile
+>> +++ b/arch/arc/Makefile
+>> @@ -123,9 +123,9 @@ libs-y		+= arch/arc/lib/ $(LIBGCC)
+>>  boot		:= arch/arc/boot
+>>  
+>>  #default target for make without any arguments.
+>> -KBUILD_IMAGE	:= bootpImage
+>> +KBUILD_IMAGE	:= $(boot)/bootpImage
+>>  
+>> -all:	$(KBUILD_IMAGE)
+>> +all:	bootpImage
+>>  bootpImage: vmlinux
+>>  
+>>  boot_targets += uImage uImage.bin uImage.gz
 > 
-> Should I remove explicit declaration "multi-block" property from
-> existing DTS (which I added during v5 patch iteration)?
+> I tried to find any examples on how that KBUILD_IMAGE thingy is used
+> but to no avail.
+
+Ho Alexey,
+
+see scripts/pacakge/{builddeb,buildtar,mkspec}. mkspec calls make
+image_name, which in turn outputs $KBUILD_IMAGE.
+
+
+> It looks like for ARC "bootpImage" makes not much
+> sense and if you really want to get something useful in .deb/.rpm
+> most probably something like below may work much better:
+> ------------------------>8--------------------------
+> KBUILD_IMAGE	:= $(boot)/uImage
+> ------------------------>8--------------------------
 > 
-> I mean that:
-> ---------------------->8-----------------------
-> +			multi-block = <1 1 1 1 1 1 1 1>;
-> ---------------------->8-----------------------
-> 
-> We don't actually need it, if we use use 1 ("supported") as "multi-
-> block" property default value.
+> And I don't know context of KBUILD_IMAGE usage but in
+> case of ARC our default target is "vmlinux" so I'm not sure then if
+> KBUILD_IMAGE may point to non-default target.
 
-My understanding is better to leave to show that the new option has been
-introduced.
+Right, this will not work for make rpm-pkg, since it calls make with no
+explicit target and expects the file pointed to by KBUILD_IMAGE to exist
+afterward. This will work if you also change the 'all' target to depend
+on uImage.
 
-It would be possible to do when you confirm that your ARC platform along
-with SPEAr supports auto configuration including this property.
 
--- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+> For example in "arch/avr32/Makefile" I see more complicated construction:
+> ------------------------>8--------------------------
+>              KBUILD_IMAGE := $(boot)/uImage
+> vmlinux.elf: KBUILD_IMAGE := $(boot)/vmlinux.elf
+> vmlinux.cso: KBUILD_IMAGE := $(boot)/vmlinux.cso
+> uImage.srec: KBUILD_IMAGE := $(boot)/uImage.srec
+> uImage:      KBUILD_IMAGE := $(boot)/uImage
+> ------------------------>8--------------------------
+
+Right, but the packaging targets will only build and package uImage. The
+other redefinitions are there only for the avr32 install rule:
+
+install: vmlinux
+	$(Q)$(MAKE) $(build)=$(boot) BOOTIMAGE=$(KBUILD_IMAGE) $@
+
+
+> and may imagine that we need something similar for ARC obviously with
+> default being "$(boot)/vmlinux".
+
+What some other architectures do is that the image format is selected
+via Kconfig and not on the make command line. E.g. arm and sh do this.
+
+Michal
