@@ -1,33 +1,46 @@
-From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
-Date: Tue, 29 Nov 2016 18:29:06 +0300
-Subject: [RFC] ARC: mm: Restrict definition of pfn_valid() macro for
- CONFIG_FLATMEM
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 29 Nov 2016 16:16:51 -0800
+Subject: [GIT PULL] ARC fixes for 4.9-final !
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1480433346-18054-1-git-send-email-yuriy.kolerov@synopsys.com>
+Message-ID: <04458eb2-54f2-84d4-aeb3-6a86261f8f32@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Despite the fact that subtraction of unsigned integers is a defined
-behaviour however such operations can lead to unexpected results. Thus
-it is better to check both left and right boundaries to avoid potential
-bugs as it done in the generic page.h.
+Hi Linus,
 
-Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
----
- arch/arc/include/asm/page.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please pull ARC fixes for 4.9.
 
-diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index 296c342..81cfc6c7 100644
---- a/arch/arc/include/asm/page.h
-+++ b/arch/arc/include/asm/page.h
-@@ -88,7 +88,7 @@ typedef pte_t * pgtable_t;
- #define ARCH_PFN_OFFSET		virt_to_pfn(CONFIG_LINUX_LINK_BASE)
- 
- #ifdef CONFIG_FLATMEM
--#define pfn_valid(pfn)		(((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-+#define pfn_valid(pfn)		((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
- #endif
- 
- /*
--- 
-2.7.4
+Thx,
+-Vineet
+
+---------->
+The following changes since commit e5517c2a5a49ed5e99047008629f1cd60246ea0e:
+
+  Linux 4.9-rc7 (2016-11-27 13:08:04 -0800)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.9-final
+
+for you to fetch changes up to 6a8b2ca702b279bea0e8f0363056439352e2081c:
+
+  ARC: mm: PAE40: Fix crash at munmap (2016-11-29 09:12:08 -0800)
+
+----------------------------------------------------------------
+ARC fixes for 4.9 final
+
+ - PAE40 crash	[Yuriy]
+ - Disabling IO-Coherency by default
+ - Using a different inline asm constraint for Zero Overhead loops
+
+----------------------------------------------------------------
+Vineet Gupta (2):
+      ARC: Don't use "+l" inline asm constraint
+      ARC: mm: IOC: Don't enable IOC by default
+
+Yuriy Kolerov (1):
+      ARC: mm: PAE40: Fix crash at munmap
+
+ arch/arc/include/asm/delay.h   | 9 +++++----
+ arch/arc/include/asm/pgtable.h | 2 +-
+ arch/arc/mm/cache.c            | 2 +-
+ 3 files changed, 7 insertions(+), 6 deletions(-)
