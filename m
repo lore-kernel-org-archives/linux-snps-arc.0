@@ -1,67 +1,43 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 7 Dec 2016 11:03:39 -0800
-Subject: [PATCH] arc: use hardware ARCNUM in smp_processor_id()
-In-Reply-To: <1481124922-30942-1-git-send-email-abrodkin@synopsys.com>
-References: <1481124922-30942-1-git-send-email-abrodkin@synopsys.com>
+From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
+Date: Fri,  9 Dec 2016 12:59:31 +0300
+Subject: [PATCH v2 1/2] ARC: SMP: Set the default affinity to the boot cpu
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <718dad11-573a-294a-b9df-8ada0d49fcee@synopsys.com>
+Message-ID: <1481277572-18283-1-git-send-email-yuriy.kolerov@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/07/2016 07:36 AM, Alexey Brodkin wrote:
-> We used to think that ARC cores in SMP SoC start
-> consequentially, i.e. core0 -> core1 -> core2 -> core4.
->
-> Moreover we treat core0 as a master core which does some
-> low-level initialization before allowing other cores to
-> start doing real stuff.
->
-> In that case everything works as expected - smp_processor_id()
-> returns expected values for all cores, i.e.:
->  0 for core0
->  1 for core1 etc.
->
-> But what if instead of core0 we want core1 to be the master?
-> That might be the case if we want to use only one core out of
-> SMP setup and that core is not core0 or for some other reason
-> modify core start-up sequence to say: core3 -> core1 > ...
->
-> In that case smp_processor_id() returns values that differ
-> from real hardware core index. For the first/master core that
-> we'l get 0, the next one will be 1 etc.
+By default the kernel sets a value for default affinity which may
+not correspond to the real bitmap of potentially online CPUs. E.g.
+for ARC HS processors with 2 cores the default value of affinity in
+the kernel may be 0xF and it is wrong in this case. This happens
+because init_irq_default_affinity() sets all bits in
+irq_default_affinity variable by default.
 
-But then the problem is you are not setting up thread_info->cpu correctly. And
-that needs fixing.
-Say we already had ur next patch which doesn't assume 0 based masters, then is
-this patch still needed.
+It is better to set the default value of affinity to the boot core
+to guarantee that value of irq_default_affinity contains at least
+one valid online CPU during the early stage of booting. It is
+necessary for proper configuration of affinity for common interrupt.
 
-Essentially this change can be taken as an optimization (mem vz. aux reg read) but
-I don't think it is a fix !
+Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
+---
+ arch/arc/kernel/irq.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> The problem here is we'll use improper cpu indexes in MCIP commands
-> and inevitably commands will be sent to unexpected cores causing all
-> sorts of unexpected behavior.
->
-> But if we use hardware core index out out IDENTITY AUX reg that problem
-> won't happen because cpu value will match its hardware index.
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: stable at vger.kernel.org
-> ---
->  arch/arc/include/asm/smp.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arc/include/asm/smp.h b/arch/arc/include/asm/smp.h
-> index 0861007d9ef3..5aad65d3defd 100644
-> --- a/arch/arc/include/asm/smp.h
-> +++ b/arch/arc/include/asm/smp.h
-> @@ -14,8 +14,9 @@
->  #include <linux/types.h>
->  #include <linux/init.h>
->  #include <linux/threads.h>
-> +#include <asm/arcregs.h>
->  
-> -#define raw_smp_processor_id() (current_thread_info()->cpu)
-> +#define raw_smp_processor_id() ((int)(read_aux_reg(AUX_IDENTITY) >> 8) & 0xFF)
->  
->  /* including cpumask.h leads to cyclic deps hence this Forward declaration */
->  struct cpumask;
+diff --git a/arch/arc/kernel/irq.c b/arch/arc/kernel/irq.c
+index 538b36a..e53bfd5 100644
+--- a/arch/arc/kernel/irq.c
++++ b/arch/arc/kernel/irq.c
+@@ -20,6 +20,12 @@
+  */
+ void __init init_IRQ(void)
+ {
++#ifdef CONFIG_SMP
++	/* Set the default affinity to the boot cpu. */
++	cpumask_clear(irq_default_affinity);
++	cpumask_set_cpu(smp_processor_id(), irq_default_affinity);
++#endif
++
+ 	/*
+ 	 * process the entire interrupt tree in one go
+ 	 * Any external intc will be setup provided DT chains them
+-- 
+2.7.4
