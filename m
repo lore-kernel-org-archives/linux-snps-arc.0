@@ -1,43 +1,151 @@
 From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
-Date: Fri,  9 Dec 2016 12:59:31 +0300
-Subject: [PATCH v2 1/2] ARC: SMP: Set the default affinity to the boot cpu
+Date: Fri,  9 Dec 2016 12:59:32 +0300
+Subject: [PATCH v2 2/2] ARCv2: MCIP: Deprecate setting of affinity in Device
+ Tree
+In-Reply-To: <1481277572-18283-1-git-send-email-yuriy.kolerov@synopsys.com>
+References: <1481277572-18283-1-git-send-email-yuriy.kolerov@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1481277572-18283-1-git-send-email-yuriy.kolerov@synopsys.com>
+Message-ID: <1481277572-18283-2-git-send-email-yuriy.kolerov@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-By default the kernel sets a value for default affinity which may
-not correspond to the real bitmap of potentially online CPUs. E.g.
-for ARC HS processors with 2 cores the default value of affinity in
-the kernel may be 0xF and it is wrong in this case. This happens
-because init_irq_default_affinity() sets all bits in
-irq_default_affinity variable by default.
+Ignore value of interrupt distribution mode for common interrupts in
+IDU since setting of affinity using value from Device Tree is deprecated
+in ARC. Originally it is done in idu_irq_xlate() function and it is
+semantically wrong and does not guaranty that an affinity value will be
+set properly. idu_irq_map() function is better place since it is called
+once for each IRQ.
 
-It is better to set the default value of affinity to the boot core
-to guarantee that value of irq_default_affinity contains at least
-one valid online CPU during the early stage of booting. It is
-necessary for proper configuration of affinity for common interrupt.
+The affinity of common interrupts in IDU must be set manually since
+in some cases the kernel will not call irq_set_affinity() by itself:
+
+    1. When the kernel is not configured with support of SMP.
+    2. When the kernel is configured with support of SMP but upper
+       interrupt controllers does not support setting of the affinity
+       and cannot propagate it to IDU.
+
+By default send all common interrupts to the boot CPU. If the kernel
+has support of SMP then use irq_default_affinity as the affinity
+for IDU common interrupts since it is set to the boot CPU by default.
+If the kernel is configured without support of SMP then use
+cpu_online_mask since in this case it must always contain a valid
+bitmap with only 1 online CPU.
 
 Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
 ---
- arch/arc/kernel/irq.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../interrupt-controller/snps,archs-idu-intc.txt   |  3 ++
+ arch/arc/kernel/mcip.c                             | 60 +++++++++++-----------
+ 2 files changed, 33 insertions(+), 30 deletions(-)
 
-diff --git a/arch/arc/kernel/irq.c b/arch/arc/kernel/irq.c
-index 538b36a..e53bfd5 100644
---- a/arch/arc/kernel/irq.c
-+++ b/arch/arc/kernel/irq.c
-@@ -20,6 +20,12 @@
-  */
- void __init init_IRQ(void)
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt b/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt
+index 0dcb7c7..9446576 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt
++++ b/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt
+@@ -15,6 +15,9 @@ Properties:
+   Second cell specifies the irq distribution mode to cores
+      0=Round Robin; 1=cpu0, 2=cpu1, 4=cpu2, 8=cpu3
+ 
++  The second cell in interrupts property is deprecated and may be ignored by
++  the kernel.
++
+   intc accessed via the special ARC AUX register interface, hence "reg" property
+   is not specified.
+ 
+diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
+index f39142a..5b36f7b 100644
+--- a/arch/arc/kernel/mcip.c
++++ b/arch/arc/kernel/mcip.c
+@@ -174,7 +174,6 @@ static void idu_irq_unmask(struct irq_data *data)
+ 	raw_spin_unlock_irqrestore(&mcip_lock, flags);
+ }
+ 
+-#ifdef CONFIG_SMP
+ static int
+ idu_irq_set_affinity(struct irq_data *data, const struct cpumask *cpumask,
+ 		     bool force)
+@@ -204,7 +203,6 @@ idu_irq_set_affinity(struct irq_data *data, const struct cpumask *cpumask,
+ 
+ 	return IRQ_SET_MASK_OK;
+ }
+-#endif
+ 
+ static struct irq_chip idu_irq_chip = {
+ 	.name			= "MCIP IDU Intc",
+@@ -229,9 +227,33 @@ static void idu_cascade_isr(struct irq_desc *desc)
+ 
+ static int idu_irq_map(struct irq_domain *d, unsigned int virq, irq_hw_number_t hwirq)
  {
++	struct irq_data *irqd = irq_get_irq_data(virq);
++
+ 	irq_set_chip_and_handler(virq, &idu_irq_chip, handle_level_irq);
+ 	irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
+ 
++	/*
++	 * The affinity of common interrupts in IDU must be set manually since
++	 * in some cases the kernel will not call irq_set_affinity() by itself:
++	 *
++	 *   1. When the kernel is not configured with support of SMP.
++	 *   2. When the kernel is configured with support of SMP but upper
++	 *      interrupt controllers does not support setting of the affinity
++	 *      and cannot propagate it to IDU.
++	 *
++	 * By default send all common interrupts to the boot CPU. If the kernel
++	 * has support of SMP then use irq_default_affinity as the affinity
++	 * for IDU common interrupts since it is set to the boot CPU by default.
++	 * If the kernel is configured without support of SMP then use
++	 * cpu_online_mask since in this case it must always contain a valid
++	 * bitmap with only 1 online CPU.
++	 */
 +#ifdef CONFIG_SMP
-+	/* Set the default affinity to the boot cpu. */
-+	cpumask_clear(irq_default_affinity);
-+	cpumask_set_cpu(smp_processor_id(), irq_default_affinity);
++	idu_irq_set_affinity(irqd, irq_default_affinity, false);
++#else
++	idu_irq_set_affinity(irqd, cpu_online_mask, false);
 +#endif
 +
- 	/*
- 	 * process the entire interrupt tree in one go
- 	 * Any external intc will be setup provided DT chains them
+ 	return 0;
+ }
+ 
+@@ -239,36 +261,14 @@ static int idu_irq_xlate(struct irq_domain *d, struct device_node *n,
+ 			 const u32 *intspec, unsigned int intsize,
+ 			 irq_hw_number_t *out_hwirq, unsigned int *out_type)
+ {
+-	irq_hw_number_t hwirq = *out_hwirq = intspec[0];
+-	int distri = intspec[1];
+-	unsigned long flags;
+-
++	/*
++	 * Ignore value of interrupt distribution mode for common interrupts in
++	 * IDU which resides in intspec[1] since setting an affinity using value
++	 * from Device Tree is deprecated in ARC.
++	 */
++	*out_hwirq = intspec[0];
+ 	*out_type = IRQ_TYPE_NONE;
+ 
+-	/* XXX: validate distribution scheme again online cpu mask */
+-	if (distri == 0) {
+-		/* 0 - Round Robin to all cpus, otherwise 1 bit per core */
+-		raw_spin_lock_irqsave(&mcip_lock, flags);
+-		idu_set_dest(hwirq, BIT(num_online_cpus()) - 1);
+-		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_RR);
+-		raw_spin_unlock_irqrestore(&mcip_lock, flags);
+-	} else {
+-		/*
+-		 * DEST based distribution for Level Triggered intr can only
+-		 * have 1 CPU, so generalize it to always contain 1 cpu
+-		 */
+-		int cpu = ffs(distri);
+-
+-		if (cpu != fls(distri))
+-			pr_warn("IDU irq %lx distri mode set to cpu %x\n",
+-				hwirq, cpu);
+-
+-		raw_spin_lock_irqsave(&mcip_lock, flags);
+-		idu_set_dest(hwirq, cpu);
+-		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_DEST);
+-		raw_spin_unlock_irqrestore(&mcip_lock, flags);
+-	}
+-
+ 	return 0;
+ }
+ 
 -- 
 2.7.4
