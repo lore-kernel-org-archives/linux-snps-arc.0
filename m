@@ -1,157 +1,108 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 13 Dec 2016 09:45:24 -0800
-Subject: [PATCH v2 2/2] ARCv2: MCIP: Deprecate setting of affinity in
- Device Tree
-In-Reply-To: <1481277572-18283-2-git-send-email-yuriy.kolerov@synopsys.com>
-References: <1481277572-18283-1-git-send-email-yuriy.kolerov@synopsys.com>
- <1481277572-18283-2-git-send-email-yuriy.kolerov@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Wed, 14 Dec 2016 07:33:47 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Wed Dec 14, 18:32
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <da69cdf3-0413-3b5a-900f-fe3a99fa52c9@synopsys.com>
+Message-ID: <20161214073347.1.70336@0c6d80572b6b>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/09/2016 01:59 AM, Yuriy Kolerov wrote:
-> Ignore value of interrupt distribution mode for common interrupts in
-> IDU since setting of affinity using value from Device Tree is deprecated
-> in ARC. Originally it is done in idu_irq_xlate() function and it is
-> semantically wrong and does not guaranty that an affinity value will be
-> set properly. idu_irq_map() function is better place since it is called
-> once for each IRQ.
-> 
-> The affinity of common interrupts in IDU must be set manually since
-> in some cases the kernel will not call irq_set_affinity() by itself:
-> 
->     1. When the kernel is not configured with support of SMP.
->     2. When the kernel is configured with support of SMP but upper
->        interrupt controllers does not support setting of the affinity
->        and cannot propagate it to IDU.
-> 
-> By default send all common interrupts to the boot CPU. If the kernel
-> has support of SMP then use irq_default_affinity as the affinity
-> for IDU common interrupts since it is set to the boot CPU by default.
-> If the kernel is configured without support of SMP then use
-> cpu_online_mask since in this case it must always contain a valid
-> bitmap with only 1 online CPU.
-> 
-> Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
-> ---
->  .../interrupt-controller/snps,archs-idu-intc.txt   |  3 ++
->  arch/arc/kernel/mcip.c                             | 60 +++++++++++-----------
->  2 files changed, 33 insertions(+), 30 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt b/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt
-> index 0dcb7c7..9446576 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/snps,archs-idu-intc.txt
-> @@ -15,6 +15,9 @@ Properties:
->    Second cell specifies the irq distribution mode to cores
->       0=Round Robin; 1=cpu0, 2=cpu1, 4=cpu2, 8=cpu3
->  
-> +  The second cell in interrupts property is deprecated and may be ignored by
-> +  the kernel.
-> +
->    intc accessed via the special ARC AUX register interface, hence "reg" property
->    is not specified.
->  
-> diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-> index f39142a..5b36f7b 100644
-> --- a/arch/arc/kernel/mcip.c
-> +++ b/arch/arc/kernel/mcip.c
-> @@ -174,7 +174,6 @@ static void idu_irq_unmask(struct irq_data *data)
->  	raw_spin_unlock_irqrestore(&mcip_lock, flags);
->  }
->  
-> -#ifdef CONFIG_SMP
->  static int
->  idu_irq_set_affinity(struct irq_data *data, const struct cpumask *cpumask,
->  		     bool force)
-> @@ -204,7 +203,6 @@ idu_irq_set_affinity(struct irq_data *data, const struct cpumask *cpumask,
->  
->  	return IRQ_SET_MASK_OK;
->  }
-> -#endif
->  
->  static struct irq_chip idu_irq_chip = {
->  	.name			= "MCIP IDU Intc",
-> @@ -229,9 +227,33 @@ static void idu_cascade_isr(struct irq_desc *desc)
->  
->  static int idu_irq_map(struct irq_domain *d, unsigned int virq, irq_hw_number_t hwirq)
->  {
-> +	struct irq_data *irqd = irq_get_irq_data(virq);
-> +
->  	irq_set_chip_and_handler(virq, &idu_irq_chip, handle_level_irq);
->  	irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
->  
-> +	/*
-> +	 * The affinity of common interrupts in IDU must be set manually since
-> +	 * in some cases the kernel will not call irq_set_affinity() by itself:
-> +	 *
-> +	 *   1. When the kernel is not configured with support of SMP.
-> +	 *   2. When the kernel is configured with support of SMP but upper
-> +	 *      interrupt controllers does not support setting of the affinity
-> +	 *      and cannot propagate it to IDU.
-> +	 *
-> +	 * By default send all common interrupts to the boot CPU. If the kernel
-> +	 * has support of SMP then use irq_default_affinity as the affinity
-> +	 * for IDU common interrupts since it is set to the boot CPU by default.
-> +	 * If the kernel is configured without support of SMP then use
-> +	 * cpu_online_mask since in this case it must always contain a valid
-> +	 * bitmap with only 1 online CPU.
-> +	 */
-> +#ifdef CONFIG_SMP
-> +	idu_irq_set_affinity(irqd, irq_default_affinity, false);
-> +#else
-> +	idu_irq_set_affinity(irqd, cpu_online_mask, false);
-> +#endif
+OK linus/axs103_smp_defconfig/arcv2 Wed Dec 14, 18:32
 
-Why even bother with using a genirq global. Just create a new cpu bitmap with
-smp_processor_id() and use it for both UP/SMP. Isn't that simpler and leave genirq
-alone.
+http://kisskb.ellerman.id.au/kisskb/buildresult/12884321/
 
-> +
->  	return 0;
->  }
->  
-> @@ -239,36 +261,14 @@ static int idu_irq_xlate(struct irq_domain *d, struct device_node *n,
->  			 const u32 *intspec, unsigned int intsize,
->  			 irq_hw_number_t *out_hwirq, unsigned int *out_type)
->  {
-> -	irq_hw_number_t hwirq = *out_hwirq = intspec[0];
-> -	int distri = intspec[1];
-> -	unsigned long flags;
-> -
-> +	/*
-> +	 * Ignore value of interrupt distribution mode for common interrupts in
-> +	 * IDU which resides in intspec[1] since setting an affinity using value
-> +	 * from Device Tree is deprecated in ARC.
-> +	 */
-> +	*out_hwirq = intspec[0];
->  	*out_type = IRQ_TYPE_NONE;
->  
-> -	/* XXX: validate distribution scheme again online cpu mask */
-> -	if (distri == 0) {
-> -		/* 0 - Round Robin to all cpus, otherwise 1 bit per core */
-> -		raw_spin_lock_irqsave(&mcip_lock, flags);
-> -		idu_set_dest(hwirq, BIT(num_online_cpus()) - 1);
-> -		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_RR);
-> -		raw_spin_unlock_irqrestore(&mcip_lock, flags);
-> -	} else {
-> -		/*
-> -		 * DEST based distribution for Level Triggered intr can only
-> -		 * have 1 CPU, so generalize it to always contain 1 cpu
-> -		 */
-> -		int cpu = ffs(distri);
-> -
-> -		if (cpu != fls(distri))
-> -			pr_warn("IDU irq %lx distri mode set to cpu %x\n",
-> -				hwirq, cpu);
-> -
-> -		raw_spin_lock_irqsave(&mcip_lock, flags);
-> -		idu_set_dest(hwirq, cpu);
-> -		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL, IDU_M_DISTRI_DEST);
-> -		raw_spin_unlock_irqrestore(&mcip_lock, flags);
-> -	}
-> -
->  	return 0;
->  }
->  
-> 
+Commit:   Merge tag 'drm-for-v4.10' of git://people.freedesktop.org/~airlied/linux
+          9439b3710df688d853eb6cb4851256f2c92b1797
+Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824
+
+Possible errors
+---------------
+
+       - Error handling fixes
+      drm/nouveau/gr/gf100-: properly ack all FECS error interrupts
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+
+Possible warnings (80)
+----------------------
+
+kernel/sched/core.c:3293:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+drivers/base/component.c:101:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kern_levels.h:4:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:890:14: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:890:14: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+mm/percpu.c:1457:27: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1457:32: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1457:37: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1457:42: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1457:52: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1457:56: warning: format '%zu' expects argument of type 'size_t', but argument 8 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+fs/buffer.c:242:37: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/slab_common.c:815:45: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+drivers/base/regmap/regmap.c:1396:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kern_levels.h:4:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka const unsigned int}' [-Wformat=]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+drivers/base/regmap/regcache.c:717:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:46: warning: format '%Zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:51: warning: format '%Zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+block/cfq-iosched.c:3826:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/inode.c:3329:12: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+fs/ext4/page-io.c:163:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+lib/cpumask.c:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+net/core/ethtool.c:311:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:428:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+drivers/scsi/sd.c:1155:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+net/sunrpc/xprtsock.c:2553:16: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/usb/host/ehci-q.c:378:2: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/usb/host/ehci-q.c:378:2: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:739:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/sunrpc/svc_xprt.h:177:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/sunrpc/svc.c:1258:33: warning: format '%Zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+net/ipv4/tcp_input.c:4301:49: warning: array subscript is above array bounds [-Warray-bounds]
