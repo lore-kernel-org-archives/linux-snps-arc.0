@@ -1,103 +1,191 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 15 Dec 2016 09:30:39 -0800
-Subject: [GIT PULL] ARC updates for 4.10-rc1
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 15 Dec 2016 21:12:36 +0300
+Subject: [PATCH] arc: nsim: clean-up defconfigs
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <e866e06f-0da0-d247-d436-c288bf77e56e@synopsys.com>
+Message-ID: <1481825556-17182-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+Stand-alone nSIM platform has the only peripheral which is serial port.
+That means support of networking and mice makes no sense for it.
 
-Please pull ARC updates for 4.10-rc1. These are mostly timer/clocksource driver
-updates which were Reviewed/Acked by Daniel but had to be merged via ARC tree due
-to dependencies.
+Moreover removal of networking alone gives us 2 nice benefits:
+ 1. Build happens faster
+    On my machine I'm seeing this:
+       Existing defconfig:
+         real	2m37.887s
+         user	8m22.077s
+         sys	0m35.995s
 
-I will follow up with another pull request with actual ARC changes early next week !
+       New defconfig:
+         real	1m35.351s
+         user	5m11.988s
+         sys	0m25.211s
 
-Thx,
--Vineet
+    Which gives us ~60% speed-up.
 
------>
-The following changes since commit 6a8b2ca702b279bea0e8f0363056439352e2081c:
+ 2. Memory footprint is smaller:
+    arc-linux-size vmlinux.org
+      text	   data	    bss	    dec	    hex	filename
+      5829381	 798756	 257280	6885417	 691029	vmlinux.org
 
-  ARC: mm: PAE40: Fix crash at munmap (2016-11-29 09:12:08 -0800)
+    arc-linux-size vmlinux.new
+      text	   data	    bss	    dec	    hex	filename
+      4426769	 526348	 225244	5178361	 4f03f9	vmlinux.new
 
-are available in the git repository at:
+Though this has one down-side - UNIX sockets are disabled an so on
+attempt to run hackbench by default user will see:
+--------------------->8-------------------
+hackbench
+Running in process mode with 10 groups using 40 file descriptors each
+(== 400 tasks)
+Each sender will pass 100 messages of 100 bytes
+Creating fdpair (error: Function not implemented)
+--------------------->8-------------------
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/
-tags/arc-4.10-rc1-part1
+Still it's possible to ask hackbench to use pipes instead like this:
+--------------------->8-------------------
+hackbench -p
+Running in process mode with 10 groups using 40 file descriptors each
+(== 400 tasks)
+Each sender will pass 100 messages of 100 bytes
+Time: 9.216
+--------------------->8-------------------
 
-for you to fetch changes up to 7badf6fefca8278e749e82411fdb98b123cca50e:
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/configs/nsim_700_defconfig    | 16 +---------------
+ arch/arc/configs/nsim_hs_defconfig     | 13 +------------
+ arch/arc/configs/nsim_hs_smp_defconfig | 12 +-----------
+ 3 files changed, 3 insertions(+), 38 deletions(-)
 
-  ARC: axs10x: really enable ARC PGU (2016-11-30 11:54:25 -0800)
-
-----------------------------------------------------------------
-ARC updates for 4.10-rc1 (part 1)
-
- - Moving ARC timer driver into drivers/clocksource
- - EZChip timer driver updates [Noam]
- - ARC AXS103 and HAPS platform updates	[Alexey]
-
-----------------------------------------------------------------
-Alexey Brodkin (1):
-      ARC: axs10x: really enable ARC PGU
-
-Arnd Bergmann (1):
-      clocksource: nps: avoid maybe-uninitialized warning
-
-Noam Camus (3):
-      soc: Support for NPS HW scheduling
-      clocksource: update "fn" at CLOCKSOURCE_OF_DECLARE() of nps400 timer
-      clocksource: Add clockevent support to NPS400 driver
-
-Vineet Gupta (9):
-      ARC: timer: gfrc, rtc: deuglify big endian code
-      ARC: timer: gfrc, rtc: Read BCR to detect whether hardware exists ...
-      ARC: timer: gfrc, rtc: build under same option (64-bit timers)
-      ARC: time: move time_init() out of the driver
-      ARC: breakout aux handling into a separate header
-      ARC: move mcip.h into include/soc and adjust the includes
-      ARC: breakout timer include code into separate header ...
-      clocksource: import ARC timer driver
-      ARC: rename Zebu platform support to HAPS
-
- .../bindings/timer/ezchip,nps400-timer0.txt        |  17 ++
- ...p,nps400-timer.txt => ezchip,nps400-timer1.txt} |   6 +-
- MAINTAINERS                                        |   1 +
- arch/arc/Kconfig                                   |  13 +-
- arch/arc/boot/dts/axs101.dts                       |   2 +-
- arch/arc/boot/dts/axs103_idu.dts                   |   2 +-
- arch/arc/boot/dts/{zebu_hs.dts => haps_hs.dts}     |   0
- .../boot/dts/{zebu_hs_idu.dts => haps_hs_idu.dts}  |   0
- arch/arc/configs/axs101_defconfig                  |   4 +-
- arch/arc/configs/axs103_smp_defconfig              |   4 +-
- .../{zebu_hs_defconfig => haps_hs_defconfig}       |   2 +-
- ...zebu_hs_smp_defconfig => haps_hs_smp_defconfig} |   2 +-
- arch/arc/configs/nsimosci_hs_smp_defconfig         |   2 +-
- arch/arc/configs/vdk_hs38_smp_defconfig            |   2 +-
- arch/arc/include/asm/arcregs.h                     |  94 +--------
- arch/arc/kernel/Makefile                           |   2 +-
- arch/arc/kernel/mcip.c                             |   2 +-
- arch/arc/kernel/setup.c                            |  17 +-
- arch/arc/plat-axs10x/axs10x.c                      |   2 +-
- arch/arc/plat-eznps/include/plat/ctop.h            |   2 -
- drivers/clocksource/Kconfig                        |  20 ++
- drivers/clocksource/Makefile                       |   1 +
- .../time.c => drivers/clocksource/arc_timer.c      | 110 +++-------
- drivers/clocksource/timer-nps.c                    | 224 +++++++++++++++++++--
- include/soc/arc/aux.h                              |  63 ++++++
- {arch/arc/include/asm => include/soc/arc}/mcip.h   |  10 +-
- include/soc/arc/timers.h                           |  38 ++++
- include/soc/nps/mtm.h                              |  59 ++++++
- 28 files changed, 474 insertions(+), 227 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/timer/ezchip,nps400-timer0.txt
- rename Documentation/devicetree/bindings/timer/{ezchip,nps400-timer.txt =>
-ezchip,nps400-timer1.txt} (52%)
- rename arch/arc/boot/dts/{zebu_hs.dts => haps_hs.dts} (100%)
- rename arch/arc/boot/dts/{zebu_hs_idu.dts => haps_hs_idu.dts} (100%)
- rename arch/arc/configs/{zebu_hs_defconfig => haps_hs_defconfig} (98%)
- rename arch/arc/configs/{zebu_hs_smp_defconfig => haps_hs_smp_defconfig} (98%)
- rename arch/arc/kernel/time.c => drivers/clocksource/arc_timer.c (73%)
- create mode 100644 include/soc/arc/aux.h
- rename {arch/arc/include/asm => include/soc/arc}/mcip.h (95%)
- create mode 100644 include/soc/arc/timers.h
- create mode 100644 include/soc/nps/mtm.h
+diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
+index b0066a749d4c..80bd8faecb95 100644
+--- a/arch/arc/configs/nsim_700_defconfig
++++ b/arch/arc/configs/nsim_700_defconfig
+@@ -2,7 +2,6 @@
+ CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+-CONFIG_POSIX_MQUEUE=y
+ # CONFIG_CROSS_MEMORY_ATTACH is not set
+ CONFIG_HIGH_RES_TIMERS=y
+ CONFIG_IKCONFIG=y
+@@ -27,22 +26,12 @@ CONFIG_ARC_PLAT_SIM=y
+ CONFIG_ARC_BUILTIN_DTB_NAME="nsim_700"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+-CONFIG_NET=y
+-CONFIG_PACKET=y
+-CONFIG_UNIX=y
+-CONFIG_UNIX_DIAG=y
+-CONFIG_NET_KEY=y
+-CONFIG_INET=y
+-# CONFIG_IPV6 is not set
+ CONFIG_DEVTMPFS=y
+ # CONFIG_STANDALONE is not set
+ # CONFIG_PREVENT_FIRMWARE_BUILD is not set
+ # CONFIG_FIRMWARE_IN_KERNEL is not set
+ # CONFIG_BLK_DEV is not set
+-CONFIG_NETDEVICES=y
+-CONFIG_ARC_EMAC=y
+-CONFIG_LXT_PHY=y
+-# CONFIG_INPUT_MOUSEDEV_PSAUX is not set
++# CONFIG_INPUT_MOUSEDEV is not set
+ # CONFIG_INPUT_KEYBOARD is not set
+ # CONFIG_INPUT_MOUSE is not set
+ # CONFIG_SERIO is not set
+@@ -55,11 +44,8 @@ CONFIG_SERIAL_ARC_CONSOLE=y
+ # CONFIG_HID is not set
+ # CONFIG_USB_SUPPORT is not set
+ # CONFIG_IOMMU_SUPPORT is not set
+-CONFIG_EXT2_FS=y
+-CONFIG_EXT2_FS_XATTR=y
+ CONFIG_TMPFS=y
+ # CONFIG_MISC_FILESYSTEMS is not set
+-CONFIG_NFS_FS=y
+ # CONFIG_ENABLE_WARN_DEPRECATED is not set
+ # CONFIG_ENABLE_MUST_CHECK is not set
+ # CONFIG_DEBUG_PREEMPT is not set
+diff --git a/arch/arc/configs/nsim_hs_defconfig b/arch/arc/configs/nsim_hs_defconfig
+index ebe9ebb92933..ad8e7e53ab26 100644
+--- a/arch/arc/configs/nsim_hs_defconfig
++++ b/arch/arc/configs/nsim_hs_defconfig
+@@ -2,7 +2,6 @@
+ CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+-CONFIG_POSIX_MQUEUE=y
+ # CONFIG_CROSS_MEMORY_ATTACH is not set
+ CONFIG_HIGH_RES_TIMERS=y
+ CONFIG_IKCONFIG=y
+@@ -31,19 +30,12 @@ CONFIG_ISA_ARCV2=y
+ CONFIG_ARC_BUILTIN_DTB_NAME="nsim_hs"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+-CONFIG_NET=y
+-CONFIG_PACKET=y
+-CONFIG_UNIX=y
+-CONFIG_UNIX_DIAG=y
+-CONFIG_NET_KEY=y
+-CONFIG_INET=y
+-# CONFIG_IPV6 is not set
+ CONFIG_DEVTMPFS=y
+ # CONFIG_STANDALONE is not set
+ # CONFIG_PREVENT_FIRMWARE_BUILD is not set
+ # CONFIG_FIRMWARE_IN_KERNEL is not set
+ # CONFIG_BLK_DEV is not set
+-# CONFIG_INPUT_MOUSEDEV_PSAUX is not set
++# CONFIG_INPUT_MOUSEDEV is not set
+ # CONFIG_INPUT_KEYBOARD is not set
+ # CONFIG_INPUT_MOUSE is not set
+ # CONFIG_SERIO is not set
+@@ -56,11 +48,8 @@ CONFIG_SERIAL_ARC_CONSOLE=y
+ # CONFIG_HID is not set
+ # CONFIG_USB_SUPPORT is not set
+ # CONFIG_IOMMU_SUPPORT is not set
+-CONFIG_EXT2_FS=y
+-CONFIG_EXT2_FS_XATTR=y
+ CONFIG_TMPFS=y
+ # CONFIG_MISC_FILESYSTEMS is not set
+-CONFIG_NFS_FS=y
+ # CONFIG_ENABLE_WARN_DEPRECATED is not set
+ # CONFIG_ENABLE_MUST_CHECK is not set
+ # CONFIG_DEBUG_PREEMPT is not set
+diff --git a/arch/arc/configs/nsim_hs_smp_defconfig b/arch/arc/configs/nsim_hs_smp_defconfig
+index 4bde43278be6..d0e609e26bfb 100644
+--- a/arch/arc/configs/nsim_hs_smp_defconfig
++++ b/arch/arc/configs/nsim_hs_smp_defconfig
+@@ -30,19 +30,12 @@ CONFIG_SMP=y
+ CONFIG_ARC_BUILTIN_DTB_NAME="nsim_hs_idu"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+-CONFIG_NET=y
+-CONFIG_PACKET=y
+-CONFIG_UNIX=y
+-CONFIG_UNIX_DIAG=y
+-CONFIG_NET_KEY=y
+-CONFIG_INET=y
+-# CONFIG_IPV6 is not set
+ CONFIG_DEVTMPFS=y
+ # CONFIG_STANDALONE is not set
+ # CONFIG_PREVENT_FIRMWARE_BUILD is not set
+ # CONFIG_FIRMWARE_IN_KERNEL is not set
+ # CONFIG_BLK_DEV is not set
+-# CONFIG_INPUT_MOUSEDEV_PSAUX is not set
++# CONFIG_INPUT_MOUSEDEV is not set
+ # CONFIG_INPUT_KEYBOARD is not set
+ # CONFIG_INPUT_MOUSE is not set
+ # CONFIG_SERIO is not set
+@@ -55,10 +48,7 @@ CONFIG_SERIAL_ARC_CONSOLE=y
+ # CONFIG_HID is not set
+ # CONFIG_USB_SUPPORT is not set
+ # CONFIG_IOMMU_SUPPORT is not set
+-CONFIG_EXT2_FS=y
+-CONFIG_EXT2_FS_XATTR=y
+ CONFIG_TMPFS=y
+ # CONFIG_MISC_FILESYSTEMS is not set
+-CONFIG_NFS_FS=y
+ # CONFIG_ENABLE_WARN_DEPRECATED is not set
+ # CONFIG_ENABLE_MUST_CHECK is not set
+-- 
+2.7.4
