@@ -1,35 +1,28 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 21 Dec 2016 14:40:54 +0300
-Subject: [PATCH] arc: enable unaligned access in kernel mode
+Date: Thu, 22 Dec 2016 17:09:08 +0300
+Subject: [PATCH 0/2] Minor fixes for CCMs
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1482320454-5731-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1482415750-5471-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This enables misaligned access handling even in kernel mode.
-Some wireless drivers (ath9k-htc and mt7601u) use misaligned accesses
-here and there and to cope with that without fixing stuff in the drivers
-we're just gracefully handling it on ARC.
+It turned out current implementation of CCM support doesn't work at all.
+There're 2 isseus:
+ * Data/code which is supposed to be in DCCM or ICCM accordingly gets
+   merged in common .data and .text sections so CCMs won't be used
+ * Kerenl will panic on early boot because comparison of CCM sizes
+   is implemented incorrectly
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: John Crispin <john at phrozen.org>
----
- arch/arc/kernel/unaligned.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This short series fixes both issues above so CCMs are usable again.
+And both patches indeed should be back-ported to stable kernels.
 
-diff --git a/arch/arc/kernel/unaligned.c b/arch/arc/kernel/unaligned.c
-index abd961f3e763..58b7415e47ca 100644
---- a/arch/arc/kernel/unaligned.c
-+++ b/arch/arc/kernel/unaligned.c
-@@ -205,8 +205,8 @@ int misaligned_fixup(unsigned long address, struct pt_regs *regs,
- 	struct disasm_state state;
- 	char buf[TASK_COMM_LEN];
- 
--	/* handle user mode only and only if enabled by sysadmin */
--	if (!user_mode(regs) || !unaligned_enabled)
-+	/* handle only if enabled by sysadmin */
-+	if (!unaligned_enabled)
- 		return 1;
- 
- 	if (no_unaligned_warning) {
+Alexey Brodkin (2):
+  arc: rename xCCM sections so they are not merged in global .data/.text
+  arc: Fix xCCM size check
+
+ arch/arc/include/asm/linkage.h | 6 +++---
+ arch/arc/kernel/setup.c        | 4 ++--
+ arch/arc/kernel/vmlinux.lds.S  | 8 ++++----
+ 3 files changed, 9 insertions(+), 9 deletions(-)
+
 -- 
 2.7.4
