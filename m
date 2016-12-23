@@ -1,75 +1,61 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 22 Dec 2016 16:34:02 -0800
-Subject: [PATCH 2/2] arc: Fix xCCM size check
-In-Reply-To: <1482415750-5471-3-git-send-email-abrodkin@synopsys.com>
-References: <1482415750-5471-1-git-send-email-abrodkin@synopsys.com>
- <1482415750-5471-3-git-send-email-abrodkin@synopsys.com>
+Date: Thu, 22 Dec 2016 16:50:52 -0800
+Subject: [GIT PULL] ARC updates for 4.10-rc1 part 2
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <75d86ac5-ed58-99d4-3c6b-97d56b90ed36@synopsys.com>
+Message-ID: <f33708b1-296d-e74f-e7f5-8341b54e0471@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/22/2016 06:09 AM, Alexey Brodkin wrote:
-> CONFIG_ARC_ICCM_SZ in menuconfig is specified in kB while
-> "cpu->Xccm.sz" contains value in bytes thus direct comparison fails
-> leading to boot-time panic like that:
-> ----------------------->8---------------------
-> IDENTITY        : ARCVER [0x52] ARCNUM [0x1] CHIPID [ 0x0]
-> processor [1]   : ARC HS38 R2.1 (ARCv2 ISA)
-> Timers          : Timer0 Timer1 Local-64-bit-Ctr (not used)
-> ISA Extn        : atomic ll64 unalign (not used)
->                 : mpy[opt 9] div_rem norm barrel-shift swap minmax swape
-> BPU             : full match, cache:2048, Predict Table:16384
-> MMU [v0]        : 0k PAGE, JTLB 0 (0x0), uDTLB 0, uITLB 0
-> I-Cache         : N/A
-> D-Cache         : N/A
-> Peripherals     : 0xf0000000, IO-Coherency (disabled)
-> Vector Table    : 0x80000000
-> FPU             : SP DP
-> DEBUG           : ActionPoint smaRT RTT
-> Extn [CCM]      : DCCM @ e0000000, 256 KB / ICCM: @ 60000000, 256 KB
-> OS ABI [v4]     : 64-bit data any register aligned
-> Extn [SMP]      : ARConnect (v2): 2 cores with IPI IDU DEBUG GFRC
-> Kernel panic - not syncing: Linux built with incorrect DCCM Size
->
-> ---[ end Kernel panic - not syncing: Linux built with incorrect DCCM Size
-> ----------------------->8---------------------
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Igor Guryanov <guryanov at synopsys.com>
-> Cc: stable at vger.kernel.org
-> ---
->  arch/arc/kernel/setup.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-> index ee574f37f365..601dab6fe5e0 100644
-> --- a/arch/arc/kernel/setup.c
-> +++ b/arch/arc/kernel/setup.c
-> @@ -333,12 +333,12 @@ static void arc_chk_core_config(void)
->  	if ((unsigned int)__arc_dccm_base != cpu->dccm.base_addr)
->  		panic("Linux built with incorrect DCCM Base address\n");
->  
-> -	if (CONFIG_ARC_DCCM_SZ != cpu->dccm.sz)
-> +	if (CONFIG_ARC_DCCM_SZ != TO_KB(cpu->dccm.sz))
+Hi Linus,
 
-Could we just avoid this existing TO_KB non sense in multiple places by keeping
-the *ccm.sz unit consistent with CONFIG_ARC_*CCM_SZ ?
-so
--            cpu->iccm.sz = 4096 << iccm.sz;    /* 8K to 512K */
-+            cpu->iccm.sz = 4 << iccm.sz;    /* 8K to 512K */
+Please pull.
 
-Since we only want to keep ccm size to kb granularity
-
-And while at it, rename @sz placeholder in bcr_(i|d)ccm_arc(v2,compact) to sz_k
-
+Thx and Happy holidays !
 -Vineet
 
->  		panic("Linux built with incorrect DCCM Size\n");
->  #endif
->  
->  #ifdef CONFIG_ARC_HAS_ICCM
-> -	if (CONFIG_ARC_ICCM_SZ != cpu->iccm.sz)
-> +	if (CONFIG_ARC_ICCM_SZ != TO_KB(cpu->iccm.sz))
->  		panic("Linux built with incorrect ICCM Size\n");
->  #endif
->  
+----------------->
+The following changes since commit 7badf6fefca8278e749e82411fdb98b123cca50e:
+
+  ARC: axs10x: really enable ARC PGU (2016-11-30 11:54:25 -0800)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/
+tags/arc-4.10-rc1-part2
+
+for you to fetch changes up to 08fe007968b2b45e831daf74899f79a54d73f773:
+
+  ARC: mm: arc700: Don't assume 2 colours for aliasing VIPT dcache (2016-12-19
+11:55:17 -0800)
+
+----------------------------------------------------------------
+2nd round of ARC udpates for 4.10rc1
+
+ - Fix for aliasing VIPT dcache in old ARC700 cores
+
+ - micro-optimization in ARC700 ProtV handler
+
+ - Enable SG_CHAIN  [Vladimir]
+
+ - ARC HS38 core intc default to prio 1
+
+----------------------------------------------------------------
+Vineet Gupta (5):
+      ARC: ARCompact entry: elide re-reading ECR in ProtV handler
+      ARCv2: entry: document intr disable in hard isr
+      ARCv2: intc: default all interrupts to priority 1
+      ARC: mm: No need to save cache version in @cpuinfo
+      ARC: mm: arc700: Don't assume 2 colours for aliasing VIPT dcache
+
+Vladimir Kondratiev (1):
+      ARC: enable SG chaining
+
+ .../features/io/sg-chain/arch-support.txt          |  2 +-
+ arch/arc/Kconfig                                   |  1 +
+ arch/arc/include/asm/arcregs.h                     |  2 +-
+ arch/arc/include/asm/cacheflush.h                  |  6 +++--
+ arch/arc/include/asm/irqflags-arcv2.h              |  6 ++---
+ arch/arc/kernel/entry-arcv2.S                      | 24 ++++++++++++++-----
+ arch/arc/kernel/entry-compact.S                    |  2 +-
+ arch/arc/kernel/intc-arcv2.c                       | 10 ++++----
+ arch/arc/mm/cache.c                                | 28 ++++++++++------------
+ 9 files changed, 46 insertions(+), 35 deletions(-)
