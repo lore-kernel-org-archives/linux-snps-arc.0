@@ -1,46 +1,42 @@
-From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
-Date: Wed, 28 Dec 2016 11:46:25 +0300
-Subject: [PATCH v3 2/3] ARCv2: IRQ: Call entry/exit functions for chained
- handlers in MCIP
-In-Reply-To: <1482914786-10490-1-git-send-email-yuriy.kolerov@synopsys.com>
-References: <1482914786-10490-1-git-send-email-yuriy.kolerov@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Thu, 29 Dec 2016 23:29:48 -0000
+Subject: kisskb: FAILED linus/axs103_smp_defconfig/arcv2 Fri Dec 30, 10:29
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1482914786-10490-3-git-send-email-yuriy.kolerov@synopsys.com>
+Message-ID: <20161229232948.1.88119@0c6d80572b6b>
 To: linux-snps-arc@lists.infradead.org
 
-It is necessary to call entry/exit functions for parent interrupt
-controllers for proper masking/unmasking of interrupt lines.
+FAILED linus/axs103_smp_defconfig/arcv2 Fri Dec 30, 10:29
 
-Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
----
- arch/arc/kernel/mcip.c | 4 ++++
- 1 file changed, 4 insertions(+)
+http://kisskb.ellerman.id.au/kisskb/buildresult/12896296/
 
-diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-index f39142a..be131b2 100644
---- a/arch/arc/kernel/mcip.c
-+++ b/arch/arc/kernel/mcip.c
-@@ -10,6 +10,7 @@
- 
- #include <linux/smp.h>
- #include <linux/irq.h>
-+#include <linux/irqchip/chained_irq.h>
- #include <linux/spinlock.h>
- #include <asm/irqflags-arcv2.h>
- #include <asm/mcip.h>
-@@ -221,10 +222,13 @@ static irq_hw_number_t idu_first_hwirq;
- static void idu_cascade_isr(struct irq_desc *desc)
- {
- 	struct irq_domain *idu_domain = irq_desc_get_handler_data(desc);
-+	struct irq_chip *core_chip = irq_desc_get_chip(desc);
- 	irq_hw_number_t core_hwirq = irqd_to_hwirq(irq_desc_get_irq_data(desc));
- 	irq_hw_number_t idu_hwirq = core_hwirq - idu_first_hwirq;
- 
-+	chained_irq_enter(core_chip, desc);
- 	generic_handle_irq(irq_find_mapping(idu_domain, idu_hwirq));
-+	chained_irq_exit(core_chip, desc);
- }
- 
- static int idu_irq_map(struct irq_domain *d, unsigned int virq, irq_hw_number_t hwirq)
--- 
-2.7.4
+Commit:   mm: optimize PageWaiters bit use for unlock_page()
+          b91e1302ad9b80c174a4855533f7e3aa2873355e
+Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824
+
+Possible errors
+---------------
+
+mm/filemap.c:933:9: error: too few arguments to function 'test_bit'
+make[2]: *** [mm/filemap.o] Error 1
+make[1]: *** [mm] Error 2
+make: *** [sub-make] Error 2
+
+Possible warnings (16)
+----------------------
+
+mm/filemap.c:934:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:753:16: warning: comparison of distinct pointer types lacks a cast
+fs/buffer.c:243:37: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+kernel/sched/core.c:3293:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/inode.c:3439:12: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/page-io.c:163:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:753:16: warning: comparison of distinct pointer types lacks a cast
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
