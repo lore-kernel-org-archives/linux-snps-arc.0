@@ -1,21 +1,46 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 3 Jan 2017 10:21:12 -0800
-Subject: [PATCH v3 2/3] ARCv2: IRQ: Call entry/exit functions for chained
- handlers in MCIP
-In-Reply-To: <1482914786-10490-3-git-send-email-yuriy.kolerov@synopsys.com>
-References: <1482914786-10490-1-git-send-email-yuriy.kolerov@synopsys.com>
- <1482914786-10490-3-git-send-email-yuriy.kolerov@synopsys.com>
+From: nicolas.dichtel@6wind.com (Nicolas Dichtel)
+Date: Fri,  6 Jan 2017 10:43:55 +0100
+Subject: [PATCH v2 3/7] nios2: put setup.h in uapi
+In-Reply-To: <1483695839-18660-1-git-send-email-nicolas.dichtel@6wind.com>
+References: <bf83da6b-01ef-bf44-b3e1-ca6fc5636818@6wind.com>
+ <1483695839-18660-1-git-send-email-nicolas.dichtel@6wind.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0a1879f7-961a-b78a-a9de-0b6f54b0acd5@synopsys.com>
+Message-ID: <1483695839-18660-4-git-send-email-nicolas.dichtel@6wind.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/28/2016 12:46 AM, Yuriy Kolerov wrote:
-> It is necessary to call entry/exit functions for parent interrupt
-> controllers for proper masking/unmasking of interrupt lines.
-> 
-> Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
+This header file is exported, thus move it to uapi.
 
-Applied to for-curr.
+Signed-off-by: Nicolas Dichtel <nicolas.dichtel at 6wind.com>
+---
+ arch/nios2/include/asm/setup.h      | 2 +-
+ arch/nios2/include/uapi/asm/setup.h | 6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+ create mode 100644 arch/nios2/include/uapi/asm/setup.h
 
-Thx,
--vineet
+diff --git a/arch/nios2/include/asm/setup.h b/arch/nios2/include/asm/setup.h
+index dcbf8cf1a344..d49e9e91bf55 100644
+--- a/arch/nios2/include/asm/setup.h
++++ b/arch/nios2/include/asm/setup.h
+@@ -19,7 +19,7 @@
+ #ifndef _ASM_NIOS2_SETUP_H
+ #define _ASM_NIOS2_SETUP_H
+ 
+-#include <asm-generic/setup.h>
++#include <uapi/asm/setup.h>
+ 
+ #ifndef __ASSEMBLY__
+ #ifdef __KERNEL__
+diff --git a/arch/nios2/include/uapi/asm/setup.h b/arch/nios2/include/uapi/asm/setup.h
+new file mode 100644
+index 000000000000..8d8285997ba8
+--- /dev/null
++++ b/arch/nios2/include/uapi/asm/setup.h
+@@ -0,0 +1,6 @@
++#ifndef _UAPI_ASM_NIOS2_SETUP_H
++#define _UAPI_ASM_NIOS2_SETUP_H
++
++#include <asm-generic/setup.h>
++
++#endif /* _UAPI_ASM_NIOS2_SETUP_H */
+-- 
+2.8.1
