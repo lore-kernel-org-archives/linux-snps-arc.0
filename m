@@ -1,61 +1,31 @@
-From: nicolas.dichtel@6wind.com (Nicolas Dichtel)
-Date: Fri,  6 Jan 2017 10:43:54 +0100
-Subject: [PATCH v2 2/7] h8300: put bitsperlong.h in uapi
-In-Reply-To: <1483695839-18660-1-git-send-email-nicolas.dichtel@6wind.com>
-References: <bf83da6b-01ef-bf44-b3e1-ca6fc5636818@6wind.com>
- <1483695839-18660-1-git-send-email-nicolas.dichtel@6wind.com>
+From: Raghavan.Anurag@in.bosch.com (Anurag Raghavan (RBEI/ETW11))
+Date: Fri, 6 Jan 2017 10:07:29 +0000
+Subject: ubi_io_read: error -74 (ECC error) 
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1483695839-18660-3-git-send-email-nicolas.dichtel@6wind.com>
+Message-ID: <38f0cfac3dbe4ea89da84c7fbf667833@SGPMBX1023.APAC.bosch.com>
 To: linux-snps-arc@lists.infradead.org
 
-This header file is exported, thus move it to uapi.
+Hi All,
 
-Signed-off-by: Nicolas Dichtel <nicolas.dichtel at 6wind.com>
----
- arch/h8300/include/asm/bitsperlong.h      | 10 +---------
- arch/h8300/include/uapi/asm/bitsperlong.h | 14 ++++++++++++++
- 2 files changed, 15 insertions(+), 9 deletions(-)
- create mode 100644 arch/h8300/include/uapi/asm/bitsperlong.h
+My appdata partition could not be mounted or where the partition was not able to be used. Anyone can help me to find out the root cause of this. What are the possibilities of this ubifs corruption. Any patched are available to fix this issue.
 
-diff --git a/arch/h8300/include/asm/bitsperlong.h b/arch/h8300/include/asm/bitsperlong.h
-index e140e46729ac..c0a8e2ee531e 100644
---- a/arch/h8300/include/asm/bitsperlong.h
-+++ b/arch/h8300/include/asm/bitsperlong.h
-@@ -1,14 +1,6 @@
- #ifndef __ASM_H8300_BITS_PER_LONG
- #define __ASM_H8300_BITS_PER_LONG
- 
--#include <asm-generic/bitsperlong.h>
--
--#if !defined(__ASSEMBLY__)
--/* h8300-unknown-linux required long */
--#define __kernel_size_t __kernel_size_t
--typedef unsigned long	__kernel_size_t;
--typedef long		__kernel_ssize_t;
--typedef long		__kernel_ptrdiff_t;
--#endif
-+#include <uapi/asm/bitsperlong.h>
- 
- #endif /* __ASM_H8300_BITS_PER_LONG */
-diff --git a/arch/h8300/include/uapi/asm/bitsperlong.h b/arch/h8300/include/uapi/asm/bitsperlong.h
-new file mode 100644
-index 000000000000..e56cf72369b6
---- /dev/null
-+++ b/arch/h8300/include/uapi/asm/bitsperlong.h
-@@ -0,0 +1,14 @@
-+#ifndef _UAPI_ASM_H8300_BITS_PER_LONG
-+#define _UAPI_ASM_H8300_BITS_PER_LONG
-+
-+#include <asm-generic/bitsperlong.h>
-+
-+#if !defined(__ASSEMBLY__)
-+/* h8300-unknown-linux required long */
-+#define __kernel_size_t __kernel_size_t
-+typedef unsigned long	__kernel_size_t;
-+typedef long		__kernel_ssize_t;
-+typedef long		__kernel_ptrdiff_t;
-+#endif
-+
-+#endif /* _UAPI_ASM_H8300_BITS_PER_LONG */
--- 
-2.8.1
+I am using the kernel version-30.3.5
+Any kernel patches are available to solve this issue...??
+
+Error logs:
+
+[    1.797141] UBI error: ubi_io_read: error -74 (ECC error) while reading 253952 bytes from PEB 445:8192, read 253952 bytes
+[    1.808274] UBIFS error (pid 491): ubifs_scan: corrupt empty space at LEB 489:233760
+[    1.816037] UBIFS error (pid 491): ubifs_scanned_corruption: corruption at LEB 489:233760
+[    1.828660] UBIFS error (pid 491): ubifs_scan: LEB 489 scanning failed
+[    1.835215] UBIFS warning (pid 491): ubifs_ro_mode: switched to read-only mode, error -117
+[    1.843502] UBIFS error (pid 491): make_reservation: cannot reserve 58 bytes in jhead 2, error -117
+[    1.852569] UBIFS error (pid 491): do_writepage: cannot write page 0 of inode 76584, error -117
+dpkg: error: unable to sync new file '/var/lib/dpkg/arch-new': Structure needs cleaning
+
+Best regards
+
+Raghavan Anurag
+RBEI/ETW1  
+
+Tel. +91(422)667-4001 | Mobil 9986968950
