@@ -1,35 +1,76 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 9 Jan 2017 15:08:06 +0000
-Subject: [PATCH 1/2] arc: rename xCCM sections so they are not merged in
- global .data/.text
-In-Reply-To: <6d3a6876-402f-c237-f9a2-88aad3179ead@synopsys.com>
+Date: Mon, 9 Jan 2017 15:12:48 +0000
+Subject: [PATCH 2/2] arc: Fix xCCM size check
+In-Reply-To: <75d86ac5-ed58-99d4-3c6b-97d56b90ed36@synopsys.com>
 References: <1482415750-5471-1-git-send-email-abrodkin@synopsys.com>
- <1482415750-5471-2-git-send-email-abrodkin@synopsys.com>
- <6d3a6876-402f-c237-f9a2-88aad3179ead@synopsys.com>
+ <1482415750-5471-3-git-send-email-abrodkin@synopsys.com>
+ <75d86ac5-ed58-99d4-3c6b-97d56b90ed36@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1483974486.2890.36.camel@synopsys.com>
+Message-ID: <1483974768.2890.40.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Hi Vineet,
 
-On Thu, 2016-12-22@16:25 -0800, Vineet Gupta wrote:
+On Thu, 2016-12-22@16:34 -0800, Vineet Gupta wrote:
 > On 12/22/2016 06:09 AM, Alexey Brodkin wrote:
-> > diff --git a/arch/arc/include/asm/linkage.h b/arch/arc/include/asm/linkage.h
-> > index b29f1a9fd6f7..3a5f13d65ee1 100644
-> > --- a/arch/arc/include/asm/linkage.h
-> > +++ b/arch/arc/include/asm/linkage.h
-> > @@ -28,7 +28,7 @@
-> > ?/* annotation for data we want in DCCM - if enabled in .config */
-> > ?.macro ARCFP_CODE
-> > ?#ifdef CONFIG_ARC_HAS_ICCM
-> > -	.section .text.arcfp, "ax", at progbits
-> > +	.section .text..arcfp, "ax", at progbits
+> > 
+> > CONFIG_ARC_ICCM_SZ in menuconfig is specified in kB while
+> > "cpu->Xccm.sz" contains value in bytes thus direct comparison fails
+> > leading to boot-time panic like that:
+> > ----------------------->8---------------------
+> > IDENTITY????????: ARCVER [0x52] ARCNUM [0x1] CHIPID [ 0x0]
+> > processor [1]???: ARC HS38 R2.1 (ARCv2 ISA)
+> > Timers??????????: Timer0 Timer1 Local-64-bit-Ctr (not used)
+> > ISA Extn????????: atomic ll64 unalign (not used)
+> > ????????????????: mpy[opt 9] div_rem norm barrel-shift swap minmax swape
+> > BPU?????????????: full match, cache:2048, Predict Table:16384
+> > MMU [v0]????????: 0k PAGE, JTLB 0 (0x0), uDTLB 0, uITLB 0
+> > I-Cache?????????: N/A
+> > D-Cache?????????: N/A
+> > Peripherals?????: 0xf0000000, IO-Coherency (disabled)
+> > Vector Table????: 0x80000000
+> > FPU?????????????: SP DP
+> > DEBUG???????????: ActionPoint smaRT RTT
+> > Extn [CCM]??????: DCCM @ e0000000, 256 KB / ICCM: @ 60000000, 256 KB
+> > OS ABI [v4]?????: 64-bit data any register aligned
+> > Extn [SMP]??????: ARConnect (v2): 2 cores with IPI IDU DEBUG GFRC
+> > Kernel panic - not syncing: Linux built with incorrect DCCM Size
+> > 
+> > ---[ end Kernel panic - not syncing: Linux built with incorrect DCCM Size
+> > ----------------------->8---------------------
+> > 
+> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> > Cc: Igor Guryanov <guryanov at synopsys.com>
+> > Cc: stable at vger.kernel.org
+> > ---
+> > ?arch/arc/kernel/setup.c | 4 ++--
+> > ?1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+> > index ee574f37f365..601dab6fe5e0 100644
+> > --- a/arch/arc/kernel/setup.c
+> > +++ b/arch/arc/kernel/setup.c
+> > @@ -333,12 +333,12 @@ static void arc_chk_core_config(void)
+> > ?	if ((unsigned int)__arc_dccm_base != cpu->dccm.base_addr)
+> > ?		panic("Linux built with incorrect DCCM Base address\n");
+> > ?
+> > -	if (CONFIG_ARC_DCCM_SZ != cpu->dccm.sz)
+> > +	if (CONFIG_ARC_DCCM_SZ != TO_KB(cpu->dccm.sz))
 > 
-> Why not turn this around and call it arcfp.text and arcfp.data etc - just like
-> done for other special sections such as sched, cpuidle, lock... Just so we are
-> consistent with normal kernel convention !
+> Could we just avoid this existing TO_KB non sense in multiple places by keeping
+> the *ccm.sz unit consistent with CONFIG_ARC_*CCM_SZ ?
+> so
+> -????????????cpu->iccm.sz = 4096 << iccm.sz;????/* 8K to 512K */
+> +????????????cpu->iccm.sz = 4 << iccm.sz;????/* 8K to 512K */
+> 
+> Since we only want to keep ccm size to kb granularity
+> 
+> And while at it, rename @sz placeholder in bcr_(i|d)ccm_arc(v2,compact) to sz_k
 
-Right that looks much better!
-Will do so in v2.
+Well when I started to look at that I understood that in case of ARCv2 smallest
+xCCM is 512 bytes which won't fit in our 1kB grained solution.
+
+So it looks like instead of moving to "sz_k" we have to stay with what we have
+and moreover add support of that 512 byte corner-case becase TO_KB(512) = 0.
 
 -Alexey
