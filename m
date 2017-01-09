@@ -1,76 +1,76 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 9 Jan 2017 15:12:48 +0000
-Subject: [PATCH 2/2] arc: Fix xCCM size check
-In-Reply-To: <75d86ac5-ed58-99d4-3c6b-97d56b90ed36@synopsys.com>
-References: <1482415750-5471-1-git-send-email-abrodkin@synopsys.com>
- <1482415750-5471-3-git-send-email-abrodkin@synopsys.com>
- <75d86ac5-ed58-99d4-3c6b-97d56b90ed36@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 9 Jan 2017 09:31:19 -0800
+Subject: [PATCH] ARC: ldso: don't use _DYNAMIC@gotpc construct to refer to GOT
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1483974768.2890.40.camel@synopsys.com>
+Message-ID: <1483983079-28539-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+Historically we've used a special construct _DYNAMIC at gotpc to refer to
+base address of GOT This has been done with a special hack in binutils
+which tools guys now wish to get rid off.
 
-On Thu, 2016-12-22@16:34 -0800, Vineet Gupta wrote:
-> On 12/22/2016 06:09 AM, Alexey Brodkin wrote:
-> > 
-> > CONFIG_ARC_ICCM_SZ in menuconfig is specified in kB while
-> > "cpu->Xccm.sz" contains value in bytes thus direct comparison fails
-> > leading to boot-time panic like that:
-> > ----------------------->8---------------------
-> > IDENTITY????????: ARCVER [0x52] ARCNUM [0x1] CHIPID [ 0x0]
-> > processor [1]???: ARC HS38 R2.1 (ARCv2 ISA)
-> > Timers??????????: Timer0 Timer1 Local-64-bit-Ctr (not used)
-> > ISA Extn????????: atomic ll64 unalign (not used)
-> > ????????????????: mpy[opt 9] div_rem norm barrel-shift swap minmax swape
-> > BPU?????????????: full match, cache:2048, Predict Table:16384
-> > MMU [v0]????????: 0k PAGE, JTLB 0 (0x0), uDTLB 0, uITLB 0
-> > I-Cache?????????: N/A
-> > D-Cache?????????: N/A
-> > Peripherals?????: 0xf0000000, IO-Coherency (disabled)
-> > Vector Table????: 0x80000000
-> > FPU?????????????: SP DP
-> > DEBUG???????????: ActionPoint smaRT RTT
-> > Extn [CCM]??????: DCCM @ e0000000, 256 KB / ICCM: @ 60000000, 256 KB
-> > OS ABI [v4]?????: 64-bit data any register aligned
-> > Extn [SMP]??????: ARConnect (v2): 2 cores with IPI IDU DEBUG GFRC
-> > Kernel panic - not syncing: Linux built with incorrect DCCM Size
-> > 
-> > ---[ end Kernel panic - not syncing: Linux built with incorrect DCCM Size
-> > ----------------------->8---------------------
-> > 
-> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> > Cc: Igor Guryanov <guryanov at synopsys.com>
-> > Cc: stable at vger.kernel.org
-> > ---
-> > ?arch/arc/kernel/setup.c | 4 ++--
-> > ?1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-> > index ee574f37f365..601dab6fe5e0 100644
-> > --- a/arch/arc/kernel/setup.c
-> > +++ b/arch/arc/kernel/setup.c
-> > @@ -333,12 +333,12 @@ static void arc_chk_core_config(void)
-> > ?	if ((unsigned int)__arc_dccm_base != cpu->dccm.base_addr)
-> > ?		panic("Linux built with incorrect DCCM Base address\n");
-> > ?
-> > -	if (CONFIG_ARC_DCCM_SZ != cpu->dccm.sz)
-> > +	if (CONFIG_ARC_DCCM_SZ != TO_KB(cpu->dccm.sz))
-> 
-> Could we just avoid this existing TO_KB non sense in multiple places by keeping
-> the *ccm.sz unit consistent with CONFIG_ARC_*CCM_SZ ?
-> so
-> -????????????cpu->iccm.sz = 4096 << iccm.sz;????/* 8K to 512K */
-> +????????????cpu->iccm.sz = 4 << iccm.sz;????/* 8K to 512K */
-> 
-> Since we only want to keep ccm size to kb granularity
-> 
-> And while at it, rename @sz placeholder in bcr_(i|d)ccm_arc(v2,compact) to sz_k
+So rewrite the 2 callers of this construct to use the simpler and more
+obvious constructs. There's existing _GLOBAL_OFFSET_TABLE symbols
+provided by linker which can be used for same purposes.
 
-Well when I started to look at that I understood that in case of ARCv2 smallest
-xCCM is 512 bytes which won't fit in our 1kB grained solution.
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ ldso/ldso/arc/dl-sysdep.h | 35 ++++++++++++-----------------------
+ 1 file changed, 12 insertions(+), 23 deletions(-)
 
-So it looks like instead of moving to "sz_k" we have to stay with what we have
-and moreover add support of that 512 byte corner-case becase TO_KB(512) = 0.
-
--Alexey
+diff --git a/ldso/ldso/arc/dl-sysdep.h b/ldso/ldso/arc/dl-sysdep.h
+index c6086e68e5c6..361a9bb9c0c3 100644
+--- a/ldso/ldso/arc/dl-sysdep.h
++++ b/ldso/ldso/arc/dl-sysdep.h
+@@ -119,37 +119,26 @@ extern unsigned __udivmodsi4(unsigned, unsigned) attribute_hidden;
+    | (((type) == R_ARC_COPY) * ELF_RTYPE_CLASS_COPY))
+ 
+ /*
+- * Get the runtime address of GOT[0]
++ * Get build time address of .dynamic as setup in GOT[0]
++ * This is called very early in _dl_start() so it has not been relocated to
++ * runtime value
+  */
+ static __always_inline Elf32_Addr elf_machine_dynamic(void)
+ {
+-	Elf32_Addr dyn;
+-
+-	__asm__("ld %0,[pcl,_DYNAMIC at gotpc]\n\t" : "=r" (dyn));
+-	return dyn;
++  /* Declaring this hidden ensures that a PC-relative reference is used.  */
++  extern const Elf32_Addr _GLOBAL_OFFSET_TABLE_[] attribute_hidden;
++  return _GLOBAL_OFFSET_TABLE_[0];
+ }
+ 
+ /* Return the run-time load address of the shared object.  */
+ static __always_inline Elf32_Addr elf_machine_load_address(void)
+ {
+-    /* To find the loadaddr we subtract the runtime addr of a non-local symbol
+-     * say _DYNAMIC from it's build-time addr.
+-     * N.B., gotpc loads get optimized by the linker if it finds the symbol
+-     * is resolved locally.
+-     * A more robust - and efficient - solution would be to use a symbol
+-     * set by the linker.  To make it actually save space, we'd have to
+-     * suppress the unwanted text relocation in the linked dso, though.
+-     * (I.e. in ldso.so.*, though it's just another dso as far as bfd/ld
+-     * are concerned.)
+-     */
+-	Elf32_Addr addr, tmp;
+-	__asm__ (
+-        "ld  %1, [pcl, _DYNAMIC at gotpc] ;build addr of _DYNAMIC"   "\n"
+-        "add %0, pcl, _DYNAMIC at pcl     ;runtime addr of _DYNAMIC" "\n"
+-        "sub %0, %0, %1                ;delta"                    "\n"
+-        : "=&r" (addr), "=r"(tmp)
+-    );
+-	return addr;
++	Elf32_Addr build_addr, run_addr;
++
++	build_addr = elf_machine_dynamic();
++	__asm__ ("add %0, pcl, _DYNAMIC at pcl	\n" : "=r" (run_addr));
++
++	return run_addr - build_addr;
+ }
+ 
+ static __always_inline void
+-- 
+2.7.4
