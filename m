@@ -1,30 +1,35 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 9 Jan 2017 04:56:38 -0800
-Subject: [PATCH v2 7/7] uapi: export all headers under uapi directories
-In-Reply-To: <1483695839-18660-8-git-send-email-nicolas.dichtel@6wind.com>
-References: <bf83da6b-01ef-bf44-b3e1-ca6fc5636818@6wind.com>
- <1483695839-18660-1-git-send-email-nicolas.dichtel@6wind.com>
- <1483695839-18660-8-git-send-email-nicolas.dichtel@6wind.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 9 Jan 2017 15:08:06 +0000
+Subject: [PATCH 1/2] arc: rename xCCM sections so they are not merged in
+ global .data/.text
+In-Reply-To: <6d3a6876-402f-c237-f9a2-88aad3179ead@synopsys.com>
+References: <1482415750-5471-1-git-send-email-abrodkin@synopsys.com>
+ <1482415750-5471-2-git-send-email-abrodkin@synopsys.com>
+ <6d3a6876-402f-c237-f9a2-88aad3179ead@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170109125638.GA15506@infradead.org>
+Message-ID: <1483974486.2890.36.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Jan 06, 2017@10:43:59AM +0100, Nicolas Dichtel wrote:
-> Regularly, when a new header is created in include/uapi/, the developer
-> forgets to add it in the corresponding Kbuild file. This error is usually
-> detected after the release is out.
+Hi Vineet,
+
+On Thu, 2016-12-22@16:25 -0800, Vineet Gupta wrote:
+> On 12/22/2016 06:09 AM, Alexey Brodkin wrote:
+> > diff --git a/arch/arc/include/asm/linkage.h b/arch/arc/include/asm/linkage.h
+> > index b29f1a9fd6f7..3a5f13d65ee1 100644
+> > --- a/arch/arc/include/asm/linkage.h
+> > +++ b/arch/arc/include/asm/linkage.h
+> > @@ -28,7 +28,7 @@
+> > ?/* annotation for data we want in DCCM - if enabled in .config */
+> > ?.macro ARCFP_CODE
+> > ?#ifdef CONFIG_ARC_HAS_ICCM
+> > -	.section .text.arcfp, "ax", at progbits
+> > +	.section .text..arcfp, "ax", at progbits
 > 
-> In fact, all headers under uapi directories should be exported, thus it's
-> useless to have an exhaustive list.
-> 
-> After this patch, the following files, which were not exported, are now
-> exported (with make headers_install_all):
+> Why not turn this around and call it arcfp.text and arcfp.data etc - just like
+> done for other special sections such as sched, cpuidle, lock... Just so we are
+> consistent with normal kernel convention !
 
-... snip ...
+Right that looks much better!
+Will do so in v2.
 
-> linux/genwqe/.install
-> linux/genwqe/..install.cmd
-> linux/cifs/.install
-> linux/cifs/..install.cmd
-
-I'm pretty sure these should not be exported!
+-Alexey
