@@ -1,46 +1,57 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Wed, 11 Jan 2017 22:28:05 +0000
-Subject: [PATCH 2/9] Move dma_ops from archdata into struct device
-In-Reply-To: <20170111203100.GB17895@kroah.com>
-References: <20170111005648.14988-1-bart.vanassche@sandisk.com>
- <20170111005648.14988-3-bart.vanassche@sandisk.com>
- <20170111064803.GB26893@kroah.com> <1484158589.2619.14.camel@sandisk.com>
- <20170111203100.GB17895@kroah.com>
+From: wbx@uclibc-ng.org (Waldemar Brodkorb)
+Date: Wed, 11 Jan 2017 23:40:18 +0100
+Subject: [uclibc-ng-devel] ARC uClibc-ng testsuite runs empty ?
+In-Reply-To: <dde21784-c3e4-5a53-6d10-0ac640d18192@synopsys.com>
+References: <f806e391-de89-5636-ab91-d4eb46e4f482@synopsys.com>
+ <20170111204849.GH1913@waldemar-brodkorb.de>
+ <dde21784-c3e4-5a53-6d10-0ac640d18192@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1484173670.2619.28.camel@sandisk.com>
+Message-ID: <20170111224018.GB20925@waldemar-brodkorb.de>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, 2017-01-11@21:31 +0100, gregkh@linuxfoundation.org wrote:
-> That's a big sign that your patch series needs work.  Break it up into
-> smaller pieces, it should be possible, which will make merges easier
-> (well, different in a way.)
+Hi,
+Vineet Gupta wrote,
 
-Hello Greg,
+> On 01/11/2017 12:48 PM, Waldemar Brodkorb wrote:
+> > I reported the issue to Alexey last year.
+> > We added your binutils maintainer to the thread.
+> > Yesterday he had again time to reproduce the problem, but there was
+> > some missing information I gave him yesterday.
+> > 
+> > So may be you can help with this?
+> 
+> It is beyond my area of expertise and Cuper is looking into it, it is in good
+> hands already ;-)
+> 
+> OTOH the reason I was dabbling into this was to track down tst-getpid2 failure on
+> ARC as reported in last known reports.
+> 
+> It seems glibc dropped this test and added a new one instead. See commit
+> 0cb313f7cb0e41 ("Fix clone (CLONE_VM) pid/tid reset (BZ#19957)")
+> 
+> I tried copying over tst-clone2 into uClibc (with a hdr include adjustment), but
+> it seems to runtime fail for me very early (atleast in nSIM).
+> 
+> | [ARCLinux]# ./tst-clone2
+> | child pid (62) != received pid/tid (0/1606237724)
+> | parent pid (61) != received pid/tid (0/1606237724)
+> | [ARCLinux]# random: crng init done
+> | echo $?
+> | 2
+> 
+> Can you please double check this for other targets !
 
-Can you have a look at the attached patches? These three patches are a
-splitup of the single patch at the start of this e-mail thread.
+I have yesterday seen this commit
+c579f48edba88380635ab98cb612030e3ed8691e in glibc and would 
+like to follow here and remove any PID/TID caching.
 
-Thanks,
+Afterwards I can take a look into 0cb313f7cb0e41.
+ 
+> > It is really blocking any complete regression testing :( 
+> 
+> I know sucks, lets hope Cuper nails it down quickly.
 
-Bart.
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 0001-treewide-Move-dma_ops-from-struct-dev_archdata-into-.patch
-Type: text/x-patch
-Size: 22418 bytes
-Desc: 0001-treewide-Move-dma_ops-from-struct-dev_archdata-into-.patch
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20170111/bdb07969/attachment-0003.bin>
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 0002-treewide-Consolidate-set_dma_ops-implementations.patch
-Type: text/x-patch
-Size: 2885 bytes
-Desc: 0002-treewide-Consolidate-set_dma_ops-implementations.patch
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20170111/bdb07969/attachment-0004.bin>
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 0003-treewide-Consolidate-get_dma_ops-implementations.patch
-Type: text/x-patch
-Size: 19530 bytes
-Desc: 0003-treewide-Consolidate-get_dma_ops-implementations.patch
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20170111/bdb07969/attachment-0005.bin>
+That would be really cool.
+
+best regards
+ Waldemar
