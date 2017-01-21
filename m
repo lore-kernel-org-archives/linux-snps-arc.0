@@ -1,142 +1,66 @@
-From: andy.shevchenko@gmail.com (Andy Shevchenko)
-Date: Fri, 20 Jan 2017 22:48:09 +0200
-Subject: [RFC] dmaengine: Add DW AXI DMAC driver
-In-Reply-To: <1484936477.17477.97.camel@synopsys.com>
-References: <1484909414-21078-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <1484919509.2133.270.camel@linux.intel.com>
- <1484936477.17477.97.camel@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Sat, 21 Jan 2017 13:57:40 -0800
+Subject: [GIT PULL] ARC updates for 4.10-rc5
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAHp75VfrRt5NHhh4f9EdsxzCEg1wT__ue5tiCBD1wMvp8NKkHw@mail.gmail.com>
+Message-ID: <9b6c6214-b0c6-df7c-773f-065a596adf89@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Jan 20, 2017 at 8:21 PM, Eugeniy Paltsev
-<Eugeniy.Paltsev@synopsys.com> wrote:
-> Hi Andy,
-> thanks for respond.
->
-> I'm agree with most of the comments.
-> My comments below.
+Hi Linus,
 
-So my answers!
+Please pull.
 
-> On Fri, 2017-01-20@15:38 +0200, Andy Shevchenko wrote:
->> On Fri, 2017-01-20@13:50 +0300, Eugeniy Paltsev wrote:
->> >
->> > This patch adds support for the DW AXI DMAC controller.
->> >
->> > DW AXI DMAC is a part of upcoming development board from Synopsys.
->> >
->> > In this driver implementation only DMA_MEMCPY and DMA_SG transfers
->> > are supported.
->> >
->> > Note: there is no DT documentation in this patch yet, but it will
->> > be added in the nearest future.
->> First of all, please use virt-dma API.
-> Is it necessary?
-> I couldn't find any notes about virt-dma in documentation.
+Thx,
+-Vineet
 
-I can't speak for Vinod or others, but I'm pretty sure their opinion
-would be similar.
-Rationale is:
-- your code will be as less as twice of now
-- since it's commonly used (sub)framework it allows you to create less
-error prone drivers
+---------------->
+The following changes since commit 7ce7d89f48834cefece7804d38fc5d85382edf77:
 
+  Linux 4.10-rc1 (2016-12-25 16:13:08 -0800)
 
->
->> Second, don't look to dw_dmac for examples, it's not a good one to be
->> learned from.
-> Any suggestions about DMA driver to look for examples?
+are available in the git repository at:
 
-...that's why the reasons I would not recommend to look into dw_dmac.
-Any recent driver would work. There is I see something with "*-axi-*"
-in the name, which looks pretty good and simple.
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.10-rc5
 
->> > +   u32 val = axi_dma_ioread32(chip, DMAC_CFG);
->> > +   val &= ~DMAC_EN_MASK;
->> > +   axi_dma_iowrite32(chip, DMAC_CFG, val);
->> Better to use
->>
->> u32 val;
->>
->> val = read();
->> val &= y;
->> write(val);
->>
->> pattern.
->>
->> Same for similar places.
-> Are you sure?
-> I saw opposite advise to use construction like
-> ------------->8---------------
-> u32 val = read();
-> val &= y;
-> write(val);
-> ------------->8---------------
-> to
-> reduce space.
+for you to fetch changes up to d0e73e2ac6a6b157159e1e62f981c06d29f42336:
 
-While less lines of code is good, readability is preferred over amount of LOC.
+  ARC: Revert "ARC: mm: IOC: Don't enable IOC by default" (2017-01-18 19:21:06 -0800)
 
-Like I said it's matter of style. Here is my opinion and the rationale
-behind it.
+----------------------------------------------------------------
+ARC updates for 4.10-rc5
 
->> > +   if (likely(irq_mask == DWAXIDMAC_IRQ_ALL)) {
->> I doubt likely() is useful here anyhow. Have you looked into
->> assembly?
->> Does it indeed do what it's supposed to?
-> Yes, i looked into assembly.
-> I used "likely()" because irq_mask will be equal DWAXIDMAC_IRQ_ALL in
-> 99.9% of this function call.
-> It is useful here, am I wrong?
+ - More intc updates [Yuriv]
 
-I hear that there are really rare cases when you need to use
-[un]likely(). Can you show the difference in the assembly you get
-between two?
+ - Fix module build when unwinder is turned off
 
->> > +static inline bool axi_dma_is_sw_enable(struct axi_dma_chip *chip)
->> > +{
->> > +   struct dw_axi_dma *dw = chip->dw;
->> > +   u32 i;
->> > +
->> > +   for (i = 0; i < dw->hdata->nr_channels; i++) {
->> > +           if (dw->chan[i].in_use)
->> Hmm... I know why we have such flag in dw_dmac, but I doubt it's
->> needed
->> in this driver. Just double check the need of it.
-> I use this flag to check state of channel (used now/unused) to disable
-> dmac if all channels are unused for now.
+ - IO Coherency Programming model updates
 
-Okay, but wouldn't be easier to use runtime PM for that? You will not
-need any special counter and runtime PM will take case of
-enabling/disabling the device.
+ - Other miscll
 
-At LPC2016 Vinod upped topic about generic runtime PM implementation
-for DMAEngine subsystem. I don't know where we are in that right now.
-Perhaps he could tell us more.
+----------------------------------------------------------------
+Vineet Gupta (8):
+      ARC: mmu: clarify the MMUv3 programming model
+      ARCv2: save r30 on kernel entry as gcc uses it for code-gen
+      ARC: module: Fix !CONFIG_ARC_DW2_UNWIND builds
+      ARCv2: IOC: refactor the IOC and SLC operations into own functions
+      ARCv2: IOC: Adhere to progamming model guidelines to avoid DMA corruption
+      ARCv2: IOC: Use actual memory size to setup aperture size
+      ARC: mm: split arc_cache_init to allow __init reaping of bulk
+      ARC: Revert "ARC: mm: IOC: Don't enable IOC by default"
 
->> > +
->> > +   width = sdl ? __ffs(sdl) : DWAXIDMAC_TRANS_WIDTH_MAX;
+Yuriy Kolerov (2):
+      ARC: IRQ: Use hwirq instead of virq in mask/unmask
+      ARCv2: IRQ: Call entry/exit functions for chained handlers in MCIP
 
-Missed comment, I'm not sure that you ever will have sdl == 0.
-
->> > +   ret = dma_coerce_mask_and_coherent(chip->dev,
->> > DMA_BIT_MASK(32));
->> It will not work for 64 bits, it will not work for other users of
->> this
->> driver if any (when you have different DMA mask to be set).
-> Looks like I misunderstood dma_coerce_mask_and_coherent purposes of
-> using.
-
-Yeah, Russell did it as I think a kinda temporary solution for some
-cases. Basically the DMA mask is set by generic platform code for
-Device Tree cases. I, unfortunately don't know / forgot the details.
-Please, invest a bit more time to make it clear. If you go this way,
-add a comment why.
-
-I would suggest to wait for Vinod's and perhaps others to comment
-before sending a new version (it's apparently material for v4.12+).
-
--- 
-With Best Regards,
-Andy Shevchenko
+ arch/arc/Kconfig                   |   2 +-
+ arch/arc/include/asm/cache.h       |   9 ++-
+ arch/arc/include/asm/entry-arcv2.h |   2 +
+ arch/arc/include/asm/module.h      |   4 +-
+ arch/arc/include/asm/ptrace.h      |   2 +-
+ arch/arc/include/asm/setup.h       |   1 +
+ arch/arc/kernel/intc-arcv2.c       |   6 +-
+ arch/arc/kernel/intc-compact.c     |   4 +-
+ arch/arc/kernel/mcip.c             |   4 +
+ arch/arc/kernel/module.c           |   4 +-
+ arch/arc/mm/cache.c                | 155 +++++++++++++++++++++++++++++--------
+ arch/arc/mm/init.c                 |   5 ++
+ 12 files changed, 151 insertions(+), 47 deletions(-)
