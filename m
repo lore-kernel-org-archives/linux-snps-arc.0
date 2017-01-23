@@ -1,149 +1,167 @@
-From: paul.gortmaker@windriver.com (Paul Gortmaker)
-Date: Sun, 22 Jan 2017 11:32:24 -0500
-Subject: [PATCH v3 00/20] Finalize separation of extable.h from module.h
+From: Yuriy.Kolerov@synopsys.com (Yuriy Kolerov)
+Date: Mon, 23 Jan 2017 12:21:24 +0000
+Subject: [PATCH v3 3/3] ARCv2: MCIP: Deprecate setting of affinity in
+ Device Tree
+In-Reply-To: <f3fe3e75-b66a-c628-89d2-df405d8241f1@synopsys.com>
+References: <1482914786-10490-1-git-send-email-yuriy.kolerov@synopsys.com>
+ <1482914786-10490-4-git-send-email-yuriy.kolerov@synopsys.com>
+ <f3fe3e75-b66a-c628-89d2-df405d8241f1@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170122163244.11740-1-paul.gortmaker@windriver.com>
+Message-ID: <3ABF60118B9B784CA5BF7C841D2F00EC010351A2@de02wembxa.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-If you already read the v2 00/NN, then you can skip this v3; the only
-change is to add new arch specific patches that extended build coverage
-and more intelligent regex patterns lead to.
 
-Updated copy of the original v2 00/NN text follows:
 
-Some of the arch specific changes have already been picked up by the
-arch maintainers in v1, so I'm assuming the other folks just figured I'd
-ask Linus to pull the remainder.  Which is the current plan ; soak this
-in linux-next on 4.10-rcN and request a pull in the next merge window.
+> -----Original Message-----
+> From: Vineet Gupta [mailto:vgupta at synopsys.com]
+> Sent: Tuesday, January 03, 2017 9:11 PM
+> To: Yuriy Kolerov <yuriy.kolerov at synopsys.com>; linux-snps-
+> arc at lists.infradead.org
+> Cc: Alexey.Brodkin at synopsys.com; linux-kernel at vger.kernel.org;
+> marc.zyngier at arm.com
+> Subject: Re: [PATCH v3 3/3] ARCv2: MCIP: Deprecate setting of affinity in
+> Device Tree
+> 
+> On 12/28/2016 12:47 AM, Yuriy Kolerov wrote:
+> > Ignore value of interrupt distribution mode for common interrupts in
+> > IDU since setting of affinity using value from Device Tree is
+> > deprecated in ARC. Originally it is done in idu_irq_xlate() function
+> > and it is semantically wrong and does not guaranty that an affinity
+> > value will be set properly. idu_irq_enable() function is better place
+> > for initialization of common interrupts.
+> >
+> > By default send all common interrupts to all available online CPUs.
+> 
+> Is this a departure from our original idea to route everything only to boot cpu
+> ?
+> Otherwise this looks OK to me !
 
-So please shout if you are an arch maintainer and see something here you
-have questions or comments on.  Otherwise, you don't have to do anything.
+I have come to the conclusion that now there is no way to route all interrupts to the boot CPU in a right manner. It may be implemented properly in the future.
 
-Once all the old users who expected extable content via module.h are
-gone, then and only then can we remove the back compat line as done in
-the final patch in this series.
-
-I've been build testing this locally on a regular basis in with my other
-pending work, on a bunch of different architectures, so hopefully we
-don't see anything go pear shaped when it goes into sfr's linux-next.
-
-The only real change in the v1 ---> v2 aside from dropping merged
-content was the restructuring in the ia64 based on comments from Al
-Viro to improve some header separation at the same time.  I'd resent
-just those two for follow up comments and nobody seemed to have further 
-suggestions.  Note that I'm not able to run test ia64; just compile.
-
-There was also a minor context refresh required due to the recent
-treewide asm/uaccess --> linux/uaccess change, which gave me the
-motivation to get this out of my queue and finalized.
-
-RFC/V1: https://lkml.kernel.org/r/CA+55aFyDw_jK609LcjpWvVMTzCWuH6nLUXiZDeYC2tpSaZqhXA at mail.gmail.com
-V2: https://lkml.kernel.org/r/20170109204010.5047-1-paul.gortmaker at windriver.com
-ia64: https://lkml.kernel.org/r/20160920022924.9537-1-paul.gortmaker at windriver.com
-
----
-
-Cc: Al Viro <viro at zeniv.linux.org.uk>
-Cc: Andrew Morton <akpm at linux-foundation.org>
-Cc: Chen Liqin <liqin.linux at gmail.com>
-Cc: Chris Zankel <chris at zankel.net>
-Cc: David Howells <dhowells at redhat.com>
-Cc: "David S. Miller" <davem at davemloft.net>
-Cc: Fenghua Yu <fenghua.yu at intel.com>
-Cc: Guan Xuetao <gxt at mprc.pku.edu.cn>
-Cc: Ivan Kokshaysky <ink at jurassic.park.msu.ru>
-Cc: James Hogan <james.hogan at imgtec.com>
-Cc: Jonas Bonn <jonas at southpole.se>
-Cc: Lennox Wu <lennox.wu at gmail.com>
-Cc: Ley Foon Tan <lftan at altera.com>
-Cc: Linus Torvalds <torvalds at linux-foundation.org>
-Cc: Matt Turner <mattst88 at gmail.com>
-Cc: Max Filippov <jcmvbkbc at gmail.com>
-Cc: Michal Simek <monstr at monstr.eu>
-Cc: Richard Henderson <rth at twiddle.net>
-Cc: Richard Kuo <rkuo at codeaurora.org>
-Cc: Rich Felker <dalias at libc.org>
-Cc: Russell King <linux at armlinux.org.uk>
-Cc: Rusty Russell <rusty at rustcorp.com.au>
-Cc: Stafford Horne <shorne at gmail.com>
-Cc: Stefan Kristiansson <stefan.kristiansson at saunalahti.fi>
-Cc: Sudip Mukherjee <sudipm.mukherjee at gmail.com>
-Cc: Tony Luck <tony.luck at intel.com>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
-Cc: linux-alpha at vger.kernel.org
-Cc: linux-am33-list at redhat.com
-Cc: linux-arm-kernel at lists.infradead.org
-Cc: linux-hexagon at vger.kernel.org
-Cc: linux-ia64 at vger.kernel.org
-Cc: linux-sh at vger.kernel.org
-Cc: linux-snps-arc at lists.infradead.org
-Cc: linux-xtensa at linux-xtensa.org
-Cc: nios2-dev at lists.rocketboards.org
-Cc: openrisc at lists.librecores.org
-Cc: sparclinux at vger.kernel.org
-
-Paul Gortmaker (20):
-  ia64: move ia64_done_with_exception out of asm/uaccess.h
-  ia64: ensure exception table search users include extable.h
-  m32r: migrate exception table users off module.h and onto extable.h
-  arm: migrate exception table users off module.h and onto extable.h
-  alpha: migrate exception table users off module.h and onto extable.h
-  mn10300: migrate exception table users off module.h and onto extable.h
-  xtensa: migrate exception table users off module.h and onto extable.h
-  sh: migrate exception table users off module.h and onto extable.h
-  frv: migrate exception table users off module.h and onto extable.h
-  openrisc: migrate exception table users off module.h and onto extable.h
-  sparc: migrate exception table users onto extable.h
-  nios2: migrate exception table users off module.h and onto extable.h
-  arc: migrate exception table users off module.h and onto extable.h
-  metag: migrate exception table users off module.h and onto extable.h
-  score: migrate exception table users off module.h and onto extable.h
-  unicore32: migrate exception table users off module.h and onto extable.h
-  microblaze: migrate exception table users off module.h and onto extable.h
-  hexagon: migrate exception table users off module.h and onto extable.h
-  core: migrate exception table users off module.h and onto extable.h
-  module.h: remove extable.h include now users have migrated
-
- arch/alpha/kernel/traps.c         |  2 +-
- arch/alpha/mm/fault.c             |  2 +-
- arch/arc/mm/extable.c             |  3 ++-
- arch/arm/mm/extable.c             |  2 +-
- arch/arm/mm/fault.c               |  2 +-
- arch/frv/mm/extable.c             |  2 +-
- arch/hexagon/mm/vm_fault.c        |  2 +-
- arch/ia64/include/asm/exception.h | 35 +++++++++++++++++++++++++++++++++++
- arch/ia64/include/asm/uaccess.h   | 15 ---------------
- arch/ia64/kernel/kprobes.c        |  4 ++--
- arch/ia64/kernel/traps.c          |  6 ++++--
- arch/ia64/kernel/unaligned.c      |  4 +++-
- arch/ia64/mm/fault.c              |  2 ++
- arch/m32r/mm/extable.c            |  2 +-
- arch/m32r/mm/fault.c              |  2 +-
- arch/metag/mm/extable.c           |  3 +--
- arch/microblaze/mm/fault.c        |  2 +-
- arch/mn10300/mm/extable.c         |  2 +-
- arch/mn10300/mm/misalignment.c    |  2 +-
- arch/nios2/mm/extable.c           |  2 +-
- arch/nios2/mm/fault.c             |  2 +-
- arch/openrisc/mm/fault.c          |  2 +-
- arch/score/mm/extable.c           |  2 +-
- arch/score/mm/fault.c             |  2 +-
- arch/sh/include/asm/uaccess.h     |  1 -
- arch/sh/kernel/kprobes.c          |  2 +-
- arch/sh/kernel/traps.c            |  3 ++-
- arch/sh/mm/extable_32.c           |  2 +-
- arch/sh/mm/extable_64.c           |  2 +-
- arch/sparc/mm/extable.c           |  1 +
- arch/unicore32/mm/extable.c       |  2 +-
- arch/unicore32/mm/fault.c         |  2 +-
- arch/xtensa/mm/fault.c            |  2 +-
- include/linux/module.h            |  1 -
- init/main.c                       |  1 +
- kernel/extable.c                  |  1 +
- kernel/module.c                   |  1 +
- 37 files changed, 77 insertions(+), 48 deletions(-)
- create mode 100644 arch/ia64/include/asm/exception.h
-
--- 
-2.11.0
+> -Vineet
+> 
+> > The affinity of common interrupts in IDU must be set manually since in
+> > some cases the kernel will not call irq_set_affinity() by itself:
+> >
+> >   1. When the kernel is not configured with support of SMP.
+> >   2. When the kernel is configured with support of SMP but upper
+> >      interrupt controllers does not support setting of the affinity
+> >      and cannot propagate it to IDU.
+> >
+> > Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
+> > ---
+> >  .../interrupt-controller/snps,archs-idu-intc.txt   |  3 ++
+> >  arch/arc/kernel/mcip.c                             | 52 +++++++++-------------
+> >  2 files changed, 25 insertions(+), 30 deletions(-)
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-id
+> > u-intc.txt
+> > b/Documentation/devicetree/bindings/interrupt-controller/snps,archs-id
+> > u-intc.txt
+> > index 0dcb7c7..9446576 100644
+> > ---
+> > a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-id
+> > u-intc.txt
+> > +++ b/Documentation/devicetree/bindings/interrupt-controller/snps,arch
+> > +++ s-idu-intc.txt
+> > @@ -15,6 +15,9 @@ Properties:
+> >    Second cell specifies the irq distribution mode to cores
+> >       0=Round Robin; 1=cpu0, 2=cpu1, 4=cpu2, 8=cpu3
+> >
+> > +  The second cell in interrupts property is deprecated and may be
+> > + ignored by  the kernel.
+> > +
+> >    intc accessed via the special ARC AUX register interface, hence "reg"
+> property
+> >    is not specified.
+> >
+> > diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c index
+> > be131b2..d492a3c 100644
+> > --- a/arch/arc/kernel/mcip.c
+> > +++ b/arch/arc/kernel/mcip.c
+> > @@ -175,7 +175,6 @@ static void idu_irq_unmask(struct irq_data *data)
+> >  	raw_spin_unlock_irqrestore(&mcip_lock, flags);  }
+> >
+> > -#ifdef CONFIG_SMP
+> >  static int
+> >  idu_irq_set_affinity(struct irq_data *data, const struct cpumask
+> *cpumask,
+> >  		     bool force)
+> > @@ -205,12 +204,27 @@ idu_irq_set_affinity(struct irq_data *data,
+> > const struct cpumask *cpumask,
+> >
+> >  	return IRQ_SET_MASK_OK;
+> >  }
+> > -#endif
+> > +
+> > +static void idu_irq_enable(struct irq_data *data) {
+> > +	/*
+> > +	 * By default send all common interrupts to all available online CPUs.
+> > +	 * The affinity of common interrupts in IDU must be set manually
+> since
+> > +	 * in some cases the kernel will not call irq_set_affinity() by itself:
+> > +	 *   1. When the kernel is not configured with support of SMP.
+> > +	 *   2. When the kernel is configured with support of SMP but upper
+> > +	 *      interrupt controllers does not support setting of the affinity
+> > +	 *      and cannot propagate it to IDU.
+> > +	 */
+> > +	idu_irq_set_affinity(data, cpu_online_mask, false);
+> > +	idu_irq_unmask(data);
+> > +}
+> >
+> >  static struct irq_chip idu_irq_chip = {
+> >  	.name			= "MCIP IDU Intc",
+> >  	.irq_mask		= idu_irq_mask,
+> >  	.irq_unmask		= idu_irq_unmask,
+> > +	.irq_enable		= idu_irq_enable,
+> >  #ifdef CONFIG_SMP
+> >  	.irq_set_affinity       = idu_irq_set_affinity,
+> >  #endif
+> > @@ -243,36 +257,14 @@ static int idu_irq_xlate(struct irq_domain *d,
+> struct device_node *n,
+> >  			 const u32 *intspec, unsigned int intsize,
+> >  			 irq_hw_number_t *out_hwirq, unsigned int
+> *out_type)  {
+> > -	irq_hw_number_t hwirq = *out_hwirq = intspec[0];
+> > -	int distri = intspec[1];
+> > -	unsigned long flags;
+> > -
+> > +	/*
+> > +	 * Ignore value of interrupt distribution mode for common interrupts
+> in
+> > +	 * IDU which resides in intspec[1] since setting an affinity using value
+> > +	 * from Device Tree is deprecated in ARC.
+> > +	 */
+> > +	*out_hwirq = intspec[0];
+> >  	*out_type = IRQ_TYPE_NONE;
+> >
+> > -	/* XXX: validate distribution scheme again online cpu mask */
+> > -	if (distri == 0) {
+> > -		/* 0 - Round Robin to all cpus, otherwise 1 bit per core */
+> > -		raw_spin_lock_irqsave(&mcip_lock, flags);
+> > -		idu_set_dest(hwirq, BIT(num_online_cpus()) - 1);
+> > -		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL,
+> IDU_M_DISTRI_RR);
+> > -		raw_spin_unlock_irqrestore(&mcip_lock, flags);
+> > -	} else {
+> > -		/*
+> > -		 * DEST based distribution for Level Triggered intr can only
+> > -		 * have 1 CPU, so generalize it to always contain 1 cpu
+> > -		 */
+> > -		int cpu = ffs(distri);
+> > -
+> > -		if (cpu != fls(distri))
+> > -			pr_warn("IDU irq %lx distri mode set to cpu %x\n",
+> > -				hwirq, cpu);
+> > -
+> > -		raw_spin_lock_irqsave(&mcip_lock, flags);
+> > -		idu_set_dest(hwirq, cpu);
+> > -		idu_set_mode(hwirq, IDU_M_TRIG_LEVEL,
+> IDU_M_DISTRI_DEST);
+> > -		raw_spin_unlock_irqrestore(&mcip_lock, flags);
+> > -	}
+> > -
+> >  	return 0;
+> >  }
+> >
