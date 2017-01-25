@@ -1,26 +1,37 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 23 Jan 2017 13:14:04 -0800
-Subject: [PATCH 13/20] arc: migrate exception table users off module.h and
- onto extable.h
-In-Reply-To: <20170122163244.11740-14-paul.gortmaker@windriver.com>
-References: <20170122163244.11740-1-paul.gortmaker@windriver.com>
- <20170122163244.11740-14-paul.gortmaker@windriver.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 25 Jan 2017 18:34:15 +0300
+Subject: [PATCH 0/2] dmaengine: Add DW AXI DMAC driver
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b8c3cef5-ad62-1e2f-499c-b80816a88469@synopsys.com>
+Message-ID: <1485358457-22957-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 01/22/2017 08:32 AM, Paul Gortmaker wrote:
-> This file was only including module.h for exception table related
-> functions.  We've now separated that content out into its own file
-> "extable.h" so now move over to that and avoid all the extra header
-> content in module.h that we don't really need to compile this file.
-> Since the file does have some EXPORT_SYMBOL, we add export.h include.
-> 
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: linux-snps-arc at lists.infradead.org
-> Signed-off-by: Paul Gortmaker <paul.gortmaker at windriver.com>
+This patch series add support for the DW AXI DMAC controller.
 
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
+DW AXI DMAC is a part of upcoming development board from Synopsys.
 
-Thx,
--Vineet
+In this driver implementation only DMA_MEMCPY and DMA_SG transfers
+are supported.
+
+Changes for v0:
+ * Switch to virt-dma API (according to previous RFC)
+ * Small fixies according to previous RFC
+ * Add DT bindings
+
+Eugeniy Paltsev (2):
+  dt-bindings: Document the Synopsys DW AXI DMA bindings
+  dmaengine: Add DW AXI DMAC driver
+
+ .../devicetree/bindings/dma/snps,axi-dw-dmac.txt   |   33 +
+ drivers/dma/Kconfig                                |    8 +
+ drivers/dma/Makefile                               |    1 +
+ drivers/dma/axi_dma_platform.c                     | 1060 ++++++++++++++++++++
+ drivers/dma/axi_dma_platform.h                     |  124 +++
+ drivers/dma/axi_dma_platform_reg.h                 |  189 ++++
+ 6 files changed, 1415 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/dma/snps,axi-dw-dmac.txt
+ create mode 100644 drivers/dma/axi_dma_platform.c
+ create mode 100644 drivers/dma/axi_dma_platform.h
+ create mode 100644 drivers/dma/axi_dma_platform_reg.h
+
+-- 
+2.5.5
