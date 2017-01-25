@@ -1,300 +1,78 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Wed, 25 Jan 2017 19:25:06 +0200
-Subject: [PATCH 2/2] dmaengine: Add DW AXI DMAC driver
-In-Reply-To: <1485358457-22957-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
-References: <1485358457-22957-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <1485358457-22957-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 25 Jan 2017 18:39:24 +0000
+Subject: stmmac: GMAC_RGSMIIIS reports bogus values
+In-Reply-To: <a1f114cc-6120-154c-a3f7-3e0389d38e36@st.com>
+References: <1478189833.4072.65.camel@synopsys.com>
+ <a1f114cc-6120-154c-a3f7-3e0389d38e36@st.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1485365106.2133.331.camel@linux.intel.com>
+Message-ID: <1485369563.7117.81.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, 2017-01-25@18:34 +0300, Eugeniy Paltsev wrote:
-> This patch adds support for the DW AXI DMAC controller.
+Hi Giuseppe,
+
+On Mon, 2016-11-14@09:14 +0100, Giuseppe CAVALLARO wrote:
+> Hello Alexey
 > 
-> DW AXI DMAC is a part of upcoming development board from Synopsys.
-> 
-> In this driver implementation only DMA_MEMCPY and DMA_SG transfers
-> are supported.
-> 
+> Sorry for my late reply. In that case, I think that the stmmac
+> is using own RGMII/SGMII support (PCS) to dialog with the
+> transceiver. I think, from the HW capability register
+> this feature is present and the driver is using it as default.
 
-Few more comments on top of not addressed/answered yet.
+Yep looks like that.
 
-> +static inline void axi_chan_disable(struct axi_dma_chan *chan)
-> +{
-> +	u32 val;
-> +
-> +	val = axi_dma_ioread32(chan->chip, DMAC_CHEN);
-> +	val &= ~(BIT(chan->id) << DMAC_CHAN_EN_SHIFT);
-> +	val |=??(BIT(chan->id) << DMAC_CHAN_EN_WE_SHIFT);
-> +	axi_dma_iowrite32(chan->chip, DMAC_CHEN, val);
-> +}
-> +
-> +static inline void axi_chan_enable(struct axi_dma_chan *chan)
-> +{
-> +	u32 val;
-> +
-> +	val = axi_dma_ioread32(chan->chip, DMAC_CHEN);
+> I kindly ask you to verify if this is your setup or if you
+> do not want to use it. In that case, it is likely we need to
+> add some code in the driver.
 
-> +	val |= (BIT(chan->id) << DMAC_CHAN_EN_SHIFT |
-> +		BIT(chan->id) << DMAC_CHAN_EN_WE_SHIFT);
-> 
+Well GMAC's databook says:
+--------------------------->8--------------------------
+The DWC_gmac provides an IEEE 802.3z compliant 10-bit
+Physical Coding Sublayer (PCS) interface that you can use
+when the MAC is configured for the TBI, RTBI, or SGMII PHY
+interface.
 
-Redundant parens.
+...
 
-> +	axi_dma_iowrite32(chan->chip, DMAC_CHEN, val);
-> +}
+You can include the optional PCS module in the DWC_gmac by
+selecting the TBI, RTBI, or SGMII interface in coreConsultant
+during configuration.
+--------------------------->8--------------------------
 
+But we use RGMII for communication with the PHY.
+And from the quote above I would conclude that for RGMII we should
+have PCS excluded from GMAC.
 
-> +static void axi_desc_put(struct axi_dma_desc *desc)
-> +{
-> +	struct axi_dma_chan *chan = desc->chan;
-> +	struct dw_axi_dma *dw = chan->chip->dw;
-> +	struct axi_dma_desc *child, *_next;
-> +	unsigned int descs_put = 0;
-> +
+I just sent email to GMAC developers here in Synopsys and
+hopefully will get some clarifications from them soon.
 
-> +	if (unlikely(!desc))
-> +		return;
+Probably correct solution is as simple as:
+--------------------------->8--------------------------
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index a276a32d57f2..f4b67dc7d530 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -803,13 +803,7 @@ static void stmmac_check_pcs_mode(struct stmmac_priv *priv)
+????????int interface = priv->plat->interface;
+?
+????????if (priv->dma_cap.pcs) {
+-???????????????if ((interface == PHY_INTERFACE_MODE_RGMII) ||
+-???????????????????(interface == PHY_INTERFACE_MODE_RGMII_ID) ||
+-???????????????????(interface == PHY_INTERFACE_MODE_RGMII_RXID) ||
+-???????????????????(interface == PHY_INTERFACE_MODE_RGMII_TXID)) {
+-???????????????????????netdev_dbg(priv->dev, "PCS RGMII support enabled\n");
+-???????????????????????priv->hw->pcs = STMMAC_PCS_RGMII;
+-???????????????} else if (interface == PHY_INTERFACE_MODE_SGMII) {
++???????????????if (interface == PHY_INTERFACE_MODE_SGMII) {
+????????????????????????netdev_dbg(priv->dev, "PCS SGMII support enabled\n");
+????????????????????????priv->hw->pcs = STMMAC_PCS_SGMII;
+????????????????}
+--------------------------->8--------------------------
 
-Would it be the case?
+> Also I wonder if, other version of the stmmac worked on this platform
+> before.
 
-> +static void dma_chan_issue_pending(struct dma_chan *dchan)
-> +{
-> +	struct axi_dma_chan *chan = dchan_to_axi_dma_chan(dchan);
-> +	unsigned long flags;
-> +
+It did work and still works. The only problem is we're getting
+a lot of noise now about bogus link status change. That's because
+this info is now in pr_info() compared to being previously in pr_debug().
 
-> +	dev_dbg(dchan2dev(dchan), "%s: %s\n", __func__,
-> axi_chan_name(chan));
-
-Messages like this kinda redundant.
-Either you use function tracer and see them anyway, or you are using
-Dynamic Debug, which may include function name.
-
-Basically you wrote an equivalent to something like
-
-dev_dbg(dev, "%s\n", channame);
-
-> +
-> +	spin_lock_irqsave(&chan->vc.lock, flags);
-> +	if (vchan_issue_pending(&chan->vc))
-> +		axi_chan_start_first_queued(chan);
-> +	spin_unlock_irqrestore(&chan->vc.lock, flags);
-
-...and taking into account the function itself one might expect
-something useful printed in _start_first_queued().
-
-For some cases there is also dev_vdbg().
-
-> +}
-> +
-> +static int dma_chan_alloc_chan_resources(struct dma_chan *dchan)
-> +{
-> +	struct axi_dma_chan *chan = dchan_to_axi_dma_chan(dchan);
-> +
-> +	/* ASSERT: channel is idle */
-> +	if (axi_chan_is_hw_enable(chan)) {
-> +		dev_err(chan2dev(chan), "%s is non-idle!\n",
-> +			axi_chan_name(chan));
-> +		return -EBUSY;
-> +	}
-> +
-
-> +	dev_dbg(dchan2dev(dchan), "%s: allocating\n",
-> axi_chan_name(chan));
-
-Can you try to enable DMADEVICES_DEBUG and VDEBUG and see what is useful
-and what is not?
-
-Give a chance to function tracer as well.
-
-> +static void dma_chan_free_chan_resources(struct dma_chan *dchan)
-> +{
-> +	struct axi_dma_chan *chan = dchan_to_axi_dma_chan(dchan);
-> +
-> 
-
-> +	/* ASSERT: channel is idle */
-> +	if (axi_chan_is_hw_enable(chan))
-> +		dev_err(dchan2dev(dchan), "%s is non-idle!\n",
-> +			axi_chan_name(chan));
-
-Yeah, as I said, dw_dmac is not a good example. And this one can be
-managed by runtime PM I suppose.
-
-> +
-> +/* TODO: REVISIT: how we should choose AXI master for mem-to-mem
-> transfer? */
-
-Read datasheet for a SoC/platform? For dw_dmac is chosen with accordance
-to hardware topology.
-
-> +	while (true) {
-
-Usually it makes readability harder and rises a red flag to the code.
-
-> 		/* Manage transfer list (xfer_list) */
-> +		if (!first) {
-> +			first = desc;
-> +		} else {
-> +			list_add_tail(&desc->xfer_list, &first-
-> >xfer_list);
-> +			write_desc_llp(prev, desc->vd.tx.phys | lms);
-> +		}
-> +		prev = desc;
-> +
-> +		/* update the lengths and addresses for the next loop
-> cycle */
-> +		dst_len -= xfer_len;
-> +		src_len -= xfer_len;
-> +		dst_adr += xfer_len;
-> +		src_adr += xfer_len;
-> +
-> +		total_len += xfer_len;
-
-I would suggest to leave this on caller. At some point, if no one else
-do this faster than me, I would like to introduce something like struct
-dma_parms per DMA channel to allow caller prepare SG list suitable for
-the DMA device.
-
-> +
-> +static struct dma_async_tx_descriptor *
-> +dma_chan_prep_dma_memcpy(struct dma_chan *dchan, dma_addr_t dest,
-> +			?dma_addr_t src, size_t len, unsigned long
-> flags)
-> +{
-
-Do you indeed have a use case for this except debugging and testing?
-
-> +	unsigned int nents = 1;
-> +	struct scatterlist dst_sg;
-> +	struct scatterlist src_sg;
-> +
-> +	sg_init_table(&dst_sg, nents);
-> +	sg_init_table(&src_sg, nents);
-> +
-> +	sg_dma_address(&dst_sg) = dest;
-> +	sg_dma_address(&src_sg) = src;
-> +
-> +	sg_dma_len(&dst_sg) = len;
-> +	sg_dma_len(&src_sg) = len;
-> +
-> +	/* Implement memcpy transfer as sg transfer with single list
-> */
-
-> +	return dma_chan_prep_dma_sg(dchan, &dst_sg, nents,
-> +				????&src_sg, nents, flags);
-
-One line?
-
-> +}
-
-> +
-> +static void axi_chan_dump_lli(struct axi_dma_chan *chan,
-> +			??????struct axi_dma_desc *desc)
-> +{
-> +	dev_err(dchan2dev(&chan->vc.chan),
-> +		"SAR: 0x%x DAR: 0x%x LLP: 0x%x BTS 0x%x CTL:
-> 0x%x:%08x",
-> +		le32_to_cpu(desc->lli.sar_lo),
-> +		le32_to_cpu(desc->lli.dar_lo),
-> +		le32_to_cpu(desc->lli.llp_lo),
-> +		le32_to_cpu(desc->lli.block_ts_lo),
-> +		le32_to_cpu(desc->lli.ctl_hi),
-> +		le32_to_cpu(desc->lli.ctl_lo));
-
-I hope at some point ARC (and other architectures which will use this
-IP) can implement MMIO tracer.
-
-> +}
-
-> +		axi_chan_dump_lli(chan, desc);
-> +}
-> +
-> +
-
-Extra line.
-
-> +static void axi_chan_handle_err(struct axi_dma_chan *chan, u32
-> status)
-> +{
-
-> +
-> +static int dma_chan_pause(struct dma_chan *dchan)
-> +{
-> +	struct axi_dma_chan *chan = dchan_to_axi_dma_chan(dchan);
-> +	unsigned long flags;
-> +	unsigned int timeout = 20; /* timeout iterations */
-> +	int ret = -EAGAIN;
-> +	u32 val;
-> +
-> +	spin_lock_irqsave(&chan->vc.lock, flags);
-> +
-> +	val = axi_dma_ioread32(chan->chip, DMAC_CHEN);
-> +	val |= (BIT(chan->id) << DMAC_CHAN_SUSP_SHIFT |
-> +		BIT(chan->id) << DMAC_CHAN_SUSP_WE_SHIFT);
-
-Redundant parens.
-
-> +	axi_dma_iowrite32(chan->chip, DMAC_CHEN, val);
-> +
-> +	while (timeout--) {
-
-> +		if (axi_chan_irq_read(chan) &
-> DWAXIDMAC_IRQ_SUSPENDED) {
-
-> +			axi_chan_irq_clear(chan,
-> DWAXIDMAC_IRQ_SUSPENDED);
-
-You may move this invariant out from the loop. Makes code cleaner.
-
-> +			ret = 0;
-> +			break;
-> +		}
-
-> +		udelay(2);
-
-
-> +	}
-> +
-> +	chan->is_paused = true;
-
-This is indeed property of channel.
-That said, you may do a trick and use descriptor status for it.
-You channel and driver, I'm sure, can't serve in interleaved mode with
-descriptors. So, that makes channel(paused) == active
-descriptor(paused).
-
-The trick allows to make code cleaner.
-
-> +	ret = device_property_read_u32_array(dev, "priority", carr,
-
-I'm not sure you will have a use case for that. Have you?
-
-> +	ret = devm_request_irq(chip->dev, chip->irq,
-> dw_axi_dma_intretupt,
-> +			???????IRQF_SHARED, DRV_NAME, chip);
-> +	if (ret)
-> +		return ret;
-
-You can't do this unless you are using threaded IRQ handler without any
-tasklets involved.
-
-There was a nice mail by Thomas who explained what the problem you have
-there.
-
-It's a bug in your code.
-
-> +static int __init dw_init(void)
-> +{
-> +	return platform_driver_register(&dw_driver);
-> +}
-> +subsys_initcall(dw_init);
-
-Hmm... Why it can't be just a platform driver? You describe the
-dependency in Device Tree, if you have something happened, you may
-utilize -EPROBE_DEFER.
-
--- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+-Alexey
