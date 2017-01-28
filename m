@@ -1,37 +1,54 @@
 From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
-Date: Sat, 28 Jan 2017 03:01:37 +0300
-Subject: [PATCH 0/6] Use build registers for getting numbers of interrupts
+Date: Sat, 28 Jan 2017 03:01:39 +0300
+Subject: [PATCH 2/6] ARCv2: MCIP: Add structure for build register of IDU
+In-Reply-To: <1485561703-20921-1-git-send-email-yuriy.kolerov@synopsys.com>
+References: <1485561703-20921-1-git-send-email-yuriy.kolerov@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1485561703-20921-1-git-send-email-yuriy.kolerov@synopsys.com>
+Message-ID: <1485561703-20921-3-git-send-email-yuriy.kolerov@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-A summary:
+This structure is necessary for retrieving of supported
+number of common interrupts in IDU interrupt controller.
 
-  * Use build registers for getting numbers of interrupts both for
-    core interrupt controller and for IDU interrupt controller.
-  * Set a default priority for all core interrupt to prevent
-    unexpected switching of banks of registers.
-  * Remove option for setting number of interrupts since it does
-    not affect a number of interrupts in IRQ domains and breaks
-    portability since it is impossible to change size of table of
-    interrupts after linkage.
+Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
+---
+ include/soc/arc/mcip.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Yuriy Kolerov (6):
-  ARCv2: IRQ: Move structures for core intc to the header
-  ARCv2: MCIP: Add structure for build register of IDU
-  ARCv2: IRQ: Add macro for the first external interrupt number
-  ARCv2: IRQ: Remove option for setting number of interrupts
-  ARCv2: IRQ: Use build registers for getting numbers of interrupts
-  ARCv2: IRQ: Set a default priority for all core interrupts
-
- arch/arc/Kconfig               | 11 -----------
- arch/arc/include/asm/arcregs.h | 26 +++++++++++++++++++++++++
- arch/arc/include/asm/irq.h     | 32 +++++++++++++++++++++++++++---
- arch/arc/kernel/entry-arcv2.S  |  3 ++-
- arch/arc/kernel/intc-arcv2.c   | 44 ++++++++++++++++++++----------------------
- arch/arc/kernel/mcip.c         | 31 +++++++++++++++++------------
- include/soc/arc/mcip.h         | 17 ++++++++++++++++
- 7 files changed, 114 insertions(+), 50 deletions(-)
-
+diff --git a/include/soc/arc/mcip.h b/include/soc/arc/mcip.h
+index 6902c2a..798c01b 100644
+--- a/include/soc/arc/mcip.h
++++ b/include/soc/arc/mcip.h
+@@ -14,6 +14,7 @@
+ #include <soc/arc/aux.h>
+ 
+ #define ARC_REG_MCIP_BCR	0x0d0
++#define ARC_REG_MCIP_IDU_BCR	0x0D5
+ #define ARC_REG_MCIP_CMD	0x600
+ #define ARC_REG_MCIP_WDATA	0x601
+ #define ARC_REG_MCIP_READBACK	0x602
+@@ -69,6 +70,22 @@ struct mcip_bcr {
+ #endif
+ };
+ 
++struct mcip_idu_bcr {
++#ifdef CONFIG_CPU_BIG_ENDIAN
++	unsigned int pad:21, cirqnum:3, ver:8;
++#else
++	unsigned int ver:8, cirqnum:3, pad:21;
++#endif
++};
++
++
++/*
++ * Build register for IDU contains not an actual number of supported common
++ * interrupts but an exponent of 2 which must be multiplied by 4 to
++ * get a number of supported common interrupts.
++ */
++#define mcip_idu_bcr_to_nr_irqs(bcr) (4 * (1 << (bcr).cirqnum))
++
+ /*
+  * MCIP programming model
+  *
 -- 
 2.7.4
