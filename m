@@ -1,105 +1,128 @@
 From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
-Date: Sat, 28 Jan 2017 03:01:38 +0300
-Subject: [PATCH 1/6] ARCv2: IRQ: Move structures for core intc to the header
+Date: Sat, 28 Jan 2017 03:01:41 +0300
+Subject: [PATCH 4/6] ARCv2: IRQ: Remove option for setting number of interrupts
 In-Reply-To: <1485561703-20921-1-git-send-email-yuriy.kolerov@synopsys.com>
 References: <1485561703-20921-1-git-send-email-yuriy.kolerov@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1485561703-20921-2-git-send-email-yuriy.kolerov@synopsys.com>
+Message-ID: <1485561703-20921-5-git-send-email-yuriy.kolerov@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Also add new macro ARC_REG_STATUS32 for the address of STATUS32
-auxiliary register. It is better to use it instead of magic numbers.
+When you set a value of ARC_NUMBER_OF_INTERRUPTS option
+it affects only a size of the interrupts table but macros
+for number of virtual interrupts (NR_IRQS) and for number
+of hardware interrupts (NR_CPU_IRQS) remain unchanged.
+Moreover usage of ARC_NUMBER_OF_INTERRUPTS is bad for
+portability since it is not possible to change size
+of the interrupts table after linkage.
+
+This patch makes these changes in IRQ subsystem:
+
+  * NR_CPU_IRQS defines a maximum number of hardware interrupts.
+  * Remove ARC_NUMBER_OF_INTERRUPTS option and create interrupts
+    table for all possible hardware interrupts.
+  * Increase a maximum number of virtual IRQs to 512. ARCv2 can
+    support 240 interrupts in the core interrupts controllers
+    and 128 interrupts in IDU. Thus 512 virtual IRQs must be
+    enough for most configurations of boards.
 
 Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
 ---
- arch/arc/include/asm/arcregs.h | 26 ++++++++++++++++++++++++++
- arch/arc/kernel/intc-arcv2.c   | 23 +++--------------------
- 2 files changed, 29 insertions(+), 20 deletions(-)
+ arch/arc/Kconfig              | 11 -----------
+ arch/arc/include/asm/irq.h    | 28 +++++++++++++++++++++++++---
+ arch/arc/kernel/entry-arcv2.S |  3 ++-
+ 3 files changed, 27 insertions(+), 15 deletions(-)
 
-diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
-index f659942..bc1f7bf 100644
---- a/arch/arc/include/asm/arcregs.h
-+++ b/arch/arc/include/asm/arcregs.h
-@@ -38,6 +38,9 @@
- #define ARC_REG_CLUSTER_BCR	0xcf
- #define ARC_REG_AUX_ICCM	0x208	/* ICCM Base Addr (ARCv2) */
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 283099c..ba15cb8 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -412,17 +412,6 @@ config ARC_HAS_DIV_REM
+ 	bool "Insn: div, divu, rem, remu"
+ 	default y
  
-+/* Common for ARCompact and ARCv2 status register */
-+#define ARC_REG_STATUS32	0x0A
-+
- /* status32 Bits Positions */
- #define STATUS_AE_BIT		5	/* Exception active */
- #define STATUS_DE_BIT		6	/* PC is in delay slot */
-@@ -233,6 +236,29 @@ struct bcr_generic {
- #endif
- };
+-config ARC_NUMBER_OF_INTERRUPTS
+-	int "Number of interrupts"
+-	range 8 240
+-	default 32
+-	help
+-	  This defines the number of interrupts on the ARCv2HS core.
+-	  It affects the size of vector table.
+-	  The initial 8 IRQs are fixed (Timer, ICI etc) and although configurable
+-	  in hardware, it keep things simple for Linux to assume they are always
+-	  present.
+-
+ endif	# ISA_ARCV2
  
-+struct bcr_irq_arcv2 {
-+#ifdef CONFIG_CPU_BIG_ENDIAN
-+	unsigned int pad:3, firq:1, prio:4, exts:8, irqs:8, ver:8;
-+#else
-+	unsigned int ver:8, irqs:8, exts:8, prio:4, firq:1, pad:3;
-+#endif
-+};
+ endmenu   # "ARC CPU Configuration"
+diff --git a/arch/arc/include/asm/irq.h b/arch/arc/include/asm/irq.h
+index e61ad30..dfa09e3 100644
+--- a/arch/arc/include/asm/irq.h
++++ b/arch/arc/include/asm/irq.h
+@@ -9,19 +9,41 @@
+ #ifndef __ASM_ARC_IRQ_H
+ #define __ASM_ARC_IRQ_H
+ 
+-#define NR_CPU_IRQS	32  /* number of interrupt lines of ARC770 CPU */
+-#define NR_IRQS		128 /* allow some CPU external IRQ handling */
++#ifdef CONFIG_ISA_ARCV2
 +
 +/*
-+ ***********************************************
-+ * Control registers for configuration of CPU
++ * A maximum number of supported interrupts in the core interrupt controller.
++ * This number is not equal to the maximum interrupt number (256) because
++ * first 16 lines are reserved for exceptions and are not configurable.
 + */
++#define NR_CPU_IRQS	240
 +
-+struct aux_irq_ctrl_arcv2 {
-+#ifdef CONFIG_CPU_BIG_ENDIAN
-+	unsigned int res3:18, save_idx_regs:1, res2:1, save_u_to_u:1,
-+		     save_lp_regs:1, save_blink:1, res:4, save_nr_gpr_pairs:5;
++/*
++ * ARCv2 can support 240 interrupts in the core interrupts controllers and
++ * 128 interrupts in IDU. Thus 512 virtual IRQs must be enough for most
++ * configurations of boards.
++ */
++#define NR_IRQS		512
+ 
+ /* Platform Independent IRQs */
+-#ifdef CONFIG_ISA_ARCV2
+ #define IPI_IRQ		19
+ #define SOFTIRQ_IRQ	21
+ #define FIRST_EXT_IRQ	24
++
 +#else
-+	unsigned int save_nr_gpr_pairs:5, res:4, save_blink:1, save_lp_regs:1,
-+		     save_u_to_u:1, res2:1, save_idx_regs:1, res3:18;
-+#endif
-+};
 +
- /*
-  *******************************************************************
-  * Generic structures to hold build configuration used at runtime
-diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
-index ecef0fb..2f31bb1 100644
---- a/arch/arc/kernel/intc-arcv2.c
-+++ b/arch/arc/kernel/intc-arcv2.c
-@@ -24,25 +24,8 @@ void arc_init_IRQ(void)
- {
- 	unsigned int tmp, irq_prio;
++#define NR_CPU_IRQS	32  /* number of interrupt lines of ARC770 CPU */
++#define NR_IRQS		128 /* allow some CPU external IRQ handling */
++
+ #endif
  
--	struct irq_build {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--		unsigned int pad:3, firq:1, prio:4, exts:8, irqs:8, ver:8;
--#else
--		unsigned int ver:8, irqs:8, exts:8, prio:4, firq:1, pad:3;
--#endif
--	} irq_bcr;
--
--	struct aux_irq_ctrl {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--		unsigned int res3:18, save_idx_regs:1, res2:1,
--			     save_u_to_u:1, save_lp_regs:1, save_blink:1,
--			     res:4, save_nr_gpr_pairs:5;
--#else
--		unsigned int save_nr_gpr_pairs:5, res:4,
--			     save_blink:1, save_lp_regs:1, save_u_to_u:1,
--			     res2:1, save_idx_regs:1, res3:18;
--#endif
--	} ictrl;
-+	struct bcr_irq_arcv2 irq_bcr;
-+	struct aux_irq_ctrl_arcv2 ictrl;
++#ifndef __ASSEMBLY__
++
+ #include <linux/interrupt.h>
+ #include <asm-generic/irq.h>
  
- 	*(unsigned int *)&ictrl = 0;
+ extern void arc_init_IRQ(void);
  
-@@ -69,7 +52,7 @@ void arc_init_IRQ(void)
- 		irq_bcr.firq ? " FIRQ (not used)":"");
+ #endif
++
++#endif
+diff --git a/arch/arc/kernel/entry-arcv2.S b/arch/arc/kernel/entry-arcv2.S
+index 0b6388a..f22101e 100644
+--- a/arch/arc/kernel/entry-arcv2.S
++++ b/arch/arc/kernel/entry-arcv2.S
+@@ -13,6 +13,7 @@
+ #include <asm/errno.h>
+ #include <asm/arcregs.h>
+ #include <asm/irqflags.h>
++#include <asm/irq.h>
  
- 	/* setup status32, don't enable intr yet as kernel doesn't want */
--	tmp = read_aux_reg(0xa);
-+	tmp = read_aux_reg(ARC_REG_STATUS32);
- 	tmp |= STATUS_AD_MASK | (ARCV2_IRQ_DEF_PRIO << 1);
- 	tmp &= ~STATUS_IE_MASK;
- 	asm volatile("kflag %0	\n"::"r"(tmp));
+ 	.cpu HS
+ 
+@@ -52,7 +53,7 @@ VECTOR	handle_interrupt	; unused
+ VECTOR	handle_interrupt	; (23) unused
+ # End of fixed IRQs
+ 
+-.rept CONFIG_ARC_NUMBER_OF_INTERRUPTS - 8
++.rept NR_CPU_IRQS - 8
+ 	VECTOR	handle_interrupt
+ .endr
+ 
 -- 
 2.7.4
