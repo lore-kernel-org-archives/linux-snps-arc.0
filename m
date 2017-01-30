@@ -1,70 +1,58 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 30 Jan 2017 10:56:59 -0800
-Subject: [PATCH 1/6] ARCv2: IRQ: Move structures for core intc to the
- header
-In-Reply-To: <1485561703-20921-2-git-send-email-yuriy.kolerov@synopsys.com>
+Date: Mon, 30 Jan 2017 10:57:59 -0800
+Subject: [PATCH 2/6] ARCv2: MCIP: Add structure for build register of IDU
+In-Reply-To: <1485561703-20921-3-git-send-email-yuriy.kolerov@synopsys.com>
 References: <1485561703-20921-1-git-send-email-yuriy.kolerov@synopsys.com>
- <1485561703-20921-2-git-send-email-yuriy.kolerov@synopsys.com>
+ <1485561703-20921-3-git-send-email-yuriy.kolerov@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <c9572049-41a1-16fb-afda-d3275a117da0@synopsys.com>
+Message-ID: <bf657e2c-1be6-f1ab-4f61-5e99a64e5f8a@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 On 01/27/2017 04:01 PM, Yuriy Kolerov wrote:
-> Also add new macro ARC_REG_STATUS32 for the address of STATUS32
-> auxiliary register. It is better to use it instead of magic numbers.
+> This structure is necessary for retrieving of supported
+> number of common interrupts in IDU interrupt controller.
 > 
 > Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
 > ---
->  arch/arc/include/asm/arcregs.h | 26 ++++++++++++++++++++++++++
->  arch/arc/kernel/intc-arcv2.c   | 23 +++--------------------
->  2 files changed, 29 insertions(+), 20 deletions(-)
+>  include/soc/arc/mcip.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 > 
-> diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
-> index f659942..bc1f7bf 100644
-> --- a/arch/arc/include/asm/arcregs.h
-> +++ b/arch/arc/include/asm/arcregs.h
-
-[snip]...
-
-> +
-> +struct aux_irq_ctrl_arcv2 {
+> diff --git a/include/soc/arc/mcip.h b/include/soc/arc/mcip.h
+> index 6902c2a..798c01b 100644
+> --- a/include/soc/arc/mcip.h
+> +++ b/include/soc/arc/mcip.h
+> @@ -14,6 +14,7 @@
+>  #include <soc/arc/aux.h>
+>  
+>  #define ARC_REG_MCIP_BCR	0x0d0
+> +#define ARC_REG_MCIP_IDU_BCR	0x0D5
+>  #define ARC_REG_MCIP_CMD	0x600
+>  #define ARC_REG_MCIP_WDATA	0x601
+>  #define ARC_REG_MCIP_READBACK	0x602
+> @@ -69,6 +70,22 @@ struct mcip_bcr {
+>  #endif
+>  };
+>  
+> +struct mcip_idu_bcr {
 > +#ifdef CONFIG_CPU_BIG_ENDIAN
-> +	unsigned int res3:18, save_idx_regs:1, res2:1, save_u_to_u:1,
-> +		     save_lp_regs:1, save_blink:1, res:4, save_nr_gpr_pairs:5;
+> +	unsigned int pad:21, cirqnum:3, ver:8;
 > +#else
-> +	unsigned int save_nr_gpr_pairs:5, res:4, save_blink:1, save_lp_regs:1,
-> +		     save_u_to_u:1, res2:1, save_idx_regs:1, res3:18;
+> +	unsigned int ver:8, cirqnum:3, pad:21;
 > +#endif
 > +};
 > +
-
-arcreg.h used to be dumping ground for every struct definition which is wrong.
-I've trimmed it gradually - so please don't reintroduce stuff here, unless it is
-really arc global.
-
+> +
+> +/*
+> + * Build register for IDU contains not an actual number of supported common
+> + * interrupts but an exponent of 2 which must be multiplied by 4 to
+> + * get a number of supported common interrupts.
+> + */
+> +#define mcip_idu_bcr_to_nr_irqs(bcr) (4 * (1 << (bcr).cirqnum))
+> +
 >  /*
->   *******************************************************************
->   * Generic structures to hold build configuration used at runtime
-> diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
-> index ecef0fb..2f31bb1 100644
-> --- a/arch/arc/kernel/intc-arcv2.c
-> +++ b/arch/arc/kernel/intc-arcv2.c
-> @@ -24,25 +24,8 @@ void arc_init_IRQ(void)
->  {
-
-[snip]...
-
-> @@ -69,7 +52,7 @@ void arc_init_IRQ(void)
->  		irq_bcr.firq ? " FIRQ (not used)":"");
->  
->  	/* setup status32, don't enable intr yet as kernel doesn't want */
-> -	tmp = read_aux_reg(0xa);
-> +	tmp = read_aux_reg(ARC_REG_STATUS32);
-
-This is fine !
-
-
->  	tmp |= STATUS_AD_MASK | (ARCV2_IRQ_DEF_PRIO << 1);
->  	tmp &= ~STATUS_IE_MASK;
->  	asm volatile("kflag %0	\n"::"r"(tmp));
+>   * MCIP programming model
+>   *
 > 
+
+
+Please squash this into patch which uses this infrastructure !
