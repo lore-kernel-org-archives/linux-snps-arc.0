@@ -1,47 +1,74 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 30 Jan 2017 11:01:27 -0800
-Subject: [PATCH 3/6] ARCv2: IRQ: Add macro for the first external
- interrupt number
-In-Reply-To: <1485561703-20921-4-git-send-email-yuriy.kolerov@synopsys.com>
-References: <1485561703-20921-1-git-send-email-yuriy.kolerov@synopsys.com>
- <1485561703-20921-4-git-send-email-yuriy.kolerov@synopsys.com>
+From: robh@kernel.org (Rob Herring)
+Date: Mon, 30 Jan 2017 14:08:25 -0600
+Subject: [PATCH 1/2] dt-bindings: Document the Synopsys DW AXI DMA bindings
+In-Reply-To: <1485358457-22957-2-git-send-email-Eugeniy.Paltsev@synopsys.com>
+References: <1485358457-22957-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1485358457-22957-2-git-send-email-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3ebcd0b6-d136-66fb-ef1f-ffc767767bc4@synopsys.com>
+Message-ID: <20170130200825.buzj7dh2jfyovoyv@rob-hp-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-On 01/27/2017 04:01 PM, Yuriy Kolerov wrote:
-> Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
-
-Please squash this with patch 5/6 !
-
-> ---
->  arch/arc/include/asm/irq.h   | 1 +
->  arch/arc/kernel/intc-arcv2.c | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
+On Wed, Jan 25, 2017@06:34:16PM +0300, Eugeniy Paltsev wrote:
+> This patch adds documentation of device tree bindings for the Synopsys
+> DesignWare AXI DMA controller.
 > 
-> diff --git a/arch/arc/include/asm/irq.h b/arch/arc/include/asm/irq.h
-> index c0fa0d2..e61ad30 100644
-> --- a/arch/arc/include/asm/irq.h
-> +++ b/arch/arc/include/asm/irq.h
-> @@ -16,6 +16,7 @@
->  #ifdef CONFIG_ISA_ARCV2
->  #define IPI_IRQ		19
->  #define SOFTIRQ_IRQ	21
-> +#define FIRST_EXT_IRQ	24
->  #endif
->  
->  #include <linux/interrupt.h>
-> diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
-> index 2f31bb1..a9a7497 100644
-> --- a/arch/arc/kernel/intc-arcv2.c
-> +++ b/arch/arc/kernel/intc-arcv2.c
-> @@ -98,7 +98,7 @@ static int arcv2_irq_map(struct irq_domain *d, unsigned int irq,
->  	 * core intc IRQs [16, 23]:
->  	 * Statically assigned always private-per-core (Timers, WDT, IPI, PCT)
->  	 */
-> -	if (hw < 24) {
-> +	if (hw < FIRST_EXT_IRQ) {
->  		/*
->  		 * A subsequent request_percpu_irq() fails if percpu_devid is
->  		 * not set. That in turns sets NOAUTOEN, meaning each core needs
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+>  .../devicetree/bindings/dma/snps,axi-dw-dmac.txt   | 33 ++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/dma/snps,axi-dw-dmac.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/dma/snps,axi-dw-dmac.txt b/Documentation/devicetree/bindings/dma/snps,axi-dw-dmac.txt
+> new file mode 100644
+> index 0000000..21318a7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/dma/snps,axi-dw-dmac.txt
+> @@ -0,0 +1,33 @@
+> +* Synopsys DesignWare AXI DMA Controller
+> +
+> +Required properties:
+> +- compatible: "snps,axi-dma"
+
+Too generic. This needs an IP version at least.
+
+> +- reg: Address range of the DMAC registers. This should include
+> +  all of the per-channel registers.
+> +- interrupt: Should contain the DMAC interrupt number.
+> +- interrupt-parent: Should be the phandle for the interrupt controller
+> +  that services interrupts for this device.
+> +- dma-channels: Number of channels supported by hardware.
+> +- dma-masters: Number of AXI masters supported by the hardware.
+> +- data-width: Maximum AXI data width supported by hardware.
+> +  (0 - 8bits, 1 - 16bits, 2 - 32bits, ..., 6 - 512bits)
+
+> +- priority: Priority of channel. Array property. Priority value must be
+> +  programmed within [0:dma-channels-1] range. (0 - minimum priority)
+> +- block-size: Maximum block size supported by the controller channel. Array
+> +  property.
+
+Array size equal to the number of dma-channels?
+
+Other than dma-channels, all these either need vendor prefix.
+
+> +
+> +Example:
+> +
+> +dmac: dmac at 80000 {
+
+dma-controller at ...
+
+> +	compatible = "snps,axi-dma";
+> +	reg = <0x80000 0x400>;
+> +	clocks = <&core_clk>;
+> +	interrupt-parent = <&intc>;
+> +	interrupts = <27>;
+> +
+> +	dma-channels = <4>;
+> +	dma-masters = <2>;
+> +	data-width = <3>;
+> +	block-size = <4096 4096 4096 4096>;
+> +	priority = <0 1 2 3>;
+> +};
+> -- 
+> 2.5.5
 > 
