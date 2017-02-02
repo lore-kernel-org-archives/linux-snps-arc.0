@@ -1,8 +1,8 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 2 Feb 2017 09:22:48 -0800
+Date: Thu, 2 Feb 2017 09:23:23 -0800
 Subject: [PATCH resend] ARC: ARC_HAS_COH_CACHES no longer relevant
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1486056168-5656-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1486056203-5715-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 A typical SMP system expects cache coherency. Initial NPS platform
@@ -12,6 +12,8 @@ However it seems the platform now selects that option, so there is no
 point in keeping it around.
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+This time with Noam's fixed email address
 ---
  arch/arc/Kconfig            | 6 ------
  arch/arc/plat-eznps/Kconfig | 1 -
