@@ -1,67 +1,29 @@
-From: Yuriy.Kolerov@synopsys.com (Yuriy Kolerov)
-Date: Wed, 1 Feb 2017 23:59:29 +0000
-Subject: [PATCH v2 0/4] Use build registers for getting numbers of
- interrupts
-In-Reply-To: <e3e7f7c8-57f3-e9da-158d-6bae19dd87a8@synopsys.com>
-References: <1485863124-26426-1-git-send-email-yuriy.kolerov@synopsys.com>
- <e3e7f7c8-57f3-e9da-158d-6bae19dd87a8@synopsys.com>
+From: yuriy.kolerov@synopsys.com (Yuriy Kolerov)
+Date: Thu,  2 Feb 2017 03:13:31 +0300
+Subject: [PATCH 0/2] Delete deprecated parameters in Device Trees
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3ABF60118B9B784CA5BF7C841D2F00EC01037BB9@de02wembxa.internal.synopsys.com>
+Message-ID: <1485994413-14487-1-git-send-email-yuriy.kolerov@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+  * Remove support of the second argument in IDU interrupts (it is
+    deprecated and not used anymore).
+  * Remove useless declaration of interrupts list in IDU intc because
+    it is not used anymore and the kernel can obtain information about
+    supported interrupts from build registers.
+  * Some small clean ups. 
 
-I have checked reworked patches. I think it is fine.
+Yuriy Kolerov (2):
+  ARCv2: IDU-intc: Delete deprecated parameters in Device Trees
+  ARCv2: intc: Delete useless comments in Device Trees
 
-> -----Original Message-----
-> From: Vineet Gupta [mailto:vgupta at synopsys.com]
-> Sent: Wednesday, February 01, 2017 11:58 PM
-> To: Yuriy Kolerov <yuriy.kolerov at synopsys.com>; linux-snps-
-> arc at lists.infradead.org
-> Cc: Alexey.Brodkin at synopsys.com; linux-kernel at vger.kernel.org
-> Subject: Re: [PATCH v2 0/4] Use build registers for getting numbers of
-> interrupts
-> 
-> On 01/31/2017 03:45 AM, Yuriy Kolerov wrote:
-> > A summary:
-> >
-> >   * Use build registers for getting numbers of interrupts both for
-> >     core interrupt controller and for IDU interrupt controller.
-> >   * Set a default priority for all core interrupt to prevent
-> >     unexpected switching of banks of registers.
-> >   * Remove option for setting number of interrupts since it does
-> >     not affect a number of interrupts in IRQ domains and breaks
-> >     portability since it is impossible to change size of table of
-> >     interrupts after linkage.
-> >
-> > Change in v2:
-> >
-> >   * Squash some commits.
-> >   * Do not move a structure for control register of core intc to
-> >     the header since it is used only once.
-> >
-> > Yuriy Kolerov (4):
-> >   ARCv2: IRQ: Move structure for build register of core intc to the
-> >     header
-> >   ARCv2: IRQ: Remove option for setting number of interrupts
-> >   ARCv2: IRQ: Use build registers for getting numbers of interrupts
-> >   ARCv2: IRQ: Set a default priority for all core interrupts
-> >
-> >  arch/arc/Kconfig               | 11 -----------
-> >  arch/arc/include/asm/arcregs.h | 11 +++++++++++
-> >  arch/arc/include/asm/irq.h     | 32 +++++++++++++++++++++++++++++---
-> >  arch/arc/kernel/entry-arcv2.S  |  3 ++-
-> >  arch/arc/kernel/intc-arcv2.c   | 31 ++++++++++++++++++++-----------
-> >  arch/arc/kernel/mcip.c         | 31 +++++++++++++++++++------------
-> >  include/soc/arc/mcip.h         | 17 +++++++++++++++++
-> >  7 files changed, 98 insertions(+), 38 deletions(-)
-> >
-> 
-> Hi Yuriy,
-> 
-> I've reworked your series a bit and pushed to my for-next.
-> 
-> Care to take a look please.
-> 
-> Thx,
-> -Vineet
+ .../interrupt-controller/snps,archs-idu-intc.txt   | 24 ++++++----------------
+ arch/arc/boot/dts/axc003_idu.dtsi                  | 23 +++------------------
+ arch/arc/boot/dts/haps_hs_idu.dts                  | 11 ++--------
+ arch/arc/boot/dts/nsim_hs_idu.dts                  | 15 ++------------
+ arch/arc/boot/dts/nsimosci_hs_idu.dts              | 21 ++++---------------
+ arch/arc/boot/dts/vdk_axc003_idu.dtsi              | 13 +++---------
+ arch/arc/kernel/mcip.c                             | 17 +--------------
+ 7 files changed, 21 insertions(+), 103 deletions(-)
+
+-- 
+2.7.4
