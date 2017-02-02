@@ -1,57 +1,73 @@
-From: Ruud.Derwig@synopsys.com (Ruud Derwig)
-Date: Thu, 2 Feb 2017 14:03:40 +0000
-Subject: [PATCH 1/3] arc: vdk: Disable halt on reset
-In-Reply-To: <e9df73e0-14e6-cd84-0539-1e79e05ebd08@synopsys.com>
-References: <1485967373-15273-1-git-send-email-abrodkin@synopsys.com>
- <1485967373-15273-2-git-send-email-abrodkin@synopsys.com>
- <8b857bc4-71f0-9b3b-0cd5-19b49edb2910@synopsys.com>
- <1485969247.5515.27.camel@synopsys.com>
- <0c458950-5558-0dc2-4323-c5faba757083@synopsys.com>
- <1485971550.5515.34.camel@synopsys.com>
- <e9df73e0-14e6-cd84-0539-1e79e05ebd08@synopsys.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Thu, 2 Feb 2017 15:27:48 +0100
+Subject: [PATCH] clocksource: arc_timer: RTC: allow registration despite
+ SMP
+In-Reply-To: <1485996615-2511-1-git-send-email-vgupta@synopsys.com>
+References: <1485996615-2511-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <921F8835C03C574A887849158AC092F957726AA3@de02wembxa.internal.synopsys.com>
+Message-ID: <20170202142748.GP2206@mai>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+On Wed, Feb 01, 2017@04:50:15PM -0800, Vineet Gupta wrote:
+> So far we didn't allow CPU private 64-bit RTC timer to register in SMP
+> as the individual counters may not be synchronized across cores.
 
-VDK config includes GRFC, not sure if it's working/used though.
-The nSIM STAR is about that GRFC frequency is fixed in nSIM, but configurable for HW/customers.
-But if the frequency is configured correctly (same as cpu frequency), don't think there's an issue.
+That is the case for the other archs and the per cpu clocksource are used, the
+kernel is supposed to be immune against clocks drift. There are mechanisms to
+have a synchronized view of the clock when they are per cpu and the kernel does
+not compare clocks between cpus. 
 
-Ruud.
------Original Message-----
-From: Vineet Gupta 
-Sent: Wednesday, February 01, 2017 8:56 PM
-To: Alexey Brodkin <Alexey.Brodkin at synopsys.com>
-Cc: Ruud Derwig <rderwig at synopsys.com>; linux-kernel at vger.kernel.org; linux-snps-arc at lists.infradead.org
-Subject: Re: [PATCH 1/3] arc: vdk: Disable halt on reset
+I didn't realize that when we did the modification around this check.
 
-On 02/01/2017 09:52 AM, Alexey Brodkin wrote:
->> The whole point of adding this to defconfig is to override the default from Kconfig ?
-> Not anymore :)
+May be you can double check these clocksources are really not suitable for SMP,
+because if it is not the case the if !CONFIG_SMP could be simply removed.
+ 
+A sidenote: RTC is confusing and should be changed to something else.
+
+> However there is a situation when we build SMP kernel but want to use
+> the same image on UP as well as SMP hardware. Here we would certainly
+> want to use RTC, but current code doesn't allow as it only uses build
+> info (CONFIG_SMP) and not runtime info (num_online_cpus() or some such).
 > 
-> Since commit c4c9a040ecb7 ("clocksource: import ARC timer driver"), 
-> see 
-> http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/
-> ?id=c4c9a040ecb7297e011e579f5a9cc280e42d725f
-> we have this:
-> ---------------------->8----------------------
-> config ISA_ARCV2
-> 	bool "ARC ISA v2"
-> 	select ARC_TIMERS_64BIT
-> ---------------------->8----------------------
+> We can't possibly use num_online_cpus() anyways because clocksource
+> probe happens before other cpus are brought online
 > 
-> which really means if one selects ISA_ARCV2 then ARC_TIMERS_64BIT gets 
-> selected automatically and there's no way to override it from either menuconfig or defconfig.
+> The simple fix is allow ETC probe for SMP and rely on higher rating of
+> GFRC to take over in general SMP case. We leave the pr_warn to notify
+> the user.
+> 
+> Cc: John Stultz <john.stultz at linaro.org>
+> Cc: Thomas Gleixner <tglx at linutronix.de>
+> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  drivers/clocksource/arc_timer.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/clocksource/arc_timer.c b/drivers/clocksource/arc_timer.c
+> index 7517f959cba7..87f193794bf2 100644
+> --- a/drivers/clocksource/arc_timer.c
+> +++ b/drivers/clocksource/arc_timer.c
+> @@ -145,10 +145,8 @@ static int __init arc_cs_setup_rtc(struct device_node *node)
+>  	}
+>  
+>  	/* Local to CPU hence not usable in SMP */
+> -	if (IS_ENABLED(CONFIG_SMP)) {
+> +	if (IS_ENABLED(CONFIG_SMP))
+>  		pr_warn("Local-64-bit-Ctr not usable in SMP");
+> -		return -EINVAL;
+> -	}
+>  
+>  	ret = arc_get_timer_clk(node);
+>  	if (ret)
+> -- 
+> 2.7.4
+> 
 
-Bummer - this means VDK based off 4.9+ kernel might be affected with nsim GFRC issue !
+-- 
 
-> Probably behavior that you meant was to keep a separate "config ARC_TIMERS_64BIT"
-> and have it "default y if ISA_ARCV2".
+ <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
 
-No, the whole point of moving it out of arch/arc was to increase test coverage etc so it was not tied to ISA_ARCV2 on purpose so that it would atleast build.
-
-Lets see what Rudd has to say abt this. But GFRC can't be used this would need fixing after all by introducing an additional ARC_PLAT_CANT_USE_TIMERS_64BIT which is def_bool set to n, but selected y in VDK Kconfig.
-
--Vineet
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
