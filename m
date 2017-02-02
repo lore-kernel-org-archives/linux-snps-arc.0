@@ -1,48 +1,29 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 1 Feb 2017 16:50:15 -0800
-Subject: [PATCH] clocksource: arc_timer: RTC: allow registration despite SMP
+From: noamca@mellanox.com (Noam Camus)
+Date: Thu, 2 Feb 2017 06:27:11 +0000
+Subject: Need for ARC_HAS_COH_CACHES
+In-Reply-To: <6525b5df-3a3e-5d00-0ef3-819e734cab92@synopsys.com>
+References: <6525b5df-3a3e-5d00-0ef3-819e734cab92@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1485996615-2511-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <DB6PR0501MB251887C8E3EB44880EBA5DA7AA4C0@DB6PR0501MB2518.eurprd05.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-So far we didn't allow CPU private 64-bit RTC timer to register in SMP
-as the individual counters may not be synchronized across cores.
+It is OK.
+Please remove.
 
-However there is a situation when we build SMP kernel but want to use
-the same image on UP as well as SMP hardware. Here we would certainly
-want to use RTC, but current code doesn't allow as it only uses build
-info (CONFIG_SMP) and not runtime info (num_online_cpus() or some such).
+Noam
 
-We can't possibly use num_online_cpus() anyways because clocksource
-probe happens before other cpus are brought online
+-----Original Message-----
+From: Vineet Gupta [mailto:Vineet.Gupta1@synopsys.com] 
+Sent: Wednesday, February 1, 2017 10:56 PM
+To: Noam Camus <noamca at mellanox.com>
+Cc: arcml <linux-snps-arc at lists.infradead.org>
+Subject: Need for ARC_HAS_COH_CACHES
 
-The simple fix is allow ETC probe for SMP and rely on higher rating of
-GFRC to take over in general SMP case. We leave the pr_warn to notify
-the user.
+Hi Noam,
 
-Cc: John Stultz <john.stultz at linaro.org>
-Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- drivers/clocksource/arc_timer.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+When we started off with NPS support, it seems dcache was not enabled. Thats why we introduced ARC_HAS_COH_CACHES etc.
+But it seems eznps selects this anyways.
 
-diff --git a/drivers/clocksource/arc_timer.c b/drivers/clocksource/arc_timer.c
-index 7517f959cba7..87f193794bf2 100644
---- a/drivers/clocksource/arc_timer.c
-+++ b/drivers/clocksource/arc_timer.c
-@@ -145,10 +145,8 @@ static int __init arc_cs_setup_rtc(struct device_node *node)
- 	}
- 
- 	/* Local to CPU hence not usable in SMP */
--	if (IS_ENABLED(CONFIG_SMP)) {
-+	if (IS_ENABLED(CONFIG_SMP))
- 		pr_warn("Local-64-bit-Ctr not usable in SMP");
--		return -EINVAL;
--	}
- 
- 	ret = arc_get_timer_clk(node);
- 	if (ret)
--- 
-2.7.4
+There is no other requirement for this toggle - are you OK if I remove it.
+
+-Vineet
