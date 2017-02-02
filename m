@@ -1,8 +1,8 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 2 Feb 2017 09:14:24 -0800
-Subject: [PATCH] ARC: ARC_HAS_COH_CACHES no longer relevant
+Date: Thu, 2 Feb 2017 09:22:48 -0800
+Subject: [PATCH resend] ARC: ARC_HAS_COH_CACHES no longer relevant
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1486055664-5477-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1486056168-5656-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 A typical SMP system expects cache coherency. Initial NPS platform
