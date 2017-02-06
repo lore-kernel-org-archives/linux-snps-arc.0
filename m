@@ -1,77 +1,66 @@
-From: w@1wt.eu (Willy Tarreau)
-Date: Sun,  5 Feb 2017 20:21:08 +0100
-Subject: [PATCH 3.10 081/319] ARC: uaccess: get_user to zero out dest in cause
- of fault
-In-Reply-To: <1486322486-8024-1-git-send-email-w@1wt.eu>
-References: <1486322486-8024-1-git-send-email-w@1wt.eu>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 6 Feb 2017 19:16:48 +0000
+Subject: [PATCH] net: phy: dp83867: Fix for automatically detected PHYs
+In-Reply-To: <9d81d661-de8d-5854-e352-d570bbb3aa43@gmail.com>
+References: <20170203165237.22452-1-abrodkin@synopsys.com>
+ <20170203171031.GC15900@lunn.ch> <1486143058.2853.27.camel@synopsys.com>
+ <9d81d661-de8d-5854-e352-d570bbb3aa43@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1486322486-8024-52-git-send-email-w@1wt.eu>
+Message-ID: <1486408607.2857.9.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Hi Florian, all,
 
-commit 05d9d0b96e53c52a113fd783c0c97c830c8dc7af upstream.
+On Fri, 2017-02-03@10:34 -0800, Florian Fainelli wrote:
+> On 02/03/2017 09:30 AM, Alexey Brodkin wrote:
+> > 
+> > Hi Andrew,
+> > 
+> > On Fri, 2017-02-03@18:10 +0100, Andrew Lunn wrote:
+> > > 
+> > > On Fri, Feb 03, 2017@07:52:37PM +0300, Alexey Brodkin wrote:
+> > > > 
+> > > > 
+> > > > Current implemntation returns ENODEV if device tree node for
+> > > > phy is absent. But in reality there're many boards with the one
+> > > > and only PHY on board and MACs that may find a PHY by querying
+> > > > MDIO bus. One good example is STMMAC.
+> > > 
+> > > Humm, not so sure about that. That check for an OF node has always
+> > > been there, since day one for this driver.
+> > > 
+> > > What has changed recently is where it looks for these device tree
+> > > properties. It used to wrongly look in the MAC node. It was changed to
+> > > look in the PHY node. So this is probably the reason you are having
+> > > problems.
+> > 
+> > Well we don't mention PHY node in our device trees because with
+> > 1 PHY connected via MDIO bus there's no point in spending electrons
+> > on adding extra stuff.?
+> 
+> That's a terrible justification, you are running Linux on devices, if
+> you care about electrons run a tiny RTOS ;)
 
-Al reported potential issue with ARC get_user() as it wasn't clearing
-out destination pointer in case of fault due to bad address etc.
+Agree :)
 
-Verified using following
+> > 
+> > Well in case if default settings work fine -
+> > which up until now was the case for us.
+> 
+> You should really consider listing your Ethernet PHY as a child node of
+> dwmac MDIO bus because that will be a correct and accurate
+> representation of the hardware, and if the PHY driver needs specific
+> properties to be given (e.g: random TX/RX delays, etc.) that is the only
+> way you could communicate those properly to the PHY driver.
 
-| {
-|  	u32 bogus1 = 0xdeadbeef;
-|	u64 bogus2 = 0xdead;
-|	int rc1, rc2;
-|
-|  	pr_info("Orig values %x %llx\n", bogus1, bogus2);
-|	rc1 = get_user(bogus1, (u32 __user *)0x40000000);
-|	rc2 = get_user(bogus2, (u64 __user *)0x50000000);
-|	pr_info("access %d %d, new values %x %llx\n",
-|		rc1, rc2, bogus1, bogus2);
-| }
+Agree here as well, indeed I'm going to update my .dts because
+that is supposed to reflect real HW and it will be that way.
 
-| [ARCLinux]# insmod /mnt/kernel-module/qtn.ko
-| Orig values deadbeef dead
-| access -14 -14, new values 0 0
+But still I'm wondering if that's a must?
+In that case we need to update drivers for other PHYs and probably start
+from the genphy to align requirements.
 
-Reported-by: Al Viro <viro at ZenIV.linux.org.uk>
-Cc: Linus Torvalds <torvalds at linux-foundation.org>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: linux-kernel at vger.kernel.org
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Al Viro <viro at zeniv.linux.org.uk>
-Signed-off-by: Willy Tarreau <w at 1wt.eu>
----
- arch/arc/include/asm/uaccess.h | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Otherwise poor guys like me who switched from one PHY to another will
+end up frustrating why stuff that used to work no longer works :)
 
-diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
-index 30c9baf..08770c7 100644
---- a/arch/arc/include/asm/uaccess.h
-+++ b/arch/arc/include/asm/uaccess.h
-@@ -83,7 +83,10 @@
- 	"2:	;nop\n"				\
- 	"	.section .fixup, \"ax\"\n"	\
- 	"	.align 4\n"			\
--	"3:	mov %0, %3\n"			\
-+	"3:	# return -EFAULT\n"		\
-+	"	mov %0, %3\n"			\
-+	"	# zero out dst ptr\n"		\
-+	"	mov %1,  0\n"			\
- 	"	j   2b\n"			\
- 	"	.previous\n"			\
- 	"	.section __ex_table, \"a\"\n"	\
-@@ -101,7 +104,11 @@
- 	"2:	;nop\n"				\
- 	"	.section .fixup, \"ax\"\n"	\
- 	"	.align 4\n"			\
--	"3:	mov %0, %3\n"			\
-+	"3:	# return -EFAULT\n"		\
-+	"	mov %0, %3\n"			\
-+	"	# zero out dst ptr\n"		\
-+	"	mov %1,  0\n"			\
-+	"	mov %R1, 0\n"			\
- 	"	j   2b\n"			\
- 	"	.previous\n"			\
- 	"	.section __ex_table, \"a\"\n"	\
--- 
-2.8.0.rc2.1.gbe9624a
+-Alexey
