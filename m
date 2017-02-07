@@ -1,47 +1,28 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue,  7 Feb 2017 16:19:38 +0300
-Subject: [PATCH] ARC: [arcompact] fix handling of unaligned access in delay
- slot
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 7 Feb 2017 09:44:58 -0800
+Subject: [PATCH] ARC: [arcompact] brown paper bag bug in unaligned access
+ delay slot fixup
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1486473578-21205-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1486489498-9221-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Commit 9aed02feae5 ("ARC: [arcompact] handle unaligned access delay slot
-corner case") was meant to fix one corner-case of unaligned access
-fixup. But for some reason real implementation has an important spello
-which prevents kernel to be built with enabled
-CONFIG_ARC_EMUL_UNALIGNED:
---------------------------------->8--------------------------------
-arch/arc/kernel/unaligned.c: In function 'misaligned_fixup':
-arch/arc/kernel/unaligned.c:246:25: error: expected ';' before '~ token
-   regs->ret = regs->bta ~1U;
-                         ^
---------------------------------->8--------------------------------
-
-What needs to be done - LSB bit of regs->bta has to be cleared and now
-we do exactly this with "& ~1U".
-
-While at it fix another spello in comments.
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Reported-by: John Crispin <john at phrozen.org>
-Cc: Felix Fietkau <nbd at nbd.name>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Igor Guryanov <guryanov at synopsys.com>
+Reported-by: Jo-Philipp Wich <jo at mein.io>
+Fixes: 9aed02feae57bf7 ("ARC: [arcompact] handle unaligned access delay slot")
+Cc: linux-kernel at vger.kernel.org
+Cc: linux-snps-arc at lists.infradead.org
+Cc: stable at vger.kernel.org
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/unaligned.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arc/kernel/unaligned.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arc/kernel/unaligned.c b/arch/arc/kernel/unaligned.c
-index 91ebe382147f..39ee23d107cc 100644
+index 91ebe382147f..5f69c3bd59bb 100644
 --- a/arch/arc/kernel/unaligned.c
 +++ b/arch/arc/kernel/unaligned.c
-@@ -241,9 +241,9 @@ int misaligned_fixup(unsigned long address, struct pt_regs *regs,
- 	if (state.fault)
- 		goto fault;
+@@ -243,7 +243,7 @@ int misaligned_fixup(unsigned long address, struct pt_regs *regs,
  
--	/* clear any remanants of delay slot */
-+	/* clear any remnants of delay slot */
+ 	/* clear any remanants of delay slot */
  	if (delay_mode(regs)) {
 -		regs->ret = regs->bta ~1U;
 +		regs->ret = regs->bta & ~1U;
