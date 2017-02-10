@@ -1,73 +1,149 @@
-From: Yuriy.Kolerov@synopsys.com (Yuriy Kolerov)
-Date: Fri, 10 Feb 2017 04:08:37 +0000
-Subject: [PATCH] ARCv2: intc: Disable all core interrupts by default
-In-Reply-To: <0423cc7d-0b96-2d6d-f02a-67b6951aaa1c@synopsys.com>
-References: <1486508647-5997-1-git-send-email-yuriy.kolerov@synopsys.com>
- <0423cc7d-0b96-2d6d-f02a-67b6951aaa1c@synopsys.com>
+From: vinod.koul@intel.com (Vinod Koul)
+Date: Fri, 10 Feb 2017 11:36:06 +0530
+Subject: [PATCH 2/2] dmaengine: Add DW AXI DMAC driver
+In-Reply-To: <1485358457-22957-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
+References: <1485358457-22957-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1485358457-22957-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3ABF60118B9B784CA5BF7C841D2F00EC0103AB39@de02wembxa.internal.synopsys.com>
+Message-ID: <20170210060606.GO19244@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+On Wed, Jan 25, 2017@06:34:17PM +0300, Eugeniy Paltsev wrote:
+> This patch adds support for the DW AXI DMAC controller.
+> 
+> DW AXI DMAC is a part of upcoming development board from Synopsys.
 
-> -----Original Message-----
-> From: Vineet Gupta [mailto:vgupta at synopsys.com]
-> Sent: Wednesday, February 08, 2017 7:08 PM
-> To: Yuriy Kolerov <yuriy.kolerov at synopsys.com>; linux-snps-
-> arc at lists.infradead.org
-> Cc: Alexey.Brodkin at synopsys.com; linux-kernel at vger.kernel.org;
-> marc.zyngier at arm.com
-> Subject: Re: [PATCH] ARCv2: intc: Disable all core interrupts by default
-> 
-> On 02/07/2017 03:04 PM, Yuriy Kolerov wrote:
-> > The kernel emits a lot of warnings about unexpected IRQs when an
-> > appropriate driver is not presented. It happens because all interrupts
-> > in the core controller are enabled by default after reset. It would be
-> > wise to keep all interrupts masked by default.
-> >
-> > Thus disable all local and common interrupts. If CPU consists of only
-> > 1 core without IDU then it is necessary to disable all interrupts in
-> > the core interrupt controller. If CPU contains IDU it means that there
-> > are may be more than 1 cores and common interrupts (>= FIRST_EXT_IRQ)
-> > must be disabled in IDU.
-> 
-> This is not elegant. core intc needs to do same thing to all interrupts coming
-> in
-> - irrespective of whether they are funneled via IDU or not.
-> 
-> 
-> > Signed-off-by: Yuriy Kolerov <yuriy.kolerov at synopsys.com>
-> > ---
-> >  arch/arc/kernel/intc-arcv2.c | 19 +++++++++++++++++++
-> 
-> [snip...]
-> 
-> > +
-> >  	for (i = NR_EXCEPTIONS; i < irq_bcr.irqs + NR_EXCEPTIONS; i++) {
-> >  		write_aux_reg(AUX_IRQ_SELECT, i);
-> >  		write_aux_reg(AUX_IRQ_PRIORITY, ARCV2_IRQ_DEF_PRIO);
-> > +
-> > +		/*
-> > +		 * If IDU exists then all common interrupts >= FIRST_EXT_IRQ
-> > +		 * are masked by IDU thus disable only local interrupts (below
-> > +		 * FIRST_EXT_IRQ). Otherwise disable all interrupts.
-> > +		 */
-> > +		if (!mp.idu || i < FIRST_EXT_IRQ)
-> > +			write_aux_reg(AUX_IRQ_ENABLE, 0);
-> 
-> So you seem to assume that anything > FIRST_EXT_IRQ is coming in via IDU
-> which may not be case.
-> external Interrupts can be wired to core directly - not via IDU
->  - 16 .. 23 are cpu private reserved irq
->  - 24 .. C are common irqs (via IDU)
->  - C + 1 .. N are cpu private external irqs
-> 
-> so better to disable all irq_bcr.irqs independent of how they are hooked up !
+How different is AXI from DW Synopsys?
 
-All IRQs >= 24 in ARC are marked as common interrupts and it is reasonable. It means that when "enable" or "mask" is called for hwirq < 24 then these functions are called on all cores. On the other hand these functions are called once only on 1 core for common interrupts. Then we have 3 cases:
+Is the spec publicly available?
 
-1. We have UP and everything is easy. Just disable everything by default. When a driver comes up an appropriate IRQ is enable on single core.
-2. We have SMP with IDU. We can enable/disable common interrupts in IDU and keep core interrupts enabled/unmasked by default. But what happens if a device is connected to one of the cores directly (is it even possible on SMP systems?)? Device Tree does not contain such information and the kernel does not know how it enable external IRQ for the specific core (as far as I know).
-3. Assume that all core interrupts on all cores are disabled by default. When chained IRQ is created (IDU -> core intc) IDU automatically calls "enable" for an appropriate IRQ of core intc. But this "enable" is called only for 1 core so it is necessary to find a way to call "enable" on the rest of cores. I have a solution which solves this problem using "smp_call_function_single_async" in "enable" function of the core intc for IRQs >= 24 but I think that it may be overkill for such problem. Anyway I cannot find a solution for the same problem in other archs...
+> +config AXI_DW_DMAC
+> +	tristate "Synopsys DesignWare AXI DMA support"
+> +	depends on OF && !64BIT
 
-> -Vineet
+why not 64 bit, can you also add compile test
+
+> +#define AXI_DMA_BUSWIDTHS		  \
+> +	(DMA_SLAVE_BUSWIDTH_UNDEFINED	| \
+
+DMA_SLAVE_BUSWIDTH_UNDEFINED??
+
+> +static irqreturn_t dw_axi_dma_intretupt(int irq, void *dev_id)
+> +{
+> +	struct axi_dma_chip *chip = dev_id;
+> +
+> +	/* Disable DMAC inerrupts. We'll enable them in the tasklet */
+> +	axi_dma_irq_disable(chip);
+> +
+> +	tasklet_schedule(&chip->dw->tasklet);
+
+This is very inefficient, we would want to submit next txn here and not in
+tasklet
+
+> +static void axi_chan_block_xfer_complete(struct axi_dma_chan *chan)
+> +{
+> +	struct virt_dma_desc *vd;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&chan->vc.lock, flags);
+> +	if (unlikely(axi_chan_is_hw_enable(chan))) {
+> +		dev_err(chan2dev(chan), "BUG: %s catched DWAXIDMAC_IRQ_DMA_TRF, but channel not idle!\n",
+> +			axi_chan_name(chan));
+> +		axi_chan_disable(chan);
+> +	}
+> +
+> +	/* The completed descriptor currently is in the head of vc list */
+> +	vd = vchan_next_desc(&chan->vc);
+> +	/* Remove the completed descriptor from issued list before completing */
+> +	list_del(&vd->node);
+> +	vchan_cookie_complete(vd);
+
+this should be called from irq handler
+
+
+> +static int dw_remove(struct platform_device *pdev)
+> +{
+> +	struct axi_dma_chip *chip = platform_get_drvdata(pdev);
+> +	struct dw_axi_dma *dw = chip->dw;
+> +	struct axi_dma_chan *chan, *_chan;
+> +	u32 i;
+> +
+> +	axi_dma_irq_disable(chip);
+> +	for (i = 0; i < dw->hdata->nr_channels; i++) {
+> +		axi_chan_disable(&chip->dw->chan[i]);
+> +		axi_chan_irq_disable(&chip->dw->chan[i], DWAXIDMAC_IRQ_ALL);
+> +	}
+> +	axi_dma_disable(chip);
+> +
+> +	tasklet_kill(&dw->tasklet);
+> +
+> +	list_for_each_entry_safe(chan, _chan, &dw->dma.channels,
+> +			vc.chan.device_node) {
+> +		list_del(&chan->vc.chan.device_node);
+> +		tasklet_kill(&chan->vc.task);
+> +	}
+
+very nice :)
+
+But please freeup irq as well
+
+> +module_platform_driver(dw_driver);
+> +
+> +static int __init dw_init(void)
+> +{
+> +	return platform_driver_register(&dw_driver);
+> +}
+> +subsys_initcall(dw_init);
+
+why subsys_initcall??
+
+> +/* Common registers offset */
+> +#define DMAC_ID			0x000 // R DMAC ID
+> +#define DMAC_COMPVER		0x008 // R DMAC Component Version
+> +#define DMAC_CFG		0x010 // R/W DMAC Configuration
+> +#define DMAC_CHEN		0x018 // R/W DMAC Channel Enable
+> +#define DMAC_CHEN_L		0x018 // R/W DMAC Channel Enable 00-31
+> +#define DMAC_CHEN_H		0x01C // R/W DMAC Channel Enable 32-63
+> +#define DMAC_INTSTATUS		0x030 // R DMAC Interrupt Status
+> +#define DMAC_COMMON_INTCLEAR	0x038 // W DMAC Interrupt Clear
+> +#define DMAC_COMMON_INTSTATUS_ENA 0x040 // R DMAC Interrupt Status Enable
+> +#define DMAC_COMMON_INTSIGNAL_ENA 0x048 // R/W DMAC Interrupt Signal Enable
+> +#define DMAC_COMMON_INTSTATUS	0x050 // R DMAC Interrupt Status
+> +#define DMAC_RESET		0x058 // R DMAC Reset Register1
+
+DMAC is a generic term, AX_DMAC and no C99 style comment, checkpatch would
+have cribbed
+
+Use BITS and GENMASK here
+
+> +
+> +/* DMA channel registers offset */
+> +#define CH_SAR			0x000 // R/W Chan Source Address
+> +#define CH_DAR			0x008 // R/W Chan Destination Address
+> +#define CH_BLOCK_TS		0x010 // R/W Chan Block Transfer Size
+> +#define CH_CTL			0x018 // R/W Chan Control
+> +#define CH_CTL_L		0x018 // R/W Chan Control 00-31
+> +#define CH_CTL_H		0x01C // R/W Chan Control 32-63
+> +#define CH_CFG			0x020 // R/W Chan Configuration
+> +#define CH_CFG_L		0x020 // R/W Chan Configuration 00-31
+> +#define CH_CFG_H		0x024 // R/W Chan Configuration 32-63
+> +#define CH_LLP			0x028 // R/W Chan Linked List Pointer
+> +#define CH_STATUS		0x030 // R Chan Status
+> +#define CH_SWHSSRC		0x038 // R/W Chan SW Handshake Source
+> +#define CH_SWHSDST		0x040 // R/W Chan SW Handshake Destination
+> +#define CH_BLK_TFR_RESUMEREQ	0x048 // W Chan Block Transfer Resume Req
+> +#define CH_AXI_ID		0x050 // R/W Chan AXI ID
+> +#define CH_AXI_QOS		0x058 // R/W Chan AXI QOS
+> +#define CH_SSTAT		0x060 // R Chan Source Status
+> +#define CH_DSTAT		0x068 // R Chan Destination Status
+> +#define CH_SSTATAR		0x070 // R/W Chan Source Status Fetch Addr
+> +#define CH_DSTATAR		0x078 // R/W Chan Destination Status Fetch Addr
+> +#define CH_INTSTATUS_ENA	0x080 // R/W Chan Interrupt Status Enable
+> +#define CH_INTSTATUS		0x088 // R/W Chan Interrupt Status
+> +#define CH_INTSIGNAL_ENA	0x090 // R/W Chan Interrupt Signal Enable
+> +#define CH_INTCLEAR		0x098 // W Chan Interrupt Clear
+
+Same here
+
+-- 
+~Vinod
