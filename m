@@ -1,14 +1,14 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Mon, 13 Feb 2017 05:03:44 -0800
-Subject: [PATCH 4.9 12/60] ARC: [arcompact] brown paper bag bug in unaligned
+Date: Mon, 13 Feb 2017 05:04:46 -0800
+Subject: [PATCH 4.4 01/20] ARC: [arcompact] brown paper bag bug in unaligned
  access delay slot fixup
-In-Reply-To: <20170213130333.057515084@linuxfoundation.org>
-References: <20170213130333.057515084@linuxfoundation.org>
+In-Reply-To: <20170213130403.531813333@linuxfoundation.org>
+References: <20170213130403.531813333@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170213130334.724173650@linuxfoundation.org>
+Message-ID: <20170213130403.588875111@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
-4.9-stable review patch.  If anyone has any objections, please let me know.
+4.4-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
