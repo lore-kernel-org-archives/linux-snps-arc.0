@@ -1,41 +1,36 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Mon, 13 Feb 2017 05:04:46 -0800
-Subject: [PATCH 4.4 01/20] ARC: [arcompact] brown paper bag bug in unaligned
- access delay slot fixup
-In-Reply-To: <20170213130403.531813333@linuxfoundation.org>
-References: <20170213130403.531813333@linuxfoundation.org>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 14 Feb 2017 23:48:30 -0800
+Subject: [PATCH] [ARC] Handle aux registers differences on ARC700 vs. HS38
+ cpus
+In-Reply-To: <c610d22c-54de-0d72-8f7f-73485f0e79f3@redhat.com>
+References: <1486659402-6670-1-git-send-email-vgupta@synopsys.com>
+ <c610d22c-54de-0d72-8f7f-73485f0e79f3@redhat.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170213130403.588875111@linuxfoundation.org>
+Message-ID: <348f6123-5068-884d-3711-0bea73537d29@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-4.4-stable review patch.  If anyone has any objections, please let me know.
+Hi Nick,
 
-------------------
+On 02/13/2017 03:38 AM, Nick Clifton wrote:
+> Hi Vineet,
+> 
+>> opcodes/
+>> 2017-02-09  Vineet Gupta <vgupta at synopsys.com>
+>>
+>> 	* arc-regs.h: Distinguish some of the registers different on
+>> 	ARC700 and HS38 cpus.
+>>
+>> gas/
+>> 2017-02-09  Vineet Gupta <vgupta at synopsys.com>
+>>
+>> 	* testsuite/gas/arc/st.d: Update for 0xe having a name now
+>  
+> Approved - please apply.
+> 
+> Cheers
+>   Nick
 
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+I suppose you or Claudiu will have to do this since I obviously don't have repo
+push access !
 
-commit a524c218bc94c705886a0e0fedeee45d1931da32 upstream.
-
-Reported-by: Jo-Philipp Wich <jo at mein.io>
-Fixes: 9aed02feae57bf7 ("ARC: [arcompact] handle unaligned access delay slot")
-Cc: linux-kernel at vger.kernel.org
-Cc: linux-snps-arc at lists.infradead.org
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Linus Torvalds <torvalds at linux-foundation.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-
----
- arch/arc/kernel/unaligned.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/arch/arc/kernel/unaligned.c
-+++ b/arch/arc/kernel/unaligned.c
-@@ -243,7 +243,7 @@ int misaligned_fixup(unsigned long addre
- 
- 	/* clear any remanants of delay slot */
- 	if (delay_mode(regs)) {
--		regs->ret = regs->bta ~1U;
-+		regs->ret = regs->bta & ~1U;
- 		regs->status32 &= ~STATUS_DE_MASK;
- 	} else {
- 		regs->ret += state.instr_len;
+-Vineet
