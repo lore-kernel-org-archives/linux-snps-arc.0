@@ -1,11 +1,11 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 22 Feb 2017 10:34:37 -0800
+Date: Wed, 22 Feb 2017 10:49:06 -0800
 Subject: [PATCH] arc: get rate from clk driver instead of reading device
  tree
 In-Reply-To: <1487759796-14418-1-git-send-email-vzakhar@synopsys.com>
 References: <1487759796-14418-1-git-send-email-vzakhar@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <d1db32ca-333e-e900-171e-3b0735cba2a2@synopsys.com>
+Message-ID: <9769fc4e-ffa4-143f-bb49-a42735e29d54@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 On 02/22/2017 02:36 AM, Vlad Zakharov wrote:
@@ -20,6 +20,14 @@ On 02/22/2017 02:36 AM, Vlad Zakharov wrote:
 > So this commit replaces reading device tree with getting rate from clock
 > driver. This approach is much more flexible and will work for both fixed
 > and mutable clocks.
+
+So except the clk_put() comment - this looks much better to me.
+
+And while we are at it - one of my wish list has been to print the core clk in
+early boot - i.e. in setup_processor()->arc_cpu_mumbojumbo() call path which is
+different from the other case u fixed. Any ideas how to do that - clk framework
+will not have init by then - so we need to read out from FDT or some such !
+
 > 
 > Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
 > ---
@@ -57,6 +65,4 @@ On 02/22/2017 02:36 AM, Vlad Zakharov wrote:
 >  	if (freq)
 >  		seq_printf(m, "CPU speed\t: %u.%02u Mhz\n",
 >  			   freq / 1000000, (freq / 10000) % 100);
-
-I'm not too familiar with clk API, do u need to clk_put() afterwards ? @Alexey can
-u please check !
+> 
