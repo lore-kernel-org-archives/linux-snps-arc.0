@@ -1,88 +1,57 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 21 Feb 2017 17:16:00 -0800
-Subject: [PATCH] clocksource: arc_timer: RTC: allow registration despite
- SMP
-In-Reply-To: <20170202142748.GP2206@mai>
-References: <1485996615-2511-1-git-send-email-vgupta@synopsys.com>
- <20170202142748.GP2206@mai>
+From: Vladislav.Zakharov@synopsys.com (Vlad Zakharov)
+Date: Wed, 22 Feb 2017 13:36:36 +0300
+Subject: [PATCH] arc: get rate from clk driver instead of reading device tree
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <343c8c7a-4fa2-d8ca-7780-7b1e7fd73fc2@synopsys.com>
+Message-ID: <1487759796-14418-1-git-send-email-vzakhar@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Daniel,
+We were reading clock rate directly from device tree "clock-frequency"
+property of corresponding clock node in show_cpuinfo function.
 
-Sorry for delayed response, was away from Linux for a bit :-(
+Such approach is correct only in case cpu is always clocked by
+"fixed-clock". If we use clock driver that allows rate to be changed
+this won't work as rate may change during the time or even
+"clock-frequency" property may not be presented at all.
 
-On 02/02/2017 06:27 AM, Daniel Lezcano wrote:
-> On Wed, Feb 01, 2017@04:50:15PM -0800, Vineet Gupta wrote:
->> So far we didn't allow CPU private 64-bit RTC timer to register in SMP
->> as the individual counters may not be synchronized across cores.
-> 
-> That is the case for the other archs and the per cpu clocksource are used, the
-> kernel is supposed to be immune against clocks drift. There are mechanisms to
-> have a synchronized view of the clock when they are per cpu and the kernel does
-> not compare clocks between cpus. 
+So this commit replaces reading device tree with getting rate from clock
+driver. This approach is much more flexible and will work for both fixed
+and mutable clocks.
 
-Right, we have tick broadcast etc. However as discussed before I really don't like
-the overhead - specially given that SMP cores will have a truly cross-core-sync
-GFRC timer and will serve as clocksrc anyways.
+Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
+---
+ arch/arc/kernel/setup.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> I didn't realize that when we did the modification around this check.
-> 
-> May be you can double check these clocksources are really not suitable for SMP,
-> because if it is not the case the if !CONFIG_SMP could be simply removed.
-
-Technically with tick broadcast RTC could be used, but I would like to avoid that.
-The usecase here is a CONFIG_SMP built kernel running on a UP only hardware (I was
-playing with running same binary on UP / SMP hardware).
-
-However it seems CONFIG_SMP overhead seems to be significant for production UP
-hardware so this patch might not be important after all.
-
-> A sidenote: RTC is confusing and should be changed to something else.
-
-Yeah it is - but that is what hardware guys decided to name it
-
--Vineet
-
-> 
->> However there is a situation when we build SMP kernel but want to use
->> the same image on UP as well as SMP hardware. Here we would certainly
->> want to use RTC, but current code doesn't allow as it only uses build
->> info (CONFIG_SMP) and not runtime info (num_online_cpus() or some such).
->>
->> We can't possibly use num_online_cpus() anyways because clocksource
->> probe happens before other cpus are brought online
->>
->> The simple fix is allow ETC probe for SMP and rely on higher rating of
->> GFRC to take over in general SMP case. We leave the pr_warn to notify
->> the user.
->>
->> Cc: John Stultz <john.stultz at linaro.org>
->> Cc: Thomas Gleixner <tglx at linutronix.de>
->> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
->> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
->> ---
->>  drivers/clocksource/arc_timer.c | 4 +---
->>  1 file changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/drivers/clocksource/arc_timer.c b/drivers/clocksource/arc_timer.c
->> index 7517f959cba7..87f193794bf2 100644
->> --- a/drivers/clocksource/arc_timer.c
->> +++ b/drivers/clocksource/arc_timer.c
->> @@ -145,10 +145,8 @@ static int __init arc_cs_setup_rtc(struct device_node *node)
->>  	}
->>  
->>  	/* Local to CPU hence not usable in SMP */
->> -	if (IS_ENABLED(CONFIG_SMP)) {
->> +	if (IS_ENABLED(CONFIG_SMP))
->>  		pr_warn("Local-64-bit-Ctr not usable in SMP");
->> -		return -EINVAL;
->> -	}
->>  
->>  	ret = arc_get_timer_clk(node);
->>  	if (ret)
->> -- 
->> 2.7.4
->>
-> 
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 3093fa8..49b0804 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -10,6 +10,7 @@
+ #include <linux/fs.h>
+ #include <linux/delay.h>
+ #include <linux/root_dev.h>
++#include <linux/clk.h>
+ #include <linux/clk-provider.h>
+ #include <linux/clocksource.h>
+ #include <linux/console.h>
+@@ -488,7 +489,8 @@ static int show_cpuinfo(struct seq_file *m, void *v)
+ {
+ 	char *str;
+ 	int cpu_id = ptr_to_cpu(v);
+-	struct device_node *core_clk = of_find_node_by_name(NULL, "core_clk");
++	struct device *cpu_dev = get_cpu_device(cpu_id);
++	struct clk *cpu_clk = clk_get(cpu_dev, "core_clk");
+ 	u32 freq = 0;
+ 
+ 	if (!cpu_online(cpu_id)) {
+@@ -502,7 +504,7 @@ static int show_cpuinfo(struct seq_file *m, void *v)
+ 
+ 	seq_printf(m, arc_cpu_mumbojumbo(cpu_id, str, PAGE_SIZE));
+ 
+-	of_property_read_u32(core_clk, "clock-frequency", &freq);
++	freq = clk_get_rate(cpu_clk);
+ 	if (freq)
+ 		seq_printf(m, "CPU speed\t: %u.%02u Mhz\n",
+ 			   freq / 1000000, (freq / 10000) % 100);
+-- 
+2.7.4
