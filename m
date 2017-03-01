@@ -1,217 +1,128 @@
-From: ynorov@caviumnetworks.com (Yury Norov)
-Date: Thu,  2 Mar 2017 00:49:11 +0530
-Subject: [PATCH 03/20] asm-generic: Drop getrlimit and setrlimit syscalls from
- default list
-In-Reply-To: <1488395968-14313-1-git-send-email-ynorov@caviumnetworks.com>
-References: <1488395968-14313-1-git-send-email-ynorov@caviumnetworks.com>
+From: wbx@uclibc-ng.org (Waldemar Brodkorb)
+Date: Wed, 1 Mar 2017 20:28:25 +0100
+Subject: [uclibc-ng-devel] [PATCH] ARC: Enable getpt() support in ARC
+ defconfigs
+In-Reply-To: <0496483a-e1ed-9064-94d6-214f84fd77d8@synopsys.com>
+References: <1488308547-10114-1-git-send-email-vzakhar@synopsys.com>
+ <20170301162459.5d23c09e@free-electrons.com>
+ <eaea2503-3a2a-2871-7f37-c57ed6504946@synopsys.com>
+ <1488392734.4659.54.camel@synopsys.com>
+ <39A54937CC95F24AA2F794E2D2B66B135829452A@DE02WEMBXB.internal.synopsys.com>
+ <0496483a-e1ed-9064-94d6-214f84fd77d8@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1488395968-14313-4-git-send-email-ynorov@caviumnetworks.com>
+Message-ID: <20170301192825.GA14124@waldemar-brodkorb.de>
 To: linux-snps-arc@lists.infradead.org
 
-The newer prlimit64 syscall provides all the functionality provided by
-the getrlimit and setrlimit syscalls and adds the pid of target process,
-so future architectures won't need to include getrlimit and setrlimit.
+Hi,
+Vineet Gupta wrote,
 
-Therefore drop getrlimit and setrlimit syscalls from the generic syscall
-list unless __ARCH_WANT_SET_GET_RLIMIT is defined by the architecture's
-unistd.h prior to including asm-generic/unistd.h, and adjust all architectures
-using the generic syscall list to define it so that no in-tree architectures
-are affected.
+> On 03/01/2017 10:57 AM, Anton Kolesov wrote:
+> >> That means for building of our toolchain we'll need to have separately stored
+> >> "defconfigs" in some form. Let's see what Anton says on that :)
+> 
+> But why is that - as long as buildroot (or other build systems) pass the right cpu
+> flags - why do you need a seperate config ?
+> 
+> >> And regardless of what mr Anton says having off-the-tree defconfigs is not
+> >> the best idea because with time options will go in and out and occasionally
+> >> we'll have outdated defconfigs.
+> 
+> The whole out-of-tree defconfig approach is nonsense - lets not discuss it !
+> 
+> > [AK] Not specifying architecture via uClibc config file is good for me - I
+> > wanted this long ago, since I never understood why current approach was used in
+> > the first place.
+ 
+I am not really sure I understand the discussion completely.
+I think we discuss two points here.
 
-Cc: Arnd Bergmann <arnd at arndb.de>
-Cc: James Hogan <james.hogan at imgtec.com>
-Cc: linux-arch at vger.kernel.org
-Cc: linux-snps-arc at lists.infradead.org
-Cc: Catalin Marinas <catalin.marinas at arm.com>
-Cc: Will Deacon <will.deacon at arm.com>
-Cc: linux-arm-kernel at lists.infradead.org
-Cc: Mark Salter <msalter at redhat.com>
-Cc: Aurelien Jacquiot <a-jacquiot at ti.com>
-Cc: linux-c6x-dev at linux-c6x.org
-Cc: Richard Kuo <rkuo at codeaurora.org>
-Cc: linux-hexagon at vger.kernel.org
-Cc: linux-metag at vger.kernel.org
-Cc: Jonas Bonn <jonas at southpole.se>
-Cc: linux at lists.openrisc.net
-Cc: Chen Liqin <liqin.linux at gmail.com>
-Cc: Lennox Wu <lennox.wu at gmail.com>
-Cc: Chris Metcalf <cmetcalf at mellanox.com>
-Cc: Guan Xuetao <gxt at mprc.pku.edu.cn>
-Cc: Ley Foon Tan <lftan at altera.com>
-Cc: nios2-dev at lists.rocketboards.org
-Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
-Cc: uclinux-h8-devel at lists.sourceforge.jp
-Acked-by: Arnd Bergmann <arnd at arndb.de>
-Acked-by: Mark Salter <msalter at redhat.com> [c6x]
-Acked-by: James Hogan <james.hogan at imgtec.com> [metag]
-Acked-by: Ley Foon Tan <lftan at altera.com> [nios2]
-Acked-by: Stafford Horne <shorne at gmail.com> [openrisc]
-Acked-by: Vineet Gupta <vgupta at synopsys.com> #arch/arc bits
-Signed-off-by: Yury Norov <ynorov at caviumnetworks.com>
----
- arch/arc/include/uapi/asm/unistd.h       | 1 +
- arch/arm64/include/uapi/asm/unistd.h     | 1 +
- arch/c6x/include/uapi/asm/unistd.h       | 1 +
- arch/h8300/include/uapi/asm/unistd.h     | 1 +
- arch/hexagon/include/uapi/asm/unistd.h   | 1 +
- arch/metag/include/uapi/asm/unistd.h     | 1 +
- arch/nios2/include/uapi/asm/unistd.h     | 1 +
- arch/openrisc/include/uapi/asm/unistd.h  | 1 +
- arch/score/include/uapi/asm/unistd.h     | 1 +
- arch/tile/include/uapi/asm/unistd.h      | 1 +
- arch/unicore32/include/uapi/asm/unistd.h | 1 +
- include/uapi/asm-generic/unistd.h        | 5 +++++
- 12 files changed, 16 insertions(+)
+Point 1.:
 
-diff --git a/arch/arc/include/uapi/asm/unistd.h b/arch/arc/include/uapi/asm/unistd.h
-index 9a34136..ac64965 100644
---- a/arch/arc/include/uapi/asm/unistd.h
-+++ b/arch/arc/include/uapi/asm/unistd.h
-@@ -16,6 +16,7 @@
- #define _UAPI_ASM_ARC_UNISTD_H
- 
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- #define __ARCH_WANT_SYS_EXECVE
- #define __ARCH_WANT_SYS_CLONE
- #define __ARCH_WANT_SYS_VFORK
-diff --git a/arch/arm64/include/uapi/asm/unistd.h b/arch/arm64/include/uapi/asm/unistd.h
-index 043d17a..48355a6 100644
---- a/arch/arm64/include/uapi/asm/unistd.h
-+++ b/arch/arm64/include/uapi/asm/unistd.h
-@@ -15,5 +15,6 @@
-  */
- 
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- 
- #include <asm-generic/unistd.h>
-diff --git a/arch/c6x/include/uapi/asm/unistd.h b/arch/c6x/include/uapi/asm/unistd.h
-index 12d73d9..f676231 100644
---- a/arch/c6x/include/uapi/asm/unistd.h
-+++ b/arch/c6x/include/uapi/asm/unistd.h
-@@ -15,6 +15,7 @@
-  */
- 
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- #define __ARCH_WANT_SYS_CLONE
- 
- /* Use the standard ABI for syscalls. */
-diff --git a/arch/h8300/include/uapi/asm/unistd.h b/arch/h8300/include/uapi/asm/unistd.h
-index 7dd20ef..2f98394 100644
---- a/arch/h8300/include/uapi/asm/unistd.h
-+++ b/arch/h8300/include/uapi/asm/unistd.h
-@@ -1,5 +1,6 @@
- #define __ARCH_NOMMU
- 
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- 
- #include <asm-generic/unistd.h>
-diff --git a/arch/hexagon/include/uapi/asm/unistd.h b/arch/hexagon/include/uapi/asm/unistd.h
-index 2151760..52d585c 100644
---- a/arch/hexagon/include/uapi/asm/unistd.h
-+++ b/arch/hexagon/include/uapi/asm/unistd.h
-@@ -28,6 +28,7 @@
- 
- #define sys_mmap2 sys_mmap_pgoff
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- #define __ARCH_WANT_SYS_EXECVE
- #define __ARCH_WANT_SYS_CLONE
- #define __ARCH_WANT_SYS_VFORK
-diff --git a/arch/metag/include/uapi/asm/unistd.h b/arch/metag/include/uapi/asm/unistd.h
-index 459b6ec..16b5cb3 100644
---- a/arch/metag/include/uapi/asm/unistd.h
-+++ b/arch/metag/include/uapi/asm/unistd.h
-@@ -8,6 +8,7 @@
-  */
- 
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- 
- /* Use the standard ABI for syscalls. */
- #include <asm-generic/unistd.h>
-diff --git a/arch/nios2/include/uapi/asm/unistd.h b/arch/nios2/include/uapi/asm/unistd.h
-index 51a32c7..b0dda4d 100644
---- a/arch/nios2/include/uapi/asm/unistd.h
-+++ b/arch/nios2/include/uapi/asm/unistd.h
-@@ -18,6 +18,7 @@
-  #define sys_mmap2 sys_mmap_pgoff
- 
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- 
- /* Use the standard ABI for syscalls */
- #include <asm-generic/unistd.h>
-diff --git a/arch/openrisc/include/uapi/asm/unistd.h b/arch/openrisc/include/uapi/asm/unistd.h
-index 471905b..6812d81 100644
---- a/arch/openrisc/include/uapi/asm/unistd.h
-+++ b/arch/openrisc/include/uapi/asm/unistd.h
-@@ -21,6 +21,7 @@
- #define sys_mmap2 sys_mmap_pgoff
- 
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- #define __ARCH_WANT_SYS_FORK
- #define __ARCH_WANT_SYS_CLONE
- 
-diff --git a/arch/score/include/uapi/asm/unistd.h b/arch/score/include/uapi/asm/unistd.h
-index d4008c3..7ad1bdc 100644
---- a/arch/score/include/uapi/asm/unistd.h
-+++ b/arch/score/include/uapi/asm/unistd.h
-@@ -1,6 +1,7 @@
- #define __ARCH_HAVE_MMU
- 
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- #define __ARCH_WANT_SYSCALL_NO_AT
- #define __ARCH_WANT_SYSCALL_NO_FLAGS
- #define __ARCH_WANT_SYSCALL_OFF_T
-diff --git a/arch/tile/include/uapi/asm/unistd.h b/arch/tile/include/uapi/asm/unistd.h
-index 24e9187..cf0505f 100644
---- a/arch/tile/include/uapi/asm/unistd.h
-+++ b/arch/tile/include/uapi/asm/unistd.h
-@@ -13,6 +13,7 @@
-  */
- 
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- #if !defined(__LP64__) || defined(__SYSCALL_COMPAT)
- /* Use the flavor of this syscall that matches the 32-bit API better. */
- #define __ARCH_WANT_SYNC_FILE_RANGE2
-diff --git a/arch/unicore32/include/uapi/asm/unistd.h b/arch/unicore32/include/uapi/asm/unistd.h
-index 9cf71c7..76ece52 100644
---- a/arch/unicore32/include/uapi/asm/unistd.h
-+++ b/arch/unicore32/include/uapi/asm/unistd.h
-@@ -11,6 +11,7 @@
-  */
- 
- #define __ARCH_WANT_RENAMEAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
- 
- #ifndef CONFIG_UNICORE32_OLDABI
- 
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index a6062be..d65e232 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -465,10 +465,15 @@ __SYSCALL(__NR_uname, sys_newuname)
- __SYSCALL(__NR_sethostname, sys_sethostname)
- #define __NR_setdomainname 162
- __SYSCALL(__NR_setdomainname, sys_setdomainname)
-+
-+#ifdef __ARCH_WANT_SET_GET_RLIMIT
-+/* getrlimit and setrlimit are superseded with prlimit64 */
- #define __NR_getrlimit 163
- __SC_COMP(__NR_getrlimit, sys_getrlimit, compat_sys_getrlimit)
- #define __NR_setrlimit 164
- __SC_COMP(__NR_setrlimit, sys_setrlimit, compat_sys_setrlimit)
-+#endif
-+
- #define __NR_getrusage 165
- __SC_COMP(__NR_getrusage, sys_getrusage, compat_sys_getrusage)
- #define __NR_umask 166
--- 
-2.7.4
+Rules.mak and some default CFLAGS/LDFLAGS passed to the compile and
+linking of code. I favour removing any specific -march/-mcpu/-mtune
+stuff, as we have done in the past for ARM/MIPS.
+So if ARC people like to remove this:
+ifeq ($(TARGET_ARCH),arc)
+        CPU_CFLAGS-$(CONFIG_ARC_CPU_700) += -mA7
+        CPU_CFLAGS-$(CONFIG_ARC_CPU_HS) += -mcpu=archs
+        CPU_LDFLAGS-y += $(CPU_CFLAGS) -marclinux
+endif
+
+I would say, yes, good thing. The toolchain defaults should be
+correctly set, no need to overwrite it inside uClibc-ng buildsystem.
+
+Point 2.:
+
+The files in extra/Configs/defconfigs/ and its use-cases.
+I haven't touched or used any files here, because most of them just
+contain TARGET_<arch>=y
+
+I would rather vote either to completely remove this directory or
+use it in the same way for all architectures.
+
+At the moment only ARC, OR1K and NDS32 use full defconfigs:
+wc -l uClibc-ng-git/extra/Configs/defconfigs/*/*
+    1 uClibc-ng-git/extra/Configs/defconfigs/alpha/defconfig
+   39 uClibc-ng-git/extra/Configs/defconfigs/arc/arcv2_defconfig
+   38 uClibc-ng-git/extra/Configs/defconfigs/arc/defconfig
+   38 uClibc-ng-git/extra/Configs/defconfigs/arc/tb10x_defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/arm/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/avr32/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/bfin/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/cris/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/frv/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/h8300/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/hppa/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/i386/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/ia64/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/m68k/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/metag/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/microblaze/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/mips/defconfig
+  167 uClibc-ng-git/extra/Configs/defconfigs/nds32/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/nios2/defconfig
+  236 uClibc-ng-git/extra/Configs/defconfigs/or1k/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/powerpc/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/sh/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/sparc/defconfig
+    1 uClibc-ng-git/extra/Configs/defconfigs/x86_64/defconfig
+  537 total
+
+I think only the ARC defconfigs are really used anywhere.
+
+All projects I know of, using uClibc-ng as a C library to create a
+cross-toolchain are using some kind of own defconfigs and generated
+fragments.
+
+In OpenADK I have some target/<arch>/uclibc-ng.config for every
+architecture with sane defaults to regular run and test uClibc-ng
+based systems in emulators or on real hardware. 
+This is used in embedded-test to do regression testing.
+
+Buildroot has some minimal defconfig and a developer can enable or
+disable some features (RPC, WCHAR, Locales, ..).
+I think a developer can also supply his own uClibc-ng config
+fragment.
+
+OpenWrt/LEDE use some own defconfigs.
+
+To have a good compatibility for a lot of applications the ARC
+Synopsis toolchains might use the existing Buildroot defaults, which
+allows to build a lot of software packages. We have seen before the
+last release, a lot of packages fail to compile, because the
+internal buildroot toolchain uses more features than the external
+Synopsis toolchain. (UCLIBC_HAS_GETPT, ..)
+
+If the default creates to big systems, Synopsis can use minimal
+configs and fix any autobuild issues ;)
+
+I think any external toolchain builders should create their own
+config and the uClibc-ng project should not provide any defconfigs
+anymore. Indeed when someone just use Kconfig defaults he/she should always
+end with a known to work toolchain.
+
+I still think we have too much different config possibilities and if
+we find some, which can be removed, I always vote for it.
+
+Best regards
+ Waldemar
