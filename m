@@ -1,40 +1,66 @@
-From: thomas.petazzoni@free-electrons.com (Thomas Petazzoni)
-Date: Wed, 1 Mar 2017 22:45:24 +0100
-Subject: [uclibc-ng-devel] [PATCH] ARC: Enable getpt() support in ARC
- defconfigs
-In-Reply-To: <1488403830.5447.5.camel@synopsys.com>
-References: <1488308547-10114-1-git-send-email-vzakhar@synopsys.com>
- <20170301162459.5d23c09e@free-electrons.com>
- <eaea2503-3a2a-2871-7f37-c57ed6504946@synopsys.com>
- <1488392734.4659.54.camel@synopsys.com>
- <20170301212533.6ddcfc0f@free-electrons.com>
- <1488403830.5447.5.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu,  2 Mar 2017 20:27:54 +0300
+Subject: [PATCH] drm/arcpgu: use .mode_fixup instead of .atomic_check
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170301224524.4c0f5d56@free-electrons.com>
+Message-ID: <1488475674-6694-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hello,
+Since we cannot always generate exactly requested pixel clock
+there's not much sense in checking requested_clock == clk_round_rate().
+In that case for quite some modes we'll be getting -EINVAL and no video
+output at all.
 
-On Wed, 1 Mar 2017 21:30:31 +0000, Alexey Brodkin wrote:
+But given there's some tolerance to real pixel clock in TVs/monitors
+we may still give it a try with the clock as close to requested one as
+PLL on the board may generate. So we just do a fixup to what current
+board may provide.
 
-> Speaking of "defconfigs" I really meant something that we may use
-> for building our toolchain outside of Buildroot if we want something that
-> differs from uClibc's defaults/defconfig - and most probably we'll need something
-> either to add to uClibc's minimal_defconfig or exclude from _maximal_defconfig.
-> 
-> Otherwise how may we be in control of libc in our "reference" toolchain?
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Daniel Vetter <daniel.vetter at ffwll.ch>
+Cc: David Airlie <airlied at linux.ie>
+Cc: Jose Abreu <joabreu at synopsys.com>
+---
+ drivers/gpu/drm/arc/arcpgu_crtc.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-A defconfig is what it is: a configuration provided as an example.
-Nothing forces you to use it. It's just an example.
-
-Buildroot doesn't use any of the uClibc-ng defconfigs. Buildroot has
-its own configuration for uClibc. You could just do the same for your
-reference toolchain.
-
-Best regards,
-
-Thomas
+diff --git a/drivers/gpu/drm/arc/arcpgu_crtc.c b/drivers/gpu/drm/arc/arcpgu_crtc.c
+index ad9a95916f1f..3f2823c1efc3 100644
+--- a/drivers/gpu/drm/arc/arcpgu_crtc.c
++++ b/drivers/gpu/drm/arc/arcpgu_crtc.c
+@@ -129,18 +129,16 @@ static void arc_pgu_crtc_disable(struct drm_crtc *crtc)
+ 			      ~ARCPGU_CTRL_ENABLE_MASK);
+ }
+ 
+-static int arc_pgu_crtc_atomic_check(struct drm_crtc *crtc,
+-				     struct drm_crtc_state *state)
++static bool arc_pgu_crtc_mode_fixup(struct drm_crtc *crtc,
++				    const struct drm_display_mode *mode,
++				    struct drm_display_mode *adjusted_mode)
+ {
+ 	struct arcpgu_drm_private *arcpgu = crtc_to_arcpgu_priv(crtc);
+-	struct drm_display_mode *mode = &state->adjusted_mode;
+-	long rate, clk_rate = mode->clock * 1000;
+ 
+-	rate = clk_round_rate(arcpgu->clk, clk_rate);
+-	if (rate != clk_rate)
+-		return -EINVAL;
++	adjusted_mode->clock =
++		clk_round_rate(arcpgu->clk, mode->clock * 1000) / 1000;
+ 
+-	return 0;
++	return true;
+ }
+ 
+ static void arc_pgu_crtc_atomic_begin(struct drm_crtc *crtc,
+@@ -165,8 +163,8 @@ static const struct drm_crtc_helper_funcs arc_pgu_crtc_helper_funcs = {
+ 	.disable	= arc_pgu_crtc_disable,
+ 	.prepare	= arc_pgu_crtc_disable,
+ 	.commit		= arc_pgu_crtc_enable,
+-	.atomic_check	= arc_pgu_crtc_atomic_check,
+ 	.atomic_begin	= arc_pgu_crtc_atomic_begin,
++	.mode_fixup	= arc_pgu_crtc_mode_fixup,
+ };
+ 
+ static void arc_pgu_plane_atomic_update(struct drm_plane *plane,
 -- 
-Thomas Petazzoni, CTO, Free Electrons
-Embedded Linux and Kernel engineering
-http://free-electrons.com
+2.7.4
