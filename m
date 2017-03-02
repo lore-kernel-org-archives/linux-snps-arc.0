@@ -1,125 +1,84 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 2 Mar 2017 18:57:19 +0000
-Subject: [PATCH 1/2] arc: axs10x: Add DT bindings for I2S audio playback
-In-Reply-To: <7ed6deaf1ae6d5819364c793835aa30316077a7e.1487787376.git.joabreu@synopsys.com>
-References: <7ed6deaf1ae6d5819364c793835aa30316077a7e.1487787376.git.joabreu@synopsys.com>
+From: daniel@ffwll.ch (Daniel Vetter)
+Date: Thu, 2 Mar 2017 20:54:38 +0100
+Subject: [PATCH] drm/arcpgu: use .mode_fixup instead of .atomic_check
+In-Reply-To: <1488475674-6694-1-git-send-email-abrodkin@synopsys.com>
+References: <1488475674-6694-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1488481038.2684.14.camel@synopsys.com>
+Message-ID: <20170302195437.mlhzia2q2oav27mr@phenom.ffwll.local>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Jose,
-
-On Wed, 2017-02-22@18:19 +0000, Jose Abreu wrote:
-> This patch adds the necessary DT bindings to get HDMI audio
-> output in ARC AXS10x SDP. The bindings for I2S controller were
-> added as well as the bindings for simple audio card.
+On Thu, Mar 02, 2017@08:27:54PM +0300, Alexey Brodkin wrote:
+> Since we cannot always generate exactly requested pixel clock
+> there's not much sense in checking requested_clock == clk_round_rate().
+> In that case for quite some modes we'll be getting -EINVAL and no video
+> output at all.
 > 
-> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-> Cc: Carlos Palminha <palminha at synopsys.com>
-> Cc: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Rob Herring <robh+dt at kernel.org>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: devicetree at vger.kernel.org
-> Cc: linux-snps-arc at lists.infradead.org
-> Cc: linux-kernel at vger.kernel.org
+> But given there's some tolerance to real pixel clock in TVs/monitors
+> we may still give it a try with the clock as close to requested one as
+> PLL on the board may generate. So we just do a fixup to what current
+> board may provide.
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Daniel Vetter <daniel.vetter at ffwll.ch>
+> Cc: David Airlie <airlied at linux.ie>
+> Cc: Jose Abreu <joabreu at synopsys.com>
 > ---
-> ?arch/arc/boot/dts/axs10x_mb.dtsi | 22 ++++++++++++++++++----
-> ?1 file changed, 18 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/arc/arcpgu_crtc.c | 16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
 > 
-> diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-> index d6c1bbc..9d882b1 100644
-> --- a/arch/arc/boot/dts/axs10x_mb.dtsi
-> +++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-> @@ -149,12 +149,13 @@
-> ?			interrupts = <14>;
-> ?		};
-> ?
-> -		i2c at 0x1e000 {
-> -			compatible = "snps,designware-i2c";
-> +		i2s: i2s at 1e000 {
-> +			compatible = "snps,designware-i2s";
-> ?			reg = <0x1e000 0x100>;
-> -			clock-frequency = <400000>;
-> -			clocks = <&i2cclk>;
-> +			clocks = <&i2sclk 0>;
-> +			clock-names = "i2sclk";
-> ?			interrupts = <15>;
-> +			#sound-dai-cells = <0>;
-> ?		};
-> ?
-> ?		i2c at 0x1f000 {
-> @@ -174,6 +175,7 @@
-> ?				adi,input-colorspace = "rgb";
-> ?				adi,input-clock = "1x";
-> ?				adi,clock-delay = <0x03>;
-> +				#sound-dai-cells = <0>;
-> ?
-> ?				ports {
-> ?					#address-cells = <1>;
-> @@ -295,5 +297,17 @@
-> ?				};
-> ?			};
-> ?		};
-> +
-> +		sound_playback {
-> +			compatible = "simple-audio-card";
-> +			simple-audio-card,name = "AXS10x HDMI Audio";
-> +			simple-audio-card,format = "i2s";
-> +			simple-audio-card,cpu {
-> +				sound-dai = <&i2s>;
-> +			};
-> +			simple-audio-card,codec {
-> +				sound-dai = <&adv7511>;
-> +			};
-> +		};
-> ?	};
-> ?};
+> diff --git a/drivers/gpu/drm/arc/arcpgu_crtc.c b/drivers/gpu/drm/arc/arcpgu_crtc.c
+> index ad9a95916f1f..3f2823c1efc3 100644
+> --- a/drivers/gpu/drm/arc/arcpgu_crtc.c
+> +++ b/drivers/gpu/drm/arc/arcpgu_crtc.c
+> @@ -129,18 +129,16 @@ static void arc_pgu_crtc_disable(struct drm_crtc *crtc)
+>  			      ~ARCPGU_CTRL_ENABLE_MASK);
+>  }
+>  
+> -static int arc_pgu_crtc_atomic_check(struct drm_crtc *crtc,
+> -				     struct drm_crtc_state *state)
+> +static bool arc_pgu_crtc_mode_fixup(struct drm_crtc *crtc,
+> +				    const struct drm_display_mode *mode,
+> +				    struct drm_display_mode *adjusted_mode)
 
-Just for the sake of history that's my mods to defconfig that allowed me
-to play .pcm via HDMI from axs103 board:
--------------------------------->8-------------------------------
-diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
-index 30a3d4cf53d2..b11362a32e4e 100644
---- a/arch/arc/configs/axs103_smp_defconfig
-+++ b/arch/arc/configs/axs103_smp_defconfig
-@@ -67,25 +67,29 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
-?CONFIG_MOUSE_SERIAL=y
-?CONFIG_MOUSE_SYNAPTICS_USB=y
-?# CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
-?CONFIG_SERIAL_8250=y
-?CONFIG_SERIAL_8250_CONSOLE=y
-?CONFIG_SERIAL_8250_DW=y
-?CONFIG_SERIAL_OF_PLATFORM=y
-?# CONFIG_HW_RANDOM is not set
--CONFIG_I2C=y
-?CONFIG_I2C_CHARDEV=y
-?CONFIG_I2C_DESIGNWARE_PLATFORM=y
-?# CONFIG_HWMON is not set
--CONFIG_DRM=m
--CONFIG_DRM_I2C_ADV7511=m
--CONFIG_DRM_ARCPGU=m
--CONFIG_FB=y
-+CONFIG_DRM=y
-+CONFIG_DRM_I2C_ADV7511=y
-+CONFIG_DRM_I2C_ADV7511_AUDIO=y
-+CONFIG_DRM_ARCPGU=y
-?CONFIG_FRAMEBUFFER_CONSOLE=y
-?CONFIG_LOGO=y
-?# CONFIG_LOGO_LINUX_MONO is not set
-?# CONFIG_LOGO_LINUX_VGA16 is not set
-?# CONFIG_LOGO_LINUX_CLUT224 is not set
-+CONFIG_SOUND=y
-+CONFIG_SND=y
-+CONFIG_SND_SOC=y
-+CONFIG_SND_DESIGNWARE_I2S=y
-+CONFIG_SND_DESIGNWARE_PCM=y
-+CONFIG_SND_SIMPLE_CARD=y
-?CONFIG_USB_EHCI_HCD=y
-?CONFIG_USB_EHCI_HCD_PLATFORM=y
-?CONFIG_USB_OHCI_HCD=y
--------------------------------->8-------------------------------
+This isn't required at all, see drm_crtc_state.adjusted_mode. Just update
+that and you're good - .mode_fixup is the backwards compatibility function
+for old kms drivers, atomic_check is strictly more powerful.
 
-Anyways...
+Please also make sure the documentation properly explains this, and if
+not, please submit a patch to improve it.
+-Daniel
 
-Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
+>  {
+>  	struct arcpgu_drm_private *arcpgu = crtc_to_arcpgu_priv(crtc);
+> -	struct drm_display_mode *mode = &state->adjusted_mode;
+> -	long rate, clk_rate = mode->clock * 1000;
+>  
+> -	rate = clk_round_rate(arcpgu->clk, clk_rate);
+> -	if (rate != clk_rate)
+> -		return -EINVAL;
+> +	adjusted_mode->clock =
+> +		clk_round_rate(arcpgu->clk, mode->clock * 1000) / 1000;
+>  
+> -	return 0;
+> +	return true;
+>  }
+>  
+>  static void arc_pgu_crtc_atomic_begin(struct drm_crtc *crtc,
+> @@ -165,8 +163,8 @@ static const struct drm_crtc_helper_funcs arc_pgu_crtc_helper_funcs = {
+>  	.disable	= arc_pgu_crtc_disable,
+>  	.prepare	= arc_pgu_crtc_disable,
+>  	.commit		= arc_pgu_crtc_enable,
+> -	.atomic_check	= arc_pgu_crtc_atomic_check,
+>  	.atomic_begin	= arc_pgu_crtc_atomic_begin,
+> +	.mode_fixup	= arc_pgu_crtc_mode_fixup,
+>  };
+>  
+>  static void arc_pgu_plane_atomic_update(struct drm_plane *plane,
+> -- 
+> 2.7.4
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
