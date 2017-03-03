@@ -1,115 +1,48 @@
-From: Liviu.Dudau@arm.com (Liviu Dudau)
-Date: Fri, 3 Mar 2017 16:28:37 +0000
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 3 Mar 2017 17:48:19 +0000
 Subject: [PATCH] drm/arcpgu: Get rid of "encoder-slave" property
-In-Reply-To: <1488554364-25579-1-git-send-email-abrodkin@synopsys.com>
+In-Reply-To: <20170303162837.GO917@e110455-lin.cambridge.arm.com>
 References: <1488554364-25579-1-git-send-email-abrodkin@synopsys.com>
+ <20170303162837.GO917@e110455-lin.cambridge.arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170303162837.GO917@e110455-lin.cambridge.arm.com>
+Message-ID: <1488563298.2940.33.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Mar 03, 2017@06:19:24PM +0300, Alexey Brodkin wrote:
-> We used to use "encoder-slave" property in PGU's
-> Device Tree node to refer to the encoder, but since there's
-> a way to find it with some code smarts we get rid of
-> obviously extra complication in PGU node.
+Hi Liviu,
+
+On Fri, 2017-03-03@16:28 +0000, Liviu Dudau wrote:
+> On Fri, Mar 03, 2017@06:19:24PM +0300, Alexey Brodkin wrote:
+> > 
+> > -	/* find the encoder node and initialize it */
+> > -	encoder_node = of_parse_phandle(drm->dev->of_node, "encoder-slave", 0);
+> > -	if (encoder_node) {
+> > -		ret = arcpgu_drm_hdmi_init(drm, encoder_node);
+> > -		of_node_put(encoder_node);
+> > +	/* There is only one output port inside each device, find it */
+> > +	port = of_graph_get_next_endpoint(pdev->dev.of_node, NULL);
+> > +
+> > +	if (port) {
+> > +		if (of_device_is_available(port))
+> > +			encoder = of_graph_get_remote_port_parent(port);
+> > +		of_node_put(port);
+> > +	}
 > 
-> Again inspired by ARM's HDLCD code.
+> You must've been looking at some old version. Current version in -next uses
+> of_graph_get_remote_node() to replace all those lines you have added (see Rob
+> Herring's series to introduce of_graph_get_remote_node() function)
 
-Again, Reviewed-by: Liviu Dudau <Liviu.Dudau at arm.com>  :)
+Hm, I'm not on Linus' master tree [1] and so I thought I was quite up to date :)
+Still I made a check of linux-next and don't see any changes in
+"drivers/gpu/drm/arm" compared to Linus' tree.
 
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Liviu Dudau <Liviu.Dudau at arm.com>
-> Cc: Daniel Vetter <daniel at ffwll.ch>
-> Cc: David Airlie <airlied at linux.ie>
-> Cc: Rob Herring <robh+dt at kernel.org>
-> ---
->  arch/arc/boot/dts/axs10x_mb.dtsi |  1 -
->  drivers/gpu/drm/arc/arcpgu_drv.c | 23 +++++++++++++++++------
->  2 files changed, 17 insertions(+), 7 deletions(-)
-> 
-> diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-> index 41cfb29b62c1..2fe030186b9d 100644
-> --- a/arch/arc/boot/dts/axs10x_mb.dtsi
-> +++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-> @@ -287,7 +287,6 @@
->  		pgu at 17000 {
->  			compatible = "snps,arcpgu";
->  			reg = <0x17000 0x400>;
-> -			encoder-slave = <&adv7511>;
->  			clocks = <&pguclk>;
->  			clock-names = "pxlclk";
->  			memory-region = <&frame_buffer>;
-> diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-> index 5c82f52fba80..b1b2286bda95 100644
-> --- a/drivers/gpu/drm/arc/arcpgu_drv.c
-> +++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-> @@ -19,6 +19,7 @@
->  #include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_atomic_helper.h>
-> +#include <linux/of_graph.h>
->  #include <linux/of_reserved_mem.h>
->  
->  #include "arcpgu.h"
-> @@ -83,7 +84,7 @@ static int arcpgu_load(struct drm_device *drm)
->  {
->  	struct platform_device *pdev = to_platform_device(drm->dev);
->  	struct arcpgu_drm_private *arcpgu;
-> -	struct device_node *encoder_node;
-> +	struct device_node *encoder, *port;
->  	struct resource *res;
->  	int ret;
->  
-> @@ -118,14 +119,24 @@ static int arcpgu_load(struct drm_device *drm)
->  	if (arc_pgu_setup_crtc(drm) < 0)
->  		return -ENODEV;
->  
-> -	/* find the encoder node and initialize it */
-> -	encoder_node = of_parse_phandle(drm->dev->of_node, "encoder-slave", 0);
-> -	if (encoder_node) {
-> -		ret = arcpgu_drm_hdmi_init(drm, encoder_node);
-> -		of_node_put(encoder_node);
-> +	/* There is only one output port inside each device, find it */
-> +	port = of_graph_get_next_endpoint(pdev->dev.of_node, NULL);
-> +
-> +	if (port) {
-> +		if (of_device_is_available(port))
-> +			encoder = of_graph_get_remote_port_parent(port);
-> +		of_node_put(port);
-> +	}
+[1]?http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/arm?id=e4563f6ba71792c77aeccb2092cc23149b44e642
+[2]?http://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/arm?id=e4563f6ba71792c77aeccb2092cc23149b44e642
 
-You must've been looking at some old version. Current version in -next uses
-of_graph_get_remote_node() to replace all those lines you have added (see Rob
-Herring's series to introduce of_graph_get_remote_node() function)
+Could you please clarify which exact tree did you mean?
 
-Best regards,
-Liviu
+Anyways I just tried to rebase my patch on top of linux-next tree and now
+video output is broken for me - I only see some garbage on top of the screen
+so I'll need to investigate it first before moving forward with stuff you
+proposed :)
 
-
-> +
-> +	if (encoder && of_device_is_available(encoder)) {
-> +		dev_info(drm->dev, "Found encoder node %s, proceeding with it\n",
-> +			 encoder->name);
-> +		ret = arcpgu_drm_hdmi_init(drm, encoder);
-> +		of_node_put(encoder);
->  		if (ret < 0)
->  			return ret;
->  	} else {
-> +		dev_info(drm->dev, "No encoder node, assume simulation\n");
->  		ret = arcpgu_drm_sim_init(drm, NULL);
->  		if (ret < 0)
->  			return ret;
-> -- 
-> 2.7.4
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ?\_(?)_/?
+-Alexey
