@@ -1,5 +1,5 @@
 From: hpa@zytor.com (H. Peter Anvin)
-Date: Sat, 04 Mar 2017 15:03:50 -0800
+Date: Sat, 04 Mar 2017 15:08:50 -0800
 Subject: [PATCH 1/3] futex: remove duplicated code
 In-Reply-To: <20170304213805.GA2449@lianli.shorne-pla.net>
 References: <20170303122712.13353-1-jslaby@suse.cz>
@@ -7,14 +7,14 @@ References: <20170303122712.13353-1-jslaby@suse.cz>
  <3994975e-89a5-d2b5-60be-a8633ddc3733@zytor.com>
  <20170304213805.GA2449@lianli.shorne-pla.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201703042304.v24N4Afu010968@mail.zytor.com>
+Message-ID: <201703042308.v24N8wvh012716@mail.zytor.com>
 To: linux-snps-arc@lists.infradead.org
 
 <davem at davemloft.net>,Chris Metcalf <cmetcalf at mellanox.com>,Thomas Gleixner <tglx at linutronix.de>,Ingo Molnar <mingo at redhat.com>,Chris Zankel <chris at zankel.net>,Max Filippov <jcmvbkbc at gmail.com>,Arnd Bergmann <arnd at arndb.de>,x86 at kernel.org,linux-alpha at vger.kernel.org,linux-snps-arc at lists.infradead.org,linux-arm-kernel at lists.infradead.org,linux-hexagon at vger.kernel.org,linux-ia64 at vger.kernel.org,linux-mips at linux-mips.org,openrisc at lists.librecores.org,linux-parisc at vger.kernel.org,linuxppc-dev at lists.ozlabs.org,linux-s390 at vger.kernel.org,linux-sh at vger.kernel.org,sparclinux at vger.kernel.org,linux-xtensa at linux-xtensa.org,linux-arch at vger.kernel.org
 From: hpa@zytor.com
 List-ID: <linux-snps-arc@lists.infradead.org>
 To: linux-snps-arc@lists.infradead.org
-Message-ID: <9B46AFA6-C422-41FD-8E8A-356E44A6DCD2 at zytor.com>
+Message-ID: <CF18535E-39E7-44D3-88D0-80B9961E6681 at zytor.com>
 
 On March 4, 2017 1:38:05 PM PST, Stafford Horne <shorne@gmail.com> wrote:
 >On Sat, Mar 04, 2017@11:15:17AM -0800, H. Peter Anvin wrote:
@@ -90,6 +90,6 @@ On March 4, 2017 1:38:05 PM PST, Stafford Horne <shorne@gmail.com> wrote:
 >> 	  ? zex32((x),(y)) : zex64((x),(y))))
 >> 
 
-Signed versus unsigned...
+Also, i strongly believe that making it syntactically cumbersome encodes people to open-code it which is bad...
 -- 
 Sent from my Android device with K-9 Mail. Please excuse my brevity.
