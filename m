@@ -1,80 +1,34 @@
-From: shorne@gmail.com (Stafford Horne)
-Date: Sun, 5 Mar 2017 06:38:05 +0900
-Subject: [PATCH 1/3] futex: remove duplicated code
-In-Reply-To: <3994975e-89a5-d2b5-60be-a8633ddc3733@zytor.com>
-References: <20170303122712.13353-1-jslaby@suse.cz>
- <20170304130550.GT21222@n2100.armlinux.org.uk>
- <3994975e-89a5-d2b5-60be-a8633ddc3733@zytor.com>
+From: vgupta@synopsys.com (Vineet Gupta)
+Date: Sat, 4 Mar 2017 16:07:24 -0800
+Subject: [PATCH 0/3] ARC: get frequency via clock driver instead of
+ reading device tree
+In-Reply-To: <1488540602-11438-1-git-send-email-vzakhar@synopsys.com>
+References: <1488540602-11438-1-git-send-email-vzakhar@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170304213805.GA2449@lianli.shorne-pla.net>
+Message-ID: <2e9840bb-fdf4-84c3-0520-695977a46c53@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Sat, Mar 04, 2017@11:15:17AM -0800, H. Peter Anvin wrote:
-> On 03/04/17 05:05, Russell King - ARM Linux wrote:
-> >>  
-> >> +static int futex_atomic_op_inuser(int encoded_op, u32 __user *uaddr)
-> >> +{
-> >> +	int op = (encoded_op >> 28) & 7;
-> >> +	int cmp = (encoded_op >> 24) & 15;
-> >> +	int oparg = (encoded_op << 8) >> 20;
-> >> +	int cmparg = (encoded_op << 20) >> 20;
-> > 
-> > Hmm.  oparg and cmparg look like they're doing these shifts to get sign
-> > extension of the 12-bit values by assuming that "int" is 32-bit -
-> > probably worth a comment, or for safety, they should be "s32" so it's
-> > not dependent on the bit-width of "int".
-> > 
+On 03/03/2017 03:29 AM, Vlad Zakharov wrote:
+> This patch series replaces reading device tree with getting CPU
+> clock frequency via clock driver in show_cpuinfo function.
 > 
-> For readability, perhaps we should make sign- and zero-extension an
-> explicit facility?
+> In order to achieve this we also add cpu nodes to device tree which
+> describes SMP system and add "clocks" properties to all ARC cpu nodes. 
 
-There is some of this in already here, 32 and 64 bit versions:
+Series seems sane to me - will give it a spin next week before adding for 4.11
 
-  include/linux/bitops.h
+Thx,
+-Vieet
 
-Do we really need zero extension? It seems the same.
 
-Example implementation from bitops.h
-
-static inline __s32 sign_extend32(__u32 value, int index)
-{
-        __u8 shift = 31 - index;
-        return (__s32)(value << shift) >> shift;
-}
-
-> /*
->  * Truncate an integer x to n bits, using sign- or
->  * zero-extension, respectively.
->  */
-> static inline __const_func__ s32 sex32(s32 x, int n)
-> {
->   return (x << (32-n)) >> (32-n);
-> }
+> Vlad Zakharov (3):
+>   ARC: [dts] add input clocks for cpu nodes
+>   ARC: [dts] add cpu nodes to ARCHS SMP device tree
+>   arc: get rate from clk driver instead of reading device tree
 > 
-> static inline __const_func__ s64 sex64(s64 x, int n)
-> {
->   return (x << (64-n)) >> (64-n);
-> }
-> 
-> #define sex(x,y)						\
-> 	((__typeof__(x))					\
-> 	 (((__builtin_constant_p(y) && ((y) <= 32)) ||		\
-> 	   (sizeof(x) <= sizeof(s32)))				\
-> 	  ? sex32((x),(y)) : sex64((x),(y))))
-> 
-> static inline __const_func__ u32 zex32(u32 x, int n)
-> {
->   return (x << (32-n)) >> (32-n);
-> }
-> 
-> static inline __const_func__ u64 zex64(u64 x, int n)
-> {
->   return (x << (64-n)) >> (64-n);
-> }
-> 
-> #define zex(x,y)						\
-> 	((__typeof__(x))					\
-> 	 (((__builtin_constant_p(y) && ((y) <= 32)) ||		\
-> 	   (sizeof(x) <= sizeof(u32)))				\
-> 	  ? zex32((x),(y)) : zex64((x),(y))))
+>  arch/arc/boot/dts/skeleton.dtsi        |  1 +
+>  arch/arc/boot/dts/skeleton_hs.dtsi     |  1 +
+>  arch/arc/boot/dts/skeleton_hs_idu.dtsi | 21 ++++++++++++++++++++-
+>  arch/arc/kernel/setup.c                | 17 +++++++++++++----
+>  4 files changed, 35 insertions(+), 5 deletions(-)
 > 
