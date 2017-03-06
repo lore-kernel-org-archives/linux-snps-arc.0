@@ -1,34 +1,35 @@
-From: vgupta@synopsys.com (Vineet Gupta)
-Date: Sat, 4 Mar 2017 16:07:24 -0800
-Subject: [PATCH 0/3] ARC: get frequency via clock driver instead of
- reading device tree
-In-Reply-To: <1488540602-11438-1-git-send-email-vzakhar@synopsys.com>
-References: <1488540602-11438-1-git-send-email-vzakhar@synopsys.com>
+From: dalias@libc.org (Rich Felker)
+Date: Sun, 5 Mar 2017 20:52:07 -0500
+Subject: [PATCH 1/3] futex: remove duplicated code
+In-Reply-To: <20170303122712.13353-1-jslaby@suse.cz>
+References: <20170303122712.13353-1-jslaby@suse.cz>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <2e9840bb-fdf4-84c3-0520-695977a46c53@synopsys.com>
+Message-ID: <20170306015207.GN1520@brightrain.aerifal.cx>
 To: linux-snps-arc@lists.infradead.org
 
-On 03/03/2017 03:29 AM, Vlad Zakharov wrote:
-> This patch series replaces reading device tree with getting CPU
-> clock frequency via clock driver in show_cpuinfo function.
+On Fri, Mar 03, 2017@01:27:10PM +0100, Jiri Slaby wrote:
+> There is code duplicated over all architecture's headers for
+> futex_atomic_op_inuser. Namely op decoding, access_ok check for uaddr,
+> and comparison of the result.
 > 
-> In order to achieve this we also add cpu nodes to device tree which
-> describes SMP system and add "clocks" properties to all ARC cpu nodes. 
-
-Series seems sane to me - will give it a spin next week before adding for 4.11
-
-Thx,
--Vieet
-
-
-> Vlad Zakharov (3):
->   ARC: [dts] add input clocks for cpu nodes
->   ARC: [dts] add cpu nodes to ARCHS SMP device tree
->   arc: get rate from clk driver instead of reading device tree
+> Remove this duplication and leave up to the arches only the needed
+> assembly which is now in arch_futex_atomic_op_inuser.
 > 
->  arch/arc/boot/dts/skeleton.dtsi        |  1 +
->  arch/arc/boot/dts/skeleton_hs.dtsi     |  1 +
->  arch/arc/boot/dts/skeleton_hs_idu.dtsi | 21 ++++++++++++++++++++-
->  arch/arc/kernel/setup.c                | 17 +++++++++++++----
->  4 files changed, 35 insertions(+), 5 deletions(-)
-> 
+> Note that s390 removed access_ok check in d12a29703 ("s390/uaccess:
+> remove pointless access_ok() checks") as access_ok there returns true.
+> We introduce it back to the helper for the sake of simplicity (it gets
+> optimized away anyway).
+
+Overall I'm in favor of this patch, and it's close to what I had in
+mind in the commit message for
+00b73d8d1b7131da03aec73011a7286f566fe87f. But I'd actually like to see
+it go further. These ops are mainly (only?) used for the (almost never
+used) FUTEX_WAKE_OP operation, and there's very little sense in trying
+to optimize them with dedicated arch-specific forms like "lock xadd".
+Instead the entire logic should be in an arch-generic file, and all
+the arch should need to provide is a cmpxchg-on-user-memory primitive
+for it to use. On most archs, the same cmpxchg used in kernelspace
+should also work for user addresses, meaning a huge amount of
+unmaintained, largely untested, junk code can be removed.
+
+Rich
