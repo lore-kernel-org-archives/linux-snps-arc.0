@@ -1,62 +1,39 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Fri, 10 Mar 2017 11:28:07 +0100 (CET)
-Subject: update timer frequencies
-In-Reply-To: <1489137441.2333.46.camel@synopsys.com>
-References: <1489137441.2333.46.camel@synopsys.com>
+From: ben@decadent.org.uk (Ben Hutchings)
+Date: Fri, 10 Mar 2017 11:46:23 +0000
+Subject: [PATCH 3.16 282/370] ARC: [arcompact] brown paper bag bug in
+ unaligned access delay slot fixup
+In-Reply-To: <lsq.1489146380.780052105@decadent.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.20.1703101113370.3681@nanos>
+Message-ID: <lsq.1489146383.162481160@decadent.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-Vlad,
+3.16.42-rc1 review patch.  If anyone has any objections, please let me know.
 
-On Fri, 10 Mar 2017, Vlad Zakharov wrote:
-> 
-> I am trying to implement a cpufreq driver for ARC CPUs.  The point is
-> that ARC timers (including those are used for timekeeping) are driven by
-> the same clock as ARC CPU core(s).
+------------------
 
-To be honest: That's broken by design and you really should go and tell
-your hardware folks to fix that. Proper timekeeping is essential for any
-Operating System (not only Linux).
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 
-It's well known for more than TWO decades that changing the frequency of
-the timekeeper clocksource is a complete disaster, but obviously every
-hardware vendor has to learn that the hard way instead of simply learning
-from history.
+commit a524c218bc94c705886a0e0fedeee45d1931da32 upstream.
 
-> So if cpufreq driver changes CPU frequency timers frequency also
-> updates. I added notification handler to ARC timer driver were I
-> attempted to update clocksource frequency with
-> "__clocksource_update_freq_hz()" but I found that actually the frequency
-> didn't update.
-> 
-> During my further investigation I mentioned that timekeeping framework
-> doesn't allow frequency changes for more than 11%. This is quiet
-> frustratingly: ARC cores supports such adjustments themselves but current
-> framework API doesn't give us a chance to use this functionality and in
-> fact it even forbids CPU frequency changes in runtime at all.
+Reported-by: Jo-Philipp Wich <jo at mein.io>
+Fixes: 9aed02feae57bf7 ("ARC: [arcompact] handle unaligned access delay slot")
+Cc: linux-kernel at vger.kernel.org
+Cc: linux-snps-arc at lists.infradead.org
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+Signed-off-by: Linus Torvalds <torvalds at linux-foundation.org>
+Signed-off-by: Ben Hutchings <ben at decadent.org.uk>
+---
+ arch/arc/kernel/unaligned.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It does not forbid CPU frequency changes. It forbids timekeeper clocksource
-frequency jumps.
-
-For a very good reason. Having frequency jumps disturbs timekeeping in
-several ways (monotonic behaviour, accuracy).
-
-> Maybe I am mistaken and there is some way to get this going? Or maybe we
-> can add some minor changes to timekeeping framework to resolve this issue
-> (special flag that allows such changes or something like this?).
-
-No, we won't add a special flag because the availability will just
-proliferate completely braindead hardware designs.
-
-We had a gazillion of horrible hacks which tried to make this work in the
-past, but none of them ever worked reliably under all circumstances. We
-won't bring them back.
-
-Your hardware design is broken by making the clocksource clock depend on
-the CPU frequency. Tell your hardware people to fix that or just use a
-seperate independent clocksource.
-
-Thanks,
-
-	tglx
+--- a/arch/arc/kernel/unaligned.c
++++ b/arch/arc/kernel/unaligned.c
+@@ -242,7 +242,7 @@ int misaligned_fixup(unsigned long addre
+ 
+ 	/* clear any remanants of delay slot */
+ 	if (delay_mode(regs)) {
+-		regs->ret = regs->bta ~1U;
++		regs->ret = regs->bta & ~1U;
+ 		regs->status32 &= ~STATUS_DE_MASK;
+ 	} else {
+ 		regs->ret += state.instr_len;
