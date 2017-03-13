@@ -1,71 +1,104 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 13 Mar 2017 18:35:27 -0700
-Subject: [RFC PATCH 10/13] mm: Introduce first class virtual address spaces
-In-Reply-To: <20170313221415.9375-11-till.smejkal@gmail.com>
+From: till.smejkal@googlemail.com (Till Smejkal)
+Date: Mon, 13 Mar 2017 15:14:03 -0700
+Subject: [RFC PATCH 01/13] mm: Add mm_struct argument to 'mmap_region'
+In-Reply-To: <20170313221415.9375-1-till.smejkal@gmail.com>
 References: <20170313221415.9375-1-till.smejkal@gmail.com>
- <20170313221415.9375-11-till.smejkal@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <cd1adda8-bf6a-47ad-bff3-5bc6626ac100@synopsys.com>
+Message-ID: <20170313221415.9375-2-till.smejkal@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-+CC Ingo, tglx
+Add to the 'mmap_region' function the mm_struct that it should operate on
+as additional argument. Before, the function simply used the memory map of
+the current task. However, with the introduction of first class virtual
+address spaces, mmap_region needs also be able to operate on other memory
+maps than only the current task ones. By adding it as argument we can now
+explicitly define which memory map to use.
 
-Hi Till,
+Signed-off-by: Till Smejkal <till.smejkal at gmail.com>
+---
+ arch/mips/kernel/vdso.c |  2 +-
+ arch/tile/mm/elf.c      |  2 +-
+ include/linux/mm.h      |  5 +++--
+ mm/mmap.c               | 10 +++++-----
+ 4 files changed, 10 insertions(+), 9 deletions(-)
 
-On 03/13/2017 03:14 PM, Till Smejkal wrote:
-> Introduce a different type of address spaces which are first class citizens
-> in the OS. That means that the kernel now handles two types of AS, those
-> which are closely coupled with a process and those which aren't. While the
-> former ones are created and destroyed together with the process by the
-> kernel and are the default type of AS in the Linux kernel, the latter ones
-> have to be managed explicitly by the user and are the newly introduced
-> type.
-> 
-> Accordingly, a first class AS (also called VAS == virtual address space)
-> can exist in the OS independently from any process. A user has to
-> explicitly create and destroy them in the system. Processes and VAS can be
-> combined by attaching a previously created VAS to a process which basically
-> adds an additional AS to the process that the process' threads are able to
-> execute in. Hence, VAS allow a process to have different views onto the
-> main memory of the system (its original AS and the attached VAS) between
-> which its threads can switch arbitrarily during their lifetime.
-> 
-> The functionality made available through first class virtual address spaces
-> can be used in various different ways. One possible way to utilize VAS is
-> to compartmentalize a process for security reasons. Another possible usage
-> is to improve the performance of data-centric applications by being able to
-> manage different sets of data in memory without the need to map or unmap
-> them.
-> 
-> Furthermore, first class virtual address spaces can be attached to
-> different processes at the same time if the underlying memory is only
-> readable. This mechanism allows sharing of whole address spaces between
-> multiple processes that can both execute in them using the contained
-> memory.
-
-I've not looked at the patches closely (or read the references paper fully yet),
-but at first glance it seems on ARC architecture, we can can potentially
-use/leverage this mechanism to implement the shared TLB entries. Before anyone
-shouts these are not same as the IA64/x86 protection keys which allow TLB entries
-with different protection bits across processes etc. These TLB entries are
-actually *shared* by processes.
-
-Conceptually there's shared address spaces, independent of processes. e.g. ldso
-code is shared address space #1, libc (code) #2 .... System can support a limited
-number of shared addr spaces (say 64, enough for typical embedded sys).
-
-While Normal TLB entries are tagged with ASID (Addr space ID) to keep them unique
-across processes, Shared TLB entries are tagged with Shared address space ID.
-
-A process MMU context consists of ASID (a single number) and a SASID bitmap (to
-allow "subscription" to multiple Shared spaces. The subscriptions are set up bu
-userspace ld.so which knows about the libs process wants to map.
-
-The restriction ofcourse is that the spaces are mapped at *same* vaddr is all
-participating processes. I know this goes against whole security, address space
-randomization - but it gives much better real time performance. Why does each
-process need to take a MMU exception for libc code...
-
-So long story short - it seems there can be multiple uses of this infrastructure !
-
--Vineet
+diff --git a/arch/mips/kernel/vdso.c b/arch/mips/kernel/vdso.c
+index f9dbfb14af33..9631b42908f3 100644
+--- a/arch/mips/kernel/vdso.c
++++ b/arch/mips/kernel/vdso.c
+@@ -108,7 +108,7 @@ int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
+ 		return -EINTR;
+ 
+ 	/* Map delay slot emulation page */
+-	base = mmap_region(NULL, STACK_TOP, PAGE_SIZE,
++	base = mmap_region(mm, NULL, STACK_TOP, PAGE_SIZE,
+ 			   VM_READ|VM_WRITE|VM_EXEC|
+ 			   VM_MAYREAD|VM_MAYWRITE|VM_MAYEXEC,
+ 			   0);
+diff --git a/arch/tile/mm/elf.c b/arch/tile/mm/elf.c
+index 6225cc998db1..a22768059b7a 100644
+--- a/arch/tile/mm/elf.c
++++ b/arch/tile/mm/elf.c
+@@ -141,7 +141,7 @@ int arch_setup_additional_pages(struct linux_binprm *bprm,
+ 	 */
+ 	if (!retval) {
+ 		unsigned long addr = MEM_USER_INTRPT;
+-		addr = mmap_region(NULL, addr, INTRPT_SIZE,
++		addr = mmap_region(mm, NULL, addr, INTRPT_SIZE,
+ 				   VM_READ|VM_EXEC|
+ 				   VM_MAYREAD|VM_MAYWRITE|VM_MAYEXEC, 0);
+ 		if (addr > (unsigned long) -PAGE_SIZE)
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index b84615b0f64c..fa483d2ff3eb 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2016,8 +2016,9 @@ extern int install_special_mapping(struct mm_struct *mm,
+ 
+ extern unsigned long get_unmapped_area(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
+ 
+-extern unsigned long mmap_region(struct file *file, unsigned long addr,
+-	unsigned long len, vm_flags_t vm_flags, unsigned long pgoff);
++extern unsigned long mmap_region(struct mm_struct *mm, struct file *file,
++				 unsigned long addr, unsigned long len,
++				 vm_flags_t vm_flags, unsigned long pgoff);
+ extern unsigned long do_mmap(struct file *file, unsigned long addr,
+ 	unsigned long len, unsigned long prot, unsigned long flags,
+ 	vm_flags_t vm_flags, unsigned long pgoff, unsigned long *populate);
+diff --git a/mm/mmap.c b/mm/mmap.c
+index dc4291dcc99b..5ac276ac9807 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1447,7 +1447,7 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+ 			vm_flags |= VM_NORESERVE;
+ 	}
+ 
+-	addr = mmap_region(file, addr, len, vm_flags, pgoff);
++	addr = mmap_region(mm, file, addr, len, vm_flags, pgoff);
+ 	if (!IS_ERR_VALUE(addr) &&
+ 	    ((vm_flags & VM_LOCKED) ||
+ 	     (flags & (MAP_POPULATE | MAP_NONBLOCK)) == MAP_POPULATE))
+@@ -1582,10 +1582,10 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
+ 	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
+ }
+ 
+-unsigned long mmap_region(struct file *file, unsigned long addr,
+-		unsigned long len, vm_flags_t vm_flags, unsigned long pgoff)
++unsigned long mmap_region(struct mm_struct *mm, struct file *file,
++		unsigned long addr, unsigned long len, vm_flags_t vm_flags,
++		unsigned long pgoff)
+ {
+-	struct mm_struct *mm = current->mm;
+ 	struct vm_area_struct *vma, *prev;
+ 	int error;
+ 	struct rb_node **rb_link, *rb_parent;
+@@ -1704,7 +1704,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
+ 	vm_stat_account(mm, vm_flags, len >> PAGE_SHIFT);
+ 	if (vm_flags & VM_LOCKED) {
+ 		if (!((vm_flags & VM_SPECIAL) || is_vm_hugetlb_page(vma) ||
+-					vma == get_gate_vma(current->mm)))
++					vma == get_gate_vma(mm)))
+ 			mm->locked_vm += (len >> PAGE_SHIFT);
+ 		else
+ 			vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+-- 
+2.12.0
