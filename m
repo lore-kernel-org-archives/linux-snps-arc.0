@@ -1,113 +1,157 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Tue, 14 Mar 2017 07:52:25 +0800
+From: till.smejkal@googlemail.com (Till Smejkal)
+Date: Mon, 13 Mar 2017 17:24:48 -0700
 Subject: [RFC PATCH 10/13] mm: Introduce first class virtual address spaces
-In-Reply-To: <20170313221415.9375-11-till.smejkal@gmail.com>
-References: <20170313221415.9375-1-till.smejkal@gmail.com>
- <20170313221415.9375-11-till.smejkal@gmail.com>
+In-Reply-To: <20170313235225.GA15359@kroah.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170313235225.GA15359@kroah.com>
+Message-ID: <20170314002448.hwbxlasbbz3shhlv@arch-dev>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Mar 13, 2017@03:14:12PM -0700, Till Smejkal wrote:
+Hi Greg,
 
-There's no way with that many cc: lists and people that this is really
-making it through very many people's filters and actually on a mailing
-list.  Please trim them down.
+First of all thanks for your reply.
 
-Minor sysfs questions/issues:
+On Tue, 14 Mar 2017, Greg Kroah-Hartman wrote:
+> On Mon, Mar 13, 2017@03:14:12PM -0700, Till Smejkal wrote:
+> 
+> There's no way with that many cc: lists and people that this is really
+> making it through very many people's filters and actually on a mailing
+> list.  Please trim them down.
 
-> +struct vas {
-> +	struct kobject kobj;		/* < the internal kobject that we use *
-> +					 *   for reference counting and sysfs *
-> +					 *   handling.                        */
-> +
-> +	int id;				/* < ID                               */
-> +	char name[VAS_MAX_NAME_LENGTH];	/* < name                             */
+I am sorry that the patch's cc-list is too big. This was the list of people that the
+get_maintainers.pl script produced. I already recognized that it was a huge number of
+people, but I didn't want to remove anyone from the list because I wasn't sure who
+would be interested in this patch set. Do you have any suggestion who to remove from
+the list? I don't want to annoy anyone with useless emails.
 
-The kobject has a name, why not use that?
+> Minor sysfs questions/issues:
+> 
+> > +struct vas {
+> > +	struct kobject kobj;		/* < the internal kobject that we use *
+> > +					 *   for reference counting and sysfs *
+> > +					 *   handling.                        */
+> > +
+> > +	int id;				/* < ID                               */
+> > +	char name[VAS_MAX_NAME_LENGTH];	/* < name                             */
+> 
+> The kobject has a name, why not use that?
 
-> +
-> +	struct mutex mtx;		/* < lock for parallel access.        */
-> +
-> +	struct mm_struct *mm;		/* < a partial memory map containing  *
-> +					 *   all mappings of this VAS.        */
-> +
-> +	struct list_head link;		/* < the link in the global VAS list. */
-> +	struct rcu_head rcu;		/* < the RCU helper used for          *
-> +					 *   asynchronous VAS deletion.       */
-> +
-> +	u16 refcount;			/* < how often is the VAS attached.   */
+The reason why I don't use the kobject's name is that I don't restrict the names that
+are used for VAS/VAS segments. Accordingly, it would be allowed to use a name like
+"foo/bar/xyz" as VAS name. However, I am not sure what would happen in the sysfs if I
+would use such a name for the kobject. Especially, since one could think of another
+VAS with the name "foo/bar" whose name would conflict with the first one although it
+not necessarily has any connection with it.
 
-The kobject has a refcount, use that?  Don't have 2 refcounts in the
-same structure, that way lies madness.  And bugs, lots of bugs...
+> > +
+> > +	struct mutex mtx;		/* < lock for parallel access.        */
+> > +
+> > +	struct mm_struct *mm;		/* < a partial memory map containing  *
+> > +					 *   all mappings of this VAS.        */
+> > +
+> > +	struct list_head link;		/* < the link in the global VAS list. */
+> > +	struct rcu_head rcu;		/* < the RCU helper used for          *
+> > +					 *   asynchronous VAS deletion.       */
+> > +
+> > +	u16 refcount;			/* < how often is the VAS attached.   */
+> 
+> The kobject has a refcount, use that?  Don't have 2 refcounts in the
+> same structure, that way lies madness.  And bugs, lots of bugs...
+> 
+> And if this really is a refcount (hint, I don't think it is), you should
+> use the refcount_t type.
 
-And if this really is a refcount (hint, I don't think it is), you should
-use the refcount_t type.
+I actually use both the internal kobject refcount to keep track of how often a
+VAS/VAS segment is referenced and this 'refcount' variable to keep track how often
+the VAS is actually attached to a task. They not necessarily must be related to each
+other. I can rename this variable to attach_count. Or if preferred I can
+alternatively only use the kobject reference counter and remove this variable
+completely though I would loose information about how often the VAS is attached to a
+task because the kobject reference counter is also used to keep track of other
+variables referencing the VAS.
 
-> +/**
-> + * The sysfs structure we need to handle attributes of a VAS.
-> + **/
-> +struct vas_sysfs_attr {
-> +	struct attribute attr;
-> +	ssize_t (*show)(struct vas *vas, struct vas_sysfs_attr *vsattr,
-> +			char *buf);
-> +	ssize_t (*store)(struct vas *vas, struct vas_sysfs_attr *vsattr,
-> +			 const char *buf, size_t count);
-> +};
-> +
-> +#define VAS_SYSFS_ATTR(NAME, MODE, SHOW, STORE)				\
-> +static struct vas_sysfs_attr vas_sysfs_attr_##NAME =			\
-> +	__ATTR(NAME, MODE, SHOW, STORE)
+> > +/**
+> > + * The sysfs structure we need to handle attributes of a VAS.
+> > + **/
+> > +struct vas_sysfs_attr {
+> > +	struct attribute attr;
+> > +	ssize_t (*show)(struct vas *vas, struct vas_sysfs_attr *vsattr,
+> > +			char *buf);
+> > +	ssize_t (*store)(struct vas *vas, struct vas_sysfs_attr *vsattr,
+> > +			 const char *buf, size_t count);
+> > +};
+> > +
+> > +#define VAS_SYSFS_ATTR(NAME, MODE, SHOW, STORE)				\
+> > +static struct vas_sysfs_attr vas_sysfs_attr_##NAME =			\
+> > +	__ATTR(NAME, MODE, SHOW, STORE)
+> 
+> __ATTR_RO and __ATTR_RW should work better for you.  If you really need
+> this.
 
-__ATTR_RO and __ATTR_RW should work better for you.  If you really need
-this.
+Thank you. I will have a look at these functions.
 
-Oh, and where is the Documentation/ABI/ updates to try to describe the
-sysfs structure and files?  Did I miss that in the series?
+> Oh, and where is the Documentation/ABI/ updates to try to describe the
+> sysfs structure and files?  Did I miss that in the series?
 
-> +static ssize_t __show_vas_name(struct vas *vas, struct vas_sysfs_attr *vsattr,
-> +			       char *buf)
-> +{
-> +	return scnprintf(buf, PAGE_SIZE, "%s", vas->name);
+Oh sorry, I forgot to add this file. I will add the ABI descriptions for future
+submissions.
 
-It's a page size, just use sprintf() and be done with it.  No need to
-ever check, you "know" it will be correct.
+> > +static ssize_t __show_vas_name(struct vas *vas, struct vas_sysfs_attr *vsattr,
+> > +			       char *buf)
+> > +{
+> > +	return scnprintf(buf, PAGE_SIZE, "%s", vas->name);
+> 
+> It's a page size, just use sprintf() and be done with it.  No need to
+> ever check, you "know" it will be correct.
 
-Also, what about a trailing '\n' for these attributes?
+OK. I was following the sysfs example in the documentation that used scnprintf, but
+if sprintf is preferred, I can change this.
 
-Oh wait, why have a name when the kobject name is already there in the
-directory itself?  Do you really need this?
+> Also, what about a trailing '\n' for these attributes?
 
-> +/**
-> + * The ktype data structure representing a VAS.
-> + **/
-> +static struct kobj_type vas_ktype = {
-> +	.sysfs_ops = &vas_sysfs_ops,
-> +	.release = __vas_release,
+I will change this.
 
-Why the odd __vas* naming?  What's wrong with vas_release?
+> Oh wait, why have a name when the kobject name is already there in the
+> directory itself?  Do you really need this?
 
+See above.
 
-> +	.default_attrs = vas_default_attr,
-> +};
-> +
-> +
-> +/***
-> + * Internally visible functions
-> + ***/
-> +
-> +/**
-> + * Working with the global VAS list.
-> + **/
-> +static inline void vas_remove(struct vas *vas)
+> > +/**
+> > + * The ktype data structure representing a VAS.
+> > + **/
+> > +static struct kobj_type vas_ktype = {
+> > +	.sysfs_ops = &vas_sysfs_ops,
+> > +	.release = __vas_release,
+> 
+> Why the odd __vas* naming?  What's wrong with vas_release?
 
-<snip>
+I was using the __* naming scheme for functions that have no other meaning outside of
+my source file. But I can change this if people don't like it. I have no strong
+feelings about the names of the functions.
 
-You have a ton of inline functions, for no good reason.  Make them all
-"real" functions please.  Unless you can measure the size/speed
-differences?  If so, please say so.
+> > +	.default_attrs = vas_default_attr,
+> > +};
+> > +
+> > +
+> > +/***
+> > + * Internally visible functions
+> > + ***/
+> > +
+> > +/**
+> > + * Working with the global VAS list.
+> > + **/
+> > +static inline void vas_remove(struct vas *vas)
+> 
+> <snip>
+> 
+> You have a ton of inline functions, for no good reason.  Make them all
+> "real" functions please.  Unless you can measure the size/speed
+> differences?  If so, please say so.
 
+There was no specific reason why I declared the functions as inline except my hope to
+reduce the function call for some of my very small functions. I can look more closely
+at this and check whether there is some real benefit in inlining them and if not
+remove it.
 
-thanks,
+Thank you very much.
 
-greg k-h
+Till
