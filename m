@@ -1,34 +1,86 @@
-From: ben.dooks@codethink.co.uk (Ben Dooks)
-Date: Tue, 14 Mar 2017 09:40:07 +0000
-Subject: [PATCH] clocksource: add missing line break to error messages
-In-Reply-To: <20170309094710.31003-1-zajec5@gmail.com>
-References: <20170309094710.31003-1-zajec5@gmail.com>
+From: till.smejkal@googlemail.com (Till Smejkal)
+Date: Mon, 13 Mar 2017 19:07:09 -0700
+Subject: [RFC PATCH 00/13] Introduce first class virtual address spaces
+In-Reply-To: <CALCETrWe8uOi3m8qXUbMA4017+rxbi1C8hzZ0bwjVHmfdE4FnQ@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <959bfbfb-177f-3e92-0a2c-1e283966b961@codethink.co.uk>
+Message-ID: <20170314020709.vxeglus54k76i7rn@arch-dev>
 To: linux-snps-arc@lists.infradead.org
 
-On 09/03/17 09:47, Rafa? Mi?ecki wrote:
-> From: Rafa? Mi?ecki <rafal at milecki.pl>
->
-> Printing with pr_* functions requires adding line break manually.
->
-> Signed-off-by: Rafa? Mi?ecki <rafal at milecki.pl>
+On Mon, 13 Mar 2017, Andy Lutomirski wrote:
+> On Mon, Mar 13, 2017 at 3:14 PM, Till Smejkal
+> <till.smejkal@googlemail.com> wrote:
+> > This patchset extends the kernel memory management subsystem with a new
+> > type of address spaces (called VAS) which can be created and destroyed
+> > independently of processes by a user in the system. During its lifetime
+> > such a VAS can be attached to processes by the user which allows a process
+> > to have multiple address spaces and thereby multiple, potentially
+> > different, views on the system's main memory. During its execution the
+> > threads belonging to the process are able to switch freely between the
+> > different attached VAS and the process' original AS enabling them to
+> > utilize the different available views on the memory.
+> 
+> Sounds like the old SKAS feature for UML.
 
-I've had a quick look over and there are no obvious errors.
+I haven't heard of this feature before, but after shortly looking at the description
+on the UML website it actually has some similarities with what I am proposing. But as
+far as I can see this was not merged into the mainline kernel, was it? In addition, I
+think that first class virtual address spaces goes even one step further by allowing
+AS to live independently of processes.
 
-I wonder if the of_iomap() and related calls should print an
-error if they fail as all the examples here are of the form
-of:
+> > In addition to the concept of first class virtual address spaces, this
+> > patchset introduces yet another feature called VAS segments. VAS segments
+> > are memory regions which have a fixed size and position in the virtual
+> > address space and can be shared between multiple first class virtual
+> > address spaces. Such shareable memory regions are especially useful for
+> > in-memory pointer-based data structures or other pure in-memory data.
+> 
+> This sounds rather complicated.  Getting TLB flushing right seems
+> tricky.  Why not just map the same thing into multiple mms?
 
-	ptr = of_iomap(reource)
-	if (!ptr) {
-		pr_err("cannot remap resource\n");
-		...
-		return ERR;
-	}
+This is exactly what happens at the end. The memory region that is described by the
+VAS segment will be mapped in the ASes that use the segment.
 
-Maybe we should look into this post this patch series.
+> >
+> >             |     VAS     |  processes  |
+> >     -------------------------------------
+> >     switch  |       468ns |      1944ns |
+> 
+> The solution here is IMO to fix the scheduler.
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
+IMHO it will be very difficult for the scheduler code to reach the same switching
+time as the pure VAS switch because switching between VAS does not involve saving any
+registers or FPU state and does not require selecting the next runnable task. VAS
+switch is basically a system call that just changes the AS of the current thread
+which makes it a very lightweight operation.
+
+> Also, FWIW, I have patches (that need a little work) that will make
+> switch_mm() waaaay faster on x86.
+
+These patches will also improve the speed of the VAS switch operation. We are also
+using the switch_mm function in the background to perform the actual hardware switch
+between the two ASes. The main reason why the VAS switch is faster than the task
+switch is that it just has to do fewer things.
+
+> > At the current state of the development, first class virtual address spaces
+> > have one limitation, that we haven't been able to solve so far. The feature
+> > allows, that different threads of the same process can execute in different
+> > AS at the same time. This is possible, because the VAS-switch operation
+> > only changes the active mm_struct for the task_struct of the calling
+> > thread. However, when a thread switches into a first class virtual address
+> > space, some parts of its original AS are duplicated into the new one to
+> > allow the thread to continue its execution at its current state.
+> 
+> Ick.  Please don't do this.  Can we please keep an mm as just an mm
+> and not make it look magically different depending on which process
+> maps it?  If you need a trampoline (which you do, of course), just
+> write a trampoline in regular user code and map it manually.
+
+Did I understand you correctly that you are proposing that the switching thread
+should make sure by itself that its code, stack, ? memory regions are properly setup
+in the new AS before/after switching into it? I think, this would make using first
+class virtual address spaces much more difficult for user applications to the extend
+that I am not even sure if they can be used at all. At the moment, switching into a
+VAS is a very simple operation for an application because the kernel will just simply
+do the right thing.
+
+Till
