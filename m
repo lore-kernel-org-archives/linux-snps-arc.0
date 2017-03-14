@@ -1,45 +1,36 @@
-From: luto@amacapital.net (Andy Lutomirski)
-Date: Mon, 13 Mar 2017 22:37:27 -0700
-Subject: [RFC PATCH 00/13] Introduce first class virtual address spaces
-In-Reply-To: <20170314020709.vxeglus54k76i7rn@arch-dev>
-References: <CALCETrWe8uOi3m8qXUbMA4017+rxbi1C8hzZ0bwjVHmfdE4FnQ@mail.gmail.com>
- <20170314020709.vxeglus54k76i7rn@arch-dev>
+From: David.Laight@ACULAB.COM (David Laight)
+Date: Tue, 14 Mar 2017 10:18:03 +0000
+Subject: [RFC PATCH 07/13] kernel/fork: Split and export 'mm_alloc' and
+ 'mm_init'
+In-Reply-To: <20170313221415.9375-8-till.smejkal@gmail.com>
+References: <20170313221415.9375-1-till.smejkal@gmail.com>
+ <20170313221415.9375-8-till.smejkal@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CALCETrXKvNWv1OtoSo_HWf5ZHSvyGS1NsuQod6Zt+tEg3MT5Sg@mail.gmail.com>
+Message-ID: <063D6719AE5E284EB5DD2968C1650D6DCFFB03F4@AcuExch.aculab.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Mar 13, 2017 at 7:07 PM, Till Smejkal
-<till.smejkal@googlemail.com> wrote:
-> On Mon, 13 Mar 2017, Andy Lutomirski wrote:
->> This sounds rather complicated.  Getting TLB flushing right seems
->> tricky.  Why not just map the same thing into multiple mms?
->
-> This is exactly what happens at the end. The memory region that is described by the
-> VAS segment will be mapped in the ASes that use the segment.
+From: Linuxppc-dev Till Smejkal
+> Sent: 13 March 2017 22:14
+> The only way until now to create a new memory map was via the exported
+> function 'mm_alloc'. Unfortunately, this function not only allocates a new
+> memory map, but also completely initializes it. However, with the
+> introduction of first class virtual address spaces, some initialization
+> steps done in 'mm_alloc' are not applicable to the memory maps needed for
+> this feature and hence would lead to errors in the kernel code.
+> 
+> Instead of introducing a new function that can allocate and initialize
+> memory maps for first class virtual address spaces and potentially
+> duplicate some code, I decided to split the mm_alloc function as well as
+> the 'mm_init' function that it uses.
+> 
+> Now there are four functions exported instead of only one. The new
+> 'mm_alloc' function only allocates a new mm_struct and zeros it out. If one
+> want to have the old behavior of mm_alloc one can use the newly introduced
+> function 'mm_alloc_and_setup' which not only allocates a new mm_struct but
+> also fully initializes it.
+...
 
-So why is this kernel feature better than just doing MAP_SHARED
-manually in userspace?
+That looks like bugs waiting to happen.
+You need unchanged code to fail to compile.
 
-
->> Ick.  Please don't do this.  Can we please keep an mm as just an mm
->> and not make it look magically different depending on which process
->> maps it?  If you need a trampoline (which you do, of course), just
->> write a trampoline in regular user code and map it manually.
->
-> Did I understand you correctly that you are proposing that the switching thread
-> should make sure by itself that its code, stack, ? memory regions are properly setup
-> in the new AS before/after switching into it? I think, this would make using first
-> class virtual address spaces much more difficult for user applications to the extend
-> that I am not even sure if they can be used at all. At the moment, switching into a
-> VAS is a very simple operation for an application because the kernel will just simply
-> do the right thing.
-
-Yes.  I think that having the same mm_struct look different from
-different tasks is problematic.  Getting it right in the arch code is
-going to be nasty.  The heuristics of what to share are also tough --
-why would text + data + stack or whatever you're doing be adequate?
-What if you're in a thread?  What if two tasks have their stacks in
-the same place?
-
-I could imagine something like a sigaltstack() mode that lets you set
-a signal up to also switch mm could be useful.
+	David
