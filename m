@@ -1,26 +1,52 @@
-From: rth@twiddle.net (Richard Henderson)
-Date: Tue, 14 Mar 2017 11:02:37 +1000
-Subject: [RFC PATCH 00/13] Introduce first class virtual address spaces
-In-Reply-To: <20170314003935.2jwycgajo7eojmvm@arch-dev>
-References: <20170314003935.2jwycgajo7eojmvm@arch-dev>
+From: till.smejkal@googlemail.com (Till Smejkal)
+Date: Mon, 13 Mar 2017 19:34:27 -0700
+Subject: [RFC PATCH 10/13] mm: Introduce first class virtual address spaces
+In-Reply-To: <cd1adda8-bf6a-47ad-bff3-5bc6626ac100@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <fa60d132-0eef-4350-3c88-1558f447a48f@twiddle.net>
+Message-ID: <20170314023427.3p4a5qxtl5eh5epi@arch-dev>
 To: linux-snps-arc@lists.infradead.org
 
-On 03/14/2017 10:39 AM, Till Smejkal wrote:
->> Is this an indication that full virtual address spaces are useless?  It
->> would seem like if you only use virtual address segments then you avoid all
->> of the problems with executing code, active stacks, and brk.
->
-> What do you mean with *virtual address segments*? The nice part of first class
-> virtual address spaces is that one can share/reuse collections of address space
-> segments easily.
+Hi Vineet,
 
-What do *I* mean?  You introduced the term, didn't you?
-Rereading your original I see you called them "VAS segments".
+On Mon, 13 Mar 2017, Vineet Gupta wrote:
+> I've not looked at the patches closely (or read the references paper fully yet),
+> but at first glance it seems on ARC architecture, we can can potentially
+> use/leverage this mechanism to implement the shared TLB entries. Before anyone
+> shouts these are not same as the IA64/x86 protection keys which allow TLB entries
+> with different protection bits across processes etc. These TLB entries are
+> actually *shared* by processes.
+> 
+> Conceptually there's shared address spaces, independent of processes. e.g. ldso
+> code is shared address space #1, libc (code) #2 .... System can support a limited
+> number of shared addr spaces (say 64, enough for typical embedded sys).
+> 
+> While Normal TLB entries are tagged with ASID (Addr space ID) to keep them unique
+> across processes, Shared TLB entries are tagged with Shared address space ID.
+> 
+> A process MMU context consists of ASID (a single number) and a SASID bitmap (to
+> allow "subscription" to multiple Shared spaces. The subscriptions are set up bu
+> userspace ld.so which knows about the libs process wants to map.
+> 
+> The restriction ofcourse is that the spaces are mapped at *same* vaddr is all
+> participating processes. I know this goes against whole security, address space
+> randomization - but it gives much better real time performance. Why does each
+> process need to take a MMU exception for libc code...
+> 
+> So long story short - it seems there can be multiple uses of this infrastructure !
 
-Anyway, whatever they are called, it would seem that these segments do not 
-require any of the syncing mechanisms that are causing you problems.
+During the development of this code, we also looked at shared TLB entries, but
+the other way around. We wanted to use them to prevent flushing of TLB entries of
+shared memory regions when switching between multiple ASes. Unfortunately, we never
+finished this part of the code.
 
+However, we also investigated into a different use-case for first class virtual
+address spaces that is related to what you propose if I didn't understand something
+wrong. The idea is to move shared libraries into their own first class virtual
+address space and only load some small trampoline code in the application AS. This
+trampoline code performs the VAS switch in the libraries AS and execute the requested
+function there. If we combine this architecture with tagged TLB entries to prevent
+TLB flushes during the switch operation, it can also reach an acceptable performance.
+A side effect of moving the shared library into its own AS is that it can not be used
+by ROP-attacks because it is not accessible in the application's AS.
 
-r~
+Till
