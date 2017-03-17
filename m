@@ -1,28 +1,35 @@
-From: till.smejkal@googlemail.com (Till Smejkal)
-Date: Thu, 16 Mar 2017 10:50:33 -0700
-Subject: [RFC PATCH 00/13] Introduce first class virtual address spaces
-In-Reply-To: <alpine.DEB.2.20.1703161841220.3586@nanos>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 17 Mar 2017 16:00:37 +0300
+Subject: [PATCH] arc: Keep D$ enabled to work-around incomplete SLC flushing
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170316175033.pgkep75iszqy3csb@arch-dev>
+Message-ID: <1489755637-19464-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, 16 Mar 2017, Thomas Gleixner wrote:
-> On Thu, 16 Mar 2017, Till Smejkal wrote:
-> > On Thu, 16 Mar 2017, Thomas Gleixner wrote:
-> > > Why do we need yet another mechanism to represent something which looks
-> > > like a file instead of simply using existing mechanisms and extend them?
-> > 
-> > You are right. I also recognized during the discussion with Andy, Chris,
-> > Matthew, Luck, Rich and the others that there are already other
-> > techniques in the Linux kernel that can achieve the same functionality
-> > when combined. As I said also to the others, I will drop the VAS segments
-> > for future versions. The first class virtual address space feature was
-> > the more interesting part of the patchset anyways.
-> 
-> While you are at it, could you please drop this 'first class' marketing as
-> well? It has zero technical value, really.
+As reported in STAR 9001165532 if D$ is disabled SLC is not flushed
+correctly which leads to loses of some data that were set before the flush.
+That causes unexpected behavior after the flush.
 
-Yes of course. I am sorry for the trouble that I caused already.
+For now just keep D$ enabled, only flush-invalidate it before IOC setup.
 
-Thanks
-Till
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/mm/cache.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index d408fa21a07c..e0e83543e777 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -997,8 +997,8 @@ noinline void __init arc_ioc_setup(void)
+ {
+ 	unsigned int ap_sz;
+ 
+-	/* Flush + invalidate + disable L1 dcache */
+-	__dc_disable();
++	/* Flush + invalidate L1 dcache */
++	__dc_entire_op(OP_FLUSH_N_INV);
+ 
+ 	/* Flush + invalidate SLC */
+ 	if (read_aux_reg(ARC_REG_SLC_BCR))
+-- 
+2.7.4
