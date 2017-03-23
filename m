@@ -1,40 +1,54 @@
-From: Anton.Kolesov@synopsys.com (Anton Kolesov)
-Date: Thu, 23 Mar 2017 16:33:12 +0000
-Subject: ARC patch suggestion
-In-Reply-To: <fa1c8dfb-629b-f2df-c2cc-421369d08868@synopsys.com>
-References: <20170323030239.GF20886@waldemar-brodkorb.de>
- <fa1c8dfb-629b-f2df-c2cc-421369d08868@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 23 Mar 2017 20:34:45 +0300
+Subject: [PATCH] arc: vdk: Fix support of UIO
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <39A54937CC95F24AA2F794E2D2B66B13586E6AD4@DE02WEMBXB.internal.synopsys.com>
+Message-ID: <1490290485-16332-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+MotherBoard section has its "ranges" set to 0xE000_0000-0xF000_0000.
+But UIO node maps 4 different areas in different memory locations
+and all outside MB's ranges.
 
-> 
-> +CC ARC gnu folks, Anton who maintains an internal build system
-> 
-> 
-> On 03/22/2017 08:02 PM, Waldemar Brodkorb wrote:
-> > Hi,
-> >
-> > I want to success following change:
-> >
-> > From cde74b83f9b204bf56f304224654e4993dc56efc Mon Sep 17 00:00:00
-> 2001
-> > From: Waldemar Brodkorb <wbx at openadk.org>
-> > Date: Tue, 21 Mar 2017 20:04:21 +0100
-> > Subject: [PATCH 2/2] ARC: remove special CFLAGS/LDFLAGS handling
-> >
-> > Either toolchain defaults or buildsystems should provide the
-> > architecture specific CFLAGS and LDFLAGS.
-> 
-> Seems a decent cleanup to me !
-> 
-> Acked-by: Vineet Gupta <vgupta at synopsys.com>
-> 
-> @Anton, @Claudiu, @Cupertino any thoughts : for / against
-> 
+That obviously breaks UIO mappings in runtime.
 
-AK: No issue by me, but I haven't tried to build test this.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Ruud Derwig <rderwig at synopsys.com>
+Cc: stable at vger.kernel.org
+---
+ arch/arc/boot/dts/vdk_axs10x_mb.dtsi | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-Anton
+diff --git a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
+index f0df59b23e21..459fc656b759 100644
+--- a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
+@@ -112,13 +112,19 @@
+ 			interrupts = <7>;
+ 			bus-width = <4>;
+ 		};
++	};
+ 
+-		/* Embedded Vision subsystem UIO mappings; only relevant for EV VDK */
+-		uio_ev: uio at 0xD0000000 {
+-			compatible = "generic-uio";
+-			reg = <0xD0000000 0x2000 0xD1000000 0x2000 0x90000000 0x10000000 0xC0000000 0x10000000>;
+-			reg-names = "ev_gsa", "ev_ctrl", "ev_shared_mem", "ev_code_mem";
+-			interrupts = <23>;
+-		};
++	/*
++	 * Embedded Vision subsystem UIO mappings; only relevant for EV VDK
++	 *
++	 * This node is intentionally put outside of MB above becase
++	 * it maps areas outside of MB's 0xEz-0xFz.
++	 */
++	uio_ev: uio at 0xD0000000 {
++		compatible = "generic-uio";
++		reg = <0xD0000000 0x2000 0xD1000000 0x2000 0x90000000 0x10000000 0xC0000000 0x10000000>;
++		reg-names = "ev_gsa", "ev_ctrl", "ev_shared_mem", "ev_code_mem";
++		interrupt-parent = <&mb_intc>;
++		interrupts = <23>;
+ 	};
+ };
+-- 
+2.7.4
