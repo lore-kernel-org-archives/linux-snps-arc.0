@@ -1,26 +1,80 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 23 Mar 2017 11:34:21 -0700
+From: mark.rutland@arm.com (Mark Rutland)
+Date: Thu, 23 Mar 2017 18:54:52 +0000
 Subject: [PATCH V8 1/3] irq: Add flags to request_percpu_irq function
 In-Reply-To: <1490290924-12958-1-git-send-email-daniel.lezcano@linaro.org>
 References: <1490290924-12958-1-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <c025cd44-c8a2-1236-803a-5dc39315f2e3@synopsys.com>
+Message-ID: <20170323185449.GA21359@leverpostej>
 To: linux-snps-arc@lists.infradead.org
 
-On 03/23/2017 10:42 AM, Daniel Lezcano wrote:
+Hi Daniel,
+
+On Thu, Mar 23, 2017@06:42:01PM +0100, Daniel Lezcano wrote:
 > In the next changes, we track the interrupts but we discard the timers as
 > that does not make sense. The next interrupt on a timer is predictable.
->
-> But, the API request_percpu_irq does not allow to pass a flag, hence specifying
-> if the interrupt type is a timer.
->
-> Solve this by passing a 'flags' parameter to the function and change all the
-> callers to pass IRQF_TIMER when the interrupt is a timer interrupt, zero
-> otherwise.
->
-> For now, in order to prevent a misusage of this parameter, only the IRQF_TIMER
-> flag is a valid parameter to be passed to the request_percpu_irq function.
->
-> Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
 
-Acked-by: Vineet Gupta <vgupta at synopsys.com>   # for arch/arc, arc_timer bits
+Sorry, but I could not parse this. 
+
+[...]
+
+> diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
+> index 9612b84..0f5ab4a 100644
+> --- a/drivers/perf/arm_pmu.c
+> +++ b/drivers/perf/arm_pmu.c
+> @@ -661,7 +661,7 @@ static int cpu_pmu_request_irq(struct arm_pmu *cpu_pmu, irq_handler_t handler)
+>  
+>  	irq = platform_get_irq(pmu_device, 0);
+>  	if (irq > 0 && irq_is_percpu(irq)) {
+> -		err = request_percpu_irq(irq, handler, "arm-pmu",
+> +		err = request_percpu_irq(irq, 0, handler, "arm-pmu",
+>  					 &hw_events->percpu_pmu);
+>  		if (err) {
+>  			pr_err("unable to request IRQ%d for ARM PMU counters\n",
+
+Please Cc myself and Will Deacon when modifying the arm_pmu driver, as
+per MAINTAINERS. I only spotted this patch by chance.
+
+This conflicts with arm_pmu changes I have queued for v4.12 [1].
+
+So, can we leave the prototype of request_percpu_irq() as-is?
+
+Why not add a new request_percpu_irq_flags() function, and leave
+request_percpu_irq() as a wrapper for that? e.g.
+
+static inline int
+request_percpu_irq(unsigned int irq, irq_handler_t handler,
+		   const char *devname, void __percpu *percpu_dev_id)
+{
+	return request_percpu_irq_flags(irq, handler, devname,
+					percpu_dev_id, 0);
+}
+
+... that would avoid having to touch any non-timer driver for now.
+
+[...]
+
+> -request_percpu_irq(unsigned int irq, irq_handler_t handler,
+> -		   const char *devname, void __percpu *percpu_dev_id);
+> +request_percpu_irq(unsigned int irq, unsigned long flags,
+> +		   irq_handler_t handler,  const char *devname,
+> +		   void __percpu *percpu_dev_id);
+>  
+
+Looking at request_irq, the prototype is:
+
+int __must_check
+request_irq(unsigned int irq, irq_handler_t handler,
+	    unsigned long flags, const char *name,
+	    void *dev);
+
+... surely it would be better to share the same argument order? i.e.
+
+int __must_check
+request_percpu_irq(unsigned int irq, irq_handler_t handler,
+		   unsigned long flags, const char *devname,
+		   void __percpu *percpu_dev_id);
+
+Thanks,
+Mark.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=arm/perf/refactoring
