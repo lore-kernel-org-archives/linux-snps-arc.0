@@ -1,109 +1,62 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Thu, 23 Mar 2017 20:19:53 +0100
-Subject: [PATCH V8 1/3] irq: Add flags to request_percpu_irq function
-In-Reply-To: <20170323185449.GA21359@leverpostej>
-References: <1490290924-12958-1-git-send-email-daniel.lezcano@linaro.org>
- <20170323185449.GA21359@leverpostej>
+From: wbx@uclibc-ng.org (Waldemar Brodkorb)
+Date: Fri, 24 Mar 2017 04:21:10 +0100
+Subject: ARC patch suggestion
+In-Reply-To: <39A54937CC95F24AA2F794E2D2B66B13586E6AD4@DE02WEMBXB.internal.synopsys.com>
+References: <20170323030239.GF20886@waldemar-brodkorb.de>
+ <fa1c8dfb-629b-f2df-c2cc-421369d08868@synopsys.com>
+ <39A54937CC95F24AA2F794E2D2B66B13586E6AD4@DE02WEMBXB.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170323191953.GC24630@mai>
+Message-ID: <20170324032110.GB22954@waldemar-brodkorb.de>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Mark,
+Hi,
 
-On Thu, Mar 23, 2017@06:54:52PM +0000, Mark Rutland wrote:
-> Hi Daniel,
+I am preparing for next release.
+I want to push attached cleanup of defconfigs as discussed earlier
+on the uClibc-ng mailinglist.
+
+@Anton: so you need to use your own defconfig for your toolchain
+builds. I suggest to be similar to the Buildroot config.
+
+best regards
+ Waldemar
+
+Anton Kolesov wrote,
+
+> Hi,
 > 
-> On Thu, Mar 23, 2017@06:42:01PM +0100, Daniel Lezcano wrote:
-> > In the next changes, we track the interrupts but we discard the timers as
-> > that does not make sense. The next interrupt on a timer is predictable.
+> > 
+> > +CC ARC gnu folks, Anton who maintains an internal build system
+> > 
+> > 
+> > On 03/22/2017 08:02 PM, Waldemar Brodkorb wrote:
+> > > Hi,
+> > >
+> > > I want to success following change:
+> > >
+> > > From cde74b83f9b204bf56f304224654e4993dc56efc Mon Sep 17 00:00:00
+> > 2001
+> > > From: Waldemar Brodkorb <wbx at openadk.org>
+> > > Date: Tue, 21 Mar 2017 20:04:21 +0100
+> > > Subject: [PATCH 2/2] ARC: remove special CFLAGS/LDFLAGS handling
+> > >
+> > > Either toolchain defaults or buildsystems should provide the
+> > > architecture specific CFLAGS and LDFLAGS.
+> > 
+> > Seems a decent cleanup to me !
+> > 
+> > Acked-by: Vineet Gupta <vgupta at synopsys.com>
+> > 
+> > @Anton, @Claudiu, @Cupertino any thoughts : for / against
+> > 
 > 
-> Sorry, but I could not parse this. 
-
-I meant we are measuring when are happening the interrupts by getting the local
-clock in the interrupt handler. But if the interrupts are coming from a timer, it
-is not necessary to do that because we already know when they will occur.
-
-So, in order to sort out which interrupt we measure, we use the IRQF_TIMER flag.
-
-Unfortunately, this flag is missing when we do a request_percpu_irq. The
-purpose of this patch is to fix that.
-
-> > diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
-> > index 9612b84..0f5ab4a 100644
-> > --- a/drivers/perf/arm_pmu.c
-> > +++ b/drivers/perf/arm_pmu.c
-> > @@ -661,7 +661,7 @@ static int cpu_pmu_request_irq(struct arm_pmu *cpu_pmu, irq_handler_t handler)
-> >  
-> >  	irq = platform_get_irq(pmu_device, 0);
-> >  	if (irq > 0 && irq_is_percpu(irq)) {
-> > -		err = request_percpu_irq(irq, handler, "arm-pmu",
-> > +		err = request_percpu_irq(irq, 0, handler, "arm-pmu",
-> >  					 &hw_events->percpu_pmu);
-> >  		if (err) {
-> >  			pr_err("unable to request IRQ%d for ARM PMU counters\n",
+> AK: No issue by me, but I haven't tried to build test this.
 > 
-> Please Cc myself and Will Deacon when modifying the arm_pmu driver, as
-> per MAINTAINERS. I only spotted this patch by chance.
-
-Ah, ok, sorry for that. Thanks for spotting this, you should have been Cc'ed by
-my cccmd script. I will check that.
-
-> This conflicts with arm_pmu changes I have queued for v4.12 [1].
-> 
-> So, can we leave the prototype of request_percpu_irq() as-is?
-> 
-> Why not add a new request_percpu_irq_flags() function, and leave
-> request_percpu_irq() as a wrapper for that? e.g.
-
-[ ... ]
-
-> static inline int
-> request_percpu_irq(unsigned int irq, irq_handler_t handler,
-> 		   const char *devname, void __percpu *percpu_dev_id)
-> {
-> 	return request_percpu_irq_flags(irq, handler, devname,
-> 					percpu_dev_id, 0);
-> }
-> 
-> ... that would avoid having to touch any non-timer driver for now.
-
-Mmh, yes. That's a good suggestion.
-
-> [...]
-> 
-> > -request_percpu_irq(unsigned int irq, irq_handler_t handler,
-> > -		   const char *devname, void __percpu *percpu_dev_id);
-> > +request_percpu_irq(unsigned int irq, unsigned long flags,
-> > +		   irq_handler_t handler,  const char *devname,
-> > +		   void __percpu *percpu_dev_id);
-> >  
-> 
-> Looking at request_irq, the prototype is:
-> 
-> int __must_check
-> request_irq(unsigned int irq, irq_handler_t handler,
-> 	    unsigned long flags, const char *name,
-> 	    void *dev);
-> 
-> ... surely it would be better to share the same argument order? i.e.
-> 
-> int __must_check
-> request_percpu_irq(unsigned int irq, irq_handler_t handler,
-> 		   unsigned long flags, const char *devname,
-> 		   void __percpu *percpu_dev_id);
-> 
-
-Agree.
-
-Thanks for the review.
-
-  -- Daniel
-
-
--- 
-
- <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+> Anton
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-unify-defconfigs.patch
+Type: text/x-diff
+Size: 15004 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20170324/0455b589/attachment.bin>
