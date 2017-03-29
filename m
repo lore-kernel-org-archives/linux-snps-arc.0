@@ -1,59 +1,68 @@
-From: Vladislav.Zakharov@synopsys.com (Vlad Zakharov)
-Date: Wed, 29 Mar 2017 11:20:46 +0000
-Subject: [PATCH v2] clk/axs10x: introduce AXS10X pll driver
-In-Reply-To: <20170303235005.GV25384@codeaurora.org>
-References: <1487682670-4164-1-git-send-email-vzakhar@synopsys.com>
- <1488547113.2557.44.camel@synopsys.com>
- <20170303235005.GV25384@codeaurora.org>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 29 Mar 2017 13:34:00 +0000
+Subject: [PATCH] drm/arcpgu: Get rid of "encoder-slave" property
+In-Reply-To: <20170303182102.GP917@e110455-lin.cambridge.arm.com>
+References: <1488554364-25579-1-git-send-email-abrodkin@synopsys.com>
+ <20170303162837.GO917@e110455-lin.cambridge.arm.com>
+ <1488563298.2940.33.camel@synopsys.com>
+ <20170303182102.GP917@e110455-lin.cambridge.arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1490786446.32756.4.camel@synopsys.com>
+Message-ID: <1490794439.7754.88.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Stephen, Michael,
+Hi Liviu, Rob,
 
-On Fri, 2017-03-03@15:50 -0800, Stephen Boyd wrote:
-> On 03/03, Vlad Zakharov wrote:
+On Fri, 2017-03-03@18:21 +0000, Liviu.Dudau@arm.com wrote:
+> On Fri, Mar 03, 2017@05:48:19PM +0000, Alexey Brodkin wrote:
 > > 
-> > Hi Michael, Stephen,
+> > Hi Liviu,
 > > 
-> > On Tue, 2017-02-21@16:11 +0300, Vlad Zakharov wrote:
+> > On Fri, 2017-03-03@16:28 +0000, Liviu Dudau wrote:
 > > > 
-> > > AXS10X boards manages it's clocks using various PLLs. These PLL has same
-> > > dividers and corresponding control registers mapped to different addresses.
-> > > So we add one common driver for such PLLs.
+> > > On Fri, Mar 03, 2017@06:19:24PM +0300, Alexey Brodkin wrote:
+> > > > 
+> > > > 
+> > > > -	/* find the encoder node and initialize it */
+> > > > -	encoder_node = of_parse_phandle(drm->dev->of_node, "encoder-slave", 0);
+> > > > -	if (encoder_node) {
+> > > > -		ret = arcpgu_drm_hdmi_init(drm, encoder_node);
+> > > > -		of_node_put(encoder_node);
+> > > > +	/* There is only one output port inside each device, find it */
+> > > > +	port = of_graph_get_next_endpoint(pdev->dev.of_node, NULL);
+> > > > +
+> > > > +	if (port) {
+> > > > +		if (of_device_is_available(port))
+> > > > +			encoder = of_graph_get_remote_port_parent(port);
+> > > > +		of_node_put(port);
+> > > > +	}
 > > > 
-> > > Each PLL on AXS10X board consist of three dividers: IDIV, FBDIV and
-> > > ODIV. Output clock value is managed using these dividers.
-> > > 
-> > > We add pre-defined tables with supported rate values and appropriate
-> > > configurations of IDIV, FBDIV and ODIV for each value.
-> > > 
-> > > As of today we add support for PLLs that generate clock for the
-> > > following devices:
-> > > ?* ARC core on AXC CPU tiles.
-> > > ?* ARC PGU on ARC SDP Mainboard.
-> > > and more to come later.
-> > > 
-> > > Acked-by: Rob Herring <robh at kernel.org>
-> > > Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
-> > > Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-> > > Cc: Michael Turquette <mturquette at baylibre.com>
-> > > Cc: Stephen Boyd <sboyd at codeaurora.org>
-> > > Cc: Mark Rutland <mark.rutland at arm.com>
+> > > You must've been looking at some old version. Current version in -next uses
+> > > of_graph_get_remote_node() to replace all those lines you have added (see Rob
+> > > Herring's series to introduce of_graph_get_remote_node() function)
 > > 
-> > Maybe you have any comments or remarks about this patch? And if you don't could you please apply it.
+> > Hm, I'm not on Linus' master tree [1] and so I thought I was quite up to date :)
+> > Still I made a check of linux-next and don't see any changes in
+> > "drivers/gpu/drm/arm" compared to Linus' tree.
 > > 
+> > [1]?https://urldefense.proofpoint.com/v2/url?u=http-3A__git.kernel.org_cgit_linux_kernel_git_torvalds_linux.git_commit_drivers_gpu_drm_arm-3Fid-3D
+> > e4563f6ba71792c77aeccb2092cc23149b44e642&d=DwIDaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=SI66ngnnXy33ncb8m5H4La2
+> > T1SzSEiiP7hc_XsRahEc&s=uaswjVXcjYDrUosOkO_UpTMqJMWTT-LLPrg5JE6-t-8&e=?
+> > [2]?https://urldefense.proofpoint.com/v2/url?u=http-3A__git.kernel.org_cgit_linux_kernel_git_next_linux-2Dnext.git_commit_drivers_gpu_drm_arm-3Fid
+> > -3De4563f6ba71792c77aeccb2092cc23149b44e642&d=DwIDaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=SI66ngnnXy33ncb8m5H4
+> > La2T1SzSEiiP7hc_XsRahEc&s=hl9Y6s3K9LwLL1M2WnL3ODax_V-ZRh8k1iTiyctIqU4&e=?
+> > 
+> > Could you please clarify which exact tree did you mean?
 > 
-> I haven't reviewed it yet. The merge window is upon us right now
-> so I'll probably get to going through the queue this weekend/next
-> week.
+> Sorry, I thought the series got pulled by one of the DRM trees, but it looks like
+> I was wrong. I was carrying a private copy in my internal tree, waiting for the
+> moment when it got pulled into drm-next or drm-misc-next.
 > 
+> Rob, do you have an update on your series introducing of_graph_get_remote_node() ?
 
-Please treat this message as a polite reminder to review my patch.
-It is required for some subsystems on our boards, e.g. for ARC PGU.
+For some reason I cannot find any relevant commits in linux-next tree even today.
+Could you please point me to either any random git tree with mentioned above change or
+maybe just mailing list where this patch was sent?
 
-Thanks.
+I'd like to implement the same fix in ARCPGU and call it a day finally.
 
--- 
-Best regards,
-Vlad Zakharov <vzakhar at synopsys.com>
+-Alexey
