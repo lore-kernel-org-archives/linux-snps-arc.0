@@ -1,91 +1,79 @@
-From: Liviu.Dudau@arm.com (Liviu.Dudau@arm.com)
-Date: Wed, 29 Mar 2017 14:48:04 +0100
-Subject: [PATCH] drm/arcpgu: Get rid of "encoder-slave" property
-In-Reply-To: <1490794439.7754.88.camel@synopsys.com>
-References: <1488554364-25579-1-git-send-email-abrodkin@synopsys.com>
- <20170303162837.GO917@e110455-lin.cambridge.arm.com>
- <1488563298.2940.33.camel@synopsys.com>
- <20170303182102.GP917@e110455-lin.cambridge.arm.com>
- <1490794439.7754.88.camel@synopsys.com>
+From: eric.dumazet@gmail.com (Eric Dumazet)
+Date: Wed, 29 Mar 2017 07:52:33 -0700
+Subject: [PATCH] ezchip: nps_enet: check if napi has been completed
+In-Reply-To: <1490784106-14489-1-git-send-email-vzakhar@synopsys.com>
+References: <1490784106-14489-1-git-send-email-vzakhar@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170329134804.GA13355@e110455-lin.cambridge.arm.com>
+Message-ID: <1490799153.24891.30.camel@edumazet-glaptop3.roam.corp.google.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Mar 29, 2017@01:34:00PM +0000, Alexey Brodkin wrote:
-> Hi Liviu, Rob,
-
-Hi Alexey,
-
+On Wed, 2017-03-29@13:41 +0300, Vlad Zakharov wrote:
+> After a new NAPI_STATE_MISSED state was added to NAPI we can get into
+> this state and in such case we have to reschedule NAPI as some work is
+> still pending and we have to process it. napi_complete_done() function
+> returns false if we have to reschedule something (e.g. in case we were
+> in MISSED state) as current polling have not been completed yet.
 > 
-> On Fri, 2017-03-03@18:21 +0000, Liviu.Dudau@arm.com wrote:
-> > On Fri, Mar 03, 2017@05:48:19PM +0000, Alexey Brodkin wrote:
-> > > 
-> > > Hi Liviu,
-> > > 
-> > > On Fri, 2017-03-03@16:28 +0000, Liviu Dudau wrote:
-> > > > 
-> > > > On Fri, Mar 03, 2017@06:19:24PM +0300, Alexey Brodkin wrote:
-> > > > > 
-> > > > > 
-> > > > > -	/* find the encoder node and initialize it */
-> > > > > -	encoder_node = of_parse_phandle(drm->dev->of_node, "encoder-slave", 0);
-> > > > > -	if (encoder_node) {
-> > > > > -		ret = arcpgu_drm_hdmi_init(drm, encoder_node);
-> > > > > -		of_node_put(encoder_node);
-> > > > > +	/* There is only one output port inside each device, find it */
-> > > > > +	port = of_graph_get_next_endpoint(pdev->dev.of_node, NULL);
-> > > > > +
-> > > > > +	if (port) {
-> > > > > +		if (of_device_is_available(port))
-> > > > > +			encoder = of_graph_get_remote_port_parent(port);
-> > > > > +		of_node_put(port);
-> > > > > +	}
-> > > > 
-> > > > You must've been looking at some old version. Current version in -next uses
-> > > > of_graph_get_remote_node() to replace all those lines you have added (see Rob
-> > > > Herring's series to introduce of_graph_get_remote_node() function)
-> > > 
-> > > Hm, I'm not on Linus' master tree [1] and so I thought I was quite up to date :)
-> > > Still I made a check of linux-next and don't see any changes in
-> > > "drivers/gpu/drm/arm" compared to Linus' tree.
-> > > 
-> > > [1]?https://urldefense.proofpoint.com/v2/url?u=http-3A__git.kernel.org_cgit_linux_kernel_git_torvalds_linux.git_commit_drivers_gpu_drm_arm-3Fid-3D
-> > > e4563f6ba71792c77aeccb2092cc23149b44e642&d=DwIDaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=SI66ngnnXy33ncb8m5H4La2
-> > > T1SzSEiiP7hc_XsRahEc&s=uaswjVXcjYDrUosOkO_UpTMqJMWTT-LLPrg5JE6-t-8&e=?
-> > > [2]?https://urldefense.proofpoint.com/v2/url?u=http-3A__git.kernel.org_cgit_linux_kernel_git_next_linux-2Dnext.git_commit_drivers_gpu_drm_arm-3Fid
-> > > -3De4563f6ba71792c77aeccb2092cc23149b44e642&d=DwIDaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=SI66ngnnXy33ncb8m5H4
-> > > La2T1SzSEiiP7hc_XsRahEc&s=hl9Y6s3K9LwLL1M2WnL3ODax_V-ZRh8k1iTiyctIqU4&e=?
-> > > 
-> > > Could you please clarify which exact tree did you mean?
-> > 
-> > Sorry, I thought the series got pulled by one of the DRM trees, but it looks like
-> > I was wrong. I was carrying a private copy in my internal tree, waiting for the
-> > moment when it got pulled into drm-next or drm-misc-next.
-> > 
-> > Rob, do you have an update on your series introducing of_graph_get_remote_node() ?
+> nps_enet driver hasn't been verifying the return value of
+> napi_complete_done() and has been forcibly enabling interrupts. That is
+> not correct as we should not enable interrupts before we have processed
+> all scheduled work. As a result we were getting trapped in interrupt
+> hanlder chain as we had never been able to disabale ethernet
+> interrupts again.
 > 
-> For some reason I cannot find any relevant commits in linux-next tree even today.
-> Could you please point me to either any random git tree with mentioned above change or
-> maybe just mailing list where this patch was sent?
-
-Not sure why Rob hasn't added it to linux-next, but (according to Rob) this is the latest version:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/log/?h=of-graph-helpers
-
-Best regards,
-Liviu
-
+> So this patch makes nps_enet_poll() func verify return value of
+> napi_complete_done() and enable interrupts only in case all scheduled
+> work has been completed.
 > 
-> I'd like to implement the same fix in ARCPGU and call it a day finally.
+> Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
+> ---
+>  drivers/net/ethernet/ezchip/nps_enet.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> -Alexey
+> diff --git a/drivers/net/ethernet/ezchip/nps_enet.c b/drivers/net/ethernet/ezchip/nps_enet.c
+> index 992ebe9..f819843 100644
+> --- a/drivers/net/ethernet/ezchip/nps_enet.c
+> +++ b/drivers/net/ethernet/ezchip/nps_enet.c
+> @@ -189,11 +189,9 @@ static int nps_enet_poll(struct napi_struct *napi, int budget)
+>  
+>  	nps_enet_tx_handler(ndev);
+>  	work_done = nps_enet_rx_handler(ndev);
+> -	if (work_done < budget) {
+> +	if ((work_done < budget) && napi_complete_done(napi, work_done)) {
+>  		u32 buf_int_enable_value = 0;
+>  
+> -		napi_complete_done(napi, work_done);
+> -
+>  		/* set tx_done and rx_rdy bits */
+>  		buf_int_enable_value |= NPS_ENET_ENABLE << RX_RDY_SHIFT;
+>  		buf_int_enable_value |= NPS_ENET_ENABLE << TX_DONE_SHIFT;
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ?\_(?)_/?
+Seems fine, but looking at this driver, it looks it has some races,
+trying to be a bit too smart.
+
+nps_enet_irq_handler() really should be simpler, or the risk of missing
+an interrupt might be high.
+
+diff --git a/drivers/net/ethernet/ezchip/nps_enet.c b/drivers/net/ethernet/ezchip/nps_enet.c
+index 992ebe973d25bfbccff7b5c42dc1801ea41fc9ea..03885ac0c0f845805eadb4659302b5c11bb250f6 100644
+--- a/drivers/net/ethernet/ezchip/nps_enet.c
++++ b/drivers/net/ethernet/ezchip/nps_enet.c
+@@ -233,14 +233,11 @@ static irqreturn_t nps_enet_irq_handler(s32 irq, void *dev_instance)
+ {
+ 	struct net_device *ndev = dev_instance;
+ 	struct nps_enet_priv *priv = netdev_priv(ndev);
+-	u32 rx_ctrl_value = nps_enet_reg_get(priv, NPS_ENET_REG_RX_CTL);
+-	u32 rx_ctrl_cr = (rx_ctrl_value & RX_CTL_CR_MASK) >> RX_CTL_CR_SHIFT;
+ 
+-	if (nps_enet_is_tx_pending(priv) || rx_ctrl_cr)
+-		if (likely(napi_schedule_prep(&priv->napi))) {
+-			nps_enet_reg_set(priv, NPS_ENET_REG_BUF_INT_ENABLE, 0);
+-			__napi_schedule(&priv->napi);
+-		}
++	if (likely(napi_schedule_prep(&priv->napi))) {
++		nps_enet_reg_set(priv, NPS_ENET_REG_BUF_INT_ENABLE, 0);
++		__napi_schedule(&priv->napi);
++	}
+ 
+ 	return IRQ_HANDLED;
+ }
