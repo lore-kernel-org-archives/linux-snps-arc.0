@@ -1,121 +1,48 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 28 Mar 2017 19:28:36 +0000
-Subject: [PATCH v1 2/2] dmaengine: Add DW AXI DMAC driver
-In-Reply-To: <20170314030040.GZ2843@localhost>
-References: <1487709484-868-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <1487709484-868-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <20170314030040.GZ2843@localhost>
+From: Vladislav.Zakharov@synopsys.com (Vlad Zakharov)
+Date: Wed, 29 Mar 2017 13:41:46 +0300
+Subject: [PATCH] ezchip: nps_enet: check if napi has been completed
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1490729315.6561.4.camel@synopsys.com>
+Message-ID: <1490784106-14489-1-git-send-email-vzakhar@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vinod!
+After a new NAPI_STATE_MISSED state was added to NAPI we can get into
+this state and in such case we have to reschedule NAPI as some work is
+still pending and we have to process it. napi_complete_done() function
+returns false if we have to reschedule something (e.g. in case we were
+in MISSED state) as current polling have not been completed yet.
 
-Thanks for respond.
-My comments below.
+nps_enet driver hasn't been verifying the return value of
+napi_complete_done() and has been forcibly enabling interrupts. That is
+not correct as we should not enable interrupts before we have processed
+all scheduled work. As a result we were getting trapped in interrupt
+hanlder chain as we had never been able to disabale ethernet
+interrupts again.
 
-On Tue, 2017-03-14@08:30 +0530, Vinod Koul wrote:
-> On Tue, Feb 21, 2017@11:38:04PM +0300, Eugeniy Paltsev wrote:
->?
-> > +static void vchan_desc_put(struct virt_dma_desc *vdesc)
-> > +{
-> > +	axi_desc_put(vd_to_axi_desc(vdesc));
-> > +}
-> well this has no logic and becomes a dummy fn, so why do we need it.
->?
-Both functions (vchan_desc_put and axi_desc_put) are used.
-First one is put as callback to vchan, second one is used when we need
-to free descriptors after errors in preparing function (before we call
-vchan_tx_prep).
+So this patch makes nps_enet_poll() func verify return value of
+napi_complete_done() and enable interrupts only in case all scheduled
+work has been completed.
 
-> >?
-> > +
-> > +static enum dma_status
-> > +dma_chan_tx_status(struct dma_chan *dchan, dma_cookie_t cookie,
-> > +		??struct dma_tx_state *txstate)
-> > +{
-> > +	struct axi_dma_chan *chan = dchan_to_axi_dma_chan(dchan);
-> > +	enum dma_status ret;
-> > +
-> > +	ret = dma_cookie_status(dchan, cookie, txstate);
-> > +
-> > +	if (chan->is_paused && ret == DMA_IN_PROGRESS)
-> > +		return DMA_PAUSED;
-> no residue calculation?
+Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
+---
+ drivers/net/ethernet/ezchip/nps_enet.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-I don't think we need residue calculation in mem-to-mem transfers. I'm
-planning to add residue calculation at once with DMA_SLAVE
-functionality.
-
-> >?
-> > +static void dma_chan_free_chan_resources(struct dma_chan *dchan)
-> > +{
-> > +	struct axi_dma_chan *chan = dchan_to_axi_dma_chan(dchan);
-> > +
-> > +	/* ASSERT: channel is idle */
-> > +	if (axi_chan_is_hw_enable(chan))
-> > +		dev_err(dchan2dev(dchan), "%s is non-idle!\n",
-> > +			axi_chan_name(chan));
-> > +
-> > +	axi_chan_disable(chan);
-> > +	axi_chan_irq_disable(chan, DWAXIDMAC_IRQ_ALL);
-> > +
-> > +	vchan_free_chan_resources(&chan->vc);
-> > +
-> > +	dev_vdbg(dchan2dev(dchan), "%s: %s: descriptor still
-> > allocated: %u\n",
-> > +		__func__, axi_chan_name(chan), chan-
-> > >descs_allocated);
-> > +
-> > +	pm_runtime_put_sync_suspend(chan->chip->dev);
-> any reason why sync variant is used?
->?
-I re-read the documentation and yes - I can use async variant here (and
-in the other parts of this driver).
-
-> > +		block_ts = xfer_len >> src_width;
-> > +		if (block_ts > max_block_ts) {
-> > +			block_ts = max_block_ts;
-> > +			xfer_len = max_block_ts << src_width;
-> > +		}
-> > +
-> > +		desc = axi_desc_get(chan);
-> > +		if (unlikely(!desc))
-> > +			goto err_desc_get;
-> > +
-> > +		write_desc_sar(desc, src_adr);
-> > +		write_desc_dar(desc, dst_adr);
-> > +		desc->lli.block_ts_lo = cpu_to_le32(block_ts - 1);
-> > +		desc->lli.ctl_hi =
-> > cpu_to_le32(CH_CTL_H_LLI_VALID);
-> > +
-> > +		reg = (DWAXIDMAC_BURST_TRANS_LEN_4 <<
-> > CH_CTL_L_DST_MSIZE_POS |
-> > +		???????DWAXIDMAC_BURST_TRANS_LEN_4 <<
-> > CH_CTL_L_SRC_MSIZE_POS |
-> > +		???????dst_width << CH_CTL_L_DST_WIDTH_POS |
-> > +		???????src_width << CH_CTL_L_SRC_WIDTH_POS |
-> > +		???????DWAXIDMAC_CH_CTL_L_INC <<
-> > CH_CTL_L_DST_INC_POS |
-> > +		???????DWAXIDMAC_CH_CTL_L_INC <<
-> > CH_CTL_L_SRC_INC_POS);
-> > +		desc->lli.ctl_lo = cpu_to_le32(reg);
-> > +
-> > +		set_desc_src_master(desc);
-> > +		set_desc_dest_master(desc);
-> > +
-> > +		/* Manage transfer list (xfer_list) */
-> > +		if (!first) {
-> > +			first = desc;
-> > +		} else {
-> > +			list_add_tail(&desc->xfer_list, &first-
-> > >xfer_list);
-> and since you use vchan why do you need this list
-
-Each virtual descriptor encapsulates several hardware descriptors,
-which belong to same transfer.
-This list (xfer_list) is used only for allocating/freeing these
-descriptors and it doesn't affect on virtual dma work logic.
-
---?
-?Eugeniy Paltsev
+diff --git a/drivers/net/ethernet/ezchip/nps_enet.c b/drivers/net/ethernet/ezchip/nps_enet.c
+index 992ebe9..f819843 100644
+--- a/drivers/net/ethernet/ezchip/nps_enet.c
++++ b/drivers/net/ethernet/ezchip/nps_enet.c
+@@ -189,11 +189,9 @@ static int nps_enet_poll(struct napi_struct *napi, int budget)
+ 
+ 	nps_enet_tx_handler(ndev);
+ 	work_done = nps_enet_rx_handler(ndev);
+-	if (work_done < budget) {
++	if ((work_done < budget) && napi_complete_done(napi, work_done)) {
+ 		u32 buf_int_enable_value = 0;
+ 
+-		napi_complete_done(napi, work_done);
+-
+ 		/* set tx_done and rx_rdy bits */
+ 		buf_int_enable_value |= NPS_ENET_ENABLE << RX_RDY_SHIFT;
+ 		buf_int_enable_value |= NPS_ENET_ENABLE << TX_DONE_SHIFT;
+-- 
+2.7.4
