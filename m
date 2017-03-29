@@ -1,48 +1,59 @@
 From: Vladislav.Zakharov@synopsys.com (Vlad Zakharov)
-Date: Wed, 29 Mar 2017 13:41:46 +0300
-Subject: [PATCH] ezchip: nps_enet: check if napi has been completed
+Date: Wed, 29 Mar 2017 11:20:46 +0000
+Subject: [PATCH v2] clk/axs10x: introduce AXS10X pll driver
+In-Reply-To: <20170303235005.GV25384@codeaurora.org>
+References: <1487682670-4164-1-git-send-email-vzakhar@synopsys.com>
+ <1488547113.2557.44.camel@synopsys.com>
+ <20170303235005.GV25384@codeaurora.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1490784106-14489-1-git-send-email-vzakhar@synopsys.com>
+Message-ID: <1490786446.32756.4.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-After a new NAPI_STATE_MISSED state was added to NAPI we can get into
-this state and in such case we have to reschedule NAPI as some work is
-still pending and we have to process it. napi_complete_done() function
-returns false if we have to reschedule something (e.g. in case we were
-in MISSED state) as current polling have not been completed yet.
+Hi Stephen, Michael,
 
-nps_enet driver hasn't been verifying the return value of
-napi_complete_done() and has been forcibly enabling interrupts. That is
-not correct as we should not enable interrupts before we have processed
-all scheduled work. As a result we were getting trapped in interrupt
-hanlder chain as we had never been able to disabale ethernet
-interrupts again.
+On Fri, 2017-03-03@15:50 -0800, Stephen Boyd wrote:
+> On 03/03, Vlad Zakharov wrote:
+> > 
+> > Hi Michael, Stephen,
+> > 
+> > On Tue, 2017-02-21@16:11 +0300, Vlad Zakharov wrote:
+> > > 
+> > > AXS10X boards manages it's clocks using various PLLs. These PLL has same
+> > > dividers and corresponding control registers mapped to different addresses.
+> > > So we add one common driver for such PLLs.
+> > > 
+> > > Each PLL on AXS10X board consist of three dividers: IDIV, FBDIV and
+> > > ODIV. Output clock value is managed using these dividers.
+> > > 
+> > > We add pre-defined tables with supported rate values and appropriate
+> > > configurations of IDIV, FBDIV and ODIV for each value.
+> > > 
+> > > As of today we add support for PLLs that generate clock for the
+> > > following devices:
+> > > ?* ARC core on AXC CPU tiles.
+> > > ?* ARC PGU on ARC SDP Mainboard.
+> > > and more to come later.
+> > > 
+> > > Acked-by: Rob Herring <robh at kernel.org>
+> > > Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
+> > > Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+> > > Cc: Michael Turquette <mturquette at baylibre.com>
+> > > Cc: Stephen Boyd <sboyd at codeaurora.org>
+> > > Cc: Mark Rutland <mark.rutland at arm.com>
+> > 
+> > Maybe you have any comments or remarks about this patch? And if you don't could you please apply it.
+> > 
+> 
+> I haven't reviewed it yet. The merge window is upon us right now
+> so I'll probably get to going through the queue this weekend/next
+> week.
+> 
 
-So this patch makes nps_enet_poll() func verify return value of
-napi_complete_done() and enable interrupts only in case all scheduled
-work has been completed.
+Please treat this message as a polite reminder to review my patch.
+It is required for some subsystems on our boards, e.g. for ARC PGU.
 
-Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
----
- drivers/net/ethernet/ezchip/nps_enet.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Thanks.
 
-diff --git a/drivers/net/ethernet/ezchip/nps_enet.c b/drivers/net/ethernet/ezchip/nps_enet.c
-index 992ebe9..f819843 100644
---- a/drivers/net/ethernet/ezchip/nps_enet.c
-+++ b/drivers/net/ethernet/ezchip/nps_enet.c
-@@ -189,11 +189,9 @@ static int nps_enet_poll(struct napi_struct *napi, int budget)
- 
- 	nps_enet_tx_handler(ndev);
- 	work_done = nps_enet_rx_handler(ndev);
--	if (work_done < budget) {
-+	if ((work_done < budget) && napi_complete_done(napi, work_done)) {
- 		u32 buf_int_enable_value = 0;
- 
--		napi_complete_done(napi, work_done);
--
- 		/* set tx_done and rx_rdy bits */
- 		buf_int_enable_value |= NPS_ENET_ENABLE << RX_RDY_SHIFT;
- 		buf_int_enable_value |= NPS_ENET_ENABLE << TX_DONE_SHIFT;
 -- 
-2.7.4
+Best regards,
+Vlad Zakharov <vzakhar at synopsys.com>
