@@ -1,36 +1,32 @@
-From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Thu, 30 Mar 2017 14:40:14 +0100
-Subject: DRM: Component framework API support
-In-Reply-To: <1490875508.6561.11.camel@synopsys.com>
-References: <1490875508.6561.11.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 30 Mar 2017 14:26:30 +0000
+Subject: [PATCH] arcv2: Make sure busy bit is set properly on SLC flushing
+In-Reply-To: <35ad9cda-d493-869f-c65b-9d1ad5382ff3@synopsys.com>
+References: <1490796911-4848-1-git-send-email-abrodkin@synopsys.com>
+ <35ad9cda-d493-869f-c65b-9d1ad5382ff3@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <18e6380f-738f-9c54-ba4b-08e83b134e22@synopsys.com>
+Message-ID: <1490883989.7449.3.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Eugeniy,
+Hi Vineet,
 
+On Wed, 2017-03-29@16:41 -0700, Vineet Gupta wrote:
+> On 03/29/2017 07:15 AM, Alexey Brodkin wrote:
+> > 
+> > As reported in STAR 9001165532 if data cache gets disabled right before
+> > L2 cache invalidation we may read wrong value of L2 cache "busy" bit.
+> > So we won't wait before L2 cache gets properly flushed and so some
+> > data might not reach DDR at all thus we'll use older values from DDR
+> > next time they are accessed.
+> > 
+> > For now we use a work-around with one extra read from SLC's control
+> > register which guarantees next read will return real value of "busy"
+> > bit.
+> > 
+> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> 
+> Thx Alexey - pushed to for-curr !
 
-On 30-03-2017 13:05, Eugeniy Paltsev wrote:
-> Hi,
->
-> I am trying to add support of new component framework API in ARC PGU driver.
-> The point is that for now we have ARC PGU driver which works with adv7511 encoder. Both of them don't support component framework API. I had to add support of component framework based dw_hdmi encoder to ARC PGU driver.
+Care to add for-stable tag?
 
-As of commit 69497eb9 ("drm: bridge: dw-hdmi: Implement DRM
-bridge registration") you don't need to use component API, you
-can just use a platform driver wrapper.
-
->
-> So what is best way of implementing both component framework API and regular API in one driver?
-
-I guess you want to have support for ADV7511 and dw-hdmi, right?
-For component API you need to have a master device which binds
-all the components and inits them, for regular API not. I don't
-see a clean way to do this (but I'm not that experienced in
-component API). Do you need runtime support for both of bridges?
-
-Best regards,
-Jose Miguel Abreu
-
->
-> Thanks.
+-Alexey
