@@ -1,21 +1,74 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 31 Mar 2017 12:01:23 +0300
-Subject: [PATCH 0/2] axs103: Add support of v1.1 firmware
+Date: Fri, 31 Mar 2017 12:01:25 +0300
+Subject: [PATCH 2/2] axs103: Support slave core kick-start on axs103 v1.1
+ firmware
+In-Reply-To: <1490950885-9791-1-git-send-email-abrodkin@synopsys.com>
+References: <1490950885-9791-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1490950885-9791-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1490950885-9791-3-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Even though from software developer PoV not much has changed in v1.1 firmware
-for axs103 board still there's an important modification introduced by
-SNPS hardware team: slave cores kick-start procedure now differs and we need
-to accommodate this change in U-Boot.
+In axs103 v1.1 procedure to kick-start slave cores has changed quite a bit
+compared t previous implementation.
 
-Alexey Brodkin (2):
-  axs103: Clean-up smp_kick_all_cpus()
-  axs103: Support slave core kick-start on axs103 v1.1 firmware
+In particular:
+ * We used to have a generic START bit for all cores selected by CORE_SEL
+   mask. But now we don't touch CORE_SEL at all because we have a dedicated
+   START bit for each core:
+     bit 0: Core 0 (master)
+     bit 1: Core 1 (slave)
+ * Now there's no need to select "manual" mode of core start
 
- board/synopsys/axs10x/axs10x.c | 30 ++++++++++++++++++++++++------
- 1 file changed, 24 insertions(+), 6 deletions(-)
+Additional challenge for us is how to tell which axs103 firmware we're
+dealing with. For now we'll rely on ARC core version which was bumped
+from 2.1c to 3.0.
 
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ board/synopsys/axs10x/axs10x.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/board/synopsys/axs10x/axs10x.c b/board/synopsys/axs10x/axs10x.c
+index 57c790220f71..912764a3d807 100644
+--- a/board/synopsys/axs10x/axs10x.c
++++ b/board/synopsys/axs10x/axs10x.c
+@@ -7,6 +7,7 @@
+ #include <common.h>
+ #include <dwmmc.h>
+ #include <malloc.h>
++#include <asm/arcregs.h>
+ #include "axs10x.h"
+ 
+ DECLARE_GLOBAL_DATA_PTR;
+@@ -66,9 +67,27 @@ void smp_kick_all_cpus(void)
+ #define BITS_START_MODE	4
+ #define BITS_CORE_SEL	9
+ 
++/*
++ * In axs103 v1.1 START bits semantics has changed quite a bit.
++ * We used to have a generic START bit for all cores selected by CORE_SEL mask.
++ * But now we don't touch CORE_SEL at all because we have a dedicated START bit
++ * for each core:
++ *     bit 0: Core 0 (master)
++ *     bit 1: Core 1 (slave)
++ */
++#define BITS_START_CORE1	1
++
++#define ARCVER_HS38_3_0	0x53
++
++	int core_family = read_aux_reg(ARC_AUX_IDENTITY) & 0xff;
+ 	int cmd = readl((void __iomem *)AXC003_CREG_CPU_START);
+-	cmd |= (1 << BITS_CORE_SEL) | (1 << BITS_START);
+-	cmd &= ~(1 << BITS_START_MODE);
++
++	if (core_family < ARCVER_HS38_3_0) {
++		cmd |= (1 << BITS_CORE_SEL) | (1 << BITS_START);
++		cmd &= ~(1 << BITS_START_MODE);
++	} else {
++		cmd |= (1 << BITS_START_CORE1);
++	}
+ 	writel(cmd, (void __iomem *)AXC003_CREG_CPU_START);
+ }
+ #endif
 -- 
 2.7.4
