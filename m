@@ -1,50 +1,21 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 31 Mar 2017 12:01:24 +0300
-Subject: [PATCH 1/2] axs103: Clean-up smp_kick_all_cpus()
-In-Reply-To: <1490950885-9791-1-git-send-email-abrodkin@synopsys.com>
-References: <1490950885-9791-1-git-send-email-abrodkin@synopsys.com>
+Date: Fri, 31 Mar 2017 12:01:23 +0300
+Subject: [PATCH 0/2] axs103: Add support of v1.1 firmware
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1490950885-9791-2-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1490950885-9791-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
- * Rely on default pulse polarity value
- * Don't mess with "multicore" value as it doesn't affect execution
+Even though from software developer PoV not much has changed in v1.1 firmware
+for axs103 board still there's an important modification introduced by
+SNPS hardware team: slave cores kick-start procedure now differs and we need
+to accommodate this change in U-Boot.
 
-In essence we now do a bare minimal stuff:
- 1) Select HS38x2_1 with CORE_SEL=1 bits
- 2) Select "manual" core start (via CREG) with START_MODE=0
- 3) Generate cpu_start pulse with START=1
+Alexey Brodkin (2):
+  axs103: Clean-up smp_kick_all_cpus()
+  axs103: Support slave core kick-start on axs103 v1.1 firmware
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
- board/synopsys/axs10x/axs10x.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ board/synopsys/axs10x/axs10x.c | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
 
-diff --git a/board/synopsys/axs10x/axs10x.c b/board/synopsys/axs10x/axs10x.c
-index a5e774b2cf7b..57c790220f71 100644
---- a/board/synopsys/axs10x/axs10x.c
-+++ b/board/synopsys/axs10x/axs10x.c
-@@ -61,16 +61,14 @@ void smp_kick_all_cpus(void)
- {
- /* CPU start CREG */
- #define AXC003_CREG_CPU_START	0xF0001400
--
- /* Bits positions in CPU start CREG */
- #define BITS_START	0
--#define BITS_POLARITY	8
-+#define BITS_START_MODE	4
- #define BITS_CORE_SEL	9
--#define BITS_MULTICORE	12
--
--#define CMD	(1 << BITS_MULTICORE) | (1 << BITS_CORE_SEL) | \
--		(1 << BITS_POLARITY) | (1 << BITS_START)
- 
--	writel(CMD, (void __iomem *)AXC003_CREG_CPU_START);
-+	int cmd = readl((void __iomem *)AXC003_CREG_CPU_START);
-+	cmd |= (1 << BITS_CORE_SEL) | (1 << BITS_START);
-+	cmd &= ~(1 << BITS_START_MODE);
-+	writel(cmd, (void __iomem *)AXC003_CREG_CPU_START);
- }
- #endif
 -- 
 2.7.4
