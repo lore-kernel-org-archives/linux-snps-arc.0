@@ -1,49 +1,65 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 31 Mar 2017 12:19:06 +0300
-Subject: [PATCH] arcv2: Halt non-master cores
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 31 Mar 2017 11:22:20 -0700
+Subject: [PATCH] ldso: don't discard sysmbols for DODEBUG builds
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1490951946-22574-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1490984540-10031-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Even though we expect only master core to execute U-Boot code
-let's make sure even if for some reason slave cores attempt to
-execute U-Boot in parallel with master they get halted very early.
+the --discard-* toggles take away the symbols which comes in the way
+when staring at objdumps for debugging low level issues
 
-If platform wants it may kick-start slave cores before passing control
-to say Linux kernel or any other application that want to see all cores
-of SMP SoC up and running.
+So don't discard symbols for DODEBUG builds
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+before
+-----
+
+    3388:	j_s.d	[blink]
+    338a:	add_s	sp,sp,0x18
+    338c:	b.d	332c <_dl_add_elf_hash_table+0x50>
+    3390:	mov_s	r2,0
+    3392:	nop_s
+    3394:	push_s	blink		<--- function not called out
+    3396:	st.aw	r13,[sp,-20]
+    339a:	std	r14r15,[sp,4]
+    339e:	std	r16r17,[sp,12]
+
+after
+-----
+
+    3388:	j_s.d	[blink]
+    338a:	add_s	sp,sp,0x18
+    338c:	b.d	332c <_dl_add_elf_hash_table+0x50>
+    3390:	mov_s	r2,0
+    3392:	nop_s
+
+  00003394 <add_ldso.isra.9>:
+    3394:	push_s	blink
+    3396:	st.aw	r13,[sp,-20]
+    339a:	std	r14r15,[sp,4]
+    339e:	std	r16r17,[sp,12]
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/lib/start.S | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ ldso/ldso/Makefile.in | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arc/lib/start.S b/arch/arc/lib/start.S
-index 90ee7e0fe406..b2ba7683097f 100644
---- a/arch/arc/lib/start.S
-+++ b/arch/arc/lib/start.S
-@@ -10,6 +10,22 @@
- #include <asm/arcregs.h>
+diff --git a/ldso/ldso/Makefile.in b/ldso/ldso/Makefile.in
+index 320e4488ba22..acb1a5b2ac15 100644
+--- a/ldso/ldso/Makefile.in
++++ b/ldso/ldso/Makefile.in
+@@ -51,8 +51,11 @@ LDFLAGS-$(UCLIBC_LDSO_NAME).so := $(LDFLAGS_NOSTRIP) -Wl,-z,defs
+ endif
+ LDFLAGS-$(UCLIBC_LDSO_NAME).so += -Wl,-e,$(SYMBOL_PREFIX)_start \
+ 	-Wl,-z,now -Wl,-Bsymbolic \
+-	-Wl,--export-dynamic $(CFLAG_-Wl--sort-common) -Wl,--discard-locals \
+-	$(CFLAG_-Wl--discard-all) -Wl,--no-undefined
++	-Wl,--export-dynamic $(CFLAG_-Wl--sort-common) -Wl,--no-undefined
++
++ifneq ($(DODEBUG),y)
++	LDFLAGS-$(UCLIBC_LDSO_NAME).so +=  -Wl,--discard-locals $(CFLAG_-Wl--discard-all)
++endif
  
- ENTRY(_start)
-+	; Non-masters will be halted immediately, they might be kicked later
-+	; by platform code right before passing control to the Linux kernel
-+	; in bootm.c:boot_jump_linux().
-+	lr 	r5, [identity]
-+	lsr	r5, r5, 8
-+	bmsk	r5, r5, 7
-+	cmp	r5, 0
-+	mov.nz	r0, r5
-+	bz	.Lmaster_proceed
-+	flag	1
-+	nop
-+	nop
-+	nop
-+
-+.Lmaster_proceed:
-+
- 	/* Setup interrupt vector base that matches "__text_start" */
- 	sr	__ivt_start, [ARC_AUX_INTR_VEC_BASE]
+ LDFLAGS-$(LDSO_PRELINK_SUPPORT)-$(UCLIBC_LDSO_NAME).so += -Wl,-defsym=$(SYMBOL_PREFIX)_begin=0
  
 -- 
 2.7.4
