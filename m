@@ -1,32 +1,50 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 30 Mar 2017 14:26:30 +0000
-Subject: [PATCH] arcv2: Make sure busy bit is set properly on SLC flushing
-In-Reply-To: <35ad9cda-d493-869f-c65b-9d1ad5382ff3@synopsys.com>
-References: <1490796911-4848-1-git-send-email-abrodkin@synopsys.com>
- <35ad9cda-d493-869f-c65b-9d1ad5382ff3@synopsys.com>
+Date: Fri, 31 Mar 2017 12:01:24 +0300
+Subject: [PATCH 1/2] axs103: Clean-up smp_kick_all_cpus()
+In-Reply-To: <1490950885-9791-1-git-send-email-abrodkin@synopsys.com>
+References: <1490950885-9791-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1490883989.7449.3.camel@synopsys.com>
+Message-ID: <1490950885-9791-2-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+ * Rely on default pulse polarity value
+ * Don't mess with "multicore" value as it doesn't affect execution
 
-On Wed, 2017-03-29@16:41 -0700, Vineet Gupta wrote:
-> On 03/29/2017 07:15 AM, Alexey Brodkin wrote:
-> > 
-> > As reported in STAR 9001165532 if data cache gets disabled right before
-> > L2 cache invalidation we may read wrong value of L2 cache "busy" bit.
-> > So we won't wait before L2 cache gets properly flushed and so some
-> > data might not reach DDR at all thus we'll use older values from DDR
-> > next time they are accessed.
-> > 
-> > For now we use a work-around with one extra read from SLC's control
-> > register which guarantees next read will return real value of "busy"
-> > bit.
-> > 
-> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> 
-> Thx Alexey - pushed to for-curr !
+In essence we now do a bare minimal stuff:
+ 1) Select HS38x2_1 with CORE_SEL=1 bits
+ 2) Select "manual" core start (via CREG) with START_MODE=0
+ 3) Generate cpu_start pulse with START=1
 
-Care to add for-stable tag?
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ board/synopsys/axs10x/axs10x.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
--Alexey
+diff --git a/board/synopsys/axs10x/axs10x.c b/board/synopsys/axs10x/axs10x.c
+index a5e774b2cf7b..57c790220f71 100644
+--- a/board/synopsys/axs10x/axs10x.c
++++ b/board/synopsys/axs10x/axs10x.c
+@@ -61,16 +61,14 @@ void smp_kick_all_cpus(void)
+ {
+ /* CPU start CREG */
+ #define AXC003_CREG_CPU_START	0xF0001400
+-
+ /* Bits positions in CPU start CREG */
+ #define BITS_START	0
+-#define BITS_POLARITY	8
++#define BITS_START_MODE	4
+ #define BITS_CORE_SEL	9
+-#define BITS_MULTICORE	12
+-
+-#define CMD	(1 << BITS_MULTICORE) | (1 << BITS_CORE_SEL) | \
+-		(1 << BITS_POLARITY) | (1 << BITS_START)
+ 
+-	writel(CMD, (void __iomem *)AXC003_CREG_CPU_START);
++	int cmd = readl((void __iomem *)AXC003_CREG_CPU_START);
++	cmd |= (1 << BITS_CORE_SEL) | (1 << BITS_START);
++	cmd &= ~(1 << BITS_START_MODE);
++	writel(cmd, (void __iomem *)AXC003_CREG_CPU_START);
+ }
+ #endif
+-- 
+2.7.4
