@@ -1,74 +1,49 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 31 Mar 2017 12:01:25 +0300
-Subject: [PATCH 2/2] axs103: Support slave core kick-start on axs103 v1.1
- firmware
-In-Reply-To: <1490950885-9791-1-git-send-email-abrodkin@synopsys.com>
-References: <1490950885-9791-1-git-send-email-abrodkin@synopsys.com>
+Date: Fri, 31 Mar 2017 12:19:06 +0300
+Subject: [PATCH] arcv2: Halt non-master cores
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1490950885-9791-3-git-send-email-abrodkin@synopsys.com>
+Message-ID: <1490951946-22574-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-In axs103 v1.1 procedure to kick-start slave cores has changed quite a bit
-compared t previous implementation.
+Even though we expect only master core to execute U-Boot code
+let's make sure even if for some reason slave cores attempt to
+execute U-Boot in parallel with master they get halted very early.
 
-In particular:
- * We used to have a generic START bit for all cores selected by CORE_SEL
-   mask. But now we don't touch CORE_SEL at all because we have a dedicated
-   START bit for each core:
-     bit 0: Core 0 (master)
-     bit 1: Core 1 (slave)
- * Now there's no need to select "manual" mode of core start
-
-Additional challenge for us is how to tell which axs103 firmware we're
-dealing with. For now we'll rely on ARC core version which was bumped
-from 2.1c to 3.0.
+If platform wants it may kick-start slave cores before passing control
+to say Linux kernel or any other application that want to see all cores
+of SMP SoC up and running.
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 ---
- board/synopsys/axs10x/axs10x.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ arch/arc/lib/start.S | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/board/synopsys/axs10x/axs10x.c b/board/synopsys/axs10x/axs10x.c
-index 57c790220f71..912764a3d807 100644
---- a/board/synopsys/axs10x/axs10x.c
-+++ b/board/synopsys/axs10x/axs10x.c
-@@ -7,6 +7,7 @@
- #include <common.h>
- #include <dwmmc.h>
- #include <malloc.h>
-+#include <asm/arcregs.h>
- #include "axs10x.h"
+diff --git a/arch/arc/lib/start.S b/arch/arc/lib/start.S
+index 90ee7e0fe406..b2ba7683097f 100644
+--- a/arch/arc/lib/start.S
++++ b/arch/arc/lib/start.S
+@@ -10,6 +10,22 @@
+ #include <asm/arcregs.h>
  
- DECLARE_GLOBAL_DATA_PTR;
-@@ -66,9 +67,27 @@ void smp_kick_all_cpus(void)
- #define BITS_START_MODE	4
- #define BITS_CORE_SEL	9
+ ENTRY(_start)
++	; Non-masters will be halted immediately, they might be kicked later
++	; by platform code right before passing control to the Linux kernel
++	; in bootm.c:boot_jump_linux().
++	lr 	r5, [identity]
++	lsr	r5, r5, 8
++	bmsk	r5, r5, 7
++	cmp	r5, 0
++	mov.nz	r0, r5
++	bz	.Lmaster_proceed
++	flag	1
++	nop
++	nop
++	nop
++
++.Lmaster_proceed:
++
+ 	/* Setup interrupt vector base that matches "__text_start" */
+ 	sr	__ivt_start, [ARC_AUX_INTR_VEC_BASE]
  
-+/*
-+ * In axs103 v1.1 START bits semantics has changed quite a bit.
-+ * We used to have a generic START bit for all cores selected by CORE_SEL mask.
-+ * But now we don't touch CORE_SEL at all because we have a dedicated START bit
-+ * for each core:
-+ *     bit 0: Core 0 (master)
-+ *     bit 1: Core 1 (slave)
-+ */
-+#define BITS_START_CORE1	1
-+
-+#define ARCVER_HS38_3_0	0x53
-+
-+	int core_family = read_aux_reg(ARC_AUX_IDENTITY) & 0xff;
- 	int cmd = readl((void __iomem *)AXC003_CREG_CPU_START);
--	cmd |= (1 << BITS_CORE_SEL) | (1 << BITS_START);
--	cmd &= ~(1 << BITS_START_MODE);
-+
-+	if (core_family < ARCVER_HS38_3_0) {
-+		cmd |= (1 << BITS_CORE_SEL) | (1 << BITS_START);
-+		cmd &= ~(1 << BITS_START_MODE);
-+	} else {
-+		cmd |= (1 << BITS_START_CORE1);
-+	}
- 	writel(cmd, (void __iomem *)AXC003_CREG_CPU_START);
- }
- #endif
 -- 
 2.7.4
