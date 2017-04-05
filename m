@@ -1,78 +1,38 @@
-From: Vladislav.Zakharov@synopsys.com (Vlad Zakharov)
-Date: Wed, 5 Apr 2017 16:06:11 +0000
-Subject: [PATCH v2] clk/axs10x: introduce AXS10X pll driver
-In-Reply-To: <20170405013525.GJ18246@codeaurora.org>
-References: <1487682670-4164-1-git-send-email-vzakhar@synopsys.com>
- <20170405013525.GJ18246@codeaurora.org>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 5 Apr 2017 14:00:19 -0700
+Subject: [PATCH] ldso/arc: fix debug prints
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1491408370.9650.24.camel@synopsys.com>
+Message-ID: <1491426019-17377-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Stephen,
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ ldso/ldso/arc/elfinterp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On Tue, 2017-04-04@18:35 -0700, Stephen Boyd wrote:
-> > +?????.pll_table = (struct pll_of_table []){
-> > +?????????????{
-> > +?????????????????????.prate = 27000000,
-> 
-> Can this be another clk in the framework instead of hardcoding
-> the parent rate?
-
-In fact there is another clk in the framework that represents this parent clock. But this field is needed to get
-appropriate pll_cfg_table as it depends on parent clock frequency. Below in pll_cfg_get function we are searching for
-the correct table comparing .parent_node field with real hardware parent clock frequency:
----------------------------------->8------------------------------------
-for (i = 0; pll_table[i].prate != 0; i++)
-? ? if (pll_table[i].prate == prate)
-? ? ? ? return pll_table[i].pll_cfg_table;
----------------------------------->8------------------------------------
-
-> 
-> > +?????????????????????.pll_cfg_table = (struct pll_cfg []){
-> > +?????????????????????????????{ 25200000, 1, 84, 90 },
-> > +?????????????????????????????{ 50000000, 1, 100, 54 },
-> > +?????????????????????????????{ 74250000, 1, 44, 16 },
-> > +?????????????????????????????{ },
-> > +?????????????????????},
-> > +?????????????},
-> > +?????????????/* Used as list limiter */
-> > +?????????????{ },
-> 
-> There's only ever one, so I'm confused why we're making a list.
-
-By this patch we only add support of core arc pll and pgu pll and today they are clocked by the only parent clocks
-introduced here. But other plls on axs10x may be driven by different or configurable clocks, so in such cases we will
-have more than one entry in this list. And we are going to add more supported plls to this driver in the nearest future.
-
-> > +
-> > +?????clk = clk_register(NULL, &pll_clk->hw);
-> > +?????if (IS_ERR(clk)) {
-> > +?????????????pr_err("failed to register %s clock (%ld)\n",
-> > +?????????????????????????????node->name, PTR_ERR(clk));
-> > +?????????????kfree(pll_clk);
-> > +?????????????return;
-> > +?????}
-> > +
-> > +?????of_clk_add_provider(node, of_clk_src_simple_get, clk);
-> 
-> Can you please use the clk_hw based provider and clk registration
-> functions?
-
-Sure. Could you be so kind to explain what is the difference between hw and non-hw based provider and clk registration
-functions please? In which cases they are preferred??
-
-> 
-> > +}
-> > +
-> > +CLK_OF_DECLARE(axs10x_pll_clock, "snps,axs10x-arc-pll-clock", of_pll_clk_setup);
-> 
-> Does this need to be CLK_OF_DECLARE_DRIVER? I mean does the
-> driver need to probe and also have this of declare happen? Is the
-> PLL special and needs to be used for the timers?
-
-It is special and is used for the timers, so we have to CLK_OF_DECLARE it. On the other hand similar pll is used to
-drive PGU clock frequency and other subsystems and so we add usual probe func.
-
+diff --git a/ldso/ldso/arc/elfinterp.c b/ldso/ldso/arc/elfinterp.c
+index 2f0cf7f6635b..c164d5dae6bf 100644
+--- a/ldso/ldso/arc/elfinterp.c
++++ b/ldso/ldso/arc/elfinterp.c
+@@ -179,8 +179,8 @@ _dl_do_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
+ log_entry:
+ #if defined __SUPPORT_LD_DEBUG__
+ 	if (_dl_debug_detail)
+-		_dl_dprintf(_dl_debug_file,"\tpatched: %lx ==> %lx @ %pl: addend %x ",
+-				old_val, *reloc_addr, reloc_addr, rpnt->r_addend);
++		_dl_dprintf(_dl_debug_file,"\tpatched: %x ==> %x @ %x",
++				old_val, *reloc_addr, reloc_addr);
+ #endif
+ 
+ 	return 0;
+@@ -215,7 +215,7 @@ _dl_do_lazy_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
+ 
+ #if defined __SUPPORT_LD_DEBUG__
+ 	if (_dl_debug_reloc && _dl_debug_detail)
+-		_dl_dprintf(_dl_debug_file, "\tpatched: %lx ==> %lx @ %pl\n",
++		_dl_dprintf(_dl_debug_file, "\tpatched: %x ==> %x @ %x\n",
+ 				old_val, *reloc_addr, reloc_addr);
+ #endif
+ 
 -- 
-Best regards,
-Vlad Zakharov <vzakhar at synopsys.com>
+2.7.4
