@@ -1,29 +1,24 @@
 From: wbx@uclibc-ng.org (Waldemar Brodkorb)
-Date: Tue, 11 Apr 2017 22:11:46 +0200
-Subject: [uclibc-ng-devel] [PATCH] Same iteration variable used for inner
- and outer loop
-In-Reply-To: <20170406095725.18604-1-cmiranda@synopsys.com>
-References: <20170406095725.18604-1-cmiranda@synopsys.com>
+Date: Tue, 11 Apr 2017 22:52:25 +0200
+Subject: static linking broken?
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170411201146.GC5361@waldemar-brodkorb.de>
+Message-ID: <20170411205225.GD5361@waldemar-brodkorb.de>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Cupertino,
-Cupertino Miranda wrote,
+Hi Vineet,
 
-> Inner loop was using same counter variable (i) as the outer loop, therefore
-> making outer loop terminate before it visited all of the ELF program segments.
-> Surrounding code in this inner loop clearly shows the intention that this loop
-> should not affect the outer one, therefore leading me to the conclusion that
-> this should be a bug an not expected code.
-> 
-> This bug was detected due to some other bug in ARC binutils that kept setting
-> TEXTREL for any PIE application.
-> 
-> Apart from the but, I have also moved the debug message inside of the TEXTREL
-> condition as mprotect is only really called if TELTREL is set.
+it seems static linking is totally broken for ARC and uClibc-ng:
 
-Thanks.
+file root_nsim-arcv2_uclibc-ng_archs/bin/busybox 
+root_nsim-arcv2_uclibc-ng_archs/bin/busybox: ELF 32-bit LSB
+executable, *unknown arch 0xc3* version 1 (SYSV), dynamically
+linked, interpreter *empty*, for GNU/Linux 4.8.0, stripped
 
-Applied and pushed,
+I am using arc-2016.09-release within OpenADK.
+
+Do you ever used static linking?
+
+I only test with nsim, but can't use any static binaries.
+
+best regards
  Waldemar
