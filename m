@@ -1,46 +1,43 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 11 Apr 2017 18:53:47 +0300
-Subject: [PATCH] arc: arcv1: Disable master/slave check
+From: wbx@uclibc-ng.org (Waldemar Brodkorb)
+Date: Tue, 11 Apr 2017 22:09:25 +0200
+Subject: [uclibc-ng-devel] [PATCH] ldso/arc: fix debug prints
+In-Reply-To: <1491426019-17377-1-git-send-email-vgupta@synopsys.com>
+References: <1491426019-17377-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1491926027-22324-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <20170411200925.GA5361@waldemar-brodkorb.de>
 To: linux-snps-arc@lists.infradead.org
 
-ARCompact cores are not supposed to be used in SMP designs
-(this doesn't stop people from creation of heterogeneous chips,
-for an example keep reading) so there's no point in
-checking ARCNUM and halting somebody if we build for ARC700.
+Hi Vineet,
+Vineet Gupta wrote,
 
-Moreover on AXS101 board we have ARC770 in the ASIC together with
-other ARC cores and ARC770 happens to be the last node in JTAG chain
-with ARCNUM = 4. And existing check halts the one and only core we
-want keep running.
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  ldso/ldso/arc/elfinterp.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/ldso/ldso/arc/elfinterp.c b/ldso/ldso/arc/elfinterp.c
+> index 2f0cf7f6635b..c164d5dae6bf 100644
+> --- a/ldso/ldso/arc/elfinterp.c
+> +++ b/ldso/ldso/arc/elfinterp.c
+> @@ -179,8 +179,8 @@ _dl_do_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
+>  log_entry:
+>  #if defined __SUPPORT_LD_DEBUG__
+>  	if (_dl_debug_detail)
+> -		_dl_dprintf(_dl_debug_file,"\tpatched: %lx ==> %lx @ %pl: addend %x ",
+> -				old_val, *reloc_addr, reloc_addr, rpnt->r_addend);
+> +		_dl_dprintf(_dl_debug_file,"\tpatched: %x ==> %x @ %x",
+> +				old_val, *reloc_addr, reloc_addr);
+>  #endif
+>  
+>  	return 0;
+> @@ -215,7 +215,7 @@ _dl_do_lazy_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
+>  
+>  #if defined __SUPPORT_LD_DEBUG__
+>  	if (_dl_debug_reloc && _dl_debug_detail)
+> -		_dl_dprintf(_dl_debug_file, "\tpatched: %lx ==> %lx @ %pl\n",
+> +		_dl_dprintf(_dl_debug_file, "\tpatched: %x ==> %x @ %x\n",
+>  				old_val, *reloc_addr, reloc_addr);
+>  #endif
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
- arch/arc/lib/start.S | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/arch/arc/lib/start.S b/arch/arc/lib/start.S
-index b2ba7683097f..95d64f9d4375 100644
---- a/arch/arc/lib/start.S
-+++ b/arch/arc/lib/start.S
-@@ -10,6 +10,9 @@
- #include <asm/arcregs.h>
- 
- ENTRY(_start)
-+; ARCompact devices are not supposed to be SMP so master/slave check
-+; makes no sense.
-+#ifdef CONFIG_ISA_ARCV2
- 	; Non-masters will be halted immediately, they might be kicked later
- 	; by platform code right before passing control to the Linux kernel
- 	; in bootm.c:boot_jump_linux().
-@@ -25,6 +28,7 @@ ENTRY(_start)
- 	nop
- 
- .Lmaster_proceed:
-+#endif
- 
- 	/* Setup interrupt vector base that matches "__text_start" */
- 	sr	__ivt_start, [ARC_AUX_INTR_VEC_BASE]
--- 
-2.7.4
+Applied and pushed,
+ Waldemar
