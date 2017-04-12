@@ -1,39 +1,44 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 11 Apr 2017 14:51:24 -0700
-Subject: static linking broken?
-In-Reply-To: <20170411205225.GD5361@waldemar-brodkorb.de>
-References: <20170411205225.GD5361@waldemar-brodkorb.de>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 12 Apr 2017 09:58:26 +0000
+Subject: perf jvmti: unconditionally links against -lelf
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <59250a19-ec37-c315-ded0-fa61f5b3f4de@synopsys.com>
+Message-ID: <1491991105.4510.25.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 04/11/2017 01:52 PM, Waldemar Brodkorb wrote:
-> Hi Vineet,
->
-> it seems static linking is totally broken for ARC and uClibc-ng:
->
-> file root_nsim-arcv2_uclibc-ng_archs/bin/busybox 
-> root_nsim-arcv2_uclibc-ng_archs/bin/busybox: ELF 32-bit LSB
-> executable, *unknown arch 0xc3* version 1 (SYSV), dynamically
-> linked, interpreter *empty*, for GNU/Linux 4.8.0, stripped
->
-> I am using arc-2016.09-release within OpenADK.
->
-> Do you ever used static linking?
->
-> I only test with nsim, but can't use any static binaries.
->
-> best regards
->  Waldemar
+Hi Jiri,
 
-I do test static linked busybox and last I checked 2016.09 seemed ok ! (below is
-busybox built against prebuilt 2016.09 toolchain on github)
+Just tried to cross-compile perf with pretty bare-minimal toolchain
+which has no libelf installed for the target (for the record I used
+SNPS ARC pre-built arc-2016.09 tools) like that:
+--------------->8------------
+make NO_LIBELF=1
+--------------->8------------
 
-$ file arc_initramfs_hs_1612-gnu-2016.09-BIG/bin/busybox_static
-ELF 32-bit LSB executable, *unknown arch 0xc3* version 1 (SYSV), statically
-linked, for GNU/Linux 4.8.0, not stripped
+And got the following build failure:
+--------------->8------------
+? LINK?????libperf-jvmti.so
+.../2016.09-uclibc-archs/bin/../lib/gcc/arc-snps-linux-uclibc/6.2.1/../../../../arc-snps-linux-uclibc/bin/ld: cannot find -lelf
+--------------->8------------
 
-Although I've seen this issue in different context - Linux kernel perf, Alexey u
-remember !
+First I was surprised because I intentionally disabled usage of libelf
+but after some grepping figured out jvmti is linked against libelf
+regardless any settings, see:
+--------------->8------------
+$(OUTPUT)$(LIBJVMTI): $(LIBJVMTI_IN)
+? ? ? ?$(QUIET_LINK)$(CC) -shared -Wl,-soname -Wl,$(LIBJVMTI) -o $@ $< -lelf -lrt
+endif
+--------------->8------------
 
--Vineet
+This comes from commit?d4dfdf00d43e ("perf jvmti: Plug compilation into perf build").
+
+I'm not really sure what could be the best solution to the problem I see.
+If libelf is a real must for jvmti then probably we may force set?NO_JVMTI=1
+if?NO_LIBELF=1 is passed on the command line.
+
+At least the following builds perf for me without issues:
+--------------->8------------
+make NO_LIBELF=1 NO_JVMTI=1
+--------------->8------------
+
+Regards,
+Alexey
