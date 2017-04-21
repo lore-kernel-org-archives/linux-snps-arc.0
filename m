@@ -1,35 +1,74 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 21 Apr 2017 09:59:03 +0300
-Subject: [PATCH] arcpgu: Simplify driver name
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Fri, 21 Apr 2017 11:15:01 +0100
+Subject: [RESEND PATCH 1/2] arc: axs10x: Add DT bindings for I2S audio playback
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1492757943-17037-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <7ed6deaf1ae6d5819364c793835aa30316077a7e.1487787376.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This very minor change is still useful because it aligns
-ARC PGU driver name with other DRM drivers and makes usage of
-that driver name a bit easier.
+This patch adds the necessary DT bindings to get HDMI audio
+output in ARC AXS10x SDP. The bindings for I2S controller were
+added as well as the bindings for simple audio card.
 
-For example in libdrm's test app we'll use "arcpgu" instead of
-a bit more ugly "drm-arcpgu".
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Daniel Vetter <daniel.vetter at ffwll.ch>
+Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Carlos Palminha <palminha at synopsys.com>
+Cc: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Rob Herring <robh+dt at kernel.org>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: devicetree at vger.kernel.org
+Cc: linux-snps-arc at lists.infradead.org
+Cc: linux-kernel at vger.kernel.org
 ---
- drivers/gpu/drm/arc/arcpgu_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arc/boot/dts/axs10x_mb.dtsi | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-index 0b6eaa49a1db..c33cdbae7588 100644
---- a/drivers/gpu/drm/arc/arcpgu_drv.c
-+++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-@@ -166,7 +166,7 @@ static struct drm_driver arcpgu_drm_driver = {
- 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_PRIME |
- 			   DRIVER_ATOMIC,
- 	.lastclose = arcpgu_lastclose,
--	.name = "drm-arcpgu",
-+	.name = "arcpgu",
- 	.desc = "ARC PGU Controller",
- 	.date = "20160219",
- 	.major = 1,
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index d6c1bbc..9d882b1 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -149,12 +149,13 @@
+ 			interrupts = <14>;
+ 		};
+ 
+-		i2c at 0x1e000 {
+-			compatible = "snps,designware-i2c";
++		i2s: i2s at 1e000 {
++			compatible = "snps,designware-i2s";
+ 			reg = <0x1e000 0x100>;
+-			clock-frequency = <400000>;
+-			clocks = <&i2cclk>;
++			clocks = <&i2sclk 0>;
++			clock-names = "i2sclk";
+ 			interrupts = <15>;
++			#sound-dai-cells = <0>;
+ 		};
+ 
+ 		i2c at 0x1f000 {
+@@ -174,6 +175,7 @@
+ 				adi,input-colorspace = "rgb";
+ 				adi,input-clock = "1x";
+ 				adi,clock-delay = <0x03>;
++				#sound-dai-cells = <0>;
+ 
+ 				ports {
+ 					#address-cells = <1>;
+@@ -295,5 +297,17 @@
+ 				};
+ 			};
+ 		};
++
++		sound_playback {
++			compatible = "simple-audio-card";
++			simple-audio-card,name = "AXS10x HDMI Audio";
++			simple-audio-card,format = "i2s";
++			simple-audio-card,cpu {
++				sound-dai = <&i2s>;
++			};
++			simple-audio-card,codec {
++				sound-dai = <&adv7511>;
++			};
++		};
+ 	};
+ };
 -- 
-2.7.4
+1.9.1
