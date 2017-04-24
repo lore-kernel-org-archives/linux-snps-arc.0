@@ -1,81 +1,74 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 24 Apr 2017 10:36:40 -0700
-Subject: [RESEND PATCH 1/2] arc: axs10x: Add DT bindings for I2S audio
- playback
-In-Reply-To: <7ed6deaf1ae6d5819364c793835aa30316077a7e.1487787376.git.joabreu@synopsys.com>
-References: <7ed6deaf1ae6d5819364c793835aa30316077a7e.1487787376.git.joabreu@synopsys.com>
+From: krzk@kernel.org (Krzysztof Kozlowski)
+Date: Mon, 24 Apr 2017 20:33:38 +0200
+Subject: [PATCH V9 1/3] irq: Allow to pass the IRQF_TIMER flag with
+ percpu irq request
+In-Reply-To: <1493042494-14057-1-git-send-email-daniel.lezcano@linaro.org>
+References: <1493042494-14057-1-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <77599cf5-33e5-2ecd-2b2a-43630195a3b8@synopsys.com>
+Message-ID: <20170424183338.xglbm6ytdrexlsdh@kozik-lap>
 To: linux-snps-arc@lists.infradead.org
 
-On 04/21/2017 03:15 AM, Jose Abreu wrote:
-> This patch adds the necessary DT bindings to get HDMI audio
-> output in ARC AXS10x SDP. The bindings for I2S controller were
-> added as well as the bindings for simple audio card.
-
-Are these waiting on Rob or is it OK for me to pick these up for 4.12 ?
-
--Vineet
-
->
-> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-> Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Carlos Palminha <palminha at synopsys.com>
-> Cc: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Rob Herring <robh+dt at kernel.org>
+On Mon, Apr 24, 2017@04:01:31PM +0200, Daniel Lezcano wrote:
+> In the next changes, we track when the interrupts occur in order to
+> statistically compute when is supposed to happen the next interrupt.
+> 
+> In all the interruptions, it does not make sense to store the timer interrupt
+> occurences and try to predict the next interrupt as when know the expiration
+> time.
+> 
+> The request_irq() has a irq flags parameter and the timer drivers use it to
+> pass the IRQF_TIMER flag, letting us know the interrupt is coming from a timer.
+> Based on this flag, we can discard these interrupts when tracking them.
+> 
+> But, the API request_percpu_irq does not allow to pass a flag, hence specifying
+> if the interrupt type is a timer.
+> 
+> Add a function request_percpu_irq_flags() where we can specify the flags. The
+> request_percpu_irq() function is changed to be a wrapper to
+> request_percpu_irq_flags() passing a zero flag parameter.
+> 
+> Change the timers using request_percpu_irq() to use request_percpu_irq_flags()
+> instead with the IRQF_TIMER flag set.
+> 
+> For now, in order to prevent a misusage of this parameter, only the IRQF_TIMER
+> flag (or zero) is a valid parameter to be passed to the
+> request_percpu_irq_flags() function.
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Cc: Mark Rutland <mark.rutland at arm.com>
 > Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: devicetree at vger.kernel.org
-> Cc: linux-snps-arc at lists.infradead.org
-> Cc: linux-kernel at vger.kernel.org
+> Cc: Marc Zyngier <marc.zyngier at arm.com>
+> Cc: Patrice Chotard <patrice.chotard at st.com>
+> Cc: Kukjin Kim <kgene at kernel.org>
+> Cc: Krzysztof Kozlowski <krzk at kernel.org>
+> Cc: Javier Martinez Canillas <javier at osg.samsung.com>
+> Cc: Christoffer Dall <christoffer.dall at linaro.org>
+> Cc: Paolo Bonzini <pbonzini at redhat.com>
+> Cc: Radim Kr?m?? <rkrcmar at redhat.com>
+> 
 > ---
->  arch/arc/boot/dts/axs10x_mb.dtsi | 22 ++++++++++++++++++----
->  1 file changed, 18 insertions(+), 4 deletions(-)
+> Changelog:
+> 
+>    V9:
+> 	- Clarified the patch description
+> 	- Fixed EXPORT_SYMBOL_GPL(request_percpu_irq_flags)
+> ---
+>  arch/arm/kernel/smp_twd.c                |  3 ++-
+>  drivers/clocksource/arc_timer.c          |  4 ++--
+>  drivers/clocksource/arm_arch_timer.c     | 20 ++++++++++++--------
+>  drivers/clocksource/arm_global_timer.c   |  4 ++--
+>  drivers/clocksource/exynos_mct.c         |  7 ++++---
+>  drivers/clocksource/qcom-timer.c         |  4 ++--
+>  drivers/clocksource/time-armada-370-xp.c |  9 +++++----
+>  drivers/clocksource/timer-nps.c          |  6 +++---
+>  include/linux/interrupt.h                | 11 ++++++++++-
+>  kernel/irq/manage.c                      | 15 ++++++++++-----
+>  virt/kvm/arm/arch_timer.c                |  5 +++--
+>  11 files changed, 55 insertions(+), 33 deletions(-)
 >
-> diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-> index d6c1bbc..9d882b1 100644
-> --- a/arch/arc/boot/dts/axs10x_mb.dtsi
-> +++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-> @@ -149,12 +149,13 @@
->  			interrupts = <14>;
->  		};
->  
-> -		i2c at 0x1e000 {
-> -			compatible = "snps,designware-i2c";
-> +		i2s: i2s at 1e000 {
-> +			compatible = "snps,designware-i2s";
->  			reg = <0x1e000 0x100>;
-> -			clock-frequency = <400000>;
-> -			clocks = <&i2cclk>;
-> +			clocks = <&i2sclk 0>;
-> +			clock-names = "i2sclk";
->  			interrupts = <15>;
-> +			#sound-dai-cells = <0>;
->  		};
->  
->  		i2c at 0x1f000 {
-> @@ -174,6 +175,7 @@
->  				adi,input-colorspace = "rgb";
->  				adi,input-clock = "1x";
->  				adi,clock-delay = <0x03>;
-> +				#sound-dai-cells = <0>;
->  
->  				ports {
->  					#address-cells = <1>;
-> @@ -295,5 +297,17 @@
->  				};
->  			};
->  		};
-> +
-> +		sound_playback {
-> +			compatible = "simple-audio-card";
-> +			simple-audio-card,name = "AXS10x HDMI Audio";
-> +			simple-audio-card,format = "i2s";
-> +			simple-audio-card,cpu {
-> +				sound-dai = <&i2s>;
-> +			};
-> +			simple-audio-card,codec {
-> +				sound-dai = <&adv7511>;
-> +			};
-> +		};
->  	};
->  };
+
+For exynos-mct:
+Acked-by: Krzysztof Kozlowski <krzk at kernel.org>
+
+Best regards,
+Krzysztof
