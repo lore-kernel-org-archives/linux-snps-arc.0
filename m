@@ -1,14 +1,14 @@
-From: krzk@kernel.org (Krzysztof Kozlowski)
-Date: Mon, 24 Apr 2017 20:33:38 +0200
-Subject: [PATCH V9 1/3] irq: Allow to pass the IRQF_TIMER flag with
- percpu irq request
+From: marc.zyngier@arm.com (Marc Zyngier)
+Date: Mon, 24 Apr 2017 19:46:43 +0100
+Subject: [PATCH V9 1/3] irq: Allow to pass the IRQF_TIMER flag with percpu
+ irq request
 In-Reply-To: <1493042494-14057-1-git-send-email-daniel.lezcano@linaro.org>
 References: <1493042494-14057-1-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170424183338.xglbm6ytdrexlsdh@kozik-lap>
+Message-ID: <398f3f3d-c567-0f1f-1a43-9b8d5805d5fd@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Apr 24, 2017@04:01:31PM +0200, Daniel Lezcano wrote:
+On 24/04/17 15:01, Daniel Lezcano wrote:
 > In the next changes, we track when the interrupts occur in order to
 > statistically compute when is supposed to happen the next interrupt.
 > 
@@ -33,42 +33,33 @@ On Mon, Apr 24, 2017@04:01:31PM +0200, Daniel Lezcano wrote:
 > For now, in order to prevent a misusage of this parameter, only the IRQF_TIMER
 > flag (or zero) is a valid parameter to be passed to the
 > request_percpu_irq_flags() function.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
-> Cc: Mark Rutland <mark.rutland at arm.com>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: Marc Zyngier <marc.zyngier at arm.com>
-> Cc: Patrice Chotard <patrice.chotard at st.com>
-> Cc: Kukjin Kim <kgene at kernel.org>
-> Cc: Krzysztof Kozlowski <krzk at kernel.org>
-> Cc: Javier Martinez Canillas <javier at osg.samsung.com>
-> Cc: Christoffer Dall <christoffer.dall at linaro.org>
-> Cc: Paolo Bonzini <pbonzini at redhat.com>
-> Cc: Radim Kr?m?? <rkrcmar at redhat.com>
-> 
-> ---
-> Changelog:
-> 
->    V9:
-> 	- Clarified the patch description
-> 	- Fixed EXPORT_SYMBOL_GPL(request_percpu_irq_flags)
-> ---
->  arch/arm/kernel/smp_twd.c                |  3 ++-
->  drivers/clocksource/arc_timer.c          |  4 ++--
->  drivers/clocksource/arm_arch_timer.c     | 20 ++++++++++++--------
->  drivers/clocksource/arm_global_timer.c   |  4 ++--
->  drivers/clocksource/exynos_mct.c         |  7 ++++---
->  drivers/clocksource/qcom-timer.c         |  4 ++--
->  drivers/clocksource/time-armada-370-xp.c |  9 +++++----
->  drivers/clocksource/timer-nps.c          |  6 +++---
->  include/linux/interrupt.h                | 11 ++++++++++-
->  kernel/irq/manage.c                      | 15 ++++++++++-----
->  virt/kvm/arm/arch_timer.c                |  5 +++--
->  11 files changed, 55 insertions(+), 33 deletions(-)
->
 
-For exynos-mct:
-Acked-by: Krzysztof Kozlowski <krzk at kernel.org>
+[...]
 
-Best regards,
-Krzysztof
+> diff --git a/virt/kvm/arm/arch_timer.c b/virt/kvm/arm/arch_timer.c
+> index 35d7100..602e0a8 100644
+> --- a/virt/kvm/arm/arch_timer.c
+> +++ b/virt/kvm/arm/arch_timer.c
+> @@ -523,8 +523,9 @@ int kvm_timer_hyp_init(void)
+>  		host_vtimer_irq_flags = IRQF_TRIGGER_LOW;
+>  	}
+>  
+> -	err = request_percpu_irq(host_vtimer_irq, kvm_arch_timer_handler,
+> -				 "kvm guest timer", kvm_get_running_vcpus());
+> +	err = request_percpu_irq_flags(host_vtimer_irq, kvm_arch_timer_handler,
+> +				       IRQF_TIMER, "kvm guest timer",
+> +				       kvm_get_running_vcpus());
+>  	if (err) {
+>  		kvm_err("kvm_arch_timer: can't request interrupt %d (%d)\n",
+>  			host_vtimer_irq, err);
+> 
+
+How is that useful? This timer is controlled by the guest OS, and not
+the host kernel. Can you explain how you intend to make use of that
+information in this case?
+
+Thanks,
+
+	M.
+-- 
+Jazz is not dead. It just smells funny...
