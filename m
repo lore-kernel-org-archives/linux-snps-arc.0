@@ -1,181 +1,50 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Tue, 25 Apr 2017 21:12:21 +0300
-Subject: [PATCH v2 2/2] dmaengine: Add DW AXI DMAC driver
-In-Reply-To: <1493133369.25985.10.camel@synopsys.com>
-References: <1491573855-1039-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <1491573855-1039-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
- <1492518695.24567.56.camel@linux.intel.com>
- <1492784977.16657.6.camel@synopsys.com>
- <1492787583.24567.120.camel@linux.intel.com>
- <1493049305.25985.4.camel@synopsys.com>
- <1493052970.24567.168.camel@linux.intel.com>
- <1493133369.25985.10.camel@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 25 Apr 2017 13:56:14 -0700
+Subject: [GIT PULL] ARC fixes for 4.11-final
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1493143941.24567.196.camel@linux.intel.com>
+Message-ID: <c6344d3e-0ce2-8ab0-6bc8-5b8cb3988d6a@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 2017-04-25@15:16 +0000, Eugeniy Paltsev wrote:
-> On Mon, 2017-04-24@19:56 +0300, Andy Shevchenko wrote:
-> > On Mon, 2017-04-24@15:55 +0000, Eugeniy Paltsev wrote:
-> > > Hi,
-> > > On Fri, 2017-04-21@18:13 +0300, Andy Shevchenko wrote:
-> > > > On Fri, 2017-04-21@14:29 +0000, Eugeniy Paltsev wrote:
-> > > > > On Tue, 2017-04-18@15:31 +0300, Andy Shevchenko wrote:
-> > > > > > On Fri, 2017-04-07@17:04 +0300, Eugeniy Paltsev wrote:
+Hi Linus,
 
-> > > This IP can be (ans is) configured with small block size.
-> > > (note, that I am not saying about runtime HW configuration)
-> > > 
-> > > And there is opportunity what we can't use sg_list directly and
-> > > need
-> > > to
-> > > split sg_list to a smaller chunks.
-> > 
-> > That's what I have referred quite ago. The driver should provide an
-> > interface to tell potential caller what maximum block (number of
-> > items
-> > with given bus width) it supports.
-> > 
-> > We have struct dma_parms in struct device, but what we actually need
-> > is
-> > to support similar on per channel basis in DMAengine framework.
-> > 
-> > So, instead of working around this I recommend either to implement
-> > it
-> > properly or rely on the fact that in the future someone eventually
-> > does that for you.
-> > 
-> > Each driver which has this re-splitting mechanism should be cleaned
-> > up and refactored.
-> 
-> I still can't see any pros of this implementation.
-> There is no performance profit: we anyway need to re-splitt sg_list
-> (but now in dma-user driver instead of dma driver)
+Couple of late fixes for ARC, better for them to go now then request backports.
 
-There is, you seems don't see it.
+Please pull.
 
-Currently:
- User:
-  prepares sg-list
+Thx,
+-Vineet
 
- DMA driver:
-  a) iterates over it, and
-  b) if sg_len is bigger than block it re-splits it.
+------>
+The following changes since commit 39da7c509acff13fc8cb12ec1bb20337c988ed36:
 
-New approach:
+  Linux 4.11-rc6 (2017-04-09 09:49:44 -0700)
 
- User:
-  a) gets DMA channel and its properties
-  b) prepares sg-list taking into consideration block size
+are available in the git repository at:
 
- DMA driver:
-  a) uses the given sg-list and for sake of simplicity bails out if
-something wrong with it
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.11-final
 
-So, it means in some cases (where entry is big enough) we have to
-prepare list *and* re-split it. It's really performance consuming (like
-UART case where buffer is small enough and latency like above matters).
+for you to fetch changes up to 3d5e80125a6e5649c6bdad8d5780e39ea422c67d:
 
-> If we want to use same descriptors several times we just can use
-> DMA_CTRL_REUSE option - the descriptors will be created one time and
-> re-splitting will be ?ompleted only one time.
+  ARCv2: entry: save Accumulator register pair (r58:59) if present (2017-04-20
+15:37:49 -0700)
 
-There are two type of descriptors: SW and HW. That flag about SW
-descriptor, so, it in most cases has nothing to do with the actual entry
-size.
+----------------------------------------------------------------
+Last minute fixes for ARC
 
-> But there are cons of this implementation:
-> we need to implement re-splitting mechanism in each place we use dma
-> instead of one dma driver. So there are more places for bugs and
-> etc...
+ - Build error in Mellanox nps platform
 
-No, you completely missed the point.
+ - addressing lack of saving FPU regs in releavnt configs
 
-With new approach we do the preparation only once per descriptor /
-transfer and in one place where the sg-list is created.
+----------------------------------------------------------------
+Noam Camus (1):
+      ARC: [plat-eznps] Fix build error
 
-> > > > Better not to pretend that it has been processed successfully.
-> > > > Don't
-> > > > call callback on it and set its status to DMA_ERROR (that's why
-> > > > descriptors in many drivers have dma_status field). When user
-> > > > asks for
-> > > > status (using cookie) the saved value would be returned until
-> > > > descriptor
-> > > > is active.
-> > > > 
-> > > > Do you have some other workflow in mind?
-> > > 
-> > > Hmm...
-> > > Do you mean I should left error descriptors in desc_issued list
-> > > or I should create another list (like desc_error) in my driver and
-> > > move
-> > > error descriptors to desc_error list?
-> > > 
-> > > And when exactly should I free error descriptors?
-> > 
-> > See below.
-> > 
-> > > I checked hsu/hsu.c dma driver implementation:
-> > > ???vdma descriptor is deleted from desc_issued list when transfer
-> > > ???starts. When descriptor marked as error descriptor
-> > > ???vchan_cookie_complete isn't called for this descriptor. And
-> > > this
-> > > ???descriptor isn't placed in any list. So error descriptors
-> > > *never*
-> > > ???will be freed.
-> > > ???I don't actually like this approach.
-> > 
-> > Descriptor is active until terminate_all() is called or new
-> > descriptor
-> > is supplied. So, the caller has a quite time to check on it.
-> > 
-> > So, what's wrong on it by your opinion?
-> 
-> Hmm, this looks OK. (In my example (hsu/hsu.c driver) error
-> descriptors
-> are not freed even after terminate_all is called)
+Vineet Gupta (1):
+      ARCv2: entry: save Accumulator register pair (r58:59) if present
 
-If it's active it will be freed.
-Otherwise caller should check somewhere that descriptor fails.
-
-But actually this is fragile and we need to monitor failed descriptors.
-Thanks for reporting.
-
-> 
-> > Of course, if you want to keep by some reason (should be stated what
-> > the reason in comment) erred descriptors, you can do that.
-> 
-> So, I'll create desc_error list and store failed descriptors in this
-> list until terminate_all() is called.
-> Is it OK implementation?
-
-Nope, we need to amend virt-chan API for that. I'm on it. Will send a
-series soon.
-
-> There is a simple reason:
-> I had to do same actions in probe/remove as in
-> runtime_resume/runtime_suspend.
-> (like enabling clock, enabling dma)
-
-> If my driver is build with RUNTIME_PM this actions will be
-> automatically handled by runtime pm (clock and dma will be enabled
-> before using and disabled after using).
-> Otherwise, if my driver is build without RUNTIME_PM clock and dma will
-> be enabled only one time - when ->probe() is called.
-> So I use runtime_resume callback directly for this purpose (because if
-> my driver is build without RUNTIME_PM this callback wiil not be called
-> at all)
-
-Okay, The best way to do that is to create functions which take struct
-chip and do that. Re-use them in runtime PM hooks.
-
-But you still need to learn a bit about runtime PM. There is no harm to
-call clk_enable() twice in a raw if you guarantee you do the opposite
-(twice call clk_disable()) on tear down.
-
-Also I would reconsider clock (un)preparation in those hooks. Why do you
-need that part? It's resource consuming.
-
--- 
-Andy Shevchenko <andriy.shevchenko at linux.intel.com>
-Intel Finland Oy
+ arch/arc/Kconfig                   |  8 ++++++++
+ arch/arc/include/asm/atomic.h      |  3 ++-
+ arch/arc/include/asm/entry-arcv2.h | 10 ++++++++++
+ arch/arc/include/asm/ptrace.h      |  4 ++++
+ arch/arc/kernel/setup.c            | 30 +++++++++++++++++++++---------
+ 5 files changed, 45 insertions(+), 10 deletions(-)
