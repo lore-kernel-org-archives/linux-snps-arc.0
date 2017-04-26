@@ -1,91 +1,50 @@
-From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Wed, 26 Apr 2017 09:55:49 +0100
-Subject: [RESEND PATCH 1/2] arc: axs10x: Add DT bindings for I2S audio
- playback
-In-Reply-To: <77599cf5-33e5-2ecd-2b2a-43630195a3b8@synopsys.com>
-References: <7ed6deaf1ae6d5819364c793835aa30316077a7e.1487787376.git.joabreu@synopsys.com>
- <77599cf5-33e5-2ecd-2b2a-43630195a3b8@synopsys.com>
+From: Vladislav.Zakharov@synopsys.com (Vlad Zakharov)
+Date: Wed, 26 Apr 2017 12:56:21 +0000
+Subject: [PATCH] ezchip: nps_enet: check if napi has been completed
+In-Reply-To: <20170329.143014.2001816338079751776.davem@davemloft.net>
+References: <1490784106-14489-1-git-send-email-vzakhar@synopsys.com>
+ <20170329.143014.2001816338079751776.davem@davemloft.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <c02ea9db-db90-1b2e-1baf-f2940e64201f@synopsys.com>
+Message-ID: <1493211381.20370.23.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+Hi David, all,
 
+On Wed, 2017-03-29@14:30 -0700, David Miller wrote:
+> From: Vlad Zakharov <Vladislav.Zakharov at synopsys.com>
+> Date: Wed, 29 Mar 2017 13:41:46 +0300
+> 
+> > 
+> > After a new NAPI_STATE_MISSED state was added to NAPI we can get into
+> > this state and in such case we have to reschedule NAPI as some work is
+> > still pending and we have to process it. napi_complete_done() function
+> > returns false if we have to reschedule something (e.g. in case we were
+> > in MISSED state) as current polling have not been completed yet.
+> > 
+> > nps_enet driver hasn't been verifying the return value of
+> > napi_complete_done() and has been forcibly enabling interrupts. That is
+> > not correct as we should not enable interrupts before we have processed
+> > all scheduled work. As a result we were getting trapped in interrupt
+> > hanlder chain as we had never been able to disabale ethernet
+> > interrupts again.
+> > 
+> > So this patch makes nps_enet_poll() func verify return value of
+> > napi_complete_done() and enable interrupts only in case all scheduled
+> > work has been completed.
+> > 
+> > Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
+> 
+> Applied.
+> 
+> Eric, if this is really required now, we have 148 broken drivers still.
 
-On 24-04-2017 18:36, Vineet Gupta wrote:
-> On 04/21/2017 03:15 AM, Jose Abreu wrote:
->> This patch adds the necessary DT bindings to get HDMI audio
->> output in ARC AXS10x SDP. The bindings for I2S controller were
->> added as well as the bindings for simple audio card.
-> Are these waiting on Rob or is it OK for me to pick these up for 4.12 ?
+Could you please backport this patch to stable tree (starting from 4.10) as it is pretty important and fixes nps_enet
+driver?
 
-Yes, I was waiting for Rob ack but he has been silent. It would
-be nice if these went for 4.12.
+It became actual after Eric's commit?39e6c8208d7b (net: solve a NAPI race) which has already been backported to 4.10.
 
+Thanks.
+
+-- 
 Best regards,
-Jose Miguel Abreu
-
->
-> -Vineet
->
->> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
->> Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
->> Cc: Carlos Palminha <palminha at synopsys.com>
->> Cc: Alexey Brodkin <abrodkin at synopsys.com>
->> Cc: Rob Herring <robh+dt at kernel.org>
->> Cc: Vineet Gupta <vgupta at synopsys.com>
->> Cc: devicetree at vger.kernel.org
->> Cc: linux-snps-arc at lists.infradead.org
->> Cc: linux-kernel at vger.kernel.org
->> ---
->>  arch/arc/boot/dts/axs10x_mb.dtsi | 22 ++++++++++++++++++----
->>  1 file changed, 18 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
->> index d6c1bbc..9d882b1 100644
->> --- a/arch/arc/boot/dts/axs10x_mb.dtsi
->> +++ b/arch/arc/boot/dts/axs10x_mb.dtsi
->> @@ -149,12 +149,13 @@
->>  			interrupts = <14>;
->>  		};
->>  
->> -		i2c at 0x1e000 {
->> -			compatible = "snps,designware-i2c";
->> +		i2s: i2s at 1e000 {
->> +			compatible = "snps,designware-i2s";
->>  			reg = <0x1e000 0x100>;
->> -			clock-frequency = <400000>;
->> -			clocks = <&i2cclk>;
->> +			clocks = <&i2sclk 0>;
->> +			clock-names = "i2sclk";
->>  			interrupts = <15>;
->> +			#sound-dai-cells = <0>;
->>  		};
->>  
->>  		i2c at 0x1f000 {
->> @@ -174,6 +175,7 @@
->>  				adi,input-colorspace = "rgb";
->>  				adi,input-clock = "1x";
->>  				adi,clock-delay = <0x03>;
->> +				#sound-dai-cells = <0>;
->>  
->>  				ports {
->>  					#address-cells = <1>;
->> @@ -295,5 +297,17 @@
->>  				};
->>  			};
->>  		};
->> +
->> +		sound_playback {
->> +			compatible = "simple-audio-card";
->> +			simple-audio-card,name = "AXS10x HDMI Audio";
->> +			simple-audio-card,format = "i2s";
->> +			simple-audio-card,cpu {
->> +				sound-dai = <&i2s>;
->> +			};
->> +			simple-audio-card,codec {
->> +				sound-dai = <&adv7511>;
->> +			};
->> +		};
->>  	};
->>  };
+Vlad Zakharov <vzakhar at synopsys.com>
