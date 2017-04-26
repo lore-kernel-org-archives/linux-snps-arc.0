@@ -1,50 +1,64 @@
-From: Vladislav.Zakharov@synopsys.com (Vlad Zakharov)
-Date: Wed, 26 Apr 2017 12:56:21 +0000
-Subject: [PATCH] ezchip: nps_enet: check if napi has been completed
-In-Reply-To: <20170329.143014.2001816338079751776.davem@davemloft.net>
-References: <1490784106-14489-1-git-send-email-vzakhar@synopsys.com>
- <20170329.143014.2001816338079751776.davem@davemloft.net>
+From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
+Date: Wed, 26 Apr 2017 18:04:35 +0300
+Subject: [PATCH v2 2/2] dmaengine: Add DW AXI DMAC driver
+In-Reply-To: <1493143941.24567.196.camel@linux.intel.com>
+References: <1491573855-1039-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1491573855-1039-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1492518695.24567.56.camel@linux.intel.com>
+ <1492784977.16657.6.camel@synopsys.com>
+ <1492787583.24567.120.camel@linux.intel.com>
+ <1493049305.25985.4.camel@synopsys.com>
+ <1493052970.24567.168.camel@linux.intel.com>
+ <1493133369.25985.10.camel@synopsys.com>
+ <1493143941.24567.196.camel@linux.intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1493211381.20370.23.camel@synopsys.com>
+Message-ID: <1493219075.24567.211.camel@linux.intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi David, all,
+On Tue, 2017-04-25@21:12 +0300, Andy Shevchenko wrote:
+> On Tue, 2017-04-25@15:16 +0000, Eugeniy Paltsev wrote:
+> > On Mon, 2017-04-24@19:56 +0300, Andy Shevchenko wrote:
+> > > On Mon, 2017-04-24@15:55 +0000, Eugeniy Paltsev wrote:
 
-On Wed, 2017-03-29@14:30 -0700, David Miller wrote:
-> From: Vlad Zakharov <Vladislav.Zakharov at synopsys.com>
-> Date: Wed, 29 Mar 2017 13:41:46 +0300
+> > > Descriptor is active until terminate_all() is called or new
+> > > descriptor
+> > > is supplied. So, the caller has a quite time to check on it.
+> > > 
+> > > So, what's wrong on it by your opinion?
+> > 
+> > Hmm, this looks OK. (In my example (hsu/hsu.c driver) error
+> > descriptors
+> > are not freed even after terminate_all is called)
+> 
+> If it's active it will be freed.
+> Otherwise caller should check somewhere that descriptor fails.
+> 
+> But actually this is fragile and we need to monitor failed
+> descriptors.
+> Thanks for reporting.
 > 
 > > 
-> > After a new NAPI_STATE_MISSED state was added to NAPI we can get into
-> > this state and in such case we have to reschedule NAPI as some work is
-> > still pending and we have to process it. napi_complete_done() function
-> > returns false if we have to reschedule something (e.g. in case we were
-> > in MISSED state) as current polling have not been completed yet.
+> > > Of course, if you want to keep by some reason (should be stated
+> > > what
+> > > the reason in comment) erred descriptors, you can do that.
 > > 
-> > nps_enet driver hasn't been verifying the return value of
-> > napi_complete_done() and has been forcibly enabling interrupts. That is
-> > not correct as we should not enable interrupts before we have processed
-> > all scheduled work. As a result we were getting trapped in interrupt
-> > hanlder chain as we had never been able to disabale ethernet
-> > interrupts again.
-> > 
-> > So this patch makes nps_enet_poll() func verify return value of
-> > napi_complete_done() and enable interrupts only in case all scheduled
-> > work has been completed.
-> > 
-> > Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
+> > So, I'll create desc_error list and store failed descriptors in this
+> > list until terminate_all() is called.
+> > Is it OK implementation?
 > 
-> Applied.
-> 
-> Eric, if this is really required now, we have 148 broken drivers still.
+> Nope, we need to amend virt-chan API for that. I'm on it. Will send a
+> series soon.
 
-Could you please backport this patch to stable tree (starting from 4.10) as it is pretty important and fixes nps_enet
-driver?
+I have to correct what I wrote before.
 
-It became actual after Eric's commit?39e6c8208d7b (net: solve a NAPI race) which has already been backported to 4.10.
+We have two options:
+a) one I proposed above;
+b) move descriptor to complete list and call complete callback with
+result.
 
-Thanks.
+So, it looks like the b) variant is what is done already in 4 (did I
+calculate correctly?) drivers and respective users.
 
 -- 
-Best regards,
-Vlad Zakharov <vzakhar at synopsys.com>
+Andy Shevchenko <andriy.shevchenko at linux.intel.com>
+Intel Finland Oy
