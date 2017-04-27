@@ -1,31 +1,80 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 26 Apr 2017 16:31:27 -0700
-Subject: [RESEND PATCH 1/2] arc: axs10x: Add DT bindings for I2S audio
- playback
-In-Reply-To: <c02ea9db-db90-1b2e-1baf-f2940e64201f@synopsys.com>
-References: <7ed6deaf1ae6d5819364c793835aa30316077a7e.1487787376.git.joabreu@synopsys.com>
- <77599cf5-33e5-2ecd-2b2a-43630195a3b8@synopsys.com>
- <c02ea9db-db90-1b2e-1baf-f2940e64201f@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 27 Apr 2017 13:21:41 +0000
+Subject: [PATCH v2 2/2] dmaengine: Add DW AXI DMAC driver
+In-Reply-To: <1493219075.24567.211.camel@linux.intel.com>
+References: <1491573855-1039-1-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1491573855-1039-3-git-send-email-Eugeniy.Paltsev@synopsys.com>
+ <1492518695.24567.56.camel@linux.intel.com>
+ <1492784977.16657.6.camel@synopsys.com>
+ <1492787583.24567.120.camel@linux.intel.com>
+ <1493049305.25985.4.camel@synopsys.com>
+ <1493052970.24567.168.camel@linux.intel.com>
+ <1493133369.25985.10.camel@synopsys.com>
+ <1493143941.24567.196.camel@linux.intel.com>
+ <1493219075.24567.211.camel@linux.intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <ae3f1150-f8da-9a34-d929-6964f91c06ae@synopsys.com>
+Message-ID: <1493299300.25985.17.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 04/26/2017 01:55 AM, Jose Abreu wrote:
-> Hi Vineet,
+On Wed, 2017-04-26@18:04 +0300, Andy Shevchenko wrote:
+> On Tue, 2017-04-25@21:12 +0300, Andy Shevchenko wrote:
+> > On Tue, 2017-04-25@15:16 +0000, Eugeniy Paltsev wrote:
+> > > On Mon, 2017-04-24@19:56 +0300, Andy Shevchenko wrote:
+> > > > On Mon, 2017-04-24@15:55 +0000, Eugeniy Paltsev wrote:
+> > > > Descriptor is active until terminate_all() is called or new
+> > > > descriptor
+> > > > is supplied. So, the caller has a quite time to check on it.
+> > > >
+> > > > So, what's wrong on it by your opinion?
+> > >
+> > > Hmm, this looks OK. (In my example (hsu/hsu.c driver) error
+> > > descriptors
+> > > are not freed even after terminate_all is called)
+> >
+> > If it's active it will be freed.
+> > Otherwise caller should check somewhere that descriptor fails.
+> >
+> > But actually this is fragile and we need to monitor failed
+> > descriptors.
+> > Thanks for reporting.
+> >
+> > >
+> > > > Of course, if you want to keep by some reason (should be stated
+> > > > what
+> > > > the reason in comment) erred descriptors, you can do that.
+> > >
+> > > So, I'll create desc_error list and store failed descriptors in
+> > > this
+> > > list until terminate_all() is called.
+> > > Is it OK implementation?
+> >
+> > Nope, we need to amend virt-chan API for that. I'm on it. Will send
+> > a series soon.
 >
+> I have to correct what I wrote before.
 >
-> On 24-04-2017 18:36, Vineet Gupta wrote:
->> On 04/21/2017 03:15 AM, Jose Abreu wrote:
->>> This patch adds the necessary DT bindings to get HDMI audio
->>> output in ARC AXS10x SDP. The bindings for I2S controller were
->>> added as well as the bindings for simple audio card.
->> Are these waiting on Rob or is it OK for me to pick these up for 4.12 ?
-> Yes, I was waiting for Rob ack but he has been silent. It would
-> be nice if these went for 4.12.
+> We have two options:
+> a) one I proposed above;
+> b) move descriptor to complete list and call complete callback with
+> result.
+>
+> So, it looks like the b) variant is what is done already in 4 (did I
+> calculate correctly?) drivers and respective users.
 
-Ok lets wait another couple of days before I pick those up.
-In the mean time, can you please restest the series against 4.11-rcX and report
-here that patches are still valid and do as intended !
+In my opinion we should call error descriptor complete callback.
+But I don't think we should move error descriptor to desc_completed
+list.
 
-Thx,
--Vineet
+When descriptor following our error descriptor will be completed
+successfully vchan tasklet will be called.
+So all descriptors from desc_completed list will be freed (including
+our error descriptor)
+We'll lost information about error descriptors and we'll not be able to
+return correct status from dma_async_is_tx_complete().
+
+In my opinion, we should create desc_error list.
+When we get error we'll move descriptor to desc_error list and call
+complete callback.
+
+--
+?Eugeniy Paltsev
