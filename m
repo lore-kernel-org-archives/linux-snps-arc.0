@@ -1,74 +1,36 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 2 May 2017 15:16:18 +0000
-Subject: [PATCH] Allow to use DMA_CTRL_REUSE flag for all channel types
-In-Reply-To: <20170501055125.GN6263@localhost>
-References: <20170428133746.1855-1-Eugeniy.Paltsev@synopsys.com>
- <20170501055125.GN6263@localhost>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Thu, 04 May 2017 08:53:36 -0000
+Subject: kisskb: FAILED linux-next/axs101_defconfig/arcompact Thu May 04, 18:53
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1493738176.25985.23.camel@synopsys.com>
+Message-ID: <20170504085336.1.21586@5b4f83badeef>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vinod,
+FAILED linux-next/axs101_defconfig/arcompact Thu May 04, 18:53
 
-On Mon, 2017-05-01@11:21 +0530, Vinod Koul wrote:
-> On Fri, Apr 28, 2017@04:37:46PM +0300, Eugeniy Paltsev wrote:
-> > In the current implementation dma_get_slave_caps is used to check
-> > state of descriptor_reuse option. But dma_get_slave_caps includes
-> > check if the channel supports slave transactions.
-> > So DMA_CTRL_REUSE flag can be set (even for MEM-TO-MEM tranfers)
-> > only if channel supports slave transactions.
-> > 
-> > Now we can use DMA_CTRL_REUSE flag for all channel types.
-> > Also it allows to test reusing mechanism with simply mem-to-mem dma
-> > test.
-> 
-> We do not want to allow that actually. Slave is always treated as a
-> special
-> case, so resue was allowed.
-> 
-> With memcpy the assumptions are different and clients can do reuse.
+http://kisskb.ellerman.id.au/kisskb/buildresult/13022475/
 
-Could you please clarify why don't we want to allow use DMA_CTRL_REUSE
-for mem-to-mem transfers?
+Commit:   Add linux-next specific files for 20170504
+          ef57eb19c96fa099a578aeaed9b9d0dbcc4fe069
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-Reusing of mem-to-mem (MEMCPY and DMA_SG) descriptors will work fine on
-virt-dma based drivers.
+Possible errors
+---------------
 
-Anyway the current implementation behaviour is quite strange:
-If channel supports *slave* transfers DMA_CTRL_REUSE can be set to
-slave and *mem-to-mem* transfers.
+arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
+make[3]: *** [arch/arc/mm/ioremap.o] Error 1
+make[2]: *** [arch/arc/mm] Error 2
+make[1]: *** [arch/arc] Error 2
+arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
+make[3]: *** [kernel/irq/generic-chip.o] Error 1
+make[2]: *** [kernel/irq] Error 2
+make[1]: *** [kernel] Error 2
+arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
+make[2]: *** [mm/vmalloc.o] Error 1
+make[1]: *** [mm] Error 2
+make: *** [sub-make] Error 2
 
-And, of course, we can pass DMA_CTRL_REUSE flag to device_prep_dma_sg
-or device_prep_dma_memcpy directly without checks.
+Possible warnings (2)
+----------------------
 
-> > 
-> > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> > ---
-> > ?include/linux/dmaengine.h | 6 +-----
-> > ?1 file changed, 1 insertion(+), 5 deletions(-)
-> > 
-> > diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> > index 5336808..92cf8b0 100644
-> > --- a/include/linux/dmaengine.h
-> > +++ b/include/linux/dmaengine.h
-> > @@ -1376,11 +1376,7 @@ static inline int dma_get_slave_caps(struct
-> > dma_chan *chan,
-> > ?
-> > ?static inline int dmaengine_desc_set_reuse(struct
-> > dma_async_tx_descriptor *tx)
-> > ?{
-> > -	struct dma_slave_caps caps;
-> > -
-> > -	dma_get_slave_caps(tx->chan, &caps);
-> > -
-> > -	if (caps.descriptor_reuse) {
-> > +	if (tx->chan->device->descriptor_reuse) {
-> > ?		tx->flags |= DMA_CTRL_REUSE;
-> > ?		return 0;
-> > ?	} else {
-> > --?
-> > 2.9.3
-> > 
-> > --
--- 
-?Eugeniy Paltsev
+kernel/sched/core.c:3326:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:757:16: warning: comparison of distinct pointer types lacks a cast [enabled by default]
