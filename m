@@ -1,36 +1,49 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Thu, 04 May 2017 08:53:36 -0000
-Subject: kisskb: FAILED linux-next/axs101_defconfig/arcompact Thu May 04, 18:53
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 5 May 2017 11:52:32 -0700
+Subject: asm/mmu.h using NR_CPUS (was Re: kisskb: FAILED
+ linux-next/axs101_defconfig/arcompact Thu May 04, 18:53)
+In-Reply-To: <20170504085336.1.21586@5b4f83badeef>
+References: <20170504085336.1.21586@5b4f83badeef>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170504085336.1.21586@5b4f83badeef>
+Message-ID: <6aa3877c-9118-88d1-b662-49a455a66258@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-FAILED linux-next/axs101_defconfig/arcompact Thu May 04, 18:53
++CC Michal, linux-arch as it potentially affects other arches !
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13022475/
+Hi,
 
-Commit:   Add linux-next specific files for 20170504
-          ef57eb19c96fa099a578aeaed9b9d0dbcc4fe069
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+On 05/04/2017 01:53 AM, noreply@ellerman.id.au wrote:
+> FAILED linux-next/axs101_defconfig/arcompact Thu May 04, 18:53
+> 
+> http://kisskb.ellerman.id.au/kisskb/buildresult/13022475/
+> 
+> Commit:   Add linux-next specific files for 20170504
+>           ef57eb19c96fa099a578aeaed9b9d0dbcc4fe069
+> Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+> 
+> Possible errors
+> ---------------
+> 
+> arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
+> make[3]: *** [arch/arc/mm/ioremap.o] Error 1
+> make[2]: *** [arch/arc/mm] Error 2
+> make[1]: *** [arch/arc] Error 2
+> arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
+> make[3]: *** [kernel/irq/generic-chip.o] Error 1
+> make[2]: *** [kernel/irq] Error 2
+> make[1]: *** [kernel] Error 2
+> arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
+> make[2]: *** [mm/vmalloc.o] Error 1
+> make[1]: *** [mm] Error 2
+> make: *** [sub-make] Error 2
 
-Possible errors
----------------
+I bisected the linux-next ARC build failure (!SMP only) to a subtle side effect of
+a950a30220657d ("mm, vmalloc: properly track vmalloc users") which includes
+asm/pgtable.h causing the final include chain (for ARC ioremap.c) to have
+asm/mmu.h (using NR_CPUS) before linux/threads.h (defining it)
 
-arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
-make[3]: *** [arch/arc/mm/ioremap.o] Error 1
-make[2]: *** [arch/arc/mm] Error 2
-make[1]: *** [arch/arc] Error 2
-arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
-make[3]: *** [kernel/irq/generic-chip.o] Error 1
-make[2]: *** [kernel/irq] Error 2
-make[1]: *** [kernel] Error 2
-arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
-make[2]: *** [mm/vmalloc.o] Error 1
-make[1]: *** [mm] Error 2
-make: *** [sub-make] Error 2
+The quick fix is to include linux/threads.h and this is just a heads up other
+arches might run into same - although xtensa and mips with similar mm_context_t
+seem to build just fine !
 
-Possible warnings (2)
-----------------------
-
-kernel/sched/core.c:3326:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/kernel.h:757:16: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+-Vineet
