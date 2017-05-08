@@ -1,35 +1,36 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri,  5 May 2017 23:20:29 +0300
-Subject: [PATCH] Revert "ARCv2: Allow enabling PAE40 w/o HIGHMEM"
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Mon, 08 May 2017 07:44:57 -0000
+Subject: kisskb: OK linux-next/axs101_defconfig/arcompact Mon May 08, 17:44
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1494015629-19204-1-git-send-email-abrodkin@synopsys.com>
+Message-ID: <20170508074457.1.7410@5b4f83badeef>
 To: linux-snps-arc@lists.infradead.org
 
-This reverts commit 7cab91b87dd8eeee5911ec34be8bb0288ebba18b.
+OK linux-next/axs101_defconfig/arcompact Mon May 08, 17:44
 
-Now when we have a real hardware platform with PAE40 enabled
-(here I mean axs103 with firmware v1.2) and 1 Gb of DDR mapped to
-0x1_a000_0000-0x1_ffff_ffff we're really targeting memory above 4Gb
-when PAE40 is enabled. This in its turn requires HIGHMEM to be enabled
-otherwise user won't see any difference with enabling PAE in
-kernel configuration as only lowmem will be used anyways.
+http://kisskb.ellerman.id.au/kisskb/buildresult/13025433/
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
- arch/arc/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Commit:   Add linux-next specific files for 20170508
+          f12e216777935a05c1dff943e41ecee62e80fe35
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 5d7fb3e7cb97..a5459698f0ee 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -444,6 +444,7 @@ config ARC_HAS_PAE40
- 	bool "Support for the 40-bit Physical Address Extension"
- 	default n
- 	depends on ISA_ARCV2
-+	select HIGHMEM
- 	help
- 	  Enable access to physical memory beyond 4G, only supported on
- 	  ARC cores with 40 bit Physical Addressing support
--- 
-2.7.4
+No errors found in log
+
+Possible warnings (16)
+----------------------
+
+kernel/sched/core.c:3326:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:757:16: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+net/core/ethtool.c:314:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/sunrpc/svc_xprt.h:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+block/cfq-iosched.c:3823:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/tcp_input.c:4251:49: warning: array subscript is above array bounds [-Warray-bounds]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+drivers/scsi/sd.c:1251:1: warning: control reaches end of non-void function [-Wreturn-type]
