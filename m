@@ -1,49 +1,69 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Tue, 09 May 2017 05:52:41 -0000
-Subject: kisskb: FAILED linus/axs101_defconfig/arcompact Tue May 09, 15:52
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 9 May 2017 09:15:26 -0700
+Subject: [GIT PULL] ARC changes for 4.12-rc1
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170509055241.1.95575@5b4f83badeef>
+Message-ID: <eff5f2bd-192a-65e5-d73a-75cf9e67ceb8@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-FAILED linus/axs101_defconfig/arcompact Tue May 09, 15:52
+Hi Linus,
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13026073/
+ARC updates for 4.12. Please pull !
 
-Commit:   Merge branch 'akpm' (patches from Andrew)
-          bf5f89463f5b3109a72ed13ca62b57e90213387d
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+Thx,
+-Vineet
 
-Possible errors
----------------
+---------------->
+The following changes since commit 3d5e80125a6e5649c6bdad8d5780e39ea422c67d:
 
-arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
-make[3]: *** [arch/arc/mm/ioremap.o] Error 1
-make[2]: *** [arch/arc/mm] Error 2
-make[1]: *** [arch/arc] Error 2
-arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
-make[2]: *** [mm/vmalloc.o] Error 1
-arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
-make[3]: *** [kernel/irq/generic-chip.o] Error 1
-make[1]: *** [mm] Error 2
-make[2]: *** [kernel/irq] Error 2
-make[1]: *** [kernel] Error 2
-arch/arc/include/asm/mmu.h:75:21: error: 'NR_CPUS' undeclared here (not in a function)
-make[3]: *** [fs/ntfs/upcase.o] Error 1
-make[2]: *** [fs/ntfs] Error 2
-make[1]: *** [fs] Error 2
-make: *** [sub-make] Error 2
+  ARCv2: entry: save Accumulator register pair (r58:59) if present (2017-04-20
+15:37:49 -0700)
 
-Possible warnings (11)
-----------------------
+are available in the git repository at:
 
-include/linux/kernel.h:757:16: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-kernel/sched/core.c:3326:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.12-rc1
+
+for you to fetch changes up to cf4100d1cddcd243f80ac2af2e4c4273919ff225:
+
+  Revert "ARCv2: Allow enabling PAE40 w/o HIGHMEM" (2017-05-05 13:49:41 -0700)
+
+----------------------------------------------------------------
+ARC updates for 4.12
+
+ - AXS10x platform clk updates for I2S, PGU
+
+ - Adding region based cache flush operation for ARCv2 cores
+
+ - Enforcing PAE40 dependency on HIGHMEM
+
+ - ptrace support for additional regs in ARCv2 cores
+
+ - Fix build failure in linux-next dut to a header include ordering change
+
+----------------------------------------------------------------
+Alexey Brodkin (1):
+      Revert "ARCv2: Allow enabling PAE40 w/o HIGHMEM"
+
+Jose Abreu (2):
+      arc: axs10x: Add DT bindings for I2S audio playback
+      arc: axs10x: Fix ARC PGU default clock frequency
+
+Vineet Gupta (7):
+      ARC: mm: Move full_page computation into cache version agnostic wrapper
+      ARCv2: mm: Implement cache region flush operations
+      ARCv2: mm: Merge 2 updates to DC_CTRL for region flush
+      ARCv2: mm: micro-optimize region flush generated code
+      elf: Add ARCv2 specific core note section
+      ARCv2: ptrace: provide regset for accumulator/r30 regs
+      ARC: mm: fix build failure in linux-next for UP builds
+
+ arch/arc/Kconfig                   |   1 +
+ arch/arc/boot/dts/axs10x_mb.dtsi   |  24 ++++++--
+ arch/arc/include/asm/cache.h       |   6 ++
+ arch/arc/include/asm/mmu.h         |   4 ++
+ arch/arc/include/asm/pgtable.h     |   6 +-
+ arch/arc/include/uapi/asm/elf.h    |   1 +
+ arch/arc/include/uapi/asm/ptrace.h |   5 ++
+ arch/arc/kernel/ptrace.c           |  62 ++++++++++++++++++++-
+ arch/arc/mm/cache.c                | 111 ++++++++++++++++++++++++++++++++-----
+ include/uapi/linux/elf.h           |   2 +-
+ 10 files changed, 197 insertions(+), 25 deletions(-)
