@@ -1,69 +1,36 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 9 May 2017 09:15:26 -0700
-Subject: [GIT PULL] ARC changes for 4.12-rc1
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Tue, 09 May 2017 20:52:45 -0000
+Subject: kisskb: OK linus/axs101_defconfig/arcompact Wed May 10, 06:52
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <eff5f2bd-192a-65e5-d73a-75cf9e67ceb8@synopsys.com>
+Message-ID: <20170509205245.1.26053@5b4f83badeef>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+OK linus/axs101_defconfig/arcompact Wed May 10, 06:52
 
-ARC updates for 4.12. Please pull !
+http://kisskb.ellerman.id.au/kisskb/buildresult/13027160/
 
-Thx,
--Vineet
+Commit:   Merge tag 'arc-4.12-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc
+          4a1e31c68e9f40be32838944931178b0d9ed9162
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
----------------->
-The following changes since commit 3d5e80125a6e5649c6bdad8d5780e39ea422c67d:
+No errors found in log
 
-  ARCv2: entry: save Accumulator register pair (r58:59) if present (2017-04-20
-15:37:49 -0700)
+Possible warnings (16)
+----------------------
 
-are available in the git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.12-rc1
-
-for you to fetch changes up to cf4100d1cddcd243f80ac2af2e4c4273919ff225:
-
-  Revert "ARCv2: Allow enabling PAE40 w/o HIGHMEM" (2017-05-05 13:49:41 -0700)
-
-----------------------------------------------------------------
-ARC updates for 4.12
-
- - AXS10x platform clk updates for I2S, PGU
-
- - Adding region based cache flush operation for ARCv2 cores
-
- - Enforcing PAE40 dependency on HIGHMEM
-
- - ptrace support for additional regs in ARCv2 cores
-
- - Fix build failure in linux-next dut to a header include ordering change
-
-----------------------------------------------------------------
-Alexey Brodkin (1):
-      Revert "ARCv2: Allow enabling PAE40 w/o HIGHMEM"
-
-Jose Abreu (2):
-      arc: axs10x: Add DT bindings for I2S audio playback
-      arc: axs10x: Fix ARC PGU default clock frequency
-
-Vineet Gupta (7):
-      ARC: mm: Move full_page computation into cache version agnostic wrapper
-      ARCv2: mm: Implement cache region flush operations
-      ARCv2: mm: Merge 2 updates to DC_CTRL for region flush
-      ARCv2: mm: micro-optimize region flush generated code
-      elf: Add ARCv2 specific core note section
-      ARCv2: ptrace: provide regset for accumulator/r30 regs
-      ARC: mm: fix build failure in linux-next for UP builds
-
- arch/arc/Kconfig                   |   1 +
- arch/arc/boot/dts/axs10x_mb.dtsi   |  24 ++++++--
- arch/arc/include/asm/cache.h       |   6 ++
- arch/arc/include/asm/mmu.h         |   4 ++
- arch/arc/include/asm/pgtable.h     |   6 +-
- arch/arc/include/uapi/asm/elf.h    |   1 +
- arch/arc/include/uapi/asm/ptrace.h |   5 ++
- arch/arc/kernel/ptrace.c           |  62 ++++++++++++++++++++-
- arch/arc/mm/cache.c                | 111 ++++++++++++++++++++++++++++++++-----
- include/uapi/linux/elf.h           |   2 +-
- 10 files changed, 197 insertions(+), 25 deletions(-)
+kernel/sched/core.c:3326:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:757:16: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+block/cfq-iosched.c:3823:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/core/ethtool.c:314:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/sunrpc/svc_xprt.h:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/ipv4/tcp_input.c:4252:49: warning: array subscript is above array bounds [-Warray-bounds]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+drivers/scsi/sd.c:1251:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
