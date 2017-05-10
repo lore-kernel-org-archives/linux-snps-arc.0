@@ -1,36 +1,54 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Tue, 09 May 2017 20:52:45 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Wed May 10, 06:52
+From: vinod.koul@intel.com (Vinod Koul)
+Date: Wed, 10 May 2017 09:25:07 +0530
+Subject: [PATCH] Allow to use DMA_CTRL_REUSE flag for all channel types
+In-Reply-To: <1493738176.25985.23.camel@synopsys.com>
+References: <20170428133746.1855-1-Eugeniy.Paltsev@synopsys.com>
+ <20170501055125.GN6263@localhost>
+ <1493738176.25985.23.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170509205245.1.26053@5b4f83badeef>
+Message-ID: <20170510035507.GW6263@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Wed May 10, 06:52
+On Tue, May 02, 2017@03:16:18PM +0000, Eugeniy Paltsev wrote:
+> Hi Vinod,
+> 
+> On Mon, 2017-05-01@11:21 +0530, Vinod Koul wrote:
+> > On Fri, Apr 28, 2017@04:37:46PM +0300, Eugeniy Paltsev wrote:
+> > > In the current implementation dma_get_slave_caps is used to check
+> > > state of descriptor_reuse option. But dma_get_slave_caps includes
+> > > check if the channel supports slave transactions.
+> > > So DMA_CTRL_REUSE flag can be set (even for MEM-TO-MEM tranfers)
+> > > only if channel supports slave transactions.
+> > > 
+> > > Now we can use DMA_CTRL_REUSE flag for all channel types.
+> > > Also it allows to test reusing mechanism with simply mem-to-mem dma
+> > > test.
+> > 
+> > We do not want to allow that actually. Slave is always treated as a
+> > special
+> > case, so resue was allowed.
+> > 
+> > With memcpy the assumptions are different and clients can do reuse.
+> 
+> Could you please clarify why don't we want to allow use DMA_CTRL_REUSE
+> for mem-to-mem transfers?
+> 
+> Reusing of mem-to-mem (MEMCPY and DMA_SG) descriptors will work fine on
+> virt-dma based drivers.
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13027160/
+Precisely, the client does not know if you have a virt-dma or some other
+kind if implementation
 
-Commit:   Merge tag 'arc-4.12-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc
-          4a1e31c68e9f40be32838944931178b0d9ed9162
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+For them they see a channel and use it!
 
-No errors found in log
+> Anyway the current implementation behaviour is quite strange:
+> If channel supports *slave* transfers DMA_CTRL_REUSE can be set to
+> slave and *mem-to-mem* transfers.
+> 
+> And, of course, we can pass DMA_CTRL_REUSE flag to device_prep_dma_sg
+> or device_prep_dma_memcpy directly without checks.
 
-Possible warnings (16)
-----------------------
+Yeah thats bad, do send a patch to forbid that..
 
-kernel/sched/core.c:3326:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/kernel.h:757:16: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-block/cfq-iosched.c:3823:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/core/ethtool.c:314:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/sunrpc/svc_xprt.h:179:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/ipv4/tcp_input.c:4252:49: warning: array subscript is above array bounds [-Warray-bounds]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-drivers/scsi/sd.c:1251:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:430:1: warning: control reaches end of non-void function [-Wreturn-type]
+-- 
+~Vinod
