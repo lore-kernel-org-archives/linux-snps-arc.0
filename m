@@ -1,13 +1,13 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Thu, 18 May 2017 12:47:59 +0200
-Subject: [PATCH 4.9 17/80] usb: Make sure usb/phy/of gets built-in
-In-Reply-To: <20170518104833.667298773@linuxfoundation.org>
-References: <20170518104833.667298773@linuxfoundation.org>
+Date: Thu, 18 May 2017 12:48:32 +0200
+Subject: [PATCH 4.4 15/56] usb: Make sure usb/phy/of gets built-in
+In-Reply-To: <20170518104840.395932131@linuxfoundation.org>
+References: <20170518104840.395932131@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170518104834.501527195@linuxfoundation.org>
+Message-ID: <20170518104841.018919385@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
-4.9-stable review patch.  If anyone has any objections, please let me know.
+4.4-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -52,7 +52,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 
 --- a/drivers/Makefile
 +++ b/drivers/Makefile
-@@ -101,6 +101,7 @@ obj-$(CONFIG_USB_PHY)		+= usb/
+@@ -98,6 +98,7 @@ obj-$(CONFIG_USB_PHY)		+= usb/
  obj-$(CONFIG_USB)		+= usb/
  obj-$(CONFIG_PCI)		+= usb/
  obj-$(CONFIG_USB_GADGET)	+= usb/
