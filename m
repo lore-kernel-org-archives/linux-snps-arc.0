@@ -1,13 +1,13 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Thu, 18 May 2017 12:46:47 +0200
-Subject: [PATCH 4.10 18/93] usb: Make sure usb/phy/of gets built-in
-In-Reply-To: <20170518104743.163522815@linuxfoundation.org>
-References: <20170518104743.163522815@linuxfoundation.org>
+Date: Thu, 18 May 2017 12:47:59 +0200
+Subject: [PATCH 4.9 17/80] usb: Make sure usb/phy/of gets built-in
+In-Reply-To: <20170518104833.667298773@linuxfoundation.org>
+References: <20170518104833.667298773@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170518104743.879520336@linuxfoundation.org>
+Message-ID: <20170518104834.501527195@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
-4.10-stable review patch.  If anyone has any objections, please let me know.
+4.9-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
