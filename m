@@ -1,123 +1,62 @@
-From: mark.rutland@arm.com (Mark Rutland)
-Date: Wed, 17 May 2017 11:36:02 +0100
-Subject: [PATCH V10 1/3] irq: Allow to pass the IRQF_TIMER flag with
- percpu irq request
-In-Reply-To: <1494963880-16160-1-git-send-email-daniel.lezcano@linaro.org>
-References: <1494963880-16160-1-git-send-email-daniel.lezcano@linaro.org>
+From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
+Date: Thu, 18 May 2017 12:45:29 +0200
+Subject: [PATCH 4.11 019/114] usb: Make sure usb/phy/of gets built-in
+In-Reply-To: <20170518103604.736737251@linuxfoundation.org>
+References: <20170518103604.736737251@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170517103602.GD14654@leverpostej>
+Message-ID: <20170518103607.647079031@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, May 16, 2017@09:44:32PM +0200, Daniel Lezcano wrote:
-> In the next changes, we track when the interrupts occur in order to
-> statistically compute when is supposed to happen the next interrupt.
-> 
-> In all the interruptions, it does not make sense to store the timer interrupt
-> occurences and try to predict the next interrupt as when know the expiration
-> time.
-> 
-> The request_irq() has a irq flags parameter and the timer drivers use it to
-> pass the IRQF_TIMER flag, letting us know the interrupt is coming from a timer.
-> Based on this flag, we can discard these interrupts when tracking them.
-> 
-> But, the API request_percpu_irq does not allow to pass a flag, hence specifying
-> if the interrupt type is a timer.
-> 
-> Add a function request_percpu_irq_flags() where we can specify the flags. The
-> request_percpu_irq() function is changed to be a wrapper to
-> request_percpu_irq_flags() passing a zero flag parameter.
-> 
-> Change the timers using request_percpu_irq() to use request_percpu_irq_flags()
-> instead with the IRQF_TIMER flag set.
-> 
-> For now, in order to prevent a misusage of this parameter, only the IRQF_TIMER
-> flag (or zero) is a valid parameter to be passed to the
-> request_percpu_irq_flags() function.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
-> Cc: Mark Rutland <mark.rutland at arm.com>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: Marc Zyngier <marc.zyngier at arm.com>
-> Cc: Patrice Chotard <patrice.chotard at st.com>
-> Cc: Kukjin Kim <kgene at kernel.org>
-> Cc: Javier Martinez Canillas <javier at osg.samsung.com>
-> Cc: Christoffer Dall <christoffer.dall at linaro.org>
-> Cc: Paolo Bonzini <pbonzini at redhat.com>
-> Cc: Radim Kr?m?? <rkrcmar at redhat.com>
-> Acked-by: Krzysztof Kozlowski <krzk at kernel.org>
-> ---
-> Changelog:
-> 
->    V10:
-> 	- Drop the change for arch arm virtual timer
-> 	  https://lkml.org/lkml/2017/4/25/184
->    V9:
-> 	- Clarified the patch description
-> 	- Fixed EXPORT_SYMBOL_GPL(request_percpu_irq_flags)
-> ---
->  arch/arm/kernel/smp_twd.c                |  3 ++-
->  drivers/clocksource/arc_timer.c          |  4 ++--
->  drivers/clocksource/arm_arch_timer.c     | 20 ++++++++++++--------
->  drivers/clocksource/arm_global_timer.c   |  4 ++--
->  drivers/clocksource/exynos_mct.c         |  7 ++++---
->  drivers/clocksource/qcom-timer.c         |  4 ++--
->  drivers/clocksource/time-armada-370-xp.c |  9 +++++----
->  drivers/clocksource/timer-nps.c          |  6 +++---
->  include/linux/interrupt.h                | 11 ++++++++++-
->  kernel/irq/manage.c                      | 15 ++++++++++-----
->  10 files changed, 52 insertions(+), 31 deletions(-)
+4.11-stable review patch.  If anyone has any objections, please let me know.
 
-As an aside, perhaps it would make more sense to move the
-request_percpu_irq_flags() addition into a preparatory patch? That way
-it's clearly separated from the mechanical clocksource changes, and it's
-easy to see how it works.
+------------------
 
-Either way, for arm_arch_timer:
+From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
 
-Acked-by: Mark Rutland <mark.rutland at arm.com>
+commit 3d6159640da9c9175d1ca42f151fc1a14caded59 upstream.
 
-Thanks,
-Mark.
+DWC3 driver uses of_usb_get_phy_mode() which is
+implemented in drivers/usb/phy/of.c and in bare minimal
+configuration it might not be pulled in kernel binary.
 
-> diff --git a/drivers/clocksource/arm_arch_timer.c b/drivers/clocksource/arm_arch_timer.c
-> index 4bed671..22646b5 100644
-> --- a/drivers/clocksource/arm_arch_timer.c
-> +++ b/drivers/clocksource/arm_arch_timer.c
-> @@ -980,25 +980,29 @@ static int __init arch_timer_register(void)
->  	ppi = arch_timer_ppi[arch_timer_uses_ppi];
->  	switch (arch_timer_uses_ppi) {
->  	case ARCH_TIMER_VIRT_PPI:
-> -		err = request_percpu_irq(ppi, arch_timer_handler_virt,
-> -					 "arch_timer", arch_timer_evt);
-> +		err = request_percpu_irq_flags(ppi, arch_timer_handler_virt,
-> +					       IRQF_TIMER, "arch_timer",
-> +					       arch_timer_evt);
->  		break;
->  	case ARCH_TIMER_PHYS_SECURE_PPI:
->  	case ARCH_TIMER_PHYS_NONSECURE_PPI:
-> -		err = request_percpu_irq(ppi, arch_timer_handler_phys,
-> -					 "arch_timer", arch_timer_evt);
-> +		err = request_percpu_irq_flags(ppi, arch_timer_handler_phys,
-> +					       IRQF_TIMER, "arch_timer",
-> +					       arch_timer_evt);
->  		if (!err && arch_timer_has_nonsecure_ppi()) {
->  			ppi = arch_timer_ppi[ARCH_TIMER_PHYS_NONSECURE_PPI];
-> -			err = request_percpu_irq(ppi, arch_timer_handler_phys,
-> -						 "arch_timer", arch_timer_evt);
-> +			err = request_percpu_irq_flags(ppi, arch_timer_handler_phys,
-> +						       IRQF_TIMER, "arch_timer",
-> +						       arch_timer_evt);
->  			if (err)
->  				free_percpu_irq(arch_timer_ppi[ARCH_TIMER_PHYS_SECURE_PPI],
->  						arch_timer_evt);
->  		}
->  		break;
->  	case ARCH_TIMER_HYP_PPI:
-> -		err = request_percpu_irq(ppi, arch_timer_handler_phys,
-> -					 "arch_timer", arch_timer_evt);
-> +		err = request_percpu_irq_flags(ppi, arch_timer_handler_phys,
-> +					       IRQF_TIMER, "arch_timer",
-> +					       arch_timer_evt);
->  		break;
->  	default:
->  		BUG();
+In case of ARC or ARM this could be easily reproduced with
+"allnodefconfig" +CONFIG_USB=m +CONFIG_USB_DWC3=m.
+
+On building all ends-up with:
+---------------------->8------------------
+  Kernel: arch/arm/boot/Image is ready
+  Kernel: arch/arm/boot/zImage is ready
+  Building modules, stage 2.
+  MODPOST 5 modules
+ERROR: "of_usb_get_phy_mode" [drivers/usb/dwc3/dwc3.ko] undefined!
+make[1]: *** [__modpost] Error 1
+make: *** [modules] Error 2
+---------------------->8------------------
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
+Cc: Geert Uytterhoeven <geert+renesas at glider.be>
+Cc: Nicolas Pitre <nicolas.pitre at linaro.org>
+Cc: Thomas Gleixner <tglx at linutronix.de>
+Cc: Felipe Balbi <balbi at kernel.org>
+Cc: Felix Fietkau <nbd at nbd.name>
+Cc: Jeremy Kerr <jk at ozlabs.org>
+Cc: linux-snps-arc at lists.infradead.org
+Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+
+---
+ drivers/Makefile |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/drivers/Makefile
++++ b/drivers/Makefile
+@@ -104,6 +104,7 @@ obj-$(CONFIG_USB_PHY)		+= usb/
+ obj-$(CONFIG_USB)		+= usb/
+ obj-$(CONFIG_PCI)		+= usb/
+ obj-$(CONFIG_USB_GADGET)	+= usb/
++obj-$(CONFIG_OF)		+= usb/
+ obj-$(CONFIG_SERIO)		+= input/serio/
+ obj-$(CONFIG_GAMEPORT)		+= input/gameport/
+ obj-$(CONFIG_INPUT)		+= input/
