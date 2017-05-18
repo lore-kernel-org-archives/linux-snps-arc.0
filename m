@@ -1,62 +1,44 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Thu, 18 May 2017 12:48:32 +0200
-Subject: [PATCH 4.4 15/56] usb: Make sure usb/phy/of gets built-in
-In-Reply-To: <20170518104840.395932131@linuxfoundation.org>
-References: <20170518104840.395932131@linuxfoundation.org>
+From: will.deacon@arm.com (Will Deacon)
+Date: Thu, 18 May 2017 18:30:10 +0100
+Subject: [PATCH 1/1] futex: remove duplicated code
+In-Reply-To: <14580dfc-9721-38ab-a1e0-6b4aba13b406@suse.cz>
+References: <20170515130742.18357-1-jslaby@suse.cz>
+ <20170515131644.GA3605@arm.com>
+ <14580dfc-9721-38ab-a1e0-6b4aba13b406@suse.cz>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170518104841.018919385@linuxfoundation.org>
+Message-ID: <20170518173010.GK21359@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-4.4-stable review patch.  If anyone has any objections, please let me know.
+On Wed, May 17, 2017@10:01:29AM +0200, Jiri Slaby wrote:
+> On 05/15/2017, 03:16 PM, Will Deacon wrote:
+> > Whilst I think this is a good idea, the code in question actually results
+> > in undefined behaviour per the C spec and is reported by UBSAN.
+> 
+> Hi, yes, I know -- this patch was the 1st from the series of 3 which I
+> sent a long time ago to fix that up too. But I remember your patch, so I
+> sent only this one this time.
+> 
+> > See my
+> > patch fixing arm64 here (which I'd forgotten about):
+> > 
+> > https://www.spinics.net/lists/linux-arch/msg38564.html
+> > 
+> > But, as stated in the thread above, I think we should go a step further
+> > and remove FUTEX_OP_{OR,ANDN,XOR,OPARG_SHIFT} altogether. They don't
+> > appear to be used by userspace, and this whole thing is a total mess.
+> > 
+> > Any thoughts?
+> 
+> Ok, I am all for that. I think the only question is who is going to do
+> the work and submit it :)? Do I understand correctly to eliminate all
+> these functions and the path into the kernel? But won't this break API
+> -- are there really no users of this interface?
 
-------------------
+That's the million-dollar question, really. I don't know of any code using
+it, and I couldn't find any when I looked (also nothing reported by Debian
+Codesearch afaict), but I was hoping linux-arch might have some thoughts
+on this too.
 
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+For now, I'll queue my arm64 patch before I forget about it again!
 
-commit 3d6159640da9c9175d1ca42f151fc1a14caded59 upstream.
-
-DWC3 driver uses of_usb_get_phy_mode() which is
-implemented in drivers/usb/phy/of.c and in bare minimal
-configuration it might not be pulled in kernel binary.
-
-In case of ARC or ARM this could be easily reproduced with
-"allnodefconfig" +CONFIG_USB=m +CONFIG_USB_DWC3=m.
-
-On building all ends-up with:
----------------------->8------------------
-  Kernel: arch/arm/boot/Image is ready
-  Kernel: arch/arm/boot/zImage is ready
-  Building modules, stage 2.
-  MODPOST 5 modules
-ERROR: "of_usb_get_phy_mode" [drivers/usb/dwc3/dwc3.ko] undefined!
-make[1]: *** [__modpost] Error 1
-make: *** [modules] Error 2
----------------------->8------------------
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
-Cc: Geert Uytterhoeven <geert+renesas at glider.be>
-Cc: Nicolas Pitre <nicolas.pitre at linaro.org>
-Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: Felipe Balbi <balbi at kernel.org>
-Cc: Felix Fietkau <nbd at nbd.name>
-Cc: Jeremy Kerr <jk at ozlabs.org>
-Cc: linux-snps-arc at lists.infradead.org
-Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-
----
- drivers/Makefile |    1 +
- 1 file changed, 1 insertion(+)
-
---- a/drivers/Makefile
-+++ b/drivers/Makefile
-@@ -98,6 +98,7 @@ obj-$(CONFIG_USB_PHY)		+= usb/
- obj-$(CONFIG_USB)		+= usb/
- obj-$(CONFIG_PCI)		+= usb/
- obj-$(CONFIG_USB_GADGET)	+= usb/
-+obj-$(CONFIG_OF)		+= usb/
- obj-$(CONFIG_SERIO)		+= input/serio/
- obj-$(CONFIG_GAMEPORT)		+= input/gameport/
- obj-$(CONFIG_INPUT)		+= input/
+Will
