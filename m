@@ -1,43 +1,60 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Thu, 25 May 2017 05:34:18 +0300
-Subject: [PATCH 08/10] ARC: [plat-eznps] spinlock aware for MTM
+Date: Thu, 25 May 2017 05:34:19 +0300
+Subject: [PATCH 09/10] ARC: [plat-eznps] use schd.wft instruction instead of
+ sleep at idle task
 In-Reply-To: <1495679660-9598-1-git-send-email-noamca@mellanox.com>
 References: <1495679660-9598-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1495679660-9598-9-git-send-email-noamca@mellanox.com>
+Message-ID: <1495679660-9598-10-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamca@mellanox.com>
 
-This way when we execute "ex" during trying to hold lock we can switch to
-other HW thread and utilize the core intead of just spinning on a lock.
-
-We noticed about 10% improvement of execution time with hackbench test.
+When HW threads are active we want CPU to enter idle state only
+for the calling HW thread and not to put on sleep all HW threads
+sharing this core. For this need the NPS400 got dedicated instruction
+so only calling thread is entring sleep and all other are still awake
+and can execute instructions.
 
 Signed-off-by: Noam Camus <noamca at mellanox.com>
 ---
- arch/arc/include/asm/spinlock.h |    6 ++++++
- 1 files changed, 6 insertions(+), 0 deletions(-)
+ arch/arc/kernel/process.c               |    7 +++++++
+ arch/arc/plat-eznps/include/plat/ctop.h |    1 +
+ 2 files changed, 8 insertions(+), 0 deletions(-)
 
-diff --git a/arch/arc/include/asm/spinlock.h b/arch/arc/include/asm/spinlock.h
-index 233d5ff..0a54ce7 100644
---- a/arch/arc/include/asm/spinlock.h
-+++ b/arch/arc/include/asm/spinlock.h
-@@ -252,9 +252,15 @@ static inline void arch_spin_lock(arch_spinlock_t *lock)
- 
+diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
+index 2a018de..d3c39e4 100644
+--- a/arch/arc/kernel/process.c
++++ b/arch/arc/kernel/process.c
+@@ -82,10 +82,17 @@
+ void arch_cpu_idle(void)
+ {
+ 	/* sleep, but enable all interrupts before committing */
++#if !defined(CONFIG_EZNPS_MTM_EXT)
  	__asm__ __volatile__(
- 	"1:	ex  %0, [%1]		\n"
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+	"	.word %3		\n"
+ 		"sleep %0	\n"
+ 		:
+ 		:"I"(ISA_SLEEP_ARG)); /* can't be "r" has to be embedded const */
++#else
++	__asm__ __volatile__(
++		".word %0	\n"
++		:
++		:"i"(CTOP_INST_HWSCHD_WFT_IE12));
 +#endif
- 	"	breq  %0, %2, 1b	\n"
- 	: "+&r" (val)
- 	: "r"(&(lock->slock)), "ir"(__ARCH_SPIN_LOCK_LOCKED__)
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+	, "i"(CTOP_INST_SCHD_RW)
-+#endif
- 	: "memory");
+ }
  
- 	/*
+ asmlinkage void ret_from_fork(void);
+diff --git a/arch/arc/plat-eznps/include/plat/ctop.h b/arch/arc/plat-eznps/include/plat/ctop.h
+index ee2e32d..7729d3d 100644
+--- a/arch/arc/plat-eznps/include/plat/ctop.h
++++ b/arch/arc/plat-eznps/include/plat/ctop.h
+@@ -46,6 +46,7 @@
+ #define CTOP_AUX_UDMC				(CTOP_AUX_BASE + 0x300)
+ 
+ /* EZchip core instructions */
++#define CTOP_INST_HWSCHD_WFT_IE12		0x3E6F7344
+ #define CTOP_INST_HWSCHD_OFF_R4			0x3C6F00BF
+ #define CTOP_INST_HWSCHD_RESTORE_R4		0x3E6F7103
+ #define CTOP_INST_SCHD_RW			0x3E6F7004
 -- 
 1.7.1
