@@ -1,67 +1,90 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Thu, 25 May 2017 05:34:20 +0300
-Subject: [PATCH 10/10] ARC: [plat-eznps] Handle memory error as an exception
+Date: Thu, 25 May 2017 05:34:11 +0300
+Subject: [PATCH 01/10] ARC: set level of log per CPU during boot to be debug
+ level
 In-Reply-To: <1495679660-9598-1-git-send-email-noamca@mellanox.com>
 References: <1495679660-9598-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1495679660-9598-11-git-send-email-noamca@mellanox.com>
+Message-ID: <1495679660-9598-2-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamca@mellanox.com>
 
-This commit adds the configuration CONFIG_EZNPS_MEM_ERROR.
-If set, it will cause the kernel to handle user memory error
-as a machine check exception.
-It is required in order to align the NPS simulator memory
-error handling to the one of the NPS400 real chip behavior.
+The reasons are:
+1) speeding up boot time, becomes critical for many CPUs machine,
+   e.g. NPS400 with 4K CPUs
+2) shorten kernel log at boot time, again easy to scan for large
+   scale machines such NPS400
 
-Signed-off-by: Elad Kanfi <eladkan at mellanox.com>
 Signed-off-by: Noam Camus <noamca at mellanox.com>
 ---
- arch/arc/kernel/entry-compact.S |   11 +++++++++++
- arch/arc/plat-eznps/Kconfig     |   11 +++++++++++
- 2 files changed, 22 insertions(+), 0 deletions(-)
+ arch/arc/kernel/setup.c |    6 +++---
+ arch/arc/kernel/smp.c   |    4 ++--
+ arch/arc/mm/cache.c     |    2 +-
+ arch/arc/mm/tlb.c       |    2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arc/kernel/entry-compact.S b/arch/arc/kernel/entry-compact.S
-index f285dbb..d152d36 100644
---- a/arch/arc/kernel/entry-compact.S
-+++ b/arch/arc/kernel/entry-compact.S
-@@ -203,6 +203,17 @@ END(handle_interrupt_level2)
- ; ---------------------------------------------
- ENTRY(mem_service)
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index fc8211f..8494b31 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -385,13 +385,13 @@ void setup_processor(void)
+ 	read_arc_build_cfg_regs();
+ 	arc_init_IRQ();
  
-+#if defined(CONFIG_EZNPS_MEM_ERROR)
-+        ; SW workaround to cover up on a difference between
-+        ; NPS real chip and simulator behaviors.
-+        ; NPS real chip will activate a machine check exception
-+        ; in case of memory error, while the simulator will
-+        ; trigger a level 2 interrupt. Therefor this code section
-+        ; should be reached only in simulation mode.
-+        ; DEAD END: display Regs and HALT
-+
-+	j EV_MachineCheck
-+#endif
- 	INTERRUPT_PROLOGUE 2
+-	printk(arc_cpu_mumbojumbo(cpu_id, str, sizeof(str)));
++	pr_debug("%s", arc_cpu_mumbojumbo(cpu_id, str, sizeof(str)));
  
- 	mov r0, ilink2
-diff --git a/arch/arc/plat-eznps/Kconfig b/arch/arc/plat-eznps/Kconfig
-index feaa471..c5f946c 100644
---- a/arch/arc/plat-eznps/Kconfig
-+++ b/arch/arc/plat-eznps/Kconfig
-@@ -32,3 +32,14 @@ config EZNPS_MTM_EXT
- 	  any of them seem like CPU from Linux point of view.
- 	  All threads within same core share the execution unit of the
- 	  core and HW scheduler round robin between them.
-+
-+config EZNPS_MEM_ERROR
-+       bool "ARC-EZchip Memory error as an exception"
-+       depends on ARC_PLAT_EZNPS
-+       default n
-+       help
-+         On the real chip of the NPS, user memory errors are handled
-+         as a machine check exception, whereas on simulator platform
-+         for NPS, it handled as an interrupt level 2 (like legacy arc
-+         real chip architecture).This configuration will cause the kernel
-+         to handle memory error as a machine check exception.
+ 	arc_mmu_init();
+ 	arc_cache_init();
+ 
+-	printk(arc_extn_mumbojumbo(cpu_id, str, sizeof(str)));
+-	printk(arc_platform_smp_cpuinfo());
++	pr_debug("%s", arc_extn_mumbojumbo(cpu_id, str, sizeof(str)));
++	pr_debug("%s", arc_platform_smp_cpuinfo());
+ 
+ 	arc_chk_core_config();
+ }
+diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
+index f462671..d1aa917 100644
+--- a/arch/arc/kernel/smp.c
++++ b/arch/arc/kernel/smp.c
+@@ -177,8 +177,8 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
+ 
+ 	secondary_idle_tsk = idle;
+ 
+-	pr_info("Idle Task [%d] %p", cpu, idle);
+-	pr_info("Trying to bring up CPU%u ...\n", cpu);
++	pr_debug("Idle Task [%d] %p", cpu, idle);
++	pr_debug("Trying to bring up CPU%u ...\n", cpu);
+ 
+ 	if (plat_smp_ops.cpu_kick)
+ 		plat_smp_ops.cpu_kick(cpu,
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index a867575..7d3e79b 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -1188,7 +1188,7 @@ void __ref arc_cache_init(void)
+ 	unsigned int __maybe_unused cpu = smp_processor_id();
+ 	char str[256];
+ 
+-	printk(arc_cache_mumbojumbo(0, str, sizeof(str)));
++	pr_debug("%s", arc_cache_mumbojumbo(0, str, sizeof(str)));
+ 
+ 	/*
+ 	 * Only master CPU needs to execute rest of function:
+diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
+index d0126fd..c5e70d8 100644
+--- a/arch/arc/mm/tlb.c
++++ b/arch/arc/mm/tlb.c
+@@ -814,7 +814,7 @@ void arc_mmu_init(void)
+ 	char str[256];
+ 	struct cpuinfo_arc_mmu *mmu = &cpuinfo_arc700[smp_processor_id()].mmu;
+ 
+-	printk(arc_mmu_mumbojumbo(0, str, sizeof(str)));
++	pr_debug("%s", arc_mmu_mumbojumbo(0, str, sizeof(str)));
+ 
+ 	/*
+ 	 * Can't be done in processor.h due to header include depenedencies
 -- 
 1.7.1
