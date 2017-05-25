@@ -1,77 +1,49 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Thu, 25 May 2017 05:34:12 +0300
-Subject: [PATCH 02/10] ARC: send ipi to all cpus sharing task mm in case of
- page fault
+Date: Thu, 25 May 2017 05:34:16 +0300
+Subject: [PATCH 06/10] ARC: [plat-eznps] Fix TLB Errata
 In-Reply-To: <1495679660-9598-1-git-send-email-noamca@mellanox.com>
 References: <1495679660-9598-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1495679660-9598-3-git-send-email-noamca@mellanox.com>
+Message-ID: <1495679660-9598-7-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamca@mellanox.com>
 
-This patch is derived due to performance issue.
-The use case is a page fault that resides on more than the local cpu.
-Trying to broadcast all CPUs results on performance degradation.
-So we try to avoid this by sending only to the relevant CPUs.
+Due to a HW bug in NPS400 we get from time to time false TLB miss.
+Workaround this by validating each miss.
 
 Signed-off-by: Noam Camus <noamca at mellanox.com>
 ---
- arch/arc/include/asm/cacheflush.h |    3 ++-
- arch/arc/mm/cache.c               |   12 ++++++++++--
- arch/arc/mm/tlb.c                 |    2 +-
- 3 files changed, 13 insertions(+), 4 deletions(-)
+ arch/arc/mm/tlbex.S |   10 ++++++++++
+ 1 files changed, 10 insertions(+), 0 deletions(-)
 
-diff --git a/arch/arc/include/asm/cacheflush.h b/arch/arc/include/asm/cacheflush.h
-index fc662f4..716dba1 100644
---- a/arch/arc/include/asm/cacheflush.h
-+++ b/arch/arc/include/asm/cacheflush.h
-@@ -33,7 +33,8 @@
+diff --git a/arch/arc/mm/tlbex.S b/arch/arc/mm/tlbex.S
+index b30e4e3..1d48723 100644
+--- a/arch/arc/mm/tlbex.S
++++ b/arch/arc/mm/tlbex.S
+@@ -274,6 +274,13 @@ ex_saved_reg1:
+ .macro COMMIT_ENTRY_TO_MMU
+ #if (CONFIG_ARC_MMU_VER < 4)
  
- void flush_icache_range(unsigned long kstart, unsigned long kend);
- void __sync_icache_dcache(phys_addr_t paddr, unsigned long vaddr, int len);
--void __inv_icache_page(phys_addr_t paddr, unsigned long vaddr);
-+void __inv_icache_page(struct vm_area_struct *vma,
-+		       phys_addr_t paddr, unsigned long vaddr);
- void __flush_dcache_page(phys_addr_t paddr, unsigned long vaddr);
- 
- #define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 1
-diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index 7d3e79b..e1ea57f 100644
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -934,9 +934,17 @@ void __sync_icache_dcache(phys_addr_t paddr, unsigned long vaddr, int len)
- }
- 
- /* wrapper to compile time eliminate alignment checks in flush loop */
--void __inv_icache_page(phys_addr_t paddr, unsigned long vaddr)
-+void __inv_icache_page(struct vm_area_struct *vma,
-+		       phys_addr_t paddr, unsigned long vaddr)
- {
--	__ic_line_inv_vaddr(paddr, vaddr, PAGE_SIZE);
-+	struct ic_inv_args ic_inv = {
-+		.paddr	= paddr,
-+		.vaddr	= vaddr,
-+		.sz	= PAGE_SIZE
-+	};
++#ifdef CONFIG_EZNPS_MTM_EXT
++	/* verify if entry for this vaddr+ASID already exists */
++	sr    TLBProbe, [ARC_REG_TLBCOMMAND]
++	lr    r0, [ARC_REG_TLBINDEX]
++	bbit0 r0, 31, 88f
++#endif
 +
-+	on_each_cpu_mask(mm_cpumask(vma->vm_mm),
-+			 __ic_line_inv_vaddr_helper, &ic_inv, 1);
- }
+ 	/* Get free TLB slot: Set = computed from vaddr, way = random */
+ 	sr  TLBGetIndex, [ARC_REG_TLBCOMMAND]
  
- /*
-diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
-index c5e70d8..a095608 100644
---- a/arch/arc/mm/tlb.c
-+++ b/arch/arc/mm/tlb.c
-@@ -626,7 +626,7 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long vaddr_unaligned,
+@@ -287,6 +294,9 @@ ex_saved_reg1:
+ #else
+ 	sr TLBInsertEntry, [ARC_REG_TLBCOMMAND]
+ #endif
++#ifdef CONFIG_EZNPS_MTM_EXT
++88:
++#endif
+ .endm
  
- 			/* invalidate any existing icache lines (U-mapping) */
- 			if (vma->vm_flags & VM_EXEC)
--				__inv_icache_page(paddr, vaddr);
-+				__inv_icache_page(vma, paddr, vaddr);
- 		}
- 	}
- }
+ 
 -- 
 1.7.1
