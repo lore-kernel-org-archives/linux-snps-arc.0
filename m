@@ -1,49 +1,38 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Thu, 25 May 2017 05:34:16 +0300
-Subject: [PATCH 06/10] ARC: [plat-eznps] Fix TLB Errata
-In-Reply-To: <1495679660-9598-1-git-send-email-noamca@mellanox.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 25 May 2017 10:55:04 +0000
+Subject: [PATCH 01/10] ARC: set level of log per CPU during boot to be
+ debug level
+In-Reply-To: <1495679660-9598-2-git-send-email-noamca@mellanox.com>
 References: <1495679660-9598-1-git-send-email-noamca@mellanox.com>
+ <1495679660-9598-2-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1495679660-9598-7-git-send-email-noamca@mellanox.com>
+Message-ID: <1495709703.5393.20.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamca@mellanox.com>
+Hi Noam,
 
-Due to a HW bug in NPS400 we get from time to time false TLB miss.
-Workaround this by validating each miss.
+On Thu, 2017-05-25@05:34 +0300, Noam Camus wrote:
+> From: Noam Camus <noamca at mellanox.com>
+> 
+> The reasons are:
+> 1) speeding up boot time, becomes critical for many CPUs machine,
+> ???e.g. NPS400 with 4K CPUs
+> 2) shorten kernel log at boot time, again easy to scan for large
+> ???scale machines such NPS400
+> 
+> Signed-off-by: Noam Camus <noamca at mellanox.com>
 
-Signed-off-by: Noam Camus <noamca at mellanox.com>
----
- arch/arc/mm/tlbex.S |   10 ++++++++++
- 1 files changed, 10 insertions(+), 0 deletions(-)
+I do understand your concern on getting 4k instances of pretty much the same
+boiler plates for each core in NPS. But even in real life those headers
+provide quite important information on what is user's HW and SW configuration.
+That said for more generic use-cases especially when we have just a few cores
+I'd say those messages really make sense.
 
-diff --git a/arch/arc/mm/tlbex.S b/arch/arc/mm/tlbex.S
-index b30e4e3..1d48723 100644
---- a/arch/arc/mm/tlbex.S
-+++ b/arch/arc/mm/tlbex.S
-@@ -274,6 +274,13 @@ ex_saved_reg1:
- .macro COMMIT_ENTRY_TO_MMU
- #if (CONFIG_ARC_MMU_VER < 4)
- 
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+	/* verify if entry for this vaddr+ASID already exists */
-+	sr    TLBProbe, [ARC_REG_TLBCOMMAND]
-+	lr    r0, [ARC_REG_TLBINDEX]
-+	bbit0 r0, 31, 88f
-+#endif
-+
- 	/* Get free TLB slot: Set = computed from vaddr, way = random */
- 	sr  TLBGetIndex, [ARC_REG_TLBCOMMAND]
- 
-@@ -287,6 +294,9 @@ ex_saved_reg1:
- #else
- 	sr TLBInsertEntry, [ARC_REG_TLBCOMMAND]
- #endif
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+88:
-+#endif
- .endm
- 
- 
--- 
-1.7.1
+What we may also do for example add "ccflags += -DDEBUG" in arch/arc/Makefile
+so all pr_debug() instances again start to print messages in console. But do it say
+only if !EzChip's platform is selected. So it keeps everything as it is for non-EzChip
+cases and makes you guys happy as you no longer see those 4096 headers.
+
+Let's see what Vineet says.
+
+-Alexey
