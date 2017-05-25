@@ -1,54 +1,60 @@
-From: will.deacon@arm.com (Will Deacon)
-Date: Thu, 25 May 2017 15:28:30 +0100
-Subject: [PATCH 1/1] futex: remove duplicated code
-In-Reply-To: <alpine.DEB.2.20.1705222259580.2407@nanos>
-References: <20170515130742.18357-1-jslaby@suse.cz>
- <20170515131644.GA3605@arm.com>
- <alpine.DEB.2.20.1705222259580.2407@nanos>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 25 May 2017 20:24:05 +0300
+Subject: [PATCH] arc: Remove sometimes misleading toolchain check
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170525142829.GO2859@arm.com>
+Message-ID: <1495733045-18736-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, May 22, 2017@11:11:33PM +0200, Thomas Gleixner wrote:
-> On Mon, 15 May 2017, Will Deacon wrote:
-> > On Mon, May 15, 2017@03:07:42PM +0200, Jiri Slaby wrote:
-> > > There is code duplicated over all architecture's headers for
-> > > futex_atomic_op_inuser. Namely op decoding, access_ok check for uaddr,
-> > > and comparison of the result.
-> > > 
-> > > Remove this duplication and leave up to the arches only the needed
-> > > assembly which is now in arch_futex_atomic_op_inuser.
-> > > 
-> > > Note that s390 removed access_ok check in d12a29703 ("s390/uaccess:
-> > > remove pointless access_ok() checks") as access_ok there returns true.
-> > > We introduce it back to the helper for the sake of simplicity (it gets
-> > > optimized away anyway).
-> > 
-> > Whilst I think this is a good idea, the code in question actually results
-> > in undefined behaviour per the C spec and is reported by UBSAN. See my
-> > patch fixing arm64 here (which I'd forgotten about):
-> > 
-> > https://www.spinics.net/lists/linux-arch/msg38564.html
-> > 
-> > But, as stated in the thread above, I think we should go a step further
-> > and remove FUTEX_OP_{OR,ANDN,XOR,OPARG_SHIFT} altogether. They don't
-> > appear to be used by userspace, and this whole thing is a total mess.
-> 
-> You wish. The constants are not used, but FUTEX_WAKE_OP _IS_ used by
-> glibc. They only have one argument it seems:
-> 
->    #define FUTEX_OP_CLEAR_WAKE_IF_GT_ONE      ((4 << 24) | 1)
-> 
-> but I'm pretty sure that there is enough (probably horrible) code (think
-> java) out there using FUTEX_WAKE_OP for whatever (non)sensical reasons in
-> any available combination.
+Thinking of a toolchains for ARCompact and ARCv2 ISAs we implicitly
+think about libgcc.a build for one of those ISAs which we're linking
+with. And given there's no multiarch uClibc toolchain for ARC
+(as probably for any other architecture) the assumption is the only way
+to get libgcc.a for desired ISA is from a toolchain built right for that
+same ISA.
 
-Indeed, and I'm not proposing to get rid of that. It's the grossly
-over-engineered array of operations and the FUTEX_OP_OPARG_SHIFT modifier
-that I think we should kill. The latter likely behaves differently across
-different architectures and potentially depending on the toolchain you used
-to build the kernel.
+So what we do we check what's GCC's default architecture ARC700 or not.
+But generally speaking default arch makes not a lot of sense if explicit
+command line option exist like "-mcpu=archs". In other words exactly the
+same GCC might build executables for both ARC700 and ARC HS38.
 
-Does anybody know the history behind the interface design?
+But in real life libgcc could be easily built on a separate step
+independently of the compiler and friends. And that really happens.
 
-Will
+For example OpenEmbedded prefers to reuse the same toolchain for both
+arches having libgcc built separately.
+
+Anyways given we have plans to get rid of libgcc dependency that change
+is sort of future proof.
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/Makefile | 14 --------------
+ 1 file changed, 14 deletions(-)
+
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index 44ef35d33956..d8c99fefaebb 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -22,20 +22,6 @@ cflags-y	+= -fno-common -pipe -fno-builtin -D__linux__
+ cflags-$(CONFIG_ISA_ARCOMPACT)	+= -mA7
+ cflags-$(CONFIG_ISA_ARCV2)	+= -mcpu=archs
+ 
+-is_700 = $(shell $(CC) -dM -E - < /dev/null | grep -q "ARC700" && echo 1 || echo 0)
+-
+-ifdef CONFIG_ISA_ARCOMPACT
+-ifeq ($(is_700), 0)
+-    $(error Toolchain not configured for ARCompact builds)
+-endif
+-endif
+-
+-ifdef CONFIG_ISA_ARCV2
+-ifeq ($(is_700), 1)
+-    $(error Toolchain not configured for ARCv2 builds)
+-endif
+-endif
+-
+ ifdef CONFIG_ARC_CURR_IN_REG
+ # For a global register defintion, make sure it gets passed to every file
+ # We had a customer reported bug where some code built in kernel was NOT using
+-- 
+2.7.4
