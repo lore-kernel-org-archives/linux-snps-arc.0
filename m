@@ -1,90 +1,33 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Sun, 28 May 2017 09:51:58 +0300
-Subject: [PATCH v2 01/11] ARC: set level of log per CPU during boot to be
- debug level
+Date: Sun, 28 May 2017 09:52:00 +0300
+Subject: [PATCH v2 03/11] ARC: typo fix in mm/fault.c
 In-Reply-To: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
 References: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1495954328-28736-2-git-send-email-noamca@mellanox.com>
+Message-ID: <1495954328-28736-4-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamca@mellanox.com>
+From: Liav Rehana <liavr@mellanox.com>
 
-The reasons are:
-1) speeding up boot time, becomes critical for many CPUs machine,
-   e.g. NPS400 with 4K CPUs
-2) shorten kernel log at boot time, again easy to scan for large
-   scale machines such NPS400
-
+Signed-off-by: Liav Rehana <liavr at mellanox.com>
 Signed-off-by: Noam Camus <noamca at mellanox.com>
+Reviewed-by: Alexey Brodkin <abrodkin at synopsys.com>
 ---
- arch/arc/kernel/setup.c |    6 +++---
- arch/arc/kernel/smp.c   |    4 ++--
- arch/arc/mm/cache.c     |    2 +-
- arch/arc/mm/tlb.c       |    2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ arch/arc/mm/fault.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index fc8211f..8494b31 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -385,13 +385,13 @@ void setup_processor(void)
- 	read_arc_build_cfg_regs();
- 	arc_init_IRQ();
- 
--	printk(arc_cpu_mumbojumbo(cpu_id, str, sizeof(str)));
-+	pr_debug("%s", arc_cpu_mumbojumbo(cpu_id, str, sizeof(str)));
- 
- 	arc_mmu_init();
- 	arc_cache_init();
- 
--	printk(arc_extn_mumbojumbo(cpu_id, str, sizeof(str)));
--	printk(arc_platform_smp_cpuinfo());
-+	pr_debug("%s", arc_extn_mumbojumbo(cpu_id, str, sizeof(str)));
-+	pr_debug("%s", arc_platform_smp_cpuinfo());
- 
- 	arc_chk_core_config();
- }
-diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-index f462671..d1aa917 100644
---- a/arch/arc/kernel/smp.c
-+++ b/arch/arc/kernel/smp.c
-@@ -177,8 +177,8 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
- 
- 	secondary_idle_tsk = idle;
- 
--	pr_info("Idle Task [%d] %p", cpu, idle);
--	pr_info("Trying to bring up CPU%u ...\n", cpu);
-+	pr_debug("Idle Task [%d] %p", cpu, idle);
-+	pr_debug("Trying to bring up CPU%u ...\n", cpu);
- 
- 	if (plat_smp_ops.cpu_kick)
- 		plat_smp_ops.cpu_kick(cpu,
-diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index a867575..7d3e79b 100644
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -1188,7 +1188,7 @@ void __ref arc_cache_init(void)
- 	unsigned int __maybe_unused cpu = smp_processor_id();
- 	char str[256];
- 
--	printk(arc_cache_mumbojumbo(0, str, sizeof(str)));
-+	pr_debug("%s", arc_cache_mumbojumbo(0, str, sizeof(str)));
- 
- 	/*
- 	 * Only master CPU needs to execute rest of function:
-diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
-index d0126fd..c5e70d8 100644
---- a/arch/arc/mm/tlb.c
-+++ b/arch/arc/mm/tlb.c
-@@ -814,7 +814,7 @@ void arc_mmu_init(void)
- 	char str[256];
- 	struct cpuinfo_arc_mmu *mmu = &cpuinfo_arc700[smp_processor_id()].mmu;
- 
--	printk(arc_mmu_mumbojumbo(0, str, sizeof(str)));
-+	pr_debug("%s", arc_mmu_mumbojumbo(0, str, sizeof(str)));
- 
- 	/*
- 	 * Can't be done in processor.h due to header include depenedencies
+diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
+index 162c975..a0b7bd6 100644
+--- a/arch/arc/mm/fault.c
++++ b/arch/arc/mm/fault.c
+@@ -207,7 +207,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 	/* Are we prepared to handle this kernel fault?
+ 	 *
+ 	 * (The kernel has valid exception-points in the source
+-	 *  when it acesses user-memory. When it fails in one
++	 *  when it accesses user-memory. When it fails in one
+ 	 *  of those points, we find it in a table and do a jump
+ 	 *  to some fixup code that loads an appropriate error
+ 	 *  code)
 -- 
 1.7.1
