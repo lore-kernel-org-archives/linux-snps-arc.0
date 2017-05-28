@@ -1,59 +1,78 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Sun, 28 May 2017 09:51:57 +0300
-Subject: [PATCH v2 00/11] ARC plat-eznps upstream cont.
+Date: Sun, 28 May 2017 09:51:59 +0300
+Subject: [PATCH v2 02/11] ARC: send ipi to all cpus sharing task mm in case of
+ page fault
+In-Reply-To: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
+References: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
+Message-ID: <1495954328-28736-3-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Noam Camus <noamca@mellanox.com>
 
-Change Log
------------
-v1 --> v2:
-Outcome of Alexey Brodkin comments
-1) Turned mem_service into weak symbol, so it can be override
-by any platform
-2) remove ifedf wrapper on '88' lable at assembly of TLB exception.
+This patch is derived due to performance issue.
+The use case is a page fault that resides on more than the local cpu.
+Trying to broadcast all CPUs results on performance degradation.
+So we try to avoid this by sending only to the relevant CPUs.
 
+Signed-off-by: Noam Camus <noamca at mellanox.com>
+Reviewed-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/include/asm/cacheflush.h |    3 ++-
+ arch/arc/mm/cache.c               |   12 ++++++++++--
+ arch/arc/mm/tlb.c                 |    2 +-
+ 3 files changed, 13 insertions(+), 4 deletions(-)
 
-With this patch set I continue the effort of upstreaming the
-eznps platform for arch/arc.
-
-it combine of patches for typos and other for HW erratas and some
-for performance.
-All selected as ones that may be obvious for merge with arc next.
-
-This was based on for-curr branch as the mos updated one I found
-at this point of time. 
-
-Liav Rehana (2):
-  ARC: typo fix in mm/fault.c
-  ARC: typos fix in kernel/entry-compact.S
-
-Noam Camus (9):
-  ARC: set level of log per CPU during boot to be debug level
-  ARC: send ipi to all cpus sharing task mm in case of page fault
-  ARC: [plat-eznps] typo fix at Kconfig
-  ARC: [plat-eznps] Fix TLB Errata
-  ARC: [plat-eznps] disabled stall counter due to a HW bug
-  ARC: [plat-eznps] spinlock aware for MTM
-  ARC: [plat-eznps] use schd.wft instruction instead of sleep at idle
-    task
-  ARC: enable platform specific mem_service implementation
-  ARC: [plat-eznps] Handle memory error as an exception
-
- arch/arc/include/asm/cacheflush.h       |    3 ++-
- arch/arc/include/asm/spinlock.h         |    6 ++++++
- arch/arc/kernel/entry-compact.S         |   25 +++++++++++++------------
- arch/arc/kernel/process.c               |    7 +++++++
- arch/arc/kernel/setup.c                 |    6 +++---
- arch/arc/kernel/smp.c                   |    4 ++--
- arch/arc/mm/cache.c                     |   14 +++++++++++---
- arch/arc/mm/fault.c                     |    2 +-
- arch/arc/mm/tlb.c                       |    4 ++--
- arch/arc/mm/tlbex.S                     |    9 +++++++++
- arch/arc/plat-eznps/Kconfig             |   15 +++++++++++++--
- arch/arc/plat-eznps/entry.S             |   14 ++++++++++++++
- arch/arc/plat-eznps/include/plat/ctop.h |    1 +
- arch/arc/plat-eznps/mtm.c               |    2 --
- 14 files changed, 84 insertions(+), 28 deletions(-)
+diff --git a/arch/arc/include/asm/cacheflush.h b/arch/arc/include/asm/cacheflush.h
+index fc662f4..716dba1 100644
+--- a/arch/arc/include/asm/cacheflush.h
++++ b/arch/arc/include/asm/cacheflush.h
+@@ -33,7 +33,8 @@
+ 
+ void flush_icache_range(unsigned long kstart, unsigned long kend);
+ void __sync_icache_dcache(phys_addr_t paddr, unsigned long vaddr, int len);
+-void __inv_icache_page(phys_addr_t paddr, unsigned long vaddr);
++void __inv_icache_page(struct vm_area_struct *vma,
++		       phys_addr_t paddr, unsigned long vaddr);
+ void __flush_dcache_page(phys_addr_t paddr, unsigned long vaddr);
+ 
+ #define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 1
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index 7d3e79b..e1ea57f 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -934,9 +934,17 @@ void __sync_icache_dcache(phys_addr_t paddr, unsigned long vaddr, int len)
+ }
+ 
+ /* wrapper to compile time eliminate alignment checks in flush loop */
+-void __inv_icache_page(phys_addr_t paddr, unsigned long vaddr)
++void __inv_icache_page(struct vm_area_struct *vma,
++		       phys_addr_t paddr, unsigned long vaddr)
+ {
+-	__ic_line_inv_vaddr(paddr, vaddr, PAGE_SIZE);
++	struct ic_inv_args ic_inv = {
++		.paddr	= paddr,
++		.vaddr	= vaddr,
++		.sz	= PAGE_SIZE
++	};
++
++	on_each_cpu_mask(mm_cpumask(vma->vm_mm),
++			 __ic_line_inv_vaddr_helper, &ic_inv, 1);
+ }
+ 
+ /*
+diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
+index c5e70d8..a095608 100644
+--- a/arch/arc/mm/tlb.c
++++ b/arch/arc/mm/tlb.c
+@@ -626,7 +626,7 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long vaddr_unaligned,
+ 
+ 			/* invalidate any existing icache lines (U-mapping) */
+ 			if (vma->vm_flags & VM_EXEC)
+-				__inv_icache_page(paddr, vaddr);
++				__inv_icache_page(vma, paddr, vaddr);
+ 		}
+ 	}
+ }
+-- 
+1.7.1
