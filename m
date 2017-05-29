@@ -1,32 +1,51 @@
 From: heiko@sntech.de (Heiko =?ISO-8859-1?Q?St=FCbner?=)
-Date: Mon, 29 May 2017 09:37:03 +0200
-Subject: [PATCH 3/7] clocksource: Rename clocksource_probe
-In-Reply-To: <1495879129-28109-3-git-send-email-daniel.lezcano@linaro.org>
+Date: Mon, 29 May 2017 09:39:09 +0200
+Subject: [PATCH 2/7] clocksource: Rename CLOCKSOURCE_OF_DECLARE
+In-Reply-To: <1495879129-28109-2-git-send-email-daniel.lezcano@linaro.org>
 References: <1495879129-28109-1-git-send-email-daniel.lezcano@linaro.org>
- <1495879129-28109-3-git-send-email-daniel.lezcano@linaro.org>
+ <1495879129-28109-2-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1764361.KSI3GRbcNJ@diego>
+Message-ID: <1710049.UcE0hxO5ny@diego>
 To: linux-snps-arc@lists.infradead.org
 
-Am Samstag, 27. Mai 2017, 11:58:44 CEST schrieb Daniel Lezcano:
-> The function name is now renamed to 'timer_probe' for consistency with
-> the CLOCKSOURCE_OF_DECLARE => TIMER_OF_DECLARE change.
+Am Samstag, 27. Mai 2017, 11:58:43 CEST schrieb Daniel Lezcano:
+> The CLOCKSOUCE_OF_DECLARE macro is used widely for the timers to declare the
+> clocksource at early stage. However, this macro is also used to initialize
+> the clockevent if any, or the clockevent only.
+> 
+> It was originally suggested to declare another macro to initialize a
+> clockevent, so in order to separate the two entities even they belong to the
+> same IP. This was not accepted because of the impact on the DT where
+> splitting a clocksource/clockevent definition does not make sense as it is
+> a Linux concept not a hardware description.
+> 
+> On the other side, the clocksource has not interrupt declared while the
+> clockevent has, so it is easy from the driver to know if the description is
+> for a clockevent or a clocksource, IOW it could be implemented at the driver
+> level.
+> 
+> So instead of dealing with a named clocksource macro, let's use a more
+> generic one: TIMER_OF_DECLARE.
+> 
+> The patch has not functional changes.
 > 
 > Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
 > ---
 [...]
-> diff --git a/arch/arm/mach-rockchip/rockchip.c
-> b/arch/arm/mach-rockchip/rockchip.c index ef0500a..5ab834e 100644
-> --- a/arch/arm/mach-rockchip/rockchip.c
-> +++ b/arch/arm/mach-rockchip/rockchip.c
-> @@ -55,7 +55,7 @@ static void __init rockchip_timer_init(void)
->  	}
-> 
->  	of_clk_init(NULL);
-> -	clocksource_probe();
-> +	timer_probe();
+> diff --git a/drivers/clocksource/rockchip_timer.c
+> b/drivers/clocksource/rockchip_timer.c index 49c02be..c27f4c8 100644
+> --- a/drivers/clocksource/rockchip_timer.c
+> +++ b/drivers/clocksource/rockchip_timer.c
+> @@ -303,5 +303,5 @@ static int __init rk_timer_init(struct device_node *np)
+>  	return -EINVAL;
 >  }
 > 
->  static void __init rockchip_dt_init(void)
+> -CLOCKSOURCE_OF_DECLARE(rk3288_timer, "rockchip,rk3288-timer",
+> rk_timer_init); -CLOCKSOURCE_OF_DECLARE(rk3399_timer,
+> "rockchip,rk3399-timer", rk_timer_init); +TIMER_OF_DECLARE(rk3288_timer,
+> "rockchip,rk3288-timer", rk_timer_init); +TIMER_OF_DECLARE(rk3399_timer,
+> "rockchip,rk3399-timer", rk_timer_init); diff --git
+> a/drivers/clocksource/samsung_pwm_timer.c
+> b/drivers/clocksource/samsung_pwm_timer.c index a68e653..21cd72c 100644
 
 Acked-by: Heiko Stuebner <heiko at sntech.de>
