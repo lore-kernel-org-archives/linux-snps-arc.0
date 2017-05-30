@@ -1,52 +1,43 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 29 May 2017 15:15:15 +0000
-Subject: [PATCH v2 07/11] ARC: [plat-eznps] disabled stall counter due
- to a HW bug
-In-Reply-To: <1495954328-28736-8-git-send-email-noamca@mellanox.com>
-References: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
- <1495954328-28736-8-git-send-email-noamca@mellanox.com>
+Date: Tue, 30 May 2017 16:22:55 +0300
+Subject: [PATCH] arc: Add "include chroot" for DT bindings
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1496070914.7990.19.camel@synopsys.com>
+Message-ID: <1496150575-9273-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Noam,
+Basically this extends
+c58299aa8754 "kbuild: create an "include chroot" for DT bindings" for
+ARC where we extensively use Device Tree and there're good reasons
+to use DT bindings, especially if those are required.
 
-On Sun, 2017-05-28@09:52 +0300, Noam Camus wrote:
-> From: Noam Camus <noamca at mellanox.com>
-> 
-> This counter represents threshold for consecutive stall that which
-> trigger HW threads scheduling.
-> When this feature is enabled low values of this counter cause
-> downgrade in performance and in the worst case even a livelock.
-> 
-> Remove those couple of lines and resort to HW reset value i.e.
-> this feature is disabled (.sten field equals 0).
+Otherwise on attempt to compile .dts with something like:
+-------------------->8---------------------
+ #include <dt-bindings/net/ti-dp83867.h>
+-------------------->8---------------------
 
-Looks like you made a change I was asking for here.
-But there's no mention of the change so it's easy to not note
-that change. Not critical but please add a changelog next time?
-even if it's only a comment message that was modified since
-the previous revision.
+we inevitably see this compilation failure:
+-------------------->8---------------------
+arch/arc/boot/dts/hsdk.dts:16:40: fatal error: dt-bindings/net/ti-dp83867.h: No such file or directory
+ #include <dt-bindings/net/ti-dp83867.h>
+                                        ^
+compilation terminated.
+-------------------->8---------------------
 
-Otherwise...
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Stephen Warren <swarren at wwwdotorg.org>
+Cc: Rob Herring <robh+dt at kernel.org>
+---
+ arch/arc/boot/dts/include/dt-bindings | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 120000 arch/arc/boot/dts/include/dt-bindings
 
-Reviewed-by: Alexey Brodkin <abrodkin at synopsys.com>
-
-> Signed-off-by: Noam Camus <noamca at mellanox.com>
-> ---
-> ?arch/arc/plat-eznps/mtm.c |????2 --
-> ?1 files changed, 0 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arc/plat-eznps/mtm.c b/arch/arc/plat-eznps/mtm.c
-> index aaaaffd..e0cb36b 100644
-> --- a/arch/arc/plat-eznps/mtm.c
-> +++ b/arch/arc/plat-eznps/mtm.c
-> @@ -119,8 +119,6 @@ void mtm_enable_core(unsigned int cpu)
-> ?	mt_ctrl.value = 0;
-> ?	mt_ctrl.hsen = 1;
-> ?	mt_ctrl.hs_cnt = MT_CTRL_HS_CNT;
-> -	mt_ctrl.sten = 1;
-> -	mt_ctrl.st_cnt = MT_CTRL_ST_CNT;
-> ?	mt_ctrl.mten = 1;
-> ?	write_aux_reg(CTOP_AUX_MT_CTRL, mt_ctrl.value);
-> ?
+diff --git a/arch/arc/boot/dts/include/dt-bindings b/arch/arc/boot/dts/include/dt-bindings
+new file mode 120000
+index 000000000000..08c00e4972fa
+--- /dev/null
++++ b/arch/arc/boot/dts/include/dt-bindings
+@@ -0,0 +1 @@
++../../../../../include/dt-bindings
+\ No newline at end of file
+-- 
+2.7.4
