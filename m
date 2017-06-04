@@ -1,68 +1,45 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Sun, 4 Jun 2017 06:10:08 +0000
-Subject: [PATCH v2 11/11] ARC: [plat-eznps] Handle memory error as an
- exception
-In-Reply-To: <529402c7-e75e-8640-fbc1-37d8efd92dd9@synopsys.com>
+Date: Sun, 4 Jun 2017 06:11:37 +0000
+Subject: [PATCH v2 08/11] ARC: [plat-eznps] spinlock aware for MTM
+In-Reply-To: <180d8e76-fa00-b138-0d5f-720b116228b8@synopsys.com>
 References: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
- <1495954328-28736-12-git-send-email-noamca@mellanox.com>
- <529402c7-e75e-8640-fbc1-37d8efd92dd9@synopsys.com>
+ <1495954328-28736-9-git-send-email-noamca@mellanox.com>
+ <180d8e76-fa00-b138-0d5f-720b116228b8@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <HE1PR05MB16256147FA9004024943E5FAAAF50@HE1PR05MB1625.eurprd05.prod.outlook.com>
+Message-ID: <HE1PR05MB16252DA2A280446544BB6392AAF50@HE1PR05MB1625.eurprd05.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
 > From: Vineet Gupta [mailto:Vineet.Gupta1 at synopsys.com] 
-> Sent: Friday, June 2, 2017 22:04 PM
-
->> diff --git a/arch/arc/plat-eznps/Kconfig b/arch/arc/plat-eznps/Kconfig 
->> index feaa471..c5f946c 100644
->> --- a/arch/arc/plat-eznps/Kconfig
->> +++ b/arch/arc/plat-eznps/Kconfig
->> @@ -32,3 +32,14 @@ config EZNPS_MTM_EXT
->>   	  any of them seem like CPU from Linux point of view.
->>   	  All threads within same core share the execution unit of the
->>   	  core and HW scheduler round robin between them.
->> +
->> +config EZNPS_MEM_ERROR
->> +       bool "ARC-EZchip Memory error as an exception"
->> +       depends on ARC_PLAT_EZNPS
->> +       default n
->> +       help
->> +         On the real chip of the NPS, user memory errors are handled
->> +         as a machine check exception, whereas on simulator platform
->> +         for NPS, it handled as an interrupt level 2 (like legacy arc
->> +         real chip architecture).This configuration will cause the kernel
->> +         to handle memory error as a machine check exception.
-
->Do you really need a Kconfig option here. AFAIKR you guys had some magic in platform code to determine whether running on sim or hw - can that be not used ?
-We do not have this anymore, needed to create dedicated one here.
-
+> Sent: Friday, June 2, 2017 21:36 PM
 ...
 
->> diff --git a/arch/arc/plat-eznps/entry.S b/arch/arc/plat-eznps/entry.S 
->> index 328261c..03e2892 100644
->> --- a/arch/arc/plat-eznps/entry.S
->> +++ b/arch/arc/plat-eznps/entry.S
->> @@ -68,3 +68,17 @@ ENTRY(res_service)
+>>   arch/arc/include/asm/spinlock.h |    6 ++++++
+>>   1 files changed, 6 insertions(+), 0 deletions(-)
+>> 
+>> diff --git a/arch/arc/include/asm/spinlock.h 
+>> b/arch/arc/include/asm/spinlock.h index 233d5ff..0a54ce7 100644
+>> --- a/arch/arc/include/asm/spinlock.h
+>> +++ b/arch/arc/include/asm/spinlock.h
+>> @@ -252,9 +252,15 @@ static inline void arch_spin_lock(arch_spinlock_t 
+>> *lock)
 >>   
->>   	j	stext
->>   END(res_service)
->> +
->> +#if defined(CONFIG_EZNPS_MEM_ERROR)
->> +ENTRY(mem_service)
->> +	; SW workaround to cover up on a difference between
->> +	; NPS real chip and simulator behaviors.
->> +	; NPS real chip will activate a machine check exception
->> +	; in case of memory error, while the simulator will
->> +	; trigger a level 2 interrupt. Therefor this code section
->> +	; should be reached only in simulation mode.
->> +	; DEAD END: display Regs and HALT
->> +
->> +	j EV_MachineCheck
->> +END(mem_service)
+>>   	__asm__ __volatile__(
+>>   	"1:	ex  %0, [%1]		\n"
+>> +#ifdef CONFIG_EZNPS_MTM_EXT
+>> +	"	.word %3		\n"
 >> +#endif
+>>   	"	breq  %0, %2, 1b	\n"
+>>   	: "+&r" (val)
+>>   	: "r"(&(lock->slock)), "ir"(__ARCH_SPIN_LOCK_LOCKED__)
+>> +#ifdef CONFIG_EZNPS_MTM_EXT
+>> +	, "i"(CTOP_INST_SCHD_RW)
+>> +#endif
+>>   	: "memory");
+>>   
+>>   	/*
+>> 
 
-
->Just squash the weak symbol patch in here - not worth a separate patch !
-Ok , no problem.
+>This is ugly - I will fix it up here to create an NPS version of arch_spin_lock !
+TNX
 
 -Noam
