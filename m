@@ -1,45 +1,218 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Sun, 4 Jun 2017 06:11:37 +0000
-Subject: [PATCH v2 08/11] ARC: [plat-eznps] spinlock aware for MTM
-In-Reply-To: <180d8e76-fa00-b138-0d5f-720b116228b8@synopsys.com>
-References: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
- <1495954328-28736-9-git-send-email-noamca@mellanox.com>
- <180d8e76-fa00-b138-0d5f-720b116228b8@synopsys.com>
+From: ynorov@caviumnetworks.com (Yury Norov)
+Date: Sun,  4 Jun 2017 14:59:52 +0300
+Subject: [PATCH 03/20] asm-generic: Drop getrlimit and setrlimit syscalls from
+ default list
+In-Reply-To: <20170604120009.342-1-ynorov@caviumnetworks.com>
+References: <20170604120009.342-1-ynorov@caviumnetworks.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <HE1PR05MB16252DA2A280446544BB6392AAF50@HE1PR05MB1625.eurprd05.prod.outlook.com>
+Message-ID: <20170604120009.342-4-ynorov@caviumnetworks.com>
 To: linux-snps-arc@lists.infradead.org
 
-> From: Vineet Gupta [mailto:Vineet.Gupta1 at synopsys.com] 
-> Sent: Friday, June 2, 2017 21:36 PM
-...
+The newer prlimit64 syscall provides all the functionality provided by
+the getrlimit and setrlimit syscalls and adds the pid of target process,
+so future architectures won't need to include getrlimit and setrlimit.
 
->>   arch/arc/include/asm/spinlock.h |    6 ++++++
->>   1 files changed, 6 insertions(+), 0 deletions(-)
->> 
->> diff --git a/arch/arc/include/asm/spinlock.h 
->> b/arch/arc/include/asm/spinlock.h index 233d5ff..0a54ce7 100644
->> --- a/arch/arc/include/asm/spinlock.h
->> +++ b/arch/arc/include/asm/spinlock.h
->> @@ -252,9 +252,15 @@ static inline void arch_spin_lock(arch_spinlock_t 
->> *lock)
->>   
->>   	__asm__ __volatile__(
->>   	"1:	ex  %0, [%1]		\n"
->> +#ifdef CONFIG_EZNPS_MTM_EXT
->> +	"	.word %3		\n"
->> +#endif
->>   	"	breq  %0, %2, 1b	\n"
->>   	: "+&r" (val)
->>   	: "r"(&(lock->slock)), "ir"(__ARCH_SPIN_LOCK_LOCKED__)
->> +#ifdef CONFIG_EZNPS_MTM_EXT
->> +	, "i"(CTOP_INST_SCHD_RW)
->> +#endif
->>   	: "memory");
->>   
->>   	/*
->> 
+Therefore drop getrlimit and setrlimit syscalls from the generic syscall
+list unless __ARCH_WANT_SET_GET_RLIMIT is defined by the architecture's
+unistd.h prior to including asm-generic/unistd.h, and adjust all architectures
+using the generic syscall list to define it so that no in-tree architectures
+are affected.
 
->This is ugly - I will fix it up here to create an NPS version of arch_spin_lock !
-TNX
+Cc: Arnd Bergmann <arnd at arndb.de>
+Cc: James Hogan <james.hogan at imgtec.com>
+Cc: linux-arch at vger.kernel.org
+Cc: linux-snps-arc at lists.infradead.org
+Cc: Catalin Marinas <catalin.marinas at arm.com>
+Cc: Will Deacon <will.deacon at arm.com>
+Cc: linux-arm-kernel at lists.infradead.org
+Cc: Mark Salter <msalter at redhat.com>
+Cc: Aurelien Jacquiot <a-jacquiot at ti.com>
+Cc: linux-c6x-dev at linux-c6x.org
+Cc: Richard Kuo <rkuo at codeaurora.org>
+Cc: linux-hexagon at vger.kernel.org
+Cc: linux-metag at vger.kernel.org
+Cc: Jonas Bonn <jonas at southpole.se>
+Cc: linux at lists.openrisc.net
+Cc: Chen Liqin <liqin.linux at gmail.com>
+Cc: Lennox Wu <lennox.wu at gmail.com>
+Cc: Chris Metcalf <cmetcalf at mellanox.com>
+Cc: Guan Xuetao <gxt at mprc.pku.edu.cn>
+Cc: Ley Foon Tan <lftan at altera.com>
+Cc: nios2-dev at lists.rocketboards.org
+Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
+Cc: uclinux-h8-devel at lists.sourceforge.jp
+Signed-off-by: Yury Norov <ynorov at caviumnetworks.com>
+Acked-by: Arnd Bergmann <arnd at arndb.de>
+Acked-by: Mark Salter <msalter at redhat.com> [c6x]
+Acked-by: James Hogan <james.hogan at imgtec.com> [metag]
+Acked-by: Ley Foon Tan <lftan at altera.com> [nios2]
+Acked-by: Stafford Horne <shorne at gmail.com> [openrisc]
+Acked-by: Will Deacon <will.deacon at arm.com> [arm64]
+Acked-by: Vineet Gupta <vgupta at synopsys.com> #arch/arc bits
+---
+ arch/arc/include/uapi/asm/unistd.h       | 1 +
+ arch/arm64/include/uapi/asm/unistd.h     | 1 +
+ arch/c6x/include/uapi/asm/unistd.h       | 1 +
+ arch/h8300/include/uapi/asm/unistd.h     | 1 +
+ arch/hexagon/include/uapi/asm/unistd.h   | 1 +
+ arch/metag/include/uapi/asm/unistd.h     | 1 +
+ arch/nios2/include/uapi/asm/unistd.h     | 1 +
+ arch/openrisc/include/uapi/asm/unistd.h  | 1 +
+ arch/score/include/uapi/asm/unistd.h     | 1 +
+ arch/tile/include/uapi/asm/unistd.h      | 1 +
+ arch/unicore32/include/uapi/asm/unistd.h | 1 +
+ include/uapi/asm-generic/unistd.h        | 5 +++++
+ 12 files changed, 16 insertions(+)
 
--Noam
+diff --git a/arch/arc/include/uapi/asm/unistd.h b/arch/arc/include/uapi/asm/unistd.h
+index 9a34136d84b2..ac6496527ad6 100644
+--- a/arch/arc/include/uapi/asm/unistd.h
++++ b/arch/arc/include/uapi/asm/unistd.h
+@@ -16,6 +16,7 @@
+ #define _UAPI_ASM_ARC_UNISTD_H
+ 
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ #define __ARCH_WANT_SYS_EXECVE
+ #define __ARCH_WANT_SYS_CLONE
+ #define __ARCH_WANT_SYS_VFORK
+diff --git a/arch/arm64/include/uapi/asm/unistd.h b/arch/arm64/include/uapi/asm/unistd.h
+index 043d17a21342..48355a683e25 100644
+--- a/arch/arm64/include/uapi/asm/unistd.h
++++ b/arch/arm64/include/uapi/asm/unistd.h
+@@ -15,5 +15,6 @@
+  */
+ 
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ 
+ #include <asm-generic/unistd.h>
+diff --git a/arch/c6x/include/uapi/asm/unistd.h b/arch/c6x/include/uapi/asm/unistd.h
+index 12d73d9d81f5..f67623137853 100644
+--- a/arch/c6x/include/uapi/asm/unistd.h
++++ b/arch/c6x/include/uapi/asm/unistd.h
+@@ -15,6 +15,7 @@
+  */
+ 
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ #define __ARCH_WANT_SYS_CLONE
+ 
+ /* Use the standard ABI for syscalls. */
+diff --git a/arch/h8300/include/uapi/asm/unistd.h b/arch/h8300/include/uapi/asm/unistd.h
+index 7dd20ef7625a..2f98394b77d4 100644
+--- a/arch/h8300/include/uapi/asm/unistd.h
++++ b/arch/h8300/include/uapi/asm/unistd.h
+@@ -1,5 +1,6 @@
+ #define __ARCH_NOMMU
+ 
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ 
+ #include <asm-generic/unistd.h>
+diff --git a/arch/hexagon/include/uapi/asm/unistd.h b/arch/hexagon/include/uapi/asm/unistd.h
+index 21517600432b..52d585c5cdb2 100644
+--- a/arch/hexagon/include/uapi/asm/unistd.h
++++ b/arch/hexagon/include/uapi/asm/unistd.h
+@@ -28,6 +28,7 @@
+ 
+ #define sys_mmap2 sys_mmap_pgoff
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ #define __ARCH_WANT_SYS_EXECVE
+ #define __ARCH_WANT_SYS_CLONE
+ #define __ARCH_WANT_SYS_VFORK
+diff --git a/arch/metag/include/uapi/asm/unistd.h b/arch/metag/include/uapi/asm/unistd.h
+index 459b6ec15848..16b5cb32ec21 100644
+--- a/arch/metag/include/uapi/asm/unistd.h
++++ b/arch/metag/include/uapi/asm/unistd.h
+@@ -8,6 +8,7 @@
+  */
+ 
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ 
+ /* Use the standard ABI for syscalls. */
+ #include <asm-generic/unistd.h>
+diff --git a/arch/nios2/include/uapi/asm/unistd.h b/arch/nios2/include/uapi/asm/unistd.h
+index 51a32c71ce2b..b0dda4de2bc7 100644
+--- a/arch/nios2/include/uapi/asm/unistd.h
++++ b/arch/nios2/include/uapi/asm/unistd.h
+@@ -18,6 +18,7 @@
+  #define sys_mmap2 sys_mmap_pgoff
+ 
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ 
+ /* Use the standard ABI for syscalls */
+ #include <asm-generic/unistd.h>
+diff --git a/arch/openrisc/include/uapi/asm/unistd.h b/arch/openrisc/include/uapi/asm/unistd.h
+index 471905bd7745..6812d81b3c6c 100644
+--- a/arch/openrisc/include/uapi/asm/unistd.h
++++ b/arch/openrisc/include/uapi/asm/unistd.h
+@@ -21,6 +21,7 @@
+ #define sys_mmap2 sys_mmap_pgoff
+ 
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ #define __ARCH_WANT_SYS_FORK
+ #define __ARCH_WANT_SYS_CLONE
+ 
+diff --git a/arch/score/include/uapi/asm/unistd.h b/arch/score/include/uapi/asm/unistd.h
+index d4008c339e89..7ad1bdcb8615 100644
+--- a/arch/score/include/uapi/asm/unistd.h
++++ b/arch/score/include/uapi/asm/unistd.h
+@@ -1,6 +1,7 @@
+ #define __ARCH_HAVE_MMU
+ 
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ #define __ARCH_WANT_SYSCALL_NO_AT
+ #define __ARCH_WANT_SYSCALL_NO_FLAGS
+ #define __ARCH_WANT_SYSCALL_OFF_T
+diff --git a/arch/tile/include/uapi/asm/unistd.h b/arch/tile/include/uapi/asm/unistd.h
+index 24e9187e85a8..cf0505fe4b9c 100644
+--- a/arch/tile/include/uapi/asm/unistd.h
++++ b/arch/tile/include/uapi/asm/unistd.h
+@@ -13,6 +13,7 @@
+  */
+ 
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ #if !defined(__LP64__) || defined(__SYSCALL_COMPAT)
+ /* Use the flavor of this syscall that matches the 32-bit API better. */
+ #define __ARCH_WANT_SYNC_FILE_RANGE2
+diff --git a/arch/unicore32/include/uapi/asm/unistd.h b/arch/unicore32/include/uapi/asm/unistd.h
+index 9cf71c7bedb1..76ece524ab70 100644
+--- a/arch/unicore32/include/uapi/asm/unistd.h
++++ b/arch/unicore32/include/uapi/asm/unistd.h
+@@ -11,6 +11,7 @@
+  */
+ 
+ #define __ARCH_WANT_RENAMEAT
++#define __ARCH_WANT_SET_GET_RLIMIT
+ 
+ #ifndef CONFIG_UNICORE32_OLDABI
+ 
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 429dd335def6..ef90d53ac9b6 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -464,10 +464,15 @@ __SYSCALL(__NR_uname, sys_newuname)
+ __SYSCALL(__NR_sethostname, sys_sethostname)
+ #define __NR_setdomainname 162
+ __SYSCALL(__NR_setdomainname, sys_setdomainname)
++
++#ifdef __ARCH_WANT_SET_GET_RLIMIT
++/* getrlimit and setrlimit are superseded with prlimit64 */
+ #define __NR_getrlimit 163
+ __SC_COMP(__NR_getrlimit, sys_getrlimit, compat_sys_getrlimit)
+ #define __NR_setrlimit 164
+ __SC_COMP(__NR_setrlimit, sys_setrlimit, compat_sys_setrlimit)
++#endif
++
+ #define __NR_getrusage 165
+ __SC_COMP(__NR_getrusage, sys_getrusage, compat_sys_getrusage)
+ #define __NR_umask 166
+-- 
+2.11.0
