@@ -1,53 +1,74 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 6 Jun 2017 14:57:56 -0700
-Subject: [PATCH 10/10] ARC: [plat-eznps] Handle memory error as an
+Date: Tue, 6 Jun 2017 15:10:39 -0700
+Subject: [PATCH v2 11/11] ARC: [plat-eznps] Handle memory error as an
  exception
-In-Reply-To: <1495711858.5393.37.camel@synopsys.com>
-References: <1495679660-9598-1-git-send-email-noamca@mellanox.com>
- <1495679660-9598-11-git-send-email-noamca@mellanox.com>
- <1495710896.5393.32.camel@synopsys.com>
- <DB5PR05MB1638C447032283FC639A30E8AAFF0@DB5PR05MB1638.eurprd05.prod.outlook.com>
- <1495711858.5393.37.camel@synopsys.com>
+In-Reply-To: <1495954328-28736-12-git-send-email-noamca@mellanox.com>
+References: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
+ <1495954328-28736-12-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <9f077709-d6e0-dad8-4555-14ecfa9fbbbc@synopsys.com>
+Message-ID: <ef2527da-03a3-d60e-f5dd-e5b5932d43d0@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 05/25/2017 04:30 AM, Alexey Brodkin wrote:
-> Hi Noam,
+On 05/27/2017 11:52 PM, Noam Camus wrote:
+> From: Noam Camus <noamca at mellanox.com>
 > 
-> On Thu, 2017-05-25@11:26 +0000, Noam Camus wrote:
->>> From: Alexey Brodkin [mailto:Alexey.Brodkin at synopsys.com]
->>> Sent: Thursday, May 25, 2017 14:15 PM
->>>>
->>>> diff --git a/arch/arc/kernel/entry-compact.S
->>>> b/arch/arc/kernel/entry-compact.S index f285dbb..d152d36 100644
->>>> --- a/arch/arc/kernel/entry-compact.S
->>>> +++ b/arch/arc/kernel/entry-compact.S
->>>> @@ -203,6 +203,17 @@ END(handle_interrupt_level2)
->>>>   ; ---------------------------------------------
->>>>   ENTRY(mem_service)
->>>>   
->>>> +#if defined(CONFIG_EZNPS_MEM_ERROR)
->>>> +        ; SW workaround to cover up on a difference between
->>>> +        ; NPS real chip and simulator behaviors.
->>>> +        ; NPS real chip will activate a machine check exception
->>>> +        ; in case of memory error, while the simulator will
->>>> +        ; trigger a level 2 interrupt. Therefor this code section
->>>> +        ; should be reached only in simulation mode.
->>>> +        ; DEAD END: display Regs and HALT
->>> I'm not really buying that.
->>> Why don't you just make simulator behaving exactly as your real chip?
->> I can't change simulator core behavior. nSIM is a Synopsys proprietary code.
-> Well probably it worth discussing with nSIM team if they may have any suggestions
-> on how to align nSIM behavior with your real HW?
+> This commit adds the configuration CONFIG_EZNPS_MEM_ERROR.
+> If set, it will cause the kernel to handle user memory error
+> as a machine check exception.
+> It is required in order to align the NPS simulator memory
+> error handling to the one of the NPS400 real chip behavior.
+> We override weak symbole of mem_service to achieve that.
+> 
+> Signed-off-by: Elad Kanfi <eladkan at mellanox.com>
+> Signed-off-by: Noam Camus <noamca at mellanox.com>
+> ---
+>   arch/arc/plat-eznps/Kconfig |   11 +++++++++++
+>   arch/arc/plat-eznps/entry.S |   14 ++++++++++++++
+>   2 files changed, 25 insertions(+), 0 deletions(-)
+> 
+> diff --git a/arch/arc/plat-eznps/Kconfig b/arch/arc/plat-eznps/Kconfig
+> index feaa471..c5f946c 100644
+> --- a/arch/arc/plat-eznps/Kconfig
+> +++ b/arch/arc/plat-eznps/Kconfig
+> @@ -32,3 +32,14 @@ config EZNPS_MTM_EXT
+>   	  any of them seem like CPU from Linux point of view.
+>   	  All threads within same core share the execution unit of the
+>   	  core and HW scheduler round robin between them.
+> +
+> +config EZNPS_MEM_ERROR
+> +       bool "ARC-EZchip Memory error as an exception"
+> +       depends on ARC_PLAT_EZNPS
+> +       default n
 
-For the record we can't change nSIM since the NPS behavioral is not aligned with 
-stock ARC700.
+So you set default to "n" - thus by default it works for the simulator not silicon ?
 
-stock ARC700 triggers an L2 interrupt for user space bus errors - weird but that 
-is what it is and what kernel currently supports (as verified by IPPK folks when 
-doing DDR controller testing from user space).
 
-NPS triggers does machine check which is not correct hence this workaround !
-
--Vineet
+> +       help
+> +         On the real chip of the NPS, user memory errors are handled
+> +         as a machine check exception, whereas on simulator platform
+> +         for NPS, it handled as an interrupt level 2 (like legacy arc
+> +         real chip architecture).This configuration will cause the kernel
+> +         to handle memory error as a machine check exception.
+> diff --git a/arch/arc/plat-eznps/entry.S b/arch/arc/plat-eznps/entry.S
+> index 328261c..03e2892 100644
+> --- a/arch/arc/plat-eznps/entry.S
+> +++ b/arch/arc/plat-eznps/entry.S
+> @@ -68,3 +68,17 @@ ENTRY(res_service)
+>   
+>   	j	stext
+>   END(res_service)
+> +
+> +#if defined(CONFIG_EZNPS_MEM_ERROR)
+> +ENTRY(mem_service)
+> +	; SW workaround to cover up on a difference between
+> +	; NPS real chip and simulator behaviors.
+> +	; NPS real chip will activate a machine check exception
+> +	; in case of memory error, while the simulator will
+> +	; trigger a level 2 interrupt. Therefor this code section
+> +	; should be reached only in simulation mode.
+> +	; DEAD END: display Regs and HALT
+> +
+> +	j EV_MachineCheck
+> +END(mem_service)
+> +#endif
+> 
