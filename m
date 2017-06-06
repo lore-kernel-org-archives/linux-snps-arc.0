@@ -1,74 +1,43 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 6 Jun 2017 15:10:39 -0700
-Subject: [PATCH v2 11/11] ARC: [plat-eznps] Handle memory error as an
- exception
-In-Reply-To: <1495954328-28736-12-git-send-email-noamca@mellanox.com>
-References: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
- <1495954328-28736-12-git-send-email-noamca@mellanox.com>
+Date: Tue, 6 Jun 2017 15:15:10 -0700
+Subject: [PATCH v4] hsdk: initial port for HSDK board
+In-Reply-To: <1496692249-11699-1-git-send-email-abrodkin@synopsys.com>
+References: <1496692249-11699-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <ef2527da-03a3-d60e-f5dd-e5b5932d43d0@synopsys.com>
+Message-ID: <c416d6e1-f4ae-e698-d96c-33390f062661@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 05/27/2017 11:52 PM, Noam Camus wrote:
-> From: Noam Camus <noamca at mellanox.com>
+On 06/05/2017 12:50 PM, Alexey Brodkin wrote:
+> This initial port adds support of ARC HS Development Kit board with some
+> basic features such serial port, USB, SD/MMC and Ethernet.
 > 
-> This commit adds the configuration CONFIG_EZNPS_MEM_ERROR.
-> If set, it will cause the kernel to handle user memory error
-> as a machine check exception.
-> It is required in order to align the NPS simulator memory
-> error handling to the one of the NPS400 real chip behavior.
-> We override weak symbole of mem_service to achieve that.
+> Essentially we run Linux kernel on all 4 cores (i.e. utilize SMP) and
+> heavily use IO Coherency for speeding-up DMA-aware peripherals.
 > 
-> Signed-off-by: Elad Kanfi <eladkan at mellanox.com>
-> Signed-off-by: Noam Camus <noamca at mellanox.com>
+> Note as opposed to other ARC boards we link Linux kernel to
+> 0x9000_0000 intentionally because cores 1 and 3 configured with DCCM
+> situated at our more usual link base 0x8000_0000.
+> 
+> Signed-off-by: Eugeniy Paltsev <paltsev at synopsys.com>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Rob Herring <robh+dt at kernel.org>
 > ---
->   arch/arc/plat-eznps/Kconfig |   11 +++++++++++
->   arch/arc/plat-eznps/entry.S |   14 ++++++++++++++
->   2 files changed, 25 insertions(+), 0 deletions(-)
 > 
-> diff --git a/arch/arc/plat-eznps/Kconfig b/arch/arc/plat-eznps/Kconfig
-> index feaa471..c5f946c 100644
-> --- a/arch/arc/plat-eznps/Kconfig
-> +++ b/arch/arc/plat-eznps/Kconfig
-> @@ -32,3 +32,14 @@ config EZNPS_MTM_EXT
->   	  any of them seem like CPU from Linux point of view.
->   	  All threads within same core share the execution unit of the
->   	  core and HW scheduler round robin between them.
-> +
-> +config EZNPS_MEM_ERROR
-> +       bool "ARC-EZchip Memory error as an exception"
-> +       depends on ARC_PLAT_EZNPS
-> +       default n
+> Changes v3 -> v4:
+>   * Removed senseless "ranges" property from "memory" node in .dts
+>   * Refined early-boot code:
+>      - CREG_PAE should be set only once thus master does that in init_early()
+>      - ICCM relocation should be done on each and every core that sports ICCM
+>        so we leave it in init_per_cpu(). Even though init_per_cpu() gets called
+>        on the master core pretty late still it is way much earlier than that
+>        moment when it might affect us - as it only huts us when addresses in
+>        0x7z-0x7fff_ffff range are used, i.e. virtual addresses that we don't
+>        use during init. This also makes code much cleaner compared to
+>        additional check in case of master etc.
 
-So you set default to "n" - thus by default it works for the simulator not silicon ?
+So you are assuming that vmalloc machinery would not have kicked in by then i.e. 
+by the time of irq_init() i.e. - perhaps that is true. Lets go with what you have 
+now....
 
-
-> +       help
-> +         On the real chip of the NPS, user memory errors are handled
-> +         as a machine check exception, whereas on simulator platform
-> +         for NPS, it handled as an interrupt level 2 (like legacy arc
-> +         real chip architecture).This configuration will cause the kernel
-> +         to handle memory error as a machine check exception.
-> diff --git a/arch/arc/plat-eznps/entry.S b/arch/arc/plat-eznps/entry.S
-> index 328261c..03e2892 100644
-> --- a/arch/arc/plat-eznps/entry.S
-> +++ b/arch/arc/plat-eznps/entry.S
-> @@ -68,3 +68,17 @@ ENTRY(res_service)
->   
->   	j	stext
->   END(res_service)
-> +
-> +#if defined(CONFIG_EZNPS_MEM_ERROR)
-> +ENTRY(mem_service)
-> +	; SW workaround to cover up on a difference between
-> +	; NPS real chip and simulator behaviors.
-> +	; NPS real chip will activate a machine check exception
-> +	; in case of memory error, while the simulator will
-> +	; trigger a level 2 interrupt. Therefor this code section
-> +	; should be reached only in simulation mode.
-> +	; DEAD END: display Regs and HALT
-> +
-> +	j EV_MachineCheck
-> +END(mem_service)
-> +#endif
-> 
+-Vineet
