@@ -1,37 +1,72 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 7 Jun 2017 09:15:49 -0700
-Subject: [PATCH v2 11/11] ARC: [plat-eznps] Handle memory error as an
- exception
-In-Reply-To: <AM5PR0502MB299687067469E99F1A7A509EAAC80@AM5PR0502MB2996.eurprd05.prod.outlook.com>
-References: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
- <1495954328-28736-12-git-send-email-noamca@mellanox.com>
- <ef2527da-03a3-d60e-f5dd-e5b5932d43d0@synopsys.com>
- <AM5PR0502MB299687067469E99F1A7A509EAAC80@AM5PR0502MB2996.eurprd05.prod.outlook.com>
+Date: Wed, 7 Jun 2017 09:33:51 -0700
+Subject: [PATCH] arc: Remove sometimes misleading toolchain check
+In-Reply-To: <1495733045-18736-1-git-send-email-abrodkin@synopsys.com>
+References: <1495733045-18736-1-git-send-email-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <ef177e34-e2ac-2e05-c136-e5b213687911@synopsys.com>
+Message-ID: <09e88740-9aa5-0526-abc3-9374fc9af5e9@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 06/07/2017 04:14 AM, Noam Camus wrote:
->>>> +config EZNPS_MEM_ERROR
->>>> +       bool "ARC-EZchip Memory error as an exception"
->>>> +       depends on ARC_PLAT_EZNPS
->>>> +       default n
->>> So you set default to "n" - thus by default it works for the simulator not silicon ?
->> Correct, this way I "align" Sim environment to react as close as possible to how it work with silicon.
-> Sorry, but It is not correct.
-> Default is for silicon where it is naturally emits machine check and unlike simulator do not need OS to redirect the ISR L2 to machine check handler.
-> Above motivation of "align" is true, but default is silicon and not sim, as I wrote in my original configuration help.
-> Please re-update this CONFIG help section.
+On 05/25/2017 10:24 AM, Alexey Brodkin wrote:
+> Thinking of a toolchains for ARCompact and ARCv2 ISAs we implicitly
+> think about libgcc.a build for one of those ISAs which we're linking
+> with. And given there's no multiarch uClibc toolchain for ARC
+> (as probably for any other architecture) the assumption is the only way
+> to get libgcc.a for desired ISA is from a toolchain built right for that
+> same ISA.
+> 
+> So what we do we check what's GCC's default architecture ARC700 or not.
+> But generally speaking default arch makes not a lot of sense if explicit
+> command line option exist like "-mcpu=archs". In other words exactly the
+> same GCC might build executables for both ARC700 and ARC HS38.
+> 
+> But in real life libgcc could be easily built on a separate step
+> independently of the compiler and friends. And that really happens.
+> 
+> For example OpenEmbedded prefers to reuse the same toolchain for both
+> arches having libgcc built separately.
 
+So this is a goodness of OE. But unfortunately those of living with simpler build 
+systems: Synopsys toolchain scripts or even Buildroot don't have this - right ?
 
+So how will it help other developers avoid errors in the work flow when doing 
+kernel builds for ARCompact and ARCv2.
 
-So NPS *hardware* generates exception, jumps to vector mem_service(), which you 
-redirect to the machine check handler - which simply panics.
-But this redirection is under EZNPS_MEM_ERROR, which you have defaulted to "n". So 
-how is the default working for hardware ? Doesn't it need to be "y"
+The right solution is to kill off the libgcc dependency altogether form kernel. 
+Just import math emulation code that we think is needed and build it in kernel !
 
-BTW it seems your patch is wrong otherwise too. So the userspace bus error will go 
-to machine check handler which currently just panic's. You really want to kill the 
-user space process and continue, thus need to call do_memory_error()
-
--Vineet
+> 
+> Anyways given we have plans to get rid of libgcc dependency that change
+> is sort of future proof.
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> ---
+>   arch/arc/Makefile | 14 --------------
+>   1 file changed, 14 deletions(-)
+> 
+> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+> index 44ef35d33956..d8c99fefaebb 100644
+> --- a/arch/arc/Makefile
+> +++ b/arch/arc/Makefile
+> @@ -22,20 +22,6 @@ cflags-y	+= -fno-common -pipe -fno-builtin -D__linux__
+>   cflags-$(CONFIG_ISA_ARCOMPACT)	+= -mA7
+>   cflags-$(CONFIG_ISA_ARCV2)	+= -mcpu=archs
+>   
+> -is_700 = $(shell $(CC) -dM -E - < /dev/null | grep -q "ARC700" && echo 1 || echo 0)
+> -
+> -ifdef CONFIG_ISA_ARCOMPACT
+> -ifeq ($(is_700), 0)
+> -    $(error Toolchain not configured for ARCompact builds)
+> -endif
+> -endif
+> -
+> -ifdef CONFIG_ISA_ARCV2
+> -ifeq ($(is_700), 1)
+> -    $(error Toolchain not configured for ARCv2 builds)
+> -endif
+> -endif
+> -
+>   ifdef CONFIG_ARC_CURR_IN_REG
+>   # For a global register defintion, make sure it gets passed to every file
+>   # We had a customer reported bug where some code built in kernel was NOT using
+> 
