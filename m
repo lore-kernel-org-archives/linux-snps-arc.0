@@ -1,45 +1,82 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 7 Jun 2017 16:35:50 +0000
-Subject: [PATCH] arc: Remove sometimes misleading toolchain check
-In-Reply-To: <09e88740-9aa5-0526-abc3-9374fc9af5e9@synopsys.com>
-References: <1495733045-18736-1-git-send-email-abrodkin@synopsys.com>
- <09e88740-9aa5-0526-abc3-9374fc9af5e9@synopsys.com>
+From: ynorov@caviumnetworks.com (Yury Norov)
+Date: Wed, 7 Jun 2017 21:48:09 +0300
+Subject: [PATCH 03/20] asm-generic: Drop getrlimit and setrlimit syscalls
+ from default list
+In-Reply-To: <20170605144406.GT6973@jhogan-linux.le.imgtec.org>
+References: <20170604120009.342-1-ynorov@caviumnetworks.com>
+ <20170604120009.342-4-ynorov@caviumnetworks.com>
+ <20170605144406.GT6973@jhogan-linux.le.imgtec.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1496853349.18628.35.camel@synopsys.com>
+Message-ID: <20170607184809.e4hmsvewkrmigmww@yury-thinkpad>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
-
-On Wed, 2017-06-07@09:33 -0700, Vineet Gupta wrote:
-> On 05/25/2017 10:24 AM, Alexey Brodkin wrote:
-> > 
-> > Thinking of a toolchains for ARCompact and ARCv2 ISAs we implicitly
-> > think about libgcc.a build for one of those ISAs which we're linking
-> > with. And given there's no multiarch uClibc toolchain for ARC
-> > (as probably for any other architecture) the assumption is the only way
-> > to get libgcc.a for desired ISA is from a toolchain built right for that
-> > same ISA.
-> > 
-> > So what we do we check what's GCC's default architecture ARC700 or not.
-> > But generally speaking default arch makes not a lot of sense if explicit
-> > command line option exist like "-mcpu=archs". In other words exactly the
-> > same GCC might build executables for both ARC700 and ARC HS38.
-> > 
-> > But in real life libgcc could be easily built on a separate step
-> > independently of the compiler and friends. And that really happens.
-> > 
-> > For example OpenEmbedded prefers to reuse the same toolchain for both
-> > arches having libgcc built separately.
+On Mon, Jun 05, 2017@03:44:06PM +0100, James Hogan wrote:
+> Hi Yury,
 > 
-> So this is a goodness of OE. But unfortunately those of living with simpler build?
-> systems: Synopsys toolchain scripts or even Buildroot don't have this - right ?
+> On Sun, Jun 04, 2017@02:59:52PM +0300, Yury Norov wrote:
+> > The newer prlimit64 syscall provides all the functionality provided by
+> > the getrlimit and setrlimit syscalls and adds the pid of target process,
+> > so future architectures won't need to include getrlimit and setrlimit.
+> > 
+> > Therefore drop getrlimit and setrlimit syscalls from the generic syscall
+> > list unless __ARCH_WANT_SET_GET_RLIMIT is defined by the architecture's
+> > unistd.h prior to including asm-generic/unistd.h, and adjust all architectures
+> > using the generic syscall list to define it so that no in-tree architectures
+> > are affected.
+> > 
+> > Cc: Arnd Bergmann <arnd at arndb.de>
+> > Cc: James Hogan <james.hogan at imgtec.com>
+> > Cc: linux-arch at vger.kernel.org
+> > Cc: linux-snps-arc at lists.infradead.org
+> > Cc: Catalin Marinas <catalin.marinas at arm.com>
+> > Cc: Will Deacon <will.deacon at arm.com>
+> > Cc: linux-arm-kernel at lists.infradead.org
+> > Cc: Mark Salter <msalter at redhat.com>
+> > Cc: Aurelien Jacquiot <a-jacquiot at ti.com>
+> > Cc: linux-c6x-dev at linux-c6x.org
+> > Cc: Richard Kuo <rkuo at codeaurora.org>
+> > Cc: linux-hexagon at vger.kernel.org
+> > Cc: linux-metag at vger.kernel.org
+> > Cc: Jonas Bonn <jonas at southpole.se>
+> > Cc: linux at lists.openrisc.net
+> > Cc: Chen Liqin <liqin.linux at gmail.com>
+> > Cc: Lennox Wu <lennox.wu at gmail.com>
+> > Cc: Chris Metcalf <cmetcalf at mellanox.com>
+> > Cc: Guan Xuetao <gxt at mprc.pku.edu.cn>
+> > Cc: Ley Foon Tan <lftan at altera.com>
+> > Cc: nios2-dev at lists.rocketboards.org
+> > Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
+> > Cc: uclinux-h8-devel at lists.sourceforge.jp
+> > Signed-off-by: Yury Norov <ynorov at caviumnetworks.com>
+> > Acked-by: Arnd Bergmann <arnd at arndb.de>
+> > Acked-by: Mark Salter <msalter at redhat.com> [c6x]
+> > Acked-by: James Hogan <james.hogan at imgtec.com> [metag]
+> > Acked-by: Ley Foon Tan <lftan at altera.com> [nios2]
+> > Acked-by: Stafford Horne <shorne at gmail.com> [openrisc]
+> > Acked-by: Will Deacon <will.deacon at arm.com> [arm64]
+> > Acked-by: Vineet Gupta <vgupta at synopsys.com> #arch/arc bits
+> > ---
+> >  arch/arc/include/uapi/asm/unistd.h       | 1 +
+> >  arch/arm64/include/uapi/asm/unistd.h     | 1 +
+> >  arch/c6x/include/uapi/asm/unistd.h       | 1 +
+> >  arch/h8300/include/uapi/asm/unistd.h     | 1 +
+> >  arch/hexagon/include/uapi/asm/unistd.h   | 1 +
+> >  arch/metag/include/uapi/asm/unistd.h     | 1 +
+> >  arch/nios2/include/uapi/asm/unistd.h     | 1 +
+> >  arch/openrisc/include/uapi/asm/unistd.h  | 1 +
+> >  arch/score/include/uapi/asm/unistd.h     | 1 +
+> >  arch/tile/include/uapi/asm/unistd.h      | 1 +
+> >  arch/unicore32/include/uapi/asm/unistd.h | 1 +
+> >  include/uapi/asm-generic/unistd.h        | 5 +++++
 > 
-> So how will it help other developers avoid errors in the work flow when doing?
-> kernel builds for ARCompact and ARCv2.
+> Don't forget to add __IGNORE_getrlimit and __IGNORE_setrlimit to
+> scripts/checksyscalls.sh, or you'll get warnings about missing syscalls.
 > 
-> The right solution is to kill off the libgcc dependency altogether form kernel.?
-> Just import math emulation code that we think is needed and build it in kernel !
+> Cheers
+> James
 
-Right and that's on my todo list as I'm suffering the most from this issue now :)
+Hi James,
 
--Alexey
+Thanks for the hint.
+
+Yury
