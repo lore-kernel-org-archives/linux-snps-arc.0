@@ -1,102 +1,142 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Thu,  8 Jun 2017 18:20:30 +0300
-Subject: [PATCH 06/11] ARC: [NUMA] added CONFIG_NUMA for plat-eznps
+Date: Thu,  8 Jun 2017 18:20:33 +0300
+Subject: [PATCH 09/11] ARC: [plat-eznps] Save/Restore extra auxiliary registers
 In-Reply-To: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
 References: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1496935235-46507-7-git-send-email-noamca@mellanox.com>
+Message-ID: <1496935235-46507-10-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamca@mellanox.com>
+From: Noam Camus <noamc@ezchip.com>
 
-This is needed for NPS400 where high memory is assigned to node1
-where the associated addresses are lower than node0.
-This use case is not typical and just using discontigmem is not enough
-since nodes assumed to have increasing address range.
-i.e. address range of node0 assumed to be lower than node1.
+thread_struct got new field for data plane of eznps platform.
+This field got place for data plane auxiliary registers and for
+any extra registers that might be changed in kernel code.
 
-Signed-off-by: Noam Camus <noamca at mellanox.com>
+We save EFLAGS, and GPA1 auxiliary registers since they may be
+changed by the new task while using atomic operations e.g. cmpxchg.
+
+Signed-off-by: Noam Camus <noamc at ezchip.com>
 ---
- arch/arc/Kconfig                |    9 +++++++++
- arch/arc/include/asm/topology.h |    6 ++++++
- arch/arc/kernel/setup.c         |    3 +++
- arch/arc/mm/init.c              |    6 ++++++
- 4 files changed, 24 insertions(+), 0 deletions(-)
+ arch/arc/include/asm/arcregs.h   |    7 +++++++
+ arch/arc/include/asm/processor.h |    3 +++
+ arch/arc/include/asm/switch_to.h |   11 +++++++++++
+ arch/arc/plat-eznps/Makefile     |    2 +-
+ arch/arc/plat-eznps/ctop.c       |   33 +++++++++++++++++++++++++++++++++
+ 5 files changed, 55 insertions(+), 1 deletions(-)
+ create mode 100644 arch/arc/plat-eznps/ctop.c
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 54ba8e6..d1bbfd3 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -379,6 +379,15 @@ config ARC_HUGEPAGE_16M
+diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
+index ba8e802..9437d42 100644
+--- a/arch/arc/include/asm/arcregs.h
++++ b/arch/arc/include/asm/arcregs.h
+@@ -123,6 +123,13 @@
+ #define PAGES_TO_MB(n_pages)	(PAGES_TO_KB(n_pages) >> 10)
  
- endchoice
  
-+config NUMA
-+	bool "NUMA Memory Allocation and Scheduler Support"
-+	depends on SMP && DISCONTIGMEM
-+	default y if ARC_PLAT_EZNPS
-+	---help---
-+	  NUMA memory allocation is required for NPS400 processors.
-+	  The reason is that node1 in NPS400 is assigned to lower
-+	  addresses than node0, which is not typical scenario.
-+
- config NODES_SHIFT
- 	int "Maximum NUMA Nodes (as a power of 2)"
- 	default "0" if !DISCONTIGMEM
-diff --git a/arch/arc/include/asm/topology.h b/arch/arc/include/asm/topology.h
-index a9be3f8..dfbc2ab 100644
---- a/arch/arc/include/asm/topology.h
-+++ b/arch/arc/include/asm/topology.h
-@@ -1,6 +1,12 @@
- #ifndef _ASM_ARC_TOPOLOGY_H
- #define _ASM_ARC_TOPOLOGY_H
- 
-+#ifdef CONFIG_NUMA
-+#define cpu_to_node(cpu)	((void)(cpu), 0)
-+#define parent_node(node)	(node)
-+#define cpumask_of_node(node)	((void)node, cpu_online_mask)
++#ifdef CONFIG_ARC_PLAT_EZNPS
++struct eznps_dp {
++	unsigned int eflags;
++	unsigned int gpa1;
++};
 +#endif
 +
- #ifdef CONFIG_NPS_CPU_TOPOLOGY
+ /*
+  ***************************************************************
+  * Build Configuration Registers, with encoded hardware config
+diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
+index fd7bdfa..130bb55 100644
+--- a/arch/arc/include/asm/processor.h
++++ b/arch/arc/include/asm/processor.h
+@@ -38,6 +38,9 @@ struct thread_struct {
+ #ifdef CONFIG_ARC_FPU_SAVE_RESTORE
+ 	struct arc_fpu fpu;
+ #endif
++#ifdef CONFIG_ARC_PLAT_EZNPS
++	struct eznps_dp dp;
++#endif
+ };
  
- #include <linux/cpumask.h>
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 5256205..5f04635 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -577,6 +577,9 @@ static int __init topology_init(void)
- {
- 	int cpu;
+ #define INIT_THREAD  {                          \
+diff --git a/arch/arc/include/asm/switch_to.h b/arch/arc/include/asm/switch_to.h
+index 1b171ab..4c53080 100644
+--- a/arch/arc/include/asm/switch_to.h
++++ b/arch/arc/include/asm/switch_to.h
+@@ -26,13 +26,24 @@
  
-+	for_each_online_node(cpu)
-+		register_one_node(cpu);
+ #endif /* !CONFIG_ARC_FPU_SAVE_RESTORE */
+ 
++#ifdef CONFIG_ARC_PLAT_EZNPS
++extern void dp_save_restore(struct task_struct *p, struct task_struct *n);
++#define ARC_DP_PREV(p, n)      dp_save_restore(p, n)
++#define ARC_DP_NEXT(t)
++#else
++#define ARC_DP_PREV(p, n)
++#define ARC_DP_NEXT(n)
++#endif /* !CONFIG_ARC_PLAT_EZNPS */
 +
- 	for_each_present_cpu(cpu)
- 		register_cpu(&per_cpu(cpu_topo_info, cpu), cpu);
+ struct task_struct *__switch_to(struct task_struct *p, struct task_struct *n);
  
-diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-index 8c9415e..f9f80d9 100644
---- a/arch/arc/mm/init.c
-+++ b/arch/arc/mm/init.c
-@@ -113,6 +113,10 @@ void __init setup_arch_memory(void)
- 	init_mm.end_data = (unsigned long)_edata;
- 	init_mm.brk = (unsigned long)_end;
+ #define switch_to(prev, next, last)	\
+ do {					\
++	ARC_DP_PREV(prev, next);	\
+ 	ARC_FPU_PREV(prev, next);	\
+ 	last = __switch_to(prev, next);\
+ 	ARC_FPU_NEXT(next);		\
++	ARC_DP_NEXT(next);		\
+ 	mb();				\
+ } while (0)
  
-+	node_set_online(0);
-+	node_set_state(0, N_MEMORY);
-+	node_set_state(0, N_NORMAL_MEMORY);
+diff --git a/arch/arc/plat-eznps/Makefile b/arch/arc/plat-eznps/Makefile
+index 21091b1..8d43717 100644
+--- a/arch/arc/plat-eznps/Makefile
++++ b/arch/arc/plat-eznps/Makefile
+@@ -2,6 +2,6 @@
+ # Makefile for the linux kernel.
+ #
+ 
+-obj-y := entry.o platform.o
++obj-y := entry.o platform.o ctop.o
+ obj-$(CONFIG_SMP) += smp.o
+ obj-$(CONFIG_EZNPS_MTM_EXT) += mtm.o
+diff --git a/arch/arc/plat-eznps/ctop.c b/arch/arc/plat-eznps/ctop.c
+new file mode 100644
+index 0000000..8b13a08
+--- /dev/null
++++ b/arch/arc/plat-eznps/ctop.c
+@@ -0,0 +1,33 @@
++/*
++ * Copyright(c) 2015 EZchip Technologies.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * The full GNU General Public License is included in this distribution in
++ * the file called "COPYING".
++ */
 +
- 	/* first page of system - kernel .vector starts here */
- 	min_low_pfn = ARCH_PFN_OFFSET;
- 
-@@ -182,6 +186,8 @@ void __init setup_arch_memory(void)
- 	 * populated with normal memory zone while node 1 only has highmem
- 	 */
- 	node_set_online(1);
-+	node_set_state(1, N_MEMORY);
-+	node_set_state(1, N_HIGH_MEMORY);
- 
- 	min_high_pfn = PFN_DOWN(high_mem_start);
- 	max_high_pfn = PFN_DOWN(high_mem_start + high_mem_sz);
++#include <linux/sched.h>
++#include <asm/arcregs.h>
++#include <plat/ctop.h>
++
++void dp_save_restore(struct task_struct *prev, struct task_struct *next)
++{
++	struct eznps_dp *prev_task_dp = &prev->thread.dp;
++	struct eznps_dp *next_task_dp = &next->thread.dp;
++
++	/* Here we save all Data Plane related auxiliary registers */
++	prev_task_dp->eflags = read_aux_reg(CTOP_AUX_EFLAGS);
++	write_aux_reg(CTOP_AUX_EFLAGS, next_task_dp->eflags);
++
++	prev_task_dp->gpa1 = read_aux_reg(CTOP_AUX_GPA1);
++	write_aux_reg(CTOP_AUX_GPA1, next_task_dp->gpa1);
++}
++
 -- 
 1.7.1
