@@ -1,61 +1,68 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Thu,  8 Jun 2017 18:20:35 +0300
-Subject: [PATCH 11/11] ARC: [plat-eznps] avoid toggling of DPC register
-In-Reply-To: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
-References: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
+Date: Thu,  8 Jun 2017 18:20:24 +0300
+Subject: [PATCH 00/11] plat-eznps upstream cont. set 2
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1496935235-46507-12-git-send-email-noamca@mellanox.com>
+Message-ID: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Elad Kanfi <eladkan@mellanox.com>
+From: Noam Camus <noamca@mellanox.com>
 
-HW bug description: in case of HW thread context switch
-the dpc configuration of the exiting thread is dragged
-one cycle into the next thread.
-In order to avoid the consequences of this bug, the DPC register
-is set to an initial value, and not changed afterwards.
+With this patch set I continue the effort of upstreaming the eznps platform for arch/arc.
 
-Signed-off-by: Elad Kanfi <eladkan at mellanox.com>
-Signed-off-by: Noam Camus <noamca at mellanox.com>
----
- arch/arc/plat-eznps/include/plat/ctop.h |    1 +
- arch/arc/plat-eznps/mtm.c               |   12 ++++++++++++
- 2 files changed, 13 insertions(+), 0 deletions(-)
+It comprise of couple of patches from last set yet not accepted,
+patches for HW erratas and some misc extensions such for HIGHMEM / NUMA.
 
-diff --git a/arch/arc/plat-eznps/include/plat/ctop.h b/arch/arc/plat-eznps/include/plat/ctop.h
-index 7729d3d..0c7d110 100644
---- a/arch/arc/plat-eznps/include/plat/ctop.h
-+++ b/arch/arc/plat-eznps/include/plat/ctop.h
-@@ -39,6 +39,7 @@
- #define CTOP_AUX_LOGIC_CORE_ID			(CTOP_AUX_BASE + 0x018)
- #define CTOP_AUX_MT_CTRL			(CTOP_AUX_BASE + 0x020)
- #define CTOP_AUX_HW_COMPLY			(CTOP_AUX_BASE + 0x024)
-+#define CTOP_AUX_DPC				(CTOP_AUX_BASE + 0x02C)
- #define CTOP_AUX_LPC				(CTOP_AUX_BASE + 0x030)
- #define CTOP_AUX_EFLAGS				(CTOP_AUX_BASE + 0x080)
- #define CTOP_AUX_IACK				(CTOP_AUX_BASE + 0x088)
-diff --git a/arch/arc/plat-eznps/mtm.c b/arch/arc/plat-eznps/mtm.c
-index f77335a..3c7dec9 100644
---- a/arch/arc/plat-eznps/mtm.c
-+++ b/arch/arc/plat-eznps/mtm.c
-@@ -101,6 +101,18 @@ void mtm_enable_core(unsigned int cpu)
- 	int i;
- 	struct nps_host_reg_aux_mt_ctrl mt_ctrl;
- 	struct nps_host_reg_mtm_cfg mtm_cfg;
-+	struct nps_host_reg_aux_dpc dpc;
-+
-+	/*
-+	 * Initializing dpc register in each CPU.
-+	 * Overwriting the init value of the DPC
-+	 * register so that CMEM and FMT virtual address
-+	 * spaces are accessible, and Data Plane HW
-+	 * facilities are enabled.
-+	 */
-+	dpc.ien = 1;
-+	dpc.men = 1;
-+	write_aux_reg(CTOP_AUX_DPC, dpc.value);
- 
- 	if (NPS_CPU_TO_THREAD_NUM(cpu) != 0)
- 		return;
--- 
-1.7.1
+This set got more generic ARC changes than previous set.
+Additional ifdef seem like unavoidable, however it may seem Ugly.
+Let's see if we need to do it more elegant.
+
+Elad Kanfi (1):
+  ARC: [plat-eznps] avoid toggling of DPC register
+
+Liav Rehana (2):
+  ARC: [plat-eznps] Update the init sequence of aux regs per cpu.
+  ARC: [plat-eznps] handle dedicated AUX registers
+
+Noam Camus (8):
+  ARC: set level of log per CPU during boot to be debug level
+  ARC: send ipi to all cpus sharing task mm in case of page fault
+  ARC: Allow irq threading
+  ARC: Add CPU topology
+  ARC: Support more than one PGDIR for KVADDR
+  ARC: [NUMA] added CONFIG_NUMA for plat-eznps
+  ARC: [plat-eznps] new command line argument for HW scheduler at MTM
+  ARC: [plat-eznps] Save/Restore extra auxiliary registers
+
+ Documentation/admin-guide/kernel-parameters.txt |    9 ++
+ arch/arc/Kconfig                                |   48 +++++++++
+ arch/arc/include/asm/Kbuild                     |    1 -
+ arch/arc/include/asm/arcregs.h                  |    7 ++
+ arch/arc/include/asm/cacheflush.h               |    3 +-
+ arch/arc/include/asm/entry-compact.h            |   24 +++++
+ arch/arc/include/asm/highmem.h                  |    8 +-
+ arch/arc/include/asm/pgtable.h                  |    9 ++
+ arch/arc/include/asm/processor.h                |    8 +-
+ arch/arc/include/asm/ptrace.h                   |    5 +
+ arch/arc/include/asm/switch_to.h                |   11 ++
+ arch/arc/include/asm/topology.h                 |   40 +++++++
+ arch/arc/kernel/Makefile                        |    1 +
+ arch/arc/kernel/process.c                       |    4 +
+ arch/arc/kernel/setup.c                         |   13 ++-
+ arch/arc/kernel/smp.c                           |    9 ++-
+ arch/arc/kernel/topology.c                      |  125 +++++++++++++++++++++++
+ arch/arc/mm/cache.c                             |   14 ++-
+ arch/arc/mm/fault.c                             |    8 ++
+ arch/arc/mm/highmem.c                           |   16 ++-
+ arch/arc/mm/init.c                              |    6 +
+ arch/arc/mm/tlb.c                               |    4 +-
+ arch/arc/mm/tlbex.S                             |   31 ++++++
+ arch/arc/plat-eznps/Kconfig                     |   11 ++
+ arch/arc/plat-eznps/Makefile                    |    2 +-
+ arch/arc/plat-eznps/ctop.c                      |   33 ++++++
+ arch/arc/plat-eznps/entry.S                     |    2 +-
+ arch/arc/plat-eznps/include/plat/ctop.h         |    1 +
+ arch/arc/plat-eznps/mtm.c                       |   61 +++++++++++-
+ 29 files changed, 486 insertions(+), 28 deletions(-)
+ create mode 100644 arch/arc/include/asm/topology.h
+ create mode 100644 arch/arc/kernel/topology.c
+ create mode 100644 arch/arc/plat-eznps/ctop.c
