@@ -1,119 +1,44 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Thu,  8 Jun 2017 18:20:31 +0300
-Subject: [PATCH 07/11] ARC: [plat-eznps] new command line argument for HW
- scheduler at MTM
+Date: Thu,  8 Jun 2017 18:20:27 +0300
+Subject: [PATCH 03/11] ARC: Allow irq threading
 In-Reply-To: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
 References: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1496935235-46507-8-git-send-email-noamca@mellanox.com>
+Message-ID: <1496935235-46507-4-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamca@mellanox.com>
+From: Noam Camus <noamc@ezchip.com>
 
-We add ability for all cores at NPS SoC to control the number of cycles
-HW thread can execute before it is replace with another eligible
-HW thread within the same core. The replacement is done by the
-HE scheduler.
+Working with NPS400 we noticed that there is a possibility of L1
+interrupt nesting that may run out kernel stack.
+The scenario include serving invoke_softirqs() from irq_exit()
+and once local_irq_enable() called can hit another one before we
+managed to restore last one and pop some place from kernel stack.
 
-Signed-off-by: Noam Camus <noamca at mellanox.com>
+Serving softirqs at dedicated kernel thread may mitigate this.
+We see that many architectures, including x86, behave like this.
+
+Note 1: All interrupts which must be non threaded
+should be marked IRQF_NO_THREAD.
+Note 2: using kernel param "threadirqs" is needed to actually
+turn this on. This configuration is only a preperation.
+
+Signed-off-by: Noam Camus <noamc at ezchip.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt |    9 ++++
- arch/arc/plat-eznps/mtm.c                       |   49 ++++++++++++++++++++++-
- 2 files changed, 56 insertions(+), 2 deletions(-)
+ arch/arc/Kconfig |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 15f79c2..5b551f7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2693,6 +2693,15 @@
- 			If the dependencies are under your control, you can
- 			turn on cpu0_hotplug.
- 
-+	nps_mtm_hs_ctr= [KNL,ARC]
-+			This parameter sets the maximum duration, in
-+			cycles, each HW thread of the CTOP can run
-+			without interruptions, before HW switches it.
-+			The actual maximum duration is 16 times this
-+			parameter's value.
-+			Format: integer between 1 and 255
-+			Default: 255
-+
- 	nptcg=		[IA-64] Override max number of concurrent global TLB
- 			purges which is reported from either PAL_VM_SUMMARY or
- 			SAL PALO.
-diff --git a/arch/arc/plat-eznps/mtm.c b/arch/arc/plat-eznps/mtm.c
-index e0cb36b..f77335a 100644
---- a/arch/arc/plat-eznps/mtm.c
-+++ b/arch/arc/plat-eznps/mtm.c
-@@ -21,10 +21,13 @@
- #include <plat/mtm.h>
- #include <plat/smp.h>
- 
--#define MT_CTRL_HS_CNT		0xFF
-+#define MT_HS_CNT_MIN		0x01
-+#define MT_HS_CNT_MAX		0xFF
- #define MT_CTRL_ST_CNT		0xF
- #define NPS_NUM_HW_THREADS	0x10
- 
-+static int mtm_hs_ctr = MT_HS_CNT_MAX;
-+
- static void mtm_init_nat(int cpu)
- {
- 	struct nps_host_reg_mtm_cfg mtm_cfg;
-@@ -118,7 +121,7 @@ void mtm_enable_core(unsigned int cpu)
- 	/* Enable HW schedule, stall counter, mtm */
- 	mt_ctrl.value = 0;
- 	mt_ctrl.hsen = 1;
--	mt_ctrl.hs_cnt = MT_CTRL_HS_CNT;
-+	mt_ctrl.hs_cnt = mtm_hs_ctr;
- 	mt_ctrl.mten = 1;
- 	write_aux_reg(CTOP_AUX_MT_CTRL, mt_ctrl.value);
- 
-@@ -129,3 +132,45 @@ void mtm_enable_core(unsigned int cpu)
- 	 */
- 	cpu_relax();
- }
-+
-+/* Handle an out of bounds mtm hs counter value */
-+static void __init handle_mtm_hs_ctr_out_of_bounds_error(uint8_t val)
-+{
-+	pr_err("** The value of mtm_hs_ctr is out of bounds!\n"
-+	       "** It must be in the range [%d,%d] (inclusive)\n"
-+	       "Setting mtm_hs_ctr to %d\n", MT_HS_CNT_MIN, MT_HS_CNT_MAX, val);
-+
-+	mtm_hs_ctr = val;
-+}
-+
-+/* Verify and set the value of the mtm hs counter */
-+static int __init set_mtm_hs_ctr(char *ctr_str)
-+{
-+	int ret;
-+	long hs_ctr;
-+
-+	ret = kstrtol(ctr_str, 0, &hs_ctr);
-+	if (ret) {
-+		pr_err("** Error parsing the value of mtm_hs_ctr\n"
-+		       "** Make sure you entered a valid integer value\n"
-+		       "Setting mtm_hs_ctr to default value: %d\n",
-+		       MT_HS_CNT_MAX);
-+		mtm_hs_ctr = MT_HS_CNT_MAX;
-+		return -EINVAL;
-+	}
-+
-+	if (hs_ctr > MT_HS_CNT_MAX) {
-+		handle_mtm_hs_ctr_out_of_bounds_error(MT_HS_CNT_MAX);
-+		return -EDOM;
-+	}
-+
-+	if (hs_ctr < MT_HS_CNT_MIN) {
-+		handle_mtm_hs_ctr_out_of_bounds_error(MT_HS_CNT_MIN);
-+		return -EDOM;
-+	}
-+
-+	mtm_hs_ctr = hs_ctr;
-+
-+	return 0;
-+}
-+early_param("nps_mtm_hs_ctr", set_mtm_hs_ctr);
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 92c9128..dc1df6f 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -33,6 +33,7 @@ config ARC
+ 	select HAVE_OPROFILE
+ 	select HAVE_PERF_EVENTS
+ 	select HANDLE_DOMAIN_IRQ
++	select IRQ_FORCED_THREADING
+ 	select IRQ_DOMAIN
+ 	select MODULES_USE_ELF_RELA
+ 	select NO_BOOTMEM
 -- 
 1.7.1
