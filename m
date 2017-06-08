@@ -1,82 +1,61 @@
-From: ynorov@caviumnetworks.com (Yury Norov)
-Date: Wed, 7 Jun 2017 21:48:09 +0300
-Subject: [PATCH 03/20] asm-generic: Drop getrlimit and setrlimit syscalls
- from default list
-In-Reply-To: <20170605144406.GT6973@jhogan-linux.le.imgtec.org>
-References: <20170604120009.342-1-ynorov@caviumnetworks.com>
- <20170604120009.342-4-ynorov@caviumnetworks.com>
- <20170605144406.GT6973@jhogan-linux.le.imgtec.org>
+From: noamca@mellanox.com (Noam Camus)
+Date: Thu,  8 Jun 2017 18:20:35 +0300
+Subject: [PATCH 11/11] ARC: [plat-eznps] avoid toggling of DPC register
+In-Reply-To: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
+References: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170607184809.e4hmsvewkrmigmww@yury-thinkpad>
+Message-ID: <1496935235-46507-12-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Jun 05, 2017@03:44:06PM +0100, James Hogan wrote:
-> Hi Yury,
-> 
-> On Sun, Jun 04, 2017@02:59:52PM +0300, Yury Norov wrote:
-> > The newer prlimit64 syscall provides all the functionality provided by
-> > the getrlimit and setrlimit syscalls and adds the pid of target process,
-> > so future architectures won't need to include getrlimit and setrlimit.
-> > 
-> > Therefore drop getrlimit and setrlimit syscalls from the generic syscall
-> > list unless __ARCH_WANT_SET_GET_RLIMIT is defined by the architecture's
-> > unistd.h prior to including asm-generic/unistd.h, and adjust all architectures
-> > using the generic syscall list to define it so that no in-tree architectures
-> > are affected.
-> > 
-> > Cc: Arnd Bergmann <arnd at arndb.de>
-> > Cc: James Hogan <james.hogan at imgtec.com>
-> > Cc: linux-arch at vger.kernel.org
-> > Cc: linux-snps-arc at lists.infradead.org
-> > Cc: Catalin Marinas <catalin.marinas at arm.com>
-> > Cc: Will Deacon <will.deacon at arm.com>
-> > Cc: linux-arm-kernel at lists.infradead.org
-> > Cc: Mark Salter <msalter at redhat.com>
-> > Cc: Aurelien Jacquiot <a-jacquiot at ti.com>
-> > Cc: linux-c6x-dev at linux-c6x.org
-> > Cc: Richard Kuo <rkuo at codeaurora.org>
-> > Cc: linux-hexagon at vger.kernel.org
-> > Cc: linux-metag at vger.kernel.org
-> > Cc: Jonas Bonn <jonas at southpole.se>
-> > Cc: linux at lists.openrisc.net
-> > Cc: Chen Liqin <liqin.linux at gmail.com>
-> > Cc: Lennox Wu <lennox.wu at gmail.com>
-> > Cc: Chris Metcalf <cmetcalf at mellanox.com>
-> > Cc: Guan Xuetao <gxt at mprc.pku.edu.cn>
-> > Cc: Ley Foon Tan <lftan at altera.com>
-> > Cc: nios2-dev at lists.rocketboards.org
-> > Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
-> > Cc: uclinux-h8-devel at lists.sourceforge.jp
-> > Signed-off-by: Yury Norov <ynorov at caviumnetworks.com>
-> > Acked-by: Arnd Bergmann <arnd at arndb.de>
-> > Acked-by: Mark Salter <msalter at redhat.com> [c6x]
-> > Acked-by: James Hogan <james.hogan at imgtec.com> [metag]
-> > Acked-by: Ley Foon Tan <lftan at altera.com> [nios2]
-> > Acked-by: Stafford Horne <shorne at gmail.com> [openrisc]
-> > Acked-by: Will Deacon <will.deacon at arm.com> [arm64]
-> > Acked-by: Vineet Gupta <vgupta at synopsys.com> #arch/arc bits
-> > ---
-> >  arch/arc/include/uapi/asm/unistd.h       | 1 +
-> >  arch/arm64/include/uapi/asm/unistd.h     | 1 +
-> >  arch/c6x/include/uapi/asm/unistd.h       | 1 +
-> >  arch/h8300/include/uapi/asm/unistd.h     | 1 +
-> >  arch/hexagon/include/uapi/asm/unistd.h   | 1 +
-> >  arch/metag/include/uapi/asm/unistd.h     | 1 +
-> >  arch/nios2/include/uapi/asm/unistd.h     | 1 +
-> >  arch/openrisc/include/uapi/asm/unistd.h  | 1 +
-> >  arch/score/include/uapi/asm/unistd.h     | 1 +
-> >  arch/tile/include/uapi/asm/unistd.h      | 1 +
-> >  arch/unicore32/include/uapi/asm/unistd.h | 1 +
-> >  include/uapi/asm-generic/unistd.h        | 5 +++++
-> 
-> Don't forget to add __IGNORE_getrlimit and __IGNORE_setrlimit to
-> scripts/checksyscalls.sh, or you'll get warnings about missing syscalls.
-> 
-> Cheers
-> James
+From: Elad Kanfi <eladkan@mellanox.com>
 
-Hi James,
+HW bug description: in case of HW thread context switch
+the dpc configuration of the exiting thread is dragged
+one cycle into the next thread.
+In order to avoid the consequences of this bug, the DPC register
+is set to an initial value, and not changed afterwards.
 
-Thanks for the hint.
+Signed-off-by: Elad Kanfi <eladkan at mellanox.com>
+Signed-off-by: Noam Camus <noamca at mellanox.com>
+---
+ arch/arc/plat-eznps/include/plat/ctop.h |    1 +
+ arch/arc/plat-eznps/mtm.c               |   12 ++++++++++++
+ 2 files changed, 13 insertions(+), 0 deletions(-)
 
-Yury
+diff --git a/arch/arc/plat-eznps/include/plat/ctop.h b/arch/arc/plat-eznps/include/plat/ctop.h
+index 7729d3d..0c7d110 100644
+--- a/arch/arc/plat-eznps/include/plat/ctop.h
++++ b/arch/arc/plat-eznps/include/plat/ctop.h
+@@ -39,6 +39,7 @@
+ #define CTOP_AUX_LOGIC_CORE_ID			(CTOP_AUX_BASE + 0x018)
+ #define CTOP_AUX_MT_CTRL			(CTOP_AUX_BASE + 0x020)
+ #define CTOP_AUX_HW_COMPLY			(CTOP_AUX_BASE + 0x024)
++#define CTOP_AUX_DPC				(CTOP_AUX_BASE + 0x02C)
+ #define CTOP_AUX_LPC				(CTOP_AUX_BASE + 0x030)
+ #define CTOP_AUX_EFLAGS				(CTOP_AUX_BASE + 0x080)
+ #define CTOP_AUX_IACK				(CTOP_AUX_BASE + 0x088)
+diff --git a/arch/arc/plat-eznps/mtm.c b/arch/arc/plat-eznps/mtm.c
+index f77335a..3c7dec9 100644
+--- a/arch/arc/plat-eznps/mtm.c
++++ b/arch/arc/plat-eznps/mtm.c
+@@ -101,6 +101,18 @@ void mtm_enable_core(unsigned int cpu)
+ 	int i;
+ 	struct nps_host_reg_aux_mt_ctrl mt_ctrl;
+ 	struct nps_host_reg_mtm_cfg mtm_cfg;
++	struct nps_host_reg_aux_dpc dpc;
++
++	/*
++	 * Initializing dpc register in each CPU.
++	 * Overwriting the init value of the DPC
++	 * register so that CMEM and FMT virtual address
++	 * spaces are accessible, and Data Plane HW
++	 * facilities are enabled.
++	 */
++	dpc.ien = 1;
++	dpc.men = 1;
++	write_aux_reg(CTOP_AUX_DPC, dpc.value);
+ 
+ 	if (NPS_CPU_TO_THREAD_NUM(cpu) != 0)
+ 		return;
+-- 
+1.7.1
