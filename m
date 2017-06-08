@@ -1,115 +1,78 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Thu,  8 Jun 2017 18:20:34 +0300
-Subject: [PATCH 10/11] ARC: [plat-eznps] handle dedicated AUX registers
+Date: Thu,  8 Jun 2017 18:20:26 +0300
+Subject: [PATCH 02/11] ARC: send ipi to all cpus sharing task mm in case of
+ page fault
 In-Reply-To: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
 References: <1496935235-46507-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1496935235-46507-11-git-send-email-noamca@mellanox.com>
+Message-ID: <1496935235-46507-3-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Liav Rehana <liavr@mellanox.com>
+From: Noam Camus <noamca@mellanox.com>
 
-Preserve eflags and gpa1 auxiliaries during exception
-Registers used by compare exchange instructions.
-GPA1 is used for compare value, and EFLAGS got bit reflects
-atomic operation response.
+This patch is derived due to performance issue.
+The use case is a page fault that resides on more than the local cpu.
+Trying to broadcast all CPUs results on performance degradation.
+So we try to avoid this by sending only to the relevant CPUs.
 
-EFLAGS is zeroed for each new user task so it won't get its
-parent value.
-
-Signed-off-by: Noam Camus <noamc at ezchip.com>
+Signed-off-by: Noam Camus <noamca at mellanox.com>
+Reviewed-by: Alexey Brodkin <abrodkin at synopsys.com>
 ---
- arch/arc/include/asm/entry-compact.h |   24 ++++++++++++++++++++++++
- arch/arc/include/asm/ptrace.h        |    5 +++++
- arch/arc/kernel/process.c            |    4 ++++
- 3 files changed, 33 insertions(+), 0 deletions(-)
+ arch/arc/include/asm/cacheflush.h |    3 ++-
+ arch/arc/mm/cache.c               |   12 ++++++++++--
+ arch/arc/mm/tlb.c                 |    2 +-
+ 3 files changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arc/include/asm/entry-compact.h b/arch/arc/include/asm/entry-compact.h
-index 14c310f..9e4458a 100644
---- a/arch/arc/include/asm/entry-compact.h
-+++ b/arch/arc/include/asm/entry-compact.h
-@@ -192,6 +192,12 @@
- 	PUSHAX	lp_start
- 	PUSHAX	erbta
+diff --git a/arch/arc/include/asm/cacheflush.h b/arch/arc/include/asm/cacheflush.h
+index fc662f4..716dba1 100644
+--- a/arch/arc/include/asm/cacheflush.h
++++ b/arch/arc/include/asm/cacheflush.h
+@@ -33,7 +33,8 @@
  
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	PUSHAX  CTOP_AUX_GPA1
-+	PUSHAX  CTOP_AUX_EFLAGS
-+#endif
-+`
- 	lr	r9, [ecr]
- 	st      r9, [sp, PT_event]    /* EV_Trap expects r9 to have ECR */
- .endm
-@@ -208,6 +214,12 @@
-  * by hardware and that is not good.
-  *-------------------------------------------------------------*/
- .macro EXCEPTION_EPILOGUE
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	POPAX   CTOP_AUX_EFLAGS
-+	POPAX   CTOP_AUX_GPA1
-+#endif
-+
- 	POPAX	erbta
- 	POPAX	lp_start
- 	POPAX	lp_end
-@@ -265,6 +277,12 @@
- 	PUSHAX	lp_end
- 	PUSHAX	lp_start
- 	PUSHAX	bta_l\LVL\()
-+
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	PUSHAX  CTOP_AUX_GPA1
-+	PUSHAX  CTOP_AUX_EFLAGS
-+#endif
- .endm
+ void flush_icache_range(unsigned long kstart, unsigned long kend);
+ void __sync_icache_dcache(phys_addr_t paddr, unsigned long vaddr, int len);
+-void __inv_icache_page(phys_addr_t paddr, unsigned long vaddr);
++void __inv_icache_page(struct vm_area_struct *vma,
++		       phys_addr_t paddr, unsigned long vaddr);
+ void __flush_dcache_page(phys_addr_t paddr, unsigned long vaddr);
  
- /*--------------------------------------------------------------
-@@ -277,6 +295,12 @@
-  * by hardware and that is not good.
-  *-------------------------------------------------------------*/
- .macro INTERRUPT_EPILOGUE  LVL
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	POPAX   CTOP_AUX_EFLAGS
-+	POPAX   CTOP_AUX_GPA1
-+#endif
-+
- 	POPAX	bta_l\LVL\()
- 	POPAX	lp_start
- 	POPAX	lp_end
-diff --git a/arch/arc/include/asm/ptrace.h b/arch/arc/include/asm/ptrace.h
-index 5297faa..5a8cb22 100644
---- a/arch/arc/include/asm/ptrace.h
-+++ b/arch/arc/include/asm/ptrace.h
-@@ -19,6 +19,11 @@
- #ifdef CONFIG_ISA_ARCOMPACT
- struct pt_regs {
+ #define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 1
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index 15bc3e3..aa4c743 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -934,9 +934,17 @@ void __sync_icache_dcache(phys_addr_t paddr, unsigned long vaddr, int len)
+ }
  
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	unsigned long eflags;	/* Extended FLAGS */
-+	unsigned long gpa1;	/* General Purpose Aux */
-+#endif
+ /* wrapper to compile time eliminate alignment checks in flush loop */
+-void __inv_icache_page(phys_addr_t paddr, unsigned long vaddr)
++void __inv_icache_page(struct vm_area_struct *vma,
++		       phys_addr_t paddr, unsigned long vaddr)
+ {
+-	__ic_line_inv_vaddr(paddr, vaddr, PAGE_SIZE);
++	struct ic_inv_args ic_inv = {
++		.paddr	= paddr,
++		.vaddr	= vaddr,
++		.sz	= PAGE_SIZE
++	};
 +
- 	/* Real registers */
- 	unsigned long bta;	/* bta_l1, bta_l2, erbta */
++	on_each_cpu_mask(mm_cpumask(vma->vm_mm),
++			 __ic_line_inv_vaddr_helper, &ic_inv, 1);
+ }
  
-diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
-index 5c631a1..5ac3b54 100644
---- a/arch/arc/kernel/process.c
-+++ b/arch/arc/kernel/process.c
-@@ -234,6 +234,10 @@ void start_thread(struct pt_regs * regs, unsigned long pc, unsigned long usp)
- 	 */
- 	regs->status32 = STATUS_U_MASK | STATUS_L_MASK | ISA_INIT_STATUS_BITS;
+ /*
+diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
+index c5e70d8..a095608 100644
+--- a/arch/arc/mm/tlb.c
++++ b/arch/arc/mm/tlb.c
+@@ -626,7 +626,7 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long vaddr_unaligned,
  
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+	regs->eflags = 0;
-+#endif
-+
- 	/* bogus seed values for debugging */
- 	regs->lp_start = 0x10;
- 	regs->lp_end = 0x80;
+ 			/* invalidate any existing icache lines (U-mapping) */
+ 			if (vma->vm_flags & VM_EXEC)
+-				__inv_icache_page(paddr, vaddr);
++				__inv_icache_page(vma, paddr, vaddr);
+ 		}
+ 	}
+ }
 -- 
 1.7.1
