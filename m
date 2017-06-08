@@ -1,334 +1,44 @@
 From: krzk@kernel.org (Krzysztof Kozlowski)
-Date: Thu,  8 Jun 2017 18:08:36 +0200
-Subject: [PATCH 00/35] defconfig: Cleanup from old entries
+Date: Thu,  8 Jun 2017 18:10:28 +0200
+Subject: [PATCH 17/35] ARC: defconfig: Cleanup from old Kconfig options
+In-Reply-To: <20170608160836.12196-1-krzk@kernel.org>
+References: <20170608160836.12196-1-krzk@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170608160836.12196-1-krzk@kernel.org>
+Message-ID: <20170608161049.12421-17-krzk@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+Remove old, dead Kconfig option INET_LRO. It is gone since
+commit 7bbf3cae65b6 ("ipv4: Remove inet_lro library").
 
-While cleaning Samsung ARM defconfigs with savedefconfig, I encountered
-similar obsolete entries in other files.
+Signed-off-by: Krzysztof Kozlowski <krzk at kernel.org>
+---
+ arch/arc/configs/nps_defconfig   | 1 -
+ arch/arc/configs/tb10x_defconfig | 1 -
+ 2 files changed, 2 deletions(-)
 
-Except the ARM, no dependencies.
-For ARM, the rest of patches depend on the first change (otherwise
-it might not apply cleanly).
-
-
-Best regards,
-Krzysztof
-
-Krzysztof Kozlowski (35):
-  ARM: defconfig: Cleanup from old Kconfig options
-  MIPS: defconfig: Cleanup from old Kconfig options
-  blackfin: defconfig: Cleanup from old Kconfig options
-  c6x: defconfig: Cleanup from old Kconfig options
-  m32r: defconfig: Cleanup from old Kconfig options
-  sh: defconfig: Cleanup from old Kconfig options
-  x86: defconfig: Cleanup from old Kconfig options
-  cris: defconfig: Cleanup from old Kconfig options
-  parisc: defconfig: Cleanup from old Kconfig options
-  sparc: defconfig: Cleanup from old Kconfig options
-  hexagon: defconfig: Cleanup from old Kconfig options
-  microblaze: defconfig: Cleanup from old Kconfig options
-  mn10300: defconfig: Cleanup from old Kconfig options
-  score: defconfig: Cleanup from old Kconfig options
-  unicore32: defconfig: Cleanup from old Kconfig options
-  alpha: defconfig: Cleanup from old Kconfig options
-  ARC: defconfig: Cleanup from old Kconfig options
-  m68k: defconfig: Cleanup from old Kconfig options
-  nios2: defconfig: Cleanup from old Kconfig options
-  openrisc: defconfig: Cleanup from old Kconfig options
-  powerpc: defconfig: Cleanup from old Kconfig options
-  um: defconfig: Cleanup from old Kconfig options
-  tile: defconfig: Cleanup from old Kconfig options
-  ARM: defconfig: samsung: Re-order entries to match savedefconfig
-  ARM: mini2440_defconfig: Bring back lost (but wanted) options
-  ARM: tct_hammer_defconfig: Bring back lost (but wanted) options
-  ARM: s3c2410_defconfig: Bring back lost (but wanted) options
-  ARM: s3c6400_defconfig: Bring back lost (but wanted) options
-  ARM: s5pv210_defconfig: Bring back lost (but wanted) options
-  ARM: exynos_defconfig: Save defconfig
-  ARM: s3c2410_defconfig: Save defconfig
-  ARM: mini2440_defconfig: Save defconfig
-  ARM: s3c6400_defconfig: Save defconfig
-  ARM: s5pv210_defconfig: Save defconfig
-  ARM: tct_hammer_defconfig: Save defconfig
-
- arch/alpha/defconfig                              |  2 -
- arch/arc/configs/nps_defconfig                    |  1 -
- arch/arc/configs/tb10x_defconfig                  |  1 -
- arch/arm/configs/acs5k_defconfig                  |  8 --
- arch/arm/configs/acs5k_tiny_defconfig             | 10 ---
- arch/arm/configs/am200epdkit_defconfig            |  7 --
- arch/arm/configs/assabet_defconfig                |  3 -
- arch/arm/configs/axm55xx_defconfig                |  1 -
- arch/arm/configs/badge4_defconfig                 |  5 --
- arch/arm/configs/cerfcube_defconfig               |  4 -
- arch/arm/configs/cm_x2xx_defconfig                | 13 ----
- arch/arm/configs/cm_x300_defconfig                | 10 ---
- arch/arm/configs/cns3420vb_defconfig              |  7 --
- arch/arm/configs/colibri_pxa270_defconfig         | 13 ----
- arch/arm/configs/colibri_pxa300_defconfig         |  9 ---
- arch/arm/configs/collie_defconfig                 |  4 -
- arch/arm/configs/corgi_defconfig                  | 13 ----
- arch/arm/configs/dove_defconfig                   |  1 -
- arch/arm/configs/ebsa110_defconfig                |  1 -
- arch/arm/configs/efm32_defconfig                  |  1 -
- arch/arm/configs/em_x270_defconfig                | 13 ----
- arch/arm/configs/ep93xx_defconfig                 |  1 -
- arch/arm/configs/eseries_pxa_defconfig            |  8 --
- arch/arm/configs/exynos_defconfig                 |  6 +-
- arch/arm/configs/ezx_defconfig                    | 18 -----
- arch/arm/configs/footbridge_defconfig             |  1 -
- arch/arm/configs/h5000_defconfig                  |  6 --
- arch/arm/configs/hackkit_defconfig                |  3 -
- arch/arm/configs/imote2_defconfig                 | 16 ----
- arch/arm/configs/imx_v4_v5_defconfig              |  1 -
- arch/arm/configs/iop13xx_defconfig                |  4 -
- arch/arm/configs/iop32x_defconfig                 |  5 --
- arch/arm/configs/iop33x_defconfig                 |  6 --
- arch/arm/configs/ixp4xx_defconfig                 |  9 ---
- arch/arm/configs/jornada720_defconfig             |  8 --
- arch/arm/configs/ks8695_defconfig                 |  7 --
- arch/arm/configs/lart_defconfig                   |  3 -
- arch/arm/configs/lpc18xx_defconfig                |  1 -
- arch/arm/configs/lpd270_defconfig                 |  5 --
- arch/arm/configs/lubbock_defconfig                |  4 -
- arch/arm/configs/magician_defconfig               | 15 ----
- arch/arm/configs/mainstone_defconfig              |  4 -
- arch/arm/configs/mini2440_defconfig               | 91 +++++++----------------
- arch/arm/configs/mmp2_defconfig                   |  9 ---
- arch/arm/configs/moxart_defconfig                 |  1 -
- arch/arm/configs/mps2_defconfig                   |  1 -
- arch/arm/configs/mv78xx0_defconfig                |  8 --
- arch/arm/configs/mxs_defconfig                    |  1 -
- arch/arm/configs/neponset_defconfig               |  4 -
- arch/arm/configs/netwinder_defconfig              |  3 -
- arch/arm/configs/netx_defconfig                   |  6 --
- arch/arm/configs/nhk8815_defconfig                |  1 -
- arch/arm/configs/nuc910_defconfig                 |  7 --
- arch/arm/configs/nuc950_defconfig                 |  7 --
- arch/arm/configs/nuc960_defconfig                 |  7 --
- arch/arm/configs/omap1_defconfig                  |  2 -
- arch/arm/configs/orion5x_defconfig                |  2 -
- arch/arm/configs/palmz72_defconfig                |  6 --
- arch/arm/configs/pcm027_defconfig                 |  8 --
- arch/arm/configs/pleb_defconfig                   |  3 -
- arch/arm/configs/pxa168_defconfig                 |  9 ---
- arch/arm/configs/pxa255-idp_defconfig             |  4 -
- arch/arm/configs/pxa3xx_defconfig                 |  9 ---
- arch/arm/configs/pxa910_defconfig                 |  9 ---
- arch/arm/configs/pxa_defconfig                    |  2 -
- arch/arm/configs/qcom_defconfig                   |  1 -
- arch/arm/configs/raumfeld_defconfig               | 11 ---
- arch/arm/configs/realview_defconfig               |  1 -
- arch/arm/configs/rpc_defconfig                    |  6 --
- arch/arm/configs/s3c2410_defconfig                | 38 +++-------
- arch/arm/configs/s3c6400_defconfig                | 18 +----
- arch/arm/configs/s5pv210_defconfig                | 28 +++----
- arch/arm/configs/sama5_defconfig                  |  1 -
- arch/arm/configs/shannon_defconfig                |  3 -
- arch/arm/configs/simpad_defconfig                 |  7 --
- arch/arm/configs/spear13xx_defconfig              |  4 -
- arch/arm/configs/spear3xx_defconfig               |  4 -
- arch/arm/configs/spear6xx_defconfig               |  3 -
- arch/arm/configs/spitz_defconfig                  | 13 ----
- arch/arm/configs/sunxi_defconfig                  |  1 -
- arch/arm/configs/tct_hammer_defconfig             | 15 +---
- arch/arm/configs/trizeps4_defconfig               |  8 --
- arch/arm/configs/u300_defconfig                   |  1 -
- arch/arm/configs/vexpress_defconfig               |  1 -
- arch/arm/configs/viper_defconfig                  |  9 ---
- arch/arm/configs/xcep_defconfig                   |  8 --
- arch/arm/configs/zeus_defconfig                   | 10 ---
- arch/arm/configs/zx_defconfig                     |  2 -
- arch/blackfin/configs/BF518F-EZBRD_defconfig      |  2 -
- arch/blackfin/configs/BF526-EZBRD_defconfig       |  3 -
- arch/blackfin/configs/BF527-AD7160-EVAL_defconfig |  2 -
- arch/blackfin/configs/BF527-EZKIT-V2_defconfig    |  3 -
- arch/blackfin/configs/BF527-EZKIT_defconfig       |  3 -
- arch/blackfin/configs/BF527-TLL6527M_defconfig    |  6 --
- arch/blackfin/configs/BF533-EZKIT_defconfig       |  2 -
- arch/blackfin/configs/BF533-STAMP_defconfig       |  2 -
- arch/blackfin/configs/BF537-STAMP_defconfig       |  2 -
- arch/blackfin/configs/BF538-EZKIT_defconfig       |  5 --
- arch/blackfin/configs/BF548-EZKIT_defconfig       |  3 -
- arch/blackfin/configs/BF561-ACVILON_defconfig     |  6 --
- arch/blackfin/configs/BF561-EZKIT-SMP_defconfig   |  2 -
- arch/blackfin/configs/BF561-EZKIT_defconfig       |  2 -
- arch/blackfin/configs/BF609-EZKIT_defconfig       |  1 -
- arch/blackfin/configs/BlackStamp_defconfig        |  6 --
- arch/blackfin/configs/CM-BF527_defconfig          |  6 --
- arch/blackfin/configs/CM-BF533_defconfig          |  4 -
- arch/blackfin/configs/CM-BF537E_defconfig         |  5 --
- arch/blackfin/configs/CM-BF537U_defconfig         |  4 -
- arch/blackfin/configs/CM-BF548_defconfig          |  7 --
- arch/blackfin/configs/CM-BF561_defconfig          |  5 --
- arch/blackfin/configs/DNP5370_defconfig           |  6 --
- arch/blackfin/configs/H8606_defconfig             |  4 -
- arch/blackfin/configs/IP0X_defconfig              |  3 -
- arch/blackfin/configs/PNAV-10_defconfig           |  5 --
- arch/blackfin/configs/SRV1_defconfig              |  4 -
- arch/blackfin/configs/TCM-BF518_defconfig         |  6 --
- arch/blackfin/configs/TCM-BF537_defconfig         |  4 -
- arch/c6x/configs/dsk6455_defconfig                |  2 -
- arch/c6x/configs/evmc6457_defconfig               |  2 -
- arch/c6x/configs/evmc6472_defconfig               |  2 -
- arch/c6x/configs/evmc6474_defconfig               |  2 -
- arch/c6x/configs/evmc6678_defconfig               |  2 -
- arch/cris/configs/artpec_3_defconfig              |  2 -
- arch/cris/configs/dev88_defconfig                 |  1 -
- arch/cris/configs/etrax-100lx_defconfig           |  1 -
- arch/cris/configs/etrax-100lx_v2_defconfig        |  2 -
- arch/cris/configs/etraxfs_defconfig               |  2 -
- arch/hexagon/configs/comet_defconfig              |  5 --
- arch/m32r/configs/m32104ut_defconfig              |  4 -
- arch/m32r/configs/m32700ut.smp_defconfig          |  3 -
- arch/m32r/configs/m32700ut.up_defconfig           |  3 -
- arch/m32r/configs/mappi.nommu_defconfig           |  2 -
- arch/m32r/configs/mappi.smp_defconfig             |  4 -
- arch/m32r/configs/mappi.up_defconfig              |  4 -
- arch/m32r/configs/mappi2.opsp_defconfig           |  2 -
- arch/m32r/configs/mappi2.vdec2_defconfig          |  2 -
- arch/m32r/configs/mappi3.smp_defconfig            |  4 -
- arch/m32r/configs/oaks32r_defconfig               |  2 -
- arch/m32r/configs/opsput_defconfig                |  2 -
- arch/m32r/configs/usrv_defconfig                  |  5 --
- arch/m68k/configs/m5208evb_defconfig              |  1 -
- arch/m68k/configs/m5249evb_defconfig              |  1 -
- arch/m68k/configs/m5272c3_defconfig               |  1 -
- arch/m68k/configs/m5275evb_defconfig              |  1 -
- arch/m68k/configs/m5307c3_defconfig               |  1 -
- arch/m68k/configs/m5407c3_defconfig               |  1 -
- arch/microblaze/configs/mmu_defconfig             |  1 -
- arch/microblaze/configs/nommu_defconfig           |  3 -
- arch/mips/configs/ar7_defconfig                   |  6 --
- arch/mips/configs/ath79_defconfig                 |  2 -
- arch/mips/configs/bcm63xx_defconfig               |  7 --
- arch/mips/configs/bigsur_defconfig                |  4 -
- arch/mips/configs/bmips_be_defconfig              |  1 -
- arch/mips/configs/capcella_defconfig              |  4 -
- arch/mips/configs/cavium_octeon_defconfig         |  1 -
- arch/mips/configs/ci20_defconfig                  |  1 -
- arch/mips/configs/cobalt_defconfig                |  8 --
- arch/mips/configs/decstation_defconfig            |  1 -
- arch/mips/configs/e55_defconfig                   |  2 -
- arch/mips/configs/fuloong2e_defconfig             | 11 ---
- arch/mips/configs/gpr_defconfig                   |  8 --
- arch/mips/configs/ip22_defconfig                  | 11 ---
- arch/mips/configs/ip27_defconfig                  |  5 --
- arch/mips/configs/ip28_defconfig                  |  5 --
- arch/mips/configs/ip32_defconfig                  |  8 --
- arch/mips/configs/jazz_defconfig                  |  6 --
- arch/mips/configs/jmr3927_defconfig               |  7 --
- arch/mips/configs/lasat_defconfig                 |  5 --
- arch/mips/configs/lemote2f_defconfig              | 12 ---
- arch/mips/configs/loongson3_defconfig             |  3 -
- arch/mips/configs/malta_kvm_defconfig             |  1 -
- arch/mips/configs/malta_kvm_guest_defconfig       |  1 -
- arch/mips/configs/malta_qemu_32r6_defconfig       |  1 -
- arch/mips/configs/maltaaprp_defconfig             |  2 -
- arch/mips/configs/maltasmvp_defconfig             |  1 -
- arch/mips/configs/maltasmvp_eva_defconfig         |  2 -
- arch/mips/configs/maltaup_defconfig               |  2 -
- arch/mips/configs/markeins_defconfig              |  4 -
- arch/mips/configs/mips_paravirt_defconfig         |  1 -
- arch/mips/configs/mpc30x_defconfig                |  5 --
- arch/mips/configs/msp71xx_defconfig               |  2 -
- arch/mips/configs/mtx1_defconfig                  | 11 ---
- arch/mips/configs/nlm_xlp_defconfig               |  5 --
- arch/mips/configs/nlm_xlr_defconfig               |  9 ---
- arch/mips/configs/pnx8335_stb225_defconfig        |  7 --
- arch/mips/configs/qi_lb60_defconfig               |  3 -
- arch/mips/configs/rb532_defconfig                 |  6 --
- arch/mips/configs/rbtx49xx_defconfig              |  7 --
- arch/mips/configs/rm200_defconfig                 |  8 --
- arch/mips/configs/rt305x_defconfig                |  2 -
- arch/mips/configs/sb1250_swarm_defconfig          |  1 -
- arch/mips/configs/tb0219_defconfig                |  6 --
- arch/mips/configs/tb0226_defconfig                |  7 --
- arch/mips/configs/tb0287_defconfig                |  5 --
- arch/mips/configs/workpad_defconfig               |  4 -
- arch/mn10300/configs/asb2303_defconfig            |  6 --
- arch/mn10300/configs/asb2364_defconfig            |  8 --
- arch/nios2/configs/10m50_defconfig                |  1 -
- arch/nios2/configs/3c120_defconfig                |  1 -
- arch/openrisc/configs/or1ksim_defconfig           |  1 -
- arch/parisc/configs/712_defconfig                 |  5 --
- arch/parisc/configs/a500_defconfig                |  6 --
- arch/parisc/configs/b180_defconfig                |  3 -
- arch/parisc/configs/c3000_defconfig               |  5 --
- arch/parisc/configs/default_defconfig             |  5 --
- arch/parisc/configs/generic-32bit_defconfig       |  2 -
- arch/powerpc/configs/c2k_defconfig                |  1 -
- arch/powerpc/configs/ppc6xx_defconfig             |  1 -
- arch/score/configs/spct6600_defconfig             |  8 --
- arch/sh/configs/ap325rxa_defconfig                | 10 ---
- arch/sh/configs/apsh4a3a_defconfig                |  9 ---
- arch/sh/configs/apsh4ad0a_defconfig               |  6 --
- arch/sh/configs/cayman_defconfig                  |  4 -
- arch/sh/configs/dreamcast_defconfig               |  6 --
- arch/sh/configs/ecovec24-romimage_defconfig       |  7 --
- arch/sh/configs/ecovec24_defconfig                |  9 ---
- arch/sh/configs/edosk7705_defconfig               |  2 -
- arch/sh/configs/edosk7760_defconfig               | 11 ---
- arch/sh/configs/espt_defconfig                    | 10 ---
- arch/sh/configs/hp6xx_defconfig                   |  4 -
- arch/sh/configs/kfr2r09-romimage_defconfig        |  5 --
- arch/sh/configs/kfr2r09_defconfig                 |  7 --
- arch/sh/configs/landisk_defconfig                 |  4 -
- arch/sh/configs/lboxre2_defconfig                 |  3 -
- arch/sh/configs/magicpanelr2_defconfig            |  9 ---
- arch/sh/configs/microdev_defconfig                |  3 -
- arch/sh/configs/migor_defconfig                   |  8 --
- arch/sh/configs/polaris_defconfig                 |  9 ---
- arch/sh/configs/r7780mp_defconfig                 |  4 -
- arch/sh/configs/r7785rp_defconfig                 |  3 -
- arch/sh/configs/rsk7201_defconfig                 |  8 --
- arch/sh/configs/rsk7203_defconfig                 | 10 ---
- arch/sh/configs/rsk7264_defconfig                 |  3 -
- arch/sh/configs/rsk7269_defconfig                 |  4 -
- arch/sh/configs/rts7751r2d1_defconfig             |  5 --
- arch/sh/configs/rts7751r2dplus_defconfig          |  8 --
- arch/sh/configs/sdk7780_defconfig                 |  9 ---
- arch/sh/configs/sdk7786_defconfig                 |  9 ---
- arch/sh/configs/se7206_defconfig                  |  8 --
- arch/sh/configs/se7343_defconfig                  |  9 ---
- arch/sh/configs/se7619_defconfig                  |  5 --
- arch/sh/configs/se7705_defconfig                  |  5 --
- arch/sh/configs/se7712_defconfig                  |  7 --
- arch/sh/configs/se7721_defconfig                  |  6 --
- arch/sh/configs/se7722_defconfig                  |  3 -
- arch/sh/configs/se7724_defconfig                  |  9 ---
- arch/sh/configs/se7750_defconfig                  |  5 --
- arch/sh/configs/se7751_defconfig                  |  5 --
- arch/sh/configs/se7780_defconfig                  |  7 --
- arch/sh/configs/secureedge5410_defconfig          |  9 ---
- arch/sh/configs/sh03_defconfig                    |  4 -
- arch/sh/configs/sh2007_defconfig                  |  8 --
- arch/sh/configs/sh7710voipgw_defconfig            |  5 --
- arch/sh/configs/sh7724_generic_defconfig          |  3 -
- arch/sh/configs/sh7757lcr_defconfig               |  4 -
- arch/sh/configs/sh7763rdp_defconfig               |  9 ---
- arch/sh/configs/sh7770_generic_defconfig          |  3 -
- arch/sh/configs/sh7785lcr_32bit_defconfig         | 10 ---
- arch/sh/configs/sh7785lcr_defconfig               |  9 ---
- arch/sh/configs/shmin_defconfig                   |  4 -
- arch/sh/configs/shx3_defconfig                    |  6 --
- arch/sh/configs/titan_defconfig                   |  8 --
- arch/sh/configs/ul2_defconfig                     |  9 ---
- arch/sh/configs/urquell_defconfig                 |  9 ---
- arch/sparc/configs/sparc32_defconfig              |  4 -
- arch/sparc/configs/sparc64_defconfig              |  4 -
- arch/tile/configs/tilegx_defconfig                |  1 -
- arch/tile/configs/tilepro_defconfig               |  2 -
- arch/um/configs/i386_defconfig                    |  1 -
- arch/um/configs/x86_64_defconfig                  |  1 -
- arch/unicore32/configs/unicore32_defconfig        |  4 -
- arch/x86/configs/i386_defconfig                   |  3 -
- arch/x86/configs/x86_64_defconfig                 |  3 -
- 273 files changed, 52 insertions(+), 1437 deletions(-)
-
+diff --git a/arch/arc/configs/nps_defconfig b/arch/arc/configs/nps_defconfig
+index ede625c76216..7c9c706ae7f6 100644
+--- a/arch/arc/configs/nps_defconfig
++++ b/arch/arc/configs/nps_defconfig
+@@ -39,7 +39,6 @@ CONFIG_IP_PNP=y
+ # CONFIG_INET_XFRM_MODE_TRANSPORT is not set
+ # CONFIG_INET_XFRM_MODE_TUNNEL is not set
+ # CONFIG_INET_XFRM_MODE_BEET is not set
+-# CONFIG_INET_LRO is not set
+ # CONFIG_INET_DIAG is not set
+ # CONFIG_IPV6 is not set
+ # CONFIG_WIRELESS is not set
+diff --git a/arch/arc/configs/tb10x_defconfig b/arch/arc/configs/tb10x_defconfig
+index 4c5118384eb5..f30182549395 100644
+--- a/arch/arc/configs/tb10x_defconfig
++++ b/arch/arc/configs/tb10x_defconfig
+@@ -38,7 +38,6 @@ CONFIG_IP_MULTICAST=y
+ # CONFIG_INET_XFRM_MODE_TRANSPORT is not set
+ # CONFIG_INET_XFRM_MODE_TUNNEL is not set
+ # CONFIG_INET_XFRM_MODE_BEET is not set
+-# CONFIG_INET_LRO is not set
+ # CONFIG_INET_DIAG is not set
+ # CONFIG_IPV6 is not set
+ # CONFIG_WIRELESS is not set
 -- 
 2.9.3
