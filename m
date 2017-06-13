@@ -1,115 +1,119 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Tue, 13 Jun 2017 17:03:55 +0300
-Subject: [PATCH v2 11/12] ARC: [plat-eznps] handle dedicated AUX registers
+Date: Tue, 13 Jun 2017 17:03:52 +0300
+Subject: [PATCH v2 08/12] ARC: [plat-eznps] new command line argument for HW
+ scheduler at MTM
 In-Reply-To: <1497362636-30353-1-git-send-email-noamca@mellanox.com>
 References: <1497362636-30353-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1497362636-30353-12-git-send-email-noamca@mellanox.com>
+Message-ID: <1497362636-30353-9-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Liav Rehana <liavr@mellanox.com>
+From: Noam Camus <noamca@mellanox.com>
 
-Preserve eflags and gpa1 auxiliaries during exception
-Registers used by compare exchange instructions.
-GPA1 is used for compare value, and EFLAGS got bit reflects
-atomic operation response.
+We add ability for all cores at NPS SoC to control the number of cycles
+HW thread can execute before it is replace with another eligible
+HW thread within the same core. The replacement is done by the
+HE scheduler.
 
-EFLAGS is zeroed for each new user task so it won't get its
-parent value.
-
-Signed-off-by: Noam Camus <noamc at ezchip.com>
+Signed-off-by: Noam Camus <noamca at mellanox.com>
 ---
- arch/arc/include/asm/entry-compact.h |   24 ++++++++++++++++++++++++
- arch/arc/include/asm/ptrace.h        |    5 +++++
- arch/arc/kernel/process.c            |    4 ++++
- 3 files changed, 33 insertions(+), 0 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |    9 ++++
+ arch/arc/plat-eznps/mtm.c                       |   49 ++++++++++++++++++++++-
+ 2 files changed, 56 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arc/include/asm/entry-compact.h b/arch/arc/include/asm/entry-compact.h
-index 14c310f..9e4458a 100644
---- a/arch/arc/include/asm/entry-compact.h
-+++ b/arch/arc/include/asm/entry-compact.h
-@@ -192,6 +192,12 @@
- 	PUSHAX	lp_start
- 	PUSHAX	erbta
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 15f79c2..5b551f7 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2693,6 +2693,15 @@
+ 			If the dependencies are under your control, you can
+ 			turn on cpu0_hotplug.
  
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	PUSHAX  CTOP_AUX_GPA1
-+	PUSHAX  CTOP_AUX_EFLAGS
-+#endif
-+`
- 	lr	r9, [ecr]
- 	st      r9, [sp, PT_event]    /* EV_Trap expects r9 to have ECR */
- .endm
-@@ -208,6 +214,12 @@
-  * by hardware and that is not good.
-  *-------------------------------------------------------------*/
- .macro EXCEPTION_EPILOGUE
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	POPAX   CTOP_AUX_EFLAGS
-+	POPAX   CTOP_AUX_GPA1
-+#endif
++	nps_mtm_hs_ctr= [KNL,ARC]
++			This parameter sets the maximum duration, in
++			cycles, each HW thread of the CTOP can run
++			without interruptions, before HW switches it.
++			The actual maximum duration is 16 times this
++			parameter's value.
++			Format: integer between 1 and 255
++			Default: 255
 +
- 	POPAX	erbta
- 	POPAX	lp_start
- 	POPAX	lp_end
-@@ -265,6 +277,12 @@
- 	PUSHAX	lp_end
- 	PUSHAX	lp_start
- 	PUSHAX	bta_l\LVL\()
-+
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	PUSHAX  CTOP_AUX_GPA1
-+	PUSHAX  CTOP_AUX_EFLAGS
-+#endif
- .endm
+ 	nptcg=		[IA-64] Override max number of concurrent global TLB
+ 			purges which is reported from either PAL_VM_SUMMARY or
+ 			SAL PALO.
+diff --git a/arch/arc/plat-eznps/mtm.c b/arch/arc/plat-eznps/mtm.c
+index 59a0162..dd1ea1f 100644
+--- a/arch/arc/plat-eznps/mtm.c
++++ b/arch/arc/plat-eznps/mtm.c
+@@ -21,10 +21,13 @@
+ #include <plat/mtm.h>
+ #include <plat/smp.h>
  
- /*--------------------------------------------------------------
-@@ -277,6 +295,12 @@
-  * by hardware and that is not good.
-  *-------------------------------------------------------------*/
- .macro INTERRUPT_EPILOGUE  LVL
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	POPAX   CTOP_AUX_EFLAGS
-+	POPAX   CTOP_AUX_GPA1
-+#endif
-+
- 	POPAX	bta_l\LVL\()
- 	POPAX	lp_start
- 	POPAX	lp_end
-diff --git a/arch/arc/include/asm/ptrace.h b/arch/arc/include/asm/ptrace.h
-index 5297faa..5a8cb22 100644
---- a/arch/arc/include/asm/ptrace.h
-+++ b/arch/arc/include/asm/ptrace.h
-@@ -19,6 +19,11 @@
- #ifdef CONFIG_ISA_ARCOMPACT
- struct pt_regs {
+-#define MT_CTRL_HS_CNT		0xFF
++#define MT_HS_CNT_MIN		0x01
++#define MT_HS_CNT_MAX		0xFF
+ #define MT_CTRL_ST_CNT		0xF
+ #define NPS_NUM_HW_THREADS	0x10
  
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	unsigned long eflags;	/* Extended FLAGS */
-+	unsigned long gpa1;	/* General Purpose Aux */
-+#endif
++static int mtm_hs_ctr = MT_HS_CNT_MAX;
 +
- 	/* Real registers */
- 	unsigned long bta;	/* bta_l1, bta_l2, erbta */
+ #ifdef CONFIG_EZNPS_MEM_ERROR
+ int do_memory_error(unsigned long address, struct pt_regs *regs)
+ {
+@@ -129,7 +132,7 @@ void mtm_enable_core(unsigned int cpu)
+ 	/* Enable HW schedule, stall counter, mtm */
+ 	mt_ctrl.value = 0;
+ 	mt_ctrl.hsen = 1;
+-	mt_ctrl.hs_cnt = MT_CTRL_HS_CNT;
++	mt_ctrl.hs_cnt = mtm_hs_ctr;
+ 	mt_ctrl.mten = 1;
+ 	write_aux_reg(CTOP_AUX_MT_CTRL, mt_ctrl.value);
  
-diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
-index 5c631a1..5ac3b54 100644
---- a/arch/arc/kernel/process.c
-+++ b/arch/arc/kernel/process.c
-@@ -234,6 +234,10 @@ void start_thread(struct pt_regs * regs, unsigned long pc, unsigned long usp)
+@@ -140,3 +143,45 @@ void mtm_enable_core(unsigned int cpu)
  	 */
- 	regs->status32 = STATUS_U_MASK | STATUS_L_MASK | ISA_INIT_STATUS_BITS;
- 
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+	regs->eflags = 0;
-+#endif
+ 	cpu_relax();
+ }
 +
- 	/* bogus seed values for debugging */
- 	regs->lp_start = 0x10;
- 	regs->lp_end = 0x80;
++/* Handle an out of bounds mtm hs counter value */
++static void __init handle_mtm_hs_ctr_out_of_bounds_error(uint8_t val)
++{
++	pr_err("** The value of mtm_hs_ctr is out of bounds!\n"
++	       "** It must be in the range [%d,%d] (inclusive)\n"
++	       "Setting mtm_hs_ctr to %d\n", MT_HS_CNT_MIN, MT_HS_CNT_MAX, val);
++
++	mtm_hs_ctr = val;
++}
++
++/* Verify and set the value of the mtm hs counter */
++static int __init set_mtm_hs_ctr(char *ctr_str)
++{
++	int ret;
++	long hs_ctr;
++
++	ret = kstrtol(ctr_str, 0, &hs_ctr);
++	if (ret) {
++		pr_err("** Error parsing the value of mtm_hs_ctr\n"
++		       "** Make sure you entered a valid integer value\n"
++		       "Setting mtm_hs_ctr to default value: %d\n",
++		       MT_HS_CNT_MAX);
++		mtm_hs_ctr = MT_HS_CNT_MAX;
++		return -EINVAL;
++	}
++
++	if (hs_ctr > MT_HS_CNT_MAX) {
++		handle_mtm_hs_ctr_out_of_bounds_error(MT_HS_CNT_MAX);
++		return -EDOM;
++	}
++
++	if (hs_ctr < MT_HS_CNT_MIN) {
++		handle_mtm_hs_ctr_out_of_bounds_error(MT_HS_CNT_MIN);
++		return -EDOM;
++	}
++
++	mtm_hs_ctr = hs_ctr;
++
++	return 0;
++}
++early_param("nps_mtm_hs_ctr", set_mtm_hs_ctr);
 -- 
 1.7.1
