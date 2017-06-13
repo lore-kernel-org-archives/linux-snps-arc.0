@@ -1,92 +1,102 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 12 Jun 2017 10:40:00 -0700
-Subject: [PATCH v2 11/11] ARC: [plat-eznps] Handle memory error as an
- exception
-In-Reply-To: <AM5PR0502MB2996B6DA5530C4B37A7B1AF0AACE0@AM5PR0502MB2996.eurprd05.prod.outlook.com>
-References: <1495954328-28736-1-git-send-email-noamca@mellanox.com>
- <1495954328-28736-12-git-send-email-noamca@mellanox.com>
- <ef2527da-03a3-d60e-f5dd-e5b5932d43d0@synopsys.com>
- <AM5PR0502MB299687067469E99F1A7A509EAAC80@AM5PR0502MB2996.eurprd05.prod.outlook.com>
- <ef177e34-e2ac-2e05-c136-e5b213687911@synopsys.com>
- <AM5PR0502MB2996A1F4CFE1FE6AEB433A7DAAC80@AM5PR0502MB2996.eurprd05.prod.outlook.com>
- <AM5PR0502MB2996FBD57D8591A42ED4A84CAAC90@AM5PR0502MB2996.eurprd05.prod.outlook.com>
- <15ef64f3-3b5b-a362-c520-e5316121d3d6@synopsys.com>
- <AM5PR0502MB299646D52F2A0AF3764CEC4BAAC90@AM5PR0502MB2996.eurprd05.prod.outlook.com>
- <67715c5d-30f2-815e-87ab-7fb4e8205a90@synopsys.com>
- <AM5PR0502MB2996B6DA5530C4B37A7B1AF0AACE0@AM5PR0502MB2996.eurprd05.prod.outlook.com>
+From: noamca@mellanox.com (Noam Camus)
+Date: Tue, 13 Jun 2017 17:03:51 +0300
+Subject: [PATCH v2 07/12] ARC: [NUMA] added CONFIG_NUMA for plat-eznps
+In-Reply-To: <1497362636-30353-1-git-send-email-noamca@mellanox.com>
+References: <1497362636-30353-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <01e7716b-291c-08b2-fe93-5c5982ba4a11@synopsys.com>
+Message-ID: <1497362636-30353-8-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 06/08/2017 08:17 PM, Noam Camus wrote:
->
-> *> From:*Vineet Gupta <Vineet.Gupta1 at synopsys.com>
->
-> *> Sent:* Thursday, June 8, 2017 10:00 PM
->
->
-> >> With EZsim we try to simulate NPS400 CTOP core and not ARC core, and as such we
-> >> strive to have similar echo system for both silicon and its simulator.
->
-> >Right, but if you are using nSIM which generates L2 interrupt for user mode error
-> >- then it is already different from silicon and needs to handled as such.
-> Why so, this is something I wish to minimize and not just live with.
-> So I handle difference by redirecting back to the track I want to.
->
-> >> If we could, we would alter nSIM to behave just like our silicon.
-> >> So in current situation where we lack doing so we suffice in single pretty small
-> >> adjustment in OS (platform specific code).
->
-> >You are saying contradicting things here. Above u want EZSim to simulate CTOP
-> >(i.e. generate machinechk for U errors) but here you claim u use nSIM which will
-> >generates L2 intr.
->
-> >So I'm still grossly confused.
-> Sorry, for confusion.
-> I am using nSIM which creates L2 interrupt and not machine check because I got 
-> no alternative.
-> At the first chance I get the opportunity, I put execution back to my desired 
-> direction.
-> Since the direction as our silicon dictate is ending with die() it is a clear 
-> path without a risk.
+From: Noam Camus <noamca@mellanox.com>
 
-OK I understand now - you want the die semantics not try and continue... but the 
-patch is simply wrong. From L2 interrupt you jump to machine check vector which 
-reads ECR. In this case it would be bogus - with some old stale value. What you 
-really want is an NPS version of do_memory_error - since platforms can have their 
-way of dealing with such errors - but the low level machine handling is just not 
-in their control.
+This is needed for NPS400 where high memory is assigned to node1
+where the associated addresses are lower than node0.
+This use case is not typical and just using discontigmem is not enough
+since nodes assumed to have increasing address range.
+i.e. address range of node0 assumed to be lower than node1.
 
-I'd propose the patch below and then you can define your own version of 
-do_memory_error() and handle as appropriate !
+Signed-off-by: Noam Camus <noamca at mellanox.com>
+---
+ arch/arc/Kconfig                |    9 +++++++++
+ arch/arc/include/asm/topology.h |    6 ++++++
+ arch/arc/kernel/setup.c         |    3 +++
+ arch/arc/mm/init.c              |    6 ++++++
+ 4 files changed, 24 insertions(+), 0 deletions(-)
 
----->
-diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
-index ff83e78d0cfb..5a8042784ee9 100644
---- a/arch/arc/kernel/traps.c
-+++ b/arch/arc/kernel/traps.c
-@@ -80,11 +80,26 @@ int name(unsigned long address, struct pt_regs *regs) \
-  DO_ERROR_INFO(SIGILL, "Priv Op/Disabled Extn", do_privilege_fault, ILL_PRVOPC)
-  DO_ERROR_INFO(SIGILL, "Invalid Extn Insn", do_extension_fault, ILL_ILLOPC)
-  DO_ERROR_INFO(SIGILL, "Illegal Insn (or Seq)", insterror_is_error, ILL_ILLOPC)
--DO_ERROR_INFO(SIGBUS, "Invalid Mem Access", do_memory_error, BUS_ADRERR)
-  DO_ERROR_INFO(SIGTRAP, "Breakpoint Set", trap_is_brkpt, TRAP_BRKPT)
-  DO_ERROR_INFO(SIGBUS, "Misaligned Access", do_misaligned_error, BUS_ADRALN)
-
-  /*
-+ * Entry point for bus errors
-+ * opencoded DO_ERROR_INFO() but __weak to allow possible plarform override
-+ */
-+int __weak do_memory_error(unsigned long address, struct pt_regs *regs)
-+{
-+       siginfo_t info = {
-+               .si_signo = SIGBUS,
-+               .si_errno = 0,
-+               .si_code  = BUS_ADRERR,
-+               .si_addr = (void __user *)address,
-+       };
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 982bd18..18c37de 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -378,6 +378,15 @@ config ARC_HUGEPAGE_16M
+ 
+ endchoice
+ 
++config NUMA
++	bool "NUMA Memory Allocation and Scheduler Support"
++	depends on SMP && DISCONTIGMEM
++	default y if ARC_PLAT_EZNPS
++	---help---
++	  NUMA memory allocation is required for NPS400 processors.
++	  The reason is that node1 in NPS400 is assigned to lower
++	  addresses than node0, which is not typical scenario.
 +
-+       return unhandled_exception("Invalid Mem Access", regs, &info);
-+}
+ config NODES_SHIFT
+ 	int "Maximum NUMA Nodes (as a power of 2)"
+ 	default "0" if !DISCONTIGMEM
+diff --git a/arch/arc/include/asm/topology.h b/arch/arc/include/asm/topology.h
+index a9be3f8..dfbc2ab 100644
+--- a/arch/arc/include/asm/topology.h
++++ b/arch/arc/include/asm/topology.h
+@@ -1,6 +1,12 @@
+ #ifndef _ASM_ARC_TOPOLOGY_H
+ #define _ASM_ARC_TOPOLOGY_H
+ 
++#ifdef CONFIG_NUMA
++#define cpu_to_node(cpu)	((void)(cpu), 0)
++#define parent_node(node)	(node)
++#define cpumask_of_node(node)	((void)node, cpu_online_mask)
++#endif
 +
-+/*
+ #ifdef CONFIG_NPS_CPU_TOPOLOGY
+ 
+ #include <linux/cpumask.h>
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 5256205..5f04635 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -577,6 +577,9 @@ static int __init topology_init(void)
+ {
+ 	int cpu;
+ 
++	for_each_online_node(cpu)
++		register_one_node(cpu);
++
+ 	for_each_present_cpu(cpu)
+ 		register_cpu(&per_cpu(cpu_topo_info, cpu), cpu);
+ 
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index 8c9415e..f9f80d9 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -113,6 +113,10 @@ void __init setup_arch_memory(void)
+ 	init_mm.end_data = (unsigned long)_edata;
+ 	init_mm.brk = (unsigned long)_end;
+ 
++	node_set_online(0);
++	node_set_state(0, N_MEMORY);
++	node_set_state(0, N_NORMAL_MEMORY);
++
+ 	/* first page of system - kernel .vector starts here */
+ 	min_low_pfn = ARCH_PFN_OFFSET;
+ 
+@@ -182,6 +186,8 @@ void __init setup_arch_memory(void)
+ 	 * populated with normal memory zone while node 1 only has highmem
+ 	 */
+ 	node_set_online(1);
++	node_set_state(1, N_MEMORY);
++	node_set_state(1, N_HIGH_MEMORY);
+ 
+ 	min_high_pfn = PFN_DOWN(high_mem_start);
+ 	max_high_pfn = PFN_DOWN(high_mem_start + high_mem_sz);
+-- 
+1.7.1
