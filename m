@@ -1,81 +1,143 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Tue, 13 Jun 2017 17:03:45 +0300
-Subject: [PATCH v2 01/12] ARC: [plat-eznps] Handle memory error as an exception
+Date: Tue, 13 Jun 2017 17:03:54 +0300
+Subject: [PATCH v2 10/12] ARC: [plat-eznps] Save/Restore extra auxiliary
+ registers
 In-Reply-To: <1497362636-30353-1-git-send-email-noamca@mellanox.com>
 References: <1497362636-30353-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1497362636-30353-2-git-send-email-noamca@mellanox.com>
+Message-ID: <1497362636-30353-11-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamca@mellanox.com>
+From: Noam Camus <noamc@ezchip.com>
 
-On ARC700, user mode memory error is treated as L2 interrupt, but NPS
-hardware treats it as Machine Check exception.
+thread_struct got new field for data plane of eznps platform.
+This field got place for data plane auxiliary registers and for
+any extra registers that might be changed in kernel code.
 
-Address this by defining an NPS specific bus error handler.
+We save EFLAGS, and GPA1 auxiliary registers since they may be
+changed by the new task while using atomic operations e.g. cmpxchg.
 
-Signed-off-by: Noam Camus <noamca at mellanox.com>
-Signed-off-by: Elad Kanfi <eladkan at mellanox.com>
+Signed-off-by: Noam Camus <noamc at ezchip.com>
 ---
- arch/arc/kernel/traps.c     |    2 +-
- arch/arc/plat-eznps/Kconfig |   12 ++++++++++++
- arch/arc/plat-eznps/mtm.c   |   11 +++++++++++
- 3 files changed, 24 insertions(+), 1 deletions(-)
+ arch/arc/include/asm/arcregs.h   |    7 +++++++
+ arch/arc/include/asm/processor.h |    3 +++
+ arch/arc/include/asm/switch_to.h |   11 +++++++++++
+ arch/arc/plat-eznps/Makefile     |    2 +-
+ arch/arc/plat-eznps/ctop.c       |   33 +++++++++++++++++++++++++++++++++
+ 5 files changed, 55 insertions(+), 1 deletions(-)
+ create mode 100644 arch/arc/plat-eznps/ctop.c
 
-diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
-index ff83e78..62675b9 100644
---- a/arch/arc/kernel/traps.c
-+++ b/arch/arc/kernel/traps.c
-@@ -80,7 +80,7 @@ int name(unsigned long address, struct pt_regs *regs) \
- DO_ERROR_INFO(SIGILL, "Priv Op/Disabled Extn", do_privilege_fault, ILL_PRVOPC)
- DO_ERROR_INFO(SIGILL, "Invalid Extn Insn", do_extension_fault, ILL_ILLOPC)
- DO_ERROR_INFO(SIGILL, "Illegal Insn (or Seq)", insterror_is_error, ILL_ILLOPC)
--DO_ERROR_INFO(SIGBUS, "Invalid Mem Access", do_memory_error, BUS_ADRERR)
-+DO_ERROR_INFO(SIGBUS, "Invalid Mem Access", __weak do_memory_error, BUS_ADRERR)
- DO_ERROR_INFO(SIGTRAP, "Breakpoint Set", trap_is_brkpt, TRAP_BRKPT)
- DO_ERROR_INFO(SIGBUS, "Misaligned Access", do_misaligned_error, BUS_ADRALN)
+diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
+index ba8e802..9437d42 100644
+--- a/arch/arc/include/asm/arcregs.h
++++ b/arch/arc/include/asm/arcregs.h
+@@ -123,6 +123,13 @@
+ #define PAGES_TO_MB(n_pages)	(PAGES_TO_KB(n_pages) >> 10)
  
-diff --git a/arch/arc/plat-eznps/Kconfig b/arch/arc/plat-eznps/Kconfig
-index feaa471..fa25136 100644
---- a/arch/arc/plat-eznps/Kconfig
-+++ b/arch/arc/plat-eznps/Kconfig
-@@ -32,3 +32,15 @@ config EZNPS_MTM_EXT
- 	  any of them seem like CPU from Linux point of view.
- 	  All threads within same core share the execution unit of the
- 	  core and HW scheduler round robin between them.
-+
-+config EZNPS_MEM_ERROR
-+       bool "ARC-EZchip Memory error as an exception"
-+       depends on EZNPS_MTM_EXT
-+       default n
-+       help
-+	  On the real chip of the NPS, user memory errors are handled
-+	  as a machine check exception, whereas on simulator platform
-+	  for NPS, is handled as an interrupt level 2 (like legacy arc
-+	  real chip architecture).This configuration will cause the kernel
-+	  to handle memory error similar to a machine check exception.
-+	  It means NOT sending a SIGBUS, but panic the system.
-diff --git a/arch/arc/plat-eznps/mtm.c b/arch/arc/plat-eznps/mtm.c
-index e0cb36b..59a0162 100644
---- a/arch/arc/plat-eznps/mtm.c
-+++ b/arch/arc/plat-eznps/mtm.c
-@@ -25,6 +25,17 @@
- #define MT_CTRL_ST_CNT		0xF
- #define NPS_NUM_HW_THREADS	0x10
  
-+#ifdef CONFIG_EZNPS_MEM_ERROR
-+int do_memory_error(unsigned long address, struct pt_regs *regs)
-+{
-+	char *str = "Invalid Mem Access";
-+
-+	die(str, regs, address);
-+
-+	return 1;
-+}
++#ifdef CONFIG_ARC_PLAT_EZNPS
++struct eznps_dp {
++	unsigned int eflags;
++	unsigned int gpa1;
++};
 +#endif
 +
- static void mtm_init_nat(int cpu)
- {
- 	struct nps_host_reg_mtm_cfg mtm_cfg;
+ /*
+  ***************************************************************
+  * Build Configuration Registers, with encoded hardware config
+diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
+index fd7bdfa..130bb55 100644
+--- a/arch/arc/include/asm/processor.h
++++ b/arch/arc/include/asm/processor.h
+@@ -38,6 +38,9 @@ struct thread_struct {
+ #ifdef CONFIG_ARC_FPU_SAVE_RESTORE
+ 	struct arc_fpu fpu;
+ #endif
++#ifdef CONFIG_ARC_PLAT_EZNPS
++	struct eznps_dp dp;
++#endif
+ };
+ 
+ #define INIT_THREAD  {                          \
+diff --git a/arch/arc/include/asm/switch_to.h b/arch/arc/include/asm/switch_to.h
+index 1b171ab..4c53080 100644
+--- a/arch/arc/include/asm/switch_to.h
++++ b/arch/arc/include/asm/switch_to.h
+@@ -26,13 +26,24 @@
+ 
+ #endif /* !CONFIG_ARC_FPU_SAVE_RESTORE */
+ 
++#ifdef CONFIG_ARC_PLAT_EZNPS
++extern void dp_save_restore(struct task_struct *p, struct task_struct *n);
++#define ARC_DP_PREV(p, n)      dp_save_restore(p, n)
++#define ARC_DP_NEXT(t)
++#else
++#define ARC_DP_PREV(p, n)
++#define ARC_DP_NEXT(n)
++#endif /* !CONFIG_ARC_PLAT_EZNPS */
++
+ struct task_struct *__switch_to(struct task_struct *p, struct task_struct *n);
+ 
+ #define switch_to(prev, next, last)	\
+ do {					\
++	ARC_DP_PREV(prev, next);	\
+ 	ARC_FPU_PREV(prev, next);	\
+ 	last = __switch_to(prev, next);\
+ 	ARC_FPU_NEXT(next);		\
++	ARC_DP_NEXT(next);		\
+ 	mb();				\
+ } while (0)
+ 
+diff --git a/arch/arc/plat-eznps/Makefile b/arch/arc/plat-eznps/Makefile
+index 21091b1..8d43717 100644
+--- a/arch/arc/plat-eznps/Makefile
++++ b/arch/arc/plat-eznps/Makefile
+@@ -2,6 +2,6 @@
+ # Makefile for the linux kernel.
+ #
+ 
+-obj-y := entry.o platform.o
++obj-y := entry.o platform.o ctop.o
+ obj-$(CONFIG_SMP) += smp.o
+ obj-$(CONFIG_EZNPS_MTM_EXT) += mtm.o
+diff --git a/arch/arc/plat-eznps/ctop.c b/arch/arc/plat-eznps/ctop.c
+new file mode 100644
+index 0000000..8b13a08
+--- /dev/null
++++ b/arch/arc/plat-eznps/ctop.c
+@@ -0,0 +1,33 @@
++/*
++ * Copyright(c) 2015 EZchip Technologies.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * The full GNU General Public License is included in this distribution in
++ * the file called "COPYING".
++ */
++
++#include <linux/sched.h>
++#include <asm/arcregs.h>
++#include <plat/ctop.h>
++
++void dp_save_restore(struct task_struct *prev, struct task_struct *next)
++{
++	struct eznps_dp *prev_task_dp = &prev->thread.dp;
++	struct eznps_dp *next_task_dp = &next->thread.dp;
++
++	/* Here we save all Data Plane related auxiliary registers */
++	prev_task_dp->eflags = read_aux_reg(CTOP_AUX_EFLAGS);
++	write_aux_reg(CTOP_AUX_EFLAGS, next_task_dp->eflags);
++
++	prev_task_dp->gpa1 = read_aux_reg(CTOP_AUX_GPA1);
++	write_aux_reg(CTOP_AUX_GPA1, next_task_dp->gpa1);
++}
++
 -- 
 1.7.1
