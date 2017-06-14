@@ -1,98 +1,128 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 14 Jun 2017 15:45:57 -0700
-Subject: [PATCH v2 02/12] ARC: set level of log per CPU during boot to be
- debug level
-In-Reply-To: <1497362636-30353-3-git-send-email-noamca@mellanox.com>
+Date: Wed, 14 Jun 2017 15:49:30 -0700
+Subject: [PATCH v2 08/12] ARC: [plat-eznps] new command line argument for
+ HW scheduler at MTM
+In-Reply-To: <1497362636-30353-9-git-send-email-noamca@mellanox.com>
 References: <1497362636-30353-1-git-send-email-noamca@mellanox.com>
- <1497362636-30353-3-git-send-email-noamca@mellanox.com>
+ <1497362636-30353-9-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <7f6432b3-a5ea-13ee-e207-1edd0115434a@synopsys.com>
+Message-ID: <a3a61232-fb33-8080-e1a1-4d97355840ed@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 On 06/13/2017 07:03 AM, Noam Camus wrote:
 > From: Noam Camus <noamca at mellanox.com>
 > 
-> The reasons are:
-> 1) speeding up boot time, becomes critical for many CPUs machine,
->     e.g. NPS400 with 4K CPUs
-> 2) shorten kernel log at boot time, again easy to scan for large
->     scale machines such NPS400
+> We add ability for all cores at NPS SoC to control the number of cycles
+> HW thread can execute before it is replace with another eligible
+> HW thread within the same core. The replacement is done by the
+> HE scheduler.
 > 
 > Signed-off-by: Noam Camus <noamca at mellanox.com>
 > ---
->   arch/arc/kernel/setup.c |    6 +++---
->   arch/arc/kernel/smp.c   |    4 ++--
->   arch/arc/mm/cache.c     |    2 +-
->   arch/arc/mm/tlb.c       |    2 +-
->   4 files changed, 7 insertions(+), 7 deletions(-)
+>   Documentation/admin-guide/kernel-parameters.txt |    9 ++++
+>   arch/arc/plat-eznps/mtm.c                       |   49 ++++++++++++++++++++++-
+>   2 files changed, 56 insertions(+), 2 deletions(-)
 > 
-> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-> index fc8211f..8494b31 100644
-> --- a/arch/arc/kernel/setup.c
-> +++ b/arch/arc/kernel/setup.c
-> @@ -385,13 +385,13 @@ void setup_processor(void)
->   	read_arc_build_cfg_regs();
->   	arc_init_IRQ();
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 15f79c2..5b551f7 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2693,6 +2693,15 @@
+>   			If the dependencies are under your control, you can
+>   			turn on cpu0_hotplug.
 >   
-> -	printk(arc_cpu_mumbojumbo(cpu_id, str, sizeof(str)));
-> +	pr_debug("%s", arc_cpu_mumbojumbo(cpu_id, str, sizeof(str)));
-
-I understand you issue, but as Alexey mentioned before we can't switch the normal 
-kernel boot log to debug only.
-
-At best you can convert the current printk to pr_info and then set the log level 
-in your cmdline to something higher than info !
-
+> +	nps_mtm_hs_ctr= [KNL,ARC]
+> +			This parameter sets the maximum duration, in
+> +			cycles, each HW thread of the CTOP can run
+> +			without interruptions, before HW switches it.
+> +			The actual maximum duration is 16 times this
+> +			parameter's value.
+> +			Format: integer between 1 and 255
+> +			Default: 255
+> +
+>   	nptcg=		[IA-64] Override max number of concurrent global TLB
+>   			purges which is reported from either PAL_VM_SUMMARY or
+>   			SAL PALO.
+> diff --git a/arch/arc/plat-eznps/mtm.c b/arch/arc/plat-eznps/mtm.c
+> index 59a0162..dd1ea1f 100644
+> --- a/arch/arc/plat-eznps/mtm.c
+> +++ b/arch/arc/plat-eznps/mtm.c
+> @@ -21,10 +21,13 @@
+>   #include <plat/mtm.h>
+>   #include <plat/smp.h>
 >   
->   	arc_mmu_init();
->   	arc_cache_init();
+> -#define MT_CTRL_HS_CNT		0xFF
+> +#define MT_HS_CNT_MIN		0x01
+> +#define MT_HS_CNT_MAX		0xFF
+>   #define MT_CTRL_ST_CNT		0xF
+>   #define NPS_NUM_HW_THREADS	0x10
 >   
-> -	printk(arc_extn_mumbojumbo(cpu_id, str, sizeof(str)));
-> -	printk(arc_platform_smp_cpuinfo());
-> +	pr_debug("%s", arc_extn_mumbojumbo(cpu_id, str, sizeof(str)));
-> +	pr_debug("%s", arc_platform_smp_cpuinfo());
+> +static int mtm_hs_ctr = MT_HS_CNT_MAX;
+> +
+>   #ifdef CONFIG_EZNPS_MEM_ERROR
+>   int do_memory_error(unsigned long address, struct pt_regs *regs)
+>   {
+> @@ -129,7 +132,7 @@ void mtm_enable_core(unsigned int cpu)
+>   	/* Enable HW schedule, stall counter, mtm */
+>   	mt_ctrl.value = 0;
+>   	mt_ctrl.hsen = 1;
+> -	mt_ctrl.hs_cnt = MT_CTRL_HS_CNT;
+> +	mt_ctrl.hs_cnt = mtm_hs_ctr;
+>   	mt_ctrl.mten = 1;
+>   	write_aux_reg(CTOP_AUX_MT_CTRL, mt_ctrl.value);
 >   
->   	arc_chk_core_config();
+> @@ -140,3 +143,45 @@ void mtm_enable_core(unsigned int cpu)
+>   	 */
+>   	cpu_relax();
 >   }
-> diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-> index f462671..d1aa917 100644
-> --- a/arch/arc/kernel/smp.c
-> +++ b/arch/arc/kernel/smp.c
-> @@ -177,8 +177,8 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
->   
->   	secondary_idle_tsk = idle;
->   
-> -	pr_info("Idle Task [%d] %p", cpu, idle);
-> -	pr_info("Trying to bring up CPU%u ...\n", cpu);
-> +	pr_debug("Idle Task [%d] %p", cpu, idle);
-> +	pr_debug("Trying to bring up CPU%u ...\n", cpu);
->   
->   	if (plat_smp_ops.cpu_kick)
->   		plat_smp_ops.cpu_kick(cpu,
-> diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-> index a867575..7d3e79b 100644
-> --- a/arch/arc/mm/cache.c
-> +++ b/arch/arc/mm/cache.c
-> @@ -1188,7 +1188,7 @@ void __ref arc_cache_init(void)
->   	unsigned int __maybe_unused cpu = smp_processor_id();
->   	char str[256];
->   
-> -	printk(arc_cache_mumbojumbo(0, str, sizeof(str)));
-> +	pr_debug("%s", arc_cache_mumbojumbo(0, str, sizeof(str)));
->   
->   	/*
->   	 * Only master CPU needs to execute rest of function:
-> diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
-> index d0126fd..c5e70d8 100644
-> --- a/arch/arc/mm/tlb.c
-> +++ b/arch/arc/mm/tlb.c
-> @@ -814,7 +814,7 @@ void arc_mmu_init(void)
->   	char str[256];
->   	struct cpuinfo_arc_mmu *mmu = &cpuinfo_arc700[smp_processor_id()].mmu;
->   
-> -	printk(arc_mmu_mumbojumbo(0, str, sizeof(str)));
-> +	pr_debug("%s", arc_mmu_mumbojumbo(0, str, sizeof(str)));
->   
->   	/*
->   	 * Can't be done in processor.h due to header include depenedencies
+> +
+> +/* Handle an out of bounds mtm hs counter value */
+> +static void __init handle_mtm_hs_ctr_out_of_bounds_error(uint8_t val)
+> +{
+> +	pr_err("** The value of mtm_hs_ctr is out of bounds!\n"
+> +	       "** It must be in the range [%d,%d] (inclusive)\n"
+> +	       "Setting mtm_hs_ctr to %d\n", MT_HS_CNT_MIN, MT_HS_CNT_MAX, val);
+
+Do you really need such elaborate / verbose strings ! Please trim them !
+Try to fit it in one line - breaking strings into multiple lines hurts sooner or 
+later - when grep'ing etc
+
+> +
+> +	mtm_hs_ctr = val;
+> +}
+> +
+> +/* Verify and set the value of the mtm hs counter */
+> +static int __init set_mtm_hs_ctr(char *ctr_str)
+> +{
+> +	int ret;
+> +	long hs_ctr;
+> +
+> +	ret = kstrtol(ctr_str, 0, &hs_ctr);
+> +	if (ret) {
+> +		pr_err("** Error parsing the value of mtm_hs_ctr\n"
+> +		       "** Make sure you entered a valid integer value\n"
+> +		       "Setting mtm_hs_ctr to default value: %d\n",
+> +		       MT_HS_CNT_MAX);
+
+Ditto !
+
+> +		mtm_hs_ctr = MT_HS_CNT_MAX;
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (hs_ctr > MT_HS_CNT_MAX) {
+> +		handle_mtm_hs_ctr_out_of_bounds_error(MT_HS_CNT_MAX);
+> +		return -EDOM;
+> +	}
+> +
+> +	if (hs_ctr < MT_HS_CNT_MIN) {
+> +		handle_mtm_hs_ctr_out_of_bounds_error(MT_HS_CNT_MIN);
+> +		return -EDOM;
+> +	}
+> +
+> +	mtm_hs_ctr = hs_ctr;
+> +
+> +	return 0;
+> +}
+> +early_param("nps_mtm_hs_ctr", set_mtm_hs_ctr);
 > 
