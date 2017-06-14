@@ -1,119 +1,41 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Tue, 13 Jun 2017 17:03:52 +0300
-Subject: [PATCH v2 08/12] ARC: [plat-eznps] new command line argument for HW
- scheduler at MTM
-In-Reply-To: <1497362636-30353-1-git-send-email-noamca@mellanox.com>
-References: <1497362636-30353-1-git-send-email-noamca@mellanox.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 14 Jun 2017 15:40:56 +0300
+Subject: [PATCH] Unexport LANG env variable
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1497362636-30353-9-git-send-email-noamca@mellanox.com>
+Message-ID: <1497444056-24962-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamca@mellanox.com>
+In those cases when we parse output of standard utilities like readelf
+etc we rely on a particular sentences. For example for ARC we extract
+an entry-point from vmlinux like that:
+---------------------->8--------------------
+readelf -h vmlinux | grep "Entry point address" | grep -o 0x.*
+---------------------->8--------------------
 
-We add ability for all cores at NPS SoC to control the number of cycles
-HW thread can execute before it is replace with another eligible
-HW thread within the same core. The replacement is done by the
-HE scheduler.
+And in case LANG is set to anything other than en_XX we're getting
+nothing and subsequent execution of mkimage utility fails.
 
-Signed-off-by: Noam Camus <noamca at mellanox.com>
+Probably there're more cases like that but given people rarely
+use non-English locales on their dev machines problems like the one
+above are not very visible.
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt |    9 ++++
- arch/arc/plat-eznps/mtm.c                       |   49 ++++++++++++++++++++++-
- 2 files changed, 56 insertions(+), 2 deletions(-)
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 15f79c2..5b551f7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2693,6 +2693,15 @@
- 			If the dependencies are under your control, you can
- 			turn on cpu0_hotplug.
+diff --git a/Makefile b/Makefile
+index cdaa747f2a6a..581e684783ef 100644
+--- a/Makefile
++++ b/Makefile
+@@ -17,6 +17,7 @@ MAKEFLAGS += -rR --include-dir=$(CURDIR)
  
-+	nps_mtm_hs_ctr= [KNL,ARC]
-+			This parameter sets the maximum duration, in
-+			cycles, each HW thread of the CTOP can run
-+			without interruptions, before HW switches it.
-+			The actual maximum duration is 16 times this
-+			parameter's value.
-+			Format: integer between 1 and 255
-+			Default: 255
-+
- 	nptcg=		[IA-64] Override max number of concurrent global TLB
- 			purges which is reported from either PAL_VM_SUMMARY or
- 			SAL PALO.
-diff --git a/arch/arc/plat-eznps/mtm.c b/arch/arc/plat-eznps/mtm.c
-index 59a0162..dd1ea1f 100644
---- a/arch/arc/plat-eznps/mtm.c
-+++ b/arch/arc/plat-eznps/mtm.c
-@@ -21,10 +21,13 @@
- #include <plat/mtm.h>
- #include <plat/smp.h>
- 
--#define MT_CTRL_HS_CNT		0xFF
-+#define MT_HS_CNT_MIN		0x01
-+#define MT_HS_CNT_MAX		0xFF
- #define MT_CTRL_ST_CNT		0xF
- #define NPS_NUM_HW_THREADS	0x10
- 
-+static int mtm_hs_ctr = MT_HS_CNT_MAX;
-+
- #ifdef CONFIG_EZNPS_MEM_ERROR
- int do_memory_error(unsigned long address, struct pt_regs *regs)
- {
-@@ -129,7 +132,7 @@ void mtm_enable_core(unsigned int cpu)
- 	/* Enable HW schedule, stall counter, mtm */
- 	mt_ctrl.value = 0;
- 	mt_ctrl.hsen = 1;
--	mt_ctrl.hs_cnt = MT_CTRL_HS_CNT;
-+	mt_ctrl.hs_cnt = mtm_hs_ctr;
- 	mt_ctrl.mten = 1;
- 	write_aux_reg(CTOP_AUX_MT_CTRL, mt_ctrl.value);
- 
-@@ -140,3 +143,45 @@ void mtm_enable_core(unsigned int cpu)
- 	 */
- 	cpu_relax();
- }
-+
-+/* Handle an out of bounds mtm hs counter value */
-+static void __init handle_mtm_hs_ctr_out_of_bounds_error(uint8_t val)
-+{
-+	pr_err("** The value of mtm_hs_ctr is out of bounds!\n"
-+	       "** It must be in the range [%d,%d] (inclusive)\n"
-+	       "Setting mtm_hs_ctr to %d\n", MT_HS_CNT_MIN, MT_HS_CNT_MAX, val);
-+
-+	mtm_hs_ctr = val;
-+}
-+
-+/* Verify and set the value of the mtm hs counter */
-+static int __init set_mtm_hs_ctr(char *ctr_str)
-+{
-+	int ret;
-+	long hs_ctr;
-+
-+	ret = kstrtol(ctr_str, 0, &hs_ctr);
-+	if (ret) {
-+		pr_err("** Error parsing the value of mtm_hs_ctr\n"
-+		       "** Make sure you entered a valid integer value\n"
-+		       "Setting mtm_hs_ctr to default value: %d\n",
-+		       MT_HS_CNT_MAX);
-+		mtm_hs_ctr = MT_HS_CNT_MAX;
-+		return -EINVAL;
-+	}
-+
-+	if (hs_ctr > MT_HS_CNT_MAX) {
-+		handle_mtm_hs_ctr_out_of_bounds_error(MT_HS_CNT_MAX);
-+		return -EDOM;
-+	}
-+
-+	if (hs_ctr < MT_HS_CNT_MIN) {
-+		handle_mtm_hs_ctr_out_of_bounds_error(MT_HS_CNT_MIN);
-+		return -EDOM;
-+	}
-+
-+	mtm_hs_ctr = hs_ctr;
-+
-+	return 0;
-+}
-+early_param("nps_mtm_hs_ctr", set_mtm_hs_ctr);
+ # Avoid funny character set dependencies
+ unexport LC_ALL
++unexport LANG
+ LC_COLLATE=C
+ LC_NUMERIC=C
+ export LC_COLLATE LC_NUMERIC
 -- 
-1.7.1
+2.7.5
