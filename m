@@ -1,61 +1,75 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Thu, 15 Jun 2017 11:44:01 +0300
-Subject: [PATCH v3 11/11] ARC: [plat-eznps] avoid toggling of DPC register
+Date: Thu, 15 Jun 2017 11:43:51 +0300
+Subject: [PATCH v3 01/11] ARC: set level of log per CPU during boot to be info
+ level
 In-Reply-To: <1497516241-16446-1-git-send-email-noamca@mellanox.com>
 References: <1497516241-16446-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1497516241-16446-12-git-send-email-noamca@mellanox.com>
+Message-ID: <1497516241-16446-2-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Elad Kanfi <eladkan@mellanox.com>
+From: Noam Camus <noamca@mellanox.com>
 
-HW bug description: in case of HW thread context switch
-the dpc configuration of the exiting thread is dragged
-one cycle into the next thread.
-In order to avoid the consequences of this bug, the DPC register
-is set to an initial value, and not changed afterwards.
+Now it can be hidden by passing higher loglevel sevirity at cmdline
+The reasons are:
+1) speeding up boot time, becomes critical for many CPUs machine,
+   e.g. NPS400 with 4K CPUs
+2) shorten kernel log at boot time, again easy to scan for large
+   scale machines such NPS400
 
-Signed-off-by: Elad Kanfi <eladkan at mellanox.com>
 Signed-off-by: Noam Camus <noamca at mellanox.com>
 ---
- arch/arc/plat-eznps/include/plat/ctop.h |    1 +
- arch/arc/plat-eznps/mtm.c               |   12 ++++++++++++
- 2 files changed, 13 insertions(+), 0 deletions(-)
+ arch/arc/kernel/setup.c |    6 +++---
+ arch/arc/mm/cache.c     |    2 +-
+ arch/arc/mm/tlb.c       |    2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arc/plat-eznps/include/plat/ctop.h b/arch/arc/plat-eznps/include/plat/ctop.h
-index 7729d3d..0c7d110 100644
---- a/arch/arc/plat-eznps/include/plat/ctop.h
-+++ b/arch/arc/plat-eznps/include/plat/ctop.h
-@@ -39,6 +39,7 @@
- #define CTOP_AUX_LOGIC_CORE_ID			(CTOP_AUX_BASE + 0x018)
- #define CTOP_AUX_MT_CTRL			(CTOP_AUX_BASE + 0x020)
- #define CTOP_AUX_HW_COMPLY			(CTOP_AUX_BASE + 0x024)
-+#define CTOP_AUX_DPC				(CTOP_AUX_BASE + 0x02C)
- #define CTOP_AUX_LPC				(CTOP_AUX_BASE + 0x030)
- #define CTOP_AUX_EFLAGS				(CTOP_AUX_BASE + 0x080)
- #define CTOP_AUX_IACK				(CTOP_AUX_BASE + 0x088)
-diff --git a/arch/arc/plat-eznps/mtm.c b/arch/arc/plat-eznps/mtm.c
-index 9c78ad6..909bbd4 100644
---- a/arch/arc/plat-eznps/mtm.c
-+++ b/arch/arc/plat-eznps/mtm.c
-@@ -110,6 +110,18 @@ void mtm_enable_core(unsigned int cpu)
- 	int i;
- 	struct nps_host_reg_aux_mt_ctrl mt_ctrl;
- 	struct nps_host_reg_mtm_cfg mtm_cfg;
-+	struct nps_host_reg_aux_dpc dpc;
-+
-+	/*
-+	 * Initializing dpc register in each CPU.
-+	 * Overwriting the init value of the DPC
-+	 * register so that CMEM and FMT virtual address
-+	 * spaces are accessible, and Data Plane HW
-+	 * facilities are enabled.
-+	 */
-+	dpc.ien = 1;
-+	dpc.men = 1;
-+	write_aux_reg(CTOP_AUX_DPC, dpc.value);
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index fc8211f..de29ea9 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -385,13 +385,13 @@ void setup_processor(void)
+ 	read_arc_build_cfg_regs();
+ 	arc_init_IRQ();
  
- 	if (NPS_CPU_TO_THREAD_NUM(cpu) != 0)
- 		return;
+-	printk(arc_cpu_mumbojumbo(cpu_id, str, sizeof(str)));
++	pr_info("%s", arc_cpu_mumbojumbo(cpu_id, str, sizeof(str)));
+ 
+ 	arc_mmu_init();
+ 	arc_cache_init();
+ 
+-	printk(arc_extn_mumbojumbo(cpu_id, str, sizeof(str)));
+-	printk(arc_platform_smp_cpuinfo());
++	pr_info("%s", arc_extn_mumbojumbo(cpu_id, str, sizeof(str)));
++	pr_info("%s", arc_platform_smp_cpuinfo());
+ 
+ 	arc_chk_core_config();
+ }
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index a867575..bdb5227 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -1188,7 +1188,7 @@ void __ref arc_cache_init(void)
+ 	unsigned int __maybe_unused cpu = smp_processor_id();
+ 	char str[256];
+ 
+-	printk(arc_cache_mumbojumbo(0, str, sizeof(str)));
++	pr_info("%s", arc_cache_mumbojumbo(0, str, sizeof(str)));
+ 
+ 	/*
+ 	 * Only master CPU needs to execute rest of function:
+diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
+index d0126fd..2b6da60 100644
+--- a/arch/arc/mm/tlb.c
++++ b/arch/arc/mm/tlb.c
+@@ -814,7 +814,7 @@ void arc_mmu_init(void)
+ 	char str[256];
+ 	struct cpuinfo_arc_mmu *mmu = &cpuinfo_arc700[smp_processor_id()].mmu;
+ 
+-	printk(arc_mmu_mumbojumbo(0, str, sizeof(str)));
++	pr_info("%s", arc_mmu_mumbojumbo(0, str, sizeof(str)));
+ 
+ 	/*
+ 	 * Can't be done in processor.h due to header include depenedencies
 -- 
 1.7.1
