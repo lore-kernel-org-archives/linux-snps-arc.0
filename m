@@ -1,81 +1,115 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Thu, 15 Jun 2017 11:43:50 +0300
-Subject: [PATCH v3 00/11] plat-eznps upstream cont. set 2
+Date: Thu, 15 Jun 2017 11:44:00 +0300
+Subject: [PATCH v3 10/11] ARC: [plat-eznps] handle dedicated AUX registers
+In-Reply-To: <1497516241-16446-1-git-send-email-noamca@mellanox.com>
+References: <1497516241-16446-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1497516241-16446-1-git-send-email-noamca@mellanox.com>
+Message-ID: <1497516241-16446-11-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Noam Camus <noamca@mellanox.com>
+From: Liav Rehana <liavr@mellanox.com>
 
-Change Log:
-V2 -> V3
-1) turn ARC prink's into pr_info as suggested by Vineet
-2) For new command line argument (hs counter) shorten error massage to a single line,
-   again as Vineet commented.
+Preserve eflags and gpa1 auxiliaries during exception
+Registers used by compare exchange instructions.
+GPA1 is used for compare value, and EFLAGS got bit reflects
+atomic operation response.
 
-V1 -> V2
-1) I added "Handle memory error as an exception" patch from previous set
-   It now turn do_memory_error() into weak sybol.
-   It is then overriden by NPS400 platform, to simply call die().
-2) This set is now based on arc-next branch
+EFLAGS is zeroed for each new user task so it won't get its
+parent value.
 
-Summary:
-With this patch set I continue the effort of upstreaming the eznps platform for arch/arc.
+Signed-off-by: Noam Camus <noamc at ezchip.com>
+---
+ arch/arc/include/asm/entry-compact.h |   24 ++++++++++++++++++++++++
+ arch/arc/include/asm/ptrace.h        |    5 +++++
+ arch/arc/kernel/process.c            |    4 ++++
+ 3 files changed, 33 insertions(+), 0 deletions(-)
 
-It comprise of couple of patches from last set yet not accepted,
-patches for HW erratas and some misc extensions such for HIGHMEM / NUMA.
-
-This set got more generic ARC changes than previous set.
-Additional ifdef seem like unavoidable, however it may seem Ugly.
-Let's see if we need to do it more elegant.
-
-Elad Kanfi (1):
-  ARC: [plat-eznps] avoid toggling of DPC register
-
-Liav Rehana (2):
-  ARC: [plat-eznps] Update the init sequence of aux regs per cpu.
-  ARC: [plat-eznps] handle dedicated AUX registers
-
-Noam Camus (8):
-  ARC: set level of log per CPU during boot to be info level
-  ARC: send ipi to all cpus sharing task mm in case of page fault
-  ARC: Allow irq threading
-  ARC: Add CPU topology
-  ARC: Support more than one PGDIR for KVADDR
-  ARC: [NUMA] added CONFIG_NUMA for plat-eznps
-  ARC: [plat-eznps] new command line argument for HW scheduler at MTM
-  ARC: [plat-eznps] Save/Restore extra auxiliary registers
-
- Documentation/admin-guide/kernel-parameters.txt |    9 ++
- arch/arc/Kconfig                                |   48 +++++++++
- arch/arc/include/asm/Kbuild                     |    1 -
- arch/arc/include/asm/arcregs.h                  |    7 ++
- arch/arc/include/asm/cacheflush.h               |    3 +-
- arch/arc/include/asm/entry-compact.h            |   24 +++++
- arch/arc/include/asm/highmem.h                  |    8 +-
- arch/arc/include/asm/pgtable.h                  |    9 ++
- arch/arc/include/asm/processor.h                |    8 +-
- arch/arc/include/asm/ptrace.h                   |    5 +
- arch/arc/include/asm/switch_to.h                |   11 ++
- arch/arc/include/asm/topology.h                 |   40 +++++++
- arch/arc/kernel/Makefile                        |    1 +
- arch/arc/kernel/process.c                       |    4 +
- arch/arc/kernel/setup.c                         |   13 ++-
- arch/arc/kernel/smp.c                           |    5 +
- arch/arc/kernel/topology.c                      |  125 +++++++++++++++++++++++
- arch/arc/mm/cache.c                             |   14 ++-
- arch/arc/mm/fault.c                             |    8 ++
- arch/arc/mm/highmem.c                           |   16 ++-
- arch/arc/mm/init.c                              |    6 +
- arch/arc/mm/tlb.c                               |    4 +-
- arch/arc/mm/tlbex.S                             |   31 ++++++
- arch/arc/plat-eznps/Kconfig                     |   11 ++
- arch/arc/plat-eznps/Makefile                    |    2 +-
- arch/arc/plat-eznps/ctop.c                      |   33 ++++++
- arch/arc/plat-eznps/entry.S                     |    2 +-
- arch/arc/plat-eznps/include/plat/ctop.h         |    1 +
- arch/arc/plat-eznps/mtm.c                       |   58 ++++++++++-
- 29 files changed, 481 insertions(+), 26 deletions(-)
- create mode 100644 arch/arc/include/asm/topology.h
- create mode 100644 arch/arc/kernel/topology.c
- create mode 100644 arch/arc/plat-eznps/ctop.c
+diff --git a/arch/arc/include/asm/entry-compact.h b/arch/arc/include/asm/entry-compact.h
+index 14c310f..9e4458a 100644
+--- a/arch/arc/include/asm/entry-compact.h
++++ b/arch/arc/include/asm/entry-compact.h
+@@ -192,6 +192,12 @@
+ 	PUSHAX	lp_start
+ 	PUSHAX	erbta
+ 
++#ifdef CONFIG_ARC_PLAT_EZNPS
++	.word CTOP_INST_SCHD_RW
++	PUSHAX  CTOP_AUX_GPA1
++	PUSHAX  CTOP_AUX_EFLAGS
++#endif
++`
+ 	lr	r9, [ecr]
+ 	st      r9, [sp, PT_event]    /* EV_Trap expects r9 to have ECR */
+ .endm
+@@ -208,6 +214,12 @@
+  * by hardware and that is not good.
+  *-------------------------------------------------------------*/
+ .macro EXCEPTION_EPILOGUE
++#ifdef CONFIG_ARC_PLAT_EZNPS
++	.word CTOP_INST_SCHD_RW
++	POPAX   CTOP_AUX_EFLAGS
++	POPAX   CTOP_AUX_GPA1
++#endif
++
+ 	POPAX	erbta
+ 	POPAX	lp_start
+ 	POPAX	lp_end
+@@ -265,6 +277,12 @@
+ 	PUSHAX	lp_end
+ 	PUSHAX	lp_start
+ 	PUSHAX	bta_l\LVL\()
++
++#ifdef CONFIG_ARC_PLAT_EZNPS
++	.word CTOP_INST_SCHD_RW
++	PUSHAX  CTOP_AUX_GPA1
++	PUSHAX  CTOP_AUX_EFLAGS
++#endif
+ .endm
+ 
+ /*--------------------------------------------------------------
+@@ -277,6 +295,12 @@
+  * by hardware and that is not good.
+  *-------------------------------------------------------------*/
+ .macro INTERRUPT_EPILOGUE  LVL
++#ifdef CONFIG_ARC_PLAT_EZNPS
++	.word CTOP_INST_SCHD_RW
++	POPAX   CTOP_AUX_EFLAGS
++	POPAX   CTOP_AUX_GPA1
++#endif
++
+ 	POPAX	bta_l\LVL\()
+ 	POPAX	lp_start
+ 	POPAX	lp_end
+diff --git a/arch/arc/include/asm/ptrace.h b/arch/arc/include/asm/ptrace.h
+index 5297faa..5a8cb22 100644
+--- a/arch/arc/include/asm/ptrace.h
++++ b/arch/arc/include/asm/ptrace.h
+@@ -19,6 +19,11 @@
+ #ifdef CONFIG_ISA_ARCOMPACT
+ struct pt_regs {
+ 
++#ifdef CONFIG_ARC_PLAT_EZNPS
++	unsigned long eflags;	/* Extended FLAGS */
++	unsigned long gpa1;	/* General Purpose Aux */
++#endif
++
+ 	/* Real registers */
+ 	unsigned long bta;	/* bta_l1, bta_l2, erbta */
+ 
+diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
+index 5c631a1..5ac3b54 100644
+--- a/arch/arc/kernel/process.c
++++ b/arch/arc/kernel/process.c
+@@ -234,6 +234,10 @@ void start_thread(struct pt_regs * regs, unsigned long pc, unsigned long usp)
+ 	 */
+ 	regs->status32 = STATUS_U_MASK | STATUS_L_MASK | ISA_INIT_STATUS_BITS;
+ 
++#ifdef CONFIG_EZNPS_MTM_EXT
++	regs->eflags = 0;
++#endif
++
+ 	/* bogus seed values for debugging */
+ 	regs->lp_start = 0x10;
+ 	regs->lp_end = 0x80;
+-- 
+1.7.1
