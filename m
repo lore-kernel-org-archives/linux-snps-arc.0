@@ -1,115 +1,143 @@
 From: noamca@mellanox.com (Noam Camus)
-Date: Thu, 15 Jun 2017 11:44:00 +0300
-Subject: [PATCH v3 10/11] ARC: [plat-eznps] handle dedicated AUX registers
+Date: Thu, 15 Jun 2017 11:43:59 +0300
+Subject: [PATCH v3 09/11] ARC: [plat-eznps] Save/Restore extra auxiliary
+ registers
 In-Reply-To: <1497516241-16446-1-git-send-email-noamca@mellanox.com>
 References: <1497516241-16446-1-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1497516241-16446-11-git-send-email-noamca@mellanox.com>
+Message-ID: <1497516241-16446-10-git-send-email-noamca@mellanox.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Liav Rehana <liavr@mellanox.com>
+From: Noam Camus <noamc@ezchip.com>
 
-Preserve eflags and gpa1 auxiliaries during exception
-Registers used by compare exchange instructions.
-GPA1 is used for compare value, and EFLAGS got bit reflects
-atomic operation response.
+thread_struct got new field for data plane of eznps platform.
+This field got place for data plane auxiliary registers and for
+any extra registers that might be changed in kernel code.
 
-EFLAGS is zeroed for each new user task so it won't get its
-parent value.
+We save EFLAGS, and GPA1 auxiliary registers since they may be
+changed by the new task while using atomic operations e.g. cmpxchg.
 
 Signed-off-by: Noam Camus <noamc at ezchip.com>
 ---
- arch/arc/include/asm/entry-compact.h |   24 ++++++++++++++++++++++++
- arch/arc/include/asm/ptrace.h        |    5 +++++
- arch/arc/kernel/process.c            |    4 ++++
- 3 files changed, 33 insertions(+), 0 deletions(-)
+ arch/arc/include/asm/arcregs.h   |    7 +++++++
+ arch/arc/include/asm/processor.h |    3 +++
+ arch/arc/include/asm/switch_to.h |   11 +++++++++++
+ arch/arc/plat-eznps/Makefile     |    2 +-
+ arch/arc/plat-eznps/ctop.c       |   33 +++++++++++++++++++++++++++++++++
+ 5 files changed, 55 insertions(+), 1 deletions(-)
+ create mode 100644 arch/arc/plat-eznps/ctop.c
 
-diff --git a/arch/arc/include/asm/entry-compact.h b/arch/arc/include/asm/entry-compact.h
-index 14c310f..9e4458a 100644
---- a/arch/arc/include/asm/entry-compact.h
-+++ b/arch/arc/include/asm/entry-compact.h
-@@ -192,6 +192,12 @@
- 	PUSHAX	lp_start
- 	PUSHAX	erbta
+diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
+index ba8e802..9437d42 100644
+--- a/arch/arc/include/asm/arcregs.h
++++ b/arch/arc/include/asm/arcregs.h
+@@ -123,6 +123,13 @@
+ #define PAGES_TO_MB(n_pages)	(PAGES_TO_KB(n_pages) >> 10)
+ 
  
 +#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	PUSHAX  CTOP_AUX_GPA1
-+	PUSHAX  CTOP_AUX_EFLAGS
-+#endif
-+`
- 	lr	r9, [ecr]
- 	st      r9, [sp, PT_event]    /* EV_Trap expects r9 to have ECR */
- .endm
-@@ -208,6 +214,12 @@
-  * by hardware and that is not good.
-  *-------------------------------------------------------------*/
- .macro EXCEPTION_EPILOGUE
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	POPAX   CTOP_AUX_EFLAGS
-+	POPAX   CTOP_AUX_GPA1
++struct eznps_dp {
++	unsigned int eflags;
++	unsigned int gpa1;
++};
 +#endif
 +
- 	POPAX	erbta
- 	POPAX	lp_start
- 	POPAX	lp_end
-@@ -265,6 +277,12 @@
- 	PUSHAX	lp_end
- 	PUSHAX	lp_start
- 	PUSHAX	bta_l\LVL\()
-+
+ /*
+  ***************************************************************
+  * Build Configuration Registers, with encoded hardware config
+diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
+index fd7bdfa..130bb55 100644
+--- a/arch/arc/include/asm/processor.h
++++ b/arch/arc/include/asm/processor.h
+@@ -38,6 +38,9 @@ struct thread_struct {
+ #ifdef CONFIG_ARC_FPU_SAVE_RESTORE
+ 	struct arc_fpu fpu;
+ #endif
 +#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	PUSHAX  CTOP_AUX_GPA1
-+	PUSHAX  CTOP_AUX_EFLAGS
++	struct eznps_dp dp;
 +#endif
- .endm
+ };
  
- /*--------------------------------------------------------------
-@@ -277,6 +295,12 @@
-  * by hardware and that is not good.
-  *-------------------------------------------------------------*/
- .macro INTERRUPT_EPILOGUE  LVL
-+#ifdef CONFIG_ARC_PLAT_EZNPS
-+	.word CTOP_INST_SCHD_RW
-+	POPAX   CTOP_AUX_EFLAGS
-+	POPAX   CTOP_AUX_GPA1
-+#endif
-+
- 	POPAX	bta_l\LVL\()
- 	POPAX	lp_start
- 	POPAX	lp_end
-diff --git a/arch/arc/include/asm/ptrace.h b/arch/arc/include/asm/ptrace.h
-index 5297faa..5a8cb22 100644
---- a/arch/arc/include/asm/ptrace.h
-+++ b/arch/arc/include/asm/ptrace.h
-@@ -19,6 +19,11 @@
- #ifdef CONFIG_ISA_ARCOMPACT
- struct pt_regs {
+ #define INIT_THREAD  {                          \
+diff --git a/arch/arc/include/asm/switch_to.h b/arch/arc/include/asm/switch_to.h
+index 1b171ab..4c53080 100644
+--- a/arch/arc/include/asm/switch_to.h
++++ b/arch/arc/include/asm/switch_to.h
+@@ -26,13 +26,24 @@
+ 
+ #endif /* !CONFIG_ARC_FPU_SAVE_RESTORE */
  
 +#ifdef CONFIG_ARC_PLAT_EZNPS
-+	unsigned long eflags;	/* Extended FLAGS */
-+	unsigned long gpa1;	/* General Purpose Aux */
-+#endif
++extern void dp_save_restore(struct task_struct *p, struct task_struct *n);
++#define ARC_DP_PREV(p, n)      dp_save_restore(p, n)
++#define ARC_DP_NEXT(t)
++#else
++#define ARC_DP_PREV(p, n)
++#define ARC_DP_NEXT(n)
++#endif /* !CONFIG_ARC_PLAT_EZNPS */
 +
- 	/* Real registers */
- 	unsigned long bta;	/* bta_l1, bta_l2, erbta */
+ struct task_struct *__switch_to(struct task_struct *p, struct task_struct *n);
  
-diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
-index 5c631a1..5ac3b54 100644
---- a/arch/arc/kernel/process.c
-+++ b/arch/arc/kernel/process.c
-@@ -234,6 +234,10 @@ void start_thread(struct pt_regs * regs, unsigned long pc, unsigned long usp)
- 	 */
- 	regs->status32 = STATUS_U_MASK | STATUS_L_MASK | ISA_INIT_STATUS_BITS;
+ #define switch_to(prev, next, last)	\
+ do {					\
++	ARC_DP_PREV(prev, next);	\
+ 	ARC_FPU_PREV(prev, next);	\
+ 	last = __switch_to(prev, next);\
+ 	ARC_FPU_NEXT(next);		\
++	ARC_DP_NEXT(next);		\
+ 	mb();				\
+ } while (0)
  
-+#ifdef CONFIG_EZNPS_MTM_EXT
-+	regs->eflags = 0;
-+#endif
+diff --git a/arch/arc/plat-eznps/Makefile b/arch/arc/plat-eznps/Makefile
+index 21091b1..8d43717 100644
+--- a/arch/arc/plat-eznps/Makefile
++++ b/arch/arc/plat-eznps/Makefile
+@@ -2,6 +2,6 @@
+ # Makefile for the linux kernel.
+ #
+ 
+-obj-y := entry.o platform.o
++obj-y := entry.o platform.o ctop.o
+ obj-$(CONFIG_SMP) += smp.o
+ obj-$(CONFIG_EZNPS_MTM_EXT) += mtm.o
+diff --git a/arch/arc/plat-eznps/ctop.c b/arch/arc/plat-eznps/ctop.c
+new file mode 100644
+index 0000000..8b13a08
+--- /dev/null
++++ b/arch/arc/plat-eznps/ctop.c
+@@ -0,0 +1,33 @@
++/*
++ * Copyright(c) 2015 EZchip Technologies.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * The full GNU General Public License is included in this distribution in
++ * the file called "COPYING".
++ */
 +
- 	/* bogus seed values for debugging */
- 	regs->lp_start = 0x10;
- 	regs->lp_end = 0x80;
++#include <linux/sched.h>
++#include <asm/arcregs.h>
++#include <plat/ctop.h>
++
++void dp_save_restore(struct task_struct *prev, struct task_struct *next)
++{
++	struct eznps_dp *prev_task_dp = &prev->thread.dp;
++	struct eznps_dp *next_task_dp = &next->thread.dp;
++
++	/* Here we save all Data Plane related auxiliary registers */
++	prev_task_dp->eflags = read_aux_reg(CTOP_AUX_EFLAGS);
++	write_aux_reg(CTOP_AUX_EFLAGS, next_task_dp->eflags);
++
++	prev_task_dp->gpa1 = read_aux_reg(CTOP_AUX_GPA1);
++	write_aux_reg(CTOP_AUX_GPA1, next_task_dp->gpa1);
++}
++
 -- 
 1.7.1
