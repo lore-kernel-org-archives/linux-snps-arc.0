@@ -1,65 +1,108 @@
-From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Fri, 16 Jun 2017 09:29:51 +0900
-Subject: [PATCH] Unexport LANG env variable
-In-Reply-To: <1497445867.6424.36.camel@synopsys.com>
-References: <1497444056-24962-1-git-send-email-abrodkin@synopsys.com>
- <51f658dc-215a-6c0c-0ab9-d1164812a56d@suse.com>
- <1497445867.6424.36.camel@synopsys.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 16 Jun 2017 09:11:43 +0200
+Subject: [PATCH] arc: implement DMA_ATTR_NO_KERNEL_MAPPING
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK7LNARgbncLWQvGoR82hVGMOj4yggcvQQZB=aw6yEi-SE0zCw@mail.gmail.com>
+Message-ID: <20170616071143.16878-1-hch@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Alexey,
+This way allocations like the NVMe HMB don't consume iomap space
 
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
 
-2017-06-14 22:11 GMT+09:00 Alexey Brodkin <Alexey.Brodkin at synopsys.com>:
-> Hi Michal,
->
-> On Wed, 2017-06-14@15:02 +0200, Michal Marek wrote:
->> Dne 14.6.2017 v 14:40 Alexey Brodkin napsal(a):
->> >
->> > In those cases when we parse output of standard utilities like readelf
->> > etc we rely on a particular sentences. For example for ARC we extract
->> > an entry-point from vmlinux like that:
->> > ---------------------->8--------------------
->> > readelf -h vmlinux | grep "Entry point address" | grep -o 0x.*
->> > ---------------------->8--------------------
->> >
->> > And in case LANG is set to anything other than en_XX we're getting
->> > nothing and subsequent execution of mkimage utility fails.
->> >
->> > Probably there're more cases like that but given people rarely
->> > use non-English locales on their dev machines problems like the one
->> > above are not very visible.
->>
->> I'm all for this change but the *.po files in the gcc tree must have
->> been created for a reason:
->>
->>   https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_gcc-2Dmirror_gcc_tree_master_gcc_po&d=DwICBA&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes
->> 0GFDDl656eViXO7breS55ytWkhpk5R81I&m=v2ilYYv6Z0WzVaIys3sCQdK3QBI9gqH7hUmoTGPpJ44&s=S3B79SHovtt1-wLRtngTUM0dKWMiokGE75HIrfgkbbc&e=
->
-> That's for sure.
->
-> But then how may we have a predictable environment for our machinery?
->
-> I do realize that with that change in place people will start seeing
-> non-translated messages from other tools like compiler etc.
->
-> But probably that's not the worst idea as well because it helps googling :)
+Note: compile tested only, I stumbled over this when researching dma api
+quirks for HMB support.
 
+ arch/arc/mm/dma.c | 42 +++++++++++++++++++++++++++++-------------
+ 1 file changed, 29 insertions(+), 13 deletions(-)
 
-I do not want to lose users' freedom to choose their favorite language.
-
-
-For example, arch/powerpc/boot/wrapper  does this
-
-LANG=C elfformat="`${CROSS}objdump -p "$kernel" | grep 'file format' |
-awk '{print $4}'`"
-
-
-I think you can solve your problem like that.
-
-
+diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
+index 2a07e6ecafbd..d8999ac88879 100644
+--- a/arch/arc/mm/dma.c
++++ b/arch/arc/mm/dma.c
+@@ -28,13 +28,22 @@ static void *arc_dma_alloc(struct device *dev, size_t size,
+ 	struct page *page;
+ 	phys_addr_t paddr;
+ 	void *kvaddr;
+-	int need_coh = 1, need_kvaddr = 0;
++	bool need_cache_sync = true, need_kvaddr = false;
+ 
+ 	page = alloc_pages(gfp, order);
+ 	if (!page)
+ 		return NULL;
+ 
+ 	/*
++	 * No-kernel mapping memoery doesn't need a kernel virtual address.
++	 * But we do the initial cache flush to make sure we don't write back
++	 * to from a previous mapping into the now device owned memory.
++	 */
++	if (attrs & DMA_ATTR_NO_KERNEL_MAPPING) {
++		need_cache_sync = true;
++		need_kvaddr = false;
++
++	/*
+ 	 * IOC relies on all data (even coherent DMA data) being in cache
+ 	 * Thus allocate normal cached memory
+ 	 *
+@@ -45,17 +54,19 @@ static void *arc_dma_alloc(struct device *dev, size_t size,
+ 	 *   -For coherent data, Read/Write to buffers terminate early in cache
+ 	 *   (vs. always going to memory - thus are faster)
+ 	 */
+-	if ((is_isa_arcv2() && ioc_enable) ||
+-	    (attrs & DMA_ATTR_NON_CONSISTENT))
+-		need_coh = 0;
++	} else if ((is_isa_arcv2() && ioc_enable) ||
++		   (attrs & DMA_ATTR_NON_CONSISTENT)) {
++		need_cache_sync = false;
++		need_kvaddr = true;
+ 
+ 	/*
+ 	 * - A coherent buffer needs MMU mapping to enforce non-cachability
+ 	 * - A highmem page needs a virtual handle (hence MMU mapping)
+ 	 *   independent of cachability
+ 	 */
+-	if (PageHighMem(page) || need_coh)
+-		need_kvaddr = 1;
++	} else if (PageHighMem(page)) {
++		need_kvaddr = true;
++	}
+ 
+ 	/* This is linear addr (0x8000_0000 based) */
+ 	paddr = page_to_phys(page);
+@@ -83,7 +94,7 @@ static void *arc_dma_alloc(struct device *dev, size_t size,
+ 	 * Currently flush_cache_vmap nukes the L1 cache completely which
+ 	 * will be optimized as a separate commit
+ 	 */
+-	if (need_coh)
++	if (need_cache_sync)
+ 		dma_cache_wback_inv(paddr, size);
+ 
+ 	return kvaddr;
+@@ -93,14 +104,19 @@ static void arc_dma_free(struct device *dev, size_t size, void *vaddr,
+ 		dma_addr_t dma_handle, unsigned long attrs)
+ {
+ 	phys_addr_t paddr = plat_dma_to_phys(dev, dma_handle);
+-	struct page *page = virt_to_page(paddr);
+-	int is_non_coh = 1;
+ 
+-	is_non_coh = (attrs & DMA_ATTR_NON_CONSISTENT) ||
+-			(is_isa_arcv2() && ioc_enable);
++	if (!(attrs & DMA_ATTR_NO_KERNEL_MAPPING)) {
++		struct page *page = virt_to_page(paddr);
++		bool need_iounmap = true;
++
++		if (!PageHighMem(page) &&
++		    ((is_isa_arcv2() && ioc_enable) ||
++		     (attrs & DMA_ATTR_NON_CONSISTENT)))
++			need_iounmap = false;
+ 
+-	if (PageHighMem(page) || !is_non_coh)
+-		iounmap((void __force __iomem *)vaddr);
++		if (need_iounmap)
++			iounmap((void __force __iomem *)vaddr);
++	}
+ 
+ 	__free_pages(page, get_order(size));
+ }
 -- 
-Best Regards
-Masahiro Yamada
+2.11.0
