@@ -1,37 +1,65 @@
-From: matthias.bgg@gmail.com (Matthias Brugger)
-Date: Thu, 15 Jun 2017 18:02:00 +0200
-Subject: [PATCH 13/23] clocksource/drivers: Rename clocksource_probe to
- timer_probe
-In-Reply-To: <1497443984-12371-13-git-send-email-daniel.lezcano@linaro.org>
-References: <20170614123800.GH2261@mai>
- <1497443984-12371-1-git-send-email-daniel.lezcano@linaro.org>
- <1497443984-12371-13-git-send-email-daniel.lezcano@linaro.org>
+From: yamada.masahiro@socionext.com (Masahiro Yamada)
+Date: Fri, 16 Jun 2017 09:29:51 +0900
+Subject: [PATCH] Unexport LANG env variable
+In-Reply-To: <1497445867.6424.36.camel@synopsys.com>
+References: <1497444056-24962-1-git-send-email-abrodkin@synopsys.com>
+ <51f658dc-215a-6c0c-0ab9-d1164812a56d@suse.com>
+ <1497445867.6424.36.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <a6614bcf-5552-b168-eee9-a1d604673494@gmail.com>
+Message-ID: <CAK7LNARgbncLWQvGoR82hVGMOj4yggcvQQZB=aw6yEi-SE0zCw@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
+Hi Alexey,
 
 
-On 14/06/17 14:39, Daniel Lezcano wrote:
-> The function name is now renamed to 'timer_probe' for consistency with
-> the CLOCKSOURCE_OF_DECLARE => TIMER_OF_DECLARE change.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
-> Acked-by: Viresh Kumar <viresh.kumar at linaro.org>
-> Acked-by: Heiko Stuebner <heiko at sntech.de>
-> Reviewed-by: Linus Walleij <linus.walleij at linaro.org>
-> ---
-[...]
-> diff --git a/arch/arm/mach-mediatek/mediatek.c b/arch/arm/mach-mediatek/mediatek.c
-> index a6e3c98..c3cf215 100644
-> --- a/arch/arm/mach-mediatek/mediatek.c
-> +++ b/arch/arm/mach-mediatek/mediatek.c
-> @@ -41,7 +41,7 @@ static void __init mediatek_timer_init(void)
->   	}
->   
->   	of_clk_init(NULL);
-> -	clocksource_probe();
-> +	timer_probe();
->   };
+2017-06-14 22:11 GMT+09:00 Alexey Brodkin <Alexey.Brodkin at synopsys.com>:
+> Hi Michal,
+>
+> On Wed, 2017-06-14@15:02 +0200, Michal Marek wrote:
+>> Dne 14.6.2017 v 14:40 Alexey Brodkin napsal(a):
+>> >
+>> > In those cases when we parse output of standard utilities like readelf
+>> > etc we rely on a particular sentences. For example for ARC we extract
+>> > an entry-point from vmlinux like that:
+>> > ---------------------->8--------------------
+>> > readelf -h vmlinux | grep "Entry point address" | grep -o 0x.*
+>> > ---------------------->8--------------------
+>> >
+>> > And in case LANG is set to anything other than en_XX we're getting
+>> > nothing and subsequent execution of mkimage utility fails.
+>> >
+>> > Probably there're more cases like that but given people rarely
+>> > use non-English locales on their dev machines problems like the one
+>> > above are not very visible.
+>>
+>> I'm all for this change but the *.po files in the gcc tree must have
+>> been created for a reason:
+>>
+>>   https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_gcc-2Dmirror_gcc_tree_master_gcc_po&d=DwICBA&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes
+>> 0GFDDl656eViXO7breS55ytWkhpk5R81I&m=v2ilYYv6Z0WzVaIys3sCQdK3QBI9gqH7hUmoTGPpJ44&s=S3B79SHovtt1-wLRtngTUM0dKWMiokGE75HIrfgkbbc&e=
+>
+> That's for sure.
+>
+> But then how may we have a predictable environment for our machinery?
+>
+> I do realize that with that change in place people will start seeing
+> non-translated messages from other tools like compiler etc.
+>
+> But probably that's not the worst idea as well because it helps googling :)
 
-Acked-by: Matthias Brugger <matthias.bgg at gmail.com>
+
+I do not want to lose users' freedom to choose their favorite language.
+
+
+For example, arch/powerpc/boot/wrapper  does this
+
+LANG=C elfformat="`${CROSS}objdump -p "$kernel" | grep 'file format' |
+awk '{print $4}'`"
+
+
+I think you can solve your problem like that.
+
+
+-- 
+Best Regards
+Masahiro Yamada
