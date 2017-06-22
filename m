@@ -1,36 +1,48 @@
-From: dvhart@infradead.org (Darren Hart)
-Date: Wed, 21 Jun 2017 20:53:37 -0700
-Subject: [PATCH 1/1] futex: remove duplicated code and fix UB
-In-Reply-To: <20170621115318.2781-1-jslaby@suse.cz>
-References: <20170621115318.2781-1-jslaby@suse.cz>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 22 Jun 2017 11:06:14 -0700
+Subject: uclibc test suite with gnu 2017.03 (was Re: [Fwd: Re: nsim latest
+ free version])
+In-Reply-To: <1498152714.13700.63.camel@synopsys.com>
+References: <20170622144201.GN26922@waldemar-brodkorb.de>
+ <1498152714.13700.63.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170622035337.GF25900@fury>
+Message-ID: <90e5eb43-8912-cb2f-fe72-9b385398f232@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Jun 21, 2017@01:53:18PM +0200, Jiri Slaby wrote:
-> There is code duplicated over all architecture's headers for
-> futex_atomic_op_inuser. Namely op decoding, access_ok check for uaddr,
-> and comparison of the result.
-> 
-> Remove this duplication and leave up to the arches only the needed
-> assembly which is now in arch_futex_atomic_op_inuser.
-> 
-> This effectively distributes the Will Deacon's arm64 fix for undefined
-> behaviour reported by UBSAN to all architectures. The fix was done in
-> commit 5f16a046f8e1 (arm64: futex: Fix undefined behaviour with
-> FUTEX_OP_OPARG_SHIFT usage).  Look there for an example dump.
-> 
-> Note that s390 removed access_ok check in d12a29703 ("s390/uaccess:
-> remove pointless access_ok() checks") as access_ok there returns true.
-> We introduce it back to the helper for the sake of simplicity (it gets
-> optimized away anyway).
-> 
+Hi Waldemar,
 
-This required a minor manual merge for ARM on the tip of Linus' tree today. The
-reduced duplication is a welcome improvement.
+>> Hi Waldemar,
+>>
+>> On Wed, 2017-06-21@21:16 +0200, Waldemar Brodkorb wrote:
+>>> Hi Alexey,
+>>>
+>>> I have some issues lately running the testsuite in NSIM.
+>>> Is there may be some new version available?
+>>> How I can get an updated version?
+>> Let me check with our nSIM devs.
+>> But could you please elaborate a bit what is your problem?
+> It stalls / deadlocks here:
+> PASS tst-cancel23
+> FAIL tst-cancel25 got 1 expected 0
+>          Timed out: killed the child process
+> PASS tst-cancel3
+> FAIL tst-cancel4 got 1 expected 0
+>          Timed out: killed the child process
+> .... tst-cancel5
+>
+> Seems to happen since the toolchain update to 2017.03
+> (binutils/gcc). ARCv2 little endian started with the old script:
+> https://urldefense.proofpoint.com/v2/url?u=https-3A__cgit.openadk.org_cgi_cgit_openadk.git_tree_scripts_nsim.sh&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lq
+> deeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=8GRVuMbTElbNMAj_Fn7DTePw5-sVRsJ3lki2x-ofbzo&s=l2eNCzqvmvtPr63NgA0Uv-t7ze5J0eJeAq9ZcsDgu_Y&e=
+>
+> With attached uClibc-ng.config.
 
-Reviewed-by: Darren Hart (VMware) <dvhart at infradead.org>
+Can you please provide the full boot log  if possible - I could successfully run 
+the "old" test suite with 2017.03 !
 
--- 
-Darren Hart
-VMware Open Source Technology Center
+Also I presume there's no real evidence to attribute this is an nSIM issue - it 
+could very well be a Linux kernel or tools issue.
+Can you share your vmlinux which we can try on nsim here !
+
+Thx,
+-Vineet
