@@ -1,424 +1,190 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 23 Jun 2017 17:31:46 +0300
-Subject: [PATCH 3/3 v5] ARC: hsdk: initial port for HSDK board
-In-Reply-To: <20170623143146.14281-1-Eugeniy.Paltsev@synopsys.com>
-References: <20170623143146.14281-1-Eugeniy.Paltsev@synopsys.com>
+From: palmer@dabbelt.com (Palmer Dabbelt)
+Date: Fri, 23 Jun 2017 14:45:38 -0700
+Subject: [PATCH] pci:  Add and use PCI_GENERIC_SETUP Kconfig entry
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170623143146.14281-4-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20170623214538.25967-1-palmer@dabbelt.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Alexey Brodkin <abrodkin@synopsys.com>
+We wanted to add RISC-V to the list of architectures that used the
+generic PCI setup-irq.o inside the Makefile and it was suggested that
+instead we define a Kconfig entry and use that.
 
-This initial port adds support of ARC HS Development Kit board with some
-basic features such serial port, USB, SD/MMC and Ethernet.
+I've done very minimal testing on this: I just checked to see that
+an aarch64 defconfig still build setup-irq.o with the patch applied.
+The intention is that this patch doesn't change the behavior of any
+build.
 
-Essentially we run Linux kernel on all 4 cores (i.e. utilize SMP) and
-heavily use IO Coherency for speeding-up DMA-aware peripherals.
-
-Note as opposed to other ARC boards we link Linux kernel to
-0x9000_0000 intentionally because cores 1 and 3 configured with DCCM
-situated at our more usual link base 0x8000_0000. We still can use
-memory region starting at 0x8000_0000 as we reallocate DCCM in our
-platform code.
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+Signed-off-by: Palmer Dabbelt <palmer at dabbelt.com>
 ---
- Documentation/devicetree/bindings/arc/hsdk.txt |   7 ++
- arch/arc/Kconfig                               |   1 +
- arch/arc/Makefile                              |   1 +
- arch/arc/boot/dts/hsdk.dts                     | 150 +++++++++++++++++++++++++
- arch/arc/configs/hsdk_defconfig                |  72 ++++++++++++
- arch/arc/kernel/devtree.c                      |   5 +-
- arch/arc/plat-hsdk/Kconfig                     |  12 ++
- arch/arc/plat-hsdk/Makefile                    |   9 ++
- arch/arc/plat-hsdk/platform.c                  |  53 +++++++++
- 9 files changed, 308 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/arc/hsdk.txt
- create mode 100644 arch/arc/boot/dts/hsdk.dts
- create mode 100644 arch/arc/configs/hsdk_defconfig
- create mode 100644 arch/arc/plat-hsdk/Kconfig
- create mode 100644 arch/arc/plat-hsdk/Makefile
- create mode 100644 arch/arc/plat-hsdk/platform.c
+ arch/alpha/Kconfig     |  1 +
+ arch/arc/Kconfig       |  1 +
+ arch/arm/Kconfig       |  1 +
+ arch/arm64/Kconfig     |  1 +
+ arch/m68k/Kconfig      |  1 +
+ arch/mips/Kconfig      |  1 +
+ arch/sh/Kconfig        |  1 +
+ arch/sparc/Kconfig     |  1 +
+ arch/tile/Kconfig      |  1 +
+ arch/unicore32/Kconfig |  1 +
+ drivers/pci/Kconfig    |  3 +++
+ drivers/pci/Makefile   | 11 +----------
+ 12 files changed, 14 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/arc/hsdk.txt b/Documentation/devicetree/bindings/arc/hsdk.txt
-new file mode 100644
-index 0000000..be50654
---- /dev/null
-+++ b/Documentation/devicetree/bindings/arc/hsdk.txt
-@@ -0,0 +1,7 @@
-+Synopsys DesignWare ARC HS Development Kit Device Tree Bindings
-+---------------------------------------------------------------------------
-+
-+ARC HSDK Board with quad-core ARC HS38x4 in silicon.
-+
-+Required root node properties:
-+    - compatible = "snps,hsdk";
+diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+index 0e49d39ea74a..30f4e711f681 100644
+--- a/arch/alpha/Kconfig
++++ b/arch/alpha/Kconfig
+@@ -26,6 +26,7 @@ config ALPHA
+ 	select ODD_RT_SIGACTION
+ 	select OLD_SIGSUSPEND
+ 	select CPU_NO_EFFICIENT_FFS if !ALPHA_EV67
++	select PCI_GENERIC_SETUP
+ 	help
+ 	  The Alpha is a 64-bit general-purpose processor designed and
+ 	  marketed by the Digital Equipment Corporation of blessed memory,
 diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 75e5276..825a112 100644
+index a5459698f0ee..dd1f64858118 100644
 --- a/arch/arc/Kconfig
 +++ b/arch/arc/Kconfig
-@@ -101,6 +101,7 @@ source "arch/arc/plat-tb10x/Kconfig"
- source "arch/arc/plat-axs10x/Kconfig"
- #New platform adds here
- source "arch/arc/plat-eznps/Kconfig"
-+source "arch/arc/plat-hsdk/Kconfig"
+@@ -44,6 +44,7 @@ config ARC
+ 	select HAVE_GENERIC_DMA_COHERENT
+ 	select HAVE_KERNEL_GZIP
+ 	select HAVE_KERNEL_LZMA
++	select PCI_GENERIC_SETUP
  
- endmenu
+ config MIGHT_HAVE_PCI
+ 	bool
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 4c1a35f15838..86872246951c 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -96,6 +96,7 @@ config ARM
+ 	select PERF_USE_VMALLOC
+ 	select RTC_LIB
+ 	select SYS_SUPPORTS_APM_EMULATION
++	select PCI_GENERIC_SETUP
+ 	# Above selects are sorted alphabetically; please add new ones
+ 	# according to that.  Thanks.
+ 	help
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index b2024db225a9..6c684d8c8816 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -115,6 +115,7 @@ config ARM64
+ 	select SPARSE_IRQ
+ 	select SYSCTL_EXCEPTION_TRACE
+ 	select THREAD_INFO_IN_TASK
++	select PCI_GENERIC_SETUP
+ 	help
+ 	  ARM 64-bit (AArch64) Linux support.
  
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 44ef35d..55ca925 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -111,6 +111,7 @@ core-$(CONFIG_ARC_PLAT_SIM)	+= arch/arc/plat-sim/
- core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
- core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
- core-$(CONFIG_ARC_PLAT_EZNPS)	+= arch/arc/plat-eznps/
-+core-$(CONFIG_ARC_PLAT_HSDK)	+= arch/arc/plat-hsdk/
+diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
+index d140206d5d29..c16214344f1c 100644
+--- a/arch/m68k/Kconfig
++++ b/arch/m68k/Kconfig
+@@ -22,6 +22,7 @@ config M68K
+ 	select MODULES_USE_ELF_RELA
+ 	select OLD_SIGSUSPEND3
+ 	select OLD_SIGACTION
++	select PCI_GENERIC_SETUP
  
- ifdef CONFIG_ARC_PLAT_EZNPS
- KBUILD_CPPFLAGS += -I$(srctree)/arch/arc/plat-eznps/include
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-new file mode 100644
-index 0000000..6a4e471
---- /dev/null
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -0,0 +1,150 @@
-+/*
-+ * Copyright (C) 2017 Synopsys, Inc. (www.synopsys.com)
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
+ config RWSEM_GENERIC_SPINLOCK
+ 	bool
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index 2828ecde133d..474a7c710686 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -70,6 +70,7 @@ config MIPS
+ 	select HAVE_EXIT_THREAD
+ 	select HAVE_REGS_AND_STACK_ACCESS_API
+ 	select HAVE_COPY_THREAD_TLS
++	select PCI_GENERIC_SETUP
+ 
+ menu "Machine selection"
+ 
+diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+index ee086958b2b2..90a98ac526fb 100644
+--- a/arch/sh/Kconfig
++++ b/arch/sh/Kconfig
+@@ -48,6 +48,7 @@ config SUPERH
+ 	select HAVE_ARCH_AUDITSYSCALL
+ 	select HAVE_FUTEX_CMPXCHG if FUTEX
+ 	select HAVE_NMI
++	select PCI_GENERIC_SETUP
+ 	help
+ 	  The SuperH is a RISC processor targeted for use in embedded systems
+ 	  and consumer electronics; it was also used in the Sega Dreamcast
+diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
+index 5639c9fe5b55..24cea64104bd 100644
+--- a/arch/sparc/Kconfig
++++ b/arch/sparc/Kconfig
+@@ -424,6 +424,7 @@ config SPARC_LEON
+ 	depends on SPARC32
+ 	select USB_EHCI_BIG_ENDIAN_MMIO
+ 	select USB_EHCI_BIG_ENDIAN_DESC
++	select PCI_GENERIC_SETUP
+ 	---help---
+ 	  If you say Y here if you are running on a SPARC-LEON processor.
+ 	  The LEON processor is a synthesizable VHDL model of the
+diff --git a/arch/tile/Kconfig b/arch/tile/Kconfig
+index 4583c0320059..6679af85a882 100644
+--- a/arch/tile/Kconfig
++++ b/arch/tile/Kconfig
+@@ -33,6 +33,7 @@ config TILE
+ 	select USER_STACKTRACE_SUPPORT
+ 	select USE_PMC if PERF_EVENTS
+ 	select VIRT_TO_BUS
++	select PCI_GENERIC_SETUP
+ 
+ config MMU
+ 	def_bool y
+diff --git a/arch/unicore32/Kconfig b/arch/unicore32/Kconfig
+index 0769066929c6..162a7d3def0c 100644
+--- a/arch/unicore32/Kconfig
++++ b/arch/unicore32/Kconfig
+@@ -18,6 +18,7 @@ config UNICORE32
+ 	select ARCH_WANT_FRAME_POINTERS
+ 	select GENERIC_IOMAP
+ 	select MODULES_USE_ELF_REL
++	select PCI_GENERIC_SETUP
+ 	help
+ 	  UniCore-32 is 32-bit Instruction Set Architecture,
+ 	  including a series of low-power-consumption RISC chip
+diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+index e0cacb7b8563..658c9f95ab3f 100644
+--- a/drivers/pci/Kconfig
++++ b/drivers/pci/Kconfig
+@@ -131,6 +131,9 @@ config PCI_HYPERV
+           The PCI device frontend driver allows the kernel to import arbitrary
+           PCI devices from a PCI backend to support PCI driver domains.
+ 
++config PCI_GENERIC_SETUP
++	def_bool n
 +
-+/*
-+ * Device Tree for ARC HS Development Kit
-+ */
-+/dts-v1/;
-+
-+/include/ "skeleton_hs_idu.dtsi"
-+
-+#include <dt-bindings/net/ti-dp83867.h>
-+
-+/ {
-+       model = "snps,hsdk";
-+       compatible = "snps,hsdk";
-+
-+       #address-cells = <1>;
-+       #size-cells = <1>;
-+
-+       chosen {
-+               bootargs = "earlycon=uart8250,mmio32,0xf0005000,115200n8 console=ttyS0,115200n8 debug print-fatal-signals=1";
-+       };
-+
-+       cpu {
-+               compatible = "simple-bus";
-+               #address-cells = <1>;
-+               #size-cells = <1>;
-+               interrupt-parent = <&core_intc>;
-+
-+               core_clk: core_clk {
-+                       #clock-cells = <0>;
-+                       compatible = "fixed-clock";
-+                       clock-frequency = <1000000000>;
-+               };
-+
-+               core_intc: archs-intc at cpu {
-+                       compatible = "snps,archs-intc";
-+                       interrupt-controller;
-+                       #interrupt-cells = <1>;
-+               };
-+
-+               idu_intc: idu-interrupt-controller {
-+                       compatible = "snps,archs-idu-intc";
-+                       interrupt-controller;
-+                       #interrupt-cells = <1>;
-+               };
-+
-+               arcpct0: pct {
-+                       compatible = "snps,archs-pct";
-+               };
-+       };
-+
-+       soc {
-+               compatible = "simple-bus";
-+               #address-cells = <1>;
-+               #size-cells = <1>;
-+               interrupt-parent = <&idu_intc>;
-+
-+               ranges = <0x00000000 0xf0000000 0x10000000>;
-+
-+               uart: dw-apb-uart at 5000 {
-+                       compatible = "snps,dw-apb-uart";
-+                       reg = <0x5000 0x100>;
-+                       clock-frequency = <33330000>;
-+                       interrupts = <6>;
-+                       baud = <115200>;
-+                       reg-shift = <2>;
-+                       reg-io-width = <4>;
-+               };
-+
-+               gmacclk: gmacclk {
-+                       compatible = "fixed-clock";
-+                       clock-frequency = <400000000>;
-+                       #clock-cells = <0>;
-+               };
-+
-+               mmcclk_ciu: mmcclk_ciu {
-+                       compatible = "fixed-clock";
-+                       clock-frequency = <100000000>;
-+                       #clock-cells = <0>;
-+               };
-+
-+               mmcclk_biu: mmcclk_biu {
-+                       compatible = "fixed-clock";
-+                       clock-frequency = <400000000>;
-+                       #clock-cells = <0>;
-+               };
-+
-+               ethernet at 8000 {
-+                       #interrupt-cells = <1>;
-+                       compatible = "snps,dwmac";
-+                       reg = <0x8000 0x2000>;
-+                       interrupts = <10>;
-+                       interrupt-names = "macirq";
-+                       phy-mode = "rgmii";
-+                       snps,pbl = <32>;
-+                       clocks = <&gmacclk>;
-+                       clock-names = "stmmaceth";
-+                       phy-handle = <&phy0>;
-+
-+                       mdio0 {
-+                               #address-cells = <1>;
-+                               #size-cells = <0>;
-+                               compatible = "snps,dwmac-mdio";
-+                               phy0: ethernet-phy at 0 {
-+                                       reg = <0>;
-+                                       ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
-+                                       ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
-+                                       ti,fifo-depth = <DP83867_PHYCR_FIFO_DEPTH_4_B_NIB>;
-+                               };
-+                       };
-+               };
-+
-+               ohci at 60000 {
-+                       compatible = "generic-ohci";
-+                       reg = <0x60000 0x100>;
-+                       interrupts = <15>;
-+               };
-+
-+               ehci at 40000 {
-+                       compatible = "generic-ehci";
-+                       reg = <0x40000 0x100>;
-+                       interrupts = <15>;
-+               };
-+
-+               mmc at a000 {
-+                       compatible = "altr,socfpga-dw-mshc";
-+                       reg = <0xa000 0x400>;
-+                       num-slots = <1>;
-+                       fifo-depth = <16>;
-+                       card-detect-delay = <200>;
-+                       clocks = <&mmcclk_biu>, <&mmcclk_ciu>;
-+                       clock-names = "biu", "ciu";
-+                       interrupts = <12>;
-+                       bus-width = <4>;
-+               };
-+       };
-+
-+       memory {
-+               #address-cells = <1>;
-+               #size-cells = <1>;
-+               device_type = "memory";
-+               reg = <0x80000000 0x40000000>;  /* 1 GiB */
-+       };
-+};
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-new file mode 100644
-index 0000000..137ef35
---- /dev/null
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -0,0 +1,72 @@
-+CONFIG_DEFAULT_HOSTNAME="ARCLinux"
-+CONFIG_SYSVIPC=y
-+# CONFIG_CROSS_MEMORY_ATTACH is not set
-+CONFIG_NO_HZ_IDLE=y
-+CONFIG_HIGH_RES_TIMERS=y
-+CONFIG_IKCONFIG=y
-+CONFIG_IKCONFIG_PROC=y
-+CONFIG_NAMESPACES=y
-+# CONFIG_UTS_NS is not set
-+# CONFIG_PID_NS is not set
-+CONFIG_BLK_DEV_INITRD=y
-+CONFIG_INITRAMFS_SOURCE="../../arc_initramfs_hs/"
-+CONFIG_EMBEDDED=y
-+CONFIG_PERF_EVENTS=y
-+# CONFIG_VM_EVENT_COUNTERS is not set
-+# CONFIG_COMPAT_BRK is not set
-+CONFIG_SLAB=y
-+CONFIG_ARC_PLAT_HSDK=y
-+CONFIG_ISA_ARCV2=y
-+CONFIG_SMP=y
-+CONFIG_LINUX_LINK_BASE=0x90000000
-+CONFIG_KERNEL_RAM_BASE_ADDRESS=0x80000000
-+CONFIG_ARC_BUILTIN_DTB_NAME="hsdk"
-+CONFIG_PREEMPT=y
-+# CONFIG_COMPACTION is not set
-+CONFIG_NET=y
-+CONFIG_PACKET=y
-+CONFIG_UNIX=y
-+CONFIG_INET=y
-+CONFIG_DEVTMPFS=y
-+# CONFIG_STANDALONE is not set
-+# CONFIG_PREVENT_FIRMWARE_BUILD is not set
-+# CONFIG_FIRMWARE_IN_KERNEL is not set
-+CONFIG_SCSI=y
-+CONFIG_BLK_DEV_SD=y
-+CONFIG_NETDEVICES=y
-+CONFIG_STMMAC_ETH=y
-+CONFIG_MICREL_PHY=y
-+# CONFIG_INPUT_KEYBOARD is not set
-+# CONFIG_INPUT_MOUSE is not set
-+# CONFIG_SERIO is not set
-+# CONFIG_LEGACY_PTYS is not set
-+CONFIG_SERIAL_8250=y
-+CONFIG_SERIAL_8250_CONSOLE=y
-+CONFIG_SERIAL_8250_DW=y
-+CONFIG_SERIAL_OF_PLATFORM=y
-+# CONFIG_HW_RANDOM is not set
-+# CONFIG_HWMON is not set
-+CONFIG_USB=y
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_EHCI_HCD_PLATFORM=y
-+CONFIG_USB_OHCI_HCD=y
-+CONFIG_USB_OHCI_HCD_PLATFORM=y
-+CONFIG_USB_STORAGE=y
-+CONFIG_MMC=y
-+CONFIG_MMC_SDHCI=y
-+CONFIG_MMC_SDHCI_PLTFM=y
-+CONFIG_MMC_DW=y
-+# CONFIG_IOMMU_SUPPORT is not set
-+CONFIG_EXT3_FS=y
-+CONFIG_VFAT_FS=y
-+CONFIG_TMPFS=y
-+CONFIG_NLS_CODEPAGE_437=y
-+CONFIG_NLS_ISO8859_1=y
-+# CONFIG_ENABLE_WARN_DEPRECATED is not set
-+# CONFIG_ENABLE_MUST_CHECK is not set
-+CONFIG_STRIP_ASM_SYMS=y
-+CONFIG_LOCKUP_DETECTOR=y
-+CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=10
-+# CONFIG_SCHED_DEBUG is not set
-+# CONFIG_DEBUG_PREEMPT is not set
-+# CONFIG_FTRACE is not set
-diff --git a/arch/arc/kernel/devtree.c b/arch/arc/kernel/devtree.c
-index 3b67f53..521ef35 100644
---- a/arch/arc/kernel/devtree.c
-+++ b/arch/arc/kernel/devtree.c
-@@ -29,8 +29,9 @@ static void __init arc_set_early_base_baud(unsigned long dt_root)
- {
- 	if (of_flat_dt_is_compatible(dt_root, "abilis,arc-tb10x"))
- 		arc_base_baud = 166666666;	/* Fixed 166.6MHz clk (TB10x) */
--	else if (of_flat_dt_is_compatible(dt_root, "snps,arc-sdp"))
--		arc_base_baud = 33333333;	/* Fixed 33MHz clk (AXS10x) */
-+	else if (of_flat_dt_is_compatible(dt_root, "snps,arc-sdp") ||
-+		 of_flat_dt_is_compatible(dt_root, "snps,hsdk"))
-+		arc_base_baud = 33333333;	/* Fixed 33MHz clk (AXS10x & HSDK) */
- 	else if (of_flat_dt_is_compatible(dt_root, "ezchip,arc-nps"))
- 		arc_base_baud = 800000000;      /* Fixed 800MHz clk (NPS) */
- 	else
-diff --git a/arch/arc/plat-hsdk/Kconfig b/arch/arc/plat-hsdk/Kconfig
-new file mode 100644
-index 0000000..29dffed
---- /dev/null
-+++ b/arch/arc/plat-hsdk/Kconfig
-@@ -0,0 +1,12 @@
-+#
-+# Copyright (C) 2017 Synopsys, Inc. (www.synopsys.com)
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+
-+menuconfig ARC_PLAT_HSDK
-+       bool "ARC HS Development Kit board"
-+       help
-+         Support for ARC HS Development Kit board
-diff --git a/arch/arc/plat-hsdk/Makefile b/arch/arc/plat-hsdk/Makefile
-new file mode 100644
-index 0000000..9a50c51
---- /dev/null
-+++ b/arch/arc/plat-hsdk/Makefile
-@@ -0,0 +1,9 @@
-+#
-+# Copyright (C) 2017 Synopsys, Inc. (www.synopsys.com)
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+
-+obj-y := platform.o
-diff --git a/arch/arc/plat-hsdk/platform.c b/arch/arc/plat-hsdk/platform.c
-new file mode 100644
-index 0000000..ce141c6
---- /dev/null
-+++ b/arch/arc/plat-hsdk/platform.c
-@@ -0,0 +1,53 @@
-+/*
-+ * ARC HSDK Platform support code
-+ *
-+ * Copyright (C) 2017 Synopsys, Inc. (www.synopsys.com)
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#include <linux/init.h>
-+#include <linux/smp.h>
-+#include <asm/arcregs.h>
-+#include <asm/io.h>
-+#include <asm/mach_desc.h>
-+
-+#define ARC_CCM_UNUSED_ADDR	0x60000000
-+
-+/*
-+ * By default ICCM is mapped to 0x7z while this area is used for
-+ * Virtual kernel mappings, so move it to currently unused area.
-+ */
-+static void __init relocate_iccm(void)
-+{
-+	if (cpuinfo_arc700[smp_processor_id()].iccm.sz)
-+		write_aux_reg(ARC_REG_AUX_ICCM, ARC_CCM_UNUSED_ADDR);
-+}
-+
-+/*
-+ * By default DCCM is mapped to 0x8z while this area is used by kernel,
-+ * so move it to currently unused area.
-+ */
-+static void __init relocate_dccm(void)
-+{
-+	if (cpuinfo_arc700[smp_processor_id()].dccm.sz)
-+		write_aux_reg(ARC_REG_AUX_DCCM, ARC_CCM_UNUSED_ADDR);
-+}
-+
-+static void __init hsdk_init_per_cpu(unsigned int cpu)
-+{
-+	relocate_iccm();
-+	relocate_dccm();
-+}
-+
-+static const char *hsdk_compat[] __initconst = {
-+	"snps,hsdk",
-+	NULL,
-+};
-+
-+MACHINE_START(SIMULATION, "hsdk")
-+	.dt_compat	= hsdk_compat,
-+	.init_per_cpu	= hsdk_init_per_cpu,
-+MACHINE_END
+ source "drivers/pci/hotplug/Kconfig"
+ source "drivers/pci/dwc/Kconfig"
+ source "drivers/pci/host/Kconfig"
+diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+index 462c1f5f5546..26f4710c88ec 100644
+--- a/drivers/pci/Makefile
++++ b/drivers/pci/Makefile
+@@ -31,16 +31,7 @@ obj-$(CONFIG_PCI_IOV) += iov.o
+ #
+ # Some architectures use the generic PCI setup functions
+ #
+-obj-$(CONFIG_ALPHA) += setup-irq.o
+-obj-$(CONFIG_ARC) += setup-irq.o
+-obj-$(CONFIG_ARM) += setup-irq.o
+-obj-$(CONFIG_ARM64) += setup-irq.o
+-obj-$(CONFIG_UNICORE32) += setup-irq.o
+-obj-$(CONFIG_SUPERH) += setup-irq.o
+-obj-$(CONFIG_MIPS) += setup-irq.o
+-obj-$(CONFIG_TILE) += setup-irq.o
+-obj-$(CONFIG_SPARC_LEON) += setup-irq.o
+-obj-$(CONFIG_M68K) += setup-irq.o
++obj-$(CONFIG_PCI_GENERIC_SETUP) += setup-irq.o
+ 
+ #
+ # ACPI Related PCI FW Functions
 -- 
-2.9.3
+2.13.0
