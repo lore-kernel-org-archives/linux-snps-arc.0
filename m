@@ -1,46 +1,32 @@
-From: wbx@uclibc-ng.org (Waldemar Brodkorb)
-Date: Fri, 23 Jun 2017 01:21:22 +0200
-Subject: uclibc test suite with gnu 2017.03 (was Re: [Fwd: Re: nsim
- latest free version])
-In-Reply-To: <20170622221612.GQ26922@waldemar-brodkorb.de>
-References: <20170622144201.GN26922@waldemar-brodkorb.de>
- <1498152714.13700.63.camel@synopsys.com>
- <90e5eb43-8912-cb2f-fe72-9b385398f232@synopsys.com>
- <20170622221612.GQ26922@waldemar-brodkorb.de>
+From: wens@csie.org (Chen-Yu Tsai)
+Date: Fri, 23 Jun 2017 11:56:38 +0800
+Subject: [PATCH 13/23] clocksource/drivers: Rename clocksource_probe to
+ timer_probe
+In-Reply-To: <1497443984-12371-13-git-send-email-daniel.lezcano@linaro.org>
+References: <20170614123800.GH2261@mai>
+ <1497443984-12371-1-git-send-email-daniel.lezcano@linaro.org>
+ <1497443984-12371-13-git-send-email-daniel.lezcano@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170622232122.GR26922@waldemar-brodkorb.de>
+Message-ID: <CAGb2v65PAg3twJnLmre6MkBoRj7UP_BD0UJf_g2ZttLQX+gpJw@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
-Waldemar Brodkorb wrote,
+On Wed, Jun 14, 2017 at 8:39 PM, Daniel Lezcano
+<daniel.lezcano@linaro.org> wrote:
+> The function name is now renamed to 'timer_probe' for consistency with
+> the CLOCKSOURCE_OF_DECLARE => TIMER_OF_DECLARE change.
+>
+> Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Acked-by: Viresh Kumar <viresh.kumar at linaro.org>
+> Acked-by: Heiko Stuebner <heiko at sntech.de>
+> Reviewed-by: Linus Walleij <linus.walleij at linaro.org>
+> ---
+>  arch/arc/kernel/setup.c                  |  2 +-
+>  arch/arm/kernel/time.c                   |  2 +-
+>  arch/arm/mach-mediatek/mediatek.c        |  2 +-
+>  arch/arm/mach-omap2/timer.c              | 10 +++++-----
+>  arch/arm/mach-rockchip/rockchip.c        |  2 +-
+>  arch/arm/mach-shmobile/setup-rcar-gen2.c |  2 +-
+>  arch/arm/mach-spear/spear13xx.c          |  2 +-
+>  arch/arm/mach-sunxi/sunxi.c              |  2 +-
 
-> Hi Vineet,
-> Vineet Gupta wrote,
-> 
-> > Hi Waldemar,
-> > 
-> > >>Hi Waldemar,
-> > >>
-> > >>On Wed, 2017-06-21@21:16 +0200, Waldemar Brodkorb wrote:
-> > >>>Hi Alexey,
-> > >>>
-> > >>>I have some issues lately running the testsuite in NSIM.
-> > >>>Is there may be some new version available?
-> > >>>How I can get an updated version?
-> > >>Let me check with our nSIM devs.
-> > >>But could you please elaborate a bit what is your problem?
-> > >It stalls / deadlocks here:
-> > >PASS tst-cancel23
-> > >FAIL tst-cancel25 got 1 expected 0
-> > >         Timed out: killed the child process
-> > >PASS tst-cancel3
-> > >FAIL tst-cancel4 got 1 expected 0
-> > >         Timed out: killed the child process
-> > >.... tst-cancel5
-> > >
-> > >Seems to happen since the toolchain update to 2017.03
-
-Just checked with arc-2016.09-release and the test pass.
-
-best regards
- Waldemar
+Acked-by: Chen-Yu Tsai <wens at csie.org>
