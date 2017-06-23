@@ -1,68 +1,93 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Fri, 23 Jun 2017 09:51:23 +0200 (CEST)
-Subject: [PATCH 1/1] futex: remove duplicated code and fix UB
-In-Reply-To: <20170621115318.2781-1-jslaby@suse.cz>
-References: <20170621115318.2781-1-jslaby@suse.cz>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Fri, 23 Jun 2017 17:31:43 +0300
+Subject: [PATCH 0/3 v5] hsdk: initial port for HSDK board
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.20.1706230017520.2221@nanos>
+Message-ID: <20170623143146.14281-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, 21 Jun 2017, Jiri Slaby wrote:
-> diff --git a/arch/arm64/include/asm/futex.h b/arch/arm64/include/asm/futex.h
-> index f32b42e8725d..5bb2fd4674e7 100644
-> --- a/arch/arm64/include/asm/futex.h
-> +++ b/arch/arm64/include/asm/futex.h
-> @@ -48,20 +48,10 @@ do {									\
->  } while (0)
->  
->  static inline int
-> -futex_atomic_op_inuser(unsigned int encoded_op, u32 __user *uaddr)
+This series introduces some required preparations and initial
+port of ARC HS Development Kit board with some basic features such
+as serial port, USB, SD/MMC and Ethernet.
 
-That unsigned int seems to be a change from the arm64 tree in next. It's
-not upstream and it'll cause a (easy to resolve) conflict.
+Essentially we run Linux kernel on all 4 cores (i.e. utilize SMP) and
+heavily use IO Coherency for speeding-up DMA-aware peripherals.
 
-> +static int futex_atomic_op_inuser(unsigned int encoded_op, u32 __user *uaddr)
-> +{
-> +	int op = (encoded_op >> 28) & 7;
-> +	int cmp = (encoded_op >> 24) & 15;
-> +	int oparg = (int)(encoded_op << 8) >> 20;
-> +	int cmparg = (int)(encoded_op << 20) >> 20;
+Note as opposed to other ARC boards we link Linux kernel to
+0x9000_0000 intentionally because cores 1 and 3 configured with DCCM
+situated at our more usual link base 0x8000_0000.
 
-So this is really bad. We have implicit and explicit type casting to
-int. And while we are at it can we please stop proliferating the existing
-mess.
+Note that two patches of this series ("ARC: Decouple linux kernel memory
+address and link address" and "ARC: Set IO-coherency aperture base to 
+LINUX_LINK_BASE") are prerequisites for HDSK support as its hardware
+configuration differs quite a bit from what we used to have on other
+ARC boards.
 
-'op' and 'cmp' definitly can be unsigned int. There is no reason to cast
-them to int.
+Alexey Brodkin (1):
+  ARC: hsdk: initial port for HSDK board
 
-oparg, cmparg and oldval are more interesting.
+Eugeniy Paltsev (2):
+  ARC: Set IO-coherency aperture base to LINUX_LINK_BASE
+  ARC: Decouple linux kernel memory address and link address
 
-The logic here is "documented" in uapi/linux/futex.h
+Changes v4 -> v5:
+ * Move DCCM outside of 0x8000_0000 adress at kernel boot time.
+ * Decouple linux kernel memory address and link address.
+ * Remove hardcoding of IO-coherency aperture base.
+ * Remove reseting CREG_PAE bits as default value is suitable for us.
 
-/* FUTEX_WAKE_OP will perform atomically
-   int oldval = *(int *)UADDR2;
-   *(int *)UADDR2 = oldval OP OPARG;
-   if (oldval CMP CMPARG)
-       wake UADDR2;  */
+Changes v3 -> v4:
+ * Removed senseless "ranges" property from "memory" node in .dts
+ * Refined early-boot code:
+    - ICCM relocation should be done on each and every core that sports ICCM
+      so we leave it in init_per_cpu(). Even though init_per_cpu() gets called
+      on the master core pretty late still it is way much earlier than that
+      moment when it might affect us - as it only huts us when addresses in
+      0x7z-0x7fff_ffff range are used, i.e. virtual addresses that we don't
+      use during init. This also makes code much cleaner compared to
+      additional check in case of master etc.
 
-Now the FUTEX_OP macro which is supposed to compose the encoded_up does:
+Changes v2 -> v3:
+ * Added Rob to Cc-list for DT binding approval
+ * Removed mention of prerequsite patch from commit message
+ * Removed hsdk_early_init() as hsdk_init_per_cpu() is executed on
+   all cores anyways including master
+ * Cleaned-up board's .dts a little bit
+ * Removed CONFIG_DP83867_PHY from defconfig as it was only used on
+   FPGA prototype, on real board we use MICREL PHY which is still selected
 
-#define FUTEX_OP(op, oparg, cmp, cmparg) \
-  (((op & 0xf) << 28) | ((cmp & 0xf) << 24)             \
-   | ((oparg & 0xfff) << 12) | (cmparg & 0xfff))
+Changes v1 -> v2:
+ * Update copyright year from 2016 to more up to date 2017
+ * Merge early UART clock with AXS10x as in both cases that's 33.3 MHz
+ * Bump memory to 1Gb, we don't use more for now because it requires
+   trickier IOC setup and usage
+ * Update early platform init code:
+    - Added missing fixup_pae_regs() to per-cpu init
+    - Mark most of functions as "static __init"
+    - Use writel_relaxed() for setting CREG_PAE, CREG_PAE_UPDATE is still
+      written with stronger writel() since we don't want reordering to happen,
+      otherwise value written to CREG_PAE won't be applied
 
-Of course this all is not typed, undocumented and completely ill
-defined.
+ Documentation/devicetree/bindings/arc/hsdk.txt |   7 ++
+ arch/arc/Kconfig                               |   6 +
+ arch/arc/Makefile                              |   1 +
+ arch/arc/boot/dts/hsdk.dts                     | 150 +++++++++++++++++++++++++
+ arch/arc/boot/dts/include/dt-bindings          |   1 +
+ arch/arc/configs/hsdk_defconfig                |  72 ++++++++++++
+ arch/arc/include/asm/page.h                    |   2 +-
+ arch/arc/kernel/devtree.c                      |   5 +-
+ arch/arc/mm/cache.c                            |  33 ++++--
+ arch/arc/mm/init.c                             |   6 +-
+ arch/arc/plat-hsdk/Kconfig                     |  12 ++
+ arch/arc/plat-hsdk/Makefile                    |   9 ++
+ arch/arc/plat-hsdk/platform.c                  |  77 +++++++++++++
+ 13 files changed, 366 insertions(+), 15 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arc/hsdk.txt
+ create mode 100644 arch/arc/boot/dts/hsdk.dts
+ create mode 120000 arch/arc/boot/dts/include/dt-bindings
+ create mode 100644 arch/arc/configs/hsdk_defconfig
+ create mode 100644 arch/arc/plat-hsdk/Kconfig
+ create mode 100644 arch/arc/plat-hsdk/Makefile
+ create mode 100644 arch/arc/plat-hsdk/platform.c
 
-> +	int oparg = (int)(encoded_op << 8) >> 20;
-> +	int cmparg = (int)(encoded_op << 20) >> 20;
-
-So in fact we sign expand the 12 bits of oparg and cmparg. Really
-intuitive.
-
-Yes, we probably can't change that anymore, but at least we should make it
-very explicit and add a comment to that effect.
-
-Thanks,
-
-	tglx
+-- 
+2.9.3
