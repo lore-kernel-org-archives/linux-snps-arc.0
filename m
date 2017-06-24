@@ -1,33 +1,36 @@
-From: linux@armlinux.org.uk (Russell King - ARM Linux)
-Date: Sat, 24 Jun 2017 10:14:07 +0100
-Subject: [PATCH] pci:  Add and use PCI_GENERIC_SETUP Kconfig entry
-In-Reply-To: <20170623220104.GE31455@jhogan-linux.le.imgtec.org>
-References: <20170623214538.25967-1-palmer@dabbelt.com>
- <20170623220104.GE31455@jhogan-linux.le.imgtec.org>
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Sat, 24 Jun 2017 11:34:06 +0200
+Subject: [PATCH 1/3] pci: Add a generic, weakly-linked pcibios_fixup_bus
+In-Reply-To: <20170624015044.16746-2-palmer@dabbelt.com>
+References: <20170624015044.16746-1-palmer@dabbelt.com>
+ <20170624015044.16746-2-palmer@dabbelt.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170624091406.GZ4902@n2100.armlinux.org.uk>
+Message-ID: <CAMuHMdWd_4GzySTWsb5PupBw3UkLUKAwE-OvAgHScZutT-wiNQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Jun 23, 2017@11:01:04PM +0100, James Hogan wrote:
-> On Fri, Jun 23, 2017@02:45:38PM -0700, Palmer Dabbelt wrote:
-> > diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-> > index 4c1a35f15838..86872246951c 100644
-> > --- a/arch/arm/Kconfig
-> > +++ b/arch/arm/Kconfig
-> > @@ -96,6 +96,7 @@ config ARM
-> >  	select PERF_USE_VMALLOC
-> >  	select RTC_LIB
-> >  	select SYS_SUPPORTS_APM_EMULATION
-> > +	select PCI_GENERIC_SETUP
-> >  	# Above selects are sorted alphabetically; please add new ones
-> >  	# according to that.  Thanks.
-> 
-> This comment seems to suggest PCI_GENERIC_SETUP should be added a few
-> lines up to preserve the alphabetical sorting.
+Hi Palmer,
 
-Indeed it should.
+On Sat, Jun 24, 2017@3:50 AM, Palmer Dabbelt <palmer@dabbelt.com> wrote:
+> Multiple architectures define this as an empty function, and I'm adding
+> another one as part of the RISC-V port.  This adds a __weak version of
+> pci_fixup_bios and deletes the now obselete ones in a handful of ports.
+>
+> The only functional change should be that microblaze used to export
+> pcibios_fixup_bus.  None of the other architectures export this, so I
+> just dropped it.
+>
+> Signed-off-by: Palmer Dabbelt <palmer at dabbelt.com>
 
--- 
-RMK's Patch system: http://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line: currently at 9.6Mbps down 400kbps up
-according to speedtest.net.
+Given this is an empty function, wouldn't it make more sense to have
+a static inline in asm-generic, protected by #ifndef pcibios_fixup_bus?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
