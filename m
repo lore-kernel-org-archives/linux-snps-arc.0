@@ -1,55 +1,30 @@
-From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Sat, 24 Jun 2017 11:41:42 +0200
-Subject: [PATCH 2/3] pci: Add a generic,
- weakly-linked pcibios_align_resource
-In-Reply-To: <20170624015044.16746-3-palmer@dabbelt.com>
-References: <20170624015044.16746-1-palmer@dabbelt.com>
- <20170624015044.16746-3-palmer@dabbelt.com>
+From: rth@twiddle.net (Richard Henderson)
+Date: Sat, 24 Jun 2017 08:08:43 -0700
+Subject: [PATCH] pci: Add and use PCI_GENERIC_SETUP Kconfig entry
+In-Reply-To: <20170623220857.28774-2-palmer@dabbelt.com>
+References: <20170623220104.GE31455@jhogan-linux.le.imgtec.org>
+ <20170623220857.28774-1-palmer@dabbelt.com>
+ <20170623220857.28774-2-palmer@dabbelt.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdWrn4C5nwRSrA8i_8sFtpRbuQH9vtNWjq5rM5_Si15kbw@mail.gmail.com>
+Message-ID: <60bd9a54-0220-5d52-8843-ea3a654020a6@twiddle.net>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Palmer,
+On 06/23/2017 03:08 PM, Palmer Dabbelt wrote:
+> We wanted to add RISC-V to the list of architectures that used the
+> generic PCI setup-irq.o inside the Makefile and it was suggested that
+> instead we define a Kconfig entry and use that.
+> 
+> I've done very minimal testing on this: I just checked to see that
+> an aarch64 defconfig still build setup-irq.o with the patch applied.
+> The intention is that this patch doesn't change the behavior of any
+> build.
+> 
+> Signed-off-by: Palmer Dabbelt<palmer at dabbelt.com>
+> Reviewed-by: James Hogan<james.hogan at imgtec.com>
+> ---
+>   arch/alpha/Kconfig     |  1 +
 
-On Sat, Jun 24, 2017@3:50 AM, Palmer Dabbelt <palmer@dabbelt.com> wrote:
-> Multiple architectures define this as trivial function, and I'm adding
-> another one as part of the RISC-V port.  This adds a __weak version of
-> pcibios_align_resource and deletes the now obselete ones in a handful of
-> ports.
->
-> The only functional change should be that a handful of ports used to
-> export pcibios_fixup_bus.  Only some architectures export this, so I
-> just dropped it.
->
-> Signed-off-by: Palmer Dabbelt <palmer at dabbelt.com>
+Acked-by: Richard Henderson <rth at twiddle.net>
 
-This function is only ever used as a pointer passed to
-pci_bus_alloc_resource()?
 
-What about having
-
-    #ifndef pcibios_fixup_bus
-    #define pcibios_fixup_bus NULL
-    #endif
-
-in asm-generic/pci.h, letting the architecture with a non-trivial
-implementation predefine the preprocessor symbol, and teaching
-pci_bus_alloc_resource() to handle NULL?
-
-[...]
-
-Oh, the latter eventually calls into allocate_resource(), which already falls
-back to simple_align_resource() if the alignment function is NULL, which
-does the same thing.
-So NULL should already work.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+r~
