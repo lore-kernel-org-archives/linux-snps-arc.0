@@ -1,201 +1,219 @@
 From: palmer@dabbelt.com (Palmer Dabbelt)
-Date: Fri, 23 Jun 2017 18:50:42 -0700
-Subject: [PATCH 1/3] pci: Add a generic, weakly-linked pcibios_fixup_bus
+Date: Fri, 23 Jun 2017 18:50:43 -0700
+Subject: [PATCH 2/3] pci: Add a generic, weakly-linked pcibios_align_resource
 In-Reply-To: <20170624015044.16746-1-palmer@dabbelt.com>
 References: <20170624015044.16746-1-palmer@dabbelt.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170624015044.16746-2-palmer@dabbelt.com>
+Message-ID: <20170624015044.16746-3-palmer@dabbelt.com>
 To: linux-snps-arc@lists.infradead.org
 
-Multiple architectures define this as an empty function, and I'm adding
+Multiple architectures define this as trivial function, and I'm adding
 another one as part of the RISC-V port.  This adds a __weak version of
-pci_fixup_bios and deletes the now obselete ones in a handful of ports.
+pcibios_align_resource and deletes the now obselete ones in a handful of
+ports.
 
-The only functional change should be that microblaze used to export
-pcibios_fixup_bus.  None of the other architectures export this, so I
+The only functional change should be that a handful of ports used to
+export pcibios_fixup_bus.  Only some architectures export this, so I
 just dropped it.
 
 Signed-off-by: Palmer Dabbelt <palmer at dabbelt.com>
 ---
- arch/arc/kernel/pcibios.c             |  4 ----
- arch/arm64/kernel/pci.c               |  8 --------
- arch/cris/arch-v32/drivers/pci/bios.c |  4 ----
- arch/microblaze/pci/pci-common.c      |  6 ------
- arch/s390/pci/pci.c                   |  4 ----
- arch/sh/drivers/pci/pci.c             |  8 --------
- arch/sparc/kernel/pci.c               |  4 ----
- arch/tile/kernel/pci.c                |  8 --------
- arch/tile/kernel/pci_gx.c             |  5 -----
- drivers/pci/probe.c                   | 10 ++++++++++
- 10 files changed, 10 insertions(+), 51 deletions(-)
+ arch/arc/kernel/pcibios.c        |  9 ---------
+ arch/arm64/kernel/pci.c          |  9 ---------
+ arch/ia64/pci/pci.c              |  7 -------
+ arch/microblaze/pci/pci-common.c |  7 -------
+ arch/sparc/kernel/leon_pci.c     |  6 ------
+ arch/sparc/kernel/pci.c          |  6 ------
+ arch/sparc/kernel/pcic.c         |  6 ------
+ arch/tile/kernel/pci.c           | 10 ----------
+ arch/tile/kernel/pci_gx.c        |  9 ---------
+ drivers/pci/setup-res.c          | 12 ++++++++++++
+ 10 files changed, 12 insertions(+), 69 deletions(-)
 
 diff --git a/arch/arc/kernel/pcibios.c b/arch/arc/kernel/pcibios.c
-index 72e1d73d0bd6..1c8df8fd5fed 100644
+index 1c8df8fd5fed..05aba5a7b5d2 100644
 --- a/arch/arc/kernel/pcibios.c
 +++ b/arch/arc/kernel/pcibios.c
-@@ -16,7 +16,3 @@ resource_size_t pcibios_align_resource(void *data, const struct resource *res,
- {
- 	return res->start;
- }
+@@ -7,12 +7,3 @@
+  */
+ 
+ #include <linux/pci.h>
 -
--void pcibios_fixup_bus(struct pci_bus *bus)
+-/*
+- * We don't have to worry about legacy ISA devices, so nothing to do here
+- */
+-resource_size_t pcibios_align_resource(void *data, const struct resource *res,
+-				resource_size_t size, resource_size_t align)
 -{
+-	return res->start;
 -}
 diff --git a/arch/arm64/kernel/pci.c b/arch/arm64/kernel/pci.c
-index c7e3e6387a49..4c7f451aca05 100644
+index 4c7f451aca05..9753ca23cfa1 100644
 --- a/arch/arm64/kernel/pci.c
 +++ b/arch/arm64/kernel/pci.c
-@@ -23,14 +23,6 @@
+@@ -23,15 +23,6 @@
  #include <linux/slab.h>
  
  /*
-- * Called after each bus is probed, but before its children are examined
+- * We don't have to worry about legacy ISA devices, so nothing to do here
 - */
--void pcibios_fixup_bus(struct pci_bus *bus)
+-resource_size_t pcibios_align_resource(void *data, const struct resource *res,
+-				resource_size_t size, resource_size_t align)
 -{
--	/* nothing to do, expected to be removed in the future */
+-	return res->start;
 -}
 -
 -/*
-  * We don't have to worry about legacy ISA devices, so nothing to do here
+  * Try to assign the IRQ number when probing a new device
   */
- resource_size_t pcibios_align_resource(void *data, const struct resource *res,
-diff --git a/arch/cris/arch-v32/drivers/pci/bios.c b/arch/cris/arch-v32/drivers/pci/bios.c
-index 394c2a73d5e2..5cc622c0225e 100644
---- a/arch/cris/arch-v32/drivers/pci/bios.c
-+++ b/arch/cris/arch-v32/drivers/pci/bios.c
-@@ -2,10 +2,6 @@
- #include <linux/kernel.h>
- #include <hwregs/intr_vect.h>
+ int pcibios_alloc_irq(struct pci_dev *dev)
+diff --git a/arch/ia64/pci/pci.c b/arch/ia64/pci/pci.c
+index 4068bde623dc..f5ec736100ee 100644
+--- a/arch/ia64/pci/pci.c
++++ b/arch/ia64/pci/pci.c
+@@ -411,13 +411,6 @@ pcibios_disable_device (struct pci_dev *dev)
+ 		acpi_pci_irq_disable(dev);
+ }
  
--void pcibios_fixup_bus(struct pci_bus *b)
+-resource_size_t
+-pcibios_align_resource (void *data, const struct resource *res,
+-		        resource_size_t size, resource_size_t align)
 -{
+-	return res->start;
 -}
 -
- void pcibios_set_master(struct pci_dev *dev)
- {
- 	u8 lat;
+ /**
+  * ia64_pci_get_legacy_mem - generic legacy mem routine
+  * @bus: bus to get legacy memory base address for
 diff --git a/arch/microblaze/pci/pci-common.c b/arch/microblaze/pci/pci-common.c
-index 404fb38d06b7..940f266e5d5c 100644
+index 940f266e5d5c..5835c09c6e26 100644
 --- a/arch/microblaze/pci/pci-common.c
 +++ b/arch/microblaze/pci/pci-common.c
-@@ -810,12 +810,6 @@ void pcibios_setup_bus_devices(struct pci_bus *bus)
+@@ -823,13 +823,6 @@ void pcibios_setup_bus_devices(struct pci_bus *bus)
+  * but we want to try to avoid allocating at 0x2900-0x2bff
+  * which might have be mirrored at 0x0100-0x03ff..
+  */
+-resource_size_t pcibios_align_resource(void *data, const struct resource *res,
+-				resource_size_t size, resource_size_t align)
+-{
+-	return res->start;
+-}
+-EXPORT_SYMBOL(pcibios_align_resource);
+-
+ int pcibios_add_device(struct pci_dev *dev)
+ {
+ 	dev->irq = of_irq_parse_and_map_pci(dev, 0, 0);
+diff --git a/arch/sparc/kernel/leon_pci.c b/arch/sparc/kernel/leon_pci.c
+index 4371f72ff025..0eafdf3d036d 100644
+--- a/arch/sparc/kernel/leon_pci.c
++++ b/arch/sparc/kernel/leon_pci.c
+@@ -94,9 +94,3 @@ void pcibios_fixup_bus(struct pci_bus *pbus)
+ 		}
  	}
  }
- 
--void pcibios_fixup_bus(struct pci_bus *bus)
--{
--	/* nothing to do */
--}
--EXPORT_SYMBOL(pcibios_fixup_bus);
 -
- /*
-  * We need to avoid collisions with `mirrored' VGA ports
-  * and other strange ISA hardware, so we always want the
-diff --git a/arch/s390/pci/pci.c b/arch/s390/pci/pci.c
-index 8051df109db3..98a54dd63483 100644
---- a/arch/s390/pci/pci.c
-+++ b/arch/s390/pci/pci.c
-@@ -234,10 +234,6 @@ static int zpci_cfg_store(struct zpci_dev *zdev, int offset, u32 val, u8 len)
- 	return rc;
- }
- 
--void pcibios_fixup_bus(struct pci_bus *bus)
+-resource_size_t pcibios_align_resource(void *data, const struct resource *res,
+-				resource_size_t size, resource_size_t align)
 -{
+-	return res->start;
 -}
--
- resource_size_t pcibios_align_resource(void *data, const struct resource *res,
- 				       resource_size_t size,
- 				       resource_size_t align)
-diff --git a/arch/sh/drivers/pci/pci.c b/arch/sh/drivers/pci/pci.c
-index c99ee286b69f..749642e1272e 100644
---- a/arch/sh/drivers/pci/pci.c
-+++ b/arch/sh/drivers/pci/pci.c
-@@ -155,14 +155,6 @@ static int __init pcibios_init(void)
- subsys_initcall(pcibios_init);
- 
- /*
-- *  Called after each bus is probed, but before its children
-- *  are examined.
-- */
--void pcibios_fixup_bus(struct pci_bus *bus)
--{
--}
--
--/*
-  * We need to avoid collisions with `mirrored' VGA ports
-  * and other strange ISA hardware, so we always want the
-  * addresses to be allocated in the 0x000-0x0ff region
 diff --git a/arch/sparc/kernel/pci.c b/arch/sparc/kernel/pci.c
-index 7eceaa10836f..78d3dc25e126 100644
+index 78d3dc25e126..3f8670c92951 100644
 --- a/arch/sparc/kernel/pci.c
 +++ b/arch/sparc/kernel/pci.c
-@@ -690,10 +690,6 @@ struct pci_bus *pci_scan_one_pbm(struct pci_pbm_info *pbm,
+@@ -690,12 +690,6 @@ struct pci_bus *pci_scan_one_pbm(struct pci_pbm_info *pbm,
  	return bus;
  }
  
--void pcibios_fixup_bus(struct pci_bus *pbus)
+-resource_size_t pcibios_align_resource(void *data, const struct resource *res,
+-				resource_size_t size, resource_size_t align)
 -{
+-	return res->start;
 -}
 -
- resource_size_t pcibios_align_resource(void *data, const struct resource *res,
- 				resource_size_t size, resource_size_t align)
+ int pcibios_enable_device(struct pci_dev *dev, int mask)
  {
+ 	u16 cmd, oldcmd;
+diff --git a/arch/sparc/kernel/pcic.c b/arch/sparc/kernel/pcic.c
+index a38787b84322..e038e343f2c1 100644
+--- a/arch/sparc/kernel/pcic.c
++++ b/arch/sparc/kernel/pcic.c
+@@ -746,12 +746,6 @@ static void watchdog_reset() {
+ }
+ #endif
+ 
+-resource_size_t pcibios_align_resource(void *data, const struct resource *res,
+-				resource_size_t size, resource_size_t align)
+-{
+-	return res->start;
+-}
+-
+ int pcibios_enable_device(struct pci_dev *pdev, int mask)
+ {
+ 	return 0;
 diff --git a/arch/tile/kernel/pci.c b/arch/tile/kernel/pci.c
-index bc6656b5708b..3113d4d5c329 100644
+index 3113d4d5c329..8999a20ed9d1 100644
 --- a/arch/tile/kernel/pci.c
 +++ b/arch/tile/kernel/pci.c
-@@ -369,14 +369,6 @@ int __init pcibios_init(void)
- }
- subsys_initcall(pcibios_init);
+@@ -67,16 +67,6 @@ static struct pci_ops tile_cfg_ops;
  
--/*
-- * No bus fixups needed.
+ 
+ /*
+- * We don't need to worry about the alignment of resources.
 - */
--void pcibios_fixup_bus(struct pci_bus *bus)
+-resource_size_t pcibios_align_resource(void *data, const struct resource *res,
+-			    resource_size_t size, resource_size_t align)
 -{
--	/* Nothing needs to be done. */
+-	return res->start;
 -}
+-EXPORT_SYMBOL(pcibios_align_resource);
 -
- void pcibios_set_master(struct pci_dev *dev)
- {
- 	/* No special bus mastering setup handling. */
+-/*
+  * Open a FD to the hypervisor PCI device.
+  *
+  * controller_id is the controller number, config type is 0 or 1 for
 diff --git a/arch/tile/kernel/pci_gx.c b/arch/tile/kernel/pci_gx.c
-index b554a68eea1b..b89172b592cc 100644
+index b89172b592cc..0a7642184a9a 100644
 --- a/arch/tile/kernel/pci_gx.c
 +++ b/arch/tile/kernel/pci_gx.c
-@@ -1038,11 +1038,6 @@ int __init pcibios_init(void)
- }
- subsys_initcall(pcibios_init);
+@@ -108,15 +108,6 @@ static struct pci_ops tile_cfg_ops;
+ /* Mask of CPUs that should receive PCIe interrupts. */
+ static struct cpumask intr_cpus_map;
  
--/* No bus fixups needed. */
--void pcibios_fixup_bus(struct pci_bus *bus)
+-/* We don't need to worry about the alignment of resources. */
+-resource_size_t pcibios_align_resource(void *data, const struct resource *res,
+-				       resource_size_t size,
+-				       resource_size_t align)
 -{
+-	return res->start;
 -}
+-EXPORT_SYMBOL(pcibios_align_resource);
 -
- /* Process any "pci=" kernel boot arguments. */
- char *__init pcibios_setup(char *str)
- {
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index 19c8950c6c38..1ff44dde7164 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -2227,6 +2227,16 @@ void pcie_bus_configure_settings(struct pci_bus *bus)
+ /*
+  * Pick a CPU to receive and handle the PCIe interrupts, based on the IRQ #.
+  * For now, we simply send interrupts to non-dataplane CPUs.
+diff --git a/drivers/pci/setup-res.c b/drivers/pci/setup-res.c
+index 85774b7a316a..597ed1f8b15c 100644
+--- a/drivers/pci/setup-res.c
++++ b/drivers/pci/setup-res.c
+@@ -234,6 +234,18 @@ static int pci_revert_fw_address(struct resource *res, struct pci_dev *dev,
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(pcie_bus_configure_settings);
  
 +/*
-+ * Called after each bus is probed, but before its children are examined.  This
-+ * is marked as __weak because multiple architectures define it
++ * We don't have to worry about legacy ISA devices, so nothing to do here.
++ * This is marked as __weak because multiple architectures define it, it should
++ * eventually go away.
 + */
 +__attribute__ ((weak))
-+void pcibios_fixup_bus(struct pci_bus *bus)
++resource_size_t pcibios_align_resource(void *data, const struct resource *res,
++                                      resource_size_t size, resource_size_t align)
 +{
-+       /* nothing to do, expected to be removed in the future */
++       return res->start;
 +}
 +
- unsigned int pci_scan_child_bus(struct pci_bus *bus)
+ static int __pci_assign_resource(struct pci_bus *bus, struct pci_dev *dev,
+ 		int resno, resource_size_t size, resource_size_t align)
  {
- 	unsigned int devfn, pass, max = bus->busn_res.start;
 -- 
 2.13.0
