@@ -1,218 +1,46 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 26 Jun 2017 14:47:25 +0300
-Subject: [PATCH] ARC: AXS: prepare dts files for enabling PAE40 on axs103
+From: jslaby@suse.cz (Jiri Slaby)
+Date: Mon, 26 Jun 2017 14:02:31 +0200
+Subject: [PATCH 1/1] futex: remove duplicated code and fix UB
+In-Reply-To: <alpine.DEB.2.20.1706230017520.2221@nanos>
+References: <20170621115318.2781-1-jslaby@suse.cz>
+ <alpine.DEB.2.20.1706230017520.2221@nanos>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170626114725.9678-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <80af8d81-4522-de2d-8289-1ab46565505a@suse.cz>
 To: linux-snps-arc@lists.infradead.org
 
-Enable 64bit adressing, where it needed, to make possible
-enabling PAE40 on axs103.
+On 06/23/2017, 09:51 AM, Thomas Gleixner wrote:
+> On Wed, 21 Jun 2017, Jiri Slaby wrote:
+>> diff --git a/arch/arm64/include/asm/futex.h b/arch/arm64/include/asm/futex.h
+>> index f32b42e8725d..5bb2fd4674e7 100644
+>> --- a/arch/arm64/include/asm/futex.h
+>> +++ b/arch/arm64/include/asm/futex.h
+>> @@ -48,20 +48,10 @@ do {									\
+>>  } while (0)
+>>  
+>>  static inline int
+>> -futex_atomic_op_inuser(unsigned int encoded_op, u32 __user *uaddr)
+> 
+> That unsigned int seems to be a change from the arm64 tree in next. It's
+> not upstream and it'll cause a (easy to resolve) conflict.
 
-This patch doesn't affect on any functionality.
+Ugh, I thought the arm64 is in upstream already. Note that this patch
+just takes what is in this arm64 fix and makes it effective for all
+architectures. So I will wait with v2 until it merges upstream.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/boot/dts/axc001.dtsi     | 20 +++++++++-----------
- arch/arc/boot/dts/axc003.dtsi     | 21 ++++++++++-----------
- arch/arc/boot/dts/axc003_idu.dtsi | 21 ++++++++++-----------
- arch/arc/boot/dts/axs10x_mb.dtsi  |  2 +-
- 4 files changed, 30 insertions(+), 34 deletions(-)
+So, Will, will you incorporate Thomas' comments into your arm64 fix?
 
-diff --git a/arch/arc/boot/dts/axc001.dtsi b/arch/arc/boot/dts/axc001.dtsi
-index 53ce226..a380ffa 100644
---- a/arch/arc/boot/dts/axc001.dtsi
-+++ b/arch/arc/boot/dts/axc001.dtsi
-@@ -15,15 +15,15 @@
- 
- / {
- 	compatible = "snps,arc";
--	#address-cells = <1>;
--	#size-cells = <1>;
-+	#address-cells = <2>;
-+	#size-cells = <2>;
- 
- 	cpu_card {
- 		compatible = "simple-bus";
- 		#address-cells = <1>;
- 		#size-cells = <1>;
- 
--		ranges = <0x00000000 0xf0000000 0x10000000>;
-+		ranges = <0x00000000 0x0 0xf0000000 0x10000000>;
- 
- 		core_clk: core_clk {
- 			#clock-cells = <0>;
-@@ -91,23 +91,21 @@
- 	mb_intc: dw-apb-ictl at 0xe0012000 {
- 		#interrupt-cells = <1>;
- 		compatible = "snps,dw-apb-ictl";
--		reg = < 0xe0012000 0x200 >;
-+		reg = < 0x0 0xe0012000 0x0 0x200 >;
- 		interrupt-controller;
- 		interrupt-parent = <&core_intc>;
- 		interrupts = < 7 >;
- 	};
- 
- 	memory {
--		#address-cells = <1>;
--		#size-cells = <1>;
--		ranges = <0x00000000 0x80000000 0x20000000>;
- 		device_type = "memory";
--		reg = <0x80000000 0x1b000000>;	/* (512 - 32) MiB */
-+		/* CONFIG_KERNEL_RAM_BASE_ADDRESS needs to match low mem start */
-+		reg = <0x0 0x80000000 0x0 0x1b000000>;	/* (512 - 32) MiB */
- 	};
- 
- 	reserved-memory {
--		#address-cells = <1>;
--		#size-cells = <1>;
-+		#address-cells = <2>;
-+		#size-cells = <2>;
- 		ranges;
- 		/*
- 		 * We just move frame buffer area to the very end of
-@@ -118,7 +116,7 @@
- 		 */
- 		frame_buffer: frame_buffer at 9e000000 {
- 			compatible = "shared-dma-pool";
--			reg = <0x9e000000 0x2000000>;
-+			reg = <0x0 0x9e000000 0x0 0x2000000>;
- 			no-map;
- 		};
- 	};
-diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
-index 14df46f..cc9239e 100644
---- a/arch/arc/boot/dts/axc003.dtsi
-+++ b/arch/arc/boot/dts/axc003.dtsi
-@@ -14,15 +14,15 @@
- 
- / {
- 	compatible = "snps,arc";
--	#address-cells = <1>;
--	#size-cells = <1>;
-+	#address-cells = <2>;
-+	#size-cells = <2>;
- 
- 	cpu_card {
- 		compatible = "simple-bus";
- 		#address-cells = <1>;
- 		#size-cells = <1>;
- 
--		ranges = <0x00000000 0xf0000000 0x10000000>;
-+		ranges = <0x00000000 0x0 0xf0000000 0x10000000>;
- 
- 		core_clk: core_clk {
- 			#clock-cells = <0>;
-@@ -94,30 +94,29 @@
- 	mb_intc: dw-apb-ictl at 0xe0012000 {
- 		#interrupt-cells = <1>;
- 		compatible = "snps,dw-apb-ictl";
--		reg = < 0xe0012000 0x200 >;
-+		reg = < 0x0 0xe0012000 0x0 0x200 >;
- 		interrupt-controller;
- 		interrupt-parent = <&core_intc>;
- 		interrupts = < 24 >;
- 	};
- 
- 	memory {
--		#address-cells = <1>;
--		#size-cells = <1>;
--		ranges = <0x00000000 0x80000000 0x40000000>;
- 		device_type = "memory";
--		reg = <0x80000000 0x20000000>;	/* 512MiB */
-+		/* CONFIG_KERNEL_RAM_BASE_ADDRESS needs to match low mem start */
-+		reg = <0x0 0x80000000 0x0 0x20000000	/* 512 MiB low mem */
-+		       0x1 0xc0000000 0x0 0x40000000>;	/* 1 GiB highmem */
- 	};
- 
- 	reserved-memory {
--		#address-cells = <1>;
--		#size-cells = <1>;
-+		#address-cells = <2>;
-+		#size-cells = <2>;
- 		ranges;
- 		/*
- 		 * Move frame buffer out of IOC aperture (0x8z-0xAz).
- 		 */
- 		frame_buffer: frame_buffer at be000000 {
- 			compatible = "shared-dma-pool";
--			reg = <0xbe000000 0x2000000>;
-+			reg = <0x0 0xbe000000 0x0 0x2000000>;
- 			no-map;
- 		};
- 	};
-diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
-index 695f9fa..4ebb2170 100644
---- a/arch/arc/boot/dts/axc003_idu.dtsi
-+++ b/arch/arc/boot/dts/axc003_idu.dtsi
-@@ -14,15 +14,15 @@
- 
- / {
- 	compatible = "snps,arc";
--	#address-cells = <1>;
--	#size-cells = <1>;
-+	#address-cells = <2>;
-+	#size-cells = <2>;
- 
- 	cpu_card {
- 		compatible = "simple-bus";
- 		#address-cells = <1>;
- 		#size-cells = <1>;
- 
--		ranges = <0x00000000 0xf0000000 0x10000000>;
-+		ranges = <0x00000000 0x0 0xf0000000 0x10000000>;
- 
- 		core_clk: core_clk {
- 			#clock-cells = <0>;
-@@ -100,30 +100,29 @@
- 	mb_intc: dw-apb-ictl at 0xe0012000 {
- 		#interrupt-cells = <1>;
- 		compatible = "snps,dw-apb-ictl";
--		reg = < 0xe0012000 0x200 >;
-+		reg = < 0x0 0xe0012000 0x0 0x200 >;
- 		interrupt-controller;
- 		interrupt-parent = <&idu_intc>;
- 		interrupts = <0>;
- 	};
- 
- 	memory {
--		#address-cells = <1>;
--		#size-cells = <1>;
--		ranges = <0x00000000 0x80000000 0x40000000>;
- 		device_type = "memory";
--		reg = <0x80000000 0x20000000>;	/* 512MiB */
-+		/* CONFIG_KERNEL_RAM_BASE_ADDRESS needs to match low mem start */
-+		reg = <0x0 0x80000000 0x0 0x20000000	/* 512 MiB low mem */
-+		       0x1 0xc0000000 0x0 0x40000000>;	/* 1 GiB highmem */
- 	};
- 
- 	reserved-memory {
--		#address-cells = <1>;
--		#size-cells = <1>;
-+		#address-cells = <2>;
-+		#size-cells = <2>;
- 		ranges;
- 		/*
- 		 * Move frame buffer out of IOC aperture (0x8z-0xAz).
- 		 */
- 		frame_buffer: frame_buffer at be000000 {
- 			compatible = "shared-dma-pool";
--			reg = <0xbe000000 0x2000000>;
-+			reg = <0x0 0xbe000000 0x0 0x2000000>;
- 			no-map;
- 		};
- 	};
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 41cfb29..0ff7e07 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -13,7 +13,7 @@
- 		compatible = "simple-bus";
- 		#address-cells = <1>;
- 		#size-cells = <1>;
--		ranges = <0x00000000 0xe0000000 0x10000000>;
-+		ranges = <0x00000000 0x0 0xe0000000 0x10000000>;
- 		interrupt-parent = <&mb_intc>;
- 
- 		i2sclk: i2sclk at 100a0 {
+...
+
+> Yes, we probably can't change that anymore, but at least we should make it
+> very explicit and add a comment to that effect.
+
+Something like this or do you want a comment yet?
+        unsigned int op =         (encoded_op & 0x70000000) >> 28;
+        unsigned int cmp =        (encoded_op & 0x0f000000) >> 24;
+        int oparg = sign_extend32((encoded_op & 0x00fff000) >> 12, 12);
+        int cmparg = sign_extend32(encoded_op & 0x00000fff, 12);
+
+thanks,
 -- 
-2.9.3
+js
+suse labs
