@@ -1,51 +1,38 @@
-From: palmer@dabbelt.com (Palmer Dabbelt)
-Date: Sat, 24 Jun 2017 14:32:26 -0700 (PDT)
-Subject: [PATCH 2/3] pci: Add a generic,
- weakly-linked pcibios_align_resource
-In-Reply-To: <CAMuHMdWrn4C5nwRSrA8i_8sFtpRbuQH9vtNWjq5rM5_Si15kbw@mail.gmail.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Mon, 26 Jun 2017 13:39:24 +0800
+Subject: [PATCH] pci: Add and use PCI_GENERIC_SETUP Kconfig entry
+In-Reply-To: <20170623220857.28774-2-palmer@dabbelt.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <mhng-e09a5c16-4f2f-4360-8a86-8ae90cfcb356@palmer-si-x1c4>
+Message-ID: <201706261344.OUjMGlsQ%fengguang.wu@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Sat, 24 Jun 2017 02:41:42 PDT (-0700), geert@linux-m68k.org wrote:
-> Hi Palmer,
->
-> On Sat, Jun 24, 2017@3:50 AM, Palmer Dabbelt <palmer@dabbelt.com> wrote:
->> Multiple architectures define this as trivial function, and I'm adding
->> another one as part of the RISC-V port.  This adds a __weak version of
->> pcibios_align_resource and deletes the now obselete ones in a handful of
->> ports.
->>
->> The only functional change should be that a handful of ports used to
->> export pcibios_fixup_bus.  Only some architectures export this, so I
->> just dropped it.
->>
->> Signed-off-by: Palmer Dabbelt <palmer at dabbelt.com>
->
-> This function is only ever used as a pointer passed to
-> pci_bus_alloc_resource()?
->
-> What about having
->
->     #ifndef pcibios_fixup_bus
->     #define pcibios_fixup_bus NULL
->     #endif
->
-> in asm-generic/pci.h, letting the architecture with a non-trivial
-> implementation predefine the preprocessor symbol, and teaching
-> pci_bus_alloc_resource() to handle NULL?
->
-> [...]
->
-> Oh, the latter eventually calls into allocate_resource(), which already falls
-> back to simple_align_resource() if the alignment function is NULL, which
-> does the same thing.
-> So NULL should already work.
+Hi Palmer,
 
-I'm OK with that, but like your comments on the last one I think it might fit
-better as a __weak function.  I think there were also some questions as to
-whether these should actually be empty functions or not.  I'm really happy with
-either way.
+[auto build test WARNING on linus/master]
+[also build test WARNING on v4.12-rc6]
+[cannot apply to next-20170623]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-Since this is all out of my wheelhouse, can one of the PCI maintainers chime in
-as to what I should do here?
+url:    https://github.com/0day-ci/linux/commits/Palmer-Dabbelt/pci-Add-and-use-PCI_GENERIC_SETUP-Kconfig-entry/20170626-043558
+config: m68k-allnoconfig (attached as .config)
+compiler: m68k-linux-gcc (GCC) 4.9.0
+reproduce:
+        wget https://raw.githubusercontent.com/01org/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        make.cross ARCH=m68k 
+
+All warnings (new ones prefixed by >>):
+
+warning: (M68K) selects PCI_GENERIC_SETUP which has unmet direct dependencies (MMU)
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 4487 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20170626/d0028190/attachment.gz>
