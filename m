@@ -1,40 +1,41 @@
-From: joseph@codesourcery.com (Joseph Myers)
-Date: Tue, 27 Jun 2017 12:00:23 +0000
-Subject: [RFC 0/6] glibc port to ARC architecture
-In-Reply-To: <357a6f84-3f71-d3b7-9c19-4f0390e5db8d@redhat.com>
+From: fweimer@redhat.com (Florian Weimer)
+Date: Tue, 27 Jun 2017 14:01:32 +0200
+Subject: [RFC 4/6] ARC: Initial port to glibc
+In-Reply-To: <2b02c462-44c4-02bb-6989-b3572834432e@synopsys.com>
 References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
- <357a6f84-3f71-d3b7-9c19-4f0390e5db8d@redhat.com>
+ <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
+ <3bd8b935-47c0-f190-ee6b-3d08e2f3a752@redhat.com>
+ <2b02c462-44c4-02bb-6989-b3572834432e@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.20.1706271157100.17677@digraph.polyomino.org.uk>
+Message-ID: <e0b3a866-beed-b3c4-e0c8-37d074eed4a5@redhat.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 27 Jun 2017, Florian Weimer wrote:
-
-> On 06/27/2017 10:00 AM, Vineet Gupta wrote:
-> > This is a Request for comments for glibc port to ARC architecture.
-> > http://www.synopsys.com/IP/ProcessorIP/ARCProcessors/Pages/default.aspx
-> > 
-> > The Linux kernel, uClibc, buildroot have been upstream for quite some time.
+On 06/27/2017 01:55 PM, Vineet Gupta wrote:
+> On 06/27/2017 02:29 PM, Florian Weimer wrote:
+>> On 06/27/2017 10:00 AM, Vineet Gupta wrote:
+>>> diff --git a/sysdeps/unix/sysv/linux/arc/shlib-versions
+>>> b/sysdeps/unix/sysv/linux/arc/shlib-versions
+>>> new file mode 100644
+>>> index 000000000000..c4d5d029812d
+>>> --- /dev/null
+>>> +++ b/sysdeps/unix/sysv/linux/arc/shlib-versions
+>>> @@ -0,0 +1,2 @@
+>>> +DEFAULT                 GLIBC_2.21
+>>> +ld=ld-linux.so.2
+>>
+>> Is there a reason why you set the ABI baseline to GLIBC_2.21?  Why not
+>> GLBIC_2.26?
 > 
-> Is it possible to build the new port with scripts/build-many-glibcs.py?
+> No real reason, perhaps this is the version where we started off of.
+> I'll change this - and other places to 2.26 !
 
-More specifically:
+Great.  Note that this will cause problems with some tests which
+exercise compatibility symbols.  I still want to contribute the build
+system changes required to support them, but I probably won't be able to
+make the July 1st deadline.
 
-Any new port should have support added to build-many-glibcs.py for all 
-ABIs supported by the port (e.g. both endiannesses, if you support both BE 
-and LE, and any other ABI variants).
+(Realistically, I'd need a port which can build with
+build-many-glibcs.py for that anyway.)
 
-You should make sure that produces clean test results for all the 
-compilation tests, for all those variants.
-
-You should also include results for the full testsuite, including 
-execution tests (whether testing natively, or cross testing with 
-test-wrapper set to execute tests for a cross build), in the submission of 
-the port (and those should be as clean as possible).
-
-Any new port should be added to the list in README, and have a NEWS entry 
-added.
-
--- 
-Joseph S. Myers
-joseph at codesourcery.com
+Thanks,
+Florian
