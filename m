@@ -1,36 +1,21 @@
-From: joseph@codesourcery.com (Joseph Myers)
-Date: Tue, 27 Jun 2017 17:02:31 +0000
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 27 Jun 2017 22:32:40 +0300
 Subject: [RFC 4/6] ARC: Initial port to glibc
-In-Reply-To: <30d4364e-1932-649c-917e-d0bc2dc4093c@synopsys.com>
+In-Reply-To: <alpine.DEB.2.20.1706271147470.17677@digraph.polyomino.org.uk>
 References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
  <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
  <alpine.DEB.2.20.1706271147470.17677@digraph.polyomino.org.uk>
- <0cd32bdd-5ec4-0fb6-8cf8-fd658596e790@synopsys.com>
- <alpine.DEB.2.20.1706271553590.18823@digraph.polyomino.org.uk>
- <30d4364e-1932-649c-917e-d0bc2dc4093c@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.20.1706271701440.18823@digraph.polyomino.org.uk>
+Message-ID: <b9446e5b-5263-3711-8232-c0d4dc5d4852@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 27 Jun 2017, Vineet Gupta wrote:
+On 06/27/2017 02:56 PM, Joseph Myers wrote:
+>> Signed-off-by: Cupertino Miranda<cmiranda at synopsys.com>
+>> Signed-off-by: Vineet Gupta<vgupta at synopsys.com>
+> We need ChangeLog entries and copyright assignments, but don't use
+> Signed-off-by.
 
-> thx for this link - per comments there the contents of struct sigcontext could
-> come from kernel which is
-> 
->   struct sigcontext {
-> 	struct user_regs_struct regs;
->   };
-> 
-> Now I'd rather prefer to not duplicate user_regs_struct here, but instead just
-> refer to kernel variant, something like ...
-> 
->   typedef struct user_regs_struct mcontext_t;
-> 
-> Will that work or do I absolutely need to redefine this in userspace hdrs ?
+About the copyright assignment and $start-$end, I suppose end needs to be 2017, 
+what about start - does it need to be specific year.
 
-You have to redefine.  Neither "user_regs_struct" nor "regs" is an 
-identifier permitted here by POSIX.
-
--- 
-Joseph S. Myers
-joseph at codesourcery.com
+-Vineet
