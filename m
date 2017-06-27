@@ -1,25 +1,19 @@
 From: fweimer@redhat.com (Florian Weimer)
-Date: Tue, 27 Jun 2017 13:29:57 +0200
-Subject: [RFC 4/6] ARC: Initial port to glibc
-In-Reply-To: <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
+Date: Tue, 27 Jun 2017 13:31:49 +0200
+Subject: [RFC 0/6] glibc port to ARC architecture
+In-Reply-To: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
 References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
- <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3bd8b935-47c0-f190-ee6b-3d08e2f3a752@redhat.com>
+Message-ID: <357a6f84-3f71-d3b7-9c19-4f0390e5db8d@redhat.com>
 To: linux-snps-arc@lists.infradead.org
 
 On 06/27/2017 10:00 AM, Vineet Gupta wrote:
-> diff --git a/sysdeps/unix/sysv/linux/arc/shlib-versions b/sysdeps/unix/sysv/linux/arc/shlib-versions
-> new file mode 100644
-> index 000000000000..c4d5d029812d
-> --- /dev/null
-> +++ b/sysdeps/unix/sysv/linux/arc/shlib-versions
-> @@ -0,0 +1,2 @@
-> +DEFAULT                 GLIBC_2.21
-> +ld=ld-linux.so.2
+> This is a Request for comments for glibc port to ARC architecture.
+> http://www.synopsys.com/IP/ProcessorIP/ARCProcessors/Pages/default.aspx
+> 
+> The Linux kernel, uClibc, buildroot have been upstream for quite some time.
 
-Is there a reason why you set the ABI baseline to GLIBC_2.21?  Why not
-GLBIC_2.26?
+Is it possible to build the new port with scripts/build-many-glibcs.py?
 
 Thanks,
 Florian
