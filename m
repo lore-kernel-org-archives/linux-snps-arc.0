@@ -1,34 +1,215 @@
-From: joseph@codesourcery.com (Joseph Myers)
-Date: Tue, 27 Jun 2017 19:56:15 +0000
-Subject: [RFC 4/6] ARC: Initial port to glibc
-In-Reply-To: <b9446e5b-5263-3711-8232-c0d4dc5d4852@synopsys.com>
-References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
- <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.20.1706271147470.17677@digraph.polyomino.org.uk>
- <b9446e5b-5263-3711-8232-c0d4dc5d4852@synopsys.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Tue, 27 Jun 2017 18:37:40 -0500
+Subject: [PATCH] pci:  Add and use PCI_GENERIC_SETUP Kconfig entry
+In-Reply-To: <20170623214538.25967-1-palmer@dabbelt.com>
+References: <20170623214538.25967-1-palmer@dabbelt.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.20.1706271953380.21267@digraph.polyomino.org.uk>
+Message-ID: <20170627233740.GN17844@bhelgaas-glaptop.roam.corp.google.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 27 Jun 2017, Vineet Gupta wrote:
+[+cc Lorenzo]
 
-> On 06/27/2017 02:56 PM, Joseph Myers wrote:
-> > > Signed-off-by: Cupertino Miranda<cmiranda at synopsys.com>
-> > > Signed-off-by: Vineet Gupta<vgupta at synopsys.com>
-> > We need ChangeLog entries and copyright assignments, but don't use
-> > Signed-off-by.
+Hi Palmer,
+
+On Fri, Jun 23, 2017@02:45:38PM -0700, Palmer Dabbelt wrote:
+> We wanted to add RISC-V to the list of architectures that used the
+> generic PCI setup-irq.o inside the Makefile and it was suggested that
+> instead we define a Kconfig entry and use that.
 > 
-> About the copyright assignment and $start-$end, I suppose end needs to be
-> 2017, what about start - does it need to be specific year.
+> I've done very minimal testing on this: I just checked to see that
+> an aarch64 defconfig still build setup-irq.o with the patch applied.
+> The intention is that this patch doesn't change the behavior of any
+> build.
+> 
+> Signed-off-by: Palmer Dabbelt <palmer at dabbelt.com>
 
-The start year should be the earliest year in which a published file from 
-which you took copyrightable content was completed.  If copyrightable 
-content was copied from another port in glibc, that means you copy the 
-start year from the file you copied from.  If this port or parts thereof 
-has been developed in a public version control system, then files that are 
-completely new to this port should use the year of the first revision of 
-those files in that public version control system.
+Lorenzo Pieralisi's "ARM/ARM64: remove pci_fixup_irqs() usage" series
+overlaps with this quite a bit, and includes this patch:
 
--- 
-Joseph S. Myers
-joseph at codesourcery.com
+https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git/commit/?h=pci/enumeration&id=5b64036feff4
+
+which makes it so we build setup-irq.o on *all* arches.  Can you check
+out the pci/enumeration branch and see whether it accomplishes what
+you need?
+
+https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git/log/?h=pci/enumeration
+
+> ---
+>  arch/alpha/Kconfig     |  1 +
+>  arch/arc/Kconfig       |  1 +
+>  arch/arm/Kconfig       |  1 +
+>  arch/arm64/Kconfig     |  1 +
+>  arch/m68k/Kconfig      |  1 +
+>  arch/mips/Kconfig      |  1 +
+>  arch/sh/Kconfig        |  1 +
+>  arch/sparc/Kconfig     |  1 +
+>  arch/tile/Kconfig      |  1 +
+>  arch/unicore32/Kconfig |  1 +
+>  drivers/pci/Kconfig    |  3 +++
+>  drivers/pci/Makefile   | 11 +----------
+>  12 files changed, 14 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+> index 0e49d39ea74a..30f4e711f681 100644
+> --- a/arch/alpha/Kconfig
+> +++ b/arch/alpha/Kconfig
+> @@ -26,6 +26,7 @@ config ALPHA
+>  	select ODD_RT_SIGACTION
+>  	select OLD_SIGSUSPEND
+>  	select CPU_NO_EFFICIENT_FFS if !ALPHA_EV67
+> +	select PCI_GENERIC_SETUP
+>  	help
+>  	  The Alpha is a 64-bit general-purpose processor designed and
+>  	  marketed by the Digital Equipment Corporation of blessed memory,
+> diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+> index a5459698f0ee..dd1f64858118 100644
+> --- a/arch/arc/Kconfig
+> +++ b/arch/arc/Kconfig
+> @@ -44,6 +44,7 @@ config ARC
+>  	select HAVE_GENERIC_DMA_COHERENT
+>  	select HAVE_KERNEL_GZIP
+>  	select HAVE_KERNEL_LZMA
+> +	select PCI_GENERIC_SETUP
+>  
+>  config MIGHT_HAVE_PCI
+>  	bool
+> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+> index 4c1a35f15838..86872246951c 100644
+> --- a/arch/arm/Kconfig
+> +++ b/arch/arm/Kconfig
+> @@ -96,6 +96,7 @@ config ARM
+>  	select PERF_USE_VMALLOC
+>  	select RTC_LIB
+>  	select SYS_SUPPORTS_APM_EMULATION
+> +	select PCI_GENERIC_SETUP
+>  	# Above selects are sorted alphabetically; please add new ones
+>  	# according to that.  Thanks.
+>  	help
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index b2024db225a9..6c684d8c8816 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -115,6 +115,7 @@ config ARM64
+>  	select SPARSE_IRQ
+>  	select SYSCTL_EXCEPTION_TRACE
+>  	select THREAD_INFO_IN_TASK
+> +	select PCI_GENERIC_SETUP
+>  	help
+>  	  ARM 64-bit (AArch64) Linux support.
+>  
+> diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
+> index d140206d5d29..c16214344f1c 100644
+> --- a/arch/m68k/Kconfig
+> +++ b/arch/m68k/Kconfig
+> @@ -22,6 +22,7 @@ config M68K
+>  	select MODULES_USE_ELF_RELA
+>  	select OLD_SIGSUSPEND3
+>  	select OLD_SIGACTION
+> +	select PCI_GENERIC_SETUP
+>  
+>  config RWSEM_GENERIC_SPINLOCK
+>  	bool
+> diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+> index 2828ecde133d..474a7c710686 100644
+> --- a/arch/mips/Kconfig
+> +++ b/arch/mips/Kconfig
+> @@ -70,6 +70,7 @@ config MIPS
+>  	select HAVE_EXIT_THREAD
+>  	select HAVE_REGS_AND_STACK_ACCESS_API
+>  	select HAVE_COPY_THREAD_TLS
+> +	select PCI_GENERIC_SETUP
+>  
+>  menu "Machine selection"
+>  
+> diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+> index ee086958b2b2..90a98ac526fb 100644
+> --- a/arch/sh/Kconfig
+> +++ b/arch/sh/Kconfig
+> @@ -48,6 +48,7 @@ config SUPERH
+>  	select HAVE_ARCH_AUDITSYSCALL
+>  	select HAVE_FUTEX_CMPXCHG if FUTEX
+>  	select HAVE_NMI
+> +	select PCI_GENERIC_SETUP
+>  	help
+>  	  The SuperH is a RISC processor targeted for use in embedded systems
+>  	  and consumer electronics; it was also used in the Sega Dreamcast
+> diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
+> index 5639c9fe5b55..24cea64104bd 100644
+> --- a/arch/sparc/Kconfig
+> +++ b/arch/sparc/Kconfig
+> @@ -424,6 +424,7 @@ config SPARC_LEON
+>  	depends on SPARC32
+>  	select USB_EHCI_BIG_ENDIAN_MMIO
+>  	select USB_EHCI_BIG_ENDIAN_DESC
+> +	select PCI_GENERIC_SETUP
+>  	---help---
+>  	  If you say Y here if you are running on a SPARC-LEON processor.
+>  	  The LEON processor is a synthesizable VHDL model of the
+> diff --git a/arch/tile/Kconfig b/arch/tile/Kconfig
+> index 4583c0320059..6679af85a882 100644
+> --- a/arch/tile/Kconfig
+> +++ b/arch/tile/Kconfig
+> @@ -33,6 +33,7 @@ config TILE
+>  	select USER_STACKTRACE_SUPPORT
+>  	select USE_PMC if PERF_EVENTS
+>  	select VIRT_TO_BUS
+> +	select PCI_GENERIC_SETUP
+>  
+>  config MMU
+>  	def_bool y
+> diff --git a/arch/unicore32/Kconfig b/arch/unicore32/Kconfig
+> index 0769066929c6..162a7d3def0c 100644
+> --- a/arch/unicore32/Kconfig
+> +++ b/arch/unicore32/Kconfig
+> @@ -18,6 +18,7 @@ config UNICORE32
+>  	select ARCH_WANT_FRAME_POINTERS
+>  	select GENERIC_IOMAP
+>  	select MODULES_USE_ELF_REL
+> +	select PCI_GENERIC_SETUP
+>  	help
+>  	  UniCore-32 is 32-bit Instruction Set Architecture,
+>  	  including a series of low-power-consumption RISC chip
+> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+> index e0cacb7b8563..658c9f95ab3f 100644
+> --- a/drivers/pci/Kconfig
+> +++ b/drivers/pci/Kconfig
+> @@ -131,6 +131,9 @@ config PCI_HYPERV
+>            The PCI device frontend driver allows the kernel to import arbitrary
+>            PCI devices from a PCI backend to support PCI driver domains.
+>  
+> +config PCI_GENERIC_SETUP
+> +	def_bool n
+> +
+>  source "drivers/pci/hotplug/Kconfig"
+>  source "drivers/pci/dwc/Kconfig"
+>  source "drivers/pci/host/Kconfig"
+> diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+> index 462c1f5f5546..26f4710c88ec 100644
+> --- a/drivers/pci/Makefile
+> +++ b/drivers/pci/Makefile
+> @@ -31,16 +31,7 @@ obj-$(CONFIG_PCI_IOV) += iov.o
+>  #
+>  # Some architectures use the generic PCI setup functions
+>  #
+> -obj-$(CONFIG_ALPHA) += setup-irq.o
+> -obj-$(CONFIG_ARC) += setup-irq.o
+> -obj-$(CONFIG_ARM) += setup-irq.o
+> -obj-$(CONFIG_ARM64) += setup-irq.o
+> -obj-$(CONFIG_UNICORE32) += setup-irq.o
+> -obj-$(CONFIG_SUPERH) += setup-irq.o
+> -obj-$(CONFIG_MIPS) += setup-irq.o
+> -obj-$(CONFIG_TILE) += setup-irq.o
+> -obj-$(CONFIG_SPARC_LEON) += setup-irq.o
+> -obj-$(CONFIG_M68K) += setup-irq.o
+> +obj-$(CONFIG_PCI_GENERIC_SETUP) += setup-irq.o
+>  
+>  #
+>  # ACPI Related PCI FW Functions
+> -- 
+> 2.13.0
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
