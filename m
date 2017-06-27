@@ -1,35 +1,36 @@
-From: zackw@panix.com (Zack Weinberg)
-Date: Tue, 27 Jun 2017 12:53:56 -0400
-Subject: [RFC 2/6] ARC: Fixed inline asm contraints to gcc 6.x
-In-Reply-To: <42b1e1e9-6c29-4ee8-3fc7-ab220e217908@synopsys.com>
+From: joseph@codesourcery.com (Joseph Myers)
+Date: Tue, 27 Jun 2017 17:02:31 +0000
+Subject: [RFC 4/6] ARC: Initial port to glibc
+In-Reply-To: <30d4364e-1932-649c-917e-d0bc2dc4093c@synopsys.com>
 References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
- <1498550454-3560-3-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.20.1706271146120.17677@digraph.polyomino.org.uk>
- <42b1e1e9-6c29-4ee8-3fc7-ab220e217908@synopsys.com>
+ <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.20.1706271147470.17677@digraph.polyomino.org.uk>
+ <0cd32bdd-5ec4-0fb6-8cf8-fd658596e790@synopsys.com>
+ <alpine.DEB.2.20.1706271553590.18823@digraph.polyomino.org.uk>
+ <30d4364e-1932-649c-917e-d0bc2dc4093c@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAKCAbMj-ck4qkuOaAbFHvFGWVWO-F2Knqj6rzTwsjib9QaVqhg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.20.1706271701440.18823@digraph.polyomino.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Jun 27, 2017 at 12:40 PM, Vineet Gupta
-<Vineet.Gupta1@synopsys.com> wrote:
-> On 06/27/2017 02:47 PM, Joseph Myers wrote:
->>
->> longlong.h should be kept in sync with GCC.  If the GCC version has been
->> fixed we can copy the updated version verbatim from GCC.
->
->
-> Indeed it is fixed in upstream gcc.
->
->         commit 608e1e3746f5242f0b0987ce64ca99969c33fb48
->         Author: claziss <claziss at 138bc75d-0d04-0410-961f-82ee72b054a4>
->         Date:   Fri Apr 29 10:11:25 2016 +0000
->
->             [ARC] Fix obsolete constrain
->
-> So I drop this patch from my series and rely on glibc upstream to have this
-> fixed ?
+On Tue, 27 Jun 2017, Vineet Gupta wrote:
 
-Don't drop the patch; replace it with a patch that copies the file
-verbatim from the GCC source tree.
+> thx for this link - per comments there the contents of struct sigcontext could
+> come from kernel which is
+> 
+>   struct sigcontext {
+> 	struct user_regs_struct regs;
+>   };
+> 
+> Now I'd rather prefer to not duplicate user_regs_struct here, but instead just
+> refer to kernel variant, something like ...
+> 
+>   typedef struct user_regs_struct mcontext_t;
+> 
+> Will that work or do I absolutely need to redefine this in userspace hdrs ?
 
-zw
+You have to redefine.  Neither "user_regs_struct" nor "regs" is an 
+identifier permitted here by POSIX.
+
+-- 
+Joseph S. Myers
+joseph at codesourcery.com
