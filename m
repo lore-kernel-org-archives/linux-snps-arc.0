@@ -1,50 +1,18 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 27 Jun 2017 11:00:50 +0300
-Subject: [RFC 2/6] ARC: Fixed inline asm contraints to gcc 6.x
-In-Reply-To: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
-References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
+From: ralf@linux-mips.org (Ralf Baechle)
+Date: Tue, 27 Jun 2017 12:18:48 +0200
+Subject: [PATCH] pci:  Add and use PCI_GENERIC_SETUP Kconfig entry
+In-Reply-To: <20170626202756.22220-2-palmer@dabbelt.com>
+References: <CAMuHMdXSrfbSX2de2q35Hj6vQwi+sr23M1LEg82JL+FyLq4OJw@mail.gmail.com>
+ <20170626202756.22220-1-palmer@dabbelt.com>
+ <20170626202756.22220-2-palmer@dabbelt.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1498550454-3560-3-git-send-email-vgupta@synopsys.com>
+Message-ID: <20170627101640.GA19700@linux-mips.org>
 To: linux-snps-arc@lists.infradead.org
 
-From: Cupertino Miranda <cmiranda@synopsys.com>
+On Mon, Jun 26, 2017@01:27:56PM -0700, Palmer Dabbelt wrote:
 
-It seems glibc had some ancient ARC bits, added as part of some header
-sync up back in 1999 (I was still in college)
+Acked-by: Ralf Baechle <ralf at linux-mips.org>
 
-That code obviously doesn't build with modern compilers.
+Thanks,
 
-Signed-off-by: Cupertino Miranda <cmiranda at synopsys.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- stdlib/longlong.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/stdlib/longlong.h b/stdlib/longlong.h
-index 0ec11c5056bf..fb6557272fa0 100644
---- a/stdlib/longlong.h
-+++ b/stdlib/longlong.h
-@@ -197,17 +197,17 @@ extern UDItype __udiv_qrnnd (UDItype *, UDItype, UDItype, UDItype);
- 	   : "=r" ((USItype) (sh)),					\
- 	     "=&r" ((USItype) (sl))					\
- 	   : "%r" ((USItype) (ah)),					\
--	     "rIJ" ((USItype) (bh)),					\
-+	     "rICal" ((USItype) (bh)),					\
- 	     "%r" ((USItype) (al)),					\
--	     "rIJ" ((USItype) (bl)))
-+	     "rICal" ((USItype) (bl)))
- #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-   __asm__ ("sub.f	%1, %4, %5\n\tsbc	%0, %2, %3"		\
- 	   : "=r" ((USItype) (sh)),					\
- 	     "=&r" ((USItype) (sl))					\
- 	   : "r" ((USItype) (ah)),					\
--	     "rIJ" ((USItype) (bh)),					\
-+	     "rICal" ((USItype) (bh)),					\
- 	     "r" ((USItype) (al)),					\
--	     "rIJ" ((USItype) (bl)))
-+	     "rICal" ((USItype) (bl)))
- 
- #define __umulsidi3(u,v) ((UDItype)(USItype)u*(USItype)v)
- #ifdef __ARC_NORM__
--- 
-2.7.4
+  Ralf
