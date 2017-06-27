@@ -1,18 +1,25 @@
-From: ralf@linux-mips.org (Ralf Baechle)
-Date: Tue, 27 Jun 2017 12:18:48 +0200
-Subject: [PATCH] pci:  Add and use PCI_GENERIC_SETUP Kconfig entry
-In-Reply-To: <20170626202756.22220-2-palmer@dabbelt.com>
-References: <CAMuHMdXSrfbSX2de2q35Hj6vQwi+sr23M1LEg82JL+FyLq4OJw@mail.gmail.com>
- <20170626202756.22220-1-palmer@dabbelt.com>
- <20170626202756.22220-2-palmer@dabbelt.com>
+From: fweimer@redhat.com (Florian Weimer)
+Date: Tue, 27 Jun 2017 13:29:57 +0200
+Subject: [RFC 4/6] ARC: Initial port to glibc
+In-Reply-To: <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
+References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
+ <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170627101640.GA19700@linux-mips.org>
+Message-ID: <3bd8b935-47c0-f190-ee6b-3d08e2f3a752@redhat.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Jun 26, 2017@01:27:56PM -0700, Palmer Dabbelt wrote:
+On 06/27/2017 10:00 AM, Vineet Gupta wrote:
+> diff --git a/sysdeps/unix/sysv/linux/arc/shlib-versions b/sysdeps/unix/sysv/linux/arc/shlib-versions
+> new file mode 100644
+> index 000000000000..c4d5d029812d
+> --- /dev/null
+> +++ b/sysdeps/unix/sysv/linux/arc/shlib-versions
+> @@ -0,0 +1,2 @@
+> +DEFAULT                 GLIBC_2.21
+> +ld=ld-linux.so.2
 
-Acked-by: Ralf Baechle <ralf at linux-mips.org>
+Is there a reason why you set the ABI baseline to GLIBC_2.21?  Why not
+GLBIC_2.26?
 
 Thanks,
-
-  Ralf
+Florian
