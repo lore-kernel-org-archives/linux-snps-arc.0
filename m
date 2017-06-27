@@ -1,27 +1,21 @@
-From: joseph@codesourcery.com (Joseph Myers)
-Date: Tue, 27 Jun 2017 12:03:39 +0000
-Subject: [RFC 4/6] ARC: Initial port to glibc
-In-Reply-To: <e0b3a866-beed-b3c4-e0c8-37d074eed4a5@redhat.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 27 Jun 2017 16:15:45 +0300
+Subject: [RFC 0/6] glibc port to ARC architecture
+In-Reply-To: <alpine.DEB.2.20.1706271143540.17677@digraph.polyomino.org.uk>
 References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
- <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
- <3bd8b935-47c0-f190-ee6b-3d08e2f3a752@redhat.com>
- <2b02c462-44c4-02bb-6989-b3572834432e@synopsys.com>
- <e0b3a866-beed-b3c4-e0c8-37d074eed4a5@redhat.com>
+ <alpine.DEB.2.20.1706271143540.17677@digraph.polyomino.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.20.1706271202230.17677@digraph.polyomino.org.uk>
+Message-ID: <44d57e49-40b6-2cc2-93f2-2fe80612125e@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 27 Jun 2017, Florian Weimer wrote:
+On 06/27/2017 02:44 PM, Joseph Myers wrote:
+> I don't see a corporate copyright assignment (or disclaimer plus
+> individual assignments) from Synopsys in the FSF copyright.list.  The
+> assignment will be needed before we can consider this port.
+> 
 
-> (Realistically, I'd need a port which can build with
-> build-many-glibcs.py for that anyway.)
+Right we missed this ! FWIW we did the agreements for gcc, gdb and binutils and 
+will get the paperwork going for glibc as well.
 
-It's probably not hard to increase the minimum symbol version for an 
-existing port, especially one of the newer ones, for testing purposes.  
-(It's possible you'd find missing SHLIB_COMPAT conditionals or similar in 
-port-specific code when doing so, especially if doing it for an older 
-port.)
-
--- 
-Joseph S. Myers
-joseph at codesourcery.com
+Thx,
+-Vineet
