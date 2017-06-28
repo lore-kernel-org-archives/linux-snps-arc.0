@@ -1,56 +1,46 @@
-From: szabolcs.nagy@arm.com (Szabolcs Nagy)
-Date: Wed, 28 Jun 2017 10:23:17 +0100
-Subject: ucontect vs. ucontext_t (was Re: [RFC 4/6] ARC: Initial port
- to glibc)
+From: joseph@codesourcery.com (Joseph Myers)
+Date: Wed, 28 Jun 2017 09:30:01 +0000
+Subject: ucontect vs. ucontext_t (was Re: [RFC 4/6] ARC: Initial port to
+ glibc)
 In-Reply-To: <aeb31ac8-636a-69d7-b630-3fcd29c37ecc@synopsys.com>
 References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
  <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
  <alpine.DEB.2.20.1706271147470.17677@digraph.polyomino.org.uk>
  <aeb31ac8-636a-69d7-b630-3fcd29c37ecc@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <59537585.3020108@arm.com>
+Message-ID: <alpine.DEB.2.20.1706280925190.6445@digraph.polyomino.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-[ignoring newsgroups]
+On Wed, 28 Jun 2017, Vineet Gupta wrote:
 
-On 28/06/17 09:48, Vineet Gupta wrote:
 > On 06/27/2017 02:56 PM, Joseph Myers wrote:
->>> +/* Userlevel context.  */
->>> +typedef struct ucontext
->>> +  {
->>> +    unsigned long uc_flags;
->>> +    struct ucontext *uc_link;
->> This is now struct ucontext_t.
+> > > +/* Userlevel context.  */
+> > > +typedef struct ucontext
+> > > +  {
+> > > +    unsigned long uc_flags;
+> > > +    struct ucontext *uc_link;
+> > This is now struct ucontext_t.
 > 
-> Isn't this an ABI change. After making change as you suggested, building gcc/libgcc itself fails now as the ARC
-> libgcc unwinder expects ucontext.
-> 
+> Isn't this an ABI change. After making change as you suggested, building
+> gcc/libgcc itself fails now as the ARC libgcc unwinder expects ucontext.
 
-this is a c++ abi change (name mangling of c++
-function taking ucontext_t* arguments changes,
-but such arg should be rare in extern functions)
+Florian established a lack of ucontext in C++ mangled names in Fedora.
 
->     #define MD_FALLBACK_FRAME_STATE_FOR arc_fallback_frame_state
-> 
->     static __attribute__((noinline)) _Unwind_Reason_Code
->     arc_fallback_frame_state (struct _Unwind_Context *context,
->                    _Unwind_FrameState *fs)
->     {
->       struct rt_sigframe {
->         siginfo_t info;
->         struct ucontext uc;
->         unsigned int sigret_magic;
->       };
-> 
-> Can we atleast define a preprocessor macro to indicate this ABI change so downstream projects can support both
-> things in short term ?
-> 
+> Can we atleast define a preprocessor macro to indicate this ABI change so
+> downstream projects can support both things in short term ?
 
-this is not an abi issue but api (source code) issue:
-there is no 'struct ucontext' in the public api,
-only ucontext_t (without struct) so i think libgcc
-should be fixed anyway.
+Projects should use the standard typedef name ucontext_t unconditionally, 
+not the tag; the typedef name was already present in glibc before this 
+change and should be present in any library implementing these interfaces.  
+See my libgcc patch 
+<https://gcc.gnu.org/ml/gcc-patches/2017-06/msg02032.html>, now committed 
+to trunk.  This is much like the removal of the struct siginfo tag a few 
+years ago (including the same motivation, to follow POSIX namespace 
+rules); projects had to use siginfo_t, which already existed, instead.
 
-> I see other threads on mailing list about distros being notifed etc of this ...
-> 
-> -Vineet
+I see no references to ucontext at all in ARC libgcc (ARC doesn't have a 
+linux-unwind.h file).
+
+-- 
+Joseph S. Myers
+joseph at codesourcery.com
