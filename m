@@ -1,40 +1,83 @@
-From: joseph@codesourcery.com (Joseph Myers)
-Date: Thu, 29 Jun 2017 15:29:19 +0000
-Subject: [RFC 4/6] ARC: Initial port to glibc
-In-Reply-To: <5a738e1a-fac6-3dbb-3c3f-744b12966dd7@synopsys.com>
-References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
- <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.20.1706271147470.17677@digraph.polyomino.org.uk>
- <5a738e1a-fac6-3dbb-3c3f-744b12966dd7@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 29 Jun 2017 16:39:45 +0000
+Subject: [PATCH 3/3 v6] ARC: hsdk: initial port for HSDK board
+In-Reply-To: <20170628225005.5ume54d67vtvp5fi@rob-hp-laptop>
+References: <20170626151118.19507-1-Eugeniy.Paltsev@synopsys.com>
+ <20170626151118.19507-4-Eugeniy.Paltsev@synopsys.com>
+ <CAL_JsqJBPL+AuYNP=JgXWOGNFxdenKY4Rt3_f6tG6MYDLncRNg@mail.gmail.com>
+ <1498494334.28955.58.camel@synopsys.com>
+ <20170628225005.5ume54d67vtvp5fi@rob-hp-laptop>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.20.1706291526330.7727@digraph.polyomino.org.uk>
+Message-ID: <1498754384.2378.10.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, 29 Jun 2017, Vineet Gupta wrote:
+On Wed, 2017-06-28@17:50 -0500, Rob Herring wrote:
+> > > > +???????????????????????#clock-cells = <0>;
+> > > > +???????????????????????compatible = "fixed-clock";
+> > > > +???????????????????????clock-frequency = <1000000000>;
+> > > > +???????????????};
+> > > > +
+> > > > +???????????????core_intc: archs-intc at cpu {
+> > > 
+> > > cpu is not a valid unit-address. How are these interrupt
+> > > controllers addressed?
+> > 
+> > We have per-core INTC so each core communicates to its own INTC and
+> > there's no way
+> > for any core to talk with INTC of another core.
+> > 
+> > But then we have the next level INTC which is IDU (Interrupt
+> > Distribution Unit)
+> > which dispatches "common" IRQs to different upstream per-core INTC,
+> > see below its node.?
+> 
+> Okay, I'd just do "cpu-interrupt-controller" for the node name then.?
+> There doesn't seem to be an easy way to use just "interrupt-
+> controller"?
+> since you have 2 nodes at the same level and no unit-address (i.e. a?
+> reg property).
+> 
 
-> I regenerated the ABI files, but it seems generated  libc abilist is lacking
-> malloc_{get,set}_stated and had to be added manually - which causes a
-> subsequent testsuite failure. Is this (manual addition of entries to abi file)
-> correct or is this a deficiency of ARC port.
+To be more clarify, what is better way do describe such hardware in
+device tree?
 
-malloc_get_state and malloc_set_state have been obsoleted, meaning that 
-they are not included in any new ports, are not included in static libc 
-for any port and in shared libc in existing ports they are compat symbols 
-that new binaries can't be linked against.  (Yes, the testsuite work to 
-support ports postdating that obsoletion is still needed.)
+-------------????-------------??
+| cpu core 0|????| cpu core 1|??
+-------------????-------------??
+| interrupt |????| interrupt |??
+| controller|????| controller|??
+|?????0?????|????|?????1?????|??
+-------------????-------------??
+??????^????????????????^
+??????|????????????????|
+?????????????-----------
+??????|??????|
+----------------
+|???interrupt??|
+| distribution |
+|?????unit?????|
+----------------
+??????^
+??????|
+??????|<--other devices interrupt lines
 
-> Speaking of testsuite, since this is bootstrapping a glibc system we have to
-> resort to using scripts/cross-test-ssh.sh which is a serious pain in the neck.
-> Is there no easy way to build the whole test suite first and then just run it
-> on target.
+We can't just create a node for each core interrupt controller because
+we wouldn't able to specify which one is parent for interrupt
+distribution unit:
 
-You can probably build the testsuite with "make check" without setting 
-test-wrapper, presuming you've fixed all issues with compilation of the 
-testsuite, then rerun "make check" with test-wrapper specified to run the 
-execution tests.  I don't know whether transferring the build directory to 
-a different system for a native "make check" would work, but at least lots 
-of tools would be required on the target to do so.
+------------>>>-------------
+cpus {
+????cpu at 0 { intc at 0 };
+????cpu at 1 { intc at 1 };
+};
+
+interrupt-distribution-unit {
+????interrupt-parent = ????
+};
+------------>>>-------------
+
+Should we simply create one core interrupt controller node for all cpus
+(instead of one per each cpu core), or where is a better option?
 
 -- 
-Joseph S. Myers
-joseph at codesourcery.com
+?Eugeniy Paltsev
