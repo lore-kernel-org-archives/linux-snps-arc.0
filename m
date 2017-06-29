@@ -1,19 +1,100 @@
-From: tomphaahla@gfmt.com (Thomas Phaahla)
-Date: Wed, 28 Jun 2017 21:39:09 -0700
-Subject: Project Funding  
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 29 Jun 2017 10:27:57 +0300
+Subject: [PATCH 3/3 v6] ARC: hsdk: initial port for HSDK board
+In-Reply-To: <20170626151118.19507-4-Eugeniy.Paltsev@synopsys.com>
+References: <20170626151118.19507-1-Eugeniy.Paltsev@synopsys.com>
+ <20170626151118.19507-4-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170629043908.42146.5E96EEB7C7E9C4F7@starauctions.ca>
+Message-ID: <2ed0a454-0de1-cdb6-25d1-d61967c94709@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Good day,
+On 06/26/2017 06:11 PM, Eugeniy Paltsev wrote:
+> From: Alexey Brodkin <abrodkin at synopsys.com>
 
-Welcome to our Private Placement Portfolio.
+> diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
+> new file mode 100644
+> index 0000000..53bc9f3
+> --- /dev/null
+> +++ b/arch/arc/configs/hsdk_defconfig
+> @@ -0,0 +1,75 @@
+> +CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+> +CONFIG_SYSVIPC=y
+> +# CONFIG_CROSS_MEMORY_ATTACH is not set
+> +CONFIG_NO_HZ_IDLE=y
+> +CONFIG_HIGH_RES_TIMERS=y
+> +CONFIG_IKCONFIG=y
+> +CONFIG_IKCONFIG_PROC=y
+> +CONFIG_NAMESPACES=y
+> +# CONFIG_UTS_NS is not set
+> +# CONFIG_PID_NS is not set
+> +CONFIG_BLK_DEV_INITRD=y
+> +CONFIG_INITRAMFS_SOURCE="../../arc_initramfs_hs/"
+> +CONFIG_EMBEDDED=y
+> +CONFIG_PERF_EVENTS=y
+> +# CONFIG_VM_EVENT_COUNTERS is not set
+> +# CONFIG_COMPAT_BRK is not set
+> +CONFIG_SLAB=y
+> +CONFIG_ARC_PLAT_HSDK=y
+> +CONFIG_ISA_ARCV2=y
+> +CONFIG_SMP=y
+> +CONFIG_LINUX_LINK_BASE=0x90000000
+> +CONFIG_KERNEL_RAM_BASE_ADDRESS=0x80000000
+> +CONFIG_ARC_BUILTIN_DTB_NAME="hsdk"
+> +CONFIG_PREEMPT=y
+> +# CONFIG_COMPACTION is not set
+> +CONFIG_NET=y
+> +CONFIG_PACKET=y
+> +CONFIG_UNIX=y
+> +CONFIG_INET=y
+> +CONFIG_DEVTMPFS=y
+> +# CONFIG_STANDALONE is not set
+> +# CONFIG_PREVENT_FIRMWARE_BUILD is not set
+> +# CONFIG_FIRMWARE_IN_KERNEL is not set
+> +CONFIG_SCSI=y
+> +CONFIG_BLK_DEV_SD=y
+> +CONFIG_NETDEVICES=y
+> +CONFIG_STMMAC_ETH=y
+> +CONFIG_MICREL_PHY=y
+> +# CONFIG_INPUT_KEYBOARD is not set
+> +# CONFIG_INPUT_MOUSE is not set
+> +# CONFIG_SERIO is not set
+> +# CONFIG_LEGACY_PTYS is not set
+> +CONFIG_SERIAL_8250=y
+> +CONFIG_SERIAL_8250_CONSOLE=y
+> +CONFIG_SERIAL_8250_DW=y
+> +CONFIG_SERIAL_OF_PLATFORM=y
+> +# CONFIG_HW_RANDOM is not set
+> +# CONFIG_HWMON is not set
+> +CONFIG_FB=y
+> +CONFIG_FB_UDL=y
+> +CONFIG_FRAMEBUFFER_CONSOLE=y
+> +CONFIG_USB=y
+> +CONFIG_USB_EHCI_HCD=y
+> +CONFIG_USB_EHCI_HCD_PLATFORM=y
+> +CONFIG_USB_OHCI_HCD=y
+> +CONFIG_USB_OHCI_HCD_PLATFORM=y
+> +CONFIG_USB_STORAGE=y
+> +CONFIG_MMC=y
+> +CONFIG_MMC_SDHCI=y
+> +CONFIG_MMC_SDHCI_PLTFM=y
+> +CONFIG_MMC_DW=y
+> +# CONFIG_IOMMU_SUPPORT is not set
+> +CONFIG_EXT3_FS=y
+> +CONFIG_VFAT_FS=y
+> +CONFIG_TMPFS=y
+> +CONFIG_NLS_CODEPAGE_437=y
+> +CONFIG_NLS_ISO8859_1=y
+> +# CONFIG_ENABLE_WARN_DEPRECATED is not set
+> +# CONFIG_ENABLE_MUST_CHECK is not set
+> +CONFIG_STRIP_ASM_SYMS=y
+> +CONFIG_LOCKUP_DETECTOR=y
+> +CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=10
+> +# CONFIG_SCHED_DEBUG is not set
+> +# CONFIG_DEBUG_PREEMPT is not set
+> +# CONFIG_FTRACE is not set
 
-I am a Staff of a Venture Capital Firm specializing in Growth Capital Investments/Loans.We seek to invest in Projects with Public and Private sectors in a broad range of areas including Real estate, Agriculture, Energy, Oil and Gas, emerging markets and high-technology. Within the technology sector, the firm focuses on communications, software, digital content and services.
+For the next iteration please also enable loadable modules, module unloading and 
+NFS client as defaults !
 
-We have the capacity to invest a considerable amount of funds in any viable project(s) that your company requires funding for on an investment capacity/Loan Application. Upon the review of your company's Project Business Plan we shall determine on the project(s) possible funding. This will be form of a silent and Private Placement Investments.
-
-Endeavor to respond promptly if the investment proposal meets your company's approval.
-
-Kind Regards,
-Thomas Phaahla
+Thx,
+-Vineet
