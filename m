@@ -1,83 +1,45 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Thu, 29 Jun 2017 16:39:45 +0000
-Subject: [PATCH 3/3 v6] ARC: hsdk: initial port for HSDK board
-In-Reply-To: <20170628225005.5ume54d67vtvp5fi@rob-hp-laptop>
-References: <20170626151118.19507-1-Eugeniy.Paltsev@synopsys.com>
- <20170626151118.19507-4-Eugeniy.Paltsev@synopsys.com>
- <CAL_JsqJBPL+AuYNP=JgXWOGNFxdenKY4Rt3_f6tG6MYDLncRNg@mail.gmail.com>
- <1498494334.28955.58.camel@synopsys.com>
- <20170628225005.5ume54d67vtvp5fi@rob-hp-laptop>
+From: paulmck@linux.vnet.ibm.com (Paul E. McKenney)
+Date: Thu, 29 Jun 2017 17:01:18 -0700
+Subject: [PATCH RFC 10/26] arc: Remove spin_unlock_wait() arch-specific
+ definitions
+In-Reply-To: <20170629235918.GA6445@linux.vnet.ibm.com>
+References: <20170629235918.GA6445@linux.vnet.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1498754384.2378.10.camel@synopsys.com>
+Message-ID: <1498780894-8253-10-git-send-email-paulmck@linux.vnet.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, 2017-06-28@17:50 -0500, Rob Herring wrote:
-> > > > +???????????????????????#clock-cells = <0>;
-> > > > +???????????????????????compatible = "fixed-clock";
-> > > > +???????????????????????clock-frequency = <1000000000>;
-> > > > +???????????????};
-> > > > +
-> > > > +???????????????core_intc: archs-intc at cpu {
-> > > 
-> > > cpu is not a valid unit-address. How are these interrupt
-> > > controllers addressed?
-> > 
-> > We have per-core INTC so each core communicates to its own INTC and
-> > there's no way
-> > for any core to talk with INTC of another core.
-> > 
-> > But then we have the next level INTC which is IDU (Interrupt
-> > Distribution Unit)
-> > which dispatches "common" IRQs to different upstream per-core INTC,
-> > see below its node.?
-> 
-> Okay, I'd just do "cpu-interrupt-controller" for the node name then.?
-> There doesn't seem to be an easy way to use just "interrupt-
-> controller"?
-> since you have 2 nodes at the same level and no unit-address (i.e. a?
-> reg property).
-> 
+There is no agreed-upon definition of spin_unlock_wait()'s semantics,
+and it appears that all callers could do just as well with a lock/unlock
+pair.  This commit therefore removes the underlying arch-specific
+arch_spin_unlock_wait().
 
-To be more clarify, what is better way do describe such hardware in
-device tree?
+Signed-off-by: Paul E. McKenney <paulmck at linux.vnet.ibm.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: <linux-snps-arc at lists.infradead.org>
+Cc: Will Deacon <will.deacon at arm.com>
+Cc: Peter Zijlstra <peterz at infradead.org>
+Cc: Alan Stern <stern at rowland.harvard.edu>
+Cc: Andrea Parri <parri.andrea at gmail.com>
+Cc: Linus Torvalds <torvalds at linux-foundation.org>
+---
+ arch/arc/include/asm/spinlock.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
--------------????-------------??
-| cpu core 0|????| cpu core 1|??
--------------????-------------??
-| interrupt |????| interrupt |??
-| controller|????| controller|??
-|?????0?????|????|?????1?????|??
--------------????-------------??
-??????^????????????????^
-??????|????????????????|
-?????????????-----------
-??????|??????|
-----------------
-|???interrupt??|
-| distribution |
-|?????unit?????|
-----------------
-??????^
-??????|
-??????|<--other devices interrupt lines
-
-We can't just create a node for each core interrupt controller because
-we wouldn't able to specify which one is parent for interrupt
-distribution unit:
-
------------->>>-------------
-cpus {
-????cpu at 0 { intc at 0 };
-????cpu at 1 { intc at 1 };
-};
-
-interrupt-distribution-unit {
-????interrupt-parent = ????
-};
------------->>>-------------
-
-Should we simply create one core interrupt controller node for all cpus
-(instead of one per each cpu core), or where is a better option?
-
+diff --git a/arch/arc/include/asm/spinlock.h b/arch/arc/include/asm/spinlock.h
+index 233d5ffe6ec7..a325e6a36523 100644
+--- a/arch/arc/include/asm/spinlock.h
++++ b/arch/arc/include/asm/spinlock.h
+@@ -16,11 +16,6 @@
+ #define arch_spin_is_locked(x)	((x)->slock != __ARCH_SPIN_LOCK_UNLOCKED__)
+ #define arch_spin_lock_flags(lock, flags)	arch_spin_lock(lock)
+ 
+-static inline void arch_spin_unlock_wait(arch_spinlock_t *lock)
+-{
+-	smp_cond_load_acquire(&lock->slock, !VAL);
+-}
+-
+ #ifdef CONFIG_ARC_HAS_LLSC
+ 
+ static inline void arch_spin_lock(arch_spinlock_t *lock)
 -- 
-?Eugeniy Paltsev
+2.5.2
