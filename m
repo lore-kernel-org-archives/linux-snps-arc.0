@@ -1,44 +1,113 @@
-From: shawn.lin@rock-chips.com (Shawn Lin)
-Date: Wed,  5 Jul 2017 15:10:45 +0800
-Subject: [PATCH] arc: remove num-slots from arc platforms
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Wed, 05 Jul 2017 07:36:32 -0000
+Subject: kisskb: FAILED linux-next/axs103_smp_defconfig/arcv2 Wed Jul 05, 17:35
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1499238645-29178-1-git-send-email-shawn.lin@rock-chips.com>
+Message-ID: <20170705073632.1.63619@222023911cb9>
 To: linux-snps-arc@lists.infradead.org
 
-dwmmc driver deprecated num-slots and plan to get rid
-of it finally. Just move a step to cleanup it from DT.
+FAILED linux-next/axs103_smp_defconfig/arcv2 Wed Jul 05, 17:35
 
-Cc: Jaehoon Chung <jh80.chung at samsung.com>
-Signed-off-by: Shawn Lin <shawn.lin at rock-chips.com>
----
+http://kisskb.ellerman.id.au/kisskb/buildresult/13083723/
 
- arch/arc/boot/dts/axs10x_mb.dtsi     | 1 -
- arch/arc/boot/dts/vdk_axs10x_mb.dtsi | 1 -
- 2 files changed, 2 deletions(-)
+Commit:   Add linux-next specific files for 20170705
+          0c5f0311f690e99f99453ebec77cf3229417c809
+Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824
 
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 41cfb29..82e26ad 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -101,7 +101,6 @@
- 		mmc at 0x15000 {
- 			compatible = "altr,socfpga-dw-mshc";
- 			reg = < 0x15000 0x400 >;
--			num-slots = < 1 >;
- 			fifo-depth = < 16 >;
- 			card-detect-delay = < 200 >;
- 			clocks = <&apbclk>, <&mmcclk>;
-diff --git a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
-index 459fc65..48bb4b4 100644
---- a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
-@@ -104,7 +104,6 @@
- 		mmc at 0x15000 {
- 			compatible = "snps,dw-mshc";
- 			reg = <0x15000 0x400>;
--			num-slots = <1>;
- 			fifo-depth = <1024>;
- 			card-detect-delay = <200>;
- 			clocks = <&apbclk>, <&mmcclk>;
--- 
-1.9.1
+Possible errors
+---------------
+
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+drivers/i2c/busses/i2c-designware-platdrv.c:331:6: error: implicit declaration of function 'i2c_detect_slave_mode' [-Werror=implicit-function-declaration]
+cc1: some warnings being treated as errors
+make[4]: *** [drivers/i2c/busses/i2c-designware-platdrv.o] Error 1
+make[3]: *** [drivers/i2c/busses] Error 2
+make[2]: *** [drivers/i2c] Error 2
+make[1]: *** [drivers] Error 2
+make: *** [sub-make] Error 2
+
+Possible warnings (83)
+----------------------
+
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+drivers/base/component.c:101:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+drivers/base/regmap/regmap.c:1399:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+drivers/base/regmap/regcache.c:719:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:882:14: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:882:14: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+mm/percpu.c:1475:27: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1475:32: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1475:37: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1475:42: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1475:52: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1475:56: warning: format '%zu' expects argument of type 'size_t', but argument 8 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+mm/slab_common.c:886:45: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+block/cfq-iosched.c:3827:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+net/core/ethtool.c:314:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+fs/buffer.c:243:37: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka const unsigned int}' [-Wformat=]
+mm/dmapool.c:96:46: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:51: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+net/ipv4/tcp_input.c:4257:49: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/gpu/drm/drm_dp_helper.c:776:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:809:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:861:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+kernel/sched/core.c:3223:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:416:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:416:1: warning: control reaches end of non-void function [-Wreturn-type]
+drivers/gpu/drm/drm_dp_dual_mode_helper.c:201:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+drivers/gpu/drm/drm_dp_dual_mode_helper.c:220:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 5 has type 'ssize_t {aka int}' [-Wformat=]
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
+fs/ext4/ext4_jbd2.h:416:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:416:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:416:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/ext4_jbd2.h:416:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/inode.c:3525:12: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+fs/ext4/ext4_jbd2.h:416:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/sunrpc/xprtsock.c:2607:16: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+lib/cpumask.c:211:1: warning: control reaches end of non-void function [-Wreturn-type]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:4:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+fs/ext4/ext4_jbd2.h:416:1: warning: control reaches end of non-void function [-Wreturn-type]
+net/sunrpc/svc.c:1344:33: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/sunrpc/svc_xprt.h:179:1: warning: control reaches end of non-void function [-Wreturn-type]
+drivers/gpu/drm/drm_info.c:118:24: warning: format '%zd' expects argument of type 'signed size_t', but argument 4 has type 'size_t {aka unsigned int}' [-Wformat=]
+fs/ext4/ext4_jbd2.h:416:1: warning: control reaches end of non-void function [-Wreturn-type]
+fs/ext4/page-io.c:162:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+lib/string.c:986:1: warning: 'noreturn' function does return
+fs/ext4/xattr.c:429:8: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_gem_cma_helper.c:115:60: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_gem_cma_helper.c:531:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:762:16: warning: comparison of distinct pointer types lacks a cast
