@@ -1,514 +1,119 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 5 Jul 2017 11:23:53 +0000
-Subject: [PATCH v4] clk: axs10x: introduce AXS10X pll driver
-In-Reply-To: <20170621191626.32248-1-Eugeniy.Paltsev@synopsys.com>
-References: <20170621191626.32248-1-Eugeniy.Paltsev@synopsys.com>
+From: jh80.chung@samsung.com (Jaehoon Chung)
+Date: Thu, 06 Jul 2017 13:17:48 +0900
+Subject: [PATCH] arc: remove num-slots from arc platforms
+In-Reply-To: <1499249697.4224.31.camel@synopsys.com>
+References: <1499238645-29178-1-git-send-email-shawn.lin@rock-chips.com>
+ <CGME20170705090517epcas3p4887844d6e0e08a0f6a69697a17032975@epcas3p4.samsung.com>
+ <1499245508.4224.13.camel@synopsys.com>
+ <60e74059-85ab-3cb9-1008-57bb1ba496a6@samsung.com>
+ <1499246600.4224.19.camel@synopsys.com>
+ <5d73fd6c-0ca3-aced-fa2a-cbf9ee119cb9@samsung.com>
+ <1499249697.4224.31.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1499253832.2378.14.camel@synopsys.com>
+Message-ID: <75074620-69e2-176f-fe26-1a4d99beac70@samsung.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, 2017-06-21@22:16 +0300, Eugeniy Paltsev wrote:
+On 07/05/2017 07:14 PM, Alexey Brodkin wrote:
+> Hi Jaehoon,
+> 
+> On Wed, 2017-07-05@18:58 +0900, Jaehoon Chung wrote:
+>> Hi Alexey,
+>>
+>> On 07/05/2017 06:23 PM, Alexey Brodkin wrote:
+>>>
+>>> Hi Jaehoon,
+>>>
+>>> On Wed, 2017-07-05@18:13 +0900, Jaehoon Chung wrote:
+>>>>
+>>>> Hi Alexey,
+>>>>
+>>>> On 07/05/2017 06:05 PM, Alexey Brodkin wrote:
+>>>>>
+>>>>>
+>>>>> Hi Shawn,
+>>>>>
+>>>>> On Wed, 2017-07-05@15:10 +0800, Shawn Lin wrote:
+>>>>>>
+>>>>>>
+>>>>>> dwmmc driver deprecated num-slots and plan to get rid
+>>>>>> of it finally. Just move a step to cleanup it from DT.
+>>>>>
+>>>>> Hm, that's interesting.
+>>>>> In our upcoming devboard (HSDK, see
+>>>>> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_pipermail_linux-2Dsnps-2Darc_2017-2DJuly_002667.html&d=DwICaQ&c=DPL6_X
+>>>>> _6Jk
+>>>>> XFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=b7bMsqUn3obLZnR09LeBC0q6AouAgBH_cIlb0VcM43U&s=yMZ4dGcco3uL5H1m51kiI8d2sF6MCA_IdFw
+>>>>> T326
+>>>>> IOGk&e= )
+>>>>> we do use 2 slots of DW MobileStorage controller (even though it's not yet
+>>>>> mentioned in its .dts).
+>>>>
+>>>> I didn't see about multiple slot for dwmmc controller.
+>>>
+>>> I was about to add a second SD-card slot to hsdk.dts
+>>> once we have a peripheral attached to it working.
+>>
+>> Sorry, Have we discuss about this?
+> 
+> I think it was never discussed unfortunately.
+> 
+>>>>> So the question is if multi-slot support gets removed from dwmmc driver or
+>>>>> it's just a .dts option gets obsoleted. In latter case I'm wondering how to
+>>>>> enable a second slot in dwmmc driver (will it just auto-probe it etc)?
+>>>>
+>>>> In dwmmc controller, already removed the multiple slot concept.
+>>>
+>>> Too bad for us as the second slot is attached to SDIO peripheral we really need.
+>>> What was a reason to get rid of multi-slot support on DW MMC?
+>>
+>> After merged dwmmc in mainline, we were keeping the slot concept.
+>> During 6 years, we didn't see the use-case about multi-slots..
+>> In all dts files, num-slots were used to "1" like "by-default".
+>> It was meaningless value.
+>>
+>> when we kept the multiple slot concept, it's complex to handle the driver.
+>> e,g) if upstream some patch, it has to check "cur_slot" and "slot" ..because dwmmc controller was doing context switch for slot.
+>> 	Sometime slot was not assigned..occurred the panic or NULL pointer dereference error.
+>>
+>> If there is no advantage for maintaining it, then i felt that the removing multiple slot is better than keeping.
+>> Then we can focus on one slot..and maintenance is more easier...
+>> And as i know, MMC subsystem doesn't consider the multiple slot.
+>>
+>> That's why i have removed it.
+> 
+> Ok that's a good reason to do it.
+> 
+> I was really surprised to see people prefer to add a few more
+> instances of DW MMC controolers in their systems (I did see about 5 of them
+> on some boards) instead of using extra slots of the same one controller.
+> I guess that's because all slots reuse the same data lines and so performance
+> degradation is inevitable.
 
-Hi Stephen, Michael,
+Right, that's why doesn't use the multiple slot.
+Company hopes to make the product that costumer is satisfied.
+Performance is one of important things...
+For saving about the cost that using more IP ...use the multiple slots via one IP?
+It doesn't make sense..but i don't know why your board is using the multiple slot..
+Maybe there are some reasons..?
 
-Maybe you have any comments or remarks about this patch? And if you
-don't could you please apply it.
+> 
+> Anyways we still don't have that SDIO peripheral working as expected
+> and for now only 1 slot is fine. Though it might become a nightmare for me
+> if the need for the second slot really arises. But let's see how it goes.
+> 
+> BTW do you know if that multi-slot functionality was ever tested at all?
 
-Thanks a lot!
+I know...i didn't never test the multi-slot..did you check the slot->sdio_id?
+Rockchip is using the slot 8 as sdio peripheral.
+As you already know, dwmmc needs to shift the bit according to slot.
 
-> AXS10X boards manages it's clocks using various PLLs. These PLL has
-> same
-> dividers and corresponding control registers mapped to different
-> addresses.
-> So we add one common driver for such PLLs.
+Best Regards,
+Jaehoon Chung
+
+> Now I have a feeling that our SDIO peripheral attached to the second slot of DW MMC
+> is not working because:
+>  a) Linux driver support for multi-slot is not functional
+>  b) Hardware itself is not working as expected as nobody ever tried that functionality.
 > 
-> Each PLL on AXS10X board consist of three dividers: IDIV, FBDIV and
-> ODIV. Output clock value is managed using these dividers.
+> -Alexey
 > 
-> We add pre-defined tables with supported rate values and appropriate
-> configurations of IDIV, FBDIV and ODIV for each value.
-> 
-> As of today we add support for PLLs that generate clock for the
-> following devices:
-> ?* ARC core on AXC CPU tiles.
-> ?* ARC PGU on ARC SDP Mainboard.
-> and more to come later.
-> 
-> By this patch we add support for two plls (arc core pll and pgu pll),
-> so we had to use two different init types: CLK_OF_DECLARE for arc
-> core pll and
-> regular probing for pgu pll.
-> 
-> Acked-by: Rob Herring <robh at kernel.org>
-> Acked-by: Jose Abreu <joabreu at synopsys.com>
-> 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
-> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-> ---
-> Changes for v4:
-> ? - fix resource freing after error in of_axs10x_pll_clk_setup
-> ? - add axs10x* prefix to main functions and structures
-> ? - style fixies
-> 
-> Changes for v2..v3:
-> ? - replaced complex data structures with simple cfg tables
-> ? - replaced non-hw based provider and clk registration functions
-> with hw-based
-> ? - fixed typos and minor code styling issues
-> 
-> ?.../devicetree/bindings/clock/snps,pll-clock.txt???|??28 ++
-> ?MAINTAINERS????????????????????????????????????????|???6 +
-> ?drivers/clk/axs10x/Makefile????????????????????????|???1 +
-> ?drivers/clk/axs10x/pll_clock.c?????????????????????| 344
-> +++++++++++++++++++++
-> ?4 files changed, 379 insertions(+)
-> ?create mode 100644 Documentation/devicetree/bindings/clock/snps,pll-
-> clock.txt
-> ?create mode 100644 drivers/clk/axs10x/pll_clock.c
-> 
-> diff --git a/Documentation/devicetree/bindings/clock/snps,pll-
-> clock.txt b/Documentation/devicetree/bindings/clock/snps,pll-
-> clock.txt
-> new file mode 100644
-> index 0000000..11fe487
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/snps,pll-clock.txt
-> @@ -0,0 +1,28 @@
-> +Binding for the AXS10X Generic PLL clock
-> +
-> +This binding uses the common clock binding[1].
-> +
-> +[1] Documentation/devicetree/bindings/clock/clock-bindings.txt
-> +
-> +Required properties:
-> +- compatible: should be "snps,axs10x-<name>-pll-clock"
-> +??"snps,axs10x-arc-pll-clock"
-> +??"snps,axs10x-pgu-pll-clock"
-> +- reg: should always contain 2 pairs address - length: first for PLL
-> config
-> +registers and second for corresponding LOCK CGU register.
-> +- clocks: shall be the input parent clock phandle for the PLL.
-> +- #clock-cells: from common clock binding; Should always be set to
-> 0.
-> +
-> +Example:
-> +	input-clk: input-clk {
-> +		clock-frequency = <33333333>;
-> +		compatible = "fixed-clock";
-> +		#clock-cells = <0>;
-> +	};
-> +
-> +	core-clk: core-clk at 80 {
-> +		compatible = "snps,axs10x-arc-pll-clock";
-> +		reg = <0x80 0x10>, <0x100 0x10>;
-> +		#clock-cells = <0>;
-> +		clocks = <&input-clk>;
-> +	};
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6b4395c..c5219d6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12560,6 +12560,12 @@ F:	arch/arc/plat-axs10x
-> ?F:	arch/arc/boot/dts/ax*
-> ?F:	Documentation/devicetree/bindings/arc/axs10*
-> ?
-> +SYNOPSYS ARC SDP clock driver
-> +M:	Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> +S:	Supported
-> +F:	drivers/clk/axs10x/*
-> +F:	Documentation/devicetree/bindings/clock/snps,pll-clock.txt
-> +
-> ?SYSTEM CONFIGURATION (SYSCON)
-> ?M:	Lee Jones <lee.jones at linaro.org>
-> ?M:	Arnd Bergmann <arnd at arndb.de>
-> diff --git a/drivers/clk/axs10x/Makefile
-> b/drivers/clk/axs10x/Makefile
-> index 01996b8..d747dea 100644
-> --- a/drivers/clk/axs10x/Makefile
-> +++ b/drivers/clk/axs10x/Makefile
-> @@ -1 +1,2 @@
-> ?obj-y += i2s_pll_clock.o
-> +obj-y += pll_clock.o
-> diff --git a/drivers/clk/axs10x/pll_clock.c
-> b/drivers/clk/axs10x/pll_clock.c
-> new file mode 100644
-> index 0000000..69f72ac
-> --- /dev/null
-> +++ b/drivers/clk/axs10x/pll_clock.c
-> @@ -0,0 +1,344 @@
-> +/*
-> + * Synopsys AXS10X SDP Generic PLL clock driver
-> + *
-> + * Copyright (C) 2017 Synopsys
-> + *
-> + * This file is licensed under the terms of the GNU General Public
-> + * License version 2. This program is licensed "as is" without any
-> + * warranty of any kind, whether express or implied.
-> + */
-> +
-> +#include <linux/platform_device.h>
-> +#include <linux/module.h>
-> +#include <linux/clk-provider.h>
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/device.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_device.h>
-> +#include <linux/slab.h>
-> +#include <linux/of.h>
-> +
-> +/* PLL registers addresses */
-> +#define PLL_REG_IDIV	0x0
-> +#define PLL_REG_FBDIV	0x4
-> +#define PLL_REG_ODIV	0x8
-> +
-> +/*
-> + * Bit fields of the PLL IDIV/FBDIV/ODIV registers:
-> +
-> *??__________________________________________________________________
-> ______
-> + *
-> |31????????????????15|????14????|???13???|??12??|11?????????6|5??????
-> ???0|
-> + * |-------RESRVED------|-NOUPDATE-|-BYPASS-|-EDGE-|--HIGHTIME--|
-> --LOWTIME--|
-> + *
-> |____________________|__________|________|______|____________|_______
-> ____|
-> + *
-> + * Following macros determine the way of access to these registers
-> + * They should be set up only using the macros.
-> + * reg should be an u32 variable.
-> + */
-> +
-> +#define PLL_REG_GET_LOW(reg)			\
-> +	(((reg) & (0x3F << 0)) >> 0)
-> +#define PLL_REG_GET_HIGH(reg)			\
-> +	(((reg) & (0x3F << 6)) >> 6)
-> +#define PLL_REG_GET_EDGE(reg)			\
-> +	(((reg) & (BIT(12))) ? 1 : 0)
-> +#define PLL_REG_GET_BYPASS(reg)			\
-> +	(((reg) & (BIT(13))) ? 1 : 0)
-> +#define PLL_REG_GET_NOUPD(reg)			\
-> +	(((reg) & (BIT(14))) ? 1 : 0)
-> +#define PLL_REG_GET_PAD(reg)			\
-> +	(((reg) & (0x1FFFF << 15)) >> 15)
-> +
-> +#define PLL_REG_SET_LOW(reg, value)		\
-> +	{ reg |= (((value) & 0x3F) << 0); }
-> +#define PLL_REG_SET_HIGH(reg, value)		\
-> +	{ reg |= (((value) & 0x3F) << 6); }
-> +#define PLL_REG_SET_EDGE(reg, value)		\
-> +	{ reg |= (((value) & 0x01) << 12); }
-> +#define PLL_REG_SET_BYPASS(reg, value)		\
-> +	{ reg |= (((value) & 0x01) << 13); }
-> +#define PLL_REG_SET_NOUPD(reg, value)		\
-> +	{ reg |= (((value) & 0x01) << 14); }
-> +#define PLL_REG_SET_PAD(reg, value)		\
-> +	{ reg |= (((value) & 0x1FFFF) << 15); }
-> +
-> +#define PLL_LOCK	BIT(0)
-> +#define PLL_ERROR	BIT(1)
-> +#define PLL_MAX_LOCK_TIME 100 /* 100 us */
-> +
-> +struct axs10x_pll_cfg {
-> +	u32 rate;
-> +	u32 idiv;
-> +	u32 fbdiv;
-> +	u32 odiv;
-> +};
-> +
-> +static const struct axs10x_pll_cfg arc_pll_cfg[] = {
-> +	{ 33333333,??1, 1,??1 },
-> +	{ 50000000,??1, 30, 20 },
-> +	{ 75000000,??2, 45, 10 },
-> +	{ 90000000,??2, 54, 10 },
-> +	{ 100000000, 1, 30, 10 },
-> +	{ 125000000, 2, 45, 6 },
-> +	{}
-> +};
-> +
-> +static const struct axs10x_pll_cfg pgu_pll_cfg[] = {
-> +	{ 25200000, 1, 84, 90 },
-> +	{ 50000000, 1, 100, 54 },
-> +	{ 74250000, 1, 44, 16 },
-> +	{}
-> +};
-> +
-> +struct axs10x_pll_clk {
-> +	struct clk_hw hw;
-> +	void __iomem *base;
-> +	void __iomem *lock;
-> +	const struct axs10x_pll_cfg *pll_cfg;
-> +	struct device *dev;
-> +};
-> +
-> +static inline void axs10x_pll_write(struct axs10x_pll_clk *clk, u32
-> reg,
-> +				????u32 val)
-> +{
-> +	iowrite32(val, clk->base + reg);
-> +}
-> +
-> +static inline u32 axs10x_pll_read(struct axs10x_pll_clk *clk, u32
-> reg)
-> +{
-> +	return ioread32(clk->base + reg);
-> +}
-> +
-> +static inline struct axs10x_pll_clk *to_axs10x_pll_clk(struct clk_hw
-> *hw)
-> +{
-> +	return container_of(hw, struct axs10x_pll_clk, hw);
-> +}
-> +
-> +static inline u32 axs10x_div_get_value(u32 reg)
-> +{
-> +	if (PLL_REG_GET_BYPASS(reg))
-> +		return 1;
-> +
-> +	return PLL_REG_GET_HIGH(reg) + PLL_REG_GET_LOW(reg);
-> +}
-> +
-> +static inline u32 axs10x_encode_div(unsigned int id, int upd)
-> +{
-> +	u32 div = 0;
-> +
-> +	PLL_REG_SET_LOW(div, (id % 2 == 0) ? id >> 1 : (id >> 1) +
-> 1);
-> +	PLL_REG_SET_HIGH(div, id >> 1);
-> +	PLL_REG_SET_EDGE(div, id % 2);
-> +	PLL_REG_SET_BYPASS(div, id == 1 ? 1 : 0);
-> +	PLL_REG_SET_NOUPD(div, !upd);
-> +
-> +	return div;
-> +}
-> +
-> +static unsigned long axs10x_pll_recalc_rate(struct clk_hw *hw,
-> +					????unsigned long
-> parent_rate)
-> +{
-> +	u64 rate;
-> +	u32 idiv, fbdiv, odiv;
-> +	struct axs10x_pll_clk *clk = to_axs10x_pll_clk(hw);
-> +
-> +	idiv = axs10x_div_get_value(axs10x_pll_read(clk,
-> PLL_REG_IDIV));
-> +	fbdiv = axs10x_div_get_value(axs10x_pll_read(clk,
-> PLL_REG_FBDIV));
-> +	odiv = axs10x_div_get_value(axs10x_pll_read(clk,
-> PLL_REG_ODIV));
-> +
-> +	rate = (u64)parent_rate * fbdiv;
-> +	do_div(rate, idiv * odiv);
-> +
-> +	return rate;
-> +}
-> +
-> +static long axs10x_pll_round_rate(struct clk_hw *hw, unsigned long
-> rate,
-> +				??unsigned long *prate)
-> +{
-> +	int i;
-> +	long best_rate;
-> +	struct axs10x_pll_clk *clk = to_axs10x_pll_clk(hw);
-> +	const struct axs10x_pll_cfg *pll_cfg = clk->pll_cfg;
-> +
-> +	if (pll_cfg[0].rate == 0)
-> +		return -EINVAL;
-> +
-> +	best_rate = pll_cfg[0].rate;
-> +
-> +	for (i = 1; pll_cfg[i].rate != 0; i++) {
-> +		if (abs(rate - pll_cfg[i].rate) < abs(rate -
-> best_rate))
-> +			best_rate = pll_cfg[i].rate;
-> +	}
-> +
-> +	return best_rate;
-> +}
-> +
-> +static int axs10x_pll_set_rate(struct clk_hw *hw, unsigned long
-> rate,
-> +			???????unsigned long parent_rate)
-> +{
-> +	int i;
-> +	struct axs10x_pll_clk *clk = to_axs10x_pll_clk(hw);
-> +	const struct axs10x_pll_cfg *pll_cfg = clk->pll_cfg;
-> +
-> +	for (i = 0; pll_cfg[i].rate != 0; i++) {
-> +		if (pll_cfg[i].rate == rate) {
-> +			axs10x_pll_write(clk, PLL_REG_IDIV,
-> +					?axs10x_encode_div(pll_cfg[i
-> ].idiv, 0));
-> +			axs10x_pll_write(clk, PLL_REG_FBDIV,
-> +					?axs10x_encode_div(pll_cfg[i
-> ].fbdiv, 0));
-> +			axs10x_pll_write(clk, PLL_REG_ODIV,
-> +					?axs10x_encode_div(pll_cfg[i
-> ].odiv, 1));
-> +
-> +			/*
-> +			?* Wait until CGU relocks and check error
-> status.
-> +			?* If after timeout CGU is unlocked yet
-> return error
-> +			?*/
-> +			udelay(PLL_MAX_LOCK_TIME);
-> +			if (!(ioread32(clk->lock) & PLL_LOCK))
-> +				return -ETIMEDOUT;
-> +
-> +			if (ioread32(clk->lock) & PLL_ERROR)
-> +				return -EINVAL;
-> +
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	dev_err(clk->dev, "invalid rate=%ld, parent_rate=%ld\n",
-> rate,
-> +			parent_rate);
-> +	return -EINVAL;
-> +}
-> +
-> +static const struct clk_ops axs10x_pll_ops = {
-> +	.recalc_rate = axs10x_pll_recalc_rate,
-> +	.round_rate = axs10x_pll_round_rate,
-> +	.set_rate = axs10x_pll_set_rate,
-> +};
-> +
-> +static int axs10x_pll_clk_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	const char *parent_name;
-> +	struct axs10x_pll_clk *pll_clk;
-> +	struct resource *mem;
-> +	struct clk_init_data init = { };
-> +	int ret;
-> +
-> +	pll_clk = devm_kzalloc(dev, sizeof(*pll_clk), GFP_KERNEL);
-> +	if (!pll_clk)
-> +		return -ENOMEM;
-> +
-> +	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	pll_clk->base = devm_ioremap_resource(dev, mem);
-> +	if (IS_ERR(pll_clk->base))
-> +		return PTR_ERR(pll_clk->base);
-> +
-> +	mem = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-> +	pll_clk->lock = devm_ioremap_resource(dev, mem);
-> +	if (IS_ERR(pll_clk->lock))
-> +		return PTR_ERR(pll_clk->lock);
-> +
-> +	init.name = dev->of_node->name;
-> +	init.ops = &axs10x_pll_ops;
-> +	parent_name = of_clk_get_parent_name(dev->of_node, 0);
-> +	init.parent_names = &parent_name;
-> +	init.num_parents = 1;
-> +	pll_clk->hw.init = &init;
-> +	pll_clk->dev = dev;
-> +	pll_clk->pll_cfg = of_device_get_match_data(dev);
-> +
-> +	if (!pll_clk->pll_cfg) {
-> +		dev_err(dev, "No OF match data provided\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = devm_clk_hw_register(dev, &pll_clk->hw);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register %s clock\n",
-> init.name);
-> +		return ret;
-> +	}
-> +
-> +	return of_clk_add_hw_provider(dev->of_node,
-> of_clk_hw_simple_get,
-> +			&pll_clk->hw);
-> +}
-> +
-> +static int axs10x_pll_clk_remove(struct platform_device *pdev)
-> +{
-> +	of_clk_del_provider(pdev->dev.of_node);
-> +	return 0;
-> +}
-> +
-> +static void __init of_axs10x_pll_clk_setup(struct device_node *node)
-> +{
-> +	const char *parent_name;
-> +	struct axs10x_pll_clk *pll_clk;
-> +	struct clk_init_data init = { };
-> +	int ret;
-> +
-> +	pll_clk = kzalloc(sizeof(*pll_clk), GFP_KERNEL);
-> +	if (!pll_clk)
-> +		return;
-> +
-> +	pll_clk->base = of_iomap(node, 0);
-> +	if (!pll_clk->base) {
-> +		pr_err("failed to map pll div registers\n");
-> +		goto err_free_pll_clk;
-> +	}
-> +
-> +	pll_clk->lock = of_iomap(node, 1);
-> +	if (!pll_clk->lock) {
-> +		pr_err("failed to map pll lock register\n");
-> +		goto err_unmap_base;
-> +	}
-> +
-> +	init.name = node->name;
-> +	init.ops = &axs10x_pll_ops;
-> +	parent_name = of_clk_get_parent_name(node, 0);
-> +	init.parent_names = &parent_name;
-> +	init.num_parents = parent_name ? 1 : 0;
-> +	pll_clk->hw.init = &init;
-> +	pll_clk->pll_cfg = arc_pll_cfg;
-> +
-> +	ret = clk_hw_register(NULL, &pll_clk->hw);
-> +	if (ret) {
-> +		pr_err("failed to register %s clock\n", node->name);
-> +		goto err_unmap_lock;
-> +	}
-> +
-> +	ret = of_clk_add_hw_provider(node, of_clk_hw_simple_get,
-> &pll_clk->hw);
-> +	if (ret) {
-> +		pr_err("failed to add hw provider for %s clock\n",
-> node->name);
-> +		goto err_unmap_lock;
-> +	}
-> +
-> +	return;
-> +
-> +err_unmap_lock:
-> +	iounmap(pll_clk->lock);
-> +err_unmap_base:
-> +	iounmap(pll_clk->base);
-> +err_free_pll_clk:
-> +	kfree(pll_clk);
-> +}
-> +CLK_OF_DECLARE(axs10x_pll_clock, "snps,axs10x-arc-pll-clock",
-> +	???????of_axs10x_pll_clk_setup);
-> +
-> +static const struct of_device_id axs10x_pll_clk_id[] = {
-> +	{ .compatible = "snps,axs10x-pgu-pll-clock", .data =
-> &pgu_pll_cfg},
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(of, axs10x_pll_clk_id);
-> +
-> +static struct platform_driver axs10x_pll_clk_driver = {
-> +	.driver = {
-> +		.name = "axs10x-pll-clock",
-> +		.of_match_table = axs10x_pll_clk_id,
-> +	},
-> +	.probe = axs10x_pll_clk_probe,
-> +	.remove = axs10x_pll_clk_remove,
-> +};
-> +builtin_platform_driver(axs10x_pll_clk_driver);
-> +
-> +MODULE_AUTHOR("Vlad Zakharov <vzakhar at synopsys.com>");
-> +MODULE_DESCRIPTION("Synopsys AXS10X SDP Generic PLL Clock Driver");
-> +MODULE_LICENSE("GPL v2");
--- 
-?Eugeniy Paltsev
