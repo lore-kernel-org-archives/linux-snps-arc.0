@@ -1,34 +1,36 @@
-From: jh80.chung@samsung.com (Jaehoon Chung)
-Date: Fri, 07 Jul 2017 17:25:04 +0900
-Subject: [PATCH] arc: remove num-slots from arc platforms
-In-Reply-To: <1499415208.11821.12.camel@synopsys.com>
-References: <1499238645-29178-1-git-send-email-shawn.lin@rock-chips.com>
- <CGME20170707081336epcas5p159cc360125944d4f07cde68806da5fac@epcas5p1.samsung.com>
- <1499415208.11821.12.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri,  7 Jul 2017 12:25:14 +0300
+Subject: [PATCH] ARCv2: SLC: Make sure busy bit is set properly for region ops
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <49811cd0-51b6-3041-236e-450d20ad25e7@samsung.com>
+Message-ID: <1499419514-13171-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 07/07/2017 05:13 PM, Alexey Brodkin wrote:
-> Hi Shawn,
-> 
-> On Wed, 2017-07-05@15:10 +0800, Shawn Lin wrote:
->> dwmmc driver deprecated num-slots and plan to get rid
->> of it finally. Just move a step to cleanup it from DT.
->>
->> Cc: Jaehoon Chung <jh80.chung at samsung.com>
->> Signed-off-by: Shawn Lin <shawn.lin at rock-chips.com>
->> ---
-> 
-> Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
+c70c473396cb "ARCv2: SLC: Make sure busy bit is set properly on SLC flushing"
+fixes problem for entire SLC operation where the problem was initially
+caught. But given a nature of the issue it is perfectly possible for
+busy bit to be read incorrectly even when region operation was started.
 
-Reviewed-by: Jaehoon Chung <jh80.chung at samsung.com>
+So extending initial fix for regional operation as well.
 
-Best Regards,
-Jaehoon Chung
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: stable at vger.kernel.org
+---
+ arch/arc/mm/cache.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> 
-> Probably it worth for Vineet to pull this patch to his ARC tree.
-> 
-> -Alexey
-> 
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index bdb5227241cf..08427d572850 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -697,6 +697,8 @@ noinline void slc_op(phys_addr_t paddr, unsigned long sz, const int op)
+ 	write_aux_reg(ARC_REG_SLC_RGN_END, (paddr + sz + l2_line_sz - 1));
+ 	write_aux_reg(ARC_REG_SLC_RGN_START, paddr);
+ 
++	/* Make sure "busy" bit reports correct stataus, see STAR 9001165532 */
++	read_aux_reg(ARC_REG_SLC_CTRL);
+ 	while (read_aux_reg(ARC_REG_SLC_CTRL) & SLC_CTRL_BUSY);
+ 
+ 	spin_unlock_irqrestore(&lock, flags);
+-- 
+2.7.5
