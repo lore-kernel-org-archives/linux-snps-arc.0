@@ -1,40 +1,56 @@
-From: James.Bottomley@HansenPartnership.com (James Bottomley)
-Date: Mon, 17 Jul 2017 09:46:30 -0700
-Subject: semantics of dma_map_single()
-In-Reply-To: <23203d16-da54-99c7-0eba-c082eba120d7@synopsys.com>
-References: <dc128260-6641-828a-3bb6-c2f0b4f09f78@synopsys.com>
- <20170717064220.GA15807@lst.de>
- <23203d16-da54-99c7-0eba-c082eba120d7@synopsys.com>
+From: robh@kernel.org (Rob Herring)
+Date: Mon, 17 Jul 2017 12:38:23 -0500
+Subject: [PATCH 3/3 v8] ARC: hsdk: initial port for HSDK board
+In-Reply-To: <20170712094023.23226-4-Eugeniy.Paltsev@synopsys.com>
+References: <20170712094023.23226-1-Eugeniy.Paltsev@synopsys.com>
+ <20170712094023.23226-4-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1500309990.3244.2.camel@HansenPartnership.com>
+Message-ID: <20170717173823.lklxhoyylhdxjawa@rob-hp-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, 2017-07-17@09:06 -0700, Vineet Gupta wrote:
-> Hi Christoph,
+On Wed, Jul 12, 2017@12:40:23PM +0300, Eugeniy Paltsev wrote:
+> From: Alexey Brodkin <abrodkin at synopsys.com>
 > 
-> On 07/16/2017 11:42 PM, Christoph Hellwig wrote:
-> > 
-> > I would expect that it would support any contiguous range in
-> > the kernel mapping (e.g. no vmalloc and friends).??But it's not
-> > documented anywhere, and if no in kernel users makes use of that
-> > fact at the moment it might be better to document a page size
-> > limitation and add asserts to enforce it.
+> This initial port adds support of ARC HS Development Kit board with some
+> basic features such serial port, USB, SD/MMC and Ethernet.
 > 
-> My first thought was indeed to add a BUG_ON for @size > PAGE_SIZE
-> (also accounting for offset etc), but I have a feeling this will
-> cause too many breakages. So perhaps it would be better to add the
-> fact to Documentation that it can handle any physically contiguous
-> range.
+> Essentially we run Linux kernel on all 4 cores (i.e. utilize SMP) and
+> heavily use IO Coherency for speeding-up DMA-aware peripherals.
+> 
+> Note as opposed to other ARC boards we link Linux kernel to
+> 0x9000_0000 intentionally because cores 1 and 3 configured with DCCM
+> situated at our more usual link base 0x8000_0000. We still can use
+> memory region starting at 0x8000_0000 as we reallocate DCCM in our
+> platform code.
+> 
+> Note that PAE remapping for DMA clients does not work due to an RTL bug,
+> so CREG_PAE register must be programmed to all zeroes, otherwise it will
+> cause problems with DMA to/from peripherals even if PAE40 is not used.
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+> Changes v7 -> v8:
+>  * DTS: move cpu_intc, idu_intc, arcpct, timer, gfrc nodes to root
+>    level and out of the cpus node.
+>  * DTS: add vendor-specific compatible for ohci and ehci nodes.
+>  * DTS: style fixes
 
-Actually, that's not historically right. ?dma_map_single() was
-originally designed to be called on any region that was kmalloc'd
-meaning it was capable of mapping physically contiguous > PAGE_SIZE
-regions.
+Acked-by: Rob Herring <robh at kernel.org>
 
-For years (decades?) we've been eliminating the specialised
-dma_map_single() calls in favour of dma_map_sg, so it's possible there
-may not be any large region consumers anymore, so it *may* be safe to
-enforce a PAGE_SIZE limit, but not without auditing the remaining
-callers.
+> +		ohci at 60000 {
+> +			compatible = "snps,hsdk-v1.0-ohci", "generic-ohci";
+> +			reg = <0x60000 0x100>;
+> +			interrupts = <15>;
+> +		};
+> +
+> +		ehci at 40000 {
+> +			compatible = "snps,hsdk-v1.0-ehci", "generic-ehci";
+> +			reg = <0x40000 0x100>;
+> +			interrupts = <15>;
+> +		};
 
-James
+Of course, now these compatibles need to be documented. You can do that 
+in a separate follow-up patch.
+
+Rob
