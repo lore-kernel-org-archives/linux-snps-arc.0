@@ -1,22 +1,75 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 18 Jul 2017 10:50:24 -0700
-Subject: [PATCH] arc: remove num-slots from arc platforms
-In-Reply-To: <fe08e41c-d7b8-c7b5-f2a9-e20e18e1e0e7@rock-chips.com>
-References: <1499238645-29178-1-git-send-email-shawn.lin@rock-chips.com>
- <1499415208.11821.12.camel@synopsys.com>
- <52fb6208-713a-bbd6-3a19-d05df63b8fb6@synopsys.com>
- <fe08e41c-d7b8-c7b5-f2a9-e20e18e1e0e7@rock-chips.com>
+From: briannorris@chromium.org (Brian Norris)
+Date: Tue, 18 Jul 2017 10:51:51 -0700
+Subject: [PATCH 0/5] earlycon hang under some conditions
+In-Reply-To: <1500357778-23169-1-git-send-email-jeffy.chen@rock-chips.com>
+References: <1500357778-23169-1-git-send-email-jeffy.chen@rock-chips.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0bc61968-58ed-11b0-4046-16fb5c325e57@synopsys.com>
+Message-ID: <20170718175149.GA131686@google.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 07/18/2017 01:11 AM, Shawn Lin wrote:
->> I'd prefer it goes via the tree which changed the driver in first place !
-> So does it mean that you are okay for mmc maintainer to pick this up
-> with your and Alexey's ack?
->
+Hi Jeffy,
 
-Yes please.
+On Tue, Jul 18, 2017@02:02:53PM +0800, Jeffy Chen wrote:
+> I was testing earlycon with 8250 dw serial console. And it hangs in
+> these cases:
+> 1/ kernel hang when calling early write function after free_initmem:
+> a) the earlycon not disabled after the init code(due to keep_bootcon or
+>    not specify a real console to switch to)
+> b) the early write func is marked as __init, for example 8250_early.
 
-Thx,
--Vineet
+FWIW, I tested 8250_early with "keep_bootcon", and this fixes that:
+
+Tested-by: Brian Norris <briannorris at chromium.org>
+
+But then I get double console, if I have both a "real" and "early"
+console.
+
+If I were to *only* have the early console, then I might hit the
+problems you mention:
+
+> 2/ kernel hang when calling early write function after disable unused
+> clks/pm domain:
+> a) the earlycon not disabled after the init code
+> b) the disable unused clks/pm domain kill the requiered clks/pm
+>    domain, since they are not referenced by the earlycon.
+> 
+> 3/ kernel hang when calling early write function after the serial
+>    console driver runtime suspended:
+> a) the earlycon not disabled after the init code
+> b) the serial console driver's runtime suspend kills the requiered
+>    clks/pm domain, since they are not referenced by the earlycon.
+> 
+> This serial fix 1/ case only.
+
+Problems 2 and 3 look like something that's not really in scope for
+early consoles. There's a reason they are mainly supported for early
+boot, and we try to switch off of them. There isn't really a good way to
+handle all the clock and PM infrastructure without...switching off the
+earlycon and using the real one :)
+
+So, I guess this patchset has value for systems where the clock/PM
+requirements are simple enough, and the earlycon can actually be useful
+beyond early init.
+
+Brian
+
+> 
+> 
+> Jeffy Chen (5):
+>   serial: arc: Remove __init marking from early write
+>   serial: omap: Remove __init marking from early write
+>   serial: xuartps: Remove __init marking from early write
+>   serial: 8250_ingenic: Remove __init marking from early write
+>   serial: 8250_early: Remove __init marking from early write
+> 
+>  drivers/tty/serial/8250/8250_early.c   |  8 ++++----
+>  drivers/tty/serial/8250/8250_ingenic.c |  8 ++++----
+>  drivers/tty/serial/arc_uart.c          |  4 ++--
+>  drivers/tty/serial/omap-serial.c       | 13 ++++++-------
+>  drivers/tty/serial/xilinx_uartps.c     |  2 +-
+>  5 files changed, 17 insertions(+), 18 deletions(-)
+> 
+> -- 
+> 2.1.4
+> 
+> 
