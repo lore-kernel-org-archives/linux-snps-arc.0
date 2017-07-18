@@ -1,40 +1,46 @@
-From: jeffy.chen@rock-chips.com (jeffy)
-Date: Tue, 18 Jul 2017 14:06:05 +0800
-Subject: [RFC PATCH 1/5] serial: arc: Remove __init marking from early
- write
-In-Reply-To: <20170718050838.GA7529@kroah.com>
-References: <1500352203-21513-1-git-send-email-jeffy.chen@rock-chips.com>
- <1500352203-21513-2-git-send-email-jeffy.chen@rock-chips.com>
- <20170718050838.GA7529@kroah.com>
+From: jeffy.chen@rock-chips.com (Jeffy Chen)
+Date: Tue, 18 Jul 2017 14:02:53 +0800
+Subject: [PATCH 0/5] earlycon hang under some conditions
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <596DA54D.8060001@rock-chips.com>
+Message-ID: <1500357778-23169-1-git-send-email-jeffy.chen@rock-chips.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Greg,
+I was testing earlycon with 8250 dw serial console. And it hangs in
+these cases:
+1/ kernel hang when calling early write function after free_initmem:
+a) the earlycon not disabled after the init code(due to keep_bootcon or
+   not specify a real console to switch to)
+b) the early write func is marked as __init, for example 8250_early.
 
-On 07/18/2017 01:08 PM, Greg KH wrote:
-> On Tue, Jul 18, 2017@12:29:59PM +0800, Jeffy Chen wrote:
->> The earlycon would be alive outside the init code in these cases:
->> 1/ we have keep_bootcon in cmdline.
->> 2/ we don't have a real console to switch to.
->>
->> So remove the __init marking to avoid invalid memory access.
->>
->> Signed-off-by: Jeffy Chen <jeffy.chen at rock-chips.com>
->> ---
->>
->
-> I can't apply "RFC" patches.  If you have tested and found this series
-> to be correct, can you resend it without that on the patch?
-oh, sorry, i'll resend it :)
+2/ kernel hang when calling early write function after disable unused
+clks/pm domain:
+a) the earlycon not disabled after the init code
+b) the disable unused clks/pm domain kill the requiered clks/pm
+   domain, since they are not referenced by the earlycon.
 
-but i'm still not sure how to fix other hang cases(mentioned in the 
-cover-letter, earlycon's required clks/pm domain been disabled by ignore 
-unused initcalls or serial console driver's runtime suspend).
->
-> thanks,
->
-> greg k-h
->
->
->
+3/ kernel hang when calling early write function after the serial
+   console driver runtime suspended:
+a) the earlycon not disabled after the init code
+b) the serial console driver's runtime suspend kills the requiered
+   clks/pm domain, since they are not referenced by the earlycon.
+
+This serial fix 1/ case only.
+
+
+
+Jeffy Chen (5):
+  serial: arc: Remove __init marking from early write
+  serial: omap: Remove __init marking from early write
+  serial: xuartps: Remove __init marking from early write
+  serial: 8250_ingenic: Remove __init marking from early write
+  serial: 8250_early: Remove __init marking from early write
+
+ drivers/tty/serial/8250/8250_early.c   |  8 ++++----
+ drivers/tty/serial/8250/8250_ingenic.c |  8 ++++----
+ drivers/tty/serial/arc_uart.c          |  4 ++--
+ drivers/tty/serial/omap-serial.c       | 13 ++++++-------
+ drivers/tty/serial/xilinx_uartps.c     |  2 +-
+ 5 files changed, 17 insertions(+), 18 deletions(-)
+
+-- 
+2.1.4
