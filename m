@@ -1,56 +1,46 @@
-From: robh@kernel.org (Rob Herring)
-Date: Mon, 17 Jul 2017 12:38:23 -0500
-Subject: [PATCH 3/3 v8] ARC: hsdk: initial port for HSDK board
-In-Reply-To: <20170712094023.23226-4-Eugeniy.Paltsev@synopsys.com>
-References: <20170712094023.23226-1-Eugeniy.Paltsev@synopsys.com>
- <20170712094023.23226-4-Eugeniy.Paltsev@synopsys.com>
+From: jeffy.chen@rock-chips.com (Jeffy Chen)
+Date: Tue, 18 Jul 2017 12:29:58 +0800
+Subject: [RFC PATCH 0/5] earlycon hang under some conditions
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170717173823.lklxhoyylhdxjawa@rob-hp-laptop>
+Message-ID: <1500352203-21513-1-git-send-email-jeffy.chen@rock-chips.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Jul 12, 2017@12:40:23PM +0300, Eugeniy Paltsev wrote:
-> From: Alexey Brodkin <abrodkin at synopsys.com>
-> 
-> This initial port adds support of ARC HS Development Kit board with some
-> basic features such serial port, USB, SD/MMC and Ethernet.
-> 
-> Essentially we run Linux kernel on all 4 cores (i.e. utilize SMP) and
-> heavily use IO Coherency for speeding-up DMA-aware peripherals.
-> 
-> Note as opposed to other ARC boards we link Linux kernel to
-> 0x9000_0000 intentionally because cores 1 and 3 configured with DCCM
-> situated at our more usual link base 0x8000_0000. We still can use
-> memory region starting at 0x8000_0000 as we reallocate DCCM in our
-> platform code.
-> 
-> Note that PAE remapping for DMA clients does not work due to an RTL bug,
-> so CREG_PAE register must be programmed to all zeroes, otherwise it will
-> cause problems with DMA to/from peripherals even if PAE40 is not used.
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
-> Changes v7 -> v8:
->  * DTS: move cpu_intc, idu_intc, arcpct, timer, gfrc nodes to root
->    level and out of the cpus node.
->  * DTS: add vendor-specific compatible for ohci and ehci nodes.
->  * DTS: style fixes
+I was testing earlycon with 8250 dw serial console. And it hangs in
+these cases:
+1/ kernel hang when calling early write function after free_initmem:
+a) the earlycon not disabled after the init code(due to keep_bootcon or
+   not specify a real console to switch to)
+b) the early write func is marked as __init, for example 8250_early.
 
-Acked-by: Rob Herring <robh at kernel.org>
+2/ kernel hang when calling early write function after disable unused
+clks/pm domain:
+a) the earlycon not disabled after the init code
+b) the disable unused clks/pm domain kill the requiered clks/pm
+   domain, since they are not referenced by the earlycon.
 
-> +		ohci at 60000 {
-> +			compatible = "snps,hsdk-v1.0-ohci", "generic-ohci";
-> +			reg = <0x60000 0x100>;
-> +			interrupts = <15>;
-> +		};
-> +
-> +		ehci at 40000 {
-> +			compatible = "snps,hsdk-v1.0-ehci", "generic-ehci";
-> +			reg = <0x40000 0x100>;
-> +			interrupts = <15>;
-> +		};
+3/ kernel hang when calling early write function after the serial
+   console driver runtime suspended:
+a) the earlycon not disabled after the init code
+b) the serial console driver's runtime suspend kills the requiered
+   clks/pm domain, since they are not referenced by the earlycon.
 
-Of course, now these compatibles need to be documented. You can do that 
-in a separate follow-up patch.
+This serial fix 1/ case only.
 
-Rob
+
+
+Jeffy Chen (5):
+  serial: arc: Remove __init marking from early write
+  serial: omap: Remove __init marking from early write
+  serial: xuartps: Remove __init marking from early write
+  serial: 8250_ingenic: Remove __init marking from early write
+  serial: 8250_early: Remove __init marking from early write
+
+ drivers/tty/serial/8250/8250_early.c   |  8 ++++----
+ drivers/tty/serial/8250/8250_ingenic.c |  8 ++++----
+ drivers/tty/serial/arc_uart.c          |  4 ++--
+ drivers/tty/serial/omap-serial.c       | 13 ++++++-------
+ drivers/tty/serial/xilinx_uartps.c     |  2 +-
+ 5 files changed, 17 insertions(+), 18 deletions(-)
+
+-- 
+2.1.4
