@@ -1,47 +1,45 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 18 Jul 2017 17:07:15 +0300
-Subject: [PATCH] NET: dwmac: Make dwmac reset unconditional
+From: alexey.brodkin@gmail.com (Alexey Brodkin)
+Date: Tue, 18 Jul 2017 17:31:24 +0300
+Subject: [PATCH] arc: Hardcode ARCH_DMA_MINALIGN to max line length we may have
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170718140715.25798-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1500388284-23466-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Unconditional reset dwmac before HW init if reset controller is present.
+Current implementation relies on L1 line length which might easily
+be smaller than L2 line (which is usually the case BTW).
 
-In existing implementation we reset dwmac only after second module
-probing:
-(module load -> unload -> load again [reset happens])
+Imagine this typical case: L2 line is 128 bytes while L1 line is
+64-bytes. Now we want to allocate small buffer and later use it for DMA
+(consider IOC is not available).
 
-Now we reset dwmac at every module load:
-(module load [reset happens] -> unload -> load again [reset happens])
+kmalloc() allocates small KMALLOC_MIN_SIZE-sized, KMALLOC_MIN_SIZE-aligned
+That way if buffer happens to be aligned to L1 line and not L2 line we'll be
+flushing and invalidating extra portions of data from L2 which will cause
+cache coherency issues.
 
-Also some reset controllers have only reset callback instead of
-assert + deassert callbacks pair, so handle this case.
+And since KMALLOC_MIN_SIZE is bound to ARCH_DMA_MINALIGN the fix could
+be simple - set ARCH_DMA_MINALIGN to the largest cache line we may ever
+get. As of today neither L1 of ARC700 and ARC HS38 nor SLC might not be
+longer than 128 bytes.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 ---
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ arch/arc/include/asm/cache.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 12236da..c7b3d0d 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -4096,8 +4096,15 @@ int stmmac_dvr_probe(struct device *device,
- 	if ((phyaddr >= 0) && (phyaddr <= 31))
- 		priv->plat->phy_addr = phyaddr;
+diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
+index 19ebddffb279..e45eac8c5980 100644
+--- a/arch/arc/include/asm/cache.h
++++ b/arch/arc/include/asm/cache.h
+@@ -47,7 +47,8 @@
+ 	: "r"(data), "r"(ptr));		\
+ })
  
--	if (priv->plat->stmmac_rst)
-+	if (priv->plat->stmmac_rst) {
-+		ret = reset_control_assert(priv->plat->stmmac_rst);
- 		reset_control_deassert(priv->plat->stmmac_rst);
-+		/* Some reset controllers have only reset callback instead of
-+		 * assert + deassert callbacks pair.
-+		 */
-+		if (ret == -ENOTSUPP)
-+			reset_control_reset(priv->plat->stmmac_rst);
-+	}
+-#define ARCH_DMA_MINALIGN      L1_CACHE_BYTES
++/* Largest line length for either L1 or L2 is 128 bytes */
++#define ARCH_DMA_MINALIGN      128
  
- 	/* Init MAC and get the capabilities */
- 	ret = stmmac_hw_init(priv);
+ extern void arc_cache_init(void);
+ extern char *arc_cache_mumbojumbo(int cpu_id, char *buf, int len);
 -- 
-2.9.3
+2.7.5
