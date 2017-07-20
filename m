@@ -1,27 +1,26 @@
-From: davem@davemloft.net (David Miller)
-Date: Wed, 19 Jul 2017 13:52:35 -0700 (PDT)
-Subject: [PATCH] NET: dwmac: Make dwmac reset unconditional
-In-Reply-To: <20170718140715.25798-1-Eugeniy.Paltsev@synopsys.com>
-References: <20170718140715.25798-1-Eugeniy.Paltsev@synopsys.com>
+From: p.zabel@pengutronix.de (Philipp Zabel)
+Date: Thu, 20 Jul 2017 15:58:33 +0200
+Subject: [PATCH v2] ARC: reset: introduce HSDKv1 reset driver
+In-Reply-To: <20170719184511.18497-1-Eugeniy.Paltsev@synopsys.com>
+References: <20170719184511.18497-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170719.135235.1392422982553298240.davem@davemloft.net>
+Message-ID: <1500559113.2354.77.camel@pengutronix.de>
 To: linux-snps-arc@lists.infradead.org
 
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Date: Tue, 18 Jul 2017 17:07:15 +0300
-
-> Unconditional reset dwmac before HW init if reset controller is present.
+On Wed, 2017-07-19@21:45 +0300, Eugeniy Paltsev wrote:
+> The HSDK v1 periphery IPs can be reset by accessing some registers
+> from the CGU block.
 > 
-> In existing implementation we reset dwmac only after second module
-> probing:
-> (module load -> unload -> load again [reset happens])
-> 
-> Now we reset dwmac at every module load:
-> (module load [reset happens] -> unload -> load again [reset happens])
-> 
-> Also some reset controllers have only reset callback instead of
-> assert + deassert callbacks pair, so handle this case.
+> The list of available reset lines is documented in the DT bindings.
 > 
 > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+> Changes v1 -> v2:
+>  - Remove defines of the unused registers.
+>  - Map io memory only for single CGU_SYS_RST_CTRL register instead
+>    of CGU_SYS_*_CTRL, as we use only CGU_SYS_RST_CTRL.
 
-Applied.
+Thank you, I have applied this patch to the reset/next branch.
+
+regards
+Philipp
