@@ -1,99 +1,48 @@
-From: alex.g@adaptrum.com (Alexandru Gagniuc)
-Date: Mon, 24 Jul 2017 10:38:25 -0700
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 24 Jul 2017 20:39:27 +0000
 Subject: ARC770: "unexpected IRQ trap at vector 00" during boot
+In-Reply-To: <2b9507b2-58b7-1739-23df-973e7c865ef3@adaptrum.com>
+References: <2b9507b2-58b7-1739-23df-973e7c865ef3@adaptrum.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <2b9507b2-58b7-1739-23df-973e7c865ef3@adaptrum.com>
+Message-ID: <4881796E12491D4BB15146FE0209CE6467DBE119@DE02WEMBXB.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+Hi Alexandru,
 
-I'm getting a storm of these messages when trying to boot an in-house 
-ASIC with an ARC770. This only happens with an ethernet cable plugged 
-in. I've learned that the actual interrupt number is 21. The issue is 
-that the irq_find_mapping() in __handle_domain_irq() fails to find a 
-mapping for vector 21, and the remaining logic will brainlessly print 
-out '0' as the interrupt number (which is of course, bass-ackwards).
+> I'm getting a storm of these messages when trying to boot an in-house
+> ASIC with an ARC770. This only happens with an ethernet cable plugged
+> in. I've learned that the actual interrupt number is 21. The issue is
+> that the irq_find_mapping() in __handle_domain_irq() fails to find a
+> mapping for vector 21, and the remaining logic will brainlessly print
+> out '0' as the interrupt number (which is of course, bass-ackwards).
+>
+> This happens very early in the boot process, right after interrupts are
+> globally enabled. IRQ 21 is the correct IRQ vector for the ethernet
+> controller, but I don't understand why the IRQ vector is unmasked before
+> the ethernet driver is loaded. This is a chicken and egg problem, since
+> we have no control over the state of the ethernet before the driver is
+> actually loaded.
 
-This happens very early in the boot process, right after interrupts are 
-globally enabled. IRQ 21 is the correct IRQ vector for the ethernet 
-controller, but I don't understand why the IRQ vector is unmasked before 
-the ethernet driver is loaded. This is a chicken and egg problem, since 
-we have no control over the state of the ethernet before the driver is 
-actually loaded.
+That's interesting! I saw exactly the same issue with one of our devboards.
+What happens here is GMAC generates output interrupt because of some
+condition(s), now since GMAC's IRQ line is wired directly to
+ARC700's interrupt controller, all line of which get enabled early on boot
+(as you correctly mentioned above) and so you're getting an interrupt kernel cannot
+serve and reset as it doesn't know how to "please" an interrupt source.
 
-I'm hoping someone might be able to point me in the right directions, 
-since at this point, I'm not sure if this is a devicetree problem, 
-hardware bug, or linux bug.
+Answering your question why interrupt from GMAC happens before its driver
+is probed:
+ 1) I need to look at my notes I made when was fighting with the same problem,
+     but for some reason DW GMAC seems to have interrupts enabled on reset
+     which is indeed a bit unexpected and might lead to a behavior you and I saw.
+ 2) Historically we used to enable all possible core IRQ lines early on boot as opposed
+     to per-line init by request of each particular driver. We have this on our to-do list
+     as one of important improvements but that's not a short-term fix for sure.
 
-Alex
+A work-around that I made and which may recommend to you is to figure out what
+condition in GMAC leads to generation of interrupt on its out and then resetting it in
+GMAC in your early platform boot code.
 
+Let me know if it helps.
 
-# Appendix A: Relevant devicetree bindings:
-
-/ {
-	model = "adaptrum,anarion";
-	compatible = "snps,nsim";
-	#address-cells = <1>;
-	#size-cells = <1>;
-	interrupt-parent = <&core_intc>;
-
-	chosen {
-		bootargs = "earlycon console=ttyS0,115200n8";
-		stdout-path = "serial0:115200n8";
-	};
-
-	aliases {
-		serial0 = &uart0;
-	};
-
-	soc {
-		compatible = "simple-bus";
-		device_type = "soc";
-		#address-cells = <1>;
-		#size-cells = <1>;
-		ranges;
-
-		core_clk: core_clk {
-			#clock-cells = <0>;
-			compatible = "fixed-clock";
-			clock-frequency = <12000000>;
-		};
-
-		core_intc: interrupt-controller {
-			compatible = "snps,arc700-intc";
-			interrupt-controller;
-			#interrupt-cells = <1>;
-		};
-
-		uart0: serial at f2202100 {
-			compatible = "ns16550";
-			reg = <0xf2202100 0x20>;
-			interrupts = <8>;
-			reg-shift = <2>;
-			reg-io-width = <4>;
-			clock-frequency = <192000000>;
-		};
-
-
-		gmac1: ethernet at f2014000 {
-			compatible = "snps,dwmac";
-			reg = <0xf2014000 0x4000>;
-
-			interrupt-parent = <&core_intc>;
-			interrupts = <21>;
-			interrupt-names = "macirq";
-
-			clocks = <&core_clk>;
-			clock-names = "stmmaceth";
-
-			snps,pbl = <32>;
-			status = "disabled";
-		};
-	};
-
-};
-
-&gmac1 {
-	phy-mode = "rgmii";
-	status = "okay";
-};
+-Alexey
