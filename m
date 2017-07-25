@@ -1,64 +1,59 @@
-From: dianders@chromium.org (Doug Anderson)
-Date: Mon, 24 Jul 2017 16:50:49 -0700
-Subject: [PATCH 0/5] earlycon hang under some conditions
-In-Reply-To: <1500357778-23169-1-git-send-email-jeffy.chen@rock-chips.com>
-References: <1500357778-23169-1-git-send-email-jeffy.chen@rock-chips.com>
+From: alex.g@adaptrum.com (Alex)
+Date: Mon, 24 Jul 2017 21:04:50 -0700
+Subject: ARC770: "unexpected IRQ trap at vector 00" during boot
+In-Reply-To: <4881796E12491D4BB15146FE0209CE6467DBE119@DE02WEMBXB.internal.synopsys.com>
+References: <2b9507b2-58b7-1739-23df-973e7c865ef3@adaptrum.com>
+ <4881796E12491D4BB15146FE0209CE6467DBE119@DE02WEMBXB.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAD=FV=W5+jEE21DC6=cr=5koYeDAShVbqtad-Dy2oaRVzwQSVA@mail.gmail.com>
+Message-ID: <5422227b-6ca3-b4f4-91a6-b760a4b98861@adaptrum.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
-
-On Mon, Jul 17, 2017@11:02 PM, Jeffy Chen <jeffy.chen@rock-chips.com> wrote:
-> I was testing earlycon with 8250 dw serial console. And it hangs in
-> these cases:
-> 1/ kernel hang when calling early write function after free_initmem:
-> a) the earlycon not disabled after the init code(due to keep_bootcon or
->    not specify a real console to switch to)
-> b) the early write func is marked as __init, for example 8250_early.
+On 07/24/2017 01:39 PM, Alexey Brodkin wrote:
+> Hi Alexandru,
 >
-> 2/ kernel hang when calling early write function after disable unused
-> clks/pm domain:
-> a) the earlycon not disabled after the init code
-> b) the disable unused clks/pm domain kill the requiered clks/pm
->    domain, since they are not referenced by the earlycon.
->
-> 3/ kernel hang when calling early write function after the serial
->    console driver runtime suspended:
-> a) the earlycon not disabled after the init code
-> b) the serial console driver's runtime suspend kills the requiered
->    clks/pm domain, since they are not referenced by the earlycon.
->
-> This serial fix 1/ case only.
->
->
->
-> Jeffy Chen (5):
->   serial: arc: Remove __init marking from early write
->   serial: omap: Remove __init marking from early write
->   serial: xuartps: Remove __init marking from early write
->   serial: 8250_ingenic: Remove __init marking from early write
->   serial: 8250_early: Remove __init marking from early write
->
->  drivers/tty/serial/8250/8250_early.c   |  8 ++++----
->  drivers/tty/serial/8250/8250_ingenic.c |  8 ++++----
->  drivers/tty/serial/arc_uart.c          |  4 ++--
->  drivers/tty/serial/omap-serial.c       | 13 ++++++-------
->  drivers/tty/serial/xilinx_uartps.c     |  2 +-
->  5 files changed, 17 insertions(+), 18 deletions(-)
-
-I looked through all 5 patches and they seem sane to me.  I didn't go
-through and test them since Brian already tested the patches for the
-one UART driver I'd have access to anyway.
-
-As per my previous email, I don't see any need to solve all the
-world'd problems with this patch series, plus the keep_bootcon seems
-to be an experts / debugging type option and it seems sane if you need
-to take care in using it.
-
-So officially for the series (FWIW since I'm just an interested 3rd party):
-
-Reviewed-by: Douglas Anderson <dianders at chromium.org>
+>> I'm getting a storm of these messages when trying to boot an in-house
+>> ASIC with an ARC770. This only happens with an ethernet cable plugged
+>> in. I've learned that the actual interrupt number is 21. The issue is
+>> that the irq_find_mapping() in __handle_domain_irq() fails to find a
+>> mapping for vector 21, and the remaining logic will brainlessly print
+>> out '0' as the interrupt number (which is of course, bass-ackwards).
+[snip]
 
 
--Doug
+> That's interesting! I saw exactly the same issue with one of our devboards.
+> What happens here is GMAC generates output interrupt because of some
+> condition(s),
+
+I'm seeing this when using U-boot to load the kernel over ethernet. I 
+think it's enough to have the PHY link autonegotiated to get the 
+problem, but I didn't verify this.
+
+> Answering your question why interrupt from GMAC happens before its driver
+> is probed:
+>  1) I need to look at my notes I made when was fighting with the same problem,
+>      but for some reason DW GMAC seems to have interrupts enabled on reset
+>      which is indeed a bit unexpected and might lead to a behavior you and I saw.
+
+I'm curious to know what your notes say.
+
+>  2) Historically we used to enable all possible core IRQ lines early on boot as opposed
+>      to per-line init by request of each particular driver. We have this on our to-do list
+>      as one of important improvements but that's not a short-term fix for sure.
+
+
+>
+> A work-around that I made and which may recommend to you is to figure out what
+> condition in GMAC leads to generation of interrupt on its out and then resetting it in
+> GMAC in your early platform boot code.
+
+I was afraid that might be the only way. I can keep the GMAC logic in 
+reset, but that requires a custom platform early_init(), and a glue 
+driver for snps,dwmac.
+
+> Let me know if it helps.
+
+Yes. I implemented the proof-of-concept today. It's a very "interesting" 
+balancing act on when exactly to release the reset on the GMAC. I'm able 
+to get to boot to a shell with ethernet plugged in.
+
+Alex
