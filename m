@@ -1,42 +1,61 @@
-From: sboyd@codeaurora.org (Stephen Boyd)
-Date: Thu, 27 Jul 2017 18:24:24 -0700
-Subject: [PATCH] ARC: clk: introduce HSDKv1 pll driver
-In-Reply-To: <3d1bddbb-aaf5-ca5a-614a-5a84900feadc@synopsys.com>
-References: <20170714153128.8945-1-Eugeniy.Paltsev@synopsys.com>
- <3d1bddbb-aaf5-ca5a-614a-5a84900feadc@synopsys.com>
+From: alex.g@adaptrum.com (Alexandru Gagniuc)
+Date: Fri, 28 Jul 2017 15:07:00 -0700
+Subject: [PATCH 0/5] Initial support for Adaptrum Anarion SOC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170728012424.GY2146@codeaurora.org>
+Message-ID: <20170728220707.13960-1-alex.g@adaptrum.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 07/27, Vineet Gupta wrote:
-> Hi Stephen,
-> 
-> On 07/14/2017 09:01 PM, Eugeniy Paltsev wrote:
-> >HSDKv1 boards manages it's clocks using various PLLs. These PLL has same
-> >dividers and corresponding control registers mapped to different addresses.
-> >So we add one common driver for such PLLs.
-> >
-> >Each PLL on HSDK board consist of three dividers: IDIV, FBDIV and
-> >ODIV. Output clock value is managed using these dividers.
-> >
-> >We add pre-defined tables with supported rate values and appropriate
-> >configurations of IDIV, FBDIV and ODIV for each value.
-> >
-> >As of today we add support for PLLs that generate clock for the
-> >HSDKv1 arc cpus, system, ddr, AXI tunnel and hdmi.
-> >
-> >By this patch we add support for several plls (arc cpus pll and others),
-> >so we had to use two different init types: CLK_OF_DECLARE for arc cpus pll
-> >and regular probing for others plls.
-> >
-> >Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> 
-> Gentle ping, any chance you could look at this sometime.
-> 
-> Thx,
+We've reached the point where we can boot a basic linux system on the
+new SOC, and I'm very excited to share the code I've developed in the
+process.
 
-Yes it's in the queue. Probably get to it tomorrow.
+This series includes a new driver for the QSPI controller on the chip,
+although the flash layout is not specified in the devicetree. The
+flash layout is still being worked on, as it depends on finalizing
+other components.
+
+The scope of this series is to add enough support to get to a working
+system. Keep in mind that the SOC is emulated on an FPGA, and things
+are not running too fast. For this reason, as there's yet no way to
+get any meaningful speed measurements with the CPU clock at 12 MHz.
+Once the silicon arrives, I'll look at the performance aspect and
+other aspects that we simply can't support on an FPGA.
+
+Alex
+
+Alexandru Gagniuc (5):
+  of: Add vendor prefix for Adaptrum, Inc.
+  ARC: [plat-anarion] Add early boot workarounds for Anarion SOC
+  net: stmmac: Add Adaptrum Anarion GMAC glue layer
+  mtd: spi-nor: Add driver for Adaptrum Anarion QSPI controller
+  ARC: DTS: Add device-tree for Anarion-based development board
+
+ .../devicetree/bindings/mtd/anarion-quadspi.txt    |  22 +
+ .../devicetree/bindings/net/anarion-gmac.txt       |  25 ++
+ .../devicetree/bindings/vendor-prefixes.txt        |   1 +
+ arch/arc/Kconfig                                   |   1 +
+ arch/arc/Makefile                                  |   1 +
+ arch/arc/boot/dts/adaptrum_anarion.dtsi            | 107 +++++
+ arch/arc/boot/dts/adaptrum_anarion_fpga.dts        |  49 +++
+ arch/arc/plat-anarion/Kconfig                      |  10 +
+ arch/arc/plat-anarion/Makefile                     |   7 +
+ arch/arc/plat-anarion/platform.c                   |  39 ++
+ drivers/mtd/spi-nor/Kconfig                        |   7 +
+ drivers/mtd/spi-nor/Makefile                       |   1 +
+ drivers/mtd/spi-nor/anarion-quadspi.c              | 490 +++++++++++++++++++++
+ drivers/net/ethernet/stmicro/stmmac/Kconfig        |   9 +
+ drivers/net/ethernet/stmicro/stmmac/Makefile       |   1 +
+ .../net/ethernet/stmicro/stmmac/dwmac-anarion.c    | 151 +++++++
+ 16 files changed, 921 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mtd/anarion-quadspi.txt
+ create mode 100644 Documentation/devicetree/bindings/net/anarion-gmac.txt
+ create mode 100644 arch/arc/boot/dts/adaptrum_anarion.dtsi
+ create mode 100644 arch/arc/boot/dts/adaptrum_anarion_fpga.dts
+ create mode 100644 arch/arc/plat-anarion/Kconfig
+ create mode 100644 arch/arc/plat-anarion/Makefile
+ create mode 100644 arch/arc/plat-anarion/platform.c
+ create mode 100644 drivers/mtd/spi-nor/anarion-quadspi.c
+ create mode 100644 drivers/net/ethernet/stmicro/stmmac/dwmac-anarion.c
 
 -- 
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.9.3
