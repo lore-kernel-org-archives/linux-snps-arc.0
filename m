@@ -1,128 +1,252 @@
 From: alex.g@adaptrum.com (Alexandru Gagniuc)
-Date: Fri, 28 Jul 2017 15:07:02 -0700
-Subject: [PATCH 2/5] ARC: [plat-anarion] Add early boot workarounds for
- Anarion SOC
+Date: Fri, 28 Jul 2017 15:07:03 -0700
+Subject: [PATCH 3/5] net: stmmac: Add Adaptrum Anarion GMAC glue layer
 In-Reply-To: <20170728220707.13960-1-alex.g@adaptrum.com>
 References: <20170728220707.13960-1-alex.g@adaptrum.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170728220707.13960-3-alex.g@adaptrum.com>
+Message-ID: <20170728220707.13960-4-alex.g@adaptrum.com>
 To: linux-snps-arc@lists.infradead.org
 
-An ARC, the interrupts are enabled globally, rather than per-line, as
-drivers request it. Thus, we need to make sure that peripherals don't
-generate any before the respective drivers are probed.
-The GMAC is infamous for spamming interrupts, so it must be kept in
-reset until the driver is probed and interrupt mapping established.
+Before the GMAC on the Anarion chip can be used, the PHY interface
+selection must be configured with the DWMAC block in reset.
+
+This layer covers a block containing only two registers. Although it
+is possible to model this as a reset controller and use the "resets"
+property of stmmac, it's much more intuitive to include this in the
+glue layer instead.
+
+At this time only RGMII is supported, because it is the only mode
+which has been validated hardware-wise.
 
 Signed-off-by: Alexandru Gagniuc <alex.g at adaptrum.com>
 ---
- arch/arc/Kconfig                 |  1 +
- arch/arc/Makefile                |  1 +
- arch/arc/plat-anarion/Kconfig    | 10 ++++++++++
- arch/arc/plat-anarion/Makefile   |  7 +++++++
- arch/arc/plat-anarion/platform.c | 39 +++++++++++++++++++++++++++++++++++++++
- 5 files changed, 58 insertions(+)
- create mode 100644 arch/arc/plat-anarion/Kconfig
- create mode 100644 arch/arc/plat-anarion/Makefile
- create mode 100644 arch/arc/plat-anarion/platform.c
+ .../devicetree/bindings/net/anarion-gmac.txt       |  25 ++++
+ drivers/net/ethernet/stmicro/stmmac/Kconfig        |   9 ++
+ drivers/net/ethernet/stmicro/stmmac/Makefile       |   1 +
+ .../net/ethernet/stmicro/stmmac/dwmac-anarion.c    | 151 +++++++++++++++++++++
+ 4 files changed, 186 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/anarion-gmac.txt
+ create mode 100644 drivers/net/ethernet/stmicro/stmmac/dwmac-anarion.c
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index a545969..dff8423 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -100,6 +100,7 @@ source "arch/arc/plat-sim/Kconfig"
- source "arch/arc/plat-tb10x/Kconfig"
- source "arch/arc/plat-axs10x/Kconfig"
- #New platform adds here
-+source "arch/arc/plat-anarion/Kconfig"
- source "arch/arc/plat-eznps/Kconfig"
- 
- endmenu
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 44ef35d..9bc0048 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -109,6 +109,7 @@ core-y		+= arch/arc/boot/dts/
- 
- core-$(CONFIG_ARC_PLAT_SIM)	+= arch/arc/plat-sim/
- core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
-+core-$(CONFIG_ARC_PLAT_ANARION)	+= arch/arc/plat-anarion/
- core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
- core-$(CONFIG_ARC_PLAT_EZNPS)	+= arch/arc/plat-eznps/
- 
-diff --git a/arch/arc/plat-anarion/Kconfig b/arch/arc/plat-anarion/Kconfig
+diff --git a/Documentation/devicetree/bindings/net/anarion-gmac.txt b/Documentation/devicetree/bindings/net/anarion-gmac.txt
 new file mode 100644
-index 0000000..632c7be
+index 0000000..fe67896
 --- /dev/null
-+++ b/arch/arc/plat-anarion/Kconfig
-@@ -0,0 +1,10 @@
-+#
-+# (C) Copyright 2017 Adaptrum, Inc.
-+# Written by Alexandru Gagniuc <alex.g at adaptrum.com> for Adaptrum, Inc.
-+# Licensed under the GPLv2 or (at your option) any later version.
-+#
++++ b/Documentation/devicetree/bindings/net/anarion-gmac.txt
+@@ -0,0 +1,25 @@
++*  Adaptrum Anarion ethernet controller
 +
-+menuconfig ARC_PLAT_ANARION
-+	bool "Adaptrum Anarion based platforms"
++This device is a platform glue layer for stmmac.
++Please see stmmac.txt for the other unchanged properties.
++
++Required properties:
++ - compatible:  Should be "adaptrum,anarion-gmac", "snps,dwmac"
++ - phy-mode:    Should be "rgmii". Other modes are not currently supported.
++
++
++Examples:
++
++	gmac1: ethernet at f2014000 {
++		compatible = "adaptrum,anarion-gmac", "snps,dwmac";
++		reg = <0xf2014000 0x4000>, <0xf2018100 8>;
++
++		interrupt-parent = <&core_intc>;
++		interrupts = <21>;
++		interrupt-names = "macirq";
++
++		clocks = <&core_clk>;
++		clock-names = "stmmaceth";
++
++		phy-mode = "rgmii";
++	};
+diff --git a/drivers/net/ethernet/stmicro/stmmac/Kconfig b/drivers/net/ethernet/stmicro/stmmac/Kconfig
+index 85c0e41..9703576 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/Kconfig
++++ b/drivers/net/ethernet/stmicro/stmmac/Kconfig
+@@ -45,6 +45,15 @@ config DWMAC_GENERIC
+ 	  platform specific code to function or is using platform
+ 	  data for setup.
+ 
++config DWMAC_ANARION
++	tristate "Adaptrum Anarion GMAC support"
++	default ARC
++	depends on OF && (ARC || COMPILE_TEST)
 +	help
-+	  Support for Adaptrum Anarion based ARC platforms.
-diff --git a/arch/arc/plat-anarion/Makefile b/arch/arc/plat-anarion/Makefile
-new file mode 100644
-index 0000000..9596a41
---- /dev/null
-+++ b/arch/arc/plat-anarion/Makefile
-@@ -0,0 +1,7 @@
-+#
-+# (C) Copyright 2017 Adaptrum, Inc.
-+# Written by Alexandru Gagniuc <alex.g at adaptrum.com> for Adaptrum, Inc.
-+# Licensed under the GPLv2 or (at your option) any later version.
-+#
++	  Support for Adaptrum Anarion GMAC Ethernet controller.
 +
-+obj-y := platform.o
-diff --git a/arch/arc/plat-anarion/platform.c b/arch/arc/plat-anarion/platform.c
++	  This selects the Anarion SoC glue layer support for the stmmac driver.
++
+ config DWMAC_IPQ806X
+ 	tristate "QCA IPQ806x DWMAC support"
+ 	default ARCH_QCOM
+diff --git a/drivers/net/ethernet/stmicro/stmmac/Makefile b/drivers/net/ethernet/stmicro/stmmac/Makefile
+index fd4937a..238307f 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/Makefile
++++ b/drivers/net/ethernet/stmicro/stmmac/Makefile
+@@ -7,6 +7,7 @@ stmmac-objs:= stmmac_main.o stmmac_ethtool.o stmmac_mdio.o ring_mode.o	\
+ 
+ # Ordering matters. Generic driver must be last.
+ obj-$(CONFIG_STMMAC_PLATFORM)	+= stmmac-platform.o
++obj-$(CONFIG_DWMAC_ANARION)	+= dwmac-anarion.o
+ obj-$(CONFIG_DWMAC_IPQ806X)	+= dwmac-ipq806x.o
+ obj-$(CONFIG_DWMAC_LPC18XX)	+= dwmac-lpc18xx.o
+ obj-$(CONFIG_DWMAC_MESON)	+= dwmac-meson.o dwmac-meson8b.o
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-anarion.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-anarion.c
 new file mode 100644
-index 0000000..ef0d381
+index 0000000..6da4d9a
 --- /dev/null
-+++ b/arch/arc/plat-anarion/platform.c
-@@ -0,0 +1,39 @@
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-anarion.c
+@@ -0,0 +1,151 @@
 +/*
-+ * Workarounds for Adaptrum Anarion SOC
++ * Adaptrum Anarion DWMAC glue layer
 + *
 + * Copyright (C) 2017, Adaptrum, Inc.
 + * (Written by Alexandru Gagniuc <alex.g at adaptrum.com> for Adaptrum, Inc.)
 + * Licensed under the GPLv2 or (at your option) any later version.
 + */
 +
-+#include <asm/io.h>
-+#include <linux/init.h>
-+#include <asm/mach_desc.h>
++#include <linux/io.h>
++#include <linux/of.h>
++#include <linux/of_net.h>
++#include <linux/stmmac.h>
 +
-+#define GMAC0_RESET		0xf2018000
-+#define GMAC1_RESET		0xf2018100
++#include "stmmac.h"
++#include "stmmac_platform.h"
 +
-+/* This works around an issue where the GMAC will generate interrupts before
-+ * the driver is probed, confusing the heck out of the early boot.
-+ */
-+static void __init anarion_gmac_irq_storm_workaround(void)
-+{
-+	writel(1, (void *)GMAC0_RESET);
-+	writel(1, (void *)GMAC1_RESET);
-+}
++#define GMAC_RESET_CONTROL_REG		0
++#define GMAC_SW_CONFIG_REG		4
++#define  GMAC_CONFIG_INTF_SEL_MASK	(0x7 << 0)
++#define  GMAC_CONFIG_INTF_RGMII		(0x1 << 0)
 +
-+static void __init anarion_early_init(void)
-+{
-+	anarion_gmac_irq_storm_workaround();
-+	/* Please, no more workarounds!!! */
-+}
-+
-+static const char *anarion_compat[] __initconst = {
-+	"adaptrum,anarion",
-+	NULL,
++struct anarion_gmac {
++	uintptr_t ctl_block;
++	uint32_t phy_intf_sel;
 +};
 +
-+MACHINE_START(ANARION, "anarion")
-+	.dt_compat	= anarion_compat,
-+	.init_early	= anarion_early_init,
-+MACHINE_END
++static uint32_t gmac_read_reg(struct anarion_gmac *gmac, uint8_t reg)
++{
++	return readl((void *)(gmac->ctl_block + reg));
++};
++
++static void gmac_write_reg(struct anarion_gmac *gmac, uint8_t reg, uint32_t val)
++{
++	writel(val, (void *)(gmac->ctl_block + reg));
++}
++
++static int anarion_gmac_init(struct platform_device *pdev, void *priv)
++{
++	uint32_t sw_config;
++	struct anarion_gmac *gmac = priv;
++
++	/* Reset logic, configure interface mode, then release reset. SIMPLE! */
++	gmac_write_reg(gmac, GMAC_RESET_CONTROL_REG, 1);
++
++	sw_config = gmac_read_reg(gmac, GMAC_SW_CONFIG_REG);
++	sw_config &= ~GMAC_CONFIG_INTF_SEL_MASK;
++	sw_config |= (gmac->phy_intf_sel & GMAC_CONFIG_INTF_SEL_MASK);
++	gmac_write_reg(gmac, GMAC_SW_CONFIG_REG, sw_config);
++
++	gmac_write_reg(gmac, GMAC_RESET_CONTROL_REG, 0);
++
++	return 0;
++}
++
++static void anarion_gmac_exit(struct platform_device *pdev, void *priv)
++{
++	struct anarion_gmac *gmac = priv;
++
++	gmac_write_reg(gmac, GMAC_RESET_CONTROL_REG, 1);
++}
++
++static struct anarion_gmac *anarion_config_dt(struct platform_device *pdev)
++{
++	int phy_mode;
++	struct resource *res;
++	void __iomem *ctl_block;
++	struct anarion_gmac *gmac;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
++	ctl_block = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(ctl_block)) {
++		dev_err(&pdev->dev, "Cannot get reset region (%ld)!\n",
++			PTR_ERR(ctl_block));
++		return ctl_block;
++	}
++
++	gmac = devm_kzalloc(&pdev->dev, sizeof(*gmac), GFP_KERNEL);
++	if (!gmac)
++		return ERR_PTR(-ENOMEM);
++
++	gmac->ctl_block = (uintptr_t)ctl_block;
++
++	phy_mode = of_get_phy_mode(pdev->dev.of_node);
++	switch (phy_mode) {
++	case PHY_INTERFACE_MODE_RGMII:		/* Fall through */
++	case PHY_INTERFACE_MODE_RGMII_ID	/* Fall through */:
++	case PHY_INTERFACE_MODE_RGMII_RXID:	/* Fall through */
++	case PHY_INTERFACE_MODE_RGMII_TXID:
++		gmac->phy_intf_sel = GMAC_CONFIG_INTF_RGMII;
++		break;
++	default:
++		dev_err(&pdev->dev, "Unsupported phy-mode (%d)\n",
++			phy_mode);
++		return ERR_PTR(-ENOTSUPP);
++	}
++
++	return gmac;
++}
++
++static int anarion_dwmac_probe(struct platform_device *pdev)
++{
++	int ret;
++	struct anarion_gmac *gmac;
++	struct plat_stmmacenet_data *plat_dat;
++	struct stmmac_resources stmmac_res;
++
++	ret = stmmac_get_platform_resources(pdev, &stmmac_res);
++	if (ret)
++		return ret;
++
++	gmac = anarion_config_dt(pdev);
++	if (IS_ERR(gmac))
++		return PTR_ERR(gmac);
++
++	plat_dat = stmmac_probe_config_dt(pdev, &stmmac_res.mac);
++	if (IS_ERR(plat_dat))
++		return PTR_ERR(plat_dat);
++
++	plat_dat->init = anarion_gmac_init;
++	plat_dat->exit = anarion_gmac_exit;
++	anarion_gmac_init(pdev, gmac);
++
++	ret = stmmac_dvr_probe(&pdev->dev, plat_dat, &stmmac_res);
++	if (ret) {
++		stmmac_remove_config_dt(pdev, plat_dat);
++		return ret;
++	}
++
++	return 0;
++}
++
++static const struct of_device_id anarion_dwmac_match[] = {
++	{ .compatible = "adaptrum,anarion-gmac" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, anarion_dwmac_match);
++
++static struct platform_driver anarion_dwmac_driver = {
++	.probe  = anarion_dwmac_probe,
++	.remove = stmmac_pltfr_remove,
++	.driver = {
++		.name           = "anarion-dwmac",
++		.pm		= &stmmac_pltfr_pm_ops,
++		.of_match_table = anarion_dwmac_match,
++	},
++};
++module_platform_driver(anarion_dwmac_driver);
++
++MODULE_DESCRIPTION("Adaptrum Anarion DWMAC specific glue layer");
++MODULE_AUTHOR("Alexandru Gagniuc <mr.nuke.me at gmail.com>");
++MODULE_LICENSE("GPL v2");
 -- 
 2.9.3
