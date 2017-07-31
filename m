@@ -1,40 +1,38 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 31 Jul 2017 11:11:06 +0000
-Subject: Please pull ARCPGU changes
+From: alex.g@adaptrum.com (Alex)
+Date: Mon, 31 Jul 2017 08:11:00 -0700
+Subject: [PATCH 3/5] net: stmmac: Add Adaptrum Anarion GMAC glue layer
+In-Reply-To: <20170728.190155.457209566729295513.davem@davemloft.net>
+References: <20170728220707.13960-1-alex.g@adaptrum.com>
+ <20170728220707.13960-4-alex.g@adaptrum.com>
+ <20170728.190155.457209566729295513.davem@davemloft.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1501499465.6216.4.camel@synopsys.com>
+Message-ID: <b3a51afc-1eae-66ea-f20e-a09cd8289c1b@adaptrum.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Dave,
+Hi David,
 
-Could you please pull a couple of minor fixes for ARCPGU.
-These changes are based on today's drm-misc/drm-misc-next.
+On 07/28/2017 07:01 PM, David Miller wrote:
+> From: Alexandru Gagniuc <alex.g at adaptrum.com>
+> Date: Fri, 28 Jul 2017 15:07:03 -0700
+>
+>> Before the GMAC on the Anarion chip can be used, the PHY interface
+>> selection must be configured with the DWMAC block in reset.
+>>
+>> This layer covers a block containing only two registers. Although it
+>> is possible to model this as a reset controller and use the "resets"
+>> property of stmmac, it's much more intuitive to include this in the
+>> glue layer instead.
+>>
+>> At this time only RGMII is supported, because it is the only mode
+>> which has been validated hardware-wise.
+>>
+>> Signed-off-by: Alexandru Gagniuc <alex.g at adaptrum.com>
+>
+> I don't see how this fits into any patch series at all.  If this is
+> part of a series you posted elsewhere, you should keep netdev@ on
+> all such postings so people there can review the change in-context.
 
-The following changes since commit 9dd2aca46a13cc7177625f0dc3aaf5b7ebc6fe74:
+I used the --cc-cmd option to send-email. I'll be sure to CC netdev@ on 
+[PATCH v2].
 
-? drm/rockchip: vop: rk3328: fix overlay abnormal (2017-07-31 08:44:18 +0800)
-
-are available in the git repository at:
-
-? https://github.com/foss-for-synopsys-dwc-arc-processors/linux topic-arcpgu-updates
-
-for you to fetch changes up to a8709950755748e9975d63faa624f2ba4b39f9d6:
-
-? drm: arcpgu: Allow some clock deviation in crtc->mode_valid() callback (2017-07-31 14:05:21 +0300)
-
-----------------------------------------------------------------
-Alexey Brodkin (2):
-??????drm/arcpgu: Opt in debugfs
-??????arcpgu: Simplify driver name
-
-Jose Abreu (3):
-??????drm: arcpgu: Fix mmap() callback
-??????drm: arcpgu: Fix module unload
-??????drm: arcpgu: Allow some clock deviation in crtc->mode_valid() callback
-
-?drivers/gpu/drm/arc/arcpgu_crtc.c |??7 ++++---
-?drivers/gpu/drm/arc/arcpgu_drv.c??| 57 ++++++++++++++++++++++++++++++++-------------------------
-?2 files changed, 36 insertions(+), 28 deletions(-)
-
-Regards,
-Alexey
+Alex
