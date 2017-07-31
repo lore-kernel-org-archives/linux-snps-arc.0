@@ -1,201 +1,40 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 31 Jul 2017 12:02:58 +0530
-Subject: [PATCH 5/5] ARC: DTS: Add device-tree for Anarion-based
- development board
-In-Reply-To: <20170728220707.13960-6-alex.g@adaptrum.com>
-References: <20170728220707.13960-1-alex.g@adaptrum.com>
- <20170728220707.13960-6-alex.g@adaptrum.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 31 Jul 2017 11:11:06 +0000
+Subject: Please pull ARCPGU changes
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <8576ceb3-036f-6357-fb52-b062dfe5fa57@synopsys.com>
+Message-ID: <1501499465.6216.4.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 07/29/2017 03:37 AM, Alexandru Gagniuc wrote:
-> Signed-off-by: Alexandru Gagniuc <alex.g at adaptrum.com>
-> ---
->   arch/arc/boot/dts/adaptrum_anarion.dtsi     | 107 ++++++++++++++++++++++++++++
->   arch/arc/boot/dts/adaptrum_anarion_fpga.dts |  49 +++++++++++++
->   2 files changed, 156 insertions(+)
->   create mode 100644 arch/arc/boot/dts/adaptrum_anarion.dtsi
->   create mode 100644 arch/arc/boot/dts/adaptrum_anarion_fpga.dts
+Hi Dave,
 
-So you really need to upstream the fpga dts - if this just for initial bringup and 
-you will eventually switch to silicon.
-The reason I say is every additional file is a maintenance burden so better to 
-avoid things which are only temporary.
-But if you plan to support this config in long run I'm fine !
+Could you please pull a couple of minor fixes for ARCPGU.
+These changes are based on today's drm-misc/drm-misc-next.
 
-Looking further it seems first one is a "common" include style dts while fpga is 
-for actual platform and the SoC one will follow once you get it running ?
+The following changes since commit 9dd2aca46a13cc7177625f0dc3aaf5b7ebc6fe74:
 
->
-> diff --git a/arch/arc/boot/dts/adaptrum_anarion.dtsi b/arch/arc/boot/dts/adaptrum_anarion.dtsi
-> new file mode 100644
-> index 0000000..f50958f
-> --- /dev/null
-> +++ b/arch/arc/boot/dts/adaptrum_anarion.dtsi
-> @@ -0,0 +1,107 @@
-> +/*
-> + * (C) Copyright 2017 Adaptrum, Inc.
-> + * Written by Alexandru Gagniuc <alex.g at adaptrum.com> for Adaptrum, Inc.
-> + * Licensed under the GPLv2 or (at your option) any later version
-> + */
-> +
-> +#include "skeleton.dtsi"
+? drm/rockchip: vop: rk3328: fix overlay abnormal (2017-07-31 08:44:18 +0800)
 
-Perhaps put a one liner that this is based on SNPS ARC700 cpu !
+are available in the git repository at:
 
-> +
-> +/ {
-> +	compatible = "adaptrum,anarion";
-> +	#address-cells = <1>;
-> +	#size-cells = <1>;
-> +
-> +	soc {
-> +		compatible = "simple-bus";
-> +		device_type = "soc";
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges;
-> +		interrupt-parent = <&core_intc>;
-> +
-> +		core_intc: interrupt-controller {
-> +			compatible = "snps,arc700-intc";
-> +			interrupt-controller;
-> +			#interrupt-cells = <1>;
-> +		};
-> +
-> +		uart0: serial at f2202100 {
-> +			compatible = "ns16550";
-> +			reg = <0xf2202100 0x20>;
-> +			interrupts = <8>;
-> +			reg-shift = <2>;
-> +			reg-io-width = <4>;
-> +			clock-frequency = <192000000>;
-> +			status = "disabled";
-> +		};
-> +
-> +		uart1: serial at f2202200 {
-> +			compatible = "snps,dw-apb-uart";
-> +			reg = <0xf2202200 0x20>;
-> +			interrupts = <8>;
-> +			reg-shift = <2>;
-> +			reg-io-width = <4>;
-> +			clock-frequency = <192000000>;
-> +			status = "disabled";
-> +		};
-> +
-> +		uart2: serial at f2202300 {
-> +			compatible = "snps,dw-apb-uart";
-> +			reg = <0xf2202300 0x20>;
-> +			interrupts = <8>;
-> +			reg-shift = <2>;
-> +			reg-io-width = <4>;
-> +			clock-frequency = <192000000>;
-> +			status = "disabled";
-> +		};
-> +
-> +		uart3: serial at f2202400 {
-> +			compatible = "snps,dw-apb-uart";
-> +			reg = <0xf2202400 0x20>;
-> +			interrupts = <8>;
-> +			reg-shift = <2>;
-> +			reg-io-width = <4>;
-> +			clock-frequency = <192000000>;
-> +			status = "disabled";
-> +		};
-> +
-> +		qspi: qspi at f200f000 {
-> +			compatible = "adaptrum,anarion-qspi";
-> +			reg = <0xf200f000 0x1000>,
-> +			      <0x20000000 0x08000000>;
-> +
-> +			interrupts = <10>;
-> +			status = "disabled";
-> +		};
-> +
-> +		gmac0: ethernet at f2010000 {
-> +			compatible = "snps,dwmac";
-> +			reg = <0xf2010000 0x4000>;
-> +
-> +			interrupt-parent = <&core_intc>;
-> +			interrupts = <20>;
-> +			interrupt-names = "macirq";
-> +
-> +			clocks = <&core_clk>;
-> +			clock-names = "stmmaceth";
-> +
-> +			snps,pbl = <32>;
-> +			status = "disabled";
-> +		};
-> +
-> +		gmac1: ethernet at f2014000 {
-> +			compatible = "adaptrum,anarion-gmac", "snps,dwmac";
-> +			reg = <0xf2014000 0x4000>, <0xf2018100 8>;
-> +
-> +			interrupt-parent = <&core_intc>;
-> +			interrupts = <21>;
-> +			interrupt-names = "macirq";
-> +
-> +			clocks = <&core_clk>;
-> +			clock-names = "stmmaceth";
-> +
-> +			snps,pbl = <32>;
-> +			status = "disabled";
-> +		};
-> +	};
-> +};
-> diff --git a/arch/arc/boot/dts/adaptrum_anarion_fpga.dts b/arch/arc/boot/dts/adaptrum_anarion_fpga.dts
-> new file mode 100644
-> index 0000000..36173b2
-> --- /dev/null
-> +++ b/arch/arc/boot/dts/adaptrum_anarion_fpga.dts
-> @@ -0,0 +1,49 @@
-> +/*
-> + * (C) Copyright 2017 Adaptrum, Inc.
-> + * Written by Alexandru Gagniuc <alex.g at adaptrum.com> for Adaptrum, Inc.
-> + * Licensed under the GPLv2 or (at your option) any later version
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "adaptrum_anarion.dtsi"
-> +
-> +/ {
-> +	model = "adaptrum,anarion";
-> +	compatible = "adaptrum,anarion";
-> +
-> +	chosen {
-> +		bootargs = "earlycon console=ttyS0,115200n8";
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	aliases {
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	core_clk: core_clk {
-> +		#clock-cells = <0>;
-> +		compatible = "fixed-clock";
-> +		clock-frequency = <12000000>;
-> +	};
-> +};
-> +
-> +&uart0 {
-> +	status = "okay";
-> +};
-> +
-> +&qspi {
-> +	status = "okay";
-> +	flash0: w25q128fvn at 0 {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		compatible = "winbond,w25q128", "jedec,spi-nor";
-> +		spi-max-frequency = <70000000>;
-> +		m25p,fast-read;
-> +	};
-> +};
-> +
-> +&gmac1 {
-> +	phy-mode = "rgmii";
-> +	status = "okay";
-> +};
+? https://github.com/foss-for-synopsys-dwc-arc-processors/linux topic-arcpgu-updates
+
+for you to fetch changes up to a8709950755748e9975d63faa624f2ba4b39f9d6:
+
+? drm: arcpgu: Allow some clock deviation in crtc->mode_valid() callback (2017-07-31 14:05:21 +0300)
+
+----------------------------------------------------------------
+Alexey Brodkin (2):
+??????drm/arcpgu: Opt in debugfs
+??????arcpgu: Simplify driver name
+
+Jose Abreu (3):
+??????drm: arcpgu: Fix mmap() callback
+??????drm: arcpgu: Fix module unload
+??????drm: arcpgu: Allow some clock deviation in crtc->mode_valid() callback
+
+?drivers/gpu/drm/arc/arcpgu_crtc.c |??7 ++++---
+?drivers/gpu/drm/arc/arcpgu_drv.c??| 57 ++++++++++++++++++++++++++++++++-------------------------
+?2 files changed, 36 insertions(+), 28 deletions(-)
+
+Regards,
+Alexey
