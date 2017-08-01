@@ -1,47 +1,63 @@
-From: alex.g@adaptrum.com (Alexandru Gagniuc)
-Date: Mon, 31 Jul 2017 15:59:17 -0700
-Subject: [PATCH 4/5] mtd: spi-nor: Add driver for Adaptrum Anarion QSPI
- controller
-In-Reply-To: <1da97744-bc02-420e-d4e9-5ebf331475e8@gmail.com>
-References: <20170728220707.13960-1-alex.g@adaptrum.com>
- <20170728220707.13960-5-alex.g@adaptrum.com>
- <135fdf95-1029-2d34-2802-1283a73588e5@gmail.com>
- <83a4e27a-b96c-0558-fbb5-10e64f9bf59b@adaptrum.com>
- <e7c916c4-7b0a-1f76-b91f-5befeb24faf5@gmail.com>
- <e1390c36-086b-aeba-848c-f45dcb88b5ce@adaptrum.com>
- <1da97744-bc02-420e-d4e9-5ebf331475e8@gmail.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue,  1 Aug 2017 12:58:47 +0300
+Subject: [PATCH] arc: arcv2: cache: Explicitly set MSB counterpart of region
+ ops addresses
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <054534f2-deed-a339-f82a-e3eba569b029@adaptrum.com>
+Message-ID: <20170801095847.6425-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 07/31/2017 03:43 PM, Marek Vasut wrote:
-> On 08/01/2017 12:20 AM, Alexandru Gagniuc wrote:
->> On 07/31/2017 02:33 PM, Marek Vasut wrote:
->>> On 07/31/2017 07:17 PM, Alexandru Gagniuc wrote:
->>>>>> +struct anarion_qspi {
->>>>>> +    struct        spi_nor nor;
->>>>>> +    struct        device *dev;
->>>>>> +    uintptr_t    regbase;
->>>>>
->>>>> Should be void __iomem * I guess ?
->>>>
->>>> I chose uintptr_t as opposed to void *, because arithmetic on void * is
->>>> not valid in C. What is the right answer hen, without risking undefined
->>>> behavior?
->>>
->>> What sort of arithmetic ? It's perfectly valid in general ...
->>
->> ISO/IEC 9899:201x, Section 6.5.6, constraint(2) is not met when the one
->> of the operands to addition is a void pointer.
->> Section 6.2.5 (19) defines void to be an incomplete type.
->
-> Is that something new in C 201x draft ?
+It is necessary to explicitly set both SLC_AUX_RGN_START1 and SLC_AUX_RGN_END1
+which hold MSB bits of the physical address correspondingly of region start
+and end otherwise SLC region operation is executed in unpredictable manner,
+for example on HSDK platform where PAE40 support exists in hardware
+we saw each and every SLC region op to take seconds (sic!).
 
-C99 had similar restrictions.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Reported-by: Vladimir Kondratiev <vladimir.kondratiev at intel.com>
+---
+ arch/arc/include/asm/cache.h | 2 ++
+ arch/arc/mm/cache.c          | 8 ++++++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-> Anyway, this would mean half of the drivers are broken, so I'm not convinced.
-
-They are. Feel free to send me a private email if you want to discuss 
-this further.
-
-Alex
+diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
+index 35127ad95124..1f3c2f967471 100644
+--- a/arch/arc/include/asm/cache.h
++++ b/arch/arc/include/asm/cache.h
+@@ -91,7 +91,9 @@ extern unsigned long perip_base, perip_end;
+ #define ARC_REG_SLC_FLUSH	0x904
+ #define ARC_REG_SLC_INVALIDATE	0x905
+ #define ARC_REG_SLC_RGN_START	0x914
++#define ARC_REG_SLC_RGN_START1	0x915
+ #define ARC_REG_SLC_RGN_END	0x916
++#define ARC_REG_SLC_RGN_END1	0x917
+ 
+ /* Bit val in SLC_CONTROL */
+ #define SLC_CTRL_DIS		0x001
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index b7a1face1584..0b4e2650c5de 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -580,6 +580,7 @@ noinline void slc_op(phys_addr_t paddr, unsigned long sz, const int op)
+ 	static DEFINE_SPINLOCK(lock);
+ 	unsigned long flags;
+ 	unsigned int ctrl;
++	phys_addr_t end;
+ 
+ 	spin_lock_irqsave(&lock, flags);
+ 
+@@ -609,8 +610,11 @@ noinline void slc_op(phys_addr_t paddr, unsigned long sz, const int op)
+ 	 * END needs to be setup before START (latter triggers the operation)
+ 	 * END can't be same as START, so add (l2_line_sz - 1) to sz
+ 	 */
+-	write_aux_reg(ARC_REG_SLC_RGN_END, (paddr + sz + l2_line_sz - 1));
+-	write_aux_reg(ARC_REG_SLC_RGN_START, paddr);
++	end = paddr + sz + l2_line_sz - 1;
++	write_aux_reg(ARC_REG_SLC_RGN_END1, upper_32_bits(end));
++	write_aux_reg(ARC_REG_SLC_RGN_END, lower_32_bits(end));
++	write_aux_reg(ARC_REG_SLC_RGN_START1, upper_32_bits(paddr));
++	write_aux_reg(ARC_REG_SLC_RGN_START, lower_32_bits(paddr));
+ 
+ 	/* Make sure "busy" bit reports correct stataus, see STAR 9001165532 */
+ 	read_aux_reg(ARC_REG_SLC_CTRL);
+-- 
+2.11.0
