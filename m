@@ -1,67 +1,49 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 2 Aug 2017 09:09:44 +0530
-Subject: [PATCH] arc: arcv2: cache: Explicitly set MSB counterpart of
- region ops addresses
-In-Reply-To: <20170801095847.6425-1-abrodkin@synopsys.com>
-References: <20170801095847.6425-1-abrodkin@synopsys.com>
+From: alex.g@adaptrum.com (Alex)
+Date: Tue, 1 Aug 2017 14:33:33 -0700
+Subject: snps,dwmac interrupt storm (Was: ARC770: "unexpected IRQ trap at
+ vector 00" during boot)
+In-Reply-To: <222b10ef-2bd6-9212-5982-427854f0c19c@synopsys.com>
+References: <2b9507b2-58b7-1739-23df-973e7c865ef3@adaptrum.com>
+ <4881796E12491D4BB15146FE0209CE6467DBE119@DE02WEMBXB.internal.synopsys.com>
+ <5422227b-6ca3-b4f4-91a6-b760a4b98861@adaptrum.com>
+ <4881796E12491D4BB15146FE0209CE6467DBED94@DE02WEMBXB.internal.synopsys.com>
+ <222b10ef-2bd6-9212-5982-427854f0c19c@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <2f6ba6bb-ae07-0ff9-c2ff-0f162eab2ef0@synopsys.com>
+Message-ID: <0c96e559-d0a8-8b1c-96e4-63799fb13d57@adaptrum.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/01/2017 03:29 PM, Alexey Brodkin wrote:
-> It is necessary to explicitly set both SLC_AUX_RGN_START1 and SLC_AUX_RGN_END1
-> which hold MSB bits of the physical address correspondingly of region start
-> and end otherwise SLC region operation is executed in unpredictable manner,
-> for example on HSDK platform where PAE40 support exists in hardware
-> we saw each and every SLC region op to take seconds (sic!).
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Reported-by: Vladimir Kondratiev <vladimir.kondratiev at intel.com>
-> ---
->   arch/arc/include/asm/cache.h | 2 ++
->   arch/arc/mm/cache.c          | 8 ++++++--
->   2 files changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
-> index 35127ad95124..1f3c2f967471 100644
-> --- a/arch/arc/include/asm/cache.h
-> +++ b/arch/arc/include/asm/cache.h
-> @@ -91,7 +91,9 @@ extern unsigned long perip_base, perip_end;
->   #define ARC_REG_SLC_FLUSH	0x904
->   #define ARC_REG_SLC_INVALIDATE	0x905
->   #define ARC_REG_SLC_RGN_START	0x914
-> +#define ARC_REG_SLC_RGN_START1	0x915
->   #define ARC_REG_SLC_RGN_END	0x916
-> +#define ARC_REG_SLC_RGN_END1	0x917
->   
->   /* Bit val in SLC_CONTROL */
->   #define SLC_CTRL_DIS		0x001
-> diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-> index b7a1face1584..0b4e2650c5de 100644
-> --- a/arch/arc/mm/cache.c
-> +++ b/arch/arc/mm/cache.c
-> @@ -580,6 +580,7 @@ noinline void slc_op(phys_addr_t paddr, unsigned long sz, const int op)
->   	static DEFINE_SPINLOCK(lock);
->   	unsigned long flags;
->   	unsigned int ctrl;
-> +	phys_addr_t end;
->   
->   	spin_lock_irqsave(&lock, flags);
->   
-> @@ -609,8 +610,11 @@ noinline void slc_op(phys_addr_t paddr, unsigned long sz, const int op)
->   	 * END needs to be setup before START (latter triggers the operation)
->   	 * END can't be same as START, so add (l2_line_sz - 1) to sz
->   	 */
-> -	write_aux_reg(ARC_REG_SLC_RGN_END, (paddr + sz + l2_line_sz - 1));
-> -	write_aux_reg(ARC_REG_SLC_RGN_START, paddr);
-> +	end = paddr + sz + l2_line_sz - 1;
-> +	write_aux_reg(ARC_REG_SLC_RGN_END1, upper_32_bits(end));
-> +	write_aux_reg(ARC_REG_SLC_RGN_END, lower_32_bits(end));
-> +	write_aux_reg(ARC_REG_SLC_RGN_START1, upper_32_bits(paddr));
-> +	write_aux_reg(ARC_REG_SLC_RGN_START, lower_32_bits(paddr));
+On 07/25/2017 08:08 PM, Vineet Gupta wrote:
 
-Are these registers present even if PAE is not configured in hardware ?
+Hi Vineet,
 
->   
->   	/* Make sure "busy" bit reports correct stataus, see STAR 9001165532 */
->   	read_aux_reg(ARC_REG_SLC_CTRL);
+> On 07/26/2017 01:41 AM, Alexey Brodkin wrote:
+>> BTW what is your exact kernel version?
+>>
+>> In the meantime we'll try to revisit rework of ARC's INTC init
+>> procedure  but
+>> I cannot promise anything very soon as I'm on ETO this week but we'll
+>> see how it goes.
+>
+> And exactly do we intend to rework - AFAIK nothings really broken at the
+> moment in ARC intc handling !
+
+I have tried the workarouns I mentioned on top of linux 4.9.34, and it 
+works exactly as expected. however, on top of 4.13-rc3 [1], the story is 
+a lot different. As soon as I release the GMAC from reset, the boot 
+stops. I can single-step through JTAG, and see that the GMAC sends an 
+interrupt storm. The kernel doesn't have time to move on with the dwmac 
+initialization and register the interrupt, and that's that.
+
+I'd file this under both 'regression' and 'bug' categories.
+
+Not sure what changed under the hood from 4.9 to 4.13-rc3 to cause such 
+a drastically different behavior. I can't really do much else as 
+workarounds, since the GMAC registers are not writable while the GMAC is 
+in reset.
+
+Alex
+
+[1] https://github.com/mrnuke-adaptrum/linux/commits/patch-v2-anarion-wip
+
+
+> -Vineet
