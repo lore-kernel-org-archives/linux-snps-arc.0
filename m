@@ -1,101 +1,91 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Wed, 2 Aug 2017 15:17:10 +0200
-Subject: ARC stuff (was Re: [PATCH -v2 1/4] mm: Rework
- {set,clear,mm}_tlb_flush_pending())
-In-Reply-To: <cd84f3b8-4881-c413-4670-f8c86ad10001@synopsys.com>
-References: <20170802113837.280183420@infradead.org>
- <20170802114030.020058451@infradead.org>
- <cd84f3b8-4881-c413-4670-f8c86ad10001@synopsys.com>
+From: alex.g@adaptrum.com (Alexandru Gagniuc)
+Date: Wed, 2 Aug 2017 10:20:56 -0700
+Subject: snps, dwmac interrupt storm (Was: ARC770: "unexpected IRQ trap at
+ vector 00" during boot)
+In-Reply-To: <f8fe08e7-aafb-6dfa-48b7-56c7bcd8f66a@synopsys.com>
+References: <2b9507b2-58b7-1739-23df-973e7c865ef3@adaptrum.com>
+ <4881796E12491D4BB15146FE0209CE6467DBE119@DE02WEMBXB.internal.synopsys.com>
+ <5422227b-6ca3-b4f4-91a6-b760a4b98861@adaptrum.com>
+ <4881796E12491D4BB15146FE0209CE6467DBED94@DE02WEMBXB.internal.synopsys.com>
+ <222b10ef-2bd6-9212-5982-427854f0c19c@synopsys.com>
+ <0c96e559-d0a8-8b1c-96e4-63799fb13d57@adaptrum.com>
+ <f8fe08e7-aafb-6dfa-48b7-56c7bcd8f66a@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170802131710.qplpoztjjyttbyol@hirez.programming.kicks-ass.net>
+Message-ID: <9bef8225-70ae-f72e-fc5b-e66191cd2b2e@adaptrum.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Aug 02, 2017@06:30:43PM +0530, Vineet Gupta wrote:
-> On 08/02/2017 05:19 PM, Peter Zijlstra wrote:
-> > Commit:
-> > 
-> >    af2c1401e6f9 ("mm: numa: guarantee that tlb_flush_pending updates are visible before page table updates")
-> > 
-> > added smp_mb__before_spinlock() to set_tlb_flush_pending(). I think we
-> > can solve the same problem without this barrier.
-> > 
-> > If instead we mandate that mm_tlb_flush_pending() is used while
-> > holding the PTL we're guaranteed to observe prior
-> > set_tlb_flush_pending() instances.
-> > 
-> > For this to work we need to rework migrate_misplaced_transhuge_page()
-> > a little and move the test up into do_huge_pmd_numa_page().
-> > 
-> > NOTE: this relies on flush_tlb_range() to guarantee:
-> > 
-> >     (1) it ensures that prior page table updates are visible to the
-> >         page table walker and
-> 
-> ARC doesn't have hw page walker so this is not relevant.
+On 08/01/2017 11:23 PM, Vineet Gupta wrote:
+> On 08/02/2017 03:03 AM, Alex wrote:
+>> On 07/25/2017 08:08 PM, Vineet Gupta wrote:
+>> I have tried the workarouns I mentioned on top of linux 4.9.34, and it
+>> works exactly as expected. however, on top of 4.13-rc3 [1], the story
+>> is a lot different. As soon as I release the GMAC from reset, the boot
+>> stops. I can single-step through JTAG, and see that the GMAC sends an
+>> interrupt storm. The kernel doesn't have time to move on with the
+>> dwmac initialization and register the interrupt, and that's that.
+>
+> I'm a bit confused here. Are you saying that your current patchset for
+> ARC is broken on 4.13.x due to "something" while it was working with 4.9.
 
-Well, you still want your software walker to observe the new PTE entries
-before you start shooting down the old ones. So I would expect at least
-an smp_wmb() before the TLB invalidate to order against another CPU
-doing a software TLB fill, such that the other CPU will indeed observe
-the new PTE after it has observed the TLB missing.
+4.9: GOOD
+4.13-rc3: BAD
 
-> >     (2) it ensures that subsequent memory accesses are only made
-> >         visible after the invalidation has completed
-> 
-> flush_tlb_range() does a bunch of aux register accesses, I need to check
-> with hw folks if those can be assumed to serializing w.r.t. memory ordering.
-> But if not then we need to add an explicit smb barrier (which will not be
-> paired ? )
+>> I'd file this under both 'regression' and 'bug' categories.
+>
+> Sure - the question where is the bug/regression, is it in ARC port,
+> driver updates or yet something else in the kernel.
 
-It would pair with the ACQUIRE from the PTL in the below example.
+Something else.
 
-> and would be penalizing the other callers of flush_tlb_range().
-> Will a new API for this be an overkill ? Is a memory barrier needed here
-> anyways - like ARM !
+>> Not sure what changed under the hood from 4.9 to 4.13-rc3 to cause
+>> such a drastically different behavior. I can't really do much else as
+>> workarounds, since the GMAC registers are not writable while the GMAC
+>> is in reset.
+>
+> We had a fair bit of churn in intc department in 4.10 and 4.11 but most
+> of those were related to the IDU intc found only on HS38x cores, not on
+> ARC700. To really narrow down the regression, perhaps try a dirty bisect
+> trick (which works for me sometimes). Squash all the Adaptrum changes
+> into 1 patch - I presume that same patch applies to 4.9 as to 4.13
+> (otherwise u need to improvise). git bisect between 4.9 (good) and
+> 4.13-rcx (bad) and patch -p1 < ur-patch at each stage.
 
-It is needed at the very least if you do transparant huge pages as per
-the existing logic (this requirement isn't new per this patch, I was
-just the silly person wondering if flush_tlb_range() does indeed provide
-the ordering assumed).
+I found the culprit, as evidenced in [Exhibit A]. I'm not really sure 
+how that code is designed to work, but I'm suspecting before the change, 
+the IRQ would get masked on the first hit, but now it's no longer masked.
 
-But yes, lots of architectures do provide this ordering already and
-some, like ARM and PPC do so with quite expensive barriers.
+I have reverted the patch in question on top of my 4.13 development 
+branch and I can confirm that the issue is resolved.
 
-To me it's also a natural / expected ordering, but that could just be
-me :-)
+Alex
 
-> >   	/*
-> > +	 * The only time this value is relevant is when there are indeed pages
-> > +	 * to flush. And we'll only flush pages after changing them, which
-> > +	 * requires the PTL.
-> > +	 *
-> > +	 * So the ordering here is:
-> > +	 *
-> > +	 *	mm->tlb_flush_pending = true;
-> > +	 *	spin_lock(&ptl);
-> > +	 *	...
-> > +	 *	set_pte_at();
-> > +	 *	spin_unlock(&ptl);
-> > +	 *
-> > +	 *				spin_lock(&ptl)
-> > +	 *				mm_tlb_flush_pending();
-> > +	 *				....
-> > +	 *				spin_unlock(&ptl);
-> > +	 *
-> > +	 *	flush_tlb_range();
-> > +	 *	mm->tlb_flush_pending = false;
-> > +	 *
-> > +	 * So the =true store is constrained by the PTL unlock, and the =false
-> > +	 * store is constrained by the TLB invalidate.
-> >   	 */
-> >   }
-> >   /* Clearing is done after a TLB flush, which also provides a barrier. */
 
-See, not a new requirement.. I only mucked with the ordering for
-setting it, clearing already relied on the flush_tlb_range().
+# [Exhibit A]: Git output after two hours of hardcore bisecting:
 
-> >   static inline void clear_tlb_flush_pending(struct mm_struct *mm)
-> >   {
-> > +	/* see set_tlb_flush_pending */
-> >   	mm->tlb_flush_pending = false;
-> >   }
+bf22ff45bed664aefb5c4e43029057a199b7070c is the first bad commit
+commit bf22ff45bed664aefb5c4e43029057a199b7070c
+Author: Jeffy Chen <jeffy.chen at rock-chips.com>
+Date:   Mon Jun 26 19:33:34 2017 +0800
+
+     genirq: Avoid unnecessary low level irq function calls
+
+     Check irq state in enable/disable/unmask/mask_irq to avoid unnecessary
+     low level irq function calls.
+
+     This has two advantages:
+         - Conditionals are faster than hardware access
+
+         - Solves issues with the underlying refcounting of the pinctrl
+           infrastructure
+
+     Suggested-by: Thomas Gleixner <tglx at linutronix.de>
+     Signed-off-by: Jeffy Chen <jeffy.chen at rock-chips.com>
+     Signed-off-by: Thomas Gleixner <tglx at linutronix.de>
+     Cc: tfiga at chromium.org
+     Cc: briannorris at chromium.org
+     Cc: dianders at chromium.org
+     Link: 
+http://lkml.kernel.org/r/1498476814-12563-2-git-send-email-jeffy.chen at rock-chips.com
+
+:040000 040000 ec5072725f8be0a3906e949aa0172cb3e00729d6 
+27847e81e1c424a62938404fd48bea3c439d74c0 M      kernel
