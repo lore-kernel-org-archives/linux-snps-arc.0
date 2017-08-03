@@ -1,42 +1,49 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 2 Aug 2017 21:20:11 +0000
-Subject: [PULL] Please pull ARCPGU changes
-In-Reply-To: <1501499465.6216.4.camel@synopsys.com>
-References: <1501499465.6216.4.camel@synopsys.com>
+From: robh@kernel.org (Rob Herring)
+Date: Thu, 3 Aug 2017 18:22:47 -0500
+Subject: [PATCH 3/5] net: stmmac: Add Adaptrum Anarion GMAC glue layer
+In-Reply-To: <b3a51afc-1eae-66ea-f20e-a09cd8289c1b@adaptrum.com>
+References: <20170728220707.13960-1-alex.g@adaptrum.com>
+ <20170728220707.13960-4-alex.g@adaptrum.com>
+ <20170728.190155.457209566729295513.davem@davemloft.net>
+ <b3a51afc-1eae-66ea-f20e-a09cd8289c1b@adaptrum.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1501708811.2864.4.camel@synopsys.com>
+Message-ID: <20170803232247.rixl3yhpww5woihg@rob-hp-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Dave,
+On Mon, Jul 31, 2017@08:11:00AM -0700, Alex wrote:
+> Hi David,
+> 
+> On 07/28/2017 07:01 PM, David Miller wrote:
+> > From: Alexandru Gagniuc <alex.g at adaptrum.com>
+> > Date: Fri, 28 Jul 2017 15:07:03 -0700
+> > 
+> > > Before the GMAC on the Anarion chip can be used, the PHY interface
+> > > selection must be configured with the DWMAC block in reset.
+> > > 
+> > > This layer covers a block containing only two registers. Although it
+> > > is possible to model this as a reset controller and use the "resets"
+> > > property of stmmac, it's much more intuitive to include this in the
+> > > glue layer instead.
+> > > 
+> > > At this time only RGMII is supported, because it is the only mode
+> > > which has been validated hardware-wise.
+> > > 
+> > > Signed-off-by: Alexandru Gagniuc <alex.g at adaptrum.com>
+> > 
+> > I don't see how this fits into any patch series at all.  If this is
+> > part of a series you posted elsewhere, you should keep netdev@ on
+> > all such postings so people there can review the change in-context.
+> 
+> I used the --cc-cmd option to send-email. I'll be sure to CC netdev@ on
+> [PATCH v2].
 
-Could you please pull a couple of minor fixes and improvements for ARCPGU.
-These changes are based on today's drm-next branch.
+The problem is your series spans several subsystems and it's not 
+clear who you intend to apply these. There aren't really any hard 
+dependencies between the patches, so they could all go thru different 
+trees. But you need to state that at least implicitly by sending the 
+patches TO who should apply them and CC the rest (and get_maintainers.pl 
+doesn't really help with that aspect). Or just don't send them in a 
+series if there's not an inter-dependency of the patches. Normally 
+bindings and a driver do go together and I'll ack the binding.
 
-The following changes since commit dd24df657075fdf1e850612ea50634816f3c3581:
-
-? Merge branch 'drm-next-4.14' of git://people.freedesktop.org/~agd5f/linux into drm-next (2017-08-02 12:43:12 +1000)
-
-are available in the git repository at:
-
-? https://github.com/foss-for-synopsys-dwc-arc-processors/linux topic-arcpgu-updates
-
-for you to fetch changes up to 22d0be2a557e53a22feb484e8fce255fe09e6ad5:
-
-? drm: arcpgu: Allow some clock deviation in crtc->mode_valid() callback (2017-08-03 00:11:02 +0300)
-
-----------------------------------------------------------------
-Alexey Brodkin (2):
-??????drm/arcpgu: Opt in debugfs
-??????arcpgu: Simplify driver name
-
-Jose Abreu (3):
-??????drm: arcpgu: Fix mmap() callback
-??????drm: arcpgu: Fix module unload
-??????drm: arcpgu: Allow some clock deviation in crtc->mode_valid() callback
-
-?drivers/gpu/drm/arc/arcpgu_crtc.c |??7 ++++---
-?drivers/gpu/drm/arc/arcpgu_drv.c??| 57 ++++++++++++++++++++++++++++++++-------------------------
-?2 files changed, 36 insertions(+), 28 deletions(-)
-
-Regards,
-Alexey
+Rob
