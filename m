@@ -1,131 +1,193 @@
 From: alex.g@adaptrum.com (Alexandru Gagniuc)
-Date: Fri,  4 Aug 2017 13:03:52 -0700
-Subject: [PATCH v2 1/2] ARC: [plat-anarion] Add early boot workarounds for
- Anarion SOC
-In-Reply-To: <20170728220707.13960-3-alex.g@adaptrum.com>
+Date: Fri,  4 Aug 2017 13:03:53 -0700
+Subject: [PATCH v2 2/2] ARC: DTS: Add device-tree for Anarion-based
+ development board
+In-Reply-To: <20170804200353.15653-1-alex.g@adaptrum.com>
 References: <20170728220707.13960-3-alex.g@adaptrum.com>
+ <20170804200353.15653-1-alex.g@adaptrum.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170804200353.15653-1-alex.g@adaptrum.com>
+Message-ID: <20170804200353.15653-2-alex.g@adaptrum.com>
 To: linux-snps-arc@lists.infradead.org
-
-An ARC, the interrupts are enabled globally, rather than per-line, as
-drivers request it. Thus, we need to make sure that peripherals don't
-generate any before the respective drivers are probed.
-The GMAC is infamous for spamming interrupts, so it must be kept in
-reset until the driver is probed and interrupt mapping established.
 
 Signed-off-by: Alexandru Gagniuc <alex.g at adaptrum.com>
 ---
 Changes since v1:
- * None
+ * Updated CPU core clock to 24 MHz to match HW changes.
 
- arch/arc/Kconfig                 |  1 +
- arch/arc/Makefile                |  1 +
- arch/arc/plat-anarion/Kconfig    | 10 ++++++++++
- arch/arc/plat-anarion/Makefile   |  7 +++++++
- arch/arc/plat-anarion/platform.c | 39 +++++++++++++++++++++++++++++++++++++++
- 5 files changed, 58 insertions(+)
- create mode 100644 arch/arc/plat-anarion/Kconfig
- create mode 100644 arch/arc/plat-anarion/Makefile
- create mode 100644 arch/arc/plat-anarion/platform.c
+ arch/arc/boot/dts/adaptrum_anarion.dtsi     | 108 ++++++++++++++++++++++++++++
+ arch/arc/boot/dts/adaptrum_anarion_fpga.dts |  49 +++++++++++++
+ 2 files changed, 157 insertions(+)
+ create mode 100644 arch/arc/boot/dts/adaptrum_anarion.dtsi
+ create mode 100644 arch/arc/boot/dts/adaptrum_anarion_fpga.dts
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index a545969..dff8423 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -100,6 +100,7 @@ source "arch/arc/plat-sim/Kconfig"
- source "arch/arc/plat-tb10x/Kconfig"
- source "arch/arc/plat-axs10x/Kconfig"
- #New platform adds here
-+source "arch/arc/plat-anarion/Kconfig"
- source "arch/arc/plat-eznps/Kconfig"
- 
- endmenu
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 44ef35d..9bc0048 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -109,6 +109,7 @@ core-y		+= arch/arc/boot/dts/
- 
- core-$(CONFIG_ARC_PLAT_SIM)	+= arch/arc/plat-sim/
- core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
-+core-$(CONFIG_ARC_PLAT_ANARION)	+= arch/arc/plat-anarion/
- core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
- core-$(CONFIG_ARC_PLAT_EZNPS)	+= arch/arc/plat-eznps/
- 
-diff --git a/arch/arc/plat-anarion/Kconfig b/arch/arc/plat-anarion/Kconfig
+diff --git a/arch/arc/boot/dts/adaptrum_anarion.dtsi b/arch/arc/boot/dts/adaptrum_anarion.dtsi
 new file mode 100644
-index 0000000..632c7be
+index 0000000..31ed204
 --- /dev/null
-+++ b/arch/arc/plat-anarion/Kconfig
-@@ -0,0 +1,10 @@
-+#
-+# (C) Copyright 2017 Adaptrum, Inc.
-+# Written by Alexandru Gagniuc <alex.g at adaptrum.com> for Adaptrum, Inc.
-+# Licensed under the GPLv2 or (at your option) any later version.
-+#
-+
-+menuconfig ARC_PLAT_ANARION
-+	bool "Adaptrum Anarion based platforms"
-+	help
-+	  Support for Adaptrum Anarion based ARC platforms.
-diff --git a/arch/arc/plat-anarion/Makefile b/arch/arc/plat-anarion/Makefile
-new file mode 100644
-index 0000000..9596a41
---- /dev/null
-+++ b/arch/arc/plat-anarion/Makefile
-@@ -0,0 +1,7 @@
-+#
-+# (C) Copyright 2017 Adaptrum, Inc.
-+# Written by Alexandru Gagniuc <alex.g at adaptrum.com> for Adaptrum, Inc.
-+# Licensed under the GPLv2 or (at your option) any later version.
-+#
-+
-+obj-y := platform.o
-diff --git a/arch/arc/plat-anarion/platform.c b/arch/arc/plat-anarion/platform.c
-new file mode 100644
-index 0000000..ef0d381
---- /dev/null
-+++ b/arch/arc/plat-anarion/platform.c
-@@ -0,0 +1,39 @@
++++ b/arch/arc/boot/dts/adaptrum_anarion.dtsi
+@@ -0,0 +1,108 @@
 +/*
-+ * Workarounds for Adaptrum Anarion SOC
-+ *
-+ * Copyright (C) 2017, Adaptrum, Inc.
-+ * (Written by Alexandru Gagniuc <alex.g at adaptrum.com> for Adaptrum, Inc.)
-+ * Licensed under the GPLv2 or (at your option) any later version.
++ * (C) Copyright 2017 Adaptrum, Inc.
++ * Written by Alexandru Gagniuc <alex.g at adaptrum.com> for Adaptrum, Inc.
++ * Licensed under the GPLv2 or (at your option) any later version
 + */
 +
-+#include <asm/io.h>
-+#include <linux/init.h>
-+#include <asm/mach_desc.h>
++/* This skeleton is based on the ARC700 CPU */
++#include "skeleton.dtsi"
 +
-+#define GMAC0_RESET		0xf2018000
-+#define GMAC1_RESET		0xf2018100
++/ {
++	compatible = "adaptrum,anarion";
++	#address-cells = <1>;
++	#size-cells = <1>;
 +
-+/* This works around an issue where the GMAC will generate interrupts before
-+ * the driver is probed, confusing the heck out of the early boot.
++	soc {
++		compatible = "simple-bus";
++		device_type = "soc";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++		interrupt-parent = <&core_intc>;
++
++		core_intc: interrupt-controller {
++			compatible = "snps,arc700-intc";
++			interrupt-controller;
++			#interrupt-cells = <1>;
++		};
++
++		uart0: serial at f2202100 {
++			compatible = "ns16550";
++			reg = <0xf2202100 0x20>;
++			interrupts = <8>;
++			reg-shift = <2>;
++			reg-io-width = <4>;
++			clock-frequency = <192000000>;
++			status = "disabled";
++		};
++
++		uart1: serial at f2202200 {
++			compatible = "snps,dw-apb-uart";
++			reg = <0xf2202200 0x20>;
++			interrupts = <8>;
++			reg-shift = <2>;
++			reg-io-width = <4>;
++			clock-frequency = <192000000>;
++			status = "disabled";
++		};
++
++		uart2: serial at f2202300 {
++			compatible = "snps,dw-apb-uart";
++			reg = <0xf2202300 0x20>;
++			interrupts = <8>;
++			reg-shift = <2>;
++			reg-io-width = <4>;
++			clock-frequency = <192000000>;
++			status = "disabled";
++		};
++
++		uart3: serial at f2202400 {
++			compatible = "snps,dw-apb-uart";
++			reg = <0xf2202400 0x20>;
++			interrupts = <8>;
++			reg-shift = <2>;
++			reg-io-width = <4>;
++			clock-frequency = <192000000>;
++			status = "disabled";
++		};
++
++		qspi: qspi at f200f000 {
++			compatible = "adaptrum,anarion-qspi";
++			reg = <0xf200f000 0x1000>,
++			      <0x20000000 0x08000000>;
++
++			interrupts = <10>;
++			status = "disabled";
++		};
++
++		gmac0: ethernet at f2010000 {
++			compatible = "adaptrum,anarion-gmac", "snps,dwmac";
++			reg = <0xf2010000 0x4000>;
++
++			interrupt-parent = <&core_intc>;
++			interrupts = <20>;
++			interrupt-names = "macirq";
++
++			clocks = <&core_clk>;
++			clock-names = "stmmaceth";
++
++			snps,pbl = <32>;
++			status = "disabled";
++		};
++
++		gmac1: ethernet at f2014000 {
++			compatible = "adaptrum,anarion-gmac", "snps,dwmac";
++			reg = <0xf2014000 0x4000>, <0xf2018100 8>;
++
++			interrupt-parent = <&core_intc>;
++			interrupts = <21>;
++			interrupt-names = "macirq";
++
++			clocks = <&core_clk>;
++			clock-names = "stmmaceth";
++
++			snps,pbl = <32>;
++			status = "disabled";
++		};
++	};
++};
+diff --git a/arch/arc/boot/dts/adaptrum_anarion_fpga.dts b/arch/arc/boot/dts/adaptrum_anarion_fpga.dts
+new file mode 100644
+index 0000000..02b838f
+--- /dev/null
++++ b/arch/arc/boot/dts/adaptrum_anarion_fpga.dts
+@@ -0,0 +1,49 @@
++/*
++ * (C) Copyright 2017 Adaptrum, Inc.
++ * Written by Alexandru Gagniuc <alex.g at adaptrum.com> for Adaptrum, Inc.
++ * Licensed under the GPLv2 or (at your option) any later version
 + */
-+static void __init anarion_gmac_irq_storm_workaround(void)
-+{
-+	writel(1, (void *)GMAC0_RESET);
-+	writel(1, (void *)GMAC1_RESET);
-+}
 +
-+static void __init anarion_early_init(void)
-+{
-+	anarion_gmac_irq_storm_workaround();
-+	/* Please, no more workarounds!!! */
-+}
++/dts-v1/;
 +
-+static const char *anarion_compat[] __initconst = {
-+	"adaptrum,anarion",
-+	NULL,
++#include "adaptrum_anarion.dtsi"
++
++/ {
++	model = "adaptrum,anarion";
++	compatible = "adaptrum,anarion";
++
++	chosen {
++		bootargs = "earlycon console=ttyS0,115200n8";
++		stdout-path = "serial0:115200n8";
++	};
++
++	aliases {
++		serial0 = &uart0;
++	};
++
++	core_clk: core_clk {
++		#clock-cells = <0>;
++		compatible = "fixed-clock";
++		clock-frequency = <24000000>;
++	};
 +};
 +
-+MACHINE_START(ANARION, "anarion")
-+	.dt_compat	= anarion_compat,
-+	.init_early	= anarion_early_init,
-+MACHINE_END
++&uart0 {
++	status = "okay";
++};
++
++&qspi {
++	status = "okay";
++	flash0: w25q128fvn at 0 {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		compatible = "winbond,w25q128", "jedec,spi-nor";
++		spi-max-frequency = <70000000>;
++		m25p,fast-read;
++	};
++};
++
++&gmac1 {
++	phy-mode = "rgmii";
++	status = "okay";
++};
 -- 
 2.9.3
