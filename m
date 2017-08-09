@@ -1,63 +1,55 @@
-From: sboyd@codeaurora.org (sboyd@codeaurora.org)
-Date: Wed, 9 Aug 2017 10:22:13 -0700
-Subject: [PATCH] ARC: clk: introduce HSDKv1 pll driver
-In-Reply-To: <1502297028.2586.4.camel@synopsys.com>
-References: <20170714153128.8945-1-Eugeniy.Paltsev@synopsys.com>
- <20170804015351.GW2146@codeaurora.org>
- <1502297028.2586.4.camel@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed,  9 Aug 2017 21:09:25 +0300
+Subject: [PATCH] ARC: HSDK: DTS: Add reset controller node to manage ethernet
+ reset
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170809172213.GB2146@codeaurora.org>
+Message-ID: <20170809180925.31273-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/09, Eugeniy Paltsev wrote:
-> On Thu, 2017-08-03@18:53 -0700, Stephen Boyd wrote:
-> > On 07/14, Eugeniy Paltsev wrote:
-> > > +	/* input divider = reg.idiv + 1 */
-> > > +	idiv = 1 + ((val & CGU_PLL_CTRL_IDIV_MASK) >>
-> > > CGU_PLL_CTRL_IDIV_SHIFT);
-> > > +	/* fb divider = 2*(reg.fbdiv + 1) */
-> > > +	fbdiv = 2 * (1 + ((val & CGU_PLL_CTRL_FBDIV_MASK) >>
-> > > CGU_PLL_CTRL_FBDIV_SHIFT));
-> > > +	/* output divider = 2^(reg.odiv) */
-> > > +	odiv = 1 << ((val & CGU_PLL_CTRL_ODIV_MASK) >>
-> > > CGU_PLL_CTRL_ODIV_SHIFT);
-> >
-> > Maybe just drop these comments. They're just repeating the code.
-> 
-> Actually I would prefer to keep them, as "2^(reg.odiv)" is more?
-> human-readable then
-> "1 << ((val & CGU_PLL_CTRL_ODIV_MASK) >> CGU_PLL_CTRL_ODIV_SHIFT)"
+DW ethernet controller on HSDK hangs sometimes after SW reset, so
+add reset node to make possible to reset DW ethernet controller HW.
 
-Alright.
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+NOTE: this patch is effective only if patches to DW ethernet controller
+      and reset controller are applied (they are already in linux-next)
 
-> 
-> > > +
-> > > +	rate = (u64)parent_rate * fbdiv;
-> > > +	do_div(rate, idiv * odiv);
-> > > +
-> > > +	return rate;
-> > > +}
-> > > +
-> > > +static long hsdk_pll_round_rate(struct clk_hw *hw, unsigned long
-> > > rate,
-> > > +				unsigned long *prate)
-> > > +{
-> > > +	int i;
-> > > +	long best_rate;
-> > > +	struct hsdk_pll_clk *clk = to_hsdk_pll_clk(hw);
-> > > +	const struct hsdk_pll_cfg *pll_cfg = clk->pll_cfg;
-> > > +
-> > > +	if (pll_cfg[0].rate == 0)
-> > > +		return -EINVAL;
-> >?
-> > This happens?
-> 
-> Only if we add bad hsdk_pll_cfg table. But it is quite cold code - we
-> change pll configuration quite rare, so maybe it's better to keep this
-> assert?
+ arch/arc/boot/dts/hsdk.dts | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Can it be a BUILD_BUG_ON() somehow?
-
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index e096879..84052db 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -12,6 +12,7 @@
+ /dts-v1/;
+ 
+ #include <dt-bindings/net/ti-dp83867.h>
++#include <dt-bindings/reset/snps,hsdk-v1-reset.h>
+ 
+ / {
+ 	model = "snps,hsdk";
+@@ -102,6 +103,12 @@
+ 
+ 		ranges = <0x00000000 0xf0000000 0x10000000>;
+ 
++		cgu_rst: reset {
++			compatible = "snps,hsdk-v1.0-reset";
++			#reset-cells = <1>;
++			reg = <0x8A0 0x4>, <0xFF0 0x4>;
++		};
++
+ 		serial: serial at 5000 {
+ 			compatible = "snps,dw-apb-uart";
+ 			reg = <0x5000 0x100>;
+@@ -141,6 +148,8 @@
+ 			clocks = <&gmacclk>;
+ 			clock-names = "stmmaceth";
+ 			phy-handle = <&phy0>;
++			resets = <&cgu_rst HSDK_V1_ETH_RESET>;
++			reset-names = "stmmaceth";
+ 
+ 			mdio {
+ 				#address-cells = <1>;
 -- 
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.9.3
