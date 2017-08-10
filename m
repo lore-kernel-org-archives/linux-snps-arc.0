@@ -1,55 +1,84 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed,  9 Aug 2017 21:09:25 +0300
-Subject: [PATCH] ARC: HSDK: DTS: Add reset controller node to manage ethernet
- reset
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 10 Aug 2017 18:07:36 +0300
+Subject: [PATCH] arc: Mask individual IRQ lines during core INTC init
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170809180925.31273-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1502377656-15678-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-DW ethernet controller on HSDK hangs sometimes after SW reset, so
-add reset node to make possible to reset DW ethernet controller HW.
+ARC cores on reset have all interrupt lines of built-in INTC enabled.
+Which means once we globally enable interrupts (very early on boot)
+faulty hardware blocks may trigger an interrupt that Linux kernel
+cannot handle yet as corresponding handler is not yet installed.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+In that case system falls in "interrupt storm" and basically never
+does anything useful except entering and exiting generic IRQ handling
+code.
+
+One real example of that kind of problematic hardware is DW GMAC which
+also has interrupts enabled on reset and if Ethernet PHY informs GMAC
+about link state, GMAC immediately reports that upstream to ARC core
+and here we are.
+
+Now with that change we mask all individual IRQ lines making entire
+system more fool-proof.
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Eugeniy Paltsev <paltsev at synopsys.com>
+Cc: Alexandru Gagniuc <alex.g at adaptrum.com>
 ---
-NOTE: this patch is effective only if patches to DW ethernet controller
-      and reset controller are applied (they are already in linux-next)
+ arch/arc/kernel/intc-arcv2.c   |  3 +++
+ arch/arc/kernel/intc-compact.c | 14 +++++++++++++-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
- arch/arc/boot/dts/hsdk.dts | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index e096879..84052db 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -12,6 +12,7 @@
- /dts-v1/;
+diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
+index f928795fd07a..cf90714a676d 100644
+--- a/arch/arc/kernel/intc-arcv2.c
++++ b/arch/arc/kernel/intc-arcv2.c
+@@ -75,10 +75,13 @@ void arc_init_IRQ(void)
+ 	 * Set a default priority for all available interrupts to prevent
+ 	 * switching of register banks if Fast IRQ and multiple register banks
+ 	 * are supported by CPU.
++	 * Also disable all IRQ lines so faulty external hardware won't
++	 * trigger interrupt that kernel is not ready to handle.
+ 	 */
+ 	for (i = NR_EXCEPTIONS; i < irq_bcr.irqs + NR_EXCEPTIONS; i++) {
+ 		write_aux_reg(AUX_IRQ_SELECT, i);
+ 		write_aux_reg(AUX_IRQ_PRIORITY, ARCV2_IRQ_DEF_PRIO);
++		write_aux_reg(AUX_IRQ_ENABLE, 0);
+ 	}
  
- #include <dt-bindings/net/ti-dp83867.h>
-+#include <dt-bindings/reset/snps,hsdk-v1-reset.h>
+ 	/* setup status32, don't enable intr yet as kernel doesn't want */
+diff --git a/arch/arc/kernel/intc-compact.c b/arch/arc/kernel/intc-compact.c
+index 7e608c6b0a01..cef388025adf 100644
+--- a/arch/arc/kernel/intc-compact.c
++++ b/arch/arc/kernel/intc-compact.c
+@@ -27,7 +27,7 @@
+  */
+ void arc_init_IRQ(void)
+ {
+-	int level_mask = 0;
++	int level_mask = 0, i;
  
- / {
- 	model = "snps,hsdk";
-@@ -102,6 +103,12 @@
+        /* Is timer high priority Interrupt (Level2 in ARCompact jargon) */
+ 	level_mask |= IS_ENABLED(CONFIG_ARC_COMPACT_IRQ_LEVELS) << TIMER0_IRQ;
+@@ -40,6 +40,18 @@ void arc_init_IRQ(void)
  
- 		ranges = <0x00000000 0xf0000000 0x10000000>;
- 
-+		cgu_rst: reset {
-+			compatible = "snps,hsdk-v1.0-reset";
-+			#reset-cells = <1>;
-+			reg = <0x8A0 0x4>, <0xFF0 0x4>;
-+		};
+ 	if (level_mask)
+ 		pr_info("Level-2 interrupts bitset %x\n", level_mask);
 +
- 		serial: serial at 5000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x5000 0x100>;
-@@ -141,6 +148,8 @@
- 			clocks = <&gmacclk>;
- 			clock-names = "stmmaceth";
- 			phy-handle = <&phy0>;
-+			resets = <&cgu_rst HSDK_V1_ETH_RESET>;
-+			reset-names = "stmmaceth";
++	/*
++	 * Disable all IRQ lines so faulty external hardware won't
++	 * trigger interrupt that kernel is not ready to handle.
++	 */
++	for (i = TIMER0_IRQ; i < NR_CPU_IRQS; i++) {
++		unsigned int ienb;
++
++		ienb = read_aux_reg(AUX_IENABLE);
++		ienb &= ~(1 << i);
++		write_aux_reg(AUX_IENABLE, ienb);
++	}
+ }
  
- 			mdio {
- 				#address-cells = <1>;
+ /*
 -- 
-2.9.3
+2.7.5
