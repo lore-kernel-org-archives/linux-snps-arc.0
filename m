@@ -1,40 +1,60 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Fri, 11 Aug 2017 16:15:26 +0200
-Subject: ARC stuff (was Re: [PATCH -v2 1/4] mm: Rework
- {set,clear,mm}_tlb_flush_pending())
-In-Reply-To: <20170802131710.qplpoztjjyttbyol@hirez.programming.kicks-ass.net>
-References: <20170802113837.280183420@infradead.org>
- <20170802114030.020058451@infradead.org>
- <cd84f3b8-4881-c413-4670-f8c86ad10001@synopsys.com>
- <20170802131710.qplpoztjjyttbyol@hirez.programming.kicks-ass.net>
+From: alex.g@adaptrum.com (Alexandru Gagniuc)
+Date: Fri, 11 Aug 2017 10:25:45 -0700
+Subject: Adding new ARC platforms (was Re: Handling stub code for new
+ platforms)
+In-Reply-To: <f45ce545-4e12-7d90-2c5f-7465024741df@synopsys.com>
+References: <97916c54-b30b-c366-a8c5-38673c924a5c@adaptrum.com>
+ <f45ce545-4e12-7d90-2c5f-7465024741df@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170811141526.6uvv7iosfchsmjdk@hirez.programming.kicks-ass.net>
+Message-ID: <d4e20a2b-e269-45f1-0d83-d3ef8dcfdc4b@adaptrum.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Aug 02, 2017@03:17:10PM +0200, Peter Zijlstra wrote:
-> On Wed, Aug 02, 2017@06:30:43PM +0530, Vineet Gupta wrote:
-> > flush_tlb_range() does a bunch of aux register accesses, I need to check
-> > with hw folks if those can be assumed to serializing w.r.t. memory ordering.
-> > But if not then we need to add an explicit smb barrier (which will not be
-> > paired ? )
-> 
-> It would pair with the ACQUIRE from the PTL in the below example.
-> 
-> > and would be penalizing the other callers of flush_tlb_range().
-> > Will a new API for this be an overkill ? Is a memory barrier needed here
-> > anyways - like ARM !
-> 
-> It is needed at the very least if you do transparant huge pages as per
-> the existing logic (this requirement isn't new per this patch, I was
-> just the silly person wondering if flush_tlb_range() does indeed provide
-> the ordering assumed).
+Hi Vineet,
 
-Any word on this? It just got way worse and anything SMP needs to
-provide this.
+On 08/10/2017 06:07 PM, Vineet Gupta wrote:
+> Hi Alexandru,
+>
+> On 08/11/2017 12:58 AM, Alexandru Gagniuc wrote:
+>> Hi,
+>>
+>> Looking under arch/arc, I see the current way is to add a
+>> plat-[socname] for each new SoC. However, it seems that plat-sim, and
+>> plat-tb10x are just place-holders for the compatible bindings.
+>>
+>> I was going to do the same for plat-anarion, which required an early
+>> boot workaround. However, with Alexey's INTC patch, this workaround is
+>> no longer required, so plat-anarion would become just another stub.
+>>
+>> I don't like the idea of adding dead code whenever a new platform
+>> arrives. My thought is to merge these into a plat-generic, and add the
+>> following two compatible bindings:
+>> * "snps,arccompact-generic"
+>> * "snps,arcv2-generic"
+>> Keep the existing bindings for compatibility reasons, but require all
+>> new platforms that don't need boot stubs to use one of the generic
+>> .compatible bindings. Do you agree with the plan?
+>
+> Your proposal is reasonable but I'd still prefer the explicit
+> platform/soC binding for calling out the various arc based platforms if
+> nothing else !
+>
+> However the boilerplate code can be pretty minimal ! If the platform is
+> simple enough, no need for any new Kconfig entries. I've already
+> eliminated CONFIG_ARC_PLAT_SIM (look at my #for-curr in kernel.org repo
+> / linux-next)
+> So you just need to
+> 1. create  plat-xxx/{Makefile, platform.c} and a simple board
+> description in latter.
+> 2. And add this platform unconditionally to arch/arc/Makefile
+>
+> Does that work for you ?
 
-See commit:
+I was hoping to avoid the addition of extra source files for zero code 
+gain, though your proposal does work. However, since the platform would 
+be added unconditionally, would it make more sense to add the
+.compatible = "adaptrum,anarion"
+binding to plat-nsim instead of creating new files?
 
-  0a2dd266dd6b ("mm: make tlb_flush_pending global")
+Alex
 
-And these semantics are now required for the correct operation of KSM
-and MADV_{FREE,DONT_NEED}.
+> -Vineet
