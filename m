@@ -1,68 +1,28 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 14 Aug 2017 17:09:53 +0300
-Subject: [PATCH v2] ARC: HSDK: Add reset controller node to manage ethernet
- reset
+Date: Mon, 14 Aug 2017 19:12:08 +0300
+Subject: [PATCH 0/5] Updates to arc clock tree managment
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170814140953.7729-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20170814161213.17522-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-DW ethernet controller on HSDK hangs sometimes after SW reset, so
-add reset node to make possible to reset DW ethernet controller HW.
+* Set and print cpu frequency at boot time generic way.
+* Get rid of platform specific cpu clock configuration for AXS103 in
+arch/arc/plat-axs10x/axs10x.c
+* Add core pll node to AXS103 device tree to manage cpu frequency
+* Refactor clock managment in arch/arc/plat-axs10x/axs10x.c
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
-Changes v1 -> v2:
-  * Enable HSDK reset driver in hsdk_defconfig
+Eugeniy Paltsev (5):
+  ARC: set and print cpu frequency at boot time
+  ARC: AXS103: Get rid of platform specific cpu clock configuration
+  ARC: AXS103: DTS: Add core pll node to manage cpu frequency
+  ARC: AXS103: DTS: Set cpu frequency explicitly via dts
+  ARC: AXS103: use cpu-freq param instead of /cpu_card/core_clk
 
- arch/arc/boot/dts/hsdk.dts      | 9 +++++++++
- arch/arc/configs/hsdk_defconfig | 1 +
- 2 files changed, 10 insertions(+)
+ arch/arc/boot/dts/axc003.dtsi     | 24 +++++++++-
+ arch/arc/boot/dts/axc003_idu.dtsi | 42 +++++++++++++++++-
+ arch/arc/kernel/setup.c           | 49 +++++++++++++++++++++
+ arch/arc/plat-axs10x/axs10x.c     | 92 ++-------------------------------------
+ 4 files changed, 115 insertions(+), 92 deletions(-)
 
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index e096879..84052db 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -12,6 +12,7 @@
- /dts-v1/;
- 
- #include <dt-bindings/net/ti-dp83867.h>
-+#include <dt-bindings/reset/snps,hsdk-v1-reset.h>
- 
- / {
- 	model = "snps,hsdk";
-@@ -102,6 +103,12 @@
- 
- 		ranges = <0x00000000 0xf0000000 0x10000000>;
- 
-+		cgu_rst: reset {
-+			compatible = "snps,hsdk-v1.0-reset";
-+			#reset-cells = <1>;
-+			reg = <0x8A0 0x4>, <0xFF0 0x4>;
-+		};
-+
- 		serial: serial at 5000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x5000 0x100>;
-@@ -141,6 +148,8 @@
- 			clocks = <&gmacclk>;
- 			clock-names = "stmmaceth";
- 			phy-handle = <&phy0>;
-+			resets = <&cgu_rst HSDK_V1_ETH_RESET>;
-+			reset-names = "stmmaceth";
- 
- 			mdio {
- 				#address-cells = <1>;
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-index f4190bc..f7fd8c4 100644
---- a/arch/arc/configs/hsdk_defconfig
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -61,6 +61,7 @@ CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
- CONFIG_MMC_DW=y
- # CONFIG_IOMMU_SUPPORT is not set
-+CONFIG_RESET_HSDK_V1=y
- CONFIG_EXT3_FS=y
- CONFIG_VFAT_FS=y
- CONFIG_TMPFS=y
 -- 
 2.9.3
