@@ -1,29 +1,58 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 15 Aug 2017 20:12:33 +0300
-Subject: [PATCH] hsdk: Enable INPUT_EVDEV
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 15 Aug 2017 20:21:41 +0300
+Subject: [PATCH] earlycon: initialise baud field of earlycon device structure
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170815171233.40165-1-abrodkin@synopsys.com>
+Message-ID: <20170815172141.29115-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This is required for user-space apps to work with keyboard/mice.
+For now baud field of earlycon structure device is't initialised at all
+in of_setup_earlycon (in opposit? to register_earlycon).
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Eugeniy Paltsev <paltsev at synopsys.com>
+So when I use stdout-path to point earlycon device
+(like stdout-path = &serial or stdout-path = "serial:115200n8")
+baud field of earlycon device structure remains uninitialised and
+earlycon initialization is not performed correctly as
+of_setup_earlycon is used.
+When pass all arguments via bootargs
+(like bootargs = "earlycon=uart8250,mmio32,0xf0005000,115200n8")
+initialization is performed correctly as register_earlycon is used.
+
+So initialise baud field of earlycon device structure by baud value
+from device tree or from options (if they exist) when we use
+of_setup_earlycon
+
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 ---
- arch/arc/configs/hsdk_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/tty/serial/earlycon.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-index f4190bcde594..b3d21277608c 100644
---- a/arch/arc/configs/hsdk_defconfig
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -37,6 +37,7 @@ CONFIG_BLK_DEV_SD=y
- CONFIG_NETDEVICES=y
- CONFIG_STMMAC_ETH=y
- CONFIG_MICREL_PHY=y
-+CONFIG_INPUT_EVDEV=y
- # CONFIG_INPUT_KEYBOARD is not set
- # CONFIG_INPUT_MOUSE is not set
- # CONFIG_SERIO is not set
+diff --git a/drivers/tty/serial/earlycon.c b/drivers/tty/serial/earlycon.c
+index c365154..6c2e2b6 100644
+--- a/drivers/tty/serial/earlycon.c
++++ b/drivers/tty/serial/earlycon.c
+@@ -240,6 +240,7 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
+ {
+ 	int err;
+ 	struct uart_port *port = &early_console_dev.port;
++	unsigned long baud;
+ 	const __be32 *val;
+ 	bool big_endian;
+ 	u64 addr;
+@@ -282,7 +283,15 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
+ 		}
+ 	}
+ 
++	val = of_get_flat_dt_prop(node, "baud", NULL);
++	if (val)
++		early_console_dev.baud = be32_to_cpu(*val);
++
+ 	if (options) {
++		err = kstrtoul(options, 10, &baud);
++		if (!err)
++			early_console_dev.baud = baud;
++
+ 		strlcpy(early_console_dev.options, options,
+ 			sizeof(early_console_dev.options));
+ 	}
 -- 
-2.11.0
+2.9.3
