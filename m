@@ -1,91 +1,33 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 16 Aug 2017 15:26:30 +0000
-Subject: [PATCH] earlycon: initialise baud field of earlycon device
- structure
-In-Reply-To: <CAL_JsqJaK=xgrzecf3PnPuNSzsnzdvuJ9NZ4uzs4u9Oc77sV2A@mail.gmail.com>
-References: <20170815172141.29115-1-Eugeniy.Paltsev@synopsys.com>
- <CAL_Jsq+=LQ0kXtBx7xXJEb0FtfqwQRZoUYtG0oDFnUj_VfoG1A@mail.gmail.com>
- <1502884362.2586.32.camel@synopsys.com>
- <CAL_JsqJaK=xgrzecf3PnPuNSzsnzdvuJ9NZ4uzs4u9Oc77sV2A@mail.gmail.com>
+From: alex.g@adaptrum.com (Alexandru Gagniuc)
+Date: Wed, 16 Aug 2017 12:43:03 -0700
+Subject: Adding new ARC platforms (was Re: Handling stub code for new
+ platforms)
+In-Reply-To: <3f0bdafa-93cb-f9b7-2d2b-f54198094657@synopsys.com>
+References: <97916c54-b30b-c366-a8c5-38673c924a5c@adaptrum.com>
+ <f45ce545-4e12-7d90-2c5f-7465024741df@synopsys.com>
+ <d4e20a2b-e269-45f1-0d83-d3ef8dcfdc4b@adaptrum.com>
+ <3f0bdafa-93cb-f9b7-2d2b-f54198094657@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1502897189.2586.37.camel@synopsys.com>
+Message-ID: <1ec222e0-41a8-d8c8-e9ef-7381dd914567@adaptrum.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, 2017-08-16@08:46 -0500, Rob Herring wrote:
-> On Wed, Aug 16, 2017 at 6:52 AM, Eugeniy Paltsev
-> <Eugeniy.Paltsev@synopsys.com> wrote:
-> > Hi Rob,
-> > 
-> > On Tue, 2017-08-15@14:26 -0500, Rob Herring wrote:
-> > > On Tue, Aug 15, 2017 at 12:21 PM, Eugeniy Paltsev
-> > > <Eugeniy.Paltsev@synopsys.com> wrote:
-> > > > [snip]
-> > > > @@ -282,7 +283,15 @@ int __init of_setup_earlycon(const struct
-> > > > earlycon_id *match,
-> > > > ????????????????}
-> > > > ????????}
-> > > > 
-> > > > +???????val = of_get_flat_dt_prop(node, "baud", NULL);
-> > > 
-> > > No, we already have a defined way to set the baud, we don't need
-> > > a
-> > > property in addition. Plus you didn't document it.
-> > 
-> > I guess by defined way to set the baud you mean setting baud after
-> > device alias
-> > in stdout-path property (like stdout-path = "serial:115200n8"),
-> > right?
-> > 
-> > The idea was to reuse "baud" property from serial node to set the
-> > earlycon baud:
-> > 
-> > chosen {
-> > ????...
-> > ????stdout-path = &serial;
-> > };
-> > 
-> > serial: uart at ... {
-> > ????...
-> > ????baud = <115200>;???/* Get baud from here */
-> 
-> "current-speed" is already defined for this purpose. If you want to
-> add that, that's fine.
-Ok, I'll add "current-speed".
+On 08/13/2017 10:34 AM, Vineet Gupta wrote:
+> On 08/11/2017 10:55 PM, Alexandru Gagniuc wrote:
+>> I was hoping to avoid the addition of extra source files for zero code
+>> gain, though your proposal does work. However, since the platform
+>> would be added unconditionally, would it make more sense to add the
+>> .compatible = "adaptrum,anarion"
+>
+> Actual Abilis TB10x is similar in terms of need for special platform
+> callbacks, but they do need Kconfig glue to pull in bunch of drivers,
+> your platform doesn't ?
 
-> > };
-> > 
-> > > > +???????if (val)
-> > > > +???????????????early_console_dev.baud = be32_to_cpu(*val);
-> > > > +
-> > > > ????????if (options) {
-> > > > +???????????????err = kstrtoul(options, 10, &baud);
-> > > > +???????????????if (!err)
-> > > > +???????????????????????early_console_dev.baud = baud;
-> > > 
-> > > This seems fine to do here, but then we should also parse the
-> > > other
-> > > standard options here too. And we should make sure we're not
-> > > doing it
-> > > twice.
-> > 
-> > I added only baud parsing here because we parse only baud from
-> > standard
-> > options
-> > when register_earlycon is used. (see parse_options function which
-> > is
-> > called
-> > from register_earlycon)
-> > 
-> > But I can add other standard options parsing here (probably using
-> > uart_parse_options + uart_set_options).
-> > What do you think?
-> 
-> That seems fine as long as consoles can still have their own options.
-Ok.
+I was planning to pull in optional drivers via '_defconfig' rather than 
+Kconfig rules. I might need it to pull in the reset drivers, depending 
+on how simple-reset turns out. I'll submit v3, and then we can look if 
+it's a good idea or not to add to -nsim.
 
-Should I also add standard options parsing to register_earlycon?
-(as we parse only baud from standard options in register_earlycon)
+Alex
 
-> Rob
--- 
-?Eugeniy Paltsev
+>
+> -Vineet
