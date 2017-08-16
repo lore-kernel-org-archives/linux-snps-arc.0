@@ -1,82 +1,73 @@
-From: robherring2@gmail.com (Rob Herring)
-Date: Tue, 15 Aug 2017 14:26:28 -0500
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 16 Aug 2017 11:52:42 +0000
 Subject: [PATCH] earlycon: initialise baud field of earlycon device
  structure
-In-Reply-To: <20170815172141.29115-1-Eugeniy.Paltsev@synopsys.com>
+In-Reply-To: <CAL_Jsq+=LQ0kXtBx7xXJEb0FtfqwQRZoUYtG0oDFnUj_VfoG1A@mail.gmail.com>
 References: <20170815172141.29115-1-Eugeniy.Paltsev@synopsys.com>
+ <CAL_Jsq+=LQ0kXtBx7xXJEb0FtfqwQRZoUYtG0oDFnUj_VfoG1A@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAL_Jsq+=LQ0kXtBx7xXJEb0FtfqwQRZoUYtG0oDFnUj_VfoG1A@mail.gmail.com>
+Message-ID: <1502884362.2586.32.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Aug 15, 2017 at 12:21 PM, Eugeniy Paltsev
-<Eugeniy.Paltsev@synopsys.com> wrote:
-> For now baud field of earlycon structure device is't initialised at all
-> in of_setup_earlycon (in opposit? to register_earlycon).
->
-> So when I use stdout-path to point earlycon device
-> (like stdout-path = &serial or stdout-path = "serial:115200n8")
-> baud field of earlycon device structure remains uninitialised and
-> earlycon initialization is not performed correctly as
-> of_setup_earlycon is used.
+Hi Rob,
 
-Because the console driver is supposed to parse the option string.
-That allows in theory for the options to be specific for each console.
-Maybe your earlycon driver is failing to do that.
+On Tue, 2017-08-15@14:26 -0500, Rob Herring wrote:
+> On Tue, Aug 15, 2017 at 12:21 PM, Eugeniy Paltsev
+> <Eugeniy.Paltsev@synopsys.com> wrote:
+> > [snip]
+> > @@ -282,7 +283,15 @@ int __init of_setup_earlycon(const struct
+> > earlycon_id *match,
+> >?????????????????}
+> >?????????}
+> >?
+> > +???????val = of_get_flat_dt_prop(node, "baud", NULL);
+>?
+> No, we already have a defined way to set the baud, we don't need a
+> property in addition. Plus you didn't document it.
 
-> When pass all arguments via bootargs
-> (like bootargs = "earlycon=uart8250,mmio32,0xf0005000,115200n8")
-> initialization is performed correctly as register_earlycon is used.
->
-> So initialise baud field of earlycon device structure by baud value
-> from device tree or from options (if they exist) when we use
-> of_setup_earlycon
->
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
->  drivers/tty/serial/earlycon.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/drivers/tty/serial/earlycon.c b/drivers/tty/serial/earlycon.c
-> index c365154..6c2e2b6 100644
-> --- a/drivers/tty/serial/earlycon.c
-> +++ b/drivers/tty/serial/earlycon.c
-> @@ -240,6 +240,7 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
->  {
->         int err;
->         struct uart_port *port = &early_console_dev.port;
-> +       unsigned long baud;
->         const __be32 *val;
->         bool big_endian;
->         u64 addr;
-> @@ -282,7 +283,15 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
->                 }
->         }
->
-> +       val = of_get_flat_dt_prop(node, "baud", NULL);
+I guess by defined way to set the baud you mean setting baud after
+device alias
+in stdout-path property (like stdout-path = "serial:115200n8"), right?
 
-No, we already have a defined way to set the baud, we don't need a
-property in addition. Plus you didn't document it.
+The idea was to reuse "baud" property from serial node to set the
+earlycon baud:
 
-> +       if (val)
-> +               early_console_dev.baud = be32_to_cpu(*val);
-> +
->         if (options) {
-> +               err = kstrtoul(options, 10, &baud);
-> +               if (!err)
-> +                       early_console_dev.baud = baud;
+chosen {
+????...
+????stdout-path = &serial;
+};
 
-This seems fine to do here, but then we should also parse the other
-standard options here too. And we should make sure we're not doing it
-twice.
+serial: uart at ... {
+????...
+????baud = <115200>;   /* Get baud from here */
+};
 
-> +
->                 strlcpy(early_console_dev.options, options,
->                         sizeof(early_console_dev.options));
->         }
-> --
-> 2.9.3
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-serial" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> > +???????if (val)
+> > +???????????????early_console_dev.baud = be32_to_cpu(*val);
+> > +
+> >?????????if (options) {
+> > +???????????????err = kstrtoul(options, 10, &baud);
+> > +???????????????if (!err)
+> > +???????????????????????early_console_dev.baud = baud;
+>?
+> This seems fine to do here, but then we should also parse the other
+> standard options here too. And we should make sure we're not doing it
+> twice.
+I added only baud parsing here because we parse only baud from standard
+options
+when register_earlycon is used. (see parse_options function which is
+called
+from register_earlycon)
+
+But I can add other standard options parsing here (probably using
+uart_parse_options + uart_set_options).?
+What do you think?
+
+> > +
+> >?????????????????strlcpy(early_console_dev.options, options,
+> >?????????????????????????sizeof(early_console_dev.options));
+> >?????????}
+> > --
+> > 2.9.3
+--?
+?Eugeniy Paltsev
