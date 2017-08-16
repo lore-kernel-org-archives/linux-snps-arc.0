@@ -1,29 +1,37 @@
 From: alex.g@adaptrum.com (Alexandru Gagniuc)
-Date: Wed, 16 Aug 2017 15:15:14 -0700
-Subject: [PATCH v3 0/2] Add platform support for Adaptrum Anarion SOC
+Date: Wed, 16 Aug 2017 15:15:15 -0700
+Subject: [PATCH v3 1/2] ARC: [plat-sim] Add .compatible property for Adaptrum
+ Anarion SOC
+In-Reply-To: <20170816221516.13609-1-alex.g@adaptrum.com>
+References: <20170816221516.13609-1-alex.g@adaptrum.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170816221516.13609-1-alex.g@adaptrum.com>
+Message-ID: <20170816221516.13609-2-alex.g@adaptrum.com>
 To: linux-snps-arc@lists.infradead.org
 
-Changes since v2:
- * Changed compatible binding of uart[1-3] to "ns16550" (they are not DW UARTs)
- * Add support under plat-nsim instead of creating a new stub platform
- * Changed board model to "adaptrum,endor-fpga" to allow LEDE scripts to ID the board
- * Prefix compatible binding with 'arc-'
+Anarion does not require any special configuration during early boot.
+This is compatible with nsim, hence-why it is added here.
 
-Changes since v1:
- * Updated CPU core clock to 24 MHz to match HW changes.
+As development continues, should we need to add any drivers via
+Kconfig, we can do that by adding and sourcing a "Kconfig.anarion".
+This approach was chosen --as opposed to adding plat-anarion/--
+because it doesn't add a bunch of extra files.
 
-Alexandru Gagniuc (2):
-  ARC: [plat-sim] Add .compatible property for Adaptrum Anarion SOC
-  ARC: DTS: Add device-tree for Anarion-based development board
+Signed-off-by: Alexandru Gagniuc <alex.g at adaptrum.com>
+---
+ arch/arc/plat-sim/platform.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- arch/arc/boot/dts/adaptrum_anarion.dtsi     | 110 ++++++++++++++++++++++++++++
- arch/arc/boot/dts/adaptrum_anarion_fpga.dts |  51 +++++++++++++
- arch/arc/plat-sim/platform.c                |   1 +
- 3 files changed, 162 insertions(+)
- create mode 100644 arch/arc/boot/dts/adaptrum_anarion.dtsi
- create mode 100644 arch/arc/boot/dts/adaptrum_anarion_fpga.dts
-
+diff --git a/arch/arc/plat-sim/platform.c b/arch/arc/plat-sim/platform.c
+index 5cda56b..a5dbfab 100644
+--- a/arch/arc/plat-sim/platform.c
++++ b/arch/arc/plat-sim/platform.c
+@@ -21,6 +21,7 @@
+ 
+ static const char *simulation_compat[] __initconst = {
+ #ifdef CONFIG_ISA_ARCOMPACT
++	"adaptrum,arc-anarion",
+ 	"snps,nsim",
+ 	"snps,nsimosci",
+ #else
 -- 
 2.9.3
