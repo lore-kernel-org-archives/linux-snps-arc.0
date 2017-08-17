@@ -1,47 +1,71 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 17 Aug 2017 13:17:43 +0000
-Subject: [PATCH v3 2/2] ARC: DTS: Add device-tree for Anarion-based
- development board
-In-Reply-To: <20170816221516.13609-3-alex.g@adaptrum.com>
-References: <20170816221516.13609-1-alex.g@adaptrum.com>
- <20170816221516.13609-3-alex.g@adaptrum.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 17 Aug 2017 21:08:54 +0300
+Subject: [PATCH v2] earlycon: initialise baud field of earlycon device
+ structure
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1502975863.3268.25.camel@synopsys.com>
+Message-ID: <20170817180854.5448-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Alexandru,
+For now baud field of earlycon structure device is't initialised at all
+in of_setup_earlycon (in opposit? to register_earlycon).
 
-On Wed, 2017-08-16@15:15 -0700, Alexandru Gagniuc wrote:
-> +#include "skeleton.dtsi"
+So when I use stdout-path to point earlycon device
+(like stdout-path = &serial or stdout-path = "serial:115200n8")
+baud field of earlycon device structure remains uninitialised and
+earlycon initialization is not performed correctly as
+of_setup_earlycon is used.
+When pass all arguments via bootargs
+(like bootargs = "earlycon=uart8250,mmio32,0xf0005000,115200n8")
+initialization is performed correctly as register_earlycon is used.
 
-Eugeniy already commented on that - most probably you'll end up
-overriding most if not all entries from "skeleton.dtsi" so why
-bother with it at all?
+So initialise baud field of earlycon device structure by value of
+"current-speed" property from device tree or from options
+(if they exist) when we use of_setup_earlycon
 
-And I don't see any mention of your own memory node so I assume you rely on
-the one from our skeleton.dtsi? The first question is if it really matches your setup?
-I.e. 256 Mb mapped to 0x8000_0000. And even if that's the case what if we change
-this to something else later?
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+Changes v1 -> v2:
+ * Use standart property name "current-speed" instead of custom "baud"
 
-IMHO having your own "memory" node makes some sens :)
+NOTE:
+I don't add parsing of the other standard options here because we don't
+have any place to store them. When we parce and set options of the 'real'
+uart device (using uart_parse_options + uart_set_options) we populate
+ktermios structure an pass it to port->ops->set_termios callback of
+uart_port structure. So it is processing by uart driver itself. But we don't
+register such callbacks for earlycon. So we are only able to parse baud
+value, which can be stored in baud field of earlycon_device structure.
+ 
+ drivers/tty/serial/earlycon.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-> +
-> +		gmac0: ethernet at f2010000 {
-> +			compatible = "adaptrum,anarion-gmac", "snps,dwmac";
-> +			reg = <0xf2010000 0x4000>;
-> +
-> +			interrupt-parent = <&core_intc>;
-
-You already specified default INTC above, so you may just drop "interrupt-parent"
-property from this node.
-
-> +
-> +		gmac1: ethernet at f2014000 {
-> +			compatible = "adaptrum,anarion-gmac", "snps,dwmac";
-> +			reg = <0xf2014000 0x4000>, <0xf2018100 8>;
-> +
-> +			interrupt-parent = <&core_intc>;
-
-Ditto.
-
--Alexey
+diff --git a/drivers/tty/serial/earlycon.c b/drivers/tty/serial/earlycon.c
+index c365154..93f15e2 100644
+--- a/drivers/tty/serial/earlycon.c
++++ b/drivers/tty/serial/earlycon.c
+@@ -240,6 +240,7 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
+ {
+ 	int err;
+ 	struct uart_port *port = &early_console_dev.port;
++	unsigned long baud;
+ 	const __be32 *val;
+ 	bool big_endian;
+ 	u64 addr;
+@@ -282,7 +283,15 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
+ 		}
+ 	}
+ 
++	val = of_get_flat_dt_prop(node, "current-speed", NULL);
++	if (val)
++		early_console_dev.baud = be32_to_cpu(*val);
++
+ 	if (options) {
++		err = kstrtoul(options, 10, &baud);
++		if (!err)
++			early_console_dev.baud = baud;
++
+ 		strlcpy(early_console_dev.options, options,
+ 			sizeof(early_console_dev.options));
+ 	}
+-- 
+2.9.3
