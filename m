@@ -1,12 +1,12 @@
 From: ben@decadent.org.uk (Ben Hutchings)
-Date: Fri, 18 Aug 2017 14:13:13 +0100
-Subject: [PATCH 3.2 41/59] usb: Make sure usb/phy/of gets built-in
-In-Reply-To: <lsq.1503061990.137512306@decadent.org.uk>
+Date: Fri, 18 Aug 2017 14:13:20 +0100
+Subject: [PATCH 3.16 082/134] usb: Make sure usb/phy/of gets built-in
+In-Reply-To: <lsq.1503061998.818387115@decadent.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <lsq.1503061993.804054856@decadent.org.uk>
+Message-ID: <lsq.1503062000.252054560@decadent.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-3.2.92-rc1 review patch.  If anyone has any objections, please let me know.
+3.16.47-rc1 review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -50,7 +50,7 @@ Signed-off-by: Ben Hutchings <ben at decadent.org.uk>
 
 --- a/drivers/Makefile
 +++ b/drivers/Makefile
-@@ -73,6 +73,7 @@ obj-$(CONFIG_USB_OTG_UTILS)	+= usb/
+@@ -91,6 +91,7 @@ obj-$(CONFIG_USB_PHY)		+= usb/
  obj-$(CONFIG_USB)		+= usb/
  obj-$(CONFIG_PCI)		+= usb/
  obj-$(CONFIG_USB_GADGET)	+= usb/
