@@ -1,71 +1,60 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Thu, 17 Aug 2017 21:08:54 +0300
-Subject: [PATCH v2] earlycon: initialise baud field of earlycon device
- structure
+From: ben@decadent.org.uk (Ben Hutchings)
+Date: Fri, 18 Aug 2017 14:13:13 +0100
+Subject: [PATCH 3.2 41/59] usb: Make sure usb/phy/of gets built-in
+In-Reply-To: <lsq.1503061990.137512306@decadent.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170817180854.5448-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <lsq.1503061993.804054856@decadent.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-For now baud field of earlycon structure device is't initialised at all
-in of_setup_earlycon (in opposit? to register_earlycon).
+3.2.92-rc1 review patch.  If anyone has any objections, please let me know.
 
-So when I use stdout-path to point earlycon device
-(like stdout-path = &serial or stdout-path = "serial:115200n8")
-baud field of earlycon device structure remains uninitialised and
-earlycon initialization is not performed correctly as
-of_setup_earlycon is used.
-When pass all arguments via bootargs
-(like bootargs = "earlycon=uart8250,mmio32,0xf0005000,115200n8")
-initialization is performed correctly as register_earlycon is used.
+------------------
 
-So initialise baud field of earlycon device structure by value of
-"current-speed" property from device tree or from options
-(if they exist) when we use of_setup_earlycon
+From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+commit 3d6159640da9c9175d1ca42f151fc1a14caded59 upstream.
+
+DWC3 driver uses of_usb_get_phy_mode() which is
+implemented in drivers/usb/phy/of.c and in bare minimal
+configuration it might not be pulled in kernel binary.
+
+In case of ARC or ARM this could be easily reproduced with
+"allnodefconfig" +CONFIG_USB=m +CONFIG_USB_DWC3=m.
+
+On building all ends-up with:
+---------------------->8------------------
+  Kernel: arch/arm/boot/Image is ready
+  Kernel: arch/arm/boot/zImage is ready
+  Building modules, stage 2.
+  MODPOST 5 modules
+ERROR: "of_usb_get_phy_mode" [drivers/usb/dwc3/dwc3.ko] undefined!
+make[1]: *** [__modpost] Error 1
+make: *** [modules] Error 2
+---------------------->8------------------
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
+Cc: Geert Uytterhoeven <geert+renesas at glider.be>
+Cc: Nicolas Pitre <nicolas.pitre at linaro.org>
+Cc: Thomas Gleixner <tglx at linutronix.de>
+Cc: Felipe Balbi <balbi at kernel.org>
+Cc: Felix Fietkau <nbd at nbd.name>
+Cc: Jeremy Kerr <jk at ozlabs.org>
+Cc: linux-snps-arc at lists.infradead.org
+Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Signed-off-by: Ben Hutchings <ben at decadent.org.uk>
 ---
-Changes v1 -> v2:
- * Use standart property name "current-speed" instead of custom "baud"
+ drivers/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-NOTE:
-I don't add parsing of the other standard options here because we don't
-have any place to store them. When we parce and set options of the 'real'
-uart device (using uart_parse_options + uart_set_options) we populate
-ktermios structure an pass it to port->ops->set_termios callback of
-uart_port structure. So it is processing by uart driver itself. But we don't
-register such callbacks for earlycon. So we are only able to parse baud
-value, which can be stored in baud field of earlycon_device structure.
- 
- drivers/tty/serial/earlycon.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/tty/serial/earlycon.c b/drivers/tty/serial/earlycon.c
-index c365154..93f15e2 100644
---- a/drivers/tty/serial/earlycon.c
-+++ b/drivers/tty/serial/earlycon.c
-@@ -240,6 +240,7 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
- {
- 	int err;
- 	struct uart_port *port = &early_console_dev.port;
-+	unsigned long baud;
- 	const __be32 *val;
- 	bool big_endian;
- 	u64 addr;
-@@ -282,7 +283,15 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
- 		}
- 	}
- 
-+	val = of_get_flat_dt_prop(node, "current-speed", NULL);
-+	if (val)
-+		early_console_dev.baud = be32_to_cpu(*val);
-+
- 	if (options) {
-+		err = kstrtoul(options, 10, &baud);
-+		if (!err)
-+			early_console_dev.baud = baud;
-+
- 		strlcpy(early_console_dev.options, options,
- 			sizeof(early_console_dev.options));
- 	}
--- 
-2.9.3
+--- a/drivers/Makefile
++++ b/drivers/Makefile
+@@ -73,6 +73,7 @@ obj-$(CONFIG_USB_OTG_UTILS)	+= usb/
+ obj-$(CONFIG_USB)		+= usb/
+ obj-$(CONFIG_PCI)		+= usb/
+ obj-$(CONFIG_USB_GADGET)	+= usb/
++obj-$(CONFIG_OF)		+= usb/
+ obj-$(CONFIG_SERIO)		+= input/serio/
+ obj-$(CONFIG_GAMEPORT)		+= input/gameport/
+ obj-$(CONFIG_INPUT)		+= input/
