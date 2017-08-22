@@ -1,28 +1,43 @@
-From: noamca@mellanox.com (Noam Camus)
-Date: Tue, 22 Aug 2017 06:16:08 +0000
-Subject: [PATCH v3 07/11] ARC: [plat-eznps] new command line argument for
- HW scheduler at MTM
-In-Reply-To: <390c39c5-9188-ad39-a61b-b959e79a469a@synopsys.com>
-References: <1497516241-16446-1-git-send-email-noamca@mellanox.com>
- <1497516241-16446-8-git-send-email-noamca@mellanox.com>
- <390c39c5-9188-ad39-a61b-b959e79a469a@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 22 Aug 2017 18:10:52 +0000
+Subject: Specifying console via "stdout-path" property
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <AM5PR0502MB299613C7F53BA5E02F46A47DAA840@AM5PR0502MB2996.eurprd05.prod.outlook.com>
+Message-ID: <1503425451.2586.56.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
->From: Vineet Gupta [mailto:Vineet.Gupta1 at synopsys.com] 
->Sent: Monday, August 21, 2017 20:04 PM
-....
->> +
->> +/* Handle an out of bounds mtm hs counter value */ static void __init 
->> +handle_mtm_hs_ctr_out_of_bounds_error(uint8_t val) {
->> +	pr_err("** The value must be in range [%d,%d] (inclusive)\n",
->> +		MT_HS_CNT_MIN, MT_HS_CNT_MAX);
->> +
->> +	mtm_hs_ctr = val;
+Hi everyone,
+
+I got strange results when I tried to specify device to use as console
+via "stdout-path" property in device tree:
+Even If I specify device in "stdout-path" property first probed device
+(of those that can be used as console device) is used as console.
+
+For example:
+-------------->8--------
+chosen {
+????stdout-path = &serial1;
+};
+
+serial0: uart0 at ... {} /* serial0 is used as console (ttyS0) as it is
+                       * probed earlier */
+serial1: uart1 at ... {}
+-------------->8--------
+
+So I am wondering is it expected behavior?
 
 
->This error handling doesn't make sense to me - if the value is not in range, why bother setting it at all. I'll fix it up locally.
-Just look what we provide handle_mtm_hs_ctr_out_of_bounds_error() as parameter and it will be sensible to you :)
+Everything is fine if I specify uart device via "console" parameter in
+bootargs:
+-------------->8--------
+chosen {
+????bootargs = "console=ttyS1"
+????stdout-path = &serial1;
+};
 
-Noam 
+serial0: uart0 at ... {}
+serial1: uart1 at ... {} /* serial1 is used as console (ttyS1) */
+-------------->8--------
+
+Thanks.
+-- 
+?Eugeniy Paltsev
