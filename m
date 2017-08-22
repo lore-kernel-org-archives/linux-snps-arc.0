@@ -1,40 +1,75 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 22 Aug 2017 13:39:04 -0700
-Subject: [PATCH 2/5] ARC: AXS103: Get rid of platform specific cpu clock
- configuration
-In-Reply-To: <20170814161213.17522-3-Eugeniy.Paltsev@synopsys.com>
+Date: Tue, 22 Aug 2017 13:40:50 -0700
+Subject: [PATCH 3/5] ARC: AXS103: DTS: Add core pll node to manage cpu
+ frequency
+In-Reply-To: <20170814161213.17522-4-Eugeniy.Paltsev@synopsys.com>
 References: <20170814161213.17522-1-Eugeniy.Paltsev@synopsys.com>
- <20170814161213.17522-3-Eugeniy.Paltsev@synopsys.com>
+ <20170814161213.17522-4-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0a4209a9-bf2e-c8a4-31b0-c08043d5e168@synopsys.com>
+Message-ID: <fe0d3b13-b689-0844-f232-d1054854be8e@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 On 08/14/2017 09:12 AM, Eugeniy Paltsev wrote:
-> We set AXS103 cpu frequency in arch/arc/plat-axs10x/axs10x.c
-> via direct writing to pll registers for historical reasons.
-> So get rid of AXS103 platform specific cpu clock configuration as
-> we have driver for AXS103 core pll (AXS103 pll driver is already
-> in linux-next. It is selected automatically when
-> CONFIG_ARC_PLAT_AXS10X is set)
+> Add core pll node (core_clk) to manage cpu frequency.
+> core_clk represents pll itself.
+> input_clk represents clock signal source (basically xtal) which
+> comes to pll input.
 >
 > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 > ---
->   arch/arc/plat-axs10x/axs10x.c | 88 ++-----------------------------------------
->   1 file changed, 4 insertions(+), 84 deletions(-)
+>   arch/arc/boot/dts/axc003.dtsi     | 11 +++++++++--
+>   arch/arc/boot/dts/axc003_idu.dtsi | 11 +++++++++--
+>   2 files changed, 18 insertions(+), 4 deletions(-)
 >
-> diff --git a/arch/arc/plat-axs10x/axs10x.c b/arch/arc/plat-axs10x/axs10x.c
-> index 38ff349..98d07b7 100644
-> --- a/arch/arc/plat-axs10x/axs10x.c
-> +++ b/arch/arc/plat-axs10x/axs10x.c
-> @@ -335,61 +335,12 @@ union pll_reg {
->   	unsigned int val;
->   };
+> diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
+> index cc9239e..dca7e39 100644
+> --- a/arch/arc/boot/dts/axc003.dtsi
+> +++ b/arch/arc/boot/dts/axc003.dtsi
+> @@ -24,10 +24,17 @@
+>   
+>   		ranges = <0x00000000 0x0 0xf0000000 0x10000000>;
+>   
+> -		core_clk: core_clk {
+> +		input_clk: input-clk {
+>   			#clock-cells = <0>;
+>   			compatible = "fixed-clock";
+> -			clock-frequency = <90000000>;
+> +			clock-frequency = <33333333>;
 
-You forget to prune a bunch of code not needed anymore - pll_reg struct /  
-write_cgu_reg ....
-I've fixed that up locally !
+Note our custom built UP bitfiles for AXS generally can do 90 MHz only - you are 
+likely breaking linux on them now by forcing 100 MHz ?
 
-Nice cleanup !
-
-Thx,
--Vineet
+> +		};
+> +
+> +		core_clk: core-clk at 80 {
+> +			compatible = "snps,axs10x-arc-pll-clock";
+> +			reg = <0x80 0x10>, <0x100 0x10>;
+> +			#clock-cells = <0>;
+> +			clocks = <&input_clk>;
+>   		};
+>   
+>   		core_intc: archs-intc at cpu {
+> diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
+> index 4ebb2170..5b56bef 100644
+> --- a/arch/arc/boot/dts/axc003_idu.dtsi
+> +++ b/arch/arc/boot/dts/axc003_idu.dtsi
+> @@ -24,10 +24,17 @@
+>   
+>   		ranges = <0x00000000 0x0 0xf0000000 0x10000000>;
+>   
+> -		core_clk: core_clk {
+> +		input_clk: input-clk {
+>   			#clock-cells = <0>;
+>   			compatible = "fixed-clock";
+> -			clock-frequency = <100000000>;
+> +			clock-frequency = <33333333>;
+> +		};
+> +
+> +		core_clk: core-clk at 80 {
+> +			compatible = "snps,axs10x-arc-pll-clock";
+> +			reg = <0x80 0x10>, <0x100 0x10>;
+> +			#clock-cells = <0>;
+> +			clocks = <&input_clk>;
+>   		};
+>   
+>   		core_intc: archs-intc at cpu {
