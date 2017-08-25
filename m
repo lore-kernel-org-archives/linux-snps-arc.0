@@ -1,41 +1,57 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Fri, 25 Aug 2017 22:43:41 +0200 (CEST)
-Subject: [PATCH v2 1/1] futex: remove duplicated code and fix UB
-In-Reply-To: <20170824094756.GA6346@arm.com>
-References: <20170824073105.3901-1-jslaby@suse.cz>
- <20170824094756.GA6346@arm.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 25 Aug 2017 13:45:06 -0700
+Subject: [PATCH v3 03/11] ARC: Allow irq threading
+In-Reply-To: <1497516241-16446-4-git-send-email-noamca@mellanox.com>
+References: <1497516241-16446-1-git-send-email-noamca@mellanox.com>
+ <1497516241-16446-4-git-send-email-noamca@mellanox.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.20.1708252243020.2124@nanos>
+Message-ID: <12582c31-9ff0-708c-5c85-1e31efd2a170@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, 24 Aug 2017, Will Deacon wrote:
-> On Thu, Aug 24, 2017@09:31:05AM +0200, Jiri Slaby wrote:
-> > +static int futex_atomic_op_inuser(unsigned int encoded_op, u32 __user *uaddr)
-> > +{
-> > +	unsigned int op =	  (encoded_op & 0x70000000) >> 28;
-> > +	unsigned int cmp =	  (encoded_op & 0x0f000000) >> 24;
-> > +	int oparg = sign_extend32((encoded_op & 0x00fff000) >> 12, 12);
-> > +	int cmparg = sign_extend32(encoded_op & 0x00000fff, 12);
-> > +	int oldval, ret;
-> > +
-> > +	if (encoded_op & (FUTEX_OP_OPARG_SHIFT << 28)) {
-> > +		if (oparg < 0 || oparg > 31)
-> > +			return -EINVAL;
-> > +		oparg = 1 << oparg;
-> > +	}
-> > +
-> > +	if (!access_ok(VERIFY_WRITE, uaddr, sizeof(u32)))
-> > +		return -EFAULT;
-> > +
-> > +	ret = arch_futex_atomic_op_inuser(op, oparg, &oldval, uaddr);
-> > +	if (ret)
-> > +		return ret;
++CC Peter, Tglx, Steven
+
+On 06/15/2017 01:43 AM, Noam Camus wrote:
+> From: Noam Camus <noamc at ezchip.com>
 > 
-> We could move the pagefault_{disable,enable} calls here, and then remove
-> them from the futex_atomic_op_inuser callsites elsewhere in futex.c
+> Working with NPS400 we noticed that there is a possibility of L1
+> interrupt nesting that may run out kernel stack.
+> The scenario include serving invoke_softirqs() from irq_exit()
+> and once local_irq_enable() called can hit another one before we
+> managed to restore last one and pop some place from kernel stack.
+> 
+> Serving softirqs at dedicated kernel thread may mitigate this.
+> We see that many architectures, including x86, behave like this.
+> 
+> Note 1: All interrupts which must be non threaded
+> should be marked IRQF_NO_THREAD.
+> Note 2: using kernel param "threadirqs" is needed to actually
+> turn this on. This configuration is only a preperation.
+> 
+> Signed-off-by: Noam Camus <noamc at ezchip.com>
+> ---
+>   arch/arc/Kconfig |    1 +
+>   1 files changed, 1 insertions(+), 0 deletions(-)
+> 
+> diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+> index a545969..f464f97 100644
+> --- a/arch/arc/Kconfig
+> +++ b/arch/arc/Kconfig
+> @@ -33,6 +33,7 @@ config ARC
+>   	select HAVE_OPROFILE
+>   	select HAVE_PERF_EVENTS
+>   	select HANDLE_DOMAIN_IRQ
+> +	select IRQ_FORCED_THREADING
+>   	select IRQ_DOMAIN
+>   	select MODULES_USE_ELF_RELA
+>   	select NO_BOOTMEM> 
 
-Correct, but we can do that after getting this in.
+As Noam notes above and looking at work needed in other arches prior to switching 
+to this: we need mark the low level ints as NO_THREAD.
 
-Thanks,
+ARC ipi, timer, perf interrupts happen to use request_percpu_irq() which doesn't 
+take flags and doesn't seem to force NO_THREAD internally either. Does that mean 
+we first need to convert all of these sites to __request_percpu_irq(.. NO_THREAD 
+...) or is there a better way of doing this !
 
-	tglx
+Thx,
+-Vineet
