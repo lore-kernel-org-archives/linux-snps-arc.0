@@ -1,62 +1,26 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 25 Aug 2017 18:00:26 +0300
-Subject: [PATCH] OF: move extern declarations of entry pointers inside ifdef
+From: rostedt@goodmis.org (Steven Rostedt)
+Date: Fri, 25 Aug 2017 11:12:00 -0400
+Subject: [PATCH] OF: move extern declarations of entry pointers inside
+ ifdef
+In-Reply-To: <20170825150027.25341-1-Eugeniy.Paltsev@synopsys.com>
+References: <20170825150027.25341-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170825150027.25341-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20170825111200.5f0891a5@gandalf.local.home>
 To: linux-snps-arc@lists.infradead.org
 
-Move extern declarations of "of_root", "of_chosen", "of_aliases",
-"of_stdout" pointers inside "CONFIG_OF" ifdef to be able to get rid
-of "CONFIG_OF" ifdef in their usage places.
+On Fri, 25 Aug 2017 18:00:26 +0300
+Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com> wrote:
 
-Suggested-by: Steven Rostedt <rostedt at goodmis.org>
+> Move extern declarations of "of_root", "of_chosen", "of_aliases",
+> "of_stdout" pointers inside "CONFIG_OF" ifdef to be able to get rid
+> of "CONFIG_OF" ifdef in their usage places.
+> 
+> Suggested-by: Steven Rostedt <rostedt at goodmis.org>
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
-For example see: https://lkml.org/lkml/2017/8/25/337
+Thanks!
 
- include/linux/of.h | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+-- Steve
 
-diff --git a/include/linux/of.h b/include/linux/of.h
-index cfc3411..d117bf1 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -131,11 +131,6 @@ static inline struct device_node *of_node_get(struct device_node *node)
- static inline void of_node_put(struct device_node *node) { }
- #endif /* !CONFIG_OF_DYNAMIC */
- 
--/* Pointer for first entry in chain of all nodes. */
--extern struct device_node *of_root;
--extern struct device_node *of_chosen;
--extern struct device_node *of_aliases;
--extern struct device_node *of_stdout;
- extern raw_spinlock_t devtree_lock;
- 
- /* flag descriptions (need to be visible even when !CONFIG_OF) */
-@@ -147,6 +142,12 @@ extern raw_spinlock_t devtree_lock;
- #define OF_BAD_ADDR	((u64)-1)
- 
- #ifdef CONFIG_OF
-+/* Pointer for first entry in chain of all nodes. */
-+extern struct device_node *of_root;
-+extern struct device_node *of_chosen;
-+extern struct device_node *of_aliases;
-+extern struct device_node *of_stdout;
-+
- void of_core_init(void);
- 
- static inline bool is_of_node(const struct fwnode_handle *fwnode)
-@@ -539,6 +540,10 @@ const char *of_prop_next_string(struct property *prop, const char *cur);
- bool of_console_check(struct device_node *dn, char *name, int index);
- 
- #else /* CONFIG_OF */
-+#define of_root		NULL
-+#define of_chosen	NULL
-+#define of_aliases	NULL
-+#define of_stdout	NULL
- 
- static inline void of_core_init(void)
- {
--- 
-2.9.3
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
