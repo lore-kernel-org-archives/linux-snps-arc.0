@@ -1,64 +1,32 @@
-From: sergey.senozhatsky@gmail.com (Sergey Senozhatsky)
-Date: Sat, 26 Aug 2017 02:44:48 +0900
-Subject: [PATCH] console: don't select first registered console if
- stdout-path used
-In-Reply-To: <20170825131451.15944-1-Eugeniy.Paltsev@synopsys.com>
-References: <20170825131451.15944-1-Eugeniy.Paltsev@synopsys.com>
+From: robh+dt@kernel.org (Rob Herring)
+Date: Fri, 25 Aug 2017 13:07:30 -0500
+Subject: [PATCH v2] OF: move extern declarations of of_stdout inside ifdef
+In-Reply-To: <20170825165644.30800-1-Eugeniy.Paltsev@synopsys.com>
+References: <20170825165644.30800-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170825174448.GC5535@tigerII.localdomain>
+Message-ID: <CAL_JsqJ4dPY0L21y8RwFfJVRvkdNi4uBWwsg6dOeyxru2dRFXQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On (08/25/17 16:14), Eugeniy Paltsev wrote:
-> In the current implementation we take the first console that
-> registers if we didn't select one.
-> 
-> But if we specify console via "stdout-path" property in device tree
-> we don't want first console that registers here to be selected.
-> Otherwise we may choose wrong console - for example if some console
-> is registered earlier than console is pointed in "stdout-path"
-> property because console pointed in "stdout-path" property can be add as
-> preferred quite late - when it's driver is probed.
-> 
+On Fri, Aug 25, 2017 at 11:56 AM, Eugeniy Paltsev
+<Eugeniy.Paltsev@synopsys.com> wrote:
+> Move extern declarations of "of_stdout" pointer inside "CONFIG_OF"
+> ifdef to be able to get rid of "CONFIG_OF" ifdef in its usage places.
+>
+> Suggested-by: Steven Rostedt <rostedt at goodmis.org>
+>
 > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-
-hm... this is not the first time we see DT and stdout-path.
-and so far it was pretty painful :) e.g. commits c6c7d83b9c9e, 05fd007e4629.
-
-	-ss
-
 > ---
->  kernel/printk/printk.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-> index 512f7c2..23262c1 100644
-> --- a/kernel/printk/printk.c
-> +++ b/kernel/printk/printk.c
-> @@ -26,6 +26,7 @@
->  #include <linux/nmi.h>
->  #include <linux/module.h>
->  #include <linux/moduleparam.h>
-> +#include <linux/of.h>
->  #include <linux/delay.h>
->  #include <linux/smp.h>
->  #include <linux/security.h>
-> @@ -2431,6 +2432,16 @@ void register_console(struct console *newcon)
->  	if (!has_preferred || bcon || !console_drivers)
->  		has_preferred = preferred_console >= 0;
->  
-> +
-> +	/*
-> +	 * If we specify console via "stdout-path" property in device tree
-> +	 * we don't want first console that registers here to be selected.
-> +	 */
-> +#ifdef CONFIG_OF
-> +	if (of_stdout)
-> +		has_preferred = true;
-> +#endif
-> +
->  	/*
->  	 *	See if we want to use this console driver. If we
->  	 *	didn't select a console we take the first one
-> -- 
-> 2.9.3
-> 
+> For example see: https://lkml.org/lkml/2017/8/25/337
+>
+> Changes v1->v2:
+>  * Move only "of_stdout" declarations instead of all entry pointers
+>    declarations
+>
+>  include/linux/of.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+
+Acked-by: Rob Herring <robh at kernel.org>
+
+Merge this with the console change needing it.
+
+Rob
