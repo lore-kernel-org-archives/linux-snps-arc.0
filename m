@@ -1,157 +1,54 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 25 Aug 2017 15:57:43 +0000
-Subject: [PATCH 1/3 v8] ARC: Set IO-coherency aperture base to
- LINUX_LINK_BASE
-In-Reply-To: <5184d3eb-31bc-c456-3e65-6137a3ba72f7@synopsys.com>
-References: <20170712094023.23226-1-Eugeniy.Paltsev@synopsys.com>
- <20170712094023.23226-2-Eugeniy.Paltsev@synopsys.com>
- <5184d3eb-31bc-c456-3e65-6137a3ba72f7@synopsys.com>
+Date: Fri, 25 Aug 2017 19:56:44 +0300
+Subject: [PATCH v2] OF: move extern declarations of of_stdout inside ifdef
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1503676662.15555.8.camel@synopsys.com>
+Message-ID: <20170825165644.30800-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 2017-08-22@14:44 -0700, Vineet Gupta wrote:
-> On 07/12/2017 02:40 AM, Eugeniy Paltsev wrote:
-> > Most of the time we indeed use the one and only LINUX_LINK_BASE
-> > set to 0x8000_0000. But there might be good reasons to move
-> > the kernel to another location like 0x9z etc.
-> > And we want IOC aperture to cover entire area used by the kernel,
-> > so let's make its base matching link base
-> 
-> How about something below....
-> 
-> Currently IOC aperture base is hardcoded to 0x8000_0000 which may not
-> be true for?
-> non default values of CONFIG_LINUX_LINK_BASE, so use the config value
-> 
-> > and add required asserts:
-> > checking IOC aperture base address and size to be supported by IOC.
-> 
-> .... And while at it, also add the required asserts expected by the
-> IOC?
-> programming model.
-> 
-> > 
-> > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> > ---
-> > ? arch/arc/mm/cache.c | 33 ++++++++++++++++++++++++---------
-> > ? 1 file changed, 24 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-> > index a867575..383ff77 100644
-> > --- a/arch/arc/mm/cache.c
-> > +++ b/arch/arc/mm/cache.c
-> > @@ -1083,7 +1083,8 @@ SYSCALL_DEFINE3(cacheflush, uint32_t, start,
-> > uint32_t, sz, uint32_t, flags)
-> > ???*/
-> > ? noinline void __init arc_ioc_setup(void)
-> > ? {
-> > -	unsigned int ap_sz;
-> > +	unsigned int ap_base;
-> > +	long ap_size;
-> 
-> Is there a reason they are different types ?
-> Also the way you use it below, best to call it mem_size !
+Move extern declarations of "of_stdout" pointer inside "CONFIG_OF"
+ifdef to be able to get rid of "CONFIG_OF" ifdef in its usage places.
 
-Ok, I used?long for ap_size as it simply populated by?arc_get_mem_sz
-------------->8----------
-ap_size = arc_get_mem_sz();
-------------->8----------
-and arc_get_mem_sz return long.
+Suggested-by: Steven Rostedt <rostedt at goodmis.org>
 
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+For example see: https://lkml.org/lkml/2017/8/25/337
 
-Probably I should fix arc_get_mem_sz because it simply return
-low_mem_sz which is unsigned long!
+Changes v1->v2:
+ * Move only "of_stdout" declarations instead of all entry pointers
+   declarations
 
-------------->8----------
-static unsigned long low_mem_sz;
-long __init arc_get_mem_sz(void)
-{
-	return low_mem_sz;
-}
-------------->8----------
+ include/linux/of.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> > ??
-> > ??	/* Flush + invalidate + disable L1 dcache */
-> > ??	__dc_disable();
-> > @@ -1092,18 +1093,32 @@ noinline void __init arc_ioc_setup(void)
-> > ??	if (read_aux_reg(ARC_REG_SLC_BCR))
-> > ??		slc_entire_op(OP_FLUSH_N_INV);
-> > ??
-> > -	/* IOC Aperture start: TDB: handle non default
-> > CONFIG_LINUX_LINK_BASE */
-> > -	write_aux_reg(ARC_REG_IO_COH_AP0_BASE, 0x80000);
-> > -
-> > ??	/*
-> > -	?* IOC Aperture size:
-> > -	?*???decoded as 2 ^ (SIZE + 2) KB: so setting 0x11 implies
-> > 512M
-> > -	?* TBD: fix for PGU + 1GB of low mem
-> > +	?* IOC Aperture size is equal to memory size.
-> > +	?* TBD: fix for PGU + 1GiB of low mem
-> 
-> Not really averse to this per-se, but conventionally we've not used
-> KiB or GiB?
-> etc, so I'd prefer KB, GB... just for consistency and ability to grep
-> correctly.
-
-But we also use KiB, MiB, GiB for ARC:
-$ grep -r -I -e "MiB" -e "GiB" arch/arc/
-reg = <0x0 0x80000000 0x0 0x20000000	/* 512 MiB low mem */
-0x1 0xc0000000 0x0 0x40000000>;	/* 1 GiB highmem */
-reg = <0x0 0x80000000 0x0 0x20000000	/* 512 MiB low mem */
-0x1 0xc0000000 0x0 0x40000000>;	/* 1 GiB highmem */
-reg = <0x0 0x80000000 0x0 0x1b000000>;	/* (512 - 32) MiB */
-reg = <0x80000000 0x20000000>;	/* 512MiB */
-reg = <0x80000000 0x20000000>;	/* 512MiB */
-..........
-
-
-> > ??	?* TBD: fix for PAE
-> > ??	?*/
-> > -	ap_sz = order_base_2(arc_get_mem_sz()/1024) - 2;
-> > -	write_aux_reg(ARC_REG_IO_COH_AP0_SIZE, ap_sz);
-> > +	ap_size = arc_get_mem_sz();
-> > +
-> > +	if (!is_power_of_2(ap_size) || ap_size < 4096)
-> > +		panic("IOC Aperture size must be power of 2 larger
-> > than 4KiB");
-> > +
-> > +	/*
-> > +	?* IOC Aperture size decoded as 2 ^ (SIZE + 2) KiB,
-> > +	?* so setting 0x11 implies 512MiB, 0x12 implies 1G...
-> > +	?*/
-> > +	write_aux_reg(ARC_REG_IO_COH_AP0_SIZE,
-> > order_base_2(ap_size / 1024) - 2);
-> 
-> for (ap_size / 1024) can you use (ap_size >> 10)
-
-I absolutely sure what compiler will implement this division?
-ap_size/1024 as right shift by itself.
-
-So lets don't make things look more complicated?than they are :)
-
-> > +
-> > +	/*
-> > +	?* For now we assume IOC aperture to cover all the memory
-> > used by the
-> > +	?* kernel.
-> > +	?*/
-> > +	ap_base = CONFIG_LINUX_LINK_BASE;
-> > +
-> > +	if (ap_base % ap_size != 0)
-> > +		panic("IOC Aperture start must be aligned to the
-> > size of the aperture");
-> 
-> This is good.
-> 
-> > ??
-> > +	write_aux_reg(ARC_REG_IO_COH_AP0_BASE, ap_base >> 12);
-> > ??	write_aux_reg(ARC_REG_IO_COH_PARTIAL, 1);
-> > ??	write_aux_reg(ARC_REG_IO_COH_ENABLE, 1);
-> > ??
-> > 
-> 
-> 
+diff --git a/include/linux/of.h b/include/linux/of.h
+index cfc3411..be28cb9 100644
+--- a/include/linux/of.h
++++ b/include/linux/of.h
+@@ -135,7 +135,6 @@ static inline void of_node_put(struct device_node *node) { }
+ extern struct device_node *of_root;
+ extern struct device_node *of_chosen;
+ extern struct device_node *of_aliases;
+-extern struct device_node *of_stdout;
+ extern raw_spinlock_t devtree_lock;
+ 
+ /* flag descriptions (need to be visible even when !CONFIG_OF) */
+@@ -147,6 +146,8 @@ extern raw_spinlock_t devtree_lock;
+ #define OF_BAD_ADDR	((u64)-1)
+ 
+ #ifdef CONFIG_OF
++extern struct device_node *of_stdout;
++
+ void of_core_init(void);
+ 
+ static inline bool is_of_node(const struct fwnode_handle *fwnode)
+@@ -539,6 +540,7 @@ const char *of_prop_next_string(struct property *prop, const char *cur);
+ bool of_console_check(struct device_node *dn, char *name, int index);
+ 
+ #else /* CONFIG_OF */
++#define of_stdout	NULL
+ 
+ static inline void of_core_init(void)
+ {
 -- 
-?Eugeniy Paltsev
+2.9.3
