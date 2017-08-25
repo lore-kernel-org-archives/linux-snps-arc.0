@@ -1,58 +1,77 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 25 Aug 2017 11:16:35 -0700
-Subject: [PATCH v4] ARC: clk: introduce HSDK pll driver
-In-Reply-To: <20170825173914.32121-1-Eugeniy.Paltsev@synopsys.com>
-References: <20170825173914.32121-1-Eugeniy.Paltsev@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 25 Aug 2017 23:27:39 +0300
+Subject: [PATCH] arc: arcv2: Mask only private-per-core IRQ lines on boot
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <808b0f38-f899-268a-94f9-f73885896b5d@synopsys.com>
+Message-ID: <1503692859-11187-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/25/2017 10:39 AM, Eugeniy Paltsev wrote:
-> HSDK board manages its clocks using various PLLs. These PLL have same
-> dividers and corresponding control registers mapped to different addresses.
-> So we add one common driver for such PLLs.
->
-> Each PLL on HSDK board consists of three dividers: IDIV, FBDIV and
-> ODIV. Output clock value is managed using these dividers.
->
-> We add pre-defined tables with supported rate values and appropriate
-> configurations of IDIV, FBDIV and ODIV for each value.
->
-> As of today we add support for PLLs that generate clock for the
-> HSDK arc cpus, system, ddr, AXI tunnel and hdmi.
->
-> By this patch we add support for several plls (arc cpus pll and others),
-> so we had to use two different init types: CLK_OF_DECLARE for arc cpus pll
-> and regular probing for others plls.
->
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
-> Changes v3 -> v4:
->   * Rename HSDKv1 to HSDK
->
-> Changes v2 -> v3:
->   * Add special management of arc core interface divider.
->
-> Changes v1 -> v2:
->   * Remove all MODULE* defines as this driver can't be build as module.
->   * Simplified hsdk_pll_is_err and hsdk_pll_is_locked functions.
->   * Use unsigned long fo best_rate in hsdk_pll_round_rate.
->   * Use of_clk_get_parent_count to get num_parents.
->   * Other small changes.
->
->   .../bindings/clock/snps,hsdk-pll-clock.txt         |  28 ++
->   MAINTAINERS                                        |   6 +
->   drivers/clk/Kconfig                                |   7 +
->   drivers/clk/Makefile                               |   1 +
->   drivers/clk/clk-hsdk-pll.c                         | 431 +++++++++++++++++++++
->   5 files changed, 473 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/clock/snps,hsdk-pll-clock.txt
->   create mode 100644 drivers/clk/clk-hsdk-pll.c
+This fixes a8ec3ee861b6 "arc: Mask individual IRQ lines during core INTC init".
+Above commit breaks interrupt handling on ARCv2 SMP systems because
+slave cores are left with common interrupts (those coming form IDU) disabled.
+And given by default IDU distributes incoming IRQs to all cores following
+round-robin routine 3 out of 4 interrupts from a particular peripheral
+won't be served.
 
-Reviewed-by: Vineet Gupta <vgupta at synopsys.com>
+Solution here is simple but 2-folded:
+  1. Unconditionally enable all "common" interrupt lines expecting IDU to only
+     route interrupts expectedly (i.e. not before a corresponding handler
+     was installed).
+  2. All privete-per-core interrupt lines are not covered by IDU so we have to
+     manage them right in the ARC's INTC and so we do now
+     (hwirq < FIRST_EXT_IRQ).
 
-P.S. Stephen I'd be nice if this can make it into 4.14 as we are slated to add the 
-hasdk platform support in there.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/kernel/intc-arcv2.c |  5 +++--
+ arch/arc/kernel/mcip.c       | 15 +++++++++++++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-Thx,
--Vineet
+diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
+index cf90714a676d..2db639874849 100644
+--- a/arch/arc/kernel/intc-arcv2.c
++++ b/arch/arc/kernel/intc-arcv2.c
+@@ -75,13 +75,14 @@ void arc_init_IRQ(void)
+ 	 * Set a default priority for all available interrupts to prevent
+ 	 * switching of register banks if Fast IRQ and multiple register banks
+ 	 * are supported by CPU.
+-	 * Also disable all IRQ lines so faulty external hardware won't
++	 * Also disable private-per-core IRQ lines so faulty external HW won't
+ 	 * trigger interrupt that kernel is not ready to handle.
+ 	 */
+ 	for (i = NR_EXCEPTIONS; i < irq_bcr.irqs + NR_EXCEPTIONS; i++) {
+ 		write_aux_reg(AUX_IRQ_SELECT, i);
+ 		write_aux_reg(AUX_IRQ_PRIORITY, ARCV2_IRQ_DEF_PRIO);
+-		write_aux_reg(AUX_IRQ_ENABLE, 0);
++		if (i < FIRST_EXT_IRQ)
++			write_aux_reg(AUX_IRQ_ENABLE, 0);
+ 	}
+ 
+ 	/* setup status32, don't enable intr yet as kernel doesn't want */
+diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
+index f61a52b01625..6a889828db4f 100644
+--- a/arch/arc/kernel/mcip.c
++++ b/arch/arc/kernel/mcip.c
+@@ -303,6 +303,21 @@ idu_of_init(struct device_node *intc, struct device_node *parent)
+ 		virq = irq_create_mapping(NULL, i + FIRST_EXT_IRQ);
+ 		BUG_ON(!virq);
+ 		irq_set_chained_handler_and_data(virq, idu_cascade_isr, domain);
++		/*
++		 * irq_set_chained_handler_and_data() silently executes
++		 * idu_irq_enable() which leaves us with all common interrupts
++		 * enabled right on start which allows faulty HW to generate
++		 * an interrupt which we are not ready to support yet.
++		 * So explicitly mask freshly set IRQ.
++		 * Note we have to do all that magic because IDU is not a real
++		 * cascaded INTC with N inputs and one upstream output.
++		 * What IDU really does it just mirrors its N inputs to
++		 * N*core_num outputs so we either need to selectively disable
++		 * or enable IRQ lines on upstream INTCs of ARC cores (and do
++		 * it for each and every ARC core in the cluster) or simply mask
++		 * inputs of the IDU just in one place here.
++		 */
++		idu_irq_mask_raw(i);
+ 	}
+ 
+ 	__mcip_cmd(CMD_IDU_ENABLE, 0);
+-- 
+2.7.5
