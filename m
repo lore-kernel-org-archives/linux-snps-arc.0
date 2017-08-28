@@ -1,148 +1,80 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 28 Aug 2017 19:58:07 +0300
-Subject: [PATCH v2 2/2] console: don't select first registered console if
- stdout-path used
-In-Reply-To: <20170828165807.8408-1-Eugeniy.Paltsev@synopsys.com>
-References: <20170828165807.8408-1-Eugeniy.Paltsev@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 28 Aug 2017 15:03:58 -0700
+Subject: [PATCH] ARCv2: SMP: Mask only private-per-core IRQ lines on boot at
+ core intc
+In-Reply-To: <1503957838-21505-1-git-send-email-vgupta@synopsys.com>
+References: <1503957838-21505-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170828165807.8408-3-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1503957838-21505-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-In the current implementation we take the first console that
-registers if we didn't select one.
+From: Alexey Brodkin <abrodkin@synopsys.com>
 
-But if we specify console via "stdout-path" property in device tree
-we don't want first console that registers here to be selected.
-Otherwise we may choose wrong console - for example if some console
-is registered earlier than console is pointed in "stdout-path"
-property because console pointed in "stdout-path" property can be add as
-preferred quite late - when it's driver is probed.
+Recent commit a8ec3ee861b6 "arc: Mask individual IRQ lines during core INTC init"
+breaks interrupt handling on ARCv2 SMP systems.
 
-We retain previous behavior for tty0 console (if "stdout-path" used)
-as a special case:
-tty0 will be registered even if it was specified neither
-in "bootargs" nor in "stdout-path".
-We had to retain this behavior because a lot of ARM boards (and some
-powerpc) rely on it.
+That commit masked all interrupts at onset, as some controllers on some boards
+(customer as well as internal), would assert interrutps early before any handlers
+were installed. For SMP systems, the masking was done at each cpu's core-intc.
+Later, when the IRQ was actually requested, it was unmasked, but only on the
+requesting cpu. For "common" interrupts, which were wired up from the
+2nd level IDU intc, this was as issue as they needed to be enabled on ALL
+the cpus (given that IDU IRQs are by default served Round Robin across
+cpus)
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+So fix that by NOT masking "common" interrupts at core-intc, but instead
+at the 2nd level IDU intc (latter already being done in idu_of_init())
+
+Fixes: a8ec3ee861b6 ("arc: Mask individual IRQ lines during core INTC init")
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+[vgupta: reworked changelog, removed the extraneous idu_irq_mask_raw()]
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
-Changes v1->v2:
- * Add exception for "tty0" console as current behavior is widely used
-   by ARM and powerpc boards.
+ arch/arc/kernel/intc-arcv2.c   | 11 +++++++++--
+ arch/arc/kernel/intc-compact.c |  2 +-
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
- kernel/printk/printk.c | 84 +++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 69 insertions(+), 15 deletions(-)
-
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 512f7c2..be40f57 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -26,6 +26,7 @@
- #include <linux/nmi.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
-+#include <linux/of.h>
- #include <linux/delay.h>
- #include <linux/smp.h>
- #include <linux/security.h>
-@@ -2376,6 +2377,55 @@ static int __init keep_bootcon_setup(char *str)
- 
- early_param("keep_bootcon", keep_bootcon_setup);
- 
-+static bool console_selected_by_of(void)
-+{
-+	return !!of_stdout;
-+}
-+
-+static bool can_be_tty0(struct console *newcon)
-+{
-+	struct console *con = NULL;
-+
-+	if (newcon->index > 0)
-+		return false;
-+
-+	if (strcmp(newcon->name, "tty") != 0)
-+		return false;
-+
-+	if (newcon->index == 0)
-+		return true;
-+
-+	/* do we have "tty" console already registered? */
-+	for_each_console(con) {
-+		if (strcmp(con->name, "tty") != 0)
-+			continue;
-+
-+		if (con->index >= 0)
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
-+static bool take_console_noopts(struct console *newcon)
-+{
-+	if (newcon->index < 0)
-+		newcon->index = 0;
-+
-+	if ((newcon->setup != NULL) && (newcon->setup(newcon, NULL) != 0))
-+		return false;
-+
-+	newcon->flags |= CON_ENABLED;
-+
-+	if (newcon->device && !can_be_tty0(newcon))
-+		newcon->flags |= CON_CONSDEV;
-+
-+	if (newcon->device)
-+		return true;
-+
-+	return false;
-+}
-+
- /*
-  * The console driver calls this routine during kernel initialization
-  * to register the console printing procedure with printk() and to
-@@ -2432,22 +2482,26 @@ void register_console(struct console *newcon)
- 		has_preferred = preferred_console >= 0;
- 
- 	/*
--	 *	See if we want to use this console driver. If we
--	 *	didn't select a console we take the first one
--	 *	that registers here.
-+	 * If we specify console via "stdout-path" property in device tree
-+	 * we don't want first console that registers here to be selected.
+diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
+index cf90714a676d..067ea362fb3e 100644
+--- a/arch/arc/kernel/intc-arcv2.c
++++ b/arch/arc/kernel/intc-arcv2.c
+@@ -75,13 +75,20 @@ void arc_init_IRQ(void)
+ 	 * Set a default priority for all available interrupts to prevent
+ 	 * switching of register banks if Fast IRQ and multiple register banks
+ 	 * are supported by CPU.
+-	 * Also disable all IRQ lines so faulty external hardware won't
++	 * Also disable private-per-core IRQ lines so faulty external HW won't
+ 	 * trigger interrupt that kernel is not ready to handle.
  	 */
--	if (!has_preferred) {
--		if (newcon->index < 0)
--			newcon->index = 0;
--		if (newcon->setup == NULL ||
--		    newcon->setup(newcon, NULL) == 0) {
--			newcon->flags |= CON_ENABLED;
--			if (newcon->device) {
--				newcon->flags |= CON_CONSDEV;
--				has_preferred = true;
--			}
--		}
--	}
-+	if (console_selected_by_of())
-+		has_preferred = true;
+ 	for (i = NR_EXCEPTIONS; i < irq_bcr.irqs + NR_EXCEPTIONS; i++) {
+ 		write_aux_reg(AUX_IRQ_SELECT, i);
+ 		write_aux_reg(AUX_IRQ_PRIORITY, ARCV2_IRQ_DEF_PRIO);
+-		write_aux_reg(AUX_IRQ_ENABLE, 0);
 +
-+	/*
-+	 * See if we want to use this console driver. If we didn't select
-+	 * a console we take the first one that registers here.
-+	 */
-+	if (!has_preferred)
-+		has_preferred |= take_console_noopts(newcon);
-+
-+	/*
-+	 * Treat "tty0" (in case of "stdout-path" using) as a special case:
-+	 * "tty0" will be registered even if it was specified neither in
-+	 * "bootargs" nor in "stdout-path".
-+	 */
-+	if (console_selected_by_of() && can_be_tty0(newcon))
-+		has_preferred |= take_console_noopts(newcon);
++		/*
++		 * Only mask cpu private IRQs here.
++		 * "common" interrupts are masked at IDU, otherwise it would
++		 * need to be unmasked at each cpu, with IPIs
++		 */
++		if (i < FIRST_EXT_IRQ)
++			write_aux_reg(AUX_IRQ_ENABLE, 0);
+ 	}
  
- 	/*
- 	 *	See if this console matches one we selected on
+ 	/* setup status32, don't enable intr yet as kernel doesn't want */
+diff --git a/arch/arc/kernel/intc-compact.c b/arch/arc/kernel/intc-compact.c
+index cef388025adf..47b421fa0147 100644
+--- a/arch/arc/kernel/intc-compact.c
++++ b/arch/arc/kernel/intc-compact.c
+@@ -27,7 +27,7 @@
+  */
+ void arc_init_IRQ(void)
+ {
+-	int level_mask = 0, i;
++	unsigned int level_mask = 0, i;
+ 
+        /* Is timer high priority Interrupt (Level2 in ARCompact jargon) */
+ 	level_mask |= IS_ENABLED(CONFIG_ARC_COMPACT_IRQ_LEVELS) << TIMER0_IRQ;
 -- 
-2.9.3
+2.7.4
