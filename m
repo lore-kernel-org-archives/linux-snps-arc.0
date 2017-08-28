@@ -1,50 +1,148 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 28 Aug 2017 19:58:06 +0300
-Subject: [PATCH v2 1/2] OF: move extern declarations of of_stdout inside ifdef
+Date: Mon, 28 Aug 2017 19:58:07 +0300
+Subject: [PATCH v2 2/2] console: don't select first registered console if
+ stdout-path used
 In-Reply-To: <20170828165807.8408-1-Eugeniy.Paltsev@synopsys.com>
 References: <20170828165807.8408-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170828165807.8408-2-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20170828165807.8408-3-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Move extern declarations of "of_stdout" pointer inside "CONFIG_OF"
-ifdef to be able to get rid of "CONFIG_OF" ifdef in its usage places.
+In the current implementation we take the first console that
+registers if we didn't select one.
 
-Acked-by: Rob Herring <robh at kernel.org>
-Suggested-by: Steven Rostedt <rostedt at goodmis.org>
+But if we specify console via "stdout-path" property in device tree
+we don't want first console that registers here to be selected.
+Otherwise we may choose wrong console - for example if some console
+is registered earlier than console is pointed in "stdout-path"
+property because console pointed in "stdout-path" property can be add as
+preferred quite late - when it's driver is probed.
+
+We retain previous behavior for tty0 console (if "stdout-path" used)
+as a special case:
+tty0 will be registered even if it was specified neither
+in "bootargs" nor in "stdout-path".
+We had to retain this behavior because a lot of ARM boards (and some
+powerpc) rely on it.
+
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 ---
- include/linux/of.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Changes v1->v2:
+ * Add exception for "tty0" console as current behavior is widely used
+   by ARM and powerpc boards.
 
-diff --git a/include/linux/of.h b/include/linux/of.h
-index cfc3411..be28cb9 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -135,7 +135,6 @@ static inline void of_node_put(struct device_node *node) { }
- extern struct device_node *of_root;
- extern struct device_node *of_chosen;
- extern struct device_node *of_aliases;
--extern struct device_node *of_stdout;
- extern raw_spinlock_t devtree_lock;
+ kernel/printk/printk.c | 84 +++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 69 insertions(+), 15 deletions(-)
+
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 512f7c2..be40f57 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -26,6 +26,7 @@
+ #include <linux/nmi.h>
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
++#include <linux/of.h>
+ #include <linux/delay.h>
+ #include <linux/smp.h>
+ #include <linux/security.h>
+@@ -2376,6 +2377,55 @@ static int __init keep_bootcon_setup(char *str)
  
- /* flag descriptions (need to be visible even when !CONFIG_OF) */
-@@ -147,6 +146,8 @@ extern raw_spinlock_t devtree_lock;
- #define OF_BAD_ADDR	((u64)-1)
+ early_param("keep_bootcon", keep_bootcon_setup);
  
- #ifdef CONFIG_OF
-+extern struct device_node *of_stdout;
++static bool console_selected_by_of(void)
++{
++	return !!of_stdout;
++}
 +
- void of_core_init(void);
++static bool can_be_tty0(struct console *newcon)
++{
++	struct console *con = NULL;
++
++	if (newcon->index > 0)
++		return false;
++
++	if (strcmp(newcon->name, "tty") != 0)
++		return false;
++
++	if (newcon->index == 0)
++		return true;
++
++	/* do we have "tty" console already registered? */
++	for_each_console(con) {
++		if (strcmp(con->name, "tty") != 0)
++			continue;
++
++		if (con->index >= 0)
++			return false;
++	}
++
++	return true;
++}
++
++static bool take_console_noopts(struct console *newcon)
++{
++	if (newcon->index < 0)
++		newcon->index = 0;
++
++	if ((newcon->setup != NULL) && (newcon->setup(newcon, NULL) != 0))
++		return false;
++
++	newcon->flags |= CON_ENABLED;
++
++	if (newcon->device && !can_be_tty0(newcon))
++		newcon->flags |= CON_CONSDEV;
++
++	if (newcon->device)
++		return true;
++
++	return false;
++}
++
+ /*
+  * The console driver calls this routine during kernel initialization
+  * to register the console printing procedure with printk() and to
+@@ -2432,22 +2482,26 @@ void register_console(struct console *newcon)
+ 		has_preferred = preferred_console >= 0;
  
- static inline bool is_of_node(const struct fwnode_handle *fwnode)
-@@ -539,6 +540,7 @@ const char *of_prop_next_string(struct property *prop, const char *cur);
- bool of_console_check(struct device_node *dn, char *name, int index);
+ 	/*
+-	 *	See if we want to use this console driver. If we
+-	 *	didn't select a console we take the first one
+-	 *	that registers here.
++	 * If we specify console via "stdout-path" property in device tree
++	 * we don't want first console that registers here to be selected.
+ 	 */
+-	if (!has_preferred) {
+-		if (newcon->index < 0)
+-			newcon->index = 0;
+-		if (newcon->setup == NULL ||
+-		    newcon->setup(newcon, NULL) == 0) {
+-			newcon->flags |= CON_ENABLED;
+-			if (newcon->device) {
+-				newcon->flags |= CON_CONSDEV;
+-				has_preferred = true;
+-			}
+-		}
+-	}
++	if (console_selected_by_of())
++		has_preferred = true;
++
++	/*
++	 * See if we want to use this console driver. If we didn't select
++	 * a console we take the first one that registers here.
++	 */
++	if (!has_preferred)
++		has_preferred |= take_console_noopts(newcon);
++
++	/*
++	 * Treat "tty0" (in case of "stdout-path" using) as a special case:
++	 * "tty0" will be registered even if it was specified neither in
++	 * "bootargs" nor in "stdout-path".
++	 */
++	if (console_selected_by_of() && can_be_tty0(newcon))
++		has_preferred |= take_console_noopts(newcon);
  
- #else /* CONFIG_OF */
-+#define of_stdout	NULL
- 
- static inline void of_core_init(void)
- {
+ 	/*
+ 	 *	See if this console matches one we selected on
 -- 
 2.9.3
