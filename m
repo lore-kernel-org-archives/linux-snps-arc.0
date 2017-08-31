@@ -1,44 +1,74 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Thu, 31 Aug 2017 11:28:40 +0000
-Subject: [PATCH] ARC: reset: introduce AXS10x reset driver
-In-Reply-To: <1502717875.2586.13.camel@synopsys.com>
-References: <20170810164112.9894-1-Eugeniy.Paltsev@synopsys.com>
- <1502459172.2310.16.camel@pengutronix.de>
- <1502717875.2586.13.camel@synopsys.com>
+Date: Thu, 31 Aug 2017 13:33:56 +0000
+Subject: [PATCH v3] earlycon: initialise baud field of earlycon device
+ structure
+In-Reply-To: <20170821162213.27102-1-Eugeniy.Paltsev@synopsys.com>
+References: <20170821162213.27102-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1504178919.15555.22.camel@synopsys.com>
+Message-ID: <1504186436.15555.24.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Philipp,
+Hi,
 
-Do you have plans to add reset-simple driver into 4.14?
-It would be nice to use it for AXS10x in 4.14.
+Maybe you have any comments or remarks about this patch?
+And if you don't could you please apply it.
 
 Thanks.
 
-On Mon, 2017-08-14@13:37 +0000, Eugeniy Paltsev wrote:
-> On Fri, 2017-08-11@15:46 +0200, Philipp Zabel wrote:
-> > Hi Eugeniy,
-> > 
-> > On Thu, 2017-08-10@19:41 +0300, Eugeniy Paltsev wrote:
-> > > ARC AXS10x boards support custom IP-block which allows to control
-> > > reset signals of selected peripherals. For example DW GMAC, etc...
-> > > This block is controlled via memory-mapped register (AKA CREG)
-> > > which
-> > > represents up-to 32 reset lines.
-> > > 
-> > > As of today only the following lines are used:
-> > > ?- DW GMAC - line 5
-> > > 
-> > > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> > 
-> > Could you check if the reset-simple driver that I posted today would
-> > work for you?
-> > 
+On Mon, 2017-08-21@19:22 +0300, Eugeniy Paltsev wrote:
+> For now baud field of earlycon structure device is't initialised at all
+> in of_setup_earlycon (in opposit? to register_earlycon).
 > 
-> Yes, it would. Thanks.
+> So when I use stdout-path to point earlycon device
+> (like stdout-path = &serial or stdout-path = "serial:115200n8")
+> baud field of earlycon device structure remains uninitialised and
+> earlycon initialization is not performed correctly as
+> of_setup_earlycon is used.
+> When pass all arguments via bootargs
+> (like bootargs = "earlycon=uart8250,mmio32,0xf0005000,115200n8")
+> initialization is performed correctly as register_earlycon is used.
 > 
-> --?
-> ?Eugeniy Paltsev
+> So initialise baud field of earlycon device structure by value of
+> "current-speed" property from device tree or from options
+> (if they exist) when we use of_setup_earlycon
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+> Changes v2 -> v3:
+> ?* Use simple_strtoul instead of kstrtoul as with kstrtoul we can't parse
+> ???options string which includes arguments except baudrate (like "115200n8")
+> 
+> Changes v1 -> v2:
+> ?* Use standart property name "current-speed" instead of custom "baud"
+> 
+> NOTE:
+> I don't add parsing of the other standard options here because we don't
+> have any place to store them. When we parce and set options of the 'real'
+> uart device (using uart_parse_options + uart_set_options) we populate
+> ktermios structure an pass it to port->ops->set_termios callback of
+> uart_port structure. So it is processing by uart driver itself. But we don't
+> register such callbacks for earlycon. So we are only able to parse baud
+> value, which can be stored in baud field of earlycon_device structure.
+> 
+> ?drivers/tty/serial/earlycon.c | 5 +++++
+> ?1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/tty/serial/earlycon.c b/drivers/tty/serial/earlycon.c
+> index c365154..82e813b 100644
+> --- a/drivers/tty/serial/earlycon.c
+> +++ b/drivers/tty/serial/earlycon.c
+> @@ -282,7 +282,12 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
+> ?		}
+> ?	}
+> ?
+> +	val = of_get_flat_dt_prop(node, "current-speed", NULL);
+> +	if (val)
+> +		early_console_dev.baud = be32_to_cpu(*val);
+> +
+> ?	if (options) {
+> +		early_console_dev.baud = simple_strtoul(options, NULL, 0);
+> ?		strlcpy(early_console_dev.options, options,
+> ?			sizeof(early_console_dev.options));
+> ?	}
 -- 
 ?Eugeniy Paltsev
