@@ -1,35 +1,44 @@
-From: sboyd@codeaurora.org (Stephen Boyd)
-Date: Wed, 30 Aug 2017 22:38:00 -0700
-Subject: [PATCH v4] ARC: clk: introduce HSDK pll driver
-In-Reply-To: <20170825173914.32121-1-Eugeniy.Paltsev@synopsys.com>
-References: <20170825173914.32121-1-Eugeniy.Paltsev@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 31 Aug 2017 11:28:40 +0000
+Subject: [PATCH] ARC: reset: introduce AXS10x reset driver
+In-Reply-To: <1502717875.2586.13.camel@synopsys.com>
+References: <20170810164112.9894-1-Eugeniy.Paltsev@synopsys.com>
+ <1502459172.2310.16.camel@pengutronix.de>
+ <1502717875.2586.13.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170831053800.GC21656@codeaurora.org>
+Message-ID: <1504178919.15555.22.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/25, Eugeniy Paltsev wrote:
-> HSDK board manages its clocks using various PLLs. These PLL have same
-> dividers and corresponding control registers mapped to different addresses.
-> So we add one common driver for such PLLs.
-> 
-> Each PLL on HSDK board consists of three dividers: IDIV, FBDIV and
-> ODIV. Output clock value is managed using these dividers.
-> 
-> We add pre-defined tables with supported rate values and appropriate
-> configurations of IDIV, FBDIV and ODIV for each value.
-> 
-> As of today we add support for PLLs that generate clock for the
-> HSDK arc cpus, system, ddr, AXI tunnel and hdmi.
-> 
-> By this patch we add support for several plls (arc cpus pll and others),
-> so we had to use two different init types: CLK_OF_DECLARE for arc cpus pll
-> and regular probing for others plls.
-> 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
+Hi Philipp,
 
-Applied to clk-next
+Do you have plans to add reset-simple driver into 4.14?
+It would be nice to use it for AXS10x in 4.14.
 
+Thanks.
+
+On Mon, 2017-08-14@13:37 +0000, Eugeniy Paltsev wrote:
+> On Fri, 2017-08-11@15:46 +0200, Philipp Zabel wrote:
+> > Hi Eugeniy,
+> > 
+> > On Thu, 2017-08-10@19:41 +0300, Eugeniy Paltsev wrote:
+> > > ARC AXS10x boards support custom IP-block which allows to control
+> > > reset signals of selected peripherals. For example DW GMAC, etc...
+> > > This block is controlled via memory-mapped register (AKA CREG)
+> > > which
+> > > represents up-to 32 reset lines.
+> > > 
+> > > As of today only the following lines are used:
+> > > ?- DW GMAC - line 5
+> > > 
+> > > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> > 
+> > Could you check if the reset-simple driver that I posted today would
+> > work for you?
+> > 
+> 
+> Yes, it would. Thanks.
+> 
+> --?
+> ?Eugeniy Paltsev
 -- 
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+?Eugeniy Paltsev
