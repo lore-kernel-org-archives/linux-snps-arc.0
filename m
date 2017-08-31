@@ -1,65 +1,35 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 29 Aug 2017 17:03:06 -0700
-Subject: [PATCH] arc: Show fault information passed to
- show_kernel_fault_diag()
-In-Reply-To: <aa1a840470a895c0eae5e53054af43f27360d019.1503998005.git.joabreu@synopsys.com>
-References: <aa1a840470a895c0eae5e53054af43f27360d019.1503998005.git.joabreu@synopsys.com>
+From: sboyd@codeaurora.org (Stephen Boyd)
+Date: Wed, 30 Aug 2017 22:38:00 -0700
+Subject: [PATCH v4] ARC: clk: introduce HSDK pll driver
+In-Reply-To: <20170825173914.32121-1-Eugeniy.Paltsev@synopsys.com>
+References: <20170825173914.32121-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <4addb590-d3f3-577a-1863-9471b501cf96@synopsys.com>
+Message-ID: <20170831053800.GC21656@codeaurora.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/29/2017 02:14 AM, Jose Abreu wrote:
-> Currently we pass a string argument to show_kernel_fault_diag() which
-> describes the reason for the fault. This is not being used so just
-> add a pr_info() which outputs the fault information.
-
-OK, I've also fixed show_ecr_verbose() to call out Machine check - see below
+On 08/25, Eugeniy Paltsev wrote:
+> HSDK board manages its clocks using various PLLs. These PLL have same
+> dividers and corresponding control registers mapped to different addresses.
+> So we add one common driver for such PLLs.
 > 
-> With this change we get from:
-> --------------------------
-> Path: /bin/busybox
-> CPU: 0 PID: 92 Comm: modprobe Not tainted 4.12.0-rc6 #30
-> task: 9a254780 task.stack: 9a212000
+> Each PLL on HSDK board consists of three dividers: IDIV, FBDIV and
+> ODIV. Output clock value is managed using these dividers.
 > 
-> [ECR   ]: 0x00200400 => Other Fatal Err
-> --------------------------
-> to:
-> --------------------------
-> Machine Check Exception
-> Path: /bin/busybox
-> CPU: 0 PID: 92 Comm: modprobe Not tainted 4.12.0-rc6 #37
-> task: 9a240780 task.stack: 9a226000
+> We add pre-defined tables with supported rate values and appropriate
+> configurations of IDIV, FBDIV and ODIV for each value.
 > 
-> [ECR   ]: 0x00200400 => Other Fatal Err
-
-This now prints as
-
-   [ECR   ]: 0x00200400 => Machine Check (Other Fatal Err)
-
-
-> --------------------------
+> As of today we add support for PLLs that generate clock for the
+> HSDK arc cpus, system, ddr, AXI tunnel and hdmi.
 > 
-> Which can help debugging.
+> By this patch we add support for several plls (arc cpus pll and others),
+> so we had to use two different init types: CLK_OF_DECLARE for arc cpus pll
+> and regular probing for others plls.
 > 
-> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: Alexey Brodkin <abrodkin at synopsys.com>
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 > ---
->   arch/arc/kernel/troubleshoot.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/arch/arc/kernel/troubleshoot.c b/arch/arc/kernel/troubleshoot.c
-> index f9caf79..03f0654 100644
-> --- a/arch/arc/kernel/troubleshoot.c
-> +++ b/arch/arc/kernel/troubleshoot.c
-> @@ -233,6 +233,9 @@ void show_kernel_fault_diag(const char *str, struct pt_regs *regs,
->   {
->   	current->thread.fault_address = address;
->   
-> +	/* Show fault description */
-> +	pr_info("\n%s\n", str);
-> +
->   	/* Caller and Callee regs */
->   	show_regs(regs);
->   
-> 
+
+Applied to clk-next
+
+-- 
+Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
