@@ -1,103 +1,47 @@
-From: marek.vasut@gmail.com (Marek Vasut)
-Date: Tue, 1 Aug 2017 00:43:41 +0200
-Subject: [PATCH 4/5] mtd: spi-nor: Add driver for Adaptrum Anarion QSPI
- controller
-In-Reply-To: <e1390c36-086b-aeba-848c-f45dcb88b5ce@adaptrum.com>
-References: <20170728220707.13960-1-alex.g@adaptrum.com>
- <20170728220707.13960-5-alex.g@adaptrum.com>
- <135fdf95-1029-2d34-2802-1283a73588e5@gmail.com>
- <83a4e27a-b96c-0558-fbb5-10e64f9bf59b@adaptrum.com>
- <e7c916c4-7b0a-1f76-b91f-5befeb24faf5@gmail.com>
- <e1390c36-086b-aeba-848c-f45dcb88b5ce@adaptrum.com>
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Fri,  1 Sep 2017 12:39:57 +0100
+Subject: [PATCH] arc: Re-enable MMU upon die()
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1da97744-bc02-420e-d4e9-5ebf331475e8@gmail.com>
+Message-ID: <d2b588da61b35312a3126b605685f22bc30fc3ae.1504265945.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/01/2017 12:20 AM, Alexandru Gagniuc wrote:
-> On 07/31/2017 02:33 PM, Marek Vasut wrote:
->> On 07/31/2017 07:17 PM, Alexandru Gagniuc wrote:
-> 
-> Hi Marek,
-> 
-> Thank you again for your feedback. I've applied a majority of your
-> suggestions, and I am very happy with the result. I should have v2
-> posted within a day or so.
+I recently came upon a scenario where I would get a double fault
+after a machine check error. It turns out that for Ksymbol lookup
+to work with modules we need to have MMU enabled because module
+address is mapped in the cached space.
 
-No. You should have v2 out in about a week or so after people have time
-to review v1 some more.
+This patch re-enables the MMU before start printing the stacktrace
+making stacktracing of modules work upon a fatal exception.
 
-> [snip]
->>>>> +/*
->>>>> + * This mask does not match reality. Get over it:
->>>>
->>>> What is this about ?
->>>
->>> Each stage of the QSPI chain has two registers. The second register has
->>> a bitfield which takes in the length of the stage. For example, for
->>> DATA2, we can set the length up to 0x4000, but for ADDR2, we can only
->>> set a max of 4 bytes. I wrote this comment as a reminder to myself to be
->>> careful about using this mask. I'll rephrase the comment for [v2]
->>
->> Please do.
->>
-> Staged for [PATCH v2]
-> 
->>>>> + * DATA2:    0x3fff
->>>>> + * CMD2:    0x0003
->>>>> + * ADDR2:    0x0007
->>>>> + * PERF2:    0x0000
->>>>> + * HI_Z:    0x003f
->>>>> + * BCNT:    0x0007
->>>>> + */
->>>>> +#define CHAIN_LEN(x)        ((x - 1) & ASPI_DATA_LEN_MASK)
+Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/kernel/traps.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-btw parenthesis around (x) missing, although this is like GEN_MASK() or
-something here ...
-
->>>>> +struct anarion_qspi {
->>>>> +    struct        spi_nor nor;
->>>>> +    struct        device *dev;
->>>>> +    uintptr_t    regbase;
->>>>
->>>> Should be void __iomem * I guess ?
->>>
->>> I chose uintptr_t as opposed to void *, because arithmetic on void * is
->>> not valid in C. What is the right answer hen, without risking undefined
->>> behavior?
->>
->> What sort of arithmetic ? It's perfectly valid in general ...
-> 
-> ISO/IEC 9899:201x, Section 6.5.6, constraint(2) is not met when the one
-> of the operands to addition is a void pointer.
-> Section 6.2.5 (19) defines void to be an incomplete type.
-
-Is that something new in C 201x draft ? Anyway, this would mean half of
-the drivers are broken, so I'm not convinced.
-
-> [snip]
-> 
->>>> Is this stuff below something like ioread32_rep() ?
->>>>
->>>>> +    aspi_write_reg(aspi, ASPI_REG_BYTE_COUNT, sizeof(uint32_t));
->>>>> +    while (len >= 4) {
->>>>> +        data = aspi_read_reg(aspi, ASPI_REG_DATA1);
->>>>> +        memcpy(buf, &data, sizeof(data));
->>>>> +        buf += 4;
->>>>> +        len -= 4;
->>>>> +    }
->>>
->>> That is very similar to ioread32_rep, yes. I kept this as for the
->>> reasons outlined above, but changing this to _rep() seems innocent
->>> enough.
->>
->> What reason ?
-> 
-> Being able to share the code between the different codebases where it is
-> used.
-
-Yes, that argument isn't gonna work, it'd make things impossible to
-maintain in the kernel.
-
+diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
+index ff83e78..9533e06 100644
+--- a/arch/arc/kernel/traps.c
++++ b/arch/arc/kernel/traps.c
+@@ -19,6 +19,8 @@
+ #include <linux/ptrace.h>
+ #include <linux/kprobes.h>
+ #include <linux/kgdb.h>
++#include <asm/arcregs.h>
++#include <asm/mmu.h>
+ #include <asm/setup.h>
+ #include <asm/unaligned.h>
+ #include <asm/kprobes.h>
+@@ -30,6 +32,9 @@ void __init trap_init(void)
+ 
+ void die(const char *str, struct pt_regs *regs, unsigned long address)
+ {
++	/* MMU must be enabled for Ksymbol lookup in modules */
++	write_aux_reg(ARC_REG_PID, MMU_ENABLE | read_aux_reg(ARC_REG_PID));
++
+ 	show_kernel_fault_diag(str, regs, address);
+ 
+ 	/* DEAD END */
 -- 
-Best regards,
-Marek Vasut
+1.9.1
