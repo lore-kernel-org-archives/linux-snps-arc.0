@@ -1,63 +1,67 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon,  4 Sep 2017 12:48:43 +0300
-Subject: [PATCH] ARC: HSDK: Add core pll node to DT to manage cpu clk
+From: pmladek@suse.com (Petr Mladek)
+Date: Tue, 5 Sep 2017 16:54:05 +0200
+Subject: [PATCH v2 2/2] console: don't select first registered console if
+ stdout-path used
+In-Reply-To: <20170828165807.8408-3-Eugeniy.Paltsev@synopsys.com>
+References: <20170828165807.8408-1-Eugeniy.Paltsev@synopsys.com>
+ <20170828165807.8408-3-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170904094843.32207-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20170905145405.GH8741@pathway.suse.cz>
 To: linux-snps-arc@lists.infradead.org
 
-Add core pll node (core_clk) to manage cpu frequency.
-core_clk node represents pll itself.
-input_clk node represents clock signal source (basically xtal)
-which comes to pll input.
+On Mon 2017-08-28 19:58:07, Eugeniy Paltsev wrote:
+> In the current implementation we take the first console that
+> registers if we didn't select one.
+> 
+> But if we specify console via "stdout-path" property in device tree
+> we don't want first console that registers here to be selected.
+> Otherwise we may choose wrong console - for example if some console
+> is registered earlier than console is pointed in "stdout-path"
+> property because console pointed in "stdout-path" property can be add as
+> preferred quite late - when it's driver is probed.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/boot/dts/hsdk.dts      | 11 +++++++++--
- arch/arc/configs/hsdk_defconfig |  1 +
- 2 files changed, 10 insertions(+), 2 deletions(-)
+register_console() is really twisted function. I would like to better
+understand your problems before we add yet another twist there.
 
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index 229d13a..8412669 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -57,10 +57,10 @@
- 		};
- 	};
- 
--	core_clk: core-clk {
-+	input_clk: input-clk {
- 		#clock-cells = <0>;
- 		compatible = "fixed-clock";
--		clock-frequency = <500000000>;
-+		clock-frequency = <33333333>;
- 	};
- 
- 	cpu_intc: cpu-interrupt-controller {
-@@ -102,6 +102,13 @@
- 
- 		ranges = <0x00000000 0xf0000000 0x10000000>;
- 
-+		core_clk: core-clk at 0 {
-+			compatible = "snps,hsdk-core-pll-clock";
-+			reg = <0x00 0x10>, <0x14B8 0x4>;
-+			#clock-cells = <0>;
-+			clocks = <&input_clk>;
-+		};
-+
- 		serial: serial at 5000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x5000 0x100>;
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-index a7114cd..3f35f52 100644
---- a/arch/arc/configs/hsdk_defconfig
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -62,6 +62,7 @@ CONFIG_MMC=y
- CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
- CONFIG_MMC_DW=y
-+CONFIG_CLK_HSDK=y
- # CONFIG_IOMMU_SUPPORT is not set
- CONFIG_EXT3_FS=y
- CONFIG_VFAT_FS=y
--- 
-2.9.3
+Could you please be more specific about your problems?
+What was the output of "cat /proc/consoles" before and after the fix?
+What exactly started and stopped working?
+
+
+> We retain previous behavior for tty0 console (if "stdout-path" used)
+> as a special case:
+> tty0 will be registered even if it was specified neither
+> in "bootargs" nor in "stdout-path".
+> We had to retain this behavior because a lot of ARM boards (and some
+> powerpc) rely on it.
+
+My main concern is the exception for "tty". Yes, it was regiression
+reported in the commit c6c7d83b9c9e6a8b3e ("Revert "console: don't
+prefer first registered if DT specifies stdout-path""). But is this
+the only possible regression?
+
+
+All this is about the fallback code that tries to enable all
+consoles until a real one with tty binding (newcon->device)
+is enabled.
+
+v1 version of you patch disabled this fallback code when a console
+was defined by stdout-path in the device tree. This emulates
+defining the console by console= parameter on the command line.
+
+It might make sense until some complains that a console is not
+longer automatically enabled while it was before. But wait.
+Someone already complained about "tty0". We can solve this
+by adding an exception for "tty0". And if anyone else complains
+about another console, we might need more exceptions.
+
+We might endup with so many exceptions that the fallback code
+will be always used. But then we are back in the square
+and have the original behavior before your patch.
+
+This is why I would like to know more info about your problem.
+We need to decide if it is more important than a regression.
+Or if it can be fixed another way.
+
+Best Regards,
+Petr
