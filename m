@@ -1,136 +1,47 @@
-From: robh@kernel.org (Rob Herring)
-Date: Wed, 6 Sep 2017 14:20:04 -0500
-Subject: Setting CPU clock frequency on early boot
-In-Reply-To: <1504714938.3829.40.camel@synopsys.com>
-References: <1504625867.32565.34.camel@synopsys.com>
- <CAL_JsqJ7c-raBnb0U+hL+hka7zN3XosX0pU1Sswoq16nbRFb+g@mail.gmail.com>
- <b8f7f407-303a-2f3c-1a16-bfb385204930@synopsys.com>
- <1504705881.3829.19.camel@synopsys.com>
- <CAL_Jsq+B74keQ3N=8x6jx1URkLq8fa9gwsc5JAuiV86Wwczi9Q@mail.gmail.com>
- <1504714938.3829.40.camel@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 6 Sep 2017 12:54:59 -0700
+Subject: [PATCH] ARC: AXS10x: Add temporary quirk to reset ethernet IP
+In-Reply-To: <20170906182108.16765-1-Eugeniy.Paltsev@synopsys.com>
+References: <20170906182108.16765-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAL_Jsq+oBVeZ9FrvCZsVWyQjTiFw=mujf-p64oLEEo4XYkdmVQ@mail.gmail.com>
+Message-ID: <948bc9d9-7cef-4574-2ec9-0e9b0e5e0772@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Sep 6, 2017 at 11:22 AM, Alexey Brodkin
-<Alexey.Brodkin@synopsys.com> wrote:
-> Hi Rob,
->
-> On Wed, 2017-09-06@10:25 -0500, Rob Herring wrote:
->> On Wed, Sep 6, 2017 at 8:51 AM, Alexey Brodkin
->> <Alexey.Brodkin@synopsys.com> wrote:
->> >
->> > Hi Vineet, Rob,
->> >
->> > On Tue, 2017-09-05@16:40 -0700, Vineet Gupta wrote:
->> > >
->> > > On 09/05/2017 03:04 PM, Rob Herring wrote:
->> > > >
->> > > >
->> > > > On Tue, Sep 5, 2017 at 10:37 AM, Alexey Brodkin
->> > > > <Alexey.Brodkin@synopsys.com> wrote:
->
-> [snip]
->
->> > Yeah, that's an interesting question. We may indeed move more smarts to the clock driver
->> > but:
->> >  1. We'll have duplicate code in different clock drivers. Even today that kind of clock
->> >     setup is applicable to AXS10x and HSDK platforms (and they use different clock drivers).
->>
->> No, you could provide a common, shared function to call. Then each
->> platform can opt-in. If you can make something that applies to every
->> single platform now or in the future, then I'd put it in arch. If you
->> have plans to decouple the timer and cpu clocks, then sounds like you
->> can't.
->
-> Right so we'll implement a function which is called by a platform if required.
-> That way we escape copy-pasting while keeping enough flexibility for current
-> and future platforms.
->
->> IMO, if it's not part of the defined CPU architecture, then don't put
->> it in arch/. That's how we end up with multiple copies of the same
->> thing done arbitrarily different ways because few people look across
->> architectures.
->
-> So do you propose to have the function [that reads "clock-frequency" from say
-> CPU node and passes its value to CPU's parent clock driver] in generic
-> [i.e. architecture agnostic] code somewhere in "init/main.c"?
+On 09/06/2017 11:21 AM, Eugeniy Paltsev wrote:
+> DW ethernet controller on AXS10x hangs sometimes after SW reset, so
+> add temporary quirk to reset DW ethernet controller IP core.
+> This quirk can be removed after axs10x reset driver
+> (see http://patchwork.ozlabs.org/patch/800273/)
+> or simple reset driver
+> (see https://patchwork.kernel.org/patch/9903375/)
+> will be available in upstream.
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 
-No, just like you said above and have the platform's clock driver
-initialize frequencies.
+Added to for-next !
 
-I haven't seen anyone else want such a thing as generally the
-bootloader should initialize things to something reasonable.
+Thx,
 
->> >  2. Print out of CPU frequency which is used during boot process for us is important as well
->> >     especially during bring-up of new HW.
->> >
->> >  3. If there's no dedicated "clock-frequency" parameter in CPU node we won't
->> >     change anything so that non-affected platforms will live as they used to.
->> >
->> > That said IMHO proposed implementation is what we want to kep for now.
->> >
->> > >
->> > > Also note that this code is using a new / adhoc DT binding cpu-freq in cou node to
->> > > do the override - is that acceptable ?
->>
->> No, I meant to point that out.
->
-> Sorry, but for me it's not clear what did you mean here.
-> Care to elaborate a bit more?
-
-I noticed the same thing and meant to highlight that in my first
-reply. Use clock-frequency, don't invent something new.
-
->> > I think we'll switch to more common "clock-frequency" in the next respin.
->> > Indeed "cpu-freq" might be a bit misleading.
->>
->> Ideally, you'd use the clock binding eventually.
->
-> Again I'm probably missing something :)
-
-"clock-frequency" property and the clock bindings (i.e. clocks =
-<&phandle>) are generally mutually exclusive at least within clock
-consumer side. There's the assigned-clocks binding which provides the
-ability to set both parent clocks and frequency.
-
-> I meant we will have both clock phandle and "clock-frequency" at the same time.
-> Something like this:
-> -------------------------------->8---------------------------
->         cpus {
->                 #address-cells = <1>;
->                 #size-cells = <0>;
->
->                 cpu at 0 {
->                         device_type = "cpu";
->                         compatible = "snps,archs38";
->                         reg = <0>;
->                         clocks = <&core_clk>;
->                         clock-frequency = <100000000>;  <-- That's where we want to set desired value
->                 };
->         ...
->         }
->
->         core_clk: core-clk at 80 {
->                 compatible = "snps,axs10x-arc-pll-clock";
->                 reg = <0x80 0x10>, <0x100 0x10>;
->                 #clock-cells = <0>;
->                 clocks = <&input_clk>;
->         };
-> -------------------------------->8---------------------------
->
-> Or alternatively we may move "clock-frequency" right to the clock's node and have
-> it like that:
-> -------------------------------->8---------------------------
->         core_clk: core-clk at 80 {
->                 compatible = "snps,axs10x-arc-pll-clock";
->                 reg = <0x80 0x10>, <0x100 0x10>;
->
-> #clock-cells = <0>;
->                 clocks = <&input_clk>;
->                 clock-frequency = <100000000>;  <-- That's where we want to set desired value
-
-I think this is how it should be done if you use clock-frequency prop.
-This is inline with how fixed-clock binding is done.
-
-Rob
+> ---
+>   arch/arc/plat-axs10x/axs10x.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/arch/arc/plat-axs10x/axs10x.c b/arch/arc/plat-axs10x/axs10x.c
+> index f1ac679..cf14ebc 100644
+> --- a/arch/arc/plat-axs10x/axs10x.c
+> +++ b/arch/arc/plat-axs10x/axs10x.c
+> @@ -111,6 +111,13 @@ static void __init axs10x_early_init(void)
+>   
+>   	axs10x_enable_gpio_intc_wire();
+>   
+> +	/*
+> +	 * Reset ethernet IP core.
+> +	 * TODO: get rid of this quirk after axs10x reset driver (or simple
+> +	 * reset driver) will be available in upstream.
+> +	 */
+> +	iowrite32((1 << 5), (void __iomem *) CREG_MB_SW_RESET);
+> +
+>   	scnprintf(mb, 32, "MainBoard v%d", mb_rev);
+>   	axs10x_print_board_ver(CREG_MB_VER, mb);
+>   }
+> 
