@@ -1,60 +1,66 @@
-From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Wed, 13 Sep 2017 12:24:09 +0100
-Subject: [PATCH] ARC: Memory barriers for everyone!
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 13 Sep 2017 15:14:45 +0000
+Subject: [PATCH] ARC: [plat-axs10x]: DTS: fix sdio ciu frequency
+In-Reply-To: <4df1bb54-5fa1-5089-7d96-799ccfc78fce@synopsys.com>
+References: <20170912182045.20941-1-Eugeniy.Paltsev@synopsys.com>
+ <4df1bb54-5fa1-5089-7d96-799ccfc78fce@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0962ea206d9480abb7084bfbca86237cfc69b16b.1505301175.git.joabreu@synopsys.com>
+Message-ID: <1505315684.30546.32.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-By default __iormb() and __iowmb() translate into a do { } while(0) for
-AXS10x platform. As ARC700 supports the sync op we can use the standard
-memory barriers that are supplied by asm-generic headers.
+On Tue, 2017-09-12@11:38 -0700, Vineet Gupta wrote:
+> On 09/12/2017 11:20 AM, Eugeniy Paltsev wrote:
+> > DW sdio controller has external ciu clock divider controlled
+> > via register in SDIO IP. It divides sdio_ref_clk
+> > (which comes from CGU) by 16 for default. So default mmcclk
+> > clock (which comes to sdk_in) is 25000000 Hz.
+> > 
+> > So fix wrong current value (50000000 Hz) to actual 25000000 Hz.
+> 
+> Is this a preventive fix or there are known issues with what we have today.
 
-Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Joao Pinto <jpinto at synopsys.com>
----
-Hi Vineet,
+Yes, it's kinda a preventive fix.
+We check axs10x?ciu frequency when we found what hsdk?ciu frequency was wrong
+and found that it is wring too.
 
-This is the final patch for the series which should fix all the stacktracing
-mechanism for Bus Error messages. In this one we force memory barriers for
-all IO operations which will prevent op reordering by gcc and which will
-*really* correct blink and eret regs to show where exactly the error happened.
+I tried to run SD stress test with wrong ciu?frequency (50000000 Hz) and it passed
+successfully, but we must take into account the fact that it depends on SD
+card itself. For example: this SD card mostly works fine on HSDK with ciu?
+frequency 8x times?higher than expected!
 
-With this fix I get a correct stacktrace upon a readl() from a non-existent
-register which causes a Bus Error. Without this, I would get non-correct
-blink and eret addresses because the ld operation would launch a bus error
-way after we performed readl().
+Alexey says that he faced with unstable SD card work on axs103 earlier but
+he didn't save any artifacts about it.
 
-I am sending this but I'm not exactly sure if all platforms support
-the sync op. Could you confirm this?
+> Is this triggered after addition of AXS clk driver ?
+No.
 
-Best regards,
-Jose Miguel Abreu
----
- arch/arc/include/asm/io.h | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
-index c22b181..712defd 100644
---- a/arch/arc/include/asm/io.h
-+++ b/arch/arc/include/asm/io.h
-@@ -12,15 +12,10 @@
- #include <linux/types.h>
- #include <asm/byteorder.h>
- #include <asm/page.h>
--
--#ifdef CONFIG_ISA_ARCV2
- #include <asm/barrier.h>
-+
- #define __iormb()		rmb()
- #define __iowmb()		wmb()
--#else
--#define __iormb()		do { } while (0)
--#define __iowmb()		do { } while (0)
--#endif
- 
- extern void __iomem *ioremap(phys_addr_t paddr, unsigned long size);
- extern void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
+> > 
+> > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> > ---
+> > ? arch/arc/boot/dts/axs10x_mb.dtsi | 9 ++++++++-
+> > ? 1 file changed, 8 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+> > index 0ff7e07..7bdf581 100644
+> > --- a/arch/arc/boot/dts/axs10x_mb.dtsi
+> > +++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+> > @@ -44,7 +44,14 @@
+> > ??
+> > ??			mmcclk: mmcclk {
+> > ??				compatible = "fixed-clock";
+> > -				clock-frequency = <50000000>;
+> > +				/*
+> > +				?* DW sdio controller has external ciu clock divider
+> > +				?* controlled via register in SDIO IP. It divides
+> > +				?* sdio_ref_clk (which comes from CGU) by 16 for
+> > +				?* default. So default mmcclk clock (which comes
+> > +				?* to sdk_in) is 25000000 Hz.
+> > +				?*/
+> > +				clock-frequency = <25000000>;
+> > ??				#clock-cells = <0>;
+> > ??			};
+> > ??
+> 
+> 
 -- 
-1.9.1
+?Eugeniy Paltsev
