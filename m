@@ -1,57 +1,42 @@
-From: p.zabel@pengutronix.de (Philipp Zabel)
-Date: Mon, 18 Sep 2017 18:51:24 +0200
-Subject: [PATCH v2] ARC: reset: introduce AXS10x reset driver
-In-Reply-To: <ce7885ab-b87e-ca07-234f-b63811afd86c@synopsys.com>
-References: <20170914142842.12225-1-Eugeniy.Paltsev@synopsys.com>
- <1505736441.9807.8.camel@pengutronix.de>
- <ce7885ab-b87e-ca07-234f-b63811afd86c@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 19 Sep 2017 17:24:11 -0700
+Subject: [PATCH] reset: Restrict RESET_HSDK_V1 to ARC_SOC_HSDK or
+ COMPILE_TEST
+In-Reply-To: <1505132528-27843-1-git-send-email-geert@linux-m68k.org>
+References: <1505132528-27843-1-git-send-email-geert@linux-m68k.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1505753484.9807.18.camel@pengutronix.de>
+Message-ID: <f634728e-fb0a-7679-4fff-58c866def56d@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
-
-On Mon, 2017-09-18@09:14 -0700, Vineet Gupta wrote:
-> Hi Philipp,
+On 09/11/2017 05:22 AM, Geert Uytterhoeven wrote:
+> The HSDK reset driver is only useful when building for an ARC HSDK
+> platform.
 > 
-> On 09/18/2017 05:07 AM, Philipp Zabel wrote:
-> > On Thu, 2017-09-14@17:28 +0300, Eugeniy Paltsev wrote:
-> > > ARC AXS10x boards support custom IP-block which allows to control
-> > > reset signals of selected peripherals. For example DW GMAC, etc...
-> > > This block is controlled via memory-mapped register (AKA CREG) which
-> > > represents up-to 32 reset lines. This regiter is self-clearing so we
-> > > don't need to deassert line after reset.
-> > > 
-> > > As of today only the following lines are used:
-> > > ? - DW GMAC - line 5
-> > > 
-> > > > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> > > 
-> > > ---
-> > > Changes v1 -> v2:
-> > > ???* The creg reset register is self-clearing so we don't need to clear it
-> > > ?????manually. Fixed it.
-> > > ???* Use reset callback instead of assert/deassert pair.
-> > > ???* Rename reset node in documentation to "reset-controller" for consistency
-> > > ?????with the other bindings.
-> > > ???* Use devm_reset_controller_register instead of reset_controller_register
-> > > 
-> > > NOTE:
-> > > ?????This driver couldn't be replaced by reset-simple driver as we mustn't
-> > > ?????read from reset register or clear it.
-> > 
-> > Thanks, I've applied this patch to the reset/next branch.
+> While at it, drop the "default n", as that is the default.
 > 
-> Will it be OK for you to apply the corresponding DT update for platform - that way?
-> I don't have to keep track of when ur branch hits mainline etc.
+> Fixes: e0be864f14240cb1 ("ARC: reset: introduce HSDKv1 reset driver")
+> Signed-off-by: Geert Uytterhoeven <geert at linux-m68k.org>
+> ---
+>   drivers/reset/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> The chances of any ensuing conflicts are pretty rare - and easy to resolve if at all.
->
-> If so, Eugeniy can send the patch ur way !
+> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
+> index 52d5251660b9b51c..feea22c912ebf688 100644
+> --- a/drivers/reset/Kconfig
+> +++ b/drivers/reset/Kconfig
+> @@ -36,7 +36,7 @@ config RESET_BERLIN
+>   
+>   config RESET_HSDK_V1
+>   	bool "HSDK v1 Reset Driver"
+> -	default n
+> +	depends on ARC_SOC_HSDK || COMPILE_TEST
+>   	help
+>   	  This enables the reset controller driver for HSDK v1.
+>   
+> 
 
-Maybe it is better to do this the other way around? I can put this patch
-on a stable reset/arc branch for you to merge before applying the reset
-DT updates.
+Philip, can u please pick this up - there would be conflict due to V1 rename - 
+easy to fixup !
 
-regards
-Philipp
+Thx,
+-Vineet
