@@ -1,96 +1,104 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 29 Sep 2017 11:41:22 -0700
-Subject: [PATCH 2/2] ARCv2: boot log: identify HS48 cores (dual issue)
-In-Reply-To: <1506710482-23790-1-git-send-email-vgupta@synopsys.com>
-References: <1506710482-23790-1-git-send-email-vgupta@synopsys.com>
+Date: Fri, 29 Sep 2017 11:41:21 -0700
+Subject: [PATCH 1/2] ARC: boot log: decontaminate ARCv2 ISA_CONFIG register
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1506710482-23790-2-git-send-email-vgupta@synopsys.com>
+Message-ID: <1506710482-23790-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
+
+ARCv2 ISA_CONFIG and ARC700_BUILD build config registers are not
+compatible. cpuinfo_arc had isa info placeholder which was mashup of bits
+form both.
+
+Untangle this by defining it off of ARCv2 ISA info and it is fine even
+for ARC700 since former is a super set of latter (ARC700 buildonly has 2
+bits for atomics and stack check).
+
+At runtime, we treat ARCv2 ISA info as a generic palceholder but
+populate it correctly depending on ARC700 or HS.
+
+This paves way for adding more HS specific bits in isa info which was
+colliding with the extra bits for arc700.
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/include/asm/arcregs.h |  3 ++-
- arch/arc/kernel/setup.c        | 17 ++++++++++++++---
- 2 files changed, 16 insertions(+), 4 deletions(-)
+ arch/arc/include/asm/arcregs.h |  8 ++++----
+ arch/arc/kernel/setup.c        | 15 +++++++++++----
+ 2 files changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
-index b71d84873f7d..b1c56d35f2a9 100644
+index ba8e802dba80..b71d84873f7d 100644
 --- a/arch/arc/include/asm/arcregs.h
 +++ b/arch/arc/include/asm/arcregs.h
-@@ -98,6 +98,7 @@
+@@ -135,12 +135,12 @@ struct bcr_identity {
+ #endif
+ };
  
- /* Auxiliary registers */
- #define AUX_IDENTITY		4
-+#define AUX_EXEC_CTRL		8
- #define AUX_INTR_VEC_BASE	0x25
- #define AUX_VOL			0x5e
- 
-@@ -269,7 +270,7 @@ struct cpuinfo_arc {
+-struct bcr_isa {
++struct bcr_isa_arcv2 {
+ #ifdef CONFIG_CPU_BIG_ENDIAN
+ 	unsigned int div_rem:4, pad2:4, ldd:1, unalign:1, atomic:1, be:1,
+-		     pad1:11, atomic1:1, ver:8;
++		     pad1:12, ver:8;
+ #else
+-	unsigned int ver:8, atomic1:1, pad1:11, be:1, atomic:1, unalign:1,
++	unsigned int ver:8, pad1:12, be:1, atomic:1, unalign:1,
+ 		     ldd:1, pad2:4, div_rem:4;
+ #endif
+ };
+@@ -263,7 +263,7 @@ struct cpuinfo_arc {
+ 	struct cpuinfo_arc_mmu mmu;
+ 	struct cpuinfo_arc_bpu bpu;
+ 	struct bcr_identity core;
+-	struct bcr_isa isa;
++	struct bcr_isa_arcv2 isa;
+ 	const char *details, *name;
+ 	unsigned int vec_base;
  	struct cpuinfo_arc_ccm iccm, dccm;
- 	struct {
- 		unsigned int swap:1, norm:1, minmax:1, barrel:1, crc:1, swape:1, pad1:2,
--			     fpu_sp:1, fpu_dp:1, pad2:6,
-+			     fpu_sp:1, fpu_dp:1, dual_iss_enb:1, dual_iss_exist:1, pad2:4,
- 			     debug:1, ap:1, smart:1, rtt:1, pad3:4,
- 			     timer0:1, timer1:1, rtc:1, gfrc:1, pad4:4;
- 	} extn;
 diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 228593a964f8..fb83844daeea 100644
+index 877cec8f5ea2..228593a964f8 100644
 --- a/arch/arc/kernel/setup.c
 +++ b/arch/arc/kernel/setup.c
-@@ -51,6 +51,7 @@ static const struct id_to_str arc_cpu_rel[] = {
- 	{ 0x51, "R2.0" },
- 	{ 0x52, "R2.1" },
- 	{ 0x53, "R3.0" },
-+	{ 0x54, "R4.0" },
- #endif
- 	{ 0x00, NULL   }
- };
-@@ -62,6 +63,7 @@ static const struct id_to_str arc_cpu_nm[] = {
- #else
- 	{ 0x40, "ARC EM"  },
- 	{ 0x50, "ARC HS38"  },
-+	{ 0x54, "ARC HS48"  },
- #endif
- 	{ 0x00, "Unknown"   }
- };
-@@ -133,7 +135,7 @@ static void read_arc_build_cfg_regs(void)
- 	}
+@@ -119,11 +119,11 @@ static void read_arc_build_cfg_regs(void)
+ 	struct bcr_generic bcr;
+ 	struct cpuinfo_arc *cpu = &cpuinfo_arc700[smp_processor_id()];
+ 	const struct id_to_str *tbl;
++	struct bcr_isa_arcv2 isa;
  
- 	for (tbl = &arc_cpu_nm[0]; tbl->id != 0; tbl++) {
--		if ((cpu->core.family & 0xF0) == tbl->id)
-+		if ((cpu->core.family & 0xF4) == tbl->id)
- 			break;
- 	}
- 	cpu->name = tbl->str;
-@@ -192,6 +194,14 @@ static void read_arc_build_cfg_regs(void)
- 		cpu->bpu.full = bpu.ft;
- 		cpu->bpu.num_cache = 256 << bpu.bce;
- 		cpu->bpu.num_pred = 2048 << bpu.pte;
+ 	FIX_PTR(cpu);
+ 
+ 	READ_BCR(AUX_IDENTITY, cpu->core);
+-	READ_BCR(ARC_REG_ISA_CFG_BCR, cpu->isa);
+ 
+ 	for (tbl = &arc_cpu_rel[0]; tbl->id != 0; tbl++) {
+ 		if (cpu->core.family == tbl->id) {
+@@ -205,18 +205,25 @@ static void read_arc_build_cfg_regs(void)
+ 
+ 	cpu->extn.debug = cpu->extn.ap | cpu->extn.smart | cpu->extn.rtt;
+ 
++	READ_BCR(ARC_REG_ISA_CFG_BCR, isa);
 +
-+		if (cpu->core.family >= 0x54) {
-+			unsigned int exec_ctrl;
-+
-+			READ_BCR(AUX_EXEC_CTRL, exec_ctrl);
-+			cpu->extn.dual_iss_exist = 1;
-+			cpu->extn.dual_iss_enb = exec_ctrl & 1;
+ 	/* some hacks for lack of feature BCR info in old ARC700 cores */
+ 	if (is_isa_arcompact()) {
+-		if (!cpu->isa.ver)	/* ISA BCR absent, use Kconfig info */
++		if (!isa.ver)	/* ISA BCR absent, use Kconfig info */
+ 			cpu->isa.atomic = IS_ENABLED(CONFIG_ARC_HAS_LLSC);
+-		else
+-			cpu->isa.atomic = cpu->isa.atomic1;
++		else {
++			/* ARC700_BUILD only has 2 bits of isa info */
++			struct bcr_generic bcr = *(struct bcr_generic *)&isa;
++			cpu->isa.atomic = bcr.info & 1;
 +		}
+ 
+ 		cpu->isa.be = IS_ENABLED(CONFIG_CPU_BIG_ENDIAN);
+ 
+ 		 /* there's no direct way to distinguish 750 vs. 770 */
+ 		if (unlikely(cpu->core.family < 0x34 || cpu->mmu.ver < 3))
+ 			cpu->name = "ARC750";
++	} else {
++		cpu->isa = isa;
  	}
+ }
  
- 	READ_BCR(ARC_REG_AP_BCR, bcr);
-@@ -239,10 +249,11 @@ static char *arc_cpu_mumbojumbo(int cpu_id, char *buf, int len)
- 		       "\nIDENTITY\t: ARCVER [%#02x] ARCNUM [%#02x] CHIPID [%#4x]\n",
- 		       core->family, core->cpu_id, core->chip_id);
- 
--	n += scnprintf(buf + n, len - n, "processor [%d]\t: %s %s (%s ISA) %s\n",
-+	n += scnprintf(buf + n, len - n, "processor [%d]\t: %s %s (%s ISA) %s%s%s\n",
- 		       cpu_id, cpu->name, cpu->details,
- 		       is_isa_arcompact() ? "ARCompact" : "ARCv2",
--		       IS_AVAIL1(cpu->isa.be, "[Big-Endian]"));
-+		       IS_AVAIL1(cpu->isa.be, "[Big-Endian]"),
-+		       IS_AVAIL3(cpu->extn.dual_iss_exist, cpu->extn.dual_iss_enb, " Dual-Issue"));
- 
- 	n += scnprintf(buf + n, len - n, "Timers\t\t: %s%s%s%s%s%s\nISA Extn\t: ",
- 		       IS_AVAIL1(cpu->extn.timer0, "Timer0 "),
 -- 
 2.7.4
