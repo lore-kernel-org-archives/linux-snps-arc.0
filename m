@@ -1,40 +1,54 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 4 Oct 2017 11:38:01 -0700
-Subject: [PATCH v2] ARC: reset: introduce AXS10x reset driver
-In-Reply-To: <1507111778.11691.9.camel@pengutronix.de>
-References: <20170914142842.12225-1-Eugeniy.Paltsev@synopsys.com>
- <1505736441.9807.8.camel@pengutronix.de>
- <ce7885ab-b87e-ca07-234f-b63811afd86c@synopsys.com>
- <1505753484.9807.18.camel@pengutronix.de>
- <1507111778.11691.9.camel@pengutronix.de>
+Date: Wed, 4 Oct 2017 11:46:24 -0700
+Subject: [GIT PULL] Reset controller fixes for v4.14
+In-Reply-To: <20171004011003.ae5r55dttjtxrvlj@localhost>
+References: <1506010379.10081.15.camel@pengutronix.de>
+ <20171004011003.ae5r55dttjtxrvlj@localhost>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <976729bf-5985-e989-183b-70cd28a3a983@synopsys.com>
+Message-ID: <fc2949d7-c038-1ac7-d93d-d2c645f5022d@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Philipp,
+Hi Olof,
 
-On 10/04/2017 03:09 AM, Philipp Zabel wrote:
->> Maybe it is better to do this the other way around? I can put this patch
->> on a stable reset/arc branch for you to merge before applying the reset
->> DT updates.
+On 10/03/2017 06:10 PM, Olof Johansson wrote:
+> On Thu, Sep 21, 2017@06:12:59PM +0200, Philipp Zabel wrote:
+>> Dear arm-soc-maintainers,
+>>
+>> please consider merging this tag for v4.14. It removes the "v1" suffix
+>> from the newly merged HSDK reset driver, fixes its Kconfig dependencies,
+>> and adds back the DT binding documentation that I accidentally dropped
+>> onto the floor when applying the original patch.
+>>
+>> regards
+>> Philipp
+>>
+>> The following changes since commit 2bd6bf03f4c1c59381d62c61d03f6cc3fe71f66e:
+>>
+>>    Linux 4.14-rc1 (2017-09-16 15:47:51 -0700)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.pengutronix.de/git/pza/linux.git tags/reset-fixes-for-4.14
+>>
+>> for you to fetch changes up to 544e3bf4f0e8278400f19ca7918a3cdf2548b4eb:
+>>
+>>    reset: Restrict RESET_HSDK to ARC_SOC_HSDK or COMPILE_TEST (2017-09-21 12:44:01 +0200)
+>>
+>> ----------------------------------------------------------------
+>> Reset controller fixes for v4.14
+>>
+>> - Remove misleading HSDK v1 suffix, as there is no v2 planned
+>> - Add missing DT binding documentation for HSDK reset driver
+>> - Fix HSDK reset driver dependencies
 > 
-> Have you come to a decision on this?
-> 
-> Just in case, I have removed the AXS10x driver from the reset/next
-> branch and put it on its own branch:
-> 
->    git://git.pengutronix.de/git/pza/linux.git reset/arc
-> 
-> This branch is immutable and I'll merge it into reset/next before
-> submitting the branch for v4.15-rc1.
+> Merged, thanks.
 
-Thanks for creating this !
+What's the tentative plan for this hitting mainline since I have pending ARC HSDK 
+DT changes to use the new DT binding. If it is not goign to be 4.14-rc4, is it OK 
+for me to pull this branch into ARC tree as well and send to Linus' way before 
+armsoc pull request. Does it matter if Linux gets same changes via 2 tree !
 
-Here's the plan. I have some changes queued up for 4.14-rc4 (which includes a 
-adding a reset workaround since the driver is not in for 4.14).
-Once that is merged in mainline this week, I will create my for-next based on 
-4.14-rc4 + git pull --no-ff ur-branch + reverts for reset hack above.
-
-OK ?
+P.S. Consider this no-ob question since I don't use merge commits in my typical 
+workflow !
 
 -Vineet
