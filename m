@@ -1,74 +1,46 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 6 Oct 2017 14:23:22 -0700
-Subject: [GIT PULL] ARC updates for 4.14-rc4
+Date: Mon, 9 Oct 2017 11:25:51 -0700
+Subject: [PATCH v2] ARC: reset: introduce AXS10x reset driver
+In-Reply-To: <1507111778.11691.9.camel@pengutronix.de>
+References: <20170914142842.12225-1-Eugeniy.Paltsev@synopsys.com>
+ <1505736441.9807.8.camel@pengutronix.de>
+ <ce7885ab-b87e-ca07-234f-b63811afd86c@synopsys.com>
+ <1505753484.9807.18.camel@pengutronix.de>
+ <1507111778.11691.9.camel@pengutronix.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <f80509d5-ad04-d4db-3aa5-169681af20d2@synopsys.com>
+Message-ID: <380f3137-2ede-7dd7-47d8-c4552911fd9d@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+On 10/04/2017 03:09 AM, Philipp Zabel wrote:
+> Hi Vineet,
+> 
+> On Mon, 2017-09-18@18:51 +0200, Philipp Zabel wrote:
+>>> Will it be OK for you to apply the corresponding DT update for
+>>> platform - that way
+>>> I don't have to keep track of when ur branch hits mainline etc.
+>>>
+>>> The chances of any ensuing conflicts are pretty rare - and easy to resolve if at all.
+>>>
+>>> If so, Eugeniy can send the patch ur way !
+>>
+>> Maybe it is better to do this the other way around? I can put this patch
+>> on a stable reset/arc branch for you to merge before applying the reset
+>> DT updates.
+> 
+> Have you come to a decision on this?
+> 
+> Just in case, I have removed the AXS10x driver from the reset/next
+> branch and put it on its own branch:
+> 
+>    git://git.pengutronix.de/git/pza/linux.git reset/arc
+> 
+> This branch is immutable and I'll merge it into reset/next before
+> submitting the branch for v4.15-rc1.
 
-ARC updates - Please pull !
+I've git merge'ed this into ARC for-next !
+
+@Eugeniy, can you please follow up with patches to undo any reset related hacks in 
+axs10x ?
 
 Thx,
 -Vineet
-
------------------->
-The following changes since commit 9e66317d3c92ddaab330c125dfe9d06eee268aff:
-
-   Linux 4.14-rc3 (2017-10-01 14:54:54 -0700)
-
-are available in the git repository at:
-
-   git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.14-rc4
-
-for you to fetch changes up to ab8eb7db1dcc03e7ae9eb379884fd701af6b1a38:
-
-   ARC: [plat-hsdk]: Add reset controller node to manage ethernet reset 
-(2017-10-06 08:59:54 -0700)
-
-----------------------------------------------------------------
-ARC udpates for 4.14-rc4
-
-  - Updates for various platforms
-
-  - boot log updates for upcoming HS48 family of cores (dual issue)
-
-----------------------------------------------------------------
-Alexey Brodkin (1):
-       ARC: [*defconfig] Reenable soft lock-up detector
-
-Eugeniy Paltsev (6):
-       ARC: [plat-axs103] Add temporary quirk to reset ethernet IP
-       ARC: [plat-hsdk] sdio: Temporary fix of sdio ciu frequency
-       ARC: [plat-axs10x] sdio: Temporary fix of sdio ciu frequency
-       ARC: [plat-hsdk] use actual clk driver to manage cpu clk
-       ARC: [plat-hsdk]: Temporary fix to set CPU frequency to 1GHz
-       ARC: [plat-hsdk]: Add reset controller node to manage ethernet reset
-
-Masahiro Yamada (1):
-       arc: remove redundant UTS_MACHINE define in arch/arc/Makefile
-
-Vineet Gupta (4):
-       ARC: [plat-eznps] Update platform maintainer as Noam left
-       ARC: boot log: decontaminate ARCv2 ISA_CONFIG register
-       ARCv2: boot log: identify HS48 cores (dual issue)
-       ARC: fix allnoconfig build warning
-
-  MAINTAINERS                             |  3 ++-
-  arch/arc/Kconfig                        |  2 +-
-  arch/arc/Makefile                       |  2 --
-  arch/arc/boot/dts/axs10x_mb.dtsi        |  9 ++++++-
-  arch/arc/boot/dts/hsdk.dts              | 32 ++++++++++++++++++++++---
-  arch/arc/configs/axs101_defconfig       |  2 +-
-  arch/arc/configs/axs103_defconfig       |  2 +-
-  arch/arc/configs/axs103_smp_defconfig   |  2 +-
-  arch/arc/configs/haps_hs_smp_defconfig  |  2 +-
-  arch/arc/configs/hsdk_defconfig         |  3 ++-
-  arch/arc/configs/vdk_hs38_defconfig     |  2 +-
-  arch/arc/configs/vdk_hs38_smp_defconfig |  2 +-
-  arch/arc/include/asm/arcregs.h          | 11 +++++----
-  arch/arc/kernel/setup.c                 | 32 +++++++++++++++++++------
-  arch/arc/plat-axs10x/axs10x.c           |  7 ++++++
-  arch/arc/plat-hsdk/Kconfig              |  3 ++-
-  arch/arc/plat-hsdk/platform.c           | 42 +++++++++++++++++++++++++++++++++
-  17 files changed, 130 insertions(+), 28 deletions(-)
