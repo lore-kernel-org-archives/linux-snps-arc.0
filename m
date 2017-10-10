@@ -1,46 +1,73 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 9 Oct 2017 11:25:51 -0700
-Subject: [PATCH v2] ARC: reset: introduce AXS10x reset driver
-In-Reply-To: <1507111778.11691.9.camel@pengutronix.de>
-References: <20170914142842.12225-1-Eugeniy.Paltsev@synopsys.com>
- <1505736441.9807.8.camel@pengutronix.de>
- <ce7885ab-b87e-ca07-234f-b63811afd86c@synopsys.com>
- <1505753484.9807.18.camel@pengutronix.de>
- <1507111778.11691.9.camel@pengutronix.de>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 10 Oct 2017 19:11:52 +0300
+Subject: [RFC] ARC: [plat-hsdk]: Increase SDIO CIU frequency to 50000000Hz
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <380f3137-2ede-7dd7-47d8-c4552911fd9d@synopsys.com>
+Message-ID: <20171010161152.5604-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/04/2017 03:09 AM, Philipp Zabel wrote:
-> Hi Vineet,
-> 
-> On Mon, 2017-09-18@18:51 +0200, Philipp Zabel wrote:
->>> Will it be OK for you to apply the corresponding DT update for
->>> platform - that way
->>> I don't have to keep track of when ur branch hits mainline etc.
->>>
->>> The chances of any ensuing conflicts are pretty rare - and easy to resolve if at all.
->>>
->>> If so, Eugeniy can send the patch ur way !
->>
->> Maybe it is better to do this the other way around? I can put this patch
->> on a stable reset/arc branch for you to merge before applying the reset
->> DT updates.
-> 
-> Have you come to a decision on this?
-> 
-> Just in case, I have removed the AXS10x driver from the reset/next
-> branch and put it on its own branch:
-> 
->    git://git.pengutronix.de/git/pza/linux.git reset/arc
-> 
-> This branch is immutable and I'll merge it into reset/next before
-> submitting the branch for v4.15-rc1.
+Increase SDIO CIU frequency from 12500000Hz to 50000000Hz by
+switching from the default divisor value (div-by-8) to the
+minimum possible value of the divisor (div-by-2) in HSDK platform
+code.
 
-I've git merge'ed this into ARC for-next !
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+NOTE: This patch can possibly fix last issue with SD card initialization
+fault.
 
-@Eugeniy, can you please follow up with patches to undo any reset related hacks in 
-axs10x ?
+ arch/arc/boot/dts/hsdk.dts    | 11 ++++++-----
+ arch/arc/plat-hsdk/platform.c |  7 +++++++
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
-Thx,
--Vineet
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index 8adde1b..8f627c2 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -137,14 +137,15 @@
+ 			/*
+ 			 * DW sdio controller has external ciu clock divider
+ 			 * controlled via register in SDIO IP. Due to its
+-			 * unexpected default value (it should devide by 1
+-			 * but it devides by 8) SDIO IP uses wrong clock and
++			 * unexpected default value (it should divide by 1
++			 * but it divides by 8) SDIO IP uses wrong clock and
+ 			 * works unstable (see STAR 9001204800)
++			 * We switched to the minimum possible value of the
++			 * divisor (div-by-2) in HSDK platform code.
+ 			 * So add temporary fix and change clock frequency
+-			 * from 100000000 to 12500000 Hz until we fix dw sdio
+-			 * driver itself.
++			 * to 50000000 Hz until we fix dw sdio driver itself.
+ 			 */
+-			clock-frequency = <12500000>;
++			clock-frequency = <50000000>;
+ 			#clock-cells = <0>;
+ 		};
+ 
+diff --git a/arch/arc/plat-hsdk/platform.c b/arch/arc/plat-hsdk/platform.c
+index 744e62e..f0cdb13 100644
+--- a/arch/arc/plat-hsdk/platform.c
++++ b/arch/arc/plat-hsdk/platform.c
+@@ -74,6 +74,10 @@ static void __init hsdk_set_cpu_freq_1ghz(void)
+ 		pr_err("Failed to setup CPU frequency to 1GHz!");
+ }
+ 
++#define SDIO_BASE		(ARC_PERIPHERAL_BASE + 0xA000)
++#define SDIO_UHS_REG_EXT	(SDIO_BASE + 0x108)
++#define SDIO_UHS_REG_EXT_DIV_2	(2 << 30)
++
+ static void __init hsdk_init_early(void)
+ {
+ 	/*
+@@ -89,6 +93,9 @@ static void __init hsdk_init_early(void)
+ 	/* Really apply settings made above */
+ 	writel(1, (void __iomem *) CREG_PAE_UPDATE);
+ 
++	/* Switch SDIO external ciu clock divider from div-by-8 to div-by-2 */
++	iowrite32(SDIO_UHS_REG_EXT_DIV_2, (void __iomem *) SDIO_UHS_REG_EXT);
++
+ 	/*
+ 	 * Setup CPU frequency to 1GHz.
+ 	 * TODO: remove it after smart hsdk pll driver will be introduced.
+-- 
+2.9.3
