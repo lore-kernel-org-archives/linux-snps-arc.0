@@ -1,88 +1,47 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 27 Oct 2017 13:33:43 -0700
-Subject: [PATCH] ARC: Memory barriers for everyone!
-In-Reply-To: <0962ea206d9480abb7084bfbca86237cfc69b16b.1505301175.git.joabreu@synopsys.com>
-References: <0962ea206d9480abb7084bfbca86237cfc69b16b.1505301175.git.joabreu@synopsys.com>
+Date: Fri, 27 Oct 2017 13:53:33 -0700
+Subject: [GIt PULL] ARC fixes for 4.14-rc7
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <2dc629e1-a538-e051-f616-76798f695413@synopsys.com>
+Message-ID: <0c661c32-c1f4-f28f-ab62-6dd8b0c3737f@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Jose,
+Hi Linus,
 
-On 09/13/2017 04:24 AM, Jose Abreu wrote:
-> By default __iormb() and __iowmb() translate into a do { } while(0) for
-> AXS10x platform. As ARC700 supports the sync op we can use the standard
-> memory barriers that are supplied by asm-generic headers.
-> 
-> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Joao Pinto <jpinto at synopsys.com>
-> ---
-> Hi Vineet,
-> 
-> This is the final patch for the series which should fix all the stacktracing
-> mechanism for Bus Error messages. In this one we force memory barriers for
-> all IO operations 
-
-SYNC is a performance killer - it makes the processor wait for all memory 
-operations to complete before proceeding. So the justification for adding it to 
-all io accessors has to be more than getting correct stack traces.
-
-> which will prevent op reordering by gcc and which will
-> *really* correct blink and eret regs to show where exactly the error happened.
-
-I don't think this is the precise reason why it works. Adding the SYNC likely adds 
-enough delay between the IO r/w such that CPU doesn't move to the next instruction.
-
-As you would know very well, Bus Errors on ARC are imprecise and that is the root 
-of the issue. The bus fabric can take arbitrary amount of time to come back with 
-an error and ARC would have moved on to next instruction(s) when it is actually 
-notified. Thus the exception is "charged" to whatever the current PC was when it 
-is actually taken, which accounts for the bogus ERET and hence broken call chains 
-etc. Note that sdding SYNC delays things just enough but it is still not 
-guaranteed that you will correct ERET, depending on your bus network.
-
-Hence the reason this patch is not acceptable.
-
-Apologies for the delay in responding..
+Please pull ARC fixes for 4.14-rc7.
 
 Thx,
 -Vineet
+-------------->
+The following changes since commit 8a5776a5f49812d29fe4b2d0a2d71675c3facf3f:
 
-> With this fix I get a correct stacktrace upon a readl() from a non-existent
-> register which causes a Bus Error. Without this, I would get non-correct
-> blink and eret addresses because the ld operation would launch a bus error
-> way after we performed readl().
-> 
-> I am sending this but I'm not exactly sure if all platforms support
-> the sync op. Could you confirm this?
-> 
-> Best regards,
-> Jose Miguel Abreu
-> ---
->   arch/arc/include/asm/io.h | 7 +------
->   1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
-> index c22b181..712defd 100644
-> --- a/arch/arc/include/asm/io.h
-> +++ b/arch/arc/include/asm/io.h
-> @@ -12,15 +12,10 @@
->   #include <linux/types.h>
->   #include <asm/byteorder.h>
->   #include <asm/page.h>
-> -
-> -#ifdef CONFIG_ISA_ARCV2
->   #include <asm/barrier.h>
-> +
->   #define __iormb()		rmb()
->   #define __iowmb()		wmb()
-> -#else
-> -#define __iormb()		do { } while (0)
-> -#define __iowmb()		do { } while (0)
-> -#endif
->   
->   extern void __iomem *ioremap(phys_addr_t paddr, unsigned long size);
->   extern void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
-> 
+   Linux 4.14-rc4 (2017-10-08 20:53:29 -0700)
+
+are available in the git repository at:
+
+   git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.14-rc7
+
+for you to fetch changes up to fdbed19697e1aa0f7cb719c11c67f2da26ea7f47:
+
+   ARC: unbork module link errors with !CONFIG_ARC_HAS_LLSC (2017-10-11 17:07:44 
+-0700)
+
+----------------------------------------------------------------
+ARC fixes for 4.14-rc7
+
+  - Fixes for HSDK platform
+  - module build error for !LLSC config
+
+----------------------------------------------------------------
+Eugeniy Paltsev (1):
+       ARC: [plat-hsdk] Increase SDIO CIU frequency to 50000000Hz
+
+Vineet Gupta (2):
+       ARC: [plat-hsdk] select CONFIG_RESET_HSDK from Kconfig
+       ARC: unbork module link errors with !CONFIG_ARC_HAS_LLSC
+
+  arch/arc/boot/dts/hsdk.dts      | 11 ++++++-----
+  arch/arc/configs/hsdk_defconfig |  1 -
+  arch/arc/kernel/smp.c           |  5 +++++
+  arch/arc/plat-hsdk/Kconfig      |  1 +
+  arch/arc/plat-hsdk/platform.c   | 10 ++++++++++
+  5 files changed, 22 insertions(+), 6 deletions(-)
