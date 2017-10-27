@@ -1,47 +1,57 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 27 Oct 2017 13:53:33 -0700
-Subject: [GIt PULL] ARC fixes for 4.14-rc7
+Date: Fri, 27 Oct 2017 13:57:32 -0700
+Subject: [PATCH v2] ARC: reset: introduce AXS10x reset driver
+In-Reply-To: <380f3137-2ede-7dd7-47d8-c4552911fd9d@synopsys.com>
+References: <20170914142842.12225-1-Eugeniy.Paltsev@synopsys.com>
+ <1505736441.9807.8.camel@pengutronix.de>
+ <ce7885ab-b87e-ca07-234f-b63811afd86c@synopsys.com>
+ <1505753484.9807.18.camel@pengutronix.de>
+ <1507111778.11691.9.camel@pengutronix.de>
+ <380f3137-2ede-7dd7-47d8-c4552911fd9d@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0c661c32-c1f4-f28f-ab62-6dd8b0c3737f@synopsys.com>
+Message-ID: <b023f5e1-8769-13c6-b7fc-cee05fb842e6@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+Hi Eugeniy,
 
-Please pull ARC fixes for 4.14-rc7.
+Ping ! Can you please follow up the ARC patch to use the driver for 4.15.
 
 Thx,
 -Vineet
--------------->
-The following changes since commit 8a5776a5f49812d29fe4b2d0a2d71675c3facf3f:
 
-   Linux 4.14-rc4 (2017-10-08 20:53:29 -0700)
-
-are available in the git repository at:
-
-   git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.14-rc7
-
-for you to fetch changes up to fdbed19697e1aa0f7cb719c11c67f2da26ea7f47:
-
-   ARC: unbork module link errors with !CONFIG_ARC_HAS_LLSC (2017-10-11 17:07:44 
--0700)
-
-----------------------------------------------------------------
-ARC fixes for 4.14-rc7
-
-  - Fixes for HSDK platform
-  - module build error for !LLSC config
-
-----------------------------------------------------------------
-Eugeniy Paltsev (1):
-       ARC: [plat-hsdk] Increase SDIO CIU frequency to 50000000Hz
-
-Vineet Gupta (2):
-       ARC: [plat-hsdk] select CONFIG_RESET_HSDK from Kconfig
-       ARC: unbork module link errors with !CONFIG_ARC_HAS_LLSC
-
-  arch/arc/boot/dts/hsdk.dts      | 11 ++++++-----
-  arch/arc/configs/hsdk_defconfig |  1 -
-  arch/arc/kernel/smp.c           |  5 +++++
-  arch/arc/plat-hsdk/Kconfig      |  1 +
-  arch/arc/plat-hsdk/platform.c   | 10 ++++++++++
-  5 files changed, 22 insertions(+), 6 deletions(-)
+On 10/09/2017 11:25 AM, Vineet Gupta wrote:
+> On 10/04/2017 03:09 AM, Philipp Zabel wrote:
+>> Hi Vineet,
+>>
+>> On Mon, 2017-09-18@18:51 +0200, Philipp Zabel wrote:
+>>>> Will it be OK for you to apply the corresponding DT update for
+>>>> platform - that way
+>>>> I don't have to keep track of when ur branch hits mainline etc.
+>>>>
+>>>> The chances of any ensuing conflicts are pretty rare - and easy to resolve if 
+>>>> at all.
+>>>>
+>>>> If so, Eugeniy can send the patch ur way !
+>>>
+>>> Maybe it is better to do this the other way around? I can put this patch
+>>> on a stable reset/arc branch for you to merge before applying the reset
+>>> DT updates.
+>>
+>> Have you come to a decision on this?
+>>
+>> Just in case, I have removed the AXS10x driver from the reset/next
+>> branch and put it on its own branch:
+>>
+>> ?? git://git.pengutronix.de/git/pza/linux.git reset/arc
+>>
+>> This branch is immutable and I'll merge it into reset/next before
+>> submitting the branch for v4.15-rc1.
+> 
+> I've git merge'ed this into ARC for-next !
+> 
+> @Eugeniy, can you please follow up with patches to undo any reset related hacks in 
+> axs10x ?
+> 
+> Thx,
+> -Vineet
+> 
