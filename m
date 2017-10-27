@@ -1,218 +1,88 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 26 Oct 2017 11:25:44 -0700
-Subject: [PATCH] CLK: ARC: Set initial pll output frequency specified in
- device tree
-In-Reply-To: <20170929131357.26796-1-Eugeniy.Paltsev@synopsys.com>
-References: <20170929131357.26796-1-Eugeniy.Paltsev@synopsys.com>
+Date: Fri, 27 Oct 2017 13:33:43 -0700
+Subject: [PATCH] ARC: Memory barriers for everyone!
+In-Reply-To: <0962ea206d9480abb7084bfbca86237cfc69b16b.1505301175.git.joabreu@synopsys.com>
+References: <0962ea206d9480abb7084bfbca86237cfc69b16b.1505301175.git.joabreu@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <f639589f-980e-21c9-abe5-ca6a2d1515ac@synopsys.com>
+Message-ID: <2dc629e1-a538-e051-f616-76798f695413@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi folks,
+Hi Jose,
 
-
-On 09/29/2017 06:13 AM, Eugeniy Paltsev wrote:
-> Add option to set initial output frequency of plls via
-> "clock-frequency" property in pll's device tree node.
-> This frequency will be set while pll driver probed.
+On 09/13/2017 04:24 AM, Jose Abreu wrote:
+> By default __iormb() and __iowmb() translate into a do { } while(0) for
+> AXS10x platform. As ARC700 supports the sync op we can use the standard
+> memory barriers that are supplied by asm-generic headers.
 > 
-> The usage example is setting CPU clock frequency on boot
-> See discussion:
-> https://www.mail-archive.com/linux-snps-arc at lists.infradead.org/msg02689.html
+> Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Joao Pinto <jpinto at synopsys.com>
+> ---
+> Hi Vineet,
+> 
+> This is the final patch for the series which should fix all the stacktracing
+> mechanism for Bus Error messages. In this one we force memory barriers for
+> all IO operations 
 
-Any yay / nay on this please ?
+SYNC is a performance killer - it makes the processor wait for all memory 
+operations to complete before proceeding. So the justification for adding it to 
+all io accessors has to be more than getting correct stack traces.
 
-I guess some de-duplication is in order anyways but is the overall approach sane ?
+> which will prevent op reordering by gcc and which will
+> *really* correct blink and eret regs to show where exactly the error happened.
 
-Additional background / context in thread
-http://lists.infradead.org/pipermail/linux-snps-arc/2017-September/002900.html
+I don't think this is the precise reason why it works. Adding the SYNC likely adds 
+enough delay between the IO r/w such that CPU doesn't move to the next instruction.
+
+As you would know very well, Bus Errors on ARC are imprecise and that is the root 
+of the issue. The bus fabric can take arbitrary amount of time to come back with 
+an error and ARC would have moved on to next instruction(s) when it is actually 
+notified. Thus the exception is "charged" to whatever the current PC was when it 
+is actually taken, which accounts for the bogus ERET and hence broken call chains 
+etc. Note that sdding SYNC delays things just enough but it is still not 
+guaranteed that you will correct ERET, depending on your bus network.
+
+Hence the reason this patch is not acceptable.
+
+Apologies for the delay in responding..
 
 Thx,
 -Vineet
 
-
-
+> With this fix I get a correct stacktrace upon a readl() from a non-existent
+> register which causes a Bus Error. Without this, I would get non-correct
+> blink and eret addresses because the ld operation would launch a bus error
+> way after we performed readl().
 > 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> I am sending this but I'm not exactly sure if all platforms support
+> the sync op. Could you confirm this?
+> 
+> Best regards,
+> Jose Miguel Abreu
 > ---
->   .../bindings/clock/snps,hsdk-pll-clock.txt         |  5 ++++
->   .../devicetree/bindings/clock/snps,pll-clock.txt   |  5 ++++
->   drivers/clk/axs10x/pll_clock.c                     | 34 ++++++++++++++++++++--
->   drivers/clk/clk-hsdk-pll.c                         | 34 ++++++++++++++++++++--
->   4 files changed, 74 insertions(+), 4 deletions(-)
+>   arch/arc/include/asm/io.h | 7 +------
+>   1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/clock/snps,hsdk-pll-clock.txt b/Documentation/devicetree/bindings/clock/snps,hsdk-pll-clock.txt
-> index c56c755..5703059 100644
-> --- a/Documentation/devicetree/bindings/clock/snps,hsdk-pll-clock.txt
-> +++ b/Documentation/devicetree/bindings/clock/snps,hsdk-pll-clock.txt
-> @@ -13,6 +13,10 @@ Required properties:
->   - clocks: shall be the input parent clock phandle for the PLL.
->   - #clock-cells: from common clock binding; Should always be set to 0.
+> diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
+> index c22b181..712defd 100644
+> --- a/arch/arc/include/asm/io.h
+> +++ b/arch/arc/include/asm/io.h
+> @@ -12,15 +12,10 @@
+>   #include <linux/types.h>
+>   #include <asm/byteorder.h>
+>   #include <asm/page.h>
+> -
+> -#ifdef CONFIG_ISA_ARCV2
+>   #include <asm/barrier.h>
+> +
+>   #define __iormb()		rmb()
+>   #define __iowmb()		wmb()
+> -#else
+> -#define __iormb()		do { } while (0)
+> -#define __iowmb()		do { } while (0)
+> -#endif
 >   
-> +Optional properties:
-> +- clock-frequency: output frequency generated by pll in Hz which will be set
-> +while probing. Should be a single cell.
-> +
->   Example:
->   	input_clk: input-clk {
->   		clock-frequency = <33333333>;
-> @@ -25,4 +29,5 @@ Example:
->   		reg = <0x00 0x10>;
->   		#clock-cells = <0>;
->   		clocks = <&input_clk>;
-> +		clock-frequency = <1000000000>;
->   	};
-> diff --git a/Documentation/devicetree/bindings/clock/snps,pll-clock.txt b/Documentation/devicetree/bindings/clock/snps,pll-clock.txt
-> index 11fe487..5908f99 100644
-> --- a/Documentation/devicetree/bindings/clock/snps,pll-clock.txt
-> +++ b/Documentation/devicetree/bindings/clock/snps,pll-clock.txt
-> @@ -13,6 +13,10 @@ registers and second for corresponding LOCK CGU register.
->   - clocks: shall be the input parent clock phandle for the PLL.
->   - #clock-cells: from common clock binding; Should always be set to 0.
->   
-> +Optional properties:
-> +- clock-frequency: output frequency generated by pll in Hz which will be set
-> +while probing. Should be a single cell.
-> +
->   Example:
->   	input-clk: input-clk {
->   		clock-frequency = <33333333>;
-> @@ -25,4 +29,5 @@ Example:
->   		reg = <0x80 0x10>, <0x100 0x10>;
->   		#clock-cells = <0>;
->   		clocks = <&input-clk>;
-> +		clock-frequency = <100000000>;
->   	};
-> diff --git a/drivers/clk/axs10x/pll_clock.c b/drivers/clk/axs10x/pll_clock.c
-> index 25d8c24..3f4345d 100644
-> --- a/drivers/clk/axs10x/pll_clock.c
-> +++ b/drivers/clk/axs10x/pll_clock.c
-> @@ -11,6 +11,7 @@
->   #include <linux/platform_device.h>
->   #include <linux/module.h>
->   #include <linux/clk-provider.h>
-> +#include <linux/clk.h>
->   #include <linux/delay.h>
->   #include <linux/err.h>
->   #include <linux/device.h>
-> @@ -215,6 +216,25 @@ static const struct clk_ops axs10x_pll_ops = {
->   	.set_rate = axs10x_pll_set_rate,
->   };
->   
-> +static void set_pll_rate_from_of(struct clk *clk, struct device_node *node)
-> +{
-> +	u32 requested_rate;
-> +
-> +	/* If we specify initial pll output frequency try to set it */
-> +	if (of_property_read_u32(node, "clock-frequency", &requested_rate))
-> +		return;
-> +
-> +	if (clk_prepare_enable(clk)) {
-> +		pr_err("Cannot enable %s clock.\n", node->name);
-> +		return;
-> +	}
-> +
-> +	if (clk_set_rate(clk, requested_rate))
-> +		pr_err("Cannot set %s clock rate.\n", node->name);
-> +
-> +	pr_debug("Set %s clock to %u\n", node->name, requested_rate);
-> +}
-> +
->   static int axs10x_pll_clk_probe(struct platform_device *pdev)
->   {
->   	struct device *dev = &pdev->dev;
-> @@ -258,8 +278,15 @@ static int axs10x_pll_clk_probe(struct platform_device *pdev)
->   		return ret;
->   	}
->   
-> -	return of_clk_add_hw_provider(dev->of_node, of_clk_hw_simple_get,
-> -			&pll_clk->hw);
-> +	ret =  of_clk_add_hw_provider(dev->of_node, of_clk_hw_simple_get,
-> +				      &pll_clk->hw);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* If we specify initial pll output frequency in dts try to set it */
-> +	set_pll_rate_from_of(pll_clk->hw.clk, dev->of_node);
-> +
-> +	return 0;
->   }
->   
->   static int axs10x_pll_clk_remove(struct platform_device *pdev)
-> @@ -311,6 +338,9 @@ static void __init of_axs10x_pll_clk_setup(struct device_node *node)
->   		goto err_unregister_clk;
->   	}
->   
-> +	/* If we specify initial pll output frequency in dts try to set it */
-> +	set_pll_rate_from_of(pll_clk->hw.clk, node);
-> +
->   	return;
->   
->   err_unregister_clk:
-> diff --git a/drivers/clk/clk-hsdk-pll.c b/drivers/clk/clk-hsdk-pll.c
-> index bbf23717..74fd006 100644
-> --- a/drivers/clk/clk-hsdk-pll.c
-> +++ b/drivers/clk/clk-hsdk-pll.c
-> @@ -9,6 +9,7 @@
->    */
->   
->   #include <linux/clk-provider.h>
-> +#include <linux/clk.h>
->   #include <linux/delay.h>
->   #include <linux/device.h>
->   #include <linux/err.h>
-> @@ -295,6 +296,25 @@ static const struct clk_ops hsdk_pll_ops = {
->   	.set_rate = hsdk_pll_set_rate,
->   };
->   
-> +static void set_pll_rate_from_of(struct clk *clk, struct device_node *node)
-> +{
-> +	u32 requested_rate;
-> +
-> +	/* If we specify initial pll output frequency try to set it */
-> +	if (of_property_read_u32(node, "clock-frequency", &requested_rate))
-> +		return;
-> +
-> +	if (clk_prepare_enable(clk)) {
-> +		pr_err("Cannot enable %s clock.\n", node->name);
-> +		return;
-> +	}
-> +
-> +	if (clk_set_rate(clk, requested_rate))
-> +		pr_err("Cannot set %s clock rate.\n", node->name);
-> +
-> +	pr_debug("Set %s clock to %u\n", node->name, requested_rate);
-> +}
-> +
->   static int hsdk_pll_clk_probe(struct platform_device *pdev)
->   {
->   	int ret;
-> @@ -340,8 +360,15 @@ static int hsdk_pll_clk_probe(struct platform_device *pdev)
->   		return ret;
->   	}
->   
-> -	return of_clk_add_hw_provider(dev->of_node, of_clk_hw_simple_get,
-> -			&pll_clk->hw);
-> +	ret =  of_clk_add_hw_provider(dev->of_node, of_clk_hw_simple_get,
-> +				      &pll_clk->hw);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* If we specify initial pll output frequency in dts try to set it */
-> +	set_pll_rate_from_of(pll_clk->hw.clk, dev->of_node);
-> +
-> +	return 0;
->   }
->   
->   static int hsdk_pll_clk_remove(struct platform_device *pdev)
-> @@ -400,6 +427,9 @@ static void __init of_hsdk_pll_clk_setup(struct device_node *node)
->   		goto err_unmap_spec_regs;
->   	}
->   
-> +	/* If we specify initial pll output frequency in dts try to set it */
-> +	set_pll_rate_from_of(pll_clk->hw.clk, node);
-> +
->   	return;
->   
->   err_unmap_spec_regs:
+>   extern void __iomem *ioremap(phys_addr_t paddr, unsigned long size);
+>   extern void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
 > 
