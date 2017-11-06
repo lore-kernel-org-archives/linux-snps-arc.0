@@ -1,108 +1,32 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 6 Nov 2017 11:30:51 -0800
-Subject: [PATCH] ARCv2: Accomodate NS48 MMUv5 by releaxing MMU ver checking
+Date: Mon, 6 Nov 2017 12:19:08 -0800
+Subject: [RFC 4/6] ARC: Initial port to glibc
+In-Reply-To: <alpine.DEB.2.20.1706271147470.17677@digraph.polyomino.org.uk>
+References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
+ <1498550454-3560-5-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.20.1706271147470.17677@digraph.polyomino.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1509996651-7174-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <71bc62c1-11bd-d1a7-c78c-5cc2d166f682@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-HS48 cpus will have a new MMUv5, although Linux is currently not
-explicitly supporting the newer features (so remains at V4).
-The existing software/hardware version check is very tight and causes
-boot abort. Given that the MMUv5 hardware is backwards compatible,
-relax the boot check to allow current kernel support level to work
-with new hardware.
+Hi Joseph,
 
-Also while at it, move the ancient MMU related code to under ARCompact
-builds as baseline MMU for HS cpus is v4.
+On 06/27/2017 04:56 AM, Joseph Myers wrote:
+> On Tue, 27 Jun 2017, Vineet Gupta wrote:
+> 
+>> Signed-off-by: Cupertino Miranda <cmiranda at synopsys.com>
+>> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> 
+> We need ChangeLog entries and copyright assignments, but don't use
+> Signed-off-by.
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/mm/tlb.c | 57 ++++++++++++++++++++++++++++++++-----------------------
- 1 file changed, 33 insertions(+), 24 deletions(-)
+Revisiting glibc upstreaming for ARC. I was told that the lawyers did their "foo". 
+Do you have the copyright assignment from Synopsys already - or do you want me to 
+send it to you (privately perhaps)
 
-diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
-index 8ceefbf72fb0..4097764fea23 100644
---- a/arch/arc/mm/tlb.c
-+++ b/arch/arc/mm/tlb.c
-@@ -762,21 +762,23 @@ void read_decode_mmu_bcr(void)
- 	tmp = read_aux_reg(ARC_REG_MMU_BCR);
- 	mmu->ver = (tmp >> 24);
- 
--	if (mmu->ver <= 2) {
--		mmu2 = (struct bcr_mmu_1_2 *)&tmp;
--		mmu->pg_sz_k = TO_KB(0x2000);
--		mmu->sets = 1 << mmu2->sets;
--		mmu->ways = 1 << mmu2->ways;
--		mmu->u_dtlb = mmu2->u_dtlb;
--		mmu->u_itlb = mmu2->u_itlb;
--	} else if (mmu->ver == 3) {
--		mmu3 = (struct bcr_mmu_3 *)&tmp;
--		mmu->pg_sz_k = 1 << (mmu3->pg_sz - 1);
--		mmu->sets = 1 << mmu3->sets;
--		mmu->ways = 1 << mmu3->ways;
--		mmu->u_dtlb = mmu3->u_dtlb;
--		mmu->u_itlb = mmu3->u_itlb;
--		mmu->sasid = mmu3->sasid;
-+	if (is_isa_arcompact()) {
-+		if (mmu->ver <= 2) {
-+			mmu2 = (struct bcr_mmu_1_2 *)&tmp;
-+			mmu->pg_sz_k = TO_KB(0x2000);
-+			mmu->sets = 1 << mmu2->sets;
-+			mmu->ways = 1 << mmu2->ways;
-+			mmu->u_dtlb = mmu2->u_dtlb;
-+			mmu->u_itlb = mmu2->u_itlb;
-+		} else {
-+			mmu3 = (struct bcr_mmu_3 *)&tmp;
-+			mmu->pg_sz_k = 1 << (mmu3->pg_sz - 1);
-+			mmu->sets = 1 << mmu3->sets;
-+			mmu->ways = 1 << mmu3->ways;
-+			mmu->u_dtlb = mmu3->u_dtlb;
-+			mmu->u_itlb = mmu3->u_itlb;
-+			mmu->sasid = mmu3->sasid;
-+		}
- 	} else {
- 		mmu4 = (struct bcr_mmu_4 *)&tmp;
- 		mmu->pg_sz_k = 1 << (mmu4->sz0 - 1);
-@@ -818,8 +820,9 @@ int pae40_exist_but_not_enab(void)
- 
- void arc_mmu_init(void)
- {
--	char str[256];
- 	struct cpuinfo_arc_mmu *mmu = &cpuinfo_arc700[smp_processor_id()].mmu;
-+	char str[256];
-+	int compat = 0;
- 
- 	pr_info("%s", arc_mmu_mumbojumbo(0, str, sizeof(str)));
- 
-@@ -834,15 +837,21 @@ void arc_mmu_init(void)
- 	 */
- 	BUILD_BUG_ON(!IS_ALIGNED(STACK_TOP, PMD_SIZE));
- 
--	/* For efficiency sake, kernel is compile time built for a MMU ver
--	 * This must match the hardware it is running on.
--	 * Linux built for MMU V2, if run on MMU V1 will break down because V1
--	 *  hardware doesn't understand cmds such as WriteNI, or IVUTLB
--	 * On the other hand, Linux built for V1 if run on MMU V2 will do
--	 *   un-needed workarounds to prevent memcpy thrashing.
--	 * Similarly MMU V3 has new features which won't work on older MMU
-+	/*
-+	 * Ensure that MMU features assumed by kernel exist in hardware.
-+	 * For older ARC700 cpus, it has to be exact match, since the MMU
-+	 * revisions were not backwards compatible (MMUv3 TLB layout changed
-+	 * so even if kernel for v2 didn't use any new cmds of v3, it would
-+	 * still not work.
-+	 * For HS cpus, MMUv4 was baseline and v5 is backwards compatible
-+	 * (will run older software).
- 	 */
--	if (mmu->ver != CONFIG_ARC_MMU_VER) {
-+	if (is_isa_arcompact() && mmu->ver == CONFIG_ARC_MMU_VER)
-+		compat = 1;
-+	else if (is_isa_arcv2() && mmu->ver >= CONFIG_ARC_MMU_VER)
-+		compat = 1;
-+
-+	if (!compat) {
- 		panic("MMU ver %d doesn't match kernel built for %d...\n",
- 		      mmu->ver, CONFIG_ARC_MMU_VER);
- 	}
--- 
-2.7.4
+glibc has obviously moved on since our initial submission. What branch / tag shall 
+I rebase off of. This also has a bearing on minimum symbol version, which per the 
+last comment on the list was changed to 2.26 across the port !
+
+Thx,
+-Vineet
