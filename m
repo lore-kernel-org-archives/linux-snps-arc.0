@@ -1,57 +1,108 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 27 Oct 2017 13:57:32 -0700
-Subject: [PATCH v2] ARC: reset: introduce AXS10x reset driver
-In-Reply-To: <380f3137-2ede-7dd7-47d8-c4552911fd9d@synopsys.com>
-References: <20170914142842.12225-1-Eugeniy.Paltsev@synopsys.com>
- <1505736441.9807.8.camel@pengutronix.de>
- <ce7885ab-b87e-ca07-234f-b63811afd86c@synopsys.com>
- <1505753484.9807.18.camel@pengutronix.de>
- <1507111778.11691.9.camel@pengutronix.de>
- <380f3137-2ede-7dd7-47d8-c4552911fd9d@synopsys.com>
+Date: Mon, 6 Nov 2017 11:30:51 -0800
+Subject: [PATCH] ARCv2: Accomodate NS48 MMUv5 by releaxing MMU ver checking
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b023f5e1-8769-13c6-b7fc-cee05fb842e6@synopsys.com>
+Message-ID: <1509996651-7174-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Eugeniy,
+HS48 cpus will have a new MMUv5, although Linux is currently not
+explicitly supporting the newer features (so remains at V4).
+The existing software/hardware version check is very tight and causes
+boot abort. Given that the MMUv5 hardware is backwards compatible,
+relax the boot check to allow current kernel support level to work
+with new hardware.
 
-Ping ! Can you please follow up the ARC patch to use the driver for 4.15.
+Also while at it, move the ancient MMU related code to under ARCompact
+builds as baseline MMU for HS cpus is v4.
 
-Thx,
--Vineet
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/mm/tlb.c | 57 ++++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 33 insertions(+), 24 deletions(-)
 
-On 10/09/2017 11:25 AM, Vineet Gupta wrote:
-> On 10/04/2017 03:09 AM, Philipp Zabel wrote:
->> Hi Vineet,
->>
->> On Mon, 2017-09-18@18:51 +0200, Philipp Zabel wrote:
->>>> Will it be OK for you to apply the corresponding DT update for
->>>> platform - that way
->>>> I don't have to keep track of when ur branch hits mainline etc.
->>>>
->>>> The chances of any ensuing conflicts are pretty rare - and easy to resolve if 
->>>> at all.
->>>>
->>>> If so, Eugeniy can send the patch ur way !
->>>
->>> Maybe it is better to do this the other way around? I can put this patch
->>> on a stable reset/arc branch for you to merge before applying the reset
->>> DT updates.
->>
->> Have you come to a decision on this?
->>
->> Just in case, I have removed the AXS10x driver from the reset/next
->> branch and put it on its own branch:
->>
->> ?? git://git.pengutronix.de/git/pza/linux.git reset/arc
->>
->> This branch is immutable and I'll merge it into reset/next before
->> submitting the branch for v4.15-rc1.
-> 
-> I've git merge'ed this into ARC for-next !
-> 
-> @Eugeniy, can you please follow up with patches to undo any reset related hacks in 
-> axs10x ?
-> 
-> Thx,
-> -Vineet
-> 
+diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
+index 8ceefbf72fb0..4097764fea23 100644
+--- a/arch/arc/mm/tlb.c
++++ b/arch/arc/mm/tlb.c
+@@ -762,21 +762,23 @@ void read_decode_mmu_bcr(void)
+ 	tmp = read_aux_reg(ARC_REG_MMU_BCR);
+ 	mmu->ver = (tmp >> 24);
+ 
+-	if (mmu->ver <= 2) {
+-		mmu2 = (struct bcr_mmu_1_2 *)&tmp;
+-		mmu->pg_sz_k = TO_KB(0x2000);
+-		mmu->sets = 1 << mmu2->sets;
+-		mmu->ways = 1 << mmu2->ways;
+-		mmu->u_dtlb = mmu2->u_dtlb;
+-		mmu->u_itlb = mmu2->u_itlb;
+-	} else if (mmu->ver == 3) {
+-		mmu3 = (struct bcr_mmu_3 *)&tmp;
+-		mmu->pg_sz_k = 1 << (mmu3->pg_sz - 1);
+-		mmu->sets = 1 << mmu3->sets;
+-		mmu->ways = 1 << mmu3->ways;
+-		mmu->u_dtlb = mmu3->u_dtlb;
+-		mmu->u_itlb = mmu3->u_itlb;
+-		mmu->sasid = mmu3->sasid;
++	if (is_isa_arcompact()) {
++		if (mmu->ver <= 2) {
++			mmu2 = (struct bcr_mmu_1_2 *)&tmp;
++			mmu->pg_sz_k = TO_KB(0x2000);
++			mmu->sets = 1 << mmu2->sets;
++			mmu->ways = 1 << mmu2->ways;
++			mmu->u_dtlb = mmu2->u_dtlb;
++			mmu->u_itlb = mmu2->u_itlb;
++		} else {
++			mmu3 = (struct bcr_mmu_3 *)&tmp;
++			mmu->pg_sz_k = 1 << (mmu3->pg_sz - 1);
++			mmu->sets = 1 << mmu3->sets;
++			mmu->ways = 1 << mmu3->ways;
++			mmu->u_dtlb = mmu3->u_dtlb;
++			mmu->u_itlb = mmu3->u_itlb;
++			mmu->sasid = mmu3->sasid;
++		}
+ 	} else {
+ 		mmu4 = (struct bcr_mmu_4 *)&tmp;
+ 		mmu->pg_sz_k = 1 << (mmu4->sz0 - 1);
+@@ -818,8 +820,9 @@ int pae40_exist_but_not_enab(void)
+ 
+ void arc_mmu_init(void)
+ {
+-	char str[256];
+ 	struct cpuinfo_arc_mmu *mmu = &cpuinfo_arc700[smp_processor_id()].mmu;
++	char str[256];
++	int compat = 0;
+ 
+ 	pr_info("%s", arc_mmu_mumbojumbo(0, str, sizeof(str)));
+ 
+@@ -834,15 +837,21 @@ void arc_mmu_init(void)
+ 	 */
+ 	BUILD_BUG_ON(!IS_ALIGNED(STACK_TOP, PMD_SIZE));
+ 
+-	/* For efficiency sake, kernel is compile time built for a MMU ver
+-	 * This must match the hardware it is running on.
+-	 * Linux built for MMU V2, if run on MMU V1 will break down because V1
+-	 *  hardware doesn't understand cmds such as WriteNI, or IVUTLB
+-	 * On the other hand, Linux built for V1 if run on MMU V2 will do
+-	 *   un-needed workarounds to prevent memcpy thrashing.
+-	 * Similarly MMU V3 has new features which won't work on older MMU
++	/*
++	 * Ensure that MMU features assumed by kernel exist in hardware.
++	 * For older ARC700 cpus, it has to be exact match, since the MMU
++	 * revisions were not backwards compatible (MMUv3 TLB layout changed
++	 * so even if kernel for v2 didn't use any new cmds of v3, it would
++	 * still not work.
++	 * For HS cpus, MMUv4 was baseline and v5 is backwards compatible
++	 * (will run older software).
+ 	 */
+-	if (mmu->ver != CONFIG_ARC_MMU_VER) {
++	if (is_isa_arcompact() && mmu->ver == CONFIG_ARC_MMU_VER)
++		compat = 1;
++	else if (is_isa_arcv2() && mmu->ver >= CONFIG_ARC_MMU_VER)
++		compat = 1;
++
++	if (!compat) {
+ 		panic("MMU ver %d doesn't match kernel built for %d...\n",
+ 		      mmu->ver, CONFIG_ARC_MMU_VER);
+ 	}
+-- 
+2.7.4
