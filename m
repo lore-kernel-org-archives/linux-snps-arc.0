@@ -1,57 +1,42 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 6 Nov 2017 14:51:56 -0800
+From: joseph@codesourcery.com (Joseph Myers)
+Date: Mon, 6 Nov 2017 23:08:53 +0000
 Subject: [RFC 0/6] glibc port to ARC architecture
-In-Reply-To: <alpine.DEB.2.20.1706271157100.17677@digraph.polyomino.org.uk>
+In-Reply-To: <5a247430-83e7-8a75-3935-6307233ffbd1@synopsys.com>
 References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
  <357a6f84-3f71-d3b7-9c19-4f0390e5db8d@redhat.com>
  <alpine.DEB.2.20.1706271157100.17677@digraph.polyomino.org.uk>
+ <5a247430-83e7-8a75-3935-6307233ffbd1@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5a247430-83e7-8a75-3935-6307233ffbd1@synopsys.com>
+Message-ID: <alpine.DEB.2.20.1711062303011.30112@digraph.polyomino.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-On 06/27/2017 05:00 AM, Joseph Myers wrote:
-> On Tue, 27 Jun 2017, Florian Weimer wrote:
-> 
->> On 06/27/2017 10:00 AM, Vineet Gupta wrote:
->>> This is a Request for comments for glibc port to ARC architecture.
->>> http://www.synopsys.com/IP/ProcessorIP/ARCProcessors/Pages/default.aspx
->>>
->>> The Linux kernel, uClibc, buildroot have been upstream for quite some time.
->>
->> Is it possible to build the new port with scripts/build-many-glibcs.py?
-> 
-> More specifically:
-> 
-> Any new port should have support added to build-many-glibcs.py for all
-> ABIs supported by the port (e.g. both endiannesses, if you support both BE
-> and LE, and any other ABI variants).
+On Mon, 6 Nov 2017, Vineet Gupta wrote:
 
-I added the trivial bits to build-many-glibcs.py for supporting ARC, but it seems 
-there are some roadblocks.
+>   - How do I call it the first time, with my existing version of glibc.
+>     The checkout process, gets upstream glibc and tries to build that instead.
 
-1. There are still some in-flight patches for gcc/binutils upstreaming. The latest 
-working versions are hoisted on on SNPS github portal, but that won't fly I guess. 
-Anyhow for now, the upstream versions are likely to suffice for say building part.
+build-many-glibcs.py <dir> checkout
+[replace the src/glibc directory there with a different branch if desired]
+build-many-glibcs.py <dir> host-libraries
+build-many-glibcs.py <dir> compilers <targets>
+build-many-glibcs.py <dir> glibcs <targets>
 
-2. The immediate (and embarrassing) issue is trying to figure out how to make the 
-build-many-glibcs.py script work. A wiki page for new ports would have helped a lot.
+(It won't actually check that components are checked out from the 
+repositories / branches it thinks they are, so replacing by a checkout 
+from a different location should work fine.)
 
-   - How do I call it the first time, with my existing version of glibc.
-     The checkout process, gets upstream glibc and tries to build that instead.
+It's expected that upstream glibc should work with upstream versions of 
+the relevant other toolchain components; we don't want a repeat of the 
+NaCl situation, or the situation with MicroBlaze for a long time, where 
+required changes either never got upstream or took a very long time to get 
+upstream.  It's possible for very new ports that it only works with 
+upstream mainline and not the most recent releases, although I'd encourage 
+you to act like the RISC-V maintainers and e.g. actively backport 
+important fixes to the most recent binutils release branch.
 
-   - So I created a src directory manually, will all other tools and glibc being a
-     symlink to my existing glibc tree and calling it as follows
+"work" should include clean results from the compilation tests, as run by 
+build-many-glibcs.py for the "glibcs" action.
 
-$ test-glibc/src/glibc>./scripts/build-many-glibcs.py <abs-path>/test-glibc 
-compilers  arc-linux-gnu
-
-FAIL: compilers-arc-linux-gnu check-host-libraries
-UNRESOLVED: compilers-arc-linux-gnu binutils rm
-UNRESOLVED: compilers-arc-linux-gnu binutils mkdir
-UNRESOLVED: compilers-arc-linux-gnu binutils configure
-UNRESOLVED: compilers-arc-linux-gnu binutils build
-...
-
-I'm missing obvious/simple stuff, but this is a new env for me.
-
--Vineet
+-- 
+Joseph S. Myers
+joseph at codesourcery.com
