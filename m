@@ -1,80 +1,43 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 7 Nov 2017 14:13:01 -0800
-Subject: [PATCH 1/4] ARCv2: perf: tweak overflow interrupt
+Date: Tue, 7 Nov 2017 14:13:03 -0800
+Subject: [PATCH 3/4] ARC: perf: avoid vmalloc backed mmap
 In-Reply-To: <1510092784-19942-1-git-send-email-vgupta@synopsys.com>
 References: <1510092784-19942-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1510092784-19942-2-git-send-email-vgupta@synopsys.com>
+Message-ID: <1510092784-19942-4-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Current perf ISR loops thru all 32 counters, checking for each if it
-caused the interrupt. Instead only loop thru counters which actually
-interrupted (typically 1).
+For non-alising Dcache, vmalloc is not needed.
+
+vmalloc triggers additonal D-TLB Misses in the perf interrupt code path
+making it slightly inefficient as evident from hackbench runs below.
+
+| [ARCLinux]# perf stat -e dTLB-load-misses --repeat 5 hackbench
+| Running with 10*40 (== 400) tasks.
+| Time: 35.060
+| ...
+| Performance counter stats for 'hackbench' (5 runs):
+
+Before:      399235      dTLB-load-misses ( +-  2.08% )
+After :      397676      dTLB-load-misses ( +-  2.27% )
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/kernel/perf_event.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ arch/arc/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arc/kernel/perf_event.c b/arch/arc/kernel/perf_event.c
-index 2ce24e74f879..0eaa132a2c90 100644
---- a/arch/arc/kernel/perf_event.c
-+++ b/arch/arc/kernel/perf_event.c
-@@ -377,21 +377,22 @@ static irqreturn_t arc_pmu_intr(int irq, void *dev)
- 	struct perf_sample_data data;
- 	struct arc_pmu_cpu *pmu_cpu = this_cpu_ptr(&arc_pmu_cpu);
- 	struct pt_regs *regs;
--	int active_ints;
-+	unsigned int active_ints;
- 	int idx;
- 
- 	arc_pmu_disable(&arc_pmu->pmu);
- 
- 	active_ints = read_aux_reg(ARC_REG_PCT_INT_ACT);
-+	if (!active_ints)
-+		goto done;
- 
- 	regs = get_irq_regs();
- 
--	for (idx = 0; idx < arc_pmu->n_counters; idx++) {
--		struct perf_event *event = pmu_cpu->act_counter[idx];
-+	do {
-+		struct perf_event *event;
- 		struct hw_perf_event *hwc;
- 
--		if (!(active_ints & (1 << idx)))
--			continue;
-+		idx = __ffs(active_ints);
- 
- 		/* Reset interrupt flag by writing of 1 */
- 		write_aux_reg(ARC_REG_PCT_INT_ACT, 1 << idx);
-@@ -404,19 +405,22 @@ static irqreturn_t arc_pmu_intr(int irq, void *dev)
- 		write_aux_reg(ARC_REG_PCT_INT_CTRL,
- 			read_aux_reg(ARC_REG_PCT_INT_CTRL) | (1 << idx));
- 
-+		event = pmu_cpu->act_counter[idx];
- 		hwc = &event->hw;
- 
- 		WARN_ON_ONCE(hwc->idx != idx);
- 
- 		arc_perf_event_update(event, &event->hw, event->hw.idx);
- 		perf_sample_data_init(&data, 0, hwc->last_period);
--		if (!arc_pmu_event_set_period(event))
--			continue;
-+		if (arc_pmu_event_set_period(event)) {
-+			if (perf_event_overflow(event, &data, regs))
-+				arc_pmu_stop(event, 0);
-+		}
- 
--		if (perf_event_overflow(event, &data, regs))
--			arc_pmu_stop(event, 0);
--	}
-+		active_ints &= ~(1U << idx);
-+	} while (active_ints);
- 
-+done:
- 	arc_pmu_enable(&arc_pmu->pmu);
- 
- 	return IRQ_HANDLED;
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index c84e67fdea09..f3cad98eeb8f 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -39,7 +39,7 @@ config ARC
+ 	select OF
+ 	select OF_EARLY_FLATTREE
+ 	select OF_RESERVED_MEM
+-	select PERF_USE_VMALLOC
++	select PERF_USE_VMALLOC if ARC_CACHE_VIPT_ALIASING
+ 	select HAVE_DEBUG_STACKOVERFLOW
+ 	select HAVE_GENERIC_DMA_COHERENT
+ 	select HAVE_KERNEL_GZIP
 -- 
 2.7.4
