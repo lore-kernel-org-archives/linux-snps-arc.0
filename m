@@ -1,34 +1,24 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 13 Nov 2017 13:30:36 -0800
-Subject: [PATCH 0/4] ARC perf updates
-In-Reply-To: <1510092784-19942-1-git-send-email-vgupta@synopsys.com>
-References: <1510092784-19942-1-git-send-email-vgupta@synopsys.com>
+From: sboyd@codeaurora.org (sboyd@codeaurora.org)
+Date: Mon, 13 Nov 2017 14:29:39 -0800
+Subject: [PATCH] CLK: ARC: Set initial pll output frequency specified in
+ device tree
+In-Reply-To: <1510587328.2699.8.camel@synopsys.com>
+References: <20170929131357.26796-1-Eugeniy.Paltsev@synopsys.com>
+ <1510587328.2699.8.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <c37fc717-3215-8db9-c893-b057d17cd05e@synopsys.com>
+Message-ID: <20171113222939.GG22441@codeaurora.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/07/2017 02:13 PM, Vineet Gupta wrote:
-> Hi,
+On 11/13, Eugeniy Paltsev wrote:
+> Hi Stephen, Michael,
 > 
-> Found these when cleaning up some old branches. The only controversial one
-> could be the last one.
-> 
-> Thx,
-> -Vineet
-> 
-> Vineet Gupta (4):
->    ARCv2: perf: tweak overflow interrupt
->    ARCv2: perf: optimize given that num counters <= 32
->    ARC: perf: avoid vmalloc backed mmap
->    ARCv2: entry: Reduce perf intr return path
-> 
->   arch/arc/Kconfig                   |  2 +-
->   arch/arc/include/asm/entry-arcv2.h |  2 ++
->   arch/arc/kernel/entry-arcv2.S      | 23 +++++++++++++++++++++-
->   arch/arc/kernel/perf_event.c       | 40 ++++++++++++++++++++------------------
->   4 files changed, 46 insertions(+), 21 deletions(-)
-> 
+> Please treat this message as a polite reminder to review my patch.
+> It would be really nice to see this patch in 4.15.
 
-Peter, any specific likes/dislikes for this series !
+Sorry I don't have this in my queue. It might make v4.15 but the
+mere window is open now and I lost this patch somehow so
+hopefully I can throw it into the pile.
 
--Vineet
+-- 
+Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
