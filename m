@@ -1,24 +1,44 @@
-From: sboyd@codeaurora.org (sboyd@codeaurora.org)
-Date: Mon, 13 Nov 2017 14:29:39 -0800
-Subject: [PATCH] CLK: ARC: Set initial pll output frequency specified in
- device tree
-In-Reply-To: <1510587328.2699.8.camel@synopsys.com>
-References: <20170929131357.26796-1-Eugeniy.Paltsev@synopsys.com>
- <1510587328.2699.8.camel@synopsys.com>
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Tue, 14 Nov 2017 11:28:02 +0100
+Subject: [PATCH 4/4] ARCv2: entry: Reduce perf intr return path
+In-Reply-To: <1510092784-19942-5-git-send-email-vgupta@synopsys.com>
+References: <1510092784-19942-1-git-send-email-vgupta@synopsys.com>
+ <1510092784-19942-5-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171113222939.GG22441@codeaurora.org>
+Message-ID: <20171114102802.GA3165@worktop.lehotels.local>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/13, Eugeniy Paltsev wrote:
-> Hi Stephen, Michael,
-> 
-> Please treat this message as a polite reminder to review my patch.
-> It would be really nice to see this patch in 4.15.
+On Tue, Nov 07, 2017@02:13:04PM -0800, Vineet Gupta wrote:
+> In the more likely case of returning to kernel from perf interrupt, do a
+> fast path returning w/o bothering about CONFIG_PREEMPT etc
 
-Sorry I don't have this in my queue. It might make v4.15 but the
-mere window is open now and I lost this patch somehow so
-hopefully I can throw it into the pile.
+I think this needs more explaining and certainly also deserves a code
+comment.
 
--- 
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Is the argument something along these lines?
+
+  Assumes the interrupt will never set TIF_NEED_RESCHED;
+  therefore no preemption is ever required on return from
+  the interrupt.
+
+What do you (on ARC) do about irq_work ?
+
+> +ENTRY(handle_interrupt_pct)
+> +
+> +	INTERRUPT_PROLOGUE  irq
+> +
+> +	IRQ_DISABLE
+> +
+> +	lr	r0, [ICAUSE]
+> +
+> +	bl.d	arch_do_IRQ
+> +	mov	r1, sp
+> +
+> +	ld	r0, [sp, PT_status32]   ; returning to User/Kernel Mode
+> +	btst	r0, STATUS_U_BIT
+> +	bnz	resume_user_mode_begin
+> +
+> +	clri
+> +	b	.Lisr_ret_fast_path_to_k
+> +
+> +END(handle_interrupt_pct)
