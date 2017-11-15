@@ -1,38 +1,70 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Wed, 15 Nov 2017 09:45:44 -0000
-Subject: kisskb: OK linux-next/axs101_defconfig/arcompact Wed Nov 15, 20:44
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Wed, 15 Nov 2017 11:18:53 +0100
+Subject: [PATCH 4/4] ARCv2: entry: Reduce perf intr return path
+In-Reply-To: <8b2c70f0-fc51-fb9b-b799-9b85a3d3403b@gmail.com>
+References: <1510092784-19942-1-git-send-email-vgupta@synopsys.com>
+ <1510092784-19942-5-git-send-email-vgupta@synopsys.com>
+ <20171114102802.GA3165@worktop.lehotels.local>
+ <8b2c70f0-fc51-fb9b-b799-9b85a3d3403b@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171115094544.1.59955@222023911cb9>
+Message-ID: <20171115101853.mtpamwkc5z4ptw2h@hirez.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-OK linux-next/axs101_defconfig/arcompact Wed Nov 15, 20:44
+On Tue, Nov 14, 2017@03:01:26PM -0800, Vineet Gupta wrote:
+> On 11/14/2017 02:28 AM, Peter Zijlstra wrote:
+> > On Tue, Nov 07, 2017@02:13:04PM -0800, Vineet Gupta wrote:
+> > > In the more likely case of returning to kernel from perf interrupt, do a
+> > > fast path returning w/o bothering about CONFIG_PREEMPT etc
+> > 
+> > I think this needs more explaining and certainly also deserves a code
+> > comment.
+> 
+> Sure ! It was a quick hack mainly to solicit feedback.
+> 
+> 
+> > Is the argument something along these lines?
+> > 
+> >    Assumes the interrupt will never set TIF_NEED_RESCHED;
+> >    therefore no preemption is ever required on return from
+> >    the interrupt.
+> 
+> No. I don't think we can assume that.
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13205921/
+Well, given we run that code from NMI context on a number of platforms
+(x86 being one of them) it can not in fact do things like wakeups.
 
-Commit:   Add linux-next specific files for 20171114
-          c9b945f2a731076ad5c634b6ca65a8916e127ba3
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+So the pure perf-interrupt part should never set TIF_NEED_RESCHED.
 
-No errors found in log
+I think we can actually make that assumption.
 
-Possible warnings (18)
-----------------------
+> But I was choosing to ignore it mainly to reduce the overhead of a
+> perf intr in general. A subsequent real interrupt could go thru thru
+> the gyrations of preemption etc.
 
-drivers/bluetooth/Kconfig:35:warning: multi-line strings not supported
-kernel/sched/core.c:3247:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/kernel.h:792:16: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-fs/ext4/ext4_jbd2.h:426:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:426:1: warning: control reaches end of non-void function [-Wreturn-type]
-block/cfq-iosched.c:3804:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:426:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:426:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/core/ethtool.c:311:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:426:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:426:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:426:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:426:1: warning: control reaches end of non-void function [-Wreturn-type]
-lib/string.c:1053:1: warning: 'noreturn' function does return [enabled by default]
-drivers/scsi/sd.c:1310:1: warning: control reaches end of non-void function [-Wreturn-type]
-include/linux/sunrpc/svc_xprt.h:180:1: warning: control reaches end of non-void function [-Wreturn-type]
-fs/ext4/ext4_jbd2.h:426:1: warning: control reaches end of non-void function [-Wreturn-type]
-net/ipv4/tcp_input.c:4228:49: warning: array subscript is above array bounds [-Warray-bounds]
+So that's dangerous thinking... People that run a PREEMPT kernel
+generally tend to care about latency (esp. when combined with
+PREEMPT_RT).
+
+And ignoring a preemption point gets these people upset (and missed
+preemptions are a royal friggin pain to debug).
+
+> > What do you (on ARC) do about irq_work ?
+> 
+> Nothing ATM.
+
+So the reason I'm asking is that some architectures that don't have NMIs
+call irq_work_run() at the very end of their perf-interrupt handler (ARM
+does this for instance).
+
+And the thing is, _that_ can and does do things like wakeups and will
+thus require doing the PREEMPT thing.
+
+> Although I'm sure it is, can you please explain how irq_work is relevant in
+> the context of this patch.
+
+Since the perf interrupt (in general) cannot call a whole lot of things
+for it needs to assume running from NMI context, it needs to defer
+things to a more regular context. It does this with irq_work.
+
+So for instance, when the output buffer reaches its watermark, we'll
+raise the irq_work to issue the wakeup of tasks that poll() on that.
