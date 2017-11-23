@@ -1,28 +1,31 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 23 Nov 2017 17:17:19 +0000
-Subject: [PATCH] frv: fix build failure
-In-Reply-To: <1511302233-5008-1-git-send-email-sudipm.mukherjee@gmail.com>
-References: <1511302233-5008-1-git-send-email-sudipm.mukherjee@gmail.com>
+Date: Thu, 23 Nov 2017 13:21:55 +0300
+Subject: [PATCH] ARC: Reverse logic of enabled dual-issue detection
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1511457437.32422.6.camel@synopsys.com>
+Message-ID: <20171123102155.40447-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Sudip,
+As per PRM bit #0 ("D") in EXEC_CTRL enables dual-issue if set to 0,
+otherwise if set to 1 all instructions are executed one at a time,
+i.e. dual-issue is disabled.
 
-On Tue, 2017-11-21@22:10 +0000, Sudip Mukherjee wrote:
-> The frv defconfig build is failing with the error:
-> lib/mpi/mpih-div.o: In function `mpihelp_divrem':
-> mpih-div.c:(.text+0x30c): undefined reference to `abort'
-> 
-> The function 'abort' was never defined for the frv architecture.
-> Create 'abort' as is done in other arch like 'arm' and 'unicore32'.
-> 
-> Signed-off-by: Sudip Mukherjee <sudipm.mukherjee at gmail.com>
-> ---
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/kernel/setup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm seeing the same issue building for ARC from today's Linus' tree.
-Maybe it worth implementing abort() as a weak function for every arch/platform
-that doesn't have it explicitly defined? Otherwise we'll end-up with
-useless code duplication.
-
--Alexey
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index fb83844daeea..3411b2da164c 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -200,7 +200,7 @@ static void read_arc_build_cfg_regs(void)
+ 
+ 			READ_BCR(AUX_EXEC_CTRL, exec_ctrl);
+ 			cpu->extn.dual_iss_exist = 1;
+-			cpu->extn.dual_iss_enb = exec_ctrl & 1;
++			cpu->extn.dual_iss_enb = !(exec_ctrl & 1);
+ 		}
+ 	}
+ 
+-- 
+2.11.0
