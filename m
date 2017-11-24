@@ -1,60 +1,35 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 24 Nov 2017 05:02:28 +0000
-Subject: [PATCH] frv: fix build failure
-In-Reply-To: <20171123230137.GA4525@sudip-laptop>
-References: <1511302233-5008-1-git-send-email-sudipm.mukherjee@gmail.com>
- <1511457437.32422.6.camel@synopsys.com>
- <20171123230137.GA4525@sudip-laptop>
+Date: Fri, 24 Nov 2017 16:02:50 +0000
+Subject: glxgears on Etnaviv: couldn't get an RGB, Double-buffered visual
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1511499747.3843.9.camel@synopsys.com>
+Message-ID: <1511539365.3497.67.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Sudip,
+Hello,
 
-On Thu, 2017-11-23@23:01 +0000, Sudip Mukherjee wrote:
-> Hi Alexey,
-> 
-> On Thu, Nov 23, 2017@05:17:19PM +0000, Alexey Brodkin wrote:
-> > 
-> > Hi Sudip,
-> > 
-> > On Tue, 2017-11-21@22:10 +0000, Sudip Mukherjee wrote:
-> > > 
-> > > The frv defconfig build is failing with the error:
-> > > lib/mpi/mpih-div.o: In function `mpihelp_divrem':
-> > > mpih-div.c:(.text+0x30c): undefined reference to `abort'
-> > > 
-> > > The function 'abort' was never defined for the frv architecture.
-> > > Create 'abort' as is done in other arch like 'arm' and 'unicore32'.
-> > > 
-> > > Signed-off-by: Sudip Mukherjee <sudipm.mukherjee at gmail.com>
-> > > ---
-> > 
-> > I'm seeing the same issue building for ARC from today's Linus' tree.
-> > Maybe it worth implementing abort() as a weak function for every arch/platform
-> > that doesn't have it explicitly defined? Otherwise we'll end-up with
-> > useless code duplication.
-> 
-> Do you mean define it for every arch or define it in a common place so
-> that all arch can use it?
+Being in the middle of bring-up of the new board with Vivante GPU (HSDK namely,
+see?https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arc/plat-hsdk)
+I was looking at simple 3D test apps to see how Etnaviv works on the hardware.
 
-Essentially I'd prefer to have just 1 instance of this function.
-In fact I'd even remove existing implementations in ARM, Unicore32 and M32R
-and have a generic implementation as this function obviously has nothing arch-specific.
+So far I was able to get kmscube working perfectly fine and the next item I took
+was glxgears (for some reason I was under impression that's de facto "Hello world" app
+in the GPU world). But apparently even with Xserver up and running glxgears doesn't work.
 
-> I did a quick try with the attached patch on two different arch, one of
-> them (m32r) has the 'abort' defined and the other (frv) was failing due
-> to lack of abort, and they both built without any warnings or errors.
+Moreover I tried the same thing on Wandboard Quad but to no avail as well.
+That's what I saw:
+------------------------->8---------------------
+# glxgears
+Error: couldn't get an RGB, Double-buffered visual
 
-Well maybe add ?call to panic() there as well as it is done for ARM, unicore32?and M32R?
+# glxinfo
+name of display: :0
+Error: couldn't find RGB GLX visual or fbconfig?
+------------------------->8---------------------
 
-> But I am not sure if 'kernel/exit.c' is the right place for it.
-> Any suggestion?
+Googling didn't help here unfortunately so maybe some pointers could be
+suggested here... like what do I do wrong and if glxgears is supposed to
+work on top of DRM GPU at all?
 
-I guess it should be indeed something in "kernel/" and maybe your existing choice
-of "kernel/exit.c" is not bad. Just send a patch to LKML and you'll get much better
-guidance on that I guess :)
-
-Anyways thanks for looking at this one.
+Thanks a lot in advance!
 
 -Alexey
