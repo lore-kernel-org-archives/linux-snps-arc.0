@@ -1,107 +1,56 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 24 Nov 2017 17:23:17 +0000
-Subject: glxgears on Etnaviv: couldn't get an RGB, Double-buffered visual
-In-Reply-To: <1511543472.16502.38.camel@pengutronix.de>
-References: <1511539365.3497.67.camel@synopsys.com>
- <1511539893.16502.34.camel@pengutronix.de>
- <1511540718.3497.73.camel@synopsys.com>
- <1511541502.16502.36.camel@pengutronix.de>
- <1511542141.3497.93.camel@synopsys.com>
- <1511543472.16502.38.camel@pengutronix.de>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 27 Nov 2017 10:25:16 -0800
+Subject: [PATCH] frv: fix build failure
+In-Reply-To: <1511457437.32422.6.camel@synopsys.com>
+References: <1511302233-5008-1-git-send-email-sudipm.mukherjee@gmail.com>
+ <1511457437.32422.6.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1511544197.3497.101.camel@synopsys.com>
+Message-ID: <3a6fe86e-7a66-56df-3b1d-e2e8cd3e6eae@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Lucas,
++CC linux-arch, Arnd
 
-On Fri, 2017-11-24@18:11 +0100, Lucas Stach wrote:
-> Am Freitag, den 24.11.2017, 16:49 +0000 schrieb Alexey Brodkin:
-> [...]
-> > 
-> > > 
-> > > Yes, a "core" in Vivante speak is a GPU with one DMA frontend. A
-> > > single
-> > > frontend can feed both 3D and 2D acceleration engines behind it. On
-> > > i.MX6 the 2D and 3D engine are on separate cores, but Marvell Dove
-> > > has
-> > > a combined 2D/3D core.
-> > 
-> > Hm, that sounds encouraging. The next question would be if Marvel
-> > Dove is
-> > supported in Etnaviv DDX? I guess it's called Armada so the answer if
-> > yes, right?
+On 11/23/2017 09:17 AM, Alexey Brodkin wrote:
+> Hi Sudip,
 > 
-> Yes, the Dove was the original platform for the Armada X.Org driver.
-> Combined 2D/3D cores are supported just fine by etnaviv.
-
-Sweet!
-Maybe another question then.
-To get kmscube working on our board which uses essentially different
-bit-streamer device "udl" as opposed to "imx-drm" I had just to say:
----------------------->8----------------------
-export MESA_LOADER_DRIVER_OVERRIDE=imx-drm
----------------------->8----------------------
-and then all the magic has happened.
-
-Will it be
-?a) required
-?b) enough
-for Vivante X.org driver?
-
-> > > > If we happen to not have 2D core if that's a no go for us for
-> > > > anything?
-> > > 
-> > > I don't know if the DDX works properly without 2D acceleration.
-> > > Weston
-> > > on the other hand only relies on the 3D accel core for doing
-> > > compositing, so even if you don't have a 2D engine you will be able
-> > > to
-> > > launch a modern Linux graphics stack.
-> > 
-> > That's really cool! I'm much more interested in Weston ATM, which is
-> > actually another separate question :)
-> > I tried to find some details on how to run Weston on Wandboard
-> > but seems like I was looking at wrong Google again... do you
-> > know any good manuals for doing that?
+> On Tue, 2017-11-21@22:10 +0000, Sudip Mukherjee wrote:
+>> The frv defconfig build is failing with the error:
+>> lib/mpi/mpih-div.o: In function `mpihelp_divrem':
+>> mpih-div.c:(.text+0x30c): undefined reference to `abort'
+>>
+>> The function 'abort' was never defined for the frv architecture.
+>> Create 'abort' as is done in other arch like 'arm' and 'unicore32'.
+>>
+>> Signed-off-by: Sudip Mukherjee <sudipm.mukherjee at gmail.com>
+>> ---
 > 
-> There really is no magic to it. Or better there is, but it's all hidden
-> in the Mesa implementation.
-> 
-> You need at least Mesa 17.2 and Weston 3.0 for etnaviv to work
-> properly. Other than that just set XDG_RUNTIME_DIR to something
-> sensible and launch Weston with "weston --tty=63", done.
+> I'm seeing the same issue building for ARC from today's Linus' tree.
 
-Cool, will try that!
+With which compiler ? Claudiu implemented __builtin_trap recently so ARC builds 
+should not get abort() but a trap 5 instruction instead.
 
-> > > The etnaviv DDX could also emulate 2D accel over the 3D core by
-> > > using
-> > > the X.Org glamor module, but no one has bothered to implement this
-> > > yet.
-> > 
-> > Ok we'll see if above case (combined cores) is applicable to us and
-> > then
-> > we'll see what to do.
-> > 
-> > > 
-> > > > 
-> > > > In the meantime I'll try to figure out if we have 2D core or not.
-> > > 
-> > > You can find out what your GPU provides by looking at the feature
-> > > bits.
-> > > chipFeatures_PIPE_2D, chipFeatures_PIPE_3D and chipFeatures_PIPE_VG
-> > > is
-> > > what you are looking out for.
-> > 
+> Maybe it worth implementing abort() as a weak function for every arch/platform
+> that doesn't have it explicitly defined? Otherwise we'll end-up with
+> useless code duplication.
 
-> > Does that info helps to decipher these bits?
-> 
-> Unfortunately we forgot to expose the major feature bits register in
-> debugfs. It's gpu->identity.features in the kernel driver, the
-> interesting bits in there are chipFeatures_PIPE_3D and
-> chipFeatures_PIPE_2D.
+I understand the case/need for adding a weak/common abort() as a quick fix for 
+handling such cases, but perhaps we should not and instead fix the rootcause. In 
+this specific case, Claudiu mentioned that gcc was generating abort due to 
+something like this (flagging a possible divide by zero due to 
+-fno-isolate-erroneous-paths-dereference.
 
-Noted!
+a;
 
-Are you going to add that yourself sometime soon or shall I do it?
+fn1() {
+   switch (a)
+   case 0:
+   return 1 / a;
+}
 
--Alexey
+Sudeep can you confirm that removing this hacking FRV build to not have this 
+toggle fixes the abort issue.
+
+So the offending code needs to be fixed as in the end when that code path is taken 
+system is hosed.
+
+-Vineet
