@@ -1,80 +1,45 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 27 Nov 2017 21:56:09 +0300
-Subject: [PATCH 2/4] ARC: [plat-hsdk]: Get rid of core pll frequency set in
- platform code
-In-Reply-To: <20171127185611.12379-1-Eugeniy.Paltsev@synopsys.com>
-References: <20171127185611.12379-1-Eugeniy.Paltsev@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 27 Nov 2017 12:35:44 -0800
+Subject: [RFC 0/6] glibc port to ARC architecture
+In-Reply-To: <alpine.DEB.2.20.1706271157100.17677@digraph.polyomino.org.uk>
+References: <1498550454-3560-1-git-send-email-vgupta@synopsys.com>
+ <357a6f84-3f71-d3b7-9c19-4f0390e5db8d@redhat.com>
+ <alpine.DEB.2.20.1706271157100.17677@digraph.polyomino.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171127185611.12379-3-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <457a32ae-c5e2-d69a-cdf9-9d9be49a5bc0@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Get rid of core pll frequency set in platform code as we set it via
-device tree using 'assigned-clock-rates' property.
+On 06/27/2017 05:00 AM, Joseph Myers wrote:
+> On Tue, 27 Jun 2017, Florian Weimer wrote:
+> 
+>> On 06/27/2017 10:00 AM, Vineet Gupta wrote:
+>>> This is a Request for comments for glibc port to ARC architecture.
+>>> http://www.synopsys.com/IP/ProcessorIP/ARCProcessors/Pages/default.aspx
+>>>
+>>> The Linux kernel, uClibc, buildroot have been upstream for quite some time.
+>>
+>> Is it possible to build the new port with scripts/build-many-glibcs.py?
+> 
+> More specifically:
+> 
+> Any new port should have support added to build-many-glibcs.py for all
+> ABIs supported by the port (e.g. both endiannesses, if you support both BE
+> and LE, and any other ABI variants).
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/plat-hsdk/platform.c | 42 ------------------------------------------
- 1 file changed, 42 deletions(-)
+build-many-glibcs.py works for ARC now - after the 2 backports to gcc 7.2
 
-diff --git a/arch/arc/plat-hsdk/platform.c b/arch/arc/plat-hsdk/platform.c
-index fd0ae5e..2958aed 100644
---- a/arch/arc/plat-hsdk/platform.c
-+++ b/arch/arc/plat-hsdk/platform.c
-@@ -38,42 +38,6 @@ static void __init hsdk_init_per_cpu(unsigned int cpu)
- #define CREG_PAE		(CREG_BASE + 0x180)
- #define CREG_PAE_UPDATE		(CREG_BASE + 0x194)
- 
--#define CREG_CORE_IF_CLK_DIV	(CREG_BASE + 0x4B8)
--#define CREG_CORE_IF_CLK_DIV_2	0x1
--#define CGU_BASE		ARC_PERIPHERAL_BASE
--#define CGU_PLL_STATUS		(ARC_PERIPHERAL_BASE + 0x4)
--#define CGU_PLL_CTRL		(ARC_PERIPHERAL_BASE + 0x0)
--#define CGU_PLL_STATUS_LOCK	BIT(0)
--#define CGU_PLL_STATUS_ERR	BIT(1)
--#define CGU_PLL_CTRL_1GHZ	0x3A10
--#define HSDK_PLL_LOCK_TIMEOUT	500
--
--#define HSDK_PLL_LOCKED() \
--	!!(ioread32((void __iomem *) CGU_PLL_STATUS) & CGU_PLL_STATUS_LOCK)
--
--#define HSDK_PLL_ERR() \
--	!!(ioread32((void __iomem *) CGU_PLL_STATUS) & CGU_PLL_STATUS_ERR)
--
--static void __init hsdk_set_cpu_freq_1ghz(void)
--{
--	u32 timeout = HSDK_PLL_LOCK_TIMEOUT;
--
--	/*
--	 * As we set cpu clock which exceeds 500MHz, the divider for the interface
--	 * clock must be programmed to div-by-2.
--	 */
--	iowrite32(CREG_CORE_IF_CLK_DIV_2, (void __iomem *) CREG_CORE_IF_CLK_DIV);
--
--	/* Set cpu clock to 1GHz */
--	iowrite32(CGU_PLL_CTRL_1GHZ, (void __iomem *) CGU_PLL_CTRL);
--
--	while (!HSDK_PLL_LOCKED() && timeout--)
--		cpu_relax();
--
--	if (!HSDK_PLL_LOCKED() || HSDK_PLL_ERR())
--		pr_err("Failed to setup CPU frequency to 1GHz!");
--}
--
- #define SDIO_BASE		(ARC_PERIPHERAL_BASE + 0xA000)
- #define SDIO_UHS_REG_EXT	(SDIO_BASE + 0x108)
- #define SDIO_UHS_REG_EXT_DIV_2	(2 << 30)
-@@ -98,12 +62,6 @@ static void __init hsdk_init_early(void)
- 	 * minimum possible div-by-2.
- 	 */
- 	iowrite32(SDIO_UHS_REG_EXT_DIV_2, (void __iomem *) SDIO_UHS_REG_EXT);
--
--	/*
--	 * Setup CPU frequency to 1GHz.
--	 * TODO: remove it after smart hsdk pll driver will be introduced.
--	 */
--	hsdk_set_cpu_freq_1ghz();
- }
- 
- static const char *hsdk_compat[] __initconst = {
--- 
-2.9.3
+> You should make sure that produces clean test results for all the
+> compilation tests, for all those variants.
+> 
+> You should also include results for the full testsuite, including
+> execution tests (whether testing natively, or cross testing with
+> test-wrapper set to execute tests for a cross build), in the submission of
+> the port (and those should be as clean as possible).
+
+ATM we have around 200 failures for upstream tools (likely due to libgcc unwinder 
+patch not yet merged upstream). And just for data point, with github based gcc 
+including the non-merged patches that number comes down to ~100. Bunch of them are 
+in math/doubler and some in backtrace/nptl. Will this be considered a blocker. I'm 
+almost ready for next round, rebased recently !
+
+-Vineet
