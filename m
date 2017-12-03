@@ -1,30 +1,50 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 30 Nov 2017 09:46:26 -0800
-Subject: [PATCH] ARC: Enable machine_desc->init_per_cpu for non-SMP configs
-In-Reply-To: <20171129082145.23327-1-abrodkin@synopsys.com>
-References: <20171129082145.23327-1-abrodkin@synopsys.com>
+From: sudipm.mukherjee@gmail.com (Sudip Mukherjee)
+Date: Sun, 3 Dec 2017 22:32:26 +0000
+Subject: [PATCH] frv: fix build failure
+In-Reply-To: <3a6fe86e-7a66-56df-3b1d-e2e8cd3e6eae@synopsys.com>
+References: <1511302233-5008-1-git-send-email-sudipm.mukherjee@gmail.com>
+ <1511457437.32422.6.camel@synopsys.com>
+ <3a6fe86e-7a66-56df-3b1d-e2e8cd3e6eae@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <ee663800-7f72-c310-2a65-d8b52a811f15@synopsys.com>
+Message-ID: <20171203223226.GA3741@sudip-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/29/2017 12:21 AM, Alexey Brodkin wrote:
-> As of today we assumed that "machine_desc->init_per_cpu" calls
-> are only usable on SMP systems when we want to run some piece of
-> code on early boot for each and every core, I guess assumption was
-> we have "machine_desc->init_early" for single-core cases where
-> the one and only master core can do all the things.
+On Mon, Nov 27, 2017@10:25:16AM -0800, Vineet Gupta wrote:
+> +CC linux-arch, Arnd
 > 
-> But it turned out for platforms which might be both UP and SMP it
-> might be benificial to use "init_per_cpu" for both UP and SMP cases
-> with which we achieve 2 things simultaneously:
->   1) Exactly the same one code will be used for UP&SMP for
->      things required to be done on each an every core regardless if it's
->      a master and the only core in UP system or any other slave core in SMP
->      setup.
->   1) There will be no "ifdef CONFIG_SMP" around "init_per_cpu".
+> On 11/23/2017 09:17 AM, Alexey Brodkin wrote:
+> >Hi Sudip,
+> >
+> >On Tue, 2017-11-21@22:10 +0000, Sudip Mukherjee wrote:
+
+<snip>
+
+> I understand the case/need for adding a weak/common abort() as a
+> quick fix for handling such cases, but perhaps we should not and
+> instead fix the rootcause. In this specific case, Claudiu mentioned
+> that gcc was generating abort due to something like this (flagging a
+> possible divide by zero due to
+> -fno-isolate-erroneous-paths-dereference.
 > 
+> a;
+> 
+> fn1() {
+>   switch (a)
+>   case 0:
+>   return 1 / a;
+> }
+> 
+> Sudeep can you confirm that removing this hacking FRV build to not
+> have this toggle fixes the abort issue.
+> 
+> So the offending code needs to be fixed as in the end when that code
+> path is taken system is hosed.
 
-Seems fine to me. However this needs to go with the actual platform change which 
-needs it.
+The above case that you mentioned is indeed the case here.
+mpihelp_divrem() in lib/mpi/mpih-div.c has this same divide by zero case.
 
--Vineet
+So, what should be the actual fix here?
+
+--
+Regards
+Sudip
