@@ -1,72 +1,89 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 5 Dec 2017 09:32:23 +0000
-Subject: etnaviv: PHYS_OFFSET usage
-In-Reply-To: <1510768580.2835.15.camel@pengutronix.de>
-References: <1510763053.29843.64.camel@synopsys.com>
- <1510764243.2835.13.camel@pengutronix.de>
- <1510767395.29843.83.camel@synopsys.com>
- <1510768580.2835.15.camel@pengutronix.de>
+Date: Tue,  5 Dec 2017 13:19:02 +0300
+Subject: [PATCH] ARC: Force disable IOC if ioc_enable=0
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1512466342.4977.77.camel@synopsys.com>
+Message-ID: <1512469142-5916-1-git-send-email-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Lucas,
+U-Boot enables and uses IOC so if we don't want to use it in the kernel
+we need to _disable_ it for real. This is in comparison to what we do
+today based on "ioc_enable" flag - if it is set to 0 we just
+_dont_enable_ IOC which effectively keeps IOC alive and kicking.
 
-On Wed, 2017-11-15@18:56 +0100, Lucas Stach wrote:
-> Am Mittwoch, den 15.11.2017, 17:36 +0000 schrieb Alexey Brodkin:
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/mm/cache.c | 47 +++++++++++++++++++++++++++--------------------
+ 1 file changed, 27 insertions(+), 20 deletions(-)
 
-[snip]
-
-> I'm not keen on having a private memory region for the GPU. Normally we
-> just use the shared system CMA memory region (and we will point the
-> linear memory window there on MC2.0 GPUs), which has the added benefit
-> that we can map the contiguous framebuffers allocated by another device
-> through the linear window, which is a crucial performance optimization
-> for the MMUv1 GPUs.
-> 
-> The only time where we really need to know the start of RAM is on MC1.0
-> GPUs which have a hardware bug in the TS unit, so we try to avoid
-> moving the linear window at all to work around that. In that case the
-> PHYS_OFFSET check is really there to avoid the situation where the
-> linear window would not allow any RAM to be reached at all. Then we
-> need to move the window, but disable any TS functionality, impacting
-> performance a lot.
-
-Thanks a lot fro explanation!
-
-> As MC1.0 GPUs are hopefully on the way out with new designs using MC2.0
-> this shouldn't be much of a problem going forward. Maybe we can even
-> simply solve this issue by just dropping the check if PHYS_OFFSET isn't
-> defined.
-
-I guess something like that should work then:
--------------------------------->8--------------------------------
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index fc9a6a83dfc7..5ad191a605e2 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -678,6 +678,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
-????????????????goto fail;
-????????}
-?
-+#ifdef PHYS_OFFSET
-????????/*
-?????????* Set the GPU linear window to be at the end of the DMA window, where
-?????????* the CMA area is likely to reside. This ensures that we are able to
-@@ -699,6 +700,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
-????????????????gpu->memory_base = PHYS_OFFSET;
-????????????????gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
-????????}
-+#endif
-?
-????????ret = etnaviv_hw_reset(gpu);
-????????if (ret) {
--------------------------------->8--------------------------------
-
-> At least I hope VeriSilicon didn't sell you a MC1.0 part at
-> this time...
-
-Given "chipMinorFeatures0_MC20" bit is set for us I would think that we
-indeed have MC2.0 in our chip.
-
--Alexey
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index eee924dfffa6..b763c34aa6bc 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -1149,6 +1149,10 @@ noinline void __init arc_ioc_setup(void)
+ {
+ 	unsigned int ioc_base, mem_sz;
+ 
++	/* Force disable IOC if it exists but we don't want to use it */
++	if (ioc_exists && !ioc_enable)
++		write_aux_reg(ARC_REG_IO_COH_ENABLE, 0);
++
+ 	/* Flush + invalidate + disable L1 dcache */
+ 	__dc_disable();
+ 
+@@ -1156,31 +1160,34 @@ noinline void __init arc_ioc_setup(void)
+ 	if (read_aux_reg(ARC_REG_SLC_BCR))
+ 		slc_entire_op(OP_FLUSH_N_INV);
+ 
+-	/*
+-	 * currently IOC Aperture covers entire DDR
+-	 * TBD: fix for PGU + 1GB of low mem
+-	 * TBD: fix for PAE
+-	 */
+-	mem_sz = arc_get_mem_sz();
++	/* Only setup IOC if we really want to use it */
++	if (ioc_exists && ioc_enable) {
++		/*
++		 * currently IOC Aperture covers entire DDR
++		 * TBD: fix for PGU + 1GB of low mem
++		 * TBD: fix for PAE
++		 */
++		mem_sz = arc_get_mem_sz();
+ 
+-	if (!is_power_of_2(mem_sz) || mem_sz < 4096)
+-		panic("IOC Aperture size must be power of 2 larger than 4KB");
++		if (!is_power_of_2(mem_sz) || mem_sz < 4096)
++			panic("IOC Aperture size must be power of 2 larger than 4KB");
+ 
+-	/*
+-	 * IOC Aperture size decoded as 2 ^ (SIZE + 2) KB,
+-	 * so setting 0x11 implies 512MB, 0x12 implies 1GB...
+-	 */
+-	write_aux_reg(ARC_REG_IO_COH_AP0_SIZE, order_base_2(mem_sz >> 10) - 2);
++		/*
++		 * IOC Aperture size decoded as 2 ^ (SIZE + 2) KB,
++		 * so setting 0x11 implies 512MB, 0x12 implies 1GB...
++		 */
++		write_aux_reg(ARC_REG_IO_COH_AP0_SIZE, order_base_2(mem_sz >> 10) - 2);
+ 
+-	/* for now assume kernel base is start of IOC aperture */
+-	ioc_base = CONFIG_LINUX_RAM_BASE;
++		/* for now assume kernel base is start of IOC aperture */
++		ioc_base = CONFIG_LINUX_RAM_BASE;
+ 
+-	if (ioc_base % mem_sz != 0)
+-		panic("IOC Aperture start must be aligned to the size of the aperture");
++		if (ioc_base % mem_sz != 0)
++			panic("IOC Aperture start must be aligned to the size of the aperture");
+ 
+-	write_aux_reg(ARC_REG_IO_COH_AP0_BASE, ioc_base >> 12);
+-	write_aux_reg(ARC_REG_IO_COH_PARTIAL, 1);
+-	write_aux_reg(ARC_REG_IO_COH_ENABLE, 1);
++		write_aux_reg(ARC_REG_IO_COH_AP0_BASE, ioc_base >> 12);
++		write_aux_reg(ARC_REG_IO_COH_PARTIAL, 1);
++		write_aux_reg(ARC_REG_IO_COH_ENABLE, 1);
++	}
+ 
+ 	/* Re-enable L1 dcache */
+ 	__dc_enable();
+-- 
+2.7.5
