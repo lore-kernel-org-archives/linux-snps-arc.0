@@ -1,35 +1,55 @@
-From: amitkarwar@gmail.com (Amitkumar Karwar)
-Date: Wed, 6 Dec 2017 12:43:36 +0530
-Subject: rsi_91x: Failed to read status register on failed authentication
-In-Reply-To: <1512490314.4977.143.camel@synopsys.com>
-References: <1512490314.4977.143.camel@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 6 Dec 2017 14:00:23 -0800
+Subject: [PATCH] frv: fix build failure
+In-Reply-To: <20171203223226.GA3741@sudip-laptop>
+References: <1511302233-5008-1-git-send-email-sudipm.mukherjee@gmail.com>
+ <1511457437.32422.6.camel@synopsys.com>
+ <3a6fe86e-7a66-56df-3b1d-e2e8cd3e6eae@synopsys.com>
+ <20171203223226.GA3741@sudip-laptop>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAEhWJF=1GU9vOj5+DeJCOjbbh4zh_OMyv2HKH_1XT3XP2auFUg@mail.gmail.com>
+Message-ID: <817df34a-f471-99d7-aaa1-94e0ee9d5ffa@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Dec 5, 2017 at 9:41 PM, Alexey Brodkin
-<Alexey.Brodkin@synopsys.com> wrote:
-> Hi Amit,
->
-> I'm seeing quite a strange behavior of RedPine module.
-> It connects perfectly fine to one of access points but fails
-> to connect to another.
->
-> Moreover after that failure RSI driver starts to flood me with
-> messages saying:
-> --------------------->8--------------------
-> rsi_91x: rsi_sdio_check_buffer_status: Failed to read status register
-> --------------------->8--------------------
->
-> Below you may find details of my 2 experiments.
-> Note I use vanilla Linux kernel v4.14.4
->
-> Any ideas what could be wrong?
->
+On 12/03/2017 02:32 PM, Sudip Mukherjee wrote:
+> On Mon, Nov 27, 2017@10:25:16AM -0800, Vineet Gupta wrote:
+>> +CC linux-arch, Arnd
+>>
+>> On 11/23/2017 09:17 AM, Alexey Brodkin wrote:
+>>> Hi Sudip,
+>>>
+>>> On Tue, 2017-11-21@22:10 +0000, Sudip Mukherjee wrote:
+> 
+> <snip>
+> 
+>> I understand the case/need for adding a weak/common abort() as a
+>> quick fix for handling such cases, but perhaps we should not and
+>> instead fix the rootcause. In this specific case, Claudiu mentioned
+>> that gcc was generating abort due to something like this (flagging a
+>> possible divide by zero due to
+>> -fno-isolate-erroneous-paths-dereference.
+>>
+>> a;
+>>
+>> fn1() {
+>>    switch (a)
+>>    case 0:
+>>    return 1 / a;
+>> }
+>>
+>> Sudeep can you confirm that removing this hacking FRV build to not
+>> have this toggle fixes the abort issue.
+>>
+>> So the offending code needs to be fixed as in the end when that code
+>> path is taken system is hosed.
+> 
+> The above case that you mentioned is indeed the case here.
+> mpihelp_divrem() in lib/mpi/mpih-div.c has this same divide by zero case.
+> 
+> So, what should be the actual fix here?
 
-Could you enable driver debug zones and share dmesg log for analysis?
+To remove the divide by zero.
 
-echo 0xffffffff > /sys/kernel/debug/phy0/debug_zone
+Or atleast have a __weak abort() defined in common code so all arches benefit from 
+it !
 
-Regards,
-Amitkumar
+-Vineet
