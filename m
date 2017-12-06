@@ -1,55 +1,32 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 6 Dec 2017 14:00:23 -0800
-Subject: [PATCH] frv: fix build failure
-In-Reply-To: <20171203223226.GA3741@sudip-laptop>
-References: <1511302233-5008-1-git-send-email-sudipm.mukherjee@gmail.com>
- <1511457437.32422.6.camel@synopsys.com>
- <3a6fe86e-7a66-56df-3b1d-e2e8cd3e6eae@synopsys.com>
- <20171203223226.GA3741@sudip-laptop>
+Date: Wed, 6 Dec 2017 14:02:09 -0800
+Subject: [PATCH 0/4] ARC: Set initial core pll output frequency via DTS
+In-Reply-To: <20171127185611.12379-1-Eugeniy.Paltsev@synopsys.com>
+References: <20171127185611.12379-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <817df34a-f471-99d7-aaa1-94e0ee9d5ffa@synopsys.com>
+Message-ID: <734551f7-b558-b9b4-654b-9c381025c3fb@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/03/2017 02:32 PM, Sudip Mukherjee wrote:
-> On Mon, Nov 27, 2017@10:25:16AM -0800, Vineet Gupta wrote:
->> +CC linux-arch, Arnd
->>
->> On 11/23/2017 09:17 AM, Alexey Brodkin wrote:
->>> Hi Sudip,
->>>
->>> On Tue, 2017-11-21@22:10 +0000, Sudip Mukherjee wrote:
-> 
-> <snip>
-> 
->> I understand the case/need for adding a weak/common abort() as a
->> quick fix for handling such cases, but perhaps we should not and
->> instead fix the rootcause. In this specific case, Claudiu mentioned
->> that gcc was generating abort due to something like this (flagging a
->> possible divide by zero due to
->> -fno-isolate-erroneous-paths-dereference.
->>
->> a;
->>
->> fn1() {
->>    switch (a)
->>    case 0:
->>    return 1 / a;
->> }
->>
->> Sudeep can you confirm that removing this hacking FRV build to not
->> have this toggle fixes the abort issue.
->>
->> So the offending code needs to be fixed as in the end when that code
->> path is taken system is hosed.
-> 
-> The above case that you mentioned is indeed the case here.
-> mpihelp_divrem() in lib/mpi/mpih-div.c has this same divide by zero case.
-> 
-> So, what should be the actual fix here?
+On 11/27/2017 10:56 AM, Eugeniy Paltsev wrote:
+> Set initial core pll output frequency on HSDK and AXS103 via
+> "assigned-clock-rates" property in device tree.
+> It will be applied at the core pll driver probing.
 
-To remove the divide by zero.
-
-Or atleast have a __weak abort() defined in common code so all arches benefit from 
-it !
+Can you repost - CC'ing Stephen boyd and RobH ?
 
 -Vineet
+
+>
+> Eugeniy Paltsev (4):
+>    ARC: [plat-hsdk]: Set initial core pll output frequency
+>    ARC: [plat-hsdk]: Get rid of core pll frequency set in platform code
+>    ARC: [plat-axs103]: Set initial core pll output frequency
+>    ARC: [plat-axs103] refactor the quad core DT quirk code
+>
+>   arch/arc/boot/dts/axc003.dtsi     |  3 +++
+>   arch/arc/boot/dts/axc003_idu.dtsi |  3 +++
+>   arch/arc/boot/dts/hsdk.dts        |  3 +++
+>   arch/arc/plat-axs10x/axs10x.c     | 18 ++++++++---------
+>   arch/arc/plat-hsdk/platform.c     | 42 ---------------------------------------
+>   5 files changed, 17 insertions(+), 52 deletions(-)
+>
