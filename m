@@ -1,60 +1,44 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 8 Dec 2017 10:07:56 -0800
-Subject: [PATCH v2] Fix subtle race in tst-cancel2 / tst-cancelx2
-In-Reply-To: <1512755276-1705-1-git-send-email-vgupta@synopsys.com>
-References: <1512755276-1705-1-git-send-email-vgupta@synopsys.com>
+Date: Fri, 8 Dec 2017 11:12:40 -0800
+Subject: [PATCH 1/2] ARC: uaccess: dont use "l" inline as constraint
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1512756476-2452-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1512760361-17663-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-When ran on ARC, these tests would ocassionally fail
+This constraint has been removed from gcc
 
-| [ARCLinux]# for i in 1 2 3 4 5 ; do ./tst-cancel2; echo $?; done
-| write succeeded
-| result is wrong: expected 0xffffffff, got 0x1
-| 1							<-- fail
-| 0							<-- pass
-| 0							<--- pass
-| 0							<-- pass
-| write succeeded
-| result is wrong: expected 0xffffffff, got 0x1
-| 1							<-- fail
+There was an earlier fix 3c7c7a2fc8811 which fixed this in delay.h but
+somehow missed this one as gcc change had not made its way into
+production toolchains
 
-Same test (which originated form glibc) doesn't fail in glibc builds.
-Turns out there's a subtle race in uclibc version
-
-The test creates a new thread, makes it do a looong write call, and
-parent then cancels the thread, expecting it to unwind out of write
-call cleanly. However the write (even for 10k bytes) could finish
-before parent gets a chance to resume and/or cancel it, causing the
-occasional failure.
-
-Fix this subtelty by making it write not just once but forever.
-
-Cc: Cupertino Miranda <cmiranda at synopsys.com>
+Cc: stable at vger.kernel.org
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
-Change since v1: fix typos in changelogs
----
- test/nptl/tst-cancel2.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ arch/arc/include/asm/uaccess.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/test/nptl/tst-cancel2.c b/test/nptl/tst-cancel2.c
-index 45c9e8ea957a..08dd13b10f37 100644
---- a/test/nptl/tst-cancel2.c
-+++ b/test/nptl/tst-cancel2.c
-@@ -32,11 +32,7 @@ tf (void *arg)
-      write blocks.  */
-   char buf[100000];
+diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
+index f35974ee7264..c9173c02081c 100644
+--- a/arch/arc/include/asm/uaccess.h
++++ b/arch/arc/include/asm/uaccess.h
+@@ -668,6 +668,7 @@ __arc_strncpy_from_user(char *dst, const char __user *src, long count)
+ 		return 0;
  
--  if (write (fd[1], buf, sizeof (buf)) == sizeof (buf))
--    {
--      puts ("write succeeded");
--      return (void *) 1l;
--    }
-+  while (write (fd[1], buf, sizeof (buf)) > 0);
+ 	__asm__ __volatile__(
++	"	mov	lp_count, %5		\n"
+ 	"	lp	3f			\n"
+ 	"1:	ldb.ab  %3, [%2, 1]		\n"
+ 	"	breq.d	%3, 0, 3f               \n"
+@@ -684,8 +685,8 @@ __arc_strncpy_from_user(char *dst, const char __user *src, long count)
+ 	"	.word   1b, 4b			\n"
+ 	"	.previous			\n"
+ 	: "+r"(res), "+r"(dst), "+r"(src), "=r"(val)
+-	: "g"(-EFAULT), "l"(count)
+-	: "memory");
++	: "g"(-EFAULT), "r"(count)
++	: "lp_count", "lp_start", "lp_end", "memory");
  
-   return (void *) 42l;
+ 	return res;
  }
 -- 
 2.7.4
