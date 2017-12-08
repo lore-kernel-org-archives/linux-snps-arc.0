@@ -1,8 +1,10 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 8 Dec 2017 09:47:56 -0800
-Subject: [PATCH] Fix subtle race in tst-cancel2 / tst-cancelx2
+Date: Fri, 8 Dec 2017 10:07:56 -0800
+Subject: [PATCH v2] Fix subtle race in tst-cancel2 / tst-cancelx2
+In-Reply-To: <1512755276-1705-1-git-send-email-vgupta@synopsys.com>
+References: <1512755276-1705-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1512755276-1705-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1512756476-2452-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 When ran on ARC, these tests would ocassionally fail
@@ -23,14 +25,16 @@ Turns out there's a subtle race in uclibc version
 
 The test creates a new thread, makes it do a looong write call, and
 parent then cancels the thread, expecting it to unwind out of write
-call cleanly. However the write (even for 10k bytes) could fnish befor
-eparent gets a chance ti run and/or cancel - causing the occasional
-failire.
+call cleanly. However the write (even for 10k bytes) could finish
+before parent gets a chance to resume and/or cancel it, causing the
+occasional failure.
 
-Cc: Cupertino Miranda <cmiranda at synopsys.com>
 Fix this subtelty by making it write not just once but forever.
 
+Cc: Cupertino Miranda <cmiranda at synopsys.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+Change since v1: fix typos in changelogs
 ---
  test/nptl/tst-cancel2.c | 6 +-----
  1 file changed, 1 insertion(+), 5 deletions(-)
