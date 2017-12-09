@@ -1,49 +1,44 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Sat,  9 Dec 2017 16:59:18 +0300
-Subject: [PATCH 4/4] ARC: [plat-axs103] refactor the quad core DT quirk code
-In-Reply-To: <20171209135918.16720-1-Eugeniy.Paltsev@synopsys.com>
-References: <20171209135918.16720-1-Eugeniy.Paltsev@synopsys.com>
+From: pavel@ucw.cz (Pavel Machek)
+Date: Sat, 9 Dec 2017 18:20:22 +0100
+Subject: UDL's fbdev doesn't work for user-space apps
+In-Reply-To: <86238def-82be-2ad1-63d0-b9a8dbf83db6@synopsys.com>
+References: <1512387175.4977.24.camel@synopsys.com>
+ <86238def-82be-2ad1-63d0-b9a8dbf83db6@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171209135918.16720-5-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20171209172022.GC19862@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-Refactor the quad core DT quirk code:
-get rid of waste division and multiplication by 1000000 constant.
+On Mon 2017-12-04 11:50:40, Jose Abreu wrote:
+> Hi Alexey,
+> 
+> On 04-12-2017 11:32, Alexey Brodkin wrote:
+> > My first [probably incorrect] assumption is Xserver requires fbdev (/dev/fbX)
+> > and it cannot use DRI video card natively. Is that correct?
+> >
+> >
+> 
+> Xserver can use DRI directly, you need to enable modesetting
+> driver in Xorg config or use the designated driver for your card
+> (if there is any).
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/plat-axs10x/axs10x.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Still, dev/fb1 should work. Can be tested using dd, even :-)
 
-diff --git a/arch/arc/plat-axs10x/axs10x.c b/arch/arc/plat-axs10x/axs10x.c
-index 28b3cb2..0ea2f86 100644
---- a/arch/arc/plat-axs10x/axs10x.c
-+++ b/arch/arc/plat-axs10x/axs10x.c
-@@ -324,19 +324,21 @@ static void __init axs103_early_init(void)
- 	 * Instead of duplicating defconfig/DT for SMP/QUAD, add a small hack
- 	 * of fudging the freq in DT
- 	 */
-+#define AXS103_QUAD_CORE_CPU_FREQ_HZ	50000000
-+
- 	unsigned int num_cores = (read_aux_reg(ARC_REG_MCIP_BCR) >> 16) & 0x3F;
- 	if (num_cores > 2) {
--		u32 freq = 50, orig;
-+		u32 freq;
- 		int off = fdt_path_offset(initial_boot_params, "/cpu_card/core_clk");
- 		const struct fdt_property *prop;
- 
- 		prop = fdt_get_property(initial_boot_params, off,
- 					"assigned-clock-rates", NULL);
--		orig = be32_to_cpu(*(u32*)(prop->data)) / 1000000;
-+		freq = be32_to_cpu(*(u32 *)(prop->data));
- 
- 		/* Patching .dtb in-place with new core clock value */
--		if (freq != orig ) {
--			freq = cpu_to_be32(freq * 1000000);
-+		if (freq != AXS103_QUAD_CORE_CPU_FREQ_HZ) {
-+			freq = cpu_to_be32(AXS103_QUAD_CORE_CPU_FREQ_HZ);
- 			fdt_setprop_inplace(initial_boot_params, off,
- 					    "assigned-clock-rates", &freq, sizeof(freq));
- 		}
+Best regards,
+									Pavel
+> 
+> e.g.:
+> 
+> Section "Device"
+>         Identifier "Card0"
+>         Driver "modesetting"
+>         Option "kmsdev" "/dev/dri/card0"
+>         Option "SWcursor" "true"
+>         BusID "PCI:X:X:X"
+> EndSection
+> 
+> Best Regards,
+> Jose Miguel Abreu
+
 -- 
-2.9.3
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
