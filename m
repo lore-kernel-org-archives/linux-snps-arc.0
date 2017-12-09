@@ -1,26 +1,38 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Sat,  9 Dec 2017 16:59:14 +0300
-Subject: [PATCH 0/4] ARC: Set initial core pll output frequency via DTS
+Date: Sat,  9 Dec 2017 16:59:15 +0300
+Subject: [PATCH 1/4] ARC: [plat-hsdk]: Set initial core pll output frequency
+In-Reply-To: <20171209135918.16720-1-Eugeniy.Paltsev@synopsys.com>
+References: <20171209135918.16720-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171209135918.16720-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20171209135918.16720-2-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Set initial core pll output frequency on HSDK and AXS103 via
-"assigned-clock-rates" property in device tree.  
-It will be applied at the core pll driver probing.
+Set initial core pll output frequency specified in device tree to
+1GHz. It will be applied at the core pll driver probing.
 
-Eugeniy Paltsev (4):
-  ARC: [plat-hsdk]: Set initial core pll output frequency
-  ARC: [plat-hsdk]: Get rid of core pll frequency set in platform code
-  ARC: [plat-axs103]: Set initial core pll output frequency
-  ARC: [plat-axs103] refactor the quad core DT quirk code
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ arch/arc/boot/dts/hsdk.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
- arch/arc/boot/dts/axc003.dtsi     |  3 +++
- arch/arc/boot/dts/axc003_idu.dtsi |  3 +++
- arch/arc/boot/dts/hsdk.dts        |  3 +++
- arch/arc/plat-axs10x/axs10x.c     | 18 ++++++++---------
- arch/arc/plat-hsdk/platform.c     | 42 ---------------------------------------
- 5 files changed, 17 insertions(+), 52 deletions(-)
-
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index 8f627c2..006aa3d 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -114,6 +114,14 @@
+ 			reg = <0x00 0x10>, <0x14B8 0x4>;
+ 			#clock-cells = <0>;
+ 			clocks = <&input_clk>;
++
++			/*
++			 * Set initial core pll output frequency to 1GHz.
++			 * It will be applied at the core pll driver probing
++			 * on early boot.
++			 */
++			assigned-clocks = <&core_clk>;
++			assigned-clock-rates = <1000000000>;
+ 		};
+ 
+ 		serial: serial at 5000 {
 -- 
 2.9.3
