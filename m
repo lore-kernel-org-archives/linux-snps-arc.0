@@ -1,44 +1,50 @@
-From: pavel@ucw.cz (Pavel Machek)
-Date: Sat, 9 Dec 2017 18:20:22 +0100
-Subject: UDL's fbdev doesn't work for user-space apps
-In-Reply-To: <86238def-82be-2ad1-63d0-b9a8dbf83db6@synopsys.com>
-References: <1512387175.4977.24.camel@synopsys.com>
- <86238def-82be-2ad1-63d0-b9a8dbf83db6@synopsys.com>
+From: sergey.senozhatsky.work@gmail.com (Sergey Senozhatsky)
+Date: Mon, 11 Dec 2017 21:50:12 +0900
+Subject: [PATCH 00/13] replace print_symbol() with printk()-s
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171209172022.GC19862@localhost>
+Message-ID: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon 2017-12-04 11:50:40, Jose Abreu wrote:
-> Hi Alexey,
-> 
-> On 04-12-2017 11:32, Alexey Brodkin wrote:
-> > My first [probably incorrect] assumption is Xserver requires fbdev (/dev/fbX)
-> > and it cannot use DRI video card natively. Is that correct?
-> >
-> >
-> 
-> Xserver can use DRI directly, you need to enable modesetting
-> driver in Xorg config or use the designated driver for your card
-> (if there is any).
+	Hello,
 
-Still, dev/fb1 should work. Can be tested using dd, even :-)
+	A rather automatic replacement of print_symbol()
+with direct printk() calls. print_symbol() uses extra stack
+buffer (KSYM_SYMBOL_LEN 128 bytes) and, basically, should
+be identical to printk(%pS).
 
-Best regards,
-									Pavel
-> 
-> e.g.:
-> 
-> Section "Device"
->         Identifier "Card0"
->         Driver "modesetting"
->         Option "kmsdev" "/dev/dri/card0"
->         Option "SWcursor" "true"
->         BusID "PCI:X:X:X"
-> EndSection
-> 
-> Best Regards,
-> Jose Miguel Abreu
+	I can't test all of the patches, because I don't
+own any of those exotic arch-s. Sorry for the inconvenience.
+
+Sergey Senozhatsky (13):
+  arm: do not use print_symbol()
+  arm64: do not use print_symbol()
+  c6x: do not use print_symbol()
+  ia64: do not use print_symbol()
+  mn10300: do not use print_symbol()
+  sh: do not use print_symbol()
+  unicore32: do not use print_symbol()
+  x86: do not use print_symbol()
+  drivers: do not use print_symbol()
+  sysfs: do not use print_symbol()
+  irq debug: do not use print_symbol()
+  lib: do not use print_symbol()
+  arc: do not use __print_symbol()
+
+ arch/arc/kernel/stacktrace.c     |  2 +-
+ arch/arm/kernel/process.c        |  5 ++---
+ arch/arm64/kernel/process.c      |  5 ++---
+ arch/c6x/kernel/traps.c          |  4 +---
+ arch/ia64/kernel/process.c       | 10 +++-------
+ arch/mn10300/kernel/traps.c      |  4 +---
+ arch/sh/kernel/process_32.c      |  5 ++---
+ arch/unicore32/kernel/process.c  |  5 ++---
+ arch/x86/kernel/cpu/mcheck/mce.c |  3 +--
+ arch/x86/mm/mmio-mod.c           |  5 ++---
+ drivers/base/core.c              |  5 ++---
+ fs/sysfs/file.c                  |  5 ++---
+ kernel/irq/debug.h               |  8 +++-----
+ lib/smp_processor_id.c           |  3 +--
+ 14 files changed, 25 insertions(+), 44 deletions(-)
 
 -- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+2.15.1
