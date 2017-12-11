@@ -1,74 +1,16 @@
-From: sergey.senozhatsky.work@gmail.com (Sergey Senozhatsky)
-Date: Mon, 11 Dec 2017 21:50:20 +0900
-Subject: [PATCH 08/13] x86: do not use print_symbol()
+From: joe@perches.com (Joe Perches)
+Date: Mon, 11 Dec 2017 08:26:09 -0800
+Subject: [PATCH 00/13] replace print_symbol() with printk()-s
 In-Reply-To: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
 References: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171211125025.2270-9-sergey.senozhatsky@gmail.com>
+Message-ID: <1513009569.26342.43.camel@perches.com>
 To: linux-snps-arc@lists.infradead.org
 
-print_symbol() uses extra stack space to sprintf() symbol
-information and then to feed that buffer to printk()
+On Mon, 2017-12-11@21:50 +0900, Sergey Senozhatsky wrote:
+> print_symbol
 
-  char buffer[KSYM_SYMBOL_LEN];
+Yay.
 
-  sprint_symbol(buffer, address);
-  printk(fmt, buffer);
-
-Replace print_symbol() with a direct printk("%pS") call.
-
-Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky at gmail.com>
-Cc: Tony Luck <tony.luck at intel.com>
-Cc: Borislav Petkov <bp at alien8.de>
-Cc: Thomas Gleixner <tglx at linutronix.de>
----
- arch/x86/kernel/cpu/mcheck/mce.c | 3 +--
- arch/x86/mm/mmio-mod.c           | 5 ++---
- 2 files changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/arch/x86/kernel/cpu/mcheck/mce.c b/arch/x86/kernel/cpu/mcheck/mce.c
-index b1d616d08eee..8ca8f6eb32db 100644
---- a/arch/x86/kernel/cpu/mcheck/mce.c
-+++ b/arch/x86/kernel/cpu/mcheck/mce.c
-@@ -14,7 +14,6 @@
- #include <linux/capability.h>
- #include <linux/miscdevice.h>
- #include <linux/ratelimit.h>
--#include <linux/kallsyms.h>
- #include <linux/rcupdate.h>
- #include <linux/kobject.h>
- #include <linux/uaccess.h>
-@@ -235,7 +234,7 @@ static void __print_mce(struct mce *m)
- 			m->cs, m->ip);
- 
- 		if (m->cs == __KERNEL_CS)
--			print_symbol("{%s}", m->ip);
-+			pr_cont("{%pS}", (void *)m->ip);
- 		pr_cont("\n");
- 	}
- 
-diff --git a/arch/x86/mm/mmio-mod.c b/arch/x86/mm/mmio-mod.c
-index 4d434ddb75db..2c1ecf4763c4 100644
---- a/arch/x86/mm/mmio-mod.c
-+++ b/arch/x86/mm/mmio-mod.c
-@@ -29,7 +29,6 @@
- #include <linux/slab.h>
- #include <linux/uaccess.h>
- #include <linux/io.h>
--#include <linux/kallsyms.h>
- #include <asm/pgtable.h>
- #include <linux/mmiotrace.h>
- #include <asm/e820/api.h> /* for ISA_START_ADDRESS */
-@@ -123,8 +122,8 @@ static void die_kmmio_nesting_error(struct pt_regs *regs, unsigned long addr)
- 	pr_emerg("unexpected fault for address: 0x%08lx, last fault for address: 0x%08lx\n",
- 		 addr, my_reason->addr);
- 	print_pte(addr);
--	print_symbol(KERN_EMERG "faulting IP is at %s\n", regs->ip);
--	print_symbol(KERN_EMERG "last faulting IP was at %s\n", my_reason->ip);
-+	pr_emerg("faulting IP is at %pS\n", (void *)regs->ip);
-+	pr_emerg("last faulting IP was at %pS\n", (void *)my_reason->ip);
- #ifdef __i386__
- 	pr_emerg("eax: %08lx   ebx: %08lx   ecx: %08lx   edx: %08lx\n",
- 		 regs->ax, regs->bx, regs->cx, regs->dx);
--- 
-2.15.1
+Just about exactly 5 years earlier...
+http://lists.infradead.org/pipermail/linux-arm-kernel/2012-December/137121.html
