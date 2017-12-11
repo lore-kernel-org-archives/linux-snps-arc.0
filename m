@@ -1,46 +1,63 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 11 Dec 2017 08:28:35 -0800
-Subject: [PATCH 13/13] arc: do not use __print_symbol()
-In-Reply-To: <20171211125025.2270-14-sergey.senozhatsky@gmail.com>
+From: bp@alien8.de (Borislav Petkov)
+Date: Mon, 11 Dec 2017 18:45:00 +0100
+Subject: [PATCH 08/13] x86: do not use print_symbol()
+In-Reply-To: <20171211125025.2270-9-sergey.senozhatsky@gmail.com>
 References: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
- <20171211125025.2270-14-sergey.senozhatsky@gmail.com>
+ <20171211125025.2270-9-sergey.senozhatsky@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <12708a61-ebc7-8f3f-cef6-4a725047de6d@synopsys.com>
+Message-ID: <20171211174459.l2ugmyi6kcr33zxp@pd.tnic>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/11/2017 04:53 AM, Sergey Senozhatsky wrote:
-> __print_symbol() uses extra stack space to sprintf() symbol
+On Mon, Dec 11, 2017@09:50:20PM +0900, Sergey Senozhatsky wrote:
+> print_symbol() uses extra stack space to sprintf() symbol
 > information and then to feed that buffer to printk()
->
->    char buffer[KSYM_SYMBOL_LEN];
->
->    sprint_symbol(buffer, address);
->    printk(fmt, buffer);
->
-> Replace __print_symbol() with a direct printk("%pS") call.
->
+> 
+>   char buffer[KSYM_SYMBOL_LEN];
+> 
+>   sprint_symbol(buffer, address);
+>   printk(fmt, buffer);
+> 
+> Replace print_symbol() with a direct printk("%pS") call.
+> 
 > Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky at gmail.com>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-
-Applied to arc for-curr
-
-Thx,
--Vineet
-
+> Cc: Tony Luck <tony.luck at intel.com>
+> Cc: Borislav Petkov <bp at alien8.de>
+> Cc: Thomas Gleixner <tglx at linutronix.de>
 > ---
->   arch/arc/kernel/stacktrace.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/arc/kernel/stacktrace.c b/arch/arc/kernel/stacktrace.c
-> index 74315f302971..bf40e06f3fb8 100644
-> --- a/arch/arc/kernel/stacktrace.c
-> +++ b/arch/arc/kernel/stacktrace.c
-> @@ -163,7 +163,7 @@ arc_unwind_core(struct task_struct *tsk, struct pt_regs *regs,
->    */
->   static int __print_sym(unsigned int address, void *unused)
->   {
-> -	__print_symbol("  %s\n", address);
-> +	printk("  %pS\n", (void *)address);
->   	return 0;
->   }
->   
+>  arch/x86/kernel/cpu/mcheck/mce.c | 3 +--
+>  arch/x86/mm/mmio-mod.c           | 5 ++---
+>  2 files changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/cpu/mcheck/mce.c b/arch/x86/kernel/cpu/mcheck/mce.c
+> index b1d616d08eee..8ca8f6eb32db 100644
+> --- a/arch/x86/kernel/cpu/mcheck/mce.c
+> +++ b/arch/x86/kernel/cpu/mcheck/mce.c
+> @@ -14,7 +14,6 @@
+>  #include <linux/capability.h>
+>  #include <linux/miscdevice.h>
+>  #include <linux/ratelimit.h>
+> -#include <linux/kallsyms.h>
+>  #include <linux/rcupdate.h>
+>  #include <linux/kobject.h>
+>  #include <linux/uaccess.h>
+> @@ -235,7 +234,7 @@ static void __print_mce(struct mce *m)
+>  			m->cs, m->ip);
+>  
+>  		if (m->cs == __KERNEL_CS)
+> -			print_symbol("{%s}", m->ip);
+> +			pr_cont("{%pS}", (void *)m->ip);
+>  		pr_cont("\n");
+>  	}
+>  
+
+For the mce.c bit above:
+
+Acked-by: Borislav Petkov <bp at suse.de>
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
