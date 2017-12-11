@@ -1,50 +1,50 @@
 From: sergey.senozhatsky.work@gmail.com (Sergey Senozhatsky)
-Date: Mon, 11 Dec 2017 21:50:12 +0900
-Subject: [PATCH 00/13] replace print_symbol() with printk()-s
+Date: Mon, 11 Dec 2017 21:50:13 +0900
+Subject: [PATCH 01/13] arm: do not use print_symbol()
+In-Reply-To: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
+References: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
+Message-ID: <20171211125025.2270-2-sergey.senozhatsky@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-	Hello,
+print_symbol() uses extra stack space to sprintf() symbol
+information and then to feed that buffer to printk()
 
-	A rather automatic replacement of print_symbol()
-with direct printk() calls. print_symbol() uses extra stack
-buffer (KSYM_SYMBOL_LEN 128 bytes) and, basically, should
-be identical to printk(%pS).
+  char buffer[KSYM_SYMBOL_LEN];
 
-	I can't test all of the patches, because I don't
-own any of those exotic arch-s. Sorry for the inconvenience.
+  sprint_symbol(buffer, address);
+  printk(fmt, buffer);
 
-Sergey Senozhatsky (13):
-  arm: do not use print_symbol()
-  arm64: do not use print_symbol()
-  c6x: do not use print_symbol()
-  ia64: do not use print_symbol()
-  mn10300: do not use print_symbol()
-  sh: do not use print_symbol()
-  unicore32: do not use print_symbol()
-  x86: do not use print_symbol()
-  drivers: do not use print_symbol()
-  sysfs: do not use print_symbol()
-  irq debug: do not use print_symbol()
-  lib: do not use print_symbol()
-  arc: do not use __print_symbol()
+Replace print_symbol() with a direct printk("%pS") call.
 
- arch/arc/kernel/stacktrace.c     |  2 +-
- arch/arm/kernel/process.c        |  5 ++---
- arch/arm64/kernel/process.c      |  5 ++---
- arch/c6x/kernel/traps.c          |  4 +---
- arch/ia64/kernel/process.c       | 10 +++-------
- arch/mn10300/kernel/traps.c      |  4 +---
- arch/sh/kernel/process_32.c      |  5 ++---
- arch/unicore32/kernel/process.c  |  5 ++---
- arch/x86/kernel/cpu/mcheck/mce.c |  3 +--
- arch/x86/mm/mmio-mod.c           |  5 ++---
- drivers/base/core.c              |  5 ++---
- fs/sysfs/file.c                  |  5 ++---
- kernel/irq/debug.h               |  8 +++-----
- lib/smp_processor_id.c           |  3 +--
- 14 files changed, 25 insertions(+), 44 deletions(-)
+Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky at gmail.com>
+Cc: Russell King <linux at armlinux.org.uk>
+---
+ arch/arm/kernel/process.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/arch/arm/kernel/process.c b/arch/arm/kernel/process.c
+index d96714e1858c..db004f6f547a 100644
+--- a/arch/arm/kernel/process.c
++++ b/arch/arm/kernel/process.c
+@@ -21,7 +21,6 @@
+ #include <linux/unistd.h>
+ #include <linux/user.h>
+ #include <linux/interrupt.h>
+-#include <linux/kallsyms.h>
+ #include <linux/init.h>
+ #include <linux/elfcore.h>
+ #include <linux/pm.h>
+@@ -121,8 +120,8 @@ void __show_regs(struct pt_regs *regs)
+ 
+ 	show_regs_print_info(KERN_DEFAULT);
+ 
+-	print_symbol("PC is at %s\n", instruction_pointer(regs));
+-	print_symbol("LR is at %s\n", regs->ARM_lr);
++	printk("PC is at %pS\n", instruction_pointer(regs));
++	printk("LR is at %pS\n", (void *)regs->ARM_lr);
+ 	printk("pc : [<%08lx>]    lr : [<%08lx>]    psr: %08lx\n",
+ 	       regs->ARM_pc, regs->ARM_lr, regs->ARM_cpsr);
+ 	printk("sp : %08lx  ip : %08lx  fp : %08lx\n",
 -- 
 2.15.1
