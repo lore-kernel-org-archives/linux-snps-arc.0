@@ -1,22 +1,41 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 12 Dec 2017 15:57:06 +0000
-Subject: [PATCH] arch: define weak abort
-In-Reply-To: <1513027568-4800-1-git-send-email-sudipm.mukherjee@gmail.com>
-References: <1513027568-4800-1-git-send-email-sudipm.mukherjee@gmail.com>
+From: trini@konsulko.com (Tom Rini)
+Date: Tue, 12 Dec 2017 10:58:05 -0500
+Subject: [U-Boot] Please pull ARC changes
+In-Reply-To: <1513093962.4945.3.camel@synopsys.com>
+References: <1513093962.4945.3.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1513094225.4945.6.camel@synopsys.com>
+Message-ID: <20171212155805.GG372@bill-the-cat>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Sudip,
+On Tue, Dec 12, 2017@03:52:43PM +0000, Alexey Brodkin wrote:
 
-On Mon, 2017-12-11@21:26 +0000, Sudip Mukherjee wrote:
-> gcc was generating abort due to 'divide by zero' and if it is not
-> defined in the toolchain the build fails.
+> Hi Tom,
 > 
-> Currently 'frv' and 'arc' are failing. Previously other arch was also
-> broken like m32r was fixed by d22e3d69ee1a ("m32r: fix build failure").
+> This is just a one-line improvement for HSDK GPIO's Kconfig that was not included in
+> the previous pull-request as I was waiting for Simon's reviewed-by tag.
+> 
+> 
+> The following changes since commit 87f3dee22b174aa32db8213a3187aa809859c9e2:
+> 
+> ? Merge git://git.denx.de/u-boot-uniphier (2017-12-11 17:06:04 -0500)
+> 
+> are available in the git repository at:
+> 
+> ? git://git.denx.de/u-boot-arc.git?
+> 
+> for you to fetch changes up to d5fbcd57ed7cdcbaddf54a45e85b465bb85bfec5:
+> 
+> ? gpio/hsdk: Depend on DM_GPIO instead of simple DM (2017-12-12 18:47:30 +0300)
+> 
 
-Why don't we revert mentioned?d22e3d69ee1a ("m32r: fix build failure")
-if not in the same patch but in the series together with this one?
+Applied to u-boot/master, thanks!
 
--Alexey
+-- 
+Tom
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 819 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20171212/a52b5487/attachment.sig>
