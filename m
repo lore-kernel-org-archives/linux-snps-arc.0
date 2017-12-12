@@ -1,35 +1,61 @@
-From: joe@perches.com (Joe Perches)
-Date: Mon, 11 Dec 2017 19:10:52 -0800
-Subject: [PATCH 00/13] replace print_symbol() with printk()-s
-In-Reply-To: <20171212024757.GC7798@jagdpanzerIV>
-References: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
- <1513009569.26342.43.camel@perches.com>
- <20171212024757.GC7798@jagdpanzerIV>
+From: sergey.senozhatsky.work@gmail.com (Sergey Senozhatsky)
+Date: Tue, 12 Dec 2017 16:34:53 +0900
+Subject: [PATCHv2 11/13] irq debug: do not use print_symbol()
+In-Reply-To: <20171211125025.2270-12-sergey.senozhatsky@gmail.com>
+References: <20171211125025.2270-12-sergey.senozhatsky@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1513048252.3036.23.camel@perches.com>
+Message-ID: <20171212073453.21455-1-sergey.senozhatsky@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 2017-12-12@11:47 +0900, Sergey Senozhatsky wrote:
-> On (12/11/17 08:26), Joe Perches wrote:
-> > On Mon, 2017-12-11@21:50 +0900, Sergey Senozhatsky wrote:
-> > > print_symbol
-> > Yay.
-> > Just about exactly 5 years earlier...
-> > http://lists.infradead.org/pipermail/linux-arm-kernel/2012-December/137121.html
-> 
-> indeed :)
-> 
-> hopefully it won't take us another 5 years to finally
-[]
-> diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
-[]
-> -static inline void print_symbol(const char *fmt, unsigned long addr)
-> +static inline void __deprecated print_symbol(const char *fmt,
-> +					     unsigned long addr)
->  {
->  	__check_printsym_format(fmt, "");
->  	__print_symbol(fmt, (unsigned long)
+print_symbol() uses extra stack space to sprintf() symbol
+information and then to feed that buffer to printk()
 
-As far as I'm concerned, as soon as there is
-no longer a single user in the kernel tree,
-better to delete it instead.
+  char buffer[KSYM_SYMBOL_LEN];
+
+  sprint_symbol(buffer, address);
+  printk(fmt, buffer);
+
+Replace print_symbol() with a direct printk("%pS") call.
+
+Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky at gmail.com>
+Cc: Thomas Gleixner <tglx at linutronix.de>
+---
+ kernel/irq/debug.h | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/kernel/irq/debug.h b/kernel/irq/debug.h
+index 17f05ef8f575..7e06dd275c17 100644
+--- a/kernel/irq/debug.h
++++ b/kernel/irq/debug.h
+@@ -3,8 +3,6 @@
+  * Debugging printout:
+  */
+ 
+-#include <linux/kallsyms.h>
+-
+ #define ___P(f) if (desc->status_use_accessors & f) printk("%14s set\n", #f)
+ #define ___PS(f) if (desc->istate & f) printk("%14s set\n", #f)
+ /* FIXME */
+@@ -14,14 +12,14 @@ static inline void print_irq_desc(unsigned int irq, struct irq_desc *desc)
+ {
+ 	printk("irq %d, desc: %p, depth: %d, count: %d, unhandled: %d\n",
+ 		irq, desc, desc->depth, desc->irq_count, desc->irqs_unhandled);
+-	printk("->handle_irq():  %p, ", desc->handle_irq);
+-	print_symbol("%s\n", (unsigned long)desc->handle_irq);
+-	printk("->irq_data.chip(): %p, ", desc->irq_data.chip);
+-	print_symbol("%s\n", (unsigned long)desc->irq_data.chip);
++	printk("->handle_irq():  %p, %pS\n",
++		desc->handle_irq, desc->handle_irq);
++	printk("->irq_data.chip(): %p, %pS\n",
++		desc->irq_data.chip, desc->irq_data.chip);
+ 	printk("->action(): %p\n", desc->action);
+ 	if (desc->action) {
+-		printk("->action->handler(): %p, ", desc->action->handler);
+-		print_symbol("%s\n", (unsigned long)desc->action->handler);
++		printk("->action->handler(): %p, %pS\n",
++			desc->action->handler, desc->action->handler);
+ 	}
+ 
+ 	___P(IRQ_LEVEL);
+-- 
+2.15.1
