@@ -1,33 +1,22 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 12 Dec 2017 15:52:43 +0000
-Subject: [U-Boot] Please pull ARC changes
+Date: Tue, 12 Dec 2017 15:57:06 +0000
+Subject: [PATCH] arch: define weak abort
+In-Reply-To: <1513027568-4800-1-git-send-email-sudipm.mukherjee@gmail.com>
+References: <1513027568-4800-1-git-send-email-sudipm.mukherjee@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1513093962.4945.3.camel@synopsys.com>
+Message-ID: <1513094225.4945.6.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Tom,
+Hi Sudip,
 
-This is just a one-line improvement for HSDK GPIO's Kconfig that was not included in
-the previous pull-request as I was waiting for Simon's reviewed-by tag.
+On Mon, 2017-12-11@21:26 +0000, Sudip Mukherjee wrote:
+> gcc was generating abort due to 'divide by zero' and if it is not
+> defined in the toolchain the build fails.
+> 
+> Currently 'frv' and 'arc' are failing. Previously other arch was also
+> broken like m32r was fixed by d22e3d69ee1a ("m32r: fix build failure").
 
-
-The following changes since commit 87f3dee22b174aa32db8213a3187aa809859c9e2:
-
-? Merge git://git.denx.de/u-boot-uniphier (2017-12-11 17:06:04 -0500)
-
-are available in the git repository at:
-
-? git://git.denx.de/u-boot-arc.git?
-
-for you to fetch changes up to d5fbcd57ed7cdcbaddf54a45e85b465bb85bfec5:
-
-? gpio/hsdk: Depend on DM_GPIO instead of simple DM (2017-12-12 18:47:30 +0300)
-
-----------------------------------------------------------------
-Alexey Brodkin (1):
-??????gpio/hsdk: Depend on DM_GPIO instead of simple DM
-
-?drivers/gpio/Kconfig | 2 +-
-?1 file changed, 1 insertion(+), 1 deletion(-)
+Why don't we revert mentioned?d22e3d69ee1a ("m32r: fix build failure")
+if not in the same patch but in the series together with this one?
 
 -Alexey
