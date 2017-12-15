@@ -1,48 +1,33 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 15 Dec 2017 16:09:19 +0000
-Subject: rsi_91x: Failed to read status register on failed authentication
-In-Reply-To: <CAEhWJF=1GU9vOj5+DeJCOjbbh4zh_OMyv2HKH_1XT3XP2auFUg@mail.gmail.com>
-References: <1512490314.4977.143.camel@synopsys.com>
- <CAEhWJF=1GU9vOj5+DeJCOjbbh4zh_OMyv2HKH_1XT3XP2auFUg@mail.gmail.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 15 Dec 2017 13:46:01 -0800
+Subject: [PATCH 0/4] ARC: Set initial core pll output frequency via DTS
+In-Reply-To: <20171209135918.16720-1-Eugeniy.Paltsev@synopsys.com>
+References: <20171209135918.16720-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1513354157.29404.72.camel@synopsys.com>
+Message-ID: <6a9b0ff3-55a7-fdb9-9a7e-51c3b13a8ee8@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Amitkumar,
-
-On Wed, 2017-12-06@12:43 +0530, Amitkumar Karwar wrote:
-> On Tue, Dec 5, 2017 at 9:41 PM, Alexey Brodkin
-> <Alexey.Brodkin@synopsys.com> wrote:
-> > Hi Amit,
-> > 
-> > I'm seeing quite a strange behavior of RedPine module.
-> > It connects perfectly fine to one of access points but fails
-> > to connect to another.
-> > 
-> > Moreover after that failure RSI driver starts to flood me with
-> > messages saying:
-> > --------------------->8--------------------
-> > rsi_91x: rsi_sdio_check_buffer_status: Failed to read status register
-> > --------------------->8--------------------
-> > 
-> > Below you may find details of my 2 experiments.
-> > Note I use vanilla Linux kernel v4.14.4
-> > 
-> > Any ideas what could be wrong?
-> > 
+On 12/09/2017 05:59 AM, Eugeniy Paltsev wrote:
+> Set initial core pll output frequency on HSDK and AXS103 via
+> "assigned-clock-rates" property in device tree.
+> It will be applied at the core pll driver probing.
 > 
-> Could you enable driver debug zones and share dmesg log for analysis?
+> Eugeniy Paltsev (4):
+>    ARC: [plat-hsdk]: Set initial core pll output frequency
+>    ARC: [plat-hsdk]: Get rid of core pll frequency set in platform code
+>    ARC: [plat-axs103]: Set initial core pll output frequency
+>    ARC: [plat-axs103] refactor the quad core DT quirk code
 > 
-> echo 0xffffffff > /sys/kernel/debug/phy0/debug_zone
+>   arch/arc/boot/dts/axc003.dtsi     |  3 +++
+>   arch/arc/boot/dts/axc003_idu.dtsi |  3 +++
+>   arch/arc/boot/dts/hsdk.dts        |  3 +++
+>   arch/arc/plat-axs10x/axs10x.c     | 18 ++++++++---------
+>   arch/arc/plat-hsdk/platform.c     | 42 ---------------------------------------
+>   5 files changed, 17 insertions(+), 52 deletions(-)
+> 
 
-Please find attached log.
-Let me know if you need more details.
+Alexey can you give this a quick spin on either boards and confirm if the DT 
+changes are indeed what they were before ?
 
--Alexey
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 2017.12.15-redpine.log
-Type: text/x-log
-Size: 96207 bytes
-Desc: 2017.12.15-redpine.log
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20171215/d7eabb9d/attachment-0001.bin>
+Thx,
+-Vineet
