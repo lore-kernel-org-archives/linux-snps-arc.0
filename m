@@ -1,57 +1,42 @@
-From: akpm@linux-foundation.org (Andrew Morton)
-Date: Tue, 19 Dec 2017 13:55:59 -0800
-Subject: [PATCH v2] arch: define weak abort
-In-Reply-To: <f098f672-7b51-26ea-c215-2c3edf72e62b@synopsys.com>
-References: <1513118956-8718-1-git-send-email-sudipm.mukherjee@gmail.com>
- <f098f672-7b51-26ea-c215-2c3edf72e62b@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 19 Dec 2017 14:38:21 -0800
+Subject: [PATCH] bug.h: Work around GCC PR82365 in BUG()
+In-Reply-To: <CAK8P3a2fXQHCN7gqNL9j7AeZqy7NXAMW1bqyFJs3G1M_M4BQ4A@mail.gmail.com>
+References: <20171219114112.939391-1-arnd@arndb.de>
+ <8e42a1de-f619-7a4e-6d58-f90f53f5f38f@synopsys.com>
+ <CAK8P3a2fXQHCN7gqNL9j7AeZqy7NXAMW1bqyFJs3G1M_M4BQ4A@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171219135559.07104711eb9301f5f40a338f@linux-foundation.org>
+Message-ID: <f31caa9b-89f0-4168-04bf-14a98595865e@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 19 Dec 2017 13:39:22 -0800 Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
+On 12/19/2017 12:13 PM, Arnd Bergmann wrote:
+>
+>> I suppose BUG() implies "dead end" like semantics - which ARC was lacking
+>> before ?
+> Correct. Using __builtin_trap() here avoids the 'control reaches end of non-void
+> function' warnings, but then makes us run into the stack size problem that
+> I work around with the barrier_before_unreachable().
+>
+> It would be good if you could give this a quick test to see if you get sensible
+> output from the __builtin_trap();
 
-> > --- a/kernel/exit.c
-> > +++ b/kernel/exit.c
-> > @@ -1759,3 +1759,11 @@ long kernel_wait4(pid_t upid, int __user *stat_addr, int options,
-> >   	return -EFAULT;
-> >   }
-> >   #endif
-> > +
-> > +__weak void abort(void)
-> > +{
-> > +	BUG();
-> > +
-> > +	/* if that doesn't kill us, halt */
-> > +	panic("Oops failed to kill thread");
-> > +}
-> 
-> Hmm, I realize there's a small gotcha with this, when testing with a different 
-> patch from Arnd. This needs an EXPORT_SYMBOL() as well !
+It does, added a BUG() arbit, hits an abort()
 
-Yup.  This?
+...
+ISA Extn??? : atomic ll64 unalign (not used)
+ ??? ??? : mpy[opt 9] div_rem norm barrel-shift swap minmax swape
+BPU??? ??? : partial match, cache:2048, Predict Table:16384
+BUG: failure at ../arch/arc/mm/tlb.c:827/arc_mmu_init()!
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: kernel/exit.c: export abort() to modules
 
-gcc -fisolate-erroneous-paths-dereference can generate calls to abort()
-from modular code too.
+Tested-by: Vineet Gupta <vgupta at synopsys.com>
 
-Reported-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee at gmail.com>
-Cc: Arnd Bergmann <arnd at arndb.de>
-Cc: "Alexey Brodkin" <Alexey.Brodkin at synopsys.com>
-Signed-off-by: Andrew Morton <akpm at linux-foundation.org>
----
+FWIW newer ARC gcc actually implements the builtin so we get a trap 5 instruction 
+now, vs., abort() calls before.
 
- kernel/exit.c |    1 +
- 1 file changed, 1 insertion(+)
+BTW I missed reading the hunk of your changelog where this addresses the long 
+standing mystery with ARC builds and numerous -Wreturn-type warnings. I always 
+wondered why they were not fixed upstream already, being too lazy to investigate 
+myself, and turns out this was due to this BUG() thingy. phew !
 
-diff -puN kernel/exit.c~a kernel/exit.c
---- a/kernel/exit.c~a
-+++ a/kernel/exit.c
-@@ -1763,3 +1763,4 @@ __weak void abort(void)
- 	/* if that doesn't kill us, halt */
- 	panic("Oops failed to kill thread");
- }
-+EXPORT_SYMBOL(abort);
-_
+-Vineet
