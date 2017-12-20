@@ -1,39 +1,76 @@
-From: sergey.senozhatsky.work@gmail.com (Sergey Senozhatsky)
-Date: Wed, 20 Dec 2017 19:20:34 +0900
-Subject: [PATCH 00/13] replace print_symbol() with printk()-s
-In-Reply-To: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
-References: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 20 Dec 2017 10:52:27 -0800
+Subject: [PATCH] bug.h: Work around GCC PR82365 in BUG()
+In-Reply-To: <CAK8P3a25RgC0qPCrGfutSnLHr77NqK74dW2g0m7fcMnm5Ou8yg@mail.gmail.com>
+References: <20171219114112.939391-1-arnd@arndb.de>
+ <8e42a1de-f619-7a4e-6d58-f90f53f5f38f@synopsys.com>
+ <CAK8P3a2fXQHCN7gqNL9j7AeZqy7NXAMW1bqyFJs3G1M_M4BQ4A@mail.gmail.com>
+ <f31caa9b-89f0-4168-04bf-14a98595865e@synopsys.com>
+ <CAK8P3a25RgC0qPCrGfutSnLHr77NqK74dW2g0m7fcMnm5Ou8yg@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171220102034.GG11774@jagdpanzerIV>
+Message-ID: <27bfdc23-1774-cf07-dab4-ab253a41d2f7@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On (12/11/17 21:50), Sergey Senozhatsky wrote:
+On 12/20/2017 01:01 AM, Arnd Bergmann wrote:
+> On Tue, Dec 19, 2017 at 11:38 PM, Vineet Gupta
+> <Vineet.Gupta1@synopsys.com> wrote:
+>> On 12/19/2017 12:13 PM, Arnd Bergmann wrote:
+>>>
+>>>
+>>>> I suppose BUG() implies "dead end" like semantics - which ARC was lacking
+>>>> before ?
+>>>
+>>> Correct. Using __builtin_trap() here avoids the 'control reaches end of
+>>> non-void
+>>> function' warnings, but then makes us run into the stack size problem that
+>>> I work around with the barrier_before_unreachable().
+>>>
+>>> It would be good if you could give this a quick test to see if you get
+>>> sensible
+>>> output from the __builtin_trap();
+>>
+>>
+>> It does, added a BUG() arbit, hits an abort()
+>>
+>> ...
+>> ISA Extn    : atomic ll64 unalign (not used)
+>>          : mpy[opt 9] div_rem norm barrel-shift swap minmax swape
+>> BPU        : partial match, cache:2048, Predict Table:16384
+>> BUG: failure at ../arch/arc/mm/tlb.c:827/arc_mmu_init()!
+>>
+>>
+>> Tested-by: Vineet Gupta <vgupta at synopsys.com>
 > 
-> 	A rather automatic replacement of print_symbol()
-> with direct printk() calls. print_symbol() uses extra stack
-> buffer (KSYM_SYMBOL_LEN 128 bytes) and, basically, should
-> be identical to printk(%pS).
+> I meant whether it prints the right registers and stack trace, but I
+> assume you tested that and just did not list it above.
+
+Sorry, I didn't realize we are missing the stack trace now which you removed from 
+the patch - why ? Did u intend to reduce inline generated code for the stack dump 
+calls - which sounds like a great idea. But it would only work for the synchronous 
+abort() but not when builtin translates to actual trap inducing instruction.
+
+> Hmm, so with the new definition of abort(),
 > 
-> 	I can't test all of the patches, because I don't
-> own any of those exotic arch-s. Sorry for the inconvenience.
+> +__weak void abort(void)
+> +{
+> +   BUG();
+> +
+> +   /* if that doesn't kill us, halt */
+> +   panic("Oops failed to kill thread");
+> +}
 > 
-> Sergey Senozhatsky (13):
->   arm: do not use print_symbol()
->   arm64: do not use print_symbol()
->   c6x: do not use print_symbol()
->   ia64: do not use print_symbol()
->   mn10300: do not use print_symbol()
->   sh: do not use print_symbol()
->   unicore32: do not use print_symbol()
->   x86: do not use print_symbol()
->   drivers: do not use print_symbol()
->   sysfs: do not use print_symbol()
->   irq debug: do not use print_symbol()
->   lib: do not use print_symbol()
->   arc: do not use __print_symbol()
+> won't that run into an endless recursion? Or do you then override abort()
+> for ARC?
 
-Hello,
+Indeed so. I didn't run into this in my testing as my for-curr has an ARC specific 
+version (predating Sudip's generic version- because of build failures in our 
+internal regression jobs etc). That version only calls panic.
 
-can we please have more reviews/acks/etc?
+abort() is only likely to be called due to __builtin_trap() for arches where gcc 
+doesn't have a target specific defn of it. And thus adding the call from BUG() 
+will cause the recursion as you found out with Sudip's generic version and thus 
+needs a fixup.
 
-	-ss
+
+Thx,
+-Vineet
