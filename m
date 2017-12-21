@@ -1,22 +1,43 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Thu, 21 Dec 2017 09:09:58 +0100
-Subject: [PATCH 2/2] ARC: handle gcc generated __builtin_trap for older
- compiler
-In-Reply-To: <1513810194-8377-3-git-send-email-vgupta@synopsys.com>
-References: <1513810194-8377-1-git-send-email-vgupta@synopsys.com>
- <1513810194-8377-3-git-send-email-vgupta@synopsys.com>
+From: sudipm.mukherjee@gmail.com (Sudip Mukherjee)
+Date: Thu, 21 Dec 2017 23:20:36 +0000
+Subject: [PATCH v2] arch: define weak abort
+In-Reply-To: <20171219135559.07104711eb9301f5f40a338f@linux-foundation.org>
+References: <1513118956-8718-1-git-send-email-sudipm.mukherjee@gmail.com>
+ <f098f672-7b51-26ea-c215-2c3edf72e62b@synopsys.com>
+ <20171219135559.07104711eb9301f5f40a338f@linux-foundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK8P3a0VkVEYLDwi+tbita+e6jik6uMyJ=foMDLDA8K94w5tNA@mail.gmail.com>
+Message-ID: <20171221232036.GA4643@sudip-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Dec 20, 2017 at 11:49 PM, Vineet Gupta
-<Vineet.Gupta1@synopsys.com> wrote:
-> ARC gcc prior to GNU 2018.03 release didn't have a target specific
-> __builtin_trap() implementation, generating default abort() call.
->
-> Implement the abort() call - emulating what newer gcc does for the same,
-> as suggested by Arnd.
->
-> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+On Tue, Dec 19, 2017@01:55:59PM -0800, Andrew Morton wrote:
+> On Tue, 19 Dec 2017 13:39:22 -0800 Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
+> 
 
-Acked-by: Arnd Bergmann <arnd at arndb.de>
+<snip>
+
+> > Hmm, I realize there's a small gotcha with this, when testing with a different 
+> > patch from Arnd. This needs an EXPORT_SYMBOL() as well !
+> 
+> Yup.  This?
+
+Yes, just faced this when I was testing with the reverted patch on m32r.
+
+> 
+> From: Andrew Morton <akpm at linux-foundation.org>
+> Subject: kernel/exit.c: export abort() to modules
+> 
+> gcc -fisolate-erroneous-paths-dereference can generate calls to abort()
+> from modular code too.
+> 
+> Reported-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+> Cc: Sudip Mukherjee <sudipm.mukherjee at gmail.com>
+> Cc: Arnd Bergmann <arnd at arndb.de>
+> Cc: "Alexey Brodkin" <Alexey.Brodkin at synopsys.com>
+> Signed-off-by: Andrew Morton <akpm at linux-foundation.org>
+> ---
+
+Acked-by: Sudip Mukherjee <sudipm.mukherjee at gmail.com>
+
+--
+Regards
+Sudip
