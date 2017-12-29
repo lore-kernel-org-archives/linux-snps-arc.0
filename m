@@ -1,116 +1,24 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 22 Dec 2017 22:08:28 +0300
-Subject: [RFC] ARC: setup cpu possible mask according to status field in dts
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 29 Dec 2017 09:18:04 +0100
+Subject: consolidate direct dma mapping and swiotlb support
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171222190828.29162-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20171229081911.2802-1-hch@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-As we have option in u-boot to set CPU mask for running linux,
-we want to pass information to kernel about CPU cores should
-be brought up.
+Almost every architecture supports a direct dma mapping implementation,
+where no iommu is used and the device dma address is a 1:1 mapping to
+the physical address or has a simple linear offset.  Currently the
+code for this implementation is most duplicated over the architectures,
+and the duplicated again in the swiotlb code, and then duplicated again
+for special cases like the x86 memory encryption DMA ops.
 
-So we patch kernel dtb in u-boot to set CPUs status.
+This series takes the existing very simple dma-noop dma mapping
+implementation, enhances it with all the x86 features and quirks, and
+creates a common set of architecture hooks for it and the swiotlb code.
 
-On linux boot we setup cpu possible mask according to status
-field in each cpu node. It is generic method according to ePAPR:
-  status - a standard property describing the state of a CPU.
-  This property shall be present for nodes representing CPUs in a
-  symmetric multiprocessing (SMP) configuration. For a CPU node
-  the meaning of the "okay" and "disabled" values are as follows:
-  "okay" - The CPU is running; "disabled" - The CPU is in a
-  quiescent state."
+It then switches a large number of architectures to this generic
+direct map implement and the new generic swiotlb dma_map ops.
 
-Also we setup MCIP debug mask according cpu possible mask.
-
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/kernel/mcip.c | 10 ++++++++--
- arch/arc/kernel/smp.c  | 30 ++++++++++++++++++++++++++----
- 2 files changed, 34 insertions(+), 6 deletions(-)
-
-diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-index f61a52b..246481d 100644
---- a/arch/arc/kernel/mcip.c
-+++ b/arch/arc/kernel/mcip.c
-@@ -89,6 +89,8 @@ static void mcip_ipi_clear(int irq)
- static void mcip_probe_n_setup(void)
- {
- 	struct mcip_bcr mp;
-+	u32 mcip_mask = 0;
-+	int i;
- 
- 	READ_BCR(ARC_REG_MCIP_BCR, mp);
- 
-@@ -102,9 +104,13 @@ static void mcip_probe_n_setup(void)
- 
- 	cpuinfo_arc700[0].extn.gfrc = mp.gfrc;
- 
-+	for (i = 0; i < NR_CPUS; i++)
-+		if (cpu_possible(i))
-+			mcip_mask |= BIT(i);
-+
- 	if (mp.dbg) {
--		__mcip_cmd_data(CMD_DEBUG_SET_SELECT, 0, 0xf);
--		__mcip_cmd_data(CMD_DEBUG_SET_MASK, 0xf, 0xf);
-+		__mcip_cmd_data(CMD_DEBUG_SET_SELECT, 0, mcip_mask);
-+		__mcip_cmd_data(CMD_DEBUG_SET_MASK, 0xf, mcip_mask);
- 	}
- }
- 
-diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-index efe8b42..ee8b20a 100644
---- a/arch/arc/kernel/smp.c
-+++ b/arch/arc/kernel/smp.c
-@@ -24,6 +24,8 @@
- #include <linux/reboot.h>
- #include <linux/irqdomain.h>
- #include <linux/export.h>
-+#include <linux/of_fdt.h>
-+#include <linux/libfdt.h>
- 
- #include <asm/processor.h>
- #include <asm/setup.h>
-@@ -47,6 +49,29 @@ void __init smp_prepare_boot_cpu(void)
- {
- }
- 
-+/* Mark cpu as possible if cpu status is "okay" or status absents */
-+void __init smp_init_cpumask(void)
-+{
-+	const struct fdt_property *prop;
-+	char fdt_cpu_path[25];
-+	unsigned int i, oft;
-+
-+	for (i = 0; i < NR_CPUS; i++) {
-+		sprintf(fdt_cpu_path, "/cpus/cpu@%u", i);
-+		oft = fdt_path_offset(initial_boot_params, fdt_cpu_path);
-+		prop = fdt_get_property(initial_boot_params, oft, "status", NULL);
-+
-+		/* No status property == status OK */
-+		if (!prop) {
-+			set_cpu_possible(i, true);
-+			continue;
-+		}
-+
-+		if (!strcmp("okay", prop->data))
-+			set_cpu_possible(i, true);
-+	}
-+}
-+
- /*
-  * Called from setup_arch() before calling setup_processor()
-  *
-@@ -58,10 +83,7 @@ void __init smp_prepare_boot_cpu(void)
-  */
- void __init smp_init_cpus(void)
- {
--	unsigned int i;
--
--	for (i = 0; i < NR_CPUS; i++)
--		set_cpu_possible(i, true);
-+	smp_init_cpumask();
- 
- 	if (plat_smp_ops.init_early_smp)
- 		plat_smp_ops.init_early_smp();
--- 
-2.9.3
+Note that for now this only handles architectures that do cache coherent
+DMA, but a similar consolidation for non-coherent architectures is in the
+work for later merge windows.
