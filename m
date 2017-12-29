@@ -1,82 +1,76 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 29 Dec 2017 09:18:43 +0100
-Subject: [PATCH 39/67] iommu/amd_iommu: use dma_direct_* helpers for the
+Date: Fri, 29 Dec 2017 09:18:44 +0100
+Subject: [PATCH 40/67] iommu/intel-iommu: use dma_direct_* helpers for the
  direct mapping case
 In-Reply-To: <20171229081911.2802-1-hch@lst.de>
 References: <20171229081911.2802-1-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171229081911.2802-40-hch@lst.de>
+Message-ID: <20171229081911.2802-41-hch@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-This adds support for CMA allocations, but is otherwise identical.
+This simplifies the code a bit, and prepares for future cleanups.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/iommu/Kconfig     |  1 +
- drivers/iommu/amd_iommu.c | 27 +++++++++------------------
- 2 files changed, 10 insertions(+), 18 deletions(-)
+ drivers/iommu/Kconfig       |  1 +
+ drivers/iommu/intel-iommu.c | 17 ++++++++---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index f3a21343e636..dc7c1914645d 100644
+index dc7c1914645d..df171cb85822 100644
 --- a/drivers/iommu/Kconfig
 +++ b/drivers/iommu/Kconfig
-@@ -107,6 +107,7 @@ config IOMMU_PGTABLES_L2
- # AMD IOMMU support
- config AMD_IOMMU
- 	bool "AMD IOMMU support"
+@@ -143,6 +143,7 @@ config DMAR_TABLE
+ config INTEL_IOMMU
+ 	bool "Support for Intel IOMMU using DMA Remapping Devices"
+ 	depends on PCI_MSI && ACPI && (X86 || IA64_GENERIC)
 +	select DMA_DIRECT_OPS
- 	select SWIOTLB
- 	select PCI_MSI
- 	select PCI_ATS
-diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index ea4734de5357..a2ad149ab0bf 100644
---- a/drivers/iommu/amd_iommu.c
-+++ b/drivers/iommu/amd_iommu.c
-@@ -2592,11 +2592,9 @@ static void *alloc_coherent(struct device *dev, size_t size,
- 	struct page *page;
+ 	select IOMMU_API
+ 	select IOMMU_IOVA
+ 	select DMAR_TABLE
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 921caf4f0c3e..0de8bfe89061 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -31,6 +31,7 @@
+ #include <linux/pci.h>
+ #include <linux/dmar.h>
+ #include <linux/dma-mapping.h>
++#include <linux/dma-direct.h>
+ #include <linux/mempool.h>
+ #include <linux/memory.h>
+ #include <linux/cpu.h>
+@@ -3712,17 +3713,12 @@ static void *intel_alloc_coherent(struct device *dev, size_t size,
+ 	struct page *page = NULL;
+ 	int order;
  
- 	domain = get_domain(dev);
--	if (PTR_ERR(domain) == -EINVAL) {
--		page = alloc_pages(flag, get_order(size));
--		*dma_addr = page_to_phys(page);
--		return page_address(page);
--	} else if (IS_ERR(domain))
-+	if (PTR_ERR(domain) == -EINVAL)
-+		return dma_direct_alloc(dev, size, dma_addr, flag, attrs);
-+	else if (IS_ERR(domain))
- 		return NULL;
- 
- 	dma_dom   = to_dma_ops_domain(domain);
-@@ -2642,24 +2640,17 @@ static void free_coherent(struct device *dev, size_t size,
- 			  void *virt_addr, dma_addr_t dma_addr,
- 			  unsigned long attrs)
- {
--	struct protection_domain *domain;
--	struct dma_ops_domain *dma_dom;
--	struct page *page;
-+	struct protection_domain *domain = get_domain(dev);
- 
--	page = virt_to_page(virt_addr);
++	if (iommu_no_mapping(dev))
++		return dma_direct_alloc(dev, size, dma_handle, flags, attrs);
++
  	size = PAGE_ALIGN(size);
- 
--	domain = get_domain(dev);
--	if (IS_ERR(domain))
--		goto free_mem;
+ 	order = get_order(size);
 -
--	dma_dom = to_dma_ops_domain(domain);
-+	if (!IS_ERR(domain)) {
-+		struct dma_ops_domain *dma_dom = to_dma_ops_domain(domain);
+-	if (!iommu_no_mapping(dev))
+-		flags &= ~(GFP_DMA | GFP_DMA32);
+-	else if (dev->coherent_dma_mask < dma_get_required_mask(dev)) {
+-		if (dev->coherent_dma_mask < DMA_BIT_MASK(32))
+-			flags |= GFP_DMA;
+-		else
+-			flags |= GFP_DMA32;
+-	}
++	flags &= ~(GFP_DMA | GFP_DMA32);
  
--	__unmap_single(dma_dom, dma_addr, size, DMA_BIDIRECTIONAL);
-+		__unmap_single(dma_dom, dma_addr, size, DMA_BIDIRECTIONAL);
-+	}
+ 	if (gfpflags_allow_blocking(flags)) {
+ 		unsigned int count = size >> PAGE_SHIFT;
+@@ -3758,6 +3754,9 @@ static void intel_free_coherent(struct device *dev, size_t size, void *vaddr,
+ 	int order;
+ 	struct page *page = virt_to_page(vaddr);
  
--free_mem:
--	if (!dma_release_from_contiguous(dev, page, size >> PAGE_SHIFT))
--		__free_pages(page, get_order(size));
-+	dma_direct_free(dev, size, virt_addr, dma_addr, attrs);
- }
++	if (iommu_no_mapping(dev))
++		return dma_direct_free(dev, size, vaddr, dma_handle, attrs);
++
+ 	size = PAGE_ALIGN(size);
+ 	order = get_order(size);
  
- /*
 -- 
 2.14.2
