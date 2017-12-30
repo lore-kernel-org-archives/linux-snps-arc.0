@@ -1,57 +1,18 @@
-From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Fri, 29 Dec 2017 15:12:25 +0100
-Subject: [PATCH 27/67] dma-direct: add dma address sanity checks
-In-Reply-To: <20171229081911.2802-28-hch@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 30 Dec 2017 11:56:35 +0100
+Subject: consolidate direct dma mapping and swiotlb support
+In-Reply-To: <23fee3bb-61ce-1735-b264-3acc0109c858@arm.com>
 References: <20171229081911.2802-1-hch@lst.de>
- <20171229081911.2802-28-hch@lst.de>
+ <23fee3bb-61ce-1735-b264-3acc0109c858@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdWg3PnTXezMCcr3oGf-83-cjvcj4wGiPk7j2pY1Tgzo9Q@mail.gmail.com>
+Message-ID: <20171230105635.GA23696@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Christoph,
+On Fri, Dec 29, 2017@10:52:14AM +0000, Vladimir Murzin wrote:
+> Is it available in your dma-mapping.git or somewhere else?
 
-On Fri, Dec 29, 2017@9:18 AM, Christoph Hellwig <hch@lst.de> wrote:
-> Roughly based on the x86 pci-nommu implementation.
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+  git://git.infradead.org/users/hch/misc.git dma-direct
 
-Thanks for your patch!
+Gitweb:
 
-> --- a/lib/dma-direct.c
-> +++ b/lib/dma-direct.c
-> @@ -9,6 +9,24 @@
->  #include <linux/scatterlist.h>
->  #include <linux/pfn.h>
->
-> +#define DIRECT_MAPPING_ERROR           0
-> +
-> +static bool
-> +check_addr(struct device *dev, dma_addr_t dma_addr, size_t size,
-> +               const char *caller)
-> +{
-> +       if (unlikely(dev && !dma_capable(dev, dma_addr, size))) {
-> +               if (*dev->dma_mask >= DMA_BIT_MASK(32)) {
-> +                       dev_err(dev,
-> +                               "%s: overflow %llx+%zu of device mask %llx\n",
-
-Please use "%pad" to format dma_addr_t ...
-
-> +                               caller, (long long)dma_addr, size,
-
-... and use &dma_addr.
-
-> +                               (long long)*dev->dma_mask);
-
-This cast is not needed, as u64 is unsigned long long in kernelspace on
-all architectures.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+  http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-direct
