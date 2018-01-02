@@ -1,28 +1,28 @@
 From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Tue, 2 Jan 2018 11:22:35 +0100
-Subject: [PATCH 16/67] powerpc: rename dma_direct_ to dma_nommu_
-In-Reply-To: <878tdgtwzp.fsf@concordia.ellerman.id.au>
+Date: Tue, 2 Jan 2018 11:29:10 +0100
+Subject: [PATCH 29/67] dma-direct: use node local allocations for coherent
+ memory
+In-Reply-To: <20171229081911.2802-30-hch@lst.de>
 References: <20171229081911.2802-1-hch@lst.de>
- <20171229081911.2802-17-hch@lst.de>
- <878tdgtwzp.fsf@concordia.ellerman.id.au>
+ <20171229081911.2802-30-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdWWus2kNSOzS94k-3678826W1YjKwCWTquu3hBLZ80cvw@mail.gmail.com>
+Message-ID: <CAMuHMdU0_p4RHSKL891YCgej_L2KM5cxmhXDLXVUBXgWoUosVA@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Jan 2, 2018@10:45 AM, Michael Ellerman <mpe@ellerman.id.au> wrote:
-> Christoph Hellwig <hch at lst.de> writes:
->
->> We want to use the dma_direct_ namespace for a generic implementation,
->> so rename powerpc to the second best choice: dma_nommu_.
->
-> I'm not a fan of "nommu". Some of the users of direct ops *are* using an
-> IOMMU, they're just setting up a 1:1 mapping once at init time, rather
-> than mapping dynamically.
->
-> Though I don't have a good idea for a better name, maybe "1to1",
-> "linear", "premapped" ?
+Missing patch description explaining why this change is desirable.
 
-"identity"?
+On Fri, Dec 29, 2017@9:18 AM, Christoph Hellwig <hch@lst.de> wrote:
+> --- a/lib/dma-direct.c
+> +++ b/lib/dma-direct.c
+> @@ -39,7 +39,7 @@ static void *dma_direct_alloc(struct device *dev, size_t size,
+>         if (gfpflags_allow_blocking(gfp))
+>                 page = dma_alloc_from_contiguous(dev, count, page_order, gfp);
+>         if (!page)
+> -               page = alloc_pages(gfp, page_order);
+> +               page = alloc_pages_node(dev_to_node(dev), gfp, page_order);
+>         if (!page)
+>                 return NULL;
+>
 
 Gr{oetje,eeting}s,
 
