@@ -1,18 +1,23 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 30 Dec 2017 11:56:35 +0100
-Subject: consolidate direct dma mapping and swiotlb support
-In-Reply-To: <23fee3bb-61ce-1735-b264-3acc0109c858@arm.com>
+From: mpe@ellerman.id.au (Michael Ellerman)
+Date: Tue, 02 Jan 2018 20:45:30 +1100
+Subject: [PATCH 16/67] powerpc: rename dma_direct_ to dma_nommu_
+In-Reply-To: <20171229081911.2802-17-hch@lst.de>
 References: <20171229081911.2802-1-hch@lst.de>
- <23fee3bb-61ce-1735-b264-3acc0109c858@arm.com>
+ <20171229081911.2802-17-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20171230105635.GA23696@lst.de>
+Message-ID: <878tdgtwzp.fsf@concordia.ellerman.id.au>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Dec 29, 2017@10:52:14AM +0000, Vladimir Murzin wrote:
-> Is it available in your dma-mapping.git or somewhere else?
+Christoph Hellwig <hch at lst.de> writes:
 
-  git://git.infradead.org/users/hch/misc.git dma-direct
+> We want to use the dma_direct_ namespace for a generic implementation,
+> so rename powerpc to the second best choice: dma_nommu_.
 
-Gitweb:
+I'm not a fan of "nommu". Some of the users of direct ops *are* using an
+IOMMU, they're just setting up a 1:1 mapping once at init time, rather
+than mapping dynamically.
 
-  http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-direct
+Though I don't have a good idea for a better name, maybe "1to1",
+"linear", "premapped" ?
+
+cheers
