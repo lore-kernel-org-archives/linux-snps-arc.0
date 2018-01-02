@@ -1,46 +1,72 @@
-From: sudipm.mukherjee@gmail.com (Sudip Mukherjee)
-Date: Tue, 2 Jan 2018 12:34:59 +0000
-Subject: [PATCH] arch: drop duplicate exports of abort()
-In-Reply-To: <20180102113829.GD28752@n2100.armlinux.org.uk>
-References: <20180102103311.706364-1-arnd@arndb.de>
- <20180102113417.GA5078@sudip-tp>
- <20180102113829.GD28752@n2100.armlinux.org.uk>
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Tue, 2 Jan 2018 15:23:09 +0100
+Subject: [PATCH] arc: fix iounmap prototype
+In-Reply-To: <20180102110141.1853608-1-arnd@arndb.de>
+References: <20180102110141.1853608-1-arnd@arndb.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180102123459.GA6354@sudip-tp>
+Message-ID: <CAMuHMdVrb56oxz-UuxXAT5c-97J42f+JJ0EY+G6d2vLucDTu5Q@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Jan 02, 2018@11:38:29AM +0000, Russell King - ARM Linux wrote:
-> On Tue, Jan 02, 2018@11:34:45AM +0000, Sudip Mukherjee wrote:
-> > Hi Arnd,
-> > 
-> > On Tue, Jan 02, 2018@11:31:12AM +0100, Arnd Bergmann wrote:
-> > > We now have exports in both architecture code in in common code,
-> > > which causes a link failure when symbol versioning is eanbled, on
-> > > four architectures:
-> > > 
-> > > kernel/exit.o: In function `__crc_abort':
-> > > exit.c:(*ABS*+0xc0e2ec8b): multiple definition of `__crc_abort'
-> > > 
-> > > This removes the four architecture specific exports and only
-> > > leaves the export next to the __weak symbol.
-> > 
-> > Will it not be better to remove the abort() as they are exactly same
-> > like the weak function. That was the original plan we had when this
-> > weak function was done. Like in the attached patch..
-> 
-> If that was the plan, why wasn't it done - why did we end up with a
-> build-breaking patch merged in -mm?
+Hi Arnd,
 
-The proposed patch (which I attached in the earlier mail) was breaking
-the build unless weak abort() is exported. So, ideally the export of
-weak abort() and the proposed patch should have been part of a series.
-But afaik, the export has been done to fix another build failure reported
-by Vineet.
+On Tue, Jan 2, 2018@12:01 PM, Arnd Bergmann <arnd@arndb.de> wrote:
+> The missing 'volatile' keyword on the iounmap argument leads to lots of
+> harmless warnings in an allmodconfig build:
+>
+> sound/pci/echoaudio/echoaudio.c:1879:10: warning: passing argument 1 of 'iounmap' discards 'volatile' qualifier f
+> pointer target type [-Wdiscarded-qualifiers]
+>
+> Signed-off-by: Arnd Bergmann <arnd at arndb.de>
+> ---
+>  arch/arc/include/asm/io.h | 4 ++--
+>  arch/arc/mm/ioremap.c     | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
+> index c22b181e8206..2c9b98fabf82 100644
+> --- a/arch/arc/include/asm/io.h
+> +++ b/arch/arc/include/asm/io.h
+> @@ -30,11 +30,11 @@ static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
+>         return (void __iomem *)port;
+>  }
+>
+> -static inline void ioport_unmap(void __iomem *addr)
+> +static inline void ioport_unmap(volatile void __iomem *addr)
+>  {
+>  }
+>
+> -extern void iounmap(const void __iomem *addr);
+> +extern void iounmap(const volatile void __iomem *addr);
 
-Andrew, I think the best way now is to apply the patch sent by Arnd,
-and I will send a separate patch to remove abort() after proper testing.
+Note that include/asm-generic/io.h also lacks the volatiles?
 
+>
+>  #define ioremap_nocache(phy, sz)       ioremap(phy, sz)
+>  #define ioremap_wc(phy, sz)            ioremap(phy, sz)
+> diff --git a/arch/arc/mm/ioremap.c b/arch/arc/mm/ioremap.c
+> index 9881bd740ccc..94d0116063a8 100644
+> --- a/arch/arc/mm/ioremap.c
+> +++ b/arch/arc/mm/ioremap.c
+> @@ -95,7 +95,7 @@ void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
+>  EXPORT_SYMBOL(ioremap_prot);
+>
+>
+> -void iounmap(const void __iomem *addr)
+> +void iounmap(volatile const void __iomem *addr)
+
+const volatile?
+
+>  {
+>         /* weird double cast to handle phys_addr_t > 32 bits */
+>         if (arc_uncached_addr_space((phys_addr_t)(u32)addr))
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 --
-Regards
-Sudip
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
