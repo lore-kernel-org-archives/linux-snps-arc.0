@@ -1,52 +1,89 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Tue,  2 Jan 2018 12:01:24 +0100
-Subject: [PATCH] arc: fix iounmap prototype
+From: linux@armlinux.org.uk (Russell King - ARM Linux)
+Date: Tue, 2 Jan 2018 11:16:50 +0000
+Subject: [PATCH] arch: drop duplicate exports of abort()
+In-Reply-To: <20180102103311.706364-1-arnd@arndb.de>
+References: <20180102103311.706364-1-arnd@arndb.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180102110141.1853608-1-arnd@arndb.de>
+Message-ID: <20180102111650.GC28752@n2100.armlinux.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-The missing 'volatile' keyword on the iounmap argument leads to lots of
-harmless warnings in an allmodconfig build:
+On Tue, Jan 02, 2018@11:31:12AM +0100, Arnd Bergmann wrote:
+> We now have exports in both architecture code in in common code,
+> which causes a link failure when symbol versioning is eanbled, on
+> four architectures:
+> 
+> kernel/exit.o: In function `__crc_abort':
+> exit.c:(*ABS*+0xc0e2ec8b): multiple definition of `__crc_abort'
+> 
+> This removes the four architecture specific exports and only
+> leaves the export next to the __weak symbol.
+> 
+> Fixes: mmotm ("kernel/exit.c: export abort() to modules")
+> Signed-off-by: Arnd Bergmann <arnd at arndb.de>
 
-sound/pci/echoaudio/echoaudio.c:1879:10: warning: passing argument 1 of 'iounmap' discards 'volatile' qualifier f
-pointer target type [-Wdiscarded-qualifiers]
+For arm:
 
-Signed-off-by: Arnd Bergmann <arnd at arndb.de>
----
- arch/arc/include/asm/io.h | 4 ++--
- arch/arc/mm/ioremap.c     | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Acked-by: Russell King <rmk+kernel at armlinux.org.uk>
 
-diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
-index c22b181e8206..2c9b98fabf82 100644
---- a/arch/arc/include/asm/io.h
-+++ b/arch/arc/include/asm/io.h
-@@ -30,11 +30,11 @@ static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
- 	return (void __iomem *)port;
- }
- 
--static inline void ioport_unmap(void __iomem *addr)
-+static inline void ioport_unmap(volatile void __iomem *addr)
- {
- }
- 
--extern void iounmap(const void __iomem *addr);
-+extern void iounmap(const volatile void __iomem *addr);
- 
- #define ioremap_nocache(phy, sz)	ioremap(phy, sz)
- #define ioremap_wc(phy, sz)		ioremap(phy, sz)
-diff --git a/arch/arc/mm/ioremap.c b/arch/arc/mm/ioremap.c
-index 9881bd740ccc..94d0116063a8 100644
---- a/arch/arc/mm/ioremap.c
-+++ b/arch/arc/mm/ioremap.c
-@@ -95,7 +95,7 @@ void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
- EXPORT_SYMBOL(ioremap_prot);
- 
- 
--void iounmap(const void __iomem *addr)
-+void iounmap(volatile const void __iomem *addr)
- {
- 	/* weird double cast to handle phys_addr_t > 32 bits */
- 	if (arc_uncached_addr_space((phys_addr_t)(u32)addr))
+> ---
+> Andrew, can you apply this to -mm on top of the other patch?
+> ---
+>  arch/arc/kernel/traps.c       | 1 -
+>  arch/arm/kernel/traps.c       | 1 -
+>  arch/m32r/kernel/traps.c      | 1 -
+>  arch/unicore32/kernel/traps.c | 1 -
+>  4 files changed, 4 deletions(-)
+> 
+> diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
+> index 51a55b06cb2a..133a4dae41fe 100644
+> --- a/arch/arc/kernel/traps.c
+> +++ b/arch/arc/kernel/traps.c
+> @@ -169,4 +169,3 @@ void abort(void)
+>  {
+>  	__asm__ __volatile__("trap_s  5\n");
+>  }
+> -EXPORT_SYMBOL(abort);
+> diff --git a/arch/arm/kernel/traps.c b/arch/arm/kernel/traps.c
+> index e344bdd2e5ac..5e3633c24e63 100644
+> --- a/arch/arm/kernel/traps.c
+> +++ b/arch/arm/kernel/traps.c
+> @@ -793,7 +793,6 @@ void abort(void)
+>  	/* if that doesn't kill us, halt */
+>  	panic("Oops failed to kill thread");
+>  }
+> -EXPORT_SYMBOL(abort);
+>  
+>  void __init trap_init(void)
+>  {
+> diff --git a/arch/m32r/kernel/traps.c b/arch/m32r/kernel/traps.c
+> index cb79fba79d43..b88a8dd14933 100644
+> --- a/arch/m32r/kernel/traps.c
+> +++ b/arch/m32r/kernel/traps.c
+> @@ -122,7 +122,6 @@ void abort(void)
+>  	/* if that doesn't kill us, halt */
+>  	panic("Oops failed to kill thread");
+>  }
+> -EXPORT_SYMBOL(abort);
+>  
+>  void __init trap_init(void)
+>  {
+> diff --git a/arch/unicore32/kernel/traps.c b/arch/unicore32/kernel/traps.c
+> index 5f25b39f04d4..c4ac6043ebb0 100644
+> --- a/arch/unicore32/kernel/traps.c
+> +++ b/arch/unicore32/kernel/traps.c
+> @@ -298,7 +298,6 @@ void abort(void)
+>  	/* if that doesn't kill us, halt */
+>  	panic("Oops failed to kill thread");
+>  }
+> -EXPORT_SYMBOL(abort);
+>  
+>  void __init trap_init(void)
+>  {
+> -- 
+> 2.9.0
+> 
+
 -- 
-2.9.0
+RMK's Patch system: http://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 8.8Mbps down 630kbps up
+According to speedtest.net: 8.21Mbps down 510kbps up
