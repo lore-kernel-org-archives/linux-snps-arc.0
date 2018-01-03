@@ -1,62 +1,46 @@
-From: julian.calaby@gmail.com (Julian Calaby)
-Date: Wed, 3 Jan 2018 19:19:46 +1100
-Subject: [PATCH 16/67] powerpc: rename dma_direct_ to dma_nommu_
-In-Reply-To: <CAMuHMdWYDz_jHNxQ-B8944520R-myzHkjkL1rKWUjA38inU7cw@mail.gmail.com>
-References: <20171229081911.2802-1-hch@lst.de>
- <20171229081911.2802-17-hch@lst.de>
- <878tdgtwzp.fsf@concordia.ellerman.id.au>
- <CAMuHMdWWus2kNSOzS94k-3678826W1YjKwCWTquu3hBLZ80cvw@mail.gmail.com>
- <87h8s3cvel.fsf@concordia.ellerman.id.au>
- <CAMuHMdWYDz_jHNxQ-B8944520R-myzHkjkL1rKWUjA38inU7cw@mail.gmail.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 3 Jan 2018 08:51:07 -0800
+Subject: [PATCH] arch: drop duplicate exports of abort()
+In-Reply-To: <20180102103311.706364-1-arnd@arndb.de>
+References: <20180102103311.706364-1-arnd@arndb.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAGRGNgV+DnZAAtiE5oe8rxp4=_JHJrtSQc8F5jrgN0rgYKfwjA@mail.gmail.com>
+Message-ID: <987b38f9-cc49-c011-26f8-8bb10397ce2b@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi All,
-
-On Wed, Jan 3, 2018@6:49 PM, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> Hi Michael,
+On 01/02/2018 02:33 AM, Arnd Bergmann wrote:
+> We now have exports in both architecture code in in common code,
+> which causes a link failure when symbol versioning is eanbled, on
+> four architectures:
 >
-> On Wed, Jan 3, 2018@7:24 AM, Michael Ellerman <mpe@ellerman.id.au> wrote:
->> Geert Uytterhoeven <geert at linux-m68k.org> writes:
->>
->>> On Tue, Jan 2, 2018@10:45 AM, Michael Ellerman <mpe@ellerman.id.au> wrote:
->>>> Christoph Hellwig <hch at lst.de> writes:
->>>>
->>>>> We want to use the dma_direct_ namespace for a generic implementation,
->>>>> so rename powerpc to the second best choice: dma_nommu_.
->>>>
->>>> I'm not a fan of "nommu". Some of the users of direct ops *are* using an
->>>> IOMMU, they're just setting up a 1:1 mapping once at init time, rather
->>>> than mapping dynamically.
->>>>
->>>> Though I don't have a good idea for a better name, maybe "1to1",
->>>> "linear", "premapped" ?
->>>
->>> "identity"?
->>
->> I think that would be wrong, but thanks for trying to help :)
->>
->> The address on the device side is sometimes (often?) offset from the CPU
->> address. So eg. the device can DMA to RAM address 0x0 using address
->> 0x800000000000000.
->>
->> Identity would imply 0 == 0 etc.
->>
->> I think "bijective" is the correct term, but that's probably a bit
->> esoteric.
+> kernel/exit.o: In function `__crc_abort':
+> exit.c:(*ABS*+0xc0e2ec8b): multiple definition of `__crc_abort'
 >
-> OK, didn't know about the offset.
-> Then "linear" is what we tend to use, right?
+> This removes the four architecture specific exports and only
+> leaves the export next to the __weak symbol.
+>
+> Fixes: mmotm ("kernel/exit.c: export abort() to modules")
+> Signed-off-by: Arnd Bergmann <arnd at arndb.de>
+> ---
+> Andrew, can you apply this to -mm on top of the other patch?
+> ---
+>   arch/arc/kernel/traps.c       | 1 -
+>   arch/arm/kernel/traps.c       | 1 -
+>   arch/m32r/kernel/traps.c      | 1 -
+>   arch/unicore32/kernel/traps.c | 1 -
+>   4 files changed, 4 deletions(-)
+>
+> diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
+> index 51a55b06cb2a..133a4dae41fe 100644
+> --- a/arch/arc/kernel/traps.c
+> +++ b/arch/arc/kernel/traps.c
+> @@ -169,4 +169,3 @@ void abort(void)
+>   {
+>   	__asm__ __volatile__("trap_s  5\n");
+>   }
+> -EXPORT_SYMBOL(abort);
 
-If this is indeed a linear mapping, can we just remove this and
-replace it with the new "generic" mapping being introduced by this
-patchset?
+FWIW, this hunk did not yet hit mainline. I've removed it from my patch in 
+for-curr and re-pushed !
 
-Thanks,
-
--- 
-Julian Calaby
-
-Email: julian.calaby at gmail.com
-Profile: http://www.google.com/profiles/julian.calaby/
+Thx,
+-Vineet
