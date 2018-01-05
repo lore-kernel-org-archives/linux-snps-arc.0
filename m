@@ -1,70 +1,82 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 5 Jan 2018 13:06:41 -0800
-Subject: [GIT PULL] ARC updates for 4.15-rc7
+Date: Fri, 5 Jan 2018 15:33:55 -0800
+Subject: [uclibc-ng-devel] [PATCH 4/4] arc: Use new common syscall()
+ implementation
+In-Reply-To: <20171214062909.8602-5-shorne@gmail.com>
+References: <20171214062909.8602-1-shorne@gmail.com>
+ <20171214062909.8602-5-shorne@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <19e6eb47-1653-27da-2e88-77d0e945ff02@synopsys.com>
+Message-ID: <ad3b4b76-19b9-590a-c071-3169a0315d57@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+On 12/13/2017 10:29 PM, Stafford Horne wrote:
+> Traditionally arc has had a generic syscall implementation of syscall()
+> matchig the common implementation.
+> 
+> During an audit it was found that this implementation seems to duplicate
+> common implementation and is no longer needed.
+> 
+> Signed-off-by: Stafford Horne <shorne at gmail.com>
+> ---
+>   libc/sysdeps/linux/arc/Makefile.arch |  2 +-
+>   libc/sysdeps/linux/arc/syscall.c     | 17 -----------------
+>   2 files changed, 1 insertion(+), 18 deletions(-)
 
-ARC updates for 4.15-rc7. They have been sitting in for-next for a while but got 
-delayed coming your way due to the holidays.
+[snip]
+  -
+> -extern long syscall(long int sysnum, long a, long b, long c, long d, long e, long f);
+> -
+> -long syscall(long int sysnum, long a, long b, long c, long d, long e, long f)
+> -{
+> -	return INLINE_SYSCALL_NCS(sysnum, 6, a, b, c, d, e, f);
+> -}
 
-Please pull !
+varargs generate pathetic code on ARC atleast, it is partly due to the ABI (the 
+args need to be stored on stack)
 
-Thx,
--Vineet
--------------------------->
-The following changes since commit 4fbd8d194f06c8a3fd2af1ce560ddb31f7ec8323:
+With current implementation we get
 
-   Linux 4.15-rc1 (2017-11-26 16:01:47 -0800)
+000100ac <syscall>:
+    100ac:	mov_s	r8,r0
+    100ae:	mov_s	r0,r1
+    100b0:	mov_s	r1,r2
+    100b2:	mov_s	r2,r3
+    100b4:	mov_s	r3,r4
+    100b6:	mov_s	r4,r5
+    100b8:	mov_s	r5,r6
+    100ba:	trap_s	0
+    100bc:	cmp	r0,-1024
+    100c0:	jls	[blink]
+    100c4:	st.aw	blink,[sp,-4]
+    100c8:	bl	84	;1011c <__syscall_error>
+    100cc:	ld.ab	blink,[sp,4]
+    100d0:	j_s	[blink]
+    100d2:	nop_s
 
-are available in the git repository at:
+With varagrs implementation we get tons of useless stores. So I'd prefer we keep 
+the current implementation for ARC - although granted syscall() may not be the 
+fast path syscall.
 
-   git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.15-rc7
-
-for you to fetch changes up to af1be2e21203867cb958aaceed5366e2e24b88e8:
-
-   ARC: handle gcc generated __builtin_trap for older compiler (2018-01-03 
-00:31:27 -0800)
-
-----------------------------------------------------------------
-ARC fixes for 4.15-rc7
-
-  - platform updates for setting up clock correctly
-
-  - Fixes to accomodate newer gcc (__builtin_trap, removed inline asm modifier)
-
-  - Other fixes
-
-----------------------------------------------------------------
-Alexey Brodkin (2):
-       ARC: Fix detection of dual-issue enabled
-       ARC: [plat-hsdk] Switch DisplayLink driver from fbdev to DRM
-
-Eugeniy Paltsev (4):
-       ARC: [plat-hsdk]: Set initial core pll output frequency
-       ARC: [plat-hsdk]: Get rid of core pll frequency set in platform code
-       ARC: [plat-axs103]: Set initial core pll output frequency
-       ARC: [plat-axs103] refactor the quad core DT quirk code
-
-Sergey Senozhatsky (1):
-       arc: do not use __print_symbol()
-
-Vineet Gupta (3):
-       ARC: uaccess: dont use "l" gcc inline asm constraint modifier
-       ARC: handle gcc generated __builtin_trap()
-       ARC: handle gcc generated __builtin_trap for older compiler
-
-  arch/arc/boot/dts/axc003.dtsi     |  8 ++++++++
-  arch/arc/boot/dts/axc003_idu.dtsi |  8 ++++++++
-  arch/arc/boot/dts/hsdk.dts        |  8 ++++++++
-  arch/arc/configs/hsdk_defconfig   |  5 +++--
-  arch/arc/include/asm/uaccess.h    |  5 +++--
-  arch/arc/kernel/setup.c           |  2 +-
-  arch/arc/kernel/stacktrace.c      |  2 +-
-  arch/arc/kernel/traps.c           | 14 +++++++++++++
-  arch/arc/kernel/troubleshoot.c    |  3 +++
-  arch/arc/plat-axs10x/axs10x.c     | 18 ++++++++---------
-  arch/arc/plat-hsdk/platform.c     | 42 ---------------------------------------
-  11 files changed, 57 insertions(+), 58 deletions(-)
+00010398 <syscall>:
+    10398:	sub_s	sp,sp,0x1c
+    1039a:	mov_s	r8,r0
+    1039c:	st_s	r1,[sp,0]
+    1039e:	st_s	r2,[sp,0x4]
+    103a0:	st_s	r3,[sp,0x8]
+    103a2:	st	r4,[sp,12]
+    103a6:	st	r5,[sp,16]
+    103aa:	st	r6,[sp,20]
+    103ae:	st	r7,[sp,24]
+    103b2:	mov_s	r0,r1
+    103b4:	mov_s	r1,r2
+    103b6:	mov_s	r2,r3
+    103b8:	mov_s	r3,r4
+    103ba:	mov_s	r4,r5
+    103bc:	mov_s	r5,r6
+    103be:	trap_s	0
+    103c0:	brhs.nt	0xfffffc00,r0,20	;103d4 <syscall+0x3c>
+    103c8:	st.aw	blink,[sp,-4]
+    103cc:	bl	84	;10420 <__syscall_error>
+    103d0:	ld.ab	blink,[sp,4]
+    103d4:	j_s.d	[blink]
+    103d6:	add_s	sp,sp,0x1c
