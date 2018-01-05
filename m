@@ -1,54 +1,40 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 4 Jan 2018 10:02:51 +0100
-Subject: [PATCH 30/67] dma-direct: retry allocations using GFP_DMA for
- small masks
-In-Reply-To: <f6139b03-0a4a-a9fe-4818-9b0bccf419e4@arm.com>
-References: <20171229081911.2802-1-hch@lst.de>
- <20171229081911.2802-31-hch@lst.de>
- <f6139b03-0a4a-a9fe-4818-9b0bccf419e4@arm.com>
+From: pmladek@suse.com (Petr Mladek)
+Date: Fri, 5 Jan 2018 11:03:00 +0100
+Subject: [PATCH 00/13] replace print_symbol() with printk()-s
+In-Reply-To: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
+References: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180104090251.GE3251@lst.de>
+Message-ID: <20180105100300.j3svmcvvpfe2iows@pathway.suse.cz>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Jan 02, 2018@04:43:15PM +0000, Vladimir Murzin wrote:
-> On 29/12/17 08:18, Christoph Hellwig wrote:
-> > If we got back an allocation that wasn't inside the support coherent mask,
-> > retry the allocation using GFP_DMA.
-> > 
-> > Based on the x86 code.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> > ---
-> >  lib/dma-direct.c | 25 ++++++++++++++++++++++++-
-> >  1 file changed, 24 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/lib/dma-direct.c b/lib/dma-direct.c
-> > index ab81de3ac1d3..f8467cb3d89a 100644
-> > --- a/lib/dma-direct.c
-> > +++ b/lib/dma-direct.c
-> > @@ -28,6 +28,11 @@ check_addr(struct device *dev, dma_addr_t dma_addr, size_t size,
-> >  	return true;
-> >  }
-> >  
-> > +static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
-> > +{
-> > +	return phys_to_dma(dev, phys) + size <= dev->coherent_dma_mask;
+On Mon 2017-12-11 21:50:12, Sergey Senozhatsky wrote:
+> 	Hello,
 > 
-> Shouldn't it be: phys_to_dma(dev, phys) + size - 1 <= dev->coherent_dma_mask ?
+> 	A rather automatic replacement of print_symbol()
+> with direct printk() calls. print_symbol() uses extra stack
+> buffer (KSYM_SYMBOL_LEN 128 bytes) and, basically, should
+> be identical to printk(%pS).
 
-Yes, I think it should.  The existing code was blindly copy and pasted
-from x86.
+To make it clear, both print_symbol() and printk(%pS)
+print the adress using sprint_symbol(). And even printk(%pS)
+uses the buffer on the stack, see:
 
-> > +	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
-> > +		__free_pages(page, page_order);
-> > +		page = NULL;
-> > +
-> > +		if (dev->coherent_dma_mask < DMA_BIT_MASK(32) &&
-> > +		    !(gfp & GFP_DMA)) {
-> > +			gfp = (gfp & ~GFP_DMA32) | GFP_DMA;
-> > +			goto again;
-> 
-> Shouldn't we limit number of attempts?
+char *symbol_string(char *buf, char *end, void *ptr,
+		    struct printf_spec spec, const char *fmt)
+{
+[...]
+	char sym[KSYM_SYMBOL_LEN];
+[...]
+		sprint_symbol(sym, value);
+}
 
-We only retty once anyway, due to the !GFP_DMA check first and then
-ORing in GFP_DMA.
+Anyway, print_symbol() is an old weird API and it would be nice
+to eventually get rid of it. I could take this patches into
+printk.git. Would you mind if I change the commit messages
+to something like?:
+
+    print_symbol() is an old weird API. It has been
+    obsoleted by printk() and %pS format specifier.
+
+Best Regards,
+Petr
