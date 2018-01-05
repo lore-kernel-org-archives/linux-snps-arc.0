@@ -1,40 +1,28 @@
-From: pmladek@suse.com (Petr Mladek)
-Date: Fri, 5 Jan 2018 11:03:00 +0100
+From: sergey.senozhatsky.work@gmail.com (Sergey Senozhatsky)
+Date: Fri, 5 Jan 2018 19:21:05 +0900
 Subject: [PATCH 00/13] replace print_symbol() with printk()-s
-In-Reply-To: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
+In-Reply-To: <20180105100300.j3svmcvvpfe2iows@pathway.suse.cz>
 References: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
+ <20180105100300.j3svmcvvpfe2iows@pathway.suse.cz>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180105100300.j3svmcvvpfe2iows@pathway.suse.cz>
+Message-ID: <20180105102105.GB471@jagdpanzerIV>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon 2017-12-11 21:50:12, Sergey Senozhatsky wrote:
-> 	Hello,
+On (01/05/18 11:03), Petr Mladek wrote:
+[..]
+> Anyway, print_symbol() is an old weird API and it would be nice
+> to eventually get rid of it. I could take this patches into
+> printk.git.
+
+no objections from my side if the patch set will go through the printk tree.
+shall we wait for ACKs or can we move on? do you plan to land it in 4.16?
+
+> Would you mind if I change the commit messages to something like?:
 > 
-> 	A rather automatic replacement of print_symbol()
-> with direct printk() calls. print_symbol() uses extra stack
-> buffer (KSYM_SYMBOL_LEN 128 bytes) and, basically, should
-> be identical to printk(%pS).
+>     print_symbol() is an old weird API. It has been
+>     obsoleted by printk() and %pS format specifier.
 
-To make it clear, both print_symbol() and printk(%pS)
-print the adress using sprint_symbol(). And even printk(%pS)
-uses the buffer on the stack, see:
+I wouldn't. let's drop the "weird" part. other than that looks
+good to me.
 
-char *symbol_string(char *buf, char *end, void *ptr,
-		    struct printf_spec spec, const char *fmt)
-{
-[...]
-	char sym[KSYM_SYMBOL_LEN];
-[...]
-		sprint_symbol(sym, value);
-}
-
-Anyway, print_symbol() is an old weird API and it would be nice
-to eventually get rid of it. I could take this patches into
-printk.git. Would you mind if I change the commit messages
-to something like?:
-
-    print_symbol() is an old weird API. It has been
-    obsoleted by printk() and %pS format specifier.
-
-Best Regards,
-Petr
+	-ss
