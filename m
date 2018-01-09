@@ -1,34 +1,35 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 9 Jan 2018 16:38:26 +0100
-Subject: [PATCH 16/67] powerpc: rename dma_direct_ to dma_nommu_
-In-Reply-To: <20180104084930.GB3251@lst.de>
+From: jesper.nilsson@axis.com (Jesper Nilsson)
+Date: Tue, 9 Jan 2018 16:53:17 +0100
+Subject: [PATCH 34/67] cris: use dma-direct
+In-Reply-To: <20171229081911.2802-35-hch@lst.de>
 References: <20171229081911.2802-1-hch@lst.de>
- <20171229081911.2802-17-hch@lst.de> <878tdgtwzp.fsf@concordia.ellerman.id.au>
- <20180104084930.GB3251@lst.de>
+ <20171229081911.2802-35-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180109153826.GA10086@lst.de>
+Message-ID: <20180109155317.GN32368@axis.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Jan 04, 2018@09:49:30AM +0100, Christoph Hellwig wrote:
-> On Tue, Jan 02, 2018@08:45:30PM +1100, Michael Ellerman wrote:
-> > Christoph Hellwig <hch at lst.de> writes:
-> > 
-> > > We want to use the dma_direct_ namespace for a generic implementation,
-> > > so rename powerpc to the second best choice: dma_nommu_.
-> > 
-> > I'm not a fan of "nommu". Some of the users of direct ops *are* using an
-> > IOMMU, they're just setting up a 1:1 mapping once at init time, rather
-> > than mapping dynamically.
-> > 
-> > Though I don't have a good idea for a better name, maybe "1to1",
-> > "linear", "premapped" ?
+On Fri, Dec 29, 2017@09:18:38AM +0100, Christoph Hellwig wrote:
+> cris currently has an incomplete direct mapping dma_map_ops implementation
+> is PCI support is enabled.  Replace it with the fully feature generic
+> dma-direct implementation.
 > 
-> It seems like a nice counter part to the dma_iommu_ops used just about
-> anywhere else in ppc.
-> 
-> But I'll happily take any maintainer bike shed decision for the next
-> series.  Remember that in a merge window or two it will hopefully
-> go away in favor of the new generic dma_direct ops.
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Michael, please suggest what name you want for the next iteration,
-I don't want to hold up the series on a naming bikeshed.
+For CRIS:
+
+Acked-by: Jesper Nilsson <jesper.nilsson at axis.com>
+
+> ---
+>  arch/cris/Kconfig                       |  4 ++
+>  arch/cris/arch-v32/drivers/pci/Makefile |  2 +-
+>  arch/cris/arch-v32/drivers/pci/dma.c    | 78 ---------------------------------
+>  arch/cris/include/asm/Kbuild            |  1 +
+>  arch/cris/include/asm/dma-mapping.h     | 20 ---------
+>  5 files changed, 6 insertions(+), 99 deletions(-)
+>  delete mode 100644 arch/cris/arch-v32/drivers/pci/dma.c
+>  delete mode 100644 arch/cris/include/asm/dma-mapping.h
+> 
+
+/^JN - Jesper Nilsson
+-- 
+               Jesper Nilsson -- jesper.nilsson at axis.com
