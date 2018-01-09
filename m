@@ -1,22 +1,43 @@
-From: sergey.senozhatsky.work@gmail.com (Sergey Senozhatsky)
-Date: Mon, 8 Jan 2018 11:09:42 +0900
-Subject: [PATCH 00/13] replace print_symbol() with printk()-s
-In-Reply-To: <20180105144239.i3pc6npgmoi4ddln@pathway.suse.cz>
-References: <20171211125025.2270-1-sergey.senozhatsky@gmail.com>
- <20180105100300.j3svmcvvpfe2iows@pathway.suse.cz>
- <20180105102105.GB471@jagdpanzerIV>
- <20180105102538.GC471@jagdpanzerIV>
- <20180105144239.i3pc6npgmoi4ddln@pathway.suse.cz>
+From: rkuo@codeaurora.org (Richard Kuo)
+Date: Mon, 8 Jan 2018 21:13:39 -0600
+Subject: [PATCH 06/67] hexagon: remove unused flush_write_buffers
+ definition
+In-Reply-To: <20171229081911.2802-7-hch@lst.de>
+References: <20171229081911.2802-1-hch@lst.de>
+ <20171229081911.2802-7-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180108020942.GB533@jagdpanzerIV>
+Message-ID: <20180109031339.GA4196@codeaurora.org>
 To: linux-snps-arc@lists.infradead.org
 
-On (01/05/18 15:42), Petr Mladek wrote:
+On Fri, Dec 29, 2017@09:18:10AM +0100, Christoph Hellwig wrote:
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  arch/hexagon/include/asm/io.h | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> I am all for it. But I would postpone this removal to 4.17.
-> The reason is rather ugly. 13th patch is already in arc tree.
-> We would need to shuffle the patch or coordinate pull requests.
+> diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
+> index 66f5e9a61efc..9e8621d94ee9 100644
+> --- a/arch/hexagon/include/asm/io.h
+> +++ b/arch/hexagon/include/asm/io.h
+> @@ -330,8 +330,6 @@ static inline void outsl(unsigned long port, const void *buffer, int count)
+>  	}
+>  }
+>  
+> -#define flush_write_buffers() do { } while (0)
+> -
+>  #endif /* __KERNEL__ */
+>  
+>  #endif
+> -- 
+> 2.14.2
+> 
 
-JFI, the patch is in Linus's tree as of now (d0729bc6bee797fb).
+For Hexagon:
 
-	-ss
+Acked-by: Richard Kuo <rkuo at codeaurora.org>
+
+
+-- 
+Employee of Qualcomm Innovation Center, Inc.
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, 
+a Linux Foundation Collaborative Project
