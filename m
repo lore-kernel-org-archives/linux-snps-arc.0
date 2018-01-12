@@ -1,48 +1,31 @@
-From: robin.murphy@arm.com (Robin Murphy)
-Date: Wed, 10 Jan 2018 17:00:30 +0000
-Subject: [PATCH 31/33] dma-direct: reject too small dma masks
-In-Reply-To: <20180110153226.GE17790@lst.de>
-References: <20180110080027.13879-1-hch@lst.de>
- <20180110080027.13879-32-hch@lst.de>
- <0bcca030-a8da-c34a-a905-707986689f33@arm.com>
- <20180110153226.GE17790@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 12 Jan 2018 09:41:59 +0100
+Subject: [PATCH 01/34] alpha: mark jensen as broken
+In-Reply-To: <20180112084232.2857-1-hch@lst.de>
+References: <20180112084232.2857-1-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <619b174d-f38d-8d9e-dfd2-cc3a64ace446@arm.com>
+Message-ID: <20180112084232.2857-2-hch@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
+CONFIG_ALPHA_JENSEN has failed to compile since commit 6aca0503
+("alpha/dma: use common noop dma ops"), so mark it as broken.
 
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ arch/alpha/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 10/01/18 15:32, Christoph Hellwig wrote:
-> On Wed, Jan 10, 2018@11:49:34AM +0000, Robin Murphy wrote:
->>> +#ifdef CONFIG_ZONE_DMA
->>> +	if (mask < DMA_BIT_MASK(ARCH_ZONE_DMA_BITS))
->>> +		return 0;
->>> +#else
->>> +	/*
->>> +	 * Because 32-bit DMA masks are so common we expect every architecture
->>> +	 * to be able to satisfy them - either by not supporting more physical
->>> +	 * memory, or by providing a ZONE_DMA32.  If neither is the case, the
->>> +	 * architecture needs to use an IOMMU instead of the direct mapping.
->>> +	 */
->>> +	if (mask < DMA_BIT_MASK(32))
->>> +		return 0;
->>
->> Do you think it's worth the effort to be a little more accommodating here?
->> i.e.:
->>
->> 		return dma_max_pfn(dev) >= max_pfn;
->>
->> We seem to have a fair few 28-31 bit masks for older hardware which
->> probably associates with host systems packing equivalently small amounts of
->> RAM.
-> 
-> And those devices don't have a ZONE_DMA?  I think we could do something
-> like that, but I'd rather have it as a separate commit with a good
-> explanation.  Maybe you can just send on on top of the series?
-
-Good point - other than the IXP4xx platform and possibly the Broadcom 
-network drivers, it's probably only x86-relevant stuff where the concern 
-is moot. Let's just keep the simple assumption then, until actually 
-proven otherwise.
-
-Robin.
+diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+index b31b974a03cb..e96adcbcab41 100644
+--- a/arch/alpha/Kconfig
++++ b/arch/alpha/Kconfig
+@@ -209,6 +209,7 @@ config ALPHA_EIGER
+ 
+ config ALPHA_JENSEN
+ 	bool "Jensen"
++	depends on BROKEN
+ 	help
+ 	  DEC PC 150 AXP (aka Jensen): This is a very old Digital system - one
+ 	  of the first-generation Alpha systems. A number of these systems
+-- 
+2.14.2
