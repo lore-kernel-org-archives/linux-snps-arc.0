@@ -1,9 +1,9 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 17 Jan 2018 16:31:06 +0300
-Subject: [PATCH] ARC: ARCv2: CACHE: fix slc_entire_op: flush only instead of
- flush-n-inv
+Date: Wed, 17 Jan 2018 16:39:17 +0300
+Subject: [PATCH v2] ARC: ARCv2: CACHE: fix slc_entire_op: flush only instead
+ of flush-n-inv
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180117133106.30518-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20180117133917.30649-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 As for today slc_entire_op with OP_FLUSH command flush and invalidate
@@ -15,6 +15,9 @@ so it is kinda preventiv fix.
 
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 ---
+V1 patch is for u-boot (with u-boot AUX registers name), mistakenly sent it
+to linux.
+
  arch/arc/mm/cache.c | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
