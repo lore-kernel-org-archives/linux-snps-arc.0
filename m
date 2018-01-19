@@ -1,74 +1,43 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 19 Jan 2018 11:31:44 -0800
-Subject: [PATCH] arc: fix iounmap prototype
-In-Reply-To: <CAMuHMdVrb56oxz-UuxXAT5c-97J42f+JJ0EY+G6d2vLucDTu5Q@mail.gmail.com>
-References: <20180102110141.1853608-1-arnd@arndb.de>
- <CAMuHMdVrb56oxz-UuxXAT5c-97J42f+JJ0EY+G6d2vLucDTu5Q@mail.gmail.com>
+From: trini@konsulko.com (Tom Rini)
+Date: Fri, 19 Jan 2018 16:11:05 -0500
+Subject: [U-Boot] Please pull ARC changes
+In-Reply-To: <1516374522.3150.6.camel@synopsys.com>
+References: <1516374522.3150.6.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <afb933d6-e325-dc5f-b844-8d3a3df3fd13@synopsys.com>
+Message-ID: <20180119211105.GZ4660@bill-the-cat>
 To: linux-snps-arc@lists.infradead.org
 
-On 01/02/2018 06:23 AM, Geert Uytterhoeven wrote:
-> Hi Arnd,
-> 
-> On Tue, Jan 2, 2018@12:01 PM, Arnd Bergmann <arnd@arndb.de> wrote:
->> The missing 'volatile' keyword on the iounmap argument leads to lots of
->> harmless warnings in an allmodconfig build:
->>
->> sound/pci/echoaudio/echoaudio.c:1879:10: warning: passing argument 1 of 'iounmap' discards 'volatile' qualifier f
->> pointer target type [-Wdiscarded-qualifiers]
->>
->> Signed-off-by: Arnd Bergmann <arnd at arndb.de>
+On Fri, Jan 19, 2018@03:08:42PM +0000, Alexey Brodkin wrote:
 
-Arnd, do you agree to Geert's comments - if you are busy I can respin a v2 ?
+> Hi Tom,
+> 
+> Please pull a series for ARC.
+> 
+> Here we fix L2 cache (AKA SLC) operation found once we disabled
+> usage of IO-coherency in U-Boot, improve support of clock-generation
+> unit (AKA CGU) and also doing some minor clean-up and updates.
+> 
+> The following changes since commit 086ebcd40e9bf8efc520f1b177fd8e3cc0e506fa:
+> 
+>   Merge git://git.denx.de/u-boot-fsl-qoriq (2018-01-17 13:48:35 -0500)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.denx.de/u-boot-arc.git 
+> 
+> for you to fetch changes up to 8f44e1ee799d75eb2b296a7525dc0c3003a3644c:
+> 
+>   ARC: devboards: Allow huge uImages (up to 128 MiB) (2018-01-19 17:59:35 +0300)
+> 
 
-Thx,
--Vineet
+Applied to u-boot/master, thanks!
 
->> ---
->>   arch/arc/include/asm/io.h | 4 ++--
->>   arch/arc/mm/ioremap.c     | 2 +-
->>   2 files changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
->> index c22b181e8206..2c9b98fabf82 100644
->> --- a/arch/arc/include/asm/io.h
->> +++ b/arch/arc/include/asm/io.h
->> @@ -30,11 +30,11 @@ static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
->>          return (void __iomem *)port;
->>   }
->>
->> -static inline void ioport_unmap(void __iomem *addr)
->> +static inline void ioport_unmap(volatile void __iomem *addr)
->>   {
->>   }
->>
->> -extern void iounmap(const void __iomem *addr);
->> +extern void iounmap(const volatile void __iomem *addr);
-> 
-> Note that include/asm-generic/io.h also lacks the volatiles?
-> 
->>
->>   #define ioremap_nocache(phy, sz)       ioremap(phy, sz)
->>   #define ioremap_wc(phy, sz)            ioremap(phy, sz)
->> diff --git a/arch/arc/mm/ioremap.c b/arch/arc/mm/ioremap.c
->> index 9881bd740ccc..94d0116063a8 100644
->> --- a/arch/arc/mm/ioremap.c
->> +++ b/arch/arc/mm/ioremap.c
->> @@ -95,7 +95,7 @@ void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
->>   EXPORT_SYMBOL(ioremap_prot);
->>
->>
->> -void iounmap(const void __iomem *addr)
->> +void iounmap(volatile const void __iomem *addr)
-> 
-> const volatile?
-> 
->>   {
->>          /* weird double cast to handle phys_addr_t > 32 bits */
->>          if (arc_uncached_addr_space((phys_addr_t)(u32)addr))
-> 
-> Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
+-- 
+Tom
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 819 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20180119/fb21a768/attachment.sig>
