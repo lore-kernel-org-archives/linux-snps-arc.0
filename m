@@ -1,59 +1,55 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 18 Jan 2018 14:50:22 -0800
-Subject: [PATCH] ARC: Add a knob to control usage of dual-issue
-In-Reply-To: <1516302661.8324.32.camel@synopsys.com>
-References: <20180118134831.41489-1-abrodkin@synopsys.com>
- <7d97edc0-d0ee-326b-bcd2-c6731aa953b2@synopsys.com>
- <1516302661.8324.32.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 19 Jan 2018 15:08:42 +0000
+Subject: [U-Boot] Please pull ARC changes
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <67318494-971f-0e3f-31e6-d19c59950cd5@synopsys.com>
+Message-ID: <1516374522.3150.6.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 01/18/2018 11:11 AM, Alexey Brodkin wrote:
-> Hi Vineet,
->
-> On Thu, 2018-01-18@10:54 -0800, Vineet Gupta wrote:
->> On 01/18/2018 05:48 AM, Alexey Brodkin wrote:
->>> HS48 core starts with dual-issue enabled but in some cases like
->>> debugging as well as benchmarking it might be useful to disable
->>> dual-issue for a particular run.
->>>
->>> Note:
->>>     1. To disable dual-issue user has to change a value of a global variable
->>>        in target's memory right before start of Linu kernel execution
->>>        (most probably via JTAG)
->>>
->>>     2. Disabling happens very early on boot and to get it back enabled it's
->>>        required to restart Linux kernel. I.e. with this change we don't allow
->>>        toggling dual-issue state in random moments of run-time
->> But we need access to a debugger anyways to change this global variable.
->> If you already have that won't it be better to change the aux register itself from
->> the debugger itself.
->> I don't really see how the global variable way of toggle adds any value here ?
-> I think there's some sense in a global variable.
->
-> 1. Not sure if OpenOCD/GDB pair for ARC allows to read/write random AUX regs.
->     Probably allows but I guess we'll need a new .xml description which lists EXEC_CTRL
->     AUX reg. Correct me if I'm wrong here.
+Hi Tom,
 
-Not sure of this a strong argument ...
+Please pull a series for ARC.
 
->
-> 2. If somebody wants to disable dual-issue persistently (here I mean building an image
->     which had dual-issue disabled and there's no need to alter anything after image loading)
+Here we fix L2 cache (AKA SLC) operation found once we disabled
+usage of IO-coherency in U-Boot, improve support of clock-generation
+unit (AKA CGU) and also doing some minor clean-up and updates.
 
-Ok this is more reasonable !
-But can we do this in early boot code then. There's a fair bit of code leading up 
-to where we are doing now so I'd prefer we do it just as we do for disabling L1 
-caches.
-Please note that SLC / IOC are special - as much as I liked to do them super early 
-- we can't as there's fair bit of code bloat / mem size etc which we don't knwo 
-that early.
+The following changes since commit 086ebcd40e9bf8efc520f1b177fd8e3cc0e506fa:
 
->     then it's possible just to change a simple and very obvious line in arch/arc/kernel/setup.c
->     other than trying to guess what could be good place in sources to stick that AUX reg write.
->     Note we don't explicitly do reads of AUX_EXEC_CTRL instead we just use READ_BCR macro so
->     for newcomers it might not be immediately obvious what to do and where.
->     Add the fact that logic of the flag is reversed...
->
-> -Alexey
+  Merge git://git.denx.de/u-boot-fsl-qoriq (2018-01-17 13:48:35 -0500)
+
+are available in the Git repository at:
+
+  git://git.denx.de/u-boot-arc.git 
+
+for you to fetch changes up to 8f44e1ee799d75eb2b296a7525dc0c3003a3644c:
+
+  ARC: devboards: Allow huge uImages (up to 128 MiB) (2018-01-19 17:59:35 +0300)
+
+----------------------------------------------------------------
+Alexey Brodkin (1):
+      ARC: devboards: Allow huge uImages (up to 128 MiB)
+
+Eugeniy Paltsev (9):
+      ARC: ARCv2: Cache: Fixed operation without IOC
+      ARC: Cache: Disable IOC by default
+      ARC: Cache: Fix style violations reported by checkpatch
+      ARC: HSDK: Hang on panic
+      ARC: HSDK: CGU: Update AXI, TUN, ARC clock options
+      ARC: HSDK: CGU: Use plat data instead of priv data
+      ARC: HSDK: CGU: Add 'Hz' when printing clock frequency
+      ARC: HSDK: DTS: Add cgu-clk node
+      ARC: Invalidate instruction and data caches early on boot
+
+ arch/arc/dts/hsdk.dts                     |   6 ++++
+ arch/arc/include/asm/arcregs.h            |   7 ++++
+ arch/arc/lib/cache.c                      | 208 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------
+-------
+ arch/arc/lib/start.S                      |  12 +++++++
+ configs/hsdk_defconfig                    |   1 +
+ drivers/clk/clk-hsdk-cgu.c                | 177 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------
+ include/configs/axs10x.h                  |   2 +-
+ include/configs/hsdk.h                    |   2 +-
+ include/dt-bindings/clock/snps,hsdk-cgu.h |   8 +++--
+ 9 files changed, 328 insertions(+), 95 deletions(-)
+
+-Alexey
