@@ -1,43 +1,43 @@
-From: trini@konsulko.com (Tom Rini)
-Date: Fri, 19 Jan 2018 16:11:05 -0500
-Subject: [U-Boot] Please pull ARC changes
-In-Reply-To: <1516374522.3150.6.camel@synopsys.com>
-References: <1516374522.3150.6.camel@synopsys.com>
+From: luisbg@kernel.org (Luis de Bethencourt)
+Date: Tue, 23 Jan 2018 15:16:08 +0000
+Subject: [PATCH 1/2] ARC: dw2 unwind: Fix trailing semicolon
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180119211105.GZ4660@bill-the-cat>
+Message-ID: <20180123151609.23555-1-luisbg@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Jan 19, 2018@03:08:42PM +0000, Alexey Brodkin wrote:
+The trailing semicolon is an empty statement that does no operation.
+Removing it since it doesn't do anything.
 
-> Hi Tom,
-> 
-> Please pull a series for ARC.
-> 
-> Here we fix L2 cache (AKA SLC) operation found once we disabled
-> usage of IO-coherency in U-Boot, improve support of clock-generation
-> unit (AKA CGU) and also doing some minor clean-up and updates.
-> 
-> The following changes since commit 086ebcd40e9bf8efc520f1b177fd8e3cc0e506fa:
-> 
->   Merge git://git.denx.de/u-boot-fsl-qoriq (2018-01-17 13:48:35 -0500)
-> 
-> are available in the Git repository at:
-> 
->   git://git.denx.de/u-boot-arc.git 
-> 
-> for you to fetch changes up to 8f44e1ee799d75eb2b296a7525dc0c3003a3644c:
-> 
->   ARC: devboards: Allow huge uImages (up to 128 MiB) (2018-01-19 17:59:35 +0300)
-> 
+Signed-off-by: Luis de Bethencourt <luisbg at kernel.org>
+---
 
-Applied to u-boot/master, thanks!
+Hi,
 
+After fixing the same thing in drivers/staging/rtl8723bs/, Joe Perches
+suggested I fix it treewide [0].
+
+Best regards 
+Luis
+
+
+[0] http://driverdev.linuxdriverproject.org/pipermail/driverdev-devel/2018-January/115410.html
+[1] http://driverdev.linuxdriverproject.org/pipermail/driverdev-devel/2018-January/115390.html
+
+ arch/arc/kernel/unwind.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
+index 333daab7def0..183391d4d33a 100644
+--- a/arch/arc/kernel/unwind.c
++++ b/arch/arc/kernel/unwind.c
+@@ -366,7 +366,7 @@ static void init_unwind_hdr(struct unwind_table *table,
+ 	return;
+ 
+ ret_err:
+-	panic("Attention !!! Dwarf FDE parsing errors\n");;
++	panic("Attention !!! Dwarf FDE parsing errors\n");
+ }
+ 
+ #ifdef CONFIG_MODULES
 -- 
-Tom
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 819 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20180119/fb21a768/attachment.sig>
+2.15.1
