@@ -1,37 +1,19 @@
-From: brgl@bgdev.pl (Bartosz Golaszewski)
-Date: Wed, 24 Jan 2018 22:39:55 +0100
-Subject: [PATCH] arc: dts: use 'atmel' as manufacturer for at24 in axs10x_mb
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 29 Jan 2018 13:37:49 +0000
+Subject: [LEDE-DEV] [PATCH] archs38: bump kernel to 4.14.
+In-Reply-To: <826f0003-fb27-56a7-22c5-e41f12ff79a2@hauke-m.de>
+References: <20180123164848.33426-1-Evgeniy.Didin@synopsys.com>
+ <826f0003-fb27-56a7-22c5-e41f12ff79a2@hauke-m.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180124213955.4975-1-brgl@bgdev.pl>
+Message-ID: <1517233067.3210.2.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Using compatible strings without the <manufacturer> part for at24 is
-now deprecated. Use a correct 'atmel,<model>' value.
+Hi Claudiu,
 
-Signed-off-by: Bartosz Golaszewski <brgl at bgdev.pl>
----
- arch/arc/boot/dts/axs10x_mb.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Could you please comment on the question from Hauke below?
 
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 74d070cd3c13..47b74fbc403c 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -214,13 +214,13 @@
- 			};
- 
- 			eeprom at 0x54{
--				compatible = "24c01";
-+				compatible = "atmel,24c01";
- 				reg = <0x54>;
- 				pagesize = <0x8>;
- 			};
- 
- 			eeprom at 0x57{
--				compatible = "24c04";
-+				compatible = "atmel,24c04";
- 				reg = <0x57>;
- 				pagesize = <0x8>;
- 			};
--- 
-2.16.1
+On Sat, 2018-01-27@16:36 +0100, Hauke Mehrtens wrote:
+> Does the arc CPU also need some special handling like some MIPS CPUs:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bbc25bee37d2b32cf3a1fab9195b6da3a185614a
+
+-Alexey
