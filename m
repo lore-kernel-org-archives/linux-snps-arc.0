@@ -1,44 +1,44 @@
-From: wbx@uclibc-ng.org (Waldemar Brodkorb)
-Date: Fri, 2 Feb 2018 03:33:41 +0100
-Subject: mman.h patch
-In-Reply-To: <358b8834-7a51-5af2-b412-d80294c464ba@synopsys.com>
-References: <20180201193623.GL4279@waldemar-brodkorb.de>
- <358b8834-7a51-5af2-b412-d80294c464ba@synopsys.com>
+From: rdunlap@infradead.org (Randy Dunlap)
+Date: Fri, 2 Feb 2018 09:47:23 -0800
+Subject: [PATCH 22/34] dma-mapping: add an arch_dma_supported hook
+In-Reply-To: <20180112084232.2857-23-hch@lst.de>
+References: <20180112084232.2857-1-hch@lst.de>
+ <20180112084232.2857-23-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180202023341.GO4279@waldemar-brodkorb.de>
+Message-ID: <5d7dfb29-eeef-2280-13c9-5260e9104f67@infradead.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
-Vineet Gupta wrote,
-
-> On 02/01/2018 11:43 AM, Waldemar Brodkorb wrote:
-> >Hi,
-> >
-> >I would like to push attached patch next week.
-> >Any veto?
+On 01/12/2018 12:42 AM, Christoph Hellwig wrote:
+> To implement the x86 forbid_dac and iommu_sac_force we want an arch hook
+> so that it can apply the global options across all dma_map_ops
+> implementations.
 > 
-> So it seems there is code consolidation and additionally there's seems to be
-> a semantical change to ldso mmap().
-> 
-> Assuming __ARCH_USE_MMU__ is true for say ARC, now we have
-> _MAP_UNINITIALIZED == 0 vs. before MAP_UNINITIALIZED == 0x4000000.
-> 
-> So we won't be zero init ldso anon mmaps - which could be functionally OK,
-> but I think better to split it out as a seperate patch just to call this out
-> !
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  arch/x86/include/asm/dma-mapping.h |  3 +++
+>  arch/x86/kernel/pci-dma.c          | 19 ++++++++++++-------
+>  include/linux/dma-mapping.h        | 11 +++++++++++
+>  3 files changed, 26 insertions(+), 7 deletions(-)
 
-I believe MAP_UNINITIALIZED is only used by the Linux kernel for
-noMMU cases, so the ARC definition was wrong.
-Is it really a semantically change, if Linux kernel ignores it for
-MMU targets?
-May be a better commit log like the attached clarifies it?
+> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> index 88bcb1a8211d..d67742dad904 100644
+> --- a/include/linux/dma-mapping.h
+> +++ b/include/linux/dma-mapping.h
+> @@ -576,6 +576,14 @@ static inline int dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
+>  	return 0;
+>  }
+>  
+> +/*
+> + * This is a hack for the legacy x86 forbid_dac and iommu_sac_force. Please
+> + * don't use this is new code.
 
-best regards
- Waldemar
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 0006-bits-mman.h-consolidate-header-file.patch
-Type: text/x-diff
-Size: 70047 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20180202/d9a9e740/attachment-0001.bin>
+                     in new code.
+
+> + */
+> +#ifndef arch_dma_supported
+> +#define arch_dma_supported(dev, mask)	(1)
+> +#endif
+
+
+-- 
+~Randy
