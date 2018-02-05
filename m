@@ -1,24 +1,23 @@
 From: gregkh@linuxfoundation.org (Greg KH)
-Date: Mon, 5 Feb 2018 08:19:06 -0800
-Subject: Add patch "arch: define weak abort()" to 4.14-stable tree
-In-Reply-To: <1517844358.26739.1.camel@synopsys.com>
-References: <1517844358.26739.1.camel@synopsys.com>
+Date: Mon, 5 Feb 2018 08:20:41 -0800
+Subject: Add patch "kernel/exit.c: export abort() to modules" to
+ 4.14-stable tree
+In-Reply-To: <1517844619.26739.5.camel@synopsys.com>
+References: <1517844619.26739.5.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180205161906.GA17767@kroah.com>
+Message-ID: <20180205162041.GB17767@kroah.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Feb 05, 2018@03:25:58PM +0000, Evgeniy Didin wrote:
-> Patch subject:	"arch: define weak abort()"
-> Commit ID:	7c2c11b208be
+On Mon, Feb 05, 2018@03:30:19PM +0000, Evgeniy Didin wrote:
+> Patch subject:	"kernel/exit.c: export abort() to modules"
+> Commit ID:	dc8635b78cd8
 > Reason:?	While building mpi.ko module with lastest stable Linux 
 > 		v4.14.17 an error occured:
 > 		>ERROR: "abort" [lib/mpi/mpi.ko] undefined!
-> Kernel version: 4.14.x
+> Kernel version:	4.14.x
 
-What kernel config is causing this build error?  I don't see it here,
-nor have I seen it reported in any other built test.
-
-And what kernel version did this break on?
+Same questions as before, what config is causing this, and when did it
+break?
 
 thanks,
 
