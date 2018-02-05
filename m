@@ -1,39 +1,13 @@
-From: ulfalizer@gmail.com (Ulf Magnusson)
-Date: Mon,  5 Feb 2018 02:21:31 +0100
-Subject: [PATCH 19/20] ARC: Fix malformed ARC_EMUL_UNALIGNED default
-In-Reply-To: <20180205012146.23981-1-ulfalizer@gmail.com>
-References: <20180205012146.23981-1-ulfalizer@gmail.com>
+From: Evgeniy.Didin@synopsys.com (Evgeniy Didin)
+Date: Mon, 5 Feb 2018 15:25:58 +0000
+Subject: Add patch "arch: define weak abort()" to 4.14-stable tree
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180205012146.23981-20-ulfalizer@gmail.com>
+Message-ID: <1517844358.26739.1.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-'default N' should be 'default n', though they happen to have the same
-effect here, due to undefined symbols (N in this case) evaluating to n
-in a tristate sense.
-
-Remove the default from ARC_EMUL_UNALIGNED instead of changing it. bool
-and tristate symbols implicitly default to n.
-
-Discovered with the
-https://github.com/ulfalizer/Kconfiglib/blob/master/examples/list_undefined.py
-script.
-
-Signed-off-by: Ulf Magnusson <ulfalizer at gmail.com>
----
- arch/arc/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index f3a80cf164cc..d76bf4a83740 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -484,7 +484,6 @@ config ARC_CURR_IN_REG
- 
- config ARC_EMUL_UNALIGNED
- 	bool "Emulate unaligned memory access (userspace only)"
--	default N
- 	select SYSCTL_ARCH_UNALIGN_NO_WARN
- 	select SYSCTL_ARCH_UNALIGN_ALLOW
- 	depends on ISA_ARCOMPACT
--- 
-2.14.1
+Patch subject:	"arch: define weak abort()"
+Commit ID:	7c2c11b208be
+Reason:?	While building mpi.ko module with lastest stable Linux 
+		v4.14.17 an error occured:
+		>ERROR: "abort" [lib/mpi/mpi.ko] undefined!
+Kernel version: 4.14.x
