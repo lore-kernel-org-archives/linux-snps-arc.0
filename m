@@ -1,42 +1,32 @@
-From: brgl@bgdev.pl (Bartosz Golaszewski)
-Date: Tue,  6 Feb 2018 12:08:10 +0100
-Subject: [PATCH v2] arc: dts: use 'atmel' as manufacturer for at24 in axs10x_mb
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue, 6 Feb 2018 12:25:24 +0000
+Subject: [PATCH v2] arc: dts: use 'atmel' as manufacturer for at24 in
+ axs10x_mb
+In-Reply-To: <20180206110810.9093-1-brgl@bgdev.pl>
+References: <20180206110810.9093-1-brgl@bgdev.pl>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180206110810.9093-1-brgl@bgdev.pl>
+Message-ID: <1517919923.6726.13.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Using compatible strings without the <manufacturer> part for at24 is
-deprecated since commit 6da28acf745f ("dt-bindings: at24: consistently
-document the compatible property"). Use a correct 'atmel,<model>'
-value.
+Hi Bartosz,
 
-Signed-off-by: Bartosz Golaszewski <brgl at bgdev.pl>
----
-- explicitly mention the commit in which we deprecated compatible
-  fallbacks other than "atmel,<manufacturer>"
+On Tue, 2018-02-06@12:08 +0100, Bartosz Golaszewski wrote:
+> Using compatible strings without the <manufacturer> part for at24 is
+> deprecated since commit 6da28acf745f ("dt-bindings: at24: consistently
+> document the compatible property"). Use a correct 'atmel,<model>'
+> value.
+> 
+> Signed-off-by: Bartosz Golaszewski <brgl at bgdev.pl>
 
- arch/arc/boot/dts/axs10x_mb.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+So my further input might be a bit unexpected :)
 
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 74d070cd3c13..47b74fbc403c 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -214,13 +214,13 @@
- 			};
- 
- 			eeprom at 0x54{
--				compatible = "24c01";
-+				compatible = "atmel,24c01";
- 				reg = <0x54>;
- 				pagesize = <0x8>;
- 			};
- 
- 			eeprom at 0x57{
--				compatible = "24c04";
-+				compatible = "atmel,24c04";
- 				reg = <0x57>;
- 				pagesize = <0x8>;
- 			};
--- 
-2.16.1
+I took a look at the real board and understood that we specified in .dts
+wrong ICs. Those Atmel parts are not connected to the CPU at all (used by some
+external device) and instead I2C EEPROM we really have connected (but not yet
+obviously used in the Linux kernel) is NXP's PCF8594C-2.
+
+That said we may accept your change because it doesn't break anything
+and then I'll send an update to axs10x_mb.dts with replacement of EEPROM nodes.
+Or we may drop your change at all since I'm going to replace corresponding nodes.
+
+-Alexey
