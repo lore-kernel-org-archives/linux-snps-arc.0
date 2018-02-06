@@ -1,29 +1,42 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 5 Feb 2018 18:38:51 +0000
-Subject: [PATCH] arc: dts: use 'atmel' as manufacturer for at24 in
- axs10x_mb
-In-Reply-To: <20180124213955.4975-1-brgl@bgdev.pl>
-References: <20180124213955.4975-1-brgl@bgdev.pl>
+From: brgl@bgdev.pl (Bartosz Golaszewski)
+Date: Tue,  6 Feb 2018 12:08:10 +0100
+Subject: [PATCH v2] arc: dts: use 'atmel' as manufacturer for at24 in axs10x_mb
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <4881796E12491D4BB15146FE0209CE646802914A@DE02WEMBXB.internal.synopsys.com>
+Message-ID: <20180206110810.9093-1-brgl@bgdev.pl>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Bartosz, all,
+Using compatible strings without the <manufacturer> part for at24 is
+deprecated since commit 6da28acf745f ("dt-bindings: at24: consistently
+document the compatible property"). Use a correct 'atmel,<model>'
+value.
 
-> -----Original Message-----
-> From: Bartosz Golaszewski [mailto:brgl at bgdev.pl]
-> Sent: Thursday, January 25, 2018 12:40 AM
-> To: Rob Herring <robh+dt at kernel.org>; Mark Rutland <mark.rutland at arm.com>; Russell King <linux at armlinux.org.uk>; Alexey
-> Brodkin <Alexey.Brodkin at synopsys.com>; Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-> Cc: devicetree at vger.kernel.org; linux-kernel at vger.kernel.org; linux-snps-arc at lists.infradead.org; Bartosz Golaszewski
-> <brgl at bgdev.pl>
-> Subject: [PATCH] arc: dts: use 'atmel' as manufacturer for at24 in axs10x_mb
-> 
-> Using compatible strings without the <manufacturer> part for at24 is
-> now deprecated. Use a correct 'atmel,<model>' value.
+Signed-off-by: Bartosz Golaszewski <brgl at bgdev.pl>
+---
+- explicitly mention the commit in which we deprecated compatible
+  fallbacks other than "atmel,<manufacturer>"
 
-Even though I agree with this change itself I think it may worth
-mentioning an explicit commit that deprecated manufacturer'less parts.
+ arch/arc/boot/dts/axs10x_mb.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
--Alexey
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index 74d070cd3c13..47b74fbc403c 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -214,13 +214,13 @@
+ 			};
  
+ 			eeprom at 0x54{
+-				compatible = "24c01";
++				compatible = "atmel,24c01";
+ 				reg = <0x54>;
+ 				pagesize = <0x8>;
+ 			};
+ 
+ 			eeprom at 0x57{
+-				compatible = "24c04";
++				compatible = "atmel,24c04";
+ 				reg = <0x57>;
+ 				pagesize = <0x8>;
+ 			};
+-- 
+2.16.1
