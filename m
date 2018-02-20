@@ -1,116 +1,37 @@
-From: mpe@ellerman.id.au (Michael Ellerman)
-Date: Tue, 20 Feb 2018 17:19:31 +1100
+From: jani.nikula@linux.intel.com (Jani Nikula)
+Date: Tue, 20 Feb 2018 10:03:56 +0200
 Subject: [PATCH] fix double ;;s in code
-In-Reply-To: <20180219154135.GV22199@phenom.ffwll.local>
+In-Reply-To: <20180219193312.GA3709@amd>
 References: <20180217211955.GE9640@amd>
  <187435d4-5017-edb5-9b6a-b433a148bfcc@c-s.fr>
- <20180219154135.GV22199@phenom.ffwll.local>
+ <20180219154135.GV22199@phenom.ffwll.local> <20180219193312.GA3709@amd>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <87vaesrxn0.fsf@concordia.ellerman.id.au>
+Message-ID: <87o9kkcck3.fsf@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-Daniel Vetter <daniel at ffwll.ch> writes:
-> On Sun, Feb 18, 2018@11:00:56AM +0100, Christophe LEROY wrote:
->> Le 17/02/2018 ? 22:19, Pavel Machek a ?crit?:
->> > 
->> > Fix double ;;'s in code.
->> > 
->> > Signed-off-by: Pavel Machek <pavel at ucw.cz>
->> 
->> A summary of the files modified on top of the patch would help understand
->> the impact.
->> 
->> A maybe there should be one patch by area, eg one for each arch specific
->> modif and one for drivers/ and one for block/ ?
+On Mon, 19 Feb 2018, Pavel Machek <pavel@ucw.cz> wrote:
+> On Mon 2018-02-19 16:41:35, Daniel Vetter wrote:
+>> Yeah, pls split this into one patch per area, with a suitable patch
+>> subject prefix. Look at git log of each file to get a feeling for what's
+>> the standard in each area.
 >
-> Yeah, pls split this into one patch per area, with a suitable patch
-> subject prefix. Look at git log of each file to get a feeling for what's
-> the standard in each area.
+> Yeah I can spend hour spliting it, and then people will ignore it
+> anyway.
+>
+> If you care about one of the files being modified, please fix the
+> bug, ";;" is a clear bug.
+>
+> If you don't care ... well I don't care either.
 
-This part is actually pretty annoying.
+Look, if this causes just one conflict down the line because it touches
+the kernel all over the place, then IMO it already wasn't worth
+it. Merge conflicts are inevitable, but there's no reason to make life
+harder just to cater for a cleanup patch. It's not that important.
 
-I hacked up a script (below) which seems to do a reasonable job in most
-cases.
+Had it been split up, the drm parts would've been merged already.
 
-For this patch it gives:
+BR,
+Jani.
 
-  $ for f in $(git ls-files -m); do ./guess-prefix.py $f; done
-  ARC: 
-  ARC: 
-  ARM: 
-  arm64: ptrace: 
-  KVM: PPC: 
-  powerpc/powernv:
-  x86/efi:
-  block/sed-opal:
-  clocksource: mips-gic: 
-  clocksource/drivers/sun5i:
-  drm/amd/display:
-  drm/amd/powerplay:
-  drm/msm/mdp5:
-  drm: 
-  iommu/vt-d:
-  md: 
-  soc: imx: gpc: 
-
-I think those are correct except for:
- - "drm:" for "drivers/gpu/drm/scheduler" which has only a single commit.
- - "md:" for "drivers/md/raid1.c" which is tricked by inconsistent
-    usage of "md: raid1:" and "md/raid1:".
-
-But that seems like a reasonable hit rate.
-
-Another approach would be to have a file that defines for each subsystem
-what the preferred style is, but that is likely to be a PITA to
-maintain.
-
-cheers
-
-
-#!/usr/bin/python3
-
-import sys
-import re
-from subprocess import check_output
-from collections import Counter
-
-if len(sys.argv) != 2:
-    print('Usage: %s <path>' % sys.argv[0], file=sys.stderr)
-    sys.exit(1)
-
-fname = sys.argv[1]
-
-cmd = ['git', 'log', '--format=%s', '-n', '100', fname]
-output = check_output(cmd).decode('utf-8')
-
-ignore = ['License', 'Merge']
-
-# Ordered list of patterns
-patterns = [
-    # Common style "foo/bar/baz: Fix the foo"
-    re.compile('^([\w\-_]+: )+'),
-    # Less common "foo bar baz: Fix the foo"
-    re.compile('^([\w\-_]+:? )+: ')
-]
-
-words = []
-for line in output.splitlines():
-    prefix = line.split()[0]
-    for patt in patterns:
-        match = patt.search(line)
-        if match:
-            prefix = match.group(0)
-            break
-
-    if prefix in ignore:
-        continue
-
-    words.append(prefix)
-
-# Warn if we didn't find many examples
-if len(words) < 5:
-    print("Warning: only found %d previous commits to guess from for" % len(words),
-          fname, file=sys.stderr)
-
-counts = Counter(words)
-print(counts.most_common(1)[0][0])
+-- 
+Jani Nikula, Intel Open Source Technology Center
