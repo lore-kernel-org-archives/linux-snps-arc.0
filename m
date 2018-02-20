@@ -1,43 +1,41 @@
 From: geert+renesas@glider.be (Geert Uytterhoeven)
-Date: Tue, 20 Feb 2018 10:40:16 +0100
-Subject: [PATCH 1/9] serial: arc_uart: Fix out-of-bounds access through DT
- alias
+Date: Tue, 20 Feb 2018 10:40:21 +0100
+Subject: [PATCH 6/9] serial: samsung: Fix out-of-bounds access through DT alias
 In-Reply-To: <1519119624-1268-1-git-send-email-geert+renesas@glider.be>
 References: <1519119624-1268-1-git-send-email-geert+renesas@glider.be>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1519119624-1268-2-git-send-email-geert+renesas@glider.be>
+Message-ID: <1519119624-1268-7-git-send-email-geert+renesas@glider.be>
 To: linux-snps-arc@lists.infradead.org
 
-The arc_uart_ports[] array is indexed using a value derived from the
-"serialN" alias in DT, which may lead to an out-of-bounds access.
+The s3c24xx_serial_ports[] array is indexed using a value derived from
+the "serialN" alias in DT, which may lead to an out-of-bounds access.
 
 Fix this by adding a range check.
 
 Note that the array size is defined by a Kconfig symbol
-(CONFIG_SERIAL_ARC_NR_PORTS), so this can even be triggered using a
+(CONFIG_SERIAL_SAMSUNG_UARTS), so this can even be triggered using a
 legitimate DTB.
 
-Fixes: 10640deb04b7949a ("serial: arc_uart: Fix out-of-bounds access through DT alias")
+Fixes: 3ac337e76a1c637b ("serial: samsung: Fix out-of-bounds access through DT alias")
 Signed-off-by: Geert Uytterhoeven <geert+renesas at glider.be>
 ---
- drivers/tty/serial/arc_uart.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/tty/serial/samsung.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/tty/serial/arc_uart.c b/drivers/tty/serial/arc_uart.c
-index 2599f9ecccfe7769..1cb827a6b836d0dd 100644
---- a/drivers/tty/serial/arc_uart.c
-+++ b/drivers/tty/serial/arc_uart.c
-@@ -593,6 +593,11 @@ static int arc_serial_probe(struct platform_device *pdev)
- 	if (dev_id < 0)
- 		dev_id = 0;
+diff --git a/drivers/tty/serial/samsung.c b/drivers/tty/serial/samsung.c
+index f9fecc5ed0cee826..9ea42197ceefabba 100644
+--- a/drivers/tty/serial/samsung.c
++++ b/drivers/tty/serial/samsung.c
+@@ -1818,6 +1818,10 @@ static int s3c24xx_serial_probe(struct platform_device *pdev)
  
-+	if (dev_id >= CONFIG_SERIAL_ARC_NR_PORTS) {
-+		dev_err(&pdev->dev, "serial%d out of range\n", dev_id);
+ 	dbg("s3c24xx_serial_probe(%p) %d\n", pdev, index);
+ 
++	if (index >= CONFIG_SERIAL_SAMSUNG_UARTS) {
++		dev_err(&pdev->dev, "serial%d out of range\n", index);
 +		return -EINVAL;
 +	}
-+
- 	uart = &arc_uart_ports[dev_id];
- 	port = &uart->port;
+ 	ourport = &s3c24xx_serial_ports[index];
  
+ 	ourport->drv_data = s3c24xx_get_driver_data(pdev);
 -- 
 2.7.4
