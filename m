@@ -1,41 +1,38 @@
 From: geert+renesas@glider.be (Geert Uytterhoeven)
-Date: Tue, 20 Feb 2018 10:40:22 +0100
-Subject: [PATCH 7/9] serial: sh-sci: Fix out-of-bounds access through DT alias
+Date: Tue, 20 Feb 2018 10:40:23 +0100
+Subject: [PATCH 8/9] serial: sirf: Fix out-of-bounds access through DT alias
 In-Reply-To: <1519119624-1268-1-git-send-email-geert+renesas@glider.be>
 References: <1519119624-1268-1-git-send-email-geert+renesas@glider.be>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1519119624-1268-8-git-send-email-geert+renesas@glider.be>
+Message-ID: <1519119624-1268-9-git-send-email-geert+renesas@glider.be>
 To: linux-snps-arc@lists.infradead.org
 
-The sci_ports[] array is indexed using a value derived from the
+The sirf_ports[] array is indexed using a value derived from the
 "serialN" alias in DT, which may lead to an out-of-bounds access.
 
 Fix this by adding a range check.
 
-Note that the array size is defined by a Kconfig symbol
-(CONFIG_SERIAL_SH_SCI_NR_UARTS), so this can even be triggered using a
-legitimate DTB.
-
-Fixes: f650cdf1c115498e ("serial: sh-sci: Fix out-of-bounds access through DT alias")
+Fixes: 66c7ab1120585d18 ("serial: sirf: Fix out-of-bounds access through DT alias")
 Signed-off-by: Geert Uytterhoeven <geert+renesas at glider.be>
 ---
- drivers/tty/serial/sh-sci.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/tty/serial/sirfsoc_uart.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index 4d14f321cbec95e0..0fb4784860da6188 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -3620,6 +3620,10 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
- 		dev_err(&pdev->dev, "failed to get alias id (%d)\n", id);
- 		return NULL;
+diff --git a/drivers/tty/serial/sirfsoc_uart.c b/drivers/tty/serial/sirfsoc_uart.c
+index 9925b00a97772a1b..701df3319ff7579d 100644
+--- a/drivers/tty/serial/sirfsoc_uart.c
++++ b/drivers/tty/serial/sirfsoc_uart.c
+@@ -1283,6 +1283,11 @@ static int sirfsoc_uart_probe(struct platform_device *pdev)
+ 		goto err;
  	}
-+	if (id >= SCI_NPORTS) {
-+		dev_err(&pdev->dev, "serial%d out of range\n", id);
-+		return NULL;
+ 	sirfport->port.line = of_alias_get_id(np, "serial");
++	if (sirfport->port.line >= SIRFSOC_UART_NR) {
++		dev_err(&pdev->dev, "serial%d out of range\n",
++			sirfport->port.line);
++		return -EINVAL;
 +	}
- 
- 	sp = &sci_ports[id];
- 	*dev_id = id;
+ 	sirf_ports[sirfport->port.line] = sirfport;
+ 	sirfport->port.iotype = UPIO_MEM;
+ 	sirfport->port.flags = UPF_BOOT_AUTOCONF;
 -- 
 2.7.4
