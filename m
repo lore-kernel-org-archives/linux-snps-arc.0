@@ -1,41 +1,41 @@
 From: geert+renesas@glider.be (Geert Uytterhoeven)
-Date: Tue, 20 Feb 2018 10:40:21 +0100
-Subject: [PATCH 6/9] serial: samsung: Fix out-of-bounds access through DT alias
+Date: Tue, 20 Feb 2018 10:40:22 +0100
+Subject: [PATCH 7/9] serial: sh-sci: Fix out-of-bounds access through DT alias
 In-Reply-To: <1519119624-1268-1-git-send-email-geert+renesas@glider.be>
 References: <1519119624-1268-1-git-send-email-geert+renesas@glider.be>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1519119624-1268-7-git-send-email-geert+renesas@glider.be>
+Message-ID: <1519119624-1268-8-git-send-email-geert+renesas@glider.be>
 To: linux-snps-arc@lists.infradead.org
 
-The s3c24xx_serial_ports[] array is indexed using a value derived from
-the "serialN" alias in DT, which may lead to an out-of-bounds access.
+The sci_ports[] array is indexed using a value derived from the
+"serialN" alias in DT, which may lead to an out-of-bounds access.
 
 Fix this by adding a range check.
 
 Note that the array size is defined by a Kconfig symbol
-(CONFIG_SERIAL_SAMSUNG_UARTS), so this can even be triggered using a
+(CONFIG_SERIAL_SH_SCI_NR_UARTS), so this can even be triggered using a
 legitimate DTB.
 
-Fixes: 3ac337e76a1c637b ("serial: samsung: Fix out-of-bounds access through DT alias")
+Fixes: f650cdf1c115498e ("serial: sh-sci: Fix out-of-bounds access through DT alias")
 Signed-off-by: Geert Uytterhoeven <geert+renesas at glider.be>
 ---
- drivers/tty/serial/samsung.c | 4 ++++
+ drivers/tty/serial/sh-sci.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/drivers/tty/serial/samsung.c b/drivers/tty/serial/samsung.c
-index f9fecc5ed0cee826..9ea42197ceefabba 100644
---- a/drivers/tty/serial/samsung.c
-+++ b/drivers/tty/serial/samsung.c
-@@ -1818,6 +1818,10 @@ static int s3c24xx_serial_probe(struct platform_device *pdev)
- 
- 	dbg("s3c24xx_serial_probe(%p) %d\n", pdev, index);
- 
-+	if (index >= CONFIG_SERIAL_SAMSUNG_UARTS) {
-+		dev_err(&pdev->dev, "serial%d out of range\n", index);
-+		return -EINVAL;
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index 4d14f321cbec95e0..0fb4784860da6188 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -3620,6 +3620,10 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
+ 		dev_err(&pdev->dev, "failed to get alias id (%d)\n", id);
+ 		return NULL;
+ 	}
++	if (id >= SCI_NPORTS) {
++		dev_err(&pdev->dev, "serial%d out of range\n", id);
++		return NULL;
 +	}
- 	ourport = &s3c24xx_serial_ports[index];
  
- 	ourport->drv_data = s3c24xx_get_driver_data(pdev);
+ 	sp = &sci_ports[id];
+ 	*dev_id = id;
 -- 
 2.7.4
