@@ -1,37 +1,35 @@
-From: jani.nikula@linux.intel.com (Jani Nikula)
-Date: Tue, 20 Feb 2018 10:03:56 +0200
-Subject: [PATCH] fix double ;;s in code
-In-Reply-To: <20180219193312.GA3709@amd>
-References: <20180217211955.GE9640@amd>
- <187435d4-5017-edb5-9b6a-b433a148bfcc@c-s.fr>
- <20180219154135.GV22199@phenom.ffwll.local> <20180219193312.GA3709@amd>
+From: geert+renesas@glider.be (Geert Uytterhoeven)
+Date: Tue, 20 Feb 2018 10:40:24 +0100
+Subject: [PATCH 9/9] serial: xuartps: Fix out-of-bounds access through DT alias
+In-Reply-To: <1519119624-1268-1-git-send-email-geert+renesas@glider.be>
+References: <1519119624-1268-1-git-send-email-geert+renesas@glider.be>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <87o9kkcck3.fsf@intel.com>
+Message-ID: <1519119624-1268-10-git-send-email-geert+renesas@glider.be>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, 19 Feb 2018, Pavel Machek <pavel@ucw.cz> wrote:
-> On Mon 2018-02-19 16:41:35, Daniel Vetter wrote:
->> Yeah, pls split this into one patch per area, with a suitable patch
->> subject prefix. Look at git log of each file to get a feeling for what's
->> the standard in each area.
->
-> Yeah I can spend hour spliting it, and then people will ignore it
-> anyway.
->
-> If you care about one of the files being modified, please fix the
-> bug, ";;" is a clear bug.
->
-> If you don't care ... well I don't care either.
+The cdns_uart_port[] array is indexed using a value derived from the
+"serialN" alias in DT, which may lead to an out-of-bounds access.
 
-Look, if this causes just one conflict down the line because it touches
-the kernel all over the place, then IMO it already wasn't worth
-it. Merge conflicts are inevitable, but there's no reason to make life
-harder just to cater for a cleanup patch. It's not that important.
+Fix this by adding a range check.
 
-Had it been split up, the drm parts would've been merged already.
+Fixes: 1f118c02a1819856 ("serial: xuartps: Fix out-of-bounds access through DT alias")
+Signed-off-by: Geert Uytterhoeven <geert+renesas at glider.be>
+---
+ drivers/tty/serial/xilinx_uartps.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-BR,
-Jani.
-
+diff --git a/drivers/tty/serial/xilinx_uartps.c b/drivers/tty/serial/xilinx_uartps.c
+index b9b2bc76bcac606c..abcb4d09a2d866d0 100644
+--- a/drivers/tty/serial/xilinx_uartps.c
++++ b/drivers/tty/serial/xilinx_uartps.c
+@@ -1110,7 +1110,7 @@ static struct uart_port *cdns_uart_get_port(int id)
+ 	struct uart_port *port;
+ 
+ 	/* Try the given port id if failed use default method */
+-	if (cdns_uart_port[id].mapbase != 0) {
++	if (id < CDNS_UART_NR_PORTS && cdns_uart_port[id].mapbase != 0) {
+ 		/* Find the next unused port */
+ 		for (id = 0; id < CDNS_UART_NR_PORTS; id++)
+ 			if (cdns_uart_port[id].mapbase == 0)
 -- 
-Jani Nikula, Intel Open Source Technology Center
+2.7.4
