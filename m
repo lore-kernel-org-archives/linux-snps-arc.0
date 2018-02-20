@@ -1,47 +1,83 @@
-From: michal.simek@xilinx.com (Michal Simek)
-Date: Tue, 20 Feb 2018 13:39:25 +0100
-Subject: [PATCH 9/9] serial: xuartps: Fix out-of-bounds access through DT
- alias
-In-Reply-To: <CAMuHMdWe9XkoDKkyfu1pOG0oS0_Tdx1w=OOk05EvTr_dK=tp7Q@mail.gmail.com>
-References: <1519119624-1268-1-git-send-email-geert+renesas@glider.be>
- <1519119624-1268-10-git-send-email-geert+renesas@glider.be>
- <c16b025a-a302-8515-2697-f7eca478e939@xilinx.com>
- <CAMuHMdUOKMM5mSrnnrxCi0gX_TbjYkj7vwn11b2D5p7XigM+Ag@mail.gmail.com>
- <6cabf7c6-302e-efa9-8f4d-25fd35ecddad@xilinx.com>
- <CAMuHMdWe9XkoDKkyfu1pOG0oS0_Tdx1w=OOk05EvTr_dK=tp7Q@mail.gmail.com>
+From: andy.shevchenko@gmail.com (Andy Shevchenko)
+Date: Tue, 20 Feb 2018 15:39:17 +0200
+Subject: [PATCH 1/2] dmaengine: Introduce DW AXI DMAC driver
+In-Reply-To: <20180220123047.24469-2-Eugeniy.Paltsev@synopsys.com>
+References: <20180220123047.24469-1-Eugeniy.Paltsev@synopsys.com>
+ <20180220123047.24469-2-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <aa9792b6-14c2-0bf9-712d-f537050ea9df@xilinx.com>
+Message-ID: <CAHp75VdQ_tVG29+JdycoTg-0tBAxKa9dNvesU-b+f8RqhQf4Rw@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 20.2.2018 13:27, Geert Uytterhoeven wrote:
-> Hi Michal,
-> 
-> On Tue, Feb 20, 2018@12:27 PM, Michal Simek <michal.simek@xilinx.com> wrote:
->> On 20.2.2018 11:38, Geert Uytterhoeven wrote:
->>> On Tue, Feb 20, 2018@11:22 AM, Michal Simek <michal.simek@xilinx.com> wrote:
->>>> On 20.2.2018 10:40, Geert Uytterhoeven wrote:
->>>>> The cdns_uart_port[] array is indexed using a value derived from the
->>>>> "serialN" alias in DT, which may lead to an out-of-bounds access.
->>>>>
->>>>> Fix this by adding a range check.
-> 
->> I have checked 4 patches I have sent in past which didn't reach mainline
->> (probably because of RFC)
->> Take a look at
->> https://www.spinics.net/lists/linux-serial/msg27106.html
->>
->> I have removed cdns_uart_port array completely there.
-> 
-> Nice! I'd love to get rid of fixed arrays in serial...
-> 
-> However, IMHO it's still worthwhile to fix the out-of-bounds access first,
-> as that fix can be backported to stable kernels easily.
+On Tue, Feb 20, 2018 at 2:30 PM, Eugeniy Paltsev
+<Eugeniy.Paltsev@synopsys.com> wrote:
+> This patch adds support for the DW AXI DMAC controller.
+> DW AXI DMAC is a part of HSDK development board from Synopsys.
+>
+> In this driver implementation only DMA_MEMCPY transfers are
+> supported.
 
-I agree with you. Not a problem with your patch and for me it won't be
-problem to rebase.
+Just few comments, code looks fine I hope.
 
-I would love to get rid of CDNS_UART_NR_PORTS but unfortunately this is
-passed to core via .nr.
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13344,6 +13344,12 @@ F:     include/linux/dma/dw.h
+>  F:     include/linux/platform_data/dma-dw.h
+>  F:     drivers/dma/dw/
+>
+> +SYNOPSYS DESIGNWARE AXI DMAC DRIVER
+> +M:     Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> +S:     Maintained
+> +F:     drivers/dma/dwi-axi-dmac/
+> +F:     Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.txt
 
-Thanks,
-Michal
+AXI is earlier in alphabet than DMAC in previous record.
+
+Linus even submitted a script last year to sort the MAINTAINERS data base.
+
+> +/*
+> + * Synopsys DesignWare AXI DMA Controller driver.
+> + *
+> + * Copyright (C) 2017-2018 Synopsys, Inc. (www.synopsys.com)
+> + * Author: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License version 2 as
+> + * published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + */
+
+Now we have SPDX identifiers.
+
+> +static u32 axi_chan_get_xfer_width(struct axi_dma_chan *chan, dma_addr_t src,
+> +                                  dma_addr_t dst, size_t len)
+> +{
+> +       u32 max_width = chan->chip->dw->hdata->m_data_width;
+> +
+> +       return min_t(size_t, __ffs(src | dst | len), max_width);
+
+size_t -> u32 ?
+
+> +}
+
+> +       unsigned int timeout = 20; /* timeout iterations */
+
+> +       do  {
+> +               if (axi_chan_irq_read(chan) & DWAXIDMAC_IRQ_SUSPENDED) {
+> +                       ret = 0;
+> +                       break;
+> +               }
+> +               udelay(2);
+> +       } while (timeout--);
+
+Off-by-one. You will have 21 tries here.
+
+} while (--timeout);
+
+-- 
+With Best Regards,
+Andy Shevchenko
