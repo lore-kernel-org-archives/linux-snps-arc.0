@@ -1,67 +1,47 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 20 Feb 2018 15:30:47 +0300
-Subject: [PATCH 2/2] dt-bindings: Document the Synopsys DW AXI DMA bindings
-In-Reply-To: <20180220123047.24469-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180220123047.24469-1-Eugeniy.Paltsev@synopsys.com>
+From: michal.simek@xilinx.com (Michal Simek)
+Date: Tue, 20 Feb 2018 13:39:25 +0100
+Subject: [PATCH 9/9] serial: xuartps: Fix out-of-bounds access through DT
+ alias
+In-Reply-To: <CAMuHMdWe9XkoDKkyfu1pOG0oS0_Tdx1w=OOk05EvTr_dK=tp7Q@mail.gmail.com>
+References: <1519119624-1268-1-git-send-email-geert+renesas@glider.be>
+ <1519119624-1268-10-git-send-email-geert+renesas@glider.be>
+ <c16b025a-a302-8515-2697-f7eca478e939@xilinx.com>
+ <CAMuHMdUOKMM5mSrnnrxCi0gX_TbjYkj7vwn11b2D5p7XigM+Ag@mail.gmail.com>
+ <6cabf7c6-302e-efa9-8f4d-25fd35ecddad@xilinx.com>
+ <CAMuHMdWe9XkoDKkyfu1pOG0oS0_Tdx1w=OOk05EvTr_dK=tp7Q@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180220123047.24469-3-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <aa9792b6-14c2-0bf9-712d-f537050ea9df@xilinx.com>
 To: linux-snps-arc@lists.infradead.org
 
-This patch adds documentation of device tree bindings for the Synopsys
-DesignWare AXI DMA controller.
+On 20.2.2018 13:27, Geert Uytterhoeven wrote:
+> Hi Michal,
+> 
+> On Tue, Feb 20, 2018@12:27 PM, Michal Simek <michal.simek@xilinx.com> wrote:
+>> On 20.2.2018 11:38, Geert Uytterhoeven wrote:
+>>> On Tue, Feb 20, 2018@11:22 AM, Michal Simek <michal.simek@xilinx.com> wrote:
+>>>> On 20.2.2018 10:40, Geert Uytterhoeven wrote:
+>>>>> The cdns_uart_port[] array is indexed using a value derived from the
+>>>>> "serialN" alias in DT, which may lead to an out-of-bounds access.
+>>>>>
+>>>>> Fix this by adding a range check.
+> 
+>> I have checked 4 patches I have sent in past which didn't reach mainline
+>> (probably because of RFC)
+>> Take a look at
+>> https://www.spinics.net/lists/linux-serial/msg27106.html
+>>
+>> I have removed cdns_uart_port array completely there.
+> 
+> Nice! I'd love to get rid of fixed arrays in serial...
+> 
+> However, IMHO it's still worthwhile to fix the out-of-bounds access first,
+> as that fix can be backported to stable kernels easily.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- .../devicetree/bindings/dma/snps,dw-axi-dmac.txt   | 41 ++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.txt
+I agree with you. Not a problem with your patch and for me it won't be
+problem to rebase.
 
-diff --git a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.txt b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.txt
-new file mode 100644
-index 0000000..f237b79
---- /dev/null
-+++ b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.txt
-@@ -0,0 +1,41 @@
-+Synopsys DesignWare AXI DMA Controller
-+
-+Required properties:
-+- compatible: "snps,axi-dma-1.01a"
-+- reg: Address range of the DMAC registers. This should include
-+  all of the per-channel registers.
-+- interrupt: Should contain the DMAC interrupt number.
-+- interrupt-parent: Should be the phandle for the interrupt controller
-+  that services interrupts for this device.
-+- dma-channels: Number of channels supported by hardware.
-+- snps,dma-masters: Number of AXI masters supported by the hardware.
-+- snps,data-width: Maximum AXI data width supported by hardware.
-+  (0 - 8bits, 1 - 16bits, 2 - 32bits, ..., 6 - 512bits)
-+- snps,priority: Priority of channel. Array size is equal to the number of
-+  dma-channels. Priority value must be programmed within [0:dma-channels-1]
-+  range. (0 - minimum priority)
-+- snps,block-size: Maximum block size supported by the controller channel.
-+  Array size is equal to the number of dma-channels.
-+
-+Optional properties:
-+- snps,axi-max-burst-len: Restrict master AXI burst length by value specified
-+  in this property. If this property is missing the maximum AXI burst length
-+  supported by DMAC is used. [1:256]
-+
-+Example:
-+
-+dmac: dma-controller at 80000 {
-+	compatible = "snps,axi-dma-1.01a";
-+	reg = <0x80000 0x400>;
-+	clocks = <&core_clk>, <&cfgr_clk>;
-+	clock-names = "core-clk", "cfgr-clk";
-+	interrupt-parent = <&intc>;
-+	interrupts = <27>;
-+
-+	dma-channels = <4>;
-+	snps,dma-masters = <2>;
-+	snps,data-width = <3>;
-+	snps,block-size = <4096 4096 4096 4096>;
-+	snps,priority = <0 1 2 3>;
-+	snps,axi-max-burst-len = <16>;
-+};
--- 
-2.9.3
+I would love to get rid of CDNS_UART_NR_PORTS but unfortunately this is
+passed to core via .nr.
+
+Thanks,
+Michal
