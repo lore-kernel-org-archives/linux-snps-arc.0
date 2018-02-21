@@ -1,37 +1,110 @@
-From: akpm@linux-foundation.org (Andrew Morton)
-Date: Tue, 20 Feb 2018 15:47:15 -0800
-Subject: [PATCH] fix double ;;s in code
-In-Reply-To: <87o9kkcck3.fsf@intel.com>
-References: <20180217211955.GE9640@amd>
- <187435d4-5017-edb5-9b6a-b433a148bfcc@c-s.fr>
- <20180219154135.GV22199@phenom.ffwll.local>
- <20180219193312.GA3709@amd> <87o9kkcck3.fsf@intel.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 21 Feb 2018 12:40:27 +0300
+Subject: [PATCH 3/3] ARC: setup cpu possible mask according to possible-cpus
+ dts property
+In-Reply-To: <20180221094027.12674-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180221094027.12674-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180220154715.2a8ecd75a1c2cc698baefd26@linux-foundation.org>
+Message-ID: <20180221094027.12674-3-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 20 Feb 2018 10:03:56 +0200 Jani Nikula <jani.nikula@linux.intel.com> wrote:
+As we have option in u-boot to set CPU mask for running linux,
+we want to pass information to kernel about CPU cores should
+be brought up. So we patch kernel dtb in u-boot to set
+possible-cpus property.
 
-> On Mon, 19 Feb 2018, Pavel Machek <pavel@ucw.cz> wrote:
-> > On Mon 2018-02-19 16:41:35, Daniel Vetter wrote:
-> >> Yeah, pls split this into one patch per area, with a suitable patch
-> >> subject prefix. Look at git log of each file to get a feeling for what's
-> >> the standard in each area.
-> >
-> > Yeah I can spend hour spliting it, and then people will ignore it
-> > anyway.
-> >
-> > If you care about one of the files being modified, please fix the
-> > bug, ";;" is a clear bug.
-> >
-> > If you don't care ... well I don't care either.
-> 
-> Look, if this causes just one conflict down the line because it touches
-> the kernel all over the place, then IMO it already wasn't worth
-> it. Merge conflicts are inevitable, but there's no reason to make life
-> harder just to cater for a cleanup patch. It's not that important.
-> 
-> Had it been split up, the drm parts would've been merged already.
+This also allows us to have correctly setuped MCIP debug mask.
 
-I just stage patches like this behind linux-next.  So if your stuff in
-in -next, you'll never notice a thing.
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ arch/arc/kernel/smp.c | 50 ++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 40 insertions(+), 10 deletions(-)
+
+diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
+index efe8b42..21d86c3 100644
+--- a/arch/arc/kernel/smp.c
++++ b/arch/arc/kernel/smp.c
+@@ -24,6 +24,7 @@
+ #include <linux/reboot.h>
+ #include <linux/irqdomain.h>
+ #include <linux/export.h>
++#include <linux/of_fdt.h>
+ 
+ #include <asm/processor.h>
+ #include <asm/setup.h>
+@@ -47,6 +48,42 @@ void __init smp_prepare_boot_cpu(void)
+ {
+ }
+ 
++static int __init arc_get_cpu_map(const char *name, struct cpumask *cpumask)
++{
++	unsigned long dt_root = of_get_flat_dt_root();
++	const char *buf;
++
++	buf = of_get_flat_dt_prop(dt_root, name, NULL);
++	if (!buf)
++		return -EINVAL;
++
++	if (cpulist_parse(buf, cpumask))
++		return -EINVAL;
++
++	return 0;
++}
++
++/*
++ * Read from DeviceTree and setup cpu possible mask. If there is no
++ * "possible-cpus" property in DeviceTree pretend all [0..NR_CPUS-1] exist.
++ */
++static void __init arc_init_cpu_possible(void)
++{
++	struct cpumask cpumask;
++
++	if (arc_get_cpu_map("possible-cpus", &cpumask)) {
++		pr_warn("Failed to get possible-cpus from dtb, pretending all %u cpus exist\n",
++			NR_CPUS);
++
++		cpumask_setall(&cpumask);
++	}
++
++	if (!cpumask_test_cpu(0, &cpumask))
++		panic("Master cpu (cpu[0]) is missed in cpu possible mask!");
++
++	init_cpu_possible(&cpumask);
++}
++
+ /*
+  * Called from setup_arch() before calling setup_processor()
+  *
+@@ -58,10 +95,7 @@ void __init smp_prepare_boot_cpu(void)
+  */
+ void __init smp_init_cpus(void)
+ {
+-	unsigned int i;
+-
+-	for (i = 0; i < NR_CPUS; i++)
+-		set_cpu_possible(i, true);
++	arc_init_cpu_possible();
+ 
+ 	if (plat_smp_ops.init_early_smp)
+ 		plat_smp_ops.init_early_smp();
+@@ -70,16 +104,12 @@ void __init smp_init_cpus(void)
+ /* called from init ( ) =>  process 1 */
+ void __init smp_prepare_cpus(unsigned int max_cpus)
+ {
+-	int i;
+-
+ 	/*
+ 	 * if platform didn't set the present map already, do it now
+ 	 * boot cpu is set to present already by init/main.c
+ 	 */
+-	if (num_present_cpus() <= 1) {
+-		for (i = 0; i < max_cpus; i++)
+-			set_cpu_present(i, true);
+-	}
++	if (num_present_cpus() <= 1)
++		init_cpu_present(cpu_possible_mask);
+ }
+ 
+ void __init smp_cpus_done(unsigned int max_cpus)
+-- 
+2.9.3
