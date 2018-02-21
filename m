@@ -1,80 +1,51 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 21 Feb 2018 12:40:25 +0300
-Subject: [PATCH 1/3] ARC: mcip: halt GFRC together with ARC cores
+Date: Wed, 21 Feb 2018 12:40:26 +0300
+Subject: [PATCH 2/3] ARC: mcip: setup MCIP debug mask according to cpu
+ possible mask
+In-Reply-To: <20180221094027.12674-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180221094027.12674-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180221094027.12674-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20180221094027.12674-2-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Currently GFRC is running regardless state of ARC cores in the SMP cluster.
-That means even if ARC cores are halted when doing JTAG debugging GFRC
-[our source of wall-time] continues to run giving us unexpected warnings
-once we allow ARC cores to run due to some tasks being stuck for too
-long.
-
-Starting from ARC HS v3.0 it's possible to tie GFRC to state of up-to 4
-ARC cores with help of GFRC's CORE register where we set a mask for
-cores which state we need to rely on.
+Setup MCIP debug mask according cpu possible mask instead of
+use hardcoded one.
 
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 ---
-NOTE: with this patch previous patch is not required:
-http://patchwork.ozlabs.org/patch/875091/
-
- arch/arc/kernel/mcip.c | 23 +++++++++++++++++++++++
- include/soc/arc/mcip.h |  2 ++
- 2 files changed, 25 insertions(+)
+ arch/arc/kernel/mcip.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-index f61a52b..e87a4ea 100644
+index e87a4ea..da73258 100644
 --- a/arch/arc/kernel/mcip.c
 +++ b/arch/arc/kernel/mcip.c
-@@ -22,10 +22,33 @@ static DEFINE_RAW_SPINLOCK(mcip_lock);
- 
- static char smp_cpuinfo_buf[128];
- 
-+/*
-+ * Set mask to halt GFRC if any online core in SMP cluster is halted.
-+ * Only works for ARC HS v3.0+, on earlier versions has no effect.
-+ */
-+static void mcip_update_gfrc_halt_mask(int cpu)
-+{
-+	struct mcip_bcr mp;
-+	u32 gfrc_halt_mask;
-+
-+	READ_BCR(ARC_REG_MCIP_BCR, mp);
-+
-+	if (!mp.gfrc)
-+		return;
-+
-+	__mcip_cmd(CMD_GFRC_READ_CORE, 0);
-+	gfrc_halt_mask = read_aux_reg(ARC_REG_MCIP_READBACK);
-+	gfrc_halt_mask |= BIT(cpu);
-+	__mcip_cmd_data(CMD_GFRC_SET_CORE, 0, gfrc_halt_mask);
-+}
-+
- static void mcip_setup_per_cpu(int cpu)
+@@ -112,6 +112,7 @@ static void mcip_ipi_clear(int irq)
+ static void mcip_probe_n_setup(void)
  {
- 	smp_ipi_irq_setup(cpu, IPI_IRQ);
- 	smp_ipi_irq_setup(cpu, SOFTIRQ_IRQ);
+ 	struct mcip_bcr mp;
++	u32 i, mcip_mask = 0;
+ 
+ 	READ_BCR(ARC_REG_MCIP_BCR, mp);
+ 
+@@ -126,8 +127,16 @@ static void mcip_probe_n_setup(void)
+ 	cpuinfo_arc700[0].extn.gfrc = mp.gfrc;
+ 
+ 	if (mp.dbg) {
+-		__mcip_cmd_data(CMD_DEBUG_SET_SELECT, 0, 0xf);
+-		__mcip_cmd_data(CMD_DEBUG_SET_MASK, 0xf, 0xf);
++		for_each_possible_cpu(i)
++			mcip_mask |= BIT(i);
 +
-+	/* Update GFRC halt mask as new CPU came online */
-+	mcip_update_gfrc_halt_mask(cpu);
++		__mcip_cmd_data(CMD_DEBUG_SET_SELECT, 0, mcip_mask);
++		/*
++		 * Parameter specified halt cause:
++		 * STATUS32[H]/actionpoint/breakpoint/self-halt
++		 * We choose all of them (0xF).
++		 */
++		__mcip_cmd_data(CMD_DEBUG_SET_MASK, 0xF, mcip_mask);
+ 	}
  }
  
- static void mcip_ipi_send(int cpu)
-diff --git a/include/soc/arc/mcip.h b/include/soc/arc/mcip.h
-index c2d1b15..a156fa5 100644
---- a/include/soc/arc/mcip.h
-+++ b/include/soc/arc/mcip.h
-@@ -40,6 +40,8 @@ struct mcip_cmd {
- 
- #define CMD_GFRC_READ_LO		0x42
- #define CMD_GFRC_READ_HI		0x43
-+#define CMD_GFRC_SET_CORE		0x47
-+#define CMD_GFRC_READ_CORE		0x48
- 
- #define CMD_IDU_ENABLE			0x71
- #define CMD_IDU_DISABLE			0x72
 -- 
 2.9.3
