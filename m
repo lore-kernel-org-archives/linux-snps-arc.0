@@ -1,22 +1,66 @@
-From: andy.shevchenko@gmail.com (Andy Shevchenko)
-Date: Wed, 21 Feb 2018 21:16:26 +0200
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 21 Feb 2018 11:24:32 -0800
 Subject: [PATCH] mmc: dw_mmc: Fix the DTO timeout overflow calculation for
  32-bit systems
 In-Reply-To: <20180221175734.39114-1-Evgeniy.Didin@synopsys.com>
 References: <20180221175734.39114-1-Evgeniy.Didin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAHp75VfyQz-W7DLJ4KvFRCPkOUnP3YQjSzn+Zsbx92Xb-x4GqA@mail.gmail.com>
+Message-ID: <d5b828d8-be41-9faa-8b20-0a8ea1f33d53@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Feb 21, 2018 at 7:57 PM, Evgeniy Didin
-<Evgeniy.Didin@synopsys.com> wrote:
+Hi Evgeniy
+
+On 02/21/2018 09:57 AM, Evgeniy Didin wrote:
 > In commit 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation") have been made
-> changes which can cause multiply overflow for 32-bit systems. It was caught on arc/hsdk board
+> changes which can cause multiply overflow for 32-bit systems.
+
+Awesome, thx for quickly narrowing it down. I tried the fix and it cures my issue.
+
+  It was caught on arc/hsdk board
 > when "drto_ms" should be 671, but it was 70 and that caused a flow of stack-traces just copying
 > file from mmc.
->
+
+IMHO, the fragment above could be improved.
+
+	"The broken timeout calculations caused false interrupt latency warnings
+          and stacktrace splat (such as below) when accessing the SD Card."
+
+| Running :  4M-check-reassembly-tcp-cmykw2-rotatew2.out -v0 -w1
+| -  Info: Finished target initialization.
+| mmcblk0: error -110 transferring data, sector 320544, nr 2048, cmd response
+|  0x900, card status 0x0
+| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual
+| 396825HZ div = 63)
+| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 25000000Hz, actual
+|  25000000HZ div = 1)
+| ------------[ cut here ]------------
+| softirq: huh, entered softirq 6 TASKLET 6f6a9412 with preempt_count 00000101,
+| exited with 00000100?
+| WARNING: CPU: 2 PID: 0 at ../lib/scatterlist.c:652 sg_miter_next+0x28/0x20c
+| Modules linked in:
+| CPU: 2 PID: 0 Comm: swapper/2 Not tainted 4.15.0 #57
+|
+| Stack Trace:
+|  arc_unwind_core.constprop.1+0xd0/0xf4
+|  dump_stack+0x68/0x80
+|  warn_slowpath_null+0x4e/0xec
+|  sg_miter_next+0x28/0x20c
+|  dw_mci_read_data_pio+0x44/0x190
+|  dw_mmc f000a000.mmc: Unexpected interrupt latency
+|   dw_mci_interrupt+0x3ee/0x530
+|  __handle_irq_event_percpu+0x56/0x150
+|  handle_irq_event+0x34/0x78
+|  handle_level_irq+0x8e/0x120
+|  generic_handle_irq+0x1c/0x2c
+|  idu_cascade_isr+0x30/0x6c
+|  __handle_domain_irq+0x72/0xc8
+|  ret_from_exception+0x0/0x8
+|---[ end trace 2a58c9af6c25fe51 ]---
+
+
+> 
 > Lets cast this multiply to long long int which prevents overflow.
->
+> 
 > Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
 > CC: Alexey Brodkin <abrodkin at synopsys.com>
 > CC: Douglas Anderson <dianders at chromium.org>
@@ -24,19 +68,24 @@ On Wed, Feb 21, 2018 at 7:57 PM, Evgeniy Didin
 > CC: linux-kernel at vger.kernel.org
 > CC: linux-snps-arc at lists.infradead.org
 
+Tested-by: Vineet Gupta <vgupta at synopsys.com>
+Fixes: ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
+
+> ---
+>   drivers/mmc/host/dw_mmc.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/mmc/host/dw_mmc.c b/drivers/mmc/host/dw_mmc.c
+> index 0aa39975f33b..1a0b9751c67c 100644
 > --- a/drivers/mmc/host/dw_mmc.c
 > +++ b/drivers/mmc/host/dw_mmc.c
 > @@ -1944,7 +1944,7 @@ static void dw_mci_set_drto(struct dw_mci *host)
->         drto_div = (mci_readl(host, CLKDIV) & 0xff) * 2;
->         if (drto_div == 0)
->                 drto_div = 1;
-> -       drto_ms = DIV_ROUND_UP(MSEC_PER_SEC * drto_clks * drto_div,
-> +       drto_ms = DIV_ROUND_UP((uint64_t)MSEC_PER_SEC * drto_clks * drto_div,
->                                host->bus_hz);
-
-Does the driver use uint64_t elsewhere?
-Or simple u64?
-
--- 
-With Best Regards,
-Andy Shevchenko
+>   	drto_div = (mci_readl(host, CLKDIV) & 0xff) * 2;
+>   	if (drto_div == 0)
+>   		drto_div = 1;
+> -	drto_ms = DIV_ROUND_UP(MSEC_PER_SEC * drto_clks * drto_div,
+> +	drto_ms = DIV_ROUND_UP((uint64_t)MSEC_PER_SEC * drto_clks * drto_div,
+>   			       host->bus_hz);
+>   
+>   	/* add a bit spare time */
+> 
