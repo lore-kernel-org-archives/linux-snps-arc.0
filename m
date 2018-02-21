@@ -1,51 +1,40 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 21 Feb 2018 12:40:26 +0300
-Subject: [PATCH 2/3] ARC: mcip: setup MCIP debug mask according to cpu
- possible mask
-In-Reply-To: <20180221094027.12674-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180221094027.12674-1-Eugeniy.Paltsev@synopsys.com>
+From: Evgeniy.Didin@synopsys.com (Evgeniy Didin)
+Date: Wed, 21 Feb 2018 20:57:33 +0300
+Subject: [PATCH] mmc: dw_mmc: Fix the DTO timeout overflow calculation for
+ 32-bit systems
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180221094027.12674-2-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20180221175734.39114-1-Evgeniy.Didin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Setup MCIP debug mask according cpu possible mask instead of
-use hardcoded one.
+In commit 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation") have been made
+changes which can cause multiply overflow for 32-bit systems. It was caught on arc/hsdk board
+when "drto_ms" should be 671, but it was 70 and that caused a flow of stack-traces just copying
+file from mmc.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+Lets cast this multiply to long long int which prevents overflow.
+
+Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
+CC: Alexey Brodkin <abrodkin at synopsys.com>
+CC: Douglas Anderson <dianders at chromium.org>
+CC: Ulf Hansson <ulf.hansson at linaro.org>
+CC: linux-kernel at vger.kernel.org
+CC: linux-snps-arc at lists.infradead.org
 ---
- arch/arc/kernel/mcip.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ drivers/mmc/host/dw_mmc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
-index e87a4ea..da73258 100644
---- a/arch/arc/kernel/mcip.c
-+++ b/arch/arc/kernel/mcip.c
-@@ -112,6 +112,7 @@ static void mcip_ipi_clear(int irq)
- static void mcip_probe_n_setup(void)
- {
- 	struct mcip_bcr mp;
-+	u32 i, mcip_mask = 0;
+diff --git a/drivers/mmc/host/dw_mmc.c b/drivers/mmc/host/dw_mmc.c
+index 0aa39975f33b..1a0b9751c67c 100644
+--- a/drivers/mmc/host/dw_mmc.c
++++ b/drivers/mmc/host/dw_mmc.c
+@@ -1944,7 +1944,7 @@ static void dw_mci_set_drto(struct dw_mci *host)
+ 	drto_div = (mci_readl(host, CLKDIV) & 0xff) * 2;
+ 	if (drto_div == 0)
+ 		drto_div = 1;
+-	drto_ms = DIV_ROUND_UP(MSEC_PER_SEC * drto_clks * drto_div,
++	drto_ms = DIV_ROUND_UP((uint64_t)MSEC_PER_SEC * drto_clks * drto_div,
+ 			       host->bus_hz);
  
- 	READ_BCR(ARC_REG_MCIP_BCR, mp);
- 
-@@ -126,8 +127,16 @@ static void mcip_probe_n_setup(void)
- 	cpuinfo_arc700[0].extn.gfrc = mp.gfrc;
- 
- 	if (mp.dbg) {
--		__mcip_cmd_data(CMD_DEBUG_SET_SELECT, 0, 0xf);
--		__mcip_cmd_data(CMD_DEBUG_SET_MASK, 0xf, 0xf);
-+		for_each_possible_cpu(i)
-+			mcip_mask |= BIT(i);
-+
-+		__mcip_cmd_data(CMD_DEBUG_SET_SELECT, 0, mcip_mask);
-+		/*
-+		 * Parameter specified halt cause:
-+		 * STATUS32[H]/actionpoint/breakpoint/self-halt
-+		 * We choose all of them (0xF).
-+		 */
-+		__mcip_cmd_data(CMD_DEBUG_SET_MASK, 0xF, mcip_mask);
- 	}
- }
- 
+ 	/* add a bit spare time */
 -- 
-2.9.3
+2.11.0
