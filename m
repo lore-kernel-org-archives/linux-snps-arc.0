@@ -1,38 +1,33 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 21 Feb 2018 15:42:36 -0800
-Subject: [PATCH 1/3] ARC: mcip: halt GFRC together with ARC cores
-In-Reply-To: <a4a20519-e8b0-3522-0528-6de2595635ed@synopsys.com>
-References: <20180221094027.12674-1-Eugeniy.Paltsev@synopsys.com>
- <a4a20519-e8b0-3522-0528-6de2595635ed@synopsys.com>
+From: shawnguo@kernel.org (Shawn Guo)
+Date: Thu, 22 Feb 2018 17:09:33 +0800
+Subject: [PATCH] fix double ;;s in code
+In-Reply-To: <20180217211955.GE9640@amd>
+References: <20180217211955.GE9640@amd>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <8c86b9f9-a4b7-1217-7cf3-1d8891292679@synopsys.com>
+Message-ID: <20180222090932.GJ3217@dragon>
 To: linux-snps-arc@lists.infradead.org
 
-On 02/21/2018 12:31 PM, Vineet Gupta wrote:
-> Hi Eugeniy,
+Hi Pavel,
+
+On Sat, Feb 17, 2018@10:19:55PM +0100, Pavel Machek wrote:
+...
+> diff --git a/drivers/soc/imx/gpc.c b/drivers/soc/imx/gpc.c
+> index 53f7275..cfb42f5 100644
+> --- a/drivers/soc/imx/gpc.c
+> +++ b/drivers/soc/imx/gpc.c
+> @@ -348,7 +348,7 @@ static int imx_gpc_old_dt_init(struct device *dev, struct regmap *regmap,
+>  		if (i == 1) {
+>  			domain->supply = devm_regulator_get(dev, "pu");
+>  			if (IS_ERR(domain->supply))
+> -				return PTR_ERR(domain->supply);;
+> +				return PTR_ERR(domain->supply);
+>  
+>  			ret = imx_pgc_get_clocks(dev, domain);
+>  			if (ret)
 > 
->> Starting from ARC HS v3.0
-> 
->  From the STAR fix, it seem this was fixed in HS 2.1c, so you should be able to 
-> test it on HSDK, which was my next question: where and how did you test this and 
-> verify that it works as we think it does. I tried the patch on HSDK and I still 
-> see the rcu_preempt self-detected stall error splat when running hackbench and 
-> pausing the target with Metaware debugger. Perhaps we need to write a small test 
-> case to check what's going on. Also try that on AXS103 release which is definitely 
-> HS 3.0 !
 
-So I tried this on both.
-  - HSDK   (HS 2.1c): Doesn't work
-  - AXS103 (HS 3.0) : Works
+Considering the controversy how the changes should be merged, I'm going
+to send a separate patch just for IMX GPC driver with a reported-by-you
+tag.  Thanks for catching this.
 
-Fortunately we can read (yet another BCR: GFRC_BUILD) and infer whether this is 
-supported or not. So add that check in mcip_update_gfrc_halt_mask()
-
->> it's possible to tie GFRC to state of up-to 4
->> ARC cores with help of GFRC's CORE register where we set a mask for
->> cores which state we need to rely on.
-
-On second thoughts, do we really have to do this per cpu. Just write 0xf once just 
-as Alexey did in first iteration.
-
--Vineet
+Shawn
