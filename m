@@ -1,33 +1,64 @@
-From: shawnguo@kernel.org (Shawn Guo)
-Date: Thu, 22 Feb 2018 17:09:33 +0800
-Subject: [PATCH] fix double ;;s in code
-In-Reply-To: <20180217211955.GE9640@amd>
-References: <20180217211955.GE9640@amd>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 22 Feb 2018 12:58:25 +0000
+Subject: [PATCH 1/3] ARC: mcip: halt GFRC together with ARC cores
+In-Reply-To: <8c86b9f9-a4b7-1217-7cf3-1d8891292679@synopsys.com>
+References: <20180221094027.12674-1-Eugeniy.Paltsev@synopsys.com>
+ <a4a20519-e8b0-3522-0528-6de2595635ed@synopsys.com>
+ <8c86b9f9-a4b7-1217-7cf3-1d8891292679@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180222090932.GJ3217@dragon>
+Message-ID: <1519304304.2982.21.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Pavel,
+Hi Vineet,
 
-On Sat, Feb 17, 2018@10:19:55PM +0100, Pavel Machek wrote:
-...
-> diff --git a/drivers/soc/imx/gpc.c b/drivers/soc/imx/gpc.c
-> index 53f7275..cfb42f5 100644
-> --- a/drivers/soc/imx/gpc.c
-> +++ b/drivers/soc/imx/gpc.c
-> @@ -348,7 +348,7 @@ static int imx_gpc_old_dt_init(struct device *dev, struct regmap *regmap,
->  		if (i == 1) {
->  			domain->supply = devm_regulator_get(dev, "pu");
->  			if (IS_ERR(domain->supply))
-> -				return PTR_ERR(domain->supply);;
-> +				return PTR_ERR(domain->supply);
->  
->  			ret = imx_pgc_get_clocks(dev, domain);
->  			if (ret)
+On Wed, 2018-02-21@15:42 -0800, Vineet Gupta wrote:
+> On 02/21/2018 12:31 PM, Vineet Gupta wrote:
+> > Hi Eugeniy,
+> > 
+> > > Starting from ARC HS v3.0
+> > 
+> > ?From the STAR fix, it seem this was fixed in HS 2.1c, so you should be able to?
+> > test it on HSDK, which was my next question: where and how did you test this and?
+> > verify that it works as we think it does. I tried the patch on HSDK and I still?
+> > see the rcu_preempt self-detected stall error splat when running hackbench and?
+> > pausing the target with Metaware debugger. Perhaps we need to write a small test?
+> > case to check what's going on. Also try that on AXS103 release which is definitely?
+> > HS 3.0 !
 > 
+> So I tried this on both.
+> ? - HSDK???(HS 2.1c): Doesn't work
+> ? - AXS103 (HS 3.0) : Works
 
-Considering the controversy how the changes should be merged, I'm going
-to send a separate patch just for IMX GPC driver with a reported-by-you
-tag.  Thanks for catching this.
+I checked the HS_3.00a and HS_2.1c documentation - GFRC HALT commands/settings exist
+only in HS_3.00a.
 
-Shawn
+> 
+> Fortunately we can read (yet another BCR: GFRC_BUILD) and infer whether this is?
+> supported or not. So add that check in mcip_update_gfrc_halt_mask()
+
+Ok, I'll add GFRC_BUILD read.
+
+> > > it's possible to tie GFRC to state of up-to 4
+> > > ARC cores with help of GFRC's CORE register where we set a mask for
+> > > cores which state we need to rely on.
+> 
+> On second thoughts, do we really have to do this per cpu. Just write 0xf once just?
+> as Alexey did in first iteration.
+
+And we will face with same problems like with MCIP debug.
+Remember what happens when we launch kernel on one CPU on board which has several CPUs.
+
+> In theory this could be called concurrently by multiple cpus and mcip doesn't?
+> guarantee any internal serialization/buffering. Granted, current use
+case is fine?
+> as mcip_setup_per_cpu --> plat_smp_ops.init_per_cpu is serialized by master core,?
+> we could run into issue when say cpu hot plug etc
+works. So better to wrap this?
+> inside the spinlock which we already have.
+
+Yep, I was also thinking about adding the spinlock here...
+I'll add it in next patch version.
+
+> -Vineet
+-- 
+?Eugeniy Paltsev
