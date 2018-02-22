@@ -1,79 +1,41 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 22 Feb 2018 09:21:21 -0800
-Subject: [BUG] ARCv2: MCIP: GFRC: mcip cmd/readback concurrency
-In-Reply-To: <1519309604.2982.27.camel@synopsys.com>
-References: <1519309604.2982.27.camel@synopsys.com>
+Date: Thu, 22 Feb 2018 09:38:32 -0800
+Subject: [PATCH v2] mmc: dw_mmc: Fix the DTO timeout overflow calculation
+ for 32-bit systems
+In-Reply-To: <bec45955-1e84-400b-961f-35b5342c671f@rock-chips.com>
+References: <20180222133418.29336-1-Evgeniy.Didin@synopsys.com>
+ <bec45955-1e84-400b-961f-35b5342c671f@rock-chips.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <cb771978-00a6-2243-ba7e-8517644a3101@synopsys.com>
+Message-ID: <afbfa58b-500e-4d65-04a5-f5f26d8e6abe@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 02/22/2018 06:26 AM, Eugeniy Paltsev wrote:
-> To read any data from ARconnect we have special interface
-> which includes two AUX registers: MCIP_CMD and MCIP_READBACK.
-> We write command to MCIP_CMD and read data from MCIP_READBACK
-> after that.
->
-> We have only one instance of this registers per cluster, so we need
-> to held global lock before access them. This lock is defined
-> in arch/arc/kernel/mcip.c
->
->
-> To read GFRC value we also use?MCIP_CMD/MCIP_READBACK pair, but
-> we take only local lock instead of global 'mcip_lock' lock:
+On 02/22/2018 07:28 AM, Shawn Lin wrote:
+>>
+>> Lets cast this multiply to u64 type which prevents overflow.
+>>
+>> Tested-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+>> Fixes: ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
+>>
+>> Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
+>>
+>> CC: Alexey Brodkin <abrodkin at synopsys.com>
+>> CC: Eugeniy Paltsev <paltsev at synopsys.com>
+>> CC: Douglas Anderson <dianders at chromium.org>
+>> CC: Ulf Hansson <ulf.hansson at linaro.org>
+>> CC: linux-kernel at vger.kernel.org
+>> CC: linux-snps-arc at lists.infradead.org
+>> Cc: <stable at vger.kernel.org> #? 9d9491a7da2a mmc: dw_mmc: Fix the DTO timeout 
+>> calculation
+> 
+> The fix looks good to me, but the tags should be improved a bit:
+> 
+> Fixes: 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation")
 
-This was not an omission but on purpose given the hardware is designed that way. 
-We obviously want to avoid the spinlock when possible specially when everyone is 
-only reading it and timer readout needs to be super fast. Thing is each core has a 
-"private snapshot" of internal counter. So the READ_H* cmd read their own 
-snapshots, without need for serializing globally. We do however want a consistent 
-LO-HI - hence the need to disable local interrupts around.
+Ok, then perhaps use Reported-by tag to call out when/how issue was found.
 
-> ---------->[drivers/clocksource/arc_timer.c]<----------
-> static u64 arc_read_gfrc(struct clocksource *cs)
-> {
-> 	unsigned long flags;
-> 	u32 l, h;
->
-> 	local_irq_save(flags);
->
-> 	__mcip_cmd(CMD_GFRC_READ_LO, 0);
-> 	l = read_aux_reg(ARC_REG_MCIP_READBACK);
->
-> 	__mcip_cmd(CMD_GFRC_READ_HI, 0);
-> 	h = read_aux_reg(ARC_REG_MCIP_READBACK);
->
-> 	local_irq_restore(flags);
->
-> 	return (((u64)h) << 32) | l;
-> }
-> -------------------------->8---------------------------
->
-> So we can break any command (like inter core interrupt send)
-> which uses MCIP_CMD/MCIP_READBACK pair when we read time from GFRC.
->
-> One possible solution is to create function like gfrc_read() in mcip.c
-> which will use global 'mcip_lock' and call it from current 'arc_read_gfrc'
-> function.
->
-> Or we can create a wrapper like 'mcip_read' in?arch/arc/kernel/mcip.c
-> with next functionality:
-> ------->8--------
-> u32 mcip_read(u32 cmd)
-> {
-> 	u32 ret;
->
-> 	raw_spin_lock_irqsave(&mcip_lock);
->
-> 	__mcip_cmd(cmd, 0);
-> 	ret = read_aux_reg(ARC_REG_MCIP_READBACK);
->
-> 	raw_spin_unlock_irqrestore(&mcip_lock);
->
-> 	return ret;
-> }
-> ------->8--------
+Reported-by: ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
 
-This is a good idea in general. Mind you however that all use cases are different 
-- as in we do multiple things not juct cmd + readback. e.g. for GFRC halt progrog 
-we do cmd + readback + cmd. but see if you can come up with something reasonable 
-to encapsulate the spin lock.
+> Cc: <stable at vger.kernel.org>
+> 
+> Otherwise,
+> Reviewed-by: Shawn Lin <shawn.lin at rock-chips.com>
