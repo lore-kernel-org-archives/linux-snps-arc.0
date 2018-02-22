@@ -1,64 +1,81 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Thu, 22 Feb 2018 12:58:25 +0000
-Subject: [PATCH 1/3] ARC: mcip: halt GFRC together with ARC cores
-In-Reply-To: <8c86b9f9-a4b7-1217-7cf3-1d8891292679@synopsys.com>
-References: <20180221094027.12674-1-Eugeniy.Paltsev@synopsys.com>
- <a4a20519-e8b0-3522-0528-6de2595635ed@synopsys.com>
- <8c86b9f9-a4b7-1217-7cf3-1d8891292679@synopsys.com>
+From: Evgeniy.Didin@synopsys.com (Evgeniy Didin)
+Date: Thu, 22 Feb 2018 16:34:18 +0300
+Subject: [PATCH v2] mmc: dw_mmc: Fix the DTO timeout overflow calculation for
+ 32-bit systems
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1519304304.2982.21.camel@synopsys.com>
+Message-ID: <20180222133418.29336-1-Evgeniy.Didin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+In commit 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation") have been made
+changes which cause multiply overflow for 32-bit systems.
+The broken timeout calculations caused false interrupt latency warnings
+and stacktrace splat (such as below) when accessing the SD Card.
 
-On Wed, 2018-02-21@15:42 -0800, Vineet Gupta wrote:
-> On 02/21/2018 12:31 PM, Vineet Gupta wrote:
-> > Hi Eugeniy,
-> > 
-> > > Starting from ARC HS v3.0
-> > 
-> > ?From the STAR fix, it seem this was fixed in HS 2.1c, so you should be able to?
-> > test it on HSDK, which was my next question: where and how did you test this and?
-> > verify that it works as we think it does. I tried the patch on HSDK and I still?
-> > see the rcu_preempt self-detected stall error splat when running hackbench and?
-> > pausing the target with Metaware debugger. Perhaps we need to write a small test?
-> > case to check what's going on. Also try that on AXS103 release which is definitely?
-> > HS 3.0 !
-> 
-> So I tried this on both.
-> ? - HSDK???(HS 2.1c): Doesn't work
-> ? - AXS103 (HS 3.0) : Works
+| Running :  4M-check-reassembly-tcp-cmykw2-rotatew2.out -v0 -w1
+| -  Info: Finished target initialization.
+| mmcblk0: error -110 transferring data, sector 320544, nr 2048, cmd response
+|  0x900, card status 0x0
+| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual
+| 396825HZ div = 63)
+| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 25000000Hz, actual
+|  25000000HZ div = 1)
+| ------------[ cut here ]------------
+| softirq: huh, entered softirq 6 TASKLET 6f6a9412 with preempt_count 00000101,
+| exited with 00000100?
+| WARNING: CPU: 2 PID: 0 at ../lib/scatterlist.c:652 sg_miter_next+0x28/0x20c
+| Modules linked in:
+| CPU: 2 PID: 0 Comm: swapper/2 Not tainted 4.15.0 #57
+|
+| Stack Trace:
+|  arc_unwind_core.constprop.1+0xd0/0xf4
+|  dump_stack+0x68/0x80
+|  warn_slowpath_null+0x4e/0xec
+|  sg_miter_next+0x28/0x20c
+|  dw_mci_read_data_pio+0x44/0x190
+|  dw_mmc f000a000.mmc: Unexpected interrupt latency
+|   dw_mci_interrupt+0x3ee/0x530
+|  __handle_irq_event_percpu+0x56/0x150
+|  handle_irq_event+0x34/0x78
+|  handle_level_irq+0x8e/0x120
+|  generic_handle_irq+0x1c/0x2c
+|  idu_cascade_isr+0x30/0x6c
+|  __handle_domain_irq+0x72/0xc8
+|  ret_from_exception+0x0/0x8
+|---[ end trace 2a58c9af6c25fe51 ]---
 
-I checked the HS_3.00a and HS_2.1c documentation - GFRC HALT commands/settings exist
-only in HS_3.00a.
+Lets cast this multiply to u64 type which prevents overflow.
 
-> 
-> Fortunately we can read (yet another BCR: GFRC_BUILD) and infer whether this is?
-> supported or not. So add that check in mcip_update_gfrc_halt_mask()
+Tested-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+Fixes: ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
 
-Ok, I'll add GFRC_BUILD read.
+Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
 
-> > > it's possible to tie GFRC to state of up-to 4
-> > > ARC cores with help of GFRC's CORE register where we set a mask for
-> > > cores which state we need to rely on.
-> 
-> On second thoughts, do we really have to do this per cpu. Just write 0xf once just?
-> as Alexey did in first iteration.
+CC: Alexey Brodkin <abrodkin at synopsys.com>
+CC: Eugeniy Paltsev <paltsev at synopsys.com>
+CC: Douglas Anderson <dianders at chromium.org>
+CC: Ulf Hansson <ulf.hansson at linaro.org>
+CC: linux-kernel at vger.kernel.org
+CC: linux-snps-arc at lists.infradead.org
+Cc: <stable at vger.kernel.org> #  9d9491a7da2a mmc: dw_mmc: Fix the DTO timeout calculation
+---
+Changes since v1:
+-uint64_t switched to u64
+-changed commit message
+ drivers/mmc/host/dw_mmc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-And we will face with same problems like with MCIP debug.
-Remember what happens when we launch kernel on one CPU on board which has several CPUs.
-
-> In theory this could be called concurrently by multiple cpus and mcip doesn't?
-> guarantee any internal serialization/buffering. Granted, current use
-case is fine?
-> as mcip_setup_per_cpu --> plat_smp_ops.init_per_cpu is serialized by master core,?
-> we could run into issue when say cpu hot plug etc
-works. So better to wrap this?
-> inside the spinlock which we already have.
-
-Yep, I was also thinking about adding the spinlock here...
-I'll add it in next patch version.
-
-> -Vineet
+diff --git a/drivers/mmc/host/dw_mmc.c b/drivers/mmc/host/dw_mmc.c
+index 0aa39975f33b..1a0b9751c67c 100644
+--- a/drivers/mmc/host/dw_mmc.c
++++ b/drivers/mmc/host/dw_mmc.c
+@@ -1944,7 +1944,7 @@ static void dw_mci_set_drto(struct dw_mci *host)
+ 	drto_div = (mci_readl(host, CLKDIV) & 0xff) * 2;
+ 	if (drto_div == 0)
+ 		drto_div = 1;
+-	drto_ms = DIV_ROUND_UP(MSEC_PER_SEC * drto_clks * drto_div,
++	drto_ms = DIV_ROUND_UP((u64)MSEC_PER_SEC * drto_clks * drto_div,
+ 			       host->bus_hz);
+ 
+ 	/* add a bit spare time */
 -- 
-?Eugeniy Paltsev
+2.11.0
