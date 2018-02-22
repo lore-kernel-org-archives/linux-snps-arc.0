@@ -1,81 +1,67 @@
-From: Evgeniy.Didin@synopsys.com (Evgeniy Didin)
-Date: Thu, 22 Feb 2018 16:34:18 +0300
-Subject: [PATCH v2] mmc: dw_mmc: Fix the DTO timeout overflow calculation for
- 32-bit systems
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 22 Feb 2018 14:26:44 +0000
+Subject: [BUG] ARCv2: MCIP: GFRC: mcip cmd/readback concurrency
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180222133418.29336-1-Evgeniy.Didin@synopsys.com>
+Message-ID: <1519309604.2982.27.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-In commit 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation") have been made
-changes which cause multiply overflow for 32-bit systems.
-The broken timeout calculations caused false interrupt latency warnings
-and stacktrace splat (such as below) when accessing the SD Card.
+To read any data from ARconnect we have special interface
+which includes two AUX registers: MCIP_CMD and MCIP_READBACK.
+We write command to MCIP_CMD and read data from MCIP_READBACK
+after that.
 
-| Running :  4M-check-reassembly-tcp-cmykw2-rotatew2.out -v0 -w1
-| -  Info: Finished target initialization.
-| mmcblk0: error -110 transferring data, sector 320544, nr 2048, cmd response
-|  0x900, card status 0x0
-| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual
-| 396825HZ div = 63)
-| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 25000000Hz, actual
-|  25000000HZ div = 1)
-| ------------[ cut here ]------------
-| softirq: huh, entered softirq 6 TASKLET 6f6a9412 with preempt_count 00000101,
-| exited with 00000100?
-| WARNING: CPU: 2 PID: 0 at ../lib/scatterlist.c:652 sg_miter_next+0x28/0x20c
-| Modules linked in:
-| CPU: 2 PID: 0 Comm: swapper/2 Not tainted 4.15.0 #57
-|
-| Stack Trace:
-|  arc_unwind_core.constprop.1+0xd0/0xf4
-|  dump_stack+0x68/0x80
-|  warn_slowpath_null+0x4e/0xec
-|  sg_miter_next+0x28/0x20c
-|  dw_mci_read_data_pio+0x44/0x190
-|  dw_mmc f000a000.mmc: Unexpected interrupt latency
-|   dw_mci_interrupt+0x3ee/0x530
-|  __handle_irq_event_percpu+0x56/0x150
-|  handle_irq_event+0x34/0x78
-|  handle_level_irq+0x8e/0x120
-|  generic_handle_irq+0x1c/0x2c
-|  idu_cascade_isr+0x30/0x6c
-|  __handle_domain_irq+0x72/0xc8
-|  ret_from_exception+0x0/0x8
-|---[ end trace 2a58c9af6c25fe51 ]---
+We have only one instance of this registers per cluster, so we need
+to held global lock before access them. This lock is defined
+in arch/arc/kernel/mcip.c
 
-Lets cast this multiply to u64 type which prevents overflow.
 
-Tested-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-Fixes: ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
+To read GFRC value we also use?MCIP_CMD/MCIP_READBACK pair, but?
+we take only local lock instead of global 'mcip_lock' lock:
 
-Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
+---------->[drivers/clocksource/arc_timer.c]<----------
+static u64 arc_read_gfrc(struct clocksource *cs)
+{
+	unsigned long flags;
+	u32 l, h;
 
-CC: Alexey Brodkin <abrodkin at synopsys.com>
-CC: Eugeniy Paltsev <paltsev at synopsys.com>
-CC: Douglas Anderson <dianders at chromium.org>
-CC: Ulf Hansson <ulf.hansson at linaro.org>
-CC: linux-kernel at vger.kernel.org
-CC: linux-snps-arc at lists.infradead.org
-Cc: <stable at vger.kernel.org> #  9d9491a7da2a mmc: dw_mmc: Fix the DTO timeout calculation
----
-Changes since v1:
--uint64_t switched to u64
--changed commit message
- drivers/mmc/host/dw_mmc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+	local_irq_save(flags);
 
-diff --git a/drivers/mmc/host/dw_mmc.c b/drivers/mmc/host/dw_mmc.c
-index 0aa39975f33b..1a0b9751c67c 100644
---- a/drivers/mmc/host/dw_mmc.c
-+++ b/drivers/mmc/host/dw_mmc.c
-@@ -1944,7 +1944,7 @@ static void dw_mci_set_drto(struct dw_mci *host)
- 	drto_div = (mci_readl(host, CLKDIV) & 0xff) * 2;
- 	if (drto_div == 0)
- 		drto_div = 1;
--	drto_ms = DIV_ROUND_UP(MSEC_PER_SEC * drto_clks * drto_div,
-+	drto_ms = DIV_ROUND_UP((u64)MSEC_PER_SEC * drto_clks * drto_div,
- 			       host->bus_hz);
- 
- 	/* add a bit spare time */
+	__mcip_cmd(CMD_GFRC_READ_LO, 0);
+	l = read_aux_reg(ARC_REG_MCIP_READBACK);
+
+	__mcip_cmd(CMD_GFRC_READ_HI, 0);
+	h = read_aux_reg(ARC_REG_MCIP_READBACK);
+
+	local_irq_restore(flags);
+
+	return (((u64)h) << 32) | l;
+}
+-------------------------->8---------------------------
+
+So we can break any command (like inter core interrupt send)
+which uses MCIP_CMD/MCIP_READBACK pair when we read time from GFRC. 
+
+One possible solution is to create function like gfrc_read() in mcip.c
+which will use global 'mcip_lock' and call it from current 'arc_read_gfrc'
+function.
+
+Or we can create a wrapper like 'mcip_read' in?arch/arc/kernel/mcip.c
+with next functionality:
+------->8--------
+u32 mcip_read(u32 cmd)
+{
+	u32 ret;
+
+	raw_spin_lock_irqsave(&mcip_lock);
+
+	__mcip_cmd(cmd, 0);
+	ret = read_aux_reg(ARC_REG_MCIP_READBACK);
+
+	raw_spin_unlock_irqrestore(&mcip_lock);
+
+	return ret;
+}
+------->8--------
+
 -- 
-2.11.0
+?Eugeniy Paltsev
