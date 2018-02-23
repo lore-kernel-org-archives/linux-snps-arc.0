@@ -1,46 +1,106 @@
-From: geert+renesas@glider.be (Geert Uytterhoeven)
-Date: Fri, 23 Feb 2018 14:38:35 +0100
-Subject: [PATCH v2 7/9] serial: sh-sci: Fix out-of-bounds access through DT
- alias
-In-Reply-To: <1519393117-31998-1-git-send-email-geert+renesas@glider.be>
-References: <1519393117-31998-1-git-send-email-geert+renesas@glider.be>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Fri, 23 Feb 2018 19:41:53 +0300
+Subject: [PATCH v2 2/3] ARC: mcip: update MCIP debug mask when the new cpu
+ came online
+In-Reply-To: <20180223164154.22377-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180223164154.22377-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1519393117-31998-8-git-send-email-geert+renesas@glider.be>
+Message-ID: <20180223164154.22377-2-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-The sci_ports[] array is indexed using a value derived from the
-"serialN" alias in DT, which may lead to an out-of-bounds access.
+As of today we use hardcoded MCIP debug mask, so if we launch
+kernel via debugger and kick fever cores than HW has all cpus
+hang at the momemt of setup MCIP debug mask.
 
-Fix this by adding a range check.
+So update MCIP debug mask when the new cpu came online, instead of
+use hardcoded MCIP debug mask.
 
-Note that the array size is defined by a Kconfig symbol
-(CONFIG_SERIAL_SH_SCI_NR_UARTS), so this can even be triggered using a
-legitimate DTB.
-
-Fixes: 97ed9790c514066b ("serial: sh-sci: Remove unused platform data capabilities field")
-Signed-off-by: Geert Uytterhoeven <geert+renesas at glider.be>
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 ---
-v2:
-  - Fix Fixes reference,
-  - Use ARRAY_SIZE().
----
- drivers/tty/serial/sh-sci.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index 4d14f321cbec95e0..f6a6610d434efc33 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -3096,6 +3096,10 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
- 		dev_err(&pdev->dev, "failed to get alias id (%d)\n", id);
- 		return NULL;
- 	}
-+	if (id >= ARRAY_SIZE(sci_ports)) {
-+		dev_err(&pdev->dev, "serial%d out of range\n", id);
-+		return NULL;
-+	}
+Changes v1->v2:
+ * update MCIP debug mask when the new cpu came online instead of
+   using MCIP debug mask generated from "possible_cpus" mask.
+
+ arch/arc/kernel/mcip.c | 37 ++++++++++++++++++++++++++++++++-----
+ include/soc/arc/mcip.h |  2 ++
+ 2 files changed, 34 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
+index 1119029..5fe84e4 100644
+--- a/arch/arc/kernel/mcip.c
++++ b/arch/arc/kernel/mcip.c
+@@ -51,6 +51,34 @@ static void mcip_update_gfrc_halt_mask(int cpu)
+ 	raw_spin_unlock_irqrestore(&mcip_lock, flags);
+ }
  
- 	sp = &sci_ports[id];
- 	*dev_id = id;
++static void mcip_update_debug_halt_mask(int cpu)
++{
++	u32 mcip_mask = 0;
++	unsigned long flags;
++
++	raw_spin_lock_irqsave(&mcip_lock, flags);
++
++	/*
++	 * mcip_mask is same for CMD_DEBUG_SET_SELECT and CMD_DEBUG_SET_MASK
++	 * commands. So read it once instead of reading both CMD_DEBUG_READ_MASK
++	 * and CMD_DEBUG_READ_SELECT.
++	 */
++	__mcip_cmd(CMD_DEBUG_READ_SELECT, 0);
++	mcip_mask = read_aux_reg(ARC_REG_MCIP_READBACK);
++
++	mcip_mask |= BIT(cpu);
++
++	__mcip_cmd_data(CMD_DEBUG_SET_SELECT, 0, mcip_mask);
++	/*
++	 * Parameter specified halt cause:
++	 * STATUS32[H]/actionpoint/breakpoint/self-halt
++	 * We choose all of them (0xF).
++	 */
++	__mcip_cmd_data(CMD_DEBUG_SET_MASK, 0xF, mcip_mask);
++
++	raw_spin_unlock_irqrestore(&mcip_lock, flags);
++}
++
+ static void mcip_setup_per_cpu(int cpu)
+ {
+ 	struct mcip_bcr mp;
+@@ -63,6 +91,10 @@ static void mcip_setup_per_cpu(int cpu)
+ 	/* Update GFRC halt mask as new CPU came online */
+ 	if (mp.gfrc)
+ 		mcip_update_gfrc_halt_mask(cpu);
++
++	/* Update MCIP debug mask as new CPU came online */
++	if (mp.dbg)
++		mcip_update_debug_halt_mask(cpu);
+ }
+ 
+ static void mcip_ipi_send(int cpu)
+@@ -138,11 +170,6 @@ static void mcip_probe_n_setup(void)
+ 		IS_AVAIL1(mp.gfrc, "GFRC"));
+ 
+ 	cpuinfo_arc700[0].extn.gfrc = mp.gfrc;
+-
+-	if (mp.dbg) {
+-		__mcip_cmd_data(CMD_DEBUG_SET_SELECT, 0, 0xf);
+-		__mcip_cmd_data(CMD_DEBUG_SET_MASK, 0xf, 0xf);
+-	}
+ }
+ 
+ struct plat_smp_ops plat_smp_ops = {
+diff --git a/include/soc/arc/mcip.h b/include/soc/arc/mcip.h
+index 1138da5..a91f251 100644
+--- a/include/soc/arc/mcip.h
++++ b/include/soc/arc/mcip.h
+@@ -37,7 +37,9 @@ struct mcip_cmd {
+ #define CMD_SEMA_RELEASE		0x12
+ 
+ #define CMD_DEBUG_SET_MASK		0x34
++#define CMD_DEBUG_READ_MASK		0x35
+ #define CMD_DEBUG_SET_SELECT		0x36
++#define CMD_DEBUG_READ_SELECT		0x37
+ 
+ #define CMD_GFRC_READ_LO		0x42
+ #define CMD_GFRC_READ_HI		0x43
 -- 
-2.7.4
+2.9.3
