@@ -1,42 +1,45 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Fri, 23 Feb 2018 16:34:18 +0800
-Subject: [PATCH] mmc: dw_mmc: Fix the DTO timeout overflow calculation
- for 32-bit systems
-In-Reply-To: <20180221175734.39114-1-Evgeniy.Didin@synopsys.com>
-References: <20180221175734.39114-1-Evgeniy.Didin@synopsys.com>
+From: michal.simek@xilinx.com (Michal Simek)
+Date: Fri, 23 Feb 2018 14:41:38 +0100
+Subject: [PATCH v2 9/9] serial: xuartps: Fix out-of-bounds access through
+ DT alias
+In-Reply-To: <1519393117-31998-10-git-send-email-geert+renesas@glider.be>
+References: <1519393117-31998-1-git-send-email-geert+renesas@glider.be>
+ <1519393117-31998-10-git-send-email-geert+renesas@glider.be>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201802231625.v8Vga563%fengguang.wu@intel.com>
+Message-ID: <8e402b43-e773-4a44-6a0a-6bac2e46aaa3@xilinx.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Evgeniy,
+On 23.2.2018 14:38, Geert Uytterhoeven wrote:
+> The cdns_uart_port[] array is indexed using a value derived from the
+> "serialN" alias in DT, which may lead to an out-of-bounds access.
+> 
+> Fix this by adding a range check.
+> 
+> Fixes: 928e9263492069ee ("tty: xuartps: Initialize ports according to aliases")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas at glider.be>
+> ---
+> v2:
+>   - Fix Fixes reference.
+> ---
+>  drivers/tty/serial/xilinx_uartps.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/tty/serial/xilinx_uartps.c b/drivers/tty/serial/xilinx_uartps.c
+> index b9b2bc76bcac606c..abcb4d09a2d866d0 100644
+> --- a/drivers/tty/serial/xilinx_uartps.c
+> +++ b/drivers/tty/serial/xilinx_uartps.c
+> @@ -1110,7 +1110,7 @@ static struct uart_port *cdns_uart_get_port(int id)
+>  	struct uart_port *port;
+>  
+>  	/* Try the given port id if failed use default method */
+> -	if (cdns_uart_port[id].mapbase != 0) {
+> +	if (id < CDNS_UART_NR_PORTS && cdns_uart_port[id].mapbase != 0) {
+>  		/* Find the next unused port */
+>  		for (id = 0; id < CDNS_UART_NR_PORTS; id++)
+>  			if (cdns_uart_port[id].mapbase == 0)
+> 
 
-Thank you for the patch! Yet something to improve:
+Reviewed-by: Michal Simek <michal.simek at xilinx.com>
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v4.16-rc2 next-20180223]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-
-url:    https://github.com/0day-ci/linux/commits/Evgeniy-Didin/mmc-dw_mmc-Fix-the-DTO-timeout-overflow-calculation-for-32-bit-systems/20180223-054846
-config: mips-pistachio_defconfig (attached as .config)
-compiler: mipsel-linux-gnu-gcc (Debian 7.2.0-11) 7.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        make.cross ARCH=mips 
-
-All errors (new ones prefixed by >>):
-
-   drivers/mmc/host/dw_mmc.o: In function `dw_mci_set_drto':
->> dw_mmc.c:(.text+0x176c): undefined reference to `__udivdi3'
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/gzip
-Size: 25061 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20180223/17e53067/attachment-0001.gz>
+Thanks,
+Michal
