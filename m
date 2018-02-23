@@ -1,41 +1,42 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 22 Feb 2018 09:38:32 -0800
-Subject: [PATCH v2] mmc: dw_mmc: Fix the DTO timeout overflow calculation
+From: lkp@intel.com (kbuild test robot)
+Date: Fri, 23 Feb 2018 09:14:48 +0800
+Subject: [PATCH] mmc: dw_mmc: Fix the DTO timeout overflow calculation
  for 32-bit systems
-In-Reply-To: <bec45955-1e84-400b-961f-35b5342c671f@rock-chips.com>
-References: <20180222133418.29336-1-Evgeniy.Didin@synopsys.com>
- <bec45955-1e84-400b-961f-35b5342c671f@rock-chips.com>
+In-Reply-To: <20180221175734.39114-1-Evgeniy.Didin@synopsys.com>
+References: <20180221175734.39114-1-Evgeniy.Didin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <afbfa58b-500e-4d65-04a5-f5f26d8e6abe@synopsys.com>
+Message-ID: <201802230909.0R9d1uAG%fengguang.wu@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 02/22/2018 07:28 AM, Shawn Lin wrote:
->>
->> Lets cast this multiply to u64 type which prevents overflow.
->>
->> Tested-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
->> Fixes: ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
->>
->> Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
->>
->> CC: Alexey Brodkin <abrodkin at synopsys.com>
->> CC: Eugeniy Paltsev <paltsev at synopsys.com>
->> CC: Douglas Anderson <dianders at chromium.org>
->> CC: Ulf Hansson <ulf.hansson at linaro.org>
->> CC: linux-kernel at vger.kernel.org
->> CC: linux-snps-arc at lists.infradead.org
->> Cc: <stable at vger.kernel.org> #? 9d9491a7da2a mmc: dw_mmc: Fix the DTO timeout 
->> calculation
-> 
-> The fix looks good to me, but the tags should be improved a bit:
-> 
-> Fixes: 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation")
+Hi Evgeniy,
 
-Ok, then perhaps use Reported-by tag to call out when/how issue was found.
+Thank you for the patch! Yet something to improve:
 
-Reported-by: ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
+[auto build test ERROR on linus/master]
+[also build test ERROR on v4.16-rc2 next-20180222]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-> Cc: <stable at vger.kernel.org>
-> 
-> Otherwise,
-> Reviewed-by: Shawn Lin <shawn.lin at rock-chips.com>
+url:    https://github.com/0day-ci/linux/commits/Evgeniy-Didin/mmc-dw_mmc-Fix-the-DTO-timeout-overflow-calculation-for-32-bit-systems/20180223-054846
+config: arm-exynos_defconfig (attached as .config)
+compiler: arm-linux-gnueabi-gcc (Debian 7.2.0-11) 7.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        make.cross ARCH=arm 
+
+All errors (new ones prefixed by >>):
+
+   drivers/mmc/host/dw_mmc.o: In function `dw_mci_set_drto':
+>> dw_mmc.c:(.text+0x1644): undefined reference to `__aeabi_uldivmod'
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 28423 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20180223/4ba48682/attachment-0001.gz>
