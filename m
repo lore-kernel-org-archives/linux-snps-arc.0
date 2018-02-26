@@ -1,82 +1,29 @@
 From: Evgeniy.Didin@synopsys.com (Evgeniy Didin)
-Date: Mon, 26 Feb 2018 17:34:12 +0300
-Subject: [PATCH 1/2 v3] mmc: dw_mmc: Fix the DTO timeout overflow calculation
- for 32-bit systems
-In-Reply-To: <20180226143413.44134-1-Evgeniy.Didin@synopsys.com>
-References: <20180226143413.44134-1-Evgeniy.Didin@synopsys.com>
+Date: Mon, 26 Feb 2018 17:34:11 +0300
+Subject: [PATCH 0/2 v3] mmc: dw_mmc: Fix DTO/STO timeout overflow calculation
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180226143413.44134-2-Evgeniy.Didin@synopsys.com>
+Message-ID: <20180226143413.44134-1-Evgeniy.Didin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-In commit 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation") have been made
-changes which cause multiply overflow for 32-bit systems.
-The broken timeout calculations caused false interrupt latency warnings
-and stacktrace splat (such as below) when accessing the SD Card.
+For some 32-bit architectures calculation of DTO and STO timeout can be incorrect
+due to multiply overflow. Lets prevent this by casting multiply and result to u64.
 
-| Running :  4M-check-reassembly-tcp-cmykw2-rotatew2.out -v0 -w1
-| -  Info: Finished target initialization.
-| mmcblk0: error -110 transferring data, sector 320544, nr 2048, cmd response
-|  0x900, card status 0x0
-| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual
-| 396825HZ div = 63)
-| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 25000000Hz, actual
-|  25000000HZ div = 1)
-| ------------[ cut here ]------------
-| softirq: huh, entered softirq 6 TASKLET 6f6a9412 with preempt_count 00000101,
-| exited with 00000100?
-| WARNING: CPU: 2 PID: 0 at ../lib/scatterlist.c:652 sg_miter_next+0x28/0x20c
-| Modules linked in:
-| CPU: 2 PID: 0 Comm: swapper/2 Not tainted 4.15.0 #57
-|
-| Stack Trace:
-|  arc_unwind_core.constprop.1+0xd0/0xf4
-|  dump_stack+0x68/0x80
-|  warn_slowpath_null+0x4e/0xec
-|  sg_miter_next+0x28/0x20c
-|  dw_mci_read_data_pio+0x44/0x190
-|  dw_mmc f000a000.mmc: Unexpected interrupt latency
-|   dw_mci_interrupt+0x3ee/0x530
-|  __handle_irq_event_percpu+0x56/0x150
-|  handle_irq_event+0x34/0x78
-|  handle_level_irq+0x8e/0x120
-|  generic_handle_irq+0x1c/0x2c
-|  idu_cascade_isr+0x30/0x6c
-|  __handle_domain_irq+0x72/0xc8
-|  ret_from_exception+0x0/0x8
-|---[ end trace 2a58c9af6c25fe51 ]---
+Suggested by Jisheng Zhang.
+Switch DIV_ROUND_UP macro to DIV_ROUND_UP_ULL is not reasonable
+because overflow happens on multiply and DIV_ROUND_UP_ULL helps
+with sum overflow.
 
-Lets cast this multiply to u64 type which prevents overflow.
-
-Tested-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-Fixes: ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
-
-Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
-
-CC: Alexey Brodkin <abrodkin at synopsys.com>
-CC: Eugeniy Paltsev <paltsev at synopsys.com>
-CC: Douglas Anderson <dianders at chromium.org>
-CC: Ulf Hansson <ulf.hansson at linaro.org>
-CC: linux-kernel at vger.kernel.org
-CC: linux-snps-arc at lists.infradead.org
-Cc: <stable at vger.kernel.org> #  9d9491a7da2a mmc: dw_mmc: Fix the DTO timeout calculation
 ---
-Nothing changed since v2.
- drivers/mmc/host/dw_mmc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Changes since v2:
+-add fix for cto_ms
 
-diff --git a/drivers/mmc/host/dw_mmc.c b/drivers/mmc/host/dw_mmc.c
-index 0aa39975f33b..194159219b32 100644
---- a/drivers/mmc/host/dw_mmc.c
-+++ b/drivers/mmc/host/dw_mmc.c
-@@ -1944,7 +1944,8 @@ static void dw_mci_set_drto(struct dw_mci *host)
- 	drto_div = (mci_readl(host, CLKDIV) & 0xff) * 2;
- 	if (drto_div == 0)
- 		drto_div = 1;
--	drto_ms = DIV_ROUND_UP(MSEC_PER_SEC * drto_clks * drto_div,
-+
-+	drto_ms = DIV_ROUND_UP((u64)MSEC_PER_SEC * drto_clks * drto_div,
- 			       host->bus_hz);
- 
- 	/* add a bit spare time */
+Evgeniy Didin (2):
+  mmc: dw_mmc: Fix the DTO timeout overflow calculation for 32-bit
+    systems
+  mmc: dw_mmc: Fix the CTO overflow calculation for 32-bit systems
+
+ drivers/mmc/host/dw_mmc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
 -- 
 2.11.0
