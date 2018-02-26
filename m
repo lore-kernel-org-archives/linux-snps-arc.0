@@ -1,26 +1,39 @@
-From: andy.shevchenko@gmail.com (Andy Shevchenko)
-Date: Mon, 26 Feb 2018 16:40:34 +0200
-Subject: [PATCH 1/2 v3] mmc: dw_mmc: Fix the DTO timeout overflow
- calculation for 32-bit systems
-In-Reply-To: <20180226143413.44134-2-Evgeniy.Didin@synopsys.com>
-References: <20180226143413.44134-1-Evgeniy.Didin@synopsys.com>
- <20180226143413.44134-2-Evgeniy.Didin@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Mon, 26 Feb 2018 17:56:26 +0300
+Subject: [PATCH v2 0/2] Introduce DW AXI DMAC driver
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAHp75Vepn=nS9=WRpKhPLQ04EJEpL0tcne-DfV6ip-ELH9ggRA@mail.gmail.com>
+Message-ID: <20180226145628.11892-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Feb 26, 2018 at 4:34 PM, Evgeniy Didin
-<Evgeniy.Didin@synopsys.com> wrote:
-> In commit 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation") have been made
-> changes which cause multiply overflow for 32-bit systems.
-> The broken timeout calculations caused false interrupt latency warnings
-> and stacktrace splat (such as below) when accessing the SD Card.
+This patch series add support for the DW AXI DMAC controller.
 
-> +       drto_ms = DIV_ROUND_UP((u64)MSEC_PER_SEC * drto_clks * drto_div,
->                                host->bus_hz);
+DW AXI DMAC is a part of HSDK development board from Synopsys.
 
-Same as per patch 2.
+In this driver implementation only DMA_MEMCPY transfers
+are supported.
+
+Changes v1->v2 (suggested by Andy Shevchenko):
+ * Use SPDX licence identifier.
+ * Refactor axi_chan_get_xfer_width function.
+ * Fix timeout calculation in dma_chan_pause.
+ * Add record to MAINTAINERS in correct alphabetical order.
+
+Eugeniy Paltsev (2):
+  dmaengine: Introduce DW AXI DMAC driver
+  dt-bindings: Document the Synopsys DW AXI DMA bindings
+
+ .../devicetree/bindings/dma/snps,dw-axi-dmac.txt   |   41 +
+ MAINTAINERS                                        |    6 +
+ drivers/dma/Kconfig                                |   10 +
+ drivers/dma/Makefile                               |    1 +
+ drivers/dma/dw-axi-dmac/Makefile                   |    1 +
+ drivers/dma/dw-axi-dmac/axi_dma_platform.c         | 1010 ++++++++++++++++++++
+ drivers/dma/dw-axi-dmac/axi_dma_platform.h         |  342 +++++++
+ 7 files changed, 1411 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.txt
+ create mode 100644 drivers/dma/dw-axi-dmac/Makefile
+ create mode 100644 drivers/dma/dw-axi-dmac/axi_dma_platform.c
+ create mode 100644 drivers/dma/dw-axi-dmac/axi_dma_platform.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.9.3
