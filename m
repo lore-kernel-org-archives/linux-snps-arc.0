@@ -1,41 +1,82 @@
-From: shawnguo@kernel.org (Shawn Guo)
-Date: Sat, 24 Feb 2018 16:56:27 +0800
-Subject: [PATCH] fix double ;;s in code
-In-Reply-To: <20180224085227.GA12996@amd>
-References: <20180217211955.GE9640@amd> <20180222090932.GJ3217@dragon>
- <20180224085227.GA12996@amd>
+From: Evgeniy.Didin@synopsys.com (Evgeniy Didin)
+Date: Mon, 26 Feb 2018 17:34:12 +0300
+Subject: [PATCH 1/2 v3] mmc: dw_mmc: Fix the DTO timeout overflow calculation
+ for 32-bit systems
+In-Reply-To: <20180226143413.44134-1-Evgeniy.Didin@synopsys.com>
+References: <20180226143413.44134-1-Evgeniy.Didin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180224085626.GN3217@dragon>
+Message-ID: <20180226143413.44134-2-Evgeniy.Didin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Sat, Feb 24, 2018@09:52:27AM +0100, Pavel Machek wrote:
-> Hi!
-> 
-> > > diff --git a/drivers/soc/imx/gpc.c b/drivers/soc/imx/gpc.c
-> > > index 53f7275..cfb42f5 100644
-> > > --- a/drivers/soc/imx/gpc.c
-> > > +++ b/drivers/soc/imx/gpc.c
-> > > @@ -348,7 +348,7 @@ static int imx_gpc_old_dt_init(struct device *dev, struct regmap *regmap,
-> > >  		if (i == 1) {
-> > >  			domain->supply = devm_regulator_get(dev, "pu");
-> > >  			if (IS_ERR(domain->supply))
-> > > -				return PTR_ERR(domain->supply);;
-> > > +				return PTR_ERR(domain->supply);
-> > >  
-> > >  			ret = imx_pgc_get_clocks(dev, domain);
-> > >  			if (ret)
-> > > 
-> > 
-> > Considering the controversy how the changes should be merged, I'm going
-> > to send a separate patch just for IMX GPC driver with a reported-by-you
-> > tag.  Thanks for catching this.
-> 
-> That works for me.
-> 
-> Alternatively... Andrew Morton merged the patch to his -mm tree
-> (thanks!), so you don't need to take any action, and it will be
-> eventually fixed.
+In commit 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation") have been made
+changes which cause multiply overflow for 32-bit systems.
+The broken timeout calculations caused false interrupt latency warnings
+and stacktrace splat (such as below) when accessing the SD Card.
 
-Okay, I'm dropping my patch from IMX tree.
+| Running :  4M-check-reassembly-tcp-cmykw2-rotatew2.out -v0 -w1
+| -  Info: Finished target initialization.
+| mmcblk0: error -110 transferring data, sector 320544, nr 2048, cmd response
+|  0x900, card status 0x0
+| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual
+| 396825HZ div = 63)
+| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 25000000Hz, actual
+|  25000000HZ div = 1)
+| ------------[ cut here ]------------
+| softirq: huh, entered softirq 6 TASKLET 6f6a9412 with preempt_count 00000101,
+| exited with 00000100?
+| WARNING: CPU: 2 PID: 0 at ../lib/scatterlist.c:652 sg_miter_next+0x28/0x20c
+| Modules linked in:
+| CPU: 2 PID: 0 Comm: swapper/2 Not tainted 4.15.0 #57
+|
+| Stack Trace:
+|  arc_unwind_core.constprop.1+0xd0/0xf4
+|  dump_stack+0x68/0x80
+|  warn_slowpath_null+0x4e/0xec
+|  sg_miter_next+0x28/0x20c
+|  dw_mci_read_data_pio+0x44/0x190
+|  dw_mmc f000a000.mmc: Unexpected interrupt latency
+|   dw_mci_interrupt+0x3ee/0x530
+|  __handle_irq_event_percpu+0x56/0x150
+|  handle_irq_event+0x34/0x78
+|  handle_level_irq+0x8e/0x120
+|  generic_handle_irq+0x1c/0x2c
+|  idu_cascade_isr+0x30/0x6c
+|  __handle_domain_irq+0x72/0xc8
+|  ret_from_exception+0x0/0x8
+|---[ end trace 2a58c9af6c25fe51 ]---
 
-Shawn
+Lets cast this multiply to u64 type which prevents overflow.
+
+Tested-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+Fixes: ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
+
+Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
+
+CC: Alexey Brodkin <abrodkin at synopsys.com>
+CC: Eugeniy Paltsev <paltsev at synopsys.com>
+CC: Douglas Anderson <dianders at chromium.org>
+CC: Ulf Hansson <ulf.hansson at linaro.org>
+CC: linux-kernel at vger.kernel.org
+CC: linux-snps-arc at lists.infradead.org
+Cc: <stable at vger.kernel.org> #  9d9491a7da2a mmc: dw_mmc: Fix the DTO timeout calculation
+---
+Nothing changed since v2.
+ drivers/mmc/host/dw_mmc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/mmc/host/dw_mmc.c b/drivers/mmc/host/dw_mmc.c
+index 0aa39975f33b..194159219b32 100644
+--- a/drivers/mmc/host/dw_mmc.c
++++ b/drivers/mmc/host/dw_mmc.c
+@@ -1944,7 +1944,8 @@ static void dw_mci_set_drto(struct dw_mci *host)
+ 	drto_div = (mci_readl(host, CLKDIV) & 0xff) * 2;
+ 	if (drto_div == 0)
+ 		drto_div = 1;
+-	drto_ms = DIV_ROUND_UP(MSEC_PER_SEC * drto_clks * drto_div,
++
++	drto_ms = DIV_ROUND_UP((u64)MSEC_PER_SEC * drto_clks * drto_div,
+ 			       host->bus_hz);
+ 
+ 	/* add a bit spare time */
+-- 
+2.11.0
