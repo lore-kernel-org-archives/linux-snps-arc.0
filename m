@@ -1,194 +1,37 @@
 From: andy.shevchenko@gmail.com (Andy Shevchenko)
-Date: Mon, 26 Feb 2018 18:42:59 +0200
-Subject: [PATCH v2 1/2] dmaengine: Introduce DW AXI DMAC driver
-In-Reply-To: <20180226145628.11892-2-Eugeniy.Paltsev@synopsys.com>
-References: <20180226145628.11892-1-Eugeniy.Paltsev@synopsys.com>
- <20180226145628.11892-2-Eugeniy.Paltsev@synopsys.com>
+Date: Mon, 26 Feb 2018 18:53:48 +0200
+Subject: [PATCH 2/2 v3] mmc: dw_mmc: Fix the CTO overflow calculation for
+ 32-bit systems
+In-Reply-To: <1519658060.31245.4.camel@synopsys.com>
+References: <20180226143413.44134-1-Evgeniy.Didin@synopsys.com>
+ <20180226143413.44134-3-Evgeniy.Didin@synopsys.com>
+ <CAHp75Vct=jMohCFnn3aoZCAw-Q8=8OOF-nPXh9dfwrWHVPXSfA@mail.gmail.com>
+ <1519658060.31245.4.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAHp75Vc6KtppecYJBtuXTGCzXySOUZiYqxBfb6w69f1j3J0jDQ@mail.gmail.com>
+Message-ID: <CAHp75VeJhHWhxc4DBiqiu4n6raXbNQ0+W5YX_jthQd2OFF9F=w@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Feb 26, 2018 at 4:56 PM, Eugeniy Paltsev
-<Eugeniy.Paltsev@synopsys.com> wrote:
-> This patch adds support for the DW AXI DMAC controller.
-> DW AXI DMAC is a part of HSDK development board from Synopsys.
->
-> In this driver implementation only DMA_MEMCPY transfers are
-> supported.
+On Mon, Feb 26, 2018 at 5:14 PM, Evgeniy Didin
+<Evgeniy.Didin@synopsys.com> wrote:
+> On Mon, 2018-02-26@16:39 +0200, Andy Shevchenko wrote:
+>> On Mon, Feb 26, 2018 at 4:34 PM, Evgeniy Didin
+>> <Evgeniy.Didin@synopsys.com> wrote:
+>> > In commit 4c2357f57dd5 ("mmc: dw_mmc: Fix the CTO timeout calculation")
+>> > have been made changes which can cause multiply overflow for 32-bit systems.
+>> > The value of cto_ms is lower the drto_ms, but nevertheless overflow can occur.
+>> > Lets cast this multiply to u64 type which prevents overflow.
+>> > -       cto_ms = DIV_ROUND_UP(MSEC_PER_SEC * cto_clks * cto_div, host->bus_hz);
+>> > +
+>> > +       cto_ms = DIV_ROUND_UP((u64)MSEC_PER_SEC * cto_clks * cto_div, host->bus_hz);
+>>
+>> IIRC, someone commented on this or similar, i.e.
+>>
+>> DIV_ROUND_UP_ULL() ?
+> Switch DIV_ROUND_UP macro to DIV_ROUND_UP_ULL is not reasonable
+> because overflow happens on multiply and DIV_ROUND_UP_ULL helps
+> with sum overflow.
 
-> +/*
-> + * Synopsys DesignWare AXI DMA Controller driver.
-> + *
-> + * Copyright (C) 2017-2018 Synopsys, Inc. (www.synopsys.com)
-> + * Author: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> + *
-
-> + * SPDX-License-Identifier:    GPL-2.0
-
-According to license-rules.rst it should be first line in the file
-with C++ style comment.
-
-> + */
-
-> +static inline void
-> +axi_chan_iowrite64(struct axi_dma_chan *chan, u32 reg, u64 val)
-> +{
-> +       /*
-> +        * We split one 64 bit write for two 32 bit write as some HW doesn't
-> +        * support 64 bit access.
-> +        */
-
-> +       iowrite32((u32)val, chan->chan_regs + reg);
-> +       iowrite32(val >> 32, chan->chan_regs + reg + 4);
-
-upper_32_bits()
-lower_32_bits()
-
-?
-
-> +}
-
-> +static int dma_chan_pause(struct dma_chan *dchan)
-> +{
-> +       struct axi_dma_chan *chan = dchan_to_axi_dma_chan(dchan);
-> +       unsigned long flags;
-> +       unsigned int timeout = 20; /* timeout iterations */
-
-> +       int ret = -EAGAIN;
-
-Perhaps,
-
-int ret;
-...
-
-> +       u32 val;
-> +
-> +       spin_lock_irqsave(&chan->vc.lock, flags);
-> +
-> +       val = axi_dma_ioread32(chan->chip, DMAC_CHEN);
-> +       val |= BIT(chan->id) << DMAC_CHAN_SUSP_SHIFT |
-> +              BIT(chan->id) << DMAC_CHAN_SUSP_WE_SHIFT;
-> +       axi_dma_iowrite32(chan->chip, DMAC_CHEN, val);
-> +
-
-> +       do  {
-> +               if (axi_chan_irq_read(chan) & DWAXIDMAC_IRQ_SUSPENDED) {
-> +                       ret = 0;
-> +                       break;
-> +               }
-
-...
-if (...)
- break;
-...
-
-> +               udelay(2);
-> +       } while (--timeout);
-
-...
-ret = timeout ? 0 : -EAGAIN;
-
-?
-
-> +
-> +       axi_chan_irq_clear(chan, DWAXIDMAC_IRQ_SUSPENDED);
-> +
-> +       chan->is_paused = true;
-> +
-> +       spin_unlock_irqrestore(&chan->vc.lock, flags);
-> +
-> +       return ret;
-> +}
-
-> +/* pm_runtime callbacks */
-
-Noise.
-
-> +#ifdef CONFIG_PM
-
-__maybe_unused
-
-> +static int axi_dma_runtime_suspend(struct device *dev)
-> +{
-> +       struct axi_dma_chip *chip = dev_get_drvdata(dev);
-> +
-> +       return axi_dma_suspend(chip);
-> +}
-> +
-> +static int axi_dma_runtime_resume(struct device *dev)
-> +{
-> +       struct axi_dma_chip *chip = dev_get_drvdata(dev);
-> +
-> +       return axi_dma_resume(chip);
-> +}
-> +#endif
-
-> +static int parse_device_properties(struct axi_dma_chip *chip)
-> +{
-
-> +       ret = device_property_read_u32(dev, "snps,dma-masters", &tmp);
-
-Why it has prefix?
-
-> +       ret = device_property_read_u32(dev, "snps,data-width", &tmp);
-
-Ditto.
-
-> +       ret = device_property_read_u32_array(dev, "snps,block-size", carr,
-> +                                            chip->dw->hdata->nr_channels);
-
-(perhaps this one can be moved outside of local namespace)
-
-> +       ret = device_property_read_u32_array(dev, "snps,priority", carr,
-> +                                            chip->dw->hdata->nr_channels);
-
-Can you use just "priority"?
-
-> +       /* axi-max-burst-len is optional property */
-> +       ret = device_property_read_u32(dev, "snps,axi-max-burst-len", &tmp);
-
-"dma-burst-sz" ?
-
-> +       chip->core_clk = devm_clk_get(chip->dev, "core-clk");
-
-Does the name come from datasheet?
-
-> +       chip->cfgr_clk = devm_clk_get(chip->dev, "cfgr-clk");
-
-Ditto?
-
-> +       for (i = 0; i < hdata->nr_channels; i++) {
-
-> +               chan->id = (u8)i;
-
-Hmm... Do you need explicit casting?
-
-> +       }
-
-> +       /* Enable clk before accessing to registers */
-> +       clk_prepare_enable(chip->cfgr_clk);
-> +       clk_prepare_enable(chip->core_clk);
-
-Each of them may fail. Is it okay?
-
-> +static const struct dev_pm_ops dw_axi_dma_pm_ops = {
-> +       SET_RUNTIME_PM_OPS(axi_dma_runtime_suspend, axi_dma_runtime_resume, NULL)
-> +};
-
-No system suspend?
-
-> +/*
-> + * Synopsys DesignWare AXI DMA Controller driver.
-> + *
-> + * Copyright (C) 2017-2018 Synopsys, Inc. (www.synopsys.com)
-> + * Author: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> + *
-
-> + * SPDX-License-Identifier:    GPL-2.0
-
-First line, but C style of the comment.
-
-> + */
+Did you try to compile your code for 32-bit target?
 
 -- 
 With Best Regards,
