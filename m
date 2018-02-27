@@ -1,94 +1,64 @@
-From: dianders@chromium.org (Doug Anderson)
-Date: Wed, 28 Feb 2018 08:16:20 -0800
-Subject: [PATCH v4] mmc: dw_mmc: Fix the DTO/CTO timeout overflow
+From: shawn.lin@rock-chips.com (Shawn Lin)
+Date: Tue, 27 Feb 2018 09:14:23 +0800
+Subject: [PATCH 1/2 v3] mmc: dw_mmc: Fix the DTO timeout overflow
  calculation for 32-bit systems
-In-Reply-To: <20180228115318.20154-1-Evgeniy.Didin@synopsys.com>
-References: <20180228115318.20154-1-Evgeniy.Didin@synopsys.com>
+In-Reply-To: <20180226143413.44134-2-Evgeniy.Didin@synopsys.com>
+References: <20180226143413.44134-1-Evgeniy.Didin@synopsys.com>
+ <20180226143413.44134-2-Evgeniy.Didin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAD=FV=XSSpevXKO7h0s826qt7Fdo7Zzp6SrNa4VCzEgCJ-zWCA@mail.gmail.com>
+Message-ID: <d955cc19-1398-3c05-4742-32664480d07d@rock-chips.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
 
-On Wed, Feb 28, 2018 at 3:53 AM, Evgeniy Didin
-<Evgeniy.Didin@synopsys.com> wrote:
-> In commit 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation") and
-> commit 4c2357f57dd5 ("mmc: dw_mmc: Fix the CTO timeout calculation")
-> have been made changes which cause multiply overflow for 32-bit systems.
-> The broken timeout calculations leads to unexpected ETIMEDOUT errors and
-> causes stacktrace splat (such as below) during normal data exchange
-> with SD-card.
->
-> | Running :  4M-check-reassembly-tcp-cmykw2-rotatew2.out -v0 -w1
-> | -  Info: Finished target initialization.
-> | mmcblk0: error -110 transferring data, sector 320544, nr 2048, cmd response
-> |  0x900, card status 0x0
->
-> DIV_ROUND_UP_ULL helps to escape usage of __udivdi3() from libgcc and so
-> code gets compiled on all 32-bit platforms as opposed to usage
-> of DIV_ROUND_UP when we may only compile stuff on a very few arches.
->
-> Lets cast this multiply to u64 type which prevents overflow.
->
 > Tested-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-> Reported-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com> # ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
-> Fixes: 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation")
-> Fixes: 4c2357f57dd5 ("mmc: dw_mmc: Fix the CTO timeout calculation")
->
+> Fixes: ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
+> 
 > Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
->
+> 
 > CC: Alexey Brodkin <abrodkin at synopsys.com>
 > CC: Eugeniy Paltsev <paltsev at synopsys.com>
 > CC: Douglas Anderson <dianders at chromium.org>
 > CC: Ulf Hansson <ulf.hansson at linaro.org>
-> CC: Andy Shevchenko <andy.shevchenko at gmail.com>
-> CC: Jisheng Zhang <Jisheng.Zhang at synaptics.com>
-> CC: Shawn Lin <shawn.lin at rock-chips.com>
-> CC: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
 > CC: linux-kernel at vger.kernel.org
 > CC: linux-snps-arc at lists.infradead.org
-> Cc: <stable at vger.kernel.org>
+> Cc: <stable at vger.kernel.org> #  9d9491a7da2a mmc: dw_mmc: Fix the DTO timeout calculation
+
+As I said, the correct tag may be:
+
+Reported-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com> # ARC STAR 
+9001306872 HSDK, sdio: board crashes when copying big files
+Tested-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+Fixes: 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation")
+Cc: <stable at vger.kernel.org>
+Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
+...
+...
+
+
 > ---
-> Changes since v3:
-> -Switch DIV_ROUND_UP macro to DIV_ROUND_UP_ULL
-> -Make one patch from two patches
-> -Modify commit message
->
-> Changes sinve v2:
-> -add fix for cto_ms
->
-> Changes since v1:
-> -uint64_t switched to u64
->
->  drivers/mmc/host/dw_mmc.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+> Nothing changed since v2.
+>   drivers/mmc/host/dw_mmc.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
 
-FYI that your messages keep ending up in my spam folder and I just see
-other people's replies.  Not exactly sure why...  Note also that your
-patch really doesn't have all the tags in the right places.  All the
-Tags including the Signed-off-by and Cc are supposed to be squashed in
-one paragraph  ...and I believe "CC" is canonically supposed to be
-"Cc".  Presumably the maintainer can fix this up when applying, but
-please try to do better in the future.  Speaking of which, you didn't
-include the dw_mmc maintainer (Jaehoon Chung) in your post?  That
-seems not so great unless you know something that get_maintainers
-doesn't know about who will apply this patch.
+> -	drto_ms = DIV_ROUND_UP(MSEC_PER_SEC * drto_clks * drto_div,
+> +
+> +	drto_ms = DIV_ROUND_UP((u64)MSEC_PER_SEC * drto_clks * drto_div,
+>   			       host->bus_hz);
+>   
 
-$ ./scripts/get_maintainer.pl -f drivers/mmc/host/dw_mmc.c
-Jaehoon Chung <jh80.chung at samsung.com> (maintainer:SYNOPSYS DESIGNWARE
-MMC/SD/SDIO DRIVER)
+Hmm?
+
+#define DIV_ROUND_DOWN_ULL(ll, d) \
+	({ unsigned long long _tmp = (ll); do_div(_tmp, d); _tmp; })
+
+#define DIV_ROUND_UP_ULL(ll, d)		DIV_ROUND_DOWN_ULL((ll) + (d) - 1, (d))
 
 
-As far as the actual patch, at first I thought maybe we could avoid
-the 64-bit math and just pre-divide bus_hz by MSEC_PER_SEC (just like
-used to happen before my change), but I think there's still a chance
-of overflow, right?  Because, for instance:
+It uses intermediate unsigned long long _tmp for your "multiply", namely
+MSEC_PER_SEC * drto_clks * drto_div, which could solves the problem.
+So I don't see why DIV_ROUND_UP_ULL can't work for you?
 
-drto_clks can be a full 24 bits
-drto_div can be effectively 9 bits
 
-...we could do further tricks (further rounding up the result), but it
-seems like just doing the 64-bit math is fine too unless someone has
-any strong objections...
-
-Reviewed-by: Douglas Anderson <dianders at chromium.org>
+>   	/* add a bit spare time */
+> 
