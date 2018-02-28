@@ -1,119 +1,94 @@
-From: Evgeniy.Didin@synopsys.com (Evgeniy Didin)
-Date: Wed, 28 Feb 2018 16:11:02 +0000
-Subject: mmc: dw_mmc: DRTO interrupt cause driver switch to PIO mode
+From: dianders@chromium.org (Doug Anderson)
+Date: Wed, 28 Feb 2018 08:16:20 -0800
+Subject: [PATCH v4] mmc: dw_mmc: Fix the DTO/CTO timeout overflow
+ calculation for 32-bit systems
+In-Reply-To: <20180228115318.20154-1-Evgeniy.Didin@synopsys.com>
+References: <20180228115318.20154-1-Evgeniy.Didin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1519834261.8992.8.camel@synopsys.com>
+Message-ID: <CAD=FV=XSSpevXKO7h0s826qt7Fdo7Zzp6SrNa4VCzEgCJ-zWCA@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hello everyone,
+Hi,
 
-We have made some research of how driver behaves in case when changes [1] are not applied.
-Here in [2] was metioned that while transfering data
-after interrupt has happend driver went to PIO mode, that is not expected.
-Here is log:
+On Wed, Feb 28, 2018 at 3:53 AM, Evgeniy Didin
+<Evgeniy.Didin@synopsys.com> wrote:
+> In commit 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation") and
+> commit 4c2357f57dd5 ("mmc: dw_mmc: Fix the CTO timeout calculation")
+> have been made changes which cause multiply overflow for 32-bit systems.
+> The broken timeout calculations leads to unexpected ETIMEDOUT errors and
+> causes stacktrace splat (such as below) during normal data exchange
+> with SD-card.
+>
+> | Running :  4M-check-reassembly-tcp-cmykw2-rotatew2.out -v0 -w1
+> | -  Info: Finished target initialization.
+> | mmcblk0: error -110 transferring data, sector 320544, nr 2048, cmd response
+> |  0x900, card status 0x0
+>
+> DIV_ROUND_UP_ULL helps to escape usage of __udivdi3() from libgcc and so
+> code gets compiled on all 32-bit platforms as opposed to usage
+> of DIV_ROUND_UP when we may only compile stuff on a very few arches.
+>
+> Lets cast this multiply to u64 type which prevents overflow.
+>
+> Tested-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+> Reported-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com> # ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
+> Fixes: 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation")
+> Fixes: 4c2357f57dd5 ("mmc: dw_mmc: Fix the CTO timeout calculation")
+>
+> Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
+>
+> CC: Alexey Brodkin <abrodkin at synopsys.com>
+> CC: Eugeniy Paltsev <paltsev at synopsys.com>
+> CC: Douglas Anderson <dianders at chromium.org>
+> CC: Ulf Hansson <ulf.hansson at linaro.org>
+> CC: Andy Shevchenko <andy.shevchenko at gmail.com>
+> CC: Jisheng Zhang <Jisheng.Zhang at synaptics.com>
+> CC: Shawn Lin <shawn.lin at rock-chips.com>
+> CC: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+> CC: linux-kernel at vger.kernel.org
+> CC: linux-snps-arc at lists.infradead.org
+> Cc: <stable at vger.kernel.org>
+> ---
+> Changes since v3:
+> -Switch DIV_ROUND_UP macro to DIV_ROUND_UP_ULL
+> -Make one patch from two patches
+> -Modify commit message
+>
+> Changes sinve v2:
+> -add fix for cto_ms
+>
+> Changes since v1:
+> -uint64_t switched to u64
+>
+>  drivers/mmc/host/dw_mmc.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 
-| Running :??4M-check-reassembly-tcp-cmykw2-rotatew2.out -v0 -w1
-| -??Info: Finished target initialization.
-| mmcblk0: error -110 transferring data, sector 320544, nr 2048, cmd response
-|??0x900, card status 0x0
-| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual
-| 396825HZ div = 63)
-| mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 25000000Hz, actual
-|??25000000HZ div = 1)
-| ------------[ cut here ]------------
-| softirq: huh, entered softirq 6 TASKLET 6f6a9412 with preempt_count 00000101,
-| exited with 00000100?
-| WARNING: CPU: 2 PID: 0 at ../lib/scatterlist.c:652 sg_miter_next+0x28/0x20c
-| Modules linked in:
-| CPU: 2 PID: 0 Comm: swapper/2 Not tainted 4.15.0 #57
-|
-| Stack Trace:
-|??arc_unwind_core.constprop.1+0xd0/0xf4
-|??dump_stack+0x68/0x80
-|??warn_slowpath_null+0x4e/0xec
-|??sg_miter_next+0x28/0x20c
+FYI that your messages keep ending up in my spam folder and I just see
+other people's replies.  Not exactly sure why...  Note also that your
+patch really doesn't have all the tags in the right places.  All the
+Tags including the Signed-off-by and Cc are supposed to be squashed in
+one paragraph  ...and I believe "CC" is canonically supposed to be
+"Cc".  Presumably the maintainer can fix this up when applying, but
+please try to do better in the future.  Speaking of which, you didn't
+include the dw_mmc maintainer (Jaehoon Chung) in your post?  That
+seems not so great unless you know something that get_maintainers
+doesn't know about who will apply this patch.
 
->??dw_mci_read_data_pio+0x44/0x190?
-
-|??dw_mmc f000a000.mmc: Unexpected interrupt latency
-|???dw_mci_interrupt+0x3ee/0x530
-|??__handle_irq_event_percpu+0x56/0x150
-|??handle_irq_event+0x34/0x78
-|??handle_level_irq+0x8e/0x120
-|??generic_handle_irq+0x1c/0x2c
-|??idu_cascade_isr+0x30/0x6c
-|??__handle_domain_irq+0x72/0xc8
-|??ret_from_exception+0x0/0x8
-|---[ end trace 2a58c9af6c25fe51 ]---
+$ ./scripts/get_maintainer.pl -f drivers/mmc/host/dw_mmc.c
+Jaehoon Chung <jh80.chung at samsung.com> (maintainer:SYNOPSYS DESIGNWARE
+MMC/SD/SDIO DRIVER)
 
 
-If I correctly understand behaviour, after interrupt has occurred, driver was in state "BUSY",
-than it checks status in dw_mci_data_complete() where SDMMC_INT_DRTO is set (drto_ms is not correct).
-After that function dw_mci_reset() is called.?
-As I see after reset driver tries to restart,??dw_mci_idmac_start_dma() called in which dw_mci_prepare_desc32() is called.
-In that function descriptors states are checked, where one of descriptor is OWN-ed because we got interrupt while transferring data.?
-After that driver jumps to "err_own_bit:", where it reinits IDMAC, but return value is -EINVAL, and afterall driver went into PIO mode:
-`dw_mci_submit_data_dma: fall back to PIO mode for current transfer"`
+As far as the actual patch, at first I thought maybe we could avoid
+the 64-bit math and just pre-divide bus_hz by MSEC_PER_SEC (just like
+used to happen before my change), but I think there's still a chance
+of overflow, right?  Because, for instance:
 
-The problem is in checking descriptors statuses in IDMAC initialization, which are dirty.
-What do you think about clearing them in dw_mci_reset()?
+drto_clks can be a full 24 bits
+drto_div can be effectively 9 bits
 
-Also I have checked how SDcard works in PIO mode, for that I made:
+...we could do further tricks (further rounding up the result), but it
+seems like just doing the 64-bit math is fine too unless someone has
+any strong objections...
 
-git diff drivers/mmc/host/dw_mmc.c
-@@ -2924,7 +2924,7 @@ static void dw_mci_init_dma(struct dw_mci *host)
-????????????????goto no_dma;
-????????}
--
-+????????goto no_dma;
-????????/* Determine which DMA interface to use */
-
-It doesn't work well:
-
-
-| Synopsys Designware Multimedia Card Interface Driver
-| dw_mmc f000a000.mmc: 'num-slots' was deprecated.
-| dw_mmc f000a000.mmc: Using PIO mode.
-| dw_mmc f000a000.mmc: Version ID is 290a
-| dw_mmc f000a000.mmc: DW MMC controller at irq 12,32 bit host data width,16 deep fifo
-...
-
-| # mount /dev/mmcblk0p2 2
-| EXT4-fs (mmcblk0p2): couldn't mount as ext3 due to feature incompatibilities
-| EXT4-fs (mmcblk0p2): couldn't mount as ext2 due to feature incompatibilities
-| EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: (null)
-| # cp 2/big_buck_bunny_1080p_h264.mov /tmp
-| INFO: task kworker/3:1H:131 blocked for more than 10 seconds.
-|??????Not tainted 4.16.0-rc2-00064-gaf3e79d29555-dirty #2
-| "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-| kworker/3:1H????D????0???131??????2 0x00000000
-| Workqueue: kblockd blk_mq_run_work_fn
-|
-| Stack Trace:
-|??__switch_to+0x0/0xac
-|??__schedule+0x1c4/0x598
-|??schedule+0x28/0x78
-|??mmc_blk_rw_wait+0x96/0xf8
-|??mmc_blk_mq_issue_rq+0x51a/0x880
-|??mmc_mq_queue_rq+0x136/0x1f8
-|??blk_mq_dispatch_rq_list+0xb0/0x5e8
-|??blk_mq_do_dispatch_sched+0x4c/0x9c
-|??blk_mq_sched_dispatch_requests+0xf0/0x15c
-|??blk_mq_run_work_fn+0x78/0x130
-|??process_one_work+0x194/0x338
-|??worker_thread+0xf0/0x464
-|??kthread+0x116/0x13c
-|??ret_from_fork+0x18/0x1c
-|INFO: task kworker/3:1H:131 blocked for more than 10 seconds.
-|??????Not tainted 4.16.0-rc2-00064-gaf3e79d29555-dirty #2
-|"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-|kworker/3:1H????D????0???131??????2 0x00000000
-|Workqueue: kblockd blk_mq_run_work_fn
-
-I guess that is not expected. I am wondering was that mode have been tested?
-
-Best regards,
-Evgeniy Didin
-
-[1] : https://www.spinics.net/lists/kernel/msg2734310.html?
-[2] : https://www.spinics.net/lists/linux-mmc/msg48010.html
+Reviewed-by: Douglas Anderson <dianders at chromium.org>
