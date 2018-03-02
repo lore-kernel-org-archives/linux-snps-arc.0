@@ -1,83 +1,106 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 1 Mar 2018 14:05:34 -0800
-Subject: [GIT PULL] ARC fixes for 4.16-rc4
+From: jh80.chung@samsung.com (Jaehoon Chung)
+Date: Fri, 02 Mar 2018 17:05:42 +0900
+Subject: [PATCH v4] mmc: dw_mmc: Fix the DTO/CTO timeout overflow
+ calculation for 32-bit systems
+In-Reply-To: <20180301135755.7e26f12e@xhacker.debian>
+References: <20180228115318.20154-1-Evgeniy.Didin@synopsys.com>
+ <CGME20180301055819epcas1p4de351fc93e2226e0b0ae5c9647610fc4@epcas1p4.samsung.com>
+ <20180301135755.7e26f12e@xhacker.debian>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <d363d22e-d465-c1de-a665-103543f21cf0@synopsys.com>
+Message-ID: <1112b6b6-4bb9-6cbf-24e5-e082f7ce04df@samsung.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+On 03/01/2018 02:57 PM, Jisheng Zhang wrote:
+> On Wed, 28 Feb 2018 14:53:18 +0300 Evgeniy Didin wrote:
+> 
+>> In commit 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation") and
+>> commit 4c2357f57dd5 ("mmc: dw_mmc: Fix the CTO timeout calculation") 
+>> have been made changes which cause multiply overflow for 32-bit systems.
+>> The broken timeout calculations leads to unexpected ETIMEDOUT errors and 
+>> causes stacktrace splat (such as below) during normal data exchange 
+>> with SD-card.
+>>
+>> | Running :  4M-check-reassembly-tcp-cmykw2-rotatew2.out -v0 -w1
+>> | -  Info: Finished target initialization.
+>> | mmcblk0: error -110 transferring data, sector 320544, nr 2048, cmd response
+>> |  0x900, card status 0x0
+>>
+>> DIV_ROUND_UP_ULL helps to escape usage of __udivdi3() from libgcc and so
+>> code gets compiled on all 32-bit platforms as opposed to usage
+>> of DIV_ROUND_UP when we may only compile stuff on a very few arches.
+>>
+>> Lets cast this multiply to u64 type which prevents overflow.
+> 
+> Reviewed-by: Jisheng Zhang <Jisheng.Zhang at synaptics.com>
 
-Please pull ARC fixes for 4.16-rc4.
+Acked-by: Jaehoon Chung <jh80.chung at samsung.com>
 
-Thx,
--Vineet
+Best Regards,
+Jaehoon Chung
 
-------------------->
-The following changes since commit b2cd1df66037e7c4697c7e40496bf7e4a5e16a2d:
-
-   Linux 4.15-rc7 (2018-01-07 14:22:41 -0800)
-
-are available in the git repository at:
-
-   git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.15-rc4
-
-for you to fetch changes up to a29a25275452c97fe35815f1eb9564f2a07a1965:
-
-   ARC: setup cpu possible mask according to possible-cpus dts property 
-(2018-02-28 10:45:32 -0800)
-
-----------------------------------------------------------------
-ARC fixes for 4.16-rc4
-
-  - MCIP aka ARconnect fixes for SMP builds [Euginey]
-
-  - Preventive fix for SLC (L2 cache) flushing [Euginey]
-
-  - Kconfig default fix [Ulf Magnusson]
-
-  - trailing semicolon fixes [Luis de Bethencourt]
-
-  - other assorted minor fixes
-
-----------------------------------------------------------------
-Alexey Brodkin (2):
-       ARCv2: Don't pretend we may set L-bit in STATUS32 with kflag instruction
-       ARC: Enable fatal signals on boot for dev platforms
-
-Bartosz Golaszewski (1):
-       arc: dts: use 'atmel' as manufacturer for at24 in axs10x_mb
-
-Eugeniy Paltsev (4):
-       ARCv2: cache: fix slc_entire_op: flush only instead of flush-n-inv
-       ARC: mcip: halt GFRC counter when ARC cores halt
-       ARC: mcip: update MCIP debug mask when the new cpu came online
-       ARC: setup cpu possible mask according to possible-cpus dts property
-
-Luis de Bethencourt (2):
-       ARC: dw2 unwind: Fix trailing semicolon
-       ARC: boot log: Fix trailing semicolon
-
-Ulf Magnusson (1):
-       ARC: Fix malformed ARC_EMUL_UNALIGNED default
-
-Vineet Gupta (1):
-       ARCv2: boot log: fix HS48 release number
-
-  arch/arc/Kconfig                      |  1 -
-  arch/arc/boot/dts/axs101.dts          |  2 +-
-  arch/arc/boot/dts/axs10x_mb.dtsi      |  4 +-
-  arch/arc/boot/dts/haps_hs_idu.dts     |  2 +-
-  arch/arc/boot/dts/nsim_700.dts        |  2 +-
-  arch/arc/boot/dts/nsim_hs.dts         |  2 +-
-  arch/arc/boot/dts/nsim_hs_idu.dts     |  2 +-
-  arch/arc/boot/dts/nsimosci.dts        |  2 +-
-  arch/arc/boot/dts/nsimosci_hs.dts     |  2 +-
-  arch/arc/boot/dts/nsimosci_hs_idu.dts |  2 +-
-  arch/arc/include/asm/entry-arcv2.h    |  2 +-
-  arch/arc/kernel/mcip.c                | 74 ++++++++++++++++++++++++++++++++---
-  arch/arc/kernel/setup.c               |  4 +-
-  arch/arc/kernel/smp.c                 | 50 ++++++++++++++++++-----
-  arch/arc/kernel/unwind.c              |  2 +-
-  arch/arc/mm/cache.c                   |  5 ++-
-  include/soc/arc/mcip.h                |  5 +++
-  17 files changed, 132 insertions(+), 31 deletions(-)
+> 
+>>
+>> Tested-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+>> Reported-by: Vineet Gupta <Vineet.Gupta1 at synopsys.com> # ARC STAR 9001306872 HSDK, sdio: board crashes when copying big files
+>> Fixes: 9d9491a7da2a ("mmc: dw_mmc: Fix the DTO timeout calculation")
+>> Fixes: 4c2357f57dd5 ("mmc: dw_mmc: Fix the CTO timeout calculation")
+>>
+>> Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
+>>
+>> CC: Alexey Brodkin <abrodkin at synopsys.com>
+>> CC: Eugeniy Paltsev <paltsev at synopsys.com>
+>> CC: Douglas Anderson <dianders at chromium.org>
+>> CC: Ulf Hansson <ulf.hansson at linaro.org>
+>> CC: Andy Shevchenko <andy.shevchenko at gmail.com>
+>> CC: Jisheng Zhang <Jisheng.Zhang at synaptics.com>
+>> CC: Shawn Lin <shawn.lin at rock-chips.com>
+>> CC: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+>> CC: linux-kernel at vger.kernel.org
+>> CC: linux-snps-arc at lists.infradead.org
+>> Cc: <stable at vger.kernel.org> 
+>> ---
+>> Changes since v3:
+>> -Switch DIV_ROUND_UP macro to DIV_ROUND_UP_ULL
+>> -Make one patch from two patches
+>> -Modify commit message
+>>
+>> Changes sinve v2:
+>> -add fix for cto_ms
+>>
+>> Changes since v1:
+>> -uint64_t switched to u64
+>>
+>>  drivers/mmc/host/dw_mmc.c | 9 ++++++---
+>>  1 file changed, 6 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/mmc/host/dw_mmc.c b/drivers/mmc/host/dw_mmc.c
+>> index 0aa39975f33b..cba534d4c81b 100644
+>> --- a/drivers/mmc/host/dw_mmc.c
+>> +++ b/drivers/mmc/host/dw_mmc.c
+>> @@ -409,7 +409,9 @@ static inline void dw_mci_set_cto(struct dw_mci *host)
+>>  	cto_div = (mci_readl(host, CLKDIV) & 0xff) * 2;
+>>  	if (cto_div == 0)
+>>  		cto_div = 1;
+>> -	cto_ms = DIV_ROUND_UP(MSEC_PER_SEC * cto_clks * cto_div, host->bus_hz);
+>> +
+>> +	cto_ms = DIV_ROUND_UP_ULL((u64)MSEC_PER_SEC * cto_clks * cto_div,
+>> +				  host->bus_hz);
+>>  
+>>  	/* add a bit spare time */
+>>  	cto_ms += 10;
+>> @@ -1944,8 +1946,9 @@ static void dw_mci_set_drto(struct dw_mci *host)
+>>  	drto_div = (mci_readl(host, CLKDIV) & 0xff) * 2;
+>>  	if (drto_div == 0)
+>>  		drto_div = 1;
+>> -	drto_ms = DIV_ROUND_UP(MSEC_PER_SEC * drto_clks * drto_div,
+>> -			       host->bus_hz);
+>> +
+>> +	drto_ms = DIV_ROUND_UP_ULL((u64)MSEC_PER_SEC * drto_clks * drto_div,
+>> +				   host->bus_hz);
+>>  
+>>  	/* add a bit spare time */
+>>  	drto_ms += 10;
+> 
+> 
+> 
+> 
