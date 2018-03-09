@@ -1,54 +1,50 @@
 From: andreyknvl@google.com (Andrey Konovalov)
-Date: Fri,  9 Mar 2018 15:02:00 +0100
-Subject: [RFC PATCH 2/6] arm64: untag user addresses in copy_from_user and
- others
+Date: Fri,  9 Mar 2018 15:02:03 +0100
+Subject: [RFC PATCH 5/6] lib,
+ arm64: untag addrs passed to strncpy_from_user and strnlen_user
 In-Reply-To: <cover.1520600533.git.andreyknvl@google.com>
 References: <cover.1520600533.git.andreyknvl@google.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <d681c0dee907ee5cc55d313e2f843237c6087bf0.1520600533.git.andreyknvl@google.com>
+Message-ID: <c515f67a6d94b2cfcac156bca0b9471203389d79.1520600533.git.andreyknvl@google.com>
 To: linux-snps-arc@lists.infradead.org
 
-copy_from_user (and a few other similar functions) are used to copy data
-from user memory into the kernel memory or vice versa. Since a user can
-provided a tagged pointer to one of the syscalls that use copy_from_user,
-we need to correctly handle such pointers.
+strncpy_from_user and strnlen_user accept user addresses as arguments, and
+do not go through the same path as copy_from_user and others, so here we
+need to separately handle the case of tagged user addresses as well.
 
-Do this by untagging user pointers in access_ok and in __uaccess_mask_ptr.
+Untag user pointers passed to these functions.
 
 Signed-off-by: Andrey Konovalov <andreyknvl at google.com>
 ---
- arch/arm64/include/asm/uaccess.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ lib/strncpy_from_user.c | 2 ++
+ lib/strnlen_user.c      | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-index 2d6451cbaa86..24a221678fe3 100644
---- a/arch/arm64/include/asm/uaccess.h
-+++ b/arch/arm64/include/asm/uaccess.h
-@@ -105,7 +105,8 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
- #define untagged_addr(addr)		\
- 	((__typeof__(addr))sign_extend64((__u64)(addr), 55))
+diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
+index b53e1b5d80f4..97467cd2bc59 100644
+--- a/lib/strncpy_from_user.c
++++ b/lib/strncpy_from_user.c
+@@ -106,6 +106,8 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
+ 	if (unlikely(count <= 0))
+ 		return 0;
  
--#define access_ok(type, addr, size)	__range_ok(addr, size)
-+#define access_ok(type, addr, size)	\
-+	__range_ok(untagged_addr(addr), size)
- #define user_addr_max			get_fs
- 
- #define _ASM_EXTABLE(from, to)						\
-@@ -238,12 +239,15 @@ static inline void uaccess_enable_not_uao(void)
- /*
-  * Sanitise a uaccess pointer such that it becomes NULL if above the
-  * current addr_limit.
-+ * Also untag user pointers that have the top byte tag set.
-  */
- #define uaccess_mask_ptr(ptr) (__typeof__(ptr))__uaccess_mask_ptr(ptr)
- static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
- {
- 	void __user *safe_ptr;
- 
-+	ptr = untagged_addr(ptr);
++	src = untagged_addr(src);
 +
- 	asm volatile(
- 	"	bics	xzr, %1, %2\n"
- 	"	csel	%0, %1, xzr, eq\n"
+ 	max_addr = user_addr_max();
+ 	src_addr = (unsigned long)src;
+ 	if (likely(src_addr < max_addr)) {
+diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
+index 60d0bbda8f5e..8b5f56466e00 100644
+--- a/lib/strnlen_user.c
++++ b/lib/strnlen_user.c
+@@ -108,6 +108,8 @@ long strnlen_user(const char __user *str, long count)
+ 	if (unlikely(count <= 0))
+ 		return 0;
+ 
++	str = untagged_addr(str);
++
+ 	max_addr = user_addr_max();
+ 	src_addr = (unsigned long)str;
+ 	if (likely(src_addr < max_addr)) {
 -- 
 2.16.2.395.g2e18187dfd-goog
