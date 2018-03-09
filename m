@@ -1,77 +1,81 @@
 From: andreyknvl@google.com (Andrey Konovalov)
-Date: Fri,  9 Mar 2018 15:01:58 +0100
-Subject: [RFC PATCH 0/6] arm64: untag user pointers passed to the kernel
+Date: Fri,  9 Mar 2018 15:02:02 +0100
+Subject: [RFC PATCH 4/6] mm, arm64: untag user addresses in mm/gup.c
+In-Reply-To: <cover.1520600533.git.andreyknvl@google.com>
+References: <cover.1520600533.git.andreyknvl@google.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <cover.1520600533.git.andreyknvl@google.com>
+Message-ID: <becebff594deda3a5881e64a21bf405f030991ad.1520600533.git.andreyknvl@google.com>
 To: linux-snps-arc@lists.infradead.org
 
-arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-tags into the top byte of each pointer. Userspace programs (such as
-HWASan, a memory debugging tool [1]) might use this feature and pass
-tagged user pointers to the kernel through syscalls or other interfaces.
+mm/gup.c provides a kernel interface that accepts user addresses and
+manipulates user pages directly (for example get_user_pages, that is used
+by the futex syscall). Here we also need to handle the case of tagged user
+pointers.
 
-This patch makes a few of the kernel interfaces accept tagged user
-pointers. The kernel is already able to handle user faults with tagged
-pointers and has the untagged_addr macro, which this patchset reuses.
+Untag addresses passed to this interface.
 
-We're not trying to cover all possible ways the kernel accepts user
-pointers in one patchset, so this one should be considered as a start.
-It would be nice to learn about the interfaces that I missed though.
+Signed-off-by: Andrey Konovalov <andreyknvl at google.com>
+---
+ mm/gup.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Sending this as an RFC, as I'm not sure if this should be committed as is,
-and would like to receive some feedback.
-
-Thanks!
-
-[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-
-Andrey Konovalov (6):
-  arm64: add type casts to untagged_addr macro
-  arm64: untag user addresses in copy_from_user and others
-  mm, arm64: untag user addresses in memory syscalls
-  mm, arm64: untag user addresses in mm/gup.c
-  lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
-  arch: add untagged_addr definition for other arches
-
- arch/alpha/include/asm/uaccess.h      |  2 ++
- arch/arc/include/asm/uaccess.h        |  1 +
- arch/arm/include/asm/uaccess.h        |  2 ++
- arch/arm64/include/asm/uaccess.h      |  9 +++++++--
- arch/blackfin/include/asm/uaccess.h   |  2 ++
- arch/c6x/include/asm/uaccess.h        |  2 ++
- arch/cris/include/asm/uaccess.h       |  2 ++
- arch/frv/include/asm/uaccess.h        |  2 ++
- arch/ia64/include/asm/uaccess.h       |  2 ++
- arch/m32r/include/asm/uaccess.h       |  2 ++
- arch/m68k/include/asm/uaccess.h       |  2 ++
- arch/metag/include/asm/uaccess.h      |  2 ++
- arch/microblaze/include/asm/uaccess.h |  2 ++
- arch/mips/include/asm/uaccess.h       |  2 ++
- arch/mn10300/include/asm/uaccess.h    |  2 ++
- arch/nios2/include/asm/uaccess.h      |  2 ++
- arch/openrisc/include/asm/uaccess.h   |  2 ++
- arch/parisc/include/asm/uaccess.h     |  2 ++
- arch/powerpc/include/asm/uaccess.h    |  2 ++
- arch/riscv/include/asm/uaccess.h      |  2 ++
- arch/score/include/asm/uaccess.h      |  2 ++
- arch/sh/include/asm/uaccess.h         |  2 ++
- arch/sparc/include/asm/uaccess.h      |  2 ++
- arch/tile/include/asm/uaccess.h       |  2 ++
- arch/x86/include/asm/uaccess.h        |  2 ++
- arch/xtensa/include/asm/uaccess.h     |  2 ++
- include/asm-generic/uaccess.h         |  2 ++
- lib/strncpy_from_user.c               |  2 ++
- lib/strnlen_user.c                    |  2 ++
- mm/gup.c                              | 12 ++++++++++++
- mm/madvise.c                          |  2 ++
- mm/mempolicy.c                        |  6 ++++++
- mm/mincore.c                          |  2 ++
- mm/mlock.c                            |  5 +++++
- mm/mmap.c                             |  9 +++++++++
- mm/mprotect.c                         |  2 ++
- mm/mremap.c                           |  2 ++
- mm/msync.c                            |  3 +++
- 38 files changed, 105 insertions(+), 2 deletions(-)
-
+diff --git a/mm/gup.c b/mm/gup.c
+index 1b46e6e74881..4d820c4792d7 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -386,6 +386,8 @@ struct page *follow_page_mask(struct vm_area_struct *vma,
+ 	struct page *page;
+ 	struct mm_struct *mm = vma->vm_mm;
+ 
++	address = untagged_addr(address);
++
+ 	*page_mask = 0;
+ 
+ 	/* make this handle hugepd */
+@@ -647,6 +649,8 @@ static long __get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
+ 	if (!nr_pages)
+ 		return 0;
+ 
++	start = untagged_addr(start);
++
+ 	VM_BUG_ON(!!pages != !!(gup_flags & FOLL_GET));
+ 
+ 	/*
+@@ -801,6 +805,8 @@ int fixup_user_fault(struct task_struct *tsk, struct mm_struct *mm,
+ 	struct vm_area_struct *vma;
+ 	int ret, major = 0;
+ 
++	address = untagged_addr(address);
++
+ 	if (unlocked)
+ 		fault_flags |= FAULT_FLAG_ALLOW_RETRY;
+ 
+@@ -854,6 +860,8 @@ static __always_inline long __get_user_pages_locked(struct task_struct *tsk,
+ 	long ret, pages_done;
+ 	bool lock_dropped;
+ 
++	start = untagged_addr(start);
++
+ 	if (locked) {
+ 		/* if VM_FAULT_RETRY can be returned, vmas become invalid */
+ 		BUG_ON(vmas);
+@@ -1746,6 +1754,8 @@ int __get_user_pages_fast(unsigned long start, int nr_pages, int write,
+ 	unsigned long flags;
+ 	int nr = 0;
+ 
++	start = untagged_addr(start);
++
+ 	start &= PAGE_MASK;
+ 	addr = start;
+ 	len = (unsigned long) nr_pages << PAGE_SHIFT;
+@@ -1798,6 +1808,8 @@ int get_user_pages_fast(unsigned long start, int nr_pages, int write,
+ 	unsigned long addr, len, end;
+ 	int nr = 0, ret = 0;
+ 
++	start = untagged_addr(start);
++
+ 	start &= PAGE_MASK;
+ 	addr = start;
+ 	len = (unsigned long) nr_pages << PAGE_SHIFT;
 -- 
 2.16.2.395.g2e18187dfd-goog
