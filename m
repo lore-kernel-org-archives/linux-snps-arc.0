@@ -1,38 +1,73 @@
-From: Evgeniy.Didin@synopsys.com (Evgeniy Didin)
-Date: Wed, 14 Mar 2018 12:32:50 +0000
-Subject: mmc: block: bonnie++ runs with errors on arc/hsdk board
-In-Reply-To: <1520956602.10285.10.camel@synopsys.com>
-References: <1520942674.10285.8.camel@synopsys.com>
- <486fe92e-9b53-53a4-f98d-129a97032470@intel.com>
- <1520956602.10285.10.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 14 Mar 2018 16:36:16 +0000
+Subject: arc_usr_cmpxchg and preemption
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1521030769.10285.16.camel@synopsys.com>
+Message-ID: <1521045375.11552.27.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Adrian,
-> > 
-> > Was the performance affected? i.e. the results from bonnie++
-> 
-> I have run bonnie++ several times before and after mentioned commit. Here is output:
-> --------------------------------------------------<8-------------------------------------------------------------------------
-> Before commit:
-> ARCLinux,512M,6442,50,7211,0,5333,0,12954,99,345638,100,+++++,+++,16,22322,100,+++++,+++,32735,99,22921,100,+++++,+++,32211,100
-> ARCLinux,512M,6611,51,7248,0,5162,0,12951,99,344763,99,+++++,+++,16,22649,99,+++++,+++,32723,99,22572,100,+++++,+++,31697,100
-> ARCLinux,512M,6597,52,7307,0,5368,0,12934,99,343987,99,+++++,+++,16,22775,100,+++++,+++,32713,99,22832,100,+++++,+++,31899,99
-> After commit:
-> ARCLinux,512M,4453,36,6474,1,5852,0,12940,99,344329,100,+++++,+++,16,22168,98,+++++,+++,32760,99,22755,100,+++++,+++,32205,100
-> ARCLinux,512M,5159,42,6944,1,5658,0,12945,99,344290,100,+++++,+++,16,22295,100,+++++,+++,32715,99,22888,99,+++++,+++,32007,99
-> ARCLinux,512M,5170,42,6840,2,5315,0,12946,99,343889,100,+++++,+++,16,22445,100,+++++,+++,32681,99,22967,100,+++++,+++,32117,99
-> --------------------------------------------------<8------------------------------------------------------------------------
-> ??????????????^^^^?
-> If i understand correctly, in third column is shown "sequential output" per character speed (K/sec), which decreased.
-> 
-> > What mount options did you use?
-> 
-> I didn't use any options. Simply:
-> # mount /dev/mmcblk0p1 /mnt
+Hi Vineet,
 
-Note that the file system on SDcard was ext4.?
+While debugging a segfault of user-space app on system without atomic ops
+(I mean LLOCK/SCOND) I understood the root-cause is in implementation
+of kernel's __NR_arc_usr_cmpxchg syscall which is supposed to emulate mentioned
+atomic ops for user-space.
 
-Best regards,
-Evgeniy Didin
+So here's a problem.
+
+1. User-space app [via libc] triggers __NR_arc_usr_cmpxchg syscall,
+   we enter arc_usr_cmpxchg()which basically does:
+   ---------------------------->8-------------------------------
+     preempt_disable();
+     __get_user(uval, uaddr);
+     __put_user(new, uaddr);
+     preempt_enable();
+   ---------------------------->8-------------------------------
+
+2. Most of the time everything is fine because __get_user()/__put_user()
+   for ARC is just LD/ST.
+
+3. Rarely user's variable is situated in not yet allocated page.
+   Here I mean copy-on-write case, when a page has read-only flag in TLB.
+   In that case __get_user() succeeds but __put_user() causes Privilege
+   Violation exception and we enter do_page_fault() where new page allocation
+   with proper access bits is supposed to happen... but that never happens
+   because with preempt_disable() we set in_atomic() which set
+   faulthandler_disabled() and so we exit early from page fault handler
+   effectively with nothing done, i.e. user's variable is left unchanged
+   which in its turn causes very strange problems later down the line because
+   we don't notify user-space app about failed data modification.
+
+The simplest fix is to not mess with preemption:
+   ---------------------------->8-------------------------------
+diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
+index 5ac3b547453f..d1713d8d3981 100644
+--- a/arch/arc/kernel/process.c
++++ b/arch/arc/kernel/process.c
+@@ -63,8 +63,6 @@ SYSCALL_DEFINE3(arc_usr_cmpxchg, int *, uaddr, int, expected, int, new)
+        if (!access_ok(VERIFY_WRITE, uaddr, sizeof(int)))
+                return -EFAULT;
+ 
+-       preempt_disable();
+-
+        if (__get_user(uval, uaddr))
+                goto done;
+ 
+@@ -74,8 +72,6 @@ SYSCALL_DEFINE3(arc_usr_cmpxchg, int *, uaddr, int, expected, int, new)
+        }
+ 
+ done:
+-       preempt_enable();
+-
+        return uval;
+ }
+   ---------------------------->8-------------------------------
+
+But I'm not really sure how safe is that.
+Especially if we think about PREEMPT_RT for example.
+
+Any thoughts?
+
+-Alexey
+
+P.S. In our emulation of unaligned access we don't seem to disable preemption so
+it might be a good idea to "align" syscall implementation is both cases.
