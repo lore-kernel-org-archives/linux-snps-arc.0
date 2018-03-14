@@ -1,66 +1,18 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 14 Mar 2018 20:38:53 +0000
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 14 Mar 2018 13:55:23 -0700
 Subject: arc_usr_cmpxchg and preemption
-In-Reply-To: <20180314175352.GP4064@hirez.programming.kicks-ass.net>
+In-Reply-To: <1521059931.11552.51.camel@synopsys.com>
 References: <1521045375.11552.27.camel@synopsys.com>
  <fdf30e76-f75d-9dda-26ca-ac011c41ee64@synopsys.com>
  <20180314175352.GP4064@hirez.programming.kicks-ass.net>
+ <1521059931.11552.51.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1521059931.11552.51.camel@synopsys.com>
+Message-ID: <148bd98f-52df-0270-a6f1-be1ad37720ab@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Peter, Vineet,
+On 03/14/2018 01:38 PM, Alexey Brodkin wrote:
+> @Vineet, are you OK with proposed implementation?
 
-On Wed, 2018-03-14@18:53 +0100, Peter Zijlstra wrote:
-> On Wed, Mar 14, 2018@09:58:19AM -0700, Vineet Gupta wrote:
-> 
-> > Well it is broken wrt the semantics the syscall is supposed to provide.
-> > Preemption disabling is what prevents a concurrent thread from coming in and
-> > modifying the same location (Imagine a variable which is being cmpxchg
-> > concurrently by 2 threads).
-> > 
-> > One approach is to do it the MIPS way, emulate the llsc flag - set it under
-> > preemption disabled section and clear it in switch_to
-> 
-> *shudder*... just catch the -EFAULT, force the write fault and retry.
-> 
-> Something like:
-> 
-> int sys_cmpxchg(u32 __user *user_ptr, u32 old, u32 new)
-> {
-> 	u32 val;
-> 	int ret;
-> 
-> again:
-> 	ret = 0;
-> 
-> 	preempt_disable();
-> 	val = get_user(user_ptr);
-> 	if (val == old)
-> 		ret = put_user(new, user_ptr);
-> 	preempt_enable();
-> 
-> 	if (ret == -EFAULT) {
-> 		struct page *page;
-> 		ret = get_user_pages_fast((unsigned long)user_ptr, 1, 1, &page);
-> 		if (ret < 0)
-> 			return ret;
-> 		put_page(page);
-> 		goto again;
+I couldn't agree any more !
 
-I guess this jump we need to do only once, right?
-If for whatever reason get_user_pages_fast() fails we return immediately
-and if it succeeds there's no reason for put_user() to not succeed as
-required page is supposed to be prepared for write.
-
-Otherwise if something goes way too bad we may end-up in an infinite loop
-which we'd better prevent.
-
-> 	}
-> 
-> 	return ret;
-> }
-
-@Vineet, are you OK with proposed implementation?
-
--Alexey
+-Vineet
