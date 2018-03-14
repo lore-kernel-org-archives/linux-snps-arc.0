@@ -1,31 +1,66 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 14 Mar 2018 13:19:01 -0700
-Subject: Do we need to disable preemption in flush_tlb_range()?
-In-Reply-To: <1519917189.13866.6.camel@synopsys.com>
-References: <1519917189.13866.6.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 14 Mar 2018 20:38:53 +0000
+Subject: arc_usr_cmpxchg and preemption
+In-Reply-To: <20180314175352.GP4064@hirez.programming.kicks-ass.net>
+References: <1521045375.11552.27.camel@synopsys.com>
+ <fdf30e76-f75d-9dda-26ca-ac011c41ee64@synopsys.com>
+ <20180314175352.GP4064@hirez.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5a5c67c1-9f45-f908-2c8d-0914cd616a18@synopsys.com>
+Message-ID: <1521059931.11552.51.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-+CC Peter since we have his attention ;-)
+Hi Peter, Vineet,
 
-On 03/01/2018 07:13 AM, Alexey Brodkin wrote:
-> Hi Vineet,
+On Wed, 2018-03-14@18:53 +0100, Peter Zijlstra wrote:
+> On Wed, Mar 14, 2018@09:58:19AM -0700, Vineet Gupta wrote:
 > 
-> Just noticed that in comments for smp_call_function_many() it is said that
-> preemption must be disabled during its execution. And that function gets executed
-> among other ways like that:
-> -------------------------->8-----------------------
->    flush_tlb_range()
->      -> on_each_cpu_mask()
->           -> smp_call_function_many()
-> -------------------------->8-----------------------
+> > Well it is broken wrt the semantics the syscall is supposed to provide.
+> > Preemption disabling is what prevents a concurrent thread from coming in and
+> > modifying the same location (Imagine a variable which is being cmpxchg
+> > concurrently by 2 threads).
+> > 
+> > One approach is to do it the MIPS way, emulate the llsc flag - set it under
+> > preemption disabled section and clear it in switch_to
+> 
+> *shudder*... just catch the -EFAULT, force the write fault and retry.
+> 
+> Something like:
+> 
+> int sys_cmpxchg(u32 __user *user_ptr, u32 old, u32 new)
+> {
+> 	u32 val;
+> 	int ret;
+> 
+> again:
+> 	ret = 0;
+> 
+> 	preempt_disable();
+> 	val = get_user(user_ptr);
+> 	if (val == old)
+> 		ret = put_user(new, user_ptr);
+> 	preempt_enable();
+> 
+> 	if (ret == -EFAULT) {
+> 		struct page *page;
+> 		ret = get_user_pages_fast((unsigned long)user_ptr, 1, 1, &page);
+> 		if (ret < 0)
+> 			return ret;
+> 		put_page(page);
+> 		goto again;
 
-In general I prefer not to - Peter what say you ?
+I guess this jump we need to do only once, right?
+If for whatever reason get_user_pages_fast() fails we return immediately
+and if it succeeds there's no reason for put_user() to not succeed as
+required page is supposed to be prepared for write.
 
+Otherwise if something goes way too bad we may end-up in an infinite loop
+which we'd better prevent.
+
+> 	}
 > 
-> I'm not seeing right now any real problem with current implementation but
-> some architectures do that thus the question.
-> 
-> -Alexey
-> 
+> 	return ret;
+> }
+
+@Vineet, are you OK with proposed implementation?
+
+-Alexey
