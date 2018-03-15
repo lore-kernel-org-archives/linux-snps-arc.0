@@ -1,35 +1,52 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 15 Mar 2018 09:38:15 -0700
-Subject: mmc: block: bonnie++ runs with errors on arc/hsdk board
-In-Reply-To: <83de0f90-0919-f449-b432-494b9bf524a1@intel.com>
-References: <1520942674.10285.8.camel@synopsys.com>
- <486fe92e-9b53-53a4-f98d-129a97032470@intel.com>
- <1520956602.10285.10.camel@synopsys.com>
- <1521030769.10285.16.camel@synopsys.com>
- <83de0f90-0919-f449-b432-494b9bf524a1@intel.com>
+From: Evgeniy.Didin@synopsys.com (Evgeniy Didin)
+Date: Thu, 15 Mar 2018 17:24:09 +0000
+Subject: [PATCH] mmc: dw_mmc: fix falling from idmac to PIO mode when
+ dw_mci_reset occurs
+In-Reply-To: <CAPDyKFp--bHg8PH7om7TTY15m0CRw3i4eO1=StRnVofxnf50OQ@mail.gmail.com>
+References: <20180314193051.16791-1-Evgeniy.Didin@synopsys.com>
+ <CAPDyKFrgBm8-G1CsnqS9G62xFA2qA0XkuGBfA5v6grZnjRLteA@mail.gmail.com>
+ <1521119909.10304.1.camel@synopsys.com>
+ <CAPDyKFp--bHg8PH7om7TTY15m0CRw3i4eO1=StRnVofxnf50OQ@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <345e9053-9251-ad27-d05b-ec80b69ee235@synopsys.com>
+Message-ID: <1521134649.10304.7.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 03/15/2018 02:27 AM, Adrian Hunter wrote:
-> Please try:
+On Thu, 2018-03-15@14:39 +0100, Ulf Hansson wrote:
+> On 15 March 2018@14:18, Evgeniy Didin <Evgeniy.Didin@synopsys.com> wrote:
+> > Hello Ulf,
+> > 
+> > On Thu, 2018-03-15@10:57 +0100, Ulf Hansson wrote:
+> > > On 14 March 2018@20:30, Evgeniy Didin <Evgeniy.Didin@synopsys.com> wrote:
+> > > > It was found that in IDMAC mode after soft-reset driver switches
+> > > > to PIO mode.
+> > > > 
+> > > > That's what happens in case of DTO timeout overflow calculation failure:
+> > > > 1. soft-reset is called
+> > > > 2. driver restarts dma
+> > > > 3. descriptors states are checked, one of descriptor is owned by the IDMAC.
+> > > > 4. driver can't use DMA and then switches to PIO mode.
+> > > > 
+> > > > Failure was already fixed in:
+> > > > https://urldefense.proofpoint.com/v2/url?u=https-3A__www.spinics.net_lists_linux-2Dmmc_msg48125.html&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=vQk-RIbjwN0zvlwiMSpq3LYUTNf7Gqc4ujh
+> > > > osYI
+> > > > TtAw&m=6rPWpKUYQD3kY-2OEikJUWyEJvwKJljWHFC8rd2TCak&s=JjX0Dx8-eSyW2cATMsnG1eAzrKgoDkS1bcS5XYrVtlE&e=.
+> > > 
+> > > Evgeniy,
+> > > 
+> > > It seems like I should squash this fix into the above commit? Makes sense?
+> > 
+> > IMHO it is not a good idea, because this fix is orthogonal to the above commit.
+> > Debugging drto overflow issue we found this strange behavior.
 > 
-> 	perf record -a -e mmc:* -- bonnie++ -u root -r 256 -s 512 -x 1 -d /mnt
+> Okay! Thanks for clarifying.
 > 
-> and share the resulting perf.data file when you are able
-> to reproduce the hung task message.
+> > This might be general issue of soft-reset. So I think this should be separate patch.
+> > Also if these patches are independent, it will be easier to backport them.
 > 
-> You may want to add this patch first:
-> 
-> 	https://marc.info/?l=linux-mmc&m=152110580324200
+> Should I add a stable tag then?
 
-While this SoC has perf counters, Unfortunately the overflow interrupts are not 
-wired up. We can do perf stats but not sampling.
+Sure. The issue can happen since v3.17, because starting with this version function dw_mci_reset was implemented.
+Commit 3a33a94ce270 ("mmc: dw_mmc: change to use recommended reset procedure").
 
-Peter was it you or Vince trying to use timer interrupts to emulate perf sampling 
-on some ARM SoC ?
-
-Thing is we have a spare hardware timer per core (TIMER1) which is not usabel for 
-otherwise gtod function in SMP and could well be repurposed for perf needs.
-
--Vineet
+Best regards,
+Evgeniy Didin
