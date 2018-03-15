@@ -1,73 +1,85 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 15 Mar 2018 09:39:31 +0000
-Subject: Do we need to disable preemption in flush_tlb_range()?
-In-Reply-To: <20180315082720.GT4064@hirez.programming.kicks-ass.net>
-References: <1519917189.13866.6.camel@synopsys.com>
- <5a5c67c1-9f45-f908-2c8d-0914cd616a18@synopsys.com>
- <20180315082720.GT4064@hirez.programming.kicks-ass.net>
+From: ulf.hansson@linaro.org (Ulf Hansson)
+Date: Thu, 15 Mar 2018 10:57:32 +0100
+Subject: [PATCH] mmc: dw_mmc: fix falling from idmac to PIO mode when
+ dw_mci_reset occurs
+In-Reply-To: <20180314193051.16791-1-Evgeniy.Didin@synopsys.com>
+References: <20180314193051.16791-1-Evgeniy.Didin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1521106770.11552.70.camel@synopsys.com>
+Message-ID: <CAPDyKFrgBm8-G1CsnqS9G62xFA2qA0XkuGBfA5v6grZnjRLteA@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Peter,
+On 14 March 2018@20:30, Evgeniy Didin <Evgeniy.Didin@synopsys.com> wrote:
+> It was found that in IDMAC mode after soft-reset driver switches
+> to PIO mode.
+>
+> That's what happens in case of DTO timeout overflow calculation failure:
+> 1. soft-reset is called
+> 2. driver restarts dma
+> 3. descriptors states are checked, one of descriptor is owned by the IDMAC.
+> 4. driver can't use DMA and then switches to PIO mode.
+>
+> Failure was already fixed in:
+> https://www.spinics.net/lists/linux-mmc/msg48125.html.
 
-On Thu, 2018-03-15@09:27 +0100, Peter Zijlstra wrote:
-> On Wed, Mar 14, 2018@01:19:01PM -0700, Vineet Gupta wrote:
-> > +CC Peter since we have his attention ;-)
-> 
-> Yeah, timezone collision there, I typically sleep at 1am ;-)
-> 
-> > On 03/01/2018 07:13 AM, Alexey Brodkin wrote:
-> > > Hi Vineet,
-> > > 
-> > > Just noticed that in comments for smp_call_function_many() it is said that
-> > > preemption must be disabled during its execution. And that function gets executed
-> > > among other ways like that:
-> > > -------------------------->8-----------------------
-> > >    flush_tlb_range()
-> > >      -> on_each_cpu_mask()
-> > >           -> smp_call_function_many()
-> > > -------------------------->8-----------------------
-> > 
-> > In general I prefer not to - Peter what say you ?
-> 
-> The comment with smp_call_function_many() is correct, it relies on
-> preemption being disabled in a number of ways. I would expect
-> this_cpu_ptr() for example to complain when used with preemption
-> enabled (CONFIG_DEBUG_PREEMPT).
+Evgeniy,
 
-I just tried CONFIG_DEBUG_PREEMPT and the only thing I got was that:
--------------------------->8-----------------------
-ARC perf        : 8 counters (32 bits), 32 conditions, [overflow IRQ support]
-BUG: using smp_processor_id() in preemptible [00000000] code: swapper/0/1
-caller is arc_pmu_device_probe+0x24e/0x29c
-CPU: 0 PID: 1 Comm: swapper/0 Not tainted 4.14.14+ #67
+It seems like I should squash this fix into the above commit? Makes sense?
 
-Stack Trace:
-  arc_unwind_core.constprop.1+0xd0/0xf4
-  dump_stack+0x64/0x7c
-  debug_smp_processor_id+0xb8/0xbc
-  arc_pmu_device_probe+0x24e/0x29c
-  platform_drv_probe+0x26/0x5c
-  really_probe+0x288/0x338
-  __driver_attach+0xc4/0xc8
-  bus_for_each_dev+0x38/0x70
-  bus_add_driver+0x12a/0x18c
-  driver_register+0x50/0xec
-  do_one_initcall+0x32/0x108
-  kernel_init_freeable+0xfe/0x188
--------------------------->8-----------------------
+Kind regards
+Uffe
 
-That happens because in PMU probe routine we want to
-configure IRQ handlers on all other cores:
--------------------------->8-----------------------
-  arc_pmu_device_probe() ->
-    on_each_cpu(arc_cpu_pmu_irq_init, &irq, 1): preempt_disable() ->
-      enable_percpu_irq(irq, IRQ_TYPE_NONE) ->
-        smp_processor_id() with disabled preemption.
--------------------------->8-----------------------
-
-Which poses another preemption related question - how do IRQ setup on
-all cores properly? :)
-
--Alexey
+>
+> Behaviour while soft-reset is not something we except or
+> even want to happen. So we switch from dw_mci_idmac_reset
+> to dw_mci_idmac_init, so descriptors are cleaned before starting dma.
+>
+> And while at it explicitly zero des0 which otherwise might
+> contain garbage as being allocated by dmam_alloc_coherent().
+>
+> Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
+> Cc: Jaehoon Chung <jh80.chung at samsung.com>
+> Cc: Ulf Hansson <ulf.hansson at linaro.org>
+> Cc: Andy Shevchenko <andy.shevchenko at gmail.com>
+> Cc: Jisheng Zhang <Jisheng.Zhang at synaptics.com>
+> Cc: Shawn Lin <shawn.lin at rock-chips.com>
+> Cc: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> Cc: linux-snps-arc at lists.infradead.org
+> ---
+>  drivers/mmc/host/dw_mmc.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/mmc/host/dw_mmc.c b/drivers/mmc/host/dw_mmc.c
+> index 0aa39975f33b..26f2ac107702 100644
+> --- a/drivers/mmc/host/dw_mmc.c
+> +++ b/drivers/mmc/host/dw_mmc.c
+> @@ -558,6 +558,7 @@ static int dw_mci_idmac_init(struct dw_mci *host)
+>                                         (sizeof(struct idmac_desc_64addr) *
+>                                                         (i + 1))) >> 32;
+>                         /* Initialize reserved and buffer size fields to "0" */
+> +                       p->des0 = 0;
+>                         p->des1 = 0;
+>                         p->des2 = 0;
+>                         p->des3 = 0;
+> @@ -580,6 +581,7 @@ static int dw_mci_idmac_init(struct dw_mci *host)
+>                      i++, p++) {
+>                         p->des3 = cpu_to_le32(host->sg_dma +
+>                                         (sizeof(struct idmac_desc) * (i + 1)));
+> +                       p->des0 = 0;
+>                         p->des1 = 0;
+>                 }
+>
+> @@ -1795,8 +1797,8 @@ static bool dw_mci_reset(struct dw_mci *host)
+>         }
+>
+>         if (host->use_dma == TRANS_MODE_IDMAC)
+> -               /* It is also recommended that we reset and reprogram idmac */
+> -               dw_mci_idmac_reset(host);
+> +               /* It is also required that we reinit idmac */
+> +               dw_mci_idmac_init(host);
+>
+>         ret = true;
+>
+> --
+> 2.11.0
+>
