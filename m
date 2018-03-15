@@ -1,35 +1,97 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Thu, 15 Mar 2018 12:28:29 +0100
-Subject: arc_usr_cmpxchg and preemption
-In-Reply-To: <1521105128.11552.64.camel@synopsys.com>
-References: <1521045375.11552.27.camel@synopsys.com>
- <fdf30e76-f75d-9dda-26ca-ac011c41ee64@synopsys.com>
- <20180314175352.GP4064@hirez.programming.kicks-ass.net>
- <1521059931.11552.51.camel@synopsys.com>
- <20180315081845.GS4064@hirez.programming.kicks-ass.net>
- <1521105128.11552.64.camel@synopsys.com>
+From: Evgeniy.Didin@synopsys.com (Evgeniy Didin)
+Date: Thu, 15 Mar 2018 13:18:31 +0000
+Subject: [PATCH] mmc: dw_mmc: fix falling from idmac to PIO mode when
+ dw_mci_reset occurs
+In-Reply-To: <CAPDyKFrgBm8-G1CsnqS9G62xFA2qA0XkuGBfA5v6grZnjRLteA@mail.gmail.com>
+References: <20180314193051.16791-1-Evgeniy.Didin@synopsys.com>
+ <CAPDyKFrgBm8-G1CsnqS9G62xFA2qA0XkuGBfA5v6grZnjRLteA@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180315112829.GW4064@hirez.programming.kicks-ass.net>
+Message-ID: <1521119909.10304.1.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Mar 15, 2018@09:12:09AM +0000, Alexey Brodkin wrote:
-> On Thu, 2018-03-15@09:18 +0100, Peter Zijlstra wrote:
+Hello Ulf,
 
-> > Also, it might make sense to stuff this implementation in some lib/ file
-> > somewhere and make all platforms that need it use the same code, afaict
-> > there really isn't anything platform specific to it.
+On Thu, 2018-03-15@10:57 +0100, Ulf Hansson wrote:
+> On 14 March 2018@20:30, Evgeniy Didin <Evgeniy.Didin@synopsys.com> wrote:
+> > It was found that in IDMAC mode after soft-reset driver switches
+> > to PIO mode.
+> > 
+> > That's what happens in case of DTO timeout overflow calculation failure:
+> > 1. soft-reset is called
+> > 2. driver restarts dma
+> > 3. descriptors states are checked, one of descriptor is owned by the IDMAC.
+> > 4. driver can't use DMA and then switches to PIO mode.
+> > 
+> > Failure was already fixed in:
+> > https://urldefense.proofpoint.com/v2/url?u=https-3A__www.spinics.net_lists_linux-2Dmmc_msg48125.html&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=vQk-RIbjwN0zvlwiMSpq3LYUTNf7Gqc4ujhosYI
+> > TtAw&m=6rPWpKUYQD3kY-2OEikJUWyEJvwKJljWHFC8rd2TCak&s=JjX0Dx8-eSyW2cATMsnG1eAzrKgoDkS1bcS5XYrVtlE&e=.
 > 
-> Not clear which part do you mean here.
-> Are you talking about entire cmpxchg syscall implementation?
+> Evgeniy,
+> 
+> It seems like I should squash this fix into the above commit? Makes sense?
+IMHO it is not a good idea, because this fix is orthogonal to the above commit.
+Debugging drto overflow issue we found this strange behavior.
+This might be general issue of soft-reset. So I think this should be separate patch.
+Also if these patches are independent, it will be easier to backport them.
 
-Yep.
+Best regards,
+Evgeniy Didin
 
-> Do you think there're many users of that quite an inefficient
-> [compared to proper HW version] atomic exchange?
-
-I think there's a bunch of architectures that are in the same boat.
-m68k, arm, mips was mentioned. Sure, the moment an arch has hardware
-support you don't need the syscall anymore.
-
-I was just thinking it would be good to have a common implementation (if
-possible) rather than 4-5 different copies of basically the same thing.
+> Kind regards
+> Uffe
+> 
+> > 
+> > Behaviour while soft-reset is not something we except or
+> > even want to happen. So we switch from dw_mci_idmac_reset
+> > to dw_mci_idmac_init, so descriptors are cleaned before starting dma.
+> > 
+> > And while at it explicitly zero des0 which otherwise might
+> > contain garbage as being allocated by dmam_alloc_coherent().
+> > 
+> > Signed-off-by: Evgeniy Didin <Evgeniy.Didin at synopsys.com>
+> > Cc: Jaehoon Chung <jh80.chung at samsung.com>
+> > Cc: Ulf Hansson <ulf.hansson at linaro.org>
+> > Cc: Andy Shevchenko <andy.shevchenko at gmail.com>
+> > Cc: Jisheng Zhang <Jisheng.Zhang at synaptics.com>
+> > Cc: Shawn Lin <shawn.lin at rock-chips.com>
+> > Cc: Alexey Brodkin <abrodkin at synopsys.com>
+> > Cc: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> > Cc: linux-snps-arc at lists.infradead.org
+> > ---
+> > ?drivers/mmc/host/dw_mmc.c | 6 ++++--
+> > ?1 file changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/mmc/host/dw_mmc.c b/drivers/mmc/host/dw_mmc.c
+> > index 0aa39975f33b..26f2ac107702 100644
+> > --- a/drivers/mmc/host/dw_mmc.c
+> > +++ b/drivers/mmc/host/dw_mmc.c
+> > @@ -558,6 +558,7 @@ static int dw_mci_idmac_init(struct dw_mci *host)
+> > ????????????????????????????????????????(sizeof(struct idmac_desc_64addr) *
+> > ????????????????????????????????????????????????????????(i + 1))) >> 32;
+> > ????????????????????????/* Initialize reserved and buffer size fields to "0" */
+> > +???????????????????????p->des0 = 0;
+> > ????????????????????????p->des1 = 0;
+> > ????????????????????????p->des2 = 0;
+> > ????????????????????????p->des3 = 0;
+> > @@ -580,6 +581,7 @@ static int dw_mci_idmac_init(struct dw_mci *host)
+> > ?????????????????????i++, p++) {
+> > ????????????????????????p->des3 = cpu_to_le32(host->sg_dma +
+> > ????????????????????????????????????????(sizeof(struct idmac_desc) * (i + 1)));
+> > +???????????????????????p->des0 = 0;
+> > ????????????????????????p->des1 = 0;
+> > ????????????????}
+> > 
+> > @@ -1795,8 +1797,8 @@ static bool dw_mci_reset(struct dw_mci *host)
+> > ????????}
+> > 
+> > ????????if (host->use_dma == TRANS_MODE_IDMAC)
+> > -???????????????/* It is also recommended that we reset and reprogram idmac */
+> > -???????????????dw_mci_idmac_reset(host);
+> > +???????????????/* It is also required that we reinit idmac */
+> > +???????????????dw_mci_idmac_init(host);
+> > 
+> > ????????ret = true;
+> > 
+> > --
+> > 2.11.0
+> > 
