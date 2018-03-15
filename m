@@ -1,48 +1,33 @@
 From: peterz@infradead.org (Peter Zijlstra)
-Date: Thu, 15 Mar 2018 09:18:45 +0100
-Subject: arc_usr_cmpxchg and preemption
-In-Reply-To: <1521059931.11552.51.camel@synopsys.com>
-References: <1521045375.11552.27.camel@synopsys.com>
- <fdf30e76-f75d-9dda-26ca-ac011c41ee64@synopsys.com>
- <20180314175352.GP4064@hirez.programming.kicks-ass.net>
- <1521059931.11552.51.camel@synopsys.com>
+Date: Thu, 15 Mar 2018 09:27:21 +0100
+Subject: Do we need to disable preemption in flush_tlb_range()?
+In-Reply-To: <5a5c67c1-9f45-f908-2c8d-0914cd616a18@synopsys.com>
+References: <1519917189.13866.6.camel@synopsys.com>
+ <5a5c67c1-9f45-f908-2c8d-0914cd616a18@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180315081845.GS4064@hirez.programming.kicks-ass.net>
+Message-ID: <20180315082720.GT4064@hirez.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Mar 14, 2018@08:38:53PM +0000, Alexey Brodkin wrote:
-> > int sys_cmpxchg(u32 __user *user_ptr, u32 old, u32 new)
-> > {
-> > 	u32 val;
-> > 	int ret;
+On Wed, Mar 14, 2018@01:19:01PM -0700, Vineet Gupta wrote:
+> +CC Peter since we have his attention ;-)
+
+Yeah, timezone collision there, I typically sleep at 1am ;-)
+
+> On 03/01/2018 07:13 AM, Alexey Brodkin wrote:
+> > Hi Vineet,
 > > 
-> > again:
-> > 	ret = 0;
-> > 
-> > 	preempt_disable();
-> > 	val = get_user(user_ptr);
-> > 	if (val == old)
-> > 		ret = put_user(new, user_ptr);
-> > 	preempt_enable();
-> > 
-> > 	if (ret == -EFAULT) {
-> > 		struct page *page;
-> > 		ret = get_user_pages_fast((unsigned long)user_ptr, 1, 1, &page);
-> > 		if (ret < 0)
-> > 			return ret;
-> > 		put_page(page);
-> > 		goto again;
+> > Just noticed that in comments for smp_call_function_many() it is said that
+> > preemption must be disabled during its execution. And that function gets executed
+> > among other ways like that:
+> > -------------------------->8-----------------------
+> >    flush_tlb_range()
+> >      -> on_each_cpu_mask()
+> >           -> smp_call_function_many()
+> > -------------------------->8-----------------------
 > 
-> I guess this jump we need to do only once, right?
+> In general I prefer not to - Peter what say you ?
 
-Typically, yes. It is theoretically possible for the page to get
-paged-out right after we do put_page() and before we do get/put_user(),
-But if that happens the machine likely has bigger problems than having
-to do this loop again.
-
-FWIW, look at kernel/futex.c for working examples of this pattern, the
-above was written purely from memory and could contain a fail or two ;-)
-
-Also, it might make sense to stuff this implementation in some lib/ file
-somewhere and make all platforms that need it use the same code, afaict
-there really isn't anything platform specific to it.
+The comment with smp_call_function_many() is correct, it relies on
+preemption being disabled in a number of ways. I would expect
+this_cpu_ptr() for example to complain when used with preemption
+enabled (CONFIG_DEBUG_PREEMPT).
