@@ -1,48 +1,73 @@
-From: adrian.hunter@intel.com (Adrian Hunter)
-Date: Thu, 15 Mar 2018 11:27:49 +0200
-Subject: mmc: block: bonnie++ runs with errors on arc/hsdk board
-In-Reply-To: <1521030769.10285.16.camel@synopsys.com>
-References: <1520942674.10285.8.camel@synopsys.com>
- <486fe92e-9b53-53a4-f98d-129a97032470@intel.com>
- <1520956602.10285.10.camel@synopsys.com>
- <1521030769.10285.16.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 15 Mar 2018 09:39:31 +0000
+Subject: Do we need to disable preemption in flush_tlb_range()?
+In-Reply-To: <20180315082720.GT4064@hirez.programming.kicks-ass.net>
+References: <1519917189.13866.6.camel@synopsys.com>
+ <5a5c67c1-9f45-f908-2c8d-0914cd616a18@synopsys.com>
+ <20180315082720.GT4064@hirez.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <83de0f90-0919-f449-b432-494b9bf524a1@intel.com>
+Message-ID: <1521106770.11552.70.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 14/03/18 14:32, Evgeniy Didin wrote:
-> Hi Adrian,
->>>
->>> Was the performance affected? i.e. the results from bonnie++
->>
->> I have run bonnie++ several times before and after mentioned commit. Here is output:
->> --------------------------------------------------<8-------------------------------------------------------------------------
->> Before commit:
->> ARCLinux,512M,6442,50,7211,0,5333,0,12954,99,345638,100,+++++,+++,16,22322,100,+++++,+++,32735,99,22921,100,+++++,+++,32211,100
->> ARCLinux,512M,6611,51,7248,0,5162,0,12951,99,344763,99,+++++,+++,16,22649,99,+++++,+++,32723,99,22572,100,+++++,+++,31697,100
->> ARCLinux,512M,6597,52,7307,0,5368,0,12934,99,343987,99,+++++,+++,16,22775,100,+++++,+++,32713,99,22832,100,+++++,+++,31899,99
->> After commit:
->> ARCLinux,512M,4453,36,6474,1,5852,0,12940,99,344329,100,+++++,+++,16,22168,98,+++++,+++,32760,99,22755,100,+++++,+++,32205,100
->> ARCLinux,512M,5159,42,6944,1,5658,0,12945,99,344290,100,+++++,+++,16,22295,100,+++++,+++,32715,99,22888,99,+++++,+++,32007,99
->> ARCLinux,512M,5170,42,6840,2,5315,0,12946,99,343889,100,+++++,+++,16,22445,100,+++++,+++,32681,99,22967,100,+++++,+++,32117,99
->> --------------------------------------------------<8------------------------------------------------------------------------
->> ??????????????^^^^?
->> If i understand correctly, in third column is shown "sequential output" per character speed (K/sec), which decreased.
->>
->>> What mount options did you use?
->>
->> I didn't use any options. Simply:
->> # mount /dev/mmcblk0p1 /mnt
+Hi Peter,
+
+On Thu, 2018-03-15@09:27 +0100, Peter Zijlstra wrote:
+> On Wed, Mar 14, 2018@01:19:01PM -0700, Vineet Gupta wrote:
+> > +CC Peter since we have his attention ;-)
 > 
-> Note that the file system on SDcard was ext4.?
+> Yeah, timezone collision there, I typically sleep at 1am ;-)
+> 
+> > On 03/01/2018 07:13 AM, Alexey Brodkin wrote:
+> > > Hi Vineet,
+> > > 
+> > > Just noticed that in comments for smp_call_function_many() it is said that
+> > > preemption must be disabled during its execution. And that function gets executed
+> > > among other ways like that:
+> > > -------------------------->8-----------------------
+> > >    flush_tlb_range()
+> > >      -> on_each_cpu_mask()
+> > >           -> smp_call_function_many()
+> > > -------------------------->8-----------------------
+> > 
+> > In general I prefer not to - Peter what say you ?
+> 
+> The comment with smp_call_function_many() is correct, it relies on
+> preemption being disabled in a number of ways. I would expect
+> this_cpu_ptr() for example to complain when used with preemption
+> enabled (CONFIG_DEBUG_PREEMPT).
 
-Please try:
+I just tried CONFIG_DEBUG_PREEMPT and the only thing I got was that:
+-------------------------->8-----------------------
+ARC perf        : 8 counters (32 bits), 32 conditions, [overflow IRQ support]
+BUG: using smp_processor_id() in preemptible [00000000] code: swapper/0/1
+caller is arc_pmu_device_probe+0x24e/0x29c
+CPU: 0 PID: 1 Comm: swapper/0 Not tainted 4.14.14+ #67
 
-	perf record -a -e mmc:* -- bonnie++ -u root -r 256 -s 512 -x 1 -d /mnt
+Stack Trace:
+  arc_unwind_core.constprop.1+0xd0/0xf4
+  dump_stack+0x64/0x7c
+  debug_smp_processor_id+0xb8/0xbc
+  arc_pmu_device_probe+0x24e/0x29c
+  platform_drv_probe+0x26/0x5c
+  really_probe+0x288/0x338
+  __driver_attach+0xc4/0xc8
+  bus_for_each_dev+0x38/0x70
+  bus_add_driver+0x12a/0x18c
+  driver_register+0x50/0xec
+  do_one_initcall+0x32/0x108
+  kernel_init_freeable+0xfe/0x188
+-------------------------->8-----------------------
 
-and share the resulting perf.data file when you are able
-to reproduce the hung task message.
+That happens because in PMU probe routine we want to
+configure IRQ handlers on all other cores:
+-------------------------->8-----------------------
+  arc_pmu_device_probe() ->
+    on_each_cpu(arc_cpu_pmu_irq_init, &irq, 1): preempt_disable() ->
+      enable_percpu_irq(irq, IRQ_TYPE_NONE) ->
+        smp_processor_id() with disabled preemption.
+-------------------------->8-----------------------
 
-You may want to add this patch first:
+Which poses another preemption related question - how do IRQ setup on
+all cores properly? :)
 
-	https://marc.info/?l=linux-mmc&m=152110580324200
+-Alexey
