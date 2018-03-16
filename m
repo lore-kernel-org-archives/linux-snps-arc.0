@@ -1,41 +1,59 @@
-From: adrian.hunter@intel.com (Adrian Hunter)
-Date: Fri, 16 Mar 2018 09:20:35 +0200
-Subject: mmc: block: bonnie++ runs with errors on arc/hsdk board
-In-Reply-To: <1521134509.6358.1.camel@synopsys.com>
-References: <1520942674.10285.8.camel@synopsys.com>
- <486fe92e-9b53-53a4-f98d-129a97032470@intel.com>
- <1520956602.10285.10.camel@synopsys.com>
- <1521030769.10285.16.camel@synopsys.com>
- <83de0f90-0919-f449-b432-494b9bf524a1@intel.com>
- <345e9053-9251-ad27-d05b-ec80b69ee235@synopsys.com>
- <1521134509.6358.1.camel@synopsys.com>
+From: ulf.hansson@linaro.org (Ulf Hansson)
+Date: Fri, 16 Mar 2018 08:41:16 +0100
+Subject: [PATCH] mmc: dw_mmc: fix falling from idmac to PIO mode when
+ dw_mci_reset occurs
+In-Reply-To: <1521134649.10304.7.camel@synopsys.com>
+References: <20180314193051.16791-1-Evgeniy.Didin@synopsys.com>
+ <CAPDyKFrgBm8-G1CsnqS9G62xFA2qA0XkuGBfA5v6grZnjRLteA@mail.gmail.com>
+ <1521119909.10304.1.camel@synopsys.com>
+ <CAPDyKFp--bHg8PH7om7TTY15m0CRw3i4eO1=StRnVofxnf50OQ@mail.gmail.com>
+ <1521134649.10304.7.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <94e11cab-8c46-4780-1413-f08e8f848342@intel.com>
+Message-ID: <CAPDyKFpO9bhxuegZaGQPwhtNJ4c-CpfurU3a-6yF07mL-B24sQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 15/03/18 19:21, Alexey Brodkin wrote:
-> Hi Vineet,
-> 
-> On Thu, 2018-03-15@09:38 -0700, Vineet Gupta wrote:
->> On 03/15/2018 02:27 AM, Adrian Hunter wrote:
->>> Please try:
->>>
->>> 	perf record -a -e mmc:* -- bonnie++ -u root -r 256 -s 512 -x 1 -d /mnt
->>>
->>> and share the resulting perf.data file when you are able
->>> to reproduce the hung task message.
->>>
->>> You may want to add this patch first:
->>>
->>> 	https://marc.info/?l=linux-mmc&m=152110580324200
+On 15 March 2018@18:24, Evgeniy Didin <Evgeniy.Didin@synopsys.com> wrote:
+> On Thu, 2018-03-15@14:39 +0100, Ulf Hansson wrote:
+>> On 15 March 2018@14:18, Evgeniy Didin <Evgeniy.Didin@synopsys.com> wrote:
+>> > Hello Ulf,
+>> >
+>> > On Thu, 2018-03-15@10:57 +0100, Ulf Hansson wrote:
+>> > > On 14 March 2018@20:30, Evgeniy Didin <Evgeniy.Didin@synopsys.com> wrote:
+>> > > > It was found that in IDMAC mode after soft-reset driver switches
+>> > > > to PIO mode.
+>> > > >
+>> > > > That's what happens in case of DTO timeout overflow calculation failure:
+>> > > > 1. soft-reset is called
+>> > > > 2. driver restarts dma
+>> > > > 3. descriptors states are checked, one of descriptor is owned by the IDMAC.
+>> > > > 4. driver can't use DMA and then switches to PIO mode.
+>> > > >
+>> > > > Failure was already fixed in:
+>> > > > https://urldefense.proofpoint.com/v2/url?u=https-3A__www.spinics.net_lists_linux-2Dmmc_msg48125.html&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=vQk-RIbjwN0zvlwiMSpq3LYUTNf7Gqc4ujh
+>> > > > osYI
+>> > > > TtAw&m=6rPWpKUYQD3kY-2OEikJUWyEJvwKJljWHFC8rd2TCak&s=JjX0Dx8-eSyW2cATMsnG1eAzrKgoDkS1bcS5XYrVtlE&e=.
+>> > >
+>> > > Evgeniy,
+>> > >
+>> > > It seems like I should squash this fix into the above commit? Makes sense?
+>> >
+>> > IMHO it is not a good idea, because this fix is orthogonal to the above commit.
+>> > Debugging drto overflow issue we found this strange behavior.
 >>
->> While this SoC has perf counters, Unfortunately the overflow interrupts are not 
->> wired up. We can do perf stats but not sampling.
-> 
-> I guess here Adrian was asking for pure software MMC-related events which are
-> orthogonal to CPU's perf interrupts.
-> 
-> Adrian?
+>> Okay! Thanks for clarifying.
+>>
+>> > This might be general issue of soft-reset. So I think this should be separate patch.
+>> > Also if these patches are independent, it will be easier to backport them.
+>>
+>> Should I add a stable tag then?
+>
+> Sure. The issue can happen since v3.17, because starting with this version function dw_mci_reset was implemented.
+> Commit 3a33a94ce270 ("mmc: dw_mmc: change to use recommended reset procedure").
 
-Yes, these are mmc tracepoints which are software events.  The file is full
-of them, so it certainly worked.
+Alright. I tried applying it, and the first kernel version that seems
+to work is 4.4. Thus I am adding that tag, if you or other people want
+it for an earlier version, please to send a backported version to
+@stable.
+
+Kind regards
+Uffe
