@@ -1,59 +1,51 @@
-From: ulf.hansson@linaro.org (Ulf Hansson)
-Date: Fri, 16 Mar 2018 08:41:16 +0100
-Subject: [PATCH] mmc: dw_mmc: fix falling from idmac to PIO mode when
- dw_mci_reset occurs
-In-Reply-To: <1521134649.10304.7.camel@synopsys.com>
-References: <20180314193051.16791-1-Evgeniy.Didin@synopsys.com>
- <CAPDyKFrgBm8-G1CsnqS9G62xFA2qA0XkuGBfA5v6grZnjRLteA@mail.gmail.com>
- <1521119909.10304.1.camel@synopsys.com>
- <CAPDyKFp--bHg8PH7om7TTY15m0CRw3i4eO1=StRnVofxnf50OQ@mail.gmail.com>
- <1521134649.10304.7.camel@synopsys.com>
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Fri, 16 Mar 2018 08:55:08 +0100
+Subject: arc_usr_cmpxchg and preemption
+In-Reply-To: <1521140611.6358.29.camel@synopsys.com>
+References: <1521045375.11552.27.camel@synopsys.com>
+ <fdf30e76-f75d-9dda-26ca-ac011c41ee64@synopsys.com>
+ <20180314175352.GP4064@hirez.programming.kicks-ass.net>
+ <1521059931.11552.51.camel@synopsys.com>
+ <20180315081845.GS4064@hirez.programming.kicks-ass.net>
+ <1521105128.11552.64.camel@synopsys.com>
+ <20180315112829.GW4064@hirez.programming.kicks-ass.net>
+ <1521140611.6358.29.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAPDyKFpO9bhxuegZaGQPwhtNJ4c-CpfurU3a-6yF07mL-B24sQ@mail.gmail.com>
+Message-ID: <20180316075508.GY4043@hirez.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-On 15 March 2018@18:24, Evgeniy Didin <Evgeniy.Didin@synopsys.com> wrote:
-> On Thu, 2018-03-15@14:39 +0100, Ulf Hansson wrote:
->> On 15 March 2018@14:18, Evgeniy Didin <Evgeniy.Didin@synopsys.com> wrote:
->> > Hello Ulf,
->> >
->> > On Thu, 2018-03-15@10:57 +0100, Ulf Hansson wrote:
->> > > On 14 March 2018@20:30, Evgeniy Didin <Evgeniy.Didin@synopsys.com> wrote:
->> > > > It was found that in IDMAC mode after soft-reset driver switches
->> > > > to PIO mode.
->> > > >
->> > > > That's what happens in case of DTO timeout overflow calculation failure:
->> > > > 1. soft-reset is called
->> > > > 2. driver restarts dma
->> > > > 3. descriptors states are checked, one of descriptor is owned by the IDMAC.
->> > > > 4. driver can't use DMA and then switches to PIO mode.
->> > > >
->> > > > Failure was already fixed in:
->> > > > https://urldefense.proofpoint.com/v2/url?u=https-3A__www.spinics.net_lists_linux-2Dmmc_msg48125.html&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=vQk-RIbjwN0zvlwiMSpq3LYUTNf7Gqc4ujh
->> > > > osYI
->> > > > TtAw&m=6rPWpKUYQD3kY-2OEikJUWyEJvwKJljWHFC8rd2TCak&s=JjX0Dx8-eSyW2cATMsnG1eAzrKgoDkS1bcS5XYrVtlE&e=.
->> > >
->> > > Evgeniy,
->> > >
->> > > It seems like I should squash this fix into the above commit? Makes sense?
->> >
->> > IMHO it is not a good idea, because this fix is orthogonal to the above commit.
->> > Debugging drto overflow issue we found this strange behavior.
->>
->> Okay! Thanks for clarifying.
->>
->> > This might be general issue of soft-reset. So I think this should be separate patch.
->> > Also if these patches are independent, it will be easier to backport them.
->>
->> Should I add a stable tag then?
->
-> Sure. The issue can happen since v3.17, because starting with this version function dw_mci_reset was implemented.
-> Commit 3a33a94ce270 ("mmc: dw_mmc: change to use recommended reset procedure").
+On Thu, Mar 15, 2018@07:03:32PM +0000, Alexey Brodkin wrote:
+> > I think there's a bunch of architectures that are in the same boat.
+> > m68k, arm, mips was mentioned. Sure, the moment an arch has hardware
+> > support you don't need the syscall anymore.
+> 
+> Here's a brief analysis:
+> ARM:  Looks like they got rid of that stuff in v4.4, see
+>       commit db695c0509d6 ("ARM: remove user cmpxchg syscall").
 
-Alright. I tried applying it, and the first kernel version that seems
-to work is 4.4. Thus I am adding that tag, if you or other people want
-it for an earlier version, please to send a backported version to
-@stable.
+Oh shiny, that's why I couldn't find it. I had distinct memories of them
+having one though.
 
-Kind regards
-Uffe
+> M68K: That's even uglier implementation which is really asking for
+>       a facelift, look at sys_atomic_cmpxchg_32() here:
+>       https://elixir.bootlin.com/linux/latest/source/arch/m68k/kernel/sys_m68k.c#L461
+
+Yes, I found that code, it's something special allright.
+
+> MIPS: They do it via special sysmips syscall which among other things
+>       might handle MIPS_ATOMIC_SET with mips_atomic_set()
+> 
+> I don't immediately see if there're others but really I'm not sure if it even worth trying to
+> clean-up all that since efforts might be spent pointlessly.
+> 
+> > I was just thinking it would be good to have a common implementation (if
+> > possible) rather than 4-5 different copies of basically the same thing.
+> 
+> From above I would conclude that only M68K might benefit from new
+> library implementation. BTW M68K uses a bit different ABI compared to
+> ARC for that syscall so it will be really atomic_cmpxchg_32()
+> libfunction called from those syscalls, but now I think that's exactly
+> what you meant initially, correct?
+
+Right. In any case, I won't insist, but if it's very little effort, it
+might well be worth getting rid of that m68k magic.
