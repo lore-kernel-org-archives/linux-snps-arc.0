@@ -1,138 +1,138 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 19 Mar 2018 14:00:02 +0300
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 19 Mar 2018 11:29:24 -0700
 Subject: [PATCH] ARC: Improve cmpxchng syscall implementation
+In-Reply-To: <20180319110002.27419-1-abrodkin@synopsys.com>
+References: <20180319110002.27419-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180319110002.27419-1-abrodkin@synopsys.com>
+Message-ID: <5bc39838-b1c5-ef65-f97d-8777ed33bda0@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-arc_usr_cmpxchg syscall is supposed to be used on platforms
-that lack support of Load-Locked/Store-Conditional instructions
-in hardware. And in that case we mimic missing hardware features
-with help of kernel's sycall that "atomically" checks current
-value in memory and then if it matches caller expectation new
-value is written to that same location.
+On 03/19/2018 04:00 AM, Alexey Brodkin wrote:
+> arc_usr_cmpxchg syscall is supposed to be used on platforms
+> that lack support of Load-Locked/Store-Conditional instructions
+> in hardware. And in that case we mimic missing hardware features
+> with help of kernel's sycall that "atomically" checks current
+> value in memory and then if it matches caller expectation new
+> value is written to that same location.
+> 
+...
+...
 
-What's important in the description above:
- - Check-and-exchange must be "atomical" which means
-   preemption must be disabled during entire "transaction"
- - Data accessed is from user-space, i.e. we're dealing
-   with virtual addresses
+> 
+> 2. What's worse if we're dealing with data from not yet allocated
+>     page (think of pre-copy-on-write state) we'll successfully
+>     read data but on write we'll silently return to user-space
+>     with correct result 
 
-And in current implementation we have a couple of problems:
+This is technically incorrect, even for reading, you need a page, which could be 
+common zero page in certain cases.
 
-1. We do disable preemprion around __get_user() & __put_user()
-   but that in its turn disables page fault handler.
-   That means if a pointer to user's data has no mapping in
-   the TLB we won't be able to access required data.
-   Instead software "exception handling" code from __get_user_fn()
-   will return -EFAULT.
+(which we really read just before). That leads
+>     to very strange problems in user-space app further down the line
+>     because new value was never written to the destination.
+> 
+> 3. Regardless of what went wrong we'll return from syscall
+>     and user-space application will continue to execute.
+>     Even if user's pointer was completely bogus.
 
-2. What's worse if we're dealing with data from not yet allocated
-   page (think of pre-copy-on-write state) we'll successfully
-   read data but on write we'll silently return to user-space
-   with correct result (which we really read just before). That leads
-   to very strange problems in user-space app further down the line
-   because new value was never written to the destination.
+Again we are exaggerating (from technical correctness POV) - if user pointer was 
+bogs, the read would not have worked in first place etc. So lets tone down the 
+rhetoric.
 
-3. Regardless of what went wrong we'll return from syscall
-   and user-space application will continue to execute.
-   Even if user's pointer was completely bogus.
-   In case of hardware LL/SC that app would have been killed
-   by the kernel.
 
-With that change we attempt to imrove on all 3 items above:
+>     In case of hardware LL/SC that app would have been killed
+>     by the kernel.
+> 
+> With that change we attempt to imrove on all 3 items above:
+> 
+> 1. We still disable preemption around read-and-write of
+>     user's data but if we happen to fail with either of them
+>     we're enabling preemption and try to force page fault so
+>     that we have a correct mapping in the TLB. Then re-try
+>     again in "atomic" context.
+> 
+> 2. If real page fault fails or even access_ok() returns false
+>     we send SIGSEGV to the user-space process so if something goes
+>     seriously wrong we'll know about it much earlier.
+> 
 
-1. We still disable preemption around read-and-write of
-   user's data but if we happen to fail with either of them
-   we're enabling preemption and try to force page fault so
-   that we have a correct mapping in the TLB. Then re-try
-   again in "atomic" context.
 
-2. If real page fault fails or even access_ok() returns false
-   we send SIGSEGV to the user-space process so if something goes
-   seriously wrong we'll know about it much earlier.
+>   
+>   	/*
+>   	 * This is only for old cores lacking LLOCK/SCOND, which by defintion
+> @@ -60,23 +62,48 @@ SYSCALL_DEFINE3(arc_usr_cmpxchg, int *, uaddr, int, expected, int, new)
+>   	/* Z indicates to userspace if operation succeded */
+>   	regs->status32 &= ~STATUS_Z_MASK;
+>   
+> -	if (!access_ok(VERIFY_WRITE, uaddr, sizeof(int)))
+> -		return -EFAULT;
+> +	ret = access_ok(VERIFY_WRITE, uaddr, sizeof(*uaddr));
+> +	if (!ret)
+> +		goto fail;
+>   
+> +again:
+>   	preempt_disable();
+>   
+> -	if (__get_user(uval, uaddr))
+> -		goto done;
+> -
+> -	if (uval == expected) {
+> -		if (!__put_user(new, uaddr))
+> +	ret = __get_user(val, uaddr);
+> +	if (ret == -EFAULT) {
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Peter Zijlstra <peterz at infradead.org>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Max Filippov <jcmvbkbc at gmail.com>
-Cc: linux-arch at vger.kernel.org
----
- arch/arc/kernel/process.c | 47 +++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 37 insertions(+), 10 deletions(-)
 
-diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
-index 5ac3b547453f..d7d3e16133d6 100644
---- a/arch/arc/kernel/process.c
-+++ b/arch/arc/kernel/process.c
-@@ -47,7 +47,9 @@ SYSCALL_DEFINE0(arc_gettls)
- SYSCALL_DEFINE3(arc_usr_cmpxchg, int *, uaddr, int, expected, int, new)
- {
- 	struct pt_regs *regs = current_pt_regs();
--	int uval = -EFAULT;
-+	struct page *page;
-+	u32 val;
-+	int ret;
- 
- 	/*
- 	 * This is only for old cores lacking LLOCK/SCOND, which by defintion
-@@ -60,23 +62,48 @@ SYSCALL_DEFINE3(arc_usr_cmpxchg, int *, uaddr, int, expected, int, new)
- 	/* Z indicates to userspace if operation succeded */
- 	regs->status32 &= ~STATUS_Z_MASK;
- 
--	if (!access_ok(VERIFY_WRITE, uaddr, sizeof(int)))
--		return -EFAULT;
-+	ret = access_ok(VERIFY_WRITE, uaddr, sizeof(*uaddr));
-+	if (!ret)
-+		goto fail;
- 
-+again:
- 	preempt_disable();
- 
--	if (__get_user(uval, uaddr))
--		goto done;
--
--	if (uval == expected) {
--		if (!__put_user(new, uaddr))
-+	ret = __get_user(val, uaddr);
-+	if (ret == -EFAULT) {
-+		preempt_enable();
-+		ret = get_user_pages_fast((unsigned long)uaddr, 1, 1, &page);
-+		if (ret < 0)
-+			goto fail;
-+
-+		put_page(page);
-+		goto again;
-+	} else if (ret)
-+		goto fail;
-+
-+	if (val == expected) {
-+		ret = __put_user(new, uaddr);
-+		if (!ret)
- 			regs->status32 |= STATUS_Z_MASK;
- 	}
- 
--done:
- 	preempt_enable();
- 
--	return uval;
-+	if (ret == -EFAULT) {
-+		ret = get_user_pages_fast((unsigned long)uaddr, 1, 1, &page);
-+		if (ret < 0)
-+			goto fail;
-+
-+		put_page(page);
-+		goto again;
-+	} else if (ret)
-+		goto fail;
-+
-+	return val;
-+
-+fail:
-+	force_sig(SIGSEGV, current);
-+	return ret;
- }
- 
- #ifdef CONFIG_ISA_ARCV2
--- 
-2.11.0
+Lets see if this warrants adding complexity ! This implies that TLB entry with 
+Read permissions didn't exist for reading the var and page fault handler could not 
+wire up even a zero page due to preempt_disable, meaning it was something not 
+touched by userspace already - sort of uninitialized variable in user code. 
+Otherwise it is extremely unlikely to start with a TLB entry with Read 
+permissions, followed by syscall Trap only to find the entry missing, unless a 
+global TLB flush came from other cores, right in the middle. But this syscall is 
+not guaranteed to work with SMP anyways, so lets ignore any SMP misdoings here.
+
+Now in case it was *an* uninitialized var, do we have to guarantee any well 
+defined semantics for the kernel emulation of cmpxchg ? IMO it should be fine to 
+return 0 or -EFAULT etc. Infact -EFAULT is better as it will force a retry loop on 
+user side, given the typical cmpxchg usage pattern.
+
+
+> +		preempt_enable();
+> +		ret = get_user_pages_fast((unsigned long)uaddr, 1, 1, &page);
+> +		if (ret < 0)
+> +			goto fail;
+> +
+> +		put_page(page);
+> +		goto again;
+> +	} else if (ret)
+> +		goto fail;
+> +
+> +	if (val == expected) {
+> +		ret = __put_user(new, uaddr);
+> +		if (!ret)
+>   			regs->status32 |= STATUS_Z_MASK;
+>   	}
+>   
+> -done:
+>   	preempt_enable();
+>   
+> -	return uval;
+> +	if (ret == -EFAULT) {
+> +		ret = get_user_pages_fast((unsigned long)uaddr, 1, 1, &page);
+> +		if (ret < 0)
+> +			goto fail;
+> +
+> +		put_page(page);
+> +		goto again;
+> +	} else if (ret)
+> +		goto fail;
+> +
+> +	return val;
+> +
+> +fail:
+> +	force_sig(SIGSEGV, current);
+> +	return ret;
+>   }
+>   
+>   #ifdef CONFIG_ISA_ARCV2
+> 
