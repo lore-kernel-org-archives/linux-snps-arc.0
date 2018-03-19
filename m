@@ -1,39 +1,21 @@
-From: jcmvbkbc@gmail.com (Max Filippov)
-Date: Fri, 16 Mar 2018 11:12:09 -0700
-Subject: arc_usr_cmpxchg and preemption
-In-Reply-To: <1521140611.6358.29.camel@synopsys.com>
-References: <1521045375.11552.27.camel@synopsys.com>
- <fdf30e76-f75d-9dda-26ca-ac011c41ee64@synopsys.com>
- <20180314175352.GP4064@hirez.programming.kicks-ass.net>
- <1521059931.11552.51.camel@synopsys.com>
- <20180315081845.GS4064@hirez.programming.kicks-ass.net>
- <1521105128.11552.64.camel@synopsys.com>
- <20180315112829.GW4064@hirez.programming.kicks-ass.net>
- <1521140611.6358.29.camel@synopsys.com>
+From: vinod.koul@intel.com (Vinod Koul)
+Date: Mon, 19 Mar 2018 13:39:00 +0530
+Subject: [PATCH v3 0/2] Introduce DW AXI DMAC driver
+In-Reply-To: <20180306114615.8895-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180306114615.8895-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMo8BfLLfiVO4yQLRtjz_KCNx-FTnPY-4wWQjHPrJeMgBf+DbQ@mail.gmail.com>
+Message-ID: <20180319080900.GN15443@localhost>
 To: linux-snps-arc@lists.infradead.org
 
-> On Thu, Mar 15, 2018@12:03 PM, Alexey Brodkin <Alexey.Brodkin@synopsys.com> wrote:
-> Here's a brief analysis:
-> ARM:  Looks like they got rid of that stuff in v4.4, see
->       commit db695c0509d6 ("ARM: remove user cmpxchg syscall").
->
-> M68K: That's even uglier implementation which is really asking for
->       a facelift, look at sys_atomic_cmpxchg_32() here:
->       https://elixir.bootlin.com/linux/latest/source/arch/m68k/kernel/sys_m68k.c#L461
->
-> MIPS: They do it via special sysmips syscall which among other things
->       might handle MIPS_ATOMIC_SET with mips_atomic_set()
->
-> I don't immediately see if there're others but really I'm not sure if it even worth trying to
-> clean-up all that since efforts might be spent pointlessly.
+On Tue, Mar 06, 2018@02:46:13PM +0300, Eugeniy Paltsev wrote:
+> This patch series add support for the DW AXI DMAC controller.
+> 
+> DW AXI DMAC is a part of HSDK development board from Synopsys.
+> 
+> In this driver implementation only DMA_MEMCPY transfers
+> are supported.
 
-xtensa is another one. We used to have a buggy implementation in
-arch/xtensa/kernel/entry.S:fast_syscall_xtensa which we still keep
-disabled by default, just in case somebody wanted backwards
-compatibility. I don't think it's worth fixing.
+Applied, thanks
 
 -- 
-Thanks.
--- Max
+~Vinod
