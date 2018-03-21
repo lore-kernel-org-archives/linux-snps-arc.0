@@ -1,89 +1,143 @@
-From: adrian.hunter@intel.com (Adrian Hunter)
-Date: Tue, 20 Mar 2018 10:29:16 +0200
-Subject: mmc: block: bonnie++ runs with errors on arc/hsdk board
-In-Reply-To: <1521220236.10304.10.camel@synopsys.com>
-References: <1520942674.10285.8.camel@synopsys.com>
- <486fe92e-9b53-53a4-f98d-129a97032470@intel.com>
- <1520956602.10285.10.camel@synopsys.com>
- <1521030769.10285.16.camel@synopsys.com>
- <83de0f90-0919-f449-b432-494b9bf524a1@intel.com>
- <1521126524.10304.5.camel@synopsys.com>
- <c5e50711-77d9-d1d2-35f4-3b656c8e895c@intel.com>
- <1521220236.10304.10.camel@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 21 Mar 2018 11:54:35 +0000
+Subject: [PATCH] ARC: Improve cmpxchng syscall implementation
+In-Reply-To: <5bc39838-b1c5-ef65-f97d-8777ed33bda0@synopsys.com>
+References: <20180319110002.27419-1-abrodkin@synopsys.com>
+ <5bc39838-b1c5-ef65-f97d-8777ed33bda0@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <e00cf7f1-6ed8-124d-54b7-81e3d5722b10@intel.com>
+Message-ID: <1521633274.9805.30.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 16/03/18 19:10, Evgeniy Didin wrote:
-> Hello Adrian,
-> 
->> Yes.??Unfortunately the clock used is not accurate enough to correctly order
->> the events across different CPUs, which makes it very hard to see delays
->> between requests.??You could try a different clock - refer the --clockid
->> option to perf record.
->>
->> Nevertheless it shows there are no I/O errors which means the error recovery
->> can be ruled out as a problem.
->>
->> The issue could be caused by the I/O scheduler.??Under blk-mq the default
->> scheduler is the mq-deadline scheduler whereas without blk-mq you would
->> probably have been using cfq by default.??You could try the bfq scheduler:
->>
->> 	echo bfq > /sys/block/mmcblk0/queue/scheduler
->>
->> But you might need to add it to the kernel config i.e.
->>
->> 	CONFIG_IOSCHED_BFQ=y
->>
-> Switching from mq-deadline scheduler to bfq fixed the issue.
-> Also bonnie++ results have changed:
-> -----------------------------------------------<8----------------------------------------------------------------------------
-> bfq scheduler:
-> ARCLinux,512M,6463,87,7297,0,5450,0,9827,99,342952,99,+++++,+++,16,17525,100,+++++,+++,24329,99,17621,100,+++++,+++,24001,101
-> 
-> mq-deadline scheduler:
-> ARCLinux,512M,4453,36,6474,1,5852,0,12940,99,344329,100,+++++,+++,16,22168,98,+++++,+++,32760,99,22755,100,+++++,+++,32205,100
-> -----------------------------------------------<8----------------------------------------------------------------------------
-> As I see, the performance of sequential input per char and of file
-> operations have decreased for ~25%.
+Hi Vineet,
 
-You may need to aggregate more runs, and also compare to BFQ with blk-mq
-against CFQ without blk-mq.  If you think BFQ is under-performing, then
-contact the BFQ maintainers.
+On Mon, 2018-03-19@11:29 -0700, Vineet Gupta wrote:
+> On 03/19/2018 04:00 AM, Alexey Brodkin wrote:
+> > arc_usr_cmpxchg syscall is supposed to be used on platforms
+> > that lack support of Load-Locked/Store-Conditional instructions
+> > in hardware. And in that case we mimic missing hardware features
+> > with help of kernel's sycall that "atomically" checks current
+> > value in memory and then if it matches caller expectation new
+> > value is written to that same location.
+> > 
+> 
+> ...
+> ...
+> 
+> > 
+> > 2. What's worse if we're dealing with data from not yet allocated
+> >     page (think of pre-copy-on-write state) we'll successfully
+> >     read data but on write we'll silently return to user-space
+> >     with correct result 
+> 
+> This is technically incorrect, even for reading, you need a page, which could be 
+> common zero page in certain cases.
+
+Ok I'll reword it like.
 
 > 
-> Do you have any idea what could be a reason for such a long stalling in
-> case of mq-deadline IOscheduler?
+> (which we really read just before). That leads
+> >     to very strange problems in user-space app further down the line
+> >     because new value was never written to the destination.
+> > 
+> > 3. Regardless of what went wrong we'll return from syscall
+> >     and user-space application will continue to execute.
+> >     Even if user's pointer was completely bogus.
+> 
+> Again we are exaggerating (from technical correctness POV) - if user pointer was 
+> bogs, the read would not have worked in first place etc. So lets tone down the 
+> rhetoric.
 
-Write starvation.
-
->                                 I would expect if there is some long
-> async operation, kernel should not be blocked.
-
-The kernel is not blocked.  AFAICT it is the EXT4 journal that is
-blocked waiting on a write.
-
->                                                But what we see using
-> mq-deadline is kernel blocked in bit_wait_io(). Do you think this is a
-> valid behavior at least in case of mq-deadline IOscheduler?
-
-mq-deadline is designed to favour reads over writes, so in that sense some
-amount of write-starvation is normal.
+Ok here I may rephrase it like that:
+------------------------------->8-----------------------------
+3. Regardless of what went wrong we'll return from syscall
+   and user-space application will continue to execute.
+------------------------------->8-----------------------------
 
 > 
->> Alternatively you could fiddle with the scheduler parameters:
->>
->> With mq-deadline they are:
->>
->> # grep -H . /sys/block/mmcblk0/queue/iosched/*
->> /sys/block/mmcblk0/queue/iosched/fifo_batch:16
->> /sys/block/mmcblk0/queue/iosched/front_merges:1
->> /sys/block/mmcblk0/queue/iosched/read_expire:500
->> /sys/block/mmcblk0/queue/iosched/write_expire:5000
->> /sys/block/mmcblk0/queue/iosched/writes_starved:2
->>
->> You could try decreasing the write_expire and/or fifo_batch.
-> It seems that decreasing doesn't affect on this issue.
+> >     In case of hardware LL/SC that app would have been killed
+> >     by the kernel.
+> > 
+> > With that change we attempt to imrove on all 3 items above:
+> > 
+> > 1. We still disable preemption around read-and-write of
+> >     user's data but if we happen to fail with either of them
+> >     we're enabling preemption and try to force page fault so
+> >     that we have a correct mapping in the TLB. Then re-try
+> >     again in "atomic" context.
+> > 
+> > 2. If real page fault fails or even access_ok() returns false
+> >     we send SIGSEGV to the user-space process so if something goes
+> >     seriously wrong we'll know about it much earlier.
+> > 
+> 
+> 
+> >   
+> >   	/*
+> >   	 * This is only for old cores lacking LLOCK/SCOND, which by defintion
+> > @@ -60,23 +62,48 @@ SYSCALL_DEFINE3(arc_usr_cmpxchg, int *, uaddr, int, expected, int, new)
+> >   	/* Z indicates to userspace if operation succeded */
+> >   	regs->status32 &= ~STATUS_Z_MASK;
+> >   
+> > -	if (!access_ok(VERIFY_WRITE, uaddr, sizeof(int)))
+> > -		return -EFAULT;
+> > +	ret = access_ok(VERIFY_WRITE, uaddr, sizeof(*uaddr));
+> > +	if (!ret)
+> > +		goto fail;
+> >   
+> > +again:
+> >   	preempt_disable();
+> >   
+> > -	if (__get_user(uval, uaddr))
+> > -		goto done;
+> > -
+> > -	if (uval == expected) {
+> > -		if (!__put_user(new, uaddr))
+> > +	ret = __get_user(val, uaddr);
+> > +	if (ret == -EFAULT) {
+> 
+> 
+> Lets see if this warrants adding complexity ! This implies that TLB entry with 
+> Read permissions didn't exist for reading the var and page fault handler could not 
+> wire up even a zero page due to preempt_disable, meaning it was something not 
+> touched by userspace already - sort of uninitialized variable in user code.
 
-That is surprising.  You could also try writes_starved=1 or
-writes_starved=0.
+Ok I completely missed the fact that fast path TLB miss handler is being
+executed even if we have preemption disabled. So given the mapping exist
+we do not need to retry with enabled preemption.
+
+Still maybe I'm a bit paranoid here but IMHO it's good to be ready for a corner-case
+when the pointer is completely bogus and there's no mapping for him.
+I understand that today we only expect this syscall to be used from libc's
+internals but as long as syscall exists nobody stops anybody from using it
+directly without libc. So maybe instead of doing get_user_pages_fast() just
+send a SIGSEGV to the process? At least user will realize there's some problem
+at earlier stage.
+
+> Otherwise it is extremely unlikely to start with a TLB entry with Read 
+> permissions, followed by syscall Trap only to find the entry missing, unless a 
+> global TLB flush came from other cores, right in the middle. But this syscall is 
+> not guaranteed to work with SMP anyways, so lets ignore any SMP misdoings here.
+
+Well but that's exactly the situation I was debugging: we start from data from read-only
+page and on attempt to write back modified value COW machinery gets involved.
+
+That was on UP platform.
+
+> Now in case it was *an* uninitialized var, do we have to guarantee any well 
+> defined semantics for the kernel emulation of cmpxchg ? IMO it should be fine to 
+> return 0 or -EFAULT etc. Infact -EFAULT is better as it will force a retry loop on 
+> user side, given the typical cmpxchg usage pattern.
+
+The problem is libc only expects to get a value read from memory.
+And in theory expected value might be -14 which is basically -EFAULT.
+I'm not talking about 0 at all because in some cases that's exactly what
+user-space expects.
+
+So if we read unexpected value then we'll just return it without even attempting
+to write.
+
+If we read expected data but fail to write then we'll send a SIGSEGV and
+return whatever... let it be -EFAULT - anyways the app will be killed on exit from
+this syscall.
+
+-Alexey
