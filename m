@@ -1,143 +1,95 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 21 Mar 2018 11:54:35 +0000
-Subject: [PATCH] ARC: Improve cmpxchng syscall implementation
-In-Reply-To: <5bc39838-b1c5-ef65-f97d-8777ed33bda0@synopsys.com>
-References: <20180319110002.27419-1-abrodkin@synopsys.com>
- <5bc39838-b1c5-ef65-f97d-8777ed33bda0@synopsys.com>
+From: blackzert@gmail.com (Ilya Smith)
+Date: Thu, 22 Mar 2018 19:36:36 +0300
+Subject: [RFC PATCH v2 0/2] Randomization of address chosen by mmap.
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1521633274.9805.30.camel@synopsys.com>
+Message-ID: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+Current implementation doesn't randomize address returned by mmap.
+All the entropy ends with choosing mmap_base_addr at the process
+creation. After that mmap build very predictable layout of address
+space. It allows to bypass ASLR in many cases. This patch make
+randomization of address on any mmap call.
 
-On Mon, 2018-03-19@11:29 -0700, Vineet Gupta wrote:
-> On 03/19/2018 04:00 AM, Alexey Brodkin wrote:
-> > arc_usr_cmpxchg syscall is supposed to be used on platforms
-> > that lack support of Load-Locked/Store-Conditional instructions
-> > in hardware. And in that case we mimic missing hardware features
-> > with help of kernel's sycall that "atomically" checks current
-> > value in memory and then if it matches caller expectation new
-> > value is written to that same location.
-> > 
-> 
-> ...
-> ...
-> 
-> > 
-> > 2. What's worse if we're dealing with data from not yet allocated
-> >     page (think of pre-copy-on-write state) we'll successfully
-> >     read data but on write we'll silently return to user-space
-> >     with correct result 
-> 
-> This is technically incorrect, even for reading, you need a page, which could be 
-> common zero page in certain cases.
+---
+v2: Changed the way how gap was chosen. Now we don't get all possible
+gaps. Random address generated and used as a tree walking direction.
+Tree walked with backtracking till suitable gap will be found.
+When the gap was found, address randomly shifted from next vma start.
 
-Ok I'll reword it like.
+The vm_unmapped_area_info structure was extended with new field random_shift
+what might be used to set arch-depended limit on shift to next vma start.
+In case of x86-64 architecture this shift is 256 pages for 32 bit applications
+and 0x1000000 pages for 64 bit.
 
-> 
-> (which we really read just before). That leads
-> >     to very strange problems in user-space app further down the line
-> >     because new value was never written to the destination.
-> > 
-> > 3. Regardless of what went wrong we'll return from syscall
-> >     and user-space application will continue to execute.
-> >     Even if user's pointer was completely bogus.
-> 
-> Again we are exaggerating (from technical correctness POV) - if user pointer was 
-> bogs, the read would not have worked in first place etc. So lets tone down the 
-> rhetoric.
+To get the entropy pseudo-random is used. This is because on Intel x86-64
+processors instruction RDRAND works very slow if buffer is consumed -
+after about 10000 iterations.
 
-Ok here I may rephrase it like that:
-------------------------------->8-----------------------------
-3. Regardless of what went wrong we'll return from syscall
-   and user-space application will continue to execute.
-------------------------------->8-----------------------------
+This feature could be enabled by setting randomize_va_space with 4.
 
-> 
-> >     In case of hardware LL/SC that app would have been killed
-> >     by the kernel.
-> > 
-> > With that change we attempt to imrove on all 3 items above:
-> > 
-> > 1. We still disable preemption around read-and-write of
-> >     user's data but if we happen to fail with either of them
-> >     we're enabling preemption and try to force page fault so
-> >     that we have a correct mapping in the TLB. Then re-try
-> >     again in "atomic" context.
-> > 
-> > 2. If real page fault fails or even access_ok() returns false
-> >     we send SIGSEGV to the user-space process so if something goes
-> >     seriously wrong we'll know about it much earlier.
-> > 
-> 
-> 
-> >   
-> >   	/*
-> >   	 * This is only for old cores lacking LLOCK/SCOND, which by defintion
-> > @@ -60,23 +62,48 @@ SYSCALL_DEFINE3(arc_usr_cmpxchg, int *, uaddr, int, expected, int, new)
-> >   	/* Z indicates to userspace if operation succeded */
-> >   	regs->status32 &= ~STATUS_Z_MASK;
-> >   
-> > -	if (!access_ok(VERIFY_WRITE, uaddr, sizeof(int)))
-> > -		return -EFAULT;
-> > +	ret = access_ok(VERIFY_WRITE, uaddr, sizeof(*uaddr));
-> > +	if (!ret)
-> > +		goto fail;
-> >   
-> > +again:
-> >   	preempt_disable();
-> >   
-> > -	if (__get_user(uval, uaddr))
-> > -		goto done;
-> > -
-> > -	if (uval == expected) {
-> > -		if (!__put_user(new, uaddr))
-> > +	ret = __get_user(val, uaddr);
-> > +	if (ret == -EFAULT) {
-> 
-> 
-> Lets see if this warrants adding complexity ! This implies that TLB entry with 
-> Read permissions didn't exist for reading the var and page fault handler could not 
-> wire up even a zero page due to preempt_disable, meaning it was something not 
-> touched by userspace already - sort of uninitialized variable in user code.
+---
+Performance:
+After applying this patch single mmap took about 7% longer according to
+following test:
 
-Ok I completely missed the fact that fast path TLB miss handler is being
-executed even if we have preemption disabled. So given the mapping exist
-we do not need to retry with enabled preemption.
+    before = rdtsc();
+    addr = mmap(0, SIZE, PROT_READ | PROT_WRITE, 
+                 MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
+    after = rdtsc();
+    diff = after - before;
+    munmap(addr, SIZE)
+    ...
+    unsigned long long total = 0;
+    for(int i = 0; i < count; ++i) {
+        total += one_iteration();
+    }
+    printf("%lld\n", total);
 
-Still maybe I'm a bit paranoid here but IMHO it's good to be ready for a corner-case
-when the pointer is completely bogus and there's no mapping for him.
-I understand that today we only expect this syscall to be used from libc's
-internals but as long as syscall exists nobody stops anybody from using it
-directly without libc. So maybe instead of doing get_user_pages_fast() just
-send a SIGSEGV to the process? At least user will realize there's some problem
-at earlier stage.
+Time is consumed by div instruction in computation of the address.
 
-> Otherwise it is extremely unlikely to start with a TLB entry with Read 
-> permissions, followed by syscall Trap only to find the entry missing, unless a 
-> global TLB flush came from other cores, right in the middle. But this syscall is 
-> not guaranteed to work with SMP anyways, so lets ignore any SMP misdoings here.
+make kernel:
+echo 2 > /proc/sys/kernel/randomize_va_space 
+make mrproper && make defconfig && time make 
+real    11m9.925s
+user    10m17.829s
+sys 1m4.969s
 
-Well but that's exactly the situation I was debugging: we start from data from read-only
-page and on attempt to write back modified value COW machinery gets involved.
+echo 4 > /proc/sys/kernel/randomize_va_space 
+make mrproper && make defconfig && time make 
+real    11m12.806s
+user    10m18.305s
+sys 1m4.281s
 
-That was on UP platform.
 
-> Now in case it was *an* uninitialized var, do we have to guarantee any well 
-> defined semantics for the kernel emulation of cmpxchg ? IMO it should be fine to 
-> return 0 or -EFAULT etc. Infact -EFAULT is better as it will force a retry loop on 
-> user side, given the typical cmpxchg usage pattern.
+Ilya Smith (2):
+  Randomization of address chosen by mmap.
+  Architecture defined limit on memory region random shift.
 
-The problem is libc only expects to get a value read from memory.
-And in theory expected value might be -14 which is basically -EFAULT.
-I'm not talking about 0 at all because in some cases that's exactly what
-user-space expects.
+ arch/alpha/kernel/osf_sys.c         |   1 +
+ arch/arc/mm/mmap.c                  |   1 +
+ arch/arm/mm/mmap.c                  |   2 +
+ arch/frv/mm/elf-fdpic.c             |   1 +
+ arch/ia64/kernel/sys_ia64.c         |   1 +
+ arch/ia64/mm/hugetlbpage.c          |   1 +
+ arch/metag/mm/hugetlbpage.c         |   1 +
+ arch/mips/mm/mmap.c                 |   1 +
+ arch/parisc/kernel/sys_parisc.c     |   2 +
+ arch/powerpc/mm/hugetlbpage-radix.c |   1 +
+ arch/powerpc/mm/mmap.c              |   2 +
+ arch/powerpc/mm/slice.c             |   2 +
+ arch/s390/mm/mmap.c                 |   2 +
+ arch/sh/mm/mmap.c                   |   2 +
+ arch/sparc/kernel/sys_sparc_32.c    |   1 +
+ arch/sparc/kernel/sys_sparc_64.c    |   2 +
+ arch/sparc/mm/hugetlbpage.c         |   2 +
+ arch/tile/mm/hugetlbpage.c          |   2 +
+ arch/x86/kernel/sys_x86_64.c        |   4 +
+ arch/x86/mm/hugetlbpage.c           |   4 +
+ fs/hugetlbfs/inode.c                |   1 +
+ include/linux/mm.h                  |  17 ++--
+ mm/mmap.c                           | 165 ++++++++++++++++++++++++++++++++++++
+ 23 files changed, 213 insertions(+), 5 deletions(-)
 
-So if we read unexpected value then we'll just return it without even attempting
-to write.
-
-If we read expected data but fail to write then we'll send a SIGSEGV and
-return whatever... let it be -EFAULT - anyways the app will be killed on exit from
-this syscall.
-
--Alexey
+-- 
+2.7.4
