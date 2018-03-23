@@ -1,125 +1,28 @@
 From: blackzert@gmail.com (Ilya Smith)
-Date: Fri, 23 Mar 2018 20:43:25 +0300
-Subject: [RFC PATCH v2 1/2] Randomization of address chosen by mmap.
-In-Reply-To: <20180322135314.61efce938293e051e118fa46@linux-foundation.org>
+Date: Fri, 23 Mar 2018 20:49:03 +0300
+Subject: [RFC PATCH v2 2/2] Architecture defined limit on memory region
+ random shift.
+In-Reply-To: <20180322135448.046ada120ecd1ab3dd8f94aa@linux-foundation.org>
 References: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
- <1521736598-12812-2-git-send-email-blackzert@gmail.com>
- <20180322135314.61efce938293e051e118fa46@linux-foundation.org>
+ <1521736598-12812-3-git-send-email-blackzert@gmail.com>
+ <20180322135448.046ada120ecd1ab3dd8f94aa@linux-foundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <547032AD-605D-46AF-9DA6-C2ECA01923E1@gmail.com>
+Message-ID: <548B6BB8-FD6F-4F8D-B67F-2809305C617D@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
 
-> On 22 Mar 2018,@23:53, Andrew Morton <akpm@linux-foundation.org> wrote:
+> On 22 Mar 2018,@23:54, Andrew Morton <akpm@linux-foundation.org> wrote:
 > 
-> On Thu, 22 Mar 2018 19:36:37 +0300 Ilya Smith <blackzert@gmail.com> wrote:
 > 
->> include/linux/mm.h |  16 ++++--
->> mm/mmap.c          | 164 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+> Please add changelogs.  An explanation of what a "limit on memory
+> region random shift" is would be nice ;) Why does it exist, why are we
+> doing this, etc.  Surely there's something to be said - at present this
+> is just a lump of random code?
 > 
-> You'll be wanting to update the documentation. 
-> Documentation/sysctl/kernel.txt and
-> Documentation/admin-guide/kernel-parameters.txt.
 > 
-
-Sure, thanks for pointing there. I will add few lines there after discussion them
-here.
-
->> ...
->> 
->> @@ -2268,6 +2276,9 @@ extern unsigned long unmapped_area_topdown(struct vm_unmapped_area_info *info);
->> static inline unsigned long
->> vm_unmapped_area(struct vm_unmapped_area_info *info)
->> {
->> +	/* How about 32 bit process?? */
->> +	if ((current->flags & PF_RANDOMIZE) && randomize_va_space > 3)
->> +		return unmapped_area_random(info);
 > 
-> The handling of randomize_va_space is peculiar.  Rather than being a
-> bitfield which independently selects different modes, it is treated as
-> a scalar: the larger the value, the more stuff we randomize.
-> 
-> I can see the sense in that (and I wonder what randomize_va_space=5
-> will do).  But it is...  odd.
-> 
-> Why did you select randomize_va_space=4 for this?  Is there a mode 3
-> already and we forgot to document it?  Or did you leave a gap for
-> something?  If the former, please feel free to fix the documentation
-> (in a separate, preceding patch) while you're in there ;)
-> 
-
-Yes, I was not sure about correct value so leaved some gap for future. Also
-according to current implementation this value used like a scalar. But I?m
-agree bitfield looks more flexible for the future. I think right now I can leave
-3 as value for my patch and it could be fixed any time in the future. What
-do you think about it?
-
->> 	if (info->flags & VM_UNMAPPED_AREA_TOPDOWN)
->> 		return unmapped_area_topdown(info);
->> 	else
->> @@ -2529,11 +2540,6 @@ int drop_caches_sysctl_handler(struct ctl_table *, int,
->> void drop_slab(void);
->> void drop_slab_node(int nid);
->> 
->> 
->> ...
->> 
->> @@ -1780,6 +1781,169 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
->> 	return error;
->> }
->> 
->> +unsigned long unmapped_area_random(struct vm_unmapped_area_info *info)
->> +{
-> 
-> This function is just dead code if CONFIG_MMU=n, yes?  Let's add the
-> ifdefs to make it go away in that case.
-> 
-
-Thanks, I missed that case. I will fix it.
-
->> +	struct mm_struct *mm = current->mm;
->> +	struct vm_area_struct *vma = NULL;
->> +	struct vm_area_struct *visited_vma = NULL;
->> +	unsigned long entropy[2];
->> +	unsigned long length, low_limit, high_limit, gap_start, gap_end;
->> +	unsigned long addr = 0;
->> +
->> +	/* get entropy with prng */
->> +	prandom_bytes(&entropy, sizeof(entropy));
->> +	/* small hack to prevent EPERM result */
->> +	info->low_limit = max(info->low_limit, mmap_min_addr);
->> +
->> 
->> ...
->> 
->> +found:
->> +	/* We found a suitable gap. Clip it with the original high_limit. */
->> +	if (gap_end > info->high_limit)
->> +		gap_end = info->high_limit;
->> +	gap_end -= info->length;
->> +	gap_end -= (gap_end - info->align_offset) & info->align_mask;
->> +	/* only one suitable page */
->> +	if (gap_end ==  gap_start)
->> +		return gap_start;
->> +	addr = entropy[1] % (min((gap_end - gap_start) >> PAGE_SHIFT,
->> +							 0x10000UL));
-> 
-> What does the magic 10000 mean?  Isn't a comment needed explaining this?
-> 
->> +	addr = gap_end - (addr << PAGE_SHIFT);
->> +	addr += (info->align_offset - addr) & info->align_mask;
->> +	return addr;
->> +}
->> 
->> ...
->> 
-> 
-
-This one what I fix by next patch. I was trying to make patches separate to make
-it easier to understand them. This constant came from last version discussion 
-and honestly doesn?t means much. I replaced it with Architecture depended limit
-that as I plan would be CONFIG value as well.
-
-This value means maximum number of pages we can move away from the next
-vma. The less value means less security but less memory fragmentation. Any way
-on 64bit systems memory fragmentation is not such a big problem.
+Sorry, my bad. The main idea of this limit is to decrease possible memory 
+fragmentation. This is not so big problem on 64bit process, but really big for 
+32 bit processes since may cause failure memory allocation. To control memory 
+fragmentation and protect 32 bit systems (or architectures) this limit was 
+introduce by this patch. It could be also moved to CONFIG_ as well.
