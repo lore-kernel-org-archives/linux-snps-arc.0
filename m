@@ -1,43 +1,125 @@
 From: blackzert@gmail.com (Ilya Smith)
-Date: Fri, 23 Mar 2018 20:25:15 +0300
-Subject: [RFC PATCH v2 0/2] Randomization of address chosen by mmap.
-In-Reply-To: <20180322135729.dbfd3575819c92c0f88c5c21@linux-foundation.org>
+Date: Fri, 23 Mar 2018 20:43:25 +0300
+Subject: [RFC PATCH v2 1/2] Randomization of address chosen by mmap.
+In-Reply-To: <20180322135314.61efce938293e051e118fa46@linux-foundation.org>
 References: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
- <20180322135729.dbfd3575819c92c0f88c5c21@linux-foundation.org>
+ <1521736598-12812-2-git-send-email-blackzert@gmail.com>
+ <20180322135314.61efce938293e051e118fa46@linux-foundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C43F853F-6B54-42DF-AEF2-64B22DAB8A1D@gmail.com>
+Message-ID: <547032AD-605D-46AF-9DA6-C2ECA01923E1@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hello, Andrew
 
-Thanks for reading this patch.
+> On 22 Mar 2018,@23:53, Andrew Morton <akpm@linux-foundation.org> wrote:
+> 
+> On Thu, 22 Mar 2018 19:36:37 +0300 Ilya Smith <blackzert@gmail.com> wrote:
+> 
+>> include/linux/mm.h |  16 ++++--
+>> mm/mmap.c          | 164 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+> 
+> You'll be wanting to update the documentation. 
+> Documentation/sysctl/kernel.txt and
+> Documentation/admin-guide/kernel-parameters.txt.
+> 
 
-> On 22 Mar 2018,@23:57, Andrew Morton <akpm@linux-foundation.org> wrote:
-> 
-> On Thu, 22 Mar 2018 19:36:36 +0300 Ilya Smith <blackzert@gmail.com> wrote:
-> 
->> Current implementation doesn't randomize address returned by mmap.
->> All the entropy ends with choosing mmap_base_addr at the process
->> creation. After that mmap build very predictable layout of address
->> space. It allows to bypass ASLR in many cases.
-> 
-> Perhaps some more effort on the problem description would help.  *Are*
-> people predicting layouts at present?  What problems does this cause? 
-> How are they doing this and are there other approaches to solving the
-> problem?
-> 
-Sorry, I?ve lost it in first version. In short - memory layout could be easily 
-repaired by single leakage. Also any Out of Bounds error may easily be 
-exploited according to current implementation. All because mmap choose address 
-just before previously allocated segment. You can read more about it here: 
-http://www.openwall.com/lists/oss-security/2018/02/27/5
-Some test are available here https://github.com/blackzert/aslur. 
-To solve the problem Kernel should randomize address on any mmap so
-attacker could never easily gain needed addresses.
+Sure, thanks for pointing there. I will add few lines there after discussion them
+here.
 
-> Mainly: what value does this patchset have to our users?  This reader
-> is unable to determine that from the information which you have
-> provided.  Full details, please.
+>> ...
+>> 
+>> @@ -2268,6 +2276,9 @@ extern unsigned long unmapped_area_topdown(struct vm_unmapped_area_info *info);
+>> static inline unsigned long
+>> vm_unmapped_area(struct vm_unmapped_area_info *info)
+>> {
+>> +	/* How about 32 bit process?? */
+>> +	if ((current->flags & PF_RANDOMIZE) && randomize_va_space > 3)
+>> +		return unmapped_area_random(info);
+> 
+> The handling of randomize_va_space is peculiar.  Rather than being a
+> bitfield which independently selects different modes, it is treated as
+> a scalar: the larger the value, the more stuff we randomize.
+> 
+> I can see the sense in that (and I wonder what randomize_va_space=5
+> will do).  But it is...  odd.
+> 
+> Why did you select randomize_va_space=4 for this?  Is there a mode 3
+> already and we forgot to document it?  Or did you leave a gap for
+> something?  If the former, please feel free to fix the documentation
+> (in a separate, preceding patch) while you're in there ;)
+> 
 
-The value of this patch is to decrease successful rate of exploitation
-vulnerable applications.These could be either remote or local vectors.
+Yes, I was not sure about correct value so leaved some gap for future. Also
+according to current implementation this value used like a scalar. But I?m
+agree bitfield looks more flexible for the future. I think right now I can leave
+3 as value for my patch and it could be fixed any time in the future. What
+do you think about it?
+
+>> 	if (info->flags & VM_UNMAPPED_AREA_TOPDOWN)
+>> 		return unmapped_area_topdown(info);
+>> 	else
+>> @@ -2529,11 +2540,6 @@ int drop_caches_sysctl_handler(struct ctl_table *, int,
+>> void drop_slab(void);
+>> void drop_slab_node(int nid);
+>> 
+>> 
+>> ...
+>> 
+>> @@ -1780,6 +1781,169 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
+>> 	return error;
+>> }
+>> 
+>> +unsigned long unmapped_area_random(struct vm_unmapped_area_info *info)
+>> +{
+> 
+> This function is just dead code if CONFIG_MMU=n, yes?  Let's add the
+> ifdefs to make it go away in that case.
+> 
+
+Thanks, I missed that case. I will fix it.
+
+>> +	struct mm_struct *mm = current->mm;
+>> +	struct vm_area_struct *vma = NULL;
+>> +	struct vm_area_struct *visited_vma = NULL;
+>> +	unsigned long entropy[2];
+>> +	unsigned long length, low_limit, high_limit, gap_start, gap_end;
+>> +	unsigned long addr = 0;
+>> +
+>> +	/* get entropy with prng */
+>> +	prandom_bytes(&entropy, sizeof(entropy));
+>> +	/* small hack to prevent EPERM result */
+>> +	info->low_limit = max(info->low_limit, mmap_min_addr);
+>> +
+>> 
+>> ...
+>> 
+>> +found:
+>> +	/* We found a suitable gap. Clip it with the original high_limit. */
+>> +	if (gap_end > info->high_limit)
+>> +		gap_end = info->high_limit;
+>> +	gap_end -= info->length;
+>> +	gap_end -= (gap_end - info->align_offset) & info->align_mask;
+>> +	/* only one suitable page */
+>> +	if (gap_end ==  gap_start)
+>> +		return gap_start;
+>> +	addr = entropy[1] % (min((gap_end - gap_start) >> PAGE_SHIFT,
+>> +							 0x10000UL));
+> 
+> What does the magic 10000 mean?  Isn't a comment needed explaining this?
+> 
+>> +	addr = gap_end - (addr << PAGE_SHIFT);
+>> +	addr += (info->align_offset - addr) & info->align_mask;
+>> +	return addr;
+>> +}
+>> 
+>> ...
+>> 
+> 
+
+This one what I fix by next patch. I was trying to make patches separate to make
+it easier to understand them. This constant came from last version discussion 
+and honestly doesn?t means much. I replaced it with Architecture depended limit
+that as I plan would be CONFIG value as well.
+
+This value means maximum number of pages we can move away from the next
+vma. The less value means less security but less memory fragmentation. Any way
+on 64bit systems memory fragmentation is not such a big problem.
