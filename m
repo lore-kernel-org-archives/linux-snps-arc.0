@@ -1,19 +1,44 @@
 From: shea@shealevy.com (Shea Levy)
-Date: Sun, 25 Mar 2018 18:18:37 -0400
-Subject: [PATCH v2 00/16] Generic infrastructure for unloading initramfs
-In-Reply-To: <20180324174458.26423-1-shea@shealevy.com>
+Date: Sun, 25 Mar 2018 18:18:39 -0400
+Subject: [PATCH v2 02/16] riscv: Use INITRAMFS_GENERIC_UNLOAD.
+In-Reply-To: <20180325221853.10839-1-shea@shealevy.com>
 References: <20180324174458.26423-1-shea@shealevy.com>
+ <20180325221853.10839-1-shea@shealevy.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180325221853.10839-1-shea@shealevy.com>
+Message-ID: <20180325221853.10839-3-shea@shealevy.com>
 To: linux-snps-arc@lists.infradead.org
 
-This patch series extracts out code for unloading the initramfs that
-was identical across 14 architectures, and moves those architectures
-to the common code path. Additionally, RISC-V is newly moved to the
-common code path.
+Signed-off-by: Shea Levy <shea at shealevy.com>
+---
+ arch/riscv/Kconfig   | 1 +
+ arch/riscv/mm/init.c | 6 ------
+ 2 files changed, 1 insertion(+), 6 deletions(-)
 
-In addition to reducing duplication, this allows us to bring future
-improvements (such as generalizing existing "keep initrd" command line
-options) to multiple architectures at once.
-
-v2: Mark generic free_initrd_mem __init.
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index c22ebe08e902..ab1b4cee84fc 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -37,6 +37,7 @@ config RISCV
+ 	select THREAD_INFO_IN_TASK
+ 	select RISCV_TIMER
+ 	select GENERIC_IRQ_MULTI_HANDLER
++	select INITRAMFS_GENERIC_UNLOAD
+ 
+ config MMU
+ 	def_bool y
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index c77df8142be2..36f83fe8a726 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -62,9 +62,3 @@ void free_initmem(void)
+ {
+ 	free_initmem_default(0);
+ }
+-
+-#ifdef CONFIG_BLK_DEV_INITRD
+-void free_initrd_mem(unsigned long start, unsigned long end)
+-{
+-}
+-#endif /* CONFIG_BLK_DEV_INITRD */
+-- 
+2.16.2
