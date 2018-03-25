@@ -1,49 +1,48 @@
 From: shea@shealevy.com (Shea Levy)
-Date: Sun, 25 Mar 2018 18:18:45 -0400
-Subject: [PATCH v2 08/16] m32r: Use INITRAMFS_GENERIC_UNLOAD
+Date: Sun, 25 Mar 2018 18:18:47 -0400
+Subject: [PATCH v2 10/16] microblaze: Use INITRAMFS_GENERIC_UNLOAD
 In-Reply-To: <20180325221853.10839-1-shea@shealevy.com>
 References: <20180324174458.26423-1-shea@shealevy.com>
  <20180325221853.10839-1-shea@shealevy.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180325221853.10839-9-shea@shealevy.com>
+Message-ID: <20180325221853.10839-11-shea@shealevy.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Shea Levy <shea at shealevy.com>
 ---
- arch/m32r/Kconfig   |  1 +
- arch/m32r/mm/init.c | 11 -----------
- 2 files changed, 1 insertion(+), 11 deletions(-)
+ arch/microblaze/Kconfig   | 1 +
+ arch/microblaze/mm/init.c | 7 -------
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/arch/m32r/Kconfig b/arch/m32r/Kconfig
-index dd84ee194579..010a2b999181 100644
---- a/arch/m32r/Kconfig
-+++ b/arch/m32r/Kconfig
-@@ -21,6 +21,7 @@ config M32R
+diff --git a/arch/microblaze/Kconfig b/arch/microblaze/Kconfig
+index 3817a3e2146c..ef23e8410b4b 100644
+--- a/arch/microblaze/Kconfig
++++ b/arch/microblaze/Kconfig
+@@ -36,6 +36,7 @@ config MICROBLAZE
+ 	select TRACING_SUPPORT
+ 	select VIRT_TO_BUS
  	select CPU_NO_EFFICIENT_FFS
- 	select DMA_DIRECT_OPS
- 	select ARCH_NO_COHERENT_DMA_MMAP if !MMU
 +	select INITRAMFS_GENERIC_UNLOAD
  
- config SBUS
- 	bool
-diff --git a/arch/m32r/mm/init.c b/arch/m32r/mm/init.c
-index 93abc8c3a46e..e2b5f09209ee 100644
---- a/arch/m32r/mm/init.c
-+++ b/arch/m32r/mm/init.c
-@@ -139,14 +139,3 @@ void free_initmem(void)
- {
- 	free_initmem_default(-1);
+ # Endianness selection
+ choice
+diff --git a/arch/microblaze/mm/init.c b/arch/microblaze/mm/init.c
+index df6de7ccdc2e..ea058dfda222 100644
+--- a/arch/microblaze/mm/init.c
++++ b/arch/microblaze/mm/init.c
+@@ -187,13 +187,6 @@ void __init setup_memory(void)
+ 	paging_init();
  }
--
+ 
 -#ifdef CONFIG_BLK_DEV_INITRD
--/*======================================================================*
-- * free_initrd_mem() :
-- * orig : arch/sh/mm/init.c
-- *======================================================================*/
 -void free_initrd_mem(unsigned long start, unsigned long end)
 -{
 -	free_reserved_area((void *)start, (void *)end, -1, "initrd");
 -}
 -#endif
+-
+ void free_initmem(void)
+ {
+ 	free_initmem_default(-1);
 -- 
 2.16.2
