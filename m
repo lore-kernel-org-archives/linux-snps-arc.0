@@ -1,46 +1,48 @@
 From: shea@shealevy.com (Shea Levy)
-Date: Sun, 25 Mar 2018 18:18:40 -0400
-Subject: [PATCH v2 03/16] alpha: Use INITRAMFS_GENERIC_UNLOAD
+Date: Sun, 25 Mar 2018 18:18:42 -0400
+Subject: [PATCH v2 05/16] c6x: Use INITRAMFS_GENERIC_UNLOAD
 In-Reply-To: <20180325221853.10839-1-shea@shealevy.com>
 References: <20180324174458.26423-1-shea@shealevy.com>
  <20180325221853.10839-1-shea@shealevy.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180325221853.10839-4-shea@shealevy.com>
+Message-ID: <20180325221853.10839-6-shea@shealevy.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Shea Levy <shea at shealevy.com>
 ---
- arch/alpha/Kconfig   | 1 +
- arch/alpha/mm/init.c | 8 --------
- 2 files changed, 1 insertion(+), 8 deletions(-)
+ arch/c6x/Kconfig   | 1 +
+ arch/c6x/mm/init.c | 7 -------
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index e96adcbcab41..238d743ae8f2 100644
---- a/arch/alpha/Kconfig
-+++ b/arch/alpha/Kconfig
-@@ -27,6 +27,7 @@ config ALPHA
- 	select ODD_RT_SIGACTION
- 	select OLD_SIGSUSPEND
- 	select CPU_NO_EFFICIENT_FFS if !ALPHA_EV67
+diff --git a/arch/c6x/Kconfig b/arch/c6x/Kconfig
+index c6b4dd1418b4..857f95f9a6a4 100644
+--- a/arch/c6x/Kconfig
++++ b/arch/c6x/Kconfig
+@@ -19,6 +19,7 @@ config C6X
+ 	select GENERIC_CLOCKEVENTS
+ 	select MODULES_USE_ELF_RELA
+ 	select ARCH_NO_COHERENT_DMA_MMAP
 +	select INITRAMFS_GENERIC_UNLOAD
- 	help
- 	  The Alpha is a 64-bit general-purpose processor designed and
- 	  marketed by the Digital Equipment Corporation of blessed memory,
-diff --git a/arch/alpha/mm/init.c b/arch/alpha/mm/init.c
-index 9d74520298ab..55f7c8efa962 100644
---- a/arch/alpha/mm/init.c
-+++ b/arch/alpha/mm/init.c
-@@ -291,11 +291,3 @@ free_initmem(void)
- {
- 	free_initmem_default(-1);
+ 
+ config MMU
+ 	def_bool n
+diff --git a/arch/c6x/mm/init.c b/arch/c6x/mm/init.c
+index 4cc72b0d1c1d..a11cb657182a 100644
+--- a/arch/c6x/mm/init.c
++++ b/arch/c6x/mm/init.c
+@@ -66,13 +66,6 @@ void __init mem_init(void)
+ 	mem_init_print_info(NULL);
  }
--
+ 
 -#ifdef CONFIG_BLK_DEV_INITRD
--void
--free_initrd_mem(unsigned long start, unsigned long end)
+-void __init free_initrd_mem(unsigned long start, unsigned long end)
 -{
 -	free_reserved_area((void *)start, (void *)end, -1, "initrd");
 -}
 -#endif
+-
+ void __init free_initmem(void)
+ {
+ 	free_initmem_default(-1);
 -- 
 2.16.2
