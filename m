@@ -1,45 +1,49 @@
 From: shea@shealevy.com (Shea Levy)
-Date: Sun, 25 Mar 2018 18:18:41 -0400
-Subject: [PATCH v2 04/16] arc: Use INITRAMFS_GENERIC_UNLOAD
+Date: Sun, 25 Mar 2018 18:18:43 -0400
+Subject: [PATCH v2 06/16] frv: Use INITRAMFS_GENERIC_UNLOAD
 In-Reply-To: <20180325221853.10839-1-shea@shealevy.com>
 References: <20180324174458.26423-1-shea@shealevy.com>
  <20180325221853.10839-1-shea@shealevy.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180325221853.10839-5-shea@shealevy.com>
+Message-ID: <20180325221853.10839-7-shea@shealevy.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Shea Levy <shea at shealevy.com>
 ---
- arch/arc/Kconfig   | 1 +
- arch/arc/mm/init.c | 7 -------
- 2 files changed, 1 insertion(+), 7 deletions(-)
+ arch/frv/Kconfig   |  1 +
+ arch/frv/mm/init.c | 11 -----------
+ 2 files changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index d76bf4a83740..2844ce5b910c 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -44,6 +44,7 @@ config ARC
- 	select HAVE_GENERIC_DMA_COHERENT
- 	select HAVE_KERNEL_GZIP
- 	select HAVE_KERNEL_LZMA
+diff --git a/arch/frv/Kconfig b/arch/frv/Kconfig
+index af369b05fed5..5c104b800cb1 100644
+--- a/arch/frv/Kconfig
++++ b/arch/frv/Kconfig
+@@ -17,6 +17,7 @@ config FRV
+ 	select OLD_SIGACTION
+ 	select HAVE_DEBUG_STACKOVERFLOW
+ 	select ARCH_NO_COHERENT_DMA_MMAP
 +	select INITRAMFS_GENERIC_UNLOAD
  
- config MIGHT_HAVE_PCI
- 	bool
-diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-index ba145065c579..7bcf23ab1756 100644
---- a/arch/arc/mm/init.c
-+++ b/arch/arc/mm/init.c
-@@ -229,10 +229,3 @@ void __ref free_initmem(void)
- {
+ config CPU_BIG_ENDIAN
+ 	def_bool y
+diff --git a/arch/frv/mm/init.c b/arch/frv/mm/init.c
+index cf464100e838..345edc4dc462 100644
+--- a/arch/frv/mm/init.c
++++ b/arch/frv/mm/init.c
+@@ -131,14 +131,3 @@ void free_initmem(void)
  	free_initmem_default(-1);
- }
+ #endif
+ } /* end free_initmem() */
 -
+-/*****************************************************************************/
+-/*
+- * free the initial ramdisk memory
+- */
 -#ifdef CONFIG_BLK_DEV_INITRD
 -void __init free_initrd_mem(unsigned long start, unsigned long end)
 -{
 -	free_reserved_area((void *)start, (void *)end, -1, "initrd");
--}
+-} /* end free_initrd_mem() */
 -#endif
 -- 
 2.16.2
