@@ -1,45 +1,48 @@
 From: shea@shealevy.com (Shea Levy)
-Date: Sun, 25 Mar 2018 18:18:50 -0400
-Subject: [PATCH v2 13/16] parisc: Use INITRAMFS_GENERIC_UNLOAD
+Date: Sun, 25 Mar 2018 18:18:53 -0400
+Subject: [PATCH v2 16/16] um: Use INITRAMFS_GENERIC_UNLOAD
 In-Reply-To: <20180325221853.10839-1-shea@shealevy.com>
 References: <20180324174458.26423-1-shea@shealevy.com>
  <20180325221853.10839-1-shea@shealevy.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180325221853.10839-14-shea@shealevy.com>
+Message-ID: <20180325221853.10839-17-shea@shealevy.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Shea Levy <shea at shealevy.com>
 ---
- arch/parisc/Kconfig   | 1 +
- arch/parisc/mm/init.c | 7 -------
+ arch/um/Kconfig.common | 1 +
+ arch/um/kernel/mem.c   | 7 -------
  2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
-index 9792d8cf4f56..7410c2094987 100644
---- a/arch/parisc/Kconfig
-+++ b/arch/parisc/Kconfig
-@@ -51,6 +51,7 @@ config PARISC
+diff --git a/arch/um/Kconfig.common b/arch/um/Kconfig.common
+index c68add8df3ae..1cb8a023938b 100644
+--- a/arch/um/Kconfig.common
++++ b/arch/um/Kconfig.common
+@@ -13,6 +13,7 @@ config UML
  	select GENERIC_CLOCKEVENTS
- 	select ARCH_NO_COHERENT_DMA_MMAP
- 	select CPU_NO_EFFICIENT_FFS
+ 	select HAVE_GCC_PLUGINS
+ 	select TTY # Needed for line.c
 +	select INITRAMFS_GENERIC_UNLOAD
  
- 	help
- 	  The PA-RISC microprocessor is designed by Hewlett-Packard and used
-diff --git a/arch/parisc/mm/init.c b/arch/parisc/mm/init.c
-index cab32ee824d2..3643399230f3 100644
---- a/arch/parisc/mm/init.c
-+++ b/arch/parisc/mm/init.c
-@@ -932,10 +932,3 @@ void flush_tlb_all(void)
- 	spin_unlock(&sid_lock);
+ config MMU
+ 	bool
+diff --git a/arch/um/kernel/mem.c b/arch/um/kernel/mem.c
+index 3c0e470ea646..2d26eec92126 100644
+--- a/arch/um/kernel/mem.c
++++ b/arch/um/kernel/mem.c
+@@ -170,13 +170,6 @@ void free_initmem(void)
+ {
  }
- #endif
--
+ 
 -#ifdef CONFIG_BLK_DEV_INITRD
 -void free_initrd_mem(unsigned long start, unsigned long end)
 -{
 -	free_reserved_area((void *)start, (void *)end, -1, "initrd");
 -}
 -#endif
+-
+ /* Allocate and free page tables. */
+ 
+ pgd_t *pgd_alloc(struct mm_struct *mm)
 -- 
 2.16.2
