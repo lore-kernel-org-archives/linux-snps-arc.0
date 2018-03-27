@@ -1,14 +1,14 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Tue, 27 Mar 2018 18:26:53 +0200
-Subject: [PATCH 4.14 021/101] mmc: dw_mmc: fix falling from idmac to PIO mode
+Date: Tue, 27 Mar 2018 18:27:01 +0200
+Subject: [PATCH 4.15 021/105] mmc: dw_mmc: fix falling from idmac to PIO mode
  when dw_mci_reset occurs
-In-Reply-To: <20180327162749.993880276@linuxfoundation.org>
-References: <20180327162749.993880276@linuxfoundation.org>
+In-Reply-To: <20180327162757.813009222@linuxfoundation.org>
+References: <20180327162757.813009222@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180327162751.275889617@linuxfoundation.org>
+Message-ID: <20180327162758.750981287@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
-4.14-stable review patch.  If anyone has any objections, please let me know.
+4.15-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
