@@ -1,14 +1,14 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Tue, 27 Mar 2018 18:27:11 +0200
-Subject: [PATCH 4.4 07/43] mmc: dw_mmc: fix falling from idmac to PIO mode
+Date: Tue, 27 Mar 2018 18:26:59 +0200
+Subject: [PATCH 4.9 07/67] mmc: dw_mmc: fix falling from idmac to PIO mode
  when dw_mci_reset occurs
-In-Reply-To: <20180327162716.407986916@linuxfoundation.org>
-References: <20180327162716.407986916@linuxfoundation.org>
+In-Reply-To: <20180327162726.702411083@linuxfoundation.org>
+References: <20180327162726.702411083@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180327162716.785119151@linuxfoundation.org>
+Message-ID: <20180327162727.087079723@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
-4.4-stable review patch.  If anyone has any objections, please let me know.
+4.9-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -54,7 +54,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 
 --- a/drivers/mmc/host/dw_mmc.c
 +++ b/drivers/mmc/host/dw_mmc.c
-@@ -619,6 +619,7 @@ static int dw_mci_idmac_init(struct dw_m
+@@ -490,6 +490,7 @@ static int dw_mci_idmac_init(struct dw_m
  					(sizeof(struct idmac_desc_64addr) *
  							(i + 1))) >> 32;
  			/* Initialize reserved and buffer size fields to "0" */
@@ -62,7 +62,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
  			p->des1 = 0;
  			p->des2 = 0;
  			p->des3 = 0;
-@@ -640,6 +641,7 @@ static int dw_mci_idmac_init(struct dw_m
+@@ -512,6 +513,7 @@ static int dw_mci_idmac_init(struct dw_m
  		     i++, p++) {
  			p->des3 = cpu_to_le32(host->sg_dma +
  					(sizeof(struct idmac_desc) * (i + 1)));
@@ -70,7 +70,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
  			p->des1 = 0;
  		}
  
-@@ -2807,8 +2809,8 @@ static bool dw_mci_reset(struct dw_mci *
+@@ -2878,8 +2880,8 @@ static bool dw_mci_reset(struct dw_mci *
  	}
  
  	if (host->use_dma == TRANS_MODE_IDMAC)
