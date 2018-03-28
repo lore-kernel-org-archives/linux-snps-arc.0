@@ -1,24 +1,21 @@
-From: hch@lst.de (hch@lst.de)
-Date: Wed, 28 Mar 2018 09:53:13 +0200
-Subject: dma-mapping: clearing GFP_ZERO flag caused crashes of Ethernet
- on arc/hsdk board.
-In-Reply-To: <1522185558.6917.7.camel@synopsys.com>
-References: <1522170774.2593.9.camel@synopsys.com>
- <CAHp75VeZSsdR1=ZhOM6jseYCP3m0GyE=8EjJUxWosze9BBw9rQ@mail.gmail.com>
- <1522185558.6917.7.camel@synopsys.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 28 Mar 2018 05:04:40 -0700
+Subject: [PATCH 01/16] initrd: Add generic code path for common initrd
+ unloading logic.
+In-Reply-To: <20180324174458.26423-2-shea@shealevy.com>
+References: <20180324174458.26423-1-shea@shealevy.com>
+ <20180324174458.26423-2-shea@shealevy.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180328075313.GA19864@lst.de>
+Message-ID: <20180328120440.GB1838@infradead.org>
 To: linux-snps-arc@lists.infradead.org
 
-> > The logical question is why?
-> 
-> 1. See that's another platform with ARC core so maybe in case of ARM
->    DMA allocator already zeroes pages regardless provided flags -
->    personally I didn't check that.
+> +#ifdef CONFIG_INITRAMFS_GENERIC_UNLOAD
+> +void free_initrd_mem(unsigned long start, unsigned long end)
+> +{
+> +       free_reserved_area((void *)start, (void *)end, -1, "initrd");
+> +}
+> +#endif
 
-Yes, most architectures always clear memory returned by dma_alloc*.
-Looks like a few don't and my commit got them in trouble.  As usual
-I'd prefer to match x86 semantics for now to avoid problems.
-
-I'll send patches for arc and s390 which seem to be actually used
-holdouts, and will look if anyone else is also affected.
+Given how trivial this is and how many architectures can use it I'd
+reverse the polarity and add a CONFIG_HAVE_ARCH_FREE_INITRD_MEM
+instead.
