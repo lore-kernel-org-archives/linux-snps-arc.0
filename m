@@ -1,38 +1,37 @@
-From: dalias@libc.org (Rich Felker)
-Date: Tue, 27 Mar 2018 20:00:25 -0400
+From: rob@landley.net (Rob Landley)
+Date: Tue, 27 Mar 2018 23:50:02 -0500
 Subject: [RFC PATCH v2 0/2] Randomization of address chosen by mmap.
-In-Reply-To: <20180327234904.GA27734@bombadil.infradead.org>
+In-Reply-To: <20180323190618.GA23763@bombadil.infradead.org>
 References: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
  <20180323124806.GA5624@bombadil.infradead.org>
- <651E0DB6-4507-4DA1-AD46-9C26ED9792A8@gmail.com>
- <20180326084650.GC5652@dhcp22.suse.cz>
- <01A133F4-27DF-4AE2-80D6-B0368BF758CD@gmail.com>
- <20180327072432.GY5652@dhcp22.suse.cz>
- <0549F29C-12FC-4401-9E85-A430BC11DA78@gmail.com>
- <CAGXu5j+XXufprMaJ9GbHxD3mZ7iqUuu60-tTMC6wo2x1puYzMQ@mail.gmail.com>
- <20180327234904.GA27734@bombadil.infradead.org>
+ <20180323180024.GB1436@brightrain.aerifal.cx>
+ <20180323190618.GA23763@bombadil.infradead.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180328000025.GM1436@brightrain.aerifal.cx>
+Message-ID: <7e41ef7a-0bac-02fe-21fd-a1ed86c22230@landley.net>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Mar 27, 2018@04:49:04PM -0700, Matthew Wilcox wrote:
-> On Tue, Mar 27, 2018@03:53:53PM -0700, Kees Cook wrote:
-> > I agree: pushing this off to libc leaves a lot of things unprotected.
-> > I think this should live in the kernel. The question I have is about
-> > making it maintainable/readable/etc.
-> > 
-> > The state-of-the-art for ASLR is moving to finer granularity (over
-> > just base-address offset), so I'd really like to see this supported in
-> > the kernel. We'll be getting there for other things in the future, and
-> > I'd like to have a working production example for researchers to
-> > study, etc.
+On 03/23/2018 02:06 PM, Matthew Wilcox wrote:
+> On Fri, Mar 23, 2018@02:00:24PM -0400, Rich Felker wrote:
+>> On Fri, Mar 23, 2018@05:48:06AM -0700, Matthew Wilcox wrote:
+>>> On Thu, Mar 22, 2018@07:36:36PM +0300, Ilya Smith wrote:
+>>>> Current implementation doesn't randomize address returned by mmap.
+>>>> All the entropy ends with choosing mmap_base_addr at the process
+>>>> creation. After that mmap build very predictable layout of address
+>>>> space. It allows to bypass ASLR in many cases. This patch make
+>>>> randomization of address on any mmap call.
+>>>
+>>> Why should this be done in the kernel rather than libc?  libc is perfectly
+>>> capable of specifying random numbers in the first argument of mmap.
+>>
+>> Generally libc does not have a view of the current vm maps, and thus
+>> in passing "random numbers", they would have to be uniform across the
+>> whole vm space and thus non-uniform once the kernel rounds up to avoid
+>> existing mappings.
 > 
-> One thing we need is to limit the fragmentation of this approach.
-> Even on 64-bit systems, we can easily get into a situation where there isn't
-> space to map a contiguous terabyte.
+> I'm aware that you're the musl author, but glibc somehow manages to
+> provide etext, edata and end, demonstrating that it does know where at
+> least some of the memory map lies.
 
-The default limit of only 65536 VMAs will also quickly come into play
-if consecutive anon mmaps don't get merged. Of course this can be
-raised, but it has significant resource and performance (fork) costs.
+You can parse /proc/self/maps, but it's really expensive and disgusting.
 
-Rich
+Rob
