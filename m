@@ -1,43 +1,32 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 30 Mar 2018 15:37:39 +0000
-Subject: DW MMC multislot support
+From: tony.luck@intel.com (Luck, Tony)
+Date: Wed, 28 Mar 2018 21:07:30 +0000
+Subject: [RFC PATCH v2 0/2] Randomization of address chosen by mmap.
+In-Reply-To: <20180328000025.GM1436@brightrain.aerifal.cx>
+References: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
+ <20180323124806.GA5624@bombadil.infradead.org>
+ <651E0DB6-4507-4DA1-AD46-9C26ED9792A8@gmail.com>
+ <20180326084650.GC5652@dhcp22.suse.cz>
+ <01A133F4-27DF-4AE2-80D6-B0368BF758CD@gmail.com>
+ <20180327072432.GY5652@dhcp22.suse.cz>
+ <0549F29C-12FC-4401-9E85-A430BC11DA78@gmail.com>
+ <CAGXu5j+XXufprMaJ9GbHxD3mZ7iqUuu60-tTMC6wo2x1puYzMQ@mail.gmail.com>
+ <20180327234904.GA27734@bombadil.infradead.org>
+ <20180328000025.GM1436@brightrain.aerifal.cx>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1522424259.32101.7.camel@synopsys.com>
+Message-ID: <3908561D78D1C84285E8C5FCA982C28F7B3B8BC5@ORSMSX110.amr.corp.intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+> The default limit of only 65536 VMAs will also quickly come into play
+> if consecutive anon mmaps don't get merged. Of course this can be
+> raised, but it has significant resource and performance (fork) costs.
 
-I have plans to add multislot support to DesignWare MMC driver.
+Could the random mmap address chooser look for how many existing
+VMAs have space before/after and the right attributes to merge with the
+new one you want to create? If this is above some threshold (100?) then
+pick one of them randomly and allocate the new address so that it will
+merge from below/above with an existing one.
 
-As of today I have proof of concept for multislot DW MMC driver with two slots working
-simultaneously:
-I reverted all commits which remove previous implementation of "pseudo-multislot"
-and add all required steps for changing slot number to __dw_mci_start_request function.
+That should still give you a very high degree of randomness, but prevent
+out of control numbers of VMAs from being created.
 
-But I have several issues with set_ios function in multislot mode (as each slot
-is registered as separate mmc host):
-1) We can change clock for slot 1 while slot 0 is active.
-2) We can disable one slot (by calling set_ios with 'power_mode' == MMC_POWER_OFF)
- which cause clock disable for all slots.
-3) We can enable one slot (by calling set_ios with 'power_mode' == MMC_POWER_ON)
- which cause DMA and FIFO reset while another slot is active.
-And so on...
-
-
-Here is my ideas how to fix this:
-1) In set_ios function we can simply store parameters
- (like clock speed/timings/bus width) to corresponding slot structure and apply
- them only in the beginning of __dw_mci_start_request function if current slot is
- changed.
- Another option is to choose maximum clock which is suitable for both slots
- instead of clock switch on every slot change.
-2) Do all actions for slot disabling ('power_mode' == MMC_POWER_OFF) only if
- others slots are disabled too.
-3) Do all actions for slot enabling ('power_mode' == MMC_POWER_ON) only if
- no slots are enabled.
-
-
-Maybe you have any comments or remarks about this?
-All comments and suggestions are more than welcome.
--- 
- Eugeniy Paltsev
+-Tony
