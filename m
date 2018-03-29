@@ -1,51 +1,34 @@
-From: richard.weiyang@gmail.com (Wei Yang)
-Date: Thu, 29 Mar 2018 09:12:10 +0800
-Subject: [PATCH] Extract initrd free logic from arch-specific code.
-In-Reply-To: <CAGXu5jLioqnOQniXuuNS=PjeAgJr1=BL78Cqu0cwu_Y5e-NDZA@mail.gmail.com>
-References: <20180325221853.10839-1-shea@shealevy.com>
- <20180328152714.6103-1-shea@shealevy.com>
- <CAGXu5jLioqnOQniXuuNS=PjeAgJr1=BL78Cqu0cwu_Y5e-NDZA@mail.gmail.com>
+From: shea@shealevy.com (Shea Levy)
+Date: Thu, 29 Mar 2018 07:31:55 -0400
+Subject: [PATCH v5 04/16] arc: Switch to generic free_initrd_mem.
+In-Reply-To: <20180329113207.30674-1-shea@shealevy.com>
+References: <20180328203659.18692-1-shea@shealevy.com>
+ <20180329113207.30674-1-shea@shealevy.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180329011210.GA4275@WeideMacBook-Pro.local>
+Message-ID: <20180329113207.30674-4-shea@shealevy.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Mar 28, 2018@09:55:07AM -0700, Kees Cook wrote:
->On Wed, Mar 28, 2018@8:26 AM, Shea Levy <shea@shealevy.com> wrote:
->> Now only those architectures that have custom initrd free requirements
->> need to define free_initrd_mem.
->>
->> Signed-off-by: Shea Levy <shea at shealevy.com>
->
->Yay consolidation! :)
->
->> --- a/usr/Kconfig
->> +++ b/usr/Kconfig
->> @@ -233,3 +233,7 @@ config INITRAMFS_COMPRESSION
->>         default ".lzma" if RD_LZMA
->>         default ".bz2"  if RD_BZIP2
->>         default ""
->> +
->> +config HAVE_ARCH_FREE_INITRD_MEM
->> +       bool
->> +       default n
->
->If you keep the Kconfig, you can leave off "default n", and I'd
->suggest adding a help section just to describe what the per-arch
->responsibilities are when select-ing the config. (See
->HAVE_ARCH_SECCOMP_FILTER for an example.)
->
+The generic implementation is functionally identical.
 
-One question about this change.
+Signed-off-by: Shea Levy <shea at shealevy.com>
+---
+ arch/arc/mm/init.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-The original code would "select" HAVE_ARCH_FREE_INITRD_MEM on those arch.
-After this change, we need to manually "select" this?
-
->-Kees
->
->-- 
->Kees Cook
->Pixel Security
-
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index ba145065c579..7bcf23ab1756 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -229,10 +229,3 @@ void __ref free_initmem(void)
+ {
+ 	free_initmem_default(-1);
+ }
+-
+-#ifdef CONFIG_BLK_DEV_INITRD
+-void __init free_initrd_mem(unsigned long start, unsigned long end)
+-{
+-	free_reserved_area((void *)start, (void *)end, -1, "initrd");
+-}
+-#endif
 -- 
-Wei Yang
-Help you, Help me
+2.16.2
