@@ -1,33 +1,34 @@
-From: pavel@ucw.cz (Pavel Machek)
-Date: Fri, 30 Mar 2018 09:55:08 +0200
+From: blackzert@gmail.com (Ilya Smith)
+Date: Fri, 30 Mar 2018 12:07:58 +0300
 Subject: [RFC PATCH v2 0/2] Randomization of address chosen by mmap.
-In-Reply-To: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
+In-Reply-To: <20180330075508.GA21798@amd>
 References: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
+ <20180330075508.GA21798@amd>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180330075508.GA21798@amd>
+Message-ID: <95EECC28-7349-4FB4-88BF-26E4CF087A0B@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi!
+Hi
 
-> Current implementation doesn't randomize address returned by mmap.
-> All the entropy ends with choosing mmap_base_addr at the process
-> creation. After that mmap build very predictable layout of address
-> space. It allows to bypass ASLR in many cases. This patch make
-> randomization of address on any mmap call.
+> On 30 Mar 2018,@10:55, Pavel Machek <pavel@ucw.cz> wrote:
+> 
+> Hi!
+> 
+>> Current implementation doesn't randomize address returned by mmap.
+>> All the entropy ends with choosing mmap_base_addr at the process
+>> creation. After that mmap build very predictable layout of address
+>> space. It allows to bypass ASLR in many cases. This patch make
+>> randomization of address on any mmap call.
+> 
+> How will this interact with people debugging their application, and
+> getting different behaviours based on memory layout?
+> 
+> strace, strace again, get different results?
+> 
 
-How will this interact with people debugging their application, and
-getting different behaviours based on memory layout?
+Honestly I?m confused about your question. If the only one way for debugging 
+application is to use predictable mmap behaviour, then something went wrong in 
+this live and we should stop using computers at all.
 
-strace, strace again, get different results?
-
-									Pavel
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 181 bytes
-Desc: Digital signature
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20180330/ad6e292b/attachment.sig>
+Thanks,
+Ilya
