@@ -1,41 +1,33 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Fri, 30 Mar 2018 11:16:11 +0800
-Subject: [PATCH] Extract initrd free logic from arch-specific code.
-In-Reply-To: <20180328152714.6103-1-shea@shealevy.com>
-References: <20180328152714.6103-1-shea@shealevy.com>
+From: pavel@ucw.cz (Pavel Machek)
+Date: Fri, 30 Mar 2018 09:55:08 +0200
+Subject: [RFC PATCH v2 0/2] Randomization of address chosen by mmap.
+In-Reply-To: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
+References: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201803300916.uTxZY6Kv%fengguang.wu@intel.com>
+Message-ID: <20180330075508.GA21798@amd>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Shea,
+Hi!
 
-Thank you for the patch! Perhaps something to improve:
+> Current implementation doesn't randomize address returned by mmap.
+> All the entropy ends with choosing mmap_base_addr at the process
+> creation. After that mmap build very predictable layout of address
+> space. It allows to bypass ASLR in many cases. This patch make
+> randomization of address on any mmap call.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v4.16-rc7]
-[cannot apply to next-20180329]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+How will this interact with people debugging their application, and
+getting different behaviours based on memory layout?
 
-url:    https://github.com/0day-ci/linux/commits/Shea-Levy/Extract-initrd-free-logic-from-arch-specific-code/20180330-085507
-config: m32r-m32104ut_defconfig (attached as .config)
-compiler: m32r-linux-gcc (GCC) 7.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        make.cross ARCH=m32r 
+strace, strace again, get different results?
 
-All warnings (new ones prefixed by >>):
-
-warning: (M32R) selects HAVE_ARCH_FREE_INITRD_MEM which has unmet direct dependencies (BLK_DEV_INITRD)
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
 -------------- next part --------------
 A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/gzip
-Size: 11473 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20180330/231c92aa/attachment-0001.gz>
+Name: signature.asc
+Type: application/pgp-signature
+Size: 181 bytes
+Desc: Digital signature
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20180330/ad6e292b/attachment.sig>
