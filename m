@@ -1,54 +1,103 @@
-From: blackzert@gmail.com (Ilya Smith)
-Date: Fri, 30 Mar 2018 14:10:21 +0300
-Subject: [RFC PATCH v2 0/2] Randomization of address chosen by mmap.
-In-Reply-To: <20180330095735.GA15641@amd>
-References: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
- <20180330075508.GA21798@amd> <95EECC28-7349-4FB4-88BF-26E4CF087A0B@gmail.com>
- <20180330095735.GA15641@amd>
+From: mingo@kernel.org (Ingo Molnar)
+Date: Fri, 30 Mar 2018 13:15:17 +0200
+Subject: [PATCH] Extract initrd free logic from arch-specific code.
+In-Reply-To: <20180328152714.6103-1-shea@shealevy.com>
+References: <20180325221853.10839-1-shea@shealevy.com>
+ <20180328152714.6103-1-shea@shealevy.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <4F529F89-6595-4DE9-87C2-C3D971C76658@gmail.com>
+Message-ID: <20180330111517.rrx6gs2skkgk336j@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
 
-> On 30 Mar 2018,@12:57, Pavel Machek <pavel@ucw.cz> wrote:
-> 
-> On Fri 2018-03-30 12:07:58, Ilya Smith wrote:
->> Hi
->> 
->>> On 30 Mar 2018,@10:55, Pavel Machek <pavel@ucw.cz> wrote:
->>> 
->>> Hi!
->>> 
->>>> Current implementation doesn't randomize address returned by mmap.
->>>> All the entropy ends with choosing mmap_base_addr at the process
->>>> creation. After that mmap build very predictable layout of address
->>>> space. It allows to bypass ASLR in many cases. This patch make
->>>> randomization of address on any mmap call.
->>> 
->>> How will this interact with people debugging their application, and
->>> getting different behaviours based on memory layout?
->>> 
->>> strace, strace again, get different results?
->>> 
->> 
->> Honestly I?m confused about your question. If the only one way for debugging 
->> application is to use predictable mmap behaviour, then something went wrong in 
->> this live and we should stop using computers at all.
-> 
-> I'm not saying "only way". I'm saying one way, and you are breaking
-> that. There's advanced stuff like debuggers going "back in time".
-> 
+* Shea Levy <shea@shealevy.com> wrote:
 
-Correct me if I wrong, when you run gdb for instance and try to debug some 
-application, gdb will disable randomization. This behaviour works with gdb 
-command: set disable-randomization on. As I know, gdb remove flag PF_RANDOMIZE 
-from current personality thats how it disables ASLR for debugging process. 
-According to my patch, flag PF_RANDOMIZE is checked before calling 
-unmapped_area_random. So I don?t breaking debugging. If you talking about the 
-case, when your application crashes under customer environment and you want to
-debug it; in this case layout of memory is what you don?t control at all and 
-you have to understand what is where. So for debugging memory process layout is
-not what you should care of.
+> Now only those architectures that have custom initrd free requirements
+> need to define free_initrd_mem.
+> 
+> Signed-off-by: Shea Levy <shea at shealevy.com>
+
+Please put the Kconfig symbol name this patch introduces both into the title, so 
+that people know what to grep for.
+
+> ---
+>  arch/alpha/mm/init.c      |  8 --------
+>  arch/arc/mm/init.c        |  7 -------
+>  arch/arm/Kconfig          |  1 +
+>  arch/arm64/Kconfig        |  1 +
+>  arch/blackfin/Kconfig     |  1 +
+>  arch/c6x/mm/init.c        |  7 -------
+>  arch/cris/Kconfig         |  1 +
+>  arch/frv/mm/init.c        | 11 -----------
+>  arch/h8300/mm/init.c      |  7 -------
+>  arch/hexagon/Kconfig      |  1 +
+>  arch/ia64/Kconfig         |  1 +
+>  arch/m32r/Kconfig         |  1 +
+>  arch/m32r/mm/init.c       | 11 -----------
+>  arch/m68k/mm/init.c       |  7 -------
+>  arch/metag/Kconfig        |  1 +
+>  arch/microblaze/mm/init.c |  7 -------
+>  arch/mips/Kconfig         |  1 +
+>  arch/mn10300/Kconfig      |  1 +
+>  arch/nios2/mm/init.c      |  7 -------
+>  arch/openrisc/mm/init.c   |  7 -------
+>  arch/parisc/mm/init.c     |  7 -------
+>  arch/powerpc/mm/mem.c     |  7 -------
+>  arch/riscv/mm/init.c      |  6 ------
+>  arch/s390/Kconfig         |  1 +
+>  arch/score/Kconfig        |  1 +
+>  arch/sh/mm/init.c         |  7 -------
+>  arch/sparc/Kconfig        |  1 +
+>  arch/tile/Kconfig         |  1 +
+>  arch/um/kernel/mem.c      |  7 -------
+>  arch/unicore32/Kconfig    |  1 +
+>  arch/x86/Kconfig          |  1 +
+>  arch/xtensa/Kconfig       |  1 +
+>  init/initramfs.c          |  7 +++++++
+>  usr/Kconfig               |  4 ++++
+>  34 files changed, 28 insertions(+), 113 deletions(-)
+
+Please also put it into Documentation/features/.
+
+> diff --git a/usr/Kconfig b/usr/Kconfig
+> index 43658b8a975e..7a94f6df39bf 100644
+> --- a/usr/Kconfig
+> +++ b/usr/Kconfig
+> @@ -233,3 +233,7 @@ config INITRAMFS_COMPRESSION
+>  	default ".lzma" if RD_LZMA
+>  	default ".bz2"  if RD_BZIP2
+>  	default ""
+> +
+> +config HAVE_ARCH_FREE_INITRD_MEM
+> +	bool
+> +	default n
+
+Help text would be nice, to tell arch maintainers what the purpose of this switch 
+is.
+
+Also, a nit, I think this should be named "ARCH_HAS_FREE_INITRD_MEM", which is the 
+dominant pattern:
+
+triton:~/tip> git grep 'select.*ARCH' arch/x86/Kconfig* | cut -f2 | cut -d_ -f1-2 | sort | uniq -c | sort -n
+    ...
+      2 select ARCH_USES
+      2 select ARCH_WANTS
+      3 select ARCH_MIGHT
+      3 select ARCH_WANT
+      4 select ARCH_SUPPORTS
+      4 select ARCH_USE
+     16 select HAVE_ARCH
+     23 select ARCH_HAS
+
+It also reads nicely in English:
+
+  "arch has free_initrd_mem()"
+
+While the other makes little sense:
+
+  "have arch free_initrd_mem()"
+
+?
 
 Thanks,
-Ilya
+
+	Ingo
