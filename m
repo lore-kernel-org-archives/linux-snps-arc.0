@@ -1,32 +1,39 @@
-From: tony.luck@intel.com (Luck, Tony)
-Date: Wed, 28 Mar 2018 21:07:30 +0000
-Subject: [RFC PATCH v2 0/2] Randomization of address chosen by mmap.
-In-Reply-To: <20180328000025.GM1436@brightrain.aerifal.cx>
-References: <1521736598-12812-1-git-send-email-blackzert@gmail.com>
- <20180323124806.GA5624@bombadil.infradead.org>
- <651E0DB6-4507-4DA1-AD46-9C26ED9792A8@gmail.com>
- <20180326084650.GC5652@dhcp22.suse.cz>
- <01A133F4-27DF-4AE2-80D6-B0368BF758CD@gmail.com>
- <20180327072432.GY5652@dhcp22.suse.cz>
- <0549F29C-12FC-4401-9E85-A430BC11DA78@gmail.com>
- <CAGXu5j+XXufprMaJ9GbHxD3mZ7iqUuu60-tTMC6wo2x1puYzMQ@mail.gmail.com>
- <20180327234904.GA27734@bombadil.infradead.org>
- <20180328000025.GM1436@brightrain.aerifal.cx>
+From: shea@shealevy.com (Shea Levy)
+Date: Sun,  1 Apr 2018 10:59:18 -0400
+Subject: [PATCH v6 04/16] arc: Switch to generic free_initrd_mem.
+In-Reply-To: <20180401145931.7932-1-shea@shealevy.com>
+References: <20180329113207.30674-1-shea@shealevy.com>
+ <20180401145931.7932-1-shea@shealevy.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3908561D78D1C84285E8C5FCA982C28F7B3B8BC5@ORSMSX110.amr.corp.intel.com>
+Message-ID: <20180401145931.7932-4-shea@shealevy.com>
 To: linux-snps-arc@lists.infradead.org
 
-> The default limit of only 65536 VMAs will also quickly come into play
-> if consecutive anon mmaps don't get merged. Of course this can be
-> raised, but it has significant resource and performance (fork) costs.
+The first patch in this series added a weakly-defined generic
+implementation, which is functionally identical to the
+architecture-specific one removed here.
 
-Could the random mmap address chooser look for how many existing
-VMAs have space before/after and the right attributes to merge with the
-new one you want to create? If this is above some threshold (100?) then
-pick one of them randomly and allocate the new address so that it will
-merge from below/above with an existing one.
+Series boot-tested on RISC-V (which now uses the generic
+implementation) and x86_64 (which doesn't).
 
-That should still give you a very high degree of randomness, but prevent
-out of control numbers of VMAs from being created.
+Signed-off-by: Shea Levy <shea at shealevy.com>
+---
+ arch/arc/mm/init.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
--Tony
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index ba145065c579..7bcf23ab1756 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -229,10 +229,3 @@ void __ref free_initmem(void)
+ {
+ 	free_initmem_default(-1);
+ }
+-
+-#ifdef CONFIG_BLK_DEV_INITRD
+-void __init free_initrd_mem(unsigned long start, unsigned long end)
+-{
+-	free_reserved_area((void *)start, (void *)end, -1, "initrd");
+-}
+-#endif
+-- 
+2.16.2
