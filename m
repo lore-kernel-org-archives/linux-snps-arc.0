@@ -1,33 +1,45 @@
-From: ldufour@linux.vnet.ibm.com (Laurent Dufour)
-Date: Mon, 9 Apr 2018 18:17:16 +0200
-Subject: [PATCH 0/3] move __HAVE_ARCH_PTE_SPECIAL in Kconfig
-In-Reply-To: <17b19aac-fed7-23a2-013c-43ca867152e9@synopsys.com>
-References: <1523282229-20731-1-git-send-email-ldufour@linux.vnet.ibm.com>
- <17b19aac-fed7-23a2-013c-43ca867152e9@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 9 Apr 2018 09:40:30 -0700
+Subject: [PATCH v6 04/16] arc: Switch to generic free_initrd_mem.
+In-Reply-To: <20180401145931.7932-4-shea@shealevy.com>
+References: <20180329113207.30674-1-shea@shealevy.com>
+ <20180401145931.7932-1-shea@shealevy.com>
+ <20180401145931.7932-4-shea@shealevy.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <21c34965-ec30-4d7f-aeaf-cb3da9758a0e@linux.vnet.ibm.com>
+Message-ID: <319c8fd1-28f7-4319-6a07-789054c17e14@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 09/04/2018 18:03, Vineet Gupta wrote:
-> On 04/09/2018 06:57 AM, Laurent Dufour wrote:
->> The per architecture __HAVE_ARCH_PTE_SPECIAL is defined statically in the
->> per architecture header files. This doesn't allow to make other
->> configuration dependent on it.
-> 
-> So I understand this series has more "readability" value and I'm fine with this
-> change but I wonder if you really would want to make something depend on it or
-> make this de-configurable. PTE special is really a fundamental construct - e.g.
-> it is used for anon mapped pages where zero page has been wired up etc...
+On 04/01/2018 08:00 AM, Shea Levy wrote:
+> The first patch in this series added a weakly-defined generic
+> implementation, which is functionally identical to the
+> architecture-specific one removed here.
+>
+> Series boot-tested on RISC-V (which now uses the generic
+> implementation) and x86_64 (which doesn't).
+>
+> Signed-off-by: Shea Levy <shea at shealevy.com>
+> ---
+>   arch/arc/mm/init.c | 7 -------
+>   1 file changed, 7 deletions(-)
+>
+> diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+> index ba145065c579..7bcf23ab1756 100644
+> --- a/arch/arc/mm/init.c
+> +++ b/arch/arc/mm/init.c
+> @@ -229,10 +229,3 @@ void __ref free_initmem(void)
+>   {
+>   	free_initmem_default(-1);
+>   }
+> -
+> -#ifdef CONFIG_BLK_DEV_INITRD
+> -void __init free_initrd_mem(unsigned long start, unsigned long end)
+> -{
+> -	free_reserved_area((void *)start, (void *)end, -1, "initrd");
+> -}
+> -#endif
 
-I don't want it to be de-configurable. This is almost like
-ARCH_SUPPORTS_MEMORY_FAILURE, ARCH_USES_HIGH_VMA_FLAGS, ARCH_HAS_HMM...
+LGTM.
 
-These values are selected by per architecture Kconfig files and are not exposed
-through the configuration menu.
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
 
-Concerning making something depend on it, I will probably make
-CONFIG_SPECULATIVE_PAGE_FAULT introduced by the SPF series dependent on it.
-For details, please see https://lkml.org/lkml/2018/3/13/1143
-
-Thanks,
-Laurent.
+-Vineet
