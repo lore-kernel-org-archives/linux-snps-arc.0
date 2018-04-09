@@ -1,45 +1,18 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 9 Apr 2018 09:40:30 -0700
-Subject: [PATCH v6 04/16] arc: Switch to generic free_initrd_mem.
-In-Reply-To: <20180401145931.7932-4-shea@shealevy.com>
-References: <20180329113207.30674-1-shea@shealevy.com>
- <20180401145931.7932-1-shea@shealevy.com>
- <20180401145931.7932-4-shea@shealevy.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 9 Apr 2018 10:57:57 -0700
+Subject: [PATCH 2/3] mm: replace __HAVE_ARCH_PTE_SPECIAL
+In-Reply-To: <1523282229-20731-3-git-send-email-ldufour@linux.vnet.ibm.com>
+References: <1523282229-20731-1-git-send-email-ldufour@linux.vnet.ibm.com>
+ <1523282229-20731-3-git-send-email-ldufour@linux.vnet.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <319c8fd1-28f7-4319-6a07-789054c17e14@synopsys.com>
+Message-ID: <20180409175757.GA12938@infradead.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 04/01/2018 08:00 AM, Shea Levy wrote:
-> The first patch in this series added a weakly-defined generic
-> implementation, which is functionally identical to the
-> architecture-specific one removed here.
->
-> Series boot-tested on RISC-V (which now uses the generic
-> implementation) and x86_64 (which doesn't).
->
-> Signed-off-by: Shea Levy <shea at shealevy.com>
-> ---
->   arch/arc/mm/init.c | 7 -------
->   1 file changed, 7 deletions(-)
->
-> diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-> index ba145065c579..7bcf23ab1756 100644
-> --- a/arch/arc/mm/init.c
-> +++ b/arch/arc/mm/init.c
-> @@ -229,10 +229,3 @@ void __ref free_initmem(void)
->   {
->   	free_initmem_default(-1);
->   }
-> -
-> -#ifdef CONFIG_BLK_DEV_INITRD
-> -void __init free_initrd_mem(unsigned long start, unsigned long end)
-> -{
-> -	free_reserved_area((void *)start, (void *)end, -1, "initrd");
-> -}
-> -#endif
+> -#ifdef __HAVE_ARCH_PTE_SPECIAL
+> +#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+>  # define HAVE_PTE_SPECIAL 1
+>  #else
+>  # define HAVE_PTE_SPECIAL 0
 
-LGTM.
-
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
-
--Vineet
+I'd say kill this odd indirection and just use the
+CONFIG_ARCH_HAS_PTE_SPECIAL symbol directly.
