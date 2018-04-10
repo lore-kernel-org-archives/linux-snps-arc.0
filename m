@@ -1,32 +1,79 @@
-From: rientjes@google.com (David Rientjes)
-Date: Tue, 10 Apr 2018 13:51:06 -0700 (PDT)
-Subject: [PATCH v2 1/2] mm: introduce ARCH_HAS_PTE_SPECIAL
-In-Reply-To: <a732ef2b-445f-9ad8-014b-247c8c5d500b@linux.vnet.ibm.com>
-References: <1523373951-10981-1-git-send-email-ldufour@linux.vnet.ibm.com>
- <1523373951-10981-2-git-send-email-ldufour@linux.vnet.ibm.com>
- <20180410160932.GB3614@bombadil.infradead.org>
- <a732ef2b-445f-9ad8-014b-247c8c5d500b@linux.vnet.ibm.com>
+From: jhogan@kernel.org (James Hogan)
+Date: Tue, 10 Apr 2018 23:48:06 +0100
+Subject: [PATCH] bug.h: Work around GCC PR82365 in BUG()
+In-Reply-To: <20171219114112.939391-1-arnd@arndb.de>
+References: <20171219114112.939391-1-arnd@arndb.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.21.1804101350250.79494@chino.kir.corp.google.com>
+Message-ID: <20180410224805.GA21429@saruman>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 10 Apr 2018, Laurent Dufour wrote:
+Hi Arnd,
 
-> > On Tue, Apr 10, 2018@05:25:50PM +0200, Laurent Dufour wrote:
-> >>  arch/powerpc/include/asm/pte-common.h                  | 3 ---
-> >>  arch/riscv/Kconfig                                     | 1 +
-> >>  arch/s390/Kconfig                                      | 1 +
-> > 
-> > You forgot to delete __HAVE_ARCH_PTE_SPECIAL from
-> > arch/riscv/include/asm/pgtable-bits.h
-> 
-> Damned !
-> Thanks for catching it.
-> 
+On Tue, Dec 19, 2017@12:39:33PM +0100, Arnd Bergmann wrote:
+> diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+> index 5d595cfdb2c4..66cfdad68f7e 100644
+> --- a/include/linux/compiler-gcc.h
+> +++ b/include/linux/compiler-gcc.h
+> @@ -205,6 +205,15 @@
+>  #endif
+>  
+>  /*
+> + * calling noreturn functions, __builtin_unreachable() and __builtin_trap()
+> + * confuse the stack allocation in gcc, leading to overly large stack
+> + * frames, see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82365
+> + *
+> + * Adding an empty inline assembly before it works around the problem
+> + */
+> +#define barrier_before_unreachable() asm volatile("")
+> +
+> +/*
+>   * Mark a position in code as unreachable.  This can be used to
+>   * suppress control flow warnings after asm blocks that transfer
+>   * control elsewhere.
+> @@ -214,7 +223,11 @@
+>   * unreleased.  Really, we need to have autoconf for the kernel.
+>   */
+>  #define unreachable() \
+> -	do { annotate_unreachable(); __builtin_unreachable(); } while (0)
+> +	do {					\
+> +		annotate_unreachable();		\
+> +		barrier_before_unreachable();	\
+> +		__builtin_unreachable();	\
+> +	} while (0)
 
-Squashing the two patches together at least allowed it to be caught 
-easily.  After it's fixed, feel free to add
+Unfortunately this breaks microMIPS builds (e.g. MIPS
+micro32r2_defconfig and micro32r2el_defconfig) on gcc 7.2, due to the
+lack of .insn in the asm volatile. Because of the
+__builtin_unreachable() there is no code following it. Without the empty
+asm the compiler will apparently put the .insn there automatically, but
+with the empty asm it doesn't. Therefore the assembler won't treat an
+immediately preceeding label as pointing at 16-bit microMIPS
+instructions which need the ISA bit set, i.e. bit 0 of the address.
+This causes assembler errors since the branch target is treated as a
+different ISA mode:
 
-	Acked-by: David Rientjes <rientjes at google.com>
+arch/mips/mm/dma-default.s:3265: Error: branch to a symbol in another ISA mode
+arch/mips/mm/dma-default.s:5027: Error: branch to a symbol in another ISA mode
 
-Thanks for doing this!
+Due to a compiler bug on gcc 4.9.2 -> somewhere before 7.2, Paul
+submitted these patches a while back:
+https://patchwork.linux-mips.org/patch/13360/
+https://patchwork.linux-mips.org/patch/13361/
+
+Your patch (suitably fixed for microMIPS) would I imagine fix that issue
+too (it certainly fixes the resulting link error on microMIPS builds
+with an old toolchain).
+
+Before I forward port those patches to add .insn for MIPS, is that sort
+of approach (an arch specific asm/compiler-gcc.h to allow MIPS to
+override barrier_before_unreachable()) an acceptable fix?
+
+Thanks
+James
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: Digital signature
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20180410/57281184/attachment.sig>
