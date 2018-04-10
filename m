@@ -1,22 +1,19 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 9 Apr 2018 10:52:09 +0000
-Subject: dma-mapping: clear harmful GFP_* flags in common code
-In-Reply-To: <1522249966.2593.14.camel@synopsys.com>
-References: <20180328133535.17302-1-hch@lst.de>
- <20180328133535.17302-2-hch@lst.de> <1522249966.2593.14.camel@synopsys.com>
+From: palmer@sifive.com (Palmer Dabbelt)
+Date: Tue, 10 Apr 2018 13:44:46 -0700 (PDT)
+Subject: [PATCH v2 1/2] mm: introduce ARCH_HAS_PTE_SPECIAL
+In-Reply-To: <20180410160932.GB3614@bombadil.infradead.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1523271128.5268.32.camel@synopsys.com>
+Message-ID: <mhng-dc76549e-6083-49a7-af3f-2638193f6698@palmer-si-x1c4>
 To: linux-snps-arc@lists.infradead.org
 
-Hello,
+On Tue, 10 Apr 2018 09:09:32 PDT (-0700), willy@infradead.org wrote:
+> On Tue, Apr 10, 2018@05:25:50PM +0200, Laurent Dufour wrote:
+>>  arch/powerpc/include/asm/pte-common.h                  | 3 ---
+>>  arch/riscv/Kconfig                                     | 1 +
+>>  arch/s390/Kconfig                                      | 1 +
+>
+> You forgot to delete __HAVE_ARCH_PTE_SPECIAL from
+> arch/riscv/include/asm/pgtable-bits.h
 
-May we have
-e89f5b370153 ("dma-mapping: Don't clear GFP_ZERO in dma_alloc_attrs")
-back-ported to 4.16 kernel as it fixes:
-
-57bf5a8 ("dma-mapping: clear harmful GFP_* flags in common code").
-
-For more info about introduced problem see this thread:
-http://lists.infradead.org/pipermail/linux-snps-arc/2018-March/003652.html
-
--Alexey
+Thanks -- I was looking for that but couldn't find it and assumed I'd just 
+misunderstood something.
