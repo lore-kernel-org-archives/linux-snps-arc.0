@@ -1,79 +1,91 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Wed, 11 Apr 2018 09:30:56 +0200
-Subject: [PATCH] bug.h: Work around GCC PR82365 in BUG()
-In-Reply-To: <20180410224805.GA21429@saruman>
-References: <20171219114112.939391-1-arnd@arndb.de>
- <20180410224805.GA21429@saruman>
+From: ldufour@linux.vnet.ibm.com (Laurent Dufour)
+Date: Wed, 11 Apr 2018 10:03:36 +0200
+Subject: [PATCH v3 2/2] mm: remove odd HAVE_PTE_SPECIAL
+In-Reply-To: <1523433816-14460-1-git-send-email-ldufour@linux.vnet.ibm.com>
+References: <1523433816-14460-1-git-send-email-ldufour@linux.vnet.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK8P3a0-_u7_FCj-nH0izBv4ub6krm1uA32bwi2jtBzXJePcnQ@mail.gmail.com>
+Message-ID: <1523433816-14460-3-git-send-email-ldufour@linux.vnet.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Apr 11, 2018@12:48 AM, James Hogan <jhogan@kernel.org> wrote:
-> Hi Arnd,
->
-> On Tue, Dec 19, 2017@12:39:33PM +0100, Arnd Bergmann wrote:
->> diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
->> index 5d595cfdb2c4..66cfdad68f7e 100644
->> --- a/include/linux/compiler-gcc.h
->> +++ b/include/linux/compiler-gcc.h
->> @@ -205,6 +205,15 @@
->>  #endif
->>
->>  /*
->> + * calling noreturn functions, __builtin_unreachable() and __builtin_trap()
->> + * confuse the stack allocation in gcc, leading to overly large stack
->> + * frames, see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82365
->> + *
->> + * Adding an empty inline assembly before it works around the problem
->> + */
->> +#define barrier_before_unreachable() asm volatile("")
->> +
->> +/*
->>   * Mark a position in code as unreachable.  This can be used to
->>   * suppress control flow warnings after asm blocks that transfer
->>   * control elsewhere.
->> @@ -214,7 +223,11 @@
->>   * unreleased.  Really, we need to have autoconf for the kernel.
->>   */
->>  #define unreachable() \
->> -     do { annotate_unreachable(); __builtin_unreachable(); } while (0)
->> +     do {                                    \
->> +             annotate_unreachable();         \
->> +             barrier_before_unreachable();   \
->> +             __builtin_unreachable();        \
->> +     } while (0)
->
-> Unfortunately this breaks microMIPS builds (e.g. MIPS
-> micro32r2_defconfig and micro32r2el_defconfig) on gcc 7.2, due to the
-> lack of .insn in the asm volatile. Because of the
-> __builtin_unreachable() there is no code following it. Without the empty
-> asm the compiler will apparently put the .insn there automatically, but
-> with the empty asm it doesn't. Therefore the assembler won't treat an
-> immediately preceeding label as pointing at 16-bit microMIPS
-> instructions which need the ISA bit set, i.e. bit 0 of the address.
-> This causes assembler errors since the branch target is treated as a
-> different ISA mode:
->
-> arch/mips/mm/dma-default.s:3265: Error: branch to a symbol in another ISA mode
-> arch/mips/mm/dma-default.s:5027: Error: branch to a symbol in another ISA mode
+Remove the additional define HAVE_PTE_SPECIAL and rely directly on
+CONFIG_ARCH_HAS_PTE_SPECIAL.
 
-Ok, I see.
+There is no functional change introduced by this patch
 
-> Due to a compiler bug on gcc 4.9.2 -> somewhere before 7.2, Paul
-> submitted these patches a while back:
-> https://patchwork.linux-mips.org/patch/13360/
-> https://patchwork.linux-mips.org/patch/13361/
->
-> Your patch (suitably fixed for microMIPS) would I imagine fix that issue
-> too (it certainly fixes the resulting link error on microMIPS builds
-> with an old toolchain).
->
-> Before I forward port those patches to add .insn for MIPS, is that sort
-> of approach (an arch specific asm/compiler-gcc.h to allow MIPS to
-> override barrier_before_unreachable()) an acceptable fix?
+Signed-off-by: Laurent Dufour <ldufour at linux.vnet.ibm.com>
+---
+ mm/memory.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-That sounds fine to me. However, I would suggest making that
-asm/compiler.h instead of asm/compiler-gcc.h, so we can also
-use the same file to include workarounds for clang if needed.
-
-       Arnd
+diff --git a/mm/memory.c b/mm/memory.c
+index 96910c625daa..7f7dc7b2a341 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -817,17 +817,12 @@ static void print_bad_pte(struct vm_area_struct *vma, unsigned long addr,
+  * PFNMAP mappings in order to support COWable mappings.
+  *
+  */
+-#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+-# define HAVE_PTE_SPECIAL 1
+-#else
+-# define HAVE_PTE_SPECIAL 0
+-#endif
+ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 			     pte_t pte, bool with_public_device)
+ {
+ 	unsigned long pfn = pte_pfn(pte);
+ 
+-	if (HAVE_PTE_SPECIAL) {
++	if (IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL)) {
+ 		if (likely(!pte_special(pte)))
+ 			goto check_pfn;
+ 		if (vma->vm_ops && vma->vm_ops->find_special_page)
+@@ -862,7 +857,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 		return NULL;
+ 	}
+ 
+-	/* !HAVE_PTE_SPECIAL case follows: */
++	/* !CONFIG_ARCH_HAS_PTE_SPECIAL case follows: */
+ 
+ 	if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
+ 		if (vma->vm_flags & VM_MIXEDMAP) {
+@@ -881,7 +876,8 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 
+ 	if (is_zero_pfn(pfn))
+ 		return NULL;
+-check_pfn:
++
++check_pfn: __maybe_unused
+ 	if (unlikely(pfn > highest_memmap_pfn)) {
+ 		print_bad_pte(vma, addr, pte, NULL);
+ 		return NULL;
+@@ -891,7 +887,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 	 * NOTE! We still have PageReserved() pages in the page tables.
+ 	 * eg. VDSO mappings can cause them to exist.
+ 	 */
+-out:
++out: __maybe_unused
+ 	return pfn_to_page(pfn);
+ }
+ 
+@@ -904,7 +900,7 @@ struct page *vm_normal_page_pmd(struct vm_area_struct *vma, unsigned long addr,
+ 	/*
+ 	 * There is no pmd_special() but there may be special pmds, e.g.
+ 	 * in a direct-access (dax) mapping, so let's just replicate the
+-	 * !HAVE_PTE_SPECIAL case from vm_normal_page() here.
++	 * !CONFIG_ARCH_HAS_PTE_SPECIAL case from vm_normal_page() here.
+ 	 */
+ 	if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
+ 		if (vma->vm_flags & VM_MIXEDMAP) {
+@@ -1933,7 +1929,8 @@ static int __vm_insert_mixed(struct vm_area_struct *vma, unsigned long addr,
+ 	 * than insert_pfn).  If a zero_pfn were inserted into a VM_MIXEDMAP
+ 	 * without pte special, it would there be refcounted as a normal page.
+ 	 */
+-	if (!HAVE_PTE_SPECIAL && !pfn_t_devmap(pfn) && pfn_t_valid(pfn)) {
++	if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL) &&
++	    !pfn_t_devmap(pfn) && pfn_t_valid(pfn)) {
+ 		struct page *page;
+ 
+ 		/*
+-- 
+2.7.4
