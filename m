@@ -1,87 +1,57 @@
-From: daniel@ffwll.ch (Daniel Vetter)
-Date: Fri, 13 Apr 2018 17:52:08 +0200
-Subject: DRM_UDL and GPU under Xserver
-In-Reply-To: <1523267150.5268.18.camel@synopsys.com>
-References: <CAKMK7uE5HHDCQ5=t5Z2TcheZd7etREUoHmTVK=q3wxMdSMZK5w@mail.gmail.com>
- <1522924162.3779.16.camel@pengutronix.de>
- <CAKMK7uF1syoNga8wKect9E0oet2fVaj9XWFE5AA6Pu4ND56HVQ@mail.gmail.com>
- <1522926602.4587.10.camel@synopsys.com>
- <20180405134421.GV3881@phenom.ffwll.local>
- <1522953580.3977.10.camel@synopsys.com>
- <20180409083127.GL31310@phenom.ffwll.local>
- <1523264135.5268.14.camel@synopsys.com>
- <20180409091706.GU31310@phenom.ffwll.local>
- <1523267150.5268.18.camel@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 17 Apr 2018 15:11:28 +0300
+Subject: [RFC 0/2] dw_mmc: add multislot support
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180413155208.GA31310@phenom.ffwll.local>
+Message-ID: <20180417121130.25281-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Apr 09, 2018@09:45:51AM +0000, Alexey Brodkin wrote:
-> Hi Daniel,
-> 
-> On Mon, 2018-04-09@11:17 +0200, Daniel Vetter wrote:
-> > On Mon, Apr 09, 2018@08:55:36AM +0000, Alexey Brodkin wrote:
-> > > Hi Daniel,
-> > > 
-> > > On Mon, 2018-04-09@10:31 +0200, Daniel Vetter wrote:
-> > > > On Thu, Apr 05, 2018@06:39:41PM +0000, Alexey Brodkin wrote:
-> > > > > Hi Daniel, all,
-> > > 
-> > > [snip]
-> > > 
-> > > > > Ok it was quite some time ago so I forgot about that completely.
-> > > > > I really made one trivial change in xf86-video-armada:
-> > > > > ------------------------>8--------------------------
-> > > > > --- a/src/armada_module.c
-> > > > > +++ b/src/armada_module.c
-> > > > > @@ -26,7 +26,7 @@
-> > > > >  #define ARMADA_NAME            "armada"
-> > > > >  #define ARMADA_DRIVER_NAME     "armada"
-> > > > >  
-> > > > > -#define DRM_MODULE_NAMES       "armada-drm", "imx-drm"
-> > > > > +#define DRM_MODULE_NAMES       "armada-drm", "imx-drm", "udl"
-> > > > >  #define DRM_DEFAULT_BUS_ID     NULL
-> > > > > ------------------------>8--------------------------
-> > > > > 
-> > > > > Otherwise Xserver fails on start which is expected given "imx-drm" is intentionally removed.
-> > > 
-> > > Here I meant I explicitly disabled DRM_IMX in the kernel configuraion
-> > > so that it is not used in run-time.
-> > > 
-> > > > You need to keep imx-drm around. And then light up the udl display using
-> > > > prime. Afaiui it should all just work (but with maybe a few disconnected
-> > > > outputs from imx-drm around that you don't need, but that's not a
-> > > > problem).
-> > > 
-> > > And given my comment above I don't really see any difference between
-> > > DRM_IMX and DRM_UDL (except their HW implmentation which I guess should
-> > > not bother upper layers) so why do wee need to treat them differently?
-> > > 
-> > > Most probably I'm missing something but my thought was if we have
-> > > 2 equally well supported KMS devices we may easily swap them and still
-> > > have resulting setup functional.
-> > 
-> > armada is not a generic drm driver, but can only be used for armada-drm
-> > and imx-drm. You can't just use it with any drm device, for that you need
-> > a generic driver like -modesetting.
-> 
-> But "armada" is the name of xf86 "driver" only which then uses true DRM_ETNAVIV
-> kernel driver. That's why I'm a bit confused.
-> 
-> And from what I see DRM_ETNAVIV happily works with either DRM_xxx frame-buffer
-> device be it DRM_IMX or DRM_UDL.
+This series consists of two patches:
+1. revert removal of previously existed "pseudo-multislot" support.
+ * Revert "mmc: dw_mmc: remove the deprecated "num-slots""
+ * Revert "mmc: dw_mmc: fix the wrong condition check of getting num-slots from DT"
+ * Revert "mmc: dw_mmc: remove the unnecessary slot variable"
+ * Revert "mmc: dw_mmc: update kernel-doc comments for dw_mci"
+ * Revert "mmc: dw_mmc: use the 'slot' instead of 'cur_slot'"
+ * Revert "mmc: dw_mmc: remove the 'id' arguments about functions relevant to slot"
+ * Revert "mmc: dw_mmc: change the array of slots"
+ * Revert "mmc: dw_mmc: remove the loop about finding slots"
+ * Revert "mmc: dw_mmc: deprecated the "num-slots" property"
 
-Names are irrelevant and often just historical accidents. Armada was
-origianlly only for armada, but then extended to support etnaviv 2d core,
-then extended to IMX.
+2. Add missing stuff to support multislot mode in DesignWare MMC driver.
+ * Add missing slot switch to __dw_mci_start_request() function.
+ * Refactor set_ios function:
+   a) Calculate common clock which is
+      suitable for all slots instead of directly use clock value
+      provided by mmc core. We calculate common clock as the minimum
+      among each used slot clocks. This clock is calculated in
+      dw_mci_calc_common_clock() function which is called
+      from set_ios()
+   b) Disable clock only if no other slots are ON.
+   c) Setup clock directly in set_ios() only if no other slots
+      are ON. Otherwise adjust clock in __dw_mci_start_request()
+      function before slot switch.
+   d) Move timings and bus_width setup to separate funcions.
+ * Use timing field in each slot structure instead of common field in
+   host structure.
+ * Add locks to serialize access to registers.
 
-That the kernel properly share buffers between all of them is kinda
-orthogonal to what armada-the-X11-driver supports.
+NOTE: this patch is based off of v4.17-rc1
 
-Yes graphics is complicated, that's why touching and changing random stuff
-you don't fully understand is not a good idea :-)
--Daniel
+NOTE: as of today I tested this changes (in singleslot and multislot
+   modes) only on Synopsys HSDK board. But I will get ODROID-XU4 board
+   (with Exynos5422 which has DW MMC controller) the next week
+   so I will test it on this board too to catch any regressions.
+
+Eugeniy Paltsev (2):
+  dw_mmc: revert removal multislot support
+  dw_mmc: add multislot support
+
+ .../devicetree/bindings/mmc/synopsys-dw-mshc.txt   |   5 +
+ drivers/mmc/host/dw_mmc-exynos.c                   |   4 +-
+ drivers/mmc/host/dw_mmc-pci.c                      |   1 +
+ drivers/mmc/host/dw_mmc.c                          | 486 +++++++++++++++------
+ drivers/mmc/host/dw_mmc.h                          |  35 +-
+ 5 files changed, 387 insertions(+), 144 deletions(-)
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.14.3
