@@ -1,55 +1,55 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 20 Apr 2018 07:42:13 +0000
-Subject: [RFC 0/2] dw_mmc: add multislot support
-In-Reply-To: <CAPDyKFqxZLtx_=0UU9NgBnW0Vmw=456q2FFbMBK4LKEaF-ua7A@mail.gmail.com>
-References: <20180417121130.25281-1-Eugeniy.Paltsev@synopsys.com>
- <CAPDyKFqxZLtx_=0UU9NgBnW0Vmw=456q2FFbMBK4LKEaF-ua7A@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 20 Apr 2018 10:02:51 +0200
+Subject: No subject
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1524210132.4614.4.camel@synopsys.com>
+Message-ID: <20180420080313.18796-1-hch@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Ulf,
+To: iommu at lists.linux-foundation.org
+Cc: linux-arch at vger.kernel.org
+Cc: Michal Simek <monstr at monstr.eu>
+Cc: Greentime Hu <green.hu at gmail.com>
+Cc: Vincent Chen <deanbo422 at gmail.com>
+Cc: linux-alpha at vger.kernel.org
+Cc: linux-snps-arc at lists.infradead.org
+Cc: linux-arm-kernel at lists.infradead.org
+Cc: linux-c6x-dev at linux-c6x.org
+Cc: linux-hexagon at vger.kernel.org
+Cc: linux-m68k at lists.linux-m68k.org
+Cc: nios2-dev at lists.rocketboards.org
+Cc: openrisc at lists.librecores.org
+Cc: linux-parisc at vger.kernel.org
+Cc: linux-sh at vger.kernel.org
+Cc: sparclinux at vger.kernel.org
+Cc: linux-xtensa at linux-xtensa.org
+Cc: linux-kernel at vger.kernel.org
+Subject: [RFC] common non-cache coherent direct dma mapping ops
 
-On Fri, 2018-04-20@09:35 +0200, Ulf Hansson wrote:
-> [...]
-> 
-> > 
-> > 2. Add missing stuff to support multislot mode in DesignWare MMC driver.
-> >  * Add missing slot switch to __dw_mci_start_request() function.
-> >  * Refactor set_ios function:
-> >    a) Calculate common clock which is
-> >       suitable for all slots instead of directly use clock value
-> >       provided by mmc core. We calculate common clock as the minimum
-> >       among each used slot clocks. This clock is calculated in
-> >       dw_mci_calc_common_clock() function which is called
-> >       from set_ios()
-> >    b) Disable clock only if no other slots are ON.
-> >    c) Setup clock directly in set_ios() only if no other slots
-> >       are ON. Otherwise adjust clock in __dw_mci_start_request()
-> >       function before slot switch.
-> >    d) Move timings and bus_width setup to separate funcions.
-> >  * Use timing field in each slot structure instead of common field in
-> >    host structure.
-> >  * Add locks to serialize access to registers.
-> 
-> Sorry, but this is a hack to *try* to make multi-slot work and this
-> isn't sufficient. There were good reasons to why the earlier
-> non-working multi slot support was removed from dw_mmc.
-> 
-> Let me elaborate a bit for your understanding. The core uses a host
-> lock (mmc_claim|release_host()) to serialize operations and commands,
-> as to confirm to the SD/SDIO/(e)MMC specs. The above changes gives no
-> guarantees for this. To make that work, we would need a "mmc bus lock"
-> to be managed by the core.
-> 
-> However, inventing a "mmc bus lock" would lead to other problems
-> related to I/O scheduling for upper layers - it simply breaks. For
-> example, I/O requests for one card/slot can then starve I/O requests
-> reaching another card/slot.
+Hi all,
 
-So are you saying that multi-slot support is a no go in general or it is only
-applicable to DW MMC (I really doubt that's a case)?
+this series continues consolidating the dma-mapping code, with a focus
+on architectures that do not (always) provide cache coherence for DMA.
+Three architectures (arm, mips and powerpc) are still left to be
+converted later due to complexity of their dma ops selection.
 
-BTW there're other controllers that seem to support multi-slot like Atmel etc.
+The dma-noncoherent ops calls the dma-direct ops for the actual
+translation of streaming mappins and allow the architecture to provide
+any cache flushing required for cpu to device and/or device to cpu
+ownership transfers.  The dma coherent allocator is for now still left
+entirely to architecture supplied implementations due the amount of
+variations.  Hopefully we can do some consolidation for them later on
+as well.
 
--Alexey
+A lot of architectures are currently doing very questionable things
+in their dma mapping routines, which are documented in the changelogs
+for each patch.  Please review them very careful and correct me on
+incorrect assumptions.
+
+Because this series sits on top of two previously submitted series
+a git tree might be useful to actually test it.  It is provided here:
+
+    git://git.infradead.org/users/hch/misc.git generic-dma-noncoherent
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/generic-dma-noncoherent
