@@ -1,39 +1,142 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 24 Apr 2018 16:02:35 +0200
-Subject: [PATCH 3/3] dma-debug: unexport dma_debug_resize_entries and
- debug_dma_dump_mappings
-In-Reply-To: <20180424140235.9125-1-hch@lst.de>
-References: <20180424140235.9125-1-hch@lst.de>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 24 Apr 2018 17:37:35 +0000
+Subject: rsi_91x: Failed to read status register / FIRMWARE Assert issues
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180424140235.9125-4-hch@lst.de>
+Message-ID: <1524591454.11868.7.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Only used by the AMD GART driver, which must be built in.
+Hi Amitkumar,
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- lib/dma-debug.c | 2 --
- 1 file changed, 2 deletions(-)
+I'm seeing quite a strange behavior of RedPine RS9113SB module.
+I tried to use it as wifi hotspot, and sometimes I fail to connect to it.
+Moreover after that failure RSI driver starts to flood me with following messages:
+Issue 1:
+--------------------->8--------------------
+rsi_91x: rsi_handle_card_ready: card ready indication in invalid state 9.
+rsi_91x: rsi_interrupt_handler: ==> FIRMWARE Assert <==
+rsi_91x: rsi_interrupt_handler: Firmware Status is 0x79
+rsi_91x: rsi_core_xmit: FSM state not open
+rsi_91x: rsi_core_xmit: Failed to queue packet
+rsi_91x: rsi_core_xmit: FSM state not open
+rsi_91x: rsi_core_xmit: Failed to queue packet
+--------------------->8--------------------
 
-diff --git a/lib/dma-debug.c b/lib/dma-debug.c
-index 075253cb613b..6a1ebaa83623 100644
---- a/lib/dma-debug.c
-+++ b/lib/dma-debug.c
-@@ -444,7 +444,6 @@ void debug_dma_dump_mappings(struct device *dev)
- 		spin_unlock_irqrestore(&bucket->lock, flags);
- 	}
- }
--EXPORT_SYMBOL(debug_dma_dump_mappings);
- 
- /*
-  * For each mapping (initial cacheline in the case of
-@@ -753,7 +752,6 @@ int dma_debug_resize_entries(u32 num_entries)
- 
- 	return ret;
- }
--EXPORT_SYMBOL(dma_debug_resize_entries);
- 
- /*
-  * DMA-API debugging init code
+Sometimes messages in same situation can be different (Issue 2):
+--------------------->8--------------------
+rsi_91x: rsi_read_pkt: pkt from invalid queue: 2
+rsi_91x: Failed to read the packet
+rsi_91x: rsi_sdio_write_register_multiple: Synch Cmd53 write failed -16
+rsi_91x: rsi_sdio_host_intf_write_pkt: Unable to write onto the card: -16
+rsi_91x: rsi_send_data_pkt: Failed to write pkt
+rsi_91x: rsi_sdio_check_buffer_status: Failed to read status register
+rsi_91x: rsi_sdio_check_buffer_status: Failed to read status register
+--------------------->8--------------------
+
+NOTE:
+I use vanilla Linux kernel v4.17-rc2
+  rsi_91x: FW Version     : 1.6.1
+  rsi_91x: Firmware file  : rsi/rs9113_wlan_bt_dual_mode.rps
+Also these issues reproduce on vanilla v4.16 Linux kernel
+  rsi_91x: FW Version     : 1.5.3
+  rsi_91x: Firmware file  : rsi/rs9113_wlan_qspi.rps
+
+
+Wifi hotspot is started with next commands:
+--------------------->8--------------------
+# echo 1 > /proc/sys/net/ipv4/ip_forward
+# iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+# iptables -A FORWARD -i eth0 -o wlan0 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+# iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
+# hostapd -B /etc/hostapd.conf
+
+# cat /etc/hostapd.conf
+interface=wlan0
+logger_syslog=-1
+logger_syslog_level=2
+logger_stdout=-1
+logger_stdout_level=2
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+ssid=HSDK_wifi
+hw_mode=g
+channel=1
+beacon_int=100
+dtim_period=2
+max_num_sta=255
+rts_threshold=-1
+fragm_threshold=-1
+macaddr_acl=0
+auth_algs=3
+ignore_broadcast_ssid=0
+wmm_enabled=1
+wmm_ac_bk_cwmin=4
+wmm_ac_bk_cwmax=10
+wmm_ac_bk_aifs=7
+wmm_ac_bk_txop_limit=0
+wmm_ac_bk_acm=0
+wmm_ac_be_aifs=3
+wmm_ac_be_cwmin=4
+wmm_ac_be_cwmax=10
+wmm_ac_be_txop_limit=0
+wmm_ac_be_acm=0
+wmm_ac_vi_aifs=2
+wmm_ac_vi_cwmin=3
+wmm_ac_vi_cwmax=4
+wmm_ac_vi_txop_limit=94
+wmm_ac_vi_acm=0
+wmm_ac_vo_aifs=2
+wmm_ac_vo_cwmin=2
+wmm_ac_vo_cwmax=3
+wmm_ac_vo_txop_limit=47
+wmm_ac_vo_acm=0
+eapol_key_index_workaround=0
+own_ip_addr=127.0.0.1
+--------------------->8--------------------
+
+
+I tried to reproduce this issues with extended RSI log enabled, this is log tail
+for "Issue 2":
+--------------------->8--------------------
+rsi_91x: Pkt pending interrupt
+rsi_91x: rsi_mgmt_pkt_recv: Msg Len: 0, Msg Type:    8
+rsi_91x: rsi_sdio_host_intf_write_pkt: Successfully written onto card
+rsi_91x: Beacon event
+rsi_91x: rsi_core_qos_processor: Queue number = 4
+rsi_91x: rsi_send_beacon: Added to beacon queue
+rsi_91x: rsi_sdio_host_intf_write_pkt: Successfully written onto card
+rsi_91x: rsi_core_qos_processor: Queue number = 5
+rsi_91x: rsi_interrupt_handler: Intr_status = 8 8 4
+rsi_91x: Pkt pending interrupt
+rsi_91x: rsi_mgmt_pkt_recv: Msg Len: 0, Msg Type:    1
+rsi_91x: rsi_handle_ta_confirm_type: Invalid TA confirm pkt received
+rsi_91x: rsi_sdio_host_intf_write_pkt: Successfully written onto card
+rsi_91x: rsi_core_qos_processor: Queue number = 4
+rsi_91x: rsi_sdio_host_intf_write_pkt: Successfully written onto card
+rsi_91x: rsi_core_qos_processor: Queue number = 4
+rsi_91x: rsi_interrupt_handler: Intr_status = 8 8 4
+rsi_91x: Pkt pending interrupt
+rsi_91x: rsi_read_pkt: pkt from invalid queue: 2
+rsi_91x: rsi_sdio_host_intf_write_pkt: Successfully written onto card
+rsi_91x: Failed to read the packet
+rsi_91x: rsi_core_qos_processor: Queue number = 255
+rsi_91x: rsi_core_qos_processor: No More Pkt
+rsi_91x: rsi_core_qos_processor: Queue number = 255
+rsi_91x: rsi_core_qos_processor: No More Pkt
+rsi_91x: rsi_core_xmit: ===> Scheduling TX thead <===
+rsi_91x: rsi_core_qos_processor: Queue number = 1
+rsi_91x: rsi_sdio_write_register_multiple: Synch Cmd53 write failed -16
+rsi_91x: rsi_sdio_host_intf_write_pkt: Unable to write onto the card: -16
+rsi_91x: rsi_sdio_host_intf_write_pkt: Successfully written onto card
+rsi_91x: rsi_send_data_pkt: Failed to write pkt
+rsi_91x: rsi_core_xmit: ===> Scheduling TX thead <===
+rsi_91x: rsi_core_qos_processor: Queue number = 1
+rsi_91x: rsi_sdio_check_buffer_status: Failed to read status register
+rsi_91x: rsi_core_xmit: ===> Scheduling TX thead <===
+rsi_91x: rsi_core_qos_processor: Queue number = 1
+rsi_91x: rsi_sdio_check_buffer_status: Failed to read status register
+--------------------->8--------------------
+
+Any ideas what could be wrong?
+
 -- 
-2.17.0
+ Eugeniy Paltsev
