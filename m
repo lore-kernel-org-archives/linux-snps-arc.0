@@ -1,64 +1,40 @@
-From: ulf.hansson@linaro.org (Ulf Hansson)
-Date: Thu, 26 Apr 2018 08:28:04 +0200
-Subject: [RFC 0/2] dw_mmc: add multislot support
-In-Reply-To: <1524664417.18209.16.camel@synopsys.com>
-References: <20180417121130.25281-1-Eugeniy.Paltsev@synopsys.com>
- <CAPDyKFqxZLtx_=0UU9NgBnW0Vmw=456q2FFbMBK4LKEaF-ua7A@mail.gmail.com>
- <1524239609.10138.47.camel@synopsys.com>
- <CAPDyKFpY7JsQukY=E2PRg=iVfmis4i1kvST+b2wtshNc5Jn+jw@mail.gmail.com>
- <1524664417.18209.16.camel@synopsys.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 26 Apr 2018 08:42:39 +0200
+Subject: [PATCH 13/22] nds32: use generic dma_noncoherent_ops
+In-Reply-To: <CAEbi=3fcd8E=xi_hbef45LnPsBZhZv37yPO-xfZmU1gMaWnDvg@mail.gmail.com>
+References: <20180420080313.18796-1-hch@lst.de>
+ <20180420080313.18796-14-hch@lst.de>
+ <CAEbi=3fkakVD2vxGu6SgJM77JnNM8Y79xS8_o6m9d_85BJpMFQ@mail.gmail.com>
+ <20180424191640.GA32495@lst.de>
+ <CAEbi=3f7yzE+KAM2GOh6QahC_E6BAUfB3ys3U-WdBSUf3DPZqg@mail.gmail.com>
+ <20180425064055.GA11460@lst.de>
+ <CAEbi=3fcd8E=xi_hbef45LnPsBZhZv37yPO-xfZmU1gMaWnDvg@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAPDyKFr4WXgFEDLGztRoSrAFMrHC7ASJxaxCTKMeGN8i-Ns86w@mail.gmail.com>
+Message-ID: <20180426064239.GA13895@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-[...]
+Can you try this patch ontop of either the new or original one?
 
-> A bit remark for better understanding:
->
-> All card settings change are serialized too. These settings are applied
-> after slot switch before execution of new request for this slot.
->
-> So situations like calling any host_0 ops while another host (host_1) is active
-> are handled by current code.
->
-> This is example of simultaneous ops calls for both slots:
->
-> host (slot) 0    | host (slot) 1
-> -----------------------------------
-> h0->set_ios()    |    h1->set_ios()
-> h0->request()    |    h1->request()
-> h0->set_ios()    |    h1->set_ios()
-> h0->request()    |    h1->request()
-> h0->request()    |
-> h0->request()    |
-> h0->request()    |
->
-> How it will be serialized in the mmc driver:
->
-> h0->set_ios()   // h0 settings save
-> h1->set_ios()   // h1 settings save
-> h0->request()   // apply settings for h0 and do request
-
-This doesn't work as it would mean violation of the specs in some
-scenarios. Particular during the card initialization and card power
-off.
-
-> ------ slot switch to h1 ------
-> h1->request()   // apply settings for h1 and do request
-
-Ditto. Etc...
-
-> h0->set_ios()   // h0 settings save
-> h1->set_ios()   // h1 settings save
-> ------ slot switch to h0 ------
-> h0->request()   // apply settings for h0 and do request
-> ------ slot switch to h1 ------
-> h1->request()   // apply settings for h1 and do request
-> ------ slot switch to h0 ------
-> h0->request()   // do request (no new settings to apply)
-> h0->request()   // do request (no new settings to apply)
-> h0->request()   // do request (no new settings to apply)
->
-
-Kind regards
-Uffe
+---
+diff --git a/lib/dma-noncoherent.c b/lib/dma-noncoherent.c
+index f4b8532c20ac..a2c192b3508d 100644
+--- a/lib/dma-noncoherent.c
++++ b/lib/dma-noncoherent.c
+@@ -48,7 +48,7 @@ static int dma_noncoherent_map_sg(struct device *dev, struct scatterlist *sgl,
+ 	return nents;
+ }
+ 
+-#ifdef CONFIG_DMA_NONCOHERENT_SYNC_FOR_CPU
++#ifdef CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU
+ static void dma_noncoherent_sync_single_for_cpu(struct device *dev,
+ 		dma_addr_t addr, size_t size, enum dma_data_direction dir)
+ {
+@@ -88,7 +88,7 @@ const struct dma_map_ops dma_noncoherent_ops = {
+ 	.sync_sg_for_device	= dma_noncoherent_sync_sg_for_device,
+ 	.map_page		= dma_noncoherent_map_page,
+ 	.map_sg			= dma_noncoherent_map_sg,
+-#ifdef CONFIG_DMA_NONCOHERENT_SYNC_FOR_CPU
++#ifdef CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU
+ 	.sync_single_for_cpu	= dma_noncoherent_sync_single_for_cpu,
+ 	.sync_sg_for_cpu	= dma_noncoherent_sync_sg_for_cpu,
+ 	.unmap_page		= dma_noncoherent_unmap_page,
