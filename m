@@ -1,38 +1,41 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 11 May 2018 12:44:23 +0000
-Subject: [PATCH 03/20] arc: use generic dma_noncoherent_ops
-In-Reply-To: <20180511075945.16548-4-hch@lst.de>
+From: john.garry@huawei.com (John Garry)
+Date: Fri, 11 May 2018 14:56:16 +0100
+Subject: [PATCH 04/20] arm-nommu: use generic dma_noncoherent_ops
+In-Reply-To: <20180511075945.16548-5-hch@lst.de>
 References: <20180511075945.16548-1-hch@lst.de>
- <20180511075945.16548-4-hch@lst.de>
+ <20180511075945.16548-5-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1526042662.19036.31.camel@synopsys.com>
+Message-ID: <73603c68-da05-22bd-efab-d0387a98225d@huawei.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Christoph,
-
-On Fri, 2018-05-11@09:59 +0200, Christoph Hellwig wrote:
-> Switch to the generic noncoherent direct mapping implementation.
-> 
+On 11/05/2018 08:59, Christoph Hellwig wrote:
+> Switch to the generic noncoherent direct mapping implementation for
+> the nommu dma map implementation.
+>
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
->  arch/arc/Kconfig                   |   4 +
->  arch/arc/include/asm/Kbuild        |   1 +
->  arch/arc/include/asm/dma-mapping.h |  21 -----
->  arch/arc/mm/dma.c                  | 141 +++--------------------------
->  4 files changed, 19 insertions(+), 148 deletions(-)
->  delete mode 100644 arch/arc/include/asm/dma-mapping.h
+>  arch/arc/Kconfig                |   1 +
+>  arch/arm/Kconfig                |   4 +
+>  arch/arm/mm/dma-mapping-nommu.c | 139 +++++---------------------------
+>  3 files changed, 23 insertions(+), 121 deletions(-)
+>
+> diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+> index 89d47eac18b2..3a492a9aeaad 100644
+> --- a/arch/arc/Kconfig
+> +++ b/arch/arc/Kconfig
+> @@ -9,6 +9,7 @@
+>  config ARC
+>  	def_bool y
+>  	select ARC_TIMERS
+> +	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
+>  	select ARCH_HAS_SYNC_DMA_FOR_CPU
+>  	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
 
-Sorry I didn't try your proposed fix earlier - was away for a couple of days.
+I guess that this arc change is here by accident, no? And isn't 
+ARCH_HAS_SYNC_DMA_FOR_DEVICE already selected (by 3/20)?
 
-But that newer version with fixed lib/dma-noncoherent.c still doesn't work on ARC.
-
-USB ECHI controller fails like that:
-------------------------->8-------------------------
-usb 1-1: new high-speed USB device number 2 using ehci-platform
-usb 1-1: can't set config #1, error -32
-------------------------->8-------------------------
-
-Again with entire series reverted USB starts to work.
-Let's wait for other arches previously affected to update on their status.
-
--Alexey
+>  	select ARCH_HAS_SG_CHAIN
+> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+> index c43f5bb55ac8..76ddd0064f87 100644
+> --- a/arch/arm/Kconfig
+> +++ b/arch/arm/Kconfig
