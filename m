@@ -1,37 +1,60 @@
-From: deller@gmx.de (Helge Deller)
-Date: Fri, 18 May 2018 22:05:51 +0200
-Subject: [PATCH 02/20] dma-mapping: provide a generic dma-noncoherent
- implementation
-In-Reply-To: <bad125dff49f6e49c895e818c9d1abb346a46e8e.camel@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 18 May 2018 13:35:08 -0700
+Subject: dma_sync_*_for_cpu and direction=TO_DEVICE (was Re: [PATCH 02/20]
+ dma-mapping: provide a generic dma-noncoherent implementation)
+In-Reply-To: <20180518175004.GF17671@n2100.armlinux.org.uk>
 References: <20180511075945.16548-1-hch@lst.de>
  <20180511075945.16548-3-hch@lst.de>
  <bad125dff49f6e49c895e818c9d1abb346a46e8e.camel@synopsys.com>
+ <5ac5b1e3-9b96-9c7c-4dfe-f65be45ec179@synopsys.com>
+ <20180518175004.GF17671@n2100.armlinux.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0c5d27e9-2799-eb38-8b09-47a04c48b5c7@gmx.de>
+Message-ID: <cecfe6bd-ef1f-1e25-bfcf-992d1f828efb@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 18.05.2018 15:03, Alexey Brodkin wrote:
-> But the real fix of my problem is:
-> ---------------------------------------->8------------------------------------
-> --- a/lib/dma-noncoherent.c
-> +++ b/lib/dma-noncoherent.c
-> @@ -35,7 +35,7 @@ static dma_addr_t dma_noncoherent_map_page(struct device *dev, struct page *page
->  
->         addr = dma_direct_map_page(dev, page, offset, size, dir, attrs);
->         if (!dma_mapping_error(dev, addr) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-> -               arch_sync_dma_for_device(dev, page_to_phys(page), size, dir);
-> +               arch_sync_dma_for_device(dev, page_to_phys(page) + offset, size, dir);
->         return addr;
->  }
-> ---------------------------------------->8------------------------------------
-> 
-> You seem to lost an offset in the page so if we happen to have a buffer not aligned to
-> a page boundary then we were obviously corrupting data outside our data :)
+On 05/18/2018 10:50 AM, Russell King - ARM Linux wrote:
+> On Fri, May 18, 2018@10:20:02AM -0700, Vineet Gupta wrote:
+>> I never understood the need for this direction. And if memory serves me
+>> right, at that time I was seeing twice the amount of cache flushing !
+> It's necessary.  Take a moment to think carefully about this:
+>
+> 	dma_map_single(, dir)
+>
+> 	dma_sync_single_for_cpu(, dir)
+>
+> 	dma_sync_single_for_device(, dir)
+>
+> 	dma_unmap_single(, dir)
 
-Good.
-This patch seems to fix the dma issues I faced on my 32bit B160L parisc box.
+As an aside, do these imply a state machine of sorts - does a driver needs to 
+always call map_single first ?
 
-So it leaves only one open issue on parisc:
-Now every 32 bit parisc system is unnecessarily non-coherent.
+My original point of contention/confusion is the specific combinations of API and 
+direction, specifically for_cpu(TO_DEV) and for_device(TO_CPU)
 
-Helge
+Semantically what does dma_sync_single_for_cpu(TO_DEV) even imply for a non dma 
+coherent arch.
+Your tables below have "none" for both, implying it is unlikely to be a real 
+combination (for ARM and ARC atleast).
+
+The other case, actually @dir TO_CPU, independent of for_{cpu, device}? implies 
+driver intends to touch it after the call, so it would invalidate any stray lines, 
+unconditionally (and not just for speculative prefetch case).
+
+
+> In the case of a DMA-incoherent architecture, the operations done at each
+> stage depend on the direction argument:
+>
+> 	map		for_cpu		for_device	unmap
+> TO_DEV	writeback	none		writeback	none
+> TO_CPU	invalidate	invalidate*	invalidate	invalidate*
+> BIDIR	writeback	invalidate	writeback	invalidate
+>
+> * - only necessary if the CPU speculatively prefetches.
+>
+> The multiple invalidations for the TO_CPU case handles different
+> conditions that can result in data corruption, and for some CPUs, all
+> four are necessary.
+
+Can you please explain in some more detail, TO_CPU row, why invalidate is 
+conditional sometimes.
