@@ -1,71 +1,44 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 21 May 2018 09:59:17 -0700
-Subject: ARC compact700 NPS platform - EZ_MachineCheck exception handler
-In-Reply-To: <DB6PR05MB4597A3B8BC5BE80BD039B0AAB2950@DB6PR05MB4597.eurprd05.prod.outlook.com>
-References: <DB6PR05MB4597A3B8BC5BE80BD039B0AAB2950@DB6PR05MB4597.eurprd05.prod.outlook.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 22 May 2018 13:53:20 +0200
+Subject: [PATCH 04/20] arm-nommu: use generic dma_noncoherent_ops
+In-Reply-To: <20180511091114.GA16141@n2100.armlinux.org.uk>
+References: <20180511075945.16548-1-hch@lst.de>
+ <20180511075945.16548-5-hch@lst.de>
+ <20180511091114.GA16141@n2100.armlinux.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0c84cd14-19dc-a22c-271c-11cbd18ded3a@synopsys.com>
+Message-ID: <20180522115320.GA14530@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-On 05/21/2018 07:14 AM, Ofer Levi(SW) wrote:
-> Resending, due to typo in LKML mail  address.
+On Fri, May 11, 2018@10:11:15AM +0100, Russell King - ARM Linux wrote:
+> > +void arch_sync_dma_for_device(struct device *dev, phys_addr_t paddr,
+> > +		size_t size, enum dma_data_direction dir)
+> 
+> Please no.  There is a lot of history of these (__dma_page_cpu_to_dev etc)
+> functions being abused by out of tree drivers, because they think they
+> know better.  This is stopped by making them static and ensuring that
+> drivers have no access to these functions.
+> 
+> Please do not re-expose these to the global kernel.
+> 
+> While it may make things easier for a cross-architecture point of view,
+> it makes it a lot easier for people to abuse these private APIs.
 
-Also please CC linux-snps-arc at lists.infradead.org for any ARC Linux related posts.
+The point of this series, which isn't fully archived yet, is to
+consolidate the direct mapping dma code, that is all dma_map_ops
+instances except for iommus.  It is in fact in many ways modelled
+after the ARM code.  For that we need the architectures to supply
+the cache maintainance routines.
 
->   
->   The EV_MachineCheck exception handler is halting the core for exceptions
->   which are not tlb_overlap_fault.
->   Since for the NPS platform each core is running a single thread in ZOL (Zero
->   Overhead Linux) isolation mode, we feel that most of the time it is safe to
->   resume execution instead of halting the core.
+However, even if they now appear in dma-noncoherent.h they are NOT
+and will NOT be exported, so using them directly from drivers won't
+easily be possible.
 
-Most of the time is not good enough when dealing with OS code :-(
-A Machine check excepting implies something went terribly wrong. Some of those 
-cases can be handled gracefully (such as duplicate TLB entry), but others can't so 
-continuing despite it is recipe for disaster. Perhaps your chip has some spurious 
-Machine check exceptions ?
+I'll drop the arm-nommu patch for now, but I will pester your with this
+again once arm is the last architecture not sharing the common code.
 
->   I would appreciate it if you could review the change  below
-
-Next time please send a real patch so I know right away what was changed.
-
-> and let me know
->   what you think, if this change is valid or if we missed or overlooked
->   something.
->   We are not looking to push this change upstream, but will be used on some
->   systems.
-
-Hmm, but you have to explain why those machine checks are fine !
-
->   
->   Please see below our implementation after label 1.
->   
->   Thanks
->   Ofer
->   
->   ENTRY(EV_MachineCheck)
->   
->   	EXCEPTION_PROLOGUE
->   
-> ...
->   	brne    r3, ECR_C_MCHK_DUP_TLB, 1f
->   
->   	bl      do_tlb_overlap_fault
->   	b       ret_from_exception
->   
->   1:
->   	FAKE_RET_FROM_EXCPN
-
-You don't need this.
-
->   	bl		do_machine_check  ; using DO_ERROR_INFO macro
-
-We don't have above function in code. There's do_machine_check_fault() which calls 
-die() -> flag 1 - so it would halt the kernel and would never return here.
-So your patch is broken in implementation as well.
-
->   	b       ret_from_exception
->   
->   END(EV_MachineCheck)
->
->
+> 
+> -- 
+> RMK's Patch system: http://www.armlinux.org.uk/developer/patches/
+> FTTC broadband for 0.8mile line in suburbia: sync at 8.8Mbps down 630kbps up
+> According to speedtest.net: 8.21Mbps down 510kbps up
+---end quoted text---
