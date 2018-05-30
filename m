@@ -1,50 +1,60 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Tue, 29 May 2018 20:26:38 +0200
-Subject: [PATCH 3/7] clocksource/drivers/arc_timer: Add comments about locking
- while read GFRC
-In-Reply-To: <1527618402-31974-1-git-send-email-daniel.lezcano@linaro.org>
-References: <1274a543-02dd-bbf0-c690-b08c788d9e91@linaro.org>
- <1527618402-31974-1-git-send-email-daniel.lezcano@linaro.org>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 30 May 2018 09:31:11 -0700
+Subject: [PATCH] ARC: Explicitly add -mmedium-calls to CFLAGS
+In-Reply-To: <20180516150330.31182-1-abrodkin@synopsys.com>
+References: <20180516150330.31182-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1527618402-31974-3-git-send-email-daniel.lezcano@linaro.org>
+Message-ID: <a9a04d22-e6be-a9e5-f478-b2b723d7e40d@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+On 05/16/2018 08:03 AM, Alexey Brodkin wrote:
+> GCC built for arc*-*-linux has "-mmedium-calls" implicitly enabled by default
+> thus we don't see any problems during Linux kernel compilation.
+> ----------------------------->8------------------------
+> arc-linux-gcc -mcpu=arc700 -Q --help=target | grep calls
+>   -mlong-calls                          [disabled]
+>   -mmedium-calls                        [enabled]
+> ----------------------------->8------------------------
+> 
+> But if we try to use so-called Elf32 toolchain with GCC configured for
+> arc*-*-elf* then we'd see the following failure:
+> ----------------------------->8------------------------
+> init/do_mounts.o: In function 'init_rootfs':
+> do_mounts.c:(.init.text+0x108): relocation truncated to fit: R_ARC_S21W_PCREL
+> against symbol 'unregister_filesystem' defined in .text section in fs/filesystems.o
+> 
+> arc-elf32-ld: final link failed: Symbol needs debug section which does not exist
+> make: *** [vmlinux] Error 1
+> ----------------------------->8------------------------
+> 
+> That happens because neither "-mmedium-calls" nor "-mlong-calls" are enabled in
+> Elf32 GCC:
+> ----------------------------->8------------------------
+> arc-elf32-gcc -mcpu=arc700 -Q --help=target | grep calls
+>   -mlong-calls                          [disabled]
+>   -mmedium-calls                        [disabled]
+> ----------------------------->8------------------------
+> 
+> Now to make it possible to use Elf32 toolchain for building Linux kernel
+> we're explicitly add "-mmedium-calls" to CFLAGS.
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> ---
+>  arch/arc/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+> index d37f49d6a27f..db9ce90c3cc0 100644
+> --- a/arch/arc/Makefile
+> +++ b/arch/arc/Makefile
+> @@ -16,7 +16,7 @@ endif
+>  
+>  KBUILD_DEFCONFIG := nsim_700_defconfig
+>  
+> -cflags-y	+= -fno-common -pipe -fno-builtin -D__linux__
+> +cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
+>  cflags-$(CONFIG_ISA_ARCOMPACT)	+= -mA7
+>  cflags-$(CONFIG_ISA_ARCV2)	+= -mcpu=archs
 
-This came to light in some internal discussions and it is nice to have
-this documented rather than digging up the PRM (Prog Ref Manual) again.
-
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
----
- drivers/clocksource/arc_timer.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/drivers/clocksource/arc_timer.c b/drivers/clocksource/arc_timer.c
-index 471b428..20da9b1 100644
---- a/drivers/clocksource/arc_timer.c
-+++ b/drivers/clocksource/arc_timer.c
-@@ -61,6 +61,20 @@ static u64 arc_read_gfrc(struct clocksource *cs)
- 	unsigned long flags;
- 	u32 l, h;
- 
-+	/*
-+	 * From a programming model pov, there seems to be just one instance of
-+	 * MCIP_CMD/MCIP_READBACK however micro-architecturally there's
-+	 * an instance PER ARC CORE (not per cluster), and there are dedicated
-+	 * hardware decode logic (per core) inside ARConnect to handle
-+	 * simultaneous read/write accesses from cores via those two registers.
-+	 * So several concurrent commands to ARConnect are OK if they are
-+	 * trying to access two different sub-components (like GFRC,
-+	 * inter-core interrupt, etc...). HW also supports simultaneously
-+	 * accessing GFRC by multiple cores.
-+	 * That's why it is safe to disable hard interrupts on the local CPU
-+	 * before access to GFRC instead of taking global MCIP spinlock
-+	 * defined in arch/arc/kernel/mcip.c
-+	 */
- 	local_irq_save(flags);
- 
- 	__mcip_cmd(CMD_GFRC_READ_LO, 0);
--- 
-2.7.4
+LGTM. Bbut while we are here, can you now remove -mmedium-calls for specific files
+further down in the makefile.
