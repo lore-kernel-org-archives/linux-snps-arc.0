@@ -1,60 +1,35 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 30 May 2018 09:31:11 -0700
-Subject: [PATCH] ARC: Explicitly add -mmedium-calls to CFLAGS
-In-Reply-To: <20180516150330.31182-1-abrodkin@synopsys.com>
-References: <20180516150330.31182-1-abrodkin@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri,  1 Jun 2018 13:49:04 +0300
+Subject: [PATCH] ARC: Explicitly specify OUTPUT_FORMAT in the linker script
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <a9a04d22-e6be-a9e5-f478-b2b723d7e40d@synopsys.com>
+Message-ID: <20180601104904.48481-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 05/16/2018 08:03 AM, Alexey Brodkin wrote:
-> GCC built for arc*-*-linux has "-mmedium-calls" implicitly enabled by default
-> thus we don't see any problems during Linux kernel compilation.
-> ----------------------------->8------------------------
-> arc-linux-gcc -mcpu=arc700 -Q --help=target | grep calls
->   -mlong-calls                          [disabled]
->   -mmedium-calls                        [enabled]
-> ----------------------------->8------------------------
-> 
-> But if we try to use so-called Elf32 toolchain with GCC configured for
-> arc*-*-elf* then we'd see the following failure:
-> ----------------------------->8------------------------
-> init/do_mounts.o: In function 'init_rootfs':
-> do_mounts.c:(.init.text+0x108): relocation truncated to fit: R_ARC_S21W_PCREL
-> against symbol 'unregister_filesystem' defined in .text section in fs/filesystems.o
-> 
-> arc-elf32-ld: final link failed: Symbol needs debug section which does not exist
-> make: *** [vmlinux] Error 1
-> ----------------------------->8------------------------
-> 
-> That happens because neither "-mmedium-calls" nor "-mlong-calls" are enabled in
-> Elf32 GCC:
-> ----------------------------->8------------------------
-> arc-elf32-gcc -mcpu=arc700 -Q --help=target | grep calls
->   -mlong-calls                          [disabled]
->   -mmedium-calls                        [disabled]
-> ----------------------------->8------------------------
-> 
-> Now to make it possible to use Elf32 toolchain for building Linux kernel
-> we're explicitly add "-mmedium-calls" to CFLAGS.
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> ---
->  arch/arc/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-> index d37f49d6a27f..db9ce90c3cc0 100644
-> --- a/arch/arc/Makefile
-> +++ b/arch/arc/Makefile
-> @@ -16,7 +16,7 @@ endif
->  
->  KBUILD_DEFCONFIG := nsim_700_defconfig
->  
-> -cflags-y	+= -fno-common -pipe -fno-builtin -D__linux__
-> +cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
->  cflags-$(CONFIG_ISA_ARCOMPACT)	+= -mA7
->  cflags-$(CONFIG_ISA_ARCV2)	+= -mcpu=archs
+It might be a good idea to explicitly specify BFD format
+depending on -EB/-EL option passed to the linker and not rely on
+default behavior as we have now.
 
-LGTM. Bbut while we are here, can you now remove -mmedium-calls for specific files
-further down in the makefile.
+Description of the OUTPUT_FORMAT command is available here:
+https://sourceware.org/binutils/docs/ld/Format-Commands.html#Format-Commands
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Cupertino Miranda <cmiranda at synopsys.com>
+Cc: Claudiu Zissulescu <claziss at synopsys.com>
+---
+ arch/arc/kernel/vmlinux.lds.S | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arc/kernel/vmlinux.lds.S b/arch/arc/kernel/vmlinux.lds.S
+index f35ed578e007..0a1affc56d76 100644
+--- a/arch/arc/kernel/vmlinux.lds.S
++++ b/arch/arc/kernel/vmlinux.lds.S
+@@ -11,6 +11,7 @@
+ #include <asm/page.h>
+ #include <asm/thread_info.h>
+ 
++OUTPUT_FORMAT("elf32-littlearc", "elf32-bigarc", "elf32-littlearc")
+ OUTPUT_ARCH(arc)
+ ENTRY(res_service)
+ 
+-- 
+2.16.2
