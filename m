@@ -1,82 +1,40 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri,  1 Jun 2018 14:34:33 +0300
-Subject: [PATCH v2] ARC: Explicitly add -mmedium-calls to CFLAGS
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 1 Jun 2018 09:12:14 -0700
+Subject: [PATCH] ARC: Explicitly specify OUTPUT_FORMAT in the linker script
+In-Reply-To: <20180601104904.48481-1-abrodkin@synopsys.com>
+References: <20180601104904.48481-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180601113433.27119-1-abrodkin@synopsys.com>
+Message-ID: <05b33c2b-6fb4-6a51-c52b-a0b1012a1000@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-GCC built for arc*-*-linux has "-mmedium-calls" implicitly enabled by default
-thus we don't see any problems during Linux kernel compilation.
------------------------------>8------------------------
-arc-linux-gcc -mcpu=arc700 -Q --help=target | grep calls
-  -mlong-calls                          [disabled]
-  -mmedium-calls                        [enabled]
------------------------------>8------------------------
+On 06/01/2018 03:49 AM, Alexey Brodkin wrote:
+> It might be a good idea to explicitly specify BFD format
+> depending on -EB/-EL option passed to the linker and not rely on
+> default behavior as we have now.
 
-But if we try to use so-called Elf32 toolchain with GCC configured for
-arc*-*-elf* then we'd see the following failure:
------------------------------>8------------------------
-init/do_mounts.o: In function 'init_rootfs':
-do_mounts.c:(.init.text+0x108): relocation truncated to fit: R_ARC_S21W_PCREL
-against symbol 'unregister_filesystem' defined in .text section in fs/filesystems.o
+What exactly is the problem we are trying to solve here ?
+Is this preventive or did you run into something - if latter can u explain it here
+please ?
 
-arc-elf32-ld: final link failed: Symbol needs debug section which does not exist
-make: *** [vmlinux] Error 1
------------------------------>8------------------------
-
-That happens because neither "-mmedium-calls" nor "-mlong-calls" are enabled in
-Elf32 GCC:
------------------------------>8------------------------
-arc-elf32-gcc -mcpu=arc700 -Q --help=target | grep calls
-  -mlong-calls                          [disabled]
-  -mmedium-calls                        [disabled]
------------------------------>8------------------------
-
-Now to make it possible to use Elf32 toolchain for building Linux kernel
-we're explicitly add "-mmedium-calls" to CFLAGS.
-
-And since we add "-mmedium-calls" to the global CFLAGS there's no point in
-having per-file copies thus removing them.
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
-
-Changes v1 -> v2:
-
- - Removed per-file mentions of "-mmedium-calls"
-
- arch/arc/Makefile | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
-
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index d37f49d6a27f..6c1b20dd76ad 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -16,7 +16,7 @@ endif
- 
- KBUILD_DEFCONFIG := nsim_700_defconfig
- 
--cflags-y	+= -fno-common -pipe -fno-builtin -D__linux__
-+cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
- cflags-$(CONFIG_ISA_ARCOMPACT)	+= -mA7
- cflags-$(CONFIG_ISA_ARCV2)	+= -mcpu=archs
- 
-@@ -140,16 +140,3 @@ dtbs: scripts
- 
- archclean:
- 	$(Q)$(MAKE) $(clean)=$(boot)
--
--# Hacks to enable final link due to absence of link-time branch relexation
--# and gcc choosing optimal(shorter) branches at -O3
--#
--# vineetg Feb 2010: -mlong-calls switched off for overall kernel build
--# However lib/decompress_inflate.o (.init.text) calls
--# zlib_inflate_workspacesize (.text) causing relocation errors.
--# Thus forcing all exten calls in this file to be long calls
--export CFLAGS_decompress_inflate.o = -mmedium-calls
--export CFLAGS_initramfs.o = -mmedium-calls
--ifdef CONFIG_SMP
--export CFLAGS_core.o = -mmedium-calls
--endif
--- 
-2.16.2
+> Description of the OUTPUT_FORMAT command is available here:
+> https://sourceware.org/binutils/docs/ld/Format-Commands.html#Format-Commands
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Cupertino Miranda <cmiranda at synopsys.com>
+> Cc: Claudiu Zissulescu <claziss at synopsys.com>
+> ---
+>  arch/arc/kernel/vmlinux.lds.S | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/arch/arc/kernel/vmlinux.lds.S b/arch/arc/kernel/vmlinux.lds.S
+> index f35ed578e007..0a1affc56d76 100644
+> --- a/arch/arc/kernel/vmlinux.lds.S
+> +++ b/arch/arc/kernel/vmlinux.lds.S
+> @@ -11,6 +11,7 @@
+>  #include <asm/page.h>
+>  #include <asm/thread_info.h>
+>  
+> +OUTPUT_FORMAT("elf32-littlearc", "elf32-bigarc", "elf32-littlearc")
+>  OUTPUT_ARCH(arc)
+>  ENTRY(res_service)
+>  
