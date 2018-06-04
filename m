@@ -1,90 +1,38 @@
 From: mhiramat@kernel.org (Masami Hiramatsu)
-Date: Tue,  5 Jun 2018 00:50:26 +0900
-Subject: [RFC PATCH -tip v5 04/27] ARC: kprobes: Remove jprobe implementation
+Date: Tue,  5 Jun 2018 00:55:46 +0900
+Subject: [RFC PATCH -tip v5 15/27] ARC: kprobes: Don't call the
+ ->break_handler() in ARC kprobes code
 In-Reply-To: <152812730943.10068.5166429445118734697.stgit@devbox>
 References: <152812730943.10068.5166429445118734697.stgit@devbox>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <152812742672.10068.6794442189016791113.stgit@devbox>
+Message-ID: <152812774641.10068.11144829855901255813.stgit@devbox>
 To: linux-snps-arc@lists.infradead.org
 
-Remove arch dependent setjump/longjump functions
-and unused fields in kprobe_ctlblk for jprobes
-from arch/arc.
+Don't call the ->break_handler() from the ARC kprobes code,
+because it was only used by jprobes which got removed.
 
 Signed-off-by: Masami Hiramatsu <mhiramat at kernel.org>
 Cc: Vineet Gupta <vgupta at synopsys.com>
 Cc: linux-snps-arc at lists.infradead.org
 ---
- arch/arc/include/asm/kprobes.h |    2 --
- arch/arc/kernel/kprobes.c      |   38 ++------------------------------------
- 2 files changed, 2 insertions(+), 38 deletions(-)
+ arch/arc/kernel/kprobes.c |    7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/arch/arc/include/asm/kprobes.h b/arch/arc/include/asm/kprobes.h
-index 2e52d18e6bc7..2c1b479d5aea 100644
---- a/arch/arc/include/asm/kprobes.h
-+++ b/arch/arc/include/asm/kprobes.h
-@@ -45,8 +45,6 @@ struct prev_kprobe {
- 
- struct kprobe_ctlblk {
- 	unsigned int kprobe_status;
--	struct pt_regs jprobe_saved_regs;
--	char jprobes_stack[MAX_STACK_SIZE];
- 	struct prev_kprobe prev_kprobe;
- };
- 
 diff --git a/arch/arc/kernel/kprobes.c b/arch/arc/kernel/kprobes.c
-index 42b05046fad9..7811a6bbe8f0 100644
+index 7811a6bbe8f0..465365696c91 100644
 --- a/arch/arc/kernel/kprobes.c
 +++ b/arch/arc/kernel/kprobes.c
-@@ -225,10 +225,8 @@ int __kprobes arc_kprobe_handler(unsigned long addr, struct pt_regs *regs)
+@@ -234,13 +234,6 @@ int __kprobes arc_kprobe_handler(unsigned long addr, struct pt_regs *regs)
+ 		}
  
- 		/* If we have no pre-handler or it returned 0, we continue with
- 		 * normal processing. If we have a pre-handler and it returned
--		 * non-zero - which is expected from setjmp_pre_handler for
--		 * jprobe, we return without single stepping and leave that to
--		 * the break-handler which is invoked by a kprobe from
--		 * jprobe_return
-+		 * non-zero - which means user handler setup registers to exit
-+		 * to another instruction, we must skip the single stepping.
- 		 */
- 		if (!p->pre_handler || !p->pre_handler(p, regs)) {
- 			setup_singlestep(p, regs);
-@@ -386,38 +384,6 @@ int __kprobes kprobe_exceptions_notify(struct notifier_block *self,
- 	return ret;
- }
+ 		return 1;
+-	} else if (kprobe_running()) {
+-		p = __this_cpu_read(current_kprobe);
+-		if (p->break_handler && p->break_handler(p, regs)) {
+-			setup_singlestep(p, regs);
+-			kcb->kprobe_status = KPROBE_HIT_SS;
+-			return 1;
+-		}
+ 	}
  
--int __kprobes setjmp_pre_handler(struct kprobe *p, struct pt_regs *regs)
--{
--	struct jprobe *jp = container_of(p, struct jprobe, kp);
--	struct kprobe_ctlblk *kcb = get_kprobe_ctlblk();
--	unsigned long sp_addr = regs->sp;
--
--	kcb->jprobe_saved_regs = *regs;
--	memcpy(kcb->jprobes_stack, (void *)sp_addr, MIN_STACK_SIZE(sp_addr));
--	regs->ret = (unsigned long)(jp->entry);
--
--	return 1;
--}
--
--void __kprobes jprobe_return(void)
--{
--	__asm__ __volatile__("unimp_s");
--	return;
--}
--
--int __kprobes longjmp_break_handler(struct kprobe *p, struct pt_regs *regs)
--{
--	struct kprobe_ctlblk *kcb = get_kprobe_ctlblk();
--	unsigned long sp_addr;
--
--	*regs = kcb->jprobe_saved_regs;
--	sp_addr = regs->sp;
--	memcpy((void *)sp_addr, kcb->jprobes_stack, MIN_STACK_SIZE(sp_addr));
--	preempt_enable_no_resched();
--
--	return 1;
--}
--
- static void __used kretprobe_trampoline_holder(void)
- {
- 	__asm__ __volatile__(".global kretprobe_trampoline\n"
+ 	/* no_kprobe: */
