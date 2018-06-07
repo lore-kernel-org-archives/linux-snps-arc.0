@@ -1,87 +1,79 @@
-From: naveen.n.rao@linux.vnet.ibm.com (Naveen N. Rao)
-Date: Thu, 07 Jun 2018 17:12:18 +0530
-Subject: [RFC PATCH -tip v5 24/27] bpf: error-inject: kprobes: Clear
- current_kprobe and enable preempt in kprobe
-In-Reply-To: <152812800822.10068.3306094708706993432.stgit@devbox>
-References: <152812730943.10068.5166429445118734697.stgit@devbox>
- <152812800822.10068.3306094708706993432.stgit@devbox>
+From: ben@decadent.org.uk (Ben Hutchings)
+Date: Thu, 07 Jun 2018 15:05:21 +0100
+Subject: [PATCH 3.16 267/410] arm64: do not use print_symbol()
+In-Reply-To: <lsq.1528380320.647747352@decadent.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1528371714.iz71qgzxv3.naveen@linux.ibm.com>
+Message-ID: <lsq.1528380321.214381661@decadent.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-Masami Hiramatsu wrote:
-> Clear current_kprobe and enable preemption in kprobe
-> even if pre_handler returns !0.
-> 
-> This simplifies function override using kprobes.
-> 
-> Jprobe used to require to keep the preemption disabled and
-> keep current_kprobe until it returned to original function
-> entry. For this reason kprobe_int3_handler() and similar
-> arch dependent kprobe handers checks pre_handler result
-> and exit without enabling preemption if the result is !0.
-> 
-> After removing the jprobe, Kprobes does not need to
-> keep preempt disabled even if user handler returns !0
-> anymore.
-> 
-> But since the function override handler in error-inject
-> and bpf is also returns !0 if it overrides a function,
-> to balancing the preempt count, it enables preemption
-> and reset current kprobe by itself.
-> 
-> That is a bad design that is very buggy. This fixes
-> such unbalanced preempt-count and current_kprobes setting
-> in kprobes, bpf and error-inject.
-> 
-> Note: for powerpc and x86, this removes all preempt_disable
-> from kprobe_ftrace_handler because ftrace callbacks are
-> called under preempt disabled.
-> 
-> Signed-off-by: Masami Hiramatsu <mhiramat at kernel.org>
-> Cc: Vineet Gupta <vgupta at synopsys.com>
-> Cc: Russell King <linux at armlinux.org.uk>
-> Cc: Catalin Marinas <catalin.marinas at arm.com>
-> Cc: Will Deacon <will.deacon at arm.com>
-> Cc: Tony Luck <tony.luck at intel.com>
-> Cc: Fenghua Yu <fenghua.yu at intel.com>
-> Cc: Ralf Baechle <ralf at linux-mips.org>
-> Cc: James Hogan <jhogan at kernel.org>
-> Cc: Benjamin Herrenschmidt <benh at kernel.crashing.org>
-> Cc: Paul Mackerras <paulus at samba.org>
-> Cc: Michael Ellerman <mpe at ellerman.id.au>
-> Cc: Martin Schwidefsky <schwidefsky at de.ibm.com>
-> Cc: Heiko Carstens <heiko.carstens at de.ibm.com>
-> Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
-> Cc: Rich Felker <dalias at libc.org>
-> Cc: "David S. Miller" <davem at davemloft.net>
-> Cc: "Naveen N. Rao" <naveen.n.rao at linux.vnet.ibm.com>
-> Cc: Josef Bacik <jbacik at fb.com>
-> Cc: Alexei Starovoitov <ast at kernel.org>
-> Cc: x86 at kernel.org
-> Cc: linux-snps-arc at lists.infradead.org
-> Cc: linux-kernel at vger.kernel.org
-> Cc: linux-arm-kernel at lists.infradead.org
-> Cc: linux-ia64 at vger.kernel.org
-> Cc: linux-mips at linux-mips.org
-> Cc: linuxppc-dev at lists.ozlabs.org
-> Cc: linux-s390 at vger.kernel.org
-> Cc: linux-sh at vger.kernel.org
-> Cc: sparclinux at vger.kernel.org
-> ---
->  Changes in v5:
->   - Fix kprobe_ftrace_handler in arch/powerpc too.
-> ---
->  arch/arc/kernel/kprobes.c            |    5 +++--
->  arch/arm/probes/kprobes/core.c       |   10 +++++-----
->  arch/arm64/kernel/probes/kprobes.c   |   10 +++++-----
->  arch/ia64/kernel/kprobes.c           |   13 ++++---------
->  arch/mips/kernel/kprobes.c           |    4 ++--
->  arch/powerpc/kernel/kprobes-ftrace.c |   15 ++++++---------
->  arch/powerpc/kernel/kprobes.c        |    7 +++++--
+3.16.57-rc1 review patch.  If anyone has any objections, please let me know.
 
-For the powerpc bits:
-Acked-by: Naveen N. Rao <naveen.n.rao at linux.vnet.ibm.com>
+------------------
 
-Thanks,
-Naveen
+From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+
+commit 4ef7963843d3243260aa335dfb9cb2fede06aacf upstream.
+
+print_symbol() is a very old API that has been obsoleted by %pS format
+specifier in a normal printk() call.
+
+Replace print_symbol() with a direct printk("%pS") call.
+
+Link: http://lkml.kernel.org/r/20171211125025.2270-3-sergey.senozhatsky at gmail.com
+To: Andrew Morton <akpm at linux-foundation.org>
+To: Russell King <linux at armlinux.org.uk>
+To: Catalin Marinas <catalin.marinas at arm.com>
+To: Mark Salter <msalter at redhat.com>
+To: Tony Luck <tony.luck at intel.com>
+To: David Howells <dhowells at redhat.com>
+To: Yoshinori Sato <ysato at users.sourceforge.jp>
+To: Guan Xuetao <gxt at mprc.pku.edu.cn>
+To: Borislav Petkov <bp at alien8.de>
+To: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+To: Thomas Gleixner <tglx at linutronix.de>
+To: Peter Zijlstra <peterz at infradead.org>
+To: Vineet Gupta <vgupta at synopsys.com>
+To: Fengguang Wu <fengguang.wu at intel.com>
+Cc: Steven Rostedt <rostedt at goodmis.org>
+Cc: Petr Mladek <pmladek at suse.com>
+Cc: LKML <linux-kernel at vger.kernel.org>
+Cc: linux-arm-kernel at lists.infradead.org
+Cc: linux-c6x-dev at linux-c6x.org
+Cc: linux-ia64 at vger.kernel.org
+Cc: linux-am33-list at redhat.com
+Cc: linux-sh at vger.kernel.org
+Cc: linux-edac at vger.kernel.org
+Cc: x86 at kernel.org
+Cc: linux-snps-arc at lists.infradead.org
+Cc: Catalin Marinas <catalin.marinas at arm.com>
+Cc: Will Deacon <will.deacon at arm.com>
+Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky at gmail.com>
+[pmladek at suse.com: updated commit message]
+Signed-off-by: Petr Mladek <pmladek at suse.com>
+[bwh: Backported to 3.16: adjust context]
+Signed-off-by: Ben Hutchings <ben at decadent.org.uk>
+---
+ arch/arm64/kernel/process.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+--- a/arch/arm64/kernel/process.c
++++ b/arch/arm64/kernel/process.c
+@@ -31,7 +31,6 @@
+ #include <linux/delay.h>
+ #include <linux/reboot.h>
+ #include <linux/interrupt.h>
+-#include <linux/kallsyms.h>
+ #include <linux/init.h>
+ #include <linux/cpu.h>
+ #include <linux/elfcore.h>
+@@ -198,8 +197,8 @@ void __show_regs(struct pt_regs *regs)
+ 	}
+ 
+ 	show_regs_print_info(KERN_DEFAULT);
+-	print_symbol("pc : %s\n", regs->pc);
+-	print_symbol("lr : %s\n", lr);
++	printk("pc : %pS\n", (void *)regs->pc);
++	printk("lr : %pS\n", (void *)lr);
+ 	printk("sp : %016llx pstate : %08llx\n", sp, regs->pstate);
+ 	for (i = top_reg; i >= 0; i--) {
+ 		printk("x%-2d: %016llx ", i, regs->regs[i]);
