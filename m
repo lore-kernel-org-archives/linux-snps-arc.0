@@ -1,23 +1,87 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Thu, 07 Jun 2018 04:38:07 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Thu Jun 07, 14:36
+From: naveen.n.rao@linux.vnet.ibm.com (Naveen N. Rao)
+Date: Thu, 07 Jun 2018 17:12:18 +0530
+Subject: [RFC PATCH -tip v5 24/27] bpf: error-inject: kprobes: Clear
+ current_kprobe and enable preempt in kprobe
+In-Reply-To: <152812800822.10068.3306094708706993432.stgit@devbox>
+References: <152812730943.10068.5166429445118734697.stgit@devbox>
+ <152812800822.10068.3306094708706993432.stgit@devbox>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180607043807.1.81672@ccbefa4da728>
+Message-ID: <1528371714.iz71qgzxv3.naveen@linux.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Thu Jun 07, 14:36
+Masami Hiramatsu wrote:
+> Clear current_kprobe and enable preemption in kprobe
+> even if pre_handler returns !0.
+> 
+> This simplifies function override using kprobes.
+> 
+> Jprobe used to require to keep the preemption disabled and
+> keep current_kprobe until it returned to original function
+> entry. For this reason kprobe_int3_handler() and similar
+> arch dependent kprobe handers checks pre_handler result
+> and exit without enabling preemption if the result is !0.
+> 
+> After removing the jprobe, Kprobes does not need to
+> keep preempt disabled even if user handler returns !0
+> anymore.
+> 
+> But since the function override handler in error-inject
+> and bpf is also returns !0 if it overrides a function,
+> to balancing the preempt count, it enables preemption
+> and reset current kprobe by itself.
+> 
+> That is a bad design that is very buggy. This fixes
+> such unbalanced preempt-count and current_kprobes setting
+> in kprobes, bpf and error-inject.
+> 
+> Note: for powerpc and x86, this removes all preempt_disable
+> from kprobe_ftrace_handler because ftrace callbacks are
+> called under preempt disabled.
+> 
+> Signed-off-by: Masami Hiramatsu <mhiramat at kernel.org>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Russell King <linux at armlinux.org.uk>
+> Cc: Catalin Marinas <catalin.marinas at arm.com>
+> Cc: Will Deacon <will.deacon at arm.com>
+> Cc: Tony Luck <tony.luck at intel.com>
+> Cc: Fenghua Yu <fenghua.yu at intel.com>
+> Cc: Ralf Baechle <ralf at linux-mips.org>
+> Cc: James Hogan <jhogan at kernel.org>
+> Cc: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> Cc: Paul Mackerras <paulus at samba.org>
+> Cc: Michael Ellerman <mpe at ellerman.id.au>
+> Cc: Martin Schwidefsky <schwidefsky at de.ibm.com>
+> Cc: Heiko Carstens <heiko.carstens at de.ibm.com>
+> Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
+> Cc: Rich Felker <dalias at libc.org>
+> Cc: "David S. Miller" <davem at davemloft.net>
+> Cc: "Naveen N. Rao" <naveen.n.rao at linux.vnet.ibm.com>
+> Cc: Josef Bacik <jbacik at fb.com>
+> Cc: Alexei Starovoitov <ast at kernel.org>
+> Cc: x86 at kernel.org
+> Cc: linux-snps-arc at lists.infradead.org
+> Cc: linux-kernel at vger.kernel.org
+> Cc: linux-arm-kernel at lists.infradead.org
+> Cc: linux-ia64 at vger.kernel.org
+> Cc: linux-mips at linux-mips.org
+> Cc: linuxppc-dev at lists.ozlabs.org
+> Cc: linux-s390 at vger.kernel.org
+> Cc: linux-sh at vger.kernel.org
+> Cc: sparclinux at vger.kernel.org
+> ---
+>  Changes in v5:
+>   - Fix kprobe_ftrace_handler in arch/powerpc too.
+> ---
+>  arch/arc/kernel/kprobes.c            |    5 +++--
+>  arch/arm/probes/kprobes/core.c       |   10 +++++-----
+>  arch/arm64/kernel/probes/kprobes.c   |   10 +++++-----
+>  arch/ia64/kernel/kprobes.c           |   13 ++++---------
+>  arch/mips/kernel/kprobes.c           |    4 ++--
+>  arch/powerpc/kernel/kprobes-ftrace.c |   15 ++++++---------
+>  arch/powerpc/kernel/kprobes.c        |    7 +++++--
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13390354/
+For the powerpc bits:
+Acked-by: Naveen N. Rao <naveen.n.rao at linux.vnet.ibm.com>
 
-Commit:   Merge tag 'trace-v4.18' of git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace
-          5eb6eed7e0fe880dc8de8da203cc888716bbf196
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
-
-No errors found in log
-
-Possible warnings (3)
-----------------------
-
-/kisskb/src/include/linux/kernel.h:811:29: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-/kisskb/src/net/ipv4/tcp_input.c:4237:49: warning: array subscript is above array bounds [-Warray-bounds]
-/kisskb/src/net/xfrm/xfrm_policy.c:2377:15: warning: array subscript is above array bounds [-Warray-bounds]
+Thanks,
+Naveen
