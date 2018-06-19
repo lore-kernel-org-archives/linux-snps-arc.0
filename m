@@ -1,146 +1,90 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 19 Jun 2018 17:22:05 +0300
-Subject: [PATCH v2] ARC: Improve cmpxchg syscall implementation
+From: mhiramat@kernel.org (Masami Hiramatsu)
+Date: Wed, 20 Jun 2018 01:06:04 +0900
+Subject: [PATCH -tip v6 04/27] ARC: kprobes: Remove jprobe implementation
+In-Reply-To: <152942424698.15209.15245996287444292393.stgit@devbox>
+References: <152942424698.15209.15245996287444292393.stgit@devbox>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180619142205.20493-1-abrodkin@synopsys.com>
+Message-ID: <152942436460.15209.3038881268172249579.stgit@devbox>
 To: linux-snps-arc@lists.infradead.org
 
-From: Peter Zijlstra <peterz@infradead.org>
+Remove arch dependent setjump/longjump functions
+and unused fields in kprobe_ctlblk for jprobes
+from arch/arc.
 
-arc_usr_cmpxchg syscall is supposed to be used on platforms
-that lack support of Load-Locked/Store-Conditional instructions
-in hardware. And in that case we mimic missing hardware features
-with help of kernel's sycall that "atomically" checks current
-value in memory and then if it matches caller expectation new
-value is written to that same location.
-
-What's important in the description above:
- - Check-and-exchange must be "atomical" which means
-   preemption must be disabled during entire "transaction"
- - Data accessed is from user-space, i.e. we're dealing
-   with virtual addresses
-
-And in current implementation we have a couple of problems:
-
-1. We do disable preemprion around __get_user() & __put_user()
-   but that in its turn disables page fault handler.
-   That means if a pointer to user's data has no mapping in
-   the TLB we won't be able to access required data.
-   Instead software "exception handling" code from __get_user_fn()
-   will return -EFAULT.
-
-2. What's worse if we're dealing with data from not yet allocated
-   page (think of pre-copy-on-write state) we'll successfully
-   read data but on write we'll silently return to user-space
-   with correct result (which we really read just before). That leads
-   to very strange problems in user-space app further down the line
-   because new value was never written to the destination.
-
-3. Regardless of what went wrong we'll return from syscall
-   and user-space application will continue to execute.
-   Even if user's pointer was completely bogus.
-   In case of hardware LL/SC that app would have been killed
-   by the kernel.
-
-With that change we attempt to imrove on all 3 items above:
-
-1. We still disable preemption around write of user's data but
-   if we happen to fail with write we're enabling preemption
-   and try to fix-up page fault so that we have a correct permission
-   for writing user's data. Then re-try again in "atomic" context.
-
-2. If real page fault fails or even access_ok() returns false
-   we send SIGSEGV to the user-space process so if something goes
-   seriously wrong we'll know about it much earlier.
-
-Signed-off-by: Peter Zijlstra <peterz at infradead.org>
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Signed-off-by: Masami Hiramatsu <mhiramat at kernel.org>
 Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Max Filippov <jcmvbkbc at gmail.com>
-Cc: linux-arch at vger.kernel.org
+Cc: linux-snps-arc at lists.infradead.org
 ---
+ arch/arc/include/asm/kprobes.h |    2 --
+ arch/arc/kernel/kprobes.c      |   38 ++------------------------------------
+ 2 files changed, 2 insertions(+), 38 deletions(-)
 
-Changes v1 -> v2:
-
- * Peter's almost clean-room reimplmentation with less paranoid checks
-   and direct invocation of fixup_user_fault() for in-place update of
-   write permissions.
-
- arch/arc/kernel/process.c | 48 ++++++++++++++++++++++++++++++---------
- 1 file changed, 37 insertions(+), 11 deletions(-)
-
-diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
-index 5ac3b547453f..7a7742fba77a 100644
---- a/arch/arc/kernel/process.c
-+++ b/arch/arc/kernel/process.c
-@@ -47,7 +47,9 @@ SYSCALL_DEFINE0(arc_gettls)
- SYSCALL_DEFINE3(arc_usr_cmpxchg, int *, uaddr, int, expected, int, new)
- {
- 	struct pt_regs *regs = current_pt_regs();
--	int uval = -EFAULT;
-+	struct page *page;
-+	u32 val;
-+	int ret;
+diff --git a/arch/arc/include/asm/kprobes.h b/arch/arc/include/asm/kprobes.h
+index 2e52d18e6bc7..2c1b479d5aea 100644
+--- a/arch/arc/include/asm/kprobes.h
++++ b/arch/arc/include/asm/kprobes.h
+@@ -45,8 +45,6 @@ struct prev_kprobe {
  
- 	/*
- 	 * This is only for old cores lacking LLOCK/SCOND, which by defintion
-@@ -60,23 +62,47 @@ SYSCALL_DEFINE3(arc_usr_cmpxchg, int *, uaddr, int, expected, int, new)
- 	/* Z indicates to userspace if operation succeded */
- 	regs->status32 &= ~STATUS_Z_MASK;
+ struct kprobe_ctlblk {
+ 	unsigned int kprobe_status;
+-	struct pt_regs jprobe_saved_regs;
+-	char jprobes_stack[MAX_STACK_SIZE];
+ 	struct prev_kprobe prev_kprobe;
+ };
  
--	if (!access_ok(VERIFY_WRITE, uaddr, sizeof(int)))
--		return -EFAULT;
-+	ret = access_ok(VERIFY_WRITE, uaddr, sizeof(*uaddr));
-+	if (!ret)
-+		 goto fail;
+diff --git a/arch/arc/kernel/kprobes.c b/arch/arc/kernel/kprobes.c
+index 42b05046fad9..7811a6bbe8f0 100644
+--- a/arch/arc/kernel/kprobes.c
++++ b/arch/arc/kernel/kprobes.c
+@@ -225,10 +225,8 @@ int __kprobes arc_kprobe_handler(unsigned long addr, struct pt_regs *regs)
  
-+again:
- 	preempt_disable();
- 
--	if (__get_user(uval, uaddr))
--		goto done;
-+	ret = __get_user(val, uaddr);
-+	if (ret)
-+		 goto fault;
- 
--	if (uval == expected) {
--		if (!__put_user(new, uaddr))
--			regs->status32 |= STATUS_Z_MASK;
--	}
-+	if (val != expected)
-+		 goto out;
-+
-+	ret = __put_user(new, uaddr);
-+	if (ret)
-+		 goto fault;
-+
-+	regs->status32 |= STATUS_Z_MASK;
-+
-+out:
-+	preempt_enable();
-+	return val;
- 
--done:
-+fault:
- 	preempt_enable();
- 
--	return uval;
-+	if (unlikely(ret != -EFAULT))
-+		 goto fail;
-+
-+	down_read(&current->mm->mmap_sem);
-+	ret = fixup_user_fault(current, current->mm, uaddr, FAULT_FLAG_WRITE,
-+			       NULL);
-+	up_read(&current->mm->mmap_sem);
-+
-+	if (likely(!ret))
-+		 goto again;
-+
-+fail:
-+	force_sig(SIGSEGV, current);
-+	return ret;
+ 		/* If we have no pre-handler or it returned 0, we continue with
+ 		 * normal processing. If we have a pre-handler and it returned
+-		 * non-zero - which is expected from setjmp_pre_handler for
+-		 * jprobe, we return without single stepping and leave that to
+-		 * the break-handler which is invoked by a kprobe from
+-		 * jprobe_return
++		 * non-zero - which means user handler setup registers to exit
++		 * to another instruction, we must skip the single stepping.
+ 		 */
+ 		if (!p->pre_handler || !p->pre_handler(p, regs)) {
+ 			setup_singlestep(p, regs);
+@@ -386,38 +384,6 @@ int __kprobes kprobe_exceptions_notify(struct notifier_block *self,
+ 	return ret;
  }
  
- #ifdef CONFIG_ISA_ARCV2
--- 
-2.17.1
+-int __kprobes setjmp_pre_handler(struct kprobe *p, struct pt_regs *regs)
+-{
+-	struct jprobe *jp = container_of(p, struct jprobe, kp);
+-	struct kprobe_ctlblk *kcb = get_kprobe_ctlblk();
+-	unsigned long sp_addr = regs->sp;
+-
+-	kcb->jprobe_saved_regs = *regs;
+-	memcpy(kcb->jprobes_stack, (void *)sp_addr, MIN_STACK_SIZE(sp_addr));
+-	regs->ret = (unsigned long)(jp->entry);
+-
+-	return 1;
+-}
+-
+-void __kprobes jprobe_return(void)
+-{
+-	__asm__ __volatile__("unimp_s");
+-	return;
+-}
+-
+-int __kprobes longjmp_break_handler(struct kprobe *p, struct pt_regs *regs)
+-{
+-	struct kprobe_ctlblk *kcb = get_kprobe_ctlblk();
+-	unsigned long sp_addr;
+-
+-	*regs = kcb->jprobe_saved_regs;
+-	sp_addr = regs->sp;
+-	memcpy((void *)sp_addr, kcb->jprobes_stack, MIN_STACK_SIZE(sp_addr));
+-	preempt_enable_no_resched();
+-
+-	return 1;
+-}
+-
+ static void __used kretprobe_trampoline_holder(void)
+ {
+ 	__asm__ __volatile__(".global kretprobe_trampoline\n"
