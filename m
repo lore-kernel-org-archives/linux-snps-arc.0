@@ -1,30 +1,21 @@
-From: anders.roxell@linaro.org (Anders Roxell)
-Date: Tue, 26 Jun 2018 17:28:51 +0200
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 26 Jun 2018 10:01:30 -0700
 Subject: [PATCH] arc: configs: remove no longer needed config option
+In-Reply-To: <20180626152851.32674-1-anders.roxell@linaro.org>
+References: <20180626152851.32674-1-anders.roxell@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180626152851.32674-1-anders.roxell@linaro.org>
+Message-ID: <f071a4af-5043-126d-fe3e-cff7deb974d1@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Since commit eedf265aa003 ("devpts: Make each mount of devpts an
-independent filesystem.") CONFIG_DEVPTS_MULTIPLE_INSTANCES isn't needed
-in the defconfig anymore.
+On 06/26/2018 08:29 AM, Anders Roxell wrote:
+> Since commit eedf265aa003 ("devpts: Make each mount of devpts an
+> independent filesystem.") CONFIG_DEVPTS_MULTIPLE_INSTANCES isn't needed
+> in the defconfig anymore.
+>
+> Signed-off-by: Anders Roxell <anders.roxell at linaro.org>
 
-Signed-off-by: Anders Roxell <anders.roxell at linaro.org>
----
- arch/arc/configs/tb10x_defconfig | 1 -
- 1 file changed, 1 deletion(-)
+Thx,
 
-diff --git a/arch/arc/configs/tb10x_defconfig b/arch/arc/configs/tb10x_defconfig
-index 1aca2e8fd1ba..2cc87f909747 100644
---- a/arch/arc/configs/tb10x_defconfig
-+++ b/arch/arc/configs/tb10x_defconfig
-@@ -56,7 +56,6 @@ CONFIG_STMMAC_ETH=y
- # CONFIG_INPUT is not set
- # CONFIG_SERIO is not set
- # CONFIG_VT is not set
--CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
- # CONFIG_LEGACY_PTYS is not set
- # CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
--- 
-2.18.0
+Added to for-curr !
+
+-Vineet
