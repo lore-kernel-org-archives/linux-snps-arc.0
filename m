@@ -1,19 +1,30 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 26 Jun 2018 17:13:31 -0700
-Subject: [PATCH] ldso/arc: fix LD_DEBUG segv when printing R_ARC_NONE
+Date: Tue, 26 Jun 2018 18:26:24 -0700
+Subject: [PATCH v2] ldso/arc: fix LD_DEBUG segv when printing R_ARC_NONE
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1530058411-720-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1530062784-12353-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- ldso/ldso/arc/elfinterp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2: Also remove a bogus trailing l in prints
+---
+ ldso/ldso/arc/elfinterp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/ldso/ldso/arc/elfinterp.c b/ldso/ldso/arc/elfinterp.c
-index 5a02bc2348da..17d588899dfc 100644
+index 5a02bc2348da..a30c19bcb832 100644
 --- a/ldso/ldso/arc/elfinterp.c
 +++ b/ldso/ldso/arc/elfinterp.c
+@@ -64,7 +64,7 @@ _dl_linux_resolver(struct elf_resolve *tpnt, unsigned int plt_pc)
+ 	if (_dl_debug_bindings) {
+ 		_dl_dprintf(_dl_debug_file, "\nresolve function: %s", symname);
+ 		if (_dl_debug_detail)
+-			_dl_dprintf(_dl_debug_file, "\n\tpatched %x ==> %pc @ %pl\n",
++			_dl_dprintf(_dl_debug_file, "\n\tpatched %x ==> %pc @ %p\n",
+ 					*got_addr, new_addr, got_addr);
+ 	}
+ 
 @@ -178,7 +178,7 @@ _dl_do_reloc(struct elf_resolve *tpnt, struct r_scope_elem *scope,
  
  log_entry:
