@@ -1,248 +1,55 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Thu, 28 Jun 2018 17:14:52 +0300
-Subject: [RFC v2] ARC: allow to use IOC and non-IOC DMA devices simultaneously
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 28 Jun 2018 16:59:14 -0700
+Subject: [PATCH] ARC: Fix __swp_offset() implementation
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180628141452.3585-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20180628235914.20706-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-The ARC HS processor provides an IOC port (I/O coherency bus
-interface) that allows external devices such as DMA devices
-to access memory through the cache hierarchy, providing
-coherency between I/O transactions and the complete memory
-hierarchy.
+We encode offset from swapcache page in __swp_entry() this way, see [1]:
+| /* Encode swap {type,off} tuple into PTE
+|  * We reserve 13 bits for 5-bit @type, keeping bits 12-5 zero, ensuring that
+|  * PAGE_PRESENT is zero in a PTE holding swap "identifier"
+|  */
+| #define __swp_entry(type, off)	((swp_entry_t) { \
+| 					((type) & 0x1f) | ((off) << 13) })
 
-Some recent SoC with ARC HS (like HSDK) allow to select bus
-port (IOC or non-IOC port) for connecting DMA devices in runtime.
+But decode in __swp_offset() as:
+| #define __swp_offset(pte_lookalike)	((pte_lookalike).val << 13)
+which is obviously wrong, we should ">> 13" instead.
 
-With this patch we can use both HW-coherent and regular DMA
-peripherals simultaneously.
+This basically fixes swap usage on ARC finally.
 
-For example we can connect USB and SDIO controllers through IOC port
-(so we don't need to need to maintain cache coherency for these
-devices manualy. All cache sync ops will be nop)
-And we can connect Ethernet directly to RAM port (so we had to
-maintain cache coherency manualy. Cache sync ops will be real
-flush/invalidate operations)
+| # mkswap /dev/sda2
+|
+| # swapon -a -e /dev/sda2
+| Adding 500728k swap on /dev/sda2.  Priority:-2 extents:1 across:500728k
+|
+| # free
+|              total       used       free     shared    buffers     cached
+| Mem:        765104      13456     751648       4736          8       4736
+| -/+ buffers/cache:       8712     756392
+| Swap:       500728          0     500728
 
-Cache ops are set per-device and depends on "dma-coherent" device
-tree property:
-"dma_noncoherent_ops" are used if no "dma-coherent" property is
-present (or IOC is disabled)
-"dma_direct_ops" are used if "dma-coherent" property is present.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arc/include/asm/pgtable.h#n375
 
-NOTE 1:
-It works perfectly fine only if we don't have ZONE_HIGHMEM used
-as IOC doesn't cover all physical memory. As for today It configured
-to cover 1GiB starting from 0x8z (which is ZONE_NORMAL memory for
-us). Transactions outside this region are sent on the non-coherent
-I/O bus interface.
-We can't configure IOC to cover all physical memory as it has several
-limitations relating to aperture size and start address.
-
-And if we get DMA buffer from ZONE_HIGHMEM memory we need to
-do real flush/invalidate operations on that buffer, which is obviously
-not done by "dma_direct_ops".
-
-So I am not sure about "dma_direct_ops" using - probably we need to
-create our special cache ops like "arc_ioc_ops" which will handle
-ZONE_HIGHMEM case.
-
-(BTW: current ARC dma_noncoherent_ops implementation also has same
-problem if IOC and HIGHMEM are enabled.)
-
-NOTE 2:
-In this RFC only hsdk.dts changes are shown to reduce patch size.
-AXS103 device tree changes are not shown.
-
-
-Changes v1->v2 (Thanks to Vineet and Christoph):
- * Panic if both IOC and HIGHMEM_ZONE are enabled.
- * Move arch_setup_dma_ops to arch/arc/mm/dma.c
- * Tweak the boot printing about IOC
- * Print info about cache ops used for each device.
- * Refactor arch_setup_dma_ops
-
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: stable at vger.kernel.org
 ---
- arch/arc/Kconfig                   |  1 +
- arch/arc/boot/dts/hsdk.dts         |  4 ++++
- arch/arc/include/asm/dma-mapping.h | 13 +++++++++++++
- arch/arc/mm/cache.c                | 20 +++++---------------
- arch/arc/mm/dma.c                  | 32 +++++++++++++++++++-------------
- 5 files changed, 42 insertions(+), 28 deletions(-)
- create mode 100644 arch/arc/include/asm/dma-mapping.h
+ arch/arc/include/asm/pgtable.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index e81bcd271be7..0a2fcd2a8c32 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -17,6 +17,7 @@ config ARC
- 	select CLONE_BACKWARDS
- 	select COMMON_CLK
- 	select DMA_NONCOHERENT_OPS
-+	select DMA_DIRECT_OPS
- 	select DMA_NONCOHERENT_MMAP
- 	select GENERIC_ATOMIC64 if !ISA_ARCV2 || !(ARC_HAS_LL64 && ARC_HAS_LLSC)
- 	select GENERIC_CLOCKEVENTS
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index 006aa3de5348..ebb686c21393 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -176,6 +176,7 @@
- 			phy-handle = <&phy0>;
- 			resets = <&cgu_rst HSDK_ETH_RESET>;
- 			reset-names = "stmmaceth";
-+			dma-coherent;
+diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
+index 08fe33830d4b..77676e18da69 100644
+--- a/arch/arc/include/asm/pgtable.h
++++ b/arch/arc/include/asm/pgtable.h
+@@ -379,7 +379,7 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long address,
  
- 			mdio {
- 				#address-cells = <1>;
-@@ -194,12 +195,14 @@
- 			compatible = "snps,hsdk-v1.0-ohci", "generic-ohci";
- 			reg = <0x60000 0x100>;
- 			interrupts = <15>;
-+			dma-coherent;
- 		};
+ /* Decode a PTE containing swap "identifier "into constituents */
+ #define __swp_type(pte_lookalike)	(((pte_lookalike).val) & 0x1f)
+-#define __swp_offset(pte_lookalike)	((pte_lookalike).val << 13)
++#define __swp_offset(pte_lookalike)	((pte_lookalike).val >> 13)
  
- 		ehci at 40000 {
- 			compatible = "snps,hsdk-v1.0-ehci", "generic-ehci";
- 			reg = <0x40000 0x100>;
- 			interrupts = <15>;
-+			dma-coherent;
- 		};
- 
- 		mmc at a000 {
-@@ -212,6 +215,7 @@
- 			clock-names = "biu", "ciu";
- 			interrupts = <12>;
- 			bus-width = <4>;
-+			dma-coherent;
- 		};
- 	};
- 
-diff --git a/arch/arc/include/asm/dma-mapping.h b/arch/arc/include/asm/dma-mapping.h
-new file mode 100644
-index 000000000000..c946c0a83e76
---- /dev/null
-+++ b/arch/arc/include/asm/dma-mapping.h
-@@ -0,0 +1,13 @@
-+// SPDX-License-Identifier:  GPL-2.0
-+// (C) 2018 Synopsys, Inc. (www.synopsys.com)
-+
-+#ifndef ASM_ARC_DMA_MAPPING_H
-+#define ASM_ARC_DMA_MAPPING_H
-+
-+#include <asm-generic/dma-mapping.h>
-+
-+void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-+			const struct iommu_ops *iommu, bool coherent);
-+#define arch_setup_dma_ops arch_setup_dma_ops
-+
-+#endif
-diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index 9dbe645ee127..6d3234854461 100644
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -65,7 +65,7 @@ char *arc_cache_mumbojumbo(int c, char *buf, int len)
- 
- 	n += scnprintf(buf + n, len - n, "Peripherals\t: %#lx%s%s\n",
- 		       perip_base,
--		       IS_AVAIL3(ioc_exists, ioc_enable, ", IO-Coherency "));
-+		       IS_AVAIL3(ioc_exists, ioc_enable, ", per device IO-Coherency "));
- 
- 	return buf;
- }
-@@ -896,15 +896,6 @@ static void __dma_cache_wback_slc(phys_addr_t start, unsigned long sz)
- 	slc_op(start, sz, OP_FLUSH);
- }
- 
--/*
-- * DMA ops for systems with IOC
-- * IOC hardware snoops all DMA traffic keeping the caches consistent with
-- * memory - eliding need for any explicit cache maintenance of DMA buffers
-- */
--static void __dma_cache_wback_inv_ioc(phys_addr_t start, unsigned long sz) {}
--static void __dma_cache_inv_ioc(phys_addr_t start, unsigned long sz) {}
--static void __dma_cache_wback_ioc(phys_addr_t start, unsigned long sz) {}
--
- /*
-  * Exported DMA API
-  */
-@@ -1152,6 +1143,9 @@ noinline void __init arc_ioc_setup(void)
- {
- 	unsigned int ioc_base, mem_sz;
- 
-+	if (IS_ENABLED(CONFIG_HIGHMEM))
-+		panic("IOC and HIGHMEM can't be used simultaneously");
-+
- 	/* Flush + invalidate + disable L1 dcache */
- 	__dc_disable();
- 
-@@ -1253,11 +1247,7 @@ void __init arc_cache_init_master(void)
- 	if (is_isa_arcv2() && ioc_enable)
- 		arc_ioc_setup();
- 
--	if (is_isa_arcv2() && ioc_enable) {
--		__dma_cache_wback_inv = __dma_cache_wback_inv_ioc;
--		__dma_cache_inv = __dma_cache_inv_ioc;
--		__dma_cache_wback = __dma_cache_wback_ioc;
--	} else if (is_isa_arcv2() && l2_line_sz && slc_enable) {
-+	if (is_isa_arcv2() && l2_line_sz && slc_enable) {
- 		__dma_cache_wback_inv = __dma_cache_wback_inv_slc;
- 		__dma_cache_inv = __dma_cache_inv_slc;
- 		__dma_cache_wback = __dma_cache_wback_slc;
-diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
-index 8c1071840979..fbcb3428a7ab 100644
---- a/arch/arc/mm/dma.c
-+++ b/arch/arc/mm/dma.c
-@@ -19,6 +19,7 @@
- #include <linux/dma-noncoherent.h>
- #include <asm/cache.h>
- #include <asm/cacheflush.h>
-+#include <linux/dma-mapping.h>
- 
- void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 		gfp_t gfp, unsigned long attrs)
-@@ -33,19 +34,7 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 	if (!page)
- 		return NULL;
- 
--	/*
--	 * IOC relies on all data (even coherent DMA data) being in cache
--	 * Thus allocate normal cached memory
--	 *
--	 * The gains with IOC are two pronged:
--	 *   -For streaming data, elides need for cache maintenance, saving
--	 *    cycles in flush code, and bus bandwidth as all the lines of a
--	 *    buffer need to be flushed out to memory
--	 *   -For coherent data, Read/Write to buffers terminate early in cache
--	 *   (vs. always going to memory - thus are faster)
--	 */
--	if ((is_isa_arcv2() && ioc_enable) ||
--	    (attrs & DMA_ATTR_NON_CONSISTENT))
-+	if (attrs & DMA_ATTR_NON_CONSISTENT)
- 		need_coh = 0;
- 
- 	/*
-@@ -140,3 +129,20 @@ void arch_sync_dma_for_cpu(struct device *dev, phys_addr_t paddr,
- {
- 	dma_cache_inv(paddr, size);
- }
-+
-+void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-+			const struct iommu_ops *iommu, bool coherent)
-+{
-+	/*
-+	 * IOC hardware snoops all DMA traffic keeping the caches consistent
-+	 * with memory - eliding need for any explicit cache maintenance of
-+	 * DMA buffers - so we can use dma_direct cache ops.
-+	 */
-+	if (is_isa_arcv2() && ioc_enable && coherent) {
-+		set_dma_ops(dev, &dma_direct_ops);
-+		dev_info(dev, "use dma_direct_ops cache ops\n");
-+	} else {
-+		set_dma_ops(dev, &dma_noncoherent_ops);
-+		dev_info(dev, "use dma_noncoherent_ops cache ops\n");
-+	}
-+}
+ /* NOPs, to keep generic kernel happy */
+ #define __pte_to_swp_entry(pte)	((swp_entry_t) { pte_val(pte) })
 -- 
-2.14.4
+2.17.1
