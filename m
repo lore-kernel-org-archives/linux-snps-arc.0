@@ -1,71 +1,67 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 29 Jun 2018 10:45:13 -0700
-Subject: [RFC v2] ARC: allow to use IOC and non-IOC DMA devices
- simultaneously
-In-Reply-To: <20180628141452.3585-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180628141452.3585-1-Eugeniy.Paltsev@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 29 Jun 2018 11:20:05 -0700
+Subject: [PATCH] ARC: Improve handling of fatal signals in do_page_fault()
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <4010dc7c-7046-eddd-11cc-30099c29d640@synopsys.com>
+Message-ID: <20180629182005.10243-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 06/28/2018 07:14 AM, Eugeniy Paltsev wrote:
-> The ARC HS processor provides an IOC port (I/O coherency bus
-> interface) that allows external devices such as DMA devices
-> to access memory through the cache hierarchy, providing
-> coherency between I/O transactions and the complete memory
-> hierarchy.
+This was triggered by investigation of a deadlock after OOM killer invocation,
+see [1] for more details.
 
-You mention IOC port in first line, but the change has nothing to do with it -
-this is confusing.
-Make this less verbose and just expand on the subject you have - global vs. per
-device dma settings, without going into all the internal details.
+Looks like our handling of fatal signal in do_page_fault() has some issues:
 
-And again going back to my original point, you are changing the semantics (ioc and
-non ioc to co-exist) but everything still goes thru IOC port. That is different
-that what we had before - everything goes through IOC port and ioc dma ops ONLY if
-IOC existed.
+1. We only want to do special (read "early") handling of fatal signal
+   if handle_mm_fault() returned VM_FAULT_RETRY so that we don't loop
+   in retry loop endlessly, otherwise we'll handle that signal normally
+   on exit from exception handler.
 
-I understand the need to isolate the 2 things and that is fine. But then what you
-should do is
-1a. introduce the per ioc dma settings in ARC - and not touch the DTBs.
-1b. introduce the IO port settings in platform code
-2. Now switch the DT binding to use the per device ioc
+2. up_read() is not needed as indeed it will be done in __lock_page_or_retry()
+   in mm/filemap.c.
 
-And any panic etc for IOC + highmem etc should be a separate patch - so we can
-easily revert it when time is right !
+With above comments in mind simplified version should be like that:
+------------------------------->8---------------------------
+	if (fatal_signal_pending(current)
+		if (fault & VM_FAULT_RETRY)
+			if (user_mode(regs))
+				return;
+------------------------------->8---------------------------
 
->
-> Some recent SoC with ARC HS (like HSDK) allow to select bus
-> port (IOC or non-IOC port) for connecting DMA devices in runtime.
->
-> With this patch we can use both HW-coherent and regular DMA
-> peripherals simultaneously.
->
-> For example we can connect USB and SDIO controllers through IOC port
-> (so we don't need to need to maintain cache coherency for these
-> devices manualy. All cache sync ops will be nop)
-> And we can connect Ethernet directly to RAM port (so we had to
-> maintain cache coherency manualy. Cache sync ops will be real
-> flush/invalidate operations)
+But looks like there's a room for improvement, see [2].
+Instead of proceeding forward and then inevitably hitting retry path we
+short-cut right to kernel fix-up code in no_context.
 
-I presume this has been tested with some stress testing bonie++ etc.
+[1] http://lists.infradead.org/pipermail/linux-snps-arc/2018-February/003403.html
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=746a272e44141af24a02f6c9b0f65f4c4598ed42
 
-> +void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-> +			const struct iommu_ops *iommu, bool coherent)
-> +{
-> +	/*
-> +	 * IOC hardware snoops all DMA traffic keeping the caches consistent
-> +	 * with memory - eliding need for any explicit cache maintenance of
-> +	 * DMA buffers - so we can use dma_direct cache ops.
-> +	 */
-> +	if (is_isa_arcv2() && ioc_enable && coherent) {
-> +		set_dma_ops(dev, &dma_direct_ops);
-> +		dev_info(dev, "use dma_direct_ops cache ops\n");
-> +	} else {
-> +		set_dma_ops(dev, &dma_noncoherent_ops);
-> +		dev_info(dev, "use dma_noncoherent_ops cache ops\n");
-> +	}
-> +}
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/mm/fault.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-And further to Christoph's comment, if we decide to skip the branch, please add a
-comment that it is already set in generic code etc.
+diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
+index a0b7bd6d030d..17ed78e2f5eb 100644
+--- a/arch/arc/mm/fault.c
++++ b/arch/arc/mm/fault.c
+@@ -139,12 +139,16 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 	 */
+ 	fault = handle_mm_fault(vma, address, flags);
+ 
+-	/* If Pagefault was interrupted by SIGKILL, exit page fault "early" */
++	/* If we need to retry but a fatal signal is pending, handle the
++	 * signal first. We do not need to release the mmap_sem because
++	 * it would already be released in __lock_page_or_retry in
++	 * mm/filemap.c. */
+ 	if (unlikely(fatal_signal_pending(current))) {
+-		if ((fault & VM_FAULT_ERROR) && !(fault & VM_FAULT_RETRY))
+-			up_read(&mm->mmap_sem);
+-		if (user_mode(regs))
++		if (fault & VM_FAULT_RETRY) {
++			if (!user_mode(regs))
++				goto no_context;
+ 			return;
++		}
+ 	}
+ 
+ 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+-- 
+2.17.1
