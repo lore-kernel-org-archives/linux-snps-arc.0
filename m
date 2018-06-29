@@ -1,50 +1,54 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 29 Jun 2018 10:30:51 +0200
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 29 Jun 2018 10:45:13 -0700
 Subject: [RFC v2] ARC: allow to use IOC and non-IOC DMA devices
  simultaneously
 In-Reply-To: <20180628141452.3585-1-Eugeniy.Paltsev@synopsys.com>
 References: <20180628141452.3585-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180629083051.GA15740@lst.de>
+Message-ID: <4010dc7c-7046-eddd-11cc-30099c29d640@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Jun 28, 2018@05:14:52PM +0300, Eugeniy Paltsev wrote:
-> And if we get DMA buffer from ZONE_HIGHMEM memory we need to
-> do real flush/invalidate operations on that buffer, which is obviously
-> not done by "dma_direct_ops".
-> 
-> So I am not sure about "dma_direct_ops" using - probably we need to
-> create our special cache ops like "arc_ioc_ops" which will handle
-> ZONE_HIGHMEM case.
+On 06/28/2018 07:14 AM, Eugeniy Paltsev wrote:
+> The ARC HS processor provides an IOC port (I/O coherency bus
+> interface) that allows external devices such as DMA devices
+> to access memory through the cache hierarchy, providing
+> coherency between I/O transactions and the complete memory
+> hierarchy.
 
-FYI, I have a plan to merge dma_direct_ops and dma_noncoherent_ops
-and make the decision to use cache flushing run time controllable
-with a flag in struct device based on existing dynamic selection
-in e.g. arm, arm64 and mips.  It will probably take a few more merge
-windows to get there, but once it is done you should be able to take
-easy advantage of it.
+You mention IOC port in first line, but the change has nothing to do with it -
+this is confusing.
+Make this less verbose and just expand on the subject you have - global vs. per
+device dma settings, without going into all the internal details.
 
-> +++ b/arch/arc/mm/dma.c
-> @@ -19,6 +19,7 @@
->  #include <linux/dma-noncoherent.h>
->  #include <asm/cache.h>
->  #include <asm/cacheflush.h>
-> +#include <linux/dma-mapping.h>
+And again going back to my original point, you are changing the semantics (ioc and
+non ioc to co-exist) but everything still goes thru IOC port. That is different
+that what we had before - everything goes through IOC port and ioc dma ops ONLY if
+IOC existed.
 
-dma-noncoherent.h already includes dma-mapping.h, so this is not
-required.
+I understand the need to isolate the 2 things and that is fine. But then what you
+should do is
+1a. introduce the per ioc dma settings in ARC - and not touch the DTBs.
+1b. introduce the IO port settings in platform code
+2. Now switch the DT binding to use the per device ioc
 
-> -	if ((is_isa_arcv2() && ioc_enable) ||
-> -	    (attrs & DMA_ATTR_NON_CONSISTENT))
-> +	if (attrs & DMA_ATTR_NON_CONSISTENT)
->  		need_coh = 0;
+And any panic etc for IOC + highmem etc should be a separate patch - so we can
+easily revert it when time is right !
 
-need_coh is only used twice, it might be cleaner to remove the
-variable and just open code the DMA_ATTR_NON_CONSISTENT check.
-And for extra points remove the need_kvaddr variable as well.
+>
+> Some recent SoC with ARC HS (like HSDK) allow to select bus
+> port (IOC or non-IOC port) for connecting DMA devices in runtime.
+>
+> With this patch we can use both HW-coherent and regular DMA
+> peripherals simultaneously.
+>
+> For example we can connect USB and SDIO controllers through IOC port
+> (so we don't need to need to maintain cache coherency for these
+> devices manualy. All cache sync ops will be nop)
+> And we can connect Ethernet directly to RAM port (so we had to
+> maintain cache coherency manualy. Cache sync ops will be real
+> flush/invalidate operations)
 
-Also you probably want to do the equivalent change in arch_dma_free
-as well.
+I presume this has been tested with some stress testing bonie++ etc.
 
 > +void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
 > +			const struct iommu_ops *iommu, bool coherent)
@@ -63,6 +67,5 @@ as well.
 > +	}
 > +}
 
-Note that due to your use of asm-generic/dma-mapping.h we already
-default to dma_noncoherent_ops if no per-device ops is set.  So we
-could skip the else branch here I think.
+And further to Christoph's comment, if we decide to skip the branch, please add a
+comment that it is already set in generic code etc.
