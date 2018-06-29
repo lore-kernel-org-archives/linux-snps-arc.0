@@ -1,32 +1,68 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 28 Jun 2018 17:37:56 -0700
-Subject: [PATCH] ARC: Fix __swp_offset() implementation
-In-Reply-To: <20180628235914.20706-1-abrodkin@synopsys.com>
-References: <20180628235914.20706-1-abrodkin@synopsys.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 29 Jun 2018 10:30:51 +0200
+Subject: [RFC v2] ARC: allow to use IOC and non-IOC DMA devices
+ simultaneously
+In-Reply-To: <20180628141452.3585-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180628141452.3585-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1406e091-d288-c5d6-5340-1bbca25d39c2@synopsys.com>
+Message-ID: <20180629083051.GA15740@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-On 06/28/2018 04:59 PM, Alexey Brodkin wrote:
-> We encode offset from swapcache page in __swp_entry() this way, see [1]:
-> | /* Encode swap {type,off} tuple into PTE
-> |  * We reserve 13 bits for 5-bit @type, keeping bits 12-5 zero, ensuring that
-> |  * PAGE_PRESENT is zero in a PTE holding swap "identifier"
-> |  */
-> | #define __swp_entry(type, off)	((swp_entry_t) { \
-> | 					((type) & 0x1f) | ((off) << 13) })
->
-> But decode in __swp_offset() as:
-> | #define __swp_offset(pte_lookalike)	((pte_lookalike).val << 13)
-> which is obviously wrong, we should ">> 13" instead.
->
-> This basically fixes swap usage on ARC finally.
+On Thu, Jun 28, 2018@05:14:52PM +0300, Eugeniy Paltsev wrote:
+> And if we get DMA buffer from ZONE_HIGHMEM memory we need to
+> do real flush/invalidate operations on that buffer, which is obviously
+> not done by "dma_direct_ops".
+> 
+> So I am not sure about "dma_direct_ops" using - probably we need to
+> create our special cache ops like "arc_ioc_ops" which will handle
+> ZONE_HIGHMEM case.
 
-Nice. Wish all fixes were so simple ;-)
+FYI, I have a plan to merge dma_direct_ops and dma_noncoherent_ops
+and make the decision to use cache flushing run time controllable
+with a flag in struct device based on existing dynamic selection
+in e.g. arm, arm64 and mips.  It will probably take a few more merge
+windows to get there, but once it is done you should be able to take
+easy advantage of it.
 
-I've added this to for-curr and will also make its way to stable, but lets clean
-up this mess of hardcoded 13 properly as a cleanup patch. There are good
-references to look at : arm, riscv etc
+> +++ b/arch/arc/mm/dma.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/dma-noncoherent.h>
+>  #include <asm/cache.h>
+>  #include <asm/cacheflush.h>
+> +#include <linux/dma-mapping.h>
 
-Thx,
--Vineet
+dma-noncoherent.h already includes dma-mapping.h, so this is not
+required.
+
+> -	if ((is_isa_arcv2() && ioc_enable) ||
+> -	    (attrs & DMA_ATTR_NON_CONSISTENT))
+> +	if (attrs & DMA_ATTR_NON_CONSISTENT)
+>  		need_coh = 0;
+
+need_coh is only used twice, it might be cleaner to remove the
+variable and just open code the DMA_ATTR_NON_CONSISTENT check.
+And for extra points remove the need_kvaddr variable as well.
+
+Also you probably want to do the equivalent change in arch_dma_free
+as well.
+
+> +void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> +			const struct iommu_ops *iommu, bool coherent)
+> +{
+> +	/*
+> +	 * IOC hardware snoops all DMA traffic keeping the caches consistent
+> +	 * with memory - eliding need for any explicit cache maintenance of
+> +	 * DMA buffers - so we can use dma_direct cache ops.
+> +	 */
+> +	if (is_isa_arcv2() && ioc_enable && coherent) {
+> +		set_dma_ops(dev, &dma_direct_ops);
+> +		dev_info(dev, "use dma_direct_ops cache ops\n");
+> +	} else {
+> +		set_dma_ops(dev, &dma_noncoherent_ops);
+> +		dev_info(dev, "use dma_noncoherent_ops cache ops\n");
+> +	}
+> +}
+
+Note that due to your use of asm-generic/dma-mapping.h we already
+default to dma_noncoherent_ops if no per-device ops is set.  So we
+could skip the else branch here I think.
