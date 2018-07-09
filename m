@@ -1,83 +1,49 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon,  9 Jul 2018 16:45:50 +0300
-Subject: [PATCH v3] devres: Explicitly align datai[] to 64-bit
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Mon, 9 Jul 2018 15:49:14 +0200
+Subject: [PATCH] atomic{64}_t: Explicitly specify data storage length and
+ alignment
+In-Reply-To: <3d3ec70d99524a6fa7a38e7d2e0fdf98@AcuMS.aculab.com>
+References: <20180709124741.21037-1-abrodkin@synopsys.com>
+ <3d3ec70d99524a6fa7a38e7d2e0fdf98@AcuMS.aculab.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180709134550.29541-1-abrodkin@synopsys.com>
+Message-ID: <CAMuHMdWQNZ-Dpakqk7mTJ-O_H0QnCd-KUWpWNJC_d6Yw8GH0Kg@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-data[] must be 64-bit aligned even on 32-bit architectures because
-it might be accessed by instructions that require aligned memory arguments.
+On Mon, Jul 9, 2018@3:29 PM David Laight <David.Laight@aculab.com> wrote:
+> From: Alexey Brodkin
+> > Sent: 09 July 2018 13:48
+> > Atomic instructions require data they operate on to be aligned
+> > according to data size. I.e. 32-bit atomic values must be 32-bit
+> > aligned while 64-bit values must be 64-bit aligned.
+> >
+> > Otherwise even if CPU may handle not-aligend normal data access,
+> > still atomic instructions fail and typically raise an exception
+> > leaving us dead in the water.
+> ...
+> > diff --git a/include/asm-generic/atomic64.h b/include/asm-generic/atomic64.h
+> > index 8d28eb010d0d..b94b749b5952 100644
+> > --- a/include/asm-generic/atomic64.h
+> > +++ b/include/asm-generic/atomic64.h
+> > @@ -13,7 +13,7 @@
+> >  #define _ASM_GENERIC_ATOMIC64_H
+> >
+> >  typedef struct {
+> > -     long long counter;
+> > +     u64 __aligned(8) counter;
+> >  } atomic64_t;
+>
+> Apart from the fact that this changes the value from signed to unsigned
+> should most of the architectures be using this generic definition?
 
-One example is "atomic64_t" type accessed by special atomic instructions
-which may read/write entire 64-bit word.
+64-bit architectures use the one from include/linux/types.h instead.
 
-Atomic instructions are a bit special compared to normal loads and stores.
-Even if normal loads and stores may deal with unaligned data, atomic
-instructions still require data to be aligned because it's hard to manage
-atomic value that spans through multiple cache lines or even MMU pages.
-And hardware just raises an alignment fault exception.
+Gr{oetje,eeting}s,
 
-The problem with previously used approach is that depending on ABI
-"long long" type of a particular 32-bit CPU might be aligned to
-8-, 16-, 32- or 64-bit boundary. Which will get in the way of mentioned
-above atomic instructions.
+                        Geert
 
-Consider the following snippet:
-|        struct mystruct {
-|                atomic64_t myvar;
-|        }
-|
-|        struct mystruct *p;
-|        p = devm_kzalloc(dev, sizeof(*p), GFP_KERNEL);
-
-Here address of "myvar" will match  data[] in "struct devres",
-that said if "data" is not 64-bit aligned atomic instruction will
-fail on the first access to "myvar".
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-Cc: Geert Uytterhoeven <geert at linux-m68k.org>
-Cc: David Laight <David.Laight at ACULAB.COM>
-Cc: Peter Zijlstra <peterz at infradead.org>
-Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: Will Deacon <will.deacon at arm.com>
-Cc: Greg KH <greg at kroah.com>
-Cc: <stable at vger.kernel.org> # 4.8+
----
-
-Changes v2 -> v3:
-
- * Align explicitly to 8 bytes [David]
- * Rephrased in-line comment [David]
- * Added more techinical details to commit message [Greg]
- * Mention more alignment options in commit message [Geert]
-
-Changes v1 -> v2:
-
- * Reworded commit message
- * Inserted comment right in source [Thomas]
-
- drivers/base/devres.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/base/devres.c b/drivers/base/devres.c
-index f98a097e73f2..d65327cb83c9 100644
---- a/drivers/base/devres.c
-+++ b/drivers/base/devres.c
-@@ -24,8 +24,12 @@ struct devres_node {
- 
- struct devres {
- 	struct devres_node		node;
--	/* -- 3 pointers */
--	unsigned long long		data[];	/* guarantee ull alignment */
-+	/*
-+	 * data[] must be 64 bit aligned even on 32 bit architectures
-+	 * because it might be accessed by instructions that require
-+	 * aligned memory arguments such as atomic64_t.
-+	 */
-+	u8 __aligned(8)			data[];
- };
- 
- struct devres_group {
 -- 
-2.17.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
