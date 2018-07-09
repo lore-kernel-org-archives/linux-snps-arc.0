@@ -1,52 +1,138 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 9 Jul 2018 10:23:58 +0000
-Subject: [RESEND PATCH v2] devres: Really align data field to unsigned
- long long
-In-Reply-To: <91c57eeba2134dd99a9f0e11fa883c7c@AcuMS.aculab.com>
-References: <20180709044444.6397-1-abrodkin@synopsys.com>
- <f7499a811ba54c00a11f7525ae216213@AcuMS.aculab.com>
- <c95ac7435736d93843c45628ba4d41a4a4988074.camel@synopsys.com>
- <91c57eeba2134dd99a9f0e11fa883c7c@AcuMS.aculab.com>
+Date: Mon,  9 Jul 2018 15:47:41 +0300
+Subject: [PATCH] atomic{64}_t: Explicitly specify data storage length and
+ alignment
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <82d2b36fa913bca6d56c7bf32a653324970817b8.camel@synopsys.com>
+Message-ID: <20180709124741.21037-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi David,
+Atomic instructions require data they operate on to be aligned
+according to data size. I.e. 32-bit atomic values must be 32-bit
+aligned while 64-bit values must be 64-bit aligned.
 
-On Mon, 2018-07-09@10:18 +0000, David Laight wrote:
-> From: Alexey Brodkin
-> > Sent: 09 July 2018 11:00
-> 
-> ...
-> > That's a good idea indeed but it doesn't solve the problem with
-> > struct devres_node. Consider the following snippet:
-> > -------------------------------->8-------------------------------
-> > 	struct mystruct {
-> > 		atomic64_t myvar;
-> > 	}
-> > 
-> > 	struct mystruct *p;
-> > 	p = devm_kzalloc(dev, sizeof(*p), GFP_KERNEL);
-> > -------------------------------->8-------------------------------
-> > 
-> > Here myvar address will match address of "data" member of struct devres_node.
-> > So if "data" is has offset of 12 bytes from the beginning of a page then
-> > myvar won't be 64-bit aligned regardless of myvar's attribute, right?
-> 
-> ...
-> > > > -	unsigned long long		data[];	/* guarantee ull alignment */
-> 
-> Ahh, that line should be:
-> 	u8 data[] __aligned(8); /* Guarantee 64bit alignment */
+Otherwise even if CPU may handle not-aligend normal data access,
+still atomic instructions fail and typically raise an exception
+leaving us dead in the water.
 
-And that pretty much what I suggested in my initial patch :)
+This came-up during lengthly discussion here:
+http://lists.infradead.org/pipermail/linux-snps-arc/2018-July/004022.html
 
-For the record x86 has exactly the same atomic64_t as you suggested,
-see https://elixir.bootlin.com/linux/latest/source/arch/x86/include/asm/atomic64_32.h#L13:
----------------------->8------------------
-typedef struct {
-	u64 __aligned(8) counter;
-} atomic64_t;
----------------------->8------------------
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Will Deacon <will.deacon at arm.com>
+Cc: Peter Zijlstra <peterz at infradead.org>
+Cc: Boqun Feng <boqun.feng at gmail.com>
+Cc: Russell King <linux at armlinux.org.uk>
+Cc: Arnd Bergmann <arnd at arndb.de>
+Cc: Thomas Gleixner <tglx at linutronix.de>
+Cc: Ingo Molnar <mingo at redhat.com>
+Cc: Darren Hart <dvhart at infradead.org>
+Cc: Shuah Khan <shuah at kernel.org>
+Cc: "Paul E. McKenney" <paulmck at linux.vnet.ibm.com>
+Cc: Josh Triplett <josh at joshtriplett.org>
+Cc: Steven Rostedt <rostedt at goodmis.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers at efficios.com>
+Cc: Lai Jiangshan <jiangshanlai at gmail.com>
+Cc: David Laight <David.Laight at ACULAB.COM>
+Cc: Geert Uytterhoeven <geert at linux-m68k.org>
+Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+---
+ arch/arm/include/asm/atomic.h                                 | 2 +-
+ include/asm-generic/atomic64.h                                | 2 +-
+ include/linux/types.h                                         | 4 ++--
+ tools/include/linux/types.h                                   | 2 +-
+ tools/testing/selftests/futex/include/atomic.h                | 2 +-
+ .../rcutorture/formal/srcu-cbmc/include/linux/types.h         | 4 ++--
+ 6 files changed, 8 insertions(+), 8 deletions(-)
 
--Alexey
+diff --git a/arch/arm/include/asm/atomic.h b/arch/arm/include/asm/atomic.h
+index 66d0e215a773..2ed6d7cf1407 100644
+--- a/arch/arm/include/asm/atomic.h
++++ b/arch/arm/include/asm/atomic.h
+@@ -267,7 +267,7 @@ ATOMIC_OPS(xor, ^=, eor)
+ 
+ #ifndef CONFIG_GENERIC_ATOMIC64
+ typedef struct {
+-	long long counter;
++	u64 __aligned(8) counter;
+ } atomic64_t;
+ 
+ #define ATOMIC64_INIT(i) { (i) }
+diff --git a/include/asm-generic/atomic64.h b/include/asm-generic/atomic64.h
+index 8d28eb010d0d..b94b749b5952 100644
+--- a/include/asm-generic/atomic64.h
++++ b/include/asm-generic/atomic64.h
+@@ -13,7 +13,7 @@
+ #define _ASM_GENERIC_ATOMIC64_H
+ 
+ typedef struct {
+-	long long counter;
++	u64 __aligned(8) counter;
+ } atomic64_t;
+ 
+ #define ATOMIC64_INIT(i)	{ (i) }
+diff --git a/include/linux/types.h b/include/linux/types.h
+index 9834e90aa010..e2f631782621 100644
+--- a/include/linux/types.h
++++ b/include/linux/types.h
+@@ -174,12 +174,12 @@ typedef phys_addr_t resource_size_t;
+ typedef unsigned long irq_hw_number_t;
+ 
+ typedef struct {
+-	int counter;
++	u32 __aligned(4) counter;
+ } atomic_t;
+ 
+ #ifdef CONFIG_64BIT
+ typedef struct {
+-	long counter;
++	u64 __aligned(8) counter;
+ } atomic64_t;
+ #endif
+ 
+diff --git a/tools/include/linux/types.h b/tools/include/linux/types.h
+index 154eb4e3ca7c..c913e26ea4eb 100644
+--- a/tools/include/linux/types.h
++++ b/tools/include/linux/types.h
+@@ -59,7 +59,7 @@ typedef __u64 __bitwise __le64;
+ typedef __u64 __bitwise __be64;
+ 
+ typedef struct {
+-	int counter;
++	u32 __aligned(4) counter;
+ } atomic_t;
+ 
+ #ifndef __aligned_u64
+diff --git a/tools/testing/selftests/futex/include/atomic.h b/tools/testing/selftests/futex/include/atomic.h
+index f861da3e31ab..34e14295e492 100644
+--- a/tools/testing/selftests/futex/include/atomic.h
++++ b/tools/testing/selftests/futex/include/atomic.h
+@@ -23,7 +23,7 @@
+ #define _ATOMIC_H
+ 
+ typedef struct {
+-	volatile int val;
++	volatile u32 __aligned(4) val;
+ } atomic_t;
+ 
+ #define ATOMIC_INITIALIZER { 0 }
+diff --git a/tools/testing/selftests/rcutorture/formal/srcu-cbmc/include/linux/types.h b/tools/testing/selftests/rcutorture/formal/srcu-cbmc/include/linux/types.h
+index 891ad13e95b2..32ce965187b3 100644
+--- a/tools/testing/selftests/rcutorture/formal/srcu-cbmc/include/linux/types.h
++++ b/tools/testing/selftests/rcutorture/formal/srcu-cbmc/include/linux/types.h
+@@ -100,12 +100,12 @@ typedef phys_addr_t resource_size_t;
+ typedef unsigned long irq_hw_number_t;
+ 
+ typedef struct {
+-	int counter;
++	u32 __aligned(4) counter;
+ } atomic_t;
+ 
+ #ifdef CONFIG_64BIT
+ typedef struct {
+-	long counter;
++	u64 __aligned(8) counter;
+ } atomic64_t;
+ #endif
+ 
+-- 
+2.17.1
