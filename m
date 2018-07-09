@@ -1,39 +1,55 @@
-From: David.Laight@ACULAB.COM (David Laight)
-Date: Mon, 9 Jul 2018 13:30:43 +0000
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Mon, 9 Jul 2018 15:35:42 +0200
 Subject: [PATCH] atomic{64}_t: Explicitly specify data storage length and
  alignment
 In-Reply-To: <20180709124741.21037-1-abrodkin@synopsys.com>
 References: <20180709124741.21037-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3d3ec70d99524a6fa7a38e7d2e0fdf98@AcuMS.aculab.com>
+Message-ID: <20180709133542.GP2476@hirez.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-From: Alexey Brodkin
-> Sent: 09 July 2018 13:48
-> Atomic instructions require data they operate on to be aligned
-> according to data size. I.e. 32-bit atomic values must be 32-bit
-> aligned while 64-bit values must be 64-bit aligned.
-> 
-> Otherwise even if CPU may handle not-aligend normal data access,
-> still atomic instructions fail and typically raise an exception
-> leaving us dead in the water.
-...
+On Mon, Jul 09, 2018@03:47:41PM +0300, Alexey Brodkin wrote:
 > diff --git a/include/asm-generic/atomic64.h b/include/asm-generic/atomic64.h
 > index 8d28eb010d0d..b94b749b5952 100644
 > --- a/include/asm-generic/atomic64.h
 > +++ b/include/asm-generic/atomic64.h
 > @@ -13,7 +13,7 @@
 >  #define _ASM_GENERIC_ATOMIC64_H
-> 
+>  
 >  typedef struct {
 > -	long long counter;
 > +	u64 __aligned(8) counter;
 >  } atomic64_t;
 
-Apart from the fact that this changes the value from signed to unsigned
-should most of the architectures be using this generic definition?
+The type is wrong, atomic is signed, the alignment also really doesn't
+matter, generic atomic64 is utter crap.
 
-The only exceptions would be 32bit architectures that lack 64bit
-instructions (eg m68k).
+>  #define ATOMIC64_INIT(i)	{ (i) }
+> diff --git a/include/linux/types.h b/include/linux/types.h
+> index 9834e90aa010..e2f631782621 100644
+> --- a/include/linux/types.h
+> +++ b/include/linux/types.h
+> @@ -174,12 +174,12 @@ typedef phys_addr_t resource_size_t;
+>  typedef unsigned long irq_hw_number_t;
+>  
+>  typedef struct {
+> -	int counter;
+> +	u32 __aligned(4) counter;
+>  } atomic_t;
 
-	David
+u32 is wrong, the atomic type is signed.
+
+Also, if an architecture doesn't properly align its native machine word
+size but requires alignment for atomics it's a broken architecture.
+
+>  
+>  #ifdef CONFIG_64BIT
+>  typedef struct {
+> -	long counter;
+> +	u64 __aligned(8) counter;
+>  } atomic64_t;
+>  #endif
+>  
+
+Similar for this one, on 64bit archs that support atomics the native
+64bit types (long included) had better already imply this alignment.
