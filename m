@@ -1,69 +1,44 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 12 Jul 2018 18:03:00 +0000
-Subject: [PATCH] ARC: [plat-axs10x] Get rid of auto-selected
- CONFIG_AX10x options
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA230750110F6680C@us01wembx1.internal.synopsys.com>
-References: <20180711171333.1745-1-abrodkin@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA230750110F6680C@us01wembx1.internal.synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 12 Jul 2018 15:16:34 -0700
+Subject: [PATCH] ARC: mm: allow mprotect to make stack mappings executable
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b0aeb56112386c4301951df8b02603a8e8f124ca.camel@synopsys.com>
+Message-ID: <1531433794-7518-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+mprotect(EXEC) was failing for stack mappings as default vm flags was
+missing MAYEXEC.
 
-On Thu, 2018-07-12@10:36 -0700, Vineet Gupta wrote:
-> On 07/11/2018 10:13 AM, Alexey Brodkin wrote:
-> > Commit 4fbaf649ebbc ("ARC: [plat-axs10x] auto-select AXS101 or AXS103 given the  ISA config")
-> > made selection of CONFIG_AXS10x option automatic so there's no point
-> > in keeping them in defconfigs.
-> > 
-> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> 
-> Can you regenerate the defconfigs - there seem to be more changes now than just those.
+This was triggered by glibc test suite nptl/tst-execstack testcase
 
-The only thing left is this one:
-------------------------->8----------------------
-@@ -63,7 +63,6 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
- CONFIG_MOUSE_SERIAL=y
- CONFIG_MOUSE_SYNAPTICS_USB=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_DW=y
-------------------------->8----------------------
+What is surprising is that despite running LTP for years on, we didn't
+catch this issue as it lacks a directed test case.
 
-But I was going to investigate a bit more on why this one became
-not needed. Shouldn't be rocket science but I'd like to understand what
-am I doing :)
+gcc dejagnu tests with nested functions also requiring exec stack work
+fine though because they rely on the GNU_STACK segment spit out by
+compiler and handled in kernel elf loader.
 
-> Also for the other patch for FUSE, is this something we will need day in day out -
-> I'm afraid we will start bloating stuff .
+This glibc case is different as the stack is non exec to begin with and
+a dlopen of shared lib with GNU_STACK segment triggers the exec stack
+proceedings using a mprotect(PROT_EXEC) which was broken.
 
-For me the main usage of FUSE is SSHFS which allows to mount file-system of
-whatever SSH-enabled server to the board. The point is it's quite a rare occasion
-when one may start and use NFS server on machine he/she doesn't own.
+CC: stable at vger.kernel.org
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/include/asm/page.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As an example I may build stuff on powerful server and still use results
-on target.
-
-> If you insist I can add it - but i's still prefer you build them using modules and
-> start testing that infra as well.
-
-Modules are all fine with one important note - on every kernel source change we
-need to copy every module in rootfs otherwise older ones won't be even loaded.
-So for development modules are not super convenient.
-
-Another reason to add more pretty common options to at least HSDK (and I guess
-AX10x stuff is on not much interest for you as compared to HSDK) is more and more
-people start to play with the board and to make their (and thus ours) life easier
-we'd better have basics in place from day one rather than explaining people how
-to overcome "unexpected" difficulties.
-
-We may indeed one again agree on having an additional defconfig for demos, distros
-and so on together with bare-minimal config we'll be using for our development but
-this will mean that fuller defconfig won't be daily tested which is not what we want.
-Also keeping in sync multiple configs is not the best idea ever especially if there're
-subtle differences here and there.
-
--Alexey
+diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
+index 109baa06831c..09ddddf71cc5 100644
+--- a/arch/arc/include/asm/page.h
++++ b/arch/arc/include/asm/page.h
+@@ -105,7 +105,7 @@ typedef pte_t * pgtable_t;
+ #define virt_addr_valid(kaddr)  pfn_valid(virt_to_pfn(kaddr))
+ 
+ /* Default Permissions for stack/heaps pages (Non Executable) */
+-#define VM_DATA_DEFAULT_FLAGS   (VM_READ | VM_WRITE | VM_MAYREAD | VM_MAYWRITE)
++#define VM_DATA_DEFAULT_FLAGS   (VM_READ | VM_WRITE | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC)
+ 
+ #define WANT_PAGE_VIRTUAL   1
+ 
+-- 
+2.7.4
