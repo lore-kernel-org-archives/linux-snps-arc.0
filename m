@@ -1,68 +1,69 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 12 Jul 2018 17:36:01 +0000
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 12 Jul 2018 18:03:00 +0000
 Subject: [PATCH] ARC: [plat-axs10x] Get rid of auto-selected
  CONFIG_AX10x options
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA230750110F6680C@us01wembx1.internal.synopsys.com>
 References: <20180711171333.1745-1-abrodkin@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA230750110F6680C@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA230750110F6680C@us01wembx1.internal.synopsys.com>
+Message-ID: <b0aeb56112386c4301951df8b02603a8e8f124ca.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 07/11/2018 10:13 AM, Alexey Brodkin wrote:
-> Commit 4fbaf649ebbc ("ARC: [plat-axs10x] auto-select AXS101 or AXS103 given the  ISA config")
-> made selection of CONFIG_AXS10x option automatic so there's no point
-> in keeping them in defconfigs.
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Hi Vineet,
 
-Can you regenerate the defconfigs - there seem to be more changes now than just those.
+On Thu, 2018-07-12@10:36 -0700, Vineet Gupta wrote:
+> On 07/11/2018 10:13 AM, Alexey Brodkin wrote:
+> > Commit 4fbaf649ebbc ("ARC: [plat-axs10x] auto-select AXS101 or AXS103 given the  ISA config")
+> > made selection of CONFIG_AXS10x option automatic so there's no point
+> > in keeping them in defconfigs.
+> > 
+> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> 
+> Can you regenerate the defconfigs - there seem to be more changes now than just those.
 
-Also for the other patch for FUSE, is this something we will need day in day out -
-I'm afraid we will start bloating stuff .
+The only thing left is this one:
+------------------------->8----------------------
+@@ -63,7 +63,6 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
+ CONFIG_MOUSE_SERIAL=y
+ CONFIG_MOUSE_SYNAPTICS_USB=y
+ # CONFIG_LEGACY_PTYS is not set
+-# CONFIG_DEVKMEM is not set
+ CONFIG_SERIAL_8250=y
+ CONFIG_SERIAL_8250_CONSOLE=y
+ CONFIG_SERIAL_8250_DW=y
+------------------------->8----------------------
 
-If you insist I can add it - but i's still prefer you build them using modules and
-start testing that infra as well.
+But I was going to investigate a bit more on why this one became
+not needed. Shouldn't be rocket science but I'd like to understand what
+am I doing :)
 
--Vineet
+> Also for the other patch for FUSE, is this something we will need day in day out -
+> I'm afraid we will start bloating stuff .
 
-> ---
->  arch/arc/configs/axs101_defconfig     | 1 -
->  arch/arc/configs/axs103_defconfig     | 1 -
->  arch/arc/configs/axs103_smp_defconfig | 1 -
->  3 files changed, 3 deletions(-)
->
-> diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
-> index 13500399ea86..55686cc4bb19 100644
-> --- a/arch/arc/configs/axs101_defconfig
-> +++ b/arch/arc/configs/axs101_defconfig
-> @@ -23,7 +23,6 @@ CONFIG_MODULE_UNLOAD=y
->  CONFIG_MODULE_FORCE_UNLOAD=y
->  CONFIG_PARTITION_ADVANCED=y
->  CONFIG_ARC_PLAT_AXS10X=y
-> -CONFIG_AXS101=y
->  CONFIG_ARC_CACHE_LINE_SHIFT=5
->  CONFIG_ARC_BUILTIN_DTB_NAME="axs101"
->  CONFIG_PREEMPT=y
-> diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
-> index a0576308cccd..20fb8e4e7337 100644
-> --- a/arch/arc/configs/axs103_defconfig
-> +++ b/arch/arc/configs/axs103_defconfig
-> @@ -23,7 +23,6 @@ CONFIG_MODULE_UNLOAD=y
->  CONFIG_MODULE_FORCE_UNLOAD=y
->  CONFIG_PARTITION_ADVANCED=y
->  CONFIG_ARC_PLAT_AXS10X=y
-> -CONFIG_AXS103=y
->  CONFIG_ISA_ARCV2=y
->  CONFIG_ARC_BUILTIN_DTB_NAME="axs103"
->  CONFIG_PREEMPT=y
-> diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
-> index 9bd590c22620..51d1e866ce94 100644
-> --- a/arch/arc/configs/axs103_smp_defconfig
-> +++ b/arch/arc/configs/axs103_smp_defconfig
-> @@ -23,7 +23,6 @@ CONFIG_MODULE_UNLOAD=y
->  CONFIG_MODULE_FORCE_UNLOAD=y
->  CONFIG_PARTITION_ADVANCED=y
->  CONFIG_ARC_PLAT_AXS10X=y
-> -CONFIG_AXS103=y
->  CONFIG_ISA_ARCV2=y
->  CONFIG_SMP=y
->  CONFIG_ARC_BUILTIN_DTB_NAME="axs103_idu"
+For me the main usage of FUSE is SSHFS which allows to mount file-system of
+whatever SSH-enabled server to the board. The point is it's quite a rare occasion
+when one may start and use NFS server on machine he/she doesn't own.
+
+As an example I may build stuff on powerful server and still use results
+on target.
+
+> If you insist I can add it - but i's still prefer you build them using modules and
+> start testing that infra as well.
+
+Modules are all fine with one important note - on every kernel source change we
+need to copy every module in rootfs otherwise older ones won't be even loaded.
+So for development modules are not super convenient.
+
+Another reason to add more pretty common options to at least HSDK (and I guess
+AX10x stuff is on not much interest for you as compared to HSDK) is more and more
+people start to play with the board and to make their (and thus ours) life easier
+we'd better have basics in place from day one rather than explaining people how
+to overcome "unexpected" difficulties.
+
+We may indeed one again agree on having an additional defconfig for demos, distros
+and so on together with bare-minimal config we'll be using for our development but
+this will mean that fuller defconfig won't be daily tested which is not what we want.
+Also keeping in sync multiple configs is not the best idea ever especially if there're
+subtle differences here and there.
+
+-Alexey
