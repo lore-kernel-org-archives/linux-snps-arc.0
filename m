@@ -1,57 +1,48 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 11 Jul 2018 20:13:33 +0300
-Subject: [PATCH] ARC: [plat-axs10x] Get rid of auto-selected CONFIG_AX10x
- options
+Date: Thu, 12 Jul 2018 08:32:34 +0000
+Subject: [PATCH] ARC: Improve handling of fatal signals in do_page_fault()
+In-Reply-To: <20180629182005.10243-1-abrodkin@synopsys.com>
+References: <20180629182005.10243-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180711171333.1745-1-abrodkin@synopsys.com>
+Message-ID: <cad7f596e41dbfef8d1ee465b13704d738e116bb.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Commit 4fbaf649ebbc ("ARC: [plat-axs10x] auto-select AXS101 or AXS103 given the  ISA config")
-made selection of CONFIG_AXS10x option automatic so there's no point
-in keeping them in defconfigs.
+Hi Vineet,
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
- arch/arc/configs/axs101_defconfig     | 1 -
- arch/arc/configs/axs103_defconfig     | 1 -
- arch/arc/configs/axs103_smp_defconfig | 1 -
- 3 files changed, 3 deletions(-)
+On Fri, 2018-06-29@11:20 -0700, Alexey Brodkin wrote:
+> This was triggered by investigation of a deadlock after OOM killer invocation,
+> see [1] for more details.
+> 
+> Looks like our handling of fatal signal in do_page_fault() has some issues:
+> 
+> 1. We only want to do special (read "early") handling of fatal signal
+>    if handle_mm_fault() returned VM_FAULT_RETRY so that we don't loop
+>    in retry loop endlessly, otherwise we'll handle that signal normally
+>    on exit from exception handler.
+> 
+> 2. up_read() is not needed as indeed it will be done in __lock_page_or_retry()
+>    in mm/filemap.c.
+> 
+> With above comments in mind simplified version should be like that:
+> ------------------------------->8---------------------------
+> 	if (fatal_signal_pending(current)
+> 		if (fault & VM_FAULT_RETRY)
+> 			if (user_mode(regs))
+> 				return;
+> ------------------------------->8---------------------------
+> 
+> But looks like there's a room for improvement, see [2].
+> Instead of proceeding forward and then inevitably hitting retry path we
+> short-cut right to kernel fix-up code in no_context.
+> 
+> [1] http://lists.infradead.org/pipermail/linux-snps-arc/2018-February/003403.html
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=746a272e44141af24a02f6c9b0f65f4c4598ed42
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 
-diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
-index 13500399ea86..55686cc4bb19 100644
---- a/arch/arc/configs/axs101_defconfig
-+++ b/arch/arc/configs/axs101_defconfig
-@@ -23,7 +23,6 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_PARTITION_ADVANCED=y
- CONFIG_ARC_PLAT_AXS10X=y
--CONFIG_AXS101=y
- CONFIG_ARC_CACHE_LINE_SHIFT=5
- CONFIG_ARC_BUILTIN_DTB_NAME="axs101"
- CONFIG_PREEMPT=y
-diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
-index a0576308cccd..20fb8e4e7337 100644
---- a/arch/arc/configs/axs103_defconfig
-+++ b/arch/arc/configs/axs103_defconfig
-@@ -23,7 +23,6 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_PARTITION_ADVANCED=y
- CONFIG_ARC_PLAT_AXS10X=y
--CONFIG_AXS103=y
- CONFIG_ISA_ARCV2=y
- CONFIG_ARC_BUILTIN_DTB_NAME="axs103"
- CONFIG_PREEMPT=y
-diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
-index 9bd590c22620..51d1e866ce94 100644
---- a/arch/arc/configs/axs103_smp_defconfig
-+++ b/arch/arc/configs/axs103_smp_defconfig
-@@ -23,7 +23,6 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_PARTITION_ADVANCED=y
- CONFIG_ARC_PLAT_AXS10X=y
--CONFIG_AXS103=y
- CONFIG_ISA_ARCV2=y
- CONFIG_SMP=y
- CONFIG_ARC_BUILTIN_DTB_NAME="axs103_idu"
--- 
-2.17.1
+I should have put that in commit message right away:)
+
+This patch fixes OOM lock-up we were seeing previously,
+see STAR 9001304674 "OOM killer hangs system".
+
+-Alexey
