@@ -1,44 +1,23 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 12 Jul 2018 15:16:34 -0700
-Subject: [PATCH] ARC: mm: allow mprotect to make stack mappings executable
+From: rdunlap@infradead.org (Randy Dunlap)
+Date: Wed, 18 Jul 2018 22:37:25 -0700
+Subject: arch/arc/ allmodconfig
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1531433794-7518-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <e074d0ae-6d79-d21a-2278-15d516bb943e@infradead.org>
 To: linux-snps-arc@lists.infradead.org
 
-mprotect(EXEC) was failing for stack mappings as default vm flags was
-missing MAYEXEC.
+Hi,
 
-This was triggered by glibc test suite nptl/tst-execstack testcase
+When I try to (cross-)build arch/arc/ allmodconfig, I get a syntax error here:
 
-What is surprising is that despite running LTP for years on, we didn't
-catch this issue as it lacks a directed test case.
+./arch/arc/plat-eznps/mtm.c: In function 'mtm_enable_core':
+../arch/arc/plat-eznps/mtm.c:113:30: error: storage size of 'dpc' isn't known
+  struct nps_host_reg_aux_dpc dpc;
+                              ^~~
 
-gcc dejagnu tests with nested functions also requiring exec stack work
-fine though because they rely on the GNU_STACK segment spit out by
-compiler and handled in kernel elf loader.
+There is no struct nps_host_reg_aux_dpc in the kernel tree.
 
-This glibc case is different as the stack is non exec to begin with and
-a dlopen of shared lib with GNU_STACK segment triggers the exec stack
-proceedings using a mprotect(PROT_EXEC) which was broken.
+Can you do something about this, please?
 
-CC: stable at vger.kernel.org
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/include/asm/page.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index 109baa06831c..09ddddf71cc5 100644
---- a/arch/arc/include/asm/page.h
-+++ b/arch/arc/include/asm/page.h
-@@ -105,7 +105,7 @@ typedef pte_t * pgtable_t;
- #define virt_addr_valid(kaddr)  pfn_valid(virt_to_pfn(kaddr))
- 
- /* Default Permissions for stack/heaps pages (Non Executable) */
--#define VM_DATA_DEFAULT_FLAGS   (VM_READ | VM_WRITE | VM_MAYREAD | VM_MAYWRITE)
-+#define VM_DATA_DEFAULT_FLAGS   (VM_READ | VM_WRITE | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC)
- 
- #define WANT_PAGE_VIRTUAL   1
- 
+thanks,
 -- 
-2.7.4
+~Randy
