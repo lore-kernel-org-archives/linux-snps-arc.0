@@ -1,34 +1,22 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 20 Jul 2018 16:43:36 -0700
-Subject: [uclibc-ng-test] Revert "arc: disable deadlocking test"
+From: wbx@uclibc-ng.org (Waldemar Brodkorb)
+Date: Sat, 21 Jul 2018 13:32:13 +0200
+Subject: [uclibc-ng-devel] [uclibc-ng-test] Revert "arc: disable
+ deadlocking test"
+In-Reply-To: <1532130216-22598-1-git-send-email-vgupta@synopsys.com>
+References: <1532130216-22598-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1532130216-22598-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <20180721113213.GJ32561@waldemar-brodkorb.de>
 To: linux-snps-arc@lists.infradead.org
 
-This seems to work fine on ARC !
+hi,
+Vineet Gupta wrote,
 
-This reverts commit f0567d67075ff7a27ada8ab5bce750fe8a739763.
+> This seems to work fine on ARC !
+> 
+> This reverts commit f0567d67075ff7a27ada8ab5bce750fe8a739763.
+> 
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- test/nptl/Makefile.in | 5 -----
- 1 file changed, 5 deletions(-)
+Thanks, pushed,
 
-diff --git a/test/nptl/Makefile.in b/test/nptl/Makefile.in
-index 761f52db8366..35859f944911 100644
---- a/test/nptl/Makefile.in
-+++ b/test/nptl/Makefile.in
-@@ -1,11 +1,6 @@
- # uClibc-ng NPTL tests
- # Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
- 
--# deadlock
--ifeq ($(TARGET_ARCH),arc)
--TESTS_DISABLED := tst-cond16
--endif
--
- ifeq ($(TARGET_ARCH),metag)
- TESTS_DISABLED := tst-cleanup0 tst-cleanupx0
- endif
--- 
-2.7.4
+ Waldemar
