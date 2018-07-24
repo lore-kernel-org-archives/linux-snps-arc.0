@@ -1,40 +1,30 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 24 Jul 2018 13:10:01 +0300
-Subject: [PATCH 4/4] ARC: IOC: panic if both IOC and ZONE_HIGHMEM enabled
-In-Reply-To: <20180724101001.31965-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180724101001.31965-1-Eugeniy.Paltsev@synopsys.com>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Tue, 24 Jul 2018 16:29:06 +0300
+Subject: [PATCH RESEND] ARC: Add Ofer Levi as plat-eznps maintainer
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180724101001.31965-5-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20180724132906.9671-1-leon@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/mm/cache.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+From: Leon Romanovsky <leonro@mellanox.com>
 
-diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index 34935ce38631..e0b3484641c3 100644
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -1143,6 +1143,19 @@ noinline void __init arc_ioc_setup(void)
- {
- 	unsigned int ioc_base, mem_sz;
- 
-+	/*
-+	 * As for today we don't support both IOC and ZONE_HIGHMEM enabled
-+	 * simultaneously. This happens because as of today IOC aperture covers
-+	 * only ZONE_NORMAL (low mem) and any dma transactions outside this
-+	 * region won't be HW coherent.
-+	 * If we want to use both IOC and ZONE_HIGHMEM we can use
-+	 * bounce_buffer to handle dma transactions to HIGHMEM.
-+	 * Also it is possible to modify dma_direct cache ops or increase IOC
-+	 * aperture size if we are planning to use HIGHMEM without PAE.
-+	 */
-+	if (IS_ENABLED(CONFIG_HIGHMEM))
-+		panic("IOC and HIGHMEM can't be used simultaneously");
-+
- 	/* Flush + invalidate + disable L1 dcache */
- 	__dc_disable();
- 
--- 
+Signed-off-by: Leon Romanovsky <leonro at mellanox.com>
+---
+ Resend with proper Vineet's email
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c79f306a936a..6be664ed0527 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5444,6 +5444,7 @@ F:	drivers/iommu/exynos-iommu.c
+
+ EZchip NPS platform support
+ M:	Vineet Gupta <vgupta at synopsys.com>
++M:	Ofer Levi <oferle at mellanox.com>
+ S:	Supported
+ F:	arch/arc/plat-eznps
+ F:	arch/arc/boot/dts/eznps.dts
+--
 2.14.4
