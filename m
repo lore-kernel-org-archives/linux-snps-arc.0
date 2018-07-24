@@ -1,52 +1,131 @@
-From: rdunlap@infradead.org (Randy Dunlap)
-Date: Mon, 23 Jul 2018 12:45:26 -0700
-Subject: arch/arc/ allmodconfig
-In-Reply-To: <DB6PR05MB4597A63819F227B17652B5B2B2560@DB6PR05MB4597.eurprd05.prod.outlook.com>
-References: <e074d0ae-6d79-d21a-2278-15d516bb943e@infradead.org>
- <C2D7FE5348E1B147BCA15975FBA23075012B0724EB@US01WEMBX2.internal.synopsys.com>
- <AM0PR05MB42600653CF591791731CCCD8DA510@AM0PR05MB4260.eurprd05.prod.outlook.com>
- <DB6PR05MB4597A63819F227B17652B5B2B2560@DB6PR05MB4597.eurprd05.prod.outlook.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 24 Jul 2018 13:09:58 +0300
+Subject: [PATCH 1/4] ARC: DTS: mark DMA devices connected through IOC port as
+ dma-coherent
+In-Reply-To: <20180724101001.31965-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180724101001.31965-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <82c3e518-a579-7df9-4c3f-8ecb5615b6d7@infradead.org>
+Message-ID: <20180724101001.31965-2-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 07/23/2018 01:34 AM, Ofer Levi(SW) wrote:
-> Hi Vineet, randy
-> 
-> Indeed this structure is missing, following is a patch based on linux-4.17.9.
-> Sorry about that.
-> 
-> Thanks
-> 
-> 
-> diff -uprN linux-4.17.9.org/arch/arc/plat-eznps/include/plat/ctop.h linux-4.17.9/arch/arc/plat-eznps/include/plat/ctop.h
-> --- linux-4.17.9.org/arch/arc/plat-eznps/include/plat/ctop.h    2018-07-22 16:16:09.000000000 +0300
-> +++ linux-4.17.9/arch/arc/plat-eznps/include/plat/ctop.h        2018-07-23 11:18:12.179402620 +0300
-> @@ -143,6 +143,15 @@ struct nps_host_reg_gim_p_int_dst {
->  };
->  
->  /* AUX registers definition */
-> +struct nps_host_reg_aux_dpc {
-> +       union {
-> +               struct {
-> +                       u32 ien:1, men:1, hen:1, reserved:29;
-> +               };
-> +               u32 value;
-> +       };
-> +};
-> +
->  struct nps_host_reg_aux_udmc {
->         union {
->                 struct {
-> 
+Mark DMA devices on AXS103 and HSDK boards connected through IOC
+port as dma-coherent.
 
-Thanks, this fixes the build error.
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ arch/arc/boot/dts/axc003.dtsi     | 26 ++++++++++++++++++++++++++
+ arch/arc/boot/dts/axc003_idu.dtsi | 26 ++++++++++++++++++++++++++
+ arch/arc/boot/dts/hsdk.dts        |  4 ++++
+ 3 files changed, 56 insertions(+)
 
-I will not that outlook is not the best email client that you could use for
-sending Linux patches.  I don't know if you generated the patch with spaces
-or tabs being used for indentation, but above, it contains all leading spaces
-for indentation, which is Not Good.
-
-
+diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
+index dc91c663bcc0..d75d65ddf8e3 100644
+--- a/arch/arc/boot/dts/axc003.dtsi
++++ b/arch/arc/boot/dts/axc003.dtsi
+@@ -93,6 +93,32 @@
+ 		};
+ 	};
+ 
++	/*
++	 * Mark DMA peripherals connected via IOC port as dma-coherent. We do
++	 * it via overlay because peripherals defined in axs10x_mb.dtsi are
++	 * used for both AXS101 and AXS103 boards and only AXS103 has IOC (so
++	 * only AXS103 board has HW-coherent DMA peripherals)
++	 * We don't need to mark pgu at 17000 as dma-coherent because it uses
++	 * external DMA buffer located outside of IOC aperture.
++	 */
++	axs10x_mb {
++		ethernet at 0x18000 {
++			dma-coherent;
++		};
++
++		ehci at 0x40000 {
++			dma-coherent;
++		};
++
++		ohci at 0x60000 {
++			dma-coherent;
++		};
++
++		mmc at 0x15000 {
++			dma-coherent;
++		};
++	};
++
+ 	/*
+ 	 * The DW APB ICTL intc on MB is connected to CPU intc via a
+ 	 * DT "invisible" DW APB GPIO block, configured to simply pass thru
+diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
+index 69ff4895f2ba..a05bb737ea63 100644
+--- a/arch/arc/boot/dts/axc003_idu.dtsi
++++ b/arch/arc/boot/dts/axc003_idu.dtsi
+@@ -100,6 +100,32 @@
+ 		};
+ 	};
+ 
++	/*
++	 * Mark DMA peripherals connected via IOC port as dma-coherent. We do
++	 * it via overlay because peripherals defined in axs10x_mb.dtsi are
++	 * used for both AXS101 and AXS103 boards and only AXS103 has IOC (so
++	 * only AXS103 board has HW-coherent DMA peripherals)
++	 * We don't need to mark pgu at 17000 as dma-coherent because it uses
++	 * external DMA buffer located outside of IOC aperture.
++	 */
++	axs10x_mb {
++		ethernet at 0x18000 {
++			dma-coherent;
++		};
++
++		ehci at 0x40000 {
++			dma-coherent;
++		};
++
++		ohci at 0x60000 {
++			dma-coherent;
++		};
++
++		mmc at 0x15000 {
++			dma-coherent;
++		};
++	};
++
+ 	/*
+ 	 * This INTC is actually connected to DW APB GPIO
+ 	 * which acts as a wire between MB INTC and CPU INTC.
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index 006aa3de5348..ebb686c21393 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -176,6 +176,7 @@
+ 			phy-handle = <&phy0>;
+ 			resets = <&cgu_rst HSDK_ETH_RESET>;
+ 			reset-names = "stmmaceth";
++			dma-coherent;
+ 
+ 			mdio {
+ 				#address-cells = <1>;
+@@ -194,12 +195,14 @@
+ 			compatible = "snps,hsdk-v1.0-ohci", "generic-ohci";
+ 			reg = <0x60000 0x100>;
+ 			interrupts = <15>;
++			dma-coherent;
+ 		};
+ 
+ 		ehci at 40000 {
+ 			compatible = "snps,hsdk-v1.0-ehci", "generic-ehci";
+ 			reg = <0x40000 0x100>;
+ 			interrupts = <15>;
++			dma-coherent;
+ 		};
+ 
+ 		mmc at a000 {
+@@ -212,6 +215,7 @@
+ 			clock-names = "biu", "ciu";
+ 			interrupts = <12>;
+ 			bus-width = <4>;
++			dma-coherent;
+ 		};
+ 	};
+ 
 -- 
-~Randy
+2.14.4
