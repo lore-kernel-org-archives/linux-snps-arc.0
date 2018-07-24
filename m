@@ -1,74 +1,52 @@
-From: rd.dunlab@gmail.com (Randy Dunlap)
-Date: Tue, 24 Jul 2018 13:46:22 -0700
-Subject: [PATCH 4/4] arc: fix mtm.c printk format warning
-In-Reply-To: <20180724204622.2366-1-rd.dunlab@gmail.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 24 Jul 2018 22:04:44 +0000
+Subject: [PATCH 1/4] arc: fix some build issues in delay.h
 References: <20180724204622.2366-1-rd.dunlab@gmail.com>
+ <20180724204622.2366-2-rd.dunlab@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180724204622.2366-5-rd.dunlab@gmail.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B08394D@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On 07/24/2018 01:46 PM, Randy Dunlap wrote:
+> From: Randy Dunlap <rdunlap at infradead.org>
+>
+> Fix build errors in arch/arc/'s delay.h:
+> - add <linux/delay.h> for loops_per_jiffy
+> - add <asm-generic/types.h> for "u64"
+>
+> In file included from ../drivers/infiniband/hw/cxgb3/cxio_hal.c:32:
+> ../arch/arc/include/asm/delay.h: In function '__udelay':
+> ../arch/arc/include/asm/delay.h:61:12: error: 'u64' undeclared (first use in this function)
+>   loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
+>             ^~~
+>
+> In file included from ../drivers/infiniband/hw/cxgb3/cxio_hal.c:32:
+> ../arch/arc/include/asm/delay.h: In function '__udelay':
+> ../arch/arc/include/asm/delay.h:63:37: error: 'loops_per_jiffy' undeclared (first use in this function)
+>   loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
+>                                      ^~~~~~~~~~~~~~~
+>
+> Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Ofer Levi <oferle at mellanox.com>
+> Cc: linux-snps-arc at lists.infradead.org
+> ---
+>  arch/arc/include/asm/delay.h |    2 ++
+>  1 file changed, 2 insertions(+)
+>
+> --- linux-next-20180723.orig/arch/arc/include/asm/delay.h
+> +++ linux-next-20180723/arch/arc/include/asm/delay.h
+> @@ -17,6 +17,8 @@
+>  #ifndef __ASM_ARC_UDELAY_H
+>  #define __ASM_ARC_UDELAY_H
+>  
+> +#include <linux/delay.h>
 
-Fix printk format warning in arch/arc/plat-eznps/mtm.c:
-
-In file included from ../include/linux/printk.h:7,
-                 from ../include/linux/kernel.h:14,
-                 from ../include/linux/list.h:9,
-                 from ../include/linux/smp.h:12,
-                 from ../arch/arc/plat-eznps/mtm.c:17:
-../arch/arc/plat-eznps/mtm.c: In function 'set_mtm_hs_ctr':
-../include/linux/kern_levels.h:5:18: warning: format '%d' expects argument of type 'int', but argument 2 has type 'long int' [-Wformat=]
- #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                  ^~~~~~
-../include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
- #define KERN_ERR KERN_SOH "3" /* error conditions */
-                  ^~~~~~~~
-../include/linux/printk.h:308:9: note: in expansion of macro 'KERN_ERR'
-  printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         ^~~~~~~~
-../arch/arc/plat-eznps/mtm.c:166:3: note: in expansion of macro 'pr_err'
-   pr_err("** Invalid @nps_mtm_hs_ctr [%d] needs to be [%d:%d] (incl)\n",
-   ^~~~~~
-../arch/arc/plat-eznps/mtm.c:166:40: note: format string is defined here
-   pr_err("** Invalid @nps_mtm_hs_ctr [%d] needs to be [%d:%d] (incl)\n",
-                                       ~^
-                                       %ld
-
-The hs_ctr variable can just be int instead of long, so also change
-kstrtol() to kstrtoint() and leave the format string as %d.
-
-Also add 2 header files since they are used in mtm.c and we prefer
-not to depend on accidental/indirect #includes.
-
-Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Ofer Levi <oferle at mellanox.com>
-Cc: linux-snps-arc at lists.infradead.org
----
- arch/arc/plat-eznps/mtm.c |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
---- linux-next-20180723.orig/arch/arc/plat-eznps/mtm.c
-+++ linux-next-20180723/arch/arc/plat-eznps/mtm.c
-@@ -15,6 +15,8 @@
-  */
- 
- #include <linux/smp.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
- #include <linux/io.h>
- #include <linux/log2.h>
- #include <asm/arcregs.h>
-@@ -157,10 +159,10 @@ void mtm_enable_core(unsigned int cpu)
- /* Verify and set the value of the mtm hs counter */
- static int __init set_mtm_hs_ctr(char *ctr_str)
- {
--	long hs_ctr;
-+	int hs_ctr;
- 	int ret;
- 
--	ret = kstrtol(ctr_str, 0, &hs_ctr);
-+	ret = kstrtoint(ctr_str, 0, &hs_ctr);
- 
- 	if (ret || hs_ctr > MT_HS_CNT_MAX || hs_ctr < MT_HS_CNT_MIN) {
- 		pr_err("** Invalid @nps_mtm_hs_ctr [%d] needs to be [%d:%d] (incl)\n",
+this file in turn includes asm/delay.h - the header guards will catch nested
+inclusion still seems ugly. Should we just reference loops_per_jiffy here like
+other arches do in theur delay.h
+> +#include <asm-generic/types.h>
+>  #include <asm/param.h>		/* HZ */
+>  
+>  static inline void __delay(unsigned long loops)
+>
