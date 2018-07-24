@@ -1,68 +1,52 @@
 From: rd.dunlab@gmail.com (Randy Dunlap)
-Date: Tue, 24 Jul 2018 13:46:20 -0700
-Subject: [PATCH 2/4] arc: fix type warnings in arc/mm/cache.c
+Date: Tue, 24 Jul 2018 13:46:21 -0700
+Subject: [PATCH 3/4] arc: fix some plat-eznps data type errors
 In-Reply-To: <20180724204622.2366-1-rd.dunlab@gmail.com>
 References: <20180724204622.2366-1-rd.dunlab@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180724204622.2366-3-rd.dunlab@gmail.com>
+Message-ID: <20180724204622.2366-4-rd.dunlab@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-../arch/arc/mm/cache.c: In function 'flush_anon_page':
-../arch/arc/mm/cache.c:1062:55: warning: passing argument 2 of '__flush_dcache_page' makes integer from pointer without a cast [-Wint-conversion]
-  __flush_dcache_page((phys_addr_t)page_address(page), page_address(page));
-                                                       ^~~~~~~~~~~~~~~~~~
-../arch/arc/mm/cache.c:1013:59: note: expected 'long unsigned int' but argument is of type 'void *'
- void __flush_dcache_page(phys_addr_t paddr, unsigned long vaddr)
-                                             ~~~~~~~~~~~~~~^~~~~
+Add <asm-generic/types.h> to fix build errors.
+Both ctop.h and <soc/nps/common.h> use u32 types and cause many
+errors.
+
+Examples:
+../include/soc/nps/common.h:71:4: error: unknown type name 'u32'
+    u32 __reserved:20, cluster:4, core:4, thread:4;
+../include/soc/nps/common.h:76:3: error: unknown type name 'u32'
+   u32 value;
+../include/soc/nps/common.h:124:4: error: unknown type name 'u32'
+    u32 base:8, cl_x:4, cl_y:4,
+../include/soc/nps/common.h:127:3: error: unknown type name 'u32'
+   u32 value;
+
+../arch/arc/plat-eznps/include/plat/ctop.h:83:4: error: unknown type name 'u32'
+    u32 gen:1, gdis:1, clk_gate_dis:1, asb:1,
+../arch/arc/plat-eznps/include/plat/ctop.h:86:3: error: unknown type name 'u32'
+   u32 value;
+../arch/arc/plat-eznps/include/plat/ctop.h:93:4: error: unknown type name 'u32'
+    u32 csa:22, dmsid:6, __reserved:3, cs:1;
+../arch/arc/plat-eznps/include/plat/ctop.h:95:3: error: unknown type name 'u32'
+   u32 value;
 
 Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
 Cc: Vineet Gupta <vgupta at synopsys.com>
 Cc: Ofer Levi <oferle at mellanox.com>
 Cc: linux-snps-arc at lists.infradead.org
 ---
- arch/arc/mm/cache.c |   11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ arch/arc/plat-eznps/include/plat/ctop.h |    1 +
+ 1 file changed, 1 insertion(+)
 
---- linux-next-20180723.orig/arch/arc/mm/cache.c
-+++ linux-next-20180723/arch/arc/mm/cache.c
-@@ -1038,7 +1038,7 @@ void flush_cache_mm(struct mm_struct *mm
- void flush_cache_page(struct vm_area_struct *vma, unsigned long u_vaddr,
- 		      unsigned long pfn)
- {
--	unsigned int paddr = pfn << PAGE_SHIFT;
-+	phys_addr_t paddr = pfn << PAGE_SHIFT;
+--- linux-next-20180723.orig/arch/arc/plat-eznps/include/plat/ctop.h
++++ linux-next-20180723/arch/arc/plat-eznps/include/plat/ctop.h
+@@ -21,6 +21,7 @@
+ #error "Incorrect ctop.h include"
+ #endif
  
- 	u_vaddr &= PAGE_MASK;
++#include <asm-generic/types.h>
+ #include <soc/nps/common.h>
  
-@@ -1058,8 +1058,9 @@ void flush_anon_page(struct vm_area_stru
- 		     unsigned long u_vaddr)
- {
- 	/* TBD: do we really need to clear the kernel mapping */
--	__flush_dcache_page(page_address(page), u_vaddr);
--	__flush_dcache_page(page_address(page), page_address(page));
-+	__flush_dcache_page((phys_addr_t)page_address(page), u_vaddr);
-+	__flush_dcache_page((phys_addr_t)page_address(page),
-+			    (phys_addr_t)page_address(page));
- 
- }
- 
-@@ -1084,7 +1085,7 @@ void copy_user_highpage(struct page *to,
- 	 * addr_not_cache_congruent() is 0
- 	 */
- 	if (page_mapcount(from) && addr_not_cache_congruent(kfrom, u_vaddr)) {
--		__flush_dcache_page((unsigned long)kfrom, u_vaddr);
-+		__flush_dcache_page((phys_addr_t)kfrom, u_vaddr);
- 		clean_src_k_mappings = 1;
- 	}
- 
-@@ -1105,7 +1106,7 @@ void copy_user_highpage(struct page *to,
- 	 * sync the kernel mapping back to physical page
- 	 */
- 	if (clean_src_k_mappings) {
--		__flush_dcache_page((unsigned long)kfrom, (unsigned long)kfrom);
-+		__flush_dcache_page((phys_addr_t)kfrom, (unsigned long)kfrom);
- 		set_bit(PG_dc_clean, &from->flags);
- 	} else {
- 		clear_bit(PG_dc_clean, &from->flags);
+ /* core auxiliary registers */
