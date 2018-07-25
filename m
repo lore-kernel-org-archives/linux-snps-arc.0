@@ -1,63 +1,87 @@
-From: rdunlap@infradead.org (Randy Dunlap)
-Date: Tue, 24 Jul 2018 15:07:19 -0700
-Subject: [PATCH 1/4] arc: fix some build issues in delay.h
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075012B08394D@us01wembx1.internal.synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 25 Jul 2018 00:02:13 +0000
+Subject: [PATCH 2/4] arc: fix type warnings in arc/mm/cache.c
 References: <20180724204622.2366-1-rd.dunlab@gmail.com>
- <20180724204622.2366-2-rd.dunlab@gmail.com>
- <C2D7FE5348E1B147BCA15975FBA23075012B08394D@us01wembx1.internal.synopsys.com>
+ <20180724204622.2366-3-rd.dunlab@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <c265f489-9c7a-5002-68ea-755c090756cc@infradead.org>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B0839C0@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 07/24/2018 03:04 PM, Vineet Gupta wrote:
-> On 07/24/2018 01:46 PM, Randy Dunlap wrote:
->> From: Randy Dunlap <rdunlap at infradead.org>
->>
->> Fix build errors in arch/arc/'s delay.h:
->> - add <linux/delay.h> for loops_per_jiffy
->> - add <asm-generic/types.h> for "u64"
->>
->> In file included from ../drivers/infiniband/hw/cxgb3/cxio_hal.c:32:
->> ../arch/arc/include/asm/delay.h: In function '__udelay':
->> ../arch/arc/include/asm/delay.h:61:12: error: 'u64' undeclared (first use in this function)
->>   loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
->>             ^~~
->>
->> In file included from ../drivers/infiniband/hw/cxgb3/cxio_hal.c:32:
->> ../arch/arc/include/asm/delay.h: In function '__udelay':
->> ../arch/arc/include/asm/delay.h:63:37: error: 'loops_per_jiffy' undeclared (first use in this function)
->>   loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
->>                                      ^~~~~~~~~~~~~~~
->>
->> Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
->> Cc: Vineet Gupta <vgupta at synopsys.com>
->> Cc: Ofer Levi <oferle at mellanox.com>
->> Cc: linux-snps-arc at lists.infradead.org
->> ---
->>  arch/arc/include/asm/delay.h |    2 ++
->>  1 file changed, 2 insertions(+)
->>
->> --- linux-next-20180723.orig/arch/arc/include/asm/delay.h
->> +++ linux-next-20180723/arch/arc/include/asm/delay.h
->> @@ -17,6 +17,8 @@
->>  #ifndef __ASM_ARC_UDELAY_H
->>  #define __ASM_ARC_UDELAY_H
->>  
->> +#include <linux/delay.h>
-> 
-> this file in turn includes asm/delay.h - the header guards will catch nested
-> inclusion still seems ugly. Should we just reference loops_per_jiffy here like
-> other arches do in theur delay.h
+On 07/24/2018 01:46 PM, Randy Dunlap wrote:
+> From: Randy Dunlap <rdunlap at infradead.org>
+>
+> ../arch/arc/mm/cache.c: In function 'flush_anon_page':
+> ../arch/arc/mm/cache.c:1062:55: warning: passing argument 2 of '__flush_dcache_page' makes integer from pointer without a cast [-Wint-conversion]
+>   __flush_dcache_page((phys_addr_t)page_address(page), page_address(page));
+>                                                        ^~~~~~~~~~~~~~~~~~
+> ../arch/arc/mm/cache.c:1013:59: note: expected 'long unsigned int' but argument is of type 'void *'
+>  void __flush_dcache_page(phys_addr_t paddr, unsigned long vaddr)
+>                                              ~~~~~~~~~~~~~~^~~~~
+>
+> Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Ofer Levi <oferle at mellanox.com>
+> Cc: linux-snps-arc at lists.infradead.org
+> ---
+>  arch/arc/mm/cache.c |   11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+>
+> --- linux-next-20180723.orig/arch/arc/mm/cache.c
+> +++ linux-next-20180723/arch/arc/mm/cache.c
+> @@ -1038,7 +1038,7 @@ void flush_cache_mm(struct mm_struct *mm
+>  void flush_cache_page(struct vm_area_struct *vma, unsigned long u_vaddr,
+>  		      unsigned long pfn)
+>  {
+> -	unsigned int paddr = pfn << PAGE_SHIFT;
+> +	phys_addr_t paddr = pfn << PAGE_SHIFT;
+>  
+>  	u_vaddr &= PAGE_MASK;
+>  
+> @@ -1058,8 +1058,9 @@ void flush_anon_page(struct vm_area_stru
+>  		     unsigned long u_vaddr)
+>  {
+>  	/* TBD: do we really need to clear the kernel mapping */
+> -	__flush_dcache_page(page_address(page), u_vaddr);
+> -	__flush_dcache_page(page_address(page), page_address(page));
+> +	__flush_dcache_page((phys_addr_t)page_address(page), u_vaddr);
+> +	__flush_dcache_page((phys_addr_t)page_address(page),
+> +			    (phys_addr_t)page_address(page));
 
-Yes, that's a good idea.  I'll do that.
-
->> +#include <asm-generic/types.h>
->>  #include <asm/param.h>		/* HZ */
->>  
->>  static inline void __delay(unsigned long loops)
->>
-> 
+CONFIG_ARC_CACHE_VIPT_ALIASING is a total bitrot and I'm considering removing it
+as no sane systems should use it. There's none which I know are using it.
+But for now this will do.
 
 
--- 
-~Randy
+>  
+>  }
+>  
+> @@ -1084,7 +1085,7 @@ void copy_user_highpage(struct page *to,
+>  	 * addr_not_cache_congruent() is 0
+>  	 */
+>  	if (page_mapcount(from) && addr_not_cache_congruent(kfrom, u_vaddr)) {
+> -		__flush_dcache_page((unsigned long)kfrom, u_vaddr);
+> +		__flush_dcache_page((phys_addr_t)kfrom, u_vaddr);
+
+Was this needed really ? I can't seem to trigger any warnings here.
+All of this (original code before your change) is technically incorrect due to the
+combination of CONFIG_ARC_CACHE_VIPT_ALIASING and CONFIG_HIGHMEM. @kfrom is
+returned by kmap_atomic() and in highmem regime it could be a kernel virtual
+address, so calling the low level cache flush interface with a kvaddr, pretending
+it is paddr (whethe runsigned long or phys_addr_t) is just not right. This
+combinations needs to be disallowed from Kconfig !
+
+>  		clean_src_k_mappings = 1;
+>  	}
+>  
+> @@ -1105,7 +1106,7 @@ void copy_user_highpage(struct page *to,
+>  	 * sync the kernel mapping back to physical page
+>  	 */
+>  	if (clean_src_k_mappings) {
+> -		__flush_dcache_page((unsigned long)kfrom, (unsigned long)kfrom);
+> +		__flush_dcache_page((phys_addr_t)kfrom, (unsigned long)kfrom);
+>  		set_bit(PG_dc_clean, &from->flags);
+>  	} else {
+>  		clear_bit(PG_dc_clean, &from->flags);
+>
+
+Ditto !
