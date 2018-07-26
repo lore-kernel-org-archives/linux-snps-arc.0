@@ -1,41 +1,38 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Thu, 26 Jul 2018 14:08:39 +0300
-Subject: [PATCH 2/2] ARC: add SMP_CACHE_BYTES value validate
-In-Reply-To: <20180726110839.1915-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180726110839.1915-1-Eugeniy.Paltsev@synopsys.com>
+Date: Thu, 26 Jul 2018 15:05:37 +0300
+Subject: [PATCH] NET: stmmac: align DMA stuff to largest cache line length
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180726110839.1915-2-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20180726120537.4664-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Check that SMP_CACHE_BYTES (and hence ARCH_DMA_MINALIGN) is larger
-or equal to any cache line length by comparing it with values
-previously read from ARC cache BCR registers.
+As for today STMMAC_ALIGN macro (which is used to align DMA stuff)
+relies on L1 line length (L1_CACHE_BYTES).
+This isn't correct in case of system with several cache levels
+which might have L1 cache line length smaller than L2 line. This
+can lead to sharing one cache line between DMA buffer and other
+data, so we can lose this data while invalidate DMA buffer before
+DMA transaction.
+
+Fix that by using SMP_CACHE_BYTES instead of L1_CACHE_BYTES for
+aligning.
 
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 ---
- arch/arc/mm/cache.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index 9dbe645ee127..b95365e1253a 100644
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -1246,6 +1246,16 @@ void __init arc_cache_init_master(void)
- 		}
- 	}
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 60f59abab009..ef6a8d39db2f 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -53,7 +53,7 @@
+ #include "dwmac1000.h"
+ #include "hwif.h"
  
-+	/*
-+	 * Check that SMP_CACHE_BYTES (and hence ARCH_DMA_MINALIGN) is larger
-+	 * or equal to any cache line length.
-+	 */
-+	BUILD_BUG_ON_MSG(L1_CACHE_BYTES > SMP_CACHE_BYTES,
-+			 "SMP_CACHE_BYTES must be >= any cache line length");
-+	if (is_isa_arcv2() && (l2_line_sz > SMP_CACHE_BYTES))
-+		panic("L2 Cache line [%d] > kernel Config [%d]\n",
-+		      l2_line_sz, SMP_CACHE_BYTES);
-+
- 	/* Note that SLC disable not formally supported till HS 3.0 */
- 	if (is_isa_arcv2() && l2_line_sz && !slc_enable)
- 		arc_slc_disable();
+-#define STMMAC_ALIGN(x)	L1_CACHE_ALIGN(x)
++#define	STMMAC_ALIGN(x)		__ALIGN_KERNEL(x, SMP_CACHE_BYTES)
+ #define	TSO_MAX_BUFF_SIZE	(SZ_16K - 1)
+ 
+ /* Module parameters */
 -- 
 2.14.4
