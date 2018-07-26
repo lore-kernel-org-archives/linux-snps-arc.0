@@ -1,44 +1,29 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Thu, 26 Jul 2018 16:15:44 +0300
-Subject: [PATCH v2 2/2] ARC: add SMP_CACHE_BYTES value validate
-In-Reply-To: <20180726131544.3780-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180726131544.3780-1-Eugeniy.Paltsev@synopsys.com>
+From: joseph@codesourcery.com (Joseph Myers)
+Date: Thu, 26 Jul 2018 15:01:31 +0000
+Subject: [PATCH] Fix the ld flags not be applied to
+ tst-execstack-mod.so
+In-Reply-To: <CA+ZOyag4f-VxpX84UDb7tO9EKsXSLV3CCwo+WTyiXk==h==EiA@mail.gmail.com>
+References: <1532081682-25895-1-git-send-email-zong@andestech.com>
+ <469dcf75-d652-62ee-8310-ea59ec878a0a@synopsys.com>
+ <alpine.DEB.2.20.1807252021030.4746@digraph.polyomino.org.uk>
+ <C2D7FE5348E1B147BCA15975FBA23075012B083DE0@us01wembx1.internal.synopsys.com>
+ <alpine.DEB.2.20.1807252055380.4746@digraph.polyomino.org.uk>
+ <CA+ZOyag4f-VxpX84UDb7tO9EKsXSLV3CCwo+WTyiXk==h==EiA@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180726131544.3780-2-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <alpine.DEB.2.20.1807261500580.25831@digraph.polyomino.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-Check that SMP_CACHE_BYTES (and hence ARCH_DMA_MINALIGN) is larger
-or equal to any cache line length by comparing it with values
-previously read from ARC cache BCR registers.
+On Thu, 26 Jul 2018, Zong Li wrote:
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
-Changes v1->v2:
- * None.
+> In glibc now, this option doesn't pass to linker, the module is still 
+> not executable on stack. I think that we need this patch to fix up it or 
+> another patch to remove the variable in Makefile if it is not necessary. 
+> Both are fine for me. For now, it is a little bit strange because it 
+> present in Makefile but has no effect.
 
- arch/arc/mm/cache.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I think we should have the option in a properly named variable.  But the 
+patch will need review and we're currently in a release freeze.
 
-diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index 9dbe645ee127..b95365e1253a 100644
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -1246,6 +1246,16 @@ void __init arc_cache_init_master(void)
- 		}
- 	}
- 
-+	/*
-+	 * Check that SMP_CACHE_BYTES (and hence ARCH_DMA_MINALIGN) is larger
-+	 * or equal to any cache line length.
-+	 */
-+	BUILD_BUG_ON_MSG(L1_CACHE_BYTES > SMP_CACHE_BYTES,
-+			 "SMP_CACHE_BYTES must be >= any cache line length");
-+	if (is_isa_arcv2() && (l2_line_sz > SMP_CACHE_BYTES))
-+		panic("L2 Cache line [%d] > kernel Config [%d]\n",
-+		      l2_line_sz, SMP_CACHE_BYTES);
-+
- 	/* Note that SLC disable not formally supported till HS 3.0 */
- 	if (is_isa_arcv2() && l2_line_sz && !slc_enable)
- 		arc_slc_disable();
 -- 
-2.14.4
+Joseph S. Myers
+joseph at codesourcery.com
