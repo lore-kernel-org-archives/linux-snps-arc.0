@@ -1,22 +1,35 @@
 From: rd.dunlab@gmail.com (rd_dunlab)
 Date: Thu, 26 Jul 2018 20:16:35 -0700
-Subject: [PATCH 2/4 v2] arc: fix type warnings in arc/mm/cache.c
+Subject: [PATCH 3/4 v2] arc: fix data type errors in platform headers
 In-Reply-To: <15326613951079@infradead.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1532661395238@infradead.org>
+Message-ID: <1532661395712@infradead.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-Fix type warnings in arch/arc/mm/cache.c.
+Add <asm-generic/types.h> to fix build errors.
+Both ctop.h and <soc/nps/common.h> use u32 types and cause many
+errors.
 
-../arch/arc/mm/cache.c: In function 'flush_anon_page':
-../arch/arc/mm/cache.c:1062:55: warning: passing argument 2 of '__flush_dcache_page' makes integer from pointer without a cast [-Wint-conversion]
-  __flush_dcache_page((phys_addr_t)page_address(page), page_address(page));
-                                                       ^~~~~~~~~~~~~~~~~~
-../arch/arc/mm/cache.c:1013:59: note: expected 'long unsigned int' but argument is of type 'void *'
- void __flush_dcache_page(phys_addr_t paddr, unsigned long vaddr)
-                                             ~~~~~~~~~~~~~~^~~~~
+Examples:
+../include/soc/nps/common.h:71:4: error: unknown type name 'u32'
+    u32 __reserved:20, cluster:4, core:4, thread:4;
+../include/soc/nps/common.h:76:3: error: unknown type name 'u32'
+   u32 value;
+../include/soc/nps/common.h:124:4: error: unknown type name 'u32'
+    u32 base:8, cl_x:4, cl_y:4,
+../include/soc/nps/common.h:127:3: error: unknown type name 'u32'
+   u32 value;
+
+../arch/arc/plat-eznps/include/plat/ctop.h:83:4: error: unknown type name 'u32'
+    u32 gen:1, gdis:1, clk_gate_dis:1, asb:1,
+../arch/arc/plat-eznps/include/plat/ctop.h:86:3: error: unknown type name 'u32'
+   u32 value;
+../arch/arc/plat-eznps/include/plat/ctop.h:93:4: error: unknown type name 'u32'
+    u32 csa:22, dmsid:6, __reserved:3, cs:1;
+../arch/arc/plat-eznps/include/plat/ctop.h:95:3: error: unknown type name 'u32'
+   u32 value;
 
 Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
 Cc: Vineet Gupta <vgupta at synopsys.com>
@@ -25,34 +38,21 @@ Cc: Elad Kanfi <eladkan at mellanox.com>
 Cc: Leon Romanovsky <leonro at mellanox.com>
 Cc: Ofer Levi <oferle at mellanox.com>
 ---
-v2: drop some spurious (accidental) patch lines
+v2: no change
 
- arch/arc/mm/cache.c |    7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ arch/arc/plat-eznps/include/plat/ctop.h |    1 +
+ 1 file changed, 1 insertion(+)
 
---- linux-next-20180723.orig/arch/arc/mm/cache.c
-+++ linux-next-20180723/arch/arc/mm/cache.c
-@@ -1038,7 +1038,7 @@ void flush_cache_mm(struct mm_struct *mm
- void flush_cache_page(struct vm_area_struct *vma, unsigned long u_vaddr,
- 		      unsigned long pfn)
- {
--	unsigned int paddr = pfn << PAGE_SHIFT;
-+	phys_addr_t paddr = pfn << PAGE_SHIFT;
+--- linux-next-20180723.orig/arch/arc/plat-eznps/include/plat/ctop.h
++++ linux-next-20180723/arch/arc/plat-eznps/include/plat/ctop.h
+@@ -21,6 +21,7 @@
+ #error "Incorrect ctop.h include"
+ #endif
  
- 	u_vaddr &= PAGE_MASK;
++#include <asm-generic/types.h>
+ #include <soc/nps/common.h>
  
-@@ -1058,8 +1058,9 @@ void flush_anon_page(struct vm_area_stru
- 		     unsigned long u_vaddr)
- {
- 	/* TBD: do we really need to clear the kernel mapping */
--	__flush_dcache_page(page_address(page), u_vaddr);
--	__flush_dcache_page(page_address(page), page_address(page));
-+	__flush_dcache_page((phys_addr_t)page_address(page), u_vaddr);
-+	__flush_dcache_page((phys_addr_t)page_address(page),
-+			    (phys_addr_t)page_address(page));
- 
- }
- 
+ /* core auxiliary registers */
 
 
 -- 
