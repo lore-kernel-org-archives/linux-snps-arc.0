@@ -1,114 +1,30 @@
-From: rdunlap@infradead.org (Randy Dunlap)
-Date: Sun, 29 Jul 2018 11:10:51 -0700
-Subject: [PATCH 3/4 v3] arc: fix data type errors in platform headers
-In-Reply-To: <20180729070113.GC7157@mtr-leonro.mtl.com>
-References: <15326613951079@infradead.org> <1532661395712@infradead.org>
- <20180729070113.GC7157@mtr-leonro.mtl.com>
+From: davem@davemloft.net (David Miller)
+Date: Sun, 29 Jul 2018 12:35:10 -0700 (PDT)
+Subject: [PATCH] NET: stmmac: align DMA stuff to largest cache line length
+In-Reply-To: <20180726120537.4664-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180726120537.4664-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0d2870ef-ae4c-d9a8-c894-c4f252fae7da@infradead.org>
+Message-ID: <20180729.123510.1847228041867717113.davem@davemloft.net>
 To: linux-snps-arc@lists.infradead.org
 
-On 07/29/2018 12:01 AM, Leon Romanovsky wrote:
-> On Thu, Jul 26, 2018@08:16:35PM -0700, rd_dunlab wrote:
->> From: Randy Dunlap <rdunlap at infradead.org>
->>
->> Add <asm-generic/types.h> to fix build errors.
->> Both ctop.h and <soc/nps/common.h> use u32 types and cause many
->> errors.
->>
->> Examples:
->> ../include/soc/nps/common.h:71:4: error: unknown type name 'u32'
->>     u32 __reserved:20, cluster:4, core:4, thread:4;
->> ../include/soc/nps/common.h:76:3: error: unknown type name 'u32'
->>    u32 value;
->> ../include/soc/nps/common.h:124:4: error: unknown type name 'u32'
->>     u32 base:8, cl_x:4, cl_y:4,
->> ../include/soc/nps/common.h:127:3: error: unknown type name 'u32'
->>    u32 value;
->>
->> ../arch/arc/plat-eznps/include/plat/ctop.h:83:4: error: unknown type name 'u32'
->>     u32 gen:1, gdis:1, clk_gate_dis:1, asb:1,
->> ../arch/arc/plat-eznps/include/plat/ctop.h:86:3: error: unknown type name 'u32'
->>    u32 value;
->> ../arch/arc/plat-eznps/include/plat/ctop.h:93:4: error: unknown type name 'u32'
->>     u32 csa:22, dmsid:6, __reserved:3, cs:1;
->> ../arch/arc/plat-eznps/include/plat/ctop.h:95:3: error: unknown type name 'u32'
->>    u32 value;
->>
->> Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
->> Cc: Vineet Gupta <vgupta at synopsys.com>
->> Cc: linux-snps-arc at lists.infradead.org
->> Cc: Elad Kanfi <eladkan at mellanox.com>
->> Cc: Leon Romanovsky <leonro at mellanox.com>
->> Cc: Ofer Levi <oferle at mellanox.com>
->> ---
->> v2: no change
->>
->>  arch/arc/plat-eznps/include/plat/ctop.h |    1 +
->>  1 file changed, 1 insertion(+)
->>
->> --- linux-next-20180723.orig/arch/arc/plat-eznps/include/plat/ctop.h
->> +++ linux-next-20180723/arch/arc/plat-eznps/include/plat/ctop.h
->> @@ -21,6 +21,7 @@
->>  #error "Incorrect ctop.h include"
->>  #endif
->>
->> +#include <asm-generic/types.h>
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+Date: Thu, 26 Jul 2018 15:05:37 +0300
+
+> As for today STMMAC_ALIGN macro (which is used to align DMA stuff)
+> relies on L1 line length (L1_CACHE_BYTES).
+> This isn't correct in case of system with several cache levels
+> which might have L1 cache line length smaller than L2 line. This
+> can lead to sharing one cache line between DMA buffer and other
+> data, so we can lose this data while invalidate DMA buffer before
+> DMA transaction.
 > 
-> I'm not familiar with arch/* code, so maybe my question will sound
-> naive., but why "asm-generic/types.h" and not "linux/types.h"?
+> Fix that by using SMP_CACHE_BYTES instead of L1_CACHE_BYTES for
+> aligning.
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 
-Nope, good question.  That works and should be preferred.
+This is definitely an improvement, so applied and queued up for
+-stable.
 
-Please use the new patch below.
-
--- 
-
-From: Randy Dunlap <rdunlap@infradead.org>
-
-Add <linux/types.h> to fix build errors.
-Both ctop.h and <soc/nps/common.h> use u32 types and cause many
-errors.
-
-Examples:
-../include/soc/nps/common.h:71:4: error: unknown type name 'u32'
-    u32 __reserved:20, cluster:4, core:4, thread:4;
-../include/soc/nps/common.h:76:3: error: unknown type name 'u32'
-   u32 value;
-../include/soc/nps/common.h:124:4: error: unknown type name 'u32'
-    u32 base:8, cl_x:4, cl_y:4,
-../include/soc/nps/common.h:127:3: error: unknown type name 'u32'
-   u32 value;
-
-../arch/arc/plat-eznps/include/plat/ctop.h:83:4: error: unknown type name 'u32'
-    u32 gen:1, gdis:1, clk_gate_dis:1, asb:1,
-../arch/arc/plat-eznps/include/plat/ctop.h:86:3: error: unknown type name 'u32'
-   u32 value;
-../arch/arc/plat-eznps/include/plat/ctop.h:93:4: error: unknown type name 'u32'
-    u32 csa:22, dmsid:6, __reserved:3, cs:1;
-../arch/arc/plat-eznps/include/plat/ctop.h:95:3: error: unknown type name 'u32'
-   u32 value;
-
-Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: Elad Kanfi <eladkan at mellanox.com>
-Cc: Leon Romanovsky <leonro at mellanox.com>
-Cc: Ofer Levi <oferle at mellanox.com>
----
-v2: no change
-v3: use <linux/types.h> instead of <asm-generic/types.h>
-
- arch/arc/plat-eznps/include/plat/ctop.h |    1 +
- 1 file changed, 1 insertion(+)
-
---- linux-next-20180723.orig/arch/arc/plat-eznps/include/plat/ctop.h
-+++ linux-next-20180723/arch/arc/plat-eznps/include/plat/ctop.h
-@@ -21,6 +21,7 @@
- #error "Incorrect ctop.h include"
- #endif
- 
-+#include <linux/types.h>
- #include <soc/nps/common.h>
- 
- /* core auxiliary registers */
+There is also dma_get_cache_alignment(), so maybe we can eventually
+use that here instead.
