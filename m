@@ -1,62 +1,68 @@
 From: leonro@mellanox.com (Leon Romanovsky)
-Date: Sat, 28 Jul 2018 10:59:13 +0300
-Subject: arch/arc/ allmodconfig
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075012B08679D@us01wembx1.internal.synopsys.com>
-References: <e074d0ae-6d79-d21a-2278-15d516bb943e@infradead.org>
- <C2D7FE5348E1B147BCA15975FBA23075012B0724EB@US01WEMBX2.internal.synopsys.com>
- <AM0PR05MB42600653CF591791731CCCD8DA510@AM0PR05MB4260.eurprd05.prod.outlook.com>
- <DB6PR05MB4597A63819F227B17652B5B2B2560@DB6PR05MB4597.eurprd05.prod.outlook.com>
- <C2D7FE5348E1B147BCA15975FBA23075012B07F319@us01wembx1.internal.synopsys.com>
- <20180723165110.GR3189@mtr-leonro.mtl.com>
- <C2D7FE5348E1B147BCA15975FBA23075012B08679D@us01wembx1.internal.synopsys.com>
+Date: Sun, 29 Jul 2018 10:01:13 +0300
+Subject: [PATCH 3/4 v2] arc: fix data type errors in platform headers
+In-Reply-To: <1532661395712@infradead.org>
+References: <15326613951079@infradead.org>
+ <1532661395712@infradead.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180728075913.GA7157@mtr-leonro.mtl.com>
+Message-ID: <20180729070113.GC7157@mtr-leonro.mtl.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Jul 27, 2018@08:14:31PM +0000, Vineet Gupta wrote:
-> On 07/23/2018 10:02 AM, Leon Romanovsky wrote:
-> >>> diff -uprN linux-4.17.9.org/arch/arc/plat-eznps/include/plat/ctop.h linux-4.17.9/arch/arc/plat-eznps/include/plat/ctop.h
-> >>> --- linux-4.17.9.org/arch/arc/plat-eznps/include/plat/ctop.h    2018-07-22 16:16:09.000000000 +0300
-> >>> +++ linux-4.17.9/arch/arc/plat-eznps/include/plat/ctop.h        2018-07-23 11:18:12.179402620 +0300
-> >>> @@ -143,6 +143,15 @@ struct nps_host_reg_gim_p_int_dst {
-> >>>  };
-> >>>
-> >>>  /* AUX registers definition */
-> >>> +struct nps_host_reg_aux_dpc {
-> >>> +       union {
-> >>> +               struct {
-> >>> +                       u32 ien:1, men:1, hen:1, reserved:29;
-> >>> +               };
-> >>> +               u32 value;
-> >>> +       };
-> >>> +};
-> >>> +
-> >>>  struct nps_host_reg_aux_udmc {
-> >>>         union {
-> >>>                 struct {
-> >> Thx for this change. Can you please send a proper patch with changelog, citing the
-> >> issue as Reported-by etc.
-> >> Also if Mellanox is interested in maintaining the NPS port going fwd, someone (you
-> >> ?) should add their name to MAINTAINERS file under arch/arc/plat-eznps and send
-> >> that patch as well.
-> > Hi Vineet,
-> >
-> > Thanks for your feedback, I'll work with Ofer to make it happen.
+On Thu, Jul 26, 2018@08:16:35PM -0700, rd_dunlab wrote:
+> From: Randy Dunlap <rdunlap at infradead.org>
 >
-> Ping, folks can one of you please send a formal patch for this ?
-
-Vineet,
-
-We sent the fix almost at the same day, but for some reason, the emails
-from Ofer didn't arrive to ML.
-
-I resent it,
-https://www.mail-archive.com/linux-snps-arc at lists.infradead.org/msg03899.html
-https://www.mail-archive.com/linux-snps-arc at lists.infradead.org/msg03864.html
-
-And we will check with IT the reason why Ofer's email didn't work.
-
-Thanks
-
+> Add <asm-generic/types.h> to fix build errors.
+> Both ctop.h and <soc/nps/common.h> use u32 types and cause many
+> errors.
 >
-> -Vineet
+> Examples:
+> ../include/soc/nps/common.h:71:4: error: unknown type name 'u32'
+>     u32 __reserved:20, cluster:4, core:4, thread:4;
+> ../include/soc/nps/common.h:76:3: error: unknown type name 'u32'
+>    u32 value;
+> ../include/soc/nps/common.h:124:4: error: unknown type name 'u32'
+>     u32 base:8, cl_x:4, cl_y:4,
+> ../include/soc/nps/common.h:127:3: error: unknown type name 'u32'
+>    u32 value;
+>
+> ../arch/arc/plat-eznps/include/plat/ctop.h:83:4: error: unknown type name 'u32'
+>     u32 gen:1, gdis:1, clk_gate_dis:1, asb:1,
+> ../arch/arc/plat-eznps/include/plat/ctop.h:86:3: error: unknown type name 'u32'
+>    u32 value;
+> ../arch/arc/plat-eznps/include/plat/ctop.h:93:4: error: unknown type name 'u32'
+>     u32 csa:22, dmsid:6, __reserved:3, cs:1;
+> ../arch/arc/plat-eznps/include/plat/ctop.h:95:3: error: unknown type name 'u32'
+>    u32 value;
+>
+> Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: linux-snps-arc at lists.infradead.org
+> Cc: Elad Kanfi <eladkan at mellanox.com>
+> Cc: Leon Romanovsky <leonro at mellanox.com>
+> Cc: Ofer Levi <oferle at mellanox.com>
+> ---
+> v2: no change
+>
+>  arch/arc/plat-eznps/include/plat/ctop.h |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> --- linux-next-20180723.orig/arch/arc/plat-eznps/include/plat/ctop.h
+> +++ linux-next-20180723/arch/arc/plat-eznps/include/plat/ctop.h
+> @@ -21,6 +21,7 @@
+>  #error "Incorrect ctop.h include"
+>  #endif
+>
+> +#include <asm-generic/types.h>
+
+I'm not familiar with arch/* code, so maybe my question will sound
+naive., but why "asm-generic/types.h" and not "linux/types.h"?
+
+Thanks for fixing build.
+
+>  #include <soc/nps/common.h>
+>
+>  /* core auxiliary registers */
+>
+>
+> --
+>
