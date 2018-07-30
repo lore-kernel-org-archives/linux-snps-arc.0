@@ -1,134 +1,43 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 30 Jul 2018 19:26:33 +0300
-Subject: [PATCH v2 1/4] ARC: DTS: mark DMA devices connected through IOC port
- as dma-coherent
+Date: Mon, 30 Jul 2018 19:26:35 +0300
+Subject: [PATCH v2 3/4] ARC: IOC: panic if both IOC and ZONE_HIGHMEM enabled
 In-Reply-To: <20180730162636.3556-1-Eugeniy.Paltsev@synopsys.com>
 References: <20180730162636.3556-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180730162636.3556-2-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20180730162636.3556-4-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
-
-Mark DMA devices on AXS103 and HSDK boards connected through IOC
-port as dma-coherent.
 
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 ---
 Changes v1->v2:
  * None.
 
- arch/arc/boot/dts/axc003.dtsi     | 26 ++++++++++++++++++++++++++
- arch/arc/boot/dts/axc003_idu.dtsi | 26 ++++++++++++++++++++++++++
- arch/arc/boot/dts/hsdk.dts        |  4 ++++
- 3 files changed, 56 insertions(+)
+ arch/arc/mm/cache.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
-index dc91c663bcc0..d75d65ddf8e3 100644
---- a/arch/arc/boot/dts/axc003.dtsi
-+++ b/arch/arc/boot/dts/axc003.dtsi
-@@ -93,6 +93,32 @@
- 		};
- 	};
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index dac12afbb93a..389602cf1594 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -1143,6 +1143,19 @@ noinline void __init arc_ioc_setup(void)
+ {
+ 	unsigned int ioc_base, mem_sz;
  
 +	/*
-+	 * Mark DMA peripherals connected via IOC port as dma-coherent. We do
-+	 * it via overlay because peripherals defined in axs10x_mb.dtsi are
-+	 * used for both AXS101 and AXS103 boards and only AXS103 has IOC (so
-+	 * only AXS103 board has HW-coherent DMA peripherals)
-+	 * We don't need to mark pgu at 17000 as dma-coherent because it uses
-+	 * external DMA buffer located outside of IOC aperture.
++	 * As for today we don't support both IOC and ZONE_HIGHMEM enabled
++	 * simultaneously. This happens because as of today IOC aperture covers
++	 * only ZONE_NORMAL (low mem) and any dma transactions outside this
++	 * region won't be HW coherent.
++	 * If we want to use both IOC and ZONE_HIGHMEM we can use
++	 * bounce_buffer to handle dma transactions to HIGHMEM.
++	 * Also it is possible to modify dma_direct cache ops or increase IOC
++	 * aperture size if we are planning to use HIGHMEM without PAE.
 +	 */
-+	axs10x_mb {
-+		ethernet at 0x18000 {
-+			dma-coherent;
-+		};
++	if (IS_ENABLED(CONFIG_HIGHMEM))
++		panic("IOC and HIGHMEM can't be used simultaneously");
 +
-+		ehci at 0x40000 {
-+			dma-coherent;
-+		};
-+
-+		ohci at 0x60000 {
-+			dma-coherent;
-+		};
-+
-+		mmc at 0x15000 {
-+			dma-coherent;
-+		};
-+	};
-+
- 	/*
- 	 * The DW APB ICTL intc on MB is connected to CPU intc via a
- 	 * DT "invisible" DW APB GPIO block, configured to simply pass thru
-diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
-index 69ff4895f2ba..a05bb737ea63 100644
---- a/arch/arc/boot/dts/axc003_idu.dtsi
-+++ b/arch/arc/boot/dts/axc003_idu.dtsi
-@@ -100,6 +100,32 @@
- 		};
- 	};
- 
-+	/*
-+	 * Mark DMA peripherals connected via IOC port as dma-coherent. We do
-+	 * it via overlay because peripherals defined in axs10x_mb.dtsi are
-+	 * used for both AXS101 and AXS103 boards and only AXS103 has IOC (so
-+	 * only AXS103 board has HW-coherent DMA peripherals)
-+	 * We don't need to mark pgu at 17000 as dma-coherent because it uses
-+	 * external DMA buffer located outside of IOC aperture.
-+	 */
-+	axs10x_mb {
-+		ethernet at 0x18000 {
-+			dma-coherent;
-+		};
-+
-+		ehci at 0x40000 {
-+			dma-coherent;
-+		};
-+
-+		ohci at 0x60000 {
-+			dma-coherent;
-+		};
-+
-+		mmc at 0x15000 {
-+			dma-coherent;
-+		};
-+	};
-+
- 	/*
- 	 * This INTC is actually connected to DW APB GPIO
- 	 * which acts as a wire between MB INTC and CPU INTC.
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index 006aa3de5348..ebb686c21393 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -176,6 +176,7 @@
- 			phy-handle = <&phy0>;
- 			resets = <&cgu_rst HSDK_ETH_RESET>;
- 			reset-names = "stmmaceth";
-+			dma-coherent;
- 
- 			mdio {
- 				#address-cells = <1>;
-@@ -194,12 +195,14 @@
- 			compatible = "snps,hsdk-v1.0-ohci", "generic-ohci";
- 			reg = <0x60000 0x100>;
- 			interrupts = <15>;
-+			dma-coherent;
- 		};
- 
- 		ehci at 40000 {
- 			compatible = "snps,hsdk-v1.0-ehci", "generic-ehci";
- 			reg = <0x40000 0x100>;
- 			interrupts = <15>;
-+			dma-coherent;
- 		};
- 
- 		mmc at a000 {
-@@ -212,6 +215,7 @@
- 			clock-names = "biu", "ciu";
- 			interrupts = <12>;
- 			bus-width = <4>;
-+			dma-coherent;
- 		};
- 	};
+ 	/* Flush + invalidate + disable L1 dcache */
+ 	__dc_disable();
  
 -- 
 2.14.4
