@@ -1,89 +1,45 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 30 Jul 2018 13:40:36 +0300
-Subject: [PATCH] posix/tst-getaddrinfo4: Consider EAI_NODATA as an expected
- result
+Date: Mon, 30 Jul 2018 18:28:44 +0300
+Subject: [PATCH] tst-tzset: raise timeout to 10 seconds
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180730104036.4016-1-abrodkin@synopsys.com>
+Message-ID: <20180730152844.21999-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Some proxy DNS servers might not resolve IPv6 names to addresses.
-Instead they reply with NOERROR while passing no real data.
-That combination of NOERROR and EAI_NODATA happen because the DNS
-server has a recored for requested name (example.net in our case)
-but that record is not of AAAA type which was requested.
+On ARC HSDK board even though it operates @ 1GHz this test runs
+~7 seconds which gives us failures all the time.
 
-That's what Wireshark sees in that case:
----------------------------------->8-----------------------------
-Domain Name System (response)
-   Transaction ID: 0x6e2e
-   Flags: 0x8180 Standard query response, No error
-       1... .... .... .... = Response: Message is a response
-       .000 0... .... .... = Opcode: Standard query (0)
-       .... .0.. .... .... = Authoritative: Server is not an authority for domain
-       .... ..0. .... .... = Truncated: Message is not truncated
-       .... ...1 .... .... = Recursion desired: Do query recursively
-       .... .... 1... .... = Recursion available: Server can do recursive queries
-       .... .... .0.. .... = Z: reserved (0)
-       .... .... ..0. .... = Answer authenticated: Answer/authority portion was not authenticated by the server
-       .... .... ...0 .... = Non-authenticated data: Unacceptable
-       .... .... .... 0000 = Reply code: No error (0)
-   Questions: 1
-   Answer RRs: 0
-   Authority RRs: 0
-   Additional RRs: 0
-   Queries
-       example.net: type AAAA, class IN
-           Name: example.net
-           [Name Length: 11]
-           [Label Count: 2]
-           Type: AAAA (IPv6 Address) (28)
-           Class: IN (0x0001)
----------------------------------->8-----------------------------
+That's what happens now:
+| # time .../build/timezone/tst-tzset
+| Timed out: killed the child process
+| Command exited with non-zero status 1
+| real    0m 5.11s
+| user    0m 3.59s
+| sys     0m 1.45s
 
-And that's what we see if Google DNS server (8.8.8.8) is used instead:
----------------------------------->8-----------------------------
-Domain Name System (response)
-   Transaction ID: 0x3cd4
-   Flags: 0x8180 Standard query response, No error
-       1... .... .... .... = Response: Message is a response
-       .000 0... .... .... = Opcode: Standard query (0)
-       .... .0.. .... .... = Authoritative: Server is not an authority for domain
-       .... ..0. .... .... = Truncated: Message is not truncated
-       .... ...1 .... .... = Recursion desired: Do query recursively
-       .... .... 1... .... = Recursion available: Server can do recursive queries
-       .... .... .0.. .... = Z: reserved (0)
-       .... .... ..0. .... = Answer authenticated: Answer/authority portion was not authenticated by the server
-       .... .... ...0 .... = Non-authenticated data: Unacceptable
-       .... .... .... 0000 = Reply code: No error (0)
-   Questions: 1
-   Answer RRs: 1
-   Authority RRs: 0
-   Additional RRs: 0
-   Queries
-       example.net: type AAAA, class IN
-           Name: example.net
-           [Name Length: 11]
-           [Label Count: 2]
-           Type: AAAA (IPv6 Address) (28)
-           Class: IN (0x0001)
-Answers
-   example.net: type AAAA, class IN, addr 2606:2800:220:1:248:1893:25c8:1946
----------------------------------->8-----------------------------
+And that's what happens with longer time-out:
+| # time .../build/timezone/tst-tzset
+| real    0m 6.95s
+| user    0m 4.97s
+| sys     0m 1.99s
+|
+| # echo $?
+| 0
 ---
- posix/tst-getaddrinfo4.c | 1 +
- 1 file changed, 1 insertion(+)
+ timezone/tst-tzset.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/posix/tst-getaddrinfo4.c b/posix/tst-getaddrinfo4.c
-index dc9e423448af..0139dee777a1 100644
---- a/posix/tst-getaddrinfo4.c
-+++ b/posix/tst-getaddrinfo4.c
-@@ -39,6 +39,7 @@ try (const char *service, int family, int flags)
-     case 0:
-     case EAI_AGAIN:
-     case EAI_NONAME:
-+    case EAI_NODATA:
-       printf ("SUCCESS getaddrinfo(service=%s, family=%d, flags=%d): %s: %m\n",
-               service ?: "NULL", family, flags, gai_strerror (res));
-       return 0;
+diff --git a/timezone/tst-tzset.c b/timezone/tst-tzset.c
+index 27f986b56dab..534f7acdf75f 100644
+--- a/timezone/tst-tzset.c
++++ b/timezone/tst-tzset.c
+@@ -25,7 +25,7 @@
+ #include <time.h>
+ #include <unistd.h>
+ 
+-#define TIMEOUT 5
++#define TIMEOUT 10
+ static int do_test (void);
+ #define TEST_FUNCTION do_test ()
+ #include "../test-skeleton.c"
 -- 
 2.17.1
