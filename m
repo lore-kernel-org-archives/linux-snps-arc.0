@@ -1,89 +1,41 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 30 Jul 2018 19:26:36 +0300
-Subject: [PATCH v2 4/4] ARC: don't check for HIGHMEM pages in arch_dma_alloc
-In-Reply-To: <20180730162636.3556-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180730162636.3556-1-Eugeniy.Paltsev@synopsys.com>
+From: fweimer@redhat.com (Florian Weimer)
+Date: Mon, 30 Jul 2018 18:51:07 +0200
+Subject: [PATCH] tst-tzset: raise timeout to 10 seconds
+In-Reply-To: <mvmmuu8vh9m.fsf@suse.de>
+References: <20180730152844.21999-1-abrodkin@synopsys.com>
+ <alpine.DEB.2.20.1807301555590.17805@digraph.polyomino.org.uk>
+ <mvmmuu8vh9m.fsf@suse.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180730162636.3556-5-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <59f880f0-32aa-4a93-7b03-fd46d4e19854@redhat.com>
 To: linux-snps-arc@lists.infradead.org
 
-__GFP_HIGHMEM flag is cleared by upper layer functions
-(in include/linux/dma-mapping.h) so we'll never get a
-__GFP_HIGHMEM flag in arch_dma_alloc gfp argument.
-That's why alloc_pages will never return highmem page
-here.
+On 07/30/2018 06:07 PM, Andreas Schwab wrote:
+> On Jul 30 2018, Joseph Myers <joseph@codesourcery.com> wrote:
+> 
+>> On Mon, 30 Jul 2018, Alexey Brodkin wrote:
+>>
+>>> diff --git a/timezone/tst-tzset.c b/timezone/tst-tzset.c
+>>> index 27f986b56dab..534f7acdf75f 100644
+>>> --- a/timezone/tst-tzset.c
+>>> +++ b/timezone/tst-tzset.c
+>>> @@ -25,7 +25,7 @@
+>>>   #include <time.h>
+>>>   #include <unistd.h>
+>>>   
+>>> -#define TIMEOUT 5
+>>> +#define TIMEOUT 10
+>>
+>> The timeout was set to 5 in commit
+>> 112f28e88c4ea5afbd6050e71416a23db11e4adc to increase it from a default 2
+>> seconds.  That was before the default timeout was changed to 20 seconds in
+>> commit a28605b22946c708f0a5c4f06307e1a17650ced8.  In such cases I think we
+>> should remove the timeout setting - explicit timeouts less than the
+>> default are only appropriate where there is a strong reason to want to
+>> *decrease* the default timeout.
+> 
+> There are a lot of tests that set TIMEOUT to less than 20.
 
-Get rid of highmem pages handling and cleanup arch_dma_alloc
-and arch_dma_free functions.
+We should fix all of them.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
-Changes v1->v2 (Thanks to Christoph):
- * Remove check for HIGHMEM pages from arch_dma_{alloc, free}
-
- arch/arc/mm/dma.c | 32 ++++++++++++++------------------
- 1 file changed, 14 insertions(+), 18 deletions(-)
-
-diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
-index 4d1466905e48..46129d7a298d 100644
---- a/arch/arc/mm/dma.c
-+++ b/arch/arc/mm/dma.c
-@@ -27,30 +27,29 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 	struct page *page;
- 	phys_addr_t paddr;
- 	void *kvaddr;
--	int need_coh = 1, need_kvaddr = 0;
-+	bool need_coh = !(attrs & DMA_ATTR_NON_CONSISTENT);
-+
-+	/*
-+	 * __GFP_HIGHMEM flag is cleared by upper layer functions
-+	 * (in include/linux/dma-mapping.h) so we should never get a
-+	 * __GFP_HIGHMEM here.
-+	 */
-+	BUG_ON(gfp & __GFP_HIGHMEM);
- 
- 	page = alloc_pages(gfp, order);
- 	if (!page)
- 		return NULL;
- 
--	if (attrs & DMA_ATTR_NON_CONSISTENT)
--		need_coh = 0;
--
--	/*
--	 * - A coherent buffer needs MMU mapping to enforce non-cachability
--	 * - A highmem page needs a virtual handle (hence MMU mapping)
--	 *   independent of cachability
--	 */
--	if (PageHighMem(page) || need_coh)
--		need_kvaddr = 1;
--
- 	/* This is linear addr (0x8000_0000 based) */
- 	paddr = page_to_phys(page);
- 
- 	*dma_handle = paddr;
- 
--	/* This is kernel Virtual address (0x7000_0000 based) */
--	if (need_kvaddr) {
-+	/*
-+	 * A coherent buffer needs MMU mapping to enforce non-cachability.
-+	 * kvaddr is kernel Virtual address (0x7000_0000 based).
-+	 */
-+	if (need_coh) {
- 		kvaddr = ioremap_nocache(paddr, size);
- 		if (kvaddr == NULL) {
- 			__free_pages(page, order);
-@@ -81,11 +80,8 @@ void arch_dma_free(struct device *dev, size_t size, void *vaddr,
- {
- 	phys_addr_t paddr = dma_handle;
- 	struct page *page = virt_to_page(paddr);
--	int is_non_coh = 1;
--
--	is_non_coh = (attrs & DMA_ATTR_NON_CONSISTENT);
- 
--	if (PageHighMem(page) || !is_non_coh)
-+	if (!(attrs & DMA_ATTR_NON_CONSISTENT))
- 		iounmap((void __force __iomem *)vaddr);
- 
- 	__free_pages(page, get_order(size));
--- 
-2.14.4
+Thanks,
+Florian
