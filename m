@@ -1,200 +1,98 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu,  2 Aug 2018 11:59:45 +0300
-Subject: [PATCH] ARC: Remove disabled CONFIG_DEVKMEM from defconfigs
+Date: Thu,  2 Aug 2018 13:19:37 +0300
+Subject: [PATCH] ARC: AXS10x/HSDK: Allow U-Boot to pass MAC-address to the
+ kernel
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180802085945.18651-1-abrodkin@synopsys.com>
+Message-ID: <20180802101937.6202-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-CONFIG_DEVKMEM by default is disabled so clean-up
-our defconfigs.
+Otherwise kernel uses random MAC which is not very conveniet.
+With that change in place use might set desired MAC in U-Boot
+with "setenv ethaddr 11:22:33:44:55:66", save environment and
+then from boot to boot the same MAC will be used by the kernel.
+
+One other note for this to happen it's required to pass
+board's .dtb in U-Boot's "bootm" command like that:
+------------------->8-----------------
+bootm 0x82000000 - 0x84000000
+------------------->8-----------------
+
+Here 0x82000000 is location of uImage while
+0x80000000 is location of either axs10x.dtb or hsdk.dtb
+previously loaded from SD-card, USB storage or TFTP server.
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Ofer Levi <oferle at mellanox.com>
+Cc: Rob Herring <robh+dt at kernel.org>
+Cc: stable at vger.kernel.org # 4.14
+Cc: devicetree at vger.kernel.org
 ---
- arch/arc/configs/axs101_defconfig          | 1 -
- arch/arc/configs/axs103_defconfig          | 1 -
- arch/arc/configs/axs103_smp_defconfig      | 1 -
- arch/arc/configs/haps_hs_defconfig         | 1 -
- arch/arc/configs/haps_hs_smp_defconfig     | 1 -
- arch/arc/configs/nps_defconfig             | 1 -
- arch/arc/configs/nsim_700_defconfig        | 1 -
- arch/arc/configs/nsim_hs_defconfig         | 1 -
- arch/arc/configs/nsim_hs_smp_defconfig     | 1 -
- arch/arc/configs/nsimosci_defconfig        | 1 -
- arch/arc/configs/nsimosci_hs_defconfig     | 1 -
- arch/arc/configs/nsimosci_hs_smp_defconfig | 1 -
- arch/arc/configs/tb10x_defconfig           | 1 -
- arch/arc/configs/vdk_hs38_defconfig        | 1 -
- 14 files changed, 14 deletions(-)
+ arch/arc/boot/dts/axs10x_mb.dtsi | 7 ++++++-
+ arch/arc/boot/dts/hsdk.dts       | 7 ++++++-
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
-index 96b7258a76be..67cfb46675a2 100644
---- a/arch/arc/configs/axs101_defconfig
-+++ b/arch/arc/configs/axs101_defconfig
-@@ -61,7 +61,6 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
- CONFIG_MOUSE_SERIAL=y
- CONFIG_MOUSE_SYNAPTICS_USB=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_DW=y
-diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
-index 72fc21ef1334..42a743c54520 100644
---- a/arch/arc/configs/axs103_defconfig
-+++ b/arch/arc/configs/axs103_defconfig
-@@ -62,7 +62,6 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
- CONFIG_MOUSE_SERIAL=y
- CONFIG_MOUSE_SYNAPTICS_USB=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_DW=y
-diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
-index 2ac89bd00e28..5886fdcacb34 100644
---- a/arch/arc/configs/axs103_smp_defconfig
-+++ b/arch/arc/configs/axs103_smp_defconfig
-@@ -63,7 +63,6 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
- CONFIG_MOUSE_SERIAL=y
- CONFIG_MOUSE_SYNAPTICS_USB=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_DW=y
-diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
-index 4984d9ed1573..765ec516135c 100644
---- a/arch/arc/configs/haps_hs_defconfig
-+++ b/arch/arc/configs/haps_hs_defconfig
-@@ -57,7 +57,6 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
- # CONFIG_SERIO_SERPORT is not set
- CONFIG_SERIO_ARC_PS2=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_NR_UARTS=1
-diff --git a/arch/arc/configs/haps_hs_smp_defconfig b/arch/arc/configs/haps_hs_smp_defconfig
-index 1e93690b4a4f..1f97b63c77f3 100644
---- a/arch/arc/configs/haps_hs_smp_defconfig
-+++ b/arch/arc/configs/haps_hs_smp_defconfig
-@@ -60,7 +60,6 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
- # CONFIG_SERIO_SERPORT is not set
- CONFIG_SERIO_ARC_PS2=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_NR_UARTS=1
-diff --git a/arch/arc/configs/nps_defconfig b/arch/arc/configs/nps_defconfig
-index 7c9c706ae7f6..31ba224bbfb4 100644
---- a/arch/arc/configs/nps_defconfig
-+++ b/arch/arc/configs/nps_defconfig
-@@ -59,7 +59,6 @@ CONFIG_NETCONSOLE=y
- # CONFIG_INPUT_MOUSE is not set
- # CONFIG_SERIO is not set
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_NR_UARTS=1
-diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
-index 0b59778604e4..b3c3c5763a3e 100644
---- a/arch/arc/configs/nsim_700_defconfig
-+++ b/arch/arc/configs/nsim_700_defconfig
-@@ -44,7 +44,6 @@ CONFIG_LXT_PHY=y
- # CONFIG_INPUT_MOUSE is not set
- # CONFIG_SERIO is not set
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_ARC=y
- CONFIG_SERIAL_ARC_CONSOLE=y
- # CONFIG_HW_RANDOM is not set
-diff --git a/arch/arc/configs/nsim_hs_defconfig b/arch/arc/configs/nsim_hs_defconfig
-index e829b683887d..cd7aed46e6bf 100644
---- a/arch/arc/configs/nsim_hs_defconfig
-+++ b/arch/arc/configs/nsim_hs_defconfig
-@@ -45,7 +45,6 @@ CONFIG_DEVTMPFS=y
- # CONFIG_INPUT_MOUSE is not set
- # CONFIG_SERIO is not set
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_ARC=y
- CONFIG_SERIAL_ARC_CONSOLE=y
- # CONFIG_HW_RANDOM is not set
-diff --git a/arch/arc/configs/nsim_hs_smp_defconfig b/arch/arc/configs/nsim_hs_smp_defconfig
-index bef937c551f8..84a2a31fd0d4 100644
---- a/arch/arc/configs/nsim_hs_smp_defconfig
-+++ b/arch/arc/configs/nsim_hs_smp_defconfig
-@@ -44,7 +44,6 @@ CONFIG_DEVTMPFS=y
- # CONFIG_INPUT_MOUSE is not set
- # CONFIG_SERIO is not set
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_ARC=y
- CONFIG_SERIAL_ARC_CONSOLE=y
- # CONFIG_HW_RANDOM is not set
-diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
-index ac601e33bb47..f3750934f7b3 100644
---- a/arch/arc/configs/nsimosci_defconfig
-+++ b/arch/arc/configs/nsimosci_defconfig
-@@ -48,7 +48,6 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
- # CONFIG_SERIO_SERPORT is not set
- CONFIG_SERIO_ARC_PS2=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_NR_UARTS=1
-diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
-index fef290c65e4c..0069a254215a 100644
---- a/arch/arc/configs/nsimosci_hs_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_defconfig
-@@ -47,7 +47,6 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
- # CONFIG_SERIO_SERPORT is not set
- CONFIG_SERIO_ARC_PS2=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_NR_UARTS=1
-diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
-index c0d19623aa82..dd5a7e22944e 100644
---- a/arch/arc/configs/nsimosci_hs_smp_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
-@@ -58,7 +58,6 @@ CONFIG_MOUSE_PS2_TOUCHKIT=y
- # CONFIG_SERIO_SERPORT is not set
- CONFIG_SERIO_ARC_PS2=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_NR_UARTS=1
-diff --git a/arch/arc/configs/tb10x_defconfig b/arch/arc/configs/tb10x_defconfig
-index 1aca2e8fd1ba..8129ca7b5ff0 100644
---- a/arch/arc/configs/tb10x_defconfig
-+++ b/arch/arc/configs/tb10x_defconfig
-@@ -58,7 +58,6 @@ CONFIG_STMMAC_ETH=y
- # CONFIG_VT is not set
- CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_NR_UARTS=1
-diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
-index 4a459de56679..db47c3541f15 100644
---- a/arch/arc/configs/vdk_hs38_defconfig
-+++ b/arch/arc/configs/vdk_hs38_defconfig
-@@ -52,7 +52,6 @@ CONFIG_NATIONAL_PHY=y
- CONFIG_MOUSE_PS2_TOUCHKIT=y
- CONFIG_SERIO_ARC_PS2=y
- # CONFIG_LEGACY_PTYS is not set
--# CONFIG_DEVKMEM is not set
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_DW=y
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index 47b74fbc403c..37bafd44e36d 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -9,6 +9,10 @@
+  */
+ 
+ / {
++	aliases {
++		ethernet = &gmac;
++	};
++
+ 	axs10x_mb {
+ 		compatible = "simple-bus";
+ 		#address-cells = <1>;
+@@ -68,7 +72,7 @@
+ 			};
+ 		};
+ 
+-		ethernet at 0x18000 {
++		gmac: ethernet at 0x18000 {
+ 			#interrupt-cells = <1>;
+ 			compatible = "snps,dwmac";
+ 			reg = < 0x18000 0x2000 >;
+@@ -81,6 +85,7 @@
+ 			max-speed = <100>;
+ 			resets = <&creg_rst 5>;
+ 			reset-names = "stmmaceth";
++			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
+ 		};
+ 
+ 		ehci at 0x40000 {
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index 006aa3de5348..d00f283094d3 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -25,6 +25,10 @@
+ 		bootargs = "earlycon=uart8250,mmio32,0xf0005000,115200n8 console=ttyS0,115200n8 debug print-fatal-signals=1";
+ 	};
+ 
++	aliases {
++		ethernet = &gmac;
++	};
++
+ 	cpus {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+@@ -163,7 +167,7 @@
+ 			#clock-cells = <0>;
+ 		};
+ 
+-		ethernet at 8000 {
++		gmac: ethernet at 8000 {
+ 			#interrupt-cells = <1>;
+ 			compatible = "snps,dwmac";
+ 			reg = <0x8000 0x2000>;
+@@ -176,6 +180,7 @@
+ 			phy-handle = <&phy0>;
+ 			resets = <&cgu_rst HSDK_ETH_RESET>;
+ 			reset-names = "stmmaceth";
++			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
+ 
+ 			mdio {
+ 				#address-cells = <1>;
 -- 
 2.17.1
