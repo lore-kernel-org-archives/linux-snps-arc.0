@@ -1,98 +1,66 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu,  2 Aug 2018 13:19:37 +0300
-Subject: [PATCH] ARC: AXS10x/HSDK: Allow U-Boot to pass MAC-address to the
- kernel
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 2 Aug 2018 14:48:34 -0700
+Subject: [GIT PULL] ARC final updates for 4.18
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180802101937.6202-1-abrodkin@synopsys.com>
+Message-ID: <a8920aa8-bd15-c27e-f525-da4236065876@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Otherwise kernel uses random MAC which is not very conveniet.
-With that change in place use might set desired MAC in U-Boot
-with "setenv ethaddr 11:22:33:44:55:66", save environment and
-then from boot to boot the same MAC will be used by the kernel.
+Hi Linus,
 
-One other note for this to happen it's required to pass
-board's .dtb in U-Boot's "bootm" command like that:
-------------------->8-----------------
-bootm 0x82000000 - 0x84000000
-------------------->8-----------------
+Another batch of fixes for ARC, this time mainly DMA API rework wreckage.
 
-Here 0x82000000 is location of uImage while
-0x80000000 is location of either axs10x.dtb or hsdk.dtb
-previously loaded from SD-card, USB storage or TFTP server.
+Please pull.
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Rob Herring <robh+dt at kernel.org>
-Cc: stable at vger.kernel.org # 4.14
-Cc: devicetree at vger.kernel.org
----
- arch/arc/boot/dts/axs10x_mb.dtsi | 7 ++++++-
- arch/arc/boot/dts/hsdk.dts       | 7 ++++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
+Thx,
+-Vineet
+--------------------------->
+The following changes since commit d72e90f33aa4709ebecc5005562f52335e106a60:
 
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 47b74fbc403c..37bafd44e36d 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -9,6 +9,10 @@
-  */
- 
- / {
-+	aliases {
-+		ethernet = &gmac;
-+	};
-+
- 	axs10x_mb {
- 		compatible = "simple-bus";
- 		#address-cells = <1>;
-@@ -68,7 +72,7 @@
- 			};
- 		};
- 
--		ethernet at 0x18000 {
-+		gmac: ethernet at 0x18000 {
- 			#interrupt-cells = <1>;
- 			compatible = "snps,dwmac";
- 			reg = < 0x18000 0x2000 >;
-@@ -81,6 +85,7 @@
- 			max-speed = <100>;
- 			resets = <&creg_rst 5>;
- 			reset-names = "stmmaceth";
-+			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
- 		};
- 
- 		ehci at 0x40000 {
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index 006aa3de5348..d00f283094d3 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -25,6 +25,10 @@
- 		bootargs = "earlycon=uart8250,mmio32,0xf0005000,115200n8 console=ttyS0,115200n8 debug print-fatal-signals=1";
- 	};
- 
-+	aliases {
-+		ethernet = &gmac;
-+	};
-+
- 	cpus {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-@@ -163,7 +167,7 @@
- 			#clock-cells = <0>;
- 		};
- 
--		ethernet at 8000 {
-+		gmac: ethernet at 8000 {
- 			#interrupt-cells = <1>;
- 			compatible = "snps,dwmac";
- 			reg = <0x8000 0x2000>;
-@@ -176,6 +180,7 @@
- 			phy-handle = <&phy0>;
- 			resets = <&cgu_rst HSDK_ETH_RESET>;
- 			reset-names = "stmmaceth";
-+			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
- 
- 			mdio {
- 				#address-cells = <1>;
--- 
-2.17.1
+  Linux 4.18-rc6 (2018-07-22 14:12:20 -0700)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.18-final
+
+for you to fetch changes up to ec837d620c750c0d4996a907c8c4f7febe1bbeee:
+
+  arc: fix type warnings in arc/mm/cache.c (2018-07-30 11:48:50 -0700)
+
+----------------------------------------------------------------
+ARC updates for 4.18
+
+ - Software managed DMA wreckage after rework in 4.17 [Euginey]
+   + missing cache flush
+   + SMP_CACHE_BYTES vs. cache_line_size
+
+ - allmodconfig build errors [Randy]
+
+ - Maintainer update for Mellanox (EZChip) NPS platform
+
+----------------------------------------------------------------
+Eugeniy Paltsev (3):
+      ARC: dma [non IOC]: fix arc_dma_sync_single_for_(device|cpu)
+      ARC: dma [non-IOC] setup SMP_CACHE_BYTES and cache_line_size
+      ARC: add SMP_CACHE_BYTES value validate
+
+Leon Romanovsky (1):
+      ARC: Add Ofer Levi as plat-eznps maintainer
+
+Ofer Levi (1):
+      ARC: [plat-eznps] Add missing struct nps_host_reg_aux_dpc
+
+Randy Dunlap (4):
+      arc: [plat-eznps] fix data type errors in platform headers
+      arc: [plat-eznps] fix printk warning in arc/plat-eznps/mtm.c
+      arc: fix build errors in arc/include/asm/delay.h
+      arc: fix type warnings in arc/mm/cache.c
+
+ MAINTAINERS                             |  1 +
+ arch/arc/Kconfig                        |  3 ++
+ arch/arc/include/asm/cache.h            |  4 ++-
+ arch/arc/include/asm/delay.h            |  3 ++
+ arch/arc/mm/cache.c                     | 17 ++++++++++--
+ arch/arc/mm/dma.c                       | 49 +++++++++++++++++++++++++++++++--
+ arch/arc/plat-eznps/include/plat/ctop.h | 10 +++++++
+ arch/arc/plat-eznps/mtm.c               |  6 ++--
+ 8 files changed, 85 insertions(+), 8 deletions(-)
