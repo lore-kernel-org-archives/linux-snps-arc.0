@@ -1,64 +1,163 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 2 Aug 2018 07:08:49 +0000
-Subject: [PATCH] ARC: Improve handling of fatal signals in do_page_fault()
-In-Reply-To: <432f2efe-e7cd-7bf1-40f5-f35f8954f224@synopsys.com>
-References: <20180629182005.10243-1-abrodkin@synopsys.com>
- <432f2efe-e7cd-7bf1-40f5-f35f8954f224@synopsys.com>
+Date: Thu,  2 Aug 2018 11:41:07 +0300
+Subject: [PATCH] ARC: Remove CONFIG_DEFAULT_HOSTNAME from defconfigs
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3760e66a23a8ec1c1eb4ad0aaaed06c9d31a3f4f.camel@synopsys.com>
+Message-ID: <20180802084107.14616-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+There's no reason to set the same hostname to all ARC boards
+by default. It usually gets overwritten by init scripts anyways.
 
-On Wed, 2018-08-01@12:49 -0700, Vineet Gupta wrote:
-> Hi Alexey,
-> 
-> I was finally forced to revisit this for my glibc tst-tls3-malloc deadlock. And
-> indeed with this change we don'tsee the deadlock. But see below..
-> 
-> 
-> > @@ -139,12 +139,16 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
-> >  	 */
-> >  	fault = handle_mm_fault(vma, address, flags);
-> >  
-> > -	/* If Pagefault was interrupted by SIGKILL, exit page fault "early" */
-> > +	/* If we need to retry but a fatal signal is pending, handle the
-> > +	 * signal first. We do not need to release the mmap_sem because
-> > +	 * it would already be released in __lock_page_or_retry in
-> > +	 * mm/filemap.c. */
-> 
-> Right and we were already doing that: up_read() was called for !VM_FAULT_RETRY
-> meaning we relied on the core mm to do that already for VM_FAULT_RETRY case.
-> 
-> The issue here was additional check for VM_FAULT_ERROR. Typically this is not set
-> by handle_mm_fault() meaning for common user faults with signal pending, we were
-> not calling up_read, hence the ensuing deadlock.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/configs/axs101_defconfig          | 1 -
+ arch/arc/configs/axs103_defconfig          | 1 -
+ arch/arc/configs/axs103_smp_defconfig      | 1 -
+ arch/arc/configs/haps_hs_defconfig         | 1 -
+ arch/arc/configs/haps_hs_smp_defconfig     | 1 -
+ arch/arc/configs/hsdk_defconfig            | 1 -
+ arch/arc/configs/nsim_700_defconfig        | 1 -
+ arch/arc/configs/nsim_hs_defconfig         | 1 -
+ arch/arc/configs/nsim_hs_smp_defconfig     | 1 -
+ arch/arc/configs/nsimosci_defconfig        | 1 -
+ arch/arc/configs/nsimosci_hs_defconfig     | 1 -
+ arch/arc/configs/nsimosci_hs_smp_defconfig | 1 -
+ arch/arc/configs/vdk_hs38_defconfig        | 1 -
+ arch/arc/configs/vdk_hs38_smp_defconfig    | 1 -
+ 14 files changed, 14 deletions(-)
 
-Right.
-
-> >  	if (unlikely(fatal_signal_pending(current))) {
-> > -		if ((fault & VM_FAULT_ERROR) && !(fault & VM_FAULT_RETRY))
-> > -			up_read(&mm->mmap_sem);
-> > -		if (user_mode(regs))
-> > +		if (fault & VM_FAULT_RETRY) {
-> > +			if (!user_mode(regs))
-> > +				goto no_context;
-> 
-> Given this code is really tricky, lets only solve one problem with 1 one patch.
-
-Agree.
-
-> >  			return;
-> > +		}
-> >  	}
-> 
-> The fault handling is spaghetti mess of checks and more checks and has not really
-> been touched since upstreaming. I need to clean it up and essentially rewrite it
-> for v4.19
-
-So would you like me to send a re-spin with less changes as discussed above so
-we have something better for now and for back-porting to stable branches.
-
-Or you're going to rewrite all that sometime soon yourself?
-
--Alexey
+diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
+index 55686cc4bb19..3dbb2b3f60af 100644
+--- a/arch/arc/configs/axs101_defconfig
++++ b/arch/arc/configs/axs101_defconfig
+@@ -1,4 +1,3 @@
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+ CONFIG_POSIX_MQUEUE=y
+diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
+index 20fb8e4e7337..4d7b85d4b2dc 100644
+--- a/arch/arc/configs/axs103_defconfig
++++ b/arch/arc/configs/axs103_defconfig
+@@ -1,4 +1,3 @@
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+ CONFIG_POSIX_MQUEUE=y
+diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
+index 51d1e866ce94..92417e2e39f3 100644
+--- a/arch/arc/configs/axs103_smp_defconfig
++++ b/arch/arc/configs/axs103_smp_defconfig
+@@ -1,4 +1,3 @@
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+ CONFIG_POSIX_MQUEUE=y
+diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
+index ab231c040efe..4984d9ed1573 100644
+--- a/arch/arc/configs/haps_hs_defconfig
++++ b/arch/arc/configs/haps_hs_defconfig
+@@ -1,4 +1,3 @@
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+ CONFIG_POSIX_MQUEUE=y
+diff --git a/arch/arc/configs/haps_hs_smp_defconfig b/arch/arc/configs/haps_hs_smp_defconfig
+index cf449cbf440d..1e93690b4a4f 100644
+--- a/arch/arc/configs/haps_hs_smp_defconfig
++++ b/arch/arc/configs/haps_hs_smp_defconfig
+@@ -1,4 +1,3 @@
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+ CONFIG_POSIX_MQUEUE=y
+diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
+index ba101d12515f..200d4ee436bc 100644
+--- a/arch/arc/configs/hsdk_defconfig
++++ b/arch/arc/configs/hsdk_defconfig
+@@ -1,4 +1,3 @@
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ CONFIG_SYSVIPC=y
+ # CONFIG_CROSS_MEMORY_ATTACH is not set
+ CONFIG_NO_HZ_IDLE=y
+diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
+index 31c2c70b34a1..0b59778604e4 100644
+--- a/arch/arc/configs/nsim_700_defconfig
++++ b/arch/arc/configs/nsim_700_defconfig
+@@ -1,5 +1,4 @@
+ # CONFIG_LOCALVERSION_AUTO is not set
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+ CONFIG_POSIX_MQUEUE=y
+diff --git a/arch/arc/configs/nsim_hs_defconfig b/arch/arc/configs/nsim_hs_defconfig
+index a578c721d50f..e829b683887d 100644
+--- a/arch/arc/configs/nsim_hs_defconfig
++++ b/arch/arc/configs/nsim_hs_defconfig
+@@ -1,5 +1,4 @@
+ # CONFIG_LOCALVERSION_AUTO is not set
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+ CONFIG_POSIX_MQUEUE=y
+diff --git a/arch/arc/configs/nsim_hs_smp_defconfig b/arch/arc/configs/nsim_hs_smp_defconfig
+index 37d7395f3272..bef937c551f8 100644
+--- a/arch/arc/configs/nsim_hs_smp_defconfig
++++ b/arch/arc/configs/nsim_hs_smp_defconfig
+@@ -1,5 +1,4 @@
+ # CONFIG_LOCALVERSION_AUTO is not set
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ # CONFIG_CROSS_MEMORY_ATTACH is not set
+ CONFIG_HIGH_RES_TIMERS=y
+diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
+index 1e1470e2a7f0..ac601e33bb47 100644
+--- a/arch/arc/configs/nsimosci_defconfig
++++ b/arch/arc/configs/nsimosci_defconfig
+@@ -1,5 +1,4 @@
+ # CONFIG_LOCALVERSION_AUTO is not set
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+ # CONFIG_CROSS_MEMORY_ATTACH is not set
+diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
+index 084a6e42685b..fef290c65e4c 100644
+--- a/arch/arc/configs/nsimosci_hs_defconfig
++++ b/arch/arc/configs/nsimosci_hs_defconfig
+@@ -1,5 +1,4 @@
+ # CONFIG_LOCALVERSION_AUTO is not set
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+ # CONFIG_CROSS_MEMORY_ATTACH is not set
+diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
+index f36d47990415..c0d19623aa82 100644
+--- a/arch/arc/configs/nsimosci_hs_smp_defconfig
++++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
+@@ -1,4 +1,3 @@
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_SWAP is not set
+ CONFIG_SYSVIPC=y
+ # CONFIG_CROSS_MEMORY_ATTACH is not set
+diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
+index f629493929ea..4a459de56679 100644
+--- a/arch/arc/configs/vdk_hs38_defconfig
++++ b/arch/arc/configs/vdk_hs38_defconfig
+@@ -1,5 +1,4 @@
+ # CONFIG_LOCALVERSION_AUTO is not set
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_CROSS_MEMORY_ATTACH is not set
+ CONFIG_HIGH_RES_TIMERS=y
+ CONFIG_IKCONFIG=y
+diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
+index 21f0ca26a05d..a8ac5e917d9a 100644
+--- a/arch/arc/configs/vdk_hs38_smp_defconfig
++++ b/arch/arc/configs/vdk_hs38_smp_defconfig
+@@ -1,5 +1,4 @@
+ # CONFIG_LOCALVERSION_AUTO is not set
+-CONFIG_DEFAULT_HOSTNAME="ARCLinux"
+ # CONFIG_CROSS_MEMORY_ATTACH is not set
+ CONFIG_HIGH_RES_TIMERS=y
+ CONFIG_IKCONFIG=y
+-- 
+2.17.1
