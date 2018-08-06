@@ -1,46 +1,40 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 6 Aug 2018 13:24:56 +0000
-Subject: [PATCH] ARC: AXS10x/HSDK: Allow U-Boot to pass MAC-address to
- the kernel
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075012B089D74@us01wembx1.internal.synopsys.com>
-References: <20180802101937.6202-1-abrodkin@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075012B089D74@us01wembx1.internal.synopsys.com>
+From: linus.walleij@linaro.org (Linus Walleij)
+Date: Mon,  6 Aug 2018 16:23:21 +0200
+Subject: [PATCH] gpio: tb10x: Use the right include
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1533561894.32021.5.camel@synopsys.com>
+Message-ID: <20180806142321.32025-1-linus.walleij@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+This driver includes the legacy <linux/gpio.h> and
+<linux/of_gpio.h> but all it needs is really <linux/gpio/driver.h>.
 
-On Thu, 2018-08-02@21:58 +0000, Vineet Gupta wrote:
-> On 08/02/2018 03:19 AM, Alexey Brodkin wrote:
-> > Otherwise kernel uses random MAC which is not very conveniet.
-> 
-> Curious what exactly is the issue - why does the user care what MAC is assigned ?
-> 
-> > With that change in place use might set desired MAC in U-Boot
-> > with "setenv ethaddr 11:22:33:44:55:66", save environment and
-> > then from boot to boot the same MAC will be used by the kernel.
-> > 
-> 
-> And what if one is running without uboot - it will resort to all zeros vs. random
-> yet working MAC ?
-> 
+Cc: linux-snps-arc at lists.infradead.org
+Cc: Christian Ruppert <christian.ruppert at alitech.com>
+Signed-off-by: Linus Walleij <linus.walleij at linaro.org>
+---
+ drivers/gpio/gpio-tb10x.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-If one is running without u-boot - it will resort to random MAC as we don't treat 
-"00:00:00:00:00:00" as a valid Ethernet address.
-
-Look at following link for more details.
-https://elixir.bootlin.com/linux/v4.18-rc8/source/include/linux/etherdevice.h#L184
-
-
-BTW:
-Tested-by: Evgeniy Paltsev <paltsev at synopsys.com>
-
-> 
-> _______________________________________________
-> linux-snps-arc mailing list
-> linux-snps-arc at lists.infradead.org
-> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dsnps-2Darc&d=DwICAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=ZlJN
-> 1MriPUTkBKCrPSx67GmaplEUGcAEk9yPtCLdUXI&m=pEe31Mq4FC20ZBQ1SMGdCpesPmQFyaQCdpY9-N_aWRc&s=lwI7vTqAmbVPHdfMz_FlOzfBDvtYCQDL-6s-Z2FFr_Y&e=
+diff --git a/drivers/gpio/gpio-tb10x.c b/drivers/gpio/gpio-tb10x.c
+index ac6f2a9841e5..a12cd0b5c972 100644
+--- a/drivers/gpio/gpio-tb10x.c
++++ b/drivers/gpio/gpio-tb10x.c
+@@ -22,7 +22,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/driver.h>
+ #include <linux/slab.h>
+ #include <linux/irq.h>
+ #include <linux/irqdomain.h>
+@@ -30,7 +30,6 @@
+ #include <linux/io.h>
+ #include <linux/of.h>
+ #include <linux/of_platform.h>
+-#include <linux/of_gpio.h>
+ #include <linux/spinlock.h>
+ #include <linux/bitops.h>
+ #include <linux/pinctrl/consumer.h>
 -- 
- Eugeniy Paltsev
+2.17.0
