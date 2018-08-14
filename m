@@ -1,57 +1,39 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 14 Aug 2018 13:42:23 +0000
-Subject: [PATCH] ARC: atomic64: fix atomic64_add_unless function
-References: <20180811160856.24936-1-Eugeniy.Paltsev@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 14 Aug 2018 17:12:25 +0300
+Subject: [RFC] etnaviv: missing dma_mask
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B08CB78@us01wembx1.internal.synopsys.com>
+Message-ID: <20180814141225.6123-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/11/2018 09:09 AM, Eugeniy Paltsev wrote:
-> Current implementation of 'atomic64_add_unless' function
-> (and hence 'atomic64_inc_not_zero') return incorrect value
-> if lover 32 bits of compared 64-bit number are equal and
-> higher 32 bits aren't.
->
-> For in following example atomic64_add_unless must return '1'
-> but it actually returns '0':
-> --------->8---------
-> atomic64_t val = ATOMIC64_INIT(0x4444000000000000LL);
-> int ret = atomic64_add_unless(&val, 1LL, 0LL)
-> --------->8---------
->
-> This happens because we write '0' to returned variable regardless
-> of higher 32 bits comparison result.
->
-> So fix it.
->
-> NOTE:
->  this change was tested with atomic64_test.
->
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+Hi Lucas, Christoph,
 
-LGTM. Curious, was this from code review or did u actually run into this ?
+After switching ARC to generic dma_noncoherent cache ops 
+etnaviv driver start failing on dma maping functions because of
+dma_mask lack.
 
-Thx,
--Vineet
+So I'm wondering is it valid case to have device which is
+DMA capable and doesn't have dma_mask set?
 
-> ---
->  arch/arc/include/asm/atomic.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/arc/include/asm/atomic.h b/arch/arc/include/asm/atomic.h
-> index 11859287c52a..e840cb1763b2 100644
-> --- a/arch/arc/include/asm/atomic.h
-> +++ b/arch/arc/include/asm/atomic.h
-> @@ -578,11 +578,11 @@ static inline int atomic64_add_unless(atomic64_t *v, long long a, long long u)
->  
->  	__asm__ __volatile__(
->  	"1:	llockd  %0, [%2]	\n"
-> -	"	mov	%1, 1		\n"
->  	"	brne	%L0, %L4, 2f	# continue to add since v != u \n"
->  	"	breq.d	%H0, %H4, 3f	# return since v == u \n"
->  	"	mov	%1, 0		\n"
->  	"2:				\n"
-> +	"	mov	%1, 1		\n"
->  	"	add.f   %L0, %L0, %L3	\n"
->  	"	adc     %H0, %H0, %H3	\n"
->  	"	scondd  %0, [%2]	\n"
+If not, then I guess something like that should work
+(at least it works for ARC):
+
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 540b59fb4103..69d80937e021 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -593,7 +593,7 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct component_match *match = NULL;
+ 
+-	dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
++	dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+ 
+ 	if (!dev->platform_data) {
+ 		struct device_node *core_node;
+-- 
+2.14.4
