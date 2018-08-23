@@ -1,48 +1,42 @@
-From: rdunlap@infradead.org (Randy Dunlap)
-Date: Thu, 23 Aug 2018 08:08:34 -0700
-Subject: [PATCH 1/2] GPIO: add single-register gpio via creg driver
-In-Reply-To: <20180823150013.21837-2-Eugeniy.Paltsev@synopsys.com>
-References: <20180823150013.21837-1-Eugeniy.Paltsev@synopsys.com>
- <20180823150013.21837-2-Eugeniy.Paltsev@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 23 Aug 2018 19:38:39 +0300
+Subject: [PATCH] etnaviv: setup missing dma_mask
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <c5f75b43-6ef3-31e2-0366-b6c8623d3f5d@infradead.org>
+Message-ID: <20180823163839.14824-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/23/2018 08:00 AM, Eugeniy Paltsev wrote:
-> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-> index 71c0ab46f216..0f9cc1582cab 100644
-> --- a/drivers/gpio/Kconfig
-> +++ b/drivers/gpio/Kconfig
-> @@ -430,6 +430,15 @@ config GPIO_REG
->  	  A 32-bit single register GPIO fixed in/out implementation.  This
->  	  can be used to represent any register as a set of GPIO signals.
->  
-> +config GPIO_SNPS_CREG
-> +	bool "GPIO via CREG (Control REGisers) driver"
+As for today etnaviv device doesn't setup dma_mask.
+The etnaviv device is a virtual device not represented in DT
+so missing dma_mask isn't setup by generic plaform code
+(by of_dma_configure function).
 
-	                             REGisters)
+Missing dma_mask causes fails in some dma cache ops functions.
+For example it causes fails on map_* operations in generic
+dma_noncoherent_ops and dma_direct_ops.
 
-> +	select OF_GPIO
-> +	help
-> +	  This driver supports GPIOs via CREG on various Synopsys SoCs.
-> +	  This is is single-register MMIO gpio driver for complex cases
+We faced with this behaviour after switching ARC to generic
+dma_noncoherent cache ops using.
 
-	  This is a                  MMIO GPIO
+So fix this by setting dma_mask via dma_coerce_mask_and_coherent()
 
-> +	  where only several fields in register belong to GPIO and
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	                            in a register
-
-> +	  each GPIO owns field with different length and on/off values.
-
-maybe:
-	                 fields with different lengths
-
-> +
->  config GPIO_SPEAR_SPICS
->  	bool "ST SPEAr13xx SPI Chip Select as GPIO support"
->  	depends on PLAT_SPEAR
-
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 540b59fb4103..69d80937e021 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -593,7 +593,7 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct component_match *match = NULL;
+ 
+-	dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
++	dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+ 
+ 	if (!dev->platform_data) {
+ 		struct device_node *core_node;
 -- 
-~Randy
+2.14.4
