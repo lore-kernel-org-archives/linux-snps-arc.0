@@ -1,102 +1,41 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 22 Aug 2018 18:40:27 +0000
-Subject: [PATCH v2 2/4] ARC: allow to use IOC and non-IOC DMA devices
- simultaneously
-In-Reply-To: <81ddd506-1f7e-db82-4c77-ff08b1c15dd3@synopsys.com>
-References: <20180730162636.3556-1-Eugeniy.Paltsev@synopsys.com>
- <20180730162636.3556-3-Eugeniy.Paltsev@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075012B08C83D@us01wembx1.internal.synopsys.com>
- <1534180089.3962.68.camel@synopsys.com>
- <81ddd506-1f7e-db82-4c77-ff08b1c15dd3@synopsys.com>
+From: l.stach@pengutronix.de (Lucas Stach)
+Date: Thu, 23 Aug 2018 10:54:16 +0200
+Subject: [RFC] etnaviv: missing dma_mask
+In-Reply-To: <20180817064222.GB10811@lst.de>
+References: <20180814141225.6123-1-Eugeniy.Paltsev@synopsys.com>
+ <20180817064222.GB10811@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1534963226.3962.215.camel@synopsys.com>
+Message-ID: <1535014456.2724.1.camel@pengutronix.de>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
-
-On Mon, 2018-08-20@15:34 -0700, Vineet Gupta wrote:
-> On 08/13/2018 10:08 AM, Eugeniy Paltsev wrote:
-> > On Mon, 2018-08-13@16:24 +0000, Vineet Gupta wrote:
-> > > On 07/30/2018 09:26 AM, Eugeniy Paltsev wrote:
-> > > > @@ -1263,11 +1254,7 @@ void __init arc_cache_init_master(void)
-> > > >  	if (is_isa_arcv2() && ioc_enable)
-> > > >  		arc_ioc_setup();
-> > > >  
-> > > > -	if (is_isa_arcv2() && ioc_enable) {
-> > > > -		__dma_cache_wback_inv = __dma_cache_wback_inv_ioc;
-> > > > -		__dma_cache_inv = __dma_cache_inv_ioc;
-> > > > -		__dma_cache_wback = __dma_cache_wback_ioc;
-> > > > -	} else if (is_isa_arcv2() && l2_line_sz && slc_enable) {
-> 
-> For the casual reader I'd add a comment why this was deleted.
-Do you mean comment in commit description or comment right in sources?
-
-> 
-> > > > +	if (is_isa_arcv2() && l2_line_sz && slc_enable) {
-> > > >  		__dma_cache_wback_inv = __dma_cache_wback_inv_slc;
-> > > >  		__dma_cache_inv = __dma_cache_inv_slc;
-> > > >  		__dma_cache_wback = __dma_cache_wback_slc;
-> 
-> [snip]
-> 
-> > > >  
-> > > > -	/*
-> > > > -	 * IOC relies on all data (even coherent DMA data) being in cache
-> > > > -	 * Thus allocate normal cached memory
-> > > > -	 *
-> > > > -	 * The gains with IOC are two pronged:
-> > > > -	 *   -For streaming data, elides need for cache maintenance, saving
-> > > > -	 *    cycles in flush code, and bus bandwidth as all the lines of a
-> > > > -	 *    buffer need to be flushed out to memory
-> > > > -	 *   -For coherent data, Read/Write to buffers terminate early in cache
-> > > > -	 *   (vs. always going to memory - thus are faster)
-> > > > -	 */
-> > > > -	if ((is_isa_arcv2() && ioc_enable) ||
-> > > > -	    (attrs & DMA_ATTR_NON_CONSISTENT))
-> > > > +	if (attrs & DMA_ATTR_NON_CONSISTENT)
-> > > >  		need_coh = 0;
-> > > >  
-> 
-> [snip]
-> 
-> > Yep, I tested that.
-> > And it works fine with both @ioc_enable == 0 and @ioc_enable == 1
-> > Note that we check this variable in arch_setup_dma_ops() function now.
+Am Freitag, den 17.08.2018, 08:42 +0200 schrieb Christoph Hellwig:
+> On Tue, Aug 14, 2018@05:12:25PM +0300, Eugeniy Paltsev wrote:
+> > Hi Lucas, Christoph,
 > > 
-> > So this arch_dma_{alloc,free} are used ONLY in case of software assisted cache maintenance.
-> > That's why we had to do MMU mapping to enforce non-cachability regardless of @ioc_enable.
+> > After switching ARC to generic dma_noncoherent cache ops?
+> > etnaviv driver start failing on dma maping functions because of
+> > dma_mask lack.
+> > 
+> > So I'm wondering is it valid case to have device which is
+> > DMA capable and doesn't have dma_mask set?
+> > 
+> > If not, then I guess something like that should work
+> > (at least it works for ARC):
 > 
-> Reading kernel/dma/* I see what you mean. We check @ioc_enable at the time of
-> registering the dma op for coherent vs. non coherent case, so there's common vs.
-> ARC versions of alloc/free for coherent vs. noncoherent.
-
-Just to be sure that we understand both each other and source code correctly: 
-- In coherent case we use dma_direct_* ops which doesn't use ARC alloc functions (arch_dma_{alloc|free})
-- In non-coherent case we use dma_noncoherent_* ops which uses ARC alloc functions (arch_dma_{alloc|free})
-
-> But then I'm curious why
-> do we bother to check the following in new arch_dma_(alloc|free) at all.
+> This looks ok is a minimal fix:
 > 
-> 	if (attrs & DMA_ATTR_NON_CONSISTENT)
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
 > 
-> Isn't it supposed to be NON_CONSISTENT always given the way new code works ?
+> But why doesn't this device have a dma-range property in DT?
 
-DMA_ATTR_NON_CONSISTENT flag is not related to IOC topic.
-It is a flag which we can pass to dma_{alloc|free}_attrs function from driver side.
+Because the etnaviv device is a virtual device not represented in DT,
+as it is only used to expose the DRM device, which may cover multiple
+GPU core devices. The GPU core devices are properly configured from DT,
+but unfortunately many of the dma related operations happen through the
+DRM device. We could fix this by replacing many of the DRM helpers with
+etnaviv specific functions handling dma per GPU core, but it isn't a
+clear win right now, as generally on SoCs with multiple GPU cores, the
+devices are on the same bus and have the same dma requirements.
 
-According to documentation:
-  DMA_ATTR_NON_CONSISTENT: Lets the platform to choose to return either
-  consistent or non-consistent memory as it sees fit.
-
-We check this flag in arch_dma_alloc (which are used in non-coherent case) to
-skip MMU mapping if we are advertised that consistency is not required.
-
-So, actually we can get rid of this flag checking in arch_dma_alloc and 
-simply always do MMU mapping to enforce non-cachability and return
-non-cacheable memory even if DMA_ATTR_NON_CONSISTENT is passed.
-But I don't sure we want to do that.
-
-BTW: dma_alloc_coherent is simply dma_alloc_attrs with attrs == 0.
-
--- 
- Eugeniy Paltsev
+Regards,
+Lucas
