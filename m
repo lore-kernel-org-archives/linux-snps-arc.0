@@ -1,31 +1,50 @@
-From: hch@lst.de (hch@lst.de)
-Date: Thu, 23 Aug 2018 16:05:25 +0200
-Subject: [PATCH v2 2/4] ARC: allow to use IOC and non-IOC DMA devices
- simultaneously
-In-Reply-To: <1534963226.3962.215.camel@synopsys.com>
-References: <20180730162636.3556-1-Eugeniy.Paltsev@synopsys.com>
- <20180730162636.3556-3-Eugeniy.Paltsev@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075012B08C83D@us01wembx1.internal.synopsys.com>
- <1534180089.3962.68.camel@synopsys.com>
- <81ddd506-1f7e-db82-4c77-ff08b1c15dd3@synopsys.com>
- <1534963226.3962.215.camel@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 23 Aug 2018 18:00:11 +0300
+Subject: [PATCH 0/2] GPIO: add single-register gpio via creg driver
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180823140525.GA26121@lst.de>
+Message-ID: <20180823150013.21837-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Btw, given that I assume this is 4.20 material now, any chance we
-could merge it through the dma-mapping tree?  I have some major changes
-pending that would clash if done in a different tree, so I'd rather
-get it all together.
+Add single-register MMIO gpio driver for complex cases where
+only several fields in register belong to GPIO and each GPIO
+owns field with different length and on/off values.
 
-> We check this flag in arch_dma_alloc (which are used in non-coherent case) to
-> skip MMU mapping if we are advertised that consistency is not required.
-> 
-> So, actually we can get rid of this flag checking in arch_dma_alloc and 
-> simply always do MMU mapping to enforce non-cachability and return
-> non-cacheable memory even if DMA_ATTR_NON_CONSISTENT is passed.
-> But I don't sure we want to do that.
+Here is the example:
 
-I plan to kill this flag for 4.20 (or 4.20 at latest) in favor
-of a better interface.  But your implementation looks ok, so I'm
-fine with keeping it for now.
+31            11        8         7        5         0   < bit number
+|              |        |         |        |         |
+[   not used   | gpio-1 | shift-1 | gpio-0 | shift-0 ]   < 32 bit MMIO
+                   ^                  ^
+                (3 bit)            (2 bit)
+                   |                  |
+                   |                  |
+                   |           write 0x2 == set output to "1" (on)
+                   |           write 0x3 == set output to "0" (off)
+                   |
+            write 0x1 == set output to "1" (on)
+            write 0x4 == set output to "0" (off)
+
+This is different from gpio-reg, gpio-mmio and gpio-74xx-mmio:
+* They all don't support cases when GPIO output register have
+  more than one bit per GPIO line.
+* They don't support holes in MMIO register.
+* They don't support cases when GPIO lines have different on/off
+  values.
+
+This driver supports GPIOs via CREG on various Synopsys SoCs/boards.
+
+Eugeniy Paltsev (2):
+  GPIO: add single-register gpio via creg driver
+  dt-bindings: Document the Synopsys GPIO via CREG bindings
+
+ .../devicetree/bindings/gpio/snps,creg-gpio.txt    |  48 ++++
+ MAINTAINERS                                        |   6 +
+ drivers/gpio/Kconfig                               |   9 +
+ drivers/gpio/Makefile                              |   1 +
+ drivers/gpio/gpio-creg-snps.c                      | 242 +++++++++++++++++++++
+ 5 files changed, 306 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpio/snps,creg-gpio.txt
+ create mode 100644 drivers/gpio/gpio-creg-snps.c
+
+-- 
+2.14.4
