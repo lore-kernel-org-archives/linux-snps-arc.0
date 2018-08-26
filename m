@@ -1,21 +1,21 @@
 From: gregkh@linuxfoundation.org (gregkh@linuxfoundation.org)
 Date: Sun, 26 Aug 2018 09:14:10 +0200
-Subject: Patch "arc: [plat-eznps] fix printk warning in arc/plat-eznps/mtm.c"
- has been added to the 4.14-stable tree
+Subject: Patch "arc: fix type warnings in arc/mm/cache.c" has been added to
+ the 4.14-stable tree
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <15352676502994@kroah.com>
+Message-ID: <1535267650231116@kroah.com>
 To: linux-snps-arc@lists.infradead.org
 
 
 This is a note to let you know that I've just added the patch titled
 
-    arc: [plat-eznps] fix printk warning in arc/plat-eznps/mtm.c
+    arc: fix type warnings in arc/mm/cache.c
 
 to the 4.14-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     arc-fix-printk-warning-in-arc-plat-eznps-mtm.c.patch
+     arc-fix-type-warnings-in-arc-mm-cache.c.patch
 and it can be found in the queue-4.14 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
@@ -25,77 +25,58 @@ please let <stable at vger.kernel.org> know about it.
 >From foo at baz Sun Aug 26 09:13:00 CEST 2018
 From: Randy Dunlap <rdunlap@infradead.org>
 Date: Thu, 26 Jul 2018 20:16:35 -0700
-Subject: arc: [plat-eznps] fix printk warning in arc/plat-eznps/mtm.c
+Subject: arc: fix type warnings in arc/mm/cache.c
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-[ Upstream commit 9e2ea405543d9ddfe05b351f1679e53bd9c11f80 ]
+[ Upstream commit ec837d620c750c0d4996a907c8c4f7febe1bbeee ]
 
-Fix printk format warning in arch/arc/plat-eznps/mtm.c:
+Fix type warnings in arch/arc/mm/cache.c.
 
-In file included from ../include/linux/printk.h:7,
-                 from ../include/linux/kernel.h:14,
-                 from ../include/linux/list.h:9,
-                 from ../include/linux/smp.h:12,
-                 from ../arch/arc/plat-eznps/mtm.c:17:
-../arch/arc/plat-eznps/mtm.c: In function 'set_mtm_hs_ctr':
-../include/linux/kern_levels.h:5:18: warning: format '%d' expects argument of type 'int', but argument 2 has type 'long int' [-Wformat=]
- #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                  ^~~~~~
-../include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
- #define KERN_ERR KERN_SOH "3" /* error conditions */
-                  ^~~~~~~~
-../include/linux/printk.h:308:9: note: in expansion of macro 'KERN_ERR'
-  printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         ^~~~~~~~
-../arch/arc/plat-eznps/mtm.c:166:3: note: in expansion of macro 'pr_err'
-   pr_err("** Invalid @nps_mtm_hs_ctr [%d] needs to be [%d:%d] (incl)\n",
-   ^~~~~~
-../arch/arc/plat-eznps/mtm.c:166:40: note: format string is defined here
-   pr_err("** Invalid @nps_mtm_hs_ctr [%d] needs to be [%d:%d] (incl)\n",
-                                       ~^
-                                       %ld
-The hs_ctr variable can just be int instead of long, so also change
-kstrtol() to kstrtoint() and leave the format string as %d.
+../arch/arc/mm/cache.c: In function 'flush_anon_page':
+../arch/arc/mm/cache.c:1062:55: warning: passing argument 2 of '__flush_dcache_page' makes integer from pointer without a cast [-Wint-conversion]
+  __flush_dcache_page((phys_addr_t)page_address(page), page_address(page));
+                                                       ^~~~~~~~~~~~~~~~~~
+../arch/arc/mm/cache.c:1013:59: note: expected 'long unsigned int' but argument is of type 'void *'
+ void __flush_dcache_page(phys_addr_t paddr, unsigned long vaddr)
+                                             ~~~~~~~~~~~~~~^~~~~
 
-Also add 2 header files since they are used in mtm.c and we prefer
-not to depend on accidental/indirect #includes.
-
-Cc: linux-snps-arc at lists.infradead.org
-Cc: Ofer Levi <oferle at mellanox.com>
-Reviewed-by: Leon Romanovsky <leonro at mellanox.com>
 Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: Elad Kanfi <eladkan at mellanox.com>
+Cc: Leon Romanovsky <leonro at mellanox.com>
+Cc: Ofer Levi <oferle at mellanox.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <alexander.levin at microsoft.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 ---
- arch/arc/plat-eznps/mtm.c |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ arch/arc/mm/cache.c |    7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
---- a/arch/arc/plat-eznps/mtm.c
-+++ b/arch/arc/plat-eznps/mtm.c
-@@ -15,6 +15,8 @@
-  */
- 
- #include <linux/smp.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
- #include <linux/io.h>
- #include <linux/log2.h>
- #include <asm/arcregs.h>
-@@ -157,10 +159,10 @@ void mtm_enable_core(unsigned int cpu)
- /* Verify and set the value of the mtm hs counter */
- static int __init set_mtm_hs_ctr(char *ctr_str)
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -1035,7 +1035,7 @@ void flush_cache_mm(struct mm_struct *mm
+ void flush_cache_page(struct vm_area_struct *vma, unsigned long u_vaddr,
+ 		      unsigned long pfn)
  {
--	long hs_ctr;
-+	int hs_ctr;
- 	int ret;
+-	unsigned int paddr = pfn << PAGE_SHIFT;
++	phys_addr_t paddr = pfn << PAGE_SHIFT;
  
--	ret = kstrtol(ctr_str, 0, &hs_ctr);
-+	ret = kstrtoint(ctr_str, 0, &hs_ctr);
+ 	u_vaddr &= PAGE_MASK;
  
- 	if (ret || hs_ctr > MT_HS_CNT_MAX || hs_ctr < MT_HS_CNT_MIN) {
- 		pr_err("** Invalid @nps_mtm_hs_ctr [%d] needs to be [%d:%d] (incl)\n",
+@@ -1055,8 +1055,9 @@ void flush_anon_page(struct vm_area_stru
+ 		     unsigned long u_vaddr)
+ {
+ 	/* TBD: do we really need to clear the kernel mapping */
+-	__flush_dcache_page(page_address(page), u_vaddr);
+-	__flush_dcache_page(page_address(page), page_address(page));
++	__flush_dcache_page((phys_addr_t)page_address(page), u_vaddr);
++	__flush_dcache_page((phys_addr_t)page_address(page),
++			    (phys_addr_t)page_address(page));
+ 
+ }
+ 
 
 
 Patches currently in stable-queue which might be from rdunlap at infradead.org are
