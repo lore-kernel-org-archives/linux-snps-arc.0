@@ -1,71 +1,157 @@
-From: hpa@zytor.com (H. Peter Anvin)
-Date: Sun, 26 Aug 2018 16:20:19 -0700
-Subject: [PATCH] treewide: remove current_text_addr
-In-Reply-To: <6ca8a1d3-ff95-e9f4-f003-0a5af85bcb6f@zytor.com>
-References: <CAKwvOdkWL_2yTnJqM6n6R9UCPwY4iz-9BQYGN2MDAk9EzumUvA@mail.gmail.com>
- <20180821202900.208417-1-ndesaulniers@google.com>
- <207784db-4fcc-85e7-a0b2-fec26b7dab81@gmx.de>
- <c62e4e00-fb8f-19a6-f3eb-bde60118cb1a@zytor.com>
- <81141365-8168-799b-f34f-da5f92efaaf9@zytor.com>
- <7f49eeab-a5cc-867f-58fb-abd266f9c2c9@zytor.com>
- <6ca8a1d3-ff95-e9f4-f003-0a5af85bcb6f@zytor.com>
+From: robh@kernel.org (Rob Herring)
+Date: Sun, 26 Aug 2018 18:56:14 -0500
+Subject: [PATCH 6/8] kbuild: consolidate Devicetree dtb build rules
+In-Reply-To: <CAK7LNATcYSvwh0BEEdyUuDa_Y9X-AqQAzA5MrbNhOSMmSzqhTg@mail.gmail.com>
+References: <20180821215524.23040-1-robh@kernel.org>
+ <20180821215524.23040-7-robh@kernel.org>
+ <CAK7LNATcYSvwh0BEEdyUuDa_Y9X-AqQAzA5MrbNhOSMmSzqhTg@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <e425d208-214b-06a2-a032-7442a10388fc@zytor.com>
+Message-ID: <CAL_JsqJJ6DCT8AjVYqkbFuJ+fO0VmVch24B=XRp4pJPkUQYAww@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/26/18 12:30, H. Peter Anvin wrote:
-> Here is a full-blown (user space) test program demonstrating the whole
-> technique and how to use it.
-> 
-> 	-hpa
+On Sat, Aug 25, 2018 at 9:06 PM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> Hi Rob,
+>
+>
+> 2018-08-22 6:55 GMT+09:00 Rob Herring <robh at kernel.org>:
+> > There is nothing arch specific about building dtb files other than their
+> > location under /arch/*/boot/dts/. Keeping each arch aligned is a pain.
+> > The dependencies and supported targets are all slightly different.
+> > Also, a cross-compiler for each arch is needed, but really the host
+> > compiler preprocessor is perfectly fine for building dtbs. Move the
+> > build rules to a common location and remove the arch specific ones. This
+> > is done in a single step to avoid warnings about overriding rules.
+> >
+> > The build dependencies had been a mixture of 'scripts' and/or 'prepare'.
+> > These pull in several dependencies some of which need a target compiler
+> > (specifically devicetable-offsets.h) and aren't needed to build dtbs.
+> > All that is really needed is dtc, so adjust the dependencies to only be
+> > dtc.
+> >
+> > This change enables support 'dtbs_install' on some arches which were
+> > missing the target.
+> >
+> > Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
+> > Cc: Michal Marek <michal.lkml at markovi.net>
+> > Cc: Vineet Gupta <vgupta at synopsys.com>
+> > Cc: Russell King <linux at armlinux.org.uk>
+> > Cc: Catalin Marinas <catalin.marinas at arm.com>
+> > Cc: Will Deacon <will.deacon at arm.com>
+> > Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
+> > Cc: Michal Simek <monstr at monstr.eu>
+> > Cc: Ralf Baechle <ralf at linux-mips.org>
+> > Cc: Paul Burton <paul.burton at mips.com>
+> > Cc: James Hogan <jhogan at kernel.org>
+> > Cc: Ley Foon Tan <lftan at altera.com>
+> > Cc: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> > Cc: Paul Mackerras <paulus at samba.org>
+> > Cc: Michael Ellerman <mpe at ellerman.id.au>
+> > Cc: Chris Zankel <chris at zankel.net>
+> > Cc: Max Filippov <jcmvbkbc at gmail.com>
+> > Cc: linux-kbuild at vger.kernel.org
+> > Cc: linux-snps-arc at lists.infradead.org
+> > Cc: linux-arm-kernel at lists.infradead.org
+> > Cc: uclinux-h8-devel at lists.sourceforge.jp
+> > Cc: linux-mips at linux-mips.org
+> > Cc: nios2-dev at lists.rocketboards.org
+> > Cc: linuxppc-dev at lists.ozlabs.org
+> > Cc: linux-xtensa at linux-xtensa.org
+> > Signed-off-by: Rob Herring <robh at kernel.org>
+> > ---
+> >  Makefile                 | 30 ++++++++++++++++++++++++++++++
+> >  arch/arc/Makefile        |  6 ------
+> >  arch/arm/Makefile        | 20 +-------------------
+> >  arch/arm64/Makefile      | 17 +----------------
+> >  arch/c6x/Makefile        |  2 --
+> >  arch/h8300/Makefile      | 11 +----------
+> >  arch/microblaze/Makefile |  4 +---
+> >  arch/mips/Makefile       | 15 +--------------
+> >  arch/nds32/Makefile      |  2 +-
+> >  arch/nios2/Makefile      |  7 -------
+> >  arch/nios2/boot/Makefile |  4 ----
+> >  arch/powerpc/Makefile    |  3 ---
+> >  arch/xtensa/Makefile     | 12 +-----------
+> >  scripts/Makefile         |  1 -
+> >  scripts/Makefile.lib     |  2 +-
+> >  15 files changed, 38 insertions(+), 98 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index c13f8b85ba60..6d89e673f192 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1212,6 +1212,30 @@ kselftest-merge:
+> >                 $(srctree)/tools/testing/selftests/*/config
+> >         +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+> >
+> > +# ---------------------------------------------------------------------------
+> > +# Devicetree files
+> > +
+> > +dtstree := $(wildcard arch/$(SRCARCH)/boot/dts)
 
-Incidentally, it looks like _RET_IP_ really should be defined as:
+BTW, there's an error here too. It doesn't work right with
+KBUILD_OUTPUT set and should be:
 
+ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/),)
+dtstree := arch/$(SRCARCH)/boot/dts
+endif
 
-/*
- * Is there any reason whatsoever to have _RET_IP_ an unsigned int
- * rather than a pointer throughout?
- */
+> > +
+> > +ifdef CONFIG_OF_EARLY_FLATTREE
+> > +
+> > +%.dtb %.dtb.S %.dtb.o: | dtc
+>
+> I think the pipe operator is unnecessary
+> because Kbuild will descend to $(dtstree) anyway.
 
-#define _RET_IP_PTR_ \
-	__builtin_extract_return_addr(__builtin_return_addr(0))
-#define _RET_IP_ ((unsigned long)_RET_IP_PTR_)
+The pipe means 'order-only', right? So it is just a weaker dependency
+for things which are not input files as dtc is not. The 'dtc' here is
+just the dtc rule below, not the actual executable. Or am I missing
+something?
 
-On some architectures __builtin_extract_return_addr() is apparently
-necessary; its a nop on x86.  Why that isn't part of
-__builtin_return_addr() one can really wonder.
+> > +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+> > +
+> > +PHONY += dtbs
+> > +dtbs: | dtc
+>
+> Ditto.
+>
+>
+> > +       $(Q)$(MAKE) $(build)=$(dtstree)
+> > +
+> > +dtbs_install: dtbs
+> > +       $(Q)$(MAKE) $(dtbinst)=$(dtstree)
+> > +
+> > +all: dtbs
+> > +
+> > +dtc:
+> > +       $(Q)$(MAKE) $(build)=scripts/dtc
+> > +
+> > +endif
+> > +
+>
+>
+> arch/*/boot/dts/ are not only directories that
+> require dtc.
 
-So, checking into all of this, the generic _THIS_IP_ DOES NOT WORK on
-x86.  I have tried a tons of variants, including adding various asm
-volatile(...) instructions, and no matter what I do, it will always
-return the address of the surrounding function rather than any kind of
-local IP.  The only way to get a localized address seems to be in
-assembly, but even so, there is absolutely no guarantee that the value
-of _THIS_IP_ has anything to do with where the code is otherwise
-localized in the function.
+Ah yes, of course...
 
->From examining the output of gcc, the fundamental problem seems to be
-that *no matter what* one do with the label, unless gcc actually
-produces a computed goto somewhere in the code, that it can't remove
-with dead-code elimination or constant propagation, it will arbitrarily
-hoist the labels all the way to the beginning of the function. Given
-that, I suspect that other versions of gcc might have similar problems.
+> > diff --git a/scripts/Makefile b/scripts/Makefile
+> > index 61affa300d25..a716a6b10954 100644
+> > --- a/scripts/Makefile
+> > +++ b/scripts/Makefile
+> > @@ -39,7 +39,6 @@ build_unifdef: $(obj)/unifdef
+> >  subdir-$(CONFIG_MODVERSIONS) += genksyms
+> >  subdir-y                     += mod
+> >  subdir-$(CONFIG_SECURITY_SELINUX) += selinux
+> > -subdir-$(CONFIG_DTC)         += dtc
+> >  subdir-$(CONFIG_GDB_SCRIPTS) += gdb
+> >
+> >  # Let clean descend into subdirs
 
-This is the closest thing to arch-neutral I have been able to find that
-also works on x86, while not at the same time horribly polluting the
-namespace:
+Looks like I need to leave this line to fix the above and cleaning.
 
-#define __here(n) ___here_ ## n
-#define __hereasm(n) ".L___here_" #n
-#define _THIS_IP_CTR_(n)					\
-	({							\
-		extern const char __here(n) asm(__hereasm(n));	\
-		asm volatile(__hereasm(n) ": /* _THIS_IP_ */"); \
-		(unsigned long)&__here(n);			\
-	})
-#define _THIS_IP_ _THIS_IP_CTR_(__COUNTER__)
+Thanks for the review.
 
-The use of asm volatile() to define a label means that the position in
-the instruction stream is at least reasonably well-defined.
-
-	-hpa
+Rob
