@@ -1,21 +1,21 @@
 From: gregkh@linuxfoundation.org (gregkh@linuxfoundation.org)
 Date: Sun, 26 Aug 2018 09:16:47 +0200
-Subject: Patch "arc: [plat-eznps] fix data type errors in platform headers"
- has been added to the 4.9-stable tree
+Subject: Patch "arc: fix build errors in arc/include/asm/delay.h" has been
+ added to the 4.9-stable tree
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <153526780756160@kroah.com>
+Message-ID: <15352678075190@kroah.com>
 To: linux-snps-arc@lists.infradead.org
 
 
 This is a note to let you know that I've just added the patch titled
 
-    arc: [plat-eznps] fix data type errors in platform headers
+    arc: fix build errors in arc/include/asm/delay.h
 
 to the 4.9-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     arc-fix-data-type-errors-in-platform-headers.patch
+     arc-fix-build-errors-in-arc-include-asm-delay.h.patch
 and it can be found in the queue-4.9 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
@@ -24,57 +24,56 @@ please let <stable at vger.kernel.org> know about it.
 
 >From foo at baz Sun Aug 26 09:16:12 CEST 2018
 From: Randy Dunlap <rdunlap@infradead.org>
-Date: Sun, 29 Jul 2018 11:10:51 -0700
-Subject: arc: [plat-eznps] fix data type errors in platform headers
+Date: Thu, 26 Jul 2018 20:16:35 -0700
+Subject: arc: fix build errors in arc/include/asm/delay.h
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-[ Upstream commit b1f32ce1c3d2c11959b7e6a2c58dc5197c581966 ]
+[ Upstream commit 2423665ec53f2a29191b35382075e9834288a975 ]
 
-Add <linux/types.h> to fix build errors.
-Both ctop.h and <soc/nps/common.h> use u32 types and cause many
-errors.
+Fix build errors in arch/arc/'s delay.h:
+- add "extern unsigned long loops_per_jiffy;"
+- add <asm-generic/types.h> for "u64"
 
-Examples:
-../include/soc/nps/common.h:71:4: error: unknown type name 'u32'
-    u32 __reserved:20, cluster:4, core:4, thread:4;
-../include/soc/nps/common.h:76:3: error: unknown type name 'u32'
-   u32 value;
-../include/soc/nps/common.h:124:4: error: unknown type name 'u32'
-    u32 base:8, cl_x:4, cl_y:4,
-../include/soc/nps/common.h:127:3: error: unknown type name 'u32'
-   u32 value;
+In file included from ../drivers/infiniband/hw/cxgb3/cxio_hal.c:32:
+../arch/arc/include/asm/delay.h: In function '__udelay':
+../arch/arc/include/asm/delay.h:61:12: error: 'u64' undeclared (first use in this function)
+  loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
+            ^~~
 
-../arch/arc/plat-eznps/include/plat/ctop.h:83:4: error: unknown type name 'u32'
-    u32 gen:1, gdis:1, clk_gate_dis:1, asb:1,
-../arch/arc/plat-eznps/include/plat/ctop.h:86:3: error: unknown type name 'u32'
-   u32 value;
-../arch/arc/plat-eznps/include/plat/ctop.h:93:4: error: unknown type name 'u32'
-    u32 csa:22, dmsid:6, __reserved:3, cs:1;
-../arch/arc/plat-eznps/include/plat/ctop.h:95:3: error: unknown type name 'u32'
-   u32 value;
+In file included from ../drivers/infiniband/hw/cxgb3/cxio_hal.c:32:
+../arch/arc/include/asm/delay.h: In function '__udelay':
+../arch/arc/include/asm/delay.h:63:37: error: 'loops_per_jiffy' undeclared (first use in this function)
+  loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
+                                     ^~~~~~~~~~~~~~~
 
-Cc: linux-snps-arc at lists.infradead.org
-Cc: Ofer Levi <oferle at mellanox.com>
-Reviewed-by: Leon Romanovsky <leonro at mellanox.com>
 Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: Elad Kanfi <eladkan at mellanox.com>
+Cc: Leon Romanovsky <leonro at mellanox.com>
+Cc: Ofer Levi <oferle at mellanox.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <alexander.levin at microsoft.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 ---
- arch/arc/plat-eznps/include/plat/ctop.h |    1 +
- 1 file changed, 1 insertion(+)
+ arch/arc/include/asm/delay.h |    3 +++
+ 1 file changed, 3 insertions(+)
 
---- a/arch/arc/plat-eznps/include/plat/ctop.h
-+++ b/arch/arc/plat-eznps/include/plat/ctop.h
-@@ -21,6 +21,7 @@
- #error "Incorrect ctop.h include"
- #endif
+--- a/arch/arc/include/asm/delay.h
++++ b/arch/arc/include/asm/delay.h
+@@ -17,8 +17,11 @@
+ #ifndef __ASM_ARC_UDELAY_H
+ #define __ASM_ARC_UDELAY_H
  
-+#include <linux/types.h>
- #include <soc/nps/common.h>
++#include <asm-generic/types.h>
+ #include <asm/param.h>		/* HZ */
  
- /* core auxiliary registers */
++extern unsigned long loops_per_jiffy;
++
+ static inline void __delay(unsigned long loops)
+ {
+ 	__asm__ __volatile__(
 
 
 Patches currently in stable-queue which might be from rdunlap at infradead.org are
