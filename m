@@ -1,157 +1,79 @@
-From: robh@kernel.org (Rob Herring)
-Date: Sun, 26 Aug 2018 18:56:14 -0500
-Subject: [PATCH 6/8] kbuild: consolidate Devicetree dtb build rules
-In-Reply-To: <CAK7LNATcYSvwh0BEEdyUuDa_Y9X-AqQAzA5MrbNhOSMmSzqhTg@mail.gmail.com>
-References: <20180821215524.23040-1-robh@kernel.org>
- <20180821215524.23040-7-robh@kernel.org>
- <CAK7LNATcYSvwh0BEEdyUuDa_Y9X-AqQAzA5MrbNhOSMmSzqhTg@mail.gmail.com>
+From: ndesaulniers@google.com (Nick Desaulniers)
+Date: Sun, 26 Aug 2018 19:52:59 -0700
+Subject: [PATCH] treewide: remove current_text_addr
+In-Reply-To: <CA+55aFzuSCKfmgT9efHuwtan+m3+bPh4BpwbZwn5gGX_H=Thuw@mail.gmail.com>
+References: <CAKwvOdkWL_2yTnJqM6n6R9UCPwY4iz-9BQYGN2MDAk9EzumUvA@mail.gmail.com>
+ <20180821202900.208417-1-ndesaulniers@google.com>
+ <207784db-4fcc-85e7-a0b2-fec26b7dab81@gmx.de>
+ <c62e4e00-fb8f-19a6-f3eb-bde60118cb1a@zytor.com>
+ <81141365-8168-799b-f34f-da5f92efaaf9@zytor.com>
+ <7f49eeab-a5cc-867f-58fb-abd266f9c2c9@zytor.com>
+ <6ca8a1d3-ff95-e9f4-f003-0a5af85bcb6f@zytor.com>
+ <CA+55aFzuSCKfmgT9efHuwtan+m3+bPh4BpwbZwn5gGX_H=Thuw@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAL_JsqJJ6DCT8AjVYqkbFuJ+fO0VmVch24B=XRp4pJPkUQYAww@mail.gmail.com>
+Message-ID: <CAKwvOd=wAaPBkFHAcWxgMW91a--9gbvu7xrt3j-q8c+-mT=7Lw@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Sat, Aug 25, 2018 at 9:06 PM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
+On Sun, Aug 26, 2018 at 1:25 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+> Honestly, I'd suggest:
 >
-> Hi Rob,
+>  - just do the current_text_addr() to _THIS_IP_ conversion
 >
+>  - keep _THIS_IP_ and make it be the generic one, and screw the whole
+> "some architectures might implement is better" issue. Nobody cares.
+
+And mention it to the compiler vendors as this seems like a case where
+code gen can be improved.
+
 >
-> 2018-08-22 6:55 GMT+09:00 Rob Herring <robh at kernel.org>:
-> > There is nothing arch specific about building dtb files other than their
-> > location under /arch/*/boot/dts/. Keeping each arch aligned is a pain.
-> > The dependencies and supported targets are all slightly different.
-> > Also, a cross-compiler for each arch is needed, but really the host
-> > compiler preprocessor is perfectly fine for building dtbs. Move the
-> > build rules to a common location and remove the arch specific ones. This
-> > is done in a single step to avoid warnings about overriding rules.
-> >
-> > The build dependencies had been a mixture of 'scripts' and/or 'prepare'.
-> > These pull in several dependencies some of which need a target compiler
-> > (specifically devicetable-offsets.h) and aren't needed to build dtbs.
-> > All that is really needed is dtc, so adjust the dependencies to only be
-> > dtc.
-> >
-> > This change enables support 'dtbs_install' on some arches which were
-> > missing the target.
-> >
-> > Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
-> > Cc: Michal Marek <michal.lkml at markovi.net>
-> > Cc: Vineet Gupta <vgupta at synopsys.com>
-> > Cc: Russell King <linux at armlinux.org.uk>
-> > Cc: Catalin Marinas <catalin.marinas at arm.com>
-> > Cc: Will Deacon <will.deacon at arm.com>
-> > Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
-> > Cc: Michal Simek <monstr at monstr.eu>
-> > Cc: Ralf Baechle <ralf at linux-mips.org>
-> > Cc: Paul Burton <paul.burton at mips.com>
-> > Cc: James Hogan <jhogan at kernel.org>
-> > Cc: Ley Foon Tan <lftan at altera.com>
-> > Cc: Benjamin Herrenschmidt <benh at kernel.crashing.org>
-> > Cc: Paul Mackerras <paulus at samba.org>
-> > Cc: Michael Ellerman <mpe at ellerman.id.au>
-> > Cc: Chris Zankel <chris at zankel.net>
-> > Cc: Max Filippov <jcmvbkbc at gmail.com>
-> > Cc: linux-kbuild at vger.kernel.org
-> > Cc: linux-snps-arc at lists.infradead.org
-> > Cc: linux-arm-kernel at lists.infradead.org
-> > Cc: uclinux-h8-devel at lists.sourceforge.jp
-> > Cc: linux-mips at linux-mips.org
-> > Cc: nios2-dev at lists.rocketboards.org
-> > Cc: linuxppc-dev at lists.ozlabs.org
-> > Cc: linux-xtensa at linux-xtensa.org
-> > Signed-off-by: Rob Herring <robh at kernel.org>
-> > ---
-> >  Makefile                 | 30 ++++++++++++++++++++++++++++++
-> >  arch/arc/Makefile        |  6 ------
-> >  arch/arm/Makefile        | 20 +-------------------
-> >  arch/arm64/Makefile      | 17 +----------------
-> >  arch/c6x/Makefile        |  2 --
-> >  arch/h8300/Makefile      | 11 +----------
-> >  arch/microblaze/Makefile |  4 +---
-> >  arch/mips/Makefile       | 15 +--------------
-> >  arch/nds32/Makefile      |  2 +-
-> >  arch/nios2/Makefile      |  7 -------
-> >  arch/nios2/boot/Makefile |  4 ----
-> >  arch/powerpc/Makefile    |  3 ---
-> >  arch/xtensa/Makefile     | 12 +-----------
-> >  scripts/Makefile         |  1 -
-> >  scripts/Makefile.lib     |  2 +-
-> >  15 files changed, 38 insertions(+), 98 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index c13f8b85ba60..6d89e673f192 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1212,6 +1212,30 @@ kselftest-merge:
-> >                 $(srctree)/tools/testing/selftests/*/config
-> >         +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
-> >
-> > +# ---------------------------------------------------------------------------
-> > +# Devicetree files
-> > +
-> > +dtstree := $(wildcard arch/$(SRCARCH)/boot/dts)
-
-BTW, there's an error here too. It doesn't work right with
-KBUILD_OUTPUT set and should be:
-
-ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/),)
-dtstree := arch/$(SRCARCH)/boot/dts
-endif
-
-> > +
-> > +ifdef CONFIG_OF_EARLY_FLATTREE
-> > +
-> > +%.dtb %.dtb.S %.dtb.o: | dtc
+>  - try to convince people to move away from the "we want the kernel
+> instruction pointer for the call" model entirely, and consider this a
+> "legacy" issue.
 >
-> I think the pipe operator is unnecessary
-> because Kbuild will descend to $(dtstree) anyway.
+> The whole instruction pointer is a nasty thing. We should discourage
+> it and not make complex infrastructure for it.
 
-The pipe means 'order-only', right? So it is just a weaker dependency
-for things which are not input files as dtc is not. The 'dtc' here is
-just the dtc rule below, not the actual executable. Or am I missing
-something?
+Yes, please.  I think we should strive for simplicity here.
 
-> > +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-> > +
-> > +PHONY += dtbs
-> > +dtbs: | dtc
 >
-> Ditto.
+> Instead, maybe we could encourage something like
 >
+>   struct kernel_loc { const char *file; const char *fn; int line; };
 >
-> > +       $(Q)$(MAKE) $(build)=$(dtstree)
-> > +
-> > +dtbs_install: dtbs
-> > +       $(Q)$(MAKE) $(dtbinst)=$(dtstree)
-> > +
-> > +all: dtbs
-> > +
-> > +dtc:
-> > +       $(Q)$(MAKE) $(build)=scripts/dtc
-> > +
-> > +endif
-> > +
+>   #define __GEN_LOC__(n) \
+>         ({ static const struct kernel_loc n = { \
+>                 __FILE__, __FUNCTION__, __LINE__  \
+>            }; &n; })
 >
+>   #define _THIS_LOC_ __GEN_LOC__(__UNIQUE_ID(loc))
 >
-> arch/*/boot/dts/ are not only directories that
-> require dtc.
+> which is a hell of a lot nicer to use, and actually allows gcc to
+> optimize things (try it: if you pass a _THIS_LOC_ off to an inline
+> function, and that inline function uses the name and line number, gcc
+> will pick them up directly, without the extra structure dereference.
+>
+> Wouldn't it be much nicer to pass these kinds of "location pointer"
+> around, rather than the nasty _THIS_IP_ thing?
+>
+> Certainly lockdep looks like it could easily take that "const struct
+> kernel_loc *" instead of "unsigned long ip". Makes it easy to print
+> out the lockdep info.
+>
+> Ok, I didn't try to convert anybody, so maybe people who currently use
+> _THIS_IP_ or current_text_addr() have some fundamental reason why they
+> want just that, but let's not male _THIS_IP_ more complex than it
+> needs to be.
+>
+> Hmm?
+>
+>              Linus
 
-Ah yes, of course...
-
-> > diff --git a/scripts/Makefile b/scripts/Makefile
-> > index 61affa300d25..a716a6b10954 100644
-> > --- a/scripts/Makefile
-> > +++ b/scripts/Makefile
-> > @@ -39,7 +39,6 @@ build_unifdef: $(obj)/unifdef
-> >  subdir-$(CONFIG_MODVERSIONS) += genksyms
-> >  subdir-y                     += mod
-> >  subdir-$(CONFIG_SECURITY_SELINUX) += selinux
-> > -subdir-$(CONFIG_DTC)         += dtc
-> >  subdir-$(CONFIG_GDB_SCRIPTS) += gdb
-> >
-> >  # Let clean descend into subdirs
-
-Looks like I need to leave this line to fix the above and cleaning.
-
-Thanks for the review.
-
-Rob
+This is extremely reasonable.  I can follow up with the lockdep folks
+to see if they really need _THIS_IP_ to solve their problem, or if
+there's a simpler solution that can solve their needs.  Sometimes
+taking a step back and asking for clarity around the big picture
+allows simpler solutions to shake out.
+-- 
+Thanks,
+~Nick Desaulniers
