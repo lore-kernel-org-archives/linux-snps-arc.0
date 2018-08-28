@@ -1,85 +1,40 @@
-From: gregkh@linuxfoundation.org (gregkh@linuxfoundation.org)
-Date: Tue, 28 Aug 2018 16:11:45 +0200
-Subject: Patch "arc: fix build errors in arc/include/asm/delay.h" has been
- added to the 4.4-stable tree
+From: rdunlap@infradead.org (Randy Dunlap)
+Date: Tue, 28 Aug 2018 11:15:47 -0700
+Subject: [PATCH v2 1/2] GPIO: add single-register gpio via creg driver
+In-Reply-To: <20180828112721.28178-2-Eugeniy.Paltsev@synopsys.com>
+References: <20180828112721.28178-1-Eugeniy.Paltsev@synopsys.com>
+ <20180828112721.28178-2-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <15354655055188@kroah.com>
+Message-ID: <024be088-15ff-89ed-3766-09eb64e47342@infradead.org>
 To: linux-snps-arc@lists.infradead.org
 
+Hi,
 
-This is a note to let you know that I've just added the patch titled
+I don't see any updates/corrections here.  :(
 
-    arc: fix build errors in arc/include/asm/delay.h
+On 08/28/2018 04:27 AM, Eugeniy Paltsev wrote:
 
-to the 4.4-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     arc-fix-build-errors-in-arc-include-asm-delay.h.patch
-and it can be found in the queue-4.4 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable at vger.kernel.org> know about it.
-
-
->From foo at baz Tue Aug 28 16:10:37 CEST 2018
-From: Randy Dunlap <rdunlap@infradead.org>
-Date: Thu, 26 Jul 2018 20:16:35 -0700
-Subject: arc: fix build errors in arc/include/asm/delay.h
-
-From: Randy Dunlap <rdunlap@infradead.org>
-
-[ Upstream commit 2423665ec53f2a29191b35382075e9834288a975 ]
-
-Fix build errors in arch/arc/'s delay.h:
-- add "extern unsigned long loops_per_jiffy;"
-- add <asm-generic/types.h> for "u64"
-
-In file included from ../drivers/infiniband/hw/cxgb3/cxio_hal.c:32:
-../arch/arc/include/asm/delay.h: In function '__udelay':
-../arch/arc/include/asm/delay.h:61:12: error: 'u64' undeclared (first use in this function)
-  loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
-            ^~~
-
-In file included from ../drivers/infiniband/hw/cxgb3/cxio_hal.c:32:
-../arch/arc/include/asm/delay.h: In function '__udelay':
-../arch/arc/include/asm/delay.h:63:37: error: 'loops_per_jiffy' undeclared (first use in this function)
-  loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
-                                     ^~~~~~~~~~~~~~~
-
-Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: Elad Kanfi <eladkan at mellanox.com>
-Cc: Leon Romanovsky <leonro at mellanox.com>
-Cc: Ofer Levi <oferle at mellanox.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Sasha Levin <alexander.levin at microsoft.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
----
- arch/arc/include/asm/delay.h |    3 +++
- 1 file changed, 3 insertions(+)
-
---- a/arch/arc/include/asm/delay.h
-+++ b/arch/arc/include/asm/delay.h
-@@ -17,8 +17,11 @@
- #ifndef __ASM_ARC_UDELAY_H
- #define __ASM_ARC_UDELAY_H
- 
-+#include <asm-generic/types.h>
- #include <asm/param.h>		/* HZ */
- 
-+extern unsigned long loops_per_jiffy;
-+
- static inline void __delay(unsigned long loops)
- {
- 	__asm__ __volatile__(
+> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+> index 71c0ab46f216..0f9cc1582cab 100644
+> --- a/drivers/gpio/Kconfig
+> +++ b/drivers/gpio/Kconfig
+> @@ -430,6 +430,15 @@ config GPIO_REG
+>  	  A 32-bit single register GPIO fixed in/out implementation.  This
+>  	  can be used to represent any register as a set of GPIO signals.
+>  
+> +config GPIO_SNPS_CREG
+> +	bool "GPIO via CREG (Control REGisers) driver"
+> +	select OF_GPIO
+> +	help
+> +	  This driver supports GPIOs via CREG on various Synopsys SoCs.
+> +	  This is is single-register MMIO gpio driver for complex cases
+> +	  where only several fields in register belong to GPIO and
+> +	  each GPIO owns field with different length and on/off values.
+> +
+>  config GPIO_SPEAR_SPICS
+>  	bool "ST SPEAr13xx SPI Chip Select as GPIO support"
+>  	depends on PLAT_SPEAR
 
 
-Patches currently in stable-queue which might be from rdunlap at infradead.org are
-
-queue-4.4/usb-phy-fix-ppc64-build-errors-in-phy-fsl-usb.c.patch
-queue-4.4/net-prevent-isa-drivers-from-building-on-ppc32.patch
-queue-4.4/arc-fix-build-errors-in-arc-include-asm-delay.h.patch
-queue-4.4/media-staging-omap4iss-include-asm-cacheflush.h-after-generic-includes.patch
-queue-4.4/arc-fix-type-warnings-in-arc-mm-cache.c.patch
+-- 
+~Randy
