@@ -1,40 +1,54 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 27 Aug 2018 17:38:03 +0300
-Subject: [PATCH] ARC: HSDK: improve reset driver
+Date: Tue, 28 Aug 2018 11:04:38 +0000
+Subject: [PATCH 1/2] GPIO: add single-register gpio via creg driver
+In-Reply-To: <c5f75b43-6ef3-31e2-0366-b6c8623d3f5d@infradead.org>
+References: <20180823150013.21837-1-Eugeniy.Paltsev@synopsys.com>
+ <20180823150013.21837-2-Eugeniy.Paltsev@synopsys.com>
+ <c5f75b43-6ef3-31e2-0366-b6c8623d3f5d@infradead.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180827143803.28178-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1535454277.24765.1.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-As for today HSDK reset driver implements only
-.reset() callback.
+Hi Randy,
 
-In case of driver which implements one of standard
-reset controller usage pattern
-(call *_deassert() in probe(), call *_assert() in remove())
-that leads to inoperability of this reset driver.
+thanks for comments, will be fixed in patch V2.
 
-Improve HSDK reset driver by calling .reset() callback inside of
-.assert()/.deassert() callbacks to avoid each reset controller
-user adaptation for work with both reset methods
-(reset() and .assert()/.deassert() pair)
-
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- drivers/reset/reset-hsdk.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/reset/reset-hsdk.c b/drivers/reset/reset-hsdk.c
-index 8bce391c6943..1fd91df91343 100644
---- a/drivers/reset/reset-hsdk.c
-+++ b/drivers/reset/reset-hsdk.c
-@@ -86,6 +86,8 @@ static int hsdk_reset_reset(struct reset_controller_dev *rcdev,
- 
- static const struct reset_control_ops hsdk_reset_ops = {
- 	.reset	= hsdk_reset_reset,
-+	.assert = hsdk_reset_reset,
-+	.deassert = hsdk_reset_reset,
- };
- 
- static int hsdk_reset_probe(struct platform_device *pdev)
+On Thu, 2018-08-23@08:08 -0700, Randy Dunlap wrote:
+> On 08/23/2018 08:00 AM, Eugeniy Paltsev wrote:
+> > diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+> > index 71c0ab46f216..0f9cc1582cab 100644
+> > --- a/drivers/gpio/Kconfig
+> > +++ b/drivers/gpio/Kconfig
+> > @@ -430,6 +430,15 @@ config GPIO_REG
+> >  	  A 32-bit single register GPIO fixed in/out implementation.  This
+> >  	  can be used to represent any register as a set of GPIO signals.
+> >  
+> > +config GPIO_SNPS_CREG
+> > +	bool "GPIO via CREG (Control REGisers) driver"
+> 
+> 	                             REGisters)
+> 
+> > +	select OF_GPIO
+> > +	help
+> > +	  This driver supports GPIOs via CREG on various Synopsys SoCs.
+> > +	  This is is single-register MMIO gpio driver for complex cases
+> 
+> 	  This is a                  MMIO GPIO
+> 
+> > +	  where only several fields in register belong to GPIO and
+> 
+> 	                            in a register
+> 
+> > +	  each GPIO owns field with different length and on/off values.
+> 
+> maybe:
+> 	                 fields with different lengths
+> 
+> > +
+> >  config GPIO_SPEAR_SPICS
+> >  	bool "ST SPEAr13xx SPI Chip Select as GPIO support"
+> >  	depends on PLAT_SPEAR
+> 
+> 
 -- 
-2.14.4
+ Eugeniy Paltsev
