@@ -1,56 +1,63 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Thu, 30 Aug 2018 18:16:06 +0000
-Subject: [PATCH v2 2/2] dt-bindings: Document the Synopsys GPIO via CREG
- bindings
-In-Reply-To: <CACRpkdbQryY-R+14GvYAEkLH+7Tr4Pvb6YohWouTwug7qEGbDA@mail.gmail.com>
-References: <20180828112721.28178-1-Eugeniy.Paltsev@synopsys.com>
- <20180828112721.28178-3-Eugeniy.Paltsev@synopsys.com>
- <CACRpkdbQryY-R+14GvYAEkLH+7Tr4Pvb6YohWouTwug7qEGbDA@mail.gmail.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 30 Aug 2018 20:31:59 +0000
+Subject: Patch "asm-generic/bitops/lock.h: Rewrite using atomic_fetch_"
+ causes kernel crash
+References: <1535567633.4465.23.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075012B090BEA@us01wembx1.internal.synopsys.com>
+ <20180830094411.GX24124@hirez.programming.kicks-ass.net>
+ <20180830095148.GB5942@arm.com> <1535629996.4465.44.camel@synopsys.com>
+ <20180830141713.GN24082@hirez.programming.kicks-ass.net>
+ <20180830142354.GB13005@arm.com>
+ <20180830142920.GO24082@hirez.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1535652965.4465.84.camel@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B090EA4@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, 2018-08-30@10:43 +0200, Linus Walleij wrote:
-> On Tue, Aug 28, 2018 at 1:27 PM Eugeniy Paltsev
-> <Eugeniy.Paltsev@synopsys.com> wrote:
-> 
-> > +++ b/Documentation/devicetree/bindings/gpio/snps,creg-gpio.txt
-> > @@ -0,0 +1,49 @@
-> > +GPIO via CREG (Control REGisers) driver
-[snip]
+On 08/30/2018 07:29 AM, Peter Zijlstra wrote:
+> On Thu, Aug 30, 2018@03:23:55PM +0100, Will Deacon wrote:
+>
+>> Yes, that would be worth trying. However, I also just noticed that the
+>> fetch-ops (which are now used to implement test_and_set_bit_lock()) seem
+>> to be missing the backwards branch in the LL/SC case. Yet another diff
+>> below.
+>>
+>> Will
+>>
+>> --->8
+>>
+>> diff --git a/arch/arc/include/asm/atomic.h b/arch/arc/include/asm/atomic.h
+>> index 4e0072730241..f06c5ed672b3 100644
+>> --- a/arch/arc/include/asm/atomic.h
+>> +++ b/arch/arc/include/asm/atomic.h
+>> @@ -84,7 +84,7 @@ static inline int atomic_fetch_##op(int i, atomic_t *v)			\
+>>  	"1:	llock   %[orig], [%[ctr]]		\n"		\
+>>  	"	" #asm_op " %[val], %[orig], %[i]	\n"		\
+>>  	"	scond   %[val], [%[ctr]]		\n"		\
+>> -	"						\n"		\
+>> +	"	bnz	1b				\n"		\
+>>  	: [val]	"=&r"	(val),						\
+>>  	  [orig] "=&r" (orig)						\
+>>  	: [ctr]	"r"	(&v->counter),					\
+> ACK!! sorry about that, no idea how I messed that up.
+>
+> Also, once it all works, they should look at switching to _relaxed
+> atomics for LL/SC.
 
-> > +- snps,ngpios: Number of GPIO pins.
-> 
-> Use the existing ngpios attribute for this, see gpio.txt
+Indeed this is the mother of all issues, I tried and system is clearly hosed with
+and works after.
+What's amazing is the commit 4aef66c8ae9 which introduced it is from 2016 ;-)
+Back then we had a retry branch with backoff stuff which I'd reverted for new
+cores and the merge conflict somehow missed it.
 
-Ok
+@PeterZ I'll create a patch with you as author ? do I need any formal sign offs,
+acks etc ?
 
-> > +- snps,bit-per-line: Number of bits per each gpio line (see picture).
-> > +  Array the size of "snps,ngpios"
-> > +- snps,shift: Shift (in bits) of the each GPIO field from the previous one in
-> > +  register (see picture). Array the size of "snps,ngpios"
-> > +- snps,on-val: Value should be set in corresponding field to set
-> > +  output to "1" (see picture). Array the size of "snps,ngpios"
-> > +- snps,off-val: Value should be set in corresponding field to set
-> > +  output to "0" (see picture). Array the size of "snps,ngpios"
-> 
-> Move this into a lookup table in the driver instead, and match
-> the lookup table to the compatible string. The format of the
-> register is known for a certain compatible, right?
+So after this there are 2 other things to be addresses / looked at still while we
+are still here.
 
-Actually I really don't want to hardcode this values into lookup table as I going to use
-this driver on 3 already upstreamed platforms and at least one upcoming.
+1. After 84c6591103db __clear_bit_lock() implementation will be broken (or atleast
+not consistent with what we had after), do we need to reinstate it.
+2. Will's proposed change to remove the underlying issue, but the issue in #1
+remains ?
 
-They all have such CREG pseudo-'GPIOs' differently mapped with different IO lines number,
-different enable/disable value, etc...
-
-Is it really a problem to have this values configured via device tree?
-If we read them from DT we are able to use this generic and configurable driver to handle
-both existing and upcoming platforms without the need of patching the driver on every new
-platform upstreaming.
-
-> 
-> Yours,
-> Linus Walleij
--- 
- Eugeniy Paltsev
+-Vineet
