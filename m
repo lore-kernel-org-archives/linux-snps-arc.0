@@ -1,12 +1,12 @@
-From: will.deacon@arm.com (Will Deacon)
-Date: Thu, 30 Aug 2018 10:35:13 +0100
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Thu, 30 Aug 2018 11:44:11 +0200
 Subject: Patch "asm-generic/bitops/lock.h: Rewrite using atomic_fetch_"
  causes kernel crash
 In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075012B090BEA@us01wembx1.internal.synopsys.com>
 References: <1535567633.4465.23.camel@synopsys.com>
  <C2D7FE5348E1B147BCA15975FBA23075012B090BEA@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180830093513.GA5942@arm.com>
+Message-ID: <20180830094411.GX24124@hirez.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
 On Wed, Aug 29, 2018@09:16:43PM +0000, Vineet Gupta wrote:
@@ -35,9 +35,9 @@ On Wed, Aug 29, 2018@09:16:43PM +0000, Vineet Gupta wrote:
 > 
 > This patch undoes that which could explain the issues you see. @Peter, @Will ?
 
-/me grabs arc toolchain (incidentally, make.cross fuzzy matches "arc" to
-"sparc", so that was fun for a few minutes).
+Right, so the thinking is that on platforms that suffer that issue,
+atomic_set*() should DTRT. And if you look at your spinlock based atomic
+implementation, you'll note that atomic_set() does indeed do the right
+thing.
 
-I'll take a look today, thanks for the report.
-
-Will
+arch/arc/include/asm/atomic.h:108
