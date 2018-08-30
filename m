@@ -1,75 +1,43 @@
-From: linus.walleij@linaro.org (Linus Walleij)
-Date: Thu, 30 Aug 2018 10:43:42 +0200
-Subject: [PATCH v2 2/2] dt-bindings: Document the Synopsys GPIO via CREG
- bindings
-In-Reply-To: <20180828112721.28178-3-Eugeniy.Paltsev@synopsys.com>
-References: <20180828112721.28178-1-Eugeniy.Paltsev@synopsys.com>
- <20180828112721.28178-3-Eugeniy.Paltsev@synopsys.com>
+From: will.deacon@arm.com (Will Deacon)
+Date: Thu, 30 Aug 2018 10:35:13 +0100
+Subject: Patch "asm-generic/bitops/lock.h: Rewrite using atomic_fetch_"
+ causes kernel crash
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075012B090BEA@us01wembx1.internal.synopsys.com>
+References: <1535567633.4465.23.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075012B090BEA@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CACRpkdbQryY-R+14GvYAEkLH+7Tr4Pvb6YohWouTwug7qEGbDA@mail.gmail.com>
+Message-ID: <20180830093513.GA5942@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Aug 28, 2018 at 1:27 PM Eugeniy Paltsev
-<Eugeniy.Paltsev@synopsys.com> wrote:
+On Wed, Aug 29, 2018@09:16:43PM +0000, Vineet Gupta wrote:
+> On 08/29/2018 11:33 AM, Eugeniy Paltsev wrote:
+> > Hi Guys,
+> > Since v4.19-rc1 we are getting a serious regression on platforms with ARC architecture.
+> > The kernel have become unstable and spontaneously crashes on LTP tests execution / IO tests or
+> > even on boot.
+> >
+> > I don't know exactly what breaks but bisect clearly assign the blame to this commit:
+> > 84c6591103db ("locking/atomics, asm-generic/bitops/lock.h: Rewrite using atomic_fetch_*()")
+> > https://github.com/torvalds/linux/commit/84c6591103dbeaf393a092a3fc7b09510825f6b9
+> >
+> > Reverting the commit solves this problem.
+> >
+> > I tested v4.19-rc1 on ARM (wandboard, i.mx6, 32bit, quard core, ARMv7) which uses same
+> > generic bitops implementation and it works fine.
+> >
+> > Do you have any ideas what went wrong?
+> 
+> Back in 2016, Peter had fixed this file due to a problem I reported on ARC. See
+> commit f75d48644c56a ("bitops: Do not default to __clear_bit() for
+> __clear_bit_unlock()")
+> That made __clear_bit_unlock() use the atomic clear_bit() vs. non-atomic
+> __clear_bit(), effectively making clear_bit_unlock() and __clear_bit_unlock() same.
+> 
+> This patch undoes that which could explain the issues you see. @Peter, @Will ?
 
-> +++ b/Documentation/devicetree/bindings/gpio/snps,creg-gpio.txt
-> @@ -0,0 +1,49 @@
-> +GPIO via CREG (Control REGisers) driver
+/me grabs arc toolchain (incidentally, make.cross fuzzy matches "arc" to
+"sparc", so that was fun for a few minutes).
 
-Speling
+I'll take a look today, thanks for the report.
 
-Also should be "Synopsys GPIO via CREG" as this is likely just
-for Synopsys and not general purpose.
-
-> +This is is single-register MMIO GPIO driver to control such strangely mapped
-> +outputs:
-> +
-> +31            11        8         7        5         0   < bit number
-> +|              |        |         |        |         |
-> +[   not used   | gpio-1 | shift-1 | gpio-0 | shift-0 ]   < 32 bit MMIO register
-> +                   ^                  ^
-> +                   |                  |
-> +                   |           write 0x2 == set output to "1" (on)
-> +                   |           write 0x3 == set output to "0" (off)
-> +                   |
-> +            write 0x1 == set output to "1" (on)
-> +            write 0x4 == set output to "0" (off)
-
-Move this documentation into the driver instead.
-
-> +Required properties:
-> +- compatible : "snps,creg-gpio"
-> +- reg : Exactly one register range with length 0x4.
-> +- #gpio-cells : Should be one - the pin number.
-> +- gpio-controller : Marks the device node as a GPIO controller.
-
-OK
-
-> +- snps,ngpios: Number of GPIO pins.
-
-Use the existing ngpios attribute for this, see gpio.txt
-
-> +- snps,bit-per-line: Number of bits per each gpio line (see picture).
-> +  Array the size of "snps,ngpios"
-> +- snps,shift: Shift (in bits) of the each GPIO field from the previous one in
-> +  register (see picture). Array the size of "snps,ngpios"
-> +- snps,on-val: Value should be set in corresponding field to set
-> +  output to "1" (see picture). Array the size of "snps,ngpios"
-> +- snps,off-val: Value should be set in corresponding field to set
-> +  output to "0" (see picture). Array the size of "snps,ngpios"
-
-Move this into a lookup table in the driver instead, and match
-the lookup table to the compatible string. The format of the
-register is known for a certain compatible, right?
-
-> +Optional properties:
-> +- snps,default-val: default output field values. Array the size of "snps,ngpios"
-
-Default values for different lines can be achieved by hogs
-if it's OK to tie them up perpetually, else work on creating generic
-inialization values in gpio.txt and implement that in
-gpiolib-of.c for everyone. This discussion comes up from time
-to time.
-
-Yours,
-Linus Walleij
+Will
