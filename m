@@ -1,40 +1,20 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 31 Aug 2018 00:42:46 +0000
-Subject: Patch "asm-generic/bitops/lock.h: Rewrite using atomic_fetch_"
- causes kernel crash
-References: <1535567633.4465.23.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075012B090BEA@us01wembx1.internal.synopsys.com>
- <20180830094411.GX24124@hirez.programming.kicks-ass.net>
- <20180830095148.GB5942@arm.com>
+Date: Fri, 31 Aug 2018 00:52:08 +0000
+Subject: [PATCH] arc: remove redundant GCC version checks
+References: <1535339257-17620-1-git-send-email-yamada.masahiro@socionext.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B091016@us01wembx1.internal.synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B09102E@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 08/30/2018 02:51 AM, Will Deacon wrote:
-> Yeah, the bit_spin_lock()/__bit_spin_unlock() race described in f75d48644c56a
-> boils down to concurrent atomic_long_set_release() vs
-> atomic_long_fetch_or_acquire(), which really needs to work.
+On 08/26/2018 08:08 PM, Masahiro Yamada wrote:
+> Commit cafa0010cd51 ("Raise the minimum required gcc version to 4.6")
+> bumped the minimum GCC version to 4.6 for all architectures.
+>
+> With GCC >= 4.6 assumed, 'upto_gcc44' is empty, 'atleast_gcc44' is y.
+>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro at socionext.com>
 
-I don't see how: __clear_bit_unlock() reads @old, flips a bit and then calls
-atomic_long_set_release() so the race is not just with set_release.
+Added to ARC/for-curr
 
-    static inline int test_and_set_bit_lock(unsigned int nr, volatile unsigned
-long *p)
-    {
-      long old;
-      unsigned long mask = (1UL << ((nr) % 32));
-
-      p += ((nr) / 32);
-      old = atomic_long_fetch_or_acquire(mask, (atomic_long_t *)p);
-      return !!(old & mask);
-    }
-
-    static inline void __clear_bit_unlock(unsigned int nr, volatile unsigned long *p)
-    {
-       unsigned long old;
-
-     p += ((nr) / 32);
-    old = // soem typecheck magic on *p
-    old &= ~(1UL << ((nr) % 32));
-    atomic_long_set_release((atomic_long_t *)p, old);
-  }
+Thx,
+-Vineet
