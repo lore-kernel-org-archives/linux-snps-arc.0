@@ -1,13 +1,13 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Mon,  3 Sep 2018 18:49:21 +0200
-Subject: [PATCH 3.18 31/56] arc: fix type warnings in arc/mm/cache.c
-In-Reply-To: <20180903164924.078355019@linuxfoundation.org>
-References: <20180903164924.078355019@linuxfoundation.org>
+Date: Mon,  3 Sep 2018 18:49:14 +0200
+Subject: [PATCH 4.4 36/80] arc: fix type warnings in arc/mm/cache.c
+In-Reply-To: <20180903164934.171677301@linuxfoundation.org>
+References: <20180903164934.171677301@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180903164925.622323083@linuxfoundation.org>
+Message-ID: <20180903164935.591013044@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
-3.18-stable review patch.  If anyone has any objections, please let me know.
+4.4-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -35,12 +35,12 @@ Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <alexander.levin at microsoft.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 ---
- arch/arc/mm/cache_arc700.c |    7 ++++---
+ arch/arc/mm/cache.c |    7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
 
---- a/arch/arc/mm/cache_arc700.c
-+++ b/arch/arc/mm/cache_arc700.c
-@@ -642,7 +642,7 @@ void flush_cache_mm(struct mm_struct *mm
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -821,7 +821,7 @@ void flush_cache_mm(struct mm_struct *mm
  void flush_cache_page(struct vm_area_struct *vma, unsigned long u_vaddr,
  		      unsigned long pfn)
  {
@@ -49,7 +49,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
  
  	u_vaddr &= PAGE_MASK;
  
-@@ -662,8 +662,9 @@ void flush_anon_page(struct vm_area_stru
+@@ -841,8 +841,9 @@ void flush_anon_page(struct vm_area_stru
  		     unsigned long u_vaddr)
  {
  	/* TBD: do we really need to clear the kernel mapping */
