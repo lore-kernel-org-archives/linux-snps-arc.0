@@ -1,11 +1,11 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Mon,  3 Sep 2018 18:55:52 +0200
-Subject: [PATCH 4.14 066/165] arc: [plat-eznps] fix printk warning in
- arc/plat-eznps/mtm.c
+Date: Mon,  3 Sep 2018 18:55:51 +0200
+Subject: [PATCH 4.14 065/165] arc: [plat-eznps] fix data type errors in
+ platform headers
 In-Reply-To: <20180903165655.003605184@linuxfoundation.org>
 References: <20180903165655.003605184@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180903165658.428765344@linuxfoundation.org>
+Message-ID: <20180903165658.378689867@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
 4.14-stable review patch.  If anyone has any objections, please let me know.
@@ -14,37 +14,30 @@ To: linux-snps-arc@lists.infradead.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-[ Upstream commit 9e2ea405543d9ddfe05b351f1679e53bd9c11f80 ]
+[ Upstream commit b1f32ce1c3d2c11959b7e6a2c58dc5197c581966 ]
 
-Fix printk format warning in arch/arc/plat-eznps/mtm.c:
+Add <linux/types.h> to fix build errors.
+Both ctop.h and <soc/nps/common.h> use u32 types and cause many
+errors.
 
-In file included from ../include/linux/printk.h:7,
-                 from ../include/linux/kernel.h:14,
-                 from ../include/linux/list.h:9,
-                 from ../include/linux/smp.h:12,
-                 from ../arch/arc/plat-eznps/mtm.c:17:
-../arch/arc/plat-eznps/mtm.c: In function 'set_mtm_hs_ctr':
-../include/linux/kern_levels.h:5:18: warning: format '%d' expects argument of type 'int', but argument 2 has type 'long int' [-Wformat=]
- #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                  ^~~~~~
-../include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
- #define KERN_ERR KERN_SOH "3" /* error conditions */
-                  ^~~~~~~~
-../include/linux/printk.h:308:9: note: in expansion of macro 'KERN_ERR'
-  printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         ^~~~~~~~
-../arch/arc/plat-eznps/mtm.c:166:3: note: in expansion of macro 'pr_err'
-   pr_err("** Invalid @nps_mtm_hs_ctr [%d] needs to be [%d:%d] (incl)\n",
-   ^~~~~~
-../arch/arc/plat-eznps/mtm.c:166:40: note: format string is defined here
-   pr_err("** Invalid @nps_mtm_hs_ctr [%d] needs to be [%d:%d] (incl)\n",
-                                       ~^
-                                       %ld
-The hs_ctr variable can just be int instead of long, so also change
-kstrtol() to kstrtoint() and leave the format string as %d.
+Examples:
+../include/soc/nps/common.h:71:4: error: unknown type name 'u32'
+    u32 __reserved:20, cluster:4, core:4, thread:4;
+../include/soc/nps/common.h:76:3: error: unknown type name 'u32'
+   u32 value;
+../include/soc/nps/common.h:124:4: error: unknown type name 'u32'
+    u32 base:8, cl_x:4, cl_y:4,
+../include/soc/nps/common.h:127:3: error: unknown type name 'u32'
+   u32 value;
 
-Also add 2 header files since they are used in mtm.c and we prefer
-not to depend on accidental/indirect #includes.
+../arch/arc/plat-eznps/include/plat/ctop.h:83:4: error: unknown type name 'u32'
+    u32 gen:1, gdis:1, clk_gate_dis:1, asb:1,
+../arch/arc/plat-eznps/include/plat/ctop.h:86:3: error: unknown type name 'u32'
+   u32 value;
+../arch/arc/plat-eznps/include/plat/ctop.h:93:4: error: unknown type name 'u32'
+    u32 csa:22, dmsid:6, __reserved:3, cs:1;
+../arch/arc/plat-eznps/include/plat/ctop.h:95:3: error: unknown type name 'u32'
+   u32 value;
 
 Cc: linux-snps-arc at lists.infradead.org
 Cc: Ofer Levi <oferle at mellanox.com>
@@ -54,30 +47,16 @@ Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <alexander.levin at microsoft.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 ---
- arch/arc/plat-eznps/mtm.c |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ arch/arc/plat-eznps/include/plat/ctop.h |    1 +
+ 1 file changed, 1 insertion(+)
 
---- a/arch/arc/plat-eznps/mtm.c
-+++ b/arch/arc/plat-eznps/mtm.c
-@@ -15,6 +15,8 @@
-  */
+--- a/arch/arc/plat-eznps/include/plat/ctop.h
++++ b/arch/arc/plat-eznps/include/plat/ctop.h
+@@ -21,6 +21,7 @@
+ #error "Incorrect ctop.h include"
+ #endif
  
- #include <linux/smp.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
- #include <linux/io.h>
- #include <linux/log2.h>
- #include <asm/arcregs.h>
-@@ -157,10 +159,10 @@ void mtm_enable_core(unsigned int cpu)
- /* Verify and set the value of the mtm hs counter */
- static int __init set_mtm_hs_ctr(char *ctr_str)
- {
--	long hs_ctr;
-+	int hs_ctr;
- 	int ret;
++#include <linux/types.h>
+ #include <soc/nps/common.h>
  
--	ret = kstrtol(ctr_str, 0, &hs_ctr);
-+	ret = kstrtoint(ctr_str, 0, &hs_ctr);
- 
- 	if (ret || hs_ctr > MT_HS_CNT_MAX || hs_ctr < MT_HS_CNT_MIN) {
- 		pr_err("** Invalid @nps_mtm_hs_ctr [%d] needs to be [%d:%d] (incl)\n",
+ /* core auxiliary registers */
