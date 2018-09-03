@@ -1,10 +1,10 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Mon,  3 Sep 2018 18:49:14 +0200
-Subject: [PATCH 4.4 36/80] arc: fix type warnings in arc/mm/cache.c
+Date: Mon,  3 Sep 2018 18:49:13 +0200
+Subject: [PATCH 4.4 35/80] arc: fix build errors in arc/include/asm/delay.h
 In-Reply-To: <20180903164934.171677301@linuxfoundation.org>
 References: <20180903164934.171677301@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180903164935.591013044@linuxfoundation.org>
+Message-ID: <20180903164935.552656113@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
 4.4-stable review patch.  If anyone has any objections, please let me know.
@@ -13,17 +13,23 @@ To: linux-snps-arc@lists.infradead.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-[ Upstream commit ec837d620c750c0d4996a907c8c4f7febe1bbeee ]
+[ Upstream commit 2423665ec53f2a29191b35382075e9834288a975 ]
 
-Fix type warnings in arch/arc/mm/cache.c.
+Fix build errors in arch/arc/'s delay.h:
+- add "extern unsigned long loops_per_jiffy;"
+- add <asm-generic/types.h> for "u64"
 
-../arch/arc/mm/cache.c: In function 'flush_anon_page':
-../arch/arc/mm/cache.c:1062:55: warning: passing argument 2 of '__flush_dcache_page' makes integer from pointer without a cast [-Wint-conversion]
-  __flush_dcache_page((phys_addr_t)page_address(page), page_address(page));
-                                                       ^~~~~~~~~~~~~~~~~~
-../arch/arc/mm/cache.c:1013:59: note: expected 'long unsigned int' but argument is of type 'void *'
- void __flush_dcache_page(phys_addr_t paddr, unsigned long vaddr)
-                                             ~~~~~~~~~~~~~~^~~~~
+In file included from ../drivers/infiniband/hw/cxgb3/cxio_hal.c:32:
+../arch/arc/include/asm/delay.h: In function '__udelay':
+../arch/arc/include/asm/delay.h:61:12: error: 'u64' undeclared (first use in this function)
+  loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
+            ^~~
+
+In file included from ../drivers/infiniband/hw/cxgb3/cxio_hal.c:32:
+../arch/arc/include/asm/delay.h: In function '__udelay':
+../arch/arc/include/asm/delay.h:63:37: error: 'loops_per_jiffy' undeclared (first use in this function)
+  loops = ((u64) usecs * 4295 * HZ * loops_per_jiffy) >> 32;
+                                     ^~~~~~~~~~~~~~~
 
 Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
 Cc: Vineet Gupta <vgupta at synopsys.com>
@@ -35,29 +41,20 @@ Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <alexander.levin at microsoft.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 ---
- arch/arc/mm/cache.c |    7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ arch/arc/include/asm/delay.h |    3 +++
+ 1 file changed, 3 insertions(+)
 
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -821,7 +821,7 @@ void flush_cache_mm(struct mm_struct *mm
- void flush_cache_page(struct vm_area_struct *vma, unsigned long u_vaddr,
- 		      unsigned long pfn)
+--- a/arch/arc/include/asm/delay.h
++++ b/arch/arc/include/asm/delay.h
+@@ -17,8 +17,11 @@
+ #ifndef __ASM_ARC_UDELAY_H
+ #define __ASM_ARC_UDELAY_H
+ 
++#include <asm-generic/types.h>
+ #include <asm/param.h>		/* HZ */
+ 
++extern unsigned long loops_per_jiffy;
++
+ static inline void __delay(unsigned long loops)
  {
--	unsigned int paddr = pfn << PAGE_SHIFT;
-+	phys_addr_t paddr = pfn << PAGE_SHIFT;
- 
- 	u_vaddr &= PAGE_MASK;
- 
-@@ -841,8 +841,9 @@ void flush_anon_page(struct vm_area_stru
- 		     unsigned long u_vaddr)
- {
- 	/* TBD: do we really need to clear the kernel mapping */
--	__flush_dcache_page(page_address(page), u_vaddr);
--	__flush_dcache_page(page_address(page), page_address(page));
-+	__flush_dcache_page((phys_addr_t)page_address(page), u_vaddr);
-+	__flush_dcache_page((phys_addr_t)page_address(page),
-+			    (phys_addr_t)page_address(page));
- 
- }
- 
+ 	__asm__ __volatile__(
