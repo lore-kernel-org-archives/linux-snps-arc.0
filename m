@@ -1,62 +1,63 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Mon,  3 Sep 2018 18:56:02 +0200
-Subject: [PATCH 4.9 038/107] arc: [plat-eznps] fix data type errors in
- platform headers
-In-Reply-To: <20180903165637.293735109@linuxfoundation.org>
-References: <20180903165637.293735109@linuxfoundation.org>
+Date: Mon,  3 Sep 2018 18:55:54 +0200
+Subject: [PATCH 4.14 068/165] arc: fix type warnings in arc/mm/cache.c
+In-Reply-To: <20180903165655.003605184@linuxfoundation.org>
+References: <20180903165655.003605184@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180903165639.131773563@linuxfoundation.org>
+Message-ID: <20180903165658.522610801@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
-4.9-stable review patch.  If anyone has any objections, please let me know.
+4.14-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-[ Upstream commit b1f32ce1c3d2c11959b7e6a2c58dc5197c581966 ]
+[ Upstream commit ec837d620c750c0d4996a907c8c4f7febe1bbeee ]
 
-Add <linux/types.h> to fix build errors.
-Both ctop.h and <soc/nps/common.h> use u32 types and cause many
-errors.
+Fix type warnings in arch/arc/mm/cache.c.
 
-Examples:
-../include/soc/nps/common.h:71:4: error: unknown type name 'u32'
-    u32 __reserved:20, cluster:4, core:4, thread:4;
-../include/soc/nps/common.h:76:3: error: unknown type name 'u32'
-   u32 value;
-../include/soc/nps/common.h:124:4: error: unknown type name 'u32'
-    u32 base:8, cl_x:4, cl_y:4,
-../include/soc/nps/common.h:127:3: error: unknown type name 'u32'
-   u32 value;
+../arch/arc/mm/cache.c: In function 'flush_anon_page':
+../arch/arc/mm/cache.c:1062:55: warning: passing argument 2 of '__flush_dcache_page' makes integer from pointer without a cast [-Wint-conversion]
+  __flush_dcache_page((phys_addr_t)page_address(page), page_address(page));
+                                                       ^~~~~~~~~~~~~~~~~~
+../arch/arc/mm/cache.c:1013:59: note: expected 'long unsigned int' but argument is of type 'void *'
+ void __flush_dcache_page(phys_addr_t paddr, unsigned long vaddr)
+                                             ~~~~~~~~~~~~~~^~~~~
 
-../arch/arc/plat-eznps/include/plat/ctop.h:83:4: error: unknown type name 'u32'
-    u32 gen:1, gdis:1, clk_gate_dis:1, asb:1,
-../arch/arc/plat-eznps/include/plat/ctop.h:86:3: error: unknown type name 'u32'
-   u32 value;
-../arch/arc/plat-eznps/include/plat/ctop.h:93:4: error: unknown type name 'u32'
-    u32 csa:22, dmsid:6, __reserved:3, cs:1;
-../arch/arc/plat-eznps/include/plat/ctop.h:95:3: error: unknown type name 'u32'
-   u32 value;
-
-Cc: linux-snps-arc at lists.infradead.org
-Cc: Ofer Levi <oferle at mellanox.com>
-Reviewed-by: Leon Romanovsky <leonro at mellanox.com>
 Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: Elad Kanfi <eladkan at mellanox.com>
+Cc: Leon Romanovsky <leonro at mellanox.com>
+Cc: Ofer Levi <oferle at mellanox.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <alexander.levin at microsoft.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 ---
- arch/arc/plat-eznps/include/plat/ctop.h |    1 +
- 1 file changed, 1 insertion(+)
+ arch/arc/mm/cache.c |    7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
---- a/arch/arc/plat-eznps/include/plat/ctop.h
-+++ b/arch/arc/plat-eznps/include/plat/ctop.h
-@@ -21,6 +21,7 @@
- #error "Incorrect ctop.h include"
- #endif
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -1035,7 +1035,7 @@ void flush_cache_mm(struct mm_struct *mm
+ void flush_cache_page(struct vm_area_struct *vma, unsigned long u_vaddr,
+ 		      unsigned long pfn)
+ {
+-	unsigned int paddr = pfn << PAGE_SHIFT;
++	phys_addr_t paddr = pfn << PAGE_SHIFT;
  
-+#include <linux/types.h>
- #include <soc/nps/common.h>
+ 	u_vaddr &= PAGE_MASK;
  
- /* core auxiliary registers */
+@@ -1055,8 +1055,9 @@ void flush_anon_page(struct vm_area_stru
+ 		     unsigned long u_vaddr)
+ {
+ 	/* TBD: do we really need to clear the kernel mapping */
+-	__flush_dcache_page(page_address(page), u_vaddr);
+-	__flush_dcache_page(page_address(page), page_address(page));
++	__flush_dcache_page((phys_addr_t)page_address(page), u_vaddr);
++	__flush_dcache_page((phys_addr_t)page_address(page),
++			    (phys_addr_t)page_address(page));
+ 
+ }
+ 
