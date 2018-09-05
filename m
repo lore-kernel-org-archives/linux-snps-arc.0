@@ -1,60 +1,78 @@
-From: linus.walleij@linaro.org (Linus Walleij)
-Date: Wed, 5 Sep 2018 11:34:57 +0200
-Subject: [PATCH v2 2/2] dt-bindings: Document the Synopsys GPIO via CREG
- bindings
-In-Reply-To: <1535652965.4465.84.camel@synopsys.com>
-References: <20180828112721.28178-1-Eugeniy.Paltsev@synopsys.com>
- <20180828112721.28178-3-Eugeniy.Paltsev@synopsys.com>
- <CACRpkdbQryY-R+14GvYAEkLH+7Tr4Pvb6YohWouTwug7qEGbDA@mail.gmail.com>
- <1535652965.4465.84.camel@synopsys.com>
+From: robh@kernel.org (Rob Herring)
+Date: Wed,  5 Sep 2018 18:53:18 -0500
+Subject: [PATCH v2 0/9] Devicetree build consolidation
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CACRpkdZCXdpYXF-xj8myJOuYGk7PAZ3+UP34MP02QCgbuTT=+A@mail.gmail.com>
+Message-ID: <20180905235327.5996-1-robh@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Aug 30, 2018 at 8:16 PM Eugeniy Paltsev
-<Eugeniy.Paltsev@synopsys.com> wrote:
-> On Thu, 2018-08-30@10:43 +0200, Linus Walleij wrote:
+This series addresses a couple of issues I have with building dts files.
 
-> > > +- snps,bit-per-line: Number of bits per each gpio line (see picture).
-> > > +  Array the size of "snps,ngpios"
-> > > +- snps,shift: Shift (in bits) of the each GPIO field from the previous one in
-> > > +  register (see picture). Array the size of "snps,ngpios"
-> > > +- snps,on-val: Value should be set in corresponding field to set
-> > > +  output to "1" (see picture). Array the size of "snps,ngpios"
-> > > +- snps,off-val: Value should be set in corresponding field to set
-> > > +  output to "0" (see picture). Array the size of "snps,ngpios"
-> >
-> > Move this into a lookup table in the driver instead, and match
-> > the lookup table to the compatible string. The format of the
-> > register is known for a certain compatible, right?
->
-> Actually I really don't want to hardcode this values into lookup table as I going to use
-> this driver on 3 already upstreamed platforms and at least one upcoming.
->
-> They all have such CREG pseudo-'GPIOs' differently mapped with different IO lines number,
-> different enable/disable value, etc...
+First, the ability to build all the dts files in the tree. This has been
+supported on most arches for some time with powerpc being the main
+exception. The reason powerpc wasn't supported was it needed a change
+in the location built dtb files are put.
 
-So each of them will have their own compatible, and table entry,
-so what's the problem? If they don't have their own compatible,
-they should be added, because they are per definition not compatible
-if they need different values into different parts of the register.
+Secondly, it's a pain to acquire all the cross-compilers needed to build
+dtbs for each arch. There's no reason to build with the cross compiler and
+the host compiler is perfectly fine as we only need the pre-processor.
 
-> Is it really a problem to have this values configured via device tree?
+I started addressing just those 2 problems, but kept finding small
+differences such as target dependencies and dtbs_install support across
+architectures. Instead of trying to align all these, I've consolidated the
+build targets moving them out of the arch makefiles.
 
-Yes because the DT maintainers do not like that we use the device
-tree as a data dumping ground.
+I'd like to take the series via the DT tree.
 
-pinctrl-single.c and some other real big pin controllers are dumping
-data into the device tree, but it is a dubious practice. Two wrongs
-doesn't make one right.
+Rob
 
-> If we read them from DT we are able to use this generic and configurable driver to handle
-> both existing and upcoming platforms without the need of patching the driver on every new
-> platform upstreaming.
+v2:
+ - Fix $arch/boot/dts path check for out of tree builds
+ - Fix dtc dependency for building built-in dtbs
+ - Fix microblaze built-in dtb building
+ - Add dtbs target for microblaze
 
-But you will have to patch the driver to add a new compatible for each
-platform you're upstreaming anyway, so this isn't going to make things
-easier.
+Rob Herring (9):
+  powerpc: build .dtb files in dts directory
+  nios2: build .dtb files in dts directory
+  nios2: use common rules to build built-in dtb
+  nios2: fix building all dtbs
+  c6x: use common built-in dtb support
+  kbuild: consolidate Devicetree dtb build rules
+  powerpc: enable building all dtbs
+  c6x: enable building all dtbs
+  microblaze: enable building all dtbs
 
-Yours,
-Linus Walleij
+ Makefile                           | 32 +++++++++++++++++++
+ arch/arc/Makefile                  |  6 ----
+ arch/arm/Makefile                  | 20 +-----------
+ arch/arm64/Makefile                | 17 +----------
+ arch/c6x/Makefile                  |  2 --
+ arch/c6x/boot/dts/Makefile         | 17 +++++------
+ arch/c6x/boot/dts/linked_dtb.S     |  2 --
+ arch/c6x/include/asm/sections.h    |  1 -
+ arch/c6x/kernel/setup.c            |  4 +--
+ arch/c6x/kernel/vmlinux.lds.S      | 10 ------
+ arch/h8300/Makefile                | 11 +------
+ arch/microblaze/Makefile           |  4 +--
+ arch/microblaze/boot/dts/Makefile  |  4 +++
+ arch/mips/Makefile                 | 15 +--------
+ arch/nds32/Makefile                |  2 +-
+ arch/nios2/Makefile                | 11 +------
+ arch/nios2/boot/Makefile           | 22 --------------
+ arch/nios2/boot/dts/Makefile       |  6 ++++
+ arch/nios2/boot/linked_dtb.S       | 19 ------------
+ arch/powerpc/Makefile              |  3 --
+ arch/powerpc/boot/Makefile         | 49 ++++++++++++++----------------
+ arch/powerpc/boot/dts/Makefile     |  6 ++++
+ arch/powerpc/boot/dts/fsl/Makefile |  4 +++
+ arch/xtensa/Makefile               | 12 +-------
+ scripts/Makefile.lib               |  2 +-
+ 25 files changed, 93 insertions(+), 188 deletions(-)
+ delete mode 100644 arch/c6x/boot/dts/linked_dtb.S
+ create mode 100644 arch/nios2/boot/dts/Makefile
+ delete mode 100644 arch/nios2/boot/linked_dtb.S
+ create mode 100644 arch/powerpc/boot/dts/Makefile
+ create mode 100644 arch/powerpc/boot/dts/fsl/Makefile
+
+--
+2.17.1
