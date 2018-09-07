@@ -1,148 +1,45 @@
-From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Sat, 8 Sep 2018 02:07:09 +0900
-Subject: [PATCH 6/8] kbuild: consolidate Devicetree dtb build rules
-In-Reply-To: <CAL_JsqJJ6DCT8AjVYqkbFuJ+fO0VmVch24B=XRp4pJPkUQYAww@mail.gmail.com>
-References: <20180821215524.23040-1-robh@kernel.org>
- <20180821215524.23040-7-robh@kernel.org>
- <CAK7LNATcYSvwh0BEEdyUuDa_Y9X-AqQAzA5MrbNhOSMmSzqhTg@mail.gmail.com>
- <CAL_JsqJJ6DCT8AjVYqkbFuJ+fO0VmVch24B=XRp4pJPkUQYAww@mail.gmail.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 7 Sep 2018 11:21:12 -0700
+Subject: [GIT PULL] ARC updates for 4.19-rc3
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK7LNAR1-G+eg-dAmiDvEo3JJHoXefm2eu+Aorgjv9BP48+qvw@mail.gmail.com>
+Message-ID: <4cb8dd19-a252-10c1-8dea-5479ced463fb@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-2018-08-27 8:56 GMT+09:00 Rob Herring <robh at kernel.org>:
-> On Sat, Aug 25, 2018 at 9:06 PM Masahiro Yamada
-> <yamada.masahiro@socionext.com> wrote:
->>
->> Hi Rob,
->>
->>
->> 2018-08-22 6:55 GMT+09:00 Rob Herring <robh at kernel.org>:
->> > There is nothing arch specific about building dtb files other than their
->> > location under /arch/*/boot/dts/. Keeping each arch aligned is a pain.
->> > The dependencies and supported targets are all slightly different.
->> > Also, a cross-compiler for each arch is needed, but really the host
->> > compiler preprocessor is perfectly fine for building dtbs. Move the
->> > build rules to a common location and remove the arch specific ones. This
->> > is done in a single step to avoid warnings about overriding rules.
->> >
->> > The build dependencies had been a mixture of 'scripts' and/or 'prepare'.
->> > These pull in several dependencies some of which need a target compiler
->> > (specifically devicetable-offsets.h) and aren't needed to build dtbs.
->> > All that is really needed is dtc, so adjust the dependencies to only be
->> > dtc.
->> >
->> > This change enables support 'dtbs_install' on some arches which were
->> > missing the target.
->> >
->> > Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
->> > Cc: Michal Marek <michal.lkml at markovi.net>
->> > Cc: Vineet Gupta <vgupta at synopsys.com>
->> > Cc: Russell King <linux at armlinux.org.uk>
->> > Cc: Catalin Marinas <catalin.marinas at arm.com>
->> > Cc: Will Deacon <will.deacon at arm.com>
->> > Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
->> > Cc: Michal Simek <monstr at monstr.eu>
->> > Cc: Ralf Baechle <ralf at linux-mips.org>
->> > Cc: Paul Burton <paul.burton at mips.com>
->> > Cc: James Hogan <jhogan at kernel.org>
->> > Cc: Ley Foon Tan <lftan at altera.com>
->> > Cc: Benjamin Herrenschmidt <benh at kernel.crashing.org>
->> > Cc: Paul Mackerras <paulus at samba.org>
->> > Cc: Michael Ellerman <mpe at ellerman.id.au>
->> > Cc: Chris Zankel <chris at zankel.net>
->> > Cc: Max Filippov <jcmvbkbc at gmail.com>
->> > Cc: linux-kbuild at vger.kernel.org
->> > Cc: linux-snps-arc at lists.infradead.org
->> > Cc: linux-arm-kernel at lists.infradead.org
->> > Cc: uclinux-h8-devel at lists.sourceforge.jp
->> > Cc: linux-mips at linux-mips.org
->> > Cc: nios2-dev at lists.rocketboards.org
->> > Cc: linuxppc-dev at lists.ozlabs.org
->> > Cc: linux-xtensa at linux-xtensa.org
->> > Signed-off-by: Rob Herring <robh at kernel.org>
->> > ---
->> >  Makefile                 | 30 ++++++++++++++++++++++++++++++
->> >  arch/arc/Makefile        |  6 ------
->> >  arch/arm/Makefile        | 20 +-------------------
->> >  arch/arm64/Makefile      | 17 +----------------
->> >  arch/c6x/Makefile        |  2 --
->> >  arch/h8300/Makefile      | 11 +----------
->> >  arch/microblaze/Makefile |  4 +---
->> >  arch/mips/Makefile       | 15 +--------------
->> >  arch/nds32/Makefile      |  2 +-
->> >  arch/nios2/Makefile      |  7 -------
->> >  arch/nios2/boot/Makefile |  4 ----
->> >  arch/powerpc/Makefile    |  3 ---
->> >  arch/xtensa/Makefile     | 12 +-----------
->> >  scripts/Makefile         |  1 -
->> >  scripts/Makefile.lib     |  2 +-
->> >  15 files changed, 38 insertions(+), 98 deletions(-)
->> >
->> > diff --git a/Makefile b/Makefile
->> > index c13f8b85ba60..6d89e673f192 100644
->> > --- a/Makefile
->> > +++ b/Makefile
->> > @@ -1212,6 +1212,30 @@ kselftest-merge:
->> >                 $(srctree)/tools/testing/selftests/*/config
->> >         +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
->> >
->> > +# ---------------------------------------------------------------------------
->> > +# Devicetree files
->> > +
->> > +dtstree := $(wildcard arch/$(SRCARCH)/boot/dts)
->
-> BTW, there's an error here too. It doesn't work right with
-> KBUILD_OUTPUT set and should be:
->
-> ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/),)
-> dtstree := arch/$(SRCARCH)/boot/dts
-> endif
->
->> > +
->> > +ifdef CONFIG_OF_EARLY_FLATTREE
->> > +
->> > +%.dtb %.dtb.S %.dtb.o: | dtc
->>
->> I think the pipe operator is unnecessary
->> because Kbuild will descend to $(dtstree) anyway.
->
-> The pipe means 'order-only', right?
+Hi Linus,
 
-Yes.
+ARC updates for 4.19-rc3.
 
-> So it is just a weaker dependency
-> for things which are not input files as dtc is not. The 'dtc' here is
-> just the dtc rule below, not the actual executable. Or am I missing
-> something?
+The DMA-IOC changes are technically merge-window stuff but that didn't happen due
+to me being in fire drill inhouse. They have been reviewed a while back by
+Christoph and it will help him with more DMA rework if merged now than in 4.20, so
+please take them.
 
+Please pull !
 
-The pipe is used when
+Thx,
+-Vineet
+-------------------->
+The following changes since commit 4fbd8d194f06c8a3fd2af1ce560ddb31f7ec8323:
 
-  - we want to make sure the weaker prerequisite exists
+  Linux 4.15-rc1 (2017-11-26 16:01:47 -0800)
 
-  - but, we do not want to execute the recipe
-    even if the weaker prerequisite is updated
+are available in the git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.19-rc3
 
-In this case, we want to execute the recipe _all_the_time_.
+for you to fetch changes up to 4fbd8d194f06c8a3fd2af1ce560ddb31f7ec8323:
 
-We compare the timestamp between %.dtb and %.dts in the sub-directory.
+  Linux 4.15-rc1 (2017-11-26 16:01:47 -0800)
 
-We never know the real depenency until the following recipe is run
-     $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+----------------------------------------------------------------
+ARC updates for 4.19-rc3
 
+ - For for atomic_fetch_#op  [Will Deacon]
 
+ - Enabling per device IOC [Eugeniy Paltsev]
 
-PHONY += dtbs
-dtbs: | dtc
-      $(Q)$(MAKE) $(build)=$(dtstree)
+ - Remove redundany gcc version checks [Masahiro Yamada]
 
-Here 'dtbs' is a PHONY target.
-We always want to run the recipe.
-The pipe operator is not sensible.
+ - Miscll platform config/DT updates [Alexey Brodkin]
 
-
--- 
-Best Regards
-Masahiro Yamada
+----------------------------------------------------------------
