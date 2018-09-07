@@ -1,22 +1,23 @@
 From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Sat, 8 Sep 2018 01:47:24 +0900
-Subject: [PATCH v2 6/9] kbuild: consolidate Devicetree dtb build rules
-In-Reply-To: <CAL_JsqJeTqxFPxZfuusPxuOTsVbVk_Uhue6NXwpotkwZWHrCDw@mail.gmail.com>
-References: <20180905235327.5996-1-robh@kernel.org>
- <20180905235327.5996-7-robh@kernel.org>
- <CAK7LNARD+_kV=XtJ66mZBU-CPMQgWF+oQtv4bGKaGGARNwzXiQ@mail.gmail.com>
- <CAL_JsqJeTqxFPxZfuusPxuOTsVbVk_Uhue6NXwpotkwZWHrCDw@mail.gmail.com>
+Date: Sat, 8 Sep 2018 02:07:09 +0900
+Subject: [PATCH 6/8] kbuild: consolidate Devicetree dtb build rules
+In-Reply-To: <CAL_JsqJJ6DCT8AjVYqkbFuJ+fO0VmVch24B=XRp4pJPkUQYAww@mail.gmail.com>
+References: <20180821215524.23040-1-robh@kernel.org>
+ <20180821215524.23040-7-robh@kernel.org>
+ <CAK7LNATcYSvwh0BEEdyUuDa_Y9X-AqQAzA5MrbNhOSMmSzqhTg@mail.gmail.com>
+ <CAL_JsqJJ6DCT8AjVYqkbFuJ+fO0VmVch24B=XRp4pJPkUQYAww@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK7LNATqTh4oxG5uz2Z4gk0J=kXP62UX2r3cP9Kd2aCSTXzTuA@mail.gmail.com>
+Message-ID: <CAK7LNAR1-G+eg-dAmiDvEo3JJHoXefm2eu+Aorgjv9BP48+qvw@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Rob,
-
-2018-09-07 21:17 GMT+09:00 Rob Herring <robh at kernel.org>:
-> On Fri, Sep 7, 2018 at 5:33 AM Masahiro Yamada
+2018-08-27 8:56 GMT+09:00 Rob Herring <robh at kernel.org>:
+> On Sat, Aug 25, 2018 at 9:06 PM Masahiro Yamada
 > <yamada.masahiro@socionext.com> wrote:
 >>
->> 2018-09-06 8:53 GMT+09:00 Rob Herring <robh at kernel.org>:
+>> Hi Rob,
+>>
+>>
+>> 2018-08-22 6:55 GMT+09:00 Rob Herring <robh at kernel.org>:
 >> > There is nothing arch specific about building dtb files other than their
 >> > location under /arch/*/boot/dts/. Keeping each arch aligned is a pain.
 >> > The dependencies and supported targets are all slightly different.
@@ -61,47 +62,85 @@ Hi Rob,
 >> > Cc: linux-xtensa at linux-xtensa.org
 >> > Signed-off-by: Rob Herring <robh at kernel.org>
 >> > ---
->> > Please ack so I can take the whole series via the DT tree.
+>> >  Makefile                 | 30 ++++++++++++++++++++++++++++++
+>> >  arch/arc/Makefile        |  6 ------
+>> >  arch/arm/Makefile        | 20 +-------------------
+>> >  arch/arm64/Makefile      | 17 +----------------
+>> >  arch/c6x/Makefile        |  2 --
+>> >  arch/h8300/Makefile      | 11 +----------
+>> >  arch/microblaze/Makefile |  4 +---
+>> >  arch/mips/Makefile       | 15 +--------------
+>> >  arch/nds32/Makefile      |  2 +-
+>> >  arch/nios2/Makefile      |  7 -------
+>> >  arch/nios2/boot/Makefile |  4 ----
+>> >  arch/powerpc/Makefile    |  3 ---
+>> >  arch/xtensa/Makefile     | 12 +-----------
+>> >  scripts/Makefile         |  1 -
+>> >  scripts/Makefile.lib     |  2 +-
+>> >  15 files changed, 38 insertions(+), 98 deletions(-)
 >> >
->> > v2:
->> >  - Fix $arch/boot/dts path check for out of tree builds
->> >  - Fix dtc dependency for building built-in dtbs
->> >  - Fix microblaze built-in dtb building
->>
->>
->> This breaks parallel building
->> because two threads could descend into scripts/dtc
->> at the same time.
->>
->> 'all' depends on both 'scripts' and 'dtc'.
->>
->> * 'scripts' target -- descends into scripts/, then scripts/dtc
->> * 'dtc' target     -- descents into scripts/dtc directly
+>> > diff --git a/Makefile b/Makefile
+>> > index c13f8b85ba60..6d89e673f192 100644
+>> > --- a/Makefile
+>> > +++ b/Makefile
+>> > @@ -1212,6 +1212,30 @@ kselftest-merge:
+>> >                 $(srctree)/tools/testing/selftests/*/config
+>> >         +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+>> >
+>> > +# ---------------------------------------------------------------------------
+>> > +# Devicetree files
+>> > +
+>> > +dtstree := $(wildcard arch/$(SRCARCH)/boot/dts)
 >
-> Any suggestions for how to fix given the problem with depending on
-> scripts? I suppose I could make scripts depend on dtc instead, but I'd
-> be back to needing to fix cleaning.
+> BTW, there's an error here too. It doesn't work right with
+> KBUILD_OUTPUT set and should be:
+>
+> ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/),)
+> dtstree := arch/$(SRCARCH)/boot/dts
+> endif
+>
+>> > +
+>> > +ifdef CONFIG_OF_EARLY_FLATTREE
+>> > +
+>> > +%.dtb %.dtb.S %.dtb.o: | dtc
+>>
+>> I think the pipe operator is unnecessary
+>> because Kbuild will descend to $(dtstree) anyway.
+>
+> The pipe means 'order-only', right?
 
-How about making 'prepare' depend on 'dtc'?
+Yes.
 
-Then, remove
-subdir-$(CONFIG_DTC)         += dtc
-from scripts/Makefile
+> So it is just a weaker dependency
+> for things which are not input files as dtc is not. The 'dtc' here is
+> just the dtc rule below, not the actual executable. Or am I missing
+> something?
 
-but, add dtc to subdir-
+
+The pipe is used when
+
+  - we want to make sure the weaker prerequisite exists
+
+  - but, we do not want to execute the recipe
+    even if the weaker prerequisite is updated
 
 
-> Or I could just skip removing the
-> cross compiler dependency for now.
+In this case, we want to execute the recipe _all_the_time_.
 
-I want to build scripts/
-without target compiler.
+We compare the timestamp between %.dtb and %.dts in the sub-directory.
 
-modpost is a special host-program
-that depends on $(CC).
+We never know the real depenency until the following recipe is run
+     $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
 
-I will take a look at it
-when I find some time.
+
+
+PHONY += dtbs
+dtbs: | dtc
+      $(Q)$(MAKE) $(build)=$(dtstree)
+
+Here 'dtbs' is a PHONY target.
+We always want to run the recipe.
+The pipe operator is not sensible.
 
 
 -- 
