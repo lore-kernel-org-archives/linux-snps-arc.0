@@ -1,99 +1,117 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 7 Sep 2018 19:33:33 +0000
-Subject: [GIT PULL] ARC updates for 4.19-rc3
-References: <4cb8dd19-a252-10c1-8dea-5479ced463fb@synopsys.com>
- <CA+55aFyQiPApQeMOP9EG8Km+Y-aUBwxXc_8bqRyeSVMSy0nF_w@mail.gmail.com>
+From: yamada.masahiro@socionext.com (Masahiro Yamada)
+Date: Mon, 10 Sep 2018 08:27:35 +0900
+Subject: [PATCH v2 6/9] kbuild: consolidate Devicetree dtb build rules
+In-Reply-To: <20180905235327.5996-7-robh@kernel.org>
+References: <20180905235327.5996-1-robh@kernel.org>
+ <20180905235327.5996-7-robh@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B092C16@us01wembx1.internal.synopsys.com>
+Message-ID: <CAK7LNAS5uEUMDpL8oCJmFWKu1YF8tof5d=2h8jzt-MLHGAEAhg@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 09/07/2018 12:15 PM, Linus Torvalds wrote:
-> On Fri, Sep 7, 2018@11:21 AM Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
->>   git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.19-rc3
-> That "tags/arc-4.19-rc3" actually a real signed tag from you, but it
-> doesn't point to any of your new work. In fact, it just points to my
-> "Linux 4.15-rc1" commit from last year.
+2018-09-06 8:53 GMT+09:00 Rob Herring <robh at kernel.org>:
+> There is nothing arch specific about building dtb files other than their
+> location under /arch/*/boot/dts/. Keeping each arch aligned is a pain.
+> The dependencies and supported targets are all slightly different.
+> Also, a cross-compiler for each arch is needed, but really the host
+> compiler preprocessor is perfectly fine for building dtbs. Move the
+> build rules to a common location and remove the arch specific ones. This
+> is done in a single step to avoid warnings about overriding rules.
 >
-> Which is presumably also why your pull request didn't contain a diffstat.
+> The build dependencies had been a mixture of 'scripts' and/or 'prepare'.
+> These pull in several dependencies some of which need a target compiler
+> (specifically devicetable-offsets.h) and aren't needed to build dtbs.
+> All that is really needed is dtc, so adjust the dependencies to only be
+> dtc.
 >
-> Hmm?
+> This change enables support 'dtbs_install' on some arches which were
+> missing the target.
+>
+> Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
+> Cc: Michal Marek <michal.lkml at markovi.net>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Russell King <linux at armlinux.org.uk>
+> Cc: Catalin Marinas <catalin.marinas at arm.com>
+> Cc: Will Deacon <will.deacon at arm.com>
+> Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
+> Cc: Michal Simek <monstr at monstr.eu>
+> Cc: Ralf Baechle <ralf at linux-mips.org>
+> Cc: Paul Burton <paul.burton at mips.com>
+> Cc: James Hogan <jhogan at kernel.org>
+> Cc: Ley Foon Tan <lftan at altera.com>
+> Cc: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> Cc: Paul Mackerras <paulus at samba.org>
+> Cc: Michael Ellerman <mpe at ellerman.id.au>
+> Cc: Chris Zankel <chris at zankel.net>
+> Cc: Max Filippov <jcmvbkbc at gmail.com>
+> Cc: linux-kbuild at vger.kernel.org
+> Cc: linux-snps-arc at lists.infradead.org
+> Cc: linux-arm-kernel at lists.infradead.org
+> Cc: uclinux-h8-devel at lists.sourceforge.jp
+> Cc: linux-mips at linux-mips.org
+> Cc: nios2-dev at lists.rocketboards.org
+> Cc: linuxppc-dev at lists.ozlabs.org
+> Cc: linux-xtensa at linux-xtensa.org
+> Signed-off-by: Rob Herring <robh at kernel.org>
+> ---
+> Please ack so I can take the whole series via the DT tree.
+>
+> v2:
+>  - Fix $arch/boot/dts path check for out of tree builds
+>  - Fix dtc dependency for building built-in dtbs
+>  - Fix microblaze built-in dtb building
+>
+>  Makefile                          | 32 +++++++++++++++++++++++++++++++
+>  arch/arc/Makefile                 |  6 ------
+>  arch/arm/Makefile                 | 20 +------------------
+>  arch/arm64/Makefile               | 17 +---------------
+>  arch/c6x/Makefile                 |  2 --
+>  arch/h8300/Makefile               | 11 +----------
+>  arch/microblaze/Makefile          |  4 +---
+>  arch/microblaze/boot/dts/Makefile |  2 ++
+>  arch/mips/Makefile                | 15 +--------------
+>  arch/nds32/Makefile               |  2 +-
+>  arch/nios2/Makefile               |  7 -------
+>  arch/nios2/boot/Makefile          |  4 ----
+>  arch/powerpc/Makefile             |  3 ---
+>  arch/xtensa/Makefile              | 12 +-----------
+>  scripts/Makefile.lib              |  2 +-
+>  15 files changed, 42 insertions(+), 97 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 2b458801ba74..bc18dbbc16c5 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1212,6 +1212,32 @@ kselftest-merge:
+>                 $(srctree)/tools/testing/selftests/*/config
+>         +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+>
+> +# ---------------------------------------------------------------------------
+> +# Devicetree files
+> +
+> +ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/),)
+> +dtstree := arch/$(SRCARCH)/boot/dts
+> +endif
+> +
+> +ifdef CONFIG_OF_EARLY_FLATTREE
+> +
+> +%.dtb %.dtb.S %.dtb.o: | dtc
+> +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
 
-Sorry my bad. I did glance at the truncated output and wondered if this was some
-git behavior chg.
-But turns out I'd passed wrong branch to my script ! Now with right stuff. Thx.
 
------->
-The following changes since commit 5b394b2ddf0347bef56e50c69a58773c94343ff3:
+Hmm, I was worried about '%.dtb.o: | dtc'
+but seems working.
 
-  Linux 4.19-rc1 (2018-08-26 14:11:59 -0700)
+Compiling %.S -> %.o requires objtool for x86,
+but x86 does not support DT.
 
-are available in the git repository at:
+If CONFIG_MODVERSIONS=y, scripts/genksyms/genksyms is required,
+%.dtb.S does not contain EXPORT_SYMBOL.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.19-rc3
 
-for you to fetch changes up to dd45210b6dd4f1512eafcc41774154ebb762360f:
+BTW, 'dtc' should be a PHONY target.
 
-  ARC: don't check for HIGHMEM pages in arch_dma_alloc (2018-09-04 13:21:38 -0700)
 
-----------------------------------------------------------------
-ARC updates for 4.19-rc3
 
- - For for atomic_fetch_#op  [Will Deacon]
-
- - Enabling per device IOC [Eugeniy Paltsev]
-
- - Remove redundany gcc version checks [Masahiro Yamada]
-
- - Miscll platform config/DT updates [Alexey Brodkin]
-
-----------------------------------------------------------------
-Alexey Brodkin (3):
-      ARC: configs: cleanup
-      ARC: [plat-axs*/plat-hsdk]: Allow U-Boot to pass MAC-address to the kernel
-      ARC: [plat-axs*]: Enable SWAP
-
-Eugeniy Paltsev (5):
-      ARC: cleanup show_faulting_vma()
-      ARC: dma [IOC]: mark DMA devices connected as dma-coherent
-      ARC: dma [IOC] Enable per device io coherency
-      ARC: IOC: panic if both IOC and ZONE_HIGHMEM enabled
-      ARC: don't check for HIGHMEM pages in arch_dma_alloc
-
-Masahiro Yamada (1):
-      arc: remove redundant GCC version checks
-
-Vineet Gupta (1):
-      ARC: sort Kconfig
-
-Will Deacon (1):
-      ARC: atomics: unbork atomic_fetch_##op()
-
- arch/arc/Kconfig                           | 10 ++--
- arch/arc/Makefile                          | 10 +---
- arch/arc/boot/dts/axc003.dtsi              | 26 ++++++++++
- arch/arc/boot/dts/axc003_idu.dtsi          | 26 ++++++++++
- arch/arc/boot/dts/axs10x_mb.dtsi           |  7 ++-
- arch/arc/boot/dts/hsdk.dts                 | 11 +++-
- arch/arc/configs/axs101_defconfig          |  3 --
- arch/arc/configs/axs103_defconfig          |  3 --
- arch/arc/configs/axs103_smp_defconfig      |  3 --
- arch/arc/configs/haps_hs_defconfig         |  2 -
- arch/arc/configs/haps_hs_smp_defconfig     |  2 -
- arch/arc/configs/hsdk_defconfig            |  1 -
- arch/arc/configs/nps_defconfig             |  1 -
- arch/arc/configs/nsim_700_defconfig        |  2 -
- arch/arc/configs/nsim_hs_defconfig         |  2 -
- arch/arc/configs/nsim_hs_smp_defconfig     |  2 -
- arch/arc/configs/nsimosci_defconfig        |  2 -
- arch/arc/configs/nsimosci_hs_defconfig     |  2 -
- arch/arc/configs/nsimosci_hs_smp_defconfig |  2 -
- arch/arc/configs/tb10x_defconfig           |  1 -
- arch/arc/configs/vdk_hs38_defconfig        |  2 -
- arch/arc/configs/vdk_hs38_smp_defconfig    |  1 -
- arch/arc/include/asm/atomic.h              |  2 +-
- arch/arc/include/asm/dma-mapping.h         | 13 +++++
- arch/arc/kernel/troubleshoot.c             | 13 ++---
- arch/arc/mm/cache.c                        | 36 +++++++------
- arch/arc/mm/dma.c                          | 82 +++++++++++++++---------------
- 27 files changed, 154 insertions(+), 113 deletions(-)
- create mode 100644 arch/arc/include/asm/dma-mapping.h
+-- 
+Best Regards
+Masahiro Yamada
