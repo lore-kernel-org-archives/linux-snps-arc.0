@@ -1,33 +1,39 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 10 Sep 2018 14:46:26 +0300
-Subject: [PATCH v2 0/2] MTD: spi-nor: add support for sst26wf016, sst26wf032
+Date: Mon, 10 Sep 2018 14:46:28 +0300
+Subject: [PATCH v2 2/2] mtd: spi-nor: add support for sst26wf016, sst26wf032
+In-Reply-To: <20180910114628.19156-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180910114628.19156-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180910114628.19156-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20180910114628.19156-3-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Add support for the SST sst26wf016 and sst26wf032 flash IC:
-
-sst26wf*** flash series block protection implementation differs from other
-SST series, so we add implementation for sst26wf*** lock/unlock/is_locked
-functions.
-
-Add sst26wf016 and sst26wf032 flash IC info to spi_flash_ids list.
+This commit adds support for the SST sst26wf016 and sst26wf032
+flash IC.
 
 NOTE:
-these patches is basically following mine u-boot commits port:
-http://git.denx.de/?p=u-boot.git;a=commitdiff;h=3d4fed87a5fa3ffedf64ff2811cd95c5ac4503ac
+this patch is basically following mine u-boot commit port:
 http://git.denx.de/?p=u-boot.git;a=commitdiff;h=a19e97157c3721ef9c4b15c68c1773467a3b4a98
 
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
 Changes v1->v2:
- * Check return value of {read | write}_reg callbacks.
+ * None.
 
-Eugeniy Paltsev (2):
-  mtd: spi-nor: Add support of sst26wf* flash ICs protection ops
-  mtd: spi-nor: add support for sst26wf016, sst26wf032
+ drivers/mtd/spi-nor/spi-nor.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
- drivers/mtd/spi-nor/spi-nor.c | 179 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/mtd/spi-nor.h   |   4 +
- 2 files changed, 183 insertions(+)
-
+diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
+index d0e7c85b6002..3e7ade960c0b 100644
+--- a/drivers/mtd/spi-nor/spi-nor.c
++++ b/drivers/mtd/spi-nor/spi-nor.c
+@@ -1333,6 +1333,8 @@ static const struct flash_info spi_nor_ids[] = {
+ 	{ "sst25wf040b", INFO(0x621613, 0, 64 * 1024,  8, SECT_4K) },
+ 	{ "sst25wf040",  INFO(0xbf2504, 0, 64 * 1024,  8, SECT_4K | SST_WRITE) },
+ 	{ "sst25wf080",  INFO(0xbf2505, 0, 64 * 1024, 16, SECT_4K | SST_WRITE) },
++	{ "sst26wf016",  INFO(0xbf2651, 0, 64 * 1024, 32, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
++	{ "sst26wf032",  INFO(0xbf2622, 0, 64 * 1024, 64, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
+ 	{ "sst26vf064b", INFO(0xbf2643, 0, 64 * 1024, 128, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
+ 
+ 	/* ST Microelectronics -- newer production may have feature updates */
 -- 
 2.14.4
