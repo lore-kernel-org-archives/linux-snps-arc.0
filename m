@@ -1,121 +1,118 @@
-From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Wed, 12 Sep 2018 21:53:19 +0900
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 12 Sep 2018 13:43:09 +0000
 Subject: defconfig fails if CROSS_COMPILE is set while cross-gcc is not
  avaialble
-In-Reply-To: <0854f35e92c95e552721dc6a46f4ee2bc4020bc1.camel@synopsys.com>
+In-Reply-To: <CAK7LNAR0ghuhDXUqJ=nX0dtbtoOvFff9Eeu-hHWLkTONG09GAQ@mail.gmail.com>
 References: <0854f35e92c95e552721dc6a46f4ee2bc4020bc1.camel@synopsys.com>
+ <CAK7LNAR0ghuhDXUqJ=nX0dtbtoOvFff9Eeu-hHWLkTONG09GAQ@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK7LNAR0ghuhDXUqJ=nX0dtbtoOvFff9Eeu-hHWLkTONG09GAQ@mail.gmail.com>
+Message-ID: <2c5d00f99db07df1a8cc5168d62d5764544fb83e.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Alexey.
+Hi Masahiro,
 
-2018-09-12 21:08 GMT+09:00 Alexey Brodkin <Alexey.Brodkin at synopsys.com>:
-> Hello Masahiro-san,
->
-> Starting from kernel v4.17 it is no longer possible to install kernel headers
-> for ARC architecture if there's no cross-toolchain in PATH.
+On Wed, 2018-09-12@21:53 +0900, Masahiro Yamada wrote:
+> Hi Alexey.
+> 
+> 2018-09-12 21:08 GMT+09:00 Alexey Brodkin <Alexey.Brodkin at synopsys.com>:
+> > Hello Masahiro-san,
+> > 
+> > Starting from kernel v4.17 it is no longer possible to install kernel headers
+> > for ARC architecture if there's no cross-toolchain in PATH.
+> 
+> 
+> Really?
+> 
+> I can do 'make ARCH=arc headers_install'
+> with the latest Linus' tree.
 
+Indeed "headers_install" works that way but is it OK to install headers
+without previous configuration. In my experiment I don't see any differences
+though for example OpenEmbedded on configuration step of "linux-libc-headers"
+do "ARCH=xxx make allnoconfig", see 
+https://github.com/openembedded/openembedded-core/blob/master/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc#L57
 
-Really?
+That might be some legacy but I'm not really sure,
+worth asking OE people.
 
-I can do 'make ARCH=arc headers_install'
-with the latest Linus' tree.
+For the record in Buildroot no configuration happens for Linux headers,
+see https://git.buildroot.org/buildroot/tree/package/linux-headers/linux-headers.mk#n106
 
-I see the following warnings, but possible to install kernel headers.
-
-./scripts/gcc-version.sh: line 26: arc-linux-gcc: command not found
-./scripts/gcc-version.sh: line 27: arc-linux-gcc: command not found
-
-
-If ARC compiler is not found in PATH,
-those warnings are displayed with v4.16 or older as well.
-
-I do not see much difference in the behavior.
-
-
-I am trying to fix even those warnings
-by eliminating unneeded compiler invocation.  It is WIP.
-
-
-
-> Note installation of headers is just one of use-cases when we might not
-> have cross-tools available but still want to run "make xxx_defconfig".
-> I.e. the problem is "make xxx_defconfig" with no cross-toolchain.
->
-> That's what I see:
-> ----------------------------->8--------------------------
+> I see the following warnings, but possible to install kernel headers.
+> 
 > ./scripts/gcc-version.sh: line 26: arc-linux-gcc: command not found
 > ./scripts/gcc-version.sh: line 27: arc-linux-gcc: command not found
-> ./scripts/gcc-version.sh: line 26: arc-linux-gcc: command not found
-> ./scripts/gcc-version.sh: line 27: arc-linux-gcc: command not found
-> make: arc-linux-gcc: Command not found
-> /bin/sh: arc-linux-gcc: command not found
-> /bin/sh: arc-linux-gcc: command not found
-> *** Default configuration is based on 'nsim_700_defconfig'
-> ./scripts/gcc-version.sh: line 26: arc-linux-gcc: command not found
-> ./scripts/gcc-version.sh: line 27: arc-linux-gcc: command not found
-> ./scripts/gcc-version.sh: line 29: arc-linux-gcc: command not found
-> ./scripts/gcc-version.sh: line 26: arc-linux-gcc: command not found
-> ./scripts/gcc-version.sh: line 27: arc-linux-gcc: command not found
-> ./scripts/gcc-version.sh: line 29: arc-linux-gcc: command not found
-> init/Kconfig:17: syntax error
-> init/Kconfig:16: invalid option
-> ./scripts/clang-version.sh: line 15: arc-linux-gcc: command not found
-> ./scripts/gcc-plugin.sh: line 11: arc-linux-gcc: command not found
-> make[1]: *** [scripts/kconfig/Makefile:91: defconfig] Error 1
-> make: *** [Makefile:531: defconfig] Error 2
-> ----------------------------->8--------------------------
->
-> That doesn't happen for ARM and other arches simply because for ARC
-> we define CROSS_COMPILE if it is not set by user, see:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arc/Makefile#n9
 
-I do not think it is a good practice
-to forcibly set CROSS_COMPILE that users may not have.
+Right... that happens because we're doing 2 hackish things:
+1. Checking if current toolchain is configured for ARCompact (ARCv1) ISA
+   or ARCv2. That's because we use toolchain's libgcc and so we want to warn
+   a user if wrong toolchain is used early instead of leaving him to deal with
+   final linkage failure.
+   See: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arc/Makefile#n23
 
-arch/m68k/Makefile uses cc-cross-prefix helper
-to set the first found compiler.
+2. Asking CC for a path to libgcc
+   See: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arc/Makefile#n82
 
+[snip]
 
-> Still if CROSS_COMPILE is set before execution of "make defconfig"
-> then the same problem happens for others.
->
-> I was able to find a series of commits which cause this problem,
-> here they are:
-> ----------------------------->8--------------------------
-> 59f53855babf - gcc-plugins: test plugin support in Kconfig and clean up Makefile
-> 469cb7376c06 - kconfig: add CC_IS_CLANG and CLANG_VERSION
-> a4353898980c - kconfig: add CC_IS_GCC and GCC_VERSION
-> ----------------------------->8--------------------------
->
-> What happen is "$(CC)" is passed as an argument and in its turn CC is
-> "$(CROSS_COMPILE)gcc", see:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Makefile#n385
->
->
-> So if I substitute "CC" with "HOSTCC" in a couple of places (see below)
-> the problem goes away. But I'm not really sure if what I do is correct.
-> I.e. when we're interested in CC for target and when only host CC is of
-> our interest.
+> I am trying to fix even those warnings
+> by eliminating unneeded compiler invocation.  It is WIP.
 
-I think the log of commit 316d55d55f49eca44
-is a good source to know the background of this change.
+And if (1) is not super important (in fact we used to live without it for years)
+(2) requires implementation of libgcc in kernel sources (which BTW will make (1)
+obsolete immediately). We do have it on our todo list though...
 
-Now Kconfig requires the target compiler.
-So, it does not make sense to
-do defconfig with non-existing compiler.
+[snip]
 
+> > That doesn't happen for ARM and other arches simply because for ARC
+> > we define CROSS_COMPILE if it is not set by user, see:
+> > 
+https://urldefense.proofpoint.com/v2/url?u=https-3A__git.kernel.org_pub_scm_linux_kernel_git_torvalds_linux.git_tree_arch_arc_Makefile-23n9&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=zJsa5MrAtDiYEWr5PZNS1aGk21ETa-qXzLPIddwvoQI&s=BU0ltPPoRLn3np_ba4HRHfH9i141uZjoS8jsJrg8SNc&e=
+> 
+> I do not think it is a good practice
+> to forcibly set CROSS_COMPILE that users may not have.
 
+Maybe so. Still some arches or random platforms do that.
 
-> Would be interesting to know your opinion here.
+> arch/m68k/Makefile uses cc-cross-prefix helper
+> to set the first found compiler.
 
-I'd recommend to not hard-code CROSS_COMPILE.
+Well I'm not really sure we need to mess with CROSS_COMPILE in kernel.
+I.e. there might be tons of variations depending on who toolchain was built
+etc. So I'd better get rid of CROSS_COMPILE setup in our Makefile.
 
+> > Still if CROSS_COMPILE is set before execution of "make defconfig"
+> > then the same problem happens for others.
+> > 
+> > I was able to find a series of commits which cause this problem,
+> > here they are:
+> > ----------------------------->8--------------------------
+> > 59f53855babf - gcc-plugins: test plugin support in Kconfig and clean up Makefile
+> > 469cb7376c06 - kconfig: add CC_IS_CLANG and CLANG_VERSION
+> > a4353898980c - kconfig: add CC_IS_GCC and GCC_VERSION
+> > ----------------------------->8--------------------------
+> > 
+> > What happen is "$(CC)" is passed as an argument and in its turn CC is
+> > "$(CROSS_COMPILE)gcc", see:
+> > 
+https://urldefense.proofpoint.com/v2/url?u=https-3A__git.kernel.org_pub_scm_linux_kernel_git_torvalds_linux.git_tree_Makefile-23n385&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=zJsa5MrAtDiYEWr5PZNS1aGk21ETa-qXzLPIddwvoQI&s=S7zeHBpIp1P94XbyoMsaSnJWRqDGn69yGyeob-jzMJ4&e=
+> > 
+> > 
+> > So if I substitute "CC" with "HOSTCC" in a couple of places (see below)
+> > the problem goes away. But I'm not really sure if what I do is correct.
+> > I.e. when we're interested in CC for target and when only host CC is of
+> > our interest.
+> 
+> I think the log of commit 316d55d55f49eca44
+> is a good source to know the background of this change.
+> 
+> Now Kconfig requires the target compiler.
+> So, it does not make sense to
+> do defconfig with non-existing compiler.
 
+Agree, so I'll check with OpenEmbedded people if there's a reason to do "make allnoconfig"
+if it's just a legacy code we'll fix it there.
 
-Thanks.
+Thanks a lot for all the input, much appreciated!
 
--- 
-Best Regards
-Masahiro Yamada
+-Alexey
