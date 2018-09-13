@@ -1,25 +1,41 @@
-From: linux@roeck-us.net (Guenter Roeck)
-Date: Wed, 12 Sep 2018 14:41:04 -0700
-Subject: [PATCH] ARCv2: build: use mcpu=hs38 iso generic mcpu=archs
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075012B0949BC@us01wembx1.internal.synopsys.com>
-References: <20180912165817.GA5118@roeck-us.net>
- <C2D7FE5348E1B147BCA15975FBA23075012B0949BC@us01wembx1.internal.synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 13 Sep 2018 10:41:10 +0300
+Subject: [PATCH] [ARC] Fix generation of specs
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180912214104.GA28367@roeck-us.net>
+Message-ID: <20180913074110.6431-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Sep 12, 2018@05:06:25PM +0000, Vineet Gupta wrote:
-> >
-> > I use a toolchain based on gcc 7.3.0 and binutils 2.30. What version
-> > of gcc and binutils do I need for the builds to complete ?
-> 
-> Hmm I have a prebuilt 2017.03 release of tools (gcc 7.1.1 based) and I don't see
-> the issue above when building net/core/dev.o
-> I presume your toolchain was built off of upstream gcc sources.
-> Can you please post the output of your arc-linux*gcc -v
-> 
+With no trailing space in LINK_EH_SPEC linker spec gets generated as:
+------------------------>8---------------------
+%{!r:--build-id} --eh-frame-hdr%{h*} ...
+------------------------>8---------------------
 
-I decided to build a new toolchain with gcc 8.2.0 and binutils 2.31.1.
-Problem solved ... building with this toolchain works.
+or even worse if hash style is added:
+------------------------>8---------------------
+%{!r:--build-id} --eh-frame-hdr--hash-style=sysv %{h*} ...
+------------------------>8---------------------
 
-Guenter
+Now if that spec is really used by LD then it fails inevitably
+saying that it doesn't know option "--eh-frame-hdr--hash-style=sysv".
+
+Cc: Andrew Burgess <andrew.burgess at embecosm.com>
+Cc: Claudiu Zissulescu <claziss at synopsys.com>
+---
+ gcc/config/arc/linux.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gcc/config/arc/linux.h b/gcc/config/arc/linux.h
+index 96d548eae341..62ebe4de0fc7 100644
+--- a/gcc/config/arc/linux.h
++++ b/gcc/config/arc/linux.h
+@@ -98,7 +98,7 @@ along with GCC; see the file COPYING3.  If not see
+    Signalize that because we have fde-glibc, we don't need all C shared libs
+    linked against -lgcc_s.  */
+ #undef LINK_EH_SPEC
+-#define LINK_EH_SPEC "--eh-frame-hdr"
++#define LINK_EH_SPEC "--eh-frame-hdr "
+ #endif
+ 
+ #undef SUBTARGET_CPP_SPEC
+-- 
+2.17.1
