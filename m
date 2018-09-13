@@ -1,103 +1,63 @@
-From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Thu, 13 Sep 2018 17:51:55 +0200
-Subject: [PATCH v3 6/9] kbuild: consolidate Devicetree dtb build rules
-In-Reply-To: <CAK7LNAQFqhWw+LwDoypGG=OP6tH4qf2tT=LvtchK2GoiNyzDXg@mail.gmail.com>
-References: <20180910150403.19476-1-robh@kernel.org>
- <20180910150403.19476-7-robh@kernel.org>
- <CAL_Jsq+=VbdcVLiwXbOA5d+R2YY6=2Pw2bQpci-jj-JvereD1A@mail.gmail.com>
- <CAK7LNAQFqhWw+LwDoypGG=OP6tH4qf2tT=LvtchK2GoiNyzDXg@mail.gmail.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 13 Sep 2018 23:24:28 +0300
+Subject: [PATCH] ARC: Get rid of toolchain check
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdWEnoh97_jiDWMq=ke4PrhSFbToYnx91CPLBuq3mOGzoQ@mail.gmail.com>
+Message-ID: <20180913202428.7284-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Yamada-san,
+This check is very naive: we simply test if GCC invoked without
+"-mcpu=XXX" has ARC700 define set. In that case we think that GCC
+was built with "--with-cpu=arc700" and has libgcc built for ARC700.
 
-On Wed, Sep 12, 2018 at 3:02 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
-> 2018-09-12 0:40 GMT+09:00 Rob Herring <robh at kernel.org>:
-> > On Mon, Sep 10, 2018@10:04 AM Rob Herring <robh@kernel.org> wrote:
-> >> There is nothing arch specific about building dtb files other than their
-> >> location under /arch/*/boot/dts/. Keeping each arch aligned is a pain.
-> >> The dependencies and supported targets are all slightly different.
-> >> Also, a cross-compiler for each arch is needed, but really the host
-> >> compiler preprocessor is perfectly fine for building dtbs. Move the
-> >> build rules to a common location and remove the arch specific ones. This
-> >> is done in a single step to avoid warnings about overriding rules.
-> >>
-> >> The build dependencies had been a mixture of 'scripts' and/or 'prepare'.
-> >> These pull in several dependencies some of which need a target compiler
-> >> (specifically devicetable-offsets.h) and aren't needed to build dtbs.
-> >> All that is really needed is dtc, so adjust the dependencies to only be
-> >> dtc.
-> >>
-> >> This change enables support 'dtbs_install' on some arches which were
-> >> missing the target.
-> >
-> > [...]
-> >
-> >> @@ -1215,6 +1215,33 @@ kselftest-merge:
-> >>                 $(srctree)/tools/testing/selftests/*/config
-> >>         +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
-> >>
-> >> +# ---------------------------------------------------------------------------
-> >> +# Devicetree files
-> >> +
-> >> +ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/),)
-> >> +dtstree := arch/$(SRCARCH)/boot/dts
-> >> +endif
-> >> +
-> >> +ifdef CONFIG_OF_EARLY_FLATTREE
-> >
-> > This can be true when dtstree is unset. So this line should be this
-> > instead to fix the 0-day reported error:
-> >
-> > ifneq ($(dtstree),)
-> >
-> >> +
-> >> +%.dtb : scripts_dtc
-> >> +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-> >> +
-> >> +PHONY += dtbs dtbs_install
-> >> +dtbs: scripts_dtc
-> >> +       $(Q)$(MAKE) $(build)=$(dtstree)
-> >> +
-> >> +dtbs_install: dtbs
-> >> +       $(Q)$(MAKE) $(dtbinst)=$(dtstree)
-> >> +
-> >> +all: dtbs
-> >> +
-> >> +endif
->
->
-> Ah, right.
-> Even x86 can enable OF and OF_UNITTEST.
->
->
->
-> Another solution might be,
-> guard it by 'depends on ARCH_SUPPORTS_OF'.
->
->
->
-> This is actually what ACPI does.
->
-> menuconfig ACPI
->         bool "ACPI (Advanced Configuration and Power Interface) Support"
->         depends on ARCH_SUPPORTS_ACPI
->          ...
+Otherwise if ARC700 is not defined we think that everythng was built
+for ARCv2.
 
-ACPI is a real platform feature, as it depends on firmware.
+But in reality our life is much more interesting.
 
-CONFIG_OF can be enabled, and DT overlays can be loaded, on any platform,
-even if it has ACPI ;-)
+1. Regardless of GCC configuration (i.e. what we pass in "--with-cpu"
+   it may generate code for any ARC core).
 
-Gr{oetje,eeting}s,
+2. libgcc might be built with explicitly specified "--mcpu=YYY"
 
-                        Geert
+That's exactly what happens in case of multilibbed toolchains:
+ - GCC is configured with default settings
+ - All the libs built for many different CPU flavors
 
+I.e. that check gets in the way of usage of multilibbed
+toolchains. And even non-multilibbed toolchains are affected.
+OpenEmbedded also builds GCC without "--with-cpu" because
+each and every target component later is compiled with explicitly
+set "-mcpu=ZZZ".
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/Makefile | 14 --------------
+ 1 file changed, 14 deletions(-)
+
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index 6c1b20dd76ad..16ae8675116e 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -20,20 +20,6 @@ cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
+ cflags-$(CONFIG_ISA_ARCOMPACT)	+= -mA7
+ cflags-$(CONFIG_ISA_ARCV2)	+= -mcpu=archs
+ 
+-is_700 = $(shell $(CC) -dM -E - < /dev/null | grep -q "ARC700" && echo 1 || echo 0)
+-
+-ifdef CONFIG_ISA_ARCOMPACT
+-ifeq ($(is_700), 0)
+-    $(error Toolchain not configured for ARCompact builds)
+-endif
+-endif
+-
+-ifdef CONFIG_ISA_ARCV2
+-ifeq ($(is_700), 1)
+-    $(error Toolchain not configured for ARCv2 builds)
+-endif
+-endif
+-
+ ifdef CONFIG_ARC_CURR_IN_REG
+ # For a global register defintion, make sure it gets passed to every file
+ # We had a customer reported bug where some code built in kernel was NOT using
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+2.17.1
