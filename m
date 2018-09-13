@@ -1,63 +1,49 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 13 Sep 2018 23:24:28 +0300
+From: robh@kernel.org (Rob Herring)
+Date: Thu, 13 Sep 2018 16:04:00 -0500
 Subject: [PATCH] ARC: Get rid of toolchain check
+In-Reply-To: <20180913202428.7284-1-abrodkin@synopsys.com>
+References: <20180913202428.7284-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180913202428.7284-1-abrodkin@synopsys.com>
+Message-ID: <CABGGisxY5yLxT1QDQYOOQYJEJ+Wx8uK3ZmSvPEqvYyfAHbhScQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-This check is very naive: we simply test if GCC invoked without
-"-mcpu=XXX" has ARC700 define set. In that case we think that GCC
-was built with "--with-cpu=arc700" and has libgcc built for ARC700.
+On Thu, Sep 13, 2018 at 3:24 PM Alexey Brodkin
+<Alexey.Brodkin@synopsys.com> wrote:
+>
+> This check is very naive: we simply test if GCC invoked without
+> "-mcpu=XXX" has ARC700 define set. In that case we think that GCC
+> was built with "--with-cpu=arc700" and has libgcc built for ARC700.
+>
+> Otherwise if ARC700 is not defined we think that everythng was built
+> for ARCv2.
+>
+> But in reality our life is much more interesting.
+>
+> 1. Regardless of GCC configuration (i.e. what we pass in "--with-cpu"
+>    it may generate code for any ARC core).
+>
+> 2. libgcc might be built with explicitly specified "--mcpu=YYY"
+>
+> That's exactly what happens in case of multilibbed toolchains:
+>  - GCC is configured with default settings
+>  - All the libs built for many different CPU flavors
+>
+> I.e. that check gets in the way of usage of multilibbed
+> toolchains. And even non-multilibbed toolchains are affected.
+> OpenEmbedded also builds GCC without "--with-cpu" because
+> each and every target component later is compiled with explicitly
+> set "-mcpu=ZZZ".
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> ---
+>  arch/arc/Makefile | 14 --------------
+>  1 file changed, 14 deletions(-)
 
-Otherwise if ARC700 is not defined we think that everythng was built
-for ARCv2.
++1 for this. Removing it also helps with my work to be able to build
+all the .dts files with only a host compiler. That also needs the hunk
+setting CROSS_COMPILE removed and not having a built-in dtb by
+default, but this is a step in the right direction.
 
-But in reality our life is much more interesting.
+Acked-by: Rob Herring <robh at kernel.org>
 
-1. Regardless of GCC configuration (i.e. what we pass in "--with-cpu"
-   it may generate code for any ARC core).
-
-2. libgcc might be built with explicitly specified "--mcpu=YYY"
-
-That's exactly what happens in case of multilibbed toolchains:
- - GCC is configured with default settings
- - All the libs built for many different CPU flavors
-
-I.e. that check gets in the way of usage of multilibbed
-toolchains. And even non-multilibbed toolchains are affected.
-OpenEmbedded also builds GCC without "--with-cpu" because
-each and every target component later is compiled with explicitly
-set "-mcpu=ZZZ".
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
- arch/arc/Makefile | 14 --------------
- 1 file changed, 14 deletions(-)
-
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 6c1b20dd76ad..16ae8675116e 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -20,20 +20,6 @@ cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
- cflags-$(CONFIG_ISA_ARCOMPACT)	+= -mA7
- cflags-$(CONFIG_ISA_ARCV2)	+= -mcpu=archs
- 
--is_700 = $(shell $(CC) -dM -E - < /dev/null | grep -q "ARC700" && echo 1 || echo 0)
--
--ifdef CONFIG_ISA_ARCOMPACT
--ifeq ($(is_700), 0)
--    $(error Toolchain not configured for ARCompact builds)
--endif
--endif
--
--ifdef CONFIG_ISA_ARCV2
--ifeq ($(is_700), 1)
--    $(error Toolchain not configured for ARCv2 builds)
--endif
--endif
--
- ifdef CONFIG_ARC_CURR_IN_REG
- # For a global register defintion, make sure it gets passed to every file
- # We had a customer reported bug where some code built in kernel was NOT using
--- 
-2.17.1
+Rob
