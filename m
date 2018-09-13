@@ -1,20 +1,103 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 13 Sep 2018 08:00:39 +0000
-Subject: [PATCH] [ARC] Fix generation of specs
-In-Reply-To: <098ECE41A0A6114BB2A07F1EC238DE89667FCC57@de02wembxa.internal.synopsys.com>
-References: <20180913074110.6431-1-abrodkin@synopsys.com>
- <098ECE41A0A6114BB2A07F1EC238DE89667FCC57@de02wembxa.internal.synopsys.com>
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Thu, 13 Sep 2018 17:51:55 +0200
+Subject: [PATCH v3 6/9] kbuild: consolidate Devicetree dtb build rules
+In-Reply-To: <CAK7LNAQFqhWw+LwDoypGG=OP6tH4qf2tT=LvtchK2GoiNyzDXg@mail.gmail.com>
+References: <20180910150403.19476-1-robh@kernel.org>
+ <20180910150403.19476-7-robh@kernel.org>
+ <CAL_Jsq+=VbdcVLiwXbOA5d+R2YY6=2Pw2bQpci-jj-JvereD1A@mail.gmail.com>
+ <CAK7LNAQFqhWw+LwDoypGG=OP6tH4qf2tT=LvtchK2GoiNyzDXg@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <0f6f6e7527055e0d18d5e587301be7ac3b66b5af.camel@synopsys.com>
+Message-ID: <CAMuHMdWEnoh97_jiDWMq=ke4PrhSFbToYnx91CPLBuq3mOGzoQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Claus,
+Hi Yamada-san,
 
-On Thu, 2018-09-13@09:59 +0200, Claudiu Zissulescu wrote:
-> The patch is missing the entry change log. Otherwise is ok. I'll push it with the mentioned changes.
+On Wed, Sep 12, 2018 at 3:02 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+> 2018-09-12 0:40 GMT+09:00 Rob Herring <robh at kernel.org>:
+> > On Mon, Sep 10, 2018@10:04 AM Rob Herring <robh@kernel.org> wrote:
+> >> There is nothing arch specific about building dtb files other than their
+> >> location under /arch/*/boot/dts/. Keeping each arch aligned is a pain.
+> >> The dependencies and supported targets are all slightly different.
+> >> Also, a cross-compiler for each arch is needed, but really the host
+> >> compiler preprocessor is perfectly fine for building dtbs. Move the
+> >> build rules to a common location and remove the arch specific ones. This
+> >> is done in a single step to avoid warnings about overriding rules.
+> >>
+> >> The build dependencies had been a mixture of 'scripts' and/or 'prepare'.
+> >> These pull in several dependencies some of which need a target compiler
+> >> (specifically devicetable-offsets.h) and aren't needed to build dtbs.
+> >> All that is really needed is dtc, so adjust the dependencies to only be
+> >> dtc.
+> >>
+> >> This change enables support 'dtbs_install' on some arches which were
+> >> missing the target.
+> >
+> > [...]
+> >
+> >> @@ -1215,6 +1215,33 @@ kselftest-merge:
+> >>                 $(srctree)/tools/testing/selftests/*/config
+> >>         +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+> >>
+> >> +# ---------------------------------------------------------------------------
+> >> +# Devicetree files
+> >> +
+> >> +ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/),)
+> >> +dtstree := arch/$(SRCARCH)/boot/dts
+> >> +endif
+> >> +
+> >> +ifdef CONFIG_OF_EARLY_FLATTREE
+> >
+> > This can be true when dtstree is unset. So this line should be this
+> > instead to fix the 0-day reported error:
+> >
+> > ifneq ($(dtstree),)
+> >
+> >> +
+> >> +%.dtb : scripts_dtc
+> >> +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+> >> +
+> >> +PHONY += dtbs dtbs_install
+> >> +dtbs: scripts_dtc
+> >> +       $(Q)$(MAKE) $(build)=$(dtstree)
+> >> +
+> >> +dtbs_install: dtbs
+> >> +       $(Q)$(MAKE) $(dtbinst)=$(dtstree)
+> >> +
+> >> +all: dtbs
+> >> +
+> >> +endif
+>
+>
+> Ah, right.
+> Even x86 can enable OF and OF_UNITTEST.
+>
+>
+>
+> Another solution might be,
+> guard it by 'depends on ARCH_SUPPORTS_OF'.
+>
+>
+>
+> This is actually what ACPI does.
+>
+> menuconfig ACPI
+>         bool "ACPI (Advanced Configuration and Power Interface) Support"
+>         depends on ARCH_SUPPORTS_ACPI
+>          ...
 
-Thanks for taking care.
+ACPI is a real platform feature, as it depends on firmware.
 
-Also may we have it back-ported to 8.x branch so it will be a part of 8.3 release later?
+CONFIG_OF can be enabled, and DT overlays can be loaded, on any platform,
+even if it has ACPI ;-)
 
--Alexey
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
