@@ -1,340 +1,291 @@
 From: rppt@linux.vnet.ibm.com (Mike Rapoport)
-Date: Fri, 14 Sep 2018 15:10:38 +0300
-Subject: [PATCH 23/30] memblock: replace free_bootmem{_node} with memblock_free
+Date: Fri, 14 Sep 2018 15:10:42 +0300
+Subject: [PATCH 27/30] mm: remove nobootmem
 In-Reply-To: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1536927045-23536-24-git-send-email-rppt@linux.vnet.ibm.com>
+Message-ID: <1536927045-23536-28-git-send-email-rppt@linux.vnet.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-The free_bootmem and free_bootmem_node are merely wrappers for
-memblock_free. Replace their usage with a call to memblock_free using the
-following semantic patch:
-
-@@
-expression e1, e2, e3;
-@@
-(
-- free_bootmem(e1, e2)
-+ memblock_free(e1, e2)
-|
-- free_bootmem_node(e1, e2, e3)
-+ memblock_free(e2, e3)
-)
+Move a few remaining functions from nobootmem.c to memblock.c and remove
+nobootmem
 
 Signed-off-by: Mike Rapoport <rppt at linux.vnet.ibm.com>
 Acked-by: Michal Hocko <mhocko at suse.com>
 ---
- arch/alpha/kernel/core_irongate.c |  3 +--
- arch/arm64/mm/init.c              |  2 +-
- arch/mips/kernel/setup.c          |  2 +-
- arch/powerpc/kernel/setup_64.c    |  2 +-
- arch/sparc/kernel/smp_64.c        |  2 +-
- arch/um/kernel/mem.c              |  3 ++-
- arch/unicore32/mm/init.c          |  2 +-
- arch/x86/kernel/setup_percpu.c    |  3 ++-
- arch/x86/kernel/tce_64.c          |  3 ++-
- arch/x86/xen/p2m.c                |  3 ++-
- drivers/macintosh/smu.c           |  2 +-
- drivers/usb/early/xhci-dbc.c      | 11 ++++++-----
- drivers/xen/swiotlb-xen.c         |  4 +++-
- include/linux/bootmem.h           |  4 ----
- mm/nobootmem.c                    | 30 ------------------------------
- 15 files changed, 24 insertions(+), 52 deletions(-)
+ mm/Makefile    |   1 -
+ mm/memblock.c  | 104 ++++++++++++++++++++++++++++++++++++++++++++++
+ mm/nobootmem.c | 128 ---------------------------------------------------------
+ 3 files changed, 104 insertions(+), 129 deletions(-)
+ delete mode 100644 mm/nobootmem.c
 
-diff --git a/arch/alpha/kernel/core_irongate.c b/arch/alpha/kernel/core_irongate.c
-index f709866..35572be 100644
---- a/arch/alpha/kernel/core_irongate.c
-+++ b/arch/alpha/kernel/core_irongate.c
-@@ -234,8 +234,7 @@ albacore_init_arch(void)
- 			unsigned long size;
+diff --git a/mm/Makefile b/mm/Makefile
+index ca3c844..d210cc9 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -42,7 +42,6 @@ obj-y			:= filemap.o mempool.o oom_kill.o fadvise.o \
+ 			   debug.o $(mmu-y)
  
- 			size = initrd_end - initrd_start;
--			free_bootmem_node(NODE_DATA(0), __pa(initrd_start),
--					  PAGE_ALIGN(size));
-+			memblock_free(__pa(initrd_start), PAGE_ALIGN(size));
- 			if (!move_initrd(pci_mem))
- 				printk("irongate_init_arch: initrd too big "
- 				       "(%ldK)\ndisabling initrd\n",
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 787e279..e335452 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -538,7 +538,7 @@ static inline void free_memmap(unsigned long start_pfn, unsigned long end_pfn)
- 	 * memmap array.
- 	 */
- 	if (pg < pgend)
--		free_bootmem(pg, pgend - pg);
-+		memblock_free(pg, pgend - pg);
+ obj-y += init-mm.o
+-obj-y += nobootmem.o
+ obj-y += memblock.o
+ 
+ ifdef CONFIG_MMU
+diff --git a/mm/memblock.c b/mm/memblock.c
+index a2cd61d..4591f38 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -82,6 +82,16 @@
+  * initialization compltes.
+  */
+ 
++#ifndef CONFIG_NEED_MULTIPLE_NODES
++struct pglist_data __refdata contig_page_data;
++EXPORT_SYMBOL(contig_page_data);
++#endif
++
++unsigned long max_low_pfn;
++unsigned long min_low_pfn;
++unsigned long max_pfn;
++unsigned long long max_possible_pfn;
++
+ static struct memblock_region memblock_memory_init_regions[INIT_MEMBLOCK_REGIONS] __initdata_memblock;
+ static struct memblock_region memblock_reserved_init_regions[INIT_MEMBLOCK_REGIONS] __initdata_memblock;
+ #ifdef CONFIG_HAVE_MEMBLOCK_PHYS_MAP
+@@ -1929,6 +1939,100 @@ static int __init early_memblock(char *p)
  }
+ early_param("memblock", early_memblock);
  
- /*
-diff --git a/arch/mips/kernel/setup.c b/arch/mips/kernel/setup.c
-index a6bc2f6..86c9eda 100644
---- a/arch/mips/kernel/setup.c
-+++ b/arch/mips/kernel/setup.c
-@@ -561,7 +561,7 @@ static void __init bootmem_init(void)
- 		extern void show_kernel_relocation(const char *level);
++static void __init __free_pages_memory(unsigned long start, unsigned long end)
++{
++	int order;
++
++	while (start < end) {
++		order = min(MAX_ORDER - 1UL, __ffs(start));
++
++		while (start + (1UL << order) > end)
++			order--;
++
++		memblock_free_pages(pfn_to_page(start), start, order);
++
++		start += (1UL << order);
++	}
++}
++
++static unsigned long __init __free_memory_core(phys_addr_t start,
++				 phys_addr_t end)
++{
++	unsigned long start_pfn = PFN_UP(start);
++	unsigned long end_pfn = min_t(unsigned long,
++				      PFN_DOWN(end), max_low_pfn);
++
++	if (start_pfn >= end_pfn)
++		return 0;
++
++	__free_pages_memory(start_pfn, end_pfn);
++
++	return end_pfn - start_pfn;
++}
++
++static unsigned long __init free_low_memory_core_early(void)
++{
++	unsigned long count = 0;
++	phys_addr_t start, end;
++	u64 i;
++
++	memblock_clear_hotplug(0, -1);
++
++	for_each_reserved_mem_region(i, &start, &end)
++		reserve_bootmem_region(start, end);
++
++	/*
++	 * We need to use NUMA_NO_NODE instead of NODE_DATA(0)->node_id
++	 *  because in some case like Node0 doesn't have RAM installed
++	 *  low ram will be on Node1
++	 */
++	for_each_free_mem_range(i, NUMA_NO_NODE, MEMBLOCK_NONE, &start, &end,
++				NULL)
++		count += __free_memory_core(start, end);
++
++	return count;
++}
++
++static int reset_managed_pages_done __initdata;
++
++void reset_node_managed_pages(pg_data_t *pgdat)
++{
++	struct zone *z;
++
++	for (z = pgdat->node_zones; z < pgdat->node_zones + MAX_NR_ZONES; z++)
++		z->managed_pages = 0;
++}
++
++void __init reset_all_zones_managed_pages(void)
++{
++	struct pglist_data *pgdat;
++
++	if (reset_managed_pages_done)
++		return;
++
++	for_each_online_pgdat(pgdat)
++		reset_node_managed_pages(pgdat);
++
++	reset_managed_pages_done = 1;
++}
++
++/**
++ * memblock_free_all - release free pages to the buddy allocator
++ *
++ * Return: the number of pages actually released.
++ */
++unsigned long __init memblock_free_all(void)
++{
++	unsigned long pages;
++
++	reset_all_zones_managed_pages();
++
++	pages = free_low_memory_core_early();
++	totalram_pages += pages;
++
++	return pages;
++}
++
+ #if defined(CONFIG_DEBUG_FS) && !defined(CONFIG_ARCH_DISCARD_MEMBLOCK)
  
- 		offset = __pa_symbol(_text) - __pa_symbol(VMLINUX_LOAD_ADDRESS);
--		free_bootmem(__pa_symbol(VMLINUX_LOAD_ADDRESS), offset);
-+		memblock_free(__pa_symbol(VMLINUX_LOAD_ADDRESS), offset);
- 
- #if defined(CONFIG_DEBUG_KERNEL) && defined(CONFIG_DEBUG_INFO)
- 		/*
-diff --git a/arch/powerpc/kernel/setup_64.c b/arch/powerpc/kernel/setup_64.c
-index 6add560..e564b27 100644
---- a/arch/powerpc/kernel/setup_64.c
-+++ b/arch/powerpc/kernel/setup_64.c
-@@ -765,7 +765,7 @@ static void * __init pcpu_fc_alloc(unsigned int cpu, size_t size, size_t align)
- 
- static void __init pcpu_fc_free(void *ptr, size_t size)
- {
--	free_bootmem(__pa(ptr), size);
-+	memblock_free(__pa(ptr), size);
- }
- 
- static int pcpu_cpu_distance(unsigned int from, unsigned int to)
-diff --git a/arch/sparc/kernel/smp_64.c b/arch/sparc/kernel/smp_64.c
-index 337febd..a087a6a 100644
---- a/arch/sparc/kernel/smp_64.c
-+++ b/arch/sparc/kernel/smp_64.c
-@@ -1607,7 +1607,7 @@ static void * __init pcpu_alloc_bootmem(unsigned int cpu, size_t size,
- 
- static void __init pcpu_free_bootmem(void *ptr, size_t size)
- {
--	free_bootmem(__pa(ptr), size);
-+	memblock_free(__pa(ptr), size);
- }
- 
- static int __init pcpu_cpu_distance(unsigned int from, unsigned int to)
-diff --git a/arch/um/kernel/mem.c b/arch/um/kernel/mem.c
-index 185f6bb..3555c13 100644
---- a/arch/um/kernel/mem.c
-+++ b/arch/um/kernel/mem.c
-@@ -6,6 +6,7 @@
- #include <linux/stddef.h>
- #include <linux/module.h>
- #include <linux/bootmem.h>
-+#include <linux/memblock.h>
- #include <linux/highmem.h>
- #include <linux/mm.h>
- #include <linux/swap.h>
-@@ -46,7 +47,7 @@ void __init mem_init(void)
- 	 */
- 	brk_end = (unsigned long) UML_ROUND_UP(sbrk(0));
- 	map_memory(brk_end, __pa(brk_end), uml_reserved - brk_end, 1, 1, 0);
--	free_bootmem(__pa(brk_end), uml_reserved - brk_end);
-+	memblock_free(__pa(brk_end), uml_reserved - brk_end);
- 	uml_reserved = brk_end;
- 
- 	/* this will put all low memory onto the freelists */
-diff --git a/arch/unicore32/mm/init.c b/arch/unicore32/mm/init.c
-index 44ccc15..4c572ab 100644
---- a/arch/unicore32/mm/init.c
-+++ b/arch/unicore32/mm/init.c
-@@ -241,7 +241,7 @@ free_memmap(unsigned long start_pfn, unsigned long end_pfn)
- 	 * free the section of the memmap array.
- 	 */
- 	if (pg < pgend)
--		free_bootmem(pg, pgend - pg);
-+		memblock_free(pg, pgend - pg);
- }
- 
- /*
-diff --git a/arch/x86/kernel/setup_percpu.c b/arch/x86/kernel/setup_percpu.c
-index 041663a..a006f1b 100644
---- a/arch/x86/kernel/setup_percpu.c
-+++ b/arch/x86/kernel/setup_percpu.c
-@@ -5,6 +5,7 @@
- #include <linux/export.h>
- #include <linux/init.h>
- #include <linux/bootmem.h>
-+#include <linux/memblock.h>
- #include <linux/percpu.h>
- #include <linux/kexec.h>
- #include <linux/crash_dump.h>
-@@ -135,7 +136,7 @@ static void * __init pcpu_fc_alloc(unsigned int cpu, size_t size, size_t align)
- 
- static void __init pcpu_fc_free(void *ptr, size_t size)
- {
--	free_bootmem(__pa(ptr), size);
-+	memblock_free(__pa(ptr), size);
- }
- 
- static int __init pcpu_cpu_distance(unsigned int from, unsigned int to)
-diff --git a/arch/x86/kernel/tce_64.c b/arch/x86/kernel/tce_64.c
-index 54c9b5a..75730ce 100644
---- a/arch/x86/kernel/tce_64.c
-+++ b/arch/x86/kernel/tce_64.c
-@@ -31,6 +31,7 @@
- #include <linux/pci.h>
- #include <linux/dma-mapping.h>
- #include <linux/bootmem.h>
-+#include <linux/memblock.h>
- #include <asm/tce.h>
- #include <asm/calgary.h>
- #include <asm/proto.h>
-@@ -186,5 +187,5 @@ void __init free_tce_table(void *tbl)
- 	size = table_size_to_number_of_entries(specified_table_size);
- 	size *= TCE_ENTRY_SIZE;
- 
--	free_bootmem(__pa(tbl), size);
-+	memblock_free(__pa(tbl), size);
- }
-diff --git a/arch/x86/xen/p2m.c b/arch/x86/xen/p2m.c
-index 5de761b..b3e11af 100644
---- a/arch/x86/xen/p2m.c
-+++ b/arch/x86/xen/p2m.c
-@@ -68,6 +68,7 @@
- #include <linux/sched.h>
- #include <linux/seq_file.h>
- #include <linux/bootmem.h>
-+#include <linux/memblock.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
- 
-@@ -190,7 +191,7 @@ static void * __ref alloc_p2m_page(void)
- static void __ref free_p2m_page(void *p)
- {
- 	if (unlikely(!slab_is_available())) {
--		free_bootmem((unsigned long)p, PAGE_SIZE);
-+		memblock_free((unsigned long)p, PAGE_SIZE);
- 		return;
- 	}
- 
-diff --git a/drivers/macintosh/smu.c b/drivers/macintosh/smu.c
-index 332fcca..0069f90 100644
---- a/drivers/macintosh/smu.c
-+++ b/drivers/macintosh/smu.c
-@@ -569,7 +569,7 @@ int __init smu_init (void)
- fail_db_node:
- 	of_node_put(smu->db_node);
- fail_bootmem:
--	free_bootmem(__pa(smu), sizeof(struct smu_device));
-+	memblock_free(__pa(smu), sizeof(struct smu_device));
- 	smu = NULL;
- fail_np:
- 	of_node_put(np);
-diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
-index 16df968..4411404 100644
---- a/drivers/usb/early/xhci-dbc.c
-+++ b/drivers/usb/early/xhci-dbc.c
-@@ -13,6 +13,7 @@
- #include <linux/pci_regs.h>
- #include <linux/pci_ids.h>
- #include <linux/bootmem.h>
-+#include <linux/memblock.h>
- #include <linux/io.h>
- #include <asm/pci-direct.h>
- #include <asm/fixmap.h>
-@@ -191,7 +192,7 @@ static void __init xdbc_free_ring(struct xdbc_ring *ring)
- 	if (!seg)
- 		return;
- 
--	free_bootmem(seg->dma, PAGE_SIZE);
-+	memblock_free(seg->dma, PAGE_SIZE);
- 	ring->segment = NULL;
- }
- 
-@@ -675,10 +676,10 @@ int __init early_xdbc_setup_hardware(void)
- 		xdbc_free_ring(&xdbc.in_ring);
- 
- 		if (xdbc.table_dma)
--			free_bootmem(xdbc.table_dma, PAGE_SIZE);
-+			memblock_free(xdbc.table_dma, PAGE_SIZE);
- 
- 		if (xdbc.out_dma)
--			free_bootmem(xdbc.out_dma, PAGE_SIZE);
-+			memblock_free(xdbc.out_dma, PAGE_SIZE);
- 
- 		xdbc.table_base = NULL;
- 		xdbc.out_buf = NULL;
-@@ -1000,8 +1001,8 @@ static int __init xdbc_init(void)
- 	xdbc_free_ring(&xdbc.evt_ring);
- 	xdbc_free_ring(&xdbc.out_ring);
- 	xdbc_free_ring(&xdbc.in_ring);
--	free_bootmem(xdbc.table_dma, PAGE_SIZE);
--	free_bootmem(xdbc.out_dma, PAGE_SIZE);
-+	memblock_free(xdbc.table_dma, PAGE_SIZE);
-+	memblock_free(xdbc.out_dma, PAGE_SIZE);
- 	writel(0, &xdbc.xdbc_reg->control);
- 	early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
- 
-diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
-index 8d849b4..6c13ff4 100644
---- a/drivers/xen/swiotlb-xen.c
-+++ b/drivers/xen/swiotlb-xen.c
-@@ -36,6 +36,7 @@
- #define pr_fmt(fmt) "xen:" KBUILD_MODNAME ": " fmt
- 
- #include <linux/bootmem.h>
-+#include <linux/memblock.h>
- #include <linux/dma-direct.h>
- #include <linux/export.h>
- #include <xen/swiotlb-xen.h>
-@@ -248,7 +249,8 @@ int __ref xen_swiotlb_init(int verbose, bool early)
- 			       xen_io_tlb_nslabs);
- 	if (rc) {
- 		if (early)
--			free_bootmem(__pa(xen_io_tlb_start), PAGE_ALIGN(bytes));
-+			memblock_free(__pa(xen_io_tlb_start),
-+				      PAGE_ALIGN(bytes));
- 		else {
- 			free_pages((unsigned long)xen_io_tlb_start, order);
- 			xen_io_tlb_start = NULL;
-diff --git a/include/linux/bootmem.h b/include/linux/bootmem.h
-index 73f1272..706cf8e 100644
---- a/include/linux/bootmem.h
-+++ b/include/linux/bootmem.h
-@@ -30,10 +30,6 @@ extern unsigned long free_all_bootmem(void);
- extern void reset_node_managed_pages(pg_data_t *pgdat);
- extern void reset_all_zones_managed_pages(void);
- 
--extern void free_bootmem_node(pg_data_t *pgdat,
--			      unsigned long addr,
--			      unsigned long size);
--extern void free_bootmem(unsigned long physaddr, unsigned long size);
- extern void free_bootmem_late(unsigned long physaddr, unsigned long size);
- 
- /* We are using top down, so it is safe to use 0 here */
+ static int memblock_debug_show(struct seq_file *m, void *private)
 diff --git a/mm/nobootmem.c b/mm/nobootmem.c
-index bc38e56..85e1822 100644
+deleted file mode 100644
+index 9608bc5..0000000
 --- a/mm/nobootmem.c
-+++ b/mm/nobootmem.c
-@@ -150,33 +150,3 @@ unsigned long __init free_all_bootmem(void)
- 
- 	return pages;
- }
--
--/**
-- * free_bootmem_node - mark a page range as usable
-- * @pgdat: node the range resides on
-- * @physaddr: starting physical address of the range
-- * @size: size of the range in bytes
++++ /dev/null
+@@ -1,128 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- *  bootmem - A boot-time physical memory allocator and configurator
 - *
-- * Partial pages will be considered reserved and left as they are.
+- *  Copyright (C) 1999 Ingo Molnar
+- *                1999 Kanoj Sarcar, SGI
+- *                2008 Johannes Weiner
 - *
-- * The range must reside completely on the specified node.
+- * Access to this subsystem has to be serialized externally (which is true
+- * for the boot process anyway).
 - */
--void __init free_bootmem_node(pg_data_t *pgdat, unsigned long physaddr,
--			      unsigned long size)
+-#include <linux/init.h>
+-#include <linux/pfn.h>
+-#include <linux/slab.h>
+-#include <linux/export.h>
+-#include <linux/kmemleak.h>
+-#include <linux/range.h>
+-#include <linux/memblock.h>
+-#include <linux/bootmem.h>
+-
+-#include <asm/bug.h>
+-#include <asm/io.h>
+-
+-#include "internal.h"
+-
+-#ifndef CONFIG_NEED_MULTIPLE_NODES
+-struct pglist_data __refdata contig_page_data;
+-EXPORT_SYMBOL(contig_page_data);
+-#endif
+-
+-unsigned long max_low_pfn;
+-unsigned long min_low_pfn;
+-unsigned long max_pfn;
+-unsigned long long max_possible_pfn;
+-
+-static void __init __free_pages_memory(unsigned long start, unsigned long end)
 -{
--	memblock_free(physaddr, size);
+-	int order;
+-
+-	while (start < end) {
+-		order = min(MAX_ORDER - 1UL, __ffs(start));
+-
+-		while (start + (1UL << order) > end)
+-			order--;
+-
+-		memblock_free_pages(pfn_to_page(start), start, order);
+-
+-		start += (1UL << order);
+-	}
+-}
+-
+-static unsigned long __init __free_memory_core(phys_addr_t start,
+-				 phys_addr_t end)
+-{
+-	unsigned long start_pfn = PFN_UP(start);
+-	unsigned long end_pfn = min_t(unsigned long,
+-				      PFN_DOWN(end), max_low_pfn);
+-
+-	if (start_pfn >= end_pfn)
+-		return 0;
+-
+-	__free_pages_memory(start_pfn, end_pfn);
+-
+-	return end_pfn - start_pfn;
+-}
+-
+-static unsigned long __init free_low_memory_core_early(void)
+-{
+-	unsigned long count = 0;
+-	phys_addr_t start, end;
+-	u64 i;
+-
+-	memblock_clear_hotplug(0, -1);
+-
+-	for_each_reserved_mem_region(i, &start, &end)
+-		reserve_bootmem_region(start, end);
+-
+-	/*
+-	 * We need to use NUMA_NO_NODE instead of NODE_DATA(0)->node_id
+-	 *  because in some case like Node0 doesn't have RAM installed
+-	 *  low ram will be on Node1
+-	 */
+-	for_each_free_mem_range(i, NUMA_NO_NODE, MEMBLOCK_NONE, &start, &end,
+-				NULL)
+-		count += __free_memory_core(start, end);
+-
+-	return count;
+-}
+-
+-static int reset_managed_pages_done __initdata;
+-
+-void reset_node_managed_pages(pg_data_t *pgdat)
+-{
+-	struct zone *z;
+-
+-	for (z = pgdat->node_zones; z < pgdat->node_zones + MAX_NR_ZONES; z++)
+-		z->managed_pages = 0;
+-}
+-
+-void __init reset_all_zones_managed_pages(void)
+-{
+-	struct pglist_data *pgdat;
+-
+-	if (reset_managed_pages_done)
+-		return;
+-
+-	for_each_online_pgdat(pgdat)
+-		reset_node_managed_pages(pgdat);
+-
+-	reset_managed_pages_done = 1;
 -}
 -
 -/**
-- * free_bootmem - mark a page range as usable
-- * @addr: starting physical address of the range
-- * @size: size of the range in bytes
+- * memblock_free_all - release free pages to the buddy allocator
 - *
-- * Partial pages will be considered reserved and left as they are.
-- *
-- * The range must be contiguous but may span node boundaries.
+- * Return: the number of pages actually released.
 - */
--void __init free_bootmem(unsigned long addr, unsigned long size)
+-unsigned long __init memblock_free_all(void)
 -{
--	memblock_free(addr, size);
+-	unsigned long pages;
+-
+-	reset_all_zones_managed_pages();
+-
+-	pages = free_low_memory_core_early();
+-	totalram_pages += pages;
+-
+-	return pages;
 -}
 -- 
 2.7.4
