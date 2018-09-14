@@ -1,49 +1,59 @@
-From: robh@kernel.org (Rob Herring)
-Date: Thu, 13 Sep 2018 16:04:00 -0500
-Subject: [PATCH] ARC: Get rid of toolchain check
-In-Reply-To: <20180913202428.7284-1-abrodkin@synopsys.com>
-References: <20180913202428.7284-1-abrodkin@synopsys.com>
+From: p.zabel@pengutronix.de (Philipp Zabel)
+Date: Fri, 14 Sep 2018 12:38:13 +0200
+Subject: [PATCH] ARC: HSDK: improve reset driver
+In-Reply-To: <20180827143803.28178-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180827143803.28178-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CABGGisxY5yLxT1QDQYOOQYJEJ+Wx8uK3ZmSvPEqvYyfAHbhScQ@mail.gmail.com>
+Message-ID: <1536921493.4112.6.camel@pengutronix.de>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Sep 13, 2018 at 3:24 PM Alexey Brodkin
-<Alexey.Brodkin@synopsys.com> wrote:
->
-> This check is very naive: we simply test if GCC invoked without
-> "-mcpu=XXX" has ARC700 define set. In that case we think that GCC
-> was built with "--with-cpu=arc700" and has libgcc built for ARC700.
->
-> Otherwise if ARC700 is not defined we think that everythng was built
-> for ARCv2.
->
-> But in reality our life is much more interesting.
->
-> 1. Regardless of GCC configuration (i.e. what we pass in "--with-cpu"
->    it may generate code for any ARC core).
->
-> 2. libgcc might be built with explicitly specified "--mcpu=YYY"
->
-> That's exactly what happens in case of multilibbed toolchains:
->  - GCC is configured with default settings
->  - All the libs built for many different CPU flavors
->
-> I.e. that check gets in the way of usage of multilibbed
-> toolchains. And even non-multilibbed toolchains are affected.
-> OpenEmbedded also builds GCC without "--with-cpu" because
-> each and every target component later is compiled with explicitly
-> set "-mcpu=ZZZ".
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Hi Eugeniy,
+
+On Mon, 2018-08-27@17:38 +0300, Eugeniy Paltsev wrote:
+> As for today HSDK reset driver implements only
+> .reset() callback.
+> 
+> In case of driver which implements one of standard
+> reset controller usage pattern
+> (call *_deassert() in probe(), call *_assert() in remove())
+> that leads to inoperability of this reset driver.
+> 
+> Improve HSDK reset driver by calling .reset() callback inside of
+> .assert()/.deassert() callbacks to avoid each reset controller
+> user adaptation for work with both reset methods
+> (reset() and .assert()/.deassert() pair)
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 > ---
->  arch/arc/Makefile | 14 --------------
->  1 file changed, 14 deletions(-)
+>  drivers/reset/reset-hsdk.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/reset/reset-hsdk.c b/drivers/reset/reset-hsdk.c
+> index 8bce391c6943..1fd91df91343 100644
+> --- a/drivers/reset/reset-hsdk.c
+> +++ b/drivers/reset/reset-hsdk.c
+> @@ -86,6 +86,8 @@ static int hsdk_reset_reset(struct reset_controller_dev *rcdev,
+>  
+>  static const struct reset_control_ops hsdk_reset_ops = {
+>  	.reset	= hsdk_reset_reset,
+> +	.assert = hsdk_reset_reset,
 
-+1 for this. Removing it also helps with my work to be able to build
-all the .dts files with only a host compiler. That also needs the hunk
-setting CROSS_COMPILE removed and not having a built-in dtb by
-default, but this is a step in the right direction.
+This is incorrect for exclusive reset controls.
+It will cause reset_control_assert() to return success for exclusive
+reset controls, even though the .assert op failed to leave the reset
+line asserted after the function returns.
 
-Acked-by: Rob Herring <robh at kernel.org>
+While calling hsdk_reset_reset from .assert for shared reset controls
+would be fine,?I don't see how this is necessary of useful.
+If a consumer driver requires the reset to be asserted upon remove(), it
+must not request a shared reset control anyway, because with shared
+reset controls other drivers may keep the reset line deasserted
+indefinitely.
 
-Rob
+> +	.deassert = hsdk_reset_reset,
+
+This should be fine. I wonder from time to time whether this should be
+implemented in the core, in reset_control_deassert().
+
+regards
+Philipp
