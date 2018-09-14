@@ -1,59 +1,31 @@
-From: p.zabel@pengutronix.de (Philipp Zabel)
-Date: Fri, 14 Sep 2018 12:38:13 +0200
-Subject: [PATCH] ARC: HSDK: improve reset driver
-In-Reply-To: <20180827143803.28178-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180827143803.28178-1-Eugeniy.Paltsev@synopsys.com>
+From: colin.king@canonical.com (Colin King)
+Date: Fri, 14 Sep 2018 12:27:27 +0100
+Subject: [PATCH] ARC: fix spelling mistake "entires" -> "entries"
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1536921493.4112.6.camel@pengutronix.de>
+Message-ID: <20180914112727.4276-1-colin.king@canonical.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Eugeniy,
+From: Colin Ian King <colin.king@canonical.com>
 
-On Mon, 2018-08-27@17:38 +0300, Eugeniy Paltsev wrote:
-> As for today HSDK reset driver implements only
-> .reset() callback.
-> 
-> In case of driver which implements one of standard
-> reset controller usage pattern
-> (call *_deassert() in probe(), call *_assert() in remove())
-> that leads to inoperability of this reset driver.
-> 
-> Improve HSDK reset driver by calling .reset() callback inside of
-> .assert()/.deassert() callbacks to avoid each reset controller
-> user adaptation for work with both reset methods
-> (reset() and .assert()/.deassert() pair)
-> 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
->  drivers/reset/reset-hsdk.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/reset/reset-hsdk.c b/drivers/reset/reset-hsdk.c
-> index 8bce391c6943..1fd91df91343 100644
-> --- a/drivers/reset/reset-hsdk.c
-> +++ b/drivers/reset/reset-hsdk.c
-> @@ -86,6 +86,8 @@ static int hsdk_reset_reset(struct reset_controller_dev *rcdev,
->  
->  static const struct reset_control_ops hsdk_reset_ops = {
->  	.reset	= hsdk_reset_reset,
-> +	.assert = hsdk_reset_reset,
+Trivial fix to spelling mistake in Kconfig
 
-This is incorrect for exclusive reset controls.
-It will cause reset_control_assert() to return success for exclusive
-reset controls, even though the .assert op failed to leave the reset
-line asserted after the function returns.
+Signed-off-by: Colin Ian King <colin.king at canonical.com>
+---
+ arch/arc/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-While calling hsdk_reset_reset from .assert for shared reset controls
-would be fine,?I don't see how this is necessary of useful.
-If a consumer driver requires the reset to be asserted upon remove(), it
-must not request a shared reset control anyway, because with shared
-reset controls other drivers may keep the reset line deasserted
-indefinitely.
-
-> +	.deassert = hsdk_reset_reset,
-
-This should be fine. I wonder from time to time whether this should be
-implemented in the core, in reset_control_deassert().
-
-regards
-Philipp
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index b4441b0764d7..a045f3086047 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -149,7 +149,7 @@ config ARC_CPU_770
+ 	  Support for ARC770 core introduced with Rel 4.10 (Summer 2011)
+ 	  This core has a bunch of cool new features:
+ 	  -MMU-v3: Variable Page Sz (4k, 8k, 16k), bigger J-TLB (128x4)
+-                   Shared Address Spaces (for sharing TLB entires in MMU)
++                   Shared Address Spaces (for sharing TLB entries in MMU)
+ 	  -Caches: New Prog Model, Region Flush
+ 	  -Insns: endian swap, load-locked/store-conditional, time-stamp-ctr
+ 
+-- 
+2.17.1
