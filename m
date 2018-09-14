@@ -1,141 +1,199 @@
 From: rppt@linux.vnet.ibm.com (Mike Rapoport)
-Date: Fri, 14 Sep 2018 15:10:39 +0300
-Subject: [PATCH 24/30] memblock: replace free_bootmem_late with
- memblock_free_late
+Date: Fri, 14 Sep 2018 15:10:34 +0300
+Subject: [PATCH 19/30] memblock: replace alloc_bootmem_pages with
+ memblock_alloc
 In-Reply-To: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1536927045-23536-25-git-send-email-rppt@linux.vnet.ibm.com>
+Message-ID: <1536927045-23536-20-git-send-email-rppt@linux.vnet.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-The free_bootmem_late and memblock_free_late do exactly the same thing:
-they iterate over a range and give pages to the page allocator.
+The alloc_bootmem_pages() function allocates PAGE_SIZE aligned memory.
+memblock_alloc() with alignment set to PAGE_SIZE does exactly the same
+thing.
 
-Replace calls to free_bootmem_late with calls to memblock_free_late and
-remove the bootmem variant.
+The conversion is done using the following semantic patch:
+
+@@
+expression e;
+@@
+- alloc_bootmem_pages(e)
++ memblock_alloc(e, PAGE_SIZE)
 
 Signed-off-by: Mike Rapoport <rppt at linux.vnet.ibm.com>
 Acked-by: Michal Hocko <mhocko at suse.com>
 ---
- arch/sparc/kernel/mdesc.c               |  3 ++-
- arch/x86/platform/efi/quirks.c          |  6 +++---
- drivers/firmware/efi/apple-properties.c |  2 +-
- include/linux/bootmem.h                 |  2 --
- mm/nobootmem.c                          | 24 ------------------------
- 5 files changed, 6 insertions(+), 31 deletions(-)
+ arch/c6x/mm/init.c             | 3 ++-
+ arch/h8300/mm/init.c           | 2 +-
+ arch/m68k/mm/init.c            | 2 +-
+ arch/m68k/mm/mcfmmu.c          | 4 ++--
+ arch/m68k/mm/motorola.c        | 2 +-
+ arch/m68k/mm/sun3mmu.c         | 4 ++--
+ arch/sh/mm/init.c              | 4 ++--
+ arch/x86/kernel/apic/io_apic.c | 3 ++-
+ arch/x86/mm/init_64.c          | 2 +-
+ drivers/xen/swiotlb-xen.c      | 3 ++-
+ 10 files changed, 16 insertions(+), 13 deletions(-)
 
-diff --git a/arch/sparc/kernel/mdesc.c b/arch/sparc/kernel/mdesc.c
-index 59131e7..a41526b 100644
---- a/arch/sparc/kernel/mdesc.c
-+++ b/arch/sparc/kernel/mdesc.c
-@@ -12,6 +12,7 @@
- #include <linux/mm.h>
- #include <linux/miscdevice.h>
- #include <linux/bootmem.h>
-+#include <linux/memblock.h>
- #include <linux/export.h>
- #include <linux/refcount.h>
+diff --git a/arch/c6x/mm/init.c b/arch/c6x/mm/init.c
+index 4cc72b0..dc369ad 100644
+--- a/arch/c6x/mm/init.c
++++ b/arch/c6x/mm/init.c
+@@ -38,7 +38,8 @@ void __init paging_init(void)
+ 	struct pglist_data *pgdat = NODE_DATA(0);
+ 	unsigned long zones_size[MAX_NR_ZONES] = {0, };
  
-@@ -190,7 +191,7 @@ static void __init mdesc_memblock_free(struct mdesc_handle *hp)
+-	empty_zero_page      = (unsigned long) alloc_bootmem_pages(PAGE_SIZE);
++	empty_zero_page      = (unsigned long) memblock_alloc(PAGE_SIZE,
++							      PAGE_SIZE);
+ 	memset((void *)empty_zero_page, 0, PAGE_SIZE);
  
- 	alloc_size = PAGE_ALIGN(hp->handle_size);
- 	start = __pa(hp);
--	free_bootmem_late(start, alloc_size);
-+	memblock_free_late(start, alloc_size);
- }
+ 	/*
+diff --git a/arch/h8300/mm/init.c b/arch/h8300/mm/init.c
+index 015287a..5d31ac9 100644
+--- a/arch/h8300/mm/init.c
++++ b/arch/h8300/mm/init.c
+@@ -67,7 +67,7 @@ void __init paging_init(void)
+ 	 * Initialize the bad page table and bad page to point
+ 	 * to a couple of allocated pages.
+ 	 */
+-	empty_zero_page = (unsigned long)alloc_bootmem_pages(PAGE_SIZE);
++	empty_zero_page = (unsigned long)memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+ 	memset((void *)empty_zero_page, 0, PAGE_SIZE);
  
- static struct mdesc_mem_ops memblock_mdesc_ops = {
-diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
-index 844d31c..7b4854c 100644
---- a/arch/x86/platform/efi/quirks.c
-+++ b/arch/x86/platform/efi/quirks.c
-@@ -332,7 +332,7 @@ void __init efi_reserve_boot_services(void)
+ 	/*
+diff --git a/arch/m68k/mm/init.c b/arch/m68k/mm/init.c
+index 38e2b27..977363e 100644
+--- a/arch/m68k/mm/init.c
++++ b/arch/m68k/mm/init.c
+@@ -93,7 +93,7 @@ void __init paging_init(void)
  
- 		/*
- 		 * Because the following memblock_reserve() is paired
--		 * with free_bootmem_late() for this region in
-+		 * with memblock_free_late() for this region in
- 		 * efi_free_boot_services(), we must be extremely
- 		 * careful not to reserve, and subsequently free,
- 		 * critical regions of memory (like the kernel image) or
-@@ -363,7 +363,7 @@ void __init efi_reserve_boot_services(void)
- 		 * doesn't make sense as far as the firmware is
- 		 * concerned, but it does provide us with a way to tag
- 		 * those regions that must not be paired with
--		 * free_bootmem_late().
-+		 * memblock_free_late().
- 		 */
- 		md->attribute |= EFI_MEMORY_RUNTIME;
+ 	high_memory = (void *) end_mem;
+ 
+-	empty_zero_page = alloc_bootmem_pages(PAGE_SIZE);
++	empty_zero_page = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+ 
+ 	/*
+ 	 * Set up SFC/DFC registers (user data space).
+diff --git a/arch/m68k/mm/mcfmmu.c b/arch/m68k/mm/mcfmmu.c
+index f5453d9..38a1d92 100644
+--- a/arch/m68k/mm/mcfmmu.c
++++ b/arch/m68k/mm/mcfmmu.c
+@@ -44,7 +44,7 @@ void __init paging_init(void)
+ 	enum zone_type zone;
+ 	int i;
+ 
+-	empty_zero_page = (void *) alloc_bootmem_pages(PAGE_SIZE);
++	empty_zero_page = (void *) memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+ 	memset((void *) empty_zero_page, 0, PAGE_SIZE);
+ 
+ 	pg_dir = swapper_pg_dir;
+@@ -52,7 +52,7 @@ void __init paging_init(void)
+ 
+ 	size = num_pages * sizeof(pte_t);
+ 	size = (size + PAGE_SIZE) & ~(PAGE_SIZE-1);
+-	next_pgtable = (unsigned long) alloc_bootmem_pages(size);
++	next_pgtable = (unsigned long) memblock_alloc(size, PAGE_SIZE);
+ 
+ 	bootmem_end = (next_pgtable + size + PAGE_SIZE) & PAGE_MASK;
+ 	pg_dir += PAGE_OFFSET >> PGDIR_SHIFT;
+diff --git a/arch/m68k/mm/motorola.c b/arch/m68k/mm/motorola.c
+index 8bcf57e..2113eec 100644
+--- a/arch/m68k/mm/motorola.c
++++ b/arch/m68k/mm/motorola.c
+@@ -276,7 +276,7 @@ void __init paging_init(void)
+ 	 * initialize the bad page table and bad page to point
+ 	 * to a couple of allocated pages
+ 	 */
+-	empty_zero_page = alloc_bootmem_pages(PAGE_SIZE);
++	empty_zero_page = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+ 
+ 	/*
+ 	 * Set up SFC/DFC registers
+diff --git a/arch/m68k/mm/sun3mmu.c b/arch/m68k/mm/sun3mmu.c
+index 4a99799..19c05ab 100644
+--- a/arch/m68k/mm/sun3mmu.c
++++ b/arch/m68k/mm/sun3mmu.c
+@@ -45,7 +45,7 @@ void __init paging_init(void)
+ 	unsigned long zones_size[MAX_NR_ZONES] = { 0, };
+ 	unsigned long size;
+ 
+-	empty_zero_page = alloc_bootmem_pages(PAGE_SIZE);
++	empty_zero_page = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+ 
+ 	address = PAGE_OFFSET;
+ 	pg_dir = swapper_pg_dir;
+@@ -55,7 +55,7 @@ void __init paging_init(void)
+ 	size = num_pages * sizeof(pte_t);
+ 	size = (size + PAGE_SIZE) & ~(PAGE_SIZE-1);
+ 
+-	next_pgtable = (unsigned long)alloc_bootmem_pages(size);
++	next_pgtable = (unsigned long)memblock_alloc(size, PAGE_SIZE);
+ 	bootmem_end = (next_pgtable + size + PAGE_SIZE) & PAGE_MASK;
+ 
+ 	/* Map whole memory from PAGE_OFFSET (0x0E000000) */
+diff --git a/arch/sh/mm/init.c b/arch/sh/mm/init.c
+index 7713c08..c884b76 100644
+--- a/arch/sh/mm/init.c
++++ b/arch/sh/mm/init.c
+@@ -128,7 +128,7 @@ static pmd_t * __init one_md_table_init(pud_t *pud)
+ 	if (pud_none(*pud)) {
+ 		pmd_t *pmd;
+ 
+-		pmd = alloc_bootmem_pages(PAGE_SIZE);
++		pmd = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+ 		pud_populate(&init_mm, pud, pmd);
+ 		BUG_ON(pmd != pmd_offset(pud, 0));
  	}
-@@ -413,7 +413,7 @@ void __init efi_free_boot_services(void)
- 			size -= rm_size;
+@@ -141,7 +141,7 @@ static pte_t * __init one_page_table_init(pmd_t *pmd)
+ 	if (pmd_none(*pmd)) {
+ 		pte_t *pte;
+ 
+-		pte = alloc_bootmem_pages(PAGE_SIZE);
++		pte = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+ 		pmd_populate_kernel(&init_mm, pmd, pte);
+ 		BUG_ON(pte != pte_offset_kernel(pmd, 0));
+ 	}
+diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
+index ff0d14c..e25118f 100644
+--- a/arch/x86/kernel/apic/io_apic.c
++++ b/arch/x86/kernel/apic/io_apic.c
+@@ -2621,7 +2621,8 @@ void __init io_apic_init_mappings(void)
+ #ifdef CONFIG_X86_32
+ fake_ioapic_page:
+ #endif
+-			ioapic_phys = (unsigned long)alloc_bootmem_pages(PAGE_SIZE);
++			ioapic_phys = (unsigned long)memblock_alloc(PAGE_SIZE,
++								    PAGE_SIZE);
+ 			ioapic_phys = __pa(ioapic_phys);
  		}
+ 		set_fixmap_nocache(idx, ioapic_phys);
+diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+index dd519f3..f39b512 100644
+--- a/arch/x86/mm/init_64.c
++++ b/arch/x86/mm/init_64.c
+@@ -197,7 +197,7 @@ static __ref void *spp_getpage(void)
+ 	if (after_bootmem)
+ 		ptr = (void *) get_zeroed_page(GFP_ATOMIC);
+ 	else
+-		ptr = alloc_bootmem_pages(PAGE_SIZE);
++		ptr = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
  
--		free_bootmem_late(start, size);
-+		memblock_free_late(start, size);
- 	}
- 
- 	if (!num_entries)
-diff --git a/drivers/firmware/efi/apple-properties.c b/drivers/firmware/efi/apple-properties.c
-index 60a9571..2b675f7 100644
---- a/drivers/firmware/efi/apple-properties.c
-+++ b/drivers/firmware/efi/apple-properties.c
-@@ -235,7 +235,7 @@ static int __init map_properties(void)
- 		 */
- 		data->len = 0;
- 		memunmap(data);
--		free_bootmem_late(pa_data + sizeof(*data), data_len);
-+		memblock_free_late(pa_data + sizeof(*data), data_len);
- 
- 		return ret;
- 	}
-diff --git a/include/linux/bootmem.h b/include/linux/bootmem.h
-index 706cf8e..bcc7e2f 100644
---- a/include/linux/bootmem.h
-+++ b/include/linux/bootmem.h
-@@ -30,8 +30,6 @@ extern unsigned long free_all_bootmem(void);
- extern void reset_node_managed_pages(pg_data_t *pgdat);
- extern void reset_all_zones_managed_pages(void);
- 
--extern void free_bootmem_late(unsigned long physaddr, unsigned long size);
--
- /* We are using top down, so it is safe to use 0 here */
- #define BOOTMEM_LOW_LIMIT 0
- 
-diff --git a/mm/nobootmem.c b/mm/nobootmem.c
-index 85e1822..ee0f7fc 100644
---- a/mm/nobootmem.c
-+++ b/mm/nobootmem.c
-@@ -33,30 +33,6 @@ unsigned long min_low_pfn;
- unsigned long max_pfn;
- unsigned long long max_possible_pfn;
- 
--/**
-- * free_bootmem_late - free bootmem pages directly to page allocator
-- * @addr: starting address of the range
-- * @size: size of the range in bytes
-- *
-- * This is only useful when the bootmem allocator has already been torn
-- * down, but we are still initializing the system.  Pages are given directly
-- * to the page allocator, no bootmem metadata is updated because it is gone.
-- */
--void __init free_bootmem_late(unsigned long addr, unsigned long size)
--{
--	unsigned long cursor, end;
--
--	kmemleak_free_part_phys(addr, size);
--
--	cursor = PFN_UP(addr);
--	end = PFN_DOWN(addr + size);
--
--	for (; cursor < end; cursor++) {
--		__free_pages_bootmem(pfn_to_page(cursor), cursor, 0);
--		totalram_pages++;
--	}
--}
--
- static void __init __free_pages_memory(unsigned long start, unsigned long end)
- {
- 	int order;
+ 	if (!ptr || ((unsigned long)ptr & ~PAGE_MASK)) {
+ 		panic("set_pte_phys: cannot allocate page data %s\n",
+diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
+index a6f9ba8..8d849b4 100644
+--- a/drivers/xen/swiotlb-xen.c
++++ b/drivers/xen/swiotlb-xen.c
+@@ -217,7 +217,8 @@ int __ref xen_swiotlb_init(int verbose, bool early)
+ 	 * Get IO TLB memory from any location.
+ 	 */
+ 	if (early)
+-		xen_io_tlb_start = alloc_bootmem_pages(PAGE_ALIGN(bytes));
++		xen_io_tlb_start = memblock_alloc(PAGE_ALIGN(bytes),
++						  PAGE_SIZE);
+ 	else {
+ #define SLABS_PER_PAGE (1 << (PAGE_SHIFT - IO_TLB_SHIFT))
+ #define IO_TLB_MIN_SLABS ((1<<20) >> IO_TLB_SHIFT)
 -- 
 2.7.4
