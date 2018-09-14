@@ -1,93 +1,168 @@
 From: rppt@linux.vnet.ibm.com (Mike Rapoport)
-Date: Fri, 14 Sep 2018 15:10:31 +0300
-Subject: [PATCH 16/30] memblock: replace __alloc_bootmem_node with appropriate
- memblock_ API
+Date: Fri, 14 Sep 2018 15:10:33 +0300
+Subject: [PATCH 18/30] memblock: replace alloc_bootmem_low_pages with
+ memblock_alloc_low
 In-Reply-To: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1536927045-23536-17-git-send-email-rppt@linux.vnet.ibm.com>
+Message-ID: <1536927045-23536-19-git-send-email-rppt@linux.vnet.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Use memblock_alloc_try_nid whenever goal (i.e. minimal address is
-specified) and memblock_alloc_node otherwise.
+The alloc_bootmem_low_pages() function allocates PAGE_SIZE aligned regions
+from low memory. memblock_alloc_low() with alignment set to PAGE_SIZE does
+exactly the same thing.
+
+The conversion is done using the following semantic patch:
+
+@@
+expression e;
+@@
+- alloc_bootmem_low_pages(e)
++ memblock_alloc_low(e, PAGE_SIZE)
 
 Signed-off-by: Mike Rapoport <rppt at linux.vnet.ibm.com>
+Acked-by: Michal Hocko <mhocko at suse.com>
 ---
- arch/ia64/mm/discontig.c       |  6 ++++--
- arch/powerpc/kernel/setup_64.c |  6 ++++--
- arch/sparc/kernel/setup_64.c   | 10 ++++------
- arch/sparc/kernel/smp_64.c     |  4 ++--
- 4 files changed, 14 insertions(+), 12 deletions(-)
+ arch/arc/mm/highmem.c                |  2 +-
+ arch/m68k/atari/stram.c              |  3 ++-
+ arch/m68k/mm/motorola.c              |  5 +++--
+ arch/mips/cavium-octeon/dma-octeon.c |  2 +-
+ arch/mips/mm/init.c                  |  3 ++-
+ arch/um/kernel/mem.c                 | 10 ++++++----
+ arch/xtensa/mm/mmu.c                 |  2 +-
+ 7 files changed, 16 insertions(+), 11 deletions(-)
 
-diff --git a/arch/ia64/mm/discontig.c b/arch/ia64/mm/discontig.c
-index 1928d57..918dda9 100644
---- a/arch/ia64/mm/discontig.c
-+++ b/arch/ia64/mm/discontig.c
-@@ -451,8 +451,10 @@ static void __init *memory_less_node_alloc(int nid, unsigned long pernodesize)
- 	if (bestnode == -1)
- 		bestnode = anynode;
+diff --git a/arch/arc/mm/highmem.c b/arch/arc/mm/highmem.c
+index 77ff64a..f582dc8 100644
+--- a/arch/arc/mm/highmem.c
++++ b/arch/arc/mm/highmem.c
+@@ -123,7 +123,7 @@ static noinline pte_t * __init alloc_kmap_pgtable(unsigned long kvaddr)
+ 	pud_k = pud_offset(pgd_k, kvaddr);
+ 	pmd_k = pmd_offset(pud_k, kvaddr);
  
--	ptr = __alloc_bootmem_node(pgdat_list[bestnode], pernodesize,
--		PERCPU_PAGE_SIZE, __pa(MAX_DMA_ADDRESS));
-+	ptr = memblock_alloc_try_nid(pernodesize, PERCPU_PAGE_SIZE,
-+				     __pa(MAX_DMA_ADDRESS),
-+				     BOOTMEM_ALLOC_ACCESSIBLE,
-+				     bestnode);
- 
- 	return ptr;
+-	pte_k = (pte_t *)alloc_bootmem_low_pages(PAGE_SIZE);
++	pte_k = (pte_t *)memblock_alloc_low(PAGE_SIZE, PAGE_SIZE);
+ 	pmd_populate_kernel(&init_mm, pmd_k, pte_k);
+ 	return pte_k;
  }
-diff --git a/arch/powerpc/kernel/setup_64.c b/arch/powerpc/kernel/setup_64.c
-index 6a501b2..6add560 100644
---- a/arch/powerpc/kernel/setup_64.c
-+++ b/arch/powerpc/kernel/setup_64.c
-@@ -757,8 +757,10 @@ void __init emergency_stack_init(void)
- 
- static void * __init pcpu_fc_alloc(unsigned int cpu, size_t size, size_t align)
+diff --git a/arch/m68k/atari/stram.c b/arch/m68k/atari/stram.c
+index c83d664..1089d67 100644
+--- a/arch/m68k/atari/stram.c
++++ b/arch/m68k/atari/stram.c
+@@ -95,7 +95,8 @@ void __init atari_stram_reserve_pages(void *start_mem)
  {
--	return __alloc_bootmem_node(NODE_DATA(early_cpu_to_node(cpu)), size, align,
--				    __pa(MAX_DMA_ADDRESS));
-+	return memblock_alloc_try_nid(size, align, __pa(MAX_DMA_ADDRESS),
-+				      BOOTMEM_ALLOC_ACCESSIBLE,
-+				      early_cpu_to_node(cpu));
-+
- }
+ 	if (kernel_in_stram) {
+ 		pr_debug("atari_stram pool: kernel in ST-RAM, using alloc_bootmem!\n");
+-		stram_pool.start = (resource_size_t)alloc_bootmem_low_pages(pool_size);
++		stram_pool.start = (resource_size_t)memblock_alloc_low(pool_size,
++								       PAGE_SIZE);
+ 		stram_pool.end = stram_pool.start + pool_size - 1;
+ 		request_resource(&iomem_resource, &stram_pool);
+ 		stram_virt_offset = 0;
+diff --git a/arch/m68k/mm/motorola.c b/arch/m68k/mm/motorola.c
+index 4e17ecb..8bcf57e 100644
+--- a/arch/m68k/mm/motorola.c
++++ b/arch/m68k/mm/motorola.c
+@@ -55,7 +55,7 @@ static pte_t * __init kernel_page_table(void)
+ {
+ 	pte_t *ptablep;
  
- static void __init pcpu_fc_free(void *ptr, size_t size)
-diff --git a/arch/sparc/kernel/setup_64.c b/arch/sparc/kernel/setup_64.c
-index 206bf81..5fb11ea 100644
---- a/arch/sparc/kernel/setup_64.c
-+++ b/arch/sparc/kernel/setup_64.c
-@@ -622,12 +622,10 @@ void __init alloc_irqstack_bootmem(void)
- 	for_each_possible_cpu(i) {
- 		node = cpu_to_node(i);
+-	ptablep = (pte_t *)alloc_bootmem_low_pages(PAGE_SIZE);
++	ptablep = (pte_t *)memblock_alloc_low(PAGE_SIZE, PAGE_SIZE);
  
--		softirq_stack[i] = __alloc_bootmem_node(NODE_DATA(node),
--							THREAD_SIZE,
--							THREAD_SIZE, 0);
--		hardirq_stack[i] = __alloc_bootmem_node(NODE_DATA(node),
--							THREAD_SIZE,
--							THREAD_SIZE, 0);
-+		softirq_stack[i] = memblock_alloc_node(THREAD_SIZE,
-+						       THREAD_SIZE, node);
-+		hardirq_stack[i] = memblock_alloc_node(THREAD_SIZE,
-+						       THREAD_SIZE, node);
- 	}
- }
+ 	clear_page(ptablep);
+ 	__flush_page_to_ram(ptablep);
+@@ -95,7 +95,8 @@ static pmd_t * __init kernel_ptr_table(void)
  
-diff --git a/arch/sparc/kernel/smp_64.c b/arch/sparc/kernel/smp_64.c
-index d3ea1f3..83ff88d 100644
---- a/arch/sparc/kernel/smp_64.c
-+++ b/arch/sparc/kernel/smp_64.c
-@@ -1594,8 +1594,8 @@ static void * __init pcpu_alloc_bootmem(unsigned int cpu, size_t size,
- 		pr_debug("per cpu data for cpu%d %lu bytes at %016lx\n",
- 			 cpu, size, __pa(ptr));
- 	} else {
--		ptr = __alloc_bootmem_node(NODE_DATA(node),
--					   size, align, goal);
-+		ptr = memblock_alloc_try_nid(size, align, goal,
-+					     BOOTMEM_ALLOC_ACCESSIBLE, node);
- 		pr_debug("per cpu data for cpu%d %lu bytes on node%d at "
- 			 "%016lx\n", cpu, size, node, __pa(ptr));
- 	}
+ 	last_pgtable += PTRS_PER_PMD;
+ 	if (((unsigned long)last_pgtable & ~PAGE_MASK) == 0) {
+-		last_pgtable = (pmd_t *)alloc_bootmem_low_pages(PAGE_SIZE);
++		last_pgtable = (pmd_t *)memblock_alloc_low(PAGE_SIZE,
++							   PAGE_SIZE);
+ 
+ 		clear_page(last_pgtable);
+ 		__flush_page_to_ram(last_pgtable);
+diff --git a/arch/mips/cavium-octeon/dma-octeon.c b/arch/mips/cavium-octeon/dma-octeon.c
+index 236833b..c44c1a6 100644
+--- a/arch/mips/cavium-octeon/dma-octeon.c
++++ b/arch/mips/cavium-octeon/dma-octeon.c
+@@ -244,7 +244,7 @@ void __init plat_swiotlb_setup(void)
+ 	swiotlb_nslabs = ALIGN(swiotlb_nslabs, IO_TLB_SEGSIZE);
+ 	swiotlbsize = swiotlb_nslabs << IO_TLB_SHIFT;
+ 
+-	octeon_swiotlb = alloc_bootmem_low_pages(swiotlbsize);
++	octeon_swiotlb = memblock_alloc_low(swiotlbsize, PAGE_SIZE);
+ 
+ 	if (swiotlb_init_with_tbl(octeon_swiotlb, swiotlb_nslabs, 1) == -ENOMEM)
+ 		panic("Cannot allocate SWIOTLB buffer");
+diff --git a/arch/mips/mm/init.c b/arch/mips/mm/init.c
+index 400676c..a010fba7 100644
+--- a/arch/mips/mm/init.c
++++ b/arch/mips/mm/init.c
+@@ -244,7 +244,8 @@ void __init fixrange_init(unsigned long start, unsigned long end,
+ 			pmd = (pmd_t *)pud;
+ 			for (; (k < PTRS_PER_PMD) && (vaddr < end); pmd++, k++) {
+ 				if (pmd_none(*pmd)) {
+-					pte = (pte_t *) alloc_bootmem_low_pages(PAGE_SIZE);
++					pte = (pte_t *) memblock_alloc_low(PAGE_SIZE,
++									   PAGE_SIZE);
+ 					set_pmd(pmd, __pmd((unsigned long)pte));
+ 					BUG_ON(pte != pte_offset_kernel(pmd, 0));
+ 				}
+diff --git a/arch/um/kernel/mem.c b/arch/um/kernel/mem.c
+index 3c0e470..185f6bb 100644
+--- a/arch/um/kernel/mem.c
++++ b/arch/um/kernel/mem.c
+@@ -64,7 +64,8 @@ void __init mem_init(void)
+ static void __init one_page_table_init(pmd_t *pmd)
+ {
+ 	if (pmd_none(*pmd)) {
+-		pte_t *pte = (pte_t *) alloc_bootmem_low_pages(PAGE_SIZE);
++		pte_t *pte = (pte_t *) memblock_alloc_low(PAGE_SIZE,
++							  PAGE_SIZE);
+ 		set_pmd(pmd, __pmd(_KERNPG_TABLE +
+ 					   (unsigned long) __pa(pte)));
+ 		if (pte != pte_offset_kernel(pmd, 0))
+@@ -75,7 +76,7 @@ static void __init one_page_table_init(pmd_t *pmd)
+ static void __init one_md_table_init(pud_t *pud)
+ {
+ #ifdef CONFIG_3_LEVEL_PGTABLES
+-	pmd_t *pmd_table = (pmd_t *) alloc_bootmem_low_pages(PAGE_SIZE);
++	pmd_t *pmd_table = (pmd_t *) memblock_alloc_low(PAGE_SIZE, PAGE_SIZE);
+ 	set_pud(pud, __pud(_KERNPG_TABLE + (unsigned long) __pa(pmd_table)));
+ 	if (pmd_table != pmd_offset(pud, 0))
+ 		BUG();
+@@ -124,7 +125,7 @@ static void __init fixaddr_user_init( void)
+ 		return;
+ 
+ 	fixrange_init( FIXADDR_USER_START, FIXADDR_USER_END, swapper_pg_dir);
+-	v = (unsigned long) alloc_bootmem_low_pages(size);
++	v = (unsigned long) memblock_alloc_low(size, PAGE_SIZE);
+ 	memcpy((void *) v , (void *) FIXADDR_USER_START, size);
+ 	p = __pa(v);
+ 	for ( ; size > 0; size -= PAGE_SIZE, vaddr += PAGE_SIZE,
+@@ -143,7 +144,8 @@ void __init paging_init(void)
+ 	unsigned long zones_size[MAX_NR_ZONES], vaddr;
+ 	int i;
+ 
+-	empty_zero_page = (unsigned long *) alloc_bootmem_low_pages(PAGE_SIZE);
++	empty_zero_page = (unsigned long *) memblock_alloc_low(PAGE_SIZE,
++							       PAGE_SIZE);
+ 	for (i = 0; i < ARRAY_SIZE(zones_size); i++)
+ 		zones_size[i] = 0;
+ 
+diff --git a/arch/xtensa/mm/mmu.c b/arch/xtensa/mm/mmu.c
+index 9d1ecfc..f33a1ff 100644
+--- a/arch/xtensa/mm/mmu.c
++++ b/arch/xtensa/mm/mmu.c
+@@ -31,7 +31,7 @@ static void * __init init_pmd(unsigned long vaddr, unsigned long n_pages)
+ 	pr_debug("%s: vaddr: 0x%08lx, n_pages: %ld\n",
+ 		 __func__, vaddr, n_pages);
+ 
+-	pte = alloc_bootmem_low_pages(n_pages * sizeof(pte_t));
++	pte = memblock_alloc_low(n_pages * sizeof(pte_t), PAGE_SIZE);
+ 
+ 	for (i = 0; i < n_pages; ++i)
+ 		pte_clear(NULL, 0, pte + i);
 -- 
 2.7.4
