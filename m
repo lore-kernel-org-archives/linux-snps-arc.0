@@ -1,78 +1,141 @@
 From: rppt@linux.vnet.ibm.com (Mike Rapoport)
-Date: Fri, 14 Sep 2018 15:10:41 +0300
-Subject: [PATCH 26/30] memblock: rename __free_pages_bootmem to
- memblock_free_pages
+Date: Fri, 14 Sep 2018 15:10:39 +0300
+Subject: [PATCH 24/30] memblock: replace free_bootmem_late with
+ memblock_free_late
 In-Reply-To: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1536927045-23536-27-git-send-email-rppt@linux.vnet.ibm.com>
+Message-ID: <1536927045-23536-25-git-send-email-rppt@linux.vnet.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-The conversion is done using
+The free_bootmem_late and memblock_free_late do exactly the same thing:
+they iterate over a range and give pages to the page allocator.
 
-sed -i 's at __free_pages_bootmem@memblock_free_pages@' \
-    $(git grep -l __free_pages_bootmem)
+Replace calls to free_bootmem_late with calls to memblock_free_late and
+remove the bootmem variant.
 
 Signed-off-by: Mike Rapoport <rppt at linux.vnet.ibm.com>
 Acked-by: Michal Hocko <mhocko at suse.com>
 ---
- mm/internal.h   | 2 +-
- mm/memblock.c   | 2 +-
- mm/nobootmem.c  | 2 +-
- mm/page_alloc.c | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ arch/sparc/kernel/mdesc.c               |  3 ++-
+ arch/x86/platform/efi/quirks.c          |  6 +++---
+ drivers/firmware/efi/apple-properties.c |  2 +-
+ include/linux/bootmem.h                 |  2 --
+ mm/nobootmem.c                          | 24 ------------------------
+ 5 files changed, 6 insertions(+), 31 deletions(-)
 
-diff --git a/mm/internal.h b/mm/internal.h
-index 87256ae..291eb2b 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -161,7 +161,7 @@ static inline struct page *pageblock_pfn_to_page(unsigned long start_pfn,
+diff --git a/arch/sparc/kernel/mdesc.c b/arch/sparc/kernel/mdesc.c
+index 59131e7..a41526b 100644
+--- a/arch/sparc/kernel/mdesc.c
++++ b/arch/sparc/kernel/mdesc.c
+@@ -12,6 +12,7 @@
+ #include <linux/mm.h>
+ #include <linux/miscdevice.h>
+ #include <linux/bootmem.h>
++#include <linux/memblock.h>
+ #include <linux/export.h>
+ #include <linux/refcount.h>
+ 
+@@ -190,7 +191,7 @@ static void __init mdesc_memblock_free(struct mdesc_handle *hp)
+ 
+ 	alloc_size = PAGE_ALIGN(hp->handle_size);
+ 	start = __pa(hp);
+-	free_bootmem_late(start, alloc_size);
++	memblock_free_late(start, alloc_size);
  }
  
- extern int __isolate_free_page(struct page *page, unsigned int order);
--extern void __free_pages_bootmem(struct page *page, unsigned long pfn,
-+extern void memblock_free_pages(struct page *page, unsigned long pfn,
- 					unsigned int order);
- extern void prep_compound_page(struct page *page, unsigned int order);
- extern void post_alloc_hook(struct page *page, unsigned int order,
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 1534edb..a2cd61d 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -1615,7 +1615,7 @@ void __init __memblock_free_late(phys_addr_t base, phys_addr_t size)
- 	end = PFN_DOWN(base + size);
+ static struct mdesc_mem_ops memblock_mdesc_ops = {
+diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
+index 844d31c..7b4854c 100644
+--- a/arch/x86/platform/efi/quirks.c
++++ b/arch/x86/platform/efi/quirks.c
+@@ -332,7 +332,7 @@ void __init efi_reserve_boot_services(void)
  
- 	for (; cursor < end; cursor++) {
--		__free_pages_bootmem(pfn_to_page(cursor), cursor, 0);
-+		memblock_free_pages(pfn_to_page(cursor), cursor, 0);
- 		totalram_pages++;
+ 		/*
+ 		 * Because the following memblock_reserve() is paired
+-		 * with free_bootmem_late() for this region in
++		 * with memblock_free_late() for this region in
+ 		 * efi_free_boot_services(), we must be extremely
+ 		 * careful not to reserve, and subsequently free,
+ 		 * critical regions of memory (like the kernel image) or
+@@ -363,7 +363,7 @@ void __init efi_reserve_boot_services(void)
+ 		 * doesn't make sense as far as the firmware is
+ 		 * concerned, but it does provide us with a way to tag
+ 		 * those regions that must not be paired with
+-		 * free_bootmem_late().
++		 * memblock_free_late().
+ 		 */
+ 		md->attribute |= EFI_MEMORY_RUNTIME;
  	}
- }
+@@ -413,7 +413,7 @@ void __init efi_free_boot_services(void)
+ 			size -= rm_size;
+ 		}
+ 
+-		free_bootmem_late(start, size);
++		memblock_free_late(start, size);
+ 	}
+ 
+ 	if (!num_entries)
+diff --git a/drivers/firmware/efi/apple-properties.c b/drivers/firmware/efi/apple-properties.c
+index 60a9571..2b675f7 100644
+--- a/drivers/firmware/efi/apple-properties.c
++++ b/drivers/firmware/efi/apple-properties.c
+@@ -235,7 +235,7 @@ static int __init map_properties(void)
+ 		 */
+ 		data->len = 0;
+ 		memunmap(data);
+-		free_bootmem_late(pa_data + sizeof(*data), data_len);
++		memblock_free_late(pa_data + sizeof(*data), data_len);
+ 
+ 		return ret;
+ 	}
+diff --git a/include/linux/bootmem.h b/include/linux/bootmem.h
+index 706cf8e..bcc7e2f 100644
+--- a/include/linux/bootmem.h
++++ b/include/linux/bootmem.h
+@@ -30,8 +30,6 @@ extern unsigned long free_all_bootmem(void);
+ extern void reset_node_managed_pages(pg_data_t *pgdat);
+ extern void reset_all_zones_managed_pages(void);
+ 
+-extern void free_bootmem_late(unsigned long physaddr, unsigned long size);
+-
+ /* We are using top down, so it is safe to use 0 here */
+ #define BOOTMEM_LOW_LIMIT 0
+ 
 diff --git a/mm/nobootmem.c b/mm/nobootmem.c
-index bb64b09..9608bc5 100644
+index 85e1822..ee0f7fc 100644
 --- a/mm/nobootmem.c
 +++ b/mm/nobootmem.c
-@@ -43,7 +43,7 @@ static void __init __free_pages_memory(unsigned long start, unsigned long end)
- 		while (start + (1UL << order) > end)
- 			order--;
+@@ -33,30 +33,6 @@ unsigned long min_low_pfn;
+ unsigned long max_pfn;
+ unsigned long long max_possible_pfn;
  
--		__free_pages_bootmem(pfn_to_page(start), start, order);
-+		memblock_free_pages(pfn_to_page(start), start, order);
- 
- 		start += (1UL << order);
- 	}
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 13e394c..f4a8bc8 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -1334,7 +1334,7 @@ meminit_pfn_in_nid(unsigned long pfn, int node,
- #endif
- 
- 
--void __init __free_pages_bootmem(struct page *page, unsigned long pfn,
-+void __init memblock_free_pages(struct page *page, unsigned long pfn,
- 							unsigned int order)
+-/**
+- * free_bootmem_late - free bootmem pages directly to page allocator
+- * @addr: starting address of the range
+- * @size: size of the range in bytes
+- *
+- * This is only useful when the bootmem allocator has already been torn
+- * down, but we are still initializing the system.  Pages are given directly
+- * to the page allocator, no bootmem metadata is updated because it is gone.
+- */
+-void __init free_bootmem_late(unsigned long addr, unsigned long size)
+-{
+-	unsigned long cursor, end;
+-
+-	kmemleak_free_part_phys(addr, size);
+-
+-	cursor = PFN_UP(addr);
+-	end = PFN_DOWN(addr + size);
+-
+-	for (; cursor < end; cursor++) {
+-		__free_pages_bootmem(pfn_to_page(cursor), cursor, 0);
+-		totalram_pages++;
+-	}
+-}
+-
+ static void __init __free_pages_memory(unsigned long start, unsigned long end)
  {
- 	if (early_page_uninitialised(pfn))
+ 	int order;
 -- 
 2.7.4
