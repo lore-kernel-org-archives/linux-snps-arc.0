@@ -1,114 +1,127 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 18 Sep 2018 00:29:39 +0300
-Subject: [PATCH 06/10] libgpg-error: Add ARC support
+Date: Tue, 18 Sep 2018 00:29:38 +0300
+Subject: [PATCH 05/10] nspr: Add ARC support
 In-Reply-To: <20180917212943.27237-1-abrodkin@synopsys.com>
 References: <20180917212943.27237-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180917212943.27237-7-abrodkin@synopsys.com>
+Message-ID: <20180917212943.27237-6-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Mylene Josserand <mylene.josserand@bootlin.com>
+From: Antoine Tenart <antoine.tenart@bootlin.com>
 
-Signed-off-by: Mylene Josserand <mylene.josserand at bootlin.com>
+[Alexey: Rebased on top of other patches like RiscV, NIOS2 etc]
+
+Signed-off-by: Antoine Tenart <antoine.tenart at bootlin.com>
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 ---
- .../0001-syscfg-Add-an-arc-architecture.patch      | 75 ++++++++++++++++++++++
- .../libgpg-error/libgpg-error_1.32.bb              |  1 +
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Add-an-arc-architecture.patch
+ .../nspr/nspr/0004-Add-ARC-support.patch           | 86 ++++++++++++++++++++++
+ meta/recipes-support/nspr/nspr_4.19.bb             |  1 +
+ 2 files changed, 87 insertions(+)
+ create mode 100644 meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Add-an-arc-architecture.patch b/meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Add-an-arc-architecture.patch
+diff --git a/meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch b/meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
 new file mode 100644
-index 0000000..df7c6fd
+index 0000000..dda1928
 --- /dev/null
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Add-an-arc-architecture.patch
-@@ -0,0 +1,75 @@
-+From f2bad39e70bbd73e6e2e14a2bbfaa0103b5f6fec Mon Sep 17 00:00:00 2001
-+From: Mylene Josserand <mylene.josserand at bootlin.com>
-+Date: Thu, 13 Sep 2018 16:39:56 +0300
-+Subject: [PATCH libgpg-error] syscfg: Add ARC architecture
++++ b/meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
+@@ -0,0 +1,86 @@
++From 6cb5b0be8837222a1e01745f2cf57cd0e593186d Mon Sep 17 00:00:00 2001
++From: Antoine Tenart <antoine.tenart at free-electrons.com>
++Date: Mon, 23 Oct 2017 10:28:20 +0200
++Subject: [PATCH] Add ARC support
 +
-+DesignWare ARC Processors are a family of 32-bit CPUs from Synopsys.
-+This change allows us to build for and use libgpg-error on ARC cores.
++[Alexey: Rebased on top of other patches like RiscV, NIOS2 etc].
 +
-+These values were obtained from a test application executed on ARC
-+in simulation this way:
-+
-+1. Instructions for cross-compilation used are here:
-+   http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=blob;f=README
-+
-+2. Commands used on host:
-+   # build="$(build-aux/config.guess)"
-+   # ./configure --prefix=build/tmp-uclibc/sysroots/nsimhs/usr/ --host=arc-oe-linux-uclibc --build=$build
-+   # cd src
-+   # make gen-posix-lock-obj
-+
-+3. Commands used on target:
-+   # ./gen-posix-lock-obj
-+
-+Signed-off-by: Mylene Josserand <mylene.josserand at bootlin.com>
++Signed-off-by: Antoine Tenart <antoine.tenart at bootlin.com>
 +Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 +---
-+ src/Makefile.am                               |  1 +
-+ .../lock-obj-pub.arc-unknown-linux-gnu.h      | 23 +++++++++++++++++++
-+ 2 files changed, 24 insertions(+)
-+ create mode 100644 src/syscfg/lock-obj-pub.arc-unknown-linux-gnu.h
++ pr/include/md/_linux.cfg | 45 ++++++++++++++++++++++++++++++++++++++++
++ pr/include/md/_linux.h   |  2 ++
++ 2 files changed, 47 insertions(+)
 +
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 380ea7c09c04..bd00961c2f27 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -47,6 +47,7 @@ lock_obj_pub = \
-+         syscfg/lock-obj-pub.aarch64-unknown-linux-gnu.h     \
-+ 	syscfg/lock-obj-pub.aarch64-apple-darwin.h          \
-+         syscfg/lock-obj-pub.alpha-unknown-linux-gnu.h       \
-++        syscfg/lock-obj-pub.arc-unknown-linux-gnu.h         \
-+         syscfg/lock-obj-pub.arm-unknown-linux-androideabi.h \
-+         syscfg/lock-obj-pub.arm-unknown-linux-gnueabi.h     \
-+ 	syscfg/lock-obj-pub.arm-apple-darwin.h              \
-+diff --git a/src/syscfg/lock-obj-pub.arc-unknown-linux-gnu.h b/src/syscfg/lock-obj-pub.arc-unknown-linux-gnu.h
-+new file mode 100644
-+index 000000000000..3b1a8fadf8a7
-+--- /dev/null
-++++ b/src/syscfg/lock-obj-pub.arc-unknown-linux-gnu.h
-+@@ -0,0 +1,23 @@
-++## lock-obj-pub.arc-oe-linux-uclibc.h
-++## File created by gen-posix-lock-obj - DO NOT EDIT
-++## To be included by mkheader into gpg-error.h
++diff --git a/pr/include/md/_linux.cfg b/pr/include/md/_linux.cfg
++index fec8525378dc..5f4fa0eac783 100644
++--- a/pr/include/md/_linux.cfg
+++++ b/pr/include/md/_linux.cfg
++@@ -1157,6 +1157,51 @@
++ #define PR_BYTES_PER_WORD_LOG2  3
++ #define PR_BYTES_PER_DWORD_LOG2 3
++ 
+++#elif defined(__arc__)
 ++
-++typedef struct
-++{
-++  long _vers;
-++  union {
-++    volatile char _priv[24];
-++    long _x_align;
-++    long *_xp_align;
-++  } u;
-++} gpgrt_lock_t;
+++#define IS_LITTLE_ENDIAN 1
+++#undef  IS_BIG_ENDIAN
 ++
-++#define GPGRT_LOCK_INITIALIZER {1,{{0,0,0,0,0,0,0,0, \
-++                                    0,0,0,0,0,0,0,0, \
-++                                    0,0,0,0,0,0,0,0}}}
-++##
-++## Local Variables:
-++## mode: c
-++## buffer-read-only: t
-++## End:
-++##
+++#define PR_BYTES_PER_BYTE   1
+++#define PR_BYTES_PER_SHORT  2
+++#define PR_BYTES_PER_INT    4
+++#define PR_BYTES_PER_INT64  8
+++#define PR_BYTES_PER_LONG   4
+++#define PR_BYTES_PER_FLOAT  4
+++#define PR_BYTES_PER_DOUBLE 8
+++#define PR_BYTES_PER_WORD   4
+++#define PR_BYTES_PER_DWORD  8
+++
+++#define PR_BITS_PER_BYTE    8
+++#define PR_BITS_PER_SHORT   16
+++#define PR_BITS_PER_INT     32
+++#define PR_BITS_PER_INT64   64
+++#define PR_BITS_PER_LONG    32
+++#define PR_BITS_PER_FLOAT   32
+++#define PR_BITS_PER_DOUBLE  64
+++#define PR_BITS_PER_WORD    32
+++
+++#define PR_BITS_PER_BYTE_LOG2   3
+++#define PR_BITS_PER_SHORT_LOG2  4
+++#define PR_BITS_PER_INT_LOG2    5
+++#define PR_BITS_PER_INT64_LOG2  6
+++#define PR_BITS_PER_LONG_LOG2   5
+++#define PR_BITS_PER_FLOAT_LOG2  5
+++#define PR_BITS_PER_DOUBLE_LOG2 6
+++#define PR_BITS_PER_WORD_LOG2   5
+++
+++#define PR_ALIGN_OF_SHORT   2
+++#define PR_ALIGN_OF_INT     4
+++#define PR_ALIGN_OF_LONG    4
+++#define PR_ALIGN_OF_INT64   4
+++#define PR_ALIGN_OF_FLOAT   4
+++#define PR_ALIGN_OF_DOUBLE  4
+++#define PR_ALIGN_OF_POINTER 4
+++#define PR_ALIGN_OF_WORD    4
+++
+++#define PR_BYTES_PER_WORD_LOG2   2
+++#define PR_BYTES_PER_DWORD_LOG2  3
+++
++ #else
++ 
++ #error "Unknown CPU architecture"
++diff --git a/pr/include/md/_linux.h b/pr/include/md/_linux.h
++index 8e04fad479a1..628b1217e9c8 100644
++--- a/pr/include/md/_linux.h
+++++ b/pr/include/md/_linux.h
++@@ -63,6 +63,8 @@
++ #define _PR_SI_ARCHITECTURE "riscv32"
++ #elif defined(__riscv) && (__riscv_xlen == 64)
++ #define _PR_SI_ARCHITECTURE "riscv64"
+++#elif defined(__arc__)
+++#define _PR_SI_ARCHITECTURE "arc"
++ #else
++ #error "Unknown CPU architecture"
++ #endif
 +-- 
 +2.17.1
 +
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-index a4c720b..d602df5 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-@@ -14,6 +14,7 @@ SECTION = "libs"
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
-+           file://0001-syscfg-Add-an-arc-architecture.patch \
- 	  "
- SRC_URI[md5sum] = "ef3d928a5a453fa701ecc3bb22be1c64"
- SRC_URI[sha256sum] = "c345c5e73cc2332f8d50db84a2280abfb1d8f6d4f1858b9daa30404db44540ca"
+diff --git a/meta/recipes-support/nspr/nspr_4.19.bb b/meta/recipes-support/nspr/nspr_4.19.bb
+index b5264be..0212be7 100644
+--- a/meta/recipes-support/nspr/nspr_4.19.bb
++++ b/meta/recipes-support/nspr/nspr_4.19.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
+            file://0002-Add-nios2-support.patch \
+            file://0001-md-Fix-build-with-musl.patch \
+            file://0003-Add-type-definitions-for-the-RISC-V-architecture.patch \
++           file://0004-Add-ARC-support.patch \
+            file://nspr.pc.in \
+ "
+ 
 -- 
 1.8.3.1
