@@ -1,127 +1,61 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 18 Sep 2018 00:29:38 +0300
-Subject: [PATCH 05/10] nspr: Add ARC support
+Date: Tue, 18 Sep 2018 00:29:40 +0300
+Subject: [PATCH 07/10] icu: Add ARC support
 In-Reply-To: <20180917212943.27237-1-abrodkin@synopsys.com>
 References: <20180917212943.27237-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180917212943.27237-6-abrodkin@synopsys.com>
+Message-ID: <20180917212943.27237-8-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Antoine Tenart <antoine.tenart@bootlin.com>
-
-[Alexey: Rebased on top of other patches like RiscV, NIOS2 etc]
-
-Signed-off-by: Antoine Tenart <antoine.tenart at bootlin.com>
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 ---
- .../nspr/nspr/0004-Add-ARC-support.patch           | 86 ++++++++++++++++++++++
- meta/recipes-support/nspr/nspr_4.19.bb             |  1 +
- 2 files changed, 87 insertions(+)
- create mode 100644 meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
+ .../icu/icu/0002-Add-ARC-support.patch             | 25 ++++++++++++++++++++++
+ meta/recipes-support/icu/icu_62.1.bb               |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
 
-diff --git a/meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch b/meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
+diff --git a/meta/recipes-support/icu/icu/0002-Add-ARC-support.patch b/meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
 new file mode 100644
-index 0000000..dda1928
+index 0000000..48cbc11
 --- /dev/null
-+++ b/meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
-@@ -0,0 +1,86 @@
-+From 6cb5b0be8837222a1e01745f2cf57cd0e593186d Mon Sep 17 00:00:00 2001
-+From: Antoine Tenart <antoine.tenart at free-electrons.com>
-+Date: Mon, 23 Oct 2017 10:28:20 +0200
-+Subject: [PATCH] Add ARC support
++++ b/meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
+@@ -0,0 +1,25 @@
++From fcfd57105b4bdb30d906df152ef01748fa95daff Mon Sep 17 00:00:00 2001
++From: Alexey Brodkin <abrodkin at synopsys.com>
++Date: Thu, 13 Sep 2018 17:13:20 +0300
++Subject: [PATCH] icu: Add ARC support
 +
-+[Alexey: Rebased on top of other patches like RiscV, NIOS2 etc].
-+
-+Signed-off-by: Antoine Tenart <antoine.tenart at bootlin.com>
 +Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 +---
-+ pr/include/md/_linux.cfg | 45 ++++++++++++++++++++++++++++++++++++++++
-+ pr/include/md/_linux.h   |  2 ++
-+ 2 files changed, 47 insertions(+)
++ i18n/double-conversion-utils.h                 | 2 +-
++ 1 files changed, 1 insertions(+), 1 deletions(-)
 +
-+diff --git a/pr/include/md/_linux.cfg b/pr/include/md/_linux.cfg
-+index fec8525378dc..5f4fa0eac783 100644
-+--- a/pr/include/md/_linux.cfg
-++++ b/pr/include/md/_linux.cfg
-+@@ -1157,6 +1157,51 @@
-+ #define PR_BYTES_PER_WORD_LOG2  3
-+ #define PR_BYTES_PER_DWORD_LOG2 3
-+ 
-++#elif defined(__arc__)
-++
-++#define IS_LITTLE_ENDIAN 1
-++#undef  IS_BIG_ENDIAN
-++
-++#define PR_BYTES_PER_BYTE   1
-++#define PR_BYTES_PER_SHORT  2
-++#define PR_BYTES_PER_INT    4
-++#define PR_BYTES_PER_INT64  8
-++#define PR_BYTES_PER_LONG   4
-++#define PR_BYTES_PER_FLOAT  4
-++#define PR_BYTES_PER_DOUBLE 8
-++#define PR_BYTES_PER_WORD   4
-++#define PR_BYTES_PER_DWORD  8
-++
-++#define PR_BITS_PER_BYTE    8
-++#define PR_BITS_PER_SHORT   16
-++#define PR_BITS_PER_INT     32
-++#define PR_BITS_PER_INT64   64
-++#define PR_BITS_PER_LONG    32
-++#define PR_BITS_PER_FLOAT   32
-++#define PR_BITS_PER_DOUBLE  64
-++#define PR_BITS_PER_WORD    32
-++
-++#define PR_BITS_PER_BYTE_LOG2   3
-++#define PR_BITS_PER_SHORT_LOG2  4
-++#define PR_BITS_PER_INT_LOG2    5
-++#define PR_BITS_PER_INT64_LOG2  6
-++#define PR_BITS_PER_LONG_LOG2   5
-++#define PR_BITS_PER_FLOAT_LOG2  5
-++#define PR_BITS_PER_DOUBLE_LOG2 6
-++#define PR_BITS_PER_WORD_LOG2   5
-++
-++#define PR_ALIGN_OF_SHORT   2
-++#define PR_ALIGN_OF_INT     4
-++#define PR_ALIGN_OF_LONG    4
-++#define PR_ALIGN_OF_INT64   4
-++#define PR_ALIGN_OF_FLOAT   4
-++#define PR_ALIGN_OF_DOUBLE  4
-++#define PR_ALIGN_OF_POINTER 4
-++#define PR_ALIGN_OF_WORD    4
-++
-++#define PR_BYTES_PER_WORD_LOG2   2
-++#define PR_BYTES_PER_DWORD_LOG2  3
-++
-+ #else
-+ 
-+ #error "Unknown CPU architecture"
-+diff --git a/pr/include/md/_linux.h b/pr/include/md/_linux.h
-+index 8e04fad479a1..628b1217e9c8 100644
-+--- a/pr/include/md/_linux.h
-++++ b/pr/include/md/_linux.h
-+@@ -63,6 +63,8 @@
-+ #define _PR_SI_ARCHITECTURE "riscv32"
-+ #elif defined(__riscv) && (__riscv_xlen == 64)
-+ #define _PR_SI_ARCHITECTURE "riscv64"
-++#elif defined(__arc__)
-++#define _PR_SI_ARCHITECTURE "arc"
-+ #else
-+ #error "Unknown CPU architecture"
-+ #endif
-+-- 
++diff --git a/i18n/double-conversion-utils.h b/i18n/double-conversion-utils.h
++index 57fc49b231a3..0bd3e8340673 100644
++--- a/i18n/double-conversion-utils.h
+++++ b/i18n/double-conversion-utils.h
++@@ -86,7 +86,7 @@ inline void abort_noreturn() { abort(); }
++     defined(__SH4__) || defined(__alpha__) || \
++     defined(_MIPS_ARCH_MIPS32R2) || \
++     defined(__AARCH64EL__) || defined(__aarch64__) || \
++-    defined(__riscv)
+++    defined(__riscv) || defined(__arc__)
++ #define DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS 1
++ #elif defined(__mc68000__)
++ #undef DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS
 +2.17.1
 +
-diff --git a/meta/recipes-support/nspr/nspr_4.19.bb b/meta/recipes-support/nspr/nspr_4.19.bb
-index b5264be..0212be7 100644
---- a/meta/recipes-support/nspr/nspr_4.19.bb
-+++ b/meta/recipes-support/nspr/nspr_4.19.bb
-@@ -12,6 +12,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
-            file://0002-Add-nios2-support.patch \
-            file://0001-md-Fix-build-with-musl.patch \
-            file://0003-Add-type-definitions-for-the-RISC-V-architecture.patch \
-+           file://0004-Add-ARC-support.patch \
-            file://nspr.pc.in \
- "
+diff --git a/meta/recipes-support/icu/icu_62.1.bb b/meta/recipes-support/icu/icu_62.1.bb
+index ec9db7d..4e3750b 100644
+--- a/meta/recipes-support/icu/icu_62.1.bb
++++ b/meta/recipes-support/icu/icu_62.1.bb
+@@ -16,6 +16,7 @@ BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-${ICU_PV
+ SRC_URI = "${BASE_SRC_URI} \
+            file://icu-pkgdata-large-cmd.patch \
+            file://fix-install-manx.patch \
++           file://0002-Add-ARC-support.patch \
+            "
  
+ SRC_URI_append_class-target = "\
 -- 
 1.8.3.1
