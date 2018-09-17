@@ -1,34 +1,28 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 18 Sep 2018 00:29:35 +0300
-Subject: [PATCH 02/10] site: Add ARC linux
+Date: Tue, 18 Sep 2018 00:29:36 +0300
+Subject: [PATCH 03/10] kernel-arch.bbclass: Add ARC to kernel arch map
 In-Reply-To: <20180917212943.27237-1-abrodkin@synopsys.com>
 References: <20180917212943.27237-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180917212943.27237-3-abrodkin@synopsys.com>
+Message-ID: <20180917212943.27237-4-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 ---
- meta/site/arc-linux | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 meta/site/arc-linux
+ meta/classes/kernel-arch.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/site/arc-linux b/meta/site/arc-linux
-new file mode 100644
-index 0000000..d3c721a
---- /dev/null
-+++ b/meta/site/arc-linux
-@@ -0,0 +1,11 @@
-+# general
-+ac_cv_alignof_guint32=4
-+ac_cv_alignof_guint64=4
-+ac_cv_alignof_unsigned_long=4
-+
-+# glib-2.0
-+glib_cv_stack_grows=${glib_cv_stack_grows=no}
-+glib_cv_uscore=${glib_cv_uscore=no}
-+
-+# startup-notification
-+lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
+index 09793fc..2b52a63 100644
+--- a/meta/classes/kernel-arch.bbclass
++++ b/meta/classes/kernel-arch.bbclass
+@@ -22,6 +22,7 @@ def map_kernel_arch(a, d):
+     valid_archs = d.getVar('valid_archs').split()
+ 
+     if   re.match('(i.86|athlon|x86.64)$', a):  return 'x86'
++    elif re.match('arceb$', a):                 return 'arc'
+     elif re.match('armeb$', a):                 return 'arm'
+     elif re.match('aarch64$', a):               return 'arm64'
+     elif re.match('aarch64_be$', a):            return 'arm64'
 -- 
 1.8.3.1
