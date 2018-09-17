@@ -1,70 +1,88 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Sun, 16 Sep 2018 23:47:57 +0300
-Subject: [PATCH] ARC: Don't set CROSS_COMPILE in arch's Makefile
+From: Claudiu.Zissulescu@synopsys.com (Claudiu Zissulescu)
+Date: Mon, 17 Sep 2018 08:53:36 +0000
+Subject: [PATCH] [ARC]: core3 features are default for core4
+In-Reply-To: <20180911152335.GM22193@embecosm.com>
+References: <1536603995-2249-1-git-send-email-vgupta@synopsys.com>,
+ <20180911152335.GM22193@embecosm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180916204757.31131-1-abrodkin@synopsys.com>
+Message-ID: <098ECE41A0A6114BB2A07F1EC238DE89667FD040@de02wembxa.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-There's not much sense in doing that because if user or
-his build-system didn't set CROSS_COMPILE we still may
-very well make incorrect guess.
+Committed with the suggested mods.
 
-But as it turned out setting CROSS_COMPILE is not as harmless
-as one may think: with recent changes that implemented automatic
-discovery of __host__ gcc features unconditional setup of
-CROSS_COMPILE leads to failures on execution of "make xxx_defconfig"
-with absent cross-compiler, for more info see [1].
+Thank you Andrew for your review,
+Claudiu
+________________________________________
+From: Andrew Burgess [andrew.burgess@embecosm.com]
+Sent: Tuesday, September 11, 2018 5:23 PM
+To: Vineet Gupta
+Cc: Claudiu.Zissulescu at synopsys.com; gcc-patches at gcc.gnu.org; linux-snps-arc at lists.infradead.org
+Subject: Re: [PATCH] [ARC]: core3 features are default for core4
 
-Set CROSS_COMPILE as well gets in the way if we want only to build
-.dtb's (again with absent cross-compiler which is not really needed
-for building .dtb's), see [2].
+* Vineet Gupta <Vineet.Gupta1 at synopsys.com> [2018-09-10 11:26:35 -0700]:
 
-Note, we had to change LIBGCC assignment type from ":=" to "="
-so that is is resolved on its usage, otherwise if it is resolved
-at declaration time with missing CROSS_COMPILE we're getting this
-error message from host GCC:
-------------------------->8-------------------------
-gcc: error: unrecognized command line option ?-mmedium-calls?
-gcc: error: unrecognized command line option ?-mno-sdata?; did you mean ?-fno-stats??
-------------------------->8-------------------------
+>    * config/arc/arc.c: object attributes for core4 not reflected correctly
+>    * config/arc/arc.h: Don't restrict DBNZ to core3 (core4 includes core3)
+>
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  gcc/ChangeLog        | 7 +++++++
+>  gcc/config/arc/arc.c | 2 +-
+>  gcc/config/arc/arc.h | 2 +-
+>  3 files changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/gcc/ChangeLog b/gcc/ChangeLog
+> index 6dbe8147b3ec..3a022d156445 100644
+> --- a/gcc/ChangeLog
+> +++ b/gcc/ChangeLog
+> @@ -1,3 +1,10 @@
+> +2018-09-10  Vineet Gupta <vgupta at synopsys.com>
+> +
+> +     * config/arc/arc.c: object attributes for core4 not reflected
+> +     correctly
+> +     * config/arc/arc.h: Don't restrict DBNZ to core3 (core4 includes
+> +     core3)
 
-[1] http://lists.infradead.org/pipermail/linux-snps-arc/2018-September/004308.html
-[2] http://lists.infradead.org/pipermail/linux-snps-arc/2018-September/004320.html
+These entries should be formatted as sentences with capital letter and
+full stop.
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
-Cc: Rob Herring <robh at kernel.org>
----
- arch/arc/Makefile | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+> +
+>  2018-09-09  Uros Bizjak  <ubizjak at gmail.com>
+>
+>       * config/i386/i386.md (float partial SSE register stall splitter): Move
+> diff --git a/gcc/config/arc/arc.c b/gcc/config/arc/arc.c
+> index c186e02e0f18..0171e8a7c615 100644
+> --- a/gcc/config/arc/arc.c
+> +++ b/gcc/config/arc/arc.c
+> @@ -5181,7 +5181,7 @@ static void arc_file_start (void)
+>              TARGET_OPTFPE ? 1 : 0);
+>    if (TARGET_V2)
+>      asm_fprintf (asm_out_file, "\t.arc_attribute Tag_ARC_CPU_variation, %d\n",
+> -              arc_tune == ARC_TUNE_CORE_3 ? 3 : 2);
+> +              arc_tune < ARC_TUNE_CORE_3 ? 2 : (arc_tune == ARC_TUNE_CORE_3 ? 3 : 4) );
+>  }
+>
+>  /* Implement `TARGET_ASM_FILE_END'.  */
+> diff --git a/gcc/config/arc/arc.h b/gcc/config/arc/arc.h
+> index de09b6b2f09e..4d38f9ec174f 100644
+> --- a/gcc/config/arc/arc.h
+> +++ b/gcc/config/arc/arc.h
+> @@ -1636,6 +1636,6 @@ enum
+>  #define TARGET_FPX_QUARK    (TARGET_EM && TARGET_SPFP                \
+>                            && (arc_fpu_build == FPX_QK))
+>  /* DBNZ support is available for ARCv2 core3 cpus.  */
+> -#define TARGET_DBNZ (TARGET_V2 && (arc_tune == ARC_TUNE_CORE_3))
+> +#define TARGET_DBNZ (TARGET_V2 && (arc_tune >= ARC_TUNE_CORE_3))
 
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 99cce77ab98f..5f6b67917dc2 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -6,14 +6,6 @@
- # published by the Free Software Foundation.
- #
- 
--ifeq ($(CROSS_COMPILE),)
--ifndef CONFIG_CPU_BIG_ENDIAN
--CROSS_COMPILE := arc-linux-
--else
--CROSS_COMPILE := arceb-linux-
--endif
--endif
--
- KBUILD_DEFCONFIG := nsim_700_defconfig
- 
- cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
-@@ -79,7 +71,7 @@ cflags-$(disable_small_data)		+= -mno-sdata -fcall-used-gp
- cflags-$(CONFIG_CPU_BIG_ENDIAN)		+= -mbig-endian
- ldflags-$(CONFIG_CPU_BIG_ENDIAN)	+= -EB
- 
--LIBGCC	:= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
-+LIBGCC	= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
- 
- # Modules with short calls might break for calls into builtin-kernel
- KBUILD_CFLAGS_MODULE	+= -mlong-calls -mno-millicode
--- 
-2.17.1
+Could you update the comment too please.
+
+Otherwise, looks fine.
+
+Thanks,
+Andrew
+
+>
+>  #endif /* GCC_ARC_H */
+> --
+> 2.7.4
+>
