@@ -1,28 +1,29 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 18 Sep 2018 00:29:36 +0300
-Subject: [PATCH 03/10] kernel-arch.bbclass: Add ARC to kernel arch map
+Date: Tue, 18 Sep 2018 00:29:34 +0300
+Subject: [PATCH 01/10] siteinfo: Define data for ARC
 In-Reply-To: <20180917212943.27237-1-abrodkin@synopsys.com>
 References: <20180917212943.27237-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180917212943.27237-4-abrodkin@synopsys.com>
+Message-ID: <20180917212943.27237-2-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 ---
- meta/classes/kernel-arch.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/siteinfo.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-index 09793fc..2b52a63 100644
---- a/meta/classes/kernel-arch.bbclass
-+++ b/meta/classes/kernel-arch.bbclass
-@@ -22,6 +22,7 @@ def map_kernel_arch(a, d):
-     valid_archs = d.getVar('valid_archs').split()
- 
-     if   re.match('(i.86|athlon|x86.64)$', a):  return 'x86'
-+    elif re.match('arceb$', a):                 return 'arc'
-     elif re.match('armeb$', a):                 return 'arm'
-     elif re.match('aarch64$', a):               return 'arm64'
-     elif re.match('aarch64_be$', a):            return 'arm64'
+diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
+index 86bb853b..dccf122 100644
+--- a/meta/classes/siteinfo.bbclass
++++ b/meta/classes/siteinfo.bbclass
+@@ -20,6 +20,8 @@ def siteinfo_data(d):
+         "allarch": "endian-little bit-32", # bogus, but better than special-casing the checks below for allarch
+         "aarch64": "endian-little bit-64 arm-common arm-64",
+         "aarch64_be": "endian-big bit-64 arm-common arm-64",
++        "arc": "endian-little bit-32 arc-common",
++        "arceb": "endian-big bit-32 arc-common",
+         "arm": "endian-little bit-32 arm-common arm-32",
+         "armeb": "endian-big bit-32 arm-common arm-32",
+         "avr32": "endian-big bit-32 avr32-common",
 -- 
 1.8.3.1
