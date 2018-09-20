@@ -1,17 +1,17 @@
 From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Thu, 20 Sep 2018 10:17:23 -0000
-Subject: kisskb: FAILED linux-next/axs103_smp_defconfig/arcv2 Thu Sep 20, 20:17
+Date: Thu, 20 Sep 2018 10:17:28 -0000
+Subject: kisskb: FAILED linux-next/axs101_defconfig/arcompact Thu Sep 20, 20:17
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180920101723.1.42879@bf8565bee66d>
+Message-ID: <20180920101728.1.29303@bf8565bee66d>
 To: linux-snps-arc@lists.infradead.org
 
-FAILED linux-next/axs103_smp_defconfig/arcv2 Thu Sep 20, 20:17
+FAILED linux-next/axs101_defconfig/arcompact Thu Sep 20, 20:17
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13516365/
+http://kisskb.ellerman.id.au/kisskb/buildresult/13516366/
 
 Commit:   Add linux-next specific files for 20180920
           a0cb0cabe4bbeacf5ed9e81a41abcbae47ba925a
-Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
 Possible errors
 ---------------
