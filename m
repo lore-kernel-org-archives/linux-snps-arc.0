@@ -1,23 +1,46 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Thu, 20 Sep 2018 12:02:14 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Thu Sep 20, 22:01
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 20 Sep 2018 23:42:26 +0300
+Subject: [PATCH v2 3/9] openssl: Add support for ARC
+In-Reply-To: <20180920204232.10583-1-abrodkin@synopsys.com>
+References: <20180920204232.10583-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180920120214.1.35297@bf8565bee66d>
+Message-ID: <20180920204232.10583-4-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Thu Sep 20, 22:01
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13516888/
+No changes in v2
 
-Commit:   Merge tag 'sound-4.19-rc5' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
-          d82920849f305a83b893a90eca6391de411d77ef
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+ meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb | 2 +-
+ meta/recipes-connectivity/openssl/openssl_1.1.1.bb    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-No errors found in log
-
-Possible warnings (3)
-----------------------
-
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/ipv4/tcp_input.c:4319:49: warning: array subscript is above array bounds [-Warray-bounds]
+diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+index b7297fce02..84e086c2f6 100644
+--- a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
++++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+@@ -164,7 +164,7 @@ do_configure () {
+ 	linux-mips*)
+ 		target=debian-mips
+ 		;;
+-	linux-microblaze* | linux-nios2* | linux-gnu*ilp32**)
++	linux-microblaze* | linux-nios2* | linux-gnu*ilp32** | linux-arc*)
+ 		target=linux-generic32
+ 		;;
+ 	linux-powerpc)
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+index 09b2c01024..73bcb27160 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+@@ -78,7 +78,7 @@ do_configure () {
+ 	linux-*-mips64 | linux-mips64 | linux-*-mips64el | linux-mips64el)
+ 		target=linux64-mips64
+ 		;;
+-	linux-microblaze* | linux-nios2* | linux-sh3 | linux-sh4)
++	linux-microblaze* | linux-nios2* | linux-sh3 | linux-sh4 | linux-arc*)
+ 		target=linux-generic32
+ 		;;
+ 	linux-powerpc)
+-- 
+2.16.2
