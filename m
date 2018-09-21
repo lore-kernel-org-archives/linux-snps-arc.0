@@ -1,10 +1,10 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 21 Sep 2018 17:26:01 +0300
-Subject: [PATCH v3 2/9] kernel-arch.bbclass: Add ARC to kernel arch map
+Date: Fri, 21 Sep 2018 17:26:02 +0300
+Subject: [PATCH v3 3/9] openssl: Add support for ARC
 In-Reply-To: <20180921142608.36203-1-abrodkin@synopsys.com>
 References: <20180921142608.36203-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180921142608.36203-3-abrodkin@synopsys.com>
+Message-ID: <20180921142608.36203-4-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
@@ -14,20 +14,35 @@ No changes in v3.
 
 No changes in v2.
 
- meta/classes/kernel-arch.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb | 2 +-
+ meta/recipes-connectivity/openssl/openssl_1.1.1.bb    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-index 09793fc9c2..2b52a63c64 100644
---- a/meta/classes/kernel-arch.bbclass
-+++ b/meta/classes/kernel-arch.bbclass
-@@ -22,6 +22,7 @@ def map_kernel_arch(a, d):
-     valid_archs = d.getVar('valid_archs').split()
- 
-     if   re.match('(i.86|athlon|x86.64)$', a):  return 'x86'
-+    elif re.match('arceb$', a):                 return 'arc'
-     elif re.match('armeb$', a):                 return 'arm'
-     elif re.match('aarch64$', a):               return 'arm64'
-     elif re.match('aarch64_be$', a):            return 'arm64'
+diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+index b7297fce02..84e086c2f6 100644
+--- a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
++++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+@@ -164,7 +164,7 @@ do_configure () {
+ 	linux-mips*)
+ 		target=debian-mips
+ 		;;
+-	linux-microblaze* | linux-nios2* | linux-gnu*ilp32**)
++	linux-microblaze* | linux-nios2* | linux-gnu*ilp32** | linux-arc*)
+ 		target=linux-generic32
+ 		;;
+ 	linux-powerpc)
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+index 09b2c01024..73bcb27160 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+@@ -78,7 +78,7 @@ do_configure () {
+ 	linux-*-mips64 | linux-mips64 | linux-*-mips64el | linux-mips64el)
+ 		target=linux64-mips64
+ 		;;
+-	linux-microblaze* | linux-nios2* | linux-sh3 | linux-sh4)
++	linux-microblaze* | linux-nios2* | linux-sh3 | linux-sh4 | linux-arc*)
+ 		target=linux-generic32
+ 		;;
+ 	linux-powerpc)
 -- 
 2.16.2
