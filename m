@@ -1,10 +1,10 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 21 Sep 2018 17:26:00 +0300
-Subject: [PATCH v3 1/9] siteinfo: Define data for ARC
+Date: Fri, 21 Sep 2018 17:26:05 +0300
+Subject: [PATCH v3 6/9] icu: Add ARC support
 In-Reply-To: <20180921142608.36203-1-abrodkin@synopsys.com>
 References: <20180921142608.36203-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180921142608.36203-2-abrodkin@synopsys.com>
+Message-ID: <20180921142608.36203-7-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
@@ -13,43 +13,58 @@ Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 No changes in v3.
 
 Changes v1 -> v2:
- * Merged changes in meta/classes/siteinfo.bbclass &
-   meta/site/arc-common
 
- meta/classes/siteinfo.bbclass |  2 ++
- meta/site/arc-common          | 11 +++++++++++
- 2 files changed, 13 insertions(+)
- create mode 100644 meta/site/arc-common
+ * Added upstream status
 
-diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
-index 86bb853be2..dccf122b12 100644
---- a/meta/classes/siteinfo.bbclass
-+++ b/meta/classes/siteinfo.bbclass
-@@ -20,6 +20,8 @@ def siteinfo_data(d):
-         "allarch": "endian-little bit-32", # bogus, but better than special-casing the checks below for allarch
-         "aarch64": "endian-little bit-64 arm-common arm-64",
-         "aarch64_be": "endian-big bit-64 arm-common arm-64",
-+        "arc": "endian-little bit-32 arc-common",
-+        "arceb": "endian-big bit-32 arc-common",
-         "arm": "endian-little bit-32 arm-common arm-32",
-         "armeb": "endian-big bit-32 arm-common arm-32",
-         "avr32": "endian-big bit-32 avr32-common",
-diff --git a/meta/site/arc-common b/meta/site/arc-common
+ .../icu/icu/0002-Add-ARC-support.patch             | 27 ++++++++++++++++++++++
+ meta/recipes-support/icu/icu_62.1.bb               |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
+
+diff --git a/meta/recipes-support/icu/icu/0002-Add-ARC-support.patch b/meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
 new file mode 100644
-index 0000000000..d3c721a8bb
+index 0000000000..20e3d8356c
 --- /dev/null
-+++ b/meta/site/arc-common
-@@ -0,0 +1,11 @@
-+# general
-+ac_cv_alignof_guint32=4
-+ac_cv_alignof_guint64=4
-+ac_cv_alignof_unsigned_long=4
++++ b/meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
+@@ -0,0 +1,27 @@
++From fcfd57105b4bdb30d906df152ef01748fa95daff Mon Sep 17 00:00:00 2001
++From: Alexey Brodkin <abrodkin at synopsys.com>
++Date: Thu, 13 Sep 2018 17:13:20 +0300
++Subject: [PATCH] icu: Add ARC support
 +
-+# glib-2.0
-+glib_cv_stack_grows=${glib_cv_stack_grows=no}
-+glib_cv_uscore=${glib_cv_uscore=no}
++Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
 +
-+# startup-notification
-+lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
++Upstream-Status: Submitted [ https://github.com/unicode-org/icu/pull/149 ]
++---
++ i18n/double-conversion-utils.h                 | 2 +-
++ 1 files changed, 1 insertions(+), 1 deletions(-)
++
++diff --git a/i18n/double-conversion-utils.h b/i18n/double-conversion-utils.h
++index 57fc49b231a3..0bd3e8340673 100644
++--- a/i18n/double-conversion-utils.h
+++++ b/i18n/double-conversion-utils.h
++@@ -86,7 +86,7 @@ inline void abort_noreturn() { abort(); }
++     defined(__SH4__) || defined(__alpha__) || \
++     defined(_MIPS_ARCH_MIPS32R2) || \
++     defined(__AARCH64EL__) || defined(__aarch64__) || \
++-    defined(__riscv)
+++    defined(__riscv) || defined(__arc__)
++ #define DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS 1
++ #elif defined(__mc68000__)
++ #undef DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS
++2.17.1
++
+diff --git a/meta/recipes-support/icu/icu_62.1.bb b/meta/recipes-support/icu/icu_62.1.bb
+index ec9db7de84..4e3750b997 100644
+--- a/meta/recipes-support/icu/icu_62.1.bb
++++ b/meta/recipes-support/icu/icu_62.1.bb
+@@ -16,6 +16,7 @@ BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-${ICU_PV
+ SRC_URI = "${BASE_SRC_URI} \
+            file://icu-pkgdata-large-cmd.patch \
+            file://fix-install-manx.patch \
++           file://0002-Add-ARC-support.patch \
+            "
+ 
+ SRC_URI_append_class-target = "\
 -- 
 2.16.2
