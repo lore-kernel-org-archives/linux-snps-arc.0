@@ -1,70 +1,77 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 21 Sep 2018 17:26:05 +0300
-Subject: [PATCH v3 6/9] icu: Add ARC support
-In-Reply-To: <20180921142608.36203-1-abrodkin@synopsys.com>
-References: <20180921142608.36203-1-abrodkin@synopsys.com>
+Date: Fri, 21 Sep 2018 17:25:59 +0300
+Subject: [PATCH v3 0/9] Introduce ARC port of OpenEmbedded
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180921142608.36203-7-abrodkin@synopsys.com>
+Message-ID: <20180921142608.36203-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
+DesignWare ARC Processors are a family of 32-bit CPUs from Synopsys.
+This series introduces basic support for ARC architecture in
+OpenEmbedded.
 
-No changes in v3.
+As of today latest upstream GCC and Binutils are perfectly usable
+for building packages for ARC so we just need a couple of fixes.
+
+Glibc for ARC is under review and we're working hard to get it
+accepted in the next upstream release. For now we'll use latest
+code-base back-ported on top of 2.28 release via meta-synopsys.
+
+More platform and architecture specific bits could be found in
+meta-synopsys layer here (please refer to the "master" branch):
+https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys
+
+Changes v2 -> v3:
+ * libgpg-error: Use proper upstream fix for ARC Glibc tools
+ * libgpg-error: Fix header name for x86_64
 
 Changes v1 -> v2:
+ * Added upstream status for all patches
+ * Rebased on today's master
 
- * Added upstream status
+Alexey Brodkin (8):
+  siteinfo: Define data for ARC
+  kernel-arch.bbclass: Add ARC to kernel arch map
+  openssl: Add support for ARC
+  libgpg-error: Add ARC support
+  icu: Add ARC support
+  gcc: Disable libitm for ARC
+  binutils: Fix Glibc building for ARC
+  gcc: Fix specs generation for ARC
 
- .../icu/icu/0002-Add-ARC-support.patch             | 27 ++++++++++++++++++++++
- meta/recipes-support/icu/icu_62.1.bb               |  1 +
- 2 files changed, 28 insertions(+)
+Antoine Tenart (1):
+  nspr: Add ARC support
+
+ meta/classes/kernel-arch.bbclass                   |   1 +
+ meta/classes/siteinfo.bbclass                      |   2 +
+ .../openssl/openssl10_1.0.2p.bb                    |   2 +-
+ meta/recipes-connectivity/openssl/openssl_1.1.1.bb |   2 +-
+ meta/recipes-devtools/binutils/binutils-2.31.inc   |   4 +
+ ...location-where-GOT-information-is-collect.patch | 201 ++++++++++++++
+ ...bustness.-Return-FALSE-in-case-of-NULL-po.patch |  38 +++
+ ...lobal-symbol-is-not-an-indirect-or-warnin.patch |  46 ++++
+ ...tion-was-still-being-generated-when-symbo.patch |  40 +++
+ meta/recipes-devtools/gcc/gcc-8.2.inc              |   1 +
+ .../gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch        |  44 +++
+ meta/recipes-devtools/gcc/gcc-runtime.inc          |   1 +
+ .../icu/icu/0002-Add-ARC-support.patch             |  27 ++
+ meta/recipes-support/icu/icu_62.1.bb               |   1 +
+ ...port-ARC-CPUs-and-simplify-aliasing-table.patch | 298 +++++++++++++++++++++
+ ...cfg-Add-support-for-arc-unknown-linux-gnu.patch |  35 +++
+ .../libgpg-error/libgpg-error_1.32.bb              |   7 +-
+ .../nspr/nspr/0004-Add-ARC-support.patch           |  88 ++++++
+ meta/recipes-support/nspr/nspr_4.19.bb             |   1 +
+ meta/site/arc-common                               |  11 +
+ 20 files changed, 847 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-Refactored-location-where-GOT-information-is-collect.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0019-Improved-robustness.-Return-FALSE-in-case-of-NULL-po.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0020-Make-sure-global-symbol-is-not-an-indirect-or-warnin.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0021-PLT-information-was-still-being-generated-when-symbo.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch
  create mode 100644 meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
+ create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Support-ARC-CPUs-and-simplify-aliasing-table.patch
+ create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0002-syscfg-Add-support-for-arc-unknown-linux-gnu.patch
+ create mode 100644 meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
+ create mode 100644 meta/site/arc-common
 
-diff --git a/meta/recipes-support/icu/icu/0002-Add-ARC-support.patch b/meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
-new file mode 100644
-index 0000000000..20e3d8356c
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
-@@ -0,0 +1,27 @@
-+From fcfd57105b4bdb30d906df152ef01748fa95daff Mon Sep 17 00:00:00 2001
-+From: Alexey Brodkin <abrodkin at synopsys.com>
-+Date: Thu, 13 Sep 2018 17:13:20 +0300
-+Subject: [PATCH] icu: Add ARC support
-+
-+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-+
-+Upstream-Status: Submitted [ https://github.com/unicode-org/icu/pull/149 ]
-+---
-+ i18n/double-conversion-utils.h                 | 2 +-
-+ 1 files changed, 1 insertions(+), 1 deletions(-)
-+
-+diff --git a/i18n/double-conversion-utils.h b/i18n/double-conversion-utils.h
-+index 57fc49b231a3..0bd3e8340673 100644
-+--- a/i18n/double-conversion-utils.h
-++++ b/i18n/double-conversion-utils.h
-+@@ -86,7 +86,7 @@ inline void abort_noreturn() { abort(); }
-+     defined(__SH4__) || defined(__alpha__) || \
-+     defined(_MIPS_ARCH_MIPS32R2) || \
-+     defined(__AARCH64EL__) || defined(__aarch64__) || \
-+-    defined(__riscv)
-++    defined(__riscv) || defined(__arc__)
-+ #define DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS 1
-+ #elif defined(__mc68000__)
-+ #undef DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS
-+2.17.1
-+
-diff --git a/meta/recipes-support/icu/icu_62.1.bb b/meta/recipes-support/icu/icu_62.1.bb
-index ec9db7de84..4e3750b997 100644
---- a/meta/recipes-support/icu/icu_62.1.bb
-+++ b/meta/recipes-support/icu/icu_62.1.bb
-@@ -16,6 +16,7 @@ BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-${ICU_PV
- SRC_URI = "${BASE_SRC_URI} \
-            file://icu-pkgdata-large-cmd.patch \
-            file://fix-install-manx.patch \
-+           file://0002-Add-ARC-support.patch \
-            "
- 
- SRC_URI_append_class-target = "\
 -- 
 2.16.2
