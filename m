@@ -1,408 +1,395 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 21 Sep 2018 17:26:04 +0300
-Subject: [PATCH v3 5/9] libgpg-error: Add ARC support
+Date: Fri, 21 Sep 2018 17:26:07 +0300
+Subject: [PATCH v3 8/9] binutils: Fix Glibc building for ARC
 In-Reply-To: <20180921142608.36203-1-abrodkin@synopsys.com>
 References: <20180921142608.36203-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180921142608.36203-6-abrodkin@synopsys.com>
+Message-ID: <20180921142608.36203-9-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Ross Burton <ross.burton at intel.com>
-Cc: Werner Koch <wk at gnupg.org>
 ---
 
-Changes v2 -> v3:
- * Use proper [recently upstreamed] fix for ARC Glibc toolchain
- * Fix compilation for x86_64 due to renamed header
+No changes in v3.
 
 Changes v1 -> v2:
 
  * Added upstream status
 
- ...port-ARC-CPUs-and-simplify-aliasing-table.patch | 298 +++++++++++++++++++++
- ...cfg-Add-support-for-arc-unknown-linux-gnu.patch |  35 +++
- .../libgpg-error/libgpg-error_1.32.bb              |   7 +-
- 3 files changed, 339 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Support-ARC-CPUs-and-simplify-aliasing-table.patch
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0002-syscfg-Add-support-for-arc-unknown-linux-gnu.patch
+ meta/recipes-devtools/binutils/binutils-2.31.inc   |   4 +
+ ...location-where-GOT-information-is-collect.patch | 201 +++++++++++++++++++++
+ ...bustness.-Return-FALSE-in-case-of-NULL-po.patch |  38 ++++
+ ...lobal-symbol-is-not-an-indirect-or-warnin.patch |  46 +++++
+ ...tion-was-still-being-generated-when-symbo.patch |  40 ++++
+ 5 files changed, 329 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-Refactored-location-where-GOT-information-is-collect.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0019-Improved-robustness.-Return-FALSE-in-case-of-NULL-po.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0020-Make-sure-global-symbol-is-not-an-indirect-or-warnin.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0021-PLT-information-was-still-being-generated-when-symbo.patch
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Support-ARC-CPUs-and-simplify-aliasing-table.patch b/meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Support-ARC-CPUs-and-simplify-aliasing-table.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc b/meta/recipes-devtools/binutils/binutils-2.31.inc
+index bc951d73e4..76add0fe4b 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.31.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
+@@ -37,6 +37,10 @@ SRC_URI = "\
+      file://0015-sync-with-OE-libtool-changes.patch \
+      file://0016-add-i386pep-emulation-for-x86_64.patch \
+      file://0017-improve-check-for-input-file-matching-output-file.patch \
++     file://0018-Refactored-location-where-GOT-information-is-collect.patch \
++     file://0019-Improved-robustness.-Return-FALSE-in-case-of-NULL-po.patch \
++     file://0020-Make-sure-global-symbol-is-not-an-indirect-or-warnin.patch \
++     file://0021-PLT-information-was-still-being-generated-when-symbo.patch \
+ "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/0018-Refactored-location-where-GOT-information-is-collect.patch b/meta/recipes-devtools/binutils/binutils/0018-Refactored-location-where-GOT-information-is-collect.patch
 new file mode 100644
-index 0000000000..03b0ce77ed
+index 0000000000..d41339a9a6
 --- /dev/null
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Support-ARC-CPUs-and-simplify-aliasing-table.patch
-@@ -0,0 +1,298 @@
-+From d4fd6975671477721936060771aa4d7d07fb0910 Mon Sep 17 00:00:00 2001
-+From: Werner Koch <wk at gnupg.org>
-+Date: Tue, 18 Sep 2018 14:54:08 +0200
-+Subject: [PATCH libgpg-error] syscfg: Support ARC CPUs and simplify aliasing
-+ table.
++++ b/meta/recipes-devtools/binutils/binutils/0018-Refactored-location-where-GOT-information-is-collect.patch
+@@ -0,0 +1,201 @@
++From d930affa2d475d1cc6792f1e6d56bef3d6c617db Mon Sep 17 00:00:00 2001
++From: Cupertino Miranda <cmiranda at synopsys.com>
++Date: Fri, 2 Mar 2018 17:16:21 +0100
++Subject: [PATCH] Refactored location where GOT information is collected.
 +
-+* src/mkheader.c (xmalloc): New.
-+(xstrdup): Implement using xmalloc.
-+(canon_host_triplet): Add supporr for arc CPU.  Adjust alias table to
-+also alias *-pc-*.  Rename ibm to unknown. Add internal arg.  Add
-+unknown vendor hack.
-+(main): New mode to just print the canonicalized form.
-+* src/Makefile.am (lock_obj_pub): s/-(pc|ibm)-/-unknown/.  Also rename
-+files accordingly.
-+--
++Change location where GOT information is collected for ARC target, avoiding
++posible use conflicts of the previous .got field in the symbols hash_entry.
 +
-+config.sub does no real aliasing and thus we would need to add several
-+vendors to the alising tables despite that this has no technical
-+meanding.  Instead we now replace the vendor with "unknown" for the
-+4-part-"triplets".  This change will make maintenace easier.
++bfd/
++2018-03-01  Cupertino Miranda  <cmiranda at synopsys.com>
 +
-+Signed-off-by: Werner Koch <wk at gnupg.org>
++	* arc-got.h (get_got_entry_list_for_symbol): Changed.
++	* ef32-arc.c (struct elf_arc_link_hash_entry): Moved and changed.
++	(elf_arc_link_hash_newfunc): Changed.
++	(arc_elf_link_hash_table_create): Removed old initializations.
++	(elf_arc_relocate_section, elf_arc_finish_dynamic_symbol): Changed.
 +
-+Upstream-Status: Backport [ http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=commit;h=48c8f8ddfc80 ]
++Signed-off-by: Cupertino Miranda <cmiranda at synopsys.com>
++Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
++[Romain: rebase on top of 2.31]
++Signed-off-by: Romain Naour <romain.naour at gmail.com>
++
++Upstream-Status: Pending
 +---
-+ src/Makefile.am                               | 16 ++--
-+ src/mkheader.c                                | 92 ++++++++++++++++---
-+ ...-gnu.h => lock-obj-pub.i686-unknown-gnu.h} |  0
-+ ... lock-obj-pub.i686-unknown-kfreebsd-gnu.h} |  0
-+ ... => lock-obj-pub.i686-unknown-linux-gnu.h} |  0
-+ ...=> lock-obj-pub.s390x-unknown-linux-gnu.h} |  0
-+ ...ock-obj-pub.x86_64-unknown-kfreebsd-gnu.h} |  0
-+ ...> lock-obj-pub.x86_64-unknown-linux-gnu.h} |  0
-+ ...ock-obj-pub.x86_64-unknown-linux-gnux32.h} |  0
-+ ... lock-obj-pub.x86_64-unknown-linux-musl.h} |  0
-+ 10 files changed, 85 insertions(+), 23 deletions(-)
-+ rename src/syscfg/{lock-obj-pub.i686-pc-gnu.h => lock-obj-pub.i686-unknown-gnu.h} (100%)
-+ rename src/syscfg/{lock-obj-pub.i686-pc-kfreebsd-gnu.h => lock-obj-pub.i686-unknown-kfreebsd-gnu.h} (100%)
-+ rename src/syscfg/{lock-obj-pub.i686-pc-linux-gnu.h => lock-obj-pub.i686-unknown-linux-gnu.h} (100%)
-+ rename src/syscfg/{lock-obj-pub.s390x-ibm-linux-gnu.h => lock-obj-pub.s390x-unknown-linux-gnu.h} (100%)
-+ rename src/syscfg/{lock-obj-pub.x86_64-pc-kfreebsd-gnu.h => lock-obj-pub.x86_64-unknown-kfreebsd-gnu.h} (100%)
-+ rename src/syscfg/{lock-obj-pub.x86_64-pc-linux-gnu.h => lock-obj-pub.x86_64-unknown-linux-gnu.h} (100%)
-+ rename src/syscfg/{lock-obj-pub.x86_64-pc-linux-gnux32.h => lock-obj-pub.x86_64-unknown-linux-gnux32.h} (100%)
-+ rename src/syscfg/{lock-obj-pub.x86_64-pc-linux-musl.h => lock-obj-pub.x86_64-unknown-linux-musl.h} (100%)
++ bfd/arc-got.h   |  6 +++--
++ bfd/elf32-arc.c | 77 +++++++++++++++++++++++++++++++--------------------------
++ 2 files changed, 46 insertions(+), 37 deletions(-)
 +
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 42998e46a3bc..8ec582ef99fb 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -52,9 +52,9 @@ lock_obj_pub = \
-+ 	syscfg/lock-obj-pub.arm-apple-darwin.h              \
-+         syscfg/lock-obj-pub.hppa-unknown-linux-gnu.h        \
-+ 	syscfg/lock-obj-pub.i386-apple-darwin.h             \
-+-        syscfg/lock-obj-pub.i686-pc-gnu.h                   \
-+-        syscfg/lock-obj-pub.i686-pc-kfreebsd-gnu.h          \
-+-        syscfg/lock-obj-pub.i686-pc-linux-gnu.h             \
-++        syscfg/lock-obj-pub.i686-unknown-gnu.h              \
-++        syscfg/lock-obj-pub.i686-unknown-kfreebsd-gnu.h     \
-++        syscfg/lock-obj-pub.i686-unknown-linux-gnu.h        \
-+         syscfg/lock-obj-pub.m68k-unknown-linux-gnu.h        \
-+         syscfg/lock-obj-pub.mips-unknown-linux-gnu.h        \
-+         syscfg/lock-obj-pub.mips64el-unknown-linux-gnuabi64.h \
-+@@ -66,16 +66,16 @@ lock_obj_pub = \
-+ 	syscfg/lock-obj-pub.powerpc64le-unknown-linux-gnu.h \
-+ 	syscfg/lock-obj-pub.powerpc-unknown-linux-gnuspe.h  \
-+ 	syscfg/lock-obj-pub.riscv64-unknown-linux-gnu.h     \
-+-        syscfg/lock-obj-pub.s390x-ibm-linux-gnu.h           \
-++        syscfg/lock-obj-pub.s390x-unknown-linux-gnu.h       \
-+         syscfg/lock-obj-pub.sh3-unknown-linux-gnu.h         \
-+         syscfg/lock-obj-pub.sh4-unknown-linux-gnu.h         \
-+         syscfg/lock-obj-pub.sparc-unknown-linux-gnu.h       \
-+         syscfg/lock-obj-pub.sparc64-unknown-linux-gnu.h     \
-+ 	syscfg/lock-obj-pub.x86_64-apple-darwin.h           \
-+-        syscfg/lock-obj-pub.x86_64-pc-kfreebsd-gnu.h        \
-+-        syscfg/lock-obj-pub.x86_64-pc-linux-gnu.h           \
-+-        syscfg/lock-obj-pub.x86_64-pc-linux-gnux32.h        \
-+-        syscfg/lock-obj-pub.x86_64-pc-linux-musl.h          \
-++        syscfg/lock-obj-pub.x86_64-unknown-kfreebsd-gnu.h   \
-++        syscfg/lock-obj-pub.x86_64-unknown-linux-gnu.h      \
-++        syscfg/lock-obj-pub.x86_64-unknown-linux-gnux32.h   \
-++        syscfg/lock-obj-pub.x86_64-unknown-linux-musl.h     \
-+ 	syscfg/lock-obj-pub.tilegx-unknown-linux-gnu.h      \
-+ 	syscfg/lock-obj-pub.ia64-unknown-linux-gnu.h        \
-+ 	syscfg/lock-obj-pub.mingw32.h
-+diff --git a/src/mkheader.c b/src/mkheader.c
-+index 2fc5fada66a4..7a38a1bec1a4 100644
-+--- a/src/mkheader.c
-++++ b/src/mkheader.c
-+@@ -51,17 +51,27 @@ xfree (void *a)
-+ 
-+ 
-+ static char *
-+-xstrdup (const char *string)
-++xmalloc (size_t n)
++diff --git a/bfd/arc-got.h b/bfd/arc-got.h
++index a86061bcb38..81ce88fe21a 100644
++--- a/bfd/arc-got.h
+++++ b/bfd/arc-got.h
++@@ -156,9 +156,11 @@ get_got_entry_list_for_symbol (bfd *abfd,
++ 			       unsigned long r_symndx,
++ 			       struct elf_link_hash_entry *h)
 + {
-+   char *p;
-+-  size_t len = strlen (string) + 1;
-+ 
-+-  p = malloc (len);
-++  p = malloc (n);
-+   if (!p)
++-  if (h != NULL)
+++  struct elf_arc_link_hash_entry *h1 =
+++    ((struct elf_arc_link_hash_entry *) h);
+++  if (h1 != NULL)
 +     {
-+       fputs (PGM ": out of core\n", stderr);
-+       exit (1);
++-      return &h->got.glist;
+++      return &h1->got_ents;
 +     }
-++  return p;
-++}
-++
-++
-++static char *
-++xstrdup (const char *string)
++   else
++     {
++diff --git a/bfd/elf32-arc.c b/bfd/elf32-arc.c
++index a48ef0ca15f..ab84de43815 100644
++--- a/bfd/elf32-arc.c
+++++ b/bfd/elf32-arc.c
++@@ -160,6 +160,18 @@ struct arc_relocation_data
++   const char *    symbol_name;
++ };
++ 
+++/* ARC ELF linker hash entry.  */
+++struct elf_arc_link_hash_entry
 ++{
-++  char *p;
-++  size_t len = strlen (string) + 1;
+++  struct elf_link_hash_entry root;
 ++
-++  p = xmalloc (len);
-+   memcpy (p, string, len);
-+   return p;
-+ }
-+@@ -69,23 +79,31 @@ xstrdup (const char *string)
+++  /* Track dynamic relocs copied for this symbol.  */
+++  struct elf_dyn_relocs *dyn_relocs;
+++
+++  struct got_entry *got_ents;
+++};
+++
+++
++ /* Should be included at this location due to static declarations
++    defined before this point.  */
++ #include "arc-got.h"
++@@ -281,15 +293,6 @@ struct arc_reloc_map
++   unsigned char		    elf_reloc_val;
++ };
 + 
-+ /* Return a malloced string with TRIPLET.  If TRIPLET has an alias
-+    return that instead.  In general build-aux/config.sub should do the
-+-   aliasing but some returned triplets are anyway identical and thus we
-+-   use this function to map it to the canonical form.  */
-++   aliasing but some returned triplets are anyway identical and thus
-++   we use this function to map it to the canonical form.
-++   NO_VENDOR_HACK is for internal use; caller must call with 0. */
-+ static char *
-+-canon_host_triplet (const char *triplet)
-++canon_host_triplet (const char *triplet, int no_vendor_hack)
++-/* ARC ELF linker hash entry.  */
++-struct elf_arc_link_hash_entry
++-{
++-  struct elf_link_hash_entry root;
++-
++-  /* Track dynamic relocs copied for this symbol.  */
++-  struct elf_dyn_relocs *dyn_relocs;
++-};
++-
++ /* ARC ELF linker hash table.  */
++ struct elf_arc_link_hash_table
 + {
-+   struct {
-+     const char *name;
-+     const char *alias;
-+   } tbl[] = {
-+-    {"i486-pc-linux-gnu", "i686-pc-linux-gnu" },
-++    {"i486-pc-linux-gnu", "i686-unknown-linux-gnu" },
-+     {"i586-pc-linux-gnu" },
-+-    {"i486-pc-gnu", "i686-pc-gnu"},
-++    {"i686-pc-linux-gnu" },
-++    {"arc-oe-linux-uclibc" }, /* Other CPU but same struct.  */
++@@ -301,28 +304,28 @@ elf_arc_link_hash_newfunc (struct bfd_hash_entry *entry,
++ 			   struct bfd_hash_table *table,
++ 			   const char *string)
++ {
+++  struct elf_arc_link_hash_entry * ret =
+++    (struct elf_arc_link_hash_entry *) entry;
 ++
-++    {"i486-pc-gnu", "i686-unknown-gnu"},
-+     {"i586-pc-gnu"},
-+-    {"i486-pc-kfreebsd-gnu", "i686-pc-kfreebsd-gnu"},
-++    {"i686-pc-gnu"},
-++
-++    {"i486-pc-kfreebsd-gnu", "i686-unknown-kfreebsd-gnu"},
-+     {"i586-pc-kfreebsd-gnu"},
-++    {"i686-pc-kfreebsd-gnu"},
++   /* Allocate the structure if it has not already been allocated by a
++      subclass.  */
++-  if (entry == NULL)
++-    {
++-      entry = (struct bfd_hash_entry *)
++-	  bfd_hash_allocate (table,
++-			     sizeof (struct elf_arc_link_hash_entry));
++-      if (entry == NULL)
++-	return entry;
++-    }
+++  if (ret == NULL)
+++    ret = (struct elf_arc_link_hash_entry *)
+++	bfd_hash_allocate (table, sizeof (struct elf_arc_link_hash_entry));
+++  if (ret == NULL)
+++    return (struct bfd_hash_entry *) ret;
 + 
-+-    {"x86_64-pc-linux-gnuhardened1", "x86_64-pc-linux-gnu" },
-++    {"x86_64-pc-linux-gnuhardened1", "x86_64-unknown-linux-gnu" },
-++    {"x86_64-pc-linux-gnu" },
-+ 
-+     {"powerpc-unknown-linux-gnuspe", "powerpc-unknown-linux-gnu" },
-+ 
-+@@ -98,6 +116,7 @@ canon_host_triplet (const char *triplet)
-+   };
-+   int i;
-+   const char *lastalias = NULL;
-++  const char *s;
-+ 
-+   for (i=0; tbl[i].name; i++)
++   /* Call the allocation method of the superclass.  */
++-  entry = _bfd_elf_link_hash_newfunc (entry, table, string);
++-  if (entry != NULL)
+++  ret = ((struct elf_arc_link_hash_entry *)
+++	 _bfd_elf_link_hash_newfunc ((struct bfd_hash_entry *) ret,
+++				     table, string));
+++  if (ret != NULL)
 +     {
-+@@ -110,6 +129,36 @@ canon_host_triplet (const char *triplet)
-+           return xstrdup (lastalias);
-+         }
++-      struct elf_arc_link_hash_entry *eh;
++-
++-      eh = (struct elf_arc_link_hash_entry *) entry;
++-      eh->dyn_relocs = NULL;
+++      ret->dyn_relocs = NULL;
+++      ret->got_ents = NULL;
 +     }
-++  for (i=0, s=triplet; *s; s++)
-++    if (*s == '-')
-++      i++;
-++  if (i > 2 && !no_vendor_hack)
-++    {
-++      /* We have a 4 part "triplet": CPU-VENDOR-KERNEL-SYSTEM where
-++       * the last two parts replace the OS part of a real triplet.
-++       * The VENDOR part is then in general useless because
-++       * KERNEL-SYSTEM is specific enough.  We now do a second pass by
-++       * replacing VENDOR with "unknown".  */
-++      char *p;
-++      char *buf = xmalloc (strlen (triplet) + 7 + 1);
-++
-++      for (p=buf,s=triplet,i=0; *s; s++)
-++        {
-++          *p++ = *s;
-++          if (*s == '-' && ++i == 1)
-++            {
-++              memcpy (p, "unknown-",8);
-++              p += 8;
-++              for (s++; *s != '-'; s++)
-++                ;
-++            }
-++        }
-++      *p = 0;
-++      p = canon_host_triplet (buf, 1);
-++      xfree (buf);
-++      return p;
-++    }
-++
-+   return xstrdup (triplet);
++ 
++-  return entry;
+++  return (struct bfd_hash_entry *) ret;
 + }
 + 
-+@@ -558,7 +607,7 @@ write_special (const char *fname, int lnr, const char *tag)
-+ int
-+ main (int argc, char **argv)
-+ {
-+-  FILE *fp;
-++  FILE *fp = NULL;
-+   char line[LINESIZE];
-+   int lnr = 0;
-+   const char *fname, *s;
-+@@ -571,11 +620,22 @@ main (int argc, char **argv)
-+       argc--; argv++;
++ /* Destroy an ARC ELF linker hash table.  */
++@@ -352,11 +355,6 @@ arc_elf_link_hash_table_create (bfd *abfd)
++       return NULL;
 +     }
 + 
-+-  if (argc != 6)
-++  if (argc == 1)
-++    {
-++      /* Print just the canonicalized host triplet.  */
-++      host_triplet = canon_host_triplet (argv[0], 0);
-++      printf ("%s\n", host_triplet);
-++      goto leave;
-++    }
-++  else if (argc == 6)
-++    ; /* Standard operation.  */
-++  else
-+     {
-+       fputs ("usage: " PGM
-+              " host_os host_triplet template.h config.h"
-+-             " version version_number\n",
-++             " version version_number\n"
-++             "       " PGM
-++             " host_triplet\n",
-+              stderr);
-+       return 1;
-+     }
-+@@ -586,7 +646,7 @@ main (int argc, char **argv)
-+   hdr_version = argv[4];
-+   hdr_version_number = argv[5];
++-  ret->elf.init_got_refcount.refcount = 0;
++-  ret->elf.init_got_refcount.glist = NULL;
++-  ret->elf.init_got_offset.offset = 0;
++-  ret->elf.init_got_offset.glist = NULL;
++-
++   ret->elf.root.hash_table_free = elf_arc_link_hash_table_free;
 + 
-+-  host_triplet = canon_host_triplet (host_triplet_raw);
-++  host_triplet = canon_host_triplet (host_triplet_raw, 0);
++   return &ret->elf.root;
++@@ -1615,10 +1613,14 @@ elf_arc_relocate_section (bfd *			  output_bfd,
++ 	  while (h->root.type == bfd_link_hash_indirect
++ 		 || h->root.type == bfd_link_hash_warning)
++ 	  {
++-	    struct elf_link_hash_entry *h_old = h;
+++	    struct elf_arc_link_hash_entry *ah_old =
+++	      (struct elf_arc_link_hash_entry *) h;
++ 	    h = (struct elf_link_hash_entry *) h->root.u.i.link;
++-	    if (h->got.glist == 0 && h_old->got.glist != h->got.glist)
++-	      h->got.glist = h_old->got.glist;
+++	    struct elf_arc_link_hash_entry *ah =
+++	      (struct elf_arc_link_hash_entry *) h;
+++
+++	    if (ah->got_ents == 0 && ah_old->got_ents != ah->got_ents)
+++	      ah->got_ents = ah_old->got_ents;
++ 	  }
 + 
-+   srcdir = malloc (strlen (fname) + 2 + 1);
-+   if (!srcdir)
-+@@ -677,13 +737,15 @@ main (int argc, char **argv)
-+          "End:\n"
-+          "*/\n", stdout);
++ 	  /* TODO: Need to validate what was the intention.  */
++@@ -1636,6 +1638,8 @@ elf_arc_relocate_section (bfd *			  output_bfd,
 + 
-++ leave:
-+   if (ferror (stdout))
-+     {
-+       fprintf (stderr, PGM ": error writing to stdout: %s\n", strerror (errno));
-+       return 1;
-+     }
++ 	      if (is_reloc_for_GOT (howto) && !bfd_link_pic (info))
++ 		{
+++		  struct elf_arc_link_hash_entry *ah =
+++		    (struct elf_arc_link_hash_entry *) h;
++ 		  /* TODO: Change it to use arc_do_relocation with
++ 		    ARC_32 reloc.  Try to use ADD_RELA macro.  */
++ 		  bfd_vma relocation =
++@@ -1645,8 +1649,8 @@ elf_arc_relocate_section (bfd *			  output_bfd,
++ 			 + reloc_data.sym_section->output_section->vma)
++ 		      : 0);
 + 
-+-  fclose (fp);
-++  if (fp)
-++    fclose (fp);
++-		  BFD_ASSERT (h->got.glist);
++-		  bfd_vma got_offset = h->got.glist->offset;
+++		  BFD_ASSERT (ah->got_ents);
+++		  bfd_vma got_offset = ah->got_ents->offset;
++ 		  bfd_put_32 (output_bfd, relocation,
++ 			      htab->sgot->contents + got_offset);
++ 		}
++@@ -1958,6 +1962,7 @@ elf_arc_check_relocs (bfd *			 abfd,
++       else /* Global one.  */
++ 	h = sym_hashes[r_symndx - symtab_hdr->sh_info];
 + 
-+   xfree (host_triplet);
-+   return 0;
-+diff --git a/src/syscfg/lock-obj-pub.i686-pc-gnu.h b/src/syscfg/lock-obj-pub.i686-unknown-gnu.h
-+similarity index 100%
-+rename from src/syscfg/lock-obj-pub.i686-pc-gnu.h
-+rename to src/syscfg/lock-obj-pub.i686-unknown-gnu.h
-+diff --git a/src/syscfg/lock-obj-pub.i686-pc-kfreebsd-gnu.h b/src/syscfg/lock-obj-pub.i686-unknown-kfreebsd-gnu.h
-+similarity index 100%
-+rename from src/syscfg/lock-obj-pub.i686-pc-kfreebsd-gnu.h
-+rename to src/syscfg/lock-obj-pub.i686-unknown-kfreebsd-gnu.h
-+diff --git a/src/syscfg/lock-obj-pub.i686-pc-linux-gnu.h b/src/syscfg/lock-obj-pub.i686-unknown-linux-gnu.h
-+similarity index 100%
-+rename from src/syscfg/lock-obj-pub.i686-pc-linux-gnu.h
-+rename to src/syscfg/lock-obj-pub.i686-unknown-linux-gnu.h
-+diff --git a/src/syscfg/lock-obj-pub.s390x-ibm-linux-gnu.h b/src/syscfg/lock-obj-pub.s390x-unknown-linux-gnu.h
-+similarity index 100%
-+rename from src/syscfg/lock-obj-pub.s390x-ibm-linux-gnu.h
-+rename to src/syscfg/lock-obj-pub.s390x-unknown-linux-gnu.h
-+diff --git a/src/syscfg/lock-obj-pub.x86_64-pc-kfreebsd-gnu.h b/src/syscfg/lock-obj-pub.x86_64-unknown-kfreebsd-gnu.h
-+similarity index 100%
-+rename from src/syscfg/lock-obj-pub.x86_64-pc-kfreebsd-gnu.h
-+rename to src/syscfg/lock-obj-pub.x86_64-unknown-kfreebsd-gnu.h
-+diff --git a/src/syscfg/lock-obj-pub.x86_64-pc-linux-gnu.h b/src/syscfg/lock-obj-pub.x86_64-unknown-linux-gnu.h
-+similarity index 100%
-+rename from src/syscfg/lock-obj-pub.x86_64-pc-linux-gnu.h
-+rename to src/syscfg/lock-obj-pub.x86_64-unknown-linux-gnu.h
-+diff --git a/src/syscfg/lock-obj-pub.x86_64-pc-linux-gnux32.h b/src/syscfg/lock-obj-pub.x86_64-unknown-linux-gnux32.h
-+similarity index 100%
-+rename from src/syscfg/lock-obj-pub.x86_64-pc-linux-gnux32.h
-+rename to src/syscfg/lock-obj-pub.x86_64-unknown-linux-gnux32.h
-+diff --git a/src/syscfg/lock-obj-pub.x86_64-pc-linux-musl.h b/src/syscfg/lock-obj-pub.x86_64-unknown-linux-musl.h
-+similarity index 100%
-+rename from src/syscfg/lock-obj-pub.x86_64-pc-linux-musl.h
-+rename to src/syscfg/lock-obj-pub.x86_64-unknown-linux-musl.h
+++
++       switch (r_type)
++ 	{
++ 	  case R_ARC_32:
++@@ -2404,7 +2409,9 @@ elf_arc_finish_dynamic_symbol (bfd * output_bfd,
++      create respective dynamic relocs.  */
++   /* TODO: Make function to get list and not access the list directly.  */
++   /* TODO: Move function to relocate_section create this relocs eagerly.  */
++-  create_got_dynrelocs_for_got_info (&h->got.glist,
+++  struct elf_arc_link_hash_entry *ah =
+++    (struct elf_arc_link_hash_entry *) h;
+++  create_got_dynrelocs_for_got_info (&ah->got_ents,
++ 				     output_bfd,
++ 				     info,
++ 				     h);
 +-- 
-+2.17.1
++2.14.4
 +
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/0002-syscfg-Add-support-for-arc-unknown-linux-gnu.patch b/meta/recipes-support/libgpg-error/libgpg-error/0002-syscfg-Add-support-for-arc-unknown-linux-gnu.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/0019-Improved-robustness.-Return-FALSE-in-case-of-NULL-po.patch b/meta/recipes-devtools/binutils/binutils/0019-Improved-robustness.-Return-FALSE-in-case-of-NULL-po.patch
 new file mode 100644
-index 0000000000..197652f283
+index 0000000000..6a58ee06ac
 --- /dev/null
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/0002-syscfg-Add-support-for-arc-unknown-linux-gnu.patch
-@@ -0,0 +1,35 @@
-+From ae6a3f20345dac4b9daab8c39ac2d3fb3f2c21e3 Mon Sep 17 00:00:00 2001
-+From: Werner Koch <wk at gnupg.org>
-+Date: Fri, 21 Sep 2018 14:37:21 +0200
-+Subject: [PATCH Libgpg-error] syscfg: Add support for arc-unknown-linux-gnu
++++ b/meta/recipes-devtools/binutils/binutils/0019-Improved-robustness.-Return-FALSE-in-case-of-NULL-po.patch
+@@ -0,0 +1,38 @@
++From 955176bd999fe80c5b937ab8786665079e35c387 Mon Sep 17 00:00:00 2001
++From: Cupertino Miranda <cmiranda at synopsys.com>
++Date: Fri, 2 Mar 2018 17:33:48 +0100
++Subject: [PATCH] Improved robustness. Return FALSE in case of NULL pointer.
 +
-+* src/mkheader.c (canon_host_triplet): Add to table.
-+--
++bfd/
++2018-03-01  Cupertino Miranda <cmiranda at synopsys.com>
 +
-+Note that unknown in the above triplet is actually a wildcard for 4
-+part triplets.
++	* elf32-arc.c (elf_arc_finish_dynamic_symbol) Return FALSE in case
++	arc_htab is NULL.
 +
-+Signed-off-by: Werner Koch <wk at gnupg.org>
++Signed-off-by: Cupertino Miranda <cmiranda at synopsys.com>
++Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
++[Romain: rebase on top of 2.31]
++Signed-off-by: Romain Naour <romain.naour at gmail.com>
 +
-+Upstream-Status: Backport [http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=commit;h=f4f0da74f526d7e35cedbc2e93454df6440dbfa5]
++Upstream-Status: Pending
 +---
-+ src/mkheader.c | 3 ++-
++ bfd/elf32-arc.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/bfd/elf32-arc.c b/bfd/elf32-arc.c
++index ab84de43815..33fc72cff6e 100644
++--- a/bfd/elf32-arc.c
+++++ b/bfd/elf32-arc.c
++@@ -2420,6 +2420,9 @@ elf_arc_finish_dynamic_symbol (bfd * output_bfd,
++     {
++       struct elf_arc_link_hash_table *arc_htab = elf_arc_hash_table (info);
++ 
+++      if(arc_htab == NULL)
+++	return FALSE;
+++
++       if (h->dynindx == -1
++ 	  || (h->root.type != bfd_link_hash_defined
++ 	      && h->root.type != bfd_link_hash_defweak)
++-- 
++2.14.4
++
+diff --git a/meta/recipes-devtools/binutils/binutils/0020-Make-sure-global-symbol-is-not-an-indirect-or-warnin.patch b/meta/recipes-devtools/binutils/binutils/0020-Make-sure-global-symbol-is-not-an-indirect-or-warnin.patch
+new file mode 100644
+index 0000000000..01e42c03bb
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0020-Make-sure-global-symbol-is-not-an-indirect-or-warnin.patch
+@@ -0,0 +1,46 @@
++From 9d09ce14b4eef2b56f24660fd69a44acd45128b2 Mon Sep 17 00:00:00 2001
++From: Cupertino Miranda <cmiranda at synopsys.com>
++Date: Fri, 2 Mar 2018 17:38:14 +0100
++Subject: [PATCH] Make sure global symbol is not an indirect or warning.
++
++Problem identified in the context of glibc with latest upstream binutils.
++Dynamic symbol space was being reserved but, no actual information for the
++symbol was being set. Data for the symbol was kept initialized with -1.
++No easy test case was possible to be created.
++
++bfd/
++2018-03-01  Cupertino Miranda <cmiranda at synopsys.com>
++
++	* elf32-arc.c (elf_arc_check_relocs): Changed.
++
++Signed-off-by: Cupertino Miranda <cmiranda at synopsys.com>
++Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
++[Romain: rebase on top of 2.31]
++Signed-off-by: Romain Naour <romain.naour at gmail.com>
++
++Upstream-Status: Pending
++---
++ bfd/elf32-arc.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/bfd/elf32-arc.c b/bfd/elf32-arc.c
++index 33fc72cff6e..9b72c5b4f4f 100644
++--- a/bfd/elf32-arc.c
+++++ b/bfd/elf32-arc.c
++@@ -1960,7 +1960,12 @@ elf_arc_check_relocs (bfd *			 abfd,
++       if (r_symndx < symtab_hdr->sh_info) /* Is a local symbol.  */
++ 	h = NULL;
++       else /* Global one.  */
++-	h = sym_hashes[r_symndx - symtab_hdr->sh_info];
+++	{
+++	  h = sym_hashes[r_symndx - symtab_hdr->sh_info];
+++	  while (h->root.type == bfd_link_hash_indirect
+++		 || h->root.type == bfd_link_hash_warning)
+++	    h = (struct elf_link_hash_entry *) h->root.u.i.link;
+++	}
++ 
++ 
++       switch (r_type)
++-- 
++2.14.4
++
+diff --git a/meta/recipes-devtools/binutils/binutils/0021-PLT-information-was-still-being-generated-when-symbo.patch b/meta/recipes-devtools/binutils/binutils/0021-PLT-information-was-still-being-generated-when-symbo.patch
+new file mode 100644
+index 0000000000..9e942399c0
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0021-PLT-information-was-still-being-generated-when-symbo.patch
+@@ -0,0 +1,40 @@
++From e4861c68067cb2166b4c2bb9c052abeb6ad9aaa1 Mon Sep 17 00:00:00 2001
++From: Cupertino Miranda <cmiranda at synopsys.com>
++Date: Fri, 2 Mar 2018 17:44:29 +0100
++Subject: [PATCH] PLT information was still being generated when symbol was
++ forced_local.
++
++A change upstream reveiled this issue, triggering an assert when linking glibc.
++
++bfd/
++2018-03-01  Cupertino Miranda <cmiranda at synopsys.com>
++
++	* elf32-arc.c (elf_arc_check_relocs): Changed.
++
++Signed-off-by: Cupertino Miranda <cmiranda at synopsys.com>
++Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
++[Romain: rebase on top of 2.31]
++Signed-off-by: Romain Naour <romain.naour at gmail.com>
++
++Upstream-Status: Pending
++---
++ bfd/elf32-arc.c | 3 ++-
 + 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/mkheader.c b/src/mkheader.c
-+index 7a38a1bec1a4..a4866e96ef43 100644
-+--- a/src/mkheader.c
-++++ b/src/mkheader.c
-+@@ -92,7 +92,8 @@ canon_host_triplet (const char *triplet, int no_vendor_hack)
-+     {"i486-pc-linux-gnu", "i686-unknown-linux-gnu" },
-+     {"i586-pc-linux-gnu" },
-+     {"i686-pc-linux-gnu" },
-+-    {"arc-oe-linux-uclibc" }, /* Other CPU but same struct.  */
-++    {"arc-oe-linux-gnu"    }, /* Other CPU but same struct.  */
-++    {"arc-oe-linux-uclibc" }, /* and uclibc is also the same.  */
++diff --git a/bfd/elf32-arc.c b/bfd/elf32-arc.c
++index 9b72c5b4f4f..b40b463d34d 100644
++--- a/bfd/elf32-arc.c
+++++ b/bfd/elf32-arc.c
++@@ -2041,7 +2041,8 @@ elf_arc_check_relocs (bfd *			 abfd,
++ 	  if (h == NULL)
++ 	    continue;
++ 	  else
++-	    h->needs_plt = 1;
+++	    if(h->forced_local == 0)
+++	      h->needs_plt = 1;
++ 	}
 + 
-+     {"i486-pc-gnu", "i686-unknown-gnu"},
-+     {"i586-pc-gnu"},
++       /* Add info to the symbol got_entry_list.  */
 +-- 
-+2.17.1
++2.14.4
 +
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-index a4c720be9d..3e39c556eb 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-@@ -14,6 +14,8 @@ SECTION = "libs"
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
-+           file://0001-syscfg-Support-ARC-CPUs-and-simplify-aliasing-table.patch \
-+           file://0002-syscfg-Add-support-for-arc-unknown-linux-gnu.patch \
- 	  "
- SRC_URI[md5sum] = "ef3d928a5a453fa701ecc3bb22be1c64"
- SRC_URI[sha256sum] = "c345c5e73cc2332f8d50db84a2280abfb1d8f6d4f1858b9daa30404db44540ca"
-@@ -30,6 +32,9 @@ do_compile_prepend() {
- 	if [ ${TARGET_OS} = "mingw32" ]; then
- 		# There are no arch specific syscfg files for mingw32
- 		TARGET_FILE=
-+	elif [ ${TARGET_ARCH} = "arc" ]; then
-+		# ARC syscfg file is automatically aliased to i686-pc-linux-gnu
-+		TARGET_FILE=
- 	elif [ ${TARGET_OS} != "linux" ]; then
- 		TARGET_FILE=${TARGET_OS}
- 	fi
-@@ -42,7 +47,7 @@ do_compile_prepend() {
- 	  mips64*)    TUPLE=mips64el-unknown-linux-gnuabi64 ;;
- 	  mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
- 	  mips*)      TUPLE=mips-unknown-linux-gnu ;;
--	  x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
-+	  x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
- 	  *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
- 	esac
- 
 -- 
 2.16.2
