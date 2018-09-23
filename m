@@ -1,51 +1,105 @@
-From: raj.khem@gmail.com (Khem Raj)
-Date: Sat, 22 Sep 2018 10:13:10 -0700
-Subject: [OE-core] [PATCH v3 5/9] libgpg-error: Add ARC support
-In-Reply-To: <cf9d1a3f0b8e3b7d69c61212daa029f290975fc1.camel@linuxfoundation.org>
-References: <20180921142608.36203-1-abrodkin@synopsys.com>
- <20180921142608.36203-6-abrodkin@synopsys.com>
- <cf9d1a3f0b8e3b7d69c61212daa029f290975fc1.camel@linuxfoundation.org>
+From: yamada.masahiro@socionext.com (Masahiro Yamada)
+Date: Sun, 23 Sep 2018 06:31:14 -0400
+Subject: [PATCH v3 6/9] kbuild: consolidate Devicetree dtb build rules
+In-Reply-To: <CAMuHMdWEnoh97_jiDWMq=ke4PrhSFbToYnx91CPLBuq3mOGzoQ@mail.gmail.com>
+References: <20180910150403.19476-1-robh@kernel.org>
+ <20180910150403.19476-7-robh@kernel.org>
+ <CAL_Jsq+=VbdcVLiwXbOA5d+R2YY6=2Pw2bQpci-jj-JvereD1A@mail.gmail.com>
+ <CAK7LNAQFqhWw+LwDoypGG=OP6tH4qf2tT=LvtchK2GoiNyzDXg@mail.gmail.com>
+ <CAMuHMdWEnoh97_jiDWMq=ke4PrhSFbToYnx91CPLBuq3mOGzoQ@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMKF1srdkv7OApx7uY9sQoDWs-AyjizonObUFDHVm0BKdptavA@mail.gmail.com>
+Message-ID: <CAK7LNATkkOiYPj2RLubcgZ_z59Bhz4GkgWqPMbnaHBk7EisXLg@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Sat, Sep 22, 2018 at 8:59 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+2018-09-13 11:51 GMT-04:00 Geert Uytterhoeven <geert at linux-m68k.org>:
+> Hi Yamada-san,
 >
-> On Fri, 2018-09-21@17:26 +0300, Alexey Brodkin wrote:
-> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> > Cc: Ross Burton <ross.burton at intel.com>
-> > Cc: Werner Koch <wk at gnupg.org>
-> > ---
-> >
-> > Changes v2 -> v3:
-> >  * Use proper [recently upstreamed] fix for ARC Glibc toolchain
-> >  * Fix compilation for x86_64 due to renamed header
-> >
-> > Changes v1 -> v2:
-> >
-> >  * Added upstream status
+> On Wed, Sep 12, 2018 at 3:02 AM Masahiro Yamada
+> <yamada.masahiro@socionext.com> wrote:
+>> 2018-09-12 0:40 GMT+09:00 Rob Herring <robh at kernel.org>:
+>> > On Mon, Sep 10, 2018@10:04 AM Rob Herring <robh@kernel.org> wrote:
+>> >> There is nothing arch specific about building dtb files other than their
+>> >> location under /arch/*/boot/dts/. Keeping each arch aligned is a pain.
+>> >> The dependencies and supported targets are all slightly different.
+>> >> Also, a cross-compiler for each arch is needed, but really the host
+>> >> compiler preprocessor is perfectly fine for building dtbs. Move the
+>> >> build rules to a common location and remove the arch specific ones. This
+>> >> is done in a single step to avoid warnings about overriding rules.
+>> >>
+>> >> The build dependencies had been a mixture of 'scripts' and/or 'prepare'.
+>> >> These pull in several dependencies some of which need a target compiler
+>> >> (specifically devicetable-offsets.h) and aren't needed to build dtbs.
+>> >> All that is really needed is dtc, so adjust the dependencies to only be
+>> >> dtc.
+>> >>
+>> >> This change enables support 'dtbs_install' on some arches which were
+>> >> missing the target.
+>> >
+>> > [...]
+>> >
+>> >> @@ -1215,6 +1215,33 @@ kselftest-merge:
+>> >>                 $(srctree)/tools/testing/selftests/*/config
+>> >>         +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+>> >>
+>> >> +# ---------------------------------------------------------------------------
+>> >> +# Devicetree files
+>> >> +
+>> >> +ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/),)
+>> >> +dtstree := arch/$(SRCARCH)/boot/dts
+>> >> +endif
+>> >> +
+>> >> +ifdef CONFIG_OF_EARLY_FLATTREE
+>> >
+>> > This can be true when dtstree is unset. So this line should be this
+>> > instead to fix the 0-day reported error:
+>> >
+>> > ifneq ($(dtstree),)
+>> >
+>> >> +
+>> >> +%.dtb : scripts_dtc
+>> >> +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+>> >> +
+>> >> +PHONY += dtbs dtbs_install
+>> >> +dtbs: scripts_dtc
+>> >> +       $(Q)$(MAKE) $(build)=$(dtstree)
+>> >> +
+>> >> +dtbs_install: dtbs
+>> >> +       $(Q)$(MAKE) $(dtbinst)=$(dtstree)
+>> >> +
+>> >> +all: dtbs
+>> >> +
+>> >> +endif
+>>
+>>
+>> Ah, right.
+>> Even x86 can enable OF and OF_UNITTEST.
+>>
+>>
+>>
+>> Another solution might be,
+>> guard it by 'depends on ARCH_SUPPORTS_OF'.
+>>
+>>
+>>
+>> This is actually what ACPI does.
+>>
+>> menuconfig ACPI
+>>         bool "ACPI (Advanced Configuration and Power Interface) Support"
+>>         depends on ARCH_SUPPORTS_ACPI
+>>          ...
 >
-> Its still breaking on the autobuilder:
+> ACPI is a real platform feature, as it depends on firmware.
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/21/builds/72/st
-> eps/7/logs/step1b
+> CONFIG_OF can be enabled, and DT overlays can be loaded, on any platform,
+> even if it has ACPI ;-)
 >
-> I think its for i586 which needs fixing similarly to x86_64.
->
-> I did pull the simpler less risky pieces in for 2.6 but this experience
-> is making me nervous about the remaining patches which should perhaps
-> wait until 2.7.
 
-I think this should be fine. Lets take the ones we have going for now
+OK, understood.
+
+Thanks!
 
 
->
-> Cheers,
->
-> Richard
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core at lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+-- 
+Best Regards
+Masahiro Yamada
