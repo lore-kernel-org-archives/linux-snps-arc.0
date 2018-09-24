@@ -1,305 +1,247 @@
 From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 24 Sep 2018 09:37:55 +0000
-Subject: [PATCH v3 1/2] GPIO: add single-register GPIO via CREG driver
-In-Reply-To: <20180911150925.19460-2-Eugeniy.Paltsev@synopsys.com>
-References: <20180911150925.19460-1-Eugeniy.Paltsev@synopsys.com>
- <20180911150925.19460-2-Eugeniy.Paltsev@synopsys.com>
+Date: Mon, 24 Sep 2018 09:55:49 +0000
+Subject: [PATCH v2 1/2] mtd: spi-nor: Add support of sst26wf* flash ICs
+ protection ops
+In-Reply-To: <20180910114628.19156-2-Eugeniy.Paltsev@synopsys.com>
+References: <20180910114628.19156-1-Eugeniy.Paltsev@synopsys.com>
+ <20180910114628.19156-2-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1537781874.4902.1.camel@synopsys.com>
+Message-ID: <1537782946.4902.6.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+Hi Marek,
 
 Maybe you have any comments or remarks about this patch? And if you don't could you please apply it.
 Thanks!
 
-On Tue, 2018-09-11@18:09 +0300, Eugeniy Paltsev wrote:
-> Add single-register MMIO GPIO driver for complex cases where
-> only several fields in register belong to GPIO lines and each GPIO
-> line owns a field with different length and on/off value.
+On Mon, 2018-09-10@14:46 +0300, Eugeniy Paltsev wrote:
+> sst26wf flash series block protection implementation differs
+> from other SST series, so add specific implementation
+> flash_lock/flash_unlock/flash_is_locked functions for sst26wf
+> flash ICs.
 > 
-> Such CREG GPIOs are used in Synopsys AXS10x and HSDK boards.
+> NOTE:
+> this patch is basically following mine u-boot commit port:
+> http://git.denx.de/?p=u-boot.git;a=commitdiff;h=3d4fed87a5fa3ffedf64ff2811cd95c5ac4503ac
 > 
 > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 > ---
-> Changes v2->v3:
->  * Move parameters into a lookup table instead of device tree.
->  * Use the ngpios attribute for instead of snps,ngpios.
+> Changes v1->v2:
+>  * Check return value of {read | write}_reg callbacks.
 > 
->  MAINTAINERS                   |   6 ++
->  drivers/gpio/Kconfig          |  10 ++
->  drivers/gpio/Makefile         |   1 +
->  drivers/gpio/gpio-creg-snps.c | 212 ++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 229 insertions(+)
->  create mode 100644 drivers/gpio/gpio-creg-snps.c
+>  drivers/mtd/spi-nor/spi-nor.c | 177 ++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/mtd/spi-nor.h   |   4 +
+>  2 files changed, 181 insertions(+)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 544cac829cf4..e731f2f9648a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13734,6 +13734,12 @@ S:	Supported
->  F:	drivers/reset/reset-axs10x.c
->  F:	Documentation/devicetree/bindings/reset/snps,axs10x-reset.txt
+> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
+> index d9c368c44194..d0e7c85b6002 100644
+> --- a/drivers/mtd/spi-nor/spi-nor.c
+> +++ b/drivers/mtd/spi-nor/spi-nor.c
+> @@ -598,6 +598,177 @@ static int write_sr_and_check(struct spi_nor *nor, u8 status_new, u8 mask)
+>  	return ((ret & mask) != (status_new & mask)) ? -EIO : 0;
+>  }
 >  
-> +SYNOPSYS CREG GPIO DRIVER
-> +M:	Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> +S:	Maintained
-> +F:	drivers/gpio/gpio-creg-snps.c
-> +F:	Documentation/devicetree/bindings/gpio/snps,creg-gpio.txt
+> +/*
+> + * sst26wf016/sst26wf032/sst26wf064 have next block protection:
+> + * 4x   - 8  KByte blocks - read & write protection bits - upper addresses
+> + * 1x   - 32 KByte blocks - write protection bits
+> + * rest - 64 KByte blocks - write protection bits
+> + * 1x   - 32 KByte blocks - write protection bits
+> + * 4x   - 8  KByte blocks - read & write protection bits - lower addresses
+> + *
+> + * We'll support only per 64k lock/unlock so lower and upper 64 KByte region
+> + * will be treated as single block.
+> + */
+> +#define SST26_BPR_8K_NUM		4
+> +#define SST26_MAX_BPR_REG_LEN		(18 + 1)
+> +#define SST26_BOUND_REG_SIZE		((32 + SST26_BPR_8K_NUM * 8) * SZ_1K)
 > +
->  SYNOPSYS DESIGNWARE 8250 UART DRIVER
->  R:	Andy Shevchenko <andriy.shevchenko at linux.intel.com>
->  S:	Maintained
-> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-> index 71c0ab46f216..78155ac22b0c 100644
-> --- a/drivers/gpio/Kconfig
-> +++ b/drivers/gpio/Kconfig
-> @@ -430,6 +430,16 @@ config GPIO_REG
->  	  A 32-bit single register GPIO fixed in/out implementation.  This
->  	  can be used to represent any register as a set of GPIO signals.
->  
-> +config GPIO_SNPS_CREG
-> +	bool "Synopsys GPIO via CREG (Control REGisters) driver"
-> +	depends on ARC || COMPILE_TEST
-> +	select OF_GPIO
-> +	help
-> +	  This driver supports GPIOs via CREG on various Synopsys SoCs.
-> +	  This is a single-register MMIO GPIO driver for complex cases
-> +	  where only several fields in register belong to GPIO lines and
-> +	  each GPIO line owns a field with different length and on/off value.
-> +
->  config GPIO_SPEAR_SPICS
->  	bool "ST SPEAr13xx SPI Chip Select as GPIO support"
->  	depends on PLAT_SPEAR
-> diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-> index 1324c8f966a7..993f8ad54a19 100644
-> --- a/drivers/gpio/Makefile
-> +++ b/drivers/gpio/Makefile
-> @@ -109,6 +109,7 @@ obj-$(CONFIG_GPIO_REG)		+= gpio-reg.o
->  obj-$(CONFIG_ARCH_SA1100)	+= gpio-sa1100.o
->  obj-$(CONFIG_GPIO_SCH)		+= gpio-sch.o
->  obj-$(CONFIG_GPIO_SCH311X)	+= gpio-sch311x.o
-> +obj-$(CONFIG_GPIO_SNPS_CREG)	+= gpio-creg-snps.o
->  obj-$(CONFIG_GPIO_SODAVILLE)	+= gpio-sodaville.o
->  obj-$(CONFIG_GPIO_SPEAR_SPICS)	+= gpio-spear-spics.o
->  obj-$(CONFIG_GPIO_SPRD)		+= gpio-sprd.o
-> diff --git a/drivers/gpio/gpio-creg-snps.c b/drivers/gpio/gpio-creg-snps.c
-> new file mode 100644
-> index 000000000000..2400dec529b2
-> --- /dev/null
-> +++ b/drivers/gpio/gpio-creg-snps.c
-> @@ -0,0 +1,212 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +//
-> +// Synopsys CREG (Control REGisters) GPIO driver
-> +//
-> +// Copyright (C) 2018 Synopsys
-> +// Author: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> +
-> +#include <linux/of.h>
-> +#include <linux/kernel.h>
-> +#include <linux/slab.h>
-> +#include <linux/of_gpio.h>
-> +#include <linux/io.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/module.h>
-> +
-> +#include "gpiolib.h"
-> +
-> +#define MAX_GPIO	32
-> +
-> +struct creg_layout {
-> +	u8 ngpio;
-> +	u8 shift[MAX_GPIO];
-> +	u8 on[MAX_GPIO];
-> +	u8 off[MAX_GPIO];
-> +	u8 bit_per_gpio[MAX_GPIO];
+> +enum lock_ctl {
+> +	SST26_CTL_LOCK,
+> +	SST26_CTL_UNLOCK,
+> +	SST26_CTL_CHECK
 > +};
 > +
-> +struct creg_gpio {
-> +	struct of_mm_gpio_chip mmchip;
-> +	spinlock_t lock;
-> +	const struct creg_layout *layout;
-> +};
-> +
-> +static void creg_gpio_set(struct gpio_chip *gc, unsigned int gpio, int val)
+> +static bool sst26_process_bpr(u32 bpr_size, u8 *cmd, u32 bit, enum lock_ctl ctl)
 > +{
-> +	struct creg_gpio *hcg = gpiochip_get_data(gc);
-> +	const struct creg_layout *layout = hcg->layout;
-> +	u32 reg, reg_shift, value;
-> +	unsigned long flags;
-> +	int i;
-> +
-> +	value = val ? hcg->layout->on[gpio] : hcg->layout->off[gpio];
-> +
-> +	reg_shift = layout->shift[gpio];
-> +	for (i = 0; i < gpio; i++)
-> +		reg_shift += layout->bit_per_gpio[i] + layout->shift[i];
-> +
-> +	spin_lock_irqsave(&hcg->lock, flags);
-> +	reg = readl(hcg->mmchip.regs);
-> +	reg &= ~(GENMASK(layout->bit_per_gpio[i] - 1, 0) << reg_shift);
-> +	reg |=  (value << reg_shift);
-> +	writel(reg, hcg->mmchip.regs);
-> +	spin_unlock_irqrestore(&hcg->lock, flags);
-> +}
-> +
-> +static int creg_gpio_dir_out(struct gpio_chip *gc, unsigned int gpio, int val)
-> +{
-> +	creg_gpio_set(gc, gpio, val);
-> +
-> +	return 0;
-> +}
-> +
-> +static int creg_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
-> +{
-> +	return 0; /* output */
-> +}
-> +
-> +static int creg_gpio_xlate(struct gpio_chip *gc,
-> +			   const struct of_phandle_args *gpiospec, u32 *flags)
-> +{
-> +	if (gpiospec->args_count != 1) {
-> +		dev_err(&gc->gpiodev->dev, "invalid args_count: %d\n",
-> +			gpiospec->args_count);
-> +		return -EINVAL;
+> +	switch (ctl) {
+> +	case SST26_CTL_LOCK:
+> +		cmd[bpr_size - (bit / 8) - 1] |= BIT(bit % 8);
+> +		break;
+> +	case SST26_CTL_UNLOCK:
+> +		cmd[bpr_size - (bit / 8) - 1] &= ~BIT(bit % 8);
+> +		break;
+> +	case SST26_CTL_CHECK:
+> +		return !!(cmd[bpr_size - (bit / 8) - 1] & BIT(bit % 8));
 > +	}
 > +
-> +	if (gpiospec->args[0] >= gc->ngpio) {
-> +		dev_err(&gc->gpiodev->dev, "gpio number is too big: %d\n",
-> +			gpiospec->args[0]);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return gpiospec->args[0];
+> +	return false;
 > +}
 > +
-> +static int creg_gpio_validate_pg(struct device *dev, struct creg_gpio *hcg,
-> +				 int i)
+> +/*
+> + * Lock, unlock or check lock status of the flash region of the flash (depending
+> + * on the lock_ctl value)
+> + */
+> +static int sst26_lock_ctl(struct spi_nor *nor, loff_t ofs, uint64_t len, enum lock_ctl ctl)
 > +{
-> +	const struct creg_layout *layout = hcg->layout;
-> +
-> +	if (layout->bit_per_gpio[i] < 1 || layout->bit_per_gpio[i] > 8)
-> +		return -EINVAL;
-> +
-> +	/* Check that on valiue suits it's placeholder */
-> +	if (GENMASK(31, layout->bit_per_gpio[i]) & layout->on[i])
-> +		return -EINVAL;
-> +
-> +	/* Check that off valiue suits it's placeholder */
-> +	if (GENMASK(31, layout->bit_per_gpio[i]) & layout->off[i])
-> +		return -EINVAL;
-> +
-> +	if (layout->on[i] == layout->off[i])
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static int creg_gpio_validate(struct device *dev, struct creg_gpio *hcg,
-> +			      u32 ngpios)
-> +{
-> +	u32 reg_len = 0;
-> +	int i;
-> +
-> +	if (hcg->layout->ngpio < 1 || hcg->layout->ngpio > MAX_GPIO)
-> +		return -EINVAL;
-> +
-> +	if (ngpios < 1 || ngpios > hcg->layout->ngpio) {
-> +		dev_err(dev, "ngpios must be in [1:%u]\n", hcg->layout->ngpio);
-> +		return -EINVAL;
-> +	}
-> +
-> +	for (i = 0; i < hcg->layout->ngpio; i++) {
-> +		if (creg_gpio_validate_pg(dev, hcg, i))
-> +			return -EINVAL;
-> +
-> +		reg_len += hcg->layout->shift[i] + hcg->layout->bit_per_gpio[i];
-> +	}
-> +
-> +	/* Check that we suit in 32 bit register */
-> +	if (reg_len > 32)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct creg_layout hsdk_cs_ctl = {
-> +	.ngpio		= 10,
-> +	.shift		= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-> +	.off		= { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
-> +	.on		= { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
-> +	.bit_per_gpio	= { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }
-> +};
-> +
-> +static const struct creg_layout axs10x_flsh_cs_ctl = {
-> +	.ngpio		= 1,
-> +	.shift		= { 0 },
-> +	.off		= { 1 },
-> +	.on		= { 3 },
-> +	.bit_per_gpio	= { 2 }
-> +};
-> +
-> +static const struct of_device_id creg_gpio_ids[] = {
-> +	{
-> +		.compatible = "snps,creg-gpio-axs10x",
-> +		.data = &axs10x_flsh_cs_ctl
-> +	}, {
-> +		.compatible = "snps,creg-gpio-hsdk",
-> +		.data = &hsdk_cs_ctl
-> +	}, { /* sentinel */ }
-> +};
-> +
-> +static int creg_gpio_probe(struct platform_device *pdev)
-> +{
-> +	const struct of_device_id *match;
-> +	struct device *dev = &pdev->dev;
-> +	struct creg_gpio *hcg;
-> +	u32 ngpios;
+> +	struct mtd_info *mtd = &nor->mtd;
+> +	u32 i, bpr_ptr, rptr_64k, lptr_64k, bpr_size;
+> +	bool lower_64k = false, upper_64k = false;
+> +	u8 bpr_buff[SST26_MAX_BPR_REG_LEN] = {};
 > +	int ret;
 > +
-> +	hcg = devm_kzalloc(dev, sizeof(struct creg_gpio), GFP_KERNEL);
-> +	if (!hcg)
-> +		return -ENOMEM;
+> +	/* Check length and offset for 64k alignment */
+> +	if ((ofs & (SZ_64K - 1)) || (len & (SZ_64K - 1))) {
+> +		dev_err(nor->dev, "length or offset is not 64KiB allighned\n");
+> +		return -EINVAL;
+> +	}
 > +
-> +	match = of_match_node(creg_gpio_ids, pdev->dev.of_node);
-> +	hcg->layout = match->data;
-> +	if (!hcg->layout)
+> +	if (ofs + len > mtd->size) {
+> +		dev_err(nor->dev, "range is more than device size: %#llx + %#llx > %#llx\n",
+> +			ofs, len, mtd->size);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* SST26 family has only 16 Mbit, 32 Mbit and 64 Mbit IC */
+> +	if (mtd->size != SZ_2M &&
+> +	    mtd->size != SZ_4M &&
+> +	    mtd->size != SZ_8M)
 > +		return -EINVAL;
 > +
-> +	ret = of_property_read_u32(dev->of_node, "ngpios", &ngpios);
-> +	if (ret)
+> +	bpr_size = 2 + (mtd->size / SZ_64K / 8);
+> +
+> +	ret = nor->read_reg(nor, SPINOR_OP_READ_BPR, bpr_buff, bpr_size);
+> +	if (ret < 0) {
+> +		dev_err(nor->dev, "fail to read block-protection register\n");
 > +		return ret;
+> +	}
 > +
-> +	ret = creg_gpio_validate(dev, hcg, ngpios);
-> +	if (ret)
+> +	rptr_64k = min_t(u32, ofs + len, mtd->size - SST26_BOUND_REG_SIZE);
+> +	lptr_64k = max_t(u32, ofs, SST26_BOUND_REG_SIZE);
+> +
+> +	upper_64k = ((ofs + len) > (mtd->size - SST26_BOUND_REG_SIZE));
+> +	lower_64k = (ofs < SST26_BOUND_REG_SIZE);
+> +
+> +	/* Lower bits in block-protection register are about 64k region */
+> +	bpr_ptr = lptr_64k / SZ_64K - 1;
+> +
+> +	/* Process 64K blocks region */
+> +	while (lptr_64k < rptr_64k) {
+> +		if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+> +			return EACCES;
+> +
+> +		bpr_ptr++;
+> +		lptr_64k += SZ_64K;
+> +	}
+> +
+> +	/* 32K and 8K region bits in BPR are after 64k region bits */
+> +	bpr_ptr = (mtd->size - 2 * SST26_BOUND_REG_SIZE) / SZ_64K;
+> +
+> +	/* Process lower 32K block region */
+> +	if (lower_64k)
+> +		if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+> +			return EACCES;
+> +
+> +	bpr_ptr++;
+> +
+> +	/* Process upper 32K block region */
+> +	if (upper_64k)
+> +		if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+> +			return EACCES;
+> +
+> +	bpr_ptr++;
+> +
+> +	/* Process lower 8K block regions */
+> +	for (i = 0; i < SST26_BPR_8K_NUM; i++) {
+> +		if (lower_64k)
+> +			if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+> +				return EACCES;
+> +
+> +		/* In 8K area BPR has both read and write protection bits */
+> +		bpr_ptr += 2;
+> +	}
+> +
+> +	/* Process upper 8K block regions */
+> +	for (i = 0; i < SST26_BPR_8K_NUM; i++) {
+> +		if (upper_64k)
+> +			if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+> +				return EACCES;
+> +
+> +		/* In 8K area BPR has both read and write protection bits */
+> +		bpr_ptr += 2;
+> +	}
+> +
+> +	/* If we check region status we don't need to write BPR back */
+> +	if (ctl == SST26_CTL_CHECK)
+> +		return 0;
+> +
+> +	ret = nor->write_reg(nor, SPINOR_OP_WRITE_BPR, bpr_buff, bpr_size);
+> +	if (ret < 0) {
+> +		dev_err(nor->dev, "fail to write block-protection register\n");
 > +		return ret;
-> +
-> +	spin_lock_init(&hcg->lock);
-> +
-> +	hcg->mmchip.gc.ngpio = ngpios;
-> +	hcg->mmchip.gc.set = creg_gpio_set;
-> +	hcg->mmchip.gc.get_direction = creg_gpio_get_direction;
-> +	hcg->mmchip.gc.direction_output = creg_gpio_dir_out;
-> +	hcg->mmchip.gc.of_xlate = creg_gpio_xlate;
-> +	hcg->mmchip.gc.of_gpio_n_cells = 1;
-> +
-> +	ret = of_mm_gpiochip_add_data(pdev->dev.of_node, &hcg->mmchip, hcg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	dev_info(dev, "GPIO controller with %d gpios probed\n", ngpios);
+> +	}
 > +
 > +	return 0;
 > +}
 > +
-> +static struct platform_driver creg_gpio_snps_driver = {
-> +	.driver = {
-> +		.name = "snps-creg-gpio",
-> +		.of_match_table = creg_gpio_ids,
-> +	},
-> +	.probe  = creg_gpio_probe,
-> +};
-> +builtin_platform_driver(creg_gpio_snps_driver);
+> +static int sst26_unlock(struct spi_nor *nor, loff_t ofs, uint64_t len)
+> +{
+> +	return sst26_lock_ctl(nor, ofs, len, SST26_CTL_UNLOCK);
+> +}
+> +
+> +static int sst26_lock(struct spi_nor *nor, loff_t ofs, uint64_t len)
+> +{
+> +	return sst26_lock_ctl(nor, ofs, len, SST26_CTL_LOCK);
+> +}
+> +
+> +/*
+> + * Returns EACCES (positive value) if region is locked, 0 if region is unlocked,
+> + * and negative on errors.
+> + */
+> +static int sst26_is_locked(struct spi_nor *nor, loff_t ofs, uint64_t len)
+> +{
+> +	/*
+> +	 * is_locked function is used for check before reading or erasing flash
+> +	 * region, so offset and length might be not 64k allighned, so adjust
+> +	 * them to be 64k allighned as sst26_lock_ctl works only with 64k
+> +	 * allighned regions.
+> +	 */
+> +	ofs -= ofs & (SZ_64K - 1);
+> +	len = len & (SZ_64K - 1) ? (len & ~(SZ_64K - 1)) + SZ_64K : len;
+> +
+> +	return sst26_lock_ctl(nor, ofs, len, SST26_CTL_CHECK);
+> +}
+> +
+>  static void stm_get_locked_range(struct spi_nor *nor, u8 sr, loff_t *ofs,
+>  				 uint64_t *len)
+>  {
+> @@ -2872,6 +3043,12 @@ int spi_nor_scan(struct spi_nor *nor, const char *name,
+>  		nor->flash_is_locked = stm_is_locked;
+>  	}
+>  
+> +	if (JEDEC_MFR(info) == SNOR_MFR_SST && info->id[1] == 0x26) {
+> +		nor->flash_lock = sst26_lock;
+> +		nor->flash_unlock = sst26_unlock;
+> +		nor->flash_is_locked = sst26_is_locked;
+> +	}
+> +
+>  	if (nor->flash_lock && nor->flash_unlock && nor->flash_is_locked) {
+>  		mtd->_lock = spi_nor_lock;
+>  		mtd->_unlock = spi_nor_unlock;
+> diff --git a/include/linux/mtd/spi-nor.h b/include/linux/mtd/spi-nor.h
+> index e60da0d34cc1..246014a73f83 100644
+> --- a/include/linux/mtd/spi-nor.h
+> +++ b/include/linux/mtd/spi-nor.h
+> @@ -93,6 +93,10 @@
+>  #define SPINOR_OP_WRDI		0x04	/* Write disable */
+>  #define SPINOR_OP_AAI_WP	0xad	/* Auto address increment word program */
+>  
+> +/* Used for SST26* flashes only. */
+> +#define SPINOR_OP_READ_BPR	0x72	/* Read block protection register */
+> +#define SPINOR_OP_WRITE_BPR	0x42	/* Write block protection register */
+> +
+>  /* Used for S3AN flashes only */
+>  #define SPINOR_OP_XSE		0x50	/* Sector erase */
+>  #define SPINOR_OP_XPP		0x82	/* Page program */
 -- 
  Eugeniy Paltsev
