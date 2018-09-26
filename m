@@ -1,25 +1,24 @@
-From: linus.walleij@linaro.org (Linus Walleij)
-Date: Wed, 26 Sep 2018 09:19:30 +0200
-Subject: [PATCH v3 2/2] dt-bindings: Document the Synopsys GPIO via CREG
- bindings
-In-Reply-To: <20180911150925.19460-3-Eugeniy.Paltsev@synopsys.com>
-References: <20180911150925.19460-1-Eugeniy.Paltsev@synopsys.com>
- <20180911150925.19460-3-Eugeniy.Paltsev@synopsys.com>
+From: mhocko@kernel.org (Michal Hocko)
+Date: Wed, 26 Sep 2018 11:22:39 +0200
+Subject: [PATCH 02/30] mm: remove CONFIG_NO_BOOTMEM
+In-Reply-To: <1536927045-23536-3-git-send-email-rppt@linux.vnet.ibm.com>
+References: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
+ <1536927045-23536-3-git-send-email-rppt@linux.vnet.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CACRpkdYVyK3p639OeHmh17Ni3T+h1YaMYd=GqJ+aR6PexFU1kQ@mail.gmail.com>
+Message-ID: <20180926092239.GK6278@dhcp22.suse.cz>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Sep 11, 2018 at 5:09 PM Eugeniy Paltsev
-<Eugeniy.Paltsev@synopsys.com> wrote:
+On Fri 14-09-18 15:10:17, Mike Rapoport wrote:
+> All achitectures select NO_BOOTMEM which essentially becomes 'Y' for any
+> kernel configuration and therefore it can be removed.
 
-> This patch adds documentation of device tree bindings for the Synopsys
-> GPIO via CREG driver.
->
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+git grep suggests that DEFERRED_STRUCT_PAGE_INIT still depends on
+NO_BOOTMEM but I have a vague feeling that I've seen a patch to address
+that. It would be great to have it folded to this one.
 
-Reviewed-by: Linus Walleij <linus.walleij at linaro.org>
+> Signed-off-by: Mike Rapoport <rppt at linux.vnet.ibm.com>
 
-This is fine, just waiting for the final version of the driver.
-
-Yours,
-Linus Walleij
+Acked-by: Michal Hocko <mhocko at suse.com>
+-- 
+Michal Hocko
+SUSE Labs
