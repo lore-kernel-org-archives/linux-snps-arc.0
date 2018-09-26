@@ -1,39 +1,44 @@
-From: mhocko@kernel.org (Michal Hocko)
-Date: Wed, 26 Sep 2018 16:23:19 +0200
-Subject: [PATCH 14/30] memblock: add align parameter to
- memblock_alloc_node()
-In-Reply-To: <20180926134335.GF4628@rapoport-lnx>
-References: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1536927045-23536-15-git-send-email-rppt@linux.vnet.ibm.com>
- <20180926093127.GO6278@dhcp22.suse.cz>
- <20180926093648.GP6278@dhcp22.suse.cz>
- <20180926134335.GF4628@rapoport-lnx>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 26 Sep 2018 17:25:35 +0300
+Subject: [PATCH] DRM: VBLANK: provide valid timestamp for EVENT_FLIP
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180926142319.GA6278@dhcp22.suse.cz>
+Message-ID: <20180926142535.17997-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed 26-09-18 16:43:35, Mike Rapoport wrote:
-> On Wed, Sep 26, 2018@11:36:48AM +0200, Michal Hocko wrote:
-> > On Wed 26-09-18 11:31:27, Michal Hocko wrote:
-> > > On Fri 14-09-18 15:10:29, Mike Rapoport wrote:
-> > > > With the align parameter memblock_alloc_node() can be used as drop in
-> > > > replacement for alloc_bootmem_pages_node() and __alloc_bootmem_node(),
-> > > > which is done in the following patches.
-> > > 
-> > > /me confused. Why do we need this patch at all? Maybe it should be
-> > > folded into the later patch you are refereing here?
-> > 
-> > OK, I can see 1536927045-23536-17-git-send-email-rppt at linux.vnet.ibm.com
-> > now. If you are going to repost for whatever reason please merge those
-> > two. Also I would get rid of the implicit "0 implies SMP_CACHE_BYTES"
-> > behavior. It is subtle and you have to dig deep to find that out. Why
-> > not make it explicit?
-> 
-> Agree. I'd just prefer to make it a separate patch rather then resend the
-> whole series. 
+If driver/HW doesn't support vblank functionality (for example
+UDL driver, ARCPGU driver, ...) we always have vblank->time == 0.
+In result we always provide zero timestamp for
+DRM_EVENT_FLIP_COMPLETE. This breaks userspace apps (for example
+weston) which relies on timestamp value.
 
-Sure, no objection from me.
+Setup time to provide valid timestamp for DRM_EVENT_FLIP_COMPLETE
+event.
 
+Cc: stable at vger.kernel.org
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ drivers/gpu/drm/drm_vblank.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 28cdcf76b6f9..0d19aca48782 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -911,6 +911,15 @@ void drm_crtc_send_vblank_event(struct drm_crtc *crtc,
+ 
+ 	if (dev->num_crtcs > 0) {
+ 		seq = drm_vblank_count_and_time(dev, pipe, &now);
++
++		/*
++		 * If driver/HW doesn't support vblank functionality we
++		 * always have vblank->time == 0. Setup time to provide valid
++		 * timestamp for DRM_EVENT_FLIP_COMPLETE event.
++		 */
++		if (!now && e->event.base.type == DRM_EVENT_FLIP_COMPLETE)
++			now = ktime_get();
++
+ 	} else {
+ 		seq = 0;
+ 
 -- 
-Michal Hocko
-SUSE Labs
+2.14.4
