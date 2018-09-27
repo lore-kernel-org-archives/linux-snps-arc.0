@@ -1,57 +1,50 @@
-From: alexander.duyck@gmail.com (Alexander Duyck)
-Date: Wed, 26 Sep 2018 17:34:32 -0700
-Subject: [PATCH 03/30] mm: remove CONFIG_HAVE_MEMBLOCK
-In-Reply-To: <20180926183152.GA4597@rapoport-lnx>
-References: <1536927045-23536-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1536927045-23536-4-git-send-email-rppt@linux.vnet.ibm.com>
- <CAKgT0UdP=78RsWHMxFu4PD8a3AhA3eNcG68Z_9aGY0vhOKf7xA@mail.gmail.com>
- <20180926183152.GA4597@rapoport-lnx>
+From: raj.khem@gmail.com (Khem Raj)
+Date: Wed, 26 Sep 2018 21:25:57 -0700
+Subject: ARC: machine dictionary - ARCompact vs ARCv2
+In-Reply-To: <e00126b08d5895fa7e4cc2fb0b8eaa9effb75cc4.camel@synopsys.com>
+References: <e00126b08d5895fa7e4cc2fb0b8eaa9effb75cc4.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAKgT0UcC-GTtyPK9ynvj6r3YFqy8kE40iMJxzPowbNoXGf9iWg@mail.gmail.com>
+Message-ID: <CAMKF1soTGWbiB4AV9+PjZOD6aU7YwQ7B=Ejex2tzThLeU0pn4Q@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Sep 26, 2018@11:32 AM Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+On Tue, Sep 25, 2018 at 4:57 AM Alexey Brodkin
+<alexey.brodkin@synopsys.com> wrote:
 >
-> On Wed, Sep 26, 2018@09:58:41AM -0700, Alexander Duyck wrote:
-> > On Fri, Sep 14, 2018@5:11 AM Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
-> > >
-> > > All architecures use memblock for early memory management. There is no need
-> > > for the CONFIG_HAVE_MEMBLOCK configuration option.
-> > >
-> > > Signed-off-by: Mike Rapoport <rppt at linux.vnet.ibm.com>
-> >
-> > <snip>
-> >
-> > > diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-> > > index 5169205..4ae91fc 100644
-> > > --- a/include/linux/memblock.h
-> > > +++ b/include/linux/memblock.h
-> > > @@ -2,7 +2,6 @@
-> > >  #define _LINUX_MEMBLOCK_H
-> > >  #ifdef __KERNEL__
-> > >
-> > > -#ifdef CONFIG_HAVE_MEMBLOCK
-> > >  /*
-> > >   * Logical memory blocks.
-> > >   *
-> > > @@ -460,7 +459,6 @@ static inline phys_addr_t memblock_alloc(phys_addr_t size, phys_addr_t align)
-> > >  {
-> > >         return 0;
-> > >  }
-> > > -#endif /* CONFIG_HAVE_MEMBLOCK */
-> > >
-> > >  #endif /* __KERNEL__ */
-> >
-> > There was an #else above this section and I believe it and the code
-> > after it needs to be stripped as well.
+> Hello,
 >
-> Right, I've already sent the fix [1] and it's in mmots.
+> While upstreaming ARC bits in OE core I faced one interesting challenge.
 >
-> [1] https://lkml.org/lkml/2018/9/19/416
+> As of today we have 2 binary-incompatible 32-bit ISAs (Instruction Set Arch):
+>  1. ARCompact (AKA ARCv1) and
+>  2. ARCv2
 >
+> In Binutils they have 2 separate machine numbers: EM_ARC_COMPACT=93 for ARCompact,
+> see [1] and EM_ARC_COMPACT2=195 for ARCv2, see [2].
+>
+> Still we call them both "arc" and so I'm not sure what would be the right way
+> of handling that mess in OE's machine dictionary.
 
-Are you sure? The patch you reference appears to be for
-drivers/of/fdt.c, and the bit I pointed out here is in
-include/linux/memblock.h.
+mess is the right word. My preference would be to keep the newer
+one in OE as the support is new,
 
-- Alex
+>
+> For now I just have separate instances of "arc_machine_dict" for ARCompact [3]
+> and ARCv2 [4] and depending on what a given OE "machine" includes as "tune-arcX.inc"
+> build system uses one or another dictionary entry.
+>
+> Even though it works fine it doesn't fit into common dictionary in meta/lib/oe/elf.py.
+>
+> Any suggestions on how ARC machine dictionary might be upstreamed?
+
+you can define a separate arch like x32 is for x86_64 arch. but I think
+PACKAGEQA_EXTRA_MACHDEFFUNCS is a way to hook in such ana
+
+>
+> -Alexey
+>
+> [1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blob;f=include/elf/common.h;h=e194274305663f565c6beee5ec21dbed70cdac46;hb=HEAD#l202
+> [2] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blob;f=include/elf/common.h;h=e194274305663f565c6beee5ec21dbed70cdac46;hb=HEAD#l309
+> [3]
+> https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys/blob/083958dedbd60c022432a17e952638a41e37c3dc/conf/machine/include/tune-arcompact.inc#L25
+> [4]
+> https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys/blob/083958dedbd60c022432a17e952638a41e37c3dc/conf/machine/include/tune-arcv2.inc#L38
