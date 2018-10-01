@@ -1,61 +1,84 @@
-From: daniel@ffwll.ch (Daniel Vetter)
-Date: Mon, 1 Oct 2018 10:14:08 +0200
-Subject: [PATCH] DRM: UDL: get rid of useless vblank initialization
-In-Reply-To: <20180928144126.21598-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180928144126.21598-1-Eugeniy.Paltsev@synopsys.com>
+From: robh@kernel.org (Rob Herring)
+Date: Mon, 1 Oct 2018 08:25:03 -0500
+Subject: [PATCH v3 6/9] kbuild: consolidate Devicetree dtb build rules
+In-Reply-To: <CAK7LNATiSbwVfCRNsDOyksfq5wcv0pnNQYnMXdo2yRyE7fcn-Q@mail.gmail.com>
+References: <20180910150403.19476-1-robh@kernel.org>
+ <20180910150403.19476-7-robh@kernel.org>
+ <CAL_Jsq+=VbdcVLiwXbOA5d+R2YY6=2Pw2bQpci-jj-JvereD1A@mail.gmail.com>
+ <CAK7LNAQFqhWw+LwDoypGG=OP6tH4qf2tT=LvtchK2GoiNyzDXg@mail.gmail.com>
+ <CAMuHMdWEnoh97_jiDWMq=ke4PrhSFbToYnx91CPLBuq3mOGzoQ@mail.gmail.com>
+ <CAK7LNATkkOiYPj2RLubcgZ_z59Bhz4GkgWqPMbnaHBk7EisXLg@mail.gmail.com>
+ <20180928154150.GA25013@bogus>
+ <CAK7LNATiSbwVfCRNsDOyksfq5wcv0pnNQYnMXdo2yRyE7fcn-Q@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181001081408.GV11082@phenom.ffwll.local>
+Message-ID: <CAL_JsqLPaX3GB1Esw3DhkQ+2fQLVG8=_UbyJC5RJ-6_s=v288g@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Sep 28, 2018@05:41:26PM +0300, Eugeniy Paltsev wrote:
-> UDL doesn't support vblank functionality so we don't need to
-> initialize vblank here (we are able to send page flip
-> completion events even without vblank initialization)
-> 
-> Moreover current drm_vblank_init call with num_crtcs > 0 causes
-> sending DRM_EVENT_FLIP_COMPLETE event with zero timestamp every
-> time. This breaks userspace apps (for example weston) which
-> relies on timestamp value.
-> 
-> Cc: stable at vger.kernel.org
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+On Mon, Oct 1, 2018 at 12:49 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> Hi Rob,
+>
+>
+> 2018?9?29?(?) 0:43 Rob Herring <robh at kernel.org>:
+>
+> > +#
+> > ---------------------------------------------------------------------------
+> > +# Devicetree files
+> > +
+> > +ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/),)
+> > +dtstree := arch/$(SRCARCH)/boot/dts
+> > +endif
+> > +
+> > +ifneq ($(dtstree),)
+> > +
+> > +%.dtb : scripts_dtc
+>
+> %.dtb: prepare3 prepare
 
-Reviewed-by: Daniel Vetter <daniel.vetter at ffwll.ch>
+I assume you didn't mean to drop scripts_dtc as that doesn't work.
 
-> ---
->  drivers/gpu/drm/udl/udl_main.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-> index f455f095a146..1b014d92855b 100644
-> --- a/drivers/gpu/drm/udl/udl_main.c
-> +++ b/drivers/gpu/drm/udl/udl_main.c
-> @@ -350,15 +350,10 @@ int udl_driver_load(struct drm_device *dev, unsigned long flags)
->  	if (ret)
->  		goto err;
->  
-> -	ret = drm_vblank_init(dev, 1);
-> -	if (ret)
-> -		goto err_fb;
-> -
->  	drm_kms_helper_poll_init(dev);
->  
->  	return 0;
-> -err_fb:
-> -	udl_fbdev_cleanup(dev);
-> +
->  err:
->  	if (udl->urbs.count)
->  		udl_free_urb_list(dev);
-> -- 
-> 2.14.4
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel at lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Why "prepare" here and not on dtbs?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> because we need to make sure KERNELRELEASE
+> is correctly defined before dtbs_install happens.
+
+Yes, indeed. With prepare3 added I get:
+
+cp: cannot create regular file
+'/boot/dtbs/4.19.0-rc3-00009-g0afba9b7b2ea-dirty': No such file or
+directory
+
+vs. with it:
+
+cp: cannot create regular file '/boot/dtbs/': Not a directory
+
+>
+>
+> > +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+> > +
+> > +PHONY += dtbs dtbs_install
+> > +dtbs: scripts_dtc
+>
+>
+> dtbs: prepare3 scripts_dtc
+>
+>
+>
+> > +       $(Q)$(MAKE) $(build)=$(dtstree)
+> > +
+> > +dtbs_install: dtbs
+>
+>
+> Please do not have dtbs_install to depend on dtbs.
+>
+> No install targets should ever trigger building anything
+> in the source tree.
+>
+>
+> For the background, see the commit log of
+> 19514fc665ffbce624785f76ee7ad0ea6378a527
+
+Okay, thanks.
+
+Rob
