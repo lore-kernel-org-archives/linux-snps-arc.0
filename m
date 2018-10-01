@@ -1,502 +1,343 @@
-From: robh@kernel.org (Rob Herring)
-Date: Mon,  1 Oct 2018 10:25:28 -0500
-Subject: [PATCH v4 6/9] kbuild: consolidate Devicetree dtb build rules
-In-Reply-To: <20181001152531.3385-1-robh@kernel.org>
-References: <20181001152531.3385-1-robh@kernel.org>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Mon, 1 Oct 2018 16:50:43 +0000
+Subject: [PATCH v2] ARC: prevent showing irrelevant exception info in
+ signal message
+In-Reply-To: <20180807135945.2948-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180807135945.2948-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181001152531.3385-7-robh@kernel.org>
+Message-ID: <1538412641.5186.9.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-There is nothing arch specific about building dtb files other than their
-location under /arch/*/boot/dts/. Keeping each arch aligned is a pain.
-The dependencies and supported targets are all slightly different.
-Also, a cross-compiler for each arch is needed, but really the host
-compiler preprocessor is perfectly fine for building dtbs. Move the
-build rules to a common location and remove the arch specific ones. This
-is done in a single step to avoid warnings about overriding rules.
+Hi Vineet,
 
-The build dependencies had been a mixture of 'scripts' and/or 'prepare'.
-These pull in several dependencies some of which need a target compiler
-(specifically devicetable-offsets.h) and aren't needed to build dtbs.
-All that is really needed is dtc, so adjust the dependencies to only be
-dtc.
+any chance you could look at this?
+Otherwise we will both forget what it is all about :)
 
-This change enables support 'dtbs_install' on some arches which were
-missing the target.
-
-Acked-by: Will Deacon <will.deacon at arm.com>
-Acked-by: Paul Burton <paul.burton at mips.com>
-Acked-by: Ley Foon Tan <ley.foon.tan at intel.com>
-Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
-Cc: Michal Marek <michal.lkml at markovi.net>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Russell King <linux at armlinux.org.uk>
-Cc: Catalin Marinas <catalin.marinas at arm.com>
-Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
-Cc: Michal Simek <monstr at monstr.eu>
-Cc: Ralf Baechle <ralf at linux-mips.org>
-Cc: James Hogan <jhogan at kernel.org>
-Cc: Benjamin Herrenschmidt <benh at kernel.crashing.org>
-Cc: Paul Mackerras <paulus at samba.org>
-Cc: Michael Ellerman <mpe at ellerman.id.au>
-Cc: Chris Zankel <chris at zankel.net>
-Cc: Max Filippov <jcmvbkbc at gmail.com>
-Cc: linux-kbuild at vger.kernel.org
-Cc: linux-snps-arc at lists.infradead.org
-Cc: linux-arm-kernel at lists.infradead.org
-Cc: uclinux-h8-devel at lists.sourceforge.jp
-Cc: linux-mips at linux-mips.org
-Cc: nios2-dev at lists.rocketboards.org
-Cc: linuxppc-dev at lists.ozlabs.org
-Cc: linux-xtensa at linux-xtensa.org
-Signed-off-by: Rob Herring <robh at kernel.org>
----
-v4:
- - Make dtbs and %.dtb rules depend on arch/$ARCH/boot/dts path rather than
-   CONFIG_OF_EARLY_FLATTREE
- - Fix install path missing kernel version for dtbs_install
- - Fix "make CONFIG_OF_ALL_DTBS=y" for arches like ARM which selectively
-   enable CONFIG_OF (and therefore dtc)
-
-
- Makefile                          | 37 ++++++++++++++++++++++++++++++-
- arch/arc/Makefile                 |  6 -----
- arch/arm/Makefile                 | 20 +----------------
- arch/arm64/Makefile               | 17 +-------------
- arch/c6x/Makefile                 |  2 --
- arch/h8300/Makefile               | 11 +--------
- arch/microblaze/Makefile          |  4 +---
- arch/microblaze/boot/dts/Makefile |  2 ++
- arch/mips/Makefile                | 15 +------------
- arch/nds32/Makefile               |  2 +-
- arch/nios2/Makefile               |  7 ------
- arch/nios2/boot/Makefile          |  4 ----
- arch/powerpc/Makefile             |  3 ---
- arch/xtensa/Makefile              | 12 +---------
- scripts/Makefile                  |  3 +--
- scripts/Makefile.lib              |  2 +-
- scripts/dtc/Makefile              |  2 +-
- 17 files changed, 48 insertions(+), 101 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 6c3da3e10f07..251875470c5b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1061,7 +1061,7 @@ include/config/kernel.release: $(srctree)/Makefile FORCE
- # Carefully list dependencies so we do not try to build scripts twice
- # in parallel
- PHONY += scripts
--scripts: scripts_basic asm-generic gcc-plugins $(autoksyms_h)
-+scripts: scripts_basic scripts_dtc asm-generic gcc-plugins $(autoksyms_h)
- 	$(Q)$(MAKE) $(build)=$(@)
-
- # Things we need to do before we recursively start building the kernel
-@@ -1205,6 +1205,35 @@ kselftest-merge:
- 		$(srctree)/tools/testing/selftests/*/config
- 	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
-
-+# ---------------------------------------------------------------------------
-+# Devicetree files
-+
-+ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/),)
-+dtstree := arch/$(SRCARCH)/boot/dts
-+endif
-+
-+ifneq ($(dtstree),)
-+
-+%.dtb: prepare3 scripts_dtc
-+	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-+
-+PHONY += dtbs dtbs_install
-+dtbs: prepare3 scripts_dtc
-+	$(Q)$(MAKE) $(build)=$(dtstree)
-+
-+dtbs_install:
-+	$(Q)$(MAKE) $(dtbinst)=$(dtstree)
-+
-+ifdef CONFIG_OF_EARLY_FLATTREE
-+all: dtbs
-+endif
-+
-+endif
-+
-+PHONY += scripts_dtc
-+scripts_dtc: scripts_basic
-+	$(Q)$(MAKE) $(build)=scripts/dtc
-+
- # ---------------------------------------------------------------------------
- # Modules
-
-@@ -1414,6 +1443,12 @@ help:
- 	@echo  '  kselftest-merge - Merge all the config dependencies of kselftest to existing'
- 	@echo  '                    .config.'
- 	@echo  ''
-+	@$(if $(dtstree), \
-+		echo 'Devicetree:'; \
-+		echo '* dtbs            - Build device tree blobs for enabled boards'; \
-+		echo '  dtbs_install    - Install dtbs to $(INSTALL_DTBS_PATH)'; \
-+		echo '')
-+
- 	@echo 'Userspace tools targets:'
- 	@echo '  use "make tools/help"'
- 	@echo '  or  "cd tools; make help"'
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 99cce77ab98f..caece8866080 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -124,11 +124,5 @@ boot_targets += uImage uImage.bin uImage.gz
- $(boot_targets): vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
-
--%.dtb %.dtb.S %.dtb.o: scripts
--	$(Q)$(MAKE) $(build)=$(boot)/dts $(boot)/dts/$@
--
--dtbs: scripts
--	$(Q)$(MAKE) $(build)=$(boot)/dts
--
- archclean:
- 	$(Q)$(MAKE) $(clean)=$(boot)
-diff --git a/arch/arm/Makefile b/arch/arm/Makefile
-index d1516f85f25d..161c2df6567e 100644
---- a/arch/arm/Makefile
-+++ b/arch/arm/Makefile
-@@ -307,12 +307,7 @@ else
- KBUILD_IMAGE := $(boot)/zImage
- endif
-
--# Build the DT binary blobs if we have OF configured
--ifeq ($(CONFIG_USE_OF),y)
--KBUILD_DTBS := dtbs
--endif
--
--all:	$(notdir $(KBUILD_IMAGE)) $(KBUILD_DTBS)
-+all:	$(notdir $(KBUILD_IMAGE))
-
-
- archheaders:
-@@ -339,17 +334,6 @@ $(BOOT_TARGETS): vmlinux
- $(INSTALL_TARGETS):
- 	$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $@
-
--%.dtb: | scripts
--	$(Q)$(MAKE) $(build)=$(boot)/dts MACHINE=$(MACHINE) $(boot)/dts/$@
--
--PHONY += dtbs dtbs_install
--
--dtbs: prepare scripts
--	$(Q)$(MAKE) $(build)=$(boot)/dts
--
--dtbs_install:
--	$(Q)$(MAKE) $(dtbinst)=$(boot)/dts
--
- PHONY += vdso_install
- vdso_install:
- ifeq ($(CONFIG_VDSO),y)
-@@ -371,8 +355,6 @@ define archhelp
-   echo  '  uImage        - U-Boot wrapped zImage'
-   echo  '  bootpImage    - Combined zImage and initial RAM disk'
-   echo  '                  (supply initrd image via make variable INITRD=<path>)'
--  echo  '* dtbs          - Build device tree blobs for enabled boards'
--  echo  '  dtbs_install  - Install dtbs to $(INSTALL_DTBS_PATH)'
-   echo  '  install       - Install uncompressed kernel'
-   echo  '  zinstall      - Install compressed kernel'
-   echo  '  uinstall      - Install U-Boot wrapped compressed kernel'
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index 106039d25e2f..b4e994cd3a42 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -113,9 +113,8 @@ core-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
- # Default target when executing plain make
- boot		:= arch/arm64/boot
- KBUILD_IMAGE	:= $(boot)/Image.gz
--KBUILD_DTBS	:= dtbs
-
--all:	Image.gz $(KBUILD_DTBS)
-+all:	Image.gz
-
-
- Image: vmlinux
-@@ -127,17 +126,6 @@ Image.%: Image
- zinstall install:
- 	$(Q)$(MAKE) $(build)=$(boot) $@
-
--%.dtb: scripts
--	$(Q)$(MAKE) $(build)=$(boot)/dts $(boot)/dts/$@
--
--PHONY += dtbs dtbs_install
--
--dtbs: prepare scripts
--	$(Q)$(MAKE) $(build)=$(boot)/dts
--
--dtbs_install:
--	$(Q)$(MAKE) $(dtbinst)=$(boot)/dts
--
- PHONY += vdso_install
- vdso_install:
- 	$(Q)$(MAKE) $(build)=arch/arm64/kernel/vdso $@
-@@ -145,7 +133,6 @@ vdso_install:
- # We use MRPROPER_FILES and CLEAN_FILES now
- archclean:
- 	$(Q)$(MAKE) $(clean)=$(boot)
--	$(Q)$(MAKE) $(clean)=$(boot)/dts
-
- # We need to generate vdso-offsets.h before compiling certain files in kernel/.
- # In order to do that, we should use the archprepare target, but we can't since
-@@ -160,8 +147,6 @@ vdso_prepare: prepare0
- define archhelp
-   echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boot/Image.gz)'
-   echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/boot/Image)'
--  echo  '* dtbs          - Build device tree blobs for enabled boards'
--  echo  '  dtbs_install  - Install dtbs to $(INSTALL_DTBS_PATH)'
-   echo  '  install       - Install uncompressed kernel'
-   echo  '  zinstall      - Install compressed kernel'
-   echo  '                  Install using (your) ~/bin/installkernel or'
-diff --git a/arch/c6x/Makefile b/arch/c6x/Makefile
-index 3fe8a948e94c..b7aa854f7008 100644
---- a/arch/c6x/Makefile
-+++ b/arch/c6x/Makefile
-@@ -40,9 +40,7 @@ boot := arch/$(ARCH)/boot
- DTB:=$(subst dtbImage.,,$(filter dtbImage.%, $(MAKECMDGOALS)))
- export DTB
-
--ifneq ($(DTB),)
- core-y	+= $(boot)/dts/
--endif
-
- # With make 3.82 we cannot mix normal and wildcard targets
-
-diff --git a/arch/h8300/Makefile b/arch/h8300/Makefile
-index 58634e6bae92..4003ddc616e1 100644
---- a/arch/h8300/Makefile
-+++ b/arch/h8300/Makefile
-@@ -31,21 +31,12 @@ CROSS_COMPILE := h8300-unknown-linux-
- endif
-
- core-y	+= arch/$(ARCH)/kernel/ arch/$(ARCH)/mm/
--ifneq '$(CONFIG_H8300_BUILTIN_DTB)' '""'
--core-y += arch/h8300/boot/dts/
--endif
-+core-y	+= arch/$(ARCH)/boot/dts/
-
- libs-y	+= arch/$(ARCH)/lib/
-
- boot := arch/h8300/boot
-
--%.dtb %.dtb.S %.dtb.o: | scripts
--	$(Q)$(MAKE) $(build)=arch/h8300/boot/dts arch/h8300/boot/dts/$@
--
--PHONY += dtbs
--dtbs: scripts
--	$(Q)$(MAKE) $(build)=arch/h8300/boot/dts
--
- archmrproper:
-
- archclean:
-diff --git a/arch/microblaze/Makefile b/arch/microblaze/Makefile
-index 4f3ab5707265..0823d291fbeb 100644
---- a/arch/microblaze/Makefile
-+++ b/arch/microblaze/Makefile
-@@ -65,9 +65,7 @@ boot := arch/microblaze/boot
- # Are we making a simpleImage.<boardname> target? If so, crack out the boardname
- DTB:=$(subst simpleImage.,,$(filter simpleImage.%, $(MAKECMDGOALS)))
-
--ifneq ($(DTB),)
--	core-y	+= $(boot)/dts/
--endif
-+core-y	+= $(boot)/dts/
-
- # defines filename extension depending memory management type
- ifeq ($(CONFIG_MMU),)
-diff --git a/arch/microblaze/boot/dts/Makefile b/arch/microblaze/boot/dts/Makefile
-index 1f77913d404d..fe9af267f598 100644
---- a/arch/microblaze/boot/dts/Makefile
-+++ b/arch/microblaze/boot/dts/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- #
-
-+ifneq ($(DTB),)
- obj-y += linked_dtb.o
-
- # Ensure system.dtb exists
-@@ -11,6 +12,7 @@ ifneq ($(DTB),system)
- $(obj)/system.dtb: $(obj)/$(DTB).dtb
- 	$(call if_changed,cp)
- endif
-+endif
-
- quiet_cmd_cp = CP      $< $@$2
- 	cmd_cp = cat $< >$@$2 || (rm -f $@ && echo false)
-diff --git a/arch/mips/Makefile b/arch/mips/Makefile
-index d74b3742fa5d..d43eeaa6d75b 100644
---- a/arch/mips/Makefile
-+++ b/arch/mips/Makefile
-@@ -407,18 +407,7 @@ endif
- CLEAN_FILES += vmlinux.32 vmlinux.64
-
- # device-trees
--core-$(CONFIG_BUILTIN_DTB) += arch/mips/boot/dts/
--
--%.dtb %.dtb.S %.dtb.o: | scripts
--	$(Q)$(MAKE) $(build)=arch/mips/boot/dts arch/mips/boot/dts/$@
--
--PHONY += dtbs
--dtbs: scripts
--	$(Q)$(MAKE) $(build)=arch/mips/boot/dts
--
--PHONY += dtbs_install
--dtbs_install:
--	$(Q)$(MAKE) $(dtbinst)=arch/mips/boot/dts
-+core-y += arch/mips/boot/dts/
-
- archprepare:
- ifdef CONFIG_MIPS32_N32
-@@ -461,8 +450,6 @@ define archhelp
- 	echo '  uImage.lzma          - U-Boot image (lzma)'
- 	echo '  uImage.lzo           - U-Boot image (lzo)'
- 	echo '  uzImage.bin          - U-Boot image (self-extracting)'
--	echo '  dtbs                 - Device-tree blobs for enabled boards'
--	echo '  dtbs_install         - Install dtbs to $(INSTALL_DTBS_PATH)'
- 	echo
- 	echo '  These will be default as appropriate for a configured platform.'
- 	echo
-diff --git a/arch/nds32/Makefile b/arch/nds32/Makefile
-index 3509fac10491..9f525ed70049 100644
---- a/arch/nds32/Makefile
-+++ b/arch/nds32/Makefile
-@@ -47,7 +47,7 @@ CHECKFLAGS      += -D__NDS32_EB__
- endif
-
- boot := arch/nds32/boot
--core-$(BUILTIN_DTB) += $(boot)/dts/
-+core-y += $(boot)/dts/
-
- .PHONY: FORCE
-
-diff --git a/arch/nios2/Makefile b/arch/nios2/Makefile
-index db2e78fe65c7..52c03e60b114 100644
---- a/arch/nios2/Makefile
-+++ b/arch/nios2/Makefile
-@@ -56,12 +56,6 @@ all: vmImage
- archclean:
- 	$(Q)$(MAKE) $(clean)=$(nios2-boot)
-
--%.dtb %.dtb.S %.dtb.o: | scripts
--	$(Q)$(MAKE) $(build)=$(nios2-boot)/dts $(nios2-boot)/dts/$@
--
--dtbs:
--	$(Q)$(MAKE) $(build)=$(nios2-boot)/dts
--
- $(BOOT_TARGETS): vmlinux
- 	$(Q)$(MAKE) $(build)=$(nios2-boot) $(nios2-boot)/$@
-
-@@ -74,5 +68,4 @@ define archhelp
-   echo  '                     (your) ~/bin/$(INSTALLKERNEL) or'
-   echo  '                     (distribution) /sbin/$(INSTALLKERNEL) or'
-   echo  '                     install to $$(INSTALL_PATH)'
--  echo  '  dtbs            - Build device tree blobs for enabled boards'
- endef
-diff --git a/arch/nios2/boot/Makefile b/arch/nios2/boot/Makefile
-index 0b48f1bf086d..37dfc7e584bc 100644
---- a/arch/nios2/boot/Makefile
-+++ b/arch/nios2/boot/Makefile
-@@ -31,9 +31,5 @@ $(obj)/zImage: $(obj)/compressed/vmlinux FORCE
- $(obj)/compressed/vmlinux: $(obj)/vmlinux.gz FORCE
- 	$(Q)$(MAKE) $(build)=$(obj)/compressed $@
-
--targets += $(dtb-y)
--
--$(obj)/dtbs: $(addprefix $(obj)/, $(dtb-y))
--
- install:
- 	sh $(srctree)/$(src)/install.sh $(KERNELRELEASE) $(BOOTIMAGE) System.map "$(INSTALL_PATH)"
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index 53ea887eb34e..42f225f6ec93 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -293,9 +293,6 @@ $(BOOT_TARGETS2): vmlinux
- bootwrapper_install:
- 	$(Q)$(MAKE) $(build)=$(boot) $(patsubst %,$(boot)/%,$@)
-
--%.dtb: scripts
--	$(Q)$(MAKE) $(build)=$(boot)/dts $(patsubst %,$(boot)/dts/%,$@)
--
- # Used to create 'merged defconfigs'
- # To use it $(call) it with the first argument as the base defconfig
- # and the second argument as a space separated list of .config files to merge,
-diff --git a/arch/xtensa/Makefile b/arch/xtensa/Makefile
-index d67e30faff9c..be060dfb1cc3 100644
---- a/arch/xtensa/Makefile
-+++ b/arch/xtensa/Makefile
-@@ -80,28 +80,18 @@ LIBGCC := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
- head-y		:= arch/xtensa/kernel/head.o
- core-y		+= arch/xtensa/kernel/ arch/xtensa/mm/
- core-y		+= $(buildvar) $(buildplf)
-+core-y 		+= arch/xtensa/boot/dts/
-
- libs-y		+= arch/xtensa/lib/ $(LIBGCC)
- drivers-$(CONFIG_OPROFILE)	+= arch/xtensa/oprofile/
-
--ifneq ($(CONFIG_BUILTIN_DTB),"")
--core-$(CONFIG_OF) += arch/xtensa/boot/dts/
--endif
--
- boot		:= arch/xtensa/boot
-
- all Image zImage uImage: vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $@
-
--%.dtb:
--	$(Q)$(MAKE) $(build)=$(boot)/dts $(boot)/dts/$@
--
--dtbs: scripts
--	$(Q)$(MAKE) $(build)=$(boot)/dts
--
- define archhelp
-   @echo '* Image       - Kernel ELF image with reset vector'
-   @echo '* zImage      - Compressed kernel image (arch/xtensa/boot/images/zImage.*)'
-   @echo '* uImage      - U-Boot wrapped image'
--  @echo '  dtbs        - Build device tree blobs for enabled boards'
- endef
-diff --git a/scripts/Makefile b/scripts/Makefile
-index 61affa300d25..ece52ff20171 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -39,8 +39,7 @@ build_unifdef: $(obj)/unifdef
- subdir-$(CONFIG_MODVERSIONS) += genksyms
- subdir-y                     += mod
- subdir-$(CONFIG_SECURITY_SELINUX) += selinux
--subdir-$(CONFIG_DTC)         += dtc
- subdir-$(CONFIG_GDB_SCRIPTS) += gdb
-
- # Let clean descend into subdirs
--subdir-	+= basic kconfig package gcc-plugins
-+subdir-	+= basic dtc kconfig package gcc-plugins
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 61e596650ed3..8fe4468f9bda 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -283,7 +283,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
-
- quiet_cmd_dtc = DTC     $@
- cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
--	$(CPP) $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
-+	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
- 	$(DTC) -O dtb -o $@ -b 0 \
- 		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
- 		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
-diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
-index 1c943e03eaf2..e535b457babb 100644
---- a/scripts/dtc/Makefile
-+++ b/scripts/dtc/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- # scripts/dtc makefile
-
--hostprogs-y	:= dtc
-+hostprogs-$(CONFIG_DTC) := dtc
- always		:= $(hostprogs-y)
-
- dtc-objs	:= dtc.o flattree.o fstree.o data.o livetree.o treesource.o \
---
-2.17.1
+On Tue, 2018-08-07@16:59 +0300, Eugeniy Paltsev wrote:
+> We process signals in the end of syscall/exception handler.
+> It the signal is fatal we print register's content using
+> show_regs function. show_regs() also prints information about
+> last exception happened.
+> 
+> In case of multicore system we can catch the situation when we
+> will print wrong information about exception. See the example:
+> ______________________________
+> CPU-0: started to handle page fault
+> CPU-1: sent signal to process, which is executed on CPU-0
+> CPU-0: ended page fault handle. Started to process signal before
+>        returnig to userspace. Process signal, which is send from
+>        CPU-0. As th signal is fatal we call show_regs().
+>        show_regs() will show information about last exception
+>        which is *page fault* (instead of "trap" which is used for
+>        signals and happened on CPU-0)
+> 
+> So we will get message like this:
+>    # ./waitpid02
+>   potentially unexpected fatal signal 8.
+>   Path: /home/waitpid02
+>   CPU: 0 PID: 100 Comm: waitpid02 Not tainted 4.10.0-rc4 #2
+>   task: 9f11c200 task.stack: 9f3ae000
+> 
+>   [ECR   ]: 0x00050200 => Invalid Write @ 0x00000000 by insn @ 0x000123ec
+>   [EFA   ]: 0x00000000
+>   [BLINK ]: 0x123ea
+>   [ERET  ]: 0x123ec
+>     @off 0x123ec in [/home/waitpid02]
+>     VMA: 0x00010000 to 0x00016000
+>   [STAT32]: 0x80080882 : IE U
+>   BTA: 0x000123ea  SP: 0x5ffd3db0  FP: 0x00000000
+>   LPS: 0x20031684 LPE: 0x2003169a LPC: 0x00000006
+>   [-----other-info-----]
+> 
+> This message is confusing because it show information about page fault
+> ( [ECR   ]: 0x00050200 => Invalid Write ) which is absolutely irrelevant
+> to signal.
+> 
+> This situation was reproduced with waitpid02 LTP test.
+> _____________________________
+> 
+> So remove printing information about exceptions from show_regs()
+> to avoid confusing messages. Print information about exceptions
+> only in required places instead of show_regs()
+> 
+> Now we don't print information about exceptions if signal is simply
+> send by another userspace app. So in case of waitpid02 we will print
+> next message:
+> _____________________________
+>    # ./waitpid02
+>   potentially unexpected fatal signal 8.
+>   Path: /root/waitpid02
+>   CPU: 2 PID: 105 Comm: waitpid02 Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #17
+>   [ECR   ]: 0x00050100
+>   [EFA   ]: 0x00000000
+>   [BLINK ]: 0x20001486
+>   [-----other-info-----]
+> _____________________________
+> 
+> This patch fix
+> STAR 9001146055: waitpid02: Invalid Write @ 0x00000000 by insn @ 0x000123ec
+> 
+> NOTE:
+> To be more clear I give examples of different faults (signal-based,
+> userspace/kernelspace exception-based) with different values of
+> "/proc/sys/kernel/print-fatal-signals" option.
+> 
+> 0) NULL pointer access from user space, print-fatal-signals == 1:
+> ------------>8---------------
+>  # ./arc_hell
+> Exception: arc_hell[103]: at 0x2003a35c [off 0x2e35c in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
+>   ECR: 0x00050100 => Invalid Read @ 0x00000000 by insn @ 0x2003a35c
+> potentially unexpected fatal signal 11.
+> Path: /root/arc_hell
+> CPU: 1 PID: 103 Comm: arc_hell Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #17
+> [ECR   ]: 0x00050100
+> [EFA   ]: 0x00000000
+> [BLINK ]: 0x20039ef8
+> [ERET  ]: 0x2003a35c
+> [STAT32]: 0x80080882 : IE U
+> BTA: 0x2003a358  SP: 0x5fa27dc4  FP: 0x5fa27de8
+> LPS: 0x2003a628 LPE: 0x2003a62c LPC: 0x00000000
+> r00: 0x00000000 r01: 0x200740b0 r02: 0x00000001
+> r03: 0x00000007 r04: 0x80808080 r05: 0x2f2f2f2f
+> r06: 0x7c7a2f43 r07: 0x00000000 r08: 0x1a131100
+> r09: 0x2008b1e0 r10: 0x20003a5c r11: 0x20004038
+> r12: 0x20039ef8 r13: 0x200740b0 r14: 0x00000000
+> r15: 0x200740b0 r16: 0x00000000 r17: 0x0007d468
+> r18: 0x0009313a r19: 0x00000000 r20: 0x0009c22c
+> r21: 0x0009c23c r22: 0x0009ab64 r23: 0x00000000
+> r24: 0x0009dfc5 r25: 0x20004b70
+> 
+> Segmentation fault
+> ------------>8---------------
+> 
+> 1) NULL pointer access from user space, print-fatal-signals == 0:
+> ------------>8---------------
+>  # ./arc_hell
+> Exception: arc_hell[107]: at 0x2003a35c [off 0x2e35c in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
+>   ECR: 0x00050100 => Invalid Read @ 0x00000000 by insn @ 0x2003a35c
+> Segmentation fault
+> ------------>8---------------
+> 
+> 2) Process killed by signal (waitpid02 test), print-fatal-signals == 1:
+> ------------>8---------------
+>  # ./waitpid02
+> potentially unexpected fatal signal 8.
+> Path: /root/waitpid02
+> CPU: 2 PID: 105 Comm: waitpid02 Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #17
+> [ECR   ]: 0x00050100
+> [EFA   ]: 0x00000000
+> [BLINK ]: 0x20001486
+> [ERET  ]: 0x2000146c
+> [STAT32]: 0x80080082 : IE U
+> BTA: 0x20000fc4  SP: 0x5fa21d64  FP: 0x00000000
+> LPS: 0x200524a0 LPE: 0x200524b6 LPC: 0x00000006
+> r00: 0x2000c0dc r01: 0x00000018 r02: 0x0001159a
+> r03: 0x00000001 r04: 0x00000000 r05: 0x00000045
+> r06: 0x0000004e r07: 0x01010101 r08: 0x000000dc
+> r09: 0x200a31e0 r10: 0x20003a5c r11: 0x20004038
+> r12: 0x20001486 r13: 0x20004174 r14: 0x07ca2bc0
+> r15: 0x20004078 r16: 0x00000000 r17: 0x20004038
+> r18: 0x00000001 r19: 0x00000000 r20: 0x0001159a
+> r21: 0x00000001 r22: 0x00000000 r23: 0x00000004
+> r24: 0x2000d1fc r25: 0x20004cd0
+> ------------>8---------------
+> 
+> 3) Process killed by signal (waitpid02 test), print-fatal-signals == 0:
+> ------------>8---------------
+>  # ./waitpid02
+> ------------>8---------------
+> 
+> 4) NULL pointer access from kernel space, regardless print-fatal-signals
+> value:
+> ------------>8---------------
+> Oops
+> Exception: at stmmac_dvr_probe+0x40/0x7e0:
+>   ECR: 0x00050200 => Invalid Write @ 0x00000000 by insn @ 0x90575254
+> Path: (null)
+> CPU: 0 PID: 1 Comm: swapper/0 Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #11
+> [EFA   ]: 0x00000000
+> [BLINK ]: stmmac_dvr_probe+0x2a/0x7e0
+> [ERET  ]: stmmac_dvr_probe+0x40/0x7e0
+> [STAT32]: 0x80080402 : IE K
+> BTA: 0x9057523e  SP: 0xbf02be40  FP: 0x00000000
+> LPS: 0x9073dbcc LPE: 0x9073dbe0 LPC: 0x00000000
+> r00: 0xbf1f0000 r01: 0x00000000 r02: 0x00000008
+> r03: 0x00000000 r04: 0x00000064 r05: 0x00000000
+> r06: 0x00000003 r07: 0x00000004 r08: 0x01010101
+> r09: 0x00000031 r10: 0xbf1f0006 r11: 0x00000000
+> r12: 0x9057523e
+> 
+> Stack Trace:
+>   stmmac_dvr_probe+0x40/0x7e0
+>   dwmac_generic_probe+0x50/0xbc
+>   platform_drv_probe+0x26/0x5c
+>   really_probe+0x3b0/0x464
+>   __driver_attach+0xd4/0xd8
+>   bus_for_each_dev+0x3a/0x70
+>   bus_add_driver+0x12a/0x18c
+>   driver_register+0x56/0xe8
+>   do_one_initcall+0x2e/0x118
+>   kernel_init_freeable+0x102/0x194
+> ------------>8---------------
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+> 
+> NOTE:
+>   This patch has prerequisites:
+>   https://www.mail-archive.com/linux-snps-arc at lists.infradead.org/msg03938.html
+>   https://www.mail-archive.com/linux-snps-arc at lists.infradead.org/msg03937.html
+> 
+> Changes v1->v2:
+>  * Change format of message about exception.
+> 
+>  arch/arc/include/asm/bug.h     |  1 +
+>  arch/arc/kernel/traps.c        |  1 +
+>  arch/arc/kernel/troubleshoot.c | 51 +++++++++++++++++++++++++++++++++---------
+>  arch/arc/mm/fault.c            |  2 ++
+>  4 files changed, 44 insertions(+), 11 deletions(-)
+> 
+> diff --git a/arch/arc/include/asm/bug.h b/arch/arc/include/asm/bug.h
+> index 21ec82466d62..b68f7f82f2d8 100644
+> --- a/arch/arc/include/asm/bug.h
+> +++ b/arch/arc/include/asm/bug.h
+> @@ -16,6 +16,7 @@
+>  struct task_struct;
+>  
+>  void show_regs(struct pt_regs *regs);
+> +void show_exception_mesg(struct pt_regs *regs);
+>  void show_stacktrace(struct task_struct *tsk, struct pt_regs *regs);
+>  void show_kernel_fault_diag(const char *str, struct pt_regs *regs,
+>  			    unsigned long address);
+> diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
+> index b123558bf0bb..5d83b2fe5f12 100644
+> --- a/arch/arc/kernel/traps.c
+> +++ b/arch/arc/kernel/traps.c
+> @@ -50,6 +50,7 @@ unhandled_exception(const char *str, struct pt_regs *regs, siginfo_t *info)
+>  		tsk->thread.fault_address = (__force unsigned int)info->si_addr;
+>  
+>  		force_sig_info(info->si_signo, info, tsk);
+> +		show_exception_mesg(regs);
+>  
+>  	} else {
+>  		/* If not due to copy_(to|from)_user, we are doomed */
+> diff --git a/arch/arc/kernel/troubleshoot.c b/arch/arc/kernel/troubleshoot.c
+> index e8d9fb452346..fdfba1942a06 100644
+> --- a/arch/arc/kernel/troubleshoot.c
+> +++ b/arch/arc/kernel/troubleshoot.c
+> @@ -101,13 +101,13 @@ static void show_faulting_vma(unsigned long address, char *buf)
+>  			if (IS_ERR(nm))
+>  				nm = "?";
+>  		}
+> -		pr_info("    @off 0x%lx in [%s]\n"
+> -			"    VMA: 0x%08lx to 0x%08lx\n",
+> +
+> +		pr_cont("[off 0x%lx in %s, VMA: %08lx:%08lx] ",
+>  			vma->vm_start < TASK_UNMAPPED_BASE ?
+>  				address : address - vma->vm_start,
+>  			nm, vma->vm_start, vma->vm_end);
+>  	} else
+> -		pr_info("    @No matching VMA found\n");
+> +		pr_cont("[No matching VMA found] ");
+>  
+>  	up_read(&active_mm->mmap_sem);
+>  }
+> @@ -117,7 +117,7 @@ static void show_ecr_verbose(struct pt_regs *regs)
+>  	unsigned int vec, cause_code;
+>  	unsigned long address;
+>  
+> -	pr_info("\n[ECR   ]: 0x%08lx => ", regs->event);
+> +	pr_cont("\n  ECR: 0x%08lx => ", regs->event);
+>  
+>  	/* For Data fault, this is data address not instruction addr */
+>  	address = current->thread.fault_address;
+> @@ -165,10 +165,42 @@ static void show_ecr_verbose(struct pt_regs *regs)
+>  	}
+>  }
+>  
+> +static inline void show_exception_mesg_u(struct pt_regs *regs)
+> +{
+> +	struct task_struct *tsk = current;
+> +	char *buf;
+> +
+> +	pr_info("Exception: %s[%d]: at %pS ",
+> +		tsk->comm, task_pid_nr(tsk), (void *)regs->ret);
+> +
+> +	buf = (char *)__get_free_page(GFP_NOWAIT);
+> +	if (buf) {
+> +		show_faulting_vma(regs->ret, buf);
+> +		free_page((unsigned long)buf);
+> +	}
+> +
+> +	show_ecr_verbose(regs);
+> +}
+> +
+> +static inline void show_exception_mesg_k(struct pt_regs *regs)
+> +{
+> +	pr_info("Exception: at %pS:", (void *)regs->ret);
+> +
+> +	show_ecr_verbose(regs);
+> +}
+> +
+>  /************************************************************************
+>   *  API called by rest of kernel
+>   ***********************************************************************/
+>  
+> +void show_exception_mesg(struct pt_regs *regs)
+> +{
+> +	if (user_mode(regs))
+> +		show_exception_mesg_u(regs);
+> +	else
+> +		show_exception_mesg_k(regs);
+> +}
+> +
+>  void show_regs(struct pt_regs *regs)
+>  {
+>  	struct task_struct *tsk = current;
+> @@ -182,15 +214,10 @@ void show_regs(struct pt_regs *regs)
+>  	print_task_path_n_nm(tsk, buf);
+>  	show_regs_print_info(KERN_INFO);
+>  
+> -	show_ecr_verbose(regs);
+> -
+> -	pr_info("[EFA   ]: 0x%08lx\n[BLINK ]: %pS\n[ERET  ]: %pS\n",
+> -		current->thread.fault_address,
+> +	pr_info("[ECR   ]: 0x%08lx\n[EFA   ]: 0x%08lx\n[BLINK ]: %pS\n[ERET  ]: %pS\n",
+> +		regs->event, current->thread.fault_address,
+>  		(void *)regs->blink, (void *)regs->ret);
+>  
+> -	if (user_mode(regs))
+> -		show_faulting_vma(regs->ret, buf); /* faulting code, not data */
+> -
+>  	pr_info("[STAT32]: 0x%08lx", regs->status32);
+>  
+>  #define STS_BIT(r, bit)	r->status32 & STATUS_##bit##_MASK ? #bit" " : ""
+> @@ -233,6 +260,8 @@ void show_kernel_fault_diag(const char *str, struct pt_regs *regs,
+>  	/* Show fault description */
+>  	pr_info("\n%s\n", str);
+>  
+> +	show_exception_mesg(regs);
+> +
+>  	/* Caller and Callee regs */
+>  	show_regs(regs);
+>  
+> diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
+> index b884bbd6f354..d9c6958a1702 100644
+> --- a/arch/arc/mm/fault.c
+> +++ b/arch/arc/mm/fault.c
+> @@ -202,6 +202,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+>  		/* info.si_code has been set above */
+>  		info.si_addr = (void __user *)address;
+>  		force_sig_info(SIGSEGV, &info, tsk);
+> +		show_exception_mesg(regs);
+>  		return;
+>  	}
+>  
+> @@ -241,4 +242,5 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+>  	info.si_code = BUS_ADRERR;
+>  	info.si_addr = (void __user *)address;
+>  	force_sig_info(SIGBUS, &info, tsk);
+> +	show_exception_mesg(regs);
+>  }
+-- 
+ Eugeniy Paltsev
