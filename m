@@ -1,68 +1,66 @@
-From: linux@roeck-us.net (Guenter Roeck)
-Date: Wed, 12 Sep 2018 16:58:32 -0000
-Subject: [PATCH] ARCv2: build: use mcpu=hs38 iso generic mcpu=archs
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Mon, 1 Oct 2018 09:53:15 +0200
+Subject: [PATCH v3 6/9] kbuild: consolidate Devicetree dtb build rules
+In-Reply-To: <CAL_JsqKLOohxGx0Je9niMQ5H3o0Y=EcMQTB6YkbV0sfUOZHu8g@mail.gmail.com>
+References: <20180910150403.19476-1-robh@kernel.org>
+ <20180910150403.19476-7-robh@kernel.org>
+ <CAL_Jsq+=VbdcVLiwXbOA5d+R2YY6=2Pw2bQpci-jj-JvereD1A@mail.gmail.com>
+ <CAK7LNAQFqhWw+LwDoypGG=OP6tH4qf2tT=LvtchK2GoiNyzDXg@mail.gmail.com>
+ <CAMuHMdWEnoh97_jiDWMq=ke4PrhSFbToYnx91CPLBuq3mOGzoQ@mail.gmail.com>
+ <75740733-d0d4-4c0c-838c-f01a5e7291d3@suse.de>
+ <CAL_JsqKLOohxGx0Je9niMQ5H3o0Y=EcMQTB6YkbV0sfUOZHu8g@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20180912165817.GA5118@roeck-us.net>
+Message-ID: <CAMuHMdW_+PNZrh5JXo8MxVwg3YSZL7bszMcUJjCqMFfBz8HDPQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+On Fri, Sep 28, 2018@8:42 PM Rob Herring <robh@kernel.org> wrote:
+> On Fri, Sep 28, 2018@12:21 PM Andreas F?rber <afaerber@suse.de> wrote:
+> > Am 13.09.18 um 17:51 schrieb Geert Uytterhoeven:
+> > > On Wed, Sep 12, 2018 at 3:02 AM Masahiro Yamada
+> > > <yamada.masahiro@socionext.com> wrote:
+> > >> Even x86 can enable OF and OF_UNITTEST.
+> > >>
+> > >> Another solution might be,
+> > >> guard it by 'depends on ARCH_SUPPORTS_OF'.
+> > >>
+> > >> This is actually what ACPI does.
+> > >>
+> > >> menuconfig ACPI
+> > >>         bool "ACPI (Advanced Configuration and Power Interface) Support"
+> > >>         depends on ARCH_SUPPORTS_ACPI
+> > >>          ...
+> > >
+> > > ACPI is a real platform feature, as it depends on firmware.
+> > >
+> > > CONFIG_OF can be enabled, and DT overlays can be loaded, on any platform,
+> > > even if it has ACPI ;-)
+> >
+> > How would loading a DT overlay work on an ACPI platform? I.e., what
+> > would it overlay against and how to practically load such a file?
+>
+> The DT unittests do just that. I run them on x86 and UM builds. In
+> this case, the loading source is built-in.
+>
+> > I wonder whether that could be helpful for USB devices and serdev...
+>
+> How to load the overlays is pretty orthogonal to the issues to be
+> solved here. It would certainly be possible to move forward with
+> prototyping this and just have the overlay built-in. It may not even
+> need to be an overlay if we can support multiple root nodes.
 
-On Fri, Sep 07, 2018@03:13:10PM -0700, Vineet Gupta wrote:
-> helps gcc with better instruction selections such as 64-bit multiply MPYD
-> 
-> before
-> ------
-> 82c34b58 <sched_clock>:
-> 82c34b58:	ld	r2,[0x83068d00]
-> 82c34b60:	add_s	r2,r2,0x7530
-> 82c34b66:	mov_s	r0,0x989680
-> 82c34b6c:	mpymu	r5,r2,r0
-> 82c34b70:	mpy	r4,r2,r0
-> 82c34b74:	mov_s	r0,r4
-> 82c34b76:	j_s.d	[blink]
-> 82c34b78:	mov_s	r1,r5
-> 82c34b7a:	nop_s
-> 
-> after
-> ------
-> 82c34b7c <sched_clock>:
-> 82c34b7c:	ld	r0,[0x83064d00]
-> 82c34b84:	add_s	r0,r0,0x7530
-> 82c34b8a:	mpydu	r0,r0,0x989680
-> 82c34b92:	j_s	[blink]
-> 
-> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+You indeed need to refer to some anchors for most use cases, although a
+simple MMIO device could just be anchored to the root node.
 
-This patch causes my arc2 test builds to fail
+Topologies hanging off a USB device would be my first use case, too,
+for serdev, or for e.g. the mcp2210 USB-SPI bridge.
 
-Building arc:axs103_defconfig ... failed
---------------
-Error log:
+Gr{oetje,eeting}s,
 
-standard input}: Assembler messages:
-{standard input}:154: Error: inappropriate arguments for opcode 'st'
-{standard input}:157: Error: Insn j_s has a jump/branch instruction j_s in its delay slot.
-{standard input}:186: Error: inappropriate arguments for opcode 'st'
-make[3]: *** [net/core/dev.o] Error 1
-make[2]: *** [net/core] Error 2
+                        Geert
 
-Building arc:nsim_hs_smp_defconfig ... failed
---------------
-Error log:
-{standard input}: Assembler messages:
-{standard input}:218: Error: inappropriate arguments for opcode 'st'
-{standard input}:9329: Error: inappropriate arguments for opcode 'st'
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
 
-Building arc:vdk_hs38_smp_defconfig ... failed
---------------
-Error log:
-
-{standard input}: Assembler messages:
-{standard input}:9629: Error: inappropriate arguments for opcode 'st'
-{standard input}:9883: Error: inappropriate arguments for opcode 'st'
-
-I use a toolchain based on gcc 7.3.0 and binutils 2.30. What version
-of gcc and binutils do I need for the builds to complete ?
-
-Thanks,
-Guenter
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
