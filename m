@@ -1,66 +1,61 @@
-From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Mon, 1 Oct 2018 09:53:15 +0200
-Subject: [PATCH v3 6/9] kbuild: consolidate Devicetree dtb build rules
-In-Reply-To: <CAL_JsqKLOohxGx0Je9niMQ5H3o0Y=EcMQTB6YkbV0sfUOZHu8g@mail.gmail.com>
-References: <20180910150403.19476-1-robh@kernel.org>
- <20180910150403.19476-7-robh@kernel.org>
- <CAL_Jsq+=VbdcVLiwXbOA5d+R2YY6=2Pw2bQpci-jj-JvereD1A@mail.gmail.com>
- <CAK7LNAQFqhWw+LwDoypGG=OP6tH4qf2tT=LvtchK2GoiNyzDXg@mail.gmail.com>
- <CAMuHMdWEnoh97_jiDWMq=ke4PrhSFbToYnx91CPLBuq3mOGzoQ@mail.gmail.com>
- <75740733-d0d4-4c0c-838c-f01a5e7291d3@suse.de>
- <CAL_JsqKLOohxGx0Je9niMQ5H3o0Y=EcMQTB6YkbV0sfUOZHu8g@mail.gmail.com>
+From: daniel@ffwll.ch (Daniel Vetter)
+Date: Mon, 1 Oct 2018 10:14:08 +0200
+Subject: [PATCH] DRM: UDL: get rid of useless vblank initialization
+In-Reply-To: <20180928144126.21598-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180928144126.21598-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdW_+PNZrh5JXo8MxVwg3YSZL7bszMcUJjCqMFfBz8HDPQ@mail.gmail.com>
+Message-ID: <20181001081408.GV11082@phenom.ffwll.local>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Sep 28, 2018@8:42 PM Rob Herring <robh@kernel.org> wrote:
-> On Fri, Sep 28, 2018@12:21 PM Andreas F?rber <afaerber@suse.de> wrote:
-> > Am 13.09.18 um 17:51 schrieb Geert Uytterhoeven:
-> > > On Wed, Sep 12, 2018 at 3:02 AM Masahiro Yamada
-> > > <yamada.masahiro@socionext.com> wrote:
-> > >> Even x86 can enable OF and OF_UNITTEST.
-> > >>
-> > >> Another solution might be,
-> > >> guard it by 'depends on ARCH_SUPPORTS_OF'.
-> > >>
-> > >> This is actually what ACPI does.
-> > >>
-> > >> menuconfig ACPI
-> > >>         bool "ACPI (Advanced Configuration and Power Interface) Support"
-> > >>         depends on ARCH_SUPPORTS_ACPI
-> > >>          ...
-> > >
-> > > ACPI is a real platform feature, as it depends on firmware.
-> > >
-> > > CONFIG_OF can be enabled, and DT overlays can be loaded, on any platform,
-> > > even if it has ACPI ;-)
-> >
-> > How would loading a DT overlay work on an ACPI platform? I.e., what
-> > would it overlay against and how to practically load such a file?
->
-> The DT unittests do just that. I run them on x86 and UM builds. In
-> this case, the loading source is built-in.
->
-> > I wonder whether that could be helpful for USB devices and serdev...
->
-> How to load the overlays is pretty orthogonal to the issues to be
-> solved here. It would certainly be possible to move forward with
-> prototyping this and just have the overlay built-in. It may not even
-> need to be an overlay if we can support multiple root nodes.
+On Fri, Sep 28, 2018@05:41:26PM +0300, Eugeniy Paltsev wrote:
+> UDL doesn't support vblank functionality so we don't need to
+> initialize vblank here (we are able to send page flip
+> completion events even without vblank initialization)
+> 
+> Moreover current drm_vblank_init call with num_crtcs > 0 causes
+> sending DRM_EVENT_FLIP_COMPLETE event with zero timestamp every
+> time. This breaks userspace apps (for example weston) which
+> relies on timestamp value.
+> 
+> Cc: stable at vger.kernel.org
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 
-You indeed need to refer to some anchors for most use cases, although a
-simple MMIO device could just be anchored to the root node.
+Reviewed-by: Daniel Vetter <daniel.vetter at ffwll.ch>
 
-Topologies hanging off a USB device would be my first use case, too,
-for serdev, or for e.g. the mcp2210 USB-SPI bridge.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> ---
+>  drivers/gpu/drm/udl/udl_main.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+> index f455f095a146..1b014d92855b 100644
+> --- a/drivers/gpu/drm/udl/udl_main.c
+> +++ b/drivers/gpu/drm/udl/udl_main.c
+> @@ -350,15 +350,10 @@ int udl_driver_load(struct drm_device *dev, unsigned long flags)
+>  	if (ret)
+>  		goto err;
+>  
+> -	ret = drm_vblank_init(dev, 1);
+> -	if (ret)
+> -		goto err_fb;
+> -
+>  	drm_kms_helper_poll_init(dev);
+>  
+>  	return 0;
+> -err_fb:
+> -	udl_fbdev_cleanup(dev);
+> +
+>  err:
+>  	if (udl->urbs.count)
+>  		udl_free_urb_list(dev);
+> -- 
+> 2.14.4
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel at lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
