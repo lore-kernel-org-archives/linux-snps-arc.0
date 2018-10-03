@@ -1,112 +1,139 @@
-From: daniel@ffwll.ch (Daniel Vetter)
-Date: Wed, 3 Oct 2018 17:29:34 +0200
-Subject: [PATCH] drm: fb-helper: Validate requested pixel format against
- bpp
-In-Reply-To: <1538577004.11140.5.camel@synopsys.com>
-References: <20181003110457.9318-1-Eugeniy.Paltsev@synopsys.com>
- <CAKMK7uFP3bMcNSY2L9ZmvFPz6KB51_gMnZ-b7FPCz3NEOafi=w@mail.gmail.com>
- <20181003123047.GK9144@intel.com> <1538577004.11140.5.camel@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed,  3 Oct 2018 19:45:38 +0300
+Subject: [PATCH v2] drm: fb-helper: Reject all pixel format changing requests
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAKMK7uGEGQbg=Us3_C25JXvKR084fP0qLif1hHttMYq=xNAZ7g@mail.gmail.com>
+Message-ID: <20181003164538.5534-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Oct 3, 2018 at 4:30 PM Eugeniy Paltsev
-<eugeniy.paltsev@synopsys.com> wrote:
->
-> On Wed, 2018-10-03@15:30 +0300, Ville Syrj?l? wrote:
-> > On Wed, Oct 03, 2018@01:36:00PM +0200, Daniel Vetter wrote:
-> > > On Wed, Oct 3, 2018 at 1:05 PM Eugeniy Paltsev
-> > > <Eugeniy.Paltsev@synopsys.com> wrote:
-> > > >
-> > > > Validate requested pixel format against bits_per_pixel to reject
-> > > > invalid formats with subcomponents length sum is greater than requested
-> > > > bits_per_pixel.
-> > > >
-> > > > weston 5.0.0 with fbdev backend tries to set up an ARGB x8r8g8b8 pixel
-> > > > format without bits_per_pixel updating. So it can request
-> > > > x8r8g8b8 with 16 bpp which is obviously incorrect and should be
-> > > > rejected.
-> > > >
-> > > > Cc: stable at vger.kernel.org
-> > > > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> > >
-> > > drm fbdev emulation doesn't support changing the pixel format at all.
-> > > I think we should reject all such request, not just the invalid ones.
-> > > Can you pls respin?
-> >
-> > FYI I once posted a patch to tighten up the fb-helper pixel format
-> > stuff:
-> > https://patchwork.freedesktop.org/patch/203189/
->
->
-> Hi Daniel,
->
-> will you take Ville's patch or should I create the new one which is only related
-> to new pixel format validation in drm_fb_helper_check_var() ?
+drm fbdev emulation doesn't support changing the pixel format at all,
+so reject all pixel format changing requests.
 
-Ville's patch isn't the bugfix we're looking for, but a draft version
-of what adding proper format support in drm's fbdev emulation could
-look like. With lots&lots of open questions. Not anywhere near ready
-for merging, and definitely not stable backport material.
+Cc: stable at vger.kernel.org
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+Changes v1->v2:
+ * Reject all pixel format changing request, not just the invalid ones.
 
-So yes, still want the minimal bugfix.
--Daniel
+ drivers/gpu/drm/drm_fb_helper.c | 91 ++++++++++++-----------------------------
+ 1 file changed, 26 insertions(+), 65 deletions(-)
 
->
->
-> > > Thanks, Daniel
-> > >
-> > > > ---
-> > > >  drivers/gpu/drm/drm_fb_helper.c | 7 +++++++
-> > > >  1 file changed, 7 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> > > > index 16ec93b75dbf..4f39da07f053 100644
-> > > > --- a/drivers/gpu/drm/drm_fb_helper.c
-> > > > +++ b/drivers/gpu/drm/drm_fb_helper.c
-> > > > @@ -1610,6 +1610,13 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
-> > > >                 return -EINVAL;
-> > > >         }
-> > > >
-> > > > +       if ((var->green.length + var->blue.length + var->red.length +
-> > > > +           var->transp.length) > var->bits_per_pixel) {
-> > > > +               DRM_DEBUG("fb requested pixel format can't fit in %d bpp\n",
-> > > > +                         var->bits_per_pixel);
-> > > > +               return -EINVAL;
-> > > > +       }
-> > > > +
-> > > >         switch (var->bits_per_pixel) {
-> > > >         case 16:
-> > > >                 depth = (var->green.length == 6) ? 16 : 15;
-> > > > --
-> > > > 2.14.4
-> > > >
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel at lists.freedesktop.org
-> > > > https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.freedesktop.org_mailman_listinfo_dri-2Ddevel&d=DwIDAw&c=DPL6_X_6JkXFx7AXWqB0tg&r=ZlJN
-> > > > 1MriPUTkBKCrPSx67GmaplEUGcAEk9yPtCLdUXI&m=f12ZyEESIeavtqCUKutiZ9F6xtRFC2UUvdqnM4ywBx8&s=CPS8taMiYbIgXo-fxhqErOJXvO6PMTzmr-BNnGJIoy0&e=
-> > >
-> > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > +41 (0) 79 365 57 48 - https://urldefense.proofpoint.com/v2/url?u=http-3A__blog.ffwll.ch&d=DwIDAw&c=DPL6_X_6JkXFx7AXWqB0tg&r=ZlJN1MriPUTkBKCrPSx67
-> > > GmaplEUGcAEk9yPtCLdUXI&m=f12ZyEESIeavtqCUKutiZ9F6xtRFC2UUvdqnM4ywBx8&s=Vt8OX9s9ljSK6GDgbnwsF-Yd35fbBUfe8SBV2jPnVaQ&e=
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel at lists.freedesktop.org
-> > > https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.freedesktop.org_mailman_listinfo_dri-2Ddevel&d=DwIDAw&c=DPL6_X_6JkXFx7AXWqB0tg&r=ZlJN1M
-> > > riPUTkBKCrPSx67GmaplEUGcAEk9yPtCLdUXI&m=f12ZyEESIeavtqCUKutiZ9F6xtRFC2UUvdqnM4ywBx8&s=CPS8taMiYbIgXo-fxhqErOJXvO6PMTzmr-BNnGJIoy0&e=
-> >
-> >
-> --
->  Eugeniy Paltsev
-
-
-
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 16ec93b75dbf..48598d7f673f 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -1580,6 +1580,25 @@ int drm_fb_helper_ioctl(struct fb_info *info, unsigned int cmd,
+ }
+ EXPORT_SYMBOL(drm_fb_helper_ioctl);
+ 
++static bool drm_fb_pixel_format_equal(const struct fb_var_screeninfo *var_1,
++				      const struct fb_var_screeninfo *var_2)
++{
++	return var_1->bits_per_pixel == var_2->bits_per_pixel &&
++	       var_1->grayscale == var_2->grayscale &&
++	       var_1->red.offset == var_2->red.offset &&
++	       var_1->red.length == var_2->red.length &&
++	       var_1->red.msb_right == var_2->red.msb_right &&
++	       var_1->green.offset == var_2->green.offset &&
++	       var_1->green.length == var_2->green.length &&
++	       var_1->green.msb_right == var_2->green.msb_right &&
++	       var_1->blue.offset == var_2->blue.offset &&
++	       var_1->blue.length == var_2->blue.length &&
++	       var_1->blue.msb_right == var_2->blue.msb_right &&
++	       var_1->transp.offset == var_2->transp.offset &&
++	       var_1->transp.length == var_2->transp.length &&
++	       var_1->transp.msb_right == var_2->transp.msb_right;
++}
++
+ /**
+  * drm_fb_helper_check_var - implementation for &fb_ops.fb_check_var
+  * @var: screeninfo to check
+@@ -1590,7 +1609,6 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+ {
+ 	struct drm_fb_helper *fb_helper = info->par;
+ 	struct drm_framebuffer *fb = fb_helper->fb;
+-	int depth;
+ 
+ 	if (var->pixclock != 0 || in_dbg_master())
+ 		return -EINVAL;
+@@ -1610,72 +1628,15 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+ 		return -EINVAL;
+ 	}
+ 
+-	switch (var->bits_per_pixel) {
+-	case 16:
+-		depth = (var->green.length == 6) ? 16 : 15;
+-		break;
+-	case 32:
+-		depth = (var->transp.length > 0) ? 32 : 24;
+-		break;
+-	default:
+-		depth = var->bits_per_pixel;
+-		break;
+-	}
+-
+-	switch (depth) {
+-	case 8:
+-		var->red.offset = 0;
+-		var->green.offset = 0;
+-		var->blue.offset = 0;
+-		var->red.length = 8;
+-		var->green.length = 8;
+-		var->blue.length = 8;
+-		var->transp.length = 0;
+-		var->transp.offset = 0;
+-		break;
+-	case 15:
+-		var->red.offset = 10;
+-		var->green.offset = 5;
+-		var->blue.offset = 0;
+-		var->red.length = 5;
+-		var->green.length = 5;
+-		var->blue.length = 5;
+-		var->transp.length = 1;
+-		var->transp.offset = 15;
+-		break;
+-	case 16:
+-		var->red.offset = 11;
+-		var->green.offset = 5;
+-		var->blue.offset = 0;
+-		var->red.length = 5;
+-		var->green.length = 6;
+-		var->blue.length = 5;
+-		var->transp.length = 0;
+-		var->transp.offset = 0;
+-		break;
+-	case 24:
+-		var->red.offset = 16;
+-		var->green.offset = 8;
+-		var->blue.offset = 0;
+-		var->red.length = 8;
+-		var->green.length = 8;
+-		var->blue.length = 8;
+-		var->transp.length = 0;
+-		var->transp.offset = 0;
+-		break;
+-	case 32:
+-		var->red.offset = 16;
+-		var->green.offset = 8;
+-		var->blue.offset = 0;
+-		var->red.length = 8;
+-		var->green.length = 8;
+-		var->blue.length = 8;
+-		var->transp.length = 8;
+-		var->transp.offset = 24;
+-		break;
+-	default:
++	/*
++	 * drm fbdev emulation doesn't support changing the pixel format at all,
++	 * so reject all pixel format changing requests.
++	 */
++	if (!drm_fb_pixel_format_equal(var, &info->var)) {
++		DRM_DEBUG("fbdev emulation doesn't support changing the pixel format\n");
+ 		return -EINVAL;
+ 	}
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_fb_helper_check_var);
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+2.14.4
