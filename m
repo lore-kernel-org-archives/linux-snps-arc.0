@@ -1,23 +1,16 @@
-From: daniel@ffwll.ch (Daniel Vetter)
-Date: Thu, 4 Oct 2018 09:56:14 +0200
+From: ville.syrjala@linux.intel.com (Ville =?iso-8859-1?Q?Syrj=E4l=E4?=)
+Date: Thu, 4 Oct 2018 13:34:22 +0300
 Subject: [PATCH v2] drm: fb-helper: Reject all pixel format changing
  requests
 In-Reply-To: <20181003164538.5534-1-Eugeniy.Paltsev@synopsys.com>
 References: <20181003164538.5534-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181004075614.GH31561@phenom.ffwll.local>
+Message-ID: <20181004103422.GL9144@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
 On Wed, Oct 03, 2018@07:45:38PM +0300, Eugeniy Paltsev wrote:
 > drm fbdev emulation doesn't support changing the pixel format at all,
 > so reject all pixel format changing requests.
-
-For next time around: Please keep the note here why we need this and what
-the impact is. Otherwise it's not immediately clear why we should backport
-this patch to all stable kernels.
-
-I'll gather a few acks and then apply.
--Daniel
 > 
 > Cc: stable at vger.kernel.org
 > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
@@ -54,6 +47,14 @@ I'll gather a few acks and then apply.
 > +	       var_1->transp.length == var_2->transp.length &&
 > +	       var_1->transp.msb_right == var_2->transp.msb_right;
 > +}
+
+Could have shortened a bit with memcmp() but this works too.
+
+Reviewed-by: Ville Syrj?l? <ville.syrjala at linux.intel.com>
+
+I suppose we really should be doing the same for most of the rest of
+var_screeninfo as we don't allow changing the timings/etc. either.
+
 > +
 >  /**
 >   * drm_fb_helper_check_var - implementation for &fb_ops.fb_check_var
@@ -155,6 +156,5 @@ I'll gather a few acks and then apply.
 > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ville Syrj?l?
+Intel
