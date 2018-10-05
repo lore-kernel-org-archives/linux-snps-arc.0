@@ -1,69 +1,44 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 5 Oct 2018 14:19:21 -0700
-Subject: [PATCH] ARC: clone syscall to setp r25 as thread pointer
+Date: Fri, 5 Oct 2018 22:56:52 +0000
+Subject: [PATCH] ARC: IOC: panic if kernel was started with previously
+ enabled IOC
+References: <20181004131212.16405-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1538774361-9306-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B09B9EF@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Per ARC TLS ABI, r25 is designated TP (thread pointer register).
-However so far kernel didn't do any special treatment, like setting up
-usermode r25, even for CLONE_SETTLS. We instead relied on libc runtime
-to do this, in say clone libc wrapper [1]. This was deliberate to keep
-kernel ABI agnostic (userspace could potentially change TP, specially
-for different ARC ISA say ARCompact vs. ARCv2 with different spare
-registers etc)
+On 10/04/2018 06:12 AM, Eugeniy Paltsev wrote:
+>  
+> diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+> index f2701c13a66b..ee7b63e9c5e3 100644
+> --- a/arch/arc/mm/cache.c
+> +++ b/arch/arc/mm/cache.c
+> @@ -1144,6 +1144,25 @@ noinline void __init arc_ioc_setup(void)
+>  {
+>  	unsigned int ioc_base, mem_sz;
+>  
+> +	/*
+> +	 * Disabling and reconfiguring of IOC are quite a tricky actions because
+> +	 * nobody knows what happens if there're IOC-ahndled tarnsactions in
+> +	 * flight when we're disabling IOC.
+> +	 *
+> +	 * And the problem is external DMA masters [that were initialized and
+> +	 * set in a bootlaoder that was executed before we got here] might
+> +	 * continue to send data to memory even at this point and we have
+> +	 * no way to prevent that.
+> +	 *
+> +	 * That said it's much safer to not enable IOC at all anywhere before
+> +	 * Linux kernel.
+> +	 */
+> +	if (read_aux_reg(ARC_REG_IO_COH_ENABLE) & ARC_IO_COH_ENABLE_BIT)
+> +		panic("kernel was started with previously enabled IOC!\n");
 
-However userspace setting up r25, after clone syscall opens a race, if
-child is not scheduled and gets a signal instead. It starts off in
-userspace not in clone but in a signal handler and anything TP sepcific
-there such as pthread_self() fails which showed up with uClibc
-testsuite nptl/tst-kill6 [2]
+While I understand the needs, this seems excessive, should we warm the user,
+instead of panic ? Did you run into specific issue to warrant this !
 
-Fix this by having kernel populate r25 to TP value. So this locks in
-ABI, but it was not going to change anyways, and fwiw is same for both
-ARCompact (arc700 core) and ARCvs (HS3x cores)
+OTOH in recent past more than 1 person ran into some hsdk uboot shenanigans, where
+we had to upgrade the uboot to get it working with prebuit images - is that what
+you are trying to prevent here - panic early instead of random user errors / hangs
+later ?
 
-[1] https://cgit.uclibc-ng.org/cgi/cgit/uclibc-ng.git/tree/libc/sysdeps/linux/arc/clone.S
-[2] https://github.com/wbx-github/uclibc-ng-test/blob/master/test/nptl/tst-kill6.c
-
-Fixes: ARC STAR 9001378481
-Cc: stable at vger.kernel.org
-Reported-by: Nikita Sobolev <sobolev at synopsys.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/kernel/process.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
-index 4674541eba3f..c29fa8ceb2d6 100644
---- a/arch/arc/kernel/process.c
-+++ b/arch/arc/kernel/process.c
-@@ -241,6 +241,26 @@ int copy_thread(unsigned long clone_flags,
- 		task_thread_info(current)->thr_ptr;
- 	}
- 
-+
-+	/*
-+	 * setup usermode thread pointer #1:
-+	 * when child is picked by scheduler, __switch_to() uses @c_callee to
-+	 * populate usermode callee regs: this is fine even despite being in a
-+	 * kernel function since special return path for child @ret_from_fork()
-+	 * ensures those regs are not clobbered all the way to RTIE to usermode
-+	 */
-+	c_callee->r25 = task_thread_info(p)->thr_ptr;
-+
-+#ifdef CONFIG_ARC_CURR_IN_REG
-+	/*
-+	 * setup usermode thread pointer #2:
-+	 *   however for this special use of r25 in kernel, __switch_to() sets
-+	 *   r25 for kernel needs and only in the final return path is usermode
-+	 *   r25 setup, from pt_regs->user_r25. So set that up as well
-+	 */
-+	c_regs->user_r25 = c_callee->r25;
-+#endif
-+
- 	return 0;
- }
- 
--- 
-2.7.4
+-Vineet
