@@ -1,43 +1,69 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 4 Oct 2018 16:19:16 +0000
-Subject: [PATCH v3] devres: Explicitly align datai[] to 64-bit
-In-Reply-To: <4f6e9e8bf60f05872afaed4a1d8e516331e95ea7.camel@synopsys.com>
-References: <20180709134550.29541-1-abrodkin@synopsys.com>
- <20180709140717.GR2476@hirez.programming.kicks-ass.net>
- <20180709141056.GR2512@hirez.programming.kicks-ass.net>
- <44727d3cebda7bee5b68fb388bd2fecfc6dc7b89.camel@synopsys.com>
- <20180709144925.GU2476@hirez.programming.kicks-ass.net>
- <4f6e9e8bf60f05872afaed4a1d8e516331e95ea7.camel@synopsys.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 5 Oct 2018 14:19:21 -0700
+Subject: [PATCH] ARC: clone syscall to setp r25 as thread pointer
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <ad4f865a92828c3226628a0e378ca2fb4054e96a.camel@synopsys.com>
+Message-ID: <1538774361-9306-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Peter,
+Per ARC TLS ABI, r25 is designated TP (thread pointer register).
+However so far kernel didn't do any special treatment, like setting up
+usermode r25, even for CLONE_SETTLS. We instead relied on libc runtime
+to do this, in say clone libc wrapper [1]. This was deliberate to keep
+kernel ABI agnostic (userspace could potentially change TP, specially
+for different ARC ISA say ARCompact vs. ARCv2 with different spare
+registers etc)
 
-On Mon, 2018-07-09@17:53 +0300, Alexey Brodkin wrote:
-> Hi Peter,
-> 
-> On Mon, 2018-07-09@16:49 +0200, Peter Zijlstra wrote:
-> > On Mon, Jul 09, 2018@02:33:26PM +0000, Alexey Brodkin wrote:
-> > > > In fact, since alloc_dr() uses kmalloc() to allocate the entire thing,
-> > > > it is impossible to guarantee a larger alignment than kmalloc does.
-> > > 
-> > > Well but 4-bytes [which is critical for atomic64_t] should be much less
-> > > than a sane cache line length so above should work.
-> > 
-> > AFAICT ARCH_KMALLOC_MINALIGN ends up being 4 on x86_32 (it doesn't
-> > define ARCH_DMA_MINALIGN and doesn't seem to otherwise override the
-> > thing).
-> > 
-> > So unconditionally setting the alignment of devres::data to 8 seems
-> > broken.
-> 
-> Well but then what other options do we have to fix a problem with
-> misaligned access to atomic64_t in drm_gpu_scheduler?
+However userspace setting up r25, after clone syscall opens a race, if
+child is not scheduled and gets a signal instead. It starts off in
+userspace not in clone but in a signal handler and anything TP sepcific
+there such as pthread_self() fails which showed up with uClibc
+testsuite nptl/tst-kill6 [2]
 
-Ping!
+Fix this by having kernel populate r25 to TP value. So this locks in
+ABI, but it was not going to change anyways, and fwiw is same for both
+ARCompact (arc700 core) and ARCvs (HS3x cores)
 
-Should I send v4 with ARCH_KMALLOC_MINALIGN used for alignment
-if explicitly set __aligned__(8) will break x86_32?
+[1] https://cgit.uclibc-ng.org/cgi/cgit/uclibc-ng.git/tree/libc/sysdeps/linux/arc/clone.S
+[2] https://github.com/wbx-github/uclibc-ng-test/blob/master/test/nptl/tst-kill6.c
 
--Alexey
+Fixes: ARC STAR 9001378481
+Cc: stable at vger.kernel.org
+Reported-by: Nikita Sobolev <sobolev at synopsys.com>
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/kernel/process.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
+index 4674541eba3f..c29fa8ceb2d6 100644
+--- a/arch/arc/kernel/process.c
++++ b/arch/arc/kernel/process.c
+@@ -241,6 +241,26 @@ int copy_thread(unsigned long clone_flags,
+ 		task_thread_info(current)->thr_ptr;
+ 	}
+ 
++
++	/*
++	 * setup usermode thread pointer #1:
++	 * when child is picked by scheduler, __switch_to() uses @c_callee to
++	 * populate usermode callee regs: this is fine even despite being in a
++	 * kernel function since special return path for child @ret_from_fork()
++	 * ensures those regs are not clobbered all the way to RTIE to usermode
++	 */
++	c_callee->r25 = task_thread_info(p)->thr_ptr;
++
++#ifdef CONFIG_ARC_CURR_IN_REG
++	/*
++	 * setup usermode thread pointer #2:
++	 *   however for this special use of r25 in kernel, __switch_to() sets
++	 *   r25 for kernel needs and only in the final return path is usermode
++	 *   r25 setup, from pt_regs->user_r25. So set that up as well
++	 */
++	c_regs->user_r25 = c_callee->r25;
++#endif
++
+ 	return 0;
+ }
+ 
+-- 
+2.7.4
