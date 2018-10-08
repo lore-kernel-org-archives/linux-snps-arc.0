@@ -1,44 +1,53 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 5 Oct 2018 22:56:52 +0000
-Subject: [PATCH] ARC: IOC: panic if kernel was started with previously
- enabled IOC
-References: <20181004131212.16405-1-Eugeniy.Paltsev@synopsys.com>
+Date: Mon, 8 Oct 2018 19:54:50 +0000
+Subject: [GIT PULL] ARC updates for 4.19-rc8
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B09B9EF@us01wembx1.internal.synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B0A4DEA@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/04/2018 06:12 AM, Eugeniy Paltsev wrote:
->  
-> diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-> index f2701c13a66b..ee7b63e9c5e3 100644
-> --- a/arch/arc/mm/cache.c
-> +++ b/arch/arc/mm/cache.c
-> @@ -1144,6 +1144,25 @@ noinline void __init arc_ioc_setup(void)
->  {
->  	unsigned int ioc_base, mem_sz;
->  
-> +	/*
-> +	 * Disabling and reconfiguring of IOC are quite a tricky actions because
-> +	 * nobody knows what happens if there're IOC-ahndled tarnsactions in
-> +	 * flight when we're disabling IOC.
-> +	 *
-> +	 * And the problem is external DMA masters [that were initialized and
-> +	 * set in a bootlaoder that was executed before we got here] might
-> +	 * continue to send data to memory even at this point and we have
-> +	 * no way to prevent that.
-> +	 *
-> +	 * That said it's much safer to not enable IOC at all anywhere before
-> +	 * Linux kernel.
-> +	 */
-> +	if (read_aux_reg(ARC_REG_IO_COH_ENABLE) & ARC_IO_COH_ENABLE_BIT)
-> +		panic("kernel was started with previously enabled IOC!\n");
+Hi Greg,
 
-While I understand the needs, this seems excessive, should we warm the user,
-instead of panic ? Did you run into specific issue to warrant this !
+Late in the cycle, but please pull ARC updates. We could have waited for next
+release had it not been for the the clone syscall fix which is stable material.
 
-OTOH in recent past more than 1 person ran into some hsdk uboot shenanigans, where
-we had to upgrade the uboot to get it working with prebuit images - is that what
-you are trying to prevent here - panic early instead of random user errors / hangs
-later ?
-
+Thx,
 -Vineet
+
+--------------->
+The following changes since commit 11da3a7f84f19c26da6f86af878298694ede0804:
+
+  Linux 4.19-rc3 (2018-09-09 17:26:43 -0700)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-4.19-rc8
+
+for you to fetch changes up to c58a584f05e35d1d4342923cd7aac07d9c3d3d16:
+
+  ARC: clone syscall to setp r25 as thread pointer (2018-10-05 14:33:29 -0700)
+
+----------------------------------------------------------------
+ARC updates for 4.19-rc8
+
+ - Fix clone syscall to update Thread pointer register
+
+ - Make/build updates (needed for AGL/OE builds)   [Alexey]
+
+ - Typo fix [Colin Ian King]
+
+----------------------------------------------------------------
+Alexey Brodkin (2):
+      ARC: build: Get rid of toolchain check
+      ARC: build: Don't set CROSS_COMPILE in arch's Makefile
+
+Colin Ian King (1):
+      ARC: fix spelling mistake "entires" -> "entries"
+
+Vineet Gupta (2):
+      ARCv2: build: use mcpu=hs38 iso generic mcpu=archs
+      ARC: clone syscall to setp r25 as thread pointer
+
+ arch/arc/Kconfig          |  2 +-
+ arch/arc/Makefile         | 26 ++------------------------
+ arch/arc/kernel/process.c | 20 ++++++++++++++++++++
+ 3 files changed, 23 insertions(+), 25 deletions(-)
