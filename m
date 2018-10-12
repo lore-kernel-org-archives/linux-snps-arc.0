@@ -1,87 +1,75 @@
-From: p.zabel@pengutronix.de (Philipp Zabel)
-Date: Fri, 12 Oct 2018 14:08:34 +0200
-Subject: [PATCH v2] ARC: HSDK: improve reset driver
-In-Reply-To: <20180928162856.4726-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180928162856.4726-1-Eugeniy.Paltsev@synopsys.com>
+From: joel@joelfernandes.org (Joel Fernandes)
+Date: Fri, 12 Oct 2018 05:50:46 -0700
+Subject: [PATCH v2 2/2] mm: speed up mremap by 500x on large regions
+In-Reply-To: <20181012113056.gxhcbrqyu7k7xnyv@kshutemo-mobl1>
+References: <20181012013756.11285-1-joel@joelfernandes.org>
+ <20181012013756.11285-2-joel@joelfernandes.org>
+ <20181012113056.gxhcbrqyu7k7xnyv@kshutemo-mobl1>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1539346114.6204.5.camel@pengutronix.de>
+Message-ID: <20181012125046.GA170912@joelaf.mtv.corp.google.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Eugeniy,
-
-thank you for the update.
-
-On Fri, 2018-09-28@19:28 +0300, Eugeniy Paltsev wrote:
-> As for today HSDK reset driver implements only
-> .reset() callback.
+On Fri, Oct 12, 2018@02:30:56PM +0300, Kirill A. Shutemov wrote:
+> On Thu, Oct 11, 2018@06:37:56PM -0700, Joel Fernandes (Google) wrote:
+> > Android needs to mremap large regions of memory during memory management
+> > related operations. The mremap system call can be really slow if THP is
+> > not enabled. The bottleneck is move_page_tables, which is copying each
+> > pte at a time, and can be really slow across a large map. Turning on THP
+> > may not be a viable option, and is not for us. This patch speeds up the
+> > performance for non-THP system by copying at the PMD level when possible.
+> > 
+> > The speed up is three orders of magnitude. On a 1GB mremap, the mremap
+> > completion times drops from 160-250 millesconds to 380-400 microseconds.
+> > 
+> > Before:
+> > Total mremap time for 1GB data: 242321014 nanoseconds.
+> > Total mremap time for 1GB data: 196842467 nanoseconds.
+> > Total mremap time for 1GB data: 167051162 nanoseconds.
+> > 
+> > After:
+> > Total mremap time for 1GB data: 385781 nanoseconds.
+> > Total mremap time for 1GB data: 388959 nanoseconds.
+> > Total mremap time for 1GB data: 402813 nanoseconds.
+> > 
+> > Incase THP is enabled, the optimization is skipped. I also flush the
+> > tlb every time we do this optimization since I couldn't find a way to
+> > determine if the low-level PTEs are dirty. It is seen that the cost of
+> > doing so is not much compared the improvement, on both x86-64 and arm64.
 > 
-> In case of driver which implements one of standard
-> reset controller usage pattern
-> (call *_deassert() in probe(), call *_assert() in remove())
-> that leads to inoperability of this reset driver.
+> I looked into the code more and noticed move_pte() helper called from
+> move_ptes(). It changes PTE entry to suite new address.
 > 
-> Improve HSDK reset driver by calling .reset() callback inside of
-> .deassert() callback to avoid each reset controller
-> user adaptation for work with both reset methods
-> (reset() and {.assert() & .deassert()} pair)
-> 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
-> Changes v1->v2:
->  * Don't call hsdk_reset_reset in .assert callback.
-> 
->  drivers/reset/reset-hsdk.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/reset/reset-hsdk.c b/drivers/reset/reset-hsdk.c
-> index 8bce391c6943..399440f197c5 100644
-> --- a/drivers/reset/reset-hsdk.c
-> +++ b/drivers/reset/reset-hsdk.c
-> @@ -84,8 +84,21 @@ static int hsdk_reset_reset(struct reset_controller_dev *rcdev,
->  	return ret;
->  }
->  
-> +static int hsdk_reset_dummy(struct reset_controller_dev *rcd, unsigned long id)
-> +{
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Doing real reset from .assert isn't necessary/useful here. So we pass
-> + * 'hsdk_reset_dummy' to .assert callback to prevent -ENOTSUPP returning by
-> + * reset_control_assert() to make happy drivers which check
-> + * reset_control_{assert | deassert} return status.
-> + */
->  static const struct reset_control_ops hsdk_reset_ops = {
->  	.reset	= hsdk_reset_reset,
-> +	.assert = hsdk_reset_dummy,
+> It is only defined in non-trivial way on Sparc. I don't know much about
+> Sparc and it's hard for me to say if the optimization will break anything
+> there.
 
-Is this part really necessary though? reset_control_assert already
-returns 0 in shared mode, so the only thing this does is make
-reset_control_assert return 0 instead of -ENOTSUPP in exclusive mode.
+Sparc's move_pte seems to be flushing the D-cache to prevent aliasing. It is
+not modifying the PTE itself AFAICS:
 
-The documentation states that calling reset_control_assert "on an
-exclusive reset controller guarantees that the reset will be asserted."
-Since this is clearly not the case with this driver, it is appropriate
-to keep returning an error in this case.
+#ifdef DCACHE_ALIASING_POSSIBLE
+#define __HAVE_ARCH_MOVE_PTE
+#define move_pte(pte, prot, old_addr, new_addr)                         \
+({                                                                      \
+        pte_t newpte = (pte);                                           \
+        if (tlb_type != hypervisor && pte_present(pte)) {               \
+                unsigned long this_pfn = pte_pfn(pte);                  \
+                                                                        \
+                if (pfn_valid(this_pfn) &&                              \
+                    (((old_addr) ^ (new_addr)) & (1 << 13)))            \
+                        flush_dcache_page_all(current->mm,              \
+                                              pfn_to_page(this_pfn));   \
+        }                                                               \
+        newpte;                                                         \
+})
+#endif
 
-If there is a driver that requests an exclusive reset control, calls
-reset_control_assert, and then checks the error value to see whether
-asserting the reset succeeded, it should be made aware that
-we couldn't actually assert the reset line as requested. If the driver
-can continue operation even though the reset line was not asserted,
-it should ignore the error.
+If its an issue, then how do transparent huge pages work on Sparc?  I don't
+see the huge page code (move_huge_pages) during mremap doing anything special
+for Sparc architecture when moving PMDs..
 
-So if you need to hide this error, I'd like to know the actual case that
-is fixed by this, to see if we can't fix it in a better way.
+Also, do we not flush the caches from any path when we munmap address space?
+We do call do_munmap on the old mapping from mremap after moving to the new one.
 
-> +	.deassert = hsdk_reset_reset,
+thanks,
 
-This part is fine.
-
->  };
->  
->  static int hsdk_reset_probe(struct platform_device *pdev)
-
-regards
-Philipp
+ - Joel
