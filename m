@@ -1,66 +1,102 @@
-From: joel@joelfernandes.org (Joel Fernandes)
-Date: Fri, 12 Oct 2018 12:42:10 -0700
-Subject: [PATCH v2 1/2] treewide: remove unused address argument from
- pte_alloc functions
-In-Reply-To: <03b524f3-5f3a-baa0-2254-9c588103d2d6@users.sourceforge.net>
+From: kirill@shutemov.name (Kirill A. Shutemov)
+Date: Sat, 13 Oct 2018 00:33:59 +0300
+Subject: [PATCH v2 2/2] mm: speed up mremap by 500x on large regions
+In-Reply-To: <20181012165719.GE223066@joelaf.mtv.corp.google.com>
 References: <20181012013756.11285-1-joel@joelfernandes.org>
- <03b524f3-5f3a-baa0-2254-9c588103d2d6@users.sourceforge.net>
+ <20181012013756.11285-2-joel@joelfernandes.org>
+ <20181012113056.gxhcbrqyu7k7xnyv@kshutemo-mobl1>
+ <20181012125046.GA170912@joelaf.mtv.corp.google.com>
+ <20181012131946.zoab2lpfmrycmuju@kshutemo-mobl1>
+ <20181012165719.GE223066@joelaf.mtv.corp.google.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181012194210.GA27630@joelaf.mtv.corp.google.com>
+Message-ID: <20181012213359.qpvq3obugbvy73bg@kshutemo-mobl1>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Oct 12, 2018@08:51:45PM +0200, SF Markus Elfring wrote:
-> > The changes were obtained by applying the following Coccinelle script.
+On Fri, Oct 12, 2018@09:57:19AM -0700, Joel Fernandes wrote:
+> On Fri, Oct 12, 2018@04:19:46PM +0300, Kirill A. Shutemov wrote:
+> > On Fri, Oct 12, 2018@05:50:46AM -0700, Joel Fernandes wrote:
+> > > On Fri, Oct 12, 2018@02:30:56PM +0300, Kirill A. Shutemov wrote:
+> > > > On Thu, Oct 11, 2018@06:37:56PM -0700, Joel Fernandes (Google) wrote:
+> > > > > Android needs to mremap large regions of memory during memory management
+> > > > > related operations. The mremap system call can be really slow if THP is
+> > > > > not enabled. The bottleneck is move_page_tables, which is copying each
+> > > > > pte at a time, and can be really slow across a large map. Turning on THP
+> > > > > may not be a viable option, and is not for us. This patch speeds up the
+> > > > > performance for non-THP system by copying at the PMD level when possible.
+> > > > > 
+> > > > > The speed up is three orders of magnitude. On a 1GB mremap, the mremap
+> > > > > completion times drops from 160-250 millesconds to 380-400 microseconds.
+> > > > > 
+> > > > > Before:
+> > > > > Total mremap time for 1GB data: 242321014 nanoseconds.
+> > > > > Total mremap time for 1GB data: 196842467 nanoseconds.
+> > > > > Total mremap time for 1GB data: 167051162 nanoseconds.
+> > > > > 
+> > > > > After:
+> > > > > Total mremap time for 1GB data: 385781 nanoseconds.
+> > > > > Total mremap time for 1GB data: 388959 nanoseconds.
+> > > > > Total mremap time for 1GB data: 402813 nanoseconds.
+> > > > > 
+> > > > > Incase THP is enabled, the optimization is skipped. I also flush the
+> > > > > tlb every time we do this optimization since I couldn't find a way to
+> > > > > determine if the low-level PTEs are dirty. It is seen that the cost of
+> > > > > doing so is not much compared the improvement, on both x86-64 and arm64.
+> > > > 
+> > > > I looked into the code more and noticed move_pte() helper called from
+> > > > move_ptes(). It changes PTE entry to suite new address.
+> > > > 
+> > > > It is only defined in non-trivial way on Sparc. I don't know much about
+> > > > Sparc and it's hard for me to say if the optimization will break anything
+> > > > there.
+> > > 
+> > > Sparc's move_pte seems to be flushing the D-cache to prevent aliasing. It is
+> > > not modifying the PTE itself AFAICS:
+> > > 
+> > > #ifdef DCACHE_ALIASING_POSSIBLE
+> > > #define __HAVE_ARCH_MOVE_PTE
+> > > #define move_pte(pte, prot, old_addr, new_addr)                         \
+> > > ({                                                                      \
+> > >         pte_t newpte = (pte);                                           \
+> > >         if (tlb_type != hypervisor && pte_present(pte)) {               \
+> > >                 unsigned long this_pfn = pte_pfn(pte);                  \
+> > >                                                                         \
+> > >                 if (pfn_valid(this_pfn) &&                              \
+> > >                     (((old_addr) ^ (new_addr)) & (1 << 13)))            \
+> > >                         flush_dcache_page_all(current->mm,              \
+> > >                                               pfn_to_page(this_pfn));   \
+> > >         }                                                               \
+> > >         newpte;                                                         \
+> > > })
+> > > #endif
+> > > 
+> > > If its an issue, then how do transparent huge pages work on Sparc?  I don't
+> > > see the huge page code (move_huge_pages) during mremap doing anything special
+> > > for Sparc architecture when moving PMDs..
+> > 
+> > My *guess* is that it will work fine on Sparc as it apprarently it only
+> > cares about change in bit 13 of virtual address. It will never happen for
+> > huge pages or when PTE page tables move.
+> > 
+> > But I just realized that the problem is bigger: since we pass new_addr to
+> > the set_pte_at() we would need to audit all implementations that they are
+> > safe with just moving PTE page table.
+> > 
+> > I would rather go with per-architecture enabling. It's much safer.
 > 
-> A bit of clarification happened for its implementation details.
-> https://systeme.lip6.fr/pipermail/cocci/2018-October/005374.html
-> 
-> I have taken also another look at the following SmPL code.
-> 
-> 
-> > identifier fn =~
-> > "^(__pte_alloc|pte_alloc_one|pte_alloc|__pte_alloc_kernel|pte_alloc_one_kernel)$";
-> 
-> I suggest to adjust the regular expression for this constraint
-> and in subsequent SmPL rules.
-> "^(?:pte_alloc(?:_one(?:_kernel)?)?|__pte_alloc(?:_kernel)?)$";
+> I'm Ok with the per-arch enabling, I agree its safer. So I should be adding a
+> a new __HAVE_ARCH_MOVE_PMD right, or did you have a better name for that?
 
-Sure it looks more clever, but why? Ugh that's harder to read and confusing.
+I believe Kconfig option is more cononical way to do this nowadays.
+So CONFIG_HAVE_ARCH_MOVE_PMD, I guess. Or CONFIG_HAVE_MOVE_PMD.
+An arch that supports it would select the option.
 
-> > (
-> > - T3 fn(T1 E1, T2 E2);
-> > + T3 fn(T1 E1);
-> > |
-> > - T3 fn(T1 E1, T2 E2, T4 E4);
-> > + T3 fn(T1 E1, T2 E2);
-> > )
-> 
-> I propose to take an other SmPL disjunction into account here.
-> 
->  T3 fn(T1 E1,
-> (
-> -      T2 E2
-> |      T2 E2,
-> -      T4 E4
-> )      );
+> Also, do you feel we should still need to remove the address argument from
+> set_pte_alloc? Or should we leave that alone if we do per-arch?
+> I figure I spent a bunch of time on that already anyway, and its a clean up
+> anyway, so may as well do it. But perhaps that "pte_alloc cleanup" can then
+> be a separate patch independent of this series?
 
-Again this is confusing. It makes one think that maybe the second argument
-can also be removed and requires careful observation that the ");" follows.
+Yeah. The cleanup makes sense anyway.
 
-> > (
-> > - #define fn(a, b, c)@p e
-> > + #define fn(a, b) e
-> > |
-> > - #define fn(a, b)@p e
-> > + #define fn(a) e
-> > )
-> 
-> How do you think about to omit the metavariable ?position p? here?
-
-Right, I don't need it in this case. But the script works either way.
-
-I like to take more of a problem solving approach that makes sense, than
-aiming for perfection, after all this is a useful script that we do not
-need to check in once we finish with it.
-
- - Joel
+-- 
+ Kirill A. Shutemov
