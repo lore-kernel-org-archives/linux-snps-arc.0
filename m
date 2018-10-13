@@ -1,60 +1,139 @@
-From: dancol@google.com (Daniel Colascione)
-Date: Fri, 12 Oct 2018 19:25:08 -0700
+From: anton.ivanov@kot-begemot.co.uk (Anton Ivanov)
+Date: Sat, 13 Oct 2018 07:10:56 +0100
 Subject: [PATCH v2 2/2] mm: speed up mremap by 500x on large regions
-In-Reply-To: <20181013021057.GA213522@joelaf.mtv.corp.google.com>
-References: <20181012013756.11285-2-joel@joelfernandes.org>
- <20181012113056.gxhcbrqyu7k7xnyv@kshutemo-mobl1>
- <20181012125046.GA170912@joelaf.mtv.corp.google.com>
- <20181012.111836.1569129998592378186.davem@davemloft.net>
- <20181013013540.GA207108@joelaf.mtv.corp.google.com>
- <CAKOZueuNvWvn18vffJWpbpg7h-uScT8gXrrudTB2pnT4M2HJ_w@mail.gmail.com>
- <20181013014429.GB207108@joelaf.mtv.corp.google.com>
- <CAKOZues25aaKz3_AiyfJ=r2QBd5MghgY3ky_ptg4Z8=ST4DCgw@mail.gmail.com>
- <20181013021057.GA213522@joelaf.mtv.corp.google.com>
+In-Reply-To: <20181012214008.jj7vhh76vte7xj7i@kshutemo-mobl1>
+References: <20181012013756.11285-1-joel@joelfernandes.org>
+ <20181012013756.11285-2-joel@joelfernandes.org>
+ <9ed82f9e-88c4-8e4f-8c45-3ef153469603@kot-begemot.co.uk>
+ <20181012143728.t42uvr6etg7gp7fh@kshutemo-mobl1>
+ <4dd52e22-5b51-9b30-7178-fde603a08f88@kot-begemot.co.uk>
+ <97cb3fe1-7bc1-12ff-d602-56c72a5496c5@kot-begemot.co.uk>
+ <20181012214008.jj7vhh76vte7xj7i@kshutemo-mobl1>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAKOZueu2wdkeUFYLQ8qE48yJs1_uRz-9RVJRkp==CL=jp=Q8+g@mail.gmail.com>
+Message-ID: <4e3d560b-afce-7d87-bbdb-9701d87ef44e@kot-begemot.co.uk>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Oct 12, 2018@7:10 PM, Joel Fernandes <joel@joelfernandes.org> wrote:
-> On Fri, Oct 12, 2018@06:54:33PM -0700, Daniel Colascione wrote:
->> I wonder whether it makes sense to expose to userspace somehow whether
->> mremap is "fast" for a particular architecture. If a feature relies on
->> fast mremap, it might be better for some userland component to disable
->> that feature entirely rather than blindly use mremap and end up
->> performing very poorly. If we're disabling fast mremap when THP is
->> enabled, the userland component can't just rely on an architecture
->> switch and some kind of runtime feature detection becomes even more
->> important.
+On 12/10/2018 22:40, Kirill A. Shutemov wrote:
+> On Fri, Oct 12, 2018@05:42:24PM +0100, Anton Ivanov wrote:
+>> On 10/12/18 3:48 PM, Anton Ivanov wrote:
+>>> On 12/10/2018 15:37, Kirill A. Shutemov wrote:
+>>>> On Fri, Oct 12, 2018@03:09:49PM +0100, Anton Ivanov wrote:
+>>>>> On 10/12/18 2:37 AM, Joel Fernandes (Google) wrote:
+>>>>>> Android needs to mremap large regions of memory during
+>>>>>> memory management
+>>>>>> related operations. The mremap system call can be really
+>>>>>> slow if THP is
+>>>>>> not enabled. The bottleneck is move_page_tables, which is copying each
+>>>>>> pte at a time, and can be really slow across a large map.
+>>>>>> Turning on THP
+>>>>>> may not be a viable option, and is not for us. This patch
+>>>>>> speeds up the
+>>>>>> performance for non-THP system by copying at the PMD level
+>>>>>> when possible.
+>>>>>>
+>>>>>> The speed up is three orders of magnitude. On a 1GB mremap, the mremap
+>>>>>> completion times drops from 160-250 millesconds to 380-400
+>>>>>> microseconds.
+>>>>>>
+>>>>>> Before:
+>>>>>> Total mremap time for 1GB data: 242321014 nanoseconds.
+>>>>>> Total mremap time for 1GB data: 196842467 nanoseconds.
+>>>>>> Total mremap time for 1GB data: 167051162 nanoseconds.
+>>>>>>
+>>>>>> After:
+>>>>>> Total mremap time for 1GB data: 385781 nanoseconds.
+>>>>>> Total mremap time for 1GB data: 388959 nanoseconds.
+>>>>>> Total mremap time for 1GB data: 402813 nanoseconds.
+>>>>>>
+>>>>>> Incase THP is enabled, the optimization is skipped. I also flush the
+>>>>>> tlb every time we do this optimization since I couldn't find a way to
+>>>>>> determine if the low-level PTEs are dirty. It is seen that the cost of
+>>>>>> doing so is not much compared the improvement, on both
+>>>>>> x86-64 and arm64.
+>>>>>>
+>>>>>> Cc: minchan at kernel.org
+>>>>>> Cc: pantin at google.com
+>>>>>> Cc: hughd at google.com
+>>>>>> Cc: lokeshgidra at google.com
+>>>>>> Cc: dancol at google.com
+>>>>>> Cc: mhocko at kernel.org
+>>>>>> Cc: kirill at shutemov.name
+>>>>>> Cc: akpm at linux-foundation.org
+>>>>>> Signed-off-by: Joel Fernandes (Google) <joel at joelfernandes.org>
+>>>>>> ---
+>>>>>>  ?? mm/mremap.c | 62
+>>>>>> +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>>>  ?? 1 file changed, 62 insertions(+)
+>>>>>>
+>>>>>> diff --git a/mm/mremap.c b/mm/mremap.c
+>>>>>> index 9e68a02a52b1..d82c485822ef 100644
+>>>>>> --- a/mm/mremap.c
+>>>>>> +++ b/mm/mremap.c
+>>>>>> @@ -191,6 +191,54 @@ static void move_ptes(struct
+>>>>>> vm_area_struct *vma, pmd_t *old_pmd,
+>>>>>>  ?????????? drop_rmap_locks(vma);
+>>>>>>  ?? }
+>>>>>> +static bool move_normal_pmd(struct vm_area_struct *vma,
+>>>>>> unsigned long old_addr,
+>>>>>> +????????? unsigned long new_addr, unsigned long old_end,
+>>>>>> +????????? pmd_t *old_pmd, pmd_t *new_pmd, bool *need_flush)
+>>>>>> +{
+>>>>>> +??? spinlock_t *old_ptl, *new_ptl;
+>>>>>> +??? struct mm_struct *mm = vma->vm_mm;
+>>>>>> +
+>>>>>> +??? if ((old_addr & ~PMD_MASK) || (new_addr & ~PMD_MASK)
+>>>>>> +??????? || old_end - old_addr < PMD_SIZE)
+>>>>>> +??????? return false;
+>>>>>> +
+>>>>>> +??? /*
+>>>>>> +???? * The destination pmd shouldn't be established, free_pgtables()
+>>>>>> +???? * should have release it.
+>>>>>> +???? */
+>>>>>> +??? if (WARN_ON(!pmd_none(*new_pmd)))
+>>>>>> +??????? return false;
+>>>>>> +
+>>>>>> +??? /*
+>>>>>> +???? * We don't have to worry about the ordering of src and dst
+>>>>>> +???? * ptlocks because exclusive mmap_sem prevents deadlock.
+>>>>>> +???? */
+>>>>>> +??? old_ptl = pmd_lock(vma->vm_mm, old_pmd);
+>>>>>> +??? if (old_ptl) {
+>>>>>> +??????? pmd_t pmd;
+>>>>>> +
+>>>>>> +??????? new_ptl = pmd_lockptr(mm, new_pmd);
+>>>>>> +??????? if (new_ptl != old_ptl)
+>>>>>> +??????????? spin_lock_nested(new_ptl, SINGLE_DEPTH_NESTING);
+>>>>>> +
+>>>>>> +??????? /* Clear the pmd */
+>>>>>> +??????? pmd = *old_pmd;
+>>>>>> +??????? pmd_clear(old_pmd);
+>>>>>> +
+>>>>>> +??????? VM_BUG_ON(!pmd_none(*new_pmd));
+>>>>>> +
+>>>>>> +??????? /* Set the new pmd */
+>>>>>> +??????? set_pmd_at(mm, new_addr, new_pmd, pmd);
+>>>>> UML does not have set_pmd_at at all
+>>>> Every architecture does. :)
+>>> I tried to build it patching vs 4.19-rc before I made this statement and
+>>> ran into that.
+>>>
+>>> Presently it does not.
+>>>
+>>> https://elixir.bootlin.com/linux/v4.19-rc7/ident/set_pmd_at - UML is not
+>>> on the list.
+>> Once this problem as well as the omissions in the include changes for UML in
+>> patch one have been fixed it appears to be working.
+>>
+>> What it needs is attached.
+> Well, the optization is only suitable for arch that has 3 or more levels
+> of page tables. Otherwise it will not have [non-folded] pmd.
 >
-> I hate to point out that its forbidden to top post on LKML :-)
-> https://kernelnewbies.org/mailinglistguidelines
-> So don't that Mr. Dan! :D
+> And in this case arch/um already should have set_pmd_at(), see
+> 3_LEVEL_PGTABLES.
+>
+> To port on 2-level paging, it has to be handled on pgd level. It
+> complicates the code and will not bring much value.
+>
+UML has 3 level page tables on 64 bit.
 
-Guilty as charged. I really should switch back to Gnus. :-)
-
-> But anyway, I think this runtime detection thing is not needed. THP is
-> actually expected to be as fast as this anyway, so if that's available then
-> we should already be as fast.
-
-Ah, I think the commit message is confusing. (Or else I'm misreading
-the patch now.) It's not quite that we're disabling the feature when
-THP is enabled anywhere, but rather that we use the move_huge_pmd path
-for huge PMDs and use the new code only for non-huge PMDs. (Right?) If
-that's the case, the commit message shouldn't say "Incase THP is
-enabled, the optimization is skipped". Even if THP is enabled on a
-system generally, we might use the new PMD-moving code for mapping
-types that don't support THP-ization, right?
-
-> This is for non-THP where THP cannot be enabled
-> and there is still room for some improvement. Most/all architectures will be
-> just fine with this. This flag is more of a safety-net type of thing where in
-> the future if there is this one or two weird architectures that don't play
-> well, then they can turn it off at the architecture level by not selecting
-> the flag. See my latest patches for the per-architecture compile-time
-> controls. Ideally we'd like to blanket turn it on on all, but this is just
-> playing it extra safe as Kirill and me were discussing on other threads.
-
-Sure. I'm just pointing out that the 500x performance different turns
-the operation into a qualitatively different feature, so if we expect
-to actually ship a mainstream architecture without support for this
-thing, we should make it explicit. If we're not, we shouldn't.
+A.
