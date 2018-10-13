@@ -1,102 +1,57 @@
-From: elfring@users.sourceforge.net (SF Markus Elfring)
-Date: Sat, 13 Oct 2018 11:22:49 +0200
-Subject: [PATCH v2 1/2] treewide: remove unused address argument from
- pte_alloc functions
-In-Reply-To: <20181012194210.GA27630@joelaf.mtv.corp.google.com>
-References: <20181012013756.11285-1-joel@joelfernandes.org>
- <03b524f3-5f3a-baa0-2254-9c588103d2d6@users.sourceforge.net>
- <20181012194210.GA27630@joelaf.mtv.corp.google.com>
+From: joel@joelfernandes.org (Joel Fernandes)
+Date: Sat, 13 Oct 2018 10:50:39 -0700
+Subject: [PATCH v2 2/2] mm: speed up mremap by 500x on large regions
+In-Reply-To: <CAKOZueu2wdkeUFYLQ8qE48yJs1_uRz-9RVJRkp==CL=jp=Q8+g@mail.gmail.com>
+References: <20181012013756.11285-2-joel@joelfernandes.org>
+ <20181012113056.gxhcbrqyu7k7xnyv@kshutemo-mobl1>
+ <20181012125046.GA170912@joelaf.mtv.corp.google.com>
+ <20181012.111836.1569129998592378186.davem@davemloft.net>
+ <20181013013540.GA207108@joelaf.mtv.corp.google.com>
+ <CAKOZueuNvWvn18vffJWpbpg7h-uScT8gXrrudTB2pnT4M2HJ_w@mail.gmail.com>
+ <20181013014429.GB207108@joelaf.mtv.corp.google.com>
+ <CAKOZues25aaKz3_AiyfJ=r2QBd5MghgY3ky_ptg4Z8=ST4DCgw@mail.gmail.com>
+ <20181013021057.GA213522@joelaf.mtv.corp.google.com>
+ <CAKOZueu2wdkeUFYLQ8qE48yJs1_uRz-9RVJRkp==CL=jp=Q8+g@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <e1be1dda-90ab-052d-496b-3de01ffc80d1@users.sourceforge.net>
+Message-ID: <20181013175039.GB213522@joelaf.mtv.corp.google.com>
 To: linux-snps-arc@lists.infradead.org
 
->>> The changes were obtained by applying the following Coccinelle script.
-
-How do you think about to adjust the order of provided information
-in the commit description?
-1. Update goals
-2. Transformation implementation at the end
-
-
->> "^(?:pte_alloc(?:_one(?:_kernel)?)?|__pte_alloc(?:_kernel)?)$";
+On Fri, Oct 12, 2018@07:25:08PM -0700, Daniel Colascione wrote:
+[...] 
+> > But anyway, I think this runtime detection thing is not needed. THP is
+> > actually expected to be as fast as this anyway, so if that's available then
+> > we should already be as fast.
 > 
-> Sure it looks more clever, but why?
+> Ah, I think the commit message is confusing. (Or else I'm misreading
+> the patch now.) It's not quite that we're disabling the feature when
+> THP is enabled anywhere, but rather that we use the move_huge_pmd path
+> for huge PMDs and use the new code only for non-huge PMDs. (Right?) If
+> that's the case, the commit message shouldn't say "Incase THP is
+> enabled, the optimization is skipped". Even if THP is enabled on a
+> system generally, we might use the new PMD-moving code for mapping
+> types that don't support THP-ization, right?
 
-1. Usage of non-capturing parentheses
-2. Clearer specification which parts can be treated as optional
-   in the search pattern.
+That is true. Ok, I guess I can update the commit message to be more accurate
+about that.
 
+> > This is for non-THP where THP cannot be enabled
+> > and there is still room for some improvement. Most/all architectures will be
+> > just fine with this. This flag is more of a safety-net type of thing where in
+> > the future if there is this one or two weird architectures that don't play
+> > well, then they can turn it off at the architecture level by not selecting
+> > the flag. See my latest patches for the per-architecture compile-time
+> > controls. Ideally we'd like to blanket turn it on on all, but this is just
+> > playing it extra safe as Kirill and me were discussing on other threads.
+> 
+> Sure. I'm just pointing out that the 500x performance different turns
+> the operation into a qualitatively different feature, so if we expect
+> to actually ship a mainstream architecture without support for this
+> thing, we should make it explicit. If we're not, we shouldn't.
 
-> Ugh that's harder to read and confusing.
+We can make it explicit by enabling it in such a mainstream architecture is
+my point. Also if the optimization is not doing what its supposed to, then
+userspace will also just know by measuring the time.
 
-* Do you care for coding style and execution speed of regular expressions?
+thanks,
 
-* If you would prefer to list function names without placeholders,
-  you can eventually specify them also within SmPL disjunctions directly.
-
-* It can look simpler to use an identifier list as a constraint variant.
-  http://coccinelle.lip6.fr/docs/main_grammar002.html
-
-
-> Again this is confusing.
-
-The view points can be different for such SmPL code.
-
- T3 fn(T1 E1
-(
--           , T2 E2
-|           , T2 E2
--           , T4 E4
-)     );
-
-
-> It makes one think that maybe the second argument can also be removed
-
-You expressed this as the first transformation possibility, didn't you?
-
-You would like to delete an argument from the end of a function
-or macro parameter (or expression) list.
-I suggest then again to avoid the SmPL specification of source code additions
-(plus lines in the file difference format).
-
-
-> and requires careful observation that the ");" follows.
-
-Yes, of course.
-
-Would you care more in the distinction which code parts should be kept unchanged?
-
-
-> Right, I don't need it in this case.
-
-Thanks for your understanding that the metavariable ?position p?
-can be deleted in the SmPL rule ?pte_alloc_macro?.
-
-
-> But the script works either way.
-
-I imagine that you can become interested in a bit nicer run time characteristics.
-
-
-> I like to take more of a problem solving approach that makes sense,
-
-This is usual.
-
-
-> than aiming for perfection,
-
-If you will work more with scripts for the semantic patch language,
-you might become used to additional coding variants.
-
-
-> after all this is a useful script that we do not need to check
-> in once we finish with it.
-
-I am curious if there will evolve a need to add similar transformation approaches
-to a known script collection.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/coccinelle?id=79fc170b1f5c36f486d886bfbd59eb4e62321128
-
-Would you eventually like to run such scripts once more?
-
-Regards,
-Markus
+ - Joel
