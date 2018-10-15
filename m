@@ -1,57 +1,143 @@
-From: joel@joelfernandes.org (Joel Fernandes)
-Date: Sat, 13 Oct 2018 10:50:39 -0700
+From: borntraeger@de.ibm.com (Christian Borntraeger)
+Date: Mon, 15 Oct 2018 09:10:53 +0200
 Subject: [PATCH v2 2/2] mm: speed up mremap by 500x on large regions
-In-Reply-To: <CAKOZueu2wdkeUFYLQ8qE48yJs1_uRz-9RVJRkp==CL=jp=Q8+g@mail.gmail.com>
-References: <20181012013756.11285-2-joel@joelfernandes.org>
- <20181012113056.gxhcbrqyu7k7xnyv@kshutemo-mobl1>
- <20181012125046.GA170912@joelaf.mtv.corp.google.com>
- <20181012.111836.1569129998592378186.davem@davemloft.net>
- <20181013013540.GA207108@joelaf.mtv.corp.google.com>
- <CAKOZueuNvWvn18vffJWpbpg7h-uScT8gXrrudTB2pnT4M2HJ_w@mail.gmail.com>
- <20181013014429.GB207108@joelaf.mtv.corp.google.com>
- <CAKOZues25aaKz3_AiyfJ=r2QBd5MghgY3ky_ptg4Z8=ST4DCgw@mail.gmail.com>
- <20181013021057.GA213522@joelaf.mtv.corp.google.com>
- <CAKOZueu2wdkeUFYLQ8qE48yJs1_uRz-9RVJRkp==CL=jp=Q8+g@mail.gmail.com>
+In-Reply-To: <20181012013756.11285-2-joel@joelfernandes.org>
+References: <20181012013756.11285-1-joel@joelfernandes.org>
+ <20181012013756.11285-2-joel@joelfernandes.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181013175039.GB213522@joelaf.mtv.corp.google.com>
+Message-ID: <6580a62b-69c6-f2e3-767c-bd36b977bea2@de.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Oct 12, 2018@07:25:08PM -0700, Daniel Colascione wrote:
-[...] 
-> > But anyway, I think this runtime detection thing is not needed. THP is
-> > actually expected to be as fast as this anyway, so if that's available then
-> > we should already be as fast.
+
+
+On 10/12/2018 03:37 AM, Joel Fernandes (Google) wrote:
+> Android needs to mremap large regions of memory during memory management
+> related operations. The mremap system call can be really slow if THP is
+> not enabled. The bottleneck is move_page_tables, which is copying each
+> pte at a time, and can be really slow across a large map. Turning on THP
+> may not be a viable option, and is not for us. This patch speeds up the
+> performance for non-THP system by copying at the PMD level when possible.
 > 
-> Ah, I think the commit message is confusing. (Or else I'm misreading
-> the patch now.) It's not quite that we're disabling the feature when
-> THP is enabled anywhere, but rather that we use the move_huge_pmd path
-> for huge PMDs and use the new code only for non-huge PMDs. (Right?) If
-> that's the case, the commit message shouldn't say "Incase THP is
-> enabled, the optimization is skipped". Even if THP is enabled on a
-> system generally, we might use the new PMD-moving code for mapping
-> types that don't support THP-ization, right?
-
-That is true. Ok, I guess I can update the commit message to be more accurate
-about that.
-
-> > This is for non-THP where THP cannot be enabled
-> > and there is still room for some improvement. Most/all architectures will be
-> > just fine with this. This flag is more of a safety-net type of thing where in
-> > the future if there is this one or two weird architectures that don't play
-> > well, then they can turn it off at the architecture level by not selecting
-> > the flag. See my latest patches for the per-architecture compile-time
-> > controls. Ideally we'd like to blanket turn it on on all, but this is just
-> > playing it extra safe as Kirill and me were discussing on other threads.
+> The speed up is three orders of magnitude. On a 1GB mremap, the mremap
+> completion times drops from 160-250 millesconds to 380-400 microseconds.
 > 
-> Sure. I'm just pointing out that the 500x performance different turns
-> the operation into a qualitatively different feature, so if we expect
-> to actually ship a mainstream architecture without support for this
-> thing, we should make it explicit. If we're not, we shouldn't.
+> Before:
+> Total mremap time for 1GB data: 242321014 nanoseconds.
+> Total mremap time for 1GB data: 196842467 nanoseconds.
+> Total mremap time for 1GB data: 167051162 nanoseconds.
+> 
+> After:
+> Total mremap time for 1GB data: 385781 nanoseconds.
+> Total mremap time for 1GB data: 388959 nanoseconds.
+> Total mremap time for 1GB data: 402813 nanoseconds.
+> 
+> Incase THP is enabled, the optimization is skipped. I also flush the
+> tlb every time we do this optimization since I couldn't find a way to
+> determine if the low-level PTEs are dirty. It is seen that the cost of
+> doing so is not much compared the improvement, on both x86-64 and arm64.
+> 
+> Cc: minchan at kernel.org
+> Cc: pantin at google.com
+> Cc: hughd at google.com
+> Cc: lokeshgidra at google.com
+> Cc: dancol at google.com
+> Cc: mhocko at kernel.org
+> Cc: kirill at shutemov.name
+> Cc: akpm at linux-foundation.org
+> Signed-off-by: Joel Fernandes (Google) <joel at joelfernandes.org>
+> ---
+>  mm/mremap.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 62 insertions(+)
+> 
+> diff --git a/mm/mremap.c b/mm/mremap.c
+> index 9e68a02a52b1..d82c485822ef 100644
+> --- a/mm/mremap.c
+> +++ b/mm/mremap.c
+> @@ -191,6 +191,54 @@ static void move_ptes(struct vm_area_struct *vma, pmd_t *old_pmd,
+>  		drop_rmap_locks(vma);
+>  }
+>  
+> +static bool move_normal_pmd(struct vm_area_struct *vma, unsigned long old_addr,
+> +		  unsigned long new_addr, unsigned long old_end,
+> +		  pmd_t *old_pmd, pmd_t *new_pmd, bool *need_flush)
+> +{
+> +	spinlock_t *old_ptl, *new_ptl;
+> +	struct mm_struct *mm = vma->vm_mm;
+> +
+> +	if ((old_addr & ~PMD_MASK) || (new_addr & ~PMD_MASK)
+> +	    || old_end - old_addr < PMD_SIZE)
+> +		return false;
+> +
+> +	/*
+> +	 * The destination pmd shouldn't be established, free_pgtables()
+> +	 * should have release it.
+> +	 */
+> +	if (WARN_ON(!pmd_none(*new_pmd)))
+> +		return false;
+> +
+> +	/*
+> +	 * We don't have to worry about the ordering of src and dst
+> +	 * ptlocks because exclusive mmap_sem prevents deadlock.
+> +	 */
+> +	old_ptl = pmd_lock(vma->vm_mm, old_pmd);
+> +	if (old_ptl) {
+> +		pmd_t pmd;
+> +
+> +		new_ptl = pmd_lockptr(mm, new_pmd);
+> +		if (new_ptl != old_ptl)
+> +			spin_lock_nested(new_ptl, SINGLE_DEPTH_NESTING);
+> +
+> +		/* Clear the pmd */
+> +		pmd = *old_pmd;
+> +		pmd_clear(old_pmd);
 
-We can make it explicit by enabling it in such a mainstream architecture is
-my point. Also if the optimization is not doing what its supposed to, then
-userspace will also just know by measuring the time.
+Adding Martin Schwidefsky.
+Is this mapping maybe still in use on other CPUs? If yes, I think for
+s390 we need to flush here as well (in other word we might need to introduce
+pmd_clear_flush). On s390 you have to use instructions like CRDTE,IPTE or IDTE
+to modify page table entries that are still in use. Otherwise you can get a 
+delayed access exception which is - in contrast to page faults - not recoverable.
 
-thanks,
 
- - Joel
+
+> +
+> +		VM_BUG_ON(!pmd_none(*new_pmd));
+> +
+> +		/* Set the new pmd */
+> +		set_pmd_at(mm, new_addr, new_pmd, pmd);
+> +		if (new_ptl != old_ptl)
+> +			spin_unlock(new_ptl);
+> +		spin_unlock(old_ptl);
+> +
+> +		*need_flush = true;
+> +		return true;
+> +	}
+> +	return false;
+> +}
+> +
+>  unsigned long move_page_tables(struct vm_area_struct *vma,
+>  		unsigned long old_addr, struct vm_area_struct *new_vma,
+>  		unsigned long new_addr, unsigned long len,
+> @@ -239,7 +287,21 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+>  			split_huge_pmd(vma, old_pmd, old_addr);
+>  			if (pmd_trans_unstable(old_pmd))
+>  				continue;
+> +		} else if (extent == PMD_SIZE) {
+> +			bool moved;
+> +
+> +			/* See comment in move_ptes() */
+> +			if (need_rmap_locks)
+> +				take_rmap_locks(vma);
+> +			moved = move_normal_pmd(vma, old_addr, new_addr,
+> +					old_end, old_pmd, new_pmd,
+> +					&need_flush);
+> +			if (need_rmap_locks)
+> +				drop_rmap_locks(vma);
+> +			if (moved)
+> +				continue;
+>  		}
+> +
+>  		if (pte_alloc(new_vma->vm_mm, new_pmd))
+>  			break;
+>  		next = (new_addr + PMD_SIZE) & PMD_MASK;
+> 
