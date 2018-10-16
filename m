@@ -1,35 +1,44 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 16 Oct 2018 17:27:34 +0000
-Subject: [PATCH] ARC: IOC: panic if kernel was started with previously
- enabled IOC
-References: <20181004131212.16405-1-Eugeniy.Paltsev@synopsys.com>
+From: joel@joelfernandes.org (Joel Fernandes)
+Date: Tue, 16 Oct 2018 12:43:13 -0700
+Subject: [PATCH 2/4] mm: speed up mremap by 500x on large regions (v2)
+In-Reply-To: <35b9c85a-b366-9ca3-5647-c2568c811961@suse.cz>
+References: <20181013013200.206928-1-joel@joelfernandes.org>
+ <20181013013200.206928-3-joel@joelfernandes.org>
+ <20181015094209.GA31999@infradead.org>
+ <20181015223303.GA164293@joelaf.mtv.corp.google.com>
+ <35b9c85a-b366-9ca3-5647-c2568c811961@suse.cz>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B0AE414@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20181016194313.GA247930@joelaf.mtv.corp.google.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/04/2018 06:12 AM, Eugeniy Paltsev wrote:
-> Disabling and reconfiguring of IOC are quite a tricky actions because
-> nobody knows what happens if there're IOC-ahndled tarnsactions in flight
-> when we're disabling IOC.
->
-> And the problem is external DMA masters [that were initialized and set
-> in a bootlaoder that was executed before we got here] might continue
-> to send data to memory even at this point and we have no way to prevent
-> that.
->
-> That said it's much safer to not enable IOC at all anywhere before Linux
-> kernel.
->
-> As we can build u-boot with IOC support (mostly for debugging purposes)
-> let's check that kernel was started with disabled IOC regardless of
-> our plans to use it or not.
->
-> Also while I'm at it, replace hardcoded bits in ARC_REG_IO_COH_PARTIAL
-> and ARC_REG_IO_COH_ENABLE registers by definitions.
->
-> Inspired by: https://lkml.org/lkml/2018/1/19/557
->
+On Tue, Oct 16, 2018@01:29:52PM +0200, Vlastimil Babka wrote:
+> On 10/16/18 12:33 AM, Joel Fernandes wrote:
+> > On Mon, Oct 15, 2018@02:42:09AM -0700, Christoph Hellwig wrote:
+> >> On Fri, Oct 12, 2018@06:31:58PM -0700, Joel Fernandes (Google) wrote:
+> >>> Android needs to mremap large regions of memory during memory management
+> >>> related operations.
+> >>
+> >> Just curious: why?
+> > 
+> > In Android we have a requirement of moving a large (up to a GB now, but may
+> > grow bigger in future) memory range from one location to another.
+> 
+> I think Christoph's "why?" was about the requirement, not why it hurts
+> applications. I admit I'm now also curious :)
 
-Applied with updated changelog !
+This issue was discovered when we wanted to be able to move the physical
+pages of a memory range to another location quickly so that, after the
+application threads are resumed, UFFDIO_REGISTER_MODE_MISSING userfaultfd
+faults can be received on the original memory range. The actual operations
+performed on the memory range are beyond the scope of this discussion. The
+user threads continue to refer to the old address which will now fault. The
+reason we want retain the old memory range and receives faults there is to
+avoid the need to fix the addresses all over the address space of the threads
+after we finish with performing operations on them in the fault handlers, so
+we mremap it and receive faults at the old addresses.
 
--Vineet
+Does that answer your question?
+
+thanks,
+
+- Joel
