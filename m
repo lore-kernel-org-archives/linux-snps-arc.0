@@ -1,175 +1,37 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 16 Oct 2018 10:45:04 +0300
-Subject: [PATCH] clocksource/drivers/arc_timer: Utilize generic sched_clock
+From: vbabka@suse.cz (Vlastimil Babka)
+Date: Tue, 16 Oct 2018 13:29:52 +0200
+Subject: [PATCH 2/4] mm: speed up mremap by 500x on large regions (v2)
+In-Reply-To: <20181015223303.GA164293@joelaf.mtv.corp.google.com>
+References: <20181013013200.206928-1-joel@joelfernandes.org>
+ <20181013013200.206928-3-joel@joelfernandes.org>
+ <20181015094209.GA31999@infradead.org>
+ <20181015223303.GA164293@joelaf.mtv.corp.google.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181016074504.2042-1-abrodkin@synopsys.com>
+Message-ID: <35b9c85a-b366-9ca3-5647-c2568c811961@suse.cz>
 To: linux-snps-arc@lists.infradead.org
 
-It turned out we used to use default implementation of sched_clock()
-from kernel/sched/clock.c which was as precise as 1/HZ, i.e.
-by default we had 10 msec granularity of time measurement.
+On 10/16/18 12:33 AM, Joel Fernandes wrote:
+> On Mon, Oct 15, 2018@02:42:09AM -0700, Christoph Hellwig wrote:
+>> On Fri, Oct 12, 2018@06:31:58PM -0700, Joel Fernandes (Google) wrote:
+>>> Android needs to mremap large regions of memory during memory management
+>>> related operations.
+>>
+>> Just curious: why?
+> 
+> In Android we have a requirement of moving a large (up to a GB now, but may
+> grow bigger in future) memory range from one location to another.
 
-Now given ARC built-in timers are clocked with the same frequency as
-CPU cores we may get much higher precision of time tracking.
+I think Christoph's "why?" was about the requirement, not why it hurts
+applications. I admit I'm now also curious :)
 
-Thus we switch to generic sched_clock which really reads ARC hardware
-counters.
-
-This is especially helpful for measuring short events.
-That's what we used to have:
------------------------------->8------------------------
-$ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
-
- Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
-
-         10.000000      task-clock (msec)         #    2.832 CPUs utilized
-                 1      context-switches          #    0.100 K/sec
-                 1      cpu-migrations            #    0.100 K/sec
-                63      page-faults               #    0.006 M/sec
-           3049480      cycles                    #    0.305 GHz
-           1091259      instructions              #    0.36  insn per cycle
-            256828      branches                  #   25.683 M/sec
-             27026      branch-misses             #   10.52% of all branches
-
-       0.003530687 seconds time elapsed
-
-       0.000000000 seconds user
-       0.010000000 seconds sys
------------------------------->8------------------------
-
-And now we'll see:
------------------------------->8------------------------
-$ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
-
- Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
-
-          3.004322      task-clock (msec)         #    0.865 CPUs utilized
-                 1      context-switches          #    0.333 K/sec
-                 1      cpu-migrations            #    0.333 K/sec
-                63      page-faults               #    0.021 M/sec
-           2986734      cycles                    #    0.994 GHz
-           1087466      instructions              #    0.36  insn per cycle
-            255209      branches                  #   84.947 M/sec
-             26002      branch-misses             #   10.19% of all branches
-
-       0.003474829 seconds time elapsed
-
-       0.003519000 seconds user
-       0.000000000 seconds sys
------------------------------->8------------------------
-
-Note how much more meaningful is the second output - time spent for
-execution pretty much matches number of cycles spent (we're runnign
-@ 1GHz here).
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Thomas Gleixner <tglx at linutronix.de>
----
- arch/arc/Kconfig                |  1 +
- drivers/clocksource/Kconfig     |  1 +
- drivers/clocksource/arc_timer.c | 22 ++++++++++++++++++++++
- 3 files changed, 24 insertions(+)
-
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 5151d81476a1..714f769389a4 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -9,6 +9,7 @@
- config ARC
- 	def_bool y
- 	select ARC_TIMERS
-+	select GENERIC_SCHED_CLOCK
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
- 	select ARCH_HAS_SG_CHAIN
-diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
-index dec0dd88ec15..3268dad4effe 100644
---- a/drivers/clocksource/Kconfig
-+++ b/drivers/clocksource/Kconfig
-@@ -290,6 +290,7 @@ config CLKSRC_MPS2
- 
- config ARC_TIMERS
- 	bool "Support for 32-bit TIMERn counters in ARC Cores" if COMPILE_TEST
-+	depends on GENERIC_SCHED_CLOCK
- 	select TIMER_OF
- 	help
- 	  These are legacy 32-bit TIMER0 and TIMER1 counters found on all ARC cores
-diff --git a/drivers/clocksource/arc_timer.c b/drivers/clocksource/arc_timer.c
-index 20da9b1d7f7d..6d0ebf64a1c5 100644
---- a/drivers/clocksource/arc_timer.c
-+++ b/drivers/clocksource/arc_timer.c
-@@ -23,6 +23,7 @@
- #include <linux/cpu.h>
- #include <linux/of.h>
- #include <linux/of_irq.h>
-+#include <linux/sched_clock.h>
- 
- #include <soc/arc/timers.h>
- #include <soc/arc/mcip.h>
-@@ -88,6 +89,11 @@ static u64 arc_read_gfrc(struct clocksource *cs)
- 	return (((u64)h) << 32) | l;
- }
- 
-+static u64 arc_gfrc_clock_read(void)
-+{
-+	return arc_read_gfrc(NULL);
-+}
-+
- static struct clocksource arc_counter_gfrc = {
- 	.name   = "ARConnect GFRC",
- 	.rating = 400,
-@@ -111,6 +117,8 @@ static int __init arc_cs_setup_gfrc(struct device_node *node)
- 	if (ret)
- 		return ret;
- 
-+	sched_clock_register(arc_gfrc_clock_read, 64, arc_timer_freq);
-+
- 	return clocksource_register_hz(&arc_counter_gfrc, arc_timer_freq);
- }
- TIMER_OF_DECLARE(arc_gfrc, "snps,archs-timer-gfrc", arc_cs_setup_gfrc);
-@@ -139,6 +147,11 @@ static u64 arc_read_rtc(struct clocksource *cs)
- 	return (((u64)h) << 32) | l;
- }
- 
-+static u64 arc_rtc_clock_read(void)
-+{
-+	return arc_read_rtc(NULL);
-+}
-+
- static struct clocksource arc_counter_rtc = {
- 	.name   = "ARCv2 RTC",
- 	.rating = 350,
-@@ -170,6 +183,8 @@ static int __init arc_cs_setup_rtc(struct device_node *node)
- 
- 	write_aux_reg(AUX_RTC_CTRL, 1);
- 
-+	sched_clock_register(arc_rtc_clock_read, 64, arc_timer_freq);
-+
- 	return clocksource_register_hz(&arc_counter_rtc, arc_timer_freq);
- }
- TIMER_OF_DECLARE(arc_rtc, "snps,archs-timer-rtc", arc_cs_setup_rtc);
-@@ -185,6 +200,11 @@ static u64 arc_read_timer1(struct clocksource *cs)
- 	return (u64) read_aux_reg(ARC_REG_TIMER1_CNT);
- }
- 
-+static u64 arc_timer1_clock_read(void)
-+{
-+	return arc_read_timer1(NULL);
-+}
-+
- static struct clocksource arc_counter_timer1 = {
- 	.name   = "ARC Timer1",
- 	.rating = 300,
-@@ -209,6 +229,8 @@ static int __init arc_cs_setup_timer1(struct device_node *node)
- 	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
- 	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
- 
-+	sched_clock_register(arc_timer1_clock_read, 64, arc_timer_freq);
-+
- 	return clocksource_register_hz(&arc_counter_timer1, arc_timer_freq);
- }
- 
--- 
-2.17.2
+> This move
+> operation has to happen when the application threads are paused for this
+> operation. Therefore, an inefficient move like it is now (for example 250ms
+> on arm64) will cause response time issues for applications, which is not
+> acceptable. Huge pages cannot be used in such memory ranges to avoid this
+> inefficiency as (when the application threads are running) our fault handlers
+> are designed to process 4KB pages at a time, to keep response times low. So
+> using huge pages in this context can, again, cause response time issues.
+> 
+> Also, the mremap syscall waiting for quarter of a second for a large mremap
+> is quite weird and we ought to improve it where possible.
