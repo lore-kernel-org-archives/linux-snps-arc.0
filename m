@@ -1,164 +1,175 @@
-From: joel@joelfernandes.org (Joel Fernandes)
-Date: Mon, 15 Oct 2018 19:08:53 -0700
-Subject: [PATCH v2 2/2] mm: speed up mremap by 500x on large regions
-In-Reply-To: <20181015101814.306d257c@mschwideX1>
-References: <20181012013756.11285-1-joel@joelfernandes.org>
- <20181012013756.11285-2-joel@joelfernandes.org>
- <6580a62b-69c6-f2e3-767c-bd36b977bea2@de.ibm.com>
- <20181015101814.306d257c@mschwideX1>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue, 16 Oct 2018 10:45:04 +0300
+Subject: [PATCH] clocksource/drivers/arc_timer: Utilize generic sched_clock
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181016020853.GA56701@joelaf.mtv.corp.google.com>
+Message-ID: <20181016074504.2042-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Oct 15, 2018@10:18:14AM +0200, Martin Schwidefsky wrote:
-> On Mon, 15 Oct 2018 09:10:53 +0200
-> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> 
-> > On 10/12/2018 03:37 AM, Joel Fernandes (Google) wrote:
-> > > Android needs to mremap large regions of memory during memory management
-> > > related operations. The mremap system call can be really slow if THP is
-> > > not enabled. The bottleneck is move_page_tables, which is copying each
-> > > pte at a time, and can be really slow across a large map. Turning on THP
-> > > may not be a viable option, and is not for us. This patch speeds up the
-> > > performance for non-THP system by copying at the PMD level when possible.
-> > > 
-> > > The speed up is three orders of magnitude. On a 1GB mremap, the mremap
-> > > completion times drops from 160-250 millesconds to 380-400 microseconds.
-> > > 
-> > > Before:
-> > > Total mremap time for 1GB data: 242321014 nanoseconds.
-> > > Total mremap time for 1GB data: 196842467 nanoseconds.
-> > > Total mremap time for 1GB data: 167051162 nanoseconds.
-> > > 
-> > > After:
-> > > Total mremap time for 1GB data: 385781 nanoseconds.
-> > > Total mremap time for 1GB data: 388959 nanoseconds.
-> > > Total mremap time for 1GB data: 402813 nanoseconds.
-> > > 
-> > > Incase THP is enabled, the optimization is skipped. I also flush the
-> > > tlb every time we do this optimization since I couldn't find a way to
-> > > determine if the low-level PTEs are dirty. It is seen that the cost of
-> > > doing so is not much compared the improvement, on both x86-64 and arm64.
-> > > 
-> > > Cc: minchan at kernel.org
-> > > Cc: pantin at google.com
-> > > Cc: hughd at google.com
-> > > Cc: lokeshgidra at google.com
-> > > Cc: dancol at google.com
-> > > Cc: mhocko at kernel.org
-> > > Cc: kirill at shutemov.name
-> > > Cc: akpm at linux-foundation.org
-> > > Signed-off-by: Joel Fernandes (Google) <joel at joelfernandes.org>
-> > > ---
-> > >  mm/mremap.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 62 insertions(+)
-> > > 
-> > > diff --git a/mm/mremap.c b/mm/mremap.c
-> > > index 9e68a02a52b1..d82c485822ef 100644
-> > > --- a/mm/mremap.c
-> > > +++ b/mm/mremap.c
-> > > @@ -191,6 +191,54 @@ static void move_ptes(struct vm_area_struct *vma, pmd_t *old_pmd,
-> > >  		drop_rmap_locks(vma);
-> > >  }
-> > >  
-> > > +static bool move_normal_pmd(struct vm_area_struct *vma, unsigned long old_addr,
-> > > +		  unsigned long new_addr, unsigned long old_end,
-> > > +		  pmd_t *old_pmd, pmd_t *new_pmd, bool *need_flush)
-> > > +{
-> > > +	spinlock_t *old_ptl, *new_ptl;
-> > > +	struct mm_struct *mm = vma->vm_mm;
-> > > +
-> > > +	if ((old_addr & ~PMD_MASK) || (new_addr & ~PMD_MASK)
-> > > +	    || old_end - old_addr < PMD_SIZE)
-> > > +		return false;
-> > > +
-> > > +	/*
-> > > +	 * The destination pmd shouldn't be established, free_pgtables()
-> > > +	 * should have release it.
-> > > +	 */
-> > > +	if (WARN_ON(!pmd_none(*new_pmd)))
-> > > +		return false;
-> > > +
-> > > +	/*
-> > > +	 * We don't have to worry about the ordering of src and dst
-> > > +	 * ptlocks because exclusive mmap_sem prevents deadlock.
-> > > +	 */
-> > > +	old_ptl = pmd_lock(vma->vm_mm, old_pmd);
-> > > +	if (old_ptl) {
-> > > +		pmd_t pmd;
-> > > +
-> > > +		new_ptl = pmd_lockptr(mm, new_pmd);
-> > > +		if (new_ptl != old_ptl)
-> > > +			spin_lock_nested(new_ptl, SINGLE_DEPTH_NESTING);
-> > > +
-> > > +		/* Clear the pmd */
-> > > +		pmd = *old_pmd;
-> > > +		pmd_clear(old_pmd);  
-> > 
-> > Adding Martin Schwidefsky.
-> > Is this mapping maybe still in use on other CPUs? If yes, I think for
-> > s390 we need to flush here as well (in other word we might need to introduce
-> > pmd_clear_flush). On s390 you have to use instructions like CRDTE,IPTE or IDTE
-> > to modify page table entries that are still in use. Otherwise you can get a 
-> > delayed access exception which is - in contrast to page faults - not recoverable.
-> 
-> Just clearing an active pmd would be broken for s390. We need the equivalent
-> of the ptep_get_and_clear() function for pmds. For s390 this function would
-> look like this:
-> 
-> static inline pte_t pmdp_get_and_clear(struct mm_struct *mm,
->                                        unsigned long addr, pmd_t *pmdp)
-> {
->         return pmdp_xchg_lazy(mm, addr, pmdp, __pmd(_SEGMENT_ENTRY_INVALID));
-> }
-> 
-> Just like pmdp_huge_get_and_clear() in fact.
+It turned out we used to use default implementation of sched_clock()
+from kernel/sched/clock.c which was as precise as 1/HZ, i.e.
+by default we had 10 msec granularity of time measurement.
 
-I agree architecture like s390 may need additional explicit instructions to
-avoid any unrecoverable failure. So the good news is in my last patch I sent, I
-have put this behind an architecture flag (HAVE_MOVE_PMD), so we don't have
-to enable it with architectures that cannot handle it:
-https://www.spinics.net/lists/linux-mm/msg163621.html
+Now given ARC built-in timers are clocked with the same frequency as
+CPU cores we may get much higher precision of time tracking.
 
-Also we are triggering this optimization only if the page is not a transparent
-huge page by calling pmd_trans_huge(). For regular pages, it should be safe to
-not do the atomic get_and_clear AIUI because Linux doesn't use any bits from
-the PMD like the dirty bit if THP is not in use (and the processors that I
-saw (not s390) should not storing anything in the bits anyway when the page
-is not a huge page. I have gone through various scenarios and read both arm
-32-bit and 64-bit and x86 64-bit manuals, and I believe it to be safe.
+Thus we switch to generic sched_clock which really reads ARC hardware
+counters.
 
-For s390, lets not set the HAVE_MOVE_PMD flag. Does that work for you?
+This is especially helpful for measuring short events.
+That's what we used to have:
+------------------------------>8------------------------
+$ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
 
-> > > +
-> > > +		VM_BUG_ON(!pmd_none(*new_pmd));
-> > > +
-> > > +		/* Set the new pmd */
-> > > +		set_pmd_at(mm, new_addr, new_pmd, pmd);
-> > > +		if (new_ptl != old_ptl)
-> > > +			spin_unlock(new_ptl);
-> > > +		spin_unlock(old_ptl);
-> > > +
-> > > +		*need_flush = true;
-> > > +		return true;
-> > > +	}
-> > > +	return false;
-> > > +}
-> > > +
-> 
-> So the idea is to move the pmd entry to the new location, dragging
-> the whole pte table to a new location with a different address.
-> I wonder if that is safe in regard to get_user_pages_fast().
+ Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
 
-Could you elaborate why you feel it may not be?
+         10.000000      task-clock (msec)         #    2.832 CPUs utilized
+                 1      context-switches          #    0.100 K/sec
+                 1      cpu-migrations            #    0.100 K/sec
+                63      page-faults               #    0.006 M/sec
+           3049480      cycles                    #    0.305 GHz
+           1091259      instructions              #    0.36  insn per cycle
+            256828      branches                  #   25.683 M/sec
+             27026      branch-misses             #   10.52% of all branches
 
-Are you concerned that the PMD moving interferes with the page walk? Incase
-the tree changes during page-walking, the number of pages pinned by
-get_user_pages_fast may be less than the number requested. In this case,
-get_user_pages_fast would fall back to the slow path which should be
-synchronized with the mremap by courtesy of the mm->mmap_sem. But please let
-me know the scenario you have in mind and if I missed something.
+       0.003530687 seconds time elapsed
 
-thanks,
+       0.000000000 seconds user
+       0.010000000 seconds sys
+------------------------------>8------------------------
 
- - Joel
+And now we'll see:
+------------------------------>8------------------------
+$ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+
+ Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+
+          3.004322      task-clock (msec)         #    0.865 CPUs utilized
+                 1      context-switches          #    0.333 K/sec
+                 1      cpu-migrations            #    0.333 K/sec
+                63      page-faults               #    0.021 M/sec
+           2986734      cycles                    #    0.994 GHz
+           1087466      instructions              #    0.36  insn per cycle
+            255209      branches                  #   84.947 M/sec
+             26002      branch-misses             #   10.19% of all branches
+
+       0.003474829 seconds time elapsed
+
+       0.003519000 seconds user
+       0.000000000 seconds sys
+------------------------------>8------------------------
+
+Note how much more meaningful is the second output - time spent for
+execution pretty much matches number of cycles spent (we're runnign
+@ 1GHz here).
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Thomas Gleixner <tglx at linutronix.de>
+---
+ arch/arc/Kconfig                |  1 +
+ drivers/clocksource/Kconfig     |  1 +
+ drivers/clocksource/arc_timer.c | 22 ++++++++++++++++++++++
+ 3 files changed, 24 insertions(+)
+
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 5151d81476a1..714f769389a4 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -9,6 +9,7 @@
+ config ARC
+ 	def_bool y
+ 	select ARC_TIMERS
++	select GENERIC_SCHED_CLOCK
+ 	select ARCH_HAS_SYNC_DMA_FOR_CPU
+ 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
+ 	select ARCH_HAS_SG_CHAIN
+diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
+index dec0dd88ec15..3268dad4effe 100644
+--- a/drivers/clocksource/Kconfig
++++ b/drivers/clocksource/Kconfig
+@@ -290,6 +290,7 @@ config CLKSRC_MPS2
+ 
+ config ARC_TIMERS
+ 	bool "Support for 32-bit TIMERn counters in ARC Cores" if COMPILE_TEST
++	depends on GENERIC_SCHED_CLOCK
+ 	select TIMER_OF
+ 	help
+ 	  These are legacy 32-bit TIMER0 and TIMER1 counters found on all ARC cores
+diff --git a/drivers/clocksource/arc_timer.c b/drivers/clocksource/arc_timer.c
+index 20da9b1d7f7d..6d0ebf64a1c5 100644
+--- a/drivers/clocksource/arc_timer.c
++++ b/drivers/clocksource/arc_timer.c
+@@ -23,6 +23,7 @@
+ #include <linux/cpu.h>
+ #include <linux/of.h>
+ #include <linux/of_irq.h>
++#include <linux/sched_clock.h>
+ 
+ #include <soc/arc/timers.h>
+ #include <soc/arc/mcip.h>
+@@ -88,6 +89,11 @@ static u64 arc_read_gfrc(struct clocksource *cs)
+ 	return (((u64)h) << 32) | l;
+ }
+ 
++static u64 arc_gfrc_clock_read(void)
++{
++	return arc_read_gfrc(NULL);
++}
++
+ static struct clocksource arc_counter_gfrc = {
+ 	.name   = "ARConnect GFRC",
+ 	.rating = 400,
+@@ -111,6 +117,8 @@ static int __init arc_cs_setup_gfrc(struct device_node *node)
+ 	if (ret)
+ 		return ret;
+ 
++	sched_clock_register(arc_gfrc_clock_read, 64, arc_timer_freq);
++
+ 	return clocksource_register_hz(&arc_counter_gfrc, arc_timer_freq);
+ }
+ TIMER_OF_DECLARE(arc_gfrc, "snps,archs-timer-gfrc", arc_cs_setup_gfrc);
+@@ -139,6 +147,11 @@ static u64 arc_read_rtc(struct clocksource *cs)
+ 	return (((u64)h) << 32) | l;
+ }
+ 
++static u64 arc_rtc_clock_read(void)
++{
++	return arc_read_rtc(NULL);
++}
++
+ static struct clocksource arc_counter_rtc = {
+ 	.name   = "ARCv2 RTC",
+ 	.rating = 350,
+@@ -170,6 +183,8 @@ static int __init arc_cs_setup_rtc(struct device_node *node)
+ 
+ 	write_aux_reg(AUX_RTC_CTRL, 1);
+ 
++	sched_clock_register(arc_rtc_clock_read, 64, arc_timer_freq);
++
+ 	return clocksource_register_hz(&arc_counter_rtc, arc_timer_freq);
+ }
+ TIMER_OF_DECLARE(arc_rtc, "snps,archs-timer-rtc", arc_cs_setup_rtc);
+@@ -185,6 +200,11 @@ static u64 arc_read_timer1(struct clocksource *cs)
+ 	return (u64) read_aux_reg(ARC_REG_TIMER1_CNT);
+ }
+ 
++static u64 arc_timer1_clock_read(void)
++{
++	return arc_read_timer1(NULL);
++}
++
+ static struct clocksource arc_counter_timer1 = {
+ 	.name   = "ARC Timer1",
+ 	.rating = 300,
+@@ -209,6 +229,8 @@ static int __init arc_cs_setup_timer1(struct device_node *node)
+ 	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
+ 	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
+ 
++	sched_clock_register(arc_timer1_clock_read, 64, arc_timer_freq);
++
+ 	return clocksource_register_hz(&arc_counter_timer1, arc_timer_freq);
+ }
+ 
+-- 
+2.17.2
