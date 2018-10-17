@@ -1,41 +1,41 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 17 Oct 2018 17:05:52 +0300
-Subject: [PATCH v3] ARC: HSDK: improve reset driver
+From: p.zabel@pengutronix.de (Philipp Zabel)
+Date: Wed, 17 Oct 2018 16:20:31 +0200
+Subject: [PATCH v2] ARC: HSDK: improve reset driver
+In-Reply-To: <1539784482.4199.35.camel@synopsys.com>
+References: <20180928162856.4726-1-Eugeniy.Paltsev@synopsys.com>
+ <1539346114.6204.5.camel@pengutronix.de>
+ <1539784482.4199.35.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181017140552.7331-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1539786031.4729.7.camel@pengutronix.de>
 To: linux-snps-arc@lists.infradead.org
 
-As for today HSDK reset driver implements only .reset() callback.
+Hi Eugeniy,
 
-In case of driver which implements one of standard
-reset controller usage pattern
-(call *_deassert() in probe(), call *_assert() in remove())
-that leads to inoperability of this reset driver.
+On Wed, 2018-10-17@13:54 +0000, Eugeniy Paltsev wrote:
+[...]
+> > The documentation states that calling reset_control_assert "on an
+> > exclusive reset controller guarantees that the reset will be asserted."
+> > Since this is clearly not the case with this driver, it is appropriate
+> > to keep returning an error in this case.
+> > 
+> > If there is a driver that requests an exclusive reset control, calls
+> > reset_control_assert, and then checks the error value to see whether
+> > asserting the reset succeeded, it should be made aware that
+> > we couldn't actually assert the reset line as requested. If the driver
+> > can continue operation even though the reset line was not asserted,
+> > it should ignore the error.
+> > 
+> > So if you need to hide this error, I'd like to know the actual case that
+> > is fixed by this, to see if we can't fix it in a better way.
+> 
+> Ok, I can drop it in my case as it will work fine with certain drivers:
+> (several drivers use shared reset control, other drivers use exclusive reset
+> control but don't check reset_control_assert() return value)
+>
+> I simply want to say that this wouldn't work in all cases (without changes
+> in driver which use reset control).
 
-Improve HSDK reset driver by calling .reset() callback inside of
-.deassert() callback to avoid each reset controller
-user adaptation for work with both reset methods
-(reset() and {.assert() & .deassert()} pair)
+Ok, if there is ever such a case, please let me know.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
-Changes v2->v3:
- * Drop dummy .assert callback.
-
- drivers/reset/reset-hsdk.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/reset/reset-hsdk.c b/drivers/reset/reset-hsdk.c
-index 8bce391c6943..4c7b8647b49c 100644
---- a/drivers/reset/reset-hsdk.c
-+++ b/drivers/reset/reset-hsdk.c
-@@ -86,6 +86,7 @@ static int hsdk_reset_reset(struct reset_controller_dev *rcdev,
- 
- static const struct reset_control_ops hsdk_reset_ops = {
- 	.reset	= hsdk_reset_reset,
-+	.deassert = hsdk_reset_reset,
- };
- 
- static int hsdk_reset_probe(struct platform_device *pdev)
--- 
-2.14.4
+regards
+Philipp
