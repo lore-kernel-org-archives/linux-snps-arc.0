@@ -1,90 +1,93 @@
 From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 17 Oct 2018 14:33:02 +0000
-Subject: [PATCH] ARC: Don't set CROSS_COMPILE in arch's Makefile
-In-Reply-To: <20180916204757.31131-1-abrodkin@synopsys.com>
-References: <20180916204757.31131-1-abrodkin@synopsys.com>
+Date: Thu, 18 Oct 2018 12:12:03 +0300
+Subject: [PATCH] mpfr: Fix compilation for ARC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <4881796E12491D4BB15146FE0209CE6468174FFF@DE02WEMBXB.internal.synopsys.com>
+Message-ID: <20181018091203.22480-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hello,
+MPFR has a couple of things implemented in assembly and in case of
+ARC those parts were written long ago when ARC GCC port was not yet
+upstreamed. On upstreaming of GCC some constraints were changed and
+so we can no longer build MPFR for ARC with up-to-date tools seeing
+something like that:
+| In file included from ../../mpfr-4.0.1/src/mpfr-impl.h:112,
+|                  from ../../mpfr-4.0.1/src/mul.c:24:
+| ../../mpfr-4.0.1/src/mul.c: In function 'mpfr_mul':
+| ../../mpfr-4.0.1/src/mpfr-longlong.h:415:3: error: impossible constraint in 'asm'
+|    __asm__ ("add.f\t%1, %4, %5\n\tadc\t%0, %2, %3"   \
+|    ^~~~~~~
 
-> -----Original Message-----
-> From: Alexey Brodkin [mailto:abrodkin at synopsys.com]
-> Sent: Sunday, September 16, 2018 11:48 PM
-> To: linux-snps-arc at lists.infradead.org
-> Cc: linux-kernel at vger.kernel.org; Vineet Gupta <vgupta at synopsys.com>; Alexey Brodkin <abrodkin at synopsys.com>; Masahiro
-> Yamada <yamada.masahiro at socionext.com>; Rob Herring <robh at kernel.org>
-> Subject: [PATCH] ARC: Don't set CROSS_COMPILE in arch's Makefile
-> 
-> There's not much sense in doing that because if user or
-> his build-system didn't set CROSS_COMPILE we still may
-> very well make incorrect guess.
-> 
-> But as it turned out setting CROSS_COMPILE is not as harmless
-> as one may think: with recent changes that implemented automatic
-> discovery of __host__ gcc features unconditional setup of
-> CROSS_COMPILE leads to failures on execution of "make xxx_defconfig"
-> with absent cross-compiler, for more info see [1].
-> 
-> Set CROSS_COMPILE as well gets in the way if we want only to build
-> .dtb's (again with absent cross-compiler which is not really needed
-> for building .dtb's), see [2].
-> 
-> Note, we had to change LIBGCC assignment type from ":=" to "="
-> so that is is resolved on its usage, otherwise if it is resolved
-> at declaration time with missing CROSS_COMPILE we're getting this
-> error message from host GCC:
-> ------------------------->8-------------------------
-> gcc: error: unrecognized command line option ?-mmedium-calls?
-> gcc: error: unrecognized command line option ?-mno-sdata?; did you mean ?-fno-stats??
-> ------------------------->8-------------------------
-> 
-> [1] http://lists.infradead.org/pipermail/linux-snps-arc/2018-September/004308.html
-> [2] http://lists.infradead.org/pipermail/linux-snps-arc/2018-September/004320.html
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
-> Cc: Rob Herring <robh at kernel.org>
-> ---
->  arch/arc/Makefile | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
-> 
-> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-> index 99cce77ab98f..5f6b67917dc2 100644
-> --- a/arch/arc/Makefile
-> +++ b/arch/arc/Makefile
-> @@ -6,14 +6,6 @@
->  # published by the Free Software Foundation.
->  #
-> 
-> -ifeq ($(CROSS_COMPILE),)
-> -ifndef CONFIG_CPU_BIG_ENDIAN
-> -CROSS_COMPILE := arc-linux-
-> -else
-> -CROSS_COMPILE := arceb-linux-
-> -endif
-> -endif
-> -
->  KBUILD_DEFCONFIG := nsim_700_defconfig
-> 
->  cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
-> @@ -79,7 +71,7 @@ cflags-$(disable_small_data)		+= -mno-sdata -fcall-used-gp
->  cflags-$(CONFIG_CPU_BIG_ENDIAN)		+= -mbig-endian
->  ldflags-$(CONFIG_CPU_BIG_ENDIAN)	+= -EB
-> 
-> -LIBGCC	:= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
-> +LIBGCC	= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
-> 
->  # Modules with short calls might break for calls into builtin-kernel
->  KBUILD_CFLAGS_MODULE	+= -mlong-calls -mno-millicode
-> --
-> 2.17.1
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ .../0001-Fix-obsolete-ARC-asm-constraints.patch    | 45 ++++++++++++++++++++++
+ meta/recipes-support/mpfr/mpfr_4.0.1.bb            |  3 +-
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch
 
-May we have this one back-ported to stable branches?
-
-Upstream commit in Linus' tree is:
-40660f1fcee8 ("ARC: build: Don't set CROSS_COMPILE in arch's Makefile").
-
-Regards,
-Alexey
+diff --git a/meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch b/meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch
+new file mode 100644
+index 0000000000..59d1b0db67
+--- /dev/null
++++ b/meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch
+@@ -0,0 +1,45 @@
++mpfr-longlong.h: Fix obsolete ARC asm constraints
++
++This patch replaces obsolete ARC "J" asm constraint with
++up-to-date "Cal" constraint.
++
++"J" constraint only existed in pre-upstream GCC port for ARC.
++In current upstream port "Cal" constraint is used which leads
++to compile-time error.
++
++Proposed fix is known to work in Buildroot, Crosstool-NG etc.
++
++[1] https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=09cb6a17e71bd40d2fbfaf82a1502fc210e33c87
++
++Signed-off-by: Claudiu Zissulescu <claziss at synopsys.com>
++Signed-off-by: Vlad Zakharov <vzakhar at synopsys.com>
++Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
++
++Upstream-Status: Backport [https://gforge.inria.fr/scm/viewvc.php/mpfr?view=revision&revision=13251]
++---
++Index: src/mpfr-longlong.h
++===================================================================
++--- a/src/mpfr-longlong.h	(revision 10963)
+++++ b/src/mpfr-longlong.h	(working copy)
++@@ -416,17 +416,17 @@
++ 	   : "=r" (sh),							\
++ 	     "=&r" (sl)							\
++ 	   : "r"  ((USItype) (ah)),					\
++-	     "rIJ" ((USItype) (bh)),					\
+++	     "rICal" ((USItype) (bh)),					\
++ 	     "%r" ((USItype) (al)),					\
++-	     "rIJ" ((USItype) (bl)))
+++	     "rICal" ((USItype) (bl)))
++ #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
++   __asm__ ("sub.f\t%1, %4, %5\n\tsbc\t%0, %2, %3"			\
++ 	   : "=r" (sh),							\
++ 	     "=&r" (sl)							\
++ 	   : "r" ((USItype) (ah)),					\
++-	     "rIJ" ((USItype) (bh)),					\
+++	     "rICal" ((USItype) (bh)),					\
++ 	     "r" ((USItype) (al)),					\
++-	     "rIJ" ((USItype) (bl)))
+++	     "rICal" ((USItype) (bl)))
++ #endif
++ 
++ #if defined (__arm__) && (defined (__thumb2__) || !defined (__thumb__)) \
+diff --git a/meta/recipes-support/mpfr/mpfr_4.0.1.bb b/meta/recipes-support/mpfr/mpfr_4.0.1.bb
+index f85a846e33..2eee76a357 100644
+--- a/meta/recipes-support/mpfr/mpfr_4.0.1.bb
++++ b/meta/recipes-support/mpfr/mpfr_4.0.1.bb
+@@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 		    file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6"
+ DEPENDS = "gmp autoconf-archive"
+ 
+-SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz"
++SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz \
++           file://0001-Fix-obsolete-ARC-asm-constraints.patch"
+ SRC_URI[md5sum] = "b8dd19bd9bb1ec8831a6a582a7308073"
+ SRC_URI[sha256sum] = "67874a60826303ee2fb6affc6dc0ddd3e749e9bfcb4c8655e3953d0458a6e16e"
+ 
+-- 
+2.16.2
