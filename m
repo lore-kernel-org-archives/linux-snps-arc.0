@@ -1,343 +1,375 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 19 Oct 2018 16:26:20 +0300
-Subject: [PATCH v3] ARC: prevent showing irrelevant exception info in signal
- message
+Date: Fri, 19 Oct 2018 17:27:38 +0300
+Subject: [RFC] ARC: ARCv2: Introduce SmaRT support
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181019132620.27368-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20181019142738.31085-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-We process signals in the end of syscall/exception handler.
-It the signal is fatal we print register's content using
-show_regs function. show_regs() also prints information about
-last exception happened.
+Add compile-time 'ARC_USE_SMART' option for enabling SmaRT support.
 
-In case of multicore system we can catch the situation when we
-will print wrong information about exception. See the example:
-______________________________
-CPU-0: started to handle page fault
-CPU-1: sent signal to process, which is executed on CPU-0
-CPU-0: ended page fault handle. Started to process signal before
-       returnig to userspace. Process signal, which is send from
-       CPU-0. As th signal is fatal we call show_regs().
-       show_regs() will show information about last exception
-       which is *page fault* (instead of "trap" which is used for
-       signals and happened on CPU-0)
+Small real time trace (SmaRT) is an optional on-chip debug hardware
+component that captures instruction-trace history. It stores the
+address of the most recent non-sequential instructions executed into
+internal buffer.
 
-So we will get message like this:
-   # ./waitpid02
-  potentially unexpected fatal signal 8.
-  Path: /home/waitpid02
-  CPU: 0 PID: 100 Comm: waitpid02 Not tainted 4.10.0-rc4 #2
-  task: 9f11c200 task.stack: 9f3ae000
+Usually we use MetaWare debugger to enable SmaRT and display trace
+information.
 
-  [ECR   ]: 0x00050200 => Invalid Write @ 0x00000000 by insn @ 0x000123ec
-  [EFA   ]: 0x00000000
-  [BLINK ]: 0x123ea
-  [ERET  ]: 0x123ec
-    @off 0x123ec in [/home/waitpid02]
-    VMA: 0x00010000 to 0x00016000
-  [STAT32]: 0x80080882 : IE U
-  BTA: 0x000123ea  SP: 0x5ffd3db0  FP: 0x00000000
-  LPS: 0x20031684 LPE: 0x2003169a LPC: 0x00000006
-  [-----other-info-----]
+This patch allows to display the decoded content of SmaRT buffer
+without MetaWare debugger. It is done by extending ordinary exception
+message with decoded SmaRT instruction-trace history.
 
-This message is confusing because it show information about page fault
-( [ECR   ]: 0x00050200 => Invalid Write ) which is absolutely irrelevant
-to signal.
+In some cases it's really usefull as it allows to show pre-exception
+instruction-trace which was not tainted by exception handler code,
+printk code, etc...
 
-This situation was reproduced with waitpid02 LTP test.
-_____________________________
+Nevertheless this option has negative performance impact due to
+implementation as we dump SmaRT buffer content into external memory
+buffer in the begining of every slowpath exception handler code.
+We choose this implementation as a compromise between performance
+impact and SmaRT buffer tainting.
+Although the performance impact is not really significant (according
+to lmbench) we leave this option disabled by default.
 
-So remove printing information about exceptions from show_regs()
-to avoid confusing messages. Print information about exceptions
-only in required places instead of show_regs()
+Here is th examples of user-space and kernel-space fault messages with
+'ARC_USE_SMART' option enabled:
 
-Now we don't print information about exceptions if signal is simply
-send by another userspace app. So in case of waitpid02 we will print
-next message:
-_____________________________
-   # ./waitpid02
-  potentially unexpected fatal signal 8.
-  Path: /root/waitpid02
-  CPU: 2 PID: 105 Comm: waitpid02 Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #17
-  [ECR   ]: 0x00050100
-  [EFA   ]: 0x00000000
-  [BLINK ]: 0x20001486
-  [-----other-info-----]
-_____________________________
+User-space exception:
+----------------------->8-------------------------
+Exception: u_hell[99]: at 0x103a2 [off 0x103a2 in /root/u_hell, VMA: 00010000:00012000]
+  ECR: 0x00050200 => Invalid Write @ 0x00000000 by insn @ 0x000103a2
+SmaRT (64 entries):
+ [   0]    V 0x90232358 -> 0x9022ce3c [src do_page_fault+0x2c/0x2d8] [dst populate_smart+0x0/0x9c]
+ [   1]    V 0x9022e3f8 -> 0x9023232c [src EV_TLBProtV+0xec/0xf0] [dst do_page_fault+0x0/0x2d8]
+ [   2]    V 0x90233194 -> 0x9022e30c [src do_slow_path_pf+0x10/0x14] [dst EV_TLBProtV+0x0/0xf0]
+ [   3]    V 0x90233120 -> 0x90233184 [src EV_TLBMissD+0x80/0xe0] [dst do_slow_path_pf+0x0/0x14]
+ [   4]  E V 0x000103a2 -> 0x902330a0 [off 0x103a2 in /root/u_hell, VMA: 00010000:00012000] [dst EV_TLBMissD+0x0/0xe0]
+ [   5] U  V 0x2004f238 -> 0x00010398 [off 0x43238 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000] [off 0x10398 in /root/u_hell, VMA: 00010000:00012000]
+ [   6] U  V 0x20049a82 -> 0x2004f214 [off 0x3da82 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000] [off 0x43214 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
+ [   7] U  V 0x20049a64 -> 0x20049a76 [off 0x3da64 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000] [off 0x3da76 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
+ [   8] U  V 0x2001d8e4 -> 0x20049a58 [off 0x118e4 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000] [off 0x3da58 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
+ [   9] U  V 0x2001d8f4 -> 0x2001d8a8 [off 0x118f4 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000] [off 0x118a8 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
+ [  10] U  V 0x2001d5c8 -> 0x2001d8f0 [off 0x115c8 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000] [off 0x118f0 in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
+...[snip]...
+----------------------->8-------------------------
 
-This patch fix
-STAR 9001146055: waitpid02: Invalid Write @ 0x00000000 by insn @ 0x000123ec
+Kernel-space exception:
+----------------------->8-------------------------
+Exception: at dw_mci_probe+0xf0/0x944:
+  ECR: 0x00050100 => Invalid Read @ 0x00000000 by insn @ 0x905e26e0
+SmaRT (64 entries):
+ [   0]    V 0x90232358 -> 0x9022ce3c [src do_page_fault+0x2c/0x2d8] [dst populate_smart+0x0/0x9c]
+ [   1]    V 0x9022e3f8 -> 0x9023232c [src EV_TLBProtV+0xec/0xf0] [dst do_page_fault+0x0/0x2d8]
+ [   2]    V 0x9022e398 -> 0x9022e3a0 [src EV_TLBProtV+0x8c/0xf0] [dst EV_TLBProtV+0x94/0xf0]
+ [   3]    V 0x90233194 -> 0x9022e30c [src do_slow_path_pf+0x10/0x14] [dst EV_TLBProtV+0x0/0xf0]
+ [   4]    V 0x902330dc -> 0x90233184 [src EV_TLBMissD+0x3c/0xe0] [dst do_slow_path_pf+0x0/0x14]
+ [   5]  E V 0x905e26e0 -> 0x902330a0 [src dw_mci_probe+0xf0/0x944] [dst EV_TLBMissD+0x0/0xe0]
+ [   6]    V 0x904cb940 -> 0x905e26d6 [src clk_get_rate+0xdc/0x208] [dst dw_mci_probe+0xe6/0x944]
+ [   7]    V 0x9074e14a -> 0x904cb932 [src mutex_unlock+0x1e/0x24] [dst clk_get_rate+0xce/0x208]
+ [   8]    V 0x904cb92e -> 0x9074e12c [src clk_get_rate+0xca/0x208] [dst mutex_unlock+0x0/0x24]
+ [   9]    V 0x904cb8ea -> 0x904cb91e [src clk_get_rate+0x86/0x208] [dst clk_get_rate+0xba/0x208]
+ [  10]    V 0x904cb8c2 -> 0x904cb8d0 [src clk_get_rate+0x5e/0x208] [dst clk_get_rate+0x6c/0x208]
+ [  11]    V 0x9074e01a -> 0x904cb884 [src mutex_trylock+0x4e/0x50] [dst clk_get_rate+0x20/0x208]
+ [  12]    V 0x9074e00e -> 0x9074e018 [src mutex_trylock+0x42/0x50] [dst mutex_trylock+0x4c/0x50]
+ [  13]    V 0x9074dfdc -> 0x9074dff0 [src mutex_trylock+0x10/0x50] [dst mutex_trylock+0x24/0x50]
+ [  14]    V 0x904cb880 -> 0x9074dfcc [src clk_get_rate+0x1c/0x208] [dst mutex_trylock+0x0/0x50]
+ [  15]    V 0x905e26d2 -> 0x904cb864 [src dw_mci_probe+0xe2/0x944] [dst clk_get_rate+0x0/0x208]
+...[snip]...
+----------------------->8-------------------------
+
+TODO:
+  Add runtime procfs options to configure/suspend SmaRT.
+  Add SmaRT BCR encoding struct.
+  Check SmaRT version number in BCR.
 
 NOTE:
-To be more clear I give examples of different faults (signal-based,
-userspace/kernelspace exception-based) with different values of
-"/proc/sys/kernel/print-fatal-signals" option.
-
-0) NULL pointer access from user space, print-fatal-signals == 1:
------------->8---------------
- # ./arc_hell
-Exception: arc_hell[103]: at 0x2003a35c [off 0x2e35c in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
-  ECR: 0x00050100 => Invalid Read @ 0x00000000 by insn @ 0x2003a35c
-potentially unexpected fatal signal 11.
-Path: /root/arc_hell
-CPU: 1 PID: 103 Comm: arc_hell Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #17
-[ECR   ]: 0x00050100
-[EFA   ]: 0x00000000
-[BLINK ]: 0x20039ef8
-[ERET  ]: 0x2003a35c
-[STAT32]: 0x80080882 : IE U
-BTA: 0x2003a358  SP: 0x5fa27dc4  FP: 0x5fa27de8
-LPS: 0x2003a628 LPE: 0x2003a62c LPC: 0x00000000
-r00: 0x00000000 r01: 0x200740b0 r02: 0x00000001
-r03: 0x00000007 r04: 0x80808080 r05: 0x2f2f2f2f
-r06: 0x7c7a2f43 r07: 0x00000000 r08: 0x1a131100
-r09: 0x2008b1e0 r10: 0x20003a5c r11: 0x20004038
-r12: 0x20039ef8 r13: 0x200740b0 r14: 0x00000000
-r15: 0x200740b0 r16: 0x00000000 r17: 0x0007d468
-r18: 0x0009313a r19: 0x00000000 r20: 0x0009c22c
-r21: 0x0009c23c r22: 0x0009ab64 r23: 0x00000000
-r24: 0x0009dfc5 r25: 0x20004b70
-
-Segmentation fault
------------->8---------------
-
-1) NULL pointer access from user space, print-fatal-signals == 0:
------------->8---------------
- # ./arc_hell
-Exception: arc_hell[107]: at 0x2003a35c [off 0x2e35c in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
-  ECR: 0x00050100 => Invalid Read @ 0x00000000 by insn @ 0x2003a35c
-Segmentation fault
------------->8---------------
-
-2) Process killed by signal (waitpid02 test), print-fatal-signals == 1:
------------->8---------------
- # ./waitpid02
-potentially unexpected fatal signal 8.
-Path: /root/waitpid02
-CPU: 2 PID: 105 Comm: waitpid02 Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #17
-[ECR   ]: 0x00050100
-[EFA   ]: 0x00000000
-[BLINK ]: 0x20001486
-[ERET  ]: 0x2000146c
-[STAT32]: 0x80080082 : IE U
-BTA: 0x20000fc4  SP: 0x5fa21d64  FP: 0x00000000
-LPS: 0x200524a0 LPE: 0x200524b6 LPC: 0x00000006
-r00: 0x2000c0dc r01: 0x00000018 r02: 0x0001159a
-r03: 0x00000001 r04: 0x00000000 r05: 0x00000045
-r06: 0x0000004e r07: 0x01010101 r08: 0x000000dc
-r09: 0x200a31e0 r10: 0x20003a5c r11: 0x20004038
-r12: 0x20001486 r13: 0x20004174 r14: 0x07ca2bc0
-r15: 0x20004078 r16: 0x00000000 r17: 0x20004038
-r18: 0x00000001 r19: 0x00000000 r20: 0x0001159a
-r21: 0x00000001 r22: 0x00000000 r23: 0x00000004
-r24: 0x2000d1fc r25: 0x20004cd0
------------->8---------------
-
-3) Process killed by signal (waitpid02 test), print-fatal-signals == 0:
------------->8---------------
- # ./waitpid02
------------->8---------------
-
-4) NULL pointer access from kernel space, regardless print-fatal-signals
-value:
------------->8---------------
-Oops
-Exception: at stmmac_dvr_probe+0x40/0x7e0:
-  ECR: 0x00050200 => Invalid Write @ 0x00000000 by insn @ 0x90575254
-Path: (null)
-CPU: 0 PID: 1 Comm: swapper/0 Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #11
-[EFA   ]: 0x00000000
-[BLINK ]: stmmac_dvr_probe+0x2a/0x7e0
-[ERET  ]: stmmac_dvr_probe+0x40/0x7e0
-[STAT32]: 0x80080402 : IE K
-BTA: 0x9057523e  SP: 0xbf02be40  FP: 0x00000000
-LPS: 0x9073dbcc LPE: 0x9073dbe0 LPC: 0x00000000
-r00: 0xbf1f0000 r01: 0x00000000 r02: 0x00000008
-r03: 0x00000000 r04: 0x00000064 r05: 0x00000000
-r06: 0x00000003 r07: 0x00000004 r08: 0x01010101
-r09: 0x00000031 r10: 0xbf1f0006 r11: 0x00000000
-r12: 0x9057523e
-
-Stack Trace:
-  stmmac_dvr_probe+0x40/0x7e0
-  dwmac_generic_probe+0x50/0xbc
-  platform_drv_probe+0x26/0x5c
-  really_probe+0x3b0/0x464
-  __driver_attach+0xd4/0xd8
-  bus_for_each_dev+0x3a/0x70
-  bus_add_driver+0x12a/0x18c
-  driver_register+0x56/0xe8
-  do_one_initcall+0x2e/0x118
-  kernel_init_freeable+0x102/0x194
------------->8---------------
+this RFC has prerequisite:
+  http://patchwork.ozlabs.org/patch/986820/
 
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 ---
-Changes v2->v3:
- * Don't show exception message if the corresponding signal is
-   handled by application (inspired by x86 implementation)
- * Rebase onto v4.19-rc8
+ arch/arc/Kconfig               |   8 +++
+ arch/arc/include/asm/arcregs.h |  14 ++++++
+ arch/arc/include/asm/bug.h     |   7 +++
+ arch/arc/kernel/setup.c        |   6 +++
+ arch/arc/kernel/traps.c        |   7 +++
+ arch/arc/kernel/troubleshoot.c | 112 +++++++++++++++++++++++++++++++++++++++++
+ arch/arc/mm/fault.c            |   1 +
+ 7 files changed, 155 insertions(+)
 
-Changes v1->v2:
- * Change format of message about exception.
-
- arch/arc/include/asm/bug.h     |  1 +
- arch/arc/kernel/traps.c        |  3 +++
- arch/arc/kernel/troubleshoot.c | 51 +++++++++++++++++++++++++++++++++---------
- arch/arc/mm/fault.c            |  8 +++++++
- 4 files changed, 52 insertions(+), 11 deletions(-)
-
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index a045f3086047..f006fe81e085 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -528,6 +528,14 @@ config ARC_DBG_TLB_PARANOIA
+ 	bool "Paranoia Checks in Low Level TLB Handlers"
+ 	default n
+ 
++config ARC_USE_SMART
++	bool "Enable real time trace on-chip debug HW"
++	depends on ISA_ARCV2
++	help
++	  Enable Small real time trace on-chip debug hardware component that
++	  captures instruction-trace history if exists. This trace will be
++	  printed if any unexpected exception is occured.
++
+ endif
+ 
+ config ARC_UBOOT_SUPPORT
+diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
+index 49bfbd879caa..11f4c5c0df4d 100644
+--- a/arch/arc/include/asm/arcregs.h
++++ b/arch/arc/include/asm/arcregs.h
+@@ -118,6 +118,20 @@
+ #define ARC_AUX_DPFP_2H         0x304
+ #define ARC_AUX_DPFP_STAT       0x305
+ 
++/* SmaRT registers */
++#define ARC_AUX_SMART_CONTROL	0x700
++#define SMART_CTL_EN		BIT(0)
++#define SMART_CTL_DATA_POS	8
++#define SMART_CTL_DATA_SRC	0
++#define SMART_CTL_DATA_DST	1
++#define SMART_CTL_DATA_FLAG	2
++#define SMART_CTL_IDX_POS	10
++#define ARC_AUX_SMART_DATA	0x701
++#define SMART_FLAG_U		BIT(8)
++#define SMART_FLAG_E		BIT(9)
++#define SMART_FLAG_R		BIT(10)
++#define SMART_FLAG_V		BIT(31)
++
+ #ifndef __ASSEMBLY__
+ 
+ #include <soc/arc/aux.h>
 diff --git a/arch/arc/include/asm/bug.h b/arch/arc/include/asm/bug.h
-index 21ec82466d62..b68f7f82f2d8 100644
+index b68f7f82f2d8..bc9c14bcee2a 100644
 --- a/arch/arc/include/asm/bug.h
 +++ b/arch/arc/include/asm/bug.h
-@@ -16,6 +16,7 @@
+@@ -15,6 +15,13 @@
+ 
  struct task_struct;
  
++#ifdef CONFIG_ARC_USE_SMART
++void populate_smart(void);
++#define POPULATE_SMART()	populate_smart()
++#else
++#define POPULATE_SMART()
++#endif /* CONFIG_ARC_USE_SMART */
++
  void show_regs(struct pt_regs *regs);
-+void show_exception_mesg(struct pt_regs *regs);
+ void show_exception_mesg(struct pt_regs *regs);
  void show_stacktrace(struct task_struct *tsk, struct pt_regs *regs);
- void show_kernel_fault_diag(const char *str, struct pt_regs *regs,
- 			    unsigned long address);
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index b2cae79a25d7..e83bbc86397e 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -447,6 +447,12 @@ void setup_processor(void)
+ 	pr_info("%s", arc_platform_smp_cpuinfo());
+ 
+ 	arc_chk_core_config();
++
++#ifdef CONFIG_ARC_USE_SMART
++	if (cpuinfo_arc700[cpu_id].extn.smart)
++		write_aux_reg(ARC_AUX_SMART_CONTROL, SMART_CTL_EN);
++#endif
++
+ }
+ 
+ static inline int is_kernel(unsigned long addr)
 diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
-index b123558bf0bb..e66fd40296b3 100644
+index e66fd40296b3..0228f7182e6d 100644
 --- a/arch/arc/kernel/traps.c
 +++ b/arch/arc/kernel/traps.c
-@@ -49,6 +49,9 @@ unhandled_exception(const char *str, struct pt_regs *regs, siginfo_t *info)
- 
- 		tsk->thread.fault_address = (__force unsigned int)info->si_addr;
- 
-+		if (unhandled_signal(tsk, info->si_signo))
-+			show_exception_mesg(regs);
+@@ -70,6 +70,7 @@ int name(unsigned long address, struct pt_regs *regs) \
+ {						\
+ 	siginfo_t info;				\
+ 						\
++	POPULATE_SMART();			\
+ 	clear_siginfo(&info);			\
+ 	info.si_signo = signr;			\
+ 	info.si_errno = 0;			\
+@@ -96,6 +97,8 @@ DO_ERROR_INFO(SIGSEGV, "gcc generated __builtin_trap", do_trap5_error, 0)
+ int do_misaligned_access(unsigned long address, struct pt_regs *regs,
+ 			 struct callee_regs *cregs)
+ {
++	POPULATE_SMART();
 +
- 		force_sig_info(info->si_signo, info, tsk);
+ 	/* If emulation not enabled, or failed, kill the task */
+ 	if (misaligned_fixup(address, regs, cregs) != 0)
+ 		return do_misaligned_error(address, regs);
+@@ -128,6 +131,8 @@ void do_non_swi_trap(unsigned long address, struct pt_regs *regs)
+ {
+ 	unsigned int param = regs->ecr_param;
  
- 	} else {
++	POPULATE_SMART();
++
+ 	switch (param) {
+ 	case 1:
+ 		trap_is_brkpt(address, regs);
+@@ -159,6 +164,8 @@ void do_insterror_or_kprobe(unsigned long address, struct pt_regs *regs)
+ {
+ 	int rc;
+ 
++	POPULATE_SMART();
++
+ 	/* Check if this exception is caused by kprobes */
+ 	rc = notify_die(DIE_IERR, "kprobe_ierr", regs, address, 0, SIGILL);
+ 	if (rc == NOTIFY_STOP)
 diff --git a/arch/arc/kernel/troubleshoot.c b/arch/arc/kernel/troubleshoot.c
-index e8d9fb452346..fdfba1942a06 100644
+index fdfba1942a06..22017474a29c 100644
 --- a/arch/arc/kernel/troubleshoot.c
 +++ b/arch/arc/kernel/troubleshoot.c
-@@ -101,13 +101,13 @@ static void show_faulting_vma(unsigned long address, char *buf)
- 			if (IS_ERR(nm))
- 				nm = "?";
- 		}
--		pr_info("    @off 0x%lx in [%s]\n"
--			"    VMA: 0x%08lx to 0x%08lx\n",
+@@ -14,10 +14,23 @@
+ #include <linux/file.h>
+ #include <linux/sched/mm.h>
+ #include <linux/sched/debug.h>
++#include <linux/percpu-defs.h>
+ 
+ #include <asm/arcregs.h>
+ #include <asm/irqflags.h>
+ 
++#ifdef CONFIG_ARC_USE_SMART
++#define MAX_SMART_BUFF	4096
 +
-+		pr_cont("[off 0x%lx in %s, VMA: %08lx:%08lx] ",
- 			vma->vm_start < TASK_UNMAPPED_BASE ?
- 				address : address - vma->vm_start,
- 			nm, vma->vm_start, vma->vm_end);
- 	} else
--		pr_info("    @No matching VMA found\n");
-+		pr_cont("[No matching VMA found] ");
- 
- 	up_read(&active_mm->mmap_sem);
- }
-@@ -117,7 +117,7 @@ static void show_ecr_verbose(struct pt_regs *regs)
- 	unsigned int vec, cause_code;
- 	unsigned long address;
- 
--	pr_info("\n[ECR   ]: 0x%08lx => ", regs->event);
-+	pr_cont("\n  ECR: 0x%08lx => ", regs->event);
- 
- 	/* For Data fault, this is data address not instruction addr */
- 	address = current->thread.fault_address;
-@@ -165,10 +165,42 @@ static void show_ecr_verbose(struct pt_regs *regs)
- 	}
++struct smart_buff {
++	u32 src[MAX_SMART_BUFF];
++	u32 dst[MAX_SMART_BUFF];
++	u32 flags[MAX_SMART_BUFF];
++};
++
++DEFINE_PER_CPU(struct smart_buff, smart_buff_log);
++#endif /* CONFIG_ARC_USE_SMART */
++
+ /*
+  * Common routine to print scratch regs (r0-r12) or callee regs (r13-r25)
+  *   -Prints 3 regs per line and a CR.
+@@ -189,9 +202,104 @@ static inline void show_exception_mesg_k(struct pt_regs *regs)
+ 	show_ecr_verbose(regs);
  }
  
-+static inline void show_exception_mesg_u(struct pt_regs *regs)
++#ifdef CONFIG_ARC_USE_SMART
++static inline bool smart_exist(void)
 +{
-+	struct task_struct *tsk = current;
++	struct bcr_generic bcr;
++
++	READ_BCR(ARC_REG_SMART_BCR, bcr);
++	return !!bcr.ver ;
++}
++
++static inline u32 smart_stack_size(void)
++{
++	return read_aux_reg(ARC_REG_SMART_BCR) >> SMART_CTL_IDX_POS;
++}
++
++static inline void smart_enable(void)
++{
++	write_aux_reg(ARC_AUX_SMART_CONTROL, SMART_CTL_EN);
++}
++
++static inline void smart_disable(void)
++{
++	write_aux_reg(ARC_AUX_SMART_CONTROL, 0);
++}
++
++static void show_smart(void)
++{
++	struct smart_buff *smart_buff_cpu = this_cpu_ptr(&smart_buff_log);
++	int i, stack_size;
 +	char *buf;
 +
-+	pr_info("Exception: %s[%d]: at %pS ",
-+		tsk->comm, task_pid_nr(tsk), (void *)regs->ret);
++	if (!smart_exist())
++		return;
++
++	stack_size = smart_stack_size();
++	pr_info("SmaRT (%d entries):\n", stack_size);
 +
 +	buf = (char *)__get_free_page(GFP_NOWAIT);
-+	if (buf) {
-+		show_faulting_vma(regs->ret, buf);
-+		free_page((unsigned long)buf);
++	if (!buf)
++		return;
++
++	for (i = 0; i < stack_size; i++) {
++		pr_info(" [%4d] %s%s%s%s %#010x -> %#010x ", i,
++			smart_buff_cpu->flags[i] & SMART_FLAG_U ? "U" : " ",
++			smart_buff_cpu->flags[i] & SMART_FLAG_E ? "E" : " ",
++			smart_buff_cpu->flags[i] & SMART_FLAG_R ? "R" : " ",
++			smart_buff_cpu->flags[i] & SMART_FLAG_V ? "V" : " ",
++			smart_buff_cpu->src[i], smart_buff_cpu->dst[i]);
++
++		if (smart_buff_cpu->src[i] < 0x80000000)
++			show_faulting_vma(smart_buff_cpu->src[i], buf);
++		else
++			pr_cont("[src %pS] ", (void *)smart_buff_cpu->src[i]);
++
++		if (smart_buff_cpu->dst[i] < 0x80000000)
++			show_faulting_vma(smart_buff_cpu->dst[i], buf);
++		else
++			pr_cont("[dst %pS]\n", (void *)smart_buff_cpu->dst[i]);
 +	}
 +
-+	show_ecr_verbose(regs);
++	free_page((unsigned long)buf);
 +}
-+
-+static inline void show_exception_mesg_k(struct pt_regs *regs)
-+{
-+	pr_info("Exception: at %pS:", (void *)regs->ret);
-+
-+	show_ecr_verbose(regs);
-+}
++#endif /* CONFIG_ARC_USE_SMART */
 +
  /************************************************************************
   *  API called by rest of kernel
   ***********************************************************************/
- 
-+void show_exception_mesg(struct pt_regs *regs)
++#ifdef CONFIG_ARC_USE_SMART
++void populate_smart(void)
 +{
-+	if (user_mode(regs))
-+		show_exception_mesg_u(regs);
-+	else
-+		show_exception_mesg_k(regs);
++	struct smart_buff *smart_buff_cpu;
++	u32 stack_size;
++	int i;
++
++	if (!smart_exist())
++		return;
++
++	smart_disable();
++
++	smart_buff_cpu = this_cpu_ptr(&smart_buff_log);
++	stack_size = smart_stack_size();
++	for (i = 0; i < stack_size; i++) {
++		write_aux_reg(ARC_AUX_SMART_CONTROL,
++			(SMART_CTL_DATA_SRC << SMART_CTL_DATA_POS)
++			| (i << SMART_CTL_IDX_POS));
++		smart_buff_cpu->src[i] = read_aux_reg(ARC_AUX_SMART_DATA);
++		write_aux_reg(ARC_AUX_SMART_CONTROL,
++			(SMART_CTL_DATA_DST << SMART_CTL_DATA_POS)
++			| (i << SMART_CTL_IDX_POS));
++		smart_buff_cpu->dst[i] = read_aux_reg(ARC_AUX_SMART_DATA);
++		write_aux_reg(ARC_AUX_SMART_CONTROL,
++			(SMART_CTL_DATA_FLAG << SMART_CTL_DATA_POS)
++			| (i << SMART_CTL_IDX_POS));
++		smart_buff_cpu->flags[i] = read_aux_reg(ARC_AUX_SMART_DATA);
++	}
++
++	smart_enable();
 +}
-+
- void show_regs(struct pt_regs *regs)
++#endif /* CONFIG_ARC_USE_SMART */
+ 
+ void show_exception_mesg(struct pt_regs *regs)
  {
- 	struct task_struct *tsk = current;
-@@ -182,15 +214,10 @@ void show_regs(struct pt_regs *regs)
- 	print_task_path_n_nm(tsk, buf);
- 	show_regs_print_info(KERN_INFO);
- 
--	show_ecr_verbose(regs);
--
--	pr_info("[EFA   ]: 0x%08lx\n[BLINK ]: %pS\n[ERET  ]: %pS\n",
--		current->thread.fault_address,
-+	pr_info("[ECR   ]: 0x%08lx\n[EFA   ]: 0x%08lx\n[BLINK ]: %pS\n[ERET  ]: %pS\n",
-+		regs->event, current->thread.fault_address,
- 		(void *)regs->blink, (void *)regs->ret);
- 
--	if (user_mode(regs))
--		show_faulting_vma(regs->ret, buf); /* faulting code, not data */
--
- 	pr_info("[STAT32]: 0x%08lx", regs->status32);
- 
- #define STS_BIT(r, bit)	r->status32 & STATUS_##bit##_MASK ? #bit" " : ""
-@@ -233,6 +260,8 @@ void show_kernel_fault_diag(const char *str, struct pt_regs *regs,
- 	/* Show fault description */
- 	pr_info("\n%s\n", str);
- 
-+	show_exception_mesg(regs);
+@@ -199,6 +307,10 @@ void show_exception_mesg(struct pt_regs *regs)
+ 		show_exception_mesg_u(regs);
+ 	else
+ 		show_exception_mesg_k(regs);
 +
- 	/* Caller and Callee regs */
- 	show_regs(regs);
++#ifdef CONFIG_ARC_USE_SMART
++	show_smart();
++#endif /* CONFIG_ARC_USE_SMART */
+ }
  
+ void show_regs(struct pt_regs *regs)
 diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-index db6913094be3..026d662a7668 100644
+index 026d662a7668..7a759fd874de 100644
 --- a/arch/arc/mm/fault.c
 +++ b/arch/arc/mm/fault.c
-@@ -203,6 +203,10 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- 		info.si_errno = 0;
- 		/* info.si_code has been set above */
- 		info.si_addr = (void __user *)address;
-+
-+		if (unhandled_signal(tsk, info.si_signo))
-+			show_exception_mesg(regs);
-+
- 		force_sig_info(SIGSEGV, &info, tsk);
- 		return;
- 	}
-@@ -242,5 +246,9 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- 	info.si_errno = 0;
- 	info.si_code = BUS_ADRERR;
- 	info.si_addr = (void __user *)address;
-+
-+	if (unhandled_signal(tsk, info.si_signo))
-+		show_exception_mesg(regs);
-+
- 	force_sig_info(SIGBUS, &info, tsk);
- }
+@@ -72,6 +72,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 	int write = regs->ecr_cause & ECR_C_PROTV_STORE;  /* ST/EX */
+ 	unsigned int flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE;
+ 
++	POPULATE_SMART();
+ 	clear_siginfo(&info);
+ 
+ 	/*
 -- 
 2.14.4
