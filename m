@@ -1,104 +1,246 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Sat, 20 Oct 2018 16:32:06 -0000
-Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Sun Oct 21, 03:31
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Mon, 22 Oct 2018 13:46:53 +0000
+Subject: [PATCH v2 1/2] mtd: spi-nor: Add support of sst26wf* flash ICs
+ protection ops
+In-Reply-To: <20180910114628.19156-2-Eugeniy.Paltsev@synopsys.com>
+References: <20180910114628.19156-1-Eugeniy.Paltsev@synopsys.com>
+ <20180910114628.19156-2-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181020163206.1.99981@5ca8034c38fe>
+Message-ID: <1540216012.19916.5.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs103_smp_defconfig/arcv2 Sun Oct 21, 03:31
+Hi!
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13557719/
+Maybe you have any comments or remarks about this patch?And if you don't could you please apply it. Thanks!
 
-Commit:   Merge tag 'drm-fixes-2018-10-20-1' of git://anongit.freedesktop.org/drm/drm
-          270b77a0f30e7bc61a9081b86d74dbb62fa6a69d
-Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824
-
-Possible errors
----------------
-
- #define KERN_ERR KERN_SOH "3" /* error conditions */
- #define KERN_ERR KERN_SOH "3" /* error conditions */
- #define KERN_ERR KERN_SOH "3" /* error conditions */
-
-Possible warnings (79)
-----------------------
-
-kernel/dma/direct.c:46:5: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-drivers/base/component.c:174:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/base/regmap/regcache.c:719:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/base/regmap/regmap.c:1507:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-fs/ext4/inode.c:3622:12: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
-fs/ext4/page-io.c:163:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-mm/percpu.c:1382:17: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1382:17: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
- #define KERN_WARNING KERN_SOH "4" /* warning conditions */
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
- #define KERN_WARNING KERN_SOH "4" /* warning conditions */
-mm/percpu.c:1948:27: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1948:32: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1948:37: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1948:42: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1948:52: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1948:56: warning: format '%zu' expects argument of type 'size_t', but argument 8 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
-fs/ext4/xattr.c:482:8: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/overflow.h:53:15: warning: comparison of distinct pointer types lacks a cast
-include/linux/overflow.h:54:15: warning: comparison of distinct pointer types lacks a cast
-drivers/gpu/drm/drm_dp_helper.c:820:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/gpu/drm/drm_dp_helper.c:853:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/gpu/drm/drm_dp_helper.c:905:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-fs/buffer.c:235:37: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/dmapool.c:96:46: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-mm/dmapool.c:96:51: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-net/ipv4/tcp_input.c:4319:49: warning: array subscript is above array bounds [-Warray-bounds]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-drivers/gpu/drm/drm_dp_dual_mode_helper.c:201:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 5 has type 'ssize_t {aka int}' [-Wformat=]
-drivers/gpu/drm/drm_dp_dual_mode_helper.c:220:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 4 has type 'ssize_t {aka int}' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka const unsigned int}' [-Wformat=]
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-include/drm/drm_print.h:110:24: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-net/sunrpc/xprtsock.c:2644:16: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/gpu/drm/drm_info.c:118:24: warning: format '%zd' expects argument of type 'signed size_t', but argument 4 has type 'size_t {aka unsigned int}' [-Wformat=]
-drivers/gpu/drm/drm_atomic.c:441:21: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-drivers/gpu/drm/drm_gem_cma_helper.c:115:21: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/gpu/drm/drm_gem_cma_helper.c:507:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-net/sunrpc/svc.c:1345:33: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
+On Mon, 2018-09-10@14:46 +0300, Eugeniy Paltsev wrote:
+> sst26wf flash series block protection implementation differs
+> from other SST series, so add specific implementation
+> flash_lock/flash_unlock/flash_is_locked functions for sst26wf
+> flash ICs.
+> 
+> NOTE:
+> this patch is basically following mine u-boot commit port:
+> http://git.denx.de/?p=u-boot.git;a=commitdiff;h=3d4fed87a5fa3ffedf64ff2811cd95c5ac4503ac
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+> Changes v1->v2:
+>  * Check return value of {read | write}_reg callbacks.
+> 
+>  drivers/mtd/spi-nor/spi-nor.c | 177 ++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/mtd/spi-nor.h   |   4 +
+>  2 files changed, 181 insertions(+)
+> 
+> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
+> index d9c368c44194..d0e7c85b6002 100644
+> --- a/drivers/mtd/spi-nor/spi-nor.c
+> +++ b/drivers/mtd/spi-nor/spi-nor.c
+> @@ -598,6 +598,177 @@ static int write_sr_and_check(struct spi_nor *nor, u8 status_new, u8 mask)
+>  	return ((ret & mask) != (status_new & mask)) ? -EIO : 0;
+>  }
+>  
+> +/*
+> + * sst26wf016/sst26wf032/sst26wf064 have next block protection:
+> + * 4x   - 8  KByte blocks - read & write protection bits - upper addresses
+> + * 1x   - 32 KByte blocks - write protection bits
+> + * rest - 64 KByte blocks - write protection bits
+> + * 1x   - 32 KByte blocks - write protection bits
+> + * 4x   - 8  KByte blocks - read & write protection bits - lower addresses
+> + *
+> + * We'll support only per 64k lock/unlock so lower and upper 64 KByte region
+> + * will be treated as single block.
+> + */
+> +#define SST26_BPR_8K_NUM		4
+> +#define SST26_MAX_BPR_REG_LEN		(18 + 1)
+> +#define SST26_BOUND_REG_SIZE		((32 + SST26_BPR_8K_NUM * 8) * SZ_1K)
+> +
+> +enum lock_ctl {
+> +	SST26_CTL_LOCK,
+> +	SST26_CTL_UNLOCK,
+> +	SST26_CTL_CHECK
+> +};
+> +
+> +static bool sst26_process_bpr(u32 bpr_size, u8 *cmd, u32 bit, enum lock_ctl ctl)
+> +{
+> +	switch (ctl) {
+> +	case SST26_CTL_LOCK:
+> +		cmd[bpr_size - (bit / 8) - 1] |= BIT(bit % 8);
+> +		break;
+> +	case SST26_CTL_UNLOCK:
+> +		cmd[bpr_size - (bit / 8) - 1] &= ~BIT(bit % 8);
+> +		break;
+> +	case SST26_CTL_CHECK:
+> +		return !!(cmd[bpr_size - (bit / 8) - 1] & BIT(bit % 8));
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +/*
+> + * Lock, unlock or check lock status of the flash region of the flash (depending
+> + * on the lock_ctl value)
+> + */
+> +static int sst26_lock_ctl(struct spi_nor *nor, loff_t ofs, uint64_t len, enum lock_ctl ctl)
+> +{
+> +	struct mtd_info *mtd = &nor->mtd;
+> +	u32 i, bpr_ptr, rptr_64k, lptr_64k, bpr_size;
+> +	bool lower_64k = false, upper_64k = false;
+> +	u8 bpr_buff[SST26_MAX_BPR_REG_LEN] = {};
+> +	int ret;
+> +
+> +	/* Check length and offset for 64k alignment */
+> +	if ((ofs & (SZ_64K - 1)) || (len & (SZ_64K - 1))) {
+> +		dev_err(nor->dev, "length or offset is not 64KiB allighned\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (ofs + len > mtd->size) {
+> +		dev_err(nor->dev, "range is more than device size: %#llx + %#llx > %#llx\n",
+> +			ofs, len, mtd->size);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* SST26 family has only 16 Mbit, 32 Mbit and 64 Mbit IC */
+> +	if (mtd->size != SZ_2M &&
+> +	    mtd->size != SZ_4M &&
+> +	    mtd->size != SZ_8M)
+> +		return -EINVAL;
+> +
+> +	bpr_size = 2 + (mtd->size / SZ_64K / 8);
+> +
+> +	ret = nor->read_reg(nor, SPINOR_OP_READ_BPR, bpr_buff, bpr_size);
+> +	if (ret < 0) {
+> +		dev_err(nor->dev, "fail to read block-protection register\n");
+> +		return ret;
+> +	}
+> +
+> +	rptr_64k = min_t(u32, ofs + len, mtd->size - SST26_BOUND_REG_SIZE);
+> +	lptr_64k = max_t(u32, ofs, SST26_BOUND_REG_SIZE);
+> +
+> +	upper_64k = ((ofs + len) > (mtd->size - SST26_BOUND_REG_SIZE));
+> +	lower_64k = (ofs < SST26_BOUND_REG_SIZE);
+> +
+> +	/* Lower bits in block-protection register are about 64k region */
+> +	bpr_ptr = lptr_64k / SZ_64K - 1;
+> +
+> +	/* Process 64K blocks region */
+> +	while (lptr_64k < rptr_64k) {
+> +		if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+> +			return EACCES;
+> +
+> +		bpr_ptr++;
+> +		lptr_64k += SZ_64K;
+> +	}
+> +
+> +	/* 32K and 8K region bits in BPR are after 64k region bits */
+> +	bpr_ptr = (mtd->size - 2 * SST26_BOUND_REG_SIZE) / SZ_64K;
+> +
+> +	/* Process lower 32K block region */
+> +	if (lower_64k)
+> +		if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+> +			return EACCES;
+> +
+> +	bpr_ptr++;
+> +
+> +	/* Process upper 32K block region */
+> +	if (upper_64k)
+> +		if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+> +			return EACCES;
+> +
+> +	bpr_ptr++;
+> +
+> +	/* Process lower 8K block regions */
+> +	for (i = 0; i < SST26_BPR_8K_NUM; i++) {
+> +		if (lower_64k)
+> +			if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+> +				return EACCES;
+> +
+> +		/* In 8K area BPR has both read and write protection bits */
+> +		bpr_ptr += 2;
+> +	}
+> +
+> +	/* Process upper 8K block regions */
+> +	for (i = 0; i < SST26_BPR_8K_NUM; i++) {
+> +		if (upper_64k)
+> +			if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+> +				return EACCES;
+> +
+> +		/* In 8K area BPR has both read and write protection bits */
+> +		bpr_ptr += 2;
+> +	}
+> +
+> +	/* If we check region status we don't need to write BPR back */
+> +	if (ctl == SST26_CTL_CHECK)
+> +		return 0;
+> +
+> +	ret = nor->write_reg(nor, SPINOR_OP_WRITE_BPR, bpr_buff, bpr_size);
+> +	if (ret < 0) {
+> +		dev_err(nor->dev, "fail to write block-protection register\n");
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int sst26_unlock(struct spi_nor *nor, loff_t ofs, uint64_t len)
+> +{
+> +	return sst26_lock_ctl(nor, ofs, len, SST26_CTL_UNLOCK);
+> +}
+> +
+> +static int sst26_lock(struct spi_nor *nor, loff_t ofs, uint64_t len)
+> +{
+> +	return sst26_lock_ctl(nor, ofs, len, SST26_CTL_LOCK);
+> +}
+> +
+> +/*
+> + * Returns EACCES (positive value) if region is locked, 0 if region is unlocked,
+> + * and negative on errors.
+> + */
+> +static int sst26_is_locked(struct spi_nor *nor, loff_t ofs, uint64_t len)
+> +{
+> +	/*
+> +	 * is_locked function is used for check before reading or erasing flash
+> +	 * region, so offset and length might be not 64k allighned, so adjust
+> +	 * them to be 64k allighned as sst26_lock_ctl works only with 64k
+> +	 * allighned regions.
+> +	 */
+> +	ofs -= ofs & (SZ_64K - 1);
+> +	len = len & (SZ_64K - 1) ? (len & ~(SZ_64K - 1)) + SZ_64K : len;
+> +
+> +	return sst26_lock_ctl(nor, ofs, len, SST26_CTL_CHECK);
+> +}
+> +
+>  static void stm_get_locked_range(struct spi_nor *nor, u8 sr, loff_t *ofs,
+>  				 uint64_t *len)
+>  {
+> @@ -2872,6 +3043,12 @@ int spi_nor_scan(struct spi_nor *nor, const char *name,
+>  		nor->flash_is_locked = stm_is_locked;
+>  	}
+>  
+> +	if (JEDEC_MFR(info) == SNOR_MFR_SST && info->id[1] == 0x26) {
+> +		nor->flash_lock = sst26_lock;
+> +		nor->flash_unlock = sst26_unlock;
+> +		nor->flash_is_locked = sst26_is_locked;
+> +	}
+> +
+>  	if (nor->flash_lock && nor->flash_unlock && nor->flash_is_locked) {
+>  		mtd->_lock = spi_nor_lock;
+>  		mtd->_unlock = spi_nor_unlock;
+> diff --git a/include/linux/mtd/spi-nor.h b/include/linux/mtd/spi-nor.h
+> index e60da0d34cc1..246014a73f83 100644
+> --- a/include/linux/mtd/spi-nor.h
+> +++ b/include/linux/mtd/spi-nor.h
+> @@ -93,6 +93,10 @@
+>  #define SPINOR_OP_WRDI		0x04	/* Write disable */
+>  #define SPINOR_OP_AAI_WP	0xad	/* Auto address increment word program */
+>  
+> +/* Used for SST26* flashes only. */
+> +#define SPINOR_OP_READ_BPR	0x72	/* Read block protection register */
+> +#define SPINOR_OP_WRITE_BPR	0x42	/* Write block protection register */
+> +
+>  /* Used for S3AN flashes only */
+>  #define SPINOR_OP_XSE		0x50	/* Sector erase */
+>  #define SPINOR_OP_XPP		0x82	/* Page program */
+-- 
+ Eugeniy Paltsev
