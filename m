@@ -1,57 +1,54 @@
-From: boris.brezillon@bootlin.com (Boris Brezillon)
-Date: Mon, 22 Oct 2018 15:56:35 +0200
-Subject: [PATCH v2 0/2] MTD: spi-nor: add support for sst26wf016,
- sst26wf032
-In-Reply-To: <1540216028.19916.6.camel@synopsys.com>
-References: <20180910114628.19156-1-Eugeniy.Paltsev@synopsys.com>
- <1540216028.19916.6.camel@synopsys.com>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 23 Oct 2018 11:01:14 +0000
+Subject: [PATCH] DRM: UDL: get rid of useless vblank initialization
+In-Reply-To: <20180928144126.21598-1-Eugeniy.Paltsev@synopsys.com>
+References: <20180928144126.21598-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181022155635.2175a595@bbrezillon>
+Message-ID: <1540292472.19916.13.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-+Tudor
+Hi David,
 
-Hi Eugeniy,
+Maybe you have any comments or remarks about this patch?
+And if you don't could you please apply it. Thanks!
 
-On Mon, 22 Oct 2018 13:47:09 +0000
-Eugeniy Paltsev <eugeniy.paltsev@synopsys.com> wrote:
-
-> Hi!
+On Fri, 2018-09-28@17:41 +0300, Eugeniy Paltsev wrote:
+> UDL doesn't support vblank functionality so we don't need to
+> initialize vblank here (we are able to send page flip
+> completion events even without vblank initialization)
 > 
-> Maybe you have any comments or remarks about this patch?And if you don't could you please apply it. Thanks!
-
-Sorry, it's already too late for 4.20, and I won't apply patches to the
-spi-nor/next branch before 4.20-rc1 is out.
-
-Tudor, Marek, can I have a Reviewed-by/Acked-by on this patchset?
-
-Thanks,
-
-Boris
-
+> Moreover current drm_vblank_init call with num_crtcs > 0 causes
+> sending DRM_EVENT_FLIP_COMPLETE event with zero timestamp every
+> time. This breaks userspace apps (for example weston) which
+> relies on timestamp value.
 > 
-> On Mon, 2018-09-10@14:46 +0300, Eugeniy Paltsev wrote:
-> > Add support for the SST sst26wf016 and sst26wf032 flash IC:
-> > 
-> > sst26wf*** flash series block protection implementation differs from other
-> > SST series, so we add implementation for sst26wf*** lock/unlock/is_locked
-> > functions.
-> > 
-> > Add sst26wf016 and sst26wf032 flash IC info to spi_flash_ids list.
-> > 
-> > NOTE:
-> > these patches is basically following mine u-boot commits port:
-> > http://git.denx.de/?p=u-boot.git;a=commitdiff;h=3d4fed87a5fa3ffedf64ff2811cd95c5ac4503ac
-> > http://git.denx.de/?p=u-boot.git;a=commitdiff;h=a19e97157c3721ef9c4b15c68c1773467a3b4a98
-> > 
-> > Changes v1->v2:
-> >  * Check return value of {read | write}_reg callbacks.
-> > 
-> > Eugeniy Paltsev (2):
-> >   mtd: spi-nor: Add support of sst26wf* flash ICs protection ops
-> >   mtd: spi-nor: add support for sst26wf016, sst26wf032
-> > 
-> >  drivers/mtd/spi-nor/spi-nor.c | 179 ++++++++++++++++++++++++++++++++++++++++++
-> >  include/linux/mtd/spi-nor.h   |   4 +
-> >  2 files changed, 183 insertions(+)
-> >   
+> Reviewed-by: Daniel Vetter <daniel.vetter at ffwll.ch>
+> Cc: stable at vger.kernel.org
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+>  drivers/gpu/drm/udl/udl_main.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+> index f455f095a146..1b014d92855b 100644
+> --- a/drivers/gpu/drm/udl/udl_main.c
+> +++ b/drivers/gpu/drm/udl/udl_main.c
+> @@ -350,15 +350,10 @@ int udl_driver_load(struct drm_device *dev, unsigned long flags)
+>  	if (ret)
+>  		goto err;
+>  
+> -	ret = drm_vblank_init(dev, 1);
+> -	if (ret)
+> -		goto err_fb;
+> -
+>  	drm_kms_helper_poll_init(dev);
+>  
+>  	return 0;
+> -err_fb:
+> -	udl_fbdev_cleanup(dev);
+> +
+>  err:
+>  	if (udl->urbs.count)
+>  		udl_free_urb_list(dev);
+-- 
+ Eugeniy Paltsev
