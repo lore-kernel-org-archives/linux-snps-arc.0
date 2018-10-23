@@ -1,68 +1,79 @@
-From: daniel@ffwll.ch (Daniel Vetter)
-Date: Tue, 23 Oct 2018 15:42:02 +0200
-Subject: [PATCH] DRM: UDL: get rid of useless vblank initialization
-In-Reply-To: <1540292472.19916.13.camel@synopsys.com>
-References: <20180928144126.21598-1-Eugeniy.Paltsev@synopsys.com>
- <1540292472.19916.13.camel@synopsys.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 23 Oct 2018 22:33:30 +0000
+Subject: [PATCH v2] clocksource/drivers/arc_timer: Utilize generic
+ sched_clock
+References: <20181017113020.7551-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181023134202.GP324@phenom.ffwll.local>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075012B0B1A07@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Oct 23, 2018@11:01:14AM +0000, Eugeniy Paltsev wrote:
-> Hi David,
-> 
-> Maybe you have any comments or remarks about this patch?
-> And if you don't could you please apply it. Thanks!
+On 10/17/2018 04:30 AM, Alexey Brodkin wrote:
+> It turned out we used to use default implementation of sched_clock()
+> from kernel/sched/clock.c which was as precise as 1/HZ, i.e.
+> by default we had 10 msec granularity of time measurement.
+>
+> Now given ARC built-in timers are clocked with the same frequency as
+> CPU cores we may get much higher precision of time tracking.
+>
+> Thus we switch to generic sched_clock which really reads ARC hardware
+> counters.
+>
+> This is especially helpful for measuring short events.
+> That's what we used to have:
+> ------------------------------>8------------------------
+> $ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+>
+>  Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+>
+>          10.000000      task-clock (msec)         #    2.832 CPUs utilized
+>                  1      context-switches          #    0.100 K/sec
+>                  1      cpu-migrations            #    0.100 K/sec
+>                 63      page-faults               #    0.006 M/sec
+>            3049480      cycles                    #    0.305 GHz
+>            1091259      instructions              #    0.36  insn per cycle
+>             256828      branches                  #   25.683 M/sec
+>              27026      branch-misses             #   10.52% of all branches
+>
+>        0.003530687 seconds time elapsed
+>
+>        0.000000000 seconds user
+>        0.010000000 seconds sys
+> ------------------------------>8------------------------
+>
+> And now we'll see:
+> ------------------------------>8------------------------
+> $ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+>
+>  Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+>
+>           3.004322      task-clock (msec)         #    0.865 CPUs utilized
+>                  1      context-switches          #    0.333 K/sec
+>                  1      cpu-migrations            #    0.333 K/sec
+>                 63      page-faults               #    0.021 M/sec
+>            2986734      cycles                    #    0.994 GHz
+>            1087466      instructions              #    0.36  insn per cycle
+>             255209      branches                  #   84.947 M/sec
+>              26002      branch-misses             #   10.19% of all branches
+>
+>        0.003474829 seconds time elapsed
+>
+>        0.003519000 seconds user
+>        0.000000000 seconds sys
+> ------------------------------>8------------------------
+>
+> Note how much more meaningful is the second output - time spent for
+> execution pretty much matches number of cycles spent (we're running
+> @ 1GHz here).
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Thomas Gleixner <tglx at linutronix.de>
+> ---
 
-Hm I hoped Sean would pick this up. I stuffed it into drm-misc-next now,
-and Sean owes me one. Generally pinging Dave is a last resort in dri-devel
-(and doesn't work too well).
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
 
-Thanks for your patch.
--Daniel
-> 
-> On Fri, 2018-09-28@17:41 +0300, Eugeniy Paltsev wrote:
-> > UDL doesn't support vblank functionality so we don't need to
-> > initialize vblank here (we are able to send page flip
-> > completion events even without vblank initialization)
-> > 
-> > Moreover current drm_vblank_init call with num_crtcs > 0 causes
-> > sending DRM_EVENT_FLIP_COMPLETE event with zero timestamp every
-> > time. This breaks userspace apps (for example weston) which
-> > relies on timestamp value.
-> > 
-> > Reviewed-by: Daniel Vetter <daniel.vetter at ffwll.ch>
-> > Cc: stable at vger.kernel.org
-> > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> > ---
-> >  drivers/gpu/drm/udl/udl_main.c | 7 +------
-> >  1 file changed, 1 insertion(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-> > index f455f095a146..1b014d92855b 100644
-> > --- a/drivers/gpu/drm/udl/udl_main.c
-> > +++ b/drivers/gpu/drm/udl/udl_main.c
-> > @@ -350,15 +350,10 @@ int udl_driver_load(struct drm_device *dev, unsigned long flags)
-> >  	if (ret)
-> >  		goto err;
-> >  
-> > -	ret = drm_vblank_init(dev, 1);
-> > -	if (ret)
-> > -		goto err_fb;
-> > -
-> >  	drm_kms_helper_poll_init(dev);
-> >  
-> >  	return 0;
-> > -err_fb:
-> > -	udl_fbdev_cleanup(dev);
-> > +
-> >  err:
-> >  	if (udl->urbs.count)
-> >  		udl_free_urb_list(dev);
-> -- 
->  Eugeniy Paltsev
+@Daniel is this going via timer tree or you want me to pick it up.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thx,
+-Vineet
