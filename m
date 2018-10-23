@@ -1,54 +1,58 @@
-From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 23 Oct 2018 11:01:14 +0000
-Subject: [PATCH] DRM: UDL: get rid of useless vblank initialization
-In-Reply-To: <20180928144126.21598-1-Eugeniy.Paltsev@synopsys.com>
-References: <20180928144126.21598-1-Eugeniy.Paltsev@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 23 Oct 2018 15:09:19 +0300
+Subject: [PATCH] ARC: [plat-hsdk] Enable DW APB GPIO support
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1540292472.19916.13.camel@synopsys.com>
+Message-ID: <20181023120919.11627-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi David,
+Enable GPIO support on HSDK. HSDK SoC includes Synopsys
+DesignWare DW_apb_gpio IP with 24 GPIOs mapped onto port A.
 
-Maybe you have any comments or remarks about this patch?
-And if you don't could you please apply it. Thanks!
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ arch/arc/boot/dts/hsdk.dts      | 15 +++++++++++++++
+ arch/arc/configs/hsdk_defconfig |  3 +++
+ 2 files changed, 18 insertions(+)
 
-On Fri, 2018-09-28@17:41 +0300, Eugeniy Paltsev wrote:
-> UDL doesn't support vblank functionality so we don't need to
-> initialize vblank here (we are able to send page flip
-> completion events even without vblank initialization)
-> 
-> Moreover current drm_vblank_init call with num_crtcs > 0 causes
-> sending DRM_EVENT_FLIP_COMPLETE event with zero timestamp every
-> time. This breaks userspace apps (for example weston) which
-> relies on timestamp value.
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter at ffwll.ch>
-> Cc: stable at vger.kernel.org
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
->  drivers/gpu/drm/udl/udl_main.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-> index f455f095a146..1b014d92855b 100644
-> --- a/drivers/gpu/drm/udl/udl_main.c
-> +++ b/drivers/gpu/drm/udl/udl_main.c
-> @@ -350,15 +350,10 @@ int udl_driver_load(struct drm_device *dev, unsigned long flags)
->  	if (ret)
->  		goto err;
->  
-> -	ret = drm_vblank_init(dev, 1);
-> -	if (ret)
-> -		goto err_fb;
-> -
->  	drm_kms_helper_poll_init(dev);
->  
->  	return 0;
-> -err_fb:
-> -	udl_fbdev_cleanup(dev);
-> +
->  err:
->  	if (udl->urbs.count)
->  		udl_free_urb_list(dev);
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index ef149f59929a..43f17b51ee89 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -222,6 +222,21 @@
+ 			bus-width = <4>;
+ 			dma-coherent;
+ 		};
++
++		gpio: gpio at 3000 {
++			compatible = "snps,dw-apb-gpio";
++			reg = <0x3000 0x20>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			gpio_port_a: gpio-controller at 0 {
++				compatible = "snps,dw-apb-gpio-port";
++				gpio-controller;
++				#gpio-cells = <2>;
++				snps,nr-gpios = <24>;
++				reg = <0>;
++			};
++		};
+ 	};
+ 
+ 	memory at 80000000 {
+diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
+index 1dec2b4bc5e6..eca10b8baea5 100644
+--- a/arch/arc/configs/hsdk_defconfig
++++ b/arch/arc/configs/hsdk_defconfig
+@@ -45,6 +45,9 @@ CONFIG_SERIAL_8250_CONSOLE=y
+ CONFIG_SERIAL_8250_DW=y
+ CONFIG_SERIAL_OF_PLATFORM=y
+ # CONFIG_HW_RANDOM is not set
++CONFIG_GPIOLIB=y
++CONFIG_GPIO_SYSFS=y
++CONFIG_GPIO_DWAPB=y
+ # CONFIG_HWMON is not set
+ CONFIG_DRM=y
+ # CONFIG_DRM_FBDEV_EMULATION is not set
 -- 
- Eugeniy Paltsev
+2.14.5
