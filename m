@@ -1,133 +1,99 @@
-From: rppt@linux.ibm.com (Mike Rapoport)
-Date: Thu, 25 Oct 2018 10:38:34 +0100
-Subject: [PATCH v2 0/2] arm64: Cut rebuild time when changing
- CONFIG_BLK_DEV_INITRD
-In-Reply-To: <CAL_Jsq+KCOv6pXXHhHDZ+7-QUrmtMDvSjEVhK15yZ3qbnn61Ag@mail.gmail.com>
-References: <20181024193256.23734-1-f.fainelli@gmail.com>
- <CAL_Jsq+KCOv6pXXHhHDZ+7-QUrmtMDvSjEVhK15yZ3qbnn61Ag@mail.gmail.com>
+From: kirill@shutemov.name (Kirill A. Shutemov)
+Date: Thu, 25 Oct 2018 13:19:00 +0300
+Subject: [PATCH 2/4] mm: speed up mremap by 500x on large regions (v2)
+In-Reply-To: <20181025020907.GA13560@joelaf.mtv.corp.google.com>
+References: <20181013013200.206928-1-joel@joelfernandes.org>
+ <20181013013200.206928-3-joel@joelfernandes.org>
+ <20181024101255.it4lptrjogalxbey@kshutemo-mobl1>
+ <20181024115733.GN8537@350D>
+ <20181024125724.yf6frdimjulf35do@kshutemo-mobl1>
+ <20181025020907.GA13560@joelaf.mtv.corp.google.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181025093833.GA23607@rapoport-lnx>
+Message-ID: <20181025101900.phqnqpoju5t2gar5@kshutemo-mobl1>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Oct 24, 2018@02:55:17PM -0500, Rob Herring wrote:
-> On Wed, Oct 24, 2018@2:33 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
-> >
-> > Hi all,
-> >
-> > While investigating why ARM64 required a ton of objects to be rebuilt
-> > when toggling CONFIG_DEV_BLK_INITRD, it became clear that this was
-> > because we define __early_init_dt_declare_initrd() differently and we do
-> > that in arch/arm64/include/asm/memory.h which gets included by a fair
-> > amount of other header files, and translation units as well.
+On Wed, Oct 24, 2018@07:09:07PM -0700, Joel Fernandes wrote:
+> On Wed, Oct 24, 2018@03:57:24PM +0300, Kirill A. Shutemov wrote:
+> > On Wed, Oct 24, 2018@10:57:33PM +1100, Balbir Singh wrote:
+> > > On Wed, Oct 24, 2018@01:12:56PM +0300, Kirill A. Shutemov wrote:
+> > > > On Fri, Oct 12, 2018@06:31:58PM -0700, Joel Fernandes (Google) wrote:
+> > > > > diff --git a/mm/mremap.c b/mm/mremap.c
+> > > > > index 9e68a02a52b1..2fd163cff406 100644
+> > > > > --- a/mm/mremap.c
+> > > > > +++ b/mm/mremap.c
+> > > > > @@ -191,6 +191,54 @@ static void move_ptes(struct vm_area_struct *vma, pmd_t *old_pmd,
+> > > > >  		drop_rmap_locks(vma);
+> > > > >  }
+> > > > >  
+> > > > > +static bool move_normal_pmd(struct vm_area_struct *vma, unsigned long old_addr,
+> > > > > +		  unsigned long new_addr, unsigned long old_end,
+> > > > > +		  pmd_t *old_pmd, pmd_t *new_pmd, bool *need_flush)
+> > > > > +{
+> > > > > +	spinlock_t *old_ptl, *new_ptl;
+> > > > > +	struct mm_struct *mm = vma->vm_mm;
+> > > > > +
+> > > > > +	if ((old_addr & ~PMD_MASK) || (new_addr & ~PMD_MASK)
+> > > > > +	    || old_end - old_addr < PMD_SIZE)
+> > > > > +		return false;
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * The destination pmd shouldn't be established, free_pgtables()
+> > > > > +	 * should have release it.
+> > > > > +	 */
+> > > > > +	if (WARN_ON(!pmd_none(*new_pmd)))
+> > > > > +		return false;
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * We don't have to worry about the ordering of src and dst
+> > > > > +	 * ptlocks because exclusive mmap_sem prevents deadlock.
+> > > > > +	 */
+> > > > > +	old_ptl = pmd_lock(vma->vm_mm, old_pmd);
+> > > > > +	if (old_ptl) {
+> > > > 
+> > > > How can it ever be false?
 > 
-> I scratch my head sometimes as to why some config options rebuild so
-> much stuff. One down, ? to go. :)
+> Kirill,
+> It cannot, you are right. I'll remove the test.
 > 
-> > Changing the value of CONFIG_DEV_BLK_INITRD is a common thing with build
-> > systems that generate two kernels: one with the initramfs and one
-> > without. buildroot is one of these build systems, OpenWrt is also
-> > another one that does this.
-> >
-> > This patch series proposes adding an empty initrd.h to satisfy the need
-> > for drivers/of/fdt.c to unconditionally include that file, and moves the
-> > custom __early_init_dt_declare_initrd() definition away from
-> > asm/memory.h
-> >
-> > This cuts the number of objects rebuilds from 1920 down to 26, so a
-> > factor 73 approximately.
-> >
-> > Apologies for the long CC list, please let me know how you would go
-> > about merging that and if another approach would be preferable, e.g:
-> > introducing a CONFIG_ARCH_INITRD_BELOW_START_OK Kconfig option or
-> > something like that.
+> By the way, there are new changes upstream by Linus which flush the TLB
+> before releasing the ptlock instead of after. I'm guessing that patch came
+> about because of reviews of this patch and someone spotted an issue in the
+> existing code :)
 > 
-> There may be a better way as of 4.20 because bootmem is now gone and
-> only memblock is used. This should unify what each arch needs to do
-> with initrd early. We need the physical address early for memblock
-> reserving. Then later on we need the virtual address to access the
-> initrd. Perhaps we should just change initrd_start and initrd_end to
-> physical addresses (or add 2 new variables would be less invasive and
-> allow for different translation than __va()). The sanity checks and
-> memblock reserve could also perhaps be moved to a common location.
->
-> Alternatively, given arm64 is the only oddball, I'd be fine with an
-> "if (IS_ENABLED(CONFIG_ARM64))" condition in the default
-> __early_init_dt_declare_initrd as long as we have a path to removing
-> it like the above option.
+> Anyway the patch in concern is:
+> eb66ae030829 ("mremap: properly flush TLB before releasing the page")
+> 
+> I need to rebase on top of that with appropriate modifications, but I worry
+> that this patch will slow down performance since we have to flush at every
+> PMD/PTE move before releasing the ptlock. Where as with my patch, the
+> intention is to flush only at once in the end of move_page_tables. When I
+> tried to flush TLB on every PMD move, it was quite slow on my arm64 device [2].
+> 
+> Further observation [1] is, it seems like the move_huge_pmds and move_ptes code
+> is a bit sub optimal in the sense, we are acquiring and releasing the same
+> ptlock for a bunch of PMDs if the said PMDs are on the same page-table page
+> right? Instead we can do better by acquiring and release the ptlock less
+> often.
+> 
+> I think this observation [1] and the frequent TLB flush issue [2] can be solved
+> by acquiring the ptlock once for a bunch of PMDs, move them all, then flush
+> the tlb and then release the ptlock, and then proceed to doing the same thing
+> for the PMDs in the next page-table page. What do you think?
 
-I think arm64 does not have to redefine __early_init_dt_declare_initrd().
-Something like this might be just all we need (completely untested,
-probably it won't even compile):
+Yeah, that's viable optimization.
 
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 9d9582c..e9ca238 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -62,6 +62,9 @@ s64 memstart_addr __ro_after_init = -1;
- phys_addr_t arm64_dma_phys_limit __ro_after_init;
- 
- #ifdef CONFIG_BLK_DEV_INITRD
-+
-+static phys_addr_t initrd_start_phys, initrd_end_phys;
-+
- static int __init early_initrd(char *p)
- {
- 	unsigned long start, size;
-@@ -71,8 +74,8 @@ static int __init early_initrd(char *p)
- 	if (*endp == ',') {
- 		size = memparse(endp + 1, NULL);
- 
--		initrd_start = start;
--		initrd_end = start + size;
-+		initrd_start_phys = start;
-+		initrd_end_phys = end;
- 	}
- 	return 0;
- }
-@@ -407,14 +410,27 @@ void __init arm64_memblock_init(void)
- 		memblock_add(__pa_symbol(_text), (u64)(_end - _text));
- 	}
- 
--	if (IS_ENABLED(CONFIG_BLK_DEV_INITRD) && initrd_start) {
-+	if (IS_ENABLED(CONFIG_BLK_DEV_INITRD) &&
-+	    (initrd_start || initrd_start_phys)) {
-+		/*
-+		 * FIXME: ensure proper precendence between
-+		 * early_initrd and DT when both are present
-+		 */
-+		if (initrd_start) {
-+			initrd_start_phys = __phys_to_virt(initrd_start);
-+			initrd_end_phys = __phys_to_virt(initrd_end);
-+		} else if (initrd_start_phys) {
-+			initrd_start = __va(initrd_start_phys);
-+			initrd_end = __va(initrd_start_phys);
-+		}
-+
- 		/*
- 		 * Add back the memory we just removed if it results in the
- 		 * initrd to become inaccessible via the linear mapping.
- 		 * Otherwise, this is a no-op
- 		 */
--		u64 base = initrd_start & PAGE_MASK;
--		u64 size = PAGE_ALIGN(initrd_end) - base;
-+		u64 base = initrd_start_phys & PAGE_MASK;
-+		u64 size = PAGE_ALIGN(initrd_end_phys) - base;
- 
- 		/*
- 		 * We can only add back the initrd memory if we don't end up
-@@ -458,7 +474,7 @@ void __init arm64_memblock_init(void)
- 	 * pagetables with memblock.
- 	 */
- 	memblock_reserve(__pa_symbol(_text), _end - _text);
--#ifdef CONFIG_BLK_DEV_INITRD
-+#if 0
- 	if (initrd_start) {
- 		memblock_reserve(initrd_start, initrd_end - initrd_start);
- 
- 
-> Rob
-> 
+The tricky part is that one PMD page table can have PMD entires of
+different types: THP, page table that you can move as whole and the one
+that you cannot (for any reason).
+
+If we cannot move the PMD entry as a whole and must go to PTE page table
+we would need to drop PMD ptl and take PTE ptl (it might be the same lock
+in some configuations).
+
+Also we don't want to take PMD lock unless it's required.
+
+I expect it to be not very trivial to get everything right. But take a
+shot :)
 
 -- 
-Sincerely yours,
-Mike.
+ Kirill A. Shutemov
