@@ -1,38 +1,59 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Fri, 26 Oct 2018 10:50:47 +0200
-Subject: [PATCH 1/4] treewide: remove unused address argument from
- pte_alloc functions (v2)
-In-Reply-To: <20181025104703.esl6wxyg2ihe4zoc@kshutemo-mobl1>
-References: <20181013013200.206928-1-joel@joelfernandes.org>
- <20181013013200.206928-2-joel@joelfernandes.org>
- <20181024083716.GN3109@worktop.c.hoisthospitality.com>
- <20181025104703.esl6wxyg2ihe4zoc@kshutemo-mobl1>
+From: rppt@linux.ibm.com (Mike Rapoport)
+Date: Fri, 26 Oct 2018 12:07:09 +0100
+Subject: [PATCH v2 0/2] arm64: Cut rebuild time when changing
+ CONFIG_BLK_DEV_INITRD
+In-Reply-To: <1bb3bd63-a88e-b668-ea36-f0f985c0e2b1@gmail.com>
+References: <20181024193256.23734-1-f.fainelli@gmail.com>
+ <CAL_Jsq+KCOv6pXXHhHDZ+7-QUrmtMDvSjEVhK15yZ3qbnn61Ag@mail.gmail.com>
+ <20181025093833.GA23607@rapoport-lnx>
+ <CAL_JsqL62ttsGSbE1BS5v-mX3pKE-p_HyvuZD6nB+GUbQyetzg@mail.gmail.com>
+ <20181025172935.GA27364@rapoport-lnx>
+ <CAL_JsqJrMq+QHvuOsqEdCFchmXsd4s2XKUD_TboKzeEQprJvjg@mail.gmail.com>
+ <1bb3bd63-a88e-b668-ea36-f0f985c0e2b1@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181026085047.GB3109@worktop.c.hoisthospitality.com>
+Message-ID: <20181026110708.GA3814@rapoport-lnx>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Oct 25, 2018@01:47:03PM +0300, Kirill A. Shutemov wrote:
-> On Wed, Oct 24, 2018@10:37:16AM +0200, Peter Zijlstra wrote:
-> > On Fri, Oct 12, 2018@06:31:57PM -0700, Joel Fernandes (Google) wrote:
-> > > This series speeds up mremap(2) syscall by copying page tables at the
-> > > PMD level even for non-THP systems. There is concern that the extra
-> > > 'address' argument that mremap passes to pte_alloc may do something
-> > > subtle architecture related in the future that may make the scheme not
-> > > work.  Also we find that there is no point in passing the 'address' to
-> > > pte_alloc since its unused. So this patch therefore removes this
-> > > argument tree-wide resulting in a nice negative diff as well. Also
-> > > ensuring along the way that the enabled architectures do not do anything
-> > > funky with 'address' argument that goes unnoticed by the optimization.
-> > 
-> > Did you happen to look at the history of where that address argument
-> > came from? -- just being curious here. ISTR something vague about
-> > architectures having different paging structure for different memory
-> > ranges.
-> 
-> I see some archicetures (i.e. sparc and, I believe power) used the address
-> for coloring. It's not needed anymore. Page allocator and SL?B are good
-> enough now.
-> 
-> See 3c936465249f ("[SPARC64]: Kill pgtable quicklists and use SLAB.")
+On Thu, Oct 25, 2018@04:07:13PM -0700, Florian Fainelli wrote:
+> On 10/25/18 2:13 PM, Rob Herring wrote:
+> > On Thu, Oct 25, 2018@12:30 PM Mike Rapoport <rppt@linux.ibm.com> wrote:
+> >>
+> >> On Thu, Oct 25, 2018@08:15:15AM -0500, Rob Herring wrote:
+> >>> +Ard
+> >>>
+> >>> On Thu, Oct 25, 2018@4:38 AM Mike Rapoport <rppt@linux.ibm.com> wrote:
+> >>>>
+> >>>> On Wed, Oct 24, 2018@02:55:17PM -0500, Rob Herring wrote:
+> >>>>> On Wed, Oct 24, 2018@2:33 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
+> >>>>>>
+> >>>>>> Hi all,
+> >>>>>>
+> >>>>>> While investigating why ARM64 required a ton of objects to be rebuilt
+> >>>>>> when toggling CONFIG_DEV_BLK_INITRD, it became clear that this was
+> >>>>>> because we define __early_init_dt_declare_initrd() differently and we do
+> >>>>>> that in arch/arm64/include/asm/memory.h which gets included by a fair
+> >>>>>> amount of other header files, and translation units as well.
+> >>>>>
+> >>>> I think arm64 does not have to redefine __early_init_dt_declare_initrd().
+> >>>> Something like this might be just all we need (completely untested,
+> >>>> probably it won't even compile):
 
-Ah, shiny. Thanks.
+[ ... ]
+ 
+> FWIW, I am extracting the ARM implementation that parses the initrd
+> early command line parameter and the "setup" code doing the page
+> boundary alignment and memblock checking into a helper into lib/ that
+> other architectures can re-use. So far, this removes the need for
+> unicore32, arc and arm to duplicate essentially the same logic.
+
+Presuming you are going to need asm-generic/initrd.h for that as well,
+using override for __early_init_dt_declare_initrd in arm64 version of
+initrd.h might be the simplest option.
+
+> -- 
+> Florian
+> 
+
+-- 
+Sincerely yours,
+Mike.
