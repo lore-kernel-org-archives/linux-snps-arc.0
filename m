@@ -1,17 +1,17 @@
 From: peterz@infradead.org (Peter Zijlstra)
-Date: Fri, 26 Oct 2018 10:52:02 +0200
+Date: Fri, 26 Oct 2018 10:50:47 +0200
 Subject: [PATCH 1/4] treewide: remove unused address argument from
  pte_alloc functions (v2)
-In-Reply-To: <20181025022119.GC13560@joelaf.mtv.corp.google.com>
+In-Reply-To: <20181025104703.esl6wxyg2ihe4zoc@kshutemo-mobl1>
 References: <20181013013200.206928-1-joel@joelfernandes.org>
  <20181013013200.206928-2-joel@joelfernandes.org>
  <20181024083716.GN3109@worktop.c.hoisthospitality.com>
- <20181025022119.GC13560@joelaf.mtv.corp.google.com>
+ <20181025104703.esl6wxyg2ihe4zoc@kshutemo-mobl1>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181026085202.GC3109@worktop.c.hoisthospitality.com>
+Message-ID: <20181026085047.GB3109@worktop.c.hoisthospitality.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Oct 24, 2018@07:21:19PM -0700, Joel Fernandes wrote:
+On Thu, Oct 25, 2018@01:47:03PM +0300, Kirill A. Shutemov wrote:
 > On Wed, Oct 24, 2018@10:37:16AM +0200, Peter Zijlstra wrote:
 > > On Fri, Oct 12, 2018@06:31:57PM -0700, Joel Fernandes (Google) wrote:
 > > > This series speeds up mremap(2) syscall by copying page tables at the
@@ -29,10 +29,10 @@ On Wed, Oct 24, 2018@07:21:19PM -0700, Joel Fernandes wrote:
 > > architectures having different paging structure for different memory
 > > ranges.
 > 
-> I didn't happen to do that analysis but from code analysis, no architecutre
-> is using it. Since its unused in the kernel, may be such architectures don't
-> exist or were removed, so we don't need to bother? Could you share more about
-> your concern with the removal of this argument?
+> I see some archicetures (i.e. sparc and, I believe power) used the address
+> for coloring. It's not needed anymore. Page allocator and SL?B are good
+> enough now.
+> 
+> See 3c936465249f ("[SPARC64]: Kill pgtable quicklists and use SLAB.")
 
-No concerns at all with removing it; I was purely curious as to the
-origin of the unused argument. Kirill provided that answer.
+Ah, shiny. Thanks.
