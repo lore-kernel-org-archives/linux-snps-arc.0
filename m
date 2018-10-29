@@ -1,29 +1,115 @@
-From: will.deacon@arm.com (Will Deacon)
-Date: Mon, 29 Oct 2018 10:28:40 +0000
-Subject: [PATCH 2/4] mm: speed up mremap by 500x on large regions (v2)
-In-Reply-To: <20181026211148.GA140716@joelaf.mtv.corp.google.com>
-References: <20181013013200.206928-1-joel@joelfernandes.org>
- <20181013013200.206928-3-joel@joelfernandes.org>
- <20181024101255.it4lptrjogalxbey@kshutemo-mobl1>
- <20181024115733.GN8537@350D>
- <20181024125724.yf6frdimjulf35do@kshutemo-mobl1>
- <20181025020907.GA13560@joelaf.mtv.corp.google.com>
- <20181025101900.phqnqpoju5t2gar5@kshutemo-mobl1>
- <20181026211148.GA140716@joelaf.mtv.corp.google.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Mon, 29 Oct 2018 20:09:40 +0300
+Subject: [RFC v2 1/2] ARC: split show_faulting_vma for logic and
+ representation parts
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181029102840.GC13965@arm.com>
+Message-ID: <20181029170941.13811-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Oct 26, 2018@02:11:48PM -0700, Joel Fernandes wrote:
-> My thinking is to take it slow and get the patch in in its current state,
-> since it improves x86. Then as a next step, look into why the arm64 tlb
-> flushes are that expensive and look into optimizing that. On arm64 I am
-> testing on a 4.9 kernel so I'm wondering there are any optimizations since
-> 4.9 that can help speed it up there. After that, if all else fails about
-> speeding up arm64, then I look into developing the cleanest possible solution
-> where we can keep the lock held for longer and flush lesser.
+In preparation for introduncing SmaRT support for ARC split
+show_faulting_vma() for logic and representation parts to be
+able to use logic part in SmaRT code.
 
-We rewrote a good chunk of the arm64 TLB invalidation and core mmu_gather
-code this merge window, so please do have another look at -rc1!
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ arch/arc/include/asm/bug.h     |  9 +++++++++
+ arch/arc/kernel/troubleshoot.c | 43 ++++++++++++++++++++++++++++++------------
+ 2 files changed, 40 insertions(+), 12 deletions(-)
 
-Will
+diff --git a/arch/arc/include/asm/bug.h b/arch/arc/include/asm/bug.h
+index b68f7f82f2d8..064391646d38 100644
+--- a/arch/arc/include/asm/bug.h
++++ b/arch/arc/include/asm/bug.h
+@@ -15,6 +15,15 @@
+ 
+ struct task_struct;
+ 
++struct faulting_vma_info {
++	char *file_path;
++	unsigned long offset;
++	unsigned long vm_start;
++	unsigned long vm_end;
++};
++
++int get_faulting_vma_info(unsigned long address, char *buf, int buflen,
++			  struct faulting_vma_info *fvma);
+ void show_regs(struct pt_regs *regs);
+ void show_exception_mesg(struct pt_regs *regs);
+ void show_stacktrace(struct task_struct *tsk, struct pt_regs *regs);
+diff --git a/arch/arc/kernel/troubleshoot.c b/arch/arc/kernel/troubleshoot.c
+index fdfba1942a06..00efcdfde0ee 100644
+--- a/arch/arc/kernel/troubleshoot.c
++++ b/arch/arc/kernel/troubleshoot.c
+@@ -80,11 +80,14 @@ static void print_task_path_n_nm(struct task_struct *tsk, char *buf)
+ 	pr_info("Path: %s\n", !IS_ERR(path_nm) ? path_nm : "?");
+ }
+ 
+-static void show_faulting_vma(unsigned long address, char *buf)
++int get_faulting_vma_info(unsigned long address, char *buf, int buflen,
++			  struct faulting_vma_info *fvma)
+ {
+ 	struct vm_area_struct *vma;
+-	char *nm = buf;
+ 	struct mm_struct *active_mm = current->active_mm;
++	int ret = -ENOENT;
++
++	fvma->file_path = "?";
+ 
+ 	/* can't use print_vma_addr() yet as it doesn't check for
+ 	 * non-inclusive vma
+@@ -97,19 +100,35 @@ static void show_faulting_vma(unsigned long address, char *buf)
+ 	 */
+ 	if (vma && (vma->vm_start <= address)) {
+ 		if (vma->vm_file) {
+-			nm = file_path(vma->vm_file, buf, PAGE_SIZE - 1);
+-			if (IS_ERR(nm))
+-				nm = "?";
++			fvma->file_path = file_path(vma->vm_file, buf, buflen);
++			if (IS_ERR(fvma->file_path))
++				fvma->file_path = "?";
+ 		}
+ 
+-		pr_cont("[off 0x%lx in %s, VMA: %08lx:%08lx] ",
+-			vma->vm_start < TASK_UNMAPPED_BASE ?
+-				address : address - vma->vm_start,
+-			nm, vma->vm_start, vma->vm_end);
+-	} else
+-		pr_cont("[No matching VMA found] ");
++		fvma->vm_start = vma->vm_start;
++		fvma->vm_end = vma->vm_end;
++		fvma->offset = vma->vm_start < TASK_UNMAPPED_BASE ?
++				address : address - vma->vm_start;
++
++		ret = 0;
++	}
+ 
+ 	up_read(&active_mm->mmap_sem);
++
++	return ret;
++}
++
++static void show_faulting_vma(unsigned long address, char *buf, int buflen)
++{
++	struct faulting_vma_info fvma;
++	int ret;
++
++	ret = get_faulting_vma_info(address, buf, buflen, &fvma);
++	if (ret)
++		pr_cont("[No matching VMA found] ");
++	else
++		pr_cont("[off 0x%lx in %s, VMA: %08lx:%08lx] ", fvma.offset,
++			fvma.file_path, fvma.vm_start, fvma.vm_end);
+ }
+ 
+ static void show_ecr_verbose(struct pt_regs *regs)
+@@ -175,7 +194,7 @@ static inline void show_exception_mesg_u(struct pt_regs *regs)
+ 
+ 	buf = (char *)__get_free_page(GFP_NOWAIT);
+ 	if (buf) {
+-		show_faulting_vma(regs->ret, buf);
++		show_faulting_vma(regs->ret, buf, PAGE_SIZE - 1);
+ 		free_page((unsigned long)buf);
+ 	}
+ 
+-- 
+2.14.5
