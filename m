@@ -1,40 +1,42 @@
 From: dianders@chromium.org (Doug Anderson)
-Date: Tue, 30 Oct 2018 15:20:13 -0700
-Subject: [PATCH 0/7] serial: Finish kgdb on qcom_geni; fix many lockdep
- splats w/ kgdb
-In-Reply-To: <20181030115628.eqtyqdugkpkxvyr2@holly.lan>
+Date: Tue, 30 Oct 2018 15:22:40 -0700
+Subject: [PATCH 7/7] kgdb: Remove irq flags and local_irq_enable/disable
+ from roundup
+In-Reply-To: <20181030114603.xdvyvayzw2an5c3q@holly.lan>
 References: <20181029180707.207546-1-dianders@chromium.org>
- <20181030115628.eqtyqdugkpkxvyr2@holly.lan>
+ <20181029180707.207546-8-dianders@chromium.org>
+ <20181030114603.xdvyvayzw2an5c3q@holly.lan>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAD=FV=URwUFep2UA7Xs1TxK6cZst+W-pfY2_BfKMZnGECHPZqw@mail.gmail.com>
+Message-ID: <CAD=FV=WxoJ2LgUyR7Jm=xJHTqWGMvan7o18gOK-qPKdCrRRQtw@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
 Hi,
 
-On Tue, Oct 30, 2018 at 4:56 AM Daniel Thompson
+On Tue, Oct 30, 2018 at 4:46 AM Daniel Thompson
 <daniel.thompson@linaro.org> wrote:
 >
-> On Mon, Oct 29, 2018@11:07:00AM -0700, Douglas Anderson wrote:
-> > Looking back, this is pretty much two series squashed that could be
-> > treated indepdently.  The first is a serial series and the second is a
-> > kgdb series.
+> On Mon, Oct 29, 2018@11:07:07AM -0700, Douglas Anderson wrote:
+> > The function kgdb_roundup_cpus() was passed a parameter that was
+> > documented as:
+> >
+> > > the flags that will be used when restoring the interrupts. There is
+> > > local_irq_save() call before kgdb_roundup_cpus().
+> >
+> > Nobody used those flags.  Anyone who wanted to temporarily turn on
+> > interrupts just did local_irq_enable() and local_irq_disable() without
+> > looking at them.  So we can definitely remove the flags.
 >
-> Indeed.
+> On the whole I'd rather that this change...
 >
-> I couldn't work out the link between the first 5 patches and the last 2
-> until I read this...
 >
-> Is anything in the 01->05 patch set even related to kgdb? From the stack
-> traces it looks to me like the lock dep warning would trigger for any
-> sysrq. I think separating into two threads for v2 would be sensible.
+> > Speaking of calling local_irq_enable(), it seems like a bad idea and
+> > it caused a nice splat on my system with lockdep turned on.
+> > Specifically it hit:
+> >   DEBUG_LOCKS_WARN_ON(current->hardirq_context)
+>
+> ... and fixes for this this were in separate patches. They don't appear
+> especially related.
 
-Yes, sorry about the mess.  Splitting this into two series makes the
-most sense.  Then I can focus more on trying to get the CCs right and
-people can just get the patches that matter to them.
-
-OK, I've sent v2 of both series out now.  Please yell if you can't
-find them for whatever reason.
-
--Doug
+Agreed that this is cleaner.  Done for v2.
 
 -Doug
