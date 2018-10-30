@@ -1,42 +1,57 @@
-From: dianders@chromium.org (Doug Anderson)
-Date: Tue, 30 Oct 2018 15:22:40 -0700
-Subject: [PATCH 7/7] kgdb: Remove irq flags and local_irq_enable/disable
- from roundup
-In-Reply-To: <20181030114603.xdvyvayzw2an5c3q@holly.lan>
-References: <20181029180707.207546-1-dianders@chromium.org>
- <20181029180707.207546-8-dianders@chromium.org>
- <20181030114603.xdvyvayzw2an5c3q@holly.lan>
+From: f.fainelli@gmail.com (Florian Fainelli)
+Date: Tue, 30 Oct 2018 16:07:18 -0700
+Subject: [PATCH v2 3/6] of/fdt: Populate phys_initrd_start/phys_initrd_size
+ from FDT
+In-Reply-To: <20181030230721.28429-1-f.fainelli@gmail.com>
+References: <20181030230721.28429-1-f.fainelli@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAD=FV=WxoJ2LgUyR7Jm=xJHTqWGMvan7o18gOK-qPKdCrRRQtw@mail.gmail.com>
+Message-ID: <20181030230721.28429-4-f.fainelli@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+Now that we have central and global variables holding the physical
+address and size of the initrd, we can have
+early_init_dt_check_for_initrd() populate
+phys_initrd_start/phys_initrd_size for us.
 
-On Tue, Oct 30, 2018 at 4:46 AM Daniel Thompson
-<daniel.thompson@linaro.org> wrote:
->
-> On Mon, Oct 29, 2018@11:07:07AM -0700, Douglas Anderson wrote:
-> > The function kgdb_roundup_cpus() was passed a parameter that was
-> > documented as:
-> >
-> > > the flags that will be used when restoring the interrupts. There is
-> > > local_irq_save() call before kgdb_roundup_cpus().
-> >
-> > Nobody used those flags.  Anyone who wanted to temporarily turn on
-> > interrupts just did local_irq_enable() and local_irq_disable() without
-> > looking at them.  So we can definitely remove the flags.
->
-> On the whole I'd rather that this change...
->
->
-> > Speaking of calling local_irq_enable(), it seems like a bad idea and
-> > it caused a nice splat on my system with lockdep turned on.
-> > Specifically it hit:
-> >   DEBUG_LOCKS_WARN_ON(current->hardirq_context)
->
-> ... and fixes for this this were in separate patches. They don't appear
-> especially related.
+This allows us to remove a chunk of code from arch/arm/mm/init.c
+introduced with commit 65939301acdb ("arm: set initrd_start/initrd_end
+for fdt scan").
 
-Agreed that this is cleaner.  Done for v2.
+Signed-off-by: Florian Fainelli <f.fainelli at gmail.com>
+---
+ arch/arm/mm/init.c | 6 ------
+ drivers/of/fdt.c   | 2 ++
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
--Doug
+diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
+index 87d59a53861d..4bfa08e27319 100644
+--- a/arch/arm/mm/init.c
++++ b/arch/arm/mm/init.c
+@@ -236,12 +236,6 @@ static void __init arm_initrd_init(void)
+ 	phys_addr_t start;
+ 	unsigned long size;
+ 
+-	/* FDT scan will populate initrd_start */
+-	if (initrd_start && !phys_initrd_size) {
+-		phys_initrd_start = __virt_to_phys(initrd_start);
+-		phys_initrd_size = initrd_end - initrd_start;
+-	}
+-
+ 	initrd_start = initrd_end = 0;
+ 
+ 	if (!phys_initrd_size)
+diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
+index 76c83c1ffeda..e34cb49231b5 100644
+--- a/drivers/of/fdt.c
++++ b/drivers/of/fdt.c
+@@ -925,6 +925,8 @@ static void __init early_init_dt_check_for_initrd(unsigned long node)
+ 	end = of_read_number(prop, len/4);
+ 
+ 	__early_init_dt_declare_initrd(start, end);
++	phys_initrd_start = start;
++	phys_initrd_size = end - start;
+ 
+ 	pr_debug("initrd_start=0x%llx  initrd_end=0x%llx\n",
+ 		 (unsigned long long)start, (unsigned long long)end);
+-- 
+2.17.1
