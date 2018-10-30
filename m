@@ -1,51 +1,48 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Tue, 30 Oct 2018 09:25:25 +0100
-Subject: [PATCH 6/7] smp: Don't yell about IRQs disabled in
- kgdb_roundup_cpus()
-In-Reply-To: <20181029180707.207546-7-dianders@chromium.org>
+From: linux@armlinux.org.uk (Russell King - ARM Linux)
+Date: Tue, 30 Oct 2018 12:31:03 +0000
+Subject: [PATCH 0/7] serial: Finish kgdb on qcom_geni; fix many lockdep
+ splats w/ kgdb
+In-Reply-To: <20181030115628.eqtyqdugkpkxvyr2@holly.lan>
 References: <20181029180707.207546-1-dianders@chromium.org>
- <20181029180707.207546-7-dianders@chromium.org>
+ <20181030115628.eqtyqdugkpkxvyr2@holly.lan>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181030082525.GA13436@hirez.programming.kicks-ass.net>
+Message-ID: <20181030123103.GL30658@n2100.armlinux.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Oct 29, 2018@11:07:06AM -0700, Douglas Anderson wrote:
-> In kgdb_roundup_cpus() we've got code that looks like:
->   local_irq_enable();
->   smp_call_function(kgdb_call_nmi_hook, NULL, 0);
->   local_irq_disable();
-
-> Let's add kgdb to the list of reasons not to warn in
-> smp_call_function_many().  That will allow us (in a future patch) to
-> stop calling local_irq_enable() which will get rid of the original
-> splat.
+On Tue, Oct 30, 2018@11:56:28AM +0000, Daniel Thompson wrote:
+> On Mon, Oct 29, 2018@11:07:00AM -0700, Douglas Anderson wrote:
+> > Looking back, this is pretty much two series squashed that could be
+> > treated indepdently.  The first is a serial series and the second is a
+> > kgdb series.
 > 
-> NOTE: with this change comes the obvious question: will we start
-> deadlocking more often now when we drop into the debugger.  I can't
-> say that for sure one way or the other, but the fact that we do the
-> same logic for "oops_in_progress" makes me feel like it shouldn't
-> happen too often.  Also note that the old logic of turning on
-> interrupts temporarily wasn't exactly safe since (I presume) that
-> could have violated spin_lock_irqsave() semantics and ended up with a
-> deadlock of its own.
+> Indeed.
+> 
+> I couldn't work out the link between the first 5 patches and the last 2
+> until I read this...
+> 
+> Is anything in the 01->05 patch set even related to kgdb? From the stack
+> traces it looks to me like the lock dep warning would trigger for any
+> sysrq. I think separating into two threads for v2 would be sensible.
 
-How is any of that not utterly and terminally broken?
+I'm concerned about calling smp_call_function() from IRQ context with
+IRQs disabled - that will block the ability of the _calling_ CPU to
+process IPIs from other CPUs in the system.  If we have other CPUs
+waiting on their IPIs to complete on _this_ CPU, we could end up
+deadlocking while trying to grab the CSD lock.
 
-> @@ -413,7 +414,8 @@ void smp_call_function_many(const struct cpumask *mask,
->  	 * can't happen.
->  	 */
->  	WARN_ON_ONCE(cpu_online(this_cpu) && irqs_disabled()
-> -		     && !oops_in_progress && !early_boot_irqs_disabled);
-> +		     && !oops_in_progress && !early_boot_irqs_disabled
-> +		     && !in_dbg_master());
->  
->  	/* Try to fastpath.  So, what's a CPU they want? Ignoring this one. */
->  	cpu = cpumask_first_and(mask, cpu_online_mask);
+This is the intention of warnings in smp_call_function*() - to catch
+cases where deadlocks _can_ occur, but do not reliably show up.
 
-Not a fan of this. There is a distinct difference between
-oops_in_progress and dropping into kgdb in that you don't ever expect to
-return/survive oopses, whereas we do expect to survive kgdb.
+The exceptions to the warning (disregarding oops_in_progress) are
+chosen to allow IRQs-disabled calls when we're sure that the rest of
+the system isn't going to be sending the calling CPU an IPI (eg,
+because the CPU isn't marked online, and we only send IPIs to online
+CPUs, or if we're still early in the kernel boot and hence have no
+other CPUs running.)  The exception is oops_in_progress, which can
+occur at any time - even with the current CPU already holding some
+CSD locks (eg, oops while trying to send an IPI.)
 
-Also, how does kgdb work at all without actual NMIs ?
-
-So no, NAK on this.
+-- 
+RMK's Patch system: http://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
