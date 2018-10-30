@@ -1,70 +1,43 @@
-From: daniel.thompson@linaro.org (Daniel Thompson)
-Date: Tue, 30 Oct 2018 11:56:28 +0000
-Subject: [PATCH 0/7] serial: Finish kgdb on qcom_geni; fix many lockdep
- splats w/ kgdb
-In-Reply-To: <20181029180707.207546-1-dianders@chromium.org>
-References: <20181029180707.207546-1-dianders@chromium.org>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 30 Oct 2018 16:05:51 +0000
+Subject: [PATCH v2] ARC: IOC: panic if kernel was started with
+ previously enabled IOC
+References: <20181030085421.7657-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181030115628.eqtyqdugkpkxvyr2@holly.lan>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075013A5892D6@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Oct 29, 2018@11:07:00AM -0700, Douglas Anderson wrote:
-> Looking back, this is pretty much two series squashed that could be
-> treated indepdently.  The first is a serial series and the second is a
-> kgdb series.
+On 10/30/18 1:54 AM, Eugeniy Paltsev wrote:
+> If IOC was already enabled (due to bootloader) it technically needs to
+> be reconfigured with aperture base,size corresponding to Linux memory
+> map which will certainly be different than uboot's. But disabling and
+> reenabling IOC when DMA might be potentially active is tricky business.
+> To avoid random memory issues later, just panic here and ask user to
+> upgrade bootloader to one which doesn't enable IOC.
+>
+> This was actually seen as issue on some of the HSDK board with a version
+> of uboot which enabled IOC. There were random issues later with starting
+> of X or peripherals etc.
+>
+> Also while I'm at it, replace hardcoded bits in ARC_REG_IO_COH_PARTIAL
+> and ARC_REG_IO_COH_ENABLE registers by definitions.
+>
+> Inspired by: https://lkml.org/lkml/2018/1/19/557
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+> Changes v1->v2:
+>  * Fix regression: check for IOC existence before accessing to any IOC
+>    register.
+>
+...
+...
+>  		arc_slc_disable();
+>  
+> -	if (is_isa_arcv2() && ioc_enable)
+> +	if (is_isa_arcv2() && ioc_exists)
+>  		arc_ioc_setup();
 
-Indeed.
+Folded this hunk into existing patch in for-curr.
 
-I couldn't work out the link between the first 5 patches and the last 2
-until I read this...
-
-Is anything in the 01->05 patch set even related to kgdb? From the stack
-traces it looks to me like the lock dep warning would trigger for any
-sysrq. I think separating into two threads for v2 would be sensible.
-
-
-Daniel.
-
-
-> 
-> For all serial patches I'd expect them to go through the tty tree once
-> they've been reviewed.
-> 
-> If folks are OK w/ the 'smp' patch it probably should go in some core
-> kernel tree.  The kgdb patch won't work without it, though, so to land
-> that we'd need coordination between the folks landing that and the
-> folks landing the 'smp' patch.
-> 
-> 
-> Douglas Anderson (7):
->   serial: qcom_geni_serial: Finish supporting sysrq
->   serial: core: Allow processing sysrq at port unlock time
->   serial: qcom_geni_serial: Process sysrq at port unlock time
->   serial: core: Include console.h from serial_core.h
->   serial: 8250: Process sysrq at port unlock time
->   smp: Don't yell about IRQs disabled in kgdb_roundup_cpus()
->   kgdb: Remove irq flags and local_irq_enable/disable from roundup
-> 
->  arch/arc/kernel/kgdb.c                      |  4 +--
->  arch/arm/kernel/kgdb.c                      |  4 +--
->  arch/arm64/kernel/kgdb.c                    |  4 +--
->  arch/hexagon/kernel/kgdb.c                  | 11 ++----
->  arch/mips/kernel/kgdb.c                     |  4 +--
->  arch/powerpc/kernel/kgdb.c                  |  2 +-
->  arch/sh/kernel/kgdb.c                       |  4 +--
->  arch/sparc/kernel/smp_64.c                  |  2 +-
->  arch/x86/kernel/kgdb.c                      |  9 ++---
->  drivers/tty/serial/8250/8250_aspeed_vuart.c |  6 +++-
->  drivers/tty/serial/8250/8250_fsl.c          |  6 +++-
->  drivers/tty/serial/8250/8250_omap.c         |  6 +++-
->  drivers/tty/serial/8250/8250_port.c         |  8 ++---
->  drivers/tty/serial/qcom_geni_serial.c       | 10 ++++--
->  include/linux/kgdb.h                        |  9 ++---
->  include/linux/serial_core.h                 | 38 ++++++++++++++++++++-
->  kernel/debug/debug_core.c                   |  2 +-
->  kernel/smp.c                                |  4 ++-
->  18 files changed, 80 insertions(+), 53 deletions(-)
-> 
-> -- 
-> 2.19.1.568.g152ad8e336-goog
-> 
+Thx,
+-Vineet
