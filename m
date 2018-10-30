@@ -1,99 +1,93 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 30 Oct 2018 11:54:21 +0300
-Subject: [PATCH v2] ARC: IOC: panic if kernel was started with previously
- enabled IOC
+From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
+Date: Tue, 30 Oct 2018 14:36:27 +0200
+Subject: [PATCH 0/7] serial: Finish kgdb on qcom_geni; fix many lockdep
+ splats w/ kgdb
+In-Reply-To: <20181029180707.207546-1-dianders@chromium.org>
+References: <20181029180707.207546-1-dianders@chromium.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181030085421.7657-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20181030123627.GS10650@smile.fi.intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-If IOC was already enabled (due to bootloader) it technically needs to
-be reconfigured with aperture base,size corresponding to Linux memory
-map which will certainly be different than uboot's. But disabling and
-reenabling IOC when DMA might be potentially active is tricky business.
-To avoid random memory issues later, just panic here and ask user to
-upgrade bootloader to one which doesn't enable IOC.
+On Mon, Oct 29, 2018@11:07:00AM -0700, Douglas Anderson wrote:
+> I started out this series trying to make sysrq work over the serial
+> console on qcom_geni_serial, then fell into a rat's nest.
+> 
+> To solve the deadlock I faced when enabling sysrq I tried to borrow
+> code from '8250_port.c' which avoided grabbing the port lock in
+> console_write().  ...but since these days I try to run with lockdep on
+> all the time, I found it caused an annoying lockdep splat (which I
+> also reproduced on my rk3399 board).  ...so I instead changed my
+> qcom_geni_serial solution to borrow code from 'msm_serial.c'
+> 
+> I wasn't super happy with the solution in 'msm_serial.c' though.  I
+> don't like releasing the spinlock there.  Not only is it ugly but it
+> means we are unlocking / re-locking _all the time_ even though sysrq
+> characters are rare.  ...so I came up with what I think is a better
+> solution and then implemented it for qcom_geni_serial.
+> 
+> Since I had a good way to test 8250-based UARTs, I also fixed that
+> driver to use my new method.  When doing so, I ran into a missing
+> msm_serial.c at all, so I didn't switch that (or all other serial
+> drivers for that matter) to the new method.
+> 
+> After fixing all the above issues, I found the next lockdep splat in
+> kgdb and I think I've worked around it in a good-enough way, but I'm
+> much less confident about this.  Hopefully folks can take a look at
+> it.
+> 
+> In general, patches earlier in this series should be "less
+> controversial" and hopefully can land even if people don't like
+> patches later in the series.  ;-)
+> 
+> Looking back, this is pretty much two series squashed that could be
+> treated indepdently.  The first is a serial series and the second is a
+> kgdb series.
+> 
+> For all serial patches I'd expect them to go through the tty tree once
+> they've been reviewed.
+> 
+> If folks are OK w/ the 'smp' patch it probably should go in some core
+> kernel tree.  The kgdb patch won't work without it, though, so to land
+> that we'd need coordination between the folks landing that and the
+> folks landing the 'smp' patch.
 
-This was actually seen as issue on some of the HSDK board with a version
-of uboot which enabled IOC. There were random issues later with starting
-of X or peripherals etc.
+I have got only 0/7 and 5/7, everything okay with your mail client and other tools?
 
-Also while I'm at it, replace hardcoded bits in ARC_REG_IO_COH_PARTIAL
-and ARC_REG_IO_COH_ENABLE registers by definitions.
+> 
+> 
+> Douglas Anderson (7):
+>   serial: qcom_geni_serial: Finish supporting sysrq
+>   serial: core: Allow processing sysrq at port unlock time
+>   serial: qcom_geni_serial: Process sysrq at port unlock time
+>   serial: core: Include console.h from serial_core.h
+>   serial: 8250: Process sysrq at port unlock time
+>   smp: Don't yell about IRQs disabled in kgdb_roundup_cpus()
+>   kgdb: Remove irq flags and local_irq_enable/disable from roundup
+> 
+>  arch/arc/kernel/kgdb.c                      |  4 +--
+>  arch/arm/kernel/kgdb.c                      |  4 +--
+>  arch/arm64/kernel/kgdb.c                    |  4 +--
+>  arch/hexagon/kernel/kgdb.c                  | 11 ++----
+>  arch/mips/kernel/kgdb.c                     |  4 +--
+>  arch/powerpc/kernel/kgdb.c                  |  2 +-
+>  arch/sh/kernel/kgdb.c                       |  4 +--
+>  arch/sparc/kernel/smp_64.c                  |  2 +-
+>  arch/x86/kernel/kgdb.c                      |  9 ++---
+>  drivers/tty/serial/8250/8250_aspeed_vuart.c |  6 +++-
+>  drivers/tty/serial/8250/8250_fsl.c          |  6 +++-
+>  drivers/tty/serial/8250/8250_omap.c         |  6 +++-
+>  drivers/tty/serial/8250/8250_port.c         |  8 ++---
+>  drivers/tty/serial/qcom_geni_serial.c       | 10 ++++--
+>  include/linux/kgdb.h                        |  9 ++---
+>  include/linux/serial_core.h                 | 38 ++++++++++++++++++++-
+>  kernel/debug/debug_core.c                   |  2 +-
+>  kernel/smp.c                                |  4 ++-
+>  18 files changed, 80 insertions(+), 53 deletions(-)
+> 
+> -- 
+> 2.19.1.568.g152ad8e336-goog
+> 
 
-Inspired by: https://lkml.org/lkml/2018/1/19/557
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
-Changes v1->v2:
- * Fix regression: check for IOC existence before accessing to any IOC
-   register.
-
- arch/arc/include/asm/cache.h |  2 ++
- arch/arc/mm/cache.c          | 25 ++++++++++++++++++++++---
- 2 files changed, 24 insertions(+), 3 deletions(-)
-
-diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
-index ff7d3232764a..f393b663413e 100644
---- a/arch/arc/include/asm/cache.h
-+++ b/arch/arc/include/asm/cache.h
-@@ -113,7 +113,9 @@ extern unsigned long perip_base, perip_end;
- 
- /* IO coherency related Auxiliary registers */
- #define ARC_REG_IO_COH_ENABLE	0x500
-+#define ARC_IO_COH_ENABLE_BIT	BIT(0)
- #define ARC_REG_IO_COH_PARTIAL	0x501
-+#define ARC_IO_COH_PARTIAL_BIT	BIT(0)
- #define ARC_REG_IO_COH_AP0_BASE	0x508
- #define ARC_REG_IO_COH_AP0_SIZE	0x509
- 
-diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index f2701c13a66b..1b913c90676a 100644
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -1144,6 +1144,25 @@ noinline void __init arc_ioc_setup(void)
- {
- 	unsigned int ioc_base, mem_sz;
- 
-+	/*
-+	 * Disabling and reconfiguring of IOC are quite a tricky actions because
-+	 * nobody knows what happens if there're IOC-ahndled tarnsactions in
-+	 * flight when we're disabling IOC.
-+	 *
-+	 * And the problem is external DMA masters [that were initialized and
-+	 * set in a bootlaoder that was executed before we got here] might
-+	 * continue to send data to memory even at this point and we have
-+	 * no way to prevent that.
-+	 *
-+	 * That said it's much safer to not enable IOC at all anywhere before
-+	 * Linux kernel.
-+	 */
-+	if (read_aux_reg(ARC_REG_IO_COH_ENABLE) & ARC_IO_COH_ENABLE_BIT)
-+		panic("kernel was started with previously enabled IOC!\n");
-+
-+	if (!ioc_enable)
-+		return;
-+
- 	/*
- 	 * As for today we don't support both IOC and ZONE_HIGHMEM enabled
- 	 * simultaneously. This happens because as of today IOC aperture covers
-@@ -1187,8 +1206,8 @@ noinline void __init arc_ioc_setup(void)
- 		panic("IOC Aperture start must be aligned to the size of the aperture");
- 
- 	write_aux_reg(ARC_REG_IO_COH_AP0_BASE, ioc_base >> 12);
--	write_aux_reg(ARC_REG_IO_COH_PARTIAL, 1);
--	write_aux_reg(ARC_REG_IO_COH_ENABLE, 1);
-+	write_aux_reg(ARC_REG_IO_COH_PARTIAL, ARC_IO_COH_PARTIAL_BIT);
-+	write_aux_reg(ARC_REG_IO_COH_ENABLE, ARC_IO_COH_ENABLE_BIT);
- 
- 	/* Re-enable L1 dcache */
- 	__dc_enable();
-@@ -1265,7 +1284,7 @@ void __init arc_cache_init_master(void)
- 	if (is_isa_arcv2() && l2_line_sz && !slc_enable)
- 		arc_slc_disable();
- 
--	if (is_isa_arcv2() && ioc_enable)
-+	if (is_isa_arcv2() && ioc_exists)
- 		arc_ioc_setup();
- 
- 	if (is_isa_arcv2() && l2_line_sz && slc_enable) {
 -- 
-2.14.5
+With Best Regards,
+Andy Shevchenko
