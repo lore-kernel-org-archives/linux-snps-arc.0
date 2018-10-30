@@ -1,285 +1,99 @@
-From: daniel.thompson@linaro.org (Daniel Thompson)
-Date: Tue, 30 Oct 2018 11:46:03 +0000
-Subject: [PATCH 7/7] kgdb: Remove irq flags and local_irq_enable/disable
- from roundup
-In-Reply-To: <20181029180707.207546-8-dianders@chromium.org>
-References: <20181029180707.207546-1-dianders@chromium.org>
- <20181029180707.207546-8-dianders@chromium.org>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 30 Oct 2018 11:54:21 +0300
+Subject: [PATCH v2] ARC: IOC: panic if kernel was started with previously
+ enabled IOC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181030114603.xdvyvayzw2an5c3q@holly.lan>
+Message-ID: <20181030085421.7657-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Oct 29, 2018@11:07:07AM -0700, Douglas Anderson wrote:
-> The function kgdb_roundup_cpus() was passed a parameter that was
-> documented as:
-> 
-> > the flags that will be used when restoring the interrupts. There is
-> > local_irq_save() call before kgdb_roundup_cpus().
-> 
-> Nobody used those flags.  Anyone who wanted to temporarily turn on
-> interrupts just did local_irq_enable() and local_irq_disable() without
-> looking at them.  So we can definitely remove the flags.
+If IOC was already enabled (due to bootloader) it technically needs to
+be reconfigured with aperture base,size corresponding to Linux memory
+map which will certainly be different than uboot's. But disabling and
+reenabling IOC when DMA might be potentially active is tricky business.
+To avoid random memory issues later, just panic here and ask user to
+upgrade bootloader to one which doesn't enable IOC.
 
-On the whole I'd rather that this change...
+This was actually seen as issue on some of the HSDK board with a version
+of uboot which enabled IOC. There were random issues later with starting
+of X or peripherals etc.
 
+Also while I'm at it, replace hardcoded bits in ARC_REG_IO_COH_PARTIAL
+and ARC_REG_IO_COH_ENABLE registers by definitions.
 
-> Speaking of calling local_irq_enable(), it seems like a bad idea and
-> it caused a nice splat on my system with lockdep turned on.
-> Specifically it hit:
->   DEBUG_LOCKS_WARN_ON(current->hardirq_context)
+Inspired by: https://lkml.org/lkml/2018/1/19/557
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+Changes v1->v2:
+ * Fix regression: check for IOC existence before accessing to any IOC
+   register.
 
-... and fixes for this this were in separate patches. They don't appear
-especially related.
+ arch/arc/include/asm/cache.h |  2 ++
+ arch/arc/mm/cache.c          | 25 ++++++++++++++++++++++---
+ 2 files changed, 24 insertions(+), 3 deletions(-)
 
-
-Daniel.
-
+diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
+index ff7d3232764a..f393b663413e 100644
+--- a/arch/arc/include/asm/cache.h
++++ b/arch/arc/include/asm/cache.h
+@@ -113,7 +113,9 @@ extern unsigned long perip_base, perip_end;
  
-> See the previous patch in this series ("smp: Don't yell about IRQs
-> disabled in kgdb_roundup_cpus()") for more details, but the last few
-> things on the stack were this on my arm64 board:
->   lockdep_hardirqs_on+0xf0/0x160
->   trace_hardirqs_on+0x188/0x1ac
->   kgdb_roundup_cpus+0x14/0x3c
-> 
-> As agrued in the the commit text of ("smp: Don't yell about IRQs
-> disabled in kgdb_roundup_cpus()"), it seems better to make
-> smp_call_function() lenient about kgdb than to locally turn on IRQs
-> here.  Thus let's totally remove all the local_irq_enable() and
-> local_irq_disable() calls from all of the kgdb_roundup_cpus() calls.
-> 
-> Signed-off-by: Douglas Anderson <dianders at chromium.org>
-> ---
-> 
->  arch/arc/kernel/kgdb.c     |  4 +---
->  arch/arm/kernel/kgdb.c     |  4 +---
->  arch/arm64/kernel/kgdb.c   |  4 +---
->  arch/hexagon/kernel/kgdb.c | 11 ++---------
->  arch/mips/kernel/kgdb.c    |  4 +---
->  arch/powerpc/kernel/kgdb.c |  2 +-
->  arch/sh/kernel/kgdb.c      |  4 +---
->  arch/sparc/kernel/smp_64.c |  2 +-
->  arch/x86/kernel/kgdb.c     |  9 ++-------
->  include/linux/kgdb.h       |  9 ++-------
->  kernel/debug/debug_core.c  |  2 +-
->  11 files changed, 14 insertions(+), 41 deletions(-)
-> 
-> diff --git a/arch/arc/kernel/kgdb.c b/arch/arc/kernel/kgdb.c
-> index 9a3c34af2ae8..d94d3cb7f9e8 100644
-> --- a/arch/arc/kernel/kgdb.c
-> +++ b/arch/arc/kernel/kgdb.c
-> @@ -197,11 +197,9 @@ static void kgdb_call_nmi_hook(void *ignored)
->  	kgdb_nmicallback(raw_smp_processor_id(), NULL);
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
-> -	local_irq_enable();
->  	smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> -	local_irq_disable();
->  }
->  
->  struct kgdb_arch arch_kgdb_ops = {
-> diff --git a/arch/arm/kernel/kgdb.c b/arch/arm/kernel/kgdb.c
-> index caa0dbe3dc61..a80e9259f7e9 100644
-> --- a/arch/arm/kernel/kgdb.c
-> +++ b/arch/arm/kernel/kgdb.c
-> @@ -175,11 +175,9 @@ static void kgdb_call_nmi_hook(void *ignored)
->         kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
-> -       local_irq_enable();
->         smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> -       local_irq_disable();
->  }
->  
->  static int __kgdb_notify(struct die_args *args, unsigned long cmd)
-> diff --git a/arch/arm64/kernel/kgdb.c b/arch/arm64/kernel/kgdb.c
-> index a20de58061a8..5d171c26788f 100644
-> --- a/arch/arm64/kernel/kgdb.c
-> +++ b/arch/arm64/kernel/kgdb.c
-> @@ -289,11 +289,9 @@ static void kgdb_call_nmi_hook(void *ignored)
->  	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
-> -	local_irq_enable();
->  	smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> -	local_irq_disable();
->  }
->  
->  static int __kgdb_notify(struct die_args *args, unsigned long cmd)
-> diff --git a/arch/hexagon/kernel/kgdb.c b/arch/hexagon/kernel/kgdb.c
-> index 16c24b22d0b2..30fbc491cf45 100644
-> --- a/arch/hexagon/kernel/kgdb.c
-> +++ b/arch/hexagon/kernel/kgdb.c
-> @@ -119,17 +119,12 @@ void kgdb_arch_set_pc(struct pt_regs *regs, unsigned long pc)
->  
->  /**
->   * kgdb_roundup_cpus - Get other CPUs into a holding pattern
-> - * @flags: Current IRQ state
->   *
->   * On SMP systems, we need to get the attention of the other CPUs
->   * and get them be in a known state.  This should do what is needed
->   * to get the other CPUs to call kgdb_wait(). Note that on some arches,
->   * the NMI approach is not used for rounding up all the CPUs. For example,
-> - * in case of MIPS, smp_call_function() is used to roundup CPUs. In
-> - * this case, we have to make sure that interrupts are enabled before
-> - * calling smp_call_function(). The argument to this function is
-> - * the flags that will be used when restoring the interrupts. There is
-> - * local_irq_save() call before kgdb_roundup_cpus().
-> + * in case of MIPS, smp_call_function() is used to roundup CPUs.
->   *
->   * On non-SMP systems, this is not called.
->   */
-> @@ -139,11 +134,9 @@ static void hexagon_kgdb_nmi_hook(void *ignored)
->  	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
-> -	local_irq_enable();
->  	smp_call_function(hexagon_kgdb_nmi_hook, NULL, 0);
-> -	local_irq_disable();
->  }
->  #endif
->  
-> diff --git a/arch/mips/kernel/kgdb.c b/arch/mips/kernel/kgdb.c
-> index eb6c0d582626..6671a279966f 100644
-> --- a/arch/mips/kernel/kgdb.c
-> +++ b/arch/mips/kernel/kgdb.c
-> @@ -219,11 +219,9 @@ static void kgdb_call_nmi_hook(void *ignored)
->  	set_fs(old_fs);
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
-> -	local_irq_enable();
->  	smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> -	local_irq_disable();
->  }
->  
->  static int compute_signal(int tt)
-> diff --git a/arch/powerpc/kernel/kgdb.c b/arch/powerpc/kernel/kgdb.c
-> index 59c578f865aa..b0e804844be0 100644
-> --- a/arch/powerpc/kernel/kgdb.c
-> +++ b/arch/powerpc/kernel/kgdb.c
-> @@ -124,7 +124,7 @@ static int kgdb_call_nmi_hook(struct pt_regs *regs)
->  }
->  
->  #ifdef CONFIG_SMP
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	smp_send_debugger_break();
->  }
-> diff --git a/arch/sh/kernel/kgdb.c b/arch/sh/kernel/kgdb.c
-> index 4f04c6638a4d..86b3ea927e42 100644
-> --- a/arch/sh/kernel/kgdb.c
-> +++ b/arch/sh/kernel/kgdb.c
-> @@ -319,11 +319,9 @@ static void kgdb_call_nmi_hook(void *ignored)
->  	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
-> -	local_irq_enable();
->  	smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> -	local_irq_disable();
->  }
->  
->  static int __kgdb_notify(struct die_args *args, unsigned long cmd)
-> diff --git a/arch/sparc/kernel/smp_64.c b/arch/sparc/kernel/smp_64.c
-> index 4792e08ad36b..f45d876983f1 100644
-> --- a/arch/sparc/kernel/smp_64.c
-> +++ b/arch/sparc/kernel/smp_64.c
-> @@ -1014,7 +1014,7 @@ void flush_dcache_page_all(struct mm_struct *mm, struct page *page)
->  }
->  
->  #ifdef CONFIG_KGDB
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	smp_cross_call(&xcall_kgdb_capture, 0, 0, 0);
->  }
-> diff --git a/arch/x86/kernel/kgdb.c b/arch/x86/kernel/kgdb.c
-> index 8e36f249646e..ac6291a4178d 100644
-> --- a/arch/x86/kernel/kgdb.c
-> +++ b/arch/x86/kernel/kgdb.c
-> @@ -422,21 +422,16 @@ static void kgdb_disable_hw_debug(struct pt_regs *regs)
->  #ifdef CONFIG_SMP
->  /**
->   *	kgdb_roundup_cpus - Get other CPUs into a holding pattern
-> - *	@flags: Current IRQ state
->   *
->   *	On SMP systems, we need to get the attention of the other CPUs
->   *	and get them be in a known state.  This should do what is needed
->   *	to get the other CPUs to call kgdb_wait(). Note that on some arches,
->   *	the NMI approach is not used for rounding up all the CPUs. For example,
-> - *	in case of MIPS, smp_call_function() is used to roundup CPUs. In
-> - *	this case, we have to make sure that interrupts are enabled before
-> - *	calling smp_call_function(). The argument to this function is
-> - *	the flags that will be used when restoring the interrupts. There is
-> - *	local_irq_save() call before kgdb_roundup_cpus().
-> + *	in case of MIPS, smp_call_function() is used to roundup CPUs.
->   *
->   *	On non-SMP systems, this is not called.
->   */
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	apic->send_IPI_allbutself(APIC_DM_NMI);
->  }
-> diff --git a/include/linux/kgdb.h b/include/linux/kgdb.h
-> index e465bb15912d..05e5b2eb0d32 100644
-> --- a/include/linux/kgdb.h
-> +++ b/include/linux/kgdb.h
-> @@ -178,21 +178,16 @@ kgdb_arch_handle_exception(int vector, int signo, int err_code,
->  
->  /**
->   *	kgdb_roundup_cpus - Get other CPUs into a holding pattern
-> - *	@flags: Current IRQ state
->   *
->   *	On SMP systems, we need to get the attention of the other CPUs
->   *	and get them into a known state.  This should do what is needed
->   *	to get the other CPUs to call kgdb_wait(). Note that on some arches,
->   *	the NMI approach is not used for rounding up all the CPUs. For example,
-> - *	in case of MIPS, smp_call_function() is used to roundup CPUs. In
-> - *	this case, we have to make sure that interrupts are enabled before
-> - *	calling smp_call_function(). The argument to this function is
-> - *	the flags that will be used when restoring the interrupts. There is
-> - *	local_irq_save() call before kgdb_roundup_cpus().
-> + *	in case of MIPS, smp_call_function() is used to roundup CPUs.
->   *
->   *	On non-SMP systems, this is not called.
->   */
-> -extern void kgdb_roundup_cpus(unsigned long flags);
-> +extern void kgdb_roundup_cpus(void);
->  
->  /**
->   *	kgdb_arch_set_pc - Generic call back to the program counter
-> diff --git a/kernel/debug/debug_core.c b/kernel/debug/debug_core.c
-> index 65c0f1363788..f3cadda45f07 100644
-> --- a/kernel/debug/debug_core.c
-> +++ b/kernel/debug/debug_core.c
-> @@ -593,7 +593,7 @@ static int kgdb_cpu_enter(struct kgdb_state *ks, struct pt_regs *regs,
->  
->  	/* Signal the other CPUs to enter kgdb_wait() */
->  	else if ((!kgdb_single_step) && kgdb_do_roundup)
-> -		kgdb_roundup_cpus(flags);
-> +		kgdb_roundup_cpus();
->  #endif
->  
->  	/*
-> -- 
-> 2.19.1.568.g152ad8e336-goog
-> 
+ /* IO coherency related Auxiliary registers */
+ #define ARC_REG_IO_COH_ENABLE	0x500
++#define ARC_IO_COH_ENABLE_BIT	BIT(0)
+ #define ARC_REG_IO_COH_PARTIAL	0x501
++#define ARC_IO_COH_PARTIAL_BIT	BIT(0)
+ #define ARC_REG_IO_COH_AP0_BASE	0x508
+ #define ARC_REG_IO_COH_AP0_SIZE	0x509
+ 
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index f2701c13a66b..1b913c90676a 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -1144,6 +1144,25 @@ noinline void __init arc_ioc_setup(void)
+ {
+ 	unsigned int ioc_base, mem_sz;
+ 
++	/*
++	 * Disabling and reconfiguring of IOC are quite a tricky actions because
++	 * nobody knows what happens if there're IOC-ahndled tarnsactions in
++	 * flight when we're disabling IOC.
++	 *
++	 * And the problem is external DMA masters [that were initialized and
++	 * set in a bootlaoder that was executed before we got here] might
++	 * continue to send data to memory even at this point and we have
++	 * no way to prevent that.
++	 *
++	 * That said it's much safer to not enable IOC at all anywhere before
++	 * Linux kernel.
++	 */
++	if (read_aux_reg(ARC_REG_IO_COH_ENABLE) & ARC_IO_COH_ENABLE_BIT)
++		panic("kernel was started with previously enabled IOC!\n");
++
++	if (!ioc_enable)
++		return;
++
+ 	/*
+ 	 * As for today we don't support both IOC and ZONE_HIGHMEM enabled
+ 	 * simultaneously. This happens because as of today IOC aperture covers
+@@ -1187,8 +1206,8 @@ noinline void __init arc_ioc_setup(void)
+ 		panic("IOC Aperture start must be aligned to the size of the aperture");
+ 
+ 	write_aux_reg(ARC_REG_IO_COH_AP0_BASE, ioc_base >> 12);
+-	write_aux_reg(ARC_REG_IO_COH_PARTIAL, 1);
+-	write_aux_reg(ARC_REG_IO_COH_ENABLE, 1);
++	write_aux_reg(ARC_REG_IO_COH_PARTIAL, ARC_IO_COH_PARTIAL_BIT);
++	write_aux_reg(ARC_REG_IO_COH_ENABLE, ARC_IO_COH_ENABLE_BIT);
+ 
+ 	/* Re-enable L1 dcache */
+ 	__dc_enable();
+@@ -1265,7 +1284,7 @@ void __init arc_cache_init_master(void)
+ 	if (is_isa_arcv2() && l2_line_sz && !slc_enable)
+ 		arc_slc_disable();
+ 
+-	if (is_isa_arcv2() && ioc_enable)
++	if (is_isa_arcv2() && ioc_exists)
+ 		arc_ioc_setup();
+ 
+ 	if (is_isa_arcv2() && l2_line_sz && slc_enable) {
+-- 
+2.14.5
