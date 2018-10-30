@@ -1,86 +1,40 @@
 From: dianders@chromium.org (Doug Anderson)
-Date: Tue, 30 Oct 2018 15:21:30 -0700
-Subject: [PATCH 6/7] smp: Don't yell about IRQs disabled in
- kgdb_roundup_cpus()
-In-Reply-To: <20181030094159.zt6akmyxwrbzoe2x@holly.lan>
+Date: Tue, 30 Oct 2018 15:20:13 -0700
+Subject: [PATCH 0/7] serial: Finish kgdb on qcom_geni; fix many lockdep
+ splats w/ kgdb
+In-Reply-To: <20181030115628.eqtyqdugkpkxvyr2@holly.lan>
 References: <20181029180707.207546-1-dianders@chromium.org>
- <20181029180707.207546-7-dianders@chromium.org>
- <20181030094159.zt6akmyxwrbzoe2x@holly.lan>
+ <20181030115628.eqtyqdugkpkxvyr2@holly.lan>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAD=FV=Wno+QbhUp+0+Pmk72Ds4C9d25ynSH=0JDdttJ2WBU4NA@mail.gmail.com>
+Message-ID: <CAD=FV=URwUFep2UA7Xs1TxK6cZst+W-pfY2_BfKMZnGECHPZqw@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Daniel,
+Hi,
 
-On Tue, Oct 30, 2018 at 2:42 AM Daniel Thompson
+On Tue, Oct 30, 2018 at 4:56 AM Daniel Thompson
 <daniel.thompson@linaro.org> wrote:
 >
-> On Mon, Oct 29, 2018@11:07:06AM -0700, Douglas Anderson wrote:
-> > In kgdb_roundup_cpus() we've got code that looks like:
-> >   local_irq_enable();
-> >   smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> >   local_irq_disable();
-> >
-> > In certain cases when we drop into kgdb (like with sysrq-g on a serial
-> > console) we'll get a big yell that looks like:
-> >
-> >   sysrq: SysRq : DEBUG
-> >   ------------[ cut here ]------------
-> >   DEBUG_LOCKS_WARN_ON(current->hardirq_context)
-> >   WARNING: CPU: 0 PID: 0 at .../kernel/locking/lockdep.c:2875 lockdep_hardirqs_on+0xf0/0x160
-> >   CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.19.0 #27
-> >   pstate: 604003c9 (nZCv DAIF +PAN -UAO)
-> >   pc : lockdep_hardirqs_on+0xf0/0x160
-> >   ...
-> >   Call trace:
-> >    lockdep_hardirqs_on+0xf0/0x160
-> >    trace_hardirqs_on+0x188/0x1ac
-> >    kgdb_roundup_cpus+0x14/0x3c
-> >    kgdb_cpu_enter+0x53c/0x5cc
-> >    kgdb_handle_exception+0x180/0x1d4
-> >    kgdb_compiled_brk_fn+0x30/0x3c
-> >    brk_handler+0x134/0x178
-> >    do_debug_exception+0xfc/0x178
-> >    el1_dbg+0x18/0x78
-> >    kgdb_breakpoint+0x34/0x58
-> >    sysrq_handle_dbg+0x54/0x5c
-> >    __handle_sysrq+0x114/0x21c
-> >    handle_sysrq+0x30/0x3c
-> >    qcom_geni_serial_isr+0x2dc/0x30c
-> >   ...
-> >   ...
-> >   irq event stamp: ...45
-> >   hardirqs last  enabled at (...44): [...] __do_softirq+0xd8/0x4e4
-> >   hardirqs last disabled at (...45): [...] el1_irq+0x74/0x130
-> >   softirqs last  enabled at (...42): [...] _local_bh_enable+0x2c/0x34
-> >   softirqs last disabled at (...43): [...] irq_exit+0xa8/0x100
-> >   ---[ end trace adf21f830c46e638 ]---
-> >
-> > Let's add kgdb to the list of reasons not to warn in
-> > smp_call_function_many().  That will allow us (in a future patch) to
-> > stop calling local_irq_enable() which will get rid of the original
-> > splat.
-> >
-> > NOTE: with this change comes the obvious question: will we start
-> > deadlocking more often now when we drop into the debugger.  I can't
-> > say that for sure one way or the other, but the fact that we do the
-> > same logic for "oops_in_progress" makes me feel like it shouldn't
-> > happen too often.  Also note that the old logic of turning on
-> > interrupts temporarily wasn't exactly safe since (I presume) that
-> > could have violated spin_lock_irqsave() semantics and ended up with a
-> > deadlock of its own.
+> On Mon, Oct 29, 2018@11:07:00AM -0700, Douglas Anderson wrote:
+> > Looking back, this is pretty much two series squashed that could be
+> > treated indepdently.  The first is a serial series and the second is a
+> > kgdb series.
 >
-> This is part of the code to bring all the cores to a halt and since
-> the other cores are still running kgdb isn't yet able to use the fact
-> all the CPUs are halted to bend the rules. It is better for this code
-> to play by the rules if it can.
+> Indeed.
 >
-> Is is possible to get the roundup functions to use a private csd
-> alongside smp_call_function_single_async()? We could add a helper
-> function to the debug core to avoid having to add cpu_online loops into
-> every kgdb_roundup_cpus() implementaton.
+> I couldn't work out the link between the first 5 patches and the last 2
+> until I read this...
+>
+> Is anything in the 01->05 patch set even related to kgdb? From the stack
+> traces it looks to me like the lock dep warning would trigger for any
+> sysrq. I think separating into two threads for v2 would be sensible.
 
-Exactly the kind of helpful suggestion I was looking for.  Thank you
-very much!  See v2 and hopefully it matches what you were thinking of.
+Yes, sorry about the mess.  Splitting this into two series makes the
+most sense.  Then I can focus more on trying to get the CCs right and
+people can just get the patches that matter to them.
+
+OK, I've sent v2 of both series out now.  Please yell if you can't
+find them for whatever reason.
+
+-Doug
 
 -Doug
