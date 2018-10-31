@@ -1,87 +1,74 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Wed, 31 Oct 2018 14:49:26 +0100
-Subject: [PATCH v2 2/2] kgdb: Fix kgdb_roundup_cpus() for arches who used
- smp_call_function()
-In-Reply-To: <20181030221843.121254-3-dianders@chromium.org>
-References: <20181030221843.121254-1-dianders@chromium.org>
- <20181030221843.121254-3-dianders@chromium.org>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 31 Oct 2018 18:25:47 +0300
+Subject: [PATCH v4] devres: Align data[] to ARCH_KMALLOC_MINALIGN
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181031134926.GB13237@hirez.programming.kicks-ass.net>
+Message-ID: <20181031152547.9066-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Oct 30, 2018@03:18:43PM -0700, Douglas Anderson wrote:
-> Looking closely at it, it seems like a really bad idea to be calling
-> local_irq_enable() in kgdb_roundup_cpus().  If nothing else that seems
-> like it could violate spinlock semantics and cause a deadlock.
-> 
-> Instead, let's use a private csd alongside
-> smp_call_function_single_async() to round up the other CPUs.  Using
-> smp_call_function_single_async() doesn't require interrupts to be
-> enabled so we can remove the offending bit of code.
+Initially we bumped into problem with 32-bit aligned atomic64_t
+on ARC, see [1]. And then during quite lengthly discussion Peter Z.
+mentioned ARCH_KMALLOC_MINALIGN which IMHO makes perfect sense.
+If allocation is done by plain kmalloc() obtained buffer will be
+ARCH_KMALLOC_MINALIGN aligned and then why buffer obtained via
+devm_kmalloc() should have any other alignment?
 
-You might want to mention that the only reason this isn't a deadlock
-itself is because there is a timeout on waiting for the slaves to
-check-in.
+This way we at least get the same behavior for both types of
+allocation.
 
-> --- a/kernel/debug/debug_core.c
-> +++ b/kernel/debug/debug_core.c
-> @@ -55,6 +55,7 @@
->  #include <linux/mm.h>
->  #include <linux/vmacache.h>
->  #include <linux/rcupdate.h>
-> +#include <linux/irq.h>
->  
->  #include <asm/cacheflush.h>
->  #include <asm/byteorder.h>
-> @@ -220,6 +221,39 @@ int __weak kgdb_skipexception(int exception, struct pt_regs *regs)
->  	return 0;
->  }
->  
-> +/*
-> + * Default (weak) implementation for kgdb_roundup_cpus
-> + */
-> +
-> +static DEFINE_PER_CPU(call_single_data_t, kgdb_roundup_csd);
-> +
-> +void __weak kgdb_call_nmi_hook(void *ignored)
-> +{
-> +	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
-> +}
-> +
-> +void __weak kgdb_roundup_cpus(void)
-> +{
-> +	call_single_data_t *csd;
-> +	int cpu;
-> +
-> +	for_each_cpu(cpu, cpu_online_mask) {
-> +		csd = &per_cpu(kgdb_roundup_csd, cpu);
-> +		smp_call_function_single_async(cpu, csd);
-> +	}
-> +}
-> +
-> +static void kgdb_generic_roundup_init(void)
-> +{
-> +	call_single_data_t *csd;
-> +	int cpu;
-> +
-> +	for_each_possible_cpu(cpu) {
-> +		csd = &per_cpu(kgdb_roundup_csd, cpu);
-> +		csd->func = kgdb_call_nmi_hook;
-> +	}
-> +}
-> +
->  /*
->   * Some architectures need cache flushes when we set/clear a
->   * breakpoint:
-> @@ -993,6 +1027,8 @@ int kgdb_register_io_module(struct kgdb_io *new_dbg_io_ops)
->  		return -EBUSY;
->  	}
->  
-> +	kgdb_generic_roundup_init();
-> +
->  	if (new_dbg_io_ops->init) {
->  		err = new_dbg_io_ops->init();
->  		if (err) {
+[1] http://lists.infradead.org/pipermail/linux-snps-arc/2018-July/004009.html
+[2] http://lists.infradead.org/pipermail/linux-snps-arc/2018-July/004036.html
 
-That's a little bit of overhead for those architectures not using that
-generic code; but I suppose we can live with that.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Cc: Geert Uytterhoeven <geert at linux-m68k.org>
+Cc: David Laight <David.Laight at ACULAB.COM>
+Cc: Peter Zijlstra <peterz at infradead.org>
+Cc: Thomas Gleixner <tglx at linutronix.de>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Will Deacon <will.deacon at arm.com>
+Cc: Greg KH <greg at kroah.com>
+Cc: <stable at vger.kernel.org> # 4.8+
+---
+
+Changes v3 -> v4:
+
+ * Use ARCH_KMALLOC_MINALIGN for alignment instead of "8" [Peter]
+
+Changes v2 -> v3:
+
+ * Align explicitly to 8 bytes [David]
+ * Rephrased in-line comment [David]
+ * Added more techinical details to commit message [Greg]
+ * Mention more alignment options in commit message [Geert]
+
+Changes v1 -> v2:
+
+ * Reworded commit message
+ * Inserted comment right in source [Thomas]
+
+ drivers/base/devres.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/base/devres.c b/drivers/base/devres.c
+index 4aaf00d2098b..e038e2b3b7ea 100644
+--- a/drivers/base/devres.c
++++ b/drivers/base/devres.c
+@@ -26,8 +26,14 @@ struct devres_node {
+ 
+ struct devres {
+ 	struct devres_node		node;
+-	/* -- 3 pointers */
+-	unsigned long long		data[];	/* guarantee ull alignment */
++	/*
++	 * Some archs want to perform DMA into kmalloc caches
++	 * and need a guaranteed alignment larger than
++	 * the alignment of a 64-bit integer.
++	 * Thus we use ARCH_KMALLOC_MINALIGN here and get exactly the same
++	 * buffer alignment as if it was allocated by plain kmalloc().
++	 */
++	u8 __aligned(ARCH_KMALLOC_MINALIGN) data[];
+ };
+ 
+ struct devres_group {
+-- 
+2.17.2
