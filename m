@@ -1,102 +1,78 @@
-From: f.fainelli@gmail.com (Florian Fainelli)
-Date: Wed, 31 Oct 2018 10:33:08 -0700
-Subject: [PATCH v2 4/6] arm64: Utilize phys_initrd_start/phys_initrd_size
-In-Reply-To: <20181031070350.GA12503@rapoport-lnx>
-References: <20181030230721.28429-1-f.fainelli@gmail.com>
- <20181030230721.28429-5-f.fainelli@gmail.com>
- <20181031070350.GA12503@rapoport-lnx>
+From: daniel.thompson@linaro.org (Daniel Thompson)
+Date: Wed, 31 Oct 2018 18:40:50 +0000
+Subject: [PATCH v2 2/2] kgdb: Fix kgdb_roundup_cpus() for arches who used
+ smp_call_function()
+In-Reply-To: <20181030221843.121254-3-dianders@chromium.org>
+References: <20181030221843.121254-1-dianders@chromium.org>
+ <20181030221843.121254-3-dianders@chromium.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <ae4cfe6b-8df8-7737-e7e0-9471bd131a67@gmail.com>
+Message-ID: <20181031184050.sd5opni3mznaapkv@holly.lan>
 To: linux-snps-arc@lists.infradead.org
 
-On 10/31/18 12:03 AM, Mike Rapoport wrote:
-> On Tue, Oct 30, 2018@04:07:19PM -0700, Florian Fainelli wrote:
->> ARM64 is the only architecture that re-defines
->> __early_init_dt_declare_initrd() in order for that function to populate
->> initrd_start/initrd_end with physical addresses instead of virtual
->> addresses. Instead of having an override we can leverage
->> drivers/of/fdt.c populating phys_initrd_start/phys_initrd_size to
->> populate those variables for us.
->>
->> Signed-off-by: Florian Fainelli <f.fainelli at gmail.com>
->> ---
->>  arch/arm64/mm/init.c | 21 +++++++++------------
->>  1 file changed, 9 insertions(+), 12 deletions(-)
->>
->> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->> index 3cf87341859f..e95cee656a55 100644
->> --- a/arch/arm64/mm/init.c
->> +++ b/arch/arm64/mm/init.c
->> @@ -72,8 +72,8 @@ static int __init early_initrd(char *p)
->>  	if (*endp == ',') {
->>  		size = memparse(endp + 1, NULL);
->>  
->> -		initrd_start = start;
->> -		initrd_end = start + size;
->> +		phys_initrd_start = start;
->> +		phys_initrd_size = size;
->>  	}
->>  	return 0;
->>  }
->> @@ -408,14 +408,14 @@ void __init arm64_memblock_init(void)
->>  		memblock_add(__pa_symbol(_text), (u64)(_end - _text));
->>  	}
->>  
->> -	if (IS_ENABLED(CONFIG_BLK_DEV_INITRD) && initrd_start) {
->> +	if (IS_ENABLED(CONFIG_BLK_DEV_INITRD) && phys_initrd_size) {
->>  		/*
->>  		 * Add back the memory we just removed if it results in the
->>  		 * initrd to become inaccessible via the linear mapping.
->>  		 * Otherwise, this is a no-op
->>  		 */
->> -		u64 base = initrd_start & PAGE_MASK;
->> -		u64 size = PAGE_ALIGN(initrd_end) - base;
->> +		u64 base = phys_initrd_start & PAGE_MASK;
->> +		u64 size = PAGE_ALIGN(phys_initrd_size);
->>  
->>  		/*
->>  		 * We can only add back the initrd memory if we don't end up
->> @@ -460,13 +460,10 @@ void __init arm64_memblock_init(void)
->>  	 */
->>  	memblock_reserve(__pa_symbol(_text), _end - _text);
->>  #ifdef CONFIG_BLK_DEV_INITRD
->> -	if (initrd_start) {
-> 
-> There may be no initrd at all, so the condition here would rather become
-> 
-> 	if (phys_initrd_start)
+On Tue, Oct 30, 2018@03:18:43PM -0700, Douglas Anderson wrote:
+> diff --git a/kernel/debug/debug_core.c b/kernel/debug/debug_core.c
+> index f3cadda45f07..9a3f952de6ed 100644
+> --- a/kernel/debug/debug_core.c
+> +++ b/kernel/debug/debug_core.c
+> @@ -55,6 +55,7 @@
+>  #include <linux/mm.h>
+>  #include <linux/vmacache.h>
+>  #include <linux/rcupdate.h>
+> +#include <linux/irq.h>
+>  
+>  #include <asm/cacheflush.h>
+>  #include <asm/byteorder.h>
+> @@ -220,6 +221,39 @@ int __weak kgdb_skipexception(int exception, struct pt_regs *regs)
+>  	return 0;
+>  }
+>  
+> +/*
+> + * Default (weak) implementation for kgdb_roundup_cpus
+> + */
+> +
+> +static DEFINE_PER_CPU(call_single_data_t, kgdb_roundup_csd);
+> +
+> +void __weak kgdb_call_nmi_hook(void *ignored)
+> +{
+> +	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
+> +}
+> +
+> +void __weak kgdb_roundup_cpus(void)
+> +{
+> +	call_single_data_t *csd;
+> +	int cpu;
+> +
+> +	for_each_cpu(cpu, cpu_online_mask) {
+> +		csd = &per_cpu(kgdb_roundup_csd, cpu);
+> +		smp_call_function_single_async(cpu, csd);
+> +	}
 
-Or use phys_initrd_size, which would be consistent with how other
-architectures typically test for this.
+smp_call_function() automatically skips the calling CPU but this code does
+not. It isn't a hard bug since kgdb_nmicallback() does a re-entrancy
+check but I'd still prefer to skip the calling CPU.
 
-> 
->> -		memblock_reserve(initrd_start, initrd_end - initrd_start);
->> -
->> -		/* the generic initrd code expects virtual addresses */
->> -		initrd_start = __phys_to_virt(initrd_start);
->> -		initrd_end = __phys_to_virt(initrd_end);
->> -	}
->> +	/* the generic initrd code expects virtual addresses */
->> +	initrd_start = __phys_to_virt(phys_initrd_start);
->> +	initrd_end = initrd_start + phys_initrd_size;
->> +	initrd_below_start_ok = 0;
->>  #endif
-> 
-> I also wonder what is the reason to keep memstart_addr randomization and
-> initrd setup interleaved?
-> 
-> What we have now is roughly:
-> 
-> 1) set memstart_addr
-> 2) enforce memory_limit
-> 3) reserve initrd
-> 4) randomize memstart_addr
-> 5) reserve text + data
-> 6) reserve initrd again and set virtual addresses of initrd_{start,end}
-> 
-> Maybe it's possible to merge (3) into (6) ?
+As mentioned in another part of the thread we can also add robustness
+by skipping a cpu where csd->flags != 0 (and adding an appropriately
+large comment regarding why). Doing the check directly is abusing
+internal knowledge that smp.c normally keeps to itself so an accessor
+of some kind would be needed.
 
-That's kind of orthogonal to this patch series, but it's a valid
-question, not sure I would want to tackle that just now though :)
--- 
-Florian
+
+> +}
+> +
+> +static void kgdb_generic_roundup_init(void)
+> +{
+> +	call_single_data_t *csd;
+> +	int cpu;
+> +
+> +	for_each_possible_cpu(cpu) {
+> +		csd = &per_cpu(kgdb_roundup_csd, cpu);
+> +		csd->func = kgdb_call_nmi_hook;
+> +	}
+> +}
+
+I can't help noticing this code is very similar to kgdb_roundup_cpus. Do
+we really gain much from ahead-of-time initializing csd->func?
+
+
+Daniel.
