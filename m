@@ -1,79 +1,87 @@
-From: robh+dt@kernel.org (Rob Herring)
-Date: Wed, 31 Oct 2018 07:29:47 -0500
-Subject: [PATCH v2 5/6] of/fdt: Remove custom
- __early_init_dt_declare_initrd() implementation
-In-Reply-To: <20181030230721.28429-6-f.fainelli@gmail.com>
-References: <20181030230721.28429-1-f.fainelli@gmail.com>
- <20181030230721.28429-6-f.fainelli@gmail.com>
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Wed, 31 Oct 2018 14:49:26 +0100
+Subject: [PATCH v2 2/2] kgdb: Fix kgdb_roundup_cpus() for arches who used
+ smp_call_function()
+In-Reply-To: <20181030221843.121254-3-dianders@chromium.org>
+References: <20181030221843.121254-1-dianders@chromium.org>
+ <20181030221843.121254-3-dianders@chromium.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAL_JsqKynGpg5fgVes2UQprc0Re7-Yp2_jRYfyGxQdse9zro7g@mail.gmail.com>
+Message-ID: <20181031134926.GB13237@hirez.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Oct 30, 2018@6:07 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
->
-> Now that ARM64 uses phys_initrd_start/phys_initrd_size, we can get rid
-> of its custom __early_init_dt_declare_initrd() which causes a fair
-> amount of objects rebuild when changing CONFIG_BLK_DEV_INITRD. In order
-> to make sure ARM64 does not produce a BUG() when VM debugging is turned
-> on though, we must avoid early calls to __va() which is what
-> __early_init_dt_declare_initrd() does and wrap this around to avoid
-> running that code on ARM64.
->
-> Signed-off-by: Florian Fainelli <f.fainelli at gmail.com>
-> ---
->  arch/arm64/include/asm/memory.h | 8 --------
->  drivers/of/fdt.c                | 9 +++++++--
->  2 files changed, 7 insertions(+), 10 deletions(-)
->
-> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-> index b96442960aea..dc3ca21ba240 100644
-> --- a/arch/arm64/include/asm/memory.h
-> +++ b/arch/arm64/include/asm/memory.h
-> @@ -168,14 +168,6 @@
->  #define IOREMAP_MAX_ORDER      (PMD_SHIFT)
->  #endif
->
-> -#ifdef CONFIG_BLK_DEV_INITRD
-> -#define __early_init_dt_declare_initrd(__start, __end)                 \
-> -       do {                                                            \
-> -               initrd_start = (__start);                               \
-> -               initrd_end = (__end);                                   \
-> -       } while (0)
-> -#endif
-> -
->  #ifndef __ASSEMBLY__
->
->  #include <linux/bitops.h>
-> diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
-> index e34cb49231b5..f2b5becae96a 100644
-> --- a/drivers/of/fdt.c
-> +++ b/drivers/of/fdt.c
-> @@ -892,15 +892,20 @@ const void * __init of_flat_dt_match_machine(const void *default_match,
+On Tue, Oct 30, 2018@03:18:43PM -0700, Douglas Anderson wrote:
+> Looking closely at it, it seems like a really bad idea to be calling
+> local_irq_enable() in kgdb_roundup_cpus().  If nothing else that seems
+> like it could violate spinlock semantics and cause a deadlock.
+> 
+> Instead, let's use a private csd alongside
+> smp_call_function_single_async() to round up the other CPUs.  Using
+> smp_call_function_single_async() doesn't require interrupts to be
+> enabled so we can remove the offending bit of code.
+
+You might want to mention that the only reason this isn't a deadlock
+itself is because there is a timeout on waiting for the slaves to
+check-in.
+
+> --- a/kernel/debug/debug_core.c
+> +++ b/kernel/debug/debug_core.c
+> @@ -55,6 +55,7 @@
+>  #include <linux/mm.h>
+>  #include <linux/vmacache.h>
+>  #include <linux/rcupdate.h>
+> +#include <linux/irq.h>
+>  
+>  #include <asm/cacheflush.h>
+>  #include <asm/byteorder.h>
+> @@ -220,6 +221,39 @@ int __weak kgdb_skipexception(int exception, struct pt_regs *regs)
+>  	return 0;
 >  }
->
->  #ifdef CONFIG_BLK_DEV_INITRD
-> -#ifndef __early_init_dt_declare_initrd
->  static void __early_init_dt_declare_initrd(unsigned long start,
->                                            unsigned long end)
->  {
-> +       /* ARM64 would cause a BUG to occur here when CONFIG_DEBUG_VM is
-> +        * enabled since __va() is called too early. ARM64 does make use
-> +        * of phys_initrd_start/phys_initrd_size so we can skip this
-> +        * conversion.
-> +        */
-> +#if (!IS_ENABLED(CONFIG_ARM64))
-
-Use 'if' not '#if'. Use C code rather than preprocessor whenever possible.
-
->         initrd_start = (unsigned long)__va(start);
->         initrd_end = (unsigned long)__va(end);
->         initrd_below_start_ok = 1;
-> -}
->  #endif
+>  
+> +/*
+> + * Default (weak) implementation for kgdb_roundup_cpus
+> + */
+> +
+> +static DEFINE_PER_CPU(call_single_data_t, kgdb_roundup_csd);
+> +
+> +void __weak kgdb_call_nmi_hook(void *ignored)
+> +{
+> +	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
 > +}
->
->  /**
->   * early_init_dt_check_for_initrd - Decode initrd location from flat tree
-> --
-> 2.17.1
->
+> +
+> +void __weak kgdb_roundup_cpus(void)
+> +{
+> +	call_single_data_t *csd;
+> +	int cpu;
+> +
+> +	for_each_cpu(cpu, cpu_online_mask) {
+> +		csd = &per_cpu(kgdb_roundup_csd, cpu);
+> +		smp_call_function_single_async(cpu, csd);
+> +	}
+> +}
+> +
+> +static void kgdb_generic_roundup_init(void)
+> +{
+> +	call_single_data_t *csd;
+> +	int cpu;
+> +
+> +	for_each_possible_cpu(cpu) {
+> +		csd = &per_cpu(kgdb_roundup_csd, cpu);
+> +		csd->func = kgdb_call_nmi_hook;
+> +	}
+> +}
+> +
+>  /*
+>   * Some architectures need cache flushes when we set/clear a
+>   * breakpoint:
+> @@ -993,6 +1027,8 @@ int kgdb_register_io_module(struct kgdb_io *new_dbg_io_ops)
+>  		return -EBUSY;
+>  	}
+>  
+> +	kgdb_generic_roundup_init();
+> +
+>  	if (new_dbg_io_ops->init) {
+>  		err = new_dbg_io_ops->init();
+>  		if (err) {
+
+That's a little bit of overhead for those architectures not using that
+generic code; but I suppose we can live with that.
