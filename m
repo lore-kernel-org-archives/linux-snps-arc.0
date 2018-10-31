@@ -1,24 +1,61 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 31 Oct 2018 18:59:53 +0000
-Subject: [PATCH] ARC: [plat-hsdk] Enable DW APB GPIO support
-In-Reply-To: <0f3fcfcf-6a3d-1277-cee8-91f27f0a3c06@synopsys.com>
-References: <20181023120919.11627-1-Eugeniy.Paltsev@synopsys.com>
- <0f3fcfcf-6a3d-1277-cee8-91f27f0a3c06@synopsys.com>
+From: f.fainelli@gmail.com (Florian Fainelli)
+Date: Wed, 31 Oct 2018 12:28:37 -0700
+Subject: [PATCH v3 0/6] arm64: Get rid of __early_init_dt_declare_initrd()
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <220be0675d0114028930e6fe122f98cefba130a7.camel@synopsys.com>
+Message-ID: <20181031192843.13230-1-f.fainelli@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+Hi all,
 
-On Tue, 2018-10-30@10:25 -0700, Vineet Gupta wrote:
-> On 10/23/18 5:09 AM, Eugeniy Paltsev wrote:
-> > Enable GPIO support on HSDK. HSDK SoC includes Synopsys
-> > DesignWare DW_apb_gpio IP with 24 GPIOs mapped onto port A.
-> > 
-> > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> 
-> @Alexey, u happy with this ?
-> 
-> -Vineet
+Changes in v3:
 
-Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
+- use C conditionals in drivers/of/fdt.c
+- added check on phys_initrd_size in arch/arm64/mm/init.c to determine
+  whether initrd_start must be populated
+- fixed a build warning with ARC that was just missing an (unsigned
+  long) cast
+
+Changes in v2:
+
+- get rid of ARCH_HAS_PHYS_INITRD and instead define
+  phys_initrd_start/phys_initrd_size in init/do_mounts_initrd.c
+
+- make __early_init_dt_declare_initrd() account for ARM64 specific
+  behavior with __va() when having CONFIG_DEBUG_VM enabled
+
+- consolidate early_initrd() command line parsing into
+  init/do_mounts_initrd.c
+
+Because phys_initrd_start/phys_initrd_size are now compiled in
+ini/do_mounts_initrd.c which is only built with CONFIG_BLK_DEV_INITRD=y,
+we need to be a bit careful about the uses throughout architecture
+specific code.
+
+Previous discussions/submissions list here:
+
+v3:
+https://www.spinics.net/lists/arm-kernel/msg683566.html
+v2:
+https://lkml.org/lkml/2018/10/25/4
+
+Florian Fainelli (6):
+  nds32: Remove phys_initrd_start and phys_initrd_size
+  arch: Make phys_initrd_start and phys_initrd_size global variables
+  of/fdt: Populate phys_initrd_start/phys_initrd_size from FDT
+  arm64: Utilize phys_initrd_start/phys_initrd_size
+  of/fdt: Remove custom __early_init_dt_declare_initrd() implementation
+  arch: Move initrd= parsing into do_mounts_initrd.c
+
+ arch/arc/mm/init.c              | 25 +++++--------------------
+ arch/arm/mm/init.c              | 28 ++--------------------------
+ arch/arm64/include/asm/memory.h |  8 --------
+ arch/arm64/mm/init.c            | 33 +++++++--------------------------
+ arch/nds32/mm/init.c            |  2 --
+ arch/unicore32/mm/init.c        | 24 +++++-------------------
+ drivers/of/fdt.c                | 17 ++++++++++++-----
+ include/linux/initrd.h          |  3 +++
+ init/do_mounts_initrd.c         | 20 ++++++++++++++++++++
+ 9 files changed, 54 insertions(+), 106 deletions(-)
+
+-- 
+2.17.1
