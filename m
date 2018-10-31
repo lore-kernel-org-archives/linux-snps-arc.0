@@ -1,75 +1,130 @@
-From: f.fainelli@gmail.com (Florian Fainelli)
-Date: Wed, 31 Oct 2018 12:28:42 -0700
-Subject: [PATCH v3 5/6] of/fdt: Remove custom __early_init_dt_declare_initrd()
- implementation
-In-Reply-To: <20181031192843.13230-1-f.fainelli@gmail.com>
-References: <20181031192843.13230-1-f.fainelli@gmail.com>
+From: dianders@chromium.org (Doug Anderson)
+Date: Wed, 31 Oct 2018 14:41:14 -0700
+Subject: [PATCH v2 2/2] kgdb: Fix kgdb_roundup_cpus() for arches who used
+ smp_call_function()
+In-Reply-To: <20181031184050.sd5opni3mznaapkv@holly.lan>
+References: <20181030221843.121254-1-dianders@chromium.org>
+ <20181030221843.121254-3-dianders@chromium.org>
+ <20181031184050.sd5opni3mznaapkv@holly.lan>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181031192843.13230-6-f.fainelli@gmail.com>
+Message-ID: <CAD=FV=V1eHo7Wz31DTMMNi394qwEaESTxJCYVE60Q7hpDEqRmQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Now that ARM64 uses phys_initrd_start/phys_initrd_size, we can get rid
-of its custom __early_init_dt_declare_initrd() which causes a fair
-amount of objects rebuild when changing CONFIG_BLK_DEV_INITRD. In order
-to make sure ARM64 does not produce a BUG() when VM debugging is turned
-on though, we must avoid early calls to __va() which is what
-__early_init_dt_declare_initrd() does and wrap this around to avoid
-running that code on ARM64.
+Hi,
 
-Signed-off-by: Florian Fainelli <f.fainelli at gmail.com>
----
- arch/arm64/include/asm/memory.h |  8 --------
- drivers/of/fdt.c                | 15 ++++++++++-----
- 2 files changed, 10 insertions(+), 13 deletions(-)
+On Wed, Oct 31, 2018 at 11:40 AM Daniel Thompson
+<daniel.thompson@linaro.org> wrote:
+>
+> On Tue, Oct 30, 2018@03:18:43PM -0700, Douglas Anderson wrote:
+> > diff --git a/kernel/debug/debug_core.c b/kernel/debug/debug_core.c
+> > index f3cadda45f07..9a3f952de6ed 100644
+> > --- a/kernel/debug/debug_core.c
+> > +++ b/kernel/debug/debug_core.c
+> > @@ -55,6 +55,7 @@
+> >  #include <linux/mm.h>
+> >  #include <linux/vmacache.h>
+> >  #include <linux/rcupdate.h>
+> > +#include <linux/irq.h>
+> >
+> >  #include <asm/cacheflush.h>
+> >  #include <asm/byteorder.h>
+> > @@ -220,6 +221,39 @@ int __weak kgdb_skipexception(int exception, struct pt_regs *regs)
+> >       return 0;
+> >  }
+> >
+> > +/*
+> > + * Default (weak) implementation for kgdb_roundup_cpus
+> > + */
+> > +
+> > +static DEFINE_PER_CPU(call_single_data_t, kgdb_roundup_csd);
+> > +
+> > +void __weak kgdb_call_nmi_hook(void *ignored)
+> > +{
+> > +     kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
+> > +}
+> > +
+> > +void __weak kgdb_roundup_cpus(void)
+> > +{
+> > +     call_single_data_t *csd;
+> > +     int cpu;
+> > +
+> > +     for_each_cpu(cpu, cpu_online_mask) {
+> > +             csd = &per_cpu(kgdb_roundup_csd, cpu);
+> > +             smp_call_function_single_async(cpu, csd);
+> > +     }
+>
+> smp_call_function() automatically skips the calling CPU but this code does
+> not. It isn't a hard bug since kgdb_nmicallback() does a re-entrancy
+> check but I'd still prefer to skip the calling CPU.
 
-diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-index b96442960aea..dc3ca21ba240 100644
---- a/arch/arm64/include/asm/memory.h
-+++ b/arch/arm64/include/asm/memory.h
-@@ -168,14 +168,6 @@
- #define IOREMAP_MAX_ORDER	(PMD_SHIFT)
- #endif
- 
--#ifdef CONFIG_BLK_DEV_INITRD
--#define __early_init_dt_declare_initrd(__start, __end)			\
--	do {								\
--		initrd_start = (__start);				\
--		initrd_end = (__end);					\
--	} while (0)
--#endif
--
- #ifndef __ASSEMBLY__
- 
- #include <linux/bitops.h>
-diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
-index e34cb49231b5..4118a344cf45 100644
---- a/drivers/of/fdt.c
-+++ b/drivers/of/fdt.c
-@@ -892,15 +892,20 @@ const void * __init of_flat_dt_match_machine(const void *default_match,
- }
- 
- #ifdef CONFIG_BLK_DEV_INITRD
--#ifndef __early_init_dt_declare_initrd
- static void __early_init_dt_declare_initrd(unsigned long start,
- 					   unsigned long end)
- {
--	initrd_start = (unsigned long)__va(start);
--	initrd_end = (unsigned long)__va(end);
--	initrd_below_start_ok = 1;
-+	/* ARM64 would cause a BUG to occur here when CONFIG_DEBUG_VM is
-+	 * enabled since __va() is called too early. ARM64 does make use
-+	 * of phys_initrd_start/phys_initrd_size so we can skip this
-+	 * conversion.
-+	 */
-+	if (!IS_ENABLED(CONFIG_ARM64)) {
-+		initrd_start = (unsigned long)__va(start);
-+		initrd_end = (unsigned long)__va(end);
-+		initrd_below_start_ok = 1;
-+	}
- }
--#endif
- 
- /**
-  * early_init_dt_check_for_initrd - Decode initrd location from flat tree
--- 
-2.17.1
+I'll incorporate this into the next version.
+
+
+> As mentioned in another part of the thread we can also add robustness
+> by skipping a cpu where csd->flags != 0 (and adding an appropriately
+> large comment regarding why). Doing the check directly is abusing
+> internal knowledge that smp.c normally keeps to itself so an accessor
+> of some kind would be needed.
+
+Sure.  I could add smp_async_func_finished() that just looked like:
+
+int smp_async_func_finished(call_single_data_t *csd)
+{
+  return !(csd->flags & CSD_FLAG_LOCK);
+}
+
+My understanding of all the mutual exclusion / memory barrier concepts
+employed by smp.c is pretty weak, though.  I'm hoping that it's safe
+to just access the structure and check the bit directly.
+
+...but do you think adding a generic accessor like this is better than
+just keeping track of this in kgdb directly?  I could avoid the
+accessor by adding a "rounding_up" member to "struct
+debuggerinfo_struct" and doing something like this in roundup:
+
+  /* If it didn't round up last time, don't try again */
+  if (kgdb_info[cpu].rounding_up)
+    continue
+
+  kgdb_info[cpu].rounding_up = true
+  smp_call_function_single_async(cpu, csd);
+
+...and then in kgdb_nmicallback() I could just add:
+
+  kgdb_info[cpu].rounding_up = false
+
+In that case we're not adding a generic accessor to smp.c that most
+people should never use.
+
+
+I'll wait to hear back from you if you think the accessor is OK.  It
+seems like it might be nice not to have to add something to smp.c just
+for this one use case.
+
+
+> > +}
+> > +
+> > +static void kgdb_generic_roundup_init(void)
+> > +{
+> > +     call_single_data_t *csd;
+> > +     int cpu;
+> > +
+> > +     for_each_possible_cpu(cpu) {
+> > +             csd = &per_cpu(kgdb_roundup_csd, cpu);
+> > +             csd->func = kgdb_call_nmi_hook;
+> > +     }
+> > +}
+>
+> I can't help noticing this code is very similar to kgdb_roundup_cpus. Do
+> we really gain much from ahead-of-time initializing csd->func?
+
+Oh!  Right...  At first I thought about just trying to put the "csd"
+on the stack in kgdb_roundup_cpus() but then I realized that it needed
+to persist past the end of kgdb_roundup_cpus().  ...and once I gave up
+on the idea of putting it on the stack I decided I needed the init.
+
+...but you're right that I don't really.  The only thing I'm initting
+is the function pointer and it totally wouldn't hurt to just init that
+over and over again every time kgdb_roundup_cpus() is called.
+
+-Doug
