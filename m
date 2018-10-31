@@ -1,37 +1,24 @@
 From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 31 Oct 2018 21:54:23 +0300
-Subject: [PATCH] perf: Disable libunwind for ARC & RISCV64
+Date: Wed, 31 Oct 2018 18:59:53 +0000
+Subject: [PATCH] ARC: [plat-hsdk] Enable DW APB GPIO support
+In-Reply-To: <0f3fcfcf-6a3d-1277-cee8-91f27f0a3c06@synopsys.com>
+References: <20181023120919.11627-1-Eugeniy.Paltsev@synopsys.com>
+ <0f3fcfcf-6a3d-1277-cee8-91f27f0a3c06@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181031185423.21100-1-abrodkin@synopsys.com>
+Message-ID: <220be0675d0114028930e6fe122f98cefba130a7.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-libunwind is not yet ported for ARC & RISCV64 and on attempt
-to build it for those arches we just get an error message.
+Hi Vineet,
 
-If we explicitly disable libunwind it is gracefully handled by
-perf build system and it just gets configured to not use it
-so perf is still usable even on those arches.
+On Tue, 2018-10-30@10:25 -0700, Vineet Gupta wrote:
+> On 10/23/18 5:09 AM, Eugeniy Paltsev wrote:
+> > Enable GPIO support on HSDK. HSDK SoC includes Synopsys
+> > DesignWare DW_apb_gpio IP with 24 GPIOs mapped onto port A.
+> > 
+> > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> 
+> @Alexey, u happy with this ?
+> 
+> -Vineet
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Khem Raj <raj.khem at gmail.com>
----
- meta/recipes-kernel/perf/perf.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index af099043e1..bae4948751 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -26,6 +26,10 @@ PACKAGECONFIG[jvmti] = ",NO_JVMTI=1"
- PACKAGECONFIG[audit] = ",NO_LIBAUDIT=1,audit"
- PACKAGECONFIG[manpages] = ",,xmlto-native asciidoc-native"
- 
-+# libunwind is not yet ported for some architectures
-+PACKAGECONFIG_remove_arc = "libunwind"
-+PACKAGECONFIG_remove_riscv64 = "libunwind"
-+
- DEPENDS = " \
-     virtual/${MLPREFIX}libc \
-     ${MLPREFIX}elfutils \
--- 
-2.16.2
+Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
