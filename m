@@ -1,88 +1,30 @@
-From: peterx@redhat.com (Peter Xu)
-Date: Thu,  1 Nov 2018 11:23:54 +0800
-Subject: [PATCH RFC] mm: arc: fix potential double realease of mmap_sem
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Thu, 01 Nov 2018 05:09:34 -0000
+Subject: kisskb: OK linus/axs101_defconfig/arcompact Thu Nov 01, 16:08
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181101032354.19351-1-peterx@redhat.com>
+Message-ID: <20181101050934.1.7284@5ca8034c38fe>
 To: linux-snps-arc@lists.infradead.org
 
-In do_page_fault() of ARC we have:
+OK linus/axs101_defconfig/arcompact Thu Nov 01, 16:08
 
-        ...
-	fault = handle_mm_fault(vma, address, flags);
+http://kisskb.ellerman.id.au/kisskb/buildresult/13570850/
 
-        /* If Pagefault was interrupted by SIGKILL, exit page fault "early" */
-        if (unlikely(fatal_signal_pending(current))) {
-                if ((fault & VM_FAULT_ERROR) && !(fault & VM_FAULT_RETRY))
-                        up_read(&mm->mmap_sem);     <---------------- [1]
-                if (user_mode(regs))
-                        return;
-        }
-        ...
-	if (likely(!(fault & VM_FAULT_ERROR))) {
-                ...
-		return;
-	}
+Commit:   Merge branch 'akpm' (patches from Andrew)
+          59fc453b21f767f2fb0ff4dc0a947e9b9c9e6d14
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
 
-	if (fault & VM_FAULT_OOM)
-		goto out_of_memory;                <----------------- [2]
-	else if (fault & VM_FAULT_SIGSEGV)
-		goto bad_area;                     <----------------- [3]
-	else if (fault & VM_FAULT_SIGBUS)
-		goto do_sigbus;                    <----------------- [4]
+Possible errors
+---------------
 
-Logically it's possible that we might try to release the mmap_sem twice
-by having a scenario like:
+arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
+arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
 
-        - task received SIGKILL,
-        - task handled kernel mode page fault,
-        - handle_mm_fault() returned with one of VM_FAULT_ERROR,
+Possible warnings (6)
+----------------------
 
-Then we'll go into path [1] to release the mmap_sem, however we won't
-return immediately since user_mode(regs) check will fail (a kernel page
-fault).  Then we might go into either [2]-[4] and either of them will
-try to release the mmap_sem again.
-
-To fix this, we only release the mmap_sem at [1] when we're sure we'll
-quit immediately (after we checked with user_mode(regs)).
-
-CC: Vineet Gupta <vgupta at synopsys.com>
-CC: "Eric W. Biederman" <ebiederm at xmission.com>
-CC: Peter Xu <peterx at redhat.com>
-CC: Andrew Morton <akpm at linux-foundation.org>
-CC: Souptick Joarder <jrdr.linux at gmail.com>
-CC: Andrea Arcangeli <aarcange at redhat.com>
-CC: linux-snps-arc at lists.infradead.org
-CC: linux-kernel at vger.kernel.org
-Signed-off-by: Peter Xu <peterx at redhat.com>
----
-
-I noticed this only by reading the code.  Neither have I verified the
-issue, nor have I tested the patch since I even don't know how to (I'm
-totally unfamiliar with the arc architecture).  However I'm posting this
-out first to see whether there's any quick feedback, and in case it's a
-valid issue that we've ignored.
----
- arch/arc/mm/fault.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-index c9da6102eb4f..2d28c3dad5c1 100644
---- a/arch/arc/mm/fault.c
-+++ b/arch/arc/mm/fault.c
-@@ -142,11 +142,10 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- 	fault = handle_mm_fault(vma, address, flags);
- 
- 	/* If Pagefault was interrupted by SIGKILL, exit page fault "early" */
--	if (unlikely(fatal_signal_pending(current))) {
--		if ((fault & VM_FAULT_ERROR) && !(fault & VM_FAULT_RETRY))
-+	if (unlikely(fatal_signal_pending(current) && user_mode(regs))) {
-+		if (!(fault & VM_FAULT_RETRY))
- 			up_read(&mm->mmap_sem);
--		if (user_mode(regs))
--			return;
-+		return;
- 	}
- 
- 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
--- 
-2.17.1
+arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
+arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
+arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
+include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast [enabled by default]
+net/ipv4/tcp_input.c:4311:49: warning: array subscript is above array bounds [-Warray-bounds]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
