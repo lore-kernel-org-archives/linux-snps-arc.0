@@ -1,10 +1,10 @@
 From: lkp@intel.com (kbuild test robot)
-Date: Sun, 4 Nov 2018 00:45:41 +0800
+Date: Sun, 4 Nov 2018 00:56:59 +0800
 Subject: [PATCH -next 2/3] mm: speed up mremap by 20x on large regions (v4)
 In-Reply-To: <20181103040041.7085-3-joelaf@google.com>
 References: <20181103040041.7085-3-joelaf@google.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201811040030.qFOc57Ke%fengguang.wu@intel.com>
+Message-ID: <201811040056.QfAjkno6%fengguang.wu@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
 Hi Joel,
@@ -14,24 +14,23 @@ Thank you for the patch! Yet something to improve:
 [auto build test ERROR on next-20181102]
 
 url:    https://github.com/0day-ci/linux/commits/Joel-Fernandes/Add-support-for-fast-mremap/20181103-224908
-config: xtensa-allmodconfig (attached as .config)
-compiler: xtensa-linux-gcc (GCC) 8.1.0
+config: openrisc-or1ksim_defconfig (attached as .config)
+compiler: or1k-linux-gcc (GCC) 6.0.0 20160327 (experimental)
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # save the attached .config to linux build tree
-        GCC_VERSION=8.1.0 make.cross ARCH=xtensa 
+        make.cross ARCH=openrisc 
 
 All errors (new ones prefixed by >>):
 
    mm/mremap.c: In function 'move_normal_pmd':
->> mm/mremap.c:229:2: error: implicit declaration of function 'set_pmd_at'; did you mean 'set_pte_at'? [-Werror=implicit-function-declaration]
+>> mm/mremap.c:229:2: error: implicit declaration of function 'set_pmd_at' [-Werror=implicit-function-declaration]
      set_pmd_at(mm, new_addr, new_pmd, pmd);
      ^~~~~~~~~~
-     set_pte_at
    cc1: some warnings being treated as errors
 
-vim +229 mm/mremap.c
+vim +/set_pmd_at +229 mm/mremap.c
 
    193	
    194	static bool move_normal_pmd(struct vm_area_struct *vma, unsigned long old_addr,
@@ -86,6 +85,6 @@ https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 A non-text attachment was scrubbed...
 Name: .config.gz
 Type: application/gzip
-Size: 55677 bytes
+Size: 7869 bytes
 Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20181104/8378032b/attachment-0001.gz>
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20181104/26eafdad/attachment.gz>
