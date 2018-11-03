@@ -1,30 +1,35 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Thu, 01 Nov 2018 20:26:06 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Fri Nov 02, 07:25
+From: joel@joelfernandes.org (Joel Fernandes)
+Date: Fri,  2 Nov 2018 21:00:41 -0700
+Subject: [PATCH -next 3/3] mm: select HAVE_MOVE_PMD in x86 for faster mremap
+In-Reply-To: <20181103040041.7085-1-joelaf@google.com>
+References: <20181103040041.7085-1-joelaf@google.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181101202606.1.62261@5ca8034c38fe>
+Message-ID: <20181103040041.7085-4-joelaf@google.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Fri Nov 02, 07:25
+From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13573038/
+Moving page-tables at the PMD-level on x86 is known to be safe. Enable
+this option so that we can do fast mremap when possible.
 
-Commit:   Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/net
-          82aa4671516a3203261c835e98c3eecab10c994d
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
+Suggested-by: Kirill A. Shutemov <kirill at shutemov.name>
+Acked-by: Kirill A. Shutemov <kirill at shutemov.name>
+Signed-off-by: Joel Fernandes (Google) <joel at joelfernandes.org>
+---
+ arch/x86/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Possible errors
----------------
-
-arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-
-Possible warnings (6)
-----------------------
-
-arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/ipv4/tcp_input.c:4311:49: warning: array subscript is above array bounds [-Warray-bounds]
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index ba7e3464ee92..48aef01a0bd1 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -173,6 +173,7 @@ config X86
+ 	select HAVE_MEMBLOCK_NODE_MAP
+ 	select HAVE_MIXED_BREAKPOINTS_REGS
+ 	select HAVE_MOD_ARCH_SPECIFIC
++	select HAVE_MOVE_PMD
+ 	select HAVE_NMI
+ 	select HAVE_OPROFILE
+ 	select HAVE_OPTPROBES
+-- 
+2.19.1.930.g4563a0d9d0-goog
