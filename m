@@ -1,99 +1,62 @@
-From: anton.ivanov@kot-begemot.co.uk (Anton Ivanov)
-Date: Sat, 3 Nov 2018 09:24:05 +0000
-Subject: [PATCH -next 0/3] Add support for fast mremap
-In-Reply-To: <6886607.O3ZT5bM3Cy@blindfold>
-References: <20181103040041.7085-1-joelaf@google.com>
- <6886607.O3ZT5bM3Cy@blindfold>
+From: daniel.thompson@linaro.org (Daniel Thompson)
+Date: Sat, 3 Nov 2018 10:45:03 +0000
+Subject: [PATCH v2 2/2] kgdb: Fix kgdb_roundup_cpus() for arches who used
+ smp_call_function()
+In-Reply-To: <CAD=FV=V1eHo7Wz31DTMMNi394qwEaESTxJCYVE60Q7hpDEqRmQ@mail.gmail.com>
+References: <20181030221843.121254-1-dianders@chromium.org>
+ <20181030221843.121254-3-dianders@chromium.org>
+ <20181031184050.sd5opni3mznaapkv@holly.lan>
+ <CAD=FV=V1eHo7Wz31DTMMNi394qwEaESTxJCYVE60Q7hpDEqRmQ@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <e1d039a5-9c83-b9b9-98b5-d39bc48f04e0@kot-begemot.co.uk>
+Message-ID: <20181103104503.eftn5btx7otgufro@holly.lan>
 To: linux-snps-arc@lists.infradead.org
 
-On 03/11/2018 09:15, Richard Weinberger wrote:
-> Joel,
->
-> Am Samstag, 3. November 2018, 05:00:38 CET schrieb Joel Fernandes:
->> Hi,
->> Here is the latest "fast mremap" series. This just a repost with Kirill's
->> Acked-bys added. I would like this to be considered for linux -next.  I also
->> dropped the CONFIG enablement patch for arm64 since I am yet to test it with
->> the new TLB flushing code that is in very recent kernel releases. (None of my
->> arm64 devices run mainline right now.) so I will post the arm64 enablement once
->> I get to that. The performance numbers in the series are for x86.
->>
->> List of patches in series:
->>
->> (1) mm: select HAVE_MOVE_PMD in x86 for faster mremap
->>
->> (2) mm: speed up mremap by 20x on large regions (v4)
->> v1->v2: Added support for per-arch enablement (Kirill Shutemov)
->> v2->v3: Updated commit message to state the optimization may also
->> 	run for non-thp type of systems (Daniel Col).
->> v3->v4: Remove useless pmd_lock check (Kirill Shutemov)
->> 	Rebased ontop of Linus's master, updated perf results based
->>          on x86 testing. Added Kirill's Acks.
->>
->> (3) mm: treewide: remove unused address argument from pte_alloc functions (v2)
->> v1->v2: fix arch/um/ prototype which was missed in v1 (Anton Ivanov)
->>          update changelog with manual fixups for m68k and microblaze.
->>
->> not included - (4) mm: select HAVE_MOVE_PMD in arm64 for faster mremap
->>      This patch is dropped since last posting pending further performance
->>      testing on arm64 with new TLB gather updates. See notes in patch
->>      titled "mm: speed up mremap by 500x on large regions" for more
->>      details.
->>
-> This breaks UML build:
->    CC      mm/mremap.o
-> mm/mremap.c: In function ?move_normal_pmd?:
-> mm/mremap.c:229:2: error: implicit declaration of function ?set_pmd_at?; did you mean ?set_pte_at?? [-Werror=implicit-function-declaration]
->    set_pmd_at(mm, new_addr, new_pmd, pmd);
->    ^~~~~~~~~~
->    set_pte_at
->    CC      crypto/rng.o
->    CC      fs/direct-io.o
-> cc1: some warnings being treated as errors
->
-> To test yourself, just run on a x86 box:
-> $ make defconfig ARCH=um
-> $ make linux ARCH=um
->
-> Thanks,
-> //richard
->
->
->
+On Wed, Oct 31, 2018@02:41:14PM -0700, Doug Anderson wrote:
+> > As mentioned in another part of the thread we can also add robustness
+> > by skipping a cpu where csd->flags != 0 (and adding an appropriately
+> > large comment regarding why). Doing the check directly is abusing
+> > internal knowledge that smp.c normally keeps to itself so an accessor
+> > of some kind would be needed.
+> 
+> Sure.  I could add smp_async_func_finished() that just looked like:
+> 
+> int smp_async_func_finished(call_single_data_t *csd)
+> {
+>   return !(csd->flags & CSD_FLAG_LOCK);
+> }
+> 
+> My understanding of all the mutual exclusion / memory barrier concepts
+> employed by smp.c is pretty weak, though.  I'm hoping that it's safe
+> to just access the structure and check the bit directly.
+> 
+> ...but do you think adding a generic accessor like this is better than
+> just keeping track of this in kgdb directly?  I could avoid the
+> accessor by adding a "rounding_up" member to "struct
+> debuggerinfo_struct" and doing something like this in roundup:
+> 
+>   /* If it didn't round up last time, don't try again */
+>   if (kgdb_info[cpu].rounding_up)
+>     continue
+> 
+>   kgdb_info[cpu].rounding_up = true
+>   smp_call_function_single_async(cpu, csd);
+> 
+> ...and then in kgdb_nmicallback() I could just add:
+> 
+>   kgdb_info[cpu].rounding_up = false
+> 
+> In that case we're not adding a generic accessor to smp.c that most
+> people should never use.
 
-UM somehow managed to miss one of the 3-level functions, I sent a patch 
-at some point to add to the mmremap series, but it looks like it did not 
-get included in the final version.
+Whilst it is very tempting to make a sarcastic reply here ("Of course! What
+kgdb really needs is yet another set of condition variables") I can't
+because I actually agree with the proposal. I don't really want kgdb to
+be too "special" especially when it doesn't need to be.
 
-You need these two incremental on top of Joel's patch. Richard - feel 
-free to relocate the actual implementation of the set_pgd_at elsewhere - 
-I put it at the end of tlb.c
+Only thing to note is that rounding_up will not be manipulated within a
+common spin lock so you might have to invest a bit of thought to make
+sure any races between the master and slave as the slave CPU clears the
+flag are benign.
 
-diff --git a/arch/um/include/asm/pgtable.h b/arch/um/include/asm/pgtable.h
-index 7485398d0737..1692da55e63a 100644
---- a/arch/um/include/asm/pgtable.h
-+++ b/arch/um/include/asm/pgtable.h
-@@ -359,4 +359,7 @@ do {??????????????????????????????????????????????? \
- ??????? __flush_tlb_one((vaddr));?????????????? \
- ?} while (0)
 
-+extern void set_pmd_at(struct mm_struct *mm, unsigned long addr,
-+?????????????? pmd_t *pmdp, pmd_t pmd);
-+
- ?#endif
-diff --git a/arch/um/kernel/tlb.c b/arch/um/kernel/tlb.c
-index 763d35bdda01..d17b74184ba0 100644
---- a/arch/um/kernel/tlb.c
-+++ b/arch/um/kernel/tlb.c
-@@ -647,3 +647,9 @@ void force_flush_all(void)
- ??????????????? vma = vma->vm_next;
- ??????? }
- ?}
-+void set_pmd_at(struct mm_struct *mm, unsigned long addr,
-+?????????????? pmd_t *pmdp, pmd_t pmd)
-+{
-+?????? *pmdp = pmd;
-+}
-+
+Daniel.
