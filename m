@@ -1,90 +1,129 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Sun, 4 Nov 2018 00:56:59 +0800
-Subject: [PATCH -next 2/3] mm: speed up mremap by 20x on large regions (v4)
-In-Reply-To: <20181103040041.7085-3-joelaf@google.com>
-References: <20181103040041.7085-3-joelaf@google.com>
+From: joel@joelfernandes.org (Joel Fernandes)
+Date: Sat, 3 Nov 2018 11:32:08 -0700
+Subject: [PATCH -next 0/3] Add support for fast mremap
+In-Reply-To: <e1d039a5-9c83-b9b9-98b5-d39bc48f04e0@kot-begemot.co.uk>
+References: <20181103040041.7085-1-joelaf@google.com>
+ <6886607.O3ZT5bM3Cy@blindfold>
+ <e1d039a5-9c83-b9b9-98b5-d39bc48f04e0@kot-begemot.co.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201811040056.QfAjkno6%fengguang.wu@intel.com>
+Message-ID: <20181103183208.GA56850@google.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Joel,
+On Sat, Nov 03, 2018@09:24:05AM +0000, Anton Ivanov wrote:
+> On 03/11/2018 09:15, Richard Weinberger wrote:
+> > Joel,
+> > 
+> > Am Samstag, 3. November 2018, 05:00:38 CET schrieb Joel Fernandes:
+> > > Hi,
+> > > Here is the latest "fast mremap" series. This just a repost with Kirill's
+> > > Acked-bys added. I would like this to be considered for linux -next.  I also
+> > > dropped the CONFIG enablement patch for arm64 since I am yet to test it with
+> > > the new TLB flushing code that is in very recent kernel releases. (None of my
+> > > arm64 devices run mainline right now.) so I will post the arm64 enablement once
+> > > I get to that. The performance numbers in the series are for x86.
+> > > 
+> > > List of patches in series:
+> > > 
+> > > (1) mm: select HAVE_MOVE_PMD in x86 for faster mremap
+> > > 
+> > > (2) mm: speed up mremap by 20x on large regions (v4)
+> > > v1->v2: Added support for per-arch enablement (Kirill Shutemov)
+> > > v2->v3: Updated commit message to state the optimization may also
+> > > 	run for non-thp type of systems (Daniel Col).
+> > > v3->v4: Remove useless pmd_lock check (Kirill Shutemov)
+> > > 	Rebased ontop of Linus's master, updated perf results based
+> > >          on x86 testing. Added Kirill's Acks.
+> > > 
+> > > (3) mm: treewide: remove unused address argument from pte_alloc functions (v2)
+> > > v1->v2: fix arch/um/ prototype which was missed in v1 (Anton Ivanov)
+> > >          update changelog with manual fixups for m68k and microblaze.
+> > > 
+> > > not included - (4) mm: select HAVE_MOVE_PMD in arm64 for faster mremap
+> > >      This patch is dropped since last posting pending further performance
+> > >      testing on arm64 with new TLB gather updates. See notes in patch
+> > >      titled "mm: speed up mremap by 500x on large regions" for more
+> > >      details.
+> > > 
+> > This breaks UML build:
+> >    CC      mm/mremap.o
+> > mm/mremap.c: In function ?move_normal_pmd?:
+> > mm/mremap.c:229:2: error: implicit declaration of function ?set_pmd_at?; did you mean ?set_pte_at?? [-Werror=implicit-function-declaration]
+> >    set_pmd_at(mm, new_addr, new_pmd, pmd);
+> >    ^~~~~~~~~~
+> >    set_pte_at
+> >    CC      crypto/rng.o
+> >    CC      fs/direct-io.o
+> > cc1: some warnings being treated as errors
+> > 
+> > To test yourself, just run on a x86 box:
+> > $ make defconfig ARCH=um
+> > $ make linux ARCH=um
+> > 
+> > Thanks,
+> > //richard
+> > 
+> > 
+> > 
+> 
+> UM somehow managed to miss one of the 3-level functions, I sent a patch at
+> some point to add to the mmremap series, but it looks like it did not get
+> included in the final version.
+> 
+> You need these two incremental on top of Joel's patch. Richard - feel free
+> to relocate the actual implementation of the set_pgd_at elsewhere - I put it
+> at the end of tlb.c
+> 
+> diff --git a/arch/um/include/asm/pgtable.h b/arch/um/include/asm/pgtable.h
+> index 7485398d0737..1692da55e63a 100644
+> --- a/arch/um/include/asm/pgtable.h
+> +++ b/arch/um/include/asm/pgtable.h
+> @@ -359,4 +359,7 @@ do {??????????????????????????????????????????????? \
+> ??????? __flush_tlb_one((vaddr));?????????????? \
+> ?} while (0)
+> 
+> +extern void set_pmd_at(struct mm_struct *mm, unsigned long addr,
+> +?????????????? pmd_t *pmdp, pmd_t pmd);
+> +
+> ?#endif
+> diff --git a/arch/um/kernel/tlb.c b/arch/um/kernel/tlb.c
+> index 763d35bdda01..d17b74184ba0 100644
+> --- a/arch/um/kernel/tlb.c
+> +++ b/arch/um/kernel/tlb.c
+> @@ -647,3 +647,9 @@ void force_flush_all(void)
+> ??????????????? vma = vma->vm_next;
+> ??????? }
+> ?}
+> +void set_pmd_at(struct mm_struct *mm, unsigned long addr,
+> +?????????????? pmd_t *pmdp, pmd_t pmd)
+> +{
+> +?????? *pmdp = pmd;
+> +}
+> +
+> 
 
-Thank you for the patch! Yet something to improve:
+Looks like more architectures don't define set_pmd_at. I am thinking the
+easiest way forward is to just do the following, instead of defining
+set_pmd_at for every architecture that doesn't care about it. Thoughts?
 
-[auto build test ERROR on next-20181102]
-
-url:    https://github.com/0day-ci/linux/commits/Joel-Fernandes/Add-support-for-fast-mremap/20181103-224908
-config: openrisc-or1ksim_defconfig (attached as .config)
-compiler: or1k-linux-gcc (GCC) 6.0.0 20160327 (experimental)
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        make.cross ARCH=openrisc 
-
-All errors (new ones prefixed by >>):
-
-   mm/mremap.c: In function 'move_normal_pmd':
->> mm/mremap.c:229:2: error: implicit declaration of function 'set_pmd_at' [-Werror=implicit-function-declaration]
-     set_pmd_at(mm, new_addr, new_pmd, pmd);
-     ^~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-vim +/set_pmd_at +229 mm/mremap.c
-
-   193	
-   194	static bool move_normal_pmd(struct vm_area_struct *vma, unsigned long old_addr,
-   195			  unsigned long new_addr, unsigned long old_end,
-   196			  pmd_t *old_pmd, pmd_t *new_pmd)
-   197	{
-   198		spinlock_t *old_ptl, *new_ptl;
-   199		struct mm_struct *mm = vma->vm_mm;
-   200		pmd_t pmd;
-   201	
-   202		if ((old_addr & ~PMD_MASK) || (new_addr & ~PMD_MASK)
-   203		    || old_end - old_addr < PMD_SIZE)
-   204			return false;
-   205	
-   206		/*
-   207		 * The destination pmd shouldn't be established, free_pgtables()
-   208		 * should have release it.
-   209		 */
-   210		if (WARN_ON(!pmd_none(*new_pmd)))
-   211			return false;
-   212	
-   213		/*
-   214		 * We don't have to worry about the ordering of src and dst
-   215		 * ptlocks because exclusive mmap_sem prevents deadlock.
-   216		 */
-   217		old_ptl = pmd_lock(vma->vm_mm, old_pmd);
-   218		new_ptl = pmd_lockptr(mm, new_pmd);
-   219		if (new_ptl != old_ptl)
-   220			spin_lock_nested(new_ptl, SINGLE_DEPTH_NESTING);
-   221	
-   222		/* Clear the pmd */
-   223		pmd = *old_pmd;
-   224		pmd_clear(old_pmd);
-   225	
-   226		VM_BUG_ON(!pmd_none(*new_pmd));
-   227	
-   228		/* Set the new pmd */
- > 229		set_pmd_at(mm, new_addr, new_pmd, pmd);
-   230		flush_tlb_range(vma, old_addr, old_addr + PMD_SIZE);
-   231		if (new_ptl != old_ptl)
-   232			spin_unlock(new_ptl);
-   233		spin_unlock(old_ptl);
-   234	
-   235		return true;
-   236	}
-   237	
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/gzip
-Size: 7869 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20181104/26eafdad/attachment.gz>
+diff --git a/mm/mremap.c b/mm/mremap.c
+index 7cf6b0943090..31ad64dcdae6 100644
+--- a/mm/mremap.c
++++ b/mm/mremap.c
+@@ -281,7 +281,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+ 			split_huge_pmd(vma, old_pmd, old_addr);
+ 			if (pmd_trans_unstable(old_pmd))
+ 				continue;
+-		} else if (extent == PMD_SIZE && IS_ENABLED(CONFIG_HAVE_MOVE_PMD)) {
++		} else if (extent == PMD_SIZE) {
++#ifdef CONFIG_HAVE_MOVE_PMD
+ 			/*
+ 			 * If the extent is PMD-sized, try to speed the move by
+ 			 * moving at the PMD level if possible.
+@@ -296,6 +297,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+ 				drop_rmap_locks(vma);
+ 			if (moved)
+ 				continue;
++#endif
+ 		}
+ 
+ 		if (pte_alloc(new_vma->vm_mm, new_pmd))
