@@ -1,12 +1,12 @@
 From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Mon, 5 Nov 2018 15:39:44 +0100
+Date: Mon, 5 Nov 2018 15:48:17 +0100
 Subject: [PATCH v2] clocksource/drivers/arc_timer: Utilize generic
  sched_clock
 In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075012B0B1A07@US01WEMBX2.internal.synopsys.com>
 References: <20181017113020.7551-1-abrodkin@synopsys.com>
  <C2D7FE5348E1B147BCA15975FBA23075012B0B1A07@US01WEMBX2.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <78ccbb4c-56d0-594b-4032-3eb19202847b@linaro.org>
+Message-ID: <03125734-8c46-8c85-2bb5-64f787ca1f4d@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
 On 24/10/2018 00:33, Vineet Gupta wrote:
@@ -78,10 +78,9 @@ On 24/10/2018 00:33, Vineet Gupta wrote:
 > 
 > @Daniel is this going via timer tree or you want me to pick it up.
 
-I will take care of it.
+Applied, thanks
 
   -- Daniel
-
 
 -- 
  <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
