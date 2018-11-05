@@ -1,52 +1,91 @@
-From: william.kucharski@oracle.com (William Kucharski)
-Date: Sun, 4 Nov 2018 00:56:48 -0600
-Subject: [PATCH -next 0/3] Add support for fast mremap
-In-Reply-To: <20181103183208.GA56850@google.com>
-References: <20181103040041.7085-1-joelaf@google.com>
- <6886607.O3ZT5bM3Cy@blindfold>
- <e1d039a5-9c83-b9b9-98b5-d39bc48f04e0@kot-begemot.co.uk>
- <20181103183208.GA56850@google.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Mon, 5 Nov 2018 15:39:44 +0100
+Subject: [PATCH v2] clocksource/drivers/arc_timer: Utilize generic
+ sched_clock
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075012B0B1A07@US01WEMBX2.internal.synopsys.com>
+References: <20181017113020.7551-1-abrodkin@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075012B0B1A07@US01WEMBX2.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <D6FB3C15-A8C1-4694-A434-A7489F590E05@oracle.com>
+Message-ID: <78ccbb4c-56d0-594b-4032-3eb19202847b@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-
-
-> On Nov 3, 2018,@12:32 PM, Joel Fernandes <joel@joelfernandes.org> wrote:
+On 24/10/2018 00:33, Vineet Gupta wrote:
+> On 10/17/2018 04:30 AM, Alexey Brodkin wrote:
+>> It turned out we used to use default implementation of sched_clock()
+>> from kernel/sched/clock.c which was as precise as 1/HZ, i.e.
+>> by default we had 10 msec granularity of time measurement.
+>>
+>> Now given ARC built-in timers are clocked with the same frequency as
+>> CPU cores we may get much higher precision of time tracking.
+>>
+>> Thus we switch to generic sched_clock which really reads ARC hardware
+>> counters.
+>>
+>> This is especially helpful for measuring short events.
+>> That's what we used to have:
+>> ------------------------------>8------------------------
+>> $ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+>>
+>>  Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+>>
+>>          10.000000      task-clock (msec)         #    2.832 CPUs utilized
+>>                  1      context-switches          #    0.100 K/sec
+>>                  1      cpu-migrations            #    0.100 K/sec
+>>                 63      page-faults               #    0.006 M/sec
+>>            3049480      cycles                    #    0.305 GHz
+>>            1091259      instructions              #    0.36  insn per cycle
+>>             256828      branches                  #   25.683 M/sec
+>>              27026      branch-misses             #   10.52% of all branches
+>>
+>>        0.003530687 seconds time elapsed
+>>
+>>        0.000000000 seconds user
+>>        0.010000000 seconds sys
+>> ------------------------------>8------------------------
+>>
+>> And now we'll see:
+>> ------------------------------>8------------------------
+>> $ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+>>
+>>  Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+>>
+>>           3.004322      task-clock (msec)         #    0.865 CPUs utilized
+>>                  1      context-switches          #    0.333 K/sec
+>>                  1      cpu-migrations            #    0.333 K/sec
+>>                 63      page-faults               #    0.021 M/sec
+>>            2986734      cycles                    #    0.994 GHz
+>>            1087466      instructions              #    0.36  insn per cycle
+>>             255209      branches                  #   84.947 M/sec
+>>              26002      branch-misses             #   10.19% of all branches
+>>
+>>        0.003474829 seconds time elapsed
+>>
+>>        0.003519000 seconds user
+>>        0.000000000 seconds sys
+>> ------------------------------>8------------------------
+>>
+>> Note how much more meaningful is the second output - time spent for
+>> execution pretty much matches number of cycles spent (we're running
+>> @ 1GHz here).
+>>
+>> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+>> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+>> Cc: Vineet Gupta <vgupta at synopsys.com>
+>> Cc: Thomas Gleixner <tglx at linutronix.de>
+>> ---
 > 
-> Looks like more architectures don't define set_pmd_at. I am thinking the
-> easiest way forward is to just do the following, instead of defining
-> set_pmd_at for every architecture that doesn't care about it. Thoughts?
+> Acked-by: Vineet Gupta <vgupta at synopsys.com>
 > 
-> diff --git a/mm/mremap.c b/mm/mremap.c
-> index 7cf6b0943090..31ad64dcdae6 100644
-> --- a/mm/mremap.c
-> +++ b/mm/mremap.c
-> @@ -281,7 +281,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
-> 			split_huge_pmd(vma, old_pmd, old_addr);
-> 			if (pmd_trans_unstable(old_pmd))
-> 				continue;
-> -		} else if (extent == PMD_SIZE && IS_ENABLED(CONFIG_HAVE_MOVE_PMD)) {
-> +		} else if (extent == PMD_SIZE) {
-> +#ifdef CONFIG_HAVE_MOVE_PMD
-> 			/*
-> 			 * If the extent is PMD-sized, try to speed the move by
-> 			 * moving at the PMD level if possible.
-> @@ -296,6 +297,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
-> 				drop_rmap_locks(vma);
-> 			if (moved)
-> 				continue;
-> +#endif
-> 		}
-> 
-> 		if (pte_alloc(new_vma->vm_mm, new_pmd))
-> 
+> @Daniel is this going via timer tree or you want me to pick it up.
 
-That seems reasonable as there are going to be a lot of architectures that never have
-mappings at the PMD level.
+I will take care of it.
 
-Have you thought about what might be needed to extend this paradigm to be able to
-perform remaps at the PUD level, given many architectures already support PUD-mapped
-pages?
+  -- Daniel
 
-    William Kucharski
+
+-- 
+ <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
