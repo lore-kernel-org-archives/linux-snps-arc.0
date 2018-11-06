@@ -1,62 +1,81 @@
-From: joel@joelfernandes.org (Joel Fernandes)
-Date: Mon, 5 Nov 2018 20:36:00 -0800
-Subject: [PATCH -next 0/3] Add support for fast mremap
-In-Reply-To: <D6FB3C15-A8C1-4694-A434-A7489F590E05@oracle.com>
-References: <20181103040041.7085-1-joelaf@google.com>
- <6886607.O3ZT5bM3Cy@blindfold>
- <e1d039a5-9c83-b9b9-98b5-d39bc48f04e0@kot-begemot.co.uk>
- <20181103183208.GA56850@google.com>
- <D6FB3C15-A8C1-4694-A434-A7489F590E05@oracle.com>
+From: rppt@linux.ibm.com (Mike Rapoport)
+Date: Tue, 6 Nov 2018 16:06:42 +0200
+Subject: [PATCH v4 0/6] arm64: Get rid of __early_init_dt_declare_initrd()
+In-Reply-To: <20181105225431.24485-1-f.fainelli@gmail.com>
+References: <20181105225431.24485-1-f.fainelli@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181106043600.GB139199@google.com>
+Message-ID: <20181106140642.GA19280@rapoport-lnx>
 To: linux-snps-arc@lists.infradead.org
 
-On Sun, Nov 04, 2018@12:56:48AM -0600, William Kucharski wrote:
+On Mon, Nov 05, 2018@02:54:25PM -0800, Florian Fainelli wrote:
+> Hi all,
 > 
+> Changes in v4:
 > 
-> > On Nov 3, 2018,@12:32 PM, Joel Fernandes <joel@joelfernandes.org> wrote:
-> > 
-> > Looks like more architectures don't define set_pmd_at. I am thinking the
-> > easiest way forward is to just do the following, instead of defining
-> > set_pmd_at for every architecture that doesn't care about it. Thoughts?
-> > 
-> > diff --git a/mm/mremap.c b/mm/mremap.c
-> > index 7cf6b0943090..31ad64dcdae6 100644
-> > --- a/mm/mremap.c
-> > +++ b/mm/mremap.c
-> > @@ -281,7 +281,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
-> > 			split_huge_pmd(vma, old_pmd, old_addr);
-> > 			if (pmd_trans_unstable(old_pmd))
-> > 				continue;
-> > -		} else if (extent == PMD_SIZE && IS_ENABLED(CONFIG_HAVE_MOVE_PMD)) {
-> > +		} else if (extent == PMD_SIZE) {
-> > +#ifdef CONFIG_HAVE_MOVE_PMD
-> > 			/*
-> > 			 * If the extent is PMD-sized, try to speed the move by
-> > 			 * moving at the PMD level if possible.
-> > @@ -296,6 +297,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
-> > 				drop_rmap_locks(vma);
-> > 			if (moved)
-> > 				continue;
-> > +#endif
-> > 		}
-> > 
-> > 		if (pte_alloc(new_vma->vm_mm, new_pmd))
-> > 
+> - dropped initrd_below_start_ok assignment in ARM64, not necessary at
+>   all (Ard)
+> - replace #ifdef CONFIG_BLK_DEV_INITRD with if
+>   (IS_ENABLED(CONFIG_BLK_DEV_INITRD) for consistency with other parts
+>   of arm64_memblock_init() (Rob)
 > 
-> That seems reasonable as there are going to be a lot of architectures that never have
-> mappings at the PMD level.
+> Changes in v3:
+> 
+> - use C conditionals in drivers/of/fdt.c
+> - added check on phys_initrd_size in arch/arm64/mm/init.c to determine
+>   whether initrd_start must be populated
+> - fixed a build warning with ARC that was just missing an (unsigned
+>   long) cast
+> 
+> Changes in v2:
+> 
+> - get rid of ARCH_HAS_PHYS_INITRD and instead define
+>   phys_initrd_start/phys_initrd_size in init/do_mounts_initrd.c
+> 
+> - make __early_init_dt_declare_initrd() account for ARM64 specific
+>   behavior with __va() when having CONFIG_DEBUG_VM enabled
+> 
+> - consolidate early_initrd() command line parsing into
+>   init/do_mounts_initrd.c
+> 
+> Because phys_initrd_start/phys_initrd_size are now compiled in
+> ini/do_mounts_initrd.c which is only built with CONFIG_BLK_DEV_INITRD=y,
+> we need to be a bit careful about the uses throughout architecture
+> specific code.
+> 
+> Previous discussions/submissions list here:
+> 
+> v3:
+> https://www.spinics.net/lists/arm-kernel/msg683566.html
+> v2:
+> https://lkml.org/lkml/2018/10/25/4
+> 
+> Florian Fainelli (6):
+>   nds32: Remove phys_initrd_start and phys_initrd_size
+>   arch: Make phys_initrd_start and phys_initrd_size global variables
+>   of/fdt: Populate phys_initrd_start/phys_initrd_size from FDT
+>   arm64: Utilize phys_initrd_start/phys_initrd_size
+>   of/fdt: Remove custom __early_init_dt_declare_initrd() implementation
+>   arch: Move initrd= parsing into do_mounts_initrd.c
 
-Ok, I will do it like this and resend.
+For the series:
 
-> Have you thought about what might be needed to extend this paradigm to be able to
-> perform remaps at the PUD level, given many architectures already support PUD-mapped
-> pages?
+Reviewed-by: Mike Rapoport <rppt at linux.ibm.com>
+ 
+>  arch/arc/mm/init.c              | 25 +++++-------------------
+>  arch/arm/mm/init.c              | 28 ++-------------------------
+>  arch/arm64/include/asm/memory.h |  8 --------
+>  arch/arm64/mm/init.c            | 34 ++++++---------------------------
+>  arch/nds32/mm/init.c            |  2 --
+>  arch/unicore32/mm/init.c        | 24 +++++------------------
+>  drivers/of/fdt.c                | 17 ++++++++++++-----
+>  include/linux/initrd.h          |  3 +++
+>  init/do_mounts_initrd.c         | 20 +++++++++++++++++++
+>  9 files changed, 53 insertions(+), 108 deletions(-)
+> 
+> -- 
+> 2.17.1
 > 
 
-I have thought about this. I believe it is doable in the future. Off the top
-I don't see an issue doing it, and it will also reduce the number of flushes.
-
-thanks,
-
-- Joel
+-- 
+Sincerely yours,
+Mike.
