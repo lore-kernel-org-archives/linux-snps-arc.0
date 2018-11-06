@@ -1,61 +1,62 @@
-From: peterx@redhat.com (Peter Xu)
-Date: Tue, 6 Nov 2018 11:03:46 +0800
-Subject: [PATCH RFC] mm: arc: fix potential double realease of mmap_sem
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075013A590E5E@us01wembx1.internal.synopsys.com>
-References: <20181101032354.19351-1-peterx@redhat.com>
- <C2D7FE5348E1B147BCA15975FBA23075013A590E5E@us01wembx1.internal.synopsys.com>
+From: joel@joelfernandes.org (Joel Fernandes)
+Date: Mon, 5 Nov 2018 20:36:00 -0800
+Subject: [PATCH -next 0/3] Add support for fast mremap
+In-Reply-To: <D6FB3C15-A8C1-4694-A434-A7489F590E05@oracle.com>
+References: <20181103040041.7085-1-joelaf@google.com>
+ <6886607.O3ZT5bM3Cy@blindfold>
+ <e1d039a5-9c83-b9b9-98b5-d39bc48f04e0@kot-begemot.co.uk>
+ <20181103183208.GA56850@google.com>
+ <D6FB3C15-A8C1-4694-A434-A7489F590E05@oracle.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181106030346.GI7804@xz-x1>
+Message-ID: <20181106043600.GB139199@google.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Nov 06, 2018@12:48:31AM +0000, Vineet Gupta wrote:
-> On 10/31/18 8:24 PM, Peter Xu wrote:
-> > In do_page_fault() of ARC we have:
-> >
-> >         ...
-> > 	fault = handle_mm_fault(vma, address, flags);
-> >
-> >         /* If Pagefault was interrupted by SIGKILL, exit page fault "early" */
-> >         if (unlikely(fatal_signal_pending(current))) {
-> >                 if ((fault & VM_FAULT_ERROR) && !(fault & VM_FAULT_RETRY))
-> >                         up_read(&mm->mmap_sem);     <---------------- [1]
-> >                 if (user_mode(regs))
-> >                         return;
-> >         }
-> >         ...
-> > 	if (likely(!(fault & VM_FAULT_ERROR))) {
-> >                 ...
-> > 		return;
-> > 	}
-> >
-> > 	if (fault & VM_FAULT_OOM)
-> > 		goto out_of_memory;                <----------------- [2]
-> > 	else if (fault & VM_FAULT_SIGSEGV)
-> > 		goto bad_area;                     <----------------- [3]
-> > 	else if (fault & VM_FAULT_SIGBUS)
-> > 		goto do_sigbus;                    <----------------- [4]
-> >
-> > Logically it's possible that we might try to release the mmap_sem twice
-> > by having a scenario like:
-> >
-> >         - task received SIGKILL,
-> >         - task handled kernel mode page fault,
-> >         - handle_mm_fault() returned with one of VM_FAULT_ERROR,
-> >
-> > Then we'll go into path [1] to release the mmap_sem, however we won't
-> > return immediately since user_mode(regs) check will fail (a kernel page
-> > fault).  Then we might go into either [2]-[4] and either of them will
-> > try to release the mmap_sem again.
-> >
-> > To fix this, we only release the mmap_sem at [1] when we're sure we'll
-> > quit immediately (after we checked with user_mode(regs)).
+On Sun, Nov 04, 2018@12:56:48AM -0600, William Kucharski wrote:
 > 
-> Hmm, do_page_fault() needs a serious makeover. There's a known problem in the area
-> you touched (with test case) where we fail to relinquish the mmap_sem for which
-> Alexey had provided a fix. But I'm going to redo this part now and CC you folks
-> for review. OK ?
+> 
+> > On Nov 3, 2018,@12:32 PM, Joel Fernandes <joel@joelfernandes.org> wrote:
+> > 
+> > Looks like more architectures don't define set_pmd_at. I am thinking the
+> > easiest way forward is to just do the following, instead of defining
+> > set_pmd_at for every architecture that doesn't care about it. Thoughts?
+> > 
+> > diff --git a/mm/mremap.c b/mm/mremap.c
+> > index 7cf6b0943090..31ad64dcdae6 100644
+> > --- a/mm/mremap.c
+> > +++ b/mm/mremap.c
+> > @@ -281,7 +281,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+> > 			split_huge_pmd(vma, old_pmd, old_addr);
+> > 			if (pmd_trans_unstable(old_pmd))
+> > 				continue;
+> > -		} else if (extent == PMD_SIZE && IS_ENABLED(CONFIG_HAVE_MOVE_PMD)) {
+> > +		} else if (extent == PMD_SIZE) {
+> > +#ifdef CONFIG_HAVE_MOVE_PMD
+> > 			/*
+> > 			 * If the extent is PMD-sized, try to speed the move by
+> > 			 * moving at the PMD level if possible.
+> > @@ -296,6 +297,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+> > 				drop_rmap_locks(vma);
+> > 			if (moved)
+> > 				continue;
+> > +#endif
+> > 		}
+> > 
+> > 		if (pte_alloc(new_vma->vm_mm, new_pmd))
+> > 
+> 
+> That seems reasonable as there are going to be a lot of architectures that never have
+> mappings at the PMD level.
 
-Fine with me.  Thanks,
+Ok, I will do it like this and resend.
 
--- 
-Peter Xu
+> Have you thought about what might be needed to extend this paradigm to be able to
+> perform remaps at the PUD level, given many architectures already support PUD-mapped
+> pages?
+> 
+
+I have thought about this. I believe it is doable in the future. Off the top
+I don't see an issue doing it, and it will also reduce the number of flushes.
+
+thanks,
+
+- Joel
