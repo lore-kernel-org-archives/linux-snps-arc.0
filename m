@@ -1,81 +1,50 @@
-From: rppt@linux.ibm.com (Mike Rapoport)
-Date: Tue, 6 Nov 2018 16:06:42 +0200
-Subject: [PATCH v4 0/6] arm64: Get rid of __early_init_dt_declare_initrd()
-In-Reply-To: <20181105225431.24485-1-f.fainelli@gmail.com>
-References: <20181105225431.24485-1-f.fainelli@gmail.com>
+From: dianders@chromium.org (Douglas Anderson)
+Date: Tue,  6 Nov 2018 17:00:24 -0800
+Subject: [PATCH v3 0/4] kgdb: Fix kgdb_roundup_cpus()
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181106140642.GA19280@rapoport-lnx>
+Message-ID: <20181107010028.184543-1-dianders@chromium.org>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Nov 05, 2018@02:54:25PM -0800, Florian Fainelli wrote:
-> Hi all,
-> 
-> Changes in v4:
-> 
-> - dropped initrd_below_start_ok assignment in ARM64, not necessary at
->   all (Ard)
-> - replace #ifdef CONFIG_BLK_DEV_INITRD with if
->   (IS_ENABLED(CONFIG_BLK_DEV_INITRD) for consistency with other parts
->   of arm64_memblock_init() (Rob)
-> 
-> Changes in v3:
-> 
-> - use C conditionals in drivers/of/fdt.c
-> - added check on phys_initrd_size in arch/arm64/mm/init.c to determine
->   whether initrd_start must be populated
-> - fixed a build warning with ARC that was just missing an (unsigned
->   long) cast
-> 
-> Changes in v2:
-> 
-> - get rid of ARCH_HAS_PHYS_INITRD and instead define
->   phys_initrd_start/phys_initrd_size in init/do_mounts_initrd.c
-> 
-> - make __early_init_dt_declare_initrd() account for ARM64 specific
->   behavior with __va() when having CONFIG_DEBUG_VM enabled
-> 
-> - consolidate early_initrd() command line parsing into
->   init/do_mounts_initrd.c
-> 
-> Because phys_initrd_start/phys_initrd_size are now compiled in
-> ini/do_mounts_initrd.c which is only built with CONFIG_BLK_DEV_INITRD=y,
-> we need to be a bit careful about the uses throughout architecture
-> specific code.
-> 
-> Previous discussions/submissions list here:
-> 
-> v3:
-> https://www.spinics.net/lists/arm-kernel/msg683566.html
-> v2:
-> https://lkml.org/lkml/2018/10/25/4
-> 
-> Florian Fainelli (6):
->   nds32: Remove phys_initrd_start and phys_initrd_size
->   arch: Make phys_initrd_start and phys_initrd_size global variables
->   of/fdt: Populate phys_initrd_start/phys_initrd_size from FDT
->   arm64: Utilize phys_initrd_start/phys_initrd_size
->   of/fdt: Remove custom __early_init_dt_declare_initrd() implementation
->   arch: Move initrd= parsing into do_mounts_initrd.c
+This series was originally part of the series ("serial: Finish kgdb on
+qcom_geni; fix many lockdep splats w/ kgdb") but it made sense to
+split it up.
 
-For the series:
+It's believed that dropping into kgdb should be more robust once these
+patches are applied.
 
-Reviewed-by: Mike Rapoport <rppt at linux.ibm.com>
- 
->  arch/arc/mm/init.c              | 25 +++++-------------------
->  arch/arm/mm/init.c              | 28 ++-------------------------
->  arch/arm64/include/asm/memory.h |  8 --------
->  arch/arm64/mm/init.c            | 34 ++++++---------------------------
->  arch/nds32/mm/init.c            |  2 --
->  arch/unicore32/mm/init.c        | 24 +++++------------------
->  drivers/of/fdt.c                | 17 ++++++++++++-----
->  include/linux/initrd.h          |  3 +++
->  init/do_mounts_initrd.c         | 20 +++++++++++++++++++
->  9 files changed, 53 insertions(+), 108 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
+Changes in v3:
+- No separate init call.
+- Don't round up the CPU that is doing the rounding up.
+- Add "#ifdef CONFIG_SMP" to match the rest of the file.
+- Updated desc saying we don't solve the "failed to roundup" case.
+- Document the ignored parameter.
+- Patch #3 and #4 are new.
+
+Changes in v2:
+- Removing irq flags separated from fixing lockdep splat.
+- Removing irq flags separated from fixing lockdep splat.
+- Don't use smp_call_function (Daniel).
+
+Douglas Anderson (4):
+  kgdb: Remove irq flags from roundup
+  kgdb: Fix kgdb_roundup_cpus() for arches who used smp_call_function()
+  kgdb: Don't round up a CPU that failed rounding up before
+  kdb: Don't back trace on a cpu that didn't round up
+
+ arch/arc/kernel/kgdb.c     | 10 ++-----
+ arch/arm/kernel/kgdb.c     | 12 ---------
+ arch/arm64/kernel/kgdb.c   | 12 ---------
+ arch/hexagon/kernel/kgdb.c | 32 ----------------------
+ arch/mips/kernel/kgdb.c    |  9 +------
+ arch/powerpc/kernel/kgdb.c |  6 ++---
+ arch/sh/kernel/kgdb.c      | 12 ---------
+ arch/sparc/kernel/smp_64.c |  2 +-
+ arch/x86/kernel/kgdb.c     |  9 ++-----
+ include/linux/kgdb.h       | 22 +++++++++------
+ kernel/debug/debug_core.c  | 55 +++++++++++++++++++++++++++++++++++++-
+ kernel/debug/debug_core.h  |  1 +
+ kernel/debug/kdb/kdb_bt.c  | 11 +++++++-
+ 13 files changed, 88 insertions(+), 105 deletions(-)
 
 -- 
-Sincerely yours,
-Mike.
+2.19.1.930.g4563a0d9d0-goog
