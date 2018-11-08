@@ -1,78 +1,94 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed,  7 Nov 2018 15:12:49 +0300
-Subject: [PATCH] ARC: MM: fix UB and kernel resourse leak in do_page_fault
+From: joel@joelfernandes.org (Joel Fernandes)
+Date: Thu,  8 Nov 2018 10:11:58 -0800
+Subject: [PATCH -next-akpm 0/3] Add support for fast mremap
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181107121249.6657-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20181108181201.88826-1-joelaf@google.com>
 To: linux-snps-arc@lists.infradead.org
 
-Commit 15773ae938d8 ("signal/arc: Use force_sig_fault where
-appropriate") adds undefined behaviour and kernel resource leak
-to userspace in ARC do_page_fault() implementation.
+Hi,
+Here is the "fast mremap" series. This just a repost with Kirill's Acked-bys
+added and William's Reviewed-by added. Also fixed a UML build error reported
+last week. I would like this to be considered for linux -next. The performance
+numbers in the series are for testing on x86. The config enablement patch for
+arm64 will be posted in the future after testing (see notes below).
 
-This happens because we don't initialize si_code variable after we
-switch to force_sig_fault using. si_code (as a part of siginfo_t
-structure) was previously initialized by clear_siginfo(&info) call
-which was removed.
+List of patches in series:
 
-Undefined behaviour path:
--------------------->8---------------------------
-}}} a/arch/arc/mm/fault.c
-!! -67,6 +67,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
-        struct task_struct *tsk = current;
-        struct mm_struct *mm = tsk->mm;
-+       /// >>> si_code - uninitialized
-        int si_code;
-        int ret;
-        vm_fault_t fault;
-        int write = regs->ecr_cause & ECR_C_PROTV_STORE;  /* ST/EX */
-!! -81,8 +82,10 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
-         * only copy the information from the master page table,
-         * nothing more.
-         */
-+       /// >>> take true branch
-        if (address >= VMALLOC_START) {
-                ret = handle_kernel_vaddr_fault(address);
-+               /// >>> take true branch
-                if (unlikely(ret))
-+                       /// >>> jump to label "bad_area_nosemaphore"
-                        goto bad_area_nosemaphore;
-                else
-!! -193,10 +196,13 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- bad_area:
-        up_read(&mm->mmap_sem);
+(1) mm: select HAVE_MOVE_PMD in x86 for faster mremap
 
-+       /// >>> reach label "bad_area_nosemaphore"
- bad_area_nosemaphore:
-        /* User mode accesses just cause a SIGSEGV */
-+       /// >>> take true branch
-        if (user_mode(regs)) {
-                tsk->thread.fault_address = address;
-+               /// >>> Ooops:
-+               /// >>> use uninitialized value "si_code"
-+               /// >>> when calling "force_sig_fault"
-                force_sig_fault(SIGSEGV, si_code, (void __user *)address, tsk);
-                return;
-        }
--------------------->8---------------------------
+(2) mm: speed up mremap by 20x on large regions (v5)
+v1->v2: Added support for per-arch enablement (Kirill Shutemov)
+v2->v3: Updated commit message to state the optimization may also
+	run for non-thp type of systems (Daniel Col).
+v3->v4: Remove useless pmd_lock check (Kirill Shutemov)
+	Rebased ontop of Linus's master, updated perf results based
+        on x86 testing. Added Kirill's Acks.
+v4->v5: Added William's Reviewed-by. Fixed arch/um build error
+	due to set_pmd_at not defined. Rebased on linux-next/akpm.
 
-Fixes: 15773ae938d8 ("signal/arc: Use force_sig_fault where appropriate")
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/mm/fault.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+(3) mm: treewide: remove unused address argument from pte_alloc functions (v2)
+v1->v2: fix arch/um/ prototype which was missed in v1 (Anton Ivanov)
+        update changelog with manual fixups for m68k and microblaze.
 
-diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-index c9da6102eb4f..e2d9fc3fea01 100644
---- a/arch/arc/mm/fault.c
-+++ b/arch/arc/mm/fault.c
-@@ -66,7 +66,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- 	struct vm_area_struct *vma = NULL;
- 	struct task_struct *tsk = current;
- 	struct mm_struct *mm = tsk->mm;
--	int si_code;
-+	int si_code = 0;
- 	int ret;
- 	vm_fault_t fault;
- 	int write = regs->ecr_cause & ECR_C_PROTV_STORE;  /* ST/EX */
--- 
-2.14.5
+not included - (4) mm: select HAVE_MOVE_PMD in arm64 for faster mremap
+    This patch is dropped since last posting pending further performance
+    testing on arm64 with new TLB gather updates. See notes in patch
+    titled "mm: speed up mremap by 500x on large regions" for more
+    details.
+
+Joel Fernandes (Google) (3):
+mm: treewide: remove unused address argument from pte_alloc functions
+(v2)
+mm: speed up mremap by 20x on large regions (v5)
+mm: select HAVE_MOVE_PMD in x86 for faster mremap
+
+arch/Kconfig                                 |  5 ++
+arch/alpha/include/asm/pgalloc.h             |  6 +-
+arch/arc/include/asm/pgalloc.h               |  5 +-
+arch/arm/include/asm/pgalloc.h               |  4 +-
+arch/arm64/include/asm/pgalloc.h             |  4 +-
+arch/hexagon/include/asm/pgalloc.h           |  6 +-
+arch/ia64/include/asm/pgalloc.h              |  5 +-
+arch/m68k/include/asm/mcf_pgalloc.h          |  8 +--
+arch/m68k/include/asm/motorola_pgalloc.h     |  4 +-
+arch/m68k/include/asm/sun3_pgalloc.h         |  6 +-
+arch/microblaze/include/asm/pgalloc.h        | 19 +-----
+arch/microblaze/mm/pgtable.c                 |  3 +-
+arch/mips/include/asm/pgalloc.h              |  6 +-
+arch/nds32/include/asm/pgalloc.h             |  5 +-
+arch/nios2/include/asm/pgalloc.h             |  6 +-
+arch/openrisc/include/asm/pgalloc.h          |  5 +-
+arch/openrisc/mm/ioremap.c                   |  3 +-
+arch/parisc/include/asm/pgalloc.h            |  4 +-
+arch/powerpc/include/asm/book3s/32/pgalloc.h |  4 +-
+arch/powerpc/include/asm/book3s/64/pgalloc.h | 12 ++--
+arch/powerpc/include/asm/nohash/32/pgalloc.h |  4 +-
+arch/powerpc/include/asm/nohash/64/pgalloc.h |  6 +-
+arch/powerpc/mm/pgtable-book3s64.c           |  2 +-
+arch/powerpc/mm/pgtable_32.c                 |  4 +-
+arch/riscv/include/asm/pgalloc.h             |  6 +-
+arch/s390/include/asm/pgalloc.h              |  4 +-
+arch/sh/include/asm/pgalloc.h                |  6 +-
+arch/sparc/include/asm/pgalloc_32.h          |  5 +-
+arch/sparc/include/asm/pgalloc_64.h          |  6 +-
+arch/sparc/mm/init_64.c                      |  6 +-
+arch/sparc/mm/srmmu.c                        |  4 +-
+arch/um/include/asm/pgalloc.h                |  4 +-
+arch/um/kernel/mem.c                         |  4 +-
+arch/unicore32/include/asm/pgalloc.h         |  4 +-
+arch/x86/Kconfig                             |  1 +
+arch/x86/include/asm/pgalloc.h               |  4 +-
+arch/x86/mm/pgtable.c                        |  4 +-
+arch/xtensa/include/asm/pgalloc.h            |  8 +--
+include/linux/mm.h                           | 13 ++--
+mm/huge_memory.c                             |  8 +--
+mm/kasan/kasan_init.c                        |  2 +-
+mm/memory.c                                  | 17 +++---
+mm/migrate.c                                 |  2 +-
+mm/mremap.c                                  | 64 +++++++++++++++++++-
+mm/userfaultfd.c                             |  2 +-
+virt/kvm/arm/mmu.c                           |  2 +-
+46 files changed, 165 insertions(+), 147 deletions(-)
+
+--
+2.19.1.930.g4563a0d9d0-goog
