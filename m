@@ -1,82 +1,71 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 9 Nov 2018 23:39:07 +0000
-Subject: [PATCH 06/13 v2] arc: define syscall_get_arch()
-References: <20181109031605.GF21511@altlinux.org>
- <e729da9ed78b6b62463a27d3012ac63c7b66be08.camel@synopsys.com>
- <CALCETrUzfOcLYDUW6s1Ra2xduDCQSbscKBw=vApCP2HNmfDmMw@mail.gmail.com>
- <456a69c6e01a6ab5b1af6d459a249388f8b4c1f5.camel@synopsys.com>
- <C6CF3942-3307-431F-B76C-B550BB48F472@amacapital.net>
- <215d66fd9a197b631973c9ff75943b4c1216b899.camel@synopsys.com>
- <CALCETrXCcBBTzcL_yz3agNhby1huZSn2UGtJ9Soo=8n8_rj1Tg@mail.gmail.com>
- <20181109233342.GC2710@altlinux.org>
+Date: Fri, 9 Nov 2018 23:42:41 +0000
+Subject: [PATCH 02/13 v2] Move EM_ARCOMPACT and EM_ARCV2 to
+ uapi/linux/elf-em.h
+References: <20181109031536.GB21511@altlinux.org>
+ <C2D7FE5348E1B147BCA15975FBA23075013A59237C@us01wembx1.internal.synopsys.com>
+ <20181109214422.GB1907@altlinux.org> <20181109233323.GB2710@altlinux.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075013A59253C@us01wembx1.internal.synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075013A592551@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 On 11/9/18 3:33 PM, Dmitry V. Levin wrote:
-> syscall_get_arch() is required to be implemented on all architectures
-> that use tracehook_report_syscall_entry() in order to extend
-> the generic ptrace API with PTRACE_GET_SYSCALL_INFO request.
+> These should never have been defined in the arch tree to begin with, and
+> now uapi/linux/audit.h header is going to use EM_ARCOMPACT and EM_ARCV2 in
+> order to define AUDIT_ARCH_ARCOMPACT and AUDIT_ARCH_ARCV2 which are needed
+> to implement syscall_get_arch() which in turn is required to extend the
+> generic ptrace API with PTRACE_GET_SYSCALL_INFO request.
 >
 > Signed-off-by: Dmitry V. Levin <ldv at altlinux.org>
 > ---
-> v2: define AUDIT_ARCH_ARCOMPACT, AUDIT_ARCH_ARCOMPACTLE, AUDIT_ARCH_ARCV2,
-> and AUDIT_ARCH_ARCV2LE instead of AUDIT_ARCH_ARC, update
-> syscall_get_arch() implementation accordingly.
+> v2: do not add EM_ARC, move EM_ARCOMPACT and EM_ARCV2 instead.
 >
->  arch/arc/include/asm/syscall.h | 18 ++++++++++++++++++
->  include/uapi/linux/audit.h     |  4 ++++
->  2 files changed, 22 insertions(+)
+>  arch/arc/include/asm/elf.h  | 6 +-----
+>  include/uapi/linux/elf-em.h | 2 ++
+>  2 files changed, 3 insertions(+), 5 deletions(-)
 >
-> diff --git a/arch/arc/include/asm/syscall.h b/arch/arc/include/asm/syscall.h
-> index 29de09804306..a1b698290778 100644
-> --- a/arch/arc/include/asm/syscall.h
-> +++ b/arch/arc/include/asm/syscall.h
-> @@ -9,6 +9,7 @@
->  #ifndef _ASM_ARC_SYSCALL_H
->  #define _ASM_ARC_SYSCALL_H  1
+> diff --git a/arch/arc/include/asm/elf.h b/arch/arc/include/asm/elf.h
+> index aa2d6da9d187..2b80c184c9c8 100644
+> --- a/arch/arc/include/asm/elf.h
+> +++ b/arch/arc/include/asm/elf.h
+> @@ -10,13 +10,9 @@
+>  #define __ASM_ARC_ELF_H
 >  
-> +#include <uapi/linux/audit.h>
->  #include <linux/err.h>
->  #include <linux/sched.h>
->  #include <asm/unistd.h>
-> @@ -68,4 +69,21 @@ syscall_get_arguments(struct task_struct *task, struct pt_regs *regs,
->  	}
->  }
+>  #include <linux/types.h>
+> +#include <linux/elf-em.h>
+>  #include <uapi/asm/elf.h>
 >  
-> +static inline int syscall_get_arch(void)
-> +{
-> +#ifdef CONFIG_ISA_ARCOMPACT
-> +# ifdef CONFIG_CPU_BIG_ENDIAN
-> +	return AUDIT_ARCH_ARCOMPACT;
-> +# else
-> +	return AUDIT_ARCH_ARCOMPACTLE;
-> +# endif
-> +#else	/* CONFIG_ISA_ARCV2 */
-> +# ifdef CONFIG_CPU_BIG_ENDIAN
-> +	return AUDIT_ARCH_ARCV2;
-> +# else
-> +	return AUDIT_ARCH_ARCV2LE;
-> +# endif
-> +#endif
-> +}
-
-Bike shedding, but will using IS_ENABLED make the code any better.
-
-
-> +
->  #endif
-> diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-> index 818ae690ab79..8e70fb70b8f8 100644
-> --- a/include/uapi/linux/audit.h
-> +++ b/include/uapi/linux/audit.h
-> @@ -375,6 +375,10 @@ enum {
+> -/* These ELF defines belong to uapi but libc elf.h already defines them */
+> -#define EM_ARCOMPACT		93
+> -
+> -#define EM_ARCV2		195	/* ARCv2 Cores */
+> -
+>  #define EM_ARC_INUSE		(IS_ENABLED(CONFIG_ISA_ARCOMPACT) ? \
+>  					EM_ARCOMPACT : EM_ARCV2)
 >  
->  #define AUDIT_ARCH_AARCH64	(EM_AARCH64|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)
->  #define AUDIT_ARCH_ALPHA	(EM_ALPHA|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)
-> +#define AUDIT_ARCH_ARCOMPACT	(EM_ARCOMPACT)
-> +#define AUDIT_ARCH_ARCOMPACTLE	(EM_ARCOMPACT|__AUDIT_ARCH_LE)
-> +#define AUDIT_ARCH_ARCV2	(EM_ARCV2)
-> +#define AUDIT_ARCH_ARCV2LE	(EM_ARCV2|__AUDIT_ARCH_LE)
+> diff --git a/include/uapi/linux/elf-em.h b/include/uapi/linux/elf-em.h
+> index ba3696e3d694..91b33833630b 100644
+> --- a/include/uapi/linux/elf-em.h
+> +++ b/include/uapi/linux/elf-em.h
+> @@ -34,6 +34,7 @@
+>  #define EM_M32R		88	/* Renesas M32R */
+>  #define EM_MN10300	89	/* Panasonic/MEI MN10300, AM33 */
+>  #define EM_OPENRISC     92     /* OpenRISC 32-bit embedded processor */
+> +#define EM_ARCOMPACT	93	/* ARCompact processor */
+>  #define EM_BLACKFIN     106     /* ADI Blackfin Processor */
+>  #define EM_ALTERA_NIOS2	113	/* Altera Nios II soft-core processor */
+>  #define EM_TI_C6000	140	/* TI C6X DSPs */
+> @@ -42,6 +43,7 @@
+>  #define EM_TILEPRO	188	/* Tilera TILEPro */
+>  #define EM_MICROBLAZE	189	/* Xilinx MicroBlaze */
+>  #define EM_TILEGX	191	/* Tilera TILE-Gx */
+> +#define EM_ARCV2	195	/* ARCv2 Cores */
+>  #define EM_RISCV	243	/* RISC-V */
+>  #define EM_BPF		247	/* Linux BPF - in-kernel virtual machine */
+>  #define EM_FRV		0x5441	/* Fujitsu FR-V */
 
-More Bike shedding, can we make LE as default and add BE suffixes variants please.
+Seems OK in theory - but now we are exporting these to uapi and per my original
+comment there were redef errors with libc elf.h atleast. Perhaps this being a
+different header might be OK !
+
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
