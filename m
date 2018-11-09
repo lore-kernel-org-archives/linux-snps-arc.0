@@ -1,54 +1,22 @@
-From: ldv@altlinux.org (Dmitry V. Levin)
-Date: Fri, 9 Nov 2018 06:16:05 +0300
-Subject: [PATCH 06/13] arc: define syscall_get_arch()
+From: luto@kernel.org (Andy Lutomirski)
+Date: Thu, 8 Nov 2018 22:06:13 -0800
+Subject: [PATCH 00/13] Prepare for PTRACE_GET_SYSCALL_INFO
 In-Reply-To: <20181109031303.GA20906@altlinux.org>
+References: <20181107042751.3b519062@akathisia>
+ <CALCETrV1v-DPRfDRwiH=xn29bxWxiHdZtAH1nw=dsmDtnT0YGQ@mail.gmail.com>
+ <20181109031303.GA20906@altlinux.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181109031605.GF21511@altlinux.org>
+Message-ID: <CALCETrUMnBxZ=-EWf5TJY9kqMA9Sy=mtk7OyS0tHub1+DREM=w@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-syscall_get_arch() is required to be implemented on all architectures
-that use tracehook_report_syscall_entry() in order to extend
-the generic ptrace API with PTRACE_GET_SYSCALL_INFO request.
+On Thu, Nov 8, 2018@7:13 PM Dmitry V. Levin <ldv@altlinux.org> wrote:
+>
+> syscall_get_arch() is required to be implemented on all architectures
+> that use tracehook_report_syscall_entry() in order to extend
+> the generic ptrace API with PTRACE_GET_SYSCALL_INFO request.
 
-Signed-off-by: Dmitry V. Levin <ldv at altlinux.org>
----
- arch/arc/include/asm/syscall.h | 6 ++++++
- include/uapi/linux/audit.h     | 1 +
- 2 files changed, 7 insertions(+)
+Nice!
 
-diff --git a/arch/arc/include/asm/syscall.h b/arch/arc/include/asm/syscall.h
-index 29de09804306..5662778a7411 100644
---- a/arch/arc/include/asm/syscall.h
-+++ b/arch/arc/include/asm/syscall.h
-@@ -9,6 +9,7 @@
- #ifndef _ASM_ARC_SYSCALL_H
- #define _ASM_ARC_SYSCALL_H  1
- 
-+#include <uapi/linux/audit.h>
- #include <linux/err.h>
- #include <linux/sched.h>
- #include <asm/unistd.h>
-@@ -68,4 +69,9 @@ syscall_get_arguments(struct task_struct *task, struct pt_regs *regs,
- 	}
- }
- 
-+static inline int syscall_get_arch(void)
-+{
-+	return AUDIT_ARCH_ARC;
-+}
-+
- #endif
-diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-index 818ae690ab79..a7149ceb5b98 100644
---- a/include/uapi/linux/audit.h
-+++ b/include/uapi/linux/audit.h
-@@ -375,6 +375,7 @@ enum {
- 
- #define AUDIT_ARCH_AARCH64	(EM_AARCH64|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)
- #define AUDIT_ARCH_ALPHA	(EM_ALPHA|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)
-+#define AUDIT_ARCH_ARC		(EM_ARC)
- #define AUDIT_ARCH_ARM		(EM_ARM|__AUDIT_ARCH_LE)
- #define AUDIT_ARCH_ARMEB	(EM_ARM)
- #define AUDIT_ARCH_CRIS		(EM_CRIS|__AUDIT_ARCH_LE)
--- 
-ldv
+I'm pretty sure you have vastly more changelog than code here :)
+
+--Andy
