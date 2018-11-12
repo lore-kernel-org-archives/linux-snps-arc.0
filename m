@@ -1,35 +1,57 @@
-From: raj.khem@gmail.com (Khem Raj)
-Date: Mon, 12 Nov 2018 09:42:54 -0800
-Subject: [PATCH] packagegroup-core-sdk: Disable SANITIZERS for ARC
-In-Reply-To: <20181112130938.7781-1-abrodkin@synopsys.com>
-References: <20181112130938.7781-1-abrodkin@synopsys.com>
+From: dianders@chromium.org (Douglas Anderson)
+Date: Mon, 12 Nov 2018 10:26:54 -0800
+Subject: [PATCH v4 0/4] kgdb: Fix kgdb_roundup_cpus()
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMKF1sp1hfayuo==2fJO_75ccN+rLzHAPSP2Q8g2SYkvuA6Xew@mail.gmail.com>
+Message-ID: <20181112182659.245726-1-dianders@chromium.org>
 To: linux-snps-arc@lists.infradead.org
 
-Looks ok to me
-On Mon, Nov 12, 2018 at 5:09 AM Alexey Brodkin
-<alexey.brodkin@synopsys.com> wrote:
->
-> Sanitizers are not yet supported on ARC.
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> ---
->  meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> index 45e8c13585..15d0989b76 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> @@ -27,6 +27,7 @@ RDEPENDS_packagegroup-core-sdk = "\
->      tcl"
->
->  SANITIZERS = "libasan-dev libubsan-dev"
-> +SANITIZERS_arc = ""
->  SANITIZERS_microblaze = ""
->  SANITIZERS_mipsarch = ""
->  SANITIZERS_nios2 = ""
-> --
-> 2.16.2
->
+This series was originally part of the series ("serial: Finish kgdb on
+qcom_geni; fix many lockdep splats w/ kgdb") but it made sense to
+split it up.
+
+It's believed that dropping into kgdb should be more robust once these
+patches are applied.
+
+Changes in v4:
+- Removed smp_mb() calls.
+- Also clear out .debuggerinfo.
+- Also clear out .debuggerinfo and .task for the master.
+- Remove clearing out in kdb_stub for offline CPUs; it's now redundant.
+
+Changes in v3:
+- No separate init call.
+- Don't round up the CPU that is doing the rounding up.
+- Add "#ifdef CONFIG_SMP" to match the rest of the file.
+- Updated desc saying we don't solve the "failed to roundup" case.
+- Document the ignored parameter.
+- Don't round up a CPU that failed rounding up before new for v3.
+- Don't back trace on a cpu that didn't round up new for v3.
+
+Changes in v2:
+- Removing irq flags separated from fixing lockdep splat.
+- Don't use smp_call_function (Daniel).
+
+Douglas Anderson (4):
+  kgdb: Remove irq flags from roundup
+  kgdb: Fix kgdb_roundup_cpus() for arches who used smp_call_function()
+  kgdb: Don't round up a CPU that failed rounding up before
+  kdb: Don't back trace on a cpu that didn't round up
+
+ arch/arc/kernel/kgdb.c          | 10 ++----
+ arch/arm/kernel/kgdb.c          | 12 -------
+ arch/arm64/kernel/kgdb.c        | 12 -------
+ arch/hexagon/kernel/kgdb.c      | 32 -------------------
+ arch/mips/kernel/kgdb.c         |  9 +-----
+ arch/powerpc/kernel/kgdb.c      |  6 ++--
+ arch/sh/kernel/kgdb.c           | 12 -------
+ arch/sparc/kernel/smp_64.c      |  2 +-
+ arch/x86/kernel/kgdb.c          |  9 ++----
+ include/linux/kgdb.h            | 22 ++++++++-----
+ kernel/debug/debug_core.c       | 56 ++++++++++++++++++++++++++++++++-
+ kernel/debug/debug_core.h       |  1 +
+ kernel/debug/kdb/kdb_bt.c       | 11 ++++++-
+ kernel/debug/kdb/kdb_debugger.c |  7 -----
+ 14 files changed, 89 insertions(+), 112 deletions(-)
+
+-- 
+2.19.1.930.g4563a0d9d0-goog
