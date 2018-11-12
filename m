@@ -1,68 +1,31 @@
-From: f.fainelli@gmail.com (Florian Fainelli)
-Date: Mon, 12 Nov 2018 12:32:50 -0800
-Subject: [PATCH v4 0/6] arm64: Get rid of __early_init_dt_declare_initrd()
-In-Reply-To: <20181106140642.GA19280@rapoport-lnx>
-References: <20181105225431.24485-1-f.fainelli@gmail.com>
- <20181106140642.GA19280@rapoport-lnx>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 12 Nov 2018 23:48:00 +0300
+Subject: [PATCH] tcf-agent: Disable architecture-specific features for ARC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <68b32163-85ff-45f7-8887-60273da7c6e2@gmail.com>
+Message-ID: <20181112204800.5229-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/6/18 6:06 AM, Mike Rapoport wrote:
-> On Mon, Nov 05, 2018@02:54:25PM -0800, Florian Fainelli wrote:
->> Hi all,
->>
->> Changes in v4:
->>
->> - dropped initrd_below_start_ok assignment in ARM64, not necessary at
->>   all (Ard)
->> - replace #ifdef CONFIG_BLK_DEV_INITRD with if
->>   (IS_ENABLED(CONFIG_BLK_DEV_INITRD) for consistency with other parts
->>   of arm64_memblock_init() (Rob)
->>
->> Changes in v3:
->>
->> - use C conditionals in drivers/of/fdt.c
->> - added check on phys_initrd_size in arch/arm64/mm/init.c to determine
->>   whether initrd_start must be populated
->> - fixed a build warning with ARC that was just missing an (unsigned
->>   long) cast
->>
->> Changes in v2:
->>
->> - get rid of ARCH_HAS_PHYS_INITRD and instead define
->>   phys_initrd_start/phys_initrd_size in init/do_mounts_initrd.c
->>
->> - make __early_init_dt_declare_initrd() account for ARM64 specific
->>   behavior with __va() when having CONFIG_DEBUG_VM enabled
->>
->> - consolidate early_initrd() command line parsing into
->>   init/do_mounts_initrd.c
->>
->> Because phys_initrd_start/phys_initrd_size are now compiled in
->> ini/do_mounts_initrd.c which is only built with CONFIG_BLK_DEV_INITRD=y,
->> we need to be a bit careful about the uses throughout architecture
->> specific code.
->>
->> Previous discussions/submissions list here:
->>
->> v3:
->> https://www.spinics.net/lists/arm-kernel/msg683566.html
->> v2:
->> https://lkml.org/lkml/2018/10/25/4
->>
->> Florian Fainelli (6):
->>   nds32: Remove phys_initrd_start and phys_initrd_size
->>   arch: Make phys_initrd_start and phys_initrd_size global variables
->>   of/fdt: Populate phys_initrd_start/phys_initrd_size from FDT
->>   arm64: Utilize phys_initrd_start/phys_initrd_size
->>   of/fdt: Remove custom __early_init_dt_declare_initrd() implementation
->>   arch: Move initrd= parsing into do_mounts_initrd.c
-> 
-> For the series:
-> 
-> Reviewed-by: Mike Rapoport <rppt at linux.ibm.com>
+There's no support of architecture-specific features for ARC
+in tcf-agent, so disable non-generic stuff for now.
 
-Thanks Mike, Rob, do you want to merge that series through the OF tree?
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
+Cc: Khem Raj <raj.khem at gmail.com>
+---
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index d901c18c39..b4bd4ca63c 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -41,6 +41,7 @@ LCL_STOP_SERVICES = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
+ 
+ # These features don't compile for several cases.
+ #
++CFLAGS_append_arc = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_mips = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_mips64 = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_libc-musl = " ${LCL_STOP_SERVICES}"
 -- 
-Florian
+2.16.2
