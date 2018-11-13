@@ -1,72 +1,103 @@
-From: robh@kernel.org (Rob Herring)
-Date: Mon, 12 Nov 2018 18:22:16 -0600
-Subject: [PATCH v4 0/6] arm64: Get rid of __early_init_dt_declare_initrd()
-In-Reply-To: <68b32163-85ff-45f7-8887-60273da7c6e2@gmail.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 13 Nov 2018 00:34:15 +0000
+Subject: [PATCH v4 6/6] arch: Move initrd= parsing into do_mounts_initrd.c
 References: <20181105225431.24485-1-f.fainelli@gmail.com>
- <20181106140642.GA19280@rapoport-lnx>
- <68b32163-85ff-45f7-8887-60273da7c6e2@gmail.com>
+ <20181105225431.24485-7-f.fainelli@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181113002216.GA26854@bogus>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075013A5929ED@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Nov 12, 2018@12:32:50PM -0800, Florian Fainelli wrote:
-> On 11/6/18 6:06 AM, Mike Rapoport wrote:
-> > On Mon, Nov 05, 2018@02:54:25PM -0800, Florian Fainelli wrote:
-> >> Hi all,
-> >>
-> >> Changes in v4:
-> >>
-> >> - dropped initrd_below_start_ok assignment in ARM64, not necessary at
-> >>   all (Ard)
-> >> - replace #ifdef CONFIG_BLK_DEV_INITRD with if
-> >>   (IS_ENABLED(CONFIG_BLK_DEV_INITRD) for consistency with other parts
-> >>   of arm64_memblock_init() (Rob)
-> >>
-> >> Changes in v3:
-> >>
-> >> - use C conditionals in drivers/of/fdt.c
-> >> - added check on phys_initrd_size in arch/arm64/mm/init.c to determine
-> >>   whether initrd_start must be populated
-> >> - fixed a build warning with ARC that was just missing an (unsigned
-> >>   long) cast
-> >>
-> >> Changes in v2:
-> >>
-> >> - get rid of ARCH_HAS_PHYS_INITRD and instead define
-> >>   phys_initrd_start/phys_initrd_size in init/do_mounts_initrd.c
-> >>
-> >> - make __early_init_dt_declare_initrd() account for ARM64 specific
-> >>   behavior with __va() when having CONFIG_DEBUG_VM enabled
-> >>
-> >> - consolidate early_initrd() command line parsing into
-> >>   init/do_mounts_initrd.c
-> >>
-> >> Because phys_initrd_start/phys_initrd_size are now compiled in
-> >> ini/do_mounts_initrd.c which is only built with CONFIG_BLK_DEV_INITRD=y,
-> >> we need to be a bit careful about the uses throughout architecture
-> >> specific code.
-> >>
-> >> Previous discussions/submissions list here:
-> >>
-> >> v3:
-> >> https://www.spinics.net/lists/arm-kernel/msg683566.html
-> >> v2:
-> >> https://lkml.org/lkml/2018/10/25/4
-> >>
-> >> Florian Fainelli (6):
-> >>   nds32: Remove phys_initrd_start and phys_initrd_size
-> >>   arch: Make phys_initrd_start and phys_initrd_size global variables
-> >>   of/fdt: Populate phys_initrd_start/phys_initrd_size from FDT
-> >>   arm64: Utilize phys_initrd_start/phys_initrd_size
-> >>   of/fdt: Remove custom __early_init_dt_declare_initrd() implementation
-> >>   arch: Move initrd= parsing into do_mounts_initrd.c
-> > 
-> > For the series:
-> > 
-> > Reviewed-by: Mike Rapoport <rppt at linux.ibm.com>
-> 
-> Thanks Mike, Rob, do you want to merge that series through the OF tree?
+On 11/5/18 2:58 PM, Florian Fainelli wrote:
+> ARC, ARM, ARM64 and Unicore32 are all capable of parsing the "initrd="
+> command line parameter to allow specifying the physical address and size
+> of an initrd. Move that parsing into init/do_mounts_initrd.c such that
+> we no longer duplicate that logic.
+>
+> Signed-off-by: Florian Fainelli <f.fainelli at gmail.com>
+> ---
+>  arch/arc/mm/init.c       | 25 +++++--------------------
+>  arch/arm/mm/init.c       | 17 -----------------
+>  arch/arm64/mm/init.c     | 18 ------------------
+>  arch/unicore32/mm/init.c | 18 ------------------
+>  init/do_mounts_initrd.c  | 17 +++++++++++++++++
+>  5 files changed, 22 insertions(+), 73 deletions(-)
+>
+> diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+> index f8fe5668b30f..43bf4c3a1290 100644
+> --- a/arch/arc/mm/init.c
+> +++ b/arch/arc/mm/init.c
+> @@ -78,24 +78,6 @@ void __init early_init_dt_add_memory_arch(u64 base, u64 size)
+>  		base, TO_MB(size), !in_use ? "Not used":"");
+>  }
+>  
+> -#ifdef CONFIG_BLK_DEV_INITRD
+> -static int __init early_initrd(char *p)
+> -{
+> -	unsigned long start, size;
+> -	char *endp;
+> -
+> -	start = memparse(p, &endp);
+> -	if (*endp == ',') {
+> -		size = memparse(endp + 1, NULL);
+> -
+> -		initrd_start = (unsigned long)__va(start);
+> -		initrd_end = (unsigned long)__va(start + size);
+> -	}
+> -	return 0;
+> -}
+> -early_param("initrd", early_initrd);
+> -#endif
+> -
+>  /*
+>   * First memory setup routine called from setup_arch()
+>   * 1. setup swapper's mm @init_mm
+> @@ -140,8 +122,11 @@ void __init setup_arch_memory(void)
+>  	memblock_reserve(low_mem_start, __pa(_end) - low_mem_start);
+>  
+>  #ifdef CONFIG_BLK_DEV_INITRD
+> -	if (initrd_start)
+> -		memblock_reserve(__pa(initrd_start), initrd_end - initrd_start);
+> +	if (phys_initrd_size) {
+> +		memblock_reserve(phys_initrd_start, phys_initrd_size);
+> +		initrd_start = (unsigned long)__va(phys_initrd_start);
+> +		initrd_end = initrd_start + phys_initrd_size;
+> +	}
+>  #endif
 
-Sure, some arch maintainer acks would be nice.
+The common code now uses phys_initrd*, and you also use the same in ARC code, do
+we still need the initrd_* setting here ?
+ARC semantics was using them as PA anyways.
 
-Rob
+[snip]...
+
+>  /*
+>   * This keeps memory configuration data used by a couple memory
+>   * initialization functions, as well as show_mem() for the skipping
+> diff --git a/init/do_mounts_initrd.c b/init/do_mounts_initrd.c
+> index 45865b72f4ea..732d21f4a637 100644
+> --- a/init/do_mounts_initrd.c
+> +++ b/init/do_mounts_initrd.c
+> @@ -27,6 +27,23 @@ static int __init no_initrd(char *str)
+>  
+>  __setup("noinitrd", no_initrd);
+>  
+> +static int __init early_initrd(char *p)
+> +{
+> +	phys_addr_t start;
+> +	unsigned long size;
+> +	char *endp;
+> +
+> +	start = memparse(p, &endp);
+> +	if (*endp == ',') {
+> +		size = memparse(endp + 1, NULL);
+> +
+> +		phys_initrd_start = start;
+> +		phys_initrd_size = size;
+> +	}
+> +	return 0;
+> +}
+> +early_param("initrd", early_initrd);
+> +
+>  static int init_linuxrc(struct subprocess_info *info, struct cred *new)
+>  {
+>  	ksys_unshare(CLONE_FS | CLONE_FILES);
