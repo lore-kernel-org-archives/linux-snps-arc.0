@@ -1,96 +1,96 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 13 Nov 2018 10:44:24 +0000
-Subject: [PATCH] locale: Allow usage of cross-localedef for ARC
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075013A5929B2@us01wembx1.internal.synopsys.com>
-References: <20181112224351.2050-1-abrodkin@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075013A5929B2@us01wembx1.internal.synopsys.com>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 13 Nov 2018 16:45:55 +0000
+Subject: MMC: bonnie++ runs with errors after switching mmc to blk-mq
+In-Reply-To: <CACRpkdYL3NTmQieC025W=Qh515U-+75dD_39vQkZYsvuLc8Vvw@mail.gmail.com>
+References: <1541774198.20621.50.camel@synopsys.com>
+ <CACRpkdYL3NTmQieC025W=Qh515U-+75dD_39vQkZYsvuLc8Vvw@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <8490c13717fc938a38b53ecbf6e050dfc957787d.camel@synopsys.com>
+Message-ID: <1542127554.10282.27.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
-
-On Mon, 2018-11-12@23:22 +0000, Vineet Gupta wrote:
+On Tue, 2018-11-13@09:09 +0100, Linus Walleij wrote:
+> On Fri, Nov 9, 2018 at 3:36 PM Eugeniy Paltsev
+> <eugeniy.paltsev@synopsys.com> wrote:
 > 
-> On 11/12/18 2:44 PM, Alexey Brodkin wrote:
-> > With this it's possible to build locale data for ARC
-> > and not do it instead on the first boot.
-> > 
-> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> > ---
-> >  meta/classes/libc-package.bbclass        | 2 ++
-> >  meta/lib/oe/package_manager.py           | 2 ++
-> >  meta/recipes-core/glibc/glibc-locale.inc | 2 +-
-> >  3 files changed, 5 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-> > index 9d09c7be6a..4c694ab5e2 100644
-> > --- a/meta/classes/libc-package.bbclass
-> > +++ b/meta/classes/libc-package.bbclass
-> > @@ -242,6 +242,8 @@ python package_do_split_gconvs () {
-> >          if use_cross_localedef == "1":
-> >              target_arch = d.getVar('TARGET_ARCH')
-> >              locale_arch_options = { \
-> > +                "arc":     " --uint32-align=4 --little-endian ", \
-> > +                "arceb":   " --uint32-align=4 --big-endian ",    \
-> >                  "arm":     " --uint32-align=4 --little-endian ", \
-> >                  "armeb":   " --uint32-align=4 --big-endian ",    \
-> >                  "aarch64": " --uint32-align=4 --little-endian ",    \
-> > diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> > index 882e7c429f..aa4de6e7c3 100644
-> > --- a/meta/lib/oe/package_manager.py
-> > +++ b/meta/lib/oe/package_manager.py
-> > @@ -94,6 +94,8 @@ def generate_locale_archive(d, rootfs, target_arch, localedir):
-> >      # Pretty sure we don't need this for locale archive generation but
-> >      # keeping it to be safe...
-> >      locale_arch_options = { \
-> > +        "arc": ["--uint32-align=4", "--little-endian"],
-> > +        "arceb": ["--uint32-align=4", "--big-endian"],
-> >          "arm": ["--uint32-align=4", "--little-endian"],
-> >          "armeb": ["--uint32-align=4", "--big-endian"],
-> >          "aarch64": ["--uint32-align=4", "--little-endian"],
-> > diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-> > index 1b676dc26e..57b465dd5d 100644
-> > --- a/meta/recipes-core/glibc/glibc-locale.inc
-> > +++ b/meta/recipes-core/glibc/glibc-locale.inc
-> > @@ -27,7 +27,7 @@ ENABLE_BINARY_LOCALE_GENERATION_pn-nativesdk-glibc-locale = "1"
-> >  
-> >  #enable locale generation on these arches
-> >  # BINARY_LOCALE_ARCHES is a space separated list of regular expressions
-> > -BINARY_LOCALE_ARCHES ?= "arm.* aarch64 i[3-6]86 x86_64 powerpc mips mips64 riscv32 riscv64"
-> > +BINARY_LOCALE_ARCHES ?= "arc arm.* aarch64 i[3-6]86 x86_64 powerpc mips mips64 riscv32 riscv64"
-> >  
-> >  # set "1" to use cross-localedef for locale generation
-> >  # set "0" for qemu emulation of native localedef for locale generation
+> > I still can reproduce errors about hung task when I run bonnie++ benchmark on arc/hsdk board
+> > (ARC HS38 CPU, Synopsys DW MMC controller).
 > 
-> Interesting: How do we do that for other buildsystems / buildroot or when building
-> by hand ?
+> Hm I didn't use bonnie++ but I used iozone excessively to verify
+> Adrians patches, at times leaving it running for days without
+> any problems. (Though not on these hardwares.)
+> 
+> > Error message
+> > is like:
+> > ----------------------------->8----------------------------
+> > # mount /dev/mmcblk0p4 /mnt/mmcblk0p4
+> > EXT4-fs (mmcblk0p4): mounted filesystem with
+> > ordered data mode. Opts: (null)
+> > # bonnie++ -u root -r 256 -s 512 -x 1  -d /mnt/mmcblk0p4
+> > Using uid:0, gid:0.
+> > Writing with putc()...done
+> > Writing
+> > intelligently...done
+> > Rewriting...INFO: task bonnie++:187 blocked for more than 10 seconds.
+> >       Not tainted 4.19.0 #2
+> 
+> I'm not sure hanging for more than 10 seconds is really a
+> problem. eMMCs can sometimes become really slow
+> when doing internal garbage collection. Are you sure
+> this is not the case?
 
-1. Buildroot
+Actually I'm not an expert in eMMC stuff so it's 
+difficult to me to talk about eMMCs internal garbage collection.
 
-In buildroot we do pretty-much the same things, see
-https://git.buildroot.org/buildroot/tree/Makefile#n640
+>  If you run it without the hang checks,
+> will it still complete, or is this one of those benchmarks
+> that just keep running until you interrupt it?
 
-We build localedef (with help of "host-localedef" package) and
-then generate requested locales for the target.
+bonnie++ completes regardless of hung tasks detection enabling/disabling.
 
-2. Crosstool-NG
+Nevertheless as I can see write speed differs significantly in
+case of clean run and run with hung task notifications
+(look at shrinked bonnie++ output bellow)
 
-Here we just build locales on host and copy them over to
-built cross-toolchain, see
-https://github.com/crosstool-ng/crosstool-ng/blob/master/scripts/build/libc/glibc.sh#L482
+Moreover I launched bonnie++ on kernel build from commit c3d53d0da69d
+[one commit behind 81196976ed94 (mmc: block: Add blk-mq support)]
+and I don't see significant differs in write speed values between
+multiple bonnie++ runs. (There is no hung task notifications as well)
 
-The problem here (and this is explicitly mentioned in the script above) -
-this locale only makes sense if host and target have the same uint32_t alignment
-and endianess, see https://github.com/crosstool-ng/crosstool-ng/blob/master/scripts/build/libc/glibc.sh#L533
 
-So if we're lucky we may get useful locales. Though there's another caveat:
-Glibc 2.28 requires GCC 4.9+ which means you cannot build locales for target
-on CentOS/RHEL machine any longer as GCC 4.8 is used by default.
+Good case (ARM, CubieBoard2):
+------Sequential Output------
+-Per Chr-|--Block--|-Rewrite-
+K/sec %CP|K/sec %CP|K/sec %CP
+ 5825  98|12996   7| 9873   5
 
-3. Manually you're free to do whatever pleases you but
-   since we cross-compile you'd need to use one of options discussed above:
-     a) Use localedef (http://www.pengutronix.de/software/ptxdist/temporary-src/localedef-eglibc-2.14.1-r17443-ptx1.tar.bz2)
-     b) Build natively on host and install on target
 
--Alexey
+Bad (with hung task notification) case (ARM, CubieBoard2):
+------Sequential Output------
+-Per Chr-|--Block--|-Rewrite-
+K/sec %CP|K/sec %CP|K/sec %CP
+ 5630  95| 6275   3| 4723   2
+
+
+> > (filemap_fdatawait_keep_errors) from
+> > [<c02cc3d0>] (jbd2_journal_commit_transaction+0x9b8/0x167c)
+> > [ 6402.570857] [<c02cc3d0>]
+> > (jbd2_journal_commit_transaction) from [<c02d0478>] (kjournald2+0xe4/0x2c8)
+> > [ 6402.580011] [<c02d0478>] (kjournald2) from [<c013ab04>]
+> 
+> This seems more like some excessive wait in the file system
+> journal to me (OK I might be wrong). Which is also known
+> to thrash the specific sectors where the journal is kept
+> which may very well lead to a lot of garbage collection
+> in the card. (OK I am half-guessing...)
+> 
+> What filesystem are you using on this eMMC?
+
+I use ext4 in both of cases.
+
+> If something exotic, could you just try ext4 as most
+> embedded systems use and see what happens?
+> 
+> Yours,
+> Linus Walleij
+-- 
+ Eugeniy Paltsev
