@@ -1,44 +1,53 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 15 Nov 2018 10:32:10 +0000
+From: sbabic@denx.de (Stefano Babic)
+Date: Thu, 15 Nov 2018 11:41:18 +0100
 Subject: [OE-core] [PATCH] u-boot: Add mkenvimage tool
-In-Reply-To: <20181115092758.GA1430@jama>
+In-Reply-To: <c060af96f5e55e4808e4cccde2bc8c7a3633ff8f.camel@synopsys.com>
 References: <20181115040043.9326-1-abrodkin@synopsys.com>
  <CAMKF1sq3P7XVX9JrqQj8QXhntJWfAM8LY1GFpaCDr3rbDxpgnw@mail.gmail.com>
- <2c011907-e4f6-2b16-e0b8-714db476130e@denx.de>
- <804b3db998a4d9efa0e9f8f649ea9741274be094.camel@synopsys.com>
- <20181115092758.GA1430@jama>
+ <c060af96f5e55e4808e4cccde2bc8c7a3633ff8f.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <104a73697f5072fc3abcf7d9cce47e95ca2e8c12.camel@synopsys.com>
+Message-ID: <ce245b3f-083a-fda4-a35b-96525dcc4e83@denx.de>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Martin,
-
-On Thu, 2018-11-15@10:27 +0100, Martin Jansa wrote:
-> On Thu, Nov 15, 2018@05:15:03AM +0000, Alexey Brodkin wrote:
-> > Hi Marek,
-
-[snip]
-
-> > > Reviewed-by: Marek Vasut <marex at denx.de>
-> > > 
-> > > That said, could the recipe for mkimage and mkenvimage be somehow
-> > > deduplicated ? There seems to be a lot of common stuff.
-> > 
-> > I'd say why don't we just have one recipe for all U-Boot tools
-> > instead of adding tools one-by-one?
+On 15/11/18 06:05, Alexey Brodkin wrote:
+> Hi Khem,
 > 
-> Or add:
->     install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
->     ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
+> On Wed, 2018-11-14@20:57 -0800, Khem Raj wrote:
+>> On Wed, Nov 14, 2018 at 8:00 PM Alexey Brodkin
+>> <alexey.brodkin@synopsys.com> wrote:
+>>> This utility is used for creation of images containing
+>>> usable in run-time U-Boot environment.
+>>>
+>>> As of today this utility is added per-board like here [1]
+>>> for Intel Edison board, here [2] for Altera's SoCFPGA and
+>>> I may guess there're others so instead of adding another one for
+>>> ARC why don't we package it for each and everyone.
+>>>
+>>> [1] 
+>>> https://urldefense.proofpoint.com/v2/url?u=http-3A__git.yoctoproject.org_cgit_cgit.cgi_meta-2Dintel-2Dedison_tree_meta-2Dintel-2Dedison-2Dbsp_recipes-2Dbsp_u-2Dboot_u-2Dboot-2Dtools-5F2014.04.bb&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=U0I6P-1P3vft6mR4soZ9Y6ptJqYWloOoS0ogvO2Rzv4&s=WEknmJT4TnByCWMMzh4D-2sDrYv5_kx2V1Qk8SYtJY8&e=
+>>> [2] 
+>>> https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_kraj_meta-2Daltera_blob_master_recipes-2Dbsp_u-2Dboot_u-2Dboot-2Dmkenvimage-5Fv2016.11.bb&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=U0I6P-1P3vft6mR4soZ9Y6ptJqYWloOoS0ogvO2Rzv4&s=OiXy88hL3o5z9JN0O88EUo3ttvvgFQnC2LnDc_xhGyY&e=
+>>
+>> If this is applicable/works for all u-boot based machines then I think it makes
+>> sense to have it on OE-core.
 > 
-> to existing u-boot-mkimage recipe, that's what I'm doing in
-> u-boot-mkimage bbappend.
+> Well "mkenvimage" is one of standard U-Boot tools so it has nothing
+> specific for any architecture or board whatsoever.
+> 
+> It is not used that often as "mkimage" probably because people
+> mostly depends on default U-Boot env settings which are compiled-in
+> U-Boot binary with help of CONFIG_EXTRA_ENV_SETTINGS="..."
+> but IMHO it is rather useful as we may prepare fine-tuned environment
+> setups for a particular use-case from pure text-based input.
 
-Sure and indeed that was my initial intention but then I noticed
-there're separate recipes for mkimage and fw-utils and decided
-to act similarly.
+It is useful, but I think it is better to include it into current recipe
+(as Martin suggest) instead of adding a new one.
 
-If OE people is fine with addition of another (pretty similar ideologically)
-utility in u-boot-mkimage_xx.bb then I'm happy to implement it that way.
+Stefano
 
--Alexey
+-- 
+=====================================================================
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic at denx.de
+=====================================================================
