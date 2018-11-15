@@ -1,27 +1,26 @@
-From: richard.purdie@linuxfoundation.org (richard.purdie@linuxfoundation.org)
-Date: Thu, 15 Nov 2018 15:12:05 +0000
-Subject: [PATCH v2] u-boot: Add mkenvimage tool
-In-Reply-To: <CAJTo0Lb=60EqJOVYYi2LQ_jiu+bKhKF=4T0bQAnVivjSP4bVvQ@mail.gmail.com>
-References: <20181115124339.19543-1-abrodkin@synopsys.com>
- <23029415-903d-40f8-9f72-7d97d67aee7b@denx.de>
- <CAJTo0Lb=60EqJOVYYi2LQ_jiu+bKhKF=4T0bQAnVivjSP4bVvQ@mail.gmail.com>
+From: otavio.salvador@ossystems.com.br (Otavio Salvador)
+Date: Thu, 15 Nov 2018 15:03:01 -0200
+Subject: [OE-core] [PATCH] u-boot: Add mkenvimage tool
+In-Reply-To: <CA+chaQd+_55SeR-61zi4DOU8iTyac=w-tEkBDJJvQb-3OvC8iA@mail.gmail.com>
+References: <20181115040043.9326-1-abrodkin@synopsys.com>
+ <CAMKF1sq3P7XVX9JrqQj8QXhntJWfAM8LY1GFpaCDr3rbDxpgnw@mail.gmail.com>
+ <2c011907-e4f6-2b16-e0b8-714db476130e@denx.de>
+ <804b3db998a4d9efa0e9f8f649ea9741274be094.camel@synopsys.com>
+ <20181115092758.GA1430@jama>
+ <104a73697f5072fc3abcf7d9cce47e95ca2e8c12.camel@synopsys.com>
+ <CA+chaQd+_55SeR-61zi4DOU8iTyac=w-tEkBDJJvQb-3OvC8iA@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <542aa42e3bdbdbe65f951c12a9df2c3a03171a41.camel@linuxfoundation.org>
+Message-ID: <CAP9ODKpzrh7-98eiEOOnbH+ASd4-Nt2=jErA_7dJi=7eZFYeag@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, 2018-11-15@15:00 +0000, Burton, Ross wrote:
-> On Thu, 15 Nov 2018@14:50, Marek Vasut <marex@denx.de> wrote:
-> > I have to admit, the recipe name becomes a misnomer then. But
-> > renaming
-> > this recipe would be hard, since it's used all over the place. Any
-> > ideas?
-> 
-> Call it u-boot-tools, potentially merge the other recipe tool, and
-> add
-> RPROVIDES for compatibility?
+On Thu, Nov 15, 2018@9:35 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+> yes fw-utils is similar, but has different dependencies and builds slightly differently.
 
-You mean PROVIDES since we're talking PN namespace, not PACKAGES?
+fw-utils use the machine setup to find the default environment to use,
+so it is indeed machine specific.
 
-Cheers,
 
-Richard
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
