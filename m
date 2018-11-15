@@ -1,26 +1,28 @@
-From: otavio.salvador@ossystems.com.br (Otavio Salvador)
-Date: Thu, 15 Nov 2018 15:03:01 -0200
-Subject: [OE-core] [PATCH] u-boot: Add mkenvimage tool
-In-Reply-To: <CA+chaQd+_55SeR-61zi4DOU8iTyac=w-tEkBDJJvQb-3OvC8iA@mail.gmail.com>
-References: <20181115040043.9326-1-abrodkin@synopsys.com>
- <CAMKF1sq3P7XVX9JrqQj8QXhntJWfAM8LY1GFpaCDr3rbDxpgnw@mail.gmail.com>
- <2c011907-e4f6-2b16-e0b8-714db476130e@denx.de>
- <804b3db998a4d9efa0e9f8f649ea9741274be094.camel@synopsys.com>
- <20181115092758.GA1430@jama>
- <104a73697f5072fc3abcf7d9cce47e95ca2e8c12.camel@synopsys.com>
- <CA+chaQd+_55SeR-61zi4DOU8iTyac=w-tEkBDJJvQb-3OvC8iA@mail.gmail.com>
+From: will.deacon@arm.com (Will Deacon)
+Date: Thu, 15 Nov 2018 17:45:33 +0000
+Subject: [PATCH v4 4/6] arm64: Utilize phys_initrd_start/phys_initrd_size
+In-Reply-To: <20181105225431.24485-5-f.fainelli@gmail.com>
+References: <20181105225431.24485-1-f.fainelli@gmail.com>
+ <20181105225431.24485-5-f.fainelli@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAP9ODKpzrh7-98eiEOOnbH+ASd4-Nt2=jErA_7dJi=7eZFYeag@mail.gmail.com>
+Message-ID: <20181115174532.GA3087@brain-police>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Nov 15, 2018@9:35 AM Martin Jansa <martin.jansa@gmail.com> wrote:
-> yes fw-utils is similar, but has different dependencies and builds slightly differently.
+On Mon, Nov 05, 2018@02:54:29PM -0800, Florian Fainelli wrote:
+> ARM64 is the only architecture that re-defines
+> __early_init_dt_declare_initrd() in order for that function to populate
+> initrd_start/initrd_end with physical addresses instead of virtual
+> addresses. Instead of having an override we can leverage
+> drivers/of/fdt.c populating phys_initrd_start/phys_initrd_size to
+> populate those variables for us.
+> 
+> Signed-off-by: Florian Fainelli <f.fainelli at gmail.com>
+> ---
+>  arch/arm64/mm/init.c | 20 ++++++++------------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
 
-fw-utils use the machine setup to find the default environment to use,
-so it is indeed machine specific.
+Looks ok to me:
 
+Acked-by: Will Deacon <will.deacon at arm.com>
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Will
