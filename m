@@ -1,65 +1,54 @@
-From: f.fainelli@gmail.com (Florian Fainelli)
-Date: Thu, 15 Nov 2018 11:35:22 -0800
-Subject: [PATCH v4 6/6] arch: Move initrd= parsing into do_mounts_initrd.c
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075013A592A33@us01wembx1.internal.synopsys.com>
-References: <20181105225431.24485-1-f.fainelli@gmail.com>
- <20181105225431.24485-7-f.fainelli@gmail.com>
- <C2D7FE5348E1B147BCA15975FBA23075013A5929ED@us01wembx1.internal.synopsys.com>
- <05f56763-1530-933d-2ce3-3653ad4c685f@gmail.com>
- <C2D7FE5348E1B147BCA15975FBA23075013A592A0B@us01wembx1.internal.synopsys.com>
- <04d6d0cb-8e60-88a0-061e-62c7c70024c5@gmail.com>
- <C2D7FE5348E1B147BCA15975FBA23075013A592A33@us01wembx1.internal.synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Fri, 16 Nov 2018 13:44:24 +0300
+Subject: [PATCH 0/3] ARC: ARCv2: Introduce SmaRT support
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <d4ac19a2-437e-484c-b44f-6c5ba434e364@gmail.com>
+Message-ID: <20181116104427.25264-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/12/18 4:57 PM, Vineet Gupta wrote:
-> On 11/12/18 4:52 PM, Florian Fainelli wrote:
->> On 11/12/18 4:40 PM, Vineet Gupta wrote:
->>> On 11/12/18 4:38 PM, Florian Fainelli wrote:
->>>>>>  #ifdef CONFIG_BLK_DEV_INITRD
->>>>>> -	if (initrd_start)
->>>>>> -		memblock_reserve(__pa(initrd_start), initrd_end - initrd_start);
->>>>>> +	if (phys_initrd_size) {
->>>>>> +		memblock_reserve(phys_initrd_start, phys_initrd_size);
->>>>>> +		initrd_start = (unsigned long)__va(phys_initrd_start);
->>>>>> +		initrd_end = initrd_start + phys_initrd_size;
->>>>>> +	}
->>>>>>  #endif
->>>>> The common code now uses phys_initrd*, and you also use the same in ARC code, do
->>>>> we still need the initrd_* setting here ?
->>>>> ARC semantics was using them as PA anyways.
->>>> Yes, the generic initrd code expects initrd_start/end to be virtual
->>>> addresses, which we now directly derive from phys_initrd_start, that
->>>> should really be equivalent.
->>> So we can skip this explicit setting above - ARC arch code doesn't access the virt
->>> initrd_start
->> OK, you are saying we could just have the generic initrd code do this
->> assignment instead of having each architecture do it, is that a correct
->> understanding? 
-> 
-> Correct !
-> 
->> If so, I suppose it could be done, whether as of this
->> patch series or as a follow-up, either way is fine with me.
-> 
-> If it is not too much trouble, I'd prefer this now. I should have chimed earlier.
-> 
->> One possible caveat is if __va() and __phys_to_virt() behave differently
->> (e.g: because of CONFIG_DEBUG_VIRTUAL or other things).
-> 
-> 
-> Thing is, after your patches, we don't use the vanilla initrd_xxx in arch code any
-> longer. So this becomes just an implementation detail, which core code may or
-> maynot need and if it does, this needs to work already w/o having to set anything
-> in arch code. Agree ?
+Add compile-time 'ARC_SMART_TRACE' option for enabling SmaRT support.
+Small real time trace (SmaRT) is an optional on-chip debug hardware
+component that captures instruction-trace history. It stores the
+address of the most recent non-sequential instructions executed into
+internal buffer.
 
-If you do not mind, I would prefer this series to go in, as-is, and
-clean up the initrd_start/initrd_end assignment as a follow up patch
-series. The reason is mostly that I am not yet clear on the timing of
-these operations between the architecture resolving the virtual address
-and the initrd code starting to use it.
+NOTE:
+this PATCH series has prerequisite:
+  http://patchwork.ozlabs.org/patch/986820/
 
-Would that sound reasonable to you?
+Changes RFCv2->PATCHv1:
+ * Move smart_exists, smart_supported and smart_stack_size functions
+   to smart.h
+ * Improve Kconfig SmaRT help description.
+ * Other minor changes.
+
+Changes RFCv1->RFCv2:
+ * Changes in output display:
+   * Only print VMAs if they are changed.
+   * Split entry for two lines and print source and destination
+     addresses on different lines.
+ * Add procfs options to configure/suspend SmaRT in runtime.
+ * Add SmaRT version check. Limit supported SmaRT versions to >= 0x03.
+ * Move all SmaRT related stuff to smart.h and smart.c
+ * Other minor changes.
+
+Eugeniy Paltsev (3):
+  ARC: split show_faulting_vma for logic and representation parts
+  ARC: ARCv2: Introduce SmaRT support
+  ARC: show detaled SmaRT configuration in mumbojumbo
+
+ arch/arc/Kconfig               |  12 ++
+ arch/arc/include/asm/arcregs.h |  23 ++++
+ arch/arc/include/asm/bug.h     |   9 ++
+ arch/arc/include/asm/smart.h   |  62 ++++++++++
+ arch/arc/kernel/Makefile       |   1 +
+ arch/arc/kernel/setup.c        |  21 +++-
+ arch/arc/kernel/smart.c        | 253 +++++++++++++++++++++++++++++++++++++++++
+ arch/arc/kernel/traps.c        |   8 ++
+ arch/arc/kernel/troubleshoot.c |  46 ++++++--
+ arch/arc/mm/fault.c            |   2 +
+ 10 files changed, 420 insertions(+), 17 deletions(-)
+ create mode 100644 arch/arc/include/asm/smart.h
+ create mode 100644 arch/arc/kernel/smart.c
+
 -- 
-Florian
+2.14.5
