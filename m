@@ -1,117 +1,93 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 16 Nov 2018 13:44:25 +0300
-Subject: [PATCH 1/3] ARC: split show_faulting_vma for logic and representation
- parts
-In-Reply-To: <20181116104427.25264-1-Eugeniy.Paltsev@synopsys.com>
-References: <20181116104427.25264-1-Eugeniy.Paltsev@synopsys.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Sun, 18 Nov 2018 03:17:17 +0100
+Subject: [PATCH v2] clocksource/drivers/arc_timer: Utilize generic
+ sched_clock
+In-Reply-To: <78ccbb4c-56d0-594b-4032-3eb19202847b@linaro.org>
+References: <20181017113020.7551-1-abrodkin@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075012B0B1A07@US01WEMBX2.internal.synopsys.com>
+ <78ccbb4c-56d0-594b-4032-3eb19202847b@linaro.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181116104427.25264-2-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <2c46ab6e-f0a9-4857-9772-f3c714284e98@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-In preparation for introduncing SmaRT support for ARC split
-show_faulting_vma() for logic and representation parts to be
-able to use logic part in SmaRT code.
+On 05/11/2018 15:39, Daniel Lezcano wrote:
+> On 24/10/2018 00:33, Vineet Gupta wrote:
+>> On 10/17/2018 04:30 AM, Alexey Brodkin wrote:
+>>> It turned out we used to use default implementation of sched_clock()
+>>> from kernel/sched/clock.c which was as precise as 1/HZ, i.e.
+>>> by default we had 10 msec granularity of time measurement.
+>>>
+>>> Now given ARC built-in timers are clocked with the same frequency as
+>>> CPU cores we may get much higher precision of time tracking.
+>>>
+>>> Thus we switch to generic sched_clock which really reads ARC hardware
+>>> counters.
+>>>
+>>> This is especially helpful for measuring short events.
+>>> That's what we used to have:
+>>> ------------------------------>8------------------------
+>>> $ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+>>>
+>>>  Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+>>>
+>>>          10.000000      task-clock (msec)         #    2.832 CPUs utilized
+>>>                  1      context-switches          #    0.100 K/sec
+>>>                  1      cpu-migrations            #    0.100 K/sec
+>>>                 63      page-faults               #    0.006 M/sec
+>>>            3049480      cycles                    #    0.305 GHz
+>>>            1091259      instructions              #    0.36  insn per cycle
+>>>             256828      branches                  #   25.683 M/sec
+>>>              27026      branch-misses             #   10.52% of all branches
+>>>
+>>>        0.003530687 seconds time elapsed
+>>>
+>>>        0.000000000 seconds user
+>>>        0.010000000 seconds sys
+>>> ------------------------------>8------------------------
+>>>
+>>> And now we'll see:
+>>> ------------------------------>8------------------------
+>>> $ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+>>>
+>>>  Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+>>>
+>>>           3.004322      task-clock (msec)         #    0.865 CPUs utilized
+>>>                  1      context-switches          #    0.333 K/sec
+>>>                  1      cpu-migrations            #    0.333 K/sec
+>>>                 63      page-faults               #    0.021 M/sec
+>>>            2986734      cycles                    #    0.994 GHz
+>>>            1087466      instructions              #    0.36  insn per cycle
+>>>             255209      branches                  #   84.947 M/sec
+>>>              26002      branch-misses             #   10.19% of all branches
+>>>
+>>>        0.003474829 seconds time elapsed
+>>>
+>>>        0.003519000 seconds user
+>>>        0.000000000 seconds sys
+>>> ------------------------------>8------------------------
+>>>
+>>> Note how much more meaningful is the second output - time spent for
+>>> execution pretty much matches number of cycles spent (we're running
+>>> @ 1GHz here).
+>>>
+>>> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+>>> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+>>> Cc: Vineet Gupta <vgupta at synopsys.com>
+>>> Cc: Thomas Gleixner <tglx at linutronix.de>
+>>> ---
+>>
+>> Acked-by: Vineet Gupta <vgupta at synopsys.com>
+>>
+>> @Daniel is this going via timer tree or you want me to pick it up.
+> 
+> I will take care of it.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/include/asm/bug.h     |  9 +++++++++
- arch/arc/kernel/troubleshoot.c | 43 ++++++++++++++++++++++++++++++------------
- 2 files changed, 40 insertions(+), 12 deletions(-)
+Please resend without the arch Kconfig change
 
-diff --git a/arch/arc/include/asm/bug.h b/arch/arc/include/asm/bug.h
-index b68f7f82f2d8..064391646d38 100644
---- a/arch/arc/include/asm/bug.h
-+++ b/arch/arc/include/asm/bug.h
-@@ -15,6 +15,15 @@
- 
- struct task_struct;
- 
-+struct faulting_vma_info {
-+	char *file_path;
-+	unsigned long offset;
-+	unsigned long vm_start;
-+	unsigned long vm_end;
-+};
-+
-+int get_faulting_vma_info(unsigned long address, char *buf, int buflen,
-+			  struct faulting_vma_info *fvma);
- void show_regs(struct pt_regs *regs);
- void show_exception_mesg(struct pt_regs *regs);
- void show_stacktrace(struct task_struct *tsk, struct pt_regs *regs);
-diff --git a/arch/arc/kernel/troubleshoot.c b/arch/arc/kernel/troubleshoot.c
-index fdfba1942a06..00efcdfde0ee 100644
---- a/arch/arc/kernel/troubleshoot.c
-+++ b/arch/arc/kernel/troubleshoot.c
-@@ -80,11 +80,14 @@ static void print_task_path_n_nm(struct task_struct *tsk, char *buf)
- 	pr_info("Path: %s\n", !IS_ERR(path_nm) ? path_nm : "?");
- }
- 
--static void show_faulting_vma(unsigned long address, char *buf)
-+int get_faulting_vma_info(unsigned long address, char *buf, int buflen,
-+			  struct faulting_vma_info *fvma)
- {
- 	struct vm_area_struct *vma;
--	char *nm = buf;
- 	struct mm_struct *active_mm = current->active_mm;
-+	int ret = -ENOENT;
-+
-+	fvma->file_path = "?";
- 
- 	/* can't use print_vma_addr() yet as it doesn't check for
- 	 * non-inclusive vma
-@@ -97,19 +100,35 @@ static void show_faulting_vma(unsigned long address, char *buf)
- 	 */
- 	if (vma && (vma->vm_start <= address)) {
- 		if (vma->vm_file) {
--			nm = file_path(vma->vm_file, buf, PAGE_SIZE - 1);
--			if (IS_ERR(nm))
--				nm = "?";
-+			fvma->file_path = file_path(vma->vm_file, buf, buflen);
-+			if (IS_ERR(fvma->file_path))
-+				fvma->file_path = "?";
- 		}
- 
--		pr_cont("[off 0x%lx in %s, VMA: %08lx:%08lx] ",
--			vma->vm_start < TASK_UNMAPPED_BASE ?
--				address : address - vma->vm_start,
--			nm, vma->vm_start, vma->vm_end);
--	} else
--		pr_cont("[No matching VMA found] ");
-+		fvma->vm_start = vma->vm_start;
-+		fvma->vm_end = vma->vm_end;
-+		fvma->offset = vma->vm_start < TASK_UNMAPPED_BASE ?
-+				address : address - vma->vm_start;
-+
-+		ret = 0;
-+	}
- 
- 	up_read(&active_mm->mmap_sem);
-+
-+	return ret;
-+}
-+
-+static void show_faulting_vma(unsigned long address, char *buf, int buflen)
-+{
-+	struct faulting_vma_info fvma;
-+	int ret;
-+
-+	ret = get_faulting_vma_info(address, buf, buflen, &fvma);
-+	if (ret)
-+		pr_cont("[No matching VMA found] ");
-+	else
-+		pr_cont("[off 0x%lx in %s, VMA: %08lx:%08lx] ", fvma.offset,
-+			fvma.file_path, fvma.vm_start, fvma.vm_end);
- }
- 
- static void show_ecr_verbose(struct pt_regs *regs)
-@@ -175,7 +194,7 @@ static inline void show_exception_mesg_u(struct pt_regs *regs)
- 
- 	buf = (char *)__get_free_page(GFP_NOWAIT);
- 	if (buf) {
--		show_faulting_vma(regs->ret, buf);
-+		show_faulting_vma(regs->ret, buf, PAGE_SIZE - 1);
- 		free_page((unsigned long)buf);
- 	}
- 
+
 -- 
-2.14.5
+ <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
