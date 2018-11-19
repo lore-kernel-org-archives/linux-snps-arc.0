@@ -1,76 +1,186 @@
 From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 19 Nov 2018 13:04:43 +0300
-Subject: [PATCH v3] u-boot: Add mkenvimage tool
+Date: Mon, 19 Nov 2018 14:29:17 +0300
+Subject: [PATCH v3] clocksource/drivers/arc_timer: Utilize generic sched_clock
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181119100443.2882-1-abrodkin@synopsys.com>
+Message-ID: <20181119112917.4214-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This utility is used for creation of images containing
-usable in run-time U-Boot environment.
+It turned out we used to use default implementation of sched_clock()
+from kernel/sched/clock.c which was as precise as 1/HZ, i.e.
+by default we had 10 msec granularity of time measurement.
 
-As of today this utility is added per-board like here [1]
-for Intel Edison board.
+Now given ARC built-in timers are clocked with the same frequency as
+CPU cores we may get much higher precision of time tracking.
 
-[1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
+Thus we switch to generic sched_clock which really reads ARC hardware
+counters.
 
-Given there're quite some U-Boot tools that we may want to add later
-this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
-still for compatibility we provide "u-boot-mkimage" with help
-of PROVIDES as well as proposed "u-boot-mkenvimage".
+This is especially helpful for measuring short events.
+That's what we used to have:
+------------------------------>8------------------------
+$ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+
+ Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+
+         10.000000      task-clock (msec)         #    2.832 CPUs utilized
+                 1      context-switches          #    0.100 K/sec
+                 1      cpu-migrations            #    0.100 K/sec
+                63      page-faults               #    0.006 M/sec
+           3049480      cycles                    #    0.305 GHz
+           1091259      instructions              #    0.36  insn per cycle
+            256828      branches                  #   25.683 M/sec
+             27026      branch-misses             #   10.52% of all branches
+
+       0.003530687 seconds time elapsed
+
+       0.000000000 seconds user
+       0.010000000 seconds sys
+------------------------------>8------------------------
+
+And now we'll see:
+------------------------------>8------------------------
+$ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+
+ Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+
+          3.004322      task-clock (msec)         #    0.865 CPUs utilized
+                 1      context-switches          #    0.333 K/sec
+                 1      cpu-migrations            #    0.333 K/sec
+                63      page-faults               #    0.021 M/sec
+           2986734      cycles                    #    0.994 GHz
+           1087466      instructions              #    0.36  insn per cycle
+            255209      branches                  #   84.947 M/sec
+             26002      branch-misses             #   10.19% of all branches
+
+       0.003474829 seconds time elapsed
+
+       0.003519000 seconds user
+       0.000000000 seconds sys
+------------------------------>8------------------------
+
+Note how much more meaningful is the second output - time spent for
+execution pretty much matches number of cycles spent (we're runnign
+@ 1GHz here).
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
-Cc: Otavio Salvador <otavio at ossystems.com.br>
-Cc: Martin Jansa <martin.jansa at gmail.com>
-Cc: Ross Burton <ross.burton at intel.com>
-Cc: Marek Vasut <marex at denx.de>
+Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Thomas Gleixner <tglx at linutronix.de>
 ---
 
 Changes v2 -> v3:
- * Recipe renamed to "u-boot-tools" to better match its contents
-   (especially in the future as we add more tools there)
- * Existing "u-boot-mkimage" and newly introduced "u-boot-mkenvimage"
-   made avaialble via PROVIDES
+ * Rebased on top of v4.20-rc3
+ * Moved GENERIC_SCHED_CLOCK to alphabetically-sorted location in
+   arch/arc/Kconfig
 
 Changes v1 -> v2:
- * Got rid of a separate recipe and instead added mkenvimage
-   to u-boot mkimage recipy
+ * Timer read callbacks marked as "notrace"
+ * ARC Timer1 explicitly described as 32-bit one on
+   sched_clock_register() invocation
 
- .../{u-boot-mkimage_2018.07.bb => u-boot-tools_2018.07.bb}       | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
- rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2018.07.bb => u-boot-tools_2018.07.bb} (83%)
+ arch/arc/Kconfig                |  1 +
+ drivers/clocksource/Kconfig     |  1 +
+ drivers/clocksource/arc_timer.c | 22 ++++++++++++++++++++++
+ 3 files changed, 24 insertions(+)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
-similarity index 83%
-rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
-index 08bff1d161..140afa8dfe 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
-@@ -1,7 +1,8 @@
- require u-boot-common_${PV}.inc
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index c9e2a1323536..74b5a654f664 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -26,6 +26,7 @@ config ARC
+ 	select GENERIC_IRQ_SHOW
+ 	select GENERIC_PCI_IOMAP
+ 	select GENERIC_PENDING_IRQ if SMP
++	select GENERIC_SCHED_CLOCK
+ 	select GENERIC_SMP_IDLE_THREAD
+ 	select HAVE_ARCH_KGDB
+ 	select HAVE_ARCH_TRACEHOOK
+diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
+index 55c77e44bb2d..d9c8a779dd7d 100644
+--- a/drivers/clocksource/Kconfig
++++ b/drivers/clocksource/Kconfig
+@@ -290,6 +290,7 @@ config CLKSRC_MPS2
  
--SUMMARY = "U-Boot bootloader image creation tool"
-+SUMMARY = "U-Boot bootloader tools"
- DEPENDS += "openssl"
-+PROVIDES = "u-boot-mkimage u-boot-mkenvimage"
+ config ARC_TIMERS
+ 	bool "Support for 32-bit TIMERn counters in ARC Cores" if COMPILE_TEST
++	depends on GENERIC_SCHED_CLOCK
+ 	select TIMER_OF
+ 	help
+ 	  These are legacy 32-bit TIMER0 and TIMER1 counters found on all ARC cores
+diff --git a/drivers/clocksource/arc_timer.c b/drivers/clocksource/arc_timer.c
+index 20da9b1d7f7d..b28970ca4a7a 100644
+--- a/drivers/clocksource/arc_timer.c
++++ b/drivers/clocksource/arc_timer.c
+@@ -23,6 +23,7 @@
+ #include <linux/cpu.h>
+ #include <linux/of.h>
+ #include <linux/of_irq.h>
++#include <linux/sched_clock.h>
  
- EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
- EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
-@@ -20,8 +21,14 @@ do_compile () {
- 
- do_install () {
- 	install -d ${D}${bindir}
-+
-+	# mkimage
- 	install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
- 	ln -sf uboot-mkimage ${D}${bindir}/mkimage
-+
-+	# mkenvimage
-+	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
-+	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
+ #include <soc/arc/timers.h>
+ #include <soc/arc/mcip.h>
+@@ -88,6 +89,11 @@ static u64 arc_read_gfrc(struct clocksource *cs)
+ 	return (((u64)h) << 32) | l;
  }
  
- RDEPENDS_${PN} += "dtc"
++static notrace u64 arc_gfrc_clock_read(void)
++{
++	return arc_read_gfrc(NULL);
++}
++
+ static struct clocksource arc_counter_gfrc = {
+ 	.name   = "ARConnect GFRC",
+ 	.rating = 400,
+@@ -111,6 +117,8 @@ static int __init arc_cs_setup_gfrc(struct device_node *node)
+ 	if (ret)
+ 		return ret;
+ 
++	sched_clock_register(arc_gfrc_clock_read, 64, arc_timer_freq);
++
+ 	return clocksource_register_hz(&arc_counter_gfrc, arc_timer_freq);
+ }
+ TIMER_OF_DECLARE(arc_gfrc, "snps,archs-timer-gfrc", arc_cs_setup_gfrc);
+@@ -139,6 +147,11 @@ static u64 arc_read_rtc(struct clocksource *cs)
+ 	return (((u64)h) << 32) | l;
+ }
+ 
++static notrace u64 arc_rtc_clock_read(void)
++{
++	return arc_read_rtc(NULL);
++}
++
+ static struct clocksource arc_counter_rtc = {
+ 	.name   = "ARCv2 RTC",
+ 	.rating = 350,
+@@ -170,6 +183,8 @@ static int __init arc_cs_setup_rtc(struct device_node *node)
+ 
+ 	write_aux_reg(AUX_RTC_CTRL, 1);
+ 
++	sched_clock_register(arc_rtc_clock_read, 64, arc_timer_freq);
++
+ 	return clocksource_register_hz(&arc_counter_rtc, arc_timer_freq);
+ }
+ TIMER_OF_DECLARE(arc_rtc, "snps,archs-timer-rtc", arc_cs_setup_rtc);
+@@ -185,6 +200,11 @@ static u64 arc_read_timer1(struct clocksource *cs)
+ 	return (u64) read_aux_reg(ARC_REG_TIMER1_CNT);
+ }
+ 
++static notrace u64 arc_timer1_clock_read(void)
++{
++	return arc_read_timer1(NULL);
++}
++
+ static struct clocksource arc_counter_timer1 = {
+ 	.name   = "ARC Timer1",
+ 	.rating = 300,
+@@ -209,6 +229,8 @@ static int __init arc_cs_setup_timer1(struct device_node *node)
+ 	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
+ 	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
+ 
++	sched_clock_register(arc_timer1_clock_read, 32, arc_timer_freq);
++
+ 	return clocksource_register_hz(&arc_counter_timer1, arc_timer_freq);
+ }
+ 
 -- 
-2.16.2
+2.19.1
