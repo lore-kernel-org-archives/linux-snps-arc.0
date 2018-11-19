@@ -1,46 +1,76 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Mon, 19 Nov 2018 10:58:39 +0100
-Subject: [PATCH v2] clocksource/drivers/arc_timer: Utilize generic
- sched_clock
-In-Reply-To: <e31a11c42c21353963bd75c88493e8158316d469.camel@synopsys.com>
-References: <20181017113020.7551-1-abrodkin@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075012B0B1A07@US01WEMBX2.internal.synopsys.com>
- <78ccbb4c-56d0-594b-4032-3eb19202847b@linaro.org>
- <2c46ab6e-f0a9-4857-9772-f3c714284e98@linaro.org>
- <dab866a50e66e73f6010de1487b06019887930c8.camel@synopsys.com>
- <40ada5b3-5824-51fd-501f-ef363f162047@linaro.org>
- <e31a11c42c21353963bd75c88493e8158316d469.camel@synopsys.com>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 19 Nov 2018 13:04:43 +0300
+Subject: [PATCH v3] u-boot: Add mkenvimage tool
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <6bb98a9c-899e-ee9c-d630-da07382c1c16@linaro.org>
+Message-ID: <20181119100443.2882-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
+This utility is used for creation of images containing
+usable in run-time U-Boot environment.
 
-Hi Alexey,
+As of today this utility is added per-board like here [1]
+for Intel Edison board.
 
-On 19/11/2018 10:55, Alexey Brodkin wrote:
-> Hi Daniel,
+[1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
 
-[ ... ]
+Given there're quite some U-Boot tools that we may want to add later
+this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
+still for compatibility we provide "u-boot-mkimage" with help
+of PROVIDES as well as proposed "u-boot-mkenvimage".
 
->>> In that case do I understand correctly that we may enable GENERIC_SCHED_CLOCK
->>> for ARC even before proposed change for arc_timer.c gets merged - i.e. with no
->>> special GENERIC_SCHED_CLOCK driver we'll safely fall-back to jiffie-based
->>> sched clock which we anyways use now when GENERIC_SCHED_CLOCK is disabled, right?
->>
->> The ARC's Kconfig part does not apply on tip/timers/core.
-> 
-> May I have a reference to that tree so I may check what gets in the way there
-> and then I'll just move "select GENERIC_SCHED_CLOCK" a bit below so there're no
-> clashes any longer.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
+Cc: Otavio Salvador <otavio at ossystems.com.br>
+Cc: Martin Jansa <martin.jansa at gmail.com>
+Cc: Ross Burton <ross.burton at intel.com>
+Cc: Marek Vasut <marex at denx.de>
+---
 
-sure, here it is:
+Changes v2 -> v3:
+ * Recipe renamed to "u-boot-tools" to better match its contents
+   (especially in the future as we add more tools there)
+ * Existing "u-boot-mkimage" and newly introduced "u-boot-mkenvimage"
+   made avaialble via PROVIDES
 
-https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/log/?h=timers/core
+Changes v1 -> v2:
+ * Got rid of a separate recipe and instead added mkenvimage
+   to u-boot mkimage recipy
 
+ .../{u-boot-mkimage_2018.07.bb => u-boot-tools_2018.07.bb}       | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2018.07.bb => u-boot-tools_2018.07.bb} (83%)
 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
+similarity index 83%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
+index 08bff1d161..140afa8dfe 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
+@@ -1,7 +1,8 @@
+ require u-boot-common_${PV}.inc
+ 
+-SUMMARY = "U-Boot bootloader image creation tool"
++SUMMARY = "U-Boot bootloader tools"
+ DEPENDS += "openssl"
++PROVIDES = "u-boot-mkimage u-boot-mkenvimage"
+ 
+ EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+ EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+@@ -20,8 +21,14 @@ do_compile () {
+ 
+ do_install () {
+ 	install -d ${D}${bindir}
++
++	# mkimage
+ 	install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+ 	ln -sf uboot-mkimage ${D}${bindir}/mkimage
++
++	# mkenvimage
++	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
++	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
+ }
+ 
+ RDEPENDS_${PN} += "dtc"
 -- 
- <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+2.16.2
