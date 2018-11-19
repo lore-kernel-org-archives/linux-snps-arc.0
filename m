@@ -1,53 +1,83 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 19 Nov 2018 19:47:22 +0000
-Subject: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
-In-Reply-To: <CAP9ODKr6JkJ0HpOWMKXy6_qN61vwU=41xEAOveyzfqPnVqEcbQ@mail.gmail.com>
-References: <20181119100443.2882-1-abrodkin@synopsys.com>
- <1fd9e473-66ba-bbb8-87a9-32bb78e359e3@denx.de>
- <20181119190835.GO11247@bill-the-cat>
- <CAP9ODKr6JkJ0HpOWMKXy6_qN61vwU=41xEAOveyzfqPnVqEcbQ@mail.gmail.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Mon, 19 Nov 2018 22:50:06 +0100
+Subject: [PATCH v3] clocksource/drivers/arc_timer: Utilize generic
+ sched_clock
+In-Reply-To: <20181119112917.4214-1-abrodkin@synopsys.com>
+References: <20181119112917.4214-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <8a464185ba05c61c37654fcbee0783b407318425.camel@synopsys.com>
+Message-ID: <360a492f-58b0-daa4-a450-3cdbfffbeabe@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Otavio, Tom, all,
-
-On Mon, 2018-11-19@17:22 -0200, Otavio Salvador wrote:
-> On Mon, Nov 19, 2018@5:08 PM Tom Rini <trini@konsulko.com> wrote:
-> > On Mon, Nov 19, 2018@01:51:41PM +0100, Marek Vasut wrote:
-> > > On 11/19/2018 11:04 AM, Alexey Brodkin wrote:
-> > > > This utility is used for creation of images containing
-> > > > usable in run-time U-Boot environment.
-> > > > 
-> > > > As of today this utility is added per-board like here [1]
-> > > > for Intel Edison board.
-> > > > 
-> > > > [1] 
-> > > > https://urldefense.proofpoint.com/v2/url?u=http-3A__git.yoctoproject.org_cgit_cgit.cgi_meta-2Dintel-2Dedison_tree_meta-2Dintel-2Dedison-2Dbsp_recipes-2Dbsp_u-2Dboot_u-2Dboot-2Dtools-5F2014.04.bb&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=sQnruA_KoGH_aC_YyN_lCddYmWBmcOpMVXzZtSwSbWo&s=pXmv0aNPFSCoj8CwGvwcZj-4bN_Sdjob3YwHYTzxDlw&e=
-> > > > 
-> > > > Given there're quite some U-Boot tools that we may want to add later
-> > > > this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
-> > > > still for compatibility we provide "u-boot-mkimage" with help
-> > > > of PROVIDES as well as proposed "u-boot-mkenvimage".
-> > > > 
-> > > > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> > > > Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
-> > > > Cc: Otavio Salvador <otavio at ossystems.com.br>
-> > > > Cc: Martin Jansa <martin.jansa at gmail.com>
-> > > > Cc: Ross Burton <ross.burton at intel.com>
-> > > > Cc: Marek Vasut <marex at denx.de>
-> > > 
-> > > Do we want to generate one package per tool or not ?
-> > 
-> > I think so, yes.  Not all places will want all tools.
+On 19/11/2018 12:29, Alexey Brodkin wrote:
+> It turned out we used to use default implementation of sched_clock()
+> from kernel/sched/clock.c which was as precise as 1/HZ, i.e.
+> by default we had 10 msec granularity of time measurement.
 > 
-> And a bonus to add a u-boot-tools-meta which rdepends on all. You can
-> copy code to do that from gstreamer-plugins packages.
+> Now given ARC built-in timers are clocked with the same frequency as
+> CPU cores we may get much higher precision of time tracking.
+> 
+> Thus we switch to generic sched_clock which really reads ARC hardware
+> counters.
+> 
+> This is especially helpful for measuring short events.
+> That's what we used to have:
+> ------------------------------>8------------------------
+> $ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+> 
+>  Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+> 
+>          10.000000      task-clock (msec)         #    2.832 CPUs utilized
+>                  1      context-switches          #    0.100 K/sec
+>                  1      cpu-migrations            #    0.100 K/sec
+>                 63      page-faults               #    0.006 M/sec
+>            3049480      cycles                    #    0.305 GHz
+>            1091259      instructions              #    0.36  insn per cycle
+>             256828      branches                  #   25.683 M/sec
+>              27026      branch-misses             #   10.52% of all branches
+> 
+>        0.003530687 seconds time elapsed
+> 
+>        0.000000000 seconds user
+>        0.010000000 seconds sys
+> ------------------------------>8------------------------
+> 
+> And now we'll see:
+> ------------------------------>8------------------------
+> $ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
+> 
+>  Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
+> 
+>           3.004322      task-clock (msec)         #    0.865 CPUs utilized
+>                  1      context-switches          #    0.333 K/sec
+>                  1      cpu-migrations            #    0.333 K/sec
+>                 63      page-faults               #    0.021 M/sec
+>            2986734      cycles                    #    0.994 GHz
+>            1087466      instructions              #    0.36  insn per cycle
+>             255209      branches                  #   84.947 M/sec
+>              26002      branch-misses             #   10.19% of all branches
+> 
+>        0.003474829 seconds time elapsed
+> 
+>        0.003519000 seconds user
+>        0.000000000 seconds sys
+> ------------------------------>8------------------------
+> 
+> Note how much more meaningful is the second output - time spent for
+> execution pretty much matches number of cycles spent (we're runnign
+> @ 1GHz here).
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Thomas Gleixner <tglx at linutronix.de>
+> ---
 
-That's how we start from simple enhancement one-liner and end-up
-with rework of a different scale :)
+Applied, thanks.
 
-I'm still ramping-up with OE but hopefully will be able to
-implement proposed tool-per-package feature sometime soon.
 
--Alexey
+-- 
+ <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
