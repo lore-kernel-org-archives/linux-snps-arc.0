@@ -1,5 +1,5 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 20 Nov 2018 15:52:03 +0000
+From: trini@konsulko.com (Tom Rini)
+Date: Tue, 20 Nov 2018 10:52:17 -0500
 Subject: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
 In-Reply-To: <CAP9ODKqKDfJ11FLoXFwRZ3ttw4v3NODWEQdB7RkCAzHq7DWPiw@mail.gmail.com>
 References: <20181119100443.2882-1-abrodkin@synopsys.com>
@@ -11,20 +11,10 @@ References: <20181119100443.2882-1-abrodkin@synopsys.com>
  <CAJTo0Laecf+PnBPcg9qgHABvGwBEr+n7Sze3-OPp3OvbYBvJmw@mail.gmail.com>
  <CAP9ODKqKDfJ11FLoXFwRZ3ttw4v3NODWEQdB7RkCAzHq7DWPiw@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <4881796E12491D4BB15146FE0209CE6468197CB6@DE02WEMBXB.internal.synopsys.com>
+Message-ID: <20181120155217.GA11247@bill-the-cat>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Otavio,
-
-> -----Original Message-----
-> From: Otavio Salvador [mailto:otavio.salvador at ossystems.com.br]
-> Sent: Tuesday, November 20, 2018 6:49 PM
-> To: Burton, Ross <ross.burton at intel.com>
-> Cc: Peter Kjellerstedt <peter.kjellerstedt at axis.com>; Marek Vasut <marex at denx.de>; Tom Rini <trini at konsulko.com>; Otavio
-> Salvador <otavio at ossystems.com.br>; Alexey Brodkin <alexey.brodkin at synopsys.com>; Patches and discussions about the oe-core
-> layer <openembedded-core at lists.openembedded.org>; linux-snps-arc at lists.infradead.org
-> Subject: Re: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
-> 
+On Tue, Nov 20, 2018@01:48:40PM -0200, Otavio Salvador wrote:
 > On Tue, Nov 20, 2018@1:40 PM Burton, Ross <ross.burton@intel.com> wrote:
 > >
 > > (hit sent too early)
@@ -37,10 +27,15 @@ Hi Otavio,
 > build system and granular installation is a must have. Using PN to
 > install all tools is a win win combination.
 
-Please note we're discussing _host_ tools here!
-So do we really care if there's one more utility installed on development host?
+Agreed.  The common use cases won't need all of the possible tools so
+lets not grow sizes we don't need to grow.
 
-And if someone installs those U-Boot host utilities on the target then most probably
-this target is not super embedded any longer.
-
--Alexey
+-- 
+Tom
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 819 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20181120/5e8f3cba/attachment-0001.sig>
