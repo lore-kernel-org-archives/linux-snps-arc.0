@@ -1,5 +1,5 @@
-From: otavio.salvador@ossystems.com.br (Otavio Salvador)
-Date: Tue, 20 Nov 2018 14:03:39 -0200
+From: marex@denx.de (Marek Vasut)
+Date: Tue, 20 Nov 2018 16:55:19 +0100
 Subject: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
 In-Reply-To: <4881796E12491D4BB15146FE0209CE6468197CB6@DE02WEMBXB.internal.synopsys.com>
 References: <20181119100443.2882-1-abrodkin@synopsys.com>
@@ -12,47 +12,41 @@ References: <20181119100443.2882-1-abrodkin@synopsys.com>
  <CAP9ODKqKDfJ11FLoXFwRZ3ttw4v3NODWEQdB7RkCAzHq7DWPiw@mail.gmail.com>
  <4881796E12491D4BB15146FE0209CE6468197CB6@DE02WEMBXB.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAP9ODKo3Mgc2DHSaNtCp-rJmhUasan4siJzzxf=wReWJSV0_Rw@mail.gmail.com>
+Message-ID: <9dd84973-bf3b-436b-96b0-f236c3f15787@denx.de>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Nov 20, 2018 at 1:52 PM Alexey Brodkin
-<alexey.brodkin@synopsys.com> wrote:
-> > -----Original Message-----
-> > From: Otavio Salvador [mailto:otavio.salvador at ossystems.com.br]
-> > Sent: Tuesday, November 20, 2018 6:49 PM
-> > To: Burton, Ross <ross.burton at intel.com>
-> > Cc: Peter Kjellerstedt <peter.kjellerstedt at axis.com>; Marek Vasut <marex at denx.de>; Tom Rini <trini at konsulko.com>; Otavio
-> > Salvador <otavio at ossystems.com.br>; Alexey Brodkin <alexey.brodkin at synopsys.com>; Patches and discussions about the oe-core
-> > layer <openembedded-core at lists.openembedded.org>; linux-snps-arc at lists.infradead.org
-> > Subject: Re: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
-> >
-> > On Tue, Nov 20, 2018@1:40 PM Burton, Ross <ross.burton@intel.com> wrote:
-> > >
-> > > (hit sent too early)
-> > >
-> > > Of course how big are these tools, and is it really useful splitting
-> > > them up?  If we're talking a 10k binary, is putting them in separate
-> > > packages worth the complication?
-> >
-> > I think it makes sense to split; we are building an embedded system
-> > build system and granular installation is a must have. Using PN to
-> > install all tools is a win win combination.
->
+On 11/20/2018 04:52 PM, Alexey Brodkin wrote:
+> Hi Otavio,
+> 
+>> -----Original Message-----
+>> From: Otavio Salvador [mailto:otavio.salvador at ossystems.com.br]
+>> Sent: Tuesday, November 20, 2018 6:49 PM
+>> To: Burton, Ross <ross.burton at intel.com>
+>> Cc: Peter Kjellerstedt <peter.kjellerstedt at axis.com>; Marek Vasut <marex at denx.de>; Tom Rini <trini at konsulko.com>; Otavio
+>> Salvador <otavio at ossystems.com.br>; Alexey Brodkin <alexey.brodkin at synopsys.com>; Patches and discussions about the oe-core
+>> layer <openembedded-core at lists.openembedded.org>; linux-snps-arc at lists.infradead.org
+>> Subject: Re: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
+>>
+>> On Tue, Nov 20, 2018@1:40 PM Burton, Ross <ross.burton@intel.com> wrote:
+>>>
+>>> (hit sent too early)
+>>>
+>>> Of course how big are these tools, and is it really useful splitting
+>>> them up?  If we're talking a 10k binary, is putting them in separate
+>>> packages worth the complication?
+>>
+>> I think it makes sense to split; we are building an embedded system
+>> build system and granular installation is a must have. Using PN to
+>> install all tools is a win win combination.
+> 
 > Please note we're discussing _host_ tools here!
 > So do we really care if there's one more utility installed on development host?
->
+> 
 > And if someone installs those U-Boot host utilities on the target then most probably
 > this target is not super embedded any longer.
 
-The tools are commonly used on host but this is not a limitation and
-there are use cases where we may want to include it on target. Also,
-it can be installed on SDK (nativesdk packages) and being able to
-install what will be used is a must for me.
-
-I am not concerned about the space used by it but for the choice of me
-pick the right pieces I need, and not putting it all together.
+You can use mkenvimage on target, I had to do that a few times.
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Best regards,
+Marek Vasut
