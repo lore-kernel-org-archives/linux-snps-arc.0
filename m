@@ -1,92 +1,56 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 19 Nov 2018 22:10:45 +0000
-Subject: [PATCH v3] clocksource/drivers/arc_timer: Utilize generic
- sched_clock
-In-Reply-To: <a400dabc-df12-1854-21c4-8e914ef538d8@linaro.org>
-References: <20181119112917.4214-1-abrodkin@synopsys.com>
- <360a492f-58b0-daa4-a450-3cdbfffbeabe@linaro.org>
- <349be75346aaf03eda8c49dfd90c06e3f916a1e3.camel@synopsys.com>
- <a400dabc-df12-1854-21c4-8e914ef538d8@linaro.org>
+From: ldv@altlinux.org (Dmitry V. Levin)
+Date: Tue, 20 Nov 2018 03:11:29 +0300
+Subject: [PATCH v2 00/15] Prepare for PTRACE_GET_SYSCALL_INFO
+In-Reply-To: <CALCETrV1v-DPRfDRwiH=xn29bxWxiHdZtAH1nw=dsmDtnT0YGQ@mail.gmail.com>
+References: <20181107042751.3b519062@akathisia>
+ <CALCETrV1v-DPRfDRwiH=xn29bxWxiHdZtAH1nw=dsmDtnT0YGQ@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <8f613c5cb91c4d94643e317f08d6019abe27638d.camel@synopsys.com>
+Message-ID: <20181120001128.GA11300@altlinux.org>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, 2018-11-19@23:09 +0100, Daniel Lezcano wrote:
-> On 19/11/2018 22:53, Alexey Brodkin wrote:
-> > Hi Daniel,
-> > 
-> > On Mon, 2018-11-19@22:50 +0100, Daniel Lezcano wrote:
-> > > On 19/11/2018 12:29, Alexey Brodkin wrote:
-> > > > It turned out we used to use default implementation of sched_clock()
-> > > > from kernel/sched/clock.c which was as precise as 1/HZ, i.e.
-> > > > by default we had 10 msec granularity of time measurement.
-> > > > 
-> > > > Now given ARC built-in timers are clocked with the same frequency as
-> > > > CPU cores we may get much higher precision of time tracking.
-> > > > 
-> > > > Thus we switch to generic sched_clock which really reads ARC hardware
-> > > > counters.
-> > > > 
-> > > > This is especially helpful for measuring short events.
-> > > > That's what we used to have:
-> > > > ------------------------------>8------------------------
-> > > > $ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
-> > > > 
-> > > >  Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
-> > > > 
-> > > >          10.000000      task-clock (msec)         #    2.832 CPUs utilized
-> > > >                  1      context-switches          #    0.100 K/sec
-> > > >                  1      cpu-migrations            #    0.100 K/sec
-> > > >                 63      page-faults               #    0.006 M/sec
-> > > >            3049480      cycles                    #    0.305 GHz
-> > > >            1091259      instructions              #    0.36  insn per cycle
-> > > >             256828      branches                  #   25.683 M/sec
-> > > >              27026      branch-misses             #   10.52% of all branches
-> > > > 
-> > > >        0.003530687 seconds time elapsed
-> > > > 
-> > > >        0.000000000 seconds user
-> > > >        0.010000000 seconds sys
-> > > > ------------------------------>8------------------------
-> > > > 
-> > > > And now we'll see:
-> > > > ------------------------------>8------------------------
-> > > > $ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
-> > > > 
-> > > >  Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
-> > > > 
-> > > >           3.004322      task-clock (msec)         #    0.865 CPUs utilized
-> > > >                  1      context-switches          #    0.333 K/sec
-> > > >                  1      cpu-migrations            #    0.333 K/sec
-> > > >                 63      page-faults               #    0.021 M/sec
-> > > >            2986734      cycles                    #    0.994 GHz
-> > > >            1087466      instructions              #    0.36  insn per cycle
-> > > >             255209      branches                  #   84.947 M/sec
-> > > >              26002      branch-misses             #   10.19% of all branches
-> > > > 
-> > > >        0.003474829 seconds time elapsed
-> > > > 
-> > > >        0.003519000 seconds user
-> > > >        0.000000000 seconds sys
-> > > > ------------------------------>8------------------------
-> > > > 
-> > > > Note how much more meaningful is the second output - time spent for
-> > > > execution pretty much matches number of cycles spent (we're runnign
-> > > > @ 1GHz here).
-> > > > 
-> > > > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> > > > Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-> > > > Cc: Vineet Gupta <vgupta at synopsys.com>
-> > > > Cc: Thomas Gleixner <tglx at linutronix.de>
-> > > > ---
-> > > 
-> > > Applied, thanks.
-> > 
-> > Maybe a bit too late but I completely forgot to add stable tag into Cc list.
-> > Any chance to add it still?
-> 
-> Yes, no problem, I've added it.
+syscall_get_arch() is required to be implemented on all architectures
+in order to extend the generic ptrace API with PTRACE_GET_SYSCALL_INFO
+request.
 
-Cool, thanks!
+The primary intent is that the triple (audit_arch, syscall_nr, arg1..arg6)
+should describe what system call is being called and what its arguments are.
 
--Alexey
+
+Dmitry V. Levin (15):
+  Move EM_HEXAGON to uapi/linux/elf-em.h
+  Move EM_ARCOMPACT and EM_ARCV2 to uapi/linux/elf-em.h
+  Move EM_UNICORE to uapi/linux/elf-em.h
+  elf-em.h: add EM_NDS32
+  elf-em.h: add EM_XTENSA
+  m68k: define syscall_get_arch()
+  arc: define syscall_get_arch()
+  c6x: define syscall_get_arch()
+  h8300: define syscall_get_arch()
+  hexagon: define syscall_get_arch()
+  nds32: define syscall_get_arch()
+  nios2: define syscall_get_arch()
+  riscv: define syscall_get_arch()
+  unicore32: define syscall_get_arch()
+  xtensa: define syscall_get_arch()
+
+ arch/arc/include/asm/elf.h           |  6 +-----
+ arch/arc/include/asm/syscall.h       | 10 ++++++++++
+ arch/c6x/include/asm/syscall.h       |  7 +++++++
+ arch/h8300/include/asm/syscall.h     |  5 +++++
+ arch/hexagon/include/asm/elf.h       |  6 +-----
+ arch/hexagon/include/asm/syscall.h   |  8 ++++++++
+ arch/m68k/include/asm/syscall.h      | 12 ++++++++++++
+ arch/nds32/include/asm/syscall.h     |  8 ++++++++
+ arch/nios2/include/asm/syscall.h     |  6 ++++++
+ arch/riscv/include/asm/syscall.h     | 10 ++++++++++
+ arch/unicore32/include/asm/elf.h     |  3 +--
+ arch/unicore32/include/asm/syscall.h | 12 ++++++++++++
+ arch/xtensa/include/asm/syscall.h    |  7 +++++++
+ include/uapi/linux/audit.h           | 15 +++++++++++++++
+ include/uapi/linux/elf-em.h          |  7 +++++++
+ 15 files changed, 110 insertions(+), 12 deletions(-)
+ create mode 100644 arch/m68k/include/asm/syscall.h
+ create mode 100644 arch/unicore32/include/asm/syscall.h
+
+-- 
+ldv
