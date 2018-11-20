@@ -1,66 +1,58 @@
-From: paul@paul-moore.com (Paul Moore)
-Date: Tue, 20 Nov 2018 15:26:53 -0500
-Subject: [PATCH v2 00/15] Prepare for PTRACE_GET_SYSCALL_INFO
-In-Reply-To: <20181120001128.GA11300@altlinux.org>
-References: <20181107042751.3b519062@akathisia>
- <CALCETrV1v-DPRfDRwiH=xn29bxWxiHdZtAH1nw=dsmDtnT0YGQ@mail.gmail.com>
- <20181120001128.GA11300@altlinux.org>
+From: marex@denx.de (Marek Vasut)
+Date: Tue, 20 Nov 2018 21:22:36 +0100
+Subject: [PATCH v4] u-boot: Add mkenvimage tool
+In-Reply-To: <20181120202107.41029-1-abrodkin@synopsys.com>
+References: <20181120202107.41029-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAHC9VhQDs8cMuR4PXDB2VZ9TEtDydyBF_EqBGvjML+NN8+2LNw@mail.gmail.com>
+Message-ID: <f9ff2442-e164-d973-6fea-49bfeb9cbbd7@denx.de>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Nov 19, 2018@7:11 PM Dmitry V. Levin <ldv@altlinux.org> wrote:
->
-> syscall_get_arch() is required to be implemented on all architectures
-> in order to extend the generic ptrace API with PTRACE_GET_SYSCALL_INFO
-> request.
->
-> The primary intent is that the triple (audit_arch, syscall_nr, arg1..arg6)
-> should describe what system call is being called and what its arguments are.
+On 11/20/2018 09:21 PM, Alexey Brodkin wrote:
+> This utility is used for creation of images containing
+> usable in run-time U-Boot environment.
+> 
+> As of today this utility is added per-board like here [1]
+> for Intel Edison board.
+> 
+> [1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
+> 
+> Given there're quite some U-Boot tools that we may want to add later
+> this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
+> still for compatibility we provide "u-boot-mkimage" with help
+> of PROVIDES as well as proposed "u-boot-mkenvimage".
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
+> Cc: Otavio Salvador <otavio at ossystems.com.br>
+> Cc: Martin Jansa <martin.jansa at gmail.com>
+> Cc: Ross Burton <ross.burton at intel.com>
+> Cc: Marek Vasut <marex at denx.de>
+> ---
+> 
+> I may "git grep u-boot-mkimage" in more places:
+>  1. meta/classes/image_types.bbclass:311:CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
+>  2. meta/classes/kernel-fitimage.bbclass:7:        depends = "%s u-boot-mkimage-native dtc-native" % depends
+>  3. meta/classes/kernel-uimage.bbclass:6:        depends = "%s u-boot-mkimage-native" % depends
+>  4. meta/conf/distro/include/distro_alias.inc:357:DISTRO_PN_ALIAS_pn-u-boot-mkimage = "Ubuntu=uboot-mkimage Debian=uboot-mkimage"
+> 
+> But that's not clear for me if it's required to swap "u-boot-mkimage"
+> to "u-boot-tools" see:
+>  1. "u-boot-mkimage" is still a valid recipe as we export ot via PROVIDES
+>     (or I'm mixing package name with recipe name which very well might be
+>      the case)
+>  2. I don't fully understand a mening of "DISTRO_PN_ALIAS".
+>     If that's a name of a package from some big Linux distro or how target
+>     utility is named in that distro. For example in Debian Sid there's
+>     a package named "u-boot-tools" which includes "mkimage", "mkenvimage",
+>     "fw_printenv", "fw_setenv" and many more while in "distro_alias.inc"
+>     we still have:
+>     ---------------->8----------------
+>     DISTRO_PN_ALIAS_pn-u-boot-mkimage = "Ubuntu=uboot-mkimage Debian=uboot-mkimage"
+>     ---------------->8----------------
 
-No real comment from me, most of this is arch specific code so I'll
-let the individual arch folks comment on that; they know far better
-than I do what is correct.
-
-That said, anything that gets us closer to being able to offer syscall
-auditing for these arches gets a big thumbs up from me - thanks!
-
-> Dmitry V. Levin (15):
->   Move EM_HEXAGON to uapi/linux/elf-em.h
->   Move EM_ARCOMPACT and EM_ARCV2 to uapi/linux/elf-em.h
->   Move EM_UNICORE to uapi/linux/elf-em.h
->   elf-em.h: add EM_NDS32
->   elf-em.h: add EM_XTENSA
->   m68k: define syscall_get_arch()
->   arc: define syscall_get_arch()
->   c6x: define syscall_get_arch()
->   h8300: define syscall_get_arch()
->   hexagon: define syscall_get_arch()
->   nds32: define syscall_get_arch()
->   nios2: define syscall_get_arch()
->   riscv: define syscall_get_arch()
->   unicore32: define syscall_get_arch()
->   xtensa: define syscall_get_arch()
->
->  arch/arc/include/asm/elf.h           |  6 +-----
->  arch/arc/include/asm/syscall.h       | 10 ++++++++++
->  arch/c6x/include/asm/syscall.h       |  7 +++++++
->  arch/h8300/include/asm/syscall.h     |  5 +++++
->  arch/hexagon/include/asm/elf.h       |  6 +-----
->  arch/hexagon/include/asm/syscall.h   |  8 ++++++++
->  arch/m68k/include/asm/syscall.h      | 12 ++++++++++++
->  arch/nds32/include/asm/syscall.h     |  8 ++++++++
->  arch/nios2/include/asm/syscall.h     |  6 ++++++
->  arch/riscv/include/asm/syscall.h     | 10 ++++++++++
->  arch/unicore32/include/asm/elf.h     |  3 +--
->  arch/unicore32/include/asm/syscall.h | 12 ++++++++++++
->  arch/xtensa/include/asm/syscall.h    |  7 +++++++
->  include/uapi/linux/audit.h           | 15 +++++++++++++++
->  include/uapi/linux/elf-em.h          |  7 +++++++
->  15 files changed, 110 insertions(+), 12 deletions(-)
->  create mode 100644 arch/m68k/include/asm/syscall.h
->  create mode 100644 arch/unicore32/include/asm/syscall.h
+Just make u-boot-tools RPROVIDE the u-boot-mkimage, and make it generate
+a u-boot-mkimage package , no ?
 
 -- 
-paul moore
-www.paul-moore.com
+Best regards,
+Marek Vasut
