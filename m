@@ -1,52 +1,48 @@
-From: marex@denx.de (Marek Vasut)
-Date: Tue, 20 Nov 2018 16:55:19 +0100
-Subject: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
-In-Reply-To: <4881796E12491D4BB15146FE0209CE6468197CB6@DE02WEMBXB.internal.synopsys.com>
+From: richard.purdie@linuxfoundation.org (richard.purdie@linuxfoundation.org)
+Date: Tue, 20 Nov 2018 17:41:42 +0000
+Subject: [PATCH v3] u-boot: Add mkenvimage tool
+In-Reply-To: <20181119100443.2882-1-abrodkin@synopsys.com>
 References: <20181119100443.2882-1-abrodkin@synopsys.com>
- <1fd9e473-66ba-bbb8-87a9-32bb78e359e3@denx.de>
- <20181119190835.GO11247@bill-the-cat>
- <CAP9ODKr6JkJ0HpOWMKXy6_qN61vwU=41xEAOveyzfqPnVqEcbQ@mail.gmail.com>
- <153f5864c09a48adb8c976d8671f3c46@XBOX04.axis.com>
- <CAJTo0LY=m+Y8HXgypQ0Jk0N1=ke6eopXjEOeYWNENJ83CJO8ZQ@mail.gmail.com>
- <CAJTo0Laecf+PnBPcg9qgHABvGwBEr+n7Sze3-OPp3OvbYBvJmw@mail.gmail.com>
- <CAP9ODKqKDfJ11FLoXFwRZ3ttw4v3NODWEQdB7RkCAzHq7DWPiw@mail.gmail.com>
- <4881796E12491D4BB15146FE0209CE6468197CB6@DE02WEMBXB.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <9dd84973-bf3b-436b-96b0-f236c3f15787@denx.de>
+Message-ID: <3a3d89dc23097b3cc6338e2906eaae904799c008.camel@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/20/2018 04:52 PM, Alexey Brodkin wrote:
-> Hi Otavio,
+On Mon, 2018-11-19@13:04 +0300, Alexey Brodkin wrote:
+> This utility is used for creation of images containing
+> usable in run-time U-Boot environment.
 > 
->> -----Original Message-----
->> From: Otavio Salvador [mailto:otavio.salvador at ossystems.com.br]
->> Sent: Tuesday, November 20, 2018 6:49 PM
->> To: Burton, Ross <ross.burton at intel.com>
->> Cc: Peter Kjellerstedt <peter.kjellerstedt at axis.com>; Marek Vasut <marex at denx.de>; Tom Rini <trini at konsulko.com>; Otavio
->> Salvador <otavio at ossystems.com.br>; Alexey Brodkin <alexey.brodkin at synopsys.com>; Patches and discussions about the oe-core
->> layer <openembedded-core at lists.openembedded.org>; linux-snps-arc at lists.infradead.org
->> Subject: Re: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
->>
->> On Tue, Nov 20, 2018@1:40 PM Burton, Ross <ross.burton@intel.com> wrote:
->>>
->>> (hit sent too early)
->>>
->>> Of course how big are these tools, and is it really useful splitting
->>> them up?  If we're talking a 10k binary, is putting them in separate
->>> packages worth the complication?
->>
->> I think it makes sense to split; we are building an embedded system
->> build system and granular installation is a must have. Using PN to
->> install all tools is a win win combination.
+> As of today this utility is added per-board like here [1]
+> for Intel Edison board.
 > 
-> Please note we're discussing _host_ tools here!
-> So do we really care if there's one more utility installed on development host?
+> [1] 
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
 > 
-> And if someone installs those U-Boot host utilities on the target then most probably
-> this target is not super embedded any longer.
+> Given there're quite some U-Boot tools that we may want to add later
+> this recipe name switch from "u-boot-mkimage" to generic "u-boot-
+> tools"
+> still for compatibility we provide "u-boot-mkimage" with help
+> of PROVIDES as well as proposed "u-boot-mkenvimage".
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
+> Cc: Otavio Salvador <otavio at ossystems.com.br>
+> Cc: Martin Jansa <martin.jansa at gmail.com>
+> Cc: Ross Burton <ross.burton at intel.com>
+> Cc: Marek Vasut <marex at denx.de>
+> ---
 
-You can use mkenvimage on target, I had to do that a few times.
+I know others are talking about splitting the packaging and I'm ok with
+deferring that to a separate patch.
 
--- 
-Best regards,
-Marek Vasut
+This patch did break the build in oe-selftest as you renamed a recipe
+and didn't update conf/distro/include/maintainers.inc.
+
+Could you send a new version with that tweak please?
+
+(grep 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/28/builds/242/steps/7/logs/step2d
+ for the recipe name to see the test that failed)
+
+Cheers,
+
+Richard
