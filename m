@@ -1,10 +1,10 @@
 From: richard.purdie@linuxfoundation.org (richard.purdie@linuxfoundation.org)
-Date: Tue, 20 Nov 2018 22:02:38 +0000
+Date: Tue, 20 Nov 2018 22:05:05 +0000
 Subject: [PATCH v4] u-boot: Add mkenvimage tool
 In-Reply-To: <20181120202107.41029-1-abrodkin@synopsys.com>
 References: <20181120202107.41029-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <4091d6f2fe2999ad75ee7da8afd2a87e1299cff3.camel@linuxfoundation.org>
+Message-ID: <4a45b8b1d3663ee46d652d8d945e9953373ea440.camel@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
 On Tue, 2018-11-20@23:21 +0300, Alexey Brodkin wrote:
@@ -63,26 +63,9 @@ On Tue, 2018-11-20@23:21 +0300, Alexey Brodkin wrote:
 > Debian=uboot-mkimage"
 >     ---------------->8----------------
 
-Sorry, the tests in meta-oe have exposed another issue:
-
-https://8n1.org/14048/3f99
-
-which means the PROVIDES isn't quite right. The reason is there is
-magic in the recipe which extends it to the native and nativesdk cases
-but its not quite working.
-
-I think the easiest way to address this may be
-
-PROVIDES = "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage"
-PROVIDES_class-native = "u-boot-mkimage-native u-boot-mkenvimage-
-native"
-
-since in the nativesdk case, MLPREFIX expands to nativesdk-. The second
-class-native line may not be needed. You could check with:
-
-bitbake u-boot-tools -e | grep ^PROVIDES=
-
-and see if it computes the value without manually overriding it.
+I meant to say, for cleanliness, all the references you mentioned
+should also be converted in this patch. Most will work with PROVIDES
+mapping but we should improve them.
 
 Cheers,
 
