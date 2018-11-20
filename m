@@ -1,150 +1,58 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 20 Nov 2018 13:30:19 +0300
-Subject: [PATCH] arc: [devboards] Add support of NFSv3 ACL
+From: otavio.salvador@ossystems.com.br (Otavio Salvador)
+Date: Tue, 20 Nov 2018 14:03:39 -0200
+Subject: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
+In-Reply-To: <4881796E12491D4BB15146FE0209CE6468197CB6@DE02WEMBXB.internal.synopsys.com>
+References: <20181119100443.2882-1-abrodkin@synopsys.com>
+ <1fd9e473-66ba-bbb8-87a9-32bb78e359e3@denx.de>
+ <20181119190835.GO11247@bill-the-cat>
+ <CAP9ODKr6JkJ0HpOWMKXy6_qN61vwU=41xEAOveyzfqPnVqEcbQ@mail.gmail.com>
+ <153f5864c09a48adb8c976d8671f3c46@XBOX04.axis.com>
+ <CAJTo0LY=m+Y8HXgypQ0Jk0N1=ke6eopXjEOeYWNENJ83CJO8ZQ@mail.gmail.com>
+ <CAJTo0Laecf+PnBPcg9qgHABvGwBEr+n7Sze3-OPp3OvbYBvJmw@mail.gmail.com>
+ <CAP9ODKqKDfJ11FLoXFwRZ3ttw4v3NODWEQdB7RkCAzHq7DWPiw@mail.gmail.com>
+ <4881796E12491D4BB15146FE0209CE6468197CB6@DE02WEMBXB.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181120103019.12852-1-abrodkin@synopsys.com>
+Message-ID: <CAP9ODKo3Mgc2DHSaNtCp-rJmhUasan4siJzzxf=wReWJSV0_Rw@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-By default NFSv3 doesn't support ACL (Access Control Lists)
-which might be quite convenient to have so that
-mounted NFS behaves exactly as any other local file-system.
+On Tue, Nov 20, 2018 at 1:52 PM Alexey Brodkin
+<alexey.brodkin@synopsys.com> wrote:
+> > -----Original Message-----
+> > From: Otavio Salvador [mailto:otavio.salvador at ossystems.com.br]
+> > Sent: Tuesday, November 20, 2018 6:49 PM
+> > To: Burton, Ross <ross.burton at intel.com>
+> > Cc: Peter Kjellerstedt <peter.kjellerstedt at axis.com>; Marek Vasut <marex at denx.de>; Tom Rini <trini at konsulko.com>; Otavio
+> > Salvador <otavio at ossystems.com.br>; Alexey Brodkin <alexey.brodkin at synopsys.com>; Patches and discussions about the oe-core
+> > layer <openembedded-core at lists.openembedded.org>; linux-snps-arc at lists.infradead.org
+> > Subject: Re: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
+> >
+> > On Tue, Nov 20, 2018@1:40 PM Burton, Ross <ross.burton@intel.com> wrote:
+> > >
+> > > (hit sent too early)
+> > >
+> > > Of course how big are these tools, and is it really useful splitting
+> > > them up?  If we're talking a 10k binary, is putting them in separate
+> > > packages worth the complication?
+> >
+> > I think it makes sense to split; we are building an embedded system
+> > build system and granular installation is a must have. Using PN to
+> > install all tools is a win win combination.
+>
+> Please note we're discussing _host_ tools here!
+> So do we really care if there's one more utility installed on development host?
+>
+> And if someone installs those U-Boot host utilities on the target then most probably
+> this target is not super embedded any longer.
 
-In particular missing support of ACL makes umask useless.
-This among other thigs fixes Glibc's "nptl/tst-umask1".
+The tools are commonly used on host but this is not a limitation and
+there are use cases where we may want to include it on target. Also,
+it can be installed on SDK (nativesdk packages) and being able to
+install what will be used is a must for me.
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Cupertino Miranda <cmiranda at synopsys.com>
-Cc: stable at vger.kernel.org
----
- arch/arc/configs/axs101_defconfig          | 1 +
- arch/arc/configs/axs103_defconfig          | 1 +
- arch/arc/configs/axs103_smp_defconfig      | 1 +
- arch/arc/configs/hsdk_defconfig            | 1 +
- arch/arc/configs/nps_defconfig             | 1 +
- arch/arc/configs/nsimosci_defconfig        | 1 +
- arch/arc/configs/nsimosci_hs_defconfig     | 1 +
- arch/arc/configs/nsimosci_hs_smp_defconfig | 1 +
- arch/arc/configs/vdk_hs38_defconfig        | 1 +
- arch/arc/configs/vdk_hs38_smp_defconfig    | 1 +
- 10 files changed, 10 insertions(+)
+I am not concerned about the space used by it but for the choice of me
+pick the right pieces I need, and not putting it all together.
 
-diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
-index 41bc08be6a3b..8c23bd086cd0 100644
---- a/arch/arc/configs/axs101_defconfig
-+++ b/arch/arc/configs/axs101_defconfig
-@@ -95,6 +95,7 @@ CONFIG_VFAT_FS=y
- CONFIG_NTFS_FS=y
- CONFIG_TMPFS=y
- CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
- CONFIG_NLS_CODEPAGE_437=y
- CONFIG_NLS_ISO8859_1=y
- # CONFIG_ENABLE_WARN_DEPRECATED is not set
-diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
-index 1e1c4a8011b5..666314fffc60 100644
---- a/arch/arc/configs/axs103_defconfig
-+++ b/arch/arc/configs/axs103_defconfig
-@@ -94,6 +94,7 @@ CONFIG_VFAT_FS=y
- CONFIG_NTFS_FS=y
- CONFIG_TMPFS=y
- CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
- CONFIG_NLS_CODEPAGE_437=y
- CONFIG_NLS_ISO8859_1=y
- # CONFIG_ENABLE_WARN_DEPRECATED is not set
-diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
-index 6b0c0cfd5c30..429832b8560b 100644
---- a/arch/arc/configs/axs103_smp_defconfig
-+++ b/arch/arc/configs/axs103_smp_defconfig
-@@ -97,6 +97,7 @@ CONFIG_VFAT_FS=y
- CONFIG_NTFS_FS=y
- CONFIG_TMPFS=y
- CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
- CONFIG_NLS_CODEPAGE_437=y
- CONFIG_NLS_ISO8859_1=y
- # CONFIG_ENABLE_WARN_DEPRECATED is not set
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-index 1dec2b4bc5e6..2a1d2cbfee1a 100644
---- a/arch/arc/configs/hsdk_defconfig
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -65,6 +65,7 @@ CONFIG_EXT3_FS=y
- CONFIG_VFAT_FS=y
- CONFIG_TMPFS=y
- CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
- CONFIG_NLS_CODEPAGE_437=y
- CONFIG_NLS_ISO8859_1=y
- # CONFIG_ENABLE_WARN_DEPRECATED is not set
-diff --git a/arch/arc/configs/nps_defconfig b/arch/arc/configs/nps_defconfig
-index 31ba224bbfb4..ae7a0d8be98d 100644
---- a/arch/arc/configs/nps_defconfig
-+++ b/arch/arc/configs/nps_defconfig
-@@ -73,6 +73,7 @@ CONFIG_PROC_KCORE=y
- CONFIG_TMPFS=y
- # CONFIG_MISC_FILESYSTEMS is not set
- CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
- CONFIG_ROOT_NFS=y
- CONFIG_DEBUG_INFO=y
- # CONFIG_ENABLE_WARN_DEPRECATED is not set
-diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
-index f14eeff7d308..ad77f20e5aa6 100644
---- a/arch/arc/configs/nsimosci_defconfig
-+++ b/arch/arc/configs/nsimosci_defconfig
-@@ -66,5 +66,6 @@ CONFIG_EXT2_FS_XATTR=y
- CONFIG_TMPFS=y
- # CONFIG_MISC_FILESYSTEMS is not set
- CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
- # CONFIG_ENABLE_WARN_DEPRECATED is not set
- # CONFIG_ENABLE_MUST_CHECK is not set
-diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
-index 025298a48305..1638e5bc9672 100644
---- a/arch/arc/configs/nsimosci_hs_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_defconfig
-@@ -65,5 +65,6 @@ CONFIG_EXT2_FS_XATTR=y
- CONFIG_TMPFS=y
- # CONFIG_MISC_FILESYSTEMS is not set
- CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
- # CONFIG_ENABLE_WARN_DEPRECATED is not set
- # CONFIG_ENABLE_MUST_CHECK is not set
-diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
-index df7b77b13b82..11cfbdb0f441 100644
---- a/arch/arc/configs/nsimosci_hs_smp_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
-@@ -76,6 +76,7 @@ CONFIG_EXT2_FS_XATTR=y
- CONFIG_TMPFS=y
- # CONFIG_MISC_FILESYSTEMS is not set
- CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
- # CONFIG_ENABLE_WARN_DEPRECATED is not set
- # CONFIG_ENABLE_MUST_CHECK is not set
- CONFIG_FTRACE=y
-diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
-index db47c3541f15..1e59a2e9c602 100644
---- a/arch/arc/configs/vdk_hs38_defconfig
-+++ b/arch/arc/configs/vdk_hs38_defconfig
-@@ -85,6 +85,7 @@ CONFIG_NTFS_FS=y
- CONFIG_TMPFS=y
- CONFIG_JFFS2_FS=y
- CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
- CONFIG_NLS_CODEPAGE_437=y
- CONFIG_NLS_ISO8859_1=y
- # CONFIG_ENABLE_WARN_DEPRECATED is not set
-diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
-index a8ac5e917d9a..b5c3f6c54b03 100644
---- a/arch/arc/configs/vdk_hs38_smp_defconfig
-+++ b/arch/arc/configs/vdk_hs38_smp_defconfig
-@@ -90,6 +90,7 @@ CONFIG_NTFS_FS=y
- CONFIG_TMPFS=y
- CONFIG_JFFS2_FS=y
- CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
- CONFIG_NLS_CODEPAGE_437=y
- CONFIG_NLS_ISO8859_1=y
- # CONFIG_ENABLE_WARN_DEPRECATED is not set
 -- 
-2.19.1
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
