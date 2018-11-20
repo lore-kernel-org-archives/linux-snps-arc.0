@@ -1,64 +1,27 @@
-From: ldv@altlinux.org (Dmitry V. Levin)
-Date: Tue, 20 Nov 2018 03:15:49 +0300
-Subject: [PATCH v2 07/15] arc: define syscall_get_arch()
-In-Reply-To: <20181120001128.GA11300@altlinux.org>
+From: ross.burton@intel.com (Burton, Ross)
+Date: Tue, 20 Nov 2018 15:39:20 +0000
+Subject: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
+In-Reply-To: <153f5864c09a48adb8c976d8671f3c46@XBOX04.axis.com>
+References: <20181119100443.2882-1-abrodkin@synopsys.com>
+ <1fd9e473-66ba-bbb8-87a9-32bb78e359e3@denx.de>
+ <20181119190835.GO11247@bill-the-cat>
+ <CAP9ODKr6JkJ0HpOWMKXy6_qN61vwU=41xEAOveyzfqPnVqEcbQ@mail.gmail.com>
+ <153f5864c09a48adb8c976d8671f3c46@XBOX04.axis.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181120001549.GG11387@altlinux.org>
+Message-ID: <CAJTo0LY=m+Y8HXgypQ0Jk0N1=ke6eopXjEOeYWNENJ83CJO8ZQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-syscall_get_arch() is required to be implemented on all architectures
-in order to extend the generic ptrace API with PTRACE_GET_SYSCALL_INFO
-request.
+On Tue, 20 Nov 2018 at 14:29, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> Actually, why mess with an unnecessary meta package. Just use the
+> empty ${PN} package for that. That works for the GStreamer packages
+> as well these days (since commit 8e1009a3), even though they do it
+> by depending on the meta packages for backwards compatibility.
 
-Signed-off-by: Dmitry V. Levin <ldv at altlinux.org>
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
----
-v2: added Acked-by to [PATCH 06/13 v3]
+Yes, please.
 
- arch/arc/include/asm/syscall.h | 10 ++++++++++
- include/uapi/linux/audit.h     |  4 ++++
- 2 files changed, 14 insertions(+)
+Having a u-boot-tools-meta will mean we're constantly explaining why
+installing u-boot-tools either doesn't install anything, or produces
+an error.
 
-diff --git a/arch/arc/include/asm/syscall.h b/arch/arc/include/asm/syscall.h
-index 29de09804306..10b2e7523bc8 100644
---- a/arch/arc/include/asm/syscall.h
-+++ b/arch/arc/include/asm/syscall.h
-@@ -9,6 +9,7 @@
- #ifndef _ASM_ARC_SYSCALL_H
- #define _ASM_ARC_SYSCALL_H  1
- 
-+#include <uapi/linux/audit.h>
- #include <linux/err.h>
- #include <linux/sched.h>
- #include <asm/unistd.h>
-@@ -68,4 +69,13 @@ syscall_get_arguments(struct task_struct *task, struct pt_regs *regs,
- 	}
- }
- 
-+static inline int syscall_get_arch(void)
-+{
-+	return IS_ENABLED(CONFIG_ISA_ARCOMPACT)
-+		? (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN)
-+			? AUDIT_ARCH_ARCOMPACTBE : AUDIT_ARCH_ARCOMPACT)
-+		: (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN)
-+			? AUDIT_ARCH_ARCV2BE : AUDIT_ARCH_ARCV2);
-+}
-+
- #endif
-diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-index 818ae690ab79..bedf3bf54c3a 100644
---- a/include/uapi/linux/audit.h
-+++ b/include/uapi/linux/audit.h
-@@ -375,6 +375,10 @@ enum {
- 
- #define AUDIT_ARCH_AARCH64	(EM_AARCH64|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)
- #define AUDIT_ARCH_ALPHA	(EM_ALPHA|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)
-+#define AUDIT_ARCH_ARCOMPACT	(EM_ARCOMPACT|__AUDIT_ARCH_LE)
-+#define AUDIT_ARCH_ARCOMPACTBE	(EM_ARCOMPACT)
-+#define AUDIT_ARCH_ARCV2	(EM_ARCV2|__AUDIT_ARCH_LE)
-+#define AUDIT_ARCH_ARCV2BE	(EM_ARCV2)
- #define AUDIT_ARCH_ARM		(EM_ARM|__AUDIT_ARCH_LE)
- #define AUDIT_ARCH_ARMEB	(EM_ARM)
- #define AUDIT_ARCH_CRIS		(EM_CRIS|__AUDIT_ARCH_LE)
--- 
-ldv
+Ross
