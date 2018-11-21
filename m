@@ -1,158 +1,76 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 21 Nov 2018 17:40:17 +0000
-Subject: [PATCH] arc: [devboards] Add support of NFSv3 ACL
-References: <20181120103019.12852-1-abrodkin@synopsys.com>
+From: paul.burton@mips.com (Paul Burton)
+Date: Wed, 21 Nov 2018 18:40:06 +0000
+Subject: [PATCH v2 16/15] syscall_get_arch: add "struct task_struct *"
+ argument
+In-Reply-To: <20181121004422.GA29053@altlinux.org>
+References: <20181107042751.3b519062@akathisia>
+ <CALCETrV1v-DPRfDRwiH=xn29bxWxiHdZtAH1nw=dsmDtnT0YGQ@mail.gmail.com>
+ <20181120001128.GA11300@altlinux.org> <20181121004422.GA29053@altlinux.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501464156CB@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20181121184004.jro532jopnbmru2m@pburton-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/20/18 2:30 AM, Alexey Brodkin wrote:
-> By default NFSv3 doesn't support ACL (Access Control Lists)
-> which might be quite convenient to have so that
-> mounted NFS behaves exactly as any other local file-system.
->
-> In particular missing support of ACL makes umask useless.
-> This among other thigs fixes Glibc's "nptl/tst-umask1".
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Cupertino Miranda <cmiranda at synopsys.com>
-> Cc: stable at vger.kernel.org
+Hi Dmitry,
 
-What is this fixing in the kernel, for this to be stable backported  ?
+On Wed, Nov 21, 2018@03:44:22AM +0300, Dmitry V. Levin wrote:
+> This argument is required to extend the generic ptrace API
+> with PTRACE_GET_SYSCALL_INFO request: syscall_get_arch() is going to be
+> called from ptrace_request() along with other syscall_get_* functions
+> with a tracee as their argument.
+> 
+> This change partially reverts commit 5e937a9ae913 ("syscall_get_arch:
+> remove useless function arguments").
+> 
+>%
+> 
+> diff --git a/arch/mips/include/asm/syscall.h b/arch/mips/include/asm/syscall.h
+> index 0170602a1e4e..52b633f20abd 100644
+> --- a/arch/mips/include/asm/syscall.h
+> +++ b/arch/mips/include/asm/syscall.h
+> @@ -73,7 +73,7 @@ static inline unsigned long mips_get_syscall_arg(unsigned long *arg,
+>  #ifdef CONFIG_64BIT
+>  	case 4: case 5: case 6: case 7:
+>  #ifdef CONFIG_MIPS32_O32
+> -		if (test_thread_flag(TIF_32BIT_REGS))
+> +		if (test_ti_thread_flag(task_thread_info(task), TIF_32BIT_REGS))
+>  			return get_user(*arg, (int *)usp + n);
+>  		else
+>  #endif
 
-> ---
->  arch/arc/configs/axs101_defconfig          | 1 +
->  arch/arc/configs/axs103_defconfig          | 1 +
->  arch/arc/configs/axs103_smp_defconfig      | 1 +
->  arch/arc/configs/hsdk_defconfig            | 1 +
->  arch/arc/configs/nps_defconfig             | 1 +
->  arch/arc/configs/nsimosci_defconfig        | 1 +
->  arch/arc/configs/nsimosci_hs_defconfig     | 1 +
->  arch/arc/configs/nsimosci_hs_smp_defconfig | 1 +
->  arch/arc/configs/vdk_hs38_defconfig        | 1 +
->  arch/arc/configs/vdk_hs38_smp_defconfig    | 1 +
+This ought to be test_tsk_thread_flag(task, TIF_32BIT_REGS) instead of
+open-coding test_tsk_thread_flag.
 
-I understand a sweeping change is easy, more consistent so a good guiding
-principel in general. But really all these defconfigs need NFS ? We keep on
-increasing the bloat with this. IMHO we should update only relevant defconfigs.
+More fundamentally though, this change doesn't seem to be (directly)
+related to the change you describe in the commit message - it's not
+syscall_get_arch being modified here. I suspect this should be a
+separate commit, or if not please explain in the commit message why this
+change is included.
 
->  10 files changed, 10 insertions(+)
->
-> diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
-> index 41bc08be6a3b..8c23bd086cd0 100644
-> --- a/arch/arc/configs/axs101_defconfig
-> +++ b/arch/arc/configs/axs101_defconfig
-> @@ -95,6 +95,7 @@ CONFIG_VFAT_FS=y
->  CONFIG_NTFS_FS=y
->  CONFIG_TMPFS=y
->  CONFIG_NFS_FS=y
-> +CONFIG_NFS_V3_ACL=y
->  CONFIG_NLS_CODEPAGE_437=y
->  CONFIG_NLS_ISO8859_1=y
->  # CONFIG_ENABLE_WARN_DEPRECATED is not set
-> diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
-> index 1e1c4a8011b5..666314fffc60 100644
-> --- a/arch/arc/configs/axs103_defconfig
-> +++ b/arch/arc/configs/axs103_defconfig
-> @@ -94,6 +94,7 @@ CONFIG_VFAT_FS=y
->  CONFIG_NTFS_FS=y
->  CONFIG_TMPFS=y
->  CONFIG_NFS_FS=y
-> +CONFIG_NFS_V3_ACL=y
->  CONFIG_NLS_CODEPAGE_437=y
->  CONFIG_NLS_ISO8859_1=y
->  # CONFIG_ENABLE_WARN_DEPRECATED is not set
-> diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
-> index 6b0c0cfd5c30..429832b8560b 100644
-> --- a/arch/arc/configs/axs103_smp_defconfig
-> +++ b/arch/arc/configs/axs103_smp_defconfig
-> @@ -97,6 +97,7 @@ CONFIG_VFAT_FS=y
->  CONFIG_NTFS_FS=y
->  CONFIG_TMPFS=y
->  CONFIG_NFS_FS=y
-> +CONFIG_NFS_V3_ACL=y
->  CONFIG_NLS_CODEPAGE_437=y
->  CONFIG_NLS_ISO8859_1=y
->  # CONFIG_ENABLE_WARN_DEPRECATED is not set
-> diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-> index 1dec2b4bc5e6..2a1d2cbfee1a 100644
-> --- a/arch/arc/configs/hsdk_defconfig
-> +++ b/arch/arc/configs/hsdk_defconfig
-> @@ -65,6 +65,7 @@ CONFIG_EXT3_FS=y
->  CONFIG_VFAT_FS=y
->  CONFIG_TMPFS=y
->  CONFIG_NFS_FS=y
-> +CONFIG_NFS_V3_ACL=y
->  CONFIG_NLS_CODEPAGE_437=y
->  CONFIG_NLS_ISO8859_1=y
->  # CONFIG_ENABLE_WARN_DEPRECATED is not set
-> diff --git a/arch/arc/configs/nps_defconfig b/arch/arc/configs/nps_defconfig
-> index 31ba224bbfb4..ae7a0d8be98d 100644
-> --- a/arch/arc/configs/nps_defconfig
-> +++ b/arch/arc/configs/nps_defconfig
-> @@ -73,6 +73,7 @@ CONFIG_PROC_KCORE=y
->  CONFIG_TMPFS=y
->  # CONFIG_MISC_FILESYSTEMS is not set
->  CONFIG_NFS_FS=y
-> +CONFIG_NFS_V3_ACL=y
->  CONFIG_ROOT_NFS=y
->  CONFIG_DEBUG_INFO=y
->  # CONFIG_ENABLE_WARN_DEPRECATED is not set
-> diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
-> index f14eeff7d308..ad77f20e5aa6 100644
-> --- a/arch/arc/configs/nsimosci_defconfig
-> +++ b/arch/arc/configs/nsimosci_defconfig
-> @@ -66,5 +66,6 @@ CONFIG_EXT2_FS_XATTR=y
->  CONFIG_TMPFS=y
->  # CONFIG_MISC_FILESYSTEMS is not set
->  CONFIG_NFS_FS=y
-> +CONFIG_NFS_V3_ACL=y
->  # CONFIG_ENABLE_WARN_DEPRECATED is not set
->  # CONFIG_ENABLE_MUST_CHECK is not set
-> diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
-> index 025298a48305..1638e5bc9672 100644
-> --- a/arch/arc/configs/nsimosci_hs_defconfig
-> +++ b/arch/arc/configs/nsimosci_hs_defconfig
-> @@ -65,5 +65,6 @@ CONFIG_EXT2_FS_XATTR=y
->  CONFIG_TMPFS=y
->  # CONFIG_MISC_FILESYSTEMS is not set
->  CONFIG_NFS_FS=y
-> +CONFIG_NFS_V3_ACL=y
->  # CONFIG_ENABLE_WARN_DEPRECATED is not set
->  # CONFIG_ENABLE_MUST_CHECK is not set
-> diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
-> index df7b77b13b82..11cfbdb0f441 100644
-> --- a/arch/arc/configs/nsimosci_hs_smp_defconfig
-> +++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
-> @@ -76,6 +76,7 @@ CONFIG_EXT2_FS_XATTR=y
->  CONFIG_TMPFS=y
->  # CONFIG_MISC_FILESYSTEMS is not set
->  CONFIG_NFS_FS=y
-> +CONFIG_NFS_V3_ACL=y
->  # CONFIG_ENABLE_WARN_DEPRECATED is not set
->  # CONFIG_ENABLE_MUST_CHECK is not set
->  CONFIG_FTRACE=y
-> diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
-> index db47c3541f15..1e59a2e9c602 100644
-> --- a/arch/arc/configs/vdk_hs38_defconfig
-> +++ b/arch/arc/configs/vdk_hs38_defconfig
-> @@ -85,6 +85,7 @@ CONFIG_NTFS_FS=y
->  CONFIG_TMPFS=y
->  CONFIG_JFFS2_FS=y
->  CONFIG_NFS_FS=y
-> +CONFIG_NFS_V3_ACL=y
->  CONFIG_NLS_CODEPAGE_437=y
->  CONFIG_NLS_ISO8859_1=y
->  # CONFIG_ENABLE_WARN_DEPRECATED is not set
-> diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
-> index a8ac5e917d9a..b5c3f6c54b03 100644
-> --- a/arch/arc/configs/vdk_hs38_smp_defconfig
-> +++ b/arch/arc/configs/vdk_hs38_smp_defconfig
-> @@ -90,6 +90,7 @@ CONFIG_NTFS_FS=y
->  CONFIG_TMPFS=y
->  CONFIG_JFFS2_FS=y
->  CONFIG_NFS_FS=y
-> +CONFIG_NFS_V3_ACL=y
->  CONFIG_NLS_CODEPAGE_437=y
->  CONFIG_NLS_ISO8859_1=y
->  # CONFIG_ENABLE_WARN_DEPRECATED is not set
+Compounding the lack of clarity is the fact that I only received this
+patch, not the whole series, so I can't view the change in the context
+of the rest of the series.
+
+> @@ -140,14 +140,14 @@ extern const unsigned long sys_call_table[];
+>  extern const unsigned long sys32_call_table[];
+>  extern const unsigned long sysn32_call_table[];
+>  
+> -static inline int syscall_get_arch(void)
+> +static inline int syscall_get_arch(struct task_struct *task)
+>  {
+>  	int arch = AUDIT_ARCH_MIPS;
+>  #ifdef CONFIG_64BIT
+> -	if (!test_thread_flag(TIF_32BIT_REGS)) {
+> +	if (!test_ti_thread_flag(task_thread_info(task), TIF_32BIT_REGS)) {
+>  		arch |= __AUDIT_ARCH_64BIT;
+>  		/* N32 sets only TIF_32BIT_ADDR */
+> -		if (test_thread_flag(TIF_32BIT_ADDR))
+> +		if (test_ti_thread_flag(task_thread_info(task), TIF_32BIT_ADDR))
+>  			arch |= __AUDIT_ARCH_CONVENTION_MIPS64_N32;
+>  	}
+>  #endif
+
+This does seem like the described change, but there are 2 more instances
+of open-coding test_tsk_thread_flag which ought to be cleaned up.
+
+Thanks,
+    Paul
