@@ -1,53 +1,62 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 21 Nov 2018 19:41:56 +0000
-Subject: Misaligned Access
-References: <13D59CF9CEBAF94592A12E8AE55501350113CD10@DE02WEMBXB.internal.synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075012B0B4CD5@US01WEMBX2.internal.synopsys.com>
- <9ffd1270-ad92-88b7-eb53-85c65fe971dd@synopsys.com>
- <f8c469e7-9e1d-18d6-4e56-ba4338462048@synopsys.com>
- <ebe7f165-2901-2885-0583-c7be53329372@synopsys.com>
- <4881796E12491D4BB15146FE0209CE6468198AC6@DE02WEMBXB.internal.synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA230750146415496@US01WEMBX2.internal.synopsys.com>
- <661a4323-5768-4977-5434-ab644c5418aa@synopsys.com>
+From: paul.burton@mips.com (Paul Burton)
+Date: Wed, 21 Nov 2018 19:45:51 +0000
+Subject: [PATCH v2 16/15 v2] syscall_get_arch: add "struct task_struct *"
+ argument
+In-Reply-To: <20181121193512.GA11297@altlinux.org>
+References: <20181107042751.3b519062@akathisia>
+ <CALCETrV1v-DPRfDRwiH=xn29bxWxiHdZtAH1nw=dsmDtnT0YGQ@mail.gmail.com>
+ <20181120001128.GA11300@altlinux.org> <20181121004422.GA29053@altlinux.org>
+ <20181121184004.jro532jopnbmru2m@pburton-laptop>
+ <20181121190009.GA10301@altlinux.org> <20181121193512.GA11297@altlinux.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014641580A@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20181121194549.4glznckje73z2uxk@pburton-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-+CC lkml, Arnd : subject matter expert
+Hi Dmitry,
 
-On 11/21/18 10:06 AM, Vitor Soares wrote:
-> I use the follow function to get data from a RX Fifo.
->
->
-> static void dw_i3c_master_read_rx_fifo(struct dw_i3c_master *master,
->                         u8 *bytes, int nbytes)
-> {
->      readsl(master->regs + RX_TX_DATA_PORT, bytes, nbytes / 4);
+On Wed, Nov 21, 2018@10:35:12PM +0300, Dmitry V. Levin wrote:
+> This argument is required to extend the generic ptrace API with
+> PTRACE_GET_SYSCALL_INFO request: syscall_get_arch() is going to be
+> called from ptrace_request() along with other syscall_get_* functions
+> with a tracee as their argument.
+> 
+> This change partially reverts commit 5e937a9ae913 ("syscall_get_arch:
+> remove useless function arguments").
+> 
+> Reviewed-by: Andy Lutomirski <luto at kernel.org> # for x86
+> Reviewed-by: Palmer Dabbelt <palmer at sifive.com>
+> Cc: linux-audit at redhat.com
+> Cc: linux-alpha at vger.kernel.org
+> Cc: linux-arch at vger.kernel.org
+> Cc: linux-arm-kernel at lists.infradead.org
+> Cc: linux-c6x-dev at linux-c6x.org
+> Cc: linux-hexagon at vger.kernel.org
+> Cc: linux-ia64 at vger.kernel.org
+> Cc: linux-m68k at lists.linux-m68k.org
+> Cc: linux-mips at linux-mips.org
+> Cc: linux-parisc at vger.kernel.org
+> Cc: linux-riscv at lists.infradead.org
+> Cc: linux-s390 at vger.kernel.org
+> Cc: linux-sh at vger.kernel.org
+> Cc: linux-snps-arc at lists.infradead.org
+> Cc: linux-um at lists.infradead.org
+> Cc: linux-xtensa at linux-xtensa.org
+> Cc: linuxppc-dev at lists.ozlabs.org
+> Cc: nios2-dev at lists.rocketboards.org
+> Cc: openrisc at lists.librecores.org
+> Cc: sparclinux at vger.kernel.org
+> Cc: uclinux-h8-devel at lists.sourceforge.jp
+> Cc: x86 at kernel.org
+> Signed-off-by: Dmitry V. Levin <ldv at altlinux.org>
+> ---
+> 
+> v2: cleaned up mips part, added Reviewed-by
 
-So the semantics are reading the same fifo register N times, to get the N words,
-hence read*s*l is appropriate. That however expects the buffer to be 4 bytes
-aligned, hence your issue. You can't possibly use the reads*b* as we want the
+I thought the last one was v2? :)
 
-The obvious but crude hack is to use a temp array for readsl and then copy over
-using memcpy, but I'm sure there are better ways, @Arnd ? To summarize is issue is
-a driver triggering unaligned access due to the misinteraction of API (driver get
-an unaligned u8 *) which goes against expectations of io accessor readl  (needed
-since the register contents are 4 bytes)
+Anyway, this looks fine to me now:
 
+    Acked-by: Paul Burton <paul.burton at mips.com> # MIPS parts
 
->      if (nbytes & 3) {
->          u32 tmp;
->
->          readsl(master->regs + RX_TX_DATA_PORT, &tmp, 1);
->          memcpy(bytes + (nbytes & ~3), &tmp, nbytes & 3);
->      }
-> }
->
->
-> and the pointer u8 *bytes is what is unaligned and breaks when inside of 
-> realdsl() it does:
->
->      *buf++ = x;
->
->
-> Note that the u8 *bytes pointer is the __u8 *buf of the i2c_msg struct.
+Thanks,
+    Paul
