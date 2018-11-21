@@ -1,97 +1,82 @@
-From: ldv@altlinux.org (Dmitry V. Levin)
-Date: Wed, 21 Nov 2018 22:00:10 +0300
-Subject: [PATCH v2 16/15] syscall_get_arch: add "struct task_struct *"
- argument
-In-Reply-To: <20181121184004.jro532jopnbmru2m@pburton-laptop>
-References: <20181107042751.3b519062@akathisia>
- <CALCETrV1v-DPRfDRwiH=xn29bxWxiHdZtAH1nw=dsmDtnT0YGQ@mail.gmail.com>
- <20181120001128.GA11300@altlinux.org>
- <20181121004422.GA29053@altlinux.org>
- <20181121184004.jro532jopnbmru2m@pburton-laptop>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 21 Nov 2018 19:01:01 +0000
+Subject: [PATCH] arc: [devboards] Add support of NFSv3 ACL
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA2307501464156CB@US01WEMBX2.internal.synopsys.com>
+References: <20181120103019.12852-1-abrodkin@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA2307501464156CB@US01WEMBX2.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181121190009.GA10301@altlinux.org>
+Message-ID: <4881796E12491D4BB15146FE0209CE6468198C3B@DE02WEMBXB.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Paul,
+Hi Vineet,
 
-On Wed, Nov 21, 2018@06:40:06PM +0000, Paul Burton wrote:
-> Hi Dmitry,
+> -----Original Message-----
+> From: Vineet Gupta
+> Sent: Wednesday, November 21, 2018 8:40 PM
+> To: Alexey Brodkin <abrodkin at synopsys.com>; linux-snps-arc at lists.infradead.org
+> Cc: linux-kernel at vger.kernel.org; Cupertino Miranda <cmiranda at synopsys.com>; stable at vger.kernel.org
+> Subject: Re: [PATCH] arc: [devboards] Add support of NFSv3 ACL
 > 
-> On Wed, Nov 21, 2018@03:44:22AM +0300, Dmitry V. Levin wrote:
-> > This argument is required to extend the generic ptrace API
-> > with PTRACE_GET_SYSCALL_INFO request: syscall_get_arch() is going to be
-> > called from ptrace_request() along with other syscall_get_* functions
-> > with a tracee as their argument.
-> > 
-> > This change partially reverts commit 5e937a9ae913 ("syscall_get_arch:
-> > remove useless function arguments").
-> > 
-> >%
-> > 
-> > diff --git a/arch/mips/include/asm/syscall.h b/arch/mips/include/asm/syscall.h
-> > index 0170602a1e4e..52b633f20abd 100644
-> > --- a/arch/mips/include/asm/syscall.h
-> > +++ b/arch/mips/include/asm/syscall.h
-> > @@ -73,7 +73,7 @@ static inline unsigned long mips_get_syscall_arg(unsigned long *arg,
-> >  #ifdef CONFIG_64BIT
-> >  	case 4: case 5: case 6: case 7:
-> >  #ifdef CONFIG_MIPS32_O32
-> > -		if (test_thread_flag(TIF_32BIT_REGS))
-> > +		if (test_ti_thread_flag(task_thread_info(task), TIF_32BIT_REGS))
-> >  			return get_user(*arg, (int *)usp + n);
-> >  		else
-> >  #endif
+> On 11/20/18 2:30 AM, Alexey Brodkin wrote:
+> > By default NFSv3 doesn't support ACL (Access Control Lists)
+> > which might be quite convenient to have so that
+> > mounted NFS behaves exactly as any other local file-system.
+> >
+> > In particular missing support of ACL makes umask useless.
+> > This among other thigs fixes Glibc's "nptl/tst-umask1".
+> >
+> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> > Cc: Cupertino Miranda <cmiranda at synopsys.com>
+> > Cc: stable at vger.kernel.org
 > 
-> This ought to be test_tsk_thread_flag(task, TIF_32BIT_REGS) instead of
-> open-coding test_tsk_thread_flag.
+> What is this fixing in the kernel, for this to be stable backported  ?
 
-This will be corrected, thanks for letting me know.
+It fixing not kernel problem indeed but user-space providing
+complete ACL-enabled NFS share support. IMHO we should have had
+that enabled with basic NFS support back in the day.
 
-> More fundamentally though, this change doesn't seem to be (directly)
-> related to the change you describe in the commit message - it's not
-> syscall_get_arch being modified here. I suspect this should be a
-> separate commit, or if not please explain in the commit message why this
-> change is included.
+Part of the problem is ACL is not an essential part of NFSv3 spec and so
+it is implemented as an option though I don't see a lot of sense in having
+incomplete UNIX file-system even though for most of cases it works OK.
 
-Good point, this is a fix that should not have been included into this commit.
-The bug was found while preparing the syscall_get_arch change, and this
-hunk just slipped in.  I'll send it as a separate commit.
-
-> Compounding the lack of clarity is the fact that I only received this
-> patch, not the whole series, so I can't view the change in the context
-> of the rest of the series.
+> > ---
+> >  arch/arc/configs/axs101_defconfig          | 1 +
+> >  arch/arc/configs/axs103_defconfig          | 1 +
+> >  arch/arc/configs/axs103_smp_defconfig      | 1 +
+> >  arch/arc/configs/hsdk_defconfig            | 1 +
+> >  arch/arc/configs/nps_defconfig             | 1 +
+> >  arch/arc/configs/nsimosci_defconfig        | 1 +
+> >  arch/arc/configs/nsimosci_hs_defconfig     | 1 +
+> >  arch/arc/configs/nsimosci_hs_smp_defconfig | 1 +
+> >  arch/arc/configs/vdk_hs38_defconfig        | 1 +
+> >  arch/arc/configs/vdk_hs38_smp_defconfig    | 1 +
 > 
-> > @@ -140,14 +140,14 @@ extern const unsigned long sys_call_table[];
-> >  extern const unsigned long sys32_call_table[];
-> >  extern const unsigned long sysn32_call_table[];
-> >  
-> > -static inline int syscall_get_arch(void)
-> > +static inline int syscall_get_arch(struct task_struct *task)
-> >  {
-> >  	int arch = AUDIT_ARCH_MIPS;
-> >  #ifdef CONFIG_64BIT
-> > -	if (!test_thread_flag(TIF_32BIT_REGS)) {
-> > +	if (!test_ti_thread_flag(task_thread_info(task), TIF_32BIT_REGS)) {
-> >  		arch |= __AUDIT_ARCH_64BIT;
-> >  		/* N32 sets only TIF_32BIT_ADDR */
-> > -		if (test_thread_flag(TIF_32BIT_ADDR))
-> > +		if (test_ti_thread_flag(task_thread_info(task), TIF_32BIT_ADDR))
-> >  			arch |= __AUDIT_ARCH_CONVENTION_MIPS64_N32;
-> >  	}
-> >  #endif
-> 
-> This does seem like the described change, but there are 2 more instances
-> of open-coding test_tsk_thread_flag which ought to be cleaned up.
+> I understand a sweeping change is easy, more consistent so a good guiding
+> principel in general. But really all these defconfigs need NFS ? We keep on
+> increasing the bloat with this. IMHO we should update only relevant defconfigs.
 
-This will be cleaned up, thanks for letting me know.
+Well my point is in having similarly equipped platforms so that we may rely on
+results we're getting on all of them. Thus all platforms supporting networking
+got that update.
 
+Maybe NPS is not that important as we most probably not going to use it
+for verification of anything so this one could be dropped.
 
--- 
-ldv
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 801 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20181121/0639cad7/attachment.sig>
+Speaking about bloat...
+------------------------------------->8-----------------------------------
+# git grep NFS torvalds/master arch/arc/configs/ | grep nsim_
+torvalds/master:arch/arc/configs/nsim_700_defconfig:57:CONFIG_NFS_FS=y
+torvalds/master:arch/arc/configs/nsim_hs_defconfig:58:CONFIG_NFS_FS=y
+torvalds/master:arch/arc/configs/nsim_hs_smp_defconfig:57:CONFIG_NFS_FS=y
+------------------------------------->8-----------------------------------
+
+It's a nonsense I guess as obviously there's no way to have networking on
+pure nSIM platforms, right? And that I'm going to clean-up in a separate patch.
+
+As for other boards I realize that we add more config options over time
+but that's how we make them more useful and capable.
+Moreover since we're talking about _defconfigs_ here I guess there're
+many other options we don't touch but they still change so over time
+we still cannot compare the same defconfigs as apples vs apples.
+
+-Alexey
