@@ -1,24 +1,36 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Wed, 21 Nov 2018 07:15:15 -0800
-Subject: [PATCH v2 16/15] syscall_get_arch: add "struct task_struct *"
- argument
-In-Reply-To: <20181121004422.GA29053@altlinux.org>
-References: <20181107042751.3b519062@akathisia>
- <CALCETrV1v-DPRfDRwiH=xn29bxWxiHdZtAH1nw=dsmDtnT0YGQ@mail.gmail.com>
- <20181120001128.GA11300@altlinux.org> <20181121004422.GA29053@altlinux.org>
+From: sashal@kernel.org (Sasha Levin)
+Date: Wed, 21 Nov 2018 15:24:53 +0000
+Subject: [PATCH] arc: [devboards] Add support of NFSv3 ACL
+In-Reply-To: <20181120103019.12852-1-abrodkin@synopsys.com>
+References: <20181120103019.12852-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CALCETrV8AJPkZF7TzhXSte_wJgNXH+-s7-tPM-8xjcAfYgzdhg@mail.gmail.com>
+Message-ID: <20181121152453.EF966214DB@mail.kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Nov 20, 2018@4:44 PM Dmitry V. Levin <ldv@altlinux.org> wrote:
->
-> This argument is required to extend the generic ptrace API
-> with PTRACE_GET_SYSCALL_INFO request: syscall_get_arch() is going to be
-> called from ptrace_request() along with other syscall_get_* functions
-> with a tracee as their argument.
->
-> This change partially reverts commit 5e937a9ae913 ("syscall_get_arch:
-> remove useless function arguments").
->
+Hi,
 
-Reviewed-by: Andy Lutomirski <luto at kernel.org> # for x86
+[This is an automated email]
+
+This commit has been processed because it contains a -stable tag.
+The stable tag indicates that it's relevant for the following trees: all
+
+The bot has tested the following trees: v4.19.2, v4.18.19, v4.14.81, v4.9.137, v4.4.163, v3.18.125.
+
+v4.19.2: Build OK!
+v4.18.19: Build OK!
+v4.14.81: Build OK!
+v4.9.137: Failed to apply! Possible dependencies:
+    Unable to calculate
+
+v4.4.163: Failed to apply! Possible dependencies:
+    Unable to calculate
+
+v3.18.125: Failed to apply! Possible dependencies:
+    556cc1c5f528 ("ARC: [axs101] Add support for AXS101 SDP (software development platform)")
+
+
+How should we proceed with this patch?
+
+--
+Thanks,
+Sasha
