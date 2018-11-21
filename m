@@ -1,88 +1,158 @@
-From: marex@denx.de (Marek Vasut)
-Date: Wed, 21 Nov 2018 16:47:46 +0100
-Subject: [OE-core] [PATCH v4] u-boot: Add mkenvimage tool
-In-Reply-To: <CAP9ODKodGomFQXWXnKXo321JjrmqW281H8Li+h5tM1vCMXB3cg@mail.gmail.com>
-References: <20181120202107.41029-1-abrodkin@synopsys.com>
- <f9ff2442-e164-d973-6fea-49bfeb9cbbd7@denx.de>
- <CAP9ODKodGomFQXWXnKXo321JjrmqW281H8Li+h5tM1vCMXB3cg@mail.gmail.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 21 Nov 2018 17:40:17 +0000
+Subject: [PATCH] arc: [devboards] Add support of NFSv3 ACL
+References: <20181120103019.12852-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <59cc4223-ea8b-49e4-a105-e5b1a879e09d@denx.de>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501464156CB@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/21/2018 04:45 PM, Otavio Salvador wrote:
-> On Tue, Nov 20, 2018@6:22 PM Marek Vasut <marex@denx.de> wrote:
->> On 11/20/2018 09:21 PM, Alexey Brodkin wrote:
->>> This utility is used for creation of images containing
->>> usable in run-time U-Boot environment.
->>>
->>> As of today this utility is added per-board like here [1]
->>> for Intel Edison board.
->>>
->>> [1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
->>>
->>> Given there're quite some U-Boot tools that we may want to add later
->>> this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
->>> still for compatibility we provide "u-boot-mkimage" with help
->>> of PROVIDES as well as proposed "u-boot-mkenvimage".
->>>
->>> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
->>> Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
->>> Cc: Otavio Salvador <otavio at ossystems.com.br>
->>> Cc: Martin Jansa <martin.jansa at gmail.com>
->>> Cc: Ross Burton <ross.burton at intel.com>
->>> Cc: Marek Vasut <marex at denx.de>
->>> ---
->>>
->>> I may "git grep u-boot-mkimage" in more places:
->>>  1. meta/classes/image_types.bbclass:311:CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
->>>  2. meta/classes/kernel-fitimage.bbclass:7:        depends = "%s u-boot-mkimage-native dtc-native" % depends
->>>  3. meta/classes/kernel-uimage.bbclass:6:        depends = "%s u-boot-mkimage-native" % depends
->>>  4. meta/conf/distro/include/distro_alias.inc:357:DISTRO_PN_ALIAS_pn-u-boot-mkimage = "Ubuntu=uboot-mkimage Debian=uboot-mkimage"
->>>
->>> But that's not clear for me if it's required to swap "u-boot-mkimage"
->>> to "u-boot-tools" see:
->>>  1. "u-boot-mkimage" is still a valid recipe as we export ot via PROVIDES
->>>     (or I'm mixing package name with recipe name which very well might be
->>>      the case)
->>>  2. I don't fully understand a mening of "DISTRO_PN_ALIAS".
->>>     If that's a name of a package from some big Linux distro or how target
->>>     utility is named in that distro. For example in Debian Sid there's
->>>     a package named "u-boot-tools" which includes "mkimage", "mkenvimage",
->>>     "fw_printenv", "fw_setenv" and many more while in "distro_alias.inc"
->>>     we still have:
->>>     ---------------->8----------------
->>>     DISTRO_PN_ALIAS_pn-u-boot-mkimage = "Ubuntu=uboot-mkimage Debian=uboot-mkimage"
->>>     ---------------->8----------------
->>
->> Just make u-boot-tools RPROVIDE the u-boot-mkimage, and make it generate
->> a u-boot-mkimage package , no ?
-> 
-> In fact, it should:
-> 
-> PROVIDE += "u-boot-mkimage"
-> 
-> So dependencies are going to keep working; as Richard said, it should
-> use the new name for the sake of correctness though.
-> 
-> The package split will define how it will need to be handled for the
-> runtime counterpart.
-> 
-> If we adopt:
-> 
-> PACKAGES += "${PN}-mkimage ${PN}-mkenvimage"
-> 
-> Then we need to add:
-> 
-> RPROVIDES_${PN}-mkimage = "u-boot-mkimage"
-> RREPLACES_${PN}-mkimage = "u-boot-mkimage"
-> RCONFLICTS_${PN}-mkimage = "u-boot-mkimage"
-> 
-> So it provides the upgrade path to the original package.
-> 
-> (this is my vote, btw)
+On 11/20/18 2:30 AM, Alexey Brodkin wrote:
+> By default NFSv3 doesn't support ACL (Access Control Lists)
+> which might be quite convenient to have so that
+> mounted NFS behaves exactly as any other local file-system.
+>
+> In particular missing support of ACL makes umask useless.
+> This among other thigs fixes Glibc's "nptl/tst-umask1".
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Cupertino Miranda <cmiranda at synopsys.com>
+> Cc: stable at vger.kernel.org
 
-Cool, all right.
+What is this fixing in the kernel, for this to be stable backported  ?
 
--- 
-Best regards,
-Marek Vasut
+> ---
+>  arch/arc/configs/axs101_defconfig          | 1 +
+>  arch/arc/configs/axs103_defconfig          | 1 +
+>  arch/arc/configs/axs103_smp_defconfig      | 1 +
+>  arch/arc/configs/hsdk_defconfig            | 1 +
+>  arch/arc/configs/nps_defconfig             | 1 +
+>  arch/arc/configs/nsimosci_defconfig        | 1 +
+>  arch/arc/configs/nsimosci_hs_defconfig     | 1 +
+>  arch/arc/configs/nsimosci_hs_smp_defconfig | 1 +
+>  arch/arc/configs/vdk_hs38_defconfig        | 1 +
+>  arch/arc/configs/vdk_hs38_smp_defconfig    | 1 +
+
+I understand a sweeping change is easy, more consistent so a good guiding
+principel in general. But really all these defconfigs need NFS ? We keep on
+increasing the bloat with this. IMHO we should update only relevant defconfigs.
+
+>  10 files changed, 10 insertions(+)
+>
+> diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
+> index 41bc08be6a3b..8c23bd086cd0 100644
+> --- a/arch/arc/configs/axs101_defconfig
+> +++ b/arch/arc/configs/axs101_defconfig
+> @@ -95,6 +95,7 @@ CONFIG_VFAT_FS=y
+>  CONFIG_NTFS_FS=y
+>  CONFIG_TMPFS=y
+>  CONFIG_NFS_FS=y
+> +CONFIG_NFS_V3_ACL=y
+>  CONFIG_NLS_CODEPAGE_437=y
+>  CONFIG_NLS_ISO8859_1=y
+>  # CONFIG_ENABLE_WARN_DEPRECATED is not set
+> diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
+> index 1e1c4a8011b5..666314fffc60 100644
+> --- a/arch/arc/configs/axs103_defconfig
+> +++ b/arch/arc/configs/axs103_defconfig
+> @@ -94,6 +94,7 @@ CONFIG_VFAT_FS=y
+>  CONFIG_NTFS_FS=y
+>  CONFIG_TMPFS=y
+>  CONFIG_NFS_FS=y
+> +CONFIG_NFS_V3_ACL=y
+>  CONFIG_NLS_CODEPAGE_437=y
+>  CONFIG_NLS_ISO8859_1=y
+>  # CONFIG_ENABLE_WARN_DEPRECATED is not set
+> diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
+> index 6b0c0cfd5c30..429832b8560b 100644
+> --- a/arch/arc/configs/axs103_smp_defconfig
+> +++ b/arch/arc/configs/axs103_smp_defconfig
+> @@ -97,6 +97,7 @@ CONFIG_VFAT_FS=y
+>  CONFIG_NTFS_FS=y
+>  CONFIG_TMPFS=y
+>  CONFIG_NFS_FS=y
+> +CONFIG_NFS_V3_ACL=y
+>  CONFIG_NLS_CODEPAGE_437=y
+>  CONFIG_NLS_ISO8859_1=y
+>  # CONFIG_ENABLE_WARN_DEPRECATED is not set
+> diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
+> index 1dec2b4bc5e6..2a1d2cbfee1a 100644
+> --- a/arch/arc/configs/hsdk_defconfig
+> +++ b/arch/arc/configs/hsdk_defconfig
+> @@ -65,6 +65,7 @@ CONFIG_EXT3_FS=y
+>  CONFIG_VFAT_FS=y
+>  CONFIG_TMPFS=y
+>  CONFIG_NFS_FS=y
+> +CONFIG_NFS_V3_ACL=y
+>  CONFIG_NLS_CODEPAGE_437=y
+>  CONFIG_NLS_ISO8859_1=y
+>  # CONFIG_ENABLE_WARN_DEPRECATED is not set
+> diff --git a/arch/arc/configs/nps_defconfig b/arch/arc/configs/nps_defconfig
+> index 31ba224bbfb4..ae7a0d8be98d 100644
+> --- a/arch/arc/configs/nps_defconfig
+> +++ b/arch/arc/configs/nps_defconfig
+> @@ -73,6 +73,7 @@ CONFIG_PROC_KCORE=y
+>  CONFIG_TMPFS=y
+>  # CONFIG_MISC_FILESYSTEMS is not set
+>  CONFIG_NFS_FS=y
+> +CONFIG_NFS_V3_ACL=y
+>  CONFIG_ROOT_NFS=y
+>  CONFIG_DEBUG_INFO=y
+>  # CONFIG_ENABLE_WARN_DEPRECATED is not set
+> diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
+> index f14eeff7d308..ad77f20e5aa6 100644
+> --- a/arch/arc/configs/nsimosci_defconfig
+> +++ b/arch/arc/configs/nsimosci_defconfig
+> @@ -66,5 +66,6 @@ CONFIG_EXT2_FS_XATTR=y
+>  CONFIG_TMPFS=y
+>  # CONFIG_MISC_FILESYSTEMS is not set
+>  CONFIG_NFS_FS=y
+> +CONFIG_NFS_V3_ACL=y
+>  # CONFIG_ENABLE_WARN_DEPRECATED is not set
+>  # CONFIG_ENABLE_MUST_CHECK is not set
+> diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
+> index 025298a48305..1638e5bc9672 100644
+> --- a/arch/arc/configs/nsimosci_hs_defconfig
+> +++ b/arch/arc/configs/nsimosci_hs_defconfig
+> @@ -65,5 +65,6 @@ CONFIG_EXT2_FS_XATTR=y
+>  CONFIG_TMPFS=y
+>  # CONFIG_MISC_FILESYSTEMS is not set
+>  CONFIG_NFS_FS=y
+> +CONFIG_NFS_V3_ACL=y
+>  # CONFIG_ENABLE_WARN_DEPRECATED is not set
+>  # CONFIG_ENABLE_MUST_CHECK is not set
+> diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
+> index df7b77b13b82..11cfbdb0f441 100644
+> --- a/arch/arc/configs/nsimosci_hs_smp_defconfig
+> +++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
+> @@ -76,6 +76,7 @@ CONFIG_EXT2_FS_XATTR=y
+>  CONFIG_TMPFS=y
+>  # CONFIG_MISC_FILESYSTEMS is not set
+>  CONFIG_NFS_FS=y
+> +CONFIG_NFS_V3_ACL=y
+>  # CONFIG_ENABLE_WARN_DEPRECATED is not set
+>  # CONFIG_ENABLE_MUST_CHECK is not set
+>  CONFIG_FTRACE=y
+> diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
+> index db47c3541f15..1e59a2e9c602 100644
+> --- a/arch/arc/configs/vdk_hs38_defconfig
+> +++ b/arch/arc/configs/vdk_hs38_defconfig
+> @@ -85,6 +85,7 @@ CONFIG_NTFS_FS=y
+>  CONFIG_TMPFS=y
+>  CONFIG_JFFS2_FS=y
+>  CONFIG_NFS_FS=y
+> +CONFIG_NFS_V3_ACL=y
+>  CONFIG_NLS_CODEPAGE_437=y
+>  CONFIG_NLS_ISO8859_1=y
+>  # CONFIG_ENABLE_WARN_DEPRECATED is not set
+> diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
+> index a8ac5e917d9a..b5c3f6c54b03 100644
+> --- a/arch/arc/configs/vdk_hs38_smp_defconfig
+> +++ b/arch/arc/configs/vdk_hs38_smp_defconfig
+> @@ -90,6 +90,7 @@ CONFIG_NTFS_FS=y
+>  CONFIG_TMPFS=y
+>  CONFIG_JFFS2_FS=y
+>  CONFIG_NFS_FS=y
+> +CONFIG_NFS_V3_ACL=y
+>  CONFIG_NLS_CODEPAGE_437=y
+>  CONFIG_NLS_ISO8859_1=y
+>  # CONFIG_ENABLE_WARN_DEPRECATED is not set
