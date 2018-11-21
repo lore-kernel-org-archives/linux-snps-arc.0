@@ -1,30 +1,24 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Wed, 21 Nov 2018 06:37:01 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Wed Nov 21, 17:35
+From: luto@kernel.org (Andy Lutomirski)
+Date: Wed, 21 Nov 2018 07:15:15 -0800
+Subject: [PATCH v2 16/15] syscall_get_arch: add "struct task_struct *"
+ argument
+In-Reply-To: <20181121004422.GA29053@altlinux.org>
+References: <20181107042751.3b519062@akathisia>
+ <CALCETrV1v-DPRfDRwiH=xn29bxWxiHdZtAH1nw=dsmDtnT0YGQ@mail.gmail.com>
+ <20181120001128.GA11300@altlinux.org> <20181121004422.GA29053@altlinux.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181121063701.1.15879@8ba6f76b8fbc>
+Message-ID: <CALCETrV8AJPkZF7TzhXSte_wJgNXH+-s7-tPM-8xjcAfYgzdhg@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Wed Nov 21, 17:35
+On Tue, Nov 20, 2018@4:44 PM Dmitry V. Levin <ldv@altlinux.org> wrote:
+>
+> This argument is required to extend the generic ptrace API
+> with PTRACE_GET_SYSCALL_INFO request: syscall_get_arch() is going to be
+> called from ptrace_request() along with other syscall_get_* functions
+> with a tracee as their argument.
+>
+> This change partially reverts commit 5e937a9ae913 ("syscall_get_arch:
+> remove useless function arguments").
+>
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13592940/
-
-Commit:   Merge tag 'media/v4.20-3' of git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
-          06e68fed32826b44aa9ffcf282c14d3c58918a70
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4
-
-Possible errors
----------------
-
-arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-
-Possible warnings (6)
-----------------------
-
-arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs101.dtb: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-net/ipv4/tcp_input.c:4311:49: warning: array subscript is above array bounds [-Warray-bounds]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+Reviewed-by: Andy Lutomirski <luto at kernel.org> # for x86
