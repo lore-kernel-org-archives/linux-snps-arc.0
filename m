@@ -1,61 +1,48 @@
 From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 22 Nov 2018 09:47:36 +0000
-Subject: [OE-core] [PATCH v6] u-boot: Add mkenvimage tool
-In-Reply-To: <CAP9ODKo46bnbLLBrhUJHPa1QYKSc0c_TtFVd2Q-Tv7j193K+ug@mail.gmail.com>
-References: <20181122082807.39508-1-abrodkin@synopsys.com>
- <CAP9ODKo46bnbLLBrhUJHPa1QYKSc0c_TtFVd2Q-Tv7j193K+ug@mail.gmail.com>
+Date: Thu, 22 Nov 2018 15:06:00 +0300
+Subject: [PATCH] gcc: Select proper ARC CPU when build for target
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5c54f25000309545ee74be3bc5f3e1b73296f675.camel@synopsys.com>
+Message-ID: <20181122120600.10061-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Otavio,
+By default GCC for ARC is configured with ARC700 CPU.
+This means when we don't pass "-mcpu=xxx":
+ a) Code will be compiled for ARC700
+ b) Libs will used for ARC700
 
-On Thu, 2018-11-22@07:30 -0200, Otavio Salvador wrote:
-> Hello Alexey,
-> 
-> On Thu, Nov 22, 2018 at 6:28 AM Alexey Brodkin
-> <alexey.brodkin@synopsys.com> wrote:
-> > This utility is used for creation of images containing
-> > usable in run-time U-Boot environment.
-> > 
-> > As of today this utility is added per-board like here [1]
-> > for Intel Edison board.
-> > 
-> > [1] 
-> > https://urldefense.proofpoint.com/v2/url?u=http-3A__git.yoctoproject.org_cgit_cgit.cgi_meta-2Dintel-2Dedison_tree_meta-2Dintel-2Dedison-2Dbsp_recipes-2Dbsp_u-2Dboot_u-2Dboot-2Dtools-5F2014.04.bb&d=DwICAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=0oSj04biS8fsfFjYHNTIfKozS-TUjseTTeyuKHHcljA&s=hpwGEnrX5gArYJHLxYhMZ4x6s3irTZyCMjjnFipip7k&e=
-> > 
-> > Given there're quite some U-Boot tools that we may want to add later
-> > this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
-> > still for compatibility we provide "u-boot-mkimage" with help
-> > of PROVIDES as well as proposed "u-boot-mkenvimage".
-> > 
-> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> > Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
-> > Cc: Otavio Salvador <otavio at ossystems.com.br>
-> > Cc: Martin Jansa <martin.jansa at gmail.com>
-> > Cc: Ross Burton <ross.burton at intel.com>
-> > Cc: Marek Vasut <marex at denx.de>
-> 
-> Acked-by: Otavio Salvador <otavio at ossystems.com.br>
-> 
-> I'd like to thank you to keep the pace until it was ready. I know it
-> may be challenging to contribute to new projects and OpenEmbedded is
-> no different.
-> 
-> You were very welcoming to comments and change requests and I believe
-> it was a great thread of changes which lead to a good patch. I look
-> forward to the new patches you'll start submitting from now on :-)
+And if we happen to run on ARCv2 core like ARC HSxx we
+won't be able to use target gcc w/o "-mcpu=xxx" which
+is not very convenient as we want to build "target" toolchain
+but not canadian-cross.
 
-I'd like to thank you guys as well for being patient and providing
-meaningful comments for my naive and sometime silly changes.
+Note the trick here is we set TUNE_PKGARCH in just 2 values,
+it is either "arc700" for all ARCompact cores (ARC750 & ARC770)
+and "archs" for all ARCv2 cores (ARC HS38 & HS48), see [1].
+This gives us usable defaults.
 
-And sure there will be more patches as now we start using OE
-for quite some projects basically trying to get ARC up to speed
-in OE as good as possible and given our architecture differs a bit
-from others (as any other arch) we're not only adding features but
-more fix issues that were not seen before due to pure luck...
-like we typically have 8k MMU page a bit exotic int64_t alignment
-by 32 bits etc so there'll be more stuff from us in the foreseeable
-future :)
+For cross-compilation we use TUNE_CCARGS for fine-tuning depending
+on which HW features we have on the current target so that
+we may have HW feature A & B or B & C or A & B & C, see [2].
 
--Alexey
+[1] https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys/blob/master/conf/machine/include/tune-arcv2.inc#L4
+[2] https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys/blob/master/conf/machine/include/tune-arcv2.inc#L34
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ meta/recipes-devtools/gcc/gcc-target.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index bc2236fed0..6270059644 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -20,6 +20,7 @@ ARMFPARCHEXT ?= ""
+ EXTRA_OECONF_append_armv6 = " --with-arch=armv6${ARMFPARCHEXT}"
+ EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a${ARMFPARCHEXT}"
+ EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve${ARMFPARCHEXT}"
++EXTRA_OECONF_append_arc = " --with-cpu=${TUNE_PKGARCH}"
+ 
+ # libcc1 requres gcc_cv_objdump when cross build, but gcc_cv_objdump is
+ # set in subdir gcc, so subdir libcc1 can't use it, export it here to
+-- 
+2.16.2
