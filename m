@@ -1,8 +1,8 @@
 From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 22 Nov 2018 01:07:31 +0300
-Subject: [PATCH v5] u-boot: Add mkenvimage tool
+Date: Thu, 22 Nov 2018 11:28:07 +0300
+Subject: [PATCH v6] u-boot: Add mkenvimage tool
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181121220731.42722-1-abrodkin@synopsys.com>
+Message-ID: <20181122082807.39508-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 This utility is used for creation of images containing
@@ -26,6 +26,9 @@ Cc: Ross Burton <ross.burton at intel.com>
 Cc: Marek Vasut <marex at denx.de>
 ---
 
+Changes v5 -> v6:
+ * Really enable separate  pakaging of mkimage and mkenvimage
+
 Changes v4 -> v5:
  * Added backward compatibility with "u-boot-mkimage" recipe
  * Improved handling of nativesdk
@@ -44,14 +47,15 @@ Changes v1 -> v2:
  * Got rid of a separate recipe and instead added mkenvimage
    to u-boot mkimage recipe
 
- meta/classes/image_types.bbclass                       |  2 +-
- meta/classes/kernel-fitimage.bbclass                   |  2 +-
- meta/classes/kernel-uimage.bbclass                     |  2 +-
- meta/conf/distro/include/distro_alias.inc              |  2 +-
- meta/conf/distro/include/maintainers.inc               |  2 +-
- ...boot-mkimage_2018.07.bb => u-boot-tools_2018.07.bb} | 18 +++++++++++++++++-
- 6 files changed, 22 insertions(+), 6 deletions(-)
- rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2018.07.bb => u-boot-tools_2018.07.bb} (66%)
+
+ meta/classes/image_types.bbclass                   |  2 +-
+ meta/classes/kernel-fitimage.bbclass               |  2 +-
+ meta/classes/kernel-uimage.bbclass                 |  2 +-
+ meta/conf/distro/include/distro_alias.inc          |  2 +-
+ meta/conf/distro/include/maintainers.inc           |  2 +-
+ ...-mkimage_2018.07.bb => u-boot-tools_2018.07.bb} | 26 ++++++++++++++++++++--
+ 6 files changed, 29 insertions(+), 7 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2018.07.bb => u-boot-tools_2018.07.bb} (56%)
 
 diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
 index 05e5b0a2e0..5c406481ef 100644
@@ -119,10 +123,10 @@ index 0889c1c429..825c24a3f8 100644
  RECIPE_MAINTAINER_pn-unfs3 = "Ross Burton <ross.burton at intel.com>"
  RECIPE_MAINTAINER_pn-unifdef = "Ross Burton <ross.burton at intel.com>"
 diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
-similarity index 66%
+similarity index 56%
 rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
 rename to meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
-index 08bff1d161..089b893449 100644
+index 08bff1d161..b53a727244 100644
 --- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
 +++ b/meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
 @@ -1,8 +1,18 @@
@@ -145,7 +149,7 @@ index 08bff1d161..089b893449 100644
  EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
  EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
  EXTRA_OEMAKE_class-nativesdk = 'CROSS_COMPILE="${HOST_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
-@@ -20,8 +30,14 @@ do_compile () {
+@@ -20,10 +30,22 @@ do_compile () {
  
  do_install () {
  	install -d ${D}${bindir}
@@ -159,6 +163,15 @@ index 08bff1d161..089b893449 100644
 +	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
  }
  
- RDEPENDS_${PN} += "dtc"
+-RDEPENDS_${PN} += "dtc"
++ALLOW_EMPTY_${PN} = "1"
++FILES_${PN} = ""
++FILES_${PN}-mkimage = "${bindir}/uboot-mkimage ${bindir}/mkimage"
++FILES_${PN}-mkenvimage = "${bindir}/uboot-mkenvimage ${bindir}/mkenvimage"
++
++RDEPENDS_${PN}-mkimage += "dtc"
++RDEPENDS_${PN} += "${PN}-mkimage ${PN}-mkenvimage"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.16.2
