@@ -1,92 +1,61 @@
-From: richard.purdie@linuxfoundation.org (richard.purdie@linuxfoundation.org)
-Date: Thu, 22 Nov 2018 13:42:30 +0000
-Subject: [PATCH v6] u-boot: Add mkenvimage tool
-In-Reply-To: <dee5be3f45002c06f318bf633364aa842548cef8.camel@synopsys.com>
-References: <20181122082807.39508-1-abrodkin@synopsys.com>
- <dee5be3f45002c06f318bf633364aa842548cef8.camel@synopsys.com>
+From: Tudor.Ambarus@microchip.com (Tudor.Ambarus@microchip.com)
+Date: Thu, 22 Nov 2018 17:45:39 +0000
+Subject: [PATCH v2 0/2] MTD: spi-nor: add support for sst26wf016,
+ sst26wf032
+In-Reply-To: <1542641133.4940.5.camel@synopsys.com>
+References: <20180910114628.19156-1-Eugeniy.Paltsev@synopsys.com>
+ <1540216028.19916.6.camel@synopsys.com> <20181022155635.2175a595@bbrezillon>
+ <1542641133.4940.5.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <ec8e8102f61407b19a6341a77858f7d825cab603.camel@linuxfoundation.org>
+Message-ID: <60792e70-a530-3403-f144-c430639d01f1@microchip.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, 2018-11-22@13:18 +0000, Alexey Brodkin wrote:
-> Hi, Richard, Otavio,
-> 
-> On Thu, 2018-11-22@11:28 +0300, Alexey Brodkin wrote:
-> > This utility is used for creation of images containing
-> > usable in run-time U-Boot environment.
-> > 
-> > As of today this utility is added per-board like here [1]
-> > for Intel Edison board.
-> > 
-> > [1] 
-> > http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
-> > 
-> > Given there're quite some U-Boot tools that we may want to add
-> > later
-> > this recipe name switch from "u-boot-mkimage" to generic "u-boot-
-> > tools"
-> > still for compatibility we provide "u-boot-mkimage" with help
-> > of PROVIDES as well as proposed "u-boot-mkenvimage".
-> > 
-> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> > Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
-> > Cc: Otavio Salvador <otavio at ossystems.com.br>
-> > Cc: Martin Jansa <martin.jansa at gmail.com>
-> > Cc: Ross Burton <ross.burton at intel.com>
-> > Cc: Marek Vasut <marex at denx.de>
-> > ---
-> > 
-> > Changes v5 -> v6:
-> >  * Really enable separate  pakaging of mkimage and mkenvimage
-> > 
-> > Changes v4 -> v5:
-> >  * Added backward compatibility with "u-boot-mkimage" recipe
-> >  * Improved handling of nativesdk
-> >  * Update all references from "u-boot-mkimage" to "u-boot-tools"
-> > 
-> > Changes v3 -> v4:
-> >  * Updated maintainer info to make Yocto autobuilder happy again
-> > 
-> > Changes v2 -> v3:
-> >  * Recipe renamed to "u-boot-tools" to better match its contents
-> >    (especially in the future as we add more tools there)
-> >  * Existing "u-boot-mkimage" and newly introduced "u-boot-
-> > mkenvimage"
-> >    made avaialble via PROVIDES
-> > 
-> > Changes v1 -> v2:
-> >  * Got rid of a separate recipe and instead added mkenvimage
-> >    to u-boot mkimage recipe
-> 
-> So apparently something is still broken :(
-> ------------------------->8-------------------------------
-> NOTE: Resolving any missing task queue dependencies
-> ERROR: Nothing RPROVIDES 'u-boot-tools-native-mkimage-native' (but
-> virtual:native:.../openembedded-core/meta/recipes-bsp/u-boot/u-boot-
-> tools_2018.07.bb RDEPENDS on or otherwise requires it)
-> 
-> NOTE: Runtime target 'u-boot-tools-native-mkimage-native' is
-> unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['u-boot-tools-native-
-> mkimage-native']
-> 
-> ERROR: Required build target 'core-image-base' has no buildable
-> providers.
-> Missing or unbuildable dependency chain was: ['core-image-base',
-> 'virtual/kernel', 'u-boot-tools-native', 'u-boot-tools-native-
-> mkimage-native']
-> ------------------------->8-------------------------------
-> 
-> Indeed "u-boot-tools-native-mkimage-native" looks quite odd.
-> 
-> Any hints on how that could be addressed?
+Hi, Eugeniy,
 
-Just guessing but maybe
+This is just to let you know that I'm getting familiar with the individual block
+lock support. You'll have my review in the first part of next week.
 
-RDEPENDS_${PN}_class-native = ""
+Thank you for your patience,
+ta
 
-?
-
-Cheers,
-
-Richard
+On 11/19/2018 05:25 PM, Eugeniy Paltsev wrote:
+> Hi Boris,
+> 
+> As 4.20-rc1 is already out I guess you can pick this patches to spi-nor/next?
+> 
+> Thanks.
+> 
+> On Mon, 2018-10-22@15:56 +0200, Boris Brezillon wrote:
+>> +Tudor
+>>
+>> Hi Eugeniy,
+>>
+>> Sorry, it's already too late for 4.20, and I won't apply patches to the
+>> spi-nor/next branch before 4.20-rc1 is out.
+>>
+>> Tudor, Marek, can I have a Reviewed-by/Acked-by on this patchset?
+>>
+>> Thanks,
+>>
+>> Boris
+>>
+>>>
+>>> On Mon, 2018-09-10@14:46 +0300, Eugeniy Paltsev wrote:
+>>>> Add support for the SST sst26wf016 and sst26wf032 flash IC:
+>>>>
+>>>> sst26wf*** flash series block protection implementation differs from other
+>>>> SST series, so we add implementation for sst26wf*** lock/unlock/is_locked
+>>>> functions.
+>>>>
+>>>> Add sst26wf016 and sst26wf032 flash IC info to spi_flash_ids list.
+>>>>
+>>>> Eugeniy Paltsev (2):
+>>>>   mtd: spi-nor: Add support of sst26wf* flash ICs protection ops
+>>>>   mtd: spi-nor: add support for sst26wf016, sst26wf032
+>>>>
+>>>>  drivers/mtd/spi-nor/spi-nor.c | 179 ++++++++++++++++++++++++++++++++++++++++++
+>>>>  include/linux/mtd/spi-nor.h   |   4 +
+>>>>  2 files changed, 183 insertions(+)
+>>>>   
+>>
+>>
