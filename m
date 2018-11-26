@@ -1,20 +1,18 @@
-From: raj.khem@gmail.com (Khem Raj)
-Date: Mon, 26 Nov 2018 14:16:29 -0800
-Subject: [PATCH v7] u-boot: Add mkenvimage tool
+From: otavio.salvador@ossystems.com.br (Otavio Salvador)
+Date: Mon, 26 Nov 2018 21:07:37 -0200
+Subject: [OE-core] [PATCH v7] u-boot: Add mkenvimage tool
 In-Reply-To: <8950e9f58055a8667d20ff83de1f8acd14b7f303.camel@synopsys.com>
 References: <20181122225820.2553-1-abrodkin@synopsys.com>
  <CAMKF1sqbHtV1UYiXre_1sNEzyFWJw3mRs_hcuVzu+us_r0OWVg@mail.gmail.com>
  <8950e9f58055a8667d20ff83de1f8acd14b7f303.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMKF1soUiWrDmyGq-Y04PgKRB=oSw+mW8ieNQFxSz8OsViAPOQ@mail.gmail.com>
+Message-ID: <CAP9ODKrJ0Yshn29tSt-Aj1Gr01+XrZ7C_K4Yn4r6yA4CdkiCnQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Nov 26, 2018 at 1:30 PM Alexey Brodkin
+Hello Alexey,
+
+On Mon, Nov 26, 2018 at 7:30 PM Alexey Brodkin
 <alexey.brodkin@synopsys.com> wrote:
->
-> Hi Khem,
->
->
 > On Sat, 2018-11-24@06:57 -0800, Khem Raj wrote:
 > >
 > > http://errors.yoctoproject.org/Errors/Details/202185/
@@ -45,7 +43,9 @@ On Mon, Nov 26, 2018 at 1:30 PM Alexey Brodkin
 >
 > Should I send a patch for that?
 
-seems ok. Please do
+Let's add Tom (U-Boot upstream main maintainer) to this so he can comment.
 
->
-> -Alexey
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
