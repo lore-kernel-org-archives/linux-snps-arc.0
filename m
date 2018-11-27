@@ -1,45 +1,58 @@
-From: dianders@chromium.org (Doug Anderson)
-Date: Tue, 27 Nov 2018 09:39:09 -0800
-Subject: [PATCH v5 2/4] kgdb: Fix kgdb_roundup_cpus() for arches who used
- smp_call_function()
-In-Reply-To: <201811271333.8ZTVxYUT%fengguang.wu@intel.com>
-References: <20181127035133.225592-3-dianders@chromium.org>
- <201811271333.8ZTVxYUT%fengguang.wu@intel.com>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue, 27 Nov 2018 22:12:55 +0300
+Subject: [PATCH] u-boot-tools: Improve build preparation
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAD=FV=V087x+56aWFtJxg31O09cFUm00grH7bq1rLSwoq68WdA@mail.gmail.com>
+Message-ID: <20181127191255.39052-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+Even though we're not going to build here real U-Boot binary
+it is still required to "configure" U-Boot to get get to the
+tools building.
 
-On Mon, Nov 26, 2018@9:39 PM kbuild test robot <lkp@intel.com> wrote:
->
-> Hi Douglas,
->
-> Thank you for the patch! Yet something to improve:
->
-> [auto build test ERROR on kgdb/kgdb-next]
-> [also build test ERROR on v4.20-rc4 next-20181126]
-> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
->
-> url:    https://github.com/0day-ci/linux/commits/Douglas-Anderson/kgdb-Fix-kgdb_roundup_cpus/20181127-115425
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jwessel/kgdb.git kgdb-next
-> config: sparc64-allyesconfig (attached as .config)
-> compiler: sparc64-linux-gnu-gcc (Debian 7.2.0-11) 7.2.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # save the attached .config to linux build tree
->         GCC_VERSION=7.2.0 make.cross ARCH=sparc64
->
-> Note: the linux-review/Douglas-Anderson/kgdb-Fix-kgdb_roundup_cpus/20181127-115425 HEAD b8d0502e65f2d7a2187baa69870146a6fbf18c9f builds fine.
->       It only hurts bisectibility.
->
-> All errors (new ones prefixed by >>):
->
->    kernel/debug/debug_core.c: In function 'kgdb_roundup_cpus':
-> >> kernel/debug/debug_core.c:261:18: error: 'struct debuggerinfo_struct' has no member named 'rounding_up'
->        kgdb_info[cpu].rounding_up = false;
->                      ^
+We used to use "sandbox_defconfig" for that purpose but
+since U-Boot v2018.11 it started to cause problems [1] due to [2].
 
-Oops, I squashed this into the wrong patch.  It should have been in
-patch #3.  Sorry about that.  I'll send out a quick v6.
+So to have less dependencies let's create super minimalistic
+configuration which is good enough to allow us to run "make tools".
+
+[1] http://errors.yoctoproject.org/Errors/Details/202185/
+[2] http://git.denx.de/?p=u-boot.git;a=commitdiff;h=a4958a71017fb142542f977c843c5fce769fc6ea
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
+Cc: Otavio Salvador <otavio at ossystems.com.br>
+Cc: Martin Jansa <martin.jansa at gmail.com>
+Cc: Andrea Galbusera <gizero at gmail.com>
+Cc: Ross Burton <ross.burton at intel.com>
+Cc: Tom Rini <trini at konsulko.com>
+Cc: Marek Vasut <marex at denx.de>
+---
+ meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
+index 127c4c15d1..d1cfea05f5 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
+@@ -18,14 +18,11 @@ EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" H
+ EXTRA_OEMAKE_class-nativesdk = 'CROSS_COMPILE="${HOST_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+ 
+ do_compile () {
+-	oe_runmake sandbox_defconfig
+-
+-	# Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
+-	# generating it requires bin2header tool, which for target build
+-	# is built with target tools and thus cannot be executed on host.
+-	sed -i "s/CONFIG_CMD_LICENSE=.*/# CONFIG_CMD_LICENSE is not set/" .config
+-
+-	oe_runmake cross_tools NO_SDL=1
++	# Create the simplest configuration which is just enough
++	# to get to the building of tools.
++	echo "CONFIG_SYS_TEXT_BASE=0" > .config
++	oe_runmake olddefconfig
++	oe_runmake cross_tools
+ }
+ 
+ do_install () {
+-- 
+2.16.2
