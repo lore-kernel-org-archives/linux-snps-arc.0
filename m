@@ -1,58 +1,111 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 27 Nov 2018 22:12:55 +0300
-Subject: [PATCH] u-boot-tools: Improve build preparation
+From: will.deacon@arm.com (Will Deacon)
+Date: Tue, 27 Nov 2018 19:30:05 +0000
+Subject: [PATCH v5 2/4] kgdb: Fix kgdb_roundup_cpus() for arches who used
+ smp_call_function()
+In-Reply-To: <20181127035133.225592-3-dianders@chromium.org>
+References: <20181127035133.225592-1-dianders@chromium.org>
+ <20181127035133.225592-3-dianders@chromium.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181127191255.39052-1-abrodkin@synopsys.com>
+Message-ID: <20181127193005.GB5641@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Even though we're not going to build here real U-Boot binary
-it is still required to "configure" U-Boot to get get to the
-tools building.
+On Mon, Nov 26, 2018@07:51:31PM -0800, Douglas Anderson wrote:
+> When I had lockdep turned on and dropped into kgdb I got a nice splat
+> on my system.  Specifically it hit:
+>   DEBUG_LOCKS_WARN_ON(current->hardirq_context)
+> 
+> Specifically it looked like this:
+>   sysrq: SysRq : DEBUG
+>   ------------[ cut here ]------------
+>   DEBUG_LOCKS_WARN_ON(current->hardirq_context)
+>   WARNING: CPU: 0 PID: 0 at .../kernel/locking/lockdep.c:2875 lockdep_hardirqs_on+0xf0/0x160
+>   CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.19.0 #27
+>   pstate: 604003c9 (nZCv DAIF +PAN -UAO)
+>   pc : lockdep_hardirqs_on+0xf0/0x160
+>   ...
+>   Call trace:
+>    lockdep_hardirqs_on+0xf0/0x160
+>    trace_hardirqs_on+0x188/0x1ac
+>    kgdb_roundup_cpus+0x14/0x3c
+>    kgdb_cpu_enter+0x53c/0x5cc
+>    kgdb_handle_exception+0x180/0x1d4
+>    kgdb_compiled_brk_fn+0x30/0x3c
+>    brk_handler+0x134/0x178
+>    do_debug_exception+0xfc/0x178
+>    el1_dbg+0x18/0x78
+>    kgdb_breakpoint+0x34/0x58
+>    sysrq_handle_dbg+0x54/0x5c
+>    __handle_sysrq+0x114/0x21c
+>    handle_sysrq+0x30/0x3c
+>    qcom_geni_serial_isr+0x2dc/0x30c
+>   ...
+>   ...
+>   irq event stamp: ...45
+>   hardirqs last  enabled at (...44): [...] __do_softirq+0xd8/0x4e4
+>   hardirqs last disabled at (...45): [...] el1_irq+0x74/0x130
+>   softirqs last  enabled at (...42): [...] _local_bh_enable+0x2c/0x34
+>   softirqs last disabled at (...43): [...] irq_exit+0xa8/0x100
+>   ---[ end trace adf21f830c46e638 ]---
+> 
+> Looking closely at it, it seems like a really bad idea to be calling
+> local_irq_enable() in kgdb_roundup_cpus().  If nothing else that seems
+> like it could violate spinlock semantics and cause a deadlock.
+> 
+> Instead, let's use a private csd alongside
+> smp_call_function_single_async() to round up the other CPUs.  Using
+> smp_call_function_single_async() doesn't require interrupts to be
+> enabled so we can remove the offending bit of code.
+> 
+> In order to avoid duplicating this across all the architectures that
+> use the default kgdb_roundup_cpus(), we'll add a "weak" implementation
+> to debug_core.c.
+> 
+> Looking at all the people who previously had copies of this code,
+> there were a few variants.  I've attempted to keep the variants
+> working like they used to.  Specifically:
+> * For arch/arc we passed NULL to kgdb_nmicallback() instead of
+>   get_irq_regs().
+> * For arch/mips there was a bit of extra code around
+>   kgdb_nmicallback()
+> 
+> NOTE: In this patch we will still get into trouble if we try to round
+> up a CPU that failed to round up before.  We'll try to round it up
+> again and potentially hang when we try to grab the csd lock.  That's
+> not new behavior but we'll still try to do better in a future patch.
+> 
+> Suggested-by: Daniel Thompson <daniel.thompson at linaro.org>
+> Signed-off-by: Douglas Anderson <dianders at chromium.org>
+> ---
+> 
+> Changes in v5:
+> - Add a comment about get_irq_regs().
+> - get_cpu() => raw_smp_processor_id() in kgdb_roundup_cpus().
+> - for_each_cpu() => for_each_online_cpu()
+> - Error check smp_call_function_single_async()
 
-We used to use "sandbox_defconfig" for that purpose but
-since U-Boot v2018.11 it started to cause problems [1] due to [2].
+For the arm64 bit:
 
-So to have less dependencies let's create super minimalistic
-configuration which is good enough to allow us to run "make tools".
+> diff --git a/arch/arm64/kernel/kgdb.c b/arch/arm64/kernel/kgdb.c
+> index 12c339ff6e75..da880247c734 100644
+> --- a/arch/arm64/kernel/kgdb.c
+> +++ b/arch/arm64/kernel/kgdb.c
+> @@ -284,18 +284,6 @@ static struct step_hook kgdb_step_hook = {
+>  	.fn		= kgdb_step_brk_fn
+>  };
+>  
+> -static void kgdb_call_nmi_hook(void *ignored)
+> -{
+> -	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
+> -}
+> -
+> -void kgdb_roundup_cpus(void)
+> -{
+> -	local_irq_enable();
+> -	smp_call_function(kgdb_call_nmi_hook, NULL, 0);
+> -	local_irq_disable();
+> -}
+> -
 
-[1] http://errors.yoctoproject.org/Errors/Details/202185/
-[2] http://git.denx.de/?p=u-boot.git;a=commitdiff;h=a4958a71017fb142542f977c843c5fce769fc6ea
+Acked-by: Will Deacon <will.deacon at arm.com>
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
-Cc: Otavio Salvador <otavio at ossystems.com.br>
-Cc: Martin Jansa <martin.jansa at gmail.com>
-Cc: Andrea Galbusera <gizero at gmail.com>
-Cc: Ross Burton <ross.burton at intel.com>
-Cc: Tom Rini <trini at konsulko.com>
-Cc: Marek Vasut <marex at denx.de>
----
- meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
-index 127c4c15d1..d1cfea05f5 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
-@@ -18,14 +18,11 @@ EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" H
- EXTRA_OEMAKE_class-nativesdk = 'CROSS_COMPILE="${HOST_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
- 
- do_compile () {
--	oe_runmake sandbox_defconfig
--
--	# Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
--	# generating it requires bin2header tool, which for target build
--	# is built with target tools and thus cannot be executed on host.
--	sed -i "s/CONFIG_CMD_LICENSE=.*/# CONFIG_CMD_LICENSE is not set/" .config
--
--	oe_runmake cross_tools NO_SDL=1
-+	# Create the simplest configuration which is just enough
-+	# to get to the building of tools.
-+	echo "CONFIG_SYS_TEXT_BASE=0" > .config
-+	oe_runmake olddefconfig
-+	oe_runmake cross_tools
- }
- 
- do_install () {
--- 
-2.16.2
+Will
