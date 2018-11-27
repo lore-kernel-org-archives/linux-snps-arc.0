@@ -1,72 +1,66 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Tue, 27 Nov 2018 13:38:41 +0800
-Subject: [PATCH v5 2/4] kgdb: Fix kgdb_roundup_cpus() for arches who used
- smp_call_function()
-In-Reply-To: <20181127035133.225592-3-dianders@chromium.org>
-References: <20181127035133.225592-3-dianders@chromium.org>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue, 27 Nov 2018 06:54:54 +0000
+Subject: [OE-core] [PATCH v7] u-boot: Add mkenvimage tool
+In-Reply-To: <20181127005151.GG11247@bill-the-cat>
+References: <20181122225820.2553-1-abrodkin@synopsys.com>
+ <CAMKF1sqbHtV1UYiXre_1sNEzyFWJw3mRs_hcuVzu+us_r0OWVg@mail.gmail.com>
+ <8950e9f58055a8667d20ff83de1f8acd14b7f303.camel@synopsys.com>
+ <CAP9ODKrJ0Yshn29tSt-Aj1Gr01+XrZ7C_K4Yn4r6yA4CdkiCnQ@mail.gmail.com>
+ <20181127005151.GG11247@bill-the-cat>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201811271333.8ZTVxYUT%fengguang.wu@intel.com>
+Message-ID: <17248895eec3e078e9aa6e31b20b598abbccaa08.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Douglas,
+Hi Tom,
 
-Thank you for the patch! Yet something to improve:
+On Mon, 2018-11-26@19:51 -0500, Tom Rini wrote:
+> On Mon, Nov 26, 2018@09:07:37PM -0200, Otavio Salvador wrote:
+> > Hello Alexey,
+> > 
+> > On Mon, Nov 26, 2018 at 7:30 PM Alexey Brodkin
+> > <alexey.brodkin@synopsys.com> wrote:
+> > > On Sat, 2018-11-24@06:57 -0800, Khem Raj wrote:
+> > > > http://errors.yoctoproject.org/Errors/Details/202185/
+> > > 
+> > > Looking at the target name "u-boot-tools-1_2018.11-r0 do_compile"
+> > > I think it might have something to do with bump of U-Boot to v2018.11
+> > > and the error message in question was added in v2018.11-rc1,
+> > > see http://git.denx.de/?p=u-boot.git;a=commitdiff;h=a4958a71017fb142542f977c843c5fce769fc6ea
+> > > 
+> > > The problem is we use "sandbox_defconfig" as a dummy defconfig
+> > > because otherwise (not configured) U-Boot's build-system won't
+> > > allow us to proceed and in its turn mentioned patch adds a check
+> > > for a target platform like "if defined(__x86_64__)" which
+> > > we essentially don't satisfy and so we fail.
+> > > 
+> > > There're the following solutions:
+> > >  1. Revert mentioned patch
+> > >  2. Disable "CONFIG_EFI_LOADER"
+> > > 
+> > > Reverting is not nice and not future-proof.
+> > > Disabling of "CONFIG_EFI_LOADER" might be done in a couple of ways
+> > > like:
+> > >  1. Patching sandbox_defconfig
+> > >  2. Filtering "CONFIG_EFI_LOADER" from "sandbox_defconfig" right before
+> > >     execution of "make sandbox_defconfig"
+> > > 
+> > > I think latter option is the simplest and cleanest.
+> > > 
+> > > Should I send a patch for that?
+> > 
+> > Let's add Tom (U-Boot upstream main maintainer) to this so he can comment.
+> 
+> Hey, so you've hit the problem Fedora also hit, but we haven't gotten a
+> real solution to.  Yes, the best "fix" here for just building tools
+> would be to turn off EFI_LOADER in sandbox, on all arches.
 
-[auto build test ERROR on kgdb/kgdb-next]
-[also build test ERROR on v4.20-rc4 next-20181126]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+But why don't we simply use our own really dummy defconfig like that?
+------------------->8--------------------
+echo "CONFIG_SYS_TEXT_BASE=0" > .config
+make olddefconfig
+make tools
+------------------->8--------------------
 
-url:    https://github.com/0day-ci/linux/commits/Douglas-Anderson/kgdb-Fix-kgdb_roundup_cpus/20181127-115425
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jwessel/kgdb.git kgdb-next
-config: sparc64-allyesconfig (attached as .config)
-compiler: sparc64-linux-gnu-gcc (Debian 7.2.0-11) 7.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        GCC_VERSION=7.2.0 make.cross ARCH=sparc64 
+This is much cleaner approach and much simpler to implement.
 
-Note: the linux-review/Douglas-Anderson/kgdb-Fix-kgdb_roundup_cpus/20181127-115425 HEAD b8d0502e65f2d7a2187baa69870146a6fbf18c9f builds fine.
-      It only hurts bisectibility.
-
-All errors (new ones prefixed by >>):
-
-   kernel/debug/debug_core.c: In function 'kgdb_roundup_cpus':
->> kernel/debug/debug_core.c:261:18: error: 'struct debuggerinfo_struct' has no member named 'rounding_up'
-       kgdb_info[cpu].rounding_up = false;
-                     ^
-
-vim +261 kernel/debug/debug_core.c
-
-   244	
-   245	void __weak kgdb_roundup_cpus(void)
-   246	{
-   247		call_single_data_t *csd;
-   248		int this_cpu = raw_smp_processor_id();
-   249		int cpu;
-   250		int ret;
-   251	
-   252		for_each_online_cpu(cpu) {
-   253			/* No need to roundup ourselves */
-   254			if (cpu == this_cpu)
-   255				continue;
-   256	
-   257			csd = &per_cpu(kgdb_roundup_csd, cpu);
-   258			csd->func = kgdb_call_nmi_hook;
-   259			ret = smp_call_function_single_async(cpu, csd);
-   260			if (ret)
- > 261				kgdb_info[cpu].rounding_up = false;
-   262		}
-   263	}
-   264	
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/gzip
-Size: 55426 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20181127/a09a6228/attachment-0001.gz>
+-Alexey
