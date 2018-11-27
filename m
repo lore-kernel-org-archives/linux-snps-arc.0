@@ -1,42 +1,44 @@
-From: mpe@ellerman.id.au (Michael Ellerman)
-Date: Tue, 27 Nov 2018 21:34:29 +1100
-Subject: [PATCH v2 16/15] syscall_get_arch: add "struct task_struct *"
- argument
-In-Reply-To: <20181121004422.GA29053@altlinux.org>
-References: <20181107042751.3b519062@akathisia>
- <CALCETrV1v-DPRfDRwiH=xn29bxWxiHdZtAH1nw=dsmDtnT0YGQ@mail.gmail.com>
- <20181120001128.GA11300@altlinux.org> <20181121004422.GA29053@altlinux.org>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 27 Nov 2018 14:36:27 +0000
+Subject: 'branches' perf event mapping differs on ARC and ARM
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <87in0ihkqy.fsf@concordia.ellerman.id.au>
+Message-ID: <1543329386.13651.13.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-"Dmitry V. Levin" <ldv at altlinux.org> writes:
+Hi,
 
-> diff --git a/arch/powerpc/include/asm/syscall.h b/arch/powerpc/include/asm/syscall.h
-> index ab9f3f0a8637..d88b34179118 100644
-> --- a/arch/powerpc/include/asm/syscall.h
-> +++ b/arch/powerpc/include/asm/syscall.h
-> @@ -100,9 +100,15 @@ static inline void syscall_set_arguments(struct task_struct *task,
->  		regs->orig_gpr3 = args[0];
->  }
->  
-> -static inline int syscall_get_arch(void)
-> +static inline int syscall_get_arch(struct task_struct *task)
->  {
-> -	int arch = is_32bit_task() ? AUDIT_ARCH_PPC : AUDIT_ARCH_PPC64;
-> +	int arch;
-> +
-> +	if (IS_ENABLED(CONFIG_PPC64) && !test_tsk_thread_flag(task, TIF_32BIT))
-> +		arch = AUDIT_ARCH_PPC64;
-> +	else
-> +		arch = AUDIT_ARCH_PPC;
-> +
->  #ifdef __LITTLE_ENDIAN__
->  	arch |= __AUDIT_ARCH_LE;
->  #endif
+While playing with perf tool on ARMv7 and ARCv2 processors and profiling the
+same application I got interesting results. Even if we got pretty
+similar total
+execution time and instructions number the number of branches on ARC is about
+three times more then on ARM.
 
-LGTM.
+I dug into architecture
+specific perf sources and found that we map different
+HW counters into generic 'branches' event on ARC and ARM.
+- We use "ijmp" event on ARC which
+counts all jump and branch instructions (regardless
+of real execution flow - even if no real jump happens)
+- We use "pc_write_retired" event on ARM
+which counts only taken branches (Instruction
+architecturally executed, condition check pass - software change of the PC)
 
-Acked-by: Michael Ellerman <mpe at ellerman.id.au> (powerpc)
+So I was wondering do you know
+which approach is correct?
 
-cheers
+
+
+I guess counting all jump and branch instructions is correct because we use
+'branches' event value to calculate relative value of 'branch-misses' using
+
+following formula:
+----------------------------8----------------------------
+branch-misses-ration = 'branch-misses' / 'branches' * 100.0
+----------------
+------------8----------------------------
+And using only taken branches here is incorrect IMHO. So I guess we should
+map 'br_immed_retired' instead of
+"pc_write_retired" into generic 'branches'
+event on ARM.
+-- 
+ Eugeniy Paltsev
