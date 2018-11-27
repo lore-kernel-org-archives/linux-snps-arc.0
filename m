@@ -1,55 +1,66 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 27 Nov 2018 17:06:10 +0000
-Subject: 'branches' perf event mapping differs on ARC and ARM
-References: <1543329386.13651.13.camel@synopsys.com>
+From: dianders@chromium.org (Douglas Anderson)
+Date: Tue, 27 Nov 2018 09:38:35 -0800
+Subject: [PATCH v6 0/4] kgdb: Fix kgdb_roundup_cpus()
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501464172A6@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20181127173839.34328-1-dianders@chromium.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/27/18 6:36 AM, Eugeniy Paltsev wrote:
-> Hi,
->
-> While playing with perf tool on ARMv7 and ARCv2 processors and profiling the
-> same application I got interesting results. Even if we got pretty
-> similar total
-> execution time and instructions number the number of branches on ARC is about
-> three times more then on ARM.
->
-> I dug into architecture
-> specific perf sources and found that we map different
-> HW counters into generic 'branches' event on ARC and ARM.
-> - We use "ijmp" event on ARC which
-> counts all jump and branch instructions (regardless
-> of real execution flow - even if no real jump happens)
+This series was originally part of the series ("serial: Finish kgdb on
+qcom_geni; fix many lockdep splats w/ kgdb") but it made sense to
+split it up.
 
-That doesn't seem correct IMO. A NOT taken conditional branch doesn't change
-control flow, so semantically doesn't qualify as a branch.
-On ARC, the generic branches event should be mapped to "actually taken branches"
-condition i.e.  ijmptak
+It's believed that dropping into kgdb should be more robust once these
+patches are applied.
 
+Changes in v6:
+- Moved smp_call_function_single_async() error check to patch 3.
 
-> - We use "pc_write_retired" event on ARM
-> which counts only taken branches (Instruction
-> architecturally executed, condition check pass - software change of the PC)
+Changes in v5:
+- Add a comment about get_irq_regs().
+- get_cpu() => raw_smp_processor_id() in kgdb_roundup_cpus().
+- for_each_cpu() => for_each_online_cpu()
+- Error check smp_call_function_single_async()
 
-That seems correct.
+Changes in v4:
+- Removed smp_mb() calls.
+- Also clear out .debuggerinfo.
+- Also clear out .debuggerinfo and .task for the master.
+- Remove clearing out in kdb_stub for offline CPUs; it's now redundant.
 
-> I guess counting all jump and branch instructions is correct because we use
-> 'branches' event value to calculate relative value of 'branch-misses' using
->
-> following formula:
-> ----------------------------8----------------------------
-> branch-misses-ration = 'branch-misses' / 'branches' * 100.0
-> ----------------
-> ------------8----------------------------
-> And using only taken branches here is incorrect IMHO.
+Changes in v3:
+- No separate init call.
+- Don't round up the CPU that is doing the rounding up.
+- Add "#ifdef CONFIG_SMP" to match the rest of the file.
+- Updated desc saying we don't solve the "failed to roundup" case.
+- Document the ignored parameter.
+- Don't round up a CPU that failed rounding up before new for v3.
+- Don't back trace on a cpu that didn't round up new for v3.
 
-Why ? branch-misses is a CPU specific micro-arch state where the a changed control
-flow was NOT predicted. If an implementation mispredicts NOT taken branches, those
-should actually get counted and be fed to hardware folks to improve the micro-arch.
+Changes in v2:
+- Removing irq flags separated from fixing lockdep splat.
+- Don't use smp_call_function (Daniel).
 
+Douglas Anderson (4):
+  kgdb: Remove irq flags from roundup
+  kgdb: Fix kgdb_roundup_cpus() for arches who used smp_call_function()
+  kgdb: Don't round up a CPU that failed rounding up before
+  kdb: Don't back trace on a cpu that didn't round up
 
->  So I guess we should
-> map 'br_immed_retired' instead of
-> "pc_write_retired" into generic 'branches'
-> event on ARM.
+ arch/arc/kernel/kgdb.c          | 10 +----
+ arch/arm/kernel/kgdb.c          | 12 ------
+ arch/arm64/kernel/kgdb.c        | 12 ------
+ arch/hexagon/kernel/kgdb.c      | 32 ----------------
+ arch/mips/kernel/kgdb.c         |  9 +----
+ arch/powerpc/kernel/kgdb.c      |  6 +--
+ arch/sh/kernel/kgdb.c           | 12 ------
+ arch/sparc/kernel/smp_64.c      |  2 +-
+ arch/x86/kernel/kgdb.c          |  9 +----
+ include/linux/kgdb.h            | 22 +++++++----
+ kernel/debug/debug_core.c       | 65 ++++++++++++++++++++++++++++++++-
+ kernel/debug/debug_core.h       |  1 +
+ kernel/debug/kdb/kdb_bt.c       | 11 +++++-
+ kernel/debug/kdb/kdb_debugger.c |  7 ----
+ 14 files changed, 98 insertions(+), 112 deletions(-)
+
+-- 
+2.20.0.rc0.387.gc7a69e6b6c-goog
