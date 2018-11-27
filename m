@@ -1,115 +1,72 @@
-From: dianders@chromium.org (Doug Anderson)
-Date: Mon, 26 Nov 2018 19:52:27 -0800
-Subject: [PATCH v4 2/4] kgdb: Fix kgdb_roundup_cpus() for arches who used
+From: lkp@intel.com (kbuild test robot)
+Date: Tue, 27 Nov 2018 13:38:41 +0800
+Subject: [PATCH v5 2/4] kgdb: Fix kgdb_roundup_cpus() for arches who used
  smp_call_function()
-In-Reply-To: <20181114220744.GB4044@brain-police>
-References: <20181112182659.245726-1-dianders@chromium.org>
- <20181112182659.245726-3-dianders@chromium.org>
- <20181114220744.GB4044@brain-police>
+In-Reply-To: <20181127035133.225592-3-dianders@chromium.org>
+References: <20181127035133.225592-3-dianders@chromium.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAD=FV=WYa8Hfo0hN8eqTBsjGY7A0nnQBoG1nSrvQ92we+v5kuA@mail.gmail.com>
+Message-ID: <201811271333.8ZTVxYUT%fengguang.wu@intel.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+Hi Douglas,
 
-On Wed, Nov 14, 2018@2:07 PM Will Deacon <will.deacon@arm.com> wrote:
->
-> > +void __weak kgdb_call_nmi_hook(void *ignored)
-> > +{
-> > +     kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
-> > +}
->
-> I suppose you could pass the cpu as an argument, but it doesn't really
-> matter.
+Thank you for the patch! Yet something to improve:
 
-I probably won't change it for now if it doesn't matter...
+[auto build test ERROR on kgdb/kgdb-next]
+[also build test ERROR on v4.20-rc4 next-20181126]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
+url:    https://github.com/0day-ci/linux/commits/Douglas-Anderson/kgdb-Fix-kgdb_roundup_cpus/20181127-115425
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jwessel/kgdb.git kgdb-next
+config: sparc64-allyesconfig (attached as .config)
+compiler: sparc64-linux-gnu-gcc (Debian 7.2.0-11) 7.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        GCC_VERSION=7.2.0 make.cross ARCH=sparc64 
 
-> Also, I think there are cases where the CSD callback can run without
-> having received an IPI, so we could potentially up passing NULL for the regs
-> here which probably goes boom.
+Note: the linux-review/Douglas-Anderson/kgdb-Fix-kgdb_roundup_cpus/20181127-115425 HEAD b8d0502e65f2d7a2187baa69870146a6fbf18c9f builds fine.
+      It only hurts bisectibility.
 
-Hrm, good point.  This is not a new issue so I'd tend to add it to the
-TODO list rather than block the series.  I'll also add a comment in
-the code since I'm touching it anyway.
+All errors (new ones prefixed by >>):
 
-Interestingly enough quite a bit of things continue to work just fine
-even if this is NULL.  I simulated setting this to NULL for all CPUs
-and I could drop into the debugger, type "btc" to backtrace all CPUs,
-attach to kgdb, etc.  ...but when I typed "cpu 1" it went boom.  So it
-seems like parts of kdb use this but definitely not everything.
+   kernel/debug/debug_core.c: In function 'kgdb_roundup_cpus':
+>> kernel/debug/debug_core.c:261:18: error: 'struct debuggerinfo_struct' has no member named 'rounding_up'
+       kgdb_info[cpu].rounding_up = false;
+                     ^
 
-Also interesting is that on MIPS this is always NULL.  I have no idea
-why but my patch series preserves this oddity.  Presumably if someone
-was on a SMP MIPS machine and did "cpu 1" from kdb they'd go boom too.
+vim +261 kernel/debug/debug_core.c
 
-In general kdb has a lot of crufty stuff like this in it.  We need to
-work to get rid of the cruft but one step at a time I think.
+   244	
+   245	void __weak kgdb_roundup_cpus(void)
+   246	{
+   247		call_single_data_t *csd;
+   248		int this_cpu = raw_smp_processor_id();
+   249		int cpu;
+   250		int ret;
+   251	
+   252		for_each_online_cpu(cpu) {
+   253			/* No need to roundup ourselves */
+   254			if (cpu == this_cpu)
+   255				continue;
+   256	
+   257			csd = &per_cpu(kgdb_roundup_csd, cpu);
+   258			csd->func = kgdb_call_nmi_hook;
+   259			ret = smp_call_function_single_async(cpu, csd);
+   260			if (ret)
+ > 261				kgdb_info[cpu].rounding_up = false;
+   262		}
+   263	}
+   264	
 
-I've started a kgdb-wishlist:
-
-https://bugs.chromium.org/p/chromium/issues/list?q=label%3Akgdb-wishlist
-
-...and this is crbug.com/908723
-
-
-> > +void __weak kgdb_roundup_cpus(void)
-> > +{
-> > +     call_single_data_t *csd;
-> > +     int this_cpu = get_cpu();
->
-> Do you actually need to disable preemption here? afaict, irqs are already
-> disabled by the kgdb core.
-
-Ah, right.  I can just use raw_smp_processor_id().  Done.  I didn't
-try to see if I could use smp_processor_id() since
-kgdb_call_nmi_hook() already used raw_smp_processor_id(), but I can
-dig if you wish.
-
-
-> > +     int cpu;
-> > +
-> > +     for_each_cpu(cpu, cpu_online_mask) {
->
-> for_each_online_cpu(cpu) ?
-
-Done.
-
-
-> I'm assuming this is serialised wrt CPU hotplug somehow?
-
-I doubt it.  I can add it to my wishlist (crbug.com/908722) , but I
-don't think it's something I'm going to try to solve right now and
-it's definitely not new.  I think we need to make some sort of attempt
-in kgdb_cpu_enter() to stop hotplugging, though we'd have to take into
-account that we may be entering kgdb in an IRQ context so it might be
-hard to grab a mutex.  We need to account for it there since that
-function has code like:
-
-> while (kgdb_do_roundup && --time_left &&
->        (atomic_read(&masters_in_kgdb) + atomic_read(&slaves_in_kgdb)) !=
->    online_cpus)
-> udelay(1000);
-
-...and that would also be broken if cpus were plugging / unplugging.
-
-In general, at least, the worst case would be that we'd either have an
-extra 1 second delay entering the debugger (because we were waiting
-for a CPU to respond that's been hotplugged) or we'd enter kgdb
-without stopping one of the CPUs.  Neither of those is ideal but I
-don't think we'd end up in too bad shape.
-
-Oh, but actually, I guess I should probably check the error return of
-smp_call_function_single_async() and if it returns an error I should
-unset rounding_up...  That would make things behave slightly better
-and is probably right anyway.
-
-
-Overall: thank you very much for the review and the feedback.  Sorry
-I'm not really fixing everything here.  My hope is to move things to a
-slightly better state but I don't have time to fix everything.
-Hopefully I can find some more time soon to fix more, or perhaps
-someone else will.
-
-
--Doug
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 55426 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20181127/a09a6228/attachment-0001.gz>
