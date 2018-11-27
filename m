@@ -1,51 +1,38 @@
-From: robin.murphy@arm.com (Robin Murphy)
-Date: Tue, 27 Nov 2018 15:28:25 +0000
-Subject: 'branches' perf event mapping differs on ARC and ARM
-In-Reply-To: <1543329386.13651.13.camel@synopsys.com>
-References: <1543329386.13651.13.camel@synopsys.com>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue, 27 Nov 2018 15:38:51 +0000
+Subject: failing ARC builds in kernelCI
+In-Reply-To: <CAOi56cX4sV=jD0ctuQROh3r8JtcL4285i-g8k7Ew3knnD3v8Ww@mail.gmail.com>
+References: <CAOi56cX4sV=jD0ctuQROh3r8JtcL4285i-g8k7Ew3knnD3v8Ww@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <48cfcbf3-0084-7b17-f30d-371bbb5cbdde@arm.com>
+Message-ID: <2b7adbb0eeef90de6895889be814fd632e20a22f.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 27/11/2018 14:36, Eugeniy Paltsev wrote:
-> Hi,
-> 
-> While playing with perf tool on ARMv7 and ARCv2 processors and profiling the
-> same application I got interesting results. Even if we got pretty
-> similar total
-> execution time and instructions number the number of branches on ARC is about
-> three times more then on ARM.
-> 
-> I dug into architecture
-> specific perf sources and found that we map different
-> HW counters into generic 'branches' event on ARC and ARM.
-> - We use "ijmp" event on ARC which
-> counts all jump and branch instructions (regardless
-> of real execution flow - even if no real jump happens)
-> - We use "pc_write_retired" event on ARM
-> which counts only taken branches (Instruction
-> architecturally executed, condition check pass - software change of the PC)
-> 
-> So I was wondering do you know
-> which approach is correct?
-> 
-> 
-> 
-> I guess counting all jump and branch instructions is correct because we use
-> 'branches' event value to calculate relative value of 'branch-misses' using
-> 
-> following formula:
-> ----------------------------8----------------------------
-> branch-misses-ration = 'branch-misses' / 'branches' * 100.0
-> ----------------
-> ------------8----------------------------
-> And using only taken branches here is incorrect IMHO. So I guess we should
-> map 'br_immed_retired' instead of
-> "pc_write_retired" into generic 'branches'
-> event on ARM.
+Hi Kevin,
 
-But register branches (including procedure returns) are also branches, 
-so only counting immediate branches would be just as, if not more, 
-misleading.
+On Tue, 2018-11-27@07:23 -0800, Kevin Hilman wrote:
+> Hi Alexey,
+> 
+> You may have noticed that some defconfigs are failing to build
+> upstream for ARC.  For example, on mainline, both allnoconfig and
+> tinyconfig fail to build[1].
 
-Robin.
+Actually I haven't seen that!
+ 1. I used to check https://kernelci.org/soc/ but there's still no mention
+    of ARC so I thought builds for ARC are not enabled still.
+ 2. I haven't seen any email notifications as well if they exist at all.
+
+That said it would be good if warning emails are sent to our mailing-list
+linux-snps-arc at lists.infradead.org (see in Cc as well) so somebody reacts on them.
+
+
+> Do you guys have any plans to fix these, or should we disable them?
+> We currently build these for all the other arches.,
+
+Sure, let me take a look right now.
+
+> 
+> Kevin
+> 
+> [1] https://kernelci.org/build/mainline/branch/master/kernel/v4.20-rc4-7-gef78e5ec9214/
+
+-Alexey
