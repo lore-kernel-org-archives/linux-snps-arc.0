@@ -1,98 +1,314 @@
-From: otavio.salvador@ossystems.com.br (Otavio Salvador)
-Date: Wed, 28 Nov 2018 08:59:12 -0200
-Subject: [OE-core] [PATCH] u-boot-tools: Improve build preparation
-In-Reply-To: <CAP9ODKpJ83gkrLfcAxVo9VonZbAyLcYvrV-5taX7yTJyM4w4kA@mail.gmail.com>
-References: <20181127191255.39052-1-abrodkin@synopsys.com>
- <CAP9ODKq2NRaMcW3nY-cs-uBuKBG3xx7sAuzBoZtRheo-jz+7CQ@mail.gmail.com>
- <CAP9ODKo+3XpTqsVpUB3s2OhUuV2039J-RefKOBvDNVABQB18+w@mail.gmail.com>
- <33b52a810fe1248322362e401b7138024caca0cc.camel@synopsys.com>
- <CAP9ODKpJ83gkrLfcAxVo9VonZbAyLcYvrV-5taX7yTJyM4w4kA@mail.gmail.com>
+From: Tudor.Ambarus@microchip.com (Tudor.Ambarus@microchip.com)
+Date: Wed, 28 Nov 2018 13:17:15 +0000
+Subject: [PATCH v2 1/2] mtd: spi-nor: Add support of sst26wf* flash ICs
+ protection ops
+In-Reply-To: <1539613276.4199.9.camel@synopsys.com>
+References: <20180910114628.19156-1-Eugeniy.Paltsev@synopsys.com>
+ <20180910114628.19156-2-Eugeniy.Paltsev@synopsys.com>
+ <1539613276.4199.9.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAP9ODKp9vM9jzLt9HQNO8JoS4OEROXVq0MytWytoci3-7GZ4bQ@mail.gmail.com>
+Message-ID: <fd95b6e8-9219-a07c-2916-191757c052b4@microchip.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Nov 28, 2018@8:58 AM Otavio Salvador <otavio@ossystems.com.br> wrote:
-> On Tue, Nov 27, 2018 at 6:49 PM Alexey Brodkin
-> <alexey.brodkin@synopsys.com> wrote:
-> > On Tue, 2018-11-27@17:52 -0200, Otavio Salvador wrote:
-> > > On Tue, Nov 27, 2018@5:30 PM Otavio Salvador <otavio@ossystems.com.br> wrote:
-> > > > On Tue, Nov 27, 2018 at 5:13 PM Alexey Brodkin
-> > > > <alexey.brodkin@synopsys.com> wrote:
-> > > > > Even though we're not going to build here real U-Boot binary
-> > > > > it is still required to "configure" U-Boot to get get to the
-> > > > > tools building.
-> > > > >
-> > > > > We used to use "sandbox_defconfig" for that purpose but
-> > > > > since U-Boot v2018.11 it started to cause problems [1] due to [2].
-> > > > >
-> > > > > So to have less dependencies let's create super minimalistic
-> > > > > configuration which is good enough to allow us to run "make tools".
-> > > > >
-> > > > > [1]
-> > > > > https://urldefense.proofpoint.com/v2/url?u=http-3A__errors.yoctoproject.org_Errors_Details_202185_&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=6GBkAGgxs4IOh0rJ4joj36Xukb_msE_tdIIJQXh8Gbg&s=vuvAMfkM9WIKHek7mwuwSjWKKpUcKJ-zCcKypEfxCuw&e=
-> > > > > [2]
-> > > > > https://urldefense.proofpoint.com/v2/url?u=http-3A__git.denx.de_-3Fp-3Du-2Dboot.git-3Ba-3Dcommitdiff-3Bh-3Da4958a71017fb142542f977c843c5fce769fc6ea&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=6GBkAGgxs4IOh0rJ4joj36Xukb_msE_tdIIJQXh8Gbg&s=GN4U6Of_hi-W_5CEu3RvRUIVEjgaNwnK8CarkwIly4Y&e=
-> > > > >
-> > > > > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> > > >
-> > > > To allow extended use, we need to enable CONFIG_FIT_SIGNATURE
-> > > > otherwise we won't have the support.
-> > > >
-> > > > See:
-> > > >
-> > > > # MXSImage needs LibSSL
-> > > > ifneq ($(CONFIG_MX23)$(CONFIG_MX28)$(CONFIG_ARMADA_38X)$(CONFIG_ARMADA_39X)$(CONFIG_FIT_SIGNATURE),)
-> > > > HOSTLOADLIBES_mkimage += \
-> > > >         $(shell pkg-config --libs libssl libcrypto 2> /dev/null ||
-> > > > echo "-lssl -lcrypto")
-> > > >
-> > > > If you do that, we can likely rely on this and avoid some extra tools
-> > > > packages (for example on meta-freescale).
-> > >
-> > > Looking at this, I am wondering if folowing wouldn't be a generic
-> > > solution capable of upstreaming:
-> > >
-> > > diff --git a/configs/nativetools_defconfig b/configs/nativetools_defconfig
-> > > new file mode 100644
-> > > index 0000000000..be69bdf43a
-> > > --- /dev/null
-> > > +++ b/configs/nativetools_defconfig
-> > > @@ -0,0 +1,3 @@
-> > > +CONFIG_SYS_TEXT_BASE=0
-> > > +CONFIG_FIT=y
-> > > +CONFIG_FIT_SIGNATURE=y
-> > > diff --git a/tools/Makefile b/tools/Makefile
-> > > index 3c0521f655..e916d0cebb 100644
-> > > --- a/tools/Makefile
-> > > +++ b/tools/Makefile
-> > > @@ -124,7 +124,7 @@ fit_info-objs   := $(dumpimage-mkimage-objs) fit_info.o
-> > >  fit_check_sign-objs   := $(dumpimage-mkimage-objs) fit_check_sign.o
-> > >  file2include-objs := file2include.o
-> > >
-> > > -ifneq ($(CONFIG_MX23)$(CONFIG_MX28),)
-> > > +ifneq ($(CONFIG_MX23)$(CONFIG_MX28)$(CONFIG_FIT_SIGNATURE),)
-> > >  # Add CONFIG_MXS into host CFLAGS, so we can check whether or not register
-> > >  # the mxsimage support within tools/mxsimage.c .
-> > >  HOSTCFLAGS_mxsimage.o += -DCONFIG_MXS
-> >
-> > So do you think there's a room for improvement in my patch for OE?
-> > Or before we get a missing part for tools/Makefile there's nothing more
-> > to be done in OE?
->
-> You could use this attached patch (marking as Pending as it is still
-> RFC). It allow us to drop or 'mxsboot' recipe on meta-freescale, for
-> example.
+Hi, Eugeniy,
 
-Now... with patch...
+Sorry that I reply to this email and not to the patch itself, I haven't received
+it. It's because of my funny email server :).
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 0001-tools-add-a-generic-config-for-native-tools-building.patch
-Type: text/x-patch
-Size: 1952 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20181128/c20e040d/attachment.bin>
+On 10/15/2018 05:21 PM, Eugeniy Paltsev wrote:
+> Hi!
+> 
+> Maybe you have any comments or remarks about this patch?
+> And if you don't could you please apply it. Thanks!
+> 
+> On Mon, 2018-09-10@14:46 +0300, Eugeniy Paltsev wrote:
+>> sst26wf flash series block protection implementation differs
+>> from other SST series, so add specific implementation
+>> flash_lock/flash_unlock/flash_is_locked functions for sst26wf
+>> flash ICs.
+>>
+>> NOTE:
+>> this patch is basically following mine u-boot commit port:
+>> http://git.denx.de/?p=u-boot.git;a=commitdiff;h=3d4fed87a5fa3ffedf64ff2811cd95c5ac4503ac
+>>
+>> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+>> ---
+>> Changes v1->v2:
+>>  * Check return value of {read | write}_reg callbacks.
+>>
+>>  drivers/mtd/spi-nor/spi-nor.c | 177 ++++++++++++++++++++++++++++++++++++++++++
+>>  include/linux/mtd/spi-nor.h   |   4 +
+>>  2 files changed, 181 insertions(+)
+>>
+>> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
+>> index d9c368c44194..d0e7c85b6002 100644
+>> --- a/drivers/mtd/spi-nor/spi-nor.c
+>> +++ b/drivers/mtd/spi-nor/spi-nor.c
+>> @@ -598,6 +598,177 @@ static int write_sr_and_check(struct spi_nor *nor, u8 status_new, u8 mask)
+>>  	return ((ret & mask) != (status_new & mask)) ? -EIO : 0;
+>>  }
+>>  
+>> +/*
+>> + * sst26wf016/sst26wf032/sst26wf064 have next block protection:
+>> + * 4x   - 8  KByte blocks - read & write protection bits - upper addresses
+>> + * 1x   - 32 KByte blocks - write protection bits
+>> + * rest - 64 KByte blocks - write protection bits
+>> + * 1x   - 32 KByte blocks - write protection bits
+>> + * 4x   - 8  KByte blocks - read & write protection bits - lower addresses
+>> + *
+>> + * We'll support only per 64k lock/unlock so lower and upper 64 KByte region
+>> + * will be treated as single block.
+
+You are treating the memory as uniform, thus addressing just part of the
+individual-block lock support. The advantages of having non-uniform block locks
+disappear. I would prefer to be able to lock each individual block.
+
+>> + */
+>> +#define SST26_BPR_8K_NUM		4
+>> +#define SST26_MAX_BPR_REG_LEN		(18 + 1)
+18 + 1 doesn't say much. It's rather a personal preference, but I would define
+it like:
+
+/* BPR maximum length in bytes (SST26 maximum flash size is 64 Mbits). */
+#define SST26_BPR_MAX_LEN	(SZ_8M / SZ_64K / BITS_PER_BYTE)
+
+Note that the result is actually 18, you have:
+(126 (64kB blocks) + 2 (32kB blocks) + 2 bits * 8 (8kB blocks)) / 8 = 18
+
+>> +#define SST26_BOUND_REG_SIZE		((32 + SST26_BPR_8K_NUM * 8) * SZ_1K)
+
+this is always 64K. I would drop the math, directly assign 64k and rename it
+with something like SST26_HYBRID_SIZE. SST26_BPR_8K_NUM will disappear.
+
+>> +
+>> +enum lock_ctl {
+>> +	SST26_CTL_LOCK,
+>> +	SST26_CTL_UNLOCK,
+>> +	SST26_CTL_CHECK
+>> +};
+>> +
+>> +static bool sst26_process_bpr(u32 bpr_size, u8 *cmd, u32 bit, enum lock_ctl ctl)
+>> +{
+>> +	switch (ctl) {
+>> +	case SST26_CTL_LOCK:
+>> +		cmd[bpr_size - (bit / 8) - 1] |= BIT(bit % 8);>> +		break;
+>> +	case SST26_CTL_UNLOCK:
+>> +		cmd[bpr_size - (bit / 8) - 1] &= ~BIT(bit % 8);
+>> +		break;
+>> +	case SST26_CTL_CHECK:
+>> +		return !!(cmd[bpr_size - (bit / 8) - 1] & BIT(bit % 8));
+>> +	}
+>> +
+>> +	return false;
+>> +}
+>> +
+>> +/*
+>> + * Lock, unlock or check lock status of the flash region of the flash (depending
+>> + * on the lock_ctl value)
+
+kernel doc comments would be nice
+
+>> + */
+>> +static int sst26_lock_ctl(struct spi_nor *nor, loff_t ofs, uint64_t len, enum lock_ctl ctl)
+
+WARNING: line over 80 characters
+#91: FILE: drivers/mtd/spi-nor/spi-nor.c:642:
++static int sst26_lock_ctl(struct spi_nor *nor, loff_t ofs, uint64_t len, enum
+lock_ctl ctl)
+
+>> +{
+>> +	struct mtd_info *mtd = &nor->mtd;
+>> +	u32 i, bpr_ptr, rptr_64k, lptr_64k, bpr_size;
+>> +	bool lower_64k = false, upper_64k = false;
+>> +	u8 bpr_buff[SST26_MAX_BPR_REG_LEN] = {};
+>> +	int ret;
+
+I would reorder the declarations to avoid stack padding: pointers, u32, int, u8
+and bool.
+
+>> +
+>> +	/* Check length and offset for 64k alignment */
+>> +	if ((ofs & (SZ_64K - 1)) || (len & (SZ_64K - 1))) {
+>> +		dev_err(nor->dev, "length or offset is not 64KiB allighned\n");
+
+s/allighned/aligned
+
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	if (ofs + len > mtd->size) {
+>> +		dev_err(nor->dev, "range is more than device size: %#llx + %#llx > %#llx\n",
+>> +			ofs, len, mtd->size);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	/* SST26 family has only 16 Mbit, 32 Mbit and 64 Mbit IC */
+>> +	if (mtd->size != SZ_2M &&
+>> +	    mtd->size != SZ_4M &&
+>> +	    mtd->size != SZ_8M)
+
+It's strange to see a mtd->size check here. This silently implies that there
+might be cases that are not treated by this code.
+
+>> +		return -EINVAL;
+>> +
+>> +	bpr_size = 2 + (mtd->size / SZ_64K / 8);
+
+2 is not needed if I understood correctly.
+
+>> +
+>> +	ret = nor->read_reg(nor, SPINOR_OP_READ_BPR, bpr_buff, bpr_size);
+
+ok, I guess you did the mtd->size check to avoid bpr_buff overflow. Wouldn't be
+better to get rid of the mtd->size check and to allocate the buffer on heap
+using bpr_size?
+
+>> +	if (ret < 0) {
+>> +		dev_err(nor->dev, "fail to read block-protection register\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	rptr_64k = min_t(u32, ofs + len, mtd->size - SST26_BOUND_REG_SIZE);
+>> +	lptr_64k = max_t(u32, ofs, SST26_BOUND_REG_SIZE);
+>> +
+>> +	upper_64k = ((ofs + len) > (mtd->size - SST26_BOUND_REG_SIZE));
+>> +	lower_64k = (ofs < SST26_BOUND_REG_SIZE);
+>> +
+>> +	/* Lower bits in block-protection register are about 64k region */
+>> +	bpr_ptr = lptr_64k / SZ_64K - 1;
+>> +
+>> +	/* Process 64K blocks region */
+>> +	while (lptr_64k < rptr_64k) {
+>> +		if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+>> +			return EACCES;
+>> +
+>> +		bpr_ptr++;
+>> +		lptr_64k += SZ_64K;
+>> +	}
+>> +
+>> +	/* 32K and 8K region bits in BPR are after 64k region bits */
+>> +	bpr_ptr = (mtd->size - 2 * SST26_BOUND_REG_SIZE) / SZ_64K;
+>> +
+>> +	/* Process lower 32K block region */
+>> +	if (lower_64k)
+>> +		if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+>> +			return EACCES;
+>> +
+>> +	bpr_ptr++;
+>> +
+>> +	/* Process upper 32K block region */
+>> +	if (upper_64k)
+>> +		if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+>> +			return EACCES;
+>> +
+>> +	bpr_ptr++;
+>> +
+>> +	/* Process lower 8K block regions */
+>> +	for (i = 0; i < SST26_BPR_8K_NUM; i++) {
+>> +		if (lower_64k)
+>> +			if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+>> +				return EACCES;
+>> +
+>> +		/* In 8K area BPR has both read and write protection bits */
+>> +		bpr_ptr += 2;
+>> +	}
+>> +
+>> +	/* Process upper 8K block regions */
+>> +	for (i = 0; i < SST26_BPR_8K_NUM; i++) {
+>> +		if (upper_64k)
+>> +			if (sst26_process_bpr(bpr_size, bpr_buff, bpr_ptr, ctl))
+>> +				return EACCES;
+>> +
+>> +		/* In 8K area BPR has both read and write protection bits */
+
+however you treat just the write protection bit. Am I missing something?
+
+>> +		bpr_ptr += 2;
+>> +	}
+>> +
+>> +	/* If we check region status we don't need to write BPR back */
+>> +	if (ctl == SST26_CTL_CHECK)
+>> +		return 0;
+>> +
+>> +	ret = nor->write_reg(nor, SPINOR_OP_WRITE_BPR, bpr_buff, bpr_size);
+>> +	if (ret < 0) {
+>> +		dev_err(nor->dev, "fail to write block-protection register\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int sst26_unlock(struct spi_nor *nor, loff_t ofs, uint64_t len)
+>> +{
+>> +	return sst26_lock_ctl(nor, ofs, len, SST26_CTL_UNLOCK);
+>> +}
+>> +
+>> +static int sst26_lock(struct spi_nor *nor, loff_t ofs, uint64_t len)
+>> +{
+>> +	return sst26_lock_ctl(nor, ofs, len, SST26_CTL_LOCK);
+>> +}
+>> +
+>> +/*
+>> + * Returns EACCES (positive value) if region is locked, 0 if region is unlocked,
+
+It would be better to be consistent with mtd-utils and return 1 if the region is
+locked.
+
+>> + * and negative on errors.
+>> + */
+>> +static int sst26_is_locked(struct spi_nor *nor, loff_t ofs, uint64_t len)
+>> +{
+>> +	/*
+>> +	 * is_locked function is used for check before reading or erasing flash
+>> +	 * region, so offset and length might be not 64k allighned, so adjust
+>> +	 * them to be 64k allighned as sst26_lock_ctl works only with 64k
+>> +	 * allighned regions.
+
+s/allighned/aligned
+
+>> +	 */
+>> +	ofs -= ofs & (SZ_64K - 1);
+>> +	len = len & (SZ_64K - 1) ? (len & ~(SZ_64K - 1)) + SZ_64K : len;
+>> +
+>> +	return sst26_lock_ctl(nor, ofs, len, SST26_CTL_CHECK);
+>> +}
+>> +
+>>  static void stm_get_locked_range(struct spi_nor *nor, u8 sr, loff_t *ofs,
+>>  				 uint64_t *len)
+>>  {
+>> @@ -2872,6 +3043,12 @@ int spi_nor_scan(struct spi_nor *nor, const char *name,
+>>  		nor->flash_is_locked = stm_is_locked;
+>>  	}
+>>  
+>> +	if (JEDEC_MFR(info) == SNOR_MFR_SST && info->id[1] == 0x26) {
+
+This implies the entire sst26 family. Did you check that the individual-block
+protection is the same on all flashes?
+
+Cheers,
+ta
+
+>> +		nor->flash_lock = sst26_lock;
+>> +		nor->flash_unlock = sst26_unlock;
+>> +		nor->flash_is_locked = sst26_is_locked;
+>> +	}
+>> +
+>>  	if (nor->flash_lock && nor->flash_unlock && nor->flash_is_locked) {
+>>  		mtd->_lock = spi_nor_lock;
+>>  		mtd->_unlock = spi_nor_unlock;
+>> diff --git a/include/linux/mtd/spi-nor.h b/include/linux/mtd/spi-nor.h
+>> index e60da0d34cc1..246014a73f83 100644
+>> --- a/include/linux/mtd/spi-nor.h
+>> +++ b/include/linux/mtd/spi-nor.h
+>> @@ -93,6 +93,10 @@
+>>  #define SPINOR_OP_WRDI		0x04	/* Write disable */
+>>  #define SPINOR_OP_AAI_WP	0xad	/* Auto address increment word program */
+>>  
+>> +/* Used for SST26* flashes only. */
+>> +#define SPINOR_OP_READ_BPR	0x72	/* Read block protection register */
+>> +#define SPINOR_OP_WRITE_BPR	0x42	/* Write block protection register */
+>> +
+>>  /* Used for S3AN flashes only */
+>>  #define SPINOR_OP_XSE		0x50	/* Sector erase */
+>>  #define SPINOR_OP_XPP		0x82	/* Page program */
