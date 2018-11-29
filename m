@@ -1,37 +1,26 @@
-From: jose.abreu@synopsys.com (Jose Abreu)
-Date: Thu, 29 Nov 2018 12:53:33 +0000
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 29 Nov 2018 12:55:10 +0000
 Subject: [PATCH] ARC: io.h: Implement reads{x}()/writes{x}()
-In-Reply-To: <f634eb3e39284e48923552a0c21562c6@AcuMS.aculab.com>
+In-Reply-To: <bdcc49c9eab45bda6815b1419590943e603d8dc2.1543484040.git.joabreu@synopsys.com>
 References: <bdcc49c9eab45bda6815b1419590943e603d8dc2.1543484040.git.joabreu@synopsys.com>
- <f634eb3e39284e48923552a0c21562c6@AcuMS.aculab.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <2d58c25b-60d0-4616-d2d2-ea490a7261f5@synopsys.com>
+Message-ID: <09e6afb585a62b23e33297b1c0979703ca9fab8c.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 29-11-2018 12:47, David Laight wrote:
-> From: Jose Abreu
->> Sent: 29 November 2018 12:42
->>
->> Some ARC CPU's do not support unaligned loads/stores. Currently, generic
->> implementation of reads{b/w/l}()/writes{b/w/l}() is being used with ARC.
->> This can lead to misfunction of some drivers as generic functions do a
->> plain dereference of a pointer that can be unaligned.
->>
->> Let's use {get/put}_unaligned() helper instead of plain dereference of
->> pointer in order to fix this.
-> Is it worth adding a check for the pointer being aligned?
+Hi Jose,
 
-We could but then we would need to know which CPU version is
-currently running because some ARC processors support unaligned
-accesses.
+On Thu, 2018-11-29@12:42 +0000, Jose Abreu wrote:
+> Some ARC CPU's do not support unaligned loads/stores. Currently, generic
+> implementation of reads{b/w/l}()/writes{b/w/l}() is being used with ARC.
+> This can lead to misfunction of some drivers as generic functions do a
+> plain dereference of a pointer that can be unaligned.
+> 
+> Let's use {get/put}_unaligned() helper instead of plain dereference of
+> pointer in order to fix this.
+> 
+> We do not implement readsq()/writesq() as we assume that only HS is a
+> 64 Bit CPU and that it supports unaligned loads/stores.
 
-Thanks and Best Regards,
-Jose Miguel Abreu
+Pls note that ARC HS is still only 32-bit core at least as of today.
 
->
-> 	David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
->
+-Alexey
