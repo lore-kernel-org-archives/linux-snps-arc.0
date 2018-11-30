@@ -1,101 +1,146 @@
 From: jose.abreu@synopsys.com (Jose Abreu)
-Date: Fri, 30 Nov 2018 08:56:53 +0000
-Subject: [PATCH v2] ARC: io.h: Implement reads{x}()/writes{x}()
-In-Reply-To: <CAK8P3a2U3ft3crF2SiAuc=PQdDooEUaVAN9gQDyxsxvBn5+xRw@mail.gmail.com>
-References: <19fb2e394afcb073bbc109e432417fbbc03323f6.1543499759.git.joabreu@synopsys.com>
- <ff1e11923e92405d883474d715008c0a@AcuMS.aculab.com>
- <89122bd8-bca2-2ae1-0dd0-160abbebcace@synopsys.com>
- <d2d133e5-267c-c42a-7329-22892bbbdee4@synopsys.com>
- <CAK8P3a2U3ft3crF2SiAuc=PQdDooEUaVAN9gQDyxsxvBn5+xRw@mail.gmail.com>
+Date: Fri, 30 Nov 2018 09:47:31 +0000
+Subject: [PATCH v3] ARC: io.h: Implement reads{x}()/writes{x}()
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <57437493-31bb-eced-032c-1f54470b030e@synopsys.com>
+Message-ID: <244eba764469e8493f2d0c85a6d965aad6cd8128.1543571088.git.joabreu@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 29-11-2018 21:20, Arnd Bergmann wrote:
-> On Thu, Nov 29, 2018@5:14 PM Jose Abreu <jose.abreu@synopsys.com> wrote:
->
->> --->8--
->> static noinline void test_readsl(char *buf, int len)
->> {
->>         readsl(0xdeadbeef, buf, len);
->> }
->> --->8---
->>
->> And the disassembly:
->> --->8---
->> 00000e88 <test_readsl>:
->>  e88:    breq.dr1,0,eac <0xeac>        /* if (count) */
->>  e8c:    and r2,r0,3
->>
->>  e90:    mov_s lp_count,r1            /* r1 = count */
->>  e92:    brne r2,0,eb0 <0xeb0>        /* if (bptr % ((t) / 8)) */
->>
->>  e96:    sub r0,r0,4
->>  e9a:    nop_s
->>
->>  e9c:    lp eac <0xeac>                /* first loop */
->>  ea0:    ld r2,[0xdeadbeef]
->>  ea8:    st.a r2,[r0,4]
->>  eac:    j_s [blink]
->>  eae:    nop_s
->>
->>  eb0:    lp ed6 <0xed6>                /* second loop */
->>  eb4:    ld r2,[0xdeadbeef]
->>  ebc:    lsr r5,r2,8
->>  ec0:    lsr r4,r2,16
->>  ec4:    lsr r3,r2,24
->>  ec8:    stb_s r2,[r0,0]
->>  eca:    stb r5,[r0,1]
->>  ece:    stb r4,[r0,2]
->>  ed2:    stb_s r3,[r0,3]
->>  ed4:    add_s r0,r0,4
->>  ed6:    j_s [blink]
->>
->> --->8---
->>
->> See how the if condition added in this version is checked in
->> <test_readsl+0xe92> and then it takes two different loops.
-> This looks good to me. I wonder what the result is for CPUs
-> that /do/ support unaligned accesses. Normally put_unaligned()
-> should fall back to a simple store in that case, but I'm not
-> sure it can fold the two stores back into one and skip the
-> alignment check. Probably not worth overoptimizing for that
-> case (the MMIO access latency should be much higher than
-> anything you could gain here), but I'm still curious about
-> how well our get/put_unaligned macros work.
+Some ARC CPU's do not support unaligned loads/stores. Currently, generic
+implementation of reads{b/w/l}()/writes{b/w/l}() is being used with ARC.
+This can lead to misfunction of some drivers as generic functions do a
+plain dereference of a pointer that can be unaligned.
 
-Here is disassembly for an ARC CPU that supports unaligned accesses:
+Let's use {get/put}_unaligned() helpers instead of plain dereference of
+pointer in order to fix. The helpers allow to get and store data from an
+unaligned address whilst preserving the CPU internal alignment.
+According to [1], the use of these helpers are costly in terms of
+performance so we added an initial check for a buffer already aligned so
+that the usage of the helpers can be avoided, when possible.
 
--->8---
-00000d48 <test_readsl>:
- d48:    breq_s r1,0,28            /* if (count) */
- d4a:    tst    r0,0x3
- d4e:    bne_s 32                /* if (bptr % ((t) / 8)) */
+[1] Documentation/unaligned-memory-access.txt
+
+Changes from v2:
+- Rework commit msg (Vineet)
+- Check if count is 0 and return (Vineet)
+- Use two different loops (Vineet)
+
+Changes from v1:
+- Check if buffer is already aligned (David)
+- Remove 64 bit mention (Alexey)
+
+Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+Tested-by: Vitor Soares <soares at synopsys.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Joao Pinto <jpinto at synopsys.com>
+Cc: Vitor Soares <soares at synopsys.com>
+Cc: David Laight <David.Laight at ACULAB.COM>
+---
+ arch/arc/include/asm/io.h | 67 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+
+diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
+index c22b181e8206..6c89c31fbe15 100644
+--- a/arch/arc/include/asm/io.h
++++ b/arch/arc/include/asm/io.h
+@@ -12,6 +12,7 @@
+ #include <linux/types.h>
+ #include <asm/byteorder.h>
+ #include <asm/page.h>
++#include <asm/unaligned.h>
  
- d50:    ld r2,[0xdeadbeef]        /* first loop */
- d58:    sub_s r1,r1,0x1
- d5a:    tst_s r1,r1
- d5c:    bne.d -12
- d60:    st.ab r2,[r0,4]
+ #ifdef CONFIG_ISA_ARCV2
+ #include <asm/barrier.h>
+@@ -94,6 +95,37 @@ static inline u32 __raw_readl(const volatile void __iomem *addr)
+ 	return w;
+ }
  
- d64:    dmb    0x1                    /* common exit point */
- d68:    j_s    [blink]
- d6a:    nop_s
++#define __raw_readsx(t,f) \
++static inline void __raw_reads##f(const volatile void __iomem *addr, \
++				  void *buffer, unsigned int count) \
++{ \
++	bool is_aligned = ((unsigned long)buffer % ((t) / 8)) == 0; \
++	u##t *buf = buffer; \
++\
++	if (!count) \
++		return; \
++\
++	/* Some ARC CPU's don't support unaligned accesses */ \
++	if (is_aligned) { \
++		do { \
++			u##t x = __raw_read##f(addr); \
++			*buf++ = x; \
++		} while (--count); \
++	} else { \
++		do { \
++			u##t x = __raw_read##f(addr); \
++			put_unaligned(x, buf++); \
++		} while (--count); \
++	} \
++}
++
++#define __raw_readsb __raw_readsb
++__raw_readsx(8, b)
++#define __raw_readsw __raw_readsw
++__raw_readsx(16, w)
++#define __raw_readsl __raw_readsl
++__raw_readsx(32, l)
++
+ #define __raw_writeb __raw_writeb
+ static inline void __raw_writeb(u8 b, volatile void __iomem *addr)
+ {
+@@ -126,6 +158,35 @@ static inline void __raw_writel(u32 w, volatile void __iomem *addr)
  
- d6c:    ld r2,[0xdeadbeef]        /* second loop */
- d74:    sub_s r1,r1,0x1
- d76:    tst_s r1,r1
- d78:    bne.d -12
- d7c:    st.ab r2,[r0,4]
-
- d80:    b_s -28                    /* jmp to 0xd64 */
- d82:    nop_s
---->8---
-
-Notice how first and second loop are exactly equal ...
-
-Thanks and Best Regards,
-Jose Miguel Abreu
-
->
->        Arnd
+ }
+ 
++#define __raw_writesx(t,f) \
++static inline void __raw_writes##f(volatile void __iomem *addr, \
++				   const void *buffer, unsigned int count) \
++{ \
++	bool is_aligned = ((unsigned long)buffer % ((t) / 8)) == 0; \
++	const u##t *buf = buffer; \
++\
++	if (!count) \
++		return; \
++\
++	/* Some ARC CPU's don't support unaligned accesses */ \
++	if (is_aligned) { \
++		do { \
++			__raw_write##f(*buf++, addr); \
++		} while (--count); \
++	} else { \
++		do { \
++			__raw_write##f(get_unaligned(buf++), addr); \
++		} while (--count); \
++	} \
++}
++
++#define __raw_writesb __raw_writesb
++__raw_writesx(8, b)
++#define __raw_writesw __raw_writesw
++__raw_writesx(16, w)
++#define __raw_writesl __raw_writesl
++__raw_writesx(32, l)
++
+ /*
+  * MMIO can also get buffered/optimized in micro-arch, so barriers needed
+  * Based on ARM model for the typical use case
+@@ -141,10 +202,16 @@ static inline void __raw_writel(u32 w, volatile void __iomem *addr)
+ #define readb(c)		({ u8  __v = readb_relaxed(c); __iormb(); __v; })
+ #define readw(c)		({ u16 __v = readw_relaxed(c); __iormb(); __v; })
+ #define readl(c)		({ u32 __v = readl_relaxed(c); __iormb(); __v; })
++#define readsb(p,d,l)		({ __raw_readsb(p,d,l); __iormb(); })
++#define readsw(p,d,l)		({ __raw_readsw(p,d,l); __iormb(); })
++#define readsl(p,d,l)		({ __raw_readsl(p,d,l); __iormb(); })
+ 
+ #define writeb(v,c)		({ __iowmb(); writeb_relaxed(v,c); })
+ #define writew(v,c)		({ __iowmb(); writew_relaxed(v,c); })
+ #define writel(v,c)		({ __iowmb(); writel_relaxed(v,c); })
++#define writesb(p,d,l)		({ __iowmb(); __raw_writesb(p,d,l); })
++#define writesw(p,d,l)		({ __iowmb(); __raw_writesw(p,d,l); })
++#define writesl(p,d,l)		({ __iowmb(); __raw_writesl(p,d,l); })
+ 
+ /*
+  * Relaxed API for drivers which can handle barrier ordering themselves
+-- 
+2.7.4
