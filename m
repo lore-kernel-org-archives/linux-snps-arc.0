@@ -1,78 +1,31 @@
-From: David.Laight@ACULAB.COM (David Laight)
-Date: Fri, 30 Nov 2018 13:57:06 +0000
-Subject: [PATCH v2] ARC: io.h: Implement reads{x}()/writes{x}()
-In-Reply-To: <CAK8P3a2mqEb4_F4wB1DvL5jJJobLhOg6-bW3ZDNGhvbv-_qW3A@mail.gmail.com>
-References: <19fb2e394afcb073bbc109e432417fbbc03323f6.1543499759.git.joabreu@synopsys.com>
- <ff1e11923e92405d883474d715008c0a@AcuMS.aculab.com>
- <89122bd8-bca2-2ae1-0dd0-160abbebcace@synopsys.com>
- <d2d133e5-267c-c42a-7329-22892bbbdee4@synopsys.com>
- <CAK8P3a2U3ft3crF2SiAuc=PQdDooEUaVAN9gQDyxsxvBn5+xRw@mail.gmail.com>
- <57437493-31bb-eced-032c-1f54470b030e@synopsys.com>
- <CAK8P3a2mqEb4_F4wB1DvL5jJJobLhOg6-bW3ZDNGhvbv-_qW3A@mail.gmail.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 30 Nov 2018 18:55:05 +0000
+Subject: [PATCH v2] ARC: change defconfig defaults to ARCv2
+References: <20181130125156.34460-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3afe0e1bbf2d42d3bb178ec789553c28@AcuMS.aculab.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014641A3F9@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Arnd Bergmann
-> Sent: 30 November 2018 13:44
-> 
-> On Fri, Nov 30, 2018@9:57 AM Jose Abreu <jose.abreu@synopsys.com> wrote:
-> > On 29-11-2018 21:20, Arnd Bergmann wrote:
-> > > On Thu, Nov 29, 2018@5:14 PM Jose Abreu <jose.abreu@synopsys.com> wrote:
-> > >> See how the if condition added in this version is checked in
-> > >> <test_readsl+0xe92> and then it takes two different loops.
-> > > This looks good to me. I wonder what the result is for CPUs
-> > > that /do/ support unaligned accesses. Normally put_unaligned()
-> > > should fall back to a simple store in that case, but I'm not
-> > > sure it can fold the two stores back into one and skip the
-> > > alignment check. Probably not worth overoptimizing for that
-> > > case (the MMIO access latency should be much higher than
-> > > anything you could gain here), but I'm still curious about
-> > > how well our get/put_unaligned macros work.
-> >
-> > Here is disassembly for an ARC CPU that supports unaligned accesses:
-> >
-> > -->8---
-> > 00000d48 <test_readsl>:
-> >  d48:    breq_s r1,0,28            /* if (count) */
-> >  d4a:    tst    r0,0x3
-> >  d4e:    bne_s 32                /* if (bptr % ((t) / 8)) */
-> >
-> >  d50:    ld r2,[0xdeadbeef]        /* first loop */
-> >  d58:    sub_s r1,r1,0x1
-> >  d5a:    tst_s r1,r1
-> >  d5c:    bne.d -12
-> >  d60:    st.ab r2,[r0,4]
-> >
-> >  d64:    dmb    0x1                    /* common exit point */
-> >  d68:    j_s    [blink]
-> >  d6a:    nop_s
-> >
-> >  d6c:    ld r2,[0xdeadbeef]        /* second loop */
-> >  d74:    sub_s r1,r1,0x1
-> >  d76:    tst_s r1,r1
-> >  d78:    bne.d -12
-> >  d7c:    st.ab r2,[r0,4]
-> >
-> >  d80:    b_s -28                    /* jmp to 0xd64 */
-> >  d82:    nop_s
-> > --->8---
-> >
-> > Notice how first and second loop are exactly equal ...
-> 
-> Ok, so it's halfway there: it managed to optimize the the unaligned
-> case correctly, but it failed to notice that both sides are
-> identical now.
+On 11/30/18 4:52 AM, Alexey Brodkin wrote:
+> From: Kevin Hilman <khilman at baylibre.com>
+>
+> Change the default defconfig (used with 'make defconfig') to the ARCv2
+> nsim_hs_defconfig, and also switch the default Kconfig ISA selection to
+> ARCv2.
+>
+> This allows several default defconfigs (e.g. make defconfig, make
+> allnoconfig, make tinyconfig) to all work with ARCv2 by default.
+>
+> Note since we change default architecture from ARCompact to ARCv2
+> it's required to explicitly mention architecture type in ARCompact
+> defconfigs otherwise ARCv2 will be implied and binaries will be
+> generated for ARCv2.
+>
+> Signed-off-by: Kevin Hilman <khilman at baylibre.com>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: <stable at vger.kernel.org> # 4.4.x
 
-There're even identical opcodes...
-The barrier() (etc) in the asm output probably stopped the optimisation.
+Applied.
 
-It also seems to have used a different type of loop to the
-other example, probably less efficient.
-(Not that I'm an expert on ARC opcodes.)
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Thx,
+-Vineet
