@@ -1,247 +1,40 @@
-From: daniel.thompson@linaro.org (Daniel Thompson)
-Date: Mon, 3 Dec 2018 16:00:50 +0000
-Subject: [PATCH v6 1/4] kgdb: Remove irq flags from roundup
-In-Reply-To: <20181127173839.34328-2-dianders@chromium.org>
-References: <20181127173839.34328-1-dianders@chromium.org>
- <20181127173839.34328-2-dianders@chromium.org>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 3 Dec 2018 17:31:25 +0000
+Subject: [PATCH v2] ARC: io.h: Implement reads{x}()/writes{x}()
+References: <19fb2e394afcb073bbc109e432417fbbc03323f6.1543499759.git.joabreu@synopsys.com>
+ <ff1e11923e92405d883474d715008c0a@AcuMS.aculab.com>
+ <89122bd8-bca2-2ae1-0dd0-160abbebcace@synopsys.com>
+ <d2d133e5-267c-c42a-7329-22892bbbdee4@synopsys.com>
+ <CAK8P3a2U3ft3crF2SiAuc=PQdDooEUaVAN9gQDyxsxvBn5+xRw@mail.gmail.com>
+ <57437493-31bb-eced-032c-1f54470b030e@synopsys.com>
+ <CAK8P3a2mqEb4_F4wB1DvL5jJJobLhOg6-bW3ZDNGhvbv-_qW3A@mail.gmail.com>
+ <3afe0e1bbf2d42d3bb178ec789553c28@AcuMS.aculab.com>
+ <C2D7FE5348E1B147BCA15975FBA23075014641A413@US01WEMBX2.internal.synopsys.com>
+ <a668562bf3cb410e90484eb0d4a436a7@AcuMS.aculab.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181203160050.vebvvdiuki2iuczg@holly.lan>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014641A923@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Nov 27, 2018@09:38:36AM -0800, Douglas Anderson wrote:
-> The function kgdb_roundup_cpus() was passed a parameter that was
-> documented as:
-> 
-> > the flags that will be used when restoring the interrupts. There is
-> > local_irq_save() call before kgdb_roundup_cpus().
-> 
-> Nobody used those flags.  Anyone who wanted to temporarily turn on
-> interrupts just did local_irq_enable() and local_irq_disable() without
-> looking at them.  So we can definitely remove the flags.
-> 
-> Signed-off-by: Douglas Anderson <dianders at chromium.org>
-> Acked-by: Will Deacon <will.deacon at arm.com>
-> ---
-> 
-> Changes in v6: None
-> Changes in v5: None
-> Changes in v4: None
-> Changes in v3: None
-> Changes in v2:
-> - Removing irq flags separated from fixing lockdep splat.
-> 
->  arch/arc/kernel/kgdb.c     | 2 +-
->  arch/arm/kernel/kgdb.c     | 2 +-
->  arch/arm64/kernel/kgdb.c   | 2 +-
->  arch/hexagon/kernel/kgdb.c | 9 ++-------
->  arch/mips/kernel/kgdb.c    | 2 +-
->  arch/powerpc/kernel/kgdb.c | 2 +-
->  arch/sh/kernel/kgdb.c      | 2 +-
->  arch/sparc/kernel/smp_64.c | 2 +-
->  arch/x86/kernel/kgdb.c     | 9 ++-------
+On 12/3/18 2:10 AM, David Laight wrote:
+> From: Vineet Gupta
+> ...
+>>> It also seems to have used a different type of loop to the
+>>> other example, probably less efficient.
+>>> (Not that I'm an expert on ARC opcodes.)
+>> The difference is due to ISA and ensuing ARC gcc backends. ARCompact based cores
+>> don't support unaligned access and the loop there was ZOL (Zero delay loop). In
+>> ARCv2 based cores, the gcc backend has been tweaked to generate fewer ZOLs hence
+>> you see the more canonical tst and branch style loop.
+> Is this another case of the hardware implementing 'hardware' loop
+> instructions that execute slower than ones made of simple instructions?
 
-Again, please formally Cc: the arch maintainers in the patch header
-(just after your Signed-off-by: if I'm not being explicitly clear).
+Not really. ZOL allow for hardware loops with no instruction/cycle overhead in
+general. However as micro-arches get more complicated there are newer "gizmos"
+added to the machinery which sometimes make it harder for the compliers to
+optimize for all the cases. ARCv2 ISA has a new DBNZ instruction (similar to x86
+you refer below) to implement loops and that is preferred over the ZOL.
 
-
-Daniel.
-
->  include/linux/kgdb.h       | 9 ++-------
->  kernel/debug/debug_core.c  | 2 +-
->  11 files changed, 14 insertions(+), 29 deletions(-)
-> 
-> diff --git a/arch/arc/kernel/kgdb.c b/arch/arc/kernel/kgdb.c
-> index 9a3c34af2ae8..0932851028e0 100644
-> --- a/arch/arc/kernel/kgdb.c
-> +++ b/arch/arc/kernel/kgdb.c
-> @@ -197,7 +197,7 @@ static void kgdb_call_nmi_hook(void *ignored)
->  	kgdb_nmicallback(raw_smp_processor_id(), NULL);
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	local_irq_enable();
->  	smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> diff --git a/arch/arm/kernel/kgdb.c b/arch/arm/kernel/kgdb.c
-> index caa0dbe3dc61..f21077b077be 100644
-> --- a/arch/arm/kernel/kgdb.c
-> +++ b/arch/arm/kernel/kgdb.c
-> @@ -175,7 +175,7 @@ static void kgdb_call_nmi_hook(void *ignored)
->         kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->         local_irq_enable();
->         smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> diff --git a/arch/arm64/kernel/kgdb.c b/arch/arm64/kernel/kgdb.c
-> index a20de58061a8..12c339ff6e75 100644
-> --- a/arch/arm64/kernel/kgdb.c
-> +++ b/arch/arm64/kernel/kgdb.c
-> @@ -289,7 +289,7 @@ static void kgdb_call_nmi_hook(void *ignored)
->  	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	local_irq_enable();
->  	smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> diff --git a/arch/hexagon/kernel/kgdb.c b/arch/hexagon/kernel/kgdb.c
-> index 16c24b22d0b2..012e0e230ac2 100644
-> --- a/arch/hexagon/kernel/kgdb.c
-> +++ b/arch/hexagon/kernel/kgdb.c
-> @@ -119,17 +119,12 @@ void kgdb_arch_set_pc(struct pt_regs *regs, unsigned long pc)
->  
->  /**
->   * kgdb_roundup_cpus - Get other CPUs into a holding pattern
-> - * @flags: Current IRQ state
->   *
->   * On SMP systems, we need to get the attention of the other CPUs
->   * and get them be in a known state.  This should do what is needed
->   * to get the other CPUs to call kgdb_wait(). Note that on some arches,
->   * the NMI approach is not used for rounding up all the CPUs. For example,
-> - * in case of MIPS, smp_call_function() is used to roundup CPUs. In
-> - * this case, we have to make sure that interrupts are enabled before
-> - * calling smp_call_function(). The argument to this function is
-> - * the flags that will be used when restoring the interrupts. There is
-> - * local_irq_save() call before kgdb_roundup_cpus().
-> + * in case of MIPS, smp_call_function() is used to roundup CPUs.
->   *
->   * On non-SMP systems, this is not called.
->   */
-> @@ -139,7 +134,7 @@ static void hexagon_kgdb_nmi_hook(void *ignored)
->  	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	local_irq_enable();
->  	smp_call_function(hexagon_kgdb_nmi_hook, NULL, 0);
-> diff --git a/arch/mips/kernel/kgdb.c b/arch/mips/kernel/kgdb.c
-> index eb6c0d582626..2b05effc17b4 100644
-> --- a/arch/mips/kernel/kgdb.c
-> +++ b/arch/mips/kernel/kgdb.c
-> @@ -219,7 +219,7 @@ static void kgdb_call_nmi_hook(void *ignored)
->  	set_fs(old_fs);
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	local_irq_enable();
->  	smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> diff --git a/arch/powerpc/kernel/kgdb.c b/arch/powerpc/kernel/kgdb.c
-> index 59c578f865aa..b0e804844be0 100644
-> --- a/arch/powerpc/kernel/kgdb.c
-> +++ b/arch/powerpc/kernel/kgdb.c
-> @@ -124,7 +124,7 @@ static int kgdb_call_nmi_hook(struct pt_regs *regs)
->  }
->  
->  #ifdef CONFIG_SMP
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	smp_send_debugger_break();
->  }
-> diff --git a/arch/sh/kernel/kgdb.c b/arch/sh/kernel/kgdb.c
-> index 4f04c6638a4d..cc57630f6bf2 100644
-> --- a/arch/sh/kernel/kgdb.c
-> +++ b/arch/sh/kernel/kgdb.c
-> @@ -319,7 +319,7 @@ static void kgdb_call_nmi_hook(void *ignored)
->  	kgdb_nmicallback(raw_smp_processor_id(), get_irq_regs());
->  }
->  
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	local_irq_enable();
->  	smp_call_function(kgdb_call_nmi_hook, NULL, 0);
-> diff --git a/arch/sparc/kernel/smp_64.c b/arch/sparc/kernel/smp_64.c
-> index 4792e08ad36b..f45d876983f1 100644
-> --- a/arch/sparc/kernel/smp_64.c
-> +++ b/arch/sparc/kernel/smp_64.c
-> @@ -1014,7 +1014,7 @@ void flush_dcache_page_all(struct mm_struct *mm, struct page *page)
->  }
->  
->  #ifdef CONFIG_KGDB
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	smp_cross_call(&xcall_kgdb_capture, 0, 0, 0);
->  }
-> diff --git a/arch/x86/kernel/kgdb.c b/arch/x86/kernel/kgdb.c
-> index 8e36f249646e..ac6291a4178d 100644
-> --- a/arch/x86/kernel/kgdb.c
-> +++ b/arch/x86/kernel/kgdb.c
-> @@ -422,21 +422,16 @@ static void kgdb_disable_hw_debug(struct pt_regs *regs)
->  #ifdef CONFIG_SMP
->  /**
->   *	kgdb_roundup_cpus - Get other CPUs into a holding pattern
-> - *	@flags: Current IRQ state
->   *
->   *	On SMP systems, we need to get the attention of the other CPUs
->   *	and get them be in a known state.  This should do what is needed
->   *	to get the other CPUs to call kgdb_wait(). Note that on some arches,
->   *	the NMI approach is not used for rounding up all the CPUs. For example,
-> - *	in case of MIPS, smp_call_function() is used to roundup CPUs. In
-> - *	this case, we have to make sure that interrupts are enabled before
-> - *	calling smp_call_function(). The argument to this function is
-> - *	the flags that will be used when restoring the interrupts. There is
-> - *	local_irq_save() call before kgdb_roundup_cpus().
-> + *	in case of MIPS, smp_call_function() is used to roundup CPUs.
->   *
->   *	On non-SMP systems, this is not called.
->   */
-> -void kgdb_roundup_cpus(unsigned long flags)
-> +void kgdb_roundup_cpus(void)
->  {
->  	apic->send_IPI_allbutself(APIC_DM_NMI);
->  }
-> diff --git a/include/linux/kgdb.h b/include/linux/kgdb.h
-> index e465bb15912d..05e5b2eb0d32 100644
-> --- a/include/linux/kgdb.h
-> +++ b/include/linux/kgdb.h
-> @@ -178,21 +178,16 @@ kgdb_arch_handle_exception(int vector, int signo, int err_code,
->  
->  /**
->   *	kgdb_roundup_cpus - Get other CPUs into a holding pattern
-> - *	@flags: Current IRQ state
->   *
->   *	On SMP systems, we need to get the attention of the other CPUs
->   *	and get them into a known state.  This should do what is needed
->   *	to get the other CPUs to call kgdb_wait(). Note that on some arches,
->   *	the NMI approach is not used for rounding up all the CPUs. For example,
-> - *	in case of MIPS, smp_call_function() is used to roundup CPUs. In
-> - *	this case, we have to make sure that interrupts are enabled before
-> - *	calling smp_call_function(). The argument to this function is
-> - *	the flags that will be used when restoring the interrupts. There is
-> - *	local_irq_save() call before kgdb_roundup_cpus().
-> + *	in case of MIPS, smp_call_function() is used to roundup CPUs.
->   *
->   *	On non-SMP systems, this is not called.
->   */
-> -extern void kgdb_roundup_cpus(unsigned long flags);
-> +extern void kgdb_roundup_cpus(void);
->  
->  /**
->   *	kgdb_arch_set_pc - Generic call back to the program counter
-> diff --git a/kernel/debug/debug_core.c b/kernel/debug/debug_core.c
-> index 65c0f1363788..f3cadda45f07 100644
-> --- a/kernel/debug/debug_core.c
-> +++ b/kernel/debug/debug_core.c
-> @@ -593,7 +593,7 @@ static int kgdb_cpu_enter(struct kgdb_state *ks, struct pt_regs *regs,
->  
->  	/* Signal the other CPUs to enter kgdb_wait() */
->  	else if ((!kgdb_single_step) && kgdb_do_roundup)
-> -		kgdb_roundup_cpus(flags);
-> +		kgdb_roundup_cpus();
->  #endif
->  
->  	/*
-> -- 
-> 2.20.0.rc0.387.gc7a69e6b6c-goog
-> 
+> The worst example has to be the x86 'loop' (dec cx and jump nz)
+> instruction which is microcoded on intel cpus.
+> That makes it very difficult to use the new addx instruction to
+> get two dependency chains through a loop.
