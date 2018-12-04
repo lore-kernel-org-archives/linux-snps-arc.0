@@ -1,40 +1,67 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 3 Dec 2018 17:31:25 +0000
-Subject: [PATCH v2] ARC: io.h: Implement reads{x}()/writes{x}()
-References: <19fb2e394afcb073bbc109e432417fbbc03323f6.1543499759.git.joabreu@synopsys.com>
- <ff1e11923e92405d883474d715008c0a@AcuMS.aculab.com>
- <89122bd8-bca2-2ae1-0dd0-160abbebcace@synopsys.com>
- <d2d133e5-267c-c42a-7329-22892bbbdee4@synopsys.com>
- <CAK8P3a2U3ft3crF2SiAuc=PQdDooEUaVAN9gQDyxsxvBn5+xRw@mail.gmail.com>
- <57437493-31bb-eced-032c-1f54470b030e@synopsys.com>
- <CAK8P3a2mqEb4_F4wB1DvL5jJJobLhOg6-bW3ZDNGhvbv-_qW3A@mail.gmail.com>
- <3afe0e1bbf2d42d3bb178ec789553c28@AcuMS.aculab.com>
- <C2D7FE5348E1B147BCA15975FBA23075014641A413@US01WEMBX2.internal.synopsys.com>
- <a668562bf3cb410e90484eb0d4a436a7@AcuMS.aculab.com>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue,  4 Dec 2018 14:56:53 +0300
+Subject: [PATCH] gdb: Remove long ago upstreamed patch
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014641A923@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20181204115653.28369-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/3/18 2:10 AM, David Laight wrote:
-> From: Vineet Gupta
-> ...
->>> It also seems to have used a different type of loop to the
->>> other example, probably less efficient.
->>> (Not that I'm an expert on ARC opcodes.)
->> The difference is due to ISA and ensuing ARC gcc backends. ARCompact based cores
->> don't support unaligned access and the loop there was ZOL (Zero delay loop). In
->> ARCv2 based cores, the gcc backend has been tweaked to generate fewer ZOLs hence
->> you see the more canonical tst and branch style loop.
-> Is this another case of the hardware implementing 'hardware' loop
-> instructions that execute slower than ones made of simple instructions?
+This fix was upstreamed a long ago, see [1].
 
-Not really. ZOL allow for hardware loops with no instruction/cycle overhead in
-general. However as micro-arches get more complicated there are newer "gizmos"
-added to the machinery which sometimes make it harder for the compliers to
-optimize for all the cases. ARCv2 ISA has a new DBNZ instruction (similar to x86
-you refer below) to implement loops and that is preferred over the ZOL.
+[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=37ce4055fe907b9edd25498dcda7a133dbd19784
 
-> The worst example has to be the x86 'loop' (dec cx and jump nz)
-> instruction which is microcoded on intel cpus.
-> That makes it very difficult to use the new addx instruction to
-> get two dependency chains through a loop.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ meta/recipes-devtools/gdb/gdb-8.2.inc              |  1 -
+ .../gdb/0001-include-sys-types.h-for-mode_t.patch  | 29 ----------------------
+ 2 files changed, 30 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
+
+diff --git a/meta/recipes-devtools/gdb/gdb-8.2.inc b/meta/recipes-devtools/gdb/gdb-8.2.inc
+index dfb0059123..7e0809de72 100644
+--- a/meta/recipes-devtools/gdb/gdb-8.2.inc
++++ b/meta/recipes-devtools/gdb/gdb-8.2.inc
+@@ -5,7 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+ 
+ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
+-           file://0001-include-sys-types.h-for-mode_t.patch \
+            file://0002-make-man-install-relative-to-DESTDIR.patch \
+            file://0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
+            file://0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
+diff --git a/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch b/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
+deleted file mode 100644
+index 2c8783e192..0000000000
+--- a/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 6ae0fb9b49047cef338262e30273f63139fd1261 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem at gmail.com>
+-Date: Tue, 19 Jan 2016 18:18:52 -0800
+-Subject: [PATCH 01/11] include sys/types.h for mode_t
+-
+-mode_t is used in target.h, so we need to include sys/types.h to get the
+-defintion
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem at gmail.com>
+----
+- gdb/gdbserver/target.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/gdb/gdbserver/target.h b/gdb/gdbserver/target.h
+-index fce54e05ad..278cee78a8 100644
+---- a/gdb/gdbserver/target.h
+-+++ b/gdb/gdbserver/target.h
+-@@ -29,6 +29,7 @@
+- #include "mem-break.h"
+- #include "btrace-common.h"
+- #include <vector>
+-+#include <sys/types.h>
+- 
+- struct emit_ops;
+- struct buffer;
+--- 
+-2.18.0
+-
+-- 
+2.16.2
