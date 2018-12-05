@@ -1,87 +1,68 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue,  4 Dec 2018 20:51:18 +0300
-Subject: [PATCH] ARC: introduce basic 'perf annotate' support for ARC
+From: dianders@chromium.org (Douglas Anderson)
+Date: Tue,  4 Dec 2018 19:38:24 -0800
+Subject: [REPOST PATCH v6 0/4] kgdb: Fix kgdb_roundup_cpus()
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181204175118.25232-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20181205033828.6156-1-dianders@chromium.org>
 To: linux-snps-arc@lists.infradead.org
 
-Introduce basic 'perf annotate' support for ARC to be able
-to use anotation via stdio interface.
+This series was originally part of the series ("serial: Finish kgdb on
+qcom_geni; fix many lockdep splats w/ kgdb") but it made sense to
+split it up.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- tools/perf/arch/arc/annotate/instructions.c |  9 +++++++++
- tools/perf/arch/common.c                    | 11 ++++++++++-
- tools/perf/util/annotate.c                  |  5 +++++
- 3 files changed, 24 insertions(+), 1 deletion(-)
- create mode 100644 tools/perf/arch/arc/annotate/instructions.c
+It's believed that dropping into kgdb should be more robust once these
+patches are applied.
 
-diff --git a/tools/perf/arch/arc/annotate/instructions.c b/tools/perf/arch/arc/annotate/instructions.c
-new file mode 100644
-index 000000000000..2f00e995c7e3
---- /dev/null
-+++ b/tools/perf/arch/arc/annotate/instructions.c
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/compiler.h>
-+
-+static int arc__annotate_init(struct arch *arch, char *cpuid __maybe_unused)
-+{
-+	arch->initialized = true;
-+	arch->objdump.comment_char = ';';
-+	return 0;
-+}
-diff --git a/tools/perf/arch/common.c b/tools/perf/arch/common.c
-index 82657c01a3b8..f7cb57c424d1 100644
---- a/tools/perf/arch/common.c
-+++ b/tools/perf/arch/common.c
-@@ -5,6 +5,13 @@
- #include "../util/util.h"
- #include "../util/debug.h"
- 
-+const char *const arc_triplets[] = {
-+	"arc-linux-",
-+	"arc-snps-linux-uclibc-",
-+	"arc-snps-linux-gnu-",
-+	NULL
-+};
-+
- const char *const arm_triplets[] = {
- 	"arm-eabi-",
- 	"arm-linux-androideabi-",
-@@ -147,7 +154,9 @@ static int perf_env__lookup_binutils_path(struct perf_env *env,
- 		zfree(&buf);
- 	}
- 
--	if (!strcmp(arch, "arm"))
-+	if (!strcmp(arch, "arc"))
-+		path_list = arc_triplets;
-+	else if (!strcmp(arch, "arm"))
- 		path_list = arm_triplets;
- 	else if (!strcmp(arch, "arm64"))
- 		path_list = arm64_triplets;
-diff --git a/tools/perf/util/annotate.c b/tools/perf/util/annotate.c
-index 6936daf89ddd..66066fb4d644 100644
---- a/tools/perf/util/annotate.c
-+++ b/tools/perf/util/annotate.c
-@@ -134,6 +134,7 @@ static int arch__associate_ins_ops(struct arch* arch, const char *name, struct i
- 	return 0;
- }
- 
-+#include "arch/arc/annotate/instructions.c"
- #include "arch/arm/annotate/instructions.c"
- #include "arch/arm64/annotate/instructions.c"
- #include "arch/x86/annotate/instructions.c"
-@@ -142,6 +143,10 @@ static int arch__associate_ins_ops(struct arch* arch, const char *name, struct i
- #include "arch/sparc/annotate/instructions.c"
- 
- static struct arch architectures[] = {
-+	{
-+		.name = "arc",
-+		.init = arc__annotate_init,
-+	},
- 	{
- 		.name = "arm",
- 		.init = arm__annotate_init,
+Repost of v6 adds CC's and also tags already received.
+
+Changes in v6:
+- Moved smp_call_function_single_async() error check to patch 3.
+
+Changes in v5:
+- Add a comment about get_irq_regs().
+- get_cpu() => raw_smp_processor_id() in kgdb_roundup_cpus().
+- for_each_cpu() => for_each_online_cpu()
+- Error check smp_call_function_single_async()
+
+Changes in v4:
+- Removed smp_mb() calls.
+- Also clear out .debuggerinfo.
+- Also clear out .debuggerinfo and .task for the master.
+- Remove clearing out in kdb_stub for offline CPUs; it's now redundant.
+
+Changes in v3:
+- No separate init call.
+- Don't round up the CPU that is doing the rounding up.
+- Add "#ifdef CONFIG_SMP" to match the rest of the file.
+- Updated desc saying we don't solve the "failed to roundup" case.
+- Document the ignored parameter.
+- Don't round up a CPU that failed rounding up before new for v3.
+- Don't back trace on a cpu that didn't round up new for v3.
+
+Changes in v2:
+- Removing irq flags separated from fixing lockdep splat.
+- Don't use smp_call_function (Daniel).
+
+Douglas Anderson (4):
+  kgdb: Remove irq flags from roundup
+  kgdb: Fix kgdb_roundup_cpus() for arches who used smp_call_function()
+  kgdb: Don't round up a CPU that failed rounding up before
+  kdb: Don't back trace on a cpu that didn't round up
+
+ arch/arc/kernel/kgdb.c          | 10 +----
+ arch/arm/kernel/kgdb.c          | 12 ------
+ arch/arm64/kernel/kgdb.c        | 12 ------
+ arch/hexagon/kernel/kgdb.c      | 32 ----------------
+ arch/mips/kernel/kgdb.c         |  9 +----
+ arch/powerpc/kernel/kgdb.c      |  6 +--
+ arch/sh/kernel/kgdb.c           | 12 ------
+ arch/sparc/kernel/smp_64.c      |  2 +-
+ arch/x86/kernel/kgdb.c          |  9 +----
+ include/linux/kgdb.h            | 22 +++++++----
+ kernel/debug/debug_core.c       | 65 ++++++++++++++++++++++++++++++++-
+ kernel/debug/debug_core.h       |  1 +
+ kernel/debug/kdb/kdb_bt.c       | 11 +++++-
+ kernel/debug/kdb/kdb_debugger.c |  7 ----
+ 14 files changed, 98 insertions(+), 112 deletions(-)
+
 -- 
-2.14.5
+2.20.0.rc1.387.gf8505762e3-goog
