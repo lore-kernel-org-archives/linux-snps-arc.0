@@ -1,63 +1,32 @@
-From: daniel.thompson@linaro.org (Daniel Thompson)
-Date: Thu, 6 Dec 2018 14:09:02 +0000
-Subject: [PATCH 1/2] mips/kgdb: prepare arch_kgdb_ops for constness
-In-Reply-To: <75bbcdd1e9277d66ebb06e349dda304bd01ce761.1543957194.git.christophe.leroy@c-s.fr>
-References: <75bbcdd1e9277d66ebb06e349dda304bd01ce761.1543957194.git.christophe.leroy@c-s.fr>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 6 Dec 2018 15:49:25 +0000
+Subject: [PATCH 4/5] ARC: perf: fix description comment
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075014641B8F6@US01WEMBX2.internal.synopsys.com>
+References: <20181205170609.18690-1-Eugeniy.Paltsev@synopsys.com>
+ <20181205170609.18690-5-Eugeniy.Paltsev@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075014641B8F6@US01WEMBX2.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181206140902.ea6jlwqrbcwyxp5r@holly.lan>
+Message-ID: <1544111364.31297.23.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Dec 05, 2018@04:41:09AM +0000, Christophe Leroy wrote:
-> MIPS is the only architecture modifying arch_kgdb_ops during init.
-> This patch makes the init static, so that it can be changed to
-> const in following patch, as recommended by checkpatch.pl
+On Wed, 2018-12-05@17:13 +0000, Vineet Gupta wrote:
+> On 12/5/18 9:06 AM, Eugeniy Paltsev wrote:
+> > Fix description comment as this code doesn't belong only to
+> > ARC700 anymore.
+> > 
+> > Also while I'm at it, use SPDX License Identifier.
+> > 
+> > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 > 
-> Suggested-by: Paul Burton <paul.burton at mips.com>
-> Signed-off-by: Christophe Leroy <christophe.leroy at c-s.fr>
+> Maybe squash this into trivial cleanups 1/5 ?
 
->From my side this is
-Acked-by: Daniel Thompson <daniel.thompson at linaro.org>
-
-Since this is a dependency for the next patch I'd be happy to take via
-my tree... but would need an ack from the MIPS guys to do that.
+I split cleanup for several patches to make review easier.
+I can squash them into single patch in v2 if you want it.
 
 
-Daniel.
-
-> ---
->  arch/mips/kernel/kgdb.c | 16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
+> Acked-by: Vineet Gupta <vgupta at synopsys.com>
 > 
-> diff --git a/arch/mips/kernel/kgdb.c b/arch/mips/kernel/kgdb.c
-> index eb6c0d582626..31eff1bec577 100644
-> --- a/arch/mips/kernel/kgdb.c
-> +++ b/arch/mips/kernel/kgdb.c
-> @@ -394,18 +394,16 @@ int kgdb_arch_handle_exception(int vector, int signo, int err_code,
->  	return -1;
->  }
->  
-> -struct kgdb_arch arch_kgdb_ops;
-> +struct kgdb_arch arch_kgdb_ops = {
-> +#ifdef CONFIG_CPU_BIG_ENDIAN
-> +	.gdb_bpt_instr = { spec_op << 2, 0x00, 0x00, break_op },
-> +#else
-> +	.gdb_bpt_instr = { break_op, 0x00, 0x00, spec_op << 2 },
-> +#endif
-> +};
->  
->  int kgdb_arch_init(void)
->  {
-> -	union mips_instruction insn = {
-> -		.r_format = {
-> -			.opcode = spec_op,
-> -			.func	= break_op,
-> -		}
-> -	};
-> -	memcpy(arch_kgdb_ops.gdb_bpt_instr, insn.byte, BREAK_INSTR_SIZE);
-> -
->  	register_die_notifier(&kgdb_notifier);
->  
->  	return 0;
-> -- 
-> 2.13.3
-> 
+> Thx,
+> -Vineet
+-- 
+ Eugeniy Paltsev
