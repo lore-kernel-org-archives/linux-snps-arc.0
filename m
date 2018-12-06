@@ -1,99 +1,33 @@
-From: acme@kernel.org (Arnaldo Carvalho de Melo)
-Date: Thu, 6 Dec 2018 14:14:40 -0300
-Subject: [PATCH] ARC: introduce basic 'perf annotate' support for ARC
-In-Reply-To: <20181204175118.25232-1-Eugeniy.Paltsev@synopsys.com>
-References: <20181204175118.25232-1-Eugeniy.Paltsev@synopsys.com>
+From: paul.burton@mips.com (Paul Burton)
+Date: Thu, 6 Dec 2018 18:05:41 +0000
+Subject: [PATCH 1/2] mips/kgdb: prepare arch_kgdb_ops for constness
+In-Reply-To: <20181206140902.ea6jlwqrbcwyxp5r@holly.lan>
+References: <75bbcdd1e9277d66ebb06e349dda304bd01ce761.1543957194.git.christophe.leroy@c-s.fr>
+ <20181206140902.ea6jlwqrbcwyxp5r@holly.lan>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181206171440.GA32567@kernel.org>
+Message-ID: <20181206180539.fezd6bqce36tgmie@pburton-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-Em Tue, Dec 04, 2018 at 08:51:18PM +0300, Eugeniy Paltsev escreveu:
-> Introduce basic 'perf annotate' support for ARC to be able
-> to use anotation via stdio interface.
+Hi Christophe & Daniel,
 
-Would be nice to show the output of a 'perf annotate --stdio2' for a
-perf.data file recorded on ARC :-)
-
-- Arnaldo
- 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
->  tools/perf/arch/arc/annotate/instructions.c |  9 +++++++++
->  tools/perf/arch/common.c                    | 11 ++++++++++-
->  tools/perf/util/annotate.c                  |  5 +++++
->  3 files changed, 24 insertions(+), 1 deletion(-)
->  create mode 100644 tools/perf/arch/arc/annotate/instructions.c
+On Thu, Dec 06, 2018@02:09:02PM +0000, Daniel Thompson wrote:
+> On Wed, Dec 05, 2018@04:41:09AM +0000, Christophe Leroy wrote:
+> > MIPS is the only architecture modifying arch_kgdb_ops during init.
+> > This patch makes the init static, so that it can be changed to
+> > const in following patch, as recommended by checkpatch.pl
+> > 
+> > Suggested-by: Paul Burton <paul.burton at mips.com>
+> > Signed-off-by: Christophe Leroy <christophe.leroy at c-s.fr>
 > 
-> diff --git a/tools/perf/arch/arc/annotate/instructions.c b/tools/perf/arch/arc/annotate/instructions.c
-> new file mode 100644
-> index 000000000000..2f00e995c7e3
-> --- /dev/null
-> +++ b/tools/perf/arch/arc/annotate/instructions.c
-> @@ -0,0 +1,9 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#include <linux/compiler.h>
-> +
-> +static int arc__annotate_init(struct arch *arch, char *cpuid __maybe_unused)
-> +{
-> +	arch->initialized = true;
-> +	arch->objdump.comment_char = ';';
-> +	return 0;
-> +}
-> diff --git a/tools/perf/arch/common.c b/tools/perf/arch/common.c
-> index 82657c01a3b8..f7cb57c424d1 100644
-> --- a/tools/perf/arch/common.c
-> +++ b/tools/perf/arch/common.c
-> @@ -5,6 +5,13 @@
->  #include "../util/util.h"
->  #include "../util/debug.h"
->  
-> +const char *const arc_triplets[] = {
-> +	"arc-linux-",
-> +	"arc-snps-linux-uclibc-",
-> +	"arc-snps-linux-gnu-",
-> +	NULL
-> +};
-> +
->  const char *const arm_triplets[] = {
->  	"arm-eabi-",
->  	"arm-linux-androideabi-",
-> @@ -147,7 +154,9 @@ static int perf_env__lookup_binutils_path(struct perf_env *env,
->  		zfree(&buf);
->  	}
->  
-> -	if (!strcmp(arch, "arm"))
-> +	if (!strcmp(arch, "arc"))
-> +		path_list = arc_triplets;
-> +	else if (!strcmp(arch, "arm"))
->  		path_list = arm_triplets;
->  	else if (!strcmp(arch, "arm64"))
->  		path_list = arm64_triplets;
-> diff --git a/tools/perf/util/annotate.c b/tools/perf/util/annotate.c
-> index 6936daf89ddd..66066fb4d644 100644
-> --- a/tools/perf/util/annotate.c
-> +++ b/tools/perf/util/annotate.c
-> @@ -134,6 +134,7 @@ static int arch__associate_ins_ops(struct arch* arch, const char *name, struct i
->  	return 0;
->  }
->  
-> +#include "arch/arc/annotate/instructions.c"
->  #include "arch/arm/annotate/instructions.c"
->  #include "arch/arm64/annotate/instructions.c"
->  #include "arch/x86/annotate/instructions.c"
-> @@ -142,6 +143,10 @@ static int arch__associate_ins_ops(struct arch* arch, const char *name, struct i
->  #include "arch/sparc/annotate/instructions.c"
->  
->  static struct arch architectures[] = {
-> +	{
-> +		.name = "arc",
-> +		.init = arc__annotate_init,
-> +	},
->  	{
->  		.name = "arm",
->  		.init = arm__annotate_init,
-> -- 
-> 2.14.5
+> From my side this is
+> Acked-by: Daniel Thompson <daniel.thompson at linaro.org>
+> 
+> Since this is a dependency for the next patch I'd be happy to take via
+> my tree... but would need an ack from the MIPS guys to do that.
 
--- 
+For both patches in this series:
 
-- Arnaldo
+    Acked-by: Paul Burton <paul.burton at mips.com>
+
+Thanks,
+    Paul
