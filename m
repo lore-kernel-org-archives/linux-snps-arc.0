@@ -1,40 +1,27 @@
-From: mpe@ellerman.id.au (Michael Ellerman)
-Date: Fri, 07 Dec 2018 22:15:14 +1100
-Subject: [PATCH v2 2/2] kgdb/treewide: constify struct kgdb_arch
- arch_kgdb_ops
-In-Reply-To: <5e130b11680be09537913aae9649c84ede763ec8.1544083483.git.christophe.leroy@c-s.fr>
-References: <030d63848e4b0ef4d76ca24597ab8302a393d692.1544083483.git.christophe.leroy@c-s.fr>
- <5e130b11680be09537913aae9649c84ede763ec8.1544083483.git.christophe.leroy@c-s.fr>
+From: catalin.marinas@arm.com (Catalin Marinas)
+Date: Fri, 7 Dec 2018 17:42:32 +0000
+Subject: [REPOST PATCH v6 0/4] kgdb: Fix kgdb_roundup_cpus()
+In-Reply-To: <20181205033828.6156-1-dianders@chromium.org>
+References: <20181205033828.6156-1-dianders@chromium.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <87va45k2pp.fsf@concordia.ellerman.id.au>
+Message-ID: <20181207174231.GD11961@arrakis.emea.arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Christophe Leroy <christophe.leroy at c-s.fr> writes:
+On Tue, Dec 04, 2018@07:38:24PM -0800, Douglas Anderson wrote:
+> Douglas Anderson (4):
+>   kgdb: Remove irq flags from roundup
+>   kgdb: Fix kgdb_roundup_cpus() for arches who used smp_call_function()
+>   kgdb: Don't round up a CPU that failed rounding up before
+>   kdb: Don't back trace on a cpu that didn't round up
 
-> checkpatch.pl reports the following:
->
->   WARNING: struct kgdb_arch should normally be const
->   #28: FILE: arch/mips/kernel/kgdb.c:397:
->   +struct kgdb_arch arch_kgdb_ops = {
->
-> This report makes sense, as all other ops struct, this
-> one should also be const. This patch does the change.
-...
+FWIW, trying these on arm64 (ThunderX2) with CONFIG_KGDB_TESTS_ON_BOOT=y
+on top of 4.20-rc5 doesn't boot. It looks like they leave interrupts
+disabled when they shouldn't and it trips over the BUG at
+mm/vmalloc.c:1380 (called via do_fork -> copy_process).
 
-> diff --git a/arch/powerpc/kernel/kgdb.c b/arch/powerpc/kernel/kgdb.c
-> index 59c578f865aa..bdb588b1d8fb 100644
-> --- a/arch/powerpc/kernel/kgdb.c
-> +++ b/arch/powerpc/kernel/kgdb.c
-> @@ -477,7 +477,7 @@ int kgdb_arch_remove_breakpoint(struct kgdb_bkpt *bpt)
->  /*
->   * Global data
->   */
-> -struct kgdb_arch arch_kgdb_ops;
-> +const struct kgdb_arch arch_kgdb_ops;
->  
->  static int kgdb_not_implemented(struct pt_regs *regs)
->  {
+Now, I don't think these patches make things worse on arm64 since prior
+to them the kgdb boot tests on arm64 were stuck in a loop (RUN
+singlestep).
 
-Acked-by: Michael Ellerman <mpe at ellerman.id.au> (powerpc)
-
-cheers
+-- 
+Catalin
