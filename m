@@ -1,100 +1,40 @@
-From: acme@kernel.org (Arnaldo Carvalho de Melo)
-Date: Thu,  6 Dec 2018 18:25:58 -0300
-Subject: [PATCH 71/75] perf annotate: Introduce basic support for ARC
-In-Reply-To: <20181206212602.20474-1-acme@kernel.org>
-References: <20181206212602.20474-1-acme@kernel.org>
+From: mpe@ellerman.id.au (Michael Ellerman)
+Date: Fri, 07 Dec 2018 22:15:14 +1100
+Subject: [PATCH v2 2/2] kgdb/treewide: constify struct kgdb_arch
+ arch_kgdb_ops
+In-Reply-To: <5e130b11680be09537913aae9649c84ede763ec8.1544083483.git.christophe.leroy@c-s.fr>
+References: <030d63848e4b0ef4d76ca24597ab8302a393d692.1544083483.git.christophe.leroy@c-s.fr>
+ <5e130b11680be09537913aae9649c84ede763ec8.1544083483.git.christophe.leroy@c-s.fr>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181206212602.20474-72-acme@kernel.org>
+Message-ID: <87va45k2pp.fsf@concordia.ellerman.id.au>
 To: linux-snps-arc@lists.infradead.org
 
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+Christophe Leroy <christophe.leroy at c-s.fr> writes:
 
-Introduce basic 'perf annotate' support for ARC to be able to use
-anotation via stdio interface.
+> checkpatch.pl reports the following:
+>
+>   WARNING: struct kgdb_arch should normally be const
+>   #28: FILE: arch/mips/kernel/kgdb.c:397:
+>   +struct kgdb_arch arch_kgdb_ops = {
+>
+> This report makes sense, as all other ops struct, this
+> one should also be const. This patch does the change.
+...
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-Cc: Alexander Shishkin <alexander.shishkin at linux.intel.com>
-Cc: Alexey Brodkin <alexey.brodkin at synopsys.com>
-Cc: Jiri Olsa <jolsa at redhat.com>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: Namhyung Kim <namhyung at kernel.org>
-Cc: Peter Zijlstra <peterz at infradead.org>
-Cc: Vineet Gupta <vineet.gupta1 at synopsys.com>
-Link: http://lkml.kernel.org/r/20181204175118.25232-1-Eugeniy.Paltsev at synopsys.com
-Signed-off-by: Arnaldo Carvalho de Melo <acme at redhat.com>
----
- tools/perf/arch/arc/annotate/instructions.c |  9 +++++++++
- tools/perf/arch/common.c                    | 11 ++++++++++-
- tools/perf/util/annotate.c                  |  5 +++++
- 3 files changed, 24 insertions(+), 1 deletion(-)
- create mode 100644 tools/perf/arch/arc/annotate/instructions.c
+> diff --git a/arch/powerpc/kernel/kgdb.c b/arch/powerpc/kernel/kgdb.c
+> index 59c578f865aa..bdb588b1d8fb 100644
+> --- a/arch/powerpc/kernel/kgdb.c
+> +++ b/arch/powerpc/kernel/kgdb.c
+> @@ -477,7 +477,7 @@ int kgdb_arch_remove_breakpoint(struct kgdb_bkpt *bpt)
+>  /*
+>   * Global data
+>   */
+> -struct kgdb_arch arch_kgdb_ops;
+> +const struct kgdb_arch arch_kgdb_ops;
+>  
+>  static int kgdb_not_implemented(struct pt_regs *regs)
+>  {
 
-diff --git a/tools/perf/arch/arc/annotate/instructions.c b/tools/perf/arch/arc/annotate/instructions.c
-new file mode 100644
-index 000000000000..2f00e995c7e3
---- /dev/null
-+++ b/tools/perf/arch/arc/annotate/instructions.c
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/compiler.h>
-+
-+static int arc__annotate_init(struct arch *arch, char *cpuid __maybe_unused)
-+{
-+	arch->initialized = true;
-+	arch->objdump.comment_char = ';';
-+	return 0;
-+}
-diff --git a/tools/perf/arch/common.c b/tools/perf/arch/common.c
-index 5f69fd0b745a..f3824ca7c20b 100644
---- a/tools/perf/arch/common.c
-+++ b/tools/perf/arch/common.c
-@@ -5,6 +5,13 @@
- #include "../util/util.h"
- #include "../util/debug.h"
- 
-+const char *const arc_triplets[] = {
-+	"arc-linux-",
-+	"arc-snps-linux-uclibc-",
-+	"arc-snps-linux-gnu-",
-+	NULL
-+};
-+
- const char *const arm_triplets[] = {
- 	"arm-eabi-",
- 	"arm-linux-androideabi-",
-@@ -147,7 +154,9 @@ static int perf_env__lookup_binutils_path(struct perf_env *env,
- 		zfree(&buf);
- 	}
- 
--	if (!strcmp(arch, "arm"))
-+	if (!strcmp(arch, "arc"))
-+		path_list = arc_triplets;
-+	else if (!strcmp(arch, "arm"))
- 		path_list = arm_triplets;
- 	else if (!strcmp(arch, "arm64"))
- 		path_list = arm64_triplets;
-diff --git a/tools/perf/util/annotate.c b/tools/perf/util/annotate.c
-index 51d291b0b81f..ac9805e0bc76 100644
---- a/tools/perf/util/annotate.c
-+++ b/tools/perf/util/annotate.c
-@@ -134,6 +134,7 @@ static int arch__associate_ins_ops(struct arch* arch, const char *name, struct i
- 	return 0;
- }
- 
-+#include "arch/arc/annotate/instructions.c"
- #include "arch/arm/annotate/instructions.c"
- #include "arch/arm64/annotate/instructions.c"
- #include "arch/x86/annotate/instructions.c"
-@@ -142,6 +143,10 @@ static int arch__associate_ins_ops(struct arch* arch, const char *name, struct i
- #include "arch/sparc/annotate/instructions.c"
- 
- static struct arch architectures[] = {
-+	{
-+		.name = "arc",
-+		.init = arc__annotate_init,
-+	},
- 	{
- 		.name = "arm",
- 		.init = arm__annotate_init,
--- 
-2.19.2
+Acked-by: Michael Ellerman <mpe at ellerman.id.au> (powerpc)
+
+cheers
