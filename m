@@ -1,79 +1,67 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat,  8 Dec 2018 09:36:58 -0800
-Subject: [PATCH 06/10] sparc64/iommu: implement DMA_ATTR_NON_CONSISTENT
-In-Reply-To: <20181208173702.15158-1-hch@lst.de>
-References: <20181208173702.15158-1-hch@lst.de>
+Date: Sat,  8 Dec 2018 09:41:09 -0800
+Subject: make the non-consistent DMA allocator more userful (resend)
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181208173702.15158-7-hch@lst.de>
+Message-ID: <20181208174115.16237-1-hch@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-Just allocate the memory and use map_page to map the memory.
+[sorry for the spam, had to resend due a wrongly typed linux-arm-kernel
+ address]
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- arch/sparc/kernel/iommu.c | 33 +++++++++++++++++++++++----------
- 1 file changed, 23 insertions(+), 10 deletions(-)
+Hi all,
 
-diff --git a/arch/sparc/kernel/iommu.c b/arch/sparc/kernel/iommu.c
-index 4bf0497e0704..4ce24c9dc691 100644
---- a/arch/sparc/kernel/iommu.c
-+++ b/arch/sparc/kernel/iommu.c
-@@ -699,14 +699,19 @@ static void *dma_4u_alloc(struct device *dev, size_t size,
- 	first_page = (unsigned long) page_address(page);
- 	memset((char *)first_page, 0, PAGE_SIZE << order);
- 
-+	if (attrs & DMA_ATTR_NON_CONSISTENT) {
-+		*dma_addrp = dma_4u_map_page(dev, page, 0, size,
-+					     DMA_BIDIRECTIONAL, 0);
-+		if (*dma_addrp == DMA_MAPPING_ERROR)
-+			goto out_free_page;
-+		return page_address(page);
-+	}
-+
- 	iommu = dev->archdata.iommu;
- 
- 	iopte = alloc_npages(dev, iommu, size >> IO_PAGE_SHIFT);
--
--	if (unlikely(iopte == NULL)) {
--		free_pages(first_page, order);
--		return NULL;
--	}
-+	if (unlikely(iopte == NULL))
-+		goto out_free_page;
- 
- 	*dma_addrp = (iommu->tbl.table_map_base +
- 		      ((iopte - iommu->page_table) << IO_PAGE_SHIFT));
-@@ -722,18 +727,26 @@ static void *dma_4u_alloc(struct device *dev, size_t size,
- 	}
- 
- 	return ret;
-+
-+out_free_page:
-+	free_pages(first_page, order);
-+	return NULL;
- }
- 
- static void dma_4u_free(struct device *dev, size_t size, void *cpu,
- 			dma_addr_t dvma, unsigned long attrs)
- {
--	struct iommu *iommu;
--	unsigned long order, npages;
-+	unsigned long order;
- 
--	npages = IO_PAGE_ALIGN(size) >> IO_PAGE_SHIFT;
--	iommu = dev->archdata.iommu;
-+	if (attrs & DMA_ATTR_NON_CONSISTENT) {
-+		dma_4u_unmap_page(dev, dvma, size, DMA_BIDIRECTIONAL, 0);
-+	} else {
-+		struct iommu *iommu = dev->archdata.iommu;
- 
--	iommu_tbl_range_free(&iommu->tbl, dvma, npages, IOMMU_ERROR_CODE);
-+		iommu_tbl_range_free(&iommu->tbl, dvma,
-+				     IO_PAGE_ALIGN(size) >> IO_PAGE_SHIFT,
-+				     IOMMU_ERROR_CODE);
-+	}
- 
- 	order = get_order(size);
- 	if (order < 10)
--- 
-2.19.2
+we had all kinds of discussions about how to best allocate DMAable memory
+without having to deal with the problem that your normal "coherent"
+DMA allocator can be very slow on platforms where DMA is not DMA
+coherent.
+
+To work around this drivers basically two choices at the moment:
+
+ (1) just allocate memory using the page or slab allocator and the call
+     one of the dma_map_* APIs on it.  This has a few drawbacks:
+
+       - normal GFP_KERNEL memory might not actually be DMA addressable
+	 for all devices, forcing fallbacks to slow bounce buffering
+       - there is no easy way to access the CMA allocator for large
+	 chunks, or to map small pages into single device and virtually
+	 contigous chunks using the iommu and vmap
+
+ (2) use dma_alloc_attrs with the DMA_ATTR_NON_CONSISTENT flag.  This
+     has a different set of drawbacks
+
+       - only very few architectures actually implement this API fully,
+	 if it is not implemented it falls back to the potentially
+	 uncached and slow coherent allocator
+       - the dma_cache_sync API to use with it is not very well
+	 specified and problematic in that it does not clearly
+	 transfer ownership
+
+Based on that I've been planning to introduce a proper API for
+allocating DMAable memory for a while.  In the end I've ended up
+improving the DMA_ATTR_NON_CONSISTENT flag instead of designing
+something new.  To make it useful we need to:
+
+ (a) ensure we don't fall back to the slow coherent allocator except
+     on fully coherent platforms where they are the same anyway
+ (b) replace the odd dma_cache_sync calls with the proper
+     dma_sync_* APIs that we also use for other ownership trasnfers
+
+This turned out to be surprisingly simple now that we have consolidated
+most of the direct mapping code.  Note that this series is missing
+the updates for powerpc which is in the process of being migrated to
+the common direct mapping code in another series and would be covered
+by that.
+
+Note that these patches don't use iommu/vmap coalescing as they can
+be problematic depending on the cache architecture.  But we could
+opt into those when we know we don't have cache interaction problems
+based on the API.
+
+All the patches are on top of the dma-mapping for-net tree and also
+available as a git tree here:
+
+    git://git.infradead.org/users/hch/misc.git dma-noncoherent-allocator
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-noncoherent-allocator
