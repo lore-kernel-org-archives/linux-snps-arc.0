@@ -1,37 +1,83 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat,  8 Dec 2018 09:37:01 -0800
-Subject: [PATCH 09/10] dma-mapping: skip declared coherent memory for
+Date: Sat,  8 Dec 2018 09:36:55 -0800
+Subject: [PATCH 03/10] arm64/iommu: implement support for
  DMA_ATTR_NON_CONSISTENT
 In-Reply-To: <20181208173702.15158-1-hch@lst.de>
 References: <20181208173702.15158-1-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181208173702.15158-10-hch@lst.de>
+Message-ID: <20181208173702.15158-4-hch@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-Memory declared using dma_declare_coherent is ioremapped and thus not
-always suitable for our tightened DMA_ATTR_NON_CONSISTENT definition.
-
-Skip it given all the existing callers don't DMA_ATTR_NON_CONSISTENT
-anyway.
+DMA_ATTR_NON_CONSISTENT forces contiguous allocations as we don't
+want to remap, and is otherwise forced down the same pass as if we
+were always on a coherent device.  No new code required except for
+a few conditionals.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/dma-mapping.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm64/mm/dma-mapping.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 7799c2b27849..8c81fa5d1f44 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -521,7 +521,8 @@ static inline void *dma_alloc_attrs(struct device *dev, size_t size,
- 	BUG_ON(!ops);
- 	WARN_ON_ONCE(dev && !dev->coherent_dma_mask);
+diff --git a/arch/arm64/mm/dma-mapping.c b/arch/arm64/mm/dma-mapping.c
+index d39b60113539..0010688ca30e 100644
+--- a/arch/arm64/mm/dma-mapping.c
++++ b/arch/arm64/mm/dma-mapping.c
+@@ -240,7 +240,8 @@ static void *__iommu_alloc_attrs(struct device *dev, size_t size,
+ 				dma_free_from_pool(addr, size);
+ 			addr = NULL;
+ 		}
+-	} else if (attrs & DMA_ATTR_FORCE_CONTIGUOUS) {
++	} else if (attrs & (DMA_ATTR_FORCE_CONTIGUOUS |
++			DMA_ATTR_NON_CONSISTENT)) {
+ 		pgprot_t prot = arch_dma_mmap_pgprot(dev, PAGE_KERNEL, attrs);
+ 		struct page *page;
  
--	if (dma_alloc_from_dev_coherent(dev, size, dma_handle, &cpu_addr))
-+	if (!(attrs & DMA_ATTR_NON_CONSISTENT) &&
-+	    dma_alloc_from_dev_coherent(dev, size, dma_handle, &cpu_addr))
- 		return cpu_addr;
+@@ -256,7 +257,7 @@ static void *__iommu_alloc_attrs(struct device *dev, size_t size,
+ 			return NULL;
+ 		}
  
- 	/* let the implementation decide on the zone to allocate from: */
+-		if (coherent) {
++		if (coherent || (attrs & DMA_ATTR_NON_CONSISTENT)) {
+ 			memset(addr, 0, size);
+ 			return addr;
+ 		}
+@@ -309,7 +310,8 @@ static void __iommu_free_attrs(struct device *dev, size_t size, void *cpu_addr,
+ 	if (dma_in_atomic_pool(cpu_addr, size)) {
+ 		iommu_dma_unmap_page(dev, handle, iosize, 0, 0);
+ 		dma_free_from_pool(cpu_addr, size);
+-	} else if (attrs & DMA_ATTR_FORCE_CONTIGUOUS) {
++	} else if (attrs & (DMA_ATTR_FORCE_CONTIGUOUS |
++			DMA_ATTR_NON_CONSISTENT)) {
+ 		struct page *page = vmalloc_to_page(cpu_addr);
+ 
+ 		iommu_dma_unmap_page(dev, handle, iosize, 0, attrs);
+@@ -342,10 +344,11 @@ static int __iommu_mmap_attrs(struct device *dev, struct vm_area_struct *vma,
+ 	if (dma_mmap_from_dev_coherent(dev, vma, cpu_addr, size, &ret))
+ 		return ret;
+ 
+-	if (attrs & DMA_ATTR_FORCE_CONTIGUOUS) {
++	if (attrs & (DMA_ATTR_FORCE_CONTIGUOUS | DMA_ATTR_NON_CONSISTENT)) {
+ 		unsigned long pfn;
+ 
+-		if (dev_is_dma_coherent(dev))
++		if (dev_is_dma_coherent(dev) ||
++		    (attrs & DMA_ATTR_NON_CONSISTENT))
+ 			pfn = virt_to_pfn(cpu_addr);
+ 		else
+ 			pfn = vmalloc_to_pfn(cpu_addr);
+@@ -366,10 +369,11 @@ static int __iommu_get_sgtable(struct device *dev, struct sg_table *sgt,
+ 	unsigned int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+ 	struct vm_struct *area = find_vm_area(cpu_addr);
+ 
+-	if (attrs & DMA_ATTR_FORCE_CONTIGUOUS) {
++	if (attrs & (DMA_ATTR_FORCE_CONTIGUOUS | DMA_ATTR_NON_CONSISTENT)) {
+ 		struct page *page;
+ 
+-		if (dev_is_dma_coherent(dev))
++		if (dev_is_dma_coherent(dev) ||
++		    (attrs & DMA_ATTR_NON_CONSISTENT))
+ 			page = virt_to_page(cpu_addr);
+ 		else
+ 			page = vmalloc_to_page(cpu_addr);
 -- 
 2.19.2
