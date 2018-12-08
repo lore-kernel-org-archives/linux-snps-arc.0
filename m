@@ -1,404 +1,226 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Sat,  8 Dec 2018 10:01:01 +0300
-Subject: [PATCH] ARC: Remove 0x prefix from unit-address of node names
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat,  8 Dec 2018 09:36:53 -0800
+Subject: [PATCH 01/10] dma-direct: provide a generic implementation of
+ DMA_ATTR_NON_CONSISTENT
+In-Reply-To: <20181208173702.15158-1-hch@lst.de>
+References: <20181208173702.15158-1-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181208070101.6117-1-abrodkin@synopsys.com>
+Message-ID: <20181208173702.15158-2-hch@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-Done automatically with help of:
------------------------>8------------------------
-sed -i 's/@0x/@/g' arch/arc/boot/dts/*.dts*
------------------------>8------------------------
+If DMA_ATTR_NON_CONSISTENT is passed in the flags we can always just
+use the dma_direct_alloc_pages implementation given that the callers
+will take care of any cache maintainance on ownership transfers between
+the CPU and the device.
 
-Inspired by [1] and the like.
-
-[1] http://kisskb.ellerman.id.au/kisskb/buildresult/13612017/
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Rob Herring <robh+dt at kernel.org>
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- arch/arc/boot/dts/abilis_tb10x.dtsi   |  4 ++--
- arch/arc/boot/dts/axc001.dtsi         |  6 +++---
- arch/arc/boot/dts/axc003.dtsi         | 14 +++++++-------
- arch/arc/boot/dts/axc003_idu.dtsi     | 14 +++++++-------
- arch/arc/boot/dts/axs10x_mb.dtsi      | 22 +++++++++++-----------
- arch/arc/boot/dts/vdk_axc003.dtsi     |  4 ++--
- arch/arc/boot/dts/vdk_axc003_idu.dtsi |  4 ++--
- arch/arc/boot/dts/vdk_axs10x_mb.dtsi  | 14 +++++++-------
- 8 files changed, 41 insertions(+), 41 deletions(-)
+ arch/arc/mm/dma.c              | 21 ++++++--------------
+ arch/mips/mm/dma-noncoherent.c |  5 ++---
+ arch/openrisc/kernel/dma.c     | 23 +++++++++-------------
+ arch/parisc/kernel/pci-dma.c   | 35 ++++++++++++----------------------
+ kernel/dma/direct.c            |  4 ++--
+ 5 files changed, 31 insertions(+), 57 deletions(-)
 
-diff --git a/arch/arc/boot/dts/abilis_tb10x.dtsi b/arch/arc/boot/dts/abilis_tb10x.dtsi
-index 3121536b25a3..77ac1368a65b 100644
---- a/arch/arc/boot/dts/abilis_tb10x.dtsi
-+++ b/arch/arc/boot/dts/abilis_tb10x.dtsi
-@@ -178,7 +178,7 @@
- 			clocks = <&ahb_clk>;
- 		};
+diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
+index db203ff69ccf..135759d4ea8c 100644
+--- a/arch/arc/mm/dma.c
++++ b/arch/arc/mm/dma.c
+@@ -24,7 +24,6 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
+ 	struct page *page;
+ 	phys_addr_t paddr;
+ 	void *kvaddr;
+-	bool need_coh = !(attrs & DMA_ATTR_NON_CONSISTENT);
  
--		spi0: spi at 0xFE010000 {
-+		spi0: spi at FE010000 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 			cell-index = <0>;
-@@ -189,7 +189,7 @@
- 			interrupts = <26 8>;
- 			clocks = <&ahb_clk>;
- 		};
--		spi1: spi at 0xFE011000 {
-+		spi1: spi at FE011000 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 			cell-index = <1>;
-diff --git a/arch/arc/boot/dts/axc001.dtsi b/arch/arc/boot/dts/axc001.dtsi
-index fdc266504ada..37be3bf03ad6 100644
---- a/arch/arc/boot/dts/axc001.dtsi
-+++ b/arch/arc/boot/dts/axc001.dtsi
-@@ -41,7 +41,7 @@
- 		 * this GPIO block ORs all interrupts on CPU card (creg,..)
- 		 * to uplink only 1 IRQ to ARC core intc
- 		 */
--		dw-apb-gpio at 0x2000 {
-+		dw-apb-gpio at 2000 {
- 			compatible = "snps,dw-apb-gpio";
- 			reg = < 0x2000 0x80 >;
- 			#address-cells = <1>;
-@@ -60,7 +60,7 @@
- 			};
- 		};
- 
--		debug_uart: dw-apb-uart at 0x5000 {
-+		debug_uart: dw-apb-uart at 5000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x5000 0x100>;
- 			clock-frequency = <33333000>;
-@@ -88,7 +88,7 @@
- 	 * avoid duplicating the MB dtsi file given that IRQ from
- 	 * this intc to cpu intc are different for axs101 and axs103
+ 	/*
+ 	 * __GFP_HIGHMEM flag is cleared by upper layer functions
+@@ -46,14 +45,10 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
+ 	 * A coherent buffer needs MMU mapping to enforce non-cachability.
+ 	 * kvaddr is kernel Virtual address (0x7000_0000 based).
  	 */
--	mb_intc: dw-apb-ictl at 0xe0012000 {
-+	mb_intc: dw-apb-ictl at e0012000 {
- 		#interrupt-cells = <1>;
- 		compatible = "snps,dw-apb-ictl";
- 		reg = < 0x0 0xe0012000 0x0 0x200 >;
-diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
-index d75d65ddf8e3..ffa208a57a0a 100644
---- a/arch/arc/boot/dts/axc003.dtsi
-+++ b/arch/arc/boot/dts/axc003.dtsi
-@@ -55,7 +55,7 @@
- 		 * this GPIO block ORs all interrupts on CPU card (creg,..)
- 		 * to uplink only 1 IRQ to ARC core intc
- 		 */
--		dw-apb-gpio at 0x2000 {
-+		dw-apb-gpio at 2000 {
- 			compatible = "snps,dw-apb-gpio";
- 			reg = < 0x2000 0x80 >;
- 			#address-cells = <1>;
-@@ -74,7 +74,7 @@
- 			};
- 		};
+-	if (need_coh) {
+-		kvaddr = ioremap_nocache(paddr, size);
+-		if (kvaddr == NULL) {
+-			__free_pages(page, order);
+-			return NULL;
+-		}
+-	} else {
+-		kvaddr = (void *)(u32)paddr;
++	kvaddr = ioremap_nocache(paddr, size);
++	if (kvaddr == NULL) {
++		__free_pages(page, order);
++		return NULL;
+ 	}
  
--		debug_uart: dw-apb-uart at 0x5000 {
-+		debug_uart: dw-apb-uart at 5000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x5000 0x100>;
- 			clock-frequency = <33333000>;
-@@ -102,19 +102,19 @@
- 	 * external DMA buffer located outside of IOC aperture.
+ 	/*
+@@ -66,9 +61,7 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
+ 	 * Currently flush_cache_vmap nukes the L1 cache completely which
+ 	 * will be optimized as a separate commit
  	 */
- 	axs10x_mb {
--		ethernet at 0x18000 {
-+		ethernet at 18000 {
- 			dma-coherent;
- 		};
+-	if (need_coh)
+-		dma_cache_wback_inv(paddr, size);
+-
++	dma_cache_wback_inv(paddr, size);
+ 	return kvaddr;
+ }
  
--		ehci at 0x40000 {
-+		ehci at 40000 {
- 			dma-coherent;
- 		};
+@@ -78,9 +71,7 @@ void arch_dma_free(struct device *dev, size_t size, void *vaddr,
+ 	phys_addr_t paddr = dma_handle;
+ 	struct page *page = virt_to_page(paddr);
  
--		ohci at 0x60000 {
-+		ohci at 60000 {
- 			dma-coherent;
- 		};
+-	if (!(attrs & DMA_ATTR_NON_CONSISTENT))
+-		iounmap((void __force __iomem *)vaddr);
+-
++	iounmap((void __force __iomem *)vaddr);
+ 	__free_pages(page, get_order(size));
+ }
  
--		mmc at 0x15000 {
-+		mmc at 15000 {
- 			dma-coherent;
- 		};
- 	};
-@@ -132,7 +132,7 @@
- 	 * avoid duplicating the MB dtsi file given that IRQ from
- 	 * this intc to cpu intc are different for axs101 and axs103
- 	 */
--	mb_intc: dw-apb-ictl at 0xe0012000 {
-+	mb_intc: dw-apb-ictl at e0012000 {
- 		#interrupt-cells = <1>;
- 		compatible = "snps,dw-apb-ictl";
- 		reg = < 0x0 0xe0012000 0x0 0x200 >;
-diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
-index a05bb737ea63..ad795748ac63 100644
---- a/arch/arc/boot/dts/axc003_idu.dtsi
-+++ b/arch/arc/boot/dts/axc003_idu.dtsi
-@@ -62,7 +62,7 @@
- 		 * this GPIO block ORs all interrupts on CPU card (creg,..)
- 		 * to uplink only 1 IRQ to ARC core intc
- 		 */
--		dw-apb-gpio at 0x2000 {
-+		dw-apb-gpio at 2000 {
- 			compatible = "snps,dw-apb-gpio";
- 			reg = < 0x2000 0x80 >;
- 			#address-cells = <1>;
-@@ -81,7 +81,7 @@
- 			};
- 		};
+diff --git a/arch/mips/mm/dma-noncoherent.c b/arch/mips/mm/dma-noncoherent.c
+index cb38461391cb..7576cd7193ba 100644
+--- a/arch/mips/mm/dma-noncoherent.c
++++ b/arch/mips/mm/dma-noncoherent.c
+@@ -50,7 +50,7 @@ void *arch_dma_alloc(struct device *dev, size_t size,
+ 	void *ret;
  
--		debug_uart: dw-apb-uart at 0x5000 {
-+		debug_uart: dw-apb-uart at 5000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x5000 0x100>;
- 			clock-frequency = <33333000>;
-@@ -109,19 +109,19 @@
- 	 * external DMA buffer located outside of IOC aperture.
- 	 */
- 	axs10x_mb {
--		ethernet at 0x18000 {
-+		ethernet at 18000 {
- 			dma-coherent;
- 		};
+ 	ret = dma_direct_alloc_pages(dev, size, dma_handle, gfp, attrs);
+-	if (ret && !(attrs & DMA_ATTR_NON_CONSISTENT)) {
++	if (ret) {
+ 		dma_cache_wback_inv((unsigned long) ret, size);
+ 		ret = (void *)UNCAC_ADDR(ret);
+ 	}
+@@ -61,8 +61,7 @@ void *arch_dma_alloc(struct device *dev, size_t size,
+ void arch_dma_free(struct device *dev, size_t size, void *cpu_addr,
+ 		dma_addr_t dma_addr, unsigned long attrs)
+ {
+-	if (!(attrs & DMA_ATTR_NON_CONSISTENT))
+-		cpu_addr = (void *)CAC_ADDR((unsigned long)cpu_addr);
++	cpu_addr = (void *)CAC_ADDR((unsigned long)cpu_addr);
+ 	dma_direct_free_pages(dev, size, cpu_addr, dma_addr, attrs);
+ }
  
--		ehci at 0x40000 {
-+		ehci at 40000 {
- 			dma-coherent;
- 		};
+diff --git a/arch/openrisc/kernel/dma.c b/arch/openrisc/kernel/dma.c
+index 159336adfa2f..483adbb000bb 100644
+--- a/arch/openrisc/kernel/dma.c
++++ b/arch/openrisc/kernel/dma.c
+@@ -98,15 +98,13 @@ arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
  
--		ohci at 0x60000 {
-+		ohci at 60000 {
- 			dma-coherent;
- 		};
+ 	va = (unsigned long)page;
  
--		mmc at 0x15000 {
-+		mmc at 15000 {
- 			dma-coherent;
- 		};
- 	};
-@@ -138,7 +138,7 @@
- 	 * avoid duplicating the MB dtsi file given that IRQ from
- 	 * this intc to cpu intc are different for axs101 and axs103
- 	 */
--	mb_intc: dw-apb-ictl at 0xe0012000 {
-+	mb_intc: dw-apb-ictl at e0012000 {
- 		#interrupt-cells = <1>;
- 		compatible = "snps,dw-apb-ictl";
- 		reg = < 0x0 0xe0012000 0x0 0x200 >;
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 37bafd44e36d..4ead6dc9af2f 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -72,7 +72,7 @@
- 			};
- 		};
+-	if ((attrs & DMA_ATTR_NON_CONSISTENT) == 0) {
+-		/*
+-		 * We need to iterate through the pages, clearing the dcache for
+-		 * them and setting the cache-inhibit bit.
+-		 */
+-		if (walk_page_range(va, va + size, &walk)) {
+-			free_pages_exact(page, size);
+-			return NULL;
+-		}
++	/*
++	 * We need to iterate through the pages, clearing the dcache for
++	 * them and setting the cache-inhibit bit.
++	 */
++	if (walk_page_range(va, va + size, &walk)) {
++		free_pages_exact(page, size);
++		return NULL;
+ 	}
  
--		gmac: ethernet at 0x18000 {
-+		gmac: ethernet at 18000 {
- 			#interrupt-cells = <1>;
- 			compatible = "snps,dwmac";
- 			reg = < 0x18000 0x2000 >;
-@@ -88,13 +88,13 @@
- 			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
- 		};
- 
--		ehci at 0x40000 {
-+		ehci at 40000 {
- 			compatible = "generic-ehci";
- 			reg = < 0x40000 0x100 >;
- 			interrupts = < 8 >;
- 		};
- 
--		ohci at 0x60000 {
-+		ohci at 60000 {
- 			compatible = "generic-ohci";
- 			reg = < 0x60000 0x100 >;
- 			interrupts = < 8 >;
-@@ -118,7 +118,7 @@
- 		 * dw_mci_pltfm_prepare_command() is used in generic platform
- 		 * code.
- 		 */
--		mmc at 0x15000 {
-+		mmc at 15000 {
- 			compatible = "altr,socfpga-dw-mshc";
- 			reg = < 0x15000 0x400 >;
- 			fifo-depth = < 16 >;
-@@ -129,7 +129,7 @@
- 			bus-width = < 4 >;
- 		};
- 
--		uart at 0x20000 {
-+		uart at 20000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x20000 0x100>;
- 			clock-frequency = <33333333>;
-@@ -139,7 +139,7 @@
- 			reg-io-width = <4>;
- 		};
- 
--		uart at 0x21000 {
-+		uart at 21000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x21000 0x100>;
- 			clock-frequency = <33333333>;
-@@ -150,7 +150,7 @@
- 		};
- 
- 		/* UART muxed with USB data port (ttyS3) */
--		uart at 0x22000 {
-+		uart at 22000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x22000 0x100>;
- 			clock-frequency = <33333333>;
-@@ -160,7 +160,7 @@
- 			reg-io-width = <4>;
- 		};
- 
--		i2c at 0x1d000 {
-+		i2c at 1d000 {
- 			compatible = "snps,designware-i2c";
- 			reg = <0x1d000 0x100>;
- 			clock-frequency = <400000>;
-@@ -177,7 +177,7 @@
- 			#sound-dai-cells = <0>;
- 		};
- 
--		i2c at 0x1f000 {
-+		i2c at 1f000 {
- 			compatible = "snps,designware-i2c";
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-@@ -218,13 +218,13 @@
- 				};
- 			};
- 
--			eeprom at 0x54{
-+			eeprom at 54{
- 				compatible = "atmel,24c01";
- 				reg = <0x54>;
- 				pagesize = <0x8>;
- 			};
- 
--			eeprom at 0x57{
-+			eeprom at 57{
- 				compatible = "atmel,24c04";
- 				reg = <0x57>;
- 				pagesize = <0x8>;
-diff --git a/arch/arc/boot/dts/vdk_axc003.dtsi b/arch/arc/boot/dts/vdk_axc003.dtsi
-index 0fd6ba985b16..84e8766c8ca2 100644
---- a/arch/arc/boot/dts/vdk_axc003.dtsi
-+++ b/arch/arc/boot/dts/vdk_axc003.dtsi
-@@ -36,7 +36,7 @@
- 			#interrupt-cells = <1>;
- 		};
- 
--		debug_uart: dw-apb-uart at 0x5000 {
-+		debug_uart: dw-apb-uart at 5000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x5000 0x100>;
- 			clock-frequency = <2403200>;
-@@ -49,7 +49,7 @@
- 
+ 	return (void *)va;
+@@ -122,11 +120,8 @@ arch_dma_free(struct device *dev, size_t size, void *vaddr,
+ 		.mm = &init_mm
  	};
  
--	mb_intc: dw-apb-ictl at 0xe0012000 {
-+	mb_intc: dw-apb-ictl at e0012000 {
- 		#interrupt-cells = <1>;
- 		compatible = "snps,dw-apb-ictl";
- 		reg = < 0xe0012000 0x200 >;
-diff --git a/arch/arc/boot/dts/vdk_axc003_idu.dtsi b/arch/arc/boot/dts/vdk_axc003_idu.dtsi
-index 28956f9a9f3d..eb7e705e8a27 100644
---- a/arch/arc/boot/dts/vdk_axc003_idu.dtsi
-+++ b/arch/arc/boot/dts/vdk_axc003_idu.dtsi
-@@ -44,7 +44,7 @@
- 			#interrupt-cells = <1>;
- 		};
+-	if ((attrs & DMA_ATTR_NON_CONSISTENT) == 0) {
+-		/* walk_page_range shouldn't be able to fail here */
+-		WARN_ON(walk_page_range(va, va + size, &walk));
+-	}
+-
++	/* walk_page_range shouldn't be able to fail here */
++	WARN_ON(walk_page_range(va, va + size, &walk));
+ 	free_pages_exact(vaddr, size);
+ }
  
--		debug_uart: dw-apb-uart at 0x5000 {
-+		debug_uart: dw-apb-uart at 5000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x5000 0x100>;
- 			clock-frequency = <2403200>;
-@@ -57,7 +57,7 @@
+diff --git a/arch/parisc/kernel/pci-dma.c b/arch/parisc/kernel/pci-dma.c
+index 04c48f1ef3fb..6780449e3e8b 100644
+--- a/arch/parisc/kernel/pci-dma.c
++++ b/arch/parisc/kernel/pci-dma.c
+@@ -421,29 +421,18 @@ static void *pcxl_dma_alloc(struct device *dev, size_t size,
+ 	return (void *)vaddr;
+ }
  
- 	};
+-static void *pcx_dma_alloc(struct device *dev, size_t size,
+-		dma_addr_t *dma_handle, gfp_t flag, unsigned long attrs)
++static inline bool cpu_supports_coherent_area(void)
+ {
+-	void *addr;
+-
+-	if ((attrs & DMA_ATTR_NON_CONSISTENT) == 0)
+-		return NULL;
+-
+-	addr = (void *)__get_free_pages(flag, get_order(size));
+-	if (addr)
+-		*dma_handle = (dma_addr_t)virt_to_phys(addr);
+-
+-	return addr;
++	return boot_cpu_data.cpu_type == pcxl2 ||
++		boot_cpu_data.cpu_type == pcxl;
+ }
  
--	mb_intc: dw-apb-ictl at 0xe0012000 {
-+	mb_intc: dw-apb-ictl at e0012000 {
- 		#interrupt-cells = <1>;
- 		compatible = "snps,dw-apb-ictl";
- 		reg = < 0xe0012000 0x200 >;
-diff --git a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
-index 48bb4b4cd234..ad18daa7b307 100644
---- a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
-@@ -36,7 +36,7 @@
- 			};
- 		};
+ void *arch_dma_alloc(struct device *dev, size_t size,
+ 		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+ {
+-
+-	if (boot_cpu_data.cpu_type == pcxl2 || boot_cpu_data.cpu_type == pcxl)
++	if (cpu_supports_coherent_area())
+ 		return pcxl_dma_alloc(dev, size, dma_handle, gfp, attrs);
+-	else
+-		return pcx_dma_alloc(dev, size, dma_handle, gfp, attrs);
++	return NULL;
+ }
  
--		ethernet at 0x18000 {
-+		ethernet at 18000 {
- 			#interrupt-cells = <1>;
- 			compatible = "snps,dwmac";
- 			reg = < 0x18000 0x2000 >;
-@@ -49,13 +49,13 @@
- 			clock-names = "stmmaceth";
- 		};
+ void arch_dma_free(struct device *dev, size_t size, void *vaddr,
+@@ -451,14 +440,14 @@ void arch_dma_free(struct device *dev, size_t size, void *vaddr,
+ {
+ 	int order = get_order(size);
  
--		ehci at 0x40000 {
-+		ehci at 40000 {
- 			compatible = "generic-ehci";
- 			reg = < 0x40000 0x100 >;
- 			interrupts = < 8 >;
- 		};
+-	if (boot_cpu_data.cpu_type == pcxl2 || boot_cpu_data.cpu_type == pcxl) {
+-		size = 1 << (order + PAGE_SHIFT);
+-		unmap_uncached_pages((unsigned long)vaddr, size);
+-		pcxl_free_range((unsigned long)vaddr, size);
++	if (WARN_ON_ONCE(!cpu_supports_coherent_area()))
++		return;
  
--		uart at 0x20000 {
-+		uart at 20000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x20000 0x100>;
- 			clock-frequency = <2403200>;
-@@ -65,7 +65,7 @@
- 			reg-io-width = <4>;
- 		};
+-		vaddr = __va(dma_handle);
+-	}
+-	free_pages((unsigned long)vaddr, get_order(size));
++	size = 1 << (order + PAGE_SHIFT);
++	unmap_uncached_pages((unsigned long)vaddr, size);
++	pcxl_free_range((unsigned long)vaddr, size);
++
++	free_pages((unsigned long)__va(dma_handle), get_order(size));
+ }
  
--		uart at 0x21000 {
-+		uart at 21000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x21000 0x100>;
- 			clock-frequency = <2403200>;
-@@ -75,7 +75,7 @@
- 			reg-io-width = <4>;
- 		};
- 
--		uart at 0x22000 {
-+		uart at 22000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x22000 0x100>;
- 			clock-frequency = <2403200>;
-@@ -101,7 +101,7 @@
- 			interrupt-names = "arc_ps2_irq";
- 		};
- 
--		mmc at 0x15000 {
-+		mmc at 15000 {
- 			compatible = "snps,dw-mshc";
- 			reg = <0x15000 0x400>;
- 			fifo-depth = <1024>;
-@@ -119,7 +119,7 @@
- 	 * This node is intentionally put outside of MB above becase
- 	 * it maps areas outside of MB's 0xEz-0xFz.
- 	 */
--	uio_ev: uio at 0xD0000000 {
-+	uio_ev: uio at D0000000 {
- 		compatible = "generic-uio";
- 		reg = <0xD0000000 0x2000 0xD1000000 0x2000 0x90000000 0x10000000 0xC0000000 0x10000000>;
- 		reg-names = "ev_gsa", "ev_ctrl", "ev_shared_mem", "ev_code_mem";
+ void arch_sync_dma_for_device(struct device *dev, phys_addr_t paddr,
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 308f88a750c8..4efe1188fd2e 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -206,7 +206,7 @@ void dma_direct_free_pages(struct device *dev, size_t size, void *cpu_addr,
+ void *dma_direct_alloc(struct device *dev, size_t size,
+ 		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+ {
+-	if (!dev_is_dma_coherent(dev))
++	if (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_NON_CONSISTENT))
+ 		return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
+ 	return dma_direct_alloc_pages(dev, size, dma_handle, gfp, attrs);
+ }
+@@ -214,7 +214,7 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+ void dma_direct_free(struct device *dev, size_t size,
+ 		void *cpu_addr, dma_addr_t dma_addr, unsigned long attrs)
+ {
+-	if (!dev_is_dma_coherent(dev))
++	if (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_NON_CONSISTENT))
+ 		arch_dma_free(dev, size, cpu_addr, dma_addr, attrs);
+ 	else
+ 		dma_direct_free_pages(dev, size, cpu_addr, dma_addr, attrs);
 -- 
-2.16.2
+2.19.2
