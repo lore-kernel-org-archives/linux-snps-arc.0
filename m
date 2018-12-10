@@ -1,74 +1,69 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 10 Dec 2018 13:32:24 +0000
-Subject: [PATCH] ARC: Remove 0x prefix from unit-address of node names
-In-Reply-To: <CAL_JsqK+gRtkNe4eeu_jzzMVTO5u=a30SZZFNShxn3o6rjTQYQ@mail.gmail.com>
-References: <20181208070101.6117-1-abrodkin@synopsys.com>
- <CAL_JsqK+gRtkNe4eeu_jzzMVTO5u=a30SZZFNShxn3o6rjTQYQ@mail.gmail.com>
+From: catalin.marinas@arm.com (Catalin Marinas)
+Date: Mon, 10 Dec 2018 13:50:39 +0000
+Subject: [REPOST PATCH v6 0/4] kgdb: Fix kgdb_roundup_cpus()
+In-Reply-To: <CAD=FV=WO2xMojkEqKCMkufwihUvnow3yEH4GZPh7hh8noNZ+=A@mail.gmail.com>
+References: <20181205033828.6156-1-dianders@chromium.org>
+ <20181207174231.GD11961@arrakis.emea.arm.com>
+ <CAD=FV=WO2xMojkEqKCMkufwihUvnow3yEH4GZPh7hh8noNZ+=A@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <4a4b91fe634bd4352604743b3dfba245ee92a92c.camel@synopsys.com>
+Message-ID: <20181210135038.GC4048@arrakis.emea.arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Rob,
+Hi Doug,
 
-On Mon, 2018-12-10@07:30 -0600, Rob Herring wrote:
-> On Sat, Dec 8, 2018 at 1:01 AM Alexey Brodkin
-> <alexey.brodkin@synopsys.com> wrote:
-> > Done automatically with help of:
-> > ----------------------->8------------------------
-> > sed -i 's/@0x/@/g' arch/arc/boot/dts/*.dts*
-> > ----------------------->8------------------------
-> > 
-> > Inspired by [1] and the like.
-> > 
-> > [1] 
-> > https://urldefense.proofpoint.com/v2/url?u=http-3A__kisskb.ellerman.id.au_kisskb_buildresult_13612017_&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=zx_mJ5GzAMI32-iqcXZiL8Qzrg79Dz4cxNF72VYhQl0&s=JwbFcFmnJRECl_z7jQGl0687UpORq9395mgRbo1OwFE&e=
-> > 
-> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> > Cc: Rob Herring <robh+dt at kernel.org>
-> > 
-> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> > ---
-> >  arch/arc/boot/dts/abilis_tb10x.dtsi   |  4 ++--
-> >  arch/arc/boot/dts/axc001.dtsi         |  6 +++---
-> >  arch/arc/boot/dts/axc003.dtsi         | 14 +++++++-------
-> >  arch/arc/boot/dts/axc003_idu.dtsi     | 14 +++++++-------
-> >  arch/arc/boot/dts/axs10x_mb.dtsi      | 22 +++++++++++-----------
-> >  arch/arc/boot/dts/vdk_axc003.dtsi     |  4 ++--
-> >  arch/arc/boot/dts/vdk_axc003_idu.dtsi |  4 ++--
-> >  arch/arc/boot/dts/vdk_axs10x_mb.dtsi  | 14 +++++++-------
-> >  8 files changed, 41 insertions(+), 41 deletions(-)
-> > 
-> > diff --git a/arch/arc/boot/dts/abilis_tb10x.dtsi b/arch/arc/boot/dts/abilis_tb10x.dtsi
-> > index 3121536b25a3..77ac1368a65b 100644
-> > --- a/arch/arc/boot/dts/abilis_tb10x.dtsi
-> > +++ b/arch/arc/boot/dts/abilis_tb10x.dtsi
-> > @@ -178,7 +178,7 @@
-> >                         clocks = <&ahb_clk>;
-> >                 };
-> > 
-> > -               spi0: spi at 0xFE010000 {
-> > +               spi0: spi at FE010000 {
+On Fri, Dec 07, 2018@10:40:24AM -0800, Doug Anderson wrote:
+> On Fri, Dec 7, 2018@9:42 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > On Tue, Dec 04, 2018@07:38:24PM -0800, Douglas Anderson wrote:
+> > > Douglas Anderson (4):
+> > >   kgdb: Remove irq flags from roundup
+> > >   kgdb: Fix kgdb_roundup_cpus() for arches who used smp_call_function()
+> > >   kgdb: Don't round up a CPU that failed rounding up before
+> > >   kdb: Don't back trace on a cpu that didn't round up
+> >
+> > FWIW, trying these on arm64 (ThunderX2) with CONFIG_KGDB_TESTS_ON_BOOT=y
+> > on top of 4.20-rc5 doesn't boot. It looks like they leave interrupts
+> > disabled when they shouldn't and it trips over the BUG at
+> > mm/vmalloc.c:1380 (called via do_fork -> copy_process).
+> >
+> > Now, I don't think these patches make things worse on arm64 since prior
+> > to them the kgdb boot tests on arm64 were stuck in a loop (RUN
+> > singlestep).
 > 
-> This should be lowercase too.
+> Thanks for the report!  ...actually, I'd never tried CONFIG_KGDB_TESTS
+> before.  ...so I tried them now:
 > 
-> >                         #address-cells = <1>;
-> >                         #size-cells = <0>;
-> >                         cell-index = <0>;
+> A) chromeos-4.19 tree on qcom-sdm845 without this series: booted up OK
+> B) chromeos-4.19 tree on qcom-sdm845 with this series: booted up OK
+> C) v4.20-rc5-90-g30002dd008ed on rockchip-rk3399 (kevin) with this
+> series: booted up OK
 > 
-> [...]
+> Example output from B) above:
 > 
-> > @@ -119,7 +119,7 @@
-> >          * This node is intentionally put outside of MB above becase
-> >          * it maps areas outside of MB's 0xEz-0xFz.
-> >          */
-> > -       uio_ev: uio at 0xD0000000 {
-> > +       uio_ev: uio at D0000000 {
+> localhost ~ # dmesg | grep kgdbts
+> [    2.139814] KGDB: Registered I/O driver kgdbts
+> [    2.144582] kgdbts:RUN plant and detach test
+> [    2.165333] kgdbts:RUN sw breakpoint test
+> [    2.172990] kgdbts:RUN bad memory access test
+> [    2.178640] kgdbts:RUN singlestep test 1000 iterations
+> [    2.187765] kgdbts:RUN singlestep [0/1000]
+> [    2.559596] kgdbts:RUN singlestep [100/1000]
+> [    2.931419] kgdbts:RUN singlestep [200/1000]
+> [    3.303474] kgdbts:RUN singlestep [300/1000]
+> [    3.675121] kgdbts:RUN singlestep [400/1000]
+> [    4.046867] kgdbts:RUN singlestep [500/1000]
+> [    4.418920] kgdbts:RUN singlestep [600/1000]
+> [    4.790824] kgdbts:RUN singlestep [700/1000]
+> [    5.162479] kgdbts:RUN singlestep [800/1000]
+> [    5.534103] kgdbts:RUN singlestep [900/1000]
+> [    5.902299] kgdbts:RUN do_fork for 100 breakpoints
+> [    8.463900] KGDB: Unregistered I/O driver kgdbts, debugger disabled
 > 
-> lowercase
-> 
-> >                 compatible = "generic-uio";
-> >                 reg = <0xD0000000 0x2000 0xD1000000 0x2000 0x90000000 0x10000000 0xC0000000 0x10000000>;
+> ...so I guess I'm a little confused.  Either I have a different config
+> than you do or something is special about your machine?
 
-I guess real addresses should be lower-case too, right?
+I tried it now on a Juno board both as a host and a guest and boots
+fine. It must be something that only triggers ThunderX2. Ignore the
+report for now, if I find anything interesting I'll let you know.
 
--Alexey
+-- 
+Catalin
