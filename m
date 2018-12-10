@@ -1,82 +1,70 @@
-From: gregkh@linuxfoundation.org (gregkh@linuxfoundation.org)
-Date: Mon, 10 Dec 2018 11:16:17 +0100
-Subject: Patch "ARC: [zebu] Remove CONFIG_INITRAMFS_SOURCE from defconfigs"
- has been added to the 4.9-stable tree
-In-Reply-To: <20181210083349.35728-1-abrodkin@synopsys.com>
+From: robh+dt@kernel.org (Rob Herring)
+Date: Mon, 10 Dec 2018 07:30:23 -0600
+Subject: [PATCH] ARC: Remove 0x prefix from unit-address of node names
+In-Reply-To: <20181208070101.6117-1-abrodkin@synopsys.com>
+References: <20181208070101.6117-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <154443697785141@kroah.com>
+Message-ID: <CAL_JsqK+gRtkNe4eeu_jzzMVTO5u=a30SZZFNShxn3o6rjTQYQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
+On Sat, Dec 8, 2018 at 1:01 AM Alexey Brodkin
+<alexey.brodkin@synopsys.com> wrote:
+>
+> Done automatically with help of:
+> ----------------------->8------------------------
+> sed -i 's/@0x/@/g' arch/arc/boot/dts/*.dts*
+> ----------------------->8------------------------
+>
+> Inspired by [1] and the like.
+>
+> [1] http://kisskb.ellerman.id.au/kisskb/buildresult/13612017/
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Rob Herring <robh+dt at kernel.org>
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> ---
+>  arch/arc/boot/dts/abilis_tb10x.dtsi   |  4 ++--
+>  arch/arc/boot/dts/axc001.dtsi         |  6 +++---
+>  arch/arc/boot/dts/axc003.dtsi         | 14 +++++++-------
+>  arch/arc/boot/dts/axc003_idu.dtsi     | 14 +++++++-------
+>  arch/arc/boot/dts/axs10x_mb.dtsi      | 22 +++++++++++-----------
+>  arch/arc/boot/dts/vdk_axc003.dtsi     |  4 ++--
+>  arch/arc/boot/dts/vdk_axc003_idu.dtsi |  4 ++--
+>  arch/arc/boot/dts/vdk_axs10x_mb.dtsi  | 14 +++++++-------
+>  8 files changed, 41 insertions(+), 41 deletions(-)
+>
+> diff --git a/arch/arc/boot/dts/abilis_tb10x.dtsi b/arch/arc/boot/dts/abilis_tb10x.dtsi
+> index 3121536b25a3..77ac1368a65b 100644
+> --- a/arch/arc/boot/dts/abilis_tb10x.dtsi
+> +++ b/arch/arc/boot/dts/abilis_tb10x.dtsi
+> @@ -178,7 +178,7 @@
+>                         clocks = <&ahb_clk>;
+>                 };
+>
+> -               spi0: spi at 0xFE010000 {
+> +               spi0: spi at FE010000 {
 
-This is a note to let you know that I've just added the patch titled
+This should be lowercase too.
 
-    ARC: [zebu] Remove CONFIG_INITRAMFS_SOURCE from defconfigs
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         cell-index = <0>;
 
-to the 4.9-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+[...]
 
-The filename of the patch is:
-     arc-remove-config_initramfs_source-from-defconfigs.patch
-and it can be found in the queue-4.9 subdirectory.
+> @@ -119,7 +119,7 @@
+>          * This node is intentionally put outside of MB above becase
+>          * it maps areas outside of MB's 0xEz-0xFz.
+>          */
+> -       uio_ev: uio at 0xD0000000 {
+> +       uio_ev: uio at D0000000 {
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable at vger.kernel.org> know about it.
+lowercase
 
-
->From alexey.brodkin at synopsys.com  Mon Dec 10 10:51:40 2018
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-Date: Mon, 10 Dec 2018 11:33:49 +0300
-Subject: ARC: [zebu] Remove CONFIG_INITRAMFS_SOURCE from defconfigs
-To: stable at vger.kernel.org
-Cc: linux-snps-arc at lists.infradead.org, linux-kernel at vger.kernel.org, Alexey Brodkin <alexey.brodkin at synopsys.com>, Greg Kroah-Hartman <gregkh at linuxfoundation.org>, Kevin Hilman <khilman at baylibre.com>
-List-ID: <linux-snps-arc@lists.infradead.org>
-To: linux-snps-arc@lists.infradead.org
-Message-ID: <20181210083349.35728-1-abrodkin at synopsys.com>
-
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-
-Zebu boards were added in v4.9 and then renamed to "haps" in v4.10.
-
-Thus backporting
-commit 64234961c145 (ARC: configs: Remove CONFIG_INITRAMFS_SOURCE from defconfigs)
-we missed "zebu" defconfigs in v4.9.
-
-Note this is only applicable to "linux-4.9.y"!
-
-Spotted by KerneCI, see [1].
-
-[1] https://storage.kernelci.org/stable/linux-4.9.y/v4.9.144/arc/zebu_hs_smp_defconfig/build.log
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Kevin Hilman <khilman at baylibre.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
----
- arch/arc/configs/zebu_hs_defconfig     |    1 -
- arch/arc/configs/zebu_hs_smp_defconfig |    1 -
- 2 files changed, 2 deletions(-)
-
---- a/arch/arc/configs/zebu_hs_defconfig
-+++ b/arch/arc/configs/zebu_hs_defconfig
-@@ -11,7 +11,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_INITRAMFS_SOURCE="../../arc_initramfs_hs/"
- CONFIG_EXPERT=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_COMPAT_BRK is not set
---- a/arch/arc/configs/zebu_hs_smp_defconfig
-+++ b/arch/arc/configs/zebu_hs_smp_defconfig
-@@ -11,7 +11,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_INITRAMFS_SOURCE="../../arc_initramfs_hs/"
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
-
-
-Patches currently in stable-queue which might be from alexey.brodkin at synopsys.com are
-
-queue-4.9/arc-remove-config_initramfs_source-from-defconfigs.patch
+>                 compatible = "generic-uio";
+>                 reg = <0xD0000000 0x2000 0xD1000000 0x2000 0x90000000 0x10000000 0xC0000000 0x10000000>;
+>                 reg-names = "ev_gsa", "ev_ctrl", "ev_shared_mem", "ev_code_mem";
+> --
+> 2.16.2
+>
