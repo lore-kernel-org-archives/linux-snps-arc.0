@@ -1,39 +1,13 @@
-From: davem@davemloft.net (David Miller)
-Date: Mon, 10 Dec 2018 11:33:10 -0800 (PST)
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 11 Dec 2018 14:46:55 +0100
 Subject: [PATCH 6/6] sparc: merge 32-bit and 64-bit version of pci.h
-In-Reply-To: <20181210192228.GB31178@lst.de>
+In-Reply-To: <20181210.113310.460303100337934249.davem@davemloft.net>
 References: <20181210163256.GA27331@lst.de>
  <20181210.101039.1882227517259366533.davem@davemloft.net>
  <20181210192228.GB31178@lst.de>
+ <20181210.113310.460303100337934249.davem@davemloft.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181210.113310.460303100337934249.davem@davemloft.net>
+Message-ID: <20181211134655.GB20781@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-From: Christoph Hellwig <hch@lst.de>
-Date: Mon, 10 Dec 2018 20:22:28 +0100
-
-> On Mon, Dec 10, 2018@10:10:39AM -0800, David Miller wrote:
->> From: Christoph Hellwig <hch at lst.de>
->> Date: Mon, 10 Dec 2018 17:32:56 +0100
->> 
->> > Dave, can you pick the series up through the sparc tree?  I could also
->> > merge it through the dma-mapping tree, but given that there is no
->> > dependency on it the sparc tree seem like the better fit.
->> 
->> I thought that some of this is a prerequisite for the DMA mapping
->> work and overall consolidation you are doing.  So I kinda assumed
->> you wanted to merge it via your tree.
->> 
->> I anticipate no conflicts at all, even until the next merge window,
->> so it could very easily go through your tree.
->> 
->> Let me know if you still want me to merge this.
-> 
-> These patches are purely cleanups I found while auditing the DMA
-> mapping code, at least as of now there are no dependencies.
-> 
-> That being said now that I looked into it a bit more they do however
-> depend on the ->mapping_error removal, so I'll take them through
-> the dma-mapping tree.
-
-Ok, thanks.
+I've pulled this into the dma-mapping for-next tree now.
