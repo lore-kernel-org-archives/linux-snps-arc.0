@@ -1,22 +1,19 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 13 Dec 2018 18:23:18 +0000
-Subject: [PATCH] ARC: fix __ffs return value to avoid build warnings
-References: <20181213154257.23033-1-Eugeniy.Paltsev@synopsys.com>
+Date: Thu, 13 Dec 2018 11:44:04 -0800
+Subject: [PATCH v2 3/4] ARC: perf: move HW events mapping to separate
+ function
+In-Reply-To: <20181213165621.20817-4-Eugeniy.Paltsev@synopsys.com>
+References: <20181213165621.20817-1-Eugeniy.Paltsev@synopsys.com>
+ <20181213165621.20817-4-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014641F6E3@US01WEMBX2.internal.synopsys.com>
+Message-ID: <93363087-7372-fec4-088c-a8186f84b186@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/13/18 7:43 AM, Eugeniy Paltsev wrote:
-> Change __ffs return value from 'int' to 'unsigned long' as it
-> is done in other implementations (like asm-generic, x86, etc...)
-> to avoid build-time warnings in places where type is strictly
-> checked.
->
-> As __ffs may return values in [0-31] interval changing return
-> type to unsigned is valid.
->
+On 12/13/18 8:56 AM, Eugeniy Paltsev wrote:
+> Move HW events mapping to separate function to make code more readable.
+> 
 > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 
-Can you please paste a couple of lines of offending output !
+Applied this as well - although out of order so needed some manual adj !
 
 -Vineet
