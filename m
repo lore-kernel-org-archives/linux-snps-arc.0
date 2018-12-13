@@ -1,10 +1,10 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 12 Dec 2018 23:27:44 -0500
-Subject: [PATCH AUTOSEL 4.19 19/73] ARC: io.h: Implement reads{x}()/writes{x}()
-In-Reply-To: <20181213042838.75160-1-sashal@kernel.org>
-References: <20181213042838.75160-1-sashal@kernel.org>
+Date: Wed, 12 Dec 2018 23:30:20 -0500
+Subject: [PATCH AUTOSEL 4.14 07/41] ARC: io.h: Implement reads{x}()/writes{x}()
+In-Reply-To: <20181213043054.75891-1-sashal@kernel.org>
+References: <20181213043054.75891-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181213042838.75160-19-sashal@kernel.org>
+Message-ID: <20181213043054.75891-7-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Jose Abreu <joabreu@synopsys.com>
