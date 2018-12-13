@@ -1,80 +1,19 @@
-From: ldv@altlinux.org (Dmitry V. Levin)
-Date: Thu, 13 Dec 2018 20:21:47 +0300
-Subject: [PATCH v6 05/27] arc: define syscall_get_arch()
-References: <20181213171833.GA5240@altlinux.org>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 13 Dec 2018 17:22:48 +0000
+Subject: [PATCH v2 4/4] ARC: perf: avoid kernel killing where it is
+ possible
+References: <20181213165621.20817-1-Eugeniy.Paltsev@synopsys.com>
+ <20181213165621.20817-5-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181213172146.GE6024@altlinux.org>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014641F690@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-syscall_get_arch() is required to be implemented on all architectures
-in addition to already implemented syscall_get_nr(),
-syscall_get_arguments(), syscall_get_error(), and
-syscall_get_return_value() functions in order to extend the generic
-ptrace API with PTRACE_GET_SYSCALL_INFO request.
+On 12/13/18 8:56 AM, Eugeniy Paltsev wrote:
+> No, not gonna die tonight.
+>
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
-Cc: Elvira Khabirova <lineprinter at altlinux.org>
-Cc: Eugene Syromyatnikov <esyr at redhat.com>
-Cc: Oleg Nesterov <oleg at redhat.com>
-Cc: Andy Lutomirski <luto at kernel.org>
-Cc: Alexey Brodkin <alexey.brodkin at synopsys.com>
-Cc: Paul Moore <paul at paul-moore.com>
-Cc: Eric Paris <eparis at redhat.com>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: linux-audit at redhat.com
-Signed-off-by: Dmitry V. Levin <ldv at altlinux.org>
----
+Applied.
 
-Notes:
-    v6: unchanged
-    v5: added Cc
-    v2: added Acked-by
-
- arch/arc/include/asm/syscall.h | 11 +++++++++++
- include/uapi/linux/audit.h     |  4 ++++
- 2 files changed, 15 insertions(+)
-
-diff --git a/arch/arc/include/asm/syscall.h b/arch/arc/include/asm/syscall.h
-index 29de09804306..c7fc4c0c3bcb 100644
---- a/arch/arc/include/asm/syscall.h
-+++ b/arch/arc/include/asm/syscall.h
-@@ -9,6 +9,7 @@
- #ifndef _ASM_ARC_SYSCALL_H
- #define _ASM_ARC_SYSCALL_H  1
- 
-+#include <uapi/linux/audit.h>
- #include <linux/err.h>
- #include <linux/sched.h>
- #include <asm/unistd.h>
-@@ -68,4 +69,14 @@ syscall_get_arguments(struct task_struct *task, struct pt_regs *regs,
- 	}
- }
- 
-+static inline int
-+syscall_get_arch(void)
-+{
-+	return IS_ENABLED(CONFIG_ISA_ARCOMPACT)
-+		? (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN)
-+			? AUDIT_ARCH_ARCOMPACTBE : AUDIT_ARCH_ARCOMPACT)
-+		: (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN)
-+			? AUDIT_ARCH_ARCV2BE : AUDIT_ARCH_ARCV2);
-+}
-+
- #endif
-diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-index 818ae690ab79..bedf3bf54c3a 100644
---- a/include/uapi/linux/audit.h
-+++ b/include/uapi/linux/audit.h
-@@ -375,6 +375,10 @@ enum {
- 
- #define AUDIT_ARCH_AARCH64	(EM_AARCH64|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)
- #define AUDIT_ARCH_ALPHA	(EM_ALPHA|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)
-+#define AUDIT_ARCH_ARCOMPACT	(EM_ARCOMPACT|__AUDIT_ARCH_LE)
-+#define AUDIT_ARCH_ARCOMPACTBE	(EM_ARCOMPACT)
-+#define AUDIT_ARCH_ARCV2	(EM_ARCV2|__AUDIT_ARCH_LE)
-+#define AUDIT_ARCH_ARCV2BE	(EM_ARCV2)
- #define AUDIT_ARCH_ARM		(EM_ARM|__AUDIT_ARCH_LE)
- #define AUDIT_ARCH_ARMEB	(EM_ARM)
- #define AUDIT_ARCH_CRIS		(EM_CRIS|__AUDIT_ARCH_LE)
--- 
-ldv
+Thx,
+-Vineet
