@@ -1,10 +1,10 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 12 Dec 2018 23:31:32 -0500
-Subject: [PATCH AUTOSEL 4.9 06/34] ARC: io.h: Implement reads{x}()/writes{x}()
-In-Reply-To: <20181213043200.76295-1-sashal@kernel.org>
-References: <20181213043200.76295-1-sashal@kernel.org>
+Date: Wed, 12 Dec 2018 23:32:42 -0500
+Subject: [PATCH AUTOSEL 4.4 06/23] ARC: io.h: Implement reads{x}()/writes{x}()
+In-Reply-To: <20181213043259.76643-1-sashal@kernel.org>
+References: <20181213043259.76643-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181213043200.76295-6-sashal@kernel.org>
+Message-ID: <20181213043259.76643-6-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Jose Abreu <joabreu@synopsys.com>
@@ -37,7 +37,7 @@ Signed-off-by: Sasha Levin <sashal at kernel.org>
  1 file changed, 72 insertions(+)
 
 diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
-index c22b181e8206..2f39d9b3886e 100644
+index cb69299a492e..f120d823e8c2 100644
 --- a/arch/arc/include/asm/io.h
 +++ b/arch/arc/include/asm/io.h
 @@ -12,6 +12,7 @@
@@ -48,7 +48,7 @@ index c22b181e8206..2f39d9b3886e 100644
  
  #ifdef CONFIG_ISA_ARCV2
  #include <asm/barrier.h>
-@@ -94,6 +95,42 @@ static inline u32 __raw_readl(const volatile void __iomem *addr)
+@@ -85,6 +86,42 @@ static inline u32 __raw_readl(const volatile void __iomem *addr)
  	return w;
  }
  
@@ -91,7 +91,7 @@ index c22b181e8206..2f39d9b3886e 100644
  #define __raw_writeb __raw_writeb
  static inline void __raw_writeb(u8 b, volatile void __iomem *addr)
  {
-@@ -126,6 +163,35 @@ static inline void __raw_writel(u32 w, volatile void __iomem *addr)
+@@ -117,6 +154,35 @@ static inline void __raw_writel(u32 w, volatile void __iomem *addr)
  
  }
  
@@ -127,7 +127,7 @@ index c22b181e8206..2f39d9b3886e 100644
  /*
   * MMIO can also get buffered/optimized in micro-arch, so barriers needed
   * Based on ARM model for the typical use case
-@@ -141,10 +207,16 @@ static inline void __raw_writel(u32 w, volatile void __iomem *addr)
+@@ -132,10 +198,16 @@ static inline void __raw_writel(u32 w, volatile void __iomem *addr)
  #define readb(c)		({ u8  __v = readb_relaxed(c); __iormb(); __v; })
  #define readw(c)		({ u16 __v = readw_relaxed(c); __iormb(); __v; })
  #define readl(c)		({ u32 __v = readl_relaxed(c); __iormb(); __v; })
