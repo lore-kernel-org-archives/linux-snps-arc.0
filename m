@@ -1,52 +1,57 @@
-From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Fri, 14 Dec 2018 10:55:27 +0100
-Subject: [PATCH 1/2] dma-mapping: zero memory returned from dma_alloc_*
-In-Reply-To: <CAMuHMdWOr0EsgFQF8tjJYLxKVXx+Jwn73N8SVKt8AQGLKQ8V-A@mail.gmail.com>
-References: <20181214082515.14835-1-hch@lst.de>
- <20181214082515.14835-2-hch@lst.de>
- <CAMuHMdWOr0EsgFQF8tjJYLxKVXx+Jwn73N8SVKt8AQGLKQ8V-A@mail.gmail.com>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Fri, 14 Dec 2018 10:47:30 +0000
+Subject: [PATCH] ARC: fix __ffs return value to avoid build warnings
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075014641F6E3@US01WEMBX2.internal.synopsys.com>
+References: <20181213154257.23033-1-Eugeniy.Paltsev@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075014641F6E3@US01WEMBX2.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdXzuS3sEZ1LNxhCiNtvzUneGsfPjMNWSh8UfbGEEnPTRA@mail.gmail.com>
+Message-ID: <1544784449.3270.30.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Dec 14, 2018 at 10:54 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Fri, Dec 14, 2018@9:26 AM Christoph Hellwig <hch@lst.de> wrote:
-> > If we want to map memory from the DMA allocator to userspace it must be
-> > zeroed at allocation time to prevent stale data leaks.   We already do
-> > this on most common architectures, but some architectures don't do this
-> > yet, fix them up, either by passing GFP_ZERO when we use the normal page
-> > allocator or doing a manual memset otherwise.
-> >
-> > Signed-off-by: Christoph Hellwig <hch at lst.de>
->
-> Thanks for your patch!
->
-> > --- a/arch/m68k/kernel/dma.c
-> > +++ b/arch/m68k/kernel/dma.c
-> > @@ -32,7 +32,7 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *handle,
-> >         size = PAGE_ALIGN(size);
-> >         order = get_order(size);
-> >
-> > -       page = alloc_pages(flag, order);
-> > +       page = alloc_pages(flag | GFP_ZERO, order);
-> >         if (!page)
-> >                 return NULL;
->
-> There's second implementation below, which calls __get_free_pages() and
-> does an explicit memset().  As __get_free_pages() calls alloc_pages(), perhaps
-> it makes sense to replace the memset() by GFP_ZERO, to increase consistency?
+Hi Vineet,
 
-Regardless, for m68k:
-Acked-by: Geert Uytterhoeven <geert at linux-m68k.org>
+On Thu, 2018-12-13@18:23 +0000, Vineet Gupta wrote:
+> On 12/13/18 7:43 AM, Eugeniy Paltsev wrote:
+> > Change __ffs return value from 'int' to 'unsigned long' as it
+> > is done in other implementations (like asm-generic, x86, etc...)
+> > to avoid build-time warnings in places where type is strictly
+> > checked.
+> > 
+> > As __ffs may return values in [0-31] interval changing return
+> > type to unsigned is valid.
+> > 
+> > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> 
+> Can you please paste a couple of lines of offending output !
 
-Gr{oetje,eeting}s,
+---------------------------------->8---------------------------------
+  CC      mm/nobootmem.o
+In file included from ./include/asm-generic/bug.h:18:0,
+                 from ./arch/arc/include/asm/bug.h:32,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/mmdebug.h:5,
+                 from ./include/linux/gfp.h:5,
+                 from ./include/linux/slab.h:15,
+                 from mm/nobootmem.c:14:
+mm/nobootmem.c: In function ?__free_pages_memory?:
+./include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
+   (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+                             ^
+./include/linux/kernel.h:859:4: note: in expansion of macro ?__typecheck?
+   (__typecheck(x, y) && __no_side_effects(x, y))
+    ^~~~~~~~~~~
+./include/linux/kernel.h:869:24: note: in expansion of macro ?__safe_cmp?
+  __builtin_choose_expr(__safe_cmp(x, y), \
+                        ^~~~~~~~~~
+./include/linux/kernel.h:878:19: note: in expansion of macro ?__careful_cmp?
+ #define min(x, y) __careful_cmp(x, y, <)
+                   ^~~~~~~~~~~~~
+mm/nobootmem.c:104:11: note: in expansion of macro ?min?
+   order = min(MAX_ORDER - 1UL, __ffs(start));
+           ^~~
+---------------------------------->8---------------------------------
 
-                        Geert
-
+> 
+> -Vineet
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+ Eugeniy Paltsev
