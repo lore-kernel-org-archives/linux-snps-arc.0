@@ -1,29 +1,29 @@
-From: hch@lst.de (hch@lst.de)
-Date: Fri, 14 Dec 2018 13:21:49 +0100
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Fri, 14 Dec 2018 12:12:00 +0000
 Subject: [PATCH 1/2] dma-mapping: zero memory returned from dma_alloc_*
-In-Reply-To: <1544789518.3270.34.camel@synopsys.com>
+In-Reply-To: <20181214082515.14835-2-hch@lst.de>
 References: <20181214082515.14835-1-hch@lst.de>
- <20181214082515.14835-2-hch@lst.de> <1544789518.3270.34.camel@synopsys.com>
+ <20181214082515.14835-2-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181214122149.GA7309@lst.de>
+Message-ID: <1544789518.3270.34.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Dec 14, 2018@12:12:00PM +0000, Eugeniy Paltsev wrote:
-> Hi Christoph,
+Hi Christoph,
+
+do you have any public git repository with all your dma changes?
+
+I want to test them for ARC.
+
+Thanks.
+
+On Fri, 2018-12-14@09:25 +0100, Christoph Hellwig wrote:
+> If we want to map memory from the DMA allocator to userspace it must be
+> zeroed at allocation time to prevent stale data leaks.   We already do
+> this on most common architectures, but some architectures don't do this
+> yet, fix them up, either by passing GFP_ZERO when we use the normal page
+> allocator or doing a manual memset otherwise.
 > 
-> do you have any public git repository with all your dma changes?
-
-Most of the tree show up in my misc.git repo for testing.
-
-This series is here:
-
-http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-alloc-always-zero
-
-There current version of the DMA_ATTR_NON_CONSISTENT series is here:
-
-http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-noncoherent-allocator.2
-
-
-> I want to test them for ARC.
-
-Thanks a lot!
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+-- 
+ Eugeniy Paltsev
