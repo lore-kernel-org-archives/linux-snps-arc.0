@@ -1,93 +1,39 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 17 Dec 2018 10:54:15 -0800
-Subject: [PATCH] posix/tst-getaddrinfo4: Consider EAI_NODATA as an
- expected result
-In-Reply-To: <20180730104036.4016-1-abrodkin@synopsys.com>
-References: <20180730104036.4016-1-abrodkin@synopsys.com>
+Date: Mon, 17 Dec 2018 15:04:53 -0800
+Subject: [PATCH] testsuite fix: timezone: failing due to permissions in cross
+ testing
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <84dc1888-42f2-0d37-e3a4-473480b40a5e@synopsys.com>
+Message-ID: <1545087893-29860-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 7/30/18 3:40 AM, Alexey Brodkin wrote:
-> Some proxy DNS servers might not resolve IPv6 names to addresses.
-> Instead they reply with NOERROR while passing no real data.
-> That combination of NOERROR and EAI_NODATA happen because the DNS
-> server has a recored for requested name (example.net in our case)
-> but that record is not of AAAA type which was requested.
-> 
-> That's what Wireshark sees in that case:
-> ---------------------------------->8-----------------------------
-> Domain Name System (response)
->    Transaction ID: 0x6e2e
->    Flags: 0x8180 Standard query response, No error
->        1... .... .... .... = Response: Message is a response
->        .000 0... .... .... = Opcode: Standard query (0)
->        .... .0.. .... .... = Authoritative: Server is not an authority for domain
->        .... ..0. .... .... = Truncated: Message is not truncated
->        .... ...1 .... .... = Recursion desired: Do query recursively
->        .... .... 1... .... = Recursion available: Server can do recursive queries
->        .... .... .0.. .... = Z: reserved (0)
->        .... .... ..0. .... = Answer authenticated: Answer/authority portion was not authenticated by the server
->        .... .... ...0 .... = Non-authenticated data: Unacceptable
->        .... .... .... 0000 = Reply code: No error (0)
->    Questions: 1
->    Answer RRs: 0
->    Authority RRs: 0
->    Additional RRs: 0
->    Queries
->        example.net: type AAAA, class IN
->            Name: example.net
->            [Name Length: 11]
->            [Label Count: 2]
->            Type: AAAA (IPv6 Address) (28)
->            Class: IN (0x0001)
-> ---------------------------------->8-----------------------------
-> 
-> And that's what we see if Google DNS server (8.8.8.8) is used instead:
-> ---------------------------------->8-----------------------------
-> Domain Name System (response)
->    Transaction ID: 0x3cd4
->    Flags: 0x8180 Standard query response, No error
->        1... .... .... .... = Response: Message is a response
->        .000 0... .... .... = Opcode: Standard query (0)
->        .... .0.. .... .... = Authoritative: Server is not an authority for domain
->        .... ..0. .... .... = Truncated: Message is not truncated
->        .... ...1 .... .... = Recursion desired: Do query recursively
->        .... .... 1... .... = Recursion available: Server can do recursive queries
->        .... .... .0.. .... = Z: reserved (0)
->        .... .... ..0. .... = Answer authenticated: Answer/authority portion was not authenticated by the server
->        .... .... ...0 .... = Non-authenticated data: Unacceptable
->        .... .... .... 0000 = Reply code: No error (0)
->    Questions: 1
->    Answer RRs: 1
->    Authority RRs: 0
->    Additional RRs: 0
->    Queries
->        example.net: type AAAA, class IN
->            Name: example.net
->            [Name Length: 11]
->            [Label Count: 2]
->            Type: AAAA (IPv6 Address) (28)
->            Class: IN (0x0001)
-> Answers
->    example.net: type AAAA, class IN, addr 2606:2800:220:1:248:1893:25c8:1946
-> ---------------------------------->8-----------------------------
-> ---
->  posix/tst-getaddrinfo4.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/posix/tst-getaddrinfo4.c b/posix/tst-getaddrinfo4.c
-> index dc9e423448af..0139dee777a1 100644
-> --- a/posix/tst-getaddrinfo4.c
-> +++ b/posix/tst-getaddrinfo4.c
-> @@ -39,6 +39,7 @@ try (const char *service, int family, int flags)
->      case 0:
->      case EAI_AGAIN:
->      case EAI_NONAME:
-> +    case EAI_NODATA:
->        printf ("SUCCESS getaddrinfo(service=%s, family=%d, flags=%d): %s: %m\n",
->                service ?: "NULL", family, flags, gai_strerror (res));
->        return 0;
-> 
+timezone test driver "zic" creates testdata directory wuth umask 755, so
+only root owner/group has write permissions. However the buildroot
+system created has sshd as default user, so sh fails to write to test
+results in this folder. Work around by relaxing umask to 777
 
-Ping !
+| /bin/sh: build/glibc-fa3b6cd5bdbc/build/timezone/testdata/America/New_York.test-result: Permission denied
+| Makefile:96: recipe for target 'build/glibc-fa3b6cd5bdbc/build/timezone/testdata/America/New_York' failed
+| make[2]: *** [build/glibc-fa3b6cd5bdbc/build/timezone/testdata/America/New_York] Error 1
+| make[2]: Leaving directory 'build/glibc-fa3b6cd5bdbc/timezone'
+| Makefile:258: recipe for target 'timezone/xtests' failed
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ timezone/zic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/timezone/zic.c b/timezone/zic.c
+index cb1bf28bfbc8..b7a5b0f6c80c 100644
+--- a/timezone/zic.c
++++ b/timezone/zic.c
+@@ -39,7 +39,7 @@ typedef int_fast64_t	zic_t;
+ #include <sys/stat.h>
+ #endif
+ #ifdef S_IRUSR
+-#define MKDIR_UMASK (S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH)
++#define MKDIR_UMASK (S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IWGRP|S_IXGRP|S_IROTH|S_IWOTH|S_IXOTH)
+ #else
+ #define MKDIR_UMASK 0755
+ #endif
+-- 
+2.7.4
