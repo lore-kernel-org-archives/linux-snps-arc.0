@@ -1,56 +1,25 @@
-From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Sun, 16 Dec 2018 23:16:21 +0900
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 17 Dec 2018 05:00:37 +0000
 Subject: [PATCH] arc: remove redundant kernel-space generic-y
+References: <1544969781-14506-1-git-send-email-yamada.masahiro@socionext.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1544969781-14506-1-git-send-email-yamada.masahiro@socionext.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014641FC6F@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This commit removes redundant generic-y defines in
-arch/arc/include/asm/Kbuild.
+On 12/16/18 6:17 AM, Masahiro Yamada wrote:
+> This commit removes redundant generic-y defines in
+> arch/arc/include/asm/Kbuild.
+>
+> It is redundant to define generic-y when arch-specific implementation
+> exists in arch/$(ARCH)/include/asm/*.h
+>
+> Remove the following generic-y:
+>
+>     dma-mapping.h
+>     fb.h
+>     kmap_types.h
+>     pci.h
+>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro at socionext.com>
 
-It is redundant to define generic-y when arch-specific implementation
-exists in arch/$(ARCH)/include/asm/*.h
-
-Remove the following generic-y:
-
-    dma-mapping.h
-    fb.h
-    kmap_types.h
-    pci.h
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro at socionext.com>
----
-
- arch/arc/include/asm/Kbuild | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
-index feed50c..caa2702 100644
---- a/arch/arc/include/asm/Kbuild
-+++ b/arch/arc/include/asm/Kbuild
-@@ -3,23 +3,19 @@ generic-y += bugs.h
- generic-y += compat.h
- generic-y += device.h
- generic-y += div64.h
--generic-y += dma-mapping.h
- generic-y += emergency-restart.h
- generic-y += extable.h
--generic-y += fb.h
- generic-y += ftrace.h
- generic-y += hardirq.h
- generic-y += hw_irq.h
- generic-y += irq_regs.h
- generic-y += irq_work.h
--generic-y += kmap_types.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += mm-arch-hooks.h
- generic-y += msi.h
- generic-y += parport.h
--generic-y += pci.h
- generic-y += percpu.h
- generic-y += preempt.h
- generic-y += topology.h
--- 
-2.7.4
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
