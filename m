@@ -1,36 +1,46 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 17 Dec 2018 12:54:23 +0300
-Subject: [PATCH] ARC: perf: map 'ijmptak' to generic 'branches' event
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 17 Dec 2018 12:59:31 +0100
+Subject: [PATCH 1/2] dma-mapping: zero memory returned from dma_alloc_*
+In-Reply-To: <5ae55118-6858-9121-6b3e-9b19b41550ef@westnet.com.au>
+References: <20181214082515.14835-1-hch@lst.de>
+ <20181214082515.14835-2-hch@lst.de>
+ <CAMuHMdWOr0EsgFQF8tjJYLxKVXx+Jwn73N8SVKt8AQGLKQ8V-A@mail.gmail.com>
+ <20181214114719.GA3316@lst.de>
+ <5ae55118-6858-9121-6b3e-9b19b41550ef@westnet.com.au>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181217095423.20318-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20181217115931.GA6853@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-Map 'ijmptak' event (all jump instructions that are taken)
-instead of 'ijmp' event (all jump and branch instructions)
-to generic 'branches' event as taken jump is more interesting
-metric for us due to the possible significantly greater
-overhead of taken jumps.
+On Sat, Dec 15, 2018@12:14:29AM +1000, Greg Ungerer wrote:
+> Yep, that is right. Certainly the MMU case is broken. Some noMMU cases work
+> by virtue of the SoC only having an instruction cache (the older V2 cores).
 
-'ijmptak' event is available on both ARCv1 and ARCv2.
+Is there a good an easy case to detect if a core has a cache?  Either
+runtime or in Kconfig?
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/include/asm/perf_event.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> The MMU case is fixable, but I think it will mean changing away from
+> the fall-back virtual:physical 1:1 mapping it uses for the kernel address
+> space. So not completely trivial. Either that or a dedicated area of RAM
+> for coherent allocations that we can mark as non-cachable via the really
+> course grained and limited ACR registers - not really very appealing.
 
-diff --git a/arch/arc/include/asm/perf_event.h b/arch/arc/include/asm/perf_event.h
-index 9185541035cc..6958545390f0 100644
---- a/arch/arc/include/asm/perf_event.h
-+++ b/arch/arc/include/asm/perf_event.h
-@@ -103,7 +103,8 @@ static const char * const arc_pmu_ev_hw_map[] = {
- 
- 	/* counts condition */
- 	[PERF_COUNT_HW_INSTRUCTIONS] = "iall",
--	[PERF_COUNT_HW_BRANCH_INSTRUCTIONS] = "ijmp", /* Excludes ZOL jumps */
-+	/* All jump instructions that are taken */
-+	[PERF_COUNT_HW_BRANCH_INSTRUCTIONS] = "ijmptak",
- 	[PERF_COUNT_ARC_BPOK]         = "bpok",	  /* NP-NT, PT-T, PNT-NT */
- #ifdef CONFIG_ISA_ARCV2
- 	[PERF_COUNT_HW_BRANCH_MISSES] = "bpmp",
--- 
-2.14.5
+What about CF_PAGE_NOCACHE?  Reading arch/m68k/include/asm/mcf_pgtable.h
+suggest this would cause an uncached mapping, in which case something
+like this should work:
+
+	http://git.infradead.org/users/hch/misc.git/commitdiff/4b8711d436e8d56edbc5ca19aa2be639705bbfef
+
+> The noMMU case in general is probably limited to something like that same
+> type of dedicated RAM/ACR register mechamism.
+>
+> The most commonly used periperal with DMA is the FEC ethernet module,
+> and it has some "special" (used very loosely) cache flushing for
+> parts like the 532x family which probably makes it mostly work right.
+> There is a PCI bus on the 54xx family of parts, and I know general
+> ethernet cards on it (like e1000's) have problems I am sure are
+> related to the fact that coherent memory allocations aren't.
+
+If we really just care about FEC we can just switch it do use
+DMA_ATTR_NON_CONSISTENT and do explicit cache flushing.  But as far
+as I can tell FEC only uses DMA coherent allocations for the TSO
+headers anyway, is TSO even used on this SOC?
