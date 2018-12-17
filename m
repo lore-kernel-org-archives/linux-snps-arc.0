@@ -1,33 +1,28 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 17 Dec 2018 15:23:32 -0800
+From: joseph@codesourcery.com (Joseph Myers)
+Date: Mon, 17 Dec 2018 23:25:23 +0000
 Subject: [PATCH] testsuite fix: timezone: failing due to permissions in
  cross testing
-In-Reply-To: <aeac2d7e-bbe6-9b88-007b-9881cfbcf83a@cs.ucla.edu>
+In-Reply-To: <1545088170-24103-1-git-send-email-vgupta@synopsys.com>
 References: <1545088170-24103-1-git-send-email-vgupta@synopsys.com>
- <aeac2d7e-bbe6-9b88-007b-9881cfbcf83a@cs.ucla.edu>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <e82343ae-0a7d-1634-6f1e-fb6edf747df8@synopsys.com>
+Message-ID: <alpine.DEB.2.21.1812172322060.9554@digraph.polyomino.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/17/18 3:17 PM, Paul Eggert wrote:
-> 
->> ? #ifdef S_IRUSR
->> -#define MKDIR_UMASK (S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH)
->> +#define MKDIR_UMASK
->> (S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IWGRP|S_IXGRP|S_IROTH|S_IWOTH|S_IXOTH)
->> ? #else
->> ? #define MKDIR_UMASK 0755
->> ? #endif
-> 
-> The zic.c code is taken from upstream, and I'm loath to change it everywhere
-> simply because a glibc test driver isn't working somewhere, as I expect this would
-> lead to security holes elsewhere. Intead, how about changing the test script to
-> chmod the testdata directory after zic creates it, or to segregate the tzdata
-> directory from the other test results?
+On Mon, 17 Dec 2018, Vineet Gupta wrote:
 
-OK, the idea here was to solicit ideas about how to go about addressing this. I
-need to dig into the test harness to see how it can be addressed in the way you
-suggest.
+> timezone test driver "zic" creates testdata directory wuth umask 755, so
+> only root owner/group has write permissions. However the buildroot
 
-Thx,
--Vineet
+root should not be involved in running tests at all; all tests should run 
+as a normal user, the same one that owns the build directory, and thus all 
+files and directories in the build directory should be owned by that user.  
+(Some tests use user namespaces to test functionality that requires root, 
+but that's root inside a namespace, not the real user root.)
+
+So I think you need to explain more about your test configuration that 
+results in permissions problems so we can tell if you have a valid test 
+configuration at all.
+
+-- 
+Joseph S. Myers
+joseph at codesourcery.com
