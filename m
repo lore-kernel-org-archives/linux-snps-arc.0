@@ -1,9 +1,9 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 17 Dec 2018 15:04:53 -0800
+Date: Mon, 17 Dec 2018 15:09:30 -0800
 Subject: [PATCH] testsuite fix: timezone: failing due to permissions in cross
  testing
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1545087893-29860-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1545088170-24103-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 timezone test driver "zic" creates testdata directory wuth umask 755, so
