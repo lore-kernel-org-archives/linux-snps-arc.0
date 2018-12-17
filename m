@@ -1,46 +1,93 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 17 Dec 2018 12:59:31 +0100
-Subject: [PATCH 1/2] dma-mapping: zero memory returned from dma_alloc_*
-In-Reply-To: <5ae55118-6858-9121-6b3e-9b19b41550ef@westnet.com.au>
-References: <20181214082515.14835-1-hch@lst.de>
- <20181214082515.14835-2-hch@lst.de>
- <CAMuHMdWOr0EsgFQF8tjJYLxKVXx+Jwn73N8SVKt8AQGLKQ8V-A@mail.gmail.com>
- <20181214114719.GA3316@lst.de>
- <5ae55118-6858-9121-6b3e-9b19b41550ef@westnet.com.au>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 17 Dec 2018 10:54:15 -0800
+Subject: [PATCH] posix/tst-getaddrinfo4: Consider EAI_NODATA as an
+ expected result
+In-Reply-To: <20180730104036.4016-1-abrodkin@synopsys.com>
+References: <20180730104036.4016-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181217115931.GA6853@lst.de>
+Message-ID: <84dc1888-42f2-0d37-e3a4-473480b40a5e@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Sat, Dec 15, 2018@12:14:29AM +1000, Greg Ungerer wrote:
-> Yep, that is right. Certainly the MMU case is broken. Some noMMU cases work
-> by virtue of the SoC only having an instruction cache (the older V2 cores).
+On 7/30/18 3:40 AM, Alexey Brodkin wrote:
+> Some proxy DNS servers might not resolve IPv6 names to addresses.
+> Instead they reply with NOERROR while passing no real data.
+> That combination of NOERROR and EAI_NODATA happen because the DNS
+> server has a recored for requested name (example.net in our case)
+> but that record is not of AAAA type which was requested.
+> 
+> That's what Wireshark sees in that case:
+> ---------------------------------->8-----------------------------
+> Domain Name System (response)
+>    Transaction ID: 0x6e2e
+>    Flags: 0x8180 Standard query response, No error
+>        1... .... .... .... = Response: Message is a response
+>        .000 0... .... .... = Opcode: Standard query (0)
+>        .... .0.. .... .... = Authoritative: Server is not an authority for domain
+>        .... ..0. .... .... = Truncated: Message is not truncated
+>        .... ...1 .... .... = Recursion desired: Do query recursively
+>        .... .... 1... .... = Recursion available: Server can do recursive queries
+>        .... .... .0.. .... = Z: reserved (0)
+>        .... .... ..0. .... = Answer authenticated: Answer/authority portion was not authenticated by the server
+>        .... .... ...0 .... = Non-authenticated data: Unacceptable
+>        .... .... .... 0000 = Reply code: No error (0)
+>    Questions: 1
+>    Answer RRs: 0
+>    Authority RRs: 0
+>    Additional RRs: 0
+>    Queries
+>        example.net: type AAAA, class IN
+>            Name: example.net
+>            [Name Length: 11]
+>            [Label Count: 2]
+>            Type: AAAA (IPv6 Address) (28)
+>            Class: IN (0x0001)
+> ---------------------------------->8-----------------------------
+> 
+> And that's what we see if Google DNS server (8.8.8.8) is used instead:
+> ---------------------------------->8-----------------------------
+> Domain Name System (response)
+>    Transaction ID: 0x3cd4
+>    Flags: 0x8180 Standard query response, No error
+>        1... .... .... .... = Response: Message is a response
+>        .000 0... .... .... = Opcode: Standard query (0)
+>        .... .0.. .... .... = Authoritative: Server is not an authority for domain
+>        .... ..0. .... .... = Truncated: Message is not truncated
+>        .... ...1 .... .... = Recursion desired: Do query recursively
+>        .... .... 1... .... = Recursion available: Server can do recursive queries
+>        .... .... .0.. .... = Z: reserved (0)
+>        .... .... ..0. .... = Answer authenticated: Answer/authority portion was not authenticated by the server
+>        .... .... ...0 .... = Non-authenticated data: Unacceptable
+>        .... .... .... 0000 = Reply code: No error (0)
+>    Questions: 1
+>    Answer RRs: 1
+>    Authority RRs: 0
+>    Additional RRs: 0
+>    Queries
+>        example.net: type AAAA, class IN
+>            Name: example.net
+>            [Name Length: 11]
+>            [Label Count: 2]
+>            Type: AAAA (IPv6 Address) (28)
+>            Class: IN (0x0001)
+> Answers
+>    example.net: type AAAA, class IN, addr 2606:2800:220:1:248:1893:25c8:1946
+> ---------------------------------->8-----------------------------
+> ---
+>  posix/tst-getaddrinfo4.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/posix/tst-getaddrinfo4.c b/posix/tst-getaddrinfo4.c
+> index dc9e423448af..0139dee777a1 100644
+> --- a/posix/tst-getaddrinfo4.c
+> +++ b/posix/tst-getaddrinfo4.c
+> @@ -39,6 +39,7 @@ try (const char *service, int family, int flags)
+>      case 0:
+>      case EAI_AGAIN:
+>      case EAI_NONAME:
+> +    case EAI_NODATA:
+>        printf ("SUCCESS getaddrinfo(service=%s, family=%d, flags=%d): %s: %m\n",
+>                service ?: "NULL", family, flags, gai_strerror (res));
+>        return 0;
+> 
 
-Is there a good an easy case to detect if a core has a cache?  Either
-runtime or in Kconfig?
-
-> The MMU case is fixable, but I think it will mean changing away from
-> the fall-back virtual:physical 1:1 mapping it uses for the kernel address
-> space. So not completely trivial. Either that or a dedicated area of RAM
-> for coherent allocations that we can mark as non-cachable via the really
-> course grained and limited ACR registers - not really very appealing.
-
-What about CF_PAGE_NOCACHE?  Reading arch/m68k/include/asm/mcf_pgtable.h
-suggest this would cause an uncached mapping, in which case something
-like this should work:
-
-	http://git.infradead.org/users/hch/misc.git/commitdiff/4b8711d436e8d56edbc5ca19aa2be639705bbfef
-
-> The noMMU case in general is probably limited to something like that same
-> type of dedicated RAM/ACR register mechamism.
->
-> The most commonly used periperal with DMA is the FEC ethernet module,
-> and it has some "special" (used very loosely) cache flushing for
-> parts like the 532x family which probably makes it mostly work right.
-> There is a PCI bus on the 54xx family of parts, and I know general
-> ethernet cards on it (like e1000's) have problems I am sure are
-> related to the fact that coherent memory allocations aren't.
-
-If we really just care about FEC we can just switch it do use
-DMA_ATTR_NON_CONSISTENT and do explicit cache flushing.  But as far
-as I can tell FEC only uses DMA coherent allocations for the TSO
-headers anyway, is TSO even used on this SOC?
+Ping !
