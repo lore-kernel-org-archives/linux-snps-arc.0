@@ -1,127 +1,293 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 18 Dec 2018 13:04:36 -0800
-Subject: [PATCH 14/21] ARC: Enable __start as entry point vs. canonical _start
+Date: Tue, 18 Dec 2018 13:04:35 -0800
+Subject: [PATCH 13/21] ARC: Build Infrastructure
 In-Reply-To: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1545167083-16764-15-git-send-email-vgupta@synopsys.com>
+Message-ID: <1545167083-16764-14-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
-
-ARC linker scripts have defined __start as entry point so to not break
-ABI for uClibc et al we allow __start for glibc as well
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- ChangeLog                |  3 +++
- sysdeps/arc/dl-machine.h | 14 ++++++++++----
- sysdeps/arc/entry.h      |  5 +++++
- sysdeps/arc/start.S      | 14 +++++++++++---
- 4 files changed, 29 insertions(+), 7 deletions(-)
- create mode 100644 sysdeps/arc/entry.h
+ ChangeLog                                  | 13 +++++++++++++
+ sysdeps/arc/Implies                        |  3 +++
+ sysdeps/arc/Makefile                       | 25 +++++++++++++++++++++++++
+ sysdeps/arc/Versions                       | 14 ++++++++++++++
+ sysdeps/arc/configure                      | 17 +++++++++++++++++
+ sysdeps/arc/configure.ac                   | 13 +++++++++++++
+ sysdeps/arc/nptl/Makefile                  | 22 ++++++++++++++++++++++
+ sysdeps/arc/preconfigure                   | 14 ++++++++++++++
+ sysdeps/unix/sysv/linux/arc/Implies        |  3 +++
+ sysdeps/unix/sysv/linux/arc/Makefile       | 16 ++++++++++++++++
+ sysdeps/unix/sysv/linux/arc/Versions       | 12 ++++++++++++
+ sysdeps/unix/sysv/linux/arc/configure      |  4 ++++
+ sysdeps/unix/sysv/linux/arc/configure.ac   |  4 ++++
+ sysdeps/unix/sysv/linux/arc/shlib-versions |  2 ++
+ 14 files changed, 162 insertions(+)
+ create mode 100644 sysdeps/arc/Implies
+ create mode 100644 sysdeps/arc/Makefile
+ create mode 100644 sysdeps/arc/Versions
+ create mode 100644 sysdeps/arc/configure
+ create mode 100644 sysdeps/arc/configure.ac
+ create mode 100644 sysdeps/arc/nptl/Makefile
+ create mode 100644 sysdeps/arc/preconfigure
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Implies
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Makefile
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Versions
+ create mode 100644 sysdeps/unix/sysv/linux/arc/configure
+ create mode 100644 sysdeps/unix/sysv/linux/arc/configure.ac
+ create mode 100644 sysdeps/unix/sysv/linux/arc/shlib-versions
 
 diff --git a/ChangeLog b/ChangeLog
-index 6628960c487e..86e4db890850 100644
+index 3735df67a3b2..6628960c487e 100644
 --- a/ChangeLog
 +++ b/ChangeLog
-@@ -105,6 +105,9 @@
- 	* sysdeps/unix/sysv/linux/arc/configure: New file.
- 	* sysdeps/unix/sysv/linux/arc/configure.ac: New file.
- 	* sysdeps/unix/sysv/linux/arc/shlib-versions: New file.
-+	* sysdeps/arc/dl-machine.h: replace _start with __start.
-+	* sysdeps/arc/start.S: likewise.
-+	* sysdeps/arc/entry.h: Add ENTRY_POINT define check.
+@@ -92,6 +92,19 @@
+ 	* sysdeps/unix/sysv/linux/arc/libutil.abilist: New file.
+ 	* sysdeps/unix/sysv/linux/arc/localplt.data: New file.
+ 	* sysdeps/unix/sysv/linux/syscall-names.list: Update for ARC.
++	* sysdeps/arc/Implies: New file.
++	* sysdeps/arc/Makefile: New file.
++	* sysdeps/arc/Versions: New file.
++	* sysdeps/arc/configure: New file.
++	* sysdeps/arc/configure.ac: New file.
++	* sysdeps/arc/nptl/Makefile: New file.
++	* sysdeps/arc/preconfigure: New file.
++	* sysdeps/unix/sysv/linux/arc/Implies: New file.
++	* sysdeps/unix/sysv/linux/arc/Makefile: New file.
++	* sysdeps/unix/sysv/linux/arc/Versions: New file.
++	* sysdeps/unix/sysv/linux/arc/configure: New file.
++	* sysdeps/unix/sysv/linux/arc/configure.ac: New file.
++	* sysdeps/unix/sysv/linux/arc/shlib-versions: New file.
  
  2018-12-17  Joseph Myers  <joseph at codesourcery.com>
  
-diff --git a/sysdeps/arc/dl-machine.h b/sysdeps/arc/dl-machine.h
-index da1aef79152d..02727a3a4d47 100644
---- a/sysdeps/arc/dl-machine.h
-+++ b/sysdeps/arc/dl-machine.h
-@@ -21,6 +21,12 @@
- 
- #define ELF_MACHINE_NAME "arc"
- 
-+#include <entry.h>
-+
-+#ifndef ENTRY_POINT
-+#error ENTRY_POINT needs to be defined for ARC
-+#endif
-+
- #include <string.h>
- #include <link.h>
- #include <dl-tls.h>
-@@ -150,9 +156,9 @@ elf_machine_runtime_setup (struct link_map *l, int lazy, int profile)
- 
- #define RTLD_START asm ("\
- .text								\n\
--.globl _start							\n\
--.type _start, @function						\n\
--_start:								\n\
-+.globl __start							\n\
-+.type __start, @function					\n\
-+__start:							\n\
- 	; (1). bootstrap ld.so					\n\
- 	bl.d    _dl_start                                       \n\
- 	mov_s   r0, sp          ; pass ptr to aux vector tbl    \n\
-@@ -182,7 +188,7 @@ _start:								\n\
- 	add     r0, pcl, _dl_fini at pcl				\n\
- 	j	[r13]						\n\
- 								\n\
--	.size  _start,.-_start                                  \n\
-+	.size  __start,.-__start                                \n\
- 	.previous                                               \n\
- ");
- 
-diff --git a/sysdeps/arc/entry.h b/sysdeps/arc/entry.h
+diff --git a/sysdeps/arc/Implies b/sysdeps/arc/Implies
 new file mode 100644
-index 000000000000..adb01d981afd
+index 000000000000..387a0ca05204
 --- /dev/null
-+++ b/sysdeps/arc/entry.h
-@@ -0,0 +1,5 @@
-+#ifndef __ASSEMBLY__
-+extern void __start (void) attribute_hidden;
-+#endif
++++ b/sysdeps/arc/Implies
+@@ -0,0 +1,3 @@
++wordsize-32
++ieee754/dbl-64
++ieee754/flt-32
+diff --git a/sysdeps/arc/Makefile b/sysdeps/arc/Makefile
+new file mode 100644
+index 000000000000..a88eda115b95
+--- /dev/null
++++ b/sysdeps/arc/Makefile
+@@ -0,0 +1,25 @@
++# ARC Makefile
++# Copyright (C) 1993-2018 Free Software Foundation, Inc.
++# This file is part of the GNU C Library.
 +
-+#define ENTRY_POINT __start
-diff --git a/sysdeps/arc/start.S b/sysdeps/arc/start.S
-index 119d596db07f..79e73e27d00d 100644
---- a/sysdeps/arc/start.S
-+++ b/sysdeps/arc/start.S
-@@ -34,7 +34,14 @@
-    <http://www.gnu.org/licenses/>.  */
- 
- 
-+#define __ASSEMBLY__ 1
-+#include <entry.h>
-+#ifndef ENTRY_POINT
-+#error ENTRY_POINT needs to be defined for ARC
-+#endif
++# The GNU C Library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
 +
- /* When we enter this piece of code, the program stack looks like this:
++# The GNU C Library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
 +
-         argc            argument counter (integer)
-         argv[0]         program name (pointer)
-         argv[1...N]     program args (pointers)
-@@ -45,9 +52,9 @@
- */
- 	.text
- 	.align 4
--	.global _start
--	.type _start, at function
--_start:
-+	.global __start
-+	.type __start, at function
-+__start:
- 	mov	fp, 0
- 	ld_s	r1, [sp]	; argc
- 
-@@ -71,6 +78,7 @@ _start:
- 
- 	/* Should never get here....  */
- 	flag    1
-+	.size  __start,.-__start
- 
- /* Define a symbol for the first piece of initialized data.  */
- 	.data
++# You should have received a copy of the GNU Lesser General Public
++# License along with the GNU C Library.  If not, see
++# <http://www.gnu.org/licenses/>.
++
++# We don't support long doubles as a distinct type.  We don't need to set
++# this variable; it's here mostly for documentational purposes.
++long-double-fcts = no
++
++ifeq ($(subdir),debug)
++CFLAGS-backtrace.c += -funwind-tables
++endif
+diff --git a/sysdeps/arc/Versions b/sysdeps/arc/Versions
+new file mode 100644
+index 000000000000..c088bb27a0e5
+--- /dev/null
++++ b/sysdeps/arc/Versions
+@@ -0,0 +1,14 @@
++libc {
++  GLIBC_2.29 {
++    __adddf3; __addsf3; __divdf3; __divsf3; __eqdf2; __eqsf2; __extendsfdf2;
++    __fixdfdi; __fixdfsi; __fixsfdi; __fixsfsi;
++    __fixunsdfdi; __fixunsdfsi; __fixunssfdi; __fixunssfsi;
++    __floatdidf; __floatdisf; __floatsidf; __floatsisf;
++    __floatundidf; __floatundisf; __floatunsidf; __floatunsisf;
++    __gedf2; __gesf2; __gtdf2; __gtsf2; __ledf2; __lesf2; __ltdf2; __ltsf2;
++    __muldf3; __mulsf3; __nedf2; __nesf2; __negdf2; __negsf2;
++    __subdf3; __subsf3; __truncdfsf2; __unorddf2; __unordsf2;
++    __syscall_error;
++    __mcount;
++  }
++}
+diff --git a/sysdeps/arc/configure b/sysdeps/arc/configure
+new file mode 100644
+index 000000000000..2033957d0d9f
+--- /dev/null
++++ b/sysdeps/arc/configure
+@@ -0,0 +1,17 @@
++# This file is generated from configure.ac by Autoconf.  DO NOT EDIT!
++ # Local configure fragment for sysdeps/arc.
++
++$as_echo "#define PI_STATIC_AND_HIDDEN 1" >>confdefs.h
++
++libc_cv_have_sdata_section=no
++
++# For ARC, historically ; was used for comments and not newline
++# Later # also got added to comment list, but ; couldn't be switched to
++# canonical newline as there's lots of code out there which will break
++libc_cv_asm_line_sep='`'
++cat >>confdefs.h <<_ACEOF
++#define ASM_LINE_SEP $libc_cv_asm_line_sep
++_ACEOF
++
++
++libc_cv_fpie=no
+diff --git a/sysdeps/arc/configure.ac b/sysdeps/arc/configure.ac
+new file mode 100644
+index 000000000000..91e58efb35c8
+--- /dev/null
++++ b/sysdeps/arc/configure.ac
+@@ -0,0 +1,13 @@
++GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
++# Local configure fragment for sysdeps/arc.
++
++AC_DEFINE(PI_STATIC_AND_HIDDEN)
++libc_cv_have_sdata_section=no
++
++# For ARC, historically ; was used for comments and not newline
++# Later # also got added to comment list, but ; couldn't be switched to
++# canonical newline as there's lots of code out there which will break
++libc_cv_asm_line_sep='`'
++AC_DEFINE_UNQUOTED(ASM_LINE_SEP, $libc_cv_asm_line_sep)
++
++libc_cv_fpie=no
+diff --git a/sysdeps/arc/nptl/Makefile b/sysdeps/arc/nptl/Makefile
+new file mode 100644
+index 000000000000..afeb58a8c1cb
+--- /dev/null
++++ b/sysdeps/arc/nptl/Makefile
+@@ -0,0 +1,22 @@
++# NPTL makefile fragment for ARC.
++# Copyright (C) 2005-2018 Free Software Foundation, Inc.
++#
++# This file is part of the GNU C Library.
++#
++# The GNU C Library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
++#
++# The GNU C Library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with the GNU C Library.  If not, see
++# <http://www.gnu.org/licenses/>.
++
++ifeq ($(subdir),csu)
++gen-as-const-headers += tcb-offsets.sym
++endif
+diff --git a/sysdeps/arc/preconfigure b/sysdeps/arc/preconfigure
+new file mode 100644
+index 000000000000..1152a179c4aa
+--- /dev/null
++++ b/sysdeps/arc/preconfigure
+@@ -0,0 +1,14 @@
++case "$machine" in
++arc*)
++	base_machine=arc
++	machine=arc
++	;;
++esac
++
++gccfloat=`$CC $CFLAGS $CPPFLAGS -E -dM -xc /dev/null | grep __ARC_FPU_| wc -l`
++if test "$gccfloat" != "0"; then
++	echo "glibc being configured for double precision floating point"
++	with_fp_cond=1
++else
++	with_fp_cond=0
++fi
+diff --git a/sysdeps/unix/sysv/linux/arc/Implies b/sysdeps/unix/sysv/linux/arc/Implies
+new file mode 100644
+index 000000000000..7f739a0340b6
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/Implies
+@@ -0,0 +1,3 @@
++arc/nptl
++unix/sysv/linux/generic/wordsize-32
++unix/sysv/linux/generic
+diff --git a/sysdeps/unix/sysv/linux/arc/Makefile b/sysdeps/unix/sysv/linux/arc/Makefile
+new file mode 100644
+index 000000000000..76e5d24daea2
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/Makefile
+@@ -0,0 +1,16 @@
++ifeq ($(subdir),stdlib)
++gen-as-const-headers += ucontext_i.sym
++endif
++
++ifeq ($(subdir),misc)
++# MIPS/Tile-style cacheflush routine
++sysdep_headers += sys/cachectl.h
++sysdep_routines += cacheflush
++endif
++
++ifeq ($(subdir),elf)
++ifeq ($(build-shared),yes)
++# This is needed for DSO loading from static binaries.
++sysdep-dl-routines += dl-static
++endif
++endif
+diff --git a/sysdeps/unix/sysv/linux/arc/Versions b/sysdeps/unix/sysv/linux/arc/Versions
+new file mode 100644
+index 000000000000..ac3327426360
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/Versions
+@@ -0,0 +1,12 @@
++ld {
++  GLIBC_PRIVATE {
++    # used for loading by static libraries
++    _dl_var_init;
++  }
++}
++libc {
++  GLIBC_2.29 {
++    _flush_cache;
++    cacheflush;
++  }
++}
+diff --git a/sysdeps/unix/sysv/linux/arc/configure b/sysdeps/unix/sysv/linux/arc/configure
+new file mode 100644
+index 000000000000..f74fa7cb0259
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/configure
+@@ -0,0 +1,4 @@
++# This file is generated from configure.in by Autoconf.  DO NOT EDIT!
++ # Local configure fragment for sysdeps/unix/sysv/linux/arc.
++
++arch_minimum_kernel=3.9.0
+diff --git a/sysdeps/unix/sysv/linux/arc/configure.ac b/sysdeps/unix/sysv/linux/arc/configure.ac
+new file mode 100644
+index 000000000000..a9528032d32a
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/configure.ac
+@@ -0,0 +1,4 @@
++GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
++# Local configure fragment for sysdeps/unix/sysv/linux/arc.
++
++arch_minimum_kernel=3.9.0
+diff --git a/sysdeps/unix/sysv/linux/arc/shlib-versions b/sysdeps/unix/sysv/linux/arc/shlib-versions
+new file mode 100644
+index 000000000000..e527acd77892
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/shlib-versions
+@@ -0,0 +1,2 @@
++DEFAULT                 GLIBC_2.29
++ld=ld-linux-arc.so.2
 -- 
 2.7.4
