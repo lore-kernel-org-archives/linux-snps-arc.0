@@ -1,293 +1,59 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 18 Dec 2018 13:04:35 -0800
-Subject: [PATCH 13/21] ARC: Build Infrastructure
+Date: Tue, 18 Dec 2018 13:04:39 -0800
+Subject: [PATCH 17/21] ARC: testsuite fix: stdlib/tst-makecontext
 In-Reply-To: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1545167083-16764-14-git-send-email-vgupta@synopsys.com>
+Message-ID: <1545167083-16764-18-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
+
+Terminate the unwinding by telling unwinder to fetch return address
+(BLINK) from r15 which has been set apriori to 0.
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- ChangeLog                                  | 13 +++++++++++++
- sysdeps/arc/Implies                        |  3 +++
- sysdeps/arc/Makefile                       | 25 +++++++++++++++++++++++++
- sysdeps/arc/Versions                       | 14 ++++++++++++++
- sysdeps/arc/configure                      | 17 +++++++++++++++++
- sysdeps/arc/configure.ac                   | 13 +++++++++++++
- sysdeps/arc/nptl/Makefile                  | 22 ++++++++++++++++++++++
- sysdeps/arc/preconfigure                   | 14 ++++++++++++++
- sysdeps/unix/sysv/linux/arc/Implies        |  3 +++
- sysdeps/unix/sysv/linux/arc/Makefile       | 16 ++++++++++++++++
- sysdeps/unix/sysv/linux/arc/Versions       | 12 ++++++++++++
- sysdeps/unix/sysv/linux/arc/configure      |  4 ++++
- sysdeps/unix/sysv/linux/arc/configure.ac   |  4 ++++
- sysdeps/unix/sysv/linux/arc/shlib-versions |  2 ++
- 14 files changed, 162 insertions(+)
- create mode 100644 sysdeps/arc/Implies
- create mode 100644 sysdeps/arc/Makefile
- create mode 100644 sysdeps/arc/Versions
- create mode 100644 sysdeps/arc/configure
- create mode 100644 sysdeps/arc/configure.ac
- create mode 100644 sysdeps/arc/nptl/Makefile
- create mode 100644 sysdeps/arc/preconfigure
- create mode 100644 sysdeps/unix/sysv/linux/arc/Implies
- create mode 100644 sysdeps/unix/sysv/linux/arc/Makefile
- create mode 100644 sysdeps/unix/sysv/linux/arc/Versions
- create mode 100644 sysdeps/unix/sysv/linux/arc/configure
- create mode 100644 sysdeps/unix/sysv/linux/arc/configure.ac
- create mode 100644 sysdeps/unix/sysv/linux/arc/shlib-versions
+ ChangeLog                                 | 2 ++
+ sysdeps/unix/sysv/linux/arc/makecontext.c | 1 +
+ sysdeps/unix/sysv/linux/arc/setcontext.S  | 2 ++
+ 3 files changed, 5 insertions(+)
 
 diff --git a/ChangeLog b/ChangeLog
-index 3735df67a3b2..6628960c487e 100644
+index d3a979a9236b..39ff298b0091 100644
 --- a/ChangeLog
 +++ b/ChangeLog
-@@ -92,6 +92,19 @@
- 	* sysdeps/unix/sysv/linux/arc/libutil.abilist: New file.
- 	* sysdeps/unix/sysv/linux/arc/localplt.data: New file.
- 	* sysdeps/unix/sysv/linux/syscall-names.list: Update for ARC.
-+	* sysdeps/arc/Implies: New file.
-+	* sysdeps/arc/Makefile: New file.
-+	* sysdeps/arc/Versions: New file.
-+	* sysdeps/arc/configure: New file.
-+	* sysdeps/arc/configure.ac: New file.
-+	* sysdeps/arc/nptl/Makefile: New file.
-+	* sysdeps/arc/preconfigure: New file.
-+	* sysdeps/unix/sysv/linux/arc/Implies: New file.
-+	* sysdeps/unix/sysv/linux/arc/Makefile: New file.
-+	* sysdeps/unix/sysv/linux/arc/Versions: New file.
-+	* sysdeps/unix/sysv/linux/arc/configure: New file.
-+	* sysdeps/unix/sysv/linux/arc/configure.ac: New file.
-+	* sysdeps/unix/sysv/linux/arc/shlib-versions: New file.
+@@ -110,6 +110,8 @@
+ 	* sysdeps/arc/entry.h: Add ENTRY_POINT define check.
+ 	* sysdeps/arc/crti.S: add .hidden annotations.
+ 	* sysdeps/unix/sysv/linux/arc/ipc_priv.h: New file.
++	* sysdeps/unix/sysv/linux/arc/makecontext.c: clear r15.
++	* sysdeps/unix/sysv/linux/arc/setcontext.S: set blink from r15.
  
  2018-12-17  Joseph Myers  <joseph at codesourcery.com>
  
-diff --git a/sysdeps/arc/Implies b/sysdeps/arc/Implies
-new file mode 100644
-index 000000000000..387a0ca05204
---- /dev/null
-+++ b/sysdeps/arc/Implies
-@@ -0,0 +1,3 @@
-+wordsize-32
-+ieee754/dbl-64
-+ieee754/flt-32
-diff --git a/sysdeps/arc/Makefile b/sysdeps/arc/Makefile
-new file mode 100644
-index 000000000000..a88eda115b95
---- /dev/null
-+++ b/sysdeps/arc/Makefile
-@@ -0,0 +1,25 @@
-+# ARC Makefile
-+# Copyright (C) 1993-2018 Free Software Foundation, Inc.
-+# This file is part of the GNU C Library.
+diff --git a/sysdeps/unix/sysv/linux/arc/makecontext.c b/sysdeps/unix/sysv/linux/arc/makecontext.c
+index 7018bed9d64a..8d233f83da7e 100644
+--- a/sysdeps/unix/sysv/linux/arc/makecontext.c
++++ b/sysdeps/unix/sysv/linux/arc/makecontext.c
+@@ -45,6 +45,7 @@ __makecontext (ucontext_t *ucp, void (*func) (void), int argc, ...)
+    */
+   ucp->uc_mcontext.callee.r13 = (unsigned long) func;
+   ucp->uc_mcontext.callee.r14 = (unsigned long) ucp->uc_link;
++  ucp->uc_mcontext.callee.r15 = 0;
+ 
+   r = &ucp->uc_mcontext.scratch.r0;
+ 
+diff --git a/sysdeps/unix/sysv/linux/arc/setcontext.S b/sysdeps/unix/sysv/linux/arc/setcontext.S
+index 3f503c661d95..6ec2ec0ddc79 100644
+--- a/sysdeps/unix/sysv/linux/arc/setcontext.S
++++ b/sysdeps/unix/sysv/linux/arc/setcontext.S
+@@ -79,6 +79,8 @@ weak_alias(__setcontext, setcontext)
+ 
+ ENTRY(__startcontext)
+ 
++	cfi_register (blink, r15)
 +
-+# The GNU C Library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2.1 of the License, or (at your option) any later version.
-+
-+# The GNU C Library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with the GNU C Library.  If not, see
-+# <http://www.gnu.org/licenses/>.
-+
-+# We don't support long doubles as a distinct type.  We don't need to set
-+# this variable; it's here mostly for documentational purposes.
-+long-double-fcts = no
-+
-+ifeq ($(subdir),debug)
-+CFLAGS-backtrace.c += -funwind-tables
-+endif
-diff --git a/sysdeps/arc/Versions b/sysdeps/arc/Versions
-new file mode 100644
-index 000000000000..c088bb27a0e5
---- /dev/null
-+++ b/sysdeps/arc/Versions
-@@ -0,0 +1,14 @@
-+libc {
-+  GLIBC_2.29 {
-+    __adddf3; __addsf3; __divdf3; __divsf3; __eqdf2; __eqsf2; __extendsfdf2;
-+    __fixdfdi; __fixdfsi; __fixsfdi; __fixsfsi;
-+    __fixunsdfdi; __fixunsdfsi; __fixunssfdi; __fixunssfsi;
-+    __floatdidf; __floatdisf; __floatsidf; __floatsisf;
-+    __floatundidf; __floatundisf; __floatunsidf; __floatunsisf;
-+    __gedf2; __gesf2; __gtdf2; __gtsf2; __ledf2; __lesf2; __ltdf2; __ltsf2;
-+    __muldf3; __mulsf3; __nedf2; __nesf2; __negdf2; __negsf2;
-+    __subdf3; __subsf3; __truncdfsf2; __unorddf2; __unordsf2;
-+    __syscall_error;
-+    __mcount;
-+  }
-+}
-diff --git a/sysdeps/arc/configure b/sysdeps/arc/configure
-new file mode 100644
-index 000000000000..2033957d0d9f
---- /dev/null
-+++ b/sysdeps/arc/configure
-@@ -0,0 +1,17 @@
-+# This file is generated from configure.ac by Autoconf.  DO NOT EDIT!
-+ # Local configure fragment for sysdeps/arc.
-+
-+$as_echo "#define PI_STATIC_AND_HIDDEN 1" >>confdefs.h
-+
-+libc_cv_have_sdata_section=no
-+
-+# For ARC, historically ; was used for comments and not newline
-+# Later # also got added to comment list, but ; couldn't be switched to
-+# canonical newline as there's lots of code out there which will break
-+libc_cv_asm_line_sep='`'
-+cat >>confdefs.h <<_ACEOF
-+#define ASM_LINE_SEP $libc_cv_asm_line_sep
-+_ACEOF
-+
-+
-+libc_cv_fpie=no
-diff --git a/sysdeps/arc/configure.ac b/sysdeps/arc/configure.ac
-new file mode 100644
-index 000000000000..91e58efb35c8
---- /dev/null
-+++ b/sysdeps/arc/configure.ac
-@@ -0,0 +1,13 @@
-+GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
-+# Local configure fragment for sysdeps/arc.
-+
-+AC_DEFINE(PI_STATIC_AND_HIDDEN)
-+libc_cv_have_sdata_section=no
-+
-+# For ARC, historically ; was used for comments and not newline
-+# Later # also got added to comment list, but ; couldn't be switched to
-+# canonical newline as there's lots of code out there which will break
-+libc_cv_asm_line_sep='`'
-+AC_DEFINE_UNQUOTED(ASM_LINE_SEP, $libc_cv_asm_line_sep)
-+
-+libc_cv_fpie=no
-diff --git a/sysdeps/arc/nptl/Makefile b/sysdeps/arc/nptl/Makefile
-new file mode 100644
-index 000000000000..afeb58a8c1cb
---- /dev/null
-+++ b/sysdeps/arc/nptl/Makefile
-@@ -0,0 +1,22 @@
-+# NPTL makefile fragment for ARC.
-+# Copyright (C) 2005-2018 Free Software Foundation, Inc.
-+#
-+# This file is part of the GNU C Library.
-+#
-+# The GNU C Library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2.1 of the License, or (at your option) any later version.
-+#
-+# The GNU C Library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+#
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with the GNU C Library.  If not, see
-+# <http://www.gnu.org/licenses/>.
-+
-+ifeq ($(subdir),csu)
-+gen-as-const-headers += tcb-offsets.sym
-+endif
-diff --git a/sysdeps/arc/preconfigure b/sysdeps/arc/preconfigure
-new file mode 100644
-index 000000000000..1152a179c4aa
---- /dev/null
-+++ b/sysdeps/arc/preconfigure
-@@ -0,0 +1,14 @@
-+case "$machine" in
-+arc*)
-+	base_machine=arc
-+	machine=arc
-+	;;
-+esac
-+
-+gccfloat=`$CC $CFLAGS $CPPFLAGS -E -dM -xc /dev/null | grep __ARC_FPU_| wc -l`
-+if test "$gccfloat" != "0"; then
-+	echo "glibc being configured for double precision floating point"
-+	with_fp_cond=1
-+else
-+	with_fp_cond=0
-+fi
-diff --git a/sysdeps/unix/sysv/linux/arc/Implies b/sysdeps/unix/sysv/linux/arc/Implies
-new file mode 100644
-index 000000000000..7f739a0340b6
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/Implies
-@@ -0,0 +1,3 @@
-+arc/nptl
-+unix/sysv/linux/generic/wordsize-32
-+unix/sysv/linux/generic
-diff --git a/sysdeps/unix/sysv/linux/arc/Makefile b/sysdeps/unix/sysv/linux/arc/Makefile
-new file mode 100644
-index 000000000000..76e5d24daea2
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/Makefile
-@@ -0,0 +1,16 @@
-+ifeq ($(subdir),stdlib)
-+gen-as-const-headers += ucontext_i.sym
-+endif
-+
-+ifeq ($(subdir),misc)
-+# MIPS/Tile-style cacheflush routine
-+sysdep_headers += sys/cachectl.h
-+sysdep_routines += cacheflush
-+endif
-+
-+ifeq ($(subdir),elf)
-+ifeq ($(build-shared),yes)
-+# This is needed for DSO loading from static binaries.
-+sysdep-dl-routines += dl-static
-+endif
-+endif
-diff --git a/sysdeps/unix/sysv/linux/arc/Versions b/sysdeps/unix/sysv/linux/arc/Versions
-new file mode 100644
-index 000000000000..ac3327426360
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/Versions
-@@ -0,0 +1,12 @@
-+ld {
-+  GLIBC_PRIVATE {
-+    # used for loading by static libraries
-+    _dl_var_init;
-+  }
-+}
-+libc {
-+  GLIBC_2.29 {
-+    _flush_cache;
-+    cacheflush;
-+  }
-+}
-diff --git a/sysdeps/unix/sysv/linux/arc/configure b/sysdeps/unix/sysv/linux/arc/configure
-new file mode 100644
-index 000000000000..f74fa7cb0259
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/configure
-@@ -0,0 +1,4 @@
-+# This file is generated from configure.in by Autoconf.  DO NOT EDIT!
-+ # Local configure fragment for sysdeps/unix/sysv/linux/arc.
-+
-+arch_minimum_kernel=3.9.0
-diff --git a/sysdeps/unix/sysv/linux/arc/configure.ac b/sysdeps/unix/sysv/linux/arc/configure.ac
-new file mode 100644
-index 000000000000..a9528032d32a
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/configure.ac
-@@ -0,0 +1,4 @@
-+GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
-+# Local configure fragment for sysdeps/unix/sysv/linux/arc.
-+
-+arch_minimum_kernel=3.9.0
-diff --git a/sysdeps/unix/sysv/linux/arc/shlib-versions b/sysdeps/unix/sysv/linux/arc/shlib-versions
-new file mode 100644
-index 000000000000..e527acd77892
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/shlib-versions
-@@ -0,0 +1,2 @@
-+DEFAULT                 GLIBC_2.29
-+ld=ld-linux-arc.so.2
+         /* call user @func, loaded in r13 by setcontext() */
+         jl   [r13]
+ 
 -- 
 2.7.4
