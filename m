@@ -1,51 +1,34 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 18 Dec 2018 13:04:42 -0800
-Subject: [PATCH 20/21] build-many-glibcs.py: Enable ARC builds
-In-Reply-To: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
+From: fweimer@redhat.com (Florian Weimer)
+Date: Tue, 18 Dec 2018 22:26:09 +0100
+Subject: [PATCH 12/21] ARC: Update syscall-names.list for ARC specific
+ syscalls
+In-Reply-To: <1545167083-16764-13-git-send-email-vgupta@synopsys.com> (Vineet
+ Gupta's message of "Tue, 18 Dec 2018 13:04:34 -0800")
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
+ <1545167083-16764-13-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1545167083-16764-21-git-send-email-vgupta@synopsys.com>
+Message-ID: <87lg4my1am.fsf@oldenburg2.str.redhat.com>
 To: linux-snps-arc@lists.infradead.org
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- ChangeLog                    | 4 ++++
- scripts/build-many-glibcs.py | 4 ++++
- 2 files changed, 8 insertions(+)
+* Vineet Gupta:
 
-diff --git a/ChangeLog b/ChangeLog
-index 376d0e401117..46d288808153 100644
---- a/ChangeLog
-+++ b/ChangeLog
-@@ -1,3 +1,7 @@
-+2018-12-17  Vineet Gupta <vgupta at synopsys.com>
-+
-+	* scripts/build-many-glibcs.py: Enable building for ARC.
-+
- 2018-12-17  Cupertino Miranda <cmiranda at synopsys.com>
- 
- 	* sysdeps/arc/dl-machine.h: Fix relocation.
-diff --git a/scripts/build-many-glibcs.py b/scripts/build-many-glibcs.py
-index 9051ff17b19d..97e9bedabe0c 100755
---- a/scripts/build-many-glibcs.py
-+++ b/scripts/build-many-glibcs.py
-@@ -155,6 +155,9 @@ class Context(object):
-                                        'cfg': ['--disable-multi-arch']}])
-         self.add_config(arch='aarch64_be',
-                         os_name='linux-gnu')
-+        self.add_config(arch='arc',
-+                        os_name='linux-gnu',
-+                        gcc_cfg=['--disable-multilib', '--with-cpu=archs'])
-         self.add_config(arch='alpha',
-                         os_name='linux-gnu')
-         self.add_config(arch='arm',
-@@ -1258,6 +1261,7 @@ class Config(object):
-     def install_linux_headers(self, cmdlist):
-         """Install Linux kernel headers."""
-         arch_map = {'aarch64': 'arm64',
-+                    'arc': 'arc',
-                     'alpha': 'alpha',
-                     'arm': 'arm',
-                     'hppa': 'parisc',
--- 
-2.7.4
+> diff --git a/sysdeps/unix/sysv/linux/syscall-names.list b/sysdeps/unix/sysv/linux/syscall-names.list
+> index f88001c9c38d..62862010600f 100644
+> --- a/sysdeps/unix/sysv/linux/syscall-names.list
+> +++ b/sysdeps/unix/sysv/linux/syscall-names.list
+> @@ -42,6 +42,9 @@ adjtimex
+>  afs_syscall
+>  alarm
+>  alloc_hugepages
+> +arc_gettls
+> +arc_settls
+> +arc_usr_cmpxchg
+>  arch_prctl
+>  arm_fadvise64_64
+>  arm_sync_file_range
+
+This should come in with a sync with a released upstream kernel.  Will
+the port be in Linux 4.20?
+
+Thanks,
+Florian
