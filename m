@@ -1,117 +1,325 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 18 Dec 2018 13:04:24 -0800
-Subject: [PATCH 02/21] ARC: add definitions to elf/elf.h
+Date: Tue, 18 Dec 2018 13:04:27 -0800
+Subject: [PATCH 05/21] ARC: Thread Local Storage support
 In-Reply-To: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1545167083-16764-3-git-send-email-vgupta@synopsys.com>
+Message-ID: <1545167083-16764-6-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
+
+This includes all 4 TLS addressing models
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- ChangeLog |  1 +
- elf/elf.h | 70 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 70 insertions(+), 1 deletion(-)
+ ChangeLog                        |   5 ++
+ sysdeps/arc/dl-tls.h             |  30 ++++++++
+ sysdeps/arc/libc-tls.c           |  27 +++++++
+ sysdeps/arc/nptl/tcb-offsets.sym |  11 +++
+ sysdeps/arc/nptl/tls.h           | 150 +++++++++++++++++++++++++++++++++++++++
+ sysdeps/arc/stackinfo.h          |  33 +++++++++
+ 6 files changed, 256 insertions(+)
+ create mode 100644 sysdeps/arc/dl-tls.h
+ create mode 100644 sysdeps/arc/libc-tls.c
+ create mode 100644 sysdeps/arc/nptl/tcb-offsets.sym
+ create mode 100644 sysdeps/arc/nptl/tls.h
+ create mode 100644 sysdeps/arc/stackinfo.h
 
 diff --git a/ChangeLog b/ChangeLog
-index 456e4b670c23..3ec6eb82d2fe 100644
+index fd5602bde1a7..6e53b171a72d 100644
 --- a/ChangeLog
 +++ b/ChangeLog
-@@ -3,6 +3,7 @@
- 	* sysdeps/unix/make-syscalls.sh: Fix comment referencing
- 	syscall-template file.
- 	* stdlib/longlong.h: Fix asm constraints for ARC code.
-+	* elf/elf.h: add defines for ARC.
+@@ -30,6 +30,11 @@
+ 	* sysdeps/arc/sotruss-lib.c: New file.
+ 	* sysdeps/arc/start.S: New file.
+ 	* sysdeps/arc/tst-audit.h: New file.
++	* sysdeps/arc/dl-tls.h: New file.
++	* sysdeps/arc/libc-tls.c: New file.
++	* sysdeps/arc/nptl/tcb-offsets.sym: New file.
++	* sysdeps/arc/nptl/tls.h: New file.
++	* sysdeps/arc/stackinfo.h: New file.
  
  2018-12-17  Joseph Myers  <joseph at codesourcery.com>
  
-diff --git a/elf/elf.h b/elf/elf.h
-index d57313e9bbc7..57d7c717784e 100644
---- a/elf/elf.h
-+++ b/elf/elf.h
-@@ -330,7 +330,7 @@ typedef struct
- #define EM_CLOUDSHIELD	192	/* CloudShield */
- #define EM_COREA_1ST	193	/* KIPO-KAIST Core-A 1st gen. */
- #define EM_COREA_2ND	194	/* KIPO-KAIST Core-A 2nd gen. */
--#define EM_ARC_COMPACT2	195	/* Synopsys ARCompact V2 */
-+#define EM_ARCV2	195	/* Synopsys ARCv2 ISA */
- #define EM_OPEN8	196	/* Open8 RISC */
- #define EM_RL78		197	/* Renesas RL78 */
- #define EM_VIDEOCORE5	198	/* Broadcom VideoCore V */
-@@ -3996,6 +3996,74 @@ enum
- #define R_NDS32_TLS_TPOFF	102
- #define R_NDS32_TLS_DESC	119
- 
-+/* ARCompact/ARCv2 specific relocs */
-+#define R_ARC_NONE		0x0
-+#define R_ARC_8			0x1
-+#define R_ARC_16		0x2
-+#define R_ARC_24		0x3
-+#define R_ARC_32		0x4
-+#define R_ARC_B26		0x5
-+#define R_ARC_B22_PCREL		0x6
-+#define R_ARC_H30		0x7
-+#define R_ARC_N8		0x8
-+#define R_ARC_N16		0x9
-+#define R_ARC_N24		0xA
-+#define R_ARC_N32		0xB
-+#define R_ARC_SDA		0xC
-+#define R_ARC_SECTOFF		0xD
-+#define R_ARC_S21H_PCREL	0xE
-+#define R_ARC_S21W_PCREL	0xF
-+#define R_ARC_S25H_PCREL	0x10
-+#define R_ARC_S25W_PCREL	0x11
-+#define R_ARC_SDA32		0x12
-+#define R_ARC_SDA_LDST		0x13
-+#define R_ARC_SDA_LDST1		0x14
-+#define R_ARC_SDA_LDST2		0x15
-+#define R_ARC_SDA16_LD		0x16
-+#define R_ARC_SDA16_LD1		0x17
-+#define R_ARC_SDA16_LD2		0x18
-+#define R_ARC_S13_PCREL		0x19
-+#define R_ARC_W			0x1A
-+#define R_ARC_32_ME		0x1B
-+#define R_ARC_N32_ME		0x1C
-+#define R_ARC_SECTOFF_ME	0x1D
-+#define R_ARC_SDA32_ME		0x1E
-+#define R_ARC_W_ME		0x1F
-+#define R_ARC_H30_ME		0x20
-+#define R_ARC_SECTOFF_U8	0x21
-+#define R_ARC_SECTOFF_S9	0x22
-+#define R_AC_SECTOFF_U8		0x23
-+#define R_AC_SECTOFF_U8_1	0x24
-+#define R_AC_SECTOFF_U8_2	0x25
-+#define R_AC_SECTOFF_S9		0x26
-+#define R_AC_SECTOFF_S9_1	0x27
-+#define R_AC_SECTOFF_S9_2	0x28
-+#define R_ARC_SECTOFF_ME_1	0x29
-+#define R_ARC_SECTOFF_ME_2	0x2A
-+#define R_ARC_SECTOFF_1		0x2B
-+#define R_ARC_SECTOFF_2		0x2C
-+#define R_ARC_PC32		0x32
-+#define R_ARC_GOTPC32		0x33
-+#define R_ARC_PLT32		0x34
-+#define R_ARC_COPY		0x35
-+#define R_ARC_GLOB_DAT		0x36
-+#define R_ARC_JUMP_SLOT		0x37
-+#define R_ARC_RELATIVE		0x38
-+#define R_ARC_GOTOFF		0x39
-+#define R_ARC_GOTPC		0x3A
-+#define R_ARC_GOT32		0x3B
+diff --git a/sysdeps/arc/dl-tls.h b/sysdeps/arc/dl-tls.h
+new file mode 100644
+index 000000000000..42b5df9ca4da
+--- /dev/null
++++ b/sysdeps/arc/dl-tls.h
+@@ -0,0 +1,30 @@
++/* Thread-local storage handling in the ELF dynamic linker.  ARC version.
++   Copyright (C) 2012-2018 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
 +
-+#define R_ARC_TLS_DTPMOD	0x42
-+#define R_ARC_TLS_DTPOFF	0x43
-+#define R_ARC_TLS_TPOFF		0x44
-+#define R_ARC_TLS_GD_GOT	0x45
-+#define R_ARC_TLS_GD_LD	        0x46
-+#define R_ARC_TLS_GD_CALL	0x47
-+#define R_ARC_TLS_IE_GOT	0x48
-+#define R_ARC_TLS_DTPOFF_S9	0x4a
-+#define R_ARC_TLS_LE_S9		0x4a
-+#define R_ARC_TLS_LE_32		0x4b
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
 +
- __END_DECLS
- 
- #endif	/* elf.h */
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <http://www.gnu.org/licenses/>.  */
++
++
++/* Type used for the representation of TLS information in the GOT.  */
++typedef struct
++{
++  unsigned long int ti_module;
++  unsigned long int ti_offset;
++} tls_index;
++
++extern void *__tls_get_addr (tls_index *ti);
++
++/* Value used for dtv entries for which the allocation is delayed.  */
++#define TLS_DTV_UNALLOCATED	((void *) -1l)
+diff --git a/sysdeps/arc/libc-tls.c b/sysdeps/arc/libc-tls.c
+new file mode 100644
+index 000000000000..c6c865daac3e
+--- /dev/null
++++ b/sysdeps/arc/libc-tls.c
+@@ -0,0 +1,27 @@
++/* Thread-local storage handling in the ELF dynamic linker.  ARC version.
++   Copyright (C) 2005-2018 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <csu/libc-tls.c>
++#include <dl-tls.h>
++
++void *
++__tls_get_addr (tls_index *ti)
++{
++  dtv_t *dtv = THREAD_DTV ();
++  return (char *) dtv[1].pointer.val + ti->ti_offset;
++}
+diff --git a/sysdeps/arc/nptl/tcb-offsets.sym b/sysdeps/arc/nptl/tcb-offsets.sym
+new file mode 100644
+index 000000000000..56950e0676ed
+--- /dev/null
++++ b/sysdeps/arc/nptl/tcb-offsets.sym
+@@ -0,0 +1,11 @@
++#include <sysdep.h>
++#include <tls.h>
++
++-- Derive offsets relative to the thread register.
++#define thread_offsetof(mem)	(long)(offsetof(struct pthread, mem) - sizeof(struct pthread))
++
++MULTIPLE_THREADS_OFFSET		offsetof (struct pthread, header.multiple_threads)
++TLS_PRE_TCB_SIZE		sizeof (struct pthread)
++TLS_TCB_SIZE            	sizeof(tcbhead_t)
++
++PTHREAD_TID			offsetof(struct pthread, tid)
+diff --git a/sysdeps/arc/nptl/tls.h b/sysdeps/arc/nptl/tls.h
+new file mode 100644
+index 000000000000..b6c2023ef3f6
+--- /dev/null
++++ b/sysdeps/arc/nptl/tls.h
+@@ -0,0 +1,150 @@
++/* Definition for thread-local data handling.  NPTL/ARC version.
++   Copyright (C) 2012-2018 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#ifndef _ARC_NPTL_TLS_H
++#define _ARC_NPTL_TLS_H	1
++
++#include <dl-sysdep.h>
++
++#ifndef __ASSEMBLER__
++# include <stdbool.h>
++# include <stddef.h>
++# include <stdint.h>
++
++#include <dl-dtv.h>
++
++/* Get system call information.  */
++# include <sysdep.h>
++
++/* The TLS blocks start right after the TCB.  */
++# define TLS_DTV_AT_TP	1
++# define TLS_TCB_AT_TP	0
++
++/* Get the thread descriptor definition.  */
++# include <nptl/descr.h>
++
++typedef struct
++{
++  dtv_t *dtv;
++  uintptr_t pointer_guard;
++} tcbhead_t;
++
++register struct pthread *__thread_self __asm__("r25");
++
++/* This is the size of the initial TCB.  */
++# define TLS_INIT_TCB_SIZE	sizeof (tcbhead_t)
++
++/* Alignment requirements for the initial TCB.  */
++# define TLS_INIT_TCB_ALIGN	__alignof__ (struct pthread)
++
++/* This is the size of the TCB.  */
++#ifndef TLS_TCB_SIZE
++# define TLS_TCB_SIZE		sizeof (tcbhead_t)
++#endif
++
++/* Alignment requirements for the TCB.  */
++# define TLS_TCB_ALIGN		__alignof__ (struct pthread)
++
++/* This is the size we need before TCB.  */
++# define TLS_PRE_TCB_SIZE	sizeof (struct pthread)
++
++/* Install the dtv pointer.  The pointer passed is to the element with
++   index -1 which contain the length.  */
++# define INSTALL_DTV(tcbp, dtvp) \
++  (((tcbhead_t *) (tcbp))->dtv = (dtvp) + 1)
++
++/* Install new dtv for current thread.  */
++# define INSTALL_NEW_DTV(dtv) \
++  (THREAD_DTV() = (dtv))
++
++/* Return dtv of given thread descriptor.  */
++# define GET_DTV(tcbp) \
++  (((tcbhead_t *) (tcbp))->dtv)
++
++/* Code to initially initialize the thread pointer.  */
++# define TLS_INIT_TP(tcbp)			\
++  ({                                            \
++	long result_var;			\
++	__builtin_set_thread_pointer(tcbp);     \
++	result_var = INTERNAL_SYSCALL (arc_settls, err, 1, (tcbp));	\
++	INTERNAL_SYSCALL_ERROR_P (result_var, err)			\
++	? "unknown error" : NULL;		\
++   })
++
++/* Value passed to 'clone' for initialization of the thread register.  */
++# define TLS_DEFINE_INIT_TP(tp, pd) void *tp = (pd) + 1
++
++/* Return the address of the dtv for the current thread.  */
++# define THREAD_DTV() \
++  (((tcbhead_t *) __builtin_thread_pointer ())->dtv)
++
++/* Return the thread descriptor for the current thread.  */
++# define THREAD_SELF \
++ ((struct pthread *)__builtin_thread_pointer () - 1)
++
++/* Magic for libthread_db to know how to do THREAD_SELF.  */
++# define DB_THREAD_SELF \
++  CONST_THREAD_AREA (32, sizeof (struct pthread))
++
++/* Access to data in the thread descriptor is easy.  */
++# define THREAD_GETMEM(descr, member) \
++  descr->member
++# define THREAD_GETMEM_NC(descr, member, idx) \
++  descr->member[idx]
++# define THREAD_SETMEM(descr, member, value) \
++  descr->member = (value)
++# define THREAD_SETMEM_NC(descr, member, idx, value) \
++  descr->member[idx] = (value)
++
++/* Get and set the global scope generation counter in struct pthread.  */
++#define THREAD_GSCOPE_IN_TCB      1
++#define THREAD_GSCOPE_FLAG_UNUSED 0
++#define THREAD_GSCOPE_FLAG_USED   1
++#define THREAD_GSCOPE_FLAG_WAIT   2
++#define THREAD_GSCOPE_RESET_FLAG() \
++  do									     \
++    { int __res								     \
++	= atomic_exchange_rel (&THREAD_SELF->header.gscope_flag,	     \
++			       THREAD_GSCOPE_FLAG_UNUSED);		     \
++      if (__res == THREAD_GSCOPE_FLAG_WAIT)				     \
++	lll_futex_wake (&THREAD_SELF->header.gscope_flag, 1, LLL_PRIVATE);   \
++    }									     \
++  while (0)
++#define THREAD_GSCOPE_SET_FLAG() \
++  do									     \
++    {									     \
++      THREAD_SELF->header.gscope_flag = THREAD_GSCOPE_FLAG_USED;	     \
++      atomic_write_barrier ();						     \
++    }									     \
++  while (0)
++#define THREAD_GSCOPE_WAIT() \
++  GL(dl_wait_lookup_done) ()
++
++#else
++
++# include <tcb-offsets.h>
++
++# r25 is dedicated TLS register for ARC
++.macro THREAD_SELF reg
++	# struct pthread is just ahead of TCB
++	sub     \reg, r25, TLS_PRE_TCB_SIZE
++.endm
++
++#endif /* __ASSEMBLER__ */
++
++#endif	/* tls.h */
+diff --git a/sysdeps/arc/stackinfo.h b/sysdeps/arc/stackinfo.h
+new file mode 100644
+index 000000000000..42821ada1027
+--- /dev/null
++++ b/sysdeps/arc/stackinfo.h
+@@ -0,0 +1,33 @@
++/* Stack environment definitions for ARC.
++   Copyright (C) 2012-2018 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <http://www.gnu.org/licenses/>.  */
++
++/* This file contains a bit of information about the stack allocation
++   of the processor.  */
++
++#ifndef _STACKINFO_H
++#define _STACKINFO_H	1
++
++#include <elf.h>
++
++/* On ARC the stack grows down.  */
++#define _STACK_GROWS_DOWN	1
++
++/* Default to a non-executable stack.  */
++#define DEFAULT_STACK_PERMS (PF_R|PF_W)
++
++#endif	/* stackinfo.h */
 -- 
 2.7.4
