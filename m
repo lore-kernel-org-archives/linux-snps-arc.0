@@ -1,34 +1,43 @@
-From: schwab@linux-m68k.org (Andreas Schwab)
-Date: Tue, 18 Dec 2018 23:36:07 +0100
-Subject: [PATCH 17/21] ARC: testsuite fix: stdlib/tst-makecontext
-In-Reply-To: <1545167083-16764-18-git-send-email-vgupta@synopsys.com> (Vineet
- Gupta's message of "Tue, 18 Dec 2018 13:04:39 -0800")
+From: joseph@codesourcery.com (Joseph Myers)
+Date: Tue, 18 Dec 2018 22:52:09 +0000
+Subject: [PATCH 00/21] glibc port to ARC processors
+In-Reply-To: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <1545167083-16764-18-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <87ftuu799k.fsf@igel.home>
+Message-ID: <alpine.DEB.2.21.1812182243320.30183@digraph.polyomino.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-On Dez 18 2018, Vineet Gupta <vineet.gupta1@synopsys.com> wrote:
+On Tue, 18 Dec 2018, Vineet Gupta wrote:
 
-> diff --git a/sysdeps/unix/sysv/linux/arc/setcontext.S b/sysdeps/unix/sysv/linux/arc/setcontext.S
-> index 3f503c661d95..6ec2ec0ddc79 100644
-> --- a/sysdeps/unix/sysv/linux/arc/setcontext.S
-> +++ b/sysdeps/unix/sysv/linux/arc/setcontext.S
-> @@ -79,6 +79,8 @@ weak_alias(__setcontext, setcontext)
->  
->  ENTRY(__startcontext)
->  
-> +	cfi_register (blink, r15)
-> +
+> | FAIL: elf/check-localplt		# passes for build-many-glibcs.py
+> 					# buildroot builds with slightly different toggles (-Os)
+> 					# such that gcc generates an extra memcpy PLT call
 
-You should precede that with a dummy .cfi_label (see
-sysdeps/riscv/start.S) to force the CFI into the FDE instead of the
-CIE.  Also, can you use cfi_undefined instead?
+I fixed lots of such issues with -Os on various architectures; it should 
+be possible to fix this one as well.  (I haven't run build-many-glibcs.py 
+with -Os lately, so it's possible more problems have crept in or appear 
+with current compilers.  When I was testing it, it failed for m68k - the 
+m68k libm functions don't build with -Os because bits/mathinline.h doesn't 
+get included then, which needs addressing anyway in some way to eliminate 
+bits/mathinline.h from glibc - but worked for most or all other 
+configurations.)
 
-Andreas.
+> (d) We currently only support soft float ABI, although I'm working on hard float
+>     and hopefully will have it ready sometime during the review of this series
+
+Could you confirm what the ABI entry or entries to go at 
+<https://sourceware.org/glibc/wiki/ABIList> would look like?
+
+Note that we generally expect new ports to use different dynamic linker 
+names for each ABI.  This means separate names for hard float and soft 
+float.  Since it appears you support both big and little endian, it also 
+means separate dynamic linker names for each of those (and corresponding 
+GCC changes will be needed to pass the right dynamic linker names to ld's 
+-dynamic-linker option).  Then, each supported ABI should have a build in 
+build-many-glibcs.py, and any unsupported ABI variants need to have a 
+configure-time error (to avoid accidentally building a glibc incompatible 
+with the correct ABI for such a port added in future).
 
 -- 
-Andreas Schwab, schwab at linux-m68k.org
-GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
-"And now for something completely different."
+Joseph S. Myers
+joseph at codesourcery.com
