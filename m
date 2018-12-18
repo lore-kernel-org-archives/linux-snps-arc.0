@@ -1,16 +1,25 @@
 From: joseph@codesourcery.com (Joseph Myers)
-Date: Tue, 18 Dec 2018 23:11:44 +0000
-Subject: [PATCH 00/21] glibc port to ARC processors
-In-Reply-To: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
+Date: Tue, 18 Dec 2018 23:15:01 +0000
+Subject: [PATCH 06/21] ARC: Atomics and Locking primitives
+In-Reply-To: <1545167083-16764-7-git-send-email-vgupta@synopsys.com>
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
+ <1545167083-16764-7-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.21.1812182310431.30183@digraph.polyomino.org.uk>
+Message-ID: <alpine.DEB.2.21.1812182312080.30183@digraph.polyomino.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-Another general point: when posting a new port, could you include pointers 
-to architecture and ABI reference manuals in case those are of relevance 
-to the review?  (URLs going directly to PDFs of those manuals are 
-preferred.)
+On Tue, 18 Dec 2018, Vineet Gupta wrote:
+
+> +#define USE_ATOMIC_COMPILER_BUILTINS 0
+
+There is a strong preference for new ports to use 1 for this rather than 0 
+(and not to have any asms in their atomic-machine.h unless there's some 
+reason use of built-in functions is unsuitable) - see the recently posted 
+C-Sky version, for example.  If you can't use 1, there should be a good 
+reason, documented in a comment, for using asms instead of compiler 
+built-in functions (e.g. if the compiler built-in functions would result 
+in libatomic dependencies, which are unsuitable for glibc, rather than 
+being expanded inline).
 
 -- 
 Joseph S. Myers
