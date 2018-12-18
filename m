@@ -1,23 +1,18 @@
-From: fweimer@redhat.com (Florian Weimer)
-Date: Tue, 18 Dec 2018 22:28:08 +0100
-Subject: [PATCH 14/21] ARC: Enable __start as entry point vs. canonical
- _start
-In-Reply-To: <1545167083-16764-15-git-send-email-vgupta@synopsys.com> (Vineet
- Gupta's message of "Tue, 18 Dec 2018 13:04:36 -0800")
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 18 Dec 2018 21:29:24 +0000
+Subject: [PATCH 12/21] ARC: Update syscall-names.list for ARC specific
+ syscalls
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <1545167083-16764-15-git-send-email-vgupta@synopsys.com>
+ <1545167083-16764-13-git-send-email-vgupta@synopsys.com>
+ <87lg4my1am.fsf@oldenburg2.str.redhat.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <87h8fay17b.fsf@oldenburg2.str.redhat.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA230750146421E90@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-* Vineet Gupta:
+On 12/18/18 1:26 PM, Florian Weimer wrote:
+> This should come in with a sync with a released upstream kernel.  Will
+> the port be in Linux 4.20?
 
-> ARC linker scripts have defined __start as entry point so to not break
-> ABI for uClibc et al we allow __start for glibc as well
+linux port was upstreamed in 2013 in v3.9
 
-I think this change and the test suite fixes should be folded into the
-initial addition of these files.  Or is there a reason for not doing
-this?
-
-Thanks,
-Florian
+-Vineet
