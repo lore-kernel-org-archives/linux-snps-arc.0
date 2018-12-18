@@ -1,186 +1,23 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Tue, 18 Dec 2018 22:28:30 +0100
-Subject: [PATCH 12/25] clocksource/drivers/arc_timer: Utilize generic
- sched_clock
-In-Reply-To: <20181218212844.30445-1-daniel.lezcano@linaro.org>
-References: <d3f1255a-592d-13d9-5d3f-bd3ec7a36742@linaro.org>
- <20181218212844.30445-1-daniel.lezcano@linaro.org>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 18 Dec 2018 21:31:18 +0000
+Subject: [PATCH 14/21] ARC: Enable __start as entry point vs. canonical
+ _start
+References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
+ <1545167083-16764-15-git-send-email-vgupta@synopsys.com>
+ <87h8fay17b.fsf@oldenburg2.str.redhat.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181218212844.30445-12-daniel.lezcano@linaro.org>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA230750146421EAA@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+On 12/18/18 1:28 PM, Florian Weimer wrote:
+>> ARC linker scripts have defined __start as entry point so to not break
+>> ABI for uClibc et al we allow __start for glibc as well
+> I think this change and the test suite fixes should be folded into the
+> initial addition of these files.  Or is there a reason for not doing
+> this?
 
-It turned out we used to use default implementation of sched_clock()
-from kernel/sched/clock.c which was as precise as 1/HZ, i.e.
-by default we had 10 msec granularity of time measurement.
+I deliberately kept them out to call out the fixes, sometimes these help new ports
+which stumble into similar issues. And also ~2 years worth of work gets squashed
+into a single blob is a shame :-)
 
-Now given ARC built-in timers are clocked with the same frequency as
-CPU cores we may get much higher precision of time tracking.
-
-Thus we switch to generic sched_clock which really reads ARC hardware
-counters.
-
-This is especially helpful for measuring short events.
-That's what we used to have:
------------------------------->8------------------------
-$ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
-
- Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
-
-         10.000000      task-clock (msec)         #    2.832 CPUs utilized
-                 1      context-switches          #    0.100 K/sec
-                 1      cpu-migrations            #    0.100 K/sec
-                63      page-faults               #    0.006 M/sec
-           3049480      cycles                    #    0.305 GHz
-           1091259      instructions              #    0.36  insn per cycle
-            256828      branches                  #   25.683 M/sec
-             27026      branch-misses             #   10.52% of all branches
-
-       0.003530687 seconds time elapsed
-
-       0.000000000 seconds user
-       0.010000000 seconds sys
------------------------------->8------------------------
-
-And now we'll see:
------------------------------->8------------------------
-$ perf stat /bin/sh -c /root/lmbench-master/bin/arc/hello > /dev/null
-
- Performance counter stats for '/bin/sh -c /root/lmbench-master/bin/arc/hello':
-
-          3.004322      task-clock (msec)         #    0.865 CPUs utilized
-                 1      context-switches          #    0.333 K/sec
-                 1      cpu-migrations            #    0.333 K/sec
-                63      page-faults               #    0.021 M/sec
-           2986734      cycles                    #    0.994 GHz
-           1087466      instructions              #    0.36  insn per cycle
-            255209      branches                  #   84.947 M/sec
-             26002      branch-misses             #   10.19% of all branches
-
-       0.003474829 seconds time elapsed
-
-       0.003519000 seconds user
-       0.000000000 seconds sys
------------------------------->8------------------------
-
-Note how much more meaningful is the second output - time spent for
-execution pretty much matches number of cycles spent (we're runnign
-@ 1GHz here).
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-Cc: Vineet Gupta <vgupta at synopsys.com>
-Cc: Thomas Gleixner <tglx at linutronix.de>
-Cc: stable at vger.kernel.org
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
-
-Signed-off-by: Daniel Lezcano <daniel.lezcano at linaro.org>
----
- arch/arc/Kconfig                |  1 +
- drivers/clocksource/Kconfig     |  1 +
- drivers/clocksource/arc_timer.c | 22 ++++++++++++++++++++++
- 3 files changed, 24 insertions(+)
-
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index c9e2a1323536..74b5a654f664 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -26,6 +26,7 @@ config ARC
- 	select GENERIC_IRQ_SHOW
- 	select GENERIC_PCI_IOMAP
- 	select GENERIC_PENDING_IRQ if SMP
-+	select GENERIC_SCHED_CLOCK
- 	select GENERIC_SMP_IDLE_THREAD
- 	select HAVE_ARCH_KGDB
- 	select HAVE_ARCH_TRACEHOOK
-diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
-index 8761a1c21b6c..c57b156f49a2 100644
---- a/drivers/clocksource/Kconfig
-+++ b/drivers/clocksource/Kconfig
-@@ -277,6 +277,7 @@ config CLKSRC_MPS2
- 
- config ARC_TIMERS
- 	bool "Support for 32-bit TIMERn counters in ARC Cores" if COMPILE_TEST
-+	depends on GENERIC_SCHED_CLOCK
- 	select TIMER_OF
- 	help
- 	  These are legacy 32-bit TIMER0 and TIMER1 counters found on all ARC cores
-diff --git a/drivers/clocksource/arc_timer.c b/drivers/clocksource/arc_timer.c
-index 20da9b1d7f7d..b28970ca4a7a 100644
---- a/drivers/clocksource/arc_timer.c
-+++ b/drivers/clocksource/arc_timer.c
-@@ -23,6 +23,7 @@
- #include <linux/cpu.h>
- #include <linux/of.h>
- #include <linux/of_irq.h>
-+#include <linux/sched_clock.h>
- 
- #include <soc/arc/timers.h>
- #include <soc/arc/mcip.h>
-@@ -88,6 +89,11 @@ static u64 arc_read_gfrc(struct clocksource *cs)
- 	return (((u64)h) << 32) | l;
- }
- 
-+static notrace u64 arc_gfrc_clock_read(void)
-+{
-+	return arc_read_gfrc(NULL);
-+}
-+
- static struct clocksource arc_counter_gfrc = {
- 	.name   = "ARConnect GFRC",
- 	.rating = 400,
-@@ -111,6 +117,8 @@ static int __init arc_cs_setup_gfrc(struct device_node *node)
- 	if (ret)
- 		return ret;
- 
-+	sched_clock_register(arc_gfrc_clock_read, 64, arc_timer_freq);
-+
- 	return clocksource_register_hz(&arc_counter_gfrc, arc_timer_freq);
- }
- TIMER_OF_DECLARE(arc_gfrc, "snps,archs-timer-gfrc", arc_cs_setup_gfrc);
-@@ -139,6 +147,11 @@ static u64 arc_read_rtc(struct clocksource *cs)
- 	return (((u64)h) << 32) | l;
- }
- 
-+static notrace u64 arc_rtc_clock_read(void)
-+{
-+	return arc_read_rtc(NULL);
-+}
-+
- static struct clocksource arc_counter_rtc = {
- 	.name   = "ARCv2 RTC",
- 	.rating = 350,
-@@ -170,6 +183,8 @@ static int __init arc_cs_setup_rtc(struct device_node *node)
- 
- 	write_aux_reg(AUX_RTC_CTRL, 1);
- 
-+	sched_clock_register(arc_rtc_clock_read, 64, arc_timer_freq);
-+
- 	return clocksource_register_hz(&arc_counter_rtc, arc_timer_freq);
- }
- TIMER_OF_DECLARE(arc_rtc, "snps,archs-timer-rtc", arc_cs_setup_rtc);
-@@ -185,6 +200,11 @@ static u64 arc_read_timer1(struct clocksource *cs)
- 	return (u64) read_aux_reg(ARC_REG_TIMER1_CNT);
- }
- 
-+static notrace u64 arc_timer1_clock_read(void)
-+{
-+	return arc_read_timer1(NULL);
-+}
-+
- static struct clocksource arc_counter_timer1 = {
- 	.name   = "ARC Timer1",
- 	.rating = 300,
-@@ -209,6 +229,8 @@ static int __init arc_cs_setup_timer1(struct device_node *node)
- 	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
- 	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
- 
-+	sched_clock_register(arc_timer1_clock_read, 32, arc_timer_freq);
-+
- 	return clocksource_register_hz(&arc_counter_timer1, arc_timer_freq);
- }
- 
--- 
-2.17.1
+-Vineet
