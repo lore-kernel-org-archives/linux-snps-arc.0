@@ -1,325 +1,150 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 18 Dec 2018 13:04:27 -0800
-Subject: [PATCH 05/21] ARC: Thread Local Storage support
+Date: Tue, 18 Dec 2018 13:04:23 -0800
+Subject: [PATCH 01/21] longlong.h: sync from gcc to fix ARC inline asm
+ constraints
 In-Reply-To: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1545167083-16764-6-git-send-email-vgupta@synopsys.com>
+Message-ID: <1545167083-16764-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This includes all 4 TLS addressing models
+This corresponds to the version
+
+Author: law <law at 138bc75d-0d04-0410-961f-82ee72b054a4>
+Date:   Tue Jun 27 16:10:15 2017 +0000
+
+        * longlong.h: Remove ns32k support.
+
+    git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk at 249696 138bc75d-0d04-0410-961f-82ee72b054a4
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- ChangeLog                        |   5 ++
- sysdeps/arc/dl-tls.h             |  30 ++++++++
- sysdeps/arc/libc-tls.c           |  27 +++++++
- sysdeps/arc/nptl/tcb-offsets.sym |  11 +++
- sysdeps/arc/nptl/tls.h           | 150 +++++++++++++++++++++++++++++++++++++++
- sysdeps/arc/stackinfo.h          |  33 +++++++++
- 6 files changed, 256 insertions(+)
- create mode 100644 sysdeps/arc/dl-tls.h
- create mode 100644 sysdeps/arc/libc-tls.c
- create mode 100644 sysdeps/arc/nptl/tcb-offsets.sym
- create mode 100644 sysdeps/arc/nptl/tls.h
- create mode 100644 sysdeps/arc/stackinfo.h
+ ChangeLog         |  1 +
+ stdlib/longlong.h | 65 ++++++-------------------------------------------------
+ 2 files changed, 8 insertions(+), 58 deletions(-)
 
 diff --git a/ChangeLog b/ChangeLog
-index fd5602bde1a7..6e53b171a72d 100644
+index 027b23493ed8..456e4b670c23 100644
 --- a/ChangeLog
 +++ b/ChangeLog
-@@ -30,6 +30,11 @@
- 	* sysdeps/arc/sotruss-lib.c: New file.
- 	* sysdeps/arc/start.S: New file.
- 	* sysdeps/arc/tst-audit.h: New file.
-+	* sysdeps/arc/dl-tls.h: New file.
-+	* sysdeps/arc/libc-tls.c: New file.
-+	* sysdeps/arc/nptl/tcb-offsets.sym: New file.
-+	* sysdeps/arc/nptl/tls.h: New file.
-+	* sysdeps/arc/stackinfo.h: New file.
+@@ -2,6 +2,7 @@
+ 
+ 	* sysdeps/unix/make-syscalls.sh: Fix comment referencing
+ 	syscall-template file.
++	* stdlib/longlong.h: Fix asm constraints for ARC code.
  
  2018-12-17  Joseph Myers  <joseph at codesourcery.com>
  
-diff --git a/sysdeps/arc/dl-tls.h b/sysdeps/arc/dl-tls.h
-new file mode 100644
-index 000000000000..42b5df9ca4da
---- /dev/null
-+++ b/sysdeps/arc/dl-tls.h
-@@ -0,0 +1,30 @@
-+/* Thread-local storage handling in the ELF dynamic linker.  ARC version.
-+   Copyright (C) 2012-2018 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <http://www.gnu.org/licenses/>.  */
-+
-+
-+/* Type used for the representation of TLS information in the GOT.  */
-+typedef struct
-+{
-+  unsigned long int ti_module;
-+  unsigned long int ti_offset;
-+} tls_index;
-+
-+extern void *__tls_get_addr (tls_index *ti);
-+
-+/* Value used for dtv entries for which the allocation is delayed.  */
-+#define TLS_DTV_UNALLOCATED	((void *) -1l)
-diff --git a/sysdeps/arc/libc-tls.c b/sysdeps/arc/libc-tls.c
-new file mode 100644
-index 000000000000..c6c865daac3e
---- /dev/null
-+++ b/sysdeps/arc/libc-tls.c
-@@ -0,0 +1,27 @@
-+/* Thread-local storage handling in the ELF dynamic linker.  ARC version.
-+   Copyright (C) 2005-2018 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <http://www.gnu.org/licenses/>.  */
-+
-+#include <csu/libc-tls.c>
-+#include <dl-tls.h>
-+
-+void *
-+__tls_get_addr (tls_index *ti)
-+{
-+  dtv_t *dtv = THREAD_DTV ();
-+  return (char *) dtv[1].pointer.val + ti->ti_offset;
-+}
-diff --git a/sysdeps/arc/nptl/tcb-offsets.sym b/sysdeps/arc/nptl/tcb-offsets.sym
-new file mode 100644
-index 000000000000..56950e0676ed
---- /dev/null
-+++ b/sysdeps/arc/nptl/tcb-offsets.sym
-@@ -0,0 +1,11 @@
-+#include <sysdep.h>
-+#include <tls.h>
-+
-+-- Derive offsets relative to the thread register.
-+#define thread_offsetof(mem)	(long)(offsetof(struct pthread, mem) - sizeof(struct pthread))
-+
-+MULTIPLE_THREADS_OFFSET		offsetof (struct pthread, header.multiple_threads)
-+TLS_PRE_TCB_SIZE		sizeof (struct pthread)
-+TLS_TCB_SIZE            	sizeof(tcbhead_t)
-+
-+PTHREAD_TID			offsetof(struct pthread, tid)
-diff --git a/sysdeps/arc/nptl/tls.h b/sysdeps/arc/nptl/tls.h
-new file mode 100644
-index 000000000000..b6c2023ef3f6
---- /dev/null
-+++ b/sysdeps/arc/nptl/tls.h
-@@ -0,0 +1,150 @@
-+/* Definition for thread-local data handling.  NPTL/ARC version.
-+   Copyright (C) 2012-2018 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <http://www.gnu.org/licenses/>.  */
-+
-+#ifndef _ARC_NPTL_TLS_H
-+#define _ARC_NPTL_TLS_H	1
-+
-+#include <dl-sysdep.h>
-+
-+#ifndef __ASSEMBLER__
-+# include <stdbool.h>
-+# include <stddef.h>
-+# include <stdint.h>
-+
-+#include <dl-dtv.h>
-+
-+/* Get system call information.  */
-+# include <sysdep.h>
-+
-+/* The TLS blocks start right after the TCB.  */
-+# define TLS_DTV_AT_TP	1
-+# define TLS_TCB_AT_TP	0
-+
-+/* Get the thread descriptor definition.  */
-+# include <nptl/descr.h>
-+
-+typedef struct
-+{
-+  dtv_t *dtv;
-+  uintptr_t pointer_guard;
-+} tcbhead_t;
-+
-+register struct pthread *__thread_self __asm__("r25");
-+
-+/* This is the size of the initial TCB.  */
-+# define TLS_INIT_TCB_SIZE	sizeof (tcbhead_t)
-+
-+/* Alignment requirements for the initial TCB.  */
-+# define TLS_INIT_TCB_ALIGN	__alignof__ (struct pthread)
-+
-+/* This is the size of the TCB.  */
-+#ifndef TLS_TCB_SIZE
-+# define TLS_TCB_SIZE		sizeof (tcbhead_t)
-+#endif
-+
-+/* Alignment requirements for the TCB.  */
-+# define TLS_TCB_ALIGN		__alignof__ (struct pthread)
-+
-+/* This is the size we need before TCB.  */
-+# define TLS_PRE_TCB_SIZE	sizeof (struct pthread)
-+
-+/* Install the dtv pointer.  The pointer passed is to the element with
-+   index -1 which contain the length.  */
-+# define INSTALL_DTV(tcbp, dtvp) \
-+  (((tcbhead_t *) (tcbp))->dtv = (dtvp) + 1)
-+
-+/* Install new dtv for current thread.  */
-+# define INSTALL_NEW_DTV(dtv) \
-+  (THREAD_DTV() = (dtv))
-+
-+/* Return dtv of given thread descriptor.  */
-+# define GET_DTV(tcbp) \
-+  (((tcbhead_t *) (tcbp))->dtv)
-+
-+/* Code to initially initialize the thread pointer.  */
-+# define TLS_INIT_TP(tcbp)			\
-+  ({                                            \
-+	long result_var;			\
-+	__builtin_set_thread_pointer(tcbp);     \
-+	result_var = INTERNAL_SYSCALL (arc_settls, err, 1, (tcbp));	\
-+	INTERNAL_SYSCALL_ERROR_P (result_var, err)			\
-+	? "unknown error" : NULL;		\
-+   })
-+
-+/* Value passed to 'clone' for initialization of the thread register.  */
-+# define TLS_DEFINE_INIT_TP(tp, pd) void *tp = (pd) + 1
-+
-+/* Return the address of the dtv for the current thread.  */
-+# define THREAD_DTV() \
-+  (((tcbhead_t *) __builtin_thread_pointer ())->dtv)
-+
-+/* Return the thread descriptor for the current thread.  */
-+# define THREAD_SELF \
-+ ((struct pthread *)__builtin_thread_pointer () - 1)
-+
-+/* Magic for libthread_db to know how to do THREAD_SELF.  */
-+# define DB_THREAD_SELF \
-+  CONST_THREAD_AREA (32, sizeof (struct pthread))
-+
-+/* Access to data in the thread descriptor is easy.  */
-+# define THREAD_GETMEM(descr, member) \
-+  descr->member
-+# define THREAD_GETMEM_NC(descr, member, idx) \
-+  descr->member[idx]
-+# define THREAD_SETMEM(descr, member, value) \
-+  descr->member = (value)
-+# define THREAD_SETMEM_NC(descr, member, idx, value) \
-+  descr->member[idx] = (value)
-+
-+/* Get and set the global scope generation counter in struct pthread.  */
-+#define THREAD_GSCOPE_IN_TCB      1
-+#define THREAD_GSCOPE_FLAG_UNUSED 0
-+#define THREAD_GSCOPE_FLAG_USED   1
-+#define THREAD_GSCOPE_FLAG_WAIT   2
-+#define THREAD_GSCOPE_RESET_FLAG() \
-+  do									     \
-+    { int __res								     \
-+	= atomic_exchange_rel (&THREAD_SELF->header.gscope_flag,	     \
-+			       THREAD_GSCOPE_FLAG_UNUSED);		     \
-+      if (__res == THREAD_GSCOPE_FLAG_WAIT)				     \
-+	lll_futex_wake (&THREAD_SELF->header.gscope_flag, 1, LLL_PRIVATE);   \
-+    }									     \
-+  while (0)
-+#define THREAD_GSCOPE_SET_FLAG() \
-+  do									     \
-+    {									     \
-+      THREAD_SELF->header.gscope_flag = THREAD_GSCOPE_FLAG_USED;	     \
-+      atomic_write_barrier ();						     \
-+    }									     \
-+  while (0)
-+#define THREAD_GSCOPE_WAIT() \
-+  GL(dl_wait_lookup_done) ()
-+
-+#else
-+
-+# include <tcb-offsets.h>
-+
-+# r25 is dedicated TLS register for ARC
-+.macro THREAD_SELF reg
-+	# struct pthread is just ahead of TCB
-+	sub     \reg, r25, TLS_PRE_TCB_SIZE
-+.endm
-+
-+#endif /* __ASSEMBLER__ */
-+
-+#endif	/* tls.h */
-diff --git a/sysdeps/arc/stackinfo.h b/sysdeps/arc/stackinfo.h
-new file mode 100644
-index 000000000000..42821ada1027
---- /dev/null
-+++ b/sysdeps/arc/stackinfo.h
-@@ -0,0 +1,33 @@
-+/* Stack environment definitions for ARC.
-+   Copyright (C) 2012-2018 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <http://www.gnu.org/licenses/>.  */
-+
-+/* This file contains a bit of information about the stack allocation
-+   of the processor.  */
-+
-+#ifndef _STACKINFO_H
-+#define _STACKINFO_H	1
-+
-+#include <elf.h>
-+
-+/* On ARC the stack grows down.  */
-+#define _STACK_GROWS_DOWN	1
-+
-+/* Default to a non-executable stack.  */
-+#define DEFAULT_STACK_PERMS (PF_R|PF_W)
-+
-+#endif	/* stackinfo.h */
+diff --git a/stdlib/longlong.h b/stdlib/longlong.h
+index c7c6977c9fd6..fb982dd530c9 100644
+--- a/stdlib/longlong.h
++++ b/stdlib/longlong.h
+@@ -197,17 +197,17 @@ extern UDItype __udiv_qrnnd (UDItype *, UDItype, UDItype, UDItype);
+ 	   : "=r" ((USItype) (sh)),					\
+ 	     "=&r" ((USItype) (sl))					\
+ 	   : "%r" ((USItype) (ah)),					\
+-	     "rIJ" ((USItype) (bh)),					\
++	     "rICal" ((USItype) (bh)),					\
+ 	     "%r" ((USItype) (al)),					\
+-	     "rIJ" ((USItype) (bl)))
++	     "rICal" ((USItype) (bl)))
+ #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
+   __asm__ ("sub.f	%1, %4, %5\n\tsbc	%0, %2, %3"		\
+ 	   : "=r" ((USItype) (sh)),					\
+ 	     "=&r" ((USItype) (sl))					\
+ 	   : "r" ((USItype) (ah)),					\
+-	     "rIJ" ((USItype) (bh)),					\
++	     "rICal" ((USItype) (bh)),					\
+ 	     "r" ((USItype) (al)),					\
+-	     "rIJ" ((USItype) (bl)))
++	     "rICal" ((USItype) (bl)))
+ 
+ #define __umulsidi3(u,v) ((UDItype)(USItype)u*(USItype)v)
+ #ifdef __ARC_NORM__
+@@ -221,8 +221,8 @@ extern UDItype __udiv_qrnnd (UDItype *, UDItype, UDItype, UDItype);
+     }									\
+   while (0)
+ #define COUNT_LEADING_ZEROS_0 32
+-#endif
+-#endif
++#endif /* __ARC_NORM__ */
++#endif /* __arc__ */
+ 
+ #if defined (__arm__) && (defined (__thumb2__) || !defined (__thumb__)) \
+  && W_TYPE_SIZE == 32
+@@ -858,42 +858,6 @@ extern UDItype __umulsidi3 (USItype, USItype);
+ #endif
+ #endif /* __mips__ */
+ 
+-#if defined (__ns32000__) && W_TYPE_SIZE == 32
+-#define umul_ppmm(w1, w0, u, v) \
+-  ({union {UDItype __ll;						\
+-	   struct {USItype __l, __h;} __i;				\
+-	  } __xx;							\
+-  __asm__ ("meid %2,%0"							\
+-	   : "=g" (__xx.__ll)						\
+-	   : "%0" ((USItype) (u)),					\
+-	     "g" ((USItype) (v)));					\
+-  (w1) = __xx.__i.__h; (w0) = __xx.__i.__l;})
+-#define __umulsidi3(u, v) \
+-  ({UDItype __w;							\
+-    __asm__ ("meid %2,%0"						\
+-	     : "=g" (__w)						\
+-	     : "%0" ((USItype) (u)),					\
+-	       "g" ((USItype) (v)));					\
+-    __w; })
+-#define udiv_qrnnd(q, r, n1, n0, d) \
+-  ({union {UDItype __ll;						\
+-	   struct {USItype __l, __h;} __i;				\
+-	  } __xx;							\
+-  __xx.__i.__h = (n1); __xx.__i.__l = (n0);				\
+-  __asm__ ("deid %2,%0"							\
+-	   : "=g" (__xx.__ll)						\
+-	   : "0" (__xx.__ll),						\
+-	     "g" ((USItype) (d)));					\
+-  (r) = __xx.__i.__l; (q) = __xx.__i.__h; })
+-#define count_trailing_zeros(count,x) \
+-  do {									\
+-    __asm__ ("ffsd     %2,%0"						\
+-	    : "=r" ((USItype) (count))					\
+-	    : "0" ((USItype) 0),					\
+-	      "r" ((USItype) (x)));					\
+-  } while (0)
+-#endif /* __ns32000__ */
+-
+ /* FIXME: We should test _IBMR2 here when we add assembly support for the
+    system vendor compilers.
+    FIXME: What's needed for gcc PowerPC VxWorks?  __vxworks__ is not good
+@@ -1086,7 +1050,7 @@ extern UDItype __umulsidi3 (USItype, USItype);
+   } while (0)
+ #endif
+ 
+-#if defined(__sh__) && (!defined (__SHMEDIA__) || !__SHMEDIA__) && W_TYPE_SIZE == 32
++#if defined(__sh__) && W_TYPE_SIZE == 32
+ #ifndef __sh1__
+ #define umul_ppmm(w1, w0, u, v) \
+   __asm__ (								\
+@@ -1159,21 +1123,6 @@ extern UDItype __umulsidi3 (USItype, USItype);
+ 
+ #endif /* __sh__ */
+ 
+-#if defined (__SH5__) && defined (__SHMEDIA__) && __SHMEDIA__ && W_TYPE_SIZE == 32
+-#define __umulsidi3(u,v) ((UDItype)(USItype)u*(USItype)v)
+-#define count_leading_zeros(count, x) \
+-  do									\
+-    {									\
+-      UDItype x_ = (USItype)(x);					\
+-      SItype c_;							\
+-									\
+-      __asm__ ("nsb %1, %0" : "=r" (c_) : "r" (x_));			\
+-      (count) = c_ - 31;						\
+-    }									\
+-  while (0)
+-#define COUNT_LEADING_ZEROS_0 32
+-#endif
+-
+ #if defined (__sparc__) && !defined (__arch64__) && !defined (__sparcv9) \
+     && W_TYPE_SIZE == 32
+ #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
 -- 
 2.7.4
