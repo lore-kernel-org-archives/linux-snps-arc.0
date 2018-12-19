@@ -1,21 +1,48 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 19 Dec 2018 12:36:12 -0800
-Subject: [PATCH 14/21] ARC: Enable __start as entry point vs. canonical
- _start
-In-Reply-To: <87h8fay17b.fsf@oldenburg2.str.redhat.com>
+From: joseph@codesourcery.com (Joseph Myers)
+Date: Wed, 19 Dec 2018 20:36:38 +0000
+Subject: [PATCH 09/21] ARC: Linux ABI
+In-Reply-To: <c987196c-3791-01b1-8bd3-c579f58982a9@synopsys.com>
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <1545167083-16764-15-git-send-email-vgupta@synopsys.com>
- <87h8fay17b.fsf@oldenburg2.str.redhat.com>
+ <1545167083-16764-10-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.21.1812182333230.30183@digraph.polyomino.org.uk>
+ <c987196c-3791-01b1-8bd3-c579f58982a9@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <be988df8-e488-281a-77f6-d3fff5a52e8f@synopsys.com>
+Message-ID: <alpine.DEB.2.21.1812192024320.2810@digraph.polyomino.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/18/18 1:28 PM, Florian Weimer wrote:
-> I think this change and the test suite fixes should be folded into the
-> initial addition of these files.  Or is there a reason for not doing
-> this?
+On Wed, 19 Dec 2018, Vineet Gupta wrote:
 
-As suggested by other reviewers too, I'm folding all fixes into initial files.
+> So perhaps we keep the ARC header above, with matching layout, while 
+> switching to generic sigaction() still. OK ?
 
-Thx,
--Vineet
+If the different userspace layout is better, it should be better for all 
+future ports as well.
+
+Duplicating all the SA_* constants in architecture-specific headers, even 
+when those architectures don't actually have different values of those 
+constants, is bad, especially since there is logic about which __USE_* 
+macros get which SA_* defined which then needs to be duplicated.
+
+So what this suggests to me is a preliminary patch series to unify 
+bits/sigaction.h headers - there might be one header for SA_* constants 
+(architecture-specific variants only when needed), one for SIG_* constants 
+(architecture-specific variants only when needed), and one for the ways in 
+which the layout of the userspace struct sigaction can vary (defining 
+macros that the unified bits/sigaction.h then uses to control the layout - 
+cf. the siginfo unification a while back).
+
+Initially, the default version of that last header would correspond to the 
+existing sysdeps/unix/sysv/linux/bits/sigaction.h header - however, if you 
+get consensus for a different layout as the default for new architectures, 
+the default would change and all existing architectures that use the 
+current default layout would get copies of the new bits/ header configured 
+to keep the old layout.  (Variants are possible to reduce the number of 
+architectures needing architecture-specific copies as a result of the 
+changed default.  For example, you could have the new default only in 
+sysdeps/unix/sysv/linux/generic not sysdeps/unix/sysv/linux/ and then only 
+existing asm-generic architectures (aarch64 nios2 riscv) would need to 
+override back to the old default layout.)
+
+-- 
+Joseph S. Myers
+joseph at codesourcery.com
