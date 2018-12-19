@@ -1,65 +1,51 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 19 Dec 2018 09:58:34 -0800
-Subject: ARC vs. generic sigaction (was Re: [PATCH 08/21] ARC: Linux Syscall
- Interface)
-In-Reply-To: <5f512e48-e7fc-2233-febd-2e6a8bc2311b@synopsys.com>
-References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <1545167083-16764-9-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.21.1812182324560.30183@digraph.polyomino.org.uk>
- <5f512e48-e7fc-2233-febd-2e6a8bc2311b@synopsys.com>
+From: sashal@kernel.org (Sasha Levin)
+Date: Wed, 19 Dec 2018 18:18:38 +0000
+Subject: [PATCH] ARC: adjust memblock_reserve of kernel memory
+In-Reply-To: <20181219161616.10422-1-Eugeniy.Paltsev@synopsys.com>
+References: <20181219161616.10422-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <05069752-0a66-d6ca-e249-5c702eec4e99@synopsys.com>
+Message-ID: <20181219181838.D617C217D7@mail.kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/18/18 6:39 PM, Vineet Gupta wrote:
->>> diff --git a/sysdeps/unix/sysv/linux/arc/sigaction.c b/sysdeps/unix/sysv/linux/arc/sigaction.c
->> Why do you need this, rather than using the unified version (possibly with 
->> a few macros defined first)?
->
-> The only syscall ABI requirement is that we pass our our own SA_RESTORER stub
-> (rather than inject one in kernel, and deal with cache sync etc etc). Indeed the
-> common code can be used - likely was not the case when I started with ARC port, or
-> more likely the port that I started ARC port from ;-)
-> 
-> I'll update this.
+Hi,
 
-I took a stab at this but not really happy with taking this approach.
+[This is an automated email]
 
-(1). Common code assumes disparate kernel and userland sigaction struct even
-though there's no reason for a *new* port to be: its not like all glibc code is
-shared/common although I agree it is best to do so as much as possible
-So this requires explicit copy over of 1 struct into other, when it could have
-been avoided altogether for some cases atleast (!SA_RESTORER).
+This commit has been processed because it contains a -stable tag.
+The stable tag indicates that it's relevant for the following trees: all
 
-(2)  Linux kernel asm-generic syscall ABI expects sigset_t to be 2 words
+The bot has tested the following trees: v4.19.10, v4.14.89, v4.9.146, v4.4.168, v3.18.130, 
 
-| kernel: include/uapi/asm-generic/signal.h
-|
-| #define _NSIG		64
-| typedef struct {
-|	unsigned long sig[_NSIG_WORDS];
-| } sigset_t;
+v4.19.10: Build OK!
+v4.14.89: Build OK!
+v4.9.146: Build OK!
+v4.4.168: Failed to apply! Possible dependencies:
+    26f9d5fd82ca ("ARC: support HIGHMEM even without PAE40")
+    37eda9df5bd8 ("ARC: mm: Introduce explicit super page size support")
+    c2ff5cf2735c ("ARC: mm: Use virt_to_pfn() for addr >> PAGE_SHIFT pattern")
 
-And that is what we pretend at the time of syscall itself, e.g. snippet below from
-generic sigaction()
-
-|     /* XXX The size argument hopefully will have to be changed to the
-|     real size of the user-level sigset_t.  */
-|   result = INLINE_SYSCALL_CALL (rt_sigaction, sig,
-|				act ? &kact : NULL,
-|				oact ? &koact : NULL, STUB(act) _NSIG / 8);
-                                                                ^^^^^^^^^
-
-However glibc assumes sigset_to to be 128 words which is fine, however the memcpy
-for 256 words seems pointless when kernel is not supposed to be even looking at
-beyond 2nd word (although I realize my SA_RESTORE case was doing the implicit copy
-as well)
-
-(3) Consider me a micro-optimization freak :-) but this memcpy seems waste of
-cycles and will atleast show up LMBench lat_sig <install> micro-benchmarks.
+v3.18.130: Failed to apply! Possible dependencies:
+    09f3b37e4e3b ("ARC: entry.S: Introduce INTERRUPT_{PROLOGUE,EPILOGUE}")
+    1f6ccfff6314 ("ARCv2: Support for ARCv2 ISA and HS38x cores")
+    26f9d5fd82ca ("ARC: support HIGHMEM even without PAE40")
+    37eda9df5bd8 ("ARC: mm: Introduce explicit super page size support")
+    4bf4564b27db ("ARC: entry.S: comments cleanup")
+    565a9b497c51 ("ARC: RIP broken 64bit RTSC")
+    5793e273a134 ("ARC: intc: split into ARCompact ISA specific, common bits")
+    6d1a20b1d237 ("ARC: entry.S: split into ARCompact ISA specific, common bits")
+    820970a5aa3c ("ARCv2: [intc] HS38 core interrupt controller")
+    9b8c7d1e7107 ("ARC: entry.S: FAKE_RET_FROM_EXCPN can always use r9")
+    a44ec8bd2a55 ("ARC: Fix RTT boot printing")
+    a615b47dbf0d ("ARC: entry.S: confine EXCEPTION_* macros to one file")
+    a8717d280879 ("ARC: entry.S: Trap handler to use r10 for syscall vs. brkpt decision")
+    c10d6969b095 ("ARC: entry.S: Ensure that restore_regs is local to compilation unit")
+    dc9e234f91c7 ("ARC: cosmetic: Remove unused ECR bitfield masks")
+    f033737e77d9 ("ARC: entry.S: canonical'ize EXCEPTION_{PROLOGUE,EPILOGUE}")
+    fbfa26ae3b20 ("ARC: entry.S: common'ize scrtach reg freeup in intr + exceptions")
 
 
-I don't have strong feelings either ways, but wanted to express my concerns anyways.
+How should we proceed with this patch?
 
-Thx,
--Vineet
+--
+Thanks,
+Sasha
