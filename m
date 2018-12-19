@@ -1,42 +1,65 @@
-From: joseph@codesourcery.com (Joseph Myers)
-Date: Wed, 19 Dec 2018 17:40:11 +0000
-Subject: [PATCH 03/21] ARC: ABI Implementation
-In-Reply-To: <d54edff9-d0ea-ea53-9a63-550106c35921@synopsys.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 19 Dec 2018 09:58:34 -0800
+Subject: ARC vs. generic sigaction (was Re: [PATCH 08/21] ARC: Linux Syscall
+ Interface)
+In-Reply-To: <5f512e48-e7fc-2233-febd-2e6a8bc2311b@synopsys.com>
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <1545167083-16764-4-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.21.1812182302430.30183@digraph.polyomino.org.uk>
- <d54edff9-d0ea-ea53-9a63-550106c35921@synopsys.com>
+ <1545167083-16764-9-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.21.1812182324560.30183@digraph.polyomino.org.uk>
+ <5f512e48-e7fc-2233-febd-2e6a8bc2311b@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.21.1812191720290.27531@digraph.polyomino.org.uk>
+Message-ID: <05069752-0a66-d6ca-e249-5c702eec4e99@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, 18 Dec 2018, Vineet Gupta wrote:
+On 12/18/18 6:39 PM, Vineet Gupta wrote:
+>>> diff --git a/sysdeps/unix/sysv/linux/arc/sigaction.c b/sysdeps/unix/sysv/linux/arc/sigaction.c
+>> Why do you need this, rather than using the unified version (possibly with 
+>> a few macros defined first)?
+>
+> The only syscall ABI requirement is that we pass our our own SA_RESTORER stub
+> (rather than inject one in kernel, and deal with cache sync etc etc). Indeed the
+> common code can be used - likely was not the case when I started with ARC port, or
+> more likely the port that I started ARC port from ;-)
+> 
+> I'll update this.
 
-> P.S. Is there a lint file or are these style guidelines in wiki 
-> somewhere. If not I can volunteer to capture them in a wiki/readme for 
-> future port submissions.
+I took a stab at this but not really happy with taking this approach.
 
-In addition to the GNU Coding Standards (which cover many things such as 
-comment formatting and spaces before '('), we have 
-<https://sourceware.org/glibc/wiki/Style_and_Conventions> which discusses 
-various glibc-specific details.  If you find there are points of the style 
-in glibc which aren't documented in either place, then, yes, it would be a 
-good idea to add them to the wiki (I just added a few).
+(1). Common code assumes disparate kernel and userland sigaction struct even
+though there's no reason for a *new* port to be: its not like all glibc code is
+shared/common although I agree it is best to do so as much as possible
+So this requires explicit copy over of 1 struct into other, when it could have
+been avoided altogether for some cases atleast (!SA_RESTORER).
 
-Architecture maintainers need wiki accounts in any case (to post test 
-results for their architectures during every release freeze period), so 
-you should create an account and post its name so someone can add it to 
-EditorGroup so you can edit.
+(2)  Linux kernel asm-generic syscall ABI expects sigset_t to be 2 words
 
-Where the formatting issues pointed out exist in some existing code in 
-glibc, it might also make sense to fix that existing code to follow the 
-standards more closely so it provides a better example for new code.  
-However, such formatting changes to existing code may be controversial 
-(especially for code that originally came from third-party sources using 
-completely different formatting - though in my view, where such files are 
-now maintained in glibc without ongoing updates from upstream, we ought to 
-make the formatting consistent to simplify maintenance).
+| kernel: include/uapi/asm-generic/signal.h
+|
+| #define _NSIG		64
+| typedef struct {
+|	unsigned long sig[_NSIG_WORDS];
+| } sigset_t;
 
--- 
-Joseph S. Myers
-joseph at codesourcery.com
+And that is what we pretend at the time of syscall itself, e.g. snippet below from
+generic sigaction()
+
+|     /* XXX The size argument hopefully will have to be changed to the
+|     real size of the user-level sigset_t.  */
+|   result = INLINE_SYSCALL_CALL (rt_sigaction, sig,
+|				act ? &kact : NULL,
+|				oact ? &koact : NULL, STUB(act) _NSIG / 8);
+                                                                ^^^^^^^^^
+
+However glibc assumes sigset_to to be 128 words which is fine, however the memcpy
+for 256 words seems pointless when kernel is not supposed to be even looking at
+beyond 2nd word (although I realize my SA_RESTORE case was doing the implicit copy
+as well)
+
+(3) Consider me a micro-optimization freak :-) but this memcpy seems waste of
+cycles and will atleast show up LMBench lat_sig <install> micro-benchmarks.
+
+
+I don't have strong feelings either ways, but wanted to express my concerns anyways.
+
+Thx,
+-Vineet
