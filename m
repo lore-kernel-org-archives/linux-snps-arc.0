@@ -1,39 +1,45 @@
-From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Thu, 20 Dec 2018 00:15:22 +0900
-Subject: [PATCH] arc: remove redundant kernel-space generic-y
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075014641FC6F@US01WEMBX2.internal.synopsys.com>
-References: <1544969781-14506-1-git-send-email-yamada.masahiro@socionext.com>
- <C2D7FE5348E1B147BCA15975FBA23075014641FC6F@US01WEMBX2.internal.synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 19 Dec 2018 19:16:16 +0300
+Subject: [PATCH] ARC: adjust memblock_reserve of kernel memory
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK7LNATJVGVJi_S99zfEpKe+HYWpk+TkfT4gCFZVVTibyP=ThA@mail.gmail.com>
+Message-ID: <20181219161616.10422-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+In setup_arch_memory we reserve the memory area wherein the kernel
+is located. Current implementation may reserve more memory than
+it actually required in case of CONFIG_LINUX_LINK_BASE is not
+equal to CONFIG_LINUX_RAM_BASE. This happens because we calculate
+start of the reserved region relatively to the CONFIG_LINUX_RAM_BASE
+and end of the region relatively to the CONFIG_LINUX_RAM_BASE.
 
-On Mon, Dec 17, 2018@2:07 PM Vineet Gupta <vineet.gupta1@synopsys.com> wrote:
->
-> On 12/16/18 6:17 AM, Masahiro Yamada wrote:
-> > This commit removes redundant generic-y defines in
-> > arch/arc/include/asm/Kbuild.
-> >
-> > It is redundant to define generic-y when arch-specific implementation
-> > exists in arch/$(ARCH)/include/asm/*.h
-> >
-> > Remove the following generic-y:
-> >
-> >     dma-mapping.h
-> >     fb.h
-> >     kmap_types.h
-> >     pci.h
-> >
-> > Signed-off-by: Masahiro Yamada <yamada.masahiro at socionext.com>
->
-> Acked-by: Vineet Gupta <vgupta at synopsys.com>
+For example in case of HSDK board we wasted 256MiB of physical memory:
+------------------->8------------------------------
+Memory: 770416K/1048576K available (5496K kernel code,
+    240K rwdata, 1064K rodata, 2200K init, 275K bss,
+    278160K reserved, 0K cma-reserved)
+------------------->8------------------------------
 
+Fix that.
 
-Could you pick this up to your arc tree?
+Cc: stable at vger.kernel.org
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ arch/arc/mm/init.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index f8fe5668b30f..a56e6a8ed259 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -137,7 +137,8 @@ void __init setup_arch_memory(void)
+ 	 */
+ 
+ 	memblock_add_node(low_mem_start, low_mem_sz, 0);
+-	memblock_reserve(low_mem_start, __pa(_end) - low_mem_start);
++	memblock_reserve(CONFIG_LINUX_LINK_BASE,
++			 __pa(_end) - CONFIG_LINUX_LINK_BASE);
+ 
+ #ifdef CONFIG_BLK_DEV_INITRD
+ 	if (initrd_start)
 -- 
-Best Regards
-Masahiro Yamada
+2.14.5
