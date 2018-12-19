@@ -1,47 +1,28 @@
 From: joseph@codesourcery.com (Joseph Myers)
-Date: Wed, 19 Dec 2018 20:36:38 +0000
-Subject: [PATCH 09/21] ARC: Linux ABI
-In-Reply-To: <c987196c-3791-01b1-8bd3-c579f58982a9@synopsys.com>
+Date: Wed, 19 Dec 2018 20:37:49 +0000
+Subject: [PATCH 03/21] ARC: ABI Implementation
+In-Reply-To: <77b660d3-61c2-e9fc-8a2e-d1b92a2a5d59@synopsys.com>
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <1545167083-16764-10-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.21.1812182333230.30183@digraph.polyomino.org.uk>
- <c987196c-3791-01b1-8bd3-c579f58982a9@synopsys.com>
+ <1545167083-16764-4-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.21.1812182302430.30183@digraph.polyomino.org.uk>
+ <d54edff9-d0ea-ea53-9a63-550106c35921@synopsys.com>
+ <alpine.DEB.2.21.1812191720290.27531@digraph.polyomino.org.uk>
+ <77b660d3-61c2-e9fc-8a2e-d1b92a2a5d59@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.21.1812192024320.2810@digraph.polyomino.org.uk>
+Message-ID: <alpine.DEB.2.21.1812192037410.2810@digraph.polyomino.org.uk>
 To: linux-snps-arc@lists.infradead.org
 
 On Wed, 19 Dec 2018, Vineet Gupta wrote:
 
-> So perhaps we keep the ARC header above, with matching layout, while 
-> switching to generic sigaction() still. OK ?
+> On 12/19/18 9:40 AM, Joseph Myers wrote:
+> > Architecture maintainers need wiki accounts in any case (to post test 
+> > results for their architectures during every release freeze period), so 
+> > you should create an account and post its name so someone can add it to 
+> > EditorGroup so you can edit.
+> 
+> Created now: VineetGupta
 
-If the different userspace layout is better, it should be better for all 
-future ports as well.
-
-Duplicating all the SA_* constants in architecture-specific headers, even 
-when those architectures don't actually have different values of those 
-constants, is bad, especially since there is logic about which __USE_* 
-macros get which SA_* defined which then needs to be duplicated.
-
-So what this suggests to me is a preliminary patch series to unify 
-bits/sigaction.h headers - there might be one header for SA_* constants 
-(architecture-specific variants only when needed), one for SIG_* constants 
-(architecture-specific variants only when needed), and one for the ways in 
-which the layout of the userspace struct sigaction can vary (defining 
-macros that the unified bits/sigaction.h then uses to control the layout - 
-cf. the siginfo unification a while back).
-
-Initially, the default version of that last header would correspond to the 
-existing sysdeps/unix/sysv/linux/bits/sigaction.h header - however, if you 
-get consensus for a different layout as the default for new architectures, 
-the default would change and all existing architectures that use the 
-current default layout would get copies of the new bits/ header configured 
-to keep the old layout.  (Variants are possible to reduce the number of 
-architectures needing architecture-specific copies as a result of the 
-changed default.  For example, you could have the new default only in 
-sysdeps/unix/sysv/linux/generic not sysdeps/unix/sysv/linux/ and then only 
-existing asm-generic architectures (aarch64 nios2 riscv) would need to 
-override back to the old default layout.)
+Added to EditorGroup.
 
 -- 
 Joseph S. Myers
