@@ -1,31 +1,43 @@
-From: fweimer@redhat.com (Florian Weimer)
-Date: Thu, 20 Dec 2018 13:40:51 +0100
-Subject: ARC vs. generic sigaction (was Re: [PATCH 08/21] ARC: Linux
- Syscall Interface)
-In-Reply-To: <4c3af320-cf35-f914-8bc3-a4c290b8e12b@linaro.org> (Adhemerval
- Zanella's message of "Thu, 20 Dec 2018 09:19:03 -0200")
-References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <1545167083-16764-9-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.21.1812182324560.30183@digraph.polyomino.org.uk>
- <5f512e48-e7fc-2233-febd-2e6a8bc2311b@synopsys.com>
- <05069752-0a66-d6ca-e249-5c702eec4e99@synopsys.com>
- <17fcd9f0-9843-8700-c936-7ab1eb8f2fd2@linaro.org>
- <906931a6-a281-8994-718f-da203890e7e9@synopsys.com>
- <4c3af320-cf35-f914-8bc3-a4c290b8e12b@linaro.org>
+From: mhocko@kernel.org (Michal Hocko)
+Date: Thu, 20 Dec 2018 13:57:30 +0100
+Subject: [PATCH 1/2] ARC: show_regs: avoid page allocator
+In-Reply-To: <1545159239-30628-2-git-send-email-vgupta@synopsys.com>
+References: <1545159239-30628-1-git-send-email-vgupta@synopsys.com>
+ <1545159239-30628-2-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <87va3oqsks.fsf@oldenburg2.str.redhat.com>
+Message-ID: <20181220125730.GA17350@dhcp22.suse.cz>
 To: linux-snps-arc@lists.infradead.org
 
-* Adhemerval Zanella:
+On Tue 18-12-18 10:53:58, Vineet Gupta wrote:
+> Use on-stack smaller buffers instead of dynamic pages.
+> 
+> The motivation for this change was to address lockdep splat when
+> signal handling code calls show_regs (with preemption disabled) and
+> ARC show_regs calls into sleepable page allocator.
+> 
+> | potentially unexpected fatal signal 11.
+> | BUG: sleeping function called from invalid context at ../mm/page_alloc.c:4317
+> | in_atomic(): 1, irqs_disabled(): 0, pid: 57, name: segv
+> | no locks held by segv/57.
+> | Preemption disabled at:
+> | [<8182f17e>] get_signal+0x4a6/0x7c4
+> | CPU: 0 PID: 57 Comm: segv Not tainted 4.17.0+ #23
+> |
+> | Stack Trace:
+> |  arc_unwind_core.constprop.1+0xd0/0xf4
+> |  __might_sleep+0x1f6/0x234
+> |  __get_free_pages+0x174/0xca0
+> |  show_regs+0x22/0x330
+> |  get_signal+0x4ac/0x7c4     # print_fatal_signals() -> preempt_disable()
+> |  do_signal+0x30/0x224
+> |  resume_user_mode_begin+0x90/0xd8
+> 
+> Despite this, lockdep still barfs (see next change), but this patch
+> still has merit as in we use smaller/localized buffers now and there's
+> less instructoh trace to sift thru when debugging pesky issues.
 
-> The only advantage of using a larger sigset_t from glibc standpoint is if
-> kernel ever change it maximum number of supported signals it would not be
-> a ABI change (it would be if glibc provided sigset_t need to be extended).
-
-It's not just the kernel.  We might want to restore additional state in
-sigsetjmp, and historically, the excess signal space in sigset_t has
-provided a way to do that even if there is no other space left in the
-jump buffer.
-
-Thanks,
-Florian
+But show_regs is called from contexts which might be called from deep
+call chains (e.g WARN). Is it safe to allocate such a large stack there?
+-- 
+Michal Hocko
+SUSE Labs
