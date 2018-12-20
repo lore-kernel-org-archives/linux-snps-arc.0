@@ -1,69 +1,34 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 19 Dec 2018 16:51:59 -0800
-Subject: [PATCH 00/21] glibc port to ARC processors
-In-Reply-To: <alpine.DEB.2.21.1812192355310.10617@digraph.polyomino.org.uk>
-References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.21.1812182310431.30183@digraph.polyomino.org.uk>
- <228be09c-0d23-d77c-ab45-0ffb69f7f5a1@synopsys.com>
- <alpine.DEB.2.21.1812192355310.10617@digraph.polyomino.org.uk>
+Date: Wed, 19 Dec 2018 17:16:39 -0800
+Subject: [PATCH 1/2] ARC: show_regs: avoid page allocator
+In-Reply-To: <1545239047.14089.13.camel@synopsys.com>
+References: <1545159239-30628-1-git-send-email-vgupta@synopsys.com>
+ <1545159239-30628-2-git-send-email-vgupta@synopsys.com>
+ <1545239047.14089.13.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <89503516-ce73-0749-4290-31dd932b496d@synopsys.com>
+Message-ID: <49f9edc9-87ee-1efc-58f8-b0d9a52c8a49@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/19/18 4:14 PM, Joseph Myers wrote:
-> On Wed, 19 Dec 2018, Vineet Gupta wrote:
-> 
->> On 12/18/18 3:11 PM, Joseph Myers wrote:
->>> Another general point: when posting a new port, could you include pointers 
->>> to architecture and ABI reference manuals in case those are of relevance 
->>> to the review?  (URLs going directly to PDFs of those manuals are 
->>> preferred.)
->>
->> The PRM (Programmer's Reference Manual) is not open source and per corporate
->> policy requires license agreement, signing NDA...
-> 
-> It's very questionable whether we should consider a port for inclusion in 
-> glibc at all without public architecture documentation 
+On 12/19/18 9:04 AM, Eugeniy Paltsev wrote:
+> As I can see x86 use print_vma_addr() in their show_signal_msg()
+> function which allocate page with __get_free_page(GFP_NOWAIT);
 
-IMHO this seems excessive. We've successfully open-sourced significant ports such
-as Linux kernel, gcc, binutils etc. gcc atleast deals with instruction semantics
-at a much closer level than glibc perse and that didn't get in the way then.
+Indeed with that the __get_free_page() lockdep splat is gone.
 
-Being an open source developer myself I agree with your reservations, but the
-reality is what Ted Tso so nicely put in at [1]
+There's a different one now hence my other patch.
 
-| "It's something I do worry about; and I do share your concern.  At the
-| same time, the reality is that we are a little like the Old Dutch
-| Masters, who had take into account the preference of their patrons
-| (i.e., in our case, those who pay our paychecks :-)"
-
-[1] https://lwn.net/Articles/446626/
-
-> (that is, 
-> documentation of instruction semantics; not necessarily documentation of 
-> microarchitectural performance characteristics etc.). 
-
-I understand the intent is all good faith and justified...
-
-> Various kinds of 
-> changes can require a developer to refer to documentation across the range 
-> of architectures supported by glibc, if something requires assembly 
-> implementations across architectures (e.g. some of Adhemerval's changes to 
-> thread cancellation; or when I added fegetmode / fesetmode, that required 
-> referring to various architecture documentation to identify what bits 
-> should be considered mode bits, on each architecture where floating-point 
-> status and control bits occupy a single register).
-
-To be honest folks on lkml do sweeping arch changes, PeterZ is one good example
-and he has infact changed ARC assembly at times w/o access to PRM. Given the
-arrangement we have now, perhaps such changes can call in for review from port
-maintainer etc.
-
-> (Non-NDA click-throughs, like the Arm one agreeing not to use the manual 
-> to find if Arm implementations violate any patents, are OK
-
-No that is not possible: I've discussed this with power may-be in the past and
-again today and this is not going to happen.
-
-Thx,
--Vineet
+| [ARCLinux]# ./segv-null-ptr
+| potentially unexpected fatal signal 11.
+| BUG: sleeping function called from invalid context at kernel/fork.c:1011
+| in_atomic(): 1, irqs_disabled(): 0, pid: 70, name: segv-null-ptr
+| no locks held by segv-null-ptr/70.
+| CPU: 0 PID: 70 Comm: segv-null-ptr Not tainted 4.18.0+ #69
+|
+| Stack Trace:
+|  arc_unwind_core+0xcc/0x100
+|  ___might_sleep+0x17a/0x190
+|  mmput+0x16/0xb8
+|  show_regs+0x52/0x310
+|  get_signal+0x5ee/0x610
+|  do_signal+0x2c/0x218
+|  resume_user_mode_begin+0x90/0xd8
