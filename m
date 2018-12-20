@@ -1,58 +1,139 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 20 Dec 2018 04:00:39 +0000
-Subject: [PATCH] ARC: adjust memblock_reserve of kernel memory
-References: <20181219161616.10422-1-Eugeniy.Paltsev@synopsys.com>
+From: adhemerval.zanella@linaro.org (Adhemerval Zanella)
+Date: Thu, 20 Dec 2018 09:19:03 -0200
+Subject: ARC vs. generic sigaction (was Re: [PATCH 08/21] ARC: Linux
+ Syscall Interface)
+In-Reply-To: <906931a6-a281-8994-718f-da203890e7e9@synopsys.com>
+References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
+ <1545167083-16764-9-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.21.1812182324560.30183@digraph.polyomino.org.uk>
+ <5f512e48-e7fc-2233-febd-2e6a8bc2311b@synopsys.com>
+ <05069752-0a66-d6ca-e249-5c702eec4e99@synopsys.com>
+ <17fcd9f0-9843-8700-c936-7ab1eb8f2fd2@linaro.org>
+ <906931a6-a281-8994-718f-da203890e7e9@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014642269A@US01WEMBX2.internal.synopsys.com>
+Message-ID: <4c3af320-cf35-f914-8bc3-a4c290b8e12b@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/19/18 8:16 AM, Eugeniy Paltsev wrote:
-> In setup_arch_memory we reserve the memory area wherein the kernel
-> is located. Current implementation may reserve more memory than
-> it actually required in case of CONFIG_LINUX_LINK_BASE is not
-> equal to CONFIG_LINUX_RAM_BASE. This happens because we calculate
-> start of the reserved region relatively to the CONFIG_LINUX_RAM_BASE
-> and end of the region relatively to the CONFIG_LINUX_RAM_BASE.
->
-> For example in case of HSDK board we wasted 256MiB of physical memory:
-> ------------------->8------------------------------
-> Memory: 770416K/1048576K available (5496K kernel code,
->     240K rwdata, 1064K rodata, 2200K init, 275K bss,
->     278160K reserved, 0K cma-reserved)
-> ------------------->8------------------------------
->
-> Fix that.
->
-> Cc: stable at vger.kernel.org
 
-For backports, please also check how far back this needs to be applied (else we
-get bot emails specifying they don't apply to ver x, y z)
 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
->  arch/arc/mm/init.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-> index f8fe5668b30f..a56e6a8ed259 100644
-> --- a/arch/arc/mm/init.c
-> +++ b/arch/arc/mm/init.c
-> @@ -137,7 +137,8 @@ void __init setup_arch_memory(void)
->  	 */
->  
->  	memblock_add_node(low_mem_start, low_mem_sz, 0);
-> -	memblock_reserve(low_mem_start, __pa(_end) - low_mem_start);
-> +	memblock_reserve(CONFIG_LINUX_LINK_BASE,
-> +			 __pa(_end) - CONFIG_LINUX_LINK_BASE);
->  
->  #ifdef CONFIG_BLK_DEV_INITRD
->  	if (initrd_start)
+On 19/12/2018 20:23, Vineet Gupta wrote:
+> On 12/19/18 2:00 PM, Adhemerval Zanella wrote:
+>>
+>>
+>> One possibility is to define an arch-specific __sigset_t.h with a custom 
+>> _SIGSET_NWORDS value and add an optimization on Linux sigaction.c to check
+>> if both kernel_sigaction and glibc sigaction share same size and internal
+>> layout to use the struct as-is for syscall instead of copy to a temporary
+>> value (similar to what we used to have on getdents).  ARC would still have
+>> arch-specific code and would be the only ABI to have a different sigset_t
+>> though.
+> 
+> I don't like ARC to single out either. But as Joseph suggests could this be
+> starting point for arches of future. Assuming it does, would rather see this or
+> the approach Joseph alluded to earlier [1]
+> 
+> [1] http://lists.infradead.org/pipermail/linux-snps-arc/2018-December/005122.html
+> 
+>>
+>> However I *hardly* think sigaction is a hotspot in real world cases, usually
+>> the signal action is defined once or in a very limited number of times.  I am
+>> not considering synthetic benchmarks, specially lmbench which in most cases
+>> does not measure any useful metric. 
+> 
+> I tend to disagree. Coming from embedded linux background, I've found it immensely
+> useful to compare 2 minimal systems: especially when distos, out-of-box packages,
+> fancy benchmarks don't even exist.
+> 
+> At any rate, my disagreement with status quo is not so much of optimize for ARC,
+> but rather pointless spending of electrons. When we know that there are 64 signals
+> at max, which need 64-bits, why bother shuffling around 1k bits, specially when
+> one is starting afresh and there's no legacy crap getting in the way.
+> 
+> The case of adding more signals in future is indeed theoretically possible but
+> that will be an ABI change anyways.
 
-So I looked into the history for restricting stable, and it seems this was
-introduced with our earlier work for HSDK.
+The only advantage of using a larger sigset_t from glibc standpoint is if
+kernel ever change it maximum number of supported signals it would not be
+a ABI change (it would be if glibc provided sigset_t need to be extended).
 
-Before commit 9ed68785f7f this code was ok, since low_mem_start =
-CONFIG_LINUX_LINK_BASE.
-With the patch we changed low_mem_start to CONFIG_LINUX_RAM_BASE and missed this.
+My point was that this change would hardly help in performance or memory 
+utilization due the signal set common utilization in exported and internal
+API.  But at the same time the signal set hasn't been changed for a *long* time 
+and I don't see indication that it will any time soon. So a new architecture 
+might indeed assume it won't change and set its default to follow Linux user 
+ABI.
 
--Vineet
+> 
+>> Even for other sigset_t usage case I still
+>> think an arch-specific definition should not make much difference:
+>>
+>>   1. setcontext: it would incur just in larger ucontext_t (kernel get/set
+>>      mask is done using kernel expected size).  Also, taking in consideration
+>>      these interfaces were removed from POSIX.1-2008, the inherent performance
+>>      issues (signal set/restore will most likely dominate the overhead), and
+>>      some implementation issues (BZ#18135 for instance), I would say to not
+>>      bother to optimize it.
+>>
+>>   2. pselect, ppoll, epoll_pwait, posix_spawn (posix_spawnattr_t), sig*: 
+>>      for functions that accept sigset as an argument it would incur in just
+>>      larger memory utilization without much performance overhead. Again,
+>>      runtime for these calls would be mostly dominate by syscall overhead
+>>      or kernel wait-time for events.
+>>
+>>   3. raise, etc: for function that might allocate a sigset_t internally it
+>>      will similar to 2.
+> 
+> I agree that that in libc, pretty much anything will be dominated by syscall
+> overhead, but still...
+> 
+> 
+>> Now, if ARC intention is just to follow generic glibc linux ABI definitions,
+>> it could just define its sigaction as (not tested):
+> 
+> Indeed the ABI is etched in stone and I have a very similar code now, with slight
+> difference.
+> 
+>> * sysdeps/unix/sysv/linux/arc/sigaction.c
+>>
+>> ---
+>> #define SA_RESTORER 0x04000000
+>> #include <kernel_sigaction.h>
+>>
+>> extern void restore_rt (void) asm ("__restore_rt") attribute_hidden;
+>>
+>> #define SET_SA_RESTORER(kact, act)                      \
+>>   (kact)->sa_flags = (act)->sa_flags | SA_RESTORER;     \
+>>   (kact)->sa_restorer = &__default_rt_sa_restorer
+> 
+> +#define SET_SA_RESTORER(kact, act)				\
+> + ({								\
+> +   if (!((kact)->sa_flags & SA_RESTORER))			\
+> +     {								\
+> +       (kact)->sa_restorer = __default_rt_sa_restorer;		\
+> +       (kact)->sa_flags |= SA_RESTORER;			\
+> +     }								\
+> +   else							\
+> +     (kact)->sa_restorer = (act)->sa_restorer;			\
+> + })
+
+What is so special about ARC sa_restorer that an application should provide
+an specialized one? Can't it follow other abi where they issue __NR_sigreturn
+for !SA_SIGINFO or __NR_rt_sigreturn otherwise?
+
+As for other architecture I do think we should hide the sa_restorer usage
+from application.
+
+> 
+>>
+>> #define RESET_SA_RESTORER(act, kact)                    \
+>>   (act)->sa_restorer = (kact)->sa_restorer
+>>
+>> static void __default_rt_sa_restorer(void)
+>> {
+>>   INTERNAL_SYSCALL_DECL (err);
+>>   INTERNAL_SYSCALL_CALL (__NR_rt_sigreturn, err);
+>> }
+>>
+>> #include <sysdeps/unix/sysv/linux/sigaction.c>
+> 
+> 
