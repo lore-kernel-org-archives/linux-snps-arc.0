@@ -1,47 +1,31 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 20 Dec 2018 18:45:48 +0000
-Subject: [PATCH 2/2] ARC: show_regs: fix lockdep splat for good
-References: <1545159239-30628-1-git-send-email-vgupta@synopsys.com>
- <1545159239-30628-3-git-send-email-vgupta@synopsys.com>
- <20181220130450.GB17350@dhcp22.suse.cz>
+Date: Thu, 20 Dec 2018 18:48:06 +0000
+Subject: ARC vs. generic sigaction (was Re: [PATCH 08/21] ARC: Linux
+ Syscall Interface)
+References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
+ <1545167083-16764-9-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.21.1812182324560.30183@digraph.polyomino.org.uk>
+ <5f512e48-e7fc-2233-febd-2e6a8bc2311b@synopsys.com>
+ <05069752-0a66-d6ca-e249-5c702eec4e99@synopsys.com>
+ <17fcd9f0-9843-8700-c936-7ab1eb8f2fd2@linaro.org>
+ <906931a6-a281-8994-718f-da203890e7e9@synopsys.com>
+ <4c3af320-cf35-f914-8bc3-a4c290b8e12b@linaro.org>
+ <87va3oqsks.fsf@oldenburg2.str.redhat.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014642389B@US01WEMBX2.internal.synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501464238AD@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/20/18 5:04 AM, Michal Hocko wrote:
-> On Tue 18-12-18 10:53:59, Vineet Gupta wrote:
->> signal handling core calls ARCH show_regs() with preemption disabled
->> which causes __might_sleep functions such as mmput leading to lockdep
->> splat.  Workaround by re-enabling preemption temporarily.
->>
->> This may not be as bad as it sounds since the preemption disabling
->> itself was introduced for a supressing smp_processor_id() warning in x86
->> code by commit 3a9f84d354ce ("signals, debug: fix BUG: using
->> smp_processor_id() in preemptible code in print_fatal_signal()")
-> The commit you are referring to here sounds dubious in itself.
+On 12/20/18 4:40 AM, Florian Weimer wrote:
+> * Adhemerval Zanella:
+>
+>> The only advantage of using a larger sigset_t from glibc standpoint is if
+>> kernel ever change it maximum number of supported signals it would not be
+>> a ABI change (it would be if glibc provided sigset_t need to be extended).
+> It's not just the kernel.  We might want to restore additional state in
+> sigsetjmp, and historically, the excess signal space in sigset_t has
+> provided a way to do that even if there is no other space left in the
+> jump buffer.
 
-Indeed that was my thought as well, but it did introduce the preemption disabling
-logic aroung core calling show_regs() !
-
-> We do not
-> want to stick a preempt_disable just to silence a warning.
-
-I presume you are referring to original commit, not my anti-change in ARC code,
-which is actually re-enabling it.
-
-> show_regs is
-> called from preemptible context at several places (e.g. __warn).
-
-Right, but do we have other reports which show this, perhaps not too many distros
-have CONFIG__PREEMPT enabled ?
-
-> Maybe
-> this was not the case in 2009 when the change was introduced but this
-> seems like a relict from the past. So can we fix the actual problem
-> rather than build on top of it instead?
-
-The best/correct fix is to remove the preempt diabling in core code, but that
-affects every arch out there and will likely trip dormant land mines, needed
-localized fixes like I'm dealing with now.
-
--Vineet
+And that additional state is architectural state (more FPU regs etc etc) or
+something libc generic. On both counts, that doesn't sound like a clean interface
+design !
