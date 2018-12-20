@@ -1,50 +1,38 @@
-From: joseph@codesourcery.com (Joseph Myers)
-Date: Thu, 20 Dec 2018 21:59:13 +0000
-Subject: test related questions (was Re: [PATCH 00/21] glibc port to ARC
- processors)
-In-Reply-To: <70d4ad50-ac0a-1f75-ee5f-537ba67570a8@synopsys.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 20 Dec 2018 15:21:49 -0800
+Subject: [PATCH 13/21] ARC: Build Infrastructure
+In-Reply-To: <alpine.DEB.2.21.1812192214410.10617@digraph.polyomino.org.uk>
 References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <70d4ad50-ac0a-1f75-ee5f-537ba67570a8@synopsys.com>
+ <1545167083-16764-14-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.21.1812182340110.30183@digraph.polyomino.org.uk>
+ <23aece37-8497-8b48-dadb-3e73667ff3e4@synopsys.com>
+ <alpine.DEB.2.21.1812192214410.10617@digraph.polyomino.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.21.1812202152340.24773@digraph.polyomino.org.uk>
+Message-ID: <98eef4d3-93a2-0ad5-fef1-912cede85650@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, 20 Dec 2018, Vineet Gupta wrote:
+On 12/19/18 2:17 PM, Joseph Myers wrote:
+> I should note a separate issue to consider: that of *static* PIE support.  
+> That doesn't need to be working, but if it's not working,
 
-> On 12/18/18 1:04 PM, Vineet Gupta wrote:
-> > (a) build-many-glibcs.py check results are clean
-> > 
-> > | Summary of test results:
-> > |   1173 PASS
-> > |      15 XFAIL
-> > |
-> > | PASS: glibcs-arc-linux-gnu check
-> 
-> One of the issues in running build-many incrementally, i.e. "host-libraries",
-> "compilers" only once but "glibcs" again to quickly test fixes is that for 2nd
-> run, target c++ compiler is picked up for support/links-dso-program vs.
-> links-dso-program-c which fails as the cpp headers are not present. Is there a
-> solution to that ?
+Aren't there directed test cases for that already ?
 
-I'm not aware of that problem.  The C++ headers certainly should be 
-available in the compilers installed by the "compilers" step.  My bots 
-using GCC 7 and 8 branches only rebuild the compilers once a week unless 
-build-many-glibcs.py itself changes.
+PASS: elf/tst-tls1-static
+PASS: elf/tst-tls1-static-non-pie
+FAIL: gmon/tst-gmon-pie-gprof
 
-> One of the pesky issues with cross testing is localedata/gen-locale.sh 
-> kicking on target, which despite being 1GHz gets in the way of quick 
-> iterations. Is there a way to build those on host and simply 
-> reference/install them on target. I understand this is more of a 
-> buildsystem question (buildroot), but any pointers would be appreciated.
+I vaguely remember binutils folks fixing some pie issues when above became PASS
 
-It's possible to set up an external build system that extracts the list of 
-locales for testing from localedata/Makefile, builds them using the same 
-version of localedef built for the build system and appropriate options 
-for endianness and uint32_t alignment (if necessary) and copies them into 
-the right places in the glibc build tree before running the glibc tests.  
-It does have to be the same version of localedef since the binary locale 
-format can change depending on the glibc version.
+> or if you don't 
+> know whether it's working, when the port goes in you need to update the 
+> list at <https://sourceware.org/glibc/wiki/PortStatus> accordingly.  (Port 
+> maintainers need to make sure 
+> <https://sourceware.org/glibc/wiki/PortStatus> and 
+> <https://sourceware.org/glibc/wiki/ABIList> are up to date for their 
+> ports, as well as posting test results on the per-release wiki page during 
+> each release cycle's freeze period.)
 
--- 
-Joseph S. Myers
-joseph at codesourcery.com
+Will do when we get there :-)
+
+Thx,
+-Vineet
