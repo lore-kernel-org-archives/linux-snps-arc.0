@@ -1,34 +1,31 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 19 Dec 2018 17:16:39 -0800
-Subject: [PATCH 1/2] ARC: show_regs: avoid page allocator
-In-Reply-To: <1545239047.14089.13.camel@synopsys.com>
-References: <1545159239-30628-1-git-send-email-vgupta@synopsys.com>
- <1545159239-30628-2-git-send-email-vgupta@synopsys.com>
- <1545239047.14089.13.camel@synopsys.com>
+Date: Thu, 20 Dec 2018 03:49:26 +0000
+Subject: [PATCH] ARC: adjust memblock_reserve of kernel memory
+References: <20181219161616.10422-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <49f9edc9-87ee-1efc-58f8-b0d9a52c8a49@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA230750146422685@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/19/18 9:04 AM, Eugeniy Paltsev wrote:
-> As I can see x86 use print_vma_addr() in their show_signal_msg()
-> function which allocate page with __get_free_page(GFP_NOWAIT);
+On 12/19/18 8:16 AM, Eugeniy Paltsev wrote:
+> In setup_arch_memory we reserve the memory area wherein the kernel
+> is located. Current implementation may reserve more memory than
+> it actually required in case of CONFIG_LINUX_LINK_BASE is not
+> equal to CONFIG_LINUX_RAM_BASE. This happens because we calculate
+> start of the reserved region relatively to the CONFIG_LINUX_RAM_BASE
+> and end of the region relatively to the CONFIG_LINUX_RAM_BASE.
+>
+> For example in case of HSDK board we wasted 256MiB of physical memory:
+> ------------------->8------------------------------
+> Memory: 770416K/1048576K available (5496K kernel code,
+>     240K rwdata, 1064K rodata, 2200K init, 275K bss,
+>     278160K reserved, 0K cma-reserved)
+> ------------------->8------------------------------
+>
+> Fix that.
+>
+> Cc: stable at vger.kernel.org
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 
-Indeed with that the __get_free_page() lockdep splat is gone.
+LGTM. I presume you have booted HSDK with it and done some smoke testing.
 
-There's a different one now hence my other patch.
-
-| [ARCLinux]# ./segv-null-ptr
-| potentially unexpected fatal signal 11.
-| BUG: sleeping function called from invalid context at kernel/fork.c:1011
-| in_atomic(): 1, irqs_disabled(): 0, pid: 70, name: segv-null-ptr
-| no locks held by segv-null-ptr/70.
-| CPU: 0 PID: 70 Comm: segv-null-ptr Not tainted 4.18.0+ #69
-|
-| Stack Trace:
-|  arc_unwind_core+0xcc/0x100
-|  ___might_sleep+0x17a/0x190
-|  mmput+0x16/0xb8
-|  show_regs+0x52/0x310
-|  get_signal+0x5ee/0x610
-|  do_signal+0x2c/0x218
-|  resume_user_mode_begin+0x90/0xd8
+-Vineet
