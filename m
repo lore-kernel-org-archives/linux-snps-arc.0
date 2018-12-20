@@ -1,9 +1,9 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 20 Dec 2018 03:49:26 +0000
+Date: Thu, 20 Dec 2018 04:00:39 +0000
 Subject: [PATCH] ARC: adjust memblock_reserve of kernel memory
 References: <20181219161616.10422-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA230750146422685@US01WEMBX2.internal.synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014642269A@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 On 12/19/18 8:16 AM, Eugeniy Paltsev wrote:
@@ -24,8 +24,35 @@ On 12/19/18 8:16 AM, Eugeniy Paltsev wrote:
 > Fix that.
 >
 > Cc: stable at vger.kernel.org
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 
-LGTM. I presume you have booted HSDK with it and done some smoke testing.
+For backports, please also check how far back this needs to be applied (else we
+get bot emails specifying they don't apply to ver x, y z)
+
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+>  arch/arc/mm/init.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+> index f8fe5668b30f..a56e6a8ed259 100644
+> --- a/arch/arc/mm/init.c
+> +++ b/arch/arc/mm/init.c
+> @@ -137,7 +137,8 @@ void __init setup_arch_memory(void)
+>  	 */
+>  
+>  	memblock_add_node(low_mem_start, low_mem_sz, 0);
+> -	memblock_reserve(low_mem_start, __pa(_end) - low_mem_start);
+> +	memblock_reserve(CONFIG_LINUX_LINK_BASE,
+> +			 __pa(_end) - CONFIG_LINUX_LINK_BASE);
+>  
+>  #ifdef CONFIG_BLK_DEV_INITRD
+>  	if (initrd_start)
+
+So I looked into the history for restricting stable, and it seems this was
+introduced with our earlier work for HSDK.
+
+Before commit 9ed68785f7f this code was ok, since low_mem_start =
+CONFIG_LINUX_LINK_BASE.
+With the patch we changed low_mem_start to CONFIG_LINUX_RAM_BASE and missed this.
 
 -Vineet
