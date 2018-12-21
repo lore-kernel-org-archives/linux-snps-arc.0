@@ -1,102 +1,64 @@
-From: adhemerval.zanella@linaro.org (Adhemerval Zanella)
-Date: Fri, 21 Dec 2018 10:05:24 -0200
-Subject: ARC vs. generic sigaction (was Re: [PATCH 08/21] ARC: Linux
- Syscall Interface)
-In-Reply-To: <6a793c13-5c05-cd46-4d59-e23d762ed353@synopsys.com>
-References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <1545167083-16764-9-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.21.1812182324560.30183@digraph.polyomino.org.uk>
- <5f512e48-e7fc-2233-febd-2e6a8bc2311b@synopsys.com>
- <05069752-0a66-d6ca-e249-5c702eec4e99@synopsys.com>
- <17fcd9f0-9843-8700-c936-7ab1eb8f2fd2@linaro.org>
- <906931a6-a281-8994-718f-da203890e7e9@synopsys.com>
- <4c3af320-cf35-f914-8bc3-a4c290b8e12b@linaro.org>
- <ded903aa-f5a0-4422-fa40-bca32ebabbfa@synopsys.com>
- <1e84ae34-0091-aedf-d198-fa5d2a91ad67@linaro.org>
- <6a793c13-5c05-cd46-4d59-e23d762ed353@synopsys.com>
+From: mhocko@kernel.org (Michal Hocko)
+Date: Fri, 21 Dec 2018 14:04:04 +0100
+Subject: [PATCH 2/2] ARC: show_regs: fix lockdep splat for good
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075014642389B@US01WEMBX2.internal.synopsys.com>
+References: <1545159239-30628-1-git-send-email-vgupta@synopsys.com>
+ <1545159239-30628-3-git-send-email-vgupta@synopsys.com>
+ <20181220130450.GB17350@dhcp22.suse.cz>
+ <C2D7FE5348E1B147BCA15975FBA23075014642389B@US01WEMBX2.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b2e37aa4-fd4b-a873-8d5b-097fb4c08b8e@linaro.org>
+Message-ID: <20181221130404.GF16107@dhcp22.suse.cz>
 To: linux-snps-arc@lists.infradead.org
 
+On Thu 20-12-18 18:45:48, Vineet Gupta wrote:
+> On 12/20/18 5:04 AM, Michal Hocko wrote:
+> > On Tue 18-12-18 10:53:59, Vineet Gupta wrote:
+> >> signal handling core calls ARCH show_regs() with preemption disabled
+> >> which causes __might_sleep functions such as mmput leading to lockdep
+> >> splat.  Workaround by re-enabling preemption temporarily.
+> >>
+> >> This may not be as bad as it sounds since the preemption disabling
+> >> itself was introduced for a supressing smp_processor_id() warning in x86
+> >> code by commit 3a9f84d354ce ("signals, debug: fix BUG: using
+> >> smp_processor_id() in preemptible code in print_fatal_signal()")
+> > The commit you are referring to here sounds dubious in itself.
+> 
+> Indeed that was my thought as well, but it did introduce the preemption disabling
+> logic aroung core calling show_regs() !
+> 
+> > We do not
+> > want to stick a preempt_disable just to silence a warning.
+> 
+> I presume you are referring to original commit, not my anti-change in ARC code,
+> which is actually re-enabling it.
 
+Yes, but you are building on a broken concept I believe. What
+implications does re-enabling really have? Now you could reschedule and
+you can move to another CPU. Is this really safe? I believe that yes
+because the preemption disabling is simply bogus. Which doesn't sound
+like a proper justification, does it?
+ 
+> > show_regs is
+> > called from preemptible context at several places (e.g. __warn).
+> 
+> Right, but do we have other reports which show this, perhaps not too many distros
+> have CONFIG__PREEMPT enabled ?
 
-On 20/12/2018 18:46, Vineet Gupta wrote:
-> On 12/20/18 12:06 PM, Adhemerval Zanella wrote:
->>
->>
->> On 20/12/2018 17:23, Vineet Gupta wrote:
->>> On 12/20/18 3:19 AM, Adhemerval Zanella wrote:
->>>>>> #define SET_SA_RESTORER(kact, act)                      \
->>>>>>   (kact)->sa_flags = (act)->sa_flags | SA_RESTORER;     \
->>>>>>   (kact)->sa_restorer = &__default_rt_sa_restorer
->>>>> +#define SET_SA_RESTORER(kact, act)				\
->>>>> + ({								\
->>>>> +   if (!((kact)->sa_flags & SA_RESTORER))			\
->>>>> +     {								\
->>>>> +       (kact)->sa_restorer = __default_rt_sa_restorer;		\
->>>>> +       (kact)->sa_flags |= SA_RESTORER;			\
->>>>> +     }								\
->>>>> +   else							\
->>>>> +     (kact)->sa_restorer = (act)->sa_restorer;			\
->>>>> + })
->>>> What is so special about ARC sa_restorer that an application should provide
->>>> an specialized one?
->>>
->>> Its the other way around. Only if application provides it's own restorer, we honor
->>> it, otherwise default restorer is used. This logic goes back many many years ago
->>> to how ARC uClibc did this and likely inherited it from the port it was copied
->>> from. But I don't know if say POSIX allows apps to provide their own restorer or
->>> not. We could very well remove it; although per other discussion if we intend to
->>> use the same struct sigaction for kernel/userland, the placeholder would exist and
->>> we could choose to just ignore it.
->>>
->>
->> The 'should' should be indeed 'might' in my question. And SA_RESTORER is a Linux
->> specific ABI not intended to be used by applications, 
-> 
-> What do u mean here. It is ABI between userspace and kernel, but not necessarily
-> between applications and glibc, although the same "carrier" sa_flags is in play ?
-> IOW, SA_RESTORER is not intended to be set by applications, but only by glibc ?
+I do not follow. If there is some path to require show_regs to run with
+preemption disabled while others don't then something is clearly wrong.
 
-AFAIK SA_RESTORER is meant to be used by libc or alike environments to setup
-the required code to handle signal handling, it should not be up to programs
-to mess up with sa_restorer to provide custom routines.
+> > Maybe
+> > this was not the case in 2009 when the change was introduced but this
+> > seems like a relict from the past. So can we fix the actual problem
+> > rather than build on top of it instead?
+> 
+> The best/correct fix is to remove the preempt diabling in core code, but that
+> affects every arch out there and will likely trip dormant land mines, needed
+> localized fixes like I'm dealing with now.
 
-> 
->> so my question is in fact
->> what kind of specialized sa_restorer applications might provided that would
->> require the libc to honour it. 
-> 
-> Indeed, applications should not be allowed to change it. The exact signature of
-> default sigreturn is hardwired in signal unwinding etc etc and any deviation from
-> that is recipe for issues: but like I mentioned I didn't invent that interface for
-> ARC.
+Yes, the fix might be more involved but I would much rather prefer a
+correct code which builds on solid assumptions.
 
-So my suggestion is not allow user code to mess with sa_restore regardless 
-if sa_flags contain SA_RESTORER.  If kernel allows it to be zero in case of
-!SA_RESTORER, set it to zero as other architectures.  If it requires an
-special routine, add an arch-specific one within glibc.
-
-> 
->> The placeholder existence is not an issue itself (POSIX states the minimum
->> fields sigaction should provide, not its specific fields neither their
->> layout).
-> 
-> OK !
-> 
->>>> Can't it follow other abi where they issue __NR_sigreturn
->>>> for !SA_SIGINFO or __NR_rt_sigreturn otherwise?
->>>
->>> With Linux UAPI ABI, __NR_sigreturn doesn't exist, but your concern is about
->>> restorer ?
->>
->> Right, so ARC at least is not pulling old compat stuff. Is it safe to just zero
->> the sa_restorer for sa_flags without SA_RESTORER?
-> 
-> Thing is ARC signal return depends on a restorer. Meaning !SA_RESTORER doesn't
-> effectively exist (between libc and kernel). We currently honor user provided
-> value, instead we could simply overwrite it with default_rt_restorer and on the
-> way out, zero it out to avoid leaking the glibc guts to curious users.
-> 
-
-Yes, this is what I suggest ARC should do.
+-- 
+Michal Hocko
+SUSE Labs
