@@ -1,45 +1,39 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 21 Dec 2018 11:07:20 -0800
-Subject: [PATCH 01/21] longlong.h: sync from gcc to fix ARC inline asm
- constraints
-In-Reply-To: <alpine.DEB.2.21.1812211845320.10148@digraph.polyomino.org.uk>
-References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
- <1545167083-16764-2-git-send-email-vgupta@synopsys.com>
- <alpine.DEB.2.21.1812211845320.10148@digraph.polyomino.org.uk>
+Date: Fri, 21 Dec 2018 12:10:25 -0800
+Subject: [PATCH] rt/tst-posix_spawn: fix random crash due to uninitialized var
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <364fb7e6-242e-eff9-7984-4801a51318cf@synopsys.com>
+Message-ID: <1545423025-23698-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 12/21/18 10:46 AM, Joseph Myers wrote:
-> On Tue, 18 Dec 2018, Vineet Gupta wrote:
-> 
->> This corresponds to the version
->>
->> Author: law <law at 138bc75d-0d04-0410-961f-82ee72b054a4>
->> Date:   Tue Jun 27 16:10:15 2017 +0000
->>
->>         * longlong.h: Remove ns32k support.
-> It seems odd to update from an out-of-date version of longlong.h, missing 
-> the subsequent RISC-V changes. 
+Seen on ARC when it passed in 1 setup, but segv on other
 
-Sorry, that was way back when I started the port (not an excuse for sure).
+| Path: /sd/arc_initramfs_hs_1812-gnu-2018.09-BIG/uClibc-ng-testsuite-Os/rt/tst-posix_spawn
+| CPU: 1 PID: 3313 Comm: tst-posix_spawn Not tainted
+| 4.19.0-00003-ga4e0cf751ad3 #108
+|
+| [ECR   ]: 0x00050100 => Invalid Read @ 0x00000000 by insn @ 0x20060c84
+| [EFA   ]: 0x00000000
+| [BLINK ]: 0x20060bf4
+| [ERET  ]: 0x20060c84
+|     @off 0x52c84 in [/lib/libuClibc-1.0.29.so]
+|     VMA: 0x2000e000 to 0x20072000
 
-> So I've committed this patch instead to 
-> update to the current version in GCC.
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ test/rt/tst-posix_spawn.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thx, a lot. I'll drop this from v2.
-
-> Update longlong.h.
-> 
-> This patch updates longlong.h from GCC.  There were no local changes
-> in glibc (the previous version was identical to the r232143 GCC
-> version, apart from copyright dates which had been updated in both
-> places), so this patch makes it identical to the version in GCC again.
-> 
-> Tested for x86_64 and x86.  Also tested with build-many-glibcs.py for
-> its RISC-V configurations, as the glibc architecture with the most
-> substantial changes in longlong.h in this patch.
-> 
-> 2018-12-21  Joseph Myers  <joseph at codesourcery.com>
-> 
-> 	* stdlib/longlong.h: Update from GCC.
+diff --git a/test/rt/tst-posix_spawn.c b/test/rt/tst-posix_spawn.c
+index 28b6500c8e57..45cd325063f8 100644
+--- a/test/rt/tst-posix_spawn.c
++++ b/test/rt/tst-posix_spawn.c
+@@ -26,6 +26,7 @@ void run_cmd(char *cmd)
+     posix_spawnattr_setflags(&attrs, POSIX_SPAWN_SETPGROUP | POSIX_SPAWN_SETSIGDEF);
+     posix_spawnattr_setpgroup(&attrs, 0);
+     posix_spawnattr_setsigdefault(&attrs, &defsignals);
++    posix_spawn_file_actions_init(&actions);
+ 
+     printf("Run command: %s\n", cmd);
+     status = posix_spawn(&pid, "/bin/sh", &actions, &attrs, argv, environ);
+-- 
+2.7.4
