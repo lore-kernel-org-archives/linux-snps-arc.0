@@ -1,84 +1,29 @@
-From: nikita.sobolev@synopsys.com (Nikita Sobolev)
-Date: Mon, 24 Dec 2018 12:46:07 +0000
-Subject: [PATCH] azure-iot-sdk-c: Bump to version 2018-12-13
-In-Reply-To: <875zvmtu70.fsf@dell.be.48ers.dk>
-References: <20181221173729.41870-1-Nikita.Sobolev@synopsys.com>
- <875zvmtu70.fsf@dell.be.48ers.dk>
+From: mhocko@kernel.org (Michal Hocko)
+Date: Mon, 24 Dec 2018 20:10:04 +0100
+Subject: [PATCH 2/2] ARC: show_regs: fix lockdep splat for good
+In-Reply-To: <8b3739f1-a7d5-7253-362a-3a1c707b0f6d@synopsys.com>
+References: <1545159239-30628-1-git-send-email-vgupta@synopsys.com>
+ <1545159239-30628-3-git-send-email-vgupta@synopsys.com>
+ <20181220130450.GB17350@dhcp22.suse.cz>
+ <C2D7FE5348E1B147BCA15975FBA23075014642389B@US01WEMBX2.internal.synopsys.com>
+ <20181221130404.GF16107@dhcp22.suse.cz>
+ <8b3739f1-a7d5-7253-362a-3a1c707b0f6d@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <2dd91b90433f754e0aa9bd59f28bc68b72e35b53.camel@synopsys.com>
+Message-ID: <20181224191004.GE16738@dhcp22.suse.cz>
 To: linux-snps-arc@lists.infradead.org
 
-There's no problem with WIN32 variable.
-Buildroot can not find CMAKE_SYSTEM_VERSION while building in Linux.
-It fails with error:
--------------------->8----------------------
-CMake Error at c-utility/CMakeLists.txt:267 (if):
- if given arguments:
-
-   "WIN32" "AND" "(" "VERSION_EQUAL" "10.0.17763.0" "OR" "VERSION_GREATER" "10.0.17763.0" ")"
-
- Unknown arguments specified
-
-
--- Configuring incomplete, errors occurred!
--------------------->8-----------------------
-
-   On Fri, 2018-12-21@23:02 +0100, Peter Korsgaard wrote:
-   > > > > > > "Nikita" == Nikita Sobolev <Nikita.Sobolev at synopsys.com> writes:
+On Fri 21-12-18 09:55:34, Vineet Gupta wrote:
+> On 12/21/18 5:04 AM, Michal Hocko wrote:
+[...]
+> > Yes, the fix might be more involved but I would much rather prefer a
+> > correct code which builds on solid assumptions.
 > 
->  > From: NikitaSobolev <Nikita.Sobolev at synopsys.com>
->  > Bump azure-iot-sdk-c to 2018-12-13 release.
->  > Add patch, that removes Windows specified variables from
->  > azure-iot-sdk-c-2018-12-13 release. That variables cause
->  > build errors.
-> 
->  > Signed-off-by: Nikita Sobolev <Nikita.Sobolev at synopsys.com>
->  > ---
->  >  ...-azure-iot-sdk-c-Delete-windows-variables.patch | 34 ++++++++++++++++++++++
->  >  package/azure-iot-sdk-c/azure-iot-sdk-c.mk         |  2 +-
->  >  2 files changed, 35 insertions(+), 1 deletion(-)
->  >  create mode 100644 package/azure-iot-sdk-c/0001-azure-iot-sdk-c-Delete-windows-variables.patch
-> 
->  > diff --git
->  > a/package/azure-iot-sdk-c/0001-azure-iot-sdk-c-Delete-windows-variables.patch
->  > b/package/azure-iot-sdk-c/0001-azure-iot-sdk-c-Delete-windows-variables.patch
->  > new file mode 100644
->  > index 0000000000..e8ff53cb5a
->  > --- /dev/null
->  > +++ b/package/azure-iot-sdk-c/0001-azure-iot-sdk-c-Delete-windows-variables.patch
->  > @@ -0,0 +1,34 @@
->  > +From 6c01ef50e0c2d562388aacbb60a1506e70db2218 Mon Sep 17 00:00:00 2001
->  > +From: Nikita Sobolev <Nikita.Sobolev at synopsys.com>
->  > +Date: Thu, 20 Dec 2018 19:31:20 +0300
->  > +Subject: [PATCH] azure-iot-sdk-c: Delete windows variables
->  > +
->  > +Delete windows specified variables, that have been added
->  > +to azure-iot-sdk-c-2018-12-13 release. These variables
->  > +are not defined for Linux and cause build errors.
->  > +
->  > +Signed-off-by: Nikita Sobolev <Nikita.Sobolev at synopsys.com>
->  > +---
->  > + c-utility/CMakeLists.txt | 6 ------
->  > + 1 file changed, 6 deletions(-)
->  > +
->  > +diff --git a/c-utility/CMakeLists.txt b/c-utility/CMakeLists.txt
->  > +index 190ea87dca..464d6d1069 100644
->  > +--- a/c-utility/CMakeLists.txt
->  > ++++ b/c-utility/CMakeLists.txt
->  > +@@ -264,12 +264,6 @@ if(${use_applessl})
->  > +     include_directories(./pal/ios-osx/)
->  > + endif()
->  > + 
->  > +-if (WIN32 AND (${CMAKE_SYSTEM_VERSION} VERSION_EQUAL "10.0.17763.0"
->  > OR ${CMAKE_SYSTEM_VERSION} VERSION_GREATER "10.0.17763.0"))
->  > +-    # Windows added support for UNIX domain sockets to the OS and SDK
->  > +-    # in the Oct 2018 update (10.0.17763.0, aka RS5)
->  > +-    add_definitions(-DAF_UNIX_ON_WINDOWS)
->  > +-endif()
-> 
-> Can you be more specific what the issue is exactly? Given the WIN32 in
-> this conditional this should never be true in the context of Buildroot,
-> so the define shouldn't get added?
-> 
+> Right so the first step is reverting the disabled semantics for ARC and do some
+> heavy testing to make sure any fallouts are addressed etc. And if that works, then
+> propagate this change to core itself. Low risk strategy IMO - agree ?
+
+Yeah, I would simply remove the preempt_disable and see what falls out.
+smp_processor_id could be converted to the raw version etc...
 -- 
-Niktia Sobolev <sobolev at synopsys.com>
+Michal Hocko
+SUSE Labs
