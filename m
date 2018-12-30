@@ -1,96 +1,55 @@
-From: nerv@dawncrow.de (=?UTF-8?Q?Andr=c3=a9_Hentschel?=)
-Date: Sat, 29 Dec 2018 14:05:11 +0100
-Subject: [PATCH] azure-iot-sdk-c: Bump to version 2018-12-13
-In-Reply-To: <2dd91b90433f754e0aa9bd59f28bc68b72e35b53.camel@synopsys.com>
+From: thomas.petazzoni@bootlin.com (Thomas Petazzoni)
+Date: Sun, 30 Dec 2018 22:41:12 +0100
+Subject: [Buildroot] [PATCH] azure-iot-sdk-c: Bump to version 2018-12-13
+In-Reply-To: <20181221173729.41870-1-Nikita.Sobolev@synopsys.com>
 References: <20181221173729.41870-1-Nikita.Sobolev@synopsys.com>
- <875zvmtu70.fsf@dell.be.48ers.dk>
- <2dd91b90433f754e0aa9bd59f28bc68b72e35b53.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <ebffee50-d486-adf1-5683-fd99b7bbda1a@dawncrow.de>
+Message-ID: <20181230224112.7884333e@windsurf>
 To: linux-snps-arc@lists.infradead.org
 
-Am 24.12.18 um 13:46 schrieb Nikita Sobolev:
-> There's no problem with WIN32 variable.
-> Buildroot can not find CMAKE_SYSTEM_VERSION while building in Linux.
-> It fails with error:
-> -------------------->8----------------------
-> CMake Error at c-utility/CMakeLists.txt:267 (if):
->  if given arguments:
-> 
->    "WIN32" "AND" "(" "VERSION_EQUAL" "10.0.17763.0" "OR" "VERSION_GREATER" "10.0.17763.0" ")"
-> 
->  Unknown arguments specified
-> 
-> 
-> -- Configuring incomplete, errors occurred!
-> -------------------->8-----------------------
-> 
->    On Fri, 2018-12-21@23:02 +0100, Peter Korsgaard wrote:
->    > > > > > > "Nikita" == Nikita Sobolev <Nikita.Sobolev at synopsys.com> writes:
->>
->>  > From: NikitaSobolev <Nikita.Sobolev at synopsys.com>
->>  > Bump azure-iot-sdk-c to 2018-12-13 release.
->>  > Add patch, that removes Windows specified variables from
->>  > azure-iot-sdk-c-2018-12-13 release. That variables cause
->>  > build errors.
->>
->>  > Signed-off-by: Nikita Sobolev <Nikita.Sobolev at synopsys.com>
->>  > ---
->>  >  ...-azure-iot-sdk-c-Delete-windows-variables.patch | 34 ++++++++++++++++++++++
->>  >  package/azure-iot-sdk-c/azure-iot-sdk-c.mk         |  2 +-
->>  >  2 files changed, 35 insertions(+), 1 deletion(-)
->>  >  create mode 100644 package/azure-iot-sdk-c/0001-azure-iot-sdk-c-Delete-windows-variables.patch
->>
->>  > diff --git
->>  > a/package/azure-iot-sdk-c/0001-azure-iot-sdk-c-Delete-windows-variables.patch
->>  > b/package/azure-iot-sdk-c/0001-azure-iot-sdk-c-Delete-windows-variables.patch
->>  > new file mode 100644
->>  > index 0000000000..e8ff53cb5a
->>  > --- /dev/null
->>  > +++ b/package/azure-iot-sdk-c/0001-azure-iot-sdk-c-Delete-windows-variables.patch
->>  > @@ -0,0 +1,34 @@
->>  > +From 6c01ef50e0c2d562388aacbb60a1506e70db2218 Mon Sep 17 00:00:00 2001
->>  > +From: Nikita Sobolev <Nikita.Sobolev at synopsys.com>
->>  > +Date: Thu, 20 Dec 2018 19:31:20 +0300
->>  > +Subject: [PATCH] azure-iot-sdk-c: Delete windows variables
->>  > +
->>  > +Delete windows specified variables, that have been added
->>  > +to azure-iot-sdk-c-2018-12-13 release. These variables
->>  > +are not defined for Linux and cause build errors.
->>  > +
->>  > +Signed-off-by: Nikita Sobolev <Nikita.Sobolev at synopsys.com>
->>  > +---
->>  > + c-utility/CMakeLists.txt | 6 ------
->>  > + 1 file changed, 6 deletions(-)
->>  > +
->>  > +diff --git a/c-utility/CMakeLists.txt b/c-utility/CMakeLists.txt
->>  > +index 190ea87dca..464d6d1069 100644
->>  > +--- a/c-utility/CMakeLists.txt
->>  > ++++ b/c-utility/CMakeLists.txt
->>  > +@@ -264,12 +264,6 @@ if(${use_applessl})
->>  > +     include_directories(./pal/ios-osx/)
->>  > + endif()
->>  > + 
->>  > +-if (WIN32 AND (${CMAKE_SYSTEM_VERSION} VERSION_EQUAL "10.0.17763.0"
->>  > OR ${CMAKE_SYSTEM_VERSION} VERSION_GREATER "10.0.17763.0"))
->>  > +-    # Windows added support for UNIX domain sockets to the OS and SDK
->>  > +-    # in the Oct 2018 update (10.0.17763.0, aka RS5)
->>  > +-    add_definitions(-DAF_UNIX_ON_WINDOWS)
->>  > +-endif()
->>
->> Can you be more specific what the issue is exactly? Given the WIN32 in
->> this conditional this should never be true in the context of Buildroot,
->> so the define shouldn't get added?
->>
+Hello,
 
+On Fri, 21 Dec 2018 20:37:29 +0300, Nikita Sobolev wrote:
+> From: NikitaSobolev <Nikita.Sobolev at synopsys.com>
+> 
+> Bump azure-iot-sdk-c to 2018-12-13 release.
+> Add patch, that removes Windows specified variables from
+> azure-iot-sdk-c-2018-12-13 release. That variables cause
+> build errors.
+> 
+> Signed-off-by: Nikita Sobolev <Nikita.Sobolev at synopsys.com>
 
-There shouldn't be a problem, all variables/macros should be defined by cmake:
-https://cmake.org/cmake/help/v3.0/variable/CMAKE_VERSION.html
-https://cmake.org/cmake/help/v3.0/variable/WIN32.html
-https://cmake.org/cmake/help/v3.0/variable/CMAKE_SYSTEM_VERSION.html
+So, I looked into this. Indeed, without the patch, the build fails with:
 
-On a site note: 2018-12-13 would fix the recently build failures for this package...
-@Nikita: Would you mind taking maintainership for this package by adding it and yourself to the DEVELOPERS file? And could you please elaborate the cmake problem above some more?
+CMake Error at c-utility/CMakeLists.txt:267 (if):
+  if given arguments:
 
+    "WIN32" "AND" "(" "VERSION_EQUAL" "10.0.17763.0" "OR" "VERSION_GREATER" "10.0.17763.0" ")"
 
-Thanks!
+  Unknown arguments specified
+
+The problem comes from the fact that ${CMAKE_SYSTEM_VERSION} is empty.
+And the CMake documentation
+(https://cmake.org/cmake/help/v3.4/variable/CMAKE_SYSTEM_VERSION.html)
+explains why:
+
+  When the CMAKE_SYSTEM_NAME variable is set explicitly to enable cross
+  compiling then the value of CMAKE_SYSTEM_VERSION must also be set
+  explicitly to specify the target system version.
+
+We are defining CMAKE_SYSTEM_NAME in our toolchain file, but not
+CMAKE_SYSTEM_VERSION.
+
+So for now, I simply defined CMAKE_SYSTEM_VERSION locally in
+azure-iot-sdk-c, and dropped the patch. Long term, perhaps we should
+define CMAKE_SYSTEM_VERSION in our toolchain file. I'm not sure who is
+maintaining our CMake infrastructure these days, Samuel Martin used to
+do it, but he is no longer very active.
+
+Best regards,
+
+Thomas
+-- 
+Thomas Petazzoni, CTO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
