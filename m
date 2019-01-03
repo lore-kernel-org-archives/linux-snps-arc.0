@@ -1,55 +1,44 @@
-From: thomas.petazzoni@bootlin.com (Thomas Petazzoni)
-Date: Sun, 30 Dec 2018 22:41:12 +0100
-Subject: [Buildroot] [PATCH] azure-iot-sdk-c: Bump to version 2018-12-13
-In-Reply-To: <20181221173729.41870-1-Nikita.Sobolev@synopsys.com>
-References: <20181221173729.41870-1-Nikita.Sobolev@synopsys.com>
+From: fweimer@redhat.com (Florian Weimer)
+Date: Thu, 03 Jan 2019 14:10:50 +0100
+Subject: ARC vs. generic sigaction (was Re: [PATCH 08/21] ARC: Linux
+ Syscall Interface)
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA2307501464238AD@US01WEMBX2.internal.synopsys.com>
+ (Vineet Gupta's message of "Thu, 20 Dec 2018 18:48:06 +0000")
+References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
+ <1545167083-16764-9-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.21.1812182324560.30183@digraph.polyomino.org.uk>
+ <5f512e48-e7fc-2233-febd-2e6a8bc2311b@synopsys.com>
+ <05069752-0a66-d6ca-e249-5c702eec4e99@synopsys.com>
+ <17fcd9f0-9843-8700-c936-7ab1eb8f2fd2@linaro.org>
+ <906931a6-a281-8994-718f-da203890e7e9@synopsys.com>
+ <4c3af320-cf35-f914-8bc3-a4c290b8e12b@linaro.org>
+ <87va3oqsks.fsf@oldenburg2.str.redhat.com>
+ <C2D7FE5348E1B147BCA15975FBA2307501464238AD@US01WEMBX2.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20181230224112.7884333e@windsurf>
+Message-ID: <87ftu9vqcl.fsf@oldenburg2.str.redhat.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hello,
+* Vineet Gupta:
 
-On Fri, 21 Dec 2018 20:37:29 +0300, Nikita Sobolev wrote:
-> From: NikitaSobolev <Nikita.Sobolev at synopsys.com>
-> 
-> Bump azure-iot-sdk-c to 2018-12-13 release.
-> Add patch, that removes Windows specified variables from
-> azure-iot-sdk-c-2018-12-13 release. That variables cause
-> build errors.
-> 
-> Signed-off-by: Nikita Sobolev <Nikita.Sobolev at synopsys.com>
+> On 12/20/18 4:40 AM, Florian Weimer wrote:
+>> * Adhemerval Zanella:
+>>
+>>> The only advantage of using a larger sigset_t from glibc standpoint is if
+>>> kernel ever change it maximum number of supported signals it would not be
+>>> a ABI change (it would be if glibc provided sigset_t need to be extended).
+>> It's not just the kernel.  We might want to restore additional state in
+>> sigsetjmp, and historically, the excess signal space in sigset_t has
+>> provided a way to do that even if there is no other space left in the
+>> jump buffer.
+>
+> And that additional state is architectural state (more FPU regs etc
+> etc) or something libc generic. On both counts, that doesn't sound
+> like a clean interface design !
 
-So, I looked into this. Indeed, without the patch, the build fails with:
+Sure, setjmp/longjmp is quite horrible as an interface, considering that
+register files do evolve.  But it's what we have in C, and it's good to
+have at least some extension space there (but it could be expressed in a
+better way, definitely).
 
-CMake Error at c-utility/CMakeLists.txt:267 (if):
-  if given arguments:
-
-    "WIN32" "AND" "(" "VERSION_EQUAL" "10.0.17763.0" "OR" "VERSION_GREATER" "10.0.17763.0" ")"
-
-  Unknown arguments specified
-
-The problem comes from the fact that ${CMAKE_SYSTEM_VERSION} is empty.
-And the CMake documentation
-(https://cmake.org/cmake/help/v3.4/variable/CMAKE_SYSTEM_VERSION.html)
-explains why:
-
-  When the CMAKE_SYSTEM_NAME variable is set explicitly to enable cross
-  compiling then the value of CMAKE_SYSTEM_VERSION must also be set
-  explicitly to specify the target system version.
-
-We are defining CMAKE_SYSTEM_NAME in our toolchain file, but not
-CMAKE_SYSTEM_VERSION.
-
-So for now, I simply defined CMAKE_SYSTEM_VERSION locally in
-azure-iot-sdk-c, and dropped the patch. Long term, perhaps we should
-define CMAKE_SYSTEM_VERSION in our toolchain file. I'm not sure who is
-maintaining our CMake infrastructure these days, Samuel Martin used to
-do it, but he is no longer very active.
-
-Best regards,
-
-Thomas
--- 
-Thomas Petazzoni, CTO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thanks,
+Florian
