@@ -1,32 +1,59 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Thu, 10 Jan 2019 19:38:01 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Fri Jan 11, 06:37
+From: arnout@mind.be (Arnout Vandecappelle)
+Date: Thu, 10 Jan 2019 23:50:05 +0100
+Subject: [Buildroot] [PATCH] azure-iot-sdk-c: Bump to version 2018-12-13
+In-Reply-To: <20181230224112.7884333e@windsurf>
+References: <20181221173729.41870-1-Nikita.Sobolev@synopsys.com>
+ <20181230224112.7884333e@windsurf>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190110193801.1.93017@c1e251a279fe>
+Message-ID: <d529f821-6aa9-ee9d-af7e-e692965bef91@mind.be>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Fri Jan 11, 06:37
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13647875/
 
-Commit:   csky: fixup compile error with CPU 810.
-          70c25259537c073584eb906865307687275b527f
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+On 30/12/2018 22:41, Thomas Petazzoni wrote:
+> Hello,
+> 
+> On Fri, 21 Dec 2018 20:37:29 +0300, Nikita Sobolev wrote:
+>> From: NikitaSobolev <Nikita.Sobolev at synopsys.com>
+>>
+>> Bump azure-iot-sdk-c to 2018-12-13 release.
+>> Add patch, that removes Windows specified variables from
+>> azure-iot-sdk-c-2018-12-13 release. That variables cause
+>> build errors.
+>>
+>> Signed-off-by: Nikita Sobolev <Nikita.Sobolev at synopsys.com>
+> 
+> So, I looked into this. Indeed, without the patch, the build fails with:
+> 
+> CMake Error at c-utility/CMakeLists.txt:267 (if):
+>   if given arguments:
+> 
+>     "WIN32" "AND" "(" "VERSION_EQUAL" "10.0.17763.0" "OR" "VERSION_GREATER" "10.0.17763.0" ")"
+> 
+>   Unknown arguments specified
+> 
+> The problem comes from the fact that ${CMAKE_SYSTEM_VERSION} is empty.
+> And the CMake documentation
+> (https://cmake.org/cmake/help/v3.4/variable/CMAKE_SYSTEM_VERSION.html)
+> explains why:
+> 
+>   When the CMAKE_SYSTEM_NAME variable is set explicitly to enable cross
+>   compiling then the value of CMAKE_SYSTEM_VERSION must also be set
+>   explicitly to specify the target system version.
+> 
+> We are defining CMAKE_SYSTEM_NAME in our toolchain file, but not
+> CMAKE_SYSTEM_VERSION.
+> 
+> So for now, I simply defined CMAKE_SYSTEM_VERSION locally in
+> azure-iot-sdk-c, and dropped the patch. Long term, perhaps we should
+> define CMAKE_SYSTEM_VERSION in our toolchain file. I'm not sure who is
+> maintaining our CMake infrastructure these days, Samuel Martin used to
+> do it, but he is no longer very active.
 
-Possible errors
----------------
+ Indeed, it should be set in the toolchain file. CMAKE_SYSTEM_VERSION is the
+output of `uname -r` of the target system, i.e. the kernel version. We don't
+have that, but we do have BR2_TOOLCHAIN_HEADERS_AT_LEAST which should be good
+enough.
 
-arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-
-Possible warnings (8)
-----------------------
-
-arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/ipv4/tcp_input.c:4324:49: warning: array subscript is above array bounds [-Warray-bounds]
+ Regards,
+ Arnout
