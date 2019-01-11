@@ -1,49 +1,47 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 10 Jan 2019 16:26:26 -0800
-Subject: [PATCH 2/3] fs: inode_set_flags() replace opencoded set_mask_bits()
+Date: Thu, 10 Jan 2019 16:26:27 -0800
+Subject: [PATCH 3/3] bitops.h: set_mask_bits() to return old value
 In-Reply-To: <1547166387-19785-1-git-send-email-vgupta@synopsys.com>
 References: <1547166387-19785-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1547166387-19785-3-git-send-email-vgupta@synopsys.com>
+Message-ID: <1547166387-19785-4-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-It seems that 5f16f3225b0624 and 00a1a053ebe5, both with same commitlog
-("ext4: atomically set inode->i_flags in ext4_set_inode_flags()")
-introduced the set_mask_bits API, but somehow missed not using it in
-ext4 in the end
+| > Also, set_mask_bits is used in fs quite a bit and we can possibly come up
+| > with a generic llsc based implementation (w/o the cmpxchg loop)
+|
+| May I also suggest changing the return value of set_mask_bits() to old.
+|
+| You can compute the new value given old, but you cannot compute the old
+| value given new, therefore old is the better return value. Also, no
+| current user seems to use the return value, so changing it is without
+| risk.
 
-Also, set_mask_bits is used in fs quite a bit and we can possibly come up
-with a generic llsc based implementation (w/o the cmpxchg loop)
-
-Cc: Alexander Viro <viro at zeniv.linux.org.uk>
-Cc: Theodore Ts'o <tytso at mit.edu>
-Cc: Peter Zijlstra (Intel) <peterz at infradead.org>
-Cc: linux-fsdevel at vger.kernel.org
-Cc: linux-kernel at vger.kernel.org
+Link: http://lkml.kernel.org/g/20150807110955.GH16853 at twins.programming.kicks-ass.net
+Suggested-by: Peter Zijlstra <peterz at infradead.org>
+Cc: Miklos Szeredi <mszeredi at redhat.com>
+Cc: Ingo Molnar <mingo at kernel.org>
+Cc: Jani Nikula <jani.nikula at intel.com>
+Cc: Chris Wilson <chris at chris-wilson.co.uk>
+Cc: Andrew Morton <akpm at linux-foundation.org>
+Cc: Will Deacon <will.deacon at arm.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- fs/inode.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ include/linux/bitops.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/inode.c b/fs/inode.c
-index 0cd47fe0dbe5..799b0c4beda8 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -2096,14 +2096,8 @@ EXPORT_SYMBOL(inode_dio_wait);
- void inode_set_flags(struct inode *inode, unsigned int flags,
- 		     unsigned int mask)
- {
--	unsigned int old_flags, new_flags;
--
- 	WARN_ON_ONCE(flags & ~mask);
--	do {
--		old_flags = READ_ONCE(inode->i_flags);
--		new_flags = (old_flags & ~mask) | flags;
--	} while (unlikely(cmpxchg(&inode->i_flags, old_flags,
--				  new_flags) != old_flags));
-+	set_mask_bits(&inode->i_flags, mask, flags);
- }
- EXPORT_SYMBOL(inode_set_flags);
+diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+index 705f7c442691..602af23b98c7 100644
+--- a/include/linux/bitops.h
++++ b/include/linux/bitops.h
+@@ -246,7 +246,7 @@ static __always_inline void __assign_bit(long nr, volatile unsigned long *addr,
+ 		new__ = (old__ & ~mask__) | bits__;		\
+ 	} while (cmpxchg(ptr, old__, new__) != old__);		\
+ 								\
+-	new__;							\
++	old__;							\
+ })
+ #endif
  
 -- 
 2.7.4
