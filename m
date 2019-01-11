@@ -1,38 +1,41 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Fri, 11 Jan 2019 10:24:08 +0100
-Subject: [PATCH 3/3] bitops.h: set_mask_bits() to return old value
-In-Reply-To: <1547166387-19785-4-git-send-email-vgupta@synopsys.com>
-References: <1547166387-19785-1-git-send-email-vgupta@synopsys.com>
- <1547166387-19785-4-git-send-email-vgupta@synopsys.com>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 11 Jan 2019 15:50:14 +0300
+Subject: [PATCH] webkitgtk: Enable building for ARC architecture
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190111092408.GM30894@hirez.programming.kicks-ass.net>
+Message-ID: <20190111125014.34593-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Jan 10, 2019@04:26:27PM -0800, Vineet Gupta wrote:
+For that we need 2 things:
+ 1. Disable JIT in JS as it's not supported for ARC.
 
-> @@ -246,7 +246,7 @@ static __always_inline void __assign_bit(long nr, volatile unsigned long *addr,
->  		new__ = (old__ & ~mask__) | bits__;		\
->  	} while (cmpxchg(ptr, old__, new__) != old__);		\
+ 2. Compile with "-mlong-calls" so relocations with
+    offsets larger than 25 bits are used, otherwise
+    linker fails to link final binaries.
 
-diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-index 705f7c442691..2060d26a35f5 100644
---- a/include/linux/bitops.h
-+++ b/include/linux/bitops.h
-@@ -241,10 +241,10 @@ static __always_inline void __assign_bit(long nr, volatile unsigned long *addr,
- 	const typeof(*(ptr)) mask__ = (mask), bits__ = (bits);	\
- 	typeof(*(ptr)) old__, new__;				\
- 								\
-+	old__ = READ_ONCE(*(ptr));				\
- 	do {							\
--		old__ = READ_ONCE(*(ptr));			\
- 		new__ = (old__ & ~mask__) | bits__;		\
--	} while (cmpxchg(ptr, old__, new__) != old__);		\
-+	} while (!try_cmpxchg(ptr, &old__, new__));		\
- 								\
- 	new__;							\
- })
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Alexander Kanavin <alex.kanavin at gmail.com>
+Cc: Hongxu Jia <hongxu.jia at windriver.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.22.5.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-
-While there you probably want something like the above... although,
-looking at it now, we seem to have 'forgotten' to add try_cmpxchg to the
-generic code :/
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+index fc56822f7a..56f69c7a30 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+@@ -69,6 +69,13 @@ EXTRA_OECMAKE = " \
+ EXTRA_OECMAKE_append_x86 = " -DUSE_GSTREAMER_GL=OFF "
+ EXTRA_OECMAKE_append_x86-x32 = " -DUSE_GSTREAMER_GL=OFF "
+ 
++# Javascript JIT is not supported on ARC
++EXTRA_OECMAKE_append_arc = " -DENABLE_JIT=OFF "
++# By default 25-bit "medium" calls are used on ARC
++# which is not enough for binaries larger than 32 MiB
++CFLAGS_append_arc = " -mlong-calls"
++CXXFLAGS_append_arc = " -mlong-calls"
++
+ # Javascript JIT is not supported on powerpc
+ EXTRA_OECMAKE_append_powerpc = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE_append_powerpc64 = " -DENABLE_JIT=OFF "
+-- 
+2.16.2
