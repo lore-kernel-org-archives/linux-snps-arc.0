@@ -1,47 +1,22 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 10 Jan 2019 16:26:27 -0800
-Subject: [PATCH 3/3] bitops.h: set_mask_bits() to return old value
-In-Reply-To: <1547166387-19785-1-git-send-email-vgupta@synopsys.com>
+From: anthony.yznaga@oracle.com (Anthony Yznaga)
+Date: Thu, 10 Jan 2019 20:24:12 -0800
+Subject: [PATCH 1/3] coredump: Replace opencoded set_mask_bits()
+In-Reply-To: <1547166387-19785-2-git-send-email-vgupta@synopsys.com>
 References: <1547166387-19785-1-git-send-email-vgupta@synopsys.com>
+ <1547166387-19785-2-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1547166387-19785-4-git-send-email-vgupta@synopsys.com>
+Message-ID: <c513c1df-00f3-8c41-3d42-524992b011b1@oracle.com>
 To: linux-snps-arc@lists.infradead.org
 
-| > Also, set_mask_bits is used in fs quite a bit and we can possibly come up
-| > with a generic llsc based implementation (w/o the cmpxchg loop)
-|
-| May I also suggest changing the return value of set_mask_bits() to old.
-|
-| You can compute the new value given old, but you cannot compute the old
-| value given new, therefore old is the better return value. Also, no
-| current user seems to use the return value, so changing it is without
-| risk.
 
-Link: http://lkml.kernel.org/g/20150807110955.GH16853 at twins.programming.kicks-ass.net
-Suggested-by: Peter Zijlstra <peterz at infradead.org>
-Cc: Miklos Szeredi <mszeredi at redhat.com>
-Cc: Ingo Molnar <mingo at kernel.org>
-Cc: Jani Nikula <jani.nikula at intel.com>
-Cc: Chris Wilson <chris at chris-wilson.co.uk>
-Cc: Andrew Morton <akpm at linux-foundation.org>
-Cc: Will Deacon <will.deacon at arm.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- include/linux/bitops.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-index 705f7c442691..602af23b98c7 100644
---- a/include/linux/bitops.h
-+++ b/include/linux/bitops.h
-@@ -246,7 +246,7 @@ static __always_inline void __assign_bit(long nr, volatile unsigned long *addr,
- 		new__ = (old__ & ~mask__) | bits__;		\
- 	} while (cmpxchg(ptr, old__, new__) != old__);		\
- 								\
--	new__;							\
-+	old__;							\
- })
- #endif
- 
--- 
-2.7.4
+On 1/10/19 4:26 PM, Vineet Gupta wrote:
+> Cc: Alexander Viro <viro at zeniv.linux.org.uk>
+> Cc: Peter Zijlstra (Intel) <peterz at infradead.org>
+> Cc: linux-fsdevel at vger.kernel.org
+> Cc: linux-kernel at vger.kernel.org
+> Link: http://lkml.kernel.org/g/20150807115710.GA16897 at redhat.com
+> Acked-by: Oleg Nesterov <oleg at redhat.com>
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+
+Reviewed-by: Anthony Yznaga <anthony.yznaga at oracle.com>
