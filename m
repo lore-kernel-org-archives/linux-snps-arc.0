@@ -1,59 +1,27 @@
-From: arnout@mind.be (Arnout Vandecappelle)
-Date: Thu, 10 Jan 2019 23:50:05 +0100
-Subject: [Buildroot] [PATCH] azure-iot-sdk-c: Bump to version 2018-12-13
-In-Reply-To: <20181230224112.7884333e@windsurf>
-References: <20181221173729.41870-1-Nikita.Sobolev@synopsys.com>
- <20181230224112.7884333e@windsurf>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 10 Jan 2019 16:26:24 -0800
+Subject: [PATCH 0/3] Replace opencoded set_mask_bits
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <d529f821-6aa9-ee9d-af7e-e692965bef91@mind.be>
+Message-ID: <1547166387-19785-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
+Hi,
 
+I did these a while back and forget. Rebased to 5.0-rc1.
+Please consider applying.
 
-On 30/12/2018 22:41, Thomas Petazzoni wrote:
-> Hello,
-> 
-> On Fri, 21 Dec 2018 20:37:29 +0300, Nikita Sobolev wrote:
->> From: NikitaSobolev <Nikita.Sobolev at synopsys.com>
->>
->> Bump azure-iot-sdk-c to 2018-12-13 release.
->> Add patch, that removes Windows specified variables from
->> azure-iot-sdk-c-2018-12-13 release. That variables cause
->> build errors.
->>
->> Signed-off-by: Nikita Sobolev <Nikita.Sobolev at synopsys.com>
-> 
-> So, I looked into this. Indeed, without the patch, the build fails with:
-> 
-> CMake Error at c-utility/CMakeLists.txt:267 (if):
->   if given arguments:
-> 
->     "WIN32" "AND" "(" "VERSION_EQUAL" "10.0.17763.0" "OR" "VERSION_GREATER" "10.0.17763.0" ")"
-> 
->   Unknown arguments specified
-> 
-> The problem comes from the fact that ${CMAKE_SYSTEM_VERSION} is empty.
-> And the CMake documentation
-> (https://cmake.org/cmake/help/v3.4/variable/CMAKE_SYSTEM_VERSION.html)
-> explains why:
-> 
->   When the CMAKE_SYSTEM_NAME variable is set explicitly to enable cross
->   compiling then the value of CMAKE_SYSTEM_VERSION must also be set
->   explicitly to specify the target system version.
-> 
-> We are defining CMAKE_SYSTEM_NAME in our toolchain file, but not
-> CMAKE_SYSTEM_VERSION.
-> 
-> So for now, I simply defined CMAKE_SYSTEM_VERSION locally in
-> azure-iot-sdk-c, and dropped the patch. Long term, perhaps we should
-> define CMAKE_SYSTEM_VERSION in our toolchain file. I'm not sure who is
-> maintaining our CMake infrastructure these days, Samuel Martin used to
-> do it, but he is no longer very active.
+Thx,
+-Vineet
 
- Indeed, it should be set in the toolchain file. CMAKE_SYSTEM_VERSION is the
-output of `uname -r` of the target system, i.e. the kernel version. We don't
-have that, but we do have BR2_TOOLCHAIN_HEADERS_AT_LEAST which should be good
-enough.
+Vineet Gupta (3):
+  coredump: Replace opencoded set_mask_bits()
+  fs: inode_set_flags() replace opencoded set_mask_bits()
+  bitops.h: set_mask_bits() to return old value
 
- Regards,
- Arnout
+ fs/exec.c              | 7 +------
+ fs/inode.c             | 8 +-------
+ include/linux/bitops.h | 2 +-
+ 3 files changed, 3 insertions(+), 14 deletions(-)
+
+-- 
+2.7.4
