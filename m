@@ -1,30 +1,34 @@
 From: anthony.yznaga@oracle.com (Anthony Yznaga)
-Date: Thu, 10 Jan 2019 20:24:43 -0800
-Subject: [PATCH 2/3] fs: inode_set_flags() replace opencoded
- set_mask_bits()
-In-Reply-To: <1547166387-19785-3-git-send-email-vgupta@synopsys.com>
+Date: Thu, 10 Jan 2019 20:25:09 -0800
+Subject: [PATCH 3/3] bitops.h: set_mask_bits() to return old value
+In-Reply-To: <1547166387-19785-4-git-send-email-vgupta@synopsys.com>
 References: <1547166387-19785-1-git-send-email-vgupta@synopsys.com>
- <1547166387-19785-3-git-send-email-vgupta@synopsys.com>
+ <1547166387-19785-4-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <5c9bf6bd-e29b-c985-b686-35f6dc272152@oracle.com>
+Message-ID: <693b30a9-96dc-a5e6-9708-c215b90146b0@oracle.com>
 To: linux-snps-arc@lists.infradead.org
 
 
 
 On 1/10/19 4:26 PM, Vineet Gupta wrote:
-> It seems that 5f16f3225b0624 and 00a1a053ebe5, both with same commitlog
-> ("ext4: atomically set inode->i_flags in ext4_set_inode_flags()")
-> introduced the set_mask_bits API, but somehow missed not using it in
-> ext4 in the end
+> | > Also, set_mask_bits is used in fs quite a bit and we can possibly come up
+> | > with a generic llsc based implementation (w/o the cmpxchg loop)
+> |
+> | May I also suggest changing the return value of set_mask_bits() to old.
+> |
+> | You can compute the new value given old, but you cannot compute the old
+> | value given new, therefore old is the better return value. Also, no
+> | current user seems to use the return value, so changing it is without
+> | risk.
 >
-> Also, set_mask_bits is used in fs quite a bit and we can possibly come up
-> with a generic llsc based implementation (w/o the cmpxchg loop)
->
-> Cc: Alexander Viro <viro at zeniv.linux.org.uk>
-> Cc: Theodore Ts'o <tytso at mit.edu>
-> Cc: Peter Zijlstra (Intel) <peterz at infradead.org>
-> Cc: linux-fsdevel at vger.kernel.org
-> Cc: linux-kernel at vger.kernel.org
+> Link: http://lkml.kernel.org/g/20150807110955.GH16853 at twins.programming.kicks-ass.net
+> Suggested-by: Peter Zijlstra <peterz at infradead.org>
+> Cc: Miklos Szeredi <mszeredi at redhat.com>
+> Cc: Ingo Molnar <mingo at kernel.org>
+> Cc: Jani Nikula <jani.nikula at intel.com>
+> Cc: Chris Wilson <chris at chris-wilson.co.uk>
+> Cc: Andrew Morton <akpm at linux-foundation.org>
+> Cc: Will Deacon <will.deacon at arm.com>
 > Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 >
 
