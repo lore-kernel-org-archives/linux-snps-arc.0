@@ -1,89 +1,110 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 11 Jan 2019 12:58:22 -0800
-Subject: [PATCH 3/3] bitops.h: set_mask_bits() to return old value
-In-Reply-To: <20190111092408.GM30894@hirez.programming.kicks-ass.net>
-References: <1547166387-19785-1-git-send-email-vgupta@synopsys.com>
- <1547166387-19785-4-git-send-email-vgupta@synopsys.com>
- <20190111092408.GM30894@hirez.programming.kicks-ass.net>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Fri, 11 Jan 2019 21:09:38 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Sat Jan 12, 08:09
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <d36b8582-184a-37d2-699f-04837745b70a@synopsys.com>
+Message-ID: <20190111210938.1.74643@c1e251a279fe>
 To: linux-snps-arc@lists.infradead.org
 
-On 1/11/19 1:24 AM, Peter Zijlstra wrote:
-> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-> index 705f7c442691..2060d26a35f5 100644
-> --- a/include/linux/bitops.h
-> +++ b/include/linux/bitops.h
-> @@ -241,10 +241,10 @@ static __always_inline void __assign_bit(long nr, volatile unsigned long *addr,
->  	const typeof(*(ptr)) mask__ = (mask), bits__ = (bits);	\
->  	typeof(*(ptr)) old__, new__;				\
->  								\
-> +	old__ = READ_ONCE(*(ptr));				\
->  	do {							\
-> -		old__ = READ_ONCE(*(ptr));			\
->  		new__ = (old__ & ~mask__) | bits__;		\
-> -	} while (cmpxchg(ptr, old__, new__) != old__);		\
-> +	} while (!try_cmpxchg(ptr, &old__, new__));		\
->  								\
->  	new__;							\
->  })
-> 
-> 
-> While there you probably want something like the above... 
+OK linus/axs103_smp_defconfig/arcv2 Sat Jan 12, 08:09
 
-As a separate change perhaps so that a revert (unlikely as it might be) could be
-done with less pain.
+http://kisskb.ellerman.id.au/kisskb/buildresult/13649951/
 
-> although,
-> looking at it now, we seem to have 'forgotten' to add try_cmpxchg to the
-> generic code :/
+Commit:   Merge tag 'pci-v5.0-fixes-1' of git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci
+          de6629eb262e0dc52a2367db38e3d2780cff5427
+Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824 / GNU ld (GNU Binutils) 2.27.51.20160928
 
-So it _has_ to be a separate change ;-)
+Possible errors
+---------------
 
-But can we even provide a sane generic try_cmpxchg. The asm-generic cmpxchg relies
-on local irq save etc so it is clearly only to prevent a new arch from failing to
-compile. atomic*_cmpxchg() is different story since atomics have to be provided by
-arch.
+arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
+arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
 
-Anyhow what is more interesting is the try_cmpxchg API itself. So commit
-a9ebf306f52c756 introduced/use of try_cmpxchg(), which indeed makes the looping
-"nicer" to read and obvious code gen improvements.
+Possible warnings (83)
+----------------------
 
-So,
-        for (;;) {
-                new = val $op $imm;
-                old = cmpxchg(ptr, val, new);
-                if (old == val)
-                        break;
-                val = old;
-        }
-
-becomes
-
-        do {
-        } while (!try_cmpxchg(ptr, &val, val $op $imm));
-
-
-But on pure LL/SC retry based arches, we still end up with generated code having 2
-loops. We discussed something similar a while back: see [1]
-
-First loop is inside inline asm to retry LL/SC and the outer one due to code
-above. Explicit return of try_cmpxchg() means setting up a register with a boolean
-status of cmpxchg (AFAIKR ARMv7 already does that but ARC e.g. uses a CPU flag
-thus requires an additional insn or two). We could arguably remove the inline asm
-loop and retry LL/SC from the outer loop, but it seems cleaner to keep the retry
-where it belongs.
-
-Also under the hood, try_cmpxchg() would end up re-reading it for the issue fixed
-by commit 44fe84459faf1a.
-
-Heck, it would all be simpler if we could express this w/o use of cmpxchg.
-
-	try_some_op(ptr, &val, val $op $imm);
-
-P.S. the horrible API name is for indicative purposes only
-
-This would remove the outer loop completely, also avoid any re-reads due to the
-semantics of cmpxchg etc.
-
-[1] https://www.spinics.net/lists/kernel/msg2029217.html
+arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
+arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
+kernel/dma/direct.c:40:4: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+arch/arc/mm/tlb.c:914:2: warning: ISO C90 forbids variable length array 'pd0' [-Wvla]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+fs/ext4/inode.c:3654:12: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+mm/percpu.c:1382:17: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1382:17: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+mm/percpu.c:1948:27: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:32: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:37: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:42: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:52: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:56: warning: format '%zu' expects argument of type 'size_t', but argument 8 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+drivers/gpu/drm/drm_dp_helper.c:820:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:853:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:906:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+drivers/base/regmap/regmap.c:1531:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+drivers/base/component.c:164:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+fs/ext4/page-io.c:163:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+drivers/gpu/drm/drm_dp_dual_mode_helper.c:201:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 5 has type 'ssize_t {aka int}' [-Wformat=]
+drivers/gpu/drm/drm_dp_dual_mode_helper.c:220:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 4 has type 'ssize_t {aka int}' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+fs/ext4/xattr.c:482:8: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka const unsigned int}' [-Wformat=]
+drivers/base/regmap/regcache.c:719:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+fs/buffer.c:235:37: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/drm/drm_print.h:110:24: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/overflow.h:53:15: warning: comparison of distinct pointer types lacks a cast
+include/linux/overflow.h:54:15: warning: comparison of distinct pointer types lacks a cast
+drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:46: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:51: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+net/sunrpc/xprtsock.c:2478:16: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+net/ipv4/tcp_input.c:4324:49: warning: array subscript is above array bounds [-Warray-bounds]
+net/sunrpc/svc.c:1357:33: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+drivers/gpu/drm/drm_atomic_uapi.c:131:21: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_gem_cma_helper.c:115:21: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_gem_cma_helper.c:510:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
