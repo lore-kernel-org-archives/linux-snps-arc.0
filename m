@@ -1,130 +1,64 @@
 From: rppt@linux.ibm.com (Mike Rapoport)
-Date: Wed, 16 Jan 2019 15:44:09 +0200
-Subject: [PATCH 09/21] memblock: drop memblock_alloc_base()
+Date: Wed, 16 Jan 2019 15:44:11 +0200
+Subject: [PATCH 11/21] memblock: make memblock_find_in_range_node() and
+ choose_memblock_flags() static
 In-Reply-To: <1547646261-32535-1-git-send-email-rppt@linux.ibm.com>
 References: <1547646261-32535-1-git-send-email-rppt@linux.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1547646261-32535-10-git-send-email-rppt@linux.ibm.com>
+Message-ID: <1547646261-32535-12-git-send-email-rppt@linux.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-The memblock_alloc_base() function tries to allocate a memory up to the
-limit specified by its max_addr parameter and panics if the allocation
-fails. Replace its usage with memblock_phys_alloc_range() and make the
-callers check the return value and panic in case of error.
+These functions are not used outside memblock. Make them static.
 
 Signed-off-by: Mike Rapoport <rppt at linux.ibm.com>
 ---
- arch/powerpc/kernel/rtas.c      |  6 +++++-
- arch/powerpc/mm/hash_utils_64.c |  8 ++++++--
- arch/s390/kernel/smp.c          |  6 +++++-
- drivers/macintosh/smu.c         |  2 +-
- include/linux/memblock.h        |  2 --
- mm/memblock.c                   | 14 --------------
- 6 files changed, 17 insertions(+), 21 deletions(-)
+ include/linux/memblock.h | 4 ----
+ mm/memblock.c            | 4 ++--
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/arch/powerpc/kernel/rtas.c b/arch/powerpc/kernel/rtas.c
-index de35bd8f..fbc6761 100644
---- a/arch/powerpc/kernel/rtas.c
-+++ b/arch/powerpc/kernel/rtas.c
-@@ -1187,7 +1187,11 @@ void __init rtas_initialize(void)
- 		ibm_suspend_me_token = rtas_token("ibm,suspend-me");
- 	}
- #endif
--	rtas_rmo_buf = memblock_alloc_base(RTAS_RMOBUF_MAX, PAGE_SIZE, rtas_region);
-+	rtas_rmo_buf = memblock_phys_alloc_range(RTAS_RMOBUF_MAX, PAGE_SIZE,
-+						 0, rtas_region);
-+	if (!rtas_rmo_buf)
-+		panic("ERROR: RTAS: Failed to allocate %lx bytes below %pa\n",
-+		      PAGE_SIZE, &rtas_region);
- 
- #ifdef CONFIG_RTAS_ERROR_LOGGING
- 	rtas_last_error_token = rtas_token("rtas-last-error");
-diff --git a/arch/powerpc/mm/hash_utils_64.c b/arch/powerpc/mm/hash_utils_64.c
-index bc6be44..c7d5f48 100644
---- a/arch/powerpc/mm/hash_utils_64.c
-+++ b/arch/powerpc/mm/hash_utils_64.c
-@@ -882,8 +882,12 @@ static void __init htab_initialize(void)
- 		}
- #endif /* CONFIG_PPC_CELL */
- 
--		table = memblock_alloc_base(htab_size_bytes, htab_size_bytes,
--					    limit);
-+		table = memblock_phys_alloc_range(htab_size_bytes,
-+						  htab_size_bytes,
-+						  0, limit);
-+		if (!table)
-+			panic("ERROR: Failed to allocate %pa bytes below %pa\n",
-+			      &htab_size_bytes, &limit);
- 
- 		DBG("Hash table allocated at %lx, size: %lx\n", table,
- 		    htab_size_bytes);
-diff --git a/arch/s390/kernel/smp.c b/arch/s390/kernel/smp.c
-index f82b3d3..9061597 100644
---- a/arch/s390/kernel/smp.c
-+++ b/arch/s390/kernel/smp.c
-@@ -651,7 +651,11 @@ void __init smp_save_dump_cpus(void)
- 		/* No previous system present, normal boot. */
- 		return;
- 	/* Allocate a page as dumping area for the store status sigps */
--	page = memblock_alloc_base(PAGE_SIZE, PAGE_SIZE, 1UL << 31);
-+	page = memblock_phys_alloc_range(PAGE_SIZE, PAGE_SIZE, 0, 1UL << 31);
-+	if (!page)
-+		panic("ERROR: Failed to allocate %x bytes below %lx\n",
-+		      PAGE_SIZE, 1UL << 31);
-+
- 	/* Set multi-threading state to the previous system. */
- 	pcpu_set_smt(sclp.mtid_prev);
- 	boot_cpu_addr = stap();
-diff --git a/drivers/macintosh/smu.c b/drivers/macintosh/smu.c
-index 0a0b8e1..42cf68d 100644
---- a/drivers/macintosh/smu.c
-+++ b/drivers/macintosh/smu.c
-@@ -485,7 +485,7 @@ int __init smu_init (void)
- 	 * SMU based G5s need some memory below 2Gb. Thankfully this is
- 	 * called at a time where memblock is still available.
- 	 */
--	smu_cmdbuf_abs = memblock_alloc_base(4096, 4096, 0x80000000UL);
-+	smu_cmdbuf_abs = memblock_phys_alloc_range(4096, 4096, 0, 0x80000000UL);
- 	if (smu_cmdbuf_abs == 0) {
- 		printk(KERN_ERR "SMU: Command buffer allocation failed !\n");
- 		ret = -EINVAL;
 diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-index 768e2b4..6874fdc 100644
+index cf4cd9c..f5a83a1 100644
 --- a/include/linux/memblock.h
 +++ b/include/linux/memblock.h
-@@ -494,8 +494,6 @@ static inline bool memblock_bottom_up(void)
- 	return memblock.bottom_up;
- }
+@@ -111,9 +111,6 @@ void memblock_discard(void);
+ #define memblock_dbg(fmt, ...) \
+ 	if (memblock_debug) printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
  
--phys_addr_t memblock_alloc_base(phys_addr_t size, phys_addr_t align,
--				phys_addr_t max_addr);
- phys_addr_t memblock_phys_mem_size(void);
- phys_addr_t memblock_reserved_size(void);
- phys_addr_t memblock_mem_size(unsigned long limit_pfn);
+-phys_addr_t memblock_find_in_range_node(phys_addr_t size, phys_addr_t align,
+-					phys_addr_t start, phys_addr_t end,
+-					int nid, enum memblock_flags flags);
+ phys_addr_t memblock_find_in_range(phys_addr_t start, phys_addr_t end,
+ 				   phys_addr_t size, phys_addr_t align);
+ void memblock_allow_resize(void);
+@@ -130,7 +127,6 @@ int memblock_clear_hotplug(phys_addr_t base, phys_addr_t size);
+ int memblock_mark_mirror(phys_addr_t base, phys_addr_t size);
+ int memblock_mark_nomap(phys_addr_t base, phys_addr_t size);
+ int memblock_clear_nomap(phys_addr_t base, phys_addr_t size);
+-enum memblock_flags choose_memblock_flags(void);
+ 
+ unsigned long memblock_free_all(void);
+ void reset_node_managed_pages(pg_data_t *pgdat);
 diff --git a/mm/memblock.c b/mm/memblock.c
-index e5ffdcd..531fa77 100644
+index 739f769..03b3929 100644
 --- a/mm/memblock.c
 +++ b/mm/memblock.c
-@@ -1363,20 +1363,6 @@ phys_addr_t __init memblock_phys_alloc_nid(phys_addr_t size, phys_addr_t align,
- 	return ret;
- }
+@@ -125,7 +125,7 @@ static int memblock_can_resize __initdata_memblock;
+ static int memblock_memory_in_slab __initdata_memblock = 0;
+ static int memblock_reserved_in_slab __initdata_memblock = 0;
  
--phys_addr_t __init memblock_alloc_base(phys_addr_t size, phys_addr_t align, phys_addr_t max_addr)
--{
--	phys_addr_t alloc;
--
--	alloc = memblock_alloc_range_nid(size, align, 0, max_addr, NUMA_NO_NODE,
--					MEMBLOCK_NONE);
--
--	if (alloc == 0)
--		panic("ERROR: Failed to allocate %pa bytes below %pa.\n",
--		      &size, &max_addr);
--
--	return alloc;
--}
--
- phys_addr_t __init memblock_phys_alloc_try_nid(phys_addr_t size, phys_addr_t align, int nid)
+-enum memblock_flags __init_memblock choose_memblock_flags(void)
++static enum memblock_flags __init_memblock choose_memblock_flags(void)
  {
- 	phys_addr_t res = memblock_phys_alloc_nid(size, align, nid);
+ 	return system_has_some_mirror ? MEMBLOCK_MIRROR : MEMBLOCK_NONE;
+ }
+@@ -254,7 +254,7 @@ __memblock_find_range_top_down(phys_addr_t start, phys_addr_t end,
+  * Return:
+  * Found address on success, 0 on failure.
+  */
+-phys_addr_t __init_memblock memblock_find_in_range_node(phys_addr_t size,
++static phys_addr_t __init_memblock memblock_find_in_range_node(phys_addr_t size,
+ 					phys_addr_t align, phys_addr_t start,
+ 					phys_addr_t end, int nid,
+ 					enum memblock_flags flags)
 -- 
 2.7.4
