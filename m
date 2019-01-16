@@ -1,37 +1,58 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 15 Jan 2019 16:58:17 +0000
-Subject: [PATCH 1/2] ARCv2: LIB: memeset: fix doing prefetchw outside of
- buffer
-References: <20190114151649.32726-1-Eugeniy.Paltsev@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA2307501464272C9@US01WEMBX2.internal.synopsys.com>
- <1547553603.24248.49.camel@synopsys.com>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed, 16 Jan 2019 11:27:19 +0300
+Subject: [PATCH] wic: sdimage-bootpart: Use mmcblk0 drive instead of bogus
+ mmcblk
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014642748E@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20190116082719.36093-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 1/15/19 4:00 AM, Eugeniy Paltsev wrote:
->>> -#ifdef PREALLOC_NOT_AVAIL
->>> -	prefetchw [r3, 64]	;Prefetch the next write location
->>> -#else
->>> -	prealloc  [r3, 64]
->>> -#endif
->>> +	PREALLOC_INSTR([r3, 64]) ;Prefetch the next write location
->> These are not solving the issue - I'd break this up and move these bits to your
->> next patch.
-> Actually these are solving another issue - current implementation may call
-> 'prealloc' instruction for L1 cache line which doesn't fully belongs to
-> memeset area in case of 128B L1 D$ line length. As the 'prealloc' fill cache line
-> with zeros this leads to data corruption.
->
-> So I would better keep these changes in this 'fix' patch.
+Apparently either nobody ever used sdimage-bootpart.wks
+or fstab was kept untouched due to "--no-fstab-update" usage as
+some boards like IMX may have, see [1].
 
-Fair enough. Although technically it is different bug which we haven't actually
-hit, found by code review.
+Otherwise addition of the following line to the target's fstab:
+---------------------->8-----------------
+/dev/mmcblkp1   /boot   vfat    defaults        0       0
+---------------------->8-----------------
 
-> BTW, I've forgot again to add Cc: stable at vger.kernel.org, could you add it for me,
-> when applying patch?
-> Thanks.
+gets us unusable target:
+---------------------->8-----------------
+[*     ] A start job is running for dev-mmcblkp1.device (23s / 1min 30s)
+[ TIME ] Timed out waiting for device dev-mmcblkp1.device.
+[DEPEND] Dependency failed for /boot.
+[DEPEND] Dependency failed for Local File Systems.
 
-Yes, I did that already !
+You are in emergency mode. After logging in, type "journalctl -xb" to view
+system logs, "systemctl reboot" to reboot, "systemctl default" or "exit"
+to boot into default mode.
+Press Enter for maintenance
+---------------------->8-----------------
 
--Vineet
+Fix it with use of "mmcblk0" device name.
+
+[1] https://lists.yoctoproject.org/pipermail/meta-freescale/2018-February/022156.html
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Maciej Borzecki <maciej.borzecki at open-rnd.pl>
+Cc: Maciek Borzecki <maciek.borzecki at gmail.com>
+Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ scripts/lib/wic/canned-wks/sdimage-bootpart.wks | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/lib/wic/canned-wks/sdimage-bootpart.wks b/scripts/lib/wic/canned-wks/sdimage-bootpart.wks
+index 7ffd632f4a..63bc4dab6a 100644
+--- a/scripts/lib/wic/canned-wks/sdimage-bootpart.wks
++++ b/scripts/lib/wic/canned-wks/sdimage-bootpart.wks
+@@ -2,5 +2,5 @@
+ # long-description: Creates a partitioned SD card image. Boot files
+ # are located in the first vfat partition.
+ 
+-part /boot --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot --active --align 4 --size 16
+-part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4
++part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4 --size 16
++part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4
+-- 
+2.16.2
