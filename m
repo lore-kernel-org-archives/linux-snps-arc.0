@@ -1,49 +1,31 @@
 From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 16 Jan 2019 14:29:50 +0300
-Subject: [PATCH 1/2] ARCv2: Enable unaligned access in early ASM code
+Date: Wed, 16 Jan 2019 14:29:51 +0300
+Subject: [PATCH 2/2] ARCv2: enable HAVE_EFFICIENT_UNALIGNED_ACCESS
+In-Reply-To: <20190116112951.10641-1-Eugeniy.Paltsev@synopsys.com>
+References: <20190116112951.10641-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190116112951.10641-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20190116112951.10641-2-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Even though we do enable AD bit in arc_init_IRQ() we need to do
-it in early ASM code otherwise we may face unaligned data until
-we reach arc_init_IRQ() because GCC starting from v8.1.0 actively
-generates unaligned data as it assumes that:
- * ARCv2 always has support of unaliged data
- * This support is turned on in runtime
+Select HAVE_EFFICIENT_UNALIGNED_ACCESS for ARCv2 as we unconditionally
+enable unaligned access in HW.
 
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 ---
- arch/arc/kernel/head.S | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ arch/arc/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
-index 8b90d25a15cc..d5b7a572365a 100644
---- a/arch/arc/kernel/head.S
-+++ b/arch/arc/kernel/head.S
-@@ -17,6 +17,9 @@
- #include <asm/entry.h>
- #include <asm/arcregs.h>
- #include <asm/cache.h>
-+#ifdef CONFIG_ISA_ARCV2
-+#include <asm/irqflags-arcv2.h>
-+#endif
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 376366a7db81..20ba916c50a3 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -117,6 +117,7 @@ config ISA_ARCOMPACT
+ config ISA_ARCV2
+ 	bool "ARC ISA v2"
+ 	select ARC_TIMERS_64BIT
++	select HAVE_EFFICIENT_UNALIGNED_ACCESS
+ 	help
+ 	  ISA for the Next Generation ARC-HS cores
  
- .macro CPU_EARLY_SETUP
- 
-@@ -47,6 +50,13 @@
- 	sr	r5, [ARC_REG_DC_CTRL]
- 
- 1:
-+
-+#ifdef CONFIG_ISA_ARCV2
-+	; Enable handling of unaligned access in the CPU as by default
-+	; this HW feature is disabled while GCC starting from 8.1.0
-+	; unconditionally uses it for ARC HS cores.
-+	flag    1 << STATUS_AD_BIT
-+#endif
- .endm
- 
- 	.section .init.text, "ax", at progbits
 -- 
 2.14.5
