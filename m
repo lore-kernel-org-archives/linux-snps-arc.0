@@ -1,58 +1,49 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 16 Jan 2019 11:27:19 +0300
-Subject: [PATCH] wic: sdimage-bootpart: Use mmcblk0 drive instead of bogus
- mmcblk
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 16 Jan 2019 14:29:50 +0300
+Subject: [PATCH 1/2] ARCv2: Enable unaligned access in early ASM code
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190116082719.36093-1-abrodkin@synopsys.com>
+Message-ID: <20190116112951.10641-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Apparently either nobody ever used sdimage-bootpart.wks
-or fstab was kept untouched due to "--no-fstab-update" usage as
-some boards like IMX may have, see [1].
+Even though we do enable AD bit in arc_init_IRQ() we need to do
+it in early ASM code otherwise we may face unaligned data until
+we reach arc_init_IRQ() because GCC starting from v8.1.0 actively
+generates unaligned data as it assumes that:
+ * ARCv2 always has support of unaliged data
+ * This support is turned on in runtime
 
-Otherwise addition of the following line to the target's fstab:
----------------------->8-----------------
-/dev/mmcblkp1   /boot   vfat    defaults        0       0
----------------------->8-----------------
-
-gets us unusable target:
----------------------->8-----------------
-[*     ] A start job is running for dev-mmcblkp1.device (23s / 1min 30s)
-[ TIME ] Timed out waiting for device dev-mmcblkp1.device.
-[DEPEND] Dependency failed for /boot.
-[DEPEND] Dependency failed for Local File Systems.
-
-You are in emergency mode. After logging in, type "journalctl -xb" to view
-system logs, "systemctl reboot" to reboot, "systemctl default" or "exit"
-to boot into default mode.
-Press Enter for maintenance
----------------------->8-----------------
-
-Fix it with use of "mmcblk0" device name.
-
-[1] https://lists.yoctoproject.org/pipermail/meta-freescale/2018-February/022156.html
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Maciej Borzecki <maciej.borzecki at open-rnd.pl>
-Cc: Maciek Borzecki <maciek.borzecki at gmail.com>
-Cc: Richard Purdie <richard.purdie at linuxfoundation.org>
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 ---
- scripts/lib/wic/canned-wks/sdimage-bootpart.wks | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arc/kernel/head.S | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/scripts/lib/wic/canned-wks/sdimage-bootpart.wks b/scripts/lib/wic/canned-wks/sdimage-bootpart.wks
-index 7ffd632f4a..63bc4dab6a 100644
---- a/scripts/lib/wic/canned-wks/sdimage-bootpart.wks
-+++ b/scripts/lib/wic/canned-wks/sdimage-bootpart.wks
-@@ -2,5 +2,5 @@
- # long-description: Creates a partitioned SD card image. Boot files
- # are located in the first vfat partition.
+diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
+index 8b90d25a15cc..d5b7a572365a 100644
+--- a/arch/arc/kernel/head.S
++++ b/arch/arc/kernel/head.S
+@@ -17,6 +17,9 @@
+ #include <asm/entry.h>
+ #include <asm/arcregs.h>
+ #include <asm/cache.h>
++#ifdef CONFIG_ISA_ARCV2
++#include <asm/irqflags-arcv2.h>
++#endif
  
--part /boot --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot --active --align 4 --size 16
--part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4
-+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4 --size 16
-+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4
+ .macro CPU_EARLY_SETUP
+ 
+@@ -47,6 +50,13 @@
+ 	sr	r5, [ARC_REG_DC_CTRL]
+ 
+ 1:
++
++#ifdef CONFIG_ISA_ARCV2
++	; Enable handling of unaligned access in the CPU as by default
++	; this HW feature is disabled while GCC starting from 8.1.0
++	; unconditionally uses it for ARC HS cores.
++	flag    1 << STATUS_AD_BIT
++#endif
+ .endm
+ 
+ 	.section .init.text, "ax", at progbits
 -- 
-2.16.2
+2.14.5
