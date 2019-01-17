@@ -1,29 +1,36 @@
-From: davem@davemloft.net (David Miller)
-Date: Wed, 16 Jan 2019 09:21:47 -0800 (PST)
-Subject: [PATCH 15/21] sparc: add checks for the return value of
- memblock_alloc*()
-In-Reply-To: <1547646261-32535-16-git-send-email-rppt@linux.ibm.com>
-References: <1547646261-32535-1-git-send-email-rppt@linux.ibm.com>
- <1547646261-32535-16-git-send-email-rppt@linux.ibm.com>
+From: yamada.masahiro@socionext.com (Masahiro Yamada)
+Date: Thu, 17 Jan 2019 12:25:29 +0900
+Subject: [PATCH] arc: remove redundant kernel-space generic-y
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA2307501464221E5@US01WEMBX2.internal.synopsys.com>
+References: <1544969781-14506-1-git-send-email-yamada.masahiro@socionext.com>
+ <C2D7FE5348E1B147BCA15975FBA23075014641FC6F@US01WEMBX2.internal.synopsys.com>
+ <CAK7LNATJVGVJi_S99zfEpKe+HYWpk+TkfT4gCFZVVTibyP=ThA@mail.gmail.com>
+ <C2D7FE5348E1B147BCA15975FBA2307501464221E5@US01WEMBX2.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190116.092147.2222967221278304230.davem@davemloft.net>
+Message-ID: <CAK7LNAT99BNySdeUK=qhXnYSwry=8wADOd7KLjVUAdgQoKjeuA@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Mike Rapoport <rppt@linux.ibm.com>
-Date: Wed, 16 Jan 2019 15:44:15 +0200
+Hi Vineet,
 
-> Add panic() calls if memblock_alloc*() returns NULL.
-> 
-> Most of the changes are simply addition of
-> 
->         if(!ptr)
->                 panic();
-> 
-> statements after the calls to memblock_alloc*() variants.
-> 
-> Exceptions are pcpu_populate_pte() and kernel_map_range() that were
-> slightly refactored to accommodate the change.
-> 
-> Signed-off-by: Mike Rapoport <rppt at linux.ibm.com>
 
-Acked-by: David S. Miller <davem at davemloft.net>
+On Thu, Dec 20, 2018@4:52 AM Vineet Gupta <vineet.gupta1@synopsys.com> wrote:
+>
+> On 12/19/18 7:16 AM, Masahiro Yamada wrote:
+> > Could you pick this up to your arc tree?
+>
+> Done, will push it in a day or so !
+>
+> Thx,
+> -Vineet
+
+This was not sent in the previous MW.
+(Nor did I see ARC pull request.)
+
+Is it aiming for v5.1-rc1 ?
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
