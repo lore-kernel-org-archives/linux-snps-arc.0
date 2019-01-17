@@ -1,36 +1,34 @@
-From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Thu, 17 Jan 2019 12:25:29 +0900
-Subject: [PATCH] arc: remove redundant kernel-space generic-y
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA2307501464221E5@US01WEMBX2.internal.synopsys.com>
-References: <1544969781-14506-1-git-send-email-yamada.masahiro@socionext.com>
- <C2D7FE5348E1B147BCA15975FBA23075014641FC6F@US01WEMBX2.internal.synopsys.com>
- <CAK7LNATJVGVJi_S99zfEpKe+HYWpk+TkfT4gCFZVVTibyP=ThA@mail.gmail.com>
- <C2D7FE5348E1B147BCA15975FBA2307501464221E5@US01WEMBX2.internal.synopsys.com>
+From: guoren@kernel.org (Guo Ren)
+Date: Thu, 17 Jan 2019 15:06:03 +0800
+Subject: [PATCH 19/21] treewide: add checks for the return value of
+ memblock_alloc*()
+In-Reply-To: <1547646261-32535-20-git-send-email-rppt@linux.ibm.com>
+References: <1547646261-32535-1-git-send-email-rppt@linux.ibm.com>
+ <1547646261-32535-20-git-send-email-rppt@linux.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK7LNAT99BNySdeUK=qhXnYSwry=8wADOd7KLjVUAdgQoKjeuA@mail.gmail.com>
+Message-ID: <20190117070602.GA31839@guoren-Inspiron-7460>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+On Wed, Jan 16, 2019@03:44:19PM +0200, Mike Rapoport wrote:
+>  arch/csky/mm/highmem.c                    |  5 +++++
+...
+> diff --git a/arch/csky/mm/highmem.c b/arch/csky/mm/highmem.c
+> index 53b1bfa..3317b774 100644
+> --- a/arch/csky/mm/highmem.c
+> +++ b/arch/csky/mm/highmem.c
+> @@ -141,6 +141,11 @@ static void __init fixrange_init(unsigned long start, unsigned long end,
+>  			for (; (k < PTRS_PER_PMD) && (vaddr != end); pmd++, k++) {
+>  				if (pmd_none(*pmd)) {
+>  					pte = (pte_t *) memblock_alloc_low(PAGE_SIZE, PAGE_SIZE);
+> +					if (!pte)
+> +						panic("%s: Failed to allocate %lu bytes align=%lx\n",
+> +						      __func__, PAGE_SIZE,
+> +						      PAGE_SIZE);
+> +
+>  					set_pmd(pmd, __pmd(__pa(pte)));
+>  					BUG_ON(pte != pte_offset_kernel(pmd, 0));
+>  				}
 
+Looks good for me and panic is ok.
 
-On Thu, Dec 20, 2018@4:52 AM Vineet Gupta <vineet.gupta1@synopsys.com> wrote:
->
-> On 12/19/18 7:16 AM, Masahiro Yamada wrote:
-> > Could you pick this up to your arc tree?
->
-> Done, will push it in a day or so !
->
-> Thx,
-> -Vineet
-
-This was not sent in the previous MW.
-(Nor did I see ARC pull request.)
-
-Is it aiming for v5.1-rc1 ?
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Reviewed-by: Guo Ren <ren_guo at c-sky.com>
