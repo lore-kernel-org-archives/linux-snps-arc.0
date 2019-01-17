@@ -1,54 +1,21 @@
-From: pmladek@suse.com (Petr Mladek)
-Date: Thu, 17 Jan 2019 10:28:42 +0100
-Subject: [PATCH 21/21] memblock: drop memblock_alloc_*_nopanic() variants
-In-Reply-To: <1547646261-32535-22-git-send-email-rppt@linux.ibm.com>
-References: <1547646261-32535-1-git-send-email-rppt@linux.ibm.com>
- <1547646261-32535-22-git-send-email-rppt@linux.ibm.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 17 Jan 2019 18:29:05 +0000
+Subject: [PATCH] arc: remove redundant kernel-space generic-y
+References: <1544969781-14506-1-git-send-email-yamada.masahiro@socionext.com>
+ <C2D7FE5348E1B147BCA15975FBA23075014641FC6F@US01WEMBX2.internal.synopsys.com>
+ <CAK7LNATJVGVJi_S99zfEpKe+HYWpk+TkfT4gCFZVVTibyP=ThA@mail.gmail.com>
+ <C2D7FE5348E1B147BCA15975FBA2307501464221E5@US01WEMBX2.internal.synopsys.com>
+ <CAK7LNAT99BNySdeUK=qhXnYSwry=8wADOd7KLjVUAdgQoKjeuA@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190117092842.wnvsc6em5mxga3rn@pathway.suse.cz>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA230750146429030@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed 2019-01-16 15:44:21, Mike Rapoport wrote:
-> As all the memblock allocation functions return NULL in case of error
-> rather than panic(), the duplicates with _nopanic suffix can be removed.
+On 1/16/19 7:26 PM, Masahiro Yamada wrote:
+> This was not sent in the previous MW.
+> (Nor did I see ARC pull request.)
+>
+> Is it aiming for v5.1-rc1 ?
 
-[...]
+Sorry for the delay, this will happen in next few days !
 
-> diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-> index c4f0a41..ae65221 100644
-> --- a/kernel/printk/printk.c
-> +++ b/kernel/printk/printk.c
-> @@ -1147,17 +1147,14 @@ void __init setup_log_buf(int early)
->  	if (!new_log_buf_len)
->  		return;
->  
-> -	if (early) {
-> -		new_log_buf =
-> -			memblock_alloc(new_log_buf_len, LOG_ALIGN);
-> -	} else {
-> -		new_log_buf = memblock_alloc_nopanic(new_log_buf_len,
-> -							  LOG_ALIGN);
-> -	}
-> -
-> +	new_log_buf = memblock_alloc(new_log_buf_len, LOG_ALIGN);
-
-The above change is enough.
-
->  	if (unlikely(!new_log_buf)) {
-> -		pr_err("log_buf_len: %lu bytes not available\n",
-> -			new_log_buf_len);
-> +		if (early)
-> +			panic("log_buf_len: %lu bytes not available\n",
-> +				new_log_buf_len);
-
-panic() is not needed here. printk() will just continue using
-the (smaller) static buffer.
-
-> +		else
-> +			pr_err("log_buf_len: %lu bytes not available\n",
-> +			       new_log_buf_len);
->  		return;
->  	}
-
-Best Regards,
-Petr
+-Vineet
