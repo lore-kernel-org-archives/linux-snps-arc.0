@@ -1,21 +1,33 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 17 Jan 2019 18:29:05 +0000
-Subject: [PATCH] arc: remove redundant kernel-space generic-y
-References: <1544969781-14506-1-git-send-email-yamada.masahiro@socionext.com>
- <C2D7FE5348E1B147BCA15975FBA23075014641FC6F@US01WEMBX2.internal.synopsys.com>
- <CAK7LNATJVGVJi_S99zfEpKe+HYWpk+TkfT4gCFZVVTibyP=ThA@mail.gmail.com>
- <C2D7FE5348E1B147BCA15975FBA2307501464221E5@US01WEMBX2.internal.synopsys.com>
- <CAK7LNAT99BNySdeUK=qhXnYSwry=8wADOd7KLjVUAdgQoKjeuA@mail.gmail.com>
+From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
+Date: Fri, 18 Jan 2019 09:42:30 +0100
+Subject: [PATCH 21/21] memblock: drop memblock_alloc_*_nopanic() variants
+In-Reply-To: <1547646261-32535-22-git-send-email-rppt@linux.ibm.com>
+References: <1547646261-32535-1-git-send-email-rppt@linux.ibm.com>
+ <1547646261-32535-22-git-send-email-rppt@linux.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA230750146429030@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20190118084230.GA8855@kroah.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 1/16/19 7:26 PM, Masahiro Yamada wrote:
-> This was not sent in the previous MW.
-> (Nor did I see ARC pull request.)
->
-> Is it aiming for v5.1-rc1 ?
+On Wed, Jan 16, 2019@03:44:21PM +0200, Mike Rapoport wrote:
+> As all the memblock allocation functions return NULL in case of error
+> rather than panic(), the duplicates with _nopanic suffix can be removed.
+> 
+> Signed-off-by: Mike Rapoport <rppt at linux.ibm.com>
+> ---
+>  arch/arc/kernel/unwind.c       |  3 +--
+>  arch/sh/mm/init.c              |  2 +-
+>  arch/x86/kernel/setup_percpu.c | 10 +++++-----
+>  arch/x86/mm/kasan_init_64.c    | 14 ++++++++------
+>  drivers/firmware/memmap.c      |  2 +-
+>  drivers/usb/early/xhci-dbc.c   |  2 +-
+>  include/linux/memblock.h       | 35 -----------------------------------
+>  kernel/dma/swiotlb.c           |  2 +-
+>  kernel/printk/printk.c         | 17 +++++++----------
+>  mm/memblock.c                  | 35 -----------------------------------
+>  mm/page_alloc.c                | 10 +++++-----
+>  mm/page_ext.c                  |  2 +-
+>  mm/percpu.c                    | 11 ++++-------
+>  mm/sparse.c                    |  6 ++----
+>  14 files changed, 37 insertions(+), 114 deletions(-)
 
-Sorry for the delay, this will happen in next few days !
-
--Vineet
+Acked-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
