@@ -1,32 +1,24 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Fri, 18 Jan 2019 09:05:28 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Fri Jan 18, 20:04
+From: paul.burton@mips.com (Paul Burton)
+Date: Fri, 18 Jan 2019 17:53:36 +0000
+Subject: [PATCH 12/21] arch: use memblock_alloc() instead of
+ memblock_alloc_from(size, align, 0)
+In-Reply-To: <1547646261-32535-13-git-send-email-rppt@linux.ibm.com>
+References: <1547646261-32535-1-git-send-email-rppt@linux.ibm.com>
+ <1547646261-32535-13-git-send-email-rppt@linux.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190118090528.1.47584@83c514a2b625>
+Message-ID: <20190118175334.mj2mahbf4onhujgz@pburton-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Fri Jan 18, 20:04
+Hi Mike,
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13658486/
+On Wed, Jan 16, 2019@03:44:12PM +0200, Mike Rapoport wrote:
+> The last parameter of memblock_alloc_from() is the lower limit for the
+> memory allocation. When it is 0, the call is equivalent to
+> memblock_alloc().
+> 
+> Signed-off-by: Mike Rapoport <rppt at linux.ibm.com>
 
-Commit:   Merge tag 'led-fix-for-5.0-rc3' of git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds
-          2451f3717c538795fc9fade46916683ebf7ea959
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+Acked-by: Paul Burton <paul.burton at mips.com> # MIPS part
 
-Possible errors
----------------
-
-arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-
-Possible warnings (8)
-----------------------
-
-arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast [enabled by default]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/ipv4/tcp_input.c:4324:49: warning: array subscript is above array bounds [-Warray-bounds]
+Thanks,
+    Paul
