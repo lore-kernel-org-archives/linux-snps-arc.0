@@ -1,159 +1,238 @@
 From: rppt@linux.ibm.com (Mike Rapoport)
-Date: Mon, 21 Jan 2019 10:03:59 +0200
-Subject: [PATCH v2 12/21] arch: use memblock_alloc() instead of
- memblock_alloc_from(size, align, 0)
+Date: Mon, 21 Jan 2019 10:04:01 +0200
+Subject: [PATCH v2 14/21] ia64: add checks for the return value of
+ memblock_alloc*()
 In-Reply-To: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
 References: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1548057848-15136-13-git-send-email-rppt@linux.ibm.com>
+Message-ID: <1548057848-15136-15-git-send-email-rppt@linux.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-The last parameter of memblock_alloc_from() is the lower limit for the
-memory allocation. When it is 0, the call is equivalent to
-memblock_alloc().
+Add panic() calls if memblock_alloc*() returns NULL.
+
+Most of the changes are simply addition of
+
+	if(!ptr)
+		panic();
+
+statements after the calls to memblock_alloc*() variants.
+
+Exceptions are create_mem_map_page_table() and ia64_log_init() that were
+slightly refactored to accommodate the change.
 
 Signed-off-by: Mike Rapoport <rppt at linux.ibm.com>
-Acked-by: Paul Burton <paul.burton at mips.com> # MIPS part
 ---
- arch/alpha/kernel/core_cia.c  |  2 +-
- arch/alpha/kernel/pci_iommu.c |  4 ++--
- arch/alpha/kernel/setup.c     |  2 +-
- arch/ia64/kernel/mca.c        |  3 +--
- arch/mips/kernel/traps.c      |  2 +-
- arch/sparc/kernel/prom_32.c   |  2 +-
- arch/sparc/mm/init_32.c       |  2 +-
- arch/sparc/mm/srmmu.c         | 10 +++++-----
- 8 files changed, 13 insertions(+), 14 deletions(-)
+ arch/ia64/kernel/mca.c          | 20 ++++++++++++++------
+ arch/ia64/mm/contig.c           |  8 ++++++--
+ arch/ia64/mm/discontig.c        |  4 ++++
+ arch/ia64/mm/init.c             | 38 ++++++++++++++++++++++++++++++--------
+ arch/ia64/mm/tlb.c              |  6 ++++++
+ arch/ia64/sn/kernel/io_common.c |  3 +++
+ arch/ia64/sn/kernel/setup.c     | 12 +++++++++++-
+ 7 files changed, 74 insertions(+), 17 deletions(-)
 
-diff --git a/arch/alpha/kernel/core_cia.c b/arch/alpha/kernel/core_cia.c
-index 867e873..466cd44 100644
---- a/arch/alpha/kernel/core_cia.c
-+++ b/arch/alpha/kernel/core_cia.c
-@@ -331,7 +331,7 @@ cia_prepare_tbia_workaround(int window)
- 	long i;
- 
- 	/* Use minimal 1K map. */
--	ppte = memblock_alloc_from(CIA_BROKEN_TBIA_SIZE, 32768, 0);
-+	ppte = memblock_alloc(CIA_BROKEN_TBIA_SIZE, 32768);
- 	pte = (virt_to_phys(ppte) >> (PAGE_SHIFT - 1)) | 1;
- 
- 	for (i = 0; i < CIA_BROKEN_TBIA_SIZE / sizeof(unsigned long); ++i)
-diff --git a/arch/alpha/kernel/pci_iommu.c b/arch/alpha/kernel/pci_iommu.c
-index aa0f50d..e4cf77b 100644
---- a/arch/alpha/kernel/pci_iommu.c
-+++ b/arch/alpha/kernel/pci_iommu.c
-@@ -87,13 +87,13 @@ iommu_arena_new_node(int nid, struct pci_controller *hose, dma_addr_t base,
- 		printk("%s: couldn't allocate arena ptes from node %d\n"
- 		       "    falling back to system-wide allocation\n",
- 		       __func__, nid);
--		arena->ptes = memblock_alloc_from(mem_size, align, 0);
-+		arena->ptes = memblock_alloc(mem_size, align);
- 	}
- 
- #else /* CONFIG_DISCONTIGMEM */
- 
- 	arena = memblock_alloc(sizeof(*arena), SMP_CACHE_BYTES);
--	arena->ptes = memblock_alloc_from(mem_size, align, 0);
-+	arena->ptes = memblock_alloc(mem_size, align);
- 
- #endif /* CONFIG_DISCONTIGMEM */
- 
-diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
-index 4b5b1b2..5d4c76a 100644
---- a/arch/alpha/kernel/setup.c
-+++ b/arch/alpha/kernel/setup.c
-@@ -293,7 +293,7 @@ move_initrd(unsigned long mem_limit)
- 	unsigned long size;
- 
- 	size = initrd_end - initrd_start;
--	start = memblock_alloc_from(PAGE_ALIGN(size), PAGE_SIZE, 0);
-+	start = memblock_alloc(PAGE_ALIGN(size), PAGE_SIZE);
- 	if (!start || __pa(start) + size > mem_limit) {
- 		initrd_start = initrd_end = 0;
- 		return NULL;
 diff --git a/arch/ia64/kernel/mca.c b/arch/ia64/kernel/mca.c
-index 91bd1e1..74d148b 100644
+index 370bc34..5cabb3f 100644
 --- a/arch/ia64/kernel/mca.c
 +++ b/arch/ia64/kernel/mca.c
-@@ -1835,8 +1835,7 @@ format_mca_init_stack(void *mca_data, unsigned long offset,
- /* Caller prevents this from being called after init */
- static void * __ref mca_bootmem(void)
- {
--	return memblock_alloc_from(sizeof(struct ia64_mca_cpu),
--				   KERNEL_STACK_SIZE, 0);
-+	return memblock_alloc(sizeof(struct ia64_mca_cpu), KERNEL_STACK_SIZE);
+@@ -359,11 +359,6 @@ typedef struct ia64_state_log_s
+ 
+ static ia64_state_log_t ia64_state_log[IA64_MAX_LOG_TYPES];
+ 
+-#define IA64_LOG_ALLOCATE(it, size) \
+-	{ia64_state_log[it].isl_log[IA64_LOG_CURR_INDEX(it)] = \
+-		(ia64_err_rec_t *)memblock_alloc(size, SMP_CACHE_BYTES); \
+-	ia64_state_log[it].isl_log[IA64_LOG_NEXT_INDEX(it)] = \
+-		(ia64_err_rec_t *)memblock_alloc(size, SMP_CACHE_BYTES);}
+ #define IA64_LOG_LOCK_INIT(it) spin_lock_init(&ia64_state_log[it].isl_lock)
+ #define IA64_LOG_LOCK(it)      spin_lock_irqsave(&ia64_state_log[it].isl_lock, s)
+ #define IA64_LOG_UNLOCK(it)    spin_unlock_irqrestore(&ia64_state_log[it].isl_lock,s)
+@@ -378,6 +373,19 @@ static ia64_state_log_t ia64_state_log[IA64_MAX_LOG_TYPES];
+ #define IA64_LOG_CURR_BUFFER(it)   (void *)((ia64_state_log[it].isl_log[IA64_LOG_CURR_INDEX(it)]))
+ #define IA64_LOG_COUNT(it)         ia64_state_log[it].isl_count
+ 
++static inline void ia64_log_allocate(int it, u64 size)
++{
++	ia64_state_log[it].isl_log[IA64_LOG_CURR_INDEX(it)] =
++		(ia64_err_rec_t *)memblock_alloc(size, SMP_CACHE_BYTES);
++	if (!ia64_state_log[it].isl_log[IA64_LOG_CURR_INDEX(it)])
++		panic("%s: Failed to allocate %llu bytes\n", __func__, size);
++
++	ia64_state_log[it].isl_log[IA64_LOG_NEXT_INDEX(it)] =
++		(ia64_err_rec_t *)memblock_alloc(size, SMP_CACHE_BYTES);
++	if (!ia64_state_log[it].isl_log[IA64_LOG_NEXT_INDEX(it)])
++		panic("%s: Failed to allocate %llu bytes\n", __func__, size);
++}
++
+ /*
+  * ia64_log_init
+  *	Reset the OS ia64 log buffer
+@@ -399,7 +407,7 @@ ia64_log_init(int sal_info_type)
+ 		return;
+ 
+ 	// set up OS data structures to hold error info
+-	IA64_LOG_ALLOCATE(sal_info_type, max_size);
++	ia64_log_allocate(sal_info_type, max_size);
  }
  
- /* Do per-CPU MCA-related initialization.  */
-diff --git a/arch/mips/kernel/traps.c b/arch/mips/kernel/traps.c
-index c91097f..2bbdee5 100644
---- a/arch/mips/kernel/traps.c
-+++ b/arch/mips/kernel/traps.c
-@@ -2291,7 +2291,7 @@ void __init trap_init(void)
- 		phys_addr_t ebase_pa;
- 
- 		ebase = (unsigned long)
--			memblock_alloc_from(size, 1 << fls(size), 0);
-+			memblock_alloc(size, 1 << fls(size));
- 
- 		/*
- 		 * Try to ensure ebase resides in KSeg0 if possible.
-diff --git a/arch/sparc/kernel/prom_32.c b/arch/sparc/kernel/prom_32.c
-index 42d7f2a..38940af 100644
---- a/arch/sparc/kernel/prom_32.c
-+++ b/arch/sparc/kernel/prom_32.c
-@@ -32,7 +32,7 @@ void * __init prom_early_alloc(unsigned long size)
+ /*
+diff --git a/arch/ia64/mm/contig.c b/arch/ia64/mm/contig.c
+index 6e44723..d29fb6b 100644
+--- a/arch/ia64/mm/contig.c
++++ b/arch/ia64/mm/contig.c
+@@ -84,9 +84,13 @@ void *per_cpu_init(void)
+ static inline void
+ alloc_per_cpu_data(void)
  {
- 	void *ret;
+-	cpu_data = memblock_alloc_from(PERCPU_PAGE_SIZE * num_possible_cpus(),
+-				       PERCPU_PAGE_SIZE,
++	size_t size = PERCPU_PAGE_SIZE * num_possible_cpus();
++
++	cpu_data = memblock_alloc_from(size, PERCPU_PAGE_SIZE,
+ 				       __pa(MAX_DMA_ADDRESS));
++	if (!cpu_data)
++		panic("%s: Failed to allocate %lu bytes align=%lx from=%lx\n",
++		      __func__, size, PERCPU_PAGE_SIZE, __pa(MAX_DMA_ADDRESS));
+ }
  
--	ret = memblock_alloc_from(size, SMP_CACHE_BYTES, 0UL);
-+	ret = memblock_alloc(size, SMP_CACHE_BYTES);
- 	if (ret != NULL)
- 		memset(ret, 0, size);
+ /**
+diff --git a/arch/ia64/mm/discontig.c b/arch/ia64/mm/discontig.c
+index f9c3675..05490dd 100644
+--- a/arch/ia64/mm/discontig.c
++++ b/arch/ia64/mm/discontig.c
+@@ -454,6 +454,10 @@ static void __init *memory_less_node_alloc(int nid, unsigned long pernodesize)
+ 				     __pa(MAX_DMA_ADDRESS),
+ 				     MEMBLOCK_ALLOC_ACCESSIBLE,
+ 				     bestnode);
++	if (!ptr)
++		panic("%s: Failed to allocate %lu bytes align=0x%lx nid=%d from=%lx\n",
++		      __func__, pernodesize, PERCPU_PAGE_SIZE, bestnode,
++		      __pa(MAX_DMA_ADDRESS));
  
-diff --git a/arch/sparc/mm/init_32.c b/arch/sparc/mm/init_32.c
-index d900952..a8ff298 100644
---- a/arch/sparc/mm/init_32.c
-+++ b/arch/sparc/mm/init_32.c
-@@ -264,7 +264,7 @@ void __init mem_init(void)
- 	i = last_valid_pfn >> ((20 - PAGE_SHIFT) + 5);
- 	i += 1;
- 	sparc_valid_addr_bitmap = (unsigned long *)
--		memblock_alloc_from(i << 2, SMP_CACHE_BYTES, 0UL);
-+		memblock_alloc(i << 2, SMP_CACHE_BYTES);
+ 	return ptr;
+ }
+diff --git a/arch/ia64/mm/init.c b/arch/ia64/mm/init.c
+index 29d8415..e49200e 100644
+--- a/arch/ia64/mm/init.c
++++ b/arch/ia64/mm/init.c
+@@ -444,23 +444,45 @@ int __init create_mem_map_page_table(u64 start, u64 end, void *arg)
  
- 	if (sparc_valid_addr_bitmap == NULL) {
- 		prom_printf("mem_init: Cannot alloc valid_addr_bitmap.\n");
-diff --git a/arch/sparc/mm/srmmu.c b/arch/sparc/mm/srmmu.c
-index b609362..a400ec3 100644
---- a/arch/sparc/mm/srmmu.c
-+++ b/arch/sparc/mm/srmmu.c
-@@ -303,13 +303,13 @@ static void __init srmmu_nocache_init(void)
+ 	for (address = start_page; address < end_page; address += PAGE_SIZE) {
+ 		pgd = pgd_offset_k(address);
+-		if (pgd_none(*pgd))
+-			pgd_populate(&init_mm, pgd, memblock_alloc_node(PAGE_SIZE, PAGE_SIZE, node));
++		if (pgd_none(*pgd)) {
++			pud = memblock_alloc_node(PAGE_SIZE, PAGE_SIZE, node);
++			if (!pud)
++				goto err_alloc;
++			pgd_populate(&init_mm, pgd, pud);
++		}
+ 		pud = pud_offset(pgd, address);
  
- 	bitmap_bits = srmmu_nocache_size >> SRMMU_NOCACHE_BITMAP_SHIFT;
+-		if (pud_none(*pud))
+-			pud_populate(&init_mm, pud, memblock_alloc_node(PAGE_SIZE, PAGE_SIZE, node));
++		if (pud_none(*pud)) {
++			pmd = memblock_alloc_node(PAGE_SIZE, PAGE_SIZE, node);
++			if (!pmd)
++				goto err_alloc;
++			pud_populate(&init_mm, pud, pmd);
++		}
+ 		pmd = pmd_offset(pud, address);
  
--	srmmu_nocache_pool = memblock_alloc_from(srmmu_nocache_size,
--						 SRMMU_NOCACHE_ALIGN_MAX, 0UL);
-+	srmmu_nocache_pool = memblock_alloc(srmmu_nocache_size,
-+					    SRMMU_NOCACHE_ALIGN_MAX);
- 	memset(srmmu_nocache_pool, 0, srmmu_nocache_size);
+-		if (pmd_none(*pmd))
+-			pmd_populate_kernel(&init_mm, pmd, memblock_alloc_node(PAGE_SIZE, PAGE_SIZE, node));
++		if (pmd_none(*pmd)) {
++			pte = memblock_alloc_node(PAGE_SIZE, PAGE_SIZE, node);
++			if (!pte)
++				goto err_alloc;
++			pmd_populate_kernel(&init_mm, pmd, pte);
++		}
+ 		pte = pte_offset_kernel(pmd, address);
  
- 	srmmu_nocache_bitmap =
--		memblock_alloc_from(BITS_TO_LONGS(bitmap_bits) * sizeof(long),
--				    SMP_CACHE_BYTES, 0UL);
-+		memblock_alloc(BITS_TO_LONGS(bitmap_bits) * sizeof(long),
-+			       SMP_CACHE_BYTES);
- 	bit_map_init(&srmmu_nocache_map, srmmu_nocache_bitmap, bitmap_bits);
+-		if (pte_none(*pte))
+-			set_pte(pte, pfn_pte(__pa(memblock_alloc_node(PAGE_SIZE, PAGE_SIZE, node)) >> PAGE_SHIFT,
++		if (pte_none(*pte)) {
++			void *page = memblock_alloc_node(PAGE_SIZE, PAGE_SIZE,
++							 node);
++			if (!page)
++				goto err_alloc;
++			set_pte(pte, pfn_pte(__pa(page) >> PAGE_SHIFT,
+ 					     PAGE_KERNEL));
++		}
+ 	}
+ 	return 0;
++
++err_alloc:
++	panic("%s: Failed to allocate %lu bytes align=0x%lx nid=%d\n",
++	      __func__, PAGE_SIZE, PAGE_SIZE, node);
++	return -ENOMEM;
+ }
  
- 	srmmu_swapper_pg_dir = __srmmu_get_nocache(SRMMU_PGD_TABLE_SIZE, SRMMU_PGD_TABLE_SIZE);
-@@ -467,7 +467,7 @@ static void __init sparc_context_init(int numctx)
- 	unsigned long size;
+ struct memmap_init_callback_data {
+diff --git a/arch/ia64/mm/tlb.c b/arch/ia64/mm/tlb.c
+index 9340bcb..5fc89aa 100644
+--- a/arch/ia64/mm/tlb.c
++++ b/arch/ia64/mm/tlb.c
+@@ -61,8 +61,14 @@ mmu_context_init (void)
+ {
+ 	ia64_ctx.bitmap = memblock_alloc((ia64_ctx.max_ctx + 1) >> 3,
+ 					 SMP_CACHE_BYTES);
++	if (!ia64_ctx.bitmap)
++		panic("%s: Failed to allocate %u bytes\n", __func__,
++		      (ia64_ctx.max_ctx + 1) >> 3);
+ 	ia64_ctx.flushmap = memblock_alloc((ia64_ctx.max_ctx + 1) >> 3,
+ 					   SMP_CACHE_BYTES);
++	if (!ia64_ctx.flushmap)
++		panic("%s: Failed to allocate %u bytes\n", __func__,
++		      (ia64_ctx.max_ctx + 1) >> 3);
+ }
  
- 	size = numctx * sizeof(struct ctx_list);
--	ctx_list_pool = memblock_alloc_from(size, SMP_CACHE_BYTES, 0UL);
-+	ctx_list_pool = memblock_alloc(size, SMP_CACHE_BYTES);
+ /*
+diff --git a/arch/ia64/sn/kernel/io_common.c b/arch/ia64/sn/kernel/io_common.c
+index 8df13d0..d468473 100644
+--- a/arch/ia64/sn/kernel/io_common.c
++++ b/arch/ia64/sn/kernel/io_common.c
+@@ -394,6 +394,9 @@ void __init hubdev_init_node(nodepda_t * npda, cnodeid_t node)
+ 	hubdev_info = (struct hubdev_info *)memblock_alloc_node(size,
+ 								SMP_CACHE_BYTES,
+ 								node);
++	if (!hubdev_info)
++		panic("%s: Failed to allocate %d bytes align=0x%x nid=%d\n",
++		      __func__, size, SMP_CACHE_BYTES, node);
  
- 	for (ctx = 0; ctx < numctx; ctx++) {
- 		struct ctx_list *clist;
+ 	npda->pdinfo = (void *)hubdev_info;
+ }
+diff --git a/arch/ia64/sn/kernel/setup.c b/arch/ia64/sn/kernel/setup.c
+index a6d40a2..e6a5049 100644
+--- a/arch/ia64/sn/kernel/setup.c
++++ b/arch/ia64/sn/kernel/setup.c
+@@ -513,6 +513,10 @@ static void __init sn_init_pdas(char **cmdline_p)
+ 		nodepdaindr[cnode] =
+ 		    memblock_alloc_node(sizeof(nodepda_t), SMP_CACHE_BYTES,
+ 					cnode);
++		if (!nodepdaindr[cnode])
++			panic("%s: Failed to allocate %lu bytes align=0x%x nid=%d\n",
++			      __func__, sizeof(nodepda_t), SMP_CACHE_BYTES,
++			      cnode);
+ 		memset(nodepdaindr[cnode]->phys_cpuid, -1,
+ 		    sizeof(nodepdaindr[cnode]->phys_cpuid));
+ 		spin_lock_init(&nodepdaindr[cnode]->ptc_lock);
+@@ -521,9 +525,15 @@ static void __init sn_init_pdas(char **cmdline_p)
+ 	/*
+ 	 * Allocate & initialize nodepda for TIOs.  For now, put them on node 0.
+ 	 */
+-	for (cnode = num_online_nodes(); cnode < num_cnodes; cnode++)
++	for (cnode = num_online_nodes(); cnode < num_cnodes; cnode++) {
+ 		nodepdaindr[cnode] =
+ 		    memblock_alloc_node(sizeof(nodepda_t), SMP_CACHE_BYTES, 0);
++		if (!nodepdaindr[cnode])
++			panic("%s: Failed to allocate %lu bytes align=0x%x nid=%d\n",
++			      __func__, sizeof(nodepda_t), SMP_CACHE_BYTES,
++			      cnode);
++	}
++
+ 
+ 	/*
+ 	 * Now copy the array of nodepda pointers to each nodepda.
 -- 
 2.7.4
