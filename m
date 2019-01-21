@@ -1,322 +1,67 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 21 Jan 2019 13:56:25 -0800
-Subject: [PATCH] ARC: prevent showing irrelevant exception info in signal
- message
-In-Reply-To: <20190121170735.5511-1-Eugeniy.Paltsev@synopsys.com>
-References: <20190121170735.5511-1-Eugeniy.Paltsev@synopsys.com>
+Date: Mon, 21 Jan 2019 14:32:30 -0800
+Subject: [PATCH 17/21] ARC: testsuite fix: stdlib/tst-makecontext
+In-Reply-To: <87ftuu799k.fsf@igel.home>
+References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
+ <1545167083-16764-18-git-send-email-vgupta@synopsys.com>
+ <87ftuu799k.fsf@igel.home>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <82e89101-423f-9937-f093-a24697dba7d7@synopsys.com>
+Message-ID: <7a48255a-139c-c3fc-bf05-4800744cafb2@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 1/21/19 9:07 AM, Eugeniy Paltsev wrote:
-> We process signals in the end of syscall/exception handler.
-> If the signal is fatal we print register's content using
-> show_regs function. show_regs() also prints information about
-> last exception happened.
-> 
-> In case of multicore system we can catch the situation when we
-> will print wrong information about exception. See the example:
-> ______________________________
-> CPU-0: started to handle page fault
-> CPU-1: sent signal to process, which is executed on CPU-0
-> CPU-0: ended page fault handle. Started to process signal before
->        returnig to userspace. Process signal, which is send from
->        CPU-0. As th signal is fatal we call show_regs().
->        show_regs() will show information about last exception
->        which is *page fault* (instead of "trap" which is used for
->        signals and happened on CPU-0)
-> 
-> So we will get message like this:
->    # ./waitpid02
->   potentially unexpected fatal signal 8.
->   Path: /home/waitpid02
->   CPU: 0 PID: 100 Comm: waitpid02 Not tainted 4.10.0-rc4 #2
->   task: 9f11c200 task.stack: 9f3ae000
-> 
->   [ECR   ]: 0x00050200 => Invalid Write @ 0x00000000 by insn @ 0x000123ec
->   [EFA   ]: 0x00000000
->   [BLINK ]: 0x123ea
->   [ERET  ]: 0x123ec
->     @off 0x123ec in [/home/waitpid02]
->     VMA: 0x00010000 to 0x00016000
->   [STAT32]: 0x80080882 : IE U
->   BTA: 0x000123ea  SP: 0x5ffd3db0  FP: 0x00000000
->   LPS: 0x20031684 LPE: 0x2003169a LPC: 0x00000006
->   [-----other-info-----]
-> 
-> This message is confusing because it show information about page fault
-> ( [ECR   ]: 0x00050200 => Invalid Write ) which is absolutely irrelevant
-> to signal.
-> 
-> This situation was reproduced with waitpid02 LTP test.
-> _____________________________
-> 
-> So remove printing information about exceptions from show_regs()
-> to avoid confusing messages. Print information about exceptions
-> only in required places instead of show_regs()
+On 12/18/18 2:36 PM, Andreas Schwab wrote:
+>>  ENTRY(__startcontext)
+>>  
+>> +	cfi_register (blink, r15)
+>> +
+> You should precede that with a dummy .cfi_label (see
+> sysdeps/riscv/start.S) to force the CFI into the FDE instead of the
+> CIE.  Also, can you use cfi_undefined instead?
 
-That is fine, but as I mentioned in your last posting, this is still not complete.
-If printing reg file confuses us in case of termination by signal from some other
-task, I don't see how just leaving out the exception regs, but still printing rest
-of the reg file is the complete solution. It is still bogus and any fixes to that
-effect are band aids.
-
-> 
-> Now we don't print information about exceptions if signal is simply
-> send by another userspace app. So in case of waitpid02 we will print
-> next message:
-
-So all we are skipping is the decoding of ECR as you seem to be printing the raw
-value anyways.
-
-> _____________________________
->    # ./waitpid02
->   potentially unexpected fatal signal 8.
->   Path: /root/waitpid02
->   CPU: 2 PID: 105 Comm: waitpid02 Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #17
->   [ECR   ]: 0x00050100
->   [EFA   ]: 0x00000000
->   [BLINK ]: 0x20001486
->   [-----other-info-----]
-> _____________________________
-> 
-> This patch fix
-> STAR 9001146055: waitpid02: Invalid Write @ 0x00000000 by insn @ 0x000123ec
-> 
-> NOTE:
-> To be more clear I give examples of different faults (signal-based,
-> userspace/kernelspace exception-based) with different values of
-> "/proc/sys/kernel/print-fatal-signals" option.
-> 
-> 0) NULL pointer access from user space, print-fatal-signals == 1:
-> ------------>8---------------
->  # ./arc_hell
-> Exception: arc_hell[103]: at 0x2003a35c [off 0x2e35c in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
->   ECR: 0x00050100 => Invalid Read @ 0x00000000 by insn @ 0x2003a35c
-> potentially unexpected fatal signal 11.
-> Path: /root/arc_hell
-> CPU: 1 PID: 103 Comm: arc_hell Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #17
-> [ECR   ]: 0x00050100
-
-So we are printing the ECR twice. Sorry this approach is not going to work.
+Yes that works as well.
 
 
-> [EFA   ]: 0x00000000
-> [BLINK ]: 0x20039ef8
-> [ERET  ]: 0x2003a35c
-...
-> 
-> Segmentation fault
-> ------------>8---------------
-> 
-> 1) NULL pointer access from user space, print-fatal-signals == 0:
-> ------------>8---------------
->  # ./arc_hell
-> Exception: arc_hell[107]: at 0x2003a35c [off 0x2e35c in /lib/libuClibc-1.0.18.so, VMA: 2000c000:20072000]
->   ECR: 0x00050100 => Invalid Read @ 0x00000000 by insn @ 0x2003a35c
-> Segmentation fault
-> ------------>8---------------
-> 
-> 2) Process killed by signal (waitpid02 test), print-fatal-signals == 1:
-> ------------>8---------------
->  # ./waitpid02
-> potentially unexpected fatal signal 8.
-> Path: /root/waitpid02
-> CPU: 2 PID: 105 Comm: waitpid02 Not tainted 4.18.0-rc8-00002-gde0f6d6aeb53-dirty #17
-> [ECR   ]: 0x00050100
-> [EFA   ]: 0x00000000
-> [BLINK ]: 0x20001486
-> [ERET  ]: 0x2000146c
-> [STAT32]: 0x80080082 : IE U
-> BTA: 0x20000fc4  SP: 0x5fa21d64  FP: 0x00000000
-> LPS: 0x200524a0 LPE: 0x200524b6 LPC: 0x00000006
-> r00: 0x2000c0dc r01: 0x00000018 r02: 0x0001159a
-> r03: 0x00000001 r04: 0x00000000 r05: 0x00000045
-> r06: 0x0000004e r07: 0x01010101 r08: 0x000000dc
-> r09: 0x200a31e0 r10: 0x20003a5c r11: 0x20004038
-> r12: 0x20001486 r13: 0x20004174 r14: 0x07ca2bc0
-> r15: 0x20004078 r16: 0x00000000 r17: 0x20004038
-> r18: 0x00000001 r19: 0x00000000 r20: 0x0001159a
-> r21: 0x00000001 r22: 0x00000000 r23: 0x00000004
-> r24: 0x2000d1fc r25: 0x20004cd0
+ ENTRY (__startcontext)
 
-This is the part I really object to. We should not print any register when they
-are not relevant. Not decoding the ECR is not enough IMO.
+-       cfi_register (blink, r15)
++       .cfi_label .Ldummy
++       cfi_undefined (blink)
 
 
-> ------------>8---------------
-> 
-> 3) Process killed by signal (waitpid02 test), print-fatal-signals == 0:
-> ------------>8---------------
->  # ./waitpid02
+00035e14 <__startcontext>:
+   35e14:	jl	[r13]
+   35e18:	mov	r0,r14
+   35e1c:	breq.nt	r0,0,8	;35e24 <__startcontext+0x10>
+   35e20:	bl	-168	;35d78 <setcontext>
+   35e24:	b	-38248	;2c8bc <exit>
 
-...
-> 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
-> Changes v3->v4:
->  * Rebase onto last ARC changes.
-> 
-> Changes v2->v3:
->  * Don't show exception message if the corresponding signal is
->    handled by application (inspired by x86 implementation)
->  * Rebase onto v4.19-rc8
-> 
-> Changes v1->v2:
->  * Change format of message about exception.
-> 
->  arch/arc/include/asm/bug.h     |  1 +
->  arch/arc/kernel/traps.c        |  3 +++
->  arch/arc/kernel/troubleshoot.c | 46 ++++++++++++++++++++++++++++++++----------
->  arch/arc/mm/fault.c            |  9 +++++++++
->  4 files changed, 48 insertions(+), 11 deletions(-)
-> 
-> diff --git a/arch/arc/include/asm/bug.h b/arch/arc/include/asm/bug.h
-> index 21ec82466d62..b68f7f82f2d8 100644
-> --- a/arch/arc/include/asm/bug.h
-> +++ b/arch/arc/include/asm/bug.h
-> @@ -16,6 +16,7 @@
->  struct task_struct;
->  
->  void show_regs(struct pt_regs *regs);
-> +void show_exception_mesg(struct pt_regs *regs);
->  void show_stacktrace(struct task_struct *tsk, struct pt_regs *regs);
->  void show_kernel_fault_diag(const char *str, struct pt_regs *regs,
->  			    unsigned long address);
-> diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
-> index a7fcbc0d3943..b94b13120bff 100644
-> --- a/arch/arc/kernel/traps.c
-> +++ b/arch/arc/kernel/traps.c
-> @@ -50,6 +50,9 @@ unhandled_exception(const char *str, struct pt_regs *regs,
->  
->  		tsk->thread.fault_address = (__force unsigned int)addr;
->  
-> +		if (unhandled_signal(tsk, signo))
-> +			show_exception_mesg(regs);
-> +
->  		force_sig_fault(signo, si_code, addr, tsk);
->  
->  	} else {
-> diff --git a/arch/arc/kernel/troubleshoot.c b/arch/arc/kernel/troubleshoot.c
-> index 215f515442e0..64e9867a1a65 100644
-> --- a/arch/arc/kernel/troubleshoot.c
-> +++ b/arch/arc/kernel/troubleshoot.c
-> @@ -106,13 +106,13 @@ static void show_faulting_vma(unsigned long address)
->  			if (IS_ERR(nm))
->  				nm = "?";
->  		}
-> -		pr_info("    @off 0x%lx in [%s]\n"
-> -			"    VMA: 0x%08lx to 0x%08lx\n",
-> +
-> +		pr_cont("[off 0x%lx in %s, VMA: %08lx:%08lx] ",
->  			vma->vm_start < TASK_UNMAPPED_BASE ?
->  				address : address - vma->vm_start,
->  			nm, vma->vm_start, vma->vm_end);
->  	} else
-> -		pr_info("    @No matching VMA found\n");
-> +		pr_cont("[No matching VMA found] ");
->  
->  	up_read(&active_mm->mmap_sem);
->  }
-> @@ -122,7 +122,7 @@ static void show_ecr_verbose(struct pt_regs *regs)
->  	unsigned int vec, cause_code;
->  	unsigned long address;
->  
-> -	pr_info("\n[ECR   ]: 0x%08lx => ", regs->event);
-> +	pr_cont("\n  ECR: 0x%08lx => ", regs->event);
->  
->  	/* For Data fault, this is data address not instruction addr */
->  	address = current->thread.fault_address;
-> @@ -170,10 +170,37 @@ static void show_ecr_verbose(struct pt_regs *regs)
->  	}
->  }
->  
-> +static inline void show_exception_mesg_u(struct pt_regs *regs)
-> +{
-> +	struct task_struct *tsk = current;
-> +
-> +	pr_info("Exception: %s[%d]: at %pS ",
-> +		tsk->comm, task_pid_nr(tsk), (void *)regs->ret);
-> +
-> +	show_faulting_vma(regs->ret);
-> +
-> +	show_ecr_verbose(regs);
-> +}
-> +
-> +static inline void show_exception_mesg_k(struct pt_regs *regs)
-> +{
-> +	pr_info("Exception: at %pS:", (void *)regs->ret);
-> +
-> +	show_ecr_verbose(regs);
-> +}
-> +
->  /************************************************************************
->   *  API called by rest of kernel
->   ***********************************************************************/
->  
-> +void show_exception_mesg(struct pt_regs *regs)
-> +{
-> +	if (user_mode(regs))
-> +		show_exception_mesg_u(regs);
-> +	else
-> +		show_exception_mesg_k(regs);
-> +}
-> +
->  void show_regs(struct pt_regs *regs)
->  {
->  	struct task_struct *tsk = current;
-> @@ -188,15 +215,10 @@ void show_regs(struct pt_regs *regs)
->  	print_task_path_n_nm(tsk);
->  	show_regs_print_info(KERN_INFO);
->  
-> -	show_ecr_verbose(regs);
-> -
-> -	pr_info("[EFA   ]: 0x%08lx\n[BLINK ]: %pS\n[ERET  ]: %pS\n",
-> -		current->thread.fault_address,
-> +	pr_info("[ECR   ]: 0x%08lx\n[EFA   ]: 0x%08lx\n[BLINK ]: %pS\n[ERET  ]: %pS\n",
-> +		regs->event, current->thread.fault_address,
->  		(void *)regs->blink, (void *)regs->ret);
->  
-> -	if (user_mode(regs))
-> -		show_faulting_vma(regs->ret); /* faulting code, not data */
-> -
->  	pr_info("[STAT32]: 0x%08lx", regs->status32);
->  
->  #define STS_BIT(r, bit)	r->status32 & STATUS_##bit##_MASK ? #bit" " : ""
-> @@ -239,6 +261,8 @@ void show_kernel_fault_diag(const char *str, struct pt_regs *regs,
->  	/* Show fault description */
->  	pr_info("\n%s\n", str);
->  
-> +	show_exception_mesg(regs);
-> +
->  	/* Caller and Callee regs */
->  	show_regs(regs);
->  
-> diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-> index 8df1638259f3..e44b64107adb 100644
-> --- a/arch/arc/mm/fault.c
-> +++ b/arch/arc/mm/fault.c
-> @@ -202,7 +202,12 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
->  	/* User mode accesses just cause a SIGSEGV */
->  	if (user_mode(regs)) {
->  		tsk->thread.fault_address = address;
-> +
-> +		if (unhandled_signal(tsk, SIGSEGV))
-> +			show_exception_mesg(regs);
-> +
->  		force_sig_fault(SIGSEGV, si_code, (void __user *)address, tsk);
-> +
->  		return;
->  	}
->  
-> @@ -237,5 +242,9 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
->  		goto no_context;
->  
->  	tsk->thread.fault_address = address;
-> +
-> +	if (unhandled_signal(tsk, SIGBUS))
-> +		show_exception_mesg(regs);
-> +
->  	force_sig_fault(SIGBUS, BUS_ADRERR, (void __user *)address, tsk);
->  }
-> 
+New
+----
+0000058c 00000010 00000590 FDE cie=00000000 pc=00035e14..00035e28
+  DW_CFA_undefined: r31
+  DW_CFA_nop
+
+Old
+----
+00035df4 <__startcontext>:
+   35df4:	jl	[r13]
+   35df8:	mov	r0,r14
+   35dfc:	breq.nt	r0,0,8	;35e04 <__startcontext+0x10>
+   35e00:	bl	-168	;35d58 <setcontext>
+   35e04:	b	-38248	;2c89c <exit>
+
+0000058c 00000014 00000000 CIE
+  Version:               1
+  Augmentation:          "zR"
+  Code alignment factor: 1
+  Data alignment factor: -4
+  Return address column: 31
+  Augmentation data:     1b
+  DW_CFA_def_cfa: r28 ofs 0
+  DW_CFA_register: r31 in r15
+  DW_CFA_nop
+
+000005a4 00000010 0000001c FDE cie=0000058c pc=00035df4..00035e08
+  DW_CFA_nop
+  DW_CFA_nop
+  DW_CFA_nop
