@@ -1,50 +1,44 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 23 Jan 2019 12:33:03 -0800
-Subject: [PATCH v2 2/3] fs: inode_set_flags() replace opencoded set_mask_bits()
+Date: Wed, 23 Jan 2019 12:33:02 -0800
+Subject: [PATCH v2 1/3] coredump: Replace opencoded set_mask_bits()
 In-Reply-To: <1548275584-18096-1-git-send-email-vgupta@synopsys.com>
 References: <1548275584-18096-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1548275584-18096-3-git-send-email-vgupta@synopsys.com>
+Message-ID: <1548275584-18096-2-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-It seems that 5f16f3225b0624 and 00a1a053ebe5, both with same commitlog
-("ext4: atomically set inode->i_flags in ext4_set_inode_flags()")
-introduced the set_mask_bits API, but somehow missed not using it in
-ext4 in the end
-
-Also, set_mask_bits is used in fs quite a bit and we can possibly come up
-with a generic llsc based implementation (w/o the cmpxchg loop)
-
 Cc: Alexander Viro <viro at zeniv.linux.org.uk>
-Cc: Theodore Ts'o <tytso at mit.edu>
 Cc: Peter Zijlstra (Intel) <peterz at infradead.org>
 Cc: linux-fsdevel at vger.kernel.org
 Cc: linux-kernel at vger.kernel.org
+Link: http://lkml.kernel.org/g/20150807115710.GA16897 at redhat.com
 Reviewed-by: Anthony Yznaga <anthony.yznaga at oracle.com>
+Acked-by: Oleg Nesterov <oleg at redhat.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- fs/inode.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ fs/exec.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/fs/inode.c b/fs/inode.c
-index 0cd47fe0dbe5..799b0c4beda8 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -2096,14 +2096,8 @@ EXPORT_SYMBOL(inode_dio_wait);
- void inode_set_flags(struct inode *inode, unsigned int flags,
- 		     unsigned int mask)
+diff --git a/fs/exec.c b/fs/exec.c
+index fb72d36f7823..df7f05362283 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1944,15 +1944,10 @@ EXPORT_SYMBOL(set_binfmt);
+  */
+ void set_dumpable(struct mm_struct *mm, int value)
  {
--	unsigned int old_flags, new_flags;
+-	unsigned long old, new;
 -
- 	WARN_ON_ONCE(flags & ~mask);
--	do {
--		old_flags = READ_ONCE(inode->i_flags);
--		new_flags = (old_flags & ~mask) | flags;
--	} while (unlikely(cmpxchg(&inode->i_flags, old_flags,
--				  new_flags) != old_flags));
-+	set_mask_bits(&inode->i_flags, mask, flags);
- }
- EXPORT_SYMBOL(inode_set_flags);
+ 	if (WARN_ON((unsigned)value > SUID_DUMP_ROOT))
+ 		return;
  
+-	do {
+-		old = READ_ONCE(mm->flags);
+-		new = (old & ~MMF_DUMPABLE_MASK) | value;
+-	} while (cmpxchg(&mm->flags, old, new) != old);
++	set_mask_bits(&mm->flags, MMF_DUMPABLE_MASK, value);
+ }
+ 
+ SYSCALL_DEFINE3(execve,
 -- 
 2.7.4
