@@ -1,61 +1,61 @@
-From: carlos@redhat.com (Carlos O'Donell)
-Date: Wed, 23 Jan 2019 12:24:41 -0500
-Subject: misc/check-installed-headers-c failing due to upstream kernel
- change
-In-Reply-To: <a8c5c359-c515-ec77-7498-4a86046bc0e1@synopsys.com>
-References: <4db851ae-9bb2-2159-96bf-c4b34b505bd9@synopsys.com>
- <1548259069.3229.308.camel@codethink.co.uk>
- <26167c76-7d83-40e9-49d3-1c38b6ae3f8a@redhat.com>
- <a8c5c359-c515-ec77-7498-4a86046bc0e1@synopsys.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 23 Jan 2019 11:55:49 -0800
+Subject: Semantics of symbol address in perf report -v
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <00b639e3-c96f-d75e-ed49-3c6ebe274228@redhat.com>
+Message-ID: <da403654-f21d-9959-067f-b76581600741@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 1/23/19 12:13 PM, Vineet Gupta wrote:
-> On 1/23/19 8:51 AM, Carlos O'Donell wrote:
->> On 1/23/19 10:57 AM, Ben Hutchings wrote:
->>> On Mon, 2019-01-21@14:56 -0800, Vineet Gupta wrote:
->>>> Hi,
->>>>
->>>> It seems a recent upstream kernel change (went in 5.0-rcX) 81c9d43f9487
->>>> ("kernel/sysctl: add panic_print into sysctl") trips one of the glibc tests.
->>>>
->>>> 	FAIL: misc/check-installed-headers-c
->>>>
->>>>> :: sys/sysctl.h
->>>>> ::::
->>>>> *** Obsolete types detected:
->>>>> ~/install/compilers/arc-linux-gnu/sysroot/usr/include/linux /sysctl.h:
->>>>> KERN_PANIC_PRINT=78, /* ulong: bitmask to print system info on panic */
->>>>
->>>> It doesn't seem to like ulong (inside a comment). I don't have enough foo to fix
->>>> it, but wanted to bring it to notice anyways.
->>>
->>> This additions looks like a mistake, anyway - Linux's binary sysctl
->>> interface is only there for ancient compatibility and no new sysctls
->>> should be added to this enumeration.
->>
->> Just to be clear, this glibc test failure is a false positive [1], and
->> we're working to correct this [2]. However, if this is also not needed on
->> the kernel side, then that's also OK with us :-)
->>
-> 
-> [1] https://www.sourceware.org/ml/libc-alpha/2019-01/msg00413.html
-> [2] https://www.sourceware.org/ml/libc-alpha/2019-01/msg00513.html
-> 
-> Great, I didn't skim thru the mailing list before posting this. So this is already
-> known and being worked on !
-> 
-> Does it make sense to add the minimal fix for 2.29 ? It is likely in near future,
-> people using the released glibc with newer kernel will run into this, unless
-> kernel folks zap this quickly, within the current release.
+Hi,
 
-I don't think there is any rush. Review [2] and give Zack any feedback
-on correctness? We commit to master, and backport to the release branch
-for 2.29 when ready. Developers should be using the release branches.
-Distributions already use the release branches to get continued security
-fixes and bug fixes.
+I noticed a small anomaly in perf report -v output on ARC and x86 as well.
 
--- 
-Cheers,
-Carlos.
+A simple program which sits in tight loop, compiled for x86_64
+
+void main() { while(1) {} }
+
+$ gcc -g tight.c
+$ ./a.out &
+$ perf record -e cycles -p 26703
+$ perf report -n -v  --stdio  | egrep "(main|Symbol)"
+
+|# Overhead Samples Command  Shared Object         Symbol
+
+|  99.93%    55753   a.out   /home/arc/test/a.out  0x4da     B [.] main
+
+|                                                  ^^^^^
+
+The printer address for Symbols is *not* the actual address in elf, but rather VMA
+start offset.
+
+0x4da = 0x4004da - 0x0000000000400000
+
+$ objdump -d ./a.out
+
+| 00000000004004d6 <main>:
+|  4004d6:	55                   	push   %rbp
+|  4004d7:	48 89 e5             	mov    %rsp,%rbp
+|  4004da:	eb fe                	jmp    4004da <main+0x4>
+|  4004dc:	0f 1f 40 00          	nopl   0x0(%rax)
+
+$ readelf -a ./a.out
+
+| Program Headers:
+|  Type           Offset             VirtAddr           PhysAddr
+|                 FileSiz            MemSiz              Flags  Align
+| Program Headers:
+|  LOAD           0x0000000000000000 0x0000000000400000 0x0000000000400000
+                 0x000000000000068c 0x000000000000068c  R E    200000
+
+
+This is problematic in narrowing down the hotspot instruction, when the binary
+itself is. One needs to do the offset addition manually to find the actual hotspot
+location.
+
+|   99.79%  100064  a.out  /home/arc/test/a.out  0x4da  B [.] 0x00000000000004da
+
+                                                               ^^^^^^^^^^^^^^^^
+
+Is this considered an issue ? Would the fix to print the actual symbol address
+(and recorded in raw perf event data) break some existing tooling etc.
+
+-Vineet
