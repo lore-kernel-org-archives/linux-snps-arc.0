@@ -1,96 +1,73 @@
 From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 29 Jan 2019 13:49:38 +0300
-Subject: [PATCH 1/5] ARCv2: lib: memcpy: fix doing prefetchw outside of buffer
+Date: Tue, 29 Jan 2019 13:49:39 +0300
+Subject: [PATCH 2/5] ARCv2: introduce unaligned access under a Kconfig option
 In-Reply-To: <20190129104942.31705-1-Eugeniy.Paltsev@synopsys.com>
 References: <20190129104942.31705-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190129104942.31705-2-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20190129104942.31705-3-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-ARCv2 optimized memcpy uses PREFETCHW instruction for prefetching the
-next cache line but doesn't ensure that the line is not past the end of
-the buffer. PRETECHW changes the line ownership and marks it dirty,
-which can cause data corruption if this area is used for DMA IO.
-
-Fix the issue by avoiding the PREFETCHW. This leads to performance
-degradation but it is OK as we'll introduce new memcpy implementation
-optimized for unaligned memory access using.
-
-We also cut off all PREFETCH instructions at they are quite useless
-according to benchmark.
+As of today we enable unaligned access unconditionally on ARCv2.
+Lets move it under Kconfig option so we can disable it in case of
+using HW configuration which lacks of it.
 
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 ---
- arch/arc/lib/memcpy-archs.S | 14 --------------
- 1 file changed, 14 deletions(-)
+ arch/arc/Kconfig                      | 8 ++++++++
+ arch/arc/include/asm/irqflags-arcv2.h | 4 ++++
+ arch/arc/kernel/intc-arcv2.c          | 4 +++-
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arc/lib/memcpy-archs.S b/arch/arc/lib/memcpy-archs.S
-index d61044dd8b58..ea14b0bf3116 100644
---- a/arch/arc/lib/memcpy-archs.S
-+++ b/arch/arc/lib/memcpy-archs.S
-@@ -25,15 +25,11 @@
- #endif
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 376366a7db81..37c8aeefa3a5 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -387,6 +387,14 @@ config ARC_HAS_SWAPE
  
- #ifdef CONFIG_ARC_HAS_LL64
--# define PREFETCH_READ(RX)	prefetch    [RX, 56]
--# define PREFETCH_WRITE(RX)	prefetchw   [RX, 64]
- # define LOADX(DST,RX)		ldd.ab	DST, [RX, 8]
- # define STOREX(SRC,RX)		std.ab	SRC, [RX, 8]
- # define ZOLSHFT		5
- # define ZOLAND			0x1F
- #else
--# define PREFETCH_READ(RX)	prefetch    [RX, 28]
--# define PREFETCH_WRITE(RX)	prefetchw   [RX, 32]
- # define LOADX(DST,RX)		ld.ab	DST, [RX, 4]
- # define STOREX(SRC,RX)		st.ab	SRC, [RX, 4]
- # define ZOLSHFT		4
-@@ -41,8 +37,6 @@
- #endif
+ if ISA_ARCV2
  
- ENTRY_CFI(memcpy)
--	prefetch [r1]		; Prefetch the read location
--	prefetchw [r0]		; Prefetch the write location
- 	mov.f	0, r2
- ;;; if size is zero
- 	jz.d	[blink]
-@@ -72,8 +66,6 @@ ENTRY_CFI(memcpy)
- 	lpnz	@.Lcopy32_64bytes
- 	;; LOOP START
- 	LOADX (r6, r1)
--	PREFETCH_READ (r1)
--	PREFETCH_WRITE (r3)
- 	LOADX (r8, r1)
- 	LOADX (r10, r1)
- 	LOADX (r4, r1)
-@@ -117,9 +109,7 @@ ENTRY_CFI(memcpy)
- 	lpnz	@.Lcopy8bytes_1
- 	;; LOOP START
- 	ld.ab	r6, [r1, 4]
--	prefetch [r1, 28]	;Prefetch the next read location
- 	ld.ab	r8, [r1,4]
--	prefetchw [r3, 32]	;Prefetch the next write location
++config ARC_USE_UNALIGNED_MEM_ACCESS
++	bool "Handle unaligned access in HW and use it"
++	default y
++	help
++	  The ARC HS architecture supports unaligned memory access
++	  which is disabled by default. Enable unaligned access in
++	  hardware and use it in software.
++
+ config ARC_HAS_LL64
+ 	bool "Insn: 64bit LDD/STD"
+ 	help
+diff --git a/arch/arc/include/asm/irqflags-arcv2.h b/arch/arc/include/asm/irqflags-arcv2.h
+index 8a4f77ea3238..9b911e2c6b31 100644
+--- a/arch/arc/include/asm/irqflags-arcv2.h
++++ b/arch/arc/include/asm/irqflags-arcv2.h
+@@ -44,8 +44,12 @@
+ #define ARCV2_IRQ_DEF_PRIO	1
  
- 	SHIFT_1	(r7, r6, 24)
- 	or	r7, r7, r5
-@@ -162,9 +152,7 @@ ENTRY_CFI(memcpy)
- 	lpnz	@.Lcopy8bytes_2
- 	;; LOOP START
- 	ld.ab	r6, [r1, 4]
--	prefetch [r1, 28]	;Prefetch the next read location
- 	ld.ab	r8, [r1,4]
--	prefetchw [r3, 32]	;Prefetch the next write location
+ /* seed value for status register */
++#ifdef CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS
+ #define ISA_INIT_STATUS_BITS	(STATUS_IE_MASK | STATUS_AD_MASK | \
+ 					(ARCV2_IRQ_DEF_PRIO << 1))
++#else
++#define ISA_INIT_STATUS_BITS	(STATUS_IE_MASK | (ARCV2_IRQ_DEF_PRIO << 1))
++#endif /* CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS */
  
- 	SHIFT_1	(r7, r6, 16)
- 	or	r7, r7, r5
-@@ -204,9 +192,7 @@ ENTRY_CFI(memcpy)
- 	lpnz	@.Lcopy8bytes_3
- 	;; LOOP START
- 	ld.ab	r6, [r1, 4]
--	prefetch [r1, 28]	;Prefetch the next read location
- 	ld.ab	r8, [r1,4]
--	prefetchw [r3, 32]	;Prefetch the next write location
+ #ifndef __ASSEMBLY__
  
- 	SHIFT_1	(r7, r6, 8)
- 	or	r7, r7, r5
+diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
+index 067ea362fb3e..84b1c7157d1b 100644
+--- a/arch/arc/kernel/intc-arcv2.c
++++ b/arch/arc/kernel/intc-arcv2.c
+@@ -93,7 +93,9 @@ void arc_init_IRQ(void)
+ 
+ 	/* setup status32, don't enable intr yet as kernel doesn't want */
+ 	tmp = read_aux_reg(ARC_REG_STATUS32);
+-	tmp |= STATUS_AD_MASK | (ARCV2_IRQ_DEF_PRIO << 1);
++	if (IS_ENABLED(ARC_USE_UNALIGNED_MEM_ACCESS))
++		tmp |= STATUS_AD_MASK;
++	tmp |= ARCV2_IRQ_DEF_PRIO << 1;
+ 	tmp &= ~STATUS_IE_MASK;
+ 	asm volatile("kflag %0	\n"::"r"(tmp));
+ }
 -- 
 2.14.5
