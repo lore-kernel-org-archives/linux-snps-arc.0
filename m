@@ -1,42 +1,55 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 29 Jan 2019 17:15:16 +0000
+Date: Tue, 29 Jan 2019 09:21:39 -0800
 Subject: [PATCH 1/2] ARCv2: Enable unaligned access in early ASM code
+In-Reply-To: <20190116112951.10641-1-Eugeniy.Paltsev@synopsys.com>
 References: <20190116112951.10641-1-Eugeniy.Paltsev@synopsys.com>
- <4881796E12491D4BB15146FE0209CE64681CEB03@DE02WEMBXB.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014642D3FD@US01WEMBX2.internal.synopsys.com>
+Message-ID: <3c341dd9-f360-640e-a3c9-3291300d02ae@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 1/28/19 11:27 PM, Alexey Brodkin wrote:
-> Hi Vineet,
->
->> -----Original Message-----
->> From: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
->> Sent: Wednesday, January 16, 2019 2:30 PM
->> To: linux-snps-arc at lists.infradead.org; Vineet Gupta <vgupta at synopsys.com>
->> Cc: linux-kernel at vger.kernel.org; Alexey Brodkin <abrodkin at synopsys.com>; Eugeniy Paltsev
->> <Eugeniy.Paltsev at synopsys.com>
->> Subject: [PATCH 1/2] ARCv2: Enable unaligned access in early ASM code
->>
->> Even though we do enable AD bit in arc_init_IRQ() we need to do
->> it in early ASM code otherwise we may face unaligned data until
->> we reach arc_init_IRQ() because GCC starting from v8.1.0 actively
->> generates unaligned data as it assumes that:
->>  * ARCv2 always has support of unaliged data
->>  * This support is turned on in runtime
->>
->> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> I remember you wanted to have a Kconfig toggle for unaligned access support
-> but since this commit is more of a fix for existing (always enabling)
-> implementation and so I propose to accept is as it is and moreover backport
-> to stable kernels.
->
-> And in the separate change introduce discussed Kconfig toggle so we may test
-> RTL with unaligned support disabled.
->
-> Sounds good?
+On 1/16/19 3:29 AM, Eugeniy Paltsev wrote:
+> Even though we do enable AD bit in arc_init_IRQ() we need to do
+> it in early ASM code otherwise we may face unaligned data until
+> we reach arc_init_IRQ() because GCC starting from v8.1.0 actively
+> generates unaligned data as it assumes that:
+>  * ARCv2 always has support of unaliged data
+>  * This support is turned on in runtime
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> ---
+>  arch/arc/kernel/head.S | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
+> index 8b90d25a15cc..d5b7a572365a 100644
+> --- a/arch/arc/kernel/head.S
+> +++ b/arch/arc/kernel/head.S
+> @@ -17,6 +17,9 @@
+>  #include <asm/entry.h>
+>  #include <asm/arcregs.h>
+>  #include <asm/cache.h>
+> +#ifdef CONFIG_ISA_ARCV2
+> +#include <asm/irqflags-arcv2.h>
+> +#endif
 
-Fair enough. And to avoid backport merge conflicts we need to keep the redundant
-AD bit setting in intc-arcv2.c and rework in Eugeniy's series.
+I presume there is no specific reason to include this conditionally.
+irqflags.h already includes the right version.
 
--Vineet
+>  
+>  .macro CPU_EARLY_SETUP
+>  
+> @@ -47,6 +50,13 @@
+>  	sr	r5, [ARC_REG_DC_CTRL]
+>  
+>  1:
+> +
+> +#ifdef CONFIG_ISA_ARCV2
+> +	; Enable handling of unaligned access in the CPU as by default
+> +	; this HW feature is disabled while GCC starting from 8.1.0
+> +	; unconditionally uses it for ARC HS cores.
+> +	flag    1 << STATUS_AD_BIT
+> +#endif
+>  .endm
+>  
+>  	.section .init.text, "ax", at progbits
+> 
