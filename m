@@ -1,30 +1,33 @@
-From: mpe@ellerman.id.au (Michael Ellerman)
-Date: Tue, 29 Jan 2019 21:29:19 +1100
-Subject: [PATCH v2 09/21] memblock: drop memblock_alloc_base()
-In-Reply-To: <1548057848-15136-10-git-send-email-rppt@linux.ibm.com>
-References: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
- <1548057848-15136-10-git-send-email-rppt@linux.ibm.com>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 29 Jan 2019 13:49:37 +0300
+Subject: [PATCH 0/5] introduce unaligned access under a Kconfig option
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <87sgxbrc3k.fsf@concordia.ellerman.id.au>
+Message-ID: <20190129104942.31705-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Mike Rapoport <rppt at linux.ibm.com> writes:
+As of today we enable unaligned access unconditionally on ARCv2.
+Lets move it under Kconfig option and use it actively in SW if it is
+enabled.
 
-> The memblock_alloc_base() function tries to allocate a memory up to the
-> limit specified by its max_addr parameter and panics if the allocation
-> fails. Replace its usage with memblock_phys_alloc_range() and make the
-> callers check the return value and panic in case of error.
->
-> Signed-off-by: Mike Rapoport <rppt at linux.ibm.com>
-> ---
->  arch/powerpc/kernel/rtas.c      |  6 +++++-
->  arch/powerpc/mm/hash_utils_64.c |  8 ++++++--
->  arch/s390/kernel/smp.c          |  6 +++++-
->  drivers/macintosh/smu.c         |  2 +-
->  include/linux/memblock.h        |  2 --
->  mm/memblock.c                   | 14 --------------
->  6 files changed, 17 insertions(+), 21 deletions(-)
+While I'm at it fix and optimise ARCv2 memcpy implementaion.
 
-Acked-by: Michael Ellerman <mpe at ellerman.id.au> (powerpc)
+Eugeniy Paltsev (5):
+  ARCv2: lib: memcpy: fix doing prefetchw outside of buffer
+  ARCv2: introduce unaligned access under a Kconfig option
+  ARCv2: Enable unaligned access in early ASM code
+  ARCv2: use unaligned access in SW
+  ARCv2: LIB: MEMCPY: fixed and optimised routine
 
-cheers
+ arch/arc/Kconfig                      | 13 ++++++++++
+ arch/arc/Makefile                     |  6 +++++
+ arch/arc/include/asm/irqflags-arcv2.h |  4 +++
+ arch/arc/kernel/head.S                | 14 +++++++++++
+ arch/arc/kernel/intc-arcv2.c          |  2 +-
+ arch/arc/lib/Makefile                 |  5 +++-
+ arch/arc/lib/memcpy-archs-unaligned.S | 46 +++++++++++++++++++++++++++++++++++
+ arch/arc/lib/memcpy-archs.S           | 14 -----------
+ 8 files changed, 88 insertions(+), 16 deletions(-)
+ create mode 100644 arch/arc/lib/memcpy-archs-unaligned.S
+
+-- 
+2.14.5
