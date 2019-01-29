@@ -1,117 +1,65 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 29 Jan 2019 21:55:07 +0000
-Subject: [PATCH 5/5] ARCv2: LIB: MEMCPY: fixed and optimised routine
-References: <20190129104942.31705-1-Eugeniy.Paltsev@synopsys.com>
- <20190129104942.31705-6-Eugeniy.Paltsev@synopsys.com>
+Date: Tue, 29 Jan 2019 15:36:30 -0800
+Subject: [PATCH 13/21] ARC: Build Infrastructure
+In-Reply-To: <alpine.DEB.2.21.1812202323290.24773@digraph.polyomino.org.uk>
+References: <1545167083-16764-1-git-send-email-vgupta@synopsys.com>
+ <1545167083-16764-14-git-send-email-vgupta@synopsys.com>
+ <alpine.DEB.2.21.1812182340110.30183@digraph.polyomino.org.uk>
+ <23aece37-8497-8b48-dadb-3e73667ff3e4@synopsys.com>
+ <alpine.DEB.2.21.1812192214410.10617@digraph.polyomino.org.uk>
+ <98eef4d3-93a2-0ad5-fef1-912cede85650@synopsys.com>
+ <alpine.DEB.2.21.1812202323290.24773@digraph.polyomino.org.uk>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014642D5B4@US01WEMBX2.internal.synopsys.com>
+Message-ID: <eed47c81-a417-2e6f-d159-a10c59e5167d@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 1/29/19 2:49 AM, Eugeniy Paltsev wrote:
-> Optimise code to use efficient unaligned memory access which is
-> available on ARCv2. This allows us to really simplify memcpy code
-> and speed up the code one and a half times (in case of unaligned
-> source or destination).
->
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
->  arch/arc/Kconfig                      |  4 +++
->  arch/arc/lib/Makefile                 |  5 +++-
->  arch/arc/lib/memcpy-archs-unaligned.S | 46 +++++++++++++++++++++++++++++++++++
->  3 files changed, 54 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arc/lib/memcpy-archs-unaligned.S
->
-> diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-> index a1d976c612a6..88f1a3205b8f 100644
-> --- a/arch/arc/Kconfig
-> +++ b/arch/arc/Kconfig
-> @@ -396,6 +396,10 @@ config ARC_USE_UNALIGNED_MEM_ACCESS
->  	  which is disabled by default. Enable unaligned access in
->  	  hardware and use it in software.
->  
-> +#dummy symbol for using in makefile
-> +config ARC_NO_UNALIGNED_MEM_ACCESS
-> +	def_bool !ARC_USE_UNALIGNED_MEM_ACCESS
-> +
+On 12/20/18 3:24 PM, Joseph Myers wrote:
+> On Thu, 20 Dec 2018, Vineet Gupta wrote:
+> 
+>> On 12/19/18 2:17 PM, Joseph Myers wrote:
+>>> I should note a separate issue to consider: that of *static* PIE support.  
+>>> That doesn't need to be working, but if it's not working,
+>>
+>> Aren't there directed test cases for that already ?
+>>
+>> PASS: elf/tst-tls1-static
+>> PASS: elf/tst-tls1-static-non-pie
+>> FAIL: gmon/tst-gmon-pie-gprof
+> 
+> The key point on the PortStatus page is "If linker can correctly generate 
+> static PIE, glibc test results should be identical with and without 
+> --enable-static-pie.".  You need to test a build configured with 
+> --enable-static-pie to see if this is fully working.
 
-Not needed - you can use the kconfig symbols in Makefile.
-See arch/arc/kernel/Makefile
+Unfortunately this doesn't seem to work.
 
->  config ARC_HAS_LL64
->  	bool "Insn: 64bit LDD/STD"
->  	help
-> diff --git a/arch/arc/lib/Makefile b/arch/arc/lib/Makefile
-> index b1656d156097..59cc8b61342e 100644
-> --- a/arch/arc/lib/Makefile
-> +++ b/arch/arc/lib/Makefile
-> @@ -8,4 +8,7 @@
->  lib-y	:= strchr-700.o strcpy-700.o strlen.o memcmp.o
->  
->  lib-$(CONFIG_ISA_ARCOMPACT)	+= memcpy-700.o memset.o strcmp.o
-> -lib-$(CONFIG_ISA_ARCV2)		+= memcpy-archs.o memset-archs.o strcmp-archs.o
-> +lib-$(CONFIG_ISA_ARCV2)		+= memset-archs.o strcmp-archs.o
-> +
-> +lib-$(CONFIG_ARC_NO_UNALIGNED_MEM_ACCESS)	+= memcpy-archs.o
-> +lib-$(CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS)	+= memcpy-archs-unaligned.o
-
-ifdef CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS
-lib-$(CONFIG_ISA_ARCV2) +=memcpy-archs-unaligned.o
-else
-lib-$(CONFIG_ISA_ARCV2) +=memcpy-archs.o
-endif
-
-> diff --git a/arch/arc/lib/memcpy-archs-unaligned.S b/arch/arc/lib/memcpy-archs-unaligned.S
-> new file mode 100644
-> index 000000000000..e09b51d4de70
-> --- /dev/null
-> +++ b/arch/arc/lib/memcpy-archs-unaligned.S
-> @@ -0,0 +1,46 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +//
-> +// ARCv2 memcpy implementation optimized for unaligned memory access using.
-> +//
-> +// Copyright (C) 2019 Synopsys
-> +// Author: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> +
-> +#include <linux/linkage.h>
-> +
-> +#ifdef CONFIG_ARC_HAS_LL64
-> +# define LOADX(DST,RX)		ldd.ab	DST, [RX, 8]
-> +# define STOREX(SRC,RX)		std.ab	SRC, [RX, 8]
-> +# define ZOLSHFT		5
-> +# define ZOLAND			0x1F
-> +#else
-> +# define LOADX(DST,RX)		ld.ab	DST, [RX, 4]
-> +# define STOREX(SRC,RX)		st.ab	SRC, [RX, 4]
-> +# define ZOLSHFT		4
-> +# define ZOLAND			0xF
-> +#endif
-> +
-> +ENTRY_CFI(memcpy)
-> +	mov	r3, r0		; don;t clobber ret val
-> +
-> +	lsr.f	lp_count, r2, ZOLSHFT
-> +	lpnz	@.Lcopy32_64bytes
-> +	;; LOOP START
-> +	LOADX	(r6, r1)
-> +	LOADX	(r8, r1)
-> +	LOADX	(r10, r1)
-> +	LOADX	(r4, r1)
-> +	STOREX	(r6, r3)
-> +	STOREX	(r8, r3)
-> +	STOREX	(r10, r3)
-> +	STOREX	(r4, r3)
-> +.Lcopy32_64bytes:
-> +
-> +	and.f	lp_count, r2, ZOLAND ;Last remaining 31 bytes
-> +	lpnz	@.Lcopyremainingbytes
-> +	;; LOOP START
-> +	ldb.ab	r5, [r1, 1]
-> +	stb.ab	r5, [r3, 1]
+ld bails out when linking elf/sln. It can't seem to resolve the _DYNAMIC at pcl in
+elf_machine_load_address(). We can look into this but presume it is not a deal
+breaker.
 
 
+~/BR/host/bin/arc-buildroot-linux-gnu-gcc
+-nostdlib -nostartfiles
+*-static*
+-o ~/BR/build/glibc-2f9a78f208a7/build/elf/sln
+*-static-pie*
+~/BR/build/glibc-2f9a78f208a7/build/csu/rcrt1.o
+~/BR/build/glibc-2f9a78f208a7/build/csu/crti.o
+`~/BR/host/bin/arc-buildroot-linux-gnu-gcc  --print-file-name=crtbeginS.o`
+~/BR/build/glibc-2f9a78f208a7/build/elf/sln.o
+~/BR/build/glibc-2f9a78f208a7/build/elf/static-stubs.o
+-Wl,--start-group
+~/BR/build/glibc-2f9a78f208a7/build/libc.a -lgcc
+-Wl,--end-group
+`~/BR/host/bin/arc-buildroot-linux-gnu-gcc  --print-file-name=crtendS.o`
+~/BR/build/glibc-2f9a78f208a7/build/csu/crtn.o
 
-> +.Lcopyremainingbytes:
-> +
-> +	j	[blink]
-> +END_CFI(memcpy)
+~/BR/host/lib/gcc/arc-buildroot-linux-gnu/8.2.1/../../../../arc-buildroot-linux-gnu/bin/ld:
+~/BR/build/glibc-2f9a78f208a7/build/libc.a(dl-reloc-static-pie.o): in function
+`elf_machine_load_address':
+~/BR/build:/glibc-2f9a78f208a7/elf/../sysdeps/arc/dl-machine.h:115: undefined
+reference to `_DYNAMIC'
+~/BR/host/lib/gcc/arc-buildroot-linux-gnu/8.2.1/../../../../arc-buildroot-linux-gnu/bin/ld:
+~/BR/build/glibc-2f9a78f208a7/elf/../sysdeps/arc/dl-machine.h:115: undefined
+reference to `_DYNAMIC'
+collect2: error: ld returned 1 exit status
