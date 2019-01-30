@@ -1,117 +1,161 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 29 Jan 2019 17:25:41 -0800
-Subject: [PATCH v2 01/15] ARC: add definitions to elf/elf.h
+Date: Tue, 29 Jan 2019 17:25:49 -0800
+Subject: [PATCH v2 09/15] ARC: Linux Startup and Dynamic Loading
 In-Reply-To: <1548811555-24373-1-git-send-email-vgupta@synopsys.com>
 References: <1548811555-24373-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1548811555-24373-2-git-send-email-vgupta@synopsys.com>
+Message-ID: <1548811555-24373-10-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- ChangeLog |  4 ++++
- elf/elf.h | 70 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 73 insertions(+), 1 deletion(-)
+ ChangeLog                               |  2 +
+ sysdeps/unix/sysv/linux/arc/dl-static.c | 84 +++++++++++++++++++++++++++++++++
+ sysdeps/unix/sysv/linux/arc/ldsodefs.h  | 32 +++++++++++++
+ 3 files changed, 118 insertions(+)
+ create mode 100644 sysdeps/unix/sysv/linux/arc/dl-static.c
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ldsodefs.h
 
 diff --git a/ChangeLog b/ChangeLog
-index 23c20066a4a6..e2091865afb5 100644
+index e0f2c3372e31..017bced57129 100644
 --- a/ChangeLog
 +++ b/ChangeLog
-@@ -1,3 +1,7 @@
-+2019-01-21  Vineet Gupta <vgupta at synopsys.com>
-+
-+	* elf/elf.h: add defines for ARC.
-+
+@@ -67,6 +67,8 @@
+ 	* sysdeps/unix/sysv/linux/arc/sys/user.h: New file.
+ 	* sysdeps/unix/sysv/linux/arc/ucontext-macros.h: New file.
+ 	* sysdeps/unix/sysv/linux/arc/ucontext_i.sym: New file.
++	* sysdeps/unix/sysv/linux/arc/dl-static.c: New file.
++	* sysdeps/unix/sysv/linux/arc/ldsodefs.h: New file.
+ 
  2019-01-25  Siddhesh Poyarekar  <siddhesh at sourceware.org>
  
- 	* po/be.po: Update translations.
-diff --git a/elf/elf.h b/elf/elf.h
-index 47a514a389f0..bc2184f643c7 100644
---- a/elf/elf.h
-+++ b/elf/elf.h
-@@ -330,7 +330,7 @@ typedef struct
- #define EM_CLOUDSHIELD	192	/* CloudShield */
- #define EM_COREA_1ST	193	/* KIPO-KAIST Core-A 1st gen. */
- #define EM_COREA_2ND	194	/* KIPO-KAIST Core-A 2nd gen. */
--#define EM_ARC_COMPACT2	195	/* Synopsys ARCompact V2 */
-+#define EM_ARCV2	195	/* Synopsys ARCv2 ISA.  */
- #define EM_OPEN8	196	/* Open8 RISC */
- #define EM_RL78		197	/* Renesas RL78 */
- #define EM_VIDEOCORE5	198	/* Broadcom VideoCore V */
-@@ -3996,6 +3996,74 @@ enum
- #define R_NDS32_TLS_TPOFF	102
- #define R_NDS32_TLS_DESC	119
- 
-+/* ARCompact/ARCv2 specific relocs.  */
-+#define R_ARC_NONE		0x0
-+#define R_ARC_8			0x1
-+#define R_ARC_16		0x2
-+#define R_ARC_24		0x3
-+#define R_ARC_32		0x4
-+#define R_ARC_B26		0x5
-+#define R_ARC_B22_PCREL		0x6
-+#define R_ARC_H30		0x7
-+#define R_ARC_N8		0x8
-+#define R_ARC_N16		0x9
-+#define R_ARC_N24		0xA
-+#define R_ARC_N32		0xB
-+#define R_ARC_SDA		0xC
-+#define R_ARC_SECTOFF		0xD
-+#define R_ARC_S21H_PCREL	0xE
-+#define R_ARC_S21W_PCREL	0xF
-+#define R_ARC_S25H_PCREL	0x10
-+#define R_ARC_S25W_PCREL	0x11
-+#define R_ARC_SDA32		0x12
-+#define R_ARC_SDA_LDST		0x13
-+#define R_ARC_SDA_LDST1		0x14
-+#define R_ARC_SDA_LDST2		0x15
-+#define R_ARC_SDA16_LD		0x16
-+#define R_ARC_SDA16_LD1		0x17
-+#define R_ARC_SDA16_LD2		0x18
-+#define R_ARC_S13_PCREL		0x19
-+#define R_ARC_W			0x1A
-+#define R_ARC_32_ME		0x1B
-+#define R_ARC_N32_ME		0x1C
-+#define R_ARC_SECTOFF_ME	0x1D
-+#define R_ARC_SDA32_ME		0x1E
-+#define R_ARC_W_ME		0x1F
-+#define R_ARC_H30_ME		0x20
-+#define R_ARC_SECTOFF_U8	0x21
-+#define R_ARC_SECTOFF_S9	0x22
-+#define R_AC_SECTOFF_U8		0x23
-+#define R_AC_SECTOFF_U8_1	0x24
-+#define R_AC_SECTOFF_U8_2	0x25
-+#define R_AC_SECTOFF_S9		0x26
-+#define R_AC_SECTOFF_S9_1	0x27
-+#define R_AC_SECTOFF_S9_2	0x28
-+#define R_ARC_SECTOFF_ME_1	0x29
-+#define R_ARC_SECTOFF_ME_2	0x2A
-+#define R_ARC_SECTOFF_1		0x2B
-+#define R_ARC_SECTOFF_2		0x2C
-+#define R_ARC_PC32		0x32
-+#define R_ARC_GOTPC32		0x33
-+#define R_ARC_PLT32		0x34
-+#define R_ARC_COPY		0x35
-+#define R_ARC_GLOB_DAT		0x36
-+#define R_ARC_JUMP_SLOT		0x37
-+#define R_ARC_RELATIVE		0x38
-+#define R_ARC_GOTOFF		0x39
-+#define R_ARC_GOTPC		0x3A
-+#define R_ARC_GOT32		0x3B
+diff --git a/sysdeps/unix/sysv/linux/arc/dl-static.c b/sysdeps/unix/sysv/linux/arc/dl-static.c
+new file mode 100644
+index 000000000000..1a8757c9840d
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/dl-static.c
+@@ -0,0 +1,84 @@
++/* Variable initialization.  ARC version.
++   Copyright (C) 2001-2019 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
 +
-+#define R_ARC_TLS_DTPMOD	0x42
-+#define R_ARC_TLS_DTPOFF	0x43
-+#define R_ARC_TLS_TPOFF		0x44
-+#define R_ARC_TLS_GD_GOT	0x45
-+#define R_ARC_TLS_GD_LD	        0x46
-+#define R_ARC_TLS_GD_CALL	0x47
-+#define R_ARC_TLS_IE_GOT	0x48
-+#define R_ARC_TLS_DTPOFF_S9	0x4a
-+#define R_ARC_TLS_LE_S9		0x4a
-+#define R_ARC_TLS_LE_32		0x4b
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
 +
- __END_DECLS
- 
- #endif	/* elf.h */
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <ldsodefs.h>
++
++#ifdef SHARED
++
++void
++_dl_var_init (void *array[])
++{
++  /* It has to match "variables" below. */
++  enum
++    {
++      DL_PAGESIZE = 0
++    };
++
++  GLRO(dl_pagesize) = *((size_t *) array[DL_PAGESIZE]);
++}
++
++#else
++
++static void *variables[] =
++{
++  &GLRO(dl_pagesize)
++};
++
++static void
++_dl_unprotect_relro (struct link_map *l)
++{
++  ElfW(Addr) start = ((l->l_addr + l->l_relro_addr)
++		      & ~(GLRO(dl_pagesize) - 1));
++  ElfW(Addr) end = ((l->l_addr + l->l_relro_addr + l->l_relro_size)
++		    & ~(GLRO(dl_pagesize) - 1));
++
++  if (start != end)
++    __mprotect ((void *) start, end - start, PROT_READ | PROT_WRITE);
++}
++
++void
++_dl_static_init (struct link_map *l)
++{
++  struct link_map *rtld_map = l;
++  struct r_scope_elem **scope;
++  const ElfW(Sym) *ref = NULL;
++  lookup_t loadbase;
++  void (*f) (void *[]);
++  size_t i;
++
++  loadbase = _dl_lookup_symbol_x ("_dl_var_init", l, &ref, l->l_local_scope,
++				  NULL, 0, 1, NULL);
++
++  for (scope = l->l_local_scope; *scope != NULL; scope++)
++    for (i = 0; i < (*scope)->r_nlist; i++)
++      if ((*scope)->r_list[i] == loadbase)
++	{
++	  rtld_map = (*scope)->r_list[i];
++	  break;
++	}
++
++  if (ref != NULL)
++    {
++      f = (void (*) (void *[])) DL_SYMBOL_ADDRESS (loadbase, ref);
++      _dl_unprotect_relro (rtld_map);
++      f (variables);
++      _dl_protect_relro (rtld_map);
++    }
++}
++
++#endif
+diff --git a/sysdeps/unix/sysv/linux/arc/ldsodefs.h b/sysdeps/unix/sysv/linux/arc/ldsodefs.h
+new file mode 100644
+index 000000000000..8c5c6800af13
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/ldsodefs.h
+@@ -0,0 +1,32 @@
++/* Run-time dynamic linker data structures for loaded ELF shared objects. ARC
++   Copyright (C) 2001-2019 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#ifndef	_LDSODEFS_H
++
++/* Get the real definitions.  */
++#include_next <ldsodefs.h>
++
++/* Now define our stuff.  */
++
++/* We need special support to initialize DSO loaded for statically linked
++   binaries.  */
++extern void _dl_static_init (struct link_map *map);
++#undef DL_STATIC_INIT
++#define DL_STATIC_INIT(map) _dl_static_init (map)
++
++#endif /* ldsodefs.h */
 -- 
 2.7.4
