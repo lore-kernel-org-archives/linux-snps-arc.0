@@ -1,25 +1,23 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 30 Jan 2019 16:47:52 +0000
-Subject: [PATCH 2/5] ARCv2: introduce unaligned access under a Kconfig
- option
-References: <20190129104942.31705-1-Eugeniy.Paltsev@synopsys.com>
- <20190129104942.31705-3-Eugeniy.Paltsev@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075014642D58D@US01WEMBX2.internal.synopsys.com>
- <1548866682.29008.31.camel@synopsys.com>
+Date: Wed, 30 Jan 2019 09:40:35 -0800
+Subject: [PATCH v2 05/15] ARC: Atomics and Locking primitives
+In-Reply-To: <mvmpnse8s6s.fsf@suse.de>
+References: <1548811555-24373-1-git-send-email-vgupta@synopsys.com>
+ <1548811555-24373-6-git-send-email-vgupta@synopsys.com>
+ <mvmpnse8s6s.fsf@suse.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014642D8B6@US01WEMBX2.internal.synopsys.com>
+Message-ID: <b7766cd4-3055-3e3b-f49b-fe870fee2740@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 1/30/19 8:44 AM, Eugeniy Paltsev wrote:
->> I'd prefer to change the define of STATUS_AD_MASK itself and keep all of this
->> unchanged !
->>
-> Actually I'd prefer to leave STATUS_AD_MASK untouched. Otherwise we will implicitly assign
-> wrong value to STATUS_AD_MASK which is quite misleading.
->
-> BTW, STATUS_AD_MASK is used in ASM code in v2 patch and it shouldn't be dependent on
-> CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS.
+On 1/30/19 12:28 AM, Andreas Schwab wrote:
+> On Jan 29 2019, Vineet Gupta <vineet.gupta1@synopsys.com> wrote:
+> 
+>> +#define __PTHREAD_MUTEX_NUSERS_AFTER_KIND  1
+>> +#define __PTHREAD_MUTEX_USE_UNION          1
+> New ports should use the preferred values for these macros.
 
-Agree !
+OK, changed to 0 and 0 per commit 06be6368da16104 ("nptl: Define
+__PTHREAD_MUTEX_{NUSERS_AFTER_KIND,USE_UNION}")
 
+Thx,
 -Vineet
