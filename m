@@ -1,42 +1,39 @@
-From: pmladek@suse.com (Petr Mladek)
-Date: Wed, 30 Jan 2019 14:38:45 +0100
-Subject: [PATCH v2 21/21] memblock: drop memblock_alloc_*_nopanic()
- variants
-In-Reply-To: <1548057848-15136-22-git-send-email-rppt@linux.ibm.com>
-References: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
- <1548057848-15136-22-git-send-email-rppt@linux.ibm.com>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 30 Jan 2019 19:32:39 +0300
+Subject: [PATCH v2 0/5] introduce unaligned access under a Kconfig option
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190130133845.nps4itatl4fm6dcl@pathway.suse.cz>
+Message-ID: <20190130163244.10870-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon 2019-01-21 10:04:08, Mike Rapoport wrote:
-> As all the memblock allocation functions return NULL in case of error
-> rather than panic(), the duplicates with _nopanic suffix can be removed.
-> 
-> Signed-off-by: Mike Rapoport <rppt at linux.ibm.com>
-> Acked-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-> ---
->  arch/arc/kernel/unwind.c       |  3 +--
->  arch/sh/mm/init.c              |  2 +-
->  arch/x86/kernel/setup_percpu.c | 10 +++++-----
->  arch/x86/mm/kasan_init_64.c    | 14 ++++++++------
->  drivers/firmware/memmap.c      |  2 +-
->  drivers/usb/early/xhci-dbc.c   |  2 +-
->  include/linux/memblock.h       | 35 -----------------------------------
->  kernel/dma/swiotlb.c           |  2 +-
->  kernel/printk/printk.c         |  9 +--------
+As of today we enable unaligned access unconditionally on ARCv2.
+Lets move it under Kconfig option and use it actively in SW if it is
+enabled.
 
-For printk:
-Reviewed-by: Petr Mladek <pmladek at suse.com>
-Acked-by: Petr Mladek <pmladek at suse.com>
+While I'm at it fix and optimise ARCv2 memcpy implementaion.
 
-Best Regards,
-Petr
+Changes v1->v2:
+ * Rebase onto last ARC changes.
+ * Don't add dummy symbol to ARC Kconfig
+ * Print info about unaligned access status in kernel log
 
->  mm/memblock.c                  | 35 -----------------------------------
->  mm/page_alloc.c                | 10 +++++-----
->  mm/page_ext.c                  |  2 +-
->  mm/percpu.c                    | 11 ++++-------
->  mm/sparse.c                    |  6 ++----
->  14 files changed, 31 insertions(+), 112 deletions(-)
-> 
+Eugeniy Paltsev (5):
+  ARCv2: lib: memcpy: fix doing prefetchw outside of buffer
+  ARCv2: introduce unaligned access under a Kconfig option
+  ARCv2: use unaligned access in SW
+  ARCv2: LIB: MEMCPY: fixed and optimised routine
+  ARC: boot log: print unaligned memory access details
+
+ arch/arc/Kconfig                      |  9 +++++++
+ arch/arc/Makefile                     |  6 +++++
+ arch/arc/include/asm/irqflags-arcv2.h |  4 +++
+ arch/arc/kernel/head.S                | 14 +++++++----
+ arch/arc/kernel/intc-arcv2.c          |  2 +-
+ arch/arc/kernel/setup.c               | 13 +++++++---
+ arch/arc/lib/Makefile                 |  8 +++++-
+ arch/arc/lib/memcpy-archs-unaligned.S | 46 +++++++++++++++++++++++++++++++++++
+ arch/arc/lib/memcpy-archs.S           | 14 -----------
+ 9 files changed, 92 insertions(+), 24 deletions(-)
+ create mode 100644 arch/arc/lib/memcpy-archs-unaligned.S
+
+-- 
+2.14.5
