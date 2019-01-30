@@ -1,44 +1,52 @@
 From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 30 Jan 2019 19:32:44 +0300
-Subject: [PATCH v2 5/5] ARC: boot log: print unaligned memory access details
-In-Reply-To: <20190130163244.10870-1-Eugeniy.Paltsev@synopsys.com>
-References: <20190130163244.10870-1-Eugeniy.Paltsev@synopsys.com>
+Date: Wed, 30 Jan 2019 16:44:43 +0000
+Subject: [PATCH 2/5] ARCv2: introduce unaligned access under a Kconfig
+ option
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075014642D58D@US01WEMBX2.internal.synopsys.com>
+References: <20190129104942.31705-1-Eugeniy.Paltsev@synopsys.com>
+ <20190129104942.31705-3-Eugeniy.Paltsev@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075014642D58D@US01WEMBX2.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190130163244.10870-6-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1548866682.29008.31.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This now prints both HW feature status (exists, enabled / disabled)
-and SW status (used / not used).
+On Tue, 2019-01-29@21:44 +0000, Vineet Gupta wrote:
+> On 1/29/19 2:49 AM, Eugeniy Paltsev wrote:
+> > As of today we enable unaligned access unconditionally on ARCv2.
+> > Lets move it under Kconfig option so we can disable it in case of
+> > using HW configuration which lacks of it.
+> > 
+> > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> > ---
+> >  arch/arc/Kconfig                      | 8 ++++++++
+> >  arch/arc/include/asm/irqflags-arcv2.h | 4 ++++
+> >  arch/arc/kernel/intc-arcv2.c          | 4 +++-
+> >  3 files changed, 15 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/arc/include/asm/irqflags-arcv2.h b/arch/arc/include/asm/irqflags-arcv2.h
+> > index 8a4f77ea3238..9b911e2c6b31 100644
+> > --- a/arch/arc/include/asm/irqflags-arcv2.h
+> > +++ b/arch/arc/include/asm/irqflags-arcv2.h
+> > @@ -44,8 +44,12 @@
+> >  #define ARCV2_IRQ_DEF_PRIO	1
+> >  
+> >  /* seed value for status register */
+> > +#ifdef CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS
+> >  #define ISA_INIT_STATUS_BITS	(STATUS_IE_MASK | STATUS_AD_MASK | \
+> >  					(ARCV2_IRQ_DEF_PRIO << 1))
+> > +#else
+> > +#define ISA_INIT_STATUS_BITS	(STATUS_IE_MASK | (ARCV2_IRQ_DEF_PRIO << 1))
+> > +#endif /* CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS */
+> 
+> I'd prefer to change the define of STATUS_AD_MASK itself and keep all of this
+> unchanged !
+> 
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/kernel/setup.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+Actually I'd prefer to leave STATUS_AD_MASK untouched. Otherwise we will implicitly assign
+wrong value to STATUS_AD_MASK which is quite misleading.
 
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index feb90093e6b1..e465cae3f661 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -270,10 +270,17 @@ static char *arc_cpu_mumbojumbo(int cpu_id, char *buf, int len)
- #ifdef __ARC_UNALIGNED__
- 	ua = 1;
- #endif
--	n += i = scnprintf(buf + n, len - n, "%s%s%s%s%s%s",
-+	n += i = scnprintf(buf + n, len - n, "%s%s%s%s",
- 			   IS_AVAIL2(cpu->isa.atomic, "atomic ", CONFIG_ARC_HAS_LLSC),
--			   IS_AVAIL2(cpu->isa.ldd, "ll64 ", CONFIG_ARC_HAS_LL64),
--			   IS_AVAIL1(cpu->isa.unalign, "unalign "), IS_USED_RUN(ua));
-+			   IS_AVAIL2(cpu->isa.ldd, "ll64 ", CONFIG_ARC_HAS_LL64));
-+
-+	if (cpu->isa.unalign) {
-+		i += scnprintf(buf + n, len - n, "unalign (%s, %s)",
-+			       IS_ENABLED(CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS) ?
-+					  "enabled" : "disabled",
-+			       ua ? "used" : "not used");
-+		n += i;
-+	}
- 
- 	if (i)
- 		n += scnprintf(buf + n, len - n, "\n\t\t: ");
+BTW, STATUS_AD_MASK is used in ASM code in v2 patch and it shouldn't be dependent on
+CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS.
+
 -- 
-2.14.5
+ Eugeniy Paltsev
