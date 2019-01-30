@@ -1,39 +1,102 @@
 From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Wed, 30 Jan 2019 19:32:39 +0300
-Subject: [PATCH v2 0/5] introduce unaligned access under a Kconfig option
+Date: Wed, 30 Jan 2019 19:32:40 +0300
+Subject: [PATCH v2 1/5] ARCv2: lib: memcpy: fix doing prefetchw outside of
+ buffer
+In-Reply-To: <20190130163244.10870-1-Eugeniy.Paltsev@synopsys.com>
+References: <20190130163244.10870-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190130163244.10870-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20190130163244.10870-2-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-As of today we enable unaligned access unconditionally on ARCv2.
-Lets move it under Kconfig option and use it actively in SW if it is
-enabled.
+ARCv2 optimized memcpy uses PREFETCHW instruction for prefetching the
+next cache line but doesn't ensure that the line is not past the end of
+the buffer. PRETECHW changes the line ownership and marks it dirty,
+which can cause data corruption if this area is used for DMA IO.
 
-While I'm at it fix and optimise ARCv2 memcpy implementaion.
+Fix the issue by avoiding the PREFETCHW. This leads to performance
+degradation but it is OK as we'll introduce new memcpy implementation
+optimized for unaligned memory access using.
 
-Changes v1->v2:
- * Rebase onto last ARC changes.
- * Don't add dummy symbol to ARC Kconfig
- * Print info about unaligned access status in kernel log
+We also cut off all PREFETCH instructions at they are quite useless
+here:
+ * we call PREFETCH right before LOAD instruction call.
+ * we copy 16 or 32 bytes of data (depending on CONFIG_ARC_HAS_LL64)
+   in a main logical loop. so we call PREFETCH 4 times (or 2 times)
+   for each L1 cache line (in case of 64B L1 cache Line which is
+   default case). Obviously this is not optimal.
 
-Eugeniy Paltsev (5):
-  ARCv2: lib: memcpy: fix doing prefetchw outside of buffer
-  ARCv2: introduce unaligned access under a Kconfig option
-  ARCv2: use unaligned access in SW
-  ARCv2: LIB: MEMCPY: fixed and optimised routine
-  ARC: boot log: print unaligned memory access details
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ arch/arc/lib/memcpy-archs.S | 14 --------------
+ 1 file changed, 14 deletions(-)
 
- arch/arc/Kconfig                      |  9 +++++++
- arch/arc/Makefile                     |  6 +++++
- arch/arc/include/asm/irqflags-arcv2.h |  4 +++
- arch/arc/kernel/head.S                | 14 +++++++----
- arch/arc/kernel/intc-arcv2.c          |  2 +-
- arch/arc/kernel/setup.c               | 13 +++++++---
- arch/arc/lib/Makefile                 |  8 +++++-
- arch/arc/lib/memcpy-archs-unaligned.S | 46 +++++++++++++++++++++++++++++++++++
- arch/arc/lib/memcpy-archs.S           | 14 -----------
- 9 files changed, 92 insertions(+), 24 deletions(-)
- create mode 100644 arch/arc/lib/memcpy-archs-unaligned.S
-
+diff --git a/arch/arc/lib/memcpy-archs.S b/arch/arc/lib/memcpy-archs.S
+index d61044dd8b58..ea14b0bf3116 100644
+--- a/arch/arc/lib/memcpy-archs.S
++++ b/arch/arc/lib/memcpy-archs.S
+@@ -25,15 +25,11 @@
+ #endif
+ 
+ #ifdef CONFIG_ARC_HAS_LL64
+-# define PREFETCH_READ(RX)	prefetch    [RX, 56]
+-# define PREFETCH_WRITE(RX)	prefetchw   [RX, 64]
+ # define LOADX(DST,RX)		ldd.ab	DST, [RX, 8]
+ # define STOREX(SRC,RX)		std.ab	SRC, [RX, 8]
+ # define ZOLSHFT		5
+ # define ZOLAND			0x1F
+ #else
+-# define PREFETCH_READ(RX)	prefetch    [RX, 28]
+-# define PREFETCH_WRITE(RX)	prefetchw   [RX, 32]
+ # define LOADX(DST,RX)		ld.ab	DST, [RX, 4]
+ # define STOREX(SRC,RX)		st.ab	SRC, [RX, 4]
+ # define ZOLSHFT		4
+@@ -41,8 +37,6 @@
+ #endif
+ 
+ ENTRY_CFI(memcpy)
+-	prefetch [r1]		; Prefetch the read location
+-	prefetchw [r0]		; Prefetch the write location
+ 	mov.f	0, r2
+ ;;; if size is zero
+ 	jz.d	[blink]
+@@ -72,8 +66,6 @@ ENTRY_CFI(memcpy)
+ 	lpnz	@.Lcopy32_64bytes
+ 	;; LOOP START
+ 	LOADX (r6, r1)
+-	PREFETCH_READ (r1)
+-	PREFETCH_WRITE (r3)
+ 	LOADX (r8, r1)
+ 	LOADX (r10, r1)
+ 	LOADX (r4, r1)
+@@ -117,9 +109,7 @@ ENTRY_CFI(memcpy)
+ 	lpnz	@.Lcopy8bytes_1
+ 	;; LOOP START
+ 	ld.ab	r6, [r1, 4]
+-	prefetch [r1, 28]	;Prefetch the next read location
+ 	ld.ab	r8, [r1,4]
+-	prefetchw [r3, 32]	;Prefetch the next write location
+ 
+ 	SHIFT_1	(r7, r6, 24)
+ 	or	r7, r7, r5
+@@ -162,9 +152,7 @@ ENTRY_CFI(memcpy)
+ 	lpnz	@.Lcopy8bytes_2
+ 	;; LOOP START
+ 	ld.ab	r6, [r1, 4]
+-	prefetch [r1, 28]	;Prefetch the next read location
+ 	ld.ab	r8, [r1,4]
+-	prefetchw [r3, 32]	;Prefetch the next write location
+ 
+ 	SHIFT_1	(r7, r6, 16)
+ 	or	r7, r7, r5
+@@ -204,9 +192,7 @@ ENTRY_CFI(memcpy)
+ 	lpnz	@.Lcopy8bytes_3
+ 	;; LOOP START
+ 	ld.ab	r6, [r1, 4]
+-	prefetch [r1, 28]	;Prefetch the next read location
+ 	ld.ab	r8, [r1,4]
+-	prefetchw [r3, 32]	;Prefetch the next write location
+ 
+ 	SHIFT_1	(r7, r6, 8)
+ 	or	r7, r7, r5
 -- 
 2.14.5
