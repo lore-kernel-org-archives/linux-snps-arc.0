@@ -1,32 +1,66 @@
-From: joseph@codesourcery.com (Joseph Myers)
-Date: Wed, 30 Jan 2019 22:05:01 +0000
-Subject: [PATCH v2 05/15] ARC: Atomics and Locking primitives
-In-Reply-To: <1ca8778a-984f-bbf3-aa84-ab324c200914@synopsys.com>
-References: <1548811555-24373-1-git-send-email-vgupta@synopsys.com>
- <1548811555-24373-6-git-send-email-vgupta@synopsys.com>
- <mvmpnse8s6s.fsf@suse.de>
- <alpine.DEB.2.21.1901302103470.16754@digraph.polyomino.org.uk>
- <a310d906-a091-d487-cb82-44030db58730@synopsys.com>
- <alpine.DEB.2.21.1901302149510.16754@digraph.polyomino.org.uk>
- <1ca8778a-984f-bbf3-aa84-ab324c200914@synopsys.com>
+From: christophe.leroy@c-s.fr (Christophe Leroy)
+Date: Thu, 31 Jan 2019 07:07:46 +0100
+Subject: [PATCH v2 19/21] treewide: add checks for the return value of
+ memblock_alloc*()
+In-Reply-To: <1548057848-15136-20-git-send-email-rppt@linux.ibm.com>
+References: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
+ <1548057848-15136-20-git-send-email-rppt@linux.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.21.1901302204370.16754@digraph.polyomino.org.uk>
+Message-ID: <b7c12014-14ae-2a38-900c-41fd145307bc@c-s.fr>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, 30 Jan 2019, Vineet Gupta wrote:
 
-> On 1/30/19 1:50 PM, Joseph Myers wrote:
-> >>> This seems like something that could be a common issue for new ports, so 
-> >>> worth a mention at <https://sourceware.org/glibc/wiki/NewPorts> alongside 
-> >>> such things as using init_array and USE_ATOMIC_COMPILER_BUILTINS.
-> >> Updated wiki page !
-> > Now it's saying those macros are in atomic-machine.h.  That's not right; 
-> > the information about those macros needs to go in a separate paragraph.
+
+Le 21/01/2019 ? 09:04, Mike Rapoport a ?crit?:
+> Add check for the return value of memblock_alloc*() functions and call
+> panic() in case of error.
+> The panic message repeats the one used by panicing memblock allocators with
+> adjustment of parameters to include only relevant ones.
 > 
-> Does it look any better now ?
+> The replacement was mostly automated with semantic patches like the one
+> below with manual massaging of format strings.
+> 
+> @@
+> expression ptr, size, align;
+> @@
+> ptr = memblock_alloc(size, align);
+> + if (!ptr)
+> + 	panic("%s: Failed to allocate %lu bytes align=0x%lx\n", __func__,
+> size, align);
+> 
+> Signed-off-by: Mike Rapoport <rppt at linux.ibm.com>
+> Reviewed-by: Guo Ren <ren_guo at c-sky.com>             # c-sky
+> Acked-by: Paul Burton <paul.burton at mips.com>	     # MIPS
+> Acked-by: Heiko Carstens <heiko.carstens at de.ibm.com> # s390
+> Reviewed-by: Juergen Gross <jgross at suse.com>         # Xen
+> ---
 
-Yes, that looks better.
+[...]
 
--- 
-Joseph S. Myers
-joseph at codesourcery.com
+> diff --git a/mm/sparse.c b/mm/sparse.c
+> index 7ea5dc6..ad94242 100644
+> --- a/mm/sparse.c
+> +++ b/mm/sparse.c
+
+[...]
+
+> @@ -425,6 +436,10 @@ static void __init sparse_buffer_init(unsigned long size, int nid)
+>   		memblock_alloc_try_nid_raw(size, PAGE_SIZE,
+>   						__pa(MAX_DMA_ADDRESS),
+>   						MEMBLOCK_ALLOC_ACCESSIBLE, nid);
+> +	if (!sparsemap_buf)
+> +		panic("%s: Failed to allocate %lu bytes align=0x%lx nid=%d from=%lx\n",
+> +		      __func__, size, PAGE_SIZE, nid, __pa(MAX_DMA_ADDRESS));
+> +
+
+memblock_alloc_try_nid_raw() does not panic (help explicitly says: Does 
+not zero allocated memory, does not panic if request cannot be satisfied.).
+
+Stephen Rothwell reports a boot failure due to this change.
+
+Christophe
+
+>   	sparsemap_buf_end = sparsemap_buf + size;
+>   }
+>   
+> 
