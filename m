@@ -1,88 +1,114 @@
-From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri,  1 Feb 2019 15:12:11 +0300
-Subject: [PATCH v2] ARC: [plat-hsdk]: Add support of Vivante GPU
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 1 Feb 2019 12:21:18 -0800
+Subject: [PATCH] [ARC] don't force _init/_fini as DT_INIT/DT_FINI
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190201121211.23701-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1549052478-965-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-HSDK board has built-in Vivante GPU IP which works perfectly fine
-with Etnaviv driver, so let's use it.
+Recent gcc commit b4371b277f1e ("[ARC] Enable init_array support")
+inhibits DT_"INIT,FINI} in favor of DT_{INIT,FINI}ARRAY.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+Even prior to that, it seems ARC port is the only one with this
+special DT_INIT/FINI handling in linker emulation. Removing it
+doesn't seem to change any uClibc/glibc testsuite results,
+so this can RIP anyways.
+
+bfd/
+    2019-02-01  Vineet Gupta <vgupta at synopsys.com>
+
+           * elf32-arc.c: Delete init_str, fini_str
+
+ld/
+    2019-02-01  Vineet Gupta <vgupta at synopsys.com>
+
+           * emultempl/arclinux.em : Delete special INIT/FINI handling.
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
-Changes v1->v2:
- * Add clock inputs to etnaviv device tree node (reported by Lucas Stach)
+ bfd/ChangeLog            |  4 ++++
+ bfd/elf32-arc.c          |  9 ---------
+ ld/ChangeLog             |  4 ++++
+ ld/emultempl/arclinux.em | 27 ---------------------------
+ 4 files changed, 8 insertions(+), 36 deletions(-)
 
- arch/arc/boot/dts/hsdk.dts      | 29 +++++++++++++++++++++++++++++
- arch/arc/configs/hsdk_defconfig |  2 +-
- 2 files changed, 30 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index 43f17b51ee89..df86d0818db8 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -167,6 +167,24 @@
- 			#clock-cells = <0>;
- 		};
+diff --git a/bfd/ChangeLog b/bfd/ChangeLog
+index 5547cd26b9bb..8fcf44e8d315 100644
+--- a/bfd/ChangeLog
++++ b/bfd/ChangeLog
+@@ -1,3 +1,7 @@
++2019-02-01  Vineet Gupta <vgupta at synopsys.com>
++
++	* elf32-arc.c: Delete init_str, fini_str.
++
+ 2019-01-21  Sergio Durigan Junior  <sergiodj at redhat.com>
  
-+		gpu_core_clk: gpu-core-clk {
-+			compatible = "fixed-clock";
-+			clock-frequency = <400000000>;
-+			#clock-cells = <0>;
-+		};
-+
-+		gpu_dma_clk: gpu-dma-clk {
-+			compatible = "fixed-clock";
-+			clock-frequency = <400000000>;
-+			#clock-cells = <0>;
-+		};
-+
-+		gpu_cfg_clk: gpu-cfg-clk {
-+			compatible = "fixed-clock";
-+			clock-frequency = <200000000>;
-+			#clock-cells = <0>;
-+		};
-+
- 		gmac: ethernet at 8000 {
- 			#interrupt-cells = <1>;
- 			compatible = "snps,dwmac";
-@@ -237,6 +255,17 @@
- 				reg = <0>;
- 			};
- 		};
-+
-+		gpu_3d: gpu at 90000 {
-+			compatible = "vivante,gc";
-+			reg = <0x90000 0x4000>;
-+			clocks = <&gpu_dma_clk>,
-+				 <&gpu_cfg_clk>,
-+				 <&gpu_core_clk>,
-+				 <&gpu_core_clk>;
-+			clock-names = "bus", "reg", "core", "shader";
-+			interrupts = <28>;
-+		};
- 	};
+ 	* elf32-arm.c (elf32_arm_final_link_relocate): Use 'llabs' instead
+diff --git a/bfd/elf32-arc.c b/bfd/elf32-arc.c
+index c7469ded8acf..1ced270f3b15 100644
+--- a/bfd/elf32-arc.c
++++ b/bfd/elf32-arc.c
+@@ -72,15 +72,6 @@ name_for_global_symbol (struct elf_link_hash_entry *h)
+   }
  
- 	memory at 80000000 {
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-index 87b23b7fb781..915e1cca31f8 100644
---- a/arch/arc/configs/hsdk_defconfig
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -52,6 +52,7 @@ CONFIG_GPIO_DWAPB=y
- CONFIG_DRM=y
- # CONFIG_DRM_FBDEV_EMULATION is not set
- CONFIG_DRM_UDL=y
-+CONFIG_DRM_ETNAVIV=y
- CONFIG_FB=y
- CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_USB_EHCI_HCD=y
-@@ -63,7 +64,6 @@ CONFIG_MMC=y
- CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
- CONFIG_MMC_DW=y
--# CONFIG_IOMMU_SUPPORT is not set
- CONFIG_EXT3_FS=y
- CONFIG_VFAT_FS=y
- CONFIG_TMPFS=y
+ 
+-/* The default symbols representing the init and fini dyn values.
+-   TODO: Check what is the relation of those strings with arclinux.em
+-   and DT_INIT.  */
+-#define INIT_SYM_STRING "_init"
+-#define FINI_SYM_STRING "_fini"
+-
+-char * init_str = INIT_SYM_STRING;
+-char * fini_str = FINI_SYM_STRING;
+-
+ #define ARC_RELOC_HOWTO(TYPE, VALUE, SIZE, BITSIZE, RELOC_FUNCTION, OVERFLOW, FORMULA) \
+       case VALUE: \
+ 	return "R_" #TYPE; \
+diff --git a/ld/ChangeLog b/ld/ChangeLog
+index 5713b0020c64..647e343d21b5 100644
+--- a/ld/ChangeLog
++++ b/ld/ChangeLog
+@@ -1,3 +1,7 @@
++2019-02-01  Vineet Gupta <vgupta at synopsys.com>
++
++	* emultempl/arclinux.em : Delete special INIT/FINI handling.
++
+ 2019-01-31  Alan Modra  <amodra at gmail.com>
+ 
+ 	* NEWS: Mention -t change.
+diff --git a/ld/emultempl/arclinux.em b/ld/emultempl/arclinux.em
+index 3163712fbd0e..796c89085e34 100644
+--- a/ld/emultempl/arclinux.em
++++ b/ld/emultempl/arclinux.em
+@@ -23,30 +23,3 @@
+ # This file is sourced from elf32.em, and defines extra arc-linux
+ # specific routines.
+ #
+-cat >>e${EMULATION_NAME}.c <<EOF
+-extern char * init_str;
+-extern char * fini_str;
+-EOF
+-
+-PARSE_AND_LIST_PROLOGUE='
+-#define OPTION_INIT 300+1
+-#define OPTION_FINI (OPTION_INIT+1)
+-'
+-PARSE_AND_LIST_LONGOPTS='
+-  /* PE options */
+-  { "init", required_argument, NULL, OPTION_INIT },
+-  { "fini", required_argument, NULL, OPTION_FINI },
+-'
+-
+-# FIXME: Should set PARSE_AND_LIST_OPTIONS to provide a short description
+-# of the options.
+-
+-PARSE_AND_LIST_ARGS_CASES='
+-    case OPTION_FINI:
+-      fini_str = optarg;
+-      break;
+-
+-    case OPTION_INIT:
+-      init_str = optarg;
+-      break;
+-'
 -- 
-2.14.5
+2.7.4
