@@ -1,44 +1,42 @@
-From: jcmvbkbc@gmail.com (Max Filippov)
-Date: Thu, 31 Jan 2019 07:23:02 -0800
-Subject: [PATCH v2 19/21] treewide: add checks for the return value of
- memblock_alloc*()
-In-Reply-To: <1548057848-15136-20-git-send-email-rppt@linux.ibm.com>
-References: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
- <1548057848-15136-20-git-send-email-rppt@linux.ibm.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 31 Jan 2019 16:16:50 -0800
+Subject: [PATCH] make-syscalls.sh: fix comment referencing syscall-template
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMo8BfKhjwimXrGCcPjmS0+w8o6yW=ohG-hZ7caWnGpPSF6qJA@mail.gmail.com>
+Message-ID: <1548980210-5289-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Jan 21, 2019@12:06 AM Mike Rapoport <rppt@linux.ibm.com> wrote:
->
-> Add check for the return value of memblock_alloc*() functions and call
-> panic() in case of error.
-> The panic message repeats the one used by panicing memblock allocators with
-> adjustment of parameters to include only relevant ones.
->
-> The replacement was mostly automated with semantic patches like the one
-> below with manual massaging of format strings.
->
-> @@
-> expression ptr, size, align;
-> @@
-> ptr = memblock_alloc(size, align);
-> + if (!ptr)
-> +       panic("%s: Failed to allocate %lu bytes align=0x%lx\n", __func__,
-> size, align);
->
-> Signed-off-by: Mike Rapoport <rppt at linux.ibm.com>
-> Reviewed-by: Guo Ren <ren_guo at c-sky.com>             # c-sky
-> Acked-by: Paul Burton <paul.burton at mips.com>         # MIPS
-> Acked-by: Heiko Carstens <heiko.carstens at de.ibm.com> # s390
-> Reviewed-by: Juergen Gross <jgross at suse.com>         # Xen
-> ---
->  arch/xtensa/mm/kasan_init.c               |  4 ++++
->  arch/xtensa/mm/mmu.c                      |  3 +++
+spotted when started working on ARC port to glibc
 
-For xtensa:
-Acked-by: Max Filippov <jcmvbkbc at gmail.com>
+---
+ ChangeLog                     | 5 +++++
+ sysdeps/unix/make-syscalls.sh | 2 +-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
+diff --git a/ChangeLog b/ChangeLog
+index 93201b76a26b..8438f93e13a2 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,8 @@
++2019-01-31  Vineet Gupta <vgupta at synopsys.com>
++
++	* sysdeps/unix/make-syscalls.sh: Fix comment referencing
++	syscall-template file.
++
+ 2019-01-31  Paul Pluzhnikov  <ppluzhnikov at google.com>
+ 
+ 	[BZ #24051]
+diff --git a/sysdeps/unix/make-syscalls.sh b/sysdeps/unix/make-syscalls.sh
+index e39b2d6d5214..6a5c10d54e87 100644
+--- a/sysdeps/unix/make-syscalls.sh
++++ b/sysdeps/unix/make-syscalls.sh
+@@ -7,7 +7,7 @@
+ #
+ # This script is used to process the syscall data encoded in the various
+ # syscalls.list files to produce thin assembly syscall wrappers around the
+-# appropriate OS syscall. See syscall-template.s for more details on the
++# appropriate OS syscall. See syscall-template.S for more details on the
+ # actual wrapper.
+ #
+ # Syscall Signature Prefixes:
 -- 
-Thanks.
--- Max
+2.7.4
