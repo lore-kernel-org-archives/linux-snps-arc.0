@@ -1,33 +1,44 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 31 Jan 2019 17:57:20 -0800
-Subject: Need for arch pthread-offsets.h (was Re: [PATCH v2 05/15] ARC:
- Atomics and Locking primitives)
-In-Reply-To: <b7766cd4-3055-3e3b-f49b-fe870fee2740@synopsys.com>
-References: <1548811555-24373-1-git-send-email-vgupta@synopsys.com>
- <1548811555-24373-6-git-send-email-vgupta@synopsys.com>
- <mvmpnse8s6s.fsf@suse.de> <b7766cd4-3055-3e3b-f49b-fe870fee2740@synopsys.com>
+From: carlos@redhat.com (Carlos O'Donell)
+Date: Thu, 31 Jan 2019 22:46:08 -0500
+Subject: [PATCH] make-syscalls.sh: fix comment referencing syscall-template
+In-Reply-To: <bf56d9a5-ca98-7ba7-b40f-363027c7406a@synopsys.com>
+References: <1548980210-5289-1-git-send-email-vgupta@synopsys.com>
+ <f9e60218-9b8e-49aa-d61e-7c1c8cfc6441@redhat.com>
+ <bf56d9a5-ca98-7ba7-b40f-363027c7406a@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <8e025bb4-d86d-ba54-f937-3ae73870a71f@synopsys.com>
+Message-ID: <ebdc040c-ad92-d533-a8b2-2d5af789f5ec@redhat.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 1/30/19 9:40 AM, Vineet Gupta wrote:
-> On 1/30/19 12:28 AM, Andreas Schwab wrote:
->> On Jan 29 2019, Vineet Gupta <vineet.gupta1@synopsys.com> wrote:
->>
->>> +#define __PTHREAD_MUTEX_NUSERS_AFTER_KIND  1
->>> +#define __PTHREAD_MUTEX_USE_UNION          1
->> New ports should use the preferred values for these macros.
+On 1/31/19 8:48 PM, Vineet Gupta wrote:
+> On 1/31/19 5:45 PM, Carlos O'Donell wrote:
+>> On 1/31/19 7:16 PM, Vineet Gupta wrote:
+>>> spotted when started working on ARC port to glibc
+>>>
+>>> ---
+>>>  ChangeLog                     | 5 +++++
+>>>  sysdeps/unix/make-syscalls.sh | 2 +-
+>>>  2 files changed, 6 insertions(+), 1 deletion(-)
+>>>
+>> Obviously correct :-)
 > 
-> OK, changed to 0 and 0 per commit 06be6368da16104 ("nptl: Define
-> __PTHREAD_MUTEX_{NUSERS_AFTER_KIND,USE_UNION}")
+> Changelog is bigger than the fix ;-)
+> 
+>> Please commit to master which is open for development.
+>>
+>> Reviewed-by: Carlos O'Donell <carlos at redhat.com>
+> 
+> 
+> I'm not sure if I have access credentials to commit to *the* glibc repo ?
+> 
 
-So this required a bunch of tricking changes to _SIZEOF_PTHREAD_*.
+Pushed. Thank you :-)
 
-However what was not obvious is adjustment to
-sysdeps/<arch>/nptl/pthread-offsets.h to __PTHREAD_MUTEX_*_OFFSET. But these don't
-seem to be *actually* used anywhere. Sure there are assert checks in
-pthread_mutext_init.c but what's the point: the struct is generic anyways. IOW I'm
-not sure what port specific errors/inconsistency they are catching, other than the
-fact that they need to be hand calculating when starting a new port.
+commit d5627550ae99d10dfad216910ffa774f60460123 (HEAD -> master, origin/master, origin/HEAD)
+Author: Vineet Gupta <vgupta at synopsys.com>
+Date:   Thu Jan 31 22:45:10 2019 -0500
 
-Am I missing something ?
+    make-syscalls.sh: fix comment referencing syscall-template
+
+-- 
+Cheers,
+Carlos.
