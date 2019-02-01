@@ -1,44 +1,88 @@
-From: carlos@redhat.com (Carlos O'Donell)
-Date: Thu, 31 Jan 2019 22:46:08 -0500
-Subject: [PATCH] make-syscalls.sh: fix comment referencing syscall-template
-In-Reply-To: <bf56d9a5-ca98-7ba7-b40f-363027c7406a@synopsys.com>
-References: <1548980210-5289-1-git-send-email-vgupta@synopsys.com>
- <f9e60218-9b8e-49aa-d61e-7c1c8cfc6441@redhat.com>
- <bf56d9a5-ca98-7ba7-b40f-363027c7406a@synopsys.com>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Fri,  1 Feb 2019 15:12:11 +0300
+Subject: [PATCH v2] ARC: [plat-hsdk]: Add support of Vivante GPU
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <ebdc040c-ad92-d533-a8b2-2d5af789f5ec@redhat.com>
+Message-ID: <20190201121211.23701-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 1/31/19 8:48 PM, Vineet Gupta wrote:
-> On 1/31/19 5:45 PM, Carlos O'Donell wrote:
->> On 1/31/19 7:16 PM, Vineet Gupta wrote:
->>> spotted when started working on ARC port to glibc
->>>
->>> ---
->>>  ChangeLog                     | 5 +++++
->>>  sysdeps/unix/make-syscalls.sh | 2 +-
->>>  2 files changed, 6 insertions(+), 1 deletion(-)
->>>
->> Obviously correct :-)
-> 
-> Changelog is bigger than the fix ;-)
-> 
->> Please commit to master which is open for development.
->>
->> Reviewed-by: Carlos O'Donell <carlos at redhat.com>
-> 
-> 
-> I'm not sure if I have access credentials to commit to *the* glibc repo ?
-> 
+HSDK board has built-in Vivante GPU IP which works perfectly fine
+with Etnaviv driver, so let's use it.
 
-Pushed. Thank you :-)
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+Changes v1->v2:
+ * Add clock inputs to etnaviv device tree node (reported by Lucas Stach)
 
-commit d5627550ae99d10dfad216910ffa774f60460123 (HEAD -> master, origin/master, origin/HEAD)
-Author: Vineet Gupta <vgupta at synopsys.com>
-Date:   Thu Jan 31 22:45:10 2019 -0500
+ arch/arc/boot/dts/hsdk.dts      | 29 +++++++++++++++++++++++++++++
+ arch/arc/configs/hsdk_defconfig |  2 +-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
 
-    make-syscalls.sh: fix comment referencing syscall-template
-
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index 43f17b51ee89..df86d0818db8 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -167,6 +167,24 @@
+ 			#clock-cells = <0>;
+ 		};
+ 
++		gpu_core_clk: gpu-core-clk {
++			compatible = "fixed-clock";
++			clock-frequency = <400000000>;
++			#clock-cells = <0>;
++		};
++
++		gpu_dma_clk: gpu-dma-clk {
++			compatible = "fixed-clock";
++			clock-frequency = <400000000>;
++			#clock-cells = <0>;
++		};
++
++		gpu_cfg_clk: gpu-cfg-clk {
++			compatible = "fixed-clock";
++			clock-frequency = <200000000>;
++			#clock-cells = <0>;
++		};
++
+ 		gmac: ethernet at 8000 {
+ 			#interrupt-cells = <1>;
+ 			compatible = "snps,dwmac";
+@@ -237,6 +255,17 @@
+ 				reg = <0>;
+ 			};
+ 		};
++
++		gpu_3d: gpu at 90000 {
++			compatible = "vivante,gc";
++			reg = <0x90000 0x4000>;
++			clocks = <&gpu_dma_clk>,
++				 <&gpu_cfg_clk>,
++				 <&gpu_core_clk>,
++				 <&gpu_core_clk>;
++			clock-names = "bus", "reg", "core", "shader";
++			interrupts = <28>;
++		};
+ 	};
+ 
+ 	memory at 80000000 {
+diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
+index 87b23b7fb781..915e1cca31f8 100644
+--- a/arch/arc/configs/hsdk_defconfig
++++ b/arch/arc/configs/hsdk_defconfig
+@@ -52,6 +52,7 @@ CONFIG_GPIO_DWAPB=y
+ CONFIG_DRM=y
+ # CONFIG_DRM_FBDEV_EMULATION is not set
+ CONFIG_DRM_UDL=y
++CONFIG_DRM_ETNAVIV=y
+ CONFIG_FB=y
+ CONFIG_FRAMEBUFFER_CONSOLE=y
+ CONFIG_USB_EHCI_HCD=y
+@@ -63,7 +64,6 @@ CONFIG_MMC=y
+ CONFIG_MMC_SDHCI=y
+ CONFIG_MMC_SDHCI_PLTFM=y
+ CONFIG_MMC_DW=y
+-# CONFIG_IOMMU_SUPPORT is not set
+ CONFIG_EXT3_FS=y
+ CONFIG_VFAT_FS=y
+ CONFIG_TMPFS=y
 -- 
-Cheers,
-Carlos.
+2.14.5
