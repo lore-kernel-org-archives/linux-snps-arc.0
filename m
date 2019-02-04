@@ -1,113 +1,34 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon,  4 Feb 2019 09:14:20 +0100
-Subject: [PATCH 2/2] dma-mapping: add a kconfig symbol for
- arch_teardown_dma_ops availability
-In-Reply-To: <20190204081420.15083-1-hch@lst.de>
-References: <20190204081420.15083-1-hch@lst.de>
+From: schwab@suse.de (Andreas Schwab)
+Date: Mon, 04 Feb 2019 11:02:51 +0100
+Subject: Need for arch pthread-offsets.h (was Re: [PATCH v2 05/15] ARC:
+ Atomics and Locking primitives)
+In-Reply-To: <8e025bb4-d86d-ba54-f937-3ae73870a71f@synopsys.com> (Vineet
+ Gupta's message of "Thu, 31 Jan 2019 17:57:20 -0800")
+References: <1548811555-24373-1-git-send-email-vgupta@synopsys.com>
+ <1548811555-24373-6-git-send-email-vgupta@synopsys.com>
+ <mvmpnse8s6s.fsf@suse.de>
+ <b7766cd4-3055-3e3b-f49b-fe870fee2740@synopsys.com>
+ <8e025bb4-d86d-ba54-f937-3ae73870a71f@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190204081420.15083-3-hch@lst.de>
+Message-ID: <mvmva1z7tx0.fsf@suse.de>
 To: linux-snps-arc@lists.infradead.org
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- arch/arm/Kconfig                     |  1 +
- arch/arm/include/asm/dma-mapping.h   |  5 -----
- arch/arm64/Kconfig                   |  1 +
- arch/arm64/include/asm/dma-mapping.h |  5 -----
- include/linux/dma-mapping.h          | 10 +++++++---
- kernel/dma/Kconfig                   |  3 +++
- 6 files changed, 12 insertions(+), 13 deletions(-)
+On Jan 31 2019, Vineet Gupta <vineet.gupta1@synopsys.com> wrote:
 
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index c1cf44f00870..4bb36ae71b14 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -16,6 +16,7 @@ config ARM
- 	select ARCH_HAS_SET_MEMORY
- 	select ARCH_HAS_STRICT_KERNEL_RWX if MMU && !XIP_KERNEL
- 	select ARCH_HAS_STRICT_MODULE_RWX if MMU
-+	select ARCH_HAS_TEARDOWN_DMA_OPS if MMU
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
- 	select ARCH_HAVE_CUSTOM_GPIO_H
- 	select ARCH_HAS_GCOV_PROFILE_ALL
-diff --git a/arch/arm/include/asm/dma-mapping.h b/arch/arm/include/asm/dma-mapping.h
-index a224b6e39e58..03ba90ffc0f8 100644
---- a/arch/arm/include/asm/dma-mapping.h
-+++ b/arch/arm/include/asm/dma-mapping.h
-@@ -96,11 +96,6 @@ static inline unsigned long dma_max_pfn(struct device *dev)
- }
- #define dma_max_pfn(dev) dma_max_pfn(dev)
- 
--#ifdef CONFIG_MMU
--#define arch_teardown_dma_ops arch_teardown_dma_ops
--extern void arch_teardown_dma_ops(struct device *dev);
--#endif
--
- /* do not use this function in a driver */
- static inline bool is_device_dma_coherent(struct device *dev)
- {
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 63909f318d56..87ec7be25e97 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -29,6 +29,7 @@ config ARM64
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYSCALL_WRAPPER
-+	select ARCH_HAS_TEARDOWN_DMA_OPS if IOMMU_SUPPORT
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
- 	select ARCH_INLINE_READ_LOCK if !PREEMPT
-diff --git a/arch/arm64/include/asm/dma-mapping.h b/arch/arm64/include/asm/dma-mapping.h
-index de96507ee2c1..de98191e4c7d 100644
---- a/arch/arm64/include/asm/dma-mapping.h
-+++ b/arch/arm64/include/asm/dma-mapping.h
-@@ -29,11 +29,6 @@ static inline const struct dma_map_ops *get_arch_dma_ops(struct bus_type *bus)
- 	return NULL;
- }
- 
--#ifdef CONFIG_IOMMU_DMA
--void arch_teardown_dma_ops(struct device *dev);
--#define arch_teardown_dma_ops	arch_teardown_dma_ops
--#endif
--
- /*
-  * Do not use this function in a driver, it is only provided for
-  * arch/arm/mm/xen.c, which is used by arm64 as well.
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 2b20d60e6158..4210c5c1dd21 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -681,9 +681,13 @@ static inline void arch_setup_dma_ops(struct device *dev, u64 dma_base,
- }
- #endif /* CONFIG_ARCH_HAS_SETUP_DMA_OPS */
- 
--#ifndef arch_teardown_dma_ops
--static inline void arch_teardown_dma_ops(struct device *dev) { }
--#endif
-+#ifdef CONFIG_ARCH_HAS_TEARDOWN_DMA_OPS
-+void arch_teardown_dma_ops(struct device *dev);
-+#else
-+static inline void arch_teardown_dma_ops(struct device *dev)
-+{
-+}
-+#endif /* CONFIG_ARCH_HAS_TEARDOWN_DMA_OPS */
- 
- static inline unsigned int dma_get_max_seg_size(struct device *dev)
- {
-diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-index c44599d128e8..77a352259796 100644
---- a/kernel/dma/Kconfig
-+++ b/kernel/dma/Kconfig
-@@ -22,6 +22,9 @@ config HAVE_GENERIC_DMA_COHERENT
- config ARCH_HAS_SETUP_DMA_OPS
- 	bool
- 
-+config ARCH_HAS_TEARDOWN_DMA_OPS
-+	bool
-+
- config ARCH_HAS_SYNC_DMA_FOR_DEVICE
- 	bool
- 
+> However what was not obvious is adjustment to
+> sysdeps/<arch>/nptl/pthread-offsets.h to __PTHREAD_MUTEX_*_OFFSET. But these don't
+> seem to be *actually* used anywhere. Sure there are assert checks in
+> pthread_mutext_init.c but what's the point: the struct is generic anyways. IOW I'm
+> not sure what port specific errors/inconsistency they are catching, other than the
+> fact that they need to be hand calculating when starting a new port.
+>
+> Am I missing something ?
+
+The _OFFSET macros are for ensuring binary compatibility.
+
+Andreas.
+
 -- 
-2.20.1
+Andreas Schwab, SUSE Labs, schwab at suse.de
+GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
+"And now for something completely different."
