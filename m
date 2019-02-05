@@ -1,43 +1,38 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 5 Feb 2019 16:51:20 +0000
-Subject: [PATCH 2/2] arc: hsdk_defconfig: enable CONFIG_ARC_UBOOT_SUPPORT
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075014642EBE9@US01WEMBX2.internal.synopsys.com>
-References: <1549355535-22052-1-git-send-email-clabbe@baylibre.com>
- <1549355535-22052-3-git-send-email-clabbe@baylibre.com>
- <1549366931.27724.26.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075014642EBE9@US01WEMBX2.internal.synopsys.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 5 Feb 2019 16:59:20 +0000
+Subject: [PATCH] ARC: fix actionpoints configuration detection
+References: <20190204184151.9113-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <4881796E12491D4BB15146FE0209CE64681D4DC3@DE02WEMBXB.internal.synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014642EC15@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet, Corentin,
+On 2/4/19 10:41 AM, Eugeniy Paltsev wrote:
+> Fix reversed logic while actionpoints configuration (full/min)
+> detection.
+>
+> Fixies: 7dd380c338f1e ("ARC: boot log: print Action point details")
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 
-> -----Original Message-----
-> From: Vineet Gupta <vgupta at synopsys.com>
-> Sent: Tuesday, February 5, 2019 7:42 PM
-> To: Eugeniy Paltsev <paltsev at synopsys.com>; clabbe at baylibre.com
-> Cc: linux-kernel at vger.kernel.org; alexey.brodkin at synopsys.com; khilman at baylibre.com; linux-snps-
-> arc at lists.infradead.org
-> Subject: Re: [PATCH 2/2] arc: hsdk_defconfig: enable CONFIG_ARC_UBOOT_SUPPORT
-> 
-> On 2/5/19 3:42 AM, Eugeniy Paltsev wrote:
-> > Hi Corentin,
-> >
-> > In case of devboards (like HSDK) we really often disable bootloader and load
-> > Linux image in memory via JTAG. Enabling CONFIG_ARC_UBOOT_SUPPORT by
-> > default will break it as we will try to interpret some junk in a registers
-> > as a pointers to bootargs/etc which aren't set by anyone in case of JTAG using.
-> >
-> > So it isn't a good idea to have CONFIG_ARC_UBOOT_SUPPORT enabled by default.
-> 
-> Right.
-> 
-> It is difficult to accommodate everyone's needs (often conflicting) in a single
-> defconfig.
-> Can you folks create an out-of-tree defconfig or some such.
+LGTM.
 
-I do think there's a proper solution which [hopefully] makes both parties happy.
-Eugeniy is about to send-out a patch which allows us to not care about
-garbage in R0/R2 when running after U-Boot.
+Thx,
+-vineet
 
--Alexey
+
+> ---
+>  arch/arc/kernel/setup.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+> index feb90093e6b1..def19b0ef8c6 100644
+> --- a/arch/arc/kernel/setup.c
+> +++ b/arch/arc/kernel/setup.c
+> @@ -212,7 +212,7 @@ static void read_arc_build_cfg_regs(void)
+>  	READ_BCR(ARC_REG_AP_BCR, ap);
+>  	if (ap.ver) {
+>  		cpu->extn.ap_num = 2 << ap.num;
+> -		cpu->extn.ap_full = !!ap.min;
+> +		cpu->extn.ap_full = !ap.min;
+>  	}
+>  
+>  	READ_BCR(ARC_REG_SMART_BCR, bcr);
