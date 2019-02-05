@@ -1,31 +1,29 @@
-From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon,  4 Feb 2019 21:41:51 +0300
-Subject: [PATCH] ARC: fix actionpoints configuration detection
+From: clabbe@baylibre.com (Corentin Labbe)
+Date: Tue,  5 Feb 2019 08:32:13 +0000
+Subject: [PATCH 0/2] arc: hsdk_defconfig: permit kernelci jobs
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190204184151.9113-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1549355535-22052-1-git-send-email-clabbe@baylibre.com>
 To: linux-snps-arc@lists.infradead.org
 
-Fix reversed logic while actionpoints configuration (full/min)
-detection.
+Hello
 
-Fixies: 7dd380c338f1e ("ARC: boot log: print Action point details")
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/kernel/setup.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+In our kernelci lab, we have one hsdk device and since it is the only
+ARC device at our disposal, it is important to made it availlable for
+kernelci boot jobs.
 
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index feb90093e6b1..def19b0ef8c6 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -212,7 +212,7 @@ static void read_arc_build_cfg_regs(void)
- 	READ_BCR(ARC_REG_AP_BCR, ap);
- 	if (ap.ver) {
- 		cpu->extn.ap_num = 2 << ap.num;
--		cpu->extn.ap_full = !!ap.min;
-+		cpu->extn.ap_full = !ap.min;
- 	}
- 
- 	READ_BCR(ARC_REG_SMART_BCR, bcr);
+Since kernelci build only defconfig without hacking it, it is important
+that defconfig are bootable by default.
+And so for hsdk_defconfig, it miss two CONFIGs for let hsdk boot.
+
+Thanks
+Regards
+
+Corentin Labbe (2):
+  arc: hsdk_defconfig: Enable CONFIG_BLK_DEV_RAM
+  arc: hsdk_defconfig: enable CONFIG_ARC_UBOOT_SUPPORT
+
+ arch/arc/configs/hsdk_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
 -- 
-2.14.5
+2.19.2
