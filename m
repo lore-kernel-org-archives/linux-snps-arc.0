@@ -1,62 +1,52 @@
-From: khilman@baylibre.com (Kevin Hilman)
-Date: Tue, 05 Feb 2019 12:14:12 -0800
-Subject: [PATCH 2/2] arc: hsdk_defconfig: enable CONFIG_ARC_UBOOT_SUPPORT
-In-Reply-To: <4881796E12491D4BB15146FE0209CE64681D4DC3@DE02WEMBXB.internal.synopsys.com>
-References: <1549355535-22052-1-git-send-email-clabbe@baylibre.com>
- <1549355535-22052-3-git-send-email-clabbe@baylibre.com>
- <1549366931.27724.26.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA23075014642EBE9@US01WEMBX2.internal.synopsys.com>
- <4881796E12491D4BB15146FE0209CE64681D4DC3@DE02WEMBXB.internal.synopsys.com>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed,  6 Feb 2019 16:02:33 +0300
+Subject: [PATCH] don't check console device file on fs when booting with
+ initrd/initramfs
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <7h4l9ivvqj.fsf@baylibre.com>
+Message-ID: <20190206130233.43745-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Alexey Brodkin <alexey.brodkin at synopsys.com> writes:
+In case of initrd/initramfs /dev/console might not exist that early
+as devtmpfs is mounted a bit later by /init process so disable this
+check in that case.
 
-> Hi Vineet, Corentin,
->
->> -----Original Message-----
->> From: Vineet Gupta <vgupta at synopsys.com>
->> Sent: Tuesday, February 5, 2019 7:42 PM
->> To: Eugeniy Paltsev <paltsev at synopsys.com>; clabbe at baylibre.com
->> Cc: linux-kernel at vger.kernel.org; alexey.brodkin at synopsys.com; khilman at baylibre.com; linux-snps-
->> arc at lists.infradead.org
->> Subject: Re: [PATCH 2/2] arc: hsdk_defconfig: enable CONFIG_ARC_UBOOT_SUPPORT
->> 
->> On 2/5/19 3:42 AM, Eugeniy Paltsev wrote:
->> > Hi Corentin,
->> >
->> > In case of devboards (like HSDK) we really often disable bootloader and load
->> > Linux image in memory via JTAG. Enabling CONFIG_ARC_UBOOT_SUPPORT by
->> > default will break it as we will try to interpret some junk in a registers
->> > as a pointers to bootargs/etc which aren't set by anyone in case of JTAG using.
->> >
->> > So it isn't a good idea to have CONFIG_ARC_UBOOT_SUPPORT enabled by default.
->> 
->> Right.
->> 
->> It is difficult to accommodate everyone's needs (often conflicting) in a single
->> defconfig.
->> Can you folks create an out-of-tree defconfig or some such.
->
-> I do think there's a proper solution which [hopefully] makes both parties happy.
-> Eugeniy is about to send-out a patch which allows us to not care about
-> garbage in R0/R2 when running after U-Boot.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ init/main.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-OK, cool, that sounds like a good workaround for the JTAG use case.
-
-Just curious: what is the more common case for end-users?  u-boot or
-JTAG?
-
-At least on every other arch/board we use in kernelCI, u-boot is the
-*much* more common load path than JTAG.  IMO, I would suggest that in
-the case of unresolvable conflicts like, u-boot should be the normal
-path, and JTAG would be the special case.
-
-Anyways, hopefully the patch from Eugeniy works and gets rid of the
-conflict. 
-
-Related: if you end up accepting this series, they'll also need to be
-backported to stable branches if we want to support them in kernelCI.
-
-Kevin
+diff --git a/init/main.c b/init/main.c
+index 387a2d7dc90b..5b904bc78fa4 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -1112,7 +1112,9 @@ static int __ref kernel_init(void *unused)
+ 
+ static noinline void __init kernel_init_freeable(void)
+ {
++#ifndef CONFIG_BLK_DEV_INITRD
+ 	struct kstat console_stat;
++#endif
+ 	/*
+ 	 * Wait until kthreadd is all set-up.
+ 	 */
+@@ -1144,11 +1146,17 @@ static noinline void __init kernel_init_freeable(void)
+ 
+ 	do_basic_setup();
+ 
+-	/* Use /dev/console to infer if the rootfs is setup properly */
++#ifndef CONFIG_BLK_DEV_INITRD
++       /*
++        * Use /dev/console to infer if the rootfs is setup properly.
++        * In case of initrd or initramfs /dev/console might be instantiated
++        * later by /init so don't do this check for CONFIG_BLK_DEV_INITRD
++        */
+ 	if (vfs_lstat((char __user *) "/dev/console", (struct kstat __user *) &console_stat)
+ 			|| !S_ISCHR(console_stat.mode)) {
+ 		panic("/dev/console is missing or not a character device!\nPlease ensure your rootfs is properly configured\n");
+ 	}
++#endif
+ 
+ 	/* Open the /dev/console on the rootfs, this should never fail */
+ 	if (ksys_open((const char __user *) "/dev/console", O_RDWR, 0) < 0)
+-- 
+2.16.2
