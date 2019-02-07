@@ -1,80 +1,78 @@
-From: gregkh@linuxfoundation.org (gregkh@linuxfoundation.org)
-Date: Thu, 7 Feb 2019 16:52:13 +0100
-Subject: patch "devres: Align data[] to ARCH_KMALLOC_MINALIGN" added to
- driver-core-linus
-In-Reply-To: <4881796E12491D4BB15146FE0209CE64681D5C43@DE02WEMBXB.internal.synopsys.com>
-References: <1541965277161164@kroah.com>
- <4881796E12491D4BB15146FE0209CE64681D5C43@DE02WEMBXB.internal.synopsys.com>
+From: bruce.ashfield@gmail.com (Bruce Ashfield)
+Date: Thu, 7 Feb 2019 13:20:04 -0500
+Subject: [linux-yocto] [PATCH] don't check console device file on fs when
+ booting with initrd/initramfs
+In-Reply-To: <20190206130233.43745-1-abrodkin@synopsys.com>
+References: <20190206130233.43745-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190207155213.GC7164@kroah.com>
+Message-ID: <CADkTA4MHaADDaTPJT_WiZETFo7ey4m72+EFC-HNPCcYewwL8sQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Feb 07, 2019@01:12:43PM +0000, Alexey Brodkin wrote:
-> Hi Greg,
-> 
-> > -----Original Message-----
-> > From: gregkh at linuxfoundation.org <gregkh at linuxfoundation.org>
-> > Sent: Sunday, November 11, 2018 10:41 PM
-> > To: alexey.brodkin at synopsys.com; David.Laight at ACULAB.COM; alexey.brodkin at synopsys.com; geert at linux-
-> > m68k.org; greg at kroah.com; gregkh at linuxfoundation.org; peterz at infradead.org; stable at vger.kernel.org;
-> > tglx at linutronix.de; vineet.gupta1 at synopsys.com; will.deacon at arm.com
-> > Subject: patch "devres: Align data[] to ARCH_KMALLOC_MINALIGN" added to driver-core-linus
-> > 
-> > 
-> > This is a note to let you know that I've just added the patch titled
-> > 
-> >     devres: Align data[] to ARCH_KMALLOC_MINALIGN
-> > 
-> > to my driver-core git tree which can be found at
-> >     git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
-> > in the driver-core-linus branch.
-> > 
-> > The patch will show up in the next release of the linux-next tree
-> > (usually sometime within the next 24 hours during the week.)
-> > 
-> > The patch will hopefully also be merged in Linus's tree for the
-> > next -rc kernel release.
-> > 
-> > If you have any questions about this process, please let me know.
-> > 
-> > 
-> > From a66d972465d15b1d89281258805eb8b47d66bd36 Mon Sep 17 00:00:00 2001
-> > From: Alexey Brodkin <alexey.brodkin at synopsys.com>
-> > Date: Wed, 31 Oct 2018 18:25:47 +0300
-> > Subject: devres: Align data[] to ARCH_KMALLOC_MINALIGN
-> > 
-> > Initially we bumped into problem with 32-bit aligned atomic64_t
-> > on ARC, see [1]. And then during quite lengthly discussion Peter Z.
-> > mentioned ARCH_KMALLOC_MINALIGN which IMHO makes perfect sense.
-> > If allocation is done by plain kmalloc() obtained buffer will be
-> > ARCH_KMALLOC_MINALIGN aligned and then why buffer obtained via
-> > devm_kmalloc() should have any other alignment?
->  
-> [snip]
-> 
-> > Cc: <stable at vger.kernel.org> # 4.8+
-> > Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-> 
-> I noticed this patch was not only merged in Linus' tree quite some time ago
-> but it was as well back-ported to v4.20, see [1] but for some reason there's
-> no backport to either LTS kernel (v4.19, v4.14 and v4.9).
-> 
-> Is there any problem with this patch and LTS kernels or may we have this one
-> applied?
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-4.20.y&id=a66d972465d15b1d89281258805eb8b47d66bd36
+On Wed, Feb 6, 2019 at 8:10 AM Alexey Brodkin
+<alexey.brodkin@synopsys.com> wrote:
+>
+> In case of initrd/initramfs /dev/console might not exist that early
+> as devtmpfs is mounted a bit later by /init process so disable this
+> check in that case.
 
-Ah, I was waiting to see if you would notice :)
+That's a reasonable tweak to the console check. I've applied the patch
+to 4.19 and it will appear in future kernels as well. If you need it
+on another version, let me know.
 
-See this question from Linus about this patch:
-	https://lore.kernel.org/lkml/CAHk-=wj3Q7CkMQYwfZSsqUTqkEhNwVGrRbCwe7AVJ70S8i5sWw at mail.gmail.com/
+Bruce
 
-I figured that you all did this for a good reason, and wasting that much
-space was going to be ok.  But, I wanted to be sure, so if you never
-noticed it, I figured it was not that pressing of an issue.
 
-Anyway, is this really needed to be backported?
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> ---
+>  init/main.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/init/main.c b/init/main.c
+> index 387a2d7dc90b..5b904bc78fa4 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -1112,7 +1112,9 @@ static int __ref kernel_init(void *unused)
+>
+>  static noinline void __init kernel_init_freeable(void)
+>  {
+> +#ifndef CONFIG_BLK_DEV_INITRD
+>         struct kstat console_stat;
+> +#endif
+>         /*
+>          * Wait until kthreadd is all set-up.
+>          */
+> @@ -1144,11 +1146,17 @@ static noinline void __init kernel_init_freeable(void)
+>
+>         do_basic_setup();
+>
+> -       /* Use /dev/console to infer if the rootfs is setup properly */
+> +#ifndef CONFIG_BLK_DEV_INITRD
+> +       /*
+> +        * Use /dev/console to infer if the rootfs is setup properly.
+> +        * In case of initrd or initramfs /dev/console might be instantiated
+> +        * later by /init so don't do this check for CONFIG_BLK_DEV_INITRD
+> +        */
+>         if (vfs_lstat((char __user *) "/dev/console", (struct kstat __user *) &console_stat)
+>                         || !S_ISCHR(console_stat.mode)) {
+>                 panic("/dev/console is missing or not a character device!\nPlease ensure your rootfs is properly configured\n");
+>         }
+> +#endif
+>
+>         /* Open the /dev/console on the rootfs, this should never fail */
+>         if (ksys_open((const char __user *) "/dev/console", O_RDWR, 0) < 0)
+> --
+> 2.16.2
+>
+> --
+> _______________________________________________
+> linux-yocto mailing list
+> linux-yocto at yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/linux-yocto
 
-thanks,
 
-greg k-h
+
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
