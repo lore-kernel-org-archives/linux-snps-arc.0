@@ -1,226 +1,109 @@
-From: vineetg76@gmail.com (Vineet Gupta)
-Date: Wed, 6 Feb 2019 14:13:16 -0800
-Subject: [RFC 1/2] ARC: U-boot: check arguments paranoidly
-In-Reply-To: <20190206172228.9261-2-Eugeniy.Paltsev@synopsys.com>
-References: <20190206172228.9261-1-Eugeniy.Paltsev@synopsys.com>
- <20190206172228.9261-2-Eugeniy.Paltsev@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Thu, 07 Feb 2019 12:40:59 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Thu Feb 07, 23:40
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b3226062-e177-ef15-b683-71493e91d804@gmail.com>
+Message-ID: <20190207124059.1.58913@83c514a2b625>
 To: linux-snps-arc@lists.infradead.org
 
-On 2/6/19 9:22 AM, Eugeniy Paltsev wrote:
-> Handle U-boot arguments paranoidly:
->  * don't allow to pass unknown tag.
->  * try to use external device tree blob only if corresponding tag
->    (TAG_DTB) is set.
->  * don't check: uboot_tag if kernel build with no ARC_UBOOT_SUPPORT.
-> 
-> While I'm at it refactor U-boot arguments handling code.
-> 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
->  arch/arc/kernel/head.S  |  2 +-
->  arch/arc/kernel/setup.c | 65 ++++++++++++++++++++++++++++++++-----------------
->  2 files changed, 44 insertions(+), 23 deletions(-)
-> 
-> diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
-> index 8b90d25a15cc..7095055bb874 100644
-> --- a/arch/arc/kernel/head.S
-> +++ b/arch/arc/kernel/head.S
-> @@ -95,7 +95,7 @@ ENTRY(stext)
->  	;    r0 = [0] No uboot interaction, [1] cmdline in r2, [2] DTB in r2
->  	;    r1 = magic number (board identity, unused as of now
->  	;    r2 = pointer to uboot provided cmdline or external DTB in mem
-> -	; These are handled later in setup_arch()
-> +	; These are handled later in handle_uboot_args()
->  	st	r0, [@uboot_tag]
->  	st	r2, [@uboot_arg]
->  #endif
-> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-> index feb90093e6b1..7edb35c26322 100644
-> --- a/arch/arc/kernel/setup.c
-> +++ b/arch/arc/kernel/setup.c
-> @@ -462,43 +462,64 @@ void setup_processor(void)
->  	arc_chk_core_config();
->  }
->  
-> -static inline int is_kernel(unsigned long addr)
-> +static inline bool is_kernel(unsigned long addr)
->  {
-> -	if (addr >= (unsigned long)_stext && addr <= (unsigned long)_end)
-> -		return 1;
-> -	return 0;
-> +	return addr >= (unsigned long)_stext && addr <= (unsigned long)_end;
->  }
->  
-> -void __init setup_arch(char **cmdline_p)
-> +/* uboot_tag values for U-boot - kernel ABI revisions 0+; see head.S */
-> +#define UBOOT_REV0P_TAG_NONE		0
-> +#define UBOOT_REV0P_TAG_CMDLINE		1
-> +#define UBOOT_REV0P_TAG_DTB		2
-> +
-> +void __init handle_uboot_args(void)
->  {
-> +	bool append_boot_cmdline = false;
-> +	bool use_embedded_dtb = true;
-> +
->  #ifdef CONFIG_ARC_UBOOT_SUPPORT
-> +	/* check that we know this tag */
-> +	if (uboot_tag != UBOOT_REV0P_TAG_NONE &&
-> +	    uboot_tag != UBOOT_REV0P_TAG_CMDLINE &&
-> +	    uboot_tag != UBOOT_REV0P_TAG_DTB)
-> +		panic("Invalid uboot tag: '%08x'\n", uboot_tag);
-> +
->  	/* make sure that uboot passed pointer to cmdline/dtb is valid */
-> -	if (uboot_tag && is_kernel((unsigned long)uboot_arg))
-> +	if (uboot_tag != UBOOT_REV0P_TAG_NONE && is_kernel((unsigned long)uboot_arg))
->  		panic("Invalid uboot arg\n");
->  
->  	/* See if u-boot passed an external Device Tree blob */
-> -	machine_desc = setup_machine_fdt(uboot_arg);	/* uboot_tag == 2 */
-> -	if (!machine_desc)
-> +	if (uboot_tag == UBOOT_REV0P_TAG_DTB) {
-> +		machine_desc = setup_machine_fdt(uboot_arg);
-> +
-> +		/* external Device Tree blob is invalid - use embedded one */
-> +		use_embedded_dtb = !machine_desc;
-> +	}
-> +
-> +	if (uboot_tag == UBOOT_REV0P_TAG_CMDLINE)
-> +		append_boot_cmdline = true;
->  #endif
-> -	{
-> -		/* No, so try the embedded one */
-> +
-> +	if (use_embedded_dtb) {
->  		machine_desc = setup_machine_fdt(__dtb_start);
->  		if (!machine_desc)
->  			panic("Embedded DT invalid\n");
-> +	}
->  
-> -		/*
-> -		 * If we are here, it is established that @uboot_arg didn't
-> -		 * point to DT blob. Instead if u-boot says it is cmdline,
-> -		 * append to embedded DT cmdline.
-> -		 * setup_machine_fdt() would have populated @boot_command_line
-> -		 */
-> -		if (uboot_tag == 1) {
-> -			/* Ensure a whitespace between the 2 cmdlines */
-> -			strlcat(boot_command_line, " ", COMMAND_LINE_SIZE);
-> -			strlcat(boot_command_line, uboot_arg,
-> -				COMMAND_LINE_SIZE);
-> -		}
-> +	/*
-> +	 * If we are here, U-boot says that @uboot_arg is cmdline, so append it
-> +	 * to embedded DT cmdline.
-> +	 */
-> +	if (append_boot_cmdline) {
-> +		/* Ensure a whitespace between the 2 cmdlines */
-> +		strlcat(boot_command_line, " ", COMMAND_LINE_SIZE);
-> +		strlcat(boot_command_line, uboot_arg, COMMAND_LINE_SIZE);
->  	}
-> +}
-> +
-> +void __init setup_arch(char **cmdline_p)
-> +{
-> +	handle_uboot_args();
->  
->  	/* Save unparsed command line copy for /proc/cmdline */
->  	*cmdline_p = boot_command_line;
+OK linus/axs103_smp_defconfig/arcv2 Thu Feb 07, 23:40
 
-I think we can grossly simplify all of this w/o adding any new ABI contract
-between kernel and uboot and eliminate CONFIG_ARC_UBOOT_SUPPORT as well (make
-uboot support always enabled)
+http://kisskb.ellerman.id.au/kisskb/buildresult/13680423/
 
-So when bootloader runs it passes {0,1,2} in r0 and corresponding arg in r2.
-For jtag case we can assume that core registers will come up reset value of 0 or
-in worst case we rely on user passing -on=clear_regs to Metaware debugger.
+Commit:   Merge tag 'for_linus' of git://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost
+          b0314565da2b95e73feab484467ad171fcce6dff
+Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824 / GNU ld (GNU Binutils) 2.27.51.20160928
 
-Now as you already figured out, we just need to make sure kernel doesn't try to
-dereference the pointers for bogus values. How does the hunk below look like (and
-in a subsequent patch remove the Kconfig)
+Possible errors
+---------------
 
--------------->
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index def19b0ef8c6..cdd8e9a1768a 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -462,44 +462,46 @@ void setup_processor(void)
- 	arc_chk_core_config();
- }
+arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
+arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
 
--static inline int is_kernel(unsigned long addr)
--{
--	if (addr >= (unsigned long)_stext && addr <= (unsigned long)_end)
--		return 1;
--	return 0;
--}
--
- void __init setup_arch(char **cmdline_p)
- {
--#ifdef CONFIG_ARC_UBOOT_SUPPORT
--	/* make sure that uboot passed pointer to cmdline/dtb is valid */
--	if (uboot_tag && is_kernel((unsigned long)uboot_arg))
--		panic("Invalid uboot arg\n");
--
--	/* See if u-boot passed an external Device Tree blob */
--	machine_desc = setup_machine_fdt(uboot_arg);	/* uboot_tag == 2 */
--	if (!machine_desc)
--#endif
--	{
--		/* No, so try the embedded one */
--		machine_desc = setup_machine_fdt(__dtb_start);
--		if (!machine_desc)
--			panic("Embedded DT invalid\n");
-+	bool use_embedded_dtb = true;
-+
-+	if (IS_ENABLED(CONFIG_ARC_UBOOT_SUPPORT) && uboot_tag) {
+Possible warnings (82)
+----------------------
 
- 		/*
--		 * If we are here, it is established that @uboot_arg didn't
--		 * point to DT blob. Instead if u-boot says it is cmdline,
--		 * append to embedded DT cmdline.
--		 * setup_machine_fdt() would have populated @boot_command_line
-+		 * ensure u-boot passed pointer is valid
-+		 *   - is a valid untranslated address (although MMU is not
-+		 *     enabled yet, it being a high address ensures this is
-+		 *     not by fluke)
-+		 *   - doesn't clobber resident kernel image
- 		 */
--		if (uboot_tag == 1) {
--			/* Ensure a whitespace between the 2 cmdlines */
--			strlcat(boot_command_line, " ", COMMAND_LINE_SIZE);
--			strlcat(boot_command_line, uboot_arg,
--				COMMAND_LINE_SIZE);
-+		if ((unsigned long)uboot_arg < (unsigned long)_end)
-+			panic("Invalid uboot arg\n");
-+
-+		/* validate u-boot passed external Device Tree blob */
-+		if (uboot_tag == 2) {
-+			machine_desc = setup_machine_fdt(uboot_arg);
-+			if (machine_desc)
-+				use_embedded_dtb = false;
- 		}
- 	}
-
-+	if (use_embedded_dtb) 	{
-+		machine_desc = setup_machine_fdt(__dtb_start);
-+		if (!machine_desc)
-+			panic("Embedded DT invalid\n");
-+	}
-+
-+	/*
-+	 * append u-boot cmdline to embedded DT cmdline.
-+	 * setup_machine_fdt() would have populated @boot_command_line
-+	 */
-+	if (IS_ENABLED(CONFIG_ARC_UBOOT_SUPPORT) && uboot_tag == 1) {
-+		/* Ensure a whitespace between the 2 cmdlines */
-+		strlcat(boot_command_line, " ", COMMAND_LINE_SIZE);
-+		strlcat(boot_command_line, uboot_arg, COMMAND_LINE_SIZE);
-+	}
-+
- 	/* Save unparsed command line copy for /proc/cmdline */
- 	*cmdline_p = boot_command_line;
-
--- 
-2.7.4
+arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
+arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
+arch/arc/mm/tlb.c:914:2: warning: ISO C90 forbids variable length array 'pd0' [-Wvla]
+kernel/dma/direct.c:40:4: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+mm/percpu.c:1382:17: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1382:17: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+mm/percpu.c:1948:27: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:32: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:37: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:42: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:52: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:56: warning: format '%zu' expects argument of type 'size_t', but argument 8 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+fs/ext4/inode.c:3654:12: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+mm/dmapool.c:96:46: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:51: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+drivers/base/regmap/regmap.c:1531:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+fs/ext4/page-io.c:163:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+drivers/base/regmap/regcache.c:719:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+fs/ext4/xattr.c:482:8: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+drivers/base/component.c:164:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/overflow.h:53:15: warning: comparison of distinct pointer types lacks a cast
+include/linux/overflow.h:54:15: warning: comparison of distinct pointer types lacks a cast
+drivers/gpu/drm/drm_dp_helper.c:820:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:853:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:906:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka const unsigned int}' [-Wformat=]
+drivers/gpu/drm/drm_dp_dual_mode_helper.c:201:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 5 has type 'ssize_t {aka int}' [-Wformat=]
+drivers/gpu/drm/drm_dp_dual_mode_helper.c:220:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 4 has type 'ssize_t {aka int}' [-Wformat=]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+include/drm/drm_print.h:110:24: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+fs/buffer.c:235:37: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+drivers/gpu/drm/drm_atomic_uapi.c:131:21: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_gem_cma_helper.c:115:21: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_gem_cma_helper.c:510:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+net/sunrpc/xprtsock.c:2500:16: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+net/sunrpc/svc.c:1357:33: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+net/ipv4/tcp_input.c:4324:49: warning: array subscript is above array bounds [-Warray-bounds]
