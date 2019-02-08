@@ -1,54 +1,39 @@
-From: raj.khem@gmail.com (Khem Raj)
-Date: Fri, 8 Feb 2019 09:41:30 -0800
-Subject: [PATCH] linux-yocto: Add dependency on libgcc for ARC
-In-Reply-To: <4881796E12491D4BB15146FE0209CE64681D6A80@DE02WEMBXB.internal.synopsys.com>
-References: <20190208153221.4335-1-abrodkin@synopsys.com>
- <CAMKF1sqY_1h8j2KR322gF8swrvFapx1mJvicHn-U3bm0+m4-7g@mail.gmail.com>
- <4881796E12491D4BB15146FE0209CE64681D6A80@DE02WEMBXB.internal.synopsys.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Fri, 8 Feb 2019 10:11:47 -0800
+Subject: [PATCH v2 0/3] Replace opencoded set_mask_bits
+In-Reply-To: <1548275584-18096-1-git-send-email-vgupta@synopsys.com>
+References: <1548275584-18096-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMKF1sp8g3AVQUQY-qiKSw7PpO1Su1NRavA-eW7yN2tnAcOnwA@mail.gmail.com>
+Message-ID: <c8f00c90-2e09-e825-1a1f-056294cafbea@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Feb 8, 2019 at 9:35 AM Alexey Brodkin
-<alexey.brodkin@synopsys.com> wrote:
->
-> Hi Khem,
->
-> > -----Original Message-----
-> > From: Khem Raj <raj.khem at gmail.com>
-> > Sent: Friday, February 8, 2019 8:28 PM
-> > To: Alexey Brodkin <alexey.brodkin at synopsys.com>
-> > Cc: Patches and discussions about the oe-core layer <openembedded-core at lists.openembedded.org>; Ross
-> > Burton <ross.burton at intel.com>; linux-snps-arc at lists.infradead.org; Bruce Ashfield
-> > <bruce.ashfield at windriver.com>
-> > Subject: Re: [PATCH] linux-yocto: Add dependency on libgcc for ARC
-> >
-> > On Fri, Feb 8, 2019 at 7:32 AM Alexey Brodkin
-> > <alexey.brodkin@synopsys.com> wrote:
-> > >
-> > > As of now in case of ARC there's no in-kernel implementation of basic libgcc
-> > > functions used for millicode, multiplication, division etc instead we simply
-> > > link with libgcc.a which provides everything used by the compiler.
-> > >
-> >
-> > this is something you would be fixing in kernel eventually?
-> > we can carry this as a workaround until then but it really needs to be
-> > fixed in kernel.
->
-> Well we do have it in our plans but given this is more a nice feature
-> than something critical (as currently used approach with libgcc works
-> perfectly fine) it might not be done very soon.
->
-> Thus we'll need to keep this work-around for now.
->
-> BTW exporting of libgcc parts into kernel means we'll need to
-> keep it in sync with real libgcc later which is not optimal as well.
+On 1/23/19 12:33 PM, Vineet Gupta wrote:
+> Hi,
+> 
+> Repost of [1] rebased on 5.0-rc3 + accumulated Acked-by/Reviewed-by.
+> No code changes since v1.
+> 
+> Please consider applying.
+> 
+> [1] http://lists.infradead.org/pipermail/linux-snps-arc/2019-January/005201.html
+> 
+> Thx,
+> -Vineet
 
-aarch64 kernel also bootstrapped with lbgcc for quite a while and then
-moved away
-I can understand that there might be bigger fish to fry, but this is
-not a insignificant issue
-where you make kernel dependency on toolchain runtime go away.
+Ping ! @Peter, @Arnd are you happy with this. If so, Andrew can you please add
+this via mm tree or do i need to pester the respective maintainers !
 
->
-> -Alexey
+Thx,
+-Vineet
+
+> 
+> Vineet Gupta (3):
+>   coredump: Replace opencoded set_mask_bits()
+>   fs: inode_set_flags() replace opencoded set_mask_bits()
+>   bitops.h: set_mask_bits() to return old value
+> 
+>  fs/exec.c              | 7 +------
+>  fs/inode.c             | 8 +-------
+>  include/linux/bitops.h | 2 +-
+>  3 files changed, 3 insertions(+), 14 deletions(-)
+> 
