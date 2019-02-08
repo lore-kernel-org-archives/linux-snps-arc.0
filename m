@@ -1,83 +1,196 @@
 From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri,  8 Feb 2019 13:55:19 +0300
-Subject: [PATCH] ARC: Explicitly set ARCH_SLAB_MINALIGN = 8
+Date: Fri,  8 Feb 2019 17:29:40 +0300
+Subject: [PATCH] ARC: Add nsimhs- and hsdk-standard configs
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190208105519.26750-1-abrodkin@synopsys.com>
+Message-ID: <20190208142940.12691-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-By default ARCH_SLAB_MINALIGN is defined in "include/linux/slab.h" as
-"__alignof__(unsigned long long)" which looks fine but not for ARC.
+With ARC support ramping-up in upstream OE we're ready to
+build more complicated distributions and linux-yocto is
+a nice and configurable base for that.
 
-ARC tools ABI sets align of "long long" the same as for "long" = 4
-instead of 8 one may think of.
+This commit adds support of 1 simulated board (nSIM) and
+the mast affordable and powerful to date development board (HSDK).
 
-Thus slab allocator may easily allocate a buffer which is 32-bit aligned.
-And most of the time it's OK until we start dealing with 64-bit atomics
-with special LLOCKD/SCONDD instructions which (as opposed to their 32-bit
-counterparts LLOCK/SCOND) operate with full 64-bit words but those words
-must be 64-bit aligned.
+Once Qemu port for ARC is functional (it's being actively developed now)
+we'll switch from nSIM to Qemu.
 
-Fixes Ext4 folder removal:
---------------------->8-------------------
-[    4.015732] EXT4-fs (mmcblk0p2): re-mounted. Opts: (null)
-[    4.167881]
-[    4.167881] Misaligned Access
-[    4.172356] Path: /bin/busybox.nosuid
-[    4.176004] CPU: 2 PID: 171 Comm: rm Not tainted 4.19.14-yocto-standard #1
-[    4.182851]
-[    4.182851] [ECR   ]: 0x000d0000 => Check Programmer's Manual
-[    4.190061] [EFA   ]: 0xbeaec3fc
-[    4.190061] [BLINK ]: ext4_delete_entry+0x210/0x234
-[    4.190061] [ERET  ]: ext4_delete_entry+0x13e/0x234
-[    4.202985] [STAT32]: 0x80080002 : IE K
-[    4.207236] BTA: 0x9009329c   SP: 0xbe5b1ec4  FP: 0x00000000
-[    4.212790] LPS: 0x9074b118  LPE: 0x9074b120 LPC: 0x00000000
-[    4.218348] r00: 0x00000040  r01: 0x00000021 r02: 0x00000001
-[    4.218348] r03: 0x00000000  r04: 0x00000002 r05: 0x00000000
-[    4.218348] r06: 0x000000c6  r07: 0x00000000 r08: 0x9050f140
-[    4.218348] r09: 0x000000c6  r10: 0x0000000a r11: 0x00000000
-[    4.218348] r12: 0x90247a9c  r13: 0x9004e574 r14: 0x0008e150
-[    4.218348] r15: 0x000989b8  r16: 0x0008cbec r17: 0x0009806c
-[    4.218348] r18: 0x0009806c  r19: 0x0008e150 r20: 0x0008f0f8
-[    4.218348] r21: 0x000000ab  r22: 0x0008f0f8 r23: 0x00000000
-[    4.218348] r24: 0x00000000  r25: 0x00000000
-[    4.218348]
-[    4.218348]
-[    4.270510]
-[    4.270510] Stack Trace:
-[    4.274510]   ext4_delete_entry+0x13e/0x234
-[    4.278695]   ext4_rmdir+0xe0/0x238
-[    4.282187]   vfs_rmdir+0x50/0xf0
-[    4.285492]   do_rmdir+0x9e/0x154
-[    4.288802]   EV_Trap+0x110/0x114
---------------------->8-------------------
+Still it would be really good to keep nSIM support in linux-yocto for now
+as it allows for simpler testing as compared to real HW.
 
 Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: <stable at vger.kernel.org> # 4.8+
+Cc: Bruce Ashfield <bruce.ashfield at windriver.com>
 ---
- arch/arc/include/asm/cache.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ arch/arc/arc.cfg               |  8 ++++++
+ arch/arc/arc.scc               |  5 ++++
+ bsp/hsdk/hsdk-standard.scc     |  7 +++++
+ bsp/hsdk/hsdk.cfg              | 61 ++++++++++++++++++++++++++++++++++++++++++
+ bsp/hsdk/hsdk.scc              |  7 +++++
+ bsp/nsimhs/nsimhs-standard.scc |  7 +++++
+ bsp/nsimhs/nsimhs.cfg          |  9 +++++++
+ bsp/nsimhs/nsimhs.scc          |  1 +
+ 8 files changed, 105 insertions(+)
+ create mode 100644 arch/arc/arc.cfg
+ create mode 100644 arch/arc/arc.scc
+ create mode 100644 bsp/hsdk/hsdk-standard.scc
+ create mode 100644 bsp/hsdk/hsdk.cfg
+ create mode 100644 bsp/hsdk/hsdk.scc
+ create mode 100644 bsp/nsimhs/nsimhs-standard.scc
+ create mode 100644 bsp/nsimhs/nsimhs.cfg
+ create mode 100644 bsp/nsimhs/nsimhs.scc
 
-diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
-index f393b663413e..74f8fcaaef5c 100644
---- a/arch/arc/include/asm/cache.h
-+++ b/arch/arc/include/asm/cache.h
-@@ -52,6 +52,16 @@
- #define cache_line_size()	SMP_CACHE_BYTES
- #define ARCH_DMA_MINALIGN	SMP_CACHE_BYTES
- 
-+/*
-+ * Make sure slab-allocated buffers are 64-bit aligned.
-+ * This is required for llockd/scondd to deal with 64-bit aligned dwords.
-+ * By default ARCH_SLAB_MINALIGN is __alignof__(long long) which in
-+ * case of ARC is 4 instead of 8!
-+ */
-+#ifdef CONFIG_ARC_HAS_LL64
-+#define ARCH_SLAB_MINALIGN	8
-+#endif
+diff --git a/arch/arc/arc.cfg b/arch/arc/arc.cfg
+new file mode 100644
+index 00000000..761f3ed9
+--- /dev/null
++++ b/arch/arc/arc.cfg
+@@ -0,0 +1,8 @@
++CONFIG_ARC=y
++CONFIG_HIGH_RES_TIMERS=y
 +
- extern void arc_cache_init(void);
- extern char *arc_cache_mumbojumbo(int cpu_id, char *buf, int len);
- extern void read_decode_cache_bcr(void);
++CONFIG_ARC_CACHE=y
++
++# Enable unwinding
++CONFIG_ARC_DBG=y
++CONFIG_ARC_DW2_UNWIND=y
+diff --git a/arch/arc/arc.scc b/arch/arc/arc.scc
+new file mode 100644
+index 00000000..bcc7c330
+--- /dev/null
++++ b/arch/arc/arc.scc
+@@ -0,0 +1,5 @@
++# patches are for everyone, but the kconfig data is just for ARC builds.
++if [ "$KARCH" = "arc" ]; then
++       kconf hardware arc.cfg
++       include cfg/timer/hz_100.scc
++fi
+diff --git a/bsp/hsdk/hsdk-standard.scc b/bsp/hsdk/hsdk-standard.scc
+new file mode 100644
+index 00000000..29c46047
+--- /dev/null
++++ b/bsp/hsdk/hsdk-standard.scc
+@@ -0,0 +1,7 @@
++define KMACHINE hsdk
++define KTYPE standard
++define KARCH arc
++
++include ktypes/standard/standard.scc
++
++include hsdk.scc
+diff --git a/bsp/hsdk/hsdk.cfg b/bsp/hsdk/hsdk.cfg
+new file mode 100644
+index 00000000..6d439021
+--- /dev/null
++++ b/bsp/hsdk/hsdk.cfg
+@@ -0,0 +1,61 @@
++# ARCv2 ISA
++CONFIG_ISA_ARCV2=y
++
++# HSDK custom SoC
++CONFIG_ARC_SOC_HSDK=y
++CONFIG_SMP=y
++
++# Build default .dtb inside kernel image as a good starting point
++CONFIG_ARC_BUILTIN_DTB_NAME="hsdk"
++
++# Enable passing command-line and .dtb from U-Boot
++CONFIG_ARC_UBOOT_SUPPORT=y
++
++# Auto-selected by U-Boot support but if it is enabled slave cores won't start
++# CONFIG_ARC_SMP_HALT_ON_RESET is not set
++
++# Serial port
++CONFIG_SERIAL_8250=y
++CONFIG_SERIAL_8250_CONSOLE=y
++CONFIG_SERIAL_8250_DW=y
++CONFIG_SERIAL_OF_PLATFORM=y
++
++# DesignWare MobileStorage AKA DW MMC
++CONFIG_MMC=y
++CONFIG_MMC_SDHCI=y
++CONFIG_MMC_SDHCI_PLTFM=y
++CONFIG_MMC_DW=y
++
++# We use non-standard link base 0x9z to accommodate DCCM mapped to 0x8z
++# on cores 1 & 3.
++# Though we move xCCMs to 0x6z on early boot and may use all avaialble DDR
++# starting from normal 0x8z thus LINUX_RAM_BASE.
++CONFIG_LINUX_LINK_BASE=0x90000000
++CONFIG_LINUX_RAM_BASE=0x80000000
++
++# Ethernet
++CONFIG_NET_VENDOR_STMICRO=y
++CONFIG_STMMAC_ETH=y
++CONFIG_STMMAC_PLATFORM=y
++CONFIG_MICREL_PHY=y
++
++# GPIO
++CONFIG_GPIOLIB=y
++CONFIG_GPIO_SYSFS=y
++CONFIG_GPIO_DWAPB=y
++
++# Video
++CONFIG_DRM=y
++CONFIG_DRM_UDL=y
++CONFIG_FB=y
++CONFIG_FRAMEBUFFER_CONSOLE=y
++
++# Required for SOFTLOCKUP_DETECTOR
++CONFIG_DEBUG_KERNEL=y
++
++# Soft lock-up detector
++CONFIG_SOFTLOCKUP_DETECTOR=y
++CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=10
++
++# Performance counters
++CONFIG_PERF_EVENTS=y
+diff --git a/bsp/hsdk/hsdk.scc b/bsp/hsdk/hsdk.scc
+new file mode 100644
+index 00000000..2cfcb654
+--- /dev/null
++++ b/bsp/hsdk/hsdk.scc
+@@ -0,0 +1,7 @@
++include features/input/input.scc
++include features/usb/ehci-hcd.scc
++include features/usb/ohci-hcd.scc
++
++include cfg/usb-mass-storage.scc
++
++kconf hardware hsdk.cfg
+diff --git a/bsp/nsimhs/nsimhs-standard.scc b/bsp/nsimhs/nsimhs-standard.scc
+new file mode 100644
+index 00000000..da749cd0
+--- /dev/null
++++ b/bsp/nsimhs/nsimhs-standard.scc
+@@ -0,0 +1,7 @@
++define KMACHINE nsimhs
++define KTYPE standard
++define KARCH arc
++
++include ktypes/standard/standard.scc
++
++include nsimhs.scc
+diff --git a/bsp/nsimhs/nsimhs.cfg b/bsp/nsimhs/nsimhs.cfg
+new file mode 100644
+index 00000000..2475825d
+--- /dev/null
++++ b/bsp/nsimhs/nsimhs.cfg
+@@ -0,0 +1,9 @@
++# ARCv2 ISA
++CONFIG_ISA_ARCV2=y
++
++# Legacy ARC UART
++CONFIG_SERIAL_ARC=y
++CONFIG_SERIAL_ARC_CONSOLE=y
++
++# Built-in .dtb
++CONFIG_ARC_BUILTIN_DTB_NAME="nsim_hs"
+diff --git a/bsp/nsimhs/nsimhs.scc b/bsp/nsimhs/nsimhs.scc
+new file mode 100644
+index 00000000..93a3ab1b
+--- /dev/null
++++ b/bsp/nsimhs/nsimhs.scc
+@@ -0,0 +1 @@
++kconf hardware nsimhs.cfg
 -- 
 2.16.2
