@@ -1,70 +1,44 @@
-From: bruce.ashfield@gmail.com (Bruce Ashfield)
-Date: Fri, 8 Feb 2019 10:46:18 -0500
-Subject: [linux-yocto] [PATCH] ARC: Add nsimhs- and hsdk-standard configs
-In-Reply-To: <4881796E12491D4BB15146FE0209CE64681D6925@DE02WEMBXB.internal.synopsys.com>
-References: <20190208142940.12691-1-abrodkin@synopsys.com>
- <CADkTA4Ny7Q5-+68HS8bwDfa3sx86YA3kMZMmLwoDDNMNk2Gq0A@mail.gmail.com>
- <4881796E12491D4BB15146FE0209CE64681D6925@DE02WEMBXB.internal.synopsys.com>
+From: raj.khem@gmail.com (Khem Raj)
+Date: Fri, 8 Feb 2019 09:28:09 -0800
+Subject: [PATCH] linux-yocto: Add dependency on libgcc for ARC
+In-Reply-To: <20190208153221.4335-1-abrodkin@synopsys.com>
+References: <20190208153221.4335-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CADkTA4OWynzvmvEDhvNKOjYQ1MXwHVxKRNodh6YNqL_arY7YaQ@mail.gmail.com>
+Message-ID: <CAMKF1sqY_1h8j2KR322gF8swrvFapx1mJvicHn-U3bm0+m4-7g@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Feb 8, 2019 at 10:30 AM Alexey Brodkin
+On Fri, Feb 8, 2019 at 7:32 AM Alexey Brodkin
 <alexey.brodkin@synopsys.com> wrote:
 >
-> Hi Bruce,
+> As of now in case of ARC there's no in-kernel implementation of basic libgcc
+> functions used for millicode, multiplication, division etc instead we simply
+> link with libgcc.a which provides everything used by the compiler.
 >
-> > -----Original Message-----
-> > From: linux-snps-arc <linux-snps-arc-bounces at lists.infradead.org> On Behalf Of Bruce Ashfield
-> > Sent: Friday, February 8, 2019 6:16 PM
-> > To: Alexey Brodkin <alexey.brodkin at synopsys.com>
-> > Cc: linux-snps-arc at lists.infradead.org; Development list for the linux-yocto repositories <linux-
-> > yocto at yoctoproject.org>; Khem Raj <raj.khem at gmail.com>
-> > Subject: Re: [linux-yocto] [PATCH] ARC: Add nsimhs- and hsdk-standard configs
-> >
-> > On Fri, Feb 8, 2019 at 9:29 AM Alexey Brodkin
-> > <alexey.brodkin@synopsys.com> wrote:
-> > >
-> > > With ARC support ramping-up in upstream OE we're ready to
-> > > build more complicated distributions and linux-yocto is
-> > > a nice and configurable base for that.
-> > >
-> > > This commit adds support of 1 simulated board (nSIM) and
-> > > the mast affordable and powerful to date development board (HSDK).
-> > >
-> > > Once Qemu port for ARC is functional (it's being actively developed now)
-> > > we'll switch from nSIM to Qemu.
-> > >
-> > > Still it would be really good to keep nSIM support in linux-yocto for now
-> > > as it allows for simpler testing as compared to real HW.
-> >
-> > Looks good to me, the configs make sense and are clean.
-> >
-> > I'd put this on master so it would be available for the 5.x -dev
-> > kernel (and then any
-> > future versions I release). If you want to test it on other versions
-> > (i.e. 4.19), let me
-> > know and I can put it there as well.
+
+this is something you would be fixing in kernel eventually?
+we can carry this as a workaround until then but it really needs to be
+fixed in kernel.
+
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> Well I prepared those based on 4.19 branch so I know it works there.
+> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+> index 1ebfb606da..f191946f2a 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> @@ -26,6 +26,10 @@ DEPENDS_append_nios2 = " libgcc"
+>  KERNEL_CC_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
+>  KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
 >
-> Now given 4.19 is the most recent LTS kernel is there a sense in adding these
-> configs in 4.19 or OE/Yocto-wise 4.19 is no different than any other version?
+> +DEPENDS_append_arc = " libgcc"
+> +KERNEL_CC_append_arc = " ${TOOLCHAIN_OPTIONS}"
+> +KERNEL_LD_append_arc = " ${TOOLCHAIN_OPTIONS}"
+> +
+>  KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
 >
-> Given linux-yocto might be a base for many different projects I'd like to make
-> sure ARC boards are available there so there will be an easy way to build and
-> run basic stuff.
-
-That's ok with me, I'll queue it for 4.19 as well.
-
-Bruce
-
+>  KERNEL_FEATURES_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+> --
+> 2.16.2
 >
-> -Alexey
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
