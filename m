@@ -1,367 +1,295 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 Feb 2019 14:35:51 +0100
-Subject: [PATCH 09/12] dma-mapping: remove the DMA_MEMORY_EXCLUSIVE flag
+Date: Mon, 11 Feb 2019 14:35:52 +0100
+Subject: [PATCH 10/12] dma-mapping: simplify allocations from per-device
+ coherent memory
 In-Reply-To: <20190211133554.30055-1-hch@lst.de>
 References: <20190211133554.30055-1-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190211133554.30055-10-hch@lst.de>
+Message-ID: <20190211133554.30055-11-hch@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-All users of dma_declare_coherent want their allocations to be
-exclusive, so default to exclusive allocations.
+All users of per-device coherent memory are exclusive, that is if we can't
+allocate from the per-device pool we can't use the system memory either.
+Unfold the current dma_{alloc,free}_from_dev_coherent implementation and
+always use the per-device pool if it exists.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- Documentation/DMA-API.txt                     |  9 +------
- arch/arm/mach-imx/mach-imx27_visstrim_m10.c   | 12 +++------
- arch/arm/mach-imx/mach-mx31moboard.c          |  3 +--
- arch/sh/boards/mach-ap325rxa/setup.c          |  5 ++--
- arch/sh/boards/mach-ecovec24/setup.c          |  6 ++---
- arch/sh/boards/mach-kfr2r09/setup.c           |  5 ++--
- arch/sh/boards/mach-migor/setup.c             |  5 ++--
- arch/sh/boards/mach-se/7724/setup.c           |  6 ++---
- arch/sh/drivers/pci/fixups-dreamcast.c        |  3 +--
- .../soc_camera/sh_mobile_ceu_camera.c         |  3 +--
- drivers/usb/host/ohci-sm501.c                 |  3 +--
- drivers/usb/host/ohci-tmio.c                  |  2 +-
- include/linux/dma-mapping.h                   |  7 ++----
- kernel/dma/coherent.c                         | 25 ++++++-------------
- 14 files changed, 29 insertions(+), 65 deletions(-)
+ arch/arm/mm/dma-mapping-nommu.c | 12 ++---
+ include/linux/dma-mapping.h     | 14 ++----
+ kernel/dma/coherent.c           | 89 ++++++++-------------------------
+ kernel/dma/internal.h           | 19 +++++++
+ kernel/dma/mapping.c            | 12 +++--
+ 5 files changed, 55 insertions(+), 91 deletions(-)
+ create mode 100644 kernel/dma/internal.h
 
-diff --git a/Documentation/DMA-API.txt b/Documentation/DMA-API.txt
-index b9d0cba83877..38e561b773b4 100644
---- a/Documentation/DMA-API.txt
-+++ b/Documentation/DMA-API.txt
-@@ -566,8 +566,7 @@ boundaries when doing this.
- 
- 	int
- 	dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
--				    dma_addr_t device_addr, size_t size, int
--				    flags)
-+				    dma_addr_t device_addr, size_t size);
- 
- Declare region of memory to be handed out by dma_alloc_coherent() when
- it's asked for coherent memory for this device.
-@@ -581,12 +580,6 @@ dma_addr_t in dma_alloc_coherent()).
- 
- size is the size of the area (must be multiples of PAGE_SIZE).
- 
--flags can be ORed together and are:
+diff --git a/arch/arm/mm/dma-mapping-nommu.c b/arch/arm/mm/dma-mapping-nommu.c
+index f304b10e23a4..c72f024f1e82 100644
+--- a/arch/arm/mm/dma-mapping-nommu.c
++++ b/arch/arm/mm/dma-mapping-nommu.c
+@@ -70,16 +70,10 @@ static void arm_nommu_dma_free(struct device *dev, size_t size,
+ 			       void *cpu_addr, dma_addr_t dma_addr,
+ 			       unsigned long attrs)
+ {
+-	if (attrs & DMA_ATTR_NON_CONSISTENT) {
++	if (attrs & DMA_ATTR_NON_CONSISTENT)
+ 		dma_direct_free_pages(dev, size, cpu_addr, dma_addr, attrs);
+-	} else {
+-		int ret = dma_release_from_global_coherent(get_order(size),
+-							   cpu_addr);
 -
--- DMA_MEMORY_EXCLUSIVE - only allocate memory from the declared regions.
--  Do not allow dma_alloc_coherent() to fall back to system memory when
--  it's out of memory in the declared region.
+-		WARN_ON_ONCE(ret == 0);
+-	}
 -
- As a simplification for the platforms, only *one* such region of
- memory may be declared per device.
- 
-diff --git a/arch/arm/mach-imx/mach-imx27_visstrim_m10.c b/arch/arm/mach-imx/mach-imx27_visstrim_m10.c
-index 5169dfba9718..07d4fcfe5c2e 100644
---- a/arch/arm/mach-imx/mach-imx27_visstrim_m10.c
-+++ b/arch/arm/mach-imx/mach-imx27_visstrim_m10.c
-@@ -258,8 +258,7 @@ static void __init visstrim_analog_camera_init(void)
- 		return;
- 
- 	dma_declare_coherent_memory(&pdev->dev, mx2_camera_base,
--				    mx2_camera_base, MX2_CAMERA_BUF_SIZE,
--				    DMA_MEMORY_EXCLUSIVE);
-+				    mx2_camera_base, MX2_CAMERA_BUF_SIZE);
+-	return;
++	else
++		dma_release_from_global_coherent(size, cpu_addr);
  }
  
- static void __init visstrim_reserve(void)
-@@ -445,8 +444,7 @@ static void __init visstrim_coda_init(void)
- 	dma_declare_coherent_memory(&pdev->dev,
- 				    mx2_camera_base + MX2_CAMERA_BUF_SIZE,
- 				    mx2_camera_base + MX2_CAMERA_BUF_SIZE,
--				    MX2_CAMERA_BUF_SIZE,
--				    DMA_MEMORY_EXCLUSIVE);
-+				    MX2_CAMERA_BUF_SIZE);
- }
- 
- /* DMA deinterlace */
-@@ -465,8 +463,7 @@ static void __init visstrim_deinterlace_init(void)
- 	dma_declare_coherent_memory(&pdev->dev,
- 				    mx2_camera_base + 2 * MX2_CAMERA_BUF_SIZE,
- 				    mx2_camera_base + 2 * MX2_CAMERA_BUF_SIZE,
--				    MX2_CAMERA_BUF_SIZE,
--				    DMA_MEMORY_EXCLUSIVE);
-+				    MX2_CAMERA_BUF_SIZE);
- }
- 
- /* Emma-PrP for format conversion */
-@@ -485,8 +482,7 @@ static void __init visstrim_emmaprp_init(void)
- 	 */
- 	ret = dma_declare_coherent_memory(&pdev->dev,
- 				mx2_camera_base, mx2_camera_base,
--				MX2_CAMERA_BUF_SIZE,
--				DMA_MEMORY_EXCLUSIVE);
-+				MX2_CAMERA_BUF_SIZE);
- 	if (ret)
- 		pr_err("Failed to declare memory for emmaprp\n");
- }
-diff --git a/arch/arm/mach-imx/mach-mx31moboard.c b/arch/arm/mach-imx/mach-mx31moboard.c
-index 643a3d749703..fe50f4cf00a7 100644
---- a/arch/arm/mach-imx/mach-mx31moboard.c
-+++ b/arch/arm/mach-imx/mach-mx31moboard.c
-@@ -475,8 +475,7 @@ static int __init mx31moboard_init_cam(void)
- 
- 	ret = dma_declare_coherent_memory(&pdev->dev,
- 					  mx3_camera_base, mx3_camera_base,
--					  MX3_CAMERA_BUF_SIZE,
--					  DMA_MEMORY_EXCLUSIVE);
-+					  MX3_CAMERA_BUF_SIZE);
- 	if (ret)
- 		goto err;
- 
-diff --git a/arch/sh/boards/mach-ap325rxa/setup.c b/arch/sh/boards/mach-ap325rxa/setup.c
-index 8f234d0435aa..7899b4f51fdd 100644
---- a/arch/sh/boards/mach-ap325rxa/setup.c
-+++ b/arch/sh/boards/mach-ap325rxa/setup.c
-@@ -529,9 +529,8 @@ static int __init ap325rxa_devices_setup(void)
- 	device_initialize(&ap325rxa_ceu_device.dev);
- 	arch_setup_pdev_archdata(&ap325rxa_ceu_device);
- 	dma_declare_coherent_memory(&ap325rxa_ceu_device.dev,
--				    ceu_dma_membase, ceu_dma_membase,
--				    ceu_dma_membase + CEU_BUFFER_MEMORY_SIZE - 1,
--				    DMA_MEMORY_EXCLUSIVE);
-+			ceu_dma_membase, ceu_dma_membase,
-+			ceu_dma_membase + CEU_BUFFER_MEMORY_SIZE - 1);
- 
- 	platform_device_add(&ap325rxa_ceu_device);
- 
-diff --git a/arch/sh/boards/mach-ecovec24/setup.c b/arch/sh/boards/mach-ecovec24/setup.c
-index 22b4106b8084..eb66754cfb8c 100644
---- a/arch/sh/boards/mach-ecovec24/setup.c
-+++ b/arch/sh/boards/mach-ecovec24/setup.c
-@@ -1440,8 +1440,7 @@ static int __init arch_setup(void)
- 	dma_declare_coherent_memory(&ecovec_ceu_devices[0]->dev,
- 				    ceu0_dma_membase, ceu0_dma_membase,
- 				    ceu0_dma_membase +
--				    CEU_BUFFER_MEMORY_SIZE - 1,
--				    DMA_MEMORY_EXCLUSIVE);
-+				    CEU_BUFFER_MEMORY_SIZE - 1);
- 	platform_device_add(ecovec_ceu_devices[0]);
- 
- 	device_initialize(&ecovec_ceu_devices[1]->dev);
-@@ -1449,8 +1448,7 @@ static int __init arch_setup(void)
- 	dma_declare_coherent_memory(&ecovec_ceu_devices[1]->dev,
- 				    ceu1_dma_membase, ceu1_dma_membase,
- 				    ceu1_dma_membase +
--				    CEU_BUFFER_MEMORY_SIZE - 1,
--				    DMA_MEMORY_EXCLUSIVE);
-+				    CEU_BUFFER_MEMORY_SIZE - 1);
- 	platform_device_add(ecovec_ceu_devices[1]);
- 
- 	gpiod_add_lookup_table(&cn12_power_gpiod_table);
-diff --git a/arch/sh/boards/mach-kfr2r09/setup.c b/arch/sh/boards/mach-kfr2r09/setup.c
-index 203d249a0a2b..b8bf67c86eab 100644
---- a/arch/sh/boards/mach-kfr2r09/setup.c
-+++ b/arch/sh/boards/mach-kfr2r09/setup.c
-@@ -603,9 +603,8 @@ static int __init kfr2r09_devices_setup(void)
- 	device_initialize(&kfr2r09_ceu_device.dev);
- 	arch_setup_pdev_archdata(&kfr2r09_ceu_device);
- 	dma_declare_coherent_memory(&kfr2r09_ceu_device.dev,
--				    ceu_dma_membase, ceu_dma_membase,
--				    ceu_dma_membase + CEU_BUFFER_MEMORY_SIZE - 1,
--				    DMA_MEMORY_EXCLUSIVE);
-+			ceu_dma_membase, ceu_dma_membase,
-+			ceu_dma_membase + CEU_BUFFER_MEMORY_SIZE - 1);
- 
- 	platform_device_add(&kfr2r09_ceu_device);
- 
-diff --git a/arch/sh/boards/mach-migor/setup.c b/arch/sh/boards/mach-migor/setup.c
-index f4ad33c6d2aa..bcd249e6cfcc 100644
---- a/arch/sh/boards/mach-migor/setup.c
-+++ b/arch/sh/boards/mach-migor/setup.c
-@@ -603,9 +603,8 @@ static int __init migor_devices_setup(void)
- 	device_initialize(&migor_ceu_device.dev);
- 	arch_setup_pdev_archdata(&migor_ceu_device);
- 	dma_declare_coherent_memory(&migor_ceu_device.dev,
--				    ceu_dma_membase, ceu_dma_membase,
--				    ceu_dma_membase + CEU_BUFFER_MEMORY_SIZE - 1,
--				    DMA_MEMORY_EXCLUSIVE);
-+			ceu_dma_membase, ceu_dma_membase,
-+			ceu_dma_membase + CEU_BUFFER_MEMORY_SIZE - 1);
- 
- 	platform_device_add(&migor_ceu_device);
- 
-diff --git a/arch/sh/boards/mach-se/7724/setup.c b/arch/sh/boards/mach-se/7724/setup.c
-index fdbec22ae687..13c2d3ce78f4 100644
---- a/arch/sh/boards/mach-se/7724/setup.c
-+++ b/arch/sh/boards/mach-se/7724/setup.c
-@@ -941,8 +941,7 @@ static int __init devices_setup(void)
- 	dma_declare_coherent_memory(&ms7724se_ceu_devices[0]->dev,
- 				    ceu0_dma_membase, ceu0_dma_membase,
- 				    ceu0_dma_membase +
--				    CEU_BUFFER_MEMORY_SIZE - 1,
--				    DMA_MEMORY_EXCLUSIVE);
-+				    CEU_BUFFER_MEMORY_SIZE - 1);
- 	platform_device_add(ms7724se_ceu_devices[0]);
- 
- 	device_initialize(&ms7724se_ceu_devices[1]->dev);
-@@ -950,8 +949,7 @@ static int __init devices_setup(void)
- 	dma_declare_coherent_memory(&ms7724se_ceu_devices[1]->dev,
- 				    ceu1_dma_membase, ceu1_dma_membase,
- 				    ceu1_dma_membase +
--				    CEU_BUFFER_MEMORY_SIZE - 1,
--				    DMA_MEMORY_EXCLUSIVE);
-+				    CEU_BUFFER_MEMORY_SIZE - 1);
- 	platform_device_add(ms7724se_ceu_devices[1]);
- 
- 	return platform_add_devices(ms7724se_devices,
-diff --git a/arch/sh/drivers/pci/fixups-dreamcast.c b/arch/sh/drivers/pci/fixups-dreamcast.c
-index dfdbd05b6eb1..7be8694c0d13 100644
---- a/arch/sh/drivers/pci/fixups-dreamcast.c
-+++ b/arch/sh/drivers/pci/fixups-dreamcast.c
-@@ -63,8 +63,7 @@ static void gapspci_fixup_resources(struct pci_dev *dev)
- 		BUG_ON(dma_declare_coherent_memory(&dev->dev,
- 						res.start,
- 						region.start,
--						resource_size(&res),
--						DMA_MEMORY_EXCLUSIVE));
-+						resource_size(&res)));
- 		break;
- 	default:
- 		printk("PCI: Failed resource fixup\n");
-diff --git a/drivers/media/platform/soc_camera/sh_mobile_ceu_camera.c b/drivers/media/platform/soc_camera/sh_mobile_ceu_camera.c
-index 6803f744e307..cc357b8db1dc 100644
---- a/drivers/media/platform/soc_camera/sh_mobile_ceu_camera.c
-+++ b/drivers/media/platform/soc_camera/sh_mobile_ceu_camera.c
-@@ -1708,8 +1708,7 @@ static int sh_mobile_ceu_probe(struct platform_device *pdev)
- 	if (res) {
- 		err = dma_declare_coherent_memory(&pdev->dev, res->start,
- 						  res->start,
--						  resource_size(res),
--						  DMA_MEMORY_EXCLUSIVE);
-+						  resource_size(res));
- 		if (err) {
- 			dev_err(&pdev->dev, "Unable to declare CEU memory.\n");
- 			return err;
-diff --git a/drivers/usb/host/ohci-sm501.c b/drivers/usb/host/ohci-sm501.c
-index c9233cddf9a2..c26228c25f99 100644
---- a/drivers/usb/host/ohci-sm501.c
-+++ b/drivers/usb/host/ohci-sm501.c
-@@ -126,8 +126,7 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
- 
- 	retval = dma_declare_coherent_memory(dev, mem->start,
- 					 mem->start - mem->parent->start,
--					 resource_size(mem),
--					 DMA_MEMORY_EXCLUSIVE);
-+					 resource_size(mem));
- 	if (retval) {
- 		dev_err(dev, "cannot declare coherent memory\n");
- 		goto err1;
-diff --git a/drivers/usb/host/ohci-tmio.c b/drivers/usb/host/ohci-tmio.c
-index a631dbb369d7..f88a0370659f 100644
---- a/drivers/usb/host/ohci-tmio.c
-+++ b/drivers/usb/host/ohci-tmio.c
-@@ -225,7 +225,7 @@ static int ohci_hcd_tmio_drv_probe(struct platform_device *dev)
- 	}
- 
- 	ret = dma_declare_coherent_memory(&dev->dev, sram->start, sram->start,
--				resource_size(sram), DMA_MEMORY_EXCLUSIVE);
-+				resource_size(sram));
- 	if (ret)
- 		goto err_dma_declare;
- 
+ static int arm_nommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
 diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 9df0f4d318c5..b12fba725f19 100644
+index b12fba725f19..018e37a0870e 100644
 --- a/include/linux/dma-mapping.h
 +++ b/include/linux/dma-mapping.h
-@@ -728,17 +728,14 @@ static inline int dma_get_cache_alignment(void)
- 	return 1;
+@@ -158,30 +158,24 @@ static inline int is_device_dma_capable(struct device *dev)
+  * These three functions are only for dma allocator.
+  * Don't use them in device drivers.
+  */
+-int dma_alloc_from_dev_coherent(struct device *dev, ssize_t size,
+-				       dma_addr_t *dma_handle, void **ret);
+-int dma_release_from_dev_coherent(struct device *dev, int order, void *vaddr);
+-
+ int dma_mmap_from_dev_coherent(struct device *dev, struct vm_area_struct *vma,
+ 			    void *cpu_addr, size_t size, int *ret);
+ 
+-void *dma_alloc_from_global_coherent(ssize_t size, dma_addr_t *dma_handle);
+-int dma_release_from_global_coherent(int order, void *vaddr);
++void *dma_alloc_from_global_coherent(size_t size, dma_addr_t *dma_handle);
++void dma_release_from_global_coherent(size_t size, void *vaddr);
+ int dma_mmap_from_global_coherent(struct vm_area_struct *vma, void *cpu_addr,
+ 				  size_t size, int *ret);
+ 
+ #else
+-#define dma_alloc_from_dev_coherent(dev, size, handle, ret) (0)
+-#define dma_release_from_dev_coherent(dev, order, vaddr) (0)
+ #define dma_mmap_from_dev_coherent(dev, vma, vaddr, order, ret) (0)
+ 
+-static inline void *dma_alloc_from_global_coherent(ssize_t size,
++static inline void *dma_alloc_from_global_coherent(size_t size,
+ 						   dma_addr_t *dma_handle)
+ {
+ 	return NULL;
  }
  
--/* flags for the coherent memory api */
--#define DMA_MEMORY_EXCLUSIVE		0x01
--
- #ifdef CONFIG_DMA_DECLARE_COHERENT
- int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
--				dma_addr_t device_addr, size_t size, int flags);
-+				dma_addr_t device_addr, size_t size);
- void dma_release_declared_memory(struct device *dev);
- #else
- static inline int
- dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
--			    dma_addr_t device_addr, size_t size, int flags)
-+			    dma_addr_t device_addr, size_t size)
+-static inline int dma_release_from_global_coherent(int order, void *vaddr)
++static inline void dma_release_from_global_coherent(size_t size, void *vaddr)
  {
- 	return -ENOSYS;
+ 	return 0;
  }
 diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
-index 1d12a31af6d7..29fd6590dc1e 100644
+index 29fd6590dc1e..d1da1048e470 100644
 --- a/kernel/dma/coherent.c
 +++ b/kernel/dma/coherent.c
-@@ -14,7 +14,6 @@ struct dma_coherent_mem {
- 	dma_addr_t	device_base;
- 	unsigned long	pfn_base;
- 	int		size;
--	int		flags;
- 	unsigned long	*bitmap;
- 	spinlock_t	spinlock;
- 	bool		use_dev_dma_pfn_offset;
-@@ -38,9 +37,9 @@ static inline dma_addr_t dma_get_device_base(struct device *dev,
- 		return mem->device_base;
- }
+@@ -8,6 +8,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/dma-mapping.h>
++#include "internal.h"
  
--static int dma_init_coherent_memory(
--	phys_addr_t phys_addr, dma_addr_t device_addr, size_t size, int flags,
--	struct dma_coherent_mem **mem)
-+static int dma_init_coherent_memory(phys_addr_t phys_addr,
-+		dma_addr_t device_addr, size_t size,
-+		struct dma_coherent_mem **mem)
- {
- 	struct dma_coherent_mem *dma_mem = NULL;
- 	void *mem_base = NULL;
-@@ -73,7 +72,6 @@ static int dma_init_coherent_memory(
- 	dma_mem->device_base = device_addr;
- 	dma_mem->pfn_base = PFN_DOWN(phys_addr);
- 	dma_mem->size = pages;
--	dma_mem->flags = flags;
- 	spin_lock_init(&dma_mem->spinlock);
+ struct dma_coherent_mem {
+ 	void		*virt_base;
+@@ -21,13 +22,6 @@ struct dma_coherent_mem {
  
- 	*mem = dma_mem;
-@@ -110,12 +108,12 @@ static int dma_assign_coherent_memory(struct device *dev,
- }
+ static struct dma_coherent_mem *dma_coherent_default_memory __ro_after_init;
  
- int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
--				dma_addr_t device_addr, size_t size, int flags)
-+				dma_addr_t device_addr, size_t size)
- {
- 	struct dma_coherent_mem *mem;
- 	int ret;
- 
--	ret = dma_init_coherent_memory(phys_addr, device_addr, size, flags, &mem);
-+	ret = dma_init_coherent_memory(phys_addr, device_addr, size, &mem);
- 	if (ret)
- 		return ret;
- 
-@@ -190,15 +188,7 @@ int dma_alloc_from_dev_coherent(struct device *dev, ssize_t size,
- 		return 0;
- 
- 	*ret = __dma_alloc_from_coherent(mem, size, dma_handle);
--	if (*ret)
--		return 1;
+-static inline struct dma_coherent_mem *dev_get_coherent_memory(struct device *dev)
+-{
+-	if (dev && dev->dma_mem)
+-		return dev->dma_mem;
+-	return NULL;
+-}
 -
--	/*
--	 * In the case where the allocation can not be satisfied from the
--	 * per-device area, try to fall back to generic memory if the
--	 * constraints allow it.
--	 */
--	return mem->flags & DMA_MEMORY_EXCLUSIVE;
-+	return 1;
+ static inline dma_addr_t dma_get_device_base(struct device *dev,
+ 					     struct dma_coherent_mem * mem)
+ {
+@@ -135,8 +129,8 @@ void dma_release_declared_memory(struct device *dev)
+ }
+ EXPORT_SYMBOL(dma_release_declared_memory);
+ 
+-static void *__dma_alloc_from_coherent(struct dma_coherent_mem *mem,
+-		ssize_t size, dma_addr_t *dma_handle)
++void *__dma_alloc_from_coherent(struct dma_coherent_mem *mem, size_t size,
++		dma_addr_t *dma_handle)
+ {
+ 	int order = get_order(size);
+ 	unsigned long flags;
+@@ -165,33 +159,7 @@ static void *__dma_alloc_from_coherent(struct dma_coherent_mem *mem,
+ 	return NULL;
  }
  
- void *dma_alloc_from_global_coherent(ssize_t size, dma_addr_t *dma_handle)
-@@ -327,8 +317,7 @@ static int rmem_dma_device_init(struct reserved_mem *rmem, struct device *dev)
+-/**
+- * dma_alloc_from_dev_coherent() - allocate memory from device coherent pool
+- * @dev:	device from which we allocate memory
+- * @size:	size of requested memory area
+- * @dma_handle:	This will be filled with the correct dma handle
+- * @ret:	This pointer will be filled with the virtual address
+- *		to allocated area.
+- *
+- * This function should be only called from per-arch dma_alloc_coherent()
+- * to support allocation from per-device coherent memory pools.
+- *
+- * Returns 0 if dma_alloc_coherent should continue with allocating from
+- * generic memory areas, or !0 if dma_alloc_coherent should return @ret.
+- */
+-int dma_alloc_from_dev_coherent(struct device *dev, ssize_t size,
+-		dma_addr_t *dma_handle, void **ret)
+-{
+-	struct dma_coherent_mem *mem = dev_get_coherent_memory(dev);
+-
+-	if (!mem)
+-		return 0;
+-
+-	*ret = __dma_alloc_from_coherent(mem, size, dma_handle);
+-	return 1;
+-}
+-
+-void *dma_alloc_from_global_coherent(ssize_t size, dma_addr_t *dma_handle)
++void *dma_alloc_from_global_coherent(size_t size, dma_addr_t *dma_handle)
+ {
+ 	if (!dma_coherent_default_memory)
+ 		return NULL;
+@@ -200,48 +168,33 @@ void *dma_alloc_from_global_coherent(ssize_t size, dma_addr_t *dma_handle)
+ 			dma_handle);
+ }
  
- 	if (!mem) {
- 		ret = dma_init_coherent_memory(rmem->base, rmem->base,
--					       rmem->size,
--					       DMA_MEMORY_EXCLUSIVE, &mem);
-+					       rmem->size, &mem);
- 		if (ret) {
- 			pr_err("Reserved memory: failed to init DMA memory pool at %pa, size %ld MiB\n",
- 				&rmem->base, (unsigned long)rmem->size / SZ_1M);
+-static int __dma_release_from_coherent(struct dma_coherent_mem *mem,
+-				       int order, void *vaddr)
++static bool dma_in_coherent_range(struct dma_coherent_mem *mem, size_t size,
++		void *vaddr)
+ {
+-	if (mem && vaddr >= mem->virt_base && vaddr <
+-		   (mem->virt_base + (mem->size << PAGE_SHIFT))) {
+-		int page = (vaddr - mem->virt_base) >> PAGE_SHIFT;
+-		unsigned long flags;
+-
+-		spin_lock_irqsave(&mem->spinlock, flags);
+-		bitmap_release_region(mem->bitmap, page, order);
+-		spin_unlock_irqrestore(&mem->spinlock, flags);
+-		return 1;
+-	}
+-	return 0;
++	return vaddr >= mem->virt_base &&
++		vaddr + size <= mem->virt_base + (mem->size << PAGE_SHIFT);
+ }
+ 
+-/**
+- * dma_release_from_dev_coherent() - free memory to device coherent memory pool
+- * @dev:	device from which the memory was allocated
+- * @order:	the order of pages allocated
+- * @vaddr:	virtual address of allocated pages
+- *
+- * This checks whether the memory was allocated from the per-device
+- * coherent memory pool and if so, releases that memory.
+- *
+- * Returns 1 if we correctly released the memory, or 0 if the caller should
+- * proceed with releasing memory from generic pools.
+- */
+-int dma_release_from_dev_coherent(struct device *dev, int order, void *vaddr)
++void __dma_release_from_coherent(struct dma_coherent_mem *mem, size_t size,
++		void *vaddr)
+ {
+-	struct dma_coherent_mem *mem = dev_get_coherent_memory(dev);
++	int page = (vaddr - mem->virt_base) >> PAGE_SHIFT;
++	unsigned long flags;
++
++	if (WARN_ON_ONCE(!dma_in_coherent_range(mem, size, vaddr)))
++		return;
+ 
+-	return __dma_release_from_coherent(mem, order, vaddr);
++	spin_lock_irqsave(&mem->spinlock, flags);
++	bitmap_release_region(mem->bitmap, page, get_order(size));
++	spin_unlock_irqrestore(&mem->spinlock, flags);
+ }
+ 
+-int dma_release_from_global_coherent(int order, void *vaddr)
++void dma_release_from_global_coherent(size_t size, void *vaddr)
+ {
+ 	if (!dma_coherent_default_memory)
+-		return 0;
++		return;
+ 
+-	return __dma_release_from_coherent(dma_coherent_default_memory, order,
+-			vaddr);
++	__dma_release_from_coherent(dma_coherent_default_memory, size, vaddr);
+ }
+ 
+ static int __dma_mmap_from_coherent(struct dma_coherent_mem *mem,
+diff --git a/kernel/dma/internal.h b/kernel/dma/internal.h
+new file mode 100644
+index 000000000000..48a0a71487b1
+--- /dev/null
++++ b/kernel/dma/internal.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _DMA_INTERNAL_H
++#define _DMA_INTERNAL_H
++
++static inline struct dma_coherent_mem *dev_get_coherent_memory(struct device *dev)
++{
++#ifdef DMA_DECLARE_COHERENT
++	if (dev && dev->dma_mem)
++		return dev->dma_mem;
++#endif
++	return NULL;
++}
++
++void *__dma_alloc_from_coherent(struct dma_coherent_mem *mem, size_t size,
++		dma_addr_t *dma_handle);
++void __dma_release_from_coherent(struct dma_coherent_mem *mem, size_t size,
++		void *vaddr);
++
++#endif /* _DMA_INTERNAL_H */
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index a11006b6d8e8..d3c4363b2143 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -14,6 +14,7 @@
+ #include <linux/of_device.h>
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
++#include "internal.h"
+ 
+ /*
+  * Managed DMA API
+@@ -248,12 +249,13 @@ void *dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
+ 		gfp_t flag, unsigned long attrs)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
++	struct dma_coherent_mem *mem = dev_get_coherent_memory(dev);
+ 	void *cpu_addr;
+ 
+ 	WARN_ON_ONCE(dev && !dev->coherent_dma_mask);
+ 
+-	if (dma_alloc_from_dev_coherent(dev, size, dma_handle, &cpu_addr))
+-		return cpu_addr;
++	if (mem)
++		return __dma_alloc_from_coherent(mem, size, dma_handle);
+ 
+ 	/* let the implementation decide on the zone to allocate from: */
+ 	flag &= ~(__GFP_DMA | __GFP_DMA32 | __GFP_HIGHMEM);
+@@ -277,9 +279,11 @@ void dma_free_attrs(struct device *dev, size_t size, void *cpu_addr,
+ 		dma_addr_t dma_handle, unsigned long attrs)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
++	struct dma_coherent_mem *mem = dev_get_coherent_memory(dev);
++
++	if (mem)
++		return __dma_release_from_coherent(mem, size, cpu_addr);
+ 
+-	if (dma_release_from_dev_coherent(dev, get_order(size), cpu_addr))
+-		return;
+ 	/*
+ 	 * On non-coherent platforms which implement DMA-coherent buffers via
+ 	 * non-cacheable remaps, ops->free() may call vunmap(). Thus getting
 -- 
 2.20.1
