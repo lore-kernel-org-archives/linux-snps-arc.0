@@ -1,31 +1,27 @@
 From: robh@kernel.org (Rob Herring)
-Date: Tue, 12 Feb 2019 14:11:25 -0600
-Subject: [PATCH 04/12] of: select OF_RESERVED_MEM automatically
-In-Reply-To: <20190211133554.30055-5-hch@lst.de>
+Date: Tue, 12 Feb 2019 14:24:19 -0600
+Subject: [PATCH 03/12] of: mark early_init_dt_alloc_reserved_memory_arch
+ static
+In-Reply-To: <20190211133554.30055-4-hch@lst.de>
 References: <20190211133554.30055-1-hch@lst.de>
- <20190211133554.30055-5-hch@lst.de>
+ <20190211133554.30055-4-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAL_JsqJFGhTa+izRTeUxjtbyOek-zynZofOJGDK+xZbD4r5H0Q@mail.gmail.com>
+Message-ID: <CAL_JsqJ2Qt6=TTD250C9qW7Kv8rZn5PyB_C78FUhWwfgOnjPHg@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Feb 11, 2019@7:37 AM Christoph Hellwig <hch@lst.de> wrote:
+On Mon, Feb 11, 2019@7:36 AM Christoph Hellwig <hch@lst.de> wrote:
 >
-> The OF_RESERVED_MEM can be used if we have either CMA or the generic
-> declare coherent code built and we support the early flattened DT.
->
-> So don't bother making it a user visible options that is selected
-> by most configs that fit the above category, but just select it when
-> the requirements are met.
+> This function is only used in of_reserved_mem.c, and never overridden
+> despite the __weak marker.
 >
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
->  arch/arc/Kconfig     | 1 -
->  arch/arm/Kconfig     | 1 -
->  arch/arm64/Kconfig   | 1 -
->  arch/csky/Kconfig    | 1 -
->  arch/powerpc/Kconfig | 1 -
->  arch/xtensa/Kconfig  | 1 -
->  drivers/of/Kconfig   | 5 ++---
->  7 files changed, 2 insertions(+), 9 deletions(-)
+>  drivers/of/of_reserved_mem.c    | 2 +-
+>  include/linux/of_reserved_mem.h | 7 -------
+>  2 files changed, 1 insertion(+), 8 deletions(-)
 
 Reviewed-by: Rob Herring <robh at kernel.org>
+
+Looks like this one isn't a dependency, so I can take it if you want.
+
+Rob
