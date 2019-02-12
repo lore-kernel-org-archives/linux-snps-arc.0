@@ -1,216 +1,230 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 11 Feb 2019 16:41:49 +0000
-Subject: [PATCH 1/2] dma-mapping: add a kconfig symbol for
- arch_setup_dma_ops availability
-References: <20190204081420.15083-1-hch@lst.de>
- <20190204081420.15083-2-hch@lst.de>
+Date: Mon, 11 Feb 2019 16:31:46 -0800
+Subject: [RFC 1/2] ARC: U-boot: check arguments paranoidly
+In-Reply-To: <b3226062-e177-ef15-b683-71493e91d804@gmail.com>
+References: <20190206172228.9261-1-Eugeniy.Paltsev@synopsys.com>
+ <20190206172228.9261-2-Eugeniy.Paltsev@synopsys.com>
+ <b3226062-e177-ef15-b683-71493e91d804@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA230750146433294@US01WEMBX2.internal.synopsys.com>
+Message-ID: <54a865e9-eb95-6dbc-3de0-4f9513095e37@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-+CC Eugeniy
-
-As resident ARC DMA expert can you please this a quick spin.
+Ping ! Are you happy with approach ?
 
 -Vineet
 
-On 2/4/19 12:14 AM, Christoph Hellwig wrote:
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  arch/arc/Kconfig                     |  1 +
->  arch/arc/include/asm/Kbuild          |  1 +
->  arch/arc/include/asm/dma-mapping.h   | 13 -------------
->  arch/arm/Kconfig                     |  1 +
->  arch/arm/include/asm/dma-mapping.h   |  4 ----
->  arch/arm64/Kconfig                   |  1 +
->  arch/arm64/include/asm/dma-mapping.h |  4 ----
->  arch/mips/Kconfig                    |  1 +
->  arch/mips/include/asm/dma-mapping.h  | 10 ----------
->  arch/mips/mm/dma-noncoherent.c       |  8 ++++++++
->  include/linux/dma-mapping.h          | 12 ++++++++----
->  kernel/dma/Kconfig                   |  3 +++
->  12 files changed, 24 insertions(+), 35 deletions(-)
->  delete mode 100644 arch/arc/include/asm/dma-mapping.h
->
-> diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-> index 376366a7db81..2ab27d88eb1c 100644
-> --- a/arch/arc/Kconfig
-> +++ b/arch/arc/Kconfig
-> @@ -11,6 +11,7 @@ config ARC
->  	select ARC_TIMERS
->  	select ARCH_HAS_DMA_COHERENT_TO_PFN
->  	select ARCH_HAS_PTE_SPECIAL
-> +	select ARCH_HAS_SETUP_DMA_OPS
->  	select ARCH_HAS_SYNC_DMA_FOR_CPU
->  	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
->  	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
-> diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
-> index caa270261521..b41f8881ecc8 100644
-> --- a/arch/arc/include/asm/Kbuild
-> +++ b/arch/arc/include/asm/Kbuild
-> @@ -3,6 +3,7 @@ generic-y += bugs.h
->  generic-y += compat.h
->  generic-y += device.h
->  generic-y += div64.h
-> +generic-y += dma-mapping.h
->  generic-y += emergency-restart.h
->  generic-y += extable.h
->  generic-y += ftrace.h
-> diff --git a/arch/arc/include/asm/dma-mapping.h b/arch/arc/include/asm/dma-mapping.h
-> deleted file mode 100644
-> index c946c0a83e76..000000000000
-> --- a/arch/arc/include/asm/dma-mapping.h
-> +++ /dev/null
-> @@ -1,13 +0,0 @@
-> -// SPDX-License-Identifier:  GPL-2.0
-> -// (C) 2018 Synopsys, Inc. (www.synopsys.com)
-> -
-> -#ifndef ASM_ARC_DMA_MAPPING_H
-> -#define ASM_ARC_DMA_MAPPING_H
-> -
-> -#include <asm-generic/dma-mapping.h>
-> -
-> -void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-> -			const struct iommu_ops *iommu, bool coherent);
-> -#define arch_setup_dma_ops arch_setup_dma_ops
-> -
-> -#endif
-> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-> index 664e918e2624..c1cf44f00870 100644
-> --- a/arch/arm/Kconfig
-> +++ b/arch/arm/Kconfig
-> @@ -12,6 +12,7 @@ config ARM
->  	select ARCH_HAS_MEMBARRIER_SYNC_CORE
->  	select ARCH_HAS_PTE_SPECIAL if ARM_LPAE
->  	select ARCH_HAS_PHYS_TO_DMA
-> +	select ARCH_HAS_SETUP_DMA_OPS
->  	select ARCH_HAS_SET_MEMORY
->  	select ARCH_HAS_STRICT_KERNEL_RWX if MMU && !XIP_KERNEL
->  	select ARCH_HAS_STRICT_MODULE_RWX if MMU
-> diff --git a/arch/arm/include/asm/dma-mapping.h b/arch/arm/include/asm/dma-mapping.h
-> index 31d3b96f0f4b..a224b6e39e58 100644
-> --- a/arch/arm/include/asm/dma-mapping.h
-> +++ b/arch/arm/include/asm/dma-mapping.h
-> @@ -96,10 +96,6 @@ static inline unsigned long dma_max_pfn(struct device *dev)
+On 2/6/19 2:13 PM, Vineet Gupta wrote:
+> On 2/6/19 9:22 AM, Eugeniy Paltsev wrote:
+>> Handle U-boot arguments paranoidly:
+>>  * don't allow to pass unknown tag.
+>>  * try to use external device tree blob only if corresponding tag
+>>    (TAG_DTB) is set.
+>>  * don't check: uboot_tag if kernel build with no ARC_UBOOT_SUPPORT.
+>>
+>> While I'm at it refactor U-boot arguments handling code.
+>>
+>> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+>> ---
+>>  arch/arc/kernel/head.S  |  2 +-
+>>  arch/arc/kernel/setup.c | 65 ++++++++++++++++++++++++++++++++-----------------
+>>  2 files changed, 44 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
+>> index 8b90d25a15cc..7095055bb874 100644
+>> --- a/arch/arc/kernel/head.S
+>> +++ b/arch/arc/kernel/head.S
+>> @@ -95,7 +95,7 @@ ENTRY(stext)
+>>  	;    r0 = [0] No uboot interaction, [1] cmdline in r2, [2] DTB in r2
+>>  	;    r1 = magic number (board identity, unused as of now
+>>  	;    r2 = pointer to uboot provided cmdline or external DTB in mem
+>> -	; These are handled later in setup_arch()
+>> +	; These are handled later in handle_uboot_args()
+>>  	st	r0, [@uboot_tag]
+>>  	st	r2, [@uboot_arg]
+>>  #endif
+>> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+>> index feb90093e6b1..7edb35c26322 100644
+>> --- a/arch/arc/kernel/setup.c
+>> +++ b/arch/arc/kernel/setup.c
+>> @@ -462,43 +462,64 @@ void setup_processor(void)
+>>  	arc_chk_core_config();
+>>  }
+>>  
+>> -static inline int is_kernel(unsigned long addr)
+>> +static inline bool is_kernel(unsigned long addr)
+>>  {
+>> -	if (addr >= (unsigned long)_stext && addr <= (unsigned long)_end)
+>> -		return 1;
+>> -	return 0;
+>> +	return addr >= (unsigned long)_stext && addr <= (unsigned long)_end;
+>>  }
+>>  
+>> -void __init setup_arch(char **cmdline_p)
+>> +/* uboot_tag values for U-boot - kernel ABI revisions 0+; see head.S */
+>> +#define UBOOT_REV0P_TAG_NONE		0
+>> +#define UBOOT_REV0P_TAG_CMDLINE		1
+>> +#define UBOOT_REV0P_TAG_DTB		2
+>> +
+>> +void __init handle_uboot_args(void)
+>>  {
+>> +	bool append_boot_cmdline = false;
+>> +	bool use_embedded_dtb = true;
+>> +
+>>  #ifdef CONFIG_ARC_UBOOT_SUPPORT
+>> +	/* check that we know this tag */
+>> +	if (uboot_tag != UBOOT_REV0P_TAG_NONE &&
+>> +	    uboot_tag != UBOOT_REV0P_TAG_CMDLINE &&
+>> +	    uboot_tag != UBOOT_REV0P_TAG_DTB)
+>> +		panic("Invalid uboot tag: '%08x'\n", uboot_tag);
+>> +
+>>  	/* make sure that uboot passed pointer to cmdline/dtb is valid */
+>> -	if (uboot_tag && is_kernel((unsigned long)uboot_arg))
+>> +	if (uboot_tag != UBOOT_REV0P_TAG_NONE && is_kernel((unsigned long)uboot_arg))
+>>  		panic("Invalid uboot arg\n");
+>>  
+>>  	/* See if u-boot passed an external Device Tree blob */
+>> -	machine_desc = setup_machine_fdt(uboot_arg);	/* uboot_tag == 2 */
+>> -	if (!machine_desc)
+>> +	if (uboot_tag == UBOOT_REV0P_TAG_DTB) {
+>> +		machine_desc = setup_machine_fdt(uboot_arg);
+>> +
+>> +		/* external Device Tree blob is invalid - use embedded one */
+>> +		use_embedded_dtb = !machine_desc;
+>> +	}
+>> +
+>> +	if (uboot_tag == UBOOT_REV0P_TAG_CMDLINE)
+>> +		append_boot_cmdline = true;
+>>  #endif
+>> -	{
+>> -		/* No, so try the embedded one */
+>> +
+>> +	if (use_embedded_dtb) {
+>>  		machine_desc = setup_machine_fdt(__dtb_start);
+>>  		if (!machine_desc)
+>>  			panic("Embedded DT invalid\n");
+>> +	}
+>>  
+>> -		/*
+>> -		 * If we are here, it is established that @uboot_arg didn't
+>> -		 * point to DT blob. Instead if u-boot says it is cmdline,
+>> -		 * append to embedded DT cmdline.
+>> -		 * setup_machine_fdt() would have populated @boot_command_line
+>> -		 */
+>> -		if (uboot_tag == 1) {
+>> -			/* Ensure a whitespace between the 2 cmdlines */
+>> -			strlcat(boot_command_line, " ", COMMAND_LINE_SIZE);
+>> -			strlcat(boot_command_line, uboot_arg,
+>> -				COMMAND_LINE_SIZE);
+>> -		}
+>> +	/*
+>> +	 * If we are here, U-boot says that @uboot_arg is cmdline, so append it
+>> +	 * to embedded DT cmdline.
+>> +	 */
+>> +	if (append_boot_cmdline) {
+>> +		/* Ensure a whitespace between the 2 cmdlines */
+>> +		strlcat(boot_command_line, " ", COMMAND_LINE_SIZE);
+>> +		strlcat(boot_command_line, uboot_arg, COMMAND_LINE_SIZE);
+>>  	}
+>> +}
+>> +
+>> +void __init setup_arch(char **cmdline_p)
+>> +{
+>> +	handle_uboot_args();
+>>  
+>>  	/* Save unparsed command line copy for /proc/cmdline */
+>>  	*cmdline_p = boot_command_line;
+> 
+> I think we can grossly simplify all of this w/o adding any new ABI contract
+> between kernel and uboot and eliminate CONFIG_ARC_UBOOT_SUPPORT as well (make
+> uboot support always enabled)
+> 
+> So when bootloader runs it passes {0,1,2} in r0 and corresponding arg in r2.
+> For jtag case we can assume that core registers will come up reset value of 0 or
+> in worst case we rely on user passing -on=clear_regs to Metaware debugger.
+> 
+> Now as you already figured out, we just need to make sure kernel doesn't try to
+> dereference the pointers for bogus values. How does the hunk below look like (and
+> in a subsequent patch remove the Kconfig)
+> 
+> -------------->
+> diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+> index def19b0ef8c6..cdd8e9a1768a 100644
+> --- a/arch/arc/kernel/setup.c
+> +++ b/arch/arc/kernel/setup.c
+> @@ -462,44 +462,46 @@ void setup_processor(void)
+>  	arc_chk_core_config();
 >  }
->  #define dma_max_pfn(dev) dma_max_pfn(dev)
->  
-> -#define arch_setup_dma_ops arch_setup_dma_ops
-> -extern void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-> -			       const struct iommu_ops *iommu, bool coherent);
-> -
->  #ifdef CONFIG_MMU
->  #define arch_teardown_dma_ops arch_teardown_dma_ops
->  extern void arch_teardown_dma_ops(struct device *dev);
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index a4168d366127..63909f318d56 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -22,6 +22,7 @@ config ARM64
->  	select ARCH_HAS_KCOV
->  	select ARCH_HAS_MEMBARRIER_SYNC_CORE
->  	select ARCH_HAS_PTE_SPECIAL
-> +	select ARCH_HAS_SETUP_DMA_OPS
->  	select ARCH_HAS_SET_MEMORY
->  	select ARCH_HAS_STRICT_KERNEL_RWX
->  	select ARCH_HAS_STRICT_MODULE_RWX
-> diff --git a/arch/arm64/include/asm/dma-mapping.h b/arch/arm64/include/asm/dma-mapping.h
-> index 95dbf3ef735a..de96507ee2c1 100644
-> --- a/arch/arm64/include/asm/dma-mapping.h
-> +++ b/arch/arm64/include/asm/dma-mapping.h
-> @@ -29,10 +29,6 @@ static inline const struct dma_map_ops *get_arch_dma_ops(struct bus_type *bus)
->  	return NULL;
->  }
->  
-> -void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-> -			const struct iommu_ops *iommu, bool coherent);
-> -#define arch_setup_dma_ops	arch_setup_dma_ops
-> -
->  #ifdef CONFIG_IOMMU_DMA
->  void arch_teardown_dma_ops(struct device *dev);
->  #define arch_teardown_dma_ops	arch_teardown_dma_ops
-> diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-> index 0d14f51d0002..dc5d70f674e0 100644
-> --- a/arch/mips/Kconfig
-> +++ b/arch/mips/Kconfig
-> @@ -1118,6 +1118,7 @@ config DMA_MAYBE_COHERENT
->  
->  config DMA_PERDEV_COHERENT
->  	bool
-> +	select ARCH_HAS_SETUP_DMA_OPS
->  	select DMA_NONCOHERENT
->  
->  config DMA_NONCOHERENT
-> diff --git a/arch/mips/include/asm/dma-mapping.h b/arch/mips/include/asm/dma-mapping.h
-> index 20dfaad3a55d..34de7b17b41b 100644
-> --- a/arch/mips/include/asm/dma-mapping.h
-> +++ b/arch/mips/include/asm/dma-mapping.h
-> @@ -15,14 +15,4 @@ static inline const struct dma_map_ops *get_arch_dma_ops(struct bus_type *bus)
->  #endif
->  }
->  
-> -#define arch_setup_dma_ops arch_setup_dma_ops
-> -static inline void arch_setup_dma_ops(struct device *dev, u64 dma_base,
-> -				      u64 size, const struct iommu_ops *iommu,
-> -				      bool coherent)
+> 
+> -static inline int is_kernel(unsigned long addr)
 > -{
-> -#ifdef CONFIG_DMA_PERDEV_COHERENT
-> -	dev->dma_coherent = coherent;
-> -#endif
+> -	if (addr >= (unsigned long)_stext && addr <= (unsigned long)_end)
+> -		return 1;
+> -	return 0;
 > -}
 > -
->  #endif /* _ASM_DMA_MAPPING_H */
-> diff --git a/arch/mips/mm/dma-noncoherent.c b/arch/mips/mm/dma-noncoherent.c
-> index cb38461391cb..0606fc87b294 100644
-> --- a/arch/mips/mm/dma-noncoherent.c
-> +++ b/arch/mips/mm/dma-noncoherent.c
-> @@ -159,3 +159,11 @@ void arch_dma_cache_sync(struct device *dev, void *vaddr, size_t size,
->  
->  	dma_sync_virt(vaddr, size, direction);
->  }
-> +
-> +#ifdef CONFIG_DMA_PERDEV_COHERENT
-> +void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-> +		const struct iommu_ops *iommu, bool coherent)
-> +{
-> +	dev->dma_coherent = coherent;
-> +}
-> +#endif
-> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> index b904d55247ab..2b20d60e6158 100644
-> --- a/include/linux/dma-mapping.h
-> +++ b/include/linux/dma-mapping.h
-> @@ -671,11 +671,15 @@ static inline int dma_coerce_mask_and_coherent(struct device *dev, u64 mask)
->  	return dma_set_mask_and_coherent(dev, mask);
->  }
->  
-> -#ifndef arch_setup_dma_ops
-> +#ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
-> +void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-> +		const struct iommu_ops *iommu, bool coherent);
-> +#else
->  static inline void arch_setup_dma_ops(struct device *dev, u64 dma_base,
-> -				      u64 size, const struct iommu_ops *iommu,
-> -				      bool coherent) { }
+>  void __init setup_arch(char **cmdline_p)
+>  {
+> -#ifdef CONFIG_ARC_UBOOT_SUPPORT
+> -	/* make sure that uboot passed pointer to cmdline/dtb is valid */
+> -	if (uboot_tag && is_kernel((unsigned long)uboot_arg))
+> -		panic("Invalid uboot arg\n");
+> -
+> -	/* See if u-boot passed an external Device Tree blob */
+> -	machine_desc = setup_machine_fdt(uboot_arg);	/* uboot_tag == 2 */
+> -	if (!machine_desc)
 > -#endif
-> +		u64 size, const struct iommu_ops *iommu, bool coherent)
-> +{
-> +}
-> +#endif /* CONFIG_ARCH_HAS_SETUP_DMA_OPS */
->  
->  #ifndef arch_teardown_dma_ops
->  static inline void arch_teardown_dma_ops(struct device *dev) { }
-> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-> index ca88b867e7fe..c44599d128e8 100644
-> --- a/kernel/dma/Kconfig
-> +++ b/kernel/dma/Kconfig
-> @@ -19,6 +19,9 @@ config ARCH_HAS_DMA_COHERENCE_H
->  config HAVE_GENERIC_DMA_COHERENT
->  	bool
->  
-> +config ARCH_HAS_SETUP_DMA_OPS
-> +	bool
+> -	{
+> -		/* No, so try the embedded one */
+> -		machine_desc = setup_machine_fdt(__dtb_start);
+> -		if (!machine_desc)
+> -			panic("Embedded DT invalid\n");
+> +	bool use_embedded_dtb = true;
 > +
->  config ARCH_HAS_SYNC_DMA_FOR_DEVICE
->  	bool
->  
+> +	if (IS_ENABLED(CONFIG_ARC_UBOOT_SUPPORT) && uboot_tag) {
+> 
+>  		/*
+> -		 * If we are here, it is established that @uboot_arg didn't
+> -		 * point to DT blob. Instead if u-boot says it is cmdline,
+> -		 * append to embedded DT cmdline.
+> -		 * setup_machine_fdt() would have populated @boot_command_line
+> +		 * ensure u-boot passed pointer is valid
+> +		 *   - is a valid untranslated address (although MMU is not
+> +		 *     enabled yet, it being a high address ensures this is
+> +		 *     not by fluke)
+> +		 *   - doesn't clobber resident kernel image
+>  		 */
+> -		if (uboot_tag == 1) {
+> -			/* Ensure a whitespace between the 2 cmdlines */
+> -			strlcat(boot_command_line, " ", COMMAND_LINE_SIZE);
+> -			strlcat(boot_command_line, uboot_arg,
+> -				COMMAND_LINE_SIZE);
+> +		if ((unsigned long)uboot_arg < (unsigned long)_end)
+> +			panic("Invalid uboot arg\n");
+> +
+> +		/* validate u-boot passed external Device Tree blob */
+> +		if (uboot_tag == 2) {
+> +			machine_desc = setup_machine_fdt(uboot_arg);
+> +			if (machine_desc)
+> +				use_embedded_dtb = false;
+>  		}
+>  	}
+> 
+> +	if (use_embedded_dtb) 	{
+> +		machine_desc = setup_machine_fdt(__dtb_start);
+> +		if (!machine_desc)
+> +			panic("Embedded DT invalid\n");
+> +	}
+> +
+> +	/*
+> +	 * append u-boot cmdline to embedded DT cmdline.
+> +	 * setup_machine_fdt() would have populated @boot_command_line
+> +	 */
+> +	if (IS_ENABLED(CONFIG_ARC_UBOOT_SUPPORT) && uboot_tag == 1) {
+> +		/* Ensure a whitespace between the 2 cmdlines */
+> +		strlcat(boot_command_line, " ", COMMAND_LINE_SIZE);
+> +		strlcat(boot_command_line, uboot_arg, COMMAND_LINE_SIZE);
+> +	}
+> +
+>  	/* Save unparsed command line copy for /proc/cmdline */
+>  	*cmdline_p = boot_command_line;
+> 
