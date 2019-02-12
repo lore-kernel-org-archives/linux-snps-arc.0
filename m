@@ -1,64 +1,105 @@
-From: robh@kernel.org (Rob Herring)
-Date: Tue, 12 Feb 2019 14:40:23 -0600
-Subject: [PATCH 06/12] dma-mapping: improve selection of
- dma_declare_coherent availability
-In-Reply-To: <20190211133554.30055-7-hch@lst.de>
-References: <20190211133554.30055-1-hch@lst.de>
- <20190211133554.30055-7-hch@lst.de>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 12 Feb 2019 15:05:53 -0800
+Subject: Semantics of symbol address in perf report -v
+In-Reply-To: <da403654-f21d-9959-067f-b76581600741@synopsys.com>
+References: <da403654-f21d-9959-067f-b76581600741@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAL_JsqL+LiJTF5kZz2hXGbQcH+D4U0jAQE376VSUVMQmdg=XFA@mail.gmail.com>
+Message-ID: <c7f4f000-6934-912e-f8eb-c163a04323d1@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Feb 11, 2019@7:37 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> This API is primarily used through DT entries, but two architectures
-> and two drivers call it directly.  So instead of selecting the config
-> symbol for random architectures pull it in implicitly for the actual
-> users.  Also rename the Kconfig option to describe the feature better.
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  arch/arc/Kconfig            | 1 -
->  arch/arm/Kconfig            | 2 +-
->  arch/arm64/Kconfig          | 1 -
->  arch/csky/Kconfig           | 1 -
->  arch/mips/Kconfig           | 1 -
->  arch/riscv/Kconfig          | 1 -
->  arch/sh/Kconfig             | 2 +-
->  arch/unicore32/Kconfig      | 1 -
->  arch/x86/Kconfig            | 1 -
->  drivers/mfd/Kconfig         | 2 ++
->  drivers/of/Kconfig          | 3 ++-
->  include/linux/device.h      | 2 +-
->  include/linux/dma-mapping.h | 8 ++++----
->  kernel/dma/Kconfig          | 2 +-
->  kernel/dma/Makefile         | 2 +-
->  15 files changed, 13 insertions(+), 17 deletions(-)
+On 1/23/19 11:55 AM, Vineet Gupta wrote:
+> Hi,
+> 
+> I noticed a small anomaly in perf report -v output on ARC and x86 as well.
+> 
+> A simple program which sits in tight loop, compiled for x86_64
+> 
+> void main() { while(1) {} }
+> 
+> $ gcc -g tight.c
+> $ ./a.out &
+> $ perf record -e cycles -p 26703
+> $ perf report -n -v  --stdio  | egrep "(main|Symbol)"
+> 
+> |# Overhead Samples Command  Shared Object         Symbol
+> 
+> |  99.93%    55753   a.out   /home/arc/test/a.out  0x4da     B [.] main
+> 
+> |                                                  ^^^^^
+> 
+> The printer address for Symbols is *not* the actual address in elf, but rather VMA
+> start offset.
+> 
+> 0x4da = 0x4004da - 0x0000000000400000
+> 
+> $ objdump -d ./a.out
+> 
+> | 00000000004004d6 <main>:
+> |  4004d6:	55                   	push   %rbp
+> |  4004d7:	48 89 e5             	mov    %rsp,%rbp
+> |  4004da:	eb fe                	jmp    4004da <main+0x4>
+> |  4004dc:	0f 1f 40 00          	nopl   0x0(%rax)
+> 
+> $ readelf -a ./a.out
+> 
+> | Program Headers:
+> |  Type           Offset             VirtAddr           PhysAddr
+> |                 FileSiz            MemSiz              Flags  Align
+> | Program Headers:
+> |  LOAD           0x0000000000000000 0x0000000000400000 0x0000000000400000
+>                  0x000000000000068c 0x000000000000068c  R E    200000
+> 
+> 
+> This is problematic in narrowing down the hotspot instruction, when the binary
+> itself is. One needs to do the offset addition manually to find the actual hotspot
+> location.
+> 
+> |   99.79%  100064  a.out  /home/arc/test/a.out  0x4da  B [.] 0x00000000000004da
+> 
+>                                                                ^^^^^^^^^^^^^^^^
+> 
+> Is this considered an issue ? Would the fix to print the actual symbol address
+> (and recorded in raw perf event data) break some existing tooling etc.
+> 
 
-> diff --git a/drivers/of/Kconfig b/drivers/of/Kconfig
-> index 3607fd2810e4..f8c66a9472a4 100644
-> --- a/drivers/of/Kconfig
-> +++ b/drivers/of/Kconfig
-> @@ -43,6 +43,7 @@ config OF_FLATTREE
->
->  config OF_EARLY_FLATTREE
->         bool
-> +       select DMA_DECLARE_COHERENT
+@Arnaldo any ideas ?
 
-Is selecting DMA_DECLARE_COHERENT okay on UML? We run the unittests with UML.
+this is being done in tools/perf/util/symbol-elf.c
 
-Maybe we should just get rid of OF_RESERVED_MEM. If we support booting
-from DT, then it should always be enabled anyways.
+    symsrc__init
+	if (dso->kernel == DSO_TYPE_USER)
+		ss->adjust_symbols = true;
 
->         select OF_FLATTREE
->
->  config OF_PROMTREE
-> @@ -83,7 +84,7 @@ config OF_MDIO
->  config OF_RESERVED_MEM
->         bool
->         depends on OF_EARLY_FLATTREE
-> -       default y if HAVE_GENERIC_DMA_COHERENT || DMA_CMA
-> +       default y if DMA_DECLARE_COHERENT || DMA_CMA
->
->  config OF_RESOLVE
->         bool
+     dso__load_sym
+	dso->adjust_symbols = runtime_ss->adjust_symbols || ref_reloc(kmap);
+
+		} else if ((used_opd && runtime_ss->adjust_symbols) ||
+			   (!used_opd && syms_ss->adjust_symbols)) {
+
+			*sym.st_value -= shdr.sh_addr - shdr.sh_offset;*
+               }
+
+I investigated a bit more and this goes back to 2009:
+
+Initially the adj was done for prelink binaries: commit f5812a7a336fb
+("perf_counter tools: Adjust only prelinked symbol's addresses")
+
++       self->prelinked = elf_section_by_name(elf, &ehdr, &shdr,
++                                             ".gnu.prelink_undo",
++                                             NULL) != NULL;
++      if (self->prelinked) {
+          if (verbose >= 2)
+            printf("adjusting symbol: ...
+           sym.st_value -= shdr.sh_addr - shdr.sh_offset;
++      }
+
+commit 30d7a77dd5a97 ("perf_counter tools: Adjust symbols in ET_EXEC files too")
+started doing this for any executable
+
+-       self->prelinked = elf_section_by_name(elf, &ehdr, &shdr,
+-                                             ".gnu.prelink_undo",
+-                                             NULL) != NULL;
++       self->adjust_symbols = (ehdr.e_type == ET_EXEC ||
++                               elf_section_by_name(elf, &ehdr, &shdr,
++                                                    ".gnu.prelink_undo",
++
