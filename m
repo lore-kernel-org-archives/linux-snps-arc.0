@@ -1,66 +1,170 @@
-From: David.Laight@ACULAB.COM (David Laight)
-Date: Thu, 14 Feb 2019 14:14:34 +0000
-Subject: [PATCH] ARC: Explicitly set ARCH_SLAB_MINALIGN = 8
-In-Reply-To: <20190214110813.GK32494@hirez.programming.kicks-ass.net>
-References: <20190208105519.26750-1-abrodkin@synopsys.com>
- <81017fe4-b31f-4942-e822-a7b70008b74d@synopsys.com>
- <f83412d1e7fd4d67b4632c1f81fae963@AcuMS.aculab.com>
- <bfc65835-21f9-6d5e-791d-ee49113d939c@synopsys.com>
- <20190213125651.GP32494@hirez.programming.kicks-ass.net>
- <e6138aeb-9ce4-fbfa-4d6a-b76f189a3e47@synopsys.com>
- <20190214103140.GG32494@hirez.programming.kicks-ass.net>
- <4881796E12491D4BB15146FE0209CE64681DB122@DE02WEMBXB.internal.synopsys.com>
- <20190214110813.GK32494@hirez.programming.kicks-ass.net>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 14 Feb 2019 18:07:44 +0300
+Subject: [PATCH v2 1/2] ARC: U-boot: check arguments paranoidly
+In-Reply-To: <20190214150745.18773-1-Eugeniy.Paltsev@synopsys.com>
+References: <20190214150745.18773-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3b9d2eadfc81422caa0292c7ef1684f1@AcuMS.aculab.com>
+Message-ID: <20190214150745.18773-2-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Peter Zijlstra
-> Sent: 14 February 2019 11:08
-> On Thu, Feb 14, 2019@10:44:49AM +0000, Alexey Brodkin wrote:
-> > > On Wed, Feb 13, 2019@03:23:36PM -0800, Vineet Gupta wrote:
-> > > > On 2/13/19 4:56 AM, Peter Zijlstra wrote:
-> > > > >
-> > > > > Personally I think u64 and company should already force natural
-> > > > > alignment; but alas.
-> > > >
-> > > > But there is an ISA/ABI angle here too. e.g. On 32-bit ARC, LDD (load double) is
-> > > > allowed to take a 32-bit aligned address to load a register pair. Thus all u64
-> > > > need not be 64-bit aligned (unless attribute aligned 8 etc) hence the relaxation
-> > > > in ABI (alignment of long long is 4). You could certainly argue that we end up
-> > > > undoing some of it anyways by defining things like ARCH_KMALLOC_MINALIGN to 8, but
-> > > > still...
-> > >
-> > > So what happens if the data is then split across two cachelines; will a
-> > > STD vs LDD still be single-copy-atomic? I don't _think_ we rely on that
-> > > for > sizeof(unsigned long), with the obvious exception of atomic64_t,
-> > > but yuck...
-> >
-> > STD & LDD are simple store/load instructions so there's no problem for
-> > their 64-bit data to be from 2 subsequent cache lines as well as 2 pages
-> > (if we're that unlucky). Or you mean something else?
-> 
-> u64 x;
-> 
-> WRITE_ONCE(x, 0x1111111100000000);
-> WRITE_ONCE(x, 0x0000000011111111);
-> 
-> vs
-> 
-> t = READ_ONCE(x);
-> 
-> is t allowed to be 0x1111111111111111 ?
-> 
-> If the data is split between two cachelines, the hardware must do
-> something very funny to avoid that.
+Handle U-boot arguments paranoidly:
+ * don't allow to pass unknown tag.
+ * try to use external device tree blob only if corresponding tag
+   (TAG_DTB) is set.
+ * don't check uboot_tag if kernel build with no ARC_UBOOT_SUPPORT.
 
-Never mind cachelines, think about separate pages.
-You'd have to 'lock' both TLB before doing either access.
-Not to mention the fact that the two physical locations could be
-on entirely different memory cards (or whatever).
+NOTE:
+If U-boot args are invalid we skip them and try to use embedded device
+tree blob. We can't panic on invalid U-boot args as we really pass
+invalid args due to bug in U-boot code.
+This happens if we don't provide external DTB to U-boot and
+don't set 'bootargs' U-boot environment variable (which is default
+case at least for HSDK board) In that case we will pass
+{r0 = 1 (bootargs in r2); r1 = 0; r2 = 0;} to linux which is invalid.
 
-	David
+While I'm at it refactor U-boot arguments handling code.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ arch/arc/kernel/head.S  |  4 +--
+ arch/arc/kernel/setup.c | 90 +++++++++++++++++++++++++++++++++++--------------
+ 2 files changed, 66 insertions(+), 28 deletions(-)
+
+diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
+index 8b90d25a15cc..d45b862be05c 100644
+--- a/arch/arc/kernel/head.S
++++ b/arch/arc/kernel/head.S
+@@ -93,9 +93,9 @@ ENTRY(stext)
+ #ifdef CONFIG_ARC_UBOOT_SUPPORT
+ 	; Uboot - kernel ABI
+ 	;    r0 = [0] No uboot interaction, [1] cmdline in r2, [2] DTB in r2
+-	;    r1 = magic number (board identity, unused as of now
++	;    r1 = magic number (always zero as of now)
+ 	;    r2 = pointer to uboot provided cmdline or external DTB in mem
+-	; These are handled later in setup_arch()
++	; These are handled later in handle_uboot_args()
+ 	st	r0, [@uboot_tag]
+ 	st	r2, [@uboot_arg]
+ #endif
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index feb90093e6b1..88a885db9bb8 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -36,7 +36,7 @@ unsigned int intr_to_DE_cnt;
+ 
+ /* Part of U-boot ABI: see head.S */
+ int __initdata uboot_tag;
+-char __initdata *uboot_arg;
++unsigned int __initdata uboot_arg;
+ 
+ const struct machine_desc *machine_desc;
+ 
+@@ -462,43 +462,81 @@ void setup_processor(void)
+ 	arc_chk_core_config();
+ }
+ 
+-static inline int is_kernel(unsigned long addr)
++static inline bool uboot_arg_invalid(unsigned int addr)
+ {
+-	if (addr >= (unsigned long)_stext && addr <= (unsigned long)_end)
+-		return 1;
+-	return 0;
++	/*
++	 * Check that it is a untranslated address (although MMU is not enabled
++	 * yet, it being a high address ensures this is not by fluke)
++	 */
++	if (addr < PAGE_OFFSET)
++		return true;
++
++	/* Check that address doesn't clobber resident kernel image */
++	return addr >= (unsigned int)_stext && addr <= (unsigned int)_end;
+ }
+ 
+-void __init setup_arch(char **cmdline_p)
++#define IGNORE_ARGS		"Ignore U-boot args: "
++
++/* uboot_tag values for U-boot - kernel ABI revision 0; see head.S */
++#define UBOOT_TAG_NONE		0
++#define UBOOT_TAG_CMDLINE	1
++#define UBOOT_TAG_DTB		2
++
++void __init handle_uboot_args(void)
+ {
++	bool use_embedded_dtb = true;
++	bool append_cmdline = false;
++
+ #ifdef CONFIG_ARC_UBOOT_SUPPORT
+-	/* make sure that uboot passed pointer to cmdline/dtb is valid */
+-	if (uboot_tag && is_kernel((unsigned long)uboot_arg))
+-		panic("Invalid uboot arg\n");
++	/* check that we know this tag */
++	if (uboot_tag != UBOOT_TAG_NONE &&
++	    uboot_tag != UBOOT_TAG_CMDLINE &&
++	    uboot_tag != UBOOT_TAG_DTB) {
++		pr_warn(IGNORE_ARGS "invalid uboot tag: '%08x'\n", uboot_tag);
++		goto ignore_uboot_args;
++	}
++
++	if (uboot_tag != UBOOT_TAG_NONE && uboot_arg_invalid(uboot_arg)) {
++		pr_warn(IGNORE_ARGS "invalid uboot arg: '%08x'\n", uboot_arg);
++		goto ignore_uboot_args;
++	}
++
++	/* see if U-boot passed an external Device Tree blob */
++	if (uboot_tag == UBOOT_TAG_DTB) {
++		machine_desc = setup_machine_fdt((void *)uboot_arg);
+ 
+-	/* See if u-boot passed an external Device Tree blob */
+-	machine_desc = setup_machine_fdt(uboot_arg);	/* uboot_tag == 2 */
+-	if (!machine_desc)
++		/* external Device Tree blob is invalid - use embedded one */
++		use_embedded_dtb = !machine_desc;
++	}
++
++	if (uboot_tag == UBOOT_TAG_CMDLINE)
++		append_cmdline = true;
++
++ignore_uboot_args:
+ #endif
+-	{
+-		/* No, so try the embedded one */
++
++	if (use_embedded_dtb) {
+ 		machine_desc = setup_machine_fdt(__dtb_start);
+ 		if (!machine_desc)
+ 			panic("Embedded DT invalid\n");
++	}
+ 
+-		/*
+-		 * If we are here, it is established that @uboot_arg didn't
+-		 * point to DT blob. Instead if u-boot says it is cmdline,
+-		 * append to embedded DT cmdline.
+-		 * setup_machine_fdt() would have populated @boot_command_line
+-		 */
+-		if (uboot_tag == 1) {
+-			/* Ensure a whitespace between the 2 cmdlines */
+-			strlcat(boot_command_line, " ", COMMAND_LINE_SIZE);
+-			strlcat(boot_command_line, uboot_arg,
+-				COMMAND_LINE_SIZE);
+-		}
++	/*
++	 * If we are here, it is established that @uboot_arg points to cmdline,
++	 * which should be appended to embedded DT cmdline.
++	 * NOTE: Don't move the cmdline processing before embedded DT processing
++	 * since we rely on @boot_command_line populating by setup_machine_fdt()
++	 */
++	if (append_cmdline) {
++		/* Ensure a whitespace between the 2 cmdlines */
++		strlcat(boot_command_line, " ", COMMAND_LINE_SIZE);
++		strlcat(boot_command_line, (char *)uboot_arg, COMMAND_LINE_SIZE);
+ 	}
++}
++
++void __init setup_arch(char **cmdline_p)
++{
++	handle_uboot_args();
+ 
+ 	/* Save unparsed command line copy for /proc/cmdline */
+ 	*cmdline_p = boot_command_line;
+-- 
+2.14.5
