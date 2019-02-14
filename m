@@ -1,7 +1,7 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Thu, 14 Feb 2019 13:24:11 +0100
+From: David.Laight@ACULAB.COM (David Laight)
+Date: Thu, 14 Feb 2019 14:14:34 +0000
 Subject: [PATCH] ARC: Explicitly set ARCH_SLAB_MINALIGN = 8
-In-Reply-To: <4881796E12491D4BB15146FE0209CE64681DB202@DE02WEMBXB.internal.synopsys.com>
+In-Reply-To: <20190214110813.GK32494@hirez.programming.kicks-ass.net>
 References: <20190208105519.26750-1-abrodkin@synopsys.com>
  <81017fe4-b31f-4942-e822-a7b70008b74d@synopsys.com>
  <f83412d1e7fd4d67b4632c1f81fae963@AcuMS.aculab.com>
@@ -11,79 +11,56 @@ References: <20190208105519.26750-1-abrodkin@synopsys.com>
  <20190214103140.GG32494@hirez.programming.kicks-ass.net>
  <4881796E12491D4BB15146FE0209CE64681DB122@DE02WEMBXB.internal.synopsys.com>
  <20190214110813.GK32494@hirez.programming.kicks-ass.net>
- <4881796E12491D4BB15146FE0209CE64681DB202@DE02WEMBXB.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190214122411.GN32494@hirez.programming.kicks-ass.net>
+Message-ID: <3b9d2eadfc81422caa0292c7ef1684f1@AcuMS.aculab.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Feb 14, 2019@12:05:47PM +0000, Alexey Brodkin wrote:
-
-> > > > So what happens if the data is then split across two cachelines; will a
-> > > > STD vs LDD still be single-copy-atomic? I don't _think_ we rely on that
-> > > > for > sizeof(unsigned long), with the obvious exception of atomic64_t,
-> > > > but yuck...
+From: Peter Zijlstra
+> Sent: 14 February 2019 11:08
+> On Thu, Feb 14, 2019@10:44:49AM +0000, Alexey Brodkin wrote:
+> > > On Wed, Feb 13, 2019@03:23:36PM -0800, Vineet Gupta wrote:
+> > > > On 2/13/19 4:56 AM, Peter Zijlstra wrote:
+> > > > >
+> > > > > Personally I think u64 and company should already force natural
+> > > > > alignment; but alas.
+> > > >
+> > > > But there is an ISA/ABI angle here too. e.g. On 32-bit ARC, LDD (load double) is
+> > > > allowed to take a 32-bit aligned address to load a register pair. Thus all u64
+> > > > need not be 64-bit aligned (unless attribute aligned 8 etc) hence the relaxation
+> > > > in ABI (alignment of long long is 4). You could certainly argue that we end up
+> > > > undoing some of it anyways by defining things like ARCH_KMALLOC_MINALIGN to 8, but
+> > > > still...
 > > >
-> > > STD & LDD are simple store/load instructions so there's no problem for
-> > > their 64-bit data to be from 2 subsequent cache lines as well as 2 pages
-> > > (if we're that unlucky). Or you mean something else?
-> > 
-> > u64 x;
-> > 
-> > WRITE_ONCE(x, 0x1111111100000000);
-> > WRITE_ONCE(x, 0x0000000011111111);
-> > 
-> > vs
-> > 
-> > t = READ_ONCE(x);
-> > 
-> > is t allowed to be 0x1111111111111111 ?
-> > 
-> > If the data is split between two cachelines, the hardware must do
-> > something very funny to avoid that.
-> > 
-> > single-copy-atomicity requires that to never happen; IOW no load or
-> > store tearing. You must observe 'whole' values, no mixing.
-> > 
-> > Linux requires READ_ONCE()/WRITE_ONCE() to be single-copy-atomic for
-> > <=sizeof(unsigned long) and atomic*_read()/atomic*_set() for all atomic
-> > types. Your atomic64_t alignment should ensure this is so.
+> > > So what happens if the data is then split across two cachelines; will a
+> > > STD vs LDD still be single-copy-atomic? I don't _think_ we rely on that
+> > > for > sizeof(unsigned long), with the obvious exception of atomic64_t,
+> > > but yuck...
+> >
+> > STD & LDD are simple store/load instructions so there's no problem for
+> > their 64-bit data to be from 2 subsequent cache lines as well as 2 pages
+> > (if we're that unlucky). Or you mean something else?
 > 
-> Thanks for explanation!
+> u64 x;
 > 
-> I'm not completely sure about single-copy-atomic for our LDD/STD instructions
-> (need to check with HW guys) but given above requirement:
-> ---------------------------->8--------------------------
-> READ_ONCE()/WRITE_ONCE() to be single-copy-atomic for <=sizeof(unsigned long)
-> ---------------------------->8--------------------------
-> that's OK for them (LDD/STD) to not follow this, right? As they are obviously
-> longer than "unsigned long".
-
-Correct.
-
-> Though I'm wondering if READ_ONCE()/WRITE_ONCE() could be used on 64-bit data
-> even on 32-bit arches?
-
-Some people were talking about just that a while ago; there's a number
-of 32bit platforms (including arm-v7) that can actually do this and
-there would be some performance benefits.
-
-But this is currently not done (in generic code) afaik. And once they do
-this, it would be under some CONFIG knob.
-
-In particular, things like:
-
-  - u64_stats_sync.h
-  - most CONFIG_64BIT chunks from kernel/sched/fair.c
-
-and ISTR there were some other cases.
-
-> Now as for LLOCKD/SCONDD which implement single instruction 64-bit atomics require
-> double-word alignment and so cannot possible span between cache lines.
+> WRITE_ONCE(x, 0x1111111100000000);
+> WRITE_ONCE(x, 0x0000000011111111);
 > 
-> So what am I missing here?
+> vs
+> 
+> t = READ_ONCE(x);
+> 
+> is t allowed to be 0x1111111111111111 ?
+> 
+> If the data is split between two cachelines, the hardware must do
+> something very funny to avoid that.
 
-atomic64_{set,read}() will use STD/LDD resp and should be
-single-copy-atomic vs the LLOCKD/SCONDD. But that again is aligned
-properly so I don't see problems there.
+Never mind cachelines, think about separate pages.
+You'd have to 'lock' both TLB before doing either access.
+Not to mention the fact that the two physical locations could be
+on entirely different memory cards (or whatever).
 
-Aside of that just me being curious and paranoid at the same time.
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
