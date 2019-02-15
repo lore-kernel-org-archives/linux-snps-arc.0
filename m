@@ -1,11 +1,11 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Thu, 14 Feb 2019 21:14:07 -0500
-Subject: [PATCH AUTOSEL 4.9 10/27] ARC: fix __ffs return value to avoid build
+Date: Thu, 14 Feb 2019 21:15:00 -0500
+Subject: [PATCH AUTOSEL 4.4 09/20] ARC: fix __ffs return value to avoid build
  warnings
-In-Reply-To: <20190215021424.178979-1-sashal@kernel.org>
-References: <20190215021424.178979-1-sashal@kernel.org>
+In-Reply-To: <20190215021511.179333-1-sashal@kernel.org>
+References: <20190215021511.179333-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190215021424.178979-10-sashal@kernel.org>
+Message-ID: <20190215021511.179333-9-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
@@ -52,10 +52,10 @@ Signed-off-by: Sasha Levin <sashal at kernel.org>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/arch/arc/include/asm/bitops.h b/arch/arc/include/asm/bitops.h
-index 8da87feec59a..99e6d8948f4a 100644
+index 0352fb8d21b9..9623ae002f5b 100644
 --- a/arch/arc/include/asm/bitops.h
 +++ b/arch/arc/include/asm/bitops.h
-@@ -340,7 +340,7 @@ static inline __attribute__ ((const)) int __fls(unsigned long x)
+@@ -286,7 +286,7 @@ static inline __attribute__ ((const)) int __fls(unsigned long x)
  /*
   * __ffs: Similar to ffs, but zero based (0-31)
   */
@@ -64,7 +64,7 @@ index 8da87feec59a..99e6d8948f4a 100644
  {
  	if (!word)
  		return word;
-@@ -400,9 +400,9 @@ static inline __attribute__ ((const)) int ffs(unsigned long x)
+@@ -346,9 +346,9 @@ static inline __attribute__ ((const)) int ffs(unsigned long x)
  /*
   * __ffs: Similar to ffs, but zero based (0-31)
   */
