@@ -1,80 +1,49 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Thu, 14 Feb 2019 21:15:00 -0500
-Subject: [PATCH AUTOSEL 4.4 09/20] ARC: fix __ffs return value to avoid build
- warnings
-In-Reply-To: <20190215021511.179333-1-sashal@kernel.org>
-References: <20190215021511.179333-1-sashal@kernel.org>
+From: clabbe@baylibre.com (LABBE Corentin)
+Date: Fri, 15 Feb 2019 12:12:27 +0100
+Subject: [PATCH v2 0/2] ARC: rework U-boot arguments handling
+In-Reply-To: <20190214150745.18773-1-Eugeniy.Paltsev@synopsys.com>
+References: <20190214150745.18773-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190215021511.179333-9-sashal@kernel.org>
+Message-ID: <20190215111227.GA24034@Red>
 To: linux-snps-arc@lists.infradead.org
 
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+On Thu, Feb 14, 2019@06:07:43PM +0300, Eugeniy Paltsev wrote:
+> Reworking U-boot args handling and enable uboot support
+> unconditionally.
+> 
+> Changes v1->v2:
+>  * Drop magic number check [in this patch series]
+>  * Keep comment about cndline appending
+> 
+> Changes RFC->v1:
+>  * Don't add new ABI contract between kernel and uboot
+>  * Eliminate CONFIG_ARC_UBOOT_SUPPORT Kconfig option and
+>    enable uboot support unconditionally
+>  * Skip invalid U-boot args instead of panic
+>  * Check existing U-boot magic value
+>  * Improve uboot_arg validating
+>  * Minor code changes
+> 
+> Eugeniy Paltsev (2):
+>   ARC: U-boot: check arguments paranoidly
+>   ARC: enable uboot support unconditionally
+> 
+>  arch/arc/Kconfig                        | 12 -----
+>  arch/arc/configs/nps_defconfig          |  1 -
+>  arch/arc/configs/vdk_hs38_defconfig     |  1 -
+>  arch/arc/configs/vdk_hs38_smp_defconfig |  2 -
+>  arch/arc/kernel/head.S                  |  7 ++-
+>  arch/arc/kernel/setup.c                 | 96 +++++++++++++++++++++++----------
+>  6 files changed, 70 insertions(+), 49 deletions(-)
+> 
+> -- 
+> 2.14.5
+> 
 
-[ Upstream commit 4e868f8419cb4cb558c5d428e7ab5629cef864c7 ]
+Hello
 
-|  CC      mm/nobootmem.o
-|In file included from ./include/asm-generic/bug.h:18:0,
-|                 from ./arch/arc/include/asm/bug.h:32,
-|                 from ./include/linux/bug.h:5,
-|                 from ./include/linux/mmdebug.h:5,
-|                 from ./include/linux/gfp.h:5,
-|                 from ./include/linux/slab.h:15,
-|                 from mm/nobootmem.c:14:
-|mm/nobootmem.c: In function '__free_pages_memory':
-|./include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
-|   (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-|                             ^
-|./include/linux/kernel.h:859:4: note: in expansion of macro '__typecheck'
-|   (__typecheck(x, y) && __no_side_effects(x, y))
-|    ^~~~~~~~~~~
-|./include/linux/kernel.h:869:24: note: in expansion of macro '__safe_cmp'
-|  __builtin_choose_expr(__safe_cmp(x, y), \
-|                        ^~~~~~~~~~
-|./include/linux/kernel.h:878:19: note: in expansion of macro '__careful_cmp'
-| #define min(x, y) __careful_cmp(x, y, <)
-|                   ^~~~~~~~~~~~~
-|mm/nobootmem.c:104:11: note: in expansion of macro 'min'
-|   order = min(MAX_ORDER - 1UL, __ffs(start));
+Tested-by: Corentin LABBE <clabbe at baylibre.com>
 
-Change __ffs return value from 'int' to 'unsigned long' as it
-is done in other implementations (like asm-generic, x86, etc...)
-to avoid build-time warnings in places where type is strictly
-checked.
+It worked on our LAVA lab  along with my "arc: hsdk_defconfig: Enable CONFIG_BLK_DEV_RAM" patch.
 
-As __ffs may return values in [0-31] interval changing return
-type to unsigned is valid.
-
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
----
- arch/arc/include/asm/bitops.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/arch/arc/include/asm/bitops.h b/arch/arc/include/asm/bitops.h
-index 0352fb8d21b9..9623ae002f5b 100644
---- a/arch/arc/include/asm/bitops.h
-+++ b/arch/arc/include/asm/bitops.h
-@@ -286,7 +286,7 @@ static inline __attribute__ ((const)) int __fls(unsigned long x)
- /*
-  * __ffs: Similar to ffs, but zero based (0-31)
-  */
--static inline __attribute__ ((const)) int __ffs(unsigned long word)
-+static inline __attribute__ ((const)) unsigned long __ffs(unsigned long word)
- {
- 	if (!word)
- 		return word;
-@@ -346,9 +346,9 @@ static inline __attribute__ ((const)) int ffs(unsigned long x)
- /*
-  * __ffs: Similar to ffs, but zero based (0-31)
-  */
--static inline __attribute__ ((const)) int __ffs(unsigned long x)
-+static inline __attribute__ ((const)) unsigned long __ffs(unsigned long x)
- {
--	int n;
-+	unsigned long n;
- 
- 	asm volatile(
- 	"	ffs.f	%0, %1		\n"  /* 0:31; 31(Z) if src 0 */
--- 
-2.19.1
+Regards
