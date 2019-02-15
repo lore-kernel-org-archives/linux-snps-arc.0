@@ -1,136 +1,106 @@
-From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Thu, 14 Feb 2019 18:07:45 +0300
-Subject: [PATCH v2 2/2] ARC: enable uboot support unconditionally
-In-Reply-To: <20190214150745.18773-1-Eugeniy.Paltsev@synopsys.com>
-References: <20190214150745.18773-1-Eugeniy.Paltsev@synopsys.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 14 Feb 2019 17:34:29 -0800
+Subject: [PATCH] ARC: Explicitly set ARCH_SLAB_MINALIGN = 8
+In-Reply-To: <4881796E12491D4BB15146FE0209CE64681DB01F@DE02WEMBXB.internal.synopsys.com>
+References: <20190208105519.26750-1-abrodkin@synopsys.com>
+ <81017fe4-b31f-4942-e822-a7b70008b74d@synopsys.com>
+ <f83412d1e7fd4d67b4632c1f81fae963@AcuMS.aculab.com>
+ <bfc65835-21f9-6d5e-791d-ee49113d939c@synopsys.com>
+ <20190213125651.GP32494@hirez.programming.kicks-ass.net>
+ <e6138aeb-9ce4-fbfa-4d6a-b76f189a3e47@synopsys.com>
+ <4881796E12491D4BB15146FE0209CE64681DB01F@DE02WEMBXB.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190214150745.18773-3-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <e4aed55f-656b-ebec-c3e3-393714cc693e@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-After reworking U-boot args handling code and adding paranoid
-arguments check we can eliminate CONFIG_ARC_UBOOT_SUPPORT and
-enable uboot support unconditionally.
+On 2/14/19 12:50 AM, Alexey Brodkin wrote:
 
-For JTAG case we can assume that core registers will come up
-reset value of 0 or in worst case we rely on user passing
-'-on=clear_regs' to Metaware debugger.
+>>>>> I suspect the slab allocator should be returning 8 byte aligned addresses
+>>>>> on all systems....
+>>>>
+>>>> why ? As I understand it is still not fool proof against the expected alignment of
+>>>> inner members. There ought to be a better way to enforce all this.
+>>>
+>>> I agree that for ARC ARCH_SLAB_MINALIGN should be at least 8.
+>>
+>> This issue aside, are there other reasons ? Because making it 8 on ARC is just
+>> pending the eventuality for later.
+> 
+> But that's pretty much the same for other 32-bit arches that have 64-bit atomics
+> like ARM etc. From what I may see from ARM's documentation for LDREXD/SRREXD they
+> require double-word alignment of data as well.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/Kconfig                        | 12 ------------
- arch/arc/configs/nps_defconfig          |  1 -
- arch/arc/configs/vdk_hs38_defconfig     |  1 -
- arch/arc/configs/vdk_hs38_smp_defconfig |  2 --
- arch/arc/kernel/head.S                  |  2 --
- arch/arc/kernel/setup.c                 |  2 --
- 6 files changed, 20 deletions(-)
+Right LLOCKD/SCONDD (64-bit exclusive load/store) needs 64-bit aligned effective
+addresses for micro-arch reasons (1 vs 2 cache lines) etc.
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 376366a7db81..f9534417b201 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -191,7 +191,6 @@ config NR_CPUS
- 
- config ARC_SMP_HALT_ON_RESET
- 	bool "Enable Halt-on-reset boot mode"
--	default y if ARC_UBOOT_SUPPORT
- 	help
- 	  In SMP configuration cores can be configured as Halt-on-reset
- 	  or they could all start at same time. For Halt-on-reset, non
-@@ -515,17 +514,6 @@ config ARC_DBG_TLB_PARANOIA
- 
- endif
- 
--config ARC_UBOOT_SUPPORT
--	bool "Support uboot arg Handling"
--	help
--	  ARC Linux by default checks for uboot provided args as pointers to
--	  external cmdline or DTB. This however breaks in absence of uboot,
--	  when booting from Metaware debugger directly, as the registers are
--	  not zeroed out on reset by mdb and/or ARCv2 based cores. The bogus
--	  registers look like uboot args to kernel which then chokes.
--	  So only enable the uboot arg checking/processing if users are sure
--	  of uboot being in play.
--
- config ARC_BUILTIN_DTB_NAME
- 	string "Built in DTB"
- 	help
-diff --git a/arch/arc/configs/nps_defconfig b/arch/arc/configs/nps_defconfig
-index 6e84060e7c90..621f59407d76 100644
---- a/arch/arc/configs/nps_defconfig
-+++ b/arch/arc/configs/nps_defconfig
-@@ -31,7 +31,6 @@ CONFIG_ARC_CACHE_LINE_SHIFT=5
- # CONFIG_ARC_HAS_LLSC is not set
- CONFIG_ARC_KVADDR_SIZE=402
- CONFIG_ARC_EMUL_UNALIGNED=y
--CONFIG_ARC_UBOOT_SUPPORT=y
- CONFIG_PREEMPT=y
- CONFIG_NET=y
- CONFIG_UNIX=y
-diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
-index 1e59a2e9c602..e447ace6fa1c 100644
---- a/arch/arc/configs/vdk_hs38_defconfig
-+++ b/arch/arc/configs/vdk_hs38_defconfig
-@@ -13,7 +13,6 @@ CONFIG_PARTITION_ADVANCED=y
- CONFIG_ARC_PLAT_AXS10X=y
- CONFIG_AXS103=y
- CONFIG_ISA_ARCV2=y
--CONFIG_ARC_UBOOT_SUPPORT=y
- CONFIG_ARC_BUILTIN_DTB_NAME="vdk_hs38"
- CONFIG_PREEMPT=y
- CONFIG_NET=y
-diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
-index b5c3f6c54b03..c82cdb10aaf4 100644
---- a/arch/arc/configs/vdk_hs38_smp_defconfig
-+++ b/arch/arc/configs/vdk_hs38_smp_defconfig
-@@ -15,8 +15,6 @@ CONFIG_AXS103=y
- CONFIG_ISA_ARCV2=y
- CONFIG_SMP=y
- # CONFIG_ARC_TIMERS_64BIT is not set
--# CONFIG_ARC_SMP_HALT_ON_RESET is not set
--CONFIG_ARC_UBOOT_SUPPORT=y
- CONFIG_ARC_BUILTIN_DTB_NAME="vdk_hs38_smp"
- CONFIG_PREEMPT=y
- CONFIG_NET=y
-diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
-index d45b862be05c..6fb1a35f9a29 100644
---- a/arch/arc/kernel/head.S
-+++ b/arch/arc/kernel/head.S
-@@ -90,7 +90,6 @@ ENTRY(stext)
- 	st.ab   0, [r5, 4]
- 1:
- 
--#ifdef CONFIG_ARC_UBOOT_SUPPORT
- 	; Uboot - kernel ABI
- 	;    r0 = [0] No uboot interaction, [1] cmdline in r2, [2] DTB in r2
- 	;    r1 = magic number (always zero as of now)
-@@ -98,7 +97,6 @@ ENTRY(stext)
- 	; These are handled later in handle_uboot_args()
- 	st	r0, [@uboot_tag]
- 	st	r2, [@uboot_arg]
--#endif
- 
- 	; setup "current" tsk and optionally cache it in dedicated r25
- 	mov	r9, @init_task
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 88a885db9bb8..dbab88c8bbb3 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -487,7 +487,6 @@ void __init handle_uboot_args(void)
- 	bool use_embedded_dtb = true;
- 	bool append_cmdline = false;
- 
--#ifdef CONFIG_ARC_UBOOT_SUPPORT
- 	/* check that we know this tag */
- 	if (uboot_tag != UBOOT_TAG_NONE &&
- 	    uboot_tag != UBOOT_TAG_CMDLINE &&
-@@ -513,7 +512,6 @@ void __init handle_uboot_args(void)
- 		append_cmdline = true;
- 
- ignore_uboot_args:
--#endif
- 
- 	if (use_embedded_dtb) {
- 		machine_desc = setup_machine_fdt(__dtb_start);
--- 
-2.14.5
+So lets try to unpack this for me. Say we had.
+
+   struct foo {
+	int        a;
+	atomic64_t b;
+   };
+
+The atomic64_t (which for ARC and most others is u64 __attribute__((aligned(8))
+*already ensures* that there a 4 b padding is generated by gcc (I just confirmed
+with a simple test case).
+
+   #ifdef DOALIGN__
+   #define my_u64	__u64 __attribute__((aligned(8)))
+   #else
+   #define my_u64	__u64
+   #endif
+
+  struct foo on_heap;
+
+  printf(%d", &on_heap.b)
+
+$ arc-linux-gcc -O2 test.c -DDOALIGN__ -c --save-temps
+
+   main:
+	mov_s r1, at on_heap+8   <----
+	mov_s r0, at .LC0
+	b @printf
+
+W/o the alignment attribute (say normal LDD/STD)
+
+$ arc-linux-gcc -O2 test.c -c --save-temps
+
+   main:
+	mov_s r1, at on_heap+4
+	mov_s r0, at .LC0
+	b @printf
+
+So indeed your patch aligns dynamic structs to 64-bit, ensuring any embedded
+aligned_u64 to be 64-bit aligned as well. Phew !
+
+
+> That said if for some reason atomic64_t variable is unaligned execution on
+> any (or at least most) 32-bit architectures will lead to run-time failure,
+> i.e. we'll know about it and this will be fixed.
+> 
+> And what I'm doing by that change (ARCH_SLAB_MINALIGN=8 for ARC) I'm just
+> working-around peculiarity of ARC ABI.
+
+Right.
+
+> 
+> Out of curiosity I checked if there're any other occurrences of "alingof(long long)"
+> and there seems to be a couple of more:
+> ----------------------------------->8-----------------------------
+> # git grep alignof | grep "long long"
+> 
+> ...
+> 
+> kernel/workqueue.c:5693:        WARN_ON(__alignof__(struct pool_workqueue) < __alignof__(long long));
+> mm/slab.c:155:#define   REDZONE_ALIGN           max(BYTES_PER_WORD, __alignof__(unsigned long long))
+
+For ARC, it will be max(4,4) so 4
+for others 32-bit,it will be max(4,8)
+
+So indeed it makes sense to change it.
+
+> mm/slab.c:2034: if (ralign > __alignof__(unsigned long long))
+> ----------------------------------->8-----------------------------
+> 
+> Not really sure how important is "kernel/workqueue.c" part but in case of "mm/slab.c"
+> shouldn't we use ARCH_SLAB_MINALIGN there instead of that "not very meaningful" __alignof__(long long)?
