@@ -1,11 +1,11 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Thu, 14 Feb 2019 21:12:48 -0500
-Subject: [PATCH AUTOSEL 4.14 15/40] ARC: fix __ffs return value to avoid build
+Date: Thu, 14 Feb 2019 21:14:07 -0500
+Subject: [PATCH AUTOSEL 4.9 10/27] ARC: fix __ffs return value to avoid build
  warnings
-In-Reply-To: <20190215021313.178476-1-sashal@kernel.org>
-References: <20190215021313.178476-1-sashal@kernel.org>
+In-Reply-To: <20190215021424.178979-1-sashal@kernel.org>
+References: <20190215021424.178979-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190215021313.178476-15-sashal@kernel.org>
+Message-ID: <20190215021424.178979-10-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
