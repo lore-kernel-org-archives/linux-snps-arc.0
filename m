@@ -1,38 +1,31 @@
-From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 15 Feb 2019 19:17:33 +0300
-Subject: [PATCH] ARC: [plat-hsdk]: Add reset controller handle to manage USB
- reset
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Fri, 15 Feb 2019 21:54:47 -0000
+Subject: kisskb: OK linus/axs101_defconfig/arcompact Sat Feb 16, 08:53
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190215161733.29914-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <20190215215447.1.8076@83c514a2b625>
 To: linux-snps-arc@lists.infradead.org
 
-DW USB controller on HSDK hangs sometimes after SW reset, so
-add reset handle to make possible to reset DW USB controller HW.
+OK linus/axs101_defconfig/arcompact Sat Feb 16, 08:53
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/boot/dts/hsdk.dts | 2 ++
- 1 file changed, 2 insertions(+)
+http://kisskb.ellerman.id.au/kisskb/buildresult/13693332/
 
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index 43f17b51ee89..f80fb9dc8653 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -200,6 +200,7 @@
- 			compatible = "snps,hsdk-v1.0-ohci", "generic-ohci";
- 			reg = <0x60000 0x100>;
- 			interrupts = <15>;
-+			resets = <&cgu_rst HSDK_USB_RESET>;
- 			dma-coherent;
- 		};
- 
-@@ -207,6 +208,7 @@
- 			compatible = "snps,hsdk-v1.0-ehci", "generic-ehci";
- 			reg = <0x40000 0x100>;
- 			interrupts = <15>;
-+			resets = <&cgu_rst HSDK_USB_RESET>;
- 			dma-coherent;
- 		};
- 
--- 
-2.14.5
+Commit:   Merge tag 'for-5.0/dm-fixes-3' of git://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm
+          ae3fa8bd73c9b64416816ec0e9951cd8695c9854
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+
+Possible errors
+---------------
+
+arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
+arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
+
+Possible warnings (7)
+----------------------
+
+arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
+arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
+arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+net/ipv4/tcp_input.c:4324:49: warning: array subscript is above array bounds [-Warray-bounds]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
