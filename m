@@ -1,16 +1,16 @@
 From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Fri, 15 Feb 2019 21:54:44 -0000
-Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Sat Feb 16, 08:53
+Date: Fri, 15 Feb 2019 23:37:22 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Sat Feb 16, 10:36
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190215215444.1.71764@83c514a2b625>
+Message-ID: <20190215233722.1.24204@83c514a2b625>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs103_smp_defconfig/arcv2 Sat Feb 16, 08:53
+OK linus/axs103_smp_defconfig/arcv2 Sat Feb 16, 10:36
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13693331/
+http://kisskb.ellerman.id.au/kisskb/buildresult/13693578/
 
-Commit:   Merge tag 'for-5.0/dm-fixes-3' of git://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm
-          ae3fa8bd73c9b64416816ec0e9951cd8695c9854
+Commit:   Merge tag 'for-linus-20190215' of git://git.kernel.dk/linux-block
+          24f0a48743a256bdec1bcb80708bc309da4aa261
 Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824 / GNU ld (GNU Binutils) 2.27.51.20160928
 
 Possible errors
@@ -27,21 +27,25 @@ Possible warnings (82)
 
 arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
 arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-arch/arc/mm/tlb.c:914:2: warning: ISO C90 forbids variable length array 'pd0' [-Wvla]
 kernel/dma/direct.c:40:4: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+arch/arc/mm/tlb.c:914:2: warning: ISO C90 forbids variable length array 'pd0' [-Wvla]
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
 fs/ext4/inode.c:3654:12: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
-drivers/base/regmap/regmap.c:1531:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-drivers/base/regmap/regcache.c:719:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/base/component.c:164:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+fs/ext4/page-io.c:163:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+drivers/base/regmap/regmap.c:1531:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+drivers/base/component.c:164:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
 mm/percpu.c:1382:17: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
 mm/percpu.c:1382:17: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
 include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
@@ -59,51 +63,47 @@ include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type
 include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
 include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
 include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
-fs/ext4/page-io.c:163:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
 fs/ext4/xattr.c:482:8: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-include/linux/overflow.h:53:15: warning: comparison of distinct pointer types lacks a cast
-include/linux/overflow.h:54:15: warning: comparison of distinct pointer types lacks a cast
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+drivers/base/regmap/regcache.c:719:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
 include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka const unsigned int}' [-Wformat=]
+fs/buffer.c:233:10: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
 drivers/gpu/drm/drm_dp_helper.c:820:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
 drivers/gpu/drm/drm_dp_helper.c:853:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
 drivers/gpu/drm/drm_dp_helper.c:906:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+include/linux/overflow.h:53:15: warning: comparison of distinct pointer types lacks a cast
+include/linux/overflow.h:54:15: warning: comparison of distinct pointer types lacks a cast
 drivers/gpu/drm/drm_dp_dual_mode_helper.c:201:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 5 has type 'ssize_t {aka int}' [-Wformat=]
 drivers/gpu/drm/drm_dp_dual_mode_helper.c:220:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 4 has type 'ssize_t {aka int}' [-Wformat=]
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/dmapool.c:96:46: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-mm/dmapool.c:96:51: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
-fs/buffer.c:233:10: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-include/drm/drm_print.h:110:24: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-net/ipv4/tcp_input.c:4324:49: warning: array subscript is above array bounds [-Warray-bounds]
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
 arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
 include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
 include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:46: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:51: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+include/drm/drm_print.h:110:24: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+net/sunrpc/xprtsock.c:2500:16: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
 include/linux/kernel.h:846:29: warning: comparison of distinct pointer types lacks a cast
+net/sunrpc/svc.c:1357:33: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
 drivers/gpu/drm/drm_atomic_uapi.c:131:21: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
 drivers/gpu/drm/drm_gem_cma_helper.c:115:21: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
 drivers/gpu/drm/drm_gem_cma_helper.c:510:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-net/sunrpc/xprtsock.c:2500:16: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-net/sunrpc/svc.c:1357:33: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+net/ipv4/tcp_input.c:4324:49: warning: array subscript is above array bounds [-Warray-bounds]
