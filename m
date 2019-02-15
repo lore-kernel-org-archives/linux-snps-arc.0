@@ -1,147 +1,80 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Thu, 14 Feb 2019 21:10:42 -0500
-Subject: [PATCH AUTOSEL 4.19 26/65] ARC: show_regs: lockdep: avoid page
- allocator...
-In-Reply-To: <20190215021121.177674-1-sashal@kernel.org>
-References: <20190215021121.177674-1-sashal@kernel.org>
+Date: Thu, 14 Feb 2019 21:12:48 -0500
+Subject: [PATCH AUTOSEL 4.14 15/40] ARC: fix __ffs return value to avoid build
+ warnings
+In-Reply-To: <20190215021313.178476-1-sashal@kernel.org>
+References: <20190215021313.178476-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190215021121.177674-26-sashal@kernel.org>
+Message-ID: <20190215021313.178476-15-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-From: Vineet Gupta <vgupta@synopsys.com>
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 
-[ Upstream commit ab6c03676cb190156603cf4c5ecf97aa406c9c53 ]
+[ Upstream commit 4e868f8419cb4cb558c5d428e7ab5629cef864c7 ]
 
-and use smaller/on-stack buffer instead
+|  CC      mm/nobootmem.o
+|In file included from ./include/asm-generic/bug.h:18:0,
+|                 from ./arch/arc/include/asm/bug.h:32,
+|                 from ./include/linux/bug.h:5,
+|                 from ./include/linux/mmdebug.h:5,
+|                 from ./include/linux/gfp.h:5,
+|                 from ./include/linux/slab.h:15,
+|                 from mm/nobootmem.c:14:
+|mm/nobootmem.c: In function '__free_pages_memory':
+|./include/linux/kernel.h:845:29: warning: comparison of distinct pointer types lacks a cast
+|   (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+|                             ^
+|./include/linux/kernel.h:859:4: note: in expansion of macro '__typecheck'
+|   (__typecheck(x, y) && __no_side_effects(x, y))
+|    ^~~~~~~~~~~
+|./include/linux/kernel.h:869:24: note: in expansion of macro '__safe_cmp'
+|  __builtin_choose_expr(__safe_cmp(x, y), \
+|                        ^~~~~~~~~~
+|./include/linux/kernel.h:878:19: note: in expansion of macro '__careful_cmp'
+| #define min(x, y) __careful_cmp(x, y, <)
+|                   ^~~~~~~~~~~~~
+|mm/nobootmem.c:104:11: note: in expansion of macro 'min'
+|   order = min(MAX_ORDER - 1UL, __ffs(start));
 
-The motivation for this change was lockdep splat like below.
+Change __ffs return value from 'int' to 'unsigned long' as it
+is done in other implementations (like asm-generic, x86, etc...)
+to avoid build-time warnings in places where type is strictly
+checked.
 
-| potentially unexpected fatal signal 11.
-| BUG: sleeping function called from invalid context at ../mm/page_alloc.c:4317
-| in_atomic(): 1, irqs_disabled(): 0, pid: 57, name: segv
-| no locks held by segv/57.
-| Preemption disabled at:
-| [<8182f17e>] get_signal+0x4a6/0x7c4
-| CPU: 0 PID: 57 Comm: segv Not tainted 4.17.0+ #23
-|
-| Stack Trace:
-|  arc_unwind_core.constprop.1+0xd0/0xf4
-|  __might_sleep+0x1f6/0x234
-|  __get_free_pages+0x174/0xca0
-|  show_regs+0x22/0x330
-|  get_signal+0x4ac/0x7c4     # print_fatal_signals() -> preempt_disable()
-|  do_signal+0x30/0x224
-|  resume_user_mode_begin+0x90/0xd8
+As __ffs may return values in [0-31] interval changing return
+type to unsigned is valid.
 
-So signal handling core calls show_regs() with preemption disabled but
-an ensuing GFP_KERNEL page allocator call is flagged by lockdep.
-
-We could have switched to GFP_NOWAIT, but turns out that is not enough
-anways and eliding page allocator call leads to less code and
-instruction traces to sift thru when debugging pesky crashes.
-
-FWIW, this patch doesn't cure the lockdep splat (which next patch does).
-
-Reviewed-by: William Kucharski <william.kucharski at oracle.com>
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- arch/arc/kernel/troubleshoot.c | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
+ arch/arc/include/asm/bitops.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arc/kernel/troubleshoot.c b/arch/arc/kernel/troubleshoot.c
-index e8d9fb452346..5c6663321e87 100644
---- a/arch/arc/kernel/troubleshoot.c
-+++ b/arch/arc/kernel/troubleshoot.c
-@@ -18,6 +18,8 @@
- #include <asm/arcregs.h>
- #include <asm/irqflags.h>
- 
-+#define ARC_PATH_MAX	256
-+
+diff --git a/arch/arc/include/asm/bitops.h b/arch/arc/include/asm/bitops.h
+index 8da87feec59a..99e6d8948f4a 100644
+--- a/arch/arc/include/asm/bitops.h
++++ b/arch/arc/include/asm/bitops.h
+@@ -340,7 +340,7 @@ static inline __attribute__ ((const)) int __fls(unsigned long x)
  /*
-  * Common routine to print scratch regs (r0-r12) or callee regs (r13-r25)
-  *   -Prints 3 regs per line and a CR.
-@@ -58,11 +60,12 @@ static void show_callee_regs(struct callee_regs *cregs)
- 	print_reg_file(&(cregs->r13), 13);
- }
- 
--static void print_task_path_n_nm(struct task_struct *tsk, char *buf)
-+static void print_task_path_n_nm(struct task_struct *tsk)
+  * __ffs: Similar to ffs, but zero based (0-31)
+  */
+-static inline __attribute__ ((const)) int __ffs(unsigned long word)
++static inline __attribute__ ((const)) unsigned long __ffs(unsigned long word)
  {
- 	char *path_nm = NULL;
- 	struct mm_struct *mm;
- 	struct file *exe_file;
-+	char buf[ARC_PATH_MAX];
- 
- 	mm = get_task_mm(tsk);
- 	if (!mm)
-@@ -72,7 +75,7 @@ static void print_task_path_n_nm(struct task_struct *tsk, char *buf)
- 	mmput(mm);
- 
- 	if (exe_file) {
--		path_nm = file_path(exe_file, buf, 255);
-+		path_nm = file_path(exe_file, buf, ARC_PATH_MAX-1);
- 		fput(exe_file);
- 	}
- 
-@@ -80,10 +83,9 @@ static void print_task_path_n_nm(struct task_struct *tsk, char *buf)
- 	pr_info("Path: %s\n", !IS_ERR(path_nm) ? path_nm : "?");
- }
- 
--static void show_faulting_vma(unsigned long address, char *buf)
-+static void show_faulting_vma(unsigned long address)
+ 	if (!word)
+ 		return word;
+@@ -400,9 +400,9 @@ static inline __attribute__ ((const)) int ffs(unsigned long x)
+ /*
+  * __ffs: Similar to ffs, but zero based (0-31)
+  */
+-static inline __attribute__ ((const)) int __ffs(unsigned long x)
++static inline __attribute__ ((const)) unsigned long __ffs(unsigned long x)
  {
- 	struct vm_area_struct *vma;
--	char *nm = buf;
- 	struct mm_struct *active_mm = current->active_mm;
+-	int n;
++	unsigned long n;
  
- 	/* can't use print_vma_addr() yet as it doesn't check for
-@@ -96,8 +98,11 @@ static void show_faulting_vma(unsigned long address, char *buf)
- 	 * if the container VMA is not found
- 	 */
- 	if (vma && (vma->vm_start <= address)) {
-+		char buf[ARC_PATH_MAX];
-+		char *nm = "?";
-+
- 		if (vma->vm_file) {
--			nm = file_path(vma->vm_file, buf, PAGE_SIZE - 1);
-+			nm = file_path(vma->vm_file, buf, ARC_PATH_MAX-1);
- 			if (IS_ERR(nm))
- 				nm = "?";
- 		}
-@@ -173,13 +178,8 @@ void show_regs(struct pt_regs *regs)
- {
- 	struct task_struct *tsk = current;
- 	struct callee_regs *cregs;
--	char *buf;
- 
--	buf = (char *)__get_free_page(GFP_KERNEL);
--	if (!buf)
--		return;
--
--	print_task_path_n_nm(tsk, buf);
-+	print_task_path_n_nm(tsk);
- 	show_regs_print_info(KERN_INFO);
- 
- 	show_ecr_verbose(regs);
-@@ -189,7 +189,7 @@ void show_regs(struct pt_regs *regs)
- 		(void *)regs->blink, (void *)regs->ret);
- 
- 	if (user_mode(regs))
--		show_faulting_vma(regs->ret, buf); /* faulting code, not data */
-+		show_faulting_vma(regs->ret); /* faulting code, not data */
- 
- 	pr_info("[STAT32]: 0x%08lx", regs->status32);
- 
-@@ -221,8 +221,6 @@ void show_regs(struct pt_regs *regs)
- 	cregs = (struct callee_regs *)current->thread.callee_reg;
- 	if (cregs)
- 		show_callee_regs(cregs);
--
--	free_page((unsigned long)buf);
- }
- 
- void show_kernel_fault_diag(const char *str, struct pt_regs *regs,
+ 	asm volatile(
+ 	"	ffs.f	%0, %1		\n"  /* 0:31; 31(Z) if src 0 */
 -- 
 2.19.1
