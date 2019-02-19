@@ -1,78 +1,30 @@
-From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 19 Feb 2019 13:52:26 +0300
-Subject: [PATCH] ARC: [plat-hsdk]: Enable AXI DW DMAC support
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 19 Feb 2019 15:30:19 -0800
+Subject: [PATCH] ARC: Explicitly set ARCH_SLAB_MINALIGN = 8
+In-Reply-To: <4881796E12491D4BB15146FE0209CE64681EECE5@DE02WEMBXB.internal.synopsys.com>
+References: <20190208105519.26750-1-abrodkin@synopsys.com>
+ <81017fe4-b31f-4942-e822-a7b70008b74d@synopsys.com>
+ <f83412d1e7fd4d67b4632c1f81fae963@AcuMS.aculab.com>
+ <bfc65835-21f9-6d5e-791d-ee49113d939c@synopsys.com>
+ <20190213125651.GP32494@hirez.programming.kicks-ass.net>
+ <e6138aeb-9ce4-fbfa-4d6a-b76f189a3e47@synopsys.com>
+ <4881796E12491D4BB15146FE0209CE64681DB01F@DE02WEMBXB.internal.synopsys.com>
+ <e4aed55f-656b-ebec-c3e3-393714cc693e@synopsys.com>
+ <4881796E12491D4BB15146FE0209CE64681EECE5@DE02WEMBXB.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190219105226.20062-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <d20680b3-f71e-9eb7-f79c-660e25673d82@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
-NOTE:
-  Even if this patch have no logical dependency with gpu-enabling-patch
-  (http://patchwork.ozlabs.org/patch/1034722/)
-  gpu-enabling-patch should be applied first to avoid rebasing.
+On 2/18/19 12:53 AM, Alexey Brodkin wrote:
+> So are you OK with this patch or something should be done before applying?
 
- arch/arc/boot/dts/hsdk.dts      | 27 +++++++++++++++++++++++++++
- arch/arc/configs/hsdk_defconfig |  2 ++
- 2 files changed, 29 insertions(+)
+Or your original patch was
 
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index a26b3f532f32..46a6e1080b38 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -185,6 +185,18 @@
- 			#clock-cells = <0>;
- 		};
- 
-+		dmac_core_clk: dmac-core-clk {
-+			compatible = "fixed-clock";
-+			clock-frequency = <400000000>;
-+			#clock-cells = <0>;
-+		};
-+
-+		dmac_cfg_clk: dmac-gpu-cfg-clk {
-+			compatible = "fixed-clock";
-+			clock-frequency = <200000000>;
-+			#clock-cells = <0>;
-+		};
-+
- 		gmac: ethernet at 8000 {
- 			#interrupt-cells = <1>;
- 			compatible = "snps,dwmac";
-@@ -268,6 +280,21 @@
- 			clock-names = "bus", "reg", "core", "shader";
- 			interrupts = <28>;
- 		};
-+
-+		dmac: dmac at 80000 {
-+			compatible = "snps,axi-dma-1.01a";
-+			reg = <0x80000 0x400>;
-+			interrupts = <27>;
-+			clocks = <&dmac_core_clk>, <&dmac_cfg_clk>;
-+			clock-names = "core-clk", "cfgr-clk";
-+
-+			dma-channels = <4>;
-+			snps,dma-masters = <2>;
-+			snps,data-width = <3>;
-+			snps,block-size = <4096 4096 4096 4096>;
-+			snps,priority = <0 1 2 3>;
-+			snps,axi-max-burst-len = <16>;
-+		};
- 	};
- 
- 	memory at 80000000 {
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-index 915e1cca31f8..5f1c772cb2fd 100644
---- a/arch/arc/configs/hsdk_defconfig
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -64,6 +64,8 @@ CONFIG_MMC=y
- CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
- CONFIG_MMC_DW=y
-+CONFIG_DMADEVICES=y
-+CONFIG_DW_AXI_DMAC=y
- CONFIG_EXT3_FS=y
- CONFIG_VFAT_FS=y
- CONFIG_TMPFS=y
--- 
-2.14.5
++#ifdef CONFIG_ARC_HAS_LL64
++#define ARCH_SLAB_MINALIGN     8
++#endif
+
+I don't think this issue is related to LL64 at all. A long long on ARC could be 4
+byte aligned (as mandated by the ABI). It could use LDD or 2 separate LDs. This
+has no bearing on the fact that LLOCKD have to use a 64-bit aligned addresses. So
+I think we should just do this unconditionally. Agree ?
