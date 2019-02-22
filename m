@@ -1,79 +1,77 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 21 Feb 2019 14:52:18 -0800
-Subject: [PATCH] ARCv2: don't assume core 0x54 has dual issue
+Date: Fri, 22 Feb 2019 09:42:38 -0800
+Subject: [GIT PULL] ARC updates for 5.0 final
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1550789538-20786-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <3c904d38-fba8-dfa7-fa56-4817abfd58de@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-The first 0x54 core were dual issue only (HS4x). Newer releases allow
-hardware to be configured as single issue (HS3x) or dual issue.
+Hi Linus,
 
-Prevent accessing a HS4x only aux register in HS3x, which otherwise
-leads to illegal instruction exceptions
+Please pull bunch of fixes for ARC for 5.0, bunch of those are stable fodder
+anyways so sooner the better.
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/include/asm/arcregs.h |  8 ++++++++
- arch/arc/kernel/setup.c        | 26 +++++++++++++++++++++-----
- 2 files changed, 29 insertions(+), 5 deletions(-)
+Thx,
+-Vineet
+------------------>
+The following changes since commit f17b5f06cb92ef2250513a1e154c47b78df07d40:
 
-diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
-index f1b86cef0905..a27eafdc8260 100644
---- a/arch/arc/include/asm/arcregs.h
-+++ b/arch/arc/include/asm/arcregs.h
-@@ -151,6 +151,14 @@ struct bcr_isa_arcv2 {
- #endif
- };
- 
-+struct bcr_uarch_build_arcv2 {
-+#ifdef CONFIG_CPU_BIG_ENDIAN
-+	unsigned int pad:8, prod:8, maj:8, min:8;
-+#else
-+	unsigned int min:8, maj:8, prod:8, pad:8;
-+#endif
-+};
-+
- struct bcr_mpy {
- #ifdef CONFIG_CPU_BIG_ENDIAN
- 	unsigned int pad:8, x1616:8, dsp:4, cycles:2, type:2, ver:8;
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 93d4d6639873..7b2340996cf8 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -199,13 +199,29 @@ static void read_arc_build_cfg_regs(void)
- 		cpu->bpu.ret_stk = 4 << bpu.rse;
- 
- 		if (cpu->core.family >= 0x54) {
--			unsigned int exec_ctrl;
- 
--			READ_BCR(AUX_EXEC_CTRL, exec_ctrl);
--			cpu->extn.dual_enb = !(exec_ctrl & 1);
-+			struct bcr_uarch_build_arcv2 uarch;
- 
--			/* dual issue always present for this core */
--			cpu->extn.dual = 1;
-+			/*
-+			 * The first 0x54 core (uarch maj:min 0:1 or 0:2) was
-+			 * dual issue only (HS4x). But next uarch rev (1:0)
-+			 * allows it be configured for single issue (HS3x)
-+			 * Ensure we fiddle with dual issue only on HS4x
-+			 */
-+			READ_BCR(ARC_REG_MICRO_ARCH_BCR, uarch);
-+
-+			if (uarch.prod == 4) {
-+				unsigned int exec_ctrl;
-+
-+				/* dual issue hardware always present */
-+				cpu->extn.dual = 1;
-+
-+				READ_BCR(AUX_EXEC_CTRL, exec_ctrl);
-+
-+				/* dual issue hardware enabled ? */
-+				cpu->extn.dual_enb = !(exec_ctrl & 1);
-+
-+			}
- 		}
- 	}
- 
--- 
-2.7.4
+  Linux 5.0-rc4 (2019-01-27 15:18:05 -0800)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.0-final
+
+for you to fetch changes up to 7b2e932f633bcb7b190fc7031ce6dac75f8c3472:
+
+  ARCv2: don't assume core 0x54 has dual issue (2019-02-21 14:53:36 -0800)
+
+----------------------------------------------------------------
+ARC fixes for 5.0 final
+
+ - Fix memcpy to prevent prefetchw beyond end of buffer [Eugeniy]
+
+ - Enable unaligned access early to prevent exceptions given newer gcc
+   code gen [Eugeniy]
+
+ - Tighten up uboot arg checking to prevent false negatives and also
+   allow both jtag and bootloading to coexist w/o config option as
+   needed by kernelCi folks [Eugeniy]
+
+ - Set slab alignment to 8 for ARC to avoid the atomic64_t unalign [Alexey]
+
+ - Disable regfile auto save on interrupts on HSDK platform due to a
+   silicon issue  [Vineet]
+
+ - Avoid HS38x boot printing crash by not reading HS48x only reg [Vineet]
+
+----------------------------------------------------------------
+Alexey Brodkin (1):
+      ARC: define ARCH_SLAB_MINALIGN = 8
+
+Eugeniy Paltsev (5):
+      ARCv2: Enable unaligned access in early ASM code
+      ARCv2: lib: memcpy: fix doing prefetchw outside of buffer
+      ARC: fix actionpoints configuration detection
+      ARC: U-boot: check arguments paranoidly
+      ARC: enable uboot support unconditionally
+
+Vineet Gupta (3):
+      ARC: uacces: remove lp_start, lp_end from clobber list
+      ARCv2: support manual regfile save on interrupts
+      ARCv2: don't assume core 0x54 has dual issue
+
+ arch/arc/Kconfig                        |  20 +++---
+ arch/arc/configs/nps_defconfig          |   1 -
+ arch/arc/configs/vdk_hs38_defconfig     |   1 -
+ arch/arc/configs/vdk_hs38_smp_defconfig |   2 -
+ arch/arc/include/asm/arcregs.h          |   8 +++
+ arch/arc/include/asm/cache.h            |  11 +++
+ arch/arc/include/asm/entry-arcv2.h      |  54 +++++++++++++++
+ arch/arc/include/asm/uaccess.h          |   8 +--
+ arch/arc/kernel/entry-arcv2.S           |   4 +-
+ arch/arc/kernel/head.S                  |  16 +++--
+ arch/arc/kernel/intc-arcv2.c            |   2 +
+ arch/arc/kernel/setup.c                 | 119 +++++++++++++++++++++++---------
+ arch/arc/lib/memcpy-archs.S             |  14 ----
+ arch/arc/plat-hsdk/Kconfig              |   1 +
+ 14 files changed, 188 insertions(+), 73 deletions(-)
