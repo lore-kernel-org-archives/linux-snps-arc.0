@@ -1,21 +1,32 @@
-From: pr-tracker-bot@kernel.org (pr-tracker-bot@kernel.org)
-Date: Sat, 23 Feb 2019 01:45:03 +0000
-Subject: [GIT PULL] ARC updates for 5.0 final
-In-Reply-To: <3c904d38-fba8-dfa7-fa56-4817abfd58de@synopsys.com>
-References: <3c904d38-fba8-dfa7-fa56-4817abfd58de@synopsys.com>
+From: clabbe@baylibre.com (Corentin Labbe)
+Date: Mon, 25 Feb 2019 09:45:38 +0000
+Subject: [PATCH resend] arc: hsdk_defconfig: Enable CONFIG_BLK_DEV_RAM
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <155088630336.27298.18154293753292344819.pr-tracker-bot@kernel.org>
+Message-ID: <1551087938-28594-1-git-send-email-clabbe@baylibre.com>
 To: linux-snps-arc@lists.infradead.org
 
-The pull request you sent on Fri, 22 Feb 2019 09:42:38 -0800:
+We have now a HSDK device in our kernelci lab, but kernel builded via
+the hsdk_defconfig lacks ramfs supports, so it cannot boot kernelci jobs
+yet.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.0-final
+So this patch enable CONFIG_BLK_DEV_RAM in hsdk_defconfig.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2cc63b39003913fdf564cde5c646ac8f174e3ac7
+Signed-off-by: Corentin Labbe <clabbe at baylibre.com>
+---
+ arch/arc/configs/hsdk_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thank you!
-
+diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
+index 6fd3d29546af..0e5fd29ed238 100644
+--- a/arch/arc/configs/hsdk_defconfig
++++ b/arch/arc/configs/hsdk_defconfig
+@@ -8,6 +8,7 @@ CONFIG_NAMESPACES=y
+ # CONFIG_UTS_NS is not set
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
++CONFIG_BLK_DEV_RAM=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_VM_EVENT_COUNTERS is not set
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+2.19.2
