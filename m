@@ -1,32 +1,28 @@
-From: clabbe@baylibre.com (Corentin Labbe)
-Date: Mon, 25 Feb 2019 09:45:38 +0000
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 25 Feb 2019 14:07:21 +0000
 Subject: [PATCH resend] arc: hsdk_defconfig: Enable CONFIG_BLK_DEV_RAM
+In-Reply-To: <1551087938-28594-1-git-send-email-clabbe@baylibre.com>
+References: <1551087938-28594-1-git-send-email-clabbe@baylibre.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1551087938-28594-1-git-send-email-clabbe@baylibre.com>
+Message-ID: <4881796E12491D4BB15146FE0209CE646820111F@de02wembxa.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-We have now a HSDK device in our kernelci lab, but kernel builded via
-the hsdk_defconfig lacks ramfs supports, so it cannot boot kernelci jobs
-yet.
+Hi Corentin,
 
-So this patch enable CONFIG_BLK_DEV_RAM in hsdk_defconfig.
+> -----Original Message-----
+> From: linux-snps-arc <linux-snps-arc-bounces at lists.infradead.org> On Behalf Of Corentin Labbe
+> Sent: Monday, February 25, 2019 12:46 PM
+> To: vineet.gupta1 at synopsys.com
+> Cc: khilman at baylibre.com; linux-snps-arc at lists.infradead.org; linux-kernel at vger.kernel.org; Corentin
+> Labbe <clabbe at baylibre.com>
+> Subject: [PATCH resend] arc: hsdk_defconfig: Enable CONFIG_BLK_DEV_RAM
+> 
+> We have now a HSDK device in our kernelci lab, but kernel builded via
+> the hsdk_defconfig lacks ramfs supports, so it cannot boot kernelci jobs
+> yet.
+> 
+> So this patch enable CONFIG_BLK_DEV_RAM in hsdk_defconfig.
+> 
+> Signed-off-by: Corentin Labbe <clabbe at baylibre.com>
 
-Signed-off-by: Corentin Labbe <clabbe at baylibre.com>
----
- arch/arc/configs/hsdk_defconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-index 6fd3d29546af..0e5fd29ed238 100644
---- a/arch/arc/configs/hsdk_defconfig
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -8,6 +8,7 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
-+CONFIG_BLK_DEV_RAM=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
--- 
-2.19.2
+Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
