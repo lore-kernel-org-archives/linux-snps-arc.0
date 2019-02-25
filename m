@@ -1,28 +1,75 @@
-From: alexey.brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 25 Feb 2019 14:07:21 +0000
-Subject: [PATCH resend] arc: hsdk_defconfig: Enable CONFIG_BLK_DEV_RAM
-In-Reply-To: <1551087938-28594-1-git-send-email-clabbe@baylibre.com>
-References: <1551087938-28594-1-git-send-email-clabbe@baylibre.com>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Mon, 25 Feb 2019 20:16:01 +0300
+Subject: [PATCH] ARC: u-boot args: check that magic number is correct
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <4881796E12491D4BB15146FE0209CE646820111F@de02wembxa.internal.synopsys.com>
+Message-ID: <20190225171601.5004-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Corentin,
+In case of devboards we really often disable bootloader and load
+Linux image in memory via JTAG. Even if kernel tries to verify
+uboot_tag and uboot_arg there is sill a chance that we treat some
+garbage in registers as valid u-boot arguments in JTAG case.
+E.g. it is enough to have '1' in r0 to treat any value in r2 as
+a boot command line.
 
-> -----Original Message-----
-> From: linux-snps-arc <linux-snps-arc-bounces at lists.infradead.org> On Behalf Of Corentin Labbe
-> Sent: Monday, February 25, 2019 12:46 PM
-> To: vineet.gupta1 at synopsys.com
-> Cc: khilman at baylibre.com; linux-snps-arc at lists.infradead.org; linux-kernel at vger.kernel.org; Corentin
-> Labbe <clabbe at baylibre.com>
-> Subject: [PATCH resend] arc: hsdk_defconfig: Enable CONFIG_BLK_DEV_RAM
-> 
-> We have now a HSDK device in our kernelci lab, but kernel builded via
-> the hsdk_defconfig lacks ramfs supports, so it cannot boot kernelci jobs
-> yet.
-> 
-> So this patch enable CONFIG_BLK_DEV_RAM in hsdk_defconfig.
-> 
-> Signed-off-by: Corentin Labbe <clabbe at baylibre.com>
+So check that magic number passed from u-boot is correct and drop
+u-boot arguments otherwise. That helps to reduce the possibility
+of using garbage as u-boot arguments in JTAG case.
 
-Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
+We can safely check U-boot magic value (0x0) in linux passed via
+r1 register as U-boot pass it from the beginning. So there is no
+backward-compatibility issues.
+
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ arch/arc/kernel/head.S  | 1 +
+ arch/arc/kernel/setup.c | 8 ++++++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
+index 30e090625916..a72bbda2f7aa 100644
+--- a/arch/arc/kernel/head.S
++++ b/arch/arc/kernel/head.S
+@@ -106,6 +106,7 @@ ENTRY(stext)
+ 	;    r2 = pointer to uboot provided cmdline or external DTB in mem
+ 	; These are handled later in handle_uboot_args()
+ 	st	r0, [@uboot_tag]
++	st      r1, [@uboot_magic]
+ 	st	r2, [@uboot_arg]
+ 
+ 	; setup "current" tsk and optionally cache it in dedicated r25
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 7b2340996cf8..7b3a7b3b380c 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -36,6 +36,7 @@ unsigned int intr_to_DE_cnt;
+ 
+ /* Part of U-boot ABI: see head.S */
+ int __initdata uboot_tag;
++int __initdata uboot_magic;
+ char __initdata *uboot_arg;
+ 
+ const struct machine_desc *machine_desc;
+@@ -497,6 +498,8 @@ static inline bool uboot_arg_invalid(unsigned long addr)
+ #define UBOOT_TAG_NONE		0
+ #define UBOOT_TAG_CMDLINE	1
+ #define UBOOT_TAG_DTB		2
++/* We always pass 0 as magic from U-boot */
++#define UBOOT_MAGIC_VALUE	0
+ 
+ void __init handle_uboot_args(void)
+ {
+@@ -511,6 +514,11 @@ void __init handle_uboot_args(void)
+ 		goto ignore_uboot_args;
+ 	}
+ 
++	if (uboot_magic != UBOOT_MAGIC_VALUE) {
++		pr_warn(IGNORE_ARGS "non zero uboot magic\n");
++		goto ignore_uboot_args;
++	}
++
+ 	if (uboot_tag != UBOOT_TAG_NONE &&
+             uboot_arg_invalid((unsigned long)uboot_arg)) {
+ 		pr_warn(IGNORE_ARGS "invalid uboot arg: '%px'\n", uboot_arg);
+-- 
+2.14.5
