@@ -1,68 +1,56 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 28 Feb 2019 10:04:24 -0800
-Subject: [PATCH] [ARC] Fix logic set UNALIGNED_ACCESS
+Date: Thu, 28 Feb 2019 18:12:33 +0000
+Subject: [PATCH] ARCv2: Add explcit unaligned access support (and
+ ability to disable too)
+References: <20190228174742.GA18868@roeck-us.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1551377064-30400-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501464380DE@US01WEMBX2.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Claudiu Zissulescu <claziss@gmail.com>
+On 2/28/19 9:47 AM, Guenter Roeck wrote:
+> On Wed, Jan 30, 2019@07:32:41PM +0300, Eugeniy Paltsev wrote:
+>> As of today we enable unaligned access unconditionally on ARCv2.
+>> Do this under a Kconfig option to allow disable it for test, benchmarking
+>> etc. Also while at it
+>>
+>>   - Select HAVE_EFFICIENT_UNALIGNED_ACCESS
+>>   - Although gcc defaults to unaligned access (since GNU 2018.03), add the
+>>     right toggles for enabling or disabling as appropriate
+>>   - update bootlog to prints both HW feature status (exists, enabled/disabled)
+>>     and SW status (used / not used).
+>>   - wire up the relaxed memcpy for unaligned access
+>>
+>> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+>> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+>> [vgupta: squashed patches, handle gcc -mno-unaligned-access quick]
+> Hi,
+>
+> with my brand-new gcc-8.3.0, built from upstream gcc, this patch
+> results in
+>
+> arch/arc/kernel/setup.c: In function 'arc_cpu_mumbojumbo.constprop':
+> include/linux/compiler.h:348:38: error:
+> 	call to '__compiletime_assert_326' declared with attribute error: gcc doesn't support -mno-unaligned-access
 
-gcc/
-xxxx-xx-xx  Claudiu Zissulescu  <claziss at synopsys.com>
+Sorry it broke ur build - but it did catch a deficiency in compiler as intended -
+yay !
 
-	* config/arc/arc-c.def (__ARC_UNALIGNED__): Set it on
-	unaligned_access variable.
-	* config/arc/arc.c (arc_override_options): Set unaligned access
-	default on for HS CPUs.
-	* config/arc/arc.h (STRICT_ALIGNMENT): Fix logic.
+> when trying to build allnoconfig or tinyconfig. I get the same results
+> with gcc-8.2.0.
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- gcc/config/arc/arc-c.def | 2 +-
- gcc/config/arc/arc.c     | 4 ++++
- gcc/config/arc/arc.h     | 2 +-
- 3 files changed, 6 insertions(+), 2 deletions(-)
+Unaligned access code gen was enabled by default in 7.x actually, but us OS folks
+were late to find that which led to the recent patch to disable it which was
+broken in gcc.
+Claudiu fixed gcc promptly but that patch didn't make it to upstream, which I've
+posted now.
 
-diff --git a/gcc/config/arc/arc-c.def b/gcc/config/arc/arc-c.def
-index 9c0ba2c9c294..9472b48aa7bc 100644
---- a/gcc/config/arc/arc-c.def
-+++ b/gcc/config/arc/arc-c.def
-@@ -29,7 +29,7 @@ ARC_C_DEF ("__ARC_MUL64__",	TARGET_MUL64_SET)
- ARC_C_DEF ("__ARC_MUL32BY16__", TARGET_MULMAC_32BY16_SET)
- ARC_C_DEF ("__ARC_SIMD__",	TARGET_SIMD_SET)
- ARC_C_DEF ("__ARC_RF16__",	TARGET_RF16)
--ARC_C_DEF ("__ARC_UNALIGNED__", !STRICT_ALIGNMENT)
-+ARC_C_DEF ("__ARC_UNALIGNED__", unaligned_access)
- 
- ARC_C_DEF ("__ARC_BARREL_SHIFTER__", TARGET_BARREL_SHIFTER)
- 
-diff --git a/gcc/config/arc/arc.c b/gcc/config/arc/arc.c
-index de2c8d5df9cf..3b8c29981b9a 100644
---- a/gcc/config/arc/arc.c
-+++ b/gcc/config/arc/arc.c
-@@ -1313,6 +1313,10 @@ arc_override_options (void)
-   if (TARGET_LONG_CALLS_SET)
-     target_flags &= ~MASK_MILLICODE_THUNK_SET;
- 
-+  /* Set unaligned to all HS cpus.  */
-+  if (!global_options_set.x_unaligned_access && TARGET_HS)
-+    unaligned_access = 1;
-+
-   /* These need to be done at start up.  It's convenient to do them here.  */
-   arc_init ();
- }
-diff --git a/gcc/config/arc/arc.h b/gcc/config/arc/arc.h
-index 12b4b62bba7b..894eb3946000 100644
---- a/gcc/config/arc/arc.h
-+++ b/gcc/config/arc/arc.h
-@@ -285,7 +285,7 @@ if (GET_MODE_CLASS (MODE) == MODE_INT		\
- /* On the ARC the lower address bits are masked to 0 as necessary.  The chip
-    won't croak when given an unaligned address, but the insn will still fail
-    to produce the correct result.  */
--#define STRICT_ALIGNMENT (!unaligned_access && !TARGET_HS)
-+#define STRICT_ALIGNMENT (!unaligned_access)
- 
- /* Layout of source language data types.  */
- 
--- 
-2.7.4
+http://lists.infradead.org/pipermail/linux-snps-arc/2019-February/005522.html
+
+> Do I need some special compiler configuration flag when building the
+> arcv2 toolchain ? Or am I simply out of luck for using upstream gcc ?
+
+Once the patch hits mainline you could use that. In the mean time I'll back out
+the "detector" as it might trip other people too.
+
+Many Thx for your testing service.
+-Vineet
