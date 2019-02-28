@@ -1,25 +1,68 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 27 Feb 2019 18:18:03 +0000
-Subject: [PATCH v3 02/34] arc: mm: Add p?d_large() definitions
-References: <20190227170608.27963-1-steven.price@arm.com>
- <20190227170608.27963-3-steven.price@arm.com>
+Date: Thu, 28 Feb 2019 10:04:24 -0800
+Subject: [PATCH] [ARC] Fix logic set UNALIGNED_ACCESS
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA230750146437D4C@US01WEMBX2.internal.synopsys.com>
+Message-ID: <1551377064-30400-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 2/27/19 9:06 AM, Steven Price wrote:
-> walk_page_range() is going to be allowed to walk page tables other than
-> those of user space. For this it needs to know when it has reached a
-> 'leaf' entry in the page tables. This information will be provided by the
-> p?d_large() functions/macros.
->
-> For arc, we only have two levels, so only pmd_large() is needed.
->
-> CC: Vineet Gupta <vgupta at synopsys.com>
-> CC: linux-snps-arc at lists.infradead.org
-> Signed-off-by: Steven Price <steven.price at arm.com>
+From: Claudiu Zissulescu <claziss@gmail.com>
 
-Acked-by: vineet Gupta <vgupta at synopsys.com>
+gcc/
+xxxx-xx-xx  Claudiu Zissulescu  <claziss at synopsys.com>
 
-Thx,
--Vineet
+	* config/arc/arc-c.def (__ARC_UNALIGNED__): Set it on
+	unaligned_access variable.
+	* config/arc/arc.c (arc_override_options): Set unaligned access
+	default on for HS CPUs.
+	* config/arc/arc.h (STRICT_ALIGNMENT): Fix logic.
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ gcc/config/arc/arc-c.def | 2 +-
+ gcc/config/arc/arc.c     | 4 ++++
+ gcc/config/arc/arc.h     | 2 +-
+ 3 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/gcc/config/arc/arc-c.def b/gcc/config/arc/arc-c.def
+index 9c0ba2c9c294..9472b48aa7bc 100644
+--- a/gcc/config/arc/arc-c.def
++++ b/gcc/config/arc/arc-c.def
+@@ -29,7 +29,7 @@ ARC_C_DEF ("__ARC_MUL64__",	TARGET_MUL64_SET)
+ ARC_C_DEF ("__ARC_MUL32BY16__", TARGET_MULMAC_32BY16_SET)
+ ARC_C_DEF ("__ARC_SIMD__",	TARGET_SIMD_SET)
+ ARC_C_DEF ("__ARC_RF16__",	TARGET_RF16)
+-ARC_C_DEF ("__ARC_UNALIGNED__", !STRICT_ALIGNMENT)
++ARC_C_DEF ("__ARC_UNALIGNED__", unaligned_access)
+ 
+ ARC_C_DEF ("__ARC_BARREL_SHIFTER__", TARGET_BARREL_SHIFTER)
+ 
+diff --git a/gcc/config/arc/arc.c b/gcc/config/arc/arc.c
+index de2c8d5df9cf..3b8c29981b9a 100644
+--- a/gcc/config/arc/arc.c
++++ b/gcc/config/arc/arc.c
+@@ -1313,6 +1313,10 @@ arc_override_options (void)
+   if (TARGET_LONG_CALLS_SET)
+     target_flags &= ~MASK_MILLICODE_THUNK_SET;
+ 
++  /* Set unaligned to all HS cpus.  */
++  if (!global_options_set.x_unaligned_access && TARGET_HS)
++    unaligned_access = 1;
++
+   /* These need to be done at start up.  It's convenient to do them here.  */
+   arc_init ();
+ }
+diff --git a/gcc/config/arc/arc.h b/gcc/config/arc/arc.h
+index 12b4b62bba7b..894eb3946000 100644
+--- a/gcc/config/arc/arc.h
++++ b/gcc/config/arc/arc.h
+@@ -285,7 +285,7 @@ if (GET_MODE_CLASS (MODE) == MODE_INT		\
+ /* On the ARC the lower address bits are masked to 0 as necessary.  The chip
+    won't croak when given an unaligned address, but the insn will still fail
+    to produce the correct result.  */
+-#define STRICT_ALIGNMENT (!unaligned_access && !TARGET_HS)
++#define STRICT_ALIGNMENT (!unaligned_access)
+ 
+ /* Layout of source language data types.  */
+ 
+-- 
+2.7.4
