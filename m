@@ -1,28 +1,80 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 28 Feb 2019 19:24:43 +0000
-Subject: [PATCH] ARCv2: Add explcit unaligned access support (and
- ability to disable too)
-References: <20190228174742.GA18868@roeck-us.net>
- <C2D7FE5348E1B147BCA15975FBA2307501464380DE@US01WEMBX2.internal.synopsys.com>
- <20190228185929.GA9842@roeck-us.net>
+From: andrew.burgess@embecosm.com (Andrew Burgess)
+Date: Fri, 1 Mar 2019 12:07:35 +0200
+Subject: [PATCH] [ARC] Fix logic set UNALIGNED_ACCESS
+In-Reply-To: <1551377064-30400-1-git-send-email-vgupta@synopsys.com>
+References: <1551377064-30400-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501464381EE@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20190301100735.GN10887@embecosm.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 2/28/19 10:59 AM, Guenter Roeck wrote:
->> Once the patch hits mainline you could use that. In the mean time I'll back out
->> the "detector" as it might trip other people too.
->>
-> Can you possibly use $(cc-option,-mno-unaligned-access), or would that
-> defeat the purpose ?
->
+* Vineet Gupta <vineet.gupta1 at synopsys.com> [2019-02-28 10:04:24 -0800]:
 
-Indeed I was looking into Kconfig documentation and found something similar.
-However there's an anti-dependency. It is enabled by default and can only be
-disabled with $(cc-option,-mno-unaligned-access)
-So guess we will have to change  ARC_USE_UNALIGNED_MEM_ACCESS to
-ARC_*LACKS*_UNALIGNED_MEM_ACCESS
+> From: Claudiu Zissulescu <claziss at gmail.com>
+> 
+> gcc/
+> xxxx-xx-xx  Claudiu Zissulescu  <claziss at synopsys.com>
+> 
+> 	* config/arc/arc-c.def (__ARC_UNALIGNED__): Set it on
+> 	unaligned_access variable.
+> 	* config/arc/arc.c (arc_override_options): Set unaligned access
+> 	default on for HS CPUs.
+> 	* config/arc/arc.h (STRICT_ALIGNMENT): Fix logic.
 
-I'll tinker a bit and post an update soon.
+This looks good.
 
--Vineet
+Thanks,
+Andrew
+
+
+> 
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  gcc/config/arc/arc-c.def | 2 +-
+>  gcc/config/arc/arc.c     | 4 ++++
+>  gcc/config/arc/arc.h     | 2 +-
+>  3 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/gcc/config/arc/arc-c.def b/gcc/config/arc/arc-c.def
+> index 9c0ba2c9c294..9472b48aa7bc 100644
+> --- a/gcc/config/arc/arc-c.def
+> +++ b/gcc/config/arc/arc-c.def
+> @@ -29,7 +29,7 @@ ARC_C_DEF ("__ARC_MUL64__",	TARGET_MUL64_SET)
+>  ARC_C_DEF ("__ARC_MUL32BY16__", TARGET_MULMAC_32BY16_SET)
+>  ARC_C_DEF ("__ARC_SIMD__",	TARGET_SIMD_SET)
+>  ARC_C_DEF ("__ARC_RF16__",	TARGET_RF16)
+> -ARC_C_DEF ("__ARC_UNALIGNED__", !STRICT_ALIGNMENT)
+> +ARC_C_DEF ("__ARC_UNALIGNED__", unaligned_access)
+>  
+>  ARC_C_DEF ("__ARC_BARREL_SHIFTER__", TARGET_BARREL_SHIFTER)
+>  
+> diff --git a/gcc/config/arc/arc.c b/gcc/config/arc/arc.c
+> index de2c8d5df9cf..3b8c29981b9a 100644
+> --- a/gcc/config/arc/arc.c
+> +++ b/gcc/config/arc/arc.c
+> @@ -1313,6 +1313,10 @@ arc_override_options (void)
+>    if (TARGET_LONG_CALLS_SET)
+>      target_flags &= ~MASK_MILLICODE_THUNK_SET;
+>  
+> +  /* Set unaligned to all HS cpus.  */
+> +  if (!global_options_set.x_unaligned_access && TARGET_HS)
+> +    unaligned_access = 1;
+> +
+>    /* These need to be done at start up.  It's convenient to do them here.  */
+>    arc_init ();
+>  }
+> diff --git a/gcc/config/arc/arc.h b/gcc/config/arc/arc.h
+> index 12b4b62bba7b..894eb3946000 100644
+> --- a/gcc/config/arc/arc.h
+> +++ b/gcc/config/arc/arc.h
+> @@ -285,7 +285,7 @@ if (GET_MODE_CLASS (MODE) == MODE_INT		\
+>  /* On the ARC the lower address bits are masked to 0 as necessary.  The chip
+>     won't croak when given an unaligned address, but the insn will still fail
+>     to produce the correct result.  */
+> -#define STRICT_ALIGNMENT (!unaligned_access && !TARGET_HS)
+> +#define STRICT_ALIGNMENT (!unaligned_access)
+>  
+>  /* Layout of source language data types.  */
+>  
+> -- 
+> 2.7.4
+> 
