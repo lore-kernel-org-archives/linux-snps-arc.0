@@ -1,91 +1,38 @@
-From: claudiu.zissulescu@synopsys.com (Claudiu Zissulescu)
-Date: Wed, 6 Mar 2019 10:47:08 +0000
-Subject: [PATCH] [ARC] Fix logic set UNALIGNED_ACCESS
-In-Reply-To: <20190301100735.GN10887@embecosm.com>
-References: <1551377064-30400-1-git-send-email-vgupta@synopsys.com>,
- <20190301100735.GN10887@embecosm.com>
+From: steven.price@arm.com (Steven Price)
+Date: Wed,  6 Mar 2019 15:50:13 +0000
+Subject: [PATCH v4 01/19] arc: mm: Add p?d_large() definitions
+In-Reply-To: <20190306155031.4291-1-steven.price@arm.com>
+References: <20190306155031.4291-1-steven.price@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <098ECE41A0A6114BB2A07F1EC238DE89671DE98F@de02wembxa.internal.synopsys.com>
+Message-ID: <20190306155031.4291-2-steven.price@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Pushed. Thank you Andrew for your review.
+walk_page_range() is going to be allowed to walk page tables other than
+those of user space. For this it needs to know when it has reached a
+'leaf' entry in the page tables. This information will be provided by the
+p?d_large() functions/macros.
 
-//Claudiu
-________________________________________
-From: Andrew Burgess [andrew.burgess@embecosm.com]
-Sent: Friday, March 01, 2019 11:07 AM
-To: Vineet Gupta
-Cc: gcc-patches at gcc.gnu.org; Claudiu Zissulescu; linux-snps-arc at lists.infradead.org; Claudiu Zissulescu
-Subject: Re: [PATCH] [ARC] Fix logic set UNALIGNED_ACCESS
+For arc, we only have two levels, so only pmd_large() is needed.
 
-* Vineet Gupta <vineet.gupta1 at synopsys.com> [2019-02-28 10:04:24 -0800]:
+CC: Vineet Gupta <vgupta at synopsys.com>
+CC: linux-snps-arc at lists.infradead.org
+Signed-off-by: Steven Price <steven.price at arm.com>
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/include/asm/pgtable.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-> From: Claudiu Zissulescu <claziss at gmail.com>
->
-> gcc/
-> xxxx-xx-xx  Claudiu Zissulescu  <claziss at synopsys.com>
->
->       * config/arc/arc-c.def (__ARC_UNALIGNED__): Set it on
->       unaligned_access variable.
->       * config/arc/arc.c (arc_override_options): Set unaligned access
->       default on for HS CPUs.
->       * config/arc/arc.h (STRICT_ALIGNMENT): Fix logic.
-
-This looks good.
-
-Thanks,
-Andrew
-
-
->
-> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-> ---
->  gcc/config/arc/arc-c.def | 2 +-
->  gcc/config/arc/arc.c     | 4 ++++
->  gcc/config/arc/arc.h     | 2 +-
->  3 files changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/gcc/config/arc/arc-c.def b/gcc/config/arc/arc-c.def
-> index 9c0ba2c9c294..9472b48aa7bc 100644
-> --- a/gcc/config/arc/arc-c.def
-> +++ b/gcc/config/arc/arc-c.def
-> @@ -29,7 +29,7 @@ ARC_C_DEF ("__ARC_MUL64__", TARGET_MUL64_SET)
->  ARC_C_DEF ("__ARC_MUL32BY16__", TARGET_MULMAC_32BY16_SET)
->  ARC_C_DEF ("__ARC_SIMD__",   TARGET_SIMD_SET)
->  ARC_C_DEF ("__ARC_RF16__",   TARGET_RF16)
-> -ARC_C_DEF ("__ARC_UNALIGNED__", !STRICT_ALIGNMENT)
-> +ARC_C_DEF ("__ARC_UNALIGNED__", unaligned_access)
->
->  ARC_C_DEF ("__ARC_BARREL_SHIFTER__", TARGET_BARREL_SHIFTER)
->
-> diff --git a/gcc/config/arc/arc.c b/gcc/config/arc/arc.c
-> index de2c8d5df9cf..3b8c29981b9a 100644
-> --- a/gcc/config/arc/arc.c
-> +++ b/gcc/config/arc/arc.c
-> @@ -1313,6 +1313,10 @@ arc_override_options (void)
->    if (TARGET_LONG_CALLS_SET)
->      target_flags &= ~MASK_MILLICODE_THUNK_SET;
->
-> +  /* Set unaligned to all HS cpus.  */
-> +  if (!global_options_set.x_unaligned_access && TARGET_HS)
-> +    unaligned_access = 1;
-> +
->    /* These need to be done at start up.  It's convenient to do them here.  */
->    arc_init ();
->  }
-> diff --git a/gcc/config/arc/arc.h b/gcc/config/arc/arc.h
-> index 12b4b62bba7b..894eb3946000 100644
-> --- a/gcc/config/arc/arc.h
-> +++ b/gcc/config/arc/arc.h
-> @@ -285,7 +285,7 @@ if (GET_MODE_CLASS (MODE) == MODE_INT             \
->  /* On the ARC the lower address bits are masked to 0 as necessary.  The chip
->     won't croak when given an unaligned address, but the insn will still fail
->     to produce the correct result.  */
-> -#define STRICT_ALIGNMENT (!unaligned_access && !TARGET_HS)
-> +#define STRICT_ALIGNMENT (!unaligned_access)
->
->  /* Layout of source language data types.  */
->
-> --
-> 2.7.4
->
+diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
+index cf4be70d5892..0edd27bc7018 100644
+--- a/arch/arc/include/asm/pgtable.h
++++ b/arch/arc/include/asm/pgtable.h
+@@ -277,6 +277,7 @@ static inline void pmd_set(pmd_t *pmdp, pte_t *ptep)
+ #define pmd_none(x)			(!pmd_val(x))
+ #define	pmd_bad(x)			((pmd_val(x) & ~PAGE_MASK))
+ #define pmd_present(x)			(pmd_val(x))
++#define pmd_large(x)			(pmd_val(pmd) & _PAGE_HW_SZ)
+ #define pmd_clear(xp)			do { pmd_val(*(xp)) = 0; } while (0)
+ 
+ #define pte_page(pte)		pfn_to_page(pte_pfn(pte))
+-- 
+2.20.1
