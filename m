@@ -1,102 +1,116 @@
-From: info@metux.net (Enrico Weigelt, metux IT consult)
-Date: Mon, 11 Mar 2019 14:57:59 +0100
-Subject: [PATCH] arch: arc: Kconfig: pedantic formatting
+From: valentin.schneider@arm.com (Valentin Schneider)
+Date: Mon, 11 Mar 2019 22:47:38 +0000
+Subject: [PATCH 00/14] entry: preempt_schedule_irq() callers scrub
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1552312679-26388-1-git-send-email-info@metux.net>
+Message-ID: <20190311224752.8337-1-valentin.schneider@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Formatting of Kconfig files doesn't look so pretty, so let the
-Great White Handkerchief come around and clean it up.
+Hi,
 
-Signed-off-by: Enrico Weigelt, metux IT consult <info at metux.net>
----
- arch/arc/Kconfig            | 12 ++++++------
- arch/arc/plat-eznps/Kconfig | 12 ++++++------
- 2 files changed, 12 insertions(+), 12 deletions(-)
+This is the continuation of [1] where I'm hunting down
+preempt_schedule_irq() callers because of [2].
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index df55672..1414797 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -144,11 +144,11 @@ config ARC_CPU_770
- 	  Support for ARC770 core introduced with Rel 4.10 (Summer 2011)
- 	  This core has a bunch of cool new features:
- 	  -MMU-v3: Variable Page Sz (4k, 8k, 16k), bigger J-TLB (128x4)
--                   Shared Address Spaces (for sharing TLB entries in MMU)
-+	           Shared Address Spaces (for sharing TLB entries in MMU)
- 	  -Caches: New Prog Model, Region Flush
- 	  -Insns: endian swap, load-locked/store-conditional, time-stamp-ctr
- 
--endif	#ISA_ARCOMPACT
-+endif #ISA_ARCOMPACT
- 
- config ARC_CPU_HS
- 	bool "ARC-HS"
-@@ -198,7 +198,7 @@ config ARC_SMP_HALT_ON_RESET
- 	  at designated entry point. For other case, all jump to common
- 	  entry point and spin wait for Master's signal.
- 
--endif	#SMP
-+endif #SMP
- 
- config ARC_MCIP
- 	bool "ARConnect Multicore IP (MCIP) Support "
-@@ -249,7 +249,7 @@ config ARC_CACHE_VIPT_ALIASING
- 	bool "Support VIPT Aliasing D$"
- 	depends on ARC_HAS_DCACHE && ISA_ARCOMPACT
- 
--endif	#ARC_CACHE
-+endif #ARC_CACHE
- 
- config ARC_HAS_ICCM
- 	bool "Use ICCM"
-@@ -370,7 +370,7 @@ config ARC_FPU_SAVE_RESTORE
- 	  based on actual usage of FPU by a task. Thus our implemn does
- 	  this for all tasks in system.
- 
--endif	#ISA_ARCOMPACT
-+endif #ISA_ARCOMPACT
- 
- config ARC_CANT_LLSC
- 	def_bool n
-@@ -414,7 +414,7 @@ config ARC_IRQ_NO_AUTOSAVE
- 	  This is programmable and can be optionally disabled in which case
- 	  software INTERRUPT_PROLOGUE/EPILGUE do the needed work
- 
--endif	# ISA_ARCV2
-+endif # ISA_ARCV2
- 
- endmenu   # "ARC CPU Configuration"
- 
-diff --git a/arch/arc/plat-eznps/Kconfig b/arch/arc/plat-eznps/Kconfig
-index 8eff057..2eaecfb 100644
---- a/arch/arc/plat-eznps/Kconfig
-+++ b/arch/arc/plat-eznps/Kconfig
-@@ -26,8 +26,8 @@ config EZNPS_MTM_EXT
- 	help
- 	  Here we add new hierarchy for CPUs topology.
- 	  We got:
--		Core
--		Thread
-+	    Core
-+	    Thread
- 	  At the new thread level each CPU represent one HW thread.
- 	  At highest hierarchy each core contain 16 threads,
- 	  any of them seem like CPU from Linux point of view.
-@@ -35,10 +35,10 @@ config EZNPS_MTM_EXT
- 	  core and HW scheduler round robin between them.
- 
- config EZNPS_MEM_ERROR_ALIGN
--       bool "ARC-EZchip Memory error as an exception"
--       depends on EZNPS_MTM_EXT
--       default n
--       help
-+	bool "ARC-EZchip Memory error as an exception"
-+	depends on EZNPS_MTM_EXT
-+	default n
-+	help
- 	  On the real chip of the NPS, user memory errors are handled
- 	  as a machine check exception, which is fatal, whereas on
- 	  simulator platform for NPS, is handled as a Level 2 interrupt
--- 
-1.9.1
+I told myself the best way to get this moving forward wouldn't be to write
+doc about it, but to go write some fixes and get some discussions going,
+which is what this patch-set is about.
+
+I've looked at users of preempt_schedule_irq(), and made sure they didn't
+have one of those useless loops. The list of offenders is:
+
+$ grep -r -I "preempt_schedule_irq" arch/ | cut -d/ -f2 | sort | uniq
+
+  arc
+  arm
+  arm64
+  c6x
+  csky
+  h8300
+  ia64
+  m68k
+  microblaze
+  mips
+  nds32
+  nios2
+  parisc
+  powerpc
+  riscv
+  s390
+  sh
+  sparc
+  x86
+  xtensa
+
+Regarding that loop, archs seem to fall in 3 categories:
+A) Those that don't have the loop
+B) Those that have a small need_resched() loop around the
+   preempt_schedule_irq() callsite
+C) Those that branch to some more generic code further up the entry code
+   and eventually branch back to preempt_schedule_irq()
+
+arc, m68k, nios2 fall in A)
+sparc, ia64, s390 fall in C)
+all the others fall in B)
+
+I've written patches for B) and C) EXCEPT for ia64 and s390 because I
+haven't been able to tell if it's actually fine to kill that "long jump"
+(and maybe I'm wrong on sparc). Hopefully folks who understand what goes on
+in there might be able to shed some light.
+
+Also, since I sent patches for arm & arm64 in [1] I'm not including them
+here.
+
+Boot-tested on:
+- x86
+
+Build-tested on:
+- h8300
+- c6x
+- powerpc
+- mips
+- nds32
+- microblaze
+- sparc
+- xtensa
+
+Thanks,
+Valentin
+
+[1]: https://lore.kernel.org/lkml/20190131182339.9835-1-valentin.schneider at arm.com/
+[2]: https://lore.kernel.org/lkml/cc989920-a13b-d53b-db83-1584a7f53edc at arm.com/
+
+Valentin Schneider (14):
+  sched/core: Fix preempt_schedule() interrupt return comment
+  c6x: entry: Remove unneeded need_resched() loop
+  csky: entry: Remove unneeded need_resched() loop
+  h8300: entry: Remove unneeded need_resched() loop
+  microblaze: entry: Remove unneeded need_resched() loop
+  MIPS: entry: Remove unneeded need_resched() loop
+  nds32: ex-exit: Remove unneeded need_resched() loop
+  powerpc: entry: Remove unneeded need_resched() loop
+  RISC-V: entry: Remove unneeded need_resched() loop
+  sh: entry: Remove unneeded need_resched() loop
+  sh64: entry: Remove unneeded need_resched() loop
+  sparc64: rtrap: Remove unneeded need_resched() loop
+  x86/entry: Remove unneeded need_resched() loop
+  xtensa: entry: Remove unneeded need_resched() loop
+
+ arch/c6x/kernel/entry.S        | 3 +--
+ arch/csky/kernel/entry.S       | 4 ----
+ arch/h8300/kernel/entry.S      | 3 +--
+ arch/microblaze/kernel/entry.S | 5 -----
+ arch/mips/kernel/entry.S       | 3 +--
+ arch/nds32/kernel/ex-exit.S    | 4 ++--
+ arch/powerpc/kernel/entry_32.S | 6 +-----
+ arch/powerpc/kernel/entry_64.S | 8 +-------
+ arch/riscv/kernel/entry.S      | 3 +--
+ arch/sh/kernel/cpu/sh5/entry.S | 5 +----
+ arch/sh/kernel/entry-common.S  | 4 +---
+ arch/sparc/kernel/rtrap_64.S   | 1 -
+ arch/x86/entry/entry_32.S      | 3 +--
+ arch/x86/entry/entry_64.S      | 3 +--
+ arch/xtensa/kernel/entry.S     | 2 +-
+ kernel/sched/core.c            | 7 +++----
+ 16 files changed, 16 insertions(+), 48 deletions(-)
+
+--
+2.20.1
