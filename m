@@ -1,116 +1,109 @@
-From: valentin.schneider@arm.com (Valentin Schneider)
-Date: Mon, 11 Mar 2019 22:47:38 +0000
-Subject: [PATCH 00/14] entry: preempt_schedule_irq() callers scrub
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Tue, 12 Mar 2019 08:26:42 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Tue Mar 12, 19:25
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190311224752.8337-1-valentin.schneider@arm.com>
+Message-ID: <20190312082642.1.91579@07b04a9130af>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+OK linus/axs103_smp_defconfig/arcv2 Tue Mar 12, 19:25
 
-This is the continuation of [1] where I'm hunting down
-preempt_schedule_irq() callers because of [2].
+http://kisskb.ellerman.id.au/kisskb/buildresult/13726468/
 
-I told myself the best way to get this moving forward wouldn't be to write
-doc about it, but to go write some fixes and get some discussions going,
-which is what this patch-set is about.
+Commit:   Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu
+          f3124ccf025caf25b764d900d1f9c49731673e49
+Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824 / GNU ld (GNU Binutils) 2.27.51.20160928
 
-I've looked at users of preempt_schedule_irq(), and made sure they didn't
-have one of those useless loops. The list of offenders is:
+Possible errors
+---------------
 
-$ grep -r -I "preempt_schedule_irq" arch/ | cut -d/ -f2 | sort | uniq
+arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
+arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
 
-  arc
-  arm
-  arm64
-  c6x
-  csky
-  h8300
-  ia64
-  m68k
-  microblaze
-  mips
-  nds32
-  nios2
-  parisc
-  powerpc
-  riscv
-  s390
-  sh
-  sparc
-  x86
-  xtensa
+Possible warnings (82)
+----------------------
 
-Regarding that loop, archs seem to fall in 3 categories:
-A) Those that don't have the loop
-B) Those that have a small need_resched() loop around the
-   preempt_schedule_irq() callsite
-C) Those that branch to some more generic code further up the entry code
-   and eventually branch back to preempt_schedule_irq()
-
-arc, m68k, nios2 fall in A)
-sparc, ia64, s390 fall in C)
-all the others fall in B)
-
-I've written patches for B) and C) EXCEPT for ia64 and s390 because I
-haven't been able to tell if it's actually fine to kill that "long jump"
-(and maybe I'm wrong on sparc). Hopefully folks who understand what goes on
-in there might be able to shed some light.
-
-Also, since I sent patches for arm & arm64 in [1] I'm not including them
-here.
-
-Boot-tested on:
-- x86
-
-Build-tested on:
-- h8300
-- c6x
-- powerpc
-- mips
-- nds32
-- microblaze
-- sparc
-- xtensa
-
-Thanks,
-Valentin
-
-[1]: https://lore.kernel.org/lkml/20190131182339.9835-1-valentin.schneider at arm.com/
-[2]: https://lore.kernel.org/lkml/cc989920-a13b-d53b-db83-1584a7f53edc at arm.com/
-
-Valentin Schneider (14):
-  sched/core: Fix preempt_schedule() interrupt return comment
-  c6x: entry: Remove unneeded need_resched() loop
-  csky: entry: Remove unneeded need_resched() loop
-  h8300: entry: Remove unneeded need_resched() loop
-  microblaze: entry: Remove unneeded need_resched() loop
-  MIPS: entry: Remove unneeded need_resched() loop
-  nds32: ex-exit: Remove unneeded need_resched() loop
-  powerpc: entry: Remove unneeded need_resched() loop
-  RISC-V: entry: Remove unneeded need_resched() loop
-  sh: entry: Remove unneeded need_resched() loop
-  sh64: entry: Remove unneeded need_resched() loop
-  sparc64: rtrap: Remove unneeded need_resched() loop
-  x86/entry: Remove unneeded need_resched() loop
-  xtensa: entry: Remove unneeded need_resched() loop
-
- arch/c6x/kernel/entry.S        | 3 +--
- arch/csky/kernel/entry.S       | 4 ----
- arch/h8300/kernel/entry.S      | 3 +--
- arch/microblaze/kernel/entry.S | 5 -----
- arch/mips/kernel/entry.S       | 3 +--
- arch/nds32/kernel/ex-exit.S    | 4 ++--
- arch/powerpc/kernel/entry_32.S | 6 +-----
- arch/powerpc/kernel/entry_64.S | 8 +-------
- arch/riscv/kernel/entry.S      | 3 +--
- arch/sh/kernel/cpu/sh5/entry.S | 5 +----
- arch/sh/kernel/entry-common.S  | 4 +---
- arch/sparc/kernel/rtrap_64.S   | 1 -
- arch/x86/entry/entry_32.S      | 3 +--
- arch/x86/entry/entry_64.S      | 3 +--
- arch/xtensa/kernel/entry.S     | 2 +-
- kernel/sched/core.c            | 7 +++----
- 16 files changed, 16 insertions(+), 48 deletions(-)
-
---
-2.20.1
+arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
+arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
+arch/arc/mm/tlb.c:914:2: warning: ISO C90 forbids variable length array 'pd0' [-Wvla]
+kernel/dma/direct.c:40:4: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+fs/ext4/inode.c:3653:12: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+fs/ext4/page-io.c:164:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+drivers/base/regmap/regcache.c:719:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/base/regmap/regmap.c:1531:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+fs/ext4/xattr.c:482:8: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+drivers/base/component.c:196:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1382:17: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1382:17: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+mm/percpu.c:1948:27: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:32: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:37: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:42: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:52: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1948:56: warning: format '%zu' expects argument of type 'size_t', but argument 8 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+include/linux/overflow.h:53:15: warning: comparison of distinct pointer types lacks a cast
+include/linux/overflow.h:54:15: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+mm/dmapool.c:96:46: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:51: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:823:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:856:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:910:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_dual_mode_helper.c:201:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 5 has type 'ssize_t {aka int}' [-Wformat=]
+drivers/gpu/drm/drm_dp_dual_mode_helper.c:220:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 4 has type 'ssize_t {aka int}' [-Wformat=]
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+fs/buffer.c:233:10: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/drm/drm_print.h:110:24: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka const unsigned int}' [-Wformat=]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+net/ipv4/tcp_input.c:4315:49: warning: array subscript is above array bounds [-Warray-bounds]
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
+drivers/gpu/drm/drm_atomic_uapi.c:131:21: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+net/sunrpc/xprtsock.c:2500:16: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_gem_cma_helper.c:115:21: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_gem_cma_helper.c:510:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+net/sunrpc/svc.c:1357:33: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/kernel.h:827:29: warning: comparison of distinct pointer types lacks a cast
