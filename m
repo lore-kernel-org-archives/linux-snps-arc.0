@@ -1,31 +1,34 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Tue, 12 Mar 2019 08:27:40 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Tue Mar 12, 19:26
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 12 Mar 2019 10:44:39 -0700
+Subject: [PATCH] cpuset: disable for UCLIBC
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190312082740.1.14413@07b04a9130af>
+Message-ID: <1552412679-28694-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Tue Mar 12, 19:26
+libcpuset.c relies on FTS which is not enabled by default on uClibc.
+Instead of needing to reconfigure, rebuild uClibc lets disable this test
+for uClibc
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13726469/
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ testcases/kernel/controllers/Makefile | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Commit:   Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu
-          f3124ccf025caf25b764d900d1f9c49731673e49
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
-
-Possible errors
----------------
-
-arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-
-Possible warnings (7)
-----------------------
-
-arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/ipv4/tcp_input.c:4315:49: warning: array subscript is above array bounds [-Warray-bounds]
+diff --git a/testcases/kernel/controllers/Makefile b/testcases/kernel/controllers/Makefile
+index 404073947904..9f4abe28bfcf 100644
+--- a/testcases/kernel/controllers/Makefile
++++ b/testcases/kernel/controllers/Makefile
+@@ -29,6 +29,11 @@ LIBDIR			:= libcontrollers
+ LIB			:= $(LIBDIR)/libcontrollers.a
+ FILTER_OUT_DIRS		:= $(LIBDIR)
+ 
++# controllers/cpuset/cpuset_lib/libcpuset.c uses fts
++ifeq ($(UCLIBC),1)
++FILTER_OUT_DIRS	+= cpuset
++endif
++
+ $(LIBDIR):
+ 	mkdir -p "$@"
+ 
+-- 
+2.7.4
