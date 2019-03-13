@@ -1,11 +1,11 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 13 Mar 2019 15:16:40 -0400
-Subject: [PATCH AUTOSEL 4.9 17/24] ARC: uacces: remove lp_start,
+Date: Wed, 13 Mar 2019 15:17:57 -0400
+Subject: [PATCH AUTOSEL 4.4 11/15] ARC: uacces: remove lp_start,
  lp_end from clobber list
-In-Reply-To: <20190313191647.160171-1-sashal@kernel.org>
-References: <20190313191647.160171-1-sashal@kernel.org>
+In-Reply-To: <20190313191806.160547-1-sashal@kernel.org>
+References: <20190313191806.160547-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190313191647.160171-17-sashal@kernel.org>
+Message-ID: <20190313191806.160547-11-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Vineet Gupta <vgupta@synopsys.com>
@@ -22,7 +22,7 @@ Signed-off-by: Sasha Levin <sashal at kernel.org>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
-index 0684fd2f42e8..f82393f89215 100644
+index 57387b567f34..f077a419cb51 100644
 --- a/arch/arc/include/asm/uaccess.h
 +++ b/arch/arc/include/asm/uaccess.h
 @@ -209,7 +209,7 @@ __arc_copy_from_user(void *to, const void __user *from, unsigned long n)
