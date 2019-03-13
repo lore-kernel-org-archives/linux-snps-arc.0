@@ -1,31 +1,108 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Tue, 12 Mar 2019 23:57:47 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Wed Mar 13, 10:56
+From: sashal@kernel.org (Sasha Levin)
+Date: Wed, 13 Mar 2019 15:10:04 -0400
+Subject: [PATCH AUTOSEL 4.20 43/60] ARCv2: lib: memcpy: fix doing prefetchw
+ outside of buffer
+In-Reply-To: <20190313191021.158171-1-sashal@kernel.org>
+References: <20190313191021.158171-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190312235747.1.37022@07b04a9130af>
+Message-ID: <20190313191021.158171-43-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Wed Mar 13, 10:56
+From: Eugeniy Paltsev <eugeniy.paltsev@synopsys.com>
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13727855/
+[ Upstream commit f8a15f97664178f27dfbf86a38f780a532cb6df0 ]
 
-Commit:   Merge branch 'akpm' (patches from Andrew)
-          a667cb7a94d48a483fb5d6006fe04a440f1a42ce
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+ARCv2 optimized memcpy uses PREFETCHW instruction for prefetching the
+next cache line but doesn't ensure that the line is not past the end of
+the buffer. PRETECHW changes the line ownership and marks it dirty,
+which can cause data corruption if this area is used for DMA IO.
 
-Possible errors
----------------
+Fix the issue by avoiding the PREFETCHW. This leads to performance
+degradation but it is OK as we'll introduce new memcpy implementation
+optimized for unaligned memory access using.
 
-arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
+We also cut off all PREFETCH instructions at they are quite useless
+here:
+ * we call PREFETCH right before LOAD instruction call.
+ * we copy 16 or 32 bytes of data (depending on CONFIG_ARC_HAS_LL64)
+   in a main logical loop. so we call PREFETCH 4 times (or 2 times)
+   for each L1 cache line (in case of 64B L1 cache Line which is
+   default case). Obviously this is not optimal.
 
-Possible warnings (7)
-----------------------
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+Signed-off-by: Sasha Levin <sashal at kernel.org>
+---
+ arch/arc/lib/memcpy-archs.S | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-arch/arc/boot/dts/axs10x_mb.dtsi:221.15-225.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x54: I2C bus unit address format error, expected "54"
-arch/arc/boot/dts/axs10x_mb.dtsi:227.15-231.6: Warning (i2c_bus_reg): /axs10x_mb/i2c at 0x1f000/eeprom at 0x57: I2C bus unit address format error, expected "57"
-arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/ipv4/tcp_input.c:4315:49: warning: array subscript is above array bounds [-Warray-bounds]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+diff --git a/arch/arc/lib/memcpy-archs.S b/arch/arc/lib/memcpy-archs.S
+index d61044dd8b58..ea14b0bf3116 100644
+--- a/arch/arc/lib/memcpy-archs.S
++++ b/arch/arc/lib/memcpy-archs.S
+@@ -25,15 +25,11 @@
+ #endif
+ 
+ #ifdef CONFIG_ARC_HAS_LL64
+-# define PREFETCH_READ(RX)	prefetch    [RX, 56]
+-# define PREFETCH_WRITE(RX)	prefetchw   [RX, 64]
+ # define LOADX(DST,RX)		ldd.ab	DST, [RX, 8]
+ # define STOREX(SRC,RX)		std.ab	SRC, [RX, 8]
+ # define ZOLSHFT		5
+ # define ZOLAND			0x1F
+ #else
+-# define PREFETCH_READ(RX)	prefetch    [RX, 28]
+-# define PREFETCH_WRITE(RX)	prefetchw   [RX, 32]
+ # define LOADX(DST,RX)		ld.ab	DST, [RX, 4]
+ # define STOREX(SRC,RX)		st.ab	SRC, [RX, 4]
+ # define ZOLSHFT		4
+@@ -41,8 +37,6 @@
+ #endif
+ 
+ ENTRY_CFI(memcpy)
+-	prefetch [r1]		; Prefetch the read location
+-	prefetchw [r0]		; Prefetch the write location
+ 	mov.f	0, r2
+ ;;; if size is zero
+ 	jz.d	[blink]
+@@ -72,8 +66,6 @@ ENTRY_CFI(memcpy)
+ 	lpnz	@.Lcopy32_64bytes
+ 	;; LOOP START
+ 	LOADX (r6, r1)
+-	PREFETCH_READ (r1)
+-	PREFETCH_WRITE (r3)
+ 	LOADX (r8, r1)
+ 	LOADX (r10, r1)
+ 	LOADX (r4, r1)
+@@ -117,9 +109,7 @@ ENTRY_CFI(memcpy)
+ 	lpnz	@.Lcopy8bytes_1
+ 	;; LOOP START
+ 	ld.ab	r6, [r1, 4]
+-	prefetch [r1, 28]	;Prefetch the next read location
+ 	ld.ab	r8, [r1,4]
+-	prefetchw [r3, 32]	;Prefetch the next write location
+ 
+ 	SHIFT_1	(r7, r6, 24)
+ 	or	r7, r7, r5
+@@ -162,9 +152,7 @@ ENTRY_CFI(memcpy)
+ 	lpnz	@.Lcopy8bytes_2
+ 	;; LOOP START
+ 	ld.ab	r6, [r1, 4]
+-	prefetch [r1, 28]	;Prefetch the next read location
+ 	ld.ab	r8, [r1,4]
+-	prefetchw [r3, 32]	;Prefetch the next write location
+ 
+ 	SHIFT_1	(r7, r6, 16)
+ 	or	r7, r7, r5
+@@ -204,9 +192,7 @@ ENTRY_CFI(memcpy)
+ 	lpnz	@.Lcopy8bytes_3
+ 	;; LOOP START
+ 	ld.ab	r6, [r1, 4]
+-	prefetch [r1, 28]	;Prefetch the next read location
+ 	ld.ab	r8, [r1,4]
+-	prefetchw [r3, 32]	;Prefetch the next write location
+ 
+ 	SHIFT_1	(r7, r6, 8)
+ 	or	r7, r7, r5
+-- 
+2.19.1
