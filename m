@@ -1,108 +1,65 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 13 Mar 2019 15:10:04 -0400
-Subject: [PATCH AUTOSEL 4.20 43/60] ARCv2: lib: memcpy: fix doing prefetchw
- outside of buffer
+Date: Wed, 13 Mar 2019 15:10:05 -0400
+Subject: [PATCH AUTOSEL 4.20 44/60] ARC: uacces: remove lp_start,
+ lp_end from clobber list
 In-Reply-To: <20190313191021.158171-1-sashal@kernel.org>
 References: <20190313191021.158171-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190313191021.158171-43-sashal@kernel.org>
+Message-ID: <20190313191021.158171-44-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-From: Eugeniy Paltsev <eugeniy.paltsev@synopsys.com>
+From: Vineet Gupta <vgupta@synopsys.com>
 
-[ Upstream commit f8a15f97664178f27dfbf86a38f780a532cb6df0 ]
+[ Upstream commit d5e3c55e01d8b1774b37b4647c30fb22f1d39077 ]
 
-ARCv2 optimized memcpy uses PREFETCHW instruction for prefetching the
-next cache line but doesn't ensure that the line is not past the end of
-the buffer. PRETECHW changes the line ownership and marks it dirty,
-which can cause data corruption if this area is used for DMA IO.
+Newer ARC gcc handles lp_start, lp_end in a different way and doesn't
+like them in the clobber list.
 
-Fix the issue by avoiding the PREFETCHW. This leads to performance
-degradation but it is OK as we'll introduce new memcpy implementation
-optimized for unaligned memory access using.
-
-We also cut off all PREFETCH instructions at they are quite useless
-here:
- * we call PREFETCH right before LOAD instruction call.
- * we copy 16 or 32 bytes of data (depending on CONFIG_ARC_HAS_LL64)
-   in a main logical loop. so we call PREFETCH 4 times (or 2 times)
-   for each L1 cache line (in case of 64B L1 cache Line which is
-   default case). Obviously this is not optimal.
-
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- arch/arc/lib/memcpy-archs.S | 14 --------------
- 1 file changed, 14 deletions(-)
+ arch/arc/include/asm/uaccess.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arc/lib/memcpy-archs.S b/arch/arc/lib/memcpy-archs.S
-index d61044dd8b58..ea14b0bf3116 100644
---- a/arch/arc/lib/memcpy-archs.S
-+++ b/arch/arc/lib/memcpy-archs.S
-@@ -25,15 +25,11 @@
- #endif
+diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
+index c9173c02081c..eabc3efa6c6d 100644
+--- a/arch/arc/include/asm/uaccess.h
++++ b/arch/arc/include/asm/uaccess.h
+@@ -207,7 +207,7 @@ raw_copy_from_user(void *to, const void __user *from, unsigned long n)
+ 		*/
+ 		  "=&r" (tmp), "+r" (to), "+r" (from)
+ 		:
+-		: "lp_count", "lp_start", "lp_end", "memory");
++		: "lp_count", "memory");
  
- #ifdef CONFIG_ARC_HAS_LL64
--# define PREFETCH_READ(RX)	prefetch    [RX, 56]
--# define PREFETCH_WRITE(RX)	prefetchw   [RX, 64]
- # define LOADX(DST,RX)		ldd.ab	DST, [RX, 8]
- # define STOREX(SRC,RX)		std.ab	SRC, [RX, 8]
- # define ZOLSHFT		5
- # define ZOLAND			0x1F
- #else
--# define PREFETCH_READ(RX)	prefetch    [RX, 28]
--# define PREFETCH_WRITE(RX)	prefetchw   [RX, 32]
- # define LOADX(DST,RX)		ld.ab	DST, [RX, 4]
- # define STOREX(SRC,RX)		st.ab	SRC, [RX, 4]
- # define ZOLSHFT		4
-@@ -41,8 +37,6 @@
- #endif
+ 		return n;
+ 	}
+@@ -433,7 +433,7 @@ raw_copy_to_user(void __user *to, const void *from, unsigned long n)
+ 		 */
+ 		  "=&r" (tmp), "+r" (to), "+r" (from)
+ 		:
+-		: "lp_count", "lp_start", "lp_end", "memory");
++		: "lp_count", "memory");
  
- ENTRY_CFI(memcpy)
--	prefetch [r1]		; Prefetch the read location
--	prefetchw [r0]		; Prefetch the write location
- 	mov.f	0, r2
- ;;; if size is zero
- 	jz.d	[blink]
-@@ -72,8 +66,6 @@ ENTRY_CFI(memcpy)
- 	lpnz	@.Lcopy32_64bytes
- 	;; LOOP START
- 	LOADX (r6, r1)
--	PREFETCH_READ (r1)
--	PREFETCH_WRITE (r3)
- 	LOADX (r8, r1)
- 	LOADX (r10, r1)
- 	LOADX (r4, r1)
-@@ -117,9 +109,7 @@ ENTRY_CFI(memcpy)
- 	lpnz	@.Lcopy8bytes_1
- 	;; LOOP START
- 	ld.ab	r6, [r1, 4]
--	prefetch [r1, 28]	;Prefetch the next read location
- 	ld.ab	r8, [r1,4]
--	prefetchw [r3, 32]	;Prefetch the next write location
+ 		return n;
+ 	}
+@@ -653,7 +653,7 @@ static inline unsigned long __arc_clear_user(void __user *to, unsigned long n)
+ 	"	.previous			\n"
+ 	: "+r"(d_char), "+r"(res)
+ 	: "i"(0)
+-	: "lp_count", "lp_start", "lp_end", "memory");
++	: "lp_count", "memory");
  
- 	SHIFT_1	(r7, r6, 24)
- 	or	r7, r7, r5
-@@ -162,9 +152,7 @@ ENTRY_CFI(memcpy)
- 	lpnz	@.Lcopy8bytes_2
- 	;; LOOP START
- 	ld.ab	r6, [r1, 4]
--	prefetch [r1, 28]	;Prefetch the next read location
- 	ld.ab	r8, [r1,4]
--	prefetchw [r3, 32]	;Prefetch the next write location
+ 	return res;
+ }
+@@ -686,7 +686,7 @@ __arc_strncpy_from_user(char *dst, const char __user *src, long count)
+ 	"	.previous			\n"
+ 	: "+r"(res), "+r"(dst), "+r"(src), "=r"(val)
+ 	: "g"(-EFAULT), "r"(count)
+-	: "lp_count", "lp_start", "lp_end", "memory");
++	: "lp_count", "memory");
  
- 	SHIFT_1	(r7, r6, 16)
- 	or	r7, r7, r5
-@@ -204,9 +192,7 @@ ENTRY_CFI(memcpy)
- 	lpnz	@.Lcopy8bytes_3
- 	;; LOOP START
- 	ld.ab	r6, [r1, 4]
--	prefetch [r1, 28]	;Prefetch the next read location
- 	ld.ab	r8, [r1,4]
--	prefetchw [r3, 32]	;Prefetch the next write location
- 
- 	SHIFT_1	(r7, r6, 8)
- 	or	r7, r7, r5
+ 	return res;
+ }
 -- 
 2.19.1
