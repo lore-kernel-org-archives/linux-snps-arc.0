@@ -1,65 +1,166 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 13 Mar 2019 15:10:05 -0400
-Subject: [PATCH AUTOSEL 4.20 44/60] ARC: uacces: remove lp_start,
- lp_end from clobber list
+Date: Wed, 13 Mar 2019 15:10:06 -0400
+Subject: [PATCH AUTOSEL 4.20 45/60] ARCv2: support manual regfile save on
+ interrupts
 In-Reply-To: <20190313191021.158171-1-sashal@kernel.org>
 References: <20190313191021.158171-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190313191021.158171-44-sashal@kernel.org>
+Message-ID: <20190313191021.158171-45-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Vineet Gupta <vgupta@synopsys.com>
 
-[ Upstream commit d5e3c55e01d8b1774b37b4647c30fb22f1d39077 ]
+[ Upstream commit e494239a007e601448110ac304fe055951f9de3b ]
 
-Newer ARC gcc handles lp_start, lp_end in a different way and doesn't
-like them in the clobber list.
+There's a hardware bug which affects the HSDK platform, triggered by
+micro-ops for auto-saving regfile on taken interrupt. The workaround is
+to inhibit autosave.
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- arch/arc/include/asm/uaccess.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ arch/arc/Kconfig                   |  8 +++++
+ arch/arc/include/asm/entry-arcv2.h | 54 ++++++++++++++++++++++++++++++
+ arch/arc/kernel/entry-arcv2.S      |  4 ++-
+ arch/arc/kernel/intc-arcv2.c       |  2 ++
+ arch/arc/plat-hsdk/Kconfig         |  1 +
+ 5 files changed, 68 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
-index c9173c02081c..eabc3efa6c6d 100644
---- a/arch/arc/include/asm/uaccess.h
-+++ b/arch/arc/include/asm/uaccess.h
-@@ -207,7 +207,7 @@ raw_copy_from_user(void *to, const void __user *from, unsigned long n)
- 		*/
- 		  "=&r" (tmp), "+r" (to), "+r" (from)
- 		:
--		: "lp_count", "lp_start", "lp_end", "memory");
-+		: "lp_count", "memory");
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index dadb494d83fd..1e4635fd2ae7 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -411,6 +411,14 @@ config ARC_HAS_ACCL_REGS
+ 	  (also referred to as r58:r59). These can also be used by gcc as GPR so
+ 	  kernel needs to save/restore per process
  
- 		return n;
- 	}
-@@ -433,7 +433,7 @@ raw_copy_to_user(void __user *to, const void *from, unsigned long n)
- 		 */
- 		  "=&r" (tmp), "+r" (to), "+r" (from)
- 		:
--		: "lp_count", "lp_start", "lp_end", "memory");
-+		: "lp_count", "memory");
++config ARC_IRQ_NO_AUTOSAVE
++	bool "Disable hardware autosave regfile on interrupts"
++	default n
++	help
++	  On HS cores, taken interrupt auto saves the regfile on stack.
++	  This is programmable and can be optionally disabled in which case
++	  software INTERRUPT_PROLOGUE/EPILGUE do the needed work
++
+ endif	# ISA_ARCV2
  
- 		return n;
- 	}
-@@ -653,7 +653,7 @@ static inline unsigned long __arc_clear_user(void __user *to, unsigned long n)
- 	"	.previous			\n"
- 	: "+r"(d_char), "+r"(res)
- 	: "i"(0)
--	: "lp_count", "lp_start", "lp_end", "memory");
-+	: "lp_count", "memory");
+ endmenu   # "ARC CPU Configuration"
+diff --git a/arch/arc/include/asm/entry-arcv2.h b/arch/arc/include/asm/entry-arcv2.h
+index 309f4e6721b3..225e7df2d8ed 100644
+--- a/arch/arc/include/asm/entry-arcv2.h
++++ b/arch/arc/include/asm/entry-arcv2.h
+@@ -17,6 +17,33 @@
+ 	;
+ 	; Now manually save: r12, sp, fp, gp, r25
  
- 	return res;
- }
-@@ -686,7 +686,7 @@ __arc_strncpy_from_user(char *dst, const char __user *src, long count)
- 	"	.previous			\n"
- 	: "+r"(res), "+r"(dst), "+r"(src), "=r"(val)
- 	: "g"(-EFAULT), "r"(count)
--	: "lp_count", "lp_start", "lp_end", "memory");
-+	: "lp_count", "memory");
++#ifdef CONFIG_ARC_IRQ_NO_AUTOSAVE
++.ifnc \called_from, exception
++	st.as	r9, [sp, -10]	; save r9 in it's final stack slot
++	sub	sp, sp, 12	; skip JLI, LDI, EI
++
++	PUSH	lp_count
++	PUSHAX	lp_start
++	PUSHAX	lp_end
++	PUSH	blink
++
++	PUSH	r11
++	PUSH	r10
++
++	sub	sp, sp, 4	; skip r9
++
++	PUSH	r8
++	PUSH	r7
++	PUSH	r6
++	PUSH	r5
++	PUSH	r4
++	PUSH	r3
++	PUSH	r2
++	PUSH	r1
++	PUSH	r0
++.endif
++#endif
++
+ #ifdef CONFIG_ARC_HAS_ACCL_REGS
+ 	PUSH	r59
+ 	PUSH	r58
+@@ -86,6 +113,33 @@
+ 	POP	r59
+ #endif
  
- 	return res;
- }
++#ifdef CONFIG_ARC_IRQ_NO_AUTOSAVE
++.ifnc \called_from, exception
++	POP	r0
++	POP	r1
++	POP	r2
++	POP	r3
++	POP	r4
++	POP	r5
++	POP	r6
++	POP	r7
++	POP	r8
++	POP	r9
++	POP	r10
++	POP	r11
++
++	POP	blink
++	POPAX	lp_end
++	POPAX	lp_start
++
++	POP	r9
++	mov	lp_count, r9
++
++	add	sp, sp, 12	; skip JLI, LDI, EI
++	ld.as	r9, [sp, -10]	; reload r9 which got clobbered
++.endif
++#endif
++
+ .endm
+ 
+ /*------------------------------------------------------------------------*/
+diff --git a/arch/arc/kernel/entry-arcv2.S b/arch/arc/kernel/entry-arcv2.S
+index cc558a25b8fa..562089d62d9d 100644
+--- a/arch/arc/kernel/entry-arcv2.S
++++ b/arch/arc/kernel/entry-arcv2.S
+@@ -209,7 +209,9 @@ restore_regs:
+ ;####### Return from Intr #######
+ 
+ debug_marker_l1:
+-	bbit1.nt r0, STATUS_DE_BIT, .Lintr_ret_to_delay_slot
++	; bbit1.nt r0, STATUS_DE_BIT, .Lintr_ret_to_delay_slot
++	btst	r0, STATUS_DE_BIT		; Z flag set if bit clear
++	bnz	.Lintr_ret_to_delay_slot	; branch if STATUS_DE_BIT set
+ 
+ .Lisr_ret_fast_path:
+ 	; Handle special case #1: (Entry via Exception, Return via IRQ)
+diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
+index 067ea362fb3e..cf18b3e5a934 100644
+--- a/arch/arc/kernel/intc-arcv2.c
++++ b/arch/arc/kernel/intc-arcv2.c
+@@ -49,11 +49,13 @@ void arc_init_IRQ(void)
+ 
+ 	*(unsigned int *)&ictrl = 0;
+ 
++#ifndef CONFIG_ARC_IRQ_NO_AUTOSAVE
+ 	ictrl.save_nr_gpr_pairs = 6;	/* r0 to r11 (r12 saved manually) */
+ 	ictrl.save_blink = 1;
+ 	ictrl.save_lp_regs = 1;		/* LP_COUNT, LP_START, LP_END */
+ 	ictrl.save_u_to_u = 0;		/* user ctxt saved on kernel stack */
+ 	ictrl.save_idx_regs = 1;	/* JLI, LDI, EI */
++#endif
+ 
+ 	WRITE_AUX(AUX_IRQ_CTRL, ictrl);
+ 
+diff --git a/arch/arc/plat-hsdk/Kconfig b/arch/arc/plat-hsdk/Kconfig
+index 9356753c2ed8..c285a83cbf08 100644
+--- a/arch/arc/plat-hsdk/Kconfig
++++ b/arch/arc/plat-hsdk/Kconfig
+@@ -9,6 +9,7 @@ menuconfig ARC_SOC_HSDK
+ 	bool "ARC HS Development Kit SOC"
+ 	depends on ISA_ARCV2
+ 	select ARC_HAS_ACCL_REGS
++	select ARC_IRQ_NO_AUTOSAVE
+ 	select CLK_HSDK
+ 	select RESET_HSDK
+ 	select MIGHT_HAVE_PCI
 -- 
 2.19.1
