@@ -1,166 +1,88 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 13 Mar 2019 15:12:37 -0400
-Subject: [PATCH AUTOSEL 4.19 35/48] ARCv2: support manual regfile save on
- interrupts
+Date: Wed, 13 Mar 2019 15:12:38 -0400
+Subject: [PATCH AUTOSEL 4.19 36/48] ARCv2: don't assume core 0x54 has dual
+ issue
 In-Reply-To: <20190313191250.158955-1-sashal@kernel.org>
 References: <20190313191250.158955-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190313191250.158955-35-sashal@kernel.org>
+Message-ID: <20190313191250.158955-36-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Vineet Gupta <vgupta@synopsys.com>
 
-[ Upstream commit e494239a007e601448110ac304fe055951f9de3b ]
+[ Upstream commit 7b2e932f633bcb7b190fc7031ce6dac75f8c3472 ]
 
-There's a hardware bug which affects the HSDK platform, triggered by
-micro-ops for auto-saving regfile on taken interrupt. The workaround is
-to inhibit autosave.
+The first release of core4 (0x54) was dual issue only (HS4x).
+Newer releases allow hardware to be configured as single issue (HS3x)
+or dual issue.
+
+Prevent accessing a HS4x only aux register in HS3x, which otherwise
+leads to illegal instruction exceptions
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- arch/arc/Kconfig                   |  8 +++++
- arch/arc/include/asm/entry-arcv2.h | 54 ++++++++++++++++++++++++++++++
- arch/arc/kernel/entry-arcv2.S      |  4 ++-
- arch/arc/kernel/intc-arcv2.c       |  2 ++
- arch/arc/plat-hsdk/Kconfig         |  1 +
- 5 files changed, 68 insertions(+), 1 deletion(-)
+ arch/arc/include/asm/arcregs.h |  8 ++++++++
+ arch/arc/kernel/setup.c        | 26 +++++++++++++++++++++-----
+ 2 files changed, 29 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index ac69f307dcfe..74953e76a57d 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -420,6 +420,14 @@ config ARC_HAS_ACCL_REGS
- 	  (also referred to as r58:r59). These can also be used by gcc as GPR so
- 	  kernel needs to save/restore per process
- 
-+config ARC_IRQ_NO_AUTOSAVE
-+	bool "Disable hardware autosave regfile on interrupts"
-+	default n
-+	help
-+	  On HS cores, taken interrupt auto saves the regfile on stack.
-+	  This is programmable and can be optionally disabled in which case
-+	  software INTERRUPT_PROLOGUE/EPILGUE do the needed work
-+
- endif	# ISA_ARCV2
- 
- endmenu   # "ARC CPU Configuration"
-diff --git a/arch/arc/include/asm/entry-arcv2.h b/arch/arc/include/asm/entry-arcv2.h
-index 309f4e6721b3..225e7df2d8ed 100644
---- a/arch/arc/include/asm/entry-arcv2.h
-+++ b/arch/arc/include/asm/entry-arcv2.h
-@@ -17,6 +17,33 @@
- 	;
- 	; Now manually save: r12, sp, fp, gp, r25
- 
-+#ifdef CONFIG_ARC_IRQ_NO_AUTOSAVE
-+.ifnc \called_from, exception
-+	st.as	r9, [sp, -10]	; save r9 in it's final stack slot
-+	sub	sp, sp, 12	; skip JLI, LDI, EI
-+
-+	PUSH	lp_count
-+	PUSHAX	lp_start
-+	PUSHAX	lp_end
-+	PUSH	blink
-+
-+	PUSH	r11
-+	PUSH	r10
-+
-+	sub	sp, sp, 4	; skip r9
-+
-+	PUSH	r8
-+	PUSH	r7
-+	PUSH	r6
-+	PUSH	r5
-+	PUSH	r4
-+	PUSH	r3
-+	PUSH	r2
-+	PUSH	r1
-+	PUSH	r0
-+.endif
-+#endif
-+
- #ifdef CONFIG_ARC_HAS_ACCL_REGS
- 	PUSH	r59
- 	PUSH	r58
-@@ -86,6 +113,33 @@
- 	POP	r59
+diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
+index 49bfbd879caa..bdbdaef902eb 100644
+--- a/arch/arc/include/asm/arcregs.h
++++ b/arch/arc/include/asm/arcregs.h
+@@ -151,6 +151,14 @@ struct bcr_isa_arcv2 {
  #endif
+ };
  
-+#ifdef CONFIG_ARC_IRQ_NO_AUTOSAVE
-+.ifnc \called_from, exception
-+	POP	r0
-+	POP	r1
-+	POP	r2
-+	POP	r3
-+	POP	r4
-+	POP	r5
-+	POP	r6
-+	POP	r7
-+	POP	r8
-+	POP	r9
-+	POP	r10
-+	POP	r11
-+
-+	POP	blink
-+	POPAX	lp_end
-+	POPAX	lp_start
-+
-+	POP	r9
-+	mov	lp_count, r9
-+
-+	add	sp, sp, 12	; skip JLI, LDI, EI
-+	ld.as	r9, [sp, -10]	; reload r9 which got clobbered
-+.endif
++struct bcr_uarch_build_arcv2 {
++#ifdef CONFIG_CPU_BIG_ENDIAN
++	unsigned int pad:8, prod:8, maj:8, min:8;
++#else
++	unsigned int min:8, maj:8, prod:8, pad:8;
 +#endif
++};
 +
- .endm
+ struct bcr_mpy {
+ #ifdef CONFIG_CPU_BIG_ENDIAN
+ 	unsigned int pad:8, x1616:8, dsp:4, cycles:2, type:2, ver:8;
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 62a30e58441c..3320ca2fe20f 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -196,13 +196,29 @@ static void read_arc_build_cfg_regs(void)
+ 		cpu->bpu.num_pred = 2048 << bpu.pte;
  
- /*------------------------------------------------------------------------*/
-diff --git a/arch/arc/kernel/entry-arcv2.S b/arch/arc/kernel/entry-arcv2.S
-index cc558a25b8fa..562089d62d9d 100644
---- a/arch/arc/kernel/entry-arcv2.S
-+++ b/arch/arc/kernel/entry-arcv2.S
-@@ -209,7 +209,9 @@ restore_regs:
- ;####### Return from Intr #######
+ 		if (cpu->core.family >= 0x54) {
+-			unsigned int exec_ctrl;
  
- debug_marker_l1:
--	bbit1.nt r0, STATUS_DE_BIT, .Lintr_ret_to_delay_slot
-+	; bbit1.nt r0, STATUS_DE_BIT, .Lintr_ret_to_delay_slot
-+	btst	r0, STATUS_DE_BIT		; Z flag set if bit clear
-+	bnz	.Lintr_ret_to_delay_slot	; branch if STATUS_DE_BIT set
+-			READ_BCR(AUX_EXEC_CTRL, exec_ctrl);
+-			cpu->extn.dual_enb = !(exec_ctrl & 1);
++			struct bcr_uarch_build_arcv2 uarch;
  
- .Lisr_ret_fast_path:
- 	; Handle special case #1: (Entry via Exception, Return via IRQ)
-diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
-index 067ea362fb3e..cf18b3e5a934 100644
---- a/arch/arc/kernel/intc-arcv2.c
-+++ b/arch/arc/kernel/intc-arcv2.c
-@@ -49,11 +49,13 @@ void arc_init_IRQ(void)
+-			/* dual issue always present for this core */
+-			cpu->extn.dual = 1;
++			/*
++			 * The first 0x54 core (uarch maj:min 0:1 or 0:2) was
++			 * dual issue only (HS4x). But next uarch rev (1:0)
++			 * allows it be configured for single issue (HS3x)
++			 * Ensure we fiddle with dual issue only on HS4x
++			 */
++			READ_BCR(ARC_REG_MICRO_ARCH_BCR, uarch);
++
++			if (uarch.prod == 4) {
++				unsigned int exec_ctrl;
++
++				/* dual issue hardware always present */
++				cpu->extn.dual = 1;
++
++				READ_BCR(AUX_EXEC_CTRL, exec_ctrl);
++
++				/* dual issue hardware enabled ? */
++				cpu->extn.dual_enb = !(exec_ctrl & 1);
++
++			}
+ 		}
+ 	}
  
- 	*(unsigned int *)&ictrl = 0;
- 
-+#ifndef CONFIG_ARC_IRQ_NO_AUTOSAVE
- 	ictrl.save_nr_gpr_pairs = 6;	/* r0 to r11 (r12 saved manually) */
- 	ictrl.save_blink = 1;
- 	ictrl.save_lp_regs = 1;		/* LP_COUNT, LP_START, LP_END */
- 	ictrl.save_u_to_u = 0;		/* user ctxt saved on kernel stack */
- 	ictrl.save_idx_regs = 1;	/* JLI, LDI, EI */
-+#endif
- 
- 	WRITE_AUX(AUX_IRQ_CTRL, ictrl);
- 
-diff --git a/arch/arc/plat-hsdk/Kconfig b/arch/arc/plat-hsdk/Kconfig
-index 9356753c2ed8..c285a83cbf08 100644
---- a/arch/arc/plat-hsdk/Kconfig
-+++ b/arch/arc/plat-hsdk/Kconfig
-@@ -9,6 +9,7 @@ menuconfig ARC_SOC_HSDK
- 	bool "ARC HS Development Kit SOC"
- 	depends on ISA_ARCV2
- 	select ARC_HAS_ACCL_REGS
-+	select ARC_IRQ_NO_AUTOSAVE
- 	select CLK_HSDK
- 	select RESET_HSDK
- 	select MIGHT_HAVE_PCI
 -- 
 2.19.1
