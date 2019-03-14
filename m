@@ -1,65 +1,28 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 13 Mar 2019 15:17:57 -0400
-Subject: [PATCH AUTOSEL 4.4 11/15] ARC: uacces: remove lp_start,
- lp_end from clobber list
-In-Reply-To: <20190313191806.160547-1-sashal@kernel.org>
-References: <20190313191806.160547-1-sashal@kernel.org>
+From: pvorel@suse.cz (Petr Vorel)
+Date: Thu, 14 Mar 2019 11:01:13 +0100
+Subject: [LTP] [PATCH] cpuset: disable for UCLIBC
+In-Reply-To: <1552412679-28694-1-git-send-email-vgupta@synopsys.com>
+References: <1552412679-28694-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190313191806.160547-11-sashal@kernel.org>
+Message-ID: <20190314100113.GA13609@dell5510>
 To: linux-snps-arc@lists.infradead.org
 
-From: Vineet Gupta <vgupta@synopsys.com>
+Hi Vineet,
 
-[ Upstream commit d5e3c55e01d8b1774b37b4647c30fb22f1d39077 ]
+> libcpuset.c relies on FTS which is not enabled by default on uClibc.
+> Instead of needing to reconfigure, rebuild uClibc lets disable this test
+> for uClibc
+Which uClibc version are you using?
+Both uClibc and uclibc-ng has it [1] since 2011, version v0.9.32, in commit
+a4aa01c12 ("Added fts support for traversing UNIX file hierarchies.")
 
-Newer ARC gcc handles lp_start, lp_end in a different way and doesn't
-like them in the clobber list.
+It's actually MUSL, what is missing it [2]. Although there is some
+implementation [3], we should skip it for musl. But the clearest way is really
+to check presence of <fts.h>, that's fix it for all libc.
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
----
- arch/arc/include/asm/uaccess.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Kind regards,
+Petr
 
-diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
-index 57387b567f34..f077a419cb51 100644
---- a/arch/arc/include/asm/uaccess.h
-+++ b/arch/arc/include/asm/uaccess.h
-@@ -209,7 +209,7 @@ __arc_copy_from_user(void *to, const void __user *from, unsigned long n)
- 		*/
- 		  "=&r" (tmp), "+r" (to), "+r" (from)
- 		:
--		: "lp_count", "lp_start", "lp_end", "memory");
-+		: "lp_count", "memory");
- 
- 		return n;
- 	}
-@@ -438,7 +438,7 @@ __arc_copy_to_user(void __user *to, const void *from, unsigned long n)
- 		 */
- 		  "=&r" (tmp), "+r" (to), "+r" (from)
- 		:
--		: "lp_count", "lp_start", "lp_end", "memory");
-+		: "lp_count", "memory");
- 
- 		return n;
- 	}
-@@ -658,7 +658,7 @@ static inline unsigned long __arc_clear_user(void __user *to, unsigned long n)
- 	"	.previous			\n"
- 	: "+r"(d_char), "+r"(res)
- 	: "i"(0)
--	: "lp_count", "lp_start", "lp_end", "memory");
-+	: "lp_count", "memory");
- 
- 	return res;
- }
-@@ -691,7 +691,7 @@ __arc_strncpy_from_user(char *dst, const char __user *src, long count)
- 	"	.previous			\n"
- 	: "+r"(res), "+r"(dst), "+r"(src), "=r"(val)
- 	: "g"(-EFAULT), "r"(count)
--	: "lp_count", "lp_start", "lp_end", "memory");
-+	: "lp_count", "memory");
- 
- 	return res;
- }
--- 
-2.19.1
+[1] https://cgit.openadk.org/cgi/cgit/uclibc-ng.git/tree/include/fts.h
+[2] https://wiki.musl-libc.org/faq.html#Q:-Why-is-%3Ccode%3Efts.h%3C/code%3E-not-included?
+[3] https://github.com/pullmoll/musl-fts
