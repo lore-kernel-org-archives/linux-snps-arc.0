@@ -1,28 +1,73 @@
-From: pvorel@suse.cz (Petr Vorel)
-Date: Thu, 14 Mar 2019 11:01:13 +0100
-Subject: [LTP] [PATCH] cpuset: disable for UCLIBC
-In-Reply-To: <1552412679-28694-1-git-send-email-vgupta@synopsys.com>
-References: <1552412679-28694-1-git-send-email-vgupta@synopsys.com>
+From: ldv@altlinux.org (Dmitry V. Levin)
+Date: Mon, 18 Mar 2019 02:28:39 +0300
+Subject: [PATCH v2 01/13] Move EM_ARCOMPACT and EM_ARCV2 to uapi/linux/elf-em.h
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190314100113.GA13609@dell5510>
+Message-ID: <20190317232839.GB16301@altlinux.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+These should never have been defined in the arch tree to begin with, and
+now uapi/linux/audit.h header is going to use EM_ARCOMPACT and EM_ARCV2
+in order to define AUDIT_ARCH_ARCOMPACT and AUDIT_ARCH_ARCV2 which are
+needed to implement syscall_get_arch() which in turn is required to
+extend the generic ptrace API with PTRACE_GET_SYSCALL_INFO request.
 
-> libcpuset.c relies on FTS which is not enabled by default on uClibc.
-> Instead of needing to reconfigure, rebuild uClibc lets disable this test
-> for uClibc
-Which uClibc version are you using?
-Both uClibc and uclibc-ng has it [1] since 2011, version v0.9.32, in commit
-a4aa01c12 ("Added fts support for traversing UNIX file hierarchies.")
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
+Acked-by: Paul Moore <paul at paul-moore.com>
+Cc: Elvira Khabirova <lineprinter at altlinux.org>
+Cc: Eugene Syromyatnikov <esyr at redhat.com>
+Cc: Alexey Brodkin <alexey.brodkin at synopsys.com>
+Cc: Oleg Nesterov <oleg at redhat.com>
+Cc: Andy Lutomirski <luto at kernel.org>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: linux-audit at redhat.com
+Signed-off-by: Dmitry V. Levin <ldv at altlinux.org>
+---
 
-It's actually MUSL, what is missing it [2]. Although there is some
-implementation [3], we should skip it for musl. But the clearest way is really
-to check presence of <fts.h>, that's fix it for all libc.
+Notes:
+    v2: unchanged
 
-Kind regards,
-Petr
+ arch/arc/include/asm/elf.h  | 6 +-----
+ include/uapi/linux/elf-em.h | 2 ++
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-[1] https://cgit.openadk.org/cgi/cgit/uclibc-ng.git/tree/include/fts.h
-[2] https://wiki.musl-libc.org/faq.html#Q:-Why-is-%3Ccode%3Efts.h%3C/code%3E-not-included?
-[3] https://github.com/pullmoll/musl-fts
+diff --git a/arch/arc/include/asm/elf.h b/arch/arc/include/asm/elf.h
+index aa2d6da9d187..2b80c184c9c8 100644
+--- a/arch/arc/include/asm/elf.h
++++ b/arch/arc/include/asm/elf.h
+@@ -10,13 +10,9 @@
+ #define __ASM_ARC_ELF_H
+ 
+ #include <linux/types.h>
++#include <linux/elf-em.h>
+ #include <uapi/asm/elf.h>
+ 
+-/* These ELF defines belong to uapi but libc elf.h already defines them */
+-#define EM_ARCOMPACT		93
+-
+-#define EM_ARCV2		195	/* ARCv2 Cores */
+-
+ #define EM_ARC_INUSE		(IS_ENABLED(CONFIG_ISA_ARCOMPACT) ? \
+ 					EM_ARCOMPACT : EM_ARCV2)
+ 
+diff --git a/include/uapi/linux/elf-em.h b/include/uapi/linux/elf-em.h
+index 0c3000faedba..081675ed89cb 100644
+--- a/include/uapi/linux/elf-em.h
++++ b/include/uapi/linux/elf-em.h
+@@ -34,6 +34,7 @@
+ #define EM_M32R		88	/* Renesas M32R */
+ #define EM_MN10300	89	/* Panasonic/MEI MN10300, AM33 */
+ #define EM_OPENRISC     92     /* OpenRISC 32-bit embedded processor */
++#define EM_ARCOMPACT	93	/* ARCompact processor */
+ #define EM_XTENSA	94	/* Tensilica Xtensa Architecture */
+ #define EM_BLACKFIN     106     /* ADI Blackfin Processor */
+ #define EM_ALTERA_NIOS2	113	/* Altera Nios II soft-core processor */
+@@ -42,6 +43,7 @@
+ #define EM_TILEPRO	188	/* Tilera TILEPro */
+ #define EM_MICROBLAZE	189	/* Xilinx MicroBlaze */
+ #define EM_TILEGX	191	/* Tilera TILE-Gx */
++#define EM_ARCV2	195	/* ARCv2 Cores */
+ #define EM_RISCV	243	/* RISC-V */
+ #define EM_BPF		247	/* Linux BPF - in-kernel virtual machine */
+ #define EM_CSKY		252	/* C-SKY */
+-- 
+ldv
