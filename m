@@ -1,15 +1,15 @@
 From: ldv@altlinux.org (Dmitry V. Levin)
-Date: Mon, 18 Mar 2019 02:28:39 +0300
-Subject: [PATCH v2 01/13] Move EM_ARCOMPACT and EM_ARCV2 to uapi/linux/elf-em.h
+Date: Mon, 18 Mar 2019 02:28:47 +0300
+Subject: [PATCH v2 02/13] arc: define syscall_get_arch()
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190317232839.GB16301@altlinux.org>
+Message-ID: <20190317232847.GC16301@altlinux.org>
 To: linux-snps-arc@lists.infradead.org
 
-These should never have been defined in the arch tree to begin with, and
-now uapi/linux/audit.h header is going to use EM_ARCOMPACT and EM_ARCV2
-in order to define AUDIT_ARCH_ARCOMPACT and AUDIT_ARCH_ARCV2 which are
-needed to implement syscall_get_arch() which in turn is required to
-extend the generic ptrace API with PTRACE_GET_SYSCALL_INFO request.
+syscall_get_arch() is required to be implemented on all architectures
+in addition to already implemented syscall_get_nr(),
+syscall_get_arguments(), syscall_get_error(), and
+syscall_get_return_value() functions in order to extend the generic
+ptrace API with PTRACE_GET_SYSCALL_INFO request.
 
 Acked-by: Vineet Gupta <vgupta at synopsys.com>
 Acked-by: Paul Moore <paul at paul-moore.com>
@@ -26,48 +26,51 @@ Signed-off-by: Dmitry V. Levin <ldv at altlinux.org>
 Notes:
     v2: unchanged
 
- arch/arc/include/asm/elf.h  | 6 +-----
- include/uapi/linux/elf-em.h | 2 ++
- 2 files changed, 3 insertions(+), 5 deletions(-)
+ arch/arc/include/asm/syscall.h | 11 +++++++++++
+ include/uapi/linux/audit.h     |  4 ++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/arch/arc/include/asm/elf.h b/arch/arc/include/asm/elf.h
-index aa2d6da9d187..2b80c184c9c8 100644
---- a/arch/arc/include/asm/elf.h
-+++ b/arch/arc/include/asm/elf.h
-@@ -10,13 +10,9 @@
- #define __ASM_ARC_ELF_H
+diff --git a/arch/arc/include/asm/syscall.h b/arch/arc/include/asm/syscall.h
+index 29de09804306..c7fc4c0c3bcb 100644
+--- a/arch/arc/include/asm/syscall.h
++++ b/arch/arc/include/asm/syscall.h
+@@ -9,6 +9,7 @@
+ #ifndef _ASM_ARC_SYSCALL_H
+ #define _ASM_ARC_SYSCALL_H  1
  
- #include <linux/types.h>
-+#include <linux/elf-em.h>
- #include <uapi/asm/elf.h>
++#include <uapi/linux/audit.h>
+ #include <linux/err.h>
+ #include <linux/sched.h>
+ #include <asm/unistd.h>
+@@ -68,4 +69,14 @@ syscall_get_arguments(struct task_struct *task, struct pt_regs *regs,
+ 	}
+ }
  
--/* These ELF defines belong to uapi but libc elf.h already defines them */
--#define EM_ARCOMPACT		93
--
--#define EM_ARCV2		195	/* ARCv2 Cores */
--
- #define EM_ARC_INUSE		(IS_ENABLED(CONFIG_ISA_ARCOMPACT) ? \
- 					EM_ARCOMPACT : EM_ARCV2)
++static inline int
++syscall_get_arch(void)
++{
++	return IS_ENABLED(CONFIG_ISA_ARCOMPACT)
++		? (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN)
++			? AUDIT_ARCH_ARCOMPACTBE : AUDIT_ARCH_ARCOMPACT)
++		: (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN)
++			? AUDIT_ARCH_ARCV2BE : AUDIT_ARCH_ARCV2);
++}
++
+ #endif
+diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+index f28acd952d03..1626727bb921 100644
+--- a/include/uapi/linux/audit.h
++++ b/include/uapi/linux/audit.h
+@@ -375,6 +375,10 @@ enum {
  
-diff --git a/include/uapi/linux/elf-em.h b/include/uapi/linux/elf-em.h
-index 0c3000faedba..081675ed89cb 100644
---- a/include/uapi/linux/elf-em.h
-+++ b/include/uapi/linux/elf-em.h
-@@ -34,6 +34,7 @@
- #define EM_M32R		88	/* Renesas M32R */
- #define EM_MN10300	89	/* Panasonic/MEI MN10300, AM33 */
- #define EM_OPENRISC     92     /* OpenRISC 32-bit embedded processor */
-+#define EM_ARCOMPACT	93	/* ARCompact processor */
- #define EM_XTENSA	94	/* Tensilica Xtensa Architecture */
- #define EM_BLACKFIN     106     /* ADI Blackfin Processor */
- #define EM_ALTERA_NIOS2	113	/* Altera Nios II soft-core processor */
-@@ -42,6 +43,7 @@
- #define EM_TILEPRO	188	/* Tilera TILEPro */
- #define EM_MICROBLAZE	189	/* Xilinx MicroBlaze */
- #define EM_TILEGX	191	/* Tilera TILE-Gx */
-+#define EM_ARCV2	195	/* ARCv2 Cores */
- #define EM_RISCV	243	/* RISC-V */
- #define EM_BPF		247	/* Linux BPF - in-kernel virtual machine */
- #define EM_CSKY		252	/* C-SKY */
+ #define AUDIT_ARCH_AARCH64	(EM_AARCH64|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)
+ #define AUDIT_ARCH_ALPHA	(EM_ALPHA|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)
++#define AUDIT_ARCH_ARCOMPACT	(EM_ARCOMPACT|__AUDIT_ARCH_LE)
++#define AUDIT_ARCH_ARCOMPACTBE	(EM_ARCOMPACT)
++#define AUDIT_ARCH_ARCV2	(EM_ARCV2|__AUDIT_ARCH_LE)
++#define AUDIT_ARCH_ARCV2BE	(EM_ARCV2)
+ #define AUDIT_ARCH_ARM		(EM_ARM|__AUDIT_ARCH_LE)
+ #define AUDIT_ARCH_ARMEB	(EM_ARM)
+ #define AUDIT_ARCH_CRIS		(EM_CRIS|__AUDIT_ARCH_LE)
 -- 
 ldv
