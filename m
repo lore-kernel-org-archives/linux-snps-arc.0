@@ -1,36 +1,46 @@
-From: pvorel@suse.cz (Petr Vorel)
-Date: Mon, 18 Mar 2019 19:19:40 +0100
-Subject: [LTP] [PATCH] cpuset: disable for UCLIBC
-In-Reply-To: <1021cd54-2fbd-5fb9-f374-62761c967331@synopsys.com>
-References: <1552412679-28694-1-git-send-email-vgupta@synopsys.com>
- <20190314100113.GA13609@dell5510>
- <1021cd54-2fbd-5fb9-f374-62761c967331@synopsys.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 18 Mar 2019 12:52:44 -0700
+Subject: [PATCH v2] autodetect fts support and tests depending on it
+In-Reply-To: <20190318181940.GA5494@dell5510>
+References: <20190318181940.GA5494@dell5510>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190318181940.GA5494@dell5510>
+Message-ID: <1552938764-15101-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ configure.ac                          | 1 +
+ testcases/kernel/controllers/Makefile | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-> >> libcpuset.c relies on FTS which is not enabled by default on uClibc.
-> >> Instead of needing to reconfigure, rebuild uClibc lets disable this test
-> >> for uClibc
-> > Which uClibc version are you using?
-> > Both uClibc and uclibc-ng has it [1] since 2011, version v0.9.32, in commit
-> > a4aa01c12 ("Added fts support for traversing UNIX file hierarchies.")
-
-> Right I'm using bleeding edge as well, and do have the header in sources, its just
-> not configured/enabled by default hence not available in installation.
-
-
-> > It's actually MUSL, what is missing it [2]. Although there is some
-> > implementation [3], we should skip it for musl. But the clearest way is really
-> > to check presence of <fts.h>, that's fix it for all libc.
-
-> Spot on, that is indeed the best/ideal way of doing it. Do you know if such a
-> mechanism already exists in LTP. If you point me to an example I can respin the
-> patch accordingly.
-Simple adding fts.h in AC_CHECK_HEADERS + guards in a file #ifdef HAVE_FTS_H
-should do the magic :).
-
-Kind regards,
-Petr
+diff --git a/configure.ac b/configure.ac
+index e002c248eab2..10b2f6b1e43b 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -33,6 +33,7 @@ AC_PROG_YACC
+ AC_PREFIX_DEFAULT(/opt/ltp)
+ 
+ AC_CHECK_HEADERS([ \
++    fts.h \
+     ifaddrs.h \
+     keyutils.h \
+     linux/can.h \
+diff --git a/testcases/kernel/controllers/Makefile b/testcases/kernel/controllers/Makefile
+index 404073947904..a1626ae03695 100644
+--- a/testcases/kernel/controllers/Makefile
++++ b/testcases/kernel/controllers/Makefile
+@@ -29,6 +29,12 @@ LIBDIR			:= libcontrollers
+ LIB			:= $(LIBDIR)/libcontrollers.a
+ FILTER_OUT_DIRS		:= $(LIBDIR)
+ 
++# controllers/cpuset/cpuset_lib/libcpuset.c uses fts
++# which may not be available/configured in the libc build
++ifndef HAVE_FTS_H
++FILTER_OUT_DIRS	+= cpuset
++endif
++
+ $(LIBDIR):
+ 	mkdir -p "$@"
+ 
+-- 
+2.7.4
