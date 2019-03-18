@@ -1,46 +1,37 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 18 Mar 2019 12:52:44 -0700
-Subject: [PATCH v2] autodetect fts support and tests depending on it
+Date: Mon, 18 Mar 2019 13:06:42 -0700
+Subject: [PATCH] auto filter aio tests of libc can't support aio
 In-Reply-To: <20190318181940.GA5494@dell5510>
 References: <20190318181940.GA5494@dell5510>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1552938764-15101-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1552939602-22335-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
+
+uClibc-ng lacks libaio.h and thus LTP UCLIBC=1 builds need to filter
+out aio tests which it currently doesn't.
+
+FWIW the tests sources themselves use a slightly different guard
+HAVE_LIBAIO (while autotool generate HAVE_LIBAIO_H).
+Anyhow that seems pointless as aio tests should not even build of libc
+doesn't support the prerequsute header.
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- configure.ac                          | 1 +
- testcases/kernel/controllers/Makefile | 6 ++++++
- 2 files changed, 7 insertions(+)
+ testcases/kernel/io/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/configure.ac b/configure.ac
-index e002c248eab2..10b2f6b1e43b 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -33,6 +33,7 @@ AC_PROG_YACC
- AC_PREFIX_DEFAULT(/opt/ltp)
+diff --git a/testcases/kernel/io/Makefile b/testcases/kernel/io/Makefile
+index 7db02882a530..3afae3888f63 100644
+--- a/testcases/kernel/io/Makefile
++++ b/testcases/kernel/io/Makefile
+@@ -24,4 +24,8 @@ top_srcdir		?= ../../..
  
- AC_CHECK_HEADERS([ \
-+    fts.h \
-     ifaddrs.h \
-     keyutils.h \
-     linux/can.h \
-diff --git a/testcases/kernel/controllers/Makefile b/testcases/kernel/controllers/Makefile
-index 404073947904..a1626ae03695 100644
---- a/testcases/kernel/controllers/Makefile
-+++ b/testcases/kernel/controllers/Makefile
-@@ -29,6 +29,12 @@ LIBDIR			:= libcontrollers
- LIB			:= $(LIBDIR)/libcontrollers.a
- FILTER_OUT_DIRS		:= $(LIBDIR)
+ include $(top_srcdir)/include/mk/env_pre.mk
  
-+# controllers/cpuset/cpuset_lib/libcpuset.c uses fts
-+# which may not be available/configured in the libc build
-+ifndef HAVE_FTS_H
-+FILTER_OUT_DIRS	+= cpuset
++ifndef HAVE_LIBAIO_H
++FILTER_OUT_DIRS	+= aio
 +endif
 +
- $(LIBDIR):
- 	mkdir -p "$@"
- 
+ include $(top_srcdir)/include/mk/generic_trunk_target.mk
 -- 
 2.7.4
