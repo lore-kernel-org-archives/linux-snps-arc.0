@@ -1,58 +1,42 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 20 Mar 2019 16:11:05 -0700
-Subject: [PATCH v2] autodetect fts support and tests depending on it
-In-Reply-To: <20190320223733.GA5619@dell5510>
-References: <20190318181940.GA5494@dell5510>
- <1552938764-15101-1-git-send-email-vgupta@synopsys.com>
- <20190320223733.GA5619@dell5510>
+From: paul@paul-moore.com (Paul Moore)
+Date: Wed, 20 Mar 2019 21:17:47 -0400
+Subject: [PATCH v2 01/13] Move EM_ARCOMPACT and EM_ARCV2 to
+ uapi/linux/elf-em.h
+In-Reply-To: <20190317232839.GB16301@altlinux.org>
+References: <20190317232839.GB16301@altlinux.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <3601d849-46fa-b9cd-0a6d-882c8ed9c73f@synopsys.com>
+Message-ID: <CAHC9VhSWrSsykMm+or6gpMYJQ7WuiNEEmmsCQnQ+KMyR=W8p+w@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Petr,
+On Sun, Mar 17, 2019@7:28 PM Dmitry V. Levin <ldv@altlinux.org> wrote:
+>
+> These should never have been defined in the arch tree to begin with, and
+> now uapi/linux/audit.h header is going to use EM_ARCOMPACT and EM_ARCV2
+> in order to define AUDIT_ARCH_ARCOMPACT and AUDIT_ARCH_ARCV2 which are
+> needed to implement syscall_get_arch() which in turn is required to
+> extend the generic ptrace API with PTRACE_GET_SYSCALL_INFO request.
+>
+> Acked-by: Vineet Gupta <vgupta at synopsys.com>
+> Acked-by: Paul Moore <paul at paul-moore.com>
+> Cc: Elvira Khabirova <lineprinter at altlinux.org>
+> Cc: Eugene Syromyatnikov <esyr at redhat.com>
+> Cc: Alexey Brodkin <alexey.brodkin at synopsys.com>
+> Cc: Oleg Nesterov <oleg at redhat.com>
+> Cc: Andy Lutomirski <luto at kernel.org>
+> Cc: linux-snps-arc at lists.infradead.org
+> Cc: linux-audit at redhat.com
+> Signed-off-by: Dmitry V. Levin <ldv at altlinux.org>
+> ---
+>
+> Notes:
+>     v2: unchanged
+>
+>  arch/arc/include/asm/elf.h  | 6 +-----
+>  include/uapi/linux/elf-em.h | 2 ++
+>  2 files changed, 3 insertions(+), 5 deletions(-)
 
-On 3/20/19 3:37 PM, Petr Vorel wrote:
-> 
->> +# controllers/cpuset/cpuset_lib/libcpuset.c uses fts
->> +# which may not be available/configured in the libc build
->> +ifndef HAVE_FTS_H
->> +FILTER_OUT_DIRS	+= cpuset
->> +endif
-> Have you tested it? 
+Merged into audit/next, thanks everyone.
 
-Absolutely. I verified again. With this patch reverted locally I see errors due to
-it trying to build the file
-
-|
-| make[5]: Leaving directory
-'~/ltp/testcases/kernel/controllers/cpuset/cpuset_exclusive_test'
-| make[5]: Entering directory
-'~/ltp/testcases/kernel/controllers/cpuset/cpuset_memory_pressure_test'
-| make -C ../cpuset_lib -f
-"~/ltp/testcases/kernel/controllers/cpuset/cpuset_memory_pressure_test/../cpuset_lib/Makefile"
-all
-| make[6]: Entering directory '~/ltp/testcases/kernel/controllers/cpuset/cpuset_lib'
-| arc-linux-uclibc-gcc -g -O2 -g -O2 -fno-strict-aliasing -pipe -Wall -W
--Wold-style-definition -D_FORTIFY_SOURCE=2 -I../../../../../include
--I../../../../../include -I../../../../../include/old/  -c -o meminfo.o meminfo.c
-| arc-linux-uclibc-gcc -g -O2 -g -O2 -fno-strict-aliasing -pipe -Wall -W
--Wold-style-definition -D_FORTIFY_SOURCE=2 -I../../../../../include
--I../../../../../include -I../../../../../include/old/  -c -o libbitmask.o
-libbitmask.c
-| arc-linux-uclibc-gcc -g -O2 -g -O2 -fno-strict-aliasing -pipe -Wall -W
--Wold-style-definition -D_FORTIFY_SOURCE=2 -I../../../../../include
--I../../../../../include -I../../../../../include/old/  -c -o libcpuset.o libcpuset.c
-| libcpuset.c:32:10: fatal error: fts.h: No such file or directory
-|
-
-With my patch the build runs to completion.
-
-This will not work as HAVE_LIBAIO_H is in include/config.h,
-
-You mean HAVE_FTS_H (LIBAIO stuff is for different patch)
-
-> thus only for C. For Makefile it must be done via autotools (search for AC_SUBST
-> in m4/). I thought TST_TEST_TCONF usage, but you're right, that problematic
-> source is part of libcontrollers.a (i.e. part of a library, not normal C
-> binary).
-Umm not sure what u mean. Going to read the next msg in thread.
+-- 
+paul moore
+www.paul-moore.com
