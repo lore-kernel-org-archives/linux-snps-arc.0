@@ -1,50 +1,38 @@
-From: pvorel@suse.cz (Petr Vorel)
-Date: Thu, 21 Mar 2019 13:06:45 +0100
-Subject: [PATCH v2] autodetect fts support and tests depending on it
-In-Reply-To: <3601d849-46fa-b9cd-0a6d-882c8ed9c73f@synopsys.com>
-References: <20190318181940.GA5494@dell5510>
- <1552938764-15101-1-git-send-email-vgupta@synopsys.com>
- <20190320223733.GA5619@dell5510>
- <3601d849-46fa-b9cd-0a6d-882c8ed9c73f@synopsys.com>
+From: steven.price@arm.com (Steven Price)
+Date: Thu, 21 Mar 2019 14:19:35 +0000
+Subject: [PATCH v5 01/19] arc: mm: Add p?d_large() definitions
+In-Reply-To: <20190321141953.31960-1-steven.price@arm.com>
+References: <20190321141953.31960-1-steven.price@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190321120645.GB17345@dell5510>
+Message-ID: <20190321141953.31960-2-steven.price@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+walk_page_range() is going to be allowed to walk page tables other than
+those of user space. For this it needs to know when it has reached a
+'leaf' entry in the page tables. This information will be provided by the
+p?d_large() functions/macros.
 
-> On 3/20/19 3:37 PM, Petr Vorel wrote:
-> >> +# controllers/cpuset/cpuset_lib/libcpuset.c uses fts
-> >> +# which may not be available/configured in the libc build
-> >> +ifndef HAVE_FTS_H
-> >> +FILTER_OUT_DIRS	+= cpuset
-> >> +endif
-> > Have you tested it? 
+For arc, we only have two levels, so only pmd_large() is needed.
 
-> Absolutely. I verified again. With this patch reverted locally I see errors due to
-> it trying to build the file
-I meant testing with glibc :). Because your patch would bring a regression:
-ifndef HAVE_FTS_H is always true because HAVE_FTS_H as an autotools check is not
-visible to make in this form, no matter what it's set to HAVE_FTS_H in
-include/config.h :(.
+CC: Vineet Gupta <vgupta at synopsys.com>
+CC: linux-snps-arc at lists.infradead.org
+Signed-off-by: Steven Price <steven.price at arm.com>
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/include/asm/pgtable.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-We could solve previous problem to make HAVE_FTS_H visible with AC_SUBST, while
-creating proper autotools function check in m4/. Planning to do that? (if not
-I'll do).
-My thoughts about dependency problem in shell scripts (TST_TEST_TCONF) was wrong
-as these tests are also under cpuset directory.
-
-> With my patch the build runs to completion.
-
-> This will not work as HAVE_LIBAIO_H is in include/config.h,
-
-> You mean HAVE_FTS_H (LIBAIO stuff is for different patch)
-
-> > thus only for C. For Makefile it must be done via autotools (search for AC_SUBST
-> > in m4/). I thought TST_TEST_TCONF usage, but you're right, that problematic
-> > source is part of libcontrollers.a (i.e. part of a library, not normal C
-> > binary).
-> Umm not sure what u mean. Going to read the next msg in thread.
-See up.
-
-Kind regards,
-Petr
+diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
+index cf4be70d5892..0edd27bc7018 100644
+--- a/arch/arc/include/asm/pgtable.h
++++ b/arch/arc/include/asm/pgtable.h
+@@ -277,6 +277,7 @@ static inline void pmd_set(pmd_t *pmdp, pte_t *ptep)
+ #define pmd_none(x)			(!pmd_val(x))
+ #define	pmd_bad(x)			((pmd_val(x) & ~PAGE_MASK))
+ #define pmd_present(x)			(pmd_val(x))
++#define pmd_large(x)			(pmd_val(pmd) & _PAGE_HW_SZ)
+ #define pmd_clear(xp)			do { pmd_val(*(xp)) = 0; } while (0)
+ 
+ #define pte_page(pte)		pfn_to_page(pte_pfn(pte))
+-- 
+2.20.1
