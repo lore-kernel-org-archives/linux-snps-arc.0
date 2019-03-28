@@ -1,38 +1,77 @@
-From: steven.price@arm.com (Steven Price)
-Date: Thu, 28 Mar 2019 15:20:45 +0000
-Subject: [PATCH v7 01/20] arc: mm: Add p?d_large() definitions
-In-Reply-To: <20190328152104.23106-1-steven.price@arm.com>
-References: <20190328152104.23106-1-steven.price@arm.com>
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 28 Mar 2019 16:02:41 -0700
+Subject: [PATCH] [ARC] PR 88409: miscompilation due to missing cc clobber in
+ longlong.h macros
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190328152104.23106-2-steven.price@arm.com>
+Message-ID: <1553814161-3750-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-walk_page_range() is going to be allowed to walk page tables other than
-those of user space. For this it needs to know when it has reached a
-'leaf' entry in the page tables. This information will be provided by the
-p?d_large() functions/macros.
+simple test such as below was failing.
 
-For arc, we only have two levels, so only pmd_large() is needed.
+| void main(int argc, char *argv[])
+| {
+|    size_t total_time = 115424;                       // expected 115.424
+|    double secs = (double)total_time/(double)1000;
+|    printf("%s %d %lf\n", "secs", total_time, secs);  // prints 113.504
+|    printf("%d\n", (size_t)secs);
+| }
 
-CC: Vineet Gupta <vgupta at synopsys.com>
-CC: linux-snps-arc at lists.infradead.org
-Signed-off-by: Steven Price <steven.price at arm.com>
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
+The printf eventually called into glibc stdlib/divrem.c:__mpn_divrem()
+which uses the __arc__ specific inline asm macros from longlong.h which
+were causing miscompilation.
+
+include/
+2019-03-28  Vineet Gupta <vgupta at synopsys.com>
+
+	PR 89877
+
+	* longlong.h [__arc__] (add_ssaaaa): Add cc clobber
+	(sub_ddmmss): Likewise.
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/include/asm/pgtable.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/ChangeLog  | 7 +++++++
+ include/longlong.h | 6 ++++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index cf4be70d5892..0edd27bc7018 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -277,6 +277,7 @@ static inline void pmd_set(pmd_t *pmdp, pte_t *ptep)
- #define pmd_none(x)			(!pmd_val(x))
- #define	pmd_bad(x)			((pmd_val(x) & ~PAGE_MASK))
- #define pmd_present(x)			(pmd_val(x))
-+#define pmd_large(x)			(pmd_val(pmd) & _PAGE_HW_SZ)
- #define pmd_clear(xp)			do { pmd_val(*(xp)) = 0; } while (0)
+diff --git a/include/ChangeLog b/include/ChangeLog
+index be08141deeb9..96d967d10a52 100644
+--- a/include/ChangeLog
++++ b/include/ChangeLog
+@@ -1,3 +1,10 @@
++2019-03-28  Vineet Gupta <vgupta at synopsys.com>
++
++	PR 89877
++
++	* longlong.h [__arc__] (add_ssaaaa): Add cc clobber
++	(sub_ddmmss): Likewise.
++
+ 2019-02-11  Philippe Waroquiers  <philippe.waroquiers at skynet.be>
  
- #define pte_page(pte)		pfn_to_page(pte_pfn(pte))
+ 	* splay-tree.h (splay_tree_delete_key_fn): Update comment.
+diff --git a/include/longlong.h b/include/longlong.h
+index 3dd8dc3aa80c..1f0ce4204255 100644
+--- a/include/longlong.h
++++ b/include/longlong.h
+@@ -199,7 +199,8 @@ extern UDItype __udiv_qrnnd (UDItype *, UDItype, UDItype, UDItype);
+ 	   : "%r" ((USItype) (ah)),					\
+ 	     "rICal" ((USItype) (bh)),					\
+ 	     "%r" ((USItype) (al)),					\
+-	     "rICal" ((USItype) (bl)))
++	     "rICal" ((USItype) (bl))					\
++	   : "cc")
+ #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
+   __asm__ ("sub.f	%1, %4, %5\n\tsbc	%0, %2, %3"		\
+ 	   : "=r" ((USItype) (sh)),					\
+@@ -207,7 +208,8 @@ extern UDItype __udiv_qrnnd (UDItype *, UDItype, UDItype, UDItype);
+ 	   : "r" ((USItype) (ah)),					\
+ 	     "rICal" ((USItype) (bh)),					\
+ 	     "r" ((USItype) (al)),					\
+-	     "rICal" ((USItype) (bl)))
++	     "rICal" ((USItype) (bl))					\
++	   : "cc")
+ 
+ #define __umulsidi3(u,v) ((UDItype)(USItype)u*(USItype)v)
+ #ifdef __ARC_NORM__
 -- 
-2.20.1
+2.7.4
