@@ -1,43 +1,58 @@
 From: st5pub@yandex.ru (Andrey Abramov)
-Date: Sat, 30 Mar 2019 19:37:41 +0300
-Subject: [PATCH 0/5] simple sort swap function usage improvements
+Date: Sat, 30 Mar 2019 19:40:24 +0300
+Subject: [PATCH 1/5] arch/arc: unwind.c: replace swap function with built-in
+ one
+In-Reply-To: <18626931553963861@sas1-b3ec53dbc12b.qloud-c.yandex.net>
+References: <18626931553963861@sas1-b3ec53dbc12b.qloud-c.yandex.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <18626931553963861@sas1-b3ec53dbc12b.qloud-c.yandex.net>
+Message-ID: <20170071553964024@myt2-dc4bba9bb23c.qloud-c.yandex.net>
 To: linux-snps-arc@lists.infradead.org
 
-This is the logical continuation of sort improvements by George Spelvin
-"lib/sort & lib/list_sort: faster and smaller" series
-(added to the linux-next really recently).
+Replace swap_eh_frame_hdr_table_entries with built-in one, because
+swap_eh_frame_hdr_table_entries does a simple byte to byte swap.
 
-Patches from 1 to 4 replace simple swap functions with the built-in
-(which is now much faster) and grouped by subsystem (after that only
-3 files implement custom swap - arch/x86/kernel/unwind_orc.c,
-kernel/jump_label.c and lib/extable.c).
+Signed-off-by: Andrey Abramov <st5pub at yandex.ru>
+---
+ arch/arc/kernel/unwind.c | 20 ++------------------
+ 1 file changed, 2 insertions(+), 18 deletions(-)
 
-Patch #5 replaces the int type with the size_t type of the size argument
-in the swap function.
-
-Andrey Abramov (5):
-  arch/arc: unwind.c: replace swap function with built-in one
-  powerpc: module_[32|64].c: replace swap function with built-in one
-  ocfs2: dir,refcounttree,xattr: replace swap functions with built-in
-    one
-  ubifs: find.c: replace swap function with built-in one
-  Lib: sort.h: replace int size with size_t size in the swap function
-
- arch/arc/kernel/unwind.c        | 20 ++------------------
- arch/powerpc/kernel/module_32.c | 17 +----------------
- arch/powerpc/kernel/module_64.c | 17 +----------------
- arch/x86/kernel/unwind_orc.c    |  2 +-
- fs/ocfs2/dir.c                  | 13 +------------
- fs/ocfs2/refcounttree.c         | 13 +++----------
- fs/ocfs2/xattr.c                | 15 +++------------
- fs/ubifs/find.c                 |  9 +--------
- include/linux/sort.h            |  2 +-
- kernel/jump_label.c             |  2 +-
- lib/extable.c                   |  2 +-
- lib/sort.c                      |  6 +++---
- 12 files changed, 19 insertions(+), 99 deletions(-)
-
+diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
+index 271e9fafa479..7610fe84afea 100644
+--- a/arch/arc/kernel/unwind.c
++++ b/arch/arc/kernel/unwind.c
+@@ -248,20 +248,6 @@ static int cmp_eh_frame_hdr_table_entries(const void *p1, const void *p2)
+ 	return (e1->start > e2->start) - (e1->start < e2->start);
+ }
+ 
+-static void swap_eh_frame_hdr_table_entries(void *p1, void *p2, int size)
+-{
+-	struct eh_frame_hdr_table_entry *e1 = p1;
+-	struct eh_frame_hdr_table_entry *e2 = p2;
+-	unsigned long v;
+-
+-	v = e1->start;
+-	e1->start = e2->start;
+-	e2->start = v;
+-	v = e1->fde;
+-	e1->fde = e2->fde;
+-	e2->fde = v;
+-}
+-
+ static void init_unwind_hdr(struct unwind_table *table,
+ 			    void *(*alloc) (unsigned long))
+ {
+@@ -354,10 +340,8 @@ static void init_unwind_hdr(struct unwind_table *table,
+ 	}
+ 	WARN_ON(n != header->fde_count);
+ 
+-	sort(header->table,
+-	     n,
+-	     sizeof(*header->table),
+-	     cmp_eh_frame_hdr_table_entries, swap_eh_frame_hdr_table_entries);
++	sort(header->table, n,
++	     sizeof(*header->table), cmp_eh_frame_hdr_table_entries, NULL);
+ 
+ 	table->hdrsz = hdrSize;
+ 	smp_wmb();
 -- 
 2.21.0
