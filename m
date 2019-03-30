@@ -1,36 +1,38 @@
-From: lkml@sdf.org (George Spelvin)
-Date: Sat, 30 Mar 2019 17:16:02 GMT
+From: andy.shevchenko@gmail.com (Andy Shevchenko)
+Date: Sat, 30 Mar 2019 20:32:16 +0200
 Subject: [PATCH 0/5] simple sort swap function usage improvements
 In-Reply-To: <18626931553963861@sas1-b3ec53dbc12b.qloud-c.yandex.net>
 References: <18626931553963861@sas1-b3ec53dbc12b.qloud-c.yandex.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201903301716.x2UHG23t020732@sdf.org>
+Message-ID: <CAHp75Ve-VUkMA4NUfN3QxR=whfoatOuPMKddz2Gb1e9acF3vMw@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Great work; that is indeed a logical follow-on.
+On Sat, Mar 30, 2019@6:39 PM Andrey Abramov <st5pub@yandex.ru> wrote:
+>
+> This is the logical continuation of sort improvements by George Spelvin
+> "lib/sort & lib/list_sort: faster and smaller" series
+> (added to the linux-next really recently).
+>
+> Patches from 1 to 4 replace simple swap functions with the built-in
+> (which is now much faster) and grouped by subsystem (after that only
+> 3 files implement custom swap - arch/x86/kernel/unwind_orc.c,
+> kernel/jump_label.c and lib/extable.c).
+>
+> Patch #5 replaces the int type with the size_t type of the size argument
+> in the swap function.
 
-Reviewed by: George Spelvin <lkml at sdf.org>
+> Andrey Abramov (5):
+>   arch/arc: unwind.c: replace swap function with built-in one
+>   powerpc: module_[32|64].c: replace swap function with built-in one
+>   ocfs2: dir,refcounttree,xattr: replace swap functions with built-in
+>     one
+>   ubifs: find.c: replace swap function with built-in one
+>   Lib: sort.h: replace int size with size_t size in the swap function
 
-I you feel even more ambitious, you could try impementing Rasmus
-Villemoes' idea of having generic *compare* functions.  (It's on
-my to-do list, but I haven't made meaningful progress yet, and I'm
-happy to pawn it off.)
+You have to do something about Cc list.
+50 people is complete overkill. Seems as your series is a set of
+independent fixes. Why not to split and Cc based on individual case?
 
-A significant fraction of the time, the sort key is a 4- or 8-byte
-integer field in a structure at a small offset from the base or
-list_head.
-
-A function pointer < 4096 could be interpreted as encoding:
-- Key size (1 bit)
-- Key signedness (1 bit)
-- Sort direction (1 bit)
-- Offset (9 bits; +/-256 words = +/-1024 bytes, or 0..511 words from start)
-
-With the correct level of preprocessor hackery,
-SIMPLE_CMP_ASCENDING(struct type, key_field)
-SIMPLE_LIST_CMP_ASCENDING(struct type, list_field, key_field)
-SIMPLE_CMP_DESCENDING(struct type, key_field)
-SIMPLE_LIST_CMP_DESCENDING(struct type, list_field, key_field)
-
-could encode all that and cause a compile-time error if the key
-is the wrong type or the offset is out of range.
+-- 
+With Best Regards,
+Andy Shevchenko
