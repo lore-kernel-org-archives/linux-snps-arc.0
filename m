@@ -1,58 +1,91 @@
 From: st5pub@yandex.ru (Andrey Abramov)
-Date: Sat, 30 Mar 2019 19:40:24 +0300
-Subject: [PATCH 1/5] arch/arc: unwind.c: replace swap function with built-in
- one
+Date: Sat, 30 Mar 2019 19:41:30 +0300
+Subject: [PATCH 2/5] powerpc: module_[32|64].c: replace swap function with
+ built-in one
 In-Reply-To: <18626931553963861@sas1-b3ec53dbc12b.qloud-c.yandex.net>
 References: <18626931553963861@sas1-b3ec53dbc12b.qloud-c.yandex.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20170071553964024@myt2-dc4bba9bb23c.qloud-c.yandex.net>
+Message-ID: <21287961553964090@iva7-8a22bc446c12.qloud-c.yandex.net>
 To: linux-snps-arc@lists.infradead.org
 
-Replace swap_eh_frame_hdr_table_entries with built-in one, because
-swap_eh_frame_hdr_table_entries does a simple byte to byte swap.
+Replace relaswap with built-in one, because of relaswap
+does a simple byte to byte swap.
 
 Signed-off-by: Andrey Abramov <st5pub at yandex.ru>
 ---
- arch/arc/kernel/unwind.c | 20 ++------------------
- 1 file changed, 2 insertions(+), 18 deletions(-)
+ arch/powerpc/kernel/module_32.c | 17 +----------------
+ arch/powerpc/kernel/module_64.c | 17 +----------------
+ 2 files changed, 2 insertions(+), 32 deletions(-)
 
-diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index 271e9fafa479..7610fe84afea 100644
---- a/arch/arc/kernel/unwind.c
-+++ b/arch/arc/kernel/unwind.c
-@@ -248,20 +248,6 @@ static int cmp_eh_frame_hdr_table_entries(const void *p1, const void *p2)
- 	return (e1->start > e2->start) - (e1->start < e2->start);
+diff --git a/arch/powerpc/kernel/module_32.c b/arch/powerpc/kernel/module_32.c
+index 88d83771f462..c311e8575d10 100644
+--- a/arch/powerpc/kernel/module_32.c
++++ b/arch/powerpc/kernel/module_32.c
+@@ -79,21 +79,6 @@ static int relacmp(const void *_x, const void *_y)
+ 		return 0;
  }
  
--static void swap_eh_frame_hdr_table_entries(void *p1, void *p2, int size)
+-static void relaswap(void *_x, void *_y, int size)
 -{
--	struct eh_frame_hdr_table_entry *e1 = p1;
--	struct eh_frame_hdr_table_entry *e2 = p2;
--	unsigned long v;
+-	uint32_t *x, *y, tmp;
+-	int i;
 -
--	v = e1->start;
--	e1->start = e2->start;
--	e2->start = v;
--	v = e1->fde;
--	e1->fde = e2->fde;
--	e2->fde = v;
+-	y = (uint32_t *)_x;
+-	x = (uint32_t *)_y;
+-
+-	for (i = 0; i < sizeof(Elf32_Rela) / sizeof(uint32_t); i++) {
+-		tmp = x[i];
+-		x[i] = y[i];
+-		y[i] = tmp;
+-	}
 -}
 -
- static void init_unwind_hdr(struct unwind_table *table,
- 			    void *(*alloc) (unsigned long))
- {
-@@ -354,10 +340,8 @@ static void init_unwind_hdr(struct unwind_table *table,
- 	}
- 	WARN_ON(n != header->fde_count);
+ /* Get the potential trampolines size required of the init and
+    non-init sections */
+ static unsigned long get_plt_size(const Elf32_Ehdr *hdr,
+@@ -130,7 +115,7 @@ static unsigned long get_plt_size(const Elf32_Ehdr *hdr,
+ 			 */
+ 			sort((void *)hdr + sechdrs[i].sh_offset,
+ 			     sechdrs[i].sh_size / sizeof(Elf32_Rela),
+-			     sizeof(Elf32_Rela), relacmp, relaswap);
++			     sizeof(Elf32_Rela), relacmp, NULL);
  
--	sort(header->table,
--	     n,
--	     sizeof(*header->table),
--	     cmp_eh_frame_hdr_table_entries, swap_eh_frame_hdr_table_entries);
-+	sort(header->table, n,
-+	     sizeof(*header->table), cmp_eh_frame_hdr_table_entries, NULL);
+ 			ret += count_relocs((void *)hdr
+ 					     + sechdrs[i].sh_offset,
+diff --git a/arch/powerpc/kernel/module_64.c b/arch/powerpc/kernel/module_64.c
+index 8661eea78503..0c833d7f36f1 100644
+--- a/arch/powerpc/kernel/module_64.c
++++ b/arch/powerpc/kernel/module_64.c
+@@ -231,21 +231,6 @@ static int relacmp(const void *_x, const void *_y)
+ 		return 0;
+ }
  
- 	table->hdrsz = hdrSize;
- 	smp_wmb();
+-static void relaswap(void *_x, void *_y, int size)
+-{
+-	uint64_t *x, *y, tmp;
+-	int i;
+-
+-	y = (uint64_t *)_x;
+-	x = (uint64_t *)_y;
+-
+-	for (i = 0; i < sizeof(Elf64_Rela) / sizeof(uint64_t); i++) {
+-		tmp = x[i];
+-		x[i] = y[i];
+-		y[i] = tmp;
+-	}
+-}
+-
+ /* Get size of potential trampolines required. */
+ static unsigned long get_stubs_size(const Elf64_Ehdr *hdr,
+ 				    const Elf64_Shdr *sechdrs)
+@@ -269,7 +254,7 @@ static unsigned long get_stubs_size(const Elf64_Ehdr *hdr,
+ 			 */
+ 			sort((void *)sechdrs[i].sh_addr,
+ 			     sechdrs[i].sh_size / sizeof(Elf64_Rela),
+-			     sizeof(Elf64_Rela), relacmp, relaswap);
++			     sizeof(Elf64_Rela), relacmp, NULL);
+ 
+ 			relocs += count_relocs((void *)sechdrs[i].sh_addr,
+ 					       sechdrs[i].sh_size
 -- 
 2.21.0
