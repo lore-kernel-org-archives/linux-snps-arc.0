@@ -1,82 +1,43 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 29 Mar 2019 20:55:27 -0400
-Subject: [PATCH AUTOSEL 4.9 01/27] ARC: u-boot args: check that magic number
- is correct
+From: st5pub@yandex.ru (Andrey Abramov)
+Date: Sat, 30 Mar 2019 19:37:41 +0300
+Subject: [PATCH 0/5] simple sort swap function usage improvements
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190330005555.28087-1-sashal@kernel.org>
+Message-ID: <18626931553963861@sas1-b3ec53dbc12b.qloud-c.yandex.net>
 To: linux-snps-arc@lists.infradead.org
 
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+This is the logical continuation of sort improvements by George Spelvin
+"lib/sort & lib/list_sort: faster and smaller" series
+(added to the linux-next really recently).
 
-[ Upstream commit edb64bca50cd736c6894cc6081d5263c007ce005 ]
+Patches from 1 to 4 replace simple swap functions with the built-in
+(which is now much faster) and grouped by subsystem (after that only
+3 files implement custom swap - arch/x86/kernel/unwind_orc.c,
+kernel/jump_label.c and lib/extable.c).
 
-In case of devboards we really often disable bootloader and load
-Linux image in memory via JTAG. Even if kernel tries to verify
-uboot_tag and uboot_arg there is sill a chance that we treat some
-garbage in registers as valid u-boot arguments in JTAG case.
-E.g. it is enough to have '1' in r0 to treat any value in r2 as
-a boot command line.
+Patch #5 replaces the int type with the size_t type of the size argument
+in the swap function.
 
-So check that magic number passed from u-boot is correct and drop
-u-boot arguments otherwise. That helps to reduce the possibility
-of using garbage as u-boot arguments in JTAG case.
+Andrey Abramov (5):
+  arch/arc: unwind.c: replace swap function with built-in one
+  powerpc: module_[32|64].c: replace swap function with built-in one
+  ocfs2: dir,refcounttree,xattr: replace swap functions with built-in
+    one
+  ubifs: find.c: replace swap function with built-in one
+  Lib: sort.h: replace int size with size_t size in the swap function
 
-We can safely check U-boot magic value (0x0) in linux passed via
-r1 register as U-boot pass it from the beginning. So there is no
-backward-compatibility issues.
+ arch/arc/kernel/unwind.c        | 20 ++------------------
+ arch/powerpc/kernel/module_32.c | 17 +----------------
+ arch/powerpc/kernel/module_64.c | 17 +----------------
+ arch/x86/kernel/unwind_orc.c    |  2 +-
+ fs/ocfs2/dir.c                  | 13 +------------
+ fs/ocfs2/refcounttree.c         | 13 +++----------
+ fs/ocfs2/xattr.c                | 15 +++------------
+ fs/ubifs/find.c                 |  9 +--------
+ include/linux/sort.h            |  2 +-
+ kernel/jump_label.c             |  2 +-
+ lib/extable.c                   |  2 +-
+ lib/sort.c                      |  6 +++---
+ 12 files changed, 19 insertions(+), 99 deletions(-)
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
----
- arch/arc/kernel/head.S  | 1 +
- arch/arc/kernel/setup.c | 8 ++++++++
- 2 files changed, 9 insertions(+)
-
-diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
-index 1f945d0f40da..208bf2c9e7b0 100644
---- a/arch/arc/kernel/head.S
-+++ b/arch/arc/kernel/head.S
-@@ -107,6 +107,7 @@ ENTRY(stext)
- 	;    r2 = pointer to uboot provided cmdline or external DTB in mem
- 	; These are handled later in handle_uboot_args()
- 	st	r0, [@uboot_tag]
-+	st      r1, [@uboot_magic]
- 	st	r2, [@uboot_arg]
- #endif
- 
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 9119bea503a7..9f96120eee6e 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -32,6 +32,7 @@ unsigned int intr_to_DE_cnt;
- 
- /* Part of U-boot ABI: see head.S */
- int __initdata uboot_tag;
-+int __initdata uboot_magic;
- char __initdata *uboot_arg;
- 
- const struct machine_desc *machine_desc;
-@@ -400,6 +401,8 @@ static inline bool uboot_arg_invalid(unsigned long addr)
- #define UBOOT_TAG_NONE		0
- #define UBOOT_TAG_CMDLINE	1
- #define UBOOT_TAG_DTB		2
-+/* We always pass 0 as magic from U-boot */
-+#define UBOOT_MAGIC_VALUE	0
- 
- void __init handle_uboot_args(void)
- {
-@@ -415,6 +418,11 @@ void __init handle_uboot_args(void)
- 		goto ignore_uboot_args;
- 	}
- 
-+	if (uboot_magic != UBOOT_MAGIC_VALUE) {
-+		pr_warn(IGNORE_ARGS "non zero uboot magic\n");
-+		goto ignore_uboot_args;
-+	}
-+
- 	if (uboot_tag != UBOOT_TAG_NONE &&
-             uboot_arg_invalid((unsigned long)uboot_arg)) {
- 		pr_warn(IGNORE_ARGS "invalid uboot arg: '%px'\n", uboot_arg);
 -- 
-2.19.1
+2.21.0
