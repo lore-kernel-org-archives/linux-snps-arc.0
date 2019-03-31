@@ -1,57 +1,64 @@
 From: st5pub@yandex.ru (Andrey Abramov)
-Date: Sun, 31 Mar 2019 21:28:03 +0300
-Subject: [PATCH v2 0/5] simple sort swap function improvements
+Date: Sun, 31 Mar 2019 21:31:30 +0300
+Subject: [PATCH v2 1/5] arch/arc: unwind.c: replace swap function with
+ built-in one
+In-Reply-To: <19606671554056883@myt3-1179f584969c.qloud-c.yandex.net>
+References: <19606671554056883@myt3-1179f584969c.qloud-c.yandex.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <19606671554056883@myt3-1179f584969c.qloud-c.yandex.net>
+Message-ID: <23405591554057090@iva8-b333b7f98ab0.qloud-c.yandex.net>
 To: linux-snps-arc@lists.infradead.org
 
-This is the logical continuation of the "lib/sort & lib/list_sort:
-faster and smaller" series by George Spelvin (added to linux-next
-recently).
+Replace swap_eh_frame_hdr_table_entries with built-in one, because
+swap_eh_frame_hdr_table_entries does a simple byte to byte swap.
 
 Since Spectre mitigations have made indirect function calls more
-expensive, and the previous patch series implements the default
-simple byte copies without them, an "optimized" custom swap
-function is now a waste of time as well as code.
+expensive, and the default simple byte copies swap is implemented
+without them, an "optimized" custom swap function is now
+a waste of time as well as code.
 
-Patches 1 to 4 replace trivial swap functions with the built-in
-(which is now much faster) and are grouped by subsystem.
-Being pure code deletion patches, they are sure to bring joy to
-Linus's heart.
+Signed-off-by: Andrey Abramov <st5pub at yandex.ru>
+Reviewed by: George Spelvin <lkml at sdf.org>
+---
+ arch/arc/kernel/unwind.c | 20 ++------------------
+ 1 file changed, 2 insertions(+), 18 deletions(-)
 
-Having reviewed all call sites, only three non-trivial swap
-functions remain:  arch/x86/kernel/unwind_orc.c,
-kernel/jump_label.c and lib/extable.c.
-
-Patch #5 takes the opportunity to clean up a long-standing
-interface wart: the swap function's size parameter was an int,
-which doesn't match the size_t element size passed to sort()
-function itself.  So change it to size_t.
-
-v1->v2: Only commit messages have changed to better explain
-	the purpose of commits. (Thanks to George Spelvin and Greg KH)
-
-Andrey Abramov (5):
-  arch/arc: unwind.c: replace swap function with built-in one
-  powerpc: module_[32|64].c: replace swap function with built-in one
-  ocfs2: dir,refcounttree,xattr: replace swap functions with built-in
-    one
-  ubifs: find.c: replace swap function with built-in one
-  Lib: sort.h: replace int size with size_t size in the swap function
-
- arch/arc/kernel/unwind.c        | 20 ++------------------
- arch/powerpc/kernel/module_32.c | 17 +----------------
- arch/powerpc/kernel/module_64.c | 17 +----------------
- arch/x86/kernel/unwind_orc.c    |  2 +-
- fs/ocfs2/dir.c                  | 13 +------------
- fs/ocfs2/refcounttree.c         | 13 +++----------
- fs/ocfs2/xattr.c                | 15 +++------------
- fs/ubifs/find.c                 |  9 +--------
- include/linux/sort.h            |  2 +-
- kernel/jump_label.c             |  2 +-
- lib/extable.c                   |  2 +-
- lib/sort.c                      |  6 +++---
- 12 files changed, 19 insertions(+), 99 deletions(-)
-
+diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
+index 271e9fafa479..7610fe84afea 100644
+--- a/arch/arc/kernel/unwind.c
++++ b/arch/arc/kernel/unwind.c
+@@ -248,20 +248,6 @@ static int cmp_eh_frame_hdr_table_entries(const void *p1, const void *p2)
+ 	return (e1->start > e2->start) - (e1->start < e2->start);
+ }
+ 
+-static void swap_eh_frame_hdr_table_entries(void *p1, void *p2, int size)
+-{
+-	struct eh_frame_hdr_table_entry *e1 = p1;
+-	struct eh_frame_hdr_table_entry *e2 = p2;
+-	unsigned long v;
+-
+-	v = e1->start;
+-	e1->start = e2->start;
+-	e2->start = v;
+-	v = e1->fde;
+-	e1->fde = e2->fde;
+-	e2->fde = v;
+-}
+-
+ static void init_unwind_hdr(struct unwind_table *table,
+ 			    void *(*alloc) (unsigned long))
+ {
+@@ -354,10 +340,8 @@ static void init_unwind_hdr(struct unwind_table *table,
+ 	}
+ 	WARN_ON(n != header->fde_count);
+ 
+-	sort(header->table,
+-	     n,
+-	     sizeof(*header->table),
+-	     cmp_eh_frame_hdr_table_entries, swap_eh_frame_hdr_table_entries);
++	sort(header->table, n,
++	     sizeof(*header->table), cmp_eh_frame_hdr_table_entries, NULL);
+ 
+ 	table->hdrsz = hdrSize;
+ 	smp_wmb();
 -- 
 2.21.0
