@@ -1,24 +1,71 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 1 Apr 2019 18:22:29 +0000
-Subject: [PATCH 5/5] Lib: sort.h: replace int size with size_t size in
- the swap function
-References: <18626931553963861@sas1-b3ec53dbc12b.qloud-c.yandex.net>
- <20467491553964233@myt4-c0b480c282c8.qloud-c.yandex.net>
- <20190330183826.GB21828@kroah.com> <201903302015.x2UKFnSL003850@sdf.org>
- <20434561554015618@myt1-cd60b8ae9bb9.qloud-c.yandex.net>
- <20190331105412.GA9393@kroah.com>
- <cd57af9a2c1e494cbc8631a0347831dc@AcuMS.aculab.com>
- <C2D7FE5348E1B147BCA15975FBA23075014643F9DF@US01WEMBX2.internal.synopsys.com>
- <440631554142479@myt6-23299ba78d64.qloud-c.yandex.net>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Mon,  1 Apr 2019 21:42:42 +0300
+Subject: [PATCH] ARC: fix memory nodes topology in case of highmem enabled
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014643FA6C@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20190401184242.7636-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 4/1/19 11:14 AM, Andrey Abramov wrote:
-> George Spelvin wrote "So how about *deleting* the parameter instead?
-> That simplifies everything.", and he is right,
-> so I am just going to completely remove it.
->
-> Any objections?
+Tweak generic node topology in case of CONFIG_HIGHMEM enabled to
+prioritize allocations from ZONE_HIGHMEM to avoid ZONE_NORMAL
+pressure.
 
-LGTM.
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+Tested on both NSIM and HSDK (require memory apertures remmaping and
+device tree patching)
+
+ arch/arc/include/asm/Kbuild     |  1 -
+ arch/arc/include/asm/topology.h | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arc/include/asm/topology.h
+
+diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
+index caa270261521..e64e0439baff 100644
+--- a/arch/arc/include/asm/Kbuild
++++ b/arch/arc/include/asm/Kbuild
+@@ -18,7 +18,6 @@ generic-y += msi.h
+ generic-y += parport.h
+ generic-y += percpu.h
+ generic-y += preempt.h
+-generic-y += topology.h
+ generic-y += trace_clock.h
+ generic-y += user.h
+ generic-y += vga.h
+diff --git a/arch/arc/include/asm/topology.h b/arch/arc/include/asm/topology.h
+new file mode 100644
+index 000000000000..c273506931c9
+--- /dev/null
++++ b/arch/arc/include/asm/topology.h
+@@ -0,0 +1,30 @@
++#ifndef _ASM_ARC_TOPOLOGY_H
++#define _ASM_ARC_TOPOLOGY_H
++
++/*
++ * On ARC (w/o PAE) HIGHMEM addresses are smaller (0x0 based) than addresses in
++ * NORMAL aka low memory (0x8000_0000 based).
++ * Thus HIGHMEM on ARC is imlemented with DISCONTIGMEM which requires multiple
++ * nodes. So here is memory node map depending on the CONFIG_HIGHMEM
++ * enabled/disabled:
++ *
++ * CONFIG_HIGHMEM disabled:
++ *  - node 0: ZONE_NORMAL memory only.
++ *
++ * CONFIG_HIGHMEM enabled:
++ *  - node 0: ZONE_NORMAL memory only.
++ *  - node 1: ZONE_HIGHMEM memory only.
++ *
++ * In case of CONFIG_HIGHMEM enabled we tweak generic node topology and mark
++ * node 1 as the closest to all CPUs to prioritize allocations from ZONE_HIGHMEM
++ * where it is possible to avoid ZONE_NORMAL pressure.
++ */
++#ifdef CONFIG_HIGHMEM
++#define cpu_to_node(cpu)	((void)(cpu), 1)
++#define cpu_to_mem(cpu)		((void)(cpu), 1)
++#define cpumask_of_node(node)	((node) == 1 ? cpu_online_mask : cpu_none_mask)
++#endif /* CONFIG_HIGHMEM */
++
++#include <asm-generic/topology.h>
++
++#endif /* _ASM_ARC_TOPOLOGY_H */
+-- 
+2.14.5
