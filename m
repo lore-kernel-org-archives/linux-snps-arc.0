@@ -1,22 +1,32 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 1 Apr 2019 18:08:30 +0000
-Subject: [PATCH] ARC: PAE40: don't panic and instead turn off hw ioc
-References: <1553892336-29596-1-git-send-email-vgupta@synopsys.com>
- <1554141887.2797.3.camel@synopsys.com>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Mon,  1 Apr 2019 21:09:09 +0300
+Subject: [PATCH trivial v2] MAINTAINERS: fix bad file pattern in SYNOPSYS
+ DESIGNWARE AXI DMAC DRIVER
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA23075014643FA2D@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20190401180909.6288-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 4/1/19 11:04 AM, Eugeniy Paltsev wrote:
->> +		if (IS_ENABLED(CONFIG_HIGHMEM) || is_pae40_enabled())
-> As for today PAE40 couldn't be enabled without HIGHMEM for ARC, so probably we can
-> simplify this to
->
-> ----------------------------->8----------------------------------
-> if (IS_ENABLED(CONFIG_HIGHMEM))
-> 	ioc_enable = 0;
+Commit 1fe20f1b8454 ("dmaengine: Introduce DW AXI DMAC driver")
+added an incorrect file pattern. Fix it.
 
-That is true, but mentioning both sort of documents the requirements.
-Also these checks are compile time only so don't add any extra code whatsoever.
+Reported-by: Joe Perches <joe at perches.com>
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--Vineet
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3e5a5d263f29..be8285e81b6a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14987,7 +14987,7 @@ F:	Documentation/devicetree/bindings/gpio/snps-dwapb-gpio.txt
+ SYNOPSYS DESIGNWARE AXI DMAC DRIVER
+ M:	Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+ S:	Maintained
+-F:	drivers/dma/dwi-axi-dmac/
++F:	drivers/dma/dw-axi-dmac/
+ F:	Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.txt
+ 
+ SYNOPSYS DESIGNWARE DMAC DRIVER
+-- 
+2.14.5
