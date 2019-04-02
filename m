@@ -1,77 +1,61 @@
 From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 2 Apr 2019 11:27:33 -0700
-Subject: [PATCH] [ARC] PR 88409: miscompilation due to missing cc clobber in
- longlong.h macros
+Date: Tue, 2 Apr 2019 12:18:03 -0700
+Subject: [PATCH] ARC: [hsdk] Make it easier to add PAE40 region to DTB
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1554229653-6059-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1554232683-8173-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-simple test such as below was failing.
+1. Bump top level address-cells/size-cells nodes to 2 (to ensure all
+   down stream addresses are 64-bits, unless explicitly specified
+   otherwise (in "soc" bus with all peripherals)
 
-| void main(int argc, char *argv[])
-| {
-|    size_t total_time = 115424;                       // expected 115.424
-|    double secs = (double)total_time/(double)1000;
-|    printf("%s %d %lf\n", "secs", total_time, secs);  // prints 113.504
-|    printf("%d\n", (size_t)secs);
-| }
+2. "memory" also specified with address/size 2
 
-The printf eventually called into glibc stdlib/divrem.c:__mpn_divrem()
-which uses the __arc__ specific inline asm macros from longlong.h which
-were causing miscompilation.
-
-include/
-2019-03-28  Vineet Gupta <vgupta at synopsys.com>
-
-	PR 89877
-
-	* longlong.h [__arc__] (add_ssaaaa): Add cc clobber
-	(sub_ddmmss): Likewise.
+3. Add a commented reference for PAE40 region beyond 4GB physical
+   address space
 
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- include/ChangeLog  | 7 +++++++
- include/longlong.h | 6 ++++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ arch/arc/boot/dts/hsdk.dts | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/include/ChangeLog b/include/ChangeLog
-index be08141deeb9..96d967d10a52 100644
---- a/include/ChangeLog
-+++ b/include/ChangeLog
-@@ -1,3 +1,10 @@
-+2019-03-28  Vineet Gupta <vgupta at synopsys.com>
-+
-+	PR 89877
-+
-+	* longlong.h [__arc__] (add_ssaaaa): Add cc clobber
-+	(sub_ddmmss): Likewise.
-+
- 2019-02-11  Philippe Waroquiers  <philippe.waroquiers at skynet.be>
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index 69bc1c9e8e50..7425bb0f2d1b 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -18,8 +18,8 @@
+ 	model = "snps,hsdk";
+ 	compatible = "snps,hsdk";
  
- 	* splay-tree.h (splay_tree_delete_key_fn): Update comment.
-diff --git a/include/longlong.h b/include/longlong.h
-index 3dd8dc3aa80c..1f0ce4204255 100644
---- a/include/longlong.h
-+++ b/include/longlong.h
-@@ -199,7 +199,8 @@ extern UDItype __udiv_qrnnd (UDItype *, UDItype, UDItype, UDItype);
- 	   : "%r" ((USItype) (ah)),					\
- 	     "rICal" ((USItype) (bh)),					\
- 	     "%r" ((USItype) (al)),					\
--	     "rICal" ((USItype) (bl)))
-+	     "rICal" ((USItype) (bl))					\
-+	   : "cc")
- #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-   __asm__ ("sub.f	%1, %4, %5\n\tsbc	%0, %2, %3"		\
- 	   : "=r" ((USItype) (sh)),					\
-@@ -207,7 +208,8 @@ extern UDItype __udiv_qrnnd (UDItype *, UDItype, UDItype, UDItype);
- 	   : "r" ((USItype) (ah)),					\
- 	     "rICal" ((USItype) (bh)),					\
- 	     "r" ((USItype) (al)),					\
--	     "rICal" ((USItype) (bl)))
-+	     "rICal" ((USItype) (bl))					\
-+	   : "cc")
+-	#address-cells = <1>;
+-	#size-cells = <1>;
++	#address-cells = <2>;
++	#size-cells = <2>;
  
- #define __umulsidi3(u,v) ((UDItype)(USItype)u*(USItype)v)
- #ifdef __ARC_NORM__
+ 	chosen {
+ 		bootargs = "earlycon=uart8250,mmio32,0xf0005000,115200n8 console=ttyS0,115200n8 debug print-fatal-signals=1";
+@@ -105,7 +105,7 @@
+ 		#size-cells = <1>;
+ 		interrupt-parent = <&idu_intc>;
+ 
+-		ranges = <0x00000000 0xf0000000 0x10000000>;
++		ranges = <0x00000000 0x0 0xf0000000 0x10000000>;
+ 
+ 		cgu_rst: reset-controller at 8a0 {
+ 			compatible = "snps,hsdk-reset";
+@@ -269,9 +269,10 @@
+ 	};
+ 
+ 	memory at 80000000 {
+-		#address-cells = <1>;
+-		#size-cells = <1>;
++		#address-cells = <2>;
++		#size-cells = <2>;
+ 		device_type = "memory";
+-		reg = <0x80000000 0x40000000>;  /* 1 GiB */
++		reg = <0x0 0x80000000 0x0 0x40000000>;  /* 1 GB lowmem */
++		/*     0x1 0x00000000 0x0 0x40000000>;     1 GB highmem */
+ 	};
+ };
 -- 
 2.7.4
