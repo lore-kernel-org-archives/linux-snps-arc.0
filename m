@@ -1,71 +1,77 @@
-From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon,  1 Apr 2019 21:42:42 +0300
-Subject: [PATCH] ARC: fix memory nodes topology in case of highmem enabled
+From: vineet.gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 2 Apr 2019 11:27:33 -0700
+Subject: [PATCH] [ARC] PR 88409: miscompilation due to missing cc clobber in
+ longlong.h macros
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190401184242.7636-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <1554229653-6059-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Tweak generic node topology in case of CONFIG_HIGHMEM enabled to
-prioritize allocations from ZONE_HIGHMEM to avoid ZONE_NORMAL
-pressure.
+simple test such as below was failing.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+| void main(int argc, char *argv[])
+| {
+|    size_t total_time = 115424;                       // expected 115.424
+|    double secs = (double)total_time/(double)1000;
+|    printf("%s %d %lf\n", "secs", total_time, secs);  // prints 113.504
+|    printf("%d\n", (size_t)secs);
+| }
+
+The printf eventually called into glibc stdlib/divrem.c:__mpn_divrem()
+which uses the __arc__ specific inline asm macros from longlong.h which
+were causing miscompilation.
+
+include/
+2019-03-28  Vineet Gupta <vgupta at synopsys.com>
+
+	PR 89877
+
+	* longlong.h [__arc__] (add_ssaaaa): Add cc clobber
+	(sub_ddmmss): Likewise.
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
-Tested on both NSIM and HSDK (require memory apertures remmaping and
-device tree patching)
+ include/ChangeLog  | 7 +++++++
+ include/longlong.h | 6 ++++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
- arch/arc/include/asm/Kbuild     |  1 -
- arch/arc/include/asm/topology.h | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 arch/arc/include/asm/topology.h
-
-diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
-index caa270261521..e64e0439baff 100644
---- a/arch/arc/include/asm/Kbuild
-+++ b/arch/arc/include/asm/Kbuild
-@@ -18,7 +18,6 @@ generic-y += msi.h
- generic-y += parport.h
- generic-y += percpu.h
- generic-y += preempt.h
--generic-y += topology.h
- generic-y += trace_clock.h
- generic-y += user.h
- generic-y += vga.h
-diff --git a/arch/arc/include/asm/topology.h b/arch/arc/include/asm/topology.h
-new file mode 100644
-index 000000000000..c273506931c9
---- /dev/null
-+++ b/arch/arc/include/asm/topology.h
-@@ -0,0 +1,30 @@
-+#ifndef _ASM_ARC_TOPOLOGY_H
-+#define _ASM_ARC_TOPOLOGY_H
+diff --git a/include/ChangeLog b/include/ChangeLog
+index be08141deeb9..96d967d10a52 100644
+--- a/include/ChangeLog
++++ b/include/ChangeLog
+@@ -1,3 +1,10 @@
++2019-03-28  Vineet Gupta <vgupta at synopsys.com>
 +
-+/*
-+ * On ARC (w/o PAE) HIGHMEM addresses are smaller (0x0 based) than addresses in
-+ * NORMAL aka low memory (0x8000_0000 based).
-+ * Thus HIGHMEM on ARC is imlemented with DISCONTIGMEM which requires multiple
-+ * nodes. So here is memory node map depending on the CONFIG_HIGHMEM
-+ * enabled/disabled:
-+ *
-+ * CONFIG_HIGHMEM disabled:
-+ *  - node 0: ZONE_NORMAL memory only.
-+ *
-+ * CONFIG_HIGHMEM enabled:
-+ *  - node 0: ZONE_NORMAL memory only.
-+ *  - node 1: ZONE_HIGHMEM memory only.
-+ *
-+ * In case of CONFIG_HIGHMEM enabled we tweak generic node topology and mark
-+ * node 1 as the closest to all CPUs to prioritize allocations from ZONE_HIGHMEM
-+ * where it is possible to avoid ZONE_NORMAL pressure.
-+ */
-+#ifdef CONFIG_HIGHMEM
-+#define cpu_to_node(cpu)	((void)(cpu), 1)
-+#define cpu_to_mem(cpu)		((void)(cpu), 1)
-+#define cpumask_of_node(node)	((node) == 1 ? cpu_online_mask : cpu_none_mask)
-+#endif /* CONFIG_HIGHMEM */
++	PR 89877
 +
-+#include <asm-generic/topology.h>
++	* longlong.h [__arc__] (add_ssaaaa): Add cc clobber
++	(sub_ddmmss): Likewise.
 +
-+#endif /* _ASM_ARC_TOPOLOGY_H */
+ 2019-02-11  Philippe Waroquiers  <philippe.waroquiers at skynet.be>
+ 
+ 	* splay-tree.h (splay_tree_delete_key_fn): Update comment.
+diff --git a/include/longlong.h b/include/longlong.h
+index 3dd8dc3aa80c..1f0ce4204255 100644
+--- a/include/longlong.h
++++ b/include/longlong.h
+@@ -199,7 +199,8 @@ extern UDItype __udiv_qrnnd (UDItype *, UDItype, UDItype, UDItype);
+ 	   : "%r" ((USItype) (ah)),					\
+ 	     "rICal" ((USItype) (bh)),					\
+ 	     "%r" ((USItype) (al)),					\
+-	     "rICal" ((USItype) (bl)))
++	     "rICal" ((USItype) (bl))					\
++	   : "cc")
+ #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
+   __asm__ ("sub.f	%1, %4, %5\n\tsbc	%0, %2, %3"		\
+ 	   : "=r" ((USItype) (sh)),					\
+@@ -207,7 +208,8 @@ extern UDItype __udiv_qrnnd (UDItype *, UDItype, UDItype, UDItype);
+ 	   : "r" ((USItype) (ah)),					\
+ 	     "rICal" ((USItype) (bh)),					\
+ 	     "r" ((USItype) (al)),					\
+-	     "rICal" ((USItype) (bl)))
++	     "rICal" ((USItype) (bl))					\
++	   : "cc")
+ 
+ #define __umulsidi3(u,v) ((UDItype)(USItype)u*(USItype)v)
+ #ifdef __ARC_NORM__
 -- 
-2.14.5
+2.7.4
