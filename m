@@ -1,38 +1,81 @@
-From: steven.price@arm.com (Steven Price)
-Date: Wed,  3 Apr 2019 15:16:08 +0100
-Subject: [PATCH v8 01/20] arc: mm: Add p?d_large() definitions
-In-Reply-To: <20190403141627.11664-1-steven.price@arm.com>
-References: <20190403141627.11664-1-steven.price@arm.com>
+From: eugeniy.paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Wed, 3 Apr 2019 16:34:02 +0000
+Subject: [PATCH] ARC: [hsdk] Make it easier to add PAE40 region to DTB
+In-Reply-To: <1554232683-8173-1-git-send-email-vgupta@synopsys.com>
+References: <1554232683-8173-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190403141627.11664-2-steven.price@arm.com>
+Message-ID: <1554309241.2797.20.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-walk_page_range() is going to be allowed to walk page tables other than
-those of user space. For this it needs to know when it has reached a
-'leaf' entry in the page tables. This information will be provided by the
-p?d_large() functions/macros.
+Hi Vineet,
 
-For arc, we only have two levels, so only pmd_large() is needed.
+On Tue, 2019-04-02@12:18 -0700, Vineet Gupta wrote:
+> 1. Bump top level address-cells/size-cells nodes to 2 (to ensure all
+>    down stream addresses are 64-bits, unless explicitly specified
+>    otherwise (in "soc" bus with all peripherals)
+> 
+> 2. "memory" also specified with address/size 2
+> 
+> 3. Add a commented reference for PAE40 region beyond 4GB physical
+>    address space
 
-CC: Vineet Gupta <vgupta at synopsys.com>
-CC: linux-snps-arc at lists.infradead.org
-Signed-off-by: Steven Price <steven.price at arm.com>
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/include/asm/pgtable.h | 1 +
- 1 file changed, 1 insertion(+)
+[see below]
 
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index cf4be70d5892..0edd27bc7018 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -277,6 +277,7 @@ static inline void pmd_set(pmd_t *pmdp, pte_t *ptep)
- #define pmd_none(x)			(!pmd_val(x))
- #define	pmd_bad(x)			((pmd_val(x) & ~PAGE_MASK))
- #define pmd_present(x)			(pmd_val(x))
-+#define pmd_large(x)			(pmd_val(pmd) & _PAGE_HW_SZ)
- #define pmd_clear(xp)			do { pmd_val(*(xp)) = 0; } while (0)
- 
- #define pte_page(pte)		pfn_to_page(pte_pfn(pte))
+> 
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  arch/arc/boot/dts/hsdk.dts | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+> index 69bc1c9e8e50..7425bb0f2d1b 100644
+> --- a/arch/arc/boot/dts/hsdk.dts
+> +++ b/arch/arc/boot/dts/hsdk.dts
+> @@ -18,8 +18,8 @@
+>  	model = "snps,hsdk";
+>  	compatible = "snps,hsdk";
+>  
+> -	#address-cells = <1>;
+> -	#size-cells = <1>;
+> +	#address-cells = <2>;
+> +	#size-cells = <2>;
+>  
+>  	chosen {
+>  		bootargs = "earlycon=uart8250,mmio32,0xf0005000,115200n8 console=ttyS0,115200n8 debug print-fatal-signals=1";
+> @@ -105,7 +105,7 @@
+>  		#size-cells = <1>;
+>  		interrupt-parent = <&idu_intc>;
+>  
+> -		ranges = <0x00000000 0xf0000000 0x10000000>;
+> +		ranges = <0x00000000 0x0 0xf0000000 0x10000000>;
+>  
+>  		cgu_rst: reset-controller at 8a0 {
+>  			compatible = "snps,hsdk-reset";
+> @@ -269,9 +269,10 @@
+>  	};
+>  
+>  	memory at 80000000 {
+> -		#address-cells = <1>;
+> -		#size-cells = <1>;
+> +		#address-cells = <2>;
+> +		#size-cells = <2>;
+>  		device_type = "memory";
+> -		reg = <0x80000000 0x40000000>;  /* 1 GiB */
+> +		reg = <0x0 0x80000000 0x0 0x40000000>;  /* 1 GB lowmem */
+> +		/*     0x1 0x00000000 0x0 0x40000000>;     1 GB highmem */
+
+Could you please get rid of comment with reference for PAE40/HIGHMEM region in this patch?
+It gives wrong expectations that if we uncomment it and enable PAE40 in config we'll get working system.
+But it isn't true - we also need to remap AXI apertures appropriately.
+
+Otherwise kernel will crush somewhere. Moreover kernel will crush for different reasons in case of launch
+via U-boot and via MDB (because we remap AXI apertures in U-boot for internal purposes).
+
+If you really want to keep this - I can send you patch with AXI apertures remapping we need to apply firstly.
+
+Thanks.
+
+>  	};
+>  };
 -- 
-2.20.1
+ Eugeniy Paltsev
