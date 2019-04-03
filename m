@@ -1,103 +1,64 @@
-From: vineet.gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 3 Apr 2019 19:29:22 +0000
-Subject: [PATCH] ARC: fix memory nodes topology in case of highmem enabled
-References: <20190401184242.7636-1-Eugeniy.Paltsev@synopsys.com>
+From: paul.burton@mips.com (Paul Burton)
+Date: Wed, 3 Apr 2019 22:51:56 +0000
+Subject: [PATCH 5/6 v3] syscalls: Remove start and number from
+ syscall_get_arguments() args
+In-Reply-To: <20190401134421.278590567@goodmis.org>
+References: <20190401134104.676620247@goodmis.org>
+ <20190401134421.278590567@goodmis.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA230750146440183@US01WEMBX2.internal.synopsys.com>
+Message-ID: <20190403225151.s5suxxmu6b2c4svt@pburton-laptop>
 To: linux-snps-arc@lists.infradead.org
 
-On 4/1/19 11:43 AM, Eugeniy Paltsev wrote:
-> Tweak generic node topology in case of CONFIG_HIGHMEM enabled to
-> prioritize allocations from ZONE_HIGHMEM to avoid ZONE_NORMAL
-> pressure.
+Hi Steven,
 
-Can you explain the "pressure" part a bit more concretely - as in when did you saw
-crashes, oom, yadi yada ....
+On Mon, Apr 01, 2019@09:41:09AM -0400, Steven Rostedt wrote:
+> From: "Steven Rostedt (Red Hat)" <rostedt at goodmis.org>
+> 
+> At Linux Plumbers, Andy Lutomirski approached me and pointed out that the
+> function call syscall_get_arguments() implemented in x86 was horribly
+> written and not optimized for the standard case of passing in 0 and 6 for
+> the starting index and the number of system calls to get. When looking at
+> all the users of this function, I discovered that all instances pass in only
+> 0 and 6 for these arguments. Instead of having this function handle
+> different cases that are never used, simply rewrite it to return the first 6
+> arguments of a system call.
+> 
+> This should help out the performance of tracing system calls by ptrace,
+> ftrace and perf.
+> 
+> Link: http://lkml.kernel.org/r/20161107213233.754809394 at goodmis.org
+> 
+> Cc: Oleg Nesterov <oleg at redhat.com>
+> Cc: Thomas Gleixner <tglx at linutronix.de>
+> Cc: Kees Cook <keescook at chromium.org>
+> Cc: Andy Lutomirski <luto at amacapital.net>
+> Cc: Dominik Brodowski <linux at dominikbrodowski.net>
+> Cc: Dave Martin <dave.martin at arm.com>
+> Cc: "Dmitry V. Levin" <ldv at altlinux.org>
+> Cc: x86 at kernel.org
+> Cc: linux-snps-arc at lists.infradead.org
+> Cc: linux-kernel at vger.kernel.org
+> Cc: linux-arm-kernel at lists.infradead.org
+> Cc: linux-c6x-dev at linux-c6x.org
+> Cc: uclinux-h8-devel at lists.sourceforge.jp
+> Cc: linux-hexagon at vger.kernel.org
+> Cc: linux-ia64 at vger.kernel.org
+> Cc: linux-mips at vger.kernel.org
+> Cc: nios2-dev at lists.rocketboards.org
+> Cc: openrisc at lists.librecores.org
+> Cc: linux-parisc at vger.kernel.org
+> Cc: linuxppc-dev at lists.ozlabs.org
+> Cc: linux-riscv at lists.infradead.org
+> Cc: linux-s390 at vger.kernel.org
+> Cc: linux-sh at vger.kernel.org
+> Cc: sparclinux at vger.kernel.org
+> Cc: linux-um at lists.infradead.org
+> Cc: linux-xtensa at linux-xtensa.org
+> Cc: linux-arch at vger.kernel.org
+> Reported-by: Andy Lutomirski <luto at amacapital.net>
+> Signed-off-by: Steven Rostedt (VMware) <rostedt at goodmis.org>
 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
-> Tested on both NSIM and HSDK (require memory apertures remmaping and
-> device tree patching)
+Acked-by: Paul Burton <paul.burton at mips.com> # MIPS parts
 
-How can one test this patch w/o those - are they secret which rest of world should
-not know about :-)
-Jokes apart, at the very least, please include them as part of changelog "as
-indicative code" which people can use in testing if needed.
-Preferably they need to be part of platform code under the right config (HIGHMEM +
-PAE etc)
-
-FWIW as mentioned on other thread, for my setup of PAE + 2GB  HIGHMEM (so 2 nodes)
-1. I didn't need any AXI aperture remapping
-2. Didn't see any extra mem pressure / failures when running glibc testsuite
-
->
->  arch/arc/include/asm/Kbuild     |  1 -
->  arch/arc/include/asm/topology.h | 30 ++++++++++++++++++++++++++++++
->  2 files changed, 30 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arc/include/asm/topology.h
->
-> diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
-> index caa270261521..e64e0439baff 100644
-> --- a/arch/arc/include/asm/Kbuild
-> +++ b/arch/arc/include/asm/Kbuild
-> @@ -18,7 +18,6 @@ generic-y += msi.h
->  generic-y += parport.h
->  generic-y += percpu.h
->  generic-y += preempt.h
-> -generic-y += topology.h
->  generic-y += trace_clock.h
->  generic-y += user.h
->  generic-y += vga.h
-> diff --git a/arch/arc/include/asm/topology.h b/arch/arc/include/asm/topology.h
-> new file mode 100644
-> index 000000000000..c273506931c9
-> --- /dev/null
-> +++ b/arch/arc/include/asm/topology.h
-> @@ -0,0 +1,30 @@
-> +#ifndef _ASM_ARC_TOPOLOGY_H
-> +#define _ASM_ARC_TOPOLOGY_H
-> +
-> +/*
-> + * On ARC (w/o PAE) HIGHMEM addresses are smaller (0x0 based) than addresses in
-> + * NORMAL aka low memory (0x8000_0000 based).
-> + * Thus HIGHMEM on ARC is imlemented with DISCONTIGMEM which requires multiple
-
-s/imlemented/implemented
-> + * nodes. So here is memory node map depending on the CONFIG_HIGHMEM
-> + * enabled/disabled:
-> + *
-> + * CONFIG_HIGHMEM disabled:
-> + *  - node 0: ZONE_NORMAL memory only.
-> + *
-> + * CONFIG_HIGHMEM enabled:
-> + *  - node 0: ZONE_NORMAL memory only.
-> + *  - node 1: ZONE_HIGHMEM memory only.
-
-Perhaps we could reduce the text above by having 2 lines and adding a "()" comment
-for node 1
-
-+ *  - node 0: ZONE_NORMAL memory  (always)
-+ *  - node 1: ZONE_HIGHMEM memory (HIGHMEM only)
-
-
-
-> + *
-> + * In case of CONFIG_HIGHMEM enabled we tweak generic node topology and mark
-> + * node 1 as the closest to all CPUs to prioritize allocations from ZONE_HIGHMEM
-> + * where it is possible to avoid ZONE_NORMAL pressure.
-> + */
-> +#ifdef CONFIG_HIGHMEM
-> +#define cpu_to_node(cpu)	((void)(cpu), 1)
-> +#define cpu_to_mem(cpu)		((void)(cpu), 1)
-> +#define cpumask_of_node(node)	((node) == 1 ? cpu_online_mask : cpu_none_mask)
-> +#endif /* CONFIG_HIGHMEM */
-> +
-> +#include <asm-generic/topology.h>
-> +
-> +#endif /* _ASM_ARC_TOPOLOGY_H */
-
-Otherwise LGTM. I would like to give this a spin myself, but first need to know
-what tests cause the increased failures which this patch mitigates.
-
-Thx,
--Vineet
+Thanks,
+    Paul
