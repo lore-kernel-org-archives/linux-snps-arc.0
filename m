@@ -1,24 +1,36 @@
-From: rostedt@goodmis.org (Steven Rostedt)
-Date: Thu, 4 Apr 2019 17:06:08 -0400
-Subject: [PATCH 5/6 v3] syscalls: Remove start and number from
- syscall_get_arguments() args
-In-Reply-To: <20190404181758.GA8071@altlinux.org>
-References: <20190401134104.676620247@goodmis.org>
- <20190401134421.278590567@goodmis.org>
- <20190404181758.GA8071@altlinux.org>
+From: alexey.brodkin@synopsys.com (Alexey Brodkin)
+Date: Sat,  6 Apr 2019 01:47:15 +0300
+Subject: [PATCH] busybox: Enable domain search list support
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190404170608.25cadc7d@gandalf.local.home>
+Message-ID: <20190405224715.1321-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, 4 Apr 2019 21:17:58 +0300
-"Dmitry V. Levin" <ldv@altlinux.org> wrote:
+This option is enabled by default in Busybox and becomes
+useful in networks with internal resources becasue allows
+to use much shorter names.
 
-> There are several places listed below where I'd prefer to see more readable
-> equivalents, but feel free to leave it to respective arch maintainers.
+E.g. instead of "server.internal.company.com" it's possible
+to use just "server" if DHCP server is configured with:
+---------------------------->8-----------------------
+option domain-search "internal.company.com";
+---------------------------->8-----------------------
 
-I was going to do similar changes, but figured I'd do just that (let
-the arch maintainers further optimize the code). I made this more about
-fixing the interface and less about the optimization and clean ups that
-it can allow.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ meta/recipes-core/busybox/busybox/defconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
--- Steve
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index 493db28e86..0b27fcd4b3 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -989,7 +989,6 @@ CONFIG_UDHCPC_DEFAULT_SCRIPT="/usr/share/udhcpc/default.script"
+ # CONFIG_FEATURE_UDHCP_PORT is not set
+ CONFIG_UDHCP_DEBUG=0
+ CONFIG_UDHCPC_SLACK_FOR_BUGGY_SERVERS=80
+-# CONFIG_FEATURE_UDHCP_RFC3397 is not set
+ # CONFIG_FEATURE_UDHCP_8021Q is not set
+ CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS="-R -b"
+ 
+-- 
+2.16.2
