@@ -1,66 +1,166 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 24 Apr 2019 13:27:45 +0000
-Subject: [PATCH] posix/tst-getaddrinfo4: Consider EAI_NODATA as an
- expected result
-In-Reply-To: <87v9z3mut0.fsf@oldenburg2.str.redhat.com>
-References: <20180730104036.4016-1-abrodkin@synopsys.com>
- <87v9zbwm7g.fsf@oldenburg2.str.redhat.com>
- <CY4PR1201MB0120AD255C752DD810E73A9FA1260@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <87v9z3mut0.fsf@oldenburg2.str.redhat.com>
+From: acme@kernel.org (Arnaldo Carvalho de Melo)
+Date: Thu, 25 Apr 2019 18:48:00 -0300
+Subject: perf tools build broken after v5.1-rc1
+In-Reply-To: <20190422152027.GB11750@kernel.org>
+References: <eeb83498-f37f-e234-4941-2731b81dc78c@synopsys.com>
+ <20190422152027.GB11750@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CY4PR1201MB01201FE0BA6E607202D61257A13C0@CY4PR1201MB0120.namprd12.prod.outlook.com>
+Message-ID: <20190425214800.GC21829@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Florian,
+Em Mon, Apr 22, 2019 at 12:20:27PM -0300, Arnaldo Carvalho de Melo escreveu:
+> Em Fri, Apr 19, 2019 at 04:32:58PM -0700, Vineet Gupta escreveu:
+> > When building perf for ARC (v5.1-rc2) I get the following
+>  
+> > | In file included from bench/futex-hash.c:26:
+> > | bench/futex.h: In function 'futex_wait':
+> > | bench/futex.h:37:10: error: 'SYS_futex' undeclared (first use in this function);
+>  
+> > git bisect led to 1a787fc5ba18ac767e635c58d06a0b46876184e3 ("tools headers uapi:
+> > Sync copy of asm-generic/unistd.h with the kernel sources")
+> 
+> Humm, I have to check why this:
+> 
+> [perfbuilder at quaco ~]$ podman images | grep ARC
+> docker.io/acmel/linux-perf-tools-build-fedora                24-x-ARC-uClibc          4c259582a8e6   5 weeks ago      846 MB
+> [perfbuilder at quaco ~]$
+> 
+> isn't catching this... :-\
+> 
+> FROM docker.io/fedora:24
+> MAINTAINER Arnaldo Carvalho de Melo <acme at kernel.org>
+> ENV TOOLCHAIN=arc_gnu_2017.09-rc2_prebuilt_uclibc_le_arc700_linux_install
+> ENV CROSS=arc-linux-
+> ENV SOURCEFILE=${TOOLCHAIN}.tar.gz
+> RUN dnf -y install make flex bison binutils gcc wget tar bzip2 bc findutils xz
+> RUN wget https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/download/arc-2017.09-rc2/${SOURCEFILE}
+> <SNIP>
+> COPY rx_and_build.sh /
+> ENV EXTRA_MAKE_ARGS=NO_LIBBPF=1
+> ENV ARCH=arc
+> ENV CROSS_COMPILE=/${TOOLCHAIN}/bin/${CROSS}
+> ENV EXTRA_CFLAGS=-matomic
 
-> -----Original Message-----
-> From: linux-snps-arc <linux-snps-arc-bounces at lists.infradead.org> On Behalf Of Florian Weimer
-> Sent: Wednesday, April 24, 2019 3:50 PM
-> To: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: linux-snps-arc at lists.infradead.org; libc-alpha at sourceware.org
-> Subject: Re: [PATCH] posix/tst-getaddrinfo4: Consider EAI_NODATA as an expected result
-> 
-> * Alexey Brodkin:
-> 
-> > Hi Florian,
-> >
-> >> -----Original Message-----
-> >> From: Florian Weimer <fweimer at redhat.com>
-> >> Sent: Thursday, April 18, 2019 3:08 PM
-> >> To: Alexey Brodkin <abrodkin at synopsys.com>
-> >> Cc: libc-alpha at sourceware.org; linux-snps-arc at lists.infradead.org
-> >> Subject: Re: [PATCH] posix/tst-getaddrinfo4: Consider EAI_NODATA as an expected result
-> >>
-> >> * Alexey Brodkin:
-> >>
-> >> > Some proxy DNS servers might not resolve IPv6 names to addresses.
-> >> > Instead they reply with NOERROR while passing no real data.
-> >> > That combination of NOERROR and EAI_NODATA happen because the DNS
-> >> > server has a recored for requested name (example.net in our case)
-> >> > but that record is not of AAAA type which was requested.
-> >>
-> >> I think this invalidates the test to a large degree.  I don't think this
-> >> is a valid test environment.  You need to fix it.
-> >
-> > I think more interesting would be to figure out if behavior that I see
-> > is valid or not and then decide which test is representative.
-> 
-> The test was added for this bug:
-> 
->   getaddrinfo returns EAI_SYSTEM instead of EAI_NONAME when the network is down
->   <https://urldefense.proofpoint.com/v2/url?u=https-3A__sourceware.org_bugzilla_show-5Fbug.cgi-3Fid-
-> 3D15339&d=DwICAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=sC1flmdXCo0K
-> _9eK__8gRyau_7kSpT32orktcQ2LNeQ&s=TlbAE45sBJja6y8F5OAcODgAOWc1Lx9MYQLP0_iOQSQ&e=>
-> 
-> So I think the return code from getaddrinfo matters here.
-> 
-> We could switch to a namespace with disabled networking; this way, the
-> test would perhaps be more reliable.
-> 
-> I also think the test is wrong.  EAI_NONAME indicates (negative)
-> success, something that should not happen if networking is disabled.
+So, now I have a libnuma crossbuilt in this container that allows me to
+build a ARC perf binary linked with zlib and numactl-devel, but only
+after I applied the fix below.
 
-That makes perfect sense, thanks for explanation.
-So I guess there's no point in spending any more time on that test now.
+Can you please provide the feature detection header in the build? I.e.
+what I have with my ARC cross build container right now, after applying
+the patch below is:
 
--Alexey
+[perfbuilder at 60d5802468f6 perf]$ make $EXTRA_MAKE_ARGS ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE EXTRA_CFLAGS="$EXTRA_CFLAGS" -C /git/perf/tools/perf O=/tmp/build/perf
+make: Entering directory '/git/perf/tools/perf'
+  BUILD:   Doing 'make -j8' parallel build
+sh: line 0: command: -c: invalid option
+command: usage: command [-pVv] command [arg ...]
+
+Auto-detecting system features:
+...                         dwarf: [ OFF ]
+...            dwarf_getlocations: [ OFF ]
+...                         glibc: [ on  ]
+...                          gtk2: [ OFF ]
+...                      libaudit: [ OFF ]
+...                        libbfd: [ OFF ]
+...                        libelf: [ OFF ]
+...                       libnuma: [ on  ]
+...        numa_num_possible_cpus: [ on  ]
+...                       libperl: [ OFF ]
+...                     libpython: [ OFF ]
+...                      libslang: [ OFF ]
+...                     libcrypto: [ OFF ]
+...                     libunwind: [ OFF ]
+...            libdw-dwarf-unwind: [ OFF ]
+...                          zlib: [ OFF ]
+...                          lzma: [ OFF ]
+...                     get_cpuid: [ OFF ]
+...                           bpf: [ on  ]
+...                        libaio: [ OFF ]
+...        disassembler-four-args: [ OFF ]
+
+Makefile.config:339: No libelf found. Disables 'probe' tool, jvmti and BPF support in 'perf record'. Please install libelf-dev, libelf-devel or elfutils-libelf-devel
+Makefile.config:473: No sys/sdt.h found, no SDT events are defined, please install systemtap-sdt-devel or systemtap-sdt-dev
+Makefile.config:548: Disabling post unwind, no support found.
+Makefile.config:601: No libaudit.h found, disables 'trace' tool, please install audit-libs-devel or libaudit-dev
+Makefile.config:613: No libcrypto.h found, disables jitted code injection, please install openssl-devel or libssl-dev
+Makefile.config:628: slang not found, disables TUI support. Please install slang-devel, libslang-dev or libslang2-dev
+Makefile.config:642: GTK2 not found, disables GTK2 support. Please install gtk2-devel or libgtk2.0-dev
+Makefile.config:669: Missing perl devel files. Disabling perl scripting support, please install perl-ExtUtils-Embed/libperl-dev
+Makefile.config:696: No python interpreter was found: disables Python support - please install python-devel/python-dev
+Makefile.config:785: No liblzma found, disables xz kernel module decompression, please install xz-devel/liblzma-dev
+Makefile.config:853: No libbabeltrace found, disables 'perf data' CTF format support, please install libbabeltrace-dev[el]/libbabeltrace-ctf-dev
+make: Leaving directory '/git/perf/tools/perf'
+[perfbuilder at 60d5802468f6 perf]$ export
+declare -x ARCH="arc"
+declare -x CROSS="arc-linux-"
+declare -x CROSS_COMPILE="/arc_gnu_2019.03-rc1_prebuilt_uclibc_le_archs_linux_install/bin/arc-linux-"
+declare -x DISTTAG="f30container"
+declare -x EXTRA_CFLAGS="-matomic"
+declare -x EXTRA_MAKE_ARGS="NO_LIBBPF=1"
+declare -x FBR="f30"
+declare -x FGC="f30"
+declare -x NUMACTL_SOURCEFILE="github.com-numactl-numactl-archive-master-2019-04-25.zip"
+declare -x PATH="/home/perfbuilder/.local/bin:/home/perfbuilder/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+declare -x SOURCEFILE="arc_gnu_2019.03-rc1_prebuilt_uclibc_le_archs_linux_install.tar.gz"
+declare -x TOOLCHAIN="arc_gnu_2019.03-rc1_prebuilt_uclibc_le_archs_linux_install"
+declare -x container="podman"
+[perfbuilder at 60d5802468f6 perf]$ 
+
+commit dd617baf28925cf72fce309232ad9178452e75ab
+Author: Arnaldo Carvalho de Melo <acme at redhat.com>
+Date:   Thu Apr 25 18:36:51 2019 -0300
+
+    perf bench numa: Add define for RUSAGE_THREAD if not present
+    
+    While cross building perf to the ARC architecture on a fedora 30 host,
+    we were failing with:
+    
+          CC       /tmp/build/perf/bench/numa.o
+      bench/numa.c: In function ?worker_thread?:
+      bench/numa.c:1261:12: error: ?RUSAGE_THREAD? undeclared (first use in this function); did you mean ?SIGEV_THREAD??
+        getrusage(RUSAGE_THREAD, &rusage);
+                  ^~~~~~~~~~~~~
+                  SIGEV_THREAD
+      bench/numa.c:1261:12: note: each undeclared identifier is reported only once for each function it appears in
+    
+    [perfbuilder at 60d5802468f6 perf]$ /arc_gnu_2019.03-rc1_prebuilt_uclibc_le_archs_linux_install/bin/arc-linux-gcc --version | head -1
+    arc-linux-gcc (ARCv2 ISA Linux uClibc toolchain 2019.03-rc1) 8.3.1 20190225
+    [perfbuilder at 60d5802468f6 perf]$
+    
+    Trying to reproduce a report by Vineet, I noticed that, with just
+    cross-built zlib and numactl libraries, I ended up with the above
+    failure.
+    
+    So, since RUSAGE_THREAD is available as a define, check for that and
+    numactl libraries, I ended up with the above failure.
+    
+    So, since RUSAGE_THREAD is available as a define in the system headers,
+    check if it is defined in the 'perf bench numa' sources and define it if
+    not.
+    
+    Now it builds and I have to figure out if the problem reported by Vineet
+    only takes place if we have libelf or some other library available.
+    
+    Cc: Arnd Bergmann <arnd at arndb.de>
+    Cc: Jiri Olsa <jolsa at kernel.org>
+    Cc: linux-snps-arc at lists.infradead.org
+    Cc: Namhyung Kim <namhyung at kernel.org>
+    Cc: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+    Link: https://lkml.kernel.org/n/tip-2wb4r1gir9xrevbpq7qp0amk at git.kernel.org
+    Signed-off-by: Arnaldo Carvalho de Melo <acme at redhat.com>
+
+diff --git a/tools/perf/bench/numa.c b/tools/perf/bench/numa.c
+index 98ad783efc69..a7784554a80d 100644
+--- a/tools/perf/bench/numa.c
++++ b/tools/perf/bench/numa.c
+@@ -39,6 +39,10 @@
+ #include <numa.h>
+ #include <numaif.h>
+ 
++#ifndef RUSAGE_THREAD
++# define RUSAGE_THREAD 1
++#endif
++
+ /*
+  * Regular printout to the terminal, supressed if -q is specified:
+  */
