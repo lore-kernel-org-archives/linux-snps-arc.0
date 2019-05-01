@@ -1,93 +1,46 @@
-From: dalias@libc.org (Rich Felker)
-Date: Tue, 30 Apr 2019 23:12:15 -0400
-Subject: Detecting libc in perf (was Re: perf tools build broken after
- v5.1-rc1)
-In-Reply-To: <17a86bc7-c1f9-8c3c-8f1d-711e95dac49d@synopsys.com>
-References: <eeb83498-f37f-e234-4941-2731b81dc78c@synopsys.com>
- <20190422152027.GB11750@kernel.org>
- <20190425214800.GC21829@kernel.org>
- <C2D7FE5348E1B147BCA15975FBA2307501A2505837@us01wembx1.internal.synopsys.com>
- <20190430011818.GE7857@kernel.org>
- <C2D7FE5348E1B147BCA15975FBA2307501A250601B@us01wembx1.internal.synopsys.com>
- <20190430170404.GX23599@brightrain.aerifal.cx>
- <17a86bc7-c1f9-8c3c-8f1d-711e95dac49d@synopsys.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Wed, 1 May 2019 09:09:56 -0700
+Subject: [GIT PULL] ARC updates for 5.1 final
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190501031215.GZ23599@brightrain.aerifal.cx>
+Message-ID: <ab49ac97-deee-e2db-71c7-5544b09aca4f@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Apr 30, 2019@10:13:40AM -0700, Vineet Gupta wrote:
-> On 4/30/19 10:04 AM, Rich Felker wrote:
-> > On Tue, Apr 30, 2019@03:53:18PM +0000, Vineet Gupta wrote:
-> >> On 4/29/19 6:18 PM, Arnaldo Carvalho de Melo wrote:
-> >>>>> Auto-detecting system features:
-> >>>>> ...                         dwarf: [ OFF ]
-> >>>>> ...            dwarf_getlocations: [ OFF ]
-> >>>>> ...                         glibc: [ on  ]
-> >>>> Not related to current issue, this run uses a uClibc toolchain and yet it is
-> >>>> detecting glibc - doesn't seem right to me.
-> >>> Ok, I'll improve that, I think it just tries to detect a libc, yeah,
-> >>> see:
-> >>>
-> >>> [acme at quaco linux]$ cat tools/build/feature/test-glibc.c
-> >>> // SPDX-License-Identifier: GPL-2.0
-> >>> #include <stdlib.h>
-> >>>
-> >>> #if !defined(__UCLIBC__)
-> >>> #include <gnu/libc-version.h>
-> >>> #else
-> >>> #define XSTR(s) STR(s)
-> >>> #define STR(s) #s
-> >>> #endif
-> >>>
-> >>> int main(void)
-> >>> {
-> >>> #if !defined(__UCLIBC__)
-> >>> 	const char *version = gnu_get_libc_version();
-> >>> #else
-> >>> 	const char *version = XSTR(__GLIBC__) "." XSTR(__GLIBC_MINOR__);
-> >>> #endif
-> >>>
-> >>> 	return (long)version;
-> >>> }
-> >>> [acme at quaco linux]$
-> >>>
-> >>> [perfbuilder at 59ca4b424ded /]$ grep __GLIBC__ /arc_gnu_2017.09-rc2_prebuilt_uclibc_le_arc700_linux_install/arc-snps-linux-uclibc/sysroot/usr/include/*.h
-> >>> /arc_gnu_2017.09-rc2_prebuilt_uclibc_le_arc700_linux_install/arc-snps-linux-uclibc/sysroot/usr/include/features.h:   The macros `__GNU_LIBRARY__', `__GLIBC__', and `__GLIBC_MINOR__' are
-> >>> /arc_gnu_2017.09-rc2_prebuilt_uclibc_le_arc700_linux_install/arc-snps-linux-uclibc/sysroot/usr/include/features.h:#define	__GLIBC__	2
-> >>> /arc_gnu_2017.09-rc2_prebuilt_uclibc_le_arc700_linux_install/arc-snps-linux-uclibc/sysroot/usr/include/features.h:	((__GLIBC__ << 16) + __GLIBC_MINOR__ >= ((maj) << 16) + (min))
-> >>> [perfbuilder at 59ca4b424ded /]$
-> >>>
-> >>> Isn't that part of uClibc?
-> >>
-> >> Right you are. Per the big fat comment right above that code, this gross hack in
-> >> uclibc is unavoidable as applications tend to rely on that define.
-> >> So a better fix would be to check for various !GLIBC libs explicitly.
-> >>
-> >> #ifdef __UCLIBC__
-> >>
-> >> #elseif defined __MUSL__
-> >>
-> >> ....
-> >>
-> >> Not pretty from app usage pov, but that seems to be the only sane way of doing it.
-> > 
-> > What are you trying to achieve? I was just CC'd and I'm missing the
-> > context.
-> 
-> Sorry I added you as a subject matter expert but didn't provide enough context.
-> 
-> The original issue [1] was perf failing to build on ARC due to perf tools needing
-> a copy of unistd.h but this thread [2] was a small side issue of auto-detecting
-> libc variaint in perf tools where despite uClibc tools, glibc is declared to be
-> detected, due to uClibc's historical hack of defining __GLIBC__. So __GLIBC__ is
-> not sufficient (and probably not the right interface to begin wtih) to ensure glibc.
-> 
-> [1] http://lists.infradead.org/pipermail/linux-snps-arc/2019-April/005676.html
-> [2] http://lists.infradead.org/pipermail/linux-snps-arc/2019-April/005684.html
+Hi Linus,
 
-I think you misunderstood -- I'm asking what you're trying to achieve
-by detecting whether the libc is glibc, rather than whether it has
-some particular interface you want to conditionally use. This is a
-major smell and is usually something wrong that shouldn't be done.
+Please pull a few minor fixes for ARC.
 
-Rich
+Thx,
+-Vineet
+
+------------------->
+The following changes since commit 79a3aaa7b82e3106be97842dedfd8429248896e6:
+
+  Linux 5.1-rc3 (2019-03-31 14:39:29 -0700)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.1-final
+
+for you to fetch changes up to 55c0c4c793b538fb438bcc72481b9dc2f79fe5a9:
+
+  ARC: memset: fix build with L1_CACHE_SHIFT != 6 (2019-04-08 08:41:44 -0700)
+
+----------------------------------------------------------------
+ARC updates for 5.1 final
+
+ - regression in memset if line size !64
+
+ - avoid panic if PAE and IOC
+
+----------------------------------------------------------------
+Eugeniy Paltsev (1):
+      ARC: memset: fix build with L1_CACHE_SHIFT != 6
+
+Vineet Gupta (2):
+      ARC: PAE40: don't panic and instead turn off hw ioc
+      ARC: [hsdk] Make it easier to add PAE40 region to DTB
+
+ arch/arc/boot/dts/hsdk.dts  | 13 +++++++------
+ arch/arc/lib/memset-archs.S |  4 ++--
+ arch/arc/mm/cache.c         | 31 ++++++++++++++++---------------
+ 3 files changed, 25 insertions(+), 23 deletions(-)
