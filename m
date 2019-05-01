@@ -1,48 +1,21 @@
-From: acme@kernel.org (Arnaldo Carvalho de Melo)
-Date: Wed, 1 May 2019 16:41:15 -0400
-Subject: perf tools build broken after v5.1-rc1
-In-Reply-To: <CAK8P3a2JrAApXDws+t=q8AnKFkHJZSox7gsgwW-xEJTfs_mdzw@mail.gmail.com>
-References: <eeb83498-f37f-e234-4941-2731b81dc78c@synopsys.com>
- <20190422152027.GB11750@kernel.org>
- <C2D7FE5348E1B147BCA15975FBA2307501A250584C@us01wembx1.internal.synopsys.com>
- <CAK8P3a2JrAApXDws+t=q8AnKFkHJZSox7gsgwW-xEJTfs_mdzw@mail.gmail.com>
+From: pr-tracker-bot@kernel.org (pr-tracker-bot@kernel.org)
+Date: Wed, 01 May 2019 20:45:03 +0000
+Subject: [GIT PULL] ARC updates for 5.1 final
+In-Reply-To: <ab49ac97-deee-e2db-71c7-5544b09aca4f@synopsys.com>
+References: <ab49ac97-deee-e2db-71c7-5544b09aca4f@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190501204115.GF21436@kernel.org>
+Message-ID: <155674350397.10978.6664250901055231758.pr-tracker-bot@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-Em Tue, Apr 30, 2019 at 06:12:35PM +0200, Arnd Bergmann escreveu:
-> On Mon, Apr 29, 2019@7:17 PM Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
-> >
-> > On 4/22/19 8:31 AM, Arnaldo Carvalho de Melo wrote:
-> > >> A quick fix for ARC will be to create our own version but I presume all existing
-> > >> arches using generic syscall abi are affected. Thoughts ? In lack of ideas I'll
-> > >> send out a patch for ARC.
-> > >>
-> > >> P.S. Why do we need the unistd.h duplication in tools directory, given it could
-> > >> have used the in-tree unistd headers directly ?
-> > > I have to write down the explanation and have it in a file, but we can't
-> > > use anything in the kernel from outside tools/ to avoid adding a burden
-> > > to kernel developers that would then have to make sure that the changes
-> > > that they make outside tools/ don't break things living there.
-> >
-> > That is a sound guiding principle in general but I don't agree here. unistd is
-> > backbone of kernel user interface it has to work and can't possibly be broken even
-> > when kernel devs add a new syscall is added or condition-alize existing one. So
-> > adding a copy - and deferring the propagation of in-kernel unistd to usersapce
-> > won't necessarily help with anything and it just adds the burden of keeping them
-> > in sync. Granted we won't necessarily need all the bleeding edge (new syscall
-> > updates) into that header, its still more work.
-> 
-> I think more importantly, it seems completely broken to sync a file from
-> asm-generic but not the arch specific file that includes it.
-> 
-> The 1a787fc5ba18ac7 commit copied over the changes for arm64, but
-> missed all the other architectures changed in c8ce48f06503 and the
-> related commits.
+The pull request you sent on Wed, 1 May 2019 09:09:56 -0700:
 
-Right, I have a patch copying the missing headers, and that fixed the
-build with the glibc-based toolchain, but then broke the uCLibc one :-\
+> git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.1-final
 
-I'm travelling, so coulnd't get back to this, will try as possible.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/65beea4c3a526320b019ca5c010da41533dafaf5
 
-- Arnaldo
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
