@@ -1,25 +1,69 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Thu, 02 May 2019 20:57:49 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Fri May 03, 06:56
+From: acme@kernel.org (Arnaldo Carvalho de Melo)
+Date: Thu,  2 May 2019 20:25:27 -0400
+Subject: [PATCH 05/11] perf bench numa: Add define for RUSAGE_THREAD if not
+ present
+In-Reply-To: <20190503002533.29359-1-acme@kernel.org>
+References: <20190503002533.29359-1-acme@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190502205749.1.40601@07b04a9130af>
+Message-ID: <20190503002533.29359-6-acme@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Fri May 03, 06:56
+From: Arnaldo Carvalho de Melo <acme@redhat.com>
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13786932/
+While cross building perf to the ARC architecture on a fedora 30 host,
+we were failing with:
 
-Commit:   Merge tag 'pci-v5.1-fixes-3' of git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci
-          b7a5b22b05472704ca3e891a3a3c7769c057413a
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+      CC       /tmp/build/perf/bench/numa.o
+  bench/numa.c: In function ?worker_thread?:
+  bench/numa.c:1261:12: error: ?RUSAGE_THREAD? undeclared (first use in this function); did you mean ?SIGEV_THREAD??
+    getrusage(RUSAGE_THREAD, &rusage);
+              ^~~~~~~~~~~~~
+              SIGEV_THREAD
+  bench/numa.c:1261:12: note: each undeclared identifier is reported only once for each function it appears in
 
-No errors found in log
+[perfbuilder at 60d5802468f6 perf]$ /arc_gnu_2019.03-rc1_prebuilt_uclibc_le_archs_linux_install/bin/arc-linux-gcc --version | head -1
+arc-linux-gcc (ARCv2 ISA Linux uClibc toolchain 2019.03-rc1) 8.3.1 20190225
+[perfbuilder at 60d5802468f6 perf]$
 
-Possible warnings (5)
-----------------------
+Trying to reproduce a report by Vineet, I noticed that, with just
+cross-built zlib and numactl libraries, I ended up with the above
+failure.
 
-arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/ipv4/tcp_input.c:4315:49: warning: array subscript is above array bounds [-Warray-bounds]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+So, since RUSAGE_THREAD is available as a define, check for that and
+numactl libraries, I ended up with the above failure.
+
+So, since RUSAGE_THREAD is available as a define in the system headers,
+check if it is defined in the 'perf bench numa' sources and define it if
+not.
+
+Now it builds and I have to figure out if the problem reported by Vineet
+only takes place if we have libelf or some other library available.
+
+Cc: Arnd Bergmann <arnd at arndb.de>
+Cc: Jiri Olsa <jolsa at kernel.org>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: Namhyung Kim <namhyung at kernel.org>
+Cc: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+Link: https://lkml.kernel.org/n/tip-2wb4r1gir9xrevbpq7qp0amk at git.kernel.org
+Signed-off-by: Arnaldo Carvalho de Melo <acme at redhat.com>
+---
+ tools/perf/bench/numa.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/tools/perf/bench/numa.c b/tools/perf/bench/numa.c
+index 98ad783efc69..a7784554a80d 100644
+--- a/tools/perf/bench/numa.c
++++ b/tools/perf/bench/numa.c
+@@ -39,6 +39,10 @@
+ #include <numa.h>
+ #include <numaif.h>
+ 
++#ifndef RUSAGE_THREAD
++# define RUSAGE_THREAD 1
++#endif
++
+ /*
+  * Regular printout to the terminal, supressed if -q is specified:
+  */
+-- 
+2.20.1
