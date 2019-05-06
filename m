@@ -1,37 +1,49 @@
-From: alexei.starovoitov@gmail.com (Alexei Starovoitov)
-Date: Sun, 5 May 2019 00:05:06 -0700
-Subject: [PATCH v2] tools/bpf: fix perf build error with uClibc (seen on
- ARC)
-In-Reply-To: <CAH3MdRWkiFSRA+PRo53_Syx9OBmyj2U_ebap-9iBR8L7xW9UVw@mail.gmail.com>
-References: <CAH3MdRVkUFfwKkgT-pi-RLBpcEf6n0bAwWZOu-=7+qctPTCpkw@mail.gmail.com>
- <1556812610-27957-1-git-send-email-vgupta@synopsys.com>
- <CAH3MdRWkiFSRA+PRo53_Syx9OBmyj2U_ebap-9iBR8L7xW9UVw@mail.gmail.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Mon, 6 May 2019 18:19:20 +0000
+Subject: [PATCH] ARC: [plat-hsdk]: Add missing multicast filter bins
+ number to GMAC node
+In-Reply-To: <56933076-879c-78a0-4bae-2613203b93b1@synopsys.com>
+References: <7f36bbadc0df4c93c396690dab59f34775de3874.1556788240.git.joabreu@synopsys.com>
+ <56933076-879c-78a0-4bae-2613203b93b1@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAADnVQKOR7NJ=zDLndJpTnVjnkjr1UrtWG_2vwgJK3QcCAADcA@mail.gmail.com>
+Message-ID: <1557166759.17021.9.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, May 2, 2019@1:20 PM Y Song <ys114321@gmail.com> wrote:
->
-> On Thu, May 2, 2019@8:57 AM Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
-> >
-> > When build perf for ARC recently, there was a build failure due to lack
-> > of __NR_bpf.
-> >
-> > | Auto-detecting system features:
-> > |
-> > | ...                     get_cpuid: [ OFF ]
-> > | ...                           bpf: [ on  ]
-> > |
-> > | #  error __NR_bpf not defined. libbpf does not support your arch.
-> >     ^~~~~
-> > | bpf.c: In function 'sys_bpf':
-> > | bpf.c:66:17: error: '__NR_bpf' undeclared (first use in this function)
-> > |  return syscall(__NR_bpf, cmd, attr, size);
-> > |                 ^~~~~~~~
-> > |                 sys_bpf
-> >
-> > Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
->
-> Acked-by: Yonghong Song <yhs at fb.com>
+Hi,
 
-Applied. Thanks
+I'll check this in the next few days.
+
+On Thu, 2019-05-02@08:41 -0700, Vineet Gupta wrote:
+> +CC Alexey, Eugeniy who maintain hsdk support !
+> 
+> On 5/2/19 8:12 AM, Jose Abreu wrote:
+> > GMAC controller on HSDK boards supports 256 Hash Table size so we need to
+> > add the multicast filter bins property. This allows for the Hash filter
+> > to work properly using stmmac driver.
+> > 
+> > Signed-off-by: Jose Abreu <joabreu at synopsys.com>
+> > Cc: Joao Pinto <jpinto at synopsys.com>
+> > Cc: Rob Herring <robh+dt at kernel.org>
+> > Cc: Mark Rutland <mark.rutland at arm.com>
+> > Cc: Vineet Gupta <vgupta at synopsys.com>
+> > ---
+> >  arch/arc/boot/dts/hsdk.dts | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+> > index 69bc1c9e8e50..b0f059377ab0 100644
+> > --- a/arch/arc/boot/dts/hsdk.dts
+> > +++ b/arch/arc/boot/dts/hsdk.dts
+> > @@ -187,6 +187,7 @@
+> >  			interrupt-names = "macirq";
+> >  			phy-mode = "rgmii";
+> >  			snps,pbl = <32>;
+> > +			snps,multicast-filter-bins = <256>;
+> >  			clocks = <&gmacclk>;
+> >  			clock-names = "stmmaceth";
+> >  			phy-handle = <&phy0>;
+> > 
+> 
+> 
+-- 
+ Eugeniy Paltsev
