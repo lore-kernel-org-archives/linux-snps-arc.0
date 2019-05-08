@@ -1,49 +1,25 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 6 May 2019 18:19:20 +0000
+From: Jose.Abreu@synopsys.com (Jose Abreu)
+Date: Wed, 8 May 2019 07:28:57 +0000
 Subject: [PATCH] ARC: [plat-hsdk]: Add missing multicast filter bins
  number to GMAC node
-In-Reply-To: <56933076-879c-78a0-4bae-2613203b93b1@synopsys.com>
+In-Reply-To: <1557166759.17021.9.camel@synopsys.com>
 References: <7f36bbadc0df4c93c396690dab59f34775de3874.1556788240.git.joabreu@synopsys.com>
  <56933076-879c-78a0-4bae-2613203b93b1@synopsys.com>
+ <1557166759.17021.9.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1557166759.17021.9.camel@synopsys.com>
+Message-ID: <78EB27739596EE489E55E81C33FEC33A0B478870@DE02WEMBXB.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+From: Eugeniy Paltsev <paltsev@synopsys.com>
+Date: Mon, May 06, 2019 at 19:19:20
 
-I'll check this in the next few days.
+> Hi,
+> 
+> I'll check this in the next few days.
+> 
 
-On Thu, 2019-05-02@08:41 -0700, Vineet Gupta wrote:
-> +CC Alexey, Eugeniy who maintain hsdk support !
-> 
-> On 5/2/19 8:12 AM, Jose Abreu wrote:
-> > GMAC controller on HSDK boards supports 256 Hash Table size so we need to
-> > add the multicast filter bins property. This allows for the Hash filter
-> > to work properly using stmmac driver.
-> > 
-> > Signed-off-by: Jose Abreu <joabreu at synopsys.com>
-> > Cc: Joao Pinto <jpinto at synopsys.com>
-> > Cc: Rob Herring <robh+dt at kernel.org>
-> > Cc: Mark Rutland <mark.rutland at arm.com>
-> > Cc: Vineet Gupta <vgupta at synopsys.com>
-> > ---
-> >  arch/arc/boot/dts/hsdk.dts | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-> > index 69bc1c9e8e50..b0f059377ab0 100644
-> > --- a/arch/arc/boot/dts/hsdk.dts
-> > +++ b/arch/arc/boot/dts/hsdk.dts
-> > @@ -187,6 +187,7 @@
-> >  			interrupt-names = "macirq";
-> >  			phy-mode = "rgmii";
-> >  			snps,pbl = <32>;
-> > +			snps,multicast-filter-bins = <256>;
-> >  			clocks = <&gmacclk>;
-> >  			clock-names = "stmmaceth";
-> >  			phy-handle = <&phy0>;
-> > 
-> 
-> 
--- 
- Eugeniy Paltsev
+I also noticed that FIFO size entry is missing. DWMAC1000 does not 
+support automatic FIFO size detection so this entry needs to be added.
+
+Thanks,
+Jose Miguel Abreu
