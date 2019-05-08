@@ -1,25 +1,25 @@
-From: Jose.Abreu@synopsys.com (Jose Abreu)
-Date: Wed, 8 May 2019 07:28:57 +0000
-Subject: [PATCH] ARC: [plat-hsdk]: Add missing multicast filter bins
- number to GMAC node
-In-Reply-To: <1557166759.17021.9.camel@synopsys.com>
-References: <7f36bbadc0df4c93c396690dab59f34775de3874.1556788240.git.joabreu@synopsys.com>
- <56933076-879c-78a0-4bae-2613203b93b1@synopsys.com>
- <1557166759.17021.9.camel@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Wed, 08 May 2019 07:47:27 -0000
+Subject: kisskb: OK linus/axs101_defconfig/arcompact Wed May 08, 17:46
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <78EB27739596EE489E55E81C33FEC33A0B478870@DE02WEMBXB.internal.synopsys.com>
+Message-ID: <20190508074727.1.53872@07b04a9130af>
 To: linux-snps-arc@lists.infradead.org
 
-From: Eugeniy Paltsev <paltsev@synopsys.com>
-Date: Mon, May 06, 2019 at 19:19:20
+OK linus/axs101_defconfig/arcompact Wed May 08, 17:46
 
-> Hi,
-> 
-> I'll check this in the next few days.
-> 
+http://kisskb.ellerman.id.au/kisskb/buildresult/13794331/
 
-I also noticed that FIFO size entry is missing. DWMAC1000 does not 
-support automatic FIFO size detection so this entry needs to be added.
+Commit:   Merge branch 'parisc-5.2-1' of git://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux
+          d3511f53bb2475f2a4e8460bee5a1ae6dea2a433
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
 
-Thanks,
-Jose Miguel Abreu
+No errors found in log
+
+Possible warnings (5)
+----------------------
+
+arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+net/ipv4/tcp_input.c:4315:49: warning: array subscript is above array bounds [-Warray-bounds]
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
