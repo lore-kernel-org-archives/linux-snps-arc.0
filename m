@@ -1,445 +1,131 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed,  8 May 2019 18:23:33 +0300
-Subject: [GLIBC] ARC: Add multilib support
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Thu, 09 May 2019 19:12:33 -0000
+Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Fri May 10, 05:12
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190508152333.2949-1-abrodkin@synopsys.com>
+Message-ID: <20190509191233.1.59761@07b04a9130af>
 To: linux-snps-arc@lists.infradead.org
 
-Based on preprocessor defines we determine which type of ARC core
-we're targeting and set slibdir accordingly so that on installation
-of libraries to sysroot libs for different ARC cores end up in different
-locations which match ARC Linux multilib spec.
+OK linus/axs103_smp_defconfig/arcv2 Fri May 10, 05:12
 
-Note though it all only happens if 2 conditions happen simultaneously:
- 1. Glibc configured with "--prefix=/usr"
- 2. "-mcpu=xxx" exists in CC passed to Glibc's configure script
+http://kisskb.ellerman.id.au/kisskb/buildresult/13797806/
 
-I.e. when we build Glibc for default CPU libs are installed in default
-location.
+Commit:   Merge tag 'for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma
+          dce45af5c2e9e85f22578f2f8065f225f5d11764
+Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824 / GNU ld (GNU Binutils) 2.27.51.20160928
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
- sysdeps/unix/sysv/linux/arc/configure    | 329 ++++++++++++++++++++++++++++++-
- sysdeps/unix/sysv/linux/arc/configure.ac |  70 +++++++
- 2 files changed, 398 insertions(+), 1 deletion(-)
- mode change 100644 => 100755 sysdeps/unix/sysv/linux/arc/configure
+Possible errors
+---------------
 
-diff --git a/sysdeps/unix/sysv/linux/arc/configure b/sysdeps/unix/sysv/linux/arc/configure
-old mode 100644
-new mode 100755
-index f74fa7cb025..2173bd45484
---- a/sysdeps/unix/sysv/linux/arc/configure
-+++ b/sysdeps/unix/sysv/linux/arc/configure
-@@ -1,4 +1,331 @@
--# This file is generated from configure.in by Autoconf.  DO NOT EDIT!
-+# This file is generated from configure.ac by Autoconf.  DO NOT EDIT!
-  # Local configure fragment for sysdeps/unix/sysv/linux/arc.
- 
- arch_minimum_kernel=3.9.0
-+
-+# If "-mcpu=xxx" found in passed CC assume we're building for
-+# non-default CPU and thus we need to install libs in non-default location.
-+if { ac_try='echo $CC | grep -F "mcpu" > /dev/null'
-+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
-+  (eval $ac_try) 2>&5
-+  ac_status=$?
-+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-+  test $ac_status = 0; }; };
-+then
-+	libc_cv_arc_arch=no
-+
-+	# If this is ARCompact-based core
-+
-+
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
-+$as_echo_n "checking for grep that handles long lines and -e... " >&6; }
-+if ${ac_cv_path_GREP+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  if test -z "$GREP"; then
-+  ac_path_GREP_found=false
-+  # Loop through the user's path and test for each of PROGNAME-LIST
-+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-+for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
-+do
-+  IFS=$as_save_IFS
-+  test -z "$as_dir" && as_dir=.
-+    for ac_prog in grep ggrep; do
-+    for ac_exec_ext in '' $ac_executable_extensions; do
-+      ac_path_GREP="$as_dir/$ac_prog$ac_exec_ext"
-+      as_fn_executable_p "$ac_path_GREP" || continue
-+# Check for GNU ac_path_GREP and select it if it is found.
-+  # Check for GNU $ac_path_GREP
-+case `"$ac_path_GREP" --version 2>&1` in
-+*GNU*)
-+  ac_cv_path_GREP="$ac_path_GREP" ac_path_GREP_found=:;;
-+*)
-+  ac_count=0
-+  $as_echo_n 0123456789 >"conftest.in"
-+  while :
-+  do
-+    cat "conftest.in" "conftest.in" >"conftest.tmp"
-+    mv "conftest.tmp" "conftest.in"
-+    cp "conftest.in" "conftest.nl"
-+    $as_echo 'GREP' >> "conftest.nl"
-+    "$ac_path_GREP" -e 'GREP$' -e '-(cannot match)-' < "conftest.nl" >"conftest.out" 2>/dev/null || break
-+    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
-+    as_fn_arith $ac_count + 1 && ac_count=$as_val
-+    if test $ac_count -gt ${ac_path_GREP_max-0}; then
-+      # Best one so far, save it but keep looking for a better one
-+      ac_cv_path_GREP="$ac_path_GREP"
-+      ac_path_GREP_max=$ac_count
-+    fi
-+    # 10*(2^10) chars as input seems more than enough
-+    test $ac_count -gt 10 && break
-+  done
-+  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
-+esac
-+
-+      $ac_path_GREP_found && break 3
-+    done
-+  done
-+  done
-+IFS=$as_save_IFS
-+  if test -z "$ac_cv_path_GREP"; then
-+    as_fn_error $? "no acceptable grep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
-+  fi
-+else
-+  ac_cv_path_GREP=$GREP
-+fi
-+
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_GREP" >&5
-+$as_echo "$ac_cv_path_GREP" >&6; }
-+ GREP="$ac_cv_path_GREP"
-+
-+
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for egrep" >&5
-+$as_echo_n "checking for egrep... " >&6; }
-+if ${ac_cv_path_EGREP+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  if echo a | $GREP -E '(a|b)' >/dev/null 2>&1
-+   then ac_cv_path_EGREP="$GREP -E"
-+   else
-+     if test -z "$EGREP"; then
-+  ac_path_EGREP_found=false
-+  # Loop through the user's path and test for each of PROGNAME-LIST
-+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-+for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
-+do
-+  IFS=$as_save_IFS
-+  test -z "$as_dir" && as_dir=.
-+    for ac_prog in egrep; do
-+    for ac_exec_ext in '' $ac_executable_extensions; do
-+      ac_path_EGREP="$as_dir/$ac_prog$ac_exec_ext"
-+      as_fn_executable_p "$ac_path_EGREP" || continue
-+# Check for GNU ac_path_EGREP and select it if it is found.
-+  # Check for GNU $ac_path_EGREP
-+case `"$ac_path_EGREP" --version 2>&1` in
-+*GNU*)
-+  ac_cv_path_EGREP="$ac_path_EGREP" ac_path_EGREP_found=:;;
-+*)
-+  ac_count=0
-+  $as_echo_n 0123456789 >"conftest.in"
-+  while :
-+  do
-+    cat "conftest.in" "conftest.in" >"conftest.tmp"
-+    mv "conftest.tmp" "conftest.in"
-+    cp "conftest.in" "conftest.nl"
-+    $as_echo 'EGREP' >> "conftest.nl"
-+    "$ac_path_EGREP" 'EGREP$' < "conftest.nl" >"conftest.out" 2>/dev/null || break
-+    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
-+    as_fn_arith $ac_count + 1 && ac_count=$as_val
-+    if test $ac_count -gt ${ac_path_EGREP_max-0}; then
-+      # Best one so far, save it but keep looking for a better one
-+      ac_cv_path_EGREP="$ac_path_EGREP"
-+      ac_path_EGREP_max=$ac_count
-+    fi
-+    # 10*(2^10) chars as input seems more than enough
-+    test $ac_count -gt 10 && break
-+  done
-+  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
-+esac
-+
-+      $ac_path_EGREP_found && break 3
-+    done
-+  done
-+  done
-+IFS=$as_save_IFS
-+  if test -z "$ac_cv_path_EGREP"; then
-+    as_fn_error $? "no acceptable egrep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
-+  fi
-+else
-+  ac_cv_path_EGREP=$EGREP
-+fi
-+
-+   fi
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_EGREP" >&5
-+$as_echo "$ac_cv_path_EGREP" >&6; }
-+ EGREP="$ac_cv_path_EGREP"
-+
-+
-+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+/* end confdefs.h.  */
-+#ifdef __ARC700__
-+			   yes
-+			   #endif
-+
-+_ACEOF
-+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+  $EGREP "yes" >/dev/null 2>&1; then :
-+  libc_cv_arc_arch=arc700
-+fi
-+rm -f conftest*
-+
-+
-+	# If this is ARCv2-based core
-+	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+/* end confdefs.h.  */
-+#ifdef __ARCHS__
-+			   yes
-+			   #endif
-+
-+_ACEOF
-+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+  $EGREP "yes" >/dev/null 2>&1; then :
-+  libc_cv_arc_arch=hs
-+fi
-+rm -f conftest*
-+
-+
-+	if test $libc_cv_arc_arch = no; then
-+	  as_fn_error $? "Unable to determine ARC architecture" "$LINENO" 5
-+	fi
-+
-+	if test $libc_cv_arc_arch = arc700; then
-+		# NPS400
-+		cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+/* end confdefs.h.  */
-+#ifdef __NPS400__
-+				   yes
-+				   #endif
-+
-+_ACEOF
-+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+  $EGREP "yes" >/dev/null 2>&1; then :
-+  libc_cv_arc_arch=nps400
-+fi
-+rm -f conftest*
-+
-+	else
-+		# Base-line HS38 + HW multiplier
-+		cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+/* end confdefs.h.  */
-+#ifdef __ARC_MPY__
-+				   yes
-+				   #endif
-+
-+_ACEOF
-+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+  $EGREP "yes" >/dev/null 2>&1; then :
-+  libc_cv_arc_arch=archs
-+fi
-+rm -f conftest*
-+
-+
-+		# Base-line HS38 + HW quad-multiplier
-+		cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+/* end confdefs.h.  */
-+#ifdef __ARC_MPY_QMACW__
-+				   yes
-+				   #endif
-+
-+_ACEOF
-+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+  $EGREP "yes" >/dev/null 2>&1; then :
-+  libc_cv_arc_arch=hs38
-+fi
-+rm -f conftest*
-+
-+
-+		# Base-line HS38 + HW quad-multiplier + FPU
-+		cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+/* end confdefs.h.  */
-+#ifdef __ARC_FPU_DP__
-+				   yes
-+				   #endif
-+
-+_ACEOF
-+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+  $EGREP "yes" >/dev/null 2>&1; then :
-+  libc_cv_arc_arch=hs38_linux
-+fi
-+rm -f conftest*
-+
-+	fi
-+
-+	case $libc_cv_arc_arch in
-+	arc700)
-+	  test -n "$libc_cv_slibdir" ||
-+case "$prefix" in
-+/usr | /usr/)
-+  libc_cv_slibdir='/lib/arc700'
-+  libc_cv_rtlddir='/lib/arc700'
-+  if test "$libdir" = '${exec_prefix}/lib'; then
-+    libdir='${exec_prefix}/lib/arc700';
-+    # Locale data can be shared between 32-bit and 64-bit libraries.
-+    libc_cv_complocaledir='${exec_prefix}/lib/locale'
-+  fi
-+  ;;
-+esac
-+	  ;;
-+	nps400)
-+	  test -n "$libc_cv_slibdir" ||
-+case "$prefix" in
-+/usr | /usr/)
-+  libc_cv_slibdir='/lib/nps400'
-+  libc_cv_rtlddir='/lib/nps400'
-+  if test "$libdir" = '${exec_prefix}/lib'; then
-+    libdir='${exec_prefix}/lib/nps400';
-+    # Locale data can be shared between 32-bit and 64-bit libraries.
-+    libc_cv_complocaledir='${exec_prefix}/lib/locale'
-+  fi
-+  ;;
-+esac
-+	  ;;
-+	hs)
-+	  test -n "$libc_cv_slibdir" ||
-+case "$prefix" in
-+/usr | /usr/)
-+  libc_cv_slibdir='/lib/hs'
-+  libc_cv_rtlddir='/lib/hs'
-+  if test "$libdir" = '${exec_prefix}/lib'; then
-+    libdir='${exec_prefix}/lib/hs';
-+    # Locale data can be shared between 32-bit and 64-bit libraries.
-+    libc_cv_complocaledir='${exec_prefix}/lib/locale'
-+  fi
-+  ;;
-+esac
-+	  ;;
-+	archs)
-+	  test -n "$libc_cv_slibdir" ||
-+case "$prefix" in
-+/usr | /usr/)
-+  libc_cv_slibdir='/lib/archs'
-+  libc_cv_rtlddir='/lib/archs'
-+  if test "$libdir" = '${exec_prefix}/lib'; then
-+    libdir='${exec_prefix}/lib/archs';
-+    # Locale data can be shared between 32-bit and 64-bit libraries.
-+    libc_cv_complocaledir='${exec_prefix}/lib/locale'
-+  fi
-+  ;;
-+esac
-+	  ;;
-+	hs38)
-+	  test -n "$libc_cv_slibdir" ||
-+case "$prefix" in
-+/usr | /usr/)
-+  libc_cv_slibdir='/lib/hs38'
-+  libc_cv_rtlddir='/lib/hs38'
-+  if test "$libdir" = '${exec_prefix}/lib'; then
-+    libdir='${exec_prefix}/lib/hs38';
-+    # Locale data can be shared between 32-bit and 64-bit libraries.
-+    libc_cv_complocaledir='${exec_prefix}/lib/locale'
-+  fi
-+  ;;
-+esac
-+	  ;;
-+	hs38_linux)
-+	  test -n "$libc_cv_slibdir" ||
-+case "$prefix" in
-+/usr | /usr/)
-+  libc_cv_slibdir='/lib/hs38_linux'
-+  libc_cv_rtlddir='/lib/hs38_linux'
-+  if test "$libdir" = '${exec_prefix}/lib'; then
-+    libdir='${exec_prefix}/lib/hs38_linux';
-+    # Locale data can be shared between 32-bit and 64-bit libraries.
-+    libc_cv_complocaledir='${exec_prefix}/lib/locale'
-+  fi
-+  ;;
-+esac
-+	  ;;
-+	esac
-+fi
-diff --git a/sysdeps/unix/sysv/linux/arc/configure.ac b/sysdeps/unix/sysv/linux/arc/configure.ac
-index a9528032d32..3615db8eabc 100644
---- a/sysdeps/unix/sysv/linux/arc/configure.ac
-+++ b/sysdeps/unix/sysv/linux/arc/configure.ac
-@@ -2,3 +2,73 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
- # Local configure fragment for sysdeps/unix/sysv/linux/arc.
- 
- arch_minimum_kernel=3.9.0
-+
-+# If "-mcpu=xxx" found in passed CC assume we're building for
-+# non-default CPU and thus we need to install libs in non-default location.
-+if AC_TRY_COMMAND([echo $CC | grep -F "mcpu" > /dev/null]);
-+then
-+	libc_cv_arc_arch=no
-+
-+	# If this is ARCompact-based core
-+	AC_EGREP_CPP(yes, [#ifdef __ARC700__
-+			   yes
-+			   #endif
-+	],libc_cv_arc_arch=arc700)
-+
-+	# If this is ARCv2-based core
-+	AC_EGREP_CPP(yes, [#ifdef __ARCHS__
-+			   yes
-+			   #endif
-+	],libc_cv_arc_arch=hs)
-+
-+	if test $libc_cv_arc_arch = no; then
-+	  AC_MSG_ERROR([Unable to determine ARC architecture])
-+	fi
-+
-+	if test $libc_cv_arc_arch = arc700; then
-+		# NPS400
-+		AC_EGREP_CPP(yes, [#ifdef __NPS400__
-+				   yes
-+				   #endif
-+		],libc_cv_arc_arch=nps400)
-+	else
-+		# Base-line HS38 + HW multiplier
-+		AC_EGREP_CPP(yes, [#ifdef __ARC_MPY__
-+				   yes
-+				   #endif
-+		],libc_cv_arc_arch=archs)
-+
-+		# Base-line HS38 + HW quad-multiplier
-+		AC_EGREP_CPP(yes, [#ifdef __ARC_MPY_QMACW__
-+				   yes
-+				   #endif
-+		],libc_cv_arc_arch=hs38)
-+
-+		# Base-line HS38 + HW quad-multiplier + FPU
-+		AC_EGREP_CPP(yes, [#ifdef __ARC_FPU_DP__
-+				   yes
-+				   #endif
-+		],libc_cv_arc_arch=hs38_linux)
-+	fi
-+
-+	case $libc_cv_arc_arch in
-+	arc700)
-+	  LIBC_SLIBDIR_RTLDDIR([lib/arc700], [lib/arc700])
-+	  ;;
-+	nps400)
-+	  LIBC_SLIBDIR_RTLDDIR([lib/nps400], [lib/nps400])
-+	  ;;
-+	hs)
-+	  LIBC_SLIBDIR_RTLDDIR([lib/hs], [lib/hs])
-+	  ;;
-+	archs)
-+	  LIBC_SLIBDIR_RTLDDIR([lib/archs], [lib/archs])
-+	  ;;
-+	hs38)
-+	  LIBC_SLIBDIR_RTLDDIR([lib/hs38], [lib/hs38])
-+	  ;;
-+	hs38_linux)
-+	  LIBC_SLIBDIR_RTLDDIR([lib/hs38_linux], [lib/hs38_linux])
-+	  ;;
-+	esac
-+fi
--- 
-2.16.2
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+ #define KERN_ERR KERN_SOH "3" /* error conditions */
+
+Possible warnings (102)
+----------------------
+
+<stdin>:1388:2: warning: #warning syscall open_tree not implemented [-Wcpp]
+<stdin>:1391:2: warning: #warning syscall move_mount not implemented [-Wcpp]
+<stdin>:1394:2: warning: #warning syscall fsopen not implemented [-Wcpp]
+<stdin>:1397:2: warning: #warning syscall fsconfig not implemented [-Wcpp]
+<stdin>:1400:2: warning: #warning syscall fsmount not implemented [-Wcpp]
+<stdin>:1403:2: warning: #warning syscall fspick not implemented [-Wcpp]
+arch/arc/mm/tlb.c:914:2: warning: ISO C90 forbids variable length array 'pd0' [-Wvla]
+kernel/dma/direct.c:40:4: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+init/main.c:380:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+init/main.c:384:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+init/main.c:388:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+init/main.c:800:37: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type '__kernel_size_t {aka unsigned int}' [-Wformat=]
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+mm/percpu.c:1109:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1124:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1131:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1137:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1399:17: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1399:17: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+ #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+mm/percpu.c:1965:27: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1965:32: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1965:37: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1965:42: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1965:52: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:1965:56: warning: format '%zu' expects argument of type 'size_t', but argument 8 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:2099:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:2105:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:2111:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+mm/percpu.c:2117:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+drivers/base/regmap/regcache.c:715:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/base/regmap/regmap.c:1526:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+fs/ext4/inode.c:3651:12: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+drivers/base/component.c:196:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+net/sunrpc/xprtsock.c:2560:16: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+fs/ext4/page-io.c:163:5: warning: format '%zd' expects argument of type 'signed size_t', but argument 6 has type 'ssize_t {aka int}' [-Wformat=]
+net/sunrpc/svc.c:1342:33: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+include/linux/overflow.h:59:15: warning: comparison of distinct pointer types lacks a cast
+include/linux/overflow.h:60:15: warning: comparison of distinct pointer types lacks a cast
+fs/ext4/xattr.c:482:8: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:823:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:856:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_dp_helper.c:910:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka const unsigned int}' [-Wformat=]
+fs/buffer.c:233:10: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/usb/host/ehci-q.c:365:2: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:46: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
+mm/dmapool.c:96:51: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+drivers/gpu/drm/drm_dp_dual_mode_helper.c:201:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 5 has type 'ssize_t {aka int}' [-Wformat=]
+drivers/gpu/drm/drm_dp_dual_mode_helper.c:220:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 4 has type 'ssize_t {aka int}' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+include/drm/drm_print.h:112:24: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+include/linux/kernel.h:817:29: warning: comparison of distinct pointer types lacks a cast
+arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+drivers/gpu/drm/drm_atomic_uapi.c:131:21: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_gem_cma_helper.c:115:21: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+drivers/gpu/drm/drm_gem_cma_helper.c:510:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
+net/ipv4/tcp_input.c:4315:49: warning: array subscript is above array bounds [-Warray-bounds]
