@@ -1,134 +1,146 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 9 May 2019 20:36:21 +0000
-Subject: [GLIBC] ARC: Add multilib support
-References: <20190508152333.2949-1-abrodkin@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Mon, 13 May 2019 13:13:16 +0000
+Subject: [PATCH v2] ARC: fix memory nodes topology in case of highmem
+ enabled
+In-Reply-To: <20190417104611.13257-1-Eugeniy.Paltsev@synopsys.com>
+References: <20190417104611.13257-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501A250BAAE@us01wembx1.internal.synopsys.com>
+Message-ID: <1557753194.16604.1.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 5/8/19 8:23 AM, Alexey Brodkin wrote:
-> Based on preprocessor defines we determine which type of ARC core
-> we're targeting and set slibdir accordingly so that on installation
-> of libraries to sysroot libs for different ARC cores end up in different
-> locations which match ARC Linux multilib spec.
->
-> Note though it all only happens if 2 conditions happen simultaneously:
->  1. Glibc configured with "--prefix=/usr"
+Hi Vineet,
 
-So how can we do this in a typical cross compile setup.
+ping.
 
->  2. "-mcpu=xxx" exists in CC passed to Glibc's configure script
->
-> I.e. when we build Glibc for default CPU libs are installed in default
-> location.
->
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+On Wed, 2019-04-17@13:46 +0300, Eugeniy Paltsev wrote:
+> Tweak generic node topology in case of CONFIG_HIGHMEM enabled to
+> prioritize allocations from ZONE_HIGHMEM to avoid ZONE_NORMAL
+> pressure.
+> 
+> Here is example when we can see problems on ARC with currently
+> existing topology configuration:
+> 
+> Generic statements:
+>  - *NOT* every memory allocation which could be done from
+>    ZONE_NORMAL also could be done from ZONE_HIGHMEM.
+>  - Every memory allocation which could be done from ZONE_HIGHMEM
+>    also could be done from ZONE_NORMAL (In other words ZONE_NORMAL
+>    is more universal than ZONE_HIGHMEM)
+> 
+> ARC statements:
+> In case of CONFIG_HIGHMEM enabled we have 2 memory nodes:
+>  - "node 0" has only ZONE_NORMAL memory.
+>  - "node 1" has only ZONE_HIGHMEM memory.
+> 
+> Steps to reproduce the problem:
+> 1) Let's try to allocate some memory from userspace. It can be
+>    allocate from anywhere (ZONE_HIGHMEM/ZONE_NORMAL).
+> 2) Kernel tries to allocate memory from the closest memory node
+>    to this CPU. As we don't have NUMA enabled and don't override
+>    any define from "include/asm-generic/topology.h" the closest
+>    memory node to any CPU will be "node 0"
+> 3) OK, we'll allocate memory from "node 0". Let's choose ZONE
+>    to allocate from. This allocation could be done from both
+>    ZONE_HIGHMEM / ZONE_NORMAL in this node. The allocation
+>    priority between zones is ZONE_HIGHMEM > ZONE_NORMAL.
+>    This is pretty logical - we don't want waste *universal*
+>    ZONE_NORMAL if we can use ZONE_HIGHMEM. But we don't have
+>    ZONE_HIGHMEM in "node 0" that's why we rollback to
+>    ZONE_NORMAL and allocate memory from it.
+> 4) Let's try to allocate a lot of memory [more than we have free
+>    memory in lowmem] from userspace.
+> 5) Kernel allocates as much memory as it can from the closest
+>    memory node ("node 0"). But there is no enough memory in
+>    "node 0". So we'll rollback to another memory node ("node 1")
+>    and allocate the rest of the amount from it.
+> 
+>    In other words we have following memory lookup path:
+>       (node 0, ZONE_HIGHMEM) ->
+>    -> (node 0, ZONE_NORMAL)  ->
+>    -> (node 1, ZONE_HIGHMEM)
+> 
+>    Now we don't have any free memory in (node 0, ZONE_NORMAL)
+>    [Actually this is a simplification, but it doesn't matter
+>    in this example]
+> 6) Oops, some internal kernel memory allocation happen which
+>    requires ZONE_NORMAL. For example "kmalloc(size, GFP_KERNEL)"
+>    was called.
+>    So the we have following memory lookup path:
+>    (node 0, ZONE_NORMAL) -> ("node 1", ZONE_NORMAL)
+>    There is no free memory in "node 0". And there is no
+>    ZONE_NORMAL in "node 1". We only have some free memory in
+>    (node 1, ZONE_HIGHMEM) but HIGHMEM isn't suitable in this
+>    case.
+> 7) As we can't allocate memory OOM-Killer is invoked, even if
+>    we have some free memory in (node 1, ZONE_HIGHMEM).
+> 
+> This patch tweaks generic node topology and mark memory from
+> "node 1" as the closest to any CPU.
+> 
+> So the we'll have following memory lookup path:
+>     (node 1, ZONE_HIGHMEM) ->
+>  -> (node 1, ZONE_NORMAL)  ->
+>  -> (node 0, ZONE_HIGHMEM) ->
+>  -> (node 0, ZONE_NORMAL)
+> In case of node configuration on ARC we obtain the degenerate case
+> of this path:
+> (node 1, ZONE_HIGHMEM) -> (node 0, ZONE_NORMAL)
+> 
+> In this case we don't waste *universal* ZONE_NORMAL if we can use
+> ZONE_HIGHMEM so we don't face with the issue pointed in [5-7]
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 > ---
->  sysdeps/unix/sysv/linux/arc/configure    | 329 ++++++++++++++++++++++++++++++-
->  sysdeps/unix/sysv/linux/arc/configure.ac |  70 +++++++
->  2 files changed, 398 insertions(+), 1 deletion(-)
->  mode change 100644 => 100755 sysdeps/unix/sysv/linux/arc/configure
-
-skipping generated file
- 
-> diff --git a/sysdeps/unix/sysv/linux/arc/configure.ac b/sysdeps/unix/sysv/linux/arc/configure.ac
-> index a9528032d32..3615db8eabc 100644
-> --- a/sysdeps/unix/sysv/linux/arc/configure.ac
-> +++ b/sysdeps/unix/sysv/linux/arc/configure.ac
-> @@ -2,3 +2,73 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
->  # Local configure fragment for sysdeps/unix/sysv/linux/arc.
->  
->  arch_minimum_kernel=3.9.0
+> Changes v1->v2:
+>  * Changes in commit message and comments in a code. No functional
+>    change intended.
+> 
+>  arch/arc/include/asm/Kbuild     |  1 -
+>  arch/arc/include/asm/topology.h | 24 ++++++++++++++++++++++++
+>  2 files changed, 24 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/arc/include/asm/topology.h
+> 
+> diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
+> index caa270261521..e64e0439baff 100644
+> --- a/arch/arc/include/asm/Kbuild
+> +++ b/arch/arc/include/asm/Kbuild
+> @@ -18,7 +18,6 @@ generic-y += msi.h
+>  generic-y += parport.h
+>  generic-y += percpu.h
+>  generic-y += preempt.h
+> -generic-y += topology.h
+>  generic-y += trace_clock.h
+>  generic-y += user.h
+>  generic-y += vga.h
+> diff --git a/arch/arc/include/asm/topology.h b/arch/arc/include/asm/topology.h
+> new file mode 100644
+> index 000000000000..c3b8ab7ed011
+> --- /dev/null
+> +++ b/arch/arc/include/asm/topology.h
+> @@ -0,0 +1,24 @@
+> +#ifndef _ASM_ARC_TOPOLOGY_H
+> +#define _ASM_ARC_TOPOLOGY_H
 > +
-> +# If "-mcpu=xxx" found in passed CC assume we're building for
-> +# non-default CPU and thus we need to install libs in non-default location.
-> +if AC_TRY_COMMAND([echo $CC | grep -F "mcpu" > /dev/null]);
-> +then
-> +	libc_cv_arc_arch=no
+> +/*
+> + * On ARC (w/o PAE) HIGHMEM addresses are smaller (0x0 based) than addresses in
+> + * NORMAL aka low memory (0x8000_0000 based).
+> + * Thus HIGHMEM on ARC is implemented with DISCONTIGMEM which requires multiple
+> + * nodes. So here is memory node map on ARC:
+> + *  - node 0: ZONE_NORMAL  memory (always)
+> + *  - node 1: ZONE_HIGHMEM memory (only if CONFIG_HIGHMEM is enabled)
+> + *
+> + * In case of CONFIG_HIGHMEM enabled we tweak generic node topology and mark
+> + * node 1 as the closest to all CPUs to prioritize allocations from ZONE_HIGHMEM
+> + * where it is possible to avoid ZONE_NORMAL pressure.
+> + */
+> +#ifdef CONFIG_HIGHMEM
+> +#define cpu_to_node(cpu)	((void)(cpu), 1)
+> +#define cpu_to_mem(cpu)		((void)(cpu), 1)
+> +#define cpumask_of_node(node)	((node) == 1 ? cpu_online_mask : cpu_none_mask)
+> +#endif /* CONFIG_HIGHMEM */
 > +
-> +	# If this is ARCompact-based core
-> +	AC_EGREP_CPP(yes, [#ifdef __ARC700__
-> +			   yes
-> +			   #endif
-> +	],libc_cv_arc_arch=arc700)
+> +#include <asm-generic/topology.h>
 > +
-> +	# If this is ARCv2-based core
-> +	AC_EGREP_CPP(yes, [#ifdef __ARCHS__
-> +			   yes
-> +			   #endif
-> +	],libc_cv_arc_arch=hs)
-> +
-> +	if test $libc_cv_arc_arch = no; then
-> +	  AC_MSG_ERROR([Unable to determine ARC architecture])
-> +	fi
-> +
-> +	if test $libc_cv_arc_arch = arc700; then
-> +		# NPS400
-> +		AC_EGREP_CPP(yes, [#ifdef __NPS400__
-> +				   yes
-> +				   #endif
-> +		],libc_cv_arc_arch=nps400)
-
-I don't see any activity on NPS front so best to skip that in new code for now.
-
-
-> +	else
-> +		# Base-line HS38 + HW multiplier
-> +		AC_EGREP_CPP(yes, [#ifdef __ARC_MPY__
-> +				   yes
-> +				   #endif
-> +		],libc_cv_arc_arch=archs)
-> +
-> +		# Base-line HS38 + HW quad-multiplier
-> +		AC_EGREP_CPP(yes, [#ifdef __ARC_MPY_QMACW__
-> +				   yes
-> +				   #endif
-> +		],libc_cv_arc_arch=hs38)
-> +
-> +		# Base-line HS38 + HW quad-multiplier + FPU
-> +		AC_EGREP_CPP(yes, [#ifdef __ARC_FPU_DP__
-> +				   yes
-> +				   #endif
-> +		],libc_cv_arc_arch=hs38_linux)
-> +	fi
-> +
-
-This zoo makes sense for gcc - for say baremetal stuff, but we don't want to spend
-time (even machine time) building glibc for those.
-You can assume MPY to be always present when running linux/glibc.
-
-> +	case $libc_cv_arc_arch in
-> +	arc700)
-> +	  LIBC_SLIBDIR_RTLDDIR([lib/arc700], [lib/arc700])
-> +	  ;;
-> +	nps400)
-> +	  LIBC_SLIBDIR_RTLDDIR([lib/nps400], [lib/nps400])
-
-
-> +	  ;;
-> +	hs)
-> +	  LIBC_SLIBDIR_RTLDDIR([lib/hs], [lib/hs])
-
-Looking at
-https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/wiki/Understanding-GCC-mcpu-optio
-
-I'd recommend drop above
-
-
-> +	  ;;
-> +	archs)
-> +	  LIBC_SLIBDIR_RTLDDIR([lib/archs], [lib/archs])
-> +	  ;;
-
-ditto
-
-> +	hs38)
-> +	  LIBC_SLIBDIR_RTLDDIR([lib/hs38], [lib/hs38])
-> +	  ;;
-> +	hs38_linux)
-> +	  LIBC_SLIBDIR_RTLDDIR([lib/hs38_linux], [lib/hs38_linux])
-> +	  ;;
-> +	esac
-> +fi
-
--Vineet
+> +#endif /* _ASM_ARC_TOPOLOGY_H */
+-- 
+ Eugeniy Paltsev
