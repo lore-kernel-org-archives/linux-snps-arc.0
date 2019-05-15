@@ -1,32 +1,37 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Tue, 14 May 2019 22:23:05 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Wed May 15, 08:22
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Tue, 14 May 2019 17:29:27 -0700
+Subject: [PATCH 0/9] ARC do_page_fault rework
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190514222305.1.49752@64d84000ca61>
+Message-ID: <1557880176-24964-1-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Wed May 15, 08:22
+This was on my todo list and Eugeniy's patch in this area pestered me to
+finish it finally.
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13802662/
+The ideas it to cleanup/tidyup ancient do_page_fault() code and make
+it more readable and hopefully better generated code. There are only
+a few/subtle functional changes
+ - Eugeniy's fix to prevent user space looping
+ - reduction in mmap_sem hold times
 
-Commit:   Merge tag 'iommu-updates-v5.2' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/joro/iommu
-          a13f0655503a4a89df67fdc7cac6a7810795d4b3
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+Also this could have been 1 single patch but this is tricky part of mm
+handling so better done as bite sized pieces to track down any regressions
 
-No errors found in log
+Eugeniy Paltsev (1):
+  ARC: mm: SIGSEGV userspace trying to access kernel virtual memory
 
-Possible warnings (12)
-----------------------
+Vineet Gupta (8):
+  ARC: mm: do_page_fault refactor #1: remove label @good_area
+  ARC: mm: do_page_fault refactor #2: remove short lived variable
+  ARC: mm: do_page_fault refactor #3: tidyup vma access permission code
+  ARC: mm: do_page_fault refactor #4: consolidate retry related logic
+  ARC: mm: do_page_fault refactor #5: scoot no_context to end
+  ARC: mm: do_page_fault refactor #6: error handlers to use same pattern
+  ARC: mm: do_page_fault refactor #7: fold the various error handling
+  ARC: mm: do_page_fault refactor #8: release mmap_sem sooner
 
-<stdin>:1388:2: warning: #warning syscall open_tree not implemented [-Wcpp]
-<stdin>:1391:2: warning: #warning syscall move_mount not implemented [-Wcpp]
-<stdin>:1394:2: warning: #warning syscall fsopen not implemented [-Wcpp]
-<stdin>:1397:2: warning: #warning syscall fsconfig not implemented [-Wcpp]
-<stdin>:1400:2: warning: #warning syscall fsmount not implemented [-Wcpp]
-<stdin>:1403:2: warning: #warning syscall fspick not implemented [-Wcpp]
-arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/xfrm/xfrm_policy.c:3492:15: warning: array subscript is above array bounds [-Warray-bounds]
-net/ipv4/tcp_input.c:4321:49: warning: array subscript is above array bounds [-Warray-bounds]
+ arch/arc/mm/fault.c | 192 +++++++++++++++++++++-------------------------------
+ 1 file changed, 79 insertions(+), 113 deletions(-)
+
+-- 
+2.7.4
