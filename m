@@ -1,32 +1,48 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Thu, 16 May 2019 07:34:51 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Thu May 16, 15:39
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 16 May 2019 13:04:53 +0300
+Subject: [PATCH] ARC: [plat-axs10x] Specify PHY node in .dtsi
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190516073451.1.38133@2ad4cc473807>
+Message-ID: <20190516100453.41530-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Thu May 16, 15:39
+For completeness of the HW description add missing PHY entry in
+AXS10x base-board .dtsi.
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13806908/
+Cc: Trent Piepho <tpiepho at impinj.com>
+Cc: Rob Herring <robh+dt at kernel.org>
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/boot/dts/axs10x_mb.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Commit:   Merge tag 'ktest-v5.2' of git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-ktest
-          b06ed1e7a2fa9b636f368a9e97c3c8877623f8b2
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
-
-No errors found in log
-
-Possible warnings (12)
-----------------------
-
-<stdin>:1388:2: warning: #warning syscall open_tree not implemented [-Wcpp]
-<stdin>:1391:2: warning: #warning syscall move_mount not implemented [-Wcpp]
-<stdin>:1394:2: warning: #warning syscall fsopen not implemented [-Wcpp]
-<stdin>:1397:2: warning: #warning syscall fsconfig not implemented [-Wcpp]
-<stdin>:1400:2: warning: #warning syscall fsmount not implemented [-Wcpp]
-<stdin>:1403:2: warning: #warning syscall fspick not implemented [-Wcpp]
-arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-net/ipv4/tcp_input.c:4321:49: warning: array subscript is above array bounds [-Warray-bounds]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/xfrm/xfrm_policy.c:3492:15: warning: array subscript is above array bounds [-Warray-bounds]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index 4ead6dc9af2f..98e9d63e868e 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -79,6 +79,7 @@
+ 			interrupts = < 4 >;
+ 			interrupt-names = "macirq";
+ 			phy-mode = "rgmii";
++			phy-handle = <&phy0>;
+ 			snps,pbl = < 32 >;
+ 			clocks = <&apbclk>;
+ 			clock-names = "stmmaceth";
+@@ -86,6 +87,16 @@
+ 			resets = <&creg_rst 5>;
+ 			reset-names = "stmmaceth";
+ 			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
++
++			mdio {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				compatible = "snps,dwmac-mdio";
++				phy0: ethernet-phy at 1 {
++					reg = <1>;
++				};
++			};
++
+ 		};
+ 
+ 		ehci at 40000 {
+-- 
+2.16.2
