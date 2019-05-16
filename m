@@ -1,11 +1,11 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Thu, 16 May 2019 07:41:33 -0400
-Subject: [PATCH AUTOSEL 4.9 9/9] perf bench numa: Add define for RUSAGE_THREAD
+Date: Thu, 16 May 2019 07:41:46 -0400
+Subject: [PATCH AUTOSEL 4.4 8/8] perf bench numa: Add define for RUSAGE_THREAD
  if not present
-In-Reply-To: <20190516114134.9146-1-sashal@kernel.org>
-References: <20190516114134.9146-1-sashal@kernel.org>
+In-Reply-To: <20190516114146.9267-1-sashal@kernel.org>
+References: <20190516114146.9267-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190516114134.9146-9-sashal@kernel.org>
+Message-ID: <20190516114146.9267-8-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Arnaldo Carvalho de Melo <acme@redhat.com>
@@ -54,10 +54,10 @@ Signed-off-by: Sasha Levin <sashal at kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/tools/perf/bench/numa.c b/tools/perf/bench/numa.c
-index ee9565a033f47..e58be7eeced83 100644
+index 73d192f57dc34..df41deed0320e 100644
 --- a/tools/perf/bench/numa.c
 +++ b/tools/perf/bench/numa.c
-@@ -35,6 +35,10 @@
+@@ -32,6 +32,10 @@
  #include <numa.h>
  #include <numaif.h>
  
