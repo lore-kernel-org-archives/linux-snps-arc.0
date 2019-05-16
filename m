@@ -1,11 +1,11 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Thu, 16 May 2019 07:39:29 -0400
-Subject: [PATCH AUTOSEL 5.0 32/34] perf bench numa: Add define for
+Date: Thu, 16 May 2019 07:40:27 -0400
+Subject: [PATCH AUTOSEL 4.19 24/25] perf bench numa: Add define for
  RUSAGE_THREAD if not present
-In-Reply-To: <20190516113932.8348-1-sashal@kernel.org>
-References: <20190516113932.8348-1-sashal@kernel.org>
+In-Reply-To: <20190516114029.8682-1-sashal@kernel.org>
+References: <20190516114029.8682-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190516113932.8348-32-sashal@kernel.org>
+Message-ID: <20190516114029.8682-24-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Arnaldo Carvalho de Melo <acme@redhat.com>
