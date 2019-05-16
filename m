@@ -1,80 +1,72 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Thu, 16 May 2019 07:39:06 -0400
-Subject: [PATCH AUTOSEL 5.0 09/34] ARC: PAE40: don't panic and instead turn
- off hw ioc
+Date: Thu, 16 May 2019 07:39:29 -0400
+Subject: [PATCH AUTOSEL 5.0 32/34] perf bench numa: Add define for
+ RUSAGE_THREAD if not present
 In-Reply-To: <20190516113932.8348-1-sashal@kernel.org>
 References: <20190516113932.8348-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190516113932.8348-9-sashal@kernel.org>
+Message-ID: <20190516113932.8348-32-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-From: Vineet Gupta <vgupta@synopsys.com>
+From: Arnaldo Carvalho de Melo <acme@redhat.com>
 
-[ Upstream commit 99bd5fcc505d65ea9c60619202f0b2d926eabbe9 ]
+[ Upstream commit bf561d3c13423fc54daa19b5d49dc15fafdb7acc ]
 
-HSDK currently panics when built for HIGHMEM/ARC_HAS_PAE40 because ioc
-is enabled with default which doesn't work for the 2 non contiguous
-memory nodes. So get PAE working by disabling ioc instead.
+While cross building perf to the ARC architecture on a fedora 30 host,
+we were failing with:
 
-Tested with !PAE40 by forcing @ioc_enable=0 and running the glibc
-testsuite over ssh
+      CC       /tmp/build/perf/bench/numa.o
+  bench/numa.c: In function ?worker_thread?:
+  bench/numa.c:1261:12: error: ?RUSAGE_THREAD? undeclared (first use in this function); did you mean ?SIGEV_THREAD??
+    getrusage(RUSAGE_THREAD, &rusage);
+              ^~~~~~~~~~~~~
+              SIGEV_THREAD
+  bench/numa.c:1261:12: note: each undeclared identifier is reported only once for each function it appears in
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+[perfbuilder at 60d5802468f6 perf]$ /arc_gnu_2019.03-rc1_prebuilt_uclibc_le_archs_linux_install/bin/arc-linux-gcc --version | head -1
+arc-linux-gcc (ARCv2 ISA Linux uClibc toolchain 2019.03-rc1) 8.3.1 20190225
+[perfbuilder at 60d5802468f6 perf]$
+
+Trying to reproduce a report by Vineet, I noticed that, with just
+cross-built zlib and numactl libraries, I ended up with the above
+failure.
+
+So, since RUSAGE_THREAD is available as a define, check for that and
+numactl libraries, I ended up with the above failure.
+
+So, since RUSAGE_THREAD is available as a define in the system headers,
+check if it is defined in the 'perf bench numa' sources and define it if
+not.
+
+Now it builds and I have to figure out if the problem reported by Vineet
+only takes place if we have libelf or some other library available.
+
+Cc: Arnd Bergmann <arnd at arndb.de>
+Cc: Jiri Olsa <jolsa at kernel.org>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: Namhyung Kim <namhyung at kernel.org>
+Cc: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+Link: https://lkml.kernel.org/n/tip-2wb4r1gir9xrevbpq7qp0amk at git.kernel.org
+Signed-off-by: Arnaldo Carvalho de Melo <acme at redhat.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- arch/arc/mm/cache.c | 31 ++++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+ tools/perf/bench/numa.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index 4135abec3fb09..63e6e65046992 100644
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -113,10 +113,24 @@ static void read_decode_cache_bcr_arcv2(int cpu)
- 	}
+diff --git a/tools/perf/bench/numa.c b/tools/perf/bench/numa.c
+index 44195514b19e6..fa56fde6e8d80 100644
+--- a/tools/perf/bench/numa.c
++++ b/tools/perf/bench/numa.c
+@@ -38,6 +38,10 @@
+ #include <numa.h>
+ #include <numaif.h>
  
- 	READ_BCR(ARC_REG_CLUSTER_BCR, cbcr);
--	if (cbcr.c)
-+	if (cbcr.c) {
- 		ioc_exists = 1;
--	else
++#ifndef RUSAGE_THREAD
++# define RUSAGE_THREAD 1
++#endif
 +
-+		/*
-+		 * As for today we don't support both IOC and ZONE_HIGHMEM enabled
-+		 * simultaneously. This happens because as of today IOC aperture covers
-+		 * only ZONE_NORMAL (low mem) and any dma transactions outside this
-+		 * region won't be HW coherent.
-+		 * If we want to use both IOC and ZONE_HIGHMEM we can use
-+		 * bounce_buffer to handle dma transactions to HIGHMEM.
-+		 * Also it is possible to modify dma_direct cache ops or increase IOC
-+		 * aperture size if we are planning to use HIGHMEM without PAE.
-+		 */
-+		if (IS_ENABLED(CONFIG_HIGHMEM) || is_pae40_enabled())
-+			ioc_enable = 0;
-+	} else {
- 		ioc_enable = 0;
-+	}
- 
- 	/* HS 2.0 didn't have AUX_VOL */
- 	if (cpuinfo_arc700[cpu].core.family > 0x51) {
-@@ -1158,19 +1172,6 @@ noinline void __init arc_ioc_setup(void)
- 	if (!ioc_enable)
- 		return;
- 
--	/*
--	 * As for today we don't support both IOC and ZONE_HIGHMEM enabled
--	 * simultaneously. This happens because as of today IOC aperture covers
--	 * only ZONE_NORMAL (low mem) and any dma transactions outside this
--	 * region won't be HW coherent.
--	 * If we want to use both IOC and ZONE_HIGHMEM we can use
--	 * bounce_buffer to handle dma transactions to HIGHMEM.
--	 * Also it is possible to modify dma_direct cache ops or increase IOC
--	 * aperture size if we are planning to use HIGHMEM without PAE.
--	 */
--	if (IS_ENABLED(CONFIG_HIGHMEM))
--		panic("IOC and HIGHMEM can't be used simultaneously");
--
- 	/* Flush + invalidate + disable L1 dcache */
- 	__dc_disable();
- 
+ /*
+  * Regular printout to the terminal, supressed if -q is specified:
+  */
 -- 
 2.20.1
