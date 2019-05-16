@@ -1,48 +1,80 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 16 May 2019 13:04:53 +0300
-Subject: [PATCH] ARC: [plat-axs10x] Specify PHY node in .dtsi
+From: sashal@kernel.org (Sasha Levin)
+Date: Thu, 16 May 2019 07:39:06 -0400
+Subject: [PATCH AUTOSEL 5.0 09/34] ARC: PAE40: don't panic and instead turn
+ off hw ioc
+In-Reply-To: <20190516113932.8348-1-sashal@kernel.org>
+References: <20190516113932.8348-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190516100453.41530-1-abrodkin@synopsys.com>
+Message-ID: <20190516113932.8348-9-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-For completeness of the HW description add missing PHY entry in
-AXS10x base-board .dtsi.
+From: Vineet Gupta <vgupta@synopsys.com>
 
-Cc: Trent Piepho <tpiepho at impinj.com>
-Cc: Rob Herring <robh+dt at kernel.org>
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+[ Upstream commit 99bd5fcc505d65ea9c60619202f0b2d926eabbe9 ]
+
+HSDK currently panics when built for HIGHMEM/ARC_HAS_PAE40 because ioc
+is enabled with default which doesn't work for the 2 non contiguous
+memory nodes. So get PAE working by disabling ioc instead.
+
+Tested with !PAE40 by forcing @ioc_enable=0 and running the glibc
+testsuite over ssh
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- arch/arc/boot/dts/axs10x_mb.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ arch/arc/mm/cache.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 4ead6dc9af2f..98e9d63e868e 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -79,6 +79,7 @@
- 			interrupts = < 4 >;
- 			interrupt-names = "macirq";
- 			phy-mode = "rgmii";
-+			phy-handle = <&phy0>;
- 			snps,pbl = < 32 >;
- 			clocks = <&apbclk>;
- 			clock-names = "stmmaceth";
-@@ -86,6 +87,16 @@
- 			resets = <&creg_rst 5>;
- 			reset-names = "stmmaceth";
- 			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
-+
-+			mdio {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				compatible = "snps,dwmac-mdio";
-+				phy0: ethernet-phy at 1 {
-+					reg = <1>;
-+				};
-+			};
-+
- 		};
+diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
+index 4135abec3fb09..63e6e65046992 100644
+--- a/arch/arc/mm/cache.c
++++ b/arch/arc/mm/cache.c
+@@ -113,10 +113,24 @@ static void read_decode_cache_bcr_arcv2(int cpu)
+ 	}
  
- 		ehci at 40000 {
+ 	READ_BCR(ARC_REG_CLUSTER_BCR, cbcr);
+-	if (cbcr.c)
++	if (cbcr.c) {
+ 		ioc_exists = 1;
+-	else
++
++		/*
++		 * As for today we don't support both IOC and ZONE_HIGHMEM enabled
++		 * simultaneously. This happens because as of today IOC aperture covers
++		 * only ZONE_NORMAL (low mem) and any dma transactions outside this
++		 * region won't be HW coherent.
++		 * If we want to use both IOC and ZONE_HIGHMEM we can use
++		 * bounce_buffer to handle dma transactions to HIGHMEM.
++		 * Also it is possible to modify dma_direct cache ops or increase IOC
++		 * aperture size if we are planning to use HIGHMEM without PAE.
++		 */
++		if (IS_ENABLED(CONFIG_HIGHMEM) || is_pae40_enabled())
++			ioc_enable = 0;
++	} else {
+ 		ioc_enable = 0;
++	}
+ 
+ 	/* HS 2.0 didn't have AUX_VOL */
+ 	if (cpuinfo_arc700[cpu].core.family > 0x51) {
+@@ -1158,19 +1172,6 @@ noinline void __init arc_ioc_setup(void)
+ 	if (!ioc_enable)
+ 		return;
+ 
+-	/*
+-	 * As for today we don't support both IOC and ZONE_HIGHMEM enabled
+-	 * simultaneously. This happens because as of today IOC aperture covers
+-	 * only ZONE_NORMAL (low mem) and any dma transactions outside this
+-	 * region won't be HW coherent.
+-	 * If we want to use both IOC and ZONE_HIGHMEM we can use
+-	 * bounce_buffer to handle dma transactions to HIGHMEM.
+-	 * Also it is possible to modify dma_direct cache ops or increase IOC
+-	 * aperture size if we are planning to use HIGHMEM without PAE.
+-	 */
+-	if (IS_ENABLED(CONFIG_HIGHMEM))
+-		panic("IOC and HIGHMEM can't be used simultaneously");
+-
+ 	/* Flush + invalidate + disable L1 dcache */
+ 	__dc_disable();
+ 
 -- 
-2.16.2
+2.20.1
