@@ -1,32 +1,86 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 17 May 2019 12:32:03 -0700
-Subject: [PATCH 0/5] Rewrite ARCv2 interrupt/expecption entry code
+Date: Fri, 17 May 2019 12:32:05 -0700
+Subject: [PATCH 2/5] ARCv2: entry: push out the Z flag unclobber from common
+ EXCEPTION_PROLOGUE
+In-Reply-To: <1558121528-30184-1-git-send-email-vgupta@synopsys.com>
+References: <1558121528-30184-1-git-send-email-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1558121528-30184-1-git-send-email-vgupta@synopsys.com>
+Message-ID: <1558121528-30184-3-git-send-email-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-This was along pending todo item to remove the copy-paste from NO_AUTOSAVE
-support as well use LDD/STD instructions for better generated code.
+Upon a taken interrupt/exception from User mode, HS hardware auto sets Z flag.
+This helps shave a few instructions from EXCEPTION_PROLOGUE by eliding
+re-reading ERSTATUS and some bit fiddling.
 
-Thx,
--Vineet
+However TLB Miss Exception handler can clobber the CPU flags and still end
+up in EXCEPTION_PROLOGUE in the slow path handling TLB handling case:
 
-Vineet Gupta (5):
-  ARCv2: entry: comments about hardware auto-save on taken interrupts
-  ARCv2: entry: push out the Z flag unclobber from common
-    EXCEPTION_PROLOGUE
-  ARCv2: entry: avoid a branch
-  ARCv2: entry: rewrite to enable use of double load/stores LDD/STD
-  ARC: entry: EV_Trap expects r10 (vs. r9) to have exception cause
+   EV_TLBMissD
+     do_slow_path_pf
+       EV_TLBProtV (aliased to call_do_page_fault)
+          EXCEPTION_PROLOGUE
 
- arch/arc/include/asm/entry-arcv2.h   | 361 ++++++++++++++++++-----------------
- arch/arc/include/asm/entry-compact.h |   4 +-
- arch/arc/include/asm/linkage.h       |  18 ++
- arch/arc/kernel/asm-offsets.c        |   7 +
- arch/arc/kernel/entry-arcv2.S        |   4 +-
- arch/arc/kernel/entry.S              |   4 +-
- arch/arc/mm/tlbex.S                  |  11 ++
- 7 files changed, 232 insertions(+), 177 deletions(-)
+As a result, EXCEPTION_PROLOGUE need to "unclobber" the Z flag which this
+patch changes. It is now pushed out to TLB Miss Exception handler.
+The reasons beings:
 
+ - The flag restoration is only needed for slowpath TLB Miss Exception
+   handling, but currently being in EXCEPTION_PROLOGUE penalizes all
+   exceptions such as ProtV and syscall Trap, where Z flag is already
+   as expected.
+
+ - Pushing unclobber out to where it was clobbered is much cleaner and
+   also serves to document the fact.
+
+ - Makes EXCEPTION_PROLGUE similar to INTERRUPT_PROLOGUE so easier to
+   refactor the common parts which is what this series aims to do
+
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/include/asm/entry-arcv2.h |  8 --------
+ arch/arc/mm/tlbex.S                | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arc/include/asm/entry-arcv2.h b/arch/arc/include/asm/entry-arcv2.h
+index 1c3520d1fa42..3209a6762960 100644
+--- a/arch/arc/include/asm/entry-arcv2.h
++++ b/arch/arc/include/asm/entry-arcv2.h
+@@ -225,14 +225,6 @@
+ 
+ 	; -- for interrupts, regs above are auto-saved by h/w in that order --
+ 	; Now do what ISR prologue does (manually save r12, sp, fp, gp, r25)
+-	;
+-	; Set Z flag if this was from U mode (expected by INTERRUPT_PROLOGUE)
+-	; Although H/w exception micro-ops do set Z flag for U mode (just like
+-	; for interrupts), it could get clobbered in case we soft land here from
+-	; a TLB Miss exception handler (tlbex.S)
+-
+-	and	r10, r10, STATUS_U_MASK
+-	xor.f	0, r10, STATUS_U_MASK
+ 
+ 	INTERRUPT_PROLOGUE  exception
+ 
+diff --git a/arch/arc/mm/tlbex.S b/arch/arc/mm/tlbex.S
+index 0e1e47a67c73..e50cac799a51 100644
+--- a/arch/arc/mm/tlbex.S
++++ b/arch/arc/mm/tlbex.S
+@@ -396,6 +396,17 @@ EV_TLBMissD_fast_ret:	; additional label for VDK OS-kit instrumentation
+ ;-------- Common routine to call Linux Page Fault Handler -----------
+ do_slow_path_pf:
+ 
++#ifdef CONFIG_ISA_ARCV2
++	; Set Z flag if exception in U mode. Hardware micro-ops do this on any
++	; taken interrupt/exception, and thus is already the case at the entry
++	; above, but ensuing code would have already clobbered.
++	; EXCEPTION_PROLOGUE called in slow path, relies on correct Z flag set
++
++	lr	r2, [erstatus]
++	and	r2, r2, STATUS_U_MASK
++	bxor.f	0, r2, STATUS_U_BIT
++#endif
++
+ 	; Restore the 4-scratch regs saved by fast path miss handler
+ 	TLBMISS_RESTORE_REGS
+ 
 -- 
 2.7.4
