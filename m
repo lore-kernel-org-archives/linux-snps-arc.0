@@ -1,30 +1,91 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 21 May 2019 07:52:38 +0000
-Subject: [PATCH 0/2] ARC: [plat-hsdk]: GMAC DT Bindings Improvements
-In-Reply-To: <cover.1558359611.git.joabreu@synopsys.com>
-References: <cover.1558359611.git.joabreu@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 21 May 2019 20:54:39 +0300
+Subject: [PATCH v3] ARC: [plat-hsdk]: Add support of Vivante GPU
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CY4PR1201MB0120DD24A9BD3AB54F94F5B1A1070@CY4PR1201MB0120.namprd12.prod.outlook.com>
+Message-ID: <20190521175439.15723-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Jose, all,
+HSDK board has built-in Vivante GPU IP which works perfectly fine
+with Etnaviv driver, so let's use it.
 
-> -----Original Message-----
-> From: Jose Abreu <joabreu at synopsys.com>
-> Sent: Monday, May 20, 2019 4:43 PM
-> To: devicetree at vger.kernel.org; linux-snps-arc at lists.infradead.org; linux-kernel at vger.kernel.org
-> Cc: Jose Abreu <joabreu at synopsys.com>; Joao Pinto <jpinto at synopsys.com>; Rob Herring
-> <robh+dt at kernel.org>; Mark Rutland <mark.rutland at arm.com>; Vineet Gupta <vgupta at synopsys.com>; Eugeniy
-> Paltsev <Eugeniy.Paltsev at synopsys.com>; Alexey Brodkin <abrodkin at synopsys.com>
-> Subject: [PATCH 0/2] ARC: [plat-hsdk]: GMAC DT Bindings Improvements
-> 
-> Add two missing bindings.
-> 
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+Changes v2->v3:
+ * Rebase onto latest kernel. No functional change intended.
 
-For entire series:
+Changes v1->v2:
+ * Add clock inputs to etnaviv device tree node (reported by Lucas Stach)
 
-Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
+ arch/arc/boot/dts/hsdk.dts      | 29 +++++++++++++++++++++++++++++
+ arch/arc/configs/hsdk_defconfig |  2 +-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
 
-@Vineet Gupta could you please pick this on up?
-
--Alexey
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index 7425bb0f2d1b..32b3974ae4e2 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -167,6 +167,24 @@
+ 			#clock-cells = <0>;
+ 		};
+ 
++		gpu_core_clk: gpu-core-clk {
++			compatible = "fixed-clock";
++			clock-frequency = <400000000>;
++			#clock-cells = <0>;
++		};
++
++		gpu_dma_clk: gpu-dma-clk {
++			compatible = "fixed-clock";
++			clock-frequency = <400000000>;
++			#clock-cells = <0>;
++		};
++
++		gpu_cfg_clk: gpu-cfg-clk {
++			compatible = "fixed-clock";
++			clock-frequency = <200000000>;
++			#clock-cells = <0>;
++		};
++
+ 		dmac_core_clk: dmac-core-clk {
+ 			compatible = "fixed-clock";
+ 			clock-frequency = <400000000>;
+@@ -252,6 +270,17 @@
+ 			};
+ 		};
+ 
++		gpu_3d: gpu at 90000 {
++			compatible = "vivante,gc";
++			reg = <0x90000 0x4000>;
++			clocks = <&gpu_dma_clk>,
++				 <&gpu_cfg_clk>,
++				 <&gpu_core_clk>,
++				 <&gpu_core_clk>;
++			clock-names = "bus", "reg", "core", "shader";
++			interrupts = <28>;
++		};
++
+ 		dmac: dmac at 80000 {
+ 			compatible = "snps,axi-dma-1.01a";
+ 			reg = <0x80000 0x400>;
+diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
+index 0e5fd29ed238..643b58be022d 100644
+--- a/arch/arc/configs/hsdk_defconfig
++++ b/arch/arc/configs/hsdk_defconfig
+@@ -53,6 +53,7 @@ CONFIG_GPIO_DWAPB=y
+ CONFIG_DRM=y
+ # CONFIG_DRM_FBDEV_EMULATION is not set
+ CONFIG_DRM_UDL=y
++CONFIG_DRM_ETNAVIV=y
+ CONFIG_FB=y
+ CONFIG_FRAMEBUFFER_CONSOLE=y
+ CONFIG_USB_EHCI_HCD=y
+@@ -64,7 +65,6 @@ CONFIG_MMC=y
+ CONFIG_MMC_SDHCI=y
+ CONFIG_MMC_SDHCI_PLTFM=y
+ CONFIG_MMC_DW=y
+-# CONFIG_IOMMU_SUPPORT is not set
+ CONFIG_EXT3_FS=y
+ CONFIG_VFAT_FS=y
+ CONFIG_TMPFS=y
+-- 
+2.14.5
