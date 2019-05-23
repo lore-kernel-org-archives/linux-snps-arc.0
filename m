@@ -1,11 +1,11 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Thu, 23 May 2019 21:06:45 +0200
-Subject: [PATCH 4.19 106/114] perf bench numa: Add define for RUSAGE_THREAD if
+Date: Thu, 23 May 2019 21:06:59 +0200
+Subject: [PATCH 5.0 131/139] perf bench numa: Add define for RUSAGE_THREAD if
  not present
-In-Reply-To: <20190523181731.372074275@linuxfoundation.org>
-References: <20190523181731.372074275@linuxfoundation.org>
+In-Reply-To: <20190523181720.120897565@linuxfoundation.org>
+References: <20190523181720.120897565@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190523181740.534792361@linuxfoundation.org>
+Message-ID: <20190523181736.167614424@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
 [ Upstream commit bf561d3c13423fc54daa19b5d49dc15fafdb7acc ]
