@@ -1,91 +1,86 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Tue, 21 May 2019 20:54:39 +0300
-Subject: [PATCH v3] ARC: [plat-hsdk]: Add support of Vivante GPU
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Thu, 23 May 2019 12:02:01 -0700
+Subject: [PATCH] ARC: Don't set CROSS_COMPILE in arch's Makefile
+In-Reply-To: <20180916204757.31131-1-abrodkin@synopsys.com>
+References: <20180916204757.31131-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190521175439.15723-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <efe9e312-565f-ba47-135c-ad7108b1170c@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-HSDK board has built-in Vivante GPU IP which works perfectly fine
-with Etnaviv driver, so let's use it.
+On 9/16/18 1:47 PM, Alexey Brodkin wrote:
+> There's not much sense in doing that because if user or
+> his build-system didn't set CROSS_COMPILE we still may
+> very well make incorrect guess.
+> 
+> But as it turned out setting CROSS_COMPILE is not as harmless
+> as one may think: with recent changes that implemented automatic
+> discovery of __host__ gcc features unconditional setup of
+> CROSS_COMPILE leads to failures on execution of "make xxx_defconfig"
+> with absent cross-compiler, for more info see [1].
+> 
+> Set CROSS_COMPILE as well gets in the way if we want only to build
+> .dtb's (again with absent cross-compiler which is not really needed
+> for building .dtb's), see [2].
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
-Changes v2->v3:
- * Rebase onto latest kernel. No functional change intended.
+@Alexey, can we revisit this (revert back partially). I'm getting sick of having
+to specify the CROSS_COMPILE in my cmdline.
 
-Changes v1->v2:
- * Add clock inputs to etnaviv device tree node (reported by Lucas Stach)
+Will something along the lines fc2b47b55f17fd996f7a019 ("h8300: use
+cc-cross-prefix instead of hardcoding h8300-unknown-linux-") work ?
 
- arch/arc/boot/dts/hsdk.dts      | 29 +++++++++++++++++++++++++++++
- arch/arc/configs/hsdk_defconfig |  2 +-
- 2 files changed, 30 insertions(+), 1 deletion(-)
+---->
++ifeq ($(CROSS_COMPILE),)
++CROSS_COMPILE := $(call cc-cross-prefix, arc-linux-)
++endif
 
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index 7425bb0f2d1b..32b3974ae4e2 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -167,6 +167,24 @@
- 			#clock-cells = <0>;
- 		};
- 
-+		gpu_core_clk: gpu-core-clk {
-+			compatible = "fixed-clock";
-+			clock-frequency = <400000000>;
-+			#clock-cells = <0>;
-+		};
-+
-+		gpu_dma_clk: gpu-dma-clk {
-+			compatible = "fixed-clock";
-+			clock-frequency = <400000000>;
-+			#clock-cells = <0>;
-+		};
-+
-+		gpu_cfg_clk: gpu-cfg-clk {
-+			compatible = "fixed-clock";
-+			clock-frequency = <200000000>;
-+			#clock-cells = <0>;
-+		};
-+
- 		dmac_core_clk: dmac-core-clk {
- 			compatible = "fixed-clock";
- 			clock-frequency = <400000000>;
-@@ -252,6 +270,17 @@
- 			};
- 		};
- 
-+		gpu_3d: gpu at 90000 {
-+			compatible = "vivante,gc";
-+			reg = <0x90000 0x4000>;
-+			clocks = <&gpu_dma_clk>,
-+				 <&gpu_cfg_clk>,
-+				 <&gpu_core_clk>,
-+				 <&gpu_core_clk>;
-+			clock-names = "bus", "reg", "core", "shader";
-+			interrupts = <28>;
-+		};
-+
- 		dmac: dmac at 80000 {
- 			compatible = "snps,axi-dma-1.01a";
- 			reg = <0x80000 0x400>;
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-index 0e5fd29ed238..643b58be022d 100644
---- a/arch/arc/configs/hsdk_defconfig
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -53,6 +53,7 @@ CONFIG_GPIO_DWAPB=y
- CONFIG_DRM=y
- # CONFIG_DRM_FBDEV_EMULATION is not set
- CONFIG_DRM_UDL=y
-+CONFIG_DRM_ETNAVIV=y
- CONFIG_FB=y
- CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_USB_EHCI_HCD=y
-@@ -64,7 +65,6 @@ CONFIG_MMC=y
- CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
- CONFIG_MMC_DW=y
--# CONFIG_IOMMU_SUPPORT is not set
- CONFIG_EXT3_FS=y
- CONFIG_VFAT_FS=y
- CONFIG_TMPFS=y
--- 
-2.14.5
+
+
+> 
+> Note, we had to change LIBGCC assignment type from ":=" to "="
+> so that is is resolved on its usage, otherwise if it is resolved
+> at declaration time with missing CROSS_COMPILE we're getting this
+> error message from host GCC:
+> ------------------------->8-------------------------
+> gcc: error: unrecognized command line option ?-mmedium-calls?
+> gcc: error: unrecognized command line option ?-mno-sdata?; did you mean ?-fno-stats??
+> ------------------------->8-------------------------
+> 
+> [1] http://lists.infradead.org/pipermail/linux-snps-arc/2018-September/004308.html
+> [2] http://lists.infradead.org/pipermail/linux-snps-arc/2018-September/004320.html
+> 
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
+> Cc: Rob Herring <robh at kernel.org>
+> ---
+>  arch/arc/Makefile | 10 +---------
+>  1 file changed, 1 insertion(+), 9 deletions(-)
+> 
+> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+> index 99cce77ab98f..5f6b67917dc2 100644
+> --- a/arch/arc/Makefile
+> +++ b/arch/arc/Makefile
+> @@ -6,14 +6,6 @@
+>  # published by the Free Software Foundation.
+>  #
+>  
+> -ifeq ($(CROSS_COMPILE),)
+> -ifndef CONFIG_CPU_BIG_ENDIAN
+> -CROSS_COMPILE := arc-linux-
+> -else
+> -CROSS_COMPILE := arceb-linux-
+> -endif
+> -endif
+> -
+>  KBUILD_DEFCONFIG := nsim_700_defconfig
+>  
+>  cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
+> @@ -79,7 +71,7 @@ cflags-$(disable_small_data)		+= -mno-sdata -fcall-used-gp
+>  cflags-$(CONFIG_CPU_BIG_ENDIAN)		+= -mbig-endian
+>  ldflags-$(CONFIG_CPU_BIG_ENDIAN)	+= -EB
+>  
+> -LIBGCC	:= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
+> +LIBGCC	= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
+>  
+>  # Modules with short calls might break for calls into builtin-kernel
+>  KBUILD_CFLAGS_MODULE	+= -mlong-calls -mno-millicode
+> 
