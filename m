@@ -1,86 +1,70 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 23 May 2019 12:02:01 -0700
-Subject: [PATCH] ARC: Don't set CROSS_COMPILE in arch's Makefile
-In-Reply-To: <20180916204757.31131-1-abrodkin@synopsys.com>
-References: <20180916204757.31131-1-abrodkin@synopsys.com>
+From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
+Date: Thu, 23 May 2019 21:06:14 +0200
+Subject: [PATCH 4.9 50/53] perf bench numa: Add define for RUSAGE_THREAD if
+ not present
+In-Reply-To: <20190523181710.981455400@linuxfoundation.org>
+References: <20190523181710.981455400@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <efe9e312-565f-ba47-135c-ad7108b1170c@synopsys.com>
+Message-ID: <20190523181718.902300881@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 9/16/18 1:47 PM, Alexey Brodkin wrote:
-> There's not much sense in doing that because if user or
-> his build-system didn't set CROSS_COMPILE we still may
-> very well make incorrect guess.
-> 
-> But as it turned out setting CROSS_COMPILE is not as harmless
-> as one may think: with recent changes that implemented automatic
-> discovery of __host__ gcc features unconditional setup of
-> CROSS_COMPILE leads to failures on execution of "make xxx_defconfig"
-> with absent cross-compiler, for more info see [1].
-> 
-> Set CROSS_COMPILE as well gets in the way if we want only to build
-> .dtb's (again with absent cross-compiler which is not really needed
-> for building .dtb's), see [2].
+[ Upstream commit bf561d3c13423fc54daa19b5d49dc15fafdb7acc ]
 
-@Alexey, can we revisit this (revert back partially). I'm getting sick of having
-to specify the CROSS_COMPILE in my cmdline.
+While cross building perf to the ARC architecture on a fedora 30 host,
+we were failing with:
 
-Will something along the lines fc2b47b55f17fd996f7a019 ("h8300: use
-cc-cross-prefix instead of hardcoding h8300-unknown-linux-") work ?
+      CC       /tmp/build/perf/bench/numa.o
+  bench/numa.c: In function ?worker_thread?:
+  bench/numa.c:1261:12: error: ?RUSAGE_THREAD? undeclared (first use in this function); did you mean ?SIGEV_THREAD??
+    getrusage(RUSAGE_THREAD, &rusage);
+              ^~~~~~~~~~~~~
+              SIGEV_THREAD
+  bench/numa.c:1261:12: note: each undeclared identifier is reported only once for each function it appears in
 
----->
-+ifeq ($(CROSS_COMPILE),)
-+CROSS_COMPILE := $(call cc-cross-prefix, arc-linux-)
-+endif
+[perfbuilder at 60d5802468f6 perf]$ /arc_gnu_2019.03-rc1_prebuilt_uclibc_le_archs_linux_install/bin/arc-linux-gcc --version | head -1
+arc-linux-gcc (ARCv2 ISA Linux uClibc toolchain 2019.03-rc1) 8.3.1 20190225
+[perfbuilder at 60d5802468f6 perf]$
 
+Trying to reproduce a report by Vineet, I noticed that, with just
+cross-built zlib and numactl libraries, I ended up with the above
+failure.
 
+So, since RUSAGE_THREAD is available as a define, check for that and
+numactl libraries, I ended up with the above failure.
 
-> 
-> Note, we had to change LIBGCC assignment type from ":=" to "="
-> so that is is resolved on its usage, otherwise if it is resolved
-> at declaration time with missing CROSS_COMPILE we're getting this
-> error message from host GCC:
-> ------------------------->8-------------------------
-> gcc: error: unrecognized command line option ?-mmedium-calls?
-> gcc: error: unrecognized command line option ?-mno-sdata?; did you mean ?-fno-stats??
-> ------------------------->8-------------------------
-> 
-> [1] http://lists.infradead.org/pipermail/linux-snps-arc/2018-September/004308.html
-> [2] http://lists.infradead.org/pipermail/linux-snps-arc/2018-September/004320.html
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
-> Cc: Rob Herring <robh at kernel.org>
-> ---
->  arch/arc/Makefile | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
-> 
-> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-> index 99cce77ab98f..5f6b67917dc2 100644
-> --- a/arch/arc/Makefile
-> +++ b/arch/arc/Makefile
-> @@ -6,14 +6,6 @@
->  # published by the Free Software Foundation.
->  #
->  
-> -ifeq ($(CROSS_COMPILE),)
-> -ifndef CONFIG_CPU_BIG_ENDIAN
-> -CROSS_COMPILE := arc-linux-
-> -else
-> -CROSS_COMPILE := arceb-linux-
-> -endif
-> -endif
-> -
->  KBUILD_DEFCONFIG := nsim_700_defconfig
->  
->  cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
-> @@ -79,7 +71,7 @@ cflags-$(disable_small_data)		+= -mno-sdata -fcall-used-gp
->  cflags-$(CONFIG_CPU_BIG_ENDIAN)		+= -mbig-endian
->  ldflags-$(CONFIG_CPU_BIG_ENDIAN)	+= -EB
->  
-> -LIBGCC	:= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
-> +LIBGCC	= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
->  
->  # Modules with short calls might break for calls into builtin-kernel
->  KBUILD_CFLAGS_MODULE	+= -mlong-calls -mno-millicode
-> 
+So, since RUSAGE_THREAD is available as a define in the system headers,
+check if it is defined in the 'perf bench numa' sources and define it if
+not.
+
+Now it builds and I have to figure out if the problem reported by Vineet
+only takes place if we have libelf or some other library available.
+
+Cc: Arnd Bergmann <arnd at arndb.de>
+Cc: Jiri Olsa <jolsa at kernel.org>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: Namhyung Kim <namhyung at kernel.org>
+Cc: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+Link: https://lkml.kernel.org/n/tip-2wb4r1gir9xrevbpq7qp0amk at git.kernel.org
+Signed-off-by: Arnaldo Carvalho de Melo <acme at redhat.com>
+Signed-off-by: Sasha Levin <sashal at kernel.org>
+---
+ tools/perf/bench/numa.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/tools/perf/bench/numa.c b/tools/perf/bench/numa.c
+index ee9565a033f47..e58be7eeced83 100644
+--- a/tools/perf/bench/numa.c
++++ b/tools/perf/bench/numa.c
+@@ -35,6 +35,10 @@
+ #include <numa.h>
+ #include <numaif.h>
+ 
++#ifndef RUSAGE_THREAD
++# define RUSAGE_THREAD 1
++#endif
++
+ /*
+  * Regular printout to the terminal, supressed if -q is specified:
+  */
+-- 
+2.20.1
