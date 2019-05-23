@@ -1,11 +1,11 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Thu, 23 May 2019 21:06:29 +0200
-Subject: [PATCH 4.14 71/77] perf bench numa: Add define for RUSAGE_THREAD if
+Date: Thu, 23 May 2019 21:06:45 +0200
+Subject: [PATCH 4.19 106/114] perf bench numa: Add define for RUSAGE_THREAD if
  not present
-In-Reply-To: <20190523181719.982121681@linuxfoundation.org>
-References: <20190523181719.982121681@linuxfoundation.org>
+In-Reply-To: <20190523181731.372074275@linuxfoundation.org>
+References: <20190523181731.372074275@linuxfoundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190523181729.787799563@linuxfoundation.org>
+Message-ID: <20190523181740.534792361@linuxfoundation.org>
 To: linux-snps-arc@lists.infradead.org
 
 [ Upstream commit bf561d3c13423fc54daa19b5d49dc15fafdb7acc ]
@@ -52,7 +52,7 @@ Signed-off-by: Sasha Levin <sashal at kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/tools/perf/bench/numa.c b/tools/perf/bench/numa.c
-index 0afcc7eccc619..997875c770b10 100644
+index 44195514b19e6..fa56fde6e8d80 100644
 --- a/tools/perf/bench/numa.c
 +++ b/tools/perf/bench/numa.c
 @@ -38,6 +38,10 @@
