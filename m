@@ -1,70 +1,42 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Thu, 23 May 2019 21:06:59 +0200
-Subject: [PATCH 5.0 131/139] perf bench numa: Add define for RUSAGE_THREAD if
- not present
-In-Reply-To: <20190523181720.120897565@linuxfoundation.org>
-References: <20190523181720.120897565@linuxfoundation.org>
+From: yamada.masahiro@socionext.com (Masahiro Yamada)
+Date: Fri, 24 May 2019 14:40:10 +0900
+Subject: [PATCH] clocksource: arc_timer: use BIT() instead of _BITUL()
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190523181736.167614424@linuxfoundation.org>
+Message-ID: <20190524054010.19323-1-yamada.masahiro@socionext.com>
 To: linux-snps-arc@lists.infradead.org
 
-[ Upstream commit bf561d3c13423fc54daa19b5d49dc15fafdb7acc ]
+This is in-kernel C code, so there is no reason to use _BITUL().
+Replace it with equivalent BIT().
 
-While cross building perf to the ARC architecture on a fedora 30 host,
-we were failing with:
+I added #include <linux/bits.h> explicitly although it has been included
+by other headers eventually.
 
-      CC       /tmp/build/perf/bench/numa.o
-  bench/numa.c: In function ?worker_thread?:
-  bench/numa.c:1261:12: error: ?RUSAGE_THREAD? undeclared (first use in this function); did you mean ?SIGEV_THREAD??
-    getrusage(RUSAGE_THREAD, &rusage);
-              ^~~~~~~~~~~~~
-              SIGEV_THREAD
-  bench/numa.c:1261:12: note: each undeclared identifier is reported only once for each function it appears in
-
-[perfbuilder at 60d5802468f6 perf]$ /arc_gnu_2019.03-rc1_prebuilt_uclibc_le_archs_linux_install/bin/arc-linux-gcc --version | head -1
-arc-linux-gcc (ARCv2 ISA Linux uClibc toolchain 2019.03-rc1) 8.3.1 20190225
-[perfbuilder at 60d5802468f6 perf]$
-
-Trying to reproduce a report by Vineet, I noticed that, with just
-cross-built zlib and numactl libraries, I ended up with the above
-failure.
-
-So, since RUSAGE_THREAD is available as a define, check for that and
-numactl libraries, I ended up with the above failure.
-
-So, since RUSAGE_THREAD is available as a define in the system headers,
-check if it is defined in the 'perf bench numa' sources and define it if
-not.
-
-Now it builds and I have to figure out if the problem reported by Vineet
-only takes place if we have libelf or some other library available.
-
-Cc: Arnd Bergmann <arnd at arndb.de>
-Cc: Jiri Olsa <jolsa at kernel.org>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: Namhyung Kim <namhyung at kernel.org>
-Cc: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-Link: https://lkml.kernel.org/n/tip-2wb4r1gir9xrevbpq7qp0amk at git.kernel.org
-Signed-off-by: Arnaldo Carvalho de Melo <acme at redhat.com>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
+Signed-off-by: Masahiro Yamada <yamada.masahiro at socionext.com>
 ---
- tools/perf/bench/numa.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/tools/perf/bench/numa.c b/tools/perf/bench/numa.c
-index 44195514b19e6..fa56fde6e8d80 100644
---- a/tools/perf/bench/numa.c
-+++ b/tools/perf/bench/numa.c
-@@ -38,6 +38,10 @@
- #include <numa.h>
- #include <numaif.h>
- 
-+#ifndef RUSAGE_THREAD
-+# define RUSAGE_THREAD 1
-+#endif
-+
- /*
-  * Regular printout to the terminal, supressed if -q is specified:
+ drivers/clocksource/arc_timer.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/clocksource/arc_timer.c b/drivers/clocksource/arc_timer.c
+index b28970ca4a7a..b1f21bf3b83c 100644
+--- a/drivers/clocksource/arc_timer.c
++++ b/drivers/clocksource/arc_timer.c
+@@ -16,6 +16,7 @@
   */
+ 
+ #include <linux/interrupt.h>
++#include <linux/bits.h>
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
+ #include <linux/clocksource.h>
+@@ -142,7 +143,7 @@ static u64 arc_read_rtc(struct clocksource *cs)
+ 		l = read_aux_reg(AUX_RTC_LOW);
+ 		h = read_aux_reg(AUX_RTC_HIGH);
+ 		status = read_aux_reg(AUX_RTC_CTRL);
+-	} while (!(status & _BITUL(31)));
++	} while (!(status & BIT(31)));
+ 
+ 	return (((u64)h) << 32) | l;
+ }
 -- 
-2.20.1
+2.17.1
