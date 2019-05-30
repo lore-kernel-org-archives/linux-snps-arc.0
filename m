@@ -1,94 +1,53 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 30 May 2019 09:48:34 -0700
-Subject: [PATCH 9/9] ARC: mm: do_page_fault refactor #8: release mmap_sem
- sooner
-In-Reply-To: <1557880176-24964-10-git-send-email-vgupta@synopsys.com>
+Date: Thu, 30 May 2019 10:58:08 -0700
+Subject: extraneous generated EXTB (was Re: [PATCH 4/9] ARC: mm: do_page_fault
+ refactor #3: tidyup vma access permission code)
+In-Reply-To: <1558131743.2682.33.camel@synopsys.com>
 References: <1557880176-24964-1-git-send-email-vgupta@synopsys.com>
- <1557880176-24964-10-git-send-email-vgupta@synopsys.com>
+ <1557880176-24964-5-git-send-email-vgupta@synopsys.com>
+ <1558027448.2682.11.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA2307501A2517B16@us01wembx1.internal.synopsys.com>
+ <1558131743.2682.33.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <d7284369-52a6-71e5-65ae-75ec389eb92b@synopsys.com>
+Message-ID: <7923928f-1f4e-3fa8-3d38-40fcb2074b4a@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 5/14/19 5:29 PM, Vineet Gupta wrote:
-> In case of successful page fault handling, this patch releases mmap_sem
-> before updating the perf stat event for major/minor faults. So even
-> though the contention reduction is NOT supe rhigh, it is still an
-> improvement.
+On 5/17/19 3:23 PM, Eugeniy Paltsev wrote:
+> Hmmm,
+> 
+> so load the bool variable from memory is converted to such asm code:
+> 
+> ----------------->8------------------- 
+> ldb	r2,[some_bool_address]
+> extb_s	r2,r2
+> ----------------->8-------------------
+> 
+> Could you please describe that the magic is going on there?
+> 
+> This extb_s instruction looks completely useless here, according on the LDB description from PRM:
+> ----------------->8-------------------
+> LD LDH LDW LDB LDD:
+> The size of the requested data is specified by the data size field <.zz> and by default, data is zero
+> extended from the most-significant bit of the data to the most-significant bit of the destination
+> register.
+> ----------------->8-------------------
+> 
+> Am I missing something?
 
-This patch causes regression: LMBench lat_sig triggers a bogus oom.
 
-The issue is not due to code movement of up_read() but as artifact of @fault
-initialized to VM_FAULT_ERROR. The lat_sig invalid access doesn't take
-handle_mm_fault() instead it hits !VM_WRITE case for write access leading to use
-of "initialized" value of @fault VM_FAULT_ERROR which includes VM_FAULT_OOM hence
-the bogus oom handling.
+@Claudiu is that a target specific optimization/tuning in ARC backend ?
 
 
-> There's an additional code size improvement as we only have 2 up_read()
-> calls now.
 > 
-> Note to myself:
-> --------------
-> 
-> 1. Given the way it is done, we are forced to move @bad_area label earlier
->    causing the various "goto bad_area" cases to hit perf stat code.
-> 
->  - PERF_COUNT_SW_PAGE_FAULTS is NOW updated for access errors which is what
->    arm/arm64 seem to be doing as well (with slightly different code)
->  - PERF_COUNT_SW_PAGE_FAULTS_{MAJ,MIN} must NOT be updated for the
->    error case which is guarded by now setting @fault initial value
->    to VM_FAULT_ERROR which serves both cases when handle_mm_fault()
->    returns error or is not called at all.
-> 
-> 2. arm/arm64 use two homebrew fault flags VM_FAULT_BAD{MAP,MAPACCESS}
->    which I was inclined to add too but seems not needed for ARC
-> 
->  - given that we have everything is 1 function we cabn stil use goto
->  - we setup si_code at the right place (arm* do that in the end)
->  - we init fault already to error value which guards entry into perf
->    stats event update
-> 
-> Cc: Peter Zijlstra <peterz at infradead.org>
-> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-> ---
->  arch/arc/mm/fault.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-> index 20402217d9da..e93ea06c214c 100644
-> --- a/arch/arc/mm/fault.c
-> +++ b/arch/arc/mm/fault.c
-> @@ -68,7 +68,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
->  	struct mm_struct *mm = tsk->mm;
->  	int sig, si_code = SEGV_MAPERR;
->  	unsigned int write = 0, exec = 0, mask;
-> -	vm_fault_t fault;			/* handle_mm_fault() output */
-> +	vm_fault_t fault = VM_FAULT_ERROR;	/* handle_mm_fault() output */
->  	unsigned int flags;			/* handle_mm_fault() input */
->  
->  	/*
-> @@ -155,6 +155,9 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
->  		}
->  	}
->  
-> +bad_area:
-> +	up_read(&mm->mmap_sem);
-> +
->  	/*
->  	 * Major/minor page fault accounting
->  	 * (in case of retry we only land here once)
-> @@ -173,13 +176,9 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
->  		}
->  
->  		/* Normal return path: fault Handled Gracefully */
-> -		up_read(&mm->mmap_sem);
->  		return;
->  	}
->  
-> -bad_area:
-> -	up_read(&mm->mmap_sem);
-> -
->  	if (!user_mode(regs))
->  		goto no_context;
->  
-> 
+> On Thu, 2019-05-16@17:37 +0000, Vineet Gupta wrote:
+>> On 5/16/19 10:24 AM, Eugeniy Paltsev wrote:
+>>>> +    unsigned int write = 0, exec = 0, mask;
+>>>
+>>> Probably it's better to use 'bool' type for 'write' and 'exec' as we really use them as a boolean variables.
+>>
+>> Right those are semantics, but the generated code for "bool" is not ideal - given
+>> it is inherently a "char" it is promoted first to an int with an additional EXTB
+>> which I really dislike.
+>> Guess it is more of a style thing.
+>>
+>> -Vineet
