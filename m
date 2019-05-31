@@ -1,43 +1,39 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Fri, 31 May 2019 10:25:28 +0200
+From: David.Laight@ACULAB.COM (David Laight)
+Date: Fri, 31 May 2019 09:41:17 +0000
 Subject: single copy atomicity for double load/stores on 32-bit systems
-In-Reply-To: <20190530185358.GG28207@linux.ibm.com>
+In-Reply-To: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
 References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
- <20190530185358.GG28207@linux.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190531082528.GJ2623@hirez.programming.kicks-ass.net>
+Message-ID: <895ec12746c246579aed5dd98ace6e38@AcuMS.aculab.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, May 30, 2019@11:53:58AM -0700, Paul E. McKenney wrote:
-> On Thu, May 30, 2019@11:22:42AM -0700, Vineet Gupta wrote:
-> > Hi Peter,
-> > 
-> > Had an interesting lunch time discussion with our hardware architects pertinent to
-> > "minimal guarantees expected of a CPU" section of memory-barriers.txt
-> > 
-> > 
-> > |  (*) These guarantees apply only to properly aligned and sized scalar
-> > |     variables.  "Properly sized" currently means variables that are
-> > |     the same size as "char", "short", "int" and "long".  "Properly
-> > |     aligned" means the natural alignment, thus no constraints for
-> > |     "char", two-byte alignment for "short", four-byte alignment for
-> > |     "int", and either four-byte or eight-byte alignment for "long",
-> > |     on 32-bit and 64-bit systems, respectively.
-> > 
-> > 
-> > I'm not sure how to interpret "natural alignment" for the case of double
-> > load/stores on 32-bit systems where the hardware and ABI allow for 4 byte
-> > alignment (ARCv2 LDD/STD, ARM LDRD/STRD ....)
-> > 
-> > I presume (and the question) that lkmm doesn't expect such 8 byte load/stores to
-> > be atomic unless 8-byte aligned
-> 
-> I would not expect 8-byte accesses to be atomic on 32-bit systems unless
-> some special instruction was in use.  But that usually means special
-> intrinsics or assembly code.
+From: Vineet Gupta
+> Sent: 30 May 2019 19:23
+...
+> While it seems reasonable form hardware pov to not implement such atomicity by
+> default it seems there's an additional burden on application writers. They could
+> be happily using a lockless algorithm with just a shared flag between 2 threads
+> w/o need for any explicit synchronization. But upgrade to a new compiler which
+> aggressively "packs" struct rendering long long 32-bit aligned (vs. 64-bit before)
+> causing the code to suddenly stop working. Is the onus on them to declare such
+> memory as c11 atomic or some such.
 
-If the GCC of said platform defaults to the double-word instructions for
-long long, then I would very much expect natural alignment on it too.
+A 'new' compiler can't suddenly change the alignment rules for structure elements.
+The alignment rules will be part of the ABI.
 
-If the feature is only available through inline asm or intrinsics, then
-we can be a little more lenient perhaps.
+More likely is that the structure itself is unexpectedly allocated on
+an 8n+4 boundary due to code changes elsewhere.
+
+It is also worth noting that for complete portability only writes to
+'full words' can be assumed atomic.
+Some old Alpha's did RMW cycles for byte writes.
+(Although I suspect Linux doesn't support those any more.)
+
+Even x86 can catch you out.
+The bit operations will do wider RMW cycles than you expect.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
