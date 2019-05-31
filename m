@@ -1,49 +1,76 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Fri, 31 May 2019 10:14:57 +0000
-Subject: Pass config-time variable to LIBC_SLIBDIR_RTLDDIR 
+From: paulmck@linux.ibm.com (Paul E. McKenney)
+Date: Fri, 31 May 2019 04:44:21 -0700
+Subject: single copy atomicity for double load/stores on 32-bit systems
+In-Reply-To: <895ec12746c246579aed5dd98ace6e38@AcuMS.aculab.com>
+References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
+ <895ec12746c246579aed5dd98ace6e38@AcuMS.aculab.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CY4PR1201MB01200F5CBFD010ADC371E89EA1190@CY4PR1201MB0120.namprd12.prod.outlook.com>
+Message-ID: <20190531114421.GJ28207@linux.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Andreas,
+On Fri, May 31, 2019@09:41:17AM +0000, David Laight wrote:
+> From: Vineet Gupta
+> > Sent: 30 May 2019 19:23
+> ...
+> > While it seems reasonable form hardware pov to not implement such atomicity by
+> > default it seems there's an additional burden on application writers. They could
+> > be happily using a lockless algorithm with just a shared flag between 2 threads
+> > w/o need for any explicit synchronization. But upgrade to a new compiler which
+> > aggressively "packs" struct rendering long long 32-bit aligned (vs. 64-bit before)
+> > causing the code to suddenly stop working. Is the onus on them to declare such
+> > memory as c11 atomic or some such.
+> 
+> A 'new' compiler can't suddenly change the alignment rules for structure elements.
+> The alignment rules will be part of the ABI.
+> 
+> More likely is that the structure itself is unexpectedly allocated on
+> an 8n+4 boundary due to code changes elsewhere.
+> 
+> It is also worth noting that for complete portability only writes to
+> 'full words' can be assumed atomic.
+> Some old Alpha's did RMW cycles for byte writes.
+> (Although I suspect Linux doesn't support those any more.)
 
-I'm trying to implement multilib support for ARC port of Glibc
-and for that we seem to need to have unique slibdir/rtlddir pair per
-each machine flavor. In our case these are at least:
- - ARC700 (legacy ARCompact architecture)
- - ARC HS38 (new gen ARCv2 architecture)
- - ARC HS38 with hardware floating-point
- - ARC HS48 (binary-compatible with HS38 but with different pipeline so
-             compiler schedules instructions differently)
- - eventually there'll be newer generations like ARCv3/v4 etc
+Any C11 or later compiler needs to generate the atomic RMW cycles if
+needed in cases like this.  To see this, consider the following code:
 
-Given we have in GCC a dedicated "-mcpu" value for each of items above
-my first thought was to "automatically" setup slibdir/rtlddir
-based on "-mcpu" value passed in CC during configuration.
+	spinlock_t l1;
+	spinlock_t l2;
+	struct foo {
+		char c1; // Protected by l1
+		char c2; // Protected by l2
+	}
 
-Something like that:
----------------------------------->8------------------------------------
-+++ b/sysdeps/unix/sysv/linux/arc/configure.ac
-@@ -2,3 +2,10 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
- # Local configure fragment for sysdeps/unix/sysv/linux/arc.
+	...
 
- arch_minimum_kernel=3.9.0
-+
-+# Extract "-mcpu=xxx" value from CC to install libs in a separate folder
-+arc_mcpu=[`echo $CC | grep -Po '\-mcpu=\K[^ ]+'`]
-+
-+if test "$arc_mcpu" != "" ; then
-+       LIBC_SLIBDIR_RTLDDIR([lib/${arc_mcpu}], [lib/${arc_mcpu}])
-+fi
----------------------------------->8------------------------------------
+	spin_lock(&l1);
+	fp->c1 = 42;
+	do_somthing_protected_by_l1();
+	spin_unlock(&l1);
 
-But apparently that doesn't work due to your change [1] in
-commit 128c43a2d630 ("LIBC_SLIBDIR_RTLDDIR: substitute arguments in single quotes").
+	...
 
-I guess mentioned change is not supposed to be reverted but then
-how do you think it's possible [if at all] to implement that kind of
-"automatic" setup of slibdir/rtlddir?
+	spin_lock(&l2);
+	fp->c2 = 206;
+	do_somthing_protected_by_l2();
+	spin_unlock(&l2);
 
-[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=128c43a2d630
+A compiler that failed to generate atomic RMW code sequences for those
+stores to ->c1 and ->c2 would be generating a data race in the object
+code when there was no such race in the source code.  Kudos to Hans Boehm
+for having browbeat compiler writers into accepting this restriction,
+which was not particularly popular -- they wanted to be able to use
+vector units and such.  ;-)
 
--Alexey
+> Even x86 can catch you out.
+> The bit operations will do wider RMW cycles than you expect.
+
+But does the compiler automatically generate these?
+
+							Thanx, Paul
+
+> 	David
+> 
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
