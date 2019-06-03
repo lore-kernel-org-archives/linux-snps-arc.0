@@ -1,25 +1,62 @@
-From: schwab@suse.de (Andreas Schwab)
-Date: Mon, 03 Jun 2019 10:22:55 +0200
-Subject: Pass config-time variable to LIBC_SLIBDIR_RTLDDIR
-In-Reply-To: <CY4PR1201MB01200F5CBFD010ADC371E89EA1190@CY4PR1201MB0120.namprd12.prod.outlook.com>
- (Alexey Brodkin's message of "Fri, 31 May 2019 10:14:57 +0000")
-References: <CY4PR1201MB01200F5CBFD010ADC371E89EA1190@CY4PR1201MB0120.namprd12.prod.outlook.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 3 Jun 2019 08:31:38 +0000
+Subject: [PATCH] ARC: build: Try to guess CROSS_COMPILE with
+ cc-cross-prefix
+In-Reply-To: <CAK7LNASiHzar3JmzGB1fgUYUC91F3FPsALj3iMhANTjGgnux5w@mail.gmail.com>
+References: <20190603063119.36544-1-abrodkin@synopsys.com>
+ <CAK7LNASiHzar3JmzGB1fgUYUC91F3FPsALj3iMhANTjGgnux5w@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <mvm7ea39ixs.fsf@suse.de>
+Message-ID: <CY4PR1201MB012004A6281FFE93B8191F30A1140@CY4PR1201MB0120.namprd12.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mai 31 2019, Alexey Brodkin <Alexey.Brodkin@synopsys.com> wrote:
+Hi Masahiro-san,
 
-> I guess mentioned change is not supposed to be reverted but then
-> how do you think it's possible [if at all] to implement that kind of
-> "automatic" setup of slibdir/rtlddir?
+> -----Original Message-----
+> From: Masahiro Yamada <yamada.masahiro at socionext.com>
+> Sent: Monday, June 3, 2019 11:18 AM
+> To: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: arcml <linux-snps-arc at lists.infradead.org>; Linux Kernel Mailing List <linux-
+> kernel at vger.kernel.org>; Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+> Subject: Re: [PATCH] ARC: build: Try to guess CROSS_COMPILE with cc-cross-prefix
+> 
+> Hi Alexey,
+> 
+> On Mon, Jun 3, 2019 at 3:42 PM Alexey Brodkin
+> <Alexey.Brodkin@synopsys.com> wrote:
 
-As the commit message says, you can reference makefile variables in the
-value.
+[snip]
 
-Andreas.
+> > A side note: even though "cc-cross-prefix" does its job it pollutes
+> > console with output of "which" for all the prefixes it didn't manage to find
+> > a matching cross-compiler for like that:
+> > | # ARCH=arc make defconfig
+> > | which: no arceb-linux-gcc in (~/.local/bin:~/bin:/usr/bin:/usr/sbin)
+> > | *** Default configuration is based on 'nsim_hs_defconfig'
+> 
+> 
+> Oh really?
+> 
+> masahiro at pug:~$ which arc-linux-gcc
+> /home/masahiro/tools/arc/bin/arc-linux-gcc
+> masahiro at pug:~$ which dummy-linux-gcc
+> masahiro at pug:~$ echo $?
+> 1
+> 
+> 
+> When 'which' cannot find the given command,
+> it does not print anything to stderr.
+> 
+> Does it work differently on your machine?
 
--- 
-Andreas Schwab, SUSE Labs, schwab at suse.de
-GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
-"And now for something completely different."
+Well on Ubuntu 18.04 indeed which doesn't show anything
+but on my build-server with CentOS 7 I'm getting mentioned verbose output:
+| #?cat /etc/redhat-release
+| CentOS Linux release 7.3.1611 (Core)
+
+| #?/usr/bin/which -v
+| GNU which v2.20, Copyright (C) 1999 - 2008 Carlo Wood.
+| GNU which comes with ABSOLUTELY NO WARRANTY;
+| This program is free software; your freedom to use, change
+| and distribute this program is protected by the GPL.
+
+-Alexey
