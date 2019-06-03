@@ -1,30 +1,21 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 3 Jun 2019 21:59:03 +0000
-Subject: single copy atomicity for double load/stores on 32-bit systems
-References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
- <20190531082112.GH2623@hirez.programming.kicks-ass.net>
- <C2D7FE5348E1B147BCA15975FBA2307501A2522B5B@us01wembx1.internal.synopsys.com>
- <20190603201324.GN28207@linux.ibm.com>
+From: pr-tracker-bot@kernel.org (pr-tracker-bot@kernel.org)
+Date: Mon, 03 Jun 2019 22:25:11 +0000
+Subject: [GIT PULL] ARC updates for 5.2-rc4
+In-Reply-To: <e1a01d01-fccc-fab8-7022-9a18bb4d8f10@synopsys.com>
+References: <e1a01d01-fccc-fab8-7022-9a18bb4d8f10@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501A2523460@us01wembx1.internal.synopsys.com>
+Message-ID: <155960071152.7954.12243155776656459408.pr-tracker-bot@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-On 6/3/19 1:13 PM, Paul E. McKenney wrote:
-> On Mon, Jun 03, 2019@06:08:35PM +0000, Vineet Gupta wrote:
->> On 5/31/19 1:21 AM, Peter Zijlstra wrote:
->>>> I'm not sure how to interpret "natural alignment" for the case of double
->>>> load/stores on 32-bit systems where the hardware and ABI allow for 4 byte
->>>> alignment (ARCv2 LDD/STD, ARM LDRD/STRD ....)
->>> Natural alignment: !((uintptr_t)ptr % sizeof(*ptr))
->>>
->>> For any u64 type, that would give 8 byte alignment. the problem
->>> otherwise being that your data spans two lines/pages etc..
->> Sure, but as Paul said, if the software doesn't expect them to be atomic by
->> default, they could span 2 hardware lines to keep the implementation simpler/sane.
-> I could imagine 8-byte types being only four-byte aligned on 32-bit systems,
-> but it would be quite a surprise on 64-bit systems.
+The pull request you sent on Mon, 3 Jun 2019 14:04:16 -0700:
 
-Totally agree !
+> git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.2-rc4
 
-Thx,
--Vineet
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/788a024921c48985939f8241c1ff862a7374d8f9
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
