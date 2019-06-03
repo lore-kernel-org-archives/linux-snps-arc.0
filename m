@@ -1,26 +1,57 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Mon, 03 Jun 2019 02:47:51 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Mon Jun 03, 12:46
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon,  3 Jun 2019 09:31:19 +0300
+Subject: [PATCH] ARC: build: Try to guess CROSS_COMPILE with cc-cross-prefix
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190603024751.1.88912@767497cb6d48>
+Message-ID: <20190603063119.36544-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Mon Jun 03, 12:46
+For a long time we used to hard-code CROSS_COMPILE prefix
+for ARC until it started to cause problems, so we decided to
+solely rely on CROSS_COMPILE externally set by a user:
+commit 40660f1fcee8 ("ARC: build: Don't set CROSS_COMPILE in arch's Makefile").
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13825460/
+While it works perfectly fine for build-systems where the prefix
+gets defined anyways for us human beings it's quite an annoying
+requirement especially given most of time the same one prefix
+"arc-linux-" is all what we need.
 
-Commit:   Merge tag 'for-linus-20190601' of git://git.kernel.dk/linux-block
-          9221dced3069cc9ae2986ba1191b02dae560df28
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+It looks like finally we're getting the best of both worlds:
+ 1. W/o cross-toolchain we still may install headers, build .dtb etc
+ 2. W/ cross-toolchain get the kerne built with only ARCH=arc
 
-No errors found in log
+Inspired by [1] & [2].
 
-Possible warnings (6)
-----------------------
+[1] http://lists.infradead.org/pipermail/linux-snps-arc/2019-May/005788.html
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fc2b47b55f17
 
-arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/ipv4/tcp_input.c:4323:49: warning: array subscript is above array bounds [-Warray-bounds]
-arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
-net/xfrm/xfrm_policy.c:3495:15: warning: array subscript is above array bounds [-Warray-bounds]
+A side note: even though "cc-cross-prefix" does its job it pollutes
+console with output of "which" for all the prefixes it didn't manage to find
+a matching cross-compiler for like that:
+| # ARCH=arc make defconfig
+| which: no arceb-linux-gcc in (~/.local/bin:~/bin:/usr/bin:/usr/sbin)
+| *** Default configuration is based on 'nsim_hs_defconfig'
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+---
+ arch/arc/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index e2b991f75bc5..9cfd2ba7a12d 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -8,6 +8,10 @@
+ 
+ KBUILD_DEFCONFIG := nsim_hs_defconfig
+ 
++ifeq ($(CROSS_COMPILE),)
++CROSS_COMPILE := $(call cc-cross-prefix, arc-linux- arceb-linux-)
++endif
++
+ cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
+ cflags-$(CONFIG_ISA_ARCOMPACT)	+= -mA7
+ cflags-$(CONFIG_ISA_ARCV2)	+= -mcpu=hs38
+-- 
+2.16.2
