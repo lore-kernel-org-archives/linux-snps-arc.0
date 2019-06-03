@@ -1,47 +1,20 @@
-From: joseph@codesourcery.com (Joseph Myers)
-Date: Mon, 3 Jun 2019 17:50:22 +0000
-Subject: Pass config-time variable to LIBC_SLIBDIR_RTLDDIR 
-In-Reply-To: <CY4PR1201MB0120B0A953107C8047BCCDF1A1140@CY4PR1201MB0120.namprd12.prod.outlook.com>
-References: <CY4PR1201MB01200F5CBFD010ADC371E89EA1190@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <alpine.DEB.2.21.1906031528200.14124@digraph.polyomino.org.uk>
- <CY4PR1201MB0120B0A953107C8047BCCDF1A1140@CY4PR1201MB0120.namprd12.prod.outlook.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 3 Jun 2019 18:08:35 +0000
+Subject: single copy atomicity for double load/stores on 32-bit systems
+References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
+ <20190531082112.GH2623@hirez.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.21.1906031745340.14124@digraph.polyomino.org.uk>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501A2522B5B@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, 3 Jun 2019, Alexey Brodkin wrote:
+On 5/31/19 1:21 AM, Peter Zijlstra wrote:
+>> I'm not sure how to interpret "natural alignment" for the case of double
+>> load/stores on 32-bit systems where the hardware and ABI allow for 4 byte
+>> alignment (ARCv2 LDD/STD, ARM LDRD/STRD ....)
+> Natural alignment: !((uintptr_t)ptr % sizeof(*ptr))
+>
+> For any u64 type, that would give 8 byte alignment. the problem
+> otherwise being that your data spans two lines/pages etc..
 
-> Well I'm trying to solve a little bit different problem - to build
-> a universal multilib cross-toolchain which will be usable for building
-> binaries optimized for different ARC cores. Different I mean:
->  - Binary-incompatible architecture generations: ARCv1/ARCv2 (both still 32-bit)
->  - Hard/soft floating-point
->  - etc.
-
-That sort of thing generally uses a separate sysroot for each multilib.  
-(Using GCC's t-sysroot-suffix avoids needing to define SYSROOT_SUFFIX_SPEC 
-manually yourself.)
-
-Then the libraries don't need to use separate library directories if only 
-one ABI makes sense on a target at a time.  (But cases with different 
-endianness / different function calling ABI / different struct layout etc. 
-should still use different dynamic linker names.)
-
-> > Checking -mcpu in CC is a bad idea, given that the compiler might have
-> > been configured with a default CPU rather than passing it on the command
-> > line.
-> 
-> Well this case (no "-mcpu" in CC) is handled - then we just installed
-> libs in default non-multilib location, i.e. simple "/lib".
-
-The locations should be a function of the ABI - *not* of whether the ABI 
-is the default one for the compiler.  (For example, /lib64 is the 
-directory for non-x32 x86_64 libraries - both in an x86_64-linux-gnu 
-toolchain, and also for the -m64 multilib of an i686-linux-gnu toolchain 
-configured --enable-targets=all.  If you use Debian-style multiarch 
-layout, the locations are still a function of the ABI, just a different 
-function.)
-
--- 
-Joseph S. Myers
-joseph at codesourcery.com
+Sure, but as Paul said, if the software doesn't expect them to be atomic by
+default, they could span 2 hardware lines to keep the implementation simpler/sane.
