@@ -1,57 +1,30 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 3 Jun 2019 14:04:16 -0700
-Subject: [GIT PULL] ARC updates for 5.2-rc4
+Date: Mon, 3 Jun 2019 21:59:03 +0000
+Subject: single copy atomicity for double load/stores on 32-bit systems
+References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
+ <20190531082112.GH2623@hirez.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA2307501A2522B5B@us01wembx1.internal.synopsys.com>
+ <20190603201324.GN28207@linux.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <e1a01d01-fccc-fab8-7022-9a18bb4d8f10@synopsys.com>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501A2523460@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Linus,
+On 6/3/19 1:13 PM, Paul E. McKenney wrote:
+> On Mon, Jun 03, 2019@06:08:35PM +0000, Vineet Gupta wrote:
+>> On 5/31/19 1:21 AM, Peter Zijlstra wrote:
+>>>> I'm not sure how to interpret "natural alignment" for the case of double
+>>>> load/stores on 32-bit systems where the hardware and ABI allow for 4 byte
+>>>> alignment (ARCv2 LDD/STD, ARM LDRD/STRD ....)
+>>> Natural alignment: !((uintptr_t)ptr % sizeof(*ptr))
+>>>
+>>> For any u64 type, that would give 8 byte alignment. the problem
+>>> otherwise being that your data spans two lines/pages etc..
+>> Sure, but as Paul said, if the software doesn't expect them to be atomic by
+>> default, they could span 2 hardware lines to keep the implementation simpler/sane.
+> I could imagine 8-byte types being only four-byte aligned on 32-bit systems,
+> but it would be quite a surprise on 64-bit systems.
 
-Please pull.
+Totally agree !
 
 Thx,
 -Vineet
-------------------------->
-The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
-
-  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
-
-are available in the git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.2-rc4
-
-for you to fetch changes up to 46e04c25e72f002d0d14be072300c2dd827d99b6:
-
-  ARC: [plat-hsdk] Get rid of inappropriate PHY settings (2019-05-28 10:09:31 -0700)
-
-----------------------------------------------------------------
-ARC fixes for 5.2-rc4
-
- - Fix for userspace trying to access kernel vaddr space
-
- - HSDK platform DT updates
-
- - Cleanup some build warnings
-
-----------------------------------------------------------------
-Alexey Brodkin (1):
-      ARC: [plat-hsdk] Get rid of inappropriate PHY settings
-
-Eugeniy Paltsev (3):
-      ARC: mm: SIGSEGV userspace trying to access kernel virtual memory
-      ARC: [plat-hsdk]: enable creg-gpio controller
-      ARC: [plat-hsdk]: Add support of Vivante GPU
-
-Jose Abreu (2):
-      ARC: [plat-hsdk]: Add missing multicast filter bins number to GMAC node
-      ARC: [plat-hsdk]: Add missing FIFO size entry in GMAC node
-
-Vineet Gupta (1):
-      ARC: fix build warnings
-
- arch/arc/boot/dts/hsdk.dts      | 45 +++++++++++++++++++++++++++++++++++++----
- arch/arc/configs/hsdk_defconfig |  3 ++-
- arch/arc/include/asm/cmpxchg.h  | 14 +++++++++----
- arch/arc/mm/fault.c             |  9 +++------
- arch/arc/mm/tlb.c               | 13 +++++++-----
- 5 files changed, 64 insertions(+), 20 deletions(-)
