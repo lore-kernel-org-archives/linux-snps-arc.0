@@ -1,61 +1,68 @@
-From: joseph@codesourcery.com (Joseph Myers)
-Date: Mon, 3 Jun 2019 15:41:22 +0000
-Subject: Pass config-time variable to LIBC_SLIBDIR_RTLDDIR 
-In-Reply-To: <CY4PR1201MB01200F5CBFD010ADC371E89EA1190@CY4PR1201MB0120.namprd12.prod.outlook.com>
-References: <CY4PR1201MB01200F5CBFD010ADC371E89EA1190@CY4PR1201MB0120.namprd12.prod.outlook.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 3 Jun 2019 16:24:49 +0000
+Subject: [PATCH] ARC: build: Try to guess CROSS_COMPILE with
+ cc-cross-prefix
+References: <20190603063119.36544-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <alpine.DEB.2.21.1906031528200.14124@digraph.polyomino.org.uk>
+Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501A2522AB4@us01wembx1.internal.synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, 31 May 2019, Alexey Brodkin wrote:
+On 6/2/19 11:31 PM, Alexey Brodkin wrote:
+> For a long time we used to hard-code CROSS_COMPILE prefix
+> for ARC until it started to cause problems, so we decided to
+> solely rely on CROSS_COMPILE externally set by a user:
+> commit 40660f1fcee8 ("ARC: build: Don't set CROSS_COMPILE in arch's Makefile").
+>
+> While it works perfectly fine for build-systems where the prefix
+> gets defined anyways for us human beings it's quite an annoying
+> requirement especially given most of time the same one prefix
+> "arc-linux-" is all what we need.
+>
+> It looks like finally we're getting the best of both worlds:
+>  1. W/o cross-toolchain we still may install headers, build .dtb etc
+>  2. W/ cross-toolchain get the kerne built with only ARCH=arc
+>
+> Inspired by [1] & [2].
+>
+> [1] http://lists.infradead.org/pipermail/linux-snps-arc/2019-May/005788.html
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fc2b47b55f17
+>
+> A side note: even though "cc-cross-prefix" does its job it pollutes
+> console with output of "which" for all the prefixes it didn't manage to find
+> a matching cross-compiler for like that:
+> | # ARCH=arc make defconfig
+> | which: no arceb-linux-gcc in (~/.local/bin:~/bin:/usr/bin:/usr/sbin)
+> | *** Default configuration is based on 'nsim_hs_defconfig'
+>
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
+> Cc: Vineet Gupta <vgupta at synopsys.com>
 
-> Hi Andreas,
-> 
-> I'm trying to implement multilib support for ARC port of Glibc
-> and for that we seem to need to have unique slibdir/rtlddir pair per
-> each machine flavor. In our case these are at least:
->  - ARC700 (legacy ARCompact architecture)
->  - ARC HS38 (new gen ARCv2 architecture)
->  - ARC HS38 with hardware floating-point
->  - ARC HS48 (binary-compatible with HS38 but with different pipeline so
->              compiler schedules instructions differently)
+Not a big deal but I'd propose we add "Suggested-by: vgupta" since that is where
+it came from.
 
-If two processors are binary-compatible, in general you wouldn't have 
-different library directories.  (The HWCAP mechanism can be used to have a 
-single dynamic linker search different directories for optimized libraries 
-depending on the processor; put the relevant HWCAP bits in 
-HWCAP_IMPORTANT.  And of course you can just install different library 
-builds depending on the processor you'll be running the resulting OS on.)
+@Masahiro san I suppose you are OK with this, so perhaps an Ack etc would be nice
+to have.
 
-Different library directories are intended for the case where binaries for 
-different ABIs can be executed on the same system (e.g. 32-bit and 64-bit; 
-<https://sourceware.org/ml/libc-alpha/2018-01/msg00008.html> gives more 
-details of the various places that need updating to support such a 
-configuration in glibc).  For other cases of different ABIs, there should 
-be different dynamic linker names, to support multiarch configurations 
-that might run different-architecture binaries under emulation, but 
-different library directories are not required.
+Thx,
+-Vineet
 
-> Given we have in GCC a dedicated "-mcpu" value for each of items above
-> my first thought was to "automatically" setup slibdir/rtlddir
-> based on "-mcpu" value passed in CC during configuration.
-
-Checking -mcpu in CC is a bad idea, given that the compiler might have 
-been configured with a default CPU rather than passing it on the command 
-line.
-
-Rather, you should test how the compiler behaves: either run $CC $CFLAGS 
-$CPPFLAGS -E -dM -xc /dev/null and extract and examine predefined macros, 
-or use AC_EGREP_CPP or AC_COMPILE_IFELSE for the same purpose.  (If you 
-don't have predefined macros that make all the required ABI distinctions, 
-obviously you need to add them.)  There are various examples of this in 
-existing configure / preconfigure fragments.
-
-Since there should be a finite list of known ABIs (which would be listed 
-on <https://sourceware.org/glibc/wiki/ABIList> for a port included in 
-glibc), you can then have a finite number of LIBC_SLIBDIR_RTLDDIR calls in 
-a case statement.
-
--- 
-Joseph S. Myers
-joseph at codesourcery.com
+> ---
+>  arch/arc/Makefile | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+> index e2b991f75bc5..9cfd2ba7a12d 100644
+> --- a/arch/arc/Makefile
+> +++ b/arch/arc/Makefile
+> @@ -8,6 +8,10 @@
+>  
+>  KBUILD_DEFCONFIG := nsim_hs_defconfig
+>  
+> +ifeq ($(CROSS_COMPILE),)
+> +CROSS_COMPILE := $(call cc-cross-prefix, arc-linux- arceb-linux-)
+> +endif
+> +
+>  cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
+>  cflags-$(CONFIG_ISA_ARCOMPACT)	+= -mA7
+>  cflags-$(CONFIG_ISA_ARCV2)	+= -mcpu=hs38
