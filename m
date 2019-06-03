@@ -1,80 +1,100 @@
 From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Mon, 3 Jun 2019 18:01:08 +0900
-Subject: [PATCH] ARC: build: Try to guess CROSS_COMPILE with
- cc-cross-prefix
-In-Reply-To: <CY4PR1201MB012004A6281FFE93B8191F30A1140@CY4PR1201MB0120.namprd12.prod.outlook.com>
-References: <20190603063119.36544-1-abrodkin@synopsys.com>
- <CAK7LNASiHzar3JmzGB1fgUYUC91F3FPsALj3iMhANTjGgnux5w@mail.gmail.com>
- <CY4PR1201MB012004A6281FFE93B8191F30A1140@CY4PR1201MB0120.namprd12.prod.outlook.com>
+Date: Mon,  3 Jun 2019 19:49:02 +0900
+Subject: [PATCH] kbuild: use more portable 'command -v' for cc-cross-prefix
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK7LNATaLmeeeftK9AGfohEpYKhbgcXSp+GEgW46BeeAHnpqiQ@mail.gmail.com>
+Message-ID: <20190603104902.23799-1-yamada.masahiro@socionext.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Alexey,
+To print the pathname that will be used by shell in the current
+environment, 'command -v' is a standardized way. [1]
 
-On Mon, Jun 3, 2019 at 5:34 PM Alexey Brodkin
-<Alexey.Brodkin@synopsys.com> wrote:
->
-> Hi Masahiro-san,
->
-> > -----Original Message-----
-> > From: Masahiro Yamada <yamada.masahiro at socionext.com>
-> > Sent: Monday, June 3, 2019 11:18 AM
-> > To: Alexey Brodkin <abrodkin at synopsys.com>
-> > Cc: arcml <linux-snps-arc at lists.infradead.org>; Linux Kernel Mailing List <linux-
-> > kernel at vger.kernel.org>; Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-> > Subject: Re: [PATCH] ARC: build: Try to guess CROSS_COMPILE with cc-cross-prefix
-> >
-> > Hi Alexey,
-> >
-> > On Mon, Jun 3, 2019 at 3:42 PM Alexey Brodkin
-> > <Alexey.Brodkin@synopsys.com> wrote:
->
-> [snip]
->
-> > > A side note: even though "cc-cross-prefix" does its job it pollutes
-> > > console with output of "which" for all the prefixes it didn't manage to find
-> > > a matching cross-compiler for like that:
-> > > | # ARCH=arc make defconfig
-> > > | which: no arceb-linux-gcc in (~/.local/bin:~/bin:/usr/bin:/usr/sbin)
-> > > | *** Default configuration is based on 'nsim_hs_defconfig'
-> >
-> >
-> > Oh really?
-> >
-> > masahiro at pug:~$ which arc-linux-gcc
-> > /home/masahiro/tools/arc/bin/arc-linux-gcc
-> > masahiro at pug:~$ which dummy-linux-gcc
-> > masahiro at pug:~$ echo $?
-> > 1
-> >
-> >
-> > When 'which' cannot find the given command,
-> > it does not print anything to stderr.
-> >
-> > Does it work differently on your machine?
->
-> Well on Ubuntu 18.04 indeed which doesn't show anything
-> but on my build-server with CentOS 7 I'm getting mentioned verbose output:
-> | # cat /etc/redhat-release
-> | CentOS Linux release 7.3.1611 (Core)
->
-> | # /usr/bin/which -v
-> | GNU which v2.20, Copyright (C) 1999 - 2008 Carlo Wood.
-> | GNU which comes with ABSOLUTELY NO WARRANTY;
-> | This program is free software; your freedom to use, change
-> | and distribute this program is protected by the GPL.
+'which' is also often used in scripting, but it is not portable.
 
+When I worked on commit bd55f96fa9fc ("kbuild: refactor cc-cross-prefix
+implementation"), I was eager to use 'command -v' but it did not work.
+(The reason is explained below.)
 
-OK, confirmed.
+I kept 'which' as before but got rid of '> /dev/null 2>&1' as I
+thought it was no longer needed. Sorry, I was wrong.
 
-Probably using 'which' is a bad idea
-since this is not portable.
+It works well on my Ubuntu machine, but Alexey Brodkin reports annoying
+warnings from the 'which' on CentOS 7 when the given command is not
+found in the PATH environment.
 
-I will send a fix-up patch soon.
+  $ which foo
+  which: no foo in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
 
+Given that behavior of 'which' is different on environment, I want
+to try 'command -v' again.
 
+The specification [1] clearly describes the behavior of 'command -v'
+when the given command is not found:
 
+  Otherwise, no output shall be written and the exit status shall reflect
+  that the name was not found.
+
+However, we need a little magic to use 'command -v' from Make.
+
+$(shell ...) passes the argument to a subshell for execution, and
+returns the standard output of the command.
+
+Here is a trick. GNU Make may optimize this by executing the command
+directly instead of forking a subshell, if no shell special characters
+are found in the command line and omitting the subshell will not
+change the behavior.
+
+In this case, no shell special character is used. So, Make will try
+to run the command directly. However, 'command' is a shell-builtin
+command. In fact, Make has a table of shell-builtin commands because
+it must spawn a subshell to execute them.
+
+Until recently, 'command' was missing in the table.
+
+This issue was fixed by the following commit:
+
+| commit 1af314465e5dfe3e8baa839a32a72e83c04f26ef
+| Author: Paul Smith <psmith at gnu.org>
+| Date:   Sun Nov 12 18:10:28 2017 -0500
+|
+|     * job.c: Add "command" as a known shell built-in.
+|
+|     This is not a POSIX shell built-in but it's common in UNIX shells.
+|     Reported by Nick Bowler <nbowler at draconx.ca>.
+
+This is not included in any released versions of Make yet.
+(But, some distributions may have back-ported the fix-up.)
+
+To trick Make and let it fork the subshell, I added a shell special
+character '~'. We may be able to get rid of this workaround someday,
+but it is very far into the future.
+
+[1] http://pubs.opengroup.org/onlinepubs/9699919799/utilities/command.html
+
+Fixes: bd55f96fa9fc ("kbuild: refactor cc-cross-prefix implementation")
+Cc: linux-stable <stable at vger.kernel.org> # 5.1
+Reported-by: Alexey Brodkin <abrodkin at synopsys.com>
+Signed-off-by: Masahiro Yamada <yamada.masahiro at socionext.com>
+---
+
+ scripts/Kbuild.include | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 85d758233483..5a32ca80c3f6 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -74,8 +74,11 @@ endef
+ # Usage: CROSS_COMPILE := $(call cc-cross-prefix, m68k-linux-gnu- m68k-linux-)
+ # Return first <prefix> where a <prefix>gcc is found in PATH.
+ # If no gcc found in PATH with listed prefixes return nothing
++#
++# Note: the special character '~' forces Make to invoke a shell. This workaround
++# is needed because this issue was only fixed after GNU Make 4.2.1 release.
+ cc-cross-prefix = $(firstword $(foreach c, $(filter-out -%, $(1)), \
+-					$(if $(shell which $(c)gcc), $(c))))
++				$(if $(shell command -v $(c)gcc ~), $(c))))
+ 
+ # output directory for tests below
+ TMPOUT := $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/)
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
