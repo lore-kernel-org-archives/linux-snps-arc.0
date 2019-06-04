@@ -1,56 +1,120 @@
-From: David.Laight@ACULAB.COM (David Laight)
-Date: Tue, 4 Jun 2019 09:01:31 +0000
-Subject: [PATCH] kbuild: use more portable 'command -v' for cc-cross-prefix
-In-Reply-To: <CAK7LNAR_A1d5keiCRthNioW3nqkNadJkaCyMR3a5S8WS0jhgNQ@mail.gmail.com>
-References: <20190603104902.23799-1-yamada.masahiro@socionext.com>
- <863c29c5f0214c008fbcbb2aac517a5c@AcuMS.aculab.com>
- <CAK7LNARHR=xv_YxQCkCM7PtW3vpNfXOgZrez0c4HbMX6C-8-uA@mail.gmail.com>
- <810dd6ae018b4a31b70d26fb6b29e48d@AcuMS.aculab.com>
- <CAK7LNAR_A1d5keiCRthNioW3nqkNadJkaCyMR3a5S8WS0jhgNQ@mail.gmail.com>
+From: yamada.masahiro@socionext.com (Masahiro Yamada)
+Date: Tue,  4 Jun 2019 19:13:54 +0900
+Subject: [PATCH 00/15] kbuild: refactor headers_install and support
+ compile-test of UAPI headers
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <96b710063de5464ea347bfa1e03308b5@AcuMS.aculab.com>
+Message-ID: <20190604101409.2078-1-yamada.masahiro@socionext.com>
 To: linux-snps-arc@lists.infradead.org
 
-From: Masahiro Yamada
-> Sent: 04 June 2019 04:31
-...
-> > > > You could use:
-> > > >         $(shell sh -c "command -v $(c)gcc")
-> > > > or maybe:
-> > > >         $(shell command$${x:+} -v $(c)gcc)
-> > >
-> > >
-> > > How about this?
-> > >
-> > >           $(shell : ~; command -v $(c)gcc)
-> >
-> > Overcomplicated ....
-> >
-> > I've not looked at the list of 'special characters' in make,
-> > but I suspect any variable expansion is enough.
-> > Since ${x:+} always expands to the empty string (whether or
-> > not 'x' is defined) it can't have any unfortunate side effects.
-> 
-> 
-> Probably, my eyes are used to Makefile.
-> ":" is a no-op command, and it is used everywhere in kernel Makefiles
-> in the form of "@:'
-> 
-> It depends on people which solution seems simpler.
-> So, this argument tends to end up with bikesheding.
 
-I am fully aware of ':', it is a shell builtin that always return success.
-Usually used when you want the side-effects of substitutions without
-executing anything (eg : ${foo:=bar} ), to change the result of a
-sequence of shell commands or as a dummy (eg while :; do :; done; )
-Very annoyingly bash parses !: as something other than 'not true'.
+Multiple people have suggested to compile-test UAPI headers.
 
-$(shell command$${x:+} -v $(c)gcc) will be marginally faster
-because it is less parsing.
+Currently, Kbuild provides simple sanity checks by headers_check
+but they are not enough to catch bugs.
 
-	David
- 
+The most recent patch I know is David Howells' work:
+https://patchwork.kernel.org/patch/10590203/
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+I agree that we need better tests for UAPI headers,
+but I want to integrate it in a clean way.
+
+The idea that has been in my mind is to compile each header
+to make sure the selfcontainedness.
+
+Recently, Jani Nikula proposed a new syntax 'header-test-y'.
+https://patchwork.kernel.org/patch/10947005/
+
+So, I implemented UAPI compile-testing on top of that.
+
+When adding a new feature, cleaning the code first is a
+good practice.
+
+[1] Remove headers_install_all
+
+This target installs UAPI headers of all architectures
+in a single tree.
+It does not make sense to compile test of headers from
+multiple arches at the same time. Hence, removed.
+
+[2] Split header installation into 'make headers' and 'make headers_install'
+
+To compile-test UAPI headers, we need a work-directory somewhere
+to save objects and .*.cmd files.
+
+usr/include/ will be the work-directory.
+
+Since we cannot pollute the final destination of headers_install,
+
+I split the header installation into two stages.
+
+'make headers' will build up
+the ready-to-install headers in usr/include,
+which will be also used as a work-directory for the compile-test.
+
+'make headers_install' will copy headers
+from usr/include to $(INSTALL_HDR_PATH)/include.
+
+[3] Support compile-test of UAPI headers
+
+This is implemented in usr/include/Makefile
+
+
+Jani Nikula (1):
+  kbuild: add support for ensuring headers are self-contained
+
+Masahiro Yamada (14):
+  kbuild: remove headers_{install,check}_all
+  kbuild: remove stale dependency between Documentation/ and
+    headers_install
+  kbuild: make gdb_script depend on prepare0 instead of prepare
+  kbuild: fix Kconfig prompt of CONFIG_HEADERS_CHECK
+  kbuild: add CONFIG_HEADERS_INSTALL and loosen the dependency of
+    samples
+  kbuild: remove build_unifdef target in scripts/Makefile
+  kbuild: build all prerequisite of headers_install simultaneously
+  kbuild: add 'headers' target to build up ready-to-install uapi headers
+  kbuild: re-implement Makefile.headersinst without directory descending
+  kbuild: move hdr-inst shorthand to top Makefile
+  kbuild: simplify scripts/headers_install.sh
+  kbuild: deb-pkg: do not run headers_check
+  fixup: kbuild: add support for ensuring headers are self-contained
+  kbuild: compile test UAPI headers to ensure they are self-contained
+
+ Documentation/kbuild/headers_install.txt |   7 --
+ Documentation/kbuild/makefiles.txt       |  13 ++-
+ Makefile                                 |  56 +++++-----
+ arch/arc/configs/tb10x_defconfig         |   1 +
+ arch/nds32/configs/defconfig             |   1 +
+ arch/parisc/configs/a500_defconfig       |   1 +
+ arch/parisc/configs/b180_defconfig       |   1 +
+ arch/parisc/configs/c3000_defconfig      |   1 +
+ arch/parisc/configs/default_defconfig    |   1 +
+ arch/powerpc/configs/ppc6xx_defconfig    |   1 +
+ arch/s390/configs/debug_defconfig        |   1 +
+ include/uapi/{linux => }/Kbuild          |   6 +-
+ init/Kconfig                             |  20 ++++
+ lib/Kconfig.debug                        |  25 +++--
+ samples/Kconfig                          |  14 ++-
+ samples/Makefile                         |   4 +-
+ scripts/Kbuild.include                   |   6 --
+ scripts/Makefile                         |   5 -
+ scripts/Makefile.build                   |   9 ++
+ scripts/Makefile.headersinst             | 132 ++++++++++-------------
+ scripts/Makefile.lib                     |   3 +
+ scripts/cc-system-headers.sh             |   8 ++
+ scripts/headers.sh                       |  29 -----
+ scripts/headers_install.sh               |  48 ++++-----
+ scripts/package/builddeb                 |   2 +-
+ usr/.gitignore                           |   1 -
+ usr/Makefile                             |   2 +
+ usr/include/.gitignore                   |   3 +
+ usr/include/Makefile                     | 132 +++++++++++++++++++++++
+ 29 files changed, 329 insertions(+), 204 deletions(-)
+ rename include/uapi/{linux => }/Kbuild (77%)
+ create mode 100755 scripts/cc-system-headers.sh
+ delete mode 100755 scripts/headers.sh
+ create mode 100644 usr/include/.gitignore
+ create mode 100644 usr/include/Makefile
+
+-- 
+2.17.1
