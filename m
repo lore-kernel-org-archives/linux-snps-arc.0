@@ -1,21 +1,58 @@
-From: pr-tracker-bot@kernel.org (pr-tracker-bot@kernel.org)
-Date: Mon, 03 Jun 2019 22:25:11 +0000
-Subject: [GIT PULL] ARC updates for 5.2-rc4
-In-Reply-To: <e1a01d01-fccc-fab8-7022-9a18bb4d8f10@synopsys.com>
-References: <e1a01d01-fccc-fab8-7022-9a18bb4d8f10@synopsys.com>
+From: yamada.masahiro@socionext.com (Masahiro Yamada)
+Date: Tue, 4 Jun 2019 09:39:34 +0900
+Subject: [PATCH] ARC: build: Try to guess CROSS_COMPILE with
+ cc-cross-prefix
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA2307501A2522AB4@us01wembx1.internal.synopsys.com>
+References: <20190603063119.36544-1-abrodkin@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA2307501A2522AB4@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <155960071152.7954.12243155776656459408.pr-tracker-bot@kernel.org>
+Message-ID: <CAK7LNARNGdQ16+vDBg1M=FsLqSpL1ONd44V8JV+_6Amofn75rQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-The pull request you sent on Mon, 3 Jun 2019 14:04:16 -0700:
+On Tue, Jun 4, 2019@1:27 AM Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
+>
+> On 6/2/19 11:31 PM, Alexey Brodkin wrote:
+> > For a long time we used to hard-code CROSS_COMPILE prefix
+> > for ARC until it started to cause problems, so we decided to
+> > solely rely on CROSS_COMPILE externally set by a user:
+> > commit 40660f1fcee8 ("ARC: build: Don't set CROSS_COMPILE in arch's Makefile").
+> >
+> > While it works perfectly fine for build-systems where the prefix
+> > gets defined anyways for us human beings it's quite an annoying
+> > requirement especially given most of time the same one prefix
+> > "arc-linux-" is all what we need.
+> >
+> > It looks like finally we're getting the best of both worlds:
+> >  1. W/o cross-toolchain we still may install headers, build .dtb etc
+> >  2. W/ cross-toolchain get the kerne built with only ARCH=arc
+> >
+> > Inspired by [1] & [2].
+> >
+> > [1] http://lists.infradead.org/pipermail/linux-snps-arc/2019-May/005788.html
+> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fc2b47b55f17
+> >
+> > A side note: even though "cc-cross-prefix" does its job it pollutes
+> > console with output of "which" for all the prefixes it didn't manage to find
+> > a matching cross-compiler for like that:
+> > | # ARCH=arc make defconfig
+> > | which: no arceb-linux-gcc in (~/.local/bin:~/bin:/usr/bin:/usr/sbin)
+> > | *** Default configuration is based on 'nsim_hs_defconfig'
+> >
+> > Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> > Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
+> > Cc: Vineet Gupta <vgupta at synopsys.com>
+>
+> Not a big deal but I'd propose we add "Suggested-by: vgupta" since that is where
+> it came from.
+>
+> @Masahiro san I suppose you are OK with this, so perhaps an Ack etc would be nice
+> to have.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.2-rc4
+FWIW,
+Reviewed-by: Masahiro Yamada <yamada.masahiro at socionext.com>
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/788a024921c48985939f8241c1ff862a7374d8f9
 
-Thank you!
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+Best Regards
+Masahiro Yamada
