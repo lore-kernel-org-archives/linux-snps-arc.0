@@ -1,93 +1,50 @@
-From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Tue, 4 Jun 2019 12:44:25 +0900
-Subject: [PATCH] kbuild: use more portable 'command -v' for cc-cross-prefix
-In-Reply-To: <1ca8a995328f449fa58f732ebe70e378@AcuMS.aculab.com>
-References: <20190603104902.23799-1-yamada.masahiro@socionext.com>
- <3dcacca3f71c46cc98fa64b13a405b59@AcuMS.aculab.com>
- <CAK7LNATt=P5rHrnK_8PTmjMb+tdtPg2qBgopRUDBFw_fkP2SsQ@mail.gmail.com>
- <1ca8a995328f449fa58f732ebe70e378@AcuMS.aculab.com>
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Tue, 4 Jun 2019 09:41:04 +0200
+Subject: single copy atomicity for double load/stores on 32-bit systems
+In-Reply-To: <20190603201324.GN28207@linux.ibm.com>
+References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
+ <20190531082112.GH2623@hirez.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA2307501A2522B5B@us01wembx1.internal.synopsys.com>
+ <20190603201324.GN28207@linux.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK7LNASwTS+rfZuFFcR7cz2HaOZWMjxhZUToV=74g09J72=osg@mail.gmail.com>
+Message-ID: <CAMuHMdW-8Jt80mSyHTYmj6354-3f1=Vp_8dY-Nite1ERpUCFew@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Jun 3, 2019@9:43 PM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Masahiro Yamada
-> > Sent: 03 June 2019 12:45
-> > On Mon, Jun 3, 2019@8:16 PM David Laight <David.Laight@aculab.com> wrote:
+Hi Paul,
+
+On Mon, Jun 3, 2019@10:14 PM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+> On Mon, Jun 03, 2019@06:08:35PM +0000, Vineet Gupta wrote:
+> > On 5/31/19 1:21 AM, Peter Zijlstra wrote:
+> > >> I'm not sure how to interpret "natural alignment" for the case of double
+> > >> load/stores on 32-bit systems where the hardware and ABI allow for 4 byte
+> > >> alignment (ARCv2 LDD/STD, ARM LDRD/STRD ....)
+> > > Natural alignment: !((uintptr_t)ptr % sizeof(*ptr))
 > > >
-> > > From: Masahiro Yamada
-> > > > Sent: 03 June 2019 11:49
-> > > >
-> > > > To print the pathname that will be used by shell in the current
-> > > > environment, 'command -v' is a standardized way. [1]
-> > > >
-> > > > 'which' is also often used in scripting, but it is not portable.
-> > >
-> > > All uses of 'which' should be expunged.
-> > > It is a bourne shell script that is trying to emulate a csh builtin.
-> > > It is doomed to fail in corner cases.
-> > > ISTR it has serious problems with shell functions and aliases.
+> > > For any u64 type, that would give 8 byte alignment. the problem
+> > > otherwise being that your data spans two lines/pages etc..
 > >
-> > OK, I do not have time to check it treewide.
-> > I expect somebody will contribute to it.
-> >
-> >
-> >
-> > BTW, I see yet another way to get the command path.
-> >
-> > 'type -path' is bash-specific.
+> > Sure, but as Paul said, if the software doesn't expect them to be atomic by
+> > default, they could span 2 hardware lines to keep the implementation simpler/sane.
 >
-> 'type' itself should be supported by all shells, but the output
-> format (esp for errors) probably varies.
->
-> > Maybe, we should do this too:
-> >
-> > diff --git a/scripts/mkuboot.sh b/scripts/mkuboot.sh
-> > index 4b1fe09e9042..77829ee4268e 100755
-> > --- a/scripts/mkuboot.sh
-> > +++ b/scripts/mkuboot.sh
-> > @@ -1,14 +1,14 @@
-> > -#!/bin/bash
-> > +#!/bin/sh
->
-> /bin/sh might be 'dash' - which is just plain broken in so many ways.
-> Try (IIRC) ${foo%${foo#bar}}
-> It might even be the original SYSV /bin/sh which doesn't support $((expr))
-> or ${foo#bar} - but that may break too much, but $SHELL might fix it.
+> I could imagine 8-byte types being only four-byte aligned on 32-bit systems,
+> but it would be quite a surprise on 64-bit systems.
 
+Or two-byte aligned?
 
-We cannot use any tool
-if you start to argue like
-"Hey, I know ancient implementation that did not work as expected".
+M68k started with a 16-bit data bus, and alignment rules were retained
+when gaining a wider data bus.
 
-Nobody can cover all corner-cases.
-That's why we have standard.
+BTW, do any platforms have issues with atomicity of 4-byte types on
+16-bit data buses? I believe some embedded ARM or PowerPC do have
+such buses.
 
-I think the reliable source is the
-Open Group Specification.
+Gr{oetje,eeting}s,
 
-The behavior of /bin/sh is defined here:
-http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_01
-
-${parameter%[word]} and ${parameter#[word]} are defined,
-so we can use them in /bin/sh scripts.
-
-
-> dash probably has the rather obscure bug in stripping '\n' from $(...)
-> output that I found and fixed in NetBSD's ash may years ago.
-> Try: foo="$(jot -b "" 130)"
-> All 130 '\n' should be deleted.
-> Mostly it fails to delete all the '\n', but it can remove extra ones!
->
->         David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-
-
+                        Geert
 
 -- 
-Best Regards
-Masahiro Yamada
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
