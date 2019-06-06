@@ -1,129 +1,59 @@
-From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Thu,  6 Jun 2019 13:13:58 +0900
-Subject: [PATCH v2] kbuild: use more portable 'command -v' for cc-cross-prefix
+From: paulmck@linux.ibm.com (Paul E. McKenney)
+Date: Thu, 6 Jun 2019 02:43:40 -0700
+Subject: single copy atomicity for double load/stores on 32-bit systems
+In-Reply-To: <CAMuHMdW-8Jt80mSyHTYmj6354-3f1=Vp_8dY-Nite1ERpUCFew@mail.gmail.com>
+References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
+ <20190531082112.GH2623@hirez.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA2307501A2522B5B@us01wembx1.internal.synopsys.com>
+ <20190603201324.GN28207@linux.ibm.com>
+ <CAMuHMdW-8Jt80mSyHTYmj6354-3f1=Vp_8dY-Nite1ERpUCFew@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190606041358.22757-1-yamada.masahiro@socionext.com>
+Message-ID: <20190606094340.GD28207@linux.ibm.com>
 To: linux-snps-arc@lists.infradead.org
 
-To print the pathname that will be used by shell in the current
-environment, 'command -v' is a standardized way. [1]
+On Tue, Jun 04, 2019@09:41:04AM +0200, Geert Uytterhoeven wrote:
+> Hi Paul,
+> 
+> On Mon, Jun 3, 2019@10:14 PM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+> > On Mon, Jun 03, 2019@06:08:35PM +0000, Vineet Gupta wrote:
+> > > On 5/31/19 1:21 AM, Peter Zijlstra wrote:
+> > > >> I'm not sure how to interpret "natural alignment" for the case of double
+> > > >> load/stores on 32-bit systems where the hardware and ABI allow for 4 byte
+> > > >> alignment (ARCv2 LDD/STD, ARM LDRD/STRD ....)
+> > > > Natural alignment: !((uintptr_t)ptr % sizeof(*ptr))
+> > > >
+> > > > For any u64 type, that would give 8 byte alignment. the problem
+> > > > otherwise being that your data spans two lines/pages etc..
+> > >
+> > > Sure, but as Paul said, if the software doesn't expect them to be atomic by
+> > > default, they could span 2 hardware lines to keep the implementation simpler/sane.
+> >
+> > I could imagine 8-byte types being only four-byte aligned on 32-bit systems,
+> > but it would be quite a surprise on 64-bit systems.
+> 
+> Or two-byte aligned?
+> 
+> M68k started with a 16-bit data bus, and alignment rules were retained
+> when gaining a wider data bus.
+> 
+> BTW, do any platforms have issues with atomicity of 4-byte types on
+> 16-bit data buses? I believe some embedded ARM or PowerPC do have
+> such buses.
 
-'which' is also often used in scripts, but it is less portable.
+But m68k is !SMP-only, correct?  If so, the only issues would be
+interactions with interrupt handlers and the like, and doesn't current
+m68k hardware use exact interrupts?  Or is it still possible to interrupt
+an m68k in the middle of an instruction like it was in the bad old days?
 
-When I worked on commit bd55f96fa9fc ("kbuild: refactor cc-cross-prefix
-implementation"), I was eager to use 'command -v' but it did not work.
-(The reason is explained below.)
+							Thanx, Paul
 
-I kept 'which' as before but got rid of '> /dev/null 2>&1' as I
-thought it was no longer needed. Sorry, I was wrong.
-
-It works well on my Ubuntu machine, but Alexey Brodkin reports noisy
-warnings on CentOS7 when 'which' fails to find the given command in
-the PATH environment.
-
-  $ which foo
-  which: no foo in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
-
-Given that behavior of 'which' depends on system (and it may not be
-installed by default), I want to try 'command -v' once again.
-
-The specification [1] clearly describes the behavior of 'command -v'
-when the given command is not found:
-
-  Otherwise, no output shall be written and the exit status shall reflect
-  that the name was not found.
-
-However, we need a little magic to use 'command -v' from Make.
-
-$(shell ...) passes the argument to a subshell for execution, and
-returns the standard output of the command.
-
-Here is a trick. GNU Make may optimize this by executing the command
-directly instead of forking a subshell, if no shell special characters
-are found in the command and omitting the subshell will not change the
-behavior.
-
-In this case, no shell special character is used. So, Make will try
-to run it directly. However, 'command' is a shell-builtin command,
-then Make would fail to find it in the PATH environment:
-
-  $ make ARCH=m68k defconfig
-  make: command: Command not found
-  make: command: Command not found
-  make: command: Command not found
-
-In fact, Make has a table of shell-builtin commands because it must
-ask the shell to execute them.
-
-Until recently, 'command' was missing in the table.
-
-This issue was fixed by the following commit:
-
-| commit 1af314465e5dfe3e8baa839a32a72e83c04f26ef
-| Author: Paul Smith <psmith at gnu.org>
-| Date:   Sun Nov 12 18:10:28 2017 -0500
-|
-|     * job.c: Add "command" as a known shell built-in.
-|
-|     This is not a POSIX shell built-in but it's common in UNIX shells.
-|     Reported by Nick Bowler <nbowler at draconx.ca>.
-
-Because the latest release is GNU Make 4.2.1 in 2016, this commit is
-not included in any released versions. (But some distributions may
-have back-ported it.)
-
-We need to trick Make to spawn a subshell. There are various ways to
-do so:
-
- 1) Use a shell special character '~' as dummy
-
-    $(shell : ~; command -v $(c)gcc)
-
- 2) Use a variable reference, which always expands to the empty string
-    (suggested by David Laight)
-
-    $(shell command$${x:+} -v $(c)gcc)
-
- 3) Use redirect
-
-    $(shell command -v $(c)gcc 2>/dev/null)
-
-I chose 3) to not confuse people. The stderr would not be polluted
-anyway, but it will provide extra safety, and is easy to understand.
-
-Tested on Make 3.81, 3.82, 4.0, 4.1, 4.2, 4.2.1
-
-[1] http://pubs.opengroup.org/onlinepubs/9699919799/utilities/command.html
-
-Fixes: bd55f96fa9fc ("kbuild: refactor cc-cross-prefix implementation")
-Cc: linux-stable <stable at vger.kernel.org> # 5.1
-Reported-by: Alexey Brodkin <abrodkin at synopsys.com>
-Signed-off-by: Masahiro Yamada <yamada.masahiro at socionext.com>
-Tested-by: Alexey Brodkin <abrodkin at synopsys.com>
----
-
-Changes in v2:
-  - Use dummy redirect
-
- scripts/Kbuild.include | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 85d758233483..fd8aa314c156 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -74,8 +74,11 @@ endef
- # Usage: CROSS_COMPILE := $(call cc-cross-prefix, m68k-linux-gnu- m68k-linux-)
- # Return first <prefix> where a <prefix>gcc is found in PATH.
- # If no gcc found in PATH with listed prefixes return nothing
-+#
-+# Note: 2>/dev/null is here to force Make to invoke a shell. This workaround
-+# is needed because this issue was only fixed after GNU Make 4.2.1 release.
- cc-cross-prefix = $(firstword $(foreach c, $(filter-out -%, $(1)), \
--					$(if $(shell which $(c)gcc), $(c))))
-+			$(if $(shell command -v $(c)gcc 2>/dev/null), $(c))))
- 
- # output directory for tests below
- TMPOUT := $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/)
--- 
-2.17.1
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
