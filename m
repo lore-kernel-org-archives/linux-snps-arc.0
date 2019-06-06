@@ -1,5 +1,5 @@
-From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Thu, 6 Jun 2019 11:53:18 +0200
+From: David.Laight@ACULAB.COM (David Laight)
+Date: Thu, 6 Jun 2019 16:34:52 +0000
 Subject: single copy atomicity for double load/stores on 32-bit systems
 In-Reply-To: <20190606094340.GD28207@linux.ibm.com>
 References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
@@ -9,56 +9,32 @@ References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
  <CAMuHMdW-8Jt80mSyHTYmj6354-3f1=Vp_8dY-Nite1ERpUCFew@mail.gmail.com>
  <20190606094340.GD28207@linux.ibm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAMuHMdXvpFZjNjN4GyHXSRJ4=8AXVZArc_T+09HPErzZvUxXYg@mail.gmail.com>
+Message-ID: <8d1666df180d4d01aaebb5d41370b338@AcuMS.aculab.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Paul,
-
-On Thu, Jun 6, 2019@11:43 AM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
-> On Tue, Jun 04, 2019@09:41:04AM +0200, Geert Uytterhoeven wrote:
-> > On Mon, Jun 3, 2019@10:14 PM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
-> > > On Mon, Jun 03, 2019@06:08:35PM +0000, Vineet Gupta wrote:
-> > > > On 5/31/19 1:21 AM, Peter Zijlstra wrote:
-> > > > >> I'm not sure how to interpret "natural alignment" for the case of double
-> > > > >> load/stores on 32-bit systems where the hardware and ABI allow for 4 byte
-> > > > >> alignment (ARCv2 LDD/STD, ARM LDRD/STRD ....)
-> > > > > Natural alignment: !((uintptr_t)ptr % sizeof(*ptr))
-> > > > >
-> > > > > For any u64 type, that would give 8 byte alignment. the problem
-> > > > > otherwise being that your data spans two lines/pages etc..
-> > > >
-> > > > Sure, but as Paul said, if the software doesn't expect them to be atomic by
-> > > > default, they could span 2 hardware lines to keep the implementation simpler/sane.
-> > >
-> > > I could imagine 8-byte types being only four-byte aligned on 32-bit systems,
-> > > but it would be quite a surprise on 64-bit systems.
-> >
-> > Or two-byte aligned?
-> >
-> > M68k started with a 16-bit data bus, and alignment rules were retained
-> > when gaining a wider data bus.
-> >
-> > BTW, do any platforms have issues with atomicity of 4-byte types on
-> > 16-bit data buses? I believe some embedded ARM or PowerPC do have
-> > such buses.
->
+From: Paul E. McKenney
+> Sent: 06 June 2019 10:44
+...
 > But m68k is !SMP-only, correct?  If so, the only issues would be
-
-M68k support in Linux is uniprocessor-only.
-
 > interactions with interrupt handlers and the like, and doesn't current
 > m68k hardware use exact interrupts?  Or is it still possible to interrupt
 > an m68k in the middle of an instruction like it was in the bad old days?
 
-TBH, I don't know.
+Hardware interrupts were always on instruction boundaries, the
+mid-instruction interrupts would only happen for page faults (etc).
 
-Gr{oetje,eeting}s,
+There were SMP m68k systems (but I can't remember one).
+It was important to continue from a mid-instruction trap on the
+same cpu - unless you could guarantee that all the cpus had
+exactly the same version of the microcode.
 
-                        Geert
+In any case you could probably use the 'cmp2' instruction
+for an atomic 64bit write.
+OTOH setting that up was such a PITA it was always easier
+to disable interrupts.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+	David
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
