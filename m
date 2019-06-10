@@ -1,70 +1,121 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Sun,  9 Jun 2019 18:40:13 +0200
-Subject: [PATCH 4.4 071/241] perf bench numa: Add define for RUSAGE_THREAD if
- not present
-In-Reply-To: <20190609164147.729157653@linuxfoundation.org>
-References: <20190609164147.729157653@linuxfoundation.org>
+From: anshuman.khandual@arm.com (Anshuman Khandual)
+Date: Mon, 10 Jun 2019 10:04:49 +0530
+Subject: [RFC V3] mm: Generalize and rename notify_page_fault() as
+ kprobe_page_fault()
+In-Reply-To: <20190607201202.GA32656@bombadil.infradead.org>
+References: <1559903655-5609-1-git-send-email-anshuman.khandual@arm.com>
+ <20190607201202.GA32656@bombadil.infradead.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190609164149.820819274@linuxfoundation.org>
+Message-ID: <f1b109a3-ef4c-359c-a124-e219e84a6266@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-[ Upstream commit bf561d3c13423fc54daa19b5d49dc15fafdb7acc ]
 
-While cross building perf to the ARC architecture on a fedora 30 host,
-we were failing with:
 
-      CC       /tmp/build/perf/bench/numa.o
-  bench/numa.c: In function ?worker_thread?:
-  bench/numa.c:1261:12: error: ?RUSAGE_THREAD? undeclared (first use in this function); did you mean ?SIGEV_THREAD??
-    getrusage(RUSAGE_THREAD, &rusage);
-              ^~~~~~~~~~~~~
-              SIGEV_THREAD
-  bench/numa.c:1261:12: note: each undeclared identifier is reported only once for each function it appears in
+On 06/08/2019 01:42 AM, Matthew Wilcox wrote:
+> Before:
+> 
+>> @@ -46,23 +46,6 @@ kmmio_fault(struct pt_regs *regs, unsigned long addr)
+>>  	return 0;
+>>  }
+>>  
+>> -static nokprobe_inline int kprobes_fault(struct pt_regs *regs)
+>> -{
+>> -	if (!kprobes_built_in())
+>> -		return 0;
+>> -	if (user_mode(regs))
+>> -		return 0;
+>> -	/*
+>> -	 * To be potentially processing a kprobe fault and to be allowed to call
+>> -	 * kprobe_running(), we have to be non-preemptible.
+>> -	 */
+>> -	if (preemptible())
+>> -		return 0;
+>> -	if (!kprobe_running())
+>> -		return 0;
+>> -	return kprobe_fault_handler(regs, X86_TRAP_PF);
+>> -}
+> 
+> After:
+> 
+>> +++ b/include/linux/kprobes.h
+>> @@ -458,4 +458,20 @@ static inline bool is_kprobe_optinsn_slot(unsigned long addr)
+>>  }
+>>  #endif
+>>  
+>> +static nokprobe_inline bool kprobe_page_fault(struct pt_regs *regs,
+>> +					      unsigned int trap)
+>> +{
+>> +	int ret = 0;
+>> +
+>> +	/*
+>> +	 * To be potentially processing a kprobe fault and to be allowed
+>> +	 * to call kprobe_running(), we have to be non-preemptible.
+>> +	 */
+>> +	if (kprobes_built_in() && !preemptible() && !user_mode(regs)) {
+>> +		if (kprobe_running() && kprobe_fault_handler(regs, trap))
+>> +			ret = 1;
+>> +	}
+>> +	return ret;
+>> +}
+> 
+> Do you really think this is easier to read?
+> 
+> Why not just move the x86 version to include/linux/kprobes.h, and replace
+> the int with bool?
 
-[perfbuilder at 60d5802468f6 perf]$ /arc_gnu_2019.03-rc1_prebuilt_uclibc_le_archs_linux_install/bin/arc-linux-gcc --version | head -1
-arc-linux-gcc (ARCv2 ISA Linux uClibc toolchain 2019.03-rc1) 8.3.1 20190225
-[perfbuilder at 60d5802468f6 perf]$
+Will just return bool directly without an additional variable here as suggested
+before. But for the conditional statement, I guess the proposed one here is more
+compact than the x86 one.
 
-Trying to reproduce a report by Vineet, I noticed that, with just
-cross-built zlib and numactl libraries, I ended up with the above
-failure.
+> 
+> On Fri, Jun 07, 2019@04:04:15PM +0530, Anshuman Khandual wrote:
+>> Very similar definitions for notify_page_fault() are being used by multiple
+>> architectures duplicating much of the same code. This attempts to unify all
+>> of them into a generic implementation, rename it as kprobe_page_fault() and
+>> then move it to a common header.
+> 
+> I think this description suffers from having been written for v1 of
+> this patch.  It describes what you _did_, but it's not what this patch
+> currently _is_.
+> 
+> Why not something like:
+> 
+> Architectures which support kprobes have very similar boilerplate around
+> calling kprobe_fault_handler().  Use a helper function in kprobes.h to
+> unify them, based on the x86 code.
+> 
+> This changes the behaviour for other architectures when preemption
+> is enabled.  Previously, they would have disabled preemption while
+> calling the kprobe handler.  However, preemption would be disabled
+> if this fault was due to a kprobe, so we know the fault was not due
+> to a kprobe handler and can simply return failure.  This behaviour was
+> introduced in commit a980c0ef9f6d ("x86/kprobes: Refactor kprobes_fault()
+> like kprobe_exceptions_notify()")
 
-So, since RUSAGE_THREAD is available as a define, check for that and
-numactl libraries, I ended up with the above failure.
+Will replace commit message with above.
 
-So, since RUSAGE_THREAD is available as a define in the system headers,
-check if it is defined in the 'perf bench numa' sources and define it if
-not.
+> 
+>>  arch/arm/mm/fault.c      | 24 +-----------------------
+>>  arch/arm64/mm/fault.c    | 24 +-----------------------
+>>  arch/ia64/mm/fault.c     | 24 +-----------------------
+>>  arch/powerpc/mm/fault.c  | 23 ++---------------------
+>>  arch/s390/mm/fault.c     | 16 +---------------
+>>  arch/sh/mm/fault.c       | 18 ++----------------
+>>  arch/sparc/mm/fault_64.c | 16 +---------------
+>>  arch/x86/mm/fault.c      | 21 ++-------------------
+>>  include/linux/kprobes.h  | 16 ++++++++++++++++
+> 
+> What about arc and mips?
 
-Now it builds and I have to figure out if the problem reported by Vineet
-only takes place if we have libelf or some other library available.
++ Vineet Gupta <vgupta at synopsys.com> 
++ linux-snps-arc at lists.infradead.org
 
-Cc: Arnd Bergmann <arnd at arndb.de>
-Cc: Jiri Olsa <jolsa at kernel.org>
-Cc: linux-snps-arc at lists.infradead.org
-Cc: Namhyung Kim <namhyung at kernel.org>
-Cc: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-Link: https://lkml.kernel.org/n/tip-2wb4r1gir9xrevbpq7qp0amk at git.kernel.org
-Signed-off-by: Arnaldo Carvalho de Melo <acme at redhat.com>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
----
- tools/perf/bench/numa.c | 4 ++++
- 1 file changed, 4 insertions(+)
++ James Hogan <jhogan at kernel.org>
++ Paul Burton <paul.burton at mips.com>
++ Ralf Baechle <ralf at linux-mips.org>
++ linux-mips at vger.kernel.org
 
-diff --git a/tools/perf/bench/numa.c b/tools/perf/bench/numa.c
-index 73d192f57dc34..df41deed0320e 100644
---- a/tools/perf/bench/numa.c
-+++ b/tools/perf/bench/numa.c
-@@ -32,6 +32,10 @@
- #include <numa.h>
- #include <numaif.h>
- 
-+#ifndef RUSAGE_THREAD
-+# define RUSAGE_THREAD 1
-+#endif
-+
- /*
-  * Regular printout to the terminal, supressed if -q is specified:
-  */
--- 
-2.20.1
+Both the above architectures dont call kprobe_fault_handler() from the
+page fault context (do_page_fault() to be specific). Though it gets called
+from mips kprobe_exceptions_notify (DIE_PAGE_FAULT). Am I missing something
+here ?
