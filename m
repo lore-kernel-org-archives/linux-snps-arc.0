@@ -1,78 +1,68 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 10 Jun 2019 15:55:41 +0000
-Subject: ARC Assembler: bundle_align_mode directive support
-References: <3962a9ad199cea45b1cfadb80be551aab83b7028.camel@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Tue, 11 Jun 2019 20:21:59 +0300
+Subject: [PATCH] drm/arcpgu: rework encoder search
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501A2525686@us01wembx1.internal.synopsys.com>
+Message-ID: <20190611172159.24048-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 6/8/19 11:21 AM, Eugeniy Paltsev wrote:
-> Hi Cupertino,
->
-> I tried to use ".bundle_align_mode" directive in ARC assembly, but I got following error:
-> ----------------->8--------------
-> Assembler messages:
-> Error: unknown pseudo-op: `.bundle_align_mode'
-> ----------------->8--------------
->
-> Is it possible to implement it in ARC assembler?
-> There is some context about the reason we want to have it:
->
-> I'm trying to add support of jump labels for ARC in linux kernel. Jump labels
-> provide an interface to generate static branches using self-modifying code.
-> This allows us to implement conditional branches where changing branch
-> direction is expensive but branch selection is basically 'free'.
->
-> There is nuance in current implementation:
-> We need to patch code by rewriting 32-bit NOP by 32-bit BRANCH instruction (or vice versa).
-> It can be easily done with following code:
-> ----------------->8--------------
-> write_32_bit(new_instruction)
-> flush_l1_dcache_range_this_cpu
-> invalidate_l1_icache_range_all_cpu
-> ----------------->8--------------
->
-> I$ update will be atomic in most of cases except the patched instruction share
-> two L1 cache lines (so first 16 bits of instruction are in the one cache line and
-> last 16 bit are in another cache line).
-> In such case we can execute half-updated instruction if we are patching live code (and we are unlucky enough :)
+Instead of using non-standard "encoder-slave" property to find
+encoder let's find it by associated endpoint.
 
-While I understand your need for alignment, I don't see how you can possibly
-execute stray lines.
-dcache flush will be propagated by hardware (SCU) to all cores (as applicable) and
-the icache cache flush xcall is synchronous and will have to finish on all cores
-before we proceed to execute the cod eitself.
+While I'm on it add corresponding log message if we don't find
+any encoder and we assume that we use virtual LCD on the
+simulation platform.
 
->
-> As of today I simply align by 4 byte instruction which can be patched with ".balign 4" directive:
-> ----------------->8--------------
-> static __always_inline bool arch_static_branch_jump(struct static_key *key,
->     bool branch)
-> {
-> asm_volatile_goto(".balign 4\n"
->  "1:\n"
->  "b %l[l_yes]\n" // <- instruction which can be patched
->  ".pushsection __jump_table, \"aw\"\n"
->  ".word 1b, %l[l_yes], %c0\n"
->  ".popsection\n"
->  : : "i" (&((char *)key)[branch]) : : l_yes);
->
-> return false;
-> l_yes:
-> return true;
-> }
-> ----------------->8--------------
->
-> In that case patched instruction is aligned with one 16-bit NOP if this is required.
-> However 'align by 4' directive is much stricter than it actually required. 
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+---
+ drivers/gpu/drm/arc/arcpgu_drv.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-I don't quite understand. Can u write a couple of lines of pseudo assembly to show
-what the issue is.
-
-> It's enough
-> that our 32-bit instruction don't cross l1 cache line boundary.
-> That will save us from adding useless NOP padding in most of the cases.
-> It can be implemented with ".bundle_align_mode" directive which isn't supported by ARC AS unfortunately.
-
-This seems like a reasonable request (contingent to the difficulty of
-implementation in binutils). but I can't comprehend why you would need it.
+diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
+index c9f78397d345..d08b9977f021 100644
+--- a/drivers/gpu/drm/arc/arcpgu_drv.c
++++ b/drivers/gpu/drm/arc/arcpgu_drv.c
+@@ -23,6 +23,7 @@
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_gem_cma_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_of.h>
+ #include <drm/drm_probe_helper.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/module.h>
+@@ -54,7 +55,7 @@ static int arcpgu_load(struct drm_device *drm)
+ {
+ 	struct platform_device *pdev = to_platform_device(drm->dev);
+ 	struct arcpgu_drm_private *arcpgu;
+-	struct device_node *encoder_node;
++	struct device_node *encoder_node = NULL, *endpoint_node = NULL;
+ 	struct resource *res;
+ 	int ret;
+ 
+@@ -89,14 +90,23 @@ static int arcpgu_load(struct drm_device *drm)
+ 	if (arc_pgu_setup_crtc(drm) < 0)
+ 		return -ENODEV;
+ 
+-	/* find the encoder node and initialize it */
+-	encoder_node = of_parse_phandle(drm->dev->of_node, "encoder-slave", 0);
++	/*
++	 * There is only one output port inside each device. It is linked with
++	 * encoder endpoint.
++	 */
++	endpoint_node = of_graph_get_next_endpoint(pdev->dev.of_node, NULL);
++	if (endpoint_node) {
++		encoder_node = of_graph_get_remote_port_parent(endpoint_node);
++		of_node_put(endpoint_node);
++	}
++
+ 	if (encoder_node) {
+ 		ret = arcpgu_drm_hdmi_init(drm, encoder_node);
+ 		of_node_put(encoder_node);
+ 		if (ret < 0)
+ 			return ret;
+ 	} else {
++		dev_info(drm->dev, "no encoder found. Assumed virtual LCD on simulation platform\n");
+ 		ret = arcpgu_drm_sim_init(drm, NULL);
+ 		if (ret < 0)
+ 			return ret;
+-- 
+2.21.0
