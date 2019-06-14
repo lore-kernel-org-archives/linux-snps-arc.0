@@ -1,148 +1,104 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri, 14 Jun 2019 18:05:01 +0000
-Subject: [PATCH 7/7] arc: use the generic remapping allocator for coherent
- DMA allocations
-In-Reply-To: <20190614144431.21760-8-hch@lst.de>
-References: <20190614144431.21760-1-hch@lst.de>
- <20190614144431.21760-8-hch@lst.de>
+From: sashal@kernel.org (Sasha Levin)
+Date: Fri, 14 Jun 2019 16:27:46 -0400
+Subject: [PATCH AUTOSEL 5.1 02/59] ARC: fix build warnings
+In-Reply-To: <20190614202843.26941-1-sashal@kernel.org>
+References: <20190614202843.26941-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <78ac563f2815a9a14bfab6076d0ef948497f5b9f.camel@synopsys.com>
+Message-ID: <20190614202843.26941-2-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Christoph,
+From: Vineet Gupta <vgupta@synopsys.com>
 
-Regular question - do you have any public git repository with all this dma changes?
-I want to test it for ARC.
+[ Upstream commit 89c92142f75eb80064f5b9f1111484b1b4d81790 ]
 
-Pretty sure the
- [PATCH 2/7] arc: remove the partial DMA_ATTR_NON_CONSISTENT support
-is fine.
+| arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
+| arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
 
-Not so sure about
- [PATCH 7/7] arc: use the generic remapping allocator for coherent DMA allocations
-:)
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+Signed-off-by: Sasha Levin <sashal at kernel.org>
+---
+ arch/arc/include/asm/cmpxchg.h | 14 ++++++++++----
+ arch/arc/mm/tlb.c              | 13 ++++++++-----
+ 2 files changed, 18 insertions(+), 9 deletions(-)
 
-On Fri, 2019-06-14@16:44 +0200, Christoph Hellwig wrote:
-> Replace the code that sets up uncached PTEs with the generic vmap based
-> remapping code.  It also provides an atomic pool for allocations from
-> non-blocking context, which we not properly supported by the existing
-> arc code.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  arch/arc/Kconfig  |  2 ++
->  arch/arc/mm/dma.c | 62 ++++++++---------------------------------------
->  2 files changed, 12 insertions(+), 52 deletions(-)
-> 
-> diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-> index 23e063df5d2c..cdad7d30ff1d 100644
-> --- a/arch/arc/Kconfig
-> +++ b/arch/arc/Kconfig
-> @@ -10,6 +10,7 @@ config ARC
->  	def_bool y
->  	select ARC_TIMERS
->  	select ARCH_HAS_DMA_COHERENT_TO_PFN
-> +	select ARCH_HAS_DMA_PREP_COHERENT
->  	select ARCH_HAS_PTE_SPECIAL
->  	select ARCH_HAS_SETUP_DMA_OPS
->  	select ARCH_HAS_SYNC_DMA_FOR_CPU
-> @@ -19,6 +20,7 @@ config ARC
->  	select BUILDTIME_EXTABLE_SORT
->  	select CLONE_BACKWARDS
->  	select COMMON_CLK
-> +	select DMA_DIRECT_REMAP
->  	select GENERIC_ATOMIC64 if !ISA_ARCV2 || !(ARC_HAS_LL64 && ARC_HAS_LLSC)
->  	select GENERIC_CLOCKEVENTS
->  	select GENERIC_FIND_FIRST_BIT
-> diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
-> index 9832928f896d..0fa850709fac 100644
-> --- a/arch/arc/mm/dma.c
-> +++ b/arch/arc/mm/dma.c
-> @@ -11,46 +11,15 @@
->  #include <asm/cacheflush.h>
->  
->  /*
-> - * ARCH specific callbacks for generic noncoherent DMA ops (dma/noncoherent.c)
-> + * ARCH specific callbacks for generic noncoherent DMA ops
->   *  - hardware IOC not available (or "dma-coherent" not set for device in DT)
->   *  - But still handle both coherent and non-coherent requests from caller
->   *
->   * For DMA coherent hardware (IOC) generic code suffices
->   */
-> -void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
-> -		gfp_t gfp, unsigned long attrs)
-> -{
-> -	unsigned long order = get_order(size);
-> -	struct page *page;
-> -	phys_addr_t paddr;
-> -	void *kvaddr;
-> -
-> -	/*
-> -	 * __GFP_HIGHMEM flag is cleared by upper layer functions
-> -	 * (in include/linux/dma-mapping.h) so we should never get a
-> -	 * __GFP_HIGHMEM here.
-> -	 */
-> -	BUG_ON(gfp & __GFP_HIGHMEM);
-> -
-> -	page = alloc_pages(gfp | __GFP_ZERO, order);
-> -	if (!page)
-> -		return NULL;
-> -
-> -	/* This is linear addr (0x8000_0000 based) */
-> -	paddr = page_to_phys(page);
-> -
-> -	*dma_handle = paddr;
-> -
-> -	/*
-> -	 * A coherent buffer needs MMU mapping to enforce non-cachability.
-> -	 * kvaddr is kernel Virtual address (0x7000_0000 based).
-> -	 */
-> -	kvaddr = ioremap_nocache(paddr, size);
-> -	if (kvaddr == NULL) {
-> -		__free_pages(page, order);
-> -		return NULL;
-> -	}
->  
-> +void arch_dma_prep_coherent(struct page *page, size_t size)
-> +{
->  	/*
->  	 * Evict any existing L1 and/or L2 lines for the backing page
->  	 * in case it was used earlier as a normal "cached" page.
-> @@ -61,24 +30,7 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
->  	 * Currently flush_cache_vmap nukes the L1 cache completely which
->  	 * will be optimized as a separate commit
->  	 */
-> -	dma_cache_wback_inv(paddr, size);
-> -	return kvaddr;
-> -}
-> -
-> -void arch_dma_free(struct device *dev, size_t size, void *vaddr,
-> -		dma_addr_t dma_handle, unsigned long attrs)
-> -{
-> -	phys_addr_t paddr = dma_handle;
-> -	struct page *page = virt_to_page(paddr);
-> -
-> -	iounmap((void __force __iomem *)vaddr);
-> -	__free_pages(page, get_order(size));
-> -}
-> -
-> -long arch_dma_coherent_to_pfn(struct device *dev, void *cpu_addr,
-> -		dma_addr_t dma_addr)
-> -{
-> -	return __phys_to_pfn(dma_addr);
-> +	dma_cache_wback_inv(page_to_phys(page), size);
->  }
->  
->  /*
-> @@ -155,3 +107,9 @@ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
->  	dev_info(dev, "use %sncoherent DMA ops\n",
->  		 dev->dma_coherent ? "" : "non");
->  }
-> +
-> +static int __init atomic_pool_init(void)
-> +{
-> +	return dma_atomic_pool_init(GFP_KERNEL, pgprot_noncached(PAGE_KERNEL));
-> +}
-> +postcore_initcall(atomic_pool_init);
+diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+index d819de1c5d10..3ea4112c8302 100644
+--- a/arch/arc/include/asm/cmpxchg.h
++++ b/arch/arc/include/asm/cmpxchg.h
+@@ -92,8 +92,11 @@ __cmpxchg(volatile void *ptr, unsigned long expected, unsigned long new)
+ 
+ #endif /* CONFIG_ARC_HAS_LLSC */
+ 
+-#define cmpxchg(ptr, o, n) ((typeof(*(ptr)))__cmpxchg((ptr), \
+-				(unsigned long)(o), (unsigned long)(n)))
++#define cmpxchg(ptr, o, n) ({				\
++	(typeof(*(ptr)))__cmpxchg((ptr),		\
++				  (unsigned long)(o),	\
++				  (unsigned long)(n));	\
++})
+ 
+ /*
+  * atomic_cmpxchg is same as cmpxchg
+@@ -198,8 +201,11 @@ static inline unsigned long __xchg(unsigned long val, volatile void *ptr,
+ 	return __xchg_bad_pointer();
+ }
+ 
+-#define xchg(ptr, with) ((typeof(*(ptr)))__xchg((unsigned long)(with), (ptr), \
+-						 sizeof(*(ptr))))
++#define xchg(ptr, with) ({				\
++	(typeof(*(ptr)))__xchg((unsigned long)(with),	\
++			       (ptr),			\
++			       sizeof(*(ptr)));		\
++})
+ 
+ #endif /* CONFIG_ARC_PLAT_EZNPS */
+ 
+diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
+index 4097764fea23..fa18c00b0cfd 100644
+--- a/arch/arc/mm/tlb.c
++++ b/arch/arc/mm/tlb.c
+@@ -911,9 +911,11 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
+ 			  struct pt_regs *regs)
+ {
+ 	struct cpuinfo_arc_mmu *mmu = &cpuinfo_arc700[smp_processor_id()].mmu;
+-	unsigned int pd0[mmu->ways];
+ 	unsigned long flags;
+-	int set;
++	int set, n_ways = mmu->ways;
++
++	n_ways = min(n_ways, 4);
++	BUG_ON(mmu->ways > 4);
+ 
+ 	local_irq_save(flags);
+ 
+@@ -921,9 +923,10 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
+ 	for (set = 0; set < mmu->sets; set++) {
+ 
+ 		int is_valid, way;
++		unsigned int pd0[4];
+ 
+ 		/* read out all the ways of current set */
+-		for (way = 0, is_valid = 0; way < mmu->ways; way++) {
++		for (way = 0, is_valid = 0; way < n_ways; way++) {
+ 			write_aux_reg(ARC_REG_TLBINDEX,
+ 					  SET_WAY_TO_IDX(mmu, set, way));
+ 			write_aux_reg(ARC_REG_TLBCOMMAND, TLBRead);
+@@ -937,14 +940,14 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
+ 			continue;
+ 
+ 		/* Scan the set for duplicate ways: needs a nested loop */
+-		for (way = 0; way < mmu->ways - 1; way++) {
++		for (way = 0; way < n_ways - 1; way++) {
+ 
+ 			int n;
+ 
+ 			if (!pd0[way])
+ 				continue;
+ 
+-			for (n = way + 1; n < mmu->ways; n++) {
++			for (n = way + 1; n < n_ways; n++) {
+ 				if (pd0[way] != pd0[n])
+ 					continue;
+ 
 -- 
- Eugeniy Paltsev
+2.20.1
