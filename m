@@ -1,104 +1,44 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 14 Jun 2019 16:27:46 -0400
-Subject: [PATCH AUTOSEL 5.1 02/59] ARC: fix build warnings
+Date: Fri, 14 Jun 2019 16:27:55 -0400
+Subject: [PATCH AUTOSEL 5.1 11/59] ARC: [plat-hsdk]: Add missing multicast
+ filter bins number to GMAC node
 In-Reply-To: <20190614202843.26941-1-sashal@kernel.org>
 References: <20190614202843.26941-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190614202843.26941-2-sashal@kernel.org>
+Message-ID: <20190614202843.26941-11-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-From: Vineet Gupta <vgupta@synopsys.com>
+From: Jose Abreu <joabreu@synopsys.com>
 
-[ Upstream commit 89c92142f75eb80064f5b9f1111484b1b4d81790 ]
+[ Upstream commit ecc906a11c2a0940e1a380debd8bd5bc09faf454 ]
 
-| arch/arc/mm/tlb.c:914:2: warning: variable length array 'pd0' is used [-Wvla]
-| arch/arc/include/asm/cmpxchg.h:95:29: warning: value computed is not used [-Wunused-value]
+GMAC controller on HSDK boards supports 256 Hash Table size so we need to
+add the multicast filter bins property. This allows for the Hash filter
+to work properly using stmmac driver.
 
+Cc: Joao Pinto <jpinto at synopsys.com>
+Cc: Rob Herring <robh+dt at kernel.org>
+Cc: Mark Rutland <mark.rutland at arm.com>
+Cc: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
+Signed-off-by: Jose Abreu <joabreu at synopsys.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- arch/arc/include/asm/cmpxchg.h | 14 ++++++++++----
- arch/arc/mm/tlb.c              | 13 ++++++++-----
- 2 files changed, 18 insertions(+), 9 deletions(-)
+ arch/arc/boot/dts/hsdk.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
-index d819de1c5d10..3ea4112c8302 100644
---- a/arch/arc/include/asm/cmpxchg.h
-+++ b/arch/arc/include/asm/cmpxchg.h
-@@ -92,8 +92,11 @@ __cmpxchg(volatile void *ptr, unsigned long expected, unsigned long new)
- 
- #endif /* CONFIG_ARC_HAS_LLSC */
- 
--#define cmpxchg(ptr, o, n) ((typeof(*(ptr)))__cmpxchg((ptr), \
--				(unsigned long)(o), (unsigned long)(n)))
-+#define cmpxchg(ptr, o, n) ({				\
-+	(typeof(*(ptr)))__cmpxchg((ptr),		\
-+				  (unsigned long)(o),	\
-+				  (unsigned long)(n));	\
-+})
- 
- /*
-  * atomic_cmpxchg is same as cmpxchg
-@@ -198,8 +201,11 @@ static inline unsigned long __xchg(unsigned long val, volatile void *ptr,
- 	return __xchg_bad_pointer();
- }
- 
--#define xchg(ptr, with) ((typeof(*(ptr)))__xchg((unsigned long)(with), (ptr), \
--						 sizeof(*(ptr))))
-+#define xchg(ptr, with) ({				\
-+	(typeof(*(ptr)))__xchg((unsigned long)(with),	\
-+			       (ptr),			\
-+			       sizeof(*(ptr)));		\
-+})
- 
- #endif /* CONFIG_ARC_PLAT_EZNPS */
- 
-diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
-index 4097764fea23..fa18c00b0cfd 100644
---- a/arch/arc/mm/tlb.c
-+++ b/arch/arc/mm/tlb.c
-@@ -911,9 +911,11 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
- 			  struct pt_regs *regs)
- {
- 	struct cpuinfo_arc_mmu *mmu = &cpuinfo_arc700[smp_processor_id()].mmu;
--	unsigned int pd0[mmu->ways];
- 	unsigned long flags;
--	int set;
-+	int set, n_ways = mmu->ways;
-+
-+	n_ways = min(n_ways, 4);
-+	BUG_ON(mmu->ways > 4);
- 
- 	local_irq_save(flags);
- 
-@@ -921,9 +923,10 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
- 	for (set = 0; set < mmu->sets; set++) {
- 
- 		int is_valid, way;
-+		unsigned int pd0[4];
- 
- 		/* read out all the ways of current set */
--		for (way = 0, is_valid = 0; way < mmu->ways; way++) {
-+		for (way = 0, is_valid = 0; way < n_ways; way++) {
- 			write_aux_reg(ARC_REG_TLBINDEX,
- 					  SET_WAY_TO_IDX(mmu, set, way));
- 			write_aux_reg(ARC_REG_TLBCOMMAND, TLBRead);
-@@ -937,14 +940,14 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
- 			continue;
- 
- 		/* Scan the set for duplicate ways: needs a nested loop */
--		for (way = 0; way < mmu->ways - 1; way++) {
-+		for (way = 0; way < n_ways - 1; way++) {
- 
- 			int n;
- 
- 			if (!pd0[way])
- 				continue;
- 
--			for (n = way + 1; n < mmu->ways; n++) {
-+			for (n = way + 1; n < n_ways; n++) {
- 				if (pd0[way] != pd0[n])
- 					continue;
- 
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index 7425bb0f2d1b..699f372b2a6f 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -187,6 +187,7 @@
+ 			interrupt-names = "macirq";
+ 			phy-mode = "rgmii";
+ 			snps,pbl = <32>;
++			snps,multicast-filter-bins = <256>;
+ 			clocks = <&gmacclk>;
+ 			clock-names = "stmmaceth";
+ 			phy-handle = <&phy0>;
 -- 
 2.20.1
