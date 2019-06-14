@@ -1,31 +1,58 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Thu, 13 Jun 2019 20:35:26 +0000
-Subject: ARC Assembler: bundle_align_mode directive support
-References: <3962a9ad199cea45b1cfadb80be551aab83b7028.camel@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA2307501A2525686@us01wembx1.internal.synopsys.com>
- <d79085cbc6126c2a4fad173934e1e9b29523abba.camel@synopsys.com>
- <02fcd330-8b3c-a3cb-0aa9-e91bca6b6d0f@synopsys.com>
- <8a027c250d7bd14ff107c169351af6a04a6d8334.camel@synopsys.com>
+From: anshuman.khandual@arm.com (Anshuman Khandual)
+Date: Fri, 14 Jun 2019 10:45:44 +0530
+Subject: [PATCH] mm: Generalize and rename notify_page_fault() as
+ kprobe_page_fault()
+In-Reply-To: <20190613130408.3091869d8e50d0524157523f@linux-foundation.org>
+References: <1560420444-25737-1-git-send-email-anshuman.khandual@arm.com>
+ <20190613130408.3091869d8e50d0524157523f@linux-foundation.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <C2D7FE5348E1B147BCA15975FBA2307501A2526536@us01wembx1.internal.synopsys.com>
+Message-ID: <c3316aca-2005-e092-80f6-ebd7652bd04f@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 6/13/19 11:14 AM, Eugeniy Paltsev wrote:
-> BTW:
-> there is discussion in Linux ML about implementation of static calls.
-> The idea is to patch immediate operand in jump instruction instead of using function pointers to optimize hot code.
-> @vineet I bet you'll like this :)
->
-> Current v3 patch revision is for x86 only and it's not applied yet. However I expect (based on comments to last patches)
-> it'll be applied after several respins. 
 
-Indeed when researching on jump labels I saw that and indeed like that approach a lot.
+On 06/14/2019 01:34 AM, Andrew Morton wrote:
+> On Thu, 13 Jun 2019 15:37:24 +0530 Anshuman Khandual <anshuman.khandual@arm.com> wrote:
+> 
+>> Architectures which support kprobes have very similar boilerplate around
+>> calling kprobe_fault_handler(). Use a helper function in kprobes.h to unify
+>> them, based on the x86 code.
+>>
+>> This changes the behaviour for other architectures when preemption is
+>> enabled. Previously, they would have disabled preemption while calling the
+>> kprobe handler. However, preemption would be disabled if this fault was
+>> due to a kprobe, so we know the fault was not due to a kprobe handler and
+>> can simply return failure.
+>>
+>> This behaviour was introduced in the commit a980c0ef9f6d ("x86/kprobes:
+>> Refactor kprobes_fault() like kprobe_exceptions_notify()")
+>>
+>> ...
+>>
+>> --- a/arch/arm/mm/fault.c
+>> +++ b/arch/arm/mm/fault.c
+>> @@ -30,28 +30,6 @@
+>>  
+>>  #ifdef CONFIG_MMU
+>>  
+>> -#ifdef CONFIG_KPROBES
+>> -static inline int notify_page_fault(struct pt_regs *regs, unsigned int fsr)
+> 
+> Some architectures make this `static inline'.  Others make it
+> `nokprobes_inline', others make it `static inline __kprobes'.  The
+> latter seems weird - why try to put an inline function into
+> .kprobes.text?
+> 
+> So..  what's the best thing to do here?  You chose `static
+> nokprobe_inline' - is that the best approach, if so why?  Does
+> kprobe_page_fault() actually need to be inlined?
 
+Matthew had suggested that (nokprobe_-inline) based on current x86
+implementation. But every architecture already had an inlined definition
+which I did not want to deviate from.
 
-> It would be nice to implement it for ARC too.
+> 
+> Also, some architectures had notify_page_fault returning int, others
+> bool.  You chose bool and that seems appropriate and all callers are OK
+> with that.
 
-Absolutely.
-
-> And x86 static calls implementation uses '.bundle_align_mode' directive too.
-
-Ok then we have a case for pushing for this feature in tools !
+I would believe so. No one has complained yet :)
