@@ -1,111 +1,31 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 14 Jun 2019 16:30:17 -0400
-Subject: [PATCH AUTOSEL 4.9 01/18] ARC: fix build warnings with !CONFIG_KPROBES
+From: hch@lst.de (hch@lst.de)
+Date: Sat, 15 Jun 2019 10:35:54 +0200
+Subject: [PATCH 7/7] arc: use the generic remapping allocator for
+ coherent DMA allocations
+In-Reply-To: <78ac563f2815a9a14bfab6076d0ef948497f5b9f.camel@synopsys.com>
+References: <20190614144431.21760-1-hch@lst.de>
+ <20190614144431.21760-8-hch@lst.de>
+ <78ac563f2815a9a14bfab6076d0ef948497f5b9f.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190614203037.27910-1-sashal@kernel.org>
+Message-ID: <20190615083554.GC23406@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-From: Vineet Gupta <vgupta@synopsys.com>
+On Fri, Jun 14, 2019@06:05:01PM +0000, Eugeniy Paltsev wrote:
+> Hi Christoph,
+> 
+> Regular question - do you have any public git repository with all this dma changes?
+> I want to test it for ARC.
+> 
+> Pretty sure the
+>  [PATCH 2/7] arc: remove the partial DMA_ATTR_NON_CONSISTENT support
+> is fine.
+> 
+> Not so sure about
+>  [PATCH 7/7] arc: use the generic remapping allocator for coherent DMA allocations
+> :)
 
-[ Upstream commit 4c6fabda1ad1dec6d274c098ef0a91809c74f2e3 ]
+   git://git.infradead.org/users/hch/misc.git dma-not-consistent-cleanup
 
-|   CC      lib/nmi_backtrace.o
-| In file included from ../include/linux/kprobes.h:43:0,
-|                  from ../lib/nmi_backtrace.c:17:
-| ../arch/arc/include/asm/kprobes.h:57:13: warning: 'trap_is_kprobe' defined but not used [-Wunused-function]
-|  static void trap_is_kprobe(unsigned long address, struct pt_regs *regs)
-|              ^~~~~~~~~~~~~~
+Gitweb:
 
-The warning started with 7d134b2ce6 ("kprobes: move kprobe declarations
-to asm-generic/kprobes.h") which started including <asm/kprobes.h>
-unconditionally into <linux/kprobes.h> exposing a stub function for
-!CONFIG_KPROBES to rest of world. Fix that by making the stub a macro
-
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
----
- arch/arc/include/asm/cmpxchg.h | 14 ++++++++++----
- arch/arc/mm/tlb.c              | 13 ++++++++-----
- 2 files changed, 18 insertions(+), 9 deletions(-)
-
-diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
-index d819de1c5d10..3ea4112c8302 100644
---- a/arch/arc/include/asm/cmpxchg.h
-+++ b/arch/arc/include/asm/cmpxchg.h
-@@ -92,8 +92,11 @@ __cmpxchg(volatile void *ptr, unsigned long expected, unsigned long new)
- 
- #endif /* CONFIG_ARC_HAS_LLSC */
- 
--#define cmpxchg(ptr, o, n) ((typeof(*(ptr)))__cmpxchg((ptr), \
--				(unsigned long)(o), (unsigned long)(n)))
-+#define cmpxchg(ptr, o, n) ({				\
-+	(typeof(*(ptr)))__cmpxchg((ptr),		\
-+				  (unsigned long)(o),	\
-+				  (unsigned long)(n));	\
-+})
- 
- /*
-  * atomic_cmpxchg is same as cmpxchg
-@@ -198,8 +201,11 @@ static inline unsigned long __xchg(unsigned long val, volatile void *ptr,
- 	return __xchg_bad_pointer();
- }
- 
--#define xchg(ptr, with) ((typeof(*(ptr)))__xchg((unsigned long)(with), (ptr), \
--						 sizeof(*(ptr))))
-+#define xchg(ptr, with) ({				\
-+	(typeof(*(ptr)))__xchg((unsigned long)(with),	\
-+			       (ptr),			\
-+			       sizeof(*(ptr)));		\
-+})
- 
- #endif /* CONFIG_ARC_PLAT_EZNPS */
- 
-diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
-index a4dc881da277..3c88ccbe01af 100644
---- a/arch/arc/mm/tlb.c
-+++ b/arch/arc/mm/tlb.c
-@@ -890,9 +890,11 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
- 			  struct pt_regs *regs)
- {
- 	struct cpuinfo_arc_mmu *mmu = &cpuinfo_arc700[smp_processor_id()].mmu;
--	unsigned int pd0[mmu->ways];
- 	unsigned long flags;
--	int set;
-+	int set, n_ways = mmu->ways;
-+
-+	n_ways = min(n_ways, 4);
-+	BUG_ON(mmu->ways > 4);
- 
- 	local_irq_save(flags);
- 
-@@ -900,9 +902,10 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
- 	for (set = 0; set < mmu->sets; set++) {
- 
- 		int is_valid, way;
-+		unsigned int pd0[4];
- 
- 		/* read out all the ways of current set */
--		for (way = 0, is_valid = 0; way < mmu->ways; way++) {
-+		for (way = 0, is_valid = 0; way < n_ways; way++) {
- 			write_aux_reg(ARC_REG_TLBINDEX,
- 					  SET_WAY_TO_IDX(mmu, set, way));
- 			write_aux_reg(ARC_REG_TLBCOMMAND, TLBRead);
-@@ -916,14 +919,14 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
- 			continue;
- 
- 		/* Scan the set for duplicate ways: needs a nested loop */
--		for (way = 0; way < mmu->ways - 1; way++) {
-+		for (way = 0; way < n_ways - 1; way++) {
- 
- 			int n;
- 
- 			if (!pd0[way])
- 				continue;
- 
--			for (n = way + 1; n < mmu->ways; n++) {
-+			for (n = way + 1; n < n_ways; n++) {
- 				if (pd0[way] != pd0[n])
- 					continue;
- 
--- 
-2.20.1
+   http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-not-consistent-cleanup
