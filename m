@@ -1,61 +1,21 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Wed, 19 Jun 2019 10:12:27 +0200
-Subject: [PATCH] ARC: ARCv2: jump label: implement jump label patching
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA2307501A252CCC3@us01wembx1.internal.synopsys.com>
-References: <20190614164049.31626-1-Eugeniy.Paltsev@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA2307501A252CCC3@us01wembx1.internal.synopsys.com>
+From: Claudiu.Zissulescu@synopsys.com (Claudiu Zissulescu)
+Date: Wed, 19 Jun 2019 10:00:07 +0000
+Subject: ARC Assembler: bundle_align_mode directive support
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA2307501A2526536@us01wembx1.internal.synopsys.com>
+References: <3962a9ad199cea45b1cfadb80be551aab83b7028.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA2307501A2525686@us01wembx1.internal.synopsys.com>
+ <d79085cbc6126c2a4fad173934e1e9b29523abba.camel@synopsys.com>
+ <02fcd330-8b3c-a3cb-0aa9-e91bca6b6d0f@synopsys.com>
+ <8a027c250d7bd14ff107c169351af6a04a6d8334.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA2307501A2526536@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190619081227.GL3419@hirez.programming.kicks-ass.net>
+Message-ID: <BN8PR12MB28491137314B8D287164B516CAE50@BN8PR12MB2849.namprd12.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Jun 18, 2019@04:16:20PM +0000, Vineet Gupta wrote:
-
-> > +/*
-> > + * To make atomic update of patched instruction available we need to guarantee
-> > + * that this instruction doesn't cross L1 cache line boundary.
-> > + *
-
-Oh urgh. Is that the only way ARC can do text patching? We've actually
-considered something like this on x86 at some point, but there we have
-the 'fun' detail that the i-fetch window does not in fact align with L1
-size on all uarchs, so that got complicated real fast.
-
-I'm assuming you've looked at what x86 currently does and found
-something like that doesn't work for ARC?
-
-> > +/* Halt system on fatal error to make debug easier */
-> > +#define arc_jl_fatal(format...)						\
-> > +({									\
-> > +	pr_err(JUMPLABEL_ERR format);					\
-> > +	BUG();								\
+ 
+> > And x86 static calls implementation uses '.bundle_align_mode' directive
+> too.
 > 
-> Does it make sense to bring down the whole system vs. failing and returning.
-> I see there is no error propagation to core code, but still.
+> Ok then we have a case for pushing for this feature in tools !
 
-It is what x86 does. And I've been fairly adamant about doing so. When
-the kernel text is compromised, do you really want to continue running
-it?
-
-> > +})
-> > +
-> > +static inline u32 arc_gen_nop(void)
-> > +{
-> > +	/* 1x 32bit NOP in middle endian */
-
-I dare not ask...
-
-> > +	return 0x7000264a;
-> > +}
-> > +
-
-> > +	/*
-> > +	 * All instructions are aligned by 2 bytes so we should never get offset
-> > +	 * here which is not 2 bytes aligned.
-> > +	 */
-
-> > +	WRITE_ONCE(*instr_addr, instr);
-> > +	flush_icache_range(entry->code, entry->code + JUMP_LABEL_NOP_SIZE);
-
-So do you have a 2 byte opcode that traps unconditionally? In that case
-I'm thinking you could do something like x86 does. And it would avoid
-that NOP padding you do to get the alignment.
+Still, I cannot understand how you want to use bundle_align_mode without the align directive.
