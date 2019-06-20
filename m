@@ -1,64 +1,42 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Thu, 20 Jun 2019 09:52:24 +0200
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Thu, 20 Jun 2019 18:34:29 +0000
 Subject: [PATCH] ARC: ARCv2: jump label: implement jump label patching
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA2307501A252E40B@us01wembx1.internal.synopsys.com>
+In-Reply-To: <20190619081227.GL3419@hirez.programming.kicks-ass.net>
 References: <20190614164049.31626-1-Eugeniy.Paltsev@synopsys.com>
  <C2D7FE5348E1B147BCA15975FBA2307501A252CCC3@us01wembx1.internal.synopsys.com>
  <20190619081227.GL3419@hirez.programming.kicks-ass.net>
- <C2D7FE5348E1B147BCA15975FBA2307501A252E40B@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190620075224.GT3419@hirez.programming.kicks-ass.net>
+Message-ID: <50a5120f512e7d6784efa403a7597c159074c8c1.camel@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Jun 19, 2019@11:55:41PM +0000, Vineet Gupta wrote:
-> On 6/19/19 1:12 AM, Peter Zijlstra wrote:
+Hi Peter,
 
-> >>> +static inline u32 arc_gen_nop(void)
-> >>> +{
-> >>> +	/* 1x 32bit NOP in middle endian */
-> > I dare not ask...
+On Wed, 2019-06-19@10:12 +0200, Peter Zijlstra wrote:
+> On Tue, Jun 18, 2019@04:16:20PM +0000, Vineet Gupta wrote:
 > 
-> :-) The public PRM is being worked on for *real* so this will be remedied in a few
-> months at best.
+> > > +/*
+> > > + * To make atomic update of patched instruction available we need to guarantee
+> > > + * that this instruction doesn't cross L1 cache line boundary.
+> > > + *
 > 
-> Short answer is it specifies how instruction stream is laid out in code memory for
-> efficient next PC decoding given that ARC can freely intermix 2, 4, 6, 8 byte
-> instruction fragments w/o any restrictions.
+> Oh urgh. Is that the only way ARC can do text patching? We've actually
+> considered something like this on x86 at some point, but there we have
+> the 'fun' detail that the i-fetch window does not in fact align with L1
+> size on all uarchs, so that got complicated real fast.
 > 
-> Consier SWI insn encoding: per PRM is
-> 
-> 31                                     0
-> --------------------------------------------------------------
-> 00100    010    01    101111    0    000    000000    111111
-> --------------------------------------------------------------
-> 
-> In regular little endian notation, in memory it would have looked as
-> 
-> 31                  0
->  0x22    0x6F    0x00    0x3F 
->   b3     b2      b1      b0
-> 
-> However in middle endian format, the 2 short words are flipped
-> 
-> 31                   0
-> 0x00    0x3F   0x22     0x6F   
->   b1     b0      b3       b2
+> I'm assuming you've looked at what x86 currently does and found
+> something like that doesn't work for ARC?
 
-I'm probably missing something here. I understand the I-fetch likes 2
-byte chunks, but I'm not sure I understand how you end up with middle
-endian.
+To be honest I've mostly look at arm/arm64 implementation :)
 
-With everything little endian, everything seems just fine. If you load
-the first 2 byte at offset 0, you get the first 2 bytes of the
-instruction.
+But yeah it's good remark about i-fetch window.
+It's named 'instruction_fetch_block_width' in ARC documentation and it's
+smaller than L1 I$ line size. On ARCv2 it's 16 byte.
+So in current implementation we need to guarantee that this instruction doesn't
+cross 'instruction_fetch_block' and not L1 cache line boundary.
 
-If OTOH your arch big endian, and you were to load the first two bytes
-at offset 0, you get the top two.
+So there is no problem with this code itself but the comment should be fixed.
 
-So this middle endian scheme, only seems to make sense if you're
-otherwise big endian. But AFAICT ARC is bi-endian and the jump-label
-patch under condsideration is explicitly !CPU_ENDIAN_BE32 -- which
-suggests the instruction stream is sensitive to the endian selection.
-
-Anyway, I was just 'surprised' at seeing middle endian mentioned,
-curiosity killed the cat and all that :-)
+[snip]
+-- 
+ Eugeniy Paltsev
