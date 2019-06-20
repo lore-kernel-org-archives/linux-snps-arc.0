@@ -1,21 +1,20 @@
 From: peterz@infradead.org (Peter Zijlstra)
-Date: Thu, 20 Jun 2019 23:22:56 +0200
+Date: Thu, 20 Jun 2019 23:30:57 +0200
 Subject: [PATCH] ARC: ARCv2: jump label: implement jump label patching
-In-Reply-To: <a0a1aa81-d46e-71db-ff7b-207bc468068d@synopsys.com>
+In-Reply-To: <a945de7d3b6f2da03c62c9e1043e125b4c4211aa.camel@synopsys.com>
 References: <20190614164049.31626-1-Eugeniy.Paltsev@synopsys.com>
  <C2D7FE5348E1B147BCA15975FBA2307501A252CCC3@us01wembx1.internal.synopsys.com>
  <20190619081227.GL3419@hirez.programming.kicks-ass.net>
  <C2D7FE5348E1B147BCA15975FBA2307501A252E40B@us01wembx1.internal.synopsys.com>
  <20190620070120.GU3402@hirez.programming.kicks-ass.net>
- <a0a1aa81-d46e-71db-ff7b-207bc468068d@synopsys.com>
+ <a945de7d3b6f2da03c62c9e1043e125b4c4211aa.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190620212256.GC3436@hirez.programming.kicks-ass.net>
+Message-ID: <20190620213057.GD3436@hirez.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Jun 20, 2019@11:48:17AM -0700, Vineet Gupta wrote:
-> On 6/20/19 12:01 AM, Peter Zijlstra wrote:
-> 
-> > 
+On Thu, Jun 20, 2019@06:34:55PM +0000, Eugeniy Paltsev wrote:
+> On Thu, 2019-06-20@09:01 +0200, Peter Zijlstra wrote:
+
 > > In particular we do not need the alignment.
 > > 
 > > So what the x86 code does is:
@@ -49,35 +48,40 @@ On Thu, Jun 20, 2019@11:48:17AM -0700, Vineet Gupta wrote:
 > > instruction fetch window size and don't need the 'funny' alignment
 > > stuff.
 > > 
-> > Now, I've no idea if something like this is feasible on ARC; for it to
-> > work you need that 2 byte trap instruction -- since all instructions are
-> > 2 byte aligned, you can always poke that without issue.
 > 
-> We do have a 2 byte TRAP_S u6 which is used for all/any trap'ing: syscalls,
-> software breakpoint, kprobes etc. But using it like x86 seems a bit excessive for
-> ARC. Given that x86 doesn't implement flush_icache_range() it must have I$
-> snooping D$ and also this machine wide IPI sync I$ must be totally under the hood
-> all hardware affair - unlike ARC which needs on_each_cpu( I$ line range).
+> Thanks for explanation. Now I understand how this x86 magic works.
+> 
+> However it looks like even more complex than ARM implementation.
+> As I understand on ARM they do something like that:
+> ---------------------------->8-------------------------
+> on_each_cpu {
+> 	write_instruction
+> 	flush_data_cache_region
+> 	invalidate_instruction_cache_region
+> }
+> ---------------------------->8-------------------------
+> 
+> https://elixir.bootlin.com/linux/v5.1/source/arch/arm/kernel/patch.c#L121
+> 
+> Yep, there is some overhead - as we don't need to do white and D$ flush on each cpu
+> but that makes code simple and avoids additional checks.
+> 
+> And I don't understand in which cases x86 approach with trap is better.
+> In this ARM implementation we do one machine wide IPI instead of three in x86 trap approach.
+> 
+> Probably there is some x86 specifics I don't get?
 
-I always forget the exact details, but we do have to execute what is
-called a serializing instruction to flush CPU state and force it to
-re-read the actual instructions -- see sync_core().
+It's about variable instruction length; ARM (RISC in general) doesn't
+have that, ARC does.
 
-> Using TRAP_S would actually requires 2 passes (and 2 rounds of IPI) for code
-> patching - the last one to undo the TRAP_S itself.
+Your current proposal works by keeping the instruction inside of the
+i-fetch window, but that then results in instruction padding (extra
+NOPs). And that is fine, it really should work.
 
-Correct -- we do 3, like detailed in the other email. But we figured the
-actual poking of text is the slow path anyway.
+The x86 approach however allows you to get rid of that padding and
+should work for unaligned variable length instructions (we have 1-15
+byte instructions).
 
-> I do worry about the occasional alignment induced extra NOP_S instruction (2 byte)
-> but there doesn't seem to be an easy solution. Heck if we could use the NOP_S /
-> B_S in first place. While not a clean solution by any standards, could anything be
-> done to reduce the code path of DO_ONCE() so that unlikely code is not too far off.
-
-if one could somehow get the arch_static_branch*() things to
-conditionally emit either the 2 or 4 byte jump, depending on the offset
-(which is known there, since we stick it in the __jump_table), then we
-can have arch_jump_label_transform() use that same condition to switch
-between 2 and 4 bytes too.
-
-I just don't know if it's possible :-/
+I just wanted to make sure you were aware of the possiblities such that
+you made an informed decision, I'm not trying to force complexity on you
+:-)
