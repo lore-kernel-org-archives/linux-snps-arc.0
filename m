@@ -1,87 +1,60 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Thu, 20 Jun 2019 23:30:57 +0200
-Subject: [PATCH] ARC: ARCv2: jump label: implement jump label patching
-In-Reply-To: <a945de7d3b6f2da03c62c9e1043e125b4c4211aa.camel@synopsys.com>
-References: <20190614164049.31626-1-Eugeniy.Paltsev@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA2307501A252CCC3@us01wembx1.internal.synopsys.com>
- <20190619081227.GL3419@hirez.programming.kicks-ass.net>
- <C2D7FE5348E1B147BCA15975FBA2307501A252E40B@us01wembx1.internal.synopsys.com>
- <20190620070120.GU3402@hirez.programming.kicks-ass.net>
- <a945de7d3b6f2da03c62c9e1043e125b4c4211aa.camel@synopsys.com>
+From: wbx@uclibc-ng.org (Waldemar Brodkorb)
+Date: Fri, 21 Jun 2019 12:25:38 +0200
+Subject: [uclibc-ng-devel] state of uClibc ARC soft-float support
+In-Reply-To: <8544debf-dfb6-ebb5-a80e-aa9f860949ff@synopsys.com>
+References: <8544debf-dfb6-ebb5-a80e-aa9f860949ff@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190620213057.GD3436@hirez.programming.kicks-ass.net>
+Message-ID: <20190621102538.GZ29045@waldemar-brodkorb.de>
 To: linux-snps-arc@lists.infradead.org
 
-On Thu, Jun 20, 2019@06:34:55PM +0000, Eugeniy Paltsev wrote:
-> On Thu, 2019-06-20@09:01 +0200, Peter Zijlstra wrote:
+Hi Vineet,
 
-> > In particular we do not need the alignment.
-> > 
-> > So what the x86 code does is:
-> > 
-> >  - overwrite the first byte of the instruction with a single byte trap
-> >    instruction
-> > 
-> >  - machine wide IPI which synchronizes I$
-> > 
-> > At this point, any CPU that encounters this instruction will trap; and
-> > the trap handler will emulate the 'new' instruction -- typically a jump.
-> > 
-> >   - overwrite the tail of the instruction (if there is a tail)
-> > 
-> >   - machine wide IPI which syncrhonizes I$
-> > 
-> > At this point, nobody will execute the tail, because we'll still trap on
-> > that first single byte instruction, but if they were to read the
-> > instruction stream, the tail must be there.
-> > 
-> >   - overwrite the first byte of the instruction to now have a complete
-> >     instruction.
-> > 
-> >   - machine wide IPI which syncrhonizes I$
-> > 
-> > At this point, any CPU will encounter the new instruction as a whole,
-> > irrespective of alignment.
-> > 
-> > 
-> > So the benefit of this scheme is that is works irrespective of the
-> > instruction fetch window size and don't need the 'funny' alignment
-> > stuff.
-> > 
-> 
-> Thanks for explanation. Now I understand how this x86 magic works.
-> 
-> However it looks like even more complex than ARM implementation.
-> As I understand on ARM they do something like that:
-> ---------------------------->8-------------------------
-> on_each_cpu {
-> 	write_instruction
-> 	flush_data_cache_region
-> 	invalidate_instruction_cache_region
-> }
-> ---------------------------->8-------------------------
-> 
-> https://elixir.bootlin.com/linux/v5.1/source/arch/arm/kernel/patch.c#L121
-> 
-> Yep, there is some overhead - as we don't need to do white and D$ flush on each cpu
-> but that makes code simple and avoids additional checks.
-> 
-> And I don't understand in which cases x86 approach with trap is better.
-> In this ARM implementation we do one machine wide IPI instead of three in x86 trap approach.
-> 
-> Probably there is some x86 specifics I don't get?
+I tried to sync the libm tests from glibc to uClibc-ng, but I think
+I broke it. May be we should revert the commit?
+3384c45e66ddf18f235654b67ae34ac7dcb07534
 
-It's about variable instruction length; ARM (RISC in general) doesn't
-have that, ARC does.
+best regards
+ Waldemar
 
-Your current proposal works by keeping the instruction inside of the
-i-fetch window, but that then results in instruction padding (extra
-NOPs). And that is fine, it really should work.
+Vineet Gupta wrote,
 
-The x86 approach however allows you to get rid of that padding and
-should work for unaligned variable length instructions (we have 1-15
-byte instructions).
-
-I just wanted to make sure you were aware of the possiblities such that
-you made an informed decision, I'm not trying to force complexity on you
-:-)
+> Hi Waldemar,
+> 
+> After test-suite commit 9f079b6353 "(disable complex math)" the math tests build
+> and I see lot of failures (for the default soft float builds)
+> 
+> 	.... test-float-finiteFAIL test-float-finite got 1 expected 0
+> 	.... test-floatFAIL test-float got 1 expected 0
+> 	.... test-idoubleFAIL test-idouble got 1 expected 0
+> 	.... test-ifloatFAIL test-ifloat got 1 expected 0
+> 	.... test-matherrFAIL test-matherr got 1 expected 0
+> 	.... test-nan-overflowFAIL test-nan-overflow got 1 expected 0
+> 	.... test-nan-payloadFAIL test-nan-payload got 1 expected 0
+> 
+> 
+> Interestingly in ARC glibc port, soft float builds, all flaot tests pass (so
+> atleast gcc/libgcc foo seem to be fine I think).
+> 
+> I noticed a few things:
+> 
+> 1. ulps for ARC was removed from test-sute last year - so I copied over the
+> version from ARC glibc port [1]
+> 
+> 2. I suppose these don't depend on UCLIBC_HAS_FENV. Anyhow It seems uClibc
+> __UCLIBC_HAS_FENV__ implies hardware float as it expects all FE_*
+> exceptions/rounding modes to be defined in ARCH specific file.
+> 
+> Anyhow I tried creating an ARC specific fenv to support soft float with no
+> exceptions and only single rounding mode but that doesn't seem to help. Any idea
+> what I'm missing or if it is worth pursuing at all.
+> 
+> Thx,
+> -Vineet
+> 
+> 
+> [1] http://lists.infradead.org/pipermail/linux-snps-arc/2019-January/005347.html
+> 
+> _______________________________________________
+> devel mailing list
+> devel at uclibc-ng.org
+> https://mailman.uclibc-ng.org/cgi-bin/mailman/listinfo/devel
