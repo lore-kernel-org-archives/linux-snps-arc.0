@@ -1,60 +1,180 @@
-From: wbx@uclibc-ng.org (Waldemar Brodkorb)
-Date: Fri, 21 Jun 2019 12:25:38 +0200
-Subject: [uclibc-ng-devel] state of uClibc ARC soft-float support
-In-Reply-To: <8544debf-dfb6-ebb5-a80e-aa9f860949ff@synopsys.com>
-References: <8544debf-dfb6-ebb5-a80e-aa9f860949ff@synopsys.com>
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Fri, 21 Jun 2019 14:09:23 +0200
+Subject: [PATCH] ARC: ARCv2: jump label: implement jump label patching
+In-Reply-To: <20190620212256.GC3436@hirez.programming.kicks-ass.net>
+References: <20190614164049.31626-1-Eugeniy.Paltsev@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA2307501A252CCC3@us01wembx1.internal.synopsys.com>
+ <20190619081227.GL3419@hirez.programming.kicks-ass.net>
+ <C2D7FE5348E1B147BCA15975FBA2307501A252E40B@us01wembx1.internal.synopsys.com>
+ <20190620070120.GU3402@hirez.programming.kicks-ass.net>
+ <a0a1aa81-d46e-71db-ff7b-207bc468068d@synopsys.com>
+ <20190620212256.GC3436@hirez.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190621102538.GZ29045@waldemar-brodkorb.de>
+Message-ID: <20190621120923.GT3463@hirez.programming.kicks-ass.net>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Vineet,
+On Thu, Jun 20, 2019@11:22:56PM +0200, Peter Zijlstra wrote:
+> On Thu, Jun 20, 2019@11:48:17AM -0700, Vineet Gupta wrote:
 
-I tried to sync the libm tests from glibc to uClibc-ng, but I think
-I broke it. May be we should revert the commit?
-3384c45e66ddf18f235654b67ae34ac7dcb07534
+> > I do worry about the occasional alignment induced extra NOP_S instruction (2 byte)
+> > but there doesn't seem to be an easy solution. Heck if we could use the NOP_S /
+> > B_S in first place. While not a clean solution by any standards, could anything be
+> > done to reduce the code path of DO_ONCE() so that unlikely code is not too far off.
+> 
+> if one could somehow get the arch_static_branch*() things to
+> conditionally emit either the 2 or 4 byte jump, depending on the offset
+> (which is known there, since we stick it in the __jump_table), then we
+> can have arch_jump_label_transform() use that same condition to switch
+> between 2 and 4 bytes too.
+> 
+> I just don't know if it's possible :-/
 
-best regards
- Waldemar
+So I had to try; but GAS macro .if directives don't like labels as
+arguments, not constant enough for them.
 
-Vineet Gupta wrote,
+../arch/x86/include/asm/jump_label.h:26: Error: non-constant expression in ".if" statement
 
-> Hi Waldemar,
-> 
-> After test-suite commit 9f079b6353 "(disable complex math)" the math tests build
-> and I see lot of failures (for the default soft float builds)
-> 
-> 	.... test-float-finiteFAIL test-float-finite got 1 expected 0
-> 	.... test-floatFAIL test-float got 1 expected 0
-> 	.... test-idoubleFAIL test-idouble got 1 expected 0
-> 	.... test-ifloatFAIL test-ifloat got 1 expected 0
-> 	.... test-matherrFAIL test-matherr got 1 expected 0
-> 	.... test-nan-overflowFAIL test-nan-overflow got 1 expected 0
-> 	.... test-nan-payloadFAIL test-nan-payload got 1 expected 0
-> 
-> 
-> Interestingly in ARC glibc port, soft float builds, all flaot tests pass (so
-> atleast gcc/libgcc foo seem to be fine I think).
-> 
-> I noticed a few things:
-> 
-> 1. ulps for ARC was removed from test-sute last year - so I copied over the
-> version from ARC glibc port [1]
-> 
-> 2. I suppose these don't depend on UCLIBC_HAS_FENV. Anyhow It seems uClibc
-> __UCLIBC_HAS_FENV__ implies hardware float as it expects all FE_*
-> exceptions/rounding modes to be defined in ARCH specific file.
-> 
-> Anyhow I tried creating an ARC specific fenv to support soft float with no
-> exceptions and only single rounding mode but that doesn't seem to help. Any idea
-> what I'm missing or if it is worth pursuing at all.
-> 
-> Thx,
-> -Vineet
-> 
-> 
-> [1] http://lists.infradead.org/pipermail/linux-snps-arc/2019-January/005347.html
-> 
-> _______________________________________________
-> devel mailing list
-> devel at uclibc-ng.org
-> https://mailman.uclibc-ng.org/cgi-bin/mailman/listinfo/devel
+Damn!
+
+---
+--- a/arch/x86/include/asm/jump_label.h
++++ b/arch/x86/include/asm/jump_label.h
+@@ -12,24 +12,19 @@
+ # define STATIC_KEY_INIT_NOP GENERIC_NOP5_ATOMIC
+ #endif
+ 
+-#include <asm/asm.h>
+-#include <asm/nops.h>
++asm(".include \"asm/jump_label_asm.h\"");
+ 
+ #ifndef __ASSEMBLY__
+ 
+ #include <linux/stringify.h>
+ #include <linux/types.h>
++#include <asm/asm.h>
++#include <asm/nops.h>
+ 
+ static __always_inline bool arch_static_branch(struct static_key *key, bool branch)
+ {
+-	asm_volatile_goto("1:"
+-		".byte " __stringify(STATIC_KEY_INIT_NOP) "\n\t"
+-		".pushsection __jump_table,  \"aw\" \n\t"
+-		_ASM_ALIGN "\n\t"
+-		".long 1b - ., %l[l_yes] - . \n\t"
+-		_ASM_PTR "%c0 + %c1 - .\n\t"
+-		".popsection \n\t"
+-		: :  "i" (key), "i" (branch) : : l_yes);
++	asm_volatile_goto("STATIC_BRANCH_NOP l_yes=\"%l[l_yes]\", key=\"%c0\", branch=\"%c1\""
++			  : : "i" (key), "i" (branch) : : l_yes);
+ 
+ 	return false;
+ l_yes:
+@@ -38,57 +33,13 @@ static __always_inline bool arch_static_
+ 
+ static __always_inline bool arch_static_branch_jump(struct static_key *key, bool branch)
+ {
+-	asm_volatile_goto("1:"
+-		".byte 0xe9\n\t .long %l[l_yes] - 2f\n\t"
+-		"2:\n\t"
+-		".pushsection __jump_table,  \"aw\" \n\t"
+-		_ASM_ALIGN "\n\t"
+-		".long 1b - ., %l[l_yes] - . \n\t"
+-		_ASM_PTR "%c0 + %c1 - .\n\t"
+-		".popsection \n\t"
+-		: :  "i" (key), "i" (branch) : : l_yes);
++	asm_volatile_goto("STATIC_BRANCH_JMP l_yes=\"%l[l_yes]\", key=\"%c0\", branch=\"%c1\""
++			  : : "i" (key), "i" (branch) : : l_yes);
+ 
+ 	return false;
+ l_yes:
+ 	return true;
+ }
+ 
+-#else	/* __ASSEMBLY__ */
+-
+-.macro STATIC_JUMP_IF_TRUE target, key, def
+-.Lstatic_jump_\@:
+-	.if \def
+-	/* Equivalent to "jmp.d32 \target" */
+-	.byte		0xe9
+-	.long		\target - .Lstatic_jump_after_\@
+-.Lstatic_jump_after_\@:
+-	.else
+-	.byte		STATIC_KEY_INIT_NOP
+-	.endif
+-	.pushsection __jump_table, "aw"
+-	_ASM_ALIGN
+-	.long		.Lstatic_jump_\@ - ., \target - .
+-	_ASM_PTR	\key - .
+-	.popsection
+-.endm
+-
+-.macro STATIC_JUMP_IF_FALSE target, key, def
+-.Lstatic_jump_\@:
+-	.if \def
+-	.byte		STATIC_KEY_INIT_NOP
+-	.else
+-	/* Equivalent to "jmp.d32 \target" */
+-	.byte		0xe9
+-	.long		\target - .Lstatic_jump_after_\@
+-.Lstatic_jump_after_\@:
+-	.endif
+-	.pushsection __jump_table, "aw"
+-	_ASM_ALIGN
+-	.long		.Lstatic_jump_\@ - ., \target - .
+-	_ASM_PTR	\key + 1 - .
+-	.popsection
+-.endm
+-
+-#endif	/* __ASSEMBLY__ */
+-
+-#endif
++#endif /* __ASSEMBLY__ */
++#endif /* _ASM_X86_JUMP_LABEL_H */
+--- /dev/null
++++ b/arch/x86/include/asm/jump_label_asm.h
+@@ -0,0 +1,44 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _ASM_X86_JUMP_LABEL_ASM_H
++#define _ASM_X86_JUMP_LABEL_ASM_H
++
++#include <asm/asm.h>
++#include <asm/nops.h>
++
++#ifdef __ASSEMBLY__
++
++.macro STATIC_BRANCH_ENTRY l_target:req l_yes:req key:req branch:req
++	.pushsection __jump_table, "aw"
++	.long		\l_target - ., \l_yes - .
++#ifdef __X86_64__
++	.quad		(\key - .) + \branch
++#else
++	.long		(\key - .) + \branch
++#endif
++	.popsection
++.endm
++
++.macro STATIC_BRANCH_NOP l_yes:req key:req branch:req
++.Lstatic_branch_nop_\@:
++.iflt 127 - .
++	.byte 0x66, 0x90
++.else
++	.byte STATIC_KEY_INIT_NOP
++.endif
++	STATIC_BRANCH_ENTRY l_target=.Lstatic_branch_nop_\@, l_yes=\l_yes, key=\key, branch=\branch
++.endm
++
++.macro STATIC_BRANCH_JMP l_yes:req key:req branch:req
++.Lstatic_branch_jmp_\@:
++.if \l_yes - . < 127
++	.byte 0xeb
++	.byte \l_yes - (. + 1)
++.else
++	.byte 0xe9
++	.long \l_yes - (. + 4)
++.endif
++	STATIC_BRANCH_ENTRY l_target=.Lstatic_branch_jmp_\@, l_yes=\l_yes, key=\key, branch=\branch
++.endm
++
++#endif /* __ASSEMBLY__ */
++#endif /* _ASM_X86_JUMP_LABEL_ASM_H */
