@@ -1,73 +1,74 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Fri, 21 Jun 2019 14:12:59 +0200
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Fri, 21 Jun 2019 15:39:27 +0000
 Subject: [PATCH] ARC: ARCv2: jump label: implement jump label patching
-In-Reply-To: <20190621120923.GT3463@hirez.programming.kicks-ass.net>
+In-Reply-To: <9192bd26-5f34-dcbf-8552-2f474866a31e@synopsys.com>
 References: <20190614164049.31626-1-Eugeniy.Paltsev@synopsys.com>
  <C2D7FE5348E1B147BCA15975FBA2307501A252CCC3@us01wembx1.internal.synopsys.com>
  <20190619081227.GL3419@hirez.programming.kicks-ass.net>
  <C2D7FE5348E1B147BCA15975FBA2307501A252E40B@us01wembx1.internal.synopsys.com>
- <20190620070120.GU3402@hirez.programming.kicks-ass.net>
- <a0a1aa81-d46e-71db-ff7b-207bc468068d@synopsys.com>
- <20190620212256.GC3436@hirez.programming.kicks-ass.net>
- <20190621120923.GT3463@hirez.programming.kicks-ass.net>
+ <20190620075224.GT3419@hirez.programming.kicks-ass.net>
+ <9192bd26-5f34-dcbf-8552-2f474866a31e@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190621121259.GU3463@hirez.programming.kicks-ass.net>
+Message-ID: <CY4PR1201MB0120D86E5774F93769320B59A1E70@CY4PR1201MB0120.namprd12.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Jun 21, 2019@02:09:23PM +0200, Peter Zijlstra wrote:
+Hi Vineet,
 
-> --- /dev/null
-> +++ b/arch/x86/include/asm/jump_label_asm.h
-> @@ -0,0 +1,44 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_X86_JUMP_LABEL_ASM_H
-> +#define _ASM_X86_JUMP_LABEL_ASM_H
-> +
-> +#include <asm/asm.h>
-> +#include <asm/nops.h>
-> +
-> +#ifdef __ASSEMBLY__
-> +
-> +.macro STATIC_BRANCH_ENTRY l_target:req l_yes:req key:req branch:req
-> +	.pushsection __jump_table, "aw"
-> +	.long		\l_target - ., \l_yes - .
-> +#ifdef __X86_64__
-> +	.quad		(\key - .) + \branch
-> +#else
-> +	.long		(\key - .) + \branch
-> +#endif
-> +	.popsection
-> +.endm
-> +
-> +.macro STATIC_BRANCH_NOP l_yes:req key:req branch:req
-> +.Lstatic_branch_nop_\@:
-> +.iflt 127 - .
+> -----Original Message-----
+> From: linux-snps-arc <linux-snps-arc-bounces at lists.infradead.org> On Behalf Of Vineet Gupta
+> Sent: Thursday, June 20, 2019 11:50 PM
+> To: Peter Zijlstra <peterz at infradead.org>
+> Cc: linux-arch at vger.kernel.org; Ard Biesheuvel <ard.biesheuvel at linaro.org>; Alexey Brodkin
+> <abrodkin at synopsys.com>; linux-kernel at vger.kernel.org; Jason Baron <jbaron at akamai.com>; Paolo Bonzini
+> <pbonzini at redhat.com>; linux-snps-arc at lists.infradead.org; Eugeniy Paltsev
+> <Eugeniy.Paltsev at synopsys.com>
+> Subject: Re: [PATCH] ARC: ARCv2: jump label: implement jump label patching
 
-That should've been:
+[snip]
 
-.if \l_yes - . < 127
+> Insn encoding is always middl eendina - irrespective of endianness.
 
-too, I had been playing with various forms to see when it compiles.
-But as soon as a label (either \l_yes or '.' gets used) it barfs.
+Apparently only in little-endian mode instructions are encoded as middle-endian,
+see:
+-------------->8-------------
+# cat endian.S
 
-> +	.byte 0x66, 0x90
-> +.else
-> +	.byte STATIC_KEY_INIT_NOP
-> +.endif
-> +	STATIC_BRANCH_ENTRY l_target=.Lstatic_branch_nop_\@, l_yes=\l_yes, key=\key, branch=\branch
-> +.endm
-> +
-> +.macro STATIC_BRANCH_JMP l_yes:req key:req branch:req
-> +.Lstatic_branch_jmp_\@:
-> +.if \l_yes - . < 127
-> +	.byte 0xeb
-> +	.byte \l_yes - (. + 1)
-> +.else
-> +	.byte 0xe9
-> +	.long \l_yes - (. + 4)
-> +.endif
-> +	STATIC_BRANCH_ENTRY l_target=.Lstatic_branch_jmp_\@, l_yes=\l_yes, key=\key, branch=\branch
-> +.endm
-> +
-> +#endif /* __ASSEMBLY__ */
-> +#endif /* _ASM_X86_JUMP_LABEL_ASM_H */
+.global myfunc
+myfunc:
+        mov r0, r1
+-------------->8-------------
+
+Little-endian:
+-------------->8-------------
+# arc-linux-gcc -c -mcpu=archs endian.S -EL
+# arc-linux-objdump -d endian.o
+
+endian.o:     file format elf32-littlearc
+
+Disassembly of section .text:
+00000000 <myfunc>:
+   0:   200a 0040               mov     r0,r1
+
+# arc-linux-readelf -x .text endian.o
+Hex dump of section '.text':
+  0x00000000 0a204000                            . @.
+-------------->8-------------
+
+Big-endian:
+-------------->8-------------
+# arc-linux-gcc -c -mcpu=archs endian.S -EB
+# arc-linux-objdump -d endian.o
+
+endian.o:     file format elf32-bigarc
+
+Disassembly of section .text:
+00000000 <myfunc>:
+   0:   200a 0040               mov     r0,r1
+
+# arc-linux-readelf -x .text endian.o
+
+Hex dump of section '.text':
+  0x00000000 200a0040                             ..@
+-------------->8-------------
+
+-Alexey
