@@ -1,51 +1,41 @@
-From: Tudor.Ambarus@microchip.com (Tudor.Ambarus@microchip.com)
-Date: Sat, 22 Jun 2019 10:18:50 +0000
-Subject: [PATCH] mtd: spi-nor: add support for sst26wf016, sst26wf032
- memory
-In-Reply-To: <20190607154308.20899-1-Eugeniy.Paltsev@synopsys.com>
-References: <20190607154308.20899-1-Eugeniy.Paltsev@synopsys.com>
+From: wbx@uclibc-ng.org (Waldemar Brodkorb)
+Date: Mon, 24 Jun 2019 09:53:56 +0200
+Subject: [uclibc-ng-devel] state of uClibc ARC soft-float support
+In-Reply-To: <CY4PR1201MB012024B8104F1540F0DBB10BA1E70@CY4PR1201MB0120.namprd12.prod.outlook.com>
+References: <8544debf-dfb6-ebb5-a80e-aa9f860949ff@synopsys.com>
+ <20190621102538.GZ29045@waldemar-brodkorb.de>
+ <CY4PR1201MB012024B8104F1540F0DBB10BA1E70@CY4PR1201MB0120.namprd12.prod.outlook.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <aab6510e-9608-584e-1556-613bb0be482e@microchip.com>
+Message-ID: <20190624075356.GC29045@waldemar-brodkorb.de>
 To: linux-snps-arc@lists.infradead.org
 
-Hi, Eugeniy,
+Hi Alexey,
+Alexey Brodkin wrote,
 
-On 06/07/2019 06:43 PM, Eugeniy Paltsev wrote:
-> External E-Mail
+> Hi Waldemar,
 > 
+> > -----Original Message-----
+> > From: Waldemar Brodkorb <wbx at uclibc-ng.org>
+> > Sent: Friday, June 21, 2019 1:26 PM
+> > To: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
+> > Cc: devel at uclibc-ng.org; arcml <linux-snps-arc at lists.infradead.org>; Alexey Brodkin
+> > <abrodkin at synopsys.com>
+> > Subject: Re: [uclibc-ng-devel] state of uClibc ARC soft-float support
+> > 
+> > Hi Vineet,
+> > 
+> > I tried to sync the libm tests from glibc to uClibc-ng, but I think
+> > I broke it. May be we should revert the commit?
+> > 3384c45e66ddf18f235654b67ae34ac7dcb07534
 > 
-> This commit adds support for the SST sst26wf016 and sst26wf032
-> flash memory IC.
-
-Please specify if you tested both flashes, with 1-1-1, 1-1-2 and 1-1-4 reads.
-Let us know which controller you used. I ask for these to be sure that we don't
-add flashes that are broken from day one.
-
+> There seems to be no commit with such hash:
+> https://cgit.uclibc-ng.org/cgi/cgit/uclibc-ng.git/commit/?id=3384c45e66ddf18f235654b67ae34ac7dcb07534
 > 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> ---
->  drivers/mtd/spi-nor/spi-nor.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
-> index 73172d7f512b..224275461a2c 100644
-> --- a/drivers/mtd/spi-nor/spi-nor.c
-> +++ b/drivers/mtd/spi-nor/spi-nor.c
-> @@ -1945,6 +1945,8 @@ static const struct flash_info spi_nor_ids[] = {
->  	{ "sst25wf040b", INFO(0x621613, 0, 64 * 1024,  8, SECT_4K) },
->  	{ "sst25wf040",  INFO(0xbf2504, 0, 64 * 1024,  8, SECT_4K | SST_WRITE) },
->  	{ "sst25wf080",  INFO(0xbf2505, 0, 64 * 1024, 16, SECT_4K | SST_WRITE) },
-> +	{ "sst26wf016",  INFO(0xbf2651, 0, 64 * 1024, 32, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
+> Did you mean something else?
 
-I confirm that the above is correct.
+This one:
 
-> +	{ "sst26wf032",  INFO(0xbf2622, 0, 64 * 1024, 64, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
+https://cgit.uclibc-ng.org/cgi/cgit/uclibc-ng-test.git/commit/?id=3384c45e66ddf18f235654b67ae34ac7dcb07534
 
-There are sst26wf032 flashes that don't support SPINOR_OP_READ_1_1_2 (0x3b) and
-SPINOR_OP_READ_1_1_4 (0x6b), check
-https://pdf1.alldatasheet.com/datasheet-pdf/view/392063/SST/SST26WF032.html. You
-can't add SPI_NOR_DUAL_READ and SPI_NOR_QUAD_READ if 0x3b and 0x6b commands are
-not supported. Check spi_nor_init_params().
-
-Cheers,
-ta
+best regards
+ Waldemar
