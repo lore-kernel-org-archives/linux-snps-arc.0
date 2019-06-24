@@ -1,41 +1,78 @@
-From: wbx@uclibc-ng.org (Waldemar Brodkorb)
-Date: Mon, 24 Jun 2019 09:53:56 +0200
-Subject: [uclibc-ng-devel] state of uClibc ARC soft-float support
-In-Reply-To: <CY4PR1201MB012024B8104F1540F0DBB10BA1E70@CY4PR1201MB0120.namprd12.prod.outlook.com>
-References: <8544debf-dfb6-ebb5-a80e-aa9f860949ff@synopsys.com>
- <20190621102538.GZ29045@waldemar-brodkorb.de>
- <CY4PR1201MB012024B8104F1540F0DBB10BA1E70@CY4PR1201MB0120.namprd12.prod.outlook.com>
+From: vladimir.murzin@arm.com (Vladimir Murzin)
+Date: Mon, 24 Jun 2019 15:23:08 +0100
+Subject: [PATCH 1/7] arm-nommu: remove the partial DMA_ATTR_NON_CONSISTENT
+ support
+In-Reply-To: <20190614144431.21760-2-hch@lst.de>
+References: <20190614144431.21760-1-hch@lst.de>
+ <20190614144431.21760-2-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190624075356.GC29045@waldemar-brodkorb.de>
+Message-ID: <a017e704-c6c4-7718-7f8b-eb8a0eced14d@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Alexey,
-Alexey Brodkin wrote,
+On 6/14/19 3:44 PM, Christoph Hellwig wrote:
+> The arm-nommu DMA code supports DMA_ATTR_NON_CONSISTENT allocations, but
+> does not provide a cache_sync operation.  This means any user of it
+> will never be able to actually transfer cache ownership and thus cause
+> coherency bugs.
 
-> Hi Waldemar,
+By the way, Documentation/DMA-attributes.txt doesn't specify cache_sync() as
+requirement for DMA_ATTR_NON_CONSISTENT it only states that it is responsibility
+of the driver to have all the correct and necessary sync points.
+
 > 
-> > -----Original Message-----
-> > From: Waldemar Brodkorb <wbx at uclibc-ng.org>
-> > Sent: Friday, June 21, 2019 1:26 PM
-> > To: Vineet Gupta <Vineet.Gupta1 at synopsys.com>
-> > Cc: devel at uclibc-ng.org; arcml <linux-snps-arc at lists.infradead.org>; Alexey Brodkin
-> > <abrodkin at synopsys.com>
-> > Subject: Re: [uclibc-ng-devel] state of uClibc ARC soft-float support
-> > 
-> > Hi Vineet,
-> > 
-> > I tried to sync the libm tests from glibc to uClibc-ng, but I think
-> > I broke it. May be we should revert the commit?
-> > 3384c45e66ddf18f235654b67ae34ac7dcb07534
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  arch/arm/mm/dma-mapping-nommu.c | 24 +++---------------------
+>  1 file changed, 3 insertions(+), 21 deletions(-)
 > 
-> There seems to be no commit with such hash:
-> https://cgit.uclibc-ng.org/cgi/cgit/uclibc-ng.git/commit/?id=3384c45e66ddf18f235654b67ae34ac7dcb07534
+> diff --git a/arch/arm/mm/dma-mapping-nommu.c b/arch/arm/mm/dma-mapping-nommu.c
+> index f304b10e23a4..bc003df45546 100644
+> --- a/arch/arm/mm/dma-mapping-nommu.c
+> +++ b/arch/arm/mm/dma-mapping-nommu.c
+> @@ -39,18 +39,7 @@ static void *arm_nommu_dma_alloc(struct device *dev, size_t size,
+>  				 unsigned long attrs)
+>  
+>  {
+> -	void *ret;
+> -
+> -	/*
+> -	 * Try generic allocator first if we are advertised that
+> -	 * consistency is not required.
+> -	 */
+> -
+> -	if (attrs & DMA_ATTR_NON_CONSISTENT)
+> -		return dma_direct_alloc_pages(dev, size, dma_handle, gfp,
+> -				attrs);
+> -
+> -	ret = dma_alloc_from_global_coherent(size, dma_handle);
+> +	void *ret = dma_alloc_from_global_coherent(size, dma_handle);
+>  
+>  	/*
+>  	 * dma_alloc_from_global_coherent() may fail because:
+> @@ -70,16 +59,9 @@ static void arm_nommu_dma_free(struct device *dev, size_t size,
+>  			       void *cpu_addr, dma_addr_t dma_addr,
+>  			       unsigned long attrs)
+>  {
+> -	if (attrs & DMA_ATTR_NON_CONSISTENT) {
+> -		dma_direct_free_pages(dev, size, cpu_addr, dma_addr, attrs);
+> -	} else {
+> -		int ret = dma_release_from_global_coherent(get_order(size),
+> -							   cpu_addr);
+> -
+> -		WARN_ON_ONCE(ret == 0);
+> -	}
+> +	int ret = dma_release_from_global_coherent(get_order(size), cpu_addr);
+>  
+> -	return;
+> +	WARN_ON_ONCE(ret == 0);
+>  }
+>  
+>  static int arm_nommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
 > 
-> Did you mean something else?
 
-This one:
+FWIW:
 
-https://cgit.uclibc-ng.org/cgi/cgit/uclibc-ng-test.git/commit/?id=3384c45e66ddf18f235654b67ae34ac7dcb07534
+Reviewed-by: Vladimir Murzin <vladimir.murzin at arm.com>
 
-best regards
- Waldemar
+Cheers
+Vladimir
