@@ -1,58 +1,32 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Mon, 24 Jun 2019 19:13:17 +0000
-Subject: [PATCH 7/7] arc: use the generic remapping allocator for coherent
- DMA allocations
-In-Reply-To: <20190624131417.GA10593@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 25 Jun 2019 08:11:04 +0200
+Subject: [PATCH 5/7] dma-direct: handle DMA_ATTR_NON_CONSISTENT in
+ common code
+In-Reply-To: <20190614144431.21760-6-hch@lst.de>
 References: <20190614144431.21760-1-hch@lst.de>
- <20190614144431.21760-8-hch@lst.de>
- <78ac563f2815a9a14bfab6076d0ef948497f5b9f.camel@synopsys.com>
- <20190615083554.GC23406@lst.de> <20190624131417.GA10593@lst.de>
+ <20190614144431.21760-6-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <d9ed8f6a82801b94d1d7792eb74effdbce09ce51.camel@synopsys.com>
+Message-ID: <20190625061104.GB28986@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Christoph,
+On Sun, Jun 16, 2019@06:08:40PM +0800, Hillf Danton wrote:
+> Literally, any cpu (call it cpuW) other than pcx12 and pcx1 will no longer do
+> dma alloc for any device with this patch applied.
 
-Yep I've reviewed and tested it for both cases:
-- coherent/noncoherent dma
-- allocation from atomic_pool/regular allocation
+Yes.  And that is not a chance from the previous code, where only
+pcx1 and pcx12 could do coherent allocations,
 
-everything works fine for ARC.
+> On the other hand, 
+> !dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_NON_CONSISTENT) will ask
+> any cpu to do dma alloc, regardless of pcx1. This patch works imo unless cpuW
+> plays games only with devices that are dma coherent. I doubt it is true.
 
-So,
-
-Reviewed-by: Evgeniy Paltsev <paltsev at synopsys.com>
-Tested-by: Evgeniy Paltsev <paltsev at synopsys.com>
-
-for both
-[PATCH 2/7] arc: remove the partial DMA_ATTR_NON_CONSISTENT support
-[PATCH 7/7] arc: use the generic remapping allocator for coherent DMA allocations
-
-
-On Mon, 2019-06-24@15:14 +0200, hch@lst.de wrote:
-> On Sat, Jun 15, 2019@10:35:54AM +0200, hch@lst.de wrote:
-> > On Fri, Jun 14, 2019@06:05:01PM +0000, Eugeniy Paltsev wrote:
-> > > Hi Christoph,
-> > > 
-> > > Regular question - do you have any public git repository with all this dma changes?
-> > > I want to test it for ARC.
-> > > 
-> > > Pretty sure the
-> > >  [PATCH 2/7] arc: remove the partial DMA_ATTR_NON_CONSISTENT support
-> > > is fine.
-> > > 
-> > > Not so sure about
-> > >  [PATCH 7/7] arc: use the generic remapping allocator for coherent DMA allocations
-> > > :)
-> > 
-> >    git://git.infradead.org/users/hch/misc.git dma-not-consistent-cleanup
-> > 
-> > Gitweb:
-> > 
-> >    
-> > https://urldefense.proofpoint.com/v2/url?u=http-3A__git.infradead.org_users_hch_misc.git_shortlog_refs_heads_dma-2Dnot-2Dconsistent-2Dcleanup&d=DwIBAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=ZlJN1MriPUTkBKCrPSx67GmaplEUGcAEk9yPtCLdUXI&m=ipYAmX3rwLxDIdXUztTMYBZkKFGZBY9vykJVBwq_KXE&s=uRWKQoDT8pPKRPYCB6k4oO3mtRFRNyLolRDeBBIVtNQ&e=
-> >  
-> 
-> Did you get a chance to look into these patches?
--- 
- Eugeniy Paltsev
+I can't parse these two sentences.  But to explains the bits mentioned
+here - dev_is_dma_coherent will return if a device is coherently
+attached vs the cpu.  This will never be true for the parisc direct
+mapping.  DMA_ATTR_NON_CONSISTENT asks for a non-coherent mapping that
+needs to be explicitly synced.  This support now is in the dma-direct
+core code, and this is what the parisc specific devices used on the
+non-pcxl systems use, as they do not support dma coherency at all.
+(the story slightly changes when using an iommu, but that is irrelevant
+here)
