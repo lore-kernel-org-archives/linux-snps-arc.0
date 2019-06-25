@@ -1,28 +1,25 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 25 Jun 2019 08:13:32 +0200
-Subject: [PATCH 1/7] arm-nommu: remove the partial
- DMA_ATTR_NON_CONSISTENT support
-In-Reply-To: <a017e704-c6c4-7718-7f8b-eb8a0eced14d@arm.com>
+From: hch@lst.de (hch@lst.de)
+Date: Tue, 25 Jun 2019 08:34:02 +0200
+Subject: [PATCH 7/7] arc: use the generic remapping allocator for
+ coherent DMA allocations
+In-Reply-To: <d9ed8f6a82801b94d1d7792eb74effdbce09ce51.camel@synopsys.com>
 References: <20190614144431.21760-1-hch@lst.de>
- <20190614144431.21760-2-hch@lst.de>
- <a017e704-c6c4-7718-7f8b-eb8a0eced14d@arm.com>
+ <20190614144431.21760-8-hch@lst.de>
+ <78ac563f2815a9a14bfab6076d0ef948497f5b9f.camel@synopsys.com>
+ <20190615083554.GC23406@lst.de> <20190624131417.GA10593@lst.de>
+ <d9ed8f6a82801b94d1d7792eb74effdbce09ce51.camel@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190625061332.GC28986@lst.de>
+Message-ID: <20190625063402.GC29561@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Jun 24, 2019@03:23:08PM +0100, Vladimir Murzin wrote:
-> On 6/14/19 3:44 PM, Christoph Hellwig wrote:
-> > The arm-nommu DMA code supports DMA_ATTR_NON_CONSISTENT allocations, but
-> > does not provide a cache_sync operation.  This means any user of it
-> > will never be able to actually transfer cache ownership and thus cause
-> > coherency bugs.
+On Mon, Jun 24, 2019@07:13:17PM +0000, Eugeniy Paltsev wrote:
+> Hi Christoph,
 > 
-> By the way, Documentation/DMA-attributes.txt doesn't specify cache_sync() as
-> requirement for DMA_ATTR_NON_CONSISTENT it only states that it is responsibility
-> of the driver to have all the correct and necessary sync points.
+> Yep I've reviewed and tested it for both cases:
+> - coherent/noncoherent dma
+> - allocation from atomic_pool/regular allocation
+> 
+> everything works fine for ARC.
 
-True.  dma_cache_sync has always been a rather odd interface, as it
-doesn't specify in what direction we need to sync and doesn't
-participate in our ownership protocol.  So my mid-term plan is to kill
-it off and replace it with the existing dma_sync_* helpers.  This
-series is the first step towards that.
+Thanks.  I've applied the whole series to the dma-mapping for-next
+branch.
