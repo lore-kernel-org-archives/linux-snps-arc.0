@@ -1,81 +1,133 @@
-From: Tudor.Ambarus@microchip.com (Tudor.Ambarus@microchip.com)
-Date: Tue, 25 Jun 2019 07:53:50 +0000
-Subject: [PATCH] mtd: spi-nor: add support for sst26wf016, sst26wf032
- memory
-In-Reply-To: <305636da161f6c204e39936696301c226c1c95f9.camel@synopsys.com>
-References: <20190607154308.20899-1-Eugeniy.Paltsev@synopsys.com>
- <aab6510e-9608-584e-1556-613bb0be482e@microchip.com>
- <305636da161f6c204e39936696301c226c1c95f9.camel@synopsys.com>
+From: deller@gmx.de (Helge Deller)
+Date: Tue, 25 Jun 2019 14:23:45 +0200
+Subject: [PATCH 5/7] dma-direct: handle DMA_ATTR_NON_CONSISTENT in common
+ code
+In-Reply-To: <20190614144431.21760-6-hch@lst.de>
+References: <20190614144431.21760-1-hch@lst.de>
+ <20190614144431.21760-6-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <927c5fe0-9e6a-f6bb-80e5-835bc3c8cbca@microchip.com>
+Message-ID: <3eb32e0b-5aa4-fe1e-e581-038750e11cef@gmx.de>
 To: linux-snps-arc@lists.infradead.org
 
-Hi, Eugeniy,
+On 14.06.19 16:44, Christoph Hellwig wrote:
+> Only call into arch_dma_alloc if we require an uncached mapping,
+> and remove the parisc code manually doing normal cached
+> DMA_ATTR_NON_CONSISTENT allocations.
+>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-On 06/24/2019 08:58 PM, Eugeniy Paltsev wrote:
-> External E-Mail
-> 
-> 
-> Hi Tudor,
-> 
-> On Sat, 2019-06-22@10:18 +0000, Tudor.Ambarus@microchip.com wrote:
->> Hi, Eugeniy,
->>
->> On 06/07/2019 06:43 PM, Eugeniy Paltsev wrote:
->>> External E-Mail
->>>
->>>
->>> This commit adds support for the SST sst26wf016 and sst26wf032
->>> flash memory IC.
->>
->> Please specify if you tested both flashes, with 1-1-1, 1-1-2 and 1-1-4 reads.
->> Let us know which controller you used. I ask for these to be sure that we don't
->> add flashes that are broken from day one.
->>
->>> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
->>> ---
->>>  drivers/mtd/spi-nor/spi-nor.c | 2 ++
->>>  1 file changed, 2 insertions(+)
->>>
->>> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
->>> index 73172d7f512b..224275461a2c 100644
->>> --- a/drivers/mtd/spi-nor/spi-nor.c
->>> +++ b/drivers/mtd/spi-nor/spi-nor.c
->>> @@ -1945,6 +1945,8 @@ static const struct flash_info spi_nor_ids[] = {
->>>  	{ "sst25wf040b", INFO(0x621613, 0, 64 * 1024,  8, SECT_4K) },
->>>  	{ "sst25wf040",  INFO(0xbf2504, 0, 64 * 1024,  8, SECT_4K | SST_WRITE) },
->>>  	{ "sst25wf080",  INFO(0xbf2505, 0, 64 * 1024, 16, SECT_4K | SST_WRITE) },
->>> +	{ "sst26wf016",  INFO(0xbf2651, 0, 64 * 1024, 32, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
->>
->> I confirm that the above is correct.
->>
->>> +	{ "sst26wf032",  INFO(0xbf2622, 0, 64 * 1024, 64, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
->>
->> There are sst26wf032 flashes that don't support SPINOR_OP_READ_1_1_2 (0x3b) and
->> SPINOR_OP_READ_1_1_4 (0x6b), check
->> https://urldefense.proofpoint.com/v2/url?u=https-3A__pdf1.alldatasheet.com_datasheet-2Dpdf_view_392063_SST_SST26WF032.html&d=DwIGaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=ZlJN1MriPUTkBKCrPSx67GmaplEUGcAEk9yPtCLdUXI&m=YKOAFhTsmcxVNOmy6DO67WYZYdo6xYa7ojebIBU-K-c&s=k2yRqWlXBllfG2R2HvqTwAjGYCmvjGm9tmVYxzDg_wA&e= .
->> You
->> can't add SPI_NOR_DUAL_READ and SPI_NOR_QUAD_READ if 0x3b and 0x6b commands are
->> not supported. Check spi_nor_init_params().
-> 
-> Yep, thanks for pointing.
-> We are using 'sst26wf016b' on HSDK devboard. I added 'sst26wf032' to make flash upgrade easier,
-> but I don't check carefully enough that it has completely different control logic and not only size.
-> I'd better drop 'sst26wf032' in v2 patch respin as untested. 
+Acked-by: Helge Deller <deller at gmx.de> # parisc
 
-ok
+Boot-tested 32-bit kernel on PCX-L and PCX-W2 machines (although
+the patches don't cleanly apply any longer against git head).
 
-> 
-> In this setup we use "snps,dw-apb-ssi" SPI controller and we don't use dual/quad IO. Should I
-> drop (SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) for "sst26wf016" in v2 respin?
+Helge
 
-We can keep them. Please specify in the commit message what was tested and say
-that the flash's datasheet advertises both dual and quad reads. We will give a
-benefit of a doubt to the flash manufacturer.
-
-Thanks,
-ta
-> 
->>
->> Cheers,
->> ta
+> ---
+>  arch/parisc/kernel/pci-dma.c | 48 ++++++++++--------------------------
+>  kernel/dma/direct.c          |  4 +--
+>  2 files changed, 15 insertions(+), 37 deletions(-)
+>
+> diff --git a/arch/parisc/kernel/pci-dma.c b/arch/parisc/kernel/pci-dma.c
+> index 239162355b58..ca35d9a76e50 100644
+> --- a/arch/parisc/kernel/pci-dma.c
+> +++ b/arch/parisc/kernel/pci-dma.c
+> @@ -394,17 +394,20 @@ pcxl_dma_init(void)
+>
+>  __initcall(pcxl_dma_init);
+>
+> -static void *pcxl_dma_alloc(struct device *dev, size_t size,
+> -		dma_addr_t *dma_handle, gfp_t flag, unsigned long attrs)
+> +void *arch_dma_alloc(struct device *dev, size_t size,
+> +		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+>  {
+>  	unsigned long vaddr;
+>  	unsigned long paddr;
+>  	int order;
+>
+> +	if (boot_cpu_data.cpu_type != pcxl2 && boot_cpu_data.cpu_type != pcxl)
+> +		return NULL;
+> +
+>  	order = get_order(size);
+>  	size = 1 << (order + PAGE_SHIFT);
+>  	vaddr = pcxl_alloc_range(size);
+> -	paddr = __get_free_pages(flag | __GFP_ZERO, order);
+> +	paddr = __get_free_pages(gfp | __GFP_ZERO, order);
+>  	flush_kernel_dcache_range(paddr, size);
+>  	paddr = __pa(paddr);
+>  	map_uncached_pages(vaddr, size, paddr);
+> @@ -421,44 +424,19 @@ static void *pcxl_dma_alloc(struct device *dev, size_t size,
+>  	return (void *)vaddr;
+>  }
+>
+> -static void *pcx_dma_alloc(struct device *dev, size_t size,
+> -		dma_addr_t *dma_handle, gfp_t flag, unsigned long attrs)
+> -{
+> -	void *addr;
+> -
+> -	if ((attrs & DMA_ATTR_NON_CONSISTENT) == 0)
+> -		return NULL;
+> -
+> -	addr = (void *)__get_free_pages(flag | __GFP_ZERO, get_order(size));
+> -	if (addr)
+> -		*dma_handle = (dma_addr_t)virt_to_phys(addr);
+> -
+> -	return addr;
+> -}
+> -
+> -void *arch_dma_alloc(struct device *dev, size_t size,
+> -		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+> -{
+> -
+> -	if (boot_cpu_data.cpu_type == pcxl2 || boot_cpu_data.cpu_type == pcxl)
+> -		return pcxl_dma_alloc(dev, size, dma_handle, gfp, attrs);
+> -	else
+> -		return pcx_dma_alloc(dev, size, dma_handle, gfp, attrs);
+> -}
+> -
+>  void arch_dma_free(struct device *dev, size_t size, void *vaddr,
+>  		dma_addr_t dma_handle, unsigned long attrs)
+>  {
+>  	int order = get_order(size);
+>
+> -	if (boot_cpu_data.cpu_type == pcxl2 || boot_cpu_data.cpu_type == pcxl) {
+> -		size = 1 << (order + PAGE_SHIFT);
+> -		unmap_uncached_pages((unsigned long)vaddr, size);
+> -		pcxl_free_range((unsigned long)vaddr, size);
+> +	WARN_ON_ONCE(boot_cpu_data.cpu_type != pcxl2 &&
+> +		     boot_cpu_data.cpu_type != pcxl);
+>
+> -		vaddr = __va(dma_handle);
+> -	}
+> -	free_pages((unsigned long)vaddr, get_order(size));
+> +	size = 1 << (order + PAGE_SHIFT);
+> +	unmap_uncached_pages((unsigned long)vaddr, size);
+> +	pcxl_free_range((unsigned long)vaddr, size);
+> +
+> +	free_pages((unsigned long)__va(dma_handle), order);
+>  }
+>
+>  void arch_sync_dma_for_device(struct device *dev, phys_addr_t paddr,
+> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> index c2893713bf80..fc354f4f490b 100644
+> --- a/kernel/dma/direct.c
+> +++ b/kernel/dma/direct.c
+> @@ -191,7 +191,7 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>  		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+>  {
+>  	if (!IS_ENABLED(CONFIG_ARCH_HAS_UNCACHED_SEGMENT) &&
+> -	    !dev_is_dma_coherent(dev))
+> +	    dma_alloc_need_uncached(dev, attrs))
+>  		return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
+>  	return dma_direct_alloc_pages(dev, size, dma_handle, gfp, attrs);
+>  }
+> @@ -200,7 +200,7 @@ void dma_direct_free(struct device *dev, size_t size,
+>  		void *cpu_addr, dma_addr_t dma_addr, unsigned long attrs)
+>  {
+>  	if (!IS_ENABLED(CONFIG_ARCH_HAS_UNCACHED_SEGMENT) &&
+> -	    !dev_is_dma_coherent(dev))
+> +	    dma_alloc_need_uncached(dev, attrs))
+>  		arch_dma_free(dev, size, cpu_addr, dma_addr, attrs);
+>  	else
+>  		dma_direct_free_pages(dev, size, cpu_addr, dma_addr, attrs);
+>
