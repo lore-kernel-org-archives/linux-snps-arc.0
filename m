@@ -1,21 +1,37 @@
-From: pr-tracker-bot@kernel.org (pr-tracker-bot@kernel.org)
-Date: Sat, 29 Jun 2019 09:30:06 +0000
-Subject: [GIT PULL] ARC fixes for 5.2-rc7
-In-Reply-To: <b799ad4e-cafb-bf1f-3d92-34a5035ea7b5@synopsys.com>
-References: <b799ad4e-cafb-bf1f-3d92-34a5035ea7b5@synopsys.com>
+From: linux@roeck-us.net (Guenter Roeck)
+Date: Sat, 29 Jun 2019 07:50:09 -0700
+Subject: [PATCH] mm: Generalize and rename notify_page_fault() as
+ kprobe_page_fault()
+In-Reply-To: <1560420444-25737-1-git-send-email-anshuman.khandual@arm.com>
+References: <1560420444-25737-1-git-send-email-anshuman.khandual@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <156180060623.8003.8022382941002971289.pr-tracker-bot@kernel.org>
+Message-ID: <20190629145009.GA28613@roeck-us.net>
 To: linux-snps-arc@lists.infradead.org
 
-The pull request you sent on Sat, 29 Jun 2019 00:12:09 +0000:
+Hi,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.2-rc7
+On Thu, Jun 13, 2019@03:37:24PM +0530, Anshuman Khandual wrote:
+> Architectures which support kprobes have very similar boilerplate around
+> calling kprobe_fault_handler(). Use a helper function in kprobes.h to unify
+> them, based on the x86 code.
+> 
+> This changes the behaviour for other architectures when preemption is
+> enabled. Previously, they would have disabled preemption while calling the
+> kprobe handler. However, preemption would be disabled if this fault was
+> due to a kprobe, so we know the fault was not due to a kprobe handler and
+> can simply return failure.
+> 
+> This behaviour was introduced in the commit a980c0ef9f6d ("x86/kprobes:
+> Refactor kprobes_fault() like kprobe_exceptions_notify()")
+> 
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/f8b5c72227618780f49e53fb77b0e7ddb2996552
+With this patch applied, parisc:allmodconfig images no longer build.
 
-Thank you!
+In file included from arch/parisc/mm/fixmap.c:8:
+include/linux/kprobes.h: In function 'kprobe_page_fault':
+include/linux/kprobes.h:477:9: error:
+	implicit declaration of function 'kprobe_fault_handler'; did you mean 'kprobe_page_fault'?
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+Reverting the patch fixes the problem.
+
+Guenter
