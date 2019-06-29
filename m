@@ -1,36 +1,27 @@
 From: linux@roeck-us.net (Guenter Roeck)
-Date: Sat, 29 Jun 2019 07:50:09 -0700
-Subject: [PATCH] mm: Generalize and rename notify_page_fault() as
- kprobe_page_fault()
-In-Reply-To: <1560420444-25737-1-git-send-email-anshuman.khandual@arm.com>
-References: <1560420444-25737-1-git-send-email-anshuman.khandual@arm.com>
+Date: Sat, 29 Jun 2019 08:09:15 -0700
+Subject: [PATCH 6/7] dma-direct: handle DMA_ATTR_NO_KERNEL_MAPPING in
+ common code
+In-Reply-To: <20190614144431.21760-7-hch@lst.de>
+References: <20190614144431.21760-1-hch@lst.de>
+ <20190614144431.21760-7-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190629145009.GA28613@roeck-us.net>
+Message-ID: <20190629150915.GA817@roeck-us.net>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
-
-On Thu, Jun 13, 2019@03:37:24PM +0530, Anshuman Khandual wrote:
-> Architectures which support kprobes have very similar boilerplate around
-> calling kprobe_fault_handler(). Use a helper function in kprobes.h to unify
-> them, based on the x86 code.
+On Fri, Jun 14, 2019@04:44:30PM +0200, Christoph Hellwig wrote:
+> DMA_ATTR_NO_KERNEL_MAPPING is generally implemented by allocating
+> normal cacheable pages or CMA memory, and then returning the page
+> pointer as the opaque handle.  Lift that code from the xtensa and
+> generic dma remapping implementations into the generic dma-direct
+> code so that we don't even call arch_dma_alloc for these allocations.
 > 
-> This changes the behaviour for other architectures when preemption is
-> enabled. Previously, they would have disabled preemption while calling the
-> kprobe handler. However, preemption would be disabled if this fault was
-> due to a kprobe, so we know the fault was not due to a kprobe handler and
-> can simply return failure.
-> 
-> This behaviour was introduced in the commit a980c0ef9f6d ("x86/kprobes:
-> Refactor kprobes_fault() like kprobe_exceptions_notify()")
-> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-With this patch applied, parisc:allmodconfig images no longer build.
+This patch results in build failures for mips:nlm_xlp_defconfig and
+mips:cavium_octeon_defconfig.
 
-In file included from arch/parisc/mm/fixmap.c:8:
-include/linux/kprobes.h: In function 'kprobe_page_fault':
-include/linux/kprobes.h:477:9: error:
-	implicit declaration of function 'kprobe_fault_handler'; did you mean 'kprobe_page_fault'?
+kernel/dma/direct.c:144: undefined reference to `arch_dma_prep_coherent'
 
 Reverting the patch fixes the problem.
 
