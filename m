@@ -1,55 +1,77 @@
-From: anshuman.khandual@arm.com (Anshuman Khandual)
-Date: Sun, 30 Jun 2019 10:11:03 +0530
-Subject: [PATCH] mm: Generalize and rename notify_page_fault() as
- kprobe_page_fault()
-In-Reply-To: <20190629145009.GA28613@roeck-us.net>
-References: <1560420444-25737-1-git-send-email-anshuman.khandual@arm.com>
- <20190629145009.GA28613@roeck-us.net>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 1 Jul 2019 20:05:51 +0000
+Subject: single copy atomicity for double load/stores on 32-bit systems
+In-Reply-To: <20190531082112.GH2623@hirez.programming.kicks-ass.net>
+References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
+ <20190531082112.GH2623@hirez.programming.kicks-ass.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <78863cd0-8cb5-c4fd-ed06-b1136bdbb6ef@arm.com>
+Message-ID: <73510bc7-8386-746c-ed1e-422fb5adaec5@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hello Guenter,
-
-On 06/29/2019 08:20 PM, Guenter Roeck wrote:
-> Hi,
-> 
-> On Thu, Jun 13, 2019@03:37:24PM +0530, Anshuman Khandual wrote:
->> Architectures which support kprobes have very similar boilerplate around
->> calling kprobe_fault_handler(). Use a helper function in kprobes.h to unify
->> them, based on the x86 code.
+On 5/31/19 1:21 AM, Peter Zijlstra wrote:
+> On Thu, May 30, 2019@11:22:42AM -0700, Vineet Gupta wrote:
+>> Hi Peter,
 >>
->> This changes the behaviour for other architectures when preemption is
->> enabled. Previously, they would have disabled preemption while calling the
->> kprobe handler. However, preemption would be disabled if this fault was
->> due to a kprobe, so we know the fault was not due to a kprobe handler and
->> can simply return failure.
+>> Had an interesting lunch time discussion with our hardware architects pertinent to
+>> "minimal guarantees expected of a CPU" section of memory-barriers.txt
 >>
->> This behaviour was introduced in the commit a980c0ef9f6d ("x86/kprobes:
->> Refactor kprobes_fault() like kprobe_exceptions_notify()")
 >>
+>> |  (*) These guarantees apply only to properly aligned and sized scalar
+>> |     variables.  "Properly sized" currently means variables that are
+>> |     the same size as "char", "short", "int" and "long".  "Properly
+>> |     aligned" means the natural alignment, thus no constraints for
+>> |     "char", two-byte alignment for "short", four-byte alignment for
+>> |     "int", and either four-byte or eight-byte alignment for "long",
+>> |     on 32-bit and 64-bit systems, respectively.
+>>
+>>
+>> I'm not sure how to interpret "natural alignment" for the case of double
+>> load/stores on 32-bit systems where the hardware and ABI allow for 4 byte
+>> alignment (ARCv2 LDD/STD, ARM LDRD/STRD ....)
 > 
-> With this patch applied, parisc:allmodconfig images no longer build.
+> Natural alignment: !((uintptr_t)ptr % sizeof(*ptr))
 > 
-> In file included from arch/parisc/mm/fixmap.c:8:
-> include/linux/kprobes.h: In function 'kprobe_page_fault':
-> include/linux/kprobes.h:477:9: error:
-> 	implicit declaration of function 'kprobe_fault_handler'; did you mean 'kprobe_page_fault'?
+> For any u64 type, that would give 8 byte alignment. the problem
+> otherwise being that your data spans two lines/pages etc..
+> 
+>> I presume (and the question) that lkmm doesn't expect such 8 byte load/stores to
+>> be atomic unless 8-byte aligned
+>>
+>> ARMv7 arch ref manual seems to confirm this. Quoting
+>>
+>> | LDM, LDC, LDC2, LDRD, STM, STC, STC2, STRD, PUSH, POP, RFE, SRS, VLDM, VLDR,
+>> | VSTM, and VSTR instructions are executed as a sequence of word-aligned word
+>> | accesses. Each 32-bit word access is guaranteed to be single-copy atomic. A
+>> | subsequence of two or more word accesses from the sequence might not exhibit
+>> | single-copy atomicity
+>>
+>> While it seems reasonable form hardware pov to not implement such atomicity by
+>> default it seems there's an additional burden on application writers. They could
+>> be happily using a lockless algorithm with just a shared flag between 2 threads
+>> w/o need for any explicit synchronization.
+> 
+> If you're that careless with lockless code, you deserve all the pain you
+> get.
+> 
+>> But upgrade to a new compiler which
+>> aggressively "packs" struct rendering long long 32-bit aligned (vs. 64-bit before)
+>> causing the code to suddenly stop working. Is the onus on them to declare such
+>> memory as c11 atomic or some such.
+> 
+> When a programmer wants guarantees they already need to know wth they're
+> doing.
+> 
+> And I'll stand by my earlier conviction that any architecture that has a
+> native u64 (be it a 64bit arch or a 32bit with double-width
+> instructions) but has an ABI that allows u32 alignment on them is daft.
 
-Yikes.. Arch parisc does not even define (unlike mips which did but never exported)
-now required function kprobe_fault_handler() when CONFIG_KPROBES is enabled.
+So I agree with Paul's assertion that it is strange for 8-byte type being 4-byte
+aligned on a 64-bit system, but is it totally broken even if the ISA of the said
+64-bit arch allows LD/ST to be augmented with acq/rel respectively.
 
-I believe rather than defining one stub version only for parsic it would be better
-to have an weak symbol generic stub definition for kprobe_fault_handler() in file
-include/linux/kprobes.h when CONFIG_KPROBES is enabled along side the other stub
-definition when !CONFIG_KPROBES. But arch which wants to use kprobe_page_fault()
-cannot use stub kprobe_fault_handler() definition and will have to provide one.
-I will probably add a comment regarding this.
+Say the ISA guarantees single-copy atomicity for aligned cases (i.e. for 8-byte
+data only if it is naturally aligned) and in lack thereof programmer needs to use
+the proper acq/release
 
-> 
-> Reverting the patch fixes the problem.
-> 
-> Guenter
-> 
-
-Thanks for reporting the problem.
+In my earlier example on lockless code, we do assume that programmer will use a
+release in the update of flag.
