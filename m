@@ -1,83 +1,97 @@
-From: will@kernel.org (Will Deacon)
-Date: Tue, 2 Jul 2019 11:46:04 +0100
-Subject: single copy atomicity for double load/stores on 32-bit systems
-In-Reply-To: <73510bc7-8386-746c-ed1e-422fb5adaec5@synopsys.com>
-References: <2fd3a455-6267-5d21-c530-41964a4f6ce9@synopsys.com>
- <20190531082112.GH2623@hirez.programming.kicks-ass.net>
- <73510bc7-8386-746c-ed1e-422fb5adaec5@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue,  2 Jul 2019 19:40:33 +0300
+Subject: [PATCH] ARC: [haps] Add Virtio support
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190702104603.g3qssgfhfhvryhnu@willie-the-truck>
+Message-ID: <20190702164033.43933-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Jul 01, 2019@08:05:51PM +0000, Vineet Gupta wrote:
-> On 5/31/19 1:21 AM, Peter Zijlstra wrote:
-> > On Thu, May 30, 2019@11:22:42AM -0700, Vineet Gupta wrote:
-> >> Had an interesting lunch time discussion with our hardware architects pertinent to
-> >> "minimal guarantees expected of a CPU" section of memory-barriers.txt
-> >>
-> >>
-> >> |  (*) These guarantees apply only to properly aligned and sized scalar
-> >> |     variables.  "Properly sized" currently means variables that are
-> >> |     the same size as "char", "short", "int" and "long".  "Properly
-> >> |     aligned" means the natural alignment, thus no constraints for
-> >> |     "char", two-byte alignment for "short", four-byte alignment for
-> >> |     "int", and either four-byte or eight-byte alignment for "long",
-> >> |     on 32-bit and 64-bit systems, respectively.
-> >>
-> >>
-> >> I'm not sure how to interpret "natural alignment" for the case of double
-> >> load/stores on 32-bit systems where the hardware and ABI allow for 4 byte
-> >> alignment (ARCv2 LDD/STD, ARM LDRD/STRD ....)
-> > 
-> > Natural alignment: !((uintptr_t)ptr % sizeof(*ptr))
-> > 
-> > For any u64 type, that would give 8 byte alignment. the problem
-> > otherwise being that your data spans two lines/pages etc..
-> > 
-> >> I presume (and the question) that lkmm doesn't expect such 8 byte load/stores to
-> >> be atomic unless 8-byte aligned
-> >>
-> >> ARMv7 arch ref manual seems to confirm this. Quoting
-> >>
-> >> | LDM, LDC, LDC2, LDRD, STM, STC, STC2, STRD, PUSH, POP, RFE, SRS, VLDM, VLDR,
-> >> | VSTM, and VSTR instructions are executed as a sequence of word-aligned word
-> >> | accesses. Each 32-bit word access is guaranteed to be single-copy atomic. A
-> >> | subsequence of two or more word accesses from the sequence might not exhibit
-> >> | single-copy atomicity
-> >>
-> >> While it seems reasonable form hardware pov to not implement such atomicity by
-> >> default it seems there's an additional burden on application writers. They could
-> >> be happily using a lockless algorithm with just a shared flag between 2 threads
-> >> w/o need for any explicit synchronization.
-> > 
-> > If you're that careless with lockless code, you deserve all the pain you
-> > get.
-> > 
-> >> But upgrade to a new compiler which
-> >> aggressively "packs" struct rendering long long 32-bit aligned (vs. 64-bit before)
-> >> causing the code to suddenly stop working. Is the onus on them to declare such
-> >> memory as c11 atomic or some such.
-> > 
-> > When a programmer wants guarantees they already need to know wth they're
-> > doing.
-> > 
-> > And I'll stand by my earlier conviction that any architecture that has a
-> > native u64 (be it a 64bit arch or a 32bit with double-width
-> > instructions) but has an ABI that allows u32 alignment on them is daft.
-> 
-> So I agree with Paul's assertion that it is strange for 8-byte type being 4-byte
-> aligned on a 64-bit system, but is it totally broken even if the ISA of the said
-> 64-bit arch allows LD/ST to be augmented with acq/rel respectively.
-> 
-> Say the ISA guarantees single-copy atomicity for aligned cases (i.e. for 8-byte
-> data only if it is naturally aligned) and in lack thereof programmer needs to use
-> the proper acq/release
+As a preparation for QEMU usage for ARC let's add basic Virtio-MMIO
+peripherals support for the platform we're going to use.
 
-Apologies if I'm missing some context here, but it's not clear to me why the
-use of acquire/release instructions has anything to do with single-copy
-atomicity of unaligned accesses. The ordering they provide doesn't
-necessarily prevent tearing, although a CPU architecture could obviously
-provide that guarantee if it wanted to. Generally though, I wouldn't expect
-the two to go hand-in-hand like you're suggesting.
+For now we add 5 Virtio slots in .dts and enable block and network devices
+via Virtio-MMIO.
 
-Will
+Note even though typically Virtio register set fits in 0x200 bytes
+we "allocate" here 0x2000 so that it matches ARC's default 8KiB page size
+and so remapping of that area is done clearly.
+
+We also enable DEVTMPFS automount for more convenient use
+of external root file-stystem. Before that we used to use built-in
+Initramfs which didn't automount DEVTMPFS anyways so we didn't need
+that option, while now it starts making sense.
+
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Rob Herring <robh+dt at kernel.org>
+---
+ arch/arc/boot/dts/haps_hs.dts      | 30 ++++++++++++++++++++++++++++++
+ arch/arc/configs/haps_hs_defconfig |  5 ++++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arc/boot/dts/haps_hs.dts b/arch/arc/boot/dts/haps_hs.dts
+index 1ebfa046492b..44bc522fdec8 100644
+--- a/arch/arc/boot/dts/haps_hs.dts
++++ b/arch/arc/boot/dts/haps_hs.dts
+@@ -62,5 +62,35 @@
+ 			#interrupt-cells = <1>;
+ 			interrupts = <20>;
+ 		};
++
++		virtio0: virtio at f0100000 {
++			compatible = "virtio,mmio";
++			reg = <0xf0100000 0x2000>;
++			interrupts = <31>;
++		};
++
++		virtio1: virtio at f0102000 {
++			compatible = "virtio,mmio";
++			reg = <0xf0102000 0x2000>;
++			interrupts = <32>;
++		};
++
++		virtio2: virtio at f0104000 {
++			compatible = "virtio,mmio";
++			reg = <0xf0104000 0x2000>;
++			interrupts = <33>;
++		};
++
++		virtio3: virtio at f0106000 {
++			compatible = "virtio,mmio";
++			reg = <0xf0106000 0x2000>;
++			interrupts = <34>;
++		};
++
++		virtio4: virtio at f0108000 {
++			compatible = "virtio,mmio";
++			reg = <0xf0108000 0x2000>;
++			interrupts = <35>;
++		};
+ 	};
+ };
+diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
+index b117e6c16d41..436f2135bdc1 100644
+--- a/arch/arc/configs/haps_hs_defconfig
++++ b/arch/arc/configs/haps_hs_defconfig
+@@ -35,10 +35,12 @@ CONFIG_INET=y
+ # CONFIG_IPV6 is not set
+ # CONFIG_WIRELESS is not set
+ CONFIG_DEVTMPFS=y
++CONFIG_DEVTMPFS_MOUNT=y
+ # CONFIG_STANDALONE is not set
+ # CONFIG_PREVENT_FIRMWARE_BUILD is not set
+-# CONFIG_BLK_DEV is not set
++CONFIG_VIRTIO_BLK=y
+ CONFIG_NETDEVICES=y
++CONFIG_VIRTIO_NET=y
+ # CONFIG_NET_VENDOR_ARC is not set
+ # CONFIG_NET_VENDOR_BROADCOM is not set
+ # CONFIG_NET_VENDOR_INTEL is not set
+@@ -68,6 +70,7 @@ CONFIG_FRAMEBUFFER_CONSOLE=y
+ CONFIG_LOGO=y
+ # CONFIG_HID is not set
+ # CONFIG_USB_SUPPORT is not set
++CONFIG_VIRTIO_MMIO=y
+ # CONFIG_IOMMU_SUPPORT is not set
+ CONFIG_EXT2_FS=y
+ CONFIG_EXT2_FS_XATTR=y
+-- 
+2.16.2
