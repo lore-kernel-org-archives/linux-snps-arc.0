@@ -1,28 +1,30 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 3 Jul 2019 16:12:52 +0000
-Subject: [PATCH] ARC: hide unused function unw_hdr_alloc
-In-Reply-To: <20190703133940.1493249-1-arnd@arndb.de>
-References: <20190703133940.1493249-1-arnd@arndb.de>
+Date: Wed, 3 Jul 2019 16:15:09 +0000
+Subject: [PATCH] ARC: ARCv2: jump label: implement jump label patching
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA2307501A252CCC3@us01wembx1.internal.synopsys.com>
+References: <20190614164049.31626-1-Eugeniy.Paltsev@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA2307501A252CCC3@us01wembx1.internal.synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <7584cf05-e3f9-7027-a08c-87efbfb0f608@synopsys.com>
+Message-ID: <991ace9d-ef6d-0f29-d4f4-03ba47a7f7ff@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 7/3/19 6:39 AM, Arnd Bergmann wrote:
-> As kernelci.org reports, 
-
-Curious, how are you getting these reports ? I want to see as well.
-
-> this function is not used in
-> vdk_hs38_defconfig:
+On 6/18/19 9:16 AM, Vineet Gupta wrote:
+> On 6/14/19 9:41 AM, Eugeniy Paltsev wrote:
+>> Implement jump label patching for ARC. Jump labels provide
+>> an interface to generate dynamic branches using
+>> self-modifying code.
+>>
+>> This allows us to implement conditional branches where
+>> changing branch direction is expensive but branch selection
+>> is basically 'free'
+>>
+>> This implementation uses 32-bit NOP and BRANCH instructions
+>> which forced to be aligned by 4 to guarantee that they don't
+>> cross L1 cache line and can be update atomically.
+>>
+>> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> LGTM overall - nits below.
 > 
-> arch/arc/kernel/unwind.c:188:14: warning: 'unw_hdr_alloc' defined but not used [-Wunused-function]
-> 
-> Fixes: bc79c9a72165 ("ARC: dw2 unwind: Reinstante unwinding out of modules")
-> Link: https://kernelci.org/build/id/5d1cae3f59b514300340c132/logs/
-> Cc: stable at vger.kernel.org
-> Signed-off-by: Arnd Bergmann <arnd at arndb.de>
 
-Thx, do you want me to pick this up via arc tree.
-
-Thx,
--Vineet
+Can you address the review comments soon so this gets merged in 5.3 whose merge
+window is looming !
