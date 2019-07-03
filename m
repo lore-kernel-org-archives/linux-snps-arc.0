@@ -1,25 +1,24 @@
 From: arnd@arndb.de (Arnd Bergmann)
-Date: Wed, 3 Jul 2019 20:24:56 +0200
+Date: Wed, 3 Jul 2019 20:25:32 +0200
 Subject: [PATCH] ARC: hide unused function unw_hdr_alloc
 In-Reply-To: <7584cf05-e3f9-7027-a08c-87efbfb0f608@synopsys.com>
 References: <20190703133940.1493249-1-arnd@arndb.de>
  <7584cf05-e3f9-7027-a08c-87efbfb0f608@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAK8P3a2VS0TCNQa7r_C09fFD2uYiMn79V25B90Opx6SYC51idw@mail.gmail.com>
+Message-ID: <CAK8P3a2c49gLLU5BKsty7WCD=6gZbJ0PiJvYfe3SMou=SqUi9Q@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-n Wed, Jul 3, 2019@6:13 PM Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
->
+On Wed, Jul 3, 2019@6:13 PM Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
 > On 7/3/19 6:39 AM, Arnd Bergmann wrote:
-> > As kernelci.org reports,
+> > Fixes: bc79c9a72165 ("ARC: dw2 unwind: Reinstante unwinding out of modules")
+> > Link: https://kernelci.org/build/id/5d1cae3f59b514300340c132/logs/
+> > Cc: stable at vger.kernel.org
+> > Signed-off-by: Arnd Bergmann <arnd at arndb.de>
 >
-> Curious, how are you getting these reports ? I want to see as well.
+> Thx, do you want me to pick this up via arc tree.
 
-I'm subscribed to the mailing list at
+Yes, that would be great.
 
-https://lists.linaro.org/mailman/listinfo/kernel-build-reports
+Thanks,
 
-I think you can also ask the kernelci folks to get a different subset of
-the build reports.
-
-     Arnd
+      Arnd
