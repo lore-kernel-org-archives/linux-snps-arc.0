@@ -1,97 +1,49 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue,  2 Jul 2019 19:40:33 +0300
-Subject: [PATCH] ARC: [haps] Add Virtio support
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Wed,  3 Jul 2019 15:39:25 +0200
+Subject: [PATCH] ARC: hide unused function unw_hdr_alloc
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190702164033.43933-1-abrodkin@synopsys.com>
+Message-ID: <20190703133940.1493249-1-arnd@arndb.de>
 To: linux-snps-arc@lists.infradead.org
 
-As a preparation for QEMU usage for ARC let's add basic Virtio-MMIO
-peripherals support for the platform we're going to use.
+As kernelci.org reports, this function is not used in
+vdk_hs38_defconfig:
 
-For now we add 5 Virtio slots in .dts and enable block and network devices
-via Virtio-MMIO.
+arch/arc/kernel/unwind.c:188:14: warning: 'unw_hdr_alloc' defined but not used [-Wunused-function]
 
-Note even though typically Virtio register set fits in 0x200 bytes
-we "allocate" here 0x2000 so that it matches ARC's default 8KiB page size
-and so remapping of that area is done clearly.
-
-We also enable DEVTMPFS automount for more convenient use
-of external root file-stystem. Before that we used to use built-in
-Initramfs which didn't automount DEVTMPFS anyways so we didn't need
-that option, while now it starts making sense.
-
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-Cc: Rob Herring <robh+dt at kernel.org>
+Fixes: bc79c9a72165 ("ARC: dw2 unwind: Reinstante unwinding out of modules")
+Link: https://kernelci.org/build/id/5d1cae3f59b514300340c132/logs/
+Cc: stable at vger.kernel.org
+Signed-off-by: Arnd Bergmann <arnd at arndb.de>
 ---
- arch/arc/boot/dts/haps_hs.dts      | 30 ++++++++++++++++++++++++++++++
- arch/arc/configs/haps_hs_defconfig |  5 ++++-
- 2 files changed, 34 insertions(+), 1 deletion(-)
+ arch/arc/kernel/unwind.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arc/boot/dts/haps_hs.dts b/arch/arc/boot/dts/haps_hs.dts
-index 1ebfa046492b..44bc522fdec8 100644
---- a/arch/arc/boot/dts/haps_hs.dts
-+++ b/arch/arc/boot/dts/haps_hs.dts
-@@ -62,5 +62,35 @@
- 			#interrupt-cells = <1>;
- 			interrupts = <20>;
- 		};
-+
-+		virtio0: virtio at f0100000 {
-+			compatible = "virtio,mmio";
-+			reg = <0xf0100000 0x2000>;
-+			interrupts = <31>;
-+		};
-+
-+		virtio1: virtio at f0102000 {
-+			compatible = "virtio,mmio";
-+			reg = <0xf0102000 0x2000>;
-+			interrupts = <32>;
-+		};
-+
-+		virtio2: virtio at f0104000 {
-+			compatible = "virtio,mmio";
-+			reg = <0xf0104000 0x2000>;
-+			interrupts = <33>;
-+		};
-+
-+		virtio3: virtio at f0106000 {
-+			compatible = "virtio,mmio";
-+			reg = <0xf0106000 0x2000>;
-+			interrupts = <34>;
-+		};
-+
-+		virtio4: virtio at f0108000 {
-+			compatible = "virtio,mmio";
-+			reg = <0xf0108000 0x2000>;
-+			interrupts = <35>;
-+		};
- 	};
- };
-diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
-index b117e6c16d41..436f2135bdc1 100644
---- a/arch/arc/configs/haps_hs_defconfig
-+++ b/arch/arc/configs/haps_hs_defconfig
-@@ -35,10 +35,12 @@ CONFIG_INET=y
- # CONFIG_IPV6 is not set
- # CONFIG_WIRELESS is not set
- CONFIG_DEVTMPFS=y
-+CONFIG_DEVTMPFS_MOUNT=y
- # CONFIG_STANDALONE is not set
- # CONFIG_PREVENT_FIRMWARE_BUILD is not set
--# CONFIG_BLK_DEV is not set
-+CONFIG_VIRTIO_BLK=y
- CONFIG_NETDEVICES=y
-+CONFIG_VIRTIO_NET=y
- # CONFIG_NET_VENDOR_ARC is not set
- # CONFIG_NET_VENDOR_BROADCOM is not set
- # CONFIG_NET_VENDOR_INTEL is not set
-@@ -68,6 +70,7 @@ CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_LOGO=y
- # CONFIG_HID is not set
- # CONFIG_USB_SUPPORT is not set
-+CONFIG_VIRTIO_MMIO=y
- # CONFIG_IOMMU_SUPPORT is not set
- CONFIG_EXT2_FS=y
- CONFIG_EXT2_FS_XATTR=y
+diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
+index 182ce67dfe10..c2663fce7f6c 100644
+--- a/arch/arc/kernel/unwind.c
++++ b/arch/arc/kernel/unwind.c
+@@ -181,11 +181,6 @@ static void *__init unw_hdr_alloc_early(unsigned long sz)
+ 	return memblock_alloc_from(sz, sizeof(unsigned int), MAX_DMA_ADDRESS);
+ }
+ 
+-static void *unw_hdr_alloc(unsigned long sz)
+-{
+-	return kmalloc(sz, GFP_KERNEL);
+-}
+-
+ static void init_unwind_table(struct unwind_table *table, const char *name,
+ 			      const void *core_start, unsigned long core_size,
+ 			      const void *init_start, unsigned long init_size,
+@@ -366,6 +361,10 @@ static void init_unwind_hdr(struct unwind_table *table,
+ }
+ 
+ #ifdef CONFIG_MODULES
++static void *unw_hdr_alloc(unsigned long sz)
++{
++	return kmalloc(sz, GFP_KERNEL);
++}
+ 
+ static struct unwind_table *last_table;
+ 
 -- 
-2.16.2
+2.20.0
