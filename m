@@ -1,32 +1,107 @@
-From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
-Date: Fri,  5 Jul 2019 19:24:09 +0300
-Subject: [PATCH] ARC: [plat-hsdk]: Enable AXI DW DMAC in defconfig
+From: anshuman.khandual@arm.com (Anshuman Khandual)
+Date: Mon, 8 Jul 2019 09:03:13 +0530
+Subject: [PATCH] mm/kprobes: Add generic kprobe_fault_handler() fallback
+ definition
+In-Reply-To: <20190705193028.f9e08fe9cf1ee86bc5c0bb82@kernel.org>
+References: <1562304629-29376-1-git-send-email-anshuman.khandual@arm.com>
+ <20190705193028.f9e08fe9cf1ee86bc5c0bb82@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190705162409.8916-1-Eugeniy.Paltsev@synopsys.com>
+Message-ID: <3aee1f30-241c-d1c2-2ff5-ff521db47755@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-For some reasons my previous patch "Enable AXI DW DMAC support"
-was applied only partially (only device tree part).
-So enable AXI DW DMAC in HSDK defconfig to be able to use it in
-verification flow.
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
----
- arch/arc/configs/hsdk_defconfig | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-index c8fb5d60c53f..85e7921e0628 100644
---- a/arch/arc/configs/hsdk_defconfig
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -66,6 +66,8 @@ CONFIG_MMC=y
- CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
- CONFIG_MMC_DW=y
-+CONFIG_DMADEVICES=y
-+CONFIG_DW_AXI_DMAC=y
- CONFIG_EXT3_FS=y
- CONFIG_VFAT_FS=y
- CONFIG_TMPFS=y
--- 
-2.21.0
+On 07/05/2019 04:00 PM, Masami Hiramatsu wrote:
+> Hi Anshuman,
+
+
+Hello Masami,
+
+> 
+> On Fri,  5 Jul 2019 11:00:29 +0530
+> Anshuman Khandual <anshuman.khandual@arm.com> wrote:
+> 
+>> Architectures like parisc enable CONFIG_KROBES without having a definition
+>> for kprobe_fault_handler() which results in a build failure.
+> 
+> Hmm, as far as I can see, kprobe_fault_handler() is closed inside each arch
+> specific code. The reason why include/linux/kprobes.h defines
+> dummy inline function is only for !CONFIG_KPROBES case.
+
+IIRC Andrew mentioned [1] that we should remove this stub from the generic kprobes
+header because this is very much architecture specific. As we see in this proposed
+patch, except x86 there is no other current user which actually calls this from
+some where when CONFIG_KPROBES is not enabled.
+
+[1] https://www.spinics.net/lists/linux-mm/msg182649.html
+> 
+>> Arch needs to
+>> provide kprobe_fault_handler() as it is platform specific and cannot have
+>> a generic working alternative. But in the event when platform lacks such a
+>> definition there needs to be a fallback.
+> 
+> Wait, indeed that each arch need to implement it, but that is for calling
+> kprobe->fault_handler() as user expected.
+> Hmm, why not fixing those architecture implementations?
+
+After the recent change which introduced a generic kprobe_page_fault() every
+architecture enabling CONFIG_KPROBES must have a kprobe_fault_handler() which
+was not the case earlier. Architectures like parisc which does enable KPROBES but
+never used (kprobe_page_fault or kprobe->fault_handler) kprobe_fault_handler() now
+needs one as well. I am not sure and will probably require inputs from arch parsic
+folks whether it at all needs one. We dont have a stub or fallback definition for
+kprobe_fault_handler() when CONFIG_KPROBES is enabled just to prevent a build
+failure in such cases.
+
+In such a situation it might be better defining a stub symbol fallback than to try
+to implement one definition which the architecture previously never needed or used.
+AFAICS there is no generic MM callers for kprobe_fault_handler() as well which would
+have made it mandatory for parisc to define a real one.
+
+> 
+>> This adds a stub kprobe_fault_handler() definition which not only prevents
+>> a build failure but also makes sure that kprobe_page_fault() if called will
+>> always return negative in absence of a sane platform specific alternative.
+> 
+> I don't like introducing this complicated macro only for avoiding (not fixing)
+> build error. To fix that, kprobes on parisc should implement kprobe_fault_handler
+> correctly (and call kprobe->fault_handler).
+
+As I mentioned before parsic might not need a real one. But you are right this
+complicated (if perceived as such) change can be just avoided at least for the
+build failure problem by just defining a stub definition kprobe_fault_handler()
+for arch parsic when CONFIG_KPROBES is enabled. But this patch does some more
+and solves the kprobe_fault_handler() symbol dependency in a more generic way and
+forces kprobe_page_fault() to fail in absence a real arch kprobe_fault_handler().
+Is not it worth solving in this way ?
+
+> 
+> BTW, even if you need such generic stub, please use a weak function instead
+> of macros for every arch headers.
+
+There is a bit problem with that. The existing definitions are with different
+signatures and an weak function will need them to be exact same for override
+requiring more code changes. Hence choose to go with a macro in each header.
+
+arch/arc/include/asm/kprobes.h:int kprobe_fault_handler(struct pt_regs *regs, unsigned long cause);
+arch/arm/include/asm/kprobes.h:int kprobe_fault_handler(struct pt_regs *regs, unsigned int fsr);
+arch/arm64/include/asm/kprobes.h:int kprobe_fault_handler(struct pt_regs *regs, unsigned int fsr);
+arch/ia64/include/asm/kprobes.h:extern int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
+arch/powerpc/include/asm/kprobes.h:extern int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
+arch/s390/include/asm/kprobes.h:int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
+arch/sh/include/asm/kprobes.h:extern int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
+arch/sparc/include/asm/kprobes.h:int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
+arch/x86/include/asm/kprobes.h:extern int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
+
+> 
+>> While here wrap kprobe_page_fault() in CONFIG_KPROBES. This enables stud
+>> definitions for generic kporbe_fault_handler() and kprobes_built_in() can
+>> just be dropped. Only on x86 it needs to be added back locally as it gets
+>> used in a !CONFIG_KPROBES function do_general_protection().
+> 
+> If you want to remove kprobes_built_in(), you should replace it with
+> IS_ENABLED(CONFIG_KPROBES), instead of this...
+
+Apart from kprobes_built_in() the intent was to remove !CONFIG_KPROBES
+stub for kprobe_fault_handler() as well which required making generic
+kprobe_page_fault() to be empty in such case.
