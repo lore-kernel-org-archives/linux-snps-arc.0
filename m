@@ -1,87 +1,82 @@
-From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Wed, 10 Jul 2019 12:09:01 +0900
-Subject: [PATCH] fixup! kbuild: remove obj and src from the top Makefile
+From: anshuman.khandual@arm.com (Anshuman Khandual)
+Date: Thu, 11 Jul 2019 15:28:07 +0530
+Subject: [PATCH] mm/kprobes: Add generic kprobe_fault_handler() fallback
+ definition
+In-Reply-To: <1562304629-29376-1-git-send-email-anshuman.khandual@arm.com>
+References: <1562304629-29376-1-git-send-email-anshuman.khandual@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190710030901.1836-1-yamada.masahiro@socionext.com>
+Message-ID: <542893ae-ed64-55b2-11ee-1f19710a25e4@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Merging today's kbuild tree would break arc, um, parisc.
-I just noticed it now. I will fix it soon for tomorrow's linux-next.
 
-If needed, this might be useful for today's linux-next.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro at socionext.com>
----
+On 07/05/2019 11:00 AM, Anshuman Khandual wrote:
+> Architectures like parisc enable CONFIG_KROBES without having a definition
+> for kprobe_fault_handler() which results in a build failure. Arch needs to
+> provide kprobe_fault_handler() as it is platform specific and cannot have
+> a generic working alternative. But in the event when platform lacks such a
+> definition there needs to be a fallback.
+> 
+> This adds a stub kprobe_fault_handler() definition which not only prevents
+> a build failure but also makes sure that kprobe_page_fault() if called will
+> always return negative in absence of a sane platform specific alternative.
+> 
+> While here wrap kprobe_page_fault() in CONFIG_KPROBES. This enables stud
+> definitions for generic kporbe_fault_handler() and kprobes_built_in() can
+> just be dropped. Only on x86 it needs to be added back locally as it gets
+> used in a !CONFIG_KPROBES function do_general_protection().
+> 
+> Cc: Vineet Gupta <vgupta at synopsys.com>
+> Cc: Russell King <linux at armlinux.org.uk>
+> Cc: Catalin Marinas <catalin.marinas at arm.com>
+> Cc: Will Deacon <will at kernel.org>
+> Cc: Tony Luck <tony.luck at intel.com>
+> Cc: Fenghua Yu <fenghua.yu at intel.com>
+> Cc: Ralf Baechle <ralf at linux-mips.org>
+> Cc: Paul Burton <paul.burton at mips.com>
+> Cc: James Hogan <jhogan at kernel.org>
+> Cc: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> Cc: Paul Mackerras <paulus at samba.org>
+> Cc: Michael Ellerman <mpe at ellerman.id.au>
+> Cc: Heiko Carstens <heiko.carstens at de.ibm.com>
+> Cc: Vasily Gorbik <gor at linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger at de.ibm.com>
+> Cc: Yoshinori Sato <ysato at users.sourceforge.jp>
+> Cc: Rich Felker <dalias at libc.org>
+> Cc: "David S. Miller" <davem at davemloft.net>
+> Cc: Thomas Gleixner <tglx at linutronix.de>
+> Cc: Ingo Molnar <mingo at redhat.com>
+> Cc: Borislav Petkov <bp at alien8.de>
+> Cc: "H. Peter Anvin" <hpa at zytor.com>
+> Cc: "Naveen N. Rao" <naveen.n.rao at linux.ibm.com>
+> Cc: Anil S Keshavamurthy <anil.s.keshavamurthy at intel.com>
+> Cc: Masami Hiramatsu <mhiramat at kernel.org>
+> Cc: Allison Randal <allison at lohutok.net>
+> Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+> Cc: Enrico Weigelt <info at metux.net>
+> Cc: Richard Fontana <rfontana at redhat.com>
+> Cc: Kate Stewart <kstewart at linuxfoundation.org>
+> Cc: Mark Rutland <mark.rutland at arm.com>
+> Cc: Andrew Morton <akpm at linux-foundation.org>
+> Cc: Guenter Roeck <linux at roeck-us.net>
+> Cc: x86 at kernel.org
+> Cc: linux-snps-arc at lists.infradead.org
+> Cc: linux-kernel at vger.kernel.org
+> Cc: linux-arm-kernel at lists.infradead.org
+> Cc: linux-ia64 at vger.kernel.org
+> Cc: linux-mips at vger.kernel.org
+> Cc: linuxppc-dev at lists.ozlabs.org
+> Cc: linux-s390 at vger.kernel.org
+> Cc: linux-sh at vger.kernel.org
+> Cc: sparclinux at vger.kernel.org
+> 
+> Signed-off-by: Anshuman Khandual <anshuman.khandual at arm.com>
+> ---
 
- arch/arc/Makefile    |  2 +-
- arch/parisc/Makefile | 12 ++++++------
- arch/um/Makefile     |  2 +-
- 3 files changed, 8 insertions(+), 8 deletions(-)
+Any updates or suggestions on this patch ? Currently there is a build failure on
+parisc architecture due to the lack of a kprobe_fault_handler() definition when
+CONFIG_KPROBES is enabled and this build failure needs to be fixed.
 
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 03a0b19c92cd..ee6d1184c2b1 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -19,7 +19,7 @@ ifdef CONFIG_ARC_CURR_IN_REG
- # any kernel headers, and missing the r25 global register
- # Can't do unconditionally because of recursive include issues
- # due to <linux/thread_info.h>
--LINUXINCLUDE	+=  -include ${src}/arch/arc/include/asm/current.h
-+LINUXINCLUDE	+=  -include $(srctree)/arch/arc/include/asm/current.h
- endif
- 
- cflags-y				+= -fsection-anchors
-diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
-index 58d46665cad9..8acb8fa1f8d6 100644
---- a/arch/parisc/Makefile
-+++ b/arch/parisc/Makefile
-@@ -120,8 +120,8 @@ PALO := $(shell if (which palo 2>&1); then : ; \
- 	elif [ -x /sbin/palo ]; then echo /sbin/palo; \
- 	fi)
- 
--PALOCONF := $(shell if [ -f $(src)/palo.conf ]; then echo $(src)/palo.conf; \
--	else echo $(obj)/palo.conf; \
-+PALOCONF := $(shell if [ -f $(srctree)/palo.conf ]; then echo $(srctree)/palo.conf; \
-+	else echo $(objtree)/palo.conf; \
- 	fi)
- 
- palo lifimage: vmlinuz
-@@ -131,8 +131,8 @@ palo lifimage: vmlinuz
- 		false; \
- 	fi
- 	@if test ! -f "$(PALOCONF)"; then \
--		cp $(src)/arch/parisc/defpalo.conf $(obj)/palo.conf; \
--		echo 'A generic palo config file ($(obj)/palo.conf) has been created for you.'; \
-+		cp $(srctree)/arch/parisc/defpalo.conf $(objtree)/palo.conf; \
-+		echo 'A generic palo config file ($(objree)/palo.conf) has been created for you.'; \
- 		echo 'You should check it and re-run "make palo".'; \
- 		echo 'WARNING: the "lifimage" file is now placed in this directory by default!'; \
- 		false; \
-@@ -162,10 +162,10 @@ vmlinuz: vmlinux
- endif
- 
- install:
--	$(CONFIG_SHELL) $(src)/arch/parisc/install.sh \
-+	$(CONFIG_SHELL) $(srctree)/arch/parisc/install.sh \
- 			$(KERNELRELEASE) vmlinux System.map "$(INSTALL_PATH)"
- zinstall:
--	$(CONFIG_SHELL) $(src)/arch/parisc/install.sh \
-+	$(CONFIG_SHELL) $(srctree)/arch/parisc/install.sh \
- 			$(KERNELRELEASE) vmlinuz System.map "$(INSTALL_PATH)"
- 
- CLEAN_FILES	+= lifimage
-diff --git a/arch/um/Makefile b/arch/um/Makefile
-index 273130cf91d1..d2daa206872d 100644
---- a/arch/um/Makefile
-+++ b/arch/um/Makefile
-@@ -73,7 +73,7 @@ KBUILD_AFLAGS += $(ARCH_INCLUDE)
- USER_CFLAGS = $(patsubst $(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
- 		$(ARCH_INCLUDE) $(MODE_INCLUDE) $(filter -I%,$(CFLAGS)) \
- 		-D_FILE_OFFSET_BITS=64 -idirafter $(srctree)/include \
--		-idirafter $(obj)/include -D__KERNEL__ -D__UM_HOST__
-+		-idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__
- 
- #This will adjust *FLAGS accordingly to the platform.
- include $(ARCH_DIR)/Makefile-os-$(OS)
--- 
-2.17.1
+This patch solves the build problem. But otherwise I am also happy to just define
+a stub definition for kprobe_fault_handler() on parisc arch when CONFIG_KPROBES
+is enabled, which will avoid the build failure. Please suggest.
