@@ -1,32 +1,21 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Tue, 16 Jul 2019 23:50:34 +0300
-Subject: [PATCH] ARCv2: Don't pretend we may set U & DE bits in STATUS32 with
- kflag
+From: pr-tracker-bot@kernel.org (pr-tracker-bot@kernel.org)
+Date: Tue, 16 Jul 2019 22:10:17 +0000
+Subject: [GIT PULL] ARC updates for 5.3-rc1
+In-Reply-To: <99fc2ead-d7d8-1c54-b493-02e79e2fc24e@synopsys.com>
+References: <99fc2ead-d7d8-1c54-b493-02e79e2fc24e@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190716205034.42466-1-abrodkin@synopsys.com>
+Message-ID: <156331501700.32356.12748239579521687506.pr-tracker-bot@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-As per PRM "kflag" instruction doesn't change state of
-DE-flag ("Delayed branch is pending") and U-flag ("User mode")
-in STATUS32 register so let's not act as if we can affect those bits.
+The pull request you sent on Tue, 16 Jul 2019 20:22:58 +0000:
 
-Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
----
- arch/arc/include/asm/entry-arcv2.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.3-rc1
 
-diff --git a/arch/arc/include/asm/entry-arcv2.h b/arch/arc/include/asm/entry-arcv2.h
-index 225e7df2d8ed..6558e2edb583 100644
---- a/arch/arc/include/asm/entry-arcv2.h
-+++ b/arch/arc/include/asm/entry-arcv2.h
-@@ -237,7 +237,7 @@
- 
- .macro FAKE_RET_FROM_EXCPN
- 	lr      r9, [status32]
--	bic     r9, r9, (STATUS_U_MASK|STATUS_DE_MASK|STATUS_AE_MASK)
-+	bic     r9, r9, STATUS_AE_MASK
- 	or      r9, r9, STATUS_IE_MASK
- 	kflag   r9
- .endm
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/3eb514866f20c5eb74637279774b6d73b855480a
+
+Thank you!
+
 -- 
-2.16.2
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
