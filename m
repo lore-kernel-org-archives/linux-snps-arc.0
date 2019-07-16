@@ -1,23 +1,32 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Tue, 16 Jul 2019 20:39:43 +0000
-Subject: [GIT PULL] ARC updates for 5.3-rc1
-In-Reply-To: <99fc2ead-d7d8-1c54-b493-02e79e2fc24e@synopsys.com>
-References: <99fc2ead-d7d8-1c54-b493-02e79e2fc24e@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Tue, 16 Jul 2019 23:50:34 +0300
+Subject: [PATCH] ARCv2: Don't pretend we may set U & DE bits in STATUS32 with
+ kflag
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <c370f648-b9f6-a845-d3cd-170fc3ae8c2f@synopsys.com>
+Message-ID: <20190716205034.42466-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 7/16/19 1:22 PM, Vineet Gupta wrote:
-> Hi Linus,
-> 
-> Bunch of changes for ARC, some long due, for the new release. Please pull.
-> 
-> Thx,
-> -Vineet
+As per PRM "kflag" instruction doesn't change state of
+DE-flag ("Delayed branch is pending") and U-flag ("User mode")
+in STATUS32 register so let's not act as if we can affect those bits.
 
-Sorry almost forgot, you would run into some merge conflict due to collisions
-between do_page_fault() rework and force_sig_fault() argument change, but should
-be easy to resolve. I'll give it all a spin once u merge it.
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ arch/arc/include/asm/entry-arcv2.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thx,
--Vineet
+diff --git a/arch/arc/include/asm/entry-arcv2.h b/arch/arc/include/asm/entry-arcv2.h
+index 225e7df2d8ed..6558e2edb583 100644
+--- a/arch/arc/include/asm/entry-arcv2.h
++++ b/arch/arc/include/asm/entry-arcv2.h
+@@ -237,7 +237,7 @@
+ 
+ .macro FAKE_RET_FROM_EXCPN
+ 	lr      r9, [status32]
+-	bic     r9, r9, (STATUS_U_MASK|STATUS_DE_MASK|STATUS_AE_MASK)
++	bic     r9, r9, STATUS_AE_MASK
+ 	or      r9, r9, STATUS_IE_MASK
+ 	kflag   r9
+ .endm
+-- 
+2.16.2
