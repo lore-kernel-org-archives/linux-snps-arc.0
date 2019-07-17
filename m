@@ -1,45 +1,65 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed, 17 Jul 2019 17:45:52 +0000
-Subject: [PATCH] ARC: ARCv2: jump label: implement jump label patching
-References: <20190614164049.31626-1-Eugeniy.Paltsev@synopsys.com>
- <C2D7FE5348E1B147BCA15975FBA2307501A252CCC3@us01wembx1.internal.synopsys.com>
- <57076361ad37f4fe7a5584643ae47adf30a99d35.camel@synopsys.com>
+Date: Wed, 17 Jul 2019 18:35:02 +0000
+Subject: [PATCH] ARCv2: Don't pretend we may set U & DE bits in STATUS32
+ with kflag
+References: <20190716205034.42466-1-abrodkin@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <BN6PR1201MB0035E304FF25609CBCACBD09B6C90@BN6PR1201MB0035.namprd12.prod.outlook.com>
+Message-ID: <BN6PR1201MB003505F72EBBE443FADBC23CB6C90@BN6PR1201MB0035.namprd12.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 7/17/19 8:09 AM, Eugeniy Paltsev wrote:
->>> +/* Halt system on fatal error to make debug easier */
->>> +#define arc_jl_fatal(format...)						\
->>> +({									\
->>> +	pr_err(JUMPLABEL_ERR format);					\
->>> +	BUG();								\
->> Does it make sense to bring down the whole system vs. failing and returning.
->> I see there is no error propagation to core code, but still.
-> I totally agree with Peter, and I prefer to stop the system on this errors. Here is few arguments:
-> All this checks can't be toggle in system operating normally and only may be caused by bad code generation (or some code/data corruption):
-> 1) We got our instruction to patch unaligned by 4 bytes (despite the fact that we used '.balign 4' to align it)
-> 2) We got branch offset unaligned (which means that we calculate it wrong at build time or corrupt it in run time)
-> 3) We got branch offset which not fits into s25. As this is offset inside one function (inside one 'if' statement actually) we newer get such huge
-> offset in real life if code generation is ok.
+On 7/16/19 1:51 PM, Alexey Brodkin wrote:
+> As per PRM "kflag" instruction doesn't change state of
+> DE-flag ("Delayed branch is pending") and U-flag ("User mode")
+> in STATUS32 register so let's not act as if we can affect those bits.
 
-I understand that. But AFAIKR in implementation arc_jl_fatal() gets called before
-we have done the actual code patching and/or flushing the caches to that effect.
-So harm has been done just yet. We just need to make sure that any book-keeping of
-true/false is not yet done or unrolled.
+I understand the motivation and indeed bits not writable by kflag should be
+removed. But what if we do need to clear those bits out from status32 (assuming
+they exist there in first place) and that kflag might not be the right instruction
+to do that.
+So the question to ask is do we need to clear U and DE bits from status32 and
+answer from reading the PRM is no, we don't have to, as those are cleared already
+when an exception is taken.
 
-> If we only warn to log and return we will face with compromised kernel flow later.
-> I.E. it could be 'if' statement in kernel text which is switched to wrong state: the condition is true but we take the false branch.
-> And It will be the issue which is much more difficult to debug.
+The likely reason this code is because back in arc700 days we used to have a
+different version of this macro which atleast in original code relied on using the
+pre-exception status32 (in pt_regs) - and that could easily have U and/or DE set
+based hence needed clearing.
+
+.macro FAKE_RET_FROM_EXCPN  reg
+
+    ld  \reg, [sp, PT_status32]
+    and \reg, \reg, ~(STATUS_U_MASK|STATUS_DE_MASK)
+    or  \reg, \reg, STATUS_L_MASK
+    sr  \reg, [erstatus]
+    mov \reg, 55f
+    sr  \reg, [eret]
+
+    rtie
+55:
+.endm
+
+This is not needed (even in arc700) if we are using the current "in-exception"
+status32 for doing the early return.
+
+Long story short, your patch is correct but we need to explain better why it is.
+I've applied it locally with slight tweak to changelog to that effect.
+
+
+> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+> ---
+>  arch/arc/include/asm/entry-arcv2.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Does it sound reasonably?
-
-I'm still not convinced that by hitting the _fatal() we are in some inconsistent
-state already. But if u feel strongly lets keep it.
-
->
-> If you really don't want to have BUG here, I can make it conditionally enabled
-
-Not a good idea. It is unconditionally present or not. Not something in between.
-
-> in depend on CONFIG_ARC_STATIC_KEYS_DEBUG as I want to have it enabled at least on ARC development platforms.
+> diff --git a/arch/arc/include/asm/entry-arcv2.h b/arch/arc/include/asm/entry-arcv2.h
+> index 225e7df2d8ed..6558e2edb583 100644
+> --- a/arch/arc/include/asm/entry-arcv2.h
+> +++ b/arch/arc/include/asm/entry-arcv2.h
+> @@ -237,7 +237,7 @@
+>  
+>  .macro FAKE_RET_FROM_EXCPN
+>  	lr      r9, [status32]
+> -	bic     r9, r9, (STATUS_U_MASK|STATUS_DE_MASK|STATUS_AE_MASK)
+> +	bic     r9, r9, STATUS_AE_MASK
+>  	or      r9, r9, STATUS_IE_MASK
+>  	kflag   r9
+>  .endm
