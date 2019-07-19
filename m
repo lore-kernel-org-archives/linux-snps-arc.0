@@ -1,183 +1,171 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Thu, 18 Jul 2019 20:51:23 +0000
-Subject: [PATCH v2 2/2] ARC: enable uboot support unconditionally
-In-Reply-To: <20190214150745.18773-3-Eugeniy.Paltsev@synopsys.com>
-References: <20190214150745.18773-1-Eugeniy.Paltsev@synopsys.com>
- <20190214150745.18773-3-Eugeniy.Paltsev@synopsys.com>
+From: Eugeniy.Paltsev@synopsys.com (Eugeniy Paltsev)
+Date: Fri, 19 Jul 2019 20:54:44 +0300
+Subject: [PATCH] ARC: [plat-hsdk]: allow to switch between AXI DMAC port
+ configurations
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CY4PR1201MB0120530B12273DDC5B06D823A1C80@CY4PR1201MB0120.namprd12.prod.outlook.com>
+Message-ID: <20190719175444.21809-1-Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Greg,
+We want to use DW AXI DMAC on HSDK board in our automated verification
+to test cache & dma kernel code changes. This is perfect candidate
+as we don't depend on any external peripherals like MMC card / USB
+storage / etc.
+To increase test coverage we want to test both options:
+ * DW AXI DMAC is connected through IOC port & dma direct ops used
+ * DW AXI DMAC is connected to DDR port & dma noncoherent ops used
 
-> -----Original Message-----
-> From: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> Sent: Thursday, February 14, 2019 6:08 PM
-> To: linux-snps-arc at lists.infradead.org; Vineet Gupta <vgupta at synopsys.com>
-> Cc: linux-kernel at vger.kernel.org; Alexey Brodkin <abrodkin at synopsys.com>; Corentin Labbe
-> <clabbe at baylibre.com>; khilman at baylibre.com; Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> Subject: [PATCH v2 2/2] ARC: enable uboot support unconditionally
-> 
-> After reworking U-boot args handling code and adding paranoid
-> arguments check we can eliminate CONFIG_ARC_UBOOT_SUPPORT and
-> enable uboot support unconditionally.
-> 
-> For JTAG case we can assume that core registers will come up
-> reset value of 0 or in worst case we rely on user passing
-> '-on=clear_regs' to Metaware debugger.
-> 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+Introduce 'arc_hsdk_axi_dmac_coherent' global variable which can be
+modified by debugger (same way as we patch 'ioc_enable') to switch
+between these options without recompiling the kernel.
+Depend on this value we tweak memory bridge configuration and
+"dma-coherent" DTS property of DW AXI DMAC.
 
-May we have this one back-ported to linux-4.19.y?
-
-It was initially applied to Linus' tree during 5.0 development
-cycle [1] but was never back-ported.
-
-Now w/o that patch in KernelCI we see boot failure on ARC HSDK
-board [2] as opposed to normally working later kernel versions.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=493a2f812446e92bcb1e69a77381b4d39808d730
-[2] https://storage.kernelci.org/stable/linux-4.19.y/v4.19.59/arc/hsdk_defconfig/gcc-8/lab-baylibre/boot-hsdk.txt
-
-Below is that same patch but rebased on linux-4.19 as in its pristine
-form it won't apply due to offset of one of hunks.
-
--Alexey
-
------------------------------------->8--------------------------------
->From 3e565355f6a2d1a82bc9ecd47a46d1fa3c0cd2c1 Mon Sep 17 00:00:00 2001
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Date: Thu, 14 Feb 2019 18:07:45 +0300
-Subject: [PATCH] ARC: enable uboot support unconditionally
-
-After reworking U-boot args handling code and adding paranoid
-arguments check we can eliminate CONFIG_ARC_UBOOT_SUPPORT and
-enable uboot support unconditionally.
-
-For JTAG case we can assume that core registers will come up
-reset value of 0 or in worst case we rely on user passing
-'-on=clear_regs' to Metaware debugger.
-
-Cc: stable at vger.kernel.org
-Tested-by: Corentin LABBE <clabbe at baylibre.com>
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
- arch/arc/Kconfig                        | 13 -------------
- arch/arc/configs/nps_defconfig          |  1 -
- arch/arc/configs/vdk_hs38_defconfig     |  1 -
- arch/arc/configs/vdk_hs38_smp_defconfig |  2 --
- arch/arc/kernel/head.S                  |  2 --
- arch/arc/kernel/setup.c                 |  2 --
- 6 files changed, 21 deletions(-)
+ arch/arc/boot/dts/Makefile    |  3 ++
+ arch/arc/plat-hsdk/platform.c | 87 ++++++++++++++++++++++++++++++-----
+ 2 files changed, 78 insertions(+), 12 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 85eb7fc2e241..97b45fe8f0c2 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -199,7 +199,6 @@ config NR_CPUS
+diff --git a/arch/arc/boot/dts/Makefile b/arch/arc/boot/dts/Makefile
+index a83c4f5e928b..8483a86c743d 100644
+--- a/arch/arc/boot/dts/Makefile
++++ b/arch/arc/boot/dts/Makefile
+@@ -12,3 +12,6 @@ dtb-y := $(builtindtb-y).dtb
+ # for CONFIG_OF_ALL_DTBS test
+ dtstree	:= $(srctree)/$(src)
+ dtb-	:= $(patsubst $(dtstree)/%.dts,%.dtb, $(wildcard $(dtstree)/*.dts))
++
++# board-specific dtc flags
++DTC_FLAGS_hsdk += --pad 20
+diff --git a/arch/arc/plat-hsdk/platform.c b/arch/arc/plat-hsdk/platform.c
+index 7dd2dd335cf6..ab8f93e7468e 100644
+--- a/arch/arc/plat-hsdk/platform.c
++++ b/arch/arc/plat-hsdk/platform.c
+@@ -6,11 +6,15 @@
+  */
  
- config ARC_SMP_HALT_ON_RESET
- 	bool "Enable Halt-on-reset boot mode"
--	default y if ARC_UBOOT_SUPPORT
- 	help
- 	  In SMP configuration cores can be configured as Halt-on-reset
- 	  or they could all start at same time. For Halt-on-reset, non
-@@ -538,18 +537,6 @@ config ARC_DBG_TLB_PARANOIA
+ #include <linux/init.h>
++#include <linux/of_fdt.h>
++#include <linux/libfdt.h>
+ #include <linux/smp.h>
+ #include <asm/arcregs.h>
+ #include <asm/io.h>
+ #include <asm/mach_desc.h>
  
- endif
++int arc_hsdk_axi_dmac_coherent = 0;
++
+ #define ARC_CCM_UNUSED_ADDR	0x60000000
  
--config ARC_UBOOT_SUPPORT
--	bool "Support uboot arg Handling"
--	default n
--	help
--	  ARC Linux by default checks for uboot provided args as pointers to
--	  external cmdline or DTB. This however breaks in absence of uboot,
--	  when booting from Metaware debugger directly, as the registers are
--	  not zeroed out on reset by mdb and/or ARCv2 based cores. The bogus
--	  registers look like uboot args to kernel which then chokes.
--	  So only enable the uboot arg checking/processing if users are sure
--	  of uboot being in play.
+ static void __init hsdk_init_per_cpu(unsigned int cpu)
+@@ -97,6 +101,42 @@ static void __init hsdk_enable_gpio_intc_wire(void)
+ 	iowrite32(GPIO_INT_CONNECTED_MASK, (void __iomem *) GPIO_INTEN);
+ }
+ 
++static int hsdk_tweak_node_coherency(const char *path, bool coherent)
++{
++	void *fdt = initial_boot_params;
++	const void *prop;
++	int node, ret;
++	bool dt_coh_set;
++
++	node = fdt_path_offset(fdt, path);
++	if (node < 0)
++		goto tweak_fail;
++
++	prop = fdt_getprop(fdt, node, "dma-coherent", &ret);
++	if (!prop && ret != -FDT_ERR_NOTFOUND)
++		goto tweak_fail;
++
++	dt_coh_set = ret != -FDT_ERR_NOTFOUND;
++	ret = 0;
++
++	/* need to remove "dma-coherent" property */
++	if (dt_coh_set && !coherent)
++		ret = fdt_delprop(fdt, node, "dma-coherent");
++
++	/* need to set "dma-coherent" property */
++	if (!dt_coh_set && coherent)
++		ret = fdt_setprop(fdt, node, "dma-coherent", NULL, 0);
++
++	if (ret < 0)
++		goto tweak_fail;
++
++	return 0;
++
++tweak_fail:
++	pr_err("failed to tweak %s to %scoherent\n", path, coherent ? "" : "non");
++	return -EFAULT;
++}
++
+ enum hsdk_axi_masters {
+ 	M_HS_CORE = 0,
+ 	M_HS_RTT,
+@@ -162,6 +202,39 @@ enum hsdk_axi_masters {
+ #define CREG_PAE		((void __iomem *)(CREG_BASE + 0x180))
+ #define CREG_PAE_UPDT		((void __iomem *)(CREG_BASE + 0x194))
+ 
++static void __init hsdk_init_memory_bridge_axi_dmac(void)
++{
++	bool coherent = !!arc_hsdk_axi_dmac_coherent;
++	u32 axi_m_slv1, axi_m_oft1;
++
++	/*
++	 * Don't tweak memory bridge configuration we we failed to tweak DTB
++	 * as we will end up in a inconsistent state.
++	 */
++	if (hsdk_tweak_node_coherency("/soc/dmac at 80000", coherent))
++		return;
++
++	if (coherent) {
++		axi_m_slv1 = 0x77999999;
++		axi_m_oft1 = 0x76DCBA98;
++	} else {
++		axi_m_slv1 = 0x77777777;
++		axi_m_oft1 = 0x76543210;
++	}
++
++	writel(0x77777777, CREG_AXI_M_SLV0(M_DMAC_0));
++	writel(0xFEDCBA98, CREG_AXI_M_OFT0(M_DMAC_0));
++	writel(axi_m_slv1, CREG_AXI_M_SLV1(M_DMAC_0));
++	writel(axi_m_oft1, CREG_AXI_M_OFT1(M_DMAC_0));
++	writel(UPDATE_VAL, CREG_AXI_M_UPDT(M_DMAC_0));
++
++	writel(0x77777777, CREG_AXI_M_SLV0(M_DMAC_1));
++	writel(0xFEDCBA98, CREG_AXI_M_OFT0(M_DMAC_1));
++	writel(axi_m_slv1, CREG_AXI_M_SLV1(M_DMAC_1));
++	writel(axi_m_oft1, CREG_AXI_M_OFT1(M_DMAC_1));
++	writel(UPDATE_VAL, CREG_AXI_M_UPDT(M_DMAC_1));
++}
++
+ static void __init hsdk_init_memory_bridge(void)
+ {
+ 	u32 reg;
+@@ -227,24 +300,14 @@ static void __init hsdk_init_memory_bridge(void)
+ 	writel(0x76543210, CREG_AXI_M_OFT1(M_GPU));
+ 	writel(UPDATE_VAL, CREG_AXI_M_UPDT(M_GPU));
+ 
+-	writel(0x77777777, CREG_AXI_M_SLV0(M_DMAC_0));
+-	writel(0x77777777, CREG_AXI_M_SLV1(M_DMAC_0));
+-	writel(0xFEDCBA98, CREG_AXI_M_OFT0(M_DMAC_0));
+-	writel(0x76543210, CREG_AXI_M_OFT1(M_DMAC_0));
+-	writel(UPDATE_VAL, CREG_AXI_M_UPDT(M_DMAC_0));
 -
- config ARC_BUILTIN_DTB_NAME
- 	string "Built in DTB"
- 	help
-diff --git a/arch/arc/configs/nps_defconfig b/arch/arc/configs/nps_defconfig
-index 6e84060e7c90..621f59407d76 100644
---- a/arch/arc/configs/nps_defconfig
-+++ b/arch/arc/configs/nps_defconfig
-@@ -31,7 +31,6 @@ CONFIG_ARC_CACHE_LINE_SHIFT=5
- # CONFIG_ARC_HAS_LLSC is not set
- CONFIG_ARC_KVADDR_SIZE=402
- CONFIG_ARC_EMUL_UNALIGNED=y
--CONFIG_ARC_UBOOT_SUPPORT=y
- CONFIG_PREEMPT=y
- CONFIG_NET=y
- CONFIG_UNIX=y
-diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
-index 1e59a2e9c602..e447ace6fa1c 100644
---- a/arch/arc/configs/vdk_hs38_defconfig
-+++ b/arch/arc/configs/vdk_hs38_defconfig
-@@ -13,7 +13,6 @@ CONFIG_PARTITION_ADVANCED=y
- CONFIG_ARC_PLAT_AXS10X=y
- CONFIG_AXS103=y
- CONFIG_ISA_ARCV2=y
--CONFIG_ARC_UBOOT_SUPPORT=y
- CONFIG_ARC_BUILTIN_DTB_NAME="vdk_hs38"
- CONFIG_PREEMPT=y
- CONFIG_NET=y
-diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
-index b5c3f6c54b03..c82cdb10aaf4 100644
---- a/arch/arc/configs/vdk_hs38_smp_defconfig
-+++ b/arch/arc/configs/vdk_hs38_smp_defconfig
-@@ -15,8 +15,6 @@ CONFIG_AXS103=y
- CONFIG_ISA_ARCV2=y
- CONFIG_SMP=y
- # CONFIG_ARC_TIMERS_64BIT is not set
--# CONFIG_ARC_SMP_HALT_ON_RESET is not set
--CONFIG_ARC_UBOOT_SUPPORT=y
- CONFIG_ARC_BUILTIN_DTB_NAME="vdk_hs38_smp"
- CONFIG_PREEMPT=y
- CONFIG_NET=y
-diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
-index 208bf2c9e7b0..a72bbda2f7aa 100644
---- a/arch/arc/kernel/head.S
-+++ b/arch/arc/kernel/head.S
-@@ -100,7 +100,6 @@ ENTRY(stext)
- 	st.ab   0, [r5, 4]
- 1:
+-	writel(0x77777777, CREG_AXI_M_SLV0(M_DMAC_1));
+-	writel(0x77777777, CREG_AXI_M_SLV1(M_DMAC_1));
+-	writel(0xFEDCBA98, CREG_AXI_M_OFT0(M_DMAC_1));
+-	writel(0x76543210, CREG_AXI_M_OFT1(M_DMAC_1));
+-	writel(UPDATE_VAL, CREG_AXI_M_UPDT(M_DMAC_1));
+-
+ 	writel(0x00000000, CREG_AXI_M_SLV0(M_DVFS));
+ 	writel(0x60000000, CREG_AXI_M_SLV1(M_DVFS));
+ 	writel(0x00000000, CREG_AXI_M_OFT0(M_DVFS));
+ 	writel(0x00000000, CREG_AXI_M_OFT1(M_DVFS));
+ 	writel(UPDATE_VAL, CREG_AXI_M_UPDT(M_DVFS));
  
--#ifdef CONFIG_ARC_UBOOT_SUPPORT
- 	; Uboot - kernel ABI
- 	;    r0 = [0] No uboot interaction, [1] cmdline in r2, [2] DTB in r2
- 	;    r1 = magic number (always zero as of now)
-@@ -109,7 +108,6 @@ ENTRY(stext)
- 	st	r0, [@uboot_tag]
- 	st      r1, [@uboot_magic]
- 	st	r2, [@uboot_arg]
--#endif
- 
- 	; setup "current" tsk and optionally cache it in dedicated r25
- 	mov	r9, @init_task
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index a1218937abd6..89c97dcfa360 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -493,7 +493,6 @@ void __init handle_uboot_args(void)
- 	bool use_embedded_dtb = true;
- 	bool append_cmdline = false;
- 
--#ifdef CONFIG_ARC_UBOOT_SUPPORT
- 	/* check that we know this tag */
- 	if (uboot_tag != UBOOT_TAG_NONE &&
- 	    uboot_tag != UBOOT_TAG_CMDLINE &&
-@@ -525,7 +524,6 @@ void __init handle_uboot_args(void)
- 		append_cmdline = true;
- 
- ignore_uboot_args:
--#endif
- 
- 	if (use_embedded_dtb) {
- 		machine_desc = setup_machine_fdt(__dtb_start);
++	hsdk_init_memory_bridge_axi_dmac();
++
+ 	/*
+ 	 * PAE remapping for DMA clients does not work due to an RTL bug, so
+ 	 * CREG_PAE register must be programmed to all zeroes, otherwise it
 -- 
-2.16.2
+2.21.0
