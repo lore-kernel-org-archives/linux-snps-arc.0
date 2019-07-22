@@ -1,37 +1,39 @@
-From: steven.price@arm.com (Steven Price)
-Date: Mon, 22 Jul 2019 16:41:50 +0100
-Subject: [PATCH v9 01/21] arc: mm: Add p?d_leaf() definitions
-In-Reply-To: <20190722154210.42799-1-steven.price@arm.com>
-References: <20190722154210.42799-1-steven.price@arm.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 22 Jul 2019 18:42:38 +0000
+Subject: [PATCH v2] ARC: [plat-hsdk]: allow to switch between AXI DMAC
+ port configurations
+In-Reply-To: <20190722093145.4626-1-Eugeniy.Paltsev@synopsys.com>
+References: <20190722093145.4626-1-Eugeniy.Paltsev@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190722154210.42799-2-steven.price@arm.com>
+Message-ID: <CY4PR1201MB012020E6C3416DC9F4A5AF19A1C40@CY4PR1201MB0120.namprd12.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-walk_page_range() is going to be allowed to walk page tables other than
-those of user space. For this it needs to know when it has reached a
-'leaf' entry in the page tables. This information will be provided by the
-p?d_leaf() functions/macros.
+Hi Eugeniy,
 
-For arc, we only have two levels, so only pmd_leaf() is needed.
+> -----Original Message-----
+> From: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+> Sent: Monday, July 22, 2019 12:32 PM
+> To: linux-snps-arc at lists.infradead.org; Vineet Gupta <vgupta at synopsys.com>
+> Cc: linux-kernel at vger.kernel.org; Alexey Brodkin <abrodkin at synopsys.com>; Eugeniy Paltsev
+> <Eugeniy.Paltsev at synopsys.com>
+> Subject: [PATCH v2] ARC: [plat-hsdk]: allow to switch between AXI DMAC port configurations
+> 
+> We want to use DW AXI DMAC on HSDK board in our automated verification
+> to test cache & dma kernel code changes. This is perfect candidate
+> as we don't depend on any external peripherals like MMC card / USB
+> storage / etc.
+> To increase test coverage we want to test both options:
+>  * DW AXI DMAC is connected through IOC port & dma direct ops used
+>  * DW AXI DMAC is connected to DDR port & dma noncoherent ops used
+> 
+> Introduce 'arc_hsdk_axi_dmac_coherent' global variable which can be
+> modified by debugger (same way as we patch 'ioc_enable') to switch
+> between these options without recompiling the kernel.
+> Depend on this value we tweak memory bridge configuration and
+> "dma-coherent" DTS property of DW AXI DMAC.
 
-CC: Vineet Gupta <vgupta at synopsys.com>
-CC: linux-snps-arc at lists.infradead.org
-Signed-off-by: Steven Price <steven.price at arm.com>
----
- arch/arc/include/asm/pgtable.h | 1 +
- 1 file changed, 1 insertion(+)
+Looks good to me.
 
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index 1d87c18a2976..8c425cf796db 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -274,6 +274,7 @@ static inline void pmd_set(pmd_t *pmdp, pte_t *ptep)
- #define pmd_none(x)			(!pmd_val(x))
- #define	pmd_bad(x)			((pmd_val(x) & ~PAGE_MASK))
- #define pmd_present(x)			(pmd_val(x))
-+#define pmd_leaf(x)			(pmd_val(pmd) & _PAGE_HW_SZ)
- #define pmd_clear(xp)			do { pmd_val(*(xp)) = 0; } while (0)
- 
- #define pte_page(pte)		pfn_to_page(pte_pfn(pte))
--- 
-2.20.1
+Acked-by: Alexey Brodkin <abrodkin at synopsys.com>
+
+-Thanks
