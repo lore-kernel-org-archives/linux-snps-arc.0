@@ -1,65 +1,43 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Mon, 5 Aug 2019 13:17:02 +0200
-Subject: [PATCH v2 2/2] ARC: enable uboot support unconditionally
-In-Reply-To: <CY4PR1201MB01209C2D14AEE1A81164FE99A1D90@CY4PR1201MB0120.namprd12.prod.outlook.com>
-References: <20190214150745.18773-1-Eugeniy.Paltsev@synopsys.com>
- <20190214150745.18773-3-Eugeniy.Paltsev@synopsys.com>
- <CY4PR1201MB0120530B12273DDC5B06D823A1C80@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <20190802074053.GE26174@kroah.com>
- <CY4PR1201MB01209C2D14AEE1A81164FE99A1D90@CY4PR1201MB0120.namprd12.prod.outlook.com>
+From: gustavo@embeddedor.com (Gustavo A. R. Silva)
+Date: Mon, 5 Aug 2019 14:32:32 -0500
+Subject: [PATCH] ARC: unwind: Mark expected switch fall-throughs
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190805111702.GA8189@kroah.com>
+Message-ID: <20190805193232.GA12826@embeddedor>
 To: linux-snps-arc@lists.infradead.org
 
-On Fri, Aug 02, 2019@04:25:39PM +0000, Alexey Brodkin wrote:
-> Hi Greg,
-> 
-> > > May we have this one back-ported to linux-4.19.y?
-> > >
-> > > It was initially applied to Linus' tree during 5.0 development
-> > > cycle [1] but was never back-ported.
-> > >
-> > > Now w/o that patch in KernelCI we see boot failure on ARC HSDK
-> > > board [2] as opposed to normally working later kernel versions.
-> > >
-> > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=493a2f812446e92bcb1e69a77381b4d39808d730
-> > > [2] https://storage.kernelci.org/stable/linux-4.19.y/v4.19.59/arc/hsdk_defconfig/gcc-8/lab-baylibre/boot-hsdk.txt
-> > >
-> > > Below is that same patch but rebased on linux-4.19 as in its pristine
-> > > form it won't apply due to offset of one of hunks.
-> > 
-> > Why is this patch ok for stable kernel trees?  Are you not removing
-> > existing support in 4.19 for a feature that people might be using there?
-> > What bug is this fixing that requires this removal?
-> 
-> This patch removes a Kconfig option in a trade for properly working
-> detection of arguments passed from U-Boot.
-> 
-> Back in the day [3] we had to add that option to get kernel reliably working
-> in use-cases w/o U-Boot (those were typically loading kernel image via JTAG).
-> But with a couple of fixes applied to linux-4.19.y already we no longer need
-> that explicit toggle as we may rely on data passed via dedicated registers
-> and thus automatically know if there was U-Boot which passed some info to
-> the kernel or there was no U-Boot and we don't need to mess with garbage in
-> those registers.
-> 
-> Main reason is to make vanilla 4.19.y kernels usable on HSDK board in KernelCI
-> environment. Now they don't boot, see [2] as in HSDK's defconfig ARC_UBOOT_SUPPORT
-> is not set. So we have 2 solutions:
-> 
-> 1. Add ARC_UBOOT_SUPPORT to arch/arc/configs/hsdk_defconfig
->    But we cannot do it for vanilla kernel because we simply cannot even submit that
->    change to the Linus' tree as that Kconfig option was removed.
->    Which means we cannot back-port it, right :)
-> 
-> 2. Back-port proposed patch which already exists in the Linus'tree and thus is
->    perfectly back-portable.
-> 
-> Makes sense?
+Mark switch cases where we are expecting to fall through.
 
-Ok, it's your arch, you get to deal with the angry users if you have any
-:)
+This patch fixes the following warnings (Building: haps_hs_defconfig arc):
 
-now queued up.
+arch/arc/kernel/unwind.c:827:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
+arch/arc/kernel/unwind.c:836:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
 
-greg k-h
+Signed-off-by: Gustavo A. R. Silva <gustavo at embeddedor.com>
+---
+ arch/arc/kernel/unwind.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
+index c2663fce7f6c..445e4d702f43 100644
+--- a/arch/arc/kernel/unwind.c
++++ b/arch/arc/kernel/unwind.c
+@@ -826,7 +826,7 @@ static int processCFI(const u8 *start, const u8 *end, unsigned long targetLoc,
+ 			case DW_CFA_def_cfa:
+ 				state->cfa.reg = get_uleb128(&ptr.p8, end);
+ 				unw_debug("cfa_def_cfa: r%lu ", state->cfa.reg);
+-				/*nobreak*/
++				/* fall through */
+ 			case DW_CFA_def_cfa_offset:
+ 				state->cfa.offs = get_uleb128(&ptr.p8, end);
+ 				unw_debug("cfa_def_cfa_offset: 0x%lx ",
+@@ -834,7 +834,7 @@ static int processCFI(const u8 *start, const u8 *end, unsigned long targetLoc,
+ 				break;
+ 			case DW_CFA_def_cfa_sf:
+ 				state->cfa.reg = get_uleb128(&ptr.p8, end);
+-				/*nobreak */
++				/* fall through */
+ 			case DW_CFA_def_cfa_offset_sf:
+ 				state->cfa.offs = get_sleb128(&ptr.p8, end)
+ 				    * state->dataAlign;
+-- 
+2.22.0
