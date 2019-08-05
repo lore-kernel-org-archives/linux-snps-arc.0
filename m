@@ -1,23 +1,55 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Mon, 05 Aug 2019 19:34:13 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Tue Aug 06, 05:33
+From: keescook@chromium.org (Kees Cook)
+Date: Mon, 5 Aug 2019 13:18:14 -0700
+Subject: [PATCH] ARC: unwind: Mark expected switch fall-throughs
+In-Reply-To: <20190805193232.GA12826@embeddedor>
+References: <20190805193232.GA12826@embeddedor>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190805193413.1.22157@78c6c811cd18>
+Message-ID: <201908051318.5B1EB8106@keescook>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Tue Aug 06, 05:33
+On Mon, Aug 05, 2019@02:32:32PM -0500, Gustavo A. R. Silva wrote:
+> Mark switch cases where we are expecting to fall through.
+> 
+> This patch fixes the following warnings (Building: haps_hs_defconfig arc):
+> 
+> arch/arc/kernel/unwind.c:827:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
+> arch/arc/kernel/unwind.c:836:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavo at embeddedor.com>
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13907656/
+Reviewed-by: Kees Cook <keescook at chromium.org>
 
-Commit:   Merge tag 'tpmdd-next-20190805' of git://git.infradead.org/users/jjs/linux-tpmdd
-          a6831a89bcaf351cf41b3a5922640c89beaaf9eb
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+-Kees
 
-No errors found in log
+> ---
+>  arch/arc/kernel/unwind.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
+> index c2663fce7f6c..445e4d702f43 100644
+> --- a/arch/arc/kernel/unwind.c
+> +++ b/arch/arc/kernel/unwind.c
+> @@ -826,7 +826,7 @@ static int processCFI(const u8 *start, const u8 *end, unsigned long targetLoc,
+>  			case DW_CFA_def_cfa:
+>  				state->cfa.reg = get_uleb128(&ptr.p8, end);
+>  				unw_debug("cfa_def_cfa: r%lu ", state->cfa.reg);
+> -				/*nobreak*/
+> +				/* fall through */
+>  			case DW_CFA_def_cfa_offset:
+>  				state->cfa.offs = get_uleb128(&ptr.p8, end);
+>  				unw_debug("cfa_def_cfa_offset: 0x%lx ",
+> @@ -834,7 +834,7 @@ static int processCFI(const u8 *start, const u8 *end, unsigned long targetLoc,
+>  				break;
+>  			case DW_CFA_def_cfa_sf:
+>  				state->cfa.reg = get_uleb128(&ptr.p8, end);
+> -				/*nobreak */
+> +				/* fall through */
+>  			case DW_CFA_def_cfa_offset_sf:
+>  				state->cfa.offs = get_sleb128(&ptr.p8, end)
+>  				    * state->dataAlign;
+> -- 
+> 2.22.0
+> 
 
-Possible warnings (3)
-----------------------
-
-<stdin>:1511:2: warning: #warning syscall clone3 not implemented [-Wcpp]
-net/xfrm/xfrm_policy.c:3494:15: warning: array subscript is above array bounds [-Warray-bounds]
-net/ipv4/tcp_input.c:4341:49: warning: array subscript is above array bounds [-Warray-bounds]
+-- 
+Kees Cook
