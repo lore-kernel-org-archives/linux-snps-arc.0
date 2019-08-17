@@ -1,23 +1,25 @@
-From: robh@kernel.org (Rob Herring)
-Date: Fri, 16 Aug 2019 16:05:38 -0500
-Subject: [PATCH v2 3/3] dt-bindings: IDU-intc: Add support for
- edge-triggered interrupts
-In-Reply-To: <20190724120436.8537-3-mischa.jonker@synopsys.com>
-References: <CY4PR1201MB0120EDD4173511912A9FC99EA1C60@CYPR1201MB0120.namprd12.prod.outlook.com>
- <20190724120436.8537-1-mischa.jonker@synopsys.com>
- <20190724120436.8537-3-mischa.jonker@synopsys.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 17 Aug 2019 09:32:27 +0200
+Subject: generic ioremap (and lots of cleanups)
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190816210538.GA30424@bogus>
+Message-ID: <20190817073253.27819-1-hch@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, 24 Jul 2019 14:04:36 +0200, Mischa Jonker wrote:
-> This updates the documentation for supporting an optional extra interrupt
-> cell to specify edge vs level triggered.
-> 
-> Signed-off-by: Mischa Jonker <mischa.jonker at synopsys.com>
-> ---
->  .../interrupt-controller/snps,archs-idu-intc.txt      | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
-> 
+Hi all,
 
-Reviewed-by: Rob Herring <robh at kernel.org>
+the last patches in this series add a generic ioremap implementation,
+and switch our 3 most recent and thus most tidy architeture ports over
+to use it.  With a little work and an additional arch hook or two the
+implementation should be able to eventually cover more than half of
+our ports.
+
+The patches before that clean up various lose ends in the ioremap
+and iounmap implementations.
+
+A git tree is also available here:
+
+    git://git.infradead.org/users/hch/misc.git generic-ioremap
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/generic-ioremap
