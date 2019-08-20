@@ -1,39 +1,75 @@
 From: yamada.masahiro@socionext.com (Masahiro Yamada)
-Date: Wed, 21 Aug 2019 02:09:39 +0900
-Subject: [PATCH 1/3] init/Kconfig: rework help of CONFIG_CC_OPTIMIZE_FOR_SIZE
+Date: Wed, 21 Aug 2019 02:09:41 +0900
+Subject: [PATCH 3/3] kbuild: remove ARCH_{CPP,A,C}FLAGS
+In-Reply-To: <20190820170941.26193-1-yamada.masahiro@socionext.com>
+References: <20190820170941.26193-1-yamada.masahiro@socionext.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190820170941.26193-1-yamada.masahiro@socionext.com>
+Message-ID: <20190820170941.26193-3-yamada.masahiro@socionext.com>
 To: linux-snps-arc@lists.infradead.org
 
-CONFIG_CC_OPTIMIZE_FOR_SIZE was originally an independent boolean
-option, but commit 877417e6ffb9 ("Kbuild: change CC_OPTIMIZE_FOR_SIZE
-definition") turned it into a choice between _PERFORMANCE and _SIZE.
+These flags were added by commit 61754c18752f ("kbuild: Allow arch
+Makefiles to override {cpp,ld,c}flags") to allow ARC to override -O2.
 
-The phrase "If unsure, say N." sounds like an independent option.
-Reword the help text to make it appropriate for the choice menu.
+We did not see any other usage after all. Now that ARC switched to
+CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3, there is no more user of
+these variables.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro at socionext.com>
 ---
 
- init/Kconfig | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ Documentation/kbuild/makefiles.rst |  7 -------
+ Makefile                           | 14 ++++----------
+ 2 files changed, 4 insertions(+), 17 deletions(-)
 
-diff --git a/init/Kconfig b/init/Kconfig
-index bf971b5c707d..149efd82447f 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1219,10 +1219,8 @@ config CC_OPTIMIZE_FOR_SIZE
- 	bool "Optimize for size"
- 	imply CC_DISABLE_WARN_MAYBE_UNINITIALIZED  # avoid false positives
- 	help
--	  Enabling this option will pass "-Os" instead of "-O2" to
--	  your compiler resulting in a smaller kernel.
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 36ba92e199d2..712cdbcdbe91 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -988,13 +988,6 @@ When kbuild executes, the following steps are followed (roughly):
+ 	$(KBUILD_ARFLAGS) set by the top level Makefile to "D" (deterministic
+ 	mode) if this option is supported by $(AR).
+ 
+-    ARCH_CPPFLAGS, ARCH_AFLAGS, ARCH_CFLAGS   Overrides the kbuild defaults
 -
--	  If unsure, say N.
-+	  Choosing this option will pass "-Os" to your compiler resulting
-+	  in a smaller kernel.
+-	These variables are appended to the KBUILD_CPPFLAGS,
+-	KBUILD_AFLAGS, and KBUILD_CFLAGS, respectively, after the
+-	top-level Makefile has set any other flags. This provides a
+-	means for an architecture to override the defaults.
+-
+     KBUILD_LDS
  
- endchoice
+ 	The linker script with full path. Assigned by the top-level Makefile.
+diff --git a/Makefile b/Makefile
+index 891e47da503f..6551f136afb0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -661,11 +661,6 @@ RETPOLINE_VDSO_CFLAGS := $(call cc-option,$(RETPOLINE_VDSO_CFLAGS_GCC),$(call cc
+ export RETPOLINE_CFLAGS
+ export RETPOLINE_VDSO_CFLAGS
  
+-# The arch Makefile can set ARCH_{CPP,A,C}FLAGS to override the default
+-# values of the respective KBUILD_* variables
+-ARCH_CPPFLAGS :=
+-ARCH_AFLAGS :=
+-ARCH_CFLAGS :=
+ include arch/$(SRCARCH)/Makefile
+ 
+ ifdef need-config
+@@ -918,11 +913,10 @@ include scripts/Makefile.kasan
+ include scripts/Makefile.extrawarn
+ include scripts/Makefile.ubsan
+ 
+-# Add any arch overrides and user supplied CPPFLAGS, AFLAGS and CFLAGS as the
+-# last assignments
+-KBUILD_CPPFLAGS += $(ARCH_CPPFLAGS) $(KCPPFLAGS)
+-KBUILD_AFLAGS   += $(ARCH_AFLAGS)   $(KAFLAGS)
+-KBUILD_CFLAGS   += $(ARCH_CFLAGS)   $(KCFLAGS)
++# Add user supplied CPPFLAGS, AFLAGS and CFLAGS as the last assignments
++KBUILD_CPPFLAGS += $(KCPPFLAGS)
++KBUILD_AFLAGS   += $(KAFLAGS)
++KBUILD_CFLAGS   += $(KCFLAGS)
+ 
+ KBUILD_LDFLAGS_MODULE += --build-id
+ LDFLAGS_vmlinux += --build-id
 -- 
 2.17.1
