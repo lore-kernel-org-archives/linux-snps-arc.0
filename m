@@ -1,65 +1,78 @@
-From: gustavo@embeddedor.com (Gustavo A. R. Silva)
-Date: Wed, 28 Aug 2019 20:47:33 -0500
-Subject: [PATCH] ARC: unwind: Mark expected switch fall-through
-In-Reply-To: <20190821012907.GA29165@embeddedor>
-References: <20190821012907.GA29165@embeddedor>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Thu, 29 Aug 2019 11:38:39 +0300
+Subject: [PATCH] arc: emsdp: Add initialization of PSRAM
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <2c3ef09b-bd07-6caf-05a9-908700a60afd@embeddedor.com>
+Message-ID: <20190829083839.15515-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+If the "Page Mode" is not enabled on the device,
+read operations from PSRAM may result in incorrect data.
 
-Friendly ping:
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ board/synopsys/emsdp/emsdp.c | 37 +++++++++++++++++++++++++++++++++++++
+ configs/emsdp_defconfig      |  1 +
+ 2 files changed, 38 insertions(+)
 
-Who can take this, please?
-
-Thanks
---
-Gustavo
-
-On 8/20/19 8:29 PM, Gustavo A. R. Silva wrote:
-> Mark switch cases where we are expecting to fall through.
-> 
-> This patch fixes the following warnings (Building: haps_hs_defconfig arc):
-> 
-> arch/arc/kernel/unwind.c: In function ?read_pointer?:
-> ./include/linux/compiler.h:328:5: warning: this statement may fall through [-Wimplicit-fallthrough=]
->   do {        \
->      ^
-> ./include/linux/compiler.h:338:2: note: in expansion of macro ?__compiletime_assert?
->   __compiletime_assert(condition, msg, prefix, suffix)
->   ^~~~~~~~~~~~~~~~~~~~
-> ./include/linux/compiler.h:350:2: note: in expansion of macro ?_compiletime_assert?
->   _compiletime_assert(condition, msg, __compiletime_assert_, __LINE__)
->   ^~~~~~~~~~~~~~~~~~~
-> ./include/linux/build_bug.h:39:37: note: in expansion of macro ?compiletime_assert?
->  #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->                                      ^~~~~~~~~~~~~~~~~~
-> ./include/linux/build_bug.h:50:2: note: in expansion of macro ?BUILD_BUG_ON_MSG?
->   BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
->   ^~~~~~~~~~~~~~~~
-> arch/arc/kernel/unwind.c:573:3: note: in expansion of macro ?BUILD_BUG_ON?
->    BUILD_BUG_ON(sizeof(u32) != sizeof(value));
->    ^~~~~~~~~~~~
-> arch/arc/kernel/unwind.c:575:2: note: here
->   case DW_EH_PE_native:
->   ^~~~
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavo at embeddedor.com>
-> ---
->  arch/arc/kernel/unwind.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-> index 445e4d702f43..dc05a63516f5 100644
-> --- a/arch/arc/kernel/unwind.c
-> +++ b/arch/arc/kernel/unwind.c
-> @@ -572,6 +572,7 @@ static unsigned long read_pointer(const u8 **pLoc, const void *end,
->  #else
->  		BUILD_BUG_ON(sizeof(u32) != sizeof(value));
->  #endif
-> +		/* Fall through */
->  	case DW_EH_PE_native:
->  		if (end < (const void *)(ptr.pul + 1))
->  			return 0;
-> 
+diff --git a/board/synopsys/emsdp/emsdp.c b/board/synopsys/emsdp/emsdp.c
+index c0770b58c1..3bf4a1879b 100644
+--- a/board/synopsys/emsdp/emsdp.c
++++ b/board/synopsys/emsdp/emsdp.c
+@@ -48,6 +48,43 @@ int mach_cpu_init(void)
+ 	return 0;
+ }
+ 
++int board_early_init_r(void)
++{
++#define EMSDP_PSRAM_BASE		0xf2001000
++#define PSRAM_FLASH_CONFIG_REG_0	(void *)(EMSDP_PSRAM_BASE + 0x10)
++#define PSRAM_FLASH_CONFIG_REG_1	(void *)(EMSDP_PSRAM_BASE + 0x14)
++#define CRE_ENABLE			BIT(31)
++#define CRE_DRIVE_CMD			BIT(6)
++
++#define PSRAM_RCR_DPD			BIT(4)
++#define PSRAM_RCR_PAGE_MODE		BIT(7)
++
++/*
++ * PSRAM_FLASH_CONFIG_REG_x[30:15] to the address lines[16:1] of flash,
++ * thus "<< 1".
++ */
++#define PSRAM_RCR_SETUP		((PSRAM_RCR_DPD | PSRAM_RCR_PAGE_MODE) << 1)
++
++	// Switch PSRAM controller to command mode
++	writel(CRE_ENABLE | CRE_DRIVE_CMD, PSRAM_FLASH_CONFIG_REG_0);
++	// Program Refresh Configuration Register (RCR) for BANK0
++	writew(0, (void *)(0x10000000 + PSRAM_RCR_SETUP));
++	// Switch PSRAM controller back to memory mode
++	writel(0, PSRAM_FLASH_CONFIG_REG_0);
++
++
++	// Switch PSRAM controller to command mode
++	writel(CRE_ENABLE | CRE_DRIVE_CMD, PSRAM_FLASH_CONFIG_REG_1);
++	// Program Refresh Configuration Register (RCR) for BANK1
++	writew(0, (void *)(0x10800000 + PSRAM_RCR_SETUP));
++	// Switch PSRAM controller back to memory mode
++	writel(0, PSRAM_FLASH_CONFIG_REG_1);
++
++	printf("PSRAM initialized.\n");
++
++	return 0;
++}
++
+ int board_mmc_init(bd_t *bis)
+ {
+ 	struct dwmci_host *host = NULL;
+diff --git a/configs/emsdp_defconfig b/configs/emsdp_defconfig
+index 64281d0529..5e55e3e2b2 100644
+--- a/configs/emsdp_defconfig
++++ b/configs/emsdp_defconfig
+@@ -7,6 +7,7 @@ CONFIG_ENV_SIZE=0x1000
+ CONFIG_SYS_CLK_FREQ=40000000
+ # CONFIG_ARCH_FIXUP_FDT_MEMORY is not set
+ CONFIG_VERSION_VARIABLE=y
++CONFIG_BOARD_EARLY_INIT_R=y
+ CONFIG_HUSH_PARSER=y
+ CONFIG_SYS_PROMPT="emsdp# "
+ # CONFIG_CMD_BOOTD is not set
+-- 
+2.16.2
