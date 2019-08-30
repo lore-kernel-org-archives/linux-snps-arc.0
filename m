@@ -1,26 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 30 Aug 2019 18:05:15 +0200
-Subject: [PATCH 19/26] arm64: remove __iounmap
-In-Reply-To: <20190819073601.4yxjvmyjtpi7tk56@willie-the-truck>
+Date: Fri, 30 Aug 2019 18:06:20 +0200
+Subject: [PATCH 08/26] m68k: simplify ioremap_nocache
+In-Reply-To: <CAMuHMdWyXGjokWi7tn9JHCTz9YMb_vHn6XKeE7KzH5n-54Sy0A@mail.gmail.com>
 References: <20190817073253.27819-1-hch@lst.de>
- <20190817073253.27819-20-hch@lst.de>
- <20190819073601.4yxjvmyjtpi7tk56@willie-the-truck>
+ <20190817073253.27819-9-hch@lst.de>
+ <CAMuHMdWyXGjokWi7tn9JHCTz9YMb_vHn6XKeE7KzH5n-54Sy0A@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190830160515.GC26887@lst.de>
+Message-ID: <20190830160620.GD26887@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Aug 19, 2019@08:36:02AM +0100, Will Deacon wrote:
-> On Sat, Aug 17, 2019@09:32:46AM +0200, Christoph Hellwig wrote:
-> > No need to indirect iounmap for arm64.
-> > 
+On Mon, Aug 19, 2019@10:56:02AM +0200, Geert Uytterhoeven wrote:
+> Hi Christoph,
+> 
+> On Sat, Aug 17, 2019@9:48 AM Christoph Hellwig <hch@lst.de> wrote:
+> > Just define ioremap_nocache to ioremap instead of duplicating the
+> > inline.  Also defined ioremap_uc in terms of ioremap instead of
+> > the using a double indirection.
+> >
 > > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> > ---
-> >  arch/arm64/include/asm/io.h | 3 +--
-> >  arch/arm64/mm/ioremap.c     | 4 ++--
-> >  2 files changed, 3 insertions(+), 4 deletions(-)
 > 
-> Not sure why we did it like this...
-> 
-> Acked-by: Will Deacon <will at kernel.org>
+> Acked-by: Geert Uytterhoeven <geert at linux-m68k.org>
 
-Can you just pick this one up through the arm64 tree for 5.4?
+Do you mind picking this up through the m68k tree?
