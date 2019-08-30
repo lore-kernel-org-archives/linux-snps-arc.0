@@ -1,22 +1,28 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 30 Aug 2019 18:06:35 +0200
-Subject: [PATCH 04/26] mips: remove ioremap_cachable
-In-Reply-To: <20190819205722.4eir2edy6qgtgarl@pburton-laptop>
+Date: Fri, 30 Aug 2019 18:07:05 +0200
+Subject: [PATCH 05/26] openrisc: map as uncached in ioremap
+In-Reply-To: <20190823135539.GC24874@lianli.shorne-pla.net>
 References: <20190817073253.27819-1-hch@lst.de>
- <20190817073253.27819-5-hch@lst.de>
- <20190819205722.4eir2edy6qgtgarl@pburton-laptop>
+ <20190817073253.27819-6-hch@lst.de>
+ <20190823135539.GC24874@lianli.shorne-pla.net>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190830160635.GE26887@lst.de>
+Message-ID: <20190830160705.GF26887@lst.de>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Aug 19, 2019@08:57:30PM +0000, Paul Burton wrote:
-> Hi Christoph,
-> 
-> On Sat, Aug 17, 2019@09:32:31AM +0200, Christoph Hellwig wrote:
-> > Just define ioremap_cache directly.
+On Fri, Aug 23, 2019@10:55:39PM +0900, Stafford Horne wrote:
+> On Sat, Aug 17, 2019@09:32:32AM +0200, Christoph Hellwig wrote:
+> > Openrisc is the only architecture not mapping ioremap as uncached,
+> > which has been the default since the Linux 2.6.x days.  Switch it
+> > over to implement uncached semantics by default.
 > > 
 > > Signed-off-by: Christoph Hellwig <hch at lst.de>
+> > ---
+> >  arch/openrisc/include/asm/io.h      | 20 +++-----------------
+> >  arch/openrisc/include/asm/pgtable.h |  2 +-
+> >  arch/openrisc/mm/ioremap.c          |  8 ++++----
+> >  3 files changed, 8 insertions(+), 22 deletions(-)
 > 
-> Acked-by: Paul Burton <paul.burton at mips.com>
+> Acked-by: Stafford Horne <shorne at gmail.com>
 
-Can you pick this patch up through the mips tree?
+Can you send this one to Linus for 5.4?  That would help with the
+possibility to remove ioremap_nocache after that.
