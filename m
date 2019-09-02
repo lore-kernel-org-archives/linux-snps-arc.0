@@ -1,51 +1,71 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 2 Sep 2019 12:24:42 +0000
-Subject: [PATCH] mmc: dw_mmc: fix timeout calculate method
-In-Reply-To: <bbfdedf8-318a-271d-fc64-472a0017583a@rock-chips.com>
-References: <20190814083819.5784-1-kever.yang@rock-chips.com>
- <AM0PR04MB44819DF46C4A0C68844F13C688A00@AM0PR04MB4481.eurprd04.prod.outlook.com>
- <AM0PR04MB44819FF9900E879AA261324B88A00@AM0PR04MB4481.eurprd04.prod.outlook.com>
- <3a4fc838-0cc9-64c8-3993-628cce6484c5@rock-chips.com>
- <CY4PR1201MB01207C7EEBA298FDD2B57711A1A20@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <c322fb38-bbc4-545e-c418-0f3eed2bf1e3@rock-chips.com>
- <CY4PR1201MB01204C5C461D25197D3B11D5A1BD0@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <bbfdedf8-318a-271d-fc64-472a0017583a@rock-chips.com>
+From: monstr@monstr.eu (Michal Simek)
+Date: Mon, 2 Sep 2019 16:16:52 +0200
+Subject: [PATCH 03/26] m68k, microblaze: remove ioremap_fullcache
+In-Reply-To: <20190817073253.27819-4-hch@lst.de>
+References: <20190817073253.27819-1-hch@lst.de>
+ <20190817073253.27819-4-hch@lst.de>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CY4PR1201MB01202FCF2BF2C1F75F5DE354A1BE0@CY4PR1201MB0120.namprd12.prod.outlook.com>
+Message-ID: <9a11ddb0-0799-c64a-f5aa-0504c564998f@monstr.eu>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Kever,
-
-> -----Original Message-----
-> From: Kever Yang <kever.yang at rock-chips.com>
-> Sent: Monday, September 2, 2019 11:05 AM
-> To: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: trini at konsulko.com; Eugeniy.Paltsev at synopsys.com; Simon Glass <sjg at chromium.org>; Peng Fan
-> <peng.fan at nxp.com>; u-boot at lists.denx.de
-> Subject: Re: [PATCH] mmc: dw_mmc: fix timeout calculate method
+On 17. 08. 19 9:32, Christoph Hellwig wrote:
+> No callers of this function.
 > 
-> Hi Alexey,
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  arch/m68k/include/asm/kmap.h     | 7 -------
+>  arch/microblaze/include/asm/io.h | 1 -
+>  2 files changed, 8 deletions(-)
 > 
-> On 2019/8/30 ??9:28, Alexey Brodkin wrote:
-> > Hi Kever,
-> >
-> > [snip]
-> >
-> >> I think this tree does not including this patch, Peng drop it because of
-> >> this issue,
-> >> so you need to apply this patch in your branch to reproduce the problem.
-> >> I have send out V2 patch for this fix with only using 32bit variable
-> > Could you please refer me to the problematic patch so I may try it?
+> diff --git a/arch/m68k/include/asm/kmap.h b/arch/m68k/include/asm/kmap.h
+> index aac7f045f7f0..03d904fe6087 100644
+> --- a/arch/m68k/include/asm/kmap.h
+> +++ b/arch/m68k/include/asm/kmap.h
+> @@ -43,13 +43,6 @@ static inline void __iomem *ioremap_wt(unsigned long physaddr,
+>  	return __ioremap(physaddr, size, IOMAP_WRITETHROUGH);
+>  }
+>  
+> -#define ioremap_fullcache ioremap_fullcache
+> -static inline void __iomem *ioremap_fullcache(unsigned long physaddr,
+> -					      unsigned long size)
+> -{
+> -	return __ioremap(physaddr, size, IOMAP_FULL_CACHING);
+> -}
+> -
+>  #define memset_io memset_io
+>  static inline void memset_io(volatile void __iomem *addr, unsigned char val,
+>  			     int count)
+> diff --git a/arch/microblaze/include/asm/io.h b/arch/microblaze/include/asm/io.h
+> index c7968139486f..86c95b2a1ce1 100644
+> --- a/arch/microblaze/include/asm/io.h
+> +++ b/arch/microblaze/include/asm/io.h
+> @@ -40,7 +40,6 @@ extern void iounmap(volatile void __iomem *addr);
+>  
+>  extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
+>  #define ioremap_nocache(addr, size)		ioremap((addr), (size))
+> -#define ioremap_fullcache(addr, size)		ioremap((addr), (size))
+>  #define ioremap_wc(addr, size)			ioremap((addr), (size))
+>  #define ioremap_wt(addr, size)			ioremap((addr), (size))
+>  
 > 
-> This is the patch with problem, and here is the link on patchwork:
-> https://patchwork.ozlabs.org/patch/1146845/
 
-Please find my fixes here:
-https://patchwork.ozlabs.org/patch/1156541/
-https://patchwork.ozlabs.org/patch/1156617/
+Acked-by: Michal Simek <monstr at monstr.eu> (for Microblaze)
 
-Tom do we want https://patchwork.ozlabs.org/patch/1146845/ and fixes for it
-(see 2 items above) to become a part of upcoming v2019.10 release or
-it will be slated for the next one?
+Thanks,
+Michal
 
--Alexey
+-- 
+Michal Simek, Ing. (M.Eng), OpenPGP -> KeyID: FE3D1F91
+w: www.monstr.eu p: +42-0-721842854
+Maintainer of Linux kernel - Xilinx Microblaze
+Maintainer of Linux kernel - Xilinx Zynq ARM and ZynqMP ARM64 SoCs
+U-Boot custodian - Xilinx Microblaze/Zynq/ZynqMP/Versal SoCs
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 195 bytes
+Desc: OpenPGP digital signature
+URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20190902/926382d9/attachment.sig>
