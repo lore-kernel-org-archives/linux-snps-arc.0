@@ -1,47 +1,41 @@
 From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Mon, 2 Sep 2019 12:19:26 +0000
-Subject: [PATCH] arc: libgcc: Import __udivdi3 & __udivmoddi4 to allow
- 64-bit division
-In-Reply-To: <20190902094244.486-1-abrodkin@synopsys.com>
-References: <20190902094244.486-1-abrodkin@synopsys.com>
+Date: Mon,  2 Sep 2019 15:21:51 +0300
+Subject: [PATCH] arc: emsdp: Add more platform-specific compiler options
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CY4PR1201MB0120181BC11EC8754DCDE5F2A1BE0@CY4PR1201MB0120.namprd12.prod.outlook.com>
+Message-ID: <20190902122151.39637-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+Even though EM SDP is FPGA-based board and different FPGA
+images (known as .bit-files) are awailable for the board still
+there's a common subset of options we may rely on for all configs.
 
-> -----Original Message-----
-> From: Alexey Brodkin <abrodkin at synopsys.com>
-> Sent: Monday, September 2, 2019 12:43 PM
-> To: u-boot at lists.denx.de
-> Cc: uboot-snps-arc at synopsys.com; linux-snps-arc at lists.infradead.org; Alexey Brodkin
-> <abrodkin at synopsys.com>; Kever Yang <kever.yang at rock-chips.com>
-> Subject: [PATCH] arc: libgcc: Import __udivdi3 & __udivmoddi4 to allow 64-bit division
-> 
-> As reported by Kever here [1] we were unable to compile 64-bit division
-> code due to missing definition of __udivdi3().
-> 
-> Import its implementation and __udivmoddi4() as its direct dependency
-> from today's libgcc [2].
-> 
-> [1] https://patchwork.ozlabs.org/patch/1146845/
-> [2] https://github.com/gcc-mirror/gcc/commit/5d8723600bc0eed41226b5a6785bc02a053b45d5
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Kever Yang <kever.yang at rock-chips.com>
+These are:
+ * Normalizer
+ * Swap instructions
+ * Simple multiplier
+ * Barrel-shifter
+ * Floating-point unit
+ * Shorter instructions (code density)
 
-For the record for EM SDP (emsdp_defconfig) building still
-fails this way:
------------------------------>8-------------------------
-arc-linux-ld.bfd: arch/arc/lib/lib.a(libgcc2.o): in function `__udivmoddi4':
-.../arch/arc/lib/libgcc2.c:195: undefined reference to `__clzdi2'
-arc-linux-ld.bfd: .../arch/arc/lib/libgcc2.c:195: undefined reference to `__clzdi2'
-arc-linux-ld.bfd: .../arch/arc/lib/libgcc2.c:196: undefined reference to `__clzdi2'
-arc-linux-ld.bfd: .../arch/arc/lib/libgcc2.c:196: undefined reference to `__clzdi2'
------------------------------>8-------------------------
+This among other improvements allows to compile code with
+64-bit divisions, see [1].
 
-That happens because we use a very simple -mcpu=arcem which doesn't use
-HW normalizer unit. I'm preparing a patch that will improve EM SDP's compiler
-options.
+[1] https://patchwork.ozlabs.org/patch/1156541/
 
--Alexey
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+Cc: Kever Yang <kever.yang at rock-chips.com>
+---
+ board/synopsys/emsdp/config.mk | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100644 board/synopsys/emsdp/config.mk
+
+diff --git a/board/synopsys/emsdp/config.mk b/board/synopsys/emsdp/config.mk
+new file mode 100644
+index 0000000000..67fd7bf82a
+--- /dev/null
++++ b/board/synopsys/emsdp/config.mk
+@@ -0,0 +1,2 @@
++PLATFORM_CPPFLAGS += -mlittle-endian -mnorm -mswap -mmpy-option=3 \
++                     -mbarrel-shifter -mfpu=fpuda_all -mcode-density
+-- 
+2.16.2
