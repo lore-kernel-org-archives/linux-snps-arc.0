@@ -1,85 +1,41 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Tue,  3 Sep 2019 12:24:23 -0400
-Subject: [PATCH AUTOSEL 4.19 111/167] signal/arc: Use force_sig_fault where
- appropriate
+Date: Tue,  3 Sep 2019 12:24:24 -0400
+Subject: [PATCH AUTOSEL 4.19 112/167] ARC: mm: fix uninitialised signal code
+ in do_page_fault
 In-Reply-To: <20190903162519.7136-1-sashal@kernel.org>
 References: <20190903162519.7136-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190903162519.7136-111-sashal@kernel.org>
+Message-ID: <20190903162519.7136-112-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-From: "Eric W. Biederman" <ebiederm@xmission.com>
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 
-[ Upstream commit 15773ae938d8d93d982461990bebad6e1d7a1830 ]
+[ Upstream commit 121e38e5acdc8e1e4cdb750fcdcc72f94e420968 ]
 
-Acked-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: "Eric W. Biederman" <ebiederm at xmission.com>
+Commit 15773ae938d8 ("signal/arc: Use force_sig_fault where
+appropriate") introduced undefined behaviour by leaving si_code
+unitiailized and leaking random kernel values to user space.
+
+Fixes: 15773ae938d8 ("signal/arc: Use force_sig_fault where appropriate")
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- arch/arc/mm/fault.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
+ arch/arc/mm/fault.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-index f28db0b112a30..a0366f9dca051 100644
+index a0366f9dca051..535cf18e8bf2c 100644
 --- a/arch/arc/mm/fault.c
 +++ b/arch/arc/mm/fault.c
-@@ -66,14 +66,12 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+@@ -66,7 +66,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
  	struct vm_area_struct *vma = NULL;
  	struct task_struct *tsk = current;
  	struct mm_struct *mm = tsk->mm;
--	siginfo_t info;
-+	int si_code;
+-	int si_code;
++	int si_code = 0;
  	int ret;
  	vm_fault_t fault;
  	int write = regs->ecr_cause & ECR_C_PROTV_STORE;  /* ST/EX */
- 	unsigned int flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE;
- 
--	clear_siginfo(&info);
--
- 	/*
- 	 * We fault-in kernel-space virtual memory on-demand. The
- 	 * 'reference' page table is init_mm.pgd.
-@@ -91,7 +89,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- 			return;
- 	}
- 
--	info.si_code = SEGV_MAPERR;
-+	si_code = SEGV_MAPERR;
- 
- 	/*
- 	 * If we're in an interrupt or have no user
-@@ -119,7 +117,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- 	 * we can handle it..
- 	 */
- good_area:
--	info.si_code = SEGV_ACCERR;
-+	si_code = SEGV_ACCERR;
- 
- 	/* Handle protection violation, execute on heap or stack */
- 
-@@ -204,11 +202,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- 	/* User mode accesses just cause a SIGSEGV */
- 	if (user_mode(regs)) {
- 		tsk->thread.fault_address = address;
--		info.si_signo = SIGSEGV;
--		info.si_errno = 0;
--		/* info.si_code has been set above */
--		info.si_addr = (void __user *)address;
--		force_sig_info(SIGSEGV, &info, tsk);
-+		force_sig_fault(SIGSEGV, si_code, (void __user *)address, tsk);
- 		return;
- 	}
- 
-@@ -243,9 +237,5 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- 		goto no_context;
- 
- 	tsk->thread.fault_address = address;
--	info.si_signo = SIGBUS;
--	info.si_errno = 0;
--	info.si_code = BUS_ADRERR;
--	info.si_addr = (void __user *)address;
--	force_sig_info(SIGBUS, &info, tsk);
-+	force_sig_fault(SIGBUS, BUS_ADRERR, (void __user *)address, tsk);
- }
 -- 
 2.20.1
