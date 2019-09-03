@@ -1,106 +1,82 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Tue, 3 Sep 2019 19:13:42 +0800
-Subject: [PATCH 1/1] mm/pgtable/debug: Add test validating architecture
- page table helpers
-In-Reply-To: <1567497706-8649-2-git-send-email-anshuman.khandual@arm.com>
-References: <1567497706-8649-2-git-send-email-anshuman.khandual@arm.com>
+From: yamada.masahiro@socionext.com (Masahiro Yamada)
+Date: Wed, 4 Sep 2019 00:08:49 +0900
+Subject: [PATCH 2/3] kbuild, arc: add CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+ for ARC
+In-Reply-To: <ed251c63-10e0-bd8a-1a9b-be9ade5cad3f@gmail.com>
+References: <20190820170941.26193-1-yamada.masahiro@socionext.com>
+ <20190820170941.26193-2-yamada.masahiro@socionext.com>
+ <ed251c63-10e0-bd8a-1a9b-be9ade5cad3f@gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <201909031912.htvWy2Bu%lkp@intel.com>
+Message-ID: <CAK7LNARd1KFq=GRYQUr16KaiiRzh4ARX5eOpcRcUrZSVgHdhJA@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Anshuman,
+On Sat, Aug 31, 2019@1:43 AM Vineet Gupta <vineetg76@gmail.com> wrote:
+>
+> On 8/20/19 10:09 AM, Masahiro Yamada wrote:
+> > arch/arc/Makefile overrides -O2 with -O3. This is the only user of
+> > ARCH_CFLAGS. There is no user of ARCH_CPPFLAGS or ARCH_AFLAGS.
+> > My plan is to remove ARCH_{CPP,A,C}FLAGS after refactoring the ARC
+> > Makefile.
+>
+> Why, it seems like a good generic facility for arches to over-ride stuff
+> (specially adding any toggles at the end of cmdline).
+>
+> And even if there are no current users, it would be good to have. I understand we
+> don't keep code for future, but strictly this is meta-code ;-)
 
-Thank you for the patch! Yet something to improve:
+We can re-add it whenever we need it.
 
-[auto build test ERROR on linus/master]
-[cannot apply to v5.3-rc7 next-20190902]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-url:    https://github.com/0day-ci/linux/commits/Anshuman-Khandual/mm-debug-Add-tests-for-architecture-exported-page-table-helpers/20190903-162959
-config: m68k-allmodconfig (attached as .config)
-compiler: m68k-linux-gcc (GCC) 7.4.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        GCC_VERSION=7.4.0 make.cross ARCH=m68k 
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp at intel.com>
+> > Currently, ARC has no way to enable -Wmaybe-uninitialized because both
+> > -O3 and -Os disable it. Enabling it will be useful for compile-testing.
+> > This commit allows allmodconfig (, which defaults to -O2) to enable it.
+>
+> But this is a separate issue and was done on purpose because of unbearable build
+> spew at the time. As an experiment I enabled it in current kernel and at -O3 we
+> still get the dreaded spew in net/sunrpc/xdr.c and some more in net/ipv4. The spew
+> doesn't happen at -O2 and seems not ARC specific as I can see this with ARM -O3
+> build with gcc 7.3 (buildroot 2018.08)
+>
+> | $ make ARCH=arm CROSS_COMPILE=arm-linux- net
+> | ......
+> | ......
+> | ../net/sunrpc/xdr.c: In function ?xdr_encode_word?:
+> | ../net/sunrpc/xdr.c:1199:2: warning: ?subbuf.tail[0].iov_base? may be used
+> | uninitialized in this function [-Wmaybe-uninitialized]
+> |  memcpy(subbuf->tail[0].iov_base, obj, this_len);
+> |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> | ../net/sunrpc/xdr.c:1205:17: note: ?subbuf.tail[0].iov_base? was declared here
+> |  struct xdr_buf subbuf;
+>
+>
+> I understand the value of this toggle, but the spew is too much and at times
+> obfuscated likely other real issues.
+> > Add CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y to all the defconfig files
+> > in arch/arc/configs/ in order to keep the current config settings.
+>
+> My first reaction to adding this to all defconfigs was that this was inelegant :
+> for lack of better word :-)
+>
+> But indeed it seems better this way as we can now experiment with -O2 vs. -O3 from
+> config, rather than hardwiring to -O3.
+>
+> So if you could please split out the Wmaybe-uninitialized change
 
-All error/warnings (new ones prefixed by >>):
+I could not understand your request.
 
-   In file included from arch/m68k/include/asm/bug.h:32:0,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from arch/m68k/include/asm/irqflags.h:6,
-                    from include/linux/irqflags.h:16,
-                    from arch/m68k/include/asm/atomic.h:6,
-                    from include/linux/atomic.h:7,
-                    from include/linux/mm_types_task.h:13,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/hugetlb.h:5,
-                    from mm/arch_pgtable_test.c:14:
-   mm/arch_pgtable_test.c: In function 'pmd_clear_tests':
->> arch/m68k/include/asm/page.h:31:22: error: lvalue required as unary '&' operand
-    #define pmd_val(x) ((&x)->pmd[0])
-                         ^
-   include/asm-generic/bug.h:124:25: note: in definition of macro 'WARN_ON'
-     int __ret_warn_on = !!(condition);    \
-                            ^~~~~~~~~
->> arch/m68k/include/asm/motorola_pgtable.h:138:26: note: in expansion of macro 'pmd_val'
-    #define pmd_none(pmd)  (!pmd_val(pmd))
-                             ^~~~~~~
->> mm/arch_pgtable_test.c:233:11: note: in expansion of macro 'pmd_none'
-     WARN_ON(!pmd_none(READ_ONCE(*pmdp)));
-              ^~~~~~~~
-   mm/arch_pgtable_test.c: In function 'pmd_populate_tests':
->> arch/m68k/include/asm/page.h:31:22: error: lvalue required as unary '&' operand
-    #define pmd_val(x) ((&x)->pmd[0])
-                         ^
-   include/asm-generic/bug.h:124:25: note: in definition of macro 'WARN_ON'
-     int __ret_warn_on = !!(condition);    \
-                            ^~~~~~~~~
-   arch/m68k/include/asm/motorola_pgtable.h:139:25: note: in expansion of macro 'pmd_val'
-    #define pmd_bad(pmd)  ((pmd_val(pmd) & _DESCTYPE_MASK) != _PAGE_TABLE)
-                            ^~~~~~~
->> mm/arch_pgtable_test.c:245:10: note: in expansion of macro 'pmd_bad'
-     WARN_ON(pmd_bad(READ_ONCE(*pmdp)));
-             ^~~~~~~
+I added 'imply CC_DISABLE_WARN_MAYBE_UNINITIALIZED'
+for CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3.
 
-vim +/pmd_none +233 mm/arch_pgtable_test.c
+I cannot split it out. Otherwise, you will see false-positive
+maybe-uninitialized warnings.
 
-   228	
-   229	static void pmd_clear_tests(pmd_t *pmdp)
-   230	{
-   231		memset(pmdp, RANDOM_NZVALUE, sizeof(pmd_t));
-   232		pmd_clear(pmdp);
- > 233		WARN_ON(!pmd_none(READ_ONCE(*pmdp)));
-   234	}
-   235	
-   236	static void pmd_populate_tests(struct mm_struct *mm, pmd_t *pmdp,
-   237				       pgtable_t pgtable)
-   238	{
-   239		/*
-   240		 * This entry points to next level page table page.
-   241		 * Hence this must not qualify as pmd_bad().
-   242		 */
-   243		pmd_clear(pmdp);
-   244		pmd_populate(mm, pmdp, pgtable);
- > 245		WARN_ON(pmd_bad(READ_ONCE(*pmdp)));
-   246	}
-   247	
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/gzip
-Size: 50918 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20190903/b855ce88/attachment-0001.gz>
+> Acked-by: Vineet Gupta <vgupta at synopsys.com>
+
+Thanks.
+
+
+-- 
+Best Regards
+Masahiro Yamada
