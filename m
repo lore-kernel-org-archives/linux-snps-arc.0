@@ -1,112 +1,85 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Tue,  3 Sep 2019 12:23:22 -0400
-Subject: [PATCH AUTOSEL 4.19 050/167] ARC: mm: do_page_fault fixes #1:
- relinquish mmap_sem if signal arrives while handle_mm_fault
+Date: Tue,  3 Sep 2019 12:24:23 -0400
+Subject: [PATCH AUTOSEL 4.19 111/167] signal/arc: Use force_sig_fault where
+ appropriate
 In-Reply-To: <20190903162519.7136-1-sashal@kernel.org>
 References: <20190903162519.7136-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190903162519.7136-50-sashal@kernel.org>
+Message-ID: <20190903162519.7136-111-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
-From: Vineet Gupta <vgupta@synopsys.com>
+From: "Eric W. Biederman" <ebiederm@xmission.com>
 
-[ Upstream commit 4d447455e73b47c43dd35fcc38ed823d3182a474 ]
+[ Upstream commit 15773ae938d8d93d982461990bebad6e1d7a1830 ]
 
-do_page_fault() forgot to relinquish mmap_sem if a signal came while
-handling handle_mm_fault() - due to say a ctl+c or oom etc.
-This would later cause a deadlock by acquiring it twice.
-
-This came to light when running libc testsuite tst-tls3-malloc test but
-is likely also the cause for prior seen LTP failures. Using lockdep
-clearly showed what the issue was.
-
-| # while true; do ./tst-tls3-malloc ; done
-| Didn't expect signal from child: got `Segmentation fault'
-| ^C
-| ============================================
-| WARNING: possible recursive locking detected
-| 4.17.0+ #25 Not tainted
-| --------------------------------------------
-| tst-tls3-malloc/510 is trying to acquire lock:
-| 606c7728 (&mm->mmap_sem){++++}, at: __might_fault+0x28/0x5c
-|
-|but task is already holding lock:
-|606c7728 (&mm->mmap_sem){++++}, at: do_page_fault+0x9c/0x2a0
-|
-| other info that might help us debug this:
-|  Possible unsafe locking scenario:
-|
-|       CPU0
-|       ----
-|  lock(&mm->mmap_sem);
-|  lock(&mm->mmap_sem);
-|
-| *** DEADLOCK ***
-|
-
-------------------------------------------------------------
-What the change does is not obvious (note to myself)
-
-prior code was
-
-| do_page_fault
-|
-|   down_read()		<-- lock taken
-|   handle_mm_fault	<-- signal pending as this runs
-|   if fatal_signal_pending
-|       if VM_FAULT_ERROR
-|           up_read
-|       if user_mode
-|          return	<-- lock still held, this was the BUG
-
-New code
-
-| do_page_fault
-|
-|   down_read()		<-- lock taken
-|   handle_mm_fault	<-- signal pending as this runs
-|   if fatal_signal_pending
-|       if VM_FAULT_RETRY
-|          return       <-- not same case as above, but still OK since
-|                           core mm already relinq lock for FAULT_RETRY
-|    ...
-|
-|   < Now falls through for bug case above >
-|
-|   up_read()		<-- lock relinquished
-
-Cc: stable at vger.kernel.org
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+Acked-by: Vineet Gupta <vgupta at synopsys.com>
+Signed-off-by: "Eric W. Biederman" <ebiederm at xmission.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- arch/arc/mm/fault.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ arch/arc/mm/fault.c | 20 +++++---------------
+ 1 file changed, 5 insertions(+), 15 deletions(-)
 
 diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-index db6913094be3c..f28db0b112a30 100644
+index f28db0b112a30..a0366f9dca051 100644
 --- a/arch/arc/mm/fault.c
 +++ b/arch/arc/mm/fault.c
-@@ -143,12 +143,17 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- 	 */
- 	fault = handle_mm_fault(vma, address, flags);
+@@ -66,14 +66,12 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 	struct vm_area_struct *vma = NULL;
+ 	struct task_struct *tsk = current;
+ 	struct mm_struct *mm = tsk->mm;
+-	siginfo_t info;
++	int si_code;
+ 	int ret;
+ 	vm_fault_t fault;
+ 	int write = regs->ecr_cause & ECR_C_PROTV_STORE;  /* ST/EX */
+ 	unsigned int flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE;
  
--	/* If Pagefault was interrupted by SIGKILL, exit page fault "early" */
- 	if (unlikely(fatal_signal_pending(current))) {
--		if ((fault & VM_FAULT_ERROR) && !(fault & VM_FAULT_RETRY))
--			up_read(&mm->mmap_sem);
--		if (user_mode(regs))
-+
-+		/*
-+		 * if fault retry, mmap_sem already relinquished by core mm
-+		 * so OK to return to user mode (with signal handled first)
-+		 */
-+		if (fault & VM_FAULT_RETRY) {
-+			if (!user_mode(regs))
-+				goto no_context;
+-	clear_siginfo(&info);
+-
+ 	/*
+ 	 * We fault-in kernel-space virtual memory on-demand. The
+ 	 * 'reference' page table is init_mm.pgd.
+@@ -91,7 +89,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
  			return;
-+		}
  	}
  
- 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+-	info.si_code = SEGV_MAPERR;
++	si_code = SEGV_MAPERR;
+ 
+ 	/*
+ 	 * If we're in an interrupt or have no user
+@@ -119,7 +117,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 	 * we can handle it..
+ 	 */
+ good_area:
+-	info.si_code = SEGV_ACCERR;
++	si_code = SEGV_ACCERR;
+ 
+ 	/* Handle protection violation, execute on heap or stack */
+ 
+@@ -204,11 +202,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 	/* User mode accesses just cause a SIGSEGV */
+ 	if (user_mode(regs)) {
+ 		tsk->thread.fault_address = address;
+-		info.si_signo = SIGSEGV;
+-		info.si_errno = 0;
+-		/* info.si_code has been set above */
+-		info.si_addr = (void __user *)address;
+-		force_sig_info(SIGSEGV, &info, tsk);
++		force_sig_fault(SIGSEGV, si_code, (void __user *)address, tsk);
+ 		return;
+ 	}
+ 
+@@ -243,9 +237,5 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 		goto no_context;
+ 
+ 	tsk->thread.fault_address = address;
+-	info.si_signo = SIGBUS;
+-	info.si_errno = 0;
+-	info.si_code = BUS_ADRERR;
+-	info.si_addr = (void __user *)address;
+-	force_sig_info(SIGBUS, &info, tsk);
++	force_sig_fault(SIGBUS, BUS_ADRERR, (void __user *)address, tsk);
+ }
 -- 
 2.20.1
