@@ -1,41 +1,89 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Tue,  3 Sep 2019 12:24:24 -0400
-Subject: [PATCH AUTOSEL 4.19 112/167] ARC: mm: fix uninitialised signal code
- in do_page_fault
+Date: Tue,  3 Sep 2019 12:24:25 -0400
+Subject: [PATCH AUTOSEL 4.19 113/167] ARC: mm: SIGSEGV userspace trying to
+ access kernel virtual memory
 In-Reply-To: <20190903162519.7136-1-sashal@kernel.org>
 References: <20190903162519.7136-1-sashal@kernel.org>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190903162519.7136-112-sashal@kernel.org>
+Message-ID: <20190903162519.7136-113-sashal@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 
 From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 
-[ Upstream commit 121e38e5acdc8e1e4cdb750fcdcc72f94e420968 ]
+[ Upstream commit a8c715b4dd73c26a81a9cc8dc792aa715d8b4bb2 ]
 
-Commit 15773ae938d8 ("signal/arc: Use force_sig_fault where
-appropriate") introduced undefined behaviour by leaving si_code
-unitiailized and leaking random kernel values to user space.
+As of today if userspace process tries to access a kernel virtual addres
+(0x7000_0000 to 0x7ffff_ffff) such that a legit kernel mapping already
+exists, that process hangs instead of being killed with SIGSEGV
 
-Fixes: 15773ae938d8 ("signal/arc: Use force_sig_fault where appropriate")
+Fix that by ensuring that do_page_fault() handles kenrel vaddr only if
+in kernel mode.
+
+And given this, we can also simplify the code a bit. Now a vmalloc fault
+implies kernel mode so its failure (for some reason) can reuse the
+@no_context label and we can remove @bad_area_nosemaphore.
+
+Reproduce user test for original problem:
+
+------------------------>8-----------------
+ #include <stdlib.h>
+ #include <stdint.h>
+
+ int main(int argc, char *argv[])
+ {
+ 	volatile uint32_t temp;
+
+ 	temp = *(uint32_t *)(0x70000000);
+ }
+------------------------>8-----------------
+
+Cc: <stable at vger.kernel.org>
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- arch/arc/mm/fault.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arc/mm/fault.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-index a0366f9dca051..535cf18e8bf2c 100644
+index 535cf18e8bf2c..4e8143de32e70 100644
 --- a/arch/arc/mm/fault.c
 +++ b/arch/arc/mm/fault.c
 @@ -66,7 +66,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
  	struct vm_area_struct *vma = NULL;
  	struct task_struct *tsk = current;
  	struct mm_struct *mm = tsk->mm;
--	int si_code;
-+	int si_code = 0;
+-	int si_code = 0;
++	int si_code = SEGV_MAPERR;
  	int ret;
  	vm_fault_t fault;
  	int write = regs->ecr_cause & ECR_C_PROTV_STORE;  /* ST/EX */
+@@ -81,16 +81,14 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 	 * only copy the information from the master page table,
+ 	 * nothing more.
+ 	 */
+-	if (address >= VMALLOC_START) {
++	if (address >= VMALLOC_START && !user_mode(regs)) {
+ 		ret = handle_kernel_vaddr_fault(address);
+ 		if (unlikely(ret))
+-			goto bad_area_nosemaphore;
++			goto no_context;
+ 		else
+ 			return;
+ 	}
+ 
+-	si_code = SEGV_MAPERR;
+-
+ 	/*
+ 	 * If we're in an interrupt or have no user
+ 	 * context, we must not take the fault..
+@@ -198,7 +196,6 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ bad_area:
+ 	up_read(&mm->mmap_sem);
+ 
+-bad_area_nosemaphore:
+ 	/* User mode accesses just cause a SIGSEGV */
+ 	if (user_mode(regs)) {
+ 		tsk->thread.fault_address = address;
 -- 
 2.20.1
