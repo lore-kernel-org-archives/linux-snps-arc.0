@@ -1,63 +1,123 @@
-From: trini@konsulko.com (Tom Rini)
-Date: Mon, 2 Sep 2019 16:52:52 -0400
-Subject: [PATCH] mmc: dw_mmc: fix timeout calculate method
-In-Reply-To: <CY4PR1201MB01202FCF2BF2C1F75F5DE354A1BE0@CY4PR1201MB0120.namprd12.prod.outlook.com>
-References: <20190814083819.5784-1-kever.yang@rock-chips.com>
- <AM0PR04MB44819DF46C4A0C68844F13C688A00@AM0PR04MB4481.eurprd04.prod.outlook.com>
- <AM0PR04MB44819FF9900E879AA261324B88A00@AM0PR04MB4481.eurprd04.prod.outlook.com>
- <3a4fc838-0cc9-64c8-3993-628cce6484c5@rock-chips.com>
- <CY4PR1201MB01207C7EEBA298FDD2B57711A1A20@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <c322fb38-bbc4-545e-c418-0f3eed2bf1e3@rock-chips.com>
- <CY4PR1201MB01204C5C461D25197D3B11D5A1BD0@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <bbfdedf8-318a-271d-fc64-472a0017583a@rock-chips.com>
- <CY4PR1201MB01202FCF2BF2C1F75F5DE354A1BE0@CY4PR1201MB0120.namprd12.prod.outlook.com>
+From: anshuman.khandual@arm.com (Anshuman Khandual)
+Date: Tue,  3 Sep 2019 13:31:45 +0530
+Subject: [PATCH 0/1] mm/debug: Add tests for architecture exported page table
+ helpers
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190902205252.GB26850@bill-the-cat>
+Message-ID: <1567497706-8649-1-git-send-email-anshuman.khandual@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-On Mon, Sep 02, 2019@12:24:42PM +0000, Alexey Brodkin wrote:
-> Hi Kever,
-> 
-> > -----Original Message-----
-> > From: Kever Yang <kever.yang at rock-chips.com>
-> > Sent: Monday, September 2, 2019 11:05 AM
-> > To: Alexey Brodkin <abrodkin at synopsys.com>
-> > Cc: trini at konsulko.com; Eugeniy.Paltsev at synopsys.com; Simon Glass <sjg at chromium.org>; Peng Fan
-> > <peng.fan at nxp.com>; u-boot at lists.denx.de
-> > Subject: Re: [PATCH] mmc: dw_mmc: fix timeout calculate method
-> >
-> > Hi Alexey,
-> >
-> > On 2019/8/30 ??9:28, Alexey Brodkin wrote:
-> > > Hi Kever,
-> > >
-> > > [snip]
-> > >
-> > >> I think this tree does not including this patch, Peng drop it because of
-> > >> this issue,
-> > >> so you need to apply this patch in your branch to reproduce the problem.
-> > >> I have send out V2 patch for this fix with only using 32bit variable
-> > > Could you please refer me to the problematic patch so I may try it?
-> >
-> > This is the patch with problem, and here is the link on patchwork:
-> > https://patchwork.ozlabs.org/patch/1146845/
-> 
-> Please find my fixes here:
-> https://patchwork.ozlabs.org/patch/1156541/
-> https://patchwork.ozlabs.org/patch/1156617/
-> 
-> Tom do we want https://patchwork.ozlabs.org/patch/1146845/ and fixes for it
-> (see 2 items above) to become a part of upcoming v2019.10 release or
-> it will be slated for the next one?
+This series adds a test validation for architecture exported page table
+helpers. Patch in the series adds basic transformation tests at various
+levels of the page table.
 
-I think we should aim to get all the fixes in for this release.
+This test was originally suggested by Catalin during arm64 THP migration
+RFC discussion earlier. Going forward it can include more specific tests
+with respect to various generic MM functions like THP, HugeTLB etc and
+platform specific tests.
+
+https://lore.kernel.org/linux-mm/20190628102003.GA56463 at arrakis.emea.arm.com/
+
+Questions:
+
+Should alloc_gigantic_page() be made available as an interface for general
+use in the kernel. The test module here uses very similar implementation from
+HugeTLB to allocate a PUD aligned memory block. Similar for mm_alloc() which
+needs to be exported through a header.
+
+Matthew Wilcox had expressed concerns regarding memory allocation for mapped
+page table entries at various level. He also suggested using synethetic pfns
+which can be derived from virtual address of a known kernel text symbol like
+kernel_init(). But as discussed previously, it seems like allocated memory
+might still outweigh synthetic pfns. This proposal goes with allocated memory
+but if there is a broader agreement with respect to synthetic pfns, will be
+happy to rework the test.
+
+Testing:
+
+Build and boot tested on arm64 and x86 platforms. While arm64 clears all
+these tests, following errors were reported on x86.
+
+1. WARN_ON(pud_bad(pud)) in pud_populate_tests()
+2. WARN_ON(p4d_bad(p4d)) in p4d_populate_tests()
+
+I would really appreciate if folks can help validate this test on other
+platforms and report back problems if any. Suggestions, comments and
+inputs welcome. Thank you.
+
+Changes in V3:
+
+- Added fallback mechanism for PMD aligned memory allocation failure
+
+Changes in V2:
+
+https://lore.kernel.org/linux-mm/1565335998-22553-1-git-send-email-anshuman.khandual at arm.com/T/#u
+
+- Moved test module and it's config from lib/ to mm/
+- Renamed config TEST_ARCH_PGTABLE as DEBUG_ARCH_PGTABLE_TEST
+- Renamed file from test_arch_pgtable.c to arch_pgtable_test.c
+- Added relevant MODULE_DESCRIPTION() and MODULE_AUTHOR() details
+- Dropped loadable module config option
+- Basic tests now use memory blocks with required size and alignment
+- PUD aligned memory block gets allocated with alloc_contig_range()
+- If PUD aligned memory could not be allocated it falls back on PMD aligned
+  memory block from page allocator and pud_* tests are skipped
+- Clear and populate tests now operate on real in memory page table entries
+- Dummy mm_struct gets allocated with mm_alloc()
+- Dummy page table entries get allocated with [pud|pmd|pte]_alloc_[map]()
+- Simplified [p4d|pgd]_basic_tests(), now has random values in the entries
+
+RFC V1:
+
+https://lore.kernel.org/linux-mm/1564037723-26676-1-git-send-email-anshuman.khandual at arm.com/
+
+Cc: Andrew Morton <akpm at linux-foundation.org>
+Cc: Vlastimil Babka <vbabka at suse.cz>
+Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Cc: Thomas Gleixner <tglx at linutronix.de>
+Cc: Mike Rapoport <rppt at linux.vnet.ibm.com>
+Cc: Jason Gunthorpe <jgg at ziepe.ca>
+Cc: Dan Williams <dan.j.williams at intel.com>
+Cc: Peter Zijlstra <peterz at infradead.org>
+Cc: Michal Hocko <mhocko at kernel.org>
+Cc: Mark Rutland <mark.rutland at arm.com>
+Cc: Mark Brown <broonie at kernel.org>
+Cc: Steven Price <Steven.Price at arm.com>
+Cc: Ard Biesheuvel <ard.biesheuvel at linaro.org>
+Cc: Masahiro Yamada <yamada.masahiro at socionext.com>
+Cc: Kees Cook <keescook at chromium.org>
+Cc: Tetsuo Handa <penguin-kernel at i-love.sakura.ne.jp>
+Cc: Matthew Wilcox <willy at infradead.org>
+Cc: Sri Krishna chowdary <schowdary at nvidia.com>
+Cc: Dave Hansen <dave.hansen at intel.com>
+Cc: Russell King - ARM Linux <linux at armlinux.org.uk>
+Cc: Michael Ellerman <mpe at ellerman.id.au>
+Cc: Paul Mackerras <paulus at samba.org>
+Cc: Martin Schwidefsky <schwidefsky at de.ibm.com>
+Cc: Heiko Carstens <heiko.carstens at de.ibm.com>
+Cc: "David S. Miller" <davem at davemloft.net>
+Cc: Vineet Gupta <vgupta at synopsys.com>
+Cc: James Hogan <jhogan at kernel.org>
+Cc: Paul Burton <paul.burton at mips.com>
+Cc: Ralf Baechle <ralf at linux-mips.org>
+Cc: linux-snps-arc at lists.infradead.org
+Cc: linux-mips at vger.kernel.org
+Cc: linux-arm-kernel at lists.infradead.org
+Cc: linux-ia64 at vger.kernel.org
+Cc: linuxppc-dev at lists.ozlabs.org
+Cc: linux-s390 at vger.kernel.org
+Cc: linux-sh at vger.kernel.org
+Cc: sparclinux at vger.kernel.org
+Cc: x86 at kernel.org
+Cc: linux-kernel at vger.kernel.org
+
+Anshuman Khandual (1):
+  mm/pgtable/debug: Add test validating architecture page table helpers
+
+ mm/Kconfig.debug       |  14 ++
+ mm/Makefile            |   1 +
+ mm/arch_pgtable_test.c | 425 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 440 insertions(+)
+ create mode 100644 mm/arch_pgtable_test.c
 
 -- 
-Tom
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 819 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-snps-arc/attachments/20190902/fa7d4fa2/attachment.sig>
+2.20.1
