@@ -1,41 +1,103 @@
-From: ebiederm@xmission.com (Eric W. Biederman)
-Date: Wed, 04 Sep 2019 11:41:55 -0500
-Subject: [PATCH AUTOSEL 4.19 111/167] signal/arc: Use force_sig_fault
- where appropriate
-In-Reply-To: <20190903194526.GH5281@sasha-vm> (Sasha Levin's message of "Tue,
- 3 Sep 2019 15:45:26 -0400")
-References: <20190903162519.7136-1-sashal@kernel.org>
- <20190903162519.7136-111-sashal@kernel.org>
- <87ef0xqq9f.fsf@x220.int.ebiederm.org>
- <20190903194526.GH5281@sasha-vm>
+From: gerald.schaefer@de.ibm.com (Gerald Schaefer)
+Date: Wed, 4 Sep 2019 22:16:18 +0200
+Subject: [PATCH 1/1] mm/pgtable/debug: Add test validating architecture
+ page table helpers
+In-Reply-To: <1567497706-8649-2-git-send-email-anshuman.khandual@arm.com>
+References: <1567497706-8649-1-git-send-email-anshuman.khandual@arm.com>
+ <1567497706-8649-2-git-send-email-anshuman.khandual@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <87y2z4nhd8.fsf@x220.int.ebiederm.org>
+Message-ID: <20190904221618.1b624a98@thinkpad>
 To: linux-snps-arc@lists.infradead.org
 
-Sasha Levin <sashal at kernel.org> writes:
+On Tue,  3 Sep 2019 13:31:46 +0530
+Anshuman Khandual <anshuman.khandual@arm.com> wrote:
 
-> On Tue, Sep 03, 2019@11:49:16AM -0500, Eric W. Biederman wrote:
->>Sasha Levin <sashal at kernel.org> writes:
->>
->>> From: "Eric W. Biederman" <ebiederm at xmission.com>
->>>
->>> [ Upstream commit 15773ae938d8d93d982461990bebad6e1d7a1830 ]
->>
->>To the best of my knowledge this is just a clean up, no changes in
->>behavior are present.
->>
->>The only reason I can see to backport this is so that later fixes could
->>be applied cleanly.
->>
->>So while I have no objections to this patch being backported I don't see
->>why you would want to either.
->
-> This patch along with the next one came in as a dependency for
-> a8c715b4dd73c ("ARC: mm: SIGSEGV userspace trying to access kernel
-> virtual memory").
+> This adds a test module which will validate architecture page table helpers
+> and accessors regarding compliance with generic MM semantics expectations.
+> This will help various architectures in validating changes to the existing
+> page table helpers or addition of new ones.
+> 
+> Test page table and memory pages creating it's entries at various level are
+> all allocated from system memory with required alignments. If memory pages
+> with required size and alignment could not be allocated, then all depending
+> individual tests are skipped.
 
-Thanks for providing the rest of the context.
+This looks very useful, thanks. Of course, s390 is quite special and does
+not work nicely with this patch (yet), mostly because of our dynamic page
+table levels/folding. Still need to figure out what can be fixed in the arch
+code and what would need to be changed in the test module. See below for some
+generic comments/questions.
 
-That looks like a perfect reason for backporting this patch.
+At least one real bug in the s390 code was already revealed by this, which
+is very nice. In pmd/pud_bad(), we also check large pmds/puds for sanity,
+instead of reporting them as bad, which is apparently not how it is expected.
 
-Eric
+[...]
+> +/*
+> + * Basic operations
+> + *
+> + * mkold(entry)			= An old and not a young entry
+> + * mkyoung(entry)		= A young and not an old entry
+> + * mkdirty(entry)		= A dirty and not a clean entry
+> + * mkclean(entry)		= A clean and not a dirty entry
+> + * mkwrite(entry)		= A write and not a write protected entry
+> + * wrprotect(entry)		= A write protected and not a write entry
+> + * pxx_bad(entry)		= A mapped and non-table entry
+> + * pxx_same(entry1, entry2)	= Both entries hold the exact same value
+> + */
+> +#define VADDR_TEST	(PGDIR_SIZE + PUD_SIZE + PMD_SIZE + PAGE_SIZE)
+
+Why is P4D_SIZE missing in the VADDR_TEST calculation?
+
+[...]
+> +
+> +#if !defined(__PAGETABLE_PMD_FOLDED) && !defined(__ARCH_HAS_4LEVEL_HACK)
+> +static void pud_clear_tests(pud_t *pudp)
+> +{
+> +	memset(pudp, RANDOM_NZVALUE, sizeof(pud_t));
+> +	pud_clear(pudp);
+> +	WARN_ON(!pud_none(READ_ONCE(*pudp)));
+> +}
+
+For pgd/p4d/pud_clear(), we only clear if the page table level is present
+and not folded. The memset() here overwrites the table type bits, so
+pud_clear() will not clear anything on s390 and the pud_none() check will
+fail.
+Would it be possible to OR a (larger) random value into the table, so that
+the lower 12 bits would be preserved?
+
+> +
+> +static void pud_populate_tests(struct mm_struct *mm, pud_t *pudp, pmd_t *pmdp)
+> +{
+> +	/*
+> +	 * This entry points to next level page table page.
+> +	 * Hence this must not qualify as pud_bad().
+> +	 */
+> +	pmd_clear(pmdp);
+> +	pud_clear(pudp);
+> +	pud_populate(mm, pudp, pmdp);
+> +	WARN_ON(pud_bad(READ_ONCE(*pudp)));
+> +}
+
+This will populate the pud with a pmd pointer that does not point to the
+beginning of the pmd table, but to the second entry (because of how
+VADDR_TEST is constructed). This will result in failing pud_bad() check
+on s390. Not sure why/how it works on other archs, but would it be possible
+to align pmdp down to the beginning of the pmd table (and similar for the
+other pxd_populate_tests)?
+
+[...]
+> +
+> +	p4d_free(mm, saved_p4dp);
+> +	pud_free(mm, saved_pudp);
+> +	pmd_free(mm, saved_pmdp);
+> +	pte_free(mm, (pgtable_t) virt_to_page(saved_ptep));
+
+pgtable_t is arch-specific, and on s390 it is not a struct page pointer,
+but a pte pointer. So this will go wrong, also on all other archs (if any)
+where pgtable_t is not struct page.
+Would it be possible to use pte_free_kernel() instead, and just pass
+saved_ptep directly?
+
+Regards,
+Gerald
