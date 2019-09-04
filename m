@@ -1,75 +1,68 @@
-From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
-Date: Wed, 4 Sep 2019 05:59:01 +0000
-Subject: [U-Boot] [RFC PATCH] net: designware: drop compatible altr,
- socfpga-stmmac
-In-Reply-To: <CANr=Z=bF3dqXP919XJXzwrMYs_zW+yx_kpxeWYraxF1D7-S4-Q@mail.gmail.com>
-References: <20190819184313.8383-1-ralph.siemsen@linaro.org>
- <CY4PR1201MB01205C73F3502FFB2F9192BFA1AB0@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <CANr=Z=bF3dqXP919XJXzwrMYs_zW+yx_kpxeWYraxF1D7-S4-Q@mail.gmail.com>
+From: anshuman.khandual@arm.com (Anshuman Khandual)
+Date: Wed, 4 Sep 2019 11:44:25 +0530
+Subject: [PATCH 1/1] mm/pgtable/debug: Add test validating architecture
+ page table helpers
+In-Reply-To: <201909031912.htvWy2Bu%lkp@intel.com>
+References: <1567497706-8649-2-git-send-email-anshuman.khandual@arm.com>
+ <201909031912.htvWy2Bu%lkp@intel.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CY4PR1201MB0120A2635B4F31DB3F8273BCA1B80@CY4PR1201MB0120.namprd12.prod.outlook.com>
+Message-ID: <4dc9698f-dff4-b916-a83e-dc932c8087c0@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi Joe,
 
-> -----Original Message-----
-> From: Joe Hershberger <joe.hershberger at ni.com>
-> Sent: Wednesday, September 4, 2019 1:10 AM
-> To: Alexey Brodkin <abrodkin at synopsys.com>
-> Cc: Ralph Siemsen <ralph.siemsen at linaro.org>; Joseph Hershberger <joseph.hershberger at ni.com>; u-
-> boot at lists.denx.de; linux-snps-arc at lists.infradead.org; Eugeniy Paltsev <Eugeniy.Paltsev at synopsys.com>
-> Subject: Re: [U-Boot] [RFC PATCH] net: designware: drop compatible altr, socfpga-stmmac
+
+On 09/03/2019 04:43 PM, kbuild test robot wrote:
+> Hi Anshuman,
 > 
-> On Tue, Aug 20, 2019 at 3:07 AM Alexey Brodkin
-> <Alexey.Brodkin@synopsys.com> wrote:
-> >
-> > Hi Ralph,
-> >
-> > > -----Original Message-----
-> > > From: Ralph Siemsen <ralph.siemsen at linaro.org>
-> > > Sent: Monday, August 19, 2019 9:43 PM
-> > > To: u-boot at lists.denx.de; Joe Hershberger <joe.hershberger at ni.com>; Alexey Brodkin
-> > > <abrodkin at synopsys.com>; Vlad Zakharov <vzakhar at synopsys.com>
-> > > Cc: Ralph Siemsen <ralph.siemsen at linaro.org>
-> > > Subject: [RFC PATCH] net: designware: drop compatible altr,socfpga-stmmac
-> > >
-> > > The same compatible = "altr,socfpga-stmmac" appears in both
-> > > drivers/net/designware.c and drivers/net/dwmac_socfgpa.c,
-> > > creating ambiguity in which driver will be bound.
-> > >
-> > > For Intel/Altera SoC devices, dwmac_socfpga.c is the correct driver.
-> > > So drop the compatible string from designware.c.
-> > >
-> > > Signed-off-by: Ralph Siemsen <ralph.siemsen at linaro.org>
-> > > ---
-> > > This compatible string also appears in: axs10x_mb.dtsi and hsdk.dts.
-> > > Maintainers of those boards have been copied, kindly review.
-> >
-> > Thanks for this clean-up.
-> >
-> > Speaking about AXS10x board where we do have DW GMAC
-> > I cannot recall the reason I chose to use "altr,socfpga-stmmac"
-> > for the board here [1] 3 years ago.
-> >
-> > But given we don't have any special quirks implemented whatever
-> > is the most generic DW GMAC compatible string is should be good for us.
-> >
-> > Joe, could you please suggest if we need to use just "st,stm32-dwmac"
-> > or add our own compatible as the ASIC is not from ST obviously but
-> > an FPGA with Synopsys ARC SoC?
+> Thank you for the patch! Yet something to improve:
 > 
-> I think we should only be using what Linux does, so I'm afraid I have
-> to defer to what exists in the DTs there.
+> [auto build test ERROR on linus/master]
+> [cannot apply to v5.3-rc7 next-20190902]
+> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+> 
+> url:    https://github.com/0day-ci/linux/commits/Anshuman-Khandual/mm-debug-Add-tests-for-architecture-exported-page-table-helpers/20190903-162959
+> config: m68k-allmodconfig (attached as .config)
+> compiler: m68k-linux-gcc (GCC) 7.4.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # save the attached .config to linux build tree
+>         GCC_VERSION=7.4.0 make.cross ARCH=m68k 
+> 
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp at intel.com>
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    In file included from arch/m68k/include/asm/bug.h:32:0,
+>                     from include/linux/bug.h:5,
+>                     from include/linux/thread_info.h:12,
+>                     from include/asm-generic/preempt.h:5,
+>                     from ./arch/m68k/include/generated/asm/preempt.h:1,
+>                     from include/linux/preempt.h:78,
+>                     from arch/m68k/include/asm/irqflags.h:6,
+>                     from include/linux/irqflags.h:16,
+>                     from arch/m68k/include/asm/atomic.h:6,
+>                     from include/linux/atomic.h:7,
+>                     from include/linux/mm_types_task.h:13,
+>                     from include/linux/mm_types.h:5,
+>                     from include/linux/hugetlb.h:5,
+>                     from mm/arch_pgtable_test.c:14:
+>    mm/arch_pgtable_test.c: In function 'pmd_clear_tests':
+>>> arch/m68k/include/asm/page.h:31:22: error: lvalue required as unary '&' operand
+>     #define pmd_val(x) ((&x)->pmd[0])
+>                          ^
+>    include/asm-generic/bug.h:124:25: note: in definition of macro 'WARN_ON'
+>      int __ret_warn_on = !!(condition);    \
+>                             ^~~~~~~~~
+>>> arch/m68k/include/asm/motorola_pgtable.h:138:26: note: in expansion of macro 'pmd_val'
+>     #define pmd_none(pmd)  (!pmd_val(pmd))
+>                              ^~~~~~~
+>>> mm/arch_pgtable_test.c:233:11: note: in expansion of macro 'pmd_none'
+>      WARN_ON(!pmd_none(READ_ONCE(*pmdp)));
+>               ^~~~~~~~
+>    mm/arch_pgtable_test.c: In function 'pmd_populate_tests':
+>>> arch/m68k/include/asm/page.h:31:22: error: lvalue required as unary '&' operand
+>     #define pmd_val(x) ((&x)->pmd[0])
 
-In the Linux kernel we use "snps,dwmac", see [1].
-But maybe we need to switch to "snps,dwmac-3.70a" even as what we really have is 3.73a.
-
-While in U-Boot we don't have either one, the most generic is "st,stm32-dwmac", see [2].
-So maybe we want to add at least "snps,dwmac".
-
-@Jose Abreu could you please confirm if "snps,dwmac-3.70a" is OK for GMAC IP v3.73a?
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arc/boot/dts/axs10x_mb.dtsi#n74
-[2] https://gitlab.denx.de/u-boot/u-boot/blob/master/drivers/net/designware.c#L855
-
--Alexey
+Storing READ_ONCE(*pmdp) in a local pmd_t variable first solves the problem.
