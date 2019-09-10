@@ -1,220 +1,202 @@
-From: anshuman.khandual@arm.com (Anshuman Khandual)
-Date: Tue, 10 Sep 2019 11:13:07 +0530
-Subject: [PATCH 1/1] mm/pgtable/debug: Add test validating architecture
- page table helpers
-In-Reply-To: <94029d96-47c4-3020-57a8-4e03de1b4fc8@c-s.fr>
-References: <1567497706-8649-1-git-send-email-anshuman.khandual@arm.com>
- <1567497706-8649-2-git-send-email-anshuman.khandual@arm.com>
- <20190904221618.1b624a98@thinkpad>
- <20e3044d-2af5-b27b-7653-cec53bdec941@arm.com>
- <20190905190629.523bdb87@thinkpad>
- <3c609e33-afbb-ffaf-481a-6d225a06d1d0@arm.com>
- <20190906210346.5ecbff01@thinkpad>
- <3d5de35f-8192-1c75-50a9-03e66e3b8e5c@arm.com>
- <20190909151344.ghfypjbgxyosjdk3@box>
- <5883d41a-8299-1584-aa3d-fac89b3d9b5b@arm.com>
- <94029d96-47c4-3020-57a8-4e03de1b4fc8@c-s.fr>
+From: claudiu.beznea@microchip.com (Claudiu Beznea)
+Date: Tue, 10 Sep 2019 16:47:09 +0300
+Subject: [PATCH 0/7] add support for clocksource/clockevent DT selection
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <b0e2c87c-1130-4219-246b-e050a9da2a39@arm.com>
+Message-ID: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
 To: linux-snps-arc@lists.infradead.org
 
+Hi,
 
+This series adds support to permit the selection of clocksource/clockevent
+via DT.
 
-On 09/10/2019 10:15 AM, Christophe Leroy wrote:
-> 
-> 
-> On 09/10/2019 03:56 AM, Anshuman Khandual wrote:
->>
->>
->> On 09/09/2019 08:43 PM, Kirill A. Shutemov wrote:
->>> On Mon, Sep 09, 2019@11:56:50AM +0530, Anshuman Khandual wrote:
->>>>
->>>>
->>>> On 09/07/2019 12:33 AM, Gerald Schaefer wrote:
->>>>> On Fri, 6 Sep 2019 11:58:59 +0530
->>>>> Anshuman Khandual <anshuman.khandual@arm.com> wrote:
->>>>>
->>>>>> On 09/05/2019 10:36 PM, Gerald Schaefer wrote:
->>>>>>> On Thu, 5 Sep 2019 14:48:14 +0530
->>>>>>> Anshuman Khandual <anshuman.khandual@arm.com> wrote:
->>>>>>> ??
->>>>>>>>> [...]
->>>>>>>>>> +
->>>>>>>>>> +#if !defined(__PAGETABLE_PMD_FOLDED) && !defined(__ARCH_HAS_4LEVEL_HACK)
->>>>>>>>>> +static void pud_clear_tests(pud_t *pudp)
->>>>>>>>>> +{
->>>>>>>>>> +??? memset(pudp, RANDOM_NZVALUE, sizeof(pud_t));
->>>>>>>>>> +??? pud_clear(pudp);
->>>>>>>>>> +??? WARN_ON(!pud_none(READ_ONCE(*pudp)));
->>>>>>>>>> +}
->>>>>>>>>
->>>>>>>>> For pgd/p4d/pud_clear(), we only clear if the page table level is present
->>>>>>>>> and not folded. The memset() here overwrites the table type bits, so
->>>>>>>>> pud_clear() will not clear anything on s390 and the pud_none() check will
->>>>>>>>> fail.
->>>>>>>>> Would it be possible to OR a (larger) random value into the table, so that
->>>>>>>>> the lower 12 bits would be preserved?
->>>>>>>>
->>>>>>>> So the suggestion is instead of doing memset() on entry with RANDOM_NZVALUE,
->>>>>>>> it should OR a large random value preserving lower 12 bits. Hmm, this should
->>>>>>>> still do the trick for other platforms, they just need non zero value. So on
->>>>>>>> s390, the lower 12 bits on the page table entry already has valid value while
->>>>>>>> entering this function which would make sure that pud_clear() really does
->>>>>>>> clear the entry ?
->>>>>>>
->>>>>>> Yes, in theory the table entry on s390 would have the type set in the last
->>>>>>> 4 bits, so preserving those would be enough. If it does not conflict with
->>>>>>> others, I would still suggest preserving all 12 bits since those would contain
->>>>>>> arch-specific flags in general, just to be sure. For s390, the pte/pmd tests
->>>>>>> would also work with the memset, but for consistency I think the same logic
->>>>>>> should be used in all pxd_clear_tests.
->>>>>>
->>>>>> Makes sense but..
->>>>>>
->>>>>> There is a small challenge with this. Modifying individual bits on a given
->>>>>> page table entry from generic code like this test case is bit tricky. That
->>>>>> is because there are not enough helpers to create entries with an absolute
->>>>>> value. This would have been easier if all the platforms provided functions
->>>>>> like __pxx() which is not the case now. Otherwise something like this should
->>>>>> have worked.
->>>>>>
->>>>>>
->>>>>> pud_t pud = READ_ONCE(*pudp);
->>>>>> pud = __pud(pud_val(pud) | RANDOM_VALUE (keeping lower 12 bits 0))
->>>>>> WRITE_ONCE(*pudp, pud);
->>>>>>
->>>>>> But __pud() will fail to build in many platforms.
->>>>>
->>>>> Hmm, I simply used this on my system to make pud_clear_tests() work, not
->>>>> sure if it works on all archs:
->>>>>
->>>>> pud_val(*pudp) |= RANDOM_NZVALUE;
->>>>
->>>> Which compiles on arm64 but then fails on x86 because of the way pmd_val()
->>>> has been defined there.
->>>
->>> Use instead
->>>
->>> ????*pudp = __pud(pud_val(*pudp) | RANDOM_NZVALUE);
->>
->> Agreed.
->>
->> As I had mentioned before this would have been really the cleanest approach.
->>
->>>
->>> It *should* be more portable.
->>
->> Not really, because not all the platforms have __pxx() definitions right now.
->> Going with these will clearly cause build failures on affected platforms. Lets
->> examine __pud() for instance. It is defined only on these platforms.
->>
->> arch/arm64/include/asm/pgtable-types.h:??????? #define __pud(x) ((pud_t) { (x) } )
->> arch/mips/include/asm/pgtable-64.h:??????? #define __pud(x) ((pud_t) { (x) })
->> arch/powerpc/include/asm/pgtable-be-types.h:??? #define __pud(x) ((pud_t) { cpu_to_be64(x) })
->> arch/powerpc/include/asm/pgtable-types.h:??? #define __pud(x) ((pud_t) { (x) })
->> arch/s390/include/asm/page.h:??????????? #define __pud(x) ((pud_t) { (x) } )
->> arch/sparc/include/asm/page_64.h:??????? #define __pud(x) ((pud_t) { (x) } )
->> arch/sparc/include/asm/page_64.h:??????? #define __pud(x) (x)
->> arch/x86/include/asm/pgtable.h:??????????? #define __pud(x) native_make_pud(x)
-> 
-> You missed:
-> arch/x86/include/asm/paravirt.h:static inline pud_t __pud(pudval_t val)
-> include/asm-generic/pgtable-nop4d-hack.h:#define __pud(x) ?????????????? ((pud_t) { __pgd(x) })
-> include/asm-generic/pgtable-nopud.h:#define __pud(x) ?????? ((pud_t) { __p4d(x) })
-> 
->>
->> Similarly for __pmd()
->>
->> arch/alpha/include/asm/page.h:??????????? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/arm/include/asm/page-nommu.h:??????? #define __pmd(x)? (x)
->> arch/arm/include/asm/pgtable-2level-types.h:??? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/arm/include/asm/pgtable-2level-types.h:??? #define __pmd(x)? (x)
->> arch/arm/include/asm/pgtable-3level-types.h:??? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/arm/include/asm/pgtable-3level-types.h:??? #define __pmd(x)? (x)
->> arch/arm64/include/asm/pgtable-types.h:??????? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/m68k/include/asm/page.h:??????????? #define __pmd(x)? ((pmd_t) { { (x) }, })
->> arch/mips/include/asm/pgtable-64.h:??????? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/nds32/include/asm/page.h:??????????? #define __pmd(x)? (x)
->> arch/parisc/include/asm/page.h:??????????? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/parisc/include/asm/page.h:??????????? #define __pmd(x)? (x)
->> arch/powerpc/include/asm/pgtable-be-types.h:??? #define __pmd(x)? ((pmd_t) { cpu_to_be64(x) })
->> arch/powerpc/include/asm/pgtable-types.h:??? #define __pmd(x)? ((pmd_t) { (x) })
->> arch/riscv/include/asm/pgtable-64.h:??????? #define __pmd(x)? ((pmd_t) { (x) })
->> arch/s390/include/asm/page.h:??????????? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/sh/include/asm/pgtable-3level.h:??????? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/sparc/include/asm/page_32.h:??????? #define __pmd(x)? ((pmd_t) { { (x) }, })
->> arch/sparc/include/asm/page_32.h:??????? #define __pmd(x)? ((pmd_t) { { (x) }, })
->> arch/sparc/include/asm/page_64.h:??????? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/sparc/include/asm/page_64.h:??????? #define __pmd(x)? (x)
->> arch/um/include/asm/page.h:??????????? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/um/include/asm/page.h:??????????? #define __pmd(x)? ((pmd_t) { (x) } )
->> arch/x86/include/asm/pgtable.h:??????????? #define __pmd(x)? native_make_pmd(x)
-> 
-> You missed:
-> arch/x86/include/asm/paravirt.h:static inline pmd_t __pmd(pmdval_t val)
-> include/asm-generic/page.h:#define __pmd(x)???? ((pmd_t) { (x) } )
-> include/asm-generic/pgtable-nopmd.h:#define __pmd(x) ?????? ((pmd_t) { __pud(x) } )
-> 
-> 
->>
->> Similarly for __pgd()
->>
->> arch/alpha/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/alpha/include/asm/page.h:??????????? #define __pgd(x)? (x)
->> arch/arc/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) })
->> arch/arc/include/asm/page.h:??????????? #define __pgd(x)? (x)
->> arch/arm/include/asm/pgtable-3level-types.h:??? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/arm/include/asm/pgtable-3level-types.h:??? #define __pgd(x)? (x)
->> arch/arm64/include/asm/pgtable-types.h:??????? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/csky/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) })
->> arch/hexagon/include/asm/page.h:??????? #define __pgd(x)? ((pgd_t) { (x) })
->> arch/m68k/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/mips/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/nds32/include/asm/page.h:??????????? #define __pgd(x)? (x)
->> arch/nios2/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) })
->> arch/openrisc/include/asm/page.h:??????? #define __pgd(x)? ((pgd_t) { (x) })
->> arch/parisc/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/parisc/include/asm/page.h:??????????? #define __pgd(x)? (x)
->> arch/powerpc/include/asm/pgtable-be-types.h:??? #define __pgd(x)? ((pgd_t) { cpu_to_be64(x) })
->> arch/powerpc/include/asm/pgtable-types.h:??? #define __pgd(x)? ((pgd_t) { (x) })
->> arch/riscv/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) })
->> arch/s390/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/sh/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/sparc/include/asm/page_32.h:??????? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/sparc/include/asm/page_32.h:??????? #define __pgd(x)? (x)
->> arch/sparc/include/asm/page_64.h:??????? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/sparc/include/asm/page_64.h:??????? #define __pgd(x)? (x)
->> arch/um/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) } )
->> arch/unicore32/include/asm/page.h:??????? #define __pgd(x)? ((pgd_t) { (x) })
->> arch/unicore32/include/asm/page.h:??????? #define __pgd(x)? (x)
->> arch/x86/include/asm/pgtable.h:??????????? #define __pgd(x)? native_make_pgd(x)
->> arch/xtensa/include/asm/page.h:??????????? #define __pgd(x)? ((pgd_t) { (x) } )
-> 
-> You missed:
-> arch/x86/include/asm/paravirt.h:static inline pgd_t __pgd(pgdval_t val)
-> include/asm-generic/page.h:#define __pgd(x)???? ((pgd_t) { (x) } )
-> 
-> 
->>
->> Similarly for __p4d()
->>
->> arch/s390/include/asm/page.h:??????????? #define __p4d(x)? ((p4d_t) { (x) } )
->> arch/x86/include/asm/pgtable.h:??????????? #define __p4d(x)? native_make_p4d(x)
-> 
-> You missed:
-> arch/x86/include/asm/paravirt.h:static inline p4d_t __p4d(p4dval_t val)
-> include/asm-generic/5level-fixup.h:#define __p4d(x) __pgd(x)
-> include/asm-generic/pgtable-nop4d.h:#define __p4d(x) ?????? ((p4d_t) { __pgd(x) })
-> 
-> 
->>
->> The search pattern here has been "#define __pxx(". Unless I am missing something,
->> I dont see how we can use these without risking build failures.
->>
-> 
-> I guess you missed that arches not defining them fall back on the definitions in include/asm-generic
+In [1] I proposed a solution other than the one in this series, with parsing DT
+bindings and at probe time and passing it to timer specific probe function.
+Looking forward though the clocksource/clockevent drivers implementation and
+taking into account the response at [2] I sticked the implementation to
+timer-of specific library.
 
-You are right. I was confused whether these generic definitions were really
-applicable for all those platforms as fallback (with so many page table
-level folding combinations available) when they dont define. Sure will take
-this approach and try to build them on multiple platforms.
+The implementation in this series is using timer-of specific library to parse
+the DT bindings related to timers functions: clocksource or clockevent.
+
+With this implementation a timer's driver registers for probing an array of
+objects of type struct timer_of. In flags member of struct timer_of object it
+has to be passed the following new flags (related to how the driver will behave)
+as follows:
+- TIMER_OF_TYPE_CS: timer could work only as clocksource at a time
+- TIMER_OF_TYPE_CE: timer could work only as clockevent at a time
+- TIMER_OF_TYPE_CE_AND_CE: timer could work at a time as both, clocksource and
+clockevent.
+
+The timer registration macro (for probing) now gets a new argument which should
+be an array of struct timer_of objects:
+
+TIMER_OF_DECLARE(name, compat, handler, to)
+CLOCKSOURCE_OF_DECLARE(name, compat, handler, to)
+
+In case driver could work to feed only the clocksource subsystem or only the
+clockevent subsystem the struct timer_of array passed to TIMER_OF_DECLARE()/
+CLOCKSOURCE_OF_DECLARE() should contain 2 entries: one to be filled if probed
+timer works as clocksource device, one to be filled if probed timer works as
+clockevent device.
+
+For such a case, the minimal format of struct timer_of array is as follows:
+struct timer_of to[] = {
+	{ .flags = TIMER_OF_TYPE_CS }
+	{ .flags = TIMER_OF_TYPE_CE }
+	{ /* sentinel. */
+};
+
+If timer could work as both, clocksource and clockevent at the same time,
+the struct timer_of array should look as follows:
+struct timer_of to[] = {
+	{ .flags = TIMER_OF_TYPE_CE_AND_CS }
+	{ /* sentinel. */
+};
+
+And in device tree there should be added chosen bindings as follows:
+
+chosen {
+	linux,clocksource {
+		timer = <&timer1>
+	};
+	
+	linux,clockevent {
+		timer = <&timer2>;
+	}
+};
+
+timer1: t1 at 123 {
+	compatible = "timerx-compatible";
+	/* the rest of DT bindings here */
+};
+
+timer2: t1 at 234 {
+	compatible = "timerx-compatible";
+	/* the rest of DT bindings here */
+};
+
+At probing time (timer_probe()), timer_of_init() will check the DT bindings
+and try to match with one of the entries in struct timer_of array passed at
+probe. The used entry will be considered used if the timers' device_node 
+pointer is set. If no matching b/w DT and what has been passed for probe
+via struct timer_of array then probe should fail.
+
+The patches in this series are organized as follows:
+1/7 - avoid calling timer_of_init() for every CPU since it should not be needed
+2/7 - changes timer registration macro by adding a new argument (pointer to
+      struct timer_of)
+3/7 - use BIT() macro
+4/7 - add clocksource/clockevent selection documentation [3]
+5/7 - implement support described above
+6/7 - remove an unnecessary line
+7/7 - implement this support for integrator-ap timer
+
+I implemented this support for timer published at [4].
+
+Thank you,
+Claudiu Beznea
+
+[1] https://lore.kernel.org/lkml/34574b0f-7d09-eb92-ea62-4199c293b0e7 at microchip.com/
+[2] https://lore.kernel.org/lkml/1ebaa306-8a7f-fd58-56e0-a61b767357f7 at linaro.org/
+[3] https://lore.kernel.org/lkml/20171213185313.20017-1-alexandre.belloni at free-electrons.com/
+[4] https://lore.kernel.org/lkml/1552580772-8499-1-git-send-email-claudiu.beznea at microchip.com/
+
+Alexandre Belloni (2):
+  dt-bindings: chosen: Add clocksource and clockevent selection
+  clocksource/drivers/integrator-ap: parse the chosen node
+
+Claudiu Beznea (5):
+  clocksource/drivers/c-sky: request timer_of_init only for probing CPU
+  clocksource: change timer registration macros
+  clocksource/timer_of: use BIT() macro
+  clocksource/drivers/timer-of: add support support for timer's
+    functionalities
+  drivers/clocksource/timer-of: keep declaration on one line
+
+ Documentation/devicetree/bindings/chosen.txt |  20 +++++
+ arch/arm/kernel/smp_twd.c                    |  10 ++-
+ arch/arm/mach-davinci/time.c                 |   2 +-
+ arch/microblaze/kernel/timer.c               |   2 +-
+ arch/mips/ralink/cevt-rt3352.c               |   2 +-
+ arch/nios2/kernel/time.c                     |   2 +-
+ drivers/clocksource/Kconfig                  |   1 +
+ drivers/clocksource/arc_timer.c              |   6 +-
+ drivers/clocksource/arm_arch_timer.c         |   6 +-
+ drivers/clocksource/arm_global_timer.c       |   2 +-
+ drivers/clocksource/armv7m_systick.c         |   2 +-
+ drivers/clocksource/asm9260_timer.c          |   2 +-
+ drivers/clocksource/bcm2835_timer.c          |   2 +-
+ drivers/clocksource/bcm_kona_timer.c         |   4 +-
+ drivers/clocksource/clksrc-dbx500-prcmu.c    |   2 +-
+ drivers/clocksource/clksrc_st_lpc.c          |   2 +-
+ drivers/clocksource/clps711x-timer.c         |   2 +-
+ drivers/clocksource/dw_apb_timer_of.c        |   9 ++-
+ drivers/clocksource/exynos_mct.c             |   4 +-
+ drivers/clocksource/h8300_timer16.c          |   2 +-
+ drivers/clocksource/h8300_timer8.c           |   2 +-
+ drivers/clocksource/h8300_tpu.c              |   2 +-
+ drivers/clocksource/jcore-pit.c              |   2 +-
+ drivers/clocksource/mips-gic-timer.c         |   2 +-
+ drivers/clocksource/mps2-timer.c             |   2 +-
+ drivers/clocksource/mxs_timer.c              |   2 +-
+ drivers/clocksource/nomadik-mtu.c            |   2 +-
+ drivers/clocksource/renesas-ostm.c           |   2 +-
+ drivers/clocksource/samsung_pwm_timer.c      |  12 ++-
+ drivers/clocksource/timer-armada-370-xp.c    |   6 +-
+ drivers/clocksource/timer-atcpit100.c        |  74 +++++++++---------
+ drivers/clocksource/timer-atlas7.c           |   3 +-
+ drivers/clocksource/timer-atmel-pit.c        |   2 +-
+ drivers/clocksource/timer-atmel-st.c         |   2 +-
+ drivers/clocksource/timer-atmel-tcb.c        |   2 +-
+ drivers/clocksource/timer-cadence-ttc.c      |   2 +-
+ drivers/clocksource/timer-davinci.c          |   3 +-
+ drivers/clocksource/timer-digicolor.c        |   2 +-
+ drivers/clocksource/timer-efm32.c            |   4 +-
+ drivers/clocksource/timer-fsl-ftm.c          |   2 +-
+ drivers/clocksource/timer-fttmr010.c         |  10 +--
+ drivers/clocksource/timer-gx6605s.c          |  58 +++++++-------
+ drivers/clocksource/timer-imx-gpt.c          |  24 +++---
+ drivers/clocksource/timer-imx-sysctr.c       |  61 +++++++--------
+ drivers/clocksource/timer-imx-tpm.c          |  69 ++++++++---------
+ drivers/clocksource/timer-integrator-ap.c    |  21 +++++-
+ drivers/clocksource/timer-ixp4xx.c           |   2 +-
+ drivers/clocksource/timer-keystone.c         |   2 +-
+ drivers/clocksource/timer-lpc32xx.c          |   2 +-
+ drivers/clocksource/timer-mediatek.c         | 108 +++++++++++++++------------
+ drivers/clocksource/timer-meson6.c           |   2 +-
+ drivers/clocksource/timer-milbeaut.c         |  59 ++++++++-------
+ drivers/clocksource/timer-mp-csky.c          |  52 ++++++-------
+ drivers/clocksource/timer-npcm7xx.c          |  87 +++++++++++----------
+ drivers/clocksource/timer-nps.c              |   6 +-
+ drivers/clocksource/timer-of.c               |  91 +++++++++++++++++++++-
+ drivers/clocksource/timer-of.h               |  36 +++++++--
+ drivers/clocksource/timer-orion.c            |   2 +-
+ drivers/clocksource/timer-owl.c              |   6 +-
+ drivers/clocksource/timer-oxnas-rps.c        |   4 +-
+ drivers/clocksource/timer-pistachio.c        |   2 +-
+ drivers/clocksource/timer-prima2.c           |   2 +-
+ drivers/clocksource/timer-probe.c            |  17 ++++-
+ drivers/clocksource/timer-pxa.c              |   2 +-
+ drivers/clocksource/timer-qcom.c             |   4 +-
+ drivers/clocksource/timer-rda.c              |  66 ++++++++--------
+ drivers/clocksource/timer-riscv.c            |   2 +-
+ drivers/clocksource/timer-rockchip.c         |   4 +-
+ drivers/clocksource/timer-sp804.c            |   4 +-
+ drivers/clocksource/timer-sprd.c             |  75 +++++++++----------
+ drivers/clocksource/timer-stm32.c            |  39 +++++-----
+ drivers/clocksource/timer-sun4i.c            |  78 +++++++++----------
+ drivers/clocksource/timer-sun5i.c            |   4 +-
+ drivers/clocksource/timer-tango-xtal.c       |   2 +-
+ drivers/clocksource/timer-tegra.c            |  31 ++++----
+ drivers/clocksource/timer-ti-32k.c           |   2 +-
+ drivers/clocksource/timer-u300.c             |   2 +-
+ drivers/clocksource/timer-versatile.c        |   4 +-
+ drivers/clocksource/timer-vf-pit.c           |   2 +-
+ drivers/clocksource/timer-vt8500.c           |   2 +-
+ drivers/clocksource/timer-zevio.c            |   2 +-
+ include/linux/clocksource.h                  |  30 +++++++-
+ 82 files changed, 748 insertions(+), 544 deletions(-)
+
+-- 
+2.7.4
