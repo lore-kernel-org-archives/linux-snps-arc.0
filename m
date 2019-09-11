@@ -1,86 +1,58 @@
-From: alexandre.belloni@bootlin.com (Alexandre Belloni)
-Date: Wed, 11 Sep 2019 11:14:58 +0200
-Subject: [PATCH 4/7] dt-bindings: chosen: Add clocksource and clockevent
- selection
-In-Reply-To: <81da473f-54d7-2a00-61ec-9351cdfcaaf3@baylibre.com>
+From: john.stultz@linaro.org (John Stultz)
+Date: Wed, 11 Sep 2019 09:06:01 -0700
+Subject: [PATCH 0/7] add support for clocksource/clockevent DT selection
+In-Reply-To: <cb451591-88ad-f1b3-b654-cea86ae11cac@microchip.com>
 References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
- <1568123236-767-5-git-send-email-claudiu.beznea@microchip.com>
- <81da473f-54d7-2a00-61ec-9351cdfcaaf3@baylibre.com>
+ <CALAqxLWLStTqGx5DAvUKOYupdgK-doOxRF5Z_Us=L5vnFaa=7w@mail.gmail.com>
+ <cb451591-88ad-f1b3-b654-cea86ae11cac@microchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190911091458.GD21254@piout.net>
+Message-ID: <CALAqxLXRVc-K5q=me1=5tA0XYT7ncrArSoD+hq=JOGWVF9-7SQ@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-On 11/09/2019 09:34:27+0200, Neil Armstrong wrote:
-> Hi,
-> 
-> On 10/09/2019 15:47, Claudiu Beznea wrote:
-> > From: Alexandre Belloni <alexandre.belloni at bootlin.com>
-> > 
-> > Some timer drivers may behave either as clocksource or clockevent
-> > or both. Until now, in case of platforms with multiple hardware
-> > resources of the same type, the drivers were chosing the first
-> > registered hardware resource as clocksource/clockevent and the
-> > next one as clockevent/clocksource. Other were using different
-> > compatibles (one for each functionality, although its about the
-> > same hardware). Add DT bindings to be able to choose the
-> > functionality of a timer.
-> > 
-> > Signed-off-by: Alexandre Belloni <alexandre.belloni at bootlin.com>
-> > Signed-off-by: Claudiu Beznea <claudiu.beznea at microchip.com>
-> > ---
-> >  Documentation/devicetree/bindings/chosen.txt | 20 ++++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
-> > index 45e79172a646..aad3034cdbdf 100644
-> > --- a/Documentation/devicetree/bindings/chosen.txt
-> > +++ b/Documentation/devicetree/bindings/chosen.txt
-> > @@ -135,3 +135,23 @@ e.g.
-> >  		linux,initrd-end = <0x82800000>;
-> >  	};
-> >  };
-> > +
-> > +linux,clocksource and linux,clockevent
-> > +--------------------------------------
-> > +
-> > +Those nodes have a timer property. This property is a phandle to the timer to be
-> > +chosen as the clocksource or clockevent. This is only useful when the platform
-> > +has multiple identical timers and it is not possible to let linux make the
-> > +correct choice.
-> > +
-> > +/ {
-> > +	chosen {
-> > +		linux,clocksource {
-> > +			timer = <&timer0>;
-> > +		};
-> > +
-> > +		linux,clockevent {
-> > +			timer = <&timer1>;
-> > +		};
-> > +	};
-> > +};
-> > 
-> 
-> Why not in aliases ?
-> 
-> aliases {
->     clocksource0 = &timer0;
->     clockevent0 = &timer1;
-> };
-> 
-> since we can have multiple of each, we should not limit ourselves to 1 clkevent
-> and 1 clksource.
-> 
-> In the aliases case, each driver would expose both capabilities, and the core would select
-> what to enable.
-> 
+On Tue, Sep 10, 2019@11:52 PM <Claudiu.Beznea@microchip.com> wrote:
+> On 10.09.2019 19:05, John Stultz wrote:
+> > External E-Mail
+> > On Tue, Sep 10, 2019 at 6:47 AM Claudiu Beznea
+> > <claudiu.beznea@microchip.com> wrote:
+> >>
+> >> This series adds support to permit the selection of clocksource/clockevent
+> >> via DT.
+> >
+> > Sorry about this, but could you try to include more of a rational for
+> > *why* this would be useful in your cover-letter/commit messages?
+> >
+>
+> Sorry for not being to clear in the cover letter.
+>
+> The case I am trying to solve here is as follows:
+> The timer hardware for which I publish a driver at [1] cannot work at the
+> same time as a clocksource and clockevent. On some of our platforms we have
+> more than one such a timer. So we could use one hardware resource as
+> clocksource and one as clockevent but not one for both.
+> Due to this, I proposed in the driver at [1] to have 1st probed hardware to
+> work as clocksource and the 2nd one to work as clockevent.
+[snip]
+> Due to this Daniel proposed to have an unified mechanism for this scenario,
+> see [2], (something like what I proposed in this series), such that to have
+> a determinism b/w the function that the hardware resources would behave
+> (either clocksource or clockevent or both).
 
-For extendability, you need nodes for that because at some point, you
-may need to also be able to select the timer frequency. You can't do
-that with an alias.
+Thanks for the additional explanation! I'd suggest adding something
+like it to the commit logs for next time.
 
+Personally, I tend to think of DT bindings as a big harry ABI, and as
+such avoid it as much as possible. :)
 
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I'd probably favor driver tweaks to ensure the hardware only gets
+registered once for each, using a minimal DT compatible or flag on the
+hardware to better describe the underlying hardware quirk that keeps
+it from being usable for both clocksource and clockevent usage.
+
+That way the DT sticks to accurately describing hardware, instead of
+system/software-abstraction configuration details that just apply for
+Linux.
+
+But, again, I'm not really a DT person, so I'll defer to Rob and Daniel.
+
+thanks
+-john
