@@ -1,120 +1,34 @@
 From: christophe.leroy@c-s.fr (Christophe Leroy)
-Date: Fri, 13 Sep 2019 08:30:25 +0200
-Subject: [PATCH V2 2/2] mm/pgtable/debug: Add test validating architecture
- page table helpers
-In-Reply-To: <600a7c62-eea9-e26f-f7cf-f2103b7c228c@c-s.fr>
+Date: Fri, 13 Sep 2019 08:32:11 +0200
+Subject: [PATCH V2 0/2] mm/debug: Add tests for architecture exported page
+ table helpers
+In-Reply-To: <1b467d7a-0324-eb2c-876a-f04a99b9c596@arm.com>
 References: <1568268173-31302-1-git-send-email-anshuman.khandual@arm.com>
- <1568268173-31302-3-git-send-email-anshuman.khandual@arm.com>
- <4cf31ca9-39e4-87e4-7eef-a6f3f0ea7576@c-s.fr>
- <31aa6043-3b11-a936-bf35-6ed84bff9304@c-s.fr>
- <600a7c62-eea9-e26f-f7cf-f2103b7c228c@c-s.fr>
+ <527edfce-c986-de4c-e286-34a70f6a2790@c-s.fr>
+ <1b467d7a-0324-eb2c-876a-f04a99b9c596@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <09fa20e8-a587-34ce-ec44-ebe159009350@c-s.fr>
+Message-ID: <ba2314ff-54c1-0deb-b207-b591647fac9d@c-s.fr>
 To: linux-snps-arc@lists.infradead.org
 
 
 
-Le 12/09/2019 ? 17:52, Christophe Leroy a ?crit?:
+Le 13/09/2019 ? 08:24, Anshuman Khandual a ?crit?:
 > 
 > 
-> Le 12/09/2019 ? 17:36, Christophe Leroy a ?crit?:
+> On 09/12/2019 08:12 PM, Christophe Leroy wrote:
+>> Hi,
 >>
->>
->> Le 12/09/2019 ? 17:00, Christophe Leroy a ?crit?:
->>>
->>>
->>> On 09/12/2019 06:02 AM, Anshuman Khandual wrote:
->>>> This adds a test module which will validate architecture page table 
->>>> helpers
->>>> and accessors regarding compliance with generic MM semantics 
->>>> expectations.
->>>> This will help various architectures in validating changes to the 
->>>> existing
->>>> page table helpers or addition of new ones.
->>>>
->>>> Test page table and memory pages creating it's entries at various 
->>>> level are
->>>> all allocated from system memory with required alignments. If memory 
->>>> pages
->>>> with required size and alignment could not be allocated, then all 
->>>> depending
->>>> individual tests are skipped.
->>>
->>> Build failure on powerpc book3s/32. This is because asm/highmem.h is 
->>> missing. It can't be included from asm/book3s/32/pgtable.h because it 
->>> creates circular dependency. So it has to be included from 
->>> mm/arch_pgtable_test.c
->>
->> In fact it is <linux/highmem.h> that needs to be added, adding 
->> <asm/highmem.h> directly provokes build failure at link time.
->>
+>> I didn't get patch 1 of this series, and it is not on linuxppc-dev patchwork either. Can you resend ?
 > 
-> I get the following failure,
+> Its there on linux-mm patchwork and copied on linux-kernel at vger.kernel.org
+> as well. The CC list for the first patch was different than the second one.
 > 
-> [??? 0.704685] ------------[ cut here ]------------
-> [??? 0.709239] initcall arch_pgtable_tests_init+0x0/0x228 returned with 
-> preemption imbalance
+> https://patchwork.kernel.org/patch/11142317/
+> 
+> Let me know if you can not find it either on MM or LKML list.
+> 
 
-preempt_disable() is called from kmap_atomic() which is called from 
-pte_alloc_map() via pte_offset_map().
-
-pte_unmap() has to be called to release the mapped pte and re-enable 
-preemtion.
+I finaly found it on linux-mm archive, thanks. See my other mails and my 
+fixing patch.
 
 Christophe
-
-
-> [??? 0.717539] WARNING: CPU: 0 PID: 1 at init/main.c:952 
-> do_one_initcall+0x18c/0x1d4
-> [??? 0.724922] CPU: 0 PID: 1 Comm: swapper Not tainted 
-> 5.3.0-rc7-s3k-dev-00880-g28fd02a838e5-dirty #2307
-> [??? 0.734070] NIP:? c070e674 LR: c070e674 CTR: c001292c
-> [??? 0.739084] REGS: df4a5dd0 TRAP: 0700?? Not tainted 
-> (5.3.0-rc7-s3k-dev-00880-g28fd02a838e5-dirty)
-> [??? 0.747975] MSR:? 00029032 <EE,ME,IR,DR,RI>? CR: 28000222? XER: 00000000
-> [??? 0.754628]
-> [??? 0.754628] GPR00: c070e674 df4a5e88 df4a0000 0000004e 0000000a 
-> 00000000 000000ca 38207265
-> [??? 0.754628] GPR08: 00001032 00000800 00000000 00000000 22000422 
-> 00000000 c0004a7c 00000000
-> [??? 0.754628] GPR16: 00000000 00000000 00000000 00000000 00000000 
-> c0810000 c0800000 c0816f30
-> [??? 0.754628] GPR24: c070dc20 c074702c 00000006 0000009c 00000000 
-> c0724494 c074e140 00000000
-> [??? 0.789339] NIP [c070e674] do_one_initcall+0x18c/0x1d4
-> [??? 0.794435] LR [c070e674] do_one_initcall+0x18c/0x1d4
-> [??? 0.799437] Call Trace:
-> [??? 0.801867] [df4a5e88] [c070e674] do_one_initcall+0x18c/0x1d4 
-> (unreliable)
-> [??? 0.808694] [df4a5ee8] [c070e8c0] kernel_init_freeable+0x204/0x2dc
-> [??? 0.814830] [df4a5f28] [c0004a94] kernel_init+0x18/0x110
-> [??? 0.820107] [df4a5f38] [c00122ac] ret_from_kernel_thread+0x14/0x1c
-> [??? 0.826220] Instruction dump:
-> [??? 0.829161] 4beb1069 7d2000a6 61298000 7d200124 89210008 2f890000 
-> 41be0048 3c60c06a
-> [??? 0.836849] 38a10008 7fa4eb78 3863cacc 4b915115 <0fe00000> 4800002c 
-> 81220070 712a0004
-> [??? 0.844723] ---[ end trace 969d686308d40b33 ]---
-> 
-> Then starting init fails:
-> 
-> [??? 3.894074] Run /init as init process
-> [??? 3.898403] Failed to execute /init (error -14)
-> [??? 3.903009] Run /sbin/init as init process
-> [??? 3.907172] Run /etc/init as init process
-> [??? 3.911251] Run /bin/init as init process
-> [??? 3.915513] Run /bin/sh as init process
-> [??? 3.919471] Starting init: /bin/sh exists but couldn't execute it 
-> (error -14)
-> [??? 3.926732] Kernel panic - not syncing: No working init found.? Try 
-> passing init= option to kernel. See Linux 
-> Documentation/admin-guide/init.rst for guidance.
-> [??? 3.940864] CPU: 0 PID: 1 Comm: init Tainted: G??????? W 
-> 5.3.0-rc7-s3k-dev-00880-g28fd02a838e5-dirty #2307
-> [??? 3.951165] Call Trace:
-> [??? 3.953617] [df4a5ec8] [c002392c] panic+0x12c/0x320 (unreliable)
-> [??? 3.959621] [df4a5f28] [c0004b8c] rootfs_mount+0x0/0x2c
-> [??? 3.964849] [df4a5f38] [c00122ac] ret_from_kernel_thread+0x14/0x1c
-> 
-> 
-> Christophe
