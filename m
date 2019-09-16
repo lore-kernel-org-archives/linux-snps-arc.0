@@ -1,53 +1,35 @@
-From: christophe.leroy@c-s.fr (Christophe Leroy)
-Date: Fri, 13 Sep 2019 12:01:00 +0200
-Subject: [PATCH V2 2/2] mm/pgtable/debug: Add test validating architecture
- page table helpers
-In-Reply-To: <502c497a-9bf1-7d2e-95f2-cfebcd9cf1d9@arm.com>
-References: <1568268173-31302-1-git-send-email-anshuman.khandual@arm.com>
- <1568268173-31302-3-git-send-email-anshuman.khandual@arm.com>
- <ab0ca38b-1e4f-b636-f8b4-007a15903984@c-s.fr>
- <502c497a-9bf1-7d2e-95f2-cfebcd9cf1d9@arm.com>
+From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
+Date: Mon, 16 Sep 2019 14:06:25 -0700
+Subject: [PATCH 0/6] ignore @ 2.06
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <95ed9d92-dd43-4c45-2e52-738aed7f2fb5@c-s.fr>
+Message-ID: <20190916210625.9780-1-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
+Hi,
 
+This is set of patches almost lost in one of my older branches. I decided to
+clean them and post given the work on newer MMU.
 
-Le 13/09/2019 ? 11:02, Anshuman Khandual a ?crit?:
-> 
->>> +#if !defined(__PAGETABLE_PMD_FOLDED) && !defined(__ARCH_HAS_4LEVEL_HACK)
->>
->> #ifdefs have to be avoided as much as possible, see below
-> 
-> Yeah but it has been bit difficult to avoid all these $ifdef because of the
-> availability (or lack of it) for all these pgtable helpers in various config
-> combinations on all platforms.
+Thx,
+-Vineet
 
-As far as I can see these pgtable helpers should exist everywhere at 
-least via asm-generic/ files.
+Vineet Gupta (6):
+  ARCv2: mm: TLB Miss optim: SMP builds can cache pgd pointer in mmu
+    scratch reg
+  ARCv2: mm: TLB Miss optim: Use double world load/stores LDD/STD
+  ARC: mm: TLB Miss optim: avoid re-reading ECR
+  ARC: mm: tlb flush optim: Make TLBWriteNI fallback to TLBWrite if not
+    available
+  ARC: mm: tlb flush optim: elide repeated uTLB invalidate in loop
+  ARC: mm: tlb flush optim: elide redundant uTLB invalidates for MMUv3
 
-Can you spot a particular config which fails ?
+ arch/arc/include/asm/entry-compact.h |  4 +-
+ arch/arc/include/asm/mmu.h           |  6 +++
+ arch/arc/include/asm/mmu_context.h   |  2 +-
+ arch/arc/include/asm/pgtable.h       |  2 +-
+ arch/arc/mm/tlb.c                    | 81 +++++++++++-----------------
+ arch/arc/mm/tlbex.S                  | 18 ++++---
+ 6 files changed, 51 insertions(+), 62 deletions(-)
 
-> 
->>
-
-[...]
-
->>> +#if !defined(__PAGETABLE_PUD_FOLDED) && !defined(__ARCH_HAS_5LEVEL_HACK)
->>
->> The same can be done here.
-> 
-> IIRC not only the page table helpers but there are data types (pxx_t) which
-> were not present on various configs and these wrappers help prevent build
-> failures. Any ways will try and see if this can be improved further. But
-> meanwhile if you have some suggestions, please do let me know.
-
-pgt_t and pmd_t are everywhere I guess.
-then pud_t and p4d_t have fallbacks in asm-generic files.
-
-So it shouldn't be an issue. Maybe if a couple of arches miss them, the 
-best would be to fix the arches, since that's the purpose of your 
-testsuite isn't it ?
-
-
-Christophe
+-- 
+2.20.1
