@@ -1,143 +1,49 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Mon, 16 Sep 2019 14:32:06 -0700
-Subject: [PATCH 5/6] ARC: mm: tlb flush optim: elide repeated uTLB invalidate
- in loop
-In-Reply-To: <20190916213207.12792-1-vgupta@synopsys.com>
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Mon, 16 Sep 2019 23:36:00 +0000
+Subject: [PATCH 3/6] ARC: mm: TLB Miss optim: avoid re-reading ECR
+In-Reply-To: <20190916213207.12792-4-vgupta@synopsys.com>
 References: <20190916213207.12792-1-vgupta@synopsys.com>
+ <20190916213207.12792-4-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190916213207.12792-6-vgupta@synopsys.com>
+Message-ID: <CY4PR1201MB0120D19524D7D3F184E2B181A18C0@CY4PR1201MB0120.namprd12.prod.outlook.com>
 To: linux-snps-arc@lists.infradead.org
 
-The unconditional full TLB flush (on say ASID rollover) iterates over each
-entry and uses TLBWrite to zero it out. TLBWrite by design also invalidates
-the uTLBs thus we end up invalidating it as many times as numbe rof
-entries (512 or 1k)
+Hi Vineet,
 
-Optimize this by using a weaker TLBWriteNI cmd in loop, which doesn't
-tinker with uTLBs and an explicit one time IVUTLB, outside the loop to
-invalidate them all once.
+> -----Original Message-----
+> From: Vineet Gupta <vgupta at synopsys.com>
+> Sent: Monday, September 16, 2019 2:32 PM
+> To: linux-snps-arc at lists.infradead.org
+> Cc: Alexey Brodkin <abrodkin at synopsys.com>; Vineet Gupta <vgupta at synopsys.com>
+> Subject: [PATCH 3/6] ARC: mm: TLB Miss optim: avoid re-reading ECR
+> 
+> For setting PTE Dirty bit, reuse the prior test for ST miss.
+> 
+> No need to reload ECR and test for ST cause code as the prev
+> condition code is still valid (uncloberred)
+> 
+> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+> ---
+>  arch/arc/mm/tlbex.S | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/arch/arc/mm/tlbex.S b/arch/arc/mm/tlbex.S
+> index 110c72536e8b..4c88148d4cd1 100644
+> --- a/arch/arc/mm/tlbex.S
+> +++ b/arch/arc/mm/tlbex.S
+> @@ -380,9 +380,7 @@ ENTRY(EV_TLBMissD)
+> 
+>  	;----------------------------------------------------------------
+>  	; UPDATE_PTE: Let Linux VM know that page was accessed/dirty
 
-And given the optimiztion, the IVUTLB is now needed on MMUv4 too where
-the uTLBs and JTLBs are otherwise coherent given the TLBInsertEntry /
-TLBDeleteEntry commands
+I'd suggest to put a BOLD comment here saying that we rely on previously
+set condition flag so that whoever reads or (even worse) modifies that or
+previous code keeps in mind that we shouldn't clobber a particular flag.
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- arch/arc/mm/tlb.c | 74 +++++++++++++++++++----------------------------
- 1 file changed, 29 insertions(+), 45 deletions(-)
+> -	lr      r3, [ecr]
+>  	or      r0, r0, _PAGE_ACCESSED        ; Accessed bit always
+> -	btst_s  r3,  ECR_C_BIT_DTLB_ST_MISS   ; See if it was a Write Access ?
+>  	or.nz   r0, r0, _PAGE_DIRTY           ; if Write, set Dirty bit as well
+>  	st_s    r0, [r1]                      ; Write back PTE
 
-diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
-index 417f05ac4397..210d807983dd 100644
---- a/arch/arc/mm/tlb.c
-+++ b/arch/arc/mm/tlb.c
-@@ -118,6 +118,33 @@ static inline void __tlb_entry_erase(void)
- 	write_aux_reg(ARC_REG_TLBCOMMAND, TLBWrite);
- }
- 
-+static void utlb_invalidate(void)
-+{
-+#if (CONFIG_ARC_MMU_VER >= 2)
-+
-+#if (CONFIG_ARC_MMU_VER == 2)
-+	/* MMU v2 introduced the uTLB Flush command.
-+	 * There was however an obscure hardware bug, where uTLB flush would
-+	 * fail when a prior probe for J-TLB (both totally unrelated) would
-+	 * return lkup err - because the entry didn't exist in MMU.
-+	 * The Workround was to set Index reg with some valid value, prior to
-+	 * flush. This was fixed in MMU v3
-+	 */
-+	unsigned int idx;
-+
-+	/* make sure INDEX Reg is valid */
-+	idx = read_aux_reg(ARC_REG_TLBINDEX);
-+
-+	/* If not write some dummy val */
-+	if (unlikely(idx & TLB_LKUP_ERR))
-+		write_aux_reg(ARC_REG_TLBINDEX, 0xa);
-+#endif
-+
-+	write_aux_reg(ARC_REG_TLBCOMMAND, TLBIVUTLB);
-+#endif
-+
-+}
-+
- #if (CONFIG_ARC_MMU_VER < 4)
- 
- static inline unsigned int tlb_entry_lkup(unsigned long vaddr_n_asid)
-@@ -149,44 +176,6 @@ static void tlb_entry_erase(unsigned int vaddr_n_asid)
- 	}
- }
- 
--/****************************************************************************
-- * ARC700 MMU caches recently used J-TLB entries (RAM) as uTLBs (FLOPs)
-- *
-- * New IVUTLB cmd in MMU v2 explictly invalidates the uTLB
-- *
-- * utlb_invalidate ( )
-- *  -For v2 MMU calls Flush uTLB Cmd
-- *  -For v1 MMU does nothing (except for Metal Fix v1 MMU)
-- *      This is because in v1 TLBWrite itself invalidate uTLBs
-- ***************************************************************************/
--
--static void utlb_invalidate(void)
--{
--#if (CONFIG_ARC_MMU_VER >= 2)
--
--#if (CONFIG_ARC_MMU_VER == 2)
--	/* MMU v2 introduced the uTLB Flush command.
--	 * There was however an obscure hardware bug, where uTLB flush would
--	 * fail when a prior probe for J-TLB (both totally unrelated) would
--	 * return lkup err - because the entry didn't exist in MMU.
--	 * The Workround was to set Index reg with some valid value, prior to
--	 * flush. This was fixed in MMU v3 hence not needed any more
--	 */
--	unsigned int idx;
--
--	/* make sure INDEX Reg is valid */
--	idx = read_aux_reg(ARC_REG_TLBINDEX);
--
--	/* If not write some dummy val */
--	if (unlikely(idx & TLB_LKUP_ERR))
--		write_aux_reg(ARC_REG_TLBINDEX, 0xa);
--#endif
--
--	write_aux_reg(ARC_REG_TLBCOMMAND, TLBIVUTLB);
--#endif
--
--}
--
- static void tlb_entry_insert(unsigned int pd0, pte_t pd1)
- {
- 	unsigned int idx;
-@@ -219,11 +208,6 @@ static void tlb_entry_insert(unsigned int pd0, pte_t pd1)
- 
- #else	/* CONFIG_ARC_MMU_VER >= 4) */
- 
--static void utlb_invalidate(void)
--{
--	/* No need since uTLB is always in sync with JTLB */
--}
--
- static void tlb_entry_erase(unsigned int vaddr_n_asid)
- {
- 	write_aux_reg(ARC_REG_TLBPD0, vaddr_n_asid | _PAGE_PRESENT);
-@@ -267,7 +251,7 @@ noinline void local_flush_tlb_all(void)
- 	for (entry = 0; entry < num_tlb; entry++) {
- 		/* write this entry to the TLB */
- 		write_aux_reg(ARC_REG_TLBINDEX, entry);
--		write_aux_reg(ARC_REG_TLBCOMMAND, TLBWrite);
-+		write_aux_reg(ARC_REG_TLBCOMMAND, TLBWriteNI);
- 	}
- 
- 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
-@@ -278,7 +262,7 @@ noinline void local_flush_tlb_all(void)
- 
- 		for (entry = stlb_idx; entry < stlb_idx + 16; entry++) {
- 			write_aux_reg(ARC_REG_TLBINDEX, entry);
--			write_aux_reg(ARC_REG_TLBCOMMAND, TLBWrite);
-+			write_aux_reg(ARC_REG_TLBCOMMAND, TLBWriteNI);
- 		}
- 	}
- 
--- 
-2.20.1
+-Alexey
