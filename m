@@ -1,10 +1,10 @@
 From: gregkh@linuxfoundation.org (gregkh@linuxfoundation.org)
-Date: Thu, 19 Sep 2019 23:11:14 +0200
+Date: Thu, 19 Sep 2019 23:11:15 +0200
 Subject: Patch "ARC: export "abort" for modules" has been added to the
- 4.4-stable tree
+ 4.9-stable tree
 In-Reply-To: <20190919205847.4806-1-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <15689274741934@kroah.com>
+Message-ID: <156892747510640@kroah.com>
 To: linux-snps-arc@lists.infradead.org
 
 
@@ -12,12 +12,12 @@ This is a note to let you know that I've just added the patch titled
 
     ARC: export "abort" for modules
 
-to the 4.4-stable tree which can be found at:
+to the 4.9-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      arc-export-abort-for-modules.patch
-and it can be found in the queue-4.4 subdirectory.
+and it can be found in the queue-4.9 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable at vger.kernel.org> know about it.
@@ -63,4 +63,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 
 Patches currently in stable-queue which might be from Vineet.Gupta1 at synopsys.com are
 
-queue-4.4/arc-export-abort-for-modules.patch
+queue-4.9/arc-export-abort-for-modules.patch
