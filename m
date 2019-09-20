@@ -1,66 +1,65 @@
-From: gregkh@linuxfoundation.org (gregkh@linuxfoundation.org)
-Date: Thu, 19 Sep 2019 23:11:15 +0200
-Subject: Patch "ARC: export "abort" for modules" has been added to the
- 4.9-stable tree
-In-Reply-To: <20190919205847.4806-1-vgupta@synopsys.com>
+From: anshuman.khandual@arm.com (Anshuman Khandual)
+Date: Fri, 20 Sep 2019 09:36:12 +0530
+Subject: [PATCH V2 2/2] mm/pgtable/debug: Add test validating architecture
+ page table helpers
+In-Reply-To: <20190918202243.37e709df@thinkpad>
+References: <1568268173-31302-1-git-send-email-anshuman.khandual@arm.com>
+ <1568268173-31302-3-git-send-email-anshuman.khandual@arm.com>
+ <ab0ca38b-1e4f-b636-f8b4-007a15903984@c-s.fr>
+ <502c497a-9bf1-7d2e-95f2-cfebcd9cf1d9@arm.com>
+ <95ed9d92-dd43-4c45-2e52-738aed7f2fb5@c-s.fr>
+ <f872e6f4-a5cb-069d-2034-78961930cb9f@arm.com>
+ <64504101-d9dd-f273-02f9-e9a8b178eecc@c-s.fr>
+ <20190918202243.37e709df@thinkpad>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <156892747510640@kroah.com>
+Message-ID: <5a6045af-bcfb-12c2-0f4a-3b49a905ec4d@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
 
-This is a note to let you know that I've just added the patch titled
 
-    ARC: export "abort" for modules
+On 09/18/2019 11:52 PM, Gerald Schaefer wrote:
+> On Wed, 18 Sep 2019 18:26:03 +0200
+> Christophe Leroy <christophe.leroy@c-s.fr> wrote:
+> 
+> [..] 
+>> My suggestion was not to completely drop the #ifdef but to do like you 
+>> did in pgd_clear_tests() for instance, ie to add the following test on 
+>> top of the function:
+>>
+>> 	if (mm_pud_folded(mm) || is_defined(__ARCH_HAS_5LEVEL_HACK))
+>> 		return;
+>>
+> 
+> Ah, very nice, this would also fix the remaining issues for s390. Since
+> we have dynamic page table folding, neither __PAGETABLE_PXX_FOLDED nor
+> __ARCH_HAS_XLEVEL_HACK is defined, but mm_pxx_folded() will work.
 
-to the 4.9-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+Like Christophe mentioned earlier on the other thread, we will convert
+all __PGTABLE_PXX_FOLDED checks as mm_pxx_folded() but looks like 
+ARCH_HAS_[4 and 5]LEVEL_HACK macros will still be around. Will respin
+the series with all agreed upon changes first and probably we can then
+discuss pending issues from there.
 
-The filename of the patch is:
-     arc-export-abort-for-modules.patch
-and it can be found in the queue-4.9 subdirectory.
+> 
+> mm_alloc() returns with a 3-level page table by default on s390, so we
+> will run into issues in p4d_clear/populate_tests(), and also at the end
+> with p4d/pud_free() (double free).
+> 
+> So, adding the mm_pud_folded() check to p4d_clear/populate_tests(),
+> and also adding mm_p4d/pud_folded() checks at the end before calling> p4d/pud_free(), would make it all work on s390.
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable at vger.kernel.org> know about it.
+Atleast p4d_clear/populate_tests() tests will be taken care.
 
-
->From Vineet.Gupta1 at synopsys.com  Thu Sep 19 23:10:40 2019
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Date: Thu, 19 Sep 2019 13:58:47 -0700
-Subject: ARC: export "abort" for modules
-To: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-Cc: linux-snps-arc at lists.infradead.org, Vineet Gupta <Vineet.Gupta1 at synopsys.com>, kbuild test robot <lkp at intel.com>, stable at vger.kernel.org
-List-ID: <linux-snps-arc@lists.infradead.org>
-To: linux-snps-arc@lists.infradead.org
-Message-ID: <20190919205847.4806-1-vgupta at synopsys.com>
-
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-
-This is a custom patch (no mainline equivalent) for stable backport only
-to address 0-Day kernel test infra ARC 4.x.y builds errors.
-
-The reason for this custom patch as that it is a single patch, touches
-only ARC, vs. atleast two 7c2c11b208be09c1, dc8635b78cd8669 which touch
-atleast 3 other arches (one long removed) and could potentially have a
-fallout.
-
-Reported-by: kbuild test robot <lkp at intel.com>
-CC: stable at vger.kernel.org	# 4.4, 4.9
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-
----
- arch/arc/kernel/traps.c |    1 +
- 1 file changed, 1 insertion(+)
-
---- a/arch/arc/kernel/traps.c
-+++ b/arch/arc/kernel/traps.c
-@@ -163,3 +163,4 @@ void abort(void)
- {
- 	__asm__ __volatile__("trap_s  5\n");
- }
-+EXPORT_SYMBOL(abort);
-
-
-Patches currently in stable-queue which might be from Vineet.Gupta1 at synopsys.com are
-
-queue-4.9/arc-export-abort-for-modules.patch
+> 
+> BTW, regarding p4d/pud_free(), I'm not sure if we should rather check
+> the folding inside our s390 functions, similar to how we do it for
+> p4d/pud_free_tlb(), instead of relying on not being called for folded
+> p4d/pud. So far, I see no problem with this behavior, all callers of
+> p4d/pud_free() should be fine because of our folding check within
+> p4d/pud_present/none(). But that doesn't mean that it is correct not
+> to check for the folding inside p4d/pud_free(). At least, with this
+> test module we do now have a caller of p4d/pud_free() on potentially
+> folded entries, so instead of adding pxx_folded() checks to this
+> test module, we could add them to our p4d/pud_free() functions.
+> Any thoughts on this?
+Agreed, it seems better to do the check inside p4d/pud_free() functions.
