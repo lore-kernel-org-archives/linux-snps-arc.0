@@ -1,21 +1,32 @@
-From: festevam@gmail.com (Fabio Estevam)
-Date: Wed, 25 Sep 2019 12:17:28 -0300
-Subject: [PATCH v2 00/21] Refine memblock API
-In-Reply-To: <CAHCN7xJdzEppn8-74SvzACsA25bUHGdV7v=CfS08xzSi59Z2uw@mail.gmail.com>
-References: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
- <CAHCN7x+Jv7yGPoB0Gm=TJ30ObLJduw2XomHkd++KqFEURYQcGg@mail.gmail.com>
- <CAOMZO5A_U4aYC4XZXK1r9JaLg-eRdXy8m6z4GatQp62rK4HZ6A@mail.gmail.com>
- <CAHCN7xJdzEppn8-74SvzACsA25bUHGdV7v=CfS08xzSi59Z2uw@mail.gmail.com>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Wed, 25 Sep 2019 19:19:16 +0200
+Subject: [PATCH 0/7] add support for clocksource/clockevent DT selection
+In-Reply-To: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
+References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <CAOMZO5D2uzR6Sz1QnX3G-Ce_juxU-0PO_vBZX+nR1mpQB8s8-w@mail.gmail.com>
+Message-ID: <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-On Wed, Sep 25, 2019@9:17 AM Adam Ford <aford173@gmail.com> wrote:
 
-> I tried cma=256M and noticed the cma dump at the beginning didn't
-> change.  Do we need to setup a reserved-memory node like
-> imx6ul-ccimx6ulsom.dtsi did?
+Hi Claudiu,
 
-I don't think so.
+On 10/09/2019 15:47, Claudiu Beznea wrote:
+> Hi,
+> 
+> This series adds support to permit the selection of clocksource/clockevent
+> via DT.
 
-Were you able to identify what was the exact commit that caused such regression?
+Thanks for the proposal and taking care of making some progress on this.
+
+I just wanted to let you know I've been traveling but the series is in
+my pipe and I did not forget it. I'll comment it next week.
+
+ -- Daniel
+
+
+-- 
+ <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
