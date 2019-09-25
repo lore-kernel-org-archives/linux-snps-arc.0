@@ -1,23 +1,34 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Wed, 25 Sep 2019 05:31:18 -0000
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Wed Sep 25, 15:29
+From: festevam@gmail.com (Fabio Estevam)
+Date: Wed, 25 Sep 2019 09:12:18 -0300
+Subject: [PATCH v2 00/21] Refine memblock API
+In-Reply-To: <CAHCN7x+Jv7yGPoB0Gm=TJ30ObLJduw2XomHkd++KqFEURYQcGg@mail.gmail.com>
+References: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
+ <CAHCN7x+Jv7yGPoB0Gm=TJ30ObLJduw2XomHkd++KqFEURYQcGg@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20190925053118.1.26694@78c6c811cd18>
+Message-ID: <CAOMZO5A_U4aYC4XZXK1r9JaLg-eRdXy8m6z4GatQp62rK4HZ6A@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Wed Sep 25, 15:29
+Hi Adam,
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13972299/
+On Wed, Sep 25, 2019@6:38 AM Adam Ford <aford173@gmail.com> wrote:
 
-Commit:   Merge tag 'microblaze-v5.4-rc1' of git://git.monstr.eu/linux-2.6-microblaze
-          5184d449600f501a8688069f35c138c6b3bf8b94
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+> I know it's rather late, but this patch broke the Etnaviv 3D graphics
+> in my i.MX6Q.
+>
+> When I try to use the 3D, it returns some errors and the dmesg log
+> shows some memory allocation errors too:
+> [    3.682347] etnaviv etnaviv: bound 130000.gpu (ops gpu_ops)
+> [    3.688669] etnaviv etnaviv: bound 134000.gpu (ops gpu_ops)
+> [    3.695099] etnaviv etnaviv: bound 2204000.gpu (ops gpu_ops)
+> [    3.700800] etnaviv-gpu 130000.gpu: model: GC2000, revision: 5108
+> [    3.723013] etnaviv-gpu 130000.gpu: command buffer outside valid
+> memory window
+> [    3.731308] etnaviv-gpu 134000.gpu: model: GC320, revision: 5007
+> [    3.752437] etnaviv-gpu 134000.gpu: command buffer outside valid
+> memory window
 
-No errors found in log
+This looks similar to what was reported at:
+https://bugs.freedesktop.org/show_bug.cgi?id=111789
 
-Possible warnings (3)
-----------------------
-
-<stdin>:1511:2: warning: #warning syscall clone3 not implemented [-Wcpp]
-net/ipv4/tcp_input.c:4384:49: warning: array subscript is above array bounds [-Warray-bounds]
-net/xfrm/xfrm_policy.c:3496:15: warning: array subscript is above array bounds [-Warray-bounds]
+Does it help if you use the same suggestion and pass cma=256M in your
+kernel command line?
