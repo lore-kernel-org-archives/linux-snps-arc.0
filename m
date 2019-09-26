@@ -1,39 +1,38 @@
-From: Claudiu.Beznea@microchip.com (Claudiu.Beznea@microchip.com)
-Date: Thu, 26 Sep 2019 08:42:57 +0000
-Subject: [PATCH 0/7] add support for clocksource/clockevent DT selection
-In-Reply-To: <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
-References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
- <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
+From: aford173@gmail.com (Adam Ford)
+Date: Thu, 26 Sep 2019 08:09:52 -0500
+Subject: [PATCH v2 00/21] Refine memblock API
+In-Reply-To: <CAOMZO5D2uzR6Sz1QnX3G-Ce_juxU-0PO_vBZX+nR1mpQB8s8-w@mail.gmail.com>
+References: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
+ <CAHCN7x+Jv7yGPoB0Gm=TJ30ObLJduw2XomHkd++KqFEURYQcGg@mail.gmail.com>
+ <CAOMZO5A_U4aYC4XZXK1r9JaLg-eRdXy8m6z4GatQp62rK4HZ6A@mail.gmail.com>
+ <CAHCN7xJdzEppn8-74SvzACsA25bUHGdV7v=CfS08xzSi59Z2uw@mail.gmail.com>
+ <CAOMZO5D2uzR6Sz1QnX3G-Ce_juxU-0PO_vBZX+nR1mpQB8s8-w@mail.gmail.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <72edc5fd-df05-cba5-5aa7-39da1709415b@microchip.com>
+Message-ID: <CAHCN7xJ32BYZu-DVTVLSzv222U50JDb8F0A_tLDERbb8kPdRxg@mail.gmail.com>
 To: linux-snps-arc@lists.infradead.org
 
+On Wed, Sep 25, 2019@10:17 AM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> On Wed, Sep 25, 2019@9:17 AM Adam Ford <aford173@gmail.com> wrote:
+>
+> > I tried cma=256M and noticed the cma dump at the beginning didn't
+> > change.  Do we need to setup a reserved-memory node like
+> > imx6ul-ccimx6ulsom.dtsi did?
+>
+> I don't think so.
+>
+> Were you able to identify what was the exact commit that caused such regression?
 
+I was able to narrow it down the 92d12f9544b7 ("memblock: refactor
+internal allocation functions") that caused the regression with
+Etnaviv.
 
-On 25.09.2019 20:19, Daniel Lezcano wrote:
-> External E-Mail
-> 
-> 
-> Hi Claudiu,
-> 
-> On 10/09/2019 15:47, Claudiu Beznea wrote:
->> Hi,
->>
->> This series adds support to permit the selection of clocksource/clockevent
->> via DT.
-> 
-> Thanks for the proposal and taking care of making some progress on this.
-> 
-> I just wanted to let you know I've been traveling but the series is in
-> my pipe and I did not forget it. I'll comment it next week.
+I also noticed that if I create a reserved memory node as was done one
+imx6ul-ccimx6ulsom.dtsi the 3D seems to work again, but without it, I
+was getting errors regardless of the 'cma=256M' or not.
+I don't have a problem using the reserved memory, but I guess I am not
+sure what the amount should be.  I know for the video decoding 1080p,
+I have historically used cma=128M, but with the 3D also needing some
+memory allocation, is that enough or should I use 256M?
 
-Hi Daniel,
-
-No problem. Thank you for letting me know.
-
-Claudiu
-
-> 
->  -- Daniel
-> 
-> 
+adam
