@@ -1,85 +1,51 @@
 From: Claudiu.Beznea@microchip.com (Claudiu.Beznea@microchip.com)
-Date: Wed, 2 Oct 2019 13:32:44 +0000
-Subject: [PATCH 4/7] dt-bindings: chosen: Add clocksource and clockevent
- selection
-In-Reply-To: <20190930143246.GA19967@bogus>
+Date: Wed, 2 Oct 2019 13:35:47 +0000
+Subject: [PATCH 0/7] add support for clocksource/clockevent DT selection
+In-Reply-To: <72edc5fd-df05-cba5-5aa7-39da1709415b@microchip.com>
 References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
- <1568123236-767-5-git-send-email-claudiu.beznea@microchip.com>
- <20190910143231.GB14966@e107533-lin.cambridge.arm.com>
- <ab43b209-78fa-0cab-b8ea-acd4c550e689@microchip.com>
- <20190910150826.GA18308@e107533-lin.cambridge.arm.com>
- <20190910151055.GX21254@piout.net>
- <CACRpkda4mmpbPWa2nD93CvD6HWzcTUDzyyLdQxC2gNB7XiJF3w@mail.gmail.com>
- <a2aca46a-8eb9-d8a8-de42-9850a8a8f44c@microchip.com>
- <20190930143246.GA19967@bogus>
+ <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
+ <72edc5fd-df05-cba5-5aa7-39da1709415b@microchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <e78e7520-213c-8075-d71e-b8db2ebdceb7@microchip.com>
+Message-ID: <620a19d5-73b8-709d-9eec-49274ac23e51@microchip.com>
 To: linux-snps-arc@lists.infradead.org
 
+Hi Daniel,
 
+Taking into account that Rob doesn't agree with the solution proposed in
+this series do you think there is a chance to merge this driver as is?
 
-On 30.09.2019 17:32, Rob Herring wrote:
-> On Wed, Sep 11, 2019@07:18:07AM +0000, Claudiu.Beznea@microchip.com wrote:
+If you have other suggestion I am open to try it.
+
+Thank you,
+Claudiu Beznea
+
+On 26.09.2019 11:42, Claudiu Beznea wrote:
+> 
+> 
+> On 25.09.2019 20:19, Daniel Lezcano wrote:
+>> External E-Mail
 >>
 >>
->> On 11.09.2019 03:03, Linus Walleij wrote:
->>> External E-Mail
->>>
->>>
->>> On Tue, Sep 10, 2019 at 4:11 PM Alexandre Belloni
->>> <alexandre.belloni@bootlin.com> wrote:
->>>> On 10/09/2019 16:08:26+0100, Sudeep Holla wrote:
->>>>> On Tue, Sep 10, 2019@02:51:50PM +0000, Claudiu.Beznea@microchip.com wrote:
->>>
->>>>> In that case, why can't we identify capability that with the compatibles
->>>>> for this timer IP ?
->>>>>
->>>>> IOW, I don't like the proposal as it's hardware limitation.
->>>>
->>>> To be clear, bot timers are exactly the same but can't be clocksource
->>>> and clockevent at the same time. Why would we have different compatibles
->>>> for the exact same IP?
->>>
->>> In that case why not just pick the first one you find as clocksource
->>> and the second one as clock event? As they all come to the
->>> same timer of init function two simple local state variables can
->>> solve that:
->>>
->>> static bool registered_clocksource;
->>> static bool registered_clockevent;
->>>
->>> probe(timer) {
->>>    if (!registered_clocksource) {
->>>        register_clocksource(timer);
->>>        registrered_clocksource = true;
->>>        return;
->>>    }
->>>    if (!registered_clockevent) {
->>>        register_clockevent(timer);
->>>        registered_clockevent = true;
->>>        return;
->>>    }
->>>    pr_info("surplus timer %p\n", timer);
->>> }
->>>
+>> Hi Claudiu,
 >>
->> That was also my proposal for the driver I'm sending this series for (see
->> [1]) but it has been proposed to implement a mechanism similar to this one
->> in this series (see [2] and [3]).
+>> On 10/09/2019 15:47, Claudiu Beznea wrote:
+>>> Hi,
+>>>
+>>> This series adds support to permit the selection of clocksource/clockevent
+>>> via DT.
+>>
+>> Thanks for the proposal and taking care of making some progress on this.
+>>
+>> I just wanted to let you know I've been traveling but the series is in
+>> my pipe and I did not forget it. I'll comment it next week.
 > 
-> This comes up over and over, and the answer is still no. Either each 
-> block is identical and doesn't matter which one is used for what or 
-> there is some h/w difference that you should describe. 
-
-There are no hardware differences in my case. The block just cannot work at
-the same time  as clocksource and clockevent. And on SAM9X60's we want to
-use it as clockevent for high resolution timers support.
-
+> Hi Daniel,
 > 
-> If you want something that would even be considered to put into DT, 
-> then define something BSD or other OS's could use too. (That's not a 
-> suggestion to respin this with generalized names.)
+> No problem. Thank you for letting me know.
 > 
-> Rob
+> Claudiu
 > 
-> 
+>>
+>>  -- Daniel
+>>
+>>
