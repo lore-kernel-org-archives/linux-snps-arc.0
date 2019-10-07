@@ -1,86 +1,27 @@
 From: anshuman.khandual@arm.com (Anshuman Khandual)
-Date: Mon,  7 Oct 2019 11:15:22 +0530
-Subject: [PATCH V4 0/2] mm/debug: Add tests for architecture exported page
- table helpers
+Date: Mon,  7 Oct 2019 11:15:23 +0530
+Subject: [PATCH V4 1/2] mm/hugetlb: Make alloc_gigantic_page() available for
+ general use
+In-Reply-To: <1570427124-21887-1-git-send-email-anshuman.khandual@arm.com>
+References: <1570427124-21887-1-git-send-email-anshuman.khandual@arm.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <1570427124-21887-1-git-send-email-anshuman.khandual@arm.com>
+Message-ID: <1570427124-21887-2-git-send-email-anshuman.khandual@arm.com>
 To: linux-snps-arc@lists.infradead.org
 
-This series adds a test validation for architecture exported page table
-helpers. Patch in the series adds basic transformation tests at various
-levels of the page table. Before that it exports gigantic page allocation
-function from HugeTLB.
-
-This test was originally suggested by Catalin during arm64 THP migration
-RFC discussion earlier. Going forward it can include more specific tests
-with respect to various generic MM functions like THP, HugeTLB etc and
-platform specific tests.
-
-https://lore.kernel.org/linux-mm/20190628102003.GA56463 at arrakis.emea.arm.com/
-
-Changes in V4:
-
-- Disable DEBUG_ARCH_PGTABLE_TEST for ARM and IA64 platforms
-
-Changes in V3: (https://lore.kernel.org/patchwork/project/lkml/list/?series=411216)
-
-- Changed test trigger from module format into late_initcall()
-- Marked all functions with __init to be freed after completion
-- Changed all __PGTABLE_PXX_FOLDED checks as mm_pxx_folded()
-- Folded in PPC32 fixes from Christophe
-
-Changes in V2:
-
-https://lore.kernel.org/linux-mm/1568268173-31302-1-git-send-email-anshuman.khandual at arm.com/T/#t
-
-- Fixed small typo error in MODULE_DESCRIPTION()
-- Fixed m64k build problems for lvalue concerns in pmd_xxx_tests()
-- Fixed dynamic page table level folding problems on x86 as per Kirril
-- Fixed second pointers during pxx_populate_tests() per Kirill and Gerald
-- Allocate and free pte table with pte_alloc_one/pte_free per Kirill
-- Modified pxx_clear_tests() to accommodate s390 lower 12 bits situation
-- Changed RANDOM_NZVALUE value from 0xbe to 0xff
-- Changed allocation, usage, free sequence for saved_ptep
-- Renamed VMA_FLAGS as VMFLAGS
-- Implemented a new method for random vaddr generation
-- Implemented some other cleanups
-- Dropped extern reference to mm_alloc()
-- Created and exported new alloc_gigantic_page_order()
-- Dropped the custom allocator and used new alloc_gigantic_page_order()
-
-Changes in V1:
-
-https://lore.kernel.org/linux-mm/1567497706-8649-1-git-send-email-anshuman.khandual at arm.com/
-
-- Added fallback mechanism for PMD aligned memory allocation failure
-
-Changes in RFC V2:
-
-https://lore.kernel.org/linux-mm/1565335998-22553-1-git-send-email-anshuman.khandual at arm.com/T/#u
-
-- Moved test module and it's config from lib/ to mm/
-- Renamed config TEST_ARCH_PGTABLE as DEBUG_ARCH_PGTABLE_TEST
-- Renamed file from test_arch_pgtable.c to arch_pgtable_test.c
-- Added relevant MODULE_DESCRIPTION() and MODULE_AUTHOR() details
-- Dropped loadable module config option
-- Basic tests now use memory blocks with required size and alignment
-- PUD aligned memory block gets allocated with alloc_contig_range()
-- If PUD aligned memory could not be allocated it falls back on PMD aligned
-  memory block from page allocator and pud_* tests are skipped
-- Clear and populate tests now operate on real in memory page table entries
-- Dummy mm_struct gets allocated with mm_alloc()
-- Dummy page table entries get allocated with [pud|pmd|pte]_alloc_[map]()
-- Simplified [p4d|pgd]_basic_tests(), now has random values in the entries
-
-Original RFC V1:
-
-https://lore.kernel.org/linux-mm/1564037723-26676-1-git-send-email-anshuman.khandual at arm.com/
+alloc_gigantic_page() implements an allocation method where it scans over
+various zones looking for a large contiguous memory block which could not
+have been allocated through the buddy allocator. A subsequent patch which
+tests arch page table helpers needs such a method to allocate PUD_SIZE
+sized memory block. In the future such methods might have other use cases
+as well. So alloc_gigantic_page() has been split carving out actual memory
+allocation method and made available via new alloc_gigantic_page_order().
 
 Cc: Andrew Morton <akpm at linux-foundation.org>
 Cc: Vlastimil Babka <vbabka at suse.cz>
 Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 Cc: Thomas Gleixner <tglx at linutronix.de>
 Cc: Mike Rapoport <rppt at linux.vnet.ibm.com>
+Cc: Mike Kravetz <mike.kravetz at oracle.com>
 Cc: Jason Gunthorpe <jgg at ziepe.ca>
 Cc: Dan Williams <dan.j.williams at intel.com>
 Cc: Peter Zijlstra <peterz at infradead.org>
@@ -108,7 +49,6 @@ Cc: Ralf Baechle <ralf at linux-mips.org>
 Cc: Kirill A. Shutemov <kirill at shutemov.name>
 Cc: Gerald Schaefer <gerald.schaefer at de.ibm.com>
 Cc: Christophe Leroy <christophe.leroy at c-s.fr>
-Cc: Mike Kravetz <mike.kravetz at oracle.com>
 Cc: linux-snps-arc at lists.infradead.org
 Cc: linux-mips at vger.kernel.org
 Cc: linux-arm-kernel at lists.infradead.org
@@ -119,19 +59,96 @@ Cc: linux-sh at vger.kernel.org
 Cc: sparclinux at vger.kernel.org
 Cc: x86 at kernel.org
 Cc: linux-kernel at vger.kernel.org
+Signed-off-by: Anshuman Khandual <anshuman.khandual at arm.com>
+---
+ include/linux/hugetlb.h |  9 +++++++++
+ mm/hugetlb.c            | 24 ++++++++++++++++++++++--
+ 2 files changed, 31 insertions(+), 2 deletions(-)
 
-Anshuman Khandual (2):
-  mm/hugetlb: Make alloc_gigantic_page() available for general use
-  mm/pgtable/debug: Add test validating architecture page table helpers
-
- arch/x86/include/asm/pgtable_64_types.h |   2 +
- include/linux/hugetlb.h                 |   9 +
- mm/Kconfig.debug                        |  15 +
- mm/Makefile                             |   1 +
- mm/arch_pgtable_test.c                  | 440 ++++++++++++++++++++++++
- mm/hugetlb.c                            |  24 +-
- 6 files changed, 489 insertions(+), 2 deletions(-)
- create mode 100644 mm/arch_pgtable_test.c
-
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 53fc34f930d0..cc50d5ad4885 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -299,6 +299,9 @@ static inline bool is_file_hugepages(struct file *file)
+ }
+ 
+ 
++struct page *
++alloc_gigantic_page_order(unsigned int order, gfp_t gfp_mask,
++			  int nid, nodemask_t *nodemask);
+ #else /* !CONFIG_HUGETLBFS */
+ 
+ #define is_file_hugepages(file)			false
+@@ -310,6 +313,12 @@ hugetlb_file_setup(const char *name, size_t size, vm_flags_t acctflag,
+ 	return ERR_PTR(-ENOSYS);
+ }
+ 
++static inline struct page *
++alloc_gigantic_page_order(unsigned int order, gfp_t gfp_mask,
++			  int nid, nodemask_t *nodemask)
++{
++	return NULL;
++}
+ #endif /* !CONFIG_HUGETLBFS */
+ 
+ #ifdef HAVE_ARCH_HUGETLB_UNMAPPED_AREA
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index ef37c85423a5..3fb81252f52b 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1112,10 +1112,9 @@ static bool zone_spans_last_pfn(const struct zone *zone,
+ 	return zone_spans_pfn(zone, last_pfn);
+ }
+ 
+-static struct page *alloc_gigantic_page(struct hstate *h, gfp_t gfp_mask,
++struct page *alloc_gigantic_page_order(unsigned int order, gfp_t gfp_mask,
+ 		int nid, nodemask_t *nodemask)
+ {
+-	unsigned int order = huge_page_order(h);
+ 	unsigned long nr_pages = 1 << order;
+ 	unsigned long ret, pfn, flags;
+ 	struct zonelist *zonelist;
+@@ -1151,6 +1150,14 @@ static struct page *alloc_gigantic_page(struct hstate *h, gfp_t gfp_mask,
+ 	return NULL;
+ }
+ 
++static struct page *alloc_gigantic_page(struct hstate *h, gfp_t gfp_mask,
++					int nid, nodemask_t *nodemask)
++{
++	unsigned int order = huge_page_order(h);
++
++	return alloc_gigantic_page_order(order, gfp_mask, nid, nodemask);
++}
++
+ static void prep_new_huge_page(struct hstate *h, struct page *page, int nid);
+ static void prep_compound_gigantic_page(struct page *page, unsigned int order);
+ #else /* !CONFIG_CONTIG_ALLOC */
+@@ -1159,6 +1166,12 @@ static struct page *alloc_gigantic_page(struct hstate *h, gfp_t gfp_mask,
+ {
+ 	return NULL;
+ }
++
++struct page *alloc_gigantic_page_order(unsigned int order, gfp_t gfp_mask,
++				       int nid, nodemask_t *nodemask)
++{
++	return NULL;
++}
+ #endif /* CONFIG_CONTIG_ALLOC */
+ 
+ #else /* !CONFIG_ARCH_HAS_GIGANTIC_PAGE */
+@@ -1167,6 +1180,13 @@ static struct page *alloc_gigantic_page(struct hstate *h, gfp_t gfp_mask,
+ {
+ 	return NULL;
+ }
++
++struct page *alloc_gigantic_page_order(unsigned int order, gfp_t gfp_mask,
++				       int nid, nodemask_t *nodemask)
++{
++	return NULL;
++}
++
+ static inline void free_gigantic_page(struct page *page, unsigned int order) { }
+ static inline void destroy_compound_gigantic_page(struct page *page,
+ 						unsigned int order) { }
 -- 
 2.20.1
