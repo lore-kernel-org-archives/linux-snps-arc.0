@@ -1,10 +1,10 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed,  9 Oct 2019 11:43:50 -0700
-Subject: [PATCH v2] ARC: mm: remove __ARCH_USE_5LEVEL_HACK
-In-Reply-To: <adaa82a2-b143-d49f-f38c-24ef52a200b8@gmail.com>
-References: <adaa82a2-b143-d49f-f38c-24ef52a200b8@gmail.com>
+Date: Wed,  9 Oct 2019 11:57:31 -0700
+Subject: [PATCH v3] ARC: mm: remove __ARCH_USE_5LEVEL_HACK
+In-Reply-To: <20191009184350.18323-1-vgupta@synopsys.com>
+References: <20191009184350.18323-1-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20191009184350.18323-1-vgupta@synopsys.com>
+Message-ID: <20191009185731.25814-1-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
 Add the intermediate p4d accessors to make it 5 level compliant.
@@ -25,8 +25,11 @@ macros which needs to be addressed seperately.
 Cc: Kirill A. Shutemov <kirill.shutemov at linux.intel.com>
 Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
 ---
-v2 <- v1:
-  - fix highmem code
+v3 <- v2
+  - fix highmem build error
+
+v2 <- v1
+ - fix highmem code
 ---
  arch/arc/include/asm/pgtable.h |  1 -
  arch/arc/mm/fault.c            | 10 ++++++++--
@@ -74,7 +77,7 @@ index 3861543b66a0..fb86bc3e9b35 100644
  		goto bad_area;
  
 diff --git a/arch/arc/mm/highmem.c b/arch/arc/mm/highmem.c
-index a4856bfaedf3..69397c884a7b 100644
+index a4856bfaedf3..fc8849e4f72e 100644
 --- a/arch/arc/mm/highmem.c
 +++ b/arch/arc/mm/highmem.c
 @@ -111,12 +111,14 @@ EXPORT_SYMBOL(__kunmap_atomic);
@@ -88,7 +91,7 @@ index a4856bfaedf3..69397c884a7b 100644
  
  	pgd_k = pgd_offset_k(kvaddr);
 -	pud_k = pud_offset(pgd_k, kvaddr);
-+	p4d_k = p4d_offset(pgd_k, address);
++	p4d_k = p4d_offset(pgd_k, kvaddr);
 +	pud_k = pud_offset(p4d_k, kvaddr);
  	pmd_k = pmd_offset(pud_k, kvaddr);
  
