@@ -1,22 +1,31 @@
-From: noreply@ellerman.id.au (noreply@ellerman.id.au)
-Date: Wed, 09 Oct 2019 06:14:25 -0000
-Subject: kisskb: OK linux-next/axs101_defconfig/arcompact Wed Oct 09, 17:12
+From: Alexey.Brodkin@synopsys.com (Alexey Brodkin)
+Date: Wed,  9 Oct 2019 10:21:28 +0300
+Subject: [PATCH] arc: emsdp: docs: Prefer Degilent over Opella-XD
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20191009061425.1.76683@78c6c811cd18>
+Message-ID: <20191009072128.2851-1-abrodkin@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-OK linux-next/axs101_defconfig/arcompact Wed Oct 09, 17:12
+Back in the day on early board samples built-in Digilent JTAG probe
+was not functional so we used externally attached Ashling Opella-XD
+probe. But now with production units everything works as expected and
+so we anybody may enjoy readily avaialble built-in JTAG probe so
+we specify Digilent oprion on MDB's command line example.
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/13986480/
+Signed-off-by: Alexey Brodkin <abrodkin at synopsys.com>
+---
+ board/synopsys/emsdp/README | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Commit:   Add linux-next specific files for 20191009
-          1ba4389f4572d716d73f8bacab4e181d82504780
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
-
-No errors found in log
-
-Possible warnings (2)
-----------------------
-
-<stdin>:1511:2: warning: #warning syscall clone3 not implemented [-Wcpp]
-net/ipv4/tcp_input.c:4384:49: warning: array subscript is above array bounds [-Warray-bounds]
+diff --git a/board/synopsys/emsdp/README b/board/synopsys/emsdp/README
+index 034062e397..036554c4d5 100644
+--- a/board/synopsys/emsdp/README
++++ b/board/synopsys/emsdp/README
+@@ -79,5 +79,5 @@ ARC EM Software Development Platform (AKA EMSDP)
+ 
+       2.1. In case of proprietary MetaWare debugger run:
+       ------------------------->8----------------------
+-      mdb -dll=opxdarc.so -OK -preloadexec="eval *(int*)0xf0001000=0" u-boot
++      mdb -digilent -OK -preloadexec="eval *(int*)0xf0001000=0" u-boot
+       ------------------------->8----------------------
+-- 
+2.17.1
