@@ -1,28 +1,22 @@
-From: kirill.shutemov@linux.intel.com (Kirill A. Shutemov)
-Date: Wed, 9 Oct 2019 02:42:23 +0300
-Subject: [PATCH] ARC: mm: remove __ARCH_USE_5LEVEL_HACK
-In-Reply-To: <20191008213836.19266-1-vgupta@synopsys.com>
-References: <20191008213836.19266-1-vgupta@synopsys.com>
+From: noreply@ellerman.id.au (noreply@ellerman.id.au)
+Date: Wed, 09 Oct 2019 06:14:25 -0000
+Subject: kisskb: OK linux-next/axs101_defconfig/arcompact Wed Oct 09, 17:12
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20191008234223.wycjktby2t5gwz3o@black.fi.intel.com>
+Message-ID: <20191009061425.1.76683@78c6c811cd18>
 To: linux-snps-arc@lists.infradead.org
 
-On Tue, Oct 08, 2019@09:38:36PM +0000, Vineet Gupta wrote:
-> Add the intermediate p4d accessors to make it 5 level compliant.
-> 
-> Thi sis non-functional change anyways since ARC has software page walker
-     ^
-     Typo.
-> with 2 lookup levels (pgd -> pte)
-> 
-> Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
-> ---
->  arch/arc/include/asm/pgtable.h |  1 -
->  arch/arc/mm/fault.c            | 10 ++++++++--
->  2 files changed, 8 insertions(+), 3 deletions(-)
+OK linux-next/axs101_defconfig/arcompact Wed Oct 09, 17:12
 
-Have you tested it with CONFIG_HIGHMEM=y? alloc_kmap_pgtable() has to be
-converted too.
+http://kisskb.ellerman.id.au/kisskb/buildresult/13986480/
 
--- 
- Kirill A. Shutemov
+Commit:   Add linux-next specific files for 20191009
+          1ba4389f4572d716d73f8bacab4e181d82504780
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+
+No errors found in log
+
+Possible warnings (2)
+----------------------
+
+<stdin>:1511:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+net/ipv4/tcp_input.c:4384:49: warning: array subscript is above array bounds [-Warray-bounds]
