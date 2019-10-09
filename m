@@ -1,39 +1,77 @@
 From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Wed,  9 Oct 2019 15:26:55 -0700
-Subject: [PATCH 0/3] eldie generated code for folded p4d/pud
+Date: Wed,  9 Oct 2019 15:26:58 -0700
+Subject: [PATCH 3/3] asm-generic/mm: stub out p{4,
+ d}d_clear_bad() if __PAGETABLE_P{4, u}D_FOLDED
+In-Reply-To: <20191009222658.961-1-vgupta@synopsys.com>
+References: <20191009222658.961-1-vgupta@synopsys.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20191009222658.961-1-vgupta@synopsys.com>
+Message-ID: <20191009222658.961-4-vgupta@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
 
-Hi,
+This removes the code for 2 level paging as seen on ARC
 
-This series elides extraneous generate code for folded p4d/pud.
-This came up when trying to remove __ARCH_USE_5LEVEL_HACK from ARC port.
-The code saving are not a while lot, but still worthwhile IMHO.
+| bloat-o-meter2 vmlinux-D-elide-p4d_free_tlb vmlinux-E-elide-p?d_clear_bad
+| add/remove: 0/2 grow/shrink: 0/0 up/down: 0/-22 (-22)
+| function                                     old     new   delta
+| pud_clear_bad                                 20       -     -20
+| p4d_clear_bad                                 20       -     -20
+| Total: Before=4137104, After=4137082, chg -1.000000%
 
-bloat-o-meter2 vmlinux-A-baseline vmlinux-E-elide-p?d_clear_bad
-add/remove: 0/2 grow/shrink: 0/1 up/down: 0/-146 (-146)
-function                                     old     new   delta
-p4d_clear_bad                                  2       -      -2
-pud_clear_bad                                 20       -     -20
-free_pgd_range                               546     422    -124
-Total: Before=4137148, After=4137002, chg -1.000000%
+Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
+---
+ include/asm-generic/pgtable.h | 11 +++++++++++
+ mm/pgtable-generic.c          |  4 ++++
+ 2 files changed, 15 insertions(+)
 
-Thx,
--Vineet
-
-Vineet Gupta (3):
-  asm-generic/tlb: stub out pud_free_tlb() if __PAGETABLE_PUD_FOLDED ...
-  asm-generic/tlb: stub out p4d_free_tlb() if __PAGETABLE_P4D_FOLDED ...
-  asm-generic/mm: stub out p{4,d}d_clear_bad() if
-    __PAGETABLE_P{4,u}D_FOLDED
-
- include/asm-generic/4level-fixup.h |  2 --
- include/asm-generic/5level-fixup.h |  2 --
- include/asm-generic/pgtable.h      | 11 +++++++++++
- include/asm-generic/tlb.h          |  8 ++++++--
- mm/pgtable-generic.c               |  4 ++++
- 5 files changed, 21 insertions(+), 6 deletions(-)
-
+diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+index 818691846c90..9cdcbc7c0b7b 100644
+--- a/include/asm-generic/pgtable.h
++++ b/include/asm-generic/pgtable.h
+@@ -558,8 +558,19 @@ static inline pgprot_t pgprot_modify(pgprot_t oldprot, pgprot_t newprot)
+  * Do the tests inline, but report and clear the bad entry in mm/memory.c.
+  */
+ void pgd_clear_bad(pgd_t *);
++
++#ifndef __PAGETABLE_P4D_FOLDED
+ void p4d_clear_bad(p4d_t *);
++#else
++#define p4d_clear_bad(p4d)        do { } while (0)
++#endif
++
++#ifndef __PAGETABLE_PUD_FOLDED
+ void pud_clear_bad(pud_t *);
++#else
++#define pud_clear_bad(p4d)        do { } while (0)
++#endif
++
+ void pmd_clear_bad(pmd_t *);
+ 
+ static inline int pgd_none_or_clear_bad(pgd_t *pgd)
+diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+index 532c29276fce..856dc3bb77e6 100644
+--- a/mm/pgtable-generic.c
++++ b/mm/pgtable-generic.c
+@@ -24,17 +24,21 @@ void pgd_clear_bad(pgd_t *pgd)
+ 	pgd_clear(pgd);
+ }
+ 
++#ifndef __PAGETABLE_P4D_FOLDED
+ void p4d_clear_bad(p4d_t *p4d)
+ {
+ 	p4d_ERROR(*p4d);
+ 	p4d_clear(p4d);
+ }
++#endif
+ 
++#ifndef __PAGETABLE_PUD_FOLDED
+ void pud_clear_bad(pud_t *pud)
+ {
+ 	pud_ERROR(*pud);
+ 	pud_clear(pud);
+ }
++#endif
+ 
+ void pmd_clear_bad(pmd_t *pmd)
+ {
 -- 
 2.20.1
