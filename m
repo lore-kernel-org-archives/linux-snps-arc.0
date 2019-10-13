@@ -1,70 +1,48 @@
-From: Vineet.Gupta1@synopsys.com (Vineet Gupta)
-Date: Fri, 11 Oct 2019 15:38:18 -0700
-Subject: [RFC] asm-generic/tlb: stub out pmd_free_tlb() if
- __PAGETABLE_PMD_FOLDED
-In-Reply-To: <20191011121951.nxna6hruuskvdxod@box>
-References: <20191011121951.nxna6hruuskvdxod@box>
+From: daniel.lezcano@linaro.org (Daniel Lezcano)
+Date: Sun, 13 Oct 2019 20:16:10 +0200
+Subject: [PATCH 0/7] add support for clocksource/clockevent DT selection
+In-Reply-To: <187d7020-fbe9-7984-2358-8a70faef019f@microchip.com>
+References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
+ <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
+ <72edc5fd-df05-cba5-5aa7-39da1709415b@microchip.com>
+ <620a19d5-73b8-709d-9eec-49274ac23e51@microchip.com>
+ <187d7020-fbe9-7984-2358-8a70faef019f@microchip.com>
 List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <20191011223818.7238-1-vgupta@synopsys.com>
+Message-ID: <14df6e5d-19ef-4ebc-fd11-9953bc3fc44e@linaro.org>
 To: linux-snps-arc@lists.infradead.org
 
-This is inine with similar patches for nopud [1] and nop4d [2] cases.
 
-  However I'm not really sure I understand clearly how the nopmd code is
-  supposed to work (for a 2 tier paging system) - hence the RFC.
-  Consider free_pmd_range() simplified/annotated below
+Hi Claudiu,
 
-  free_pmd_range
-  ...
-	pmd = pmd_offset(pud, addr);
-	do {
-		next = pmd_addr_end(addr, end);
-		if (pmd_none_or_clear_bad(pmd)) => *pmd_bad()/pmd_clear_bad() [a]*
-			continue;
-		free_pte_range(tlb, pmd, addr);
-	} while (pmd++, addr = next, addr != end);
-   ...
-	*pmd_free_tlb(tlb, pmd, start); => [b]*
+sorry for the delay, I was OoO again.
 
-   For ARC/nopmd case [a] is actually checking pgd and consequently
-   pmd_clear_bad() can't be stubbed out for PMD_FOLDED case. However it seems
-   case [b] can be stubbed out (hence this patch) along same lines as [1] and [2]
+On 03/10/2019 12:43, Claudiu.Beznea@microchip.com wrote:
+> 
+> 
+> On 02.10.2019 16:35, Claudiu Beznea wrote:
+>> Hi Daniel,
+>>
+>> Taking into account that Rob doesn't agree with the solution proposed in
+>> this series do you think there is a chance to merge this driver as is?
+> 
+> Sorry, I was talking here about the driver at [1].
+> 
+> [1] https://lore.kernel.org/lkml/1552580772-8499-1-git-send-email-claudiu.beznea at microchip.com/
 
-| bloat-o-meter2 vmlinux-E-elide-p?d_clear_bad vmlinux-F-elide-pmd_free_tlb
-| add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-112 (-112)
-| function                                     old     new   delta
-| free_pgd_range                               422     310    -112
-| Total: Before=4137002, After=4136890, chg -1.000000%
+Damn! 7 months old. I'm truly sorry we do not have progress on this. Let
+fix this once and for all.
 
-[1] http://lists.infradead.org/pipermail/linux-snps-arc/2019-October/006266.html
-[2] http://lists.infradead.org/pipermail/linux-snps-arc/2019-October/006265.html
+In the driver:
 
-Signed-off-by: Vineet Gupta <vgupta at synopsys.com>
----
- include/asm-generic/tlb.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ret = of_property_read_u32(node, "clock-frequency", &freq);
 
-diff --git a/include/asm-generic/tlb.h b/include/asm-generic/tlb.h
-index f3dad87f4ecc..a1edad7d4170 100644
---- a/include/asm-generic/tlb.h
-+++ b/include/asm-generic/tlb.h
-@@ -574,6 +574,7 @@ static inline void tlb_end_vma(struct mmu_gather *tlb, struct vm_area_struct *vm
- 	} while (0)
- #endif
- 
-+#ifndef __PAGETABLE_PMD_FOLDED
- #ifndef pmd_free_tlb
- #define pmd_free_tlb(tlb, pmdp, address)			\
- 	do {							\
-@@ -583,6 +584,9 @@ static inline void tlb_end_vma(struct mmu_gather *tlb, struct vm_area_struct *vm
- 		__pmd_free_tlb(tlb, pmdp, address);		\
- 	} while (0)
- #endif
-+#else
-+#define pmd_free_tlb(tlb, pmdp, address)        do { } while (0)
-+#endif
- 
- #ifndef __PAGETABLE_PUD_FOLDED
- #ifndef pud_free_tlb
+It is unclear how is used this property. It should be the frequency
+driving the timer, but can we get from a clk_get_rate() and a fixed divider?
+
+
 -- 
-2.20.1
+ <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
