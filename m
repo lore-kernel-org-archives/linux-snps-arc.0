@@ -1,48 +1,137 @@
-From: daniel.lezcano@linaro.org (Daniel Lezcano)
-Date: Sun, 13 Oct 2019 20:16:10 +0200
-Subject: [PATCH 0/7] add support for clocksource/clockevent DT selection
-In-Reply-To: <187d7020-fbe9-7984-2358-8a70faef019f@microchip.com>
-References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
- <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
- <72edc5fd-df05-cba5-5aa7-39da1709415b@microchip.com>
- <620a19d5-73b8-709d-9eec-49274ac23e51@microchip.com>
- <187d7020-fbe9-7984-2358-8a70faef019f@microchip.com>
-List-ID: <linux-snps-arc@lists.infradead.org>
-Message-ID: <14df6e5d-19ef-4ebc-fd11-9953bc3fc44e@linaro.org>
-To: linux-snps-arc@lists.infradead.org
+Return-Path: <SRS0=vguH=YI=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-korg-lkml-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24992ECE588
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 10:45:40 +0000 (UTC)
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 7824221835
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 10:45:39 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sZqrT8yw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7824221835
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=bSOtd3e4zfLnaej07Vz5KW8hYUi0lkDmwMDoui463OA=; b=sZqrT8ywIRpMaE
+	CUiX2z4tM3bAFF6YwO3cQHgLxZRIdlQFG0s1ICTuW7Ok5ihx6vhY4JziOglrk2ymHZFtT0etxpCJL
+	QiJUCUmjPcqOy/IWOl14DYaWwfYKv28uAEhcvhpPvG/6t/IRALaUF83LeBs+bQn9/zyvbEoVwJarr
+	IWN/zq8V10zoS9VgdfN2RJV+TCp7R9kQBOHF7C/Tira0d+ZbYwfark+1L8yHfk3CX2VKkblu1bwCx
+	cAZcOA0cZfIRUkF8CYwcUi/RjbmhwYChanuwO8UsbL9ScdVnPVgHqEAW4ktvmuKWXIw7MTThEYZ4V
+	q/f4kgXqPWsFuUSSp3IA==;
+Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1iKKKf-0004BK-6R; Tue, 15 Oct 2019 10:45:37 +0000
+Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iKKKT-00041A-8I; Tue, 15 Oct 2019 10:45:26 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id D65AFB2DA;
+ Tue, 15 Oct 2019 10:45:22 +0000 (UTC)
+Date: Tue, 15 Oct 2019 12:45:21 +0200
+From: Michal Hocko <mhocko@kernel.org>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH V6 1/2] mm/page_alloc: Make alloc_gigantic_page()
+ available for general use
+Message-ID: <20191015104521.GY317@dhcp22.suse.cz>
+References: <1571131302-32290-1-git-send-email-anshuman.khandual@arm.com>
+ <1571131302-32290-2-git-send-email-anshuman.khandual@arm.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1571131302-32290-2-git-send-email-anshuman.khandual@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20191015_034525_440598_68CD091B 
+X-CRM114-Status: GOOD (  12.50  )
+X-BeenThere: linux-snps-arc@lists.infradead.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: Linux on Synopsys ARC Processors <linux-snps-arc.lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-snps-arc>, 
+ <mailto:linux-snps-arc-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-snps-arc/>
+List-Post: <mailto:linux-snps-arc@lists.infradead.org>
+List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
+ <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ James Hogan <jhogan@kernel.org>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, Dave Hansen <dave.hansen@intel.com>,
+ Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Andrea Arcangeli <aarcange@redhat.com>,
+ linux-s390@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ David Rientjes <rientjes@google.com>, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Kees Cook <keescook@chromium.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>, linuxppc-dev@lists.ozlabs.org,
+ Mark Brown <broonie@kernel.org>, "Kirill A . Shutemov" <kirill@shutemov.name>,
+ Dan Williams <dan.j.williams@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
+ Oscar Salvador <osalvador@suse.de>, Christophe Leroy <christophe.leroy@c-s.fr>,
+ Sri Krishna chowdary <schowdary@nvidia.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paul.burton@mips.com>,
+ Mike Rapoport <rppt@linux.vnet.ibm.com>, Vineet Gupta <vgupta@synopsys.com>,
+ Martin Schwidefsky <schwidefsky@de.ibm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mel Gorman <mgorman@techsingularity.net>,
+ "David S. Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
+Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+On Tue 15-10-19 14:51:41, Anshuman Khandual wrote:
+[...]
+> +/**
+> + * alloc_gigantic_page_order() -- tries to allocate given order of pages
+> + * @order:	allocation order (greater than MAX_ORDER)
+> + * @gfp_mask:	GFP mask to use during compaction
+> + * @nid:	allocation node
+> + * @nodemask:	allocation nodemask
+> + *
+> + * This routine is an wrapper around alloc_contig_range() which scans over
+> + * all zones on an applicable zonelist to find a contiguous pfn range which
+> + * can the be allocated with alloc_contig_range(). This routine is intended
+> + * to be used for allocations greater than MAX_ORDER.
+> + *
+> + * Return: page on success or NULL on failure. On success a memory block
+> + * of 'order' starting with 'page' has been allocated successfully. Memory
+> + * allocated here needs to be freed with free_contig_range().
+> + */
+> +struct page *alloc_gigantic_page_order(unsigned int order, gfp_t gfp_mask,
+> +				       int nid, nodemask_t *nodemask)
 
-Hi Claudiu,
+One of the objections when Mike has proposed a similar thing last year
+was that the interface shouldn't be order bases
+http://lkml.kernel.org/r/20180423000943.GO17484@dhcp22.suse.cz
 
-sorry for the delay, I was OoO again.
-
-On 03/10/2019 12:43, Claudiu.Beznea@microchip.com wrote:
-> 
-> 
-> On 02.10.2019 16:35, Claudiu Beznea wrote:
->> Hi Daniel,
->>
->> Taking into account that Rob doesn't agree with the solution proposed in
->> this series do you think there is a chance to merge this driver as is?
-> 
-> Sorry, I was talking here about the driver at [1].
-> 
-> [1] https://lore.kernel.org/lkml/1552580772-8499-1-git-send-email-claudiu.beznea at microchip.com/
-
-Damn! 7 months old. I'm truly sorry we do not have progress on this. Let
-fix this once and for all.
-
-In the driver:
-
-ret = of_property_read_u32(node, "clock-frequency", &freq);
-
-It is unclear how is used this property. It should be the frequency
-driving the timer, but can we get from a clk_get_rate() and a fixed divider?
-
-
+Order based API makes sense for the buddy allocator but why should we
+restrict sizes like that for an allocator that is capable to allocate
+arbitrary page sized requests?
 -- 
- <http://www.linaro.org/> Linaro.org ? Open source software for ARM SoCs
+Michal Hocko
+SUSE Labs
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
