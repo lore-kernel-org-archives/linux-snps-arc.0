@@ -2,59 +2,63 @@ Return-Path: <SRS0=vguH=YI=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24992ECE588
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 10:45:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A1CC10F14
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 11:07:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7824221835
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 10:45:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6E13521848
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 11:07:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sZqrT8yw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7824221835
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZxVUr4qY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6E13521848
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=bSOtd3e4zfLnaej07Vz5KW8hYUi0lkDmwMDoui463OA=; b=sZqrT8ywIRpMaE
-	CUiX2z4tM3bAFF6YwO3cQHgLxZRIdlQFG0s1ICTuW7Ok5ihx6vhY4JziOglrk2ymHZFtT0etxpCJL
-	QiJUCUmjPcqOy/IWOl14DYaWwfYKv28uAEhcvhpPvG/6t/IRALaUF83LeBs+bQn9/zyvbEoVwJarr
-	IWN/zq8V10zoS9VgdfN2RJV+TCp7R9kQBOHF7C/Tira0d+ZbYwfark+1L8yHfk3CX2VKkblu1bwCx
-	cAZcOA0cZfIRUkF8CYwcUi/RjbmhwYChanuwO8UsbL9ScdVnPVgHqEAW4ktvmuKWXIw7MTThEYZ4V
-	q/f4kgXqPWsFuUSSp3IA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=9wDKA+TjWxOnu8oL3dQVx5F+KHbPP47/o0sT9f4VQ8k=; b=ZxVUr4qYvFk/cO
+	npqL8FdBZ0P1wa/cHL/Gpwy45U/d7hWztKkfzH4VbmQZ3hr8QIvHh57tJLAc0uK85FI7gta1JTx0s
+	tHW0xXnuurdAORijcYdr0lVKvH2lv7HoUMJOJJu1Y0FcWXFZ+m11px3OGgKwmVBD4PsPpASMyO9Ne
+	YuyLmfv7DpX2bIR83GeaTLVPh7//cXCSpgDDvgH0wVWP5VaGmPLyvE5WmSf43H1UD8l5yG3qw73uZ
+	GeZEM/S+LM+H73jNv3URCX6NKhEW5s2DsW0+8TquOmJsUSnqDzdvaH+HZFs1x5WkGQxKeuKEgJnOf
+	AatS0Gaq5yAguj39rOKw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iKKKf-0004BK-6R; Tue, 15 Oct 2019 10:45:37 +0000
-Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iKKKT-00041A-8I; Tue, 15 Oct 2019 10:45:26 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id D65AFB2DA;
- Tue, 15 Oct 2019 10:45:22 +0000 (UTC)
-Date: Tue, 15 Oct 2019 12:45:21 +0200
-From: Michal Hocko <mhocko@kernel.org>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
+	id 1iKKfl-0004wO-G2; Tue, 15 Oct 2019 11:07:25 +0000
+Received: from foss.arm.com ([217.140.110.172])
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iKKfb-0004mm-2t; Tue, 15 Oct 2019 11:07:16 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0FCDE28;
+ Tue, 15 Oct 2019 04:07:14 -0700 (PDT)
+Received: from [10.162.42.142] (p8cg001049571a15.blr.arm.com [10.162.42.142])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id
+ D3D3B3F68E; Tue, 15 Oct 2019 04:07:00 -0700 (PDT)
 Subject: Re: [PATCH V6 1/2] mm/page_alloc: Make alloc_gigantic_page()
  available for general use
-Message-ID: <20191015104521.GY317@dhcp22.suse.cz>
+To: Michal Hocko <mhocko@kernel.org>
 References: <1571131302-32290-1-git-send-email-anshuman.khandual@arm.com>
  <1571131302-32290-2-git-send-email-anshuman.khandual@arm.com>
+ <20191015104521.GY317@dhcp22.suse.cz>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+Message-ID: <2d4e7b28-67bf-baf3-b8a0-a5b3a58e3b31@arm.com>
+Date: Tue, 15 Oct 2019 16:37:27 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1571131302-32290-2-git-send-email-anshuman.khandual@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191015104521.GY317@dhcp22.suse.cz>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191015_034525_440598_68CD091B 
-X-CRM114-Status: GOOD (  12.50  )
+X-CRM114-CacheID: sfid-20191015_040715_212938_3B1891AC 
+X-CRM114-Status: GOOD (  15.53  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,37 +103,40 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue 15-10-19 14:51:41, Anshuman Khandual wrote:
-[...]
-> +/**
-> + * alloc_gigantic_page_order() -- tries to allocate given order of pages
-> + * @order:	allocation order (greater than MAX_ORDER)
-> + * @gfp_mask:	GFP mask to use during compaction
-> + * @nid:	allocation node
-> + * @nodemask:	allocation nodemask
-> + *
-> + * This routine is an wrapper around alloc_contig_range() which scans over
-> + * all zones on an applicable zonelist to find a contiguous pfn range which
-> + * can the be allocated with alloc_contig_range(). This routine is intended
-> + * to be used for allocations greater than MAX_ORDER.
-> + *
-> + * Return: page on success or NULL on failure. On success a memory block
-> + * of 'order' starting with 'page' has been allocated successfully. Memory
-> + * allocated here needs to be freed with free_contig_range().
-> + */
-> +struct page *alloc_gigantic_page_order(unsigned int order, gfp_t gfp_mask,
-> +				       int nid, nodemask_t *nodemask)
 
-One of the objections when Mike has proposed a similar thing last year
-was that the interface shouldn't be order bases
-http://lkml.kernel.org/r/20180423000943.GO17484@dhcp22.suse.cz
 
-Order based API makes sense for the buddy allocator but why should we
-restrict sizes like that for an allocator that is capable to allocate
-arbitrary page sized requests?
--- 
-Michal Hocko
-SUSE Labs
+On 10/15/2019 04:15 PM, Michal Hocko wrote:
+> On Tue 15-10-19 14:51:41, Anshuman Khandual wrote:
+> [...]
+>> +/**
+>> + * alloc_gigantic_page_order() -- tries to allocate given order of pages
+>> + * @order:	allocation order (greater than MAX_ORDER)
+>> + * @gfp_mask:	GFP mask to use during compaction
+>> + * @nid:	allocation node
+>> + * @nodemask:	allocation nodemask
+>> + *
+>> + * This routine is an wrapper around alloc_contig_range() which scans over
+>> + * all zones on an applicable zonelist to find a contiguous pfn range which
+>> + * can the be allocated with alloc_contig_range(). This routine is intended
+>> + * to be used for allocations greater than MAX_ORDER.
+>> + *
+>> + * Return: page on success or NULL on failure. On success a memory block
+>> + * of 'order' starting with 'page' has been allocated successfully. Memory
+>> + * allocated here needs to be freed with free_contig_range().
+>> + */
+>> +struct page *alloc_gigantic_page_order(unsigned int order, gfp_t gfp_mask,
+>> +				       int nid, nodemask_t *nodemask)
+> 
+> One of the objections when Mike has proposed a similar thing last year
+> was that the interface shouldn't be order bases
+> http://lkml.kernel.org/r/20180423000943.GO17484@dhcp22.suse.cz
+> 
+> Order based API makes sense for the buddy allocator but why should we
+> restrict sizes like that for an allocator that is capable to allocate
+> arbitrary page sized requests?
+
+Fair enough, will change it. Anyways we calculate nr_pages from the order 
+argument at the very beginning.
 
 _______________________________________________
 linux-snps-arc mailing list
