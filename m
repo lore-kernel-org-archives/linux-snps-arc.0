@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3B70C10F14
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 11:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2EACECE588
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 11:47:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 747A721925
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 11:46:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A3A8E2064B
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 11:47:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KTT0gkVw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 747A721925
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KoswQQtV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A3A8E2064B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,37 +24,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HdwNeTMpzc9nUgVgBeR/IfyYm5/1cH1FBBTOt5VDVjE=; b=KTT0gkVw1WUOAv
-	rNktKh7rQ0IkU4NEw5QC4paaeyKHzw2wbGeEZSzX1fzMqqeVL13j1qtRgJFQ2faBhI85aYb4eQ0+9
-	apmewYFjg8jZWa32MzciPi2wY+yAAeIJETr5Wp020McHK1Qe5BFIr97ov5MoJVdCuprgUUEfezuZh
-	41cW3rTZqnYqmScf8wrwIvtpjZC+JZlo83RLDGBDyZlmjXGUuuhIVkju1/SLW1B2q2gaMkehdgdAI
-	ShJhUdyq6tEeQo8shfUu1lJZ4XDz+6n+dsRrIBXxnnb6LQth0hsGh8sjf3uPHFDVORJunIeAd6ccU
-	rEwlNFLVfZmMmlm1qjvw==;
+	List-Owner; bh=hInKYRJzup1kK4LQfyZiGjUz2SR3FTB3qRvgL7lPhZ8=; b=KoswQQtVArr1tg
+	mquK2D5CNk3y4ATxC7qZA5GLqRusDG1aQt1sIKtSkZsXwfXdg62vZyID2hgan1obu95yloKOGVppR
+	5uo8m918Cn9STRmYmRKqfERzN+yvdwwKayeSPwqBeRAXLX4RF8WnreEgjWoAzWPwsvfFF1Lw58il8
+	IdNFwtckwbQwFxpEHWT1N03On1zfTyyrS+hFvkOh5ExYR9A312CHJMihqTts/tEdhpFtLxhyUDq+l
+	msR6Kdem5k3phANrXAfWqFgpXXjqKZ9ZSLixQfjwDjaMHGfybEpdOeI0gZ4n8DCfIwLFoL5BTALhG
+	e3Q36I+dfVyvhPtWZbwg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iKLHU-0002Xz-S3; Tue, 15 Oct 2019 11:46:24 +0000
+	id 1iKLIg-0003EH-A4; Tue, 15 Oct 2019 11:47:38 +0000
 Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iKLHK-0002Ow-9l; Tue, 15 Oct 2019 11:46:15 +0000
+ id 1iKLIT-00034J-A9; Tue, 15 Oct 2019 11:47:26 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 41B27AD79;
- Tue, 15 Oct 2019 11:46:12 +0000 (UTC)
-Date: Tue, 15 Oct 2019 13:46:11 +0200
+ by mx1.suse.de (Postfix) with ESMTP id C3266B145;
+ Tue, 15 Oct 2019 11:47:23 +0000 (UTC)
+Date: Tue, 15 Oct 2019 13:47:23 +0200
 From: Michal Hocko <mhocko@kernel.org>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH V6 2/2] mm/debug: Add tests validating architecture page
- table helpers
-Message-ID: <20191015114611.GC317@dhcp22.suse.cz>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH V6 1/2] mm/page_alloc: Make alloc_gigantic_page()
+ available for general use
+Message-ID: <20191015114723.GD317@dhcp22.suse.cz>
 References: <1571131302-32290-1-git-send-email-anshuman.khandual@arm.com>
- <1571131302-32290-3-git-send-email-anshuman.khandual@arm.com>
+ <1571131302-32290-2-git-send-email-anshuman.khandual@arm.com>
+ <9da1f196-51bd-06ac-c5dc-b55776fce2be@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1571131302-32290-3-git-send-email-anshuman.khandual@arm.com>
+In-Reply-To: <9da1f196-51bd-06ac-c5dc-b55776fce2be@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191015_044614_486308_1DD9C56B 
-X-CRM114-Status: GOOD (  12.59  )
+X-CRM114-CacheID: sfid-20191015_044725_502560_B7E55145 
+X-CRM114-Status: GOOD (  11.41  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,55 +72,54 @@ Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
  James Hogan <jhogan@kernel.org>,
  Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
  Heiko Carstens <heiko.carstens@de.ibm.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Dave Hansen <dave.hansen@intel.com>,
- Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, linux-s390@vger.kernel.org,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ sparclinux@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-s390@vger.kernel.org,
  Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
  Russell King - ARM Linux <linux@armlinux.org.uk>,
  Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
  Jason Gunthorpe <jgg@ziepe.ca>, Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Kees Cook <keescook@chromium.org>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
+ David Rientjes <rientjes@google.com>, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Kees Cook <keescook@chromium.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>, linuxppc-dev@lists.ozlabs.org,
  Mark Brown <broonie@kernel.org>, "Kirill A . Shutemov" <kirill@shutemov.name>,
  Dan Williams <dan.j.williams@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
- Christophe Leroy <christophe.leroy@c-s.fr>,
+ Oscar Salvador <osalvador@suse.de>, Christophe Leroy <christophe.leroy@c-s.fr>,
  Sri Krishna chowdary <schowdary@nvidia.com>,
  Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Hansen <dave.hansen@intel.com>, linux-mips@vger.kernel.org,
  Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paul.burton@mips.com>,
  Mike Rapoport <rppt@linux.vnet.ibm.com>, Vineet Gupta <vgupta@synopsys.com>,
  Martin Schwidefsky <schwidefsky@de.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mel Gorman <mgorman@techsingularity.net>,
+ "David S. Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue 15-10-19 14:51:42, Anshuman Khandual wrote:
-> This adds tests which will validate architecture page table helpers and
-> other accessors in their compliance with expected generic MM semantics.
-> This will help various architectures in validating changes to existing
-> page table helpers or addition of new ones.
+On Tue 15-10-19 13:42:03, David Hildenbrand wrote:
+[...]
+> > -static bool pfn_range_valid_gigantic(struct zone *z,
+> > -			unsigned long start_pfn, unsigned long nr_pages)
+> > -{
+> > -	unsigned long i, end_pfn = start_pfn + nr_pages;
+> > -	struct page *page;
+> > -
+> > -	for (i = start_pfn; i < end_pfn; i++) {
+> > -		if (!pfn_valid(i))
+> > -			return false;
+> > -
+> > -		page = pfn_to_page(i);
 > 
-> Test page table and memory pages creating it's entries at various level are
-> all allocated from system memory with required size and alignments. But if
-> memory pages with required size and alignment could not be allocated, then
-> all depending individual tests are just skipped afterwards. This test gets
-> called right after init_mm_internals() required for alloc_contig_range() to
-> work correctly.
-> 
-> This gets build and run when CONFIG_DEBUG_VM_PGTABLE is selected along with
-> CONFIG_VM_DEBUG. Architectures willing to subscribe this test also need to
-> select CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE which for now is limited to x86 and
-> arm64. Going forward, other architectures too can enable this after fixing
-> build or runtime problems (if any) with their page table helpers.
+> Am I missing something or should here really be a pfn_to_online_page() here
+> instead of a pfn_valid() ?
 
-A highlevel description of tests and what they are testing for would be
-really appreciated. Who wants to run these tests and why/when? What kind
-of bugs would get detected? In short why do we really need/want this
-code in the tree?
+http://lkml.kernel.org/r/20180423000943.GO17484@dhcp22.suse.cz
 
 -- 
 Michal Hocko
