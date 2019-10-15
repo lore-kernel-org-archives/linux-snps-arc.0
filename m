@@ -2,78 +2,93 @@ Return-Path: <SRS0=vguH=YI=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A180CECE596
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 19:19:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F5CECE58F
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 21:46:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 750D12168B
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 19:19:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 521862064A
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 21:46:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DrYx1jeu";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="X3D1iJXD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 750D12168B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KrfPuFtB";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Ls2Ydx/1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 521862064A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=9w5Pp7JXgRocC7xPvxbWMVTifRyL7vsjprMrk7KSfWU=; b=DrYx1jeu5Jcof8
-	3BmOaIExF0vZOV5JZh0z8qRG+rj0HtuareRgHAbXDxTE8Ul2J7rDpr1C/OHIEMD3ZjWsojbEO8ZOc
-	3unQ7OzoAH2LdZ7qTS7UDiJtDek0GIeGBVXwhp/siwe3WhUICd9rXvAwYrr/9P1YPKCo632OdDo+j
-	EAq+As45PZ3HWI5h8xts1FN+FRhDuLftF2oECdfIwUJQRF6eoA6T5SVb9cr61zPVuoS65biATw3wR
-	n0w4NC7cKVB69YqlW4x9KKuI4+rvq6EUSrhfQZ4kB2q05/NRButxu03y1i5AjIejVLsdbKMOdCgAu
-	2Edv9Rx1F4FQq5n6IAMQ==;
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=UQeqQncVcZpLlsl5s3z8XMHdcX9min6NogDuRhoevTA=; b=KrfPuFtBQ/OCWF
+	82nO/BsofdI0ofH7ATSEHRiiUJ+oiLk+YO3BpnIUJRHm+6AKdV/5iqLh0bGgdk8crFf7oDcDubIjk
+	oGmC0PIot+QaUzQ34v+wXfHxKFaS/gV6Jrz0ebkgZLoIj6Ezy6O5PNUxGUre5BSqm6Qjo2woPX2ib
+	BuXAosIz9dYreGs3hHcJQ4xzBs1e2AdlxkL3B7EVL5mgHmeA5r0hRPeInkFzz3LIj6p5Zz2ISSyqk
+	RmzuVvYG6mMXmJI0GkPxXRlSHRD7tTmkI8yQHFjrIZahOynDPgnHBlzaQ2IClbPj61e/I0KjVn/x6
+	FnUEbzJ6xZBS/J7WOOuw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iKSM7-00028W-7c; Tue, 15 Oct 2019 19:19:39 +0000
-Received: from dc8-smtprelay2.synopsys.com ([198.182.47.102]
- helo=smtprelay-out1.synopsys.com)
+	id 1iKUea-0005ny-DN; Tue, 15 Oct 2019 21:46:52 +0000
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iKSM1-00023H-Kj
- for linux-snps-arc@lists.infradead.org; Tue, 15 Oct 2019 19:19:36 +0000
-Received: from mailhost.synopsys.com (dc8-mailhost1.synopsys.com
- [10.13.135.209])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 0A961C0CD8;
- Tue, 15 Oct 2019 19:19:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1571167170; bh=QoRWNXgQmTXSWkCzboQjwBzdj5f3LiiL+Z3W4U/gMbE=;
- h=From:To:Cc:Subject:Date:From;
- b=X3D1iJXD/KJExvy7ioaMSbK04DGqFIP/0KpMKxCSUxlEQQpvB0iFGxqNN7F9t+5/Q
- Ym2808nWEoG5SozZ+GeXU3EHuWRbSbQxuMgp5B/jEKGcfkWJadE0Zj7+VuMP61SkIG
- witktVhnTUOL3QzgI/TjfgLnfkbxDdcXwsY8lDQnmzjkIMFUfQDvqxZXbhBNOyWJv4
- ZBnmAir2yWCEHCYZmIam8cEiPgC4ZkN/1cjh3VUXIJJtCKucwbKB8RHkvjVxtSTKO5
- 9VrdsWbPqOxhwI1pz34A4PwFT5AIZFWsPdPWkYZ/qdjiOi/LAHDFAYYETPVTKgwRkY
- +iG9r3wILX/UQ==
-Received: from vineetg-Latitude-E7450.internal.synopsys.com
- (vineetg-latitude-e7450.internal.synopsys.com [10.10.161.61])
- by mailhost.synopsys.com (Postfix) with ESMTP id 4B745A006B;
- Tue, 15 Oct 2019 19:19:26 +0000 (UTC)
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>, Nick Piggin <npiggin@gmail.com>,
- Peter Zijlstra <peterz@infradead.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH v2 0/5] eldie generated code for folded p4d/pud
-Date: Tue, 15 Oct 2019 12:19:21 -0700
-Message-Id: <20191015191926.9281-1-vgupta@synopsys.com>
-X-Mailer: git-send-email 2.20.1
+ id 1iKUeX-0005n2-JW
+ for linux-snps-arc@lists.infradead.org; Tue, 15 Oct 2019 21:46:50 +0000
+Received: by mail-lj1-x241.google.com with SMTP id j19so21844979lja.1
+ for <linux-snps-arc@lists.infradead.org>; Tue, 15 Oct 2019 14:46:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ob5N5ZzOYqwWJlWtRK/QQr9teH3dlSPsAVI1F8bPf38=;
+ b=Ls2Ydx/1fiuQCKLYCr6mZfYT53ylM0bwO8QLfmOr29RVIEWsNQvXoEyD7/28atloUG
+ w+SNF88R+eUaHbdCKU6U17DXhOsSyLQK+W93/BhVqc1MTwofrvdbxA3OX0BP8484yWP6
+ rquduhuB1DQ9TVPZMjcMgJRO4GQPDwTo2bq84=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ob5N5ZzOYqwWJlWtRK/QQr9teH3dlSPsAVI1F8bPf38=;
+ b=cXCRQC1hMa0gls3opMRTuGIA99H9ReCstlm4x0nfbA5C3X8cc+kv/axKfyH9Wm3l2a
+ LxCFxDAHOoePF1aoU0j2DJiFlW0fQiO0f6HCm2t4Y30emRGQOVzBqbg+srresH4TT9Xv
+ qGI+OIIiDNLuGo4OZlo2FY/Sol3EXh4xhhxDN74CN8GMlrpkDEcRyHL6GbNVV7031p2T
+ gKIFVrMtIAIEzy1uorrdJBzyWyqsKIfr+5Gv8ifuzMIggfHHGV+ZnExErWxXqs+t8COi
+ cHcqUvDByuE6/jMRglkgf0JAC2tym578jLseU0yfV03GPnFR8igX9N6AyCZ+EmJdMbwe
+ 6kpQ==
+X-Gm-Message-State: APjAAAUljcgsAUWCIO7cx4uB7cc5YjLoDl1lIiiuToUU8n2oqHfYMgMo
+ wnQbXTORunjEBq1EatrsoQsyl61UTU4=
+X-Google-Smtp-Source: APXvYqzQZng32p3i7g76R0XFqHlhP2CPlUjUh6BUkiRbiOdOCEcczTSaCUvmzD+pPWLX84BOlVLUhQ==
+X-Received: by 2002:a2e:750c:: with SMTP id q12mr23355512ljc.138.1571176005535; 
+ Tue, 15 Oct 2019 14:46:45 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
+ [209.85.167.46])
+ by smtp.gmail.com with ESMTPSA id k23sm5361089ljc.13.2019.10.15.14.46.43
+ for <linux-snps-arc@lists.infradead.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Oct 2019 14:46:43 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id t8so15624346lfc.13
+ for <linux-snps-arc@lists.infradead.org>; Tue, 15 Oct 2019 14:46:43 -0700 (PDT)
+X-Received: by 2002:a05:6512:219:: with SMTP id
+ a25mr22630003lfo.61.1571176002727; 
+ Tue, 15 Oct 2019 14:46:42 -0700 (PDT)
 MIME-Version: 1.0
+References: <20191015191926.9281-1-vgupta@synopsys.com>
+ <20191015191926.9281-3-vgupta@synopsys.com>
+In-Reply-To: <20191015191926.9281-3-vgupta@synopsys.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 15 Oct 2019 14:46:27 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whtRuGdsm0BR50vpwJBRJgP3u6Suz0LNa6WzR9RMtJjbw@mail.gmail.com>
+Message-ID: <CAHk-=whtRuGdsm0BR50vpwJBRJgP3u6Suz0LNa6WzR9RMtJjbw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] asm-generic/tlb: stub out pud_free_tlb() if nopud
+ ...
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191015_121933_692750_F73FDEB5 
-X-CRM114-Status: GOOD (  10.22  )
+X-CRM114-CacheID: sfid-20191015_144649_659763_71A09981 
+X-CRM114-Status: UNSURE (   7.92  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,81 +100,28 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-mm@kvack.org,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org
+Cc: linux-arch <linux-arch@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Peter Zijlstra <peterz@infradead.org>,
+ "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Linux-MM <linux-mm@kvack.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-snps-arc@lists.infradead.org,
+ Will Deacon <will@kernel.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Tue, Oct 15, 2019 at 12:19 PM Vineet Gupta
+<Vineet.Gupta1@synopsys.com> wrote:
+>
+> This came up when removing __ARCH_HAS_5LEVEL_HACK for ARC as code bloat
+> from this routine which is not required in a 2-level paging setup
 
-This series came out of seemingly naive exceursion into understanding/removing
-__ARCH_USE_5LEVEL_HACK from ARC port. With removal of 5LEVEL_HACK some
-extraneous code was bein generated
+Ack, looks good.
 
-| bloat-o-meter2 vmlinux-[AB]*
-| add/remove: 0/0 grow/shrink: 3/0 up/down: 130/0 (130)
-| function                                     old     new   delta
-| free_pgd_range                               548     660    +112
-| p4d_clear_bad                                  2      20     +18
-
-Which the patches here elides (for folded p4d/pud/pmd)
-
-| bloat-o-meter2 vmlinux-[BF]*
-| add/remove: 0/2 grow/shrink: 0/1 up/down: 0/-386 (-386)
-| function                                     old     new   delta
-| pud_clear_bad                                 20       -     -20
-| p4d_clear_bad                                 20       -     -20
-| free_pgd_range                               660     314    -346
-
-The code savings are not a whole lot, but still worthwhile IMHO.
-
-Please review, test and apply. It seems to survive my usual battery of
-multibench, hakcbench etc.
-
-Thx,
--Vineet
-
----
-Changes since v1 [1]
- - Per Linus Sugestion remvoed the extra ifdey'ery (hence not
-   accumulating Kirill's ACks)
- - Added the RFC patch for pmd_free_tlb() after discussions [2]
- - Also throwing in the ARC patch which started this all (so we get the
-   full context of patchset) - I'm ok if this goes via mm tree, should
-   be non contentious and can drop this too if Andrew thinks otherwise
-
-[1] http://lists.infradead.org/pipermail/linux-snps-arc/2019-October/006263.html
-[2] http://lists.infradead.org/pipermail/linux-snps-arc/2019-October/006277.html
-
----
-
-Vineet Gupta (5):
-  ARC: mm: remove __ARCH_USE_5LEVEL_HACK
-  asm-generic/tlb: stub out pud_free_tlb() if nopud ...
-  asm-generic/tlb: stub out p4d_free_tlb() if nop4d ...
-  asm-generic/tlb: stub out pmd_free_tlb() if nopmd
-  asm-generic/mm: stub out p{4,d}d_clear_bad() if
-    __PAGETABLE_P{4,u}D_FOLDED
-
- arch/arc/include/asm/pgtable.h      |  1 -
- arch/arc/mm/fault.c                 | 10 ++++++++--
- arch/arc/mm/highmem.c               |  4 +++-
- include/asm-generic/4level-fixup.h  |  1 -
- include/asm-generic/5level-fixup.h  |  1 -
- include/asm-generic/pgtable-nop4d.h |  2 +-
- include/asm-generic/pgtable-nopmd.h |  2 +-
- include/asm-generic/pgtable-nopud.h |  2 +-
- include/asm-generic/pgtable.h       | 11 +++++++++++
- include/asm-generic/tlb.h           |  4 ----
- mm/pgtable-generic.c                |  8 ++++++++
- 11 files changed, 33 insertions(+), 13 deletions(-)
-
--- 
-2.20.1
-
+           Linus
 
 _______________________________________________
 linux-snps-arc mailing list
