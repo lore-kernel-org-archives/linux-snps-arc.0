@@ -2,60 +2,72 @@ Return-Path: <SRS0=vguH=YI=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2EACECE588
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 11:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19B02ECE588
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 11:50:29 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A3A8E2064B
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 11:47:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DBDC32064B
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2019 11:50:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KoswQQtV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A3A8E2064B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KviCeQfi"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DBDC32064B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=hInKYRJzup1kK4LQfyZiGjUz2SR3FTB3qRvgL7lPhZ8=; b=KoswQQtVArr1tg
-	mquK2D5CNk3y4ATxC7qZA5GLqRusDG1aQt1sIKtSkZsXwfXdg62vZyID2hgan1obu95yloKOGVppR
-	5uo8m918Cn9STRmYmRKqfERzN+yvdwwKayeSPwqBeRAXLX4RF8WnreEgjWoAzWPwsvfFF1Lw58il8
-	IdNFwtckwbQwFxpEHWT1N03On1zfTyyrS+hFvkOh5ExYR9A312CHJMihqTts/tEdhpFtLxhyUDq+l
-	msR6Kdem5k3phANrXAfWqFgpXXjqKZ9ZSLixQfjwDjaMHGfybEpdOeI0gZ4n8DCfIwLFoL5BTALhG
-	e3Q36I+dfVyvhPtWZbwg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=uxBBVRibYmT/Iox81lNUoR7LWQxyIplh1LNpusmNMFs=; b=KviCeQfienGXmWzdK4jJdKi7E
+	R3tWFU9vewLVFXyKzMPTDNIP5s6DVzS8LnwYUxABHnKwk8GKkKZpfOhLeAuh/STebaESsLvCJgEF0
+	4KUYntByGCYmZKYw5vAx5lSex+QUvKnREcCNjdkHYyEpaK+TI5FLYO8jIOKPnbZ6/xHre2bLpkAbT
+	RYIX9MXQJk/WCMHR9+g7Ex8x5O+ZZs5BFeRViXzxLpHVOM/qMYT9zfPZhENOCOHK9+qM7bT87GdO7
+	/LVz2jxS/9uW+caMvPvIhdDPRsPVhX9Glh91utLlUy+KvrvW/5R/6ikypd3IHhCujTmcQVHiSP0Cb
+	0/JjXpVqQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iKLIg-0003EH-A4; Tue, 15 Oct 2019 11:47:38 +0000
-Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
+	id 1iKLLN-0004r6-77; Tue, 15 Oct 2019 11:50:25 +0000
+Received: from mx1.redhat.com ([209.132.183.28])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iKLIT-00034J-A9; Tue, 15 Oct 2019 11:47:26 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id C3266B145;
- Tue, 15 Oct 2019 11:47:23 +0000 (UTC)
-Date: Tue, 15 Oct 2019 13:47:23 +0200
-From: Michal Hocko <mhocko@kernel.org>
-To: David Hildenbrand <david@redhat.com>
+ id 1iKLLD-0004iL-1N; Tue, 15 Oct 2019 11:50:16 +0000
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DB5E63082E61;
+ Tue, 15 Oct 2019 11:50:13 +0000 (UTC)
+Received: from [10.36.116.26] (ovpn-116-26.ams2.redhat.com [10.36.116.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48AD410027AB;
+ Tue, 15 Oct 2019 11:50:03 +0000 (UTC)
 Subject: Re: [PATCH V6 1/2] mm/page_alloc: Make alloc_gigantic_page()
  available for general use
-Message-ID: <20191015114723.GD317@dhcp22.suse.cz>
+To: Michal Hocko <mhocko@kernel.org>
 References: <1571131302-32290-1-git-send-email-anshuman.khandual@arm.com>
  <1571131302-32290-2-git-send-email-anshuman.khandual@arm.com>
  <9da1f196-51bd-06ac-c5dc-b55776fce2be@redhat.com>
+ <20191015114723.GD317@dhcp22.suse.cz>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <513bc2f7-8110-58f7-36c1-a04b59f11f7e@redhat.com>
+Date: Tue, 15 Oct 2019 13:50:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9da1f196-51bd-06ac-c5dc-b55776fce2be@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191015114723.GD317@dhcp22.suse.cz>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Tue, 15 Oct 2019 11:50:14 +0000 (UTC)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191015_044725_502560_B7E55145 
-X-CRM114-Status: GOOD (  11.41  )
+X-CRM114-CacheID: sfid-20191015_045015_122462_2B7951EA 
+X-CRM114-Status: GOOD (  17.81  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,33 +109,40 @@ Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
  Mel Gorman <mgorman@techsingularity.net>,
  "David S. Miller" <davem@davemloft.net>,
  Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue 15-10-19 13:42:03, David Hildenbrand wrote:
-[...]
-> > -static bool pfn_range_valid_gigantic(struct zone *z,
-> > -			unsigned long start_pfn, unsigned long nr_pages)
-> > -{
-> > -	unsigned long i, end_pfn = start_pfn + nr_pages;
-> > -	struct page *page;
-> > -
-> > -	for (i = start_pfn; i < end_pfn; i++) {
-> > -		if (!pfn_valid(i))
-> > -			return false;
-> > -
-> > -		page = pfn_to_page(i);
+On 15.10.19 13:47, Michal Hocko wrote:
+> On Tue 15-10-19 13:42:03, David Hildenbrand wrote:
+> [...]
+>>> -static bool pfn_range_valid_gigantic(struct zone *z,
+>>> -			unsigned long start_pfn, unsigned long nr_pages)
+>>> -{
+>>> -	unsigned long i, end_pfn = start_pfn + nr_pages;
+>>> -	struct page *page;
+>>> -
+>>> -	for (i = start_pfn; i < end_pfn; i++) {
+>>> -		if (!pfn_valid(i))
+>>> -			return false;
+>>> -
+>>> -		page = pfn_to_page(i);
+>>
+>> Am I missing something or should here really be a pfn_to_online_page() here
+>> instead of a pfn_valid() ?
 > 
-> Am I missing something or should here really be a pfn_to_online_page() here
-> instead of a pfn_valid() ?
+> http://lkml.kernel.org/r/20180423000943.GO17484@dhcp22.suse.cz
+> 
 
-http://lkml.kernel.org/r/20180423000943.GO17484@dhcp22.suse.cz
+So we managed to add PageReserved(page) but not pfn_to_online_page(). 
+But it is the right thing to do? (or am I missing something?)
 
 -- 
-Michal Hocko
-SUSE Labs
+
+Thanks,
+
+David / dhildenb
 
 _______________________________________________
 linux-snps-arc mailing list
