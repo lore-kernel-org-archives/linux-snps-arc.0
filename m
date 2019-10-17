@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DCFDECE597
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Oct 2019 17:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CA0ECE58D
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Oct 2019 17:53:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E98782089C
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Oct 2019 17:51:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D98122089C
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Oct 2019 17:53:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JmU0WP5H"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E98782089C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KALofpf5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D98122089C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,27 +25,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=f0aGrbC8k/ZIxhknwCnKdTa2Ke38PgIs8dIDdgOaa9I=; b=JmU0WP5HWqcqHx
-	QMu5rQ1sxcW2kmTvT9SL+Y12ZVzmNIGNejbNw+Nceny7uZWwBZ3U5L2TtIAAwNUvM55Cbrh82Pf5h
-	dMKhBJ6dFMCzJeiwcSdPO3pDV+/NoTH3mEAQVk5jdgmWhIGUPRcJSRjY5NAcZnvyMMnJ0bfZ4U70a
-	PsYu7KbjSmFf3L17kCrYTvO1tgERnBQgwWAUfqE3REx4uCXpygGjBYw6P8UJwtJjrt2fqkCPLYn7a
-	IXLJOB3ZOlhJ0lNk66cW2LTb2fxaB7k2GNNc2gm1voFpmjTQ1fbSWDYtB74U2zX2cHWVs2vO7vR1J
-	cg9clh1t/l/SpqqeXcZQ==;
+	List-Owner; bh=aRF5Zw4d/7Rjl3dBwbwqpD6Yyl/LqtxVwPAoA9acTQQ=; b=KALofpf5M6uCxA
+	slL7s1ohD0hDN+o2QgU1Cf0REaya2cYrD2zo7uLCWq3FauhhoEE38ZftmoQ5C3QU44VFoN9xUzAhH
+	MtRScEILa63OaEazfsCCo3ko/4Yw7wupiuEx4/gpBm7SB1qylybU2u4IrzTeXdlQgt+V+OVaLelzQ
+	bUtxsXZT+DlDwdk5u63YoMi8Hgn/xXErfG7vaOveNqjGtICX0sQ7PS9KCkH+NORuk9fvJBv1foIQh
+	YAVsLubIGyS9v++ufj2178fITsy9DN9Q8Z524DOmqCUvG+ktMlSyK4+Gjmjg42qYOo5zi+or5wf6G
+	ejSw0ZaddQE3c0CAGGcQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iL9vp-0003Kw-PA; Thu, 17 Oct 2019 17:51:25 +0000
+	id 1iL9xm-0005I0-IF; Thu, 17 Oct 2019 17:53:26 +0000
 Received: from [2001:4bb8:18c:d7b:c70:4a89:bc61:3] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iL9r4-00064A-1m; Thu, 17 Oct 2019 17:46:30 +0000
+ id 1iL9r6-00066o-RZ; Thu, 17 Oct 2019 17:46:34 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Arnd Bergmann <arnd@arndb.de>, Guo Ren <guoren@kernel.org>,
  Michal Simek <monstr@monstr.eu>, Greentime Hu <green.hu@gmail.com>,
  Vincent Chen <deanbo422@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>,
  x86@kernel.org
-Subject: [PATCH 12/21] arch: rely on asm-generic/io.h for default ioremap_*
- definitions
-Date: Thu, 17 Oct 2019 19:45:45 +0200
-Message-Id: <20191017174554.29840-13-hch@lst.de>
+Subject: [PATCH 13/21] m68k: rename __iounmap and mark it static
+Date: Thu, 17 Oct 2019 19:45:46 +0200
+Message-Id: <20191017174554.29840-14-hch@lst.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191017174554.29840-1-hch@lst.de>
 References: <20191017174554.29840-1-hch@lst.de>
@@ -75,235 +74,72 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Various architectures that use asm-generic/io.h still defined their
-own default versions of ioremap_nocache, ioremap_wt and ioremap_wc
-that point back to plain ioremap directly or indirectly.  Remove these
-definitions and rely on asm-generic/io.h instead.  For this to work
-the backup ioremap_* defintions needs to be changed to purely cpp
-macros instea of inlines to cover for architectures like openrisc
-that only define ioremap after including <asm-generic/io.h>.
+m68k uses __iounmap as the name for an internal helper that is only
+used for some CPU types.  Mark it static and give it a better name.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- arch/arc/include/asm/io.h        |  4 ----
- arch/arm/include/asm/io.h        |  1 -
- arch/arm64/include/asm/io.h      |  2 --
- arch/csky/include/asm/io.h       |  1 -
- arch/ia64/include/asm/io.h       |  1 -
- arch/microblaze/include/asm/io.h |  3 ---
- arch/nios2/include/asm/io.h      |  4 ----
- arch/openrisc/include/asm/io.h   |  1 -
- arch/riscv/include/asm/io.h      | 10 ----------
- arch/s390/include/asm/io.h       |  4 ----
- arch/x86/include/asm/io.h        |  1 -
- arch/xtensa/include/asm/io.h     |  4 ----
- include/asm-generic/io.h         | 18 +++---------------
- 13 files changed, 3 insertions(+), 51 deletions(-)
+ arch/m68k/include/asm/kmap.h | 1 -
+ arch/m68k/mm/kmap.c          | 9 ++++++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
-index 72f7929736f8..8f777d6441a5 100644
---- a/arch/arc/include/asm/io.h
-+++ b/arch/arc/include/asm/io.h
-@@ -34,10 +34,6 @@ static inline void ioport_unmap(void __iomem *addr)
- 
- extern void iounmap(const void __iomem *addr);
- 
--#define ioremap_nocache(phy, sz)	ioremap(phy, sz)
--#define ioremap_wc(phy, sz)		ioremap(phy, sz)
--#define ioremap_wt(phy, sz)		ioremap(phy, sz)
--
- /*
-  * io{read,write}{16,32}be() macros
-  */
-diff --git a/arch/arm/include/asm/io.h b/arch/arm/include/asm/io.h
-index 924f9dd502ed..aefdabdbeb84 100644
---- a/arch/arm/include/asm/io.h
-+++ b/arch/arm/include/asm/io.h
-@@ -392,7 +392,6 @@ static inline void memcpy_toio(volatile void __iomem *to, const void *from,
-  */
- void __iomem *ioremap(resource_size_t res_cookie, size_t size);
- #define ioremap ioremap
--#define ioremap_nocache ioremap
- 
- /*
-  * Do not use ioremap_cache for mapping memory. Use memremap instead.
-diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
-index 323cb306bd28..4e531f57147d 100644
---- a/arch/arm64/include/asm/io.h
-+++ b/arch/arm64/include/asm/io.h
-@@ -167,9 +167,7 @@ extern void iounmap(volatile void __iomem *addr);
- extern void __iomem *ioremap_cache(phys_addr_t phys_addr, size_t size);
- 
- #define ioremap(addr, size)		__ioremap((addr), (size), __pgprot(PROT_DEVICE_nGnRE))
--#define ioremap_nocache(addr, size)	__ioremap((addr), (size), __pgprot(PROT_DEVICE_nGnRE))
- #define ioremap_wc(addr, size)		__ioremap((addr), (size), __pgprot(PROT_NORMAL_NC))
--#define ioremap_wt(addr, size)		__ioremap((addr), (size), __pgprot(PROT_DEVICE_nGnRE))
- 
- /*
-  * PCI configuration space mapping function.
-diff --git a/arch/csky/include/asm/io.h b/arch/csky/include/asm/io.h
-index 80d071e2567f..a4b9fb616faa 100644
---- a/arch/csky/include/asm/io.h
-+++ b/arch/csky/include/asm/io.h
-@@ -42,7 +42,6 @@ extern void iounmap(void *addr);
- 
- #define ioremap(addr, size)		__ioremap((addr), (size), pgprot_noncached(PAGE_KERNEL))
- #define ioremap_wc(addr, size)		__ioremap((addr), (size), pgprot_writecombine(PAGE_KERNEL))
--#define ioremap_nocache(addr, size)	ioremap((addr), (size))
- #define ioremap_cache			ioremap_cache
- 
- #include <asm-generic/io.h>
-diff --git a/arch/ia64/include/asm/io.h b/arch/ia64/include/asm/io.h
-index fec9df9609ed..3d666a11a2de 100644
---- a/arch/ia64/include/asm/io.h
-+++ b/arch/ia64/include/asm/io.h
-@@ -263,7 +263,6 @@ static inline void __iomem * ioremap_cache (unsigned long phys_addr, unsigned lo
- 	return ioremap(phys_addr, size);
- }
- #define ioremap ioremap
--#define ioremap_nocache ioremap
- #define ioremap_cache ioremap_cache
- #define ioremap_uc ioremap_uc
+diff --git a/arch/m68k/include/asm/kmap.h b/arch/m68k/include/asm/kmap.h
+index 421b6c9c769d..559cb91bede1 100644
+--- a/arch/m68k/include/asm/kmap.h
++++ b/arch/m68k/include/asm/kmap.h
+@@ -20,7 +20,6 @@ extern void __iomem *__ioremap(unsigned long physaddr, unsigned long size,
+ 			       int cacheflag);
  #define iounmap iounmap
-diff --git a/arch/microblaze/include/asm/io.h b/arch/microblaze/include/asm/io.h
-index 86c95b2a1ce1..d33c61737b8b 100644
---- a/arch/microblaze/include/asm/io.h
-+++ b/arch/microblaze/include/asm/io.h
-@@ -39,9 +39,6 @@ extern resource_size_t isa_mem_base;
- extern void iounmap(volatile void __iomem *addr);
+ extern void iounmap(void __iomem *addr);
+-extern void __iounmap(void *addr, unsigned long size);
  
- extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
--#define ioremap_nocache(addr, size)		ioremap((addr), (size))
--#define ioremap_wc(addr, size)			ioremap((addr), (size))
--#define ioremap_wt(addr, size)			ioremap((addr), (size))
- 
- #endif /* CONFIG_MMU */
- 
-diff --git a/arch/nios2/include/asm/io.h b/arch/nios2/include/asm/io.h
-index 74ab34aa6731..d108937c321e 100644
---- a/arch/nios2/include/asm/io.h
-+++ b/arch/nios2/include/asm/io.h
-@@ -33,10 +33,6 @@ static inline void iounmap(void __iomem *addr)
- 	__iounmap(addr);
- }
- 
--#define ioremap_nocache ioremap
--#define ioremap_wc ioremap
--#define ioremap_wt ioremap
--
- /* Pages to physical address... */
- #define page_to_phys(page)	virt_to_phys(page_to_virt(page))
- 
-diff --git a/arch/openrisc/include/asm/io.h b/arch/openrisc/include/asm/io.h
-index 5b81a96ab85e..e18f038b2a6d 100644
---- a/arch/openrisc/include/asm/io.h
-+++ b/arch/openrisc/include/asm/io.h
-@@ -25,7 +25,6 @@
- #define PIO_OFFSET		0
- #define PIO_MASK		0
- 
--#define ioremap_nocache ioremap
- #include <asm-generic/io.h>
- #include <asm/pgtable.h>
- 
-diff --git a/arch/riscv/include/asm/io.h b/arch/riscv/include/asm/io.h
-index fc1189ad3777..c1de6875cc77 100644
---- a/arch/riscv/include/asm/io.h
-+++ b/arch/riscv/include/asm/io.h
-@@ -15,16 +15,6 @@
- #include <asm/mmiowb.h>
- 
- extern void __iomem *ioremap(phys_addr_t offset, unsigned long size);
--
--/*
-- * The RISC-V ISA doesn't yet specify how to query or modify PMAs, so we can't
-- * change the properties of memory regions.  This should be fixed by the
-- * upcoming platform spec.
-- */
--#define ioremap_nocache(addr, size) ioremap((addr), (size))
--#define ioremap_wc(addr, size) ioremap((addr), (size))
--#define ioremap_wt(addr, size) ioremap((addr), (size))
--
- extern void iounmap(volatile void __iomem *addr);
- 
- /* Generic IO read/write.  These perform native-endian accesses. */
-diff --git a/arch/s390/include/asm/io.h b/arch/s390/include/asm/io.h
-index ca421614722f..5a16f500515a 100644
---- a/arch/s390/include/asm/io.h
-+++ b/arch/s390/include/asm/io.h
-@@ -26,10 +26,6 @@ void unxlate_dev_mem_ptr(phys_addr_t phys, void *addr);
- 
- #define IO_SPACE_LIMIT 0
- 
--#define ioremap_nocache(addr, size)	ioremap(addr, size)
--#define ioremap_wc			ioremap_nocache
--#define ioremap_wt			ioremap_nocache
--
- void __iomem *ioremap(unsigned long offset, unsigned long size);
- void iounmap(volatile void __iomem *addr);
- 
-diff --git a/arch/x86/include/asm/io.h b/arch/x86/include/asm/io.h
-index 6b5cc41319a7..9997521fc5cd 100644
---- a/arch/x86/include/asm/io.h
-+++ b/arch/x86/include/asm/io.h
-@@ -205,7 +205,6 @@ extern void __iomem *ioremap_encrypted(resource_size_t phys_addr, unsigned long
-  */
- void __iomem *ioremap(resource_size_t offset, unsigned long size);
  #define ioremap ioremap
--#define ioremap_nocache ioremap
+ static inline void __iomem *ioremap(unsigned long physaddr, unsigned long size)
+diff --git a/arch/m68k/mm/kmap.c b/arch/m68k/mm/kmap.c
+index 40a3b327da07..4c279cf0bcc8 100644
+--- a/arch/m68k/mm/kmap.c
++++ b/arch/m68k/mm/kmap.c
+@@ -52,6 +52,7 @@ static inline void free_io_area(void *addr)
  
- extern void iounmap(volatile void __iomem *addr);
- #define iounmap iounmap
-diff --git a/arch/xtensa/include/asm/io.h b/arch/xtensa/include/asm/io.h
-index 441fb56926a7..54188e69b988 100644
---- a/arch/xtensa/include/asm/io.h
-+++ b/arch/xtensa/include/asm/io.h
-@@ -52,10 +52,6 @@ static inline void __iomem *ioremap_cache(unsigned long offset,
+ #define IO_SIZE		(256*1024)
+ 
++static void __free_io_area(void *addr, unsigned long size);
+ static struct vm_struct *iolist;
+ 
+ static struct vm_struct *get_io_area(unsigned long size)
+@@ -90,7 +91,7 @@ static inline void free_io_area(void *addr)
+ 		if (tmp->addr == addr) {
+ 			*p = tmp->next;
+ 			/* remove gap added in get_io_area() */
+-			__iounmap(tmp->addr, tmp->size - IO_SIZE);
++			__free_io_area(tmp->addr, tmp->size - IO_SIZE);
+ 			kfree(tmp);
+ 			return;
+ 		}
+@@ -249,12 +250,13 @@ void iounmap(void __iomem *addr)
  }
- #define ioremap_cache ioremap_cache
+ EXPORT_SYMBOL(iounmap);
  
--#define ioremap_nocache ioremap
--#define ioremap_wc ioremap
--#define ioremap_wt ioremap
--
- static inline void iounmap(volatile void __iomem *addr)
++#ifndef CPU_M68040_OR_M68060_ONLY
+ /*
+- * __iounmap unmaps nearly everything, so be careful
++ * __free_io_area unmaps nearly everything, so be careful
+  * Currently it doesn't free pointer/page tables anymore but this
+  * wasn't used anyway and might be added later.
+  */
+-void __iounmap(void *addr, unsigned long size)
++static void __free_io_area(void *addr, unsigned long size)
  {
- 	unsigned long va = (unsigned long) addr;
-diff --git a/include/asm-generic/io.h b/include/asm-generic/io.h
-index 6a5edc23afe2..4e45e1cb6560 100644
---- a/include/asm-generic/io.h
-+++ b/include/asm-generic/io.h
-@@ -949,27 +949,15 @@ static inline void iounmap(void __iomem *addr)
- #endif /* CONFIG_MMU */
+ 	unsigned long virtaddr = (unsigned long)addr;
+ 	pgd_t *pgd_dir;
+@@ -297,6 +299,7 @@ void __iounmap(void *addr, unsigned long size)
  
- #ifndef ioremap_nocache
--#define ioremap_nocache ioremap_nocache
--static inline void __iomem *ioremap_nocache(phys_addr_t offset, size_t size)
--{
--	return ioremap(offset, size);
--}
-+#define ioremap_nocache ioremap
- #endif
- 
- #ifndef ioremap_wc
--#define ioremap_wc ioremap_wc
--static inline void __iomem *ioremap_wc(phys_addr_t offset, size_t size)
--{
--	return ioremap_nocache(offset, size);
--}
-+#define ioremap_wc ioremap
- #endif
- 
- #ifndef ioremap_wt
--#define ioremap_wt ioremap_wt
--static inline void __iomem *ioremap_wt(phys_addr_t offset, size_t size)
--{
--	return ioremap_nocache(offset, size);
--}
-+#define ioremap_wt ioremap
- #endif
+ 	flush_tlb_all();
+ }
++#endif /* CPU_M68040_OR_M68060_ONLY */
  
  /*
+  * Set new cache mode for some kernel address space.
 -- 
 2.20.1
 
