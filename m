@@ -5,18 +5,18 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DF40ECE58D
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Oct 2019 17:54:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E656ECE58E
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Oct 2019 17:55:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3D86A2089C
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Oct 2019 17:54:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2EDB621835
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Oct 2019 17:55:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="c2RA7yBz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D86A2089C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="M2iPUced"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2EDB621835
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,26 +25,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=tCich9d+If/GW0viLe+4uw2bHIvsrwDNG8q7xDO3Zsw=; b=c2RA7yBz2baprM
-	1u/Us/tVmol5Lj4G10HYYYfa1ZuIldkp/Xx/RnMfgI+Wb5cqEJCZxOZV7kT/d1P4ho5UUYDm1UGQ+
-	mh96nQBtTlZ2rsAMTXm3WoRlHrWBFll86YOYwmA6jdbF0u3PxWsM6Yt8gfaejThHb4QOCZ8M43wF7
-	qxgoqTA88gt2vAdnz0i3W8pCSgKJv1i1k/MFRv5i0RIKgfE+khClMiiQNhjwbO0I4ygeyhcVy22cz
-	39S/VF8WI9wubhNtd/oYu7IQiUbfsR+OToGoVx2DDZxqYV0rBLY7ey5pQ/6ZX+ki2j9ipmntfQqf+
-	G8lIIOF6Hm+9lMwxmK2Q==;
+	List-Owner; bh=ZuiwzulJ8F6hQZTP0ByQTyxNDvRBgmIcRAhaU3v+GKg=; b=M2iPUcedmg3r7G
+	dtOtkyzxIu/v3EtTkom/Tx/ApSZ2vGLTeU6mXj+/Yfjrc5vsiEq27XjlDG1sXdlYbM/xktikVFiA1
+	5dgVBYDkQGE2hyy8fx9bCeNhK8XfbhYKOHWCoPCvUnfCVYmi0ZykEYGqXFvqh14tMJXGiL8Zx9Hwu
+	8YaqJwSXKcVb/qHsqycvMvlkvZTrA2S+Yj0GwI/u9EfVsYAYzh+Qy1VfFudEQsXIxO6LiTytjFotE
+	i3f7tu9P/YLkigdGGaYAg6Qnbr/ZjtbhaPCTBc2UoK3YHtbqRmzE2fTzb+PeszOLd0/AyQdJ+UIGH
+	Y99JY/GW7RXFDUhNFKnQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iL9yj-0006CF-SQ; Thu, 17 Oct 2019 17:54:25 +0000
+	id 1iL9zS-0007Hg-DW; Thu, 17 Oct 2019 17:55:10 +0000
 Received: from [2001:4bb8:18c:d7b:c70:4a89:bc61:3] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iL9rD-0006BL-8t; Thu, 17 Oct 2019 17:46:39 +0000
+ id 1iL9rF-0006Df-Vb; Thu, 17 Oct 2019 17:46:42 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Arnd Bergmann <arnd@arndb.de>, Guo Ren <guoren@kernel.org>,
  Michal Simek <monstr@monstr.eu>, Greentime Hu <green.hu@gmail.com>,
  Vincent Chen <deanbo422@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>,
  x86@kernel.org
-Subject: [PATCH 15/21] nios2: remove __iounmap
-Date: Thu, 17 Oct 2019 19:45:48 +0200
-Message-Id: <20191017174554.29840-16-hch@lst.de>
+Subject: [PATCH 16/21] sh: remove __iounmap
+Date: Thu, 17 Oct 2019 19:45:49 +0200
+Message-Id: <20191017174554.29840-17-hch@lst.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191017174554.29840-1-hch@lst.de>
 References: <20191017174554.29840-1-hch@lst.de>
@@ -74,52 +74,63 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-No need to indirect iounmap for nios2.
+No need to indirect iounmap for sh.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- arch/nios2/include/asm/io.h | 7 +------
- arch/nios2/mm/ioremap.c     | 6 +++---
+ arch/sh/include/asm/io.h | 9 ++-------
+ arch/sh/mm/ioremap.c     | 4 ++--
  2 files changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/arch/nios2/include/asm/io.h b/arch/nios2/include/asm/io.h
-index d108937c321e..746853ac7d8d 100644
---- a/arch/nios2/include/asm/io.h
-+++ b/arch/nios2/include/asm/io.h
-@@ -26,12 +26,7 @@
- #define writel_relaxed(x, addr)	writel(x, addr)
+diff --git a/arch/sh/include/asm/io.h b/arch/sh/include/asm/io.h
+index ac0561960c52..1495489225ac 100644
+--- a/arch/sh/include/asm/io.h
++++ b/arch/sh/include/asm/io.h
+@@ -267,7 +267,7 @@ unsigned long long poke_real_address_q(unsigned long long addr,
+ #ifdef CONFIG_MMU
+ void __iomem *__ioremap_caller(phys_addr_t offset, unsigned long size,
+ 			       pgprot_t prot, void *caller);
+-void __iounmap(void __iomem *addr);
++void iounmap(void __iomem *addr);
  
- void __iomem *ioremap(unsigned long physaddr, unsigned long size);
--extern void __iounmap(void __iomem *addr);
--
+ static inline void __iomem *
+ __ioremap(phys_addr_t offset, unsigned long size, pgprot_t prot)
+@@ -328,7 +328,7 @@ __ioremap_mode(phys_addr_t offset, unsigned long size, pgprot_t prot)
+ #else
+ #define __ioremap(offset, size, prot)		((void __iomem *)(offset))
+ #define __ioremap_mode(offset, size, prot)	((void __iomem *)(offset))
+-#define __iounmap(addr)				do { } while (0)
++#define iounmap(addr)				do { } while (0)
+ #endif /* CONFIG_MMU */
+ 
+ static inline void __iomem *ioremap(phys_addr_t offset, unsigned long size)
+@@ -370,11 +370,6 @@ static inline int iounmap_fixed(void __iomem *addr) { return -EINVAL; }
+ #define ioremap_nocache	ioremap
+ #define ioremap_uc	ioremap
+ 
 -static inline void iounmap(void __iomem *addr)
 -{
 -	__iounmap(addr);
 -}
-+void iounmap(void __iomem *addr);
- 
- /* Pages to physical address... */
- #define page_to_phys(page)	virt_to_phys(page_to_virt(page))
-diff --git a/arch/nios2/mm/ioremap.c b/arch/nios2/mm/ioremap.c
-index 7a1a27f3daa3..b56af759dcdf 100644
---- a/arch/nios2/mm/ioremap.c
-+++ b/arch/nios2/mm/ioremap.c
-@@ -157,11 +157,11 @@ void __iomem *ioremap(unsigned long phys_addr, unsigned long size)
- EXPORT_SYMBOL(ioremap);
- 
+-
  /*
-- * __iounmap unmaps nearly everything, so be careful
-+ * iounmap unmaps nearly everything, so be careful
-  * it doesn't free currently pointer/page tables anymore but it
-  * wasn't used anyway and might be added later.
-  */
+  * Convert a physical pointer to a virtual kernel pointer for /dev/mem
+  * access
+diff --git a/arch/sh/mm/ioremap.c b/arch/sh/mm/ioremap.c
+index d09ddfe58fd8..f6d02246d665 100644
+--- a/arch/sh/mm/ioremap.c
++++ b/arch/sh/mm/ioremap.c
+@@ -103,7 +103,7 @@ static inline int iomapping_nontranslatable(unsigned long offset)
+ 	return 0;
+ }
+ 
 -void __iounmap(void __iomem *addr)
 +void iounmap(void __iomem *addr)
  {
+ 	unsigned long vaddr = (unsigned long __force)addr;
  	struct vm_struct *p;
+@@ -134,4 +134,4 @@ void __iounmap(void __iomem *addr)
  
-@@ -173,4 +173,4 @@ void __iounmap(void __iomem *addr)
- 		pr_err("iounmap: bad address %p\n", addr);
  	kfree(p);
  }
 -EXPORT_SYMBOL(__iounmap);
