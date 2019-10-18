@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B13FFCA9EA6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ECA1CA9EA1
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Oct 2019 12:15:58 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8757F20640
+	by mail.kernel.org (Postfix) with ESMTPS id 423812082C
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Oct 2019 12:15:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rbfivWG2";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="N6w2HnxA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8757F20640
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mrw2B/yG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Evvf5DHG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 423812082C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,53 +26,52 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=g62kXo+EVoyGhnIQ8tc57SDngeb/aINd7MGpqDpjVFA=; b=rbfivWG2TbouQr
-	2kJwiZR6AvknStzuc+lNQXCAT2Ksa/Xrqeagrx1c0oo64JV6yNkaTjNIK3wBzmKdyIPwpH088Jn0N
-	/2Zl/rYnONlau1pNUHqyaE9ZeKQXTjiV8J6+kLc0Bxwq3pYC13Q7cpMmsZhOS+P5vlbnT+xvPxfHe
-	1E/VfuK2P+6OdwYUb3CaiFSOuoQW60XJmjFVGC36n7Y/ux3h1hvvzyY9iUgtKm79ZffcTZsAwvicv
-	qKYjLo+UpyqXoeZqZRXQhLt8SISStkWQ3dbx1jQJBpH9a4HiFzj0pHCYAowyaSDq9iJWgUpMv+GMG
-	1oZ99jB1nGYL3NUTawkw==;
+	List-Owner; bh=eH+2Wqi+7y+Nkui6uU2viyjfmY1Iq5MyoNZfsSwi4dY=; b=mrw2B/yGBSGCxk
+	2i25Ag0+sekJTIa6YRjTBrsi/pH2UHnvtoiUK5XJqIyE5Ck6Qf5bqG6/06NrmAnoCMlhXJSeLKNkJ
+	JgRIcxWsXp9uQhx5uNjXKrdrAV0clj0oUJh5350xiZEOYlj7Epz1IIAlt5nd1eiE/Ej+tGJ2O5zaM
+	3SWsX6NXxwomoKTs8yHlNfw6sHb3MVc17HyF1NTrPWtM9hS9m0IwgAEJ02nQXyv2d6+pgvxXieMB9
+	Hyfb+SSE1wdx1BBbUTj9d+G7QQffQuRbAiwJP87dCdF1E2C3ECpYqg6kPrXN06omQOD7Yud3cNT3W
+	yrS7G+m46rPVhitvioaQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iLRAj-0007Du-NV; Fri, 18 Oct 2019 12:15:57 +0000
+	id 1iLRAj-0007De-GF; Fri, 18 Oct 2019 12:15:57 +0000
 Received: from us03-smtprelay2.synopsys.com ([149.117.87.133]
  helo=smtprelay-out1.synopsys.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iLRAf-0007Ab-PT
+ id 1iLRAf-0007Aa-PS
  for linux-snps-arc@lists.infradead.org; Fri, 18 Oct 2019 12:15:55 +0000
 Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
  [10.225.0.210])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 714EDC04D8;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5975EC04D7;
  Fri, 18 Oct 2019 12:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1571400951; bh=jLkKy2hks3L8ylKTsganMXawjwSgKe7zOimqAAm3Gn0=;
+ t=1571400951; bh=oQQShnjm5R0MR/xjv312sQ6gQ7J+z4O6hvMy/a53QQ0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N6w2HnxAZezvhMtu9qU1Y47rtBMzW2DtLzZV8TSwIvqlSy7chAPQwF4Y5HPLb4UjB
- btVTyJphfC33x1rjts+OdKEabMd1dTQkMHDfVH4ReeiJMMIKdlYVYY78Kl1lBrc2Jo
- TrHz3tpv47REzW8yI3udvxxxL7gXLYJltOkaUXm7RwLhb0c4eZaWc6oMLv1AVb/Oq+
- uzGjx5TGDlxf7r3L9h5ptzTrH6ZBtITfgfFAEEZb3PVyIvcWqYilOmMWwGkwo57O0I
- suf4Oaaz7JhD5n6S7d8FfxuUVEoy4NjslXfE/r2tsXV+UKvGi2mJQLSSFyBUXmijb3
- lMQl5c5Ga9lFA==
+ b=Evvf5DHGG7VfVLWRKmvc8rRiZVi3Qxi7atXeNgJ54Nl/mqE4NqWeq8GWpaKNh2tsy
+ BmolhZsh4uSf1pTIQFm1TkXsBY79ZAaeeAvlWY2hU2W11GkF9EdS12yot+l+NNfOUN
+ A7ZmrLEKK9A3BAJxy2FWcA+FQqNU29zCRaNpRClzANrBwJSUd8Cv/BBLKQz17L5VAY
+ HA4w2K/DtimhvZt1LB5fJIDzlLeTbcMqCpt6eYkyznpISkCDrNut+uuFoanr+I0+cf
+ uJ4tKECNqKNpGeEM1uDUQNMMLpLTv8fxkopmSkISUD/fceknO7B1pjNcCOWm+FK5Zw
+ oZroCuxRoVOvQ==
 Received: from paltsev-e7480.internal.synopsys.com
  (paltsev-e7480.internal.synopsys.com [10.121.3.73])
- by mailhost.synopsys.com (Postfix) with ESMTP id D7F2EA0070;
+ by mailhost.synopsys.com (Postfix) with ESMTP id 542A1A006D;
  Fri, 18 Oct 2019 12:15:49 +0000 (UTC)
 From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 To: linux-snps-arc@lists.infradead.org,
  Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: [RFC 5/6] ARC: HAPS: cleanup defconfigs from unused ETH drivers
-Date: Fri, 18 Oct 2019 15:15:44 +0300
-Message-Id: <20191018121545.8907-6-Eugeniy.Paltsev@synopsys.com>
+Subject: [RFC 4/6] ARC: HAPS: add HIGHMEM memory zone to DTS
+Date: Fri, 18 Oct 2019 15:15:43 +0300
+Message-Id: <20191018121545.8907-5-Eugeniy.Paltsev@synopsys.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191018121545.8907-1-Eugeniy.Paltsev@synopsys.com>
 References: <20191018121545.8907-1-Eugeniy.Paltsev@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191018_051553_866068_FAA459EB 
-X-CRM114-Status: UNSURE (   8.07  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191018_051553_873959_8BA3E975 
+X-CRM114-Status: GOOD (  10.95  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,62 +90,52 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-We have multiple vendors ethernet drivers enabled in haps_hs and
-haps_hs_smp defconfig. The only one we possibly require is
-VIRTIO_NET. So disable unused ones via disabling entire
-CONFIG_ETHERNET which controls all vendor-specific ethernet
-drivers.
+This is required as a preparation of merging nSIM and HASP
+defonfig and device tree.
+
+As we have HIGHMEM disabled in both HAPS and nSIM defconfigs
+this doesn't lead to any functional change.
 
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 ---
- arch/arc/configs/haps_hs_defconfig     | 11 +----------
- arch/arc/configs/haps_hs_smp_defconfig | 11 +----------
- 2 files changed, 2 insertions(+), 20 deletions(-)
+ arch/arc/boot/dts/haps_hs.dts | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
-index 33b7a402b6bd..7337cdf4ffdd 100644
---- a/arch/arc/configs/haps_hs_defconfig
-+++ b/arch/arc/configs/haps_hs_defconfig
-@@ -36,16 +36,7 @@ CONFIG_DEVTMPFS_MOUNT=y
- CONFIG_VIRTIO_BLK=y
- CONFIG_NETDEVICES=y
- CONFIG_VIRTIO_NET=y
--# CONFIG_NET_VENDOR_ARC is not set
--# CONFIG_NET_VENDOR_BROADCOM is not set
--# CONFIG_NET_VENDOR_INTEL is not set
--# CONFIG_NET_VENDOR_MARVELL is not set
--# CONFIG_NET_VENDOR_MICREL is not set
--# CONFIG_NET_VENDOR_NATSEMI is not set
--# CONFIG_NET_VENDOR_SEEQ is not set
--# CONFIG_NET_VENDOR_STMICRO is not set
--# CONFIG_NET_VENDOR_VIA is not set
--# CONFIG_NET_VENDOR_WIZNET is not set
-+# CONFIG_ETHERNET is not set
- # CONFIG_WLAN is not set
- CONFIG_INPUT_EVDEV=y
- # CONFIG_INPUT_KEYBOARD is not set
-diff --git a/arch/arc/configs/haps_hs_smp_defconfig b/arch/arc/configs/haps_hs_smp_defconfig
-index 5586511a00bf..bc927221afc0 100644
---- a/arch/arc/configs/haps_hs_smp_defconfig
-+++ b/arch/arc/configs/haps_hs_smp_defconfig
-@@ -37,16 +37,7 @@ CONFIG_DEVTMPFS=y
- # CONFIG_PREVENT_FIRMWARE_BUILD is not set
- # CONFIG_BLK_DEV is not set
- CONFIG_NETDEVICES=y
--# CONFIG_NET_VENDOR_ARC is not set
--# CONFIG_NET_VENDOR_BROADCOM is not set
--# CONFIG_NET_VENDOR_INTEL is not set
--# CONFIG_NET_VENDOR_MARVELL is not set
--# CONFIG_NET_VENDOR_MICREL is not set
--# CONFIG_NET_VENDOR_NATSEMI is not set
--# CONFIG_NET_VENDOR_SEEQ is not set
--# CONFIG_NET_VENDOR_STMICRO is not set
--# CONFIG_NET_VENDOR_VIA is not set
--# CONFIG_NET_VENDOR_WIZNET is not set
-+# CONFIG_ETHERNET is not set
- # CONFIG_WLAN is not set
- CONFIG_INPUT_EVDEV=y
- # CONFIG_INPUT_KEYBOARD is not set
+diff --git a/arch/arc/boot/dts/haps_hs.dts b/arch/arc/boot/dts/haps_hs.dts
+index 11fad2f79056..60d578e2781f 100644
+--- a/arch/arc/boot/dts/haps_hs.dts
++++ b/arch/arc/boot/dts/haps_hs.dts
+@@ -9,13 +9,15 @@
+ / {
+ 	model = "snps,zebu_hs";
+ 	compatible = "snps,zebu_hs";
+-	#address-cells = <1>;
+-	#size-cells = <1>;
++	#address-cells = <2>;
++	#size-cells = <2>;
+ 	interrupt-parent = <&core_intc>;
+ 
+ 	memory {
+ 		device_type = "memory";
+-		reg = <0x80000000 0x20000000>;	/* 512 */
++		/* CONFIG_LINUX_RAM_BASE needs to match low mem start */
++		reg = <0x0 0x80000000 0x0 0x20000000	/* 512 MB low mem */
++		       0x1 0x00000000 0x0 0x40000000>;	/* 1 GB highmem */
+ 	};
+ 
+ 	chosen {
+@@ -31,8 +33,9 @@
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+ 
+-		/* child and parent address space 1:1 mapped */
+-		ranges;
++		/* only perip space at end of low mem accessible
++			  bus addr,  parent bus addr, size    */
++		ranges = <0x80000000 0x0 0x80000000 0x80000000>;
+ 
+ 		core_clk: core_clk {
+ 			#clock-cells = <0>;
 -- 
 2.21.0
 
