@@ -2,22 +2,23 @@ Return-Path: <SRS0=z5VF=YL=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 352B4CA9EA9
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Oct 2019 18:48:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D97FFCA9EA9
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Oct 2019 19:07:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0EE9421897
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Oct 2019 18:48:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AE1132070B
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Oct 2019 19:07:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BAM4v4v8";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AG5lMhJ3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0EE9421897
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kdIRAFAg";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oF/KNj3J"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AE1132070B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,58 +27,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
 	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KsTAzkd9/QA/DfLL1FSQ3dToky8iAJdnSWahUN955Vk=; b=BAM4v4v8fWX+9F
-	MteyUQVL5DOHwDtDC/TnUjTBZKd1yOhaHgNQh/+OrIt/jIJ8lRoW5a9UBTUnwBzsEZVxQQrvbSU1Y
-	LulWlqiacb60Yb4PJu8swx37DfbbIZCiW+3sa8XoE7RY/N1vTb+is0UNMVOGcOcaU1WkCeDHvq9Mn
-	ctkOvjPupd9Q7Qed0qUWL8k8vq7aYpwKI19KxO36JhhzcRVqHmfp18+Tr3gjGVmRLdHChlLnAbivr
-	n7o2rmphMdKClddBPGe/1/6JJhPKos8hADuHHEynsTZ62RcReAaUmiVRnJ5Db7W9nBeByVzGdKLdT
-	3nSK4Sds59kECtCLmOFg==;
+	List-Owner; bh=zTVy3jG3+FuR5XBaFuZAB07ADFeKB1FdQyNN1FwSzvQ=; b=kdIRAFAgZeUbV3
+	/r8+YbZq3+3YeS3MOujJmM6EIwTRPIZ3CDuSe8ZSDv15YCeX3DQmmSrV1KHXn6/HV+2ZZ/uNyeFlP
+	PhBuOOZ0uS/nhF3O+hfwq+soaltklAcvCp3NtCfNse6xBW4TJD1TCQAUEEgWCUqSeyOKWsZcAEtUr
+	pQv2Gg/d0LXdvBTPl0YlJxE4mE7rjrm/mgty/RVZBUn4h8cCSUOLFzrk+tf/RRjtpqndguDCSp6tH
+	Az1Z0dzGTLW4Kwor26A855U+l1JnliEuO8iREvBu9ht9gPmUxwhuJxLF7Xsdlvx84QdU5eKKhdqoo
+	8/2diQK9lD6RNeiHXLvA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iLXIb-0007zm-0u; Fri, 18 Oct 2019 18:48:29 +0000
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544])
+	id 1iLXbH-0000As-2K; Fri, 18 Oct 2019 19:07:47 +0000
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iLXIU-0007rJ-KW
- for linux-snps-arc@lists.infradead.org; Fri, 18 Oct 2019 18:48:24 +0000
-Received: by mail-pg1-x544.google.com with SMTP id f14so3824035pgi.9
- for <linux-snps-arc@lists.infradead.org>; Fri, 18 Oct 2019 11:48:22 -0700 (PDT)
+ id 1iLXb9-0008TF-3q
+ for linux-snps-arc@lists.infradead.org; Fri, 18 Oct 2019 19:07:40 +0000
+Received: by mail-pf1-x441.google.com with SMTP id 205so4443963pfw.2
+ for <linux-snps-arc@lists.infradead.org>; Fri, 18 Oct 2019 12:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xwzGc+WHtxxNubpXEGplLXbyrD4IAw1gaKqHGbFJijc=;
- b=AG5lMhJ3vrGI7ffKJYvTSkGkVoK+6ZOwe/uvgBpFm2TfKdm/23PutDlc7DJrk+tjGs
- 45WEviF8bodCMZgcbplADqOR+pt+6X5NRhI4qK04CHLnWA7nikhTTIc8GgiDBW38eIaN
- nF8DW2ruV53C2c++ogJsX+9EaULAEPo4h3J1ommgEDzk8Q8kLSAmSu9uPwuce9XRTNmf
- HNTUO3B6FKgHSO+kJe5Y8TKZgEk/9cAOVwHiT/1k8lKmKElSe3Dzf6xUbC8J8rwBYbvv
- mqCdLs1fRJXT8esBkfzkIzr5MnOfgT2q9gUjdozXTNePWgpXvjMkIMvOizqlP8WoXQeN
- w70g==
+ bh=30FMbBkGCp8UPGjQaUiqtbW+1UIqIwPcEhlJP3eledA=;
+ b=oF/KNj3JtEkPHfxXbMp6Q7Xg8Gck1hWjUS1bLdCr+txmJ5SRsJ1FKGjRf2nqYAlMqM
+ 46XhWXi6D1cZW9MrergOeH5EogA0y6xRHDF53N32SRi2Gkxu46FCvU/lf+/huIdEZuzL
+ AtmK5FAQN8beJxXla+LpCLwBz3JVemW/hoB/K6FsLWPKi2dEM68J5kQ0xV2jH1Ih+e9K
+ NwVUAm1eRWJZGB/YCk08/XhImM8Yxa/ZLL2ycCPkbAfN2JuLUizKqo9BGndw0jrey7xG
+ E0MNV/1QawEdpYZ6sWJR//vppCQ3tj/ek1NOzzQ2AhHDjxmqON/cc8IZ5X2u0Kol9oM9
+ GO+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=xwzGc+WHtxxNubpXEGplLXbyrD4IAw1gaKqHGbFJijc=;
- b=uDHQ7r7mpGYOZUqL5kgpBMENLmkvWoymO7fyJQ4jIyefzzKpsVz7binJPBwF6AEObP
- 0pWBu69sfrXof21O3JQTRVTzPg5nMzRo5Wc1kAgkqF9dvtLSkiozF+9pQuu3Ky/J2ah2
- e8sU/epus+N8hdtlHdYCPM88VUfZPgFfTIZn8rKgY/rbxDt2X3/E8NPml3ziL9M5IoYD
- Ujvst+NZcDSssuXBZfvFd3AiSXxExIslAY4mFg2g+VWN5v25/0nPGFv1ohM0AKxf8r0F
- fztJcQWtwS+dSo0cJM+DbN6nUO3VB85RVJ7acjNJ3CIUjOPTYRkNlEKsJCcioTmKVKH4
- gQ0w==
-X-Gm-Message-State: APjAAAWO6b+bBsz7Mu8jchN2evXa7iIWaZbU4Twkrwsbq24T8N+KW1W2
- CIQKO4IAoTAVj0p0T35dMHnR7ehu41o=
-X-Google-Smtp-Source: APXvYqwtHRceRwMUaIW7Vuef/hyqGnE0x05ItPwgppjD30l4/mB8SXIhscWYg00vY9apfwgfA3RkPA==
-X-Received: by 2002:a17:90a:d991:: with SMTP id
- d17mr13306038pjv.73.1571424501337; 
- Fri, 18 Oct 2019 11:48:21 -0700 (PDT)
+ bh=30FMbBkGCp8UPGjQaUiqtbW+1UIqIwPcEhlJP3eledA=;
+ b=g7bOBzKVjCLX9BEuo4TZVeR9LpN/xcYBzF/iGk+c2vbLZgFAANdmAbXa74pj667/f6
+ YUSI9AddU/oT6FRi6D2WSmT8E/L65kZm0jzcv9UR26hoSSlI633ZWUAYWVxU1TV2bPDS
+ OXtNoadJWyrbSKI9juMbJUHOicUu7fFM1NpTKBfpg6q5Xl7HpadFvqqx+yrvQUDOPijP
+ dOtOD1J7j/nDl+yuwJjk56RxtOv8fAFWzJtCnMnxhpJme8GPBI1K9htUrHM6bs0lH/71
+ GdzEhcwNon0ZlJNj1O7ZRFZ28dO3mbpPfRviYDz5eFeYFSsMZDen3bK5fwNX2VmGh6Lh
+ 9S7Q==
+X-Gm-Message-State: APjAAAUT7/eNN9JyVt/Q47tX+kGMVmJ4YQAURpRIGEYtdkAR22q/3Ztc
+ cQpWHz92IfRo4+anMGoCbM8=
+X-Google-Smtp-Source: APXvYqxrLjt2N8E3cmxansJuxZRxIRoEzFTZHOZGEVTztaZNRP1Dt6K3BICr2ClhTG4yhioGzUyWdA==
+X-Received: by 2002:a63:c411:: with SMTP id h17mr11616938pgd.360.1571425658413; 
+ Fri, 18 Oct 2019 12:07:38 -0700 (PDT)
 Received: from [192.168.110.119] ([198.182.47.47])
- by smtp.gmail.com with ESMTPSA id f188sm8730265pfa.170.2019.10.18.11.48.19
+ by smtp.gmail.com with ESMTPSA id l3sm5969514pgi.57.2019.10.18.12.07.36
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 18 Oct 2019 11:48:20 -0700 (PDT)
-Subject: Re: [RFC 0/6] ARC: merge HAPS-HS with nSIM-HS configs
+ Fri, 18 Oct 2019 12:07:37 -0700 (PDT)
+Subject: Re: [RFC 6/6] ARC: merge HAPS-HS with nSIM-HS configs
 To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- linux-snps-arc@lists.infradead.org, Vineet Gupta <Vineet.Gupta1@synopsys.com>
+ linux-snps-arc@lists.infradead.org
 References: <20191018121545.8907-1-Eugeniy.Paltsev@synopsys.com>
+ <20191018121545.8907-7-Eugeniy.Paltsev@synopsys.com>
 From: Vineet Gupta <vineetg76@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=vineetg76@gmail.com; prefer-encrypt=mutual; keydata=
@@ -123,16 +124,16 @@ Autocrypt: addr=vineetg76@gmail.com; prefer-encrypt=mutual; keydata=
  ukgWa2otyae8BC7qBYFbm6uk9wMbYSN3yYBmbiAULMrBKA33iWlE0rIKMv91a2DVjp4NiOSu
  gyyFD9n83Sn4lcyjdLvBUCn9zgY4TwufG/ozyF2hSmO3iIzqt0GxmpQ+pBXk/m51D/UoTWGl
  deE0Dvw98SWmZSNtdOPnJZ0D
-Message-ID: <8fd4f94b-c0e5-ed2c-ede3-5c4e77a5a0e4@gmail.com>
-Date: Fri, 18 Oct 2019 11:48:19 -0700
+Message-ID: <e5dc1e2b-94dc-6c0d-7e01-31cd952a56cf@gmail.com>
+Date: Fri, 18 Oct 2019 12:07:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191018121545.8907-1-Eugeniy.Paltsev@synopsys.com>
+In-Reply-To: <20191018121545.8907-7-Eugeniy.Paltsev@synopsys.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191018_114822_688644_D8A2B1BA 
-X-CRM114-Status: GOOD (  12.65  )
+X-CRM114-CacheID: sfid-20191018_120739_214647_94CE3C2F 
+X-CRM114-Status: GOOD (  12.76  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,27 +155,33 @@ On 10/18/19 5:15 AM, Eugeniy Paltsev wrote:
 > Starting from nSIM 2019.06 is possible to use DW UART
 > instead of ARC UART. That allows us to merge
 > "nsim_hs" with "haps_hs" and "nsim_hs_smp" with "haps_hs_smp"
-> mith some minor changes.
+> mith minor changes which were done in previous commits.
 > 
 > We eliminate nsim_hs_defconfig and nsim_hs_smp_defconfig
 > and leave haps_hs_defconfig and haps_hs_smp_defconfig
 > which can be used on HAPS / nSIM / ZEBU / QEMU platforms
 > without additionall changes in Linux kernel.
+> 
+> For nSIM we should now use UART property values
+> "-prop=nsim_mem-dev=uart0,kind=dwuart,base=0xf0000000"
+> instead of previously used
+> "-prop=nsim_mem-dev=uart0,base=0xc0fc1000"
+> "use_connect" and "irq" values of UART property remains untouched.
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+> ---
+>  arch/arc/boot/dts/nsim_hs.dts          | 67 --------------------------
+>  arch/arc/boot/dts/nsim_hs_idu.dts      | 65 -------------------------
+>  arch/arc/configs/nsim_hs_defconfig     | 56 ---------------------
+>  arch/arc/configs/nsim_hs_smp_defconfig | 54 ---------------------
+>  arch/arc/plat-sim/platform.c           |  1 -
 
-Thx for doing this, I was planning to do this myself.
+You also need to update KBUILD_DEFCONFIG to use the haps defconfig now.
 
-But remember that doing this will disturb existing nsim setups
-- Our internal linux/gnu regression jobs one of which tracks my for-curr and will
-  fail immediately
-- uClibc-ng maintainer who also seems to use nsim AFAIK for regression runs
+Also perhaps as an addon change switch nsim_700_defconfig to dwuart too for
+consistent uart settings for all processor builds in kernel/nsim (otherwise you
+need to document this disparity in various github wiki pages)
 
-So we need to notify parties involves (and it would be best that we align this to
-a kernel release which anyways will be next one.
-
-Also go thru the github wiki pages and wherever applicable please add the config
-info for nsim (keep the old settings there for reference as well)
-
-Thx,
 -Vineet
 
 _______________________________________________
