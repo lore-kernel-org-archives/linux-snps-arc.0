@@ -2,76 +2,139 @@ Return-Path: <SRS0=z5VF=YL=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB4CCA9EA1
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Oct 2019 12:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88D54CA9EA0
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Oct 2019 13:40:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3F2C92089C
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Oct 2019 12:24:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5DC3E222C2
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Oct 2019 13:40:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="d597kmtw";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ZJYIWtjZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3F2C92089C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Nc+D0iSr";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="QJ6HTaeX";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="MfCiQAY7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5DC3E222C2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=MkZqcLHPml1sJhFqYmVewoi/unJYq7CQkx4/BMfB6ds=; b=d597kmtwqgRSNN
-	1v+M9s7MAUHnSPhdcgqhDBTqBcEgIZPM+PFSsz7UAYLT8J60cDXrhqJ7QT/569eLfbXw1v4/Rv6Hy
-	2LTjPYl8hd7M1Y0HjUdfYg5UfSUqf+b3PyQvZfZXhNP3knQaejl4WB7l+arXoj9tDP9Bnv0+BeDar
-	T19K+THUfSBoUsRHuVHuAHX3ONn0wk7hncL6XOO6tnV+QLk3KPXCyV1BMUP5JJ6ncdo245RUgUzXC
-	dA4LbiRanT6fV+TxpkjhKq4008OGRbTqY78z2+VcbuR40i2dH/vXHrCKbOOaXAxg6wHObAegBCGEl
-	7M7Ik8ppxEAgFt9CkMCg==;
+	List-Owner; bh=hYWVPlo7jjcUpqxaxQXXUrnoichtLeECWoVyFHG6PMc=; b=Nc+D0iSrztkLwC
+	QqBWWk+iur3A2HxRfBt8rYbL17wlGjKfnMZTNHJLj48esO4xLDX3exRCQN2XYYeg6FF1vuugrwUWX
+	wo1zT06MWG2gD723PiiF8oa1qzpBo0ywzfU7xRwhcmmtVCR68wcdAC4JBiPH1zOCqr2w5KoB35ESb
+	ycbHbgVCi92bpvYGzQbRuIzF12OXedKSYnR6Ub7DcegsvAgH/0iwL1iWQIVW38TxTm+BjkqED8S1k
+	znJJp3vdDPBh7qbqCbf7yBM4ygloWedEfBeJcN8KY7H38gz1+qupLU7hjqSri+okBsa1vQs5RiAaI
+	PdHQGWDMqMCax69FhTwA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iLRJM-000231-AA; Fri, 18 Oct 2019 12:24:52 +0000
-Received: from dc8-smtprelay2.synopsys.com ([198.182.47.102]
+	id 1iLSUP-0008Jb-9q; Fri, 18 Oct 2019 13:40:21 +0000
+Received: from us03-smtprelay2.synopsys.com ([149.117.87.133]
  helo=smtprelay-out1.synopsys.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iLRJJ-00022i-95
- for linux-snps-arc@lists.infradead.org; Fri, 18 Oct 2019 12:24:51 +0000
-Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
- [10.225.0.210])
+ id 1iLSUL-0008Ib-7d
+ for linux-snps-arc@lists.infradead.org; Fri, 18 Oct 2019 13:40:19 +0000
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
+ [10.192.0.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 69EE7C0487;
- Fri, 18 Oct 2019 12:15:49 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4BE79C04E0;
+ Fri, 18 Oct 2019 13:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1571400949; bh=LQws0XDePKuYxDhGl5Z9JpYBoC+dxlMjJSLjwbVEPoc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZJYIWtjZM3i3blWVXR37AgPSWuKSJfla2JiZKddia8WqbTgS87QmuKBaAYihsxGPL
- pZ2EFyqmzAwMyWixIf9UH4GiD0fmDuhXACfTkqLhGAslkQk8o/Eq7R8WvNiWu9ooup
- UbLvxf/7tW/BaMtjByPypL30fC5g0MkbYb+7L3uZ83v+xmyb8l0Uz7ysPjmMyIP6+N
- iIFsgM9fuI/0g3Vzo67ukEYK/iH711LFGzL8wBgupR6I7xKMFTHoDHhl7SZ24avhu7
- V26e9XSnNzV8v0ZdTvZQWZbXX1PUwwqEkATLW1XgMffPV3xeBMFvZlbUO6MeEsAAfp
- dgwKO/4OXXVww==
-Received: from paltsev-e7480.internal.synopsys.com
- (paltsev-e7480.internal.synopsys.com [10.121.3.73])
- by mailhost.synopsys.com (Postfix) with ESMTP id C9513A0061;
- Fri, 18 Oct 2019 12:15:47 +0000 (UTC)
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-To: linux-snps-arc@lists.infradead.org,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: [RFC 1/6] ARC: regenerate nSIM and HAPS defconfigs
-Date: Fri, 18 Oct 2019 15:15:40 +0300
-Message-Id: <20191018121545.8907-2-Eugeniy.Paltsev@synopsys.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191018121545.8907-1-Eugeniy.Paltsev@synopsys.com>
-References: <20191018121545.8907-1-Eugeniy.Paltsev@synopsys.com>
+ t=1571406013; bh=eSjSarEYqzCudYdliRE65eV9ZdFRaJInICEnVW/D12Y=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=QJ6HTaeXJREclPsSeGJx8iCTfPn6RCCEnuVAlA1ubSclWAp5nJQeaEBysAvK0TGRs
+ mLz0t3NW+VWWN0q25yeiFRs1YzAmltsiqDCu/4FRi0WjYOYFEJhxHdQUpFIYF6l+Oe
+ aJ80FnEPVQWKXk42FJ0JPAT2cAWROd6PPuqDOa3DF4/oZmcsII1AsDA1DPHV1PlMbt
+ w1q5dR7y77SlVShrZE2y1JXdxfCdbgjuQtuy5mzajk3xDXQXg7uccCWYpXwCkGPBoF
+ bA7YUSAHpxxXPUVldoe7+mBcXJNKRYvJq65he4ydq9kI0dA/77I49pTx6Q591zoiK1
+ Kus2osDlChbvQ==
+Received: from US01WEHTC3.internal.synopsys.com
+ (us01wehtc3.internal.synopsys.com [10.15.84.232])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 90AA6A00B1;
+ Fri, 18 Oct 2019 13:40:10 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 18 Oct 2019 06:39:59 -0700
+Received: from NAM04-BN3-obe.outbound.protection.outlook.com (10.13.134.195)
+ by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Fri, 18 Oct 2019 06:39:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LpIDJ39vSqB0Mib2DDyRBKBPDwoUjWfSzMJFt90nFy3IvC4GJiEpHy3Hw2YVGUfhKAyNqLY71CNdtKIK8I0THo7NN2Wly3scgomX4IkDk1LQq6D2wBayC+Ag7Tr60/PGLui41Vpt9PcB+R0T1J6BjpabfkPzY3g67x9neCZYbQVOndtfn8vsclrch62vfz1vDXsF/u63q9ihuwnZyjKQk75NSbeMAFEmMjZg6nXPr3sU3q19e0Y9ngRb2vXfxXmYdqnfFuOZAH0CFoerlh+ZLogQOFgbmdPGhwaI4sRQv4bH0d2uNNYPkR9CFhM8vKxjXRdPnnKxjxOK8CXO34il8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nzy07Sl5No2tfxlRmRiJzntBM8Euj38wUaxODsFYSWg=;
+ b=cJrHucRKzRbAT0E23WyuB8iHnIUUwk1DgJIuJqXJ+JluQOY7Z/Lxrs4adp9ELTCBQRS6lVx7L5WEIiUZaXY69zbXePHfvCrcOgeXqGdh+ADPPCvXsa+nQxX3Gaog7VeQ5Km3IJ3cdFLxLq7V0VzWmV+6SLB/TX3r88zw6RNyP5Ui5vc29em47EN4q80lCv5OhfEHrlOVUy/k2yYO6xR7WWOflB08RxKVoFyugDxKn/tEjv2T0XH9Nh1Sna3Vc9ro+pt1byQVjt4eeKym/SCdw27SdWJXUBezdx811BDliGclU115JLuMrAwCA1UZwLL2KKfeg0bKQj/WZrKOOL6++Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nzy07Sl5No2tfxlRmRiJzntBM8Euj38wUaxODsFYSWg=;
+ b=MfCiQAY7sBIpMHv+zlqlq6zUQlidY764tp8jyFKzOHTaoj49k0R6VofPo1eITFZ0NxZgHuZpldlHYSCJu8tAftTUHoineD76HDT+sURlcWwysea68TmR7U84Cl1Bz4QplxXLFpgZQi36b4IDz95PF7IJNsLa1m7yrGKLsppZM5Q=
+Received: from CY4PR1201MB0120.namprd12.prod.outlook.com (10.172.78.14) by
+ CY4PR1201MB2502.namprd12.prod.outlook.com (10.172.121.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.18; Fri, 18 Oct 2019 13:39:57 +0000
+Received: from CY4PR1201MB0120.namprd12.prod.outlook.com
+ ([fe80::1487:2d87:9871:3e4]) by CY4PR1201MB0120.namprd12.prod.outlook.com
+ ([fe80::1487:2d87:9871:3e4%11]) with mapi id 15.20.2347.026; Fri, 18 Oct 2019
+ 13:39:57 +0000
+From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+Subject: RE: [PATCH 0/2] ARC: [plat-hsdk]: enable on-board SPI peripherals
+Thread-Topic: [PATCH 0/2] ARC: [plat-hsdk]: enable on-board SPI peripherals
+Thread-Index: AQHVhaTg8279/2eeKkqnMTlyr8U2/adgZkNA
+Date: Fri, 18 Oct 2019 13:39:56 +0000
+Message-ID: <CY4PR1201MB01202F391AB9CEE0768C1679A16C0@CY4PR1201MB0120.namprd12.prod.outlook.com>
+References: <20191018111126.5246-1-Eugeniy.Paltsev@synopsys.com>
+In-Reply-To: <20191018111126.5246-1-Eugeniy.Paltsev@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=abrodkin@synopsys.com; 
+x-originating-ip: [188.243.7.154]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c815f853-0ce3-4f31-ff9e-08d753d0aa45
+x-ms-traffictypediagnostic: CY4PR1201MB2502:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR1201MB2502E91134F5FD055A77E772A16C0@CY4PR1201MB2502.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-forefront-prvs: 01949FE337
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(136003)(39860400002)(366004)(396003)(376002)(13464003)(189003)(199004)(76116006)(74316002)(33656002)(107886003)(9686003)(229853002)(66066001)(7736002)(6436002)(305945005)(6246003)(55016002)(6636002)(54906003)(14454004)(478600001)(316002)(26005)(256004)(5660300002)(66446008)(66946007)(446003)(3846002)(64756008)(8676002)(86362001)(7696005)(186003)(71190400001)(76176011)(4744005)(6506007)(25786009)(476003)(99286004)(53546011)(11346002)(6862004)(8936002)(66476007)(4326008)(102836004)(52536014)(81166006)(81156014)(71200400001)(2906002)(486006)(66556008)(6116002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR1201MB2502;
+ H:CY4PR1201MB0120.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Xt/TJmcstQ7Rds7Scjatw2hq4Fz58grvhrECwTowODS9XM/P+Uifrz1o9Ydx5grqa/xaBqzGyBhZeF+LM9wPiaERJoZm9e6On+/y3OFAh6EZjkICWcv+k1j68TPfvoA//Xn2AsICQ280evrdlNVnWcYfO8ayAHN+OJ92k4m7jaq7TUp7ux9M6h2P1cmp6BkK0HaNVXDIgqu6LzK8NJ4Ou3npXBR0Gq9WYt1hODW6JfO9mU7JHhPdItHHyrWBo1amfjoJ3ZhjpP2l87qdpLaFT8YwtuGTuUkOgqG+hU7HzIFEK6Fo55NvqqArxkzPIjYbYNGPGtlxFlQeKHj9MMY/+opVlsD2XJQqpvFkxPrqUlVSpCAuQYIT5VsCThxKD/Ex+EfvQM5JeJkhhLsvMBWuuPl3FZIn5l56TzLTY0Pt6m8=
 MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: c815f853-0ce3-4f31-ff9e-08d753d0aa45
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2019 13:39:56.9512 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pu+wDPn/GX7a0eWCKZBgIWYyQYts5sr4PY9AB4CA7XYZcUjUGXu9JLUYN3OYc9JJOdn5+T1/DihBvXkrBk2PGg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2502
+X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191018_052449_321604_9ACD1404 
-X-CRM114-Status: UNSURE (   9.00  )
+X-CRM114-CacheID: sfid-20191018_064017_403849_70947800 
+X-CRM114-Status: UNSURE (   7.94  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -84,182 +147,35 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-kernel@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>, Rob Herring <robh+dt@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-No functional change intended.
+Hi Eugeniy,
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
----
- arch/arc/configs/haps_hs_defconfig     | 10 ++--------
- arch/arc/configs/haps_hs_smp_defconfig | 12 +++---------
- arch/arc/configs/nsim_hs_defconfig     |  8 ++------
- arch/arc/configs/nsim_hs_smp_defconfig | 10 +++-------
- 4 files changed, 10 insertions(+), 30 deletions(-)
+> -----Original Message-----
+> From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+> Sent: Friday, October 18, 2019 2:11 PM
+> To: linux-snps-arc@lists.infradead.org; Vineet Gupta <vgupta@synopsys.com>
+> Cc: linux-kernel@vger.kernel.org; Alexey Brodkin <abrodkin@synopsys.com>; Rob Herring
+> <robh+dt@kernel.org>; devicetree@vger.kernel.org; Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+> Subject: [PATCH 0/2] ARC: [plat-hsdk]: enable on-board SPI peripherals
+> 
+> HSDK board has SPI flash IC and SPI ADC IC. As all SPI-related
+> blocking changes/fixes are finally applied we can enable them.
+> 
+> Eugeniy Paltsev (2):
+>   ARC: [plat-hsdk]: Enable on-board SPI NOR flash IC
+>   ARC: [plat-hsdk]: Enable on-boardi SPI ADC IC
 
-diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
-index 47ff8a97e42d..e22f40612089 100644
---- a/arch/arc/configs/haps_hs_defconfig
-+++ b/arch/arc/configs/haps_hs_defconfig
-@@ -4,6 +4,7 @@ CONFIG_POSIX_MQUEUE=y
- # CONFIG_CROSS_MEMORY_ATTACH is not set
- CONFIG_NO_HZ_IDLE=y
- CONFIG_HIGH_RES_TIMERS=y
-+CONFIG_PREEMPT=y
- CONFIG_IKCONFIG=y
- CONFIG_IKCONFIG_PROC=y
- CONFIG_NAMESPACES=y
-@@ -15,13 +16,9 @@ CONFIG_EXPERT=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_COMPAT_BRK is not set
- CONFIG_SLAB=y
-+CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs"
- CONFIG_MODULES=y
- # CONFIG_BLK_DEV_BSG is not set
--# CONFIG_IOSCHED_DEADLINE is not set
--# CONFIG_IOSCHED_CFQ is not set
--CONFIG_ISA_ARCV2=y
--CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs"
--CONFIG_PREEMPT=y
- # CONFIG_COMPACTION is not set
- CONFIG_NET=y
- CONFIG_PACKET=y
-@@ -30,9 +27,6 @@ CONFIG_UNIX=y
- CONFIG_UNIX_DIAG=y
- CONFIG_NET_KEY=y
- CONFIG_INET=y
--# CONFIG_INET_XFRM_MODE_TRANSPORT is not set
--# CONFIG_INET_XFRM_MODE_TUNNEL is not set
--# CONFIG_INET_XFRM_MODE_BEET is not set
- # CONFIG_IPV6 is not set
- # CONFIG_WIRELESS is not set
- CONFIG_DEVTMPFS=y
-diff --git a/arch/arc/configs/haps_hs_smp_defconfig b/arch/arc/configs/haps_hs_smp_defconfig
-index 9685fd5f57a4..ff4fcd7640a4 100644
---- a/arch/arc/configs/haps_hs_smp_defconfig
-+++ b/arch/arc/configs/haps_hs_smp_defconfig
-@@ -4,6 +4,7 @@ CONFIG_POSIX_MQUEUE=y
- # CONFIG_CROSS_MEMORY_ATTACH is not set
- CONFIG_NO_HZ_IDLE=y
- CONFIG_HIGH_RES_TIMERS=y
-+CONFIG_PREEMPT=y
- CONFIG_IKCONFIG=y
- CONFIG_IKCONFIG_PROC=y
- CONFIG_NAMESPACES=y
-@@ -16,15 +17,11 @@ CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
- # CONFIG_COMPAT_BRK is not set
- CONFIG_SLAB=y
-+CONFIG_SMP=y
-+CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs_idu"
- CONFIG_KPROBES=y
- CONFIG_MODULES=y
- # CONFIG_BLK_DEV_BSG is not set
--# CONFIG_IOSCHED_DEADLINE is not set
--# CONFIG_IOSCHED_CFQ is not set
--CONFIG_ISA_ARCV2=y
--CONFIG_SMP=y
--CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs_idu"
--CONFIG_PREEMPT=y
- # CONFIG_COMPACTION is not set
- CONFIG_NET=y
- CONFIG_PACKET=y
-@@ -33,9 +30,6 @@ CONFIG_UNIX=y
- CONFIG_UNIX_DIAG=y
- CONFIG_NET_KEY=y
- CONFIG_INET=y
--# CONFIG_INET_XFRM_MODE_TRANSPORT is not set
--# CONFIG_INET_XFRM_MODE_TUNNEL is not set
--# CONFIG_INET_XFRM_MODE_BEET is not set
- # CONFIG_IPV6 is not set
- # CONFIG_WIRELESS is not set
- CONFIG_DEVTMPFS=y
-diff --git a/arch/arc/configs/nsim_hs_defconfig b/arch/arc/configs/nsim_hs_defconfig
-index bab3dd255841..60ad81769565 100644
---- a/arch/arc/configs/nsim_hs_defconfig
-+++ b/arch/arc/configs/nsim_hs_defconfig
-@@ -4,6 +4,7 @@ CONFIG_SYSVIPC=y
- CONFIG_POSIX_MQUEUE=y
- # CONFIG_CROSS_MEMORY_ATTACH is not set
- CONFIG_HIGH_RES_TIMERS=y
-+CONFIG_PREEMPT=y
- CONFIG_IKCONFIG=y
- CONFIG_IKCONFIG_PROC=y
- CONFIG_NAMESPACES=y
-@@ -16,17 +17,13 @@ CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_SLUB_DEBUG is not set
- # CONFIG_COMPAT_BRK is not set
-+CONFIG_ARC_BUILTIN_DTB_NAME="nsim_hs"
- CONFIG_KPROBES=y
- CONFIG_MODULES=y
- CONFIG_MODULE_FORCE_LOAD=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
--# CONFIG_IOSCHED_DEADLINE is not set
--# CONFIG_IOSCHED_CFQ is not set
--CONFIG_ISA_ARCV2=y
--CONFIG_ARC_BUILTIN_DTB_NAME="nsim_hs"
--CONFIG_PREEMPT=y
- # CONFIG_COMPACTION is not set
- CONFIG_NET=y
- CONFIG_PACKET=y
-@@ -39,7 +36,6 @@ CONFIG_DEVTMPFS=y
- # CONFIG_STANDALONE is not set
- # CONFIG_PREVENT_FIRMWARE_BUILD is not set
- # CONFIG_BLK_DEV is not set
--# CONFIG_INPUT_MOUSEDEV_PSAUX is not set
- # CONFIG_INPUT_KEYBOARD is not set
- # CONFIG_INPUT_MOUSE is not set
- # CONFIG_SERIO is not set
-diff --git a/arch/arc/configs/nsim_hs_smp_defconfig b/arch/arc/configs/nsim_hs_smp_defconfig
-index 90d2d50fb8dc..c7a29adfc147 100644
---- a/arch/arc/configs/nsim_hs_smp_defconfig
-+++ b/arch/arc/configs/nsim_hs_smp_defconfig
-@@ -2,6 +2,7 @@
- # CONFIG_SWAP is not set
- # CONFIG_CROSS_MEMORY_ATTACH is not set
- CONFIG_HIGH_RES_TIMERS=y
-+CONFIG_PREEMPT=y
- CONFIG_IKCONFIG=y
- CONFIG_IKCONFIG_PROC=y
- CONFIG_NAMESPACES=y
-@@ -14,18 +15,14 @@ CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_SLUB_DEBUG is not set
- # CONFIG_COMPAT_BRK is not set
-+CONFIG_SMP=y
-+CONFIG_ARC_BUILTIN_DTB_NAME="nsim_hs_idu"
- CONFIG_KPROBES=y
- CONFIG_MODULES=y
- CONFIG_MODULE_FORCE_LOAD=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
--# CONFIG_IOSCHED_DEADLINE is not set
--# CONFIG_IOSCHED_CFQ is not set
--CONFIG_ISA_ARCV2=y
--CONFIG_SMP=y
--CONFIG_ARC_BUILTIN_DTB_NAME="nsim_hs_idu"
--CONFIG_PREEMPT=y
- # CONFIG_COMPACTION is not set
- CONFIG_NET=y
- CONFIG_PACKET=y
-@@ -38,7 +35,6 @@ CONFIG_DEVTMPFS=y
- # CONFIG_STANDALONE is not set
- # CONFIG_PREVENT_FIRMWARE_BUILD is not set
- # CONFIG_BLK_DEV is not set
--# CONFIG_INPUT_MOUSEDEV_PSAUX is not set
- # CONFIG_INPUT_KEYBOARD is not set
- # CONFIG_INPUT_MOUSE is not set
- # CONFIG_SERIO is not set
--- 
-2.21.0
+For both patches in the series
+
+Acked-by: Alexey Brodkin <abrodkin@synopsys.com>
 
 
 _______________________________________________
