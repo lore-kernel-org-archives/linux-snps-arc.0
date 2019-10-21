@@ -2,74 +2,59 @@ Return-Path: <SRS0=PWXp=YO=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20E85CA9EB5
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Oct 2019 07:59:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01AAFCA9EB5
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Oct 2019 08:23:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D64B320830
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Oct 2019 07:59:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C8FF720640
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Oct 2019 08:23:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ln/tDnuR";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="luHraHoz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D64B320830
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cHjkJe+Q"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C8FF720640
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
+	In-Reply-To:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BJ+TYWg2si07UWsyQmhjw0ppeeQkYLHT3XfAny8Af3U=; b=Ln/tDnuRnGoi1b
-	RugbwEVyHeYq/uLZYxlTf3FW4yFht2UduAKUGSUNJj+oh5lPKLP7gjwZWD81Z5lgZpKjSi5p+o9jO
-	Rr+PfMGe4beDvqkev/dgSHE+bziHiuCPwGJmU+XzUupOGrOUweN704T9La6s01FMqEcePEMSsj0dE
-	TSKgGi8b0qdMUrTFDTE0UrOdtyEn4feEFkjN/qMC1GuExdUzTTf/hokOnuvFnNil/7emPXgDMcHSg
-	SBPhnzq1So5hsc/If9n8RiOzYt4Bsd2bDGI63MjNxfuiY24RZ0RUMFfP1Lz45m5lPbmyxy4GWnSYW
-	a5OMHUg3u9g4CbB41KLA==;
+	List-Owner; bh=JXTLCJnA86pud9kjwcXOH6Zs5+6Q5m0iweUgqvvo7TU=; b=cHjkJe+Q+WOFq1
+	LzGmJmeTGAFE0sXxzFJE/yWMi9jRK00WIBUC0csjUU2o/hKUqBiFdq3Q+ZSJgAuqk+x3u7xXMstqP
+	/ys8zOuOae9dolJtC4VbrV0M5A13+iEeRy8tXkBtoam4xfdC93XIUUnO4vv+ho55+gUz9vmLBEB4I
+	SXdoTqYUXYQn2RfnknmNNgL45XCUUww13aDlw2FsxK04c3POfUMfN0vvQhSieiNIbAaoGMzTkz1Gi
+	47E99r8iQAQ344Q1yWlxyhtyryZaySkwsPEy1OSMiriTSqhV0daRntqN6YizKWhTnBBjYh/rAhoUn
+	ezuA6VNjxsWmrxRghuYQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iMSas-0007iV-Ae; Mon, 21 Oct 2019 07:59:10 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1iMSyL-0001Q2-LQ; Mon, 21 Oct 2019 08:23:25 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iMSaQ-0007Fd-Kp; Mon, 21 Oct 2019 07:58:44 +0000
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5908A21744;
- Mon, 21 Oct 2019 07:58:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1571644721;
- bh=HaNxatOx3Yl+LjuXNZSg9j6rwSnjKUPc8eLVmd61SU0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=luHraHozlqKNUHwEUrw+p/CKnNkzg4GhLnRI3IQVw1ZUnmvt4Cwl7ABV+5EzHS34g
- CqVlZgKrjSy7nsjEnaLPBzt8i8/jWykyodKl+iP31wL1BC0A++0dn8emaiIgMxVUqa
- 6AeBtKgvcbANkPSenLQVsuD5VltHn5JOl0JQoRvI=
-Received: by mail-wr1-f42.google.com with SMTP id l10so12273172wrb.2;
- Mon, 21 Oct 2019 00:58:41 -0700 (PDT)
-X-Gm-Message-State: APjAAAUb6cNKIacwZ/EyEY7uTOpoiEsrEO4tytQNQYCl7Dm13h9ZRjjR
- Mo+49T8b2L+lagkY/k8grnGd++md2PxfUZq1NZY=
-X-Google-Smtp-Source: APXvYqzvF6HJCASpTMUMf7HweDv3Hno9oEAxiqhI3GBGEOPTWQrWQiETxVnKLeVHbQ3ma/xucSMvECIDZp2EBxJkKe8=
-X-Received: by 2002:adf:ebcb:: with SMTP id v11mr17344477wrn.24.1571644719802; 
- Mon, 21 Oct 2019 00:58:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191017174554.29840-1-hch@lst.de>
- <20191017174554.29840-21-hch@lst.de>
-In-Reply-To: <20191017174554.29840-21-hch@lst.de>
-From: Guo Ren <guoren@kernel.org>
-Date: Mon, 21 Oct 2019 15:58:28 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTQ_VeBfi1uaafgtp+uA2skq-w2px12ig=5QD1O9J+PgbA@mail.gmail.com>
-Message-ID: <CAJF2gTQ_VeBfi1uaafgtp+uA2skq-w2px12ig=5QD1O9J+PgbA@mail.gmail.com>
-Subject: Re: [PATCH 20/21] csky: remove ioremap_cache
+ id 1iMSyI-0001Od-Je; Mon, 21 Oct 2019 08:23:24 +0000
+Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
+ by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+ (Exim 4.80) (envelope-from <tglx@linutronix.de>)
+ id 1iMSy0-0004QQ-CI; Mon, 21 Oct 2019 10:23:04 +0200
+Date: Mon, 21 Oct 2019 10:23:03 +0200 (CEST)
+From: Thomas Gleixner <tglx@linutronix.de>
 To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 08/21] x86: clean up ioremap
+In-Reply-To: <20191017174554.29840-9-hch@lst.de>
+Message-ID: <alpine.DEB.2.21.1910211019540.1904@nanos.tec.linutronix.de>
+References: <20191017174554.29840-1-hch@lst.de>
+ <20191017174554.29840-9-hch@lst.de>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191021_005842_729441_D20DD3DB 
-X-CRM114-Status: GOOD (  14.39  )
+X-CRM114-CacheID: sfid-20191021_012322_787235_AF54DB13 
+X-CRM114-Status: UNSURE (   7.65  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,82 +67,46 @@ List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-mtd@lists.infradead.org, sparclinux@vger.kernel.org,
- linux-riscv@lists.infradead.org, Vincent Chen <deanbo422@gmail.com>,
- linux-arch <linux-arch@vger.kernel.org>, linux-s390@vger.kernel.org,
- linux-hexagon@vger.kernel.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org, Guo Ren <guoren@kernel.org>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Vincent Chen <deanbo422@gmail.com>, linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-hexagon@vger.kernel.org, x86@kernel.org,
  linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
  Arnd Bergmann <arnd@arndb.de>, linux-m68k@lists.linux-m68k.org,
  openrisc@lists.librecores.org, Greentime Hu <green.hu@gmail.com>,
- Guan Xuetao <gxt@pku.edu.cn>, linux-arm-kernel@lists.infradead.org,
- Michal Simek <monstr@monstr.eu>, linux-parisc@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-alpha@vger.kernel.org,
- nios2-dev@lists.rocketboards.org
+ linux-mtd@lists.infradead.org, Guan Xuetao <gxt@pku.edu.cn>,
+ linux-arm-kernel@lists.infradead.org, Michal Simek <monstr@monstr.eu>,
+ linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-alpha@vger.kernel.org, nios2-dev@lists.rocketboards.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Acked-by: Guo Ren <guoren@kernel.org>
+On Thu, 17 Oct 2019, Christoph Hellwig wrote:
 
-On Fri, Oct 18, 2019 at 1:47 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> No driver that can be used on csky uses ioremap_cache, and this
-> interface has been deprecated in favor of memremap.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  arch/csky/include/asm/io.h | 2 --
->  arch/csky/mm/ioremap.c     | 7 -------
->  2 files changed, 9 deletions(-)
->
-> diff --git a/arch/csky/include/asm/io.h b/arch/csky/include/asm/io.h
-> index a4b9fb616faa..f572605d5ad5 100644
-> --- a/arch/csky/include/asm/io.h
-> +++ b/arch/csky/include/asm/io.h
-> @@ -36,13 +36,11 @@
->  /*
->   * I/O memory mapping functions.
->   */
-> -extern void __iomem *ioremap_cache(phys_addr_t addr, size_t size);
->  extern void __iomem *__ioremap(phys_addr_t addr, size_t size, pgprot_t prot);
->  extern void iounmap(void *addr);
->
->  #define ioremap(addr, size)            __ioremap((addr), (size), pgprot_noncached(PAGE_KERNEL))
->  #define ioremap_wc(addr, size)         __ioremap((addr), (size), pgprot_writecombine(PAGE_KERNEL))
-> -#define ioremap_cache                  ioremap_cache
->
->  #include <asm-generic/io.h>
->
-> diff --git a/arch/csky/mm/ioremap.c b/arch/csky/mm/ioremap.c
-> index e13cd3497628..ae78256a56fd 100644
-> --- a/arch/csky/mm/ioremap.c
-> +++ b/arch/csky/mm/ioremap.c
-> @@ -44,13 +44,6 @@ void __iomem *__ioremap(phys_addr_t phys_addr, size_t size, pgprot_t prot)
->  }
->  EXPORT_SYMBOL(__ioremap);
->
-> -void __iomem *ioremap_cache(phys_addr_t phys_addr, size_t size)
-> -{
-> -       return __ioremap_caller(phys_addr, size, PAGE_KERNEL,
-> -                               __builtin_return_address(0));
-> -}
-> -EXPORT_SYMBOL(ioremap_cache);
-> -
->  void iounmap(void __iomem *addr)
->  {
->         vunmap((void *)((unsigned long)addr & PAGE_MASK));
-> --
-> 2.20.1
->
+Please change the subject to:
 
+       x86/mm: Cleanup ioremap()
 
--- 
-Best Regards
- Guo Ren
+> Use ioremap as the main implemented function, and defined
 
-ML: https://lore.kernel.org/linux-csky/
+ioremap() please
+
+s/defined/define/
+
+> ioremap_nocache to it as a deprecated alias.
+
+ioremap_nocache() as a deprecated alias of ioremap().
+
+Aside of that this lacks any form of rationale. Please add some WHY to it.
+
+Should this go with your larger series or can this be picked up
+independently?
+
+Thanks,
+
+	tglx
 
 _______________________________________________
 linux-snps-arc mailing list
