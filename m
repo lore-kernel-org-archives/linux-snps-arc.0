@@ -1,214 +1,89 @@
-Return-Path: <SRS0=PWXp=YO=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=+sMG=YP=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D3BCA9EAF
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Oct 2019 14:17:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8447DCA9EA0
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Oct 2019 07:11:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4C66920882
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Oct 2019 14:17:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4EC6320B7C
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Oct 2019 07:11:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LQakrd3n";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KLAJ14s9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C66920882
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="V7mdnIJd";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=c-s.fr header.i=@c-s.fr header.b="Ap4PZJPz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4EC6320B7C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=c-s.fr
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=XeQTjhazwZ/YbBbuvFxnCi37/XgDbY70CbgawbqWgtI=; b=LQakrd3n+KlOuQ
-	mEvcJrbLpYZC961KL1lNeUdgIDhBzULi3JHMextZTSw51EnTAuyDJ+I8Gq1XGh++tZy/tFylBAtjI
-	ULAMKQoO0hZUZpmQunSh5Zc35TcRFzZYNt2mZ87N3ewfsm+vaB3YC13l4BpKlNFZr206CdltRQZFi
-	m6r1o3b7MFWvkuP+4BFX8qwj52gTvhDZmuN9qqfnejies0FmJ9Q/T0XHxDe6F7eX6LQkkIfF17QG1
-	w+kzUZ2SSm1yS6E8zvoYU8+Z8sjXx/p8j4Tj3kqhoEx2rThyTR6a8kZUwQkDGizeo9WY1x4uDnjSh
-	5zF1Sx53wl37delpmi4Q==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=+ie+e3FHaVtBglRAMne6losAm1u8lUPAJXochPNz96I=; b=V7mdnIJdR0W2Fa1Gza2tCup+r
+	7lfBuQi1iY0jsSehFnQFaU09oCpJpDSnOomyo/o0j9e+KQyLjpTpLykAu7e5rttcrVmcC+s5YwWF/
+	5KomOCsGsI6IG4ZDboyvgH29TWe+TEqXObxxNCBykDdnvvD+Gi/jzUpjk51asbCWfmqxcHmpptIcJ
+	JrKhrpGSITfXdVy6OKrn7pifkDwGii/HCnVuZamBqpzt9DP0J4+zy/hTFtRaXucJEorCFJ/qNa+NP
+	iJ4vf9tXSjO4pRuWd+BWqPw7PMlmZsFbSyHRhr6BzMt0zmCzZzL2x/SFTfwozgvH2moQ7ROJ+4Abj
+	e4Tj7je1w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iMYVN-0001sW-Nq; Mon, 21 Oct 2019 14:17:53 +0000
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441])
+	id 1iMoKQ-0007kO-RH; Tue, 22 Oct 2019 07:11:38 +0000
+Received: from pegase1.c-s.fr ([93.17.236.30])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iMYVE-0001hc-8y
- for linux-snps-arc@lists.infradead.org; Mon, 21 Oct 2019 14:17:48 +0000
-Received: by mail-wr1-x441.google.com with SMTP id o28so14202326wro.7
- for <linux-snps-arc@lists.infradead.org>; Mon, 21 Oct 2019 07:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/WDnw20hof//f108sNDoL9I+yqZkabrTq50r3yQY+F0=;
- b=KLAJ14s95s88cfdnvfzEhPDx+9y5y7BXCERNYqrUCirDIG8cK//syX5WafrxKwBIl6
- UzUk/FbGc8qGNi38WvElvMf/9yvqotbOv5yAJKDQylbV5YyKHTLs4UBv+SkUunv7iNzh
- cNKyPIeCBaii3LSjApY6m0ivRNHwn0ptiAP1IAj6gXljol7LCqo7YSp1Al4c8TrT1XLq
- l+ajZnRTJ7+PuDZTbBvIahSjf507dBB6H4g8jHlC/aI5tv+MmzHt2Khz7QXpdp0jPjNO
- /niof0v5ywrTO54OfQVGzIGUk2Y0q1IBLSSaQcCCA/L3ZlhcWrW9QeP9wVyVUqycZYq1
- 2FAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=/WDnw20hof//f108sNDoL9I+yqZkabrTq50r3yQY+F0=;
- b=cpCK5F2Ao39+2joHXHUrhX4PDdugS/HfMuAaGBYXMzRvCmLUaZRFMx3AZIOjOcKwcx
- 2WtkhtG2v4hr9OCoGNu9XUXtsh1aAOYr82L8cm2hIAMSpq/LShyZjGq2ulK5SCELq+fU
- YZPTPkG8B6hykfoyCk2QUw0TL3HzLxJ8rvc72f6nW8PuZBYg6scFAmsREJ5bLhvYn3tR
- rlah0FWm+tQp2lSx8lCwiVHUQkWz6koQ6In0RZ2QmFbJNobKPlAqmPKJAzIvwwEIP3bU
- YQexC15AbF8QGycD+FN4x7gtFcgRXgheoVtyZ+KNwQRt1ybYaFsUIh6kRYqON08I3DfP
- w6bQ==
-X-Gm-Message-State: APjAAAXDBdMoDkK7H/hl2bFdV1hdLeA5SE4I462c1cyf1t2hr56ppYUB
- NkUC1/sCoehW3BIMHPXKtB3D8w==
-X-Google-Smtp-Source: APXvYqwREJVP2GbyCg/6FXksJwBQ7zGgd1HfpYrdxGm2nXuyGb9IrjXUFxsO9HicW8AQCtYZQhoggQ==
-X-Received: by 2002:adf:ee4f:: with SMTP id w15mr20897350wro.378.1571667461332; 
- Mon, 21 Oct 2019 07:17:41 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:516c:4b89:6e4b:aa56?
- ([2a01:e34:ed2f:f020:516c:4b89:6e4b:aa56])
- by smtp.googlemail.com with ESMTPSA id m18sm17882307wrg.97.2019.10.21.07.17.35
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 21 Oct 2019 07:17:40 -0700 (PDT)
-Subject: Re: [PATCH 0/7] add support for clocksource/clockevent DT selection
-To: Claudiu.Beznea@microchip.com, robh+dt@kernel.org, mark.rutland@arm.com,
- linux@armlinux.org.uk, nsekhar@ti.com, bgolaszewski@baylibre.com,
- monstr@monstr.eu, john@phrozen.org, ralf@linux-mips.org,
- paul.burton@mips.com, jhogan@kernel.org, lftan@altera.com,
- tglx@linutronix.de, vgupta@synopsys.com, marc.zyngier@arm.com,
- patrice.chotard@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
- eric@anholt.net, wahrenst@gmx.net, f.fainelli@gmail.com, rjui@broadcom.com,
- sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- linus.walleij@linaro.org, shc_work@mail.ru, kgene@kernel.org,
- krzk@kernel.org, ysato@users.sourceforge.jp, liviu.dudau@arm.com,
- sudeep.holla@arm.com, lorenzo.pieralisi@arm.com, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, baohua@kernel.org, Nicolas.Ferre@microchip.com,
- alexandre.belloni@bootlin.com, Ludovic.Desroches@microchip.com,
- baruch@tkos.co.il, u.kleine-koenig@pengutronix.de, guoren@kernel.org,
- kaloz@openwrt.org, khalasa@piap.pl, ssantosh@kernel.org, vz@mleia.com,
- slemieux.tyco@gmail.com, khilman@baylibre.com, avifishman70@gmail.com,
- tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
- yuenn@google.com, benjaminfair@google.com, afaerber@suse.de,
- manivannan.sadhasivam@linaro.org, narmstrong@baylibre.com,
- agross@kernel.org, palmer@sifive.com, aou@eecs.berkeley.edu,
- heiko@sntech.de, orsonzhai@gmail.com, baolin.wang@linaro.org,
- zhang.lyra@gmail.com, maxime.ripard@bootlin.com, wens@csie.org,
- thierry.reding@gmail.com, jonathanh@nvidia.com, linux@prisktech.co.nz,
- john.stultz@linaro.org, sboyd@kernel.org, matthias.bgg@gmail.com
-References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
- <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
- <72edc5fd-df05-cba5-5aa7-39da1709415b@microchip.com>
- <620a19d5-73b8-709d-9eec-49274ac23e51@microchip.com>
- <187d7020-fbe9-7984-2358-8a70faef019f@microchip.com>
- <14df6e5d-19ef-4ebc-fd11-9953bc3fc44e@linaro.org>
- <7071b6fa-f7ed-c879-4a43-44100dbe6121@microchip.com>
- <8e9f709f-2ded-c666-26e0-9235d6107c34@linaro.org>
- <215a1cd3-b1a8-5171-d70c-8d8081038e7f@microchip.com>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
- mQINBFv/yykBEADDdW8RZu7iZILSf3zxq5y8YdaeyZjI/MaqgnvG/c3WjFaunoTMspeusiFE
- sXvtg3ehTOoyD0oFjKkHaia1Zpa1m/gnNdT/WvTveLfGA1gH+yGes2Sr53Ht8hWYZFYMZc8V
- 2pbSKh8wepq4g8r5YI1XUy9YbcTdj5mVrTklyGWA49NOeJz2QbfytMT3DJmk40LqwK6CCSU0
- 9Ed8n0a+vevmQoRZJEd3Y1qXn2XHys0F6OHCC+VLENqNNZXdZE9E+b3FFW0lk49oLTzLRNIq
- 0wHeR1H54RffhLQAor2+4kSSu8mW5qB0n5Eb/zXJZZ/bRiXmT8kNg85UdYhvf03ZAsp3qxcr
- xMfMsC7m3+ADOtW90rNNLZnRvjhsYNrGIKH8Ub0UKXFXibHbafSuq7RqyRQzt01Ud8CAtq+w
- P9EftUysLtovGpLSpGDO5zQ++4ZGVygdYFr318aGDqCljKAKZ9hYgRimPBToDedho1S1uE6F
- 6YiBFnI3ry9+/KUnEP6L8Sfezwy7fp2JUNkUr41QF76nz43tl7oersrLxHzj2dYfWUAZWXva
- wW4IKF5sOPFMMgxoOJovSWqwh1b7hqI+nDlD3mmVMd20VyE9W7AgTIsvDxWUnMPvww5iExlY
- eIC0Wj9K4UqSYBOHcUPrVOKTcsBVPQA6SAMJlt82/v5l4J0pSQARAQABtCpEYW5pZWwgTGV6
- Y2FubyA8ZGFuaWVsLmxlemNhbm9AbGluYXJvLm9yZz6JAlcEEwEIAEECGwEFCwkIBwIGFQoJ
- CAsCBBYCAwECHgECF4ACGQEWIQQk1ibyU76eh+bOW/SP9LjScWdVJwUCXAkeagUJDRnjhwAK
- CRCP9LjScWdVJ+vYEACStDg7is2JdE7xz1PFu7jnrlOzoITfw05BurgJMqlvoiFYt9tEeUMl
- zdU2+r0cevsmepqSUVuUvXztN8HA/Ep2vccmWnCXzlE56X1AK7PRRdaQd1SK/eVsJVaKbQTr
- ii0wjbs6AU1uo0LdLINLjwwItnQ83/ttbf1LheyN8yknlch7jn6H6J2A/ORZECTfJbG4ecVr
- 7AEm4A/G5nyPO4BG7dMKtjQ+crl/pSSuxV+JTDuoEWUO+YOClg6azjv8Onm0cQ46x9JRtahw
- YmXdIXD6NsJHmMG9bKmVI0I7o5Q4XL52X6QxkeMi8+VhvqXXIkIZeizZe5XLTYUvFHLdexzX
- Xze0LwLpmMObFLifjziJQsLP2lWwOfg6ZiH8z8eQJFB8bYTSMqmfTulB61YO0mhd676q17Y7
- Z7u3md3CLH7rh61wU1g7FcLm9p5tXXWWaAud9Aa2kne2O3sirO0+JhsKbItz3d9yXuWgv6w3
- heOIF0b91JyrY6tjz42hvyjxtHywRr4cdAEQa2S7HeQkw48BQOG6PqQ9d3FYU34pt3WFJ19V
- A5qqAiEjqc4N0uPkC79W32yLGdyg0EEe8v0Uhs3CxM9euGg37kr5fujMm+akMtR1ENITo+UI
- fgsxdwjBD5lNb/UGodU4QvPipB/xx4zz7pS5+2jGimfLeoe7mgGJxrkBDQRb/8z6AQgAvSkg
- 5w7dVCSbpP6nXc+i8OBz59aq8kuL3YpxT9RXE/y45IFUVuSc2kuUj683rEEgyD7XCf4QKzOw
- +XgnJcKFQiACpYAowhF/XNkMPQFspPNM1ChnIL5KWJdTp0DhW+WBeCnyCQ2pzeCzQlS/qfs3
- dMLzzm9qCDrrDh/aEegMMZFO+reIgPZnInAcbHj3xUhz8p2dkExRMTnLry8XXkiMu9WpchHy
- XXWYxXbMnHkSRuT00lUfZAkYpMP7La2UudC/Uw9WqGuAQzTqhvE1kSQe0e11Uc+PqceLRHA2
- bq/wz0cGriUrcCrnkzRmzYLoGXQHqRuZazMZn2/pSIMZdDxLbwARAQABiQI2BBgBCAAgFiEE
- JNYm8lO+nofmzlv0j/S40nFnVScFAlv/zPoCGwwACgkQj/S40nFnVSf4OhAAhWJPjgUu6VfS
- mV53AUGIyqpOynPvSaMoGJzhNsDeNUDfV5dEZN8K4qjuz2CTNvGIyt4DE/IJbtasvi5dW4wW
- Fl85bF6xeLM0qpCaZtXAsU5gzp3uT7ut++nTPYW+CpfYIlIpyOIzVAmw7rZbfgsId2Lj7g1w
- QCjvGHw19mq85/wiEiZZNHeJQ3GuAr/uMoiaRBnf6wVcdpUTFMXlkE8/tYHPWbW0YKcKFwJ3
- uIsNxZUe6coNzYnL0d9GK2fkDoqKfKbFjNhW9TygfeL2Qhk949jMGQudFS3zlwvN9wwVaC0i
- KC/D303DiTnB0WFPT8CltMAZSbQ1WEWfwqxhY26di3k9pj+X3BfOmDL9GBlnRTSgwjqjqzpG
- VZsWouuTfXd9ZPPzvYdUBrlTKgojk1C8v4fhSqb+ard+bZcwNp8Tzl/EI9ygw6lYEATGCUYI
- Wco+fjehCgG1FWvWavMU+jLNs8/8uwj1u+BtRpWFj4ug/VaDDIuiApKPwl1Ge+zoC7TLMtyb
- c00W5/8EckjmNgLDIINEsOsidMH61ZOlwDKCxo2lbV+Ij078KHBIY76zuHlwonEQaHLCAdqm
- WiI95pYZNruAJEqZCpvXDdClmBVMZRDRePzSljCvoHxn7ArEt3F14mabn2RRq/hqB8IhC6ny
- xAEPQIZaxxginIFYEziOjR65AQ0EW//NCAEIALcJqSmQdkt04vIBD12dryF6WcVWYvVwhspt
- RlZbZ/NZ6nzarzEYPFcXaYOZCOCv+Xtm6hB8fh5XHd7Y8CWuZNDVp3ozuqwTkzQuux/aVdNb
- Fe4VNeKGN2FK1aNlguAXJNCDNRCpWgRHuU3rWwGUMgentJogARvxfex2/RV/5mzYG/N1DJKt
- F7g1zEcQD3JtK6WOwZXd+NDyke3tdG7vsNRFjMDkV4046bOOh1BKbWYu8nL3UtWBxhWKx3Pu
- 1VOBUVwL2MJKW6umk+WqUNgYc2bjelgcTSdz4A6ZhJxstUO4IUfjvYRjoqle+dQcx1u+mmCn
- 8EdKJlbAoR4NUFZy7WUAEQEAAYkDbAQYAQgAIBYhBCTWJvJTvp6H5s5b9I/0uNJxZ1UnBQJb
- /80IAhsCAUAJEI/0uNJxZ1UnwHQgBBkBCAAdFiEEGn3N4YVz0WNVyHskqDIjiipP6E8FAlv/
- zQgACgkQqDIjiipP6E+FuggAl6lkO7BhTkrRbFhrcjCm0bEoYWnCkQtX9YFvElQeA7MhxznO
- BY/r1q2Uf6Ifr3YGEkLnME/tQQzUwznydM94CtRJ8KDSa1CxOseEsKq6B38xJtjgYSxNdgQb
- EIfCzUHIGfk94AFKPdV6pqqSU5VpPUagF+JxiAkoEPOdFiQCULFNRLMsOtG7yp8uSyJRp6Tz
- cQ+0+1QyX1krcHBUlNlvfdmL9DM+umPtbS9F6oRph15mvKVYiPObI1z8ymHoc68ReWjhUuHc
- IDQs4w9rJVAyLypQ0p+ySDcTc+AmPP6PGUayIHYX63Q0KhJFgpr1wH0pHKpC78DPtX1a7HGM
- 7MqzQ4NbD/4oLKKwByrIp12wLpSe3gDQPxLpfGgsJs6BBuAGVdkrdfIx2e6ENnwDoF0Veeji
- BGrVmjVgLUWV9nUP92zpyByzd8HkRSPNZNlisU4gnz1tKhQl+j6G/l2lDYsqKeRG55TXbu9M
- LqJYccPJ85B0PXcy63fL9U5DTysmxKQ5RgaxcxIZCM528ULFQs3dfEx5euWTWnnh7pN30RLg
- a+0AjSGd886Bh0kT1Dznrite0dzYlTHlacbITZG84yRk/gS7DkYQdjL8zgFr/pxH5CbYJDk0
- tYUhisTESeesbvWSPO5uNqqy1dAFw+dqRcF5gXIh3NKX0gqiAA87NM7nL5ym/CNpJ7z7nRC8
- qePOXubgouxumi5RQs1+crBmCDa/AyJHKdG2mqCt9fx5EPbDpw6Zzx7hgURh4ikHoS7/tLjK
- iqWjuat8/HWc01yEd8rtkGuUcMqbCi1XhcAmkaOnX8FYscMRoyyMrWClRZEQRokqZIj79+PR
- adkDXtr4MeL8BaB7Ij2oyRVjXUwhFQNKi5Z5Rve0a3zvGkkqw8Mz20BOksjSWjAF6g9byukl
- CUVjC03PdMSufNLK06x5hPc/c4tFR4J9cLrV+XxdCX7r0zGos9SzTPGNuIk1LK++S3EJhLFj
- 4eoWtNhMWc1uiTf9ENza0ntqH9XBWEQ6IA1gubCniGG+XrkBDQRb/80VAQgA8QHL8REXb0Cy
- 79EKg2lmFl/Vp14kb2yNssurgDbi/+lslAifbBP8uwqkOZ9QAq/DKuF6dfoXoceWjQFbm+Yx
- 0VICaLdsCdm+QTjZCpqTE/FTg53Ur6GHDKlMurxaT+ItFC2uRGhuog+roLSGBzECfRG0VgPz
- 5KxiwDl2lXtzE4AQOPzoh8nW7ibvWJ13r7H8h1VkaJRLbGi+hWJ10PYm44ar9ozCLe9/vfdz
- +t9Z1MYyvHCnzeaej5G2O00jNGuXPjmSgz6nagFVO6RYxt3J6Ru3Xfz7T3FGlCJuGtvejo4K
- fQb5DRNRsZp3my/qE0ixh2lio79giWTR6dURdYXWGwARAQABiQI2BBgBCAAgFiEEJNYm8lO+
- nofmzlv0j/S40nFnVScFAlv/zRUCGyAACgkQj/S40nFnVSdS0g//a5ahjaIt6hbDKb/gmBHO
- FuB9M/IIU/Ee+tXToWw1igxfXdP+CGS5BGR+myCyDejNilYypm4tQRyPYpNvXjwHFlzvvhNc
- VkWJeTRx778eyZcx441DgfbQpH3U9OYSg9cobchn7OPiy1gQRNAROb004m0jwk4yldbCmWS6
- ovmJkRsdBcyRmpRE4644bbFMULGfPkB9mN3OHPTiUIulLlyXt5PPX68wA4UVjR3vKPAoJekx
- ulW043tveaNktIhOeObwaJIKaqMvr6EuB9h9akqEAcjAZ/4Y21wawb5aAB9eyx07OdsRZRnV
- yrfuDuwdn8yDNEyLdVQPcHC2T0eGuiJEDpPGiOtC6XOi+u8AWygw1NaltVyjW1zZt4fu4z5S
- uRccMjf84wsbC9K9vplNJmgM2c2qvvgn19Lfofw4SIX0BMhpnkKrRMx19wAG0PwrRiS0JVsI
- op7JpZPGVNqCnAgGujh9ZgvSJchJ2RFXY3jJCq/C/E3venVGlqDprU61Ot1moaBD1Q5igmlT
- GZae2XlFWBEWfqX3hb8fJbEGIWTRWz0uR2WroDg7vG3k+iLkqQfp61rsVzJNzeF/nGFr1AYg
- D53Es2aGJyrAeHWCnk9vzsPJoI5k5P1yNjgjA+W6tnOj8Kdpo//uKMYXV6hXkEAtyap6ggsw
- PASsWZc3OelnWN2JAq0EGAEIACAWIQQk1ibyU76eh+bOW/SP9LjScWdVJwUCXZLIEgIbAgCB
- CRCP9LjScWdVJ3YgBBkWCAAdFiEEbinX+DPdhovb6oob3uarTi9/eqYFAl2SyBIACgkQ3uar
- Ti9/eqZ2RgD9HN1UWo90QRDlBisR83Lte2VJyKCS46R3ZDXwZ1lPflIA/28E8ROelnfJEGdn
- tlE8uATPPdOxbCYAECy+LQ9mGYIMkJoP/RhDJ9TOOlHUacJKRtothMRSzJoe5Y8j+5KkpO1x
- u22li/5CZiwjAP3wJ4ffPBjReX/V8T0fLn3PpXG/1hVqkvHSc8M4DXMNU2rYye63Edvy34ia
- PPgRELHKyq19iu+BqjcT+HRzxIR6H5uHkySPCZTwLBnd2hbKJV1QsoRJ7v8azk66EXNoNU8K
- lZ2wp0IAbJS4//6pFbAoZWlY/RGu3oxMrbght67fERk7xzdc4Rcfl32d/phGoEQiLMB5ygKv
- TQT1z7oGVFLQCpE5ALf8ybuta1yjf5Y6uJ2pVeSSj0BxnwCIzme7QXwCpgYqDTLu+QvYs4/y
- 6zzkvSnnsyohHW6AOchOVNjTHhFhFYn36TuV53laydaXK/zgo3NsOpATFObyK3N5lhb1G9tN
- Lrev/4WVxNr0LPXl9bdCbQGzIQK+kAPcg8u9f2MMhHQiQX8FAjhP3wtACRhfUz9RaQykxiwv
- y0s5uI05ZSXhqFs9iLlh3zNU1i6J1cdzA8BReoa3cKz4UiGKEffT857iMvT/ZmgSdYY57EgV
- UWm57SN2ok2Ii8AXlanH5SJPkbwJZhiB7kO0cjebmoA/1SA+5yTc3zEKKFuxcpfiXxt0d/OJ
- om6jCJ5/uKB5Cz9bJj0WdlvS2Xb11Jrs90MoVa74H5me4jOw7m9Yyg3qExOFOXUPFL6N
-Message-ID: <99688909-929a-a1c2-5dfe-be98b50b6328@linaro.org>
-Date: Mon, 21 Oct 2019 16:17:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ id 1iMoKA-0007MH-VC; Tue, 22 Oct 2019 07:11:26 +0000
+Received: from localhost (mailhub1-int [192.168.12.234])
+ by localhost (Postfix) with ESMTP id 46y4Rd70Qlz9tyfh;
+ Tue, 22 Oct 2019 09:11:09 +0200 (CEST)
+Authentication-Results: localhost; dkim=pass
+ reason="1024-bit key; insecure key"
+ header.d=c-s.fr header.i=@c-s.fr header.b=Ap4PZJPz; dkim-adsp=pass;
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+ by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+ with ESMTP id ogcji5q0KnHG; Tue, 22 Oct 2019 09:11:09 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase1.c-s.fr (Postfix) with ESMTP id 46y4Rd5gXjz9tyfg;
+ Tue, 22 Oct 2019 09:11:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
+ t=1571728269; bh=kOGepsk5Ck4NL5FoHfVezc4/5OGKldi3JIwfABjXAjk=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=Ap4PZJPzPg5e764D9ApTCr8XIOyguzsvgMwq5AWR4E0/zh0xnRHlQQ+Eo1OlE7aTP
+ ZixHcnTE7rBBIzhFUJshZizJQ+smXIHrl6Gc6+NAMSi/5KfWtkWR1KD31Zq3+rbJQP
+ +WISNUI41CxdVRlDUOc/jgNhGI81GLU/ouuiJevE=
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 9F5758B916;
+ Tue, 22 Oct 2019 09:11:10 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id pUnm5Uq24Z86; Tue, 22 Oct 2019 09:11:10 +0200 (CEST)
+Received: from po16098vm.idsi0.si.c-s.fr (unknown [192.168.4.90])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 4B99C8B752;
+ Tue, 22 Oct 2019 09:11:08 +0200 (CEST)
+Subject: Re: [PATCH V7] mm/debug: Add tests validating architecture page table
+ helpers
+To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
+References: <1571625739-29943-1-git-send-email-anshuman.khandual@arm.com>
+ <1571625739-29943-2-git-send-email-anshuman.khandual@arm.com>
+From: Christophe Leroy <christophe.leroy@c-s.fr>
+Message-ID: <535564eb-65ea-69ab-977d-0038a9e4f785@c-s.fr>
+Date: Tue, 22 Oct 2019 07:11:07 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <215a1cd3-b1a8-5171-d70c-8d8081038e7f@microchip.com>
+In-Reply-To: <1571625739-29943-2-git-send-email-anshuman.khandual@arm.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191021_071744_367411_8C8ED3CD 
-X-CRM114-Status: GOOD (  19.17  )
+X-CRM114-CacheID: sfid-20191022_001123_305330_CD6CD741 
+X-CRM114-Status: GOOD (  31.19  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -220,69 +95,745 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: uclinux-h8-devel@lists.sourceforge.jp, devicetree@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, openbmc@lists.ozlabs.org, linux-oxnas@groups.io,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-unisoc@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-tegra@vger.kernel.org, nios2-dev@lists.rocketboards.org,
- linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ James Hogan <jhogan@kernel.org>, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ Michal Hocko <mhocko@kernel.org>, Dave Hansen <dave.hansen@intel.com>,
+ Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, linux-s390@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ linux-snps-arc@lists.infradead.org, Ingo Molnar <mingo@kernel.org>,
+ Kees Cook <keescook@chromium.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Mark Brown <broonie@kernel.org>, "Kirill A . Shutemov" <kirill@shutemov.name>,
+ Dan Williams <dan.j.williams@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
+ linux-arm-kernel@lists.infradead.org,
+ Sri Krishna chowdary <schowdary@nvidia.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
+ Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ Martin Schwidefsky <schwidefsky@de.ibm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gMjEvMTAvMjAxOSAxMDo1OCwgQ2xhdWRpdS5CZXpuZWFAbWljcm9jaGlwLmNvbSB3cm90ZToK
-PiBIaSBEYW5pZWwsCj4gCj4gT24gMTguMTAuMjAxOSAyMzoyNCwgRGFuaWVsIExlemNhbm8gd3Jv
-dGU6Cj4+IEhpIENsYXVkaXUsCj4+Cj4+IE9uIDE1LzEwLzIwMTkgMTE6MjMsIENsYXVkaXUuQmV6
-bmVhQG1pY3JvY2hpcC5jb20gd3JvdGU6Cj4+Cj4+IFsgLi4uIF0KPj4KPj4+IFRoZSB0aW1lciBj
-bG9jayBzb3VyY2UgY291bGQgYmUgZGl2aWRlZCBieSBNUi5QUkVTICsgMS4KPj4+Cj4+PiBTbywg
-SSB1c2VkIHRoZSBjbG9jay1mcmVxdWVuY3kgRFQgYmluZGluZyB0byBsZXQgdXNlciBjaG9vc2Ug
-dGhlIHRpbWVyJ3MKPj4+IGZyZXF1ZW5jeS4gQmFzZWQgb24gdGhlIHZhbHVlIHByb3ZpZGVkIHZp
-YSB0aGlzIERUIGJpbmRpbmcgdGhlIGJlc3QgY2xvY2sKPj4+IHNvdXJjZSBhbmQgcHJlc2NhbGVy
-IGlzIGNob3NlbiB2aWEgbWNocF9waXQ2NGJfcHJlc19wcmVwYXJlKCkgZnVuY3Rpb24uCj4+Cj4+
-IEknbSB3aWxsaW5nIHRvIHRha2UgdGhlIGRyaXZlciBidXQgSSBkb3VidCB0aGUgcHVycG9zZSBv
-ZiB0aGUKPj4gY2xvY2stZnJlcXVlbmN5IGlzIHRvIGxldCB0aGUgdXNlciBjaG9vc2UgdGhlIGZy
-ZXF1ZW5jeS4KPj4KPiAKPiBJIGZvdW5kIHRoaXMgYXBwcm9hY2ggaW4gdGhlIGZvbGxvd2luZyBh
-bHJlYWR5IGludGVncmF0ZWQgZHJpdmVyczoKPiBkcml2ZXJzL2Nsb2Nrc291cmNlL2FybXY3bV9z
-eXN0aWNrLmMKPiBkcml2ZXJzL2Nsb2Nrc291cmNlL2JjbTI4MzVfdGltZXIuYwo+IGRyaXZlcnMv
-Y2xvY2tzb3VyY2UvYmNtX2tvbmFfdGltZXIuYwo+IGRyaXZlcnMvY2xvY2tzb3VyY2UvbWlwcy1n
-aWMtdGltZXIuYwo+IGRyaXZlcnMvY2xvY2tzb3VyY2UvbXBzMi10aW1lci5jCj4gZHJpdmVycy9j
-bG9ja3NvdXJjZS90aW1lci1xY29tLmMKPiBkcml2ZXJzL2Nsb2Nrc291cmNlL2FybV9hcmNoX3Rp
-bWVyLmMKPiAKPiBMb29raW5nIHRocm91Z2ggdGhlIGRvY3VtZW50YXRpb24gb2YgdGhlc2UsIG1v
-c3Qgb2YgdGhlbSBkb2N1bWVudCB0aGlzIERUCj4gcHJvcGVydHkgYXMgdGhlIGZyZXF1ZW5jeSBv
-ZiB0aGUgY2xvY2sgdGhhdCBkcml2ZXJzIHRoZSB0aW1lciwgYnV0IG5vbmUgb2YKPiB0aGVtIHNl
-ZW1zIHRvIGhhdmUgc29tZSBJUCBpbnRlcm5hbCBkaXZpZGVycyBzbyB0aGF0IHRoZSB0aW1lciB0
-byB0aWNrIGF0Cj4gZGlmZmVyZW50IGZyZXF1ZW5jeSB0aGFuIHRoZSBjbG9jayB0aGF0IGZlZWRz
-IHRoZSBJUC4gRnJvbSB0aGUKPiBkb2N1bWVudGF0aW9uIG9mIHRoZSBhYm92ZSBkcml2ZXJzOwo+
-IGRyaXZlcnMvY2xvY2tzb3VyY2UvYXJtdjdtX3N5c3RpY2suYwo+IAktIGNsb2NrLWZyZXF1ZW5j
-eSA6IFRoZSByYXRlIGluIEhaIGluIGlucHV0IG9mIHRoZSBBUk0gU3lzVGljawo+IAo+IGRyaXZl
-cnMvY2xvY2tzb3VyY2UvYmNtMjgzNV90aW1lci5jCj4gCS0gY2xvY2stZnJlcXVlbmN5IDogVGhl
-IGZyZXF1ZW5jeSBvZiB0aGUgY2xvY2sgdGhhdCBkcml2ZXMgdGhlIGNvdW50ZXIsIGluCj4gSHou
-Cj4gZHJpdmVycy9jbG9ja3NvdXJjZS9iY21fa29uYV90aW1lci5jCj4gCS0gY2xvY2stZnJlcXVl
-bmN5OiBmcmVxdWVuY3kgdGhhdCB0aGUgY2xvY2sgb3BlcmF0ZXMKPiAKPiBkcml2ZXJzL2Nsb2Nr
-c291cmNlL21pcHMtZ2ljLXRpbWVyLmMKPiAJY2xvY2stZnJlcXVlbmN5IDogQ2xvY2sgZnJlcXVl
-bmN5IGF0IHdoaWNoIHRoZSBHSUMgdGltZXJzIG9wZXJhdGUuCj4gZHJpdmVycy9jbG9ja3NvdXJj
-ZS9tcHMyLXRpbWVyLmMKPiAJLSBjbG9jay1mcmVxdWVuY3kgOiBUaGUgcmF0ZSBpbiBIWiBpbiBp
-bnB1dCBvZiB0aGUgQVJNIE1QUzIgdGltZXIKPiAKPiBkcml2ZXJzL2Nsb2Nrc291cmNlL3RpbWVy
-LXFjb20uYwo+IAktIGNsb2NrLWZyZXF1ZW5jeSA6IFRoZSBmcmVxdWVuY3kgb2YgdGhlIGRlYnVn
-IHRpbWVyIGFuZCB0aGUgZ2VuZXJhbAo+IHB1cnBvc2UKPiAgICAgICAgICAgICAgICAgICAgIHRp
-bWVyKHMpIGluIEh6IGluIHRoYXQgb3JkZXIuCj4gCj4gCj4gVGhpcyBpcyB3aHkgSSBhbHNvIGNo
-b3NlIHRoaXMgRFQgYmluZGluZ3MuCj4gCj4gSWYgeW91IHdhbnQgSSBjYW4gc3RpY2sgdG8gYSBm
-aXhlZCBmcmVxdWVuY3kgaGFyZCBjb2RlZCBpbiB0aGUgZHJpdmVyLgo+IFBsZWFzZSBsZXQgbWUg
-a25vdyBpZiB0aGlzIHdvdWxkIGJlIE9LIGZvciB5b3UuCgpZZXMsIHRoZSBjbG9jay1mcmVxdWVu
-Y3kgaXMgdXNlZCB0byBzcGVjaWZ5IHRoZSBmcmVxdWVuY3kgd2hlbiB0aGUKaW5mb3JtYXRpb24g
-Y2FuIG5vdCBiZSByZXRyaWV2ZWQgZnJvbSB0aGUgY2xvY2suIFRoZSBnb2FsIGlzIG5vdCB0bwpz
-cGVjaWZ5IGEgZnJlcXVlbmN5IGFuZCBjb21wdXRlIGZyb20gdGhlcmUgYSBwcmVzY2FsYXIgdmFs
-dWUuCgpIYXJkY29kaW5nIHRoZSBmcmVxdWVuY3kgaXMgZmluZSBvciBoYXJkY29kZSB0aGUgZGl2
-aWRlciBhbmQgY29tcHV0ZSB0aGUKZnJlcXVlbmN5IGZyb20gdGhlIGNsb2NrIHJhdGUuCgoKCi0t
-IAogPGh0dHA6Ly93d3cubGluYXJvLm9yZy8+IExpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNv
-ZnR3YXJlIGZvciBBUk0gU29DcwoKRm9sbG93IExpbmFybzogIDxodHRwOi8vd3d3LmZhY2Vib29r
-LmNvbS9wYWdlcy9MaW5hcm8+IEZhY2Vib29rIHwKPGh0dHA6Ly90d2l0dGVyLmNvbS8jIS9saW5h
-cm9vcmc+IFR3aXR0ZXIgfAo8aHR0cDovL3d3dy5saW5hcm8ub3JnL2xpbmFyby1ibG9nLz4gQmxv
-ZwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4
-LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3Jn
-Cmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1h
-cmMK
+
+
+On 10/21/2019 02:42 AM, Anshuman Khandual wrote:
+> This adds tests which will validate architecture page table helpers and
+> other accessors in their compliance with expected generic MM semantics.
+> This will help various architectures in validating changes to existing
+> page table helpers or addition of new ones.
+> 
+> This test covers basic page table entry transformations including but not
+> limited to old, young, dirty, clean, write, write protect etc at various
+> level along with populating intermediate entries with next page table page
+> and validating them.
+> 
+> Test page table pages are allocated from system memory with required size
+> and alignments. The mapped pfns at page table levels are derived from a
+> real pfn representing a valid kernel text symbol. This test gets called
+> right after page_alloc_init_late().
+> 
+> This gets build and run when CONFIG_DEBUG_VM_PGTABLE is selected along with
+> CONFIG_VM_DEBUG. Architectures willing to subscribe this test also need to
+> select CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE which for now is limited to x86 and
+> arm64. Going forward, other architectures too can enable this after fixing
+> build or runtime problems (if any) with their page table helpers.
+> 
+> Folks interested in making sure that a given platform's page table helpers
+> conform to expected generic MM semantics should enable the above config
+> which will just trigger this test during boot. Any non conformity here will
+> be reported as an warning which would need to be fixed. This test will help
+> catch any changes to the agreed upon semantics expected from generic MM and
+> enable platforms to accommodate it thereafter.
+> 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Mike Rapoport <rppt@linux.vnet.ibm.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Michal Hocko <mhocko@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Steven Price <Steven.Price@arm.com>
+> Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Sri Krishna chowdary <schowdary@nvidia.com>
+> Cc: Dave Hansen <dave.hansen@intel.com>
+> Cc: Russell King - ARM Linux <linux@armlinux.org.uk>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: Martin Schwidefsky <schwidefsky@de.ibm.com>
+> Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Vineet Gupta <vgupta@synopsys.com>
+> Cc: James Hogan <jhogan@kernel.org>
+> Cc: Paul Burton <paul.burton@mips.com>
+> Cc: Ralf Baechle <ralf@linux-mips.org>
+> Cc: Kirill A. Shutemov <kirill@shutemov.name>
+> Cc: Gerald Schaefer <gerald.schaefer@de.ibm.com>
+> Cc: Christophe Leroy <christophe.leroy@c-s.fr>
+> Cc: Ingo Molnar <mingo@kernel.org>
+> Cc: linux-snps-arc@lists.infradead.org
+> Cc: linux-mips@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-ia64@vger.kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: linux-sh@vger.kernel.org
+> Cc: sparclinux@vger.kernel.org
+> Cc: x86@kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> 
+> Tested-by: Christophe Leroy <christophe.leroy@c-s.fr>		#PPC32
+> Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Christophe Leroy <christophe.leroy@c-s.fr>
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> ---
+
+The cover letter have the exact same title as this patch. I think a 
+cover letter is not necessary for a singleton series.
+
+The history (and any other information you don't want to include in the 
+commit message) can be added here, below the '---'. That way it is in 
+the mail but won't be included in the commit.
+
+>   .../debug/debug-vm-pgtable/arch-support.txt        |  34 ++
+>   arch/arm64/Kconfig                                 |   1 +
+>   arch/x86/Kconfig                                   |   1 +
+>   arch/x86/include/asm/pgtable_64.h                  |   6 +
+>   include/asm-generic/pgtable.h                      |   6 +
+>   init/main.c                                        |   1 +
+>   lib/Kconfig.debug                                  |  21 ++
+>   mm/Makefile                                        |   1 +
+>   mm/debug_vm_pgtable.c                              | 388 +++++++++++++++++++++
+>   9 files changed, 459 insertions(+)
+>   create mode 100644 Documentation/features/debug/debug-vm-pgtable/arch-support.txt
+>   create mode 100644 mm/debug_vm_pgtable.c
+> 
+> diff --git a/Documentation/features/debug/debug-vm-pgtable/arch-support.txt b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
+> new file mode 100644
+> index 0000000..d6b8185
+> --- /dev/null
+> +++ b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
+> @@ -0,0 +1,34 @@
+> +#
+> +# Feature name:          debug-vm-pgtable
+> +#         Kconfig:       ARCH_HAS_DEBUG_VM_PGTABLE
+> +#         description:   arch supports pgtable tests for semantics compliance
+> +#
+> +    -----------------------
+> +    |         arch |status|
+> +    -----------------------
+> +    |       alpha: | TODO |
+> +    |         arc: | TODO |
+> +    |         arm: | TODO |
+> +    |       arm64: |  ok  |
+> +    |         c6x: | TODO |
+> +    |        csky: | TODO |
+> +    |       h8300: | TODO |
+> +    |     hexagon: | TODO |
+> +    |        ia64: | TODO |
+> +    |        m68k: | TODO |
+> +    |  microblaze: | TODO |
+> +    |        mips: | TODO |
+> +    |       nds32: | TODO |
+> +    |       nios2: | TODO |
+> +    |    openrisc: | TODO |
+> +    |      parisc: | TODO |
+> +    |     powerpc: | TODO |
+
+Say ok on ppc32
+
+> +    |       riscv: | TODO |
+> +    |        s390: | TODO |
+> +    |          sh: | TODO |
+> +    |       sparc: | TODO |
+> +    |          um: | TODO |
+> +    |   unicore32: | TODO |
+> +    |         x86: |  ok  |
+> +    |      xtensa: | TODO |
+> +    -----------------------
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 1b6ea5a..ea62c87 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -11,6 +11,7 @@ config ARM64
+>   	select ACPI_PPTT if ACPI
+>   	select ARCH_CLOCKSOURCE_DATA
+>   	select ARCH_HAS_DEBUG_VIRTUAL
+> +	select ARCH_HAS_DEBUG_VM_PGTABLE
+>   	select ARCH_HAS_DEVMEM_IS_ALLOWED
+>   	select ARCH_HAS_DMA_COHERENT_TO_PFN
+>   	select ARCH_HAS_DMA_PREP_COHERENT
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index abe822d..13c9bd9 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -61,6 +61,7 @@ config X86
+>   	select ARCH_CLOCKSOURCE_INIT
+>   	select ARCH_HAS_ACPI_TABLE_UPGRADE	if ACPI
+>   	select ARCH_HAS_DEBUG_VIRTUAL
+> +	select ARCH_HAS_DEBUG_VM_PGTABLE
+>   	select ARCH_HAS_DEVMEM_IS_ALLOWED
+>   	select ARCH_HAS_ELF_RANDOMIZE
+>   	select ARCH_HAS_FAST_MULTIPLIER
+
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 3e56c9c2f16e..c50d7cfa566b 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -120,6 +120,7 @@ config PPC
+  	#
+  	select ARCH_32BIT_OFF_T if PPC32
+  	select ARCH_HAS_DEBUG_VIRTUAL
++	select ARCH_HAS_DEBUG_VM_PGTABLE if PPC32
+  	select ARCH_HAS_DEVMEM_IS_ALLOWED
+  	select ARCH_HAS_ELF_RANDOMIZE
+  	select ARCH_HAS_FORTIFY_SOURCE
+
+
+> diff --git a/arch/x86/include/asm/pgtable_64.h b/arch/x86/include/asm/pgtable_64.h
+> index 0b6c4042..fb0e76d 100644
+> --- a/arch/x86/include/asm/pgtable_64.h
+> +++ b/arch/x86/include/asm/pgtable_64.h
+> @@ -53,6 +53,12 @@ static inline void sync_initial_page_table(void) { }
+>   
+>   struct mm_struct;
+>   
+> +#define mm_p4d_folded mm_p4d_folded
+> +static inline bool mm_p4d_folded(struct mm_struct *mm)
+> +{
+> +	return !pgtable_l5_enabled();
+> +}
+> +
+>   void set_pte_vaddr_p4d(p4d_t *p4d_page, unsigned long vaddr, pte_t new_pte);
+>   void set_pte_vaddr_pud(pud_t *pud_page, unsigned long vaddr, pte_t new_pte);
+>   
+> diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+> index 9cdcbc7..9eb02e1 100644
+> --- a/include/asm-generic/pgtable.h
+> +++ b/include/asm-generic/pgtable.h
+> @@ -1168,6 +1168,12 @@ static inline bool arch_has_pfn_modify_check(void)
+>   # define PAGE_KERNEL_EXEC PAGE_KERNEL
+>   #endif
+>   
+> +#ifdef CONFIG_DEBUG_VM_PGTABLE
+> +extern void debug_vm_pgtable(void);
+> +#else
+> +static inline void debug_vm_pgtable(void) { }
+> +#endif
+> +
+>   #endif /* !__ASSEMBLY__ */
+>   
+>   #ifndef io_remap_pfn_range
+> diff --git a/init/main.c b/init/main.c
+> index 91f6ebb..af8379e 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -1185,6 +1185,7 @@ static noinline void __init kernel_init_freeable(void)
+>   	sched_init_smp();
+>   
+>   	page_alloc_init_late();
+> +	debug_vm_pgtable();
+>   	/* Initialize page ext after all struct pages are initialized. */
+>   	page_ext_init();
+>   
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 9c60d7d..cf48d95 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -690,6 +690,27 @@ config DEBUG_VM_PGFLAGS
+>   
+>   	  If unsure, say N.
+>   
+> +config ARCH_HAS_DEBUG_VM_PGTABLE
+> +	bool
+> +	help
+> +	  An architecture should select this when it can successfully
+> +	  build and run DEBUG_VM_PGTABLE.
+> +
+> +config DEBUG_VM_PGTABLE
+> +	bool "Debug arch page table for semantics compliance"
+> +	depends on MMU
+> +	depends on DEBUG_VM
+> +	depends on ARCH_HAS_DEBUG_VM_PGTABLE
+> +	help
+> +	  This option provides a debug method which can be used to test
+> +	  architecture page table helper functions on various platforms in
+> +	  verifying if they comply with expected generic MM semantics. This
+> +	  will help architecture code in making sure that any changes or
+> +	  new additions of these helpers still conform to expected
+> +	  semantics of the generic MM.
+> +
+> +	  If unsure, say N.
+> +
+
+Would be nice to have that one also indented like the other 
+DEBUG_VM_XXXXX (see below).
+
+Stack utilization instrumentation (DEBUG_STACK_USAGE) [N/y/?] n
+Debug VM (DEBUG_VM) [N/y/?] (NEW) y
+   Debug VMA caching (DEBUG_VM_VMACACHE) [N/y/?] (NEW)
+   Debug VM red-black trees (DEBUG_VM_RB) [N/y/?] (NEW)
+   Debug page-flags operations (DEBUG_VM_PGFLAGS) [N/y/?] (NEW)
+Debug arch page table for semantics compliance (DEBUG_VM_PGTABLE) 
+[N/y/?] (NEW)
+Debug VM translations (DEBUG_VIRTUAL) [N/y/?] n
+
+
+For that, just move config ARCH_HAS_DEBUG_VM_PGTABLE somewhere else, 
+maybe before DEBUG_VM or just after DEBUG_VM_PGTABLE
+
+
+>   config ARCH_HAS_DEBUG_VIRTUAL
+>   	bool
+>   
+> diff --git a/mm/Makefile b/mm/Makefile
+> index d996846..2f085b9 100644
+> --- a/mm/Makefile
+> +++ b/mm/Makefile
+> @@ -86,6 +86,7 @@ obj-$(CONFIG_HWPOISON_INJECT) += hwpoison-inject.o
+>   obj-$(CONFIG_DEBUG_KMEMLEAK) += kmemleak.o
+>   obj-$(CONFIG_DEBUG_KMEMLEAK_TEST) += kmemleak-test.o
+>   obj-$(CONFIG_DEBUG_RODATA_TEST) += rodata_test.o
+> +obj-$(CONFIG_DEBUG_VM_PGTABLE) += debug_vm_pgtable.o
+>   obj-$(CONFIG_PAGE_OWNER) += page_owner.o
+>   obj-$(CONFIG_CLEANCACHE) += cleancache.o
+>   obj-$(CONFIG_MEMORY_ISOLATION) += page_isolation.o
+> diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
+> new file mode 100644
+> index 0000000..9472566
+> --- /dev/null
+> +++ b/mm/debug_vm_pgtable.c
+> @@ -0,0 +1,388 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * This kernel test validates architecture page table helpers and
+> + * accessors and helps in verifying their continued compliance with
+> + * expected generic MM semantics.
+> + *
+> + * Copyright (C) 2019 ARM Ltd.
+> + *
+> + * Author: Anshuman Khandual <anshuman.khandual@arm.com>
+> + */
+> +#define pr_fmt(fmt) "arch_pgtable_test: %s " fmt, __func__
+> +
+> +#include <linux/gfp.h>
+> +#include <linux/highmem.h>
+> +#include <linux/hugetlb.h>
+> +#include <linux/kernel.h>
+> +#include <linux/kconfig.h>
+> +#include <linux/mm.h>
+> +#include <linux/mman.h>
+> +#include <linux/mm_types.h>
+> +#include <linux/module.h>
+> +#include <linux/pfn_t.h>
+> +#include <linux/printk.h>
+> +#include <linux/random.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/swap.h>
+> +#include <linux/swapops.h>
+> +#include <linux/start_kernel.h>
+> +#include <linux/sched/mm.h>
+> +#include <asm/pgalloc.h>
+> +#include <asm/pgtable.h>
+> +
+> +/*
+> + * Basic operations
+> + *
+> + * mkold(entry)			= An old and not a young entry
+> + * mkyoung(entry)		= A young and not an old entry
+> + * mkdirty(entry)		= A dirty and not a clean entry
+> + * mkclean(entry)		= A clean and not a dirty entry
+> + * mkwrite(entry)		= A write and not a write protected entry
+> + * wrprotect(entry)		= A write protected and not a write entry
+> + * pxx_bad(entry)		= A mapped and non-table entry
+> + * pxx_same(entry1, entry2)	= Both entries hold the exact same value
+> + */
+> +#define VMFLAGS	(VM_READ|VM_WRITE|VM_EXEC)
+> +
+> +/*
+> + * On s390 platform, the lower 12 bits are used to identify given page table
+> + * entry type and for other arch specific requirements. But these bits might
+> + * affect the ability to clear entries with pxx_clear(). So while loading up
+> + * the entries skip all lower 12 bits in order to accommodate s390 platform.
+> + * It does not have affect any other platform.
+> + */
+> +#define RANDOM_ORVALUE	(0xfffffffffffff000UL)
+> +#define RANDOM_NZVALUE	(0xff)
+> +
+> +static void __init pte_basic_tests(unsigned long pfn, pgprot_t prot)
+> +{
+> +	pte_t pte = pfn_pte(pfn, prot);
+> +
+> +	WARN_ON(!pte_same(pte, pte));
+> +	WARN_ON(!pte_young(pte_mkyoung(pte)));
+> +	WARN_ON(!pte_dirty(pte_mkdirty(pte)));
+> +	WARN_ON(!pte_write(pte_mkwrite(pte)));
+> +	WARN_ON(pte_young(pte_mkold(pte)));
+> +	WARN_ON(pte_dirty(pte_mkclean(pte)));
+> +	WARN_ON(pte_write(pte_wrprotect(pte)));
+> +}
+> +
+> +#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE
+> +static void __init pmd_basic_tests(unsigned long pfn, pgprot_t prot)
+> +{
+> +	pmd_t pmd = pfn_pmd(pfn, prot);
+> +
+> +	WARN_ON(!pmd_same(pmd, pmd));
+> +	WARN_ON(!pmd_young(pmd_mkyoung(pmd)));
+> +	WARN_ON(!pmd_dirty(pmd_mkdirty(pmd)));
+> +	WARN_ON(!pmd_write(pmd_mkwrite(pmd)));
+> +	WARN_ON(pmd_young(pmd_mkold(pmd)));
+> +	WARN_ON(pmd_dirty(pmd_mkclean(pmd)));
+> +	WARN_ON(pmd_write(pmd_wrprotect(pmd)));
+> +	/*
+> +	 * A huge page does not point to next level page table
+> +	 * entry. Hence this must qualify as pmd_bad().
+> +	 */
+> +	WARN_ON(!pmd_bad(pmd_mkhuge(pmd)));
+> +}
+> +#else
+> +static void __init pmd_basic_tests(unsigned long pfn, pgprot_t prot) { }
+> +#endif
+> +
+> +#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot)
+> +{
+> +	pud_t pud = pfn_pud(pfn, prot);
+> +
+> +	WARN_ON(!pud_same(pud, pud));
+> +	WARN_ON(!pud_young(pud_mkyoung(pud)));
+> +	WARN_ON(!pud_write(pud_mkwrite(pud)));
+> +	WARN_ON(pud_write(pud_wrprotect(pud)));
+> +	WARN_ON(pud_young(pud_mkold(pud)));
+> +
+> +	if (mm_pmd_folded(mm) || __is_defined(ARCH_HAS_4LEVEL_HACK))
+> +		return;
+> +
+> +	/*
+> +	 * A huge page does not point to next level page table
+> +	 * entry. Hence this must qualify as pud_bad().
+> +	 */
+> +	WARN_ON(!pud_bad(pud_mkhuge(pud)));
+> +}
+> +#else
+> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot) { }
+> +#endif
+> +
+> +static void __init p4d_basic_tests(unsigned long pfn, pgprot_t prot)
+> +{
+> +	p4d_t p4d;
+> +
+> +	memset(&p4d, RANDOM_NZVALUE, sizeof(p4d_t));
+> +	WARN_ON(!p4d_same(p4d, p4d));
+> +}
+> +
+> +static void __init pgd_basic_tests(unsigned long pfn, pgprot_t prot)
+> +{
+> +	pgd_t pgd;
+> +
+> +	memset(&pgd, RANDOM_NZVALUE, sizeof(pgd_t));
+> +	WARN_ON(!pgd_same(pgd, pgd));
+> +}
+> +
+> +#ifndef __ARCH_HAS_4LEVEL_HACK
+> +static void __init pud_clear_tests(struct mm_struct *mm, pud_t *pudp)
+> +{
+> +	pud_t pud = READ_ONCE(*pudp);
+> +
+> +	if (mm_pmd_folded(mm))
+> +		return;
+> +
+> +	pud = __pud(pud_val(pud) | RANDOM_ORVALUE);
+> +	WRITE_ONCE(*pudp, pud);
+> +	pud_clear(pudp);
+> +	pud = READ_ONCE(*pudp);
+> +	WARN_ON(!pud_none(pud));
+> +}
+> +
+> +static void __init pud_populate_tests(struct mm_struct *mm, pud_t *pudp,
+> +				      pmd_t *pmdp)
+> +{
+> +	pud_t pud;
+> +
+> +	if (mm_pmd_folded(mm))
+> +		return;
+> +	/*
+> +	 * This entry points to next level page table page.
+> +	 * Hence this must not qualify as pud_bad().
+> +	 */
+> +	pmd_clear(pmdp);
+> +	pud_clear(pudp);
+> +	pud_populate(mm, pudp, pmdp);
+> +	pud = READ_ONCE(*pudp);
+> +	WARN_ON(pud_bad(pud));
+> +}
+> +#else
+> +static void __init pud_clear_tests(struct mm_struct *mm, pud_t *pudp) { }
+> +static void __init pud_populate_tests(struct mm_struct *mm, pud_t *pudp,
+> +				      pmd_t *pmdp)
+> +{
+> +}
+> +#endif
+> +
+> +#ifndef __ARCH_HAS_5LEVEL_HACK
+> +static void __init p4d_clear_tests(struct mm_struct *mm, p4d_t *p4dp)
+> +{
+> +	p4d_t p4d = READ_ONCE(*p4dp);
+> +
+> +	if (mm_pud_folded(mm))
+> +		return;
+> +
+> +	p4d = __p4d(p4d_val(p4d) | RANDOM_ORVALUE);
+> +	WRITE_ONCE(*p4dp, p4d);
+> +	p4d_clear(p4dp);
+> +	p4d = READ_ONCE(*p4dp);
+> +	WARN_ON(!p4d_none(p4d));
+> +}
+> +
+> +static void __init p4d_populate_tests(struct mm_struct *mm, p4d_t *p4dp,
+> +				      pud_t *pudp)
+> +{
+> +	p4d_t p4d;
+> +
+> +	if (mm_pud_folded(mm))
+> +		return;
+> +
+> +	/*
+> +	 * This entry points to next level page table page.
+> +	 * Hence this must not qualify as p4d_bad().
+> +	 */
+> +	pud_clear(pudp);
+> +	p4d_clear(p4dp);
+> +	p4d_populate(mm, p4dp, pudp);
+> +	p4d = READ_ONCE(*p4dp);
+> +	WARN_ON(p4d_bad(p4d));
+> +}
+> +
+> +static void __init pgd_clear_tests(struct mm_struct *mm, pgd_t *pgdp)
+> +{
+> +	pgd_t pgd = READ_ONCE(*pgdp);
+> +
+> +	if (mm_p4d_folded(mm))
+> +		return;
+> +
+> +	pgd = __pgd(pgd_val(pgd) | RANDOM_ORVALUE);
+> +	WRITE_ONCE(*pgdp, pgd);
+> +	pgd_clear(pgdp);
+> +	pgd = READ_ONCE(*pgdp);
+> +	WARN_ON(!pgd_none(pgd));
+> +}
+> +
+> +static void __init pgd_populate_tests(struct mm_struct *mm, pgd_t *pgdp,
+> +				      p4d_t *p4dp)
+> +{
+> +	pgd_t pgd;
+> +
+> +	if (mm_p4d_folded(mm))
+> +		return;
+> +
+> +	/*
+> +	 * This entry points to next level page table page.
+> +	 * Hence this must not qualify as pgd_bad().
+> +	 */
+> +	p4d_clear(p4dp);
+> +	pgd_clear(pgdp);
+> +	pgd_populate(mm, pgdp, p4dp);
+> +	pgd = READ_ONCE(*pgdp);
+> +	WARN_ON(pgd_bad(pgd));
+> +}
+> +#else
+> +static void __init p4d_clear_tests(struct mm_struct *mm, p4d_t *p4dp) { }
+> +static void __init pgd_clear_tests(struct mm_struct *mm, pgd_t *pgdp) { }
+> +static void __init p4d_populate_tests(struct mm_struct *mm, p4d_t *p4dp,
+> +				      pud_t *pudp)
+> +{
+> +}
+> +static void __init pgd_populate_tests(struct mm_struct *mm, pgd_t *pgdp,
+> +				      p4d_t *p4dp)
+> +{
+> +}
+> +#endif
+> +
+> +static void __init pte_clear_tests(struct mm_struct *mm, pte_t *ptep)
+> +{
+> +	pte_t pte = READ_ONCE(*ptep);
+> +
+> +	pte = __pte(pte_val(pte) | RANDOM_ORVALUE);
+> +	WRITE_ONCE(*ptep, pte);
+> +	pte_clear(mm, 0, ptep);
+> +	pte = READ_ONCE(*ptep);
+> +	WARN_ON(!pte_none(pte));
+> +}
+> +
+> +static void __init pmd_clear_tests(struct mm_struct *mm, pmd_t *pmdp)
+> +{
+> +	pmd_t pmd = READ_ONCE(*pmdp);
+> +
+> +	pmd = __pmd(pmd_val(pmd) | RANDOM_ORVALUE);
+> +	WRITE_ONCE(*pmdp, pmd);
+> +	pmd_clear(pmdp);
+> +	pmd = READ_ONCE(*pmdp);
+> +	WARN_ON(!pmd_none(pmd));
+> +}
+> +
+> +static void __init pmd_populate_tests(struct mm_struct *mm, pmd_t *pmdp,
+> +				      pgtable_t pgtable)
+> +{
+> +	pmd_t pmd;
+> +
+> +	/*
+> +	 * This entry points to next level page table page.
+> +	 * Hence this must not qualify as pmd_bad().
+> +	 */
+> +	pmd_clear(pmdp);
+> +	pmd_populate(mm, pmdp, pgtable);
+> +	pmd = READ_ONCE(*pmdp);
+> +	WARN_ON(pmd_bad(pmd));
+> +}
+> +
+> +static unsigned long __init get_random_vaddr(void)
+> +{
+> +	unsigned long random_vaddr, random_pages, total_user_pages;
+> +
+> +	total_user_pages = (TASK_SIZE - FIRST_USER_ADDRESS) / PAGE_SIZE;
+> +
+> +	random_pages = get_random_long() % total_user_pages;
+> +	random_vaddr = FIRST_USER_ADDRESS + random_pages * PAGE_SIZE;
+> +
+> +	WARN_ON((random_vaddr > TASK_SIZE) ||
+> +		(random_vaddr < FIRST_USER_ADDRESS));
+> +	return random_vaddr;
+> +}
+> +
+> +void __init debug_vm_pgtable(void)
+> +{
+> +	struct mm_struct *mm;
+> +	pgd_t *pgdp;
+> +	p4d_t *p4dp, *saved_p4dp;
+> +	pud_t *pudp, *saved_pudp;
+> +	pmd_t *pmdp, *saved_pmdp, pmd;
+> +	pte_t *ptep;
+> +	pgtable_t saved_ptep;
+> +	pgprot_t prot;
+> +	phys_addr_t paddr;
+> +	unsigned long vaddr, pte_aligned, pmd_aligned;
+> +	unsigned long pud_aligned, p4d_aligned, pgd_aligned;
+
+I think an information message would be nice:
+
+diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
+index 9472566b7e53..ed7cc3dfc968 100644
+--- a/mm/debug_vm_pgtable.c
++++ b/mm/debug_vm_pgtable.c
+@@ -313,6 +313,8 @@ void __init debug_vm_pgtable(void)
+  	unsigned long vaddr, pte_aligned, pmd_aligned;
+  	unsigned long pud_aligned, p4d_aligned, pgd_aligned;
+
++	pr_info("Validating architecture page table helpers\n");
++
+  	prot = vm_get_page_prot(VMFLAGS);
+  	vaddr = get_random_vaddr();
+  	mm = mm_alloc();
+
+Christophe
+
+> +
+> +	prot = vm_get_page_prot(VMFLAGS);
+> +	vaddr = get_random_vaddr();
+> +	mm = mm_alloc();
+> +	if (!mm) {
+> +		pr_err("mm_struct allocation failed\n");
+> +		return;
+> +	}
+> +
+> +	/*
+> +	 * PFN for mapping at PTE level is determined from a standard kernel
+> +	 * text symbol. But pfns for higher page table levels are derived by
+> +	 * masking lower bits of this real pfn. These derived pfns might not
+> +	 * exist on the platform but that does not really matter as pfn_pxx()
+> +	 * helpers will still create appropriate entries for the test. This
+> +	 * helps avoid large memory block allocations to be used for mapping
+> +	 * at higher page table levels.
+> +	 */
+> +	WARN_ON(!virt_addr_valid(&start_kernel));
+> +	paddr = __pa(&start_kernel);
+> +
+> +	pte_aligned = (paddr & PAGE_MASK) >> PAGE_SHIFT;
+> +	pmd_aligned = (paddr & PMD_MASK) >> PAGE_SHIFT;
+> +	pud_aligned = (paddr & PUD_MASK) >> PAGE_SHIFT;
+> +	p4d_aligned = (paddr & P4D_MASK) >> PAGE_SHIFT;
+> +	pgd_aligned = (paddr & PGDIR_MASK) >> PAGE_SHIFT;
+> +
+> +	pgdp = pgd_offset(mm, vaddr);
+> +	p4dp = p4d_alloc(mm, pgdp, vaddr);
+> +	pudp = pud_alloc(mm, p4dp, vaddr);
+> +	pmdp = pmd_alloc(mm, pudp, vaddr);
+> +	ptep = pte_alloc_map(mm, pmdp, vaddr);
+> +
+> +	/*
+> +	 * Save all the page table page addresses as the page table
+> +	 * entries will be used for testing with random or garbage
+> +	 * values. These saved addresses will be used for freeing
+> +	 * page table pages.
+> +	 */
+> +	pmd = READ_ONCE(*pmdp);
+> +	saved_p4dp = p4d_offset(pgdp, 0UL);
+> +	saved_pudp = pud_offset(p4dp, 0UL);
+> +	saved_pmdp = pmd_offset(pudp, 0UL);
+> +	saved_ptep = pmd_pgtable(pmd);
+> +
+> +	pte_basic_tests(pte_aligned, prot);
+> +	pmd_basic_tests(pmd_aligned, prot);
+> +	pud_basic_tests(pud_aligned, prot);
+> +	p4d_basic_tests(p4d_aligned, prot);
+> +	pgd_basic_tests(pgd_aligned, prot);
+> +
+> +	pte_clear_tests(mm, ptep);
+> +	pmd_clear_tests(mm, pmdp);
+> +	pud_clear_tests(mm, pudp);
+> +	p4d_clear_tests(mm, p4dp);
+> +	pgd_clear_tests(mm, pgdp);
+> +
+> +	pte_unmap(ptep);
+> +
+> +	pmd_populate_tests(mm, pmdp, saved_ptep);
+> +	pud_populate_tests(mm, pudp, saved_pmdp);
+> +	p4d_populate_tests(mm, p4dp, saved_pudp);
+> +	pgd_populate_tests(mm, pgdp, saved_p4dp);
+> +
+> +	p4d_free(mm, saved_p4dp);
+> +	pud_free(mm, saved_pudp);
+> +	pmd_free(mm, saved_pmdp);
+> +	pte_free(mm, saved_ptep);
+> +
+> +	mm_dec_nr_puds(mm);
+> +	mm_dec_nr_pmds(mm);
+> +	mm_dec_nr_ptes(mm);
+> +	__mmdrop(mm);
+> +}
+> 
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
