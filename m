@@ -1,146 +1,104 @@
-Return-Path: <SRS0=+sMG=YP=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=Jbu3=YQ=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A4C8CA9EA0
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Oct 2019 18:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F89CA9EAE
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Oct 2019 05:03:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E035F207FC
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Oct 2019 18:24:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4A4F5214B2
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Oct 2019 05:03:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TzUdrioN";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="DyrCEJE2";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="O/G+cT+f"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E035F207FC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="T+mm5811"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A4F5214B2
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ioPpTJ0TTm8HtIH9KNEug/jVMGMLbaj6hy+SMLL/v44=; b=TzUdrioNm+Oip+
-	igiw/jE36ek9KLB/uiNYo53bnLMUYAfY47A4nlLa3L2BkcVUDWwFChn2KmjLEVsQjoPe78FIgo6N/
-	xeH1FK6lWsVe8hFie9r0flJTj0xVOXbXW553wxP+AX24zkL0rvuOwZBPKnwnmIS0sZotMIG7ikCc/
-	VUOPMH5921yat+aJ+dfJQg+naY5uZkKccAzPPevwXytD1LZoMIj3wd146DPhXlUEArF0dUEq0+nvR
-	LHfC0c9HBwXJdf0p16hdeCgbMyvboHwNxQHRGLTQb3HAc6BBL1BFEs622NpJALBK9/ggLgmDNu1BX
-	YrMwGFXTdE+qXZporxVA==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:To:From:Subject:
+	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=OwnfikKfsmGbdstEgKvIohN0HAUukl/HN3aGVi/a4D8=; b=T+m
+	m5811N4kfMIGMjMnaLpEMXcRr7o8Rie6nYJsqjo5EYPH/vYxyFurNNYlKYZ7WXZn+XTvoKAZ27bsI
+	rkbDlT158Io1p+9t1hRZ0IHUFhCyYQHRxieBn5ytoAuCjVVsLLtTndbJAW6MWtTeittFhAm9zKl3l
+	cK70CrwHjfvhL3AQ2hCiIkWDM9umRTDdEW08vVIBhw7sP8xZ8lnpZpwicLVXyTk/XIbjpHtammsyh
+	6Ma5zUSKcLdMLvHslfJ1ASA8BeVcN6SOBnApjFl2IqYFwvLwsBHdNyrHTSNhq0bswdaN+W1DJJB9m
+	kowqwoXCREwWIoAvQGGuNHA0pGf+SmA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iMypv-0007P8-Dx; Tue, 22 Oct 2019 18:24:51 +0000
-Received: from dc8-smtprelay2.synopsys.com ([198.182.47.102]
- helo=smtprelay-out1.synopsys.com)
+	id 1iN8o6-0002cL-OI; Wed, 23 Oct 2019 05:03:38 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iMyps-0007OF-7C
- for linux-snps-arc@lists.infradead.org; Tue, 22 Oct 2019 18:24:49 +0000
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
- [10.192.0.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 8D0F8C0CD9;
- Tue, 22 Oct 2019 18:24:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1571768687; bh=sH+Q4l+BTVpSsoGKeBHryxl+mw/F3DNXdrJGB3EzmKc=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=DyrCEJE2k3sIG8paemExmI4rk6QvV97yiXsKeNOHHQ1ioAN1NcBYmzOOKYFZt1PV9
- xXn77KQMV/tp9KfWllajC6Z4UqqCdRRD4OicsJUIyJeRhL2R6hvmriwpn0pzbL+ABN
- tkUPW2fPsAwa2GTpCo3IkkXHMvQeYZ5Mgw0oWYi7yfnqZYe+i5BZYFuZI1jjzCvZrE
- MaSEGMyjpuCPTFh5qussf9qGgdXkwfETAGs1fsm+AhlDSfSnrKzKrYSglkmaj65aW1
- P1CzLL8F/vAQUmoZFQHMA7W1zc8BxIMdawQFXxTvocFHLEenouxMlk3laOJg8UX2nP
- nVyV9t1aYj6Tw==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 43953A007F;
- Tue, 22 Oct 2019 18:24:47 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Tue, 22 Oct 2019 11:24:28 -0700
-Received: from NAM05-DM3-obe.outbound.protection.outlook.com (10.13.134.195)
- by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Tue, 22 Oct 2019 11:24:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KRuhvq+ewspQr4LJYJ6GK98AopafIT8S7tHipMPo0ItJEDB0BgzLBGILbsbUVbKD8CGeb/OUd3k3AvLYkPKqnyJXDDyyD122VKxg4jn4nZK2727q9ePt48Fd0ui5bxlOKC9fE2I0yknksnHO7f/s4tUN3rcE6aZfNs9KXq7Ecv/ETK0O3nqeU5k6fR94Ilnjm6pa5Ip+tp47ZfAs2YuxbPo/tFF3rE+3qejnCJnvSoLxHQYJK0sH+IFYgNcGiX5zxNtaKP6aYREz/+Mare8QH7ROG5LHvzxiqRFkpkGecJ7ArDRu9mFnIod6ZSlo7ruh0n3n/9DTfuo5JFiU1MLJjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=elz2uWhhcPiq/dk2d1O+z0rCVEeAKeIjFizwxBRnkpM=;
- b=SHPNwvLUTDBf0OkBokMQsK5KLpANCTDFGQD8d6MTTQ92x+Z8EvOlempALHxY4Xf6suIOtpkg0u40gHETL7uDCDA/Kh75bNOQ8rzvKv4cI4KdIz+DuL1UgSyrY7tn/fbgrr6u7flpfm7mipROg5kU7ToLaKqYt/kMPCbm9ixyd7gEqLpMcLYardkaVxtj06XSYMW+2mP4+s6BkeN15oFVtbip+p9KYwOHYRyNn9ovN1nwWP/an647a7esIx0+ZisyqMWWsvqKlxL+iUe6Fjel1v1Vb13EnsuhRB+L+5BzSYJzXYdzcBOsMnj2wfDe230KyHq/uZ7stTW/gVPe2qPhlQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=elz2uWhhcPiq/dk2d1O+z0rCVEeAKeIjFizwxBRnkpM=;
- b=O/G+cT+fPyI2Jd8mslHnbO5qq0kI6I4H5/hfFJVV4WH+BKpQQ6o0I2edp3qj/pPykUigqw7bgDuIeT4M6tDjF2C+d+HzvhaSU+bc8LJHLg12wh85gxUgeAMmlk4X4sXoUcpghzSFCWAnSnOWYz9ogrmvz4LmLa7Epzj//jmBOrU=
-Received: from DM6PR12MB4089.namprd12.prod.outlook.com (10.141.184.211) by
- DM6PR12MB2763.namprd12.prod.outlook.com (20.176.118.93) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.21; Tue, 22 Oct 2019 18:24:26 +0000
-Received: from DM6PR12MB4089.namprd12.prod.outlook.com
- ([fe80::19df:560:b8d3:e1cd]) by DM6PR12MB4089.namprd12.prod.outlook.com
- ([fe80::19df:560:b8d3:e1cd%5]) with mapi id 15.20.2367.022; Tue, 22 Oct 2019
- 18:24:26 +0000
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Vineet Gupta <vineetg76@gmail.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [RFC 0/6] ARC: merge HAPS-HS with nSIM-HS configs
-Thread-Topic: [RFC 0/6] ARC: merge HAPS-HS with nSIM-HS configs
-Thread-Index: AQHVha3ZXHlIwwLIZE2VERfslIAXqqdgvduAgAZA5wCAAABinQ==
-Date: Tue, 22 Oct 2019 18:24:26 +0000
-Message-ID: <DM6PR12MB40897388883F4441C65E60B4B6680@DM6PR12MB4089.namprd12.prod.outlook.com>
-References: <20191018121545.8907-1-Eugeniy.Paltsev@synopsys.com>,
- <8fd4f94b-c0e5-ed2c-ede3-5c4e77a5a0e4@gmail.com>,
- <BY5PR12MB4034AE62AA5C70794526A981DE680@BY5PR12MB4034.namprd12.prod.outlook.com>
-In-Reply-To: <BY5PR12MB4034AE62AA5C70794526A981DE680@BY5PR12MB4034.namprd12.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vgupta@synopsys.com; 
-x-originating-ip: [149.117.75.11]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fba49c46-c846-4a8e-e515-08d7571d11ed
-x-ms-traffictypediagnostic: DM6PR12MB2763:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB2763B09E8398A2992617E8F7B6680@DM6PR12MB2763.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 01986AE76B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(346002)(136003)(396003)(39860400002)(366004)(199004)(189003)(66556008)(229853002)(76116006)(3846002)(476003)(64756008)(54906003)(74316002)(71190400001)(71200400001)(6116002)(55016002)(478600001)(9686003)(33656002)(25786009)(66476007)(66946007)(110136005)(8936002)(446003)(305945005)(8676002)(76176011)(66446008)(316002)(6246003)(486006)(99286004)(7696005)(11346002)(4326008)(7736002)(81166006)(256004)(81156014)(6636002)(6506007)(14444005)(102836004)(86362001)(26005)(5660300002)(14454004)(2906002)(53546011)(2501003)(186003)(66066001)(6436002)(52536014);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR12MB2763;
- H:DM6PR12MB4089.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Dk5Jl4rdnMm+uLPSFlY51CkcIWJFdb93m58ogOb7TXZXpkvZy4ELMACNmNeiS88bUzkhM7alLJRq8c8egZH2OU2npRQ+l6toeDpkcIdFJml4gK72eO4e9wSnkM+robatMmb9lp4++6sY4PKmEErxb4XfMg379VzAq+HeexLr4iesoJOJCehS3CREeXcFmpU+xRTWg2AtZv+r5kqtb2k3WyWTB4V2NflELvuDJwB9V91ZJio+PEOqwzIYqpAOyhsUhLsd7fXhQ6SGegwWRopOm61056oToyjwt8lpnp4bCcZ9IXK/HfaALumnwcHSKt4ELlWAWyBvWOyvAPxDNJWIwV9i/en6oTepUaFA2d4mvwmwkJKl68jyi5Rj9FzKXq3THfHSXrtqB0dhL8jDET3uZE/PiSVAhDxkY5THtgNNsys=
+ id 1iN8o3-0002ba-JL
+ for linux-snps-arc@lists.infradead.org; Wed, 23 Oct 2019 05:03:37 +0000
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9N52cch006226
+ for <linux-snps-arc@lists.infradead.org>; Wed, 23 Oct 2019 01:03:31 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vteawb13j-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-snps-arc@lists.infradead.org>; Wed, 23 Oct 2019 01:03:30 -0400
+Received: from localhost
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <linux-snps-arc@lists.infradead.org> from <noreply@ellerman.id.au>;
+ Wed, 23 Oct 2019 06:03:29 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 23 Oct 2019 06:03:26 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9N53QsG48627910
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 23 Oct 2019 05:03:26 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EF7E14C046;
+ Wed, 23 Oct 2019 05:03:25 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9D22A4C044;
+ Wed, 23 Oct 2019 05:03:25 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 23 Oct 2019 05:03:25 +0000 (GMT)
+Received: from bran.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
+ by ozlabs.au.ibm.com (Postfix) with ESMTP id E8E08A01EB;
+ Wed, 23 Oct 2019 16:03:23 +1100 (AEDT)
+Received: from 78c6c811cd18 (ka2.ozlabs.ibm.com [10.61.145.21])
+ by bran.ozlabs.ibm.com (Postfix) with ESMTP id 8540FE00E7;
+ Wed, 23 Oct 2019 16:03:24 +1100 (AEDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: fba49c46-c846-4a8e-e515-08d7571d11ed
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2019 18:24:26.1212 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UoiT6RjsPrFW8tXldIMeZJFCMP1N7EPJVf0oefE2PiKnXK83CjZSUWDLDA0V4RL52VOm4y52o8/bNDGSNjMMCg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2763
-X-OriginatorOrg: synopsys.com
+Subject: kisskb: FAILED linux-next/axs101_defconfig/arcompact Wed Oct 23, 16:03
+From: noreply@ellerman.id.au
+To: Vineet.Gupta1@synopsys.com, Alexey.Brodkin@synopsys.com,
+ linux-snps-arc@lists.infradead.org
+Date: Wed, 23 Oct 2019 05:03:24 -0000
+X-TM-AS-GCONF: 00
+x-cbid: 19102305-0016-0000-0000-000002BBD546
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19102305-0017-0000-0000-0000331D12C1
+Message-Id: <20191023050324.1.74399@78c6c811cd18>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-23_01:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=532 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910230049
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191022_112448_269414_1E41B164 
-X-CRM114-Status: GOOD (  14.39  )
+X-CRM114-CacheID: sfid-20191022_220335_759586_8BD25C4A 
+X-CRM114-Status: GOOD (  12.91  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,73 +110,29 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Ok but this if off topic and not directly related to patches - or am I missing something.
+FAILED linux-next/axs101_defconfig/arcompact Wed Oct 23, 16:03
 
-Indeed if we run UP only for nsim we should add pseudo SMP and also a true SMP.
+http://kisskb.ellerman.id.au/kisskb/buildresult/14001644/
 
-For uClibc-ng regression, it doesn't matter what they use and not for us to decide anyways - we just need to tell them (or point to wiki etc) that starting with 5.x kernel,any nsim uart config needs to change of they are using the defconfigs.
+Commit:   Add linux-next specific files for 20191023
+          f3c452cfc59c817950b150b51ec2b33409d7640b
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
 
--Vineet
+Possible errors
+---------------
 
-________________________________________
-From: Eugeniy Paltsev <paltsev@synopsys.com>
-Sent: Tuesday, October 22, 2019 11:18 AM
-To: Vineet Gupta; Eugeniy Paltsev; linux-snps-arc@lists.infradead.org; Vineet Gupta
-Cc: Alexey Brodkin; linux-kernel@vger.kernel.org
-Subject: Re: [RFC 0/6] ARC: merge HAPS-HS with nSIM-HS configs
+include/uapi/linux/sysctl.h:561:29: error: expected ',' or '}' before '__attribute__'
+make[2]: *** [scripts/Makefile.build:99: arch/arc/kernel/asm-offsets.s] Error 1
+make[1]: *** [Makefile:1109: prepare0] Error 2
+make: *** [Makefile:179: sub-make] Error 2
 
-Btw, about nSIM regression runs:
-We are using UP configuration for all nSIM runs and I propose to use pseudo-SMP  configuration (SMP configuration with only one CPU online) instead as our main target are SMP systems.
+No warnings found in log.
 
-So -
-run our verification jobs on both UP and pseudo-SMP nSIM
-run uClibc-ng regression on pseudo-SMP only
-
- Any objections / thoughts?
----
- Eugeniy Paltsev
-
-
-________________________________________
-From: Vineet Gupta <vineetg76@gmail.com>
-Sent: Friday, October 18, 2019 21:48
-To: Eugeniy Paltsev; linux-snps-arc@lists.infradead.org; Vineet Gupta
-Cc: Alexey Brodkin; linux-kernel@vger.kernel.org
-Subject: Re: [RFC 0/6] ARC: merge HAPS-HS with nSIM-HS configs
-
-On 10/18/19 5:15 AM, Eugeniy Paltsev wrote:
-> Starting from nSIM 2019.06 is possible to use DW UART
-> instead of ARC UART. That allows us to merge
-> "nsim_hs" with "haps_hs" and "nsim_hs_smp" with "haps_hs_smp"
-> mith some minor changes.
->
-> We eliminate nsim_hs_defconfig and nsim_hs_smp_defconfig
-> and leave haps_hs_defconfig and haps_hs_smp_defconfig
-> which can be used on HAPS / nSIM / ZEBU / QEMU platforms
-> without additionall changes in Linux kernel.
-
-Thx for doing this, I was planning to do this myself.
-
-But remember that doing this will disturb existing nsim setups
-- Our internal linux/gnu regression jobs one of which tracks my for-curr and will
-  fail immediately
-- uClibc-ng maintainer who also seems to use nsim AFAIK for regression runs
-
-So we need to notify parties involves (and it would be best that we align this to
-a kernel release which anyways will be next one.
-
-Also go thru the github wiki pages and wherever applicable please add the config
-info for nsim (keep the old settings there for reference as well)
-
-Thx,
--Vineet
 
 _______________________________________________
 linux-snps-arc mailing list
