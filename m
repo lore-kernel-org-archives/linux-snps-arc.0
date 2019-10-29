@@ -2,53 +2,88 @@ Return-Path: <SRS0=u7NO=YW=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A6C0CA9EC2
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 29 Oct 2019 07:01:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA50CA9EC4
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 29 Oct 2019 10:33:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6513B20862
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 29 Oct 2019 07:01:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 09DAB21479
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 29 Oct 2019 10:33:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="stzesWVA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6513B20862
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="q2n7LftT";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="G/LkZ5EF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09DAB21479
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lca.pw
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:To:In-Reply-To:References:Message-Id:
+	Date:Subject:Mime-Version:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Ejxn+A5FrOLwbjRGSC/sLvP/8ffmrCh6uzIYXSeoRn4=; b=stzesWVAVL3058
-	WE1HKR1bU0tOG2E/BkUR9A/bO0MOWboIpZDc9rXL/EtXT3lyPIW0Q7n6okesVK2bcBBHN0FhTu9jT
-	LFKb8j9tUrVmfWHYKrFHnRpbQ3ckZ3CX4uU+/qnApRCpa/K7GT4UPcCE4tVoybYTOx7S799QiFfXU
-	5xlUDMmTJcZ+QXSh1IwPMHfuOnUirD3P58vEMN61G3cZ69L39B0VK7ijfnTBmg372oC+FAOwCO7N2
-	gZAMzvoxD/qTX2FDiAWvWUaDPt/DQ4sYc/EO8d6hVFt7xgKCSpz0QZHZ+m1VOeFnbhgFRvnMCGdaB
-	hVNLw8vyYe3UwN5LtJIA==;
+	List-Owner; bh=lLrYBQHQY0Oq4umznz+tBSnEV1527c+Kp42UALTbCMc=; b=q2n7LftTZue1Ht
+	2aI0dC7Z+ZjVJ1zvkcTjfT64XcN6TzjzJZoQ5spc/1BS39Rv4kX8xzLdOUpbTsAhsciKpDf0JjDiT
+	e2cGyQ9o7Zkmt4xbzf/QTZln5dnQ8DlBXJpnNKXoyObeT2D0nS8+e53+u51ZRw4m16VJmiHnKHtZy
+	RgG8X1bJaUBDoFdIbnVICveECIPBBQLjgtU5MEJgttMHrzCsh/wejpVuS6m6toagyngSrqlMlqWsp
+	tE0N+OGwN7Q3G07VYi6+3Et3fyZRmU1/5xQ+IxFyM74qvStnvfo4i6gjo9QcQCzxw5FvQy2yPARn+
+	uhxQUnlJ8OC0MyslATEw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iPLVC-0001ks-TK; Tue, 29 Oct 2019 07:01:14 +0000
-Received: from [2001:4bb8:18c:c7d:c70:4a89:bc61:2] (helo=localhost)
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iPLK3-0004Ik-1s; Tue, 29 Oct 2019 06:49:43 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Arnd Bergmann <arnd@arndb.de>, Guo Ren <guoren@kernel.org>,
- Michal Simek <monstr@monstr.eu>, Greentime Hu <green.hu@gmail.com>,
- Vincent Chen <deanbo422@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>,
- x86@kernel.org
-Subject: [PATCH 21/21] csky: use generic ioremap
-Date: Tue, 29 Oct 2019 07:48:34 +0100
-Message-Id: <20191029064834.23438-22-hch@lst.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191029064834.23438-1-hch@lst.de>
-References: <20191029064834.23438-1-hch@lst.de>
-MIME-Version: 1.0
+	id 1iPOoq-00022v-Ec; Tue, 29 Oct 2019 10:33:44 +0000
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iPOmR-0008Cz-KO
+ for linux-snps-arc@lists.infradead.org; Tue, 29 Oct 2019 10:31:17 +0000
+Received: by mail-qt1-x843.google.com with SMTP id z22so19352001qtq.11
+ for <linux-snps-arc@lists.infradead.org>; Tue, 29 Oct 2019 03:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
+ h=content-transfer-encoding:from:mime-version:subject:date:message-id
+ :references:cc:in-reply-to:to;
+ bh=9SS4b78ehrP4a9/DZbJX4AGCB0l2oYRtncqtM2VcVgs=;
+ b=G/LkZ5EFLI13fNYweg2QLrX9wPwyX1HFJIpSnMQHTrMXQvOr8WcBlj7L6PpPDNjdgP
+ i5InJ9pIYo4M2+ahXyCmJkm0/aSmAFV1b0ddTRW1LgRG7OVGwCri8wGtJhq7q7n0OHXS
+ /62wwsP9sjkBXi1sfsKUBwKdoX3XI/7IX8CepjzvKNmSryJQnKF34LTh2GQ9WhtDP2dt
+ IXSVXKbxiNcS5b+rYkiVMk/YKYGmnfMv31SeMxHd7e0Hp2u4HSyq7youtj+T3jqrMDT3
+ TABjTwTyDtWr5DElB4lPasN8uyXQjZI6Au4SUlUuoJnmXJBOg31XRn9SRwxaflUvjklQ
+ 6j8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=9SS4b78ehrP4a9/DZbJX4AGCB0l2oYRtncqtM2VcVgs=;
+ b=PCqgenk+ErLXx/Idyzjh/v5lnzj+YrlCNxrHz/LJcNo62NRIx1HIG3vmwCR2LQCsMA
+ f8ZbZ1nIecoW59uBQxDpNiIfhm6dPwVXB5xxJqaJKorbI0j/Y06h3seHgq2Nt+vK2IWv
+ d+pEOL+MQB469om671FSX57P5V7S3uiCxef+m1BzlUHjgISj/SRuY5jif9QK9N7qCjJy
+ Pjtg0s1QS0CnQMVnyK0XRJ3948lnjawgTWj8icOIDd6GIdohGR0Xs3N9LmCGPgiZSokp
+ th28LYZ8PtnN776/aBi38sO9WGxAuNpVLtMrxkMA7K0nUgogccM9imn589LgsA6u7CVJ
+ nj/w==
+X-Gm-Message-State: APjAAAX2WJ+yIayRFvmRIO1H4dY55zkhoQxIQskO8+uqwQ2REwDr9FAm
+ fgKDPj6rNbREJXKeDRb+JNI4ApZXvKvtzA==
+X-Google-Smtp-Source: APXvYqxu87KxuRTj39OXWAVjw/WFzSDMbE3Up95oGqmF/PZSf0Vx1vPkAAaomtV6kZQFzmiTSl4zEw==
+X-Received: by 2002:a0c:f6d2:: with SMTP id d18mr6856697qvo.155.1572345072935; 
+ Tue, 29 Oct 2019 03:31:12 -0700 (PDT)
+Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net.
+ [71.184.117.43])
+ by smtp.gmail.com with ESMTPSA id t1sm7346140qkm.121.2019.10.29.03.31.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Oct 2019 03:31:12 -0700 (PDT)
+From: Qian Cai <cai@lca.pw>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH V8] mm/debug: Add tests validating architecture page table
+ helpers
+Date: Tue, 29 Oct 2019 06:31:11 -0400
+Message-Id: <B6AAFA3F-745D-48E2-98CC-CFB30934CE39@lca.pw>
+References: <1572240562-23630-1-git-send-email-anshuman.khandual@arm.com>
+In-Reply-To: <1572240562-23630-1-git-send-email-anshuman.khandual@arm.com>
+To: Anshuman Khandual <Anshuman.Khandual@arm.com>
+X-Mailer: iPhone Mail (17A878)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20191029_033115_760491_6EAE0063 
+X-CRM114-Status: GOOD (  12.73  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,138 +95,71 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, linux-mips@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- openrisc@lists.librecores.org, linux-mtd@lists.infradead.org,
- linux-alpha@vger.kernel.org, sparclinux@vger.kernel.org,
- nios2-dev@lists.rocketboards.org, linux-riscv@lists.infradead.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <Mark.Rutland@arm.com>, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ James Hogan <jhogan@kernel.org>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
+ linux-mm@kvack.org, Dave Hansen <dave.hansen@intel.com>,
+ Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, linux-s390@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Ingo Molnar <mingo@kernel.org>, Kees Cook <keescook@chromium.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Mark Brown <broonie@kernel.org>, "Kirill A . Shutemov" <kirill@shutemov.name>,
+ Dan Williams <dan.j.williams@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Sri Krishna chowdary <schowdary@nvidia.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
+ Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ Martin Schwidefsky <schwidefsky@de.ibm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Use the generic ioremap_prot and iounmap helpers.
-
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- arch/csky/Kconfig               |  1 +
- arch/csky/include/asm/io.h      |  8 +++---
- arch/csky/include/asm/pgtable.h |  4 +++
- arch/csky/mm/ioremap.c          | 45 ---------------------------------
- 4 files changed, 8 insertions(+), 50 deletions(-)
-
-diff --git a/arch/csky/Kconfig b/arch/csky/Kconfig
-index 3973847b5f42..da09c884cc30 100644
---- a/arch/csky/Kconfig
-+++ b/arch/csky/Kconfig
-@@ -17,6 +17,7 @@ config CSKY
- 	select IRQ_DOMAIN
- 	select HANDLE_DOMAIN_IRQ
- 	select DW_APB_TIMER_OF
-+	select GENERIC_IOREMAP
- 	select GENERIC_LIB_ASHLDI3
- 	select GENERIC_LIB_ASHRDI3
- 	select GENERIC_LIB_LSHRDI3
-diff --git a/arch/csky/include/asm/io.h b/arch/csky/include/asm/io.h
-index f572605d5ad5..332f51bc68fb 100644
---- a/arch/csky/include/asm/io.h
-+++ b/arch/csky/include/asm/io.h
-@@ -36,11 +36,9 @@
- /*
-  * I/O memory mapping functions.
-  */
--extern void __iomem *__ioremap(phys_addr_t addr, size_t size, pgprot_t prot);
--extern void iounmap(void *addr);
--
--#define ioremap(addr, size)		__ioremap((addr), (size), pgprot_noncached(PAGE_KERNEL))
--#define ioremap_wc(addr, size)		__ioremap((addr), (size), pgprot_writecombine(PAGE_KERNEL))
-+#define ioremap_wc(addr, size) \
-+	ioremap_prot((addr), (size), \
-+		(_PAGE_IOREMAP & ~_CACHE_MASK) | _CACHE_UNCACHED)
- 
- #include <asm-generic/io.h>
- 
-diff --git a/arch/csky/include/asm/pgtable.h b/arch/csky/include/asm/pgtable.h
-index 7c21985c60dc..4b2a41e15f2e 100644
---- a/arch/csky/include/asm/pgtable.h
-+++ b/arch/csky/include/asm/pgtable.h
-@@ -86,6 +86,10 @@
- #define PAGE_USERIO	__pgprot(_PAGE_PRESENT | _PAGE_READ | _PAGE_WRITE | \
- 				_CACHE_CACHED)
- 
-+#define _PAGE_IOREMAP \
-+	(_PAGE_PRESENT | __READABLE | __WRITEABLE | _PAGE_GLOBAL | \
-+	 _CACHE_UNCACHED | _PAGE_SO)
-+
- #define __P000	PAGE_NONE
- #define __P001	PAGE_READONLY
- #define __P010	PAGE_COPY
-diff --git a/arch/csky/mm/ioremap.c b/arch/csky/mm/ioremap.c
-index ae78256a56fd..70c8268d3b2b 100644
---- a/arch/csky/mm/ioremap.c
-+++ b/arch/csky/mm/ioremap.c
-@@ -3,53 +3,8 @@
- 
- #include <linux/export.h>
- #include <linux/mm.h>
--#include <linux/vmalloc.h>
- #include <linux/io.h>
- 
--#include <asm/pgtable.h>
--
--static void __iomem *__ioremap_caller(phys_addr_t addr, size_t size,
--				      pgprot_t prot, void *caller)
--{
--	phys_addr_t last_addr;
--	unsigned long offset, vaddr;
--	struct vm_struct *area;
--
--	last_addr = addr + size - 1;
--	if (!size || last_addr < addr)
--		return NULL;
--
--	offset = addr & (~PAGE_MASK);
--	addr &= PAGE_MASK;
--	size = PAGE_ALIGN(size + offset);
--
--	area = get_vm_area_caller(size, VM_IOREMAP, caller);
--	if (!area)
--		return NULL;
--
--	vaddr = (unsigned long)area->addr;
--
--	if (ioremap_page_range(vaddr, vaddr + size, addr, prot)) {
--		free_vm_area(area);
--		return NULL;
--	}
--
--	return (void __iomem *)(vaddr + offset);
--}
--
--void __iomem *__ioremap(phys_addr_t phys_addr, size_t size, pgprot_t prot)
--{
--	return __ioremap_caller(phys_addr, size, prot,
--				__builtin_return_address(0));
--}
--EXPORT_SYMBOL(__ioremap);
--
--void iounmap(void __iomem *addr)
--{
--	vunmap((void *)((unsigned long)addr & PAGE_MASK));
--}
--EXPORT_SYMBOL(iounmap);
--
- pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
- 			      unsigned long size, pgprot_t vma_prot)
- {
--- 
-2.20.1
 
 
+> On Oct 28, 2019, at 1:29 AM, Anshuman Khandual <Anshuman.Khandual@arm.com> wrote:
+> 
+> This adds tests which will validate architecture page table helpers and
+> other accessors in their compliance with expected generic MM semantics.
+> This will help various architectures in validating changes to existing
+> page table helpers or addition of new ones.
+> 
+> This test covers basic page table entry transformations including but not
+> limited to old, young, dirty, clean, write, write protect etc at various
+> level along with populating intermediate entries with next page table page
+> and validating them.
+> 
+> Test page table pages are allocated from system memory with required size
+> and alignments. The mapped pfns at page table levels are derived from a
+> real pfn representing a valid kernel text symbol. This test gets called
+> right after page_alloc_init_late().
+> 
+> This gets build and run when CONFIG_DEBUG_VM_PGTABLE is selected along with
+> CONFIG_VM_DEBUG. Architectures willing to subscribe this test also need to
+> select CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE which for now is limited to x86 and
+> arm64. Going forward, other architectures too can enable this after fixing
+> build or runtime problems (if any) with their page table helpers.
+> 
+> Folks interested in making sure that a given platform's page table helpers
+> conform to expected generic MM semantics should enable the above config
+> which will just trigger this test during boot. Any non conformity here will
+> be reported as an warning which would need to be fixed. This test will help
+> catch any changes to the agreed upon semantics expected from generic MM and
+> enable platforms to accommodate it thereafter.
+
+This looks like a perfect candidate to streamline with the new kunit framework, no?
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
