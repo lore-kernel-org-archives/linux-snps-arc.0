@@ -2,71 +2,62 @@ Return-Path: <SRS0=HDeH=YX=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F7EFCA9EAF
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Oct 2019 08:52:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D645BCA9EC5
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Oct 2019 10:40:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EEF3220578
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Oct 2019 08:52:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9F4F92087E
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Oct 2019 10:40:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iCMl+Vs3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EEF3220578
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nf6fPVwE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9F4F92087E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
+	In-Reply-To:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=VB7b+unKtHCsE1aj6cb2ubhGCHMSOb4ZzFfxjRvEZfM=; b=iCMl+Vs3T0Uy32
-	HHzU7mh4Lf65OvqmNLf1bw0pZtuTTi6ckmjAJpgaOb3ThPNuMLKJN1CObfqFP0pxZ6BmNePY14dxr
-	7WnXqg0VwiaN6LsekmNlOWJ+XhdQTEWEDxxOGp1eFpaOm6LvRTbnBUgrlegk6+9FD/rbLgMjb153C
-	WW2HZfoCHxYyDsfeaRWBwT8bGJwa/0kEanw9Qzxw6suAvdVlUNKZgOM0tUTXoMLkxzVAGNPSVYe77
-	Vh0NsBD84v+UFgljQ8drKCV/16Envw++XJQCLNAw9UT5ezXIg6w7XcqWya5YiCY6nuTlhw3utWpMZ
-	OZ7KKegSAkzzFyR8skWQ==;
+	List-Owner; bh=Y5jL3puOLsArU564nKhCEY08a6/CliU0Y3ulHxHX9Xg=; b=nf6fPVwE70fHkd
+	59TdrsmRjTbzn0LGaj+hXXId0Ne3GxlvS2pDZVEkb87nECGSkk+WQNFzKwAzDc9KK4NwFaSd73qlT
+	emGUdOkAgP1RqM8xyOEhgw3cWBoLcUrtwuM6tnG4oexttuMpYhUG5oYPUX2PULnMDXoCFquLATCTr
+	28Vr5UcTpH7YEcPYuSmFz0luzzSGZScCvwzga1Bsm9xyupzbwu8RB1v4IKBvLLkgmIsV74oatPdw7
+	uFjzu/zL9KfV2wzD2kByNJOqOvGLYgz3MoTI6zwP7T9DH13aPmYJa0eA6l2D0R/1reOlh24x5Pnyt
+	8r92Ajrl6CjdSfd/hc4g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iPji3-0007ns-BS; Wed, 30 Oct 2019 08:52:07 +0000
-Received: from mail-oi1-f195.google.com ([209.85.167.195])
+	id 1iPlOY-0006M7-Fo; Wed, 30 Oct 2019 10:40:06 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iPjho-0007ZD-AR; Wed, 30 Oct 2019 08:51:53 +0000
-Received: by mail-oi1-f195.google.com with SMTP id v186so1290442oie.5;
- Wed, 30 Oct 2019 01:51:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mziza5J/MoDupcgI0RkmxCcsKm60Et3F2KLUw+t1RqQ=;
- b=bfN2XgypiTJ7YSnMKgvXsqsoTQNtd8s8D834PllcoXOESduNRfh3ygjssfNNACcW/W
- VWOhGMRJcJKU5XvkEldxqgXO46s+Q7kTsThtOkGeqV0JcvUplnNMXVQ3Cgk4TJmCzODx
- UFdAsUvQ8Sl0LR6aom6tOt8jBs2RxXJ7c7LR8jMyfIBq3mLbWjkQwFuFJKtudSqoG7p3
- dpSx2IgID6LIDIZwJHGxGTPtIVjsZd3icgNImM1s04ldE3n1GndubWv8Hr0ItrZYn6rp
- Hb8AxkOkQqesV4j03R8iHpUt0mOU6IrdoUVVV23B5vB6DxhvlDgx2+3LT3D4gwhx+J/s
- OeKA==
-X-Gm-Message-State: APjAAAVR3piavp3DgnBwIbIAiOHg0adnLN2lFikHhZlG3+QXlwi97/NC
- apsHZKBDPmB13vkN/YhBumFoebTwcdbTH3H+Zfw=
-X-Google-Smtp-Source: APXvYqywm9C+CpnmelJ6SWQKVIah4mda9qPmB6OrDMq707nGOy+7YzCdX2/qccGqz5HinY9G/c8lSRqxbZE+WID7kSw=
-X-Received: by 2002:aca:4ac5:: with SMTP id x188mr4822487oia.148.1572425510897; 
- Wed, 30 Oct 2019 01:51:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191029064834.23438-1-hch@lst.de>
- <20191029064834.23438-14-hch@lst.de>
-In-Reply-To: <20191029064834.23438-14-hch@lst.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 30 Oct 2019 09:51:39 +0100
-Message-ID: <CAMuHMdWGiHhSv=xCqnsUXok7wYG7Wr1EQh+yuPOZBxPCskUFVw@mail.gmail.com>
-Subject: Re: [PATCH 13/21] m68k: rename __iounmap and mark it static
+ id 1iPlOV-0005iu-BR; Wed, 30 Oct 2019 10:40:05 +0000
+Received: from [91.217.168.176] (helo=nanos)
+ by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+ (Exim 4.80) (envelope-from <tglx@linutronix.de>)
+ id 1iPlOF-00009u-Rt; Wed, 30 Oct 2019 11:39:47 +0100
+Date: Wed, 30 Oct 2019 11:39:46 +0100 (CET)
+From: Thomas Gleixner <tglx@linutronix.de>
 To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 08/21] x86: Clean up ioremap()
+In-Reply-To: <20191029064834.23438-9-hch@lst.de>
+Message-ID: <alpine.DEB.2.21.1910301139330.19226@nanos.tec.linutronix.de>
+References: <20191029064834.23438-1-hch@lst.de>
+ <20191029064834.23438-9-hch@lst.de>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required, ALL_TRUSTED=-1,
+ SHORTCIRCUIT=-0.0001
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191030_015152_361825_88944956 
-X-CRM114-Status: UNSURE (   9.38  )
+X-CRM114-CacheID: sfid-20191030_034003_544783_82987D82 
+X-CRM114-Status: UNSURE (   9.30  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -79,50 +70,32 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
- Linux-sh list <linux-sh@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Guo Ren <guoren@kernel.org>, sparclinux <sparclinux@vger.kernel.org>,
- linux-riscv@lists.infradead.org, Vincent Chen <deanbo422@gmail.com>,
- Linux-Arch <linux-arch@vger.kernel.org>,
- linux-s390 <linux-s390@vger.kernel.org>,
- "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
- the arch/x86 maintainers <x86@kernel.org>,
- arcml <linux-snps-arc@lists.infradead.org>, linux-xtensa@linux-xtensa.org,
- Arnd Bergmann <arnd@arndb.de>, linux-m68k <linux-m68k@lists.linux-m68k.org>,
- Openrisc <openrisc@lists.librecores.org>, Greentime Hu <green.hu@gmail.com>,
- MTD Maling List <linux-mtd@lists.infradead.org>, Guan Xuetao <gxt@pku.edu.cn>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Michal Simek <monstr@monstr.eu>, Parisc List <linux-parisc@vger.kernel.org>,
- linux-mips@vger.kernel.org, alpha <linux-alpha@vger.kernel.org>,
- nios2-dev@lists.rocketboards.org
+Cc: linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Guo Ren <guoren@kernel.org>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Vincent Chen <deanbo422@gmail.com>, linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-hexagon@vger.kernel.org, x86@kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-m68k@lists.linux-m68k.org,
+ openrisc@lists.librecores.org, Greentime Hu <green.hu@gmail.com>,
+ linux-mtd@lists.infradead.org, Guan Xuetao <gxt@pku.edu.cn>,
+ linux-arm-kernel@lists.infradead.org, Michal Simek <monstr@monstr.eu>,
+ linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-alpha@vger.kernel.org, nios2-dev@lists.rocketboards.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 29, 2019 at 7:56 AM Christoph Hellwig <hch@lst.de> wrote:
-> m68k uses __iounmap as the name for an internal helper that is only
-> used for some CPU types.  Mark it static, give it a better name
-> and move it around a bit to avoid a forward declaration.
->
+On Tue, 29 Oct 2019, Christoph Hellwig wrote:
+
+> Use ioremap() as the main implemented function, and defines
+> ioremap_nocache() as a deprecated alias of ioremap() in
+> preparation of removing ioremap_nocache() entirely.
+> 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Thanks for the update!
-
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
 
 _______________________________________________
 linux-snps-arc mailing list
