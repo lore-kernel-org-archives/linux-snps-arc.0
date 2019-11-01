@@ -7,56 +7,68 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93090CA9ED0
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 Nov 2019 14:11:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98DE2CA9ECF
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 Nov 2019 19:03:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5D7902085B
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 Nov 2019 14:11:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6158A2086D
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 Nov 2019 19:03:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nhJVQol4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D7902085B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="V+45CWvi";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="PptPqRVe"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6158A2086D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=hHSpUdP66lAgL0LoOJexJcexEqhTxM8ynlGATReemL8=; b=nhJVQol4W+f7pl
-	hfOyIl8+bQ4sPKx6aPeq03aI0XbyXPR/phCo9DhJ8S6/KV/Vu+Q8ORYYZaSXO0yoWCNc2lY8xbPFd
-	KGLu3v2kS6ZsLLxGhMlSkJLdU4LDNSRkxX+/PTgutYnvw25XRqdgMJfV4S4mH3CUnYDnsZybBbytQ
-	HCGZ3za+MDWs6++ZISyQph8RGrsvdCef6voNh6eLM0YubtMzb788tK/77UzUOj3k77QshWHLWOwww
-	I99J8IqTZQYUO5kpxw7A7e5Z6ZOCSRV/5PysHyoscRur1dHSLh48X+oS04Slejz3FRMpFUpd2YZB7
-	xl/OPVrFbZhmk3Yy4GzQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=VgWYV40kgfTgPReAl4omkgNOVdgNaUko15jTmIA4LGw=; b=V+45CWviRHJ57E
+	fxuRFNGrFXGjMfGBCrzeQmR1yaWVokAyPbGEhCqk3BVrsftMC+D0LzKgJOxOFCnEuBt1lYJ6zjC2n
+	VUHSHOXz2XK7L8Ak/pJcyq1OtoqTpx2ZNfS9bj1U9oLF8RNWmTaUZlSQUQaoILAEvY8EILj1yt7uF
+	D+DmHane0urtWiPuJLhrI9BS+E3+yQb5gD9KoxNXcfX1f8x6HqCf33OJYAh0Y3VSQdrU/HtLXnbZq
+	3DDdRcRXn/A4AfmGcV6G0db+8bP6zWPt9ZWz40eQUg2WI3HEcTnVP1HV/pc3e+0VZdM9+mttdm+mT
+	9hJZXWK4dQHHpo7yKi1Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iQXdr-0001FI-Eu; Fri, 01 Nov 2019 14:11:07 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iQXcm-0007FM-KW; Fri, 01 Nov 2019 14:10:02 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2AAD332;
- Fri,  1 Nov 2019 07:09:58 -0700 (PDT)
-Received: from e112269-lin.cambridge.arm.com (e112269-lin.cambridge.arm.com
- [10.1.194.43])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 013A83F718;
- Fri,  1 Nov 2019 07:09:55 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org
-Subject: [PATCH v15 02/23] arc: mm: Add p?d_leaf() definitions
-Date: Fri,  1 Nov 2019 14:09:21 +0000
-Message-Id: <20191101140942.51554-3-steven.price@arm.com>
+	id 1iQcD4-0007w4-PA; Fri, 01 Nov 2019 19:03:46 +0000
+Received: from us03-smtprelay2.synopsys.com ([149.117.87.133]
+ helo=smtprelay-out1.synopsys.com)
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iQcD2-0007vS-0m
+ for linux-snps-arc@lists.infradead.org; Fri, 01 Nov 2019 19:03:45 +0000
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
+ [10.205.2.132])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5978EC08C6;
+ Fri,  1 Nov 2019 19:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1572635021; bh=2D+wwMEtPUSg8iBjetNQh+Lg5gIhIVfW9hkGkRUHZBg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=PptPqRVexoIcle017GLNjYWJLjeqtCXsY+aNUy2I9NE4LVwKL5x4UQTbvMKo8+tG6
+ qbbfdhH4oiWA8hJWauuwoc3GbKW07ISJYNiAtiGV2iS25StIEc5vUNzhpPVwIwC3hs
+ g27Wl2u5fjwqd3cdU7nSg4yiwDy70X54np0V3ZH+idBx06CS2EsKkZMRv2/1NzEGWe
+ cub1Bp2uBVAt1M6D/phc4VqCieXZqKo9MykeP2x15g+kAQbyLinipJUMgAbAt5VJNE
+ /HJ+LjwClg1Hoq1GkzraloFh2fwjBb//NuPDrooY6VZbLvcSlP2xjlttF97Te1njGw
+ Dap/sTfaGI6Lg==
+Received: from vineetg-Latitude-E7450.internal.synopsys.com
+ (vineetg-latitude-e7450.internal.synopsys.com [10.10.161.28])
+ by mailhost.synopsys.com (Postfix) with ESMTP id 86CF0A0098;
+ Fri,  1 Nov 2019 19:03:40 +0000 (UTC)
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: buildroot@busybox.net
+Subject: [PATCH] toolchain,glibc: Allow ARC big endian glibc builds
+Date: Fri,  1 Nov 2019 12:03:37 -0700
+Message-Id: <20191101190337.13411-1-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191101140942.51554-1-steven.price@arm.com>
-References: <20191101140942.51554-1-steven.price@arm.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191101_071000_744934_71FBB76D 
-X-CRM114-Status: GOOD (  10.33  )
+X-CRM114-CacheID: sfid-20191101_120344_103358_E1C24B1B 
+X-CRM114-Status: GOOD (  10.72  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,50 +80,54 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Mark Rutland <Mark.Rutland@arm.com>, x86@kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>, Vineet Gupta <vgupta@synopsys.com>,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
- James Morse <james.morse@arm.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-snps-arc@lists.infradead.org, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org, "Liang, Kan" <kan.liang@linux.intel.com>
+Cc: Evgeniy Didin <Evgeniy.Didin@synopsys.com>,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>, linux-snps-arc@lists.infradead.org,
+ Alexey.Brodkin@synopsys.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-walk_page_range() is going to be allowed to walk page tables other than
-those of user space. For this it needs to know when it has reached a
-'leaf' entry in the page tables. This information will be provided by the
-p?d_leaf() functions/macros.
+Apparently big endian glibc builds just work, if we let the endian
+header allow that (which prev was #error).
 
-For arc, we only have two levels, so only pmd_leaf() is needed.
+So this patch bumps glibc to version which fixes the header (this
+hopefully will become arc-2019.09-release) and then enables arceb
+in glibc toolchain builds
 
-CC: Vineet Gupta <vgupta@synopsys.com>
-CC: linux-snps-arc@lists.infradead.org
-Acked-by: Vineet Gupta <vgupta@synopsys.com>
-Signed-off-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- arch/arc/include/asm/pgtable.h | 1 +
- 1 file changed, 1 insertion(+)
+ package/glibc/glibc.mk                  | 2 +-
+ toolchain/toolchain-buildroot/Config.in | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index 7addd0301c51..b4a0cf27ac1c 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -274,6 +274,7 @@ static inline void pmd_set(pmd_t *pmdp, pte_t *ptep)
- #define pmd_none(x)			(!pmd_val(x))
- #define	pmd_bad(x)			((pmd_val(x) & ~PAGE_MASK))
- #define pmd_present(x)			(pmd_val(x))
-+#define pmd_leaf(x)			(pmd_val(x) & _PAGE_HW_SZ)
- #define pmd_clear(xp)			do { pmd_val(*(xp)) = 0; } while (0)
+diff --git a/package/glibc/glibc.mk b/package/glibc/glibc.mk
+index d46063c5d111..754408881397 100644
+--- a/package/glibc/glibc.mk
++++ b/package/glibc/glibc.mk
+@@ -5,7 +5,7 @@
+ ################################################################################
  
- #define pte_page(pte)		pfn_to_page(pte_pfn(pte))
+ ifeq ($(BR2_arc),y)
+-GLIBC_VERSION =  arc-2019.03-release
++GLIBC_VERSION = ec681dddfa99894513c85da7d5d257b60d04f915
+ GLIBC_SITE = $(call github,foss-for-synopsys-dwc-arc-processors,glibc,$(GLIBC_VERSION))
+ else ifeq ($(BR2_RISCV_32),y)
+ GLIBC_VERSION = 06983fe52cfe8e4779035c27e8cc5d2caab31531
+diff --git a/toolchain/toolchain-buildroot/Config.in b/toolchain/toolchain-buildroot/Config.in
+index c0612bf04176..587e097a9c92 100644
+--- a/toolchain/toolchain-buildroot/Config.in
++++ b/toolchain/toolchain-buildroot/Config.in
+@@ -48,7 +48,8 @@ config BR2_TOOLCHAIN_BUILDROOT_GLIBC
+ 		   BR2_powerpc     || BR2_powerpc64  || BR2_powerpc64le || \
+ 		   BR2_riscv       || BR2_sh         || BR2_sparc64     || \
+ 		   BR2_x86_64      || BR2_microblaze || BR2_nios2       || \
+-		   (BR2_arcle && BR2_ARC_ATOMIC_EXT) || BR2_csky
++		   ((BR2_arcle || BR2_arceb) && BR2_ARC_ATOMIC_EXT)     || \
++		   BR2_csky
+ 	depends on BR2_USE_MMU
+ 	depends on !BR2_STATIC_LIBS
+ 	depends on BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_2
 -- 
 2.20.1
 
