@@ -7,59 +7,53 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02242C5DF62
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 07:34:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48FE0C5DF63
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 08:36:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B6419217F4
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 07:34:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 16004217F5
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 08:36:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TU8MAAQI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B6419217F4
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pIzmyfS+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 16004217F5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=07YceAxpbAgFIGNYDeIGNqJ/nnVY9+tpW+UHsYbRwK0=; b=TU8MAAQI2dX+pC
-	SU+pXf79liNflzw0vE8+JnRxe4ahvoPjFlYeSa7wdoA/LtJeBkoZV4MkHvrV//7KW/6dCfXUMWCq9
-	875bOTWRr+Q3yV4mHrkIMMjkXwTygdfO+DW/YI4bXpivv9THHrkxbaUZzz2wuD1Y/yurIds+QT1rO
-	RjAhrVHt/A0PsYU8pvkNt26XhzU1ghQWMH+YaV5er2I5LonU+gf/Vww25oBgv+zz+5KOn8pRKg1O6
-	4PjHrR+3VmRruY0lOUm1X5QS1Q2LfGxi7WVo4DJVs9EqjBfq6zDUR4vHGT4lB2h8UqFDGhIFhQhsB
-	nVAa6RtVuDJJT0VVHjDw==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=jf9WXyWvxqj2qv54pPFksLHjqy6lozSMTXM6ACVY6Bk=; b=pIzmyfS+fic0yi
+	dam1Qz+4aPyo1u13U26o5zROnykDmprt7UtwVDyfEfR7IC9Aen4ma6He4sgCxJ2dJz6V6BrELmxhm
+	KjzXeBcvnbTinXRBX2nLEzqbCcStfi8ObJO4lZrADGHzALjh5XA+/Asav7KE7dNsjC+6nI3kx1Hkr
+	9Qp5tUUXcGPIEC2Lfqf2o7ioU1KdNGUAGBBlU9k1VuIlpOUhsZI+NgksOyU0KgOfZvMj1JtFs1ICS
+	Bqheac/g00CgwzhRLmt7408/sxOA7Er++o/BEer1jWwavXKaCPJRSGiTK4xEZ4Fnu+hfWfRMM3OI7
+	LdkDszgN/5gxARvQAAGg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iSFpd-0002Gn-Pc; Wed, 06 Nov 2019 07:34:21 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iSFpW-00029N-Hc; Wed, 06 Nov 2019 07:34:16 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1EE3430E;
- Tue,  5 Nov 2019 23:34:13 -0800 (PST)
-Received: from [192.168.225.149] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F42D3F71A;
- Tue,  5 Nov 2019 23:36:40 -0800 (PST)
-Subject: Re: [PATCH V8] mm/debug: Add tests validating architecture page table
- helpers
-To: Christophe Leroy <christophe.leroy@c-s.fr>, linux-mm@kvack.org
-References: <1572240562-23630-1-git-send-email-anshuman.khandual@arm.com>
- <3229d68d-0b9d-0719-3370-c6e1df0ea032@arm.com>
- <42160baa-0e9d-73d0-bf72-58bdbacf10ff@c-s.fr>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <0e0c2ce9-636d-1153-2451-baf7317ed45f@arm.com>
-Date: Wed, 6 Nov 2019 13:04:20 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+	id 1iSGnr-0000eE-Vg; Wed, 06 Nov 2019 08:36:35 +0000
+Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iSGnn-0000a6-VT; Wed, 06 Nov 2019 08:36:33 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 19FADAE65;
+ Wed,  6 Nov 2019 08:35:47 +0000 (UTC)
+Date: Wed, 6 Nov 2019 09:35:38 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Dmitry Safonov <dima@arista.com>
+Subject: Re: [PATCH 00/50] Add log level to show_stack()
+Message-ID: <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
+References: <20191106030542.868541-1-dima@arista.com>
 MIME-Version: 1.0
-In-Reply-To: <42160baa-0e9d-73d0-bf72-58bdbacf10ff@c-s.fr>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20191106030542.868541-1-dima@arista.com>
+User-Agent: NeoMutt/20170912 (1.9.0)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191105_233414_667275_F85B521A 
-X-CRM114-Status: GOOD (  15.07  )
+X-CRM114-CacheID: sfid-20191106_003632_305360_BE6D2475 
+X-CRM114-Status: GOOD (  17.63  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,74 +65,114 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- James Hogan <jhogan@kernel.org>, Heiko Carstens <heiko.carstens@de.ibm.com>,
- Michal Hocko <mhocko@kernel.org>, Dave Hansen <dave.hansen@intel.com>,
- Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, linux-s390@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Michael Ellerman <mpe@ellerman.id.au>,
- x86@kernel.org, Russell King - ARM Linux <linux@armlinux.org.uk>,
- Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- linux-snps-arc@lists.infradead.org, Ingo Molnar <mingo@kernel.org>,
- Kees Cook <keescook@chromium.org>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Mark Brown <broonie@kernel.org>, "Kirill A . Shutemov" <kirill@shutemov.name>,
- Dan Williams <dan.j.williams@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
- linux-arm-kernel@lists.infradead.org,
- Sri Krishna chowdary <schowdary@nvidia.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org,
- Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
- Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
- Vineet Gupta <vgupta@synopsys.com>,
- Martin Schwidefsky <schwidefsky@de.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
+ Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
+ Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
+ uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
+ linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-ia64@vger.kernel.org,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ James Hogan <jhogan@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
+ linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Brian Cain <bcain@codeaurora.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
+ Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
+ Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
+ "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
+ Peter Zijlstra <peterz@infradead.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
+ Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
+ nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAxMS8wNi8yMDE5IDEyOjExIFBNLCBDaHJpc3RvcGhlIExlcm95IHdyb3RlOgo+IAo+IAo+
-IExlIDA2LzExLzIwMTkgw6AgMDQ6MjIsIEFuc2h1bWFuIEtoYW5kdWFsIGEgw6ljcml0wqA6Cj4+
-Cj4+Cj4+IE9uIDEwLzI4LzIwMTkgMTA6NTkgQU0sIEFuc2h1bWFuIEtoYW5kdWFsIHdyb3RlOgo+
-Pj4gK8KgwqDCoCAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+Pj4gK8KgwqDCoCB8wqDCoMKgwqDC
-oMKgwqDCoCBhcmNoIHxzdGF0dXN8Cj4+PiArwqDCoMKgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-Cj4+PiArwqDCoMKgIHzCoMKgwqDCoMKgwqAgYWxwaGE6IHwgVE9ETyB8Cj4+PiArwqDCoMKgIHzC
-oMKgwqDCoMKgwqDCoMKgIGFyYzogfCBUT0RPIHwKPj4+ICvCoMKgwqAgfMKgwqDCoMKgwqDCoMKg
-wqAgYXJtOiB8IFRPRE8gfAo+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoMKgIGFybTY0OiB8wqAgb2vC
-oCB8Cj4+PiArwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgIGM2eDogfCBUT0RPIHwKPj4+ICvCoMKg
-wqAgfMKgwqDCoMKgwqDCoMKgIGNza3k6IHwgVE9ETyB8Cj4+PiArwqDCoMKgIHzCoMKgwqDCoMKg
-wqAgaDgzMDA6IHwgVE9ETyB8Cj4+PiArwqDCoMKgIHzCoMKgwqDCoCBoZXhhZ29uOiB8IFRPRE8g
-fAo+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoMKgwqAgaWE2NDogfCBUT0RPIHwKPj4+ICvCoMKgwqAg
-fMKgwqDCoMKgwqDCoMKgIG02OGs6IHwgVE9ETyB8Cj4+PiArwqDCoMKgIHzCoCBtaWNyb2JsYXpl
-OiB8IFRPRE8gfAo+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoMKgwqAgbWlwczogfCBUT0RPIHwKPj4+
-ICvCoMKgwqAgfMKgwqDCoMKgwqDCoCBuZHMzMjogfCBUT0RPIHwKPj4+ICvCoMKgwqAgfMKgwqDC
-oMKgwqDCoCBuaW9zMjogfCBUT0RPIHwKPj4+ICvCoMKgwqAgfMKgwqDCoCBvcGVucmlzYzogfCBU
-T0RPIHwKPj4+ICvCoMKgwqAgfMKgwqDCoMKgwqAgcGFyaXNjOiB8IFRPRE8gfAo+Pj4gK8KgwqDC
-oCB8wqDCoMKgwqAgcG93ZXJwYzogfCBUT0RPIHwKPj4+ICvCoMKgwqAgfMKgwqDCoMKgwqDCoCBw
-cGMzMjogfMKgIG9rwqAgfAo+IAo+IE5vdGUgdGhhdCBwcGMzMiBpcyBhIHBhcnQgb2YgcG93ZXJw
-Yywgbm90IGEgc3RhbmRhbG9uZSBhcmNoLgoKUmlnaHQsIEkgdW5kZXJzdGFuZC4gQnV0IHdlIGFy
-ZSB5ZXQgdG8gaGVhciBhYm91dCBob3cgdGhpcyB0ZXN0CmNhbWUgYWJvdXQgb24gcG93ZXJwYyBz
-ZXJ2ZXIgcGxhdGZvcm1zLiBXaWxsIHVwZGF0ZSAncG93ZXJwYycKYXJjaCBsaXN0aW5nIGFib3Zl
-IG9uY2Ugd2UgZ2V0IHNvbWUgY29uZmlybWF0aW9uLiBNYXkgYmUgb25jZQp0aGlzIHdvcmtzIG9u
-IGFsbCByZWxldmFudCBwb3dlcnBjIHBsYXRmb3Jtcywgd2UgY2FuIGp1c3QgbWVyZ2UKJ3Bvd2Vy
-cGMnIGFuZCAncHBjMzInIGVudHJpZXMgaGVyZSBhcyBqdXN0ICdwb3dlcnBjJy4KCj4gCj4gTWF5
-YmUgc29tZXRoaW5nIGxpa2UgdGhlIGZvbGxvd2luZyB3b3VsZCBiZSBtb3JlIGNvcnJlY3Q6Cj4g
-fMKgIHBvd2VycGMvMzI6IHzCoCBva8KgIHwKPiB8wqAgcG93ZXJwYy82NDogfCBUT0RPIHwKPiAK
-PiBDaHJpc3RvcGhlCj4gCj4+PiArwqDCoMKgIHzCoMKgwqDCoMKgwqAgcmlzY3Y6IHwgVE9ETyB8
-Cj4+PiArwqDCoMKgIHzCoMKgwqDCoMKgwqDCoCBzMzkwOiB8IFRPRE8gfAo+Pj4gK8KgwqDCoCB8
-wqDCoMKgwqDCoMKgwqDCoMKgIHNoOiB8IFRPRE8gfAo+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoMKg
-IHNwYXJjOiB8IFRPRE8gfAo+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgIHVtOiB8IFRP
-RE8gfAo+Pj4gK8KgwqDCoCB8wqDCoCB1bmljb3JlMzI6IHwgVE9ETyB8Cj4+PiArwqDCoMKgIHzC
-oMKgwqDCoMKgwqDCoMKgIHg4NjogfMKgIG9rwqAgfAo+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoCB4
-dGVuc2E6IHwgVE9ETyB8Cj4+PiArwqDCoMKgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4+Cj4+
-IFdoaWxlIGhlcmUsIGFyZSB0aGVyZSBzb21lIHZvbHVudGVlcnMgdG8gdGVzdCB0aGlzIG9uIGFu
-eSBvZiB0aGUKPj4gJ3lldCB0byBiZSB0ZXN0ZWQgYW5kIHN1cHBvcnRlZCcgcGxhdGZvcm1zID8K
-Pj4KPj4gLSBBbnNodW1hbgo+Pgo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJj
-QGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+On Wed 2019-11-06 03:04:51, Dmitry Safonov wrote:
+> Add log level argument to show_stack().
+> Done in three stages:
+> 1. Introducing show_stack_loglvl() for every architecture
+> 2. Migrating old users with an explicit log level
+> 3. Renaming show_stack_loglvl() into show_stack()
+> 
+> Justification:
+> o It's a design mistake to move a business-logic decision
+>   into platform realization detail.
+> o I have currently two patches sets that would benefit from this work:
+>   Removing console_loglevel jumps in sysrq driver [1]
+
+Just to clarify. The problem in sysrq driver is a bit different.
+It modifies console_loglevel to show even less important message
+on the console.
+
+IMHO, it should be solved by printing the header line with pr_error().
+It is not ideal. A cleaner solution might be to introduce another
+loglevel that will always get pushed to the console. But I am
+not sure if it is worth this single line.
+
+>   Hung task warning before panic [2] - suggested by Tetsuo (but he
+>   probably didn't realise what it would involve).
+> o While doing (1), (2) the backtraces were adjusted to headers
+>   and other messages for each situation - so there won't be a situation
+>   when the backtrace is printed, but the headers are missing because
+>   they have lesser log level (or the reverse).
+> o As the result in (2) plays with console_loglevel for kdb are removed.
+
+> The least important for upstream, but maybe still worth to note that
+> every company I've worked in so far had an off-list patch to print
+> backtrace with the needed log level (but only for the architecture they
+> cared about).
+> If you have other ideas how you will benefit from show_stack() with
+> a log level - please, reply to this cover letter.
+
+I agree with all the other justification.
+
+I would add. The backtrace is really useful for debugging. It should
+be possible to print it even in less critical situations.
+
+I am afraid that many people use WARN() for this purpose. But WARN()
+is not always appropriate. WARN() misuse huts when panic_on_warn
+option is used.
+
+Best Regards,
+Petr
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
