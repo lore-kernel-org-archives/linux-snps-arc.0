@@ -2,66 +2,87 @@ Return-Path: <SRS0=N0Bh=Y6=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 539DCC5DF60
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 03:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7398C5DF61
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 03:06:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EBFB421D7F
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 03:04:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 85D2521D7F
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 03:06:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ao6sY3zA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EBFB421D7F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tIfwxTlC";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=arista.com header.i=@arista.com header.b="jzPQRDte"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 85D2521D7F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=arista.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=sO9mZNgO4zx6TlsUMqy4yOznckgXDPg34j2FnLbW1No=; b=ao6sY3zAAfaiwr
-	ea8OgZHVeyIIlUyxQpegOyf8o1p7+0gwSVb+WwRyDRwBZuT1cNhfyBiajgZckU5WolNISa6Uq0gWZ
-	kQKkTA7PkptXI74dAUdiRiPktres/IUN8Cdgh1mn4InRvpHeNzuQDJp60cB+qNokvBAEdBMoPOKsO
-	XSCvUKAlcV1hD8vCcg2+JGjqP5ypcOHzBfQrg5lAeUTafJdIuYCEnX32kSuJohhWbgtG1FDjRaNaY
-	BaXCl+DQKt5zE8VXGlBSsPaI9QppXRXIeDdBMGSTx8lnkphpD1pOiSX7BvSx1ZLjM64+csNQK8uv0
-	JjYdv+8t5F/LQ59ecJuA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=iL96YlfaNLQ7bOJa/UlODo3n2pHzhNeZiSZFIHIvBZM=; b=tIfwxTlCjKT2Rl
+	ENxs2G7MDXR9uSMENA+SbV6UpUyN9Mf0MrXYAHhM7Bmv6A5dKyaDjeTyTPtMp3ns+z7vLWR9z0d+l
+	fH8YIw6B/da4Exxb9qPEY/tZLE8WC38Vmwwc+9pTdQ3hzySea+u1zRmNudeP2WfDPFbKYdmj6W9Dd
+	iQ9v/zVEdhWpN+ffjPh34oZgu/weuz+PCh2lesBxXu5gKGfZLQsdwSvV8FnZxrAJlboPZqxKlldQF
+	XtA12eqYhm5PLj8e7IlBxiGAoORdNEXNm7UP6AisI3xFDBGc+DowfrKwxoDf3oSONf5TMFxmFQuFt
+	CY1RVoX6fD+S4OTI1hiA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iSBc1-0008Se-UH; Wed, 06 Nov 2019 03:04:01 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iSBbt-0008M8-M7; Wed, 06 Nov 2019 03:03:55 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1394D30E;
- Tue,  5 Nov 2019 19:03:44 -0800 (PST)
-Received: from [192.168.225.149] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EAE593F719;
- Tue,  5 Nov 2019 19:03:20 -0800 (PST)
-Subject: Re: [PATCH V8] mm/debug: Add tests validating architecture page table
- helpers
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- Andrew Morton <akpm@linux-foundation.org>
-References: <1572240562-23630-1-git-send-email-anshuman.khandual@arm.com>
- <e0aa8d49-5511-15e4-f413-62c99eea4fab@arm.com>
- <e0dc3636-8c6e-0177-9a7f-fefd28c74f27@synopsys.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <dc2746c9-bde4-ac00-88d1-2bd1cea1f105@arm.com>
-Date: Wed, 6 Nov 2019 08:33:52 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+	id 1iSBe8-0001Xv-Ki; Wed, 06 Nov 2019 03:06:12 +0000
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iSBe2-0001WA-E7
+ for linux-snps-arc@lists.infradead.org; Wed, 06 Nov 2019 03:06:11 +0000
+Received: by mail-pg1-x542.google.com with SMTP id u23so16137161pgo.0
+ for <linux-snps-arc@lists.infradead.org>; Tue, 05 Nov 2019 19:06:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=arista.com; s=googlenew;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3HFF42qAlT7r/F7ag4hs7rtX/wyMvbKmMS4A+1JVsNY=;
+ b=jzPQRDteEKLSK+teW/BPCLuUNhzX+YedPCS0VMKC5t4V2QYvlXkd1vPenipmQTZyTw
+ 3Yekw/TiAg2bTGkes+EeYjWfJTtTdO4lNmADuMWQkIfwlPGSD8GbzD1jIeGCEOZ/wtIK
+ 9BG0YtSeheW28n/lckqNpHRSoqie2dxnkWfwzYe4N6rtCNCjhPrcZNGQWCljuyxNSSKW
+ ajag+TfWgkzWjN52U/kITaNzjyIv76ALkLycWweJsTJsycW4TEktNyqW0d9+4zQ50nvY
+ sCJHjuHmCGDlR7HGbex6H6CBAFAQZeiGnLamEhJ+m/4nJStHQQLUsDkg8IAtf7J71rpV
+ z1+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3HFF42qAlT7r/F7ag4hs7rtX/wyMvbKmMS4A+1JVsNY=;
+ b=lrIhDY+vxLtJajG+NPip9d+VEfQIxpO+idFj3Dehw0woD4B69NweryjQckGmjsR2Cc
+ acKao2Aw3EWeykeFGjq9SUoSlQrwO7c0jFvfZWhqnxJ0/31T8nIwjyYxYZWVMlaKKNsL
+ 5xULC7/mp9na+mW4vC3zuopDhnVKby61OHxCYeBhYgCYWtbuKG1ERYiAo8sejJ5PfYet
+ oE2Ts8RgpSXg9rFhswQoDYZjq1xXFkan/e+0xFczoVTjReKlhe3Eo/H6ZQmw/Bkh3gct
+ QUmrcArJtc13mvHUZdS9ypkuXiwK9YqkVKDcohMJX9fMJraLr+OsT3l6HICzqHKvu82U
+ i7jA==
+X-Gm-Message-State: APjAAAW5C/84pK2lHAi2xFFJcaV//gcvdgwU4j32/IMEsCet4qaJ/IXA
+ Ccw5Q4OWU9jwh8UdPJ/4us/uyQ==
+X-Google-Smtp-Source: APXvYqxrU/o2u+W+LjbyrqgvqKLS4IcNyOfN+iGwfuy9ybggQe5do2mvirQJdBY9Nvj+dqVorGUqMQ==
+X-Received: by 2002:a17:90a:ff04:: with SMTP id
+ ce4mr558301pjb.133.1573009564730; 
+ Tue, 05 Nov 2019 19:06:04 -0800 (PST)
+Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
+ by smtp.gmail.com with ESMTPSA id k24sm19570487pgl.6.2019.11.05.19.05.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Nov 2019 19:06:03 -0800 (PST)
+From: Dmitry Safonov <dima@arista.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 00/50] Add log level to show_stack()
+Date: Wed,  6 Nov 2019 03:04:51 +0000
+Message-Id: <20191106030542.868541-1-dima@arista.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <e0dc3636-8c6e-0177-9a7f-fefd28c74f27@synopsys.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191105_190353_812584_67B03D32 
-X-CRM114-Status: GOOD (  25.37  )
+X-CRM114-CacheID: sfid-20191105_190606_488227_355051DA 
+X-CRM114-Status: GOOD (  16.09  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,134 +94,235 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
- "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, James Hogan <jhogan@kernel.org>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
- Dave Hansen <dave.hansen@intel.com>, Paul Mackerras <paulus@samba.org>,
- "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Michael Ellerman <mpe@ellerman.id.au>,
- "x86@kernel.org" <x86@kernel.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Ingo Molnar <mingo@kernel.org>, Kees Cook <keescook@chromium.org>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Mark Brown <broonie@kernel.org>, "Kirill A . Shutemov" <kirill@shutemov.name>,
- Thomas Gleixner <tglx@linutronix.de>, Vlastimil Babka <vbabka@suse.cz>,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Sri Krishna chowdary <schowdary@nvidia.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
+ Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Dmitry Safonov <dima@arista.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
+ Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
+ uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
+ linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Richard Henderson <rth@twiddle.net>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
- Martin Schwidefsky <schwidefsky@de.ibm.com>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, Ralf Baechle <ralf@linux-mips.org>,
+ Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-ia64@vger.kernel.org, Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ James Hogan <jhogan@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
+ linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Brian Cain <bcain@codeaurora.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
+ Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
+ Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
+ "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
+ Petr Mladek <pmladek@suse.com>, Peter Zijlstra <peterz@infradead.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
+ Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
+ nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAxMS8wNi8yMDE5IDA0OjAwIEFNLCBWaW5lZXQgR3VwdGEgd3JvdGU6Cj4gSGkgQW5zaHVt
-YW4sCgpIZWxsbyBWaW5lZXQsCgo+IAo+IE9uIDExLzQvMTkgNDowMCBQTSwgQW5zaHVtYW4gS2hh
-bmR1YWwgd3JvdGU6Cj4+IE9uIDEwLzI4LzIwMTkgMTA6NTkgQU0sIEFuc2h1bWFuIEtoYW5kdWFs
-IHdyb3RlOgo+Pj4gVGhpcyBhZGRzIHRlc3RzIHdoaWNoIHdpbGwgdmFsaWRhdGUgYXJjaGl0ZWN0
-dXJlIHBhZ2UgdGFibGUgaGVscGVycyBhbmQKPj4+IG90aGVyIGFjY2Vzc29ycyBpbiB0aGVpciBj
-b21wbGlhbmNlIHdpdGggZXhwZWN0ZWQgZ2VuZXJpYyBNTSBzZW1hbnRpY3MuCj4+PiBUaGlzIHdp
-bGwgaGVscCB2YXJpb3VzIGFyY2hpdGVjdHVyZXMgaW4gdmFsaWRhdGluZyBjaGFuZ2VzIHRvIGV4
-aXN0aW5nCj4+PiBwYWdlIHRhYmxlIGhlbHBlcnMgb3IgYWRkaXRpb24gb2YgbmV3IG9uZXMuCj4+
-Pgo+Pj4gVGhpcyB0ZXN0IGNvdmVycyBiYXNpYyBwYWdlIHRhYmxlIGVudHJ5IHRyYW5zZm9ybWF0
-aW9ucyBpbmNsdWRpbmcgYnV0IG5vdAo+Pj4gbGltaXRlZCB0byBvbGQsIHlvdW5nLCBkaXJ0eSwg
-Y2xlYW4sIHdyaXRlLCB3cml0ZSBwcm90ZWN0IGV0YyBhdCB2YXJpb3VzCj4+PiBsZXZlbCBhbG9u
-ZyB3aXRoIHBvcHVsYXRpbmcgaW50ZXJtZWRpYXRlIGVudHJpZXMgd2l0aCBuZXh0IHBhZ2UgdGFi
-bGUgcGFnZQo+Pj4gYW5kIHZhbGlkYXRpbmcgdGhlbS4KPj4+Cj4+PiBUZXN0IHBhZ2UgdGFibGUg
-cGFnZXMgYXJlIGFsbG9jYXRlZCBmcm9tIHN5c3RlbSBtZW1vcnkgd2l0aCByZXF1aXJlZCBzaXpl
-Cj4+PiBhbmQgYWxpZ25tZW50cy4gVGhlIG1hcHBlZCBwZm5zIGF0IHBhZ2UgdGFibGUgbGV2ZWxz
-IGFyZSBkZXJpdmVkIGZyb20gYQo+Pj4gcmVhbCBwZm4gcmVwcmVzZW50aW5nIGEgdmFsaWQga2Vy
-bmVsIHRleHQgc3ltYm9sLiBUaGlzIHRlc3QgZ2V0cyBjYWxsZWQKPj4+IHJpZ2h0IGFmdGVyIHBh
-Z2VfYWxsb2NfaW5pdF9sYXRlKCkuCj4+Pgo+Pj4gVGhpcyBnZXRzIGJ1aWxkIGFuZCBydW4gd2hl
-biBDT05GSUdfREVCVUdfVk1fUEdUQUJMRSBpcyBzZWxlY3RlZCBhbG9uZyB3aXRoCj4+PiBDT05G
-SUdfVk1fREVCVUcuIEFyY2hpdGVjdHVyZXMgd2lsbGluZyB0byBzdWJzY3JpYmUgdGhpcyB0ZXN0
-IGFsc28gbmVlZCB0bwo+Pj4gc2VsZWN0IENPTkZJR19BUkNIX0hBU19ERUJVR19WTV9QR1RBQkxF
-IHdoaWNoIGZvciBub3cgaXMgbGltaXRlZCB0byB4ODYgYW5kCj4+PiBhcm02NC4gR29pbmcgZm9y
-d2FyZCwgb3RoZXIgYXJjaGl0ZWN0dXJlcyB0b28gY2FuIGVuYWJsZSB0aGlzIGFmdGVyIGZpeGlu
-Zwo+Pj4gYnVpbGQgb3IgcnVudGltZSBwcm9ibGVtcyAoaWYgYW55KSB3aXRoIHRoZWlyIHBhZ2Ug
-dGFibGUgaGVscGVycy4KPj4+Cj4+PiBGb2xrcyBpbnRlcmVzdGVkIGluIG1ha2luZyBzdXJlIHRo
-YXQgYSBnaXZlbiBwbGF0Zm9ybSdzIHBhZ2UgdGFibGUgaGVscGVycwo+Pj4gY29uZm9ybSB0byBl
-eHBlY3RlZCBnZW5lcmljIE1NIHNlbWFudGljcyBzaG91bGQgZW5hYmxlIHRoZSBhYm92ZSBjb25m
-aWcKPj4+IHdoaWNoIHdpbGwganVzdCB0cmlnZ2VyIHRoaXMgdGVzdCBkdXJpbmcgYm9vdC4gQW55
-IG5vbiBjb25mb3JtaXR5IGhlcmUgd2lsbAo+Pj4gYmUgcmVwb3J0ZWQgYXMgYW4gd2FybmluZyB3
-aGljaCB3b3VsZCBuZWVkIHRvIGJlIGZpeGVkLiBUaGlzIHRlc3Qgd2lsbCBoZWxwCj4+PiBjYXRj
-aCBhbnkgY2hhbmdlcyB0byB0aGUgYWdyZWVkIHVwb24gc2VtYW50aWNzIGV4cGVjdGVkIGZyb20g
-Z2VuZXJpYyBNTSBhbmQKPj4+IGVuYWJsZSBwbGF0Zm9ybXMgdG8gYWNjb21tb2RhdGUgaXQgdGhl
-cmVhZnRlci4KPj4+Cj4gCj4gSSB0cmllZCBlbmFibGluZyB0aGlzIG9uIEFSQyBhbmQgcmFuIGlu
-dG8gYSBidWlsZCBpc3N1ZQo+IAo+IC4uL21tL2RlYnVnX3ZtX3BndGFibGUuYzogSW4gZnVuY3Rp
-b24g4oCYcG1kX2Jhc2ljX3Rlc3Rz4oCZOgo+IC4uL21tL2RlYnVnX3ZtX3BndGFibGUuYzo3Mzox
-NDogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uIOKAmHBmbl9wbWTigJk7
-Cj4gZGlkIHlvdSBtZWFuIOKAmHBmbl9wdGXigJk/IFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9u
-LWRlY2xhcmF0aW9uXQo+IMKgIHBtZF90IHBtZCA9IHBmbl9wbWQocGZuLCBwcm90KTsKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBefn5+fn5+Cj4gCj4gVGhlIHJlYXNvbiBiZWluZyBUSFAg
-d2FzIG5vdCBlbmFibGVkIChhbHRob3VnaCBBUkMgc3VwcG9ydHMgVEhQKSAtIGZvciB0aGUKPiBj
-b21iaW5hdGlvbiBiZWxvdwo+IENPTkZJR19IQVZFX0FSQ0hfVFJBTlNQQVJFTlRfSFVHRVBBR0U9
-eQo+ICMgQ09ORklHX1RSQU5TUEFSRU5UX0hVR0VQQUdFIGlzIG5vdCBzZXQKPiAKPiBJIHRoaW5r
-IHlvdSBuZWVkIHRvIHVzZSBsYXR0ZXIgZm9yIGd1YXJkaW5nIHBtZF9iYXNpY190ZXN0cygpCgpT
-byB0aGUgYnVpbGQgY29tcGxhaW5zIHRoYXQgcGZuX3BtZCgpIGlzIG5vdCBkZWZpbmVkIHdoZW4g
-dGhlIGZvbGxvd2luZyBjb25maWcKY29tYmluYXRpb24gaXMgaW4gcGxhY2UuCgpDT05GSUdfSEFW
-RV9BUkNIX1RSQU5TUEFSRU5UX0hVR0VQQUdFPXkKQ09ORklHX1RSQU5TUEFSRU5UX0hVR0VQQUdF
-PW4KCkJ1dCBzaG91bGQgbm90IHBmbl9wbWQoKSBiZSBlbmNhcHN1bGF0ZWQgaW5zaWRlIEhBVkVf
-QVJDSF9UUkFOU1BBUkVOVF9IVUdFUEFHRQphdCB0aGUgbWluaW11bSAoYnV0IEkgd291bGQgc2F5
-IGl0IHNob3VsZCBiZSBhdmFpbGFibGUgYWx3YXlzLCBub25ldGhlbGVzcykgd2hlbgp0aGUgcGxh
-dGZvcm0gc3Vic2NyaWJlcyB0byBUSFAgaXJyZXNwZWN0aXZlIG9mIHdoZXRoZXIgVEhQIGlzIGVu
-YWJsZWQgb3Igbm90LgoKSSBjb3VsZCBzZWUgaW4gdGhlIGZpbGUgKGFyY2gvYXJjL2luY2x1ZGUv
-YXNtL3BndGFibGUuaCkgdGhhdCBmZXRjaGluZyBwZm5fcG1kKCkKYW5kIGFsbCBvdGhlciBiYXNp
-YyBQTUQgZGVmaW5pdGlvbnMgaXMgY29uZGl0aW9uYWwgb24gQ09ORklHX1RSQU5TUEFSRU5UX0hV
-R0VQQUdFLgoKI2lmZGVmIENPTkZJR19UUkFOU1BBUkVOVF9IVUdFUEFHRQojaW5jbHVkZSA8YXNt
-L2h1Z2VwYWdlLmg+CiNlbmRpZgoKSUlVQywgQ09ORklHX1RSQU5TUEFSRU5UX0hVR0VQQUdFIHNo
-b3VsZCBvbmx5IGVuY2Fwc3VsYXRlIFBNRCBwYWdlIHRhYmxlIGhlbHBlcnMKd2hpY2ggYXJlIGV4
-cGVjdGVkIGZyb20gZ2VuZXJpYyBUSFAgY29kZSAocG1kX3RyYW5zX2h1Z2UsIHBtZHBfc2V0X2Fj
-Y2Vzc19mbGFncwpldGMpIGJ1dCBub3QgdGhlIGJhc2ljIFBNRCBoZWxwZXJzIGxpa2UgcG1kX3Bm
-biwgcG1kX21reW91bmcsIHBtZF9ta2RpcnR5LApwbWRfbWtjbGVhbiBldGMuIEhlbmNlIHdvbmRl
-cmluZyB3aWxsIGl0IGJlIHBvc3NpYmxlIHRvIGFjY29tbW9kYXRlIGZvbGxvd2luZwpjb2RlIGNo
-YW5nZSBvbiBhcmMgcGxhdGZvcm0gKG5vdCBldmVuIGNvbXBpbGVkKSBpbiBvcmRlciB0byBmaXgg
-dGhlIHByb2JsZW0gPwoKZGlmZiAtLWdpdCBhL2FyY2gvYXJjL2luY2x1ZGUvYXNtL2h1Z2VwYWdl
-LmggYi9hcmNoL2FyYy9pbmNsdWRlL2FzbS9odWdlcGFnZS5oCmluZGV4IDlhNzRjZTcuLjJhZTE1
-YTggMTAwNjQ0Ci0tLSBhL2FyY2gvYXJjL2luY2x1ZGUvYXNtL2h1Z2VwYWdlLmgKKysrIGIvYXJj
-aC9hcmMvaW5jbHVkZS9hc20vaHVnZXBhZ2UuaApAQCAtMzYsMTEgKzM2LDExIEBAIHN0YXRpYyBp
-bmxpbmUgcG1kX3QgcHRlX3BtZChwdGVfdCBwdGUpCiAjZGVmaW5lIHBtZF9kaXJ0eShwbWQpICAg
-ICAgICAgcHRlX2RpcnR5KHBtZF9wdGUocG1kKSkKIAogI2RlZmluZSBta19wbWQocGFnZSwgcHJv
-dCkgICAgIHB0ZV9wbWQobWtfcHRlKHBhZ2UsIHByb3QpKQorI2RlZmluZSBwZm5fcG1kKHBmbiwg
-cHJvdCkgICAgIChfX3BtZCgoKHBmbikgPDwgUEFHRV9TSElGVCkgfCBwZ3Byb3RfdmFsKHByb3Qp
-KSkKIAorI2lmZGVmIENPTkZJR19UUkFOU1BBUkVOVF9IVUdFUEFHRQogI2RlZmluZSBwbWRfdHJh
-bnNfaHVnZShwbWQpICAgIChwbWRfdmFsKHBtZCkgJiBfUEFHRV9IV19TWikKIAotI2RlZmluZSBw
-Zm5fcG1kKHBmbiwgcHJvdCkgICAgIChfX3BtZCgoKHBmbikgPDwgUEFHRV9TSElGVCkgfCBwZ3By
-b3RfdmFsKHByb3QpKSkKLQogc3RhdGljIGlubGluZSBwbWRfdCBwbWRfbW9kaWZ5KHBtZF90IHBt
-ZCwgcGdwcm90X3QgbmV3cHJvdCkKIHsKICAgICAgICAgLyoKQEAgLTczLDUgKzczLDYgQEAgZXh0
-ZXJuIHZvaWQgZmx1c2hfcG1kX3RsYl9yYW5nZShzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwg
-dW5zaWduZWQgbG9uZyBzdGFydCwKIAogLyogV2UgZG9uJ3QgaGF2ZSBoYXJkd2FyZSBkaXJ0eS9h
-Y2Nlc3NlZCBiaXRzLCBnZW5lcmljX3BtZHBfZXN0YWJsaXNoIGlzIGZpbmUuKi8KICNkZWZpbmUg
-cG1kcF9lc3RhYmxpc2ggZ2VuZXJpY19wbWRwX2VzdGFibGlzaAorI2VuZGlmCiAKICNlbmRpZgpk
-aWZmIC0tZ2l0IGEvYXJjaC9hcmMvaW5jbHVkZS9hc20vcGd0YWJsZS5oIGIvYXJjaC9hcmMvaW5j
-bHVkZS9hc20vcGd0YWJsZS5oCmluZGV4IDkwMTllZDkuLjIwMzk1ZjEgMTAwNjQ0Ci0tLSBhL2Fy
-Y2gvYXJjL2luY2x1ZGUvYXNtL3BndGFibGUuaAorKysgYi9hcmNoL2FyYy9pbmNsdWRlL2FzbS9w
-Z3RhYmxlLmgKQEAgLTM4NSw3ICszODUsNyBAQCB2b2lkIHVwZGF0ZV9tbXVfY2FjaGUoc3RydWN0
-IHZtX2FyZWFfc3RydWN0ICp2bWEsIHVuc2lnbmVkIGxvbmcgYWRkcmVzcywKICAqIHJlbWFwIGEg
-cGh5c2ljYWwgcGFnZSBgcGZuJyBvZiBzaXplIGBzaXplJyB3aXRoIHBhZ2UgcHJvdGVjdGlvbiBg
-cHJvdCcKICAqIGludG8gdmlydHVhbCBhZGRyZXNzIGBmcm9tJwogICovCi0jaWZkZWYgQ09ORklH
-X1RSQU5TUEFSRU5UX0hVR0VQQUdFCisjaWZkZWYgQ09ORklHX0hBVkVfQVJDSF9UUkFOU1BBUkVO
-VF9IVUdFUEFHRQogI2luY2x1ZGUgPGFzbS9odWdlcGFnZS5oPgogI2VuZGlmCgo+IAo+IE90aGVy
-IHRoYW4gdGhhdCB0aGUgdGVzdHMgcGFzcyBmb3IgIVRIUCBhbmQgVEhQIHRvby4gU28gb25jZSBm
-aXhlZCwgeW91IGNvdWxkCgpHbGFkIHRoYXQgaXQgd29ya3Mgb24gYXJjIHBsYXRmb3JtIGFzIHdl
-bGwuCgo+IGVuYWJsZSB0aGF0IGZvciBBUkMgYXMgd2VsbD4gVGh4IGZvciBkb2luZyB0aGlzLgo+
-IAo+IC1WaW5lZXQKPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5p
-bmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8v
-bGludXgtc25wcy1hcmMK
+Add log level argument to show_stack().
+Done in three stages:
+1. Introducing show_stack_loglvl() for every architecture
+2. Migrating old users with an explicit log level
+3. Renaming show_stack_loglvl() into show_stack()
+
+Justification:
+o It's a design mistake to move a business-logic decision
+  into platform realization detail.
+o I have currently two patches sets that would benefit from this work:
+  Removing console_loglevel jumps in sysrq driver [1]
+  Hung task warning before panic [2] - suggested by Tetsuo (but he
+  probably didn't realise what it would involve).
+o While doing (1), (2) the backtraces were adjusted to headers
+  and other messages for each situation - so there won't be a situation
+  when the backtrace is printed, but the headers are missing because
+  they have lesser log level (or the reverse).
+o As the result in (2) plays with console_loglevel for kdb are removed.
+
+The least important for upstream, but maybe still worth to note that
+every company I've worked in so far had an off-list patch to print
+backtrace with the needed log level (but only for the architecture they
+cared about).
+If you have other ideas how you will benefit from show_stack() with
+a log level - please, reply to this cover letter.
+
+Ok, to the scary part: I've tested it on x86_64 and build tested on a
+couple of architectures. Though, I can't cover all platforms so
+I hope I'll have a couple of reports and than it'll soak in linux-next
+for some time. In my opinion the variety of architectures shouldn't
+stop general improvements.
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: Jiri Slaby <jslaby@suse.com>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+
+Thanks,
+Dmitry
+
+[1]: https://lore.kernel.org/lkml/20190528002412.1625-1-dima@arista.com/T/#u
+[2]: https://lkml.kernel.org/r/41fd7652-df1f-26f6-aba0-b87ebae07db6@i-love.sakura.ne.jp
+
+Dmitry Safonov (50):
+  kallsyms/printk: Add loglvl to print_ip_sym()
+  alpha: Add show_stack_loglvl()
+  arc: Add show_stack_loglvl()
+  arm/asm: Add loglvl to c_backtrace()
+  arm: Add loglvl to unwind_backtrace()
+  arm: Add loglvl to dump_backtrace()
+  arm: Wire up dump_backtrace_{entry,stm}
+  arm: Add show_stack_loglvl()
+  arm64: Add loglvl to dump_backtrace()
+  arm64: Add show_stack_loglvl()
+  c6x: Add show_stack_loglvl()
+  csky: Add show_stack_loglvl()
+  h8300: Add show_stack_loglvl()
+  hexagon: Add show_stack_loglvl()
+  ia64: Pass log level as arg into ia64_do_show_stack()
+  ia64: Add show_stack_loglvl()
+  m68k: Add show_stack_loglvl()
+  microblaze: Add loglvl to microblaze_unwind_inner()
+  microblaze: Add loglvl to microblaze_unwind()
+  microblaze: Add show_stack_loglvl()
+  mips: Add show_stack_loglvl()
+  nds32: Add show_stack_loglvl()
+  nios2: Add show_stack_loglvl()
+  openrisc: Add show_stack_loglvl()
+  parisc: Add show_stack_loglvl()
+  powerpc: Add show_stack_loglvl()
+  riscv: Add show_stack_loglvl()
+  s390: Add show_stack_loglvl()
+  sh: Add loglvl to dump_mem()
+  sh: Remove needless printk()
+  sh: Add loglvl to printk_address()
+  sh: Add loglvl to show_trace()
+  sh: Add show_stack_loglvl()
+  sparc: Add show_stack_loglvl()
+  um/sysrq: Remove needless variable sp
+  um: Add show_stack_loglvl()
+  unicore32: Remove unused pmode argument in c_backtrace()
+  unicore32: Add loglvl to c_backtrace()
+  unicore32: Add show_stack_loglvl()
+  x86: Add missing const qualifiers for log_lvl
+  x86: Add show_stack_loglvl()
+  xtensa: Add loglvl to show_trace()
+  xtensa: Add show_stack_loglvl()
+  sysrq: Use show_stack_loglvl()
+  x86/amd_gart: Print stacktrace for a leak with KERN_ERR
+  power: Use show_stack_loglvl()
+  kdb: Don't play with console_loglevel
+  sched: Print stack trace with KERN_INFO
+  kernel: Use show_stack_loglvl()
+  kernel: Rename show_stack_loglvl() => show_stack()
+
+ arch/alpha/kernel/traps.c            | 22 +++++++--------
+ arch/arc/include/asm/bug.h           |  3 ++-
+ arch/arc/kernel/stacktrace.c         | 17 +++++++-----
+ arch/arc/kernel/troubleshoot.c       |  2 +-
+ arch/arm/include/asm/bug.h           |  3 ++-
+ arch/arm/include/asm/traps.h         |  3 ++-
+ arch/arm/include/asm/unwind.h        |  3 ++-
+ arch/arm/kernel/traps.c              | 40 ++++++++++++++++------------
+ arch/arm/kernel/unwind.c             |  7 ++---
+ arch/arm/lib/backtrace-clang.S       |  9 +++++--
+ arch/arm/lib/backtrace.S             | 14 +++++++---
+ arch/arm64/include/asm/stacktrace.h  |  3 ++-
+ arch/arm64/kernel/process.c          |  2 +-
+ arch/arm64/kernel/traps.c            | 19 ++++++-------
+ arch/c6x/kernel/traps.c              | 18 +++++++------
+ arch/csky/kernel/dumpstack.c         |  9 ++++---
+ arch/csky/kernel/ptrace.c            |  4 +--
+ arch/h8300/kernel/traps.c            | 12 ++++-----
+ arch/hexagon/kernel/traps.c          | 25 ++++++++---------
+ arch/ia64/include/asm/ptrace.h       |  1 -
+ arch/ia64/kernel/mca.c               |  2 +-
+ arch/ia64/kernel/process.c           | 17 ++++++------
+ arch/m68k/kernel/traps.c             | 13 ++++-----
+ arch/microblaze/include/asm/unwind.h |  3 ++-
+ arch/microblaze/kernel/stacktrace.c  |  4 +--
+ arch/microblaze/kernel/traps.c       | 12 ++++-----
+ arch/microblaze/kernel/unwind.c      | 37 ++++++++++++++-----------
+ arch/mips/kernel/traps.c             | 35 ++++++++++++------------
+ arch/nds32/kernel/traps.c            | 15 ++++++-----
+ arch/nios2/kernel/traps.c            | 17 ++++++------
+ arch/openrisc/kernel/traps.c         | 12 +++++----
+ arch/parisc/kernel/traps.c           | 24 ++++++++---------
+ arch/powerpc/kernel/process.c        | 15 ++++++-----
+ arch/powerpc/kernel/stacktrace.c     |  2 +-
+ arch/riscv/kernel/stacktrace.c       |  9 ++++---
+ arch/s390/kernel/dumpstack.c         | 11 ++++----
+ arch/sh/include/asm/kdebug.h         |  6 +++--
+ arch/sh/include/asm/processor_32.h   |  2 +-
+ arch/sh/kernel/dumpstack.c           | 36 ++++++++++++-------------
+ arch/sh/kernel/process_32.c          |  2 +-
+ arch/sh/kernel/process_64.c          |  3 +--
+ arch/sh/kernel/traps.c               |  4 +--
+ arch/sh/mm/fault.c                   |  2 +-
+ arch/sparc/kernel/process_32.c       | 10 +++----
+ arch/sparc/kernel/process_64.c       |  2 +-
+ arch/um/drivers/mconsole_kern.c      |  2 +-
+ arch/um/kernel/sysrq.c               | 23 ++++++++--------
+ arch/unicore32/kernel/setup.h        |  2 +-
+ arch/unicore32/kernel/traps.c        | 34 +++++++++++------------
+ arch/unicore32/lib/backtrace.S       | 24 +++++++++++------
+ arch/x86/include/asm/stacktrace.h    |  2 +-
+ arch/x86/kernel/amd_gart_64.c        |  2 +-
+ arch/x86/kernel/dumpstack.c          |  9 ++++---
+ arch/xtensa/kernel/traps.c           | 26 ++++++++++--------
+ drivers/base/power/main.c            |  2 +-
+ drivers/tty/sysrq.c                  |  2 +-
+ include/linux/kallsyms.h             |  4 +--
+ include/linux/sched/debug.h          |  3 ++-
+ kernel/debug/kdb/kdb_bt.c            | 11 +++-----
+ kernel/locking/lockdep.c             |  4 +--
+ kernel/locking/rtmutex-debug.c       |  2 +-
+ kernel/sched/core.c                  |  6 ++---
+ kernel/trace/ftrace.c                |  8 +++---
+ lib/dump_stack.c                     |  2 +-
+ 64 files changed, 368 insertions(+), 311 deletions(-)
+
+-- 
+2.23.0
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
