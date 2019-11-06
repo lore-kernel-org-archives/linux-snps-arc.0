@@ -2,22 +2,21 @@ Return-Path: <SRS0=N0Bh=Y6=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48FE0C5DF63
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 08:36:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0B5DC5DF63
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 09:21:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 16004217F5
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 08:36:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9A2532173E
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 09:21:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pIzmyfS+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 16004217F5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MeWTnE9v"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9A2532173E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -25,35 +24,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=jf9WXyWvxqj2qv54pPFksLHjqy6lozSMTXM6ACVY6Bk=; b=pIzmyfS+fic0yi
-	dam1Qz+4aPyo1u13U26o5zROnykDmprt7UtwVDyfEfR7IC9Aen4ma6He4sgCxJ2dJz6V6BrELmxhm
-	KjzXeBcvnbTinXRBX2nLEzqbCcStfi8ObJO4lZrADGHzALjh5XA+/Asav7KE7dNsjC+6nI3kx1Hkr
-	9Qp5tUUXcGPIEC2Lfqf2o7ioU1KdNGUAGBBlU9k1VuIlpOUhsZI+NgksOyU0KgOfZvMj1JtFs1ICS
-	Bqheac/g00CgwzhRLmt7408/sxOA7Er++o/BEer1jWwavXKaCPJRSGiTK4xEZ4Fnu+hfWfRMM3OI7
-	LdkDszgN/5gxARvQAAGg==;
+	List-Owner; bh=Ap/r6+6kAaAY81jscko4+Y+gYoUnkg9zkdF/e7kBq48=; b=MeWTnE9vGeDrO+
+	P9juAwRrcpjO/5QLo6EsbZBozVfkfcUAX4Lyq658phrw6DIKunFfTYBPTpGXfkMmOBtI2zlwW0/lx
+	NLMjREVwD9eo//Hr68NCr5M3dVrX1vaijhbUVeT1UOgmHBJniboKO42KnMmncRbAcnbJ2VfdRhdxy
+	jPwaFACm/BP9/0AKIvl7/DVVe2KSpx357DN1EW1SvOHbl6Mf5RGKIQqsEArlVT6KNimNL580+HYB6
+	qPf3I+k1w03DaeuzHSprcS9ihlaQ8yk9BnyZxYc5QnXcq+nLlCjENdMr70Kp8dYvU+vEHrgA3g0RJ
+	txpqKvlBEGifCi6QzYNQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iSGnr-0000eE-Vg; Wed, 06 Nov 2019 08:36:35 +0000
-Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iSGnn-0000a6-VT; Wed, 06 Nov 2019 08:36:33 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 19FADAE65;
- Wed,  6 Nov 2019 08:35:47 +0000 (UTC)
-Date: Wed, 6 Nov 2019 09:35:38 +0100
-From: Petr Mladek <pmladek@suse.com>
+	id 1iSHUq-0005BF-D5; Wed, 06 Nov 2019 09:21:00 +0000
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iSHUe-00058d-4m; Wed, 06 Nov 2019 09:20:48 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A681A301A79;
+ Wed,  6 Nov 2019 10:19:35 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 9F3F529A4C2C6; Wed,  6 Nov 2019 10:20:39 +0100 (CET)
+Date: Wed, 6 Nov 2019 10:20:39 +0100
+From: Peter Zijlstra <peterz@infradead.org>
 To: Dmitry Safonov <dima@arista.com>
 Subject: Re: [PATCH 00/50] Add log level to show_stack()
-Message-ID: <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
+Message-ID: <20191106092039.GT4131@hirez.programming.kicks-ass.net>
 References: <20191106030542.868541-1-dima@arista.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20191106030542.868541-1-dima@arista.com>
-User-Agent: NeoMutt/20170912 (1.9.0)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191106_003632_305360_BE6D2475 
-X-CRM114-Status: GOOD (  17.63  )
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,7 +106,7 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
  Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
  linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
  "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
- Peter Zijlstra <peterz@infradead.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Petr Mladek <pmladek@suse.com>, "H. Peter Anvin" <hpa@zytor.com>,
  sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
  Anton Ivanov <anton.ivanov@cambridgegreys.com>,
  Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
@@ -123,7 +124,7 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed 2019-11-06 03:04:51, Dmitry Safonov wrote:
+On Wed, Nov 06, 2019 at 03:04:51AM +0000, Dmitry Safonov wrote:
 > Add log level argument to show_stack().
 > Done in three stages:
 > 1. Introducing show_stack_loglvl() for every architecture
@@ -135,16 +136,6 @@ On Wed 2019-11-06 03:04:51, Dmitry Safonov wrote:
 >   into platform realization detail.
 > o I have currently two patches sets that would benefit from this work:
 >   Removing console_loglevel jumps in sysrq driver [1]
-
-Just to clarify. The problem in sysrq driver is a bit different.
-It modifies console_loglevel to show even less important message
-on the console.
-
-IMHO, it should be solved by printing the header line with pr_error().
-It is not ideal. A cleaner solution might be to introduce another
-loglevel that will always get pushed to the console. But I am
-not sure if it is worth this single line.
-
 >   Hung task warning before panic [2] - suggested by Tetsuo (but he
 >   probably didn't realise what it would involve).
 > o While doing (1), (2) the backtraces were adjusted to headers
@@ -153,24 +144,7 @@ not sure if it is worth this single line.
 >   they have lesser log level (or the reverse).
 > o As the result in (2) plays with console_loglevel for kdb are removed.
 
-> The least important for upstream, but maybe still worth to note that
-> every company I've worked in so far had an off-list patch to print
-> backtrace with the needed log level (but only for the architecture they
-> cared about).
-> If you have other ideas how you will benefit from show_stack() with
-> a log level - please, reply to this cover letter.
-
-I agree with all the other justification.
-
-I would add. The backtrace is really useful for debugging. It should
-be possible to print it even in less critical situations.
-
-I am afraid that many people use WARN() for this purpose. But WARN()
-is not always appropriate. WARN() misuse huts when panic_on_warn
-option is used.
-
-Best Regards,
-Petr
+I really don't understand that word salad. Why are you doing this?
 
 _______________________________________________
 linux-snps-arc mailing list
