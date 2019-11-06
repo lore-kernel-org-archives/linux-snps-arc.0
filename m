@@ -2,59 +2,71 @@ Return-Path: <SRS0=N0Bh=Y6=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0B5DC5DF63
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 09:21:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F6D9C5DF62
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 10:38:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9A2532173E
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 09:21:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 45A5B20869
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 10:38:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MeWTnE9v"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9A2532173E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Iv9HHrOB";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Jj7qlQV5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45A5B20869
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Ap/r6+6kAaAY81jscko4+Y+gYoUnkg9zkdF/e7kBq48=; b=MeWTnE9vGeDrO+
-	P9juAwRrcpjO/5QLo6EsbZBozVfkfcUAX4Lyq658phrw6DIKunFfTYBPTpGXfkMmOBtI2zlwW0/lx
-	NLMjREVwD9eo//Hr68NCr5M3dVrX1vaijhbUVeT1UOgmHBJniboKO42KnMmncRbAcnbJ2VfdRhdxy
-	jPwaFACm/BP9/0AKIvl7/DVVe2KSpx357DN1EW1SvOHbl6Mf5RGKIQqsEArlVT6KNimNL580+HYB6
-	qPf3I+k1w03DaeuzHSprcS9ihlaQ8yk9BnyZxYc5QnXcq+nLlCjENdMr70Kp8dYvU+vEHrgA3g0RJ
-	txpqKvlBEGifCi6QzYNQ==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=16sxNxOSEmq06x6ypnTgplR4TFopJykckNLSLnM3IGo=; b=Iv9
+	HHrOBYRs0VAbuac/gwkyb5uaZWnU/In7cL82IekGlhwkxyPQSRelEjgfLbNjfENX338BMtF1mWBPK
+	anuZGoCtJRMBKQALRUlFbhGQneGSQIvUiIt5DwPpfXBNowAWsk5kwmH0Fyi3DNotqXaIJChA9wiFp
+	yYo2k1LEMTIY1m82K++G6nXCpG4IJM/SdWkewkaRAax6xUvzVAl6yijVrxZ3PFUii/vjXEk0BJc0P
+	Q3rppbMuzFluC01MCKhIK8foV8Z9wqzwpxFTmQ6agpYlY7kdVtC1IsHqgB1D76IAfnpyimwgunOAu
+	unZx7ML4AAjuk96Hgl/U4cfBX1qfs4g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iSHUq-0005BF-D5; Wed, 06 Nov 2019 09:21:00 +0000
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iSHUe-00058d-4m; Wed, 06 Nov 2019 09:20:48 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A681A301A79;
- Wed,  6 Nov 2019 10:19:35 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 9F3F529A4C2C6; Wed,  6 Nov 2019 10:20:39 +0100 (CET)
-Date: Wed, 6 Nov 2019 10:20:39 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Dmitry Safonov <dima@arista.com>
-Subject: Re: [PATCH 00/50] Add log level to show_stack()
-Message-ID: <20191106092039.GT4131@hirez.programming.kicks-ass.net>
-References: <20191106030542.868541-1-dima@arista.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191106030542.868541-1-dima@arista.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+	id 1iSIhn-0007pt-3M; Wed, 06 Nov 2019 10:38:27 +0000
+Received: from smtprelay-out1.synopsys.com ([198.182.47.102])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iSIhk-0007fn-1k
+ for linux-snps-arc@lists.infradead.org; Wed, 06 Nov 2019 10:38:25 +0000
+Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com
+ [10.225.0.209])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 43AEEC0F34;
+ Wed,  6 Nov 2019 10:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1573036701; bh=dr9R5HUDFEcK0T0CTPq86iG4DKgDDwdb9YPkFD1McnY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Jj7qlQV59SxIx1Mw6wUOiOMjQOs+nlGCk78Nl+nb7kMYrpdXqXuDAcYbhpwFG3KnK
+ kCQ8B9lGUzFLI5dqiiitwefAxTkzxLoMkuyM9QzYpGputB22aoMs+ozqrx/Lsu/imv
+ SB+ZhRIDzVBz1InkC2joMiCkRHeSWxBTJpcektfo9xJDcJZIBEUF7PemZXlh1JXGk/
+ xOQudpppQsk26J3JZaf94qyl94cDs2tvAc1X2XEu/BJ3lpS8nL44P3/s1bZQDF4exc
+ hvB+hwOBFuQJTDyMowmCeQZgzRYXNN2q6OvEk7wPZ0NaRTSFD7OZ4J9N0ifmIxg6G4
+ OW56acWcn54ug==
+Received: from didin-7490l.internal.synopsys.com
+ (didin-7490l.internal.synopsys.com [10.121.3.58])
+ by mailhost.synopsys.com (Postfix) with ESMTP id 38049A0071;
+ Wed,  6 Nov 2019 10:38:09 +0000 (UTC)
+From: Evgeniy Didin <Evgeniy.Didin@synopsys.com>
+To: gdb-patches@sourceware.org
+Subject: [PATCH] gdb/remote: Remove negative tid/pid handling in wite_ptid
+Date: Wed,  6 Nov 2019 13:37:56 +0300
+Message-Id: <20191106103756.1066-1-didin@synopsys.com>
+X-Mailer: git-send-email 2.17.2
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20191106_023824_106883_EE6FF782 
+X-CRM114-Status: GOOD (  14.25  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,85 +78,109 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
- Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
- Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Paul Burton <paulburton@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
- Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
- uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
- linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
- linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Richard Henderson <rth@twiddle.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
- Ralf Baechle <ralf@linux-mips.org>, Paul Mackerras <paulus@samba.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-ia64@vger.kernel.org,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- James Hogan <jhogan@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
- Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
- linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
- Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
- linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Brian Cain <bcain@codeaurora.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
- Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
- Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
- Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
- linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
- "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
- Petr Mladek <pmladek@suse.com>, "H. Peter Anvin" <hpa@zytor.com>,
- sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
- x86@kernel.org, Russell King <linux@armlinux.org.uk>,
- clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
- Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
- openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
- Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
- linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
- nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
+Cc: Cupertino Miranda <Cupertino.Miranda@synopsys.com>,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
+ Evgeniy Didin <Evgeniy.Didin@synopsys.com>, linux-snps-arc@lists.infradead.org,
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 06, 2019 at 03:04:51AM +0000, Dmitry Safonov wrote:
-> Add log level argument to show_stack().
-> Done in three stages:
-> 1. Introducing show_stack_loglvl() for every architecture
-> 2. Migrating old users with an explicit log level
-> 3. Renaming show_stack_loglvl() into show_stack()
-> 
-> Justification:
-> o It's a design mistake to move a business-logic decision
->   into platform realization detail.
-> o I have currently two patches sets that would benefit from this work:
->   Removing console_loglevel jumps in sysrq driver [1]
->   Hung task warning before panic [2] - suggested by Tetsuo (but he
->   probably didn't realise what it would involve).
-> o While doing (1), (2) the backtraces were adjusted to headers
->   and other messages for each situation - so there won't be a situation
->   when the backtrace is printed, but the headers are missing because
->   they have lesser log level (or the reverse).
-> o As the result in (2) plays with console_loglevel for kdb are removed.
+Actually thread and process ID's are positive values. Accorting to
+http://man7.org/linux/man-pages/man7/pthreads.7.html
+threads are creating using "clone" syscall, so the ID generation mechanism
+is similar for threads and processes. According to Linux source code
+there is a function call tree, which allocates  PID[TID]:
+clone
+ |->_do_fork
+    |->copy_process
+      |->alloc_pid
+        |->idr_alloc_cyclic
+          |->idr_alloc_u32(idr, ptr, &id, max, gfp);
+And in idr_alloc_u32() "id" is u32 value, which means positiveness.
+Also according to:
+https://elixir.bootlin.com/linux/latest/source/kernel/pid.c#L177
+PID cannot be less than 1.
 
-I really don't understand that word salad. Why are you doing this?
+In Zephyr RTOS the k_thread_create function returns
+thread ID which is actually pointer to k_thread structure.
+If the memory addressing starts from 0x80000000, passing such
+big values to write_ptid() leads to overflow of "int tid" variable
+and thread ID becomes negative.
+So lets remove the code, which handles negative tid/pid values.
+
+gdb/ChangeLog:
+
+2019-11-06  Evgeniy Didin <didin@synopsys.com>
+
+        * remote.c (remote_target::write_ptid):  Remove handling
+         negative tid,pid. Change "int" to uint32_t for pid/tid.
+
+Signed-off-by: Evgeniy Didin <didin@synopsys.com>
+Cc: Alexey Brodkin <abrodkin@synopsys.com>
+Cc: Claudiu Zissulescu <claziss@synopsys.com>
+Cc: Cupertino Miranda <cmiranda@synopsys.com>
+Cc: Vineet Gupta <vgupta@synopsys.com>
+Cc: Shahab Vahedi <shahab@synopsys.com>
+Cc: linux-snps-arc@lists.infradead.org
+
+Signed-off-by: Evgeniy Didin <didin@synopsys.com>
+---
+ gdb/ChangeLog |  6 ++++++
+ gdb/remote.c  | 12 +++---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/gdb/ChangeLog b/gdb/ChangeLog
+index e886480d62..0011d064e9 100644
+--- a/gdb/ChangeLog
++++ b/gdb/ChangeLog
+@@ -1,3 +1,9 @@
++2019-11-06  Evgeniy Didin <didin@synopsys.com>
++
++	* remote.c (remote_target::write_ptid):  Remove handling
++	negative tid,pid. Change "int" to uint32_t for pid/tid.
++
++
+ 2019-11-05  Tom Tromey  <tom@tromey.com>
+ 
+ 	* tui/tui-disasm.c (struct tui_asm_line) <addr_size>: New member.
+diff --git a/gdb/remote.c b/gdb/remote.c
+index 8ea52d355a..2c119fad1a 100644
+--- a/gdb/remote.c
++++ b/gdb/remote.c
+@@ -2909,22 +2909,16 @@ static int remote_newthread_step (threadref *ref, void *context);
+ char *
+ remote_target::write_ptid (char *buf, const char *endbuf, ptid_t ptid)
+ {
+-  int pid, tid;
++  uint32_t pid, tid;
+   struct remote_state *rs = get_remote_state ();
+ 
+   if (remote_multi_process_p (rs))
+     {
+       pid = ptid.pid ();
+-      if (pid < 0)
+-	buf += xsnprintf (buf, endbuf - buf, "p-%x.", -pid);
+-      else
+-	buf += xsnprintf (buf, endbuf - buf, "p%x.", pid);
++      buf += xsnprintf (buf, endbuf - buf, "p%x.", pid);
+     }
+   tid = ptid.lwp ();
+-  if (tid < 0)
+-    buf += xsnprintf (buf, endbuf - buf, "-%x", -tid);
+-  else
+-    buf += xsnprintf (buf, endbuf - buf, "%x", tid);
++  buf += xsnprintf (buf, endbuf - buf, "%x", tid);
+ 
+   return buf;
+ }
+-- 
+2.17.2
+
 
 _______________________________________________
 linux-snps-arc mailing list
