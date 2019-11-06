@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E9C3C5DF63
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 14:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82B41C5DF63
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 16:12:24 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3E8012178F
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 14:27:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 53D902075C
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Nov 2019 16:12:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ESXO6HxL";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E3q6tH1p"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E8012178F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="u2wtV53P";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=arista.com header.i=@arista.com header.b="MpZHturj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 53D902075C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=arista.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -26,78 +26,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
 	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=QOP6c/iQBe12TDCHtuP4GgnfNqBU9D6Vm/PirJDZ4pw=; b=ESXO6HxLshWSVl
-	WwlzGsBZQIYzQeWsWMQFuWLgS/rnaMzmi0XblwGFeEInS0hKQgMwRPXlmdtWJo/xheseiLiagWflP
-	Ztn0Pnl2BkLpNKZLyEDOo/oq1KZeyP6n8iSLZFaFZBgUGOTkI66v/umQFOfnXH+RtI9lbX/pooLud
-	fMfvOrmLXzDesHbUFDMSczsDEXCogTYvUZlFbj6epU28gpHPzprV7k63BDHkUeVWtugzUZo1ak/tp
-	TG6eItKaMHHxKVfXZ+N7uqdXGDbrIZLvJ+I/ExGIw8pmOR7LR89Le87fdV+prF2ZVP4Za3lq1zXzf
-	L82GSXr57cdQsrpGQL4w==;
+	List-Owner; bh=3umfyvnnGpWUdKvZTOJrUwav+2FQBwECDiB7LJ58BsQ=; b=u2wtV53P2xPjvn
+	LldKHUzBxD2ZTDXT/3NfjSeQCpjH43dZE7LIzXPItnl9zUAVEBJKPypqLKzMXPYUdq3LWbCIMarXF
+	Sfz94nnkHl4/VKjce29+t/xP6OqIYJIcaEeHfXVYvLh0zU3OlHZ72/F8qGgKHxgPahfHazAqahMX/
+	JCn4F0FrJFhT45VHohj9sGCtuGhMGlKw5mLgiLcfF51SsE9UTrgx/4NPxZD8DWiS8yM/7f+1MlWBo
+	+UIf3V9GH3rpNCwy1lnvSu8BDMARstvAG6dlXQLlnMrj8HJvPGnHHHRPDfwsD6qlhovP0c323vUin
+	PTn4WlFyvHupEB0kxZjQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iSMHW-0001Db-8M; Wed, 06 Nov 2019 14:27:34 +0000
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1iSNux-0005qc-77; Wed, 06 Nov 2019 16:12:23 +0000
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iSMHS-0001Cm-I4
- for linux-snps-arc@lists.infradead.org; Wed, 06 Nov 2019 14:27:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573050448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dNBwUDF4NkGdvYVjZyaMCF/Nctv75h+Ajg0ZGp8BlJo=;
- b=E3q6tH1p65jH4ZtOCvkmHOTu5GpAwH8wU/qHI8tuVvEmD3kpIylL5PjDHj42s6Cbnty5vD
- OK/aEf/JvudxNrPAVUGEw7HCVIbt04WgVxgxOSbKFXN2t3/nowJoiNRDN0G4H8ot3fe8kd
- 4gMJns/Onb0fUC4muJdrOsDkqjrOheg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-4NTH1_IoN9uL7obrLYn25A-1; Wed, 06 Nov 2019 09:27:26 -0500
-Received: by mail-ed1-f72.google.com with SMTP id l6so9974133edc.18
- for <linux-snps-arc@lists.infradead.org>; Wed, 06 Nov 2019 06:27:26 -0800 (PST)
+ id 1iSNut-0005ot-Gl
+ for linux-snps-arc@lists.infradead.org; Wed, 06 Nov 2019 16:12:21 +0000
+Received: by mail-pg1-x541.google.com with SMTP id 15so4268157pgh.5
+ for <linux-snps-arc@lists.infradead.org>; Wed, 06 Nov 2019 08:12:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=arista.com; s=googlenew;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6YKC1kJOcWpyD+8pjGdr6zJNIwDWfqyBu/N6KBSP97U=;
+ b=MpZHturjPCBg33iU1ozhAjvA8LCtPPFI3DR58OYlFEaUZGZqfEzhUtttDDrlEOGegQ
+ 4vDex9qExlxkA9WH33d8HwoxTLWivc69W/6aer4DXfteqgbtXwv3cNxCcRds4ZAMweGX
+ 5ZXj+X+FYkL8t+hZqh4LwhZRZNRrqod+Up3sqXtFrQSRV7C3Y69W33Z8X4jj1Fl7gbuY
+ R6u824u7CLy//WZ/duinZirY1ifbAiK575WJqRiWdVx2qkiQPu6t7SWS7JDhyX5hOHLe
+ oe8RLdwEfd46kke7TKQhcEtTSIZl2oUQhbinVc7bj3yYIQzIfU4ltgAEvZlXwG6aLosM
+ UhRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Kwyw7pGCinUEhtQH1XUqWlLc7j1wZmWOVLRW93CpaGM=;
- b=AEfWE1eZ5WySOdWFS4XbScLZV/YRlu2omDdtNG2Jb6+DPKlSrh0lPsKeEI7CYbcOwL
- diPaVrk/kMIMIl4IfxkprdgPVlXmCU7SX5TV1viYX31Y7kcLQmLGPyeHcZYAtuB0BR4F
- csrV3K1KHSx+B7z7KByp4EgEv5Izstu6bhftpCAECN4SDmtTaX/sk27mcycugtfRts9i
- Ly3lHi71c6FMXQjork5Wp2dYFukqYJW90oS1bQgPeiOkdULpoJIJRUwqerKLb1PmYdwI
- XyGokFfJeAosJV6iLN9Ku2vNC7Jz293OktmpedWC3MeuQfdk/Qnu1NYBX8qRYoP1gI86
- 38xA==
-X-Gm-Message-State: APjAAAXeAaYOnp5Z0MyeV1N3J0S9wiyg9uc3EKE4ldX5RZh9TJCvf8m1
- a6fCX+0PRthIs3KuvFX6RaygpYWdybf+LFCV1fo5ylWKYDM2ZdMkxYMsfrMoqYiUXio0nx/exjn
- 22YKTZumD4cXku85LICzvmbUV4s70SPu6
-X-Received: by 2002:a50:97af:: with SMTP id e44mr2947304edb.3.1573050445024;
- Wed, 06 Nov 2019 06:27:25 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxCUNjHBpCvVFUVeb4ZHPMfJ0n0jrq329SGAh0L3x6LDV0w3c51oRSYKBFSIZ85U8GwomEIFQ==
-X-Received: by 2002:adf:f547:: with SMTP id j7mr3036179wrp.69.1573050443842;
- Wed, 06 Nov 2019 06:27:23 -0800 (PST)
-Received: from ?IPv6:2001:8a0:f913:f700:56ee:75ff:fe8d:232b?
- ([2001:8a0:f913:f700:56ee:75ff:fe8d:232b])
- by smtp.gmail.com with ESMTPSA id f143sm3516228wme.40.2019.11.06.06.27.22
+ bh=6YKC1kJOcWpyD+8pjGdr6zJNIwDWfqyBu/N6KBSP97U=;
+ b=Uf1FUjMgGRCJzPyqDVhtl/9Hl+XEl7fkNI8Fu0i72Ce5wwIE/PfCtKqleHYJGPlznh
+ rufc3CHfgu23NuKHESeAg/MEi1zeTNBJPNUn3Nw8PFEVpRQPB98tGiJFfULI/WEChapo
+ c6FKwmF78cgcBsdjyWJSc692fS7ePIDycI/9aZ96TigdtV9CMTDfoFfmeF5BiAPrtrT5
+ nHKARverx6VjytBxTGPTc1pIBApK+b0uf/kI4l4V8xQIS7SIoTVQl8hIulWRu42vmcbg
+ 0IYWetHA02AfDWiwu8X1cPUjL2tlcIiDnGkVnAwTZp062PG4tduK7MaJW9z2DqHmM/Ff
+ HhFA==
+X-Gm-Message-State: APjAAAXONI66th02AfYI9LP2jedaxxa5b0nKft/rR/9cD1fUOwSm9jZ5
+ 0bOrHHsbfVdG+n7I8tfMwOaMyQ==
+X-Google-Smtp-Source: APXvYqwR0pSNn59pPusYKfkpnLRmR/vqqpv4L3qv+M0Onv9D6hRgWRQkxTVXtCrUTdykmM2sB1/Rnw==
+X-Received: by 2002:aa7:908b:: with SMTP id i11mr4396653pfa.140.1573056738752; 
+ Wed, 06 Nov 2019 08:12:18 -0800 (PST)
+Received: from [10.83.36.153] ([217.173.96.166])
+ by smtp.gmail.com with ESMTPSA id j4sm5535967pjf.25.2019.11.06.08.12.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Nov 2019 06:27:23 -0800 (PST)
-Subject: Re: [PATCH v2] gdb/remote: Remove negative tid/pid handling in
- wite_ptid
-To: Evgeniy Didin <Evgeniy.Didin@synopsys.com>, gdb-patches@sourceware.org
-References: <20191106132732.11034-1-didin@synopsys.com>
-From: Pedro Alves <palves@redhat.com>
-Message-ID: <73f36a2f-444c-3057-f642-f9f7279574b5@redhat.com>
-Date: Wed, 6 Nov 2019 14:27:21 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+ Wed, 06 Nov 2019 08:12:17 -0800 (PST)
+Subject: Re: [PATCH 00/50] Add log level to show_stack()
+To: Petr Mladek <pmladek@suse.com>
+References: <20191106030542.868541-1-dima@arista.com>
+ <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
+From: Dmitry Safonov <dima@arista.com>
+Message-ID: <de8a397d-8660-4ace-9626-127debcf43a7@arista.com>
+Date: Wed, 6 Nov 2019 16:12:01 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191106132732.11034-1-didin@synopsys.com>
+In-Reply-To: <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
 Content-Language: en-US
-X-MC-Unique: 4NTH1_IoN9uL7obrLYn25A-1
-X-Mimecast-Spam-Score: 0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191106_062732_182158_8A5C8AD5 
-X-CRM114-Status: UNSURE (   8.70  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191106_081219_562360_BB02FCD5 
+X-CRM114-Status: GOOD (  23.53  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,40 +99,125 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Cupertino Miranda <Cupertino.Miranda@synopsys.com>,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- Shahab Vahedi <Shahab.Vahedi@synopsys.com>, linux-snps-arc@lists.infradead.org,
- Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
+ Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
+ Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
+ uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
+ linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-ia64@vger.kernel.org,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ James Hogan <jhogan@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
+ linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Brian Cain <bcain@codeaurora.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
+ Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
+ Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
+ "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
+ Peter Zijlstra <peterz@infradead.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
+ Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
+ nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 11/6/19 1:27 PM, Evgeniy Didin wrote:
-> Actually thread and process ID's are positive values. Accorting to
-> http://man7.org/linux/man-pages/man7/pthreads.7.html
-> threads are creating using "clone" syscall, so the ID generation mechanism
-> is similar for threads and processes. According to Linux source code
-> there is a function call tree, which allocates  PID[TID]:
-> clone
->  |->_do_fork
->     |->copy_process
->       |->alloc_pid
->         |->idr_alloc_cyclic
->           |->idr_alloc_u32(idr, ptr, &id, max, gfp);
-> And in idr_alloc_u32() "id" is u32 value, which means positiveness.
-> Also according to:
-> https://elixir.bootlin.com/linux/latest/source/kernel/pid.c#L177
-> PID cannot be less than 1.
+On 11/6/19 8:35 AM, Petr Mladek wrote:
+> On Wed 2019-11-06 03:04:51, Dmitry Safonov wrote:
+>> Add log level argument to show_stack().
+>> Done in three stages:
+>> 1. Introducing show_stack_loglvl() for every architecture
+>> 2. Migrating old users with an explicit log level
+>> 3. Renaming show_stack_loglvl() into show_stack()
+>>
+>> Justification:
+>> o It's a design mistake to move a business-logic decision
+>>   into platform realization detail.
+>> o I have currently two patches sets that would benefit from this work:
+>>   Removing console_loglevel jumps in sysrq driver [1]
+> 
+> Just to clarify. The problem in sysrq driver is a bit different.
+> It modifies console_loglevel to show even less important message
+> on the console.
+> 
+> IMHO, it should be solved by printing the header line with pr_error().
+> It is not ideal. A cleaner solution might be to introduce another
+> loglevel that will always get pushed to the console. But I am
+> not sure if it is worth this single line.
 
-Sure for Linux.  But negative numbers have meaning in the remote protocol:
+I believe why it's not done - there is a comment in sysrq code that said
+the userspace relies on the loglevel of sysrq messages (and may trigger
+alerts from emerg/err log level):
+  * Raise the apparent loglevel to maximum so that the sysrq header
+  * is shown to provide the user with positive feedback.  We do not
+  * simply emit this at KERN_EMERG as that would change message
+  * routing in the consumers of /proc/kmsg.
 
- https://sourceware.org/gdb/current/onlinedocs/gdb/Packets.html#thread_002did-syntax
+But I don't mind any solution.
 
-Thanks,
-Pedro Alves
+>>   Hung task warning before panic [2] - suggested by Tetsuo (but he
+>>   probably didn't realise what it would involve).
+>> o While doing (1), (2) the backtraces were adjusted to headers
+>>   and other messages for each situation - so there won't be a situation
+>>   when the backtrace is printed, but the headers are missing because
+>>   they have lesser log level (or the reverse).
+>> o As the result in (2) plays with console_loglevel for kdb are removed.
+> 
+>> The least important for upstream, but maybe still worth to note that
+>> every company I've worked in so far had an off-list patch to print
+>> backtrace with the needed log level (but only for the architecture they
+>> cared about).
+>> If you have other ideas how you will benefit from show_stack() with
+>> a log level - please, reply to this cover letter.
+> 
+> I agree with all the other justification.
+> 
+> I would add. The backtrace is really useful for debugging. It should
+> be possible to print it even in less critical situations.
+> 
+> I am afraid that many people use WARN() for this purpose. But WARN()
+> is not always appropriate. WARN() misuse huts when panic_on_warn
+> option is used.
 
+Thanks, Petr.
+
+-- 
+          Dmitry
 
 _______________________________________________
 linux-snps-arc mailing list
