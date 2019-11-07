@@ -2,67 +2,88 @@ Return-Path: <SRS0=Bmjj=Y7=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C51F3C5DF60
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Nov 2019 13:22:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E07AC5DF60
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Nov 2019 15:29:16 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 96963218AE
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Nov 2019 13:22:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DFEF3218AE
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Nov 2019 15:29:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Tl+Pu2+8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96963218AE
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="E6t8Wn5r";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=dabbelt-com.20150623.gappssmtp.com header.i=@dabbelt-com.20150623.gappssmtp.com header.b="SSYfx+6G"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DFEF3218AE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=U3HEkJqm57N+Qo8oQbjHi+R8bSotbi4cUYBrwJ9sOaM=; b=Tl+Pu2+8PZtvoF
-	WZfLBv4gxY7jKEDr/24Gszvy7GkoKRUXuj+6QgaSan5KuW15c9g7iQrDp5zG6wU1HNsXYCDs1ODVa
-	G1STORSfq1OIW1BlLBtowh/YVe36aVHIt0E0PgODNV08BJe036VlQSgMXyEyDG9/pCzeK21F0Ugl2
-	QOgqv9GugEquC4uU7hh2qBHgJd2YrFZMA/NcVCmvi59d1yah28P63Un9PPSBlJpI+UHVElRn1dTeW
-	va38ZIlNZzGJUO4VDxphGeHXeKiqeRVphyPx3AHI6vpljZqpyekXNQIf8OtxJynZC59MAg+ezY40G
-	Cl1yDNz4p86JpMq8okhg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Mime-Version:Message-ID:To:From:In-Reply-To:Subject:
+	Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	 bh=IViKRgBOf0gfXUpbus1ayzBFhhGTKgF14Wl8ccNriI8=; b=E6t8Wn5rykE0Tjca6+cY+xqVR
+	FZPzym/fxIjcyGpPS5JwU8wwG50KlhVHFRv0PPhTHHap2bMYQYHROaATc4wv0W7+5o2gjIOqIxDa1
+	Su5YI3U/kQ/yCgO+3dBOAcGoIPY1WPW9cqtOQ5S5bOywuDeML3Q/DJbtIrd+QmXxp7MeuxzutY3xb
+	vX8SG+xwpvMtUfUiEaIK4LPhN5V9Kk311SrqbwOaDeKp6xz83Qxopov+khcIMsdZw7opccGmMie6Q
+	1SeUxEgZmsi9MHltZS4IdvUkSqpIuR8sNy49Afh0rCe4dJAnVCR96UIgzyGwBWUE/EbDm7IAPz0ic
+	9wftFa0LQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iShk6-0001wu-5R; Thu, 07 Nov 2019 13:22:30 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iShjv-0001nu-BQ; Thu, 07 Nov 2019 13:22:21 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3172D31B;
- Thu,  7 Nov 2019 05:22:18 -0800 (PST)
-Received: from [10.163.1.22] (unknown [10.163.1.22])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7406D3F6C4;
- Thu,  7 Nov 2019 05:21:59 -0800 (PST)
-Subject: Re: [PATCH V8] mm/debug: Add tests validating architecture page table
- helpers
-To: Michael Ellerman <mpe@ellerman.id.au>,
- Christophe Leroy <christophe.leroy@c-s.fr>, linux-mm@kvack.org
-References: <1572240562-23630-1-git-send-email-anshuman.khandual@arm.com>
- <3229d68d-0b9d-0719-3370-c6e1df0ea032@arm.com>
- <42160baa-0e9d-73d0-bf72-58bdbacf10ff@c-s.fr>
- <0e0c2ce9-636d-1153-2451-baf7317ed45f@arm.com>
- <87tv7f4zkf.fsf@mpe.ellerman.id.au>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <83f14c65-035c-8387-3216-5dee8a287cfb@arm.com>
-Date: Thu, 7 Nov 2019 18:52:34 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <87tv7f4zkf.fsf@mpe.ellerman.id.au>
-Content-Language: en-US
+	id 1iSjij-0006XU-Sr; Thu, 07 Nov 2019 15:29:13 +0000
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iSjig-0006VJ-P1
+ for linux-snps-arc@lists.infradead.org; Thu, 07 Nov 2019 15:29:13 +0000
+Received: by mail-pg1-x541.google.com with SMTP id z24so2340577pgu.4
+ for <linux-snps-arc@lists.infradead.org>; Thu, 07 Nov 2019 07:29:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GbyQkvm+sFQYWlS225S4dt9u2BPPAVTJsInNrOBU2Cw=;
+ b=SSYfx+6GZDmDgcSY10ocXoeqy0hvmi6reeDxEoQaAK6GCZCK9w+PzQYApeYqiY++fk
+ M+tQGD6vS51dQQe5tSz4jCiUaKguLT3oFupheS96jDMwxARnNuu5nNZUNPYkSKlItpwK
+ n4+KCfywaoq2TS79EdF/7PydD1molSI6AAqvO/ZGgE+4pWfhiWmrteTgHV+/1VZacN6J
+ zh92pqeL/VUD/D36NRtWMaA8VYTT6RbLnYEFFgWWP9sKvvMOqYEQ/LHSUZ0Ljg+bM2jc
+ Hn0SXz5up/lwM0AnUXb3mkKmK/jhJDw/2Q6Q9tWDOGqA0rMh1HezGItuGNAqqcrUeFp+
+ 45ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=GbyQkvm+sFQYWlS225S4dt9u2BPPAVTJsInNrOBU2Cw=;
+ b=lqinrLqvWqaqvUHF5gSl5ebBTpmXNsFIKIUEjvW69tyaBUhj8ojDcjk2/TQ76Iu/J8
+ OWq1O/DZ+ewS7yJJlvHmMufuP1Yh+oqrkIbudMhVq44rB/gdHBag9uor2B/qhJUR463a
+ cdPcP02HaSMXeIuOvrRZOXe9f0sHKN6QHRgtvTzzXhjLqkbEDDo1dKGagzU58u0QCVPA
+ cfpoFKWtB8gxOK1iMJvcMQ20I8W8Vz3rkI/2q08LC7Gej7HRC0faFIP4BrDLQYPq0+e7
+ 0mKEVI6Es4DwHYTkf//JQLhEaTRoPNMZsjiUWkt3I2XZxUmt9dllmhntbyn8IVYd5mhh
+ Qejw==
+X-Gm-Message-State: APjAAAV5cqgqUK4pfljF1OB1u/iqqe4UzwMSu/XLN89BsyGF+w7ZLhKI
+ uPCK+SfstZxddTUAIm4mZSoqZg==
+X-Google-Smtp-Source: APXvYqxZWuyJcE77KhdsPjm9nF9Fuj8aALe30eqgmntG5XGTW6TdluM2Ry7yVUPEvnD0qYzDHJsYjQ==
+X-Received: by 2002:a63:d504:: with SMTP id c4mr5032823pgg.75.1573140549240;
+ Thu, 07 Nov 2019 07:29:09 -0800 (PST)
+Received: from localhost ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id m15sm3002721pgv.58.2019.11.07.07.29.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Nov 2019 07:29:08 -0800 (PST)
+Date: Thu, 07 Nov 2019 07:29:08 -0800 (PST)
+X-Google-Original-Date: Wed, 06 Nov 2019 10:43:22 PST (-0800)
+Subject: Re: [PATCH 12/21] arch: rely on asm-generic/io.h for default
+ ioremap_* definitions
+In-Reply-To: <20191029064834.23438-13-hch@lst.de>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Christoph Hellwig <hch@lst.de>
+Message-ID: <mhng-fd2a8aae-e87e-44dd-9416-57bb380955d9@palmer-si-x1c4>
+Mime-Version: 1.0 (MHng)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191107_052219_484053_BEBB7DBF 
-X-CRM114-Status: GOOD (  17.64  )
+X-CRM114-CacheID: sfid-20191107_072910_849798_6A89F60B 
+X-CRM114-Status: GOOD (  19.33  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,135 +95,257 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- James Hogan <jhogan@kernel.org>, Heiko Carstens <heiko.carstens@de.ibm.com>,
- Michal Hocko <mhocko@kernel.org>, Dave Hansen <dave.hansen@intel.com>,
- Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, linux-s390@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, x86@kernel.org,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- linux-snps-arc@lists.infradead.org, Ingo Molnar <mingo@kernel.org>,
- Kees Cook <keescook@chromium.org>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Mark Brown <broonie@kernel.org>, "Kirill A . Shutemov" <kirill@shutemov.name>,
- Dan Williams <dan.j.williams@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
- linux-arm-kernel@lists.infradead.org,
- Sri Krishna chowdary <schowdary@nvidia.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org,
- Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
- Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
- Vineet Gupta <vgupta@synopsys.com>,
- Martin Schwidefsky <schwidefsky@de.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-kernel@vger.kernel.org, guoren@kernel.org, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, deanbo422@gmail.com,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, x86@kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-m68k@lists.linux-m68k.org,
+ openrisc@lists.librecores.org, green.hu@gmail.com,
+ linux-mtd@lists.infradead.org, gxt@pku.edu.cn,
+ linux-arm-kernel@lists.infradead.org, monstr@monstr.eu,
+ linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-alpha@vger.kernel.org, nios2-dev@lists.rocketboards.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAxMS8wNy8yMDE5IDA2OjI0IFBNLCBNaWNoYWVsIEVsbGVybWFuIHdyb3RlOgo+IEFuc2h1
-bWFuIEtoYW5kdWFsIDxhbnNodW1hbi5raGFuZHVhbEBhcm0uY29tPiB3cml0ZXM6Cj4+IE9uIDEx
-LzA2LzIwMTkgMTI6MTEgUE0sIENocmlzdG9waGUgTGVyb3kgd3JvdGU6Cj4+PiBMZSAwNi8xMS8y
-MDE5IMOgIDA0OjIyLCBBbnNodW1hbiBLaGFuZHVhbCBhIMOpY3JpdMKgOgo+Pj4+IE9uIDEwLzI4
-LzIwMTkgMTA6NTkgQU0sIEFuc2h1bWFuIEtoYW5kdWFsIHdyb3RlOgo+Pj4+PiArwqDCoMKgIC0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4+Pj4+ICvCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqAgYXJj
-aCB8c3RhdHVzfAo+Pj4+PiArwqDCoMKgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4+Pj4+ICvC
-oMKgwqAgfMKgwqDCoMKgwqDCoCBhbHBoYTogfCBUT0RPIHwKPj4+Pj4gK8KgwqDCoCB8wqDCoMKg
-wqDCoMKgwqDCoCBhcmM6IHwgVE9ETyB8Cj4+Pj4+ICvCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqAg
-YXJtOiB8IFRPRE8gfAo+Pj4+PiArwqDCoMKgIHzCoMKgwqDCoMKgwqAgYXJtNjQ6IHzCoCBva8Kg
-IHwKPj4+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoCBjNng6IHwgVE9ETyB8Cj4+Pj4+ICvC
-oMKgwqAgfMKgwqDCoMKgwqDCoMKgIGNza3k6IHwgVE9ETyB8Cj4+Pj4+ICvCoMKgwqAgfMKgwqDC
-oMKgwqDCoCBoODMwMDogfCBUT0RPIHwKPj4+Pj4gK8KgwqDCoCB8wqDCoMKgwqAgaGV4YWdvbjog
-fCBUT0RPIHwKPj4+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoMKgwqAgaWE2NDogfCBUT0RPIHwKPj4+
-Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoMKgwqAgbTY4azogfCBUT0RPIHwKPj4+Pj4gK8KgwqDCoCB8
-wqAgbWljcm9ibGF6ZTogfCBUT0RPIHwKPj4+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoMKgwqAgbWlw
-czogfCBUT0RPIHwKPj4+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoMKgIG5kczMyOiB8IFRPRE8gfAo+
-Pj4+PiArwqDCoMKgIHzCoMKgwqDCoMKgwqAgbmlvczI6IHwgVE9ETyB8Cj4+Pj4+ICvCoMKgwqAg
-fMKgwqDCoCBvcGVucmlzYzogfCBUT0RPIHwKPj4+Pj4gK8KgwqDCoCB8wqDCoMKgwqDCoCBwYXJp
-c2M6IHwgVE9ETyB8Cj4+Pj4+ICvCoMKgwqAgfMKgwqDCoMKgIHBvd2VycGM6IHwgVE9ETyB8Cj4+
-Pj4+ICvCoMKgwqAgfMKgwqDCoMKgwqDCoCBwcGMzMjogfMKgIG9rwqAgfAo+Pj4KPj4+IE5vdGUg
-dGhhdCBwcGMzMiBpcyBhIHBhcnQgb2YgcG93ZXJwYywgbm90IGEgc3RhbmRhbG9uZSBhcmNoLgo+
-Pgo+PiBSaWdodCwgSSB1bmRlcnN0YW5kLiBCdXQgd2UgYXJlIHlldCB0byBoZWFyIGFib3V0IGhv
-dyB0aGlzIHRlc3QKPj4gY2FtZSBhYm91dCBvbiBwb3dlcnBjIHNlcnZlciBwbGF0Zm9ybXMuIFdp
-bGwgdXBkYXRlICdwb3dlcnBjJwo+PiBhcmNoIGxpc3RpbmcgYWJvdmUgb25jZSB3ZSBnZXQgc29t
-ZSBjb25maXJtYXRpb24uIE1heSBiZSBvbmNlCj4+IHRoaXMgd29ya3Mgb24gYWxsIHJlbGV2YW50
-IHBvd2VycGMgcGxhdGZvcm1zLCB3ZSBjYW4ganVzdCBtZXJnZQo+PiAncG93ZXJwYycgYW5kICdw
-cGMzMicgZW50cmllcyBoZXJlIGFzIGp1c3QgJ3Bvd2VycGMnLgo+IAo+IE9uIHBzZXJpZXM6Cj4g
-Cj4gICB3YXRjaGRvZzogQlVHOiBzb2Z0IGxvY2t1cCAtIENQVSMwIHN0dWNrIGZvciAyM3MhIFtz
-d2FwcGVyLzA6MV0KPiAgIE1vZHVsZXMgbGlua2VkIGluOgo+ICAgQ1BVOiAwIFBJRDogMSBDb21t
-OiBzd2FwcGVyLzAgTm90IHRhaW50ZWQgNS40LjAtcmM2LWdjYy04LjIuMC1uZXh0LTIwMTkxMTA3
-LTAwMDAxLWcyNTAzMzlkNjc0N2ItZGlydHkgIzE1Mgo+ICAgTklQOiAgYzAwMDAwMDAwMTA0MzVh
-MCBMUjogYzAwMDAwMDAwMTA0MzRiNCBDVFI6IDAwMDAwMDAwMDAwMDAwMDAKPiAgIFJFR1M6IGMw
-MDAwMDAwM2E0MDM5ODAgVFJBUDogMDkwMSAgIE5vdCB0YWludGVkICAoNS40LjAtcmM2LWdjYy04
-LjIuMC1uZXh0LTIwMTkxMTA3LTAwMDAxLWcyNTAzMzlkNjc0N2ItZGlydHkpCj4gICBNU1I6ICA4
-MDAwMDAwMDAyMDA5MDMzIDxTRixWRUMsRUUsTUUsSVIsRFIsUkksTEU+ICBDUjogNDQwMDAyMjIg
-IFhFUjogMDAwMDAwMDAKPiAgIENGQVI6IGMwMDAwMDAwMDEwNDM1YTggSVJRTUFTSzogMCAKPiAg
-IEdQUjAwOiBjMDAwMDAwMDAxMDQzNGI0IGMwMDAwMDAwM2E0MDNjMTAgYzAwMDAwMDAwMTI5NTAw
-MCAwNTIxMDAwMTAwMDAwMGMwIAo+ICAgR1BSMDQ6IDgwMDAwMDAwMDAwMDAxMDUgMDAwMDAwMDAw
-MDQwMGRjMCAwMDAwMDAwMDNlYjAwMDAwIDAwMDAwMDAwMDAwMDAwMDEgCj4gICBHUFIwODogMDAw
-MDAwMDAwMDAwMDAwMCBmZmZmZmZmZmZmZmZmZmZmIDAwMDAwMDAwMDAwMDAwMDEgMDAwMDAwMDAw
-MDAwMDEwMCAKPiAgIEdQUjEyOiAwMDAwMDAwMDAwMDAwMDAwIGMwMDAwMDAwMDE4ZjAwMDAgCj4g
-ICBOSVAgW2MwMDAwMDAwMDEwNDM1YTBdIGRlYnVnX3ZtX3BndGFibGUrMHg0M2MvMHg4MmMKPiAg
-IExSIFtjMDAwMDAwMDAxMDQzNGI0XSBkZWJ1Z192bV9wZ3RhYmxlKzB4MzUwLzB4ODJjCj4gICBD
-YWxsIFRyYWNlOgo+ICAgW2MwMDAwMDAwM2E0MDNjMTBdIFtjMDAwMDAwMDAxMDQzNDZjXSBkZWJ1
-Z192bV9wZ3RhYmxlKzB4MzA4LzB4ODJjICh1bnJlbGlhYmxlKQo+ICAgW2MwMDAwMDAwM2E0MDNj
-ZTBdIFtjMDAwMDAwMDAxMDA0MzEwXSBrZXJuZWxfaW5pdF9mcmVlYWJsZSsweDFkMC8weDM5Ywo+
-ICAgW2MwMDAwMDAwM2E0MDNkYjBdIFtjMDAwMDAwMDAwMDEwZGEwXSBrZXJuZWxfaW5pdCsweDI0
-LzB4MTc0Cj4gICBbYzAwMDAwMDAzYTQwM2UyMF0gW2MwMDAwMDAwMDAwMGJkYzRdIHJldF9mcm9t
-X2tlcm5lbF90aHJlYWQrMHg1Yy8weDc4Cj4gICBJbnN0cnVjdGlvbiBkdW1wOgo+ICAgN2QwNzUw
-NzggN2NlNzRiNzggN2NlMGY5YWQgNDBjMmZmZjAgMzg4MDAwMDAgN2Y4M2UzNzggNGIwMmVlZTEg
-NjAwMDAwMDAgCj4gICA0ODAwMDA4MCAzOTIwZmZmZiAzOTQwMDAwMSAzOTAwMDAwMCA8N2VhMGY4
-YTg+IDdlYTc1MDM5IDQwYzJmZmY4IDdlYTc0ODc4IAo+IAo+IExvb2tpbmcgYXQgdGhlIGFzbSBJ
-IHRoaW5rIGl0J3Mgc3R1Y2sgaW4gaGFzaF9fcHRlX3VwZGF0ZSgpIHdhaXRpbmcgZm9yCj4gSF9Q
-QUdFX0JVU1kgdG8gY2xlYXIsIGJ1dCBub3Qgc3VyZSB3aHkuCj4gCj4gVGhhdCdzIGp1c3QgdXNp
-bmcgcWVtdSBUQ0csIGluc3RydWN0aW9ucyBoZXJlIGlmIGFueW9uZSB3YW50cyB0byB0ZXN0IGl0
-Cj4gdGhlbXNlbHZlcyA6KQo+IAo+ICAgaHR0cHM6Ly9naXRodWIuY29tL2xpbnV4cHBjL3dpa2kv
-d2lraS9Cb290aW5nLXdpdGgtUWVtdQo+IAo+IAo+IElmIEkgYm9vdCB3aXRoIC1jcHUgcG93ZXI5
-ICh1c2luZyBSYWRpeCBNTVUpLCBJIGdldCBhIHBsYWluIG9sZCBCVUc6Cj4gCj4gICBkZWJ1Z192
-bV9wZ3RhYmxlOiBkZWJ1Z192bV9wZ3RhYmxlOiBWYWxpZGF0aW5nIGFyY2hpdGVjdHVyZSBwYWdl
-IHRhYmxlIGhlbHBlcnMKPiAgIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQo+
-ICAga2VybmVsIEJVRyBhdCBhcmNoL3Bvd2VycGMvbW0vcGd0YWJsZS5jOjI3NCEKPiAgIE9vcHM6
-IEV4Y2VwdGlvbiBpbiBrZXJuZWwgbW9kZSwgc2lnOiA1IFsjMV0KPiAgIExFIFBBR0VfU0laRT02
-NEsgTU1VPVJhZGl4IFNNUCBOUl9DUFVTPTMyIE5VTUEgcFNlcmllcwo+ICAgTW9kdWxlcyBsaW5r
-ZWQgaW46Cj4gICBDUFU6IDAgUElEOiAxIENvbW06IHN3YXBwZXIvMCBOb3QgdGFpbnRlZCA1LjQu
-MC1yYzYtZ2NjLTguMi4wLW5leHQtMjAxOTExMDctMDAwMDEtZzI1MDMzOWQ2NzQ3Yi1kaXJ0eSAj
-MTUyCj4gICBOSVA6ICBjMDAwMDAwMDAwMDcyNGU4IExSOiBjMDAwMDAwMDAxMDQzNThjIENUUjog
-MDAwMDAwMDAwMDAwMDAwMAo+ICAgUkVHUzogYzAwMDAwMDAzYTQ4Mzk4MCBUUkFQOiAwNzAwICAg
-Tm90IHRhaW50ZWQgICg1LjQuMC1yYzYtZ2NjLTguMi4wLW5leHQtMjAxOTExMDctMDAwMDEtZzI1
-MDMzOWQ2NzQ3Yi1kaXJ0eSkKPiAgIE1TUjogIDgwMDAwMDAwMDIwMjkwMzMgPFNGLFZFQyxFRSxN
-RSxJUixEUixSSSxMRT4gIENSOiAyNDAwMDIyNCAgWEVSOiAyMDAwMDAwMAo+ICAgQ0ZBUjogYzAw
-MDAwMDAwMTA0MzU4OCBJUlFNQVNLOiAwIAo+ICAgR1BSMDA6IGMwMDAwMDAwMDEwNDM1OGMgYzAw
-MDAwMDAzYTQ4M2MxMCBjMDAwMDAwMDAxMjk1MDAwIDAwMDAwMDAwMDAwMDAwMDkgCj4gICBHUFIw
-NDogMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAwMDAwMDA1IDAwMDAwMDAwMDAwMDAwMDAgMDAw
-MDAwMDAwMDAwMDAwOSAKPiAgIEdQUjA4OiAwMDAwMDAwMDAwMDAwMDAxIDAwMDAwMDAwMDAwMDAw
-MGUgMDAwMDAwMDAwMDAwMDAwMSBjMDAwMDAwMDNhNWYwMDAwIAo+ICAgR1BSMTI6IDAwMDAwMDAw
-MDAwMDAwMDAgYzAwMDAwMDAwMThmMDAwMCBjMDAwMDAwMDAwMDEwZDg0IDAwMDAwMDAwMDAwMDAw
-MDAgCj4gICBHUFIxNjogMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAwMDAwMDAwIGMwMDAwMDAw
-M2E1ZjAwMDAgODAwMDAwMDAwMDAwMDEwNSAKPiAgIEdQUjIwOiBjMDAwMDAwMDAxMDAzYWI4IDAw
-MDAwMDAwMDAwMDAwMTUgMDUwMDYxM2EwMDAwMDA4MCAwOTAwNjAzYTAwMDAwMDgwIAo+ICAgR1BS
-MjQ6IDA5MjAyZTNhMDAwMDAwODAgYzAwMDAwMDAwMTMzYmQ5MCBjMDAwMDAwMDAxMzNiZDk4IGMw
-MDAwMDAwMDEzM2JkYTAgCj4gICBHUFIyODogYzAwMDAwMDAzYTVlMDAwMCBjMDAwMDAwMDNhNjAw
-YWY4IGMwMDAwMDAwM2EyZTJkNDggYzAwMDAwMDAzYTYxMDBhMCAKPiAgIE5JUCBbYzAwMDAwMDAw
-MDA3MjRlOF0gYXNzZXJ0X3B0ZV9sb2NrZWQrMHg4OC8weDE5MAo+ICAgTFIgW2MwMDAwMDAwMDEw
-NDM1OGNdIGRlYnVnX3ZtX3BndGFibGUrMHg0MjgvMHg4MmMKPiAgIENhbGwgVHJhY2U6Cj4gICBb
-YzAwMDAwMDAzYTQ4M2MxMF0gW2MwMDAwMDAwMDEwNDM0NmNdIGRlYnVnX3ZtX3BndGFibGUrMHgz
-MDgvMHg4MmMgKHVucmVsaWFibGUpCj4gICBbYzAwMDAwMDAzYTQ4M2NlMF0gW2MwMDAwMDAwMDEw
-MDQzMTBdIGtlcm5lbF9pbml0X2ZyZWVhYmxlKzB4MWQwLzB4MzljCj4gICBbYzAwMDAwMDAzYTQ4
-M2RiMF0gW2MwMDAwMDAwMDAwMTBkYTBdIGtlcm5lbF9pbml0KzB4MjQvMHgxNzQKPiAgIFtjMDAw
-MDAwMDNhNDgzZTIwXSBbYzAwMDAwMDAwMDAwYmRjNF0gcmV0X2Zyb21fa2VybmVsX3RocmVhZCsw
-eDVjLzB4NzgKPiAgIEluc3RydWN0aW9uIGR1bXA6Cj4gICA3ZDI1MWExNCAzOTA3MDAxMCA3ZDQ2
-MzAzMCA3ZDA4NGExNCAzOGM2ZmZmZiA3Yzg4NDQzNiA3Y2M2MDdiNCA3ZDA4MzAzOCAKPiAgIDc5
-MDgxZjI0IDdjY2I0MDJhIDdjYzgwMDc0IDc5MDhkMTgyIDwwYjA4MDAwMD4gNzhjYjAwMjIgNTRj
-OGMwM2UgN2Q0NzM4MzAgCj4gICAtLS1bIGVuZCB0cmFjZSBhNjk0ZjFiYzU2NTI5YzBlIF0tLS0K
-Ck9vcHMuIERvZXMgbm90IHNlZW0gbGlrZSBhIHF1aWNrIHByb2JsZW0gdG8gZml4IDopIFRob3Vn
-aCBhc3NlcnRfcHRlX2xvY2tlZCgpCmdldHMgY2hlY2tlZCBvbmx5IHdoZW4gREVCVUdfVk0gaXMg
-ZW5hYmxlZC4gUHJvYmFibHkgd2lsbCBoYXZlIHRvIGtlZXAgdGhpcwp0ZXN0IGRpc2FibGVkIG9u
-IHBvd2VycGMgZm9yIG5vdy4KCj4gCj4gCj4gY2hlZXJzCj4gCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QK
-bGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFk
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+On Mon, 28 Oct 2019 23:48:25 PDT (-0700), Christoph Hellwig wrote:
+> Various architectures that use asm-generic/io.h still defined their
+> own default versions of ioremap_nocache, ioremap_wt and ioremap_wc
+> that point back to plain ioremap directly or indirectly.  Remove these
+> definitions and rely on asm-generic/io.h instead.  For this to work
+> the backup ioremap_* defintions needs to be changed to purely cpp
+> macros instea of inlines to cover for architectures like openrisc
+> that only define ioremap after including <asm-generic/io.h>.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  arch/arc/include/asm/io.h        |  4 ----
+>  arch/arm/include/asm/io.h        |  1 -
+>  arch/arm64/include/asm/io.h      |  2 --
+>  arch/csky/include/asm/io.h       |  1 -
+>  arch/ia64/include/asm/io.h       |  1 -
+>  arch/microblaze/include/asm/io.h |  3 ---
+>  arch/nios2/include/asm/io.h      |  4 ----
+>  arch/openrisc/include/asm/io.h   |  1 -
+>  arch/riscv/include/asm/io.h      | 10 ----------
+>  arch/s390/include/asm/io.h       |  4 ----
+>  arch/x86/include/asm/io.h        |  1 -
+>  arch/xtensa/include/asm/io.h     |  4 ----
+>  include/asm-generic/io.h         | 18 +++---------------
+>  13 files changed, 3 insertions(+), 51 deletions(-)
+>
+> diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
+> index 72f7929736f8..8f777d6441a5 100644
+> --- a/arch/arc/include/asm/io.h
+> +++ b/arch/arc/include/asm/io.h
+> @@ -34,10 +34,6 @@ static inline void ioport_unmap(void __iomem *addr)
+>
+>  extern void iounmap(const void __iomem *addr);
+>
+> -#define ioremap_nocache(phy, sz)	ioremap(phy, sz)
+> -#define ioremap_wc(phy, sz)		ioremap(phy, sz)
+> -#define ioremap_wt(phy, sz)		ioremap(phy, sz)
+> -
+>  /*
+>   * io{read,write}{16,32}be() macros
+>   */
+> diff --git a/arch/arm/include/asm/io.h b/arch/arm/include/asm/io.h
+> index 924f9dd502ed..aefdabdbeb84 100644
+> --- a/arch/arm/include/asm/io.h
+> +++ b/arch/arm/include/asm/io.h
+> @@ -392,7 +392,6 @@ static inline void memcpy_toio(volatile void __iomem *to, const void *from,
+>   */
+>  void __iomem *ioremap(resource_size_t res_cookie, size_t size);
+>  #define ioremap ioremap
+> -#define ioremap_nocache ioremap
+>
+>  /*
+>   * Do not use ioremap_cache for mapping memory. Use memremap instead.
+> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+> index 323cb306bd28..4e531f57147d 100644
+> --- a/arch/arm64/include/asm/io.h
+> +++ b/arch/arm64/include/asm/io.h
+> @@ -167,9 +167,7 @@ extern void iounmap(volatile void __iomem *addr);
+>  extern void __iomem *ioremap_cache(phys_addr_t phys_addr, size_t size);
+>
+>  #define ioremap(addr, size)		__ioremap((addr), (size), __pgprot(PROT_DEVICE_nGnRE))
+> -#define ioremap_nocache(addr, size)	__ioremap((addr), (size), __pgprot(PROT_DEVICE_nGnRE))
+>  #define ioremap_wc(addr, size)		__ioremap((addr), (size), __pgprot(PROT_NORMAL_NC))
+> -#define ioremap_wt(addr, size)		__ioremap((addr), (size), __pgprot(PROT_DEVICE_nGnRE))
+>
+>  /*
+>   * PCI configuration space mapping function.
+> diff --git a/arch/csky/include/asm/io.h b/arch/csky/include/asm/io.h
+> index 80d071e2567f..a4b9fb616faa 100644
+> --- a/arch/csky/include/asm/io.h
+> +++ b/arch/csky/include/asm/io.h
+> @@ -42,7 +42,6 @@ extern void iounmap(void *addr);
+>
+>  #define ioremap(addr, size)		__ioremap((addr), (size), pgprot_noncached(PAGE_KERNEL))
+>  #define ioremap_wc(addr, size)		__ioremap((addr), (size), pgprot_writecombine(PAGE_KERNEL))
+> -#define ioremap_nocache(addr, size)	ioremap((addr), (size))
+>  #define ioremap_cache			ioremap_cache
+>
+>  #include <asm-generic/io.h>
+> diff --git a/arch/ia64/include/asm/io.h b/arch/ia64/include/asm/io.h
+> index fec9df9609ed..3d666a11a2de 100644
+> --- a/arch/ia64/include/asm/io.h
+> +++ b/arch/ia64/include/asm/io.h
+> @@ -263,7 +263,6 @@ static inline void __iomem * ioremap_cache (unsigned long phys_addr, unsigned lo
+>  	return ioremap(phys_addr, size);
+>  }
+>  #define ioremap ioremap
+> -#define ioremap_nocache ioremap
+>  #define ioremap_cache ioremap_cache
+>  #define ioremap_uc ioremap_uc
+>  #define iounmap iounmap
+> diff --git a/arch/microblaze/include/asm/io.h b/arch/microblaze/include/asm/io.h
+> index 86c95b2a1ce1..d33c61737b8b 100644
+> --- a/arch/microblaze/include/asm/io.h
+> +++ b/arch/microblaze/include/asm/io.h
+> @@ -39,9 +39,6 @@ extern resource_size_t isa_mem_base;
+>  extern void iounmap(volatile void __iomem *addr);
+>
+>  extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
+> -#define ioremap_nocache(addr, size)		ioremap((addr), (size))
+> -#define ioremap_wc(addr, size)			ioremap((addr), (size))
+> -#define ioremap_wt(addr, size)			ioremap((addr), (size))
+>
+>  #endif /* CONFIG_MMU */
+>
+> diff --git a/arch/nios2/include/asm/io.h b/arch/nios2/include/asm/io.h
+> index 74ab34aa6731..d108937c321e 100644
+> --- a/arch/nios2/include/asm/io.h
+> +++ b/arch/nios2/include/asm/io.h
+> @@ -33,10 +33,6 @@ static inline void iounmap(void __iomem *addr)
+>  	__iounmap(addr);
+>  }
+>
+> -#define ioremap_nocache ioremap
+> -#define ioremap_wc ioremap
+> -#define ioremap_wt ioremap
+> -
+>  /* Pages to physical address... */
+>  #define page_to_phys(page)	virt_to_phys(page_to_virt(page))
+>
+> diff --git a/arch/openrisc/include/asm/io.h b/arch/openrisc/include/asm/io.h
+> index 5b81a96ab85e..e18f038b2a6d 100644
+> --- a/arch/openrisc/include/asm/io.h
+> +++ b/arch/openrisc/include/asm/io.h
+> @@ -25,7 +25,6 @@
+>  #define PIO_OFFSET		0
+>  #define PIO_MASK		0
+>
+> -#define ioremap_nocache ioremap
+>  #include <asm-generic/io.h>
+>  #include <asm/pgtable.h>
+>
+> diff --git a/arch/riscv/include/asm/io.h b/arch/riscv/include/asm/io.h
+> index fc1189ad3777..c1de6875cc77 100644
+> --- a/arch/riscv/include/asm/io.h
+> +++ b/arch/riscv/include/asm/io.h
+> @@ -15,16 +15,6 @@
+>  #include <asm/mmiowb.h>
+>
+>  extern void __iomem *ioremap(phys_addr_t offset, unsigned long size);
+> -
+> -/*
+> - * The RISC-V ISA doesn't yet specify how to query or modify PMAs, so we can't
+> - * change the properties of memory regions.  This should be fixed by the
+> - * upcoming platform spec.
+> - */
+> -#define ioremap_nocache(addr, size) ioremap((addr), (size))
+> -#define ioremap_wc(addr, size) ioremap((addr), (size))
+> -#define ioremap_wt(addr, size) ioremap((addr), (size))
+> -
+>  extern void iounmap(volatile void __iomem *addr);
+>
+>  /* Generic IO read/write.  These perform native-endian accesses. */
+> diff --git a/arch/s390/include/asm/io.h b/arch/s390/include/asm/io.h
+> index ca421614722f..5a16f500515a 100644
+> --- a/arch/s390/include/asm/io.h
+> +++ b/arch/s390/include/asm/io.h
+> @@ -26,10 +26,6 @@ void unxlate_dev_mem_ptr(phys_addr_t phys, void *addr);
+>
+>  #define IO_SPACE_LIMIT 0
+>
+> -#define ioremap_nocache(addr, size)	ioremap(addr, size)
+> -#define ioremap_wc			ioremap_nocache
+> -#define ioremap_wt			ioremap_nocache
+> -
+>  void __iomem *ioremap(unsigned long offset, unsigned long size);
+>  void iounmap(volatile void __iomem *addr);
+>
+> diff --git a/arch/x86/include/asm/io.h b/arch/x86/include/asm/io.h
+> index 6b5cc41319a7..9997521fc5cd 100644
+> --- a/arch/x86/include/asm/io.h
+> +++ b/arch/x86/include/asm/io.h
+> @@ -205,7 +205,6 @@ extern void __iomem *ioremap_encrypted(resource_size_t phys_addr, unsigned long
+>   */
+>  void __iomem *ioremap(resource_size_t offset, unsigned long size);
+>  #define ioremap ioremap
+> -#define ioremap_nocache ioremap
+>
+>  extern void iounmap(volatile void __iomem *addr);
+>  #define iounmap iounmap
+> diff --git a/arch/xtensa/include/asm/io.h b/arch/xtensa/include/asm/io.h
+> index 441fb56926a7..54188e69b988 100644
+> --- a/arch/xtensa/include/asm/io.h
+> +++ b/arch/xtensa/include/asm/io.h
+> @@ -52,10 +52,6 @@ static inline void __iomem *ioremap_cache(unsigned long offset,
+>  }
+>  #define ioremap_cache ioremap_cache
+>
+> -#define ioremap_nocache ioremap
+> -#define ioremap_wc ioremap
+> -#define ioremap_wt ioremap
+> -
+>  static inline void iounmap(volatile void __iomem *addr)
+>  {
+>  	unsigned long va = (unsigned long) addr;
+> diff --git a/include/asm-generic/io.h b/include/asm-generic/io.h
+> index 6a5edc23afe2..4e45e1cb6560 100644
+> --- a/include/asm-generic/io.h
+> +++ b/include/asm-generic/io.h
+> @@ -949,27 +949,15 @@ static inline void iounmap(void __iomem *addr)
+>  #endif /* CONFIG_MMU */
+>
+>  #ifndef ioremap_nocache
+> -#define ioremap_nocache ioremap_nocache
+> -static inline void __iomem *ioremap_nocache(phys_addr_t offset, size_t size)
+> -{
+> -	return ioremap(offset, size);
+> -}
+> +#define ioremap_nocache ioremap
+>  #endif
+>
+>  #ifndef ioremap_wc
+> -#define ioremap_wc ioremap_wc
+> -static inline void __iomem *ioremap_wc(phys_addr_t offset, size_t size)
+> -{
+> -	return ioremap_nocache(offset, size);
+> -}
+> +#define ioremap_wc ioremap
+>  #endif
+>
+>  #ifndef ioremap_wt
+> -#define ioremap_wt ioremap_wt
+> -static inline void __iomem *ioremap_wt(phys_addr_t offset, size_t size)
+> -{
+> -	return ioremap_nocache(offset, size);
+> -}
+> +#define ioremap_wt ioremap
+>  #endif
+>
+>  /*
+
+Reviewed-by: Palmer Dabbelt <palmer@dabbelt.com>
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
