@@ -2,84 +2,80 @@ Return-Path: <SRS0=7pOa=ZA=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B51D8FA372C
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 16:28:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBEBFC5DF60
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 17:36:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8357A21D7E
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 16:28:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C3821206BA
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 17:36:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GOo2zr59";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=arista.com header.i=@arista.com header.b="OFQ83MN4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8357A21D7E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=arista.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GkZJmeGB";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="swiYqGJ7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C3821206BA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7Oi0URCVlCW/xv6mf3y82Ao9G3AOxjSzoaGA9O2Wao8=; b=GOo2zr59AZ6Tob
-	ByEndOWOFE/L4Xu4NBHrHlE0ElV+1Izi43qDMD4WWRT9xhf2hNFSGWwPma1BZa77QWi8p1EbMryWF
-	kyq4PNHL+kVrHMhGpy4nkWKlgB5cOtZXVqVcEW7YVXd06pndH8yZx7qzqrzs5RS+Qf1AWkf9PhNyQ
-	Z3DMMuOIDEF8mX25Vo8Inkb6cucZplq64JQ3J/NYAqmVufIAmD1Y/oCwmC7a9nDS3VMR2mBNcl4Nj
-	dqWloNynH9PLRjzvhukwV06wu+0YFHnr1dTFSBh4d+1wEupoJwZWE0I0hRxyKXd3f3es7Lm2u0Cm3
-	YI/Qk3d14560/WxfCyCg==;
+	List-Owner; bh=UbhyCvrfBDnEmBYFi6SW9MDB3OFZKaW6F1rK9QdLTeo=; b=GkZJmeGBtPjU+p
+	JjYwkr9WM0P9CxftcgrqtS/xd75eSMxZm3K0rC7jGWL42iOPi0rFcK+vHeFXmLFM3Fwv4m32bcsIT
+	VMtz1y7hwDnZJa75R7wgY0KJf6P1sofQbyeztUSRIETJZz+lkk7OmZh+q/je7go20wENwTOCxRcO2
+	nAaHBYR0eMd8Mpl1vlM4mZYtbip/lhqRcO3re4O9zhjE7TfVo0ycTrPy1GsFjRCaepsgiQG/Nx0bS
+	UpL/gERACtfI5UTpBDIE2kzHA6/scD4tVXFAKGSYIYWvJd+6dQLlfG9j3r+8yETFTLg1I55UATrpr
+	C6+IGRFuCKjt5Zx0Owyg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iT77z-0005dW-Sf; Fri, 08 Nov 2019 16:28:51 +0000
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144])
+	id 1iT8BR-000673-Tt; Fri, 08 Nov 2019 17:36:29 +0000
+Received: from pandora.armlinux.org.uk
+ ([2001:4d48:ad52:3201:214:fdff:fe10:1be6])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iT77v-0005aH-95
- for linux-snps-arc@lists.infradead.org; Fri, 08 Nov 2019 16:28:50 +0000
-Received: by mail-lf1-x144.google.com with SMTP id o65so1238272lff.13
- for <linux-snps-arc@lists.infradead.org>; Fri, 08 Nov 2019 08:28:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=arista.com; s=googlenew;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g8y3Kv95ejyL7msYqyPIoRMuCM9aKky/CsOCvaHvzKM=;
- b=OFQ83MN4Hmk627ztvJPIKihtIRsS8ZJ3GNTmqGPL14tUmqtruv4K7nmTrdqjRLFkAn
- v66F5LmIzidO2RY0wAc8faHozHlKmYZjXqnWdur1cdgyOYMMPWxMT2qM/13lV7Gll4Nc
- lRCKNQhkBNihdDdl1Z0mCUKrkPWWlSTJj8W9XuLLYhohd1gFs4UlSNvhCs93ZGZd3jBA
- FVTjYbasessxSjfBcyeOLdW+Y8Bd7gD+BB7UCWg2KPTCWA+UwS7+l7bzP+7BahjCAYhI
- nOv6jmxm+6mZbCk5AkWY13lz+e0hU9EGlWVlrK7ojQr4zo4A/XJr3HfWznngkwdMz6Mb
- pEiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=g8y3Kv95ejyL7msYqyPIoRMuCM9aKky/CsOCvaHvzKM=;
- b=t/uHGOI3Vx5MhKgXLm5YvozDT+LJvOkEFf0sq0K4q/LhK1zQqSAEw0tCPpLklFwDsa
- YT5enALfKmTyLqVspUAsNCyXZd5EWb2DrmuosHKGOB94R/5bzea/P+3pmxP1iLyTS59J
- IddVOn9cuE9w64VES2JzLESdxAjWAM8LSZB+Bc9qYWEASVGjErBzR2V8+BZDgce3SlRo
- mxJ8MAmL+BxcLturVAHmBrKmvW0UP2T6DzYnZ06VIYeBqd6CFJhQW+d0Ah7rFW5GNj1J
- KdmULROVgJeEYprsh0wZITO8bWiKPmmonzdy0WI8ppTrJivNGWZN3Cnon4cqYeG6NWUT
- DP5w==
-X-Gm-Message-State: APjAAAWOrIYAEeaAJra5c8UKVm0TsdBYN1rlhWwo1fvr4TvjMSL9Y8Eq
- m7xpf3UYx97dwA4J0SXi3AjDOWJmNziXj4/3IVeVhQ==
-X-Google-Smtp-Source: APXvYqzHzf9qj/gQvrMhsVZj/mUBqCeBT0v/95hThrViwKN4rfJkI0AUVqq0YGCyoYWqoiClXSsdpDtSyx/K8KYU40o=
-X-Received: by 2002:a19:ab11:: with SMTP id u17mr7519021lfe.78.1573230521103; 
- Fri, 08 Nov 2019 08:28:41 -0800 (PST)
-MIME-Version: 1.0
+ id 1iT8BN-0004fV-GG; Fri, 08 Nov 2019 17:36:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=8OKQ8ybzqBvVwbNEFVvCvShIsxDoVn1JKRJjkQiqoKU=; b=swiYqGJ7LEVqyrrRsI7H1eTTa
+ hKUL+RUA60U6nmKfQ3wx4HeACdCMgfizQI7y71CmrPZ9FkR78hjjzmqBZLEHXPhbl2wyXwtowYyht
+ q3s2gW++t5nGtMEhwRgjQdMHHO6gZwwwuAzS21l3ty+eVTpDYUq3y7bBgzQWbko3SSiRfkjM9FyAG
+ ozIGQYkMiL4DSG7CHuy+TRP0trl6r2Nd1q0qtEbaW+lBXN63gMwtPy6r2GzdFA2Jn6NOahkxyCgl6
+ RA7vVtn4kk9c9iT0zwgIxtjo4SQcsvTNqcn2tKatz1/KsHP3DQuGLUdi5b2RLs4XIvzS7bfH1igZp
+ ONICUo7nw==;
+Received: from shell.armlinux.org.uk
+ ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:53540)
+ by pandora.armlinux.org.uk with esmtpsa
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1iT86P-0003rG-IT; Fri, 08 Nov 2019 17:31:18 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1iT85t-000697-Tp; Fri, 08 Nov 2019 17:30:45 +0000
+Date: Fri, 8 Nov 2019 17:30:45 +0000
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To: Dmitry Safonov <dima@arista.com>
+Subject: Re: [PATCH 00/50] Add log level to show_stack()
+Message-ID: <20191108173045.GY25745@shell.armlinux.org.uk>
 References: <20191106030542.868541-1-dima@arista.com>
  <20191106092039.GT4131@hirez.programming.kicks-ass.net>
  <10db6fa1-5b17-ebe6-09e0-6335e09e4db8@arista.com>
  <20191106203440.GH3079@worktop.programming.kicks-ass.net>
-In-Reply-To: <20191106203440.GH3079@worktop.programming.kicks-ass.net>
-From: Dmitry Safonov <dima@arista.com>
-Date: Fri, 8 Nov 2019 16:28:30 +0000
-Message-ID: <CAGrbwDRgX1BZoFrVYSXhAeeUKHrB=q3w8jXFPOuRvO7HV4Ciqw@mail.gmail.com>
-Subject: Re: [PATCH 00/50] Add log level to show_stack()
-To: Peter Zijlstra <peterz@infradead.org>
+ <CAGrbwDRgX1BZoFrVYSXhAeeUKHrB=q3w8jXFPOuRvO7HV4Ciqw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAGrbwDRgX1BZoFrVYSXhAeeUKHrB=q3w8jXFPOuRvO7HV4Ciqw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191108_082847_318330_E79B9CA0 
-X-CRM114-Status: GOOD (  20.30  )
+X-CRM114-CacheID: sfid-20191108_093625_899080_ECF9D4D4 
+X-CRM114-Status: GOOD (  27.66  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,13 +128,14 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
  Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
  linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
  "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
- Petr Mladek <pmladek@suse.com>, "H. Peter Anvin" <hpa@zytor.com>,
- sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Petr Mladek <pmladek@suse.com>, Peter Zijlstra <peterz@infradead.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org,
  Anton Ivanov <anton.ivanov@cambridgegreys.com>,
  Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
- X86 ML <x86@kernel.org>, Russell King <linux@armlinux.org.uk>,
- clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
- Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ X86 ML <x86@kernel.org>, clang-built-linux@googlegroups.com,
+ Ingo Molnar <mingo@redhat.com>, Mark Salter <msalter@redhat.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
  Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
  openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
  Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
@@ -150,76 +147,79 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 11/6/19 8:34 PM, Peter Zijlstra wrote:
-> On Wed, Nov 06, 2019 at 04:27:33PM +0000, Dmitry Safonov wrote:
-[..]
->> Sorry, I should have tried to describe better.
->>
->> I'm trying to remove external users of console_loglevel by following
->> reasons:
->
-> I suppose since all my machines have 'debug ignore_loglevel
-> earlyprintk=serial,ttyS0,115200 console=ttyS0,115200' I don't have this
-> experience.
+On Fri, Nov 08, 2019 at 04:28:30PM +0000, Dmitry Safonov wrote:
+> On 11/6/19 8:34 PM, Peter Zijlstra wrote:
+> > On Wed, Nov 06, 2019 at 04:27:33PM +0000, Dmitry Safonov wrote:
+> [..]
+> >> Sorry, I should have tried to describe better.
+> >>
+> >> I'm trying to remove external users of console_loglevel by following
+> >> reasons:
+> >
+> > I suppose since all my machines have 'debug ignore_loglevel
+> > earlyprintk=serial,ttyS0,115200 console=ttyS0,115200' I don't have this
+> > experience.
+> 
+> Yeah, I remember you avoid all those functionalities of printk(), fair
+> enough. On the other side, regular users and I'm betting most of
+> the non-tuned distributions use /proc/sys/kernel/printk by default.
+> (Checking on my Arch & Fedora - loglevel 4 from the box)
+> 
+> >> - changing console_loglevel on SMP means that unwanted messages from
+> >> other CPUs will appear (that have lower log level)
+> >> - on UMP unwanted messages may appear if the code is preempted while it
+> >> hasn't set the console_loglevel back to old
+> >> - rising console_loglevel to print wanted message(s) may not work at all
+> >> if printk() has being delayed and the console_loglevel is already set
+> >> back to old value
+> >
+> > Sure, frobbing the global console_loglevel is bad.
+> >
+> >> I also have patches in wip those needs to print backtrace with specific
+> >> loglevel (higher when it's critical, lower when it's notice and
+> >> shouldn't go to serial console).
+> >
+> > (everything always should go to serial, serial is awesome :-)
+> 
+> Personally I agree. Unfortunately, here @Arista there are switches (I'm
+> speaking about the order of thousands at least) those have baud-rate 9600.
+> It's a bit expensive being elaborate with such setup.
+> 
+> >> Besides on local tests I see hits those have headers (messages like
+> >> "Backtrace: ") without an actual backtrace and the reverse - a backtrace
+> >> without a reason for it. It's quite annoying and worth addressing by
+> >> syncing headers log levels to backtraces.
+> >
+> > I suppose I'm surprised there are backtraces that are not important.
+> > Either badness happened and it needs printing, or the user asked for it
+> > and it needs printing.
+> >
+> > Perhaps we should be removing backtraces if they're not important
+> > instead of allowing to print them as lower loglevels?
+> 
+> Well, the use-case for lower log-level is that everything goes into logs
+> (/var/log/dmesg or /var/log/messages whatever rsyslog has settting).
+> 
+> That has it's value:
+> - after a failure (i.e. panic) messages, those were only signs that
+> something goes wrong can be seen in logs which can give ideas what has
+> happened.
 
-Yeah, I remember you avoid all those functionalities of printk(), fair
-enough. On the other side, regular users and I'm betting most of
-the non-tuned distributions use /proc/sys/kernel/printk by default.
-(Checking on my Arch & Fedora - loglevel 4 from the box)
+No they don't.  When the kernel panics, userspace generally stops
+running, so rsyslog won't be able to write them to /var/log/messages.
 
->> - changing console_loglevel on SMP means that unwanted messages from
->> other CPUs will appear (that have lower log level)
->> - on UMP unwanted messages may appear if the code is preempted while it
->> hasn't set the console_loglevel back to old
->> - rising console_loglevel to print wanted message(s) may not work at all
->> if printk() has being delayed and the console_loglevel is already set
->> back to old value
->
-> Sure, frobbing the global console_loglevel is bad.
->
->> I also have patches in wip those needs to print backtrace with specific
->> loglevel (higher when it's critical, lower when it's notice and
->> shouldn't go to serial console).
->
-> (everything always should go to serial, serial is awesome :-)
+How, by "kernel panics" I mean a real kernel panic, which probably
+isn't what you're talking about there.  You are probably talking
+about the whole shebang of non-fatal kernel oops, kernel warnings
+and the like.  If so, I'd ask you to stop confuzzilating terminology.
 
-Personally I agree. Unfortunately, here @Arista there are switches (I'm
-speaking about the order of thousands at least) those have baud-rate 9600.
-It's a bit expensive being elaborate with such setup.
+If you really want to capture such events, then you need to have the
+kernel write the panic to (e.g.) flash - see the mtdoops driver.
 
->> Besides on local tests I see hits those have headers (messages like
->> "Backtrace: ") without an actual backtrace and the reverse - a backtrace
->> without a reason for it. It's quite annoying and worth addressing by
->> syncing headers log levels to backtraces.
->
-> I suppose I'm surprised there are backtraces that are not important.
-> Either badness happened and it needs printing, or the user asked for it
-> and it needs printing.
->
-> Perhaps we should be removing backtraces if they're not important
-> instead of allowing to print them as lower loglevels?
-
-Well, the use-case for lower log-level is that everything goes into logs
-(/var/log/dmesg or /var/log/messages whatever rsyslog has settting).
-
-That has it's value:
-- after a failure (i.e. panic) messages, those were only signs that
-something goes wrong can be seen in logs which can give ideas what has
-happened.
-- before the failure, those messages go to telemetry and can be
-auto-magically processed remotely to take a decision (e.g. balance the
-traffic away).
-
-I wish all the information could be gathered in the userspace, but many
-existing kernel/driver messages are valuable. A more detailed example is
-hung task detector: we want to have the backtrace for a task that is
-in uninterruptible state too long, but only in logs as printing on
-serial console may lead to holding console lock and watchdog.
-Besides customer notifications and investigations, I see the value of such
-"bottleneck" warnings during long-running integration tests.
-
-Thanks,
-          Dmitry
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
 
 _______________________________________________
 linux-snps-arc mailing list
