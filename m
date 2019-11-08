@@ -2,73 +2,84 @@ Return-Path: <SRS0=7pOa=ZA=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F2FFA372C
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 16:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B51D8FA372C
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 16:28:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6D86221882
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 16:20:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8357A21D7E
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 16:28:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oYY7KOK8";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="cJr8tyqB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D86221882
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GOo2zr59";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=arista.com header.i=@arista.com header.b="OFQ83MN4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8357A21D7E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=arista.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=ejSBe7FVtXeYUpwDOJNw1DpzKpnNg1Uo0Obt6NTLYGM=; b=oYY7KOK851nxhT
-	raMugK91/b4wW3f46N6sxrnnMkQszpPcRB5h0VpYyT2Ha3gaJ0Ud412qAGUbAazO8MpBsoAakJisp
-	cumUkv2b11AWNGvmQFq848NuLxhEYxJBrB8tKdH+gjJb0qb3NK7I6Cz62bM4PxB+86iZFNvERhocp
-	LiX/EXH1riSWc5sRHba92PEwzhypf9PuAYsWt+b6FoZAcPxiGa2I5rNkqHh+WPMw46aFZq5rZ69BM
-	JzmSS95Hvr/OXh6KPurrTyeCIuJlT+Q9OSRhXBIejkg2u/Bh1h6nULJBY9ScCQq/u4QW/OIv63EpS
-	CWEOLsJ08FA20t3SXZSg==;
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=7Oi0URCVlCW/xv6mf3y82Ao9G3AOxjSzoaGA9O2Wao8=; b=GOo2zr59AZ6Tob
+	ByEndOWOFE/L4Xu4NBHrHlE0ElV+1Izi43qDMD4WWRT9xhf2hNFSGWwPma1BZa77QWi8p1EbMryWF
+	kyq4PNHL+kVrHMhGpy4nkWKlgB5cOtZXVqVcEW7YVXd06pndH8yZx7qzqrzs5RS+Qf1AWkf9PhNyQ
+	Z3DMMuOIDEF8mX25Vo8Inkb6cucZplq64JQ3J/NYAqmVufIAmD1Y/oCwmC7a9nDS3VMR2mBNcl4Nj
+	dqWloNynH9PLRjzvhukwV06wu+0YFHnr1dTFSBh4d+1wEupoJwZWE0I0hRxyKXd3f3es7Lm2u0Cm3
+	YI/Qk3d14560/WxfCyCg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iT70H-0003Ku-Lw; Fri, 08 Nov 2019 16:20:53 +0000
-Received: from smtprelay-out1.synopsys.com ([198.182.47.102])
+	id 1iT77z-0005dW-Sf; Fri, 08 Nov 2019 16:28:51 +0000
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iT6zt-0002so-AV
- for linux-snps-arc@lists.infradead.org; Fri, 08 Nov 2019 16:20:31 +0000
-Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com
- [10.225.0.209])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id D7BBFC0DDF;
- Fri,  8 Nov 2019 16:20:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1573230027; bh=lEh2vJ+HFB4itdNvQR3zgigmBmACBtQME/IsJ9KgRJY=;
- h=From:To:Cc:Subject:Date:From;
- b=cJr8tyqBag44AOx+Dky+jh6Dj683Uqkozl+j/+3EXL3dcWrXPDRkemUTBO3PJsntV
- UWOB3eTsn5VAT+Xq67napW3rTSoyoJvYKsOgu0UyG/XcnuqRFEnkjhxqFdeoKdxVrm
- H5q1L3RrE0Twy8576NodQUdACi6sMsYWjDP2uDN3wyERLbU0uwaB0+1A5V0XZ6sj3+
- 63bniCLPDOwjixWJe1IRxVfPskb/v5ZXXzvQNDpxE12yDV+djxX5zWVcUM+2AIaoQ6
- MgbHNVOygQ8k9P6suFDCt4+aO/B0Fs3Ic6guEC3leJ6eoH1jxpqknqBmzJeGYdLOLh
- o7ASP0e0lN4oQ==
-Received: from paltsev-e7480.internal.synopsys.com
- (paltsev-e7480.internal.synopsys.com [10.121.3.76])
- by mailhost.synopsys.com (Postfix) with ESMTP id CBD5AA00AB;
- Fri,  8 Nov 2019 16:20:24 +0000 (UTC)
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-To: linux-snps-arc@lists.infradead.org,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: [PATCH v3] ARC: ARCv2: jump label: implement jump label patching
-Date: Fri,  8 Nov 2019 19:20:22 +0300
-Message-Id: <20191108162022.3436-1-Eugeniy.Paltsev@synopsys.com>
-X-Mailer: git-send-email 2.21.0
+ id 1iT77v-0005aH-95
+ for linux-snps-arc@lists.infradead.org; Fri, 08 Nov 2019 16:28:50 +0000
+Received: by mail-lf1-x144.google.com with SMTP id o65so1238272lff.13
+ for <linux-snps-arc@lists.infradead.org>; Fri, 08 Nov 2019 08:28:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=arista.com; s=googlenew;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=g8y3Kv95ejyL7msYqyPIoRMuCM9aKky/CsOCvaHvzKM=;
+ b=OFQ83MN4Hmk627ztvJPIKihtIRsS8ZJ3GNTmqGPL14tUmqtruv4K7nmTrdqjRLFkAn
+ v66F5LmIzidO2RY0wAc8faHozHlKmYZjXqnWdur1cdgyOYMMPWxMT2qM/13lV7Gll4Nc
+ lRCKNQhkBNihdDdl1Z0mCUKrkPWWlSTJj8W9XuLLYhohd1gFs4UlSNvhCs93ZGZd3jBA
+ FVTjYbasessxSjfBcyeOLdW+Y8Bd7gD+BB7UCWg2KPTCWA+UwS7+l7bzP+7BahjCAYhI
+ nOv6jmxm+6mZbCk5AkWY13lz+e0hU9EGlWVlrK7ojQr4zo4A/XJr3HfWznngkwdMz6Mb
+ pEiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=g8y3Kv95ejyL7msYqyPIoRMuCM9aKky/CsOCvaHvzKM=;
+ b=t/uHGOI3Vx5MhKgXLm5YvozDT+LJvOkEFf0sq0K4q/LhK1zQqSAEw0tCPpLklFwDsa
+ YT5enALfKmTyLqVspUAsNCyXZd5EWb2DrmuosHKGOB94R/5bzea/P+3pmxP1iLyTS59J
+ IddVOn9cuE9w64VES2JzLESdxAjWAM8LSZB+Bc9qYWEASVGjErBzR2V8+BZDgce3SlRo
+ mxJ8MAmL+BxcLturVAHmBrKmvW0UP2T6DzYnZ06VIYeBqd6CFJhQW+d0Ah7rFW5GNj1J
+ KdmULROVgJeEYprsh0wZITO8bWiKPmmonzdy0WI8ppTrJivNGWZN3Cnon4cqYeG6NWUT
+ DP5w==
+X-Gm-Message-State: APjAAAWOrIYAEeaAJra5c8UKVm0TsdBYN1rlhWwo1fvr4TvjMSL9Y8Eq
+ m7xpf3UYx97dwA4J0SXi3AjDOWJmNziXj4/3IVeVhQ==
+X-Google-Smtp-Source: APXvYqzHzf9qj/gQvrMhsVZj/mUBqCeBT0v/95hThrViwKN4rfJkI0AUVqq0YGCyoYWqoiClXSsdpDtSyx/K8KYU40o=
+X-Received: by 2002:a19:ab11:: with SMTP id u17mr7519021lfe.78.1573230521103; 
+ Fri, 08 Nov 2019 08:28:41 -0800 (PST)
 MIME-Version: 1.0
+References: <20191106030542.868541-1-dima@arista.com>
+ <20191106092039.GT4131@hirez.programming.kicks-ass.net>
+ <10db6fa1-5b17-ebe6-09e0-6335e09e4db8@arista.com>
+ <20191106203440.GH3079@worktop.programming.kicks-ass.net>
+In-Reply-To: <20191106203440.GH3079@worktop.programming.kicks-ass.net>
+From: Dmitry Safonov <dima@arista.com>
+Date: Fri, 8 Nov 2019 16:28:30 +0000
+Message-ID: <CAGrbwDRgX1BZoFrVYSXhAeeUKHrB=q3w8jXFPOuRvO7HV4Ciqw@mail.gmail.com>
+Subject: Re: [PATCH 00/50] Add log level to show_stack()
+To: Peter Zijlstra <peterz@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191108_082029_422761_C01DD2CC 
-X-CRM114-Status: GOOD (  21.47  )
+X-CRM114-CacheID: sfid-20191108_082847_318330_E79B9CA0 
+X-CRM114-Status: GOOD (  20.30  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,355 +91,135 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-kernel@vger.kernel.org
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
+ Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
+ Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
+ uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
+ linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-ia64@vger.kernel.org,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ James Hogan <jhogan@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ "open list:TENSILICA XTENSA PORT \(xtensa\)" <linux-xtensa@linux-xtensa.org>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
+ linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Brian Cain <bcain@codeaurora.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
+ Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
+ Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
+ "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
+ Petr Mladek <pmladek@suse.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
+ X86 ML <x86@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
+ Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
+ nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Implement jump label patching for ARC. Jump labels provide
-an interface to generate dynamic branches using
-self-modifying code.
+On 11/6/19 8:34 PM, Peter Zijlstra wrote:
+> On Wed, Nov 06, 2019 at 04:27:33PM +0000, Dmitry Safonov wrote:
+[..]
+>> Sorry, I should have tried to describe better.
+>>
+>> I'm trying to remove external users of console_loglevel by following
+>> reasons:
+>
+> I suppose since all my machines have 'debug ignore_loglevel
+> earlyprintk=serial,ttyS0,115200 console=ttyS0,115200' I don't have this
+> experience.
 
-This allows us to implement conditional branches where
-changing branch direction is expensive but branch selection
-is basically 'free'
+Yeah, I remember you avoid all those functionalities of printk(), fair
+enough. On the other side, regular users and I'm betting most of
+the non-tuned distributions use /proc/sys/kernel/printk by default.
+(Checking on my Arch & Fedora - loglevel 4 from the box)
 
-This implementation uses 32-bit NOP and BRANCH instructions
-which forced to be aligned by 4 to guarantee that they don't
-cross L1 cache line boundary / L1 I$ cache fetch block
-boundary and can be update atomically.
+>> - changing console_loglevel on SMP means that unwanted messages from
+>> other CPUs will appear (that have lower log level)
+>> - on UMP unwanted messages may appear if the code is preempted while it
+>> hasn't set the console_loglevel back to old
+>> - rising console_loglevel to print wanted message(s) may not work at all
+>> if printk() has being delayed and the console_loglevel is already set
+>> back to old value
+>
+> Sure, frobbing the global console_loglevel is bad.
+>
+>> I also have patches in wip those needs to print backtrace with specific
+>> loglevel (higher when it's critical, lower when it's notice and
+>> shouldn't go to serial console).
+>
+> (everything always should go to serial, serial is awesome :-)
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
----
-Changes v1->v2:
- * Patched instruction should not cross L1 I$ fetch block boundary and
-   not only L1 I$ line. Fix comments and asserts in code.
- * Other small comments fix and code cleanup.
-Changes v2->v3:
- * Code cleanup.
- * Mark testdata array as __initconst
- * Drop check about fetch block in code.
- * Invert ARC_DBG_JUMP_LABEL vs STATIC_KEYS_SELFTEST dependency.
+Personally I agree. Unfortunately, here @Arista there are switches (I'm
+speaking about the order of thousands at least) those have baud-rate 9600.
+It's a bit expensive being elaborate with such setup.
 
- arch/arc/Kconfig                  |   8 ++
- arch/arc/include/asm/cache.h      |   2 +
- arch/arc/include/asm/jump_label.h |  72 +++++++++++++
- arch/arc/kernel/Makefile          |   1 +
- arch/arc/kernel/jump_label.c      | 170 ++++++++++++++++++++++++++++++
- 5 files changed, 253 insertions(+)
- create mode 100644 arch/arc/include/asm/jump_label.h
- create mode 100644 arch/arc/kernel/jump_label.c
+>> Besides on local tests I see hits those have headers (messages like
+>> "Backtrace: ") without an actual backtrace and the reverse - a backtrace
+>> without a reason for it. It's quite annoying and worth addressing by
+>> syncing headers log levels to backtraces.
+>
+> I suppose I'm surprised there are backtraces that are not important.
+> Either badness happened and it needs printing, or the user asked for it
+> and it needs printing.
+>
+> Perhaps we should be removing backtraces if they're not important
+> instead of allowing to print them as lower loglevels?
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 8383155c8c82..375f9d278139 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -46,6 +46,7 @@ config ARC
- 	select OF_EARLY_FLATTREE
- 	select PCI_SYSCALL if PCI
- 	select PERF_USE_VMALLOC if ARC_CACHE_VIPT_ALIASING
-+	select HAVE_ARCH_JUMP_LABEL if ISA_ARCV2 && !CPU_ENDIAN_BE32
- 
- config ARCH_HAS_CACHE_LINE_SIZE
- 	def_bool y
-@@ -525,6 +526,13 @@ config ARC_DW2_UNWIND
- config ARC_DBG_TLB_PARANOIA
- 	bool "Paranoia Checks in Low Level TLB Handlers"
- 
-+config ARC_DBG_JUMP_LABEL
-+	bool "Paranoid checks in Static Keys (jump labels) code"
-+	depends on JUMP_LABEL
-+	default y if STATIC_KEYS_SELFTEST
-+	help
-+	  Enable paranoid checks and self-test of both ARC-specific and generic
-+	  part of static keys (jump labels) related code.
- endif
- 
- config ARC_BUILTIN_DTB_NAME
-diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
-index 918804c7c1a4..d8ece4292388 100644
---- a/arch/arc/include/asm/cache.h
-+++ b/arch/arc/include/asm/cache.h
-@@ -25,6 +25,8 @@
- 
- #ifndef __ASSEMBLY__
- 
-+#include <linux/build_bug.h>
-+
- /* Uncached access macros */
- #define arc_read_uncached_32(ptr)	\
- ({					\
-diff --git a/arch/arc/include/asm/jump_label.h b/arch/arc/include/asm/jump_label.h
-new file mode 100644
-index 000000000000..9d9618079739
---- /dev/null
-+++ b/arch/arc/include/asm/jump_label.h
-@@ -0,0 +1,72 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _ASM_ARC_JUMP_LABEL_H
-+#define _ASM_ARC_JUMP_LABEL_H
-+
-+#ifndef __ASSEMBLY__
-+
-+#include <linux/stringify.h>
-+#include <linux/types.h>
-+
-+#define JUMP_LABEL_NOP_SIZE 4
-+
-+/*
-+ * NOTE about '.balign 4':
-+ *
-+ * To make atomic update of patched instruction available we need to guarantee
-+ * that this instruction doesn't cross L1 cache line boundary.
-+ *
-+ * As of today we simply align instruction which can be patched by 4 byte using
-+ * ".balign 4" directive. In that case patched instruction is aligned with one
-+ * 16-bit NOP_S if this is required.
-+ * However 'align by 4' directive is much stricter than it actually required.
-+ * It's enough that our 32-bit instruction don't cross L1 cache line boundary /
-+ * L1 I$ fetch block boundary which can be achieved by using
-+ * ".bundle_align_mode" assembler directive. That will save us from adding
-+ * useless NOP_S padding in most of the cases.
-+ *
-+ * TODO: switch to ".bundle_align_mode" directive using whin it will be
-+ * supported by ARC toolchain.
-+ */
-+
-+static __always_inline bool arch_static_branch(struct static_key *key,
-+					       bool branch)
-+{
-+	asm_volatile_goto(".balign "__stringify(JUMP_LABEL_NOP_SIZE)"	\n"
-+		 "1:							\n"
-+		 "nop							\n"
-+		 ".pushsection __jump_table, \"aw\"			\n"
-+		 ".word 1b, %l[l_yes], %c0				\n"
-+		 ".popsection						\n"
-+		 : : "i" (&((char *)key)[branch]) : : l_yes);
-+
-+	return false;
-+l_yes:
-+	return true;
-+}
-+
-+static __always_inline bool arch_static_branch_jump(struct static_key *key,
-+						    bool branch)
-+{
-+	asm_volatile_goto(".balign "__stringify(JUMP_LABEL_NOP_SIZE)"	\n"
-+		 "1:							\n"
-+		 "b %l[l_yes]						\n"
-+		 ".pushsection __jump_table, \"aw\"			\n"
-+		 ".word 1b, %l[l_yes], %c0				\n"
-+		 ".popsection						\n"
-+		 : : "i" (&((char *)key)[branch]) : : l_yes);
-+
-+	return false;
-+l_yes:
-+	return true;
-+}
-+
-+typedef u32 jump_label_t;
-+
-+struct jump_entry {
-+	jump_label_t code;
-+	jump_label_t target;
-+	jump_label_t key;
-+};
-+
-+#endif  /* __ASSEMBLY__ */
-+#endif
-diff --git a/arch/arc/kernel/Makefile b/arch/arc/kernel/Makefile
-index de6251132310..e784f5396dda 100644
---- a/arch/arc/kernel/Makefile
-+++ b/arch/arc/kernel/Makefile
-@@ -20,6 +20,7 @@ obj-$(CONFIG_ARC_EMUL_UNALIGNED) 	+= unaligned.o
- obj-$(CONFIG_KGDB)			+= kgdb.o
- obj-$(CONFIG_ARC_METAWARE_HLINK)	+= arc_hostlink.o
- obj-$(CONFIG_PERF_EVENTS)		+= perf_event.o
-+obj-$(CONFIG_JUMP_LABEL)		+= jump_label.o
- 
- obj-$(CONFIG_ARC_FPU_SAVE_RESTORE)	+= fpu.o
- CFLAGS_fpu.o   += -mdpfp
-diff --git a/arch/arc/kernel/jump_label.c b/arch/arc/kernel/jump_label.c
-new file mode 100644
-index 000000000000..b8600dc325b5
---- /dev/null
-+++ b/arch/arc/kernel/jump_label.c
-@@ -0,0 +1,170 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/kernel.h>
-+#include <linux/jump_label.h>
-+
-+#include "asm/cacheflush.h"
-+
-+#define JUMPLABEL_ERR	"ARC: jump_label: ERROR: "
-+
-+/* Halt system on fatal error to make debug easier */
-+#define arc_jl_fatal(format...)						\
-+({									\
-+	pr_err(JUMPLABEL_ERR format);					\
-+	BUG();								\
-+})
-+
-+static inline u32 arc_gen_nop(void)
-+{
-+	/* 1x 32bit NOP in middle endian */
-+	return 0x7000264a;
-+}
-+
-+/*
-+ * Atomic update of patched instruction is only available if this
-+ * instruction doesn't cross L1 cache line boundary. You can read about
-+ * the way we achieve this in arc/include/asm/jump_label.h
-+ */
-+static inline void instruction_align_assert(void *addr, int len)
-+{
-+	unsigned long a = (unsigned long)addr;
-+
-+	if ((a >> L1_CACHE_SHIFT) != ((a + len - 1) >> L1_CACHE_SHIFT))
-+		arc_jl_fatal("instruction (addr %px) cross L1 cache line border",
-+			     addr);
-+}
-+
-+/*
-+ * ARCv2 'Branch unconditionally' instruction:
-+ * 00000ssssssssss1SSSSSSSSSSNRtttt
-+ * s S[n:0] lower bits signed immediate (number is bitfield size)
-+ * S S[m:n+1] upper bits signed immediate (number is bitfield size)
-+ * t S[24:21] upper bits signed immediate (branch unconditionally far)
-+ * N N <.d> delay slot mode
-+ * R R Reserved
-+ */
-+static inline u32 arc_gen_branch(jump_label_t pc, jump_label_t target)
-+{
-+	u32 instruction_l, instruction_r;
-+	u32 pcl = pc & GENMASK(31, 2);
-+	u32 u_offset = target - pcl;
-+	u32 s, S, t;
-+
-+	/*
-+	 * Offset in 32-bit branch instruction must to fit into s25.
-+	 * Something is terribly broken if we get such huge offset within one
-+	 * function.
-+	 */
-+	if ((s32)u_offset < -16777216 || (s32)u_offset > 16777214)
-+		arc_jl_fatal("gen branch with offset (%d) not fit in s25",
-+			     (s32)u_offset);
-+
-+	/*
-+	 * All instructions are aligned by 2 bytes so we should never get offset
-+	 * here which is not 2 bytes aligned.
-+	 */
-+	if (u_offset & 0x1)
-+		arc_jl_fatal("gen branch with offset (%d) unaligned to 2 bytes",
-+			     (s32)u_offset);
-+
-+	s = (u_offset >> 1)  & GENMASK(9, 0);
-+	S = (u_offset >> 11) & GENMASK(9, 0);
-+	t = (u_offset >> 21) & GENMASK(3, 0);
-+
-+	/* 00000ssssssssss1 */
-+	instruction_l = (s << 1) | 0x1;
-+	/* SSSSSSSSSSNRtttt */
-+	instruction_r = (S << 6) | t;
-+
-+	return (instruction_r << 16) | (instruction_l & GENMASK(15, 0));
-+}
-+
-+void arch_jump_label_transform(struct jump_entry *entry,
-+			       enum jump_label_type type)
-+{
-+	jump_label_t *instr_addr = (jump_label_t *)entry->code;
-+	u32 instr;
-+
-+	instruction_align_assert(instr_addr, JUMP_LABEL_NOP_SIZE);
-+
-+	if (type == JUMP_LABEL_JMP)
-+		instr = arc_gen_branch(entry->code, entry->target);
-+	else
-+		instr = arc_gen_nop();
-+
-+	WRITE_ONCE(*instr_addr, instr);
-+	flush_icache_range(entry->code, entry->code + JUMP_LABEL_NOP_SIZE);
-+}
-+
-+void arch_jump_label_transform_static(struct jump_entry *entry,
-+				      enum jump_label_type type)
-+{
-+	/*
-+	 * We use only one NOP type (1x, 4 byte) in arch_static_branch, so
-+	 * there's no need to patch an identical NOP over the top of it here.
-+	 * The generic code calls 'arch_jump_label_transform' if the NOP needs
-+	 * to be replaced by a branch, so 'arch_jump_label_transform_static' is
-+	 * never called with type other than JUMP_LABEL_NOP.
-+	 */
-+	BUG_ON(type != JUMP_LABEL_NOP);
-+}
-+
-+#ifdef CONFIG_ARC_DBG_JUMP_LABEL
-+#define SELFTEST_MSG	"ARC: instruction generation self-test: "
-+
-+struct arc_gen_branch_testdata {
-+	jump_label_t pc;
-+	jump_label_t target_address;
-+	u32 expected_instr;
-+};
-+
-+static __init int branch_gen_test(const struct arc_gen_branch_testdata *test)
-+{
-+	u32 instr_got;
-+
-+	instr_got = arc_gen_branch(test->pc, test->target_address);
-+	if (instr_got == test->expected_instr)
-+		return 0;
-+
-+	pr_err(SELFTEST_MSG "FAIL:\n arc_gen_branch(0x%08x, 0x%08x) != 0x%08x, got 0x%08x\n",
-+	       test->pc, test->target_address,
-+	       test->expected_instr, instr_got);
-+
-+	return -EFAULT;
-+}
-+
-+/*
-+ * Offset field in branch instruction is not continuous. Test all
-+ * available offset field and sign combinations. Test data is generated
-+ * from real working code.
-+ */
-+static const struct arc_gen_branch_testdata arcgenbr_test_data[] __initconst = {
-+	{0x90007548, 0x90007514, 0xffcf07cd}, /* tiny (-52) offs */
-+	{0x9000c9c0, 0x9000c782, 0xffcf05c3}, /* tiny (-574) offs */
-+	{0x9000cc1c, 0x9000c782, 0xffcf0367}, /* tiny (-1178) offs */
-+	{0x9009dce0, 0x9009d106, 0xff8f0427}, /* small (-3034) offs */
-+	{0x9000f5de, 0x90007d30, 0xfc0f0755}, /* big  (-30892) offs */
-+	{0x900a2444, 0x90035f64, 0xc9cf0321}, /* huge (-443616) offs */
-+	{0x90007514, 0x9000752c, 0x00000019}, /* tiny (+24) offs */
-+	{0x9001a578, 0x9001a77a, 0x00000203}, /* tiny (+514) offs */
-+	{0x90031ed8, 0x90032634, 0x0000075d}, /* tiny (+1884) offs */
-+	{0x9008c7f2, 0x9008d3f0, 0x00400401}, /* small (+3072) offs */
-+	{0x9000bb38, 0x9003b340, 0x17c00009}, /* big  (+194568) offs */
-+	{0x90008f44, 0x90578d80, 0xb7c2063d}  /* huge (+5701180) offs */
-+};
-+
-+static __init int instr_gen_test(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(arcgenbr_test_data); i++)
-+		if (branch_gen_test(&arcgenbr_test_data[i]))
-+			return -EFAULT;
-+
-+	pr_info(SELFTEST_MSG "OK\n");
-+
-+	return 0;
-+}
-+early_initcall(instr_gen_test);
-+
-+#endif /* CONFIG_ARC_DBG_JUMP_LABEL */
--- 
-2.21.0
+Well, the use-case for lower log-level is that everything goes into logs
+(/var/log/dmesg or /var/log/messages whatever rsyslog has settting).
 
+That has it's value:
+- after a failure (i.e. panic) messages, those were only signs that
+something goes wrong can be seen in logs which can give ideas what has
+happened.
+- before the failure, those messages go to telemetry and can be
+auto-magically processed remotely to take a decision (e.g. balance the
+traffic away).
+
+I wish all the information could be gathered in the userspace, but many
+existing kernel/driver messages are valuable. A more detailed example is
+hung task detector: we want to have the backtrace for a task that is
+in uninterruptible state too long, but only in logs as printing on
+serial console may lead to holding console lock and watchdog.
+Besides customer notifications and investigations, I see the value of such
+"bottleneck" warnings during long-running integration tests.
+
+Thanks,
+          Dmitry
 
 _______________________________________________
 linux-snps-arc mailing list
