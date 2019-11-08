@@ -2,80 +2,76 @@ Return-Path: <SRS0=7pOa=ZA=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBEBFC5DF60
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 17:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA64FA372C
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 17:41:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C3821206BA
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 17:36:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2058C214DA
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Nov 2019 17:41:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GkZJmeGB";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="swiYqGJ7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C3821206BA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=armlinux.org.uk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lkBeTRAs";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="g7CdmijA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2058C214DA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UbhyCvrfBDnEmBYFi6SW9MDB3OFZKaW6F1rK9QdLTeo=; b=GkZJmeGBtPjU+p
-	JjYwkr9WM0P9CxftcgrqtS/xd75eSMxZm3K0rC7jGWL42iOPi0rFcK+vHeFXmLFM3Fwv4m32bcsIT
-	VMtz1y7hwDnZJa75R7wgY0KJf6P1sofQbyeztUSRIETJZz+lkk7OmZh+q/je7go20wENwTOCxRcO2
-	nAaHBYR0eMd8Mpl1vlM4mZYtbip/lhqRcO3re4O9zhjE7TfVo0ycTrPy1GsFjRCaepsgiQG/Nx0bS
-	UpL/gERACtfI5UTpBDIE2kzHA6/scD4tVXFAKGSYIYWvJd+6dQLlfG9j3r+8yETFTLg1I55UATrpr
-	C6+IGRFuCKjt5Zx0Owyg==;
+	List-Owner; bh=i8EIUAh5X8srVvKX79ezySJXF+HnatwCslgvDK7vAv4=; b=lkBeTRAsK/eRHm
+	RSgdXCm2HqupBO78ctw6vWKQg/s2ds99N8+uNaAiHeSrTUQoln/BbkAPz/Wba9WYSAqaYmYpt+D4M
+	6d1aLMM27/Nzb/QS9WZowZ+QiZnT7iwwa5YqsnT9Fuz+xiCDdmKFIX5xJ2MhOijR5MOIpGYBWoOwS
+	YKtPn7Xyy4TRKagR3SxPcx/s0YIrKoONCzfHboAh+nSVEvSnoZI1qPBNv1Z/E0P3I8ZSUWHSS+7Cs
+	TBxBaqwkz8jNRK8EsX9RdE5joPnbIUYNRClNir5I0I5L3xyymzhYhJwzDgCZczxt4YjW/ZsjDORDk
+	zoiKF3VGvbahVjyCHngw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iT8BR-000673-Tt; Fri, 08 Nov 2019 17:36:29 +0000
-Received: from pandora.armlinux.org.uk
- ([2001:4d48:ad52:3201:214:fdff:fe10:1be6])
+	id 1iT8G9-0007hx-Vi; Fri, 08 Nov 2019 17:41:21 +0000
+Received: from smtprelay-out1.synopsys.com ([198.182.47.102])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iT8BN-0004fV-GG; Fri, 08 Nov 2019 17:36:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8OKQ8ybzqBvVwbNEFVvCvShIsxDoVn1JKRJjkQiqoKU=; b=swiYqGJ7LEVqyrrRsI7H1eTTa
- hKUL+RUA60U6nmKfQ3wx4HeACdCMgfizQI7y71CmrPZ9FkR78hjjzmqBZLEHXPhbl2wyXwtowYyht
- q3s2gW++t5nGtMEhwRgjQdMHHO6gZwwwuAzS21l3ty+eVTpDYUq3y7bBgzQWbko3SSiRfkjM9FyAG
- ozIGQYkMiL4DSG7CHuy+TRP0trl6r2Nd1q0qtEbaW+lBXN63gMwtPy6r2GzdFA2Jn6NOahkxyCgl6
- RA7vVtn4kk9c9iT0zwgIxtjo4SQcsvTNqcn2tKatz1/KsHP3DQuGLUdi5b2RLs4XIvzS7bfH1igZp
- ONICUo7nw==;
-Received: from shell.armlinux.org.uk
- ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:53540)
- by pandora.armlinux.org.uk with esmtpsa
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
- (envelope-from <linux@armlinux.org.uk>)
- id 1iT86P-0003rG-IT; Fri, 08 Nov 2019 17:31:18 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1iT85t-000697-Tp; Fri, 08 Nov 2019 17:30:45 +0000
-Date: Fri, 8 Nov 2019 17:30:45 +0000
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Dmitry Safonov <dima@arista.com>
-Subject: Re: [PATCH 00/50] Add log level to show_stack()
-Message-ID: <20191108173045.GY25745@shell.armlinux.org.uk>
-References: <20191106030542.868541-1-dima@arista.com>
- <20191106092039.GT4131@hirez.programming.kicks-ass.net>
- <10db6fa1-5b17-ebe6-09e0-6335e09e4db8@arista.com>
- <20191106203440.GH3079@worktop.programming.kicks-ass.net>
- <CAGrbwDRgX1BZoFrVYSXhAeeUKHrB=q3w8jXFPOuRvO7HV4Ciqw@mail.gmail.com>
+ id 1iT8G7-0007gy-Mc
+ for linux-snps-arc@lists.infradead.org; Fri, 08 Nov 2019 17:41:20 +0000
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
+ [10.205.2.132])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 014D9C0DF1;
+ Fri,  8 Nov 2019 17:41:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1573234879; bh=ZW7ClywPQ5mavJ/X95T8QJUJqFbD05UvbL6E/HUfpbw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=g7CdmijAg4p6o9yskfaeAHACr65uquXuLIxB+ghK6zUzQtcgahSNPOkLKKfIWc1ie
+ Pv1jn+LXkNg0LjmG6JTCAOjVAvVS0FaifijGmv04F9NdkJf0LpE4CsqfRdByd+BWYM
+ oCtSuHPkg2tv9kBkPv/pIdIqUbbeKhlzRoJS5wOpTAW5fOORz9KnEbS8DOrNGqoISy
+ W4nX1zK/byrQG/8vFp9IvHjsyt/vmXnPgSK4dY6aPSp6EGgyvo63WSQUVN2ScTwcOq
+ vo9lMW/GSmMtyEzEB9kypSYyvA/xWrMBxTGutLRzDfShKe/lavaqJgPurW1y28bWQt
+ RqGisCqfkOHpg==
+Received: from vineetg-Latitude-E7450.internal.synopsys.com
+ (vineetg-latitude-e7450.internal.synopsys.com [10.10.161.28])
+ by mailhost.synopsys.com (Postfix) with ESMTP id D5C49A00A8;
+ Fri,  8 Nov 2019 17:41:18 +0000 (UTC)
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: buildroot@busybox.net
+Subject: [PATCH 2/3] arch/config.in.arc: Introduce ARC ISA toggle to ease
+ downstream toggles
+Date: Fri,  8 Nov 2019 09:41:11 -0800
+Message-Id: <20191108174112.28183-3-vgupta@synopsys.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191108174112.28183-1-vgupta@synopsys.com>
+References: <20191108174112.28183-1-vgupta@synopsys.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAGrbwDRgX1BZoFrVYSXhAeeUKHrB=q3w8jXFPOuRvO7HV4Ciqw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191108_093625_899080_ECF9D4D4 
-X-CRM114-Status: GOOD (  27.66  )
+X-CRM114-CacheID: sfid-20191108_094119_755919_893DB684 
+X-CRM114-Status: UNSURE (   9.14  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,139 +83,95 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
- Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
- Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Paul Burton <paulburton@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
- Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
- uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
- linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
- linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Richard Henderson <rth@twiddle.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, Paul Mackerras <paulus@samba.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-ia64@vger.kernel.org,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- James Hogan <jhogan@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
- Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
- linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
- "open list:TENSILICA XTENSA PORT \(xtensa\)" <linux-xtensa@linux-xtensa.org>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
- linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Brian Cain <bcain@codeaurora.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
- Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
- Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
- Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
- linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
- "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
- Petr Mladek <pmladek@suse.com>, Peter Zijlstra <peterz@infradead.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- linux-riscv@lists.infradead.org,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
- X86 ML <x86@kernel.org>, clang-built-linux@googlegroups.com,
- Ingo Molnar <mingo@redhat.com>, Mark Salter <msalter@redhat.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
- openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
- Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
- linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
- nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
+Cc: Evgeniy.Didin@synopsys.com, Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ linux-snps-arc@lists.infradead.org, Alexey.Brodkin@synopsys.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 08, 2019 at 04:28:30PM +0000, Dmitry Safonov wrote:
-> On 11/6/19 8:34 PM, Peter Zijlstra wrote:
-> > On Wed, Nov 06, 2019 at 04:27:33PM +0000, Dmitry Safonov wrote:
-> [..]
-> >> Sorry, I should have tried to describe better.
-> >>
-> >> I'm trying to remove external users of console_loglevel by following
-> >> reasons:
-> >
-> > I suppose since all my machines have 'debug ignore_loglevel
-> > earlyprintk=serial,ttyS0,115200 console=ttyS0,115200' I don't have this
-> > experience.
-> 
-> Yeah, I remember you avoid all those functionalities of printk(), fair
-> enough. On the other side, regular users and I'm betting most of
-> the non-tuned distributions use /proc/sys/kernel/printk by default.
-> (Checking on my Arch & Fedora - loglevel 4 from the box)
-> 
-> >> - changing console_loglevel on SMP means that unwanted messages from
-> >> other CPUs will appear (that have lower log level)
-> >> - on UMP unwanted messages may appear if the code is preempted while it
-> >> hasn't set the console_loglevel back to old
-> >> - rising console_loglevel to print wanted message(s) may not work at all
-> >> if printk() has being delayed and the console_loglevel is already set
-> >> back to old value
-> >
-> > Sure, frobbing the global console_loglevel is bad.
-> >
-> >> I also have patches in wip those needs to print backtrace with specific
-> >> loglevel (higher when it's critical, lower when it's notice and
-> >> shouldn't go to serial console).
-> >
-> > (everything always should go to serial, serial is awesome :-)
-> 
-> Personally I agree. Unfortunately, here @Arista there are switches (I'm
-> speaking about the order of thousands at least) those have baud-rate 9600.
-> It's a bit expensive being elaborate with such setup.
-> 
-> >> Besides on local tests I see hits those have headers (messages like
-> >> "Backtrace: ") without an actual backtrace and the reverse - a backtrace
-> >> without a reason for it. It's quite annoying and worth addressing by
-> >> syncing headers log levels to backtraces.
-> >
-> > I suppose I'm surprised there are backtraces that are not important.
-> > Either badness happened and it needs printing, or the user asked for it
-> > and it needs printing.
-> >
-> > Perhaps we should be removing backtraces if they're not important
-> > instead of allowing to print them as lower loglevels?
-> 
-> Well, the use-case for lower log-level is that everything goes into logs
-> (/var/log/dmesg or /var/log/messages whatever rsyslog has settting).
-> 
-> That has it's value:
-> - after a failure (i.e. panic) messages, those were only signs that
-> something goes wrong can be seen in logs which can give ideas what has
-> happened.
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+---
+ arch/Config.in.arc | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
-No they don't.  When the kernel panics, userspace generally stops
-running, so rsyslog won't be able to write them to /var/log/messages.
-
-How, by "kernel panics" I mean a real kernel panic, which probably
-isn't what you're talking about there.  You are probably talking
-about the whole shebang of non-fatal kernel oops, kernel warnings
-and the like.  If so, I'd ask you to stop confuzzilating terminology.
-
-If you really want to capture such events, then you need to have the
-kernel write the panic to (e.g.) flash - see the mtdoops driver.
-
+diff --git a/arch/Config.in.arc b/arch/Config.in.arc
+index 284951b82cee..dbc608db39c6 100644
+--- a/arch/Config.in.arc
++++ b/arch/Config.in.arc
+@@ -1,3 +1,18 @@
++choice
++	prompt "Target ISA"
++	default BR2_arcompact
++	depends on BR2_arc
++	help
++	    Specific ARC ISA to use
++
++config BR2_arcompact
++	bool "ARCompact ISA"
++
++config BR2_arcv2
++	bool "ARCv2 ISA"
++
++endchoice
++
+ choice
+ 	prompt "Target CPU"
+ 	default BR2_arc770d
+@@ -7,12 +22,15 @@ choice
+ 
+ config BR2_arc750d
+ 	bool "ARC 750D"
++	depends on BR2_arcompact
+ 
+ config BR2_arc770d
+ 	bool "ARC 770D"
++	depends on BR2_arcompact
+ 
+ config BR2_archs
+ 	bool "ARC HS38"
++	depends on BR2_arcv2
+ 	help
+ 	  Generic ARC HS capable of running Linux, i.e. with MMU,
+ 	  caches and 32-bit multiplier. Also it corresponds to the default
+@@ -20,6 +38,7 @@ config BR2_archs
+ 
+ config BR2_archs38
+ 	bool "ARC HS38 with 64-bit mpy"
++	depends on BR2_arcv2
+ 	help
+ 	  Fully featured ARC HS capable of running Linux, i.e. with MMU,
+ 	  caches and 64-bit multiplier.
+@@ -29,6 +48,7 @@ config BR2_archs38
+ 
+ config BR2_archs38_full
+ 	bool "ARC HS38 with Quad MAC & FPU"
++	depends on BR2_arcv2
+ 	help
+ 	  Fully featured ARC HS with additional support for
+ 	   - Dual- and quad multiply and MC oprations
+@@ -39,6 +59,7 @@ config BR2_archs38_full
+ 
+ config BR2_archs4x_rel31
+ 	bool "ARC HS48 rel 31"
++	depends on BR2_arcv2
+ 	help
+ 	   Latest release of HS48 processor
+ 	   - Dual- and quad multiply and MC oprations
+@@ -72,8 +93,8 @@ config BR2_GCC_TARGET_CPU
+ 	default "hs4x_rel31"	 if BR2_archs4x_rel31
+ 
+ config BR2_READELF_ARCH_NAME
+-	default "ARCompact"	if BR2_arc750d || BR2_arc770d
+-	default "ARCv2"		if BR2_archs || BR2_archs38 || BR2_archs38_full || BR2_archs4x_rel31
++	default "ARCompact"	if BR2_arcompact
++	default "ARCv2"		if BR2_arcv2
+ 
+ choice
+ 	prompt "MMU Page Size"
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+2.20.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
