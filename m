@@ -1,23 +1,24 @@
-Return-Path: <SRS0=itI7=ZC=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=N5rj=ZD=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F26C43331
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 10 Nov 2019 20:36:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88556C17443
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 01:23:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 575D2207FA
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 10 Nov 2019 20:36:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5C24D206DF
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 01:23:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="f2FSRmS5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 575D2207FA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=free.fr
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="u6xeUeiI";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PEUFO8IE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C24D206DF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -25,42 +26,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Qn1jz+py0OM6ME4KHwQ6QoSvEHf8Dr9eld6f7VmjSs0=; b=f2FSRmS5e2IqLs
-	i1p2T0cg165nRh2T1lmwjpk9Rsa9fbEK55lbmjQWXv3vcpudUdfAOsgiivaZslqnP4MpshvnJHzpT
-	rb684qCd7AF2wm6M1lJsKTyPmGhyC4kgUi9YvLeNXaNIG7IknqvMDwBsdpSL0bnI0x86c82ocPcgo
-	kh/1veAIU6zTPlJj8QYKn1pw0d3QyBv8SnnTYlZdMexFprvbCYWGyei/i+tHiGkJB7iCsE57FORM9
-	jJRTEcNxMI9kh4bXt4UEvaDeaUdfIARpxN/6P68ZeDE4udULE/8bkRR0MR3dVsG4OgSbdeyTkuN39
-	LZxECRIpVr1R6x9/5qIw==;
+	List-Owner; bh=zjxHvhN9bWXtwZky/RZBO7pfw1q8WloEIDo3hk8PyEc=; b=u6xeUeiI+Dr8mC
+	KJzIq+JKBDn3mcowAZeVR+/lOtvIsow2cnMWwL5qgntHZIa8t9dpTv8XdQ2+Bowe5XZW83AocMe1h
+	ZioQ7VQfn6j1kZZeqEvM75ck3xmV1IDkpDWoASPv7xYXMPHSfLc35/uGLYzomiYo2jPIR4730aG3E
+	ndONL11jqnaNMdcLdK3C+MencmK64R2Pc3EfKcVK9X18o5WxWZkuuopubloFrAUmoAH9s9VVPvtj0
+	ZuJcG8d9sj58AuURaXLRAZgGGavveOVjTKj6b9Jb7sDNYwIUsjYkHfIfVVj82MaSUBaf+OGZzniQT
+	vWqKgofp31bNBIUE+mVQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iTtwI-0005zR-5m; Sun, 10 Nov 2019 20:36:02 +0000
-Received: from smtp4-g21.free.fr ([212.27.42.4])
+	id 1iTyQm-0008PQ-0x; Mon, 11 Nov 2019 01:23:48 +0000
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iTtwF-0005z4-EQ
- for linux-snps-arc@lists.infradead.org; Sun, 10 Nov 2019 20:36:01 +0000
-Received: from ymorin.is-a-geek.org (unknown
- [IPv6:2a01:cb19:8b51:cb00:5d59:a754:4ab2:dcc8])
- (Authenticated sender: yann.morin.1998)
- by smtp4-g21.free.fr (Postfix) with ESMTPSA id 98BD919F59D;
- Sun, 10 Nov 2019 21:35:36 +0100 (CET)
-Received: by ymorin.is-a-geek.org (sSMTP sendmail emulation);
- Sun, 10 Nov 2019 21:35:36 +0100
-Date: Sun, 10 Nov 2019 21:35:36 +0100
-From: "Yann E. MORIN" <yann.morin.1998@free.fr>
-To: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [Buildroot] [PATCH 1/3] arch/config.in.arc: Introduce the ARC
- optimized hs38 config
-Message-ID: <20191110203536.GE3419@scaer>
-References: <20191108174112.28183-1-vgupta@synopsys.com>
- <20191108174112.28183-2-vgupta@synopsys.com>
- <20191109144656.3da6a1b0@windsurf>
+ id 1iTyQh-0008Nx-9a; Mon, 11 Nov 2019 01:23:45 +0000
+Received: by mail-pg1-x541.google.com with SMTP id z24so8364664pgu.4;
+ Sun, 10 Nov 2019 17:23:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=meRRGW7ni43do21CnMh1ypMYB7GRo8yRghEKxpnOMtM=;
+ b=PEUFO8IEu1osGIrKprDzvbxlNRJeZ7+VQZKgcPA4VWwOYdra1vch/X2sOCSKa29N9n
+ VdblGN+C6xXZa66p438tGiFX2wH1ZMvXaLBCYR4jMYFYKpHWbu3dvuf4i51nfGHovAdM
+ kJ21eWqlCVZNsUh7vR0KmZmoQmTZB1DoPsxQK2h0K8DrMvb84HP3pZHYPYw+F3AAOb8s
+ 2PUdw4923VWsoF2jPoVNv2KKLc7p6DTbwWWIyb/CwJRvDtzNsBcrU623traZ5+UDPhd8
+ dvUZh/U5lV6A1081bATRr1q945s51Yb6awkYmElXIQG0WkPEPjbs1iqGD3WlzUt7rcka
+ L5/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=meRRGW7ni43do21CnMh1ypMYB7GRo8yRghEKxpnOMtM=;
+ b=g8pbAh7YOBubP2l7ZGgVpk4v7Z/PTqLoqnzDItAp53ScTIIXpcjXo5HJYCBtzYLKra
+ A2ep1kvK2NCtqcRhmIsEsciJjHtZqHM0QG64FHNvnePtVVgzsyOUEIRCYpoDP9HeuWhv
+ grlws3REdt7TJUKmZgjsdanuC/11XBkDeaYMlsPeLWaXNwY2RcXCgFT2CheEJWEHf//t
+ SP/9raIqj3c2cXgQzW2DdL5UBMFn9Y0brV7xtchLxXeIouJ/GMLhc86a2BZqD/tIldsW
+ H1LBQGn1uNrSA5Ld7+PwxZqhq9NIwiYiqcT9gabK4c4gM40tu2H5r9r6WsU6sWsN4f8Z
+ aIKw==
+X-Gm-Message-State: APjAAAUeKX9eCUsjq3Xla3P+FgKUokTPcmHpygSkeEvPP27HZBxyG5OM
+ N9HE3FGp8LPKBGrrI8pe5iM=
+X-Google-Smtp-Source: APXvYqy6vC5fNwNO+7Jnp+tE/qbyOeavvD3kd+/MEwk8H/f5hGFY+WAM1K+Wsl4w+fZzo2o0jtZpqg==
+X-Received: by 2002:a63:b047:: with SMTP id z7mr20331363pgo.224.1573435419566; 
+ Sun, 10 Nov 2019 17:23:39 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:250d:e71d:5a0a:9afe])
+ by smtp.gmail.com with ESMTPSA id r8sm12584714pgr.59.2019.11.10.17.23.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 10 Nov 2019 17:23:38 -0800 (PST)
+Date: Mon, 11 Nov 2019 10:23:36 +0900
+From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To: Petr Mladek <pmladek@suse.com>
+Subject: Re: [PATCH 00/50] Add log level to show_stack()
+Message-ID: <20191111012336.GA85185@google.com>
+References: <20191106030542.868541-1-dima@arista.com>
+ <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
+ <20191108103719.GB175344@google.com>
+ <20191108130447.h3wfgo4efjkto56f@pathway.suse.cz>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191109144656.3da6a1b0@windsurf>
-User-Agent: Mutt/1.5.22 (2013-10-16)
+In-Reply-To: <20191108130447.h3wfgo4efjkto56f@pathway.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191110_123559_778893_05420671 
-X-CRM114-Status: GOOD (  18.99  )
+X-CRM114-CacheID: sfid-20191110_172343_339099_B301DB72 
+X-CRM114-Status: GOOD (  11.61  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,99 +97,90 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: buildroot@busybox.net, Evgeniy.Didin@synopsys.com,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>, linux-snps-arc@lists.infradead.org,
- Alexey.Brodkin@synopsys.com
+Cc: Juri Lelli <juri.lelli@redhat.com>,
+ Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+ linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Ben Segall <bsegall@google.com>, Guo Ren <guoren@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Dmitry Safonov <dima@arista.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
+ Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
+ uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
+ linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-ia64@vger.kernel.org,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ James Hogan <jhogan@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
+ linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Brian Cain <bcain@codeaurora.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
+ Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
+ Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
+ "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
+ Peter Zijlstra <peterz@infradead.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
+ Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
+ nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Vineet, Thomas, All,
+On (19/11/08 14:04), Petr Mladek wrote:
+[..]
+> I agree that it is complicated to pass the loglevel as
+> a parameter. It would be better define the default
+> log level for a given code section. It might be stored
+> in task_struct for the normal context and in per-CPU
+> variables for interrupt contexts.
 
-On 2019-11-09 14:46 +0100, Thomas Petazzoni spake thusly:
-> +Arnout for legacy handling.
-> 
-> On Fri,  8 Nov 2019 09:41:10 -0800
-> Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
-> 
-> > This corresponds to -mcu=hs38 with mpy-option=9 (64-bit multiplier)
-> > 
-> > Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
-> > ---
-> >  arch/Config.in.arc | 21 ++++++++++++++-------
-> >  1 file changed, 14 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/arch/Config.in.arc b/arch/Config.in.arc
-> > index c65bb01f1f4f..284951b82cee 100644
-> > --- a/arch/Config.in.arc
-> > +++ b/arch/Config.in.arc
-> > @@ -11,13 +11,19 @@ config BR2_arc750d
-> >  config BR2_arc770d
-> >  	bool "ARC 770D"
-> >  
-> > -config BR2_archs38
-> > +config BR2_archs
-> >  	bool "ARC HS38"
-> >  	help
-> >  	  Generic ARC HS capable of running Linux, i.e. with MMU,
-> > -	  caches and multiplier. Also it corresponds to the default
-> > +	  caches and 32-bit multiplier. Also it corresponds to the default
-> >  	  configuration in older GNU toolchain versions.
-> >  
-> > +config BR2_archs38
-> 
-> This re-use of an existing name is a bit annoying. Indeed, all existing
-> users of Buildroot that have a configuration with BR2_archs38 will now
-> be building for a ARC system with a 64-bit multiplier, while they were
-> previously building for a 32-bit multiplier.
-> 
-> I see that what you have done is to try to be consistent between the
-> BR2_ options and the gcc options. I'm hesitating between keeping the
-> consistency but making the migration a bit annoying for users, or
-> breaking the consistency to make the migration smooth for users.
-> 
-> Since I think the number of affected users will probably be quite
-> small/limited, I think I would be fine with merging your patch as-is,
-> but I'd like to hear from others.
+I do recall that we talked about per-CPU printk state bit which would
+start/end "just print it" section. We probably can extend it to "just
+log_store" type of functionality. Doesn't look like a very bad idea.
+"This task/context is in trouble, whatever it printk()-s is important".
 
-I would prefer if we kept the existing name as-is, and introduce the new
-variant under a different name, e.g.:
+Per-console loglevel also might help sometimes. Slower consoles would
+->write() only critical messages, faster consoles everything.
 
-    config BR2_archs38
-        bool "ARC HS38"
+Passing log_level as part of message payload, which printk machinery
+magically hides is not entirely exciting. What we have in the code
+now - printk("%s blah\n", lvl) - is not what we see in the logs.
+Because the leading '%s' becomes special. And printk()/sprintf()
+documentation should reflect that: '%s' prints a string, but sometimes
+it doesn't.
 
-    config BR2_archs68_64mpy
-        bool "ARC HS38 w/ 64-bit mpy"
-
-Because, well, they both are HS38 cores, so we are not wrong in naming
-both options with hs38.
-
-It would have been good that the config names match the gcc option, of
-course, but that is a minor detail I believe...
-
-Regards,
-Yann E. MORIN.
-
-> Thanks,
-> 
-> Thomas
-> -- 
-> Thomas Petazzoni, CTO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-> _______________________________________________
-> buildroot mailing list
-> buildroot@busybox.net
-> http://lists.busybox.net/mailman/listinfo/buildroot
-
--- 
-.-----------------.--------------------.------------------.--------------------.
-|  Yann E. MORIN  | Real-Time Embedded | /"\ ASCII RIBBON | Erics' conspiracy: |
-| +33 662 376 056 | Software  Designer | \ / CAMPAIGN     |  ___               |
-| +33 561 099 427 `------------.-------:  X  AGAINST      |  \e/  There is no  |
-| http://ymorin.is-a-geek.org/ | _/*\_ | / \ HTML MAIL    |   v   conspiracy.  |
-'------------------------------^-------^------------------^--------------------'
+	-ss
 
 _______________________________________________
 linux-snps-arc mailing list
