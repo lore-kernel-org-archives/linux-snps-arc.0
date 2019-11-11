@@ -2,95 +2,66 @@ Return-Path: <SRS0=N5rj=ZD=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7D93C43331
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 19:47:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87175C43331
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 21:09:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9B6D421655
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 19:47:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 144EF20818
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 21:09:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vD5ibmp5";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=arista.com header.i=@arista.com header.b="cZIehrzG"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B6D421655
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=arista.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WhePG0eR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 144EF20818
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=free.fr
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=burf8SuQf/K0cviUiNaPgjO96BrO+miuKlA0Hz+3ZNQ=; b=vD5ibmp53LTidT
-	8gj5d2AJh/qNBzepm2k7C+H29eKIIch3ctWN6QprV0TKnZ9x+Fm/l9P6tb6NRAUrXPp+90LODQ4Ak
-	rBTGqYA6tj7AjcBfGliVnHo4FP5Avn1Kxh8T58ynazUVK/AQWwoiL+a1ldsUHwpc/Lqpfk1hDI0J/
-	AJfRVhvi6AhM5IGjOfuvn1wWj1Ob0vM7wNUtDWuw3p4C4uJ9RCnhxvCozVFDLXN/y6p/JDUIFBdI3
-	VGuhk8A1aeBkp3nCfZFOCQBkbDdQQlqfg84CD9i5G75DVvG6Vx2Nf1MpEuIGE6dh8Sm0LSPn0McKp
-	KHxzbo+1DuHXWdS6ofTg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=F6p7z1qgIqmI9FvQRZbncjg1Gay19XDXD05SWaQBGPk=; b=WhePG0eRL24o3d
+	a2EVcG2hyRsrSKeBEbE1Yi1u0PID/Go+QKtKWaN2mvzw9y7eFquPzA7oz8MmDlN6mzdV9o/IgePfR
+	gXEKQ4o5pAPmqcXrex7P2TtlARxVkaVsts5y43kLcQmQZapamsc93nVgBiactlOLoxCSGhEU/P7xq
+	5Bw9XMzj4vay/r/RKw10fZHBonmhpjXKT5C1AYAPdrxOg5dVxE/rtI3SZkOmoTXjgwwowo9kCqBiE
+	6rMG2gjjkM11Y7/t+RY46DfQBI0VAk+eI83hYpBOrwbPDbVpy5Q9WX0xDrVzHeowk30Jq5DtbiQO5
+	bo+J52FDBBe4IIPTH2pg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iUFf5-0008KO-Bv; Mon, 11 Nov 2019 19:47:43 +0000
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342])
+	id 1iUGw8-00089y-B4; Mon, 11 Nov 2019 21:09:24 +0000
+Received: from smtp4-g21.free.fr ([212.27.42.4])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iUFey-0008Ev-Ce
- for linux-snps-arc@lists.infradead.org; Mon, 11 Nov 2019 19:47:42 +0000
-Received: by mail-wm1-x342.google.com with SMTP id j18so638217wmk.1
- for <linux-snps-arc@lists.infradead.org>; Mon, 11 Nov 2019 11:47:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=arista.com; s=googlenew;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QOJc4N4PavQU2sAVS1vG4t8ohqXXXnqqV8/w5qQonB8=;
- b=cZIehrzGpUFezD2aa4zmv8OufN5OtO0USzsaArEEUTu0egX1JDp7fXq/MKdHB+YxUr
- j/kC7hgtECdh5x1noQBDdzd4zMsGonK7DNa4R/e8/R7qxcehDcLnLo5qSFE4wjuyW42o
- PQpFktb3ed0G2yVCt/fgkRLVHHWNH3ragHLlsd4kHSnraDACO77RcGzlulVu3SB7tcFm
- Ka75d1q24hYXLZJbDgNbGl6ynhrMJhmWegwmwjFp7I5D0Fg2d54s1iF9aPGxd1hnX+B8
- gISwE6rYfN65iX3ZaYqQ/BYKUKfAwSvjgwPgiFEkk/eO1PVC0atmmvIxVoVwNPzimOsY
- R2mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QOJc4N4PavQU2sAVS1vG4t8ohqXXXnqqV8/w5qQonB8=;
- b=bjJyNKC3BDGy4/ANqETA3/XQ3dn0OkVyVi1FM5CpKIT3n/yIYMlUSfHGI48KPT/zeR
- 6QYog9TboSTYVP0FEgpN/LCXp2XiXEdRvF6Ifo2PC73M/Qj3OR+hfsdiZj/G1KzMFqgD
- MkJCL52lWUsdtP55F0WEJxM+J6WkJWbuXO5B0QYYRE7T2c7yf2JnSA7nxyMGBQyD8Sr6
- F8Uu5gDX5s2Q4GcykYNu2jHP/7fxp4LYJz2EdugomTAdMjRCpI76ya7BYRRA+TmBTZv9
- 5DSjZ44cTeEODVPmVFxO5yJulux/wGHCMl+zk8wJ54tBth1sWY16Q+Ogg3lOSn/Lmr6B
- kNnA==
-X-Gm-Message-State: APjAAAXMgHWItKM9ew1GN39TYHf4TLhzQmUIJl8IolK4GXdq2+FEgo8v
- 6EiZ2yP8mwy7cgKJW4eDeykd2Q==
-X-Google-Smtp-Source: APXvYqwUswzQhu0DkD+M5khz/mFK8gHdabdOoahgxknZZUvPWQw4U7A4JmJR+GV6KsoYg/TOZHa6cQ==
-X-Received: by 2002:a1c:2342:: with SMTP id j63mr585268wmj.56.1573501654084;
- Mon, 11 Nov 2019 11:47:34 -0800 (PST)
-Received: from [10.83.36.153] ([217.173.96.166])
- by smtp.gmail.com with ESMTPSA id f67sm723039wme.16.2019.11.11.11.47.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Nov 2019 11:47:33 -0800 (PST)
-Subject: Re: [PATCH 00/50] Add log level to show_stack()
-To: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
- Petr Mladek <pmladek@suse.com>
-References: <20191106030542.868541-1-dima@arista.com>
- <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
- <20191108103719.GB175344@google.com>
- <20191108130447.h3wfgo4efjkto56f@pathway.suse.cz>
- <20191111012336.GA85185@google.com>
-From: Dmitry Safonov <dima@arista.com>
-Message-ID: <13e72b62-c842-8ed5-5b41-bc1692b28f53@arista.com>
-Date: Mon, 11 Nov 2019 19:47:25 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ id 1iUGw5-00089J-7a
+ for linux-snps-arc@lists.infradead.org; Mon, 11 Nov 2019 21:09:23 +0000
+Received: from ymorin.is-a-geek.org (unknown
+ [IPv6:2a01:cb19:8b51:cb00:644e:7eec:8a85:2361])
+ (Authenticated sender: yann.morin.1998)
+ by smtp4-g21.free.fr (Postfix) with ESMTPSA id 684B619F5AD;
+ Mon, 11 Nov 2019 22:09:01 +0100 (CET)
+Received: by ymorin.is-a-geek.org (sSMTP sendmail emulation);
+ Mon, 11 Nov 2019 22:09:00 +0100
+Date: Mon, 11 Nov 2019 22:09:00 +0100
+From: "Yann E. MORIN" <yann.morin.1998@free.fr>
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Subject: Re: [Buildroot] [PATCH 1/3] arch/config.in.arc: Introduce the ARC
+ optimized hs38 config
+Message-ID: <20191111210900.GH3419@scaer>
+References: <20191108174112.28183-1-vgupta@synopsys.com>
+ <20191108174112.28183-2-vgupta@synopsys.com>
+ <20191109144656.3da6a1b0@windsurf>
+ <1112f6a7-8a23-6cd9-0af0-76e0b92e496b@synopsys.com>
 MIME-Version: 1.0
-In-Reply-To: <20191111012336.GA85185@google.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <1112f6a7-8a23-6cd9-0af0-76e0b92e496b@synopsys.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191111_114740_622749_932D847B 
-X-CRM114-Status: GOOD (  17.67  )
+X-CRM114-CacheID: sfid-20191111_130921_563257_393F48E2 
+X-CRM114-Status: GOOD (  21.87  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,116 +73,83 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
- Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
- Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Paul Burton <paulburton@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
- Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
- uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
- linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
- linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Richard Henderson <rth@twiddle.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
- Ralf Baechle <ralf@linux-mips.org>, Paul Mackerras <paulus@samba.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-ia64@vger.kernel.org,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- James Hogan <jhogan@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
- Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
- linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
- Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
- linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Brian Cain <bcain@codeaurora.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
- Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
- Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
- Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
- linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
- "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
- Peter Zijlstra <peterz@infradead.org>, "H. Peter Anvin" <hpa@zytor.com>,
- sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
- x86@kernel.org, Russell King <linux@armlinux.org.uk>,
- clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
- Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
- openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
- Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
- linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
- nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "buildroot@busybox.net" <buildroot@busybox.net>,
+ Evgeniy Didin <Evgeniy.Didin@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Sergey, Petr,
-
-On 11/11/19 1:23 AM, Sergey Senozhatsky wrote:
-> On (19/11/08 14:04), Petr Mladek wrote:
-> [..]
->> I agree that it is complicated to pass the loglevel as
->> a parameter. It would be better define the default
->> log level for a given code section. It might be stored
->> in task_struct for the normal context and in per-CPU
->> variables for interrupt contexts.
-> 
-> I do recall that we talked about per-CPU printk state bit which would
-> start/end "just print it" section. We probably can extend it to "just
-> log_store" type of functionality. Doesn't look like a very bad idea.
-> "This task/context is in trouble, whatever it printk()-s is important".
-
-I don't see how bits on task_struct or in per-cpu are easier than
-supplying a log level parameter down the stack.
-How would it work if sysrq_handle_crash() called by key-press?
-How would that interact with deferred printing?
-How would it make visible prints from current context, but not from
-something that preempted it?
-
-Furthermore, what problems are you trying to solve with this design?
-Only sysrq driver? Kdb?
-In my perspective it sounds too complicated and over-engineered for
-something that has two-three users.
-Also I've tried to point that I need to print backtrace sometimes with
-KERN_DEBUG loglevel to use it in production for early notices those
-needs to go only to log files and currently each architecture decides
-which log level it prefers.
-
-And what's so complicated about this patches set? I see only side of the
-testing, but the build-testing is covered with 0day bot and cost nothing
-and any visible regression may be found during -next period.
-While introducing those printk-sections may subtly break things.
-
-I mean, I definitely know less about printk() and its internals than you
-- so my points may be a no-sense.
-
-What I'm going to do - is to fix all build and reported issues, I'll
-send v2 this week and feel free to NAK it, I will forget about those
-patches and won't be offended.
-I don't see many people those are "hey, we'll benefit from this".
-And doing this patches set was neither quite fun (dirty business), nor
-something I can be later proud of (hey, I've introduced the log level
-parameter to printing functions!).
-
-Thanks,
-          Dima
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+VmluZWV0LCBBbGwsCgpPbiAyMDE5LTExLTExIDE4OjQ3ICswMDAwLCBWaW5lZXQgR3VwdGEgc3Bh
+a2UgdGh1c2x5Ogo+IE9uIDExLzkvMTkgNTo0NiBBTSwgVGhvbWFzIFBldGF6em9uaSB3cm90ZToK
+PiA+IE9uIEZyaSwgIDggTm92IDIwMTkgMDk6NDE6MTAgLTA4MDAKPiA+IFZpbmVldCBHdXB0YSA8
+VmluZWV0Lkd1cHRhMUBzeW5vcHN5cy5jb20+IHdyb3RlOgo+ID4+IFNpZ25lZC1vZmYtYnk6IFZp
+bmVldCBHdXB0YSA8dmd1cHRhQHN5bm9wc3lzLmNvbT4KPiA+PiAtLS0KPiA+PiAgYXJjaC9Db25m
+aWcuaW4uYXJjIHwgMjEgKysrKysrKysrKysrKystLS0tLS0tCj4gPj4gIDEgZmlsZSBjaGFuZ2Vk
+LCAxNCBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+ID4+Cj4gPj4gZGlmZiAtLWdpdCBh
+L2FyY2gvQ29uZmlnLmluLmFyYyBiL2FyY2gvQ29uZmlnLmluLmFyYwo+ID4+IGluZGV4IGM2NWJi
+MDFmMWY0Zi4uMjg0OTUxYjgyY2VlIDEwMDY0NAo+ID4+IC0tLSBhL2FyY2gvQ29uZmlnLmluLmFy
+Ywo+ID4+ICsrKyBiL2FyY2gvQ29uZmlnLmluLmFyYwo+ID4+IEBAIC0xMSwxMyArMTEsMTkgQEAg
+Y29uZmlnIEJSMl9hcmM3NTBkCj4gPj4gIGNvbmZpZyBCUjJfYXJjNzcwZAo+ID4+ICAJYm9vbCAi
+QVJDIDc3MEQiCj4gPj4gIAo+ID4+IC1jb25maWcgQlIyX2FyY2hzMzgKPiA+PiArY29uZmlnIEJS
+Ml9hcmNocwoKW05vdGUgdGhpcyBjaGFuZ2UsIGFib3ZlIF5eXl0KCj4gPj4gIAlib29sICJBUkMg
+SFMzOCIKPiA+PiAgCWhlbHAKPiA+PiAgCSAgR2VuZXJpYyBBUkMgSFMgY2FwYWJsZSBvZiBydW5u
+aW5nIExpbnV4LCBpLmUuIHdpdGggTU1VLAo+ID4+IC0JICBjYWNoZXMgYW5kIG11bHRpcGxpZXIu
+IEFsc28gaXQgY29ycmVzcG9uZHMgdG8gdGhlIGRlZmF1bHQKPiA+PiArCSAgY2FjaGVzIGFuZCAz
+Mi1iaXQgbXVsdGlwbGllci4gQWxzbyBpdCBjb3JyZXNwb25kcyB0byB0aGUgZGVmYXVsdAo+ID4+
+ICAJICBjb25maWd1cmF0aW9uIGluIG9sZGVyIEdOVSB0b29sY2hhaW4gdmVyc2lvbnMuCj4gPj4g
+IAo+ID4+ICtjb25maWcgQlIyX2FyY2hzMzgKPiA+PiArCWJvb2wgIkFSQyBIUzM4IHdpdGggNjQt
+Yml0IG1weSIKClthbmQgbm90ZSB0aGlzLCBhYm92ZV5eXl0KCj4gPiBUaGlzIHJlLXVzZSBvZiBh
+biBleGlzdGluZyBuYW1lIGlzIGEgYml0IGFubm95aW5nLiBJbmRlZWQsIGFsbCBleGlzdGluZwo+
+ID4gdXNlcnMgb2YgQnVpbGRyb290IHRoYXQgaGF2ZSBhIGNvbmZpZ3VyYXRpb24gd2l0aCBCUjJf
+YXJjaHMzOCB3aWxsIG5vdwo+ID4gYmUgYnVpbGRpbmcgZm9yIGEgQVJDIHN5c3RlbSB3aXRoIGEg
+NjQtYml0IG11bHRpcGxpZXIsIHdoaWxlIHRoZXkgd2VyZQo+ID4gcHJldmlvdXNseSBidWlsZGlu
+ZyBmb3IgYSAzMi1iaXQgbXVsdGlwbGllci4KPiA+Cj4gPiBJIHNlZSB0aGF0IHdoYXQgeW91IGhh
+dmUgZG9uZSBpcyB0byB0cnkgdG8gYmUgY29uc2lzdGVudCBiZXR3ZWVuIHRoZQo+ID4gQlIyXyBv
+cHRpb25zIGFuZCB0aGUgZ2NjIG9wdGlvbnMuIEknbSBoZXNpdGF0aW5nIGJldHdlZW4ga2VlcGlu
+ZyB0aGUKPiA+IGNvbnNpc3RlbmN5IGJ1dCBtYWtpbmcgdGhlIG1pZ3JhdGlvbiBhIGJpdCBhbm5v
+eWluZyBmb3IgdXNlcnMsIG9yCj4gPiBicmVha2luZyB0aGUgY29uc2lzdGVuY3kgdG8gbWFrZSB0
+aGUgbWlncmF0aW9uIHNtb290aCBmb3IgdXNlcnMuCj4gPgo+ID4gU2luY2UgSSB0aGluayB0aGUg
+bnVtYmVyIG9mIGFmZmVjdGVkIHVzZXJzIHdpbGwgcHJvYmFibHkgYmUgcXVpdGUKPiA+IHNtYWxs
+L2xpbWl0ZWQsIEkgdGhpbmsgSSB3b3VsZCBiZSBmaW5lIHdpdGggbWVyZ2luZyB5b3VyIHBhdGNo
+IGFzLWlzLAo+ID4gYnV0IEknZCBsaWtlIHRvIGhlYXIgZnJvbSBvdGhlcnMuCj4gCj4gSSBhZ3Jl
+ZSB0aGF0IHRoaXMgbWlnaHQgY2F1c2UgcG90ZW50aWFsIGJyZWFrYWdlLCBidXQgdGhpcyBpcyBu
+b3QgdG90YWxseQo+IHVuY2hhcnRlZCB0ZXJyaXRvcnkgZm9yIHNvZnR3YXJlIGJ1aWxkIGNvbmZp
+Zy4gV2UndmUgYmVlbiBidWlsZGluZyBMaW51eCBrZXJuZWwKPiB3aXRoIHRoaXMgb3B0aW9uIGFz
+IGRlZmF1bHQgc2luY2UgbWlkIDIwMTguCgpJIHRoaW5rIHRoZXJlIGlzIHNvbWUgbWlzdW5kZXJz
+dGFuZGluZy4KCldoYXQgVGhvbWFzIGFuZCBJIGFyZ3VlIG9uLCBpcyB0aGUgd2F5IHRvIGNoYW5n
+ZSB0aGUgbWVhbmluZyBmb3IgdGhlCkJSMl9hcmNoczM4IG9wdGlvbi4KCkJlZm9yZSB0aGlzIHBh
+dGNoLCBCUjJfYXJjaHMzOCBtZWFudCAiQVJDIEhTMzgiLiBCdXQgd2l0aCB5b3VyIHBhdGNoLCBp
+dApub3cgbWVhbnMgIkFSQyBIUzM4IHdpdGggNjQtYml0IG1weSIuCgpTbywgYSB1c2VyIHRoYXQg
+dXBkYXRlcyB0aGVpciBCdWlsZHJvb3QgY29uZmlndXJhdGlvbmkgd2hpY2ggcHJldmlvdXNseQpo
+YWQgYSAicGxhaW4iIEhTMzggc2V0dXAsIGJ1dCB3aXRoIHRoaXMgcGF0Y2gsIHRoZXkgZ2V0IGFu
+ICJleHRlbmRlZCIKSFMzOCB3aXRoIHRoZSA2NC1iaXQgbXVsdGlwbGllci4KClRoYXQncyB3aHkg
+SSBzdWdnZXN0ZWQgaW4gbXkgb3duIHJlcGx5LCB0byBrZWVwIEJSMl9hcmNoczM4IGFzIGl0IHdh
+cwpiZWZvcmUsIGFuZCBpbnRyb2R1Y2UgQlIyX2FyY2hzMzhfNjRtcHkgdG8gbWVhbiB0aGUgbmV3
+IEhTMzggdy8gdGhlCjY0LWJpdCBtdWx0aXBsaWVyLgoKSW5kZWVkLCBpdCBkb2VzIG5vdCBtYXRj
+aCB0aGUgZ2NjIGNvbmZpZyBvcHRpb25zLCBidXQgdGhhdCB3b3VsZCBoYXJkbHkKYmUgdGhlIG9u
+bHkgZGVyb2dhdGlvbiB3ZSBoYXZlIGluIEJ1aWxkcm9vdC4uLiA7LSkKCj4gMjAxOC0wOS0wNyAw
+MGE5OTMzOWYwYTMgQVJDdjI6IGJ1aWxkOiB1c2UgbWNwdT1oczM4IGlzbyBnZW5lcmljIG1jcHU9
+YXJjaHPCoAo+IAo+IEdyYW50ZWQgdGhhdCBrZXJuZWwgYnVpbGQgaXMganVzdCBvbmUgcGFydCBv
+ZiBwdXp6bGUgYW5kIGFueSBsYXRlbnQgY29kZWdlbiBpc3N1ZXMKPiBhcmUgbW9yZSBsaWtlbHkg
+dG8gc3VyZmFjZSB3aXRoIGRlZmF1bHQgYXBwbGllZCB0byBmdWxsIHNvZnR3YXJlIHN0YWNrLCBJ
+IHdvdWxkCj4gc3RpbGwgdm90ZSBmb3Igc3dpdGNoaW5nIGRlZmF1bHQgdG8gLW1jcHU9aHMzOAoK
+Q2hhbmdpbmcgdGhlIG1lYW5pbmcgb2YgYW4gb3B0aW9uLCBhbmQgY2hhbmdpbmcgdGhlIGRlZmF1
+bHQgb2YgYSBjaG9pY2UsCmFyZSB0d28gZGlmZmVyZW50IHRoaW5ncy4gSSdtIE9LIHdpdGggY2hh
+bmdpbmcgdGhlIGRlZmF1bHQsIGJ1dCBJJ2QKcmF0aGVyIHRoYXQgb3B0aW9ucyBrZWVwIHRoZWly
+IG1lYW5pbmcuCgpSZWdhcmRzLApZYW5uIEUuIE1PUklOLgoKLS0gCi4tLS0tLS0tLS0tLS0tLS0t
+LS4tLS0tLS0tLS0tLS0tLS0tLS0tLS4tLS0tLS0tLS0tLS0tLS0tLS0uLS0tLS0tLS0tLS0tLS0t
+LS0tLS0uCnwgIFlhbm4gRS4gTU9SSU4gIHwgUmVhbC1UaW1lIEVtYmVkZGVkIHwgLyJcIEFTQ0lJ
+IFJJQkJPTiB8IEVyaWNzJyBjb25zcGlyYWN5OiB8CnwgKzMzIDY2MiAzNzYgMDU2IHwgU29mdHdh
+cmUgIERlc2lnbmVyIHwgXCAvIENBTVBBSUdOICAgICB8ICBfX18gICAgICAgICAgICAgICB8Cnwg
+KzMzIDU2MSAwOTkgNDI3IGAtLS0tLS0tLS0tLS0uLS0tLS0tLTogIFggIEFHQUlOU1QgICAgICB8
+ICBcZS8gIFRoZXJlIGlzIG5vICB8CnwgaHR0cDovL3ltb3Jpbi5pcy1hLWdlZWsub3JnLyB8IF8v
+KlxfIHwgLyBcIEhUTUwgTUFJTCAgICB8ICAgdiAgIGNvbnNwaXJhY3kuICB8CictLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS1eLS0tLS0tLV4tLS0tLS0tLS0tLS0tLS0tLS1eLS0tLS0tLS0t
+LS0tLS0tLS0tLS0nCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5m
+cmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
+bnV4LXNucHMtYXJjCg==
