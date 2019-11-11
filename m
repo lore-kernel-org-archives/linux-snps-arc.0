@@ -2,23 +2,21 @@ Return-Path: <SRS0=N5rj=ZD=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88556C17443
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 01:23:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D3EAC17441
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 09:13:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5C24D206DF
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 01:23:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1428F2075B
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 09:13:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="u6xeUeiI";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PEUFO8IE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C24D206DF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WRj/FG5i"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1428F2075B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -26,66 +24,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=zjxHvhN9bWXtwZky/RZBO7pfw1q8WloEIDo3hk8PyEc=; b=u6xeUeiI+Dr8mC
-	KJzIq+JKBDn3mcowAZeVR+/lOtvIsow2cnMWwL5qgntHZIa8t9dpTv8XdQ2+Bowe5XZW83AocMe1h
-	ZioQ7VQfn6j1kZZeqEvM75ck3xmV1IDkpDWoASPv7xYXMPHSfLc35/uGLYzomiYo2jPIR4730aG3E
-	ndONL11jqnaNMdcLdK3C+MencmK64R2Pc3EfKcVK9X18o5WxWZkuuopubloFrAUmoAH9s9VVPvtj0
-	ZuJcG8d9sj58AuURaXLRAZgGGavveOVjTKj6b9Jb7sDNYwIUsjYkHfIfVVj82MaSUBaf+OGZzniQT
-	vWqKgofp31bNBIUE+mVQ==;
+	List-Owner; bh=iC/JeSgGeyvLWm6Ou++4gsD5BUQ2vr5JdmGhUsZp6fc=; b=WRj/FG5iIzSzD2
+	cLN7hjAghOY6wJYrPVlJGUUMC9ompuwjn/KQ3rDw5/W/xwoe8VRFHVRjk/UjrCKgS5sBK52Q+HAVs
+	xVrs5PapfZCBucr9V0geIfSYRcFjbuFvcF44C/hpkcTMN3ob2sdE0JwkHoXux5x5RgpogOaK9lNsQ
+	xi3ZSpYjzcomUp6s8RBxMQuDlBVsVbsqlmlHSdVimw4bI7a0EcHQhwCLdKYzB3fOOl7eqGvomkFWS
+	E6spXb5Hq9JSNtElyCkiGp2WjjhTpP+QhJujQk35G+fDPDNOeWUPNVF0FHazRkVw3tcLAr0O10u7K
+	GRQvn4KCixrcK83ljDYQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iTyQm-0008PQ-0x; Mon, 11 Nov 2019 01:23:48 +0000
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
+	id 1iU5kw-0004Lk-3c; Mon, 11 Nov 2019 09:13:06 +0000
+Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iTyQh-0008Nx-9a; Mon, 11 Nov 2019 01:23:45 +0000
-Received: by mail-pg1-x541.google.com with SMTP id z24so8364664pgu.4;
- Sun, 10 Nov 2019 17:23:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=meRRGW7ni43do21CnMh1ypMYB7GRo8yRghEKxpnOMtM=;
- b=PEUFO8IEu1osGIrKprDzvbxlNRJeZ7+VQZKgcPA4VWwOYdra1vch/X2sOCSKa29N9n
- VdblGN+C6xXZa66p438tGiFX2wH1ZMvXaLBCYR4jMYFYKpHWbu3dvuf4i51nfGHovAdM
- kJ21eWqlCVZNsUh7vR0KmZmoQmTZB1DoPsxQK2h0K8DrMvb84HP3pZHYPYw+F3AAOb8s
- 2PUdw4923VWsoF2jPoVNv2KKLc7p6DTbwWWIyb/CwJRvDtzNsBcrU623traZ5+UDPhd8
- dvUZh/U5lV6A1081bATRr1q945s51Yb6awkYmElXIQG0WkPEPjbs1iqGD3WlzUt7rcka
- L5/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=meRRGW7ni43do21CnMh1ypMYB7GRo8yRghEKxpnOMtM=;
- b=g8pbAh7YOBubP2l7ZGgVpk4v7Z/PTqLoqnzDItAp53ScTIIXpcjXo5HJYCBtzYLKra
- A2ep1kvK2NCtqcRhmIsEsciJjHtZqHM0QG64FHNvnePtVVgzsyOUEIRCYpoDP9HeuWhv
- grlws3REdt7TJUKmZgjsdanuC/11XBkDeaYMlsPeLWaXNwY2RcXCgFT2CheEJWEHf//t
- SP/9raIqj3c2cXgQzW2DdL5UBMFn9Y0brV7xtchLxXeIouJ/GMLhc86a2BZqD/tIldsW
- H1LBQGn1uNrSA5Ld7+PwxZqhq9NIwiYiqcT9gabK4c4gM40tu2H5r9r6WsU6sWsN4f8Z
- aIKw==
-X-Gm-Message-State: APjAAAUeKX9eCUsjq3Xla3P+FgKUokTPcmHpygSkeEvPP27HZBxyG5OM
- N9HE3FGp8LPKBGrrI8pe5iM=
-X-Google-Smtp-Source: APXvYqy6vC5fNwNO+7Jnp+tE/qbyOeavvD3kd+/MEwk8H/f5hGFY+WAM1K+Wsl4w+fZzo2o0jtZpqg==
-X-Received: by 2002:a63:b047:: with SMTP id z7mr20331363pgo.224.1573435419566; 
- Sun, 10 Nov 2019 17:23:39 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:250d:e71d:5a0a:9afe])
- by smtp.gmail.com with ESMTPSA id r8sm12584714pgr.59.2019.11.10.17.23.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Nov 2019 17:23:38 -0800 (PST)
-Date: Mon, 11 Nov 2019 10:23:36 +0900
-From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To: Petr Mladek <pmladek@suse.com>
+ id 1iU5ks-0004HZ-2j; Mon, 11 Nov 2019 09:13:03 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 54EB2ACA3;
+ Mon, 11 Nov 2019 09:12:15 +0000 (UTC)
+Date: Mon, 11 Nov 2019 10:12:07 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
 Subject: Re: [PATCH 00/50] Add log level to show_stack()
-Message-ID: <20191111012336.GA85185@google.com>
+Message-ID: <20191111091207.u3lrd6cmumnx4czr@pathway.suse.cz>
 References: <20191106030542.868541-1-dima@arista.com>
  <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
  <20191108103719.GB175344@google.com>
  <20191108130447.h3wfgo4efjkto56f@pathway.suse.cz>
+ <20191111012336.GA85185@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191108130447.h3wfgo4efjkto56f@pathway.suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191111012336.GA85185@google.com>
+User-Agent: NeoMutt/20170912 (1.9.0)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191110_172343_339099_B301DB72 
-X-CRM114-Status: GOOD (  11.61  )
+X-CRM114-CacheID: sfid-20191111_011302_418857_DDE9ECE6 
+X-CRM114-Status: GOOD (  15.89  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,11 +68,10 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>,
- Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
- linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Ben Segall <bsegall@google.com>, Guo Ren <guoren@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Vincent Guittot <vincent.guittot@linaro.org>,
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
+ Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
  Paul Burton <paulburton@kernel.org>, Dmitry Safonov <dima@arista.com>,
  Michael Ellerman <mpe@ellerman.id.au>,
  Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
@@ -157,30 +127,59 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On (19/11/08 14:04), Petr Mladek wrote:
-[..]
-> I agree that it is complicated to pass the loglevel as
-> a parameter. It would be better define the default
-> log level for a given code section. It might be stored
-> in task_struct for the normal context and in per-CPU
-> variables for interrupt contexts.
+On Mon 2019-11-11 10:23:36, Sergey Senozhatsky wrote:
+> On (19/11/08 14:04), Petr Mladek wrote:
+> [..]
+> > I agree that it is complicated to pass the loglevel as
+> > a parameter. It would be better define the default
+> > log level for a given code section. It might be stored
+> > in task_struct for the normal context and in per-CPU
+> > variables for interrupt contexts.
+> 
+> I do recall that we talked about per-CPU printk state bit which would
+> start/end "just print it" section. We probably can extend it to "just
+> log_store" type of functionality. Doesn't look like a very bad idea.
 
-I do recall that we talked about per-CPU printk state bit which would
-start/end "just print it" section. We probably can extend it to "just
-log_store" type of functionality. Doesn't look like a very bad idea.
-"This task/context is in trouble, whatever it printk()-s is important".
+The problem with per-CPU printk is that we would need to disable
+interrupts. It is not always wanted. Also people might not expect
+this from a printk() API.
 
-Per-console loglevel also might help sometimes. Slower consoles would
-->write() only critical messages, faster consoles everything.
 
-Passing log_level as part of message payload, which printk machinery
-magically hides is not entirely exciting. What we have in the code
-now - printk("%s blah\n", lvl) - is not what we see in the logs.
-Because the leading '%s' becomes special. And printk()/sprintf()
-documentation should reflect that: '%s' prints a string, but sometimes
-it doesn't.
+> "This task/context is in trouble, whatever it printk()-s is important".
 
-	-ss
+It might be a minimal loglevel. More important messages would still
+be printed() with the higher loglevel.
+
+But yes, this per-code-section loglevel is problematic. The feedback
+against the patchset shows that people want it also the other way.
+I mean to keep pr_debug() as pr_debug().
+
+A solution might be to use the per-code-section loglevel only instead
+of some special loglevel.
+
+
+> Per-console loglevel also might help sometimes. Slower consoles would
+> ->write() only critical messages, faster consoles everything.
+
+This looks like another problem to me. Anyway, this filtering will
+work better when the loglevel will be consistent across the related
+lines.
+
+> Passing log_level as part of message payload, which printk machinery
+> magically hides is not entirely exciting. What we have in the code
+> now - printk("%s blah\n", lvl) - is not what we see in the logs.
+> Because the leading '%s' becomes special. And printk()/sprintf()
+> documentation should reflect that: '%s' prints a string, but sometimes
+> it doesn't.
+
+I personally do not see this as a big problem.
+
+The explicitly passed loglevel makes me feel more confident that
+all needed printk() calls were updated. But it might be a false
+feeling. I do not really have any strong preference.
+
+Best Regards,
+Petr
 
 _______________________________________________
 linux-snps-arc mailing list
