@@ -2,92 +2,97 @@ Return-Path: <SRS0=pfY0=ZE=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DCE8C43331
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 02:18:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2310BC43331
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 02:40:29 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 23A2D2084F
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 02:18:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EA48820818
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 02:40:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gF+8J47s";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vjlm6KDB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23A2D2084F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="METizC16";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=arista.com header.i=@arista.com header.b="MX42aMTT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA48820818
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=arista.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qPVjkYZGG5VWGK0JpJcTSfTAZlMtWm9VBeEks7WHmz0=; b=gF+8J47sNjDLHj
-	Wyx+TNbkQ5JXRoQIvQgaOL2rAQBRxKZLeT6IIHNe/2Xf6lcpJIl5X0WonWjpTpxHXE0hxNpv5lU27
-	cNQbZuUB3ugcHMjN+sdGOiVydt/UOeSXKmVgw3VLoCSkn0VsyYrHGocy8DtTX7X01bYfde7Pk8nSC
-	Jl+GqfFBPwb+Gb+D0poPuJL5LEnaYpzWdQMTigsOfSVjcruLQYZO/eQf+xpo5mfdVdSNj2tZWNe0B
-	DfeYj23BpUuUqXoVlYbexmwNn6hWQjC36c2rsb9Qq7ZnMLbUoNqV+XhPt/Bh7L/cRDeKKk4JcJ+4l
-	FstYgifHZPm1OGn40Rpg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=SDw5MxKumxtaFFxitqhKC9t+iqd6rmXsRxEK9d2Bo3c=; b=METizC16LHzrLs
+	sjyuWsQZxTI3cFbM0HJc80pcX9j/TQKtqY/F2zs7jQOTRDAAfM2KidBlgroNTrT5LAzEAZ20MArdx
+	ar0H7mU2RsiMiXvLJR4nSLZAnHTCS30JpNuWskNMvklRWMhciaHl+4CHrW0Xn2jPmGKYzyzj6lJ3b
+	BC74fNh+4NLo2yF0KHk9WtSNFfJ7PJWezGIpFAL7+x+L3sqJtPH9zucugYHPnhJ/1pA5NcIZFpNp0
+	KrvMk0F6QiuaD723o26lX26JW7+iwi0dErC+L0u+zmSuRMCgzBz+1hARwdCP/9RCGT41gtfCYZBp1
+	ff1yLeDenimSoVL3maMw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iULkk-0005WA-Jx; Tue, 12 Nov 2019 02:17:58 +0000
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
+	id 1iUM6V-0004pB-Dy; Tue, 12 Nov 2019 02:40:27 +0000
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iULkg-0005Tv-SH; Tue, 12 Nov 2019 02:17:56 +0000
-Received: by mail-pg1-x541.google.com with SMTP id k13so10792803pgh.3;
- Mon, 11 Nov 2019 18:17:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=IS2Rt6ZY2kbQpUl893KQNxQCDA75x7+my/1Tf7NswKk=;
- b=Vjlm6KDBvoD6YwvO++lGZ6lHjSc6cCAm9fWSs4JjxabSDi/CqNgEayfiCYPC9t2GLz
- /Uty/IrZcv04aOS3qRrPGUG7rvgiF7YDnI2Kh9DQ5F3zuIcYwKRvol7P+LJHVR2Ntpue
- BmenkoLlXCW6FGqP0oYogfaCGkjco6cjgwMGb8PovVw8l1XJbVJPK3lxsi28NPqBWING
- uoTRw1Bt7GD9J0aMH2Xm/nWO4Q+ipdt8rIvGvN7pJpIBErQgGrRImSVcDd2J/2wookMd
- 9Mf3+OZR0ijbdxrDUHHqzfcSZeytQjNDcnXBd9Ph8Qnd5c5vZ2BNhRMMpdwPBrRfh+x9
- Q4tA==
+ id 1iUM6P-0004m3-NA
+ for linux-snps-arc@lists.infradead.org; Tue, 12 Nov 2019 02:40:24 +0000
+Received: by mail-wm1-x343.google.com with SMTP id b11so1392561wmb.5
+ for <linux-snps-arc@lists.infradead.org>; Mon, 11 Nov 2019 18:40:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=arista.com; s=googlenew;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hc0bl6ua3Awo0puTEJJtiCFLlsTJGov09J6GyMYDUcw=;
+ b=MX42aMTTzAgzmolo19ziCaVvJW01j4llkcsSSsPBgIZf5M/QJqFnu0ykgQ+YU9I1XM
+ lWWUfFOOmvWQUbOV/+iKy4yX6WRH0x7F+7sbAobnLPJdwSzb9YWyJ9/pnJvSWZVMB+xV
+ UFEneok+5nQrKqWY1H/ryexuorVth0ci9XQccgC0yNGEatwsWoLWkeJcz3zYnXhenkJH
+ nhLbJhqGH8CSvC3ekwmNTkFJs9KRa26JVi5KOJ0GN3lmDlPGH14xef5YqFU0Sk8qUi0p
+ NtXZ7DYgZXwHf2rN/1LtOFtVEw8aJlkAZJ8tf3acCKNzLndcz00BKo1YrVsWG4zo53JF
+ Pi/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=IS2Rt6ZY2kbQpUl893KQNxQCDA75x7+my/1Tf7NswKk=;
- b=Txv8z1hYh7T6hjeVzAKiEHjEoEnibBjJiw9k6gGRAz9MrZ9vtEeZZnLOrO/jUK+99t
- dSWp/jsUklOkxZ6yTGeAwwfkG3wx2ju2605KdNbhTDAANNSw705V5RHheMXDpa+cZGPD
- JNlEP93uaLtTPAx1+qeo1Po/7NJi3NFrWtOZGcxUGLYCdbcRG9DCOdKJ00PrjDvKoBNf
- +TCDr7O1CaH6M+2jjp5CgrADayCaCpoFAdA1WnGDCd36YpMsT1/j5ob7mt3a7A3epMxt
- QbLc+miaGDATlvdv9Az7dcYUMP2NfbnXmFxyTnXMPb3CzkgAr41dNfTRNEXdcABQ/Awj
- NXVA==
-X-Gm-Message-State: APjAAAU21x/LiYO0lfdRLGelKRoe+KxmMJcuS6WwVi/r43dZgR6paYPx
- V2APodWYLqiyDcWVoROw9oo=
-X-Google-Smtp-Source: APXvYqzpzPbBNdkztHOhg5atVqEV6ayQFi/1XFUzsE81gTsFNG+Jay6WO4tdKRJ91MFuBRoP65cRJw==
-X-Received: by 2002:a65:6119:: with SMTP id z25mr32726962pgu.332.1573525071244; 
- Mon, 11 Nov 2019 18:17:51 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:250d:e71d:5a0a:9afe])
- by smtp.gmail.com with ESMTPSA id k103sm739924pje.16.2019.11.11.18.17.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Nov 2019 18:17:50 -0800 (PST)
-Date: Tue, 12 Nov 2019 11:17:47 +0900
-From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To: Dmitry Safonov <dima@arista.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hc0bl6ua3Awo0puTEJJtiCFLlsTJGov09J6GyMYDUcw=;
+ b=MLs6rSHQCy7H5e7labUQuHn2gLp2aF9yguYTaNOr6TfkQCBz3pEalvGaQqQlW9R5hs
+ 7iEp7rtugt0PMQTC9yYzXdGJPaS/d9qK4F2Afl3okBztbwweEREGRisa+RKk6Kq56HPe
+ uoBXaRyIpqQ1c+1WFiDm2WZsg5yg0z+B4WYUMNVPD9Y3/qTF7dnf4hbA2IagMk93w8BR
+ kNAWXOFCeOn86gwrgnBSMtOJLQ3soo0LsOgUJIw00q5smvTsxYr27o94O3uB87HdynvH
+ jpzmnPyJEPPc7oV/PBC7O7RVLxPYzOVi6cY2ZwVTPf/hynQ3JSZJGHhSFnaac4XQS6WD
+ VaEA==
+X-Gm-Message-State: APjAAAUNdYMycRr4MTzOuDqedCCoEaV3LbPQxZfFuKWgQ6Y6w81KqSEm
+ +cymZC2szES9QMH7CfYFIUkaAg==
+X-Google-Smtp-Source: APXvYqwGQmDILzErOejMnS6vcYmyu3aXwuweLJ3fDyVGcyV1rhcTRlJUkjSBJvf4yqYURAoU8N6Q/w==
+X-Received: by 2002:a7b:c211:: with SMTP id x17mr1567811wmi.71.1573526420054; 
+ Mon, 11 Nov 2019 18:40:20 -0800 (PST)
+Received: from [10.83.36.153] ([217.173.96.166])
+ by smtp.gmail.com with ESMTPSA id u26sm1511046wmj.9.2019.11.11.18.40.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Nov 2019 18:40:19 -0800 (PST)
 Subject: Re: [PATCH 00/50] Add log level to show_stack()
-Message-ID: <20191112021747.GA68506@google.com>
+To: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
 References: <20191106030542.868541-1-dima@arista.com>
  <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
  <20191108103719.GB175344@google.com>
  <20191108130447.h3wfgo4efjkto56f@pathway.suse.cz>
  <20191111012336.GA85185@google.com>
  <13e72b62-c842-8ed5-5b41-bc1692b28f53@arista.com>
+ <20191112021747.GA68506@google.com>
+From: Dmitry Safonov <dima@arista.com>
+Message-ID: <25cb9647-007a-9c18-4784-49c0aef4f54b@arista.com>
+Date: Tue, 12 Nov 2019 02:40:11 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <13e72b62-c842-8ed5-5b41-bc1692b28f53@arista.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191112021747.GA68506@google.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191111_181754_920050_FC5DE91F 
-X-CRM114-Status: GOOD (  16.49  )
+X-CRM114-CacheID: sfid-20191111_184021_773502_B99610DF 
+X-CRM114-Status: GOOD (  14.86  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,15 +104,14 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>,
- Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
- linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Ben Segall <bsegall@google.com>, Guo Ren <guoren@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Vincent Guittot <vincent.guittot@linaro.org>,
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
+ Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
  Paul Burton <paulburton@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
  Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
  Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
- uclinux-h8-devel@lists.sourceforge.jp, Petr Mladek <pmladek@suse.com>,
+ uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
  linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
  linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
  Dietmar Eggemann <dietmar.eggemann@arm.com>,
@@ -140,7 +144,7 @@ Cc: Juri Lelli <juri.lelli@redhat.com>,
  Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
  linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
  "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
- Len Brown <len.brown@intel.com>, Peter Zijlstra <peterz@infradead.org>,
+ Petr Mladek <pmladek@suse.com>, Peter Zijlstra <peterz@infradead.org>,
  "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
  linux-riscv@lists.infradead.org,
  Anton Ivanov <anton.ivanov@cambridgegreys.com>,
@@ -159,113 +163,37 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On (19/11/11 19:47), Dmitry Safonov wrote:
+Hi Sergey,
+
+On 11/12/19 2:17 AM, Sergey Senozhatsky wrote:
+> On (19/11/11 19:47), Dmitry Safonov wrote:
 [..]
-> I don't see how bits on task_struct or in per-cpu are easier than
-> supplying a log level parameter down the stack.
-> How would it work if sysrq_handle_crash() called by key-press?
-> How would that interact with deferred printing?
-> How would it make visible prints from current context, but not from
-> something that preempted it?
+>> What I'm going to do - is to fix all build and reported issues, I'll
+>> send v2 this week and feel free to NAK it, I will forget about those
+>> patches and won't be offended.
+> 
+> Lovely.
+> And - no, I'm not going to NAK platform specific changes. Just so you know.
+> 
+> *All* I'm talking about is an alternative, less "go and touch a ton of
+> platform code" approach. The argument "I patched so many files that I'm
+> not even going to discuss anything now" is not productive, to say the
+> least. Hope this clarifies.
 
-[..]
+It probably was a wrong impression from the both sides.
+My impression was "You touch every architecture - we won't even consider
+that". Sorry for the the wrong impression from my side - I'm open for
+discussion.
 
-per-context log_level works pretty much the same way as per-message
-log_level.
+In my point of view the cost of one-time [mostly build] testing every
+architecture is cheaper than introducing some new smart code that will
+live forever. Though, again you and Petr understand more than me in
+printk() code, so I'm not any insisting.
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-static DEFINE_PER_CPU(int, cpu_loglevels[4]); // @INITME.. LOGLEVEL_DEBUG + 1?
+I'll reply to your suggestion tomorrow, it's a bit late in my tz.
 
-static int __printing_context(void)
-{
-	unsigned int preempt = preempt_count();
-
-	if (!(preempt & (NMI_MASK | HARDIRQ_MASK | SOFITRQ_OFFSET)))
-		return 0;
-	if (preempt & SOFITRQ_OFFSET)
-		return 1;
-	if (preempt & HARDIRQ_MASK)
-		return 2;
-	return 3;
-}
-
-static int adj_context_loglevel(int level)
-{
-	int ctx = __printing_context();
-	int cpu_level = this_cpu_read(cpu_loglevels[ctx]);
-
-	// this one is important
-	if (level == LOGLEVEL_SCHED)
-		return level;
-	// we are not in emergency context
-	if (cpu_level == LOGLEVEL_DEBUG + 1)
-		return level;
-	// we better not override these
-	if (LOGLEVEL_EMERG <= level && level <= LOGLEVEL_ERR)
-		return level;
-	return cpu_level;
-}
-
-void printk_emergency_enter(int log_level)
-{
-	int ctx;
-
-	preempt_disable();
-	ctx = __printing_context();
-	this_cpu_write(cpu_loglevels[ctx], log_level);
-}
-
-void printk_emergency_exit(void)
-{
-	int ctx = __printing_context();
-
-	this_cpu_write(cpu_loglevels[ctx], LOGLEVEL_DEBUG + 1);
-	preempt_enable();
-}
-
-void vprintk_emit(...)
-{
-	level = adj_context_loglevel(level);
-}
-//
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-//
-static void __show_stack(struct task_struct *task, unsigned long *sp)
-{
-	printk();
-	...
-	printk();
-}
-
-void show_stack(struct task_struct *task, unsigned long *sp, int log_level)
-{
-	printk_emergency_enter(log_level);
-	__show_stack(task, sp);
-	printk_emergency_exit();
-}
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-
-show_stack() never schedules, disabling preemption around it should
-not change anything. Should it be interrupted, we will handle it via
-preempt count.
-
-printk_emergency_enter(log_level) handles every printk() that
-__show_stack() and friends do. Not worse than printk("%s Stack", lvl);
-all over the place.
-
-> What I'm going to do - is to fix all build and reported issues, I'll
-> send v2 this week and feel free to NAK it, I will forget about those
-> patches and won't be offended.
-
-Lovely.
-And - no, I'm not going to NAK platform specific changes. Just so you know.
-
-*All* I'm talking about is an alternative, less "go and touch a ton of
-platform code" approach. The argument "I patched so many files that I'm
-not even going to discuss anything now" is not productive, to say the
-least. Hope this clarifies.
-
-	-ss
+Thanks,
+          Dmitry
 
 _______________________________________________
 linux-snps-arc mailing list
