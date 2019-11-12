@@ -1,76 +1,93 @@
-Return-Path: <SRS0=N5rj=ZD=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=pfY0=ZE=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C91C5C43331
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 22:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DCE8C43331
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 02:18:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 996B020659
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Nov 2019 22:53:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 23A2D2084F
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 02:18:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="i7P4nyUB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 996B020659
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codesourcery.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gF+8J47s";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vjlm6KDB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23A2D2084F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	MIME-Version:References:Message-ID:In-Reply-To:Subject:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=yzmmGf49QRqyOlcMIYVEEZotp5+OYlyKg2npSoKYkyM=; b=i7P4nyUBTa/ZNx6t6Du0Wdce4
-	9wxFpwWweWtG7SNRj5uP4jE6GBXKgdpo8dhliL9cj/06xD0WVpVItpctRrCV54eaXZ6utVnEzGNFS
-	nMBM+XjWBdpX9Fsf3vCPERBmmthtICTNiZ/5OM5FxVDe/OAjtinDA6MnbUhE2faYKETvNRhewBeyU
-	9QtFCdBsVDvzpJAe9pcSlv6vgqG1mZQu098pVVCXk4EOkq7rHpuZRTF3MeRcNmNpTZp/VEMpTeuO3
-	WGnYGfdaviwr7VuHpVEuxuiniDzV2VynFzkZBt3hNNpgHEFmKlsuLmXCar7LC8MgWimin1/DKbB5V
-	4Dhoqo2wQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=qPVjkYZGG5VWGK0JpJcTSfTAZlMtWm9VBeEks7WHmz0=; b=gF+8J47sNjDLHj
+	Wyx+TNbkQ5JXRoQIvQgaOL2rAQBRxKZLeT6IIHNe/2Xf6lcpJIl5X0WonWjpTpxHXE0hxNpv5lU27
+	cNQbZuUB3ugcHMjN+sdGOiVydt/UOeSXKmVgw3VLoCSkn0VsyYrHGocy8DtTX7X01bYfde7Pk8nSC
+	Jl+GqfFBPwb+Gb+D0poPuJL5LEnaYpzWdQMTigsOfSVjcruLQYZO/eQf+xpo5mfdVdSNj2tZWNe0B
+	DfeYj23BpUuUqXoVlYbexmwNn6hWQjC36c2rsb9Qq7ZnMLbUoNqV+XhPt/Bh7L/cRDeKKk4JcJ+4l
+	FstYgifHZPm1OGn40Rpg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iUIYR-0001nY-Hf; Mon, 11 Nov 2019 22:53:03 +0000
-Received: from esa1.mentor.iphmx.com ([68.232.129.153])
+	id 1iULkk-0005WA-Jx; Tue, 12 Nov 2019 02:17:58 +0000
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iUIYP-0001nD-0s
- for linux-snps-arc@lists.infradead.org; Mon, 11 Nov 2019 22:53:02 +0000
-IronPort-SDR: 41YHEyPZeKCRPMHUpQ7Rrb1l2ANAis8UbYHt+VD3nxB9VQmE0Mhv5vOQ5mLsLIVFvZplgvZAVC
- Gzsz4IqRt3SznoxI2qm2k6dWj3It87L/amT7paxU1EHE2tnomAvly4mzfEQGTPc5mGODvNDtYR
- uR2Zrp+8Hc6fKZwVaomNfWHVsODEFx2cIZ09Z4M/FILzLUbKTXPuZ+MiFzTb+imeMAhkvRuCod
- aqGOaDWttDZ84OaQNmBx4HPeKotmRllL/ovn8lfuxISSgQ7E7ZWQeRjj6eGQvyFCIOVrpPjs6t
- HmY=
-X-IronPort-AV: E=Sophos;i="5.68,294,1569312000"; d="scan'208";a="44924494"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa1.mentor.iphmx.com with ESMTP; 11 Nov 2019 14:53:00 -0800
-IronPort-SDR: aH5Ei5oUIqB2wVW+LUeq/tB73MoeqzJxmpJOhGuaGjKFHOY+99r9/tm/ylEaoUF7db5Itm6DwV
- gxbZuW3NHQ2U1LqOy5Is2ZpW20ly57W+CI0Z94uFGKmr4xWMWv8KQF0XZlw1SKjip08qS8PVKr
- dyALJDl0F50o6Pgxs8Sywaxom0lRYMajRld7v+FkFlyatonK1JR/OA8IbC5gfmUpRj1n/3lgxH
- pkNj+rc73mwuL6NfTwAOTC87FWLgRwLDWJLIoUFq5H5gwcXPwak9w2uDABYWwOQL6m39uon2RA
- JWA=
-Date: Mon, 11 Nov 2019 22:52:55 +0000
-From: Joseph Myers <joseph@codesourcery.com>
-X-X-Sender: jsm28@digraph.polyomino.org.uk
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [PATCH] ieee754/dbl-64: Reduce the scope of temporary storage
- variables
-In-Reply-To: <7d22a532-6f19-6b43-2e7a-f6087f658606@synopsys.com>
-Message-ID: <alpine.DEB.2.21.1911112247180.30786@digraph.polyomino.org.uk>
-References: <20191111194349.21813-1-vgupta@synopsys.com>
- <alpine.DEB.2.21.1911112228550.30786@digraph.polyomino.org.uk>
- <7d22a532-6f19-6b43-2e7a-f6087f658606@synopsys.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ id 1iULkg-0005Tv-SH; Tue, 12 Nov 2019 02:17:56 +0000
+Received: by mail-pg1-x541.google.com with SMTP id k13so10792803pgh.3;
+ Mon, 11 Nov 2019 18:17:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=IS2Rt6ZY2kbQpUl893KQNxQCDA75x7+my/1Tf7NswKk=;
+ b=Vjlm6KDBvoD6YwvO++lGZ6lHjSc6cCAm9fWSs4JjxabSDi/CqNgEayfiCYPC9t2GLz
+ /Uty/IrZcv04aOS3qRrPGUG7rvgiF7YDnI2Kh9DQ5F3zuIcYwKRvol7P+LJHVR2Ntpue
+ BmenkoLlXCW6FGqP0oYogfaCGkjco6cjgwMGb8PovVw8l1XJbVJPK3lxsi28NPqBWING
+ uoTRw1Bt7GD9J0aMH2Xm/nWO4Q+ipdt8rIvGvN7pJpIBErQgGrRImSVcDd2J/2wookMd
+ 9Mf3+OZR0ijbdxrDUHHqzfcSZeytQjNDcnXBd9Ph8Qnd5c5vZ2BNhRMMpdwPBrRfh+x9
+ Q4tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=IS2Rt6ZY2kbQpUl893KQNxQCDA75x7+my/1Tf7NswKk=;
+ b=Txv8z1hYh7T6hjeVzAKiEHjEoEnibBjJiw9k6gGRAz9MrZ9vtEeZZnLOrO/jUK+99t
+ dSWp/jsUklOkxZ6yTGeAwwfkG3wx2ju2605KdNbhTDAANNSw705V5RHheMXDpa+cZGPD
+ JNlEP93uaLtTPAx1+qeo1Po/7NJi3NFrWtOZGcxUGLYCdbcRG9DCOdKJ00PrjDvKoBNf
+ +TCDr7O1CaH6M+2jjp5CgrADayCaCpoFAdA1WnGDCd36YpMsT1/j5ob7mt3a7A3epMxt
+ QbLc+miaGDATlvdv9Az7dcYUMP2NfbnXmFxyTnXMPb3CzkgAr41dNfTRNEXdcABQ/Awj
+ NXVA==
+X-Gm-Message-State: APjAAAU21x/LiYO0lfdRLGelKRoe+KxmMJcuS6WwVi/r43dZgR6paYPx
+ V2APodWYLqiyDcWVoROw9oo=
+X-Google-Smtp-Source: APXvYqzpzPbBNdkztHOhg5atVqEV6ayQFi/1XFUzsE81gTsFNG+Jay6WO4tdKRJ91MFuBRoP65cRJw==
+X-Received: by 2002:a65:6119:: with SMTP id z25mr32726962pgu.332.1573525071244; 
+ Mon, 11 Nov 2019 18:17:51 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:250d:e71d:5a0a:9afe])
+ by smtp.gmail.com with ESMTPSA id k103sm739924pje.16.2019.11.11.18.17.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Nov 2019 18:17:50 -0800 (PST)
+Date: Tue, 12 Nov 2019 11:17:47 +0900
+From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To: Dmitry Safonov <dima@arista.com>
+Subject: Re: [PATCH 00/50] Add log level to show_stack()
+Message-ID: <20191112021747.GA68506@google.com>
+References: <20191106030542.868541-1-dima@arista.com>
+ <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
+ <20191108103719.GB175344@google.com>
+ <20191108130447.h3wfgo4efjkto56f@pathway.suse.cz>
+ <20191111012336.GA85185@google.com>
+ <13e72b62-c842-8ed5-5b41-bc1692b28f53@arista.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="-1152306461-2128764594-1573512775=:30786"
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-06.mgc.mentorg.com (139.181.222.6) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
+Content-Disposition: inline
+In-Reply-To: <13e72b62-c842-8ed5-5b41-bc1692b28f53@arista.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191111_145301_068300_A5FAC374 
-X-CRM114-Status: GOOD (  12.91  )
+X-CRM114-CacheID: sfid-20191111_181754_920050_FC5DE91F 
+X-CRM114-Status: GOOD (  16.49  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,71 +99,175 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>,
+ Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+ linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Ben Segall <bsegall@google.com>, Guo Ren <guoren@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
+ Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
+ uclinux-h8-devel@lists.sourceforge.jp, Petr Mladek <pmladek@suse.com>,
+ linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-ia64@vger.kernel.org,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ James Hogan <jhogan@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
+ linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Brian Cain <bcain@codeaurora.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
+ Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
+ Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
+ "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
+ Len Brown <len.brown@intel.com>, Peter Zijlstra <peterz@infradead.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
+ Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
+ nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
----1152306461-2128764594-1573512775=:30786
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+On (19/11/11 19:47), Dmitry Safonov wrote:
+[..]
+> I don't see how bits on task_struct or in per-cpu are easier than
+> supplying a log level parameter down the stack.
+> How would it work if sysrq_handle_crash() called by key-press?
+> How would that interact with deferred printing?
+> How would it make visible prints from current context, but not from
+> something that preempted it?
 
-On Mon, 11 Nov 2019, Vineet Gupta wrote:
+[..]
 
-> On 11/11/19 2:33 PM, Joseph Myers wrote:
-> > On Mon, 11 Nov 2019, Vineet Gupta wrote:
-> >
-> >> Functionally it should not result in code gen changes and if at all
-> >> those would be better since the scope of those temporaries is greatly
-> >> reduced now
-> > This feels like the sort of thing where "should not result in code gen 
-> > changes" should be tested by running build-many-glibcs.py --strip with 
-> > unmodified glibc sources to build a full set of stripped glibc binaries, 
-> > saving those binaries and then running build-many-glibcs.py --strip again 
-> > and comparing the two sets of shared libraries (something I did a lot of 
-> > when reworking how libm function aliases were defined; static libraries 
-> > are expected to change because of timestamps, but shared library binaries 
-> > can be usefully compared like this).  If the two sets of stripped binaries 
-> > are indeed identical, that is strong evidence that the patch is safe; 
-> > otherwise, review of the patch will require more detailed inspection of 
-> > the types of the arguments to these macros, and the uses of the temporary 
-> > variables, at every call site, to make sure that semantics aren't being 
-> > changed.
-> 
-> Ok Understand.  What arch(es) / build options would you want this tested for in
-> aforementioned way to get a reasonable confidence ?
+per-context log_level works pretty much the same way as per-message
+log_level.
 
-The suggestion is two full "build-many-glibcs.py --strip <dir> glibcs" 
-runs (one before and one after the change, and comparing the resulting 
-binaries), covering all architectures, if you have suitable fast hardware 
-for doing such testing (it's quite time-consuming; a single run takes 
-about 3 hours wall-clock time on a 16-core / 32-hardware-thread 
-Haswell-based Xeon, for example).  (A single "compilers" run can be used 
-to build the compilers used for both those "glibcs" runs.)
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+static DEFINE_PER_CPU(int, cpu_loglevels[4]); // @INITME.. LOGLEVEL_DEBUG + 1?
 
-> > (In any case, please specify when submitting a patch how it was tested.)
-> 
-> I've currently tested this with build-many-glibcs.py for ARC port only with and
-> w/o hard float support being worked on.
+static int __printing_context(void)
+{
+	unsigned int preempt = preempt_count();
 
-If for whatever reason there *are* differences in the stripped glibc 
-shared libraries, at least one full run of the glibc testsuite (including 
-execution tests) for some architecture will be needed as well to verify 
-that the generated code works correctly in at least one configuration.
+	if (!(preempt & (NMI_MASK | HARDIRQ_MASK | SOFITRQ_OFFSET)))
+		return 0;
+	if (preempt & SOFITRQ_OFFSET)
+		return 1;
+	if (preempt & HARDIRQ_MASK)
+		return 2;
+	return 3;
+}
 
--- 
-Joseph S. Myers
-joseph@codesourcery.com
----1152306461-2128764594-1573512775=:30786
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+static int adj_context_loglevel(int level)
+{
+	int ctx = __printing_context();
+	int cpu_level = this_cpu_read(cpu_loglevels[ctx]);
+
+	// this one is important
+	if (level == LOGLEVEL_SCHED)
+		return level;
+	// we are not in emergency context
+	if (cpu_level == LOGLEVEL_DEBUG + 1)
+		return level;
+	// we better not override these
+	if (LOGLEVEL_EMERG <= level && level <= LOGLEVEL_ERR)
+		return level;
+	return cpu_level;
+}
+
+void printk_emergency_enter(int log_level)
+{
+	int ctx;
+
+	preempt_disable();
+	ctx = __printing_context();
+	this_cpu_write(cpu_loglevels[ctx], log_level);
+}
+
+void printk_emergency_exit(void)
+{
+	int ctx = __printing_context();
+
+	this_cpu_write(cpu_loglevels[ctx], LOGLEVEL_DEBUG + 1);
+	preempt_enable();
+}
+
+void vprintk_emit(...)
+{
+	level = adj_context_loglevel(level);
+}
+//
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+//
+static void __show_stack(struct task_struct *task, unsigned long *sp)
+{
+	printk();
+	...
+	printk();
+}
+
+void show_stack(struct task_struct *task, unsigned long *sp, int log_level)
+{
+	printk_emergency_enter(log_level);
+	__show_stack(task, sp);
+	printk_emergency_exit();
+}
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+
+show_stack() never schedules, disabling preemption around it should
+not change anything. Should it be interrupted, we will handle it via
+preempt count.
+
+printk_emergency_enter(log_level) handles every printk() that
+__show_stack() and friends do. Not worse than printk("%s Stack", lvl);
+all over the place.
+
+> What I'm going to do - is to fix all build and reported issues, I'll
+> send v2 this week and feel free to NAK it, I will forget about those
+> patches and won't be offended.
+
+Lovely.
+And - no, I'm not going to NAK platform specific changes. Just so you know.
+
+*All* I'm talking about is an alternative, less "go and touch a ton of
+platform code" approach. The argument "I patched so many files that I'm
+not even going to discuss anything now" is not productive, to say the
+least. Hope this clarifies.
+
+	-ss
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
----1152306461-2128764594-1573512775=:30786--
-
