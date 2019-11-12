@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D22CBC43331
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 04:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A48C43331
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 04:57:16 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A710D2084E
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 04:44:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C66662084F
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 04:57:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="B5viXzKl";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D8FdqJ91"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A710D2084E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SfuTRvun";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AI85TZux"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C66662084F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,68 +26,70 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Wl79Cpzb9kuncLjF4iaTgXyxyk69/I7dY45xUdNTtdo=; b=B5viXzKlZNpiex
-	7MsFFSmAZXKgU/WaAgjeTRXzi48HvGP0EajHV5adRQ4bewu+beh+OsR40pHzlbhh+EgJXxir7YNKF
-	zI7UiZWr1cgJqoTBWgXSz3VbQAWPq9idYg0h1MbWKCaYbo5jkD8tIWDzfi8SSUJh2bEN69Wq7AgzX
-	R5d431s73Z8BCI/BC9egeqcs1sx9ed1xrxxHa4D7HQzXOnPMxqfowSzY8mU1C9RyCK+V3a3Kz/RFu
-	a5gR8anb61aaR4GHSQ/qJgMp8D/YaSVSYFuLRyRCBKTHDVXciReVOWhPctsgu1EPJUiQ4/Lr5QBIB
-	6jCn3L2Ms1qabqdH/55Q==;
+	List-Owner; bh=v/H3gou/LOUchhF1DCFDcmClJewgADwLHK1vducQwkc=; b=SfuTRvun+t5m9S
+	pXBhGBEsBuSj6oN1nUbglue/rN2oL+0Mg8G4BA4HE0y8fgyM/ptW1Q/1WHV6Ay7PdNn0qvIt5dpQW
+	nHAtSrdxIqEOsFryngYMsIqFqfn8zxSX1puizGpTp9qFu2dECGpW4k9A09amJ5dCxJp2PyzzCgog8
+	znXSj2AJA47MXxsl0icsgjXSo5C9/YWrg4LrothXFjdYAlkokPTKcUgG0jz2MGYCOUn7/1fv4u7bn
+	g4H+njHOMTp6+/TurghuJQ/m+BvyL4htuwl/+wspk1Wi02JKGht55DKY6EmTRjJz7Fdcvh3bLkh30
+	5QCcHVLjCSk683PLgCEw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iUO2w-0004GC-WA; Tue, 12 Nov 2019 04:44:55 +0000
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
+	id 1iUOEo-0000d4-PL; Tue, 12 Nov 2019 04:57:10 +0000
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iUO2t-0004Ei-E0; Tue, 12 Nov 2019 04:44:52 +0000
-Received: by mail-pf1-x441.google.com with SMTP id 193so12397082pfc.13;
- Mon, 11 Nov 2019 20:44:51 -0800 (PST)
+ id 1iUOEl-0000bm-EP; Tue, 12 Nov 2019 04:57:08 +0000
+Received: by mail-pg1-x541.google.com with SMTP id r18so10979025pgu.13;
+ Mon, 11 Nov 2019 20:57:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=z6L3+hI6K7wkMCOOKfC6B5htW9e/NujoD4rmfI82OVU=;
- b=D8FdqJ91C9CViimFs5HkqTNzLfTnpza7YcDlJMaUW/GYDtbpWN+jf3gagVp5Pb54ut
- pJnpc/x6Rud5mFzPf0ZReA35hd11ljJ6cO/5F7Ue3e6hQ2TSEJ94YRDSGLm6NhnyCdqt
- CzzD2BCnxTXK5GtYHwa3Uusyd8eoRKj//LeZNogwczP3XkHhZ0DhI0uDpEhLu6Pcihhn
- H3BS+MU+Nl1Oowf4/jk8zWm4nc12KVZM+ffZ6sfZ7WtTjgYJy574lkrjNaKPgYx+dzhc
- p2jV1Cc9pO8ZsG8xspjchyhzIZQ4FAt5l5TNSRCxJncAjNaATr8g0kc1uRTSgUAVAp1B
- 466Q==
+ bh=tE21poLWpjs1GduZLj+PgABwuxQTljOZlec7LOXTsTQ=;
+ b=AI85TZuxJFzpojKZJlquzPJ/5YvDFz8JEdaGZ7N9Bmfov5X7GyMy3TfvkUyQANtqKe
+ uWjtNNrB596OMU00c6+qct2nMEsGN4W/ajrsVlovtW2vJG2fjivE6vkHc9d5Fc8S37eB
+ 0VpD+e7K/Ht0coC/nAVEUQFQLhXtyB4aw6jKMKF9ff8HzhVOsLQ13K9MvUH4nh17A3b8
+ X0IG+zvP4YjZB9qcfjrPIBuuKfgEibO6DzaNR3cG8TZwz73XhoRwn86VlJzYDpndT6LU
+ MtpcwxBGTg4+qOqVF/y48uFNpA2bAo7xyKsOHk/v6yI7+ZG1IGpxyK0r3md+ToHLMdrK
+ mWjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=z6L3+hI6K7wkMCOOKfC6B5htW9e/NujoD4rmfI82OVU=;
- b=ET2lQY745VQ2X4vRcR2rDBcikfoV64s5tJZ3OHP8hP1KQkOIRfKu3Vze2A1Pn+Uhn8
- byeD0iXsiA4QUMdAK6fFLHOSzZ2RH9tK4r0ODmrxA28iYAw+7ZdG+8i1PM0zLmrooSQ4
- kGgcmS0LRRe+O8x4RoDfgLyDFgEgsSQ1kpzhLhO9N1YBG4iJDvDh0dbEEHfITbqqN65R
- 00XD6ssnm68JoT6o6OnPngAISczUW1/9tHZ7nFAwyow0LjRBH3FqKmHFnSoXkXiD6erR
- 5Ibt+l8uXUrkFJD8A7b/hwGiS3txF0duutrEOgs5TISyRCqSPbyD2brP9TlKmmdDuXNq
- V8JA==
-X-Gm-Message-State: APjAAAXtpBSE3U0UiyKWIHzm2wtyF2+G/wDM7JCVmmU7hgQ7Pd3/xNMq
- IM1SBkMwhsdqt+FaI5xSPMM=
-X-Google-Smtp-Source: APXvYqwNPlyjQTahvdEBWCuI4Zd+Adrk+027CcV4KySo2l3EKHcRsdH9n54f0hJl6o3TjoADo67N4w==
-X-Received: by 2002:a63:d802:: with SMTP id b2mr32909872pgh.414.1573533890747; 
- Mon, 11 Nov 2019 20:44:50 -0800 (PST)
+ bh=tE21poLWpjs1GduZLj+PgABwuxQTljOZlec7LOXTsTQ=;
+ b=G1gmbUZ4qwUhMYCsMXen/ygGuSZxuOg+k575AZSCJI7ar/Is64DWVLRIyUTPI1kC8t
+ iu2fDZ8slybBPJVHQNgFV2khpX0sd9MJf4SBSe5f0vWWh652nvj4hq3yce+ChXTwgy4s
+ 4mHUEQm5bc/yzVA7XU1nkX5+b1MwUfZjJVCZedrWeHY/WQO2EBsoppLGrp7bQgbQB1Md
+ oVryCTxBgaPpTIBcZltGPpVyo5ua0ny6a5m+XeXi54Z1h7BIaVG71ETy53oRTsqj40Du
+ MKvgXbxTKlvgcnsdYhEsUEoFll4Hz73OE46d307r+qQgRLODGyOafvJKADmJS8A3YwMi
+ 1K8A==
+X-Gm-Message-State: APjAAAU5z2/iqhIspq58f3/3w4kqaOqlLqnwVjMwg2vAfhqbTV/TJhvQ
+ OnqzCLTnFp9wMjzTCOJc/NQ=
+X-Google-Smtp-Source: APXvYqwONZTehdk35XitEb5MFGQ3YaKV519c02Q5wasJGEVSNUQOf6OoebSn7yVrmWLCDumcSeljhQ==
+X-Received: by 2002:a17:90a:f48a:: with SMTP id
+ bx10mr3683941pjb.103.1573534626683; 
+ Mon, 11 Nov 2019 20:57:06 -0800 (PST)
 Received: from localhost ([2401:fa00:8f:203:250d:e71d:5a0a:9afe])
- by smtp.gmail.com with ESMTPSA id l62sm18583061pgl.24.2019.11.11.20.44.48
+ by smtp.gmail.com with ESMTPSA id n23sm15226461pff.137.2019.11.11.20.57.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Nov 2019 20:44:49 -0800 (PST)
-Date: Tue, 12 Nov 2019 13:44:47 +0900
+ Mon, 11 Nov 2019 20:57:05 -0800 (PST)
+Date: Tue, 12 Nov 2019 13:57:04 +0900
 From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
 To: Petr Mladek <pmladek@suse.com>
 Subject: Re: [PATCH 00/50] Add log level to show_stack()
-Message-ID: <20191112044447.GA121272@google.com>
+Message-ID: <20191112045704.GA138013@google.com>
 References: <20191106030542.868541-1-dima@arista.com>
  <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
  <20191108103719.GB175344@google.com>
  <20191108130447.h3wfgo4efjkto56f@pathway.suse.cz>
  <20191111012336.GA85185@google.com>
  <20191111091207.u3lrd6cmumnx4czr@pathway.suse.cz>
+ <20191112044447.GA121272@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191111091207.u3lrd6cmumnx4czr@pathway.suse.cz>
+In-Reply-To: <20191112044447.GA121272@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191111_204451_498680_314B116B 
-X-CRM114-Status: GOOD (  12.73  )
+X-CRM114-CacheID: sfid-20191111_205707_487221_6DF431A0 
+X-CRM114-Status: GOOD (  11.68  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,42 +161,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On (19/11/11 10:12), Petr Mladek wrote:
+On (19/11/12 13:44), Sergey Senozhatsky wrote:
 [..]
-> > I do recall that we talked about per-CPU printk state bit which would
-> > start/end "just print it" section. We probably can extend it to "just
-> > log_store" type of functionality. Doesn't look like a very bad idea.
+> > But yes, this per-code-section loglevel is problematic. The feedback
+> > against the patchset shows that people want it also the other way.
+> > I mean to keep pr_debug() as pr_debug().
 > 
-> The problem with per-CPU printk is that we would need to disable
-> interrupts.
+> Hmm. Right.
+> 
+> > A solution might be to use the per-code-section loglevel only instead
+> > of some special loglevel.
+> 
+> So maybe we can "overwrite" only KERN_DEFAULT loglevels?
 
-Or disable preemption and have loglevel per-CPU and per-context.
-preempt_count can navigate us to the right context loglevel on
-particular CPU. I'm talking here only about backtrace (error)
-reporting contexts. Those can be atomic perfectly fine.
+LOGLEVEL_DEFAULT, LOGLEVEL_NOTICE, LOGLEVEL_INFO?
 
-I posted a silly code snippet.
+So we can downgrade some messages (log_store() only) or promote
+some messages.
 
-[..]
-> But yes, this per-code-section loglevel is problematic. The feedback
-> against the patchset shows that people want it also the other way.
-> I mean to keep pr_debug() as pr_debug().
+DEBUG perhaps should stay debug.
 
-Hmm. Right.
+> We certainly should not mess with SCHED or with anything in between
+> EMERG and ERR.
 
-> A solution might be to use the per-code-section loglevel only instead
-> of some special loglevel.
-
-So maybe we can "overwrite" only KERN_DEFAULT loglevels?
-We certainly should not mess with SCHED or with anything in between
-EMERG and ERR.
-
-> The explicitly passed loglevel makes me feel more confident that
-> all needed printk() calls were updated. But it might be a false
-> feeling. I do not really have any strong preference.
-
-I'm not like really objecting, just trying to explore some other
-options.
+  [EMERG, WARN]
 
 	-ss
 
