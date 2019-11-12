@@ -7,58 +7,60 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AA92C43331
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 06:55:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 724F7C17440
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 08:35:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 46105206A3
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 06:55:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 489F4206A3
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Nov 2019 08:35:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QJqQ0fGR"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46105206A3
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="p79/Mmz6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 489F4206A3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=iTlk9dBX7xZ5n3uI1fR1Fr/N6v91UOCuAXvgFN13Zl8=; b=QJqQ0fGR72vZzD
-	uir0qHyCqenODCXBWIYfyri556huXoxKP5BTIkhUQ65xaza3WMQeExPwGbL88uZ/QyuQsFPiIjAIx
-	IQwgKMJAvo5B5huoOiHqwqndtetBuQS7/dtGF2BshmgWNbHBOZTLMAkxkd/4AeNO0e1g4Z/0uZHVr
-	JDSfe1bYpNYazOTGYyxJYyhyg7ha2WHVbDcXMYx1fCV3l3sWjCEmucuAwC8yJ/dzZRt6BDziQnVZ0
-	pE24gG4bO2gm0tgjN4NDrWZYfJECZVTrf99u9p+ctcjWKhR7yYJZpz9NKHvtb7d3MXmWq5V/8R4Ce
-	3jpy/UA+tqC3JaLYMaIA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=bMxycZME2tS/rVapNWEKJPiFbXGP23IGtFtJ2YJAZaA=; b=p79/Mmz6ho7QPC
+	i2feHMnVi41pPofW7K3Je6E/cRDbjIXm5/pkVIdFFpUiJISQ4zHMW/boUH40hqb7dFgOyI5Wu8a8X
+	IDKAlsY4unX1uTlz9W3CoE7zDFtf/OPTIs67Z+kJ39EkzmnfI/5uWAIW7E8gw7XdpJqPItrqQtIU8
+	10A0Skvhmw4iuseeckR4+q9qX8wkudgP5+VEIdAdA38+wGwEae5ksSIEUWHG4x5yU69Z4yR3YdHEY
+	RTdDx05Xc+mKQOfGUirs22MC4pU5RNjduYYiOFpC8Q7GulxGZXWs2l1djiimsHYIrAwX3F1fHAwOc
+	FfN8rf/hiZphDekHUc1Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iUQ5C-0006mh-LF; Tue, 12 Nov 2019 06:55:22 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iUQ2U-00035f-Of; Tue, 12 Nov 2019 06:52:37 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 741C81FB;
- Mon, 11 Nov 2019 22:52:33 -0800 (PST)
-Received: from [10.163.1.187] (unknown [10.163.1.187])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6BA6A3F52E;
- Mon, 11 Nov 2019 22:55:07 -0800 (PST)
-Subject: Re: [PATCH V9] mm/debug: Add tests validating architecture page table
- helpers
-To: Ingo Molnar <mingo@kernel.org>
-References: <1573532326-24084-1-git-send-email-anshuman.khandual@arm.com>
- <20191112062951.GA100264@gmail.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <fe6b8140-1017-d081-570c-62213fe39624@arm.com>
-Date: Tue, 12 Nov 2019 12:22:45 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+	id 1iURe0-0002e7-9a; Tue, 12 Nov 2019 08:35:24 +0000
+Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iURdv-0002cc-QV; Tue, 12 Nov 2019 08:35:21 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id D1671AC68;
+ Tue, 12 Nov 2019 08:35:16 +0000 (UTC)
+Date: Tue, 12 Nov 2019 09:35:09 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Subject: Re: [PATCH 00/50] Add log level to show_stack()
+Message-ID: <20191112083509.gmgjpkjffsfaw5lm@pathway.suse.cz>
+References: <20191106030542.868541-1-dima@arista.com>
+ <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
+ <20191108103719.GB175344@google.com>
+ <20191108130447.h3wfgo4efjkto56f@pathway.suse.cz>
+ <20191111012336.GA85185@google.com>
+ <20191111091207.u3lrd6cmumnx4czr@pathway.suse.cz>
+ <20191112044447.GA121272@google.com>
+ <20191112045704.GA138013@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20191112062951.GA100264@gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20191112045704.GA138013@google.com>
+User-Agent: NeoMutt/20170912 (1.9.0)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191111_225234_871595_E1940A7F 
-X-CRM114-Status: GOOD (  16.85  )
+X-CRM114-CacheID: sfid-20191112_003520_155802_C9E57AD3 
+X-CRM114-Status: GOOD (  13.05  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,77 +72,100 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
+ Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Dmitry Safonov <dima@arista.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
+ Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
+ uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
+ linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-ia64@vger.kernel.org,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
  James Hogan <jhogan@kernel.org>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, Dave Hansen <dave.hansen@intel.com>,
- Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, linux-s390@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Kees Cook <keescook@chromium.org>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Mark Brown <broonie@kernel.org>, "Kirill A . Shutemov" <kirill@shutemov.name>,
- Dan Williams <dan.j.williams@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Sri Krishna chowdary <schowdary@nvidia.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org,
- Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
- Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
- Vineet Gupta <vgupta@synopsys.com>,
- Martin Schwidefsky <schwidefsky@de.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
+ linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Brian Cain <bcain@codeaurora.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
+ Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
+ Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
+ "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
+ Peter Zijlstra <peterz@infradead.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
+ Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
+ nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+On Tue 2019-11-12 13:57:04, Sergey Senozhatsky wrote:
+> On (19/11/12 13:44), Sergey Senozhatsky wrote:
+> [..]
+> > > But yes, this per-code-section loglevel is problematic. The feedback
+> > > against the patchset shows that people want it also the other way.
+> > > I mean to keep pr_debug() as pr_debug().
+> > 
+> > Hmm. Right.
+> > 
+> > > A solution might be to use the per-code-section loglevel only instead
+> > > of some special loglevel.
+> > 
+> > So maybe we can "overwrite" only KERN_DEFAULT loglevels?
+> 
+> LOGLEVEL_DEFAULT, LOGLEVEL_NOTICE, LOGLEVEL_INFO?
+> 
+> So we can downgrade some messages (log_store() only) or promote
+> some messages.
+> 
+> DEBUG perhaps should stay debug.
+> 
+> > We certainly should not mess with SCHED or with anything in between
+> > EMERG and ERR.
+> 
+>   [EMERG, WARN]
 
+This is getting too complicated. It would introduce too many
+hidden rules. While the explicitly passed loglevel parameter
+is straightforward and clear.
 
-On 11/12/2019 11:59 AM, Ingo Molnar wrote:
-> 
-> * Anshuman Khandual <anshuman.khandual@arm.com> wrote:
-> 
->> +config DEBUG_VM_PGTABLE
->> +	bool "Debug arch page table for semantics compliance"
->> +	depends on MMU
->> +	depends on DEBUG_VM
->> +	depends on ARCH_HAS_DEBUG_VM_PGTABLE
->> +	help
->> +	  This option provides a debug method which can be used to test
->> +	  architecture page table helper functions on various platforms in
->> +	  verifying if they comply with expected generic MM semantics. This
->> +	  will help architecture code in making sure that any changes or
->> +	  new additions of these helpers still conform to expected
->> +	  semantics of the generic MM.
->> +
->> +	  If unsure, say N.
-> 
-> Since CONFIG_DEBUG_VM is generally disabled in distro kernel packages, 
-> why not make this 'default y' to maximize testing coverage? The code size 
-> increase should be minimal, and DEBUG_VM increases size anyway.
+I am getting more inclined to the solution introduced by this
+patchset. It looks reasonable for the different use-cases.
 
-Sure, will do.
-
-> 
-> Other than that this looks good to me:
-> 
->   Reviewed-by: Ingo Molnar <mingo@kernel.org>
-
-Thank you.
-
-> 
-> Thanks,
-> 
-> 	Ingo
-> 
+Best Regards,
+Petr
 
 _______________________________________________
 linux-snps-arc mailing list
