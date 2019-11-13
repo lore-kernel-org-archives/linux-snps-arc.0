@@ -2,20 +2,21 @@ Return-Path: <SRS0=eCxK=ZF=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A71A4C4741C
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 13 Nov 2019 16:16:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F756C33CA0
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 13 Nov 2019 16:21:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0CBC622490
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 13 Nov 2019 15:39:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0AB52227C3
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 13 Nov 2019 15:45:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fc/Bwx2m"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CBC622490
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Z5U8PDYq"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0AB52227C3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,42 +25,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Bf6Xw9Brm9h6bDTneOzJF2ROeKlQAnKWqr3gc/72tx4=; b=fc/Bwx2m8xESTJ
-	oGSEFjcdtS59Pc1qXTfd+zVZWJYkFTieiki5iHjm6VgOp7N2N47Dsxtf9nd+5/XmffVRlGIok7uBf
-	Gd/cppPEVjhkl18nUh6Xlso4xaydQUOmtljwTcTKGvfJVm9GHF6R0/Ga/6bAQyY2g3JN3Otib1RkL
-	CHj6gSi6uOEeFNeS9csfZNtslS5XMaz96dw1ATBMfyX/lnmT1wa2knq+QhWOrjTz/hkv3pFakStB8
-	FZhCdoAGiIKoBI5ot9r65+aV6DyrELXr3Y5JDXZ+bZ6WMn7JHCy4TuTYhtiL2o0D6bBeBaaW5JqOO
-	ZKhSQCJ2xLGH2JYwOYeA==;
+	List-Owner; bh=s8px7ozRROrxs6ncTMPR1ZbvcUGnTu1Ony8mAFL0tQU=; b=Z5U8PDYqpj9nH5
+	fAcIBw73Gfns/Qf0ctsRPA4XGW5PcjIR3AA497AYP1O9duQSHmJQLYMWf9PB4PcGizv94STe/cB6L
+	zUojMGYZE/zoVmHJPXoqJkkMlNACalg86Ii6c5g47c4CHFw1wtcFakPj8url4eKZPcTlSSp08eboV
+	9JQY1vHg+7h34ZvK1M0Z+s3BDj3oMnJCeXXEiaYv81jxkna9ZWCuqwS/5VfvAomf6YlRyc2FLlIm2
+	dGk7qYIVkyo/QK8OZrZ946d9MKUt8jYq98DoXcbxfQt7hDKbGsRtDGe1yLvAnEusVD8hm+r/N3koZ
+	/1iX2IjxRc7IXYXsGvWA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iUuk4-0007S2-Vf; Wed, 13 Nov 2019 15:39:36 +0000
+	id 1iUupN-0001WS-1h; Wed, 13 Nov 2019 15:45:05 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iUuk0-0007QN-CR; Wed, 13 Nov 2019 15:39:33 +0000
+ id 1iUupE-0001KX-AL; Wed, 13 Nov 2019 15:45:00 +0000
 Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
  [66.24.58.225])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 688C62248C;
- Wed, 13 Nov 2019 15:39:24 +0000 (UTC)
-Date: Wed, 13 Nov 2019 10:39:22 -0500
+ by mail.kernel.org (Postfix) with ESMTPSA id 4850B225AE;
+ Wed, 13 Nov 2019 15:44:48 +0000 (UTC)
+Date: Wed, 13 Nov 2019 10:44:46 -0500
 From: Steven Rostedt <rostedt@goodmis.org>
-To: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Subject: Re: [PATCH 00/50] Add log level to show_stack()
-Message-ID: <20191113103922.3dc3e8e9@gandalf.local.home>
-In-Reply-To: <20191112021747.GA68506@google.com>
+Message-ID: <20191113104446.419e4d8a@gandalf.local.home>
+In-Reply-To: <20191106232512.GU25745@shell.armlinux.org.uk>
 References: <20191106030542.868541-1-dima@arista.com>
- <20191106083538.z5nlpuf64cigxigh@pathway.suse.cz>
- <20191108103719.GB175344@google.com>
- <20191108130447.h3wfgo4efjkto56f@pathway.suse.cz>
- <20191111012336.GA85185@google.com>
- <13e72b62-c842-8ed5-5b41-bc1692b28f53@arista.com>
- <20191112021747.GA68506@google.com>
+ <20191106092039.GT4131@hirez.programming.kicks-ass.net>
+ <10db6fa1-5b17-ebe6-09e0-6335e09e4db8@arista.com>
+ <20191106203440.GH3079@worktop.programming.kicks-ass.net>
+ <20191106232512.GU25745@shell.armlinux.org.uk>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191113_073932_467019_CB19FDC0 
-X-CRM114-Status: GOOD (  10.67  )
+X-CRM114-CacheID: sfid-20191113_074456_423048_62B797C3 
+X-CRM114-Status: GOOD (  19.55  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,8 +88,8 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
  Ralf Baechle <ralf@linux-mips.org>, Paul Mackerras <paulus@samba.org>,
  Andrew Morton <akpm@linux-foundation.org>, linux-ia64@vger.kernel.org,
  Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- James Hogan <jhogan@kernel.org>, "James E.J.
- Bottomley" <James.Bottomley@HansenPartnership.com>,
+ James Hogan <jhogan@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
  Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
  Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
  linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
@@ -116,9 +115,9 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
  sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
  Anton Ivanov <anton.ivanov@cambridgegreys.com>,
  Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
- x86@kernel.org, Russell King <linux@armlinux.org.uk>,
- clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
- Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ x86@kernel.org, clang-built-linux@googlegroups.com,
+ Ingo Molnar <mingo@redhat.com>, Mark Salter <msalter@redhat.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
  Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
  openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
  Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
@@ -130,25 +129,42 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, 12 Nov 2019 11:17:47 +0900
-Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com> wrote:
+On Wed, 6 Nov 2019 23:25:13 +0000
+Russell King - ARM Linux admin <linux@armlinux.org.uk> wrote:
 
-> void show_stack(struct task_struct *task, unsigned long *sp, int log_level)
-> {
-> 	printk_emergency_enter(log_level);
-> 	__show_stack(task, sp);
-> 	printk_emergency_exit();
-> }
-> // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+> On Wed, Nov 06, 2019 at 09:34:40PM +0100, Peter Zijlstra wrote:
+> > I suppose I'm surprised there are backtraces that are not important.
+> > Either badness happened and it needs printing, or the user asked for it
+> > and it needs printing.  
 > 
-> show_stack() never schedules, disabling preemption around it should
-> not change anything. Should it be interrupted, we will handle it via
-> preempt count.
+> Or utterly meaningless.
+> 
+> > Perhaps we should be removing backtraces if they're not important
+> > instead of allowing to print them as lower loglevels?  
+> 
+> Definitely!  WARN_ON() is well overused - and as is typical, used
+> without much thought.  Bound to happen after Linus got shirty about
+> BUG_ON() being over used.  Everyone just grabbed the next nearest thing
+> to assert().
+> 
+> As a kind of example, I've recently come across one WARN_ON() in a
+> driver subsystem (that shall remain nameless at the moment) which very
+> likely has multiple different devices on a platform.  The WARN_ON()
+> triggers as a result of a problem with the hardware, but because it's a
+> WARN_ON(), you've no idea which device has a problem.  The backtrace is
+> mostly meaningless.  So you know that a problem has occurred, but the
+> kernel prints *useless* backtrace to let you know, and totally omits
+> the *useful* information.
+> 
 
-Please no! The whole point of the printk rewrite was to allow for
-printk to be preemptible and used in more contexts. The show_stack() can
-be all over the place and is not a fast function. Let's not disable
-preemption for it.
+I would like to bring up a topic for the next maintainers summit
+(although I may not even be there), that we define a clear use of
+WARN_ON(). I use it only if the code does something I do not expect it
+to do, and is considered a bug in the code if it triggers. But it
+appears that some drivers use it for "oh I didn't realize this hardware
+does something I didn't expect". And is ignored when the warn on is
+triggered and reported, with "you have buggy hardware" but my hardware
+appears to work just fine!
 
 -- Steve
 
