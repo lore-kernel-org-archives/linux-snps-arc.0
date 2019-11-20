@@ -2,99 +2,78 @@ Return-Path: <SRS0=TWh9=ZM=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D886C432C3
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 20 Nov 2019 10:14:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F3AC43141
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 20 Nov 2019 11:29:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CCD8A22311
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 20 Nov 2019 10:14:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4A3F522311
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 20 Nov 2019 11:29:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="X27n/nZP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CCD8A22311
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QEB37lXz";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="VRTVeIQZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A3F522311
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:To:From:Subject:
-	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=aHNidq515dy0f0eEP8JoccZOI2BTir0KS68hDolikiw=; b=X27
-	n/nZPzGfL4JLFRunyLWlO4qWSYP0toQVOrYJBY/P7H3Yf1mEYYdV8VK99ODFO0XuMwazFPugJdj/b
-	NVL2c3ianZ/tHK0115d1jlIc1mAv+Y3dcRQiA4znb/9kRgxg6f7NlgfwZx5lRS62iqhoqGxwyowzY
-	uA6UaR4qFuBWrBroU7TQfKnnjbwhAh+Um3rCAeXst/hQrKUVXsXsGaUbEIONrHHLvTRnKfAr5MfR1
-	SUpi3gQyEPvG9tXtMlZembME+cva0nXFZRf5A6c0bEXQOCsIDaT8yEAqC2s6qH4x2uyA2co1/GH+z
-	lysNFLDg0uL/Pt5Q3DEhLC5uPwDV5Ug==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=ppPFUZXqv0W4wb0JAOONKkqvcgv1b2N3buV6pDlipOg=; b=QEB37lXzFAr6Bo
+	JGXxE2/zqMxT+abaY92AAZnC4mUQJI+htgvDJZrxFMYRURHO6+sBuGGLY+FY3YKLZRe7QxoZjx0lb
+	7J+lKdY9pJEYdax1ubz+HCPNwOCtDknEJD97oGYBUPgI/Y6BtwPzsx93qQDjaAXr3JqoIZ/puFmLF
+	fm2rYap48Hc/qSpjVXiAaNiSwnTD9xdkaxbRu+yTSmZS77xFcrKUM7ig6Se9rAJLnoL0Ts1Hvs1HN
+	r4c6UoBvY0K2dxliyA/TOrIS8bkkNRadbQEvSnKGpmDPoXSSiGe38RwvxxGTzLMl3qgI3gpZa4IY1
+	gxMm68Qv3hbjRFRcC4Jg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iXMzn-0001EZ-OT; Wed, 20 Nov 2019 10:13:59 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1iXOAu-0006Oh-9z; Wed, 20 Nov 2019 11:29:32 +0000
+Received: from us03-smtprelay2.synopsys.com ([149.117.87.133]
+ helo=smtprelay-out1.synopsys.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iXMzk-0001DG-RT
- for linux-snps-arc@lists.infradead.org; Wed, 20 Nov 2019 10:13:58 +0000
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAKABXC9044797
- for <linux-snps-arc@lists.infradead.org>; Wed, 20 Nov 2019 05:13:49 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wbxndnm5h-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-snps-arc@lists.infradead.org>; Wed, 20 Nov 2019 05:13:49 -0500
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <linux-snps-arc@lists.infradead.org> from <noreply@ellerman.id.au>;
- Wed, 20 Nov 2019 10:13:47 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 20 Nov 2019 10:13:46 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAKADj2146792780
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Nov 2019 10:13:45 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6AEC652052;
- Wed, 20 Nov 2019 10:13:45 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 1AFE75204F;
- Wed, 20 Nov 2019 10:13:45 +0000 (GMT)
-Received: from bran.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
- by ozlabs.au.ibm.com (Postfix) with ESMTP id 8DE95A0221;
- Wed, 20 Nov 2019 21:13:39 +1100 (AEDT)
-Received: from 78c6c811cd18 (ka2.ozlabs.ibm.com [10.61.145.21])
- by bran.ozlabs.ibm.com (Postfix) with ESMTP id 7C182E00E8;
- Wed, 20 Nov 2019 21:13:40 +1100 (AEDT)
+ id 1iXOAr-0006N3-8m
+ for linux-snps-arc@lists.infradead.org; Wed, 20 Nov 2019 11:29:30 +0000
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
+ [10.225.0.210])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id E1464C2EDC;
+ Wed, 20 Nov 2019 11:29:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1574249367; bh=lFwY4rXDWlnRNRI1YBEWXe6HkH2a1VgO8bBpeCWzBjk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=VRTVeIQZeJ7N10a+6JLAJq+gKUFNeU7quiJcv0SzR4VvNEsp3cUlfZTytKWZ3hc8w
+ z00WAWzSdjMoCgNWD3cC2ZR5HU/0RYIzvx5rIeNGj5cNMzlFS5+TX0ys7eoyxAONln
+ A889JzWrZIEgxmkRnGDdF/L7Xuhwcddph1rKvRq93AeDCbdEZqOAe26j5uQ48M2C9M
+ wObCbSoz2Qt7UGyiOj8jIiEoU7HkCWfcFy5gWKEtN1S47KRIdFje/8Ar4Oh9BmCo6O
+ f/ct5zEizO8por2ix9QxGEJuvwxJtvQasJeBcDIZeCFr6afjAVUu62lCTNEG+3jMOz
+ qwxxFj9HoHXRw==
+Received: from paltsev-e7480.internal.synopsys.com
+ (paltsev-e7480.internal.synopsys.com [10.121.3.76])
+ by mailhost.synopsys.com (Postfix) with ESMTP id 4C644A005E;
+ Wed, 20 Nov 2019 11:29:25 +0000 (UTC)
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+To: linux-snps-arc@lists.infradead.org,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Subject: [PATCH v2 2/2] ARC: [plat-axs10x]: remove hardcoded video mode from
+ bootargs
+Date: Wed, 20 Nov 2019 14:29:23 +0300
+Message-Id: <20191120112923.431-2-Eugeniy.Paltsev@synopsys.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191120112923.431-1-Eugeniy.Paltsev@synopsys.com>
+References: <20191120112923.431-1-Eugeniy.Paltsev@synopsys.com>
 MIME-Version: 1.0
-Subject: kisskb: FAILED linux-next/axs101_defconfig/arcompact Wed Nov 20, 21:13
-From: noreply@ellerman.id.au
-To: Vineet.Gupta1@synopsys.com, Alexey.Brodkin@synopsys.com,
- linux-snps-arc@lists.infradead.org
-Date: Wed, 20 Nov 2019 10:13:40 -0000
-X-TM-AS-GCONF: 00
-x-cbid: 19112010-0008-0000-0000-000003351E74
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112010-0009-0000-0000-00004A5440DF
-Message-Id: <20191120101340.1.97280@78c6c811cd18>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-20_02:2019-11-15,2019-11-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 suspectscore=2 phishscore=0 mlxlogscore=583
- clxscore=1034 adultscore=0 malwarescore=0 spamscore=0 mlxscore=0
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1910280000 definitions=main-1911200094
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191120_021356_890344_8F2BD4B1 
-X-CRM114-Status: GOOD (  12.51  )
+X-CRM114-CacheID: sfid-20191120_032929_350644_73E01295 
+X-CRM114-Status: UNSURE (   9.61  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,29 +85,53 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Cc: Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-FAILED linux-next/axs101_defconfig/arcompact Wed Nov 20, 21:13
+Now have pixel clock PLL driver and we can change pixel clock rate
+so we don't need to enforce one exact video mode. Moreover enforcing
+video mode is harmful in case of we enforce mode which isn't
+supported by the monitor we are using.
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/14034891/
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+---
+Changes v1->v2:
+ * None.
 
-Commit:   Add linux-next specific files for 20191120
-          1fef9976397fc9b951ee54467eccd65e0c508785
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+ arch/arc/boot/dts/axs101.dts     | 2 +-
+ arch/arc/boot/dts/axs103_idu.dts | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Possible errors
----------------
-
-arch/arc/boot/dts/axs10x_mb.dtsi:66.24-71.5: ERROR (phandle_references): /axs10x_mb/pguclk@10080: Reference to non-existent node or label "input_clk"
-ERROR: Input tree has errors, aborting (use -f to force output)
-make[2]: *** [scripts/Makefile.lib:295: arch/arc/boot/dts/axs101.dtb] Error 2
-make[1]: *** [Makefile:1244: dtbs] Error 2
-make: *** [Makefile:179: sub-make] Error 2
-
-No warnings found in log.
+diff --git a/arch/arc/boot/dts/axs101.dts b/arch/arc/boot/dts/axs101.dts
+index 305a7f9658e0..c4cfc5f4f427 100644
+--- a/arch/arc/boot/dts/axs101.dts
++++ b/arch/arc/boot/dts/axs101.dts
+@@ -14,6 +14,6 @@
+ 	compatible = "snps,axs101", "snps,arc-sdp";
+ 
+ 	chosen {
+-		bootargs = "earlycon=uart8250,mmio32,0xe0022000,115200n8 console=tty0 console=ttyS3,115200n8 consoleblank=0 video=1280x720@60 print-fatal-signals=1";
++		bootargs = "earlycon=uart8250,mmio32,0xe0022000,115200n8 console=tty0 console=ttyS3,115200n8 consoleblank=0 print-fatal-signals=1";
+ 	};
+ };
+diff --git a/arch/arc/boot/dts/axs103_idu.dts b/arch/arc/boot/dts/axs103_idu.dts
+index 46c9136cbf2b..a934b92a8c30 100644
+--- a/arch/arc/boot/dts/axs103_idu.dts
++++ b/arch/arc/boot/dts/axs103_idu.dts
+@@ -17,6 +17,6 @@
+ 	compatible = "snps,axs103", "snps,arc-sdp";
+ 
+ 	chosen {
+-		bootargs = "earlycon=uart8250,mmio32,0xe0022000,115200n8 console=tty0 console=ttyS3,115200n8 print-fatal-signals=1 consoleblank=0 video=1280x720@60";
++		bootargs = "earlycon=uart8250,mmio32,0xe0022000,115200n8 console=tty0 console=ttyS3,115200n8 print-fatal-signals=1 consoleblank=0";
+ 	};
+ };
+-- 
+2.21.0
 
 
 _______________________________________________
