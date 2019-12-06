@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D4AC2BD09
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Dec 2019 19:39:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 071FCC2BBE2
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Dec 2019 19:39:36 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A3FF924676
+	by mail.kernel.org (Postfix) with ESMTPS id D0D3A24677
 	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Dec 2019 19:39:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JpskdGhS";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="W0Jjiazx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A3FF924676
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cXFjbFJk";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="VGXEh4+7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D0D3A24677
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,51 +26,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5kdovMMVuvz27Nr8NXMqOu8NwmXWuzTda52AKEFrjPA=; b=JpskdGhSRItcTD
-	C72Rt1sDBdAldFBGu8mDE9fBMPen0oLAmyrtrITo+wWGQsueXyy548rXjnJmgzG/L5pMKLrUlaxgC
-	3dT1hLInhftmWRWVlV+8r+xtRs0Yfkd6JSbKFDb9yAjWg3dBajorKMDqAmvSZ7szv8hj7UlRnfana
-	Ltehqdkl+8vLw341LUqkssMx5d6WUzPrajqS89qTZ6FterRbdIEohsZnUrLnsaBS+sfdc6+uFb39g
-	6Gu6tcUgtVhySXbZ8tV2rDownDCLAUDNPiHnsqdqzBxv1I9NYvtTQg0fnEvl+GWUHDF0W29PwA7OS
-	7KCNzHct+8KhX69hTx8g==;
+	List-Owner; bh=6SjiSE8IYsqftwbRsdK4ubucNGQzJma+7ULPpd5xphI=; b=cXFjbFJkDfqJ/o
+	oGoMET7WMYvq3rnaIWUoTt+9gIW2moEboFrTE0p2a1Jca/9vhMRuZAB0wyMG2plIBUTWoEfSzQ/EU
+	U7ER1DKelhWuf6kIwZvCbIjJrHI7jZHz3xo05oLVdWsdoc3Zabhupm0pfJvota/vbtNdxJ912K6TM
+	spsHDhuSR7vATS09luwlCtwz7DFdBPNFOe2SwZKPZ12untW8kjBlH6HpHOb4Ta7QyX1K0QkhtMjP/
+	ExS7U+KWsoQVL+i/NvZsyEzcN/EPmiWvIXBYA99s/SyEyG06NR5DZYBhco0s/bKOhqbBO1E8SNLNQ
+	gSgRgmsXf82StpNOi78w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1idJRt-0005SJ-LQ; Fri, 06 Dec 2019 19:39:33 +0000
-Received: from us03-smtprelay2.synopsys.com ([149.117.87.133]
- helo=smtprelay-out1.synopsys.com)
+	id 1idJRu-0005Su-Vn; Fri, 06 Dec 2019 19:39:34 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1idJRq-0005Qg-CX
- for linux-snps-arc@lists.infradead.org; Fri, 06 Dec 2019 19:39:31 +0000
+ id 1idJRq-0005Qf-Cn
+ for linux-snps-arc@lists.infradead.org; Fri, 06 Dec 2019 19:39:33 +0000
 Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com
  [10.205.2.131])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 57A14C0AF8;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 61FBAC0AFF;
  Fri,  6 Dec 2019 19:39:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1575661167; bh=ORhOSdN87XTUXfG8MfDRSffSpoJITL/T0mXxiPKL4Zk=;
+ t=1575661167; bh=jhNz/HfuKRjvuyprq54lhs21rf6H/bLv+FKJgjVX1kQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=W0JjiazxEyDdH/jWzAUUmYgkFrcWFVtEBnyq1Q1desjDrYQruWXyxWKPpxPN0GiHZ
- +MffVvtQs7sQuOwanOg02XfYxboVh1aBVpbd7tixIU5zmGkXwfrL14dPZQq3zqRkpo
- sE7KAxlb9NVL7W8r0mD9GfXrH+PYY3Xn+t4TsnhlPE5FKdu62ThT1KQUdBCR8Ggh16
- vGh548FqaQHZHNUxB6Eu5zCXNzbT/RmOO9RWrk+l+5x8QJDlZLQlkhQA+qZ7Lvou17
- UJfXCEhG+fvMasNyJ/gRYQGtzOvcs7rt4PNk7VLCOV7iMMRaivypW7QNk8FVH4CcJF
- Sy0IELzYIi+kw==
+ b=VGXEh4+7nprdDLckgQ0kRMgTpoJdIj2Xcdm+B9aKo6wcVKH4NhDpMDmrerWVsUGi/
+ d3RZCr+ffhTS33/JRt0lyl+FWI1wv0wynGbbDl2KMsjSnr0zLA5xG4gEWX7Hzcfl97
+ iB9bF9PuuvBFWY3DWTaF50FHNW3lIT1bpriZGepg3T2f3WBjxLcWUd0/h7SzmNXMUv
+ 9/yz0vo6PxVeDXQYiomD7LgXA6PngFC8v9BmL6/mmGJDNFNfQRcnPVL33OKKvM8shD
+ IkyVVznWL3hwzKn+Zlx436b+aUiezNzcHxtBOz/pNHwEif4HUmElUzwS2DraLnP9Jb
+ 8b8l5lzxA61VQ==
 Received: from vineetg-Latitude-E7450.internal.synopsys.com
  (vineetg-latitude-e7450.internal.synopsys.com [10.10.161.21])
- by mailhost.synopsys.com (Postfix) with ESMTP id ED64FA005E;
- Fri,  6 Dec 2019 19:39:26 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 248D1A0069;
+ Fri,  6 Dec 2019 19:39:27 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: buildroot@busybox.net
-Subject: [PATCH 1/3] toolchain,glibc: Allow ARC big endian glibc builds
-Date: Fri,  6 Dec 2019 11:39:22 -0800
-Message-Id: <20191206193924.18777-2-vgupta@synopsys.com>
+Subject: [PATCH 3/3] toolchain/ARC: Enable ability to build with upstream
+ gcc/binutils
+Date: Fri,  6 Dec 2019 11:39:24 -0800
+Message-Id: <20191206193924.18777-4-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191206193924.18777-1-vgupta@synopsys.com>
 References: <20191206193924.18777-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191206_113930_466526_9B194094 
-X-CRM114-Status: GOOD (  10.23  )
+X-CRM114-CacheID: sfid-20191206_113930_492933_6D830A50 
+X-CRM114-Status: GOOD (  10.96  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,32 +89,93 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-
-Apparently big endian glibc builds just work, if we let the endian
-header allow that (which prev was #error).
-
-The current ARC glibc version in buildroot arc-2019.09-rc1 already
-contains that fix.
+While ARC upstream gcc/binutils work, they are still trailing behind
+the more up to date code at github. To help expedite this gap, we want
+to test the upstreeam versiosn more often, hence this patch. It allows
+ARC tools to be built of upstream gcc/binutils.
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- toolchain/toolchain-buildroot/Config.in | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/Config.in.arc              | 4 ++++
+ package/binutils/Config.in.host | 6 +++---
+ package/binutils/binutils.mk    | 2 +-
+ package/gcc/Config.in.host      | 4 ++--
+ 4 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/toolchain/toolchain-buildroot/Config.in b/toolchain/toolchain-buildroot/Config.in
-index 95d513004aa0..a980f766ac14 100644
---- a/toolchain/toolchain-buildroot/Config.in
-+++ b/toolchain/toolchain-buildroot/Config.in
-@@ -48,7 +48,7 @@ config BR2_TOOLCHAIN_BUILDROOT_GLIBC
- 		   BR2_powerpc     || BR2_powerpc64  || BR2_powerpc64le || \
- 		   BR2_riscv       || BR2_sh         || BR2_sparc64     || \
- 		   BR2_x86_64      || BR2_microblaze || BR2_nios2       || \
--		   (BR2_arcle && BR2_ARC_ATOMIC_EXT) || BR2_csky
-+		   (BR2_arc && BR2_ARC_ATOMIC_EXT)   || BR2_csky
- 	depends on BR2_USE_MMU
- 	depends on !BR2_STATIC_LIBS
- 	depends on BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_2
+diff --git a/arch/Config.in.arc b/arch/Config.in.arc
+index fdfafda31c72..c389ba8b42c9 100644
+--- a/arch/Config.in.arc
++++ b/arch/Config.in.arc
+@@ -59,6 +59,10 @@ config BR2_arc
+ 	bool
+ 	default y if BR2_arcle || BR2_arceb
+ 
++config BR2_arc_gh
++	bool "ARC github tools"
++	default y if BR2_arc
++
+ config BR2_ENDIAN
+ 	default "LITTLE" if BR2_arcle
+ 	default "BIG"	 if BR2_arceb
+diff --git a/package/binutils/Config.in.host b/package/binutils/Config.in.host
+index 514f620086eb..78785878cecc 100644
+--- a/package/binutils/Config.in.host
++++ b/package/binutils/Config.in.host
+@@ -7,8 +7,8 @@ config BR2_PACKAGE_HOST_BINUTILS_SUPPORTS_CFI
+ 
+ choice
+ 	prompt "Binutils Version"
+-	default BR2_BINUTILS_VERSION_2_32_X if !BR2_arc && !BR2_csky
+-	default BR2_BINUTILS_VERSION_ARC if BR2_arc
++	default BR2_BINUTILS_VERSION_2_32_X if !BR2_arc_gh && !BR2_csky
++	default BR2_BINUTILS_VERSION_ARC if BR2_arc_gh
+ 	default BR2_BINUTILS_VERSION_CSKY if BR2_csky
+ 	help
+ 	  Select the version of binutils you wish to use.
+@@ -27,7 +27,7 @@ config BR2_BINUTILS_VERSION_2_33_X
+ 
+ config BR2_BINUTILS_VERSION_ARC
+ 	bool "binutils arc (2.31)"
+-	depends on BR2_arc
++	depends on BR2_arc_gh
+ 
+ config BR2_BINUTILS_VERSION_CSKY
+ 	bool "binutils csky"
+diff --git a/package/binutils/binutils.mk b/package/binutils/binutils.mk
+index ecc78b81e59f..63567db069ab 100644
+--- a/package/binutils/binutils.mk
++++ b/package/binutils/binutils.mk
+@@ -11,7 +11,7 @@ ifeq ($(BINUTILS_VERSION),)
+ BINUTILS_VERSION = 2.32
+ endif
+ 
+-ifeq ($(BR2_arc),y)
++ifeq ($(BR2_arc_gh),y)
+ BINUTILS_VERSION = arc-2019.09-rc1
+ BINUTILS_SITE = $(call github,foss-for-synopsys-dwc-arc-processors,binutils-gdb,$(BINUTILS_VERSION))
+ BINUTILS_SOURCE = binutils-gdb-$(BINUTILS_VERSION).tar.gz
+diff --git a/package/gcc/Config.in.host b/package/gcc/Config.in.host
+index 92af40b19fc3..d9f4c6cae14b 100644
+--- a/package/gcc/Config.in.host
++++ b/package/gcc/Config.in.host
+@@ -2,7 +2,7 @@ comment "GCC Options"
+ 
+ choice
+ 	prompt "GCC compiler Version"
+-	default BR2_GCC_VERSION_ARC if BR2_arc
++	default BR2_GCC_VERSION_ARC if BR2_arc_gh
+ 	default BR2_GCC_VERSION_CSKY if BR2_csky
+ 	default BR2_GCC_VERSION_OR1K if BR2_or1k
+ 	default BR2_GCC_VERSION_8_X
+@@ -12,7 +12,7 @@ choice
+ config BR2_GCC_VERSION_ARC
+ 	bool "gcc arc (9.x)"
+ 	# Only supported architecture
+-	depends on BR2_arc
++	depends on BR2_arc_gh
+ 	select BR2_TOOLCHAIN_GCC_AT_LEAST_9
+ 
+ config BR2_GCC_VERSION_CSKY
 -- 
 2.20.1
 
