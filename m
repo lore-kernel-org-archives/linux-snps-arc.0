@@ -2,84 +2,141 @@ Return-Path: <SRS0=/JEi=2C=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B50AC2D0C9
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Dec 2019 09:40:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF1D8C43603
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Dec 2019 23:57:35 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 216CE24654
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Dec 2019 09:40:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7DA26206B7
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Dec 2019 23:57:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RJVZ6QlL";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nuPLz9Vg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 216CE24654
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GQfB7FmS";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="bgO0OSmk";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="J2jZaRet"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7DA26206B7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=U3mDfVk8Xq9AE/U05aCUzF6s9F4wDgn+i1PRTfR+5Rc=; b=RJVZ6QlLazsMsu
-	828S8YBgjvwWDhp788qWTqtwoFcPaX006EqIk0w6/NI7aIFWzplbrPiuSTeu4DBRP4863yMsIFVDt
-	8LYQdeuIeO/m/5MlDXLuUk2IaPUcxRUu6c3GOpgaBTkXpHH9o6MTfTPhGYAuHjgdyTtpdP5QgR3+G
-	ui02BTRXoapDKiC/PE991doNqCYaxp14QaStfQaJuuYQtgWIazo66WbkieSrCW5sW/6pziKNHyVpt
-	b7ZLhai13UV6qrwKV8ZFAEZOKVIjV2TQ5BstphJCln5UMuCv+DuF7lYhVbbT3JuJwu0txTKH8W21E
-	6s3saiG7dKliEAE8h46Q==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:Message-ID:Date
+	:Subject:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=QBWPu2xMwHxnBDwxA4jGuWjkENEa7yNm8npMpFt+6GU=; b=GQfB7FmSpuzNME
+	UzbhvIHiYLkjh76qUbyiLtc594ANCVtGB/OTAIHfViP9HTb+5xh1TV4rqhj+cMGmvZBVqXWUYRdBJ
+	bx+otXgHWWWSXkU1V/ltk2v9+BeNseuN0TOVqfedgUIj5areMZJ3V29zdzdaQum7QD3wQCThIZyf3
+	m/CdkUedB0lLWJCR35igwSWbpfVYZieJ5Wir4XiQISKtO7zr+PVjfNzOtamsR10UHjmoTYpqSmXAD
+	CkW6AtKPYQ/QvKBVDdGzf4vp3q3voIcVwWnuZo2WSm2NHkEZJKd9Phq0ImUsAJZ9RFK0LhrTp10Gb
+	A4i+WH0eOvsaGwtiS3OA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ifKxN-0001uA-O7; Thu, 12 Dec 2019 09:40:25 +0000
-Received: from mail-vs1-xe44.google.com ([2607:f8b0:4864:20::e44])
+	id 1ifYKq-0000Zz-92; Thu, 12 Dec 2019 23:57:32 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ifKxL-0001sm-7J
- for linux-snps-arc@lists.infradead.org; Thu, 12 Dec 2019 09:40:24 +0000
-Received: by mail-vs1-xe44.google.com with SMTP id t12so1045922vso.13
- for <linux-snps-arc@lists.infradead.org>; Thu, 12 Dec 2019 01:40:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qGhiju5WIY5gKVT/J0vDHmqmDD3acFFyfUXann8osRQ=;
- b=nuPLz9VgrCTSEEK5lxkjVxl49Fv0zSq13LO9xEcQ+a7Be+OrazaJ9fY8xqHsnPqaj7
- kJrlyLSYCcv+vCwYb/C3IO292TgoL6S4xUpYS28wyVA8YngQYrp4mzbhsdLviSby8srQ
- CYnrhYiqtWcB1MJHNEmOzdBE6gQ0bLh30sbp47JxMgaThHvajsnfpzCi0I5BDwXnTYus
- gDfJ+vALVLIw+YU5uEecvctW2nKoKe6XOutSgtBPF2IuLvxQixZNOdxeFPNe8G5TgcmT
- Wp4H0rJMurzJNQ+hqUhudiT83/mSe+2k7PQct8Ecb/atV7aE0JQ+Te+hEilvZ0+7bLBN
- IpCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qGhiju5WIY5gKVT/J0vDHmqmDD3acFFyfUXann8osRQ=;
- b=KiL3bwNmrUba0WltIL59XZ5Lq4fMYYsmL4McFE4SLHbjOJn6Kylnhmm+TF4AWRSdTv
- XDoeVQ014bq1AEDbvjRg5Y1Dgmm7uwyakxYFBSYhmaQokpt1Sg8MF2sGm+2mBjxxyTdr
- Uy1Pq9BN1vV0T+NWjCiDeZK6pC7pUpRK3LiHsG7cS+1NcbjUxEbINnQzZApIh8fJ3G6v
- 0CA+pyzCM8uHXVO8oaK5tHmMO7wmH56DIYF/aOfnU85aN5zwXg1AbahNop6nqQaKitBO
- BRhPRjB940tJKe9Ts4d1sfNX+KuKE0EXdPc6x59BKQOJJLEwEBfOecnnzzzfxq+ozWGS
- aJ/Q==
-X-Gm-Message-State: APjAAAUS00rqGezWLky1S2B2WqMMmwPnGDk3oej1by42kE8rv9xWVC+/
- zog1zZGn1zrlDSuR0L2tvTJtEMiDcCyUZtv8/9jffK9d
-X-Google-Smtp-Source: APXvYqxhlThidv5bkax5VBDnTjKA6BjGR3aIKaQyiaKh+H/xOMUoIlGjlmyXrAKbGuX02RU7eLXWmVsb4WDcAMw5wkk=
-X-Received: by 2002:a67:dc90:: with SMTP id g16mr6365946vsk.110.1576143620835; 
- Thu, 12 Dec 2019 01:40:20 -0800 (PST)
+ id 1ifYIK-0003vD-JO
+ for linux-snps-arc@lists.infradead.org; Thu, 12 Dec 2019 23:55:00 +0000
+Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
+ [10.192.0.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 8F50642305;
+ Thu, 12 Dec 2019 23:54:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1576194894; bh=paE7Y5PY3jf5Mch/yW8RkFrbYvqTZIP1vDDmfhdP6VY=;
+ h=From:To:CC:Subject:Date:From;
+ b=bgO0OSmkDQQxCqQ8op7Po+DI/QuYD4lZ4Q5tbUMZKqTmbTpX7BdvzMatusWxKuloO
+ lwvZnM+TS96JnYq6vRGPPOZBwxS54cHKT/yjruyZrb5e4I4alqaBaxqykcNUwFe8CY
+ hBOaNTTTVvf4QZo7ptyHfEX7BMgKIKw0i/YK93gvd+xBnp1JPPI3ciKF5JUOCZyjlo
+ WRvDjyPlMSXCLh4JaGszPn8JSlNBefRui9s/Ij0Qv2yPqvWzPaKU+DiiUK3QxYKL1q
+ M5pnXZE15cBxYHOauzsoL9Q0+6g1EB0M07d90jxa5ih/fEy4SCAiwk/FycToK8qFn0
+ OI4HtfEmvkdZQ==
+Received: from US01WEHTC3.internal.synopsys.com
+ (us01wehtc3.internal.synopsys.com [10.15.84.232])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id BD13DA0083;
+ Thu, 12 Dec 2019 23:54:52 +0000 (UTC)
+Received: from us01hybrid1.internal.synopsys.com (10.13.188.44) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Thu, 12 Dec 2019 15:54:39 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.13.188.44) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Thu, 12 Dec 2019 15:54:38 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F1GP3QFnSJGQpRUWlT2v4BKhwgmOv59jfyzCIdNT3d0qWjKNrFVs7/zNJd4OIAMT/fY7lidzWTXlzFxv2F3BPtCPYsVZIKCEJnG41d2AEDWEUmTA9Eit2LDvtN/hfLQLd2CZ+2ItjqHLFLWBeDdXbvDSzhQwUtsgwuTq2q3GX76h7WwFJ90fEntGWwRzXXFrSFHxBBztAmkh4Zvt/Na5SGOb4m3ZCcSAw+XycKWfik7uqRHKjU54FERurlsJ8FZK+vhcdF2Ld2v4JYtIC2o2aVugQA8ytwUHQlLENc8P10XvdvXjJ5/5EjGZa8It9Ktxwp027seec/g1guLJMJ4mkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=paE7Y5PY3jf5Mch/yW8RkFrbYvqTZIP1vDDmfhdP6VY=;
+ b=f5kYVwWH9T7uBTESUFZf+QLLpKAveqONKQYMmJPrZATdAZ74qcP6eZrsMxkQcTsPj0KEC7L4j8h3TAchKLnQU14m2kufj5w8Nwdgk9M+L5tmORoQb+nLVjr1Sgr1+lFBYRjA/ObWjkwfhO/kDCZn6j+zwz6aQAdkmYwwRWbK15HPS7uZsoPVHTr/nru2bUQbQpR0Kdwbf47TTtFPjyMXnA1hjpfOGNNBtIbySCxXLJuJK8fhPP0GYKaS0IVamp5qYP4P/4Byj76J4O0myWOQE2lZL/ZYzROoZCnRsxCGob5Q0yDnO0fl9gUD2eNXwnsgwEjh76oL91gx5tOTZ8QNfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=paE7Y5PY3jf5Mch/yW8RkFrbYvqTZIP1vDDmfhdP6VY=;
+ b=J2jZaRetBNGm/sMD9pxDpVNfxYe9zRkP5PkSzKVOAreEk9REKcREgMUPQn1vU35nT6ZRnrpl701Y+qv8zHnn0slpNY00ZlaZZKFjx3fWRzVMc2VXQSmAGt5SzBsSxOK2gNVrZUL2q2n2Bo/KzkQeeRCcYWoReY1lWK46hYje81c=
+Received: from BYAPR12MB3592.namprd12.prod.outlook.com (20.178.54.89) by
+ BYAPR12MB3493.namprd12.prod.outlook.com (20.178.54.207) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2538.16; Thu, 12 Dec 2019 23:54:37 +0000
+Received: from BYAPR12MB3592.namprd12.prod.outlook.com
+ ([fe80::19d8:78d:d881:c8ef]) by BYAPR12MB3592.namprd12.prod.outlook.com
+ ([fe80::19d8:78d:d881:c8ef%5]) with mapi id 15.20.2516.018; Thu, 12 Dec 2019
+ 23:54:37 +0000
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: "devel@uclibc-ng.org" <devel@uclibc-ng.org>,
+ "jan.vangorp_ext@softathome.com" <jan.vangorp_ext@softathome.com>
+Subject: stdio fudging errno ?
+Thread-Topic: stdio fudging errno ?
+Thread-Index: AQHVsUeCwLJZNrfuJ060RxlMEGED2A==
+Date: Thu, 12 Dec 2019 23:54:36 +0000
+Message-ID: <77f8a379-f3dc-6d15-4d8a-20be0346e9f6@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vgupta@synopsys.com; 
+x-originating-ip: [149.117.75.11]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2091b903-ad02-4740-850d-08d77f5ea52b
+x-ms-traffictypediagnostic: BYAPR12MB3493:
+x-microsoft-antispam-prvs: <BYAPR12MB3493FE3457DA82A35D1D96DEB6550@BYAPR12MB3493.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:227;
+x-forefront-prvs: 0249EFCB0B
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39860400002)(376002)(346002)(396003)(136003)(366004)(189003)(199004)(6512007)(8676002)(2616005)(8936002)(81166006)(81156014)(6486002)(5660300002)(4326008)(71200400001)(6506007)(76116006)(31696002)(186003)(7116003)(66446008)(26005)(64756008)(66556008)(86362001)(36756003)(31686004)(66946007)(2906002)(110136005)(66476007)(478600001)(316002)(3480700005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR12MB3493;
+ H:BYAPR12MB3592.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: SE7Lbgp20Y30TW1aj8DMalZbveb8AyzhIfTCnnG4BAiTJPH+RsuboLRupNY0x5SU6CTjKUr1NYRf+Lw6a0+w/4BpWVGGKZISqAm+dsFllTCsvYnS4pDrFbDhQA+bGUe1Sqku3cl8bfFUF4h8yVRMTM4G0odQHErRzvdIWns5aGaurORFKf6uKC6Y2RWrHaPvGjVCAxRXan/TPU3JVAdQMIF1yp8U/r5mhonYIh+UcTi0szKwND7i1P02FfmQRCeNBFH358zK0NJhmc1FUfZX/KVOq52dbfA9TavlByVxbWGNtbrebe5PCzFgegT8oOvr17YUa572ujqB3x8/92eY0QRuhdovyyZUSEKAcO+G9uHoCqVcYXCX2iLOeWvMOZYGwHIpxjlKhxMo9bhn/0cRgx5TiOV4Xr5HRUAhB8lQkr6gzBT0oMYLvtAQU3wgf/ac
+x-ms-exchange-transport-forked: True
+Content-ID: <954F69BBE78CCE4C9E8059C33EE21803@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-References: <20191209190218.20544-1-vgupta@synopsys.com>
- <BYAPR12MB301302F82982712931B60172CA5B0@BYAPR12MB3013.namprd12.prod.outlook.com>
- <c262dd40-9fe3-9e6f-3c1f-7fdbe56ffce1@synopsys.com>
-In-Reply-To: <c262dd40-9fe3-9e6f-3c1f-7fdbe56ffce1@synopsys.com>
-From: Claudiu Zissulescu Ianculescu <claziss@gmail.com>
-Date: Thu, 12 Dec 2019 11:40:09 +0200
-Message-ID: <CAL0iMy38na7TaeP4=imQ_ESn8c5igjDMBAVX4OG5=8CvD=nohA@mail.gmail.com>
-Subject: Re: [PATCH] PR 92846: [ARC] generate signaling FDCMPF for hard float
- comparisons
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2091b903-ad02-4740-850d-08d77f5ea52b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2019 23:54:36.9751 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Fo1Av/Jt28jZkI1JDpEtW1aD1mcYyDkmKnAIP24ZuOXuDyl49go6cELyoXtsDbPN8CTYPoCh9pO30fTE0SgO+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3493
+X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191212_014023_262548_5E5B3A6C 
-X-CRM114-Status: GOOD (  15.27  )
+X-CRM114-CacheID: sfid-20191212_155456_823487_F236127A 
+X-CRM114-Status: UNSURE (   8.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,217 +148,65 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "gcc-patches@gcc.gnu.org" <gcc-patches@gcc.gnu.org>,
- "andrew.burgess@embecosm.com" <andrew.burgess@embecosm.com>,
- Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>
+Cc: arcml <linux-snps-arc@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Pushed. Thank you for your contribution,
-Claudiu
+Hi,
 
-On Wed, Dec 11, 2019 at 12:47 AM Vineet Gupta
-<Vineet.Gupta1@synopsys.com> wrote:
->
-> On 12/10/19 1:12 AM, Claudiu Zissulescu wrote:
-> > Hi,
-> >
-> > Thank you for your contribution, I'll push it asap. As far as I understand, you need this patch both in gcc9 branch and mainline.
-> >
-> > Cheers,
-> > Claudiu
->
-> Indeed both mainline and gcc9
->
-> Thx
-> -Vineet
->
-> >
-> >> -----Original Message-----
-> >> From: Vineet Gupta [mailto:vgupta@synopsys.com]
-> >> Sent: Monday, December 09, 2019 8:02 PM
-> >> To: gcc-patches@gcc.gnu.org
-> >> Cc: Claudiu Zissulescu <claziss@synopsys.com>;
-> >> andrew.burgess@embecosm.com; linux-snps-arc@lists.infradead.org;
-> >> Vineet Gupta <vgupta@synopsys.com>
-> >> Subject: [PATCH] PR 92846: [ARC] generate signaling FDCMPF for hard float
-> >> comparisons
-> >>
-> >> ARC gcc generates FDCMP instructions which raises Invalid operation for
-> >> signaling NaN only. This causes glibc iseqsig() primitives to fail (in
-> >> the current ongoing glibc port to ARC)
-> >>
-> >> So split up the hard float compares into two categories and for unordered
-> >> compares generate the FDCMPF instruction (vs. FDCMP) which raises
-> >> exception
-> >> for either NaNs.
-> >>
-> >> With this fix testsuite/gcc.dg/torture/pr52451.c passes for ARC.
-> >>
-> >> Also passes 6 additional tests in glibc testsuite (test*iseqsig) and no
-> >> regressions
-> >>
-> >> gcc/
-> >> xxxx-xx-xx  Vineet Gupta  <vgupta@synopsys.com>
-> >>
-> >>      * config/arc/arc-modes.def (CC_FPUE): New Mode CC_FPUE which
-> >>      helps codegen generate exceptions even for quiet NaN.
-> >>      * config/arc/arc.c (arc_init_reg_tables): Handle New CC_FPUE mode.
-> >>      (get_arc_condition_code): Likewise.
-> >>      (arc_select_cc_mode): LT, LE, GT, GE to use the New CC_FPUE
-> >> mode.
-> >>      * config/arc/arc.h (REVERSE_CONDITION): Handle New CC_FPUE
-> >> mode.
-> >>      * config/arc/predicates.md (proper_comparison_operator):
-> >> Likewise.
-> >>      * config/arc/fpu.md (cmpsf_fpu_trap): New Pattern for CC_FPUE.
-> >>      (cmpdf_fpu_trap): Likewise.
-> >>
-> >> Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
-> >> ---
-> >>  gcc/config/arc/arc-modes.def |  1 +
-> >>  gcc/config/arc/arc.c         |  8 ++++++--
-> >>  gcc/config/arc/arc.h         |  2 +-
-> >>  gcc/config/arc/fpu.md        | 24 ++++++++++++++++++++++++
-> >>  gcc/config/arc/predicates.md |  1 +
-> >>  5 files changed, 33 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/gcc/config/arc/arc-modes.def b/gcc/config/arc/arc-modes.def
-> >> index 36a2f4abfb25..d16b6a289a15 100644
-> >> --- a/gcc/config/arc/arc-modes.def
-> >> +++ b/gcc/config/arc/arc-modes.def
-> >> @@ -38,4 +38,5 @@ VECTOR_MODES (INT, 16);       /* V16QI V8HI V4SI V2DI
-> >> */
-> >>
-> >>  /* FPU condition flags.  */
-> >>  CC_MODE (CC_FPU);
-> >> +CC_MODE (CC_FPUE);
-> >>  CC_MODE (CC_FPU_UNEQ);
-> >> diff --git a/gcc/config/arc/arc.c b/gcc/config/arc/arc.c
-> >> index 28305f459dcd..cbb95d6e9043 100644
-> >> --- a/gcc/config/arc/arc.c
-> >> +++ b/gcc/config/arc/arc.c
-> >> @@ -1564,6 +1564,7 @@ get_arc_condition_code (rtx comparison)
-> >>      default : gcc_unreachable ();
-> >>      }
-> >>      case E_CC_FPUmode:
-> >> +    case E_CC_FPUEmode:
-> >>        switch (GET_CODE (comparison))
-> >>      {
-> >>      case EQ        : return ARC_CC_EQ;
-> >> @@ -1686,11 +1687,13 @@ arc_select_cc_mode (enum rtx_code op, rtx x,
-> >> rtx y)
-> >>        case UNLE:
-> >>        case UNGT:
-> >>        case UNGE:
-> >> +    return CC_FPUmode;
-> >> +
-> >>        case LT:
-> >>        case LE:
-> >>        case GT:
-> >>        case GE:
-> >> -    return CC_FPUmode;
-> >> +    return CC_FPUEmode;
-> >>
-> >>        case LTGT:
-> >>        case UNEQ:
-> >> @@ -1844,7 +1847,7 @@ arc_init_reg_tables (void)
-> >>        if (i == (int) CCmode || i == (int) CC_ZNmode || i == (int) CC_Zmode
-> >>            || i == (int) CC_Cmode
-> >>            || i == CC_FP_GTmode || i == CC_FP_GEmode || i ==
-> >> CC_FP_ORDmode
-> >> -          || i == CC_FPUmode || i == CC_FPU_UNEQmode)
-> >> +          || i == CC_FPUmode || i == CC_FPUEmode || i ==
-> >> CC_FPU_UNEQmode)
-> >>          arc_mode_class[i] = 1 << (int) C_MODE;
-> >>        else
-> >>          arc_mode_class[i] = 0;
-> >> @@ -8401,6 +8404,7 @@ arc_reorg (void)
-> >>
-> >>        /* Avoid FPU instructions.  */
-> >>        if ((GET_MODE (XEXP (XEXP (pc_target, 0), 0)) == CC_FPUmode)
-> >> +          || (GET_MODE (XEXP (XEXP (pc_target, 0), 0)) == CC_FPUEmode)
-> >>            || (GET_MODE (XEXP (XEXP (pc_target, 0), 0)) ==
-> >> CC_FPU_UNEQmode))
-> >>          continue;
-> >>
-> >> diff --git a/gcc/config/arc/arc.h b/gcc/config/arc/arc.h
-> >> index 4d7ac3281b41..c08ca3d0d432 100644
-> >> --- a/gcc/config/arc/arc.h
-> >> +++ b/gcc/config/arc/arc.h
-> >> @@ -1531,7 +1531,7 @@ enum arc_function_type {
-> >>    (((MODE) == CC_FP_GTmode || (MODE) == CC_FP_GEmode                 \
-> >>      || (MODE) == CC_FP_UNEQmode || (MODE) == CC_FP_ORDmode   \
-> >>      || (MODE) == CC_FPXmode || (MODE) == CC_FPU_UNEQmode     \
-> >> -    || (MODE) == CC_FPUmode)                                         \
-> >> +    || (MODE) == CC_FPUmode || (MODE) == CC_FPUEmode)                \
-> >>     ? reverse_condition_maybe_unordered ((CODE))                      \
-> >>     : reverse_condition ((CODE)))
-> >>
-> >> diff --git a/gcc/config/arc/fpu.md b/gcc/config/arc/fpu.md
-> >> index 6289e9c3f593..6729795de542 100644
-> >> --- a/gcc/config/arc/fpu.md
-> >> +++ b/gcc/config/arc/fpu.md
-> >> @@ -242,6 +242,18 @@
-> >>     (set_attr "type" "fpu")
-> >>     (set_attr "predicable" "yes")])
-> >>
-> >> +(define_insn "*cmpsf_fpu_trap"
-> >> +  [(set (reg:CC_FPUE CC_REG)
-> >> +    (compare:CC_FPUE (match_operand:SF 0 "register_operand"  "r,
-> >> r,r")
-> >> +                    (match_operand:SF 1 "nonmemory_operand"
-> >> "r,CfZ,F")))]
-> >> +  "TARGET_FP_SP_BASE"
-> >> +  "fscmpf%?\\t%0,%1"
-> >> +  [(set_attr "length" "4,4,8")
-> >> +   (set_attr "iscompact" "false")
-> >> +   (set_attr "cond" "set")
-> >> +   (set_attr "type" "fpu")
-> >> +   (set_attr "predicable" "yes")])
-> >> +
-> >>  (define_insn "*cmpsf_fpu_uneq"
-> >>    [(set (reg:CC_FPU_UNEQ CC_REG)
-> >>      (compare:CC_FPU_UNEQ
-> >> @@ -338,6 +350,18 @@
-> >>     (set_attr "type" "fpu")
-> >>     (set_attr "predicable" "yes")])
-> >>
-> >> +(define_insn "*cmpdf_fpu_trap"
-> >> +  [(set (reg:CC_FPUE CC_REG)
-> >> +    (compare:CC_FPUE (match_operand:DF 0 "even_register_operand"
-> >> "r")
-> >> +                    (match_operand:DF 1 "even_register_operand"
-> >> "r")))]
-> >> +  "TARGET_FP_DP_BASE"
-> >> +  "fdcmpf%? %0, %1"
-> >> +  [(set_attr "length" "4")
-> >> +   (set_attr "iscompact" "false")
-> >> +   (set_attr "cond" "set")
-> >> +   (set_attr "type" "fpu")
-> >> +   (set_attr "predicable" "yes")])
-> >> +
-> >>  (define_insn "*cmpdf_fpu_uneq"
-> >>    [(set (reg:CC_FPU_UNEQ CC_REG)
-> >>      (compare:CC_FPU_UNEQ
-> >> diff --git a/gcc/config/arc/predicates.md b/gcc/config/arc/predicates.md
-> >> index e0013b32f0f5..4d2ad7ba6789 100644
-> >> --- a/gcc/config/arc/predicates.md
-> >> +++ b/gcc/config/arc/predicates.md
-> >> @@ -439,6 +439,7 @@
-> >>            || code == ORDERED || code == UNORDERED);
-> >>
-> >>      case E_CC_FPUmode:
-> >> +    case E_CC_FPUEmode:
-> >>        return 1;
-> >>      case E_CC_FPU_UNEQmode:
-> >>        return 1;
-> >> --
-> >> 2.20.1
->
+I've been trying to cleanup uClibc test-suite failures on ARC and when debugging
+test-double ran into a totally unrelated issue where it fails as
+
+| testing double (without inline functions)
+| Failure: finite (0): errno set to 11, expected 0 (unchanged)
+
+Turns out the test harness uses asprintf() which seems to be fudging errno causing
+test harness to erroneously declare failure:
+
+
+Here's a simple test case which shows the problem:
+
+	#define _GNU_SOURCE
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <errno.h>
+
+	void main(void)
+	{
+        	const char *this_func = "finite";
+	        char *test_name;
+
+        	errno = 0;
+	        if (asprintf (&test_name, "%s (%s)", this_func, "my-str") == -1)
+			abort ();
+
+	        printf("%d\n", errno);	// <-- prints 11
+	}
+
+The errno unconditionally being set to EAGAIN seems to have been introduced in
+commit 568ceebf6adfc58c64a95133311268db6 ("Fix infinite loop when fopencookie
+custom write returns 0 on error") bakc in 2016.
+
++#define __STDIO_STREAM_CUSTOM_WRITE_FUNC(S, ARGS...) \
++ if (__STDIO_STREAM_IS_CUSTOM((S))) { \
++       _IO_cookie_file_t *cfile = (_IO_cookie_file_t *) (S); \
++       if (cfile->__gcs.write == NULL) { \
++               __set_errno(EINVAL); \
++               return -1; \
++       } \
++       __set_errno(EAGAIN); \
++       ssize_t w = cfile->__gcs.write(cfile->__cookie, ##ARGS); \
++       return (w == 0 ? -1 : w); \
++ }
+
+
+I don't understand all the logic but shouldn't it be set after __gcs.write() call ?
+
+Thx,
+-Vineet
+
 
 _______________________________________________
 linux-snps-arc mailing list
