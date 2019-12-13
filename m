@@ -2,219 +2,90 @@ Return-Path: <SRS0=dSES=2D=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2968EC43603
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Dec 2019 10:21:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B01B9C43603
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Dec 2019 10:22:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C0C132077B
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Dec 2019 10:21:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8652C2067C
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Dec 2019 10:22:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LjtpwdE8";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="eyfzsceh";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="owxgMs3A"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C0C132077B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OPS18ieE";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="QqURz+p6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8652C2067C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=y/Kyss4xv2+0Zj04affWE7D7hdX0KSMuXJtnOehuaOU=; b=LjtpwdE8zKCMlF
-	J9/OeEjRRbdxBmAE2daqjy2Jjp7azbDUw+WjlS1xn1jbYfOXHdITLFrluj/hiRSvJDIoFowRZXkZY
-	vYGYKhUZZ52Vs8/UY+eKnGXowYF3BgCho4ydIdOJnDSiTcpo2d5Ra5RhaGPMq+gYqz4HtWjCXNAqk
-	QYIId78XEl9PZxsOOQ5yvsecRBsC7PeZHTS8MBHPFoPCuiyWZKhaBnDzleIlV6iNqveiB8JOIPXsc
-	v5VzpNPaXodIZIvMScsTr6P2JylyjGmJyUtW7Xqw3rF2P2Rj2Jnv8qeayaUZiivKWB+TBdnr7vwe0
-	P8R1D2BiNYWB5oP1sHXQ==;
+	List-Owner; bh=G1bPS5MytFQ+BXoGTaAWJpNS39Hfnrd1IXpjBTMcQq4=; b=OPS18ieEWjRpyW
+	IA9KiUt0MEDVPtJYYjQnRaFF116YtXTtfl6nZT/GxX0l/PLiwU2decpFqXKI6RiGdZBYS2LqxjXO8
+	cEORKnOk4NzyAw48AzRihT8vIvTcLf6rf0FUD5VF8mc1QtxmU3nPXOhKcLt3bxeYdca2NTVoaH5F2
+	hkRH7chfa2PszDUz577KGIstILE7VIhV+P/bFzhRuzAhrZH43lN5vIxlUYAsX9x2tR4CRDkbGlqY7
+	qHJ+yblCmUiuPOo2Y3EvOsKEdc1k3twy5SCiFmyCkIHMP2y/utXj5Si8NQxgqM57EGfHftvixcWCW
+	rWessER0Bi0hem34zHxQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ifi4p-00059U-E1; Fri, 13 Dec 2019 10:21:39 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1ifi5a-0005CC-L0; Fri, 13 Dec 2019 10:22:26 +0000
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ifi4m-00058q-EQ
- for linux-snps-arc@lists.infradead.org; Fri, 13 Dec 2019 10:21:37 +0000
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
- [10.192.0.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4EF44C010F;
- Fri, 13 Dec 2019 10:21:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1576232494; bh=jIj4ZvBy8gKHvyCtbn8MPXogs7QJVqLw5kptyVITQzM=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=eyfzscehW5uGTgD/abmQ/y2fDk+gVBHVUC5MHAotgB8AXKY33SAZh9nLxJEZRE+SQ
- edzVTuul46/7wGcs1RrfaDv30CwTUEYh6nie4Dj1vEGms5VPs1+Xr7rHz5IBhjoiH2
- /yBjl1TfYD9fi9y7vg5phMRiyK7CVyd4wWQV66IGwxrqwRxtbK30b6ykxKRXAwhpHh
- RiPJzOK+f1wn3Z6Moi3W6km/kzC1+Uo1UTdUlM1IxAv7Sc92NHIGp8KjTSAYsG/Bcd
- DqjQ512sPt+ozp6XQ+StSau9OatvK2cefaaW+71GxKmKvecfKeWxcYQtOVKWb9YJE2
- foHllfyjNCvfw==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id D0CEFA0067;
- Fri, 13 Dec 2019 10:21:29 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 13 Dec 2019 02:20:41 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Fri, 13 Dec 2019 02:20:41 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LHmd/u0onbE7Imo5DfmBKO3/tKa4MhwbZHvLFocW5baeAAIx8BreFnfNCv8Mnof7D/Bv5LBWyJ5e/dwjDjVvCS2MlCu/1gIwK8hg68en3haKCgCsSqCHElzMmvMdg5tBhic6om9ZCj+47u6YMg34uWic1tDl2imuETLhmcuP/vBzWJvMlEg3wGKv8kHK+mhzjPQNHubHRrbOF9e2LA5HDBq/yw6IUER8G55+HpbCzw8vmG3+3ByB7GEHU0rnijI3I8GdYrHlsaVoCFf/8qVBgLDVRQ6ahUNARuAXtWWAHIDLS5d8zcs62w2Md+YeVKQTi+mhxIvg5N5RduC/1Np/cA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HkUyXz4ueE2i7MwI0ny7KDtbySm5vRoDy0lzq2Vkabg=;
- b=Z8C74N6PGADkrY301F/7fkKlCqMTCjbtB4dJdncDLNvAvGbl+ElpcAh0+Gg6kjhXJI4kDGEeGMIkk1HaGOh4Rw8e3NkNDXWsjbGjNzyWL4qcuz5dnXe6pu8sqEuWF+bJrcw0tLIPRQcr+Fe7v3sKSet9eGPtOFp9DT76GOd4m1P/ziJkLHSE3srx0ie0N2+QZR2CwDZM/4mHRHWVCiDTniUA0N63G3PVLFDLfD0dV+m56kMaN7UjR6urTfjupp+JSaCAmelO+g/W2VcTK3fvJt9KhGpzpI4ueSZzfKyOZdDybfn5Fich9yEu5NM1D7RvBLiMc7Jd6cYZ4jG/AktiMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HkUyXz4ueE2i7MwI0ny7KDtbySm5vRoDy0lzq2Vkabg=;
- b=owxgMs3AtnI3g4/IIqr/f1sW0j7Hzw2tECrGYwr2vWNtakIvkM9LwzwzB9/FT1G4iRNrG1LG87o2X6xb38AKmpoIp5QFax52C7ts4f2aPNhTVBDP00AdrgZVicQ418jbYFSJ4hRkJLZbSDh3G0q9d0RAOclxF0shvrt97us7oN4=
-Received: from CY4PR1201MB0120.namprd12.prod.outlook.com (10.172.78.14) by
- CY4PR1201MB2486.namprd12.prod.outlook.com (10.172.119.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.15; Fri, 13 Dec 2019 10:20:40 +0000
-Received: from CY4PR1201MB0120.namprd12.prod.outlook.com
- ([fe80::3977:e2ba:ce57:f79a]) by CY4PR1201MB0120.namprd12.prod.outlook.com
- ([fe80::3977:e2ba:ce57:f79a%5]) with mapi id 15.20.2516.018; Fri, 13 Dec 2019
- 10:20:40 +0000
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [GIT PULL] drm/arc: Yet another set of minor fixes
-Thread-Topic: [GIT PULL] drm/arc: Yet another set of minor fixes
-Thread-Index: AdWk9uGIdHrNqX0yQ6SZMMOjZA+q3QAE3eIAAAaVHaAAAceXAAMcvqxg
-Date: Fri, 13 Dec 2019 10:20:39 +0000
-Message-ID: <CY4PR1201MB0120529194B092E2C2ACD77EA1540@CY4PR1201MB0120.namprd12.prod.outlook.com>
+ id 1ifi5X-0005BX-Qw
+ for linux-snps-arc@lists.infradead.org; Fri, 13 Dec 2019 10:22:25 +0000
+Received: by mail-wm1-x341.google.com with SMTP id u2so964253wmc.3
+ for <linux-snps-arc@lists.infradead.org>; Fri, 13 Dec 2019 02:22:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=QY3NvhBzfNLuo8ft1+5cod4Pq4jbW4pl0EICF70IjAY=;
+ b=QqURz+p6OpfSht0UEiMFNp1Wvl5pvnnJfmrnrvcjDYoxzJkBADQ3DpjCZ5cMJbjo79
+ Yr9RP8Fc3OfzTYQvoAMAbxW66g8tEBlxyAsrCIarB4/TbjVDkUJP8xUAbs11MbLlUtlN
+ FCdCBOHgnF4XHvA5rltRbVp85iqjCOEcck760=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=QY3NvhBzfNLuo8ft1+5cod4Pq4jbW4pl0EICF70IjAY=;
+ b=oS77OJt4kc+zr9eX/LEp1wF2kC+3o+Jyz5dzqOgIum9mA1HbcNpu+H875JCJaQMK9V
+ WufQSiz4dRIs8s6Ou3rTbFo6d5y4/neunZ7ysTVuoc9BwH8aqLqphl9n+FjZsCoY2hS/
+ j2IWsc8Yrt8Fxx85t23qIrGgKNGlPPelYQsD/zr/POjfossb88Tem72jbDtoJwYtkRL2
+ H1ngx4jGlFAiFTJMMAfHgAOqBJJD5T6CbDw9AQguOOxLn3DQ/TMUiB173EZqO+oiEWK1
+ Yfm2iyd06QSnhqVyQoL9fEgF7y3V+g5XBK0NeBlFXY0LOueAyrVEQ4BF0fFY01uG0w7Y
+ kDpg==
+X-Gm-Message-State: APjAAAXB3LvxH7CtOKCiwpzgJwoRS5JCs8ErhEBj5e6vWZa6HAN/7hyG
+ QSqjGQYgvb4kPhxp5wG6z3FVgg==
+X-Google-Smtp-Source: APXvYqzBq7k83Laq7gm+anpzvKyH4RR4LWTb0RsNVZZezRVdWRlgoqKhOJ9hmJPnNxebBV64GRpehA==
+X-Received: by 2002:a1c:3d07:: with SMTP id k7mr4235810wma.79.1576232541864;
+ Fri, 13 Dec 2019 02:22:21 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id x18sm9523281wrr.75.2019.12.13.02.22.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2019 02:22:21 -0800 (PST)
+Date: Fri, 13 Dec 2019 11:22:19 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+Subject: Re: [GIT PULL] drm/arc: Yet another set of minor fixes
+Message-ID: <20191213102219.GE624164@phenom.ffwll.local>
 References: <CY4PR1201MB012062AAE1D2223BEF3AB204A1440@CY4PR1201MB0120.namprd12.prod.outlook.com>
  <20191127100634.GE29965@phenom.ffwll.local>
  <CY4PR1201MB01201760E81B40589D182E08A1440@CY4PR1201MB0120.namprd12.prod.outlook.com>
  <CAKMK7uHSm6oKUUDxQxPkOJMj4Ut6+B1dFdZGoauNjrT_o841sA@mail.gmail.com>
-In-Reply-To: <CAKMK7uHSm6oKUUDxQxPkOJMj4Ut6+B1dFdZGoauNjrT_o841sA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWJyb2RraW5c?=
- =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
- =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy0zNDRmZjA0MC0xZDkyLTExZWEtYmZmMi04OGIx?=
- =?us-ascii?Q?MTFjZGUyMTdcYW1lLXRlc3RcMzQ0ZmYwNDItMWQ5Mi0xMWVhLWJmZjItODhi?=
- =?us-ascii?Q?MTExY2RlMjE3Ym9keS50eHQiIHN6PSIxNjYwIiB0PSIxMzIyMDcwNjAzNzg0?=
- =?us-ascii?Q?ODI3MDQiIGg9IlJPODNPTlZEOFd4cUV4N0ZoVzhpdEZmU2hvMD0iIGlkPSIi?=
- =?us-ascii?Q?IGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk5DZ1VBQUJRSkFB?=
- =?us-ascii?Q?QVFlS2oybnJIVkFTcE1DbXdwb09nY0trd0tiQ21nNkJ3T0FBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFIQUFBQUNrQ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFFQUFRQUJBQUFBUlgyazFBQUFBQUFBQUFBQUFBQUFBSjRBQUFCbUFHa0Fi?=
- =?us-ascii?Q?Z0JoQUc0QVl3QmxBRjhBY0FCc0FHRUFiZ0J1QUdrQWJnQm5BRjhBZHdCaEFI?=
- =?us-ascii?Q?UUFaUUJ5QUcwQVlRQnlBR3NBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR1lBYndCMUFHNEFaQUJ5QUhrQVh3?=
- =?us-ascii?Q?QndBR0VBY2dCMEFHNEFaUUJ5QUhNQVh3Qm5BR1lBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQ0FB?=
- =?us-ascii?Q?QUFBQUNlQUFBQVpnQnZBSFVBYmdCa0FISUFlUUJmQUhBQVlRQnlBSFFBYmdC?=
- =?us-ascii?Q?bEFISUFjd0JmQUhNQVlRQnRBSE1BZFFCdUFHY0FYd0JqQUc4QWJnQm1BQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJtQUc4?=
- =?us-ascii?Q?QWRRQnVBR1FBY2dCNUFGOEFjQUJoQUhJQWRBQnVBR1VBY2dCekFGOEFjd0Jo?=
- =?us-ascii?Q?QUcwQWN3QjFBRzRBWndCZkFISUFaUUJ6QUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtB?=
- =?us-ascii?Q?WHdCd0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCekFHMEFhUUJqQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFD?=
- =?us-ascii?Q?QUFBQUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFi?=
- =?us-ascii?Q?Z0JsQUhJQWN3QmZBSE1BZEFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1B?=
- =?us-ascii?Q?RzhBZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWRB?=
- =?us-ascii?Q?QnpBRzBBWXdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFI?=
- =?us-ascii?Q?a0FYd0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0IxQUcwQVl3QUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFB?=
- =?us-ascii?Q?QUNBQUFBQUFDZUFBQUFad0IwQUhNQVh3QndBSElBYndCa0FIVUFZd0IwQUY4?=
- =?us-ascii?Q?QWRBQnlBR0VBYVFCdUFHa0FiZ0JuQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFC?=
- =?us-ascii?Q?ekFHRUFiQUJsQUhNQVh3QmhBR01BWXdCdkFIVUFiZ0IwQUY4QWNBQnNBR0VB?=
- =?us-ascii?Q?YmdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBSE1BWVFCc0FHVUFjd0Jm?=
- =?us-ascii?Q?QUhFQWRRQnZBSFFBWlFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFB?=
- =?us-ascii?Q?QUFBQ0FBQUFBQUNlQUFBQWN3QnVBSEFBY3dCZkFHd0FhUUJqQUdVQWJnQnpB?=
- =?us-ascii?Q?R1VBWHdCMEFHVUFjZ0J0QUY4QU1RQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFB?=
- =?us-ascii?Q?QUJ6QUc0QWNBQnpBRjhBYkFCcEFHTUFaUUJ1QUhNQVpRQmZBSFFBWlFCeUFH?=
- =?us-ascii?Q?MEFYd0J6QUhRQWRRQmtBR1VBYmdCMEFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFIWUFad0JmQUdzQVpR?=
- =?us-ascii?Q?QjVBSGNBYndCeUFHUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFB?=
- =?us-ascii?Q?QUFBQUFDQUFBQUFBQT0iLz48L21ldGE+?=
-x-dg-rorf: true
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=abrodkin@synopsys.com; 
-x-originating-ip: [188.243.7.154]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9dfb32fb-3851-4b14-5036-08d77fb61a68
-x-ms-traffictypediagnostic: CY4PR1201MB2486:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR1201MB248618715D7B9E0A0136DFFCA1540@CY4PR1201MB2486.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2276;
-x-forefront-prvs: 0250B840C1
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(346002)(376002)(366004)(39860400002)(136003)(51914003)(189003)(199004)(5660300002)(316002)(4326008)(52536014)(478600001)(54906003)(8676002)(66946007)(7696005)(86362001)(66476007)(66446008)(4001150100001)(2906002)(33656002)(66556008)(64756008)(8936002)(6506007)(76116006)(26005)(6916009)(9686003)(81156014)(81166006)(71200400001)(186003)(55016002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR1201MB2486;
- H:CY4PR1201MB0120.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: h7+nDTQhEcawBh5Pcf4l+XaP55GNL8pl7UcZsHxFh28ebaboU4v2zslTm6wcyFRYPquDwG1AQ3GEHLzaWFCUIBjhkjjzr/hLV8itTGPVK4ohELqPsyWsoVSPUT6niZ9e3mMpgfE+AooVzzfTvLSiDowmj/bCv7eu6V+95R3a5NcZ6iZR0hWjl3d9GTCw33I7ir6ZCJBUw/wC9Ipe9025h+xfRxoKEINuUZkizEvGrzpDcYL0qSeu/skza6dGmhT0K/b2oVe3vs3U5oDh8ZVmjrYg8VLTnSpwZjs/ZaJuXpQ3Cpd/dEB28prFldBhS21ICYiRKwVbGsf6KtJ0MTMmwpy2ZbN5HX5Yt/x65oRUDPRJvWR7dMARcrbpVpqnEsadPcpShv3uHmQtMTvyJaltHVa6ruoO3Z+maqzNAdIEEmmXEEYSpSwrYqLerAzS8P8gOHbzSJqRZZ8/IHmDJP7x0cyxFsHBj4/IXVaUftf3t1cfagFizNiJp8qNEJaecjrp
+ <CY4PR1201MB0120529194B092E2C2ACD77EA1540@CY4PR1201MB0120.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9dfb32fb-3851-4b14-5036-08d77fb61a68
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2019 10:20:39.8174 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WgECe3HeyLzL2Iml81PwQZz4cjtRh05qvsFM1EGBCi9NZxOZSD0d5FOrqk/nfBWjoX20+5O5cOGVgOTuBC4a4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2486
-X-OriginatorOrg: synopsys.com
+Content-Disposition: inline
+In-Reply-To: <CY4PR1201MB0120529194B092E2C2ACD77EA1540@CY4PR1201MB0120.namprd12.prod.outlook.com>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191213_022136_702428_258090D3 
-X-CRM114-Status: GOOD (  14.16  )
+X-CRM114-CacheID: sfid-20191213_022223_872605_B4C3405B 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -228,54 +99,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, arcml <linux-snps-arc@lists.infradead.org>,
  Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Daniel,
+On Fri, Dec 13, 2019 at 10:20:39AM +0000, Alexey Brodkin wrote:
+> Hi Daniel,
+> 
+> [snip]
+> 
+> > > Thanks for the pointers
+> > >
+> > > > Or respin this one, but these small pulls have a habit of occasionally
+> > > > getting lost :-/
+> > >
+> > > Well I'd better re-spin this, see below.
+> > >
+> > > The following changes since commit acc61b8929365e63a3e8c8c8913177795aa45594:
+> > >
+> > >   Merge tag 'drm-next-5.5-2019-11-22' of git://people.freedesktop.org/~agd5f/linux into drm-next
+> > (2019-11-26 08:40:23 +1000)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git@github.com:abrodkin/linux.git tags/arcpgu-updates-2019.11.27
+> > >
+> > > for you to fetch changes up to 9c2acc26c899aa12ad009dff10a5573ef769a7fd:
+> > >
+> > >   DRM: ARC: PGU: add ARGB8888 format to supported format list (2019-11-27 16:43:39 +0300)
+> > >
+> > > ----------------------------------------------------------------
+> > > Clean-up and fixes for FourCC handling in ARC PGU.
+> > >
+> > > ----------------------------------------------------------------
+> > > Eugeniy Paltsev (4):
+> > >       DRM: ARC: PGU: fix framebuffer format switching
+> > >       DRM: ARC: PGU: cleanup supported format list code
+> > >       DRM: ARC: PGU: replace unsupported by HW RGB888 format by XRGB888
+> > >       DRM: ARC: PGU: add ARGB8888 format to supported format list
+> > >
+> > >  drivers/gpu/drm/arc/arcpgu_crtc.c | 36 ++++++++++++++++++------------------
+> > >  drivers/gpu/drm/arc/arcpgu_regs.h |  2 +-
+> > >  2 files changed, 19 insertions(+), 19 deletions(-)
+> 
+> Not sure if you noticed re-spin of my pull-request in the previous message.
+> Do you want me to send it in a separate email?
 
-[snip]
-
-> > Thanks for the pointers
-> >
-> > > Or respin this one, but these small pulls have a habit of occasionally
-> > > getting lost :-/
-> >
-> > Well I'd better re-spin this, see below.
-> >
-> > The following changes since commit acc61b8929365e63a3e8c8c8913177795aa45594:
-> >
-> >   Merge tag 'drm-next-5.5-2019-11-22' of git://people.freedesktop.org/~agd5f/linux into drm-next
-> (2019-11-26 08:40:23 +1000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git@github.com:abrodkin/linux.git tags/arcpgu-updates-2019.11.27
-> >
-> > for you to fetch changes up to 9c2acc26c899aa12ad009dff10a5573ef769a7fd:
-> >
-> >   DRM: ARC: PGU: add ARGB8888 format to supported format list (2019-11-27 16:43:39 +0300)
-> >
-> > ----------------------------------------------------------------
-> > Clean-up and fixes for FourCC handling in ARC PGU.
-> >
-> > ----------------------------------------------------------------
-> > Eugeniy Paltsev (4):
-> >       DRM: ARC: PGU: fix framebuffer format switching
-> >       DRM: ARC: PGU: cleanup supported format list code
-> >       DRM: ARC: PGU: replace unsupported by HW RGB888 format by XRGB888
-> >       DRM: ARC: PGU: add ARGB8888 format to supported format list
-> >
-> >  drivers/gpu/drm/arc/arcpgu_crtc.c | 36 ++++++++++++++++++------------------
-> >  drivers/gpu/drm/arc/arcpgu_regs.h |  2 +-
-> >  2 files changed, 19 insertions(+), 19 deletions(-)
-
-Not sure if you noticed re-spin of my pull-request in the previous message.
-Do you want me to send it in a separate email?
-
--Alexey
+Yeah I guess this got lost again.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
 _______________________________________________
 linux-snps-arc mailing list
