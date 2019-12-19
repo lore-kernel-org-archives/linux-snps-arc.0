@@ -1,4 +1,4 @@
-Return-Path: <SRS0=yIdD=2I=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=9HNX=2J=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -7,56 +7,70 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8CE5C43603
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 18 Dec 2019 16:29:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04762C43603
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 19 Dec 2019 13:30:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6210D218AC
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 18 Dec 2019 16:29:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AA08A218AC
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 19 Dec 2019 13:30:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rBm+kUVp"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6210D218AC
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jEU047s4";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="hER6opfX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AA08A218AC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=dFNmB3KaekmtlvnVU1ao97OQYEehWnCIj+uZsaORug8=; b=rBm+kUVpHMpolH
-	UhmwZyhmp4fmhduxShzF1u+ZcQNHVI7RNY6Iztx0Re+t3nklU2yYjwCAQkzfHQI/olsb6v3ZGQgYK
-	X9tRoZgxtDJH6FPI7jo0k642eu3hX7DUTgppxIn+zI59Qie85lcDzj4A/iVyfYHwsVIAbt/eZuYen
-	Fqpp2kL4sArsx4OY4JXT98myopZzd3yNoxXTbNSIFX3L/1KJUn5kcZUwrsIbN65AzdAeITh4PrzeD
-	bCkLSgGsi7ZiPYC3G1+OrNRxBqljjJvDKVICE16EofOS00iMgh4GxSYtqPt5aMVq7/D9Y9ulmUEdM
-	bC4eaUGZF26I5QZO2ebg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=boSbn7pHBgmKVs06zoKBQqH9NTSe9juyjEt8FBod5dM=; b=jEU047s4JNbI49
+	zWUYajZT9ht9Ki7z7UHftSSkKfUHxRIdDaO4gZBSOSsjZ9gXwo5j86As2I4EctTRMIZVwxW9OCId0
+	rK9F2HNDiRa9Bn7SShFRUIlTNzW2VteF86ShahwCbqidVdKs5kLuanZLKAAP1FPmRwA5JZzwkBwu2
+	pj0sWhDvhAa901xPQir3GlNeZ4dwGKG3iYtqswnuyo74itLOOIYdYHbu2ssZ8eMUNED+dT5DUBGKC
+	i49r8fmAtcb2cXuVN8hRGCNFA9QzWUMeRqQOOxlmNqipnKR1+5hxxVi3f60SxTBYv86g7LRFuPRxv
+	/IUkYxJNHjr/MijKazjw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ihcCl-0003f8-9r; Wed, 18 Dec 2019 16:29:43 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ihc7i-000712-JW; Wed, 18 Dec 2019 16:24:32 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 071BA31B;
- Wed, 18 Dec 2019 08:24:30 -0800 (PST)
-Received: from e112269-lin.arm.com (e112269-lin.cambridge.arm.com
- [10.1.196.56])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 43CE03F719;
- Wed, 18 Dec 2019 08:24:27 -0800 (PST)
-From: Steven Price <steven.price@arm.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org
-Subject: [PATCH v17 02/23] arc: mm: Add p?d_leaf() definitions
-Date: Wed, 18 Dec 2019 16:23:41 +0000
-Message-Id: <20191218162402.45610-3-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191218162402.45610-1-steven.price@arm.com>
-References: <20191218162402.45610-1-steven.price@arm.com>
+	id 1ihvtA-0007h6-Tm; Thu, 19 Dec 2019 13:30:48 +0000
+Received: from sv2-smtprelay2.synopsys.com ([149.117.73.133]
+ helo=smtprelay-out1.synopsys.com)
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1ihvt8-0007ed-8c
+ for linux-snps-arc@lists.infradead.org; Thu, 19 Dec 2019 13:30:47 +0000
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
+ [10.225.0.210])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5DB70405D4;
+ Thu, 19 Dec 2019 13:30:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1576762245; bh=CwpIHUsLSwWgfRfilgxCCE00b6aVv9KpT49ou2/oTLI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hER6opfXJxcbx+tkUxHY5+je+3Okwntz9LcihPHUs+oD9kfAF9Rruw7T4LK1V1r6s
+ z81OPiVRoFUeKDDabUygcXzeNPRKFiV5+H47dn5L0VgOB9lm9YUV2lrJEgLtcwu+aT
+ 5XWq7wIUE1HV+6itz8ybsuCq2S/ZkpEHjbzW1ujVpplY8L3NI/e+ep4aexKQ4CbS95
+ i6TpM3rk+mi2n9NgjoDTEs8MkaGiVJRE74anC3fhknrtmSeCK3VR2iyS2+F6LcHz8N
+ mjVzNTjkJ6LX+QL8cEzX2NUmZFwdl0qvrbl9l+LWLQrOdeTn1vMhUMiA1QOV028Ukh
+ 5A3SY9K8FVzJw==
+Received: from paltsev-e7480.internal.synopsys.com
+ (paltsev-e7480.internal.synopsys.com [10.121.3.76])
+ by mailhost.synopsys.com (Postfix) with ESMTP id 18ED4A0066;
+ Thu, 19 Dec 2019 13:30:42 +0000 (UTC)
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+To: linux-snps-arc@lists.infradead.org,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Subject: [PATCH] ARC: asm-offsets: remove duplicate entry
+Date: Thu, 19 Dec 2019 16:30:40 +0300
+Message-Id: <20191219133040.12736-1-Eugeniy.Paltsev@synopsys.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191218_082430_707258_FB357FC7 
-X-CRM114-Status: GOOD (  10.41  )
+X-CRM114-CacheID: sfid-20191219_053046_368653_10BBFBBA 
+X-CRM114-Status: UNSURE (   7.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,52 +82,36 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Mark Rutland <Mark.Rutland@arm.com>, x86@kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>, Vineet Gupta <vgupta@synopsys.com>,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
- James Morse <james.morse@arm.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-snps-arc@lists.infradead.org, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org, "Liang, Kan" <kan.liang@linux.intel.com>
+Cc: Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-walk_page_range() is going to be allowed to walk page tables other than
-those of user space. For this it needs to know when it has reached a
-'leaf' entry in the page tables. This information will be provided by the
-p?d_leaf() functions/macros.
+We define 'PT_user_r25' twice in asm-offsets.c
+It's not a big issue as we define it to the same value, however
+let's fix it.
 
-For arc, we only have two levels, so only pmd_leaf() is needed.
-
-CC: Vineet Gupta <vgupta@synopsys.com>
-CC: linux-snps-arc@lists.infradead.org
-Acked-by: Vineet Gupta <vgupta@synopsys.com>
-Signed-off-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 ---
- arch/arc/include/asm/pgtable.h | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arc/kernel/asm-offsets.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index 9019ed9f9c94..12be7e1b7cc0 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -273,6 +273,7 @@ static inline void pmd_set(pmd_t *pmdp, pte_t *ptep)
- #define pmd_none(x)			(!pmd_val(x))
- #define	pmd_bad(x)			((pmd_val(x) & ~PAGE_MASK))
- #define pmd_present(x)			(pmd_val(x))
-+#define pmd_leaf(x)			(pmd_val(x) & _PAGE_HW_SZ)
- #define pmd_clear(xp)			do { pmd_val(*(xp)) = 0; } while (0)
+diff --git a/arch/arc/kernel/asm-offsets.c b/arch/arc/kernel/asm-offsets.c
+index 1f621e416521..631ebb5d3458 100644
+--- a/arch/arc/kernel/asm-offsets.c
++++ b/arch/arc/kernel/asm-offsets.c
+@@ -66,7 +66,6 @@ int main(void)
  
- #define pte_page(pte)		pfn_to_page(pte_pfn(pte))
+ 	DEFINE(SZ_CALLEE_REGS, sizeof(struct callee_regs));
+ 	DEFINE(SZ_PT_REGS, sizeof(struct pt_regs));
+-	DEFINE(PT_user_r25, offsetof(struct pt_regs, user_r25));
+ 
+ 	return 0;
+ }
 -- 
-2.20.1
+2.21.0
 
 
 _______________________________________________
