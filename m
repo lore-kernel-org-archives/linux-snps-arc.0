@@ -2,222 +2,94 @@ Return-Path: <SRS0=50yL=2K=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B25C43603
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2019 21:02:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AA01C43603
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2019 21:48:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A12672146E
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2019 21:02:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3323820866
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2019 21:48:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="I+Peto42";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ccsF/+CF";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="NhWY1Ch/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A12672146E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="m7/6WQFH";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b1buLVrc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3323820866
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=xJN8ERaTYRxF6L6Q4qX1ZEGs3AWN9hFMOWihY5Tf/NU=; b=I+Peto429OLnV6
-	jk8ltMFAqXfAQDpVuZ2opVvmfXeYKDMDPgU1xWpRvVAoJJ+Uk6JVSmH//jHF1XIUgPZ2wCDmQHOum
-	E+bVBM6RxqZbZ0Pq/ICFpFwghVhVZjJ0uvyPRInFTMs2lVYT3qZbKvbtE6y/xAd6O0uR3CJEC6Ham
-	kb7MGQZmtG0u+lA5cewHRx3k9HfkRl5vxDUhgCRYxXNj4m5/OsCX8OvfM16Vz6CIABUEmm76mhAZI
-	tj7BZmEjO/F8ni/XsSk6JHTiwPcDox9bhqWft6pxYyNWb92J2J13szUBXMp2HWsrXzsHSZ6yFNNeG
-	X6tdFlEXxtXp4jUgm27Q==;
+	List-Owner; bh=ov+JM5R3VM3d/r+sejgFMmTt2DPwzNmd5aJhIyccmaM=; b=m7/6WQFH7UKxaN
+	9tpxNe6xxRWP+dE1+IkMXTe5Y5Nq6g/J1KgiJi1M+xLDJwjFy8qh8H2jEWcHGdnm4dRs2CLYcqyZi
+	jVJG4tjHM6KlyEgtwupkuqeJf4dHXB+XHrADYk+qyhh827Ha4FJPxb3d5tFJJQOvgNNFaocS7z6bY
+	Zp654Ak9YW8UYvy7QVjhEcfFmt1UtBWBT99FoKoa5Tyd9vtZ9Um3adI1bNh2eNDF8Hges14TlgmG/
+	V4x3VZ5SlOw+mskQ37xYNlUJNVsW8IN+xlRxWrUSx2rx0Bf89JoTZFDV5jFNLyYZaVF5rDAffiC4m
+	A2QLT2Fh3nNEaY3gkwnA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iiPQ8-0002GU-BY; Fri, 20 Dec 2019 21:02:48 +0000
-Received: from sv2-smtprelay2.synopsys.com ([149.117.73.133]
- helo=smtprelay-out1.synopsys.com)
+	id 1iiQ7s-00085N-A8; Fri, 20 Dec 2019 21:48:00 +0000
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iiPQ0-00028X-2n; Fri, 20 Dec 2019 21:02:41 +0000
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
- [10.192.0.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 15DAA404D4;
- Fri, 20 Dec 2019 21:02:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1576875756; bh=hjLp/bbAdVryhNoD/fCkZRDPTRsAYixvZNxQckngNeg=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=ccsF/+CFcpHPP8+XoH6J+CMlLgOTAv9GG1AC0H1Z+gvYA9ooOfdrPID86oJNIcyku
- IyE5c4GYV8TmCxz+1AIGnhkWRpBAgTJhmaKCgZ5ITz1ve2DKvjrtsqoGJCidQFq03y
- 6DZGkZnKIMCy8EJ0IZwR3h6CsrxCeA6y7vsa77XhYOzHytdcyrrtqgChr55Jw1Psky
- P4TZsn+UxjUGduXWTtTUwn4+awqkXGTtq7l1I2li1J+WhaKLncT7FZt3AX2y+DYTfi
- TqbICdBIASn2xFCX+kK0WpKjCFMpeOAjtu3QyFsYX+jJjXVRcaFB5ILFUhr8uLT4X+
- Vf40AD1n0EzlQ==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 60C99A0090;
- Fri, 20 Dec 2019 21:02:33 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 20 Dec 2019 13:02:26 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Fri, 20 Dec 2019 13:02:26 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hhZ2ZBf8YXoKx2rJ7CTS/rOVh4aPt4KeebVF81Va2EVwr+gquCvrIvPTg4fSiXrNsJoS42edZhbfgTmSwvgF6SqcnBY4UZU8F3XrxWC3wtXpoZb0EapqkQ8XO4iSMDwM7dwmCSLtgEnyP8BuYMKBuGmy2t4dWyJTRTs/XG58uyR3+uxudPgoBiRMkWyDuR36NH85qcDiQ1j1HehRegkLuYcfaFslDZ6n2SMLcjnyIbZyX5gPUFSep3xdGJ6k8E7fHy57fa5amw0sCouxPBtSL05udDo5WrCzQRnZZDRL8zhDqoKPzMJJpJTvYXrjC7ZZlfsi06lIDCPDcVB8XxaDwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hjLp/bbAdVryhNoD/fCkZRDPTRsAYixvZNxQckngNeg=;
- b=b41d1r57VcnSDxVUuXISjYa+DKEONlRqqGd//06D3oKZ/IcRBhN99NPEODEP9QQHOLpKIfbxBMBxRMR/BAdybW5sHxBrxeFOsj1BuYDDrssyGTuKiWkGwHJX1IErrmPuVnPeMLFyn3nS4ol997XRpjbg5NwR3ZqQNuUAuWZFBr1R0ttb8rL/hfp5f3mZrD2rcHgp+A2btNXwl1EvuB0F00lWWokq/3nUhQu6rdyhtCwZ9omhg6MBYn2iMzqRI6EA4K3pfVkMD16LqnqwN28XltIpQ/d30Ua6keSBpzgEzS1Nwtdun44OnjJCLqrIuIgj7ECRtd1pDTdAoy+vn8dIdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hjLp/bbAdVryhNoD/fCkZRDPTRsAYixvZNxQckngNeg=;
- b=NhWY1Ch/I0YxIJpnCQaneaf67A4BmFfnR0BPLboBi54RH3kYLgT0BD9oOsrVzHoLRfXGqGqZ9e9T30PfswbhyjwN1BWrVuXyG/b36qSVuTZdqRQAhan7/fW73ICIR11ry/VEzDR3aIbwxdg8nQkRsXwGHiS0xULmFIRjQdnFejg=
-Received: from CY4PR1201MB0120.namprd12.prod.outlook.com (10.172.78.14) by
- CY4PR1201MB0261.namprd12.prod.outlook.com (10.172.78.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2559.14; Fri, 20 Dec 2019 21:02:24 +0000
-Received: from CY4PR1201MB0120.namprd12.prod.outlook.com
- ([fe80::3977:e2ba:ce57:f79a]) by CY4PR1201MB0120.namprd12.prod.outlook.com
- ([fe80::3977:e2ba:ce57:f79a%5]) with mapi id 15.20.2538.019; Fri, 20 Dec 2019
- 21:02:24 +0000
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Subject: RE: [RFC PATCH v1] devres: align devres.data strictly only for
+ id 1iiQ7p-000850-Dv; Fri, 20 Dec 2019 21:47:58 +0000
+Received: by mail-pg1-x543.google.com with SMTP id b9so5571203pgk.12;
+ Fri, 20 Dec 2019 13:47:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=SCnpICgEJeNeCv47il/wnhnHnvIZwSGzZQhEEwYiGvo=;
+ b=b1buLVrcIi2WUUxWLFoeLQb9FVcK1qgS9/fBzOXy6UhFYggw0shBZ1DqaV/Bsj0d8s
+ 5pT6WYnteJrzsDqr7s+PqHusfKSAa49ZtKdwFSzgdgLcgiKmVUcxeaPkQgqTl7SeCaEu
+ +HRk+myRoT900y/IzJdXsRLKaVx1VPsm5X6CSfrwnFqUSnwDdlosV7JDPSPPiXN5aFtu
+ 2c260ZOjgZENiZ6tICIFwYInxRejB1puQ6hKEmhv4lEJDHqQ94qNwBdI7212s+XohNMn
+ Cz15+VxW7lP2DaBPRMqEHkfta2iiQInxCPhhWPmCFqFAdI4fwSjEsQ+msR6aG3yDu1pA
+ Q4RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=SCnpICgEJeNeCv47il/wnhnHnvIZwSGzZQhEEwYiGvo=;
+ b=FBgjwk1ec6cr+kWggOHj4LTDA8nLgqnmiidJf7ekq5w9PsJeSjThMZWr/UWXWd2hUt
+ LDFt6h055bsfg/+zsDRB/e+bcs6Ftv+THJOw4N7XAKK3LcFBaqNyIF8s5H12+binSxq/
+ mwGeiyKEfdkGzbDCHw5tg6X0Kwuvg2+HN/cQ+ZZidM9HxeknRsgh6h+mrckIGnb9R4Of
+ ZI3r4mCKSdo/PCuB8scuTmmSKvzWJ3gguES9uE35CzhDcxr3etmFd0YDUp3E9tKrLiZU
+ pZ9kfWFlSsJB+7jYcUBhyG/7JSgDx6T68uJ9sCExnmPGE3UeYnTQJ13p8jcsZyMN1CrZ
+ 8m4w==
+X-Gm-Message-State: APjAAAX/eiTOlI3rCcIEBFOPpegiHOe3cOxJg56bV56j+i1HL6Tfqa1k
+ wjHxcr+Pf3sQMZzyubNwn0I=
+X-Google-Smtp-Source: APXvYqy1Jp9AL+dJzZ9QrF/l/Ro8FMCkBcW7GQQLLHu27AU9qj0cPqfcIxSyuddz+LVjjATjVmZGhA==
+X-Received: by 2002:a65:5242:: with SMTP id q2mr4224476pgp.74.1576878475976;
+ Fri, 20 Dec 2019 13:47:55 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+ by smtp.gmail.com with ESMTPSA id z64sm14237771pfz.23.2019.12.20.13.47.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Dec 2019 13:47:54 -0800 (PST)
+Date: Fri, 20 Dec 2019 13:47:52 -0800
+From: Dmitry  Torokhov <dmitry.torokhov@gmail.com>
+To: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+Subject: Re: [RFC PATCH v1] devres: align devres.data strictly only for
  devm_kmalloc()
-Thread-Topic: [RFC PATCH v1] devres: align devres.data strictly only for
- devm_kmalloc()
-Thread-Index: AQHVtO8W17bjcgXck0Krmyf4Y6chj6fC1AyAgAA/joCAAA8ggIAASORAgAARRgCAAAVEAA==
-Date: Fri, 20 Dec 2019 21:02:24 +0000
-Message-ID: <CY4PR1201MB0120C3727E907005D24F5A03A12D0@CY4PR1201MB0120.namprd12.prod.outlook.com>
+Message-ID: <20191220214752.GB8314@dtor-ws>
 References: <74ae22cd-08c1-d846-3e1d-cbc38db87442@free.fr>
  <bf020a68-00fd-2bb7-c3b6-00f5befa293a@free.fr>
  <20191220140655.GN2827@hirez.programming.kicks-ass.net>
  <9be1d523-e92c-836b-b79d-37e880d092a0@arm.com>
  <CY4PR1201MB012011E554FC69F7B074B7E2A12D0@CY4PR1201MB0120.namprd12.prod.outlook.com>
  <20191220202346.GT2827@hirez.programming.kicks-ass.net>
-In-Reply-To: <20191220202346.GT2827@hirez.programming.kicks-ass.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWJyb2RraW5c?=
- =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
- =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy0wMzg2NTAxNi0yMzZjLTExZWEtYmZmYS04OGIx?=
- =?us-ascii?Q?MTFjZGUyMTdcYW1lLXRlc3RcMDM4NjUwMTctMjM2Yy0xMWVhLWJmZmEtODhi?=
- =?us-ascii?Q?MTExY2RlMjE3Ym9keS50eHQiIHN6PSIyMDY1IiB0PSIxMzIyMTM0OTM0MjM0?=
- =?us-ascii?Q?OTA0NzQiIGg9IkdpaS9obThTRUJvWUVvRlFhSDltd2swQ2Uwdz0iIGlkPSIi?=
- =?us-ascii?Q?IGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk5DZ1VBQUJRSkFB?=
- =?us-ascii?Q?Q3FSUVhHZUxmVkFlM2JucXZFT0FUSzdkdWVxOFE0Qk1vT0FBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFIQUFBQUNrQ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFFQUFRQUJBQUFBUlgyazFBQUFBQUFBQUFBQUFBQUFBSjRBQUFCbUFHa0Fi?=
- =?us-ascii?Q?Z0JoQUc0QVl3QmxBRjhBY0FCc0FHRUFiZ0J1QUdrQWJnQm5BRjhBZHdCaEFI?=
- =?us-ascii?Q?UUFaUUJ5QUcwQVlRQnlBR3NBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR1lBYndCMUFHNEFaQUJ5QUhrQVh3?=
- =?us-ascii?Q?QndBR0VBY2dCMEFHNEFaUUJ5QUhNQVh3Qm5BR1lBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQ0FB?=
- =?us-ascii?Q?QUFBQUNlQUFBQVpnQnZBSFVBYmdCa0FISUFlUUJmQUhBQVlRQnlBSFFBYmdC?=
- =?us-ascii?Q?bEFISUFjd0JmQUhNQVlRQnRBSE1BZFFCdUFHY0FYd0JqQUc4QWJnQm1BQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJtQUc4?=
- =?us-ascii?Q?QWRRQnVBR1FBY2dCNUFGOEFjQUJoQUhJQWRBQnVBR1VBY2dCekFGOEFjd0Jo?=
- =?us-ascii?Q?QUcwQWN3QjFBRzRBWndCZkFISUFaUUJ6QUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtB?=
- =?us-ascii?Q?WHdCd0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCekFHMEFhUUJqQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFD?=
- =?us-ascii?Q?QUFBQUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFi?=
- =?us-ascii?Q?Z0JsQUhJQWN3QmZBSE1BZEFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1B?=
- =?us-ascii?Q?RzhBZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWRB?=
- =?us-ascii?Q?QnpBRzBBWXdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFI?=
- =?us-ascii?Q?a0FYd0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0IxQUcwQVl3QUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFB?=
- =?us-ascii?Q?QUNBQUFBQUFDZUFBQUFad0IwQUhNQVh3QndBSElBYndCa0FIVUFZd0IwQUY4?=
- =?us-ascii?Q?QWRBQnlBR0VBYVFCdUFHa0FiZ0JuQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFC?=
- =?us-ascii?Q?ekFHRUFiQUJsQUhNQVh3QmhBR01BWXdCdkFIVUFiZ0IwQUY4QWNBQnNBR0VB?=
- =?us-ascii?Q?YmdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBSE1BWVFCc0FHVUFjd0Jm?=
- =?us-ascii?Q?QUhFQWRRQnZBSFFBWlFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFB?=
- =?us-ascii?Q?QUFBQ0FBQUFBQUNlQUFBQWN3QnVBSEFBY3dCZkFHd0FhUUJqQUdVQWJnQnpB?=
- =?us-ascii?Q?R1VBWHdCMEFHVUFjZ0J0QUY4QU1RQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFB?=
- =?us-ascii?Q?QUJ6QUc0QWNBQnpBRjhBYkFCcEFHTUFaUUJ1QUhNQVpRQmZBSFFBWlFCeUFH?=
- =?us-ascii?Q?MEFYd0J6QUhRQWRRQmtBR1VBYmdCMEFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFIWUFad0JmQUdzQVpR?=
- =?us-ascii?Q?QjVBSGNBYndCeUFHUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFB?=
- =?us-ascii?Q?QUFBQUFDQUFBQUFBQT0iLz48L21ldGE+?=
-x-dg-rorf: true
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=abrodkin@synopsys.com; 
-x-originating-ip: [188.243.7.154]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 822e6a30-0df0-48f3-954d-08d7858fe9d7
-x-ms-traffictypediagnostic: CY4PR1201MB0261:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR1201MB0261CAEE1BE4EB086728D7D7A12D0@CY4PR1201MB0261.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 025796F161
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(396003)(136003)(346002)(39860400002)(376002)(199004)(189003)(52536014)(81156014)(66476007)(66446008)(33656002)(76116006)(64756008)(66556008)(7696005)(2906002)(26005)(186003)(66946007)(7416002)(6506007)(8936002)(316002)(5660300002)(55016002)(4326008)(54906003)(71200400001)(8676002)(81166006)(9686003)(478600001)(86362001)(6916009);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR1201MB0261;
- H:CY4PR1201MB0120.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tbv+yU/sDjhVxUHKJ4y1C/zMndFjV413LMOWAWhN/iLO27w7gdaF44DiJSGbK3dTJObqBcTUwt9JTXRNCVj8kPuk6oFAAO33vr1CST0oEQme/IdjbC5L8h4hZTMbfnF/Lb+I14Z822gUCdU1aaANVhsbHAg2cxUycuXTGognth7lopeW1gOQl8g8Ox3gaqVuTuLSBFwdf0hqvUr6hWZE64QLCHin4B5yetu6NlvtH0cnqEUT65lo3vaOh/NFLXUflduSqZ6LvkoA1wZeqN3aqoHzkeN/a5A1PKZmg/RKjzc3mcMJcAQPCYSMMivFE6cZa17vEadme+H6trryqg/2CRac0isV5Zpdl9k6atmRzI/6MP9bOLdApVYrFrIh3pFimC6SWhgSYnuBGiky4pIQER1cet3TCNIyamUJ1cSDSqDRaGM67HZ7Kd/OzTgsYpw0
+ <CY4PR1201MB0120C3727E907005D24F5A03A12D0@CY4PR1201MB0120.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 822e6a30-0df0-48f3-954d-08d7858fe9d7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Dec 2019 21:02:24.4432 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: prtBQysDdxVKdG+b+/REhfP2PPGH3zPZ9c2oQfietzeObJc9oUTgz1Pmd2/YQtoS6wyi1Rd9Mrs2gv1b9SX2Cg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0261
-X-OriginatorOrg: synopsys.com
+Content-Disposition: inline
+In-Reply-To: <CY4PR1201MB0120C3727E907005D24F5A03A12D0@CY4PR1201MB0120.namprd12.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191220_130240_175409_D9F3FDAD 
-X-CRM114-Status: GOOD (  17.80  )
+X-CRM114-CacheID: sfid-20191220_134757_472392_C8AD95CF 
+X-CRM114-Status: GOOD (  25.82  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -229,10 +101,10 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Marc Gonzalez <marc.w.gonzalez@free.fr>, Will Deacon <will@kernel.org>,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- Dmitry  Torokhov <dmitry.torokhov@gmail.com>,
- Rafael Wysocki <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
+Cc: Marc Gonzalez <marc.w.gonzalez@free.fr>,
+ Peter Zijlstra <peterz@infradead.org>, Will Deacon <will@kernel.org>,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>, Rafael Wysocki <rjw@rjwysocki.net>,
+ LKML <linux-kernel@vger.kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Russell King <rmk+kernel@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
@@ -245,55 +117,94 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Peter,
-
-> > Well it somehow used to work for quite some time now with the data-buffer
-> > being allocated with 4 words offset (which is 16 bytes for 32-bit platform
+On Fri, Dec 20, 2019 at 09:02:24PM +0000, Alexey Brodkin wrote:
+> Hi Peter,
 > 
-> 3 words, devres_node is 3 words.
-
-Correct, but 4th word was implicitly there due to the fact
-on most of 32-bit arches "long long" is aligned by 2 words.
- 
-> Which is exactly why we had to change it, the odd alignment caused ARC
-> to explode.
-
-I know that better than anybody else as it was my pain & grief :)
- 
-> > and 32 for 64-bit which is still much less than mentioned 128 bytes).
-> > Or we just never managed to identify those rare cases when data corruption
-> > really happened?
+> > > Well it somehow used to work for quite some time now with the data-buffer
+> > > being allocated with 4 words offset (which is 16 bytes for 32-bit platform
+> > 
+> > 3 words, devres_node is 3 words.
 > 
-> The races are rather rare methinks, you'd have to get a list-op
-> concurrently with a DMA.
+> Correct, but 4th word was implicitly there due to the fact
+> on most of 32-bit arches "long long" is aligned by 2 words.
+>  
+> > Which is exactly why we had to change it, the odd alignment caused ARC
+> > to explode.
 > 
-> If you get the list corrupted, I'm thinking the crash is fairly likely,
-> albeit really difficuly to debug.
-
-So that alone IMHO is a good reason to not allow that thing to happen even
-in theory.
-
-> > > No matter which way round you allocate devres and data, by necessity
-> > > they're always going to consume the same total amount of memory.
-> >
-> > So then the next option I guess is to separate meta-data from data buffers
-> > completely. Are there any reasons to not do that
+> I know that better than anybody else as it was my pain & grief :)
+>  
+> > > and 32 for 64-bit which is still much less than mentioned 128 bytes).
+> > > Or we just never managed to identify those rare cases when data corruption
+> > > really happened?
+> > 
+> > The races are rather rare methinks, you'd have to get a list-op
+> > concurrently with a DMA.
+> > 
+> > If you get the list corrupted, I'm thinking the crash is fairly likely,
+> > albeit really difficuly to debug.
 > 
-> Dunno, should work just fine I think.
+> So that alone IMHO is a good reason to not allow that thing to happen even
+> in theory.
 > 
-> > other than the hack we're
-> > discussing here (meta-data in the beginning of the buffer) used to work OK-ish?
+> > > > No matter which way round you allocate devres and data, by necessity
+> > > > they're always going to consume the same total amount of memory.
+> > >
+> > > So then the next option I guess is to separate meta-data from data buffers
+> > > completely. Are there any reasons to not do that
+> > 
+> > Dunno, should work just fine I think.
+> > 
+> > > other than the hack we're
+> > > discussing here (meta-data in the beginning of the buffer) used to work OK-ish?
+> > 
+> > If meta-data at the beginngin used to work, I don't see why meta-data at
+> > the end wouldn't work equally well. They'd be equally broken.
+
+No, not really. With data being ARCH_KMALLOC_MINALIGN and coming after
+the devres private stuff, given that the another allocation will also be
+aligned to ARCH_KMALLOC_MINALIGN (because that's what k*alloc will give
+us) we are guaranteed that DMA will not stomp onto any unrelated data.
+With devres private coming after data and not having any alignment
+constraints we may very well clobber it when doing DMA.
+
+BTW, I am not sure where the page size restriction you mentioned earlier
+is coming from. We have been using kmalloc()ed memory as buffers
+suitable for DMA since forever, and we only need to make sure such data
+is isolated from other data CPU might be accessing by ARCH_DMA_MINALIGN
+which is usually L1 cache size.
+
+From Documentation/DMA-API-HOWTO.txt:
+
+2) ARCH_DMA_MINALIGN
+
+   Architectures must ensure that kmalloc'ed buffer is
+   DMA-safe. Drivers and subsystems depend on it. If an architecture
+   isn't fully DMA-coherent (i.e. hardware doesn't ensure that data in
+   the CPU cache is identical to data in main memory),
+   ARCH_DMA_MINALIGN must be set so that the memory allocator
+   makes sure that kmalloc'ed buffer doesn't share a cache line with
+   the others. See arch/arm/include/asm/cache.h as an example.
+
+   Note that ARCH_DMA_MINALIGN is about DMA memory alignment
+   constraints. You don't need to worry about the architecture data
+   alignment constraints (e.g. the alignment constraints about 64-bit
+   objects).
+
 > 
-> If meta-data at the beginngin used to work, I don't see why meta-data at
-> the end wouldn't work equally well. They'd be equally broken.
+> Agree. But if we imagine devm allocations are not used for DMA
+> (which is yet another case of interface usage which was never designed for
+> but alas this happens left and right) then move of the meta-data to the end of
+> the buffers solves [mostly my] problem... but given that DMA case we discuss
+> exists I'm not sure if this move actually worth spending time on.
 
-Agree. But if we imagine devm allocations are not used for DMA
-(which is yet another case of interface usage which was never designed for
-but alas this happens left and right) then move of the meta-data to the end of
-the buffers solves [mostly my] problem... but given that DMA case we discuss
-exists I'm not sure if this move actually worth spending time on.
+Well, there is a metric ton of devm users that do not allocate memory
+buffers, but other objects, and for which we do not need to worry about
+alignment.
 
--Alexey
+Thanks.
+
+-- 
+Dmitry
 
 _______________________________________________
 linux-snps-arc mailing list
