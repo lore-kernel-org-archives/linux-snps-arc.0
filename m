@@ -2,66 +2,145 @@ Return-Path: <SRS0=4vhC=23=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A45C33C9E
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Jan 2020 21:05:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F439C33C8C
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Jan 2020 22:48:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 79ED224681
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Jan 2020 21:05:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 13F372072C
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Jan 2020 22:48:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="akzov+Ol";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="XH9JURch"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 79ED224681
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PuM4Jqb+";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="GqGQM3dg";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="mfVWvSRg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 13F372072C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:To:Date:Message-Id:
-	References:In-Reply-To:From:Subject:Reply-To:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1BqqJC6bcJwnkDf0rjCgpJWfST+0nf4y5c4tLc5zXAs=; b=akzov+OldZc98G
-	DFpssssk7ShMU4x2g7Z2JvKXdwW32YIkqIMZ9hFbkGu5KXz5fdkqfoL3wbiKjHY2g+gUUqFTdmEMF
-	27vOTSEoaAPzC/bvlWSe6DFZ3AizSzLofQaRr0JBqbICWja3cjzr3Qh86cAk1qJx8GB+ocg0O7QxN
-	GBnl6K7r/Y64KTK3k5JlEzzoGlwYflHc4MEuQQPDjoL8t4+QwVqQRppPGzFa1xNnUDSroyijlg9FT
-	llwLSmxOcwdvfWYPhubGSwmtbzD7hFnzjZ6ADtMkhAt1SSVXsQ+pkMgm7YlaeHZJjJtnGrcgAmI+c
-	hJQoNsBW6W81G1Jjom+Q==;
+	List-Owner; bh=jqwpJAQE/2dVroG4myGib/3/jYi6Zy+1Jk5tNsAU8X8=; b=PuM4Jqb+WNzeul
+	nW8QuGxMFd4L18gRvnm+KfK1BmOqRwc/7PksB21zsOXhKMx1eHSJQ+ddS1JRxzxwkrNLiLvNzHILJ
+	uz38kweQ7Az2mdaMlS3QIqI3fTZMPNys1Goo6bqepx+dXMwB1Z7d2sgM8Iny5su/hxE75608OhWNl
+	C5vyyXyOLw9zYaboZam/ATkE6Bv1mUe3Qxiacjdv1WjNmZjCb+xwdBMugegwvNeBJSJo5znbvWaSA
+	xaZ8hZz1y1CEsp0ZwbbcgeqS9m7Pfack2JwqPfT6dxcw40R8TxNts+tuL2S7lk9vZwB8G/+PryCkm
+	iX8ZtRmSK70reCpZCrlw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ioZYn-0003qO-7I; Mon, 06 Jan 2020 21:05:13 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1iobAM-0001dQ-Au; Mon, 06 Jan 2020 22:48:06 +0000
+Received: from sv2-smtprelay2.synopsys.com ([149.117.73.133]
+ helo=smtprelay-out1.synopsys.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ioZYk-0003pb-H7
- for linux-snps-arc@lists.infradead.org; Mon, 06 Jan 2020 21:05:11 +0000
-Subject: Re: [GIT PULL] ARC updates for 5.5-rc6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578344709;
- bh=0fNJ5qQlETQMY/5Xq2rKQw1/igcwoYeCEEp5ih/L4no=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=XH9JURchKXYJt6gi5iQo0osF+bZbCmrC/62hA61gl3qVYVBIBK3sFwd3UY7K9QKOK
- LITyGF7qNHarb9B3qAppp5KsgSByaxaM9znlHn0mUNAyeIPdqfxgLHcW6/qwetO3I/
- vVAVEsqEyNc50PKBkWsLKb5NJAeloOhHBYH+NZV8=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <9907df0c-6996-1a6b-0cf1-0dbfcb8ea414@synopsys.com>
-References: <9907df0c-6996-1a6b-0cf1-0dbfcb8ea414@synopsys.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <9907df0c-6996-1a6b-0cf1-0dbfcb8ea414@synopsys.com>
-X-PR-Tracked-Remote: (unable to parse the git remote)
-X-PR-Tracked-Commit-Id: 7ecc6c1d5c8dbc713c647512a5267ca0eafe3e1c
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 8f8b69aa501e84a0043428467a5a22b55e937cbd
-Message-Id: <157834470973.27503.1119136242800719665.pr-tracker-bot@kernel.org>
-Date: Mon, 06 Jan 2020 21:05:09 +0000
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+ id 1iobAJ-0001d1-Qg
+ for linux-snps-arc@lists.infradead.org; Mon, 06 Jan 2020 22:48:05 +0000
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
+ [10.192.0.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id BFCE74061E;
+ Mon,  6 Jan 2020 22:47:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1578350882; bh=I34Vuj0QRIGbKPL0pKOMwcUltMxx9AXBZE5wSUt/oYk=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=GqGQM3dgFhnfKsq26G8neiumCQAIhOa9wTBUMqTkDGRaDZb5iIEhx9GjgRFGp4WyB
+ PJizy8Cx0lyhUuD8x4tPusCGGXOWvxL50iAehHfA+YSyKam8/lBdPRRxCmDg711rVT
+ 6/0DITXFUluITyEtgecz8Ysi+wJvpaQ5V7e3LjTDzf2TMyDXcgto3Ky09ehw5vyvR0
+ caIcx7vJDbQpfYI0CT8PEeX4YBuPU8Ln/zndpvNe+t0SH0J3xZKxyslR7dLZyTOcQc
+ u/jf9JZkYapVTgdKKturOcmhXVcdI5uyuuJfQoSdEinDic1KN5caeiMGXNDa2CeWGF
+ XgvrJ4lQmjNOA==
+Received: from US01WEHTC3.internal.synopsys.com
+ (us01wehtc3.internal.synopsys.com [10.15.84.232])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id F39F1A0079;
+ Mon,  6 Jan 2020 22:47:56 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 6 Jan 2020 14:47:54 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Mon, 6 Jan 2020 14:47:54 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WXMYZBkLMxMwXOiX13Rh8LBl5FQ3D/t9fs6Ws37srAq06SSMRDJivE4rlCO/88Uvlm5Xb2hzzG/8v73M8ugxfkzMfI7iOhFslGSTa8DZa3iWuaqRMzdqvlF0752ymA4Ymwfki3SgRedK6N5clQCOOpfkmJy90ehMU9hNf6ex2QvMGa2aLvGaj1rOuODBx2jOilt3Xz2rRH6THOV6fOt3977aQOTpg7KhHB/oGJAbuFNI2Rq3v3LyezMxMuHXkqy5rqK/woIYFRkBzvb0bcMphBn8RP142P38bZbcAhf7Plf8yuxd6QNwx/CsZO5BD1BGFM6ULNK0tHvCVjg2SabYpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I34Vuj0QRIGbKPL0pKOMwcUltMxx9AXBZE5wSUt/oYk=;
+ b=bFiig2IYnh03SQZPlwQTatyWqGCRbU68W3rCQ+iFgZLA7EESvBc1JPI5dCzphTgDkzEPsW2AYOFICLhIisRAAuUCFkrtfVKhPc3ll7kue/hC2fcbPkK6of+6+pait4vH/8KuPZD3MJNqapP68rfyMq/Yan52GXbxTm0xyTtrr+gX3vtvh2p6y69D0tCIve5qe750BsOvf0Uu7mBtuhXHNFWbYCAQhBSTTdLwiromWFx5TXpBAQJnAyfAs3NoCTN6O1qV8ARZ3fE+ccI3IpCwZDfi7u7IPSuP1x+x0O1tVhyvUIEOwZUCllnVj/JXkMSO03J68tVWteLAkRz2MZxxjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I34Vuj0QRIGbKPL0pKOMwcUltMxx9AXBZE5wSUt/oYk=;
+ b=mfVWvSRgyFBm11mtaMRyCeKvjHr5s2frSpO+AZ1lDSYP5xcobes8jNwSEk2581kAPUOue9Z6W+nhawPSYHd7ENUk9Qg9fnFkACElAyTvDiKKUvgMFnXF5uyGbproF/kq3WA2c6QTcajjMHTODJMUt/Fdwubo9B78F64IG4zfyC0=
+Received: from BYAPR12MB3592.namprd12.prod.outlook.com (20.178.54.89) by
+ BYAPR12MB3447.namprd12.prod.outlook.com (20.178.55.217) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2602.12; Mon, 6 Jan 2020 22:47:53 +0000
+Received: from BYAPR12MB3592.namprd12.prod.outlook.com
+ ([fe80::39a1:22ee:7030:8333]) by BYAPR12MB3592.namprd12.prod.outlook.com
+ ([fe80::39a1:22ee:7030:8333%6]) with mapi id 15.20.2602.016; Mon, 6 Jan 2020
+ 22:47:52 +0000
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Subject: Re: [PATCH 2/5] ARC: add helpers to sanitize config options
+Thread-Topic: [PATCH 2/5] ARC: add helpers to sanitize config options
+Thread-Index: AQHVvOAO7wf+wPt3UEi3VhODY5PjP6feTOiA
+Date: Mon, 6 Jan 2020 22:47:52 +0000
+Message-ID: <4767e2c5-b93e-d672-35f3-917bd009aa2f@synopsys.com>
+References: <20191227180347.3579-1-Eugeniy.Paltsev@synopsys.com>
+ <20191227180347.3579-3-Eugeniy.Paltsev@synopsys.com>
+In-Reply-To: <20191227180347.3579-3-Eugeniy.Paltsev@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vgupta@synopsys.com; 
+x-originating-ip: [149.117.75.11]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ae1f3314-fd06-4a26-2ccf-08d792fa76db
+x-ms-traffictypediagnostic: BYAPR12MB3447:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR12MB34476EB17FE261DAC3C6F9EAB63C0@BYAPR12MB3447.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:497;
+x-forefront-prvs: 0274272F87
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(136003)(346002)(376002)(39860400002)(396003)(189003)(199004)(8676002)(81156014)(316002)(81166006)(6486002)(6506007)(53546011)(478600001)(558084003)(31686004)(5660300002)(110136005)(54906003)(2616005)(31696002)(6512007)(26005)(76116006)(36756003)(2906002)(71200400001)(8936002)(107886003)(66446008)(66556008)(4326008)(64756008)(186003)(66946007)(66476007)(86362001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR12MB3447;
+ H:BYAPR12MB3592.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yb/7soGg7YvtX+rgNkzErIxQraOGI5TokQ3eEIpCWm0DI+kXe6++QuvZldCHOFasU2KBdxSGsVxIicee45arYL9lbgL4NV7SKrRL2oSJ8NmRDfeH3V/ach0D2Vo5ctGDFblYk/nSrvvXkvC6htWDBNz3iqF8dIL+ggjcZQf+8sZyaB+wdQei0pNfrR3ASrJt3s0E6FiHzswXFGICwZlme+bXo4LDTpmJ33GjYHghZddRewT5eYSV0wsggsHWtykzieHQ7pgjsZZpgHJpt/RyjuRqsnUelAOHt4gZnqhKYkNxA6UCws/y/eaf8M6wW6+WLVy2KW00TGsjFjbMngcHxcZqxUyyR4JEz8twwd38gT5w8PybTlFyF7uMVQK1k48xVQ/Agq4hohLLLX0FDrC3rxYKRI6UGltlJF3sPYZ/i28q6ChH2xrGmeq/sQM2ZlYi
+Content-ID: <F37888D55DEAFE44BDCCB3F6B0CAF14A@namprd12.prod.outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae1f3314-fd06-4a26-2ccf-08d792fa76db
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2020 22:47:52.6251 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LWoIXGAXU15XvlrYlf2P7DhZeLHMRA+FpZh/zGQddqOAJqEGoLu2CLLs+T5ecveN9RQLL1ZE7Hn2J43gE2E9RQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3447
+X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200106_130510_591266_94CC15CC 
-X-CRM114-Status: UNSURE (   1.48  )
+X-CRM114-CacheID: sfid-20200106_144804_017897_6FFBC9DB 
+X-CRM114-Status: UNSURE (   9.03  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -74,30 +153,21 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
- Mike Rapoport <rppt@linux.vnet.ibm.com>,
- arcml <linux-snps-arc@lists.infradead.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-MIME-Version: 1.0
+Cc: Alexey  Brodkin <Alexey.Brodkin@synopsys.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The pull request you sent on Mon, 6 Jan 2020 18:09:39 +0000:
+On 12/27/19 10:03 AM, Eugeniy Paltsev wrote:
+> We'll use this macro in coming patches extensively.
+> 
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 
-> (unable to parse the git remote)
+LGTM.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/8f8b69aa501e84a0043428467a5a22b55e937cbd
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
-
+-Vineet
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
