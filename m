@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5178C33C8C
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jan 2020 17:08:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 918C8C33C8C
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jan 2020 17:10:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 96CC22087F
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jan 2020 17:08:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 63C3F2087F
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jan 2020 17:10:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QSH34SUg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96CC22087F
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="j48R9WgY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 63C3F2087F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,63 +24,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=otDwHjdxxXx1gtCZM6ZydM4i5jquLIYc/Rex3Kzu864=; b=QSH34SUgUo3SDu
-	OZ5fe2YzB98i9D4bbJ2LSKWrCgQ63nemo9xxXcijZj5tu4f+jHeYjNHKzEGD52FPCAF4txPxErrqb
-	y79FnEdGjlTG6AOTa3YrgMr/RPENkyJGGS7neVNxOEApMYooDU2ySjtsKdhgkEgSpMzt4Cdgsce3o
-	omnDVJMHQQ6pt/kq3PjdwtyhRO/qR1M2t3lYmuO+WQbwTpR2YvZsf8wEsOWi6CMiq36S3IBK9qVvj
-	5UHyoebx75gMwqTcrC1Xpudojaqx1DvCXvCLE+oEZUpPpIfJcDUscw63hYgVNod1aPkPTWJTSKr0D
-	33Ramw4sonap91saY73w==;
+	List-Owner; bh=7jB21wHIaF2UKykeAtVNwK8p0W8ZqxzlFeii9qZhE8Y=; b=j48R9WgYP210Dd
+	gRHyQXFPf7BlYEVDm9ARHgYk2jkr8PpxqgN0YWIh2CdgpMfu8o9oEKB8549v5+JOr0onxHjYL/wzI
+	q3bBTv/c1gSR3QxE9CmMUgxTiSFtnA2c44UrMyP9mxWmHUp/dSLYWo+SI5QBhwdbDHSG2k8R5y9gL
+	YYzU+qEKQZyDzR4TS537A0YjyAbYQOyvIzVUP7JHY2f9CWHo/SzZ5sQuDPL08rH6mkeg/aP64t7j2
+	0M8unr1t8sdKLgyFomNby0BYJbYOQMkhwgGFbef4X2MSkWq0cczAhIjX5nhoCnCvZEiGzjKBt+mfC
+	4LHGyhK0d26uF2YbCong==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iosLU-0007Xr-Cz; Tue, 07 Jan 2020 17:08:44 +0000
-Received: from mout.kundenserver.de ([212.227.126.187])
+	id 1iosNE-0000eM-DL; Tue, 07 Jan 2020 17:10:32 +0000
+Received: from mout.kundenserver.de ([212.227.126.130])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iosLQ-0007XO-SX
- for linux-snps-arc@lists.infradead.org; Tue, 07 Jan 2020 17:08:42 +0000
-Received: from mail-qt1-f178.google.com ([209.85.160.178]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1N32y5-1jpjsP3w4b-013NZh for <linux-snps-arc@lists.infradead.org>; Tue, 07
- Jan 2020 18:08:37 +0100
-Received: by mail-qt1-f178.google.com with SMTP id l12so320705qtq.12
- for <linux-snps-arc@lists.infradead.org>; Tue, 07 Jan 2020 09:08:36 -0800 (PST)
-X-Gm-Message-State: APjAAAXYoWU/m/HO8lUq/Jnbvhp79VpelWiY61w6Pk6AkNdwL+hBzWTZ
- aZWTMgrsKEvZ2cssGYFpjcV/jegJcCv/6Ep4qQ0=
-X-Google-Smtp-Source: APXvYqzRk52Ew2lmsQMfvghk3ylFHcEIR88yL70qbdC0HVK9etbYRWgu7fgyXH4+189J3IyWZY+dkJGnvq1XjVlLM+A=
-X-Received: by 2002:a05:620a:a5b:: with SMTP id
- j27mr335658qka.286.1578416914895; 
- Tue, 07 Jan 2020 09:08:34 -0800 (PST)
+ id 1iosNB-0000dV-Ok
+ for linux-snps-arc@lists.infradead.org; Tue, 07 Jan 2020 17:10:31 +0000
+Received: from mail-pl1-f176.google.com ([209.85.214.176]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1N0nzR-1jaMh545OH-00wjb2 for <linux-snps-arc@lists.infradead.org>; Tue, 07
+ Jan 2020 18:10:27 +0100
+Received: by mail-pl1-f176.google.com with SMTP id s21so20703135plr.7
+ for <linux-snps-arc@lists.infradead.org>; Tue, 07 Jan 2020 09:10:26 -0800 (PST)
+X-Gm-Message-State: APjAAAV5MuSGohk1SJidsja11QjTjVeKiUA0VPMTD84gA/jmDwQVUwQX
+ MBoGrSstYfWP2DElGs5sepkSpSckcjPlHYZ0VqE=
+X-Google-Smtp-Source: APXvYqxwO5AyDQus85+IK5BIt7KfSsh7NvpnQb9bzWV5OgyrFYMfLh14xqWUd9CW/X7TSfP34I+W9RVMaa5KUvf/Vb8=
+X-Received: by 2002:a0c:bd20:: with SMTP id m32mr365813qvg.197.1578417023930; 
+ Tue, 07 Jan 2020 09:10:23 -0800 (PST)
 MIME-Version: 1.0
 References: <1578415992-24054-1-git-send-email-krzk@kernel.org>
- <1578415992-24054-6-git-send-email-krzk@kernel.org>
-In-Reply-To: <1578415992-24054-6-git-send-email-krzk@kernel.org>
+ <1578415992-24054-9-git-send-email-krzk@kernel.org>
+In-Reply-To: <1578415992-24054-9-git-send-email-krzk@kernel.org>
 From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 7 Jan 2020 18:08:18 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2eMB34Qd=U_9vGBCN3m5Zh4qDhyEpGH6M=M4e22aPQLQ@mail.gmail.com>
-Message-ID: <CAK8P3a2eMB34Qd=U_9vGBCN3m5Zh4qDhyEpGH6M=M4e22aPQLQ@mail.gmail.com>
-Subject: Re: [RFT 03/13] sh: Constify ioreadX() iomem argument (as in generic
+Date: Tue, 7 Jan 2020 18:10:07 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1RibnRU6SiVjrOy-q+ZDdKacQgD9mrft_aHMgA9hm3PA@mail.gmail.com>
+Message-ID: <CAK8P3a1RibnRU6SiVjrOy-q+ZDdKacQgD9mrft_aHMgA9hm3PA@mail.gmail.com>
+Subject: Re: [RFT 06/13] arc: Constify ioreadX() iomem argument (as in generic
  implementation)
 To: Krzysztof Kozlowski <krzk@kernel.org>
-X-Provags-ID: V03:K1:VSOcPbuZrtE9z0G4t6qthjXAXiG2KCwZ1PDwLMYkJy6Sj8ApYSe
- lZvI5krNPhwAKzQOQE/yMgmJrsTCzF/2Gpf91xFTLf8tV5VDrvpznwp5lY4dBefB5wy/ump
- bKFUjHwcyeZFQjABOkO36hOUPUpBCHc8POhBfnfyCEqiwwPlasXBKnnKFixL9WEceeeUYhY
- UXYQQt8PDlrt2Ahr4clHQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0gXiqiY6ngg=:E6RWff7mNCNRcH/mlDju0b
- bHDTwXPb4DqSpgWAqoKiroDZB4QAXrut/hZKah0nlTv3YOw5M5uYE0d8p6H+52S/Du08+Aw9Y
- T20j6U0xM6DpdwL+2SZgQOLUhD98U3BzvDh1/JOpsIqhcyERuMhc+UtR0W1xQllhuXIb01lkq
- kZiIonuRayYyOpAQP6KyKtQ7/V9Dp4wGXD2vXeY5rKdw5W4X+45r7Idf5VvcTQ4PBa5bDNzkW
- CjkGbcBgg4YoGy9Whc4AaCTGLC9vCDCyTEmKaIJrn6vYBZelA5w00EhVaa0LYS6ijVc38A3S8
- RHWv+Xe0hB7vAUJNn0SW20MDtIlUnA9Oa8S0A5WNRZ6gRG72vVNog7nIHncQqI+03YnUZYluE
- uipXGznKI2kCAySXLnfI48wildBn9ugklznFXs70BImoggpHF4zl3NaTb/Vo4XWfKjhlOUh9D
- cDPkX+WKDFTNG67JGJ6vtk4IlZ9bUPusZL5a3dLGbuojv6WH5RxOxu5wRe1LQd3Qamj8SfiBW
- OSPgxmRCrUqQecovDsfHc/p/yVzvqkvjsnkgZMXuscs4cJ/uAACAsCDQpVQAqnXs7sxMY2Fds
- TQNBXuhMcWZcspX6Ff1R1f6E+J2JJ3iZNADfT+ZmYmNpepFL/kQ+Ncp667RQtg8wSB7rnjT1I
- qOkiFz3lFdzREwt6erBHSsMwhjGzhQIDmWFwLwd2Juv2dAwtkGpqyEc+WH9uhrHDSEydWwy4t
- y8bgrW50e28dTPCaI1gRh8Kg5VMnFdj6MGCEHYEQ+UhsUGhSvdcUUOFN38daPY+e57qYwyzfB
- VH//O2dR2v563lLH4noQB0xS3GXC+YQpXZAYcwBBgy28hR7YBVsTq/VwrZExFyO4XJRbAvxNs
- C92PARpDBSKEv7NR7pHA==
+X-Provags-ID: V03:K1:UG9L9JYgggbtFmaRVl+zrBp7VWsjXZvC6v+Q77a6n+0DwWBHA/i
+ MLR+uWeZB4pMIjlQ1My6lO8QPcKbZWJDt2F1s5LnyTePos6A2PLY+zqzNkAyQz474j7bYCy
+ nwU31xKKMTuxV0mf/LxP8t9P9Qo3Q9KzdB+5ilG9cCICqqTmzrSGT1U6mn2Zdlvta0tjnPj
+ NRDIXizvALokta/cpG+pA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:96cKG32r+UU=:cIp+WxFcRGMmzXpx7NnFeU
+ n2Mm98lyE587cWANtYK5bFpYZqxBKJkOKUoS3eowo10f8pnURch/KW3o26p3GifIQvCShnxJY
+ jrzuuRnoyBH8gZHHIVsyDUVAkFVg2GLCv4XoGXkDBUcLG8E6EV53PqnGz9sPx97LM6uWtwwVa
+ 0ZMicGb4Rft0HkH4MmhLa0XzdxL7QvUHrrq3f1fGLzrTtVsdSLsECsRVFkyk38w357F4ddBsc
+ /Y2joF0++/CrtHE5LMtzgBZLYN7hc7o+krSyEDyroK1WFmjaUHs+9zvEeH5apVIT4ajKx3/Dd
+ CE5zOdj+MXMNt1PQlqTtCXciu632VbsAWT5vEZp03dSPo5UlcdliZzlmR9UpxbMobi1xYZ1K3
+ NcXp78Y0V8Tzcl1hlId1bdaA79ufsCU0503KJNWDImpkFTzzQz0bAywqvNpt5iQ1E3o5rJjIF
+ 4EkY/9LTn7+xRy6PDeAsEyHaOA5o6XKjYbebctJQh569Zu4eR+YewmMFf0eMMQKljk8gqvhUL
+ KLLbHOlWpbG9+Vslf99VMpmj6qcpvMknQ+kOKB9uJZI9sOmz9K2Dua8bn9jR1rzY7PE29PDQK
+ pHgcEeG7X3dcxXzJpGvxz8e8/IqMQcWlwpW1otg5Kt0MwNSm+Q6JipJBWts6hd8Hi2g+EAQfq
+ 7pxIGU20iR8v6jPXcoo+BeGUvRPOp+5eAMV5oNeWu5nxYFfdRenoT1QmEXTeyJBI1eKN236kT
+ WnkNYEko6LSBOFQL7jLb0pk+ODhqhWUWeacoir1XN3nljA0oihE99uloIGc/M7rrmdhWWPzgT
+ dyCBR2biiwEpuMmC5O2DAs23t7L1m9T53ce6MyzPcuoqddxfiKK6grh3I/ZFWdxlcmTMYxQk6
+ UrtSpsSYfLbE67UCzE/w==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200107_090841_212670_CDE78ED9 
-X-CRM114-Status: GOOD (  11.81  )
+X-CRM114-CacheID: sfid-20200107_091030_092679_348571CB 
+X-CRM114-Status: GOOD (  11.63  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,16 +132,16 @@ On Tue, Jan 7, 2020 at 5:54 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 > The ioreadX() helpers have inconsistent interface.  On some architectures
 > void *__iomem address argument is a pointer to const, on some not.
 >
-> Implementations of ioreadX() do not modify the memory under the address
-> so they can be converted to a "const" version for const-safety and
-> consistency among architectures.
+> Implementations of ioreadX() do not modify the memory under the
+> address so they can be converted to a "const" version for const-safety
+> and consistency among architectures.
 >
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-The patch looks good, but I think this has to be done together with the powerpc
-version and the header that declares the function, for bisectibility.
+The patch looks correct, but I would not bother here, as it has no
+effect on the compiler or its output.
 
-       Arnd
+      Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
