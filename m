@@ -2,20 +2,20 @@ Return-Path: <SRS0=NSlt=25=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 124ADC33C9B
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jan 2020 08:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CC64C33C9E
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jan 2020 08:13:04 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DCFA2206DA
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jan 2020 08:10:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 73F262073A
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jan 2020 08:13:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="k0PV/w+D"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DCFA2206DA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hYn5ART0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 73F262073A
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,51 +24,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=QEwyXPr6f/ZqKoVyNtKG6eeK7hTLd0isQKC9YLkF6TA=; b=k0PV/w+D9sTIi3
-	ZG3KZlM6Qcp4gR20GMnhgeW3Rixp47yRppWz7gPE+HjOR9LaLEC892LgePEBRlRwqCS/jK3FzkgqD
-	wj+ISVVPwY1e6Y/JFrOIF7+PWvI72x3LLD5/TLjm2QJdI4IROp5XLTepCn7nbQxzPktURn3kKOEeG
-	BGgZ3246lWiZa6sjsppywFWBrfCMtnIyIlDY19tVUSXcMRnBm5BJ+rlMORg2FKeCSGHwJOnThRfwJ
-	9aY3RfJRYuIeyUAKb5WSVNSEvDmv1UbwjjDQpfCi0vxobCJFIWFPOeN0EQA+UNsz6Gqkn4SPDNcGF
-	46TcSzCTse/ZHQRaak4A==;
+	List-Owner; bh=nlJykPydw+MHQ03g/lreD+Tp6aAN6QswQ3wnRSBvjMY=; b=hYn5ART0Hc/y0z
+	9gt9NYzUCQ3U4YUIqMH1wnHRWLn8747BxQG+7QBLbrr5OZFyHFuNpKzMld2xXzXYkASsfikH2wZyA
+	dB53cTW4jT7EIfb8hmIfO3EWrjDKpaYlKkBZox29T+35TPe25r261mk2XF9FXhic5FOJ91Ko2HxO0
+	LekoEmabdTei2Y4aUrtrOFH1Giv3Qk0gCOyrnAkyPze3KPM2gx+hBv/9zuxUaCJ6n2r60IrWGpIbI
+	sxVKGu1Fy7wKFFhxtJ2qCE5PCXOJs2gwLSFtBsQ/jMXxFVGunB4riKnKmxYf7ji8HE59EFYbI6psD
+	yuNrIjDjCTSN9ArDDRDA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ip6Q0-00080X-RV; Wed, 08 Jan 2020 08:10:20 +0000
-Received: from mail-oi1-f196.google.com ([209.85.167.196])
+	id 1ip6Sd-00005L-5e; Wed, 08 Jan 2020 08:13:03 +0000
+Received: from mail-ot1-f68.google.com ([209.85.210.68])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ip6Py-000803-G2
- for linux-snps-arc@lists.infradead.org; Wed, 08 Jan 2020 08:10:19 +0000
-Received: by mail-oi1-f196.google.com with SMTP id l136so1916351oig.1
- for <linux-snps-arc@lists.infradead.org>; Wed, 08 Jan 2020 00:10:18 -0800 (PST)
+ id 1ip6Sa-0008WJ-7D
+ for linux-snps-arc@lists.infradead.org; Wed, 08 Jan 2020 08:13:01 +0000
+Received: by mail-ot1-f68.google.com with SMTP id 77so2760465oty.6
+ for <linux-snps-arc@lists.infradead.org>; Wed, 08 Jan 2020 00:12:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zSvatSaXmaDcygklTO+AiD7URC1DncR275ZO9qcviaY=;
- b=LlHtJ/jjuEVbPxATz8A6BJ6G7a2ImlKhNKVVfM7pK/66yZGMeT/S4DQevowSJe3/PS
- tGu7oYSqwVg4djRTJkoXyDJStdNuP/SBt15UKxCc6rcLuMzkQcAYGYUnVTl6czJcmIPI
- TZjvii5caOdZZJHk6wUmLv2ZRD7OjSSc/ccJRlzUkzxPaf4k2wVHSc8Onrht3+F3K5w8
- YHoGN4BUalwztY+aboj7vT5hYFgqoEbnjsutlLsOl1U7jwK5bh3ZzpzjorMoAWpFTYyI
- ETMn8xg6RGvQZOq+ejumkiOpI6anwPVqyqWmShRmdUU39NSiAH7+WjS8vTQzW9MBLwQL
- iaYA==
-X-Gm-Message-State: APjAAAUKYTNiRkbonRjI42gxY2HG/N7zcyU3e+rOa/L60a7+lxoQiMup
- 3uUiPDfyMHhKN6al40d1ikfZEQyDN7l8SoqjO10=
-X-Google-Smtp-Source: APXvYqx7mMV6iu/aCjHaPWwxCajM/7EbWdhdn3wdjlil8XEXHsid4BFGqUofVL4JHvNq7QwetgrnnLwPgZu0svS796A=
-X-Received: by 2002:a05:6808:292:: with SMTP id
- z18mr2042282oic.131.1578471017446; 
- Wed, 08 Jan 2020 00:10:17 -0800 (PST)
+ bh=fbJJB3WrQSG/aLI6W0tp/gWGqaTYGmXXjnwzN3HgNmk=;
+ b=JCmOQ+g8W/jVJX0UM8NfdLpcIPi12fkBjcFnBUbV0+hfca35RygIefK+DDxZ1tAlWt
+ 1PDOOMMY7GPiRC6SLRXCnbXswVMZprw9iwtfJqH3/knawAOcKHjuJ/boK24WN0UH+iwA
+ V7Q9TkqgYR0cLpcV1bH9ufTBawQCgtAh1JYbQ7UDGrGHDxsPL9vV0YSZeRa88pGHG1Vb
+ MPWb1wXbyuhuYGeNwLoR2bLLCGcC0p0vQ1Lf9Wn9jQijlWT5rj2BszKtn9NAZW7PcQm0
+ KyeO80GN4Ob7uF9NJghBQ3qistGnrqgyyqLaeRx2A6PmORrUL+acetRb7s/QvZoa0v+T
+ MDMA==
+X-Gm-Message-State: APjAAAXaOqFnmnwHIIxDIjH2XCwiuueDgPA/fy1pxVLUWIUt9FKgMk/k
+ 0ZBNxok83hiaA2MRivdS/6s0hN1rozeStNhW9Hs=
+X-Google-Smtp-Source: APXvYqwmH7m1+9vDxuev+5inhGSC6vEDnCL0sxcZGlshqWSwfptz4C63wHebnfbZQpKCDEbUG2A5rdvMjyOud7C+JPk=
+X-Received: by 2002:a9d:dc1:: with SMTP id 59mr3308976ots.250.1578471178824;
+ Wed, 08 Jan 2020 00:12:58 -0800 (PST)
 MIME-Version: 1.0
 References: <1578415992-24054-1-git-send-email-krzk@kernel.org>
- <1578415992-24054-3-git-send-email-krzk@kernel.org>
-In-Reply-To: <1578415992-24054-3-git-send-email-krzk@kernel.org>
+ <CAMuHMdW4ek0OYQDrrbcpZjNUTTP04nSbwkmiZvBmKcU=PQM9qA@mail.gmail.com>
+In-Reply-To: <CAMuHMdW4ek0OYQDrrbcpZjNUTTP04nSbwkmiZvBmKcU=PQM9qA@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Jan 2020 09:10:06 +0100
-Message-ID: <CAMuHMdXHhF6GhS1W8qS4j7Jv5YnxXjcRopT5QSA=+trc8qwFng@mail.gmail.com>
-Subject: Re: [RFT 02/13] alpha: Constify ioreadX() iomem argument (as in
- generic implementation)
+Date: Wed, 8 Jan 2020 09:12:47 +0100
+Message-ID: <CAMuHMdUBmYtJKtSYzS_5u67hVZOqcKSgFY1rDGme6gLNRBJ_gA@mail.gmail.com>
+Subject: Re: [RFT 00/13] iomap: Constify ioreadX() iomem argument
 To: Krzysztof Kozlowski <krzk@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200108_001018_535540_F3B50140 
-X-CRM114-Status: GOOD (  13.17  )
+X-CRM114-CacheID: sfid-20200108_001300_264213_838D8F76 
+X-CRM114-Status: GOOD (  11.87  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,37 +115,23 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Hi Krzysztof,
 
-On Tue, Jan 7, 2020 at 5:53 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> The ioreadX() helpers have inconsistent interface.  On some architectures
-> void *__iomem address argument is a pointer to const, on some not.
+On Wed, Jan 8, 2020 at 9:07 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Tue, Jan 7, 2020 at 5:53 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > The ioread8/16/32() and others have inconsistent interface among the
+> > architectures: some taking address as const, some not.
+> >
+> > It seems there is nothing really stopping all of them to take
+> > pointer to const.
 >
-> Implementations of ioreadX() do not modify the memory under the address
-> so they can be converted to a "const" version for const-safety and
-> consistency among architectures.
->
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Shouldn't all of them take const volatile __iomem pointers?
+> It seems the "volatile" is missing from all but the implementations in
+> include/asm-generic/io.h.
 
-> --- a/arch/alpha/include/asm/io.h
-> +++ b/arch/alpha/include/asm/io.h
-> @@ -151,9 +151,9 @@ static inline void generic_##NAME(TYPE b, QUAL void __iomem *addr)  \
->         alpha_mv.mv_##NAME(b, addr);                                    \
->  }
->
-> -REMAP1(unsigned int, ioread8, /**/)
-> -REMAP1(unsigned int, ioread16, /**/)
-> -REMAP1(unsigned int, ioread32, /**/)
-> +REMAP1(unsigned int, ioread8, const)
-> +REMAP1(unsigned int, ioread16, const)
-> +REMAP1(unsigned int, ioread32, const)
+As my "volatile" comment applies to iowrite*(), too, probably that should be
+done in a separate patch.
 
-If these would become "const volatile", there would no longer be a need
-for the last parameter of the REMAP1() macro.
-
->  REMAP1(u8, readb, const volatile)
->  REMAP1(u16, readw, const volatile)
->  REMAP1(u32, readl, const volatile)
-
-Same for REMAP2() macro below, for iowrite*().
+Hence with patches 1-5 squashed, and for patches 11-13:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
