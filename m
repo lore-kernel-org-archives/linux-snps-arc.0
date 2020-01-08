@@ -1,149 +1,71 @@
-Return-Path: <SRS0=s6v2=24=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=NSlt=25=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 817C2C282DD
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jan 2020 18:30:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88CB8C00523
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jan 2020 08:08:11 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 55F97206F0
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jan 2020 18:30:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5F67C206DA
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jan 2020 08:08:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GxBK4C/l";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="QEBjFMFL";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="ZWooqjMj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55F97206F0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qIqmTleJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5F67C206DA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8Nf47e9MsXdHy1VMqDaWo/jMktTGPzdI3Zo7KnrtSQg=; b=GxBK4C/lvP9nmG
-	zrA5gttUXQLLUInCrqbcmyodk3WbOXSS/6Kv0t7BD7RMIGSS9xnxKtwpVJYMFB7rJoqc8aCRqONVq
-	+QuCs/w1ieJXVZpDEjtDEUjFKdasW2SYmeSM54JoNjueoMfycdW3/cD3ncwLlcnPLocy1ltUfc4eb
-	tDBOkxkprz7jKybDjKxFdGYTUfEeECBFSrtygBN4iMV1r/0BG9RUbxfYSxW6eMY3DC1lJlGtAAx/a
-	QKtK2VAVRE3c4mWY5kFn/Dx0LHaq+PQDwNTtGzaCURM0TxmmXl0ZFBbgYdjNbTNyPbXYdTXAv5jFB
-	SNsfbcrQq6jhb3WMyheQ==;
+	List-Owner; bh=NmNbrDybQH/TayL/gZi5OhAHVvtf4Grw8wOTKtohyN8=; b=qIqmTleJ63Odpy
+	QR2CZxEHiT8IM4ctllNA4KYSSlGRqnAtPkaAClY98EasYKSw0+1O/zwXzQfk6lxZnkEgOlBuZ75qH
+	13LXcqrj/Em2fkzCq6ksEXRynw9ivHK9fagwknF3Ymg4moOYlDO6/vGQcr4BIR14/0xaVHR2AAOd0
+	OWEWXyL2kIwkPk0wMRjgY+5AlWrLcffACZKgI42HKJRIgfY0aw7o8NJcLKeEqSzDVYyK1tVTUH2jt
+	W+DN91vNqY4oaqRe7Hfwc+VEYvD/c2mwXT+c5LMpciDYDuqCcjiMWijYCM5DtbU8VSaoiIK+zNmA+
+	tORebYox7IOzPe5AqlYg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iotcY-0002WF-PI; Tue, 07 Jan 2020 18:30:26 +0000
-Received: from us03-smtprelay2.synopsys.com ([149.117.87.133]
- helo=smtprelay-out1.synopsys.com)
+	id 1ip6Nt-0006TV-Fq; Wed, 08 Jan 2020 08:08:09 +0000
+Received: from mail-oi1-f194.google.com ([209.85.167.194])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iotcV-0002TO-8h
- for linux-snps-arc@lists.infradead.org; Tue, 07 Jan 2020 18:30:25 +0000
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
- [10.192.0.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 15E72C0530;
- Tue,  7 Jan 2020 18:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1578421821; bh=EaCDkZSESud0qEJDsETyfvMbxrGc3XZFp790ZPpVlK4=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=QEBjFMFL0pwipO4D5CfGH8li2E8E52Czn+L5FgHZx/7tlJYiV/p21o5VZRiXusNwS
- 6v1SxvPXPyOws/vTBauzMO0CFhj3dyscvDMGzKaMJc3coUGEpsl6wkl3yBlTN0a5R7
- +6JFLOBKLA21HH9e+XmR8A/S2b+gLfKHr5D2fbfXoCYo/YNL8/a43BuiQqdURDDAFK
- IRmJGZ9AMKFe7XWL/w56pdEr+1nEqq46QF60YImkwEEcgoxNZwYr98LAi/ZI0cailx
- ZAghCc5EwE6MIZ6MtJgkl/usTbiM/QFbEI/f8QhwxEvCf8FgTAQkJ/hbyEGQ7or/7Y
- X0ELg5muDUxKg==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id A42BBA0079;
- Tue,  7 Jan 2020 18:30:20 +0000 (UTC)
-Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Tue, 7 Jan 2020 10:30:19 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Tue, 7 Jan 2020 10:30:18 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZEkSusa9Nr9dNefNMHi/j5vhu86IGYEBubsFD5ZDuIaYfUCPUvO0O2IzTWfMLSYlxCFBUPRAwapebPJchU5Ef0zKk4xReGLuexDatGOD9bxrKNcREHCowcoHnbG8l0A89eQvZrN32Syo37c9XxG+zjYtjMgqhxD0eAnC7qrKLpBkKJJ3WOG4Pd0+clEqfF/bb9vnbr+cYTBf2eTmH5hucAhKdOM56sAyk4JQ4+Hm1yjJsstaHke5Ws746mUQu1EJtmuAQgN4vqR7FAevP1YnLHlRmTtvsmTXe1s0KYW9XYkR12HCeMkm3dqWNeU8j5SqZ5tHcDYTXMrG/oY7CACQsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EaCDkZSESud0qEJDsETyfvMbxrGc3XZFp790ZPpVlK4=;
- b=PeTYZuRzZfq27pIxPqOYxbcQTxNO2oJeo93YPTIBBdM17TygYnsIFCzWZj2gZU1+KJ8xta0sI7qwO7A4pH9oF9k45VhxnoEe2ETDbBFqkI1OJVZDVbN4XI3ZH8siDVOp9QLStS3Aun7lbUqPTHFtmP8TwB0vwBAGZPw5v+aKBBnWKLtDXgLJPPtbwtuxGZ7S83aut5uHmPZ3oagGwkTOhZ5hFCARDt7pJRQVJH6bWWovx6SL/SrPxL6uZWWBzmqKqJ7uVNqBJXG0yxXqGIsi2AfjFObbrQLXEsVLa/QmoZzAb5GHJYrBq+5vijte6bD1Dk4jJZg4uSjBqTau+CUSVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EaCDkZSESud0qEJDsETyfvMbxrGc3XZFp790ZPpVlK4=;
- b=ZWooqjMjBdNl867vYyO+sZUjue/kBvdEmekdDgSbrW/wgRK8XrtxjGMBrO9b/jsWMA5c9R7MSh9KgkSYYwe/JXJM5p8kw05EsdArPHqDmBFrsdkQjZCwEZzfEWry7VwwreUJn3DI4DBPtIHop4c+RQNhDPt2iLcjW3bmXkzbOuA=
-Received: from BYAPR12MB3592.namprd12.prod.outlook.com (20.178.54.89) by
- BYAPR12MB2837.namprd12.prod.outlook.com (20.177.124.17) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.15; Tue, 7 Jan 2020 18:30:17 +0000
-Received: from BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::39a1:22ee:7030:8333]) by BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::39a1:22ee:7030:8333%6]) with mapi id 15.20.2623.008; Tue, 7 Jan 2020
- 18:30:17 +0000
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
-Subject: Re: [PATCH 5/5] ARC: allow userspace DSP applications to use AGU
- extensions
-Thread-Topic: [PATCH 5/5] ARC: allow userspace DSP applications to use AGU
- extensions
-Thread-Index: AQHVvOAPMhosDdGIBkSgrV+gH9oBDKffl0SA
-Date: Tue, 7 Jan 2020 18:30:17 +0000
-Message-ID: <f19992fb-9226-f3db-fda7-2eed0ab75188@synopsys.com>
-References: <20191227180347.3579-1-Eugeniy.Paltsev@synopsys.com>
- <20191227180347.3579-6-Eugeniy.Paltsev@synopsys.com>
-In-Reply-To: <20191227180347.3579-6-Eugeniy.Paltsev@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vgupta@synopsys.com; 
-x-originating-ip: [149.117.75.11]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 516fe661-92be-49dc-95c7-08d7939fa541
-x-ms-traffictypediagnostic: BYAPR12MB2837:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB2837FB1EF254371317EADAEAB63F0@BYAPR12MB2837.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:632;
-x-forefront-prvs: 027578BB13
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(39860400002)(136003)(376002)(366004)(346002)(189003)(199004)(4326008)(54906003)(110136005)(86362001)(31696002)(8676002)(2906002)(8936002)(4744005)(107886003)(6486002)(81156014)(81166006)(36756003)(6512007)(2616005)(316002)(31686004)(5660300002)(186003)(53546011)(6506007)(26005)(64756008)(66556008)(66476007)(66446008)(66946007)(478600001)(76116006)(71200400001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR12MB2837;
- H:BYAPR12MB3592.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: j1vplfpDQLMkbszbRDAHnZGgJir9zaYOayTt14edpQr4qht5ZhE1ZuuAB0XMWdr9/feLuZ+iMlucaptBJ7Pmrppflb+9rCmLkcUOmnosL9Nx9WjENBNwk29/dStLq/08vizYD6FRno+IbhePh8uFLiAoOwQeGv8goyNyW0MHysTxrNrn71V3QvtBfoT9f2fTfXTAflj9bBDglZxxIFn1Q4my6zHvysNNtTkxqat2IUQ/zcPnhObKGyzv4fI8ymAkSwIT06/BvbZc3XuvrGb8czaxVY15LqjIusCFSASjy7BOx3uN5bnw6lBgrbLoYqp7b/H/9wTB8D34lVc29lKROvX0M7gTkW+wY2ZAHKDfp+WMgJcom8p2OTiO2kCI+NLucERWmFhV+B8AIaYGOd74DRfcv8yCFC8IR5ptLjO3fHVG02AFZMN47+MbZ+XxmDg8
-Content-ID: <CCC052BC939F7B45A8A4456E2A180E68@namprd12.prod.outlook.com>
+ id 1ip6Nr-0006SF-5S
+ for linux-snps-arc@lists.infradead.org; Wed, 08 Jan 2020 08:08:08 +0000
+Received: by mail-oi1-f194.google.com with SMTP id d62so1863815oia.11
+ for <linux-snps-arc@lists.infradead.org>; Wed, 08 Jan 2020 00:08:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X9lAK3bszh6tWp/dVwz4gJZ7NIZBKvl8mgEWhJz1N9U=;
+ b=SF9DFe8xn88pRlLJ07hIzeNlv1fSY7da6jIwZQIKvGSVgKbhaZeBO//qdA0bm+j5Ks
+ 18B91ktpjmrNLDCQI+JibU5ADIVvazssVe1W0QCz8EPEDKT7tn5CQF1UKPuO2dKIC3jZ
+ sMr+RK4ca585mH+uHIFUsyz94ZLl4AwSDSApGcNT2QMb5gVbKU7PYMrBFiNPZLZ2LXSV
+ dXj6af/zsxdlfoVJsycQMEqGRFr6+7UQ8PdxrjH3/qQXfnNx7QtWZKVVGgyBbjrWtoyP
+ ldCt8o33Io2CgUKfrFc7iylSu2byOBTr+C9jWZZio0sL9gv/kGkCyzl0qfb/Y6sAIhRV
+ XBDw==
+X-Gm-Message-State: APjAAAUeFmqCRIO5C+6obeuNZYt3OtNhhGH0F5vtN0RydgTA/nVdRv8O
+ PjIdcanU7pqX2IoCCb2ochYR3/86MV11sr09yug=
+X-Google-Smtp-Source: APXvYqyHxa8fgIJDObTLOZ73RoRUdvNM74muiuZsOkTaJvwYlT+0s8R5nYIen4AoxoDKsD4fs/oquvfeWacJQ1YKaqA=
+X-Received: by 2002:aca:1a06:: with SMTP id a6mr1987025oia.148.1578470885935; 
+ Wed, 08 Jan 2020 00:08:05 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 516fe661-92be-49dc-95c7-08d7939fa541
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jan 2020 18:30:17.6147 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: W/v/2USdO6GWuG3+Bh7UwHNztMg4FF4gvsgE4huE5FgU0H7m46PsDVR0bziMffHbpqHFQ6YEncLSLm1v9rnMLA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2837
-X-OriginatorOrg: synopsys.com
+References: <1578415992-24054-1-git-send-email-krzk@kernel.org>
+In-Reply-To: <1578415992-24054-1-git-send-email-krzk@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 8 Jan 2020 09:07:54 +0100
+Message-ID: <CAMuHMdW4ek0OYQDrrbcpZjNUTTP04nSbwkmiZvBmKcU=PQM9qA@mail.gmail.com>
+Subject: Re: [RFT 00/13] iomap: Constify ioreadX() iomem argument
+To: Krzysztof Kozlowski <krzk@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200107_103023_370471_7D13460F 
-X-CRM114-Status: UNSURE (   9.45  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200108_000807_209622_FFC8CDB4 
+X-CRM114-Status: GOOD (  11.54  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,26 +77,85 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Alexey  Brodkin <Alexey.Brodkin@synopsys.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: Rich Felker <dalias@libc.org>, Jiri Slaby <jirislaby@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Jason Wang <jasowang@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ virtualization@lists.linux-foundation.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ netdev <netdev@vger.kernel.org>, Paul Mackerras <paulus@samba.org>,
+ Linux-Arch <linux-arch@vger.kernel.org>, Dave Jiang <dave.jiang@intel.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
+ Linux-sh list <linux-sh@vger.kernel.org>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Ben Skeggs <bskeggs@redhat.com>,
+ nouveau@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ Matt Turner <mattst88@gmail.com>, arcml <linux-snps-arc@lists.infradead.org>,
+ Nick Kossifidis <mickflemm@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>, alpha <linux-alpha@vger.kernel.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ Richard Henderson <rth@twiddle.net>,
+ Parisc List <linux-parisc@vger.kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 12/27/19 10:03 AM, Eugeniy Paltsev wrote:
-> To be able to run DSP-enabled userspace applications with AGU
-> (address generation unit) extensions we additionally need to
-> save and restore following registers at context switch:
->  * AGU_AP*
->  * AGU_OS*
->  * AGU_MOD*
+Hi Krzysztof,
+
+On Tue, Jan 7, 2020 at 5:53 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> The ioread8/16/32() and others have inconsistent interface among the
+> architectures: some taking address as const, some not.
 >
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+> It seems there is nothing really stopping all of them to take
+> pointer to const.
 
-Similar comments apply to this as 4/5. Looks good otherwise !
+Shouldn't all of them take const volatile __iomem pointers?
+It seems the "volatile" is missing from all but the implementations in
+include/asm-generic/io.h.
 
--Vineet
+> Patchset was really tested on all affected architectures.
+> Build testing is in progress - I hope auto-builders will point any issues.
+>
+>
+> Todo
+> ====
+> Convert also string versions (ioread16_rep() etc) if this aproach looks OK.
+>
+>
+> Merging
+> =======
+> The first 5 patches - iomap, alpha, sh, parisc and powerpc - should probably go
+> via one tree, or even squashed into one.
+
+Yes, they should be squashed, cfr. Arnd's comment.
+I also wouldn't bother doing the updates in patches 6-10.
+
+The rest looks good to me.
+Thanks a lot!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
+
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
