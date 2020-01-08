@@ -2,96 +2,89 @@ Return-Path: <SRS0=NSlt=25=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF39C282DD
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jan 2020 17:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA5C9C33CA1
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jan 2020 20:05:54 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F333720692
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jan 2020 17:40:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A1D5920643
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jan 2020 20:05:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pRYB3o/T";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="u/qKB30A"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F333720692
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ACULAB.COM
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qFcFt9am";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="evYOx5Kd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A1D5920643
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=zDylXeYbQYWMsUofnlTJcxpne9AfgYfZnpGWHo1rGNw=; b=pRYB3o/TbOpxyw
-	OU2SisRwMaBbdJ/Rz0/EJYFj9n5PWbUu6ZSWw2BDCu7lSCtQHZk5QYEi1EZD3J0j44UaAEXpLMU1h
-	SjCRytRO9/nHmPZMDI8sQmmUusVR0cHMazLJ2fZj5k1qS3Nglnw+vRRtTHoidIeYQFzKW3hu8jzOk
-	9LGoWn+BiIdH1ko5+V4uYGuoE5VEKicukN/cXprUnm6YrCjzUM4ZKaPb429AZJ1ZwiO2lELesfjM7
-	ffMgNWxGIeaXKWSYYUMWXSpgiwH8bdkvTJI7lzYMKwjkaJRvKm7qO2rQ1HMz00OFWTb/mQnpTxflB
-	Xt/OnV+BRDiCMRPfceEw==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:
+	From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=lowVkytwoF9qcfQDOM73bcV+A/K2lbscvYq5oRJVKd4=; b=qFcFt9amkQO5GN
+	QLBRM1TA0Xknm/rCpIKjN+c09Lb0Sg4wzDTInJRoAUT9Ti/BwNJVdCW5gYYyDn2UQkLgoqxOCwcGN
+	rWQRE0QuaN7C2QIJTLoHdPhdlaldfRIyDWMDZPvHTRIYDhbjmWNU2p7jMetFjJok3wVaMMnsHrqbk
+	jz+gQPznRnwoevsONfKpvsfEPhUAhj4oYp9WDqNRmpm6/cUNQikasMXYYvfT5WVjj/UCtJHo9b6yx
+	Q+zGntogLgLwoniwtwWSYufTD6MxjlN8mCeSRg5pK31DFFzoKujmp5n3Z6fYfysDyMPpaW/XnUCjG
+	Ik0Mv2IocNpL+YmX+F9A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ipFJc-00026M-Ur; Wed, 08 Jan 2020 17:40:20 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1ipHaQ-0007yp-AC; Wed, 08 Jan 2020 20:05:50 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ipFJb-00026E-Ha
- for linux-snps-arc@bombadil.infradead.org; Wed, 08 Jan 2020 17:40:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=isDE66TDzLwOPMoBB+GwF0KLMbySHhbhBl4lSkj7SXc=; b=u/qKB30AF2b7ndto2xFcR21A7t
- AU7lg5opJt13ZdIg/safWpr+5D0XqmfZ8or1Blv04+cUUC8RWOO5Ym3b/hPpcWKuJ3O8kDDNSIZbb
- kz88mZGIfQ9kt9574CCaKQSMw2B/9PXAeTI299Qo2N2A5dabA7PgBMTHVLXMTIl8IsAvoDjdmqBK4
- xS25eJ9t/hImgN9p1IpmB/sptMPK4BXBpPIoTMqEoesWoVLgpOi19Bhw63ZhCoqkZs06iYER6jm/w
- S1N9c9SlYh+WViwFJjfQxLx7sIr6nfKx0q3jRfb8bkid6EZKhiYdZ77IEq1WhHEcV3R0RAZfI4I5y
- D0Ldf15A==;
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151])
- by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ipFJz-0005XC-GW
- for linux-snps-arc@lists.infradead.org; Wed, 08 Jan 2020 17:40:45 +0000
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id uk-mta-2-XMFewsroMBqNVmL4iq_bTQ-1;
- Wed, 08 Jan 2020 17:39:44 +0000
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Wed, 8 Jan 2020 17:39:42 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Wed, 8 Jan 2020 17:39:42 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Christophe Leroy' <christophe.leroy@c-s.fr>, Geert Uytterhoeven
- <geert@linux-m68k.org>
-Subject: RE: [RFT 00/13] iomap: Constify ioreadX() iomem argument
-Thread-Topic: [RFT 00/13] iomap: Constify ioreadX() iomem argument
-Thread-Index: AQHVxgB0oW/g95TA9k2fcgn+xgLf36fhB6DA
-Date: Wed, 8 Jan 2020 17:39:42 +0000
-Message-ID: <334434313e1642768995acc03a51214f@AcuMS.aculab.com>
-References: <1578415992-24054-1-git-send-email-krzk@kernel.org>
- <CAMuHMdW4ek0OYQDrrbcpZjNUTTP04nSbwkmiZvBmKcU=PQM9qA@mail.gmail.com>
- <CAMuHMdUBmYtJKtSYzS_5u67hVZOqcKSgFY1rDGme6gLNRBJ_gA@mail.gmail.com>
- <CAJKOXPfq9vS4kSyx1jOPHBvi9_HjviRv0LU2A8ZwdmqgUuebHQ@mail.gmail.com>
- <2355489c-a207-1927-54cf-85c04b62f18f@c-s.fr>
- <CAMuHMdV=-m-eN4rOa=XQhk2oBDZZwgXXMU6RMVQRVsc6ALyeoA@mail.gmail.com>
- <00a43e5c-0708-d49a-9cc4-eb2ce8b4cf99@c-s.fr>
-In-Reply-To: <00a43e5c-0708-d49a-9cc4-eb2ce8b4cf99@c-s.fr>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
-MIME-Version: 1.0
-X-MC-Unique: XMFewsroMBqNVmL4iq_bTQ-1
-X-Mimecast-Spam-Score: 0
+ id 1ipHaN-0007yJ-5b
+ for linux-snps-arc@lists.infradead.org; Wed, 08 Jan 2020 20:05:48 +0000
+Received: from localhost.localdomain (unknown [83.218.167.187])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4D70120705;
+ Wed,  8 Jan 2020 20:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1578513946;
+ bh=7+a0M4QeXOG9b8lMwdfVaJAPohBMh++kbzQxdvukK48=;
+ h=From:To:Subject:Date:From;
+ b=evYOx5KdUdG0Jr/Vc38MOswPxNnF7vRlb4Tb199FZpqwnzGTIvL+ezoR/DMzbuceA
+ kFY/nO2cZ4Rz6kmSrTr6FWXXDO9kMP2CReYBBlel+BAJjwJUXV7GF+gCcHoo1B+vS3
+ sn9Be5nqVhaTYIYYOT8RQp0qbzzYGBxIewpxHquo=
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Richard Henderson <rth@twiddle.net>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jiri Slaby <jirislaby@gmail.com>, Nick Kossifidis <mickflemm@gmail.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ "David S. Miller" <davem@davemloft.net>, Dave Jiang <dave.jiang@intel.com>,
+ Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
+ linux-arch@vger.kernel.org
+Subject: [PATCH v2 0/9] iomap: Constify ioreadX() iomem argument
+Date: Wed,  8 Jan 2020 21:05:19 +0100
+Message-Id: <20200108200528.4614-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200108_174043_585288_92013646 
-X-CRM114-Status: UNSURE (   8.55  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200108_120547_252432_D8993B4E 
+X-CRM114-Status: GOOD (  10.01  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,61 +96,113 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>, Jiri Slaby <jirislaby@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Jason Wang <jasowang@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Paul Mackerras <paulus@samba.org>, Linux-Arch <linux-arch@vger.kernel.org>,
- Dave Jiang <dave.jiang@intel.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Helge Deller <deller@gmx.de>, Linux-sh list <linux-sh@vger.kernel.org>,
- Alexey Brodkin <abrodkin@synopsys.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>, Matt
- Turner <mattst88@gmail.com>, arcml <linux-snps-arc@lists.infradead.org>,
- Nick Kossifidis <mickflemm@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>, Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
- Richard Henderson <rth@twiddle.net>,
- Parisc List <linux-parisc@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
- linux-wireless <linux-wireless@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
- Daniel Vetter <daniel@ffwll.ch>, alpha <linux-alpha@vger.kernel.org>,
- "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "David S. Miller" <davem@davemloft.net>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Christophe Leroy
-> Sent: 08 January 2020 08:49
-...
-> And as pointed by Arnd, the volatile is really only necessary for the
-> dereference itself, should the arch use dereferencing.
+Hi,
 
-I've had trouble with some versions of gcc and reading of 'volatile unsigned char *'.
-It tended to follow the memory read with an extra mask with 0xff.
-(I suspect that internally the value landed into a temporary 'int' variable.)
 
-I got better code using memory barriers.
-So putting an asm barrier for the exact location of the memory read
-either side of the read should have the desired effect without adding
-extra instructions.
-(You might think 'volatile' would mean that - but it doesn't.)
+Changes since v1
+================
+https://lore.kernel.org/lkml/1578415992-24054-1-git-send-email-krzk@kernel.org/
+1. Constify also ioreadX_rep() and mmio_insX(),
+2. Squash lib+alpha+powerpc+parisc+sh into one patch for bisectability,
+3. Add Geert's review,
+4. Re-order patches so all optional driver changes are at the end.
 
-	David
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Description
+===========
+The ioread8/16/32() and others have inconsistent interface among the
+architectures: some taking address as const, some not.
+
+It seems there is nothing really stopping all of them to take
+pointer to const.
+
+Patchset was not really tested on all affected architectures.
+Build testing is in progress - I hope auto-builders will point any issues.
+
+
+volatile
+========
+There is still interface inconsistency between architectures around
+"volatile" qualifier:
+ - include/asm-generic/io.h:static inline u32 ioread32(const volatile void __iomem *addr)
+ - include/asm-generic/iomap.h:extern unsigned int ioread32(const void __iomem *);
+
+This is still discussed and out of scope of this patchset.
+
+
+Merging
+=======
+Multiple architectures are affected in first patch so acks are welcomed.
+
+Patches 2-4 depend on first patch.
+The rest is optional cleanup, without actual impact.
+
+
+Best regards,
+Krzysztof
+
+
+Krzysztof Kozlowski (9):
+  iomap: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  net: wireless: rtl818x: Constify ioreadX() iomem argument (as in
+    generic implementation)
+  ntb: intel: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  virtio: pci: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  arc: Constify ioreadX() iomem argument (as in generic implementation)
+  drm/mgag200: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  drm/nouveau: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  media: fsl-viu: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  net: wireless: ath5k: Constify ioreadX() iomem argument (as in generic
+    implementation)
+
+ arch/alpha/include/asm/core_apecs.h           |  6 +-
+ arch/alpha/include/asm/core_cia.h             |  6 +-
+ arch/alpha/include/asm/core_lca.h             |  6 +-
+ arch/alpha/include/asm/core_marvel.h          |  4 +-
+ arch/alpha/include/asm/core_mcpcia.h          |  6 +-
+ arch/alpha/include/asm/core_t2.h              |  2 +-
+ arch/alpha/include/asm/io.h                   | 12 ++--
+ arch/alpha/include/asm/io_trivial.h           | 16 ++---
+ arch/alpha/include/asm/jensen.h               |  2 +-
+ arch/alpha/include/asm/machvec.h              |  6 +-
+ arch/alpha/kernel/core_marvel.c               |  2 +-
+ arch/alpha/kernel/io.c                        | 12 ++--
+ arch/arc/plat-axs10x/axs10x.c                 |  4 +-
+ arch/parisc/include/asm/io.h                  |  4 +-
+ arch/parisc/lib/iomap.c                       | 72 +++++++++----------
+ arch/powerpc/kernel/iomap.c                   | 28 ++++----
+ arch/sh/kernel/iomap.c                        | 22 +++---
+ drivers/gpu/drm/mgag200/mgag200_drv.h         |  4 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c          |  2 +-
+ drivers/media/platform/fsl-viu.c              |  2 +-
+ drivers/net/wireless/ath/ath5k/ahb.c          | 10 +--
+ .../realtek/rtl818x/rtl8180/rtl8180.h         |  6 +-
+ drivers/ntb/hw/intel/ntb_hw_gen1.c            |  2 +-
+ drivers/ntb/hw/intel/ntb_hw_gen3.h            |  2 +-
+ drivers/ntb/hw/intel/ntb_hw_intel.h           |  2 +-
+ drivers/virtio/virtio_pci_modern.c            |  6 +-
+ include/asm-generic/iomap.h                   | 28 ++++----
+ include/linux/io-64-nonatomic-hi-lo.h         |  4 +-
+ include/linux/io-64-nonatomic-lo-hi.h         |  4 +-
+ lib/iomap.c                                   | 30 ++++----
+ 30 files changed, 156 insertions(+), 156 deletions(-)
+
+-- 
+2.17.1
+
+
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
