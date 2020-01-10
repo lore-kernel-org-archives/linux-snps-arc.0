@@ -1,147 +1,144 @@
-Return-Path: <SRS0=LXey=26=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=2MpJ=27=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8948C282DD
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jan 2020 22:46:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF23DC282DD
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jan 2020 14:57:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8D6CE2077B
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jan 2020 22:46:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6EE6120721
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jan 2020 14:57:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iskDd1In";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="j4ICwYIH";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="fyUSvwlX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D6CE2077B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GIdceGg7";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="D2sz53Fv";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="j2oxGcBV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6EE6120721
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qggIUmDC4U1Nzok+SvLC1UeaVEHvL+BYID/tFdvjW8o=; b=iskDd1InnSvX+V
-	odoJDHNESi0Pp7THD1wXunW3wCb9kKfTIy5F0KCQyDCuWbSZJgl9Q3HzhiXLEwAeubL8z6A44mYtq
-	LEUBtl3VB1NMBx6IPHPpVlFUFQSY7a+cnqZHw2qpLTyW5az0plTgF3unXkXicN9LwYaUH3ZnP3dnq
-	pgFxmxGJikBcfDgdQoLcdlayZg6XqEuVGTTl0kvDQNvuqQQoUObctHJzcWBokdgBCwXEgQNo7yThM
-	z0vSzXGwDF8JFZ2hDE1AXCcK2ejgw9fJGjJbua5AOL+GDBOEBL8NkaB5tOrD9XFdqduphV3UBl/vQ
-	hv/yJYTjattD9P3mqq2Q==;
+	List-Owner; bh=NBIMT6jgTtt2LhmF9vMCUw7BVwNdkP40Lf9zgxifbVI=; b=GIdceGg7A7EJBJ
+	5VJtOad2mjVvZmqmeiyzaoKKP0xDw5JcZF3Fqt/UICNtDUU5K9wXebq2kdCvgBqC66APQ7a5o9x44
+	iA7hqLHi7ko88p3znD5+Xi/a3XTMTXuvJthxhtmZrSoXv//i9uUOdwNnub0HsuKYlNQ7r4/JmtVBi
+	f1ABWy+OuBLt6GzCfIZid0XYb3PpF1eilH/MYhMqKNiIxHksij4kvu3C57/mkTJoJLJBXyBXpieRi
+	uwaQlQn+SKJnIf8uHX7p2QLBCbtxUQtjeH8lkiRccY0gERfBSZaF+UJIIcqD+3LwbyObLRLzOLuWe
+	zbJb2m3f9AnwOGVTVY7g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ipgZI-0007xk-Tk; Thu, 09 Jan 2020 22:46:20 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1ipvil-0007au-24; Fri, 10 Jan 2020 14:57:07 +0000
+Received: from sv2-smtprelay2.synopsys.com ([149.117.73.133]
+ helo=smtprelay-out1.synopsys.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ipgZF-0007wf-Du
- for linux-snps-arc@lists.infradead.org; Thu, 09 Jan 2020 22:46:18 +0000
+ id 1ipvgR-0003m8-C8
+ for linux-snps-arc@lists.infradead.org; Fri, 10 Jan 2020 14:54:45 +0000
 Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
  [10.192.0.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 586EDC00CA;
- Thu,  9 Jan 2020 22:46:12 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 0646140600;
+ Fri, 10 Jan 2020 14:54:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1578609972; bh=g1jFenhPGD/4ktFw2GNxkxeRPkh+RNtM4PX6cTw7uJE=;
+ t=1578668081; bh=Df8PkuFAzWMaYAJuSpSUc79b5Fm4t/LEGhAGQyGeXTo=;
  h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=j4ICwYIHTitEdxe4r/FbJI06I0/nBS00GLTdMX5K9G4d3iKwKXJfBg3t4AVkabw+2
- rNSK7Lybjjp9Bp1QkY3LaNeiDOsuWtHgdJ6IJHgUPj0LF84JzEm2DJVXXFIlWB9d5a
- dEYBIt6kXuqhZiTZAuEN/8/HB847ppbc/LqVdS7G71yLrhXmPrG9r0BIwk/NjPX5zr
- eLW0c7mne/tXtuIIyDEmt8reAW4z3CNrRFZJV06XpddG82ugBD60mPx00y4hB73JuK
- Cy3IpTDLq22K50Ry+gEeb1X2OnYXsg7fU+ih4ewnvRazleKkD36LHLJ0EsmJoOKFXU
- dV5WV9S+lNFqg==
+ b=D2sz53FvPsKXPIEmjTdcWTl+3JCpk+x+bw9+hMfKgF6SftEH9PnZmhhKdgbMvc7If
+ PLCGxmJMdzb2WEEM7HLRpEcOZLIpMhsv/SEwRgNQ8SAY5+ZKzORdYVeH05qokicFSl
+ VxgNKlVf4SmOux5w3LmHz4o+qOq4ciTFpJ13+88DZVEVewh/Yd//0/GlQsoSxfFV+b
+ Hm80mnxyCTvJiUt6C6isP9zstSTz4K8BAu48rSWolsgs1e4rSF5XO3sGlnLsdLyxFp
+ miE259hv0e6HRd23fk3tkjG3sVW8eE18e8Y8/aXJ5lpr0cmv55hqcdlWPKcWBIPxX9
+ SsNB1MHT0pVFA==
 Received: from US01WEHTC3.internal.synopsys.com
  (us01wehtc3.internal.synopsys.com [10.15.84.232])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id A8FAEA007F;
- Thu,  9 Jan 2020 22:46:11 +0000 (UTC)
-Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
+ by mailhost.synopsys.com (Postfix) with ESMTPS id C9B87A00B2;
+ Fri, 10 Jan 2020 14:54:39 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
  US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 9 Jan 2020 14:46:11 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Thu, 9 Jan 2020 14:46:10 -0800
+ (TLS) id 14.3.408.0; Fri, 10 Jan 2020 06:54:39 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Fri, 10 Jan 2020 06:54:39 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UbXEygndnUW+SN77FFvyOBQqndJi0+YwXyaQBXS+pb1QIV38jUarzpSIBZhh63Y4GZkKv4gY2wtWMvh2ylg5AFgg+SfFkh1OjpMa1VbrlCKaC3kCZjLKuaLWiQFtJjSj117+yhZY7mGeZRvkAWX3gTWDDirgL7YhnX3w0lhdUM40piJlVxCBRa1CXMhJB1yNyCedBDUnEXqbz9BG4P5i5cCEpztnJ0SLroCmfrBZGq/whD7ThtiBux+20fF1zCSqegDKFZWsqFEnZocaL0bxm/kdFjL8n6Jjb/5mhAF8InJFz7V/zw5HEntfpKpZ1+2rgwULBsAX775voBa5dXGilw==
+ b=STI3umO3zb5Mx2D7b/Mqv38DxZfO7zRbTWD1LrABAT6E58uJpuZIgRKHxnTtSpifpyl38kDVA6IdtTuU+rPAHtuW4a6I4yApE2F+7nn9lBYTzTiS1RzofhlXqh8Y8laQVp+mR33wpDE/sf36GVeDfTqgJ33Fhs0evsDNrE9Pm/PKttry0/kdXVFIbmnGkFZ0QP9eI7IXhz46DGqS1BlwZMipnyOkjsvKlwYE2XzFMLcogS/ORZyj3vLbyjzU+jUbcjryLwFxXAWOZNFRT+nksAzdEvJUWq29JvAvX8fcEg+HTiflL0KYpGcAtPAJV+5cI+If7iJ+CkQ8/r0lCU6g5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g1jFenhPGD/4ktFw2GNxkxeRPkh+RNtM4PX6cTw7uJE=;
- b=g9G18cUS5blEkTykKM27fuCvzWj/3XMAHPqjv7b+Q9WX7UP7cF8yOiIRTWoEh3kMqOZeyvZD/5d5qtE7ZSTLmc4kefTPMPwy+mscbB38wvBqdJzClx4BDseopAqvn+x38cj787m+2Dul7t9iV2bn1Apl616TJTfZLItfYu6/JUhh2hllbkv/88XCc+pvW53JXp4TTRuLwJQiJcDAMjBw6iZN29a9rV+R7GVoyICbdpDrjhWKtXF+2nrMZMP6EN8luh2Gj5XGU+9JvptSGCrMOwxpvqrP23Rtdb+ZqHGUsifGVsBSVM/eKQOp0V/zW5H5lhEbqpFRo2sol97whfZYYA==
+ bh=nOmPZ4X5D74ikfkUPi93zppuuU1mGY7KSybBxS87670=;
+ b=XSxMYcqXRF8SqBXqc65V8YWNG9euGttJWL5ab1zUCKqO2R/1J64rvRt1x0oIKBee1nN7wUwiXJUMML8IBsjasW8G68b9UBKpU/+l++zqBMKgic4Py/ZrhsiAYIB5hWyMsGsDBDa504hWOKEDswGtJoV/XFOdptwADDDaOQPKrpxqUImpCBQu8BSHBiCcRij7rWqdLGvQ8+gtjUNblanGzFjr2YxNNp2wN/+ZXhQUUhGrw1ST8X4NQjFBD2EqEvZG4cyF3qqJkvZc2ths4OJC8orxKZ2Il1ExLWdXxMgIcRzoHiWvcB3jaqt8CdyRmZOlt+cT4magJC9Wiq1VXSby6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
  dkim=pass header.d=synopsys.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g1jFenhPGD/4ktFw2GNxkxeRPkh+RNtM4PX6cTw7uJE=;
- b=fyUSvwlXFdmcthzJsIYUGZnG7ejv8p3HbY6mMAwYKMiyLYLOIcX86dWgUQHnLIOQLJ8/QKvfRzaFKJpjDLQ1YXIAWTU6dH3SLwRAw3/flWIQGXmgj+FQ/OG/GZUXzrWlFxHRDiZp0Ts0MnzfuvpQgf0HeTN52rJ2n3Vaxb+CFiQ=
-Received: from BYAPR12MB3592.namprd12.prod.outlook.com (20.178.54.89) by
- BYAPR12MB2871.namprd12.prod.outlook.com (20.179.94.217) with Microsoft SMTP
+ bh=nOmPZ4X5D74ikfkUPi93zppuuU1mGY7KSybBxS87670=;
+ b=j2oxGcBV9aaJdE8RZeYrtLvk/LP9SoUse13mLpCpzPbv2yTsnjp3qRkGlO68gb8g3QEUhL0CUKSMSKqjzmW76DOMGeuxw+OVxn1Wk9tX5o02ghAQc7Ke9RDv9ONaJSNJazGjbf074odxBCoQsHTG0KX/ZSUzzJpVvMSpnB+jSZI=
+Received: from BY5PR12MB4034.namprd12.prod.outlook.com (52.135.53.73) by
+ BY5PR12MB3924.namprd12.prod.outlook.com (10.255.139.17) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2623.9; Thu, 9 Jan 2020 22:46:10 +0000
-Received: from BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::39a1:22ee:7030:8333]) by BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::39a1:22ee:7030:8333%6]) with mapi id 15.20.2623.008; Thu, 9 Jan 2020
- 22:46:09 +0000
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Subject: Re: [PATCH 4/5] ARC: add support for DSP-enabled userspace
- applications
-Thread-Topic: [PATCH 4/5] ARC: add support for DSP-enabled userspace
- applications
-Thread-Index: AQHVvOAMSI6VRGHN00GBtEUk/fXvJafflg0AgAMurQCAAD6yAA==
-Date: Thu, 9 Jan 2020 22:46:09 +0000
-Message-ID: <2bc415e2-b6fe-f00b-9715-10a58f8b7a00@synopsys.com>
+ 15.20.2623.8; Fri, 10 Jan 2020 14:54:38 +0000
+Received: from BY5PR12MB4034.namprd12.prod.outlook.com
+ ([fe80::21e8:207a:f5a0:e090]) by BY5PR12MB4034.namprd12.prod.outlook.com
+ ([fe80::21e8:207a:f5a0:e090%4]) with mapi id 15.20.2623.013; Fri, 10 Jan 2020
+ 14:54:37 +0000
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Subject: Re: [PATCH 3/5] ARC: handle DSP presence in HW
+Thread-Topic: [PATCH 3/5] ARC: handle DSP presence in HW
+Thread-Index: AQHVvOAPYx4rnqnFdEKpMFBzanlxBKfecrQAgAWYjls=
+Date: Fri, 10 Jan 2020 14:54:37 +0000
+Message-ID: <BY5PR12MB403418CCC56FE9E2EA3232D2DE380@BY5PR12MB4034.namprd12.prod.outlook.com>
 References: <20191227180347.3579-1-Eugeniy.Paltsev@synopsys.com>
- <20191227180347.3579-5-Eugeniy.Paltsev@synopsys.com>
- <a3890ccb-e948-6ad6-c2ea-5b77b9d3a289@synopsys.com>
- <BY5PR12MB403419E2722BE80E329D3409DE390@BY5PR12MB4034.namprd12.prod.outlook.com>
-In-Reply-To: <BY5PR12MB403419E2722BE80E329D3409DE390@BY5PR12MB4034.namprd12.prod.outlook.com>
+ <20191227180347.3579-4-Eugeniy.Paltsev@synopsys.com>,
+ <6b80df9d-d0f2-d1e1-8e4b-b65531b938d9@synopsys.com>
+In-Reply-To: <6b80df9d-d0f2-d1e1-8e4b-b65531b938d9@synopsys.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
 authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vgupta@synopsys.com; 
-x-originating-ip: [24.7.46.224]
+ smtp.mailfrom=paltsev@synopsys.com; 
+x-originating-ip: [84.204.78.101]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 97acbae2-2c60-4f7a-c332-08d79555b897
-x-ms-traffictypediagnostic: BYAPR12MB2871:
+x-ms-office365-filtering-correlation-id: 8458fbcd-7033-4629-937e-08d795dd03aa
+x-ms-traffictypediagnostic: BY5PR12MB3924:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB2871C0A2E0FF21526176D50FB6390@BYAPR12MB2871.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1169;
-x-forefront-prvs: 02778BF158
+x-microsoft-antispam-prvs: <BY5PR12MB39246C0D225A73B639B9BBD9DE380@BY5PR12MB3924.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 02788FF38E
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(366004)(136003)(346002)(39860400002)(376002)(189003)(199004)(66476007)(66446008)(478600001)(64756008)(76116006)(66556008)(2906002)(316002)(107886003)(36756003)(53546011)(81156014)(4326008)(6512007)(6486002)(6636002)(8676002)(6862004)(81166006)(66946007)(6506007)(37006003)(8936002)(31686004)(54906003)(186003)(71200400001)(2616005)(86362001)(31696002)(5660300002)(26005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR12MB2871;
- H:BYAPR12MB3592.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
+ SFS:(10019020)(366004)(376002)(136003)(39860400002)(346002)(396003)(199004)(189003)(52536014)(5660300002)(76116006)(91956017)(4326008)(66446008)(9686003)(66946007)(66476007)(107886003)(66556008)(55016002)(64756008)(71200400001)(33656002)(6506007)(2906002)(316002)(8936002)(26005)(86362001)(7696005)(8676002)(54906003)(478600001)(110136005)(81166006)(186003)(81156014)(309714004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BY5PR12MB3924;
+ H:BY5PR12MB4034.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: synopsys.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zWtY+fhcbVPZhCdNaNd347zgpLC6Md6V+OE0LWf5s6Ge2UxTeUjH416d9VjaWyATVdZpz8qWiT353MC3d3+K+XgbaoC3+tXp2YMFH96WTrzU85p9+Buiolf6e/Dw4C84JTYsp5swyCLv1vJj+qD/TQeT3udKZPHgBnm5osRmR4C9VbOQRh9UCn0fPsAzzAQiAXUYPWnTNs1YF7yOE4i8PtYOUoN5aPmUqD/klnK8yrHSnXh+oFiBkMse4xCVAd+jTOSeXB9vjca0E2xQXQJCw1Drz+smKIFlEh7US3M3cKoq/gcWZsf/4iTwJfKvMm3arn7ew/fFzdN5m65FDezgM/tsJfie7WX32q83I+3Fv67RvO0q6UnleirooR8Zde+Vz5ujZ/iRTqZc5IhbUCaPVAd8aXxnaNHz7WaxoZtQywmbh0Rzrw9fwFk86TLjhGt8
-Content-ID: <A45F658D956F754396938B16032F9B9B@namprd12.prod.outlook.com>
+x-microsoft-antispam-message-info: Z2CCDJ2Bk7MwbZtDTRQ/BxTjJJQct/yFZN0dVWinJiCpM8cwXenrQ3uF2Sp4TuWBKFtHlhlu4lxf4lgEe60qrx3mwxMN9XVQwAT8E4rucR/xQx3RB3xTDSeI0kDtFvF7jCkM52wRPT+e3OA0ny4/1Bv/IW31lgm/Hkg6lqE0nSj42MY67fWlxwWolHGfCN405CadBmoMpfcMvxnezr52+P5UjhLoNxJadr5fL46BOMLIhmj2pAdXSLYnYfOfALGDl2r8rYKAg2ceXWsrCdk3p4MX/vI3wO+65ZkrZjnTR9J1v5JuYGO46s/CqVX97sBmPdmzonfjGzHnwebysMQ6ki9jDSRAd9CBsscpYP1ZdB+bY5+TakWsoEyWFURDrjoHfrfP/hYQK0H2dvGoWHthlGAURQj6Pfjx2aJ+9Dpyldrr1jt49T16PJxD97wx0xpWbdaEe+Aa3LpbFCELJh+kpCKuggl68vzIPAAH1DtrKV9TNLovmJZb7IjKcWCYt5mT
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97acbae2-2c60-4f7a-c332-08d79555b897
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2020 22:46:09.4069 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8458fbcd-7033-4629-937e-08d795dd03aa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2020 14:54:37.6811 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BOotnvfcUfbSNZviCJzGr+o8hwvMDplTuzzLsRoSAQfiBk4LYy/w5WBd4OxUdsclYuY+KdU3TIxHjg5s1HosXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2871
+X-MS-Exchange-CrossTenant-userprincipalname: 1SalSqSMhdVr0KQ9TH7YV2WBkbN29cY5yXg9vwVwra4x80xDcO8JnE813JMvFjEsZUp+1FclQreQ5MiFHxBfKw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3924
 X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200109_144617_538057_F600C134 
-X-CRM114-Status: GOOD (  11.41  )
+X-CRM114-CacheID: sfid-20200110_065443_526951_697B63CB 
+X-CRM114-Status: UNSURE (   9.94  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,47 +150,55 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: arcml <linux-snps-arc@lists.infradead.org>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- lkml <linux-kernel@vger.kernel.org>
+Cc: Alexey  Brodkin <Alexey.Brodkin@synopsys.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 1/9/20 11:01 AM, Eugeniy Paltsev wrote:
-> Hi Vineet,
+Hi Vineet,
+
+>From: Vineet Gupta <vgupta@synopsys.com>
+>Sent: Tuesday, January 7, 2020 04:03
+>To: Eugeniy Paltsev; linux-snps-arc@lists.infradead.org
+>Cc: linux-kernel@vger.kernel.org; Alexey Brodkin
+>Subject: Re: [PATCH 3/5] ARC: handle DSP presence in HW
+>[snip]
+>> +static inline bool dsp_exist(void)
+>> +{
+>> +     struct bcr_generic bcr;
+>> +
+>> +     READ_BCR(ARC_AUX_DSP_BUILD, bcr);
+>> +     return !!bcr.ver;
 >
->> From: Vineet Gupta <vgupta@synopsys.com>
->> On 12/27/19 10:03 AM, Eugeniy Paltsev wrote:
->>> To be able to run DSP-enabled userspace applications we need to
->>> save and restore following DSP-related registers:
->>> At IRQ/exception entry/exit:
->>>  * ACC0_GLO, ACC0_GHI, DSP_CTRL
->>>  * ACC0_LO, ACC0_HI (we already save them as r58, r59 pair)
->>> At context switch:
->>>  * DSP_BFLY0, DSP_FFT_CTRL
-> [snip]
->>> +
->>> +#ifndef __ASSEMBLY__
->>> +
->>> +/* some defines to simplify config sanitize in kernel/setup.c */
->>> +#if defined(CONFIG_ARC_DSP_KERNEL)    || \
->>> +    defined(CONFIG_ARC_DSP_USERSPACE)
->>> +#define ARC_DSP_HANDLED                      1
->>> +#else
->>> +#define ARC_DSP_HANDLED                      0
->>> +#endif
->> This is a really bad idea - u r introducing explicit include dependencies which
->> can change even outside of arch changes !
->> We've dealt with enough of these problems with current.h, so best to avoid, even
->> if there is some code clutter.
-> Hmm, would it be OK if I add this option as a private kconfig option?
-> I.E (for ARC_DSP_HANDLED):
+>open code these use once / one liners in the call site itself.
+>
+>>
+>> @@ -444,6 +445,9 @@ static void arc_chk_core_config(void)
+>>               /* Accumulator Low:High pair (r58:59) present if DSP MPY or FPU */
+>>               present = cpu->extn_mpy.dsp | cpu->extn.fpu_sp | cpu->extn.fpu_dp;
+>>               CHK_OPT_STRICT(CONFIG_ARC_HAS_ACCL_REGS, present);
+>> +
+>> +             present = dsp_exist();
+>
+>Open code as suggested above.
+>
+>> +             CHK_OPT_STRICT(CONFIG_ARC_DSP_KERNEL, present);
+>>       }
 
-Yes that would be good.
+My idea here is to encapsulate implementation of everything dsp-related in the
+file with dsp code. So I'm even thinking about moving the config check itself
+to some function like
+'arc_chk_dsp_config' which will be located in dsp.x file
+and call it from arc_chk_core_config in setup.c
 
--Vineet
+This requires to move config check helpers to separate file/header from the setup.c
+However this allows encapsulate all DSP code (and some new subsystems code later on) in its files instead of spread it across the arc code.
+
+What do you think about it? If you really dislike this idea I can drop it.
+---
+ Eugeniy Paltsev
 
 _______________________________________________
 linux-snps-arc mailing list
