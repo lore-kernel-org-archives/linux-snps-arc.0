@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F3CC33C9E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A50D5C3F68F
 	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jan 2020 20:09:04 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 65D6D24658
+	by mail.kernel.org (Postfix) with ESMTPS id 7C4E624672
 	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jan 2020 20:09:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iNp8y1O2";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="NiiQjz1N"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 65D6D24658
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZvlO5S8p";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="CBcoxjqI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C4E624672
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,38 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=vXvUIERJUb6rhWLkZrCHqJ6ihKOESjK0jwi7LEccbME=; b=iNp8y1O2wUy9KZ
-	vHNDYCpBwHZFaW0jJJnNI77KxoQlMrmrZCL6QLRSD2QRTv5LkkIwiSurPRzQEVAActws/2gRvH3Rx
-	AzfmLY3rIakHuAtEF8EoHlm0S7volwu9R7MK1XFfyiws0X8l2gMk7rxXLuN3mL0ghhOTeLpFQkg7q
-	qOQlN0qhnGIW11ej5ZwkiRA2WHgPBOb0KauTywrsXlyv+jH+Utw5Ap/2DFXSC9eC5/NY/8j4ENysW
-	ryw6rlXpvNBJAarqIoSw/72NWpz6psBrXQwuPv5XC2FWiS8LR2olD1hsoFiN59zUlGax4zCRp/XAq
-	w27vT8Y07gDqLCLHBUIg==;
+	List-Owner; bh=mof0dYc/sW4+apZQTh5miI9JOj1sY6/CKYb5fBzsqaA=; b=ZvlO5S8ple3NNM
+	c47LX4uROP/ZeV4o9DBhVQApqUF5YyvNI8V92a3qNOG7djAuOw4LhqX/4uxBdRUv6PPokhX1ahcIj
+	QCUGGZPzIShQHKk1MQgCg294K59jMJb35lZivMAZw6GE6OzJniZqx6iE89cfSuwAcXD7EUR2zS/Ei
+	j6ZzGiDU8juTvMuE7UbIncjUp8/bT/paouwqqCxaiKuFfsJQIa905GeUFH7EJbFA5OX84Mf0oCNAu
+	QIlwJnZ38C2TonQhEjapS3CZghhC2tv+7O0j/wp3j9EGPD19wFbNPLkIsICvvK37lEv7Oxf9Vb4r4
+	B9DLTo/65IJgDw6kSI6w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1irSUp-0003XU-Em; Tue, 14 Jan 2020 20:09:03 +0000
-Received: from sv2-smtprelay2.synopsys.com ([149.117.73.133]
- helo=smtprelay-out1.synopsys.com)
+	id 1irSUp-0003Xe-K7; Tue, 14 Jan 2020 20:09:03 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1irSUj-0003UY-7P
+ id 1irSUj-0003UZ-7O
  for linux-snps-arc@lists.infradead.org; Tue, 14 Jan 2020 20:09:00 +0000
 Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com
  [10.205.2.133])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id CE7D3406F6;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id D144B406F7;
  Tue, 14 Jan 2020 20:08:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1579032536; bh=k2Aw6T3dro6lYhVtIAfADIDnnJvA49ZT1cQEazYA+7Y=;
+ t=1579032536; bh=pnuNzowJEgDqFBcmPzhqodh5b56v6RmG8ENp9KF/2mQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NiiQjz1NmyNR9Z2NtbJ36Z/NZoKH5sY6byc2zPPKl5fq/SU5MgDPVb5SDAp3KNHEW
- fj/pvvv6mO3+1rDnCbwE4kjMI8TJoOEblhwYJO7W0RA0HsPV9lzV8IklNN4eM6OEfJ
- imqhvfT9B1JiSBWc7TnokpdY5fw6hk7WtUecsBNap8xOh8zJRQbww/THbyD9xqLFZV
- /HKms2Y147qs615Ty3p6/oNEe+FNrSEBFUGpbjJ0fzXltMlZ5GMHYwhqUEAFdPxpxw
- qJjcbea0OIZZgzWCuKKyU1+yaQB0V5kNcrMHZVP83CPgXJ+olWoYDI6fM4e2PcHJAT
- wr8Q3rrYm/5fQ==
+ b=CBcoxjqItxVjnTN0eYL3kI5Re7OGfz1Wr/fEHGi/KZQSeWVEV4Y6lKo+YXfps9tUb
+ +OiepL3APR61mf5HiqQQu3gcE6J+pDR2nkZ7DTCT04x+UYI3LJQ3JdS+1qUmG3KNcq
+ M9ZR0dwNXKMThv+OivrSN9MRIeloVrhg60DOUKQLDEN8lx/7vcGDQPVI78x4J62nM5
+ XfriUwN4yomOGCl2oTAqolFokcsc9QZHUdcLB8Ahmsyf2vwxzCNA47RfRByRL8x1H4
+ Z9nVQ7//YTY82LmYfl+NRSYMWxCqAa42QwIT1cd3ExRleiMENTWfXTl+zfjcRK9hYQ
+ SJtLUn/iHDKBw==
 Received: from vineetg-Latitude-E7450.internal.synopsys.com
  (vineetg-latitude-e7450.internal.synopsys.com [10.10.161.25])
- by mailhost.synopsys.com (Postfix) with ESMTP id 6CB86A00A2;
+ by mailhost.synopsys.com (Postfix) with ESMTP id 8090AA00AD;
  Tue, 14 Jan 2020 20:08:55 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: Arnd Bergmann <arnd@arndb.de>, Khalid Aziz <khalid.aziz@oracle.com>,
@@ -68,18 +67,17 @@ To: Arnd Bergmann <arnd@arndb.de>, Khalid Aziz <khalid.aziz@oracle.com>,
  Kees Cook <keescook@chromium.org>, Ingo Molnar <mingo@kernel.org>,
  Aleksa Sarai <cyphar@cyphar.com>,
  Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [RFC 3/4] ARC: uaccess: remove noinline variants of
- __strncpy_from_user() and friends
-Date: Tue, 14 Jan 2020 12:08:45 -0800
-Message-Id: <20200114200846.29434-4-vgupta@synopsys.com>
+Subject: [RFC 4/4] ARC: uaccess: use optimized generic
+ __strnlen_user/__strncpy_from_user
+Date: Tue, 14 Jan 2020 12:08:46 -0800
+Message-Id: <20200114200846.29434-5-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200114200846.29434-1-vgupta@synopsys.com>
 References: <20200114200846.29434-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200114_120857_308630_E92F0179 
-X-CRM114-Status: UNSURE (   9.69  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200114_120857_306061_4A5545BC 
+X-CRM114-Status: GOOD (  13.74  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,107 +96,195 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This helps with subsequent removal of arch specific variants in favour
-of optimized generic routines (word vs byte access)
+These rely on word access rather than byte loop
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- arch/arc/include/asm/uaccess.h | 26 ++++++--------------------
- arch/arc/mm/extable.c          | 23 -----------------------
- 2 files changed, 6 insertions(+), 43 deletions(-)
+ arch/arc/Kconfig                      |  2 +
+ arch/arc/include/asm/Kbuild           |  1 -
+ arch/arc/include/asm/uaccess.h        | 71 ++-------------------------
+ arch/arc/include/asm/word-at-a-time.h | 49 ++++++++++++++++++
+ 4 files changed, 56 insertions(+), 67 deletions(-)
+ create mode 100644 arch/arc/include/asm/word-at-a-time.h
 
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 26108ea785c2..3b074c4d31fb 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -26,6 +26,8 @@ config ARC
+ 	select GENERIC_PENDING_IRQ if SMP
+ 	select GENERIC_SCHED_CLOCK
+ 	select GENERIC_SMP_IDLE_THREAD
++	select GENERIC_STRNCPY_FROM_USER if MMU
++	select GENERIC_STRNLEN_USER if MMU
+ 	select HAVE_ARCH_KGDB
+ 	select HAVE_ARCH_TRACEHOOK
+ 	select HAVE_DEBUG_STACKOVERFLOW
+diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
+index 1b505694691e..cb8d459b7f56 100644
+--- a/arch/arc/include/asm/Kbuild
++++ b/arch/arc/include/asm/Kbuild
+@@ -24,5 +24,4 @@ generic-y += topology.h
+ generic-y += trace_clock.h
+ generic-y += user.h
+ generic-y += vga.h
+-generic-y += word-at-a-time.h
+ generic-y += xor.h
 diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
-index ea40ec7f6cae..0b34c152086f 100644
+index 0b34c152086f..f579e06447a9 100644
 --- a/arch/arc/include/asm/uaccess.h
 +++ b/arch/arc/include/asm/uaccess.h
-@@ -613,7 +613,7 @@ raw_copy_to_user(void __user *to, const void *from, unsigned long n)
+@@ -23,7 +23,6 @@
+ 
+ #include <linux/string.h>	/* for generic string functions */
+ 
+-
+ #define __kernel_ok		(uaccess_kernel())
+ 
+ /*
+@@ -52,6 +51,8 @@
+ #define __access_ok(addr, sz)	(unlikely(__kernel_ok) || \
+ 				 likely(__user_ok((addr), (sz))))
+ 
++#define user_addr_max() 	(uaccess_kernel() ? ~0UL : get_fs())
++
+ /*********** Single byte/hword/word copies ******************/
+ 
+ #define __get_user_fn(sz, u, k)					\
+@@ -655,75 +656,13 @@ static inline unsigned long __clear_user(void __user *to, unsigned long n)
  	return res;
  }
  
--static inline unsigned long __arc_clear_user(void __user *to, unsigned long n)
-+static inline unsigned long __clear_user(void __user *to, unsigned long n)
- {
- 	long res = n;
- 	unsigned char *d_char = to;
-@@ -656,7 +656,7 @@ static inline unsigned long __arc_clear_user(void __user *to, unsigned long n)
- }
- 
- static inline long
--__arc_strncpy_from_user(char *dst, const char __user *src, long count)
-+__strncpy_from_user(char *dst, const char __user *src, long count)
- {
- 	long res = 0;
- 	char val;
-@@ -688,7 +688,7 @@ __arc_strncpy_from_user(char *dst, const char __user *src, long count)
- 	return res;
- }
- 
--static inline long __arc_strnlen_user(const char __user *s, long n)
-+static inline long __strnlen_user(const char __user *s, long n)
- {
- 	long res, tmp1, cnt;
- 	char val;
-@@ -718,26 +718,12 @@ static inline long __arc_strnlen_user(const char __user *s, long n)
- 	return res;
- }
- 
--#ifndef CONFIG_CC_OPTIMIZE_FOR_SIZE
+-static inline long
+-__strncpy_from_user(char *dst, const char __user *src, long count)
+-{
+-	long res = 0;
+-	char val;
+-
+-	if (count == 0)
+-		return 0;
+-
+-	__asm__ __volatile__(
+-	"	mov	lp_count, %5		\n"
+-	"	lp	3f			\n"
+-	"1:	ldb.ab  %3, [%2, 1]		\n"
+-	"	breq.d	%3, 0, 3f               \n"
+-	"	stb.ab  %3, [%1, 1]		\n"
+-	"	add	%0, %0, 1	# Num of NON NULL bytes copied	\n"
+-	"3:								\n"
+-	"	.section .fixup, \"ax\"		\n"
+-	"	.align 4			\n"
+-	"4:	mov %0, %4		# sets @res as -EFAULT	\n"
+-	"	j   3b				\n"
+-	"	.previous			\n"
+-	"	.section __ex_table, \"a\"	\n"
+-	"	.align 4			\n"
+-	"	.word   1b, 4b			\n"
+-	"	.previous			\n"
+-	: "+r"(res), "+r"(dst), "+r"(src), "=r"(val)
+-	: "g"(-EFAULT), "r"(count)
+-	: "lp_count", "memory");
+-
+-	return res;
+-}
+-
+-static inline long __strnlen_user(const char __user *s, long n)
+-{
+-	long res, tmp1, cnt;
+-	char val;
+-
+-	__asm__ __volatile__(
+-	"	mov %2, %1			\n"
+-	"1:	ldb.ab  %3, [%0, 1]		\n"
+-	"	breq.d  %3, 0, 2f		\n"
+-	"	sub.f   %2, %2, 1		\n"
+-	"	bnz 1b				\n"
+-	"	sub %2, %2, 1			\n"
+-	"2:	sub %0, %1, %2			\n"
+-	"3:	;nop				\n"
+-	"	.section .fixup, \"ax\"		\n"
+-	"	.align 4			\n"
+-	"4:	mov %0, 0			\n"
+-	"	j   3b				\n"
+-	"	.previous			\n"
+-	"	.section __ex_table, \"a\"	\n"
+-	"	.align 4			\n"
+-	"	.word 1b, 4b			\n"
+-	"	.previous			\n"
+-	: "=r"(res), "=r"(tmp1), "=r"(cnt), "=r"(val)
+-	: "0"(s), "1"(n)
+-	: "memory");
+-
+-	return res;
+-}
 -
  #define INLINE_COPY_TO_USER
  #define INLINE_COPY_FROM_USER
  
--#define __clear_user(d, n)		__arc_clear_user(d, n)
--#define __strncpy_from_user(d, s, n)	__arc_strncpy_from_user(d, s, n)
--#define __strnlen_user(s, n)		__arc_strnlen_user(s, n)
--#else
--extern unsigned long arc_clear_user_noinline(void __user *to,
--		unsigned long n);
--extern long arc_strncpy_from_user_noinline (char *dst, const char __user *src,
--		long count);
--extern long arc_strnlen_user_noinline(const char __user *src, long n);
--
--#define __clear_user(d, n)		arc_clear_user_noinline(d, n)
--#define __strncpy_from_user(d, s, n)	arc_strncpy_from_user_noinline(d, s, n)
--#define __strnlen_user(s, n)		arc_strnlen_user_noinline(s, n)
--
--#endif
-+#define __clear_user		__clear_user
-+#define __strncpy_from_user	__strncpy_from_user
-+#define __strnlen_user		__strnlen_user
+ #define __clear_user		__clear_user
+-#define __strncpy_from_user	__strncpy_from_user
+-#define __strnlen_user		__strnlen_user
++
++extern long strncpy_from_user(char *dest, const char __user *src, long count);
++extern __must_check long strnlen_user(const char __user *str, long n);
  
  #include <asm/segment.h>
  #include <asm-generic/uaccess.h>
-diff --git a/arch/arc/mm/extable.c b/arch/arc/mm/extable.c
-index b06b09ddf924..88fa3a4d4906 100644
---- a/arch/arc/mm/extable.c
-+++ b/arch/arc/mm/extable.c
-@@ -22,26 +22,3 @@ int fixup_exception(struct pt_regs *regs)
- 
- 	return 0;
- }
--
--#ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
--
--unsigned long arc_clear_user_noinline(void __user *to,
--		unsigned long n)
--{
--	return __arc_clear_user(to, n);
--}
--EXPORT_SYMBOL(arc_clear_user_noinline);
--
--long arc_strncpy_from_user_noinline(char *dst, const char __user *src,
--		long count)
--{
--	return __arc_strncpy_from_user(dst, src, count);
--}
--EXPORT_SYMBOL(arc_strncpy_from_user_noinline);
--
--long arc_strnlen_user_noinline(const char __user *src, long n)
--{
--	return __arc_strnlen_user(src, n);
--}
--EXPORT_SYMBOL(arc_strnlen_user_noinline);
--#endif
+diff --git a/arch/arc/include/asm/word-at-a-time.h b/arch/arc/include/asm/word-at-a-time.h
+new file mode 100644
+index 000000000000..00e92be70987
+--- /dev/null
++++ b/arch/arc/include/asm/word-at-a-time.h
+@@ -0,0 +1,49 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2020 Synopsys Inc.
++ */
++#ifndef __ASM_ARC_WORD_AT_A_TIME_H
++#define __ASM_ARC_WORD_AT_A_TIME_H
++
++#ifdef __LITTLE_ENDIAN__
++
++#include <linux/kernel.h>
++
++struct word_at_a_time {
++	const unsigned long one_bits, high_bits;
++};
++
++#define WORD_AT_A_TIME_CONSTANTS { REPEAT_BYTE(0x01), REPEAT_BYTE(0x80) }
++
++static inline unsigned long has_zero(unsigned long a, unsigned long *bits,
++				     const struct word_at_a_time *c)
++{
++	unsigned long mask = ((a - c->one_bits) & ~a) & c->high_bits;
++	*bits = mask;
++	return mask;
++}
++
++#define prep_zero_mask(a, bits, c) (bits)
++
++static inline unsigned long create_zero_mask(unsigned long bits)
++{
++	bits = (bits - 1) & ~bits;
++	return bits >> 7;
++}
++
++static inline unsigned long find_zero(unsigned long mask)
++{
++#ifdef CONFIG_64BIT
++	return fls64(mask) >> 3;
++#else
++	return fls(mask) >> 3;
++#endif
++}
++
++#define zero_bytemask(mask) (mask)
++
++#else	/* __BIG_ENDIAN__ */
++#include <asm-generic/word-at-a-time.h>
++#endif
++
++#endif /* __ASM_WORD_AT_A_TIME_H */
 -- 
 2.20.1
 
