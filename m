@@ -3,19 +3,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AAD3C33C9E
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jan 2020 20:42:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DD70C33C9E
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jan 2020 20:58:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4CCC424656
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jan 2020 20:42:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D38D224658
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jan 2020 20:58:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ql13MkvG"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4CCC424656
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qCG3gC6n"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D38D224658
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,62 +24,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8+b6oAFxZ3NiH7ccJocAvVpn7DrX/sMDhTE4uvBrAcM=; b=ql13MkvGTGH6nW
-	LO2l1FzbrhK24kr1mWknhRM9VlpolleCLF09MqkMleowpJOo6Keztej0tA7GzTgwleaCWANJiIiRe
-	m6SCA8UW57gAZZNXfUFyuOzjiS7jPf2JaMRan/nUNEfkL8MT1iCB13kNUose2jqXrfMKjSPv32rNE
-	AoSyPhS/gOkTS/vbBfsWF3qcXaTJiFLpmD+1wFuJgCt3lsab7zsSNWOGOzytJ2dx+Jivsce12QT4K
-	RBEf3zUmH3x+jrwhxaWZKcSSMW3jh4cgbCVNfP6moLTzrrRvvWUMDdKeurI7Vck/1V3rDjB4TWRu8
-	ewbS5oilMATuAFL5LFPA==;
+	List-Owner; bh=LU7LtBChBe6jcCcCGhp50qLtPFpPKCLLiMC0WNQH5NQ=; b=qCG3gC6nMYrW09
+	Q6quVulWQQN/bB7xSk0h65ggSD6rGFdMhRkc2/SDpKfMJl3LLNkErsK7Qg070FXMxUJf2phcJdJ41
+	lm3nwi1y7uQrkwSpLsjYqG2X2Cdse1W+uUKmieFtNj87arjrOq5uSQmGBfifNQCEhRXwfOI2sODxo
+	uBcxaBzRupXrzdtWvMM3LjbMmJpwd8pPZ4Q7EblZidKC48c2w++VBlQQgGmRiLg0pVvShLiJYQwSI
+	ex6rHSsWAp29QuvfZbjJwLMN5aY448WvjWjJwk1+2efTm0xLoC6+7o9LFmuXbyeTDXCuz7w0BvXhj
+	fFSCjg7iF7Hzz6TvWEQg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1irT1O-0006az-BH; Tue, 14 Jan 2020 20:42:42 +0000
-Received: from mout.kundenserver.de ([217.72.192.74])
+	id 1irTGH-0003Cf-HO; Tue, 14 Jan 2020 20:58:05 +0000
+Received: from mout.kundenserver.de ([212.227.126.135])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1irT1L-0006Zs-S4
- for linux-snps-arc@lists.infradead.org; Tue, 14 Jan 2020 20:42:41 +0000
-Received: from mail-qt1-f177.google.com ([209.85.160.177]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1Mofst-1jTGb50WoT-00p6zd for <linux-snps-arc@lists.infradead.org>; Tue, 14
- Jan 2020 21:42:34 +0100
-Received: by mail-qt1-f177.google.com with SMTP id 5so13758990qtz.1
- for <linux-snps-arc@lists.infradead.org>; Tue, 14 Jan 2020 12:42:32 -0800 (PST)
-X-Gm-Message-State: APjAAAVdxYIMNmWCB+pOxHiKA3dinqVTZJTGt6A8alsmjL8O10nsS496
- 3Ue8Cki/AHIFePtdM6Q2dYW2yRvlUNAVWaQ4mUM=
-X-Google-Smtp-Source: APXvYqzxLn1Nj4qYcObdVSAkUm2fmRRi+xa7YXncyT2LEy7rE/VbjtJMaqfRb4R8TsrdH0c4vNhly9VoEeEnfkmz8pY=
-X-Received: by 2002:ac8:768d:: with SMTP id g13mr422257qtr.7.1579034551663;
- Tue, 14 Jan 2020 12:42:31 -0800 (PST)
+ id 1irTGE-0003Bw-3Z
+ for linux-snps-arc@lists.infradead.org; Tue, 14 Jan 2020 20:58:04 +0000
+Received: from mail-qk1-f169.google.com ([209.85.222.169]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1M1HmE-1ioi6f0ZQo-002kif for <linux-snps-arc@lists.infradead.org>; Tue, 14
+ Jan 2020 21:57:59 +0100
+Received: by mail-qk1-f169.google.com with SMTP id c16so13556356qko.6
+ for <linux-snps-arc@lists.infradead.org>; Tue, 14 Jan 2020 12:57:58 -0800 (PST)
+X-Gm-Message-State: APjAAAUQz5PBTeKfmT+QOTaiKutMrx5Yjwf6b43oXmAqeKT3crOF/kSV
+ aInzUylLGZpyTpLyTjxKjIuTtv+3NWQrg0vhkh4=
+X-Google-Smtp-Source: APXvYqwhg5lxdDG9hw24GdeXieaQIzqGf7tcgGAhb/t/luGZu0DMMqM2FGkeCDHJm3CEiDORiqOll/dN1rxk4xKyAcY=
+X-Received: by 2002:a37:a8d4:: with SMTP id
+ r203mr19031507qke.394.1579035478013; 
+ Tue, 14 Jan 2020 12:57:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20200114200846.29434-1-vgupta@synopsys.com>
- <20200114200846.29434-5-vgupta@synopsys.com>
-In-Reply-To: <20200114200846.29434-5-vgupta@synopsys.com>
+ <20200114200846.29434-2-vgupta@synopsys.com>
+In-Reply-To: <20200114200846.29434-2-vgupta@synopsys.com>
 From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 14 Jan 2020 21:42:15 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2GUqmcA_q33=20OrK1+cU4f3mCrgci_bO3ho4B5PRODg@mail.gmail.com>
-Message-ID: <CAK8P3a2GUqmcA_q33=20OrK1+cU4f3mCrgci_bO3ho4B5PRODg@mail.gmail.com>
-Subject: Re: [RFC 4/4] ARC: uaccess: use optimized generic
- __strnlen_user/__strncpy_from_user
+Date: Tue, 14 Jan 2020 21:57:42 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3W0eLK+qypnPwq=PdcF7+ey8OZEhmOoA6Bg7hMGm5hqQ@mail.gmail.com>
+Message-ID: <CAK8P3a3W0eLK+qypnPwq=PdcF7+ey8OZEhmOoA6Bg7hMGm5hqQ@mail.gmail.com>
+Subject: Re: [RFC 1/4] asm-generic/uaccess: don't define inline functions if
+ noinline lib/* in use
 To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-X-Provags-ID: V03:K1:OibryTzcinFmhcUGqEYZbs8B7APCcmhgZUruQVM23uvyL0hjqQz
- cQHnmHgZV2E3OTIeYX9KtAhjfu9pB5z7q2NK/VJPn7QSmXfQhHsXVu7e0quAiW0ficME7lP
- l1Hqvg+jpgZti8GqGjhlVdYAs568LI1wFB0gf0sK9VNx4wyRgFv6mERAdnyZK+ncR18LxF/
- o/KFwNTtsvuQXwM/YCCqQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HGlQ3R7RPIM=:jRuJi9XSQD6ocpAF13hoIu
- UUpMisNS92kRbVmJmXUMHFUBfdjx07pkR60NGNHKbEioLQ9yTZbW8LgIu6R7Xsp5FS5HGGPw/
- W4WlMja1mrQXeMuRCpFir57ZYGLAB7pmoM+EOiBDxUSnjmR8Q7dQokN1ggK42SxWEZWanht3m
- CZzI4q1Y/6Tea8O7KSPKTDwRNZpH9HkaDOtT1CTcIu3DNOS0pwF2ifPxoX5PFiLjBn/FnmIM+
- AOcVKftYjx4CIlyzfMLAHQBsKmZ8WV4WRQpMm1H0Zm+rFA10VoPOvHuZiQ1bFNd6NCPnHXTSx
- jEeL8NIuCJNSUabWl79IuvhY5J8smQp4AuMH55u9XYpqBB3oRZidftrg1rDKY7u4xArMtf+2S
- XrZxkqbJDoHoykLzk3jCMvQjjtV1LKHaASU8mmsTCUlTrZobcP8UxWuek5oxJlz5w7kjjQcRS
- jqWlZ23cd7eSCUTP/aiQJTOA++uxtd2OuZgCNlPLt/vFvdoJzOUkwhhU5tlJXIRSCZsksSgWz
- 4dwHn5sJUdVHQS2lfZgzGMp9TVPj8ZxzDRWNyAMuwg6MdFGqKR1Jt5bUzhFFBGlt+vtmXx+0J
- /IZzXSFIg57+rgZ7uLNitmWh3EvCHu0V4azfy2LRs8CnbrhHevaO6+i/oqtpRU21teVs/FcUC
- AHKOOryAmwz0aR56sowcY40U2G9i9Ig465yiyPndWrKv5m7MYUxVwgXqInI889bMn4BljLT2n
- BaK7+frO24tYGtsdVGEahsyfTxdMUsnOtfiGhUG2uqJrm3HGseoMWlyxFRmETsSEgu0SBVST4
- qnOIjBMMHMnkEiaknvDnk1nVlrvSXB2ULFvEMM+c9X/pLex81oFFUOJ48uVeT2BQcYTfoxWCX
- Nz3ISkSYggNG3Y1eKNuw==
+X-Provags-ID: V03:K1:lDJvH/qMRCZPJDiaDS7Xll4YAbfMHJSoWZQKzXv71PKz/Q73H8c
+ rCFPHXf7iJutr5w1GlPH477MG5ltXTZQ0p6ATjJ92Kh+PaWnNdg0cCuCWUXocatfSWUyGvX
+ Zc4gHASQpvrDQKMb+v7qHyRgXmEoRX8T/aTJC5VIJvtXuqmVac8b/mJkr38uzojiaT6wSK3
+ KOEdikIfpbGPG7QdYE4Bw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:L1qINZ9byuI=:8XDRAmAMZ/2FJ2BaRICdbX
+ 6cn2QkyNim6mGYIthTlCPldMFZhUk8nH8Lg7N3wK7L/igDJJ6paE9aQs/WZq8pMSxMvbpolQW
+ 7xHrbsam4zdciWJ8EzybT8pEKf9TSyNfU2CqE7sUIyzjVZIDDLWZLzP3giKc17eRelnd/KDi4
+ g+sLz28SXguM4kISr/yVGSxOeeNalSWDTzxfu6xacnLBypaDCfC0W12X6hL+Hy4zyEHWNAsAf
+ bMrp6xuxkkqea2WQBuWyOUpCOccx4rt9PZpxGJ3OumgkYW4fUoP9wKdPJvuDU4jtGI8EOe4of
+ cc6scZgv31vNrmybxmk99rvQEwAHCxVJNbvS9C0upcFZfnij7TIbNTwQ3kmg3/3Svhmt9lwb6
+ smt4t4tfkyt0Zy7HZRFOv1OfemZsxXdMBnTT0R5O/uW+VZopOOoFg/UqoeBzYVcVZCky22DoM
+ URwgC3O0ncJeMA/u8+P0ENq79ziAqzK/lEFqqbALh31VmRhXj2Ut7wekXdJ3XocDmdgeTw/O6
+ DTaACrTMjNpL/Z47tdLu/dfyE8NtzkzSskzS0fgcMhG1DcFDkO9Xa2dFpikTpNMnwInwLm0Wd
+ FPQFiG0skTd3lXgY9FuZPQRiNMZ+nv6mZzZHalwrH/ip0Xb+/dL2+UuY6boypq9eFumbMNnUl
+ 8F3IDxrs9Am+eN0yttrAKM4t2s1hUofwkPZ4OTWUi3rzVHWUIdNJZXwtHhDht0ozLqaHuqzUS
+ GgeFK2UoEpZxuRv6A2g/4P1yRuuV9C4LbhlAFbiBtKa0Strxi10JRt90itkrATJBd7OB/Wvem
+ CIjLRLelk6/fyX0XmYvYnPdhjuHdkW4Ar+ToduGVi4WJ0g4IySK8aCclAj0j+T/EyUYca+x9e
+ pvTns9yf+ziPx3mToAug==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200114_124240_204945_A27D02D9 
-X-CRM114-Status: GOOD (  12.12  )
+X-CRM114-CacheID: sfid-20200114_125802_441168_F695EF2D 
+X-CRM114-Status: GOOD (  11.87  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,44 +107,27 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 On Tue, Jan 14, 2020 at 9:08 PM Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
+>
+> There are 2 generic varaints of strncpy_from_user() / strnlen_user()
+>  (1). inline version in asm-generic/uaccess.h
+>  (2). optimized word-at-a-time version in lib/*
+>
+> This patch disables #1 if #2 selected. This allows arches to continue
+> reusing asm-generic/uaccess.h for rest of code
+>
+> This came up when switching ARC to generic word-at-a-time interface
+>
+> Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 
-> diff --git a/arch/arc/include/asm/word-at-a-time.h b/arch/arc/include/asm/word-at-a-time.h
-> new file mode 100644
-> index 000000000000..00e92be70987
-> --- /dev/null
-> +++ b/arch/arc/include/asm/word-at-a-time.h
-> @@ -0,0 +1,49 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2020 Synopsys Inc.
-> + */
-> +#ifndef __ASM_ARC_WORD_AT_A_TIME_H
-> +#define __ASM_ARC_WORD_AT_A_TIME_H
-> +
-> +#ifdef __LITTLE_ENDIAN__
-> +
-> +#include <linux/kernel.h>
-> +
-> +struct word_at_a_time {
-> +       const unsigned long one_bits, high_bits;
-> +};
+This looks like a useful change, but I think we can do even better: It
+seems that
+there are no  callers of __strnlen_user or __strncpy_from_user  in the
+kernel today, so these should not be defined either when the Kconfig symbols
+are set. Also, I would suggest moving the 'extern' declaration for the two
+functions into the #else branch of the conditional so it does not need to be
+duplicated.
 
-What's wrong with the generic version on little-endian? Any
-chance you can find a way to make it work as well for you as
-this copy?
-
-> +static inline unsigned long find_zero(unsigned long mask)
-> +{
-> +#ifdef CONFIG_64BIT
-> +       return fls64(mask) >> 3;
-> +#else
-> +       return fls(mask) >> 3;
-> +#endif
-
-The CONFIG_64BIT check not be needed, unless you are adding
-support for 64-bit ARC really soon.
-
-       Arnd
+      Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
