@@ -2,83 +2,141 @@ Return-Path: <SRS0=FGIk=3E=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4264C33CB1
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Jan 2020 14:43:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A591C33CB3
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Jan 2020 20:11:04 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 849702075B
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Jan 2020 14:43:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BF89C22522
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Jan 2020 20:11:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RcyDLt1N";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="A5NAGbRS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 849702075B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=google.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HYdvgKgg";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="MeH0L6ut";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="CJA0rURn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF89C22522
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HOHEI0CtsdP0nFQ5i/W4K+gpq9CDsoXYqp+XMK9gcQY=; b=RcyDLt1NnbW3lw
-	fUYthhUYcS64BFqwWcj5NWAM+WDjwW5ujVkC3S0rCisMLucGva+zSA2eMJ90E2agGjG3iByqgJgqW
-	VEZx3sSPeI6xuB2bHhB6cwm2muIh00u7YyFdHNMFl4ay9V96Gwy8ML8GqSzCjTLNsryOoeeGRVWDR
-	H7cGN4YrN3sxxT4CoAB+q1rJ9UFADPjb1Xj5Xa2Q3Ct3XzdRtcPSpDG415e44uDfsh4pVaiYkyk2H
-	N0w2S1pA9xDHnfxi+I3NXOigJxU9Q3f2UhZnGA80Vhq9Mw6ipUvTKLd9KzT77zikJoau67/+D77dm
-	XaY6UDh1lj9hb84V9Ceg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:Message-ID:Date
+	:Subject:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=4gyrRd2dF2gvJmcKnbhckxyBTgUuQE8GpY90J98oKoI=; b=HYdvgKggkZsupD
+	o17Lrm0ruecgb7ns6ABMU2tCET0l66tvKF+o/5we9iJ+HDWUpyh3KFml/9lIlMFR10S+6bbLgi3Og
+	fIlJcRnSL1F8VnrkQ5UYDR6T/xQMv8CpZzAR9qauwDbnCHnOfnss4G40rdft8FNikRmseUP1AkK9u
+	fpeUfv342Aaea+7E+fucsOKg0J2qtBFrkln2wHWqUxflCoZG59ip+mlMrH2MnXYzs+Fn6i00PWzJ5
+	vNYDQnzLqz+7jFbBzvwKxHMr7hvwr/40HFBXRt85roau07r9ZHv5QBiyVmbaige1AurV3LNzE+E9U
+	4igzV5Q+Wtk4uzsWx48w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1irjss-0006u1-GX; Wed, 15 Jan 2020 14:43:02 +0000
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
+	id 1irp0F-0002PV-GQ; Wed, 15 Jan 2020 20:10:59 +0000
+Received: from us03-smtprelay2.synopsys.com ([149.117.87.133]
+ helo=smtprelay-out1.synopsys.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1irjsn-0006t7-3h
- for linux-snps-arc@lists.infradead.org; Wed, 15 Jan 2020 14:43:01 +0000
-Received: by mail-pf1-x444.google.com with SMTP id z16so8636927pfk.0
- for <linux-snps-arc@lists.infradead.org>; Wed, 15 Jan 2020 06:42:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cWbbXGmAF+amAOmxjMEZpC/GvEtoq+2TVa50VkH2QrU=;
- b=A5NAGbRSDK6oVEgbi1g/UJY8xToamkWa1ChpqZgcfz+HPNkDBbbeMOVUU1RWhr/+F1
- jR2kx4AmqjniptQBZtyg0fBMFCwAMJwFwE00luFrhg+HJOF7XhmmgDNZQZVRDSlSmD/K
- ABve+pggCuxi0PmX4dYyfeFnOiSrEXN8MIc3tpcpsv8QmHh36SQZORqYZisn+0F14xR3
- nV2vUgSosV/JYOGVT6ZZlrOI7UOHfH1k6DqW/2LPUnlaTigSDMiNErH10EI7lYSL+3tP
- TE8jGtao4rCXUrLkAnAFZIRSO4xO8toa1xCa/SktIV9lZlDEZyLu0mcZTh+YyB9qybcQ
- /kAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cWbbXGmAF+amAOmxjMEZpC/GvEtoq+2TVa50VkH2QrU=;
- b=AgBAO6covnKqFUTLe/XfX+pbqo/TNf5Fb0dz3J1xOxgN2eauaO4B2PBpu81jmdmq5A
- LSwgptMcypREFSBCcPtOVzKDR8ZB0ddJBrmnaP57FUhzsmXl/kHsDmZW1wgjjNczlD4q
- GEt++EM+BX69LZr3neKuW2w6tnc13yDi2j4kAx54vmzmi1ztxr4BAvx+75/rRxWJtEAf
- ROZhpOaWNKhNgjbC7y59+wCt70pWz14do9/N/6cAl/k5YbzgM6TMxI+fDUjeu82YdztT
- jXUxDXWGwqwNm/UK+tjVVjpVzfUitk7olcICQrlPc1x6bTbQPKlqxHqZ+xfDWkuNU0Zy
- wQWA==
-X-Gm-Message-State: APjAAAVyMlJgulYHlcJXB6G0HiojLJDJcUEyP31aYNJgw6moCzAnENPt
- cthudHmpgkV9z9YDgWdNx1rZ1G97ZSHIRhIAvUCT5w==
-X-Google-Smtp-Source: APXvYqxGQlpmxO4Ekyvm76PCInopdWvxlN358Q/A3Iz0w2R2tG3lkmuA+nTaQx/Yffz4j396nOM73CJCA4jiDfyZvFo=
-X-Received: by 2002:a63:d906:: with SMTP id r6mr33688825pgg.440.1579099373430; 
- Wed, 15 Jan 2020 06:42:53 -0800 (PST)
+ id 1irp09-0002NO-Au
+ for linux-snps-arc@lists.infradead.org; Wed, 15 Jan 2020 20:10:57 +0000
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
+ [10.192.0.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 1827DC0522;
+ Wed, 15 Jan 2020 20:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1579119047; bh=iT+JPL0vBzFL1iJ/Qa2F7LKgzb09GlIeIDNDgO7s6F8=;
+ h=From:To:CC:Subject:Date:From;
+ b=MeH0L6ut32BSeJ5F1RN2pqcC7h1ilKn+MTwpbsi6BFiRDqlADsOZ6z/qtXA/apbYZ
+ TL/5zCibE30clWBcx0oeabUEvulGj8afqFTnuPfc0QaDQwkPFxLKiH2fBl+cjHh6QI
+ +SAskTiTFk9PkfynTYmCpcA0QpApooS+VlO+NZV4anqx7CwSaW5A0KF0TPc0u6fpjF
+ PGDgqIHCSeZMUSS0fJmU7z0/T3ujk9bSeAvtKeA0lgi/ShkBmUGcE6ipBzeOzVx2IH
+ sle9VXUi+t7wzKdzcobgVGafhjnX1rCiZZhbMFfY5d+xOWEfTAl7o8GtNCVmW4Oyhr
+ Apuy8XI8xIb2g==
+Received: from US01WEHTC3.internal.synopsys.com
+ (us01wehtc3.internal.synopsys.com [10.15.84.232])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 5F8F5A0079;
+ Wed, 15 Jan 2020 20:10:45 +0000 (UTC)
+Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Wed, 15 Jan 2020 12:10:40 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Wed, 15 Jan 2020 12:10:39 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PV5QuV2vvNrw8uuBjASq71YogxN5DGsj2SmEvyVGGFNuAARUsCF1MHm8nVBAdov6caBikEKv8XJYB+0bLlN+OQrzIc4NInweA+mqDfnZ87xHKagDZ6gbyKQpbecSJX3ufGJfrfcoTbQTiIL8uhOu4N1Ho4igv3RMubOfNsQIZAZ7wx7tnyaQDPDqvcBTn9TMZBhCs02CWxC6T9HsSK+nJBaaZ4WQXsmSvfeyRA38K3++yvT7ZyQcGobMMwiBRhcaEh5R1MchOHfWYMmbgPvKu2Tiv7hxeMZDDNA1wF5+wzO8ZnJ1LAusdli/mGpcRFrZ+wubA3WrhoQBIO8PH/n8/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iT+JPL0vBzFL1iJ/Qa2F7LKgzb09GlIeIDNDgO7s6F8=;
+ b=TYT41KtuR9DfWoS0oe6Z0k22ZufxAp4BYWqsEUAw+6Wne4r3nRN3dWSJObvheOPr8V2J4bVf0Hyzj68ATjCXpwF++k+QPFOjGYvMvrEWebdwP0xe0mjuiLDcSmwxbXeharYpATOzIQM68yJobPMoaH4Qx79aRReElUlu/uEHxVpMlA7qOGxMuXHQAVg2frw883egaUiD1WGaoznw4yWg3HibP9Tne54to1SHDLlISP2970g5LEVxI3o1uYnX7/b/f3jFAXzPblejzcTiEwB/L+FssY8Y2tc6WfiVCRZ4YstquSho8exwqhg1li756QnXd7l3f78f3+W40rHQ0fabQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iT+JPL0vBzFL1iJ/Qa2F7LKgzb09GlIeIDNDgO7s6F8=;
+ b=CJA0rURnqPfZFYE3825TJzK/xp3znplHuMw706Fh3VgFS3fZleV/WQxJ/whCuigxnTVb1Nz9HconAOqgZY8mvFPDTgvLUeskgUTR7OA1qcjSLyUsqaZ5EPh9ngfXPVRch4I1O8oFxV3WkQ065Y1/R0WyeRz7hD2Cv88Hrg8+fqQ=
+Received: from BYAPR12MB3592.namprd12.prod.outlook.com (20.178.54.89) by
+ BYAPR12MB3191.namprd12.prod.outlook.com (20.179.92.76) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2623.13; Wed, 15 Jan 2020 20:10:38 +0000
+Received: from BYAPR12MB3592.namprd12.prod.outlook.com
+ ([fe80::39a1:22ee:7030:8333]) by BYAPR12MB3592.namprd12.prod.outlook.com
+ ([fe80::39a1:22ee:7030:8333%6]) with mapi id 15.20.2623.017; Wed, 15 Jan 2020
+ 20:10:38 +0000
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: "strace-devel@lists.strace.io" <strace-devel@lists.strace.io>
+Subject: strace breaks with to be released glibc 2.31
+Thread-Topic: strace breaks with to be released glibc 2.31
+Thread-Index: AQHVy9/aVBuvHnmiwEyaTxAUJlL79g==
+Date: Wed, 15 Jan 2020 20:10:38 +0000
+Message-ID: <a3f63e62-e616-5fee-1f31-a09eb25406ef@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vgupta@synopsys.com; 
+x-originating-ip: [149.117.75.11]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0a16e1df-fbf1-4bc9-9547-08d799f6fd18
+x-ms-traffictypediagnostic: BYAPR12MB3191:
+x-microsoft-antispam-prvs: <BYAPR12MB3191CDFEF4614E848B7FA867B6370@BYAPR12MB3191.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 02830F0362
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(376002)(39860400002)(346002)(136003)(396003)(199004)(189003)(6486002)(66946007)(66476007)(66556008)(64756008)(66446008)(76116006)(31686004)(31696002)(2616005)(8676002)(4744005)(81166006)(81156014)(2906002)(8936002)(6506007)(71200400001)(4326008)(316002)(86362001)(5660300002)(6512007)(36756003)(6916009)(478600001)(186003)(26005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR12MB3191;
+ H:BYAPR12MB3592.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: twIRT/pchqJYHL33wW2PLVqynUyepqn0vCMbfwRCmda8V/Oun0/zFjXLFWT2u8ej7LYmcsaw7/GhWJV6x7R3ztAv3+Y3bp+6ymNoRl2VXHIQGleeQN4AF9r/YlVI+tTrIWUQW5XEQ25n3FJFTQQoBPNsG36j4DVNcMdZZMSwpmlzY2hN03bM9kRmwy0PPT7bFOiTxaXp4Tzv3wuX9fgqoVwoix9cTtiBPtzMHD4EYJWVsqH4ek6aLb0TbSMkT/rQ8bWomxTIXOKf8vUMg0obfkdkh7ZwK3z09+3w1thmpe7z02wDWCepX8R8nfqbl//LZR1eya4wZ+TV2mL9z6mm++OUYOWLIXChx/x8Fd9ocP+t2uQ8ESQNG+15mWkgWzxIj27kU2y/iSbEUDUmK+b3WxHO3dGutkJcUtKtQyezKzNAOHblB+PocFg5zypq/mlg
+x-ms-exchange-transport-forked: True
+Content-ID: <51E11FB52C02EF489DBBD24057179104@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-References: <20200114200846.29434-1-vgupta@synopsys.com>
- <20200114200846.29434-3-vgupta@synopsys.com>
-In-Reply-To: <20200114200846.29434-3-vgupta@synopsys.com>
-From: Andrey Konovalov <andreyknvl@google.com>
-Date: Wed, 15 Jan 2020 15:42:42 +0100
-Message-ID: <CAAeHK+zxVw6jOu-NzjR14U_i5cpDynE=OC3D5WswTvqT8o5NhQ@mail.gmail.com>
-Subject: Re: [RFC 2/4] lib/strncpy_from_user: Remove redundant user space
- pointer range check
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a16e1df-fbf1-4bc9-9547-08d799f6fd18
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2020 20:10:38.1466 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zeKXlHhahHhccikte8Bs4+jY+oiCt3/KON9i43apkkMXBuwx9LRUhdbChh00V83glTAILDIEEi5z3adWJrm4kQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3191
+X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200115_064257_150452_E8631F7F 
-X-CRM114-Status: GOOD (  23.78  )
+X-CRM114-CacheID: sfid-20200115_121053_555990_B0177DC4 
+X-CRM114-Status: UNSURE (   8.77  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,192 +148,28 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-arch <linux-arch@vger.kernel.org>, Kees Cook <keescook@chromium.org>,
- Arnd Bergmann <arnd@arndb.de>, Peter Zijlstra <peterz@infradead.org>,
- LKML <linux-kernel@vger.kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
- Ingo Molnar <mingo@kernel.org>, Khalid Aziz <khalid.aziz@oracle.com>,
- Christian Brauner <christian.brauner@ubuntu.com>,
- linux-snps-arc@lists.infradead.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: arcml <linux-snps-arc@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 14, 2020 at 9:08 PM Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
->
-> This came up when switching ARC to word-at-a-time interface and using
-> generic/optimized strncpy_from_user
->
-> It seems the existing code checks for user buffer/string range multiple
-> times and one of tem cn be avoided.
->
-> There's an open-coded range check which computes @max off of user_addr_max()
-> and thus typically way larger than the kernel buffer @count and subsequently
-> discarded in do_strncpy_from_user()
->
->         if (max > count)
->                 max = count;
->
-> The canonical user_access_begin() => access_ok() follow anyways and even
-> with @count it should suffice for an intial range check as is true for
-> any copy_{to,from}_user()
->
-> And in case actual user space buffer is smaller than kernel dest pointer
-> (i.e. @max < @count) the usual string copy, null byte detection would
-> abort the process early anyways
->
-> Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
-> ---
->  lib/strncpy_from_user.c | 36 +++++++++++-------------------------
->  lib/strnlen_user.c      | 28 +++++++---------------------
->  2 files changed, 18 insertions(+), 46 deletions(-)
->
-> diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
-> index dccb95af6003..a1622d71f037 100644
-> --- a/lib/strncpy_from_user.c
-> +++ b/lib/strncpy_from_user.c
-> @@ -21,22 +21,15 @@
->  /*
->   * Do a strncpy, return length of string without final '\0'.
->   * 'count' is the user-supplied count (return 'count' if we
-> - * hit it), 'max' is the address space maximum (and we return
-> - * -EFAULT if we hit it).
-> + * hit it). If access fails, return -EFAULT.
->   */
->  static inline long do_strncpy_from_user(char *dst, const char __user *src,
-> -                                       unsigned long count, unsigned long max)
-> +                                       unsigned long count)
->  {
->         const struct word_at_a_time constants = WORD_AT_A_TIME_CONSTANTS;
-> +       unsigned long max = count;
->         unsigned long res = 0;
->
-> -       /*
-> -        * Truncate 'max' to the user-specified limit, so that
-> -        * we only have one limit we need to check in the loop
-> -        */
-> -       if (max > count)
-> -               max = count;
-> -
->         if (IS_UNALIGNED(src, dst))
->                 goto byte_at_a_time;
->
-> @@ -72,7 +65,7 @@ static inline long do_strncpy_from_user(char *dst, const char __user *src,
->          * Uhhuh. We hit 'max'. But was that the user-specified maximum
->          * too? If so, that's ok - we got as much as the user asked for.
->          */
-> -       if (res >= count)
-> +       if (res == count)
->                 return res;
->
->         /*
-> @@ -103,25 +96,18 @@ static inline long do_strncpy_from_user(char *dst, const char __user *src,
->   */
->  long strncpy_from_user(char *dst, const char __user *src, long count)
->  {
-> -       unsigned long max_addr, src_addr;
-> -
->         if (unlikely(count <= 0))
->                 return 0;
->
-> -       max_addr = user_addr_max();
-> -       src_addr = (unsigned long)untagged_addr(src);
+Hi,
 
-If you end up changing this code, you need to keep the untagged_addr()
-logic, otherwise this breaks arm64 tagged address ABI [1].
+I've been testing an in-works glibc port for ARC and with 2.31 there's a glibc
+change which seems to break strace.
 
-[1] https://www.kernel.org/doc/html/latest/arm64/tagged-address-abi.html
+Commit d1e411e5c786ce3 "Add PTRACE_GET_SYSCALL_INFO from Linux 5.3 to sys/ptrace.h."
 
-> -       if (likely(src_addr < max_addr)) {
-> -               unsigned long max = max_addr - src_addr;
-> +       kasan_check_write(dst, count);
-> +       check_object_size(dst, count, false);
-> +       if (user_access_begin(src, count)) {
->                 long retval;
-> -
-> -               kasan_check_write(dst, count);
-> -               check_object_size(dst, count, false);
-> -               if (user_access_begin(src, max)) {
-> -                       retval = do_strncpy_from_user(dst, src, count, max);
-> -                       user_access_end();
-> -                       return retval;
-> -               }
-> +               retval = do_strncpy_from_user(dst, src, count);
-> +               user_access_end();
-> +               return retval;
->         }
-> +
->         return -EFAULT;
->  }
->  EXPORT_SYMBOL(strncpy_from_user);
-> diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
-> index 6c0005d5dd5c..5ce61f303d6e 100644
-> --- a/lib/strnlen_user.c
-> +++ b/lib/strnlen_user.c
-> @@ -20,19 +20,13 @@
->   * if it fits in a aligned 'long'. The caller needs to check
->   * the return value against "> max".
->   */
-> -static inline long do_strnlen_user(const char __user *src, unsigned long count, unsigned long max)
-> +static inline long do_strnlen_user(const char __user *src, unsigned long count)
->  {
->         const struct word_at_a_time constants = WORD_AT_A_TIME_CONSTANTS;
->         unsigned long align, res = 0;
-> +       unsigned long max = count;
->         unsigned long c;
->
-> -       /*
-> -        * Truncate 'max' to the user-specified limit, so that
-> -        * we only have one limit we need to check in the loop
-> -        */
-> -       if (max > count)
-> -               max = count;
-> -
->         /*
->          * Do everything aligned. But that means that we
->          * need to also expand the maximum..
-> @@ -64,7 +58,7 @@ static inline long do_strnlen_user(const char __user *src, unsigned long count,
->          * Uhhuh. We hit 'max'. But was that the user-specified maximum
->          * too? If so, return the marker for "too long".
->          */
-> -       if (res >= count)
-> +       if (res == count)
->                 return count+1;
->
->         /*
-> @@ -98,22 +92,14 @@ static inline long do_strnlen_user(const char __user *src, unsigned long count,
->   */
->  long strnlen_user(const char __user *str, long count)
->  {
-> -       unsigned long max_addr, src_addr;
-> -
->         if (unlikely(count <= 0))
->                 return 0;
->
-> -       max_addr = user_addr_max();
-> -       src_addr = (unsigned long)untagged_addr(str);
-> -       if (likely(src_addr < max_addr)) {
-> -               unsigned long max = max_addr - src_addr;
-> +       if (user_access_begin(str, count)) {
->                 long retval;
-> -
-> -               if (user_access_begin(str, max)) {
-> -                       retval = do_strnlen_user(str, count, max);
-> -                       user_access_end();
-> -                       return retval;
-> -               }
-> +               retval = do_strnlen_user(str, count);
-> +               user_access_end();
-> +               return retval;
->         }
->         return 0;
->  }
-> --
-> 2.20.1
->
+This now defines PTRACE_GET_SYSCALL_INFO but defines struct __ptrace_syscall_info
+(not the non underscored ver) causing strace to trip.
 
+I'm not sure how to fix strace: do we need to switch over to glibc provided
+__ptrace_syscall_info (with some #ifdef GLIBC and MINOR etc) or is there a better
+way to do this ?
+
+Thx,
+-Vineet
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
