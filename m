@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C71C3F68F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F5B7C33CA1
 	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Jan 2020 10:46:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8FD0B20674
+	by mail.kernel.org (Postfix) with ESMTPS id 54E6D20674
 	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Jan 2020 10:46:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TruXycuz";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="XSbz9MB2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FD0B20674
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tQG7Co7O";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="XjA9CjKQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54E6D20674
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,50 +27,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=7me51SERRllVOK36t1n4VrM0TteXSb18DDnz23o65dc=; b=TruXycuzdOCTqyQwQeag47Kpaf
-	mzw7vjbxei2aowOrk5pzHslnSYot1wb0jwyEhkiUQHqt7/aBsNyfeBMspyCi6+213fbXUz+cZtLFS
-	sYDfk54Ml9DlwQrChjW/Ad31Lb+0A9Q+O8nw9uw8wNDn+V2pzcmf2ZeiAAljeM3K9ZuihSI5WkD8n
-	e/Ju3d/KyQh0Osjg2GwqrlCNMiqgDdcxAUlnCEVT/+O7WLmzSfxEqc+QY9BPCOx/CNbaRIfqEZ3Es
-	yA1E5MzfJ6JZuMRy1K7LZ05WsGU+nQSxQx2Fuu0AvFq6yuexRyzbVcQUHQ37Gb1iLIKovuRO/CFdC
-	SYuWjW0A==;
+	bh=Vrt2VZr07N8Gv0HaNTBXLrBUrJMp+Ro91VmffmfQ+Y4=; b=tQG7Co7ODYTzA7CvLY7gMpUMzu
+	M5toarbTEEoQ8FdB9AXR/1xY/uLHMo/d8TD3BRz3cnd9WJ1lsEg5EIUsiWnuTq/UvgGZUPRNBmOsb
+	Q6TO5Lw5sXNvnPtBwG4plNMfelHL1Yu5N0k/I4+ypa1629fH9pvl2aU1ifS6wAajq0KL6Oye7F1Gz
+	y74m2vivXunWl+XUHiNzdchPqDRulI4yil+PHHqfCSea3NWG5/yhS4hy8UIcxX2eeWhNUJpzvmIG5
+	W9opbM7xWaK2yCxJCQRkrUFLYk5soIgryyCrq+XvqKhb/8f40J4Qucxm7+Lx7fP2U5FYU4W5lZFD/
+	XiC/AtAw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1itUa2-0004In-Qx; Mon, 20 Jan 2020 10:46:50 +0000
+	id 1itUa2-0004Ic-LG; Mon, 20 Jan 2020 10:46:50 +0000
 Received: from us03-smtprelay2.synopsys.com ([149.117.87.133]
  helo=smtprelay-out1.synopsys.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1itUZy-0004GK-97
+ id 1itUZy-0004GI-96
  for linux-snps-arc@lists.infradead.org; Mon, 20 Jan 2020 10:46:49 +0000
 Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com
  [10.225.0.209])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id AF809C04F8;
- Mon, 20 Jan 2020 10:46:41 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 390A0C04F7;
+ Mon, 20 Jan 2020 10:46:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1579517202; bh=9OsmDYeAY6aRy26MuAS75rQTPFqjYqmTeRhZgRlfd4c=;
+ t=1579517201; bh=9hNjPN5JegrAlPQCeDdpzlwk09YMaZRioVttgMtg9NA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XSbz9MB2/dRuIay5L7lKmG1opifLa/Jm7f/3I8eTn9ZjMiaxegRaAuGKYGgOz7DWx
- XxmffZskT9O3GLvwxaVdVkE2SZrKtzxx5XU87zPOLR4b9B7UZhJoKMU3WW3OUpj4p2
- UKG7AuGUvAM+tFY6GXR0viS95ptkKhZjsHnqJnPdS4rCJpmjtOUXhHYTaVmM+IHbq1
- v2qBiGk2rhPLH0Kuq/Il/E1jQf7OmNtYO1YUw+hl0sla7oeoYpiaGCesj4OHcMgZVe
- Z51DzqxwNBGf4li/H6ENEhv72A3J9EqttnzZX20aOxBFbnyoLC+urAu3vs0xhEBqRe
- vM3biDvWSOiPw==
+ b=XjA9CjKQqqlpAz9FHkc6MrDq3CHcEuxhQOxuvmumPQptQbk0pdb0xAHJPHnXorjBj
+ Qfqrrhex/JtMiwYtnP2cibvGiC2f2swPezDwP7Z4DecRRE2rHeI/a+GLGz6RFyXVHn
+ fsE/oZHVHtPNzcHOmI0SuZVuOQv8mGoKJCZmlxfdsONOQB7EFe1tupxmaFWGgwTXi2
+ bGiOIVSalvMxj5rWX6jMufIsZMMVVFHc0p6uCgfRZdoqLWQuMcdxF9CWrYwmySNSOh
+ lqMTsVzdbVHPWmFjHkiMW2KDhNW50z3+tpbT5RRXRpyZbQFWjpSbw9ipZwA58Ud60i
+ GK2Rp2GfFXnlw==
 Received: from ru20arcgnu1.internal.synopsys.com
  (ru20arcgnu1.internal.synopsys.com [10.121.9.48])
- by mailhost.synopsys.com (Postfix) with ESMTP id 1C42FA006A;
- Mon, 20 Jan 2020 10:46:40 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 25185A0064;
+ Mon, 20 Jan 2020 10:46:39 +0000 (UTC)
 From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
 To: u-boot@lists.denx.de
-Subject: [PATCH 3/3] ARC: nsim_hs38: Add support of Virtio NET & BLK
-Date: Mon, 20 Jan 2020 13:46:35 +0300
-Message-Id: <20200120104635.33290-4-abrodkin@synopsys.com>
+Subject: [PATCH 1/3] ARC: nSIM: switch from ARC UART to DW UART
+Date: Mon, 20 Jan 2020 13:46:33 +0300
+Message-Id: <20200120104635.33290-2-abrodkin@synopsys.com>
 X-Mailer: git-send-email 2.16.2
 In-Reply-To: <20200120104635.33290-1-abrodkin@synopsys.com>
 References: <20200120104635.33290-1-abrodkin@synopsys.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200120_024646_430250_CCB3E1B6 
-X-CRM114-Status: GOOD (  17.49  )
+X-CRM114-CacheID: sfid-20200120_024646_432243_3E4C8F23 
+X-CRM114-Status: GOOD (  11.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,220 +90,173 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Given now nsim_hs38 configuration is usable on QEMU and in QEMU
-we have Virtio working perfectly fine the next logical step
-is to add support of supported & known to work net & bkl to this
-config.
+Since v2019.06 DesingWare nSIM supports DesignWare UART simulation
+and so we may switch from pretty unusual ARC UART to much more standard
+DesignWare UART (which in case of U-Boot is just an ordinary 16650 UART).
 
-Note so far we don't have device tree descriptions synced from
-the mainline Linux kernel (which we'll need to do anyway at some point)
-and as of now we keep U-Boot's device trees as minimalistic as possible
-in nSIM description we had to add core's interrupt controller node and
-set it as everyone's interrupt-parent. That's required to make buildman
-happy. Otherwise it complains like that:
------------------------->8------------------------
-w+arch/arc/dts/nsim.dtb: Warning (interrupts_property): /virtio@f0100000: Missing interrupt-parent
------------------------->8------------------------
+This among other things makes built dinaries compatible with our other
+platforms to name a few: FPGA-based HAPS boards, QEMU and even ZeBU.
 
 Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
 ---
- arch/arc/Kconfig                  |  4 ++--
- arch/arc/dts/nsim.dts             | 36 ++++++++++++++++++++++++++++++++++++
- board/synopsys/{ => nsim}/Kconfig |  3 +++
- board/synopsys/nsim/MAINTAINERS   |  6 ++++++
- board/synopsys/nsim/Makefile      |  7 +++++++
- board/synopsys/nsim/nsim.c        | 26 ++++++++++++++++++++++++++
- configs/nsim_hs38_defconfig       |  9 +++++++++
- 7 files changed, 89 insertions(+), 2 deletions(-)
- rename board/synopsys/{ => nsim}/Kconfig (74%)
- create mode 100644 board/synopsys/nsim/MAINTAINERS
- create mode 100644 board/synopsys/nsim/Makefile
- create mode 100644 board/synopsys/nsim/nsim.c
+ arch/arc/dts/nsim.dts         | 12 +++++++-----
+ configs/nsim_700_defconfig    |  8 ++++----
+ configs/nsim_700be_defconfig  |  8 ++++----
+ configs/nsim_hs38_defconfig   |  8 ++++----
+ configs/nsim_hs38be_defconfig |  8 ++++----
+ 5 files changed, 23 insertions(+), 21 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 0cb97207db..545fc3e243 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -160,7 +160,7 @@ config TARGET_TB100
- 	bool "Support tb100"
- 
- config TARGET_NSIM
--	bool "Support standalone nSIM & Free nSIM"
-+	bool "Support ARC simulation & prototyping platforms"
- 
- config TARGET_AXS101
- 	bool "Support Synopsys Designware SDP board AXS101"
-@@ -184,10 +184,10 @@ config TARGET_IOT_DEVKIT
- endchoice
- 
- source "board/abilis/tb100/Kconfig"
--source "board/synopsys/Kconfig"
- source "board/synopsys/axs10x/Kconfig"
- source "board/synopsys/emsdp/Kconfig"
- source "board/synopsys/hsdk/Kconfig"
- source "board/synopsys/iot_devkit/Kconfig"
-+source "board/synopsys/nsim/Kconfig"
- 
- endmenu
 diff --git a/arch/arc/dts/nsim.dts b/arch/arc/dts/nsim.dts
-index a3f3964d35..a902c4c4fa 100644
+index 243ecb178e..a3f3964d35 100644
 --- a/arch/arc/dts/nsim.dts
 +++ b/arch/arc/dts/nsim.dts
-@@ -8,6 +8,7 @@
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * Copyright (C) 2015-2016 Synopsys, Inc. (www.synopsys.com)
++ * Copyright (C) 2015-2016, 2019 Synopsys, Inc. (www.synopsys.com)
+  */
+ /dts-v1/;
  
- / {
+@@ -10,7 +10,7 @@
  	model = "snps,nsim";
-+	interrupt-parent = <&core_intc>;
  
  	aliases {
- 		console = &uart0;
-@@ -20,6 +21,12 @@
- 			clock-frequency = <70000000>;
- 			u-boot,dm-pre-reloc;
- 		};
-+
-+		core_intc: interrupt-controller {
-+			compatible = "snps,archs-intc";
-+			interrupt-controller;
-+			#interrupt-cells = <1>;
-+		};
+-		console = &arcuart0;
++		console = &uart0;
  	};
  
- 	uart0: serial@f0000000 {
-@@ -30,4 +37,33 @@
+ 	cpu_card {
+@@ -22,9 +22,11 @@
+ 		};
+ 	};
+ 
+-	arcuart0: serial@0xc0fc1000 {
+-		compatible = "snps,arc-uart";
+-		reg = <0xc0fc1000 0x100>;
++	uart0: serial@f0000000 {
++		compatible = "snps,dw-apb-uart";
++		reg = <0xf0000000 0x1000>;
++		reg-shift = <2>;
++		reg-io-width = <4>;
  		clock-frequency = <70000000>;
  	};
  
-+	virtio0: virtio@f0100000 {
-+		compatible = "virtio,mmio";
-+		reg = <0xf0100000 0x2000>;
-+		interrupts = <31>;
-+	};
-+
-+	virtio1: virtio@f0102000 {
-+		compatible = "virtio,mmio";
-+		reg = <0xf0102000 0x2000>;
-+		interrupts = <32>;
-+	};
-+
-+	virtio2: virtio@f0104000 {
-+		compatible = "virtio,mmio";
-+		reg = <0xf0104000 0x2000>;
-+		interrupts = <33>;
-+	};
-+
-+	virtio3: virtio@f0106000 {
-+		compatible = "virtio,mmio";
-+		reg = <0xf0106000 0x2000>;
-+		interrupts = <34>;
-+	};
-+
-+	virtio4: virtio@f0108000 {
-+		compatible = "virtio,mmio";
-+		reg = <0xf0108000 0x2000>;
-+		interrupts = <35>;
-+	};
- };
-diff --git a/board/synopsys/Kconfig b/board/synopsys/nsim/Kconfig
-similarity index 74%
-rename from board/synopsys/Kconfig
-rename to board/synopsys/nsim/Kconfig
-index 27e5509b26..22287032bf 100644
---- a/board/synopsys/Kconfig
-+++ b/board/synopsys/nsim/Kconfig
-@@ -1,5 +1,8 @@
- if TARGET_NSIM
- 
-+config SYS_BOARD
-+	default "nsim"
-+
- config SYS_VENDOR
- 	default "synopsys"
- 
-diff --git a/board/synopsys/nsim/MAINTAINERS b/board/synopsys/nsim/MAINTAINERS
-new file mode 100644
-index 0000000000..ed4b9a9e78
---- /dev/null
-+++ b/board/synopsys/nsim/MAINTAINERS
-@@ -0,0 +1,6 @@
-+EM DEVELOPMENT KIT BOARD
-+M:	Alexey Brodkin <abrodkin@synopsys.com>
-+S:	Maintained
-+F:	arch/arc/dts/nsim.dts
-+F:	board/synopsys/nsim/
-+F:	configs/nsim_*_defconfig
-diff --git a/board/synopsys/nsim/Makefile b/board/synopsys/nsim/Makefile
-new file mode 100644
-index 0000000000..6aaffffa73
---- /dev/null
-+++ b/board/synopsys/nsim/Makefile
-@@ -0,0 +1,7 @@
-+#
-+# Copyright (C) 2020 Synopsys, Inc. All rights reserved.
-+#
-+# SPDX-License-Identifier:	GPL-2.0+
-+#
-+
-+obj-y	+= nsim.o
-diff --git a/board/synopsys/nsim/nsim.c b/board/synopsys/nsim/nsim.c
-new file mode 100644
-index 0000000000..f384f707f6
---- /dev/null
-+++ b/board/synopsys/nsim/nsim.c
-@@ -0,0 +1,26 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2020 Synopsys, Inc. All rights reserved.
-+ */
-+
-+#include <common.h>
-+#include <dm/device.h>
-+#include <virtio_types.h>
-+#include <virtio.h>
-+
-+int board_early_init_r(void)
-+{
-+	/*
-+	 * Make sure virtio bus is enumerated so that peripherals
-+	 * on the virtio bus can be discovered by their drivers
-+	 */
-+	virtio_init();
-+
-+	return 0;
-+}
-+
-+int checkboard(void)
-+{
-+	printf("Board: ARC virtual or prototyping platform\n");
-+	return 0;
-+};
-diff --git a/configs/nsim_hs38_defconfig b/configs/nsim_hs38_defconfig
-index ce68de3251..6cd01a505b 100644
---- a/configs/nsim_hs38_defconfig
-+++ b/configs/nsim_hs38_defconfig
-@@ -9,14 +9,23 @@ CONFIG_DEBUG_UART=y
+diff --git a/configs/nsim_700_defconfig b/configs/nsim_700_defconfig
+index 5633113b09..2d4a58b178 100644
+--- a/configs/nsim_700_defconfig
++++ b/configs/nsim_700_defconfig
+@@ -1,13 +1,13 @@
+ CONFIG_ARC=y
+ CONFIG_TARGET_NSIM=y
+ CONFIG_SYS_TEXT_BASE=0x81000000
+-CONFIG_DEBUG_UART_BASE=0xc0fc1000
++CONFIG_DEBUG_UART_BASE=0xf0000000
+ CONFIG_DEBUG_UART_CLOCK=70000000
+ CONFIG_SYS_CLK_FREQ=70000000
+ CONFIG_DEBUG_UART=y
  CONFIG_BOOTDELAY=3
  CONFIG_USE_BOOTARGS=y
- CONFIG_BOOTARGS="console=ttyS0,115200n8"
-+CONFIG_BOARD_EARLY_INIT_R=y
+-CONFIG_BOOTARGS="console=ttyARC0,115200n8"
++CONFIG_BOOTARGS="console=ttyS0,115200n8"
  CONFIG_SYS_PROMPT="nsim# "
-+CONFIG_CMD_DM=y
  # CONFIG_CMD_SETEXPR is not set
-+CONFIG_CMD_DHCP=y
  CONFIG_OF_CONTROL=y
- CONFIG_OF_EMBED=y
- CONFIG_DEFAULT_DEVICE_TREE="nsim"
+@@ -16,6 +16,6 @@ CONFIG_DEFAULT_DEVICE_TREE="nsim"
  CONFIG_SYS_RELOC_GD_ENV_ADDR=y
  CONFIG_DM=y
-+CONFIG_BLK=y
-+CONFIG_HAVE_BLOCK_DEVICE=y
-+CONFIG_DM_ETH=y
  CONFIG_DM_SERIAL=y
- CONFIG_DEBUG_UART_SHIFT=2
- CONFIG_SYS_NS16550=y
-+CONFIG_VIRTIO_MMIO=y
-+CONFIG_VIRTIO_NET=y
-+CONFIG_VIRTIO_BLK=y
+-CONFIG_DEBUG_ARC_SERIAL=y
+-CONFIG_ARC_SERIAL=y
++CONFIG_DEBUG_UART_SHIFT=2
++CONFIG_SYS_NS16550=y
+ CONFIG_USE_PRIVATE_LIBGCC=y
+diff --git a/configs/nsim_700be_defconfig b/configs/nsim_700be_defconfig
+index 40f7ec7e1f..61eea91449 100644
+--- a/configs/nsim_700be_defconfig
++++ b/configs/nsim_700be_defconfig
+@@ -2,13 +2,13 @@ CONFIG_ARC=y
+ CONFIG_CPU_BIG_ENDIAN=y
+ CONFIG_TARGET_NSIM=y
+ CONFIG_SYS_TEXT_BASE=0x81000000
+-CONFIG_DEBUG_UART_BASE=0xc0fc1000
++CONFIG_DEBUG_UART_BASE=0xf0000000
+ CONFIG_DEBUG_UART_CLOCK=70000000
+ CONFIG_SYS_CLK_FREQ=70000000
+ CONFIG_DEBUG_UART=y
+ CONFIG_BOOTDELAY=3
+ CONFIG_USE_BOOTARGS=y
+-CONFIG_BOOTARGS="console=ttyARC0,115200n8"
++CONFIG_BOOTARGS="console=ttyS0,115200n8"
+ CONFIG_SYS_PROMPT="nsim# "
+ # CONFIG_CMD_SETEXPR is not set
+ CONFIG_OF_CONTROL=y
+@@ -17,6 +17,6 @@ CONFIG_DEFAULT_DEVICE_TREE="nsim"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_DM=y
+ CONFIG_DM_SERIAL=y
+-CONFIG_DEBUG_ARC_SERIAL=y
+-CONFIG_ARC_SERIAL=y
++CONFIG_DEBUG_UART_SHIFT=2
++CONFIG_SYS_NS16550=y
+ CONFIG_USE_PRIVATE_LIBGCC=y
+diff --git a/configs/nsim_hs38_defconfig b/configs/nsim_hs38_defconfig
+index 2820a6fca3..ce68de3251 100644
+--- a/configs/nsim_hs38_defconfig
++++ b/configs/nsim_hs38_defconfig
+@@ -2,13 +2,13 @@ CONFIG_ARC=y
+ CONFIG_ISA_ARCV2=y
+ CONFIG_TARGET_NSIM=y
+ CONFIG_SYS_TEXT_BASE=0x81000000
+-CONFIG_DEBUG_UART_BASE=0xc0fc1000
++CONFIG_DEBUG_UART_BASE=0xf0000000
+ CONFIG_DEBUG_UART_CLOCK=70000000
+ CONFIG_SYS_CLK_FREQ=70000000
+ CONFIG_DEBUG_UART=y
+ CONFIG_BOOTDELAY=3
+ CONFIG_USE_BOOTARGS=y
+-CONFIG_BOOTARGS="console=ttyARC0,115200n8"
++CONFIG_BOOTARGS="console=ttyS0,115200n8"
+ CONFIG_SYS_PROMPT="nsim# "
+ # CONFIG_CMD_SETEXPR is not set
+ CONFIG_OF_CONTROL=y
+@@ -17,6 +17,6 @@ CONFIG_DEFAULT_DEVICE_TREE="nsim"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_DM=y
+ CONFIG_DM_SERIAL=y
+-CONFIG_DEBUG_ARC_SERIAL=y
+-CONFIG_ARC_SERIAL=y
++CONFIG_DEBUG_UART_SHIFT=2
++CONFIG_SYS_NS16550=y
+ CONFIG_USE_PRIVATE_LIBGCC=y
+diff --git a/configs/nsim_hs38be_defconfig b/configs/nsim_hs38be_defconfig
+index e533fae2b1..5d2ea59d52 100644
+--- a/configs/nsim_hs38be_defconfig
++++ b/configs/nsim_hs38be_defconfig
+@@ -3,13 +3,13 @@ CONFIG_ISA_ARCV2=y
+ CONFIG_CPU_BIG_ENDIAN=y
+ CONFIG_TARGET_NSIM=y
+ CONFIG_SYS_TEXT_BASE=0x81000000
+-CONFIG_DEBUG_UART_BASE=0xc0fc1000
++CONFIG_DEBUG_UART_BASE=0xf0000000
+ CONFIG_DEBUG_UART_CLOCK=70000000
+ CONFIG_SYS_CLK_FREQ=70000000
+ CONFIG_DEBUG_UART=y
+ CONFIG_BOOTDELAY=3
+ CONFIG_USE_BOOTARGS=y
+-CONFIG_BOOTARGS="console=ttyARC0,115200n8"
++CONFIG_BOOTARGS="console=ttyS0,115200n8"
+ CONFIG_SYS_PROMPT="nsim# "
+ # CONFIG_CMD_SETEXPR is not set
+ CONFIG_OF_CONTROL=y
+@@ -18,6 +18,6 @@ CONFIG_DEFAULT_DEVICE_TREE="nsim"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_DM=y
+ CONFIG_DM_SERIAL=y
+-CONFIG_DEBUG_ARC_SERIAL=y
+-CONFIG_ARC_SERIAL=y
++CONFIG_DEBUG_UART_SHIFT=2
++CONFIG_SYS_NS16550=y
  CONFIG_USE_PRIVATE_LIBGCC=y
 -- 
 2.16.2
