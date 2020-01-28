@@ -6,56 +6,84 @@ X-Spam-Status: No, score=1.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_DBL_ABUSE_MALW autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F354C2D0DB
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Jan 2020 17:47:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3A4FC33CB2
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Jan 2020 19:07:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2FF912467E
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Jan 2020 17:47:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BDC9F2468D
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Jan 2020 19:07:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rkkEmnCf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2FF912467E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oI6AmaIy";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="rZzl+qEA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BDC9F2468D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lca.pw
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:To:In-Reply-To:References:Message-Id:
+	Date:Subject:Mime-Version:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=B4ItpSv7l+8UWkvbrLnWyjN/c/m7x4qme9BorFMXWxA=; b=rkkEmnCfCU+KdJ
-	Yl+w8XUPNa8/kQZgNnhllypw4XBtQ56ku09dIAJMqroGr8h9xESalkhL1iBgLpGuN0GUGyw9Q8ZqA
-	IfIzleR+hBMQLLBYpUnti7VzC96ha9oayOdGQ56EWku9ruZdiVNqd0lGTLKWmfueIrMcvJ//P76hH
-	SFsp99dS6PocEHu+r1XUkzRzVT2R+oVQwt9PMSPF0078I8caiPPpsc1HO8bmtC1KiHmUFffw/Dt/3
-	bHaFI2zw0qwnBmfK8hudjZJ4xgMbsNcBn1+2eoWkFeicRCMng5WjclzRF/nksdJXXgogL7uxpC9mc
-	lhjW9io4ZTjEGz61ws2Q==;
+	List-Owner; bh=QBUhUSxWAx8PVUdDoa1fjR4tUMmTVtuC6PWoRlyYnYo=; b=oI6AmaIyvzNPDX
+	irfBiGNdo68Y6z/3CfHxLnuC+cF9jkOQASw8ePgEzLgw4TDddsNvl+sVE2RzLlFkMY4OHo6VfIsu8
+	tj67P2OhkSMkqzfjRutTa1IFMcs3FXK70oB80ZbvyqPwuVe2jwt7fF6GzxIyE3pvaHiYhLC5qRGB+
+	utU5Wb4f4yGmU0k/W2RzcDJaYqBhWnheExzM/ik3wwSUu38RT8BFdLse5DKK2OeDm/wlN5kwT4WyP
+	WYjVP6Z2RlxzJY5V8x0RbsljTi14Iggw5fT0eyB4bbE9ZtMmgO0Jjg9KU3dHdAP/aDaVWeTU2y8xs
+	sC7mxQnGDRfxmxQObrCw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iwUxb-0001xx-EC; Tue, 28 Jan 2020 17:47:35 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iwUxP-0001of-NJ; Tue, 28 Jan 2020 17:47:25 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5C6C9328;
- Tue, 28 Jan 2020 09:47:16 -0800 (PST)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.47])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id
- 1F3B43F52E; Tue, 28 Jan 2020 09:47:11 -0800 (PST)
-Date: Tue, 28 Jan 2020 17:47:09 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Qian Cai <cai@lca.pw>
+	id 1iwWCj-0000eR-Kl; Tue, 28 Jan 2020 19:07:17 +0000
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iwWCg-0000dO-OO
+ for linux-snps-arc@lists.infradead.org; Tue, 28 Jan 2020 19:07:16 +0000
+Received: by mail-qt1-x842.google.com with SMTP id w47so11163187qtk.4
+ for <linux-snps-arc@lists.infradead.org>; Tue, 28 Jan 2020 11:07:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
+ h=content-transfer-encoding:from:mime-version:subject:date:message-id
+ :references:cc:in-reply-to:to;
+ bh=ZSIv5JurPysNixS3YWSkJ+cqh/2vHLB/JAVHcGR/4Zo=;
+ b=rZzl+qEAYLTBtMp9ssPK9Ejc0IQXfIjcMlCwc8RZJ/Poapm8WZnOmSKjpPGU/CRTsz
+ s49j6egQsNv+bATXo82MSoiXpQi3N3QHvgnyq6VfzcooOemBU6djud+xflwQG7RGqoPc
+ L5M9+QbKcXOUUg0U09rJgFyuy4M0BvZq0fS3S49pfbq8xDC/uRvuAV9T3NJ2dNoyS3t+
+ r0VLb2Wpo+pntt9bwsRP15mZe1cOZg5vc4u8F4VRwv/pqDLOhfKGv0d7nyNY7llsOI2p
+ sOz+jYkbLFQ6oe89WgJeyG/Pa023GcDt5lsRxS1gRMmySONFqvaE1MUA5AHjPWyKvzIK
+ /yww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=ZSIv5JurPysNixS3YWSkJ+cqh/2vHLB/JAVHcGR/4Zo=;
+ b=henMV6jdj2PVCUZku7m69HL/97wH2Sf8uu7jOeJJNWSDJaSzHSYZL4kJZilh6CN/ZT
+ XGBfB4T62ZvuCh7czRYMAx1cepQciSvWSBi6jwmEGefoD+x1TRO7VYVkMbsRMxqSaXXc
+ 81TX5CAzhNArmrTG8IzeW2v0G3hbolrCyvCoKCDnraeIikrNL+mOhQA3k1opBCh7bCi9
+ dzM0aRZQ+hj8BGlNRYcSxGStK1Y0EqoMbSrF5mOkrU+sttsR2M6P8VdH2ldlnC4Pcxnk
+ 6k5tUKD022qiwDO+hm0Fv5rl+xouOhaMrb/bIk/pJNO3aHTGDIPUcpIpnrVvB1AiSZEJ
+ IvOQ==
+X-Gm-Message-State: APjAAAWTEtFDNE3NAmKp2rLlbHUdBV+p7Qq2StD/ZAv1P/bmHDEMIhmF
+ HHcuU1Yyim7uEEduuT9Axwroxw==
+X-Google-Smtp-Source: APXvYqwfcEAdtsZ+rCamZtj0MvoXkHQbqikImH2K21Z7lN9o0ZlEjUgJncOajxaQBGEujZOyMJYZkQ==
+X-Received: by 2002:ac8:2b86:: with SMTP id m6mr23384923qtm.190.1580238432152; 
+ Tue, 28 Jan 2020 11:07:12 -0800 (PST)
+Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net.
+ [71.184.117.43])
+ by smtp.gmail.com with ESMTPSA id f7sm13273329qtp.86.2020.01.28.11.07.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jan 2020 11:07:10 -0800 (PST)
+From: Qian Cai <cai@lca.pw>
+Mime-Version: 1.0 (1.0)
 Subject: Re: [PATCH V12] mm/debug: Add tests validating architecture page
  table helpers
-Message-ID: <20200128174709.GK655507@arrakis.emea.arm.com>
-References: <1580174873-18117-1-git-send-email-anshuman.khandual@arm.com>
- <14882A91-17DE-4ABD-ABF2-08E7CCEDF660@lca.pw>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <14882A91-17DE-4ABD-ABF2-08E7CCEDF660@lca.pw>
+Date: Tue, 28 Jan 2020 14:07:10 -0500
+Message-Id: <69091BA4-18C4-4425-A5E2-31FBE4654AF9@lca.pw>
+References: <20200128174709.GK655507@arrakis.emea.arm.com>
+In-Reply-To: <20200128174709.GK655507@arrakis.emea.arm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+X-Mailer: iPhone Mail (17C54)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200128_094723_806000_B9769BFA 
-X-CRM114-Status: GOOD (  14.59  )
+X-CRM114-CacheID: sfid-20200128_110714_825213_9EC80952 
+X-CRM114-Status: GOOD (  11.37  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,35 +125,24 @@ Cc: Mark Rutland <Mark.Rutland@arm.com>, linux-ia64@vger.kernel.org,
  Martin Schwidefsky <schwidefsky@de.ibm.com>,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gTW9uLCBKYW4gMjcsIDIwMjAgYXQgMDk6MTE6NTNQTSAtMDUwMCwgUWlhbiBDYWkgd3JvdGU6
-Cj4gT24gSmFuIDI3LCAyMDIwLCBhdCA4OjI4IFBNLCBBbnNodW1hbiBLaGFuZHVhbCA8QW5zaHVt
-YW4uS2hhbmR1YWxAYXJtLmNvbT4gd3JvdGU6Cj4gPiBUaGlzIGFkZHMgdGVzdHMgd2hpY2ggd2ls
-bCB2YWxpZGF0ZSBhcmNoaXRlY3R1cmUgcGFnZSB0YWJsZSBoZWxwZXJzIGFuZAo+ID4gb3RoZXIg
-YWNjZXNzb3JzIGluIHRoZWlyIGNvbXBsaWFuY2Ugd2l0aCBleHBlY3RlZCBnZW5lcmljIE1NIHNl
-bWFudGljcy4KPiA+IFRoaXMgd2lsbCBoZWxwIHZhcmlvdXMgYXJjaGl0ZWN0dXJlcyBpbiB2YWxp
-ZGF0aW5nIGNoYW5nZXMgdG8gZXhpc3RpbmcKPiA+IHBhZ2UgdGFibGUgaGVscGVycyBvciBhZGRp
-dGlvbiBvZiBuZXcgb25lcy4KWy4uLl0KPiBXaGF04oCZcyB0aGUgdmFsdWUgb2YgdGhpcyBibG9j
-ayBvZiBuZXcgY29kZT8gSXQgb25seSBzdXBwb3J0cyB4ODYgYW5kCj4gYXJtNjQgd2hpY2ggYXJl
-IHN1cHBvc2VkIHRvIGJlIGdvb2Qgbm93LiBEaWQgdGhvc2UgdGVzdHMgZXZlciBmaW5kIGFueQo+
-IHJlZ3Jlc3Npb24gb3IgdGhpcyBpcyBhbG1vc3Qgb25seSB1c2VmdWwgZm9yIG5ldyBhcmNoaXRl
-Y3R1cmVzIHdoaWNoCj4gb25seSBoYXBwZW5lZCBvbmNlIGluIGEgZmV3IHllYXJzPwoKVGhlIHBy
-aW1hcnkgZ29hbCBoZXJlIGlzIG5vdCBmaW5kaW5nIHJlZ3Jlc3Npb25zIGJ1dCBoYXZpbmcgY2xl
-YXJseQpkZWZpbmVkIHNlbWFudGljcyBvZiB0aGUgcGFnZSB0YWJsZSBhY2Nlc3NvcnMgYWNyb3Nz
-IGFyY2hpdGVjdHVyZXMuIHg4NgphbmQgYXJtNjQgYXJlIGEgZ29vZCBzdGFydGluZyBwb2ludCBh
-bmQgb3RoZXIgYXJjaGl0ZWN0dXJlcyB3aWxsIGJlCmVuYWJsZWQgYXMgdGhleSBhcmUgYWxpZ25l
-ZCB0byB0aGUgc2FtZSBzZW1hbnRpY3MuCgpTZWUgZm9yIGV4YW1wbGUgdGhpcyBwYXN0IGRpc2N1
-c3Npb246CgpodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1tbS8yMDE5MDYyODEwMjAwMy5H
-QTU2NDYzQGFycmFraXMuZW1lYS5hcm0uY29tLwoKVGhlc2UgdGVzdHMgc2hvdWxkIGFjdCBhcyB0
-aGUgJ2NvbnRyYWN0JyBiZXR3ZWVuIHRoZSBnZW5lcmljIG1tIGNvZGUgYW5kCnRoZSBhcmNoaXRl
-Y3R1cmUgcG9ydC4gV2l0aG91dCBjbGVhciBzZW1hbnRpY3MsIHNvbWUgYnVncyBtYXkgYmUgYSBs
-b3QKc3VidGxlciB0aGFuIGEgYm9vdCBmYWlsdXJlLgoKRlRSLCBJIGZ1bGx5IHN1cHBvcnQgdGhp
-cyBwYXRjaCAoYW5kIEkgc2hvdWxkIGdldCBhcm91bmQgdG8gcmV2aWV3IGl0CnByb3Blcmx5OyB0
-aGFua3MgZm9yIHRoZSByZW1pbmRlciA7KSkuCgotLSAKQ2F0YWxpbgoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBs
-aXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJh
-ZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+
+
+> On Jan 28, 2020, at 12:47 PM, Catalin Marinas <catalin.marinas@arm.com> wrote:
+> 
+> The primary goal here is not finding regressions but having clearly
+> defined semantics of the page table accessors across architectures. x86
+> and arm64 are a good starting point and other architectures will be
+> enabled as they are aligned to the same semantics.
+
+This still does not answer the fundamental question. If this test is simply inefficient to find bugs, who wants to spend time to use it regularly?  If this is just one off test that may get running once in a few years (when introducing a new arch), how does it justify the ongoing cost to maintain it?
+
+I do agree there could be a need to clearly define this thing but that belongs to documentation rather than testing purpose. It is confusing to mix this with other config options which have somewhat a different purpose, it will then be a waste of time for people who mistakenly enable this for regular automatic testing and never found any bug from it.
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
