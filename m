@@ -2,21 +2,21 @@ Return-Path: <SRS0=NTAw=3S=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_DBL_ABUSE_MALW autolearn=no
-	autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	URIBL_DBL_ABUSE_MALW autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6773C2D0DB
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Jan 2020 23:32:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89241C2D0DB
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Jan 2020 23:33:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C867206D5
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Jan 2020 23:32:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 590C8206D5
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Jan 2020 23:33:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YJKAOpRS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C867206D5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="C05h86WQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 590C8206D5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,80 +25,81 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:To:From:Subject:
 	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=MGI87Ve6PHhE4GYoAODLghfnIpOgErMfvJb7/7KdVUg=; b=YJK
-	AOpRSSKleFIGRABzpV5nzOAXK020mZeMKXPnizqYiMcLwkZBX/iK1Vo7asswY2D7zoG6TgixY8nMw
-	N0EhT7jH9V6zHdwXq5pdstaoomk+dcyDMMc6NNmI46oHQN0rhXG+ZwRdrwdqICpqJhVMPKjaxQ7y5
-	aYcaJQCpUoPmmXx/tRo2Tl1C9H2JxY7sGWYnycpyLfa1qin9UKrxovZxoBBMXlWhCETsX7ZtUeznf
-	fHbfyQs7kbhQXZoqIopsRIDcWyIv8GC3b8gBYQKTW8kPBS4YRStaGDBuTh3AIzSOZLJtrMXSrIdiy
-	lJCjpdZqVGxp+FvylfzRxKZr5bk42jA==;
+	References:List-Owner; bh=ZSAbVMaCJM/YbQdPU/WSNpXKmhQGmAZblZbzbyLweR4=; b=C05
+	h86WQlgZgnkKT2Zaqo/Bmr7cLJovTrKwYBCggMRR58rptJJnR56STnt0KhfoaYBYR8jQaDSXUcNkX
+	OBAZM2g3W7fxZb2j+Wv/g/HcyO6GNY2ZKmuyL5F71qCiqn0fyYS2kCfIK5qj9CQBECRnuMo8/tc/l
+	S/Xr2JfHqMYASbVFcj67aipe6VxpBQY5EuOul/GJdN7vugXQR0ES7uA1A6Ikb7Cy3tdozp9sEZeLd
+	EwNKUuOSO7vc3I79kVXIGmHoBeTd9pnx9sDWz/kfRBOcVx3H9iRTfQRY/Ls9al0Pr4gb6as6kOOQH
+	iew7X92NCZSbl5Gz0I9GE2pdcWgULeQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iwwpE-0005Bq-AC; Wed, 29 Jan 2020 23:32:48 +0000
+	id 1iwwq8-0005EV-KT; Wed, 29 Jan 2020 23:33:44 +0000
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iwwpA-0005BH-Tg
- for linux-snps-arc@lists.infradead.org; Wed, 29 Jan 2020 23:32:47 +0000
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ id 1iwwq5-0005E4-HS
+ for linux-snps-arc@lists.infradead.org; Wed, 29 Jan 2020 23:33:42 +0000
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00TNNli8111803
- for <linux-snps-arc@lists.infradead.org>; Wed, 29 Jan 2020 18:32:42 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xuagnb0aa-1
+ 00TNSpBC069368
+ for <linux-snps-arc@lists.infradead.org>; Wed, 29 Jan 2020 18:33:41 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xue96a6dj-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-snps-arc@lists.infradead.org>; Wed, 29 Jan 2020 18:32:42 -0500
+ for <linux-snps-arc@lists.infradead.org>; Wed, 29 Jan 2020 18:33:40 -0500
 Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <linux-snps-arc@lists.infradead.org> from <noreply@ellerman.id.au>;
- Wed, 29 Jan 2020 23:32:40 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Wed, 29 Jan 2020 23:33:38 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 29 Jan 2020 23:32:38 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 00TNWbHG53280840
+ Wed, 29 Jan 2020 23:33:37 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 00TNXaYR58654944
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Jan 2020 23:32:37 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7775A42042;
- Wed, 29 Jan 2020 23:32:37 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CDF2442041;
- Wed, 29 Jan 2020 23:32:36 +0000 (GMT)
+ Wed, 29 Jan 2020 23:33:36 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7973AA4054;
+ Wed, 29 Jan 2020 23:33:36 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 25DF5A405C;
+ Wed, 29 Jan 2020 23:33:36 +0000 (GMT)
 Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 29 Jan 2020 23:32:36 +0000 (GMT)
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 29 Jan 2020 23:33:36 +0000 (GMT)
 Received: from bran.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
- by ozlabs.au.ibm.com (Postfix) with ESMTP id D9E20A0265;
- Thu, 30 Jan 2020 10:32:32 +1100 (AEDT)
+ by ozlabs.au.ibm.com (Postfix) with ESMTP id 3175BA0265;
+ Thu, 30 Jan 2020 10:33:32 +1100 (AEDT)
 Received: from 03820ad8799d (ka2.ozlabs.ibm.com [10.61.145.21])
- by bran.ozlabs.ibm.com (Postfix) with ESMTP id A7A00E00EB;
- Thu, 30 Jan 2020 10:32:35 +1100 (AEDT)
+ by bran.ozlabs.ibm.com (Postfix) with ESMTP id 02928E00EB;
+ Thu, 30 Jan 2020 10:33:35 +1100 (AEDT)
 MIME-Version: 1.0
-Subject: kisskb: OK linus/axs103_smp_defconfig/arcv2 Thu Jan 30, 10:31
+Subject: kisskb: OK linus/axs101_defconfig/arcompact Thu Jan 30, 10:31
 From: noreply@ellerman.id.au
 To: Vineet.Gupta1@synopsys.com, Alexey.Brodkin@synopsys.com,
  linux-snps-arc@lists.infradead.org
-Date: Wed, 29 Jan 2020 23:32:35 -0000
+Date: Wed, 29 Jan 2020 23:33:35 -0000
 X-TM-AS-GCONF: 00
-x-cbid: 20012923-0008-0000-0000-0000034DEA6F
+x-cbid: 20012923-0016-0000-0000-000002E1E220
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20012923-0009-0000-0000-00004A6E68DA
-Message-Id: <20200129233235.1.86171@03820ad8799d>
+x-cbparentid: 20012923-0017-0000-0000-00003344AA08
+Message-Id: <20200129233335.1.96285@03820ad8799d>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-01-29_08:2020-01-28,
  2020-01-29 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1034
- mlxlogscore=569 malwarescore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 spamscore=0 suspectscore=2 bulkscore=0 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1911200001 definitions=main-2001290181
+ adultscore=0
+ priorityscore=1501 suspectscore=2 malwarescore=0 spamscore=0 bulkscore=0
+ phishscore=0 clxscore=1034 impostorscore=0 mlxlogscore=496 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1911200001 definitions=main-2001290182
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200129_153244_966796_6D1FF4A4 
-X-CRM114-Status: GOOD (  11.49  )
+X-CRM114-CacheID: sfid-20200129_153341_581070_7B2EDD25 
+X-CRM114-Status: GOOD (  11.43  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,114 +116,21 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-OK linus/axs103_smp_defconfig/arcv2 Thu Jan 30, 10:31
+OK linus/axs101_defconfig/arcompact Thu Jan 30, 10:31
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/14115622/
+http://kisskb.ellerman.id.au/kisskb/buildresult/14115623/
 
 Commit:   Merge tag 'pinctrl-v5.6-1' of git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl
           6ba3d7066c71d2103da255df19eb613d299bab15
-Compiler: arc-linux-gcc.br_real (Buildroot 2016.11-git-00613-ge98b4dd) 6.2.1 20160824 / GNU ld (GNU Binutils) 2.27.51.20160928
+Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
 
-Possible errors
----------------
+No errors found in log
 
- #define KERN_ERR KERN_SOH "3" /* error conditions */
- #define KERN_ERR KERN_SOH "3" /* error conditions */
- #define KERN_ERR KERN_SOH "3" /* error conditions */
- #define KERN_ERR KERN_SOH "3" /* error conditions */
-
-Possible warnings (89)
+Possible warnings (2)
 ----------------------
 
 <stdin>:1511:2: warning: #warning syscall clone3 not implemented [-Wcpp]
-init/main.c:381:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-init/main.c:385:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-init/main.c:389:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-init/main.c:825:37: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type '__kernel_size_t {aka unsigned int}' [-Wformat=]
-kernel/dma/direct.c:32:4: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-drivers/base/regmap/regmap.c:1533:22: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-drivers/base/component.c:196:24: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/base/regmap/regcache.c:715:20: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/overflow.h:59:15: warning: comparison of distinct pointer types lacks a cast
-include/linux/overflow.h:60:15: warning: comparison of distinct pointer types lacks a cast
-mm/percpu.c:1305:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1320:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1327:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1333:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1587:17: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:1587:17: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
- #define KERN_WARNING KERN_SOH "4" /* warning conditions */
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
- #define KERN_WARNING KERN_SOH "4" /* warning conditions */
-mm/percpu.c:2160:27: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:2160:32: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:2160:37: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:2160:42: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:2160:52: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:2160:56: warning: format '%zu' expects argument of type 'size_t', but argument 8 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:2291:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:2297:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:2303:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-mm/percpu.c:2309:35: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 2 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kern_levels.h:5:18: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka const unsigned int}' [-Wformat=]
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-fs/buffer.c:237:10: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-fs/ext4/xattr.c:482:8: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-mm/dmapool.c:93:46: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'unsigned int' [-Wformat=]
-mm/dmapool.c:93:51: warning: format '%zu' expects argument of type 'size_t', but argument 7 has type 'unsigned int' [-Wformat=]
-drivers/dma-buf/dma-buf.c:402:26: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-drivers/gpu/drm/drm_dp_helper.c:689:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/gpu/drm/drm_dp_helper.c:722:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/gpu/drm/drm_dp_helper.c:776:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-drivers/gpu/drm/drm_dp_dual_mode_helper.c:203:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 5 has type 'ssize_t {aka int}' [-Wformat=]
-drivers/gpu/drm/drm_dp_dual_mode_helper.c:222:16: warning: format '%zd' expects argument of type 'signed size_t', but argument 4 has type 'ssize_t {aka int}' [-Wformat=]
-include/drm/drm_print.h:119:24: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-net/sunrpc/xprtsock.c:2610:16: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
 net/ipv4/tcp_input.c:4398:49: warning: array subscript is above array bounds [-Warray-bounds]
-net/sunrpc/svc.c:1440:33: warning: format '%zd' expects argument of type 'signed size_t', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
-drivers/gpu/drm/drm_atomic_uapi.c:131:21: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-drivers/gpu/drm/drm_gem_cma_helper.c:108:21: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/gpu/drm/drm_gem_cma_helper.c:503:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 3 has type 'unsigned int' [-Wformat=]
-include/linux/kern_levels.h:5:18: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/usb/host/ehci-q.c:376:2: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'unsigned int' [-Wformat=]
-drivers/usb/host/ehci-q.c:376:2: warning: format '%zu' expects argument of type 'size_t', but argument 5 has type 'unsigned int' [-Wformat=]
-include/linux/kernel.h:835:29: warning: comparison of distinct pointer types lacks a cast
 
 
 _______________________________________________
