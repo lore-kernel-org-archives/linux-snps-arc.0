@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_DBL_ABUSE_MALW,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E1D7C35240
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Jan 2020 18:43:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8548EC35240
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Jan 2020 18:47:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 17A92205F4
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Jan 2020 18:43:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5D8CE205F4
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Jan 2020 18:47:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Q5j3t+CS";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="q6fKpJ+Q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 17A92205F4
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="V0i04U+w";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="aNI9XE8H"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D8CE205F4
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,45 +26,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=cVKL2Avs9zM/EctmG3xispuz2EnmAnSfKlzu94uldfg=; b=Q5j3t+CSTLD/XF
-	pTFDxBPHqWwkmprcHlyDXTDAGYVIIIbnkEmxdVZz3iNtmgqXFcFS/q+d8UvrBUXLzHsavOGbv42G/
-	uV3lIq6F/l2aNBU60CDyg8Zd/B6j1unZxCO6fxfYzPLyFmdEfCcZYrLjUQ2I55nCb3CTVIgDs/97L
-	MOQ8sy9tGzccigaqZqliDBoeeiVaNcLwycI1II1HwkRE1/EVlrOH7cq7vUwH/2AVdLYjeqS6aO+BV
-	8DHumb2cbCCTQrD48QZvIu1tEWzsuexuMnLmjgQEyahPnrJ9ikLENqV4GTiHitv3fi+t0wfgMZ/R1
-	kGHT60noyW78odlizIJA==;
+	List-Owner; bh=s4Nh2/VITRCOTW60J0DK+N/Ov5FRKGAtxdJGaTTMDjY=; b=V0i04U+weydNyv
+	OsNGiMgRCKcD0iC+Kjo7VLFAoAQnaDLEVRiHbmOwgIzMC1oILNGM2UVpczLlfpl+3cSAmu2CeOK0K
+	P4HqsGZM+z4SL/aXL/FqsQS3dBj2s1tvdBITXx+8vOp0Xz/SOQaje4/u1gqqVsWmbsK8s3ehZY4F6
+	lUhyoZsl6zrnVOVKhz4m3yJyNt5Eukan7Ia+pSIbeAu2KQc+XZgyy/qnjFWYxTnbNdVJTbRaJY5f4
+	ZHXRSuf15G2eQtXdW7iVpON03nESOx+D0SfUWcVFKHhn/MHp/632oqbuoONg/3yRg0XnnGBdnBrat
+	XSz1LdAjghof8M1VZTmQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ixEn3-0004Bu-2d; Thu, 30 Jan 2020 18:43:45 +0000
+	id 1ixEqf-0006hE-Ff; Thu, 30 Jan 2020 18:47:29 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ixEn0-00045D-3I
- for linux-snps-arc@lists.infradead.org; Thu, 30 Jan 2020 18:43:43 +0000
+ id 1ixEqd-0006gg-UE
+ for linux-snps-arc@lists.infradead.org; Thu, 30 Jan 2020 18:47:29 +0000
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5351220702;
- Thu, 30 Jan 2020 18:43:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2A48220674;
+ Thu, 30 Jan 2020 18:47:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1580409821;
- bh=xBAQKyC0AsVCHmL2t4Iz7axXC042L292E53iu+qs9zg=;
+ s=default; t=1580410047;
+ bh=jVxsJgPWE3lwIUElOdauuh6S25hKs4MOUOwnIQNQnqM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=q6fKpJ+Q3s6Gi6kAx9RNaOXTY6M3kgn87cZsMZS/kRUciicU0iF6uf3hAIJgy5LTS
- wMt+zDf33cRPAUcOsIAigPC6070Sb9EnnFT6qiIptEB0c0F4OceFXuTNhVPBvUJt6X
- DVqnIK6HiFOqaq0Ty0epe0b1U4d7iWzr7hjp4E44=
+ b=aNI9XE8H5D3iT7cYOZtQ6ji03o/hWeL/sEDyv9kQiVW+9E4JkBRMPsJSKaQ8JhiZp
+ HCuXzMIo9i6brPQsf1Hr87gIOAP64SBQ7GcWEL9/xLm+LSkDc9Uq2VNJRgB55eUTEo
+ WQHgjh/BgpMOIJCfEanGxradUHG0obi+CommTMwI=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.4 045/110] arc: eznps: fix allmodconfig kconfig warning
-Date: Thu, 30 Jan 2020 19:38:21 +0100
-Message-Id: <20200130183620.661346897@linuxfoundation.org>
+Subject: [PATCH 4.19 26/55] arc: eznps: fix allmodconfig kconfig warning
+Date: Thu, 30 Jan 2020 19:39:07 +0100
+Message-Id: <20200130183613.523751546@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200130183613.810054545@linuxfoundation.org>
-References: <20200130183613.810054545@linuxfoundation.org>
+In-Reply-To: <20200130183608.563083888@linuxfoundation.org>
+References: <20200130183608.563083888@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200130_104342_158570_F2B3AF40 
-X-CRM114-Status: UNSURE (   9.31  )
+X-CRM114-CacheID: sfid-20200130_104727_997151_F05AD30C 
+X-CRM114-Status: UNSURE (   9.41  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -109,7 +109,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arc/plat-eznps/Kconfig b/arch/arc/plat-eznps/Kconfig
-index a376a50d3fea8..a931d0a256d01 100644
+index 8eff057efcaeb..ce908e2c52824 100644
 --- a/arch/arc/plat-eznps/Kconfig
 +++ b/arch/arc/plat-eznps/Kconfig
 @@ -7,7 +7,7 @@
