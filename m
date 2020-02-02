@@ -1,92 +1,92 @@
 Return-Path: <SRS0=mK5U=3W=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Level: *
+X-Spam-Status: No, score=1.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D77AC35240
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  2 Feb 2020 08:31:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D332C3524A
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  2 Feb 2020 11:26:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 61899206E6
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  2 Feb 2020 08:31:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0D1BA206D3
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  2 Feb 2020 11:26:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tHR5TRfg";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=c-s.fr header.i=@c-s.fr header.b="jxSd4bcB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61899206E6
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=c-s.fr
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Yp4+BvLc";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="ktqi1Si5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D1BA206D3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lca.pw
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=z90rTQePRSro6d+2Rs3Ylnf/o3c0EYYuqbLWXdHGHm4=; b=tHR5TRfgavS0Ld4auTudrEUUW
-	BRbjiiX29wsiI+pZRChYZM8aDH3UMfPP6YKy2kjueSjtEXockuX5C2KP3/uh79mkOSe/3p5jQWqeb
-	WAlODtQW+ZOrCa2iZKUrQfF4holMSOV+QQB9OwnowY0bqfMtsbwOFOVjmq1eJA8ZiJNuvRvnBnRgF
-	rYuOr07wA390nWNm7Xv84bP89neAlqbp2ZkpAUO84PVt2MPaxMxee12+NHAFiLmRpnTiRD95tf9LM
-	P/olIid2EKiPslx4S8P8X2GtXIZrngneLYINrfmFQobwYMyMsJCpTNelxCHQsN5PrfnnYFStlj3Y1
-	dzL6wP+aA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:To:In-Reply-To:References:Message-Id:
+	Date:Subject:Mime-Version:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=T0NmyEANw3E/Av+E5IOupncvQ0iDhVwhqC5BX6cg7ts=; b=Yp4+BvLcL64fvp
+	ZIxQR9gmn2Xbafo63bGMK4+reePILWHXAc1V0+ZMab5p+iG0DOvG4DWiC4dSLCEBgSLeKs039XHNJ
+	OqmkFlDSzolKIU6lQGHPljAZlrVdjNWbLJMCjdDtN/ugIuTYRJjc7Upg1HEt9V7B5tjzesXXAczQv
+	DYZ8+staIr7/Sj1dlnsxlb6SZLXL53v60s3nv7+0wWV+kwus9L8D5rGkt0Y+mJ4j4R8OFJ5cN+TJK
+	N/XCti23KLpA5KwnguRGVgMOan4vWlQllF2T2Ns75g+xQWksxRv5mfEe1OywEvh/Ia7GPbaXgCZuW
+	HLdz76bVj4eMyECsxPhg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iyAfS-00082k-35; Sun, 02 Feb 2020 08:31:46 +0000
-Received: from pegase1.c-s.fr ([93.17.236.30])
+	id 1iyDOj-00042D-Gj; Sun, 02 Feb 2020 11:26:41 +0000
+Received: from mail-qk1-f195.google.com ([209.85.222.195])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iyAfI-0007uZ-Sp; Sun, 02 Feb 2020 08:31:38 +0000
-Received: from localhost (mailhub1-int [192.168.12.234])
- by localhost (Postfix) with ESMTP id 489PLc2Pfyz9tyWF;
- Sun,  2 Feb 2020 09:31:20 +0100 (CET)
-Authentication-Results: localhost; dkim=pass
- reason="1024-bit key; insecure key"
- header.d=c-s.fr header.i=@c-s.fr header.b=jxSd4bcB; dkim-adsp=pass;
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
- by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
- with ESMTP id 0yWRy2TLi9QC; Sun,  2 Feb 2020 09:31:20 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase1.c-s.fr (Postfix) with ESMTP id 489PLc0zVpz9tyWB;
- Sun,  2 Feb 2020 09:31:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
- t=1580632280; bh=gJ+YBiU1siNA6yw0ERrSRXytsUyJ6J4mmY1g8irtvMg=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=jxSd4bcBMPwDDkQQtltYvbDM7RjmY7wn3YHePmJyrQoSpGxb+srr+7WWVT07acbk4
- Gd8wx/ElVf48v1NQ7kacblPWNxOSr0bIjH1lQW4QiWnAuYKH9BZIwizDmpyvIglx32
- bf4U9cZQC+HCcZh0MgO0YttEmPTxX2H/LjarVNYo=
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id E45E88B762;
- Sun,  2 Feb 2020 09:31:22 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id wqc16BLAbHuO; Sun,  2 Feb 2020 09:31:22 +0100 (CET)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id A80498B752;
- Sun,  2 Feb 2020 09:31:20 +0100 (CET)
+ id 1iyDOh-00041Y-P4
+ for linux-snps-arc@lists.infradead.org; Sun, 02 Feb 2020 11:26:40 +0000
+Received: by mail-qk1-f195.google.com with SMTP id j20so11398724qka.10
+ for <linux-snps-arc@lists.infradead.org>; Sun, 02 Feb 2020 03:26:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
+ h=content-transfer-encoding:from:mime-version:subject:date:message-id
+ :references:cc:in-reply-to:to;
+ bh=haUAAZdbmdU3COyJ/sqnDbNti6tUXhiH5WpEb5CUu3o=;
+ b=ktqi1Si5IANgowqGSuWt2goxaefj9MArH9hBL4drDxYpQy5gO9eIMpaj4x1g9qz0Ft
+ wJg8PZziG/0FMCaYMFvU0R1ed/sRIgt60RVYo/fiPoIuWPHtw5CoKADSbrdPinp59eNX
+ GqmqoNXOemL5q0rosXYIx2UJ1orNdlYcFK73Ygg0a/RE2arXPeSnjr+QO/TuQNX54JbP
+ bi9ii20//c0h4YooeibM3yZGm2vZjIxTdT2q1agyMmadm90FFuyO+OFJ2urFPdZeXwtw
+ AgKWNyLv5Arxyw8debfI90Lt1gaaDIBA8bYeatlKiESPBREuLesS3poug3ybj8+iH21/
+ Psqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=haUAAZdbmdU3COyJ/sqnDbNti6tUXhiH5WpEb5CUu3o=;
+ b=IhgWbfJUlFkUyqbuGxxYyMF/bbPbVTk3/yZaOs65QnKK/v3HUmQwRgwyVB3DNiWRKN
+ BwF2NiUK95hD3k/AfOGna51Ny6Hd4R0VMmJhe+ri0XG4wgwp/y7uWv/0thUgHg7hdU9e
+ 9gEsCIYIPeqVeGMBB3pfTCGstSIDwo5Wq5x5dxq9X5RFVKDlpr3qhLQo+ROid+t8T4Tk
+ 6/bX22mUtPx44BnzfuRYVilLm8ctg4C+N4eUWXytIw5lVm53LhfOIc2VN10wce6sGglx
+ l0Vmq10VUImZi7hiOOoAyAbSXeDyZm+v5NKS/3KyYnw2Hcj8RcHqWo/NXaL7UBmYuRrE
+ IjnA==
+X-Gm-Message-State: APjAAAXHimBq6S2xI51tyvOviEHwBDcrv/GhIk+oGim1zE6Th9YHbDd7
+ C3ialuHMGmkk07s6f2Qx+mEb569295l0xw==
+X-Google-Smtp-Source: APXvYqz2LMXXgwCpUXH7EnnO/Ck2Cj8Gc2SWzAj6pxocjOsHmdsAhT1kwXiGUD+liMIX2mq/rCkMKw==
+X-Received: by 2002:a05:620a:218d:: with SMTP id
+ g13mr19497581qka.286.1580642791619; 
+ Sun, 02 Feb 2020 03:26:31 -0800 (PST)
+Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net.
+ [71.184.117.43])
+ by smtp.gmail.com with ESMTPSA id s1sm7274932qkm.84.2020.02.02.03.26.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 02 Feb 2020 03:26:30 -0800 (PST)
+From: Qian Cai <cai@lca.pw>
+Mime-Version: 1.0 (1.0)
 Subject: Re: [PATCH V12] mm/debug: Add tests validating architecture page
  table helpers
-To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
-References: <1580174873-18117-1-git-send-email-anshuman.khandual@arm.com>
- <68ed6488-aa25-ab41-8da6-f0ddeb15d52b@c-s.fr>
- <49754f74-53a7-0e4a-bb16-53617f8c902c@arm.com>
- <473d8198-3ac4-af3b-e2ec-c0698a3565d3@c-s.fr>
- <ad5ad414-3524-2efa-df16-1ee357e6e2e4@arm.com>
-From: Christophe Leroy <christophe.leroy@c-s.fr>
-Message-ID: <e1e046d7-bf1d-eaec-1d0b-fe056b83b84c@c-s.fr>
-Date: Sun, 2 Feb 2020 09:31:18 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
-MIME-Version: 1.0
-In-Reply-To: <ad5ad414-3524-2efa-df16-1ee357e6e2e4@arm.com>
-Content-Language: fr
+Date: Sun, 2 Feb 2020 06:26:29 -0500
+Message-Id: <2C4ADFAE-7BB4-42B7-8F54-F036EA7A4316@lca.pw>
+References: <473d8198-3ac4-af3b-e2ec-c0698a3565d3@c-s.fr>
+In-Reply-To: <473d8198-3ac4-af3b-e2ec-c0698a3565d3@c-s.fr>
+To: Christophe Leroy <christophe.leroy@c-s.fr>
+X-Mailer: iPhone Mail (17C54)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200202_003137_225559_6413E58A 
-X-CRM114-Status: GOOD (  15.62  )
+X-CRM114-CacheID: sfid-20200202_032639_818413_552CFA30 
+X-CRM114-Status: UNSURE (   9.16  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,69 +98,52 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
+Cc: Mark Rutland <Mark.Rutland@arm.com>, linux-ia64@vger.kernel.org,
  linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- James Hogan <jhogan@kernel.org>, Heiko Carstens <heiko.carstens@de.ibm.com>,
- Michal Hocko <mhocko@kernel.org>, Dave Hansen <dave.hansen@intel.com>,
- Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, linux-s390@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Michael Ellerman <mpe@ellerman.id.au>,
- x86@kernel.org, Russell King - ARM Linux <linux@armlinux.org.uk>,
- Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
+ James Hogan <jhogan@kernel.org>,
  Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ kasan-dev <kasan-dev@googlegroups.com>, sparclinux@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, linux-s390@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Gerald Schaefer <gerald.schaefer@de.ibm.com>,
  linux-snps-arc@lists.infradead.org, Ingo Molnar <mingo@kernel.org>,
  Kees Cook <keescook@chromium.org>,
+ Anshuman Khandual <Anshuman.Khandual@arm.com>,
  Masahiro Yamada <yamada.masahiro@socionext.com>,
  Mark Brown <broonie@kernel.org>, "Kirill A . Shutemov" <kirill@shutemov.name>,
  Dan Williams <dan.j.williams@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
  linux-arm-kernel@lists.infradead.org,
  Sri Krishna chowdary <schowdary@nvidia.com>,
  Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Hansen <dave.hansen@intel.com>, linux-mips@vger.kernel.org,
  Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
  Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
  Vineet Gupta <vgupta@synopsys.com>,
  Martin Schwidefsky <schwidefsky@de.ibm.com>,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-CgpMZSAwMi8wMi8yMDIwIMOgIDA4OjE4LCBBbnNodW1hbiBLaGFuZHVhbCBhIMOpY3JpdMKgOgo+
-IE9uIDAxLzMwLzIwMjAgMDc6NDMgUE0sIENocmlzdG9waGUgTGVyb3kgd3JvdGU6Cj4+Cj4+Cj4+
-IExlIDMwLzAxLzIwMjAgw6AgMTQ6MDQsIEFuc2h1bWFuIEtoYW5kdWFsIGEgw6ljcml0wqA6Cj4+
-Pgo+Pj4gT24gMDEvMjgvMjAyMCAxMDozNSBQTSwgQ2hyaXN0b3BoZSBMZXJveSB3cm90ZToKPj4K
-Pj4+Cj4+Pj4gSSB0aGluayB3ZSBjb3VsZCBtYWtlIGl0IHN0YW5kYWxvbmUgYW5kICdkZWZhdWx0
-IHkgaWYgREVCVUdfVk0nIGluc3RlYWQuCj4+Pgo+Pj4gV2hpY2ggd2lsbCB5aWVsZCB0aGUgc2Ft
-ZSByZXN1bHQgbGlrZSBiZWZvcmUgYnV0IGluIGEgZGlmZmVyZW50IHdheS4gQnV0Cj4+PiB5ZXMs
-IHRoaXMgdGVzdCBjb3VsZCBnbyBhYm91dCBlaXRoZXIgd2F5IGJ1dCB1bmxlc3MgdGhlcmUgaXMg
-YSBnb29kIGVub3VnaAo+Pj4gcmVhc29uIHdoeSBjaGFuZ2UgdGhlIGN1cnJlbnQgb25lLgo+Pgo+
-PiBJIHRoaW5rIGlmIHdlIHdhbnQgcGVvcGxlIHRvIHJlYWxseSB1c2UgaXQgb24gb3RoZXIgYXJj
-aGl0ZWN0dXJlcyBpdCBtdXN0IGJlIHBvc3NpYmxlIHRvIGFjdGl2YXRlIGl0IHdpdGhvdXQgaGF2
-aW5nIHRvIG1vZGlmeSBLY29uZmlnLiBPdGhlcndpc2UgcGVvcGxlIHdvbid0IGV2ZW4ga25vdyB0
-aGUgdGVzdCBleGlzdHMgYW5kIHRoZSBhcmNoaXRlY3R1cmUgZmFpbHMgdGhlIHRlc3QuCj4+Cj4+
-IFRoZSBwdXJwb3NlIG9mIGEgdGVzdCBzdWl0ZSBpcyB0byBkZXRlY3QgYnVncy4gSWYgeW91IGNh
-bid0IHJ1biB0aGUgdGVzdCB1bnRpbCB5b3UgaGF2ZSBmaXhlZCB0aGUgYnVncywgSSBndWVzcyBu
-b2JvZHkgd2lsbCBldmVyIGRldGVjdCB0aGUgYnVncyBhbmQgdGhleSB3aWxsIG5ldmVyIGJlIGZp
-eGVkLgo+Pgo+PiBTbyBJIHRoaW5rOgo+PiAtIHRoZSB0ZXN0IHNob3VsZCBiZSAnZGVmYXVsdCB5
-JyB3aGVuIEFSQ0hfSEFTX0RFQlVHX1ZNX1BHVEFCTEUgaXMgc2VsZWN0ZWQKPj4gLSB0aGUgdGVz
-dCBzaG91bGQgYmUgJ2RlZmF1bHQgbicgd2hlbiBBUkNIX0hBU19ERUJVR19WTV9QR1RBQkxFIGlz
-IG5vdCBzZWxlY3RlZCwgYW5kIGl0IHNob3VsZCBiZSB1c2VyIHNlbGVjdGFibGUgaWYgRVhQRVJU
-IGlzIHNlbGVjdGVkLgo+Pgo+PiBTb21ldGhpbmcgbGlrZToKPj4KPj4gY29uZmlnIERFQlVHX1ZN
-X1BHVEFCTEUKPj4gIMKgwqDCoCBib29sICJEZWJ1ZyBhcmNoIHBhZ2UgdGFibGUgZm9yIHNlbWFu
-dGljcyBjb21wbGlhbmNlIiBpZiBBUkNIX0hBU19ERUJVR19WTV9QR1RBQkxFIHx8IEVYUEVSVAo+
-PiAgwqDCoMKgIGRlcGVuZHMgb24gTU1VCj4gCj4gKEFSQ0hfSEFTX0RFQlVHX1ZNX1BHVEFCTEUg
-fHwgRVhQRVJUKSBiZSBtb3ZlZCBhbG9uZyBzaWRlIE1NVSBvbiB0aGUgc2FtZSBsaW5lID8KClll
-cyBjb3VsZCBhbHNvIGdvIGFsb25nIHNpZGUgTU1VLCBvciBjb3VsZCBiZSBhIGRlcGVuZCBieSBp
-dHNlbGY6CglkZXBlbmRzIG9uIEFSQ0hfSEFTX0RFQlVHX1ZNX1BHVEFCTEUgfHwgRVhQRVJUCgo+
-IAo+PiAgwqDCoMKgIGRlZmF1bHQgJ24nIGlmICFBUkNIX0hBU19ERUJVR19WTV9QR1RBQkxFCj4+
-ICDCoMKgwqAgZGVmYXVsdCAneScgaWYgREVCVUdfVk0KPiAKPiBUaGlzIGxvb2tzIGdvb2QsIGF0
-IGxlYXN0IHVudGlsIHdlIGdldCBhbGwgcGxhdGZvcm1zIGVuYWJsZWQuIFdpbGwgZG8gYWxsIHRo
-ZXNlCj4gY2hhbmdlcyBhbG9uZyB3aXRoIHMzOTAgZW5hYmxlbWVudCBhbmQgcmUtc3Bpbi4KCkNo
-cmlzdG9waGUKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRl
-YWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
-c25wcy1hcmMK
+
+
+> On Jan 30, 2020, at 9:13 AM, Christophe Leroy <christophe.leroy@c-s.fr> wrote:
+> 
+> config DEBUG_VM_PGTABLE
+>    bool "Debug arch page table for semantics compliance" if ARCH_HAS_DEBUG_VM_PGTABLE || EXPERT
+>    depends on MMU
+>    default 'n' if !ARCH_HAS_DEBUG_VM_PGTABLE
+>    default 'y' if DEBUG_VM
+
+Does it really necessary to potentially force all bots to run this? Syzbot, kernel test robot etc? Does it ever pay off for all their machine times there?
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
