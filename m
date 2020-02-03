@@ -1,92 +1,89 @@
-Return-Path: <SRS0=mK5U=3W=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=oU4o=3X=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Level: 
+X-Spam-Status: No, score=0.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D332C3524A
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  2 Feb 2020 11:26:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0CCC3524F
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  3 Feb 2020 15:14:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0D1BA206D3
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  2 Feb 2020 11:26:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4252B218AC
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  3 Feb 2020 15:14:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Yp4+BvLc";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="ktqi1Si5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D1BA206D3
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lca.pw
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KEOMb/uJ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=c-s.fr header.i=@c-s.fr header.b="OGtzFIa+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4252B218AC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=c-s.fr
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:In-Reply-To:References:Message-Id:
-	Date:Subject:Mime-Version:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=T0NmyEANw3E/Av+E5IOupncvQ0iDhVwhqC5BX6cg7ts=; b=Yp4+BvLcL64fvp
-	ZIxQR9gmn2Xbafo63bGMK4+reePILWHXAc1V0+ZMab5p+iG0DOvG4DWiC4dSLCEBgSLeKs039XHNJ
-	OqmkFlDSzolKIU6lQGHPljAZlrVdjNWbLJMCjdDtN/ugIuTYRJjc7Upg1HEt9V7B5tjzesXXAczQv
-	DYZ8+staIr7/Sj1dlnsxlb6SZLXL53v60s3nv7+0wWV+kwus9L8D5rGkt0Y+mJ4j4R8OFJ5cN+TJK
-	N/XCti23KLpA5KwnguRGVgMOan4vWlQllF2T2Ns75g+xQWksxRv5mfEe1OywEvh/Ia7GPbaXgCZuW
-	HLdz76bVj4eMyECsxPhg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=2Ts7z9yJc9TayHJyaDSDFhdIkUbpp/bdrYy96kXub4Q=; b=KEOMb/uJ2ejk98whDShgPSr+P
+	moLK4U2ANtvGAOFDJxyXVvPcx5m/2v5VrDTTK9S7fu5xAzmJnye7KATxNieEQL0oLRqfftf+yB5ZN
+	ZK0zKL+Yq4HsMFgqesOqNMZtExwECeip08xMYHAMlPLSQKoVHGhpuuvPz16h6ZXJrrevtk4eYThuy
+	09wFFLNjHiRX48hh6HldPPqPcvZjzPQfJQY2h/nNEL/AFyqeKVif4wdi1IJcPaa4UeHGOsLSW/HVZ
+	pyZl99GLKVuSgVEYApLi5LaxZeST0Av5ZfXZnQnrQSZfnjcFRvxobbfhHuHYOv2EU5s0nGhe/depY
+	DJuIbd+QQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iyDOj-00042D-Gj; Sun, 02 Feb 2020 11:26:41 +0000
-Received: from mail-qk1-f195.google.com ([209.85.222.195])
+	id 1iydR0-0003lL-0J; Mon, 03 Feb 2020 15:14:46 +0000
+Received: from pegase1.c-s.fr ([93.17.236.30])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iyDOh-00041Y-P4
- for linux-snps-arc@lists.infradead.org; Sun, 02 Feb 2020 11:26:40 +0000
-Received: by mail-qk1-f195.google.com with SMTP id j20so11398724qka.10
- for <linux-snps-arc@lists.infradead.org>; Sun, 02 Feb 2020 03:26:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
- h=content-transfer-encoding:from:mime-version:subject:date:message-id
- :references:cc:in-reply-to:to;
- bh=haUAAZdbmdU3COyJ/sqnDbNti6tUXhiH5WpEb5CUu3o=;
- b=ktqi1Si5IANgowqGSuWt2goxaefj9MArH9hBL4drDxYpQy5gO9eIMpaj4x1g9qz0Ft
- wJg8PZziG/0FMCaYMFvU0R1ed/sRIgt60RVYo/fiPoIuWPHtw5CoKADSbrdPinp59eNX
- GqmqoNXOemL5q0rosXYIx2UJ1orNdlYcFK73Ygg0a/RE2arXPeSnjr+QO/TuQNX54JbP
- bi9ii20//c0h4YooeibM3yZGm2vZjIxTdT2q1agyMmadm90FFuyO+OFJ2urFPdZeXwtw
- AgKWNyLv5Arxyw8debfI90Lt1gaaDIBA8bYeatlKiESPBREuLesS3poug3ybj8+iH21/
- Psqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=haUAAZdbmdU3COyJ/sqnDbNti6tUXhiH5WpEb5CUu3o=;
- b=IhgWbfJUlFkUyqbuGxxYyMF/bbPbVTk3/yZaOs65QnKK/v3HUmQwRgwyVB3DNiWRKN
- BwF2NiUK95hD3k/AfOGna51Ny6Hd4R0VMmJhe+ri0XG4wgwp/y7uWv/0thUgHg7hdU9e
- 9gEsCIYIPeqVeGMBB3pfTCGstSIDwo5Wq5x5dxq9X5RFVKDlpr3qhLQo+ROid+t8T4Tk
- 6/bX22mUtPx44BnzfuRYVilLm8ctg4C+N4eUWXytIw5lVm53LhfOIc2VN10wce6sGglx
- l0Vmq10VUImZi7hiOOoAyAbSXeDyZm+v5NKS/3KyYnw2Hcj8RcHqWo/NXaL7UBmYuRrE
- IjnA==
-X-Gm-Message-State: APjAAAXHimBq6S2xI51tyvOviEHwBDcrv/GhIk+oGim1zE6Th9YHbDd7
- C3ialuHMGmkk07s6f2Qx+mEb569295l0xw==
-X-Google-Smtp-Source: APXvYqz2LMXXgwCpUXH7EnnO/Ck2Cj8Gc2SWzAj6pxocjOsHmdsAhT1kwXiGUD+liMIX2mq/rCkMKw==
-X-Received: by 2002:a05:620a:218d:: with SMTP id
- g13mr19497581qka.286.1580642791619; 
- Sun, 02 Feb 2020 03:26:31 -0800 (PST)
-Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net.
- [71.184.117.43])
- by smtp.gmail.com with ESMTPSA id s1sm7274932qkm.84.2020.02.02.03.26.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 02 Feb 2020 03:26:30 -0800 (PST)
-From: Qian Cai <cai@lca.pw>
-Mime-Version: 1.0 (1.0)
+ id 1iydQr-0003bl-Pu; Mon, 03 Feb 2020 15:14:39 +0000
+Received: from localhost (mailhub1-int [192.168.12.234])
+ by localhost (Postfix) with ESMTP id 48BBF846fMz9v3ls;
+ Mon,  3 Feb 2020 16:14:20 +0100 (CET)
+Authentication-Results: localhost; dkim=pass
+ reason="1024-bit key; insecure key"
+ header.d=c-s.fr header.i=@c-s.fr header.b=OGtzFIa+; dkim-adsp=pass;
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+ by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+ with ESMTP id 5VszB6UW2Yif; Mon,  3 Feb 2020 16:14:20 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase1.c-s.fr (Postfix) with ESMTP id 48BBF82h8pz9v3lm;
+ Mon,  3 Feb 2020 16:14:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
+ t=1580742860; bh=i4hAG7YwdO6LNDmYZ4wBEtikutj9N76WG5xl/PwnPrw=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=OGtzFIa+5ZhSxgd/BuHky5Jny2LDfnoF42zPtabwjmhorMsQSP8od+tqTvY9oMk3O
+ ug6+KKaiRNlh/wtS69Y4UVsFdUJC1Vu36ZVhY++cHIlyr4PBVDhCfDbWqmvxtfLxhX
+ pBTvZSaYZbiw2B0JwaU6kwU/pCLUp2ai2uhwAOdA=
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 7DE228B7B0;
+ Mon,  3 Feb 2020 16:14:25 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id unrhNEULKrXy; Mon,  3 Feb 2020 16:14:25 +0100 (CET)
+Received: from [172.25.230.102] (po15451.idsi0.si.c-s.fr [172.25.230.102])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 12E638B7AC;
+ Mon,  3 Feb 2020 16:14:25 +0100 (CET)
 Subject: Re: [PATCH V12] mm/debug: Add tests validating architecture page
  table helpers
-Date: Sun, 2 Feb 2020 06:26:29 -0500
-Message-Id: <2C4ADFAE-7BB4-42B7-8F54-F036EA7A4316@lca.pw>
+To: Qian Cai <cai@lca.pw>
 References: <473d8198-3ac4-af3b-e2ec-c0698a3565d3@c-s.fr>
-In-Reply-To: <473d8198-3ac4-af3b-e2ec-c0698a3565d3@c-s.fr>
-To: Christophe Leroy <christophe.leroy@c-s.fr>
-X-Mailer: iPhone Mail (17C54)
+ <2C4ADFAE-7BB4-42B7-8F54-F036EA7A4316@lca.pw>
+From: Christophe Leroy <christophe.leroy@c-s.fr>
+Message-ID: <8e94a073-4045-89aa-6a3b-24847ad7c858@c-s.fr>
+Date: Mon, 3 Feb 2020 16:14:24 +0100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
+MIME-Version: 1.0
+In-Reply-To: <2C4ADFAE-7BB4-42B7-8F54-F036EA7A4316@lca.pw>
+Content-Language: fr
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200202_032639_818413_552CFA30 
-X-CRM114-Status: UNSURE (   9.16  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200203_071438_137882_C74D1901 
+X-CRM114-Status: GOOD (  12.05  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,23 +124,27 @@ Cc: Mark Rutland <Mark.Rutland@arm.com>, linux-ia64@vger.kernel.org,
  Martin Schwidefsky <schwidefsky@de.ibm.com>,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
-
-> On Jan 30, 2020, at 9:13 AM, Christophe Leroy <christophe.leroy@c-s.fr> wrote:
-> 
-> config DEBUG_VM_PGTABLE
->    bool "Debug arch page table for semantics compliance" if ARCH_HAS_DEBUG_VM_PGTABLE || EXPERT
->    depends on MMU
->    default 'n' if !ARCH_HAS_DEBUG_VM_PGTABLE
->    default 'y' if DEBUG_VM
-
-Does it really necessary to potentially force all bots to run this? Syzbot, kernel test robot etc? Does it ever pay off for all their machine times there?
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpMZSAwMi8wMi8yMDIwIMOgIDEyOjI2LCBRaWFuIENhaSBhIMOpY3JpdMKgOgo+IAo+IAo+PiBP
+biBKYW4gMzAsIDIwMjAsIGF0IDk6MTMgQU0sIENocmlzdG9waGUgTGVyb3kgPGNocmlzdG9waGUu
+bGVyb3lAYy1zLmZyPiB3cm90ZToKPj4KPj4gY29uZmlnIERFQlVHX1ZNX1BHVEFCTEUKPj4gICAg
+IGJvb2wgIkRlYnVnIGFyY2ggcGFnZSB0YWJsZSBmb3Igc2VtYW50aWNzIGNvbXBsaWFuY2UiIGlm
+IEFSQ0hfSEFTX0RFQlVHX1ZNX1BHVEFCTEUgfHwgRVhQRVJUCj4+ICAgICBkZXBlbmRzIG9uIE1N
+VQo+PiAgICAgZGVmYXVsdCAnbicgaWYgIUFSQ0hfSEFTX0RFQlVHX1ZNX1BHVEFCTEUKPj4gICAg
+IGRlZmF1bHQgJ3knIGlmIERFQlVHX1ZNCj4gCj4gRG9lcyBpdCByZWFsbHkgbmVjZXNzYXJ5IHRv
+IHBvdGVudGlhbGx5IGZvcmNlIGFsbCBib3RzIHRvIHJ1biB0aGlzPyBTeXpib3QsIGtlcm5lbCB0
+ZXN0IHJvYm90IGV0Yz8gRG9lcyBpdCBldmVyIHBheSBvZmYgZm9yIGFsbCB0aGVpciBtYWNoaW5l
+IHRpbWVzIHRoZXJlPwo+IAoKTWFjaGluZSB0aW1lID8KCk9uIGEgMzIgYml0cyBwb3dlcnBjIHJ1
+bm5pbmcgYXQgMTMyIE1IeiwgdGhlIHRlc3RzIHRha2VzIGxlc3MgdGhhbiAxMG1zLiAKSXMgaXQg
+d29ydGggdGFraW5nIHRoZSByaXNrIG9mIG5vdCBkZXRlY3RpbmcgZmF1bHRzIGJ5IG5vdCBzZWxl
+Y3RpbmcgaXQgCmJ5IGRlZmF1bHQgPwoKWyAgICA1LjY1NjkxNl0gZGVidWdfdm1fcGd0YWJsZTog
+ZGVidWdfdm1fcGd0YWJsZTogVmFsaWRhdGluZyAKYXJjaGl0ZWN0dXJlIHBhZ2UgdGFibGUgaGVs
+cGVycwpbICAgIDUuNjY1NjYxXSBkZWJ1Z192bV9wZ3RhYmxlOiBkZWJ1Z192bV9wZ3RhYmxlOiBW
+YWxpZGF0ZWQgCmFyY2hpdGVjdHVyZSBwYWdlIHRhYmxlIGhlbHBlcnMKCkNocmlzdG9waGUKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMt
+YXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6
+Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
