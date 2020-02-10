@@ -7,78 +7,88 @@ X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 490FCC352A3
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Feb 2020 10:05:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E4EC352A3
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Feb 2020 10:46:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 13CE32070A
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Feb 2020 10:05:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DB82020842
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Feb 2020 10:46:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sV4ghq/6";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="eqx3n038"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 13CE32070A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=armlinux.org.uk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qp/6L5wn";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=c-s.fr header.i=@c-s.fr header.b="RdSNVpl3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB82020842
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=c-s.fr
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=JQXIjUGy6WE9nMgl6ZO64yy2Xv4u60N+MAKrVDXnLLc=; b=sV4ghq/6c36HUh
-	Hy6snz/wLrW2Z5DeCLODUChsAazAh3wR0AnWlEXsyaGBX8t8cY+N0KaxfWjPwfvM84cvCkMU4hShH
-	lK6nxAkBeGBqW/EDzNGBJW3sKKVWlvy01EZYh1z8p3v+svZNIxqS6ekLi3WXY07T8JxZs642oeDGz
-	dv9T4TxDCgvr3Eh4zcTg4Ha9Tu3sM3+WBaE1Ok3s5vybgCIjBXS5PE3GR15tyo1gA67qQbX4zgUiu
-	Pr+tAUjkJi1poLKNMOHZpAcXr0BwyybMmemNZ2zM/HQom5m8hDPpQWpDNc7T5okkfaC0fwKjDrU5n
-	KiEpotaybzKmxZcSUnTw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=+MKggo2TcOYL7Hpx5Ohos1d61MuJyijksUtBTHJfaEc=; b=qp/6L5wnzQ8o0AAimigDF0wG2
+	Xg4kE19HJnNCOalJmhX2l8nCcZhkBFHC5bmrkekpZe6MmiPiH3NFJR4MbZno/S8Q4PL+yWgAa0tdz
+	jFEgUQAeTtujmqe8yZZ9gas+MHoGDvKkpE0LfqkC92XRz3orodYAnAYT27yoOCtJszW5MhpUSFmX9
+	2bNHaoNG6HeFshZ4y23WbNAfThHd6zFkYtJotW49UuJhVq1GDQXlEQqHpYdRdCXs8NNq3wFyFWVqt
+	SXbX8Wp+pxZyzBpGTs4DBHCaBlS0PdzTW1QCn/gUo1s07WpeEfVayWgwxPzSl10vRA1Rh2wNi5OLR
+	Vw/mlFOeQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j15w4-0005iN-Cg; Mon, 10 Feb 2020 10:05:00 +0000
-Received: from pandora.armlinux.org.uk
- ([2001:4d48:ad52:3201:214:fdff:fe10:1be6])
+	id 1j16aW-0008Dj-1E; Mon, 10 Feb 2020 10:46:48 +0000
+Received: from pegase1.c-s.fr ([93.17.236.30])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j15vr-0005Qr-69; Mon, 10 Feb 2020 10:04:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
- Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=RSn3HWq+fQx3mvRzpzEy/ZPYio+au3Nj4p8Sb6VpYxo=; b=eqx3n038MyxRXaqi7Kct7sCzG
- VhpGovtk9XW4/PoewLuofpbmfNeF4SIGAZWl0dzhvA1ZQ3Vft+3ccFCAdSlX+ao4iyGr6hvFS6d42
- 2wRbqFB2axc0IYHndR1Y9zua9iKJ9bA7wt34Do5ieTN+1QbJh6Z5NwlMy2q7sO8hgei4U2NjJLont
- hKWveKOWLIlb/Pwt3rVgBRGsdYHT5TD1MxKMWbMU6yalM70vxDxUBTTsbhY9FBLK6V00td+E89zDt
- LduRjtUpGZZ8DACE/idSdyyKfqNc6dRHgBpdQ3JbYrmB34mzV2TQcqZUZsINTYBPqcFSUpox1sJud
- AFyPSs9GA==;
-Received: from shell.armlinux.org.uk
- ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:38414)
- by pandora.armlinux.org.uk with esmtpsa
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
- (envelope-from <linux@armlinux.org.uk>)
- id 1j15te-0005zo-6C; Mon, 10 Feb 2020 10:02:30 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1j15tA-0007nE-Bj; Mon, 10 Feb 2020 10:02:00 +0000
-Date: Mon, 10 Feb 2020 10:02:00 +0000
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Christophe Leroy <christophe.leroy@c-s.fr>
+ id 1j16aQ-0008C2-Uc; Mon, 10 Feb 2020 10:46:45 +0000
+Received: from localhost (mailhub1-int [192.168.12.234])
+ by localhost (Postfix) with ESMTP id 48GMyn4XNDzB09b8;
+ Mon, 10 Feb 2020 11:46:25 +0100 (CET)
+Authentication-Results: localhost; dkim=pass
+ reason="1024-bit key; insecure key"
+ header.d=c-s.fr header.i=@c-s.fr header.b=RdSNVpl3; dkim-adsp=pass;
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+ by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+ with ESMTP id 2YKBWszaeG8b; Mon, 10 Feb 2020 11:46:25 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase1.c-s.fr (Postfix) with ESMTP id 48GMyn31lmzB09b6;
+ Mon, 10 Feb 2020 11:46:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
+ t=1581331585; bh=3VdT8leEAlfSLQpPQKoxenZVPWjYs1yN+U09thgTRJA=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=RdSNVpl3eRdV3gPJ7XDvUegm6wZGug8ejVpKq74HLxDjFS3pwYqC+BZGFoUQ1Oq78
+ SVulkxR8i/NmQfPxXj9q1ZP6MDJ4/eVa8ThwXr9rdv9XZ0ODywoTCAXN5cQTc5KVGa
+ aEm6pzX4mgbIsgNXEcKTlXONuuV1vYFncq9hDwgQ=
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 295478B7B8;
+ Mon, 10 Feb 2020 11:46:29 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id VHUUj31ZCU6T; Mon, 10 Feb 2020 11:46:29 +0100 (CET)
+Received: from [172.25.230.102] (po15451.idsi0.si.c-s.fr [172.25.230.102])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 6A8808B7B5;
+ Mon, 10 Feb 2020 11:46:23 +0100 (CET)
 Subject: Re: [PATCH V13] mm/debug: Add tests validating architecture page
  table helpers
-Message-ID: <20200210100200.GB25745@shell.armlinux.org.uk>
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 References: <1580897674-16456-1-git-send-email-anshuman.khandual@arm.com>
  <202002060619.wEOdAZU1%lkp@intel.com>
  <78d3ce6b-e100-2561-6b09-124c29731d1a@arm.com>
  <20200209205231.44d098f8749e88190b8ba10c@linux-foundation.org>
  <955229f7-f161-f720-0e75-a3163f63817d@arm.com>
  <aef1048f-68c4-d14f-e669-8f288ba9ac7a@c-s.fr>
+ <20200210100200.GB25745@shell.armlinux.org.uk>
+From: Christophe Leroy <christophe.leroy@c-s.fr>
+Message-ID: <7cb3a5bb-eaea-a01c-4047-e3c000b7ad1d@c-s.fr>
+Date: Mon, 10 Feb 2020 11:46:23 +0100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <aef1048f-68c4-d14f-e669-8f288ba9ac7a@c-s.fr>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200210100200.GB25745@shell.armlinux.org.uk>
+Content-Language: fr
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200210_020447_695518_31355671 
-X-CRM114-Status: GOOD (  27.87  )
+X-CRM114-CacheID: sfid-20200210_024643_287587_21BDA9E7 
+X-CRM114-Status: GOOD (  23.92  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,150 +137,99 @@ Cc: Mark Rutland <mark.rutland@arm.com>, uclinux-h8-devel@lists.sourceforge.jp,
  Martin Schwidefsky <schwidefsky@de.ibm.com>, Qian Cai <cai@lca.pw>,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 10, 2020 at 07:38:38AM +0100, Christophe Leroy wrote:
-> =
-
-> =
-
-> Le 10/02/2020 =E0 06:35, Anshuman Khandual a =E9crit=A0:
-> > =
-
-> > =
-
-> > On 02/10/2020 10:22 AM, Andrew Morton wrote:
-> > > On Thu, 6 Feb 2020 13:49:35 +0530 Anshuman Khandual <anshuman.khandua=
-l@arm.com> wrote:
-> > > =
-
-> > > > =
-
-> > > > On 02/06/2020 04:40 AM, kbuild test robot wrote:
-> > > > > Hi Anshuman,
-> > > > > =
-
-> > > > > Thank you for the patch! Yet something to improve:
-> > > > > =
-
-> > > > > [auto build test ERROR on powerpc/next]
-> > > > > [also build test ERROR on s390/features linus/master arc/for-next=
- v5.5]
-> > > > > [cannot apply to mmotm/master tip/x86/core arm64/for-next/core ne=
-xt-20200205]
-> > > > > [if your patch is applied to the wrong git tree, please drop us a=
- note to help
-> > > > > improve the system. BTW, we also suggest to use '--base' option t=
-o specify the
-> > > > > base tree in git format-patch, please see https://stackoverflow.c=
-om/a/37406982]
-> > > > > =
-
-> > > > > url:    https://github.com/0day-ci/linux/commits/Anshuman-Khandua=
-l/mm-debug-Add-tests-validating-architecture-page-table-helpers/20200205-21=
-5507
-> > > > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/l=
-inux.git next
-> > > > > config: ia64-allmodconfig (attached as .config)
-> > > > > compiler: ia64-linux-gcc (GCC) 7.5.0
-> > > > > reproduce:
-> > > > >          wget https://raw.githubusercontent.com/intel/lkp-tests/m=
-aster/sbin/make.cross -O ~/bin/make.cross
-> > > > >          chmod +x ~/bin/make.cross
-> > > > >          # save the attached .config to linux build tree
-> > > > >          GCC_VERSION=3D7.5.0 make.cross ARCH=3Dia64
-> > > > > =
-
-> > > > > If you fix the issue, kindly add following tag
-> > > > > Reported-by: kbuild test robot <lkp@intel.com>
-> > > > > =
-
-> > > > > All error/warnings (new ones prefixed by >>):
-> > > > > =
-
-> > > > >     In file included from include/asm-generic/pgtable-nopud.h:8:0,
-> > > > >                      from arch/ia64/include/asm/pgtable.h:586,
-> > > > >                      from include/linux/mm.h:99,
-> > > > >                      from include/linux/highmem.h:8,
-> > > > >                      from mm/debug_vm_pgtable.c:14:
-> > > > >     mm/debug_vm_pgtable.c: In function 'pud_clear_tests':
-> > > > > > > include/asm-generic/pgtable-nop4d-hack.h:47:32: error: implic=
-it declaration of function '__pgd'; did you mean '__p4d'? [-Werror=3Dimplic=
-it-function-declaration]
-> > > > >      #define __pud(x)    ((pud_t) { __pgd(x) })
-> > > > >                                     ^
-> > > > > > > mm/debug_vm_pgtable.c:141:8: note: in expansion of macro '__p=
-ud'
-> > > > >       pud =3D __pud(pud_val(pud) | RANDOM_ORVALUE);
-> > > > >             ^~~~~
-> > > > > > > include/asm-generic/pgtable-nop4d-hack.h:47:22: warning: miss=
-ing braces around initializer [-Wmissing-braces]
-> > > > >      #define __pud(x)    ((pud_t) { __pgd(x) })
-> > > > >                           ^
-> > > > > > > mm/debug_vm_pgtable.c:141:8: note: in expansion of macro '__p=
-ud'
-> > > > >       pud =3D __pud(pud_val(pud) | RANDOM_ORVALUE);
-> > > > >             ^~~~~
-> > > > >     cc1: some warnings being treated as errors
-> > > > =
-
-> > > > This build failure is expected now given that we have allowed DEBUG=
-_VM_PGTABLE
-> > > > with EXPERT without platform requiring ARCH_HAS_DEBUG_VM_PGTABLE. T=
-his problem
-> > > > i.e build failure caused without a platform __pgd(), is known to ex=
-ist both on
-> > > > ia64 and arm (32bit) platforms. Please refer https://lkml.org/lkml/=
-2019/9/24/314
-> > > > for details where this was discussed earlier.
-> > > > =
-
-> > > =
-
-> > > I'd prefer not to merge a patch which is known to cause build
-> > > regressions.  Is there some temporary thing we can do to prevent these
-> > > errors until arch maintainers(?) get around to implementing the
-> > > long-term fixes?
-> > =
-
-> > We could explicitly disable CONFIG_DEBUG_VM_PGTABLE on ia64 and arm pla=
-tforms
-> > which will ensure that others can still use the EXPERT path.
-> > =
-
-> > config DEBUG_VM_PGTABLE
-> > 	bool "Debug arch page table for semantics compliance"
-> > 	depends on MMU
-> > 	depends on !(IA64 || ARM)
-> > 	depends on ARCH_HAS_DEBUG_VM_PGTABLE || EXPERT
-> > 	default n if !ARCH_HAS_DEBUG_VM_PGTABLE
-> > 	default y if DEBUG_VM
-> > =
-
-> =
-
-> On both ia32 and arm, the fix is trivial.
-> =
-
-> Can we include the fix within this patch, just the same way as the
-> mm_p4d_folded() fix for x86 ?
-
-Why should arm include a macro for something that nothing (apart from
-this checker) requires?  If the checker requires it but the rest of
-the kernel does not, it suggests that the checker isn't actually
-correct, and the results can't be relied upon.
-
--- =
-
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps =
-up
-According to speedtest.net: 11.9Mbps down 500kbps up
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpMZSAxMC8wMi8yMDIwIMOgIDExOjAyLCBSdXNzZWxsIEtpbmcgLSBBUk0gTGludXggYWRtaW4g
+YSDDqWNyaXTCoDoKPiBPbiBNb24sIEZlYiAxMCwgMjAyMCBhdCAwNzozODozOEFNICswMTAwLCBD
+aHJpc3RvcGhlIExlcm95IHdyb3RlOgo+Pgo+Pgo+PiBMZSAxMC8wMi8yMDIwIMOgIDA2OjM1LCBB
+bnNodW1hbiBLaGFuZHVhbCBhIMOpY3JpdMKgOgo+Pj4KPj4+Cj4+PiBPbiAwMi8xMC8yMDIwIDEw
+OjIyIEFNLCBBbmRyZXcgTW9ydG9uIHdyb3RlOgo+Pj4+IE9uIFRodSwgNiBGZWIgMjAyMCAxMzo0
+OTozNSArMDUzMCBBbnNodW1hbiBLaGFuZHVhbCA8YW5zaHVtYW4ua2hhbmR1YWxAYXJtLmNvbT4g
+d3JvdGU6Cj4+Pj4KPj4+Pj4KPj4+Pj4gT24gMDIvMDYvMjAyMCAwNDo0MCBBTSwga2J1aWxkIHRl
+c3Qgcm9ib3Qgd3JvdGU6Cj4+Pj4+PiBIaSBBbnNodW1hbiwKPj4+Pj4+Cj4+Pj4+PiBUaGFuayB5
+b3UgZm9yIHRoZSBwYXRjaCEgWWV0IHNvbWV0aGluZyB0byBpbXByb3ZlOgo+Pj4+Pj4KPj4+Pj4+
+IFthdXRvIGJ1aWxkIHRlc3QgRVJST1Igb24gcG93ZXJwYy9uZXh0XQo+Pj4+Pj4gW2Fsc28gYnVp
+bGQgdGVzdCBFUlJPUiBvbiBzMzkwL2ZlYXR1cmVzIGxpbnVzL21hc3RlciBhcmMvZm9yLW5leHQg
+djUuNV0KPj4+Pj4+IFtjYW5ub3QgYXBwbHkgdG8gbW1vdG0vbWFzdGVyIHRpcC94ODYvY29yZSBh
+cm02NC9mb3ItbmV4dC9jb3JlIG5leHQtMjAyMDAyMDVdCj4+Pj4+PiBbaWYgeW91ciBwYXRjaCBp
+cyBhcHBsaWVkIHRvIHRoZSB3cm9uZyBnaXQgdHJlZSwgcGxlYXNlIGRyb3AgdXMgYSBub3RlIHRv
+IGhlbHAKPj4+Pj4+IGltcHJvdmUgdGhlIHN5c3RlbS4gQlRXLCB3ZSBhbHNvIHN1Z2dlc3QgdG8g
+dXNlICctLWJhc2UnIG9wdGlvbiB0byBzcGVjaWZ5IHRoZQo+Pj4+Pj4gYmFzZSB0cmVlIGluIGdp
+dCBmb3JtYXQtcGF0Y2gsIHBsZWFzZSBzZWUgaHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9hLzM3
+NDA2OTgyXQo+Pj4+Pj4KPj4+Pj4+IHVybDogICAgaHR0cHM6Ly9naXRodWIuY29tLzBkYXktY2kv
+bGludXgvY29tbWl0cy9BbnNodW1hbi1LaGFuZHVhbC9tbS1kZWJ1Zy1BZGQtdGVzdHMtdmFsaWRh
+dGluZy1hcmNoaXRlY3R1cmUtcGFnZS10YWJsZS1oZWxwZXJzLzIwMjAwMjA1LTIxNTUwNwo+Pj4+
+Pj4gYmFzZTogICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dp
+dC9wb3dlcnBjL2xpbnV4LmdpdCBuZXh0Cj4+Pj4+PiBjb25maWc6IGlhNjQtYWxsbW9kY29uZmln
+IChhdHRhY2hlZCBhcyAuY29uZmlnKQo+Pj4+Pj4gY29tcGlsZXI6IGlhNjQtbGludXgtZ2NjIChH
+Q0MpIDcuNS4wCj4+Pj4+PiByZXByb2R1Y2U6Cj4+Pj4+PiAgICAgICAgICAgd2dldCBodHRwczov
+L3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vaW50ZWwvbGtwLXRlc3RzL21hc3Rlci9zYmluL21h
+a2UuY3Jvc3MgLU8gfi9iaW4vbWFrZS5jcm9zcwo+Pj4+Pj4gICAgICAgICAgIGNobW9kICt4IH4v
+YmluL21ha2UuY3Jvc3MKPj4+Pj4+ICAgICAgICAgICAjIHNhdmUgdGhlIGF0dGFjaGVkIC5jb25m
+aWcgdG8gbGludXggYnVpbGQgdHJlZQo+Pj4+Pj4gICAgICAgICAgIEdDQ19WRVJTSU9OPTcuNS4w
+IG1ha2UuY3Jvc3MgQVJDSD1pYTY0Cj4+Pj4+Pgo+Pj4+Pj4gSWYgeW91IGZpeCB0aGUgaXNzdWUs
+IGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZwo+Pj4+Pj4gUmVwb3J0ZWQtYnk6IGtidWlsZCB0ZXN0
+IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+Pj4+Pj4KPj4+Pj4+IEFsbCBlcnJvci93YXJuaW5ncyAo
+bmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pOgo+Pj4+Pj4KPj4+Pj4+ICAgICAgSW4gZmlsZSBpbmNs
+dWRlZCBmcm9tIGluY2x1ZGUvYXNtLWdlbmVyaWMvcGd0YWJsZS1ub3B1ZC5oOjg6MCwKPj4+Pj4+
+ICAgICAgICAgICAgICAgICAgICAgICBmcm9tIGFyY2gvaWE2NC9pbmNsdWRlL2FzbS9wZ3RhYmxl
+Lmg6NTg2LAo+Pj4+Pj4gICAgICAgICAgICAgICAgICAgICAgIGZyb20gaW5jbHVkZS9saW51eC9t
+bS5oOjk5LAo+Pj4+Pj4gICAgICAgICAgICAgICAgICAgICAgIGZyb20gaW5jbHVkZS9saW51eC9o
+aWdobWVtLmg6OCwKPj4+Pj4+ICAgICAgICAgICAgICAgICAgICAgICBmcm9tIG1tL2RlYnVnX3Zt
+X3BndGFibGUuYzoxNDoKPj4+Pj4+ICAgICAgbW0vZGVidWdfdm1fcGd0YWJsZS5jOiBJbiBmdW5j
+dGlvbiAncHVkX2NsZWFyX3Rlc3RzJzoKPj4+Pj4+Pj4gaW5jbHVkZS9hc20tZ2VuZXJpYy9wZ3Rh
+YmxlLW5vcDRkLWhhY2suaDo0NzozMjogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1
+bmN0aW9uICdfX3BnZCc7IGRpZCB5b3UgbWVhbiAnX19wNGQnPyBbLVdlcnJvcj1pbXBsaWNpdC1m
+dW5jdGlvbi1kZWNsYXJhdGlvbl0KPj4+Pj4+ICAgICAgICNkZWZpbmUgX19wdWQoeCkgICAgKChw
+dWRfdCkgeyBfX3BnZCh4KSB9KQo+Pj4+Pj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIF4KPj4+Pj4+Pj4gbW0vZGVidWdfdm1fcGd0YWJsZS5jOjE0MTo4OiBub3RlOiBpbiBl
+eHBhbnNpb24gb2YgbWFjcm8gJ19fcHVkJwo+Pj4+Pj4gICAgICAgIHB1ZCA9IF9fcHVkKHB1ZF92
+YWwocHVkKSB8IFJBTkRPTV9PUlZBTFVFKTsKPj4+Pj4+ICAgICAgICAgICAgICBefn5+fgo+Pj4+
+Pj4+PiBpbmNsdWRlL2FzbS1nZW5lcmljL3BndGFibGUtbm9wNGQtaGFjay5oOjQ3OjIyOiB3YXJu
+aW5nOiBtaXNzaW5nIGJyYWNlcyBhcm91bmQgaW5pdGlhbGl6ZXIgWy1XbWlzc2luZy1icmFjZXNd
+Cj4+Pj4+PiAgICAgICAjZGVmaW5lIF9fcHVkKHgpICAgICgocHVkX3QpIHsgX19wZ2QoeCkgfSkK
+Pj4+Pj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KPj4+Pj4+Pj4gbW0vZGVidWdfdm1f
+cGd0YWJsZS5jOjE0MTo4OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8gJ19fcHVkJwo+Pj4+
+Pj4gICAgICAgIHB1ZCA9IF9fcHVkKHB1ZF92YWwocHVkKSB8IFJBTkRPTV9PUlZBTFVFKTsKPj4+
+Pj4+ICAgICAgICAgICAgICBefn5+fgo+Pj4+Pj4gICAgICBjYzE6IHNvbWUgd2FybmluZ3MgYmVp
+bmcgdHJlYXRlZCBhcyBlcnJvcnMKPj4+Pj4KPj4+Pj4gVGhpcyBidWlsZCBmYWlsdXJlIGlzIGV4
+cGVjdGVkIG5vdyBnaXZlbiB0aGF0IHdlIGhhdmUgYWxsb3dlZCBERUJVR19WTV9QR1RBQkxFCj4+
+Pj4+IHdpdGggRVhQRVJUIHdpdGhvdXQgcGxhdGZvcm0gcmVxdWlyaW5nIEFSQ0hfSEFTX0RFQlVH
+X1ZNX1BHVEFCTEUuIFRoaXMgcHJvYmxlbQo+Pj4+PiBpLmUgYnVpbGQgZmFpbHVyZSBjYXVzZWQg
+d2l0aG91dCBhIHBsYXRmb3JtIF9fcGdkKCksIGlzIGtub3duIHRvIGV4aXN0IGJvdGggb24KPj4+
+Pj4gaWE2NCBhbmQgYXJtICgzMmJpdCkgcGxhdGZvcm1zLiBQbGVhc2UgcmVmZXIgaHR0cHM6Ly9s
+a21sLm9yZy9sa21sLzIwMTkvOS8yNC8zMTQKPj4+Pj4gZm9yIGRldGFpbHMgd2hlcmUgdGhpcyB3
+YXMgZGlzY3Vzc2VkIGVhcmxpZXIuCj4+Pj4+Cj4+Pj4KPj4+PiBJJ2QgcHJlZmVyIG5vdCB0byBt
+ZXJnZSBhIHBhdGNoIHdoaWNoIGlzIGtub3duIHRvIGNhdXNlIGJ1aWxkCj4+Pj4gcmVncmVzc2lv
+bnMuICBJcyB0aGVyZSBzb21lIHRlbXBvcmFyeSB0aGluZyB3ZSBjYW4gZG8gdG8gcHJldmVudCB0
+aGVzZQo+Pj4+IGVycm9ycyB1bnRpbCBhcmNoIG1haW50YWluZXJzKD8pIGdldCBhcm91bmQgdG8g
+aW1wbGVtZW50aW5nIHRoZQo+Pj4+IGxvbmctdGVybSBmaXhlcz8KPj4+Cj4+PiBXZSBjb3VsZCBl
+eHBsaWNpdGx5IGRpc2FibGUgQ09ORklHX0RFQlVHX1ZNX1BHVEFCTEUgb24gaWE2NCBhbmQgYXJt
+IHBsYXRmb3Jtcwo+Pj4gd2hpY2ggd2lsbCBlbnN1cmUgdGhhdCBvdGhlcnMgY2FuIHN0aWxsIHVz
+ZSB0aGUgRVhQRVJUIHBhdGguCj4+Pgo+Pj4gY29uZmlnIERFQlVHX1ZNX1BHVEFCTEUKPj4+IAli
+b29sICJEZWJ1ZyBhcmNoIHBhZ2UgdGFibGUgZm9yIHNlbWFudGljcyBjb21wbGlhbmNlIgo+Pj4g
+CWRlcGVuZHMgb24gTU1VCj4+PiAJZGVwZW5kcyBvbiAhKElBNjQgfHwgQVJNKQo+Pj4gCWRlcGVu
+ZHMgb24gQVJDSF9IQVNfREVCVUdfVk1fUEdUQUJMRSB8fCBFWFBFUlQKPj4+IAlkZWZhdWx0IG4g
+aWYgIUFSQ0hfSEFTX0RFQlVHX1ZNX1BHVEFCTEUKPj4+IAlkZWZhdWx0IHkgaWYgREVCVUdfVk0K
+Pj4+Cj4+Cj4+IE9uIGJvdGggaWEzMiBhbmQgYXJtLCB0aGUgZml4IGlzIHRyaXZpYWwuCj4+Cj4+
+IENhbiB3ZSBpbmNsdWRlIHRoZSBmaXggd2l0aGluIHRoaXMgcGF0Y2gsIGp1c3QgdGhlIHNhbWUg
+d2F5IGFzIHRoZQo+PiBtbV9wNGRfZm9sZGVkKCkgZml4IGZvciB4ODYgPwo+IAo+IFdoeSBzaG91
+bGQgYXJtIGluY2x1ZGUgYSBtYWNybyBmb3Igc29tZXRoaW5nIHRoYXQgbm90aGluZyAoYXBhcnQg
+ZnJvbQo+IHRoaXMgY2hlY2tlcikgcmVxdWlyZXM/ICBJZiB0aGUgY2hlY2tlciByZXF1aXJlcyBp
+dCBidXQgdGhlIHJlc3Qgb2YKPiB0aGUga2VybmVsIGRvZXMgbm90LCBpdCBzdWdnZXN0cyB0aGF0
+IHRoZSBjaGVja2VyIGlzbid0IGFjdHVhbGx5Cj4gY29ycmVjdCwgYW5kIHRoZSByZXN1bHRzIGNh
+bid0IGJlIHJlbGllZCB1cG9uLgo+IAoKQXMgZmFyIGFzIEkgY2FuIHNlZSwgdGhlIHByb2JsZW0g
+aXMgdGhhdCBhcm0gb3BlbmNvZGVzIHBhcnQgb2YgdGhlIEFQSSAKaW5zdGVhZCBvZiBpbmNsdWRp
+bmcgYXNtLWdlbmVyaWMvcGd0YWJsZS1ub3BtZC5oCgpIZXJlLCB0aGUgQVJNIGhhcyAyIGxldmVs
+cywgaWUgb25seSBQR0QgYW5kIFBURS4gQnV0IGluc3RlYWQgb2YgZGVmaW5pbmcgCl9fcGdkIGFu
+ZCBfX3B0ZSBhbmQgZ2V0dGluZyBldmVyeXRoaW5nIGVsc2UgZnJvbSBhc20tZ2VuZXJpYywgaXQg
+ZGVmaW5lcyAKYSBfX3BtZCB0aGVuIHJlZGVmaW5lcyB0aGUgZm9sZGVkIGxldmVscyBsaWtlIHRo
+ZSBwdWQsIGV0YyAuLi4KClRoYXQncyBleGFjdGx5IHdoYXQgdGhlIGNoZWNrZXIgYWltcyBhdCBk
+ZXRlY3Rpbmc6IGFyY2hpdGVjdHVyZXMgdGhhbiBkbyAKbm90IHByb3Blcmx5IHVzZSB0aGUgc3Rh
+bmRhcmQgbGludXggcGFnZSB0YWJsZSBzdHJ1Y3R1cmVzLgoKQ2hyaXN0b3BoZQoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFp
+bGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3Rz
+LmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
