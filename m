@@ -2,23 +2,21 @@ Return-Path: <SRS0=fhZ4=36=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12131C352A3
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Feb 2020 11:08:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B8EC352A3
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Feb 2020 15:37:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D13F92080C
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Feb 2020 11:08:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 04A3120715
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Feb 2020 15:37:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YpGDrUSM";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="qrkbsPru"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D13F92080C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=armlinux.org.uk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BaFrh2nO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 04A3120715
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -26,61 +24,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=aeWA+W0PGAgrYTWJZwWRrLHBIuWc0rF5EqfQap3aqCQ=; b=YpGDrUSMZ0wRUe
-	qG60fYEMXGqvEVX3OY++dqtsE3Q/w1HCTFBDcNnlctuXoa3fff4G9U3mqMTTAmGJe9eH8Bwcs6g6E
-	WWhITayUmEtjnb+PxsaY6Sy01JkNJ5UdVTsdi/xXmUAvAMA8gDP7ZoWHl8+3/CBs3u3Y4bxjJ7N6Q
-	SpyOn7ILNg3Jf7EM1t0S5mPzwNHIUvlr830/5TkU0M4ckinA8PyX/nCgb24kMiriVJca6NLGLFhLO
-	728mAuZHUvMTF7NFSeVHOko9lSSNrym4SdZw1IzfJt7cwaOiWoSmxbdRjUm7t3QLyLk8F1uv1RiZq
-	L4t981zTQwDPEP2yjsIQ==;
+	List-Owner; bh=ygc/b8xG+UvCkQgw1XcHFh3SphT7z9Rq5M3DH9vDazw=; b=BaFrh2nOLfYHsW
+	o0gPTIozkANdFVzPOJUY8v7um+k/2mXngU2XD+4k7C6NFPyG8ciMlk1ohDmRV8d4Phw2to6vn5dOG
+	r57OsZcMQOk3Q/yEUetahRjrqwTYnF975YcVFUcKFbHMks1UpjFXO+uOepmMI7gIjN0xdiZ+gHQ47
+	ufMmuWXcw8O6/VNqf2Ka9qnNR4dT2WaGr66oDyKu63nAcm191iZgMdtfqHODGC3cCHx9RlziitFR6
+	SMO86ItT0WigPrhCtCLPejduH12L6I2wO7vGJ/+qDfpd66UKqHDlGW9zkIRrC1Xu8SRq4Eiu8Fyu7
+	WXXfo8UUvAKDqtibd/9g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j16vU-0007vr-Kh; Mon, 10 Feb 2020 11:08:28 +0000
-Received: from pandora.armlinux.org.uk
- ([2001:4d48:ad52:3201:214:fdff:fe10:1be6])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j16vP-0007uW-Up; Mon, 10 Feb 2020 11:08:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
- Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=iTw2i6MUZITUD5eWPb+PW1VnYag/93bvIyoh66pK7Nw=; b=qrkbsPru1lr3ira5I9xWBowT9
- pYyZLn+zGIyBwT0E94NzTtGTmKxIJthJ13h6C97vIAIg0RliWwgKf+WmKWXxBlrndc+VYR8DqF0u8
- kLn5LP8E9C0yosgq5Zwl69HxjzG0vd3eUX37M0JzcOlOw0ylRSXG7MJNBvaf5Zjhmm+iVAuZZpi4P
- wkVwMkOhw7imN7PjDlbW9t8EGGVTegaRakCCh7775d7zk985OYH3cWbveigOQwvuzN1SoPIwwjGPF
- aJUGhEExIsLTHen8dY9vGmFUFIx9Q9xQJkrjq7idtYLtOfV3IdkZgc1cyFRmbJDqlBuxPFHLpFbxt
- Ho5+QgUHg==;
-Received: from shell.armlinux.org.uk
- ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:38428)
- by pandora.armlinux.org.uk with esmtpsa
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
- (envelope-from <linux@armlinux.org.uk>)
- id 1j16u1-0006Ks-96; Mon, 10 Feb 2020 11:06:57 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1j16tj-0007pZ-6Y; Mon, 10 Feb 2020 11:06:39 +0000
-Date: Mon, 10 Feb 2020 11:06:39 +0000
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Christophe Leroy <christophe.leroy@c-s.fr>
-Subject: Re: [PATCH V13] mm/debug: Add tests validating architecture page
+	id 1j1B80-0004AF-20; Mon, 10 Feb 2020 15:37:40 +0000
+Received: from foss.arm.com ([217.140.110.172])
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j1B7r-00042M-2t; Mon, 10 Feb 2020 15:37:32 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7F75B1FB;
+ Mon, 10 Feb 2020 07:37:28 -0800 (PST)
+Received: from E121110.arm.com (C02TF0J2HF1T.cambridge.arm.com [10.1.26.172])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id
+ 1A4B13F68E; Mon, 10 Feb 2020 07:37:18 -0800 (PST)
+Date: Mon, 10 Feb 2020 15:37:16 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH V12] mm/debug: Add tests validating architecture page
  table helpers
-Message-ID: <20200210110639.GC25745@shell.armlinux.org.uk>
-References: <1580897674-16456-1-git-send-email-anshuman.khandual@arm.com>
- <202002060619.wEOdAZU1%lkp@intel.com>
- <78d3ce6b-e100-2561-6b09-124c29731d1a@arm.com>
- <20200209205231.44d098f8749e88190b8ba10c@linux-foundation.org>
- <955229f7-f161-f720-0e75-a3163f63817d@arm.com>
- <aef1048f-68c4-d14f-e669-8f288ba9ac7a@c-s.fr>
- <20200210100200.GB25745@shell.armlinux.org.uk>
- <7cb3a5bb-eaea-a01c-4047-e3c000b7ad1d@c-s.fr>
+Message-ID: <20200210153716.GB9283@E121110.arm.com>
+References: <1580174873-18117-1-git-send-email-anshuman.khandual@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <7cb3a5bb-eaea-a01c-4047-e3c000b7ad1d@c-s.fr>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1580174873-18117-1-git-send-email-anshuman.khandual@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200210_030824_264063_26468693 
-X-CRM114-Status: GOOD (  31.63  )
+X-CRM114-CacheID: sfid-20200210_073731_217247_39543ABD 
+X-CRM114-Status: GOOD (  27.10  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,215 +66,294 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, uclinux-h8-devel@lists.sourceforge.jp,
- linux-m68k@vger.kernel.org, linux-ia64@vger.kernel.org,
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
  linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- James Hogan <jhogan@kernel.org>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-riscv@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- linux-s390@vger.kernel.org, kbuild test robot <lkp@intel.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Max Filippov <jcmvbkbc@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+ James Hogan <jhogan@kernel.org>, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
+ Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
+ Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Michael Ellerman <mpe@ellerman.id.au>,
+ Vlastimil Babka <vbabka@suse.cz>, x86@kernel.org,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
  Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>, Mark Salter <msalter@redhat.com>,
- Matt Turner <mattst88@gmail.com>, linux-snps-arc@lists.infradead.org,
- Ingo Molnar <mingo@kernel.org>, linux-xtensa@linux-xtensa.org,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
  Kees Cook <keescook@chromium.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>, linux-alpha@vger.kernel.org,
- Aurelien Jacquiot <jacquiot.aurelien@gmail.com>, linux-c6x-dev@linux-c6x.org,
- Mark Brown <broonie@kernel.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Paul Walmsley <paul.walmsley@sifive.com>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Dan Williams <dan.j.williams@intel.com>, Mark Brown <broonie@kernel.org>,
  "Kirill A . Shutemov" <kirill@shutemov.name>,
- Dan Williams <dan.j.williams@intel.com>, Guan Xuetao <gxt@pku.edu.cn>,
- Vlastimil Babka <vbabka@suse.cz>, Richard Henderson <rth@twiddle.net>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Michal Simek <monstr@monstr.eu>, kbuild-all@lists.01.org,
- Brian Cain <bcain@codeaurora.org>, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Sri Krishna chowdary <schowdary@nvidia.com>,
+ Dave Hansen <dave.hansen@intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Hansen <dave.hansen@intel.com>, linux-mips@vger.kernel.org,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>, linux-mips@vger.kernel.org,
  Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
  Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Vineet Gupta <vgupta@synopsys.com>,
- Martin Schwidefsky <schwidefsky@de.ibm.com>, Qian Cai <cai@lca.pw>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ Martin Schwidefsky <schwidefsky@de.ibm.com>,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 10, 2020 at 11:46:23AM +0100, Christophe Leroy wrote:
-> =
+On Tue, Jan 28, 2020 at 06:57:53AM +0530, Anshuman Khandual wrote:
+> This gets build and run when CONFIG_DEBUG_VM_PGTABLE is selected along with
+> CONFIG_VM_DEBUG. Architectures willing to subscribe this test also need to
+> select CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE which for now is limited to x86 and
+> arm64. Going forward, other architectures too can enable this after fixing
+> build or runtime problems (if any) with their page table helpers.
 
-> =
+It may be worth posting the next version to linux-arch to reach out to
+other arch maintainers.
 
-> Le 10/02/2020 =E0 11:02, Russell King - ARM Linux admin a =E9crit=A0:
-> > On Mon, Feb 10, 2020 at 07:38:38AM +0100, Christophe Leroy wrote:
-> > > =
+Also I've seen that you posted a v13 but it hasn't reached
+linux-arm-kernel (likely held in moderation because of the large amount
+of addresses cc'ed) and I don't normally follow LKML. I'm not cc'ed to
+this patch either (which is fine as long as you post to a list that I
+read).
 
-> > > =
+Since I started the reply on v12 about a week ago, I'll follow up here.
+When you post a v14, please trim the people on cc only to those strictly
+necessary (e.g. arch maintainers, linux-mm, linux-arch and lkml).
 
-> > > Le 10/02/2020 =E0 06:35, Anshuman Khandual a =E9crit=A0:
-> > > > =
+> diff --git a/Documentation/features/debug/debug-vm-pgtable/arch-support.txt b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
+> new file mode 100644
+> index 000000000000..f3f8111edbe3
+> --- /dev/null
+> +++ b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
+> @@ -0,0 +1,35 @@
+> +#
+> +# Feature name:          debug-vm-pgtable
+> +#         Kconfig:       ARCH_HAS_DEBUG_VM_PGTABLE
+> +#         description:   arch supports pgtable tests for semantics compliance
+> +#
+> +    -----------------------
+> +    |         arch |status|
+> +    -----------------------
+> +    |       alpha: | TODO |
+> +    |         arc: |  ok  |
+> +    |         arm: | TODO |
 
-> > > > =
+I'm sure you can find some arm32 hardware around (or a VM) to give this
+a try ;).
 
-> > > > On 02/10/2020 10:22 AM, Andrew Morton wrote:
-> > > > > On Thu, 6 Feb 2020 13:49:35 +0530 Anshuman Khandual <anshuman.kha=
-ndual@arm.com> wrote:
-> > > > > =
+> diff --git a/arch/x86/include/asm/pgtable_64.h b/arch/x86/include/asm/pgtable_64.h
+> index 0b6c4042942a..fb0e76d254b3 100644
+> --- a/arch/x86/include/asm/pgtable_64.h
+> +++ b/arch/x86/include/asm/pgtable_64.h
+[...]
+> @@ -1197,6 +1197,7 @@ static noinline void __init kernel_init_freeable(void)
+>  	sched_init_smp();
+>  
+>  	page_alloc_init_late();
+> +	debug_vm_pgtable();
+>  	/* Initialize page ext after all struct pages are initialized. */
+>  	page_ext_init();
 
-> > > > > > =
+I guess you could even make debug_vm_pgtable() an early_initcall(). I
+don't have a strong opinion either way.
 
-> > > > > > On 02/06/2020 04:40 AM, kbuild test robot wrote:
-> > > > > > > Hi Anshuman,
-> > > > > > > =
+> diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
+> new file mode 100644
+> index 000000000000..0f37f32d15f1
+> --- /dev/null
+> +++ b/mm/debug_vm_pgtable.c
+> @@ -0,0 +1,388 @@
+[...]
+> +/*
+> + * Basic operations
+> + *
+> + * mkold(entry)			= An old and not a young entry
+> + * mkyoung(entry)		= A young and not an old entry
+> + * mkdirty(entry)		= A dirty and not a clean entry
+> + * mkclean(entry)		= A clean and not a dirty entry
+> + * mkwrite(entry)		= A write and not a write protected entry
+> + * wrprotect(entry)		= A write protected and not a write entry
+> + * pxx_bad(entry)		= A mapped and non-table entry
+> + * pxx_same(entry1, entry2)	= Both entries hold the exact same value
+> + */
+> +#define VMFLAGS	(VM_READ|VM_WRITE|VM_EXEC)
+> +
+> +/*
+> + * On s390 platform, the lower 12 bits are used to identify given page table
+> + * entry type and for other arch specific requirements. But these bits might
+> + * affect the ability to clear entries with pxx_clear(). So while loading up
+> + * the entries skip all lower 12 bits in order to accommodate s390 platform.
+> + * It does not have affect any other platform.
+> + */
+> +#define RANDOM_ORVALUE	(0xfffffffffffff000UL)
 
-> > > > > > > Thank you for the patch! Yet something to improve:
-> > > > > > > =
+I'd suggest you generate this mask with something like
+GENMASK(BITS_PER_LONG, PAGE_SHIFT).
 
-> > > > > > > [auto build test ERROR on powerpc/next]
-> > > > > > > [also build test ERROR on s390/features linus/master arc/for-=
-next v5.5]
-> > > > > > > [cannot apply to mmotm/master tip/x86/core arm64/for-next/cor=
-e next-20200205]
-> > > > > > > [if your patch is applied to the wrong git tree, please drop =
-us a note to help
-> > > > > > > improve the system. BTW, we also suggest to use '--base' opti=
-on to specify the
-> > > > > > > base tree in git format-patch, please see https://stackoverfl=
-ow.com/a/37406982]
-> > > > > > > =
+> +#define RANDOM_NZVALUE	(0xff)
+> +
+> +static void __init pte_basic_tests(unsigned long pfn, pgprot_t prot)
+> +{
+> +	pte_t pte = pfn_pte(pfn, prot);
+> +
+> +	WARN_ON(!pte_same(pte, pte));
+> +	WARN_ON(!pte_young(pte_mkyoung(pte)));
+> +	WARN_ON(!pte_dirty(pte_mkdirty(pte)));
+> +	WARN_ON(!pte_write(pte_mkwrite(pte)));
+> +	WARN_ON(pte_young(pte_mkold(pte)));
+> +	WARN_ON(pte_dirty(pte_mkclean(pte)));
+> +	WARN_ON(pte_write(pte_wrprotect(pte)));
 
-> > > > > > > url:    https://github.com/0day-ci/linux/commits/Anshuman-Kha=
-ndual/mm-debug-Add-tests-validating-architecture-page-table-helpers/2020020=
-5-215507
-> > > > > > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/power=
-pc/linux.git next
-> > > > > > > config: ia64-allmodconfig (attached as .config)
-> > > > > > > compiler: ia64-linux-gcc (GCC) 7.5.0
-> > > > > > > reproduce:
-> > > > > > >           wget https://raw.githubusercontent.com/intel/lkp-te=
-sts/master/sbin/make.cross -O ~/bin/make.cross
-> > > > > > >           chmod +x ~/bin/make.cross
-> > > > > > >           # save the attached .config to linux build tree
-> > > > > > >           GCC_VERSION=3D7.5.0 make.cross ARCH=3Dia64
-> > > > > > > =
+Given that you start with rwx permissions set,
+some of these ops would not have any effect. For example, on arm64 at
+least, mkwrite clears a bit already cleared here. You could try with
+multiple rwx combinations values (e.g. all set and all cleared) or maybe
+something like below:
 
-> > > > > > > If you fix the issue, kindly add following tag
-> > > > > > > Reported-by: kbuild test robot <lkp@intel.com>
-> > > > > > > =
+	WARN_ON(!pte_write(pte_mkwrite(pte_wrprotect(pte))));
 
-> > > > > > > All error/warnings (new ones prefixed by >>):
-> > > > > > > =
+You could also try something like this:
 
-> > > > > > >      In file included from include/asm-generic/pgtable-nopud.=
-h:8:0,
-> > > > > > >                       from arch/ia64/include/asm/pgtable.h:58=
-6,
-> > > > > > >                       from include/linux/mm.h:99,
-> > > > > > >                       from include/linux/highmem.h:8,
-> > > > > > >                       from mm/debug_vm_pgtable.c:14:
-> > > > > > >      mm/debug_vm_pgtable.c: In function 'pud_clear_tests':
-> > > > > > > > > include/asm-generic/pgtable-nop4d-hack.h:47:32: error: im=
-plicit declaration of function '__pgd'; did you mean '__p4d'? [-Werror=3Dim=
-plicit-function-declaration]
-> > > > > > >       #define __pud(x)    ((pud_t) { __pgd(x) })
-> > > > > > >                                      ^
-> > > > > > > > > mm/debug_vm_pgtable.c:141:8: note: in expansion of macro =
-'__pud'
-> > > > > > >        pud =3D __pud(pud_val(pud) | RANDOM_ORVALUE);
-> > > > > > >              ^~~~~
-> > > > > > > > > include/asm-generic/pgtable-nop4d-hack.h:47:22: warning: =
-missing braces around initializer [-Wmissing-braces]
-> > > > > > >       #define __pud(x)    ((pud_t) { __pgd(x) })
-> > > > > > >                            ^
-> > > > > > > > > mm/debug_vm_pgtable.c:141:8: note: in expansion of macro =
-'__pud'
-> > > > > > >        pud =3D __pud(pud_val(pud) | RANDOM_ORVALUE);
-> > > > > > >              ^~~~~
-> > > > > > >      cc1: some warnings being treated as errors
-> > > > > > =
+	WARN_ON(!pte_same(pte_wrprotect(pte), pte_wrprotect(pte_mkwrite(pte))));
 
-> > > > > > This build failure is expected now given that we have allowed D=
-EBUG_VM_PGTABLE
-> > > > > > with EXPERT without platform requiring ARCH_HAS_DEBUG_VM_PGTABL=
-E. This problem
-> > > > > > i.e build failure caused without a platform __pgd(), is known t=
-o exist both on
-> > > > > > ia64 and arm (32bit) platforms. Please refer https://lkml.org/l=
-kml/2019/9/24/314
-> > > > > > for details where this was discussed earlier.
-> > > > > > =
+though the above approach may not work for arm64 ptep_set_wrprotect() on
+a dirty pte (if you extend these tests later).
 
-> > > > > =
+> +}
+> +
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +static void __init pmd_basic_tests(unsigned long pfn, pgprot_t prot)
+> +{
+> +	pmd_t pmd = pfn_pmd(pfn, prot);
+> +
+> +	WARN_ON(!pmd_same(pmd, pmd));
+> +	WARN_ON(!pmd_young(pmd_mkyoung(pmd)));
+> +	WARN_ON(!pmd_dirty(pmd_mkdirty(pmd)));
+> +	WARN_ON(!pmd_write(pmd_mkwrite(pmd)));
+> +	WARN_ON(pmd_young(pmd_mkold(pmd)));
+> +	WARN_ON(pmd_dirty(pmd_mkclean(pmd)));
+> +	WARN_ON(pmd_write(pmd_wrprotect(pmd)));
+> +	/*
+> +	 * A huge page does not point to next level page table
+> +	 * entry. Hence this must qualify as pmd_bad().
+> +	 */
+> +	WARN_ON(!pmd_bad(pmd_mkhuge(pmd)));
+> +}
+> +
+> +#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot)
+> +{
+> +	pud_t pud = pfn_pud(pfn, prot);
+> +
+> +	WARN_ON(!pud_same(pud, pud));
+> +	WARN_ON(!pud_young(pud_mkyoung(pud)));
+> +	WARN_ON(!pud_write(pud_mkwrite(pud)));
+> +	WARN_ON(pud_write(pud_wrprotect(pud)));
+> +	WARN_ON(pud_young(pud_mkold(pud)));
+> +
+> +	if (mm_pmd_folded(mm) || __is_defined(ARCH_HAS_4LEVEL_HACK))
+> +		return;
+> +
+> +	/*
+> +	 * A huge page does not point to next level page table
+> +	 * entry. Hence this must qualify as pud_bad().
+> +	 */
+> +	WARN_ON(!pud_bad(pud_mkhuge(pud)));
+> +}
+> +#else
+> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot) { }
+> +#endif
+> +#else
+> +static void __init pmd_basic_tests(unsigned long pfn, pgprot_t prot) { }
+> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot) { }
+> +#endif
+> +
+> +static void __init p4d_basic_tests(unsigned long pfn, pgprot_t prot)
+> +{
+> +	p4d_t p4d;
+> +
+> +	memset(&p4d, RANDOM_NZVALUE, sizeof(p4d_t));
+> +	WARN_ON(!p4d_same(p4d, p4d));
+> +}
+> +
+> +static void __init pgd_basic_tests(unsigned long pfn, pgprot_t prot)
+> +{
+> +	pgd_t pgd;
+> +
+> +	memset(&pgd, RANDOM_NZVALUE, sizeof(pgd_t));
+> +	WARN_ON(!pgd_same(pgd, pgd));
+> +}
+> +
+> +#ifndef __ARCH_HAS_4LEVEL_HACK
 
-> > > > > I'd prefer not to merge a patch which is known to cause build
-> > > > > regressions.  Is there some temporary thing we can do to prevent =
-these
-> > > > > errors until arch maintainers(?) get around to implementing the
-> > > > > long-term fixes?
-> > > > =
+This macro doesn't exist in the kernel anymore (it's a 5LEVEL now). But
+can you not use the __PAGETABLE_PUD_FOLDED instead?
 
-> > > > We could explicitly disable CONFIG_DEBUG_VM_PGTABLE on ia64 and arm=
- platforms
-> > > > which will ensure that others can still use the EXPERT path.
-> > > > =
+> +static void __init pud_clear_tests(struct mm_struct *mm, pud_t *pudp)
+> +{
+> +	pud_t pud = READ_ONCE(*pudp);
+> +
+> +	if (mm_pmd_folded(mm))
+> +		return;
+> +
+> +	pud = __pud(pud_val(pud) | RANDOM_ORVALUE);
+> +	WRITE_ONCE(*pudp, pud);
+> +	pud_clear(pudp);
+> +	pud = READ_ONCE(*pudp);
+> +	WARN_ON(!pud_none(pud));
+> +}
+> +
+> +static void __init pud_populate_tests(struct mm_struct *mm, pud_t *pudp,
+> +				      pmd_t *pmdp)
+> +{
+> +	pud_t pud;
+> +
+> +	if (mm_pmd_folded(mm))
+> +		return;
+> +	/*
+> +	 * This entry points to next level page table page.
+> +	 * Hence this must not qualify as pud_bad().
+> +	 */
+> +	pmd_clear(pmdp);
+> +	pud_clear(pudp);
+> +	pud_populate(mm, pudp, pmdp);
+> +	pud = READ_ONCE(*pudp);
+> +	WARN_ON(pud_bad(pud));
+> +}
+> +#else
+> +static void __init pud_clear_tests(struct mm_struct *mm, pud_t *pudp) { }
+> +static void __init pud_populate_tests(struct mm_struct *mm, pud_t *pudp,
+> +				      pmd_t *pmdp)
+> +{
+> +}
+> +#endif
+> +
+> +#ifndef __ARCH_HAS_5LEVEL_HACK
 
-> > > > config DEBUG_VM_PGTABLE
-> > > > 	bool "Debug arch page table for semantics compliance"
-> > > > 	depends on MMU
-> > > > 	depends on !(IA64 || ARM)
-> > > > 	depends on ARCH_HAS_DEBUG_VM_PGTABLE || EXPERT
-> > > > 	default n if !ARCH_HAS_DEBUG_VM_PGTABLE
-> > > > 	default y if DEBUG_VM
-> > > > =
+Could you use __PAGETABLE_P4D_FOLDED instead?
 
-> > > =
+> +static void __init p4d_clear_tests(struct mm_struct *mm, p4d_t *p4dp)
+> +{
+> +	p4d_t p4d = READ_ONCE(*p4dp);
+> +
+> +	if (mm_pud_folded(mm))
+> +		return;
+> +
+> +	p4d = __p4d(p4d_val(p4d) | RANDOM_ORVALUE);
+> +	WRITE_ONCE(*p4dp, p4d);
+> +	p4d_clear(p4dp);
+> +	p4d = READ_ONCE(*p4dp);
+> +	WARN_ON(!p4d_none(p4d));
+> +}
 
-> > > On both ia32 and arm, the fix is trivial.
-> > > =
+Otherwise the patch looks fine. As per the comment on v13, make sure you
+don't break the build on any architecture, so this could either be an
+opt-in or patch those architectures before this patch is applied.
 
-> > > Can we include the fix within this patch, just the same way as the
-> > > mm_p4d_folded() fix for x86 ?
-> > =
+Thanks.
 
-> > Why should arm include a macro for something that nothing (apart from
-> > this checker) requires?  If the checker requires it but the rest of
-> > the kernel does not, it suggests that the checker isn't actually
-> > correct, and the results can't be relied upon.
-> > =
-
-> =
-
-> As far as I can see, the problem is that arm opencodes part of the API
-> instead of including asm-generic/pgtable-nopmd.h
-> =
-
-> Here, the ARM has 2 levels, ie only PGD and PTE. But instead of defining
-> __pgd and __pte and getting everything else from asm-generic, it defines a
-> __pmd then redefines the folded levels like the pud, etc ...
-> =
-
-> That's exactly what the checker aims at detecting: architectures than do =
-not
-> properly use the standard linux page table structures.
-
-There are good reasons for the way ARM does stuff.  The generic crap was
-written without regard for the circumstances that ARM has, and thus is
-entirely unsuitable for 32-bit ARM.
-
--- =
-
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps =
-up
-According to speedtest.net: 11.9Mbps down 500kbps up
+-- 
+Catalin
 
 _______________________________________________
 linux-snps-arc mailing list
