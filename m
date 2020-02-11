@@ -2,87 +2,138 @@ Return-Path: <SRS0=yyJz=37=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 072C9C352A3
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 11 Feb 2020 09:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA63AC35242
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 11 Feb 2020 20:02:35 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CC6212051A
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 11 Feb 2020 09:26:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A2F5B20659
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 11 Feb 2020 20:02:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="m8oU2T4l";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="qjHd2cY4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC6212051A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=armlinux.org.uk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lsQ9VgZ1";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FSmKt7KH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A2F5B20659
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=IEweK1Oe6le969jj6/9ySSvupCzyT07lVN1MEsV+j8U=; b=m8oU2T4leVwjun
-	XgvIknlloBoeRz1uO5JRqK8+kQpQykRJBALjNS1NvrDwfhkTsGlfL4e5cfwF2F06M2EUfgxKkIfmn
-	shRhh8oRqhY+G7BCaoN1hCXt+tBnMPlDGonya8WStJc0dhTjzoiqALp2oOJMODSsJoc2VhM1oFow+
-	sO5AZz1ETAol5E5vajcTPPy6UfGFK7ByYDytyh9N2wnlsBU2+Mes7cQjLuyLaZgG4zDG62P+TV15z
-	v7wjqReBxEkOu6JTjMD868vtSrNVcIiPOTftuZ1oQiRMHtYsWs88EsasdTVTlQvOuQjMgG2v0KunE
-	KBprGQVPx9W6SANzpSYg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=CFK1PX1mxMCL1AxXFb7A1XEiDv03O+5nLCI7ACZ5rNM=; b=lsQ9VgZ1QPNJhp
+	YUOi7dL3LC2KEqeI/OOQ6hH1WlhFB1tOZlbr5pe6vioHB+TpWuDLVJySOT1/NZ9roWIvADcLUsv26
+	hTbFcJhN70lLwk9f9a4nR/a7ZRg2BXJ5LvVHXlggG54ea0DNzF4rkr2ertCLUGsMuF8vYFs/hJ3Uk
+	1Q1UJTTmNbcQPCno4BrIlSNhL+j3nIo3IDxalniOa/ID+3Pgc54SLxP7EbfGv5nDAkcuyy7OWwa5y
+	vfIAQFBka7uZk7d4sJlGNGHoLxI3VekoQx1CpIz/dGV8FkNINGkjnxBCLCs1YmThpvy1eC13pD2BS
+	5vrlVVgUCJ0PR2RXjnFQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j1Rol-0002bM-K1; Tue, 11 Feb 2020 09:26:55 +0000
-Received: from pandora.armlinux.org.uk
- ([2001:4d48:ad52:3201:214:fdff:fe10:1be6])
+	id 1j1bjs-0004a9-Uf; Tue, 11 Feb 2020 20:02:32 +0000
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j1Roh-0002Zl-41; Tue, 11 Feb 2020 09:26:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
- Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=t+QeGYCEkcUs6b5ZM+NOCwDbOmiMQnW8+LwY6bloPz4=; b=qjHd2cY4lTS/cb7bo4SP21lEI
- sUw+WwOCTcr39efAZGJoSf5pc1rkF99mBPElJh5dxtxrVXkd5r8pZ35M3ZfVodX8d45wYDbdrWO0J
- obey6q5d1eoDdzy+zGQoBw5EdxokxL4V8Mqrm7+DwCQhVJE0SpExjvX1qu/Rr98SN6lpOpUPiz2SK
- Fo8muWV7WCBNkIipNrx1cXJrdbQhgjhUVCjm9k1TQTH0PBfFMstbJP/LB7eavJb67MdKLpZ/i7Fx+
- 7xOdkDULV9Ftpxwe57kIuG/nvVpEp+3i9oni28P56FkXFFyOxHOLqnr33ssRmsiyeDJNxiWaPVYmm
- 0QKe2yYMg==;
-Received: from shell.armlinux.org.uk
- ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:38850)
- by pandora.armlinux.org.uk with esmtpsa
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
- (envelope-from <linux@armlinux.org.uk>)
- id 1j1Rn0-0003iZ-Ul; Tue, 11 Feb 2020 09:25:07 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1j1Rmi-0000Jw-RR; Tue, 11 Feb 2020 09:24:48 +0000
-Date: Tue, 11 Feb 2020 09:24:48 +0000
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Christophe Leroy <christophe.leroy@c-s.fr>
-Subject: Re: [PATCH V13] mm/debug: Add tests validating architecture page
- table helpers
-Message-ID: <20200211092448.GI25745@shell.armlinux.org.uk>
-References: <202002060619.wEOdAZU1%lkp@intel.com>
- <78d3ce6b-e100-2561-6b09-124c29731d1a@arm.com>
- <20200209205231.44d098f8749e88190b8ba10c@linux-foundation.org>
- <955229f7-f161-f720-0e75-a3163f63817d@arm.com>
- <aef1048f-68c4-d14f-e669-8f288ba9ac7a@c-s.fr>
- <20200210100200.GB25745@shell.armlinux.org.uk>
- <7cb3a5bb-eaea-a01c-4047-e3c000b7ad1d@c-s.fr>
- <20200210110639.GC25745@shell.armlinux.org.uk>
- <82317d50-57a2-ce84-7557-21635d57448e@arm.com>
- <aa540cd6-93a0-1be4-cdff-c9af43ed7d8e@c-s.fr>
+ id 1j1bjq-0004Zk-Nq
+ for linux-snps-arc@lists.infradead.org; Tue, 11 Feb 2020 20:02:32 +0000
+Received: by mail-pj1-x1042.google.com with SMTP id dw13so1816655pjb.4
+ for <linux-snps-arc@lists.infradead.org>; Tue, 11 Feb 2020 12:02:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=g2NcemxBHYhmjxr0r6hT1ID+muda4jKNv9ZlCh3v7FM=;
+ b=FSmKt7KHs4Lu3j37buxUL6KpQegiEv9/BWelWs/CJscoiLQviD/a5aiULv8AKwzF4x
+ mxKnJCLiHJshUI4+t1JWM1BfAmgorB98VfkbJoQBs/a8DElGwNC2PM3dFigxiDTzphbV
+ uMu8N+dow0fPyQuxHSstHTht6kQzuhXkMkHs90yw1R2/RV1yDFHwBukP/OQ3iS2t1Iop
+ iLWSt5HSaZuYBh8NQUXpgTII/Y1puo60TzWIbivY+W3dVtUjUsQ8qDKM8XkSxuf0KRbj
+ mPfaXa3amUP3Prp2xBi6a+gnCNYDVuM3QETwi92DsIEFWUfIUVCiNB4cMq+LcWfbxLk0
+ zFPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=g2NcemxBHYhmjxr0r6hT1ID+muda4jKNv9ZlCh3v7FM=;
+ b=L4i1m45yhl1OyxXPg9f4MfpWMjTnhudEbZvgSegOD9Q81IuaC8cP68ZWJhEwQie1TB
+ TIhGFZXcPGWUkvM3BFsb6t2G5M9MODo1nRmUffQQDc7vp+C/Pu3V4FT6BEJ9ERD0fDOt
+ 2Y6y8SzB1EaROWbuPCZkD2bJDaCtUhk3iXgmhRmiO+7T2X+H+Okga+87V+kRiO1SkcqW
+ 63EJ1DVYkYEwFqRTm5ISMWVzDaKxaunAUSGPCRo/6+msiKV1bEEJ6VxPQgesdU+8V2LC
+ I8O7zudfMcuUA93J/SfcUqzYlPnZzEkIE3YfkPsrC0oDTxVAbG3y5JjTz6VyTXr0tPLL
+ iUvg==
+X-Gm-Message-State: APjAAAWbgo2YdgAZgCpO377qiCDBcCswTgZGiGA7gGyuqBf3P2GTU8M6
+ 8x9MxUsHhFbhU1/fsTlh14r9FvhgycU=
+X-Google-Smtp-Source: APXvYqyZQEkLxXGhvlCAV9uLxJb+whZlPfCqN+oYH2VUzmqX32XUO2qXvObAFkPJtaUQai4pA6lgWg==
+X-Received: by 2002:a17:902:6b4b:: with SMTP id
+ g11mr19264406plt.26.1581451349286; 
+ Tue, 11 Feb 2020 12:02:29 -0800 (PST)
+Received: from ?IPv6:2601:641:c100:83a0:bc48:43a7:8508:65a?
+ ([2601:641:c100:83a0:bc48:43a7:8508:65a])
+ by smtp.gmail.com with ESMTPSA id s21sm5232695pgo.63.2020.02.11.12.02.27
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 11 Feb 2020 12:02:28 -0800 (PST)
+Subject: Re: [PATCH v2 4/6] linux: Use long time_t __getitimer/__setitimer
+To: Alistair Francis <alistair.francis@wdc.com>, libc-alpha@sourceware.org
+References: <20200210174325.6566-1-alistair.francis@wdc.com>
+ <20200210174325.6566-5-alistair.francis@wdc.com>
+From: Vineet Gupta <vineetg76@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=vineetg76@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+ deE0Dvw98SWmZSNtdOPnJZ0D
+Message-ID: <9b03cfdb-b8b2-a8f6-329f-5fbd38cd9ed8@gmail.com>
+Date: Tue, 11 Feb 2020 12:02:26 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <aa540cd6-93a0-1be4-cdff-c9af43ed7d8e@c-s.fr>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200210174325.6566-5-alistair.francis@wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200211_012651_164082_9B68A2D6 
-X-CRM114-Status: GOOD (  15.04  )
+X-CRM114-CacheID: sfid-20200211_120230_778757_3F7369EC 
+X-CRM114-Status: GOOD (  15.63  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,105 +145,103 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, uclinux-h8-devel@lists.sourceforge.jp,
- linux-m68k@vger.kernel.org, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- James Hogan <jhogan@kernel.org>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-riscv@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- linux-s390@vger.kernel.org, kbuild test robot <lkp@intel.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Max Filippov <jcmvbkbc@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>, Mark Salter <msalter@redhat.com>,
- Matt Turner <mattst88@gmail.com>, linux-snps-arc@lists.infradead.org,
- Ingo Molnar <mingo@kernel.org>, linux-xtensa@linux-xtensa.org,
- Kees Cook <keescook@chromium.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>, linux-alpha@vger.kernel.org,
- Aurelien Jacquiot <jacquiot.aurelien@gmail.com>, linux-c6x-dev@linux-c6x.org,
- Mark Brown <broonie@kernel.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Dan Williams <dan.j.williams@intel.com>, Guan Xuetao <gxt@pku.edu.cn>,
- Vlastimil Babka <vbabka@suse.cz>, Richard Henderson <rth@twiddle.net>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Michal Simek <monstr@monstr.eu>, kbuild-all@lists.01.org,
- Brian Cain <bcain@codeaurora.org>, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Hansen <dave.hansen@intel.com>, linux-mips@vger.kernel.org,
- Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
- Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Vineet Gupta <vgupta@synopsys.com>,
- Martin Schwidefsky <schwidefsky@de.ibm.com>, Qian Cai <cai@lca.pw>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: alistair23@gmail.com, arcml <linux-snps-arc@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 11, 2020 at 06:33:47AM +0100, Christophe Leroy wrote:
-> =
+Hi Alistair,
 
-> =
+On 2/10/20 9:43 AM, Alistair Francis wrote:
+> The Linux kernel expects itimerval to use a 32-bit time_t, even on archs
+> with a 64-bit time_t (like RV32). To address this let's convert
+> itimerval to/from 32-bit and 64-bit to ensure the kernel always gets
+> a 32-bit time_t.
+> 
+> While we are converting these functions let's also convert them to be
+> the y2038 safe versions. This means there is a *64 function that is
+> called by a backwards compatible wrapper.
+> ---
 
-> Le 11/02/2020 =E0 03:25, Anshuman Khandual a =E9crit=A0:
-> > =
+> +
+> +int
+> +__setitimer64 (__itimer_which_t which,
+> +               const struct __itimerval64 *restrict new_value,
+> +               struct __itimerval64 *restrict old_value)
+> +{
+> +  struct __itimerval32 new_value_32;
+> +
+> +  if (! in_time_t_range (new_value->it_interval.tv_sec))
+> +  {
+> +    __set_errno (EOVERFLOW);
+> +    return -1;
+> +  }
+> +  new_value_32.it_interval
+> +    = valid_timeval64_to_timeval32 (new_value->it_interval);
+> +
+> +  if (! in_time_t_range (new_value->it_value.tv_sec))
+> +  {
+> +    __set_errno (EOVERFLOW);
+> +    return -1;
+> +  }
+> +  new_value_32.it_value
+> +    = valid_timeval64_to_timeval32 (new_value->it_value);
+> +
+> +  if (old_value == NULL)
+> +    return INLINE_SYSCALL_CALL (setitimer, which, &new_value_32, NULL);
+> +
+> +  struct __itimerval32 old_value_32;
+> +  if (INLINE_SYSCALL_CALL (setitimer, which, &new_value_32, &old_value_32) == -1)
+> +    return -1;
+> +
+> +  /* Write all fields of 'old_value' regardless of overflow.  */
+> +  old_value->it_interval
+> +     = valid_timeval32_to_timeval64 (old_value_32.it_interval);
+> +  old_value->it_value
+> +     = valid_timeval32_to_timeval64 (old_value_32.it_value);
+> +  return 0;
+> +}
+> +
+> +#if __TIMESIZE != 64
+> +int
+> +__setitimer (__itimer_which_t which,
+> +             const struct itimerval *restrict new_value,
+> +             struct itimerval *restrict old_value)
+> +{
+> +  int ret;
+> +  struct __itimerval64 new64, old64;
+> +
+> +  new64.it_interval
+> +    = valid_timeval_to_timeval64 (new_value->it_interval);
+> +  new64.it_value
+> +    = valid_timeval_to_timeval64 (new_value->it_value);
+> +
+> +  ret = __setitimer64 (which, &new64, &old64);
+> +
+> +  if (ret != 0)
+> +    return ret;
 
-> > =
+I tested ARC port over your v1 next branch and it works fine in general. I still
+had 32-bit time_t so you have some more test coverage ;-)
 
-> > On 02/10/2020 04:36 PM, Russell King - ARM Linux admin wrote:
-> > > There are good reasons for the way ARM does stuff.  The generic crap =
-was
-> > > written without regard for the circumstances that ARM has, and thus is
-> > > entirely unsuitable for 32-bit ARM.
-> > =
+The glibc testsuite had some new failures, some of them are coming from the
+unchecked @old_value dereference (which would not hit for 64-bit time_t).
 
-> > Since we dont have an agreement here, lets just settle with disabling t=
-he
-> > test for now on platforms where the build fails. CONFIG_EXPERT is enabl=
-ing
-> > this test for better adaptability and coverage, hence how about re fram=
-ing
-> > the config like this ? This at the least conveys the fact that EXPERT o=
-nly
-> > works when platform is neither IA64 or ARM.
-> =
+Care to fix it please.
 
-> Agreed
-> =
-
-> > =
-
-> > config DEBUG_VM_PGTABLE
-> > 	bool "Debug arch page table for semantics compliance"
-> > 	depends on MMU
-> > 	depends on ARCH_HAS_DEBUG_VM_PGTABLE || (EXPERT &&  !(IA64 || ARM))
-> =
-
-> I think it's maybe better to have a dedicated depends line:
-> =
-
-> depends on !IA64 && !ARM
-> depends on ARCH_HAS_DEBUG_VM_PGTABLE || EXPERT
-> =
-
-> The day arm and/or ia64 is ready for building the test, we can remove that
-> depends.
-
-Never going to happen as its technically infeasible, sorry.
-
--- =
-
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps =
-up
-According to speedtest.net: 11.9Mbps down 500kbps up
+> +
+> +  old_value->it_interval
+> +    = valid_timeval64_to_timeval (old64.it_interval);
+> +  old_value->it_value
+> +    = valid_timeval64_to_timeval (old64.it_value);
+> +
+> +  return ret;
+> +}
+> +#endif
+> +weak_alias (__setitimer, setitimer)
+Thx,
+-Vineet
 
 _______________________________________________
 linux-snps-arc mailing list
