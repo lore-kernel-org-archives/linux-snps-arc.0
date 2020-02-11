@@ -1,60 +1,72 @@
-Return-Path: <SRS0=fhZ4=36=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=yyJz=37=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B8EC352A3
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Feb 2020 15:37:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F71C352A4
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 11 Feb 2020 02:26:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 04A3120715
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Feb 2020 15:37:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CC39C20714
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 11 Feb 2020 02:26:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BaFrh2nO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 04A3120715
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K+PZ+mX1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC39C20714
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ygc/b8xG+UvCkQgw1XcHFh3SphT7z9Rq5M3DH9vDazw=; b=BaFrh2nOLfYHsW
-	o0gPTIozkANdFVzPOJUY8v7um+k/2mXngU2XD+4k7C6NFPyG8ciMlk1ohDmRV8d4Phw2to6vn5dOG
-	r57OsZcMQOk3Q/yEUetahRjrqwTYnF975YcVFUcKFbHMks1UpjFXO+uOepmMI7gIjN0xdiZ+gHQ47
-	ufMmuWXcw8O6/VNqf2Ka9qnNR4dT2WaGr66oDyKu63nAcm191iZgMdtfqHODGC3cCHx9RlziitFR6
-	SMO86ItT0WigPrhCtCLPejduH12L6I2wO7vGJ/+qDfpd66UKqHDlGW9zkIRrC1Xu8SRq4Eiu8Fyu7
-	WXXfo8UUvAKDqtibd/9g==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=KkI5eK9eXPOgpE0GQX5gNBuPVatKDBbnfT6BPWNUlQs=; b=K+PZ+mX1JYUgJO
+	dYcLiILFLyxRcJD7rZ3YVJL+8ba0q/EuZb70iWWngo3Zu1MLLUXQf5eCpHb7Tufl5x1LvzOoatcVa
+	i20Uo5Kgsr/ctnF8GhrTGz7wFQx/fq+TRUZd8DcO8r0PJY84I0vMTBCT4wh5r/MvWoSEHsXYvO9Kh
+	/oUMBCTY2zpM5HlvbneKP94QMUpfO55UobeLdFM6EDXqb9g48emEX7WCICR49KIfua2Q129T/12RC
+	rBa1rp2eoccbcH+uhcbT2d1csC12RAImH0B5ETI2yWiOmoIgxvNsvITroDX3LxXdZGNW+JNhDWk+h
+	tRWAyhLHj+Z5agJnLvJA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j1B80-0004AF-20; Mon, 10 Feb 2020 15:37:40 +0000
+	id 1j1LFR-00063Q-Rc; Tue, 11 Feb 2020 02:26:01 +0000
 Received: from foss.arm.com ([217.140.110.172])
  by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j1B7r-00042M-2t; Mon, 10 Feb 2020 15:37:32 +0000
+ id 1j1LFM-00061n-T5; Tue, 11 Feb 2020 02:25:58 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7F75B1FB;
- Mon, 10 Feb 2020 07:37:28 -0800 (PST)
-Received: from E121110.arm.com (C02TF0J2HF1T.cambridge.arm.com [10.1.26.172])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id
- 1A4B13F68E; Mon, 10 Feb 2020 07:37:18 -0800 (PST)
-Date: Mon, 10 Feb 2020 15:37:16 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH V12] mm/debug: Add tests validating architecture page
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1FA6531B;
+ Mon, 10 Feb 2020 18:25:54 -0800 (PST)
+Received: from [10.162.16.95] (p8cg001049571a15.blr.arm.com [10.162.16.95])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EAA353F6CF;
+ Mon, 10 Feb 2020 18:25:37 -0800 (PST)
+Subject: Re: [PATCH V13] mm/debug: Add tests validating architecture page
  table helpers
-Message-ID: <20200210153716.GB9283@E121110.arm.com>
-References: <1580174873-18117-1-git-send-email-anshuman.khandual@arm.com>
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@c-s.fr>
+References: <1580897674-16456-1-git-send-email-anshuman.khandual@arm.com>
+ <202002060619.wEOdAZU1%lkp@intel.com>
+ <78d3ce6b-e100-2561-6b09-124c29731d1a@arm.com>
+ <20200209205231.44d098f8749e88190b8ba10c@linux-foundation.org>
+ <955229f7-f161-f720-0e75-a3163f63817d@arm.com>
+ <aef1048f-68c4-d14f-e669-8f288ba9ac7a@c-s.fr>
+ <20200210100200.GB25745@shell.armlinux.org.uk>
+ <7cb3a5bb-eaea-a01c-4047-e3c000b7ad1d@c-s.fr>
+ <20200210110639.GC25745@shell.armlinux.org.uk>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+Message-ID: <82317d50-57a2-ce84-7557-21635d57448e@arm.com>
+Date: Tue, 11 Feb 2020 07:55:41 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1580174873-18117-1-git-send-email-anshuman.khandual@arm.com>
+In-Reply-To: <20200210110639.GC25745@shell.armlinux.org.uk>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200210_073731_217247_39543ABD 
-X-CRM114-Status: GOOD (  27.10  )
+X-CRM114-CacheID: sfid-20200210_182557_028265_D1F1F2AD 
+X-CRM114-Status: GOOD (  25.35  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,296 +78,154 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
+Cc: Mark Rutland <mark.rutland@arm.com>, uclinux-h8-devel@lists.sourceforge.jp,
+ linux-m68k@vger.kernel.org, linux-ia64@vger.kernel.org,
  linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- James Hogan <jhogan@kernel.org>, Heiko Carstens <heiko.carstens@de.ibm.com>,
- Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
- Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
- Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Michael Ellerman <mpe@ellerman.id.au>,
- Vlastimil Babka <vbabka@suse.cz>, x86@kernel.org,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
+ James Hogan <jhogan@kernel.org>,
  Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
+ linux-mm@kvack.org, Dave Hansen <dave.hansen@intel.com>,
+ Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Thomas Gleixner <tglx@linutronix.de>, linux-s390@vger.kernel.org,
+ kbuild test robot <lkp@intel.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Matthew Wilcox <willy@infradead.org>,
+ Steven Price <Steven.Price@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>, Mark Salter <msalter@redhat.com>,
+ Matt Turner <mattst88@gmail.com>, linux-snps-arc@lists.infradead.org,
+ Ingo Molnar <mingo@kernel.org>, linux-xtensa@linux-xtensa.org,
  Kees Cook <keescook@chromium.org>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Dan Williams <dan.j.williams@intel.com>, Mark Brown <broonie@kernel.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>, linux-alpha@vger.kernel.org,
+ Aurelien Jacquiot <jacquiot.aurelien@gmail.com>, linux-c6x-dev@linux-c6x.org,
+ Mark Brown <broonie@kernel.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
  "Kirill A . Shutemov" <kirill@shutemov.name>,
- Thomas Gleixner <tglx@linutronix.de>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Sri Krishna chowdary <schowdary@nvidia.com>,
- Dave Hansen <dave.hansen@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>, linux-mips@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>, Guan Xuetao <gxt@pku.edu.cn>,
+ Vlastimil Babka <vbabka@suse.cz>, Richard Henderson <rth@twiddle.net>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Michal Simek <monstr@monstr.eu>, kbuild-all@lists.01.org,
+ Brian Cain <bcain@codeaurora.org>, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org,
  Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
  Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
- Vineet Gupta <vgupta@synopsys.com>,
- Martin Schwidefsky <schwidefsky@de.ibm.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Vineet Gupta <vgupta@synopsys.com>,
+ Martin Schwidefsky <schwidefsky@de.ibm.com>, Qian Cai <cai@lca.pw>,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 28, 2020 at 06:57:53AM +0530, Anshuman Khandual wrote:
-> This gets build and run when CONFIG_DEBUG_VM_PGTABLE is selected along with
-> CONFIG_VM_DEBUG. Architectures willing to subscribe this test also need to
-> select CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE which for now is limited to x86 and
-> arm64. Going forward, other architectures too can enable this after fixing
-> build or runtime problems (if any) with their page table helpers.
-
-It may be worth posting the next version to linux-arch to reach out to
-other arch maintainers.
-
-Also I've seen that you posted a v13 but it hasn't reached
-linux-arm-kernel (likely held in moderation because of the large amount
-of addresses cc'ed) and I don't normally follow LKML. I'm not cc'ed to
-this patch either (which is fine as long as you post to a list that I
-read).
-
-Since I started the reply on v12 about a week ago, I'll follow up here.
-When you post a v14, please trim the people on cc only to those strictly
-necessary (e.g. arch maintainers, linux-mm, linux-arch and lkml).
-
-> diff --git a/Documentation/features/debug/debug-vm-pgtable/arch-support.txt b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
-> new file mode 100644
-> index 000000000000..f3f8111edbe3
-> --- /dev/null
-> +++ b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
-> @@ -0,0 +1,35 @@
-> +#
-> +# Feature name:          debug-vm-pgtable
-> +#         Kconfig:       ARCH_HAS_DEBUG_VM_PGTABLE
-> +#         description:   arch supports pgtable tests for semantics compliance
-> +#
-> +    -----------------------
-> +    |         arch |status|
-> +    -----------------------
-> +    |       alpha: | TODO |
-> +    |         arc: |  ok  |
-> +    |         arm: | TODO |
-
-I'm sure you can find some arm32 hardware around (or a VM) to give this
-a try ;).
-
-> diff --git a/arch/x86/include/asm/pgtable_64.h b/arch/x86/include/asm/pgtable_64.h
-> index 0b6c4042942a..fb0e76d254b3 100644
-> --- a/arch/x86/include/asm/pgtable_64.h
-> +++ b/arch/x86/include/asm/pgtable_64.h
-[...]
-> @@ -1197,6 +1197,7 @@ static noinline void __init kernel_init_freeable(void)
->  	sched_init_smp();
->  
->  	page_alloc_init_late();
-> +	debug_vm_pgtable();
->  	/* Initialize page ext after all struct pages are initialized. */
->  	page_ext_init();
-
-I guess you could even make debug_vm_pgtable() an early_initcall(). I
-don't have a strong opinion either way.
-
-> diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
-> new file mode 100644
-> index 000000000000..0f37f32d15f1
-> --- /dev/null
-> +++ b/mm/debug_vm_pgtable.c
-> @@ -0,0 +1,388 @@
-[...]
-> +/*
-> + * Basic operations
-> + *
-> + * mkold(entry)			= An old and not a young entry
-> + * mkyoung(entry)		= A young and not an old entry
-> + * mkdirty(entry)		= A dirty and not a clean entry
-> + * mkclean(entry)		= A clean and not a dirty entry
-> + * mkwrite(entry)		= A write and not a write protected entry
-> + * wrprotect(entry)		= A write protected and not a write entry
-> + * pxx_bad(entry)		= A mapped and non-table entry
-> + * pxx_same(entry1, entry2)	= Both entries hold the exact same value
-> + */
-> +#define VMFLAGS	(VM_READ|VM_WRITE|VM_EXEC)
-> +
-> +/*
-> + * On s390 platform, the lower 12 bits are used to identify given page table
-> + * entry type and for other arch specific requirements. But these bits might
-> + * affect the ability to clear entries with pxx_clear(). So while loading up
-> + * the entries skip all lower 12 bits in order to accommodate s390 platform.
-> + * It does not have affect any other platform.
-> + */
-> +#define RANDOM_ORVALUE	(0xfffffffffffff000UL)
-
-I'd suggest you generate this mask with something like
-GENMASK(BITS_PER_LONG, PAGE_SHIFT).
-
-> +#define RANDOM_NZVALUE	(0xff)
-> +
-> +static void __init pte_basic_tests(unsigned long pfn, pgprot_t prot)
-> +{
-> +	pte_t pte = pfn_pte(pfn, prot);
-> +
-> +	WARN_ON(!pte_same(pte, pte));
-> +	WARN_ON(!pte_young(pte_mkyoung(pte)));
-> +	WARN_ON(!pte_dirty(pte_mkdirty(pte)));
-> +	WARN_ON(!pte_write(pte_mkwrite(pte)));
-> +	WARN_ON(pte_young(pte_mkold(pte)));
-> +	WARN_ON(pte_dirty(pte_mkclean(pte)));
-> +	WARN_ON(pte_write(pte_wrprotect(pte)));
-
-Given that you start with rwx permissions set,
-some of these ops would not have any effect. For example, on arm64 at
-least, mkwrite clears a bit already cleared here. You could try with
-multiple rwx combinations values (e.g. all set and all cleared) or maybe
-something like below:
-
-	WARN_ON(!pte_write(pte_mkwrite(pte_wrprotect(pte))));
-
-You could also try something like this:
-
-	WARN_ON(!pte_same(pte_wrprotect(pte), pte_wrprotect(pte_mkwrite(pte))));
-
-though the above approach may not work for arm64 ptep_set_wrprotect() on
-a dirty pte (if you extend these tests later).
-
-> +}
-> +
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +static void __init pmd_basic_tests(unsigned long pfn, pgprot_t prot)
-> +{
-> +	pmd_t pmd = pfn_pmd(pfn, prot);
-> +
-> +	WARN_ON(!pmd_same(pmd, pmd));
-> +	WARN_ON(!pmd_young(pmd_mkyoung(pmd)));
-> +	WARN_ON(!pmd_dirty(pmd_mkdirty(pmd)));
-> +	WARN_ON(!pmd_write(pmd_mkwrite(pmd)));
-> +	WARN_ON(pmd_young(pmd_mkold(pmd)));
-> +	WARN_ON(pmd_dirty(pmd_mkclean(pmd)));
-> +	WARN_ON(pmd_write(pmd_wrprotect(pmd)));
-> +	/*
-> +	 * A huge page does not point to next level page table
-> +	 * entry. Hence this must qualify as pmd_bad().
-> +	 */
-> +	WARN_ON(!pmd_bad(pmd_mkhuge(pmd)));
-> +}
-> +
-> +#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
-> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot)
-> +{
-> +	pud_t pud = pfn_pud(pfn, prot);
-> +
-> +	WARN_ON(!pud_same(pud, pud));
-> +	WARN_ON(!pud_young(pud_mkyoung(pud)));
-> +	WARN_ON(!pud_write(pud_mkwrite(pud)));
-> +	WARN_ON(pud_write(pud_wrprotect(pud)));
-> +	WARN_ON(pud_young(pud_mkold(pud)));
-> +
-> +	if (mm_pmd_folded(mm) || __is_defined(ARCH_HAS_4LEVEL_HACK))
-> +		return;
-> +
-> +	/*
-> +	 * A huge page does not point to next level page table
-> +	 * entry. Hence this must qualify as pud_bad().
-> +	 */
-> +	WARN_ON(!pud_bad(pud_mkhuge(pud)));
-> +}
-> +#else
-> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot) { }
-> +#endif
-> +#else
-> +static void __init pmd_basic_tests(unsigned long pfn, pgprot_t prot) { }
-> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot) { }
-> +#endif
-> +
-> +static void __init p4d_basic_tests(unsigned long pfn, pgprot_t prot)
-> +{
-> +	p4d_t p4d;
-> +
-> +	memset(&p4d, RANDOM_NZVALUE, sizeof(p4d_t));
-> +	WARN_ON(!p4d_same(p4d, p4d));
-> +}
-> +
-> +static void __init pgd_basic_tests(unsigned long pfn, pgprot_t prot)
-> +{
-> +	pgd_t pgd;
-> +
-> +	memset(&pgd, RANDOM_NZVALUE, sizeof(pgd_t));
-> +	WARN_ON(!pgd_same(pgd, pgd));
-> +}
-> +
-> +#ifndef __ARCH_HAS_4LEVEL_HACK
-
-This macro doesn't exist in the kernel anymore (it's a 5LEVEL now). But
-can you not use the __PAGETABLE_PUD_FOLDED instead?
-
-> +static void __init pud_clear_tests(struct mm_struct *mm, pud_t *pudp)
-> +{
-> +	pud_t pud = READ_ONCE(*pudp);
-> +
-> +	if (mm_pmd_folded(mm))
-> +		return;
-> +
-> +	pud = __pud(pud_val(pud) | RANDOM_ORVALUE);
-> +	WRITE_ONCE(*pudp, pud);
-> +	pud_clear(pudp);
-> +	pud = READ_ONCE(*pudp);
-> +	WARN_ON(!pud_none(pud));
-> +}
-> +
-> +static void __init pud_populate_tests(struct mm_struct *mm, pud_t *pudp,
-> +				      pmd_t *pmdp)
-> +{
-> +	pud_t pud;
-> +
-> +	if (mm_pmd_folded(mm))
-> +		return;
-> +	/*
-> +	 * This entry points to next level page table page.
-> +	 * Hence this must not qualify as pud_bad().
-> +	 */
-> +	pmd_clear(pmdp);
-> +	pud_clear(pudp);
-> +	pud_populate(mm, pudp, pmdp);
-> +	pud = READ_ONCE(*pudp);
-> +	WARN_ON(pud_bad(pud));
-> +}
-> +#else
-> +static void __init pud_clear_tests(struct mm_struct *mm, pud_t *pudp) { }
-> +static void __init pud_populate_tests(struct mm_struct *mm, pud_t *pudp,
-> +				      pmd_t *pmdp)
-> +{
-> +}
-> +#endif
-> +
-> +#ifndef __ARCH_HAS_5LEVEL_HACK
-
-Could you use __PAGETABLE_P4D_FOLDED instead?
-
-> +static void __init p4d_clear_tests(struct mm_struct *mm, p4d_t *p4dp)
-> +{
-> +	p4d_t p4d = READ_ONCE(*p4dp);
-> +
-> +	if (mm_pud_folded(mm))
-> +		return;
-> +
-> +	p4d = __p4d(p4d_val(p4d) | RANDOM_ORVALUE);
-> +	WRITE_ONCE(*p4dp, p4d);
-> +	p4d_clear(p4dp);
-> +	p4d = READ_ONCE(*p4dp);
-> +	WARN_ON(!p4d_none(p4d));
-> +}
-
-Otherwise the patch looks fine. As per the comment on v13, make sure you
-don't break the build on any architecture, so this could either be an
-opt-in or patch those architectures before this patch is applied.
-
-Thanks.
-
--- 
-Catalin
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpPbiAwMi8xMC8yMDIwIDA0OjM2IFBNLCBSdXNzZWxsIEtpbmcgLSBBUk0gTGludXggYWRtaW4g
+d3JvdGU6Cj4gT24gTW9uLCBGZWIgMTAsIDIwMjAgYXQgMTE6NDY6MjNBTSArMDEwMCwgQ2hyaXN0
+b3BoZSBMZXJveSB3cm90ZToKPj4KPj4KPj4gTGUgMTAvMDIvMjAyMCDDoCAxMTowMiwgUnVzc2Vs
+bCBLaW5nIC0gQVJNIExpbnV4IGFkbWluIGEgw6ljcml0wqA6Cj4+PiBPbiBNb24sIEZlYiAxMCwg
+MjAyMCBhdCAwNzozODozOEFNICswMTAwLCBDaHJpc3RvcGhlIExlcm95IHdyb3RlOgo+Pj4+Cj4+
+Pj4KPj4+PiBMZSAxMC8wMi8yMDIwIMOgIDA2OjM1LCBBbnNodW1hbiBLaGFuZHVhbCBhIMOpY3Jp
+dMKgOgo+Pj4+Pgo+Pj4+Pgo+Pj4+PiBPbiAwMi8xMC8yMDIwIDEwOjIyIEFNLCBBbmRyZXcgTW9y
+dG9uIHdyb3RlOgo+Pj4+Pj4gT24gVGh1LCA2IEZlYiAyMDIwIDEzOjQ5OjM1ICswNTMwIEFuc2h1
+bWFuIEtoYW5kdWFsIDxhbnNodW1hbi5raGFuZHVhbEBhcm0uY29tPiB3cm90ZToKPj4+Pj4+Cj4+
+Pj4+Pj4KPj4+Pj4+PiBPbiAwMi8wNi8yMDIwIDA0OjQwIEFNLCBrYnVpbGQgdGVzdCByb2JvdCB3
+cm90ZToKPj4+Pj4+Pj4gSGkgQW5zaHVtYW4sCj4+Pj4+Pj4+Cj4+Pj4+Pj4+IFRoYW5rIHlvdSBm
+b3IgdGhlIHBhdGNoISBZZXQgc29tZXRoaW5nIHRvIGltcHJvdmU6Cj4+Pj4+Pj4+Cj4+Pj4+Pj4+
+IFthdXRvIGJ1aWxkIHRlc3QgRVJST1Igb24gcG93ZXJwYy9uZXh0XQo+Pj4+Pj4+PiBbYWxzbyBi
+dWlsZCB0ZXN0IEVSUk9SIG9uIHMzOTAvZmVhdHVyZXMgbGludXMvbWFzdGVyIGFyYy9mb3ItbmV4
+dCB2NS41XQo+Pj4+Pj4+PiBbY2Fubm90IGFwcGx5IHRvIG1tb3RtL21hc3RlciB0aXAveDg2L2Nv
+cmUgYXJtNjQvZm9yLW5leHQvY29yZSBuZXh0LTIwMjAwMjA1XQo+Pj4+Pj4+PiBbaWYgeW91ciBw
+YXRjaCBpcyBhcHBsaWVkIHRvIHRoZSB3cm9uZyBnaXQgdHJlZSwgcGxlYXNlIGRyb3AgdXMgYSBu
+b3RlIHRvIGhlbHAKPj4+Pj4+Pj4gaW1wcm92ZSB0aGUgc3lzdGVtLiBCVFcsIHdlIGFsc28gc3Vn
+Z2VzdCB0byB1c2UgJy0tYmFzZScgb3B0aW9uIHRvIHNwZWNpZnkgdGhlCj4+Pj4+Pj4+IGJhc2Ug
+dHJlZSBpbiBnaXQgZm9ybWF0LXBhdGNoLCBwbGVhc2Ugc2VlIGh0dHBzOi8vc3RhY2tvdmVyZmxv
+dy5jb20vYS8zNzQwNjk4Ml0KPj4+Pj4+Pj4KPj4+Pj4+Pj4gdXJsOiAgICBodHRwczovL2dpdGh1
+Yi5jb20vMGRheS1jaS9saW51eC9jb21taXRzL0Fuc2h1bWFuLUtoYW5kdWFsL21tLWRlYnVnLUFk
+ZC10ZXN0cy12YWxpZGF0aW5nLWFyY2hpdGVjdHVyZS1wYWdlLXRhYmxlLWhlbHBlcnMvMjAyMDAy
+MDUtMjE1NTA3Cj4+Pj4+Pj4+IGJhc2U6ICAgaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2Nt
+L2xpbnV4L2tlcm5lbC9naXQvcG93ZXJwYy9saW51eC5naXQgbmV4dAo+Pj4+Pj4+PiBjb25maWc6
+IGlhNjQtYWxsbW9kY29uZmlnIChhdHRhY2hlZCBhcyAuY29uZmlnKQo+Pj4+Pj4+PiBjb21waWxl
+cjogaWE2NC1saW51eC1nY2MgKEdDQykgNy41LjAKPj4+Pj4+Pj4gcmVwcm9kdWNlOgo+Pj4+Pj4+
+PiAgICAgICAgICAgd2dldCBodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vaW50ZWwv
+bGtwLXRlc3RzL21hc3Rlci9zYmluL21ha2UuY3Jvc3MgLU8gfi9iaW4vbWFrZS5jcm9zcwo+Pj4+
+Pj4+PiAgICAgICAgICAgY2htb2QgK3ggfi9iaW4vbWFrZS5jcm9zcwo+Pj4+Pj4+PiAgICAgICAg
+ICAgIyBzYXZlIHRoZSBhdHRhY2hlZCAuY29uZmlnIHRvIGxpbnV4IGJ1aWxkIHRyZWUKPj4+Pj4+
+Pj4gICAgICAgICAgIEdDQ19WRVJTSU9OPTcuNS4wIG1ha2UuY3Jvc3MgQVJDSD1pYTY0Cj4+Pj4+
+Pj4+Cj4+Pj4+Pj4+IElmIHlvdSBmaXggdGhlIGlzc3VlLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0
+YWcKPj4+Pj4+Pj4gUmVwb3J0ZWQtYnk6IGtidWlsZCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29t
+Pgo+Pj4+Pj4+Pgo+Pj4+Pj4+PiBBbGwgZXJyb3Ivd2FybmluZ3MgKG5ldyBvbmVzIHByZWZpeGVk
+IGJ5ID4+KToKPj4+Pj4+Pj4KPj4+Pj4+Pj4gICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gaW5j
+bHVkZS9hc20tZ2VuZXJpYy9wZ3RhYmxlLW5vcHVkLmg6ODowLAo+Pj4+Pj4+PiAgICAgICAgICAg
+ICAgICAgICAgICAgZnJvbSBhcmNoL2lhNjQvaW5jbHVkZS9hc20vcGd0YWJsZS5oOjU4NiwKPj4+
+Pj4+Pj4gICAgICAgICAgICAgICAgICAgICAgIGZyb20gaW5jbHVkZS9saW51eC9tbS5oOjk5LAo+
+Pj4+Pj4+PiAgICAgICAgICAgICAgICAgICAgICAgZnJvbSBpbmNsdWRlL2xpbnV4L2hpZ2htZW0u
+aDo4LAo+Pj4+Pj4+PiAgICAgICAgICAgICAgICAgICAgICAgZnJvbSBtbS9kZWJ1Z192bV9wZ3Rh
+YmxlLmM6MTQ6Cj4+Pj4+Pj4+ICAgICAgbW0vZGVidWdfdm1fcGd0YWJsZS5jOiBJbiBmdW5jdGlv
+biAncHVkX2NsZWFyX3Rlc3RzJzoKPj4+Pj4+Pj4+PiBpbmNsdWRlL2FzbS1nZW5lcmljL3BndGFi
+bGUtbm9wNGQtaGFjay5oOjQ3OjMyOiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVu
+Y3Rpb24gJ19fcGdkJzsgZGlkIHlvdSBtZWFuICdfX3A0ZCc/IFstV2Vycm9yPWltcGxpY2l0LWZ1
+bmN0aW9uLWRlY2xhcmF0aW9uXQo+Pj4+Pj4+PiAgICAgICAjZGVmaW5lIF9fcHVkKHgpICAgICgo
+cHVkX3QpIHsgX19wZ2QoeCkgfSkKPj4+Pj4+Pj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIF4KPj4+Pj4+Pj4+PiBtbS9kZWJ1Z192bV9wZ3RhYmxlLmM6MTQxOjg6IG5vdGU6
+IGluIGV4cGFuc2lvbiBvZiBtYWNybyAnX19wdWQnCj4+Pj4+Pj4+ICAgICAgICBwdWQgPSBfX3B1
+ZChwdWRfdmFsKHB1ZCkgfCBSQU5ET01fT1JWQUxVRSk7Cj4+Pj4+Pj4+ICAgICAgICAgICAgICBe
+fn5+fgo+Pj4+Pj4+Pj4+IGluY2x1ZGUvYXNtLWdlbmVyaWMvcGd0YWJsZS1ub3A0ZC1oYWNrLmg6
+NDc6MjI6IHdhcm5pbmc6IG1pc3NpbmcgYnJhY2VzIGFyb3VuZCBpbml0aWFsaXplciBbLVdtaXNz
+aW5nLWJyYWNlc10KPj4+Pj4+Pj4gICAgICAgI2RlZmluZSBfX3B1ZCh4KSAgICAoKHB1ZF90KSB7
+IF9fcGdkKHgpIH0pCj4+Pj4+Pj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KPj4+Pj4+
+Pj4+PiBtbS9kZWJ1Z192bV9wZ3RhYmxlLmM6MTQxOjg6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBt
+YWNybyAnX19wdWQnCj4+Pj4+Pj4+ICAgICAgICBwdWQgPSBfX3B1ZChwdWRfdmFsKHB1ZCkgfCBS
+QU5ET01fT1JWQUxVRSk7Cj4+Pj4+Pj4+ICAgICAgICAgICAgICBefn5+fgo+Pj4+Pj4+PiAgICAg
+IGNjMTogc29tZSB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9ycwo+Pj4+Pj4+Cj4+Pj4+
+Pj4gVGhpcyBidWlsZCBmYWlsdXJlIGlzIGV4cGVjdGVkIG5vdyBnaXZlbiB0aGF0IHdlIGhhdmUg
+YWxsb3dlZCBERUJVR19WTV9QR1RBQkxFCj4+Pj4+Pj4gd2l0aCBFWFBFUlQgd2l0aG91dCBwbGF0
+Zm9ybSByZXF1aXJpbmcgQVJDSF9IQVNfREVCVUdfVk1fUEdUQUJMRS4gVGhpcyBwcm9ibGVtCj4+
+Pj4+Pj4gaS5lIGJ1aWxkIGZhaWx1cmUgY2F1c2VkIHdpdGhvdXQgYSBwbGF0Zm9ybSBfX3BnZCgp
+LCBpcyBrbm93biB0byBleGlzdCBib3RoIG9uCj4+Pj4+Pj4gaWE2NCBhbmQgYXJtICgzMmJpdCkg
+cGxhdGZvcm1zLiBQbGVhc2UgcmVmZXIgaHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMTkvOS8yNC8z
+MTQKPj4+Pj4+PiBmb3IgZGV0YWlscyB3aGVyZSB0aGlzIHdhcyBkaXNjdXNzZWQgZWFybGllci4K
+Pj4+Pj4+Pgo+Pj4+Pj4KPj4+Pj4+IEknZCBwcmVmZXIgbm90IHRvIG1lcmdlIGEgcGF0Y2ggd2hp
+Y2ggaXMga25vd24gdG8gY2F1c2UgYnVpbGQKPj4+Pj4+IHJlZ3Jlc3Npb25zLiAgSXMgdGhlcmUg
+c29tZSB0ZW1wb3JhcnkgdGhpbmcgd2UgY2FuIGRvIHRvIHByZXZlbnQgdGhlc2UKPj4+Pj4+IGVy
+cm9ycyB1bnRpbCBhcmNoIG1haW50YWluZXJzKD8pIGdldCBhcm91bmQgdG8gaW1wbGVtZW50aW5n
+IHRoZQo+Pj4+Pj4gbG9uZy10ZXJtIGZpeGVzPwo+Pj4+Pgo+Pj4+PiBXZSBjb3VsZCBleHBsaWNp
+dGx5IGRpc2FibGUgQ09ORklHX0RFQlVHX1ZNX1BHVEFCTEUgb24gaWE2NCBhbmQgYXJtIHBsYXRm
+b3Jtcwo+Pj4+PiB3aGljaCB3aWxsIGVuc3VyZSB0aGF0IG90aGVycyBjYW4gc3RpbGwgdXNlIHRo
+ZSBFWFBFUlQgcGF0aC4KPj4+Pj4KPj4+Pj4gY29uZmlnIERFQlVHX1ZNX1BHVEFCTEUKPj4+Pj4g
+CWJvb2wgIkRlYnVnIGFyY2ggcGFnZSB0YWJsZSBmb3Igc2VtYW50aWNzIGNvbXBsaWFuY2UiCj4+
+Pj4+IAlkZXBlbmRzIG9uIE1NVQo+Pj4+PiAJZGVwZW5kcyBvbiAhKElBNjQgfHwgQVJNKQo+Pj4+
+PiAJZGVwZW5kcyBvbiBBUkNIX0hBU19ERUJVR19WTV9QR1RBQkxFIHx8IEVYUEVSVAo+Pj4+PiAJ
+ZGVmYXVsdCBuIGlmICFBUkNIX0hBU19ERUJVR19WTV9QR1RBQkxFCj4+Pj4+IAlkZWZhdWx0IHkg
+aWYgREVCVUdfVk0KPj4+Pj4KPj4+Pgo+Pj4+IE9uIGJvdGggaWEzMiBhbmQgYXJtLCB0aGUgZml4
+IGlzIHRyaXZpYWwuCj4+Pj4KPj4+PiBDYW4gd2UgaW5jbHVkZSB0aGUgZml4IHdpdGhpbiB0aGlz
+IHBhdGNoLCBqdXN0IHRoZSBzYW1lIHdheSBhcyB0aGUKPj4+PiBtbV9wNGRfZm9sZGVkKCkgZml4
+IGZvciB4ODYgPwo+Pj4KPj4+IFdoeSBzaG91bGQgYXJtIGluY2x1ZGUgYSBtYWNybyBmb3Igc29t
+ZXRoaW5nIHRoYXQgbm90aGluZyAoYXBhcnQgZnJvbQo+Pj4gdGhpcyBjaGVja2VyKSByZXF1aXJl
+cz8gIElmIHRoZSBjaGVja2VyIHJlcXVpcmVzIGl0IGJ1dCB0aGUgcmVzdCBvZgo+Pj4gdGhlIGtl
+cm5lbCBkb2VzIG5vdCwgaXQgc3VnZ2VzdHMgdGhhdCB0aGUgY2hlY2tlciBpc24ndCBhY3R1YWxs
+eQo+Pj4gY29ycmVjdCwgYW5kIHRoZSByZXN1bHRzIGNhbid0IGJlIHJlbGllZCB1cG9uLgo+Pj4K
+Pj4KPj4gQXMgZmFyIGFzIEkgY2FuIHNlZSwgdGhlIHByb2JsZW0gaXMgdGhhdCBhcm0gb3BlbmNv
+ZGVzIHBhcnQgb2YgdGhlIEFQSQo+PiBpbnN0ZWFkIG9mIGluY2x1ZGluZyBhc20tZ2VuZXJpYy9w
+Z3RhYmxlLW5vcG1kLmgKPj4KPj4gSGVyZSwgdGhlIEFSTSBoYXMgMiBsZXZlbHMsIGllIG9ubHkg
+UEdEIGFuZCBQVEUuIEJ1dCBpbnN0ZWFkIG9mIGRlZmluaW5nCj4+IF9fcGdkIGFuZCBfX3B0ZSBh
+bmQgZ2V0dGluZyBldmVyeXRoaW5nIGVsc2UgZnJvbSBhc20tZ2VuZXJpYywgaXQgZGVmaW5lcyBh
+Cj4+IF9fcG1kIHRoZW4gcmVkZWZpbmVzIHRoZSBmb2xkZWQgbGV2ZWxzIGxpa2UgdGhlIHB1ZCwg
+ZXRjIC4uLgo+Pgo+PiBUaGF0J3MgZXhhY3RseSB3aGF0IHRoZSBjaGVja2VyIGFpbXMgYXQgZGV0
+ZWN0aW5nOiBhcmNoaXRlY3R1cmVzIHRoYW4gZG8gbm90Cj4+IHByb3Blcmx5IHVzZSB0aGUgc3Rh
+bmRhcmQgbGludXggcGFnZSB0YWJsZSBzdHJ1Y3R1cmVzLgo+IAo+IFRoZXJlIGFyZSBnb29kIHJl
+YXNvbnMgZm9yIHRoZSB3YXkgQVJNIGRvZXMgc3R1ZmYuICBUaGUgZ2VuZXJpYyBjcmFwIHdhcwo+
+IHdyaXR0ZW4gd2l0aG91dCByZWdhcmQgZm9yIHRoZSBjaXJjdW1zdGFuY2VzIHRoYXQgQVJNIGhh
+cywgYW5kIHRodXMgaXMKPiBlbnRpcmVseSB1bnN1aXRhYmxlIGZvciAzMi1iaXQgQVJNLgoKU2lu
+Y2Ugd2UgZG9udCBoYXZlIGFuIGFncmVlbWVudCBoZXJlLCBsZXRzIGp1c3Qgc2V0dGxlIHdpdGgg
+ZGlzYWJsaW5nIHRoZQp0ZXN0IGZvciBub3cgb24gcGxhdGZvcm1zIHdoZXJlIHRoZSBidWlsZCBm
+YWlscy4gQ09ORklHX0VYUEVSVCBpcyBlbmFibGluZwp0aGlzIHRlc3QgZm9yIGJldHRlciBhZGFw
+dGFiaWxpdHkgYW5kIGNvdmVyYWdlLCBoZW5jZSBob3cgYWJvdXQgcmUgZnJhbWluZwp0aGUgY29u
+ZmlnIGxpa2UgdGhpcyA/IFRoaXMgYXQgdGhlIGxlYXN0IGNvbnZleXMgdGhlIGZhY3QgdGhhdCBF
+WFBFUlQgb25seQp3b3JrcyB3aGVuIHBsYXRmb3JtIGlzIG5laXRoZXIgSUE2NCBvciBBUk0uCgpj
+b25maWcgREVCVUdfVk1fUEdUQUJMRQoJYm9vbCAiRGVidWcgYXJjaCBwYWdlIHRhYmxlIGZvciBz
+ZW1hbnRpY3MgY29tcGxpYW5jZSIKCWRlcGVuZHMgb24gTU1VCglkZXBlbmRzIG9uIEFSQ0hfSEFT
+X0RFQlVHX1ZNX1BHVEFCTEUgfHwgKEVYUEVSVCAmJiAgIShJQTY0IHx8IEFSTSkpCglkZWZhdWx0
+IG4gaWYgIUFSQ0hfSEFTX0RFQlVHX1ZNX1BHVEFCTEUKCWRlZmF1bHQgeSBpZiBERUJVR19WTQoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25w
+cy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0
+cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
