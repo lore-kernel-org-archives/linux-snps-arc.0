@@ -2,140 +2,63 @@ Return-Path: <SRS0=vxQV=4A=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 091C6C35242
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 Feb 2020 01:42:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B57AC352A4
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 Feb 2020 09:43:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CC4EA2070A
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 Feb 2020 01:42:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DCA94206ED
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 Feb 2020 09:43:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VmLE9wNa";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUEgfxpR"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC4EA2070A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oeTXDz4P"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DCA94206ED
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	Message-ID:References:To:Subject:From:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=X992ZaKcFHOz/ey+tH39PDfg4T6nGqciJbPRbzvuZgA=; b=VmLE9wNaX6nxEM
-	arcrbG6YhzJEzD5sfxVRZJUQurLdhymzIe8jm0B0cZeVKEHwNbnbJKn5f/qV1iZzeUnViSWuvzxSn
-	EKTvb16U396TzQN3AZfm4+pVc9LUZjIws95Vdh1DWZ47N6FVcCHR1vHY0meFQc8ek6Fujsg8VEcOG
-	/GZRq+4DfAY/pcTaZLah3tK35texKNc1WC/wexzOr99Epj8eJNAWmkyr89vl298k5is7Ktzoq0R81
-	z7DCaUbI58sBOqKzseyB9yhUtDIPH0cwMOg3ISDmafchQnhPhGGrOkZhBQcA+ljCMatcKjQ83hCMb
-	BIOYRcbCtyBt3GxZ4h7Q==;
+	List-Owner; bh=HeCdG/0dUFnxNirrcCpaRj1dl9vcZWms4RhZg7I3kRs=; b=oeTXDz4PC6L3iP
+	LwG0VxikWEIvZDAX3gtmZNdDtZ59LekCT+xZbzz5mLER5wvmUZUgmVIR4/4v12lqwe9xOS/mnZRll
+	HXRx1R7iD8Mmh6SSrjOlc27dg5nyhv7kHOFuqoeKNRWGbuXuBH8aVc5e8ecP4ErjxH4TbHctU3hfA
+	T5RHKy+PeIgx8oVv1dG2cdIUkNm0K61zEBi3tSqfaCPU2O0nYdUUouZzfPPMuWornwDFA5vWP0Wua
+	G5U2Keir+JYcJ7EdFhKPJTJiIlEdpMZ+1gmzvZDe/rgaxZlkWpOUe40vJQ9vmBavmOj/ccuRE+M/D
+	y6nZ8EnES56dQD+vk//Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j1h37-0002ZK-17; Wed, 12 Feb 2020 01:42:45 +0000
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j1h33-0002Yw-NX
- for linux-snps-arc@lists.infradead.org; Wed, 12 Feb 2020 01:42:43 +0000
-Received: by mail-pg1-x541.google.com with SMTP id d9so342093pgu.3
- for <linux-snps-arc@lists.infradead.org>; Tue, 11 Feb 2020 17:42:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OpPdFJhHx5eLv8kfDp9Lkb2UTwiel/WAEfIcJde8Cnc=;
- b=HUEgfxpRnFTnmfYtwsMmzC7KyH2ZqHoSonZX2JZCRHeuqxdV8jys3MDXTjKrjlJUK9
- Qmq4mMF46MjVfIdezbt+dfeGoXlqWKFYc55mgZaK+u/MPXTJHphWSrbStgIMgOVR/33T
- USIzm937tayH7YQ6vH5Xn62i9ybvDO9mfn8xMIgi6fVw7VoC9BtbM0O9+SQzIN48qC2T
- h95FG6tuP/kATFpUPF+VfEKIgPpcYhxJgTwMMKIX0ONIYE6Ah9RbyNO3+4FSdDCtmbWM
- H0qAToiLvuko6c55ghW7mu9ctnV90NZ+8fxRfQ+XHPdDJ+YW7GxVd0/v+eQjr7dGMyFS
- H0Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=OpPdFJhHx5eLv8kfDp9Lkb2UTwiel/WAEfIcJde8Cnc=;
- b=UyBQKDBdIPmeLQKFFMP6YhNf5yGy9gABWAYrPE5cjpwfvneR2Gdp54lo2IW4KqiVQn
- QsBFTRPslJ3q/jjlTC4vZrnO3b8/OrJ8xaUE3zfBIZnEaOWeJLHmxZxYdoJBlGsW1Qdj
- B9yyzECehxMRqngJhQERfX4rRuivqJaYv7gCu8Y12j9H6Xvq3sWyrp/mSzPWdZwZV0CI
- kA1RPagRs+7xTDvIsWgQw12ahLxkMS537u8mTOYKHM3Hi6yghdYYOCPS9AqpquNF/DoK
- UvMcqO0y8oTNdc5JrIuefR6c5T5NXuvp463JEhg47WkShRUpw3BmvHhBL7Eu5u6y59wa
- oLjQ==
-X-Gm-Message-State: APjAAAUWIwR/eJRbs6hnm1sJ/NW257W2DvwNyUMu7zVHoc3c1knHTu+5
- j20d3QkbdCUurgXYJltjQiQ=
-X-Google-Smtp-Source: APXvYqxFx7hSG1Wn2z8Hnd+jwxws2K4/56+ixDHEY+fkPYNANvjL/PGxjF27ebmH5eCmVJmKanhIWg==
-X-Received: by 2002:a63:504f:: with SMTP id q15mr9856896pgl.8.1581471759525;
- Tue, 11 Feb 2020 17:42:39 -0800 (PST)
-Received: from ?IPv6:2601:641:c100:83a0:bc48:43a7:8508:65a?
- ([2601:641:c100:83a0:bc48:43a7:8508:65a])
- by smtp.gmail.com with ESMTPSA id 4sm5891938pfn.90.2020.02.11.17.42.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Feb 2020 17:42:38 -0800 (PST)
-Subject: Re: [RFC v6 07/23] RISC-V: Use 64-bit time_t and off_t for RV32 and
- RV64
-To: Alistair Francis <alistair23@gmail.com>
-References: <cover.1578824547.git.alistair.francis@wdc.com>
- <4e95f95966d8d7c6a8339160dc62d81c1f6a1bfb.1578824547.git.alistair.francis@wdc.com>
- <00574bfb-981a-3a1c-cbdf-b2fee4eddc32@gmail.com>
- <CAKmqyKMyf2psPp+-EHoidvbPbSXv0=dP26GjVQnT5BUriLc1gA@mail.gmail.com>
-From: Vineet Gupta <vineetg76@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=vineetg76@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- deE0Dvw98SWmZSNtdOPnJZ0D
-Message-ID: <3ca7e2cb-55c2-1118-90b8-505586b36ee7@gmail.com>
-Date: Tue, 11 Feb 2020 17:42:37 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+	id 1j1oYC-0006w9-Aa; Wed, 12 Feb 2020 09:43:20 +0000
+Received: from foss.arm.com ([217.140.110.172])
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j1oY3-0006p9-KQ; Wed, 12 Feb 2020 09:43:13 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4F4230E;
+ Wed, 12 Feb 2020 01:43:05 -0800 (PST)
+Received: from [10.163.1.114] (unknown [10.163.1.114])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F02F3F6CF;
+ Wed, 12 Feb 2020 01:42:51 -0800 (PST)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH V12] mm/debug: Add tests validating architecture page
+ table helpers
+To: Catalin Marinas <catalin.marinas@arm.com>
+References: <1580174873-18117-1-git-send-email-anshuman.khandual@arm.com>
+ <20200210153716.GB9283@E121110.arm.com>
+Message-ID: <b169ff9d-7b87-91f4-b3d0-e97f86680d0c@arm.com>
+Date: Wed, 12 Feb 2020 15:12:54 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKMyf2psPp+-EHoidvbPbSXv0=dP26GjVQnT5BUriLc1gA@mail.gmail.com>
+In-Reply-To: <20200210153716.GB9283@E121110.arm.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200211_174241_796252_233D038F 
-X-CRM114-Status: GOOD (  15.60  )
+X-CRM114-CacheID: sfid-20200212_014311_763783_E3C7100B 
+X-CRM114-Status: GOOD (  36.33  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,69 +70,355 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>,
- GNU C Library <libc-alpha@sourceware.org>, Arnd Bergmann <arnd@arndb.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>, Zong Li <zongbox@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Adhemerval Zanella <adhemerval.zanella@linaro.org>,
- "Maciej W. Rozycki" <macro@wdc.com>,
- arcml <linux-snps-arc@lists.infradead.org>,
- Joseph Myers <joseph@codesourcery.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ James Hogan <jhogan@kernel.org>, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
+ Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
+ Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Michael Ellerman <mpe@ellerman.id.au>,
+ Vlastimil Babka <vbabka@suse.cz>, x86@kernel.org,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ Kees Cook <keescook@chromium.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Dan Williams <dan.j.williams@intel.com>, Mark Brown <broonie@kernel.org>,
+ "Kirill A . Shutemov" <kirill@shutemov.name>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Sri Krishna chowdary <schowdary@nvidia.com>,
+ Dave Hansen <dave.hansen@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>, linux-mips@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
+ Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ Martin Schwidefsky <schwidefsky@de.ibm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 2/11/20 4:14 PM, Alistair Francis wrote:
-> On Tue, Feb 11, 2020 at 4:14 PM Vineet Gupta <vineetg76@gmail.com> wrote:
-
->>> diff --git a/sysdeps/unix/sysv/linux/riscv/bits/typesizes.h b/sysdeps/unix/sysv/linux/riscv/bits/typesizes.h
->>> new file mode 100644
->>> index 0000000000..0da3bdeb5d
->>> --- /dev/null
->>> +++ b/sysdeps/unix/sysv/linux/riscv/bits/typesizes.h
->>
->> I was hoping newer arches could simply use the asm-generic one ?
+On 02/10/2020 09:07 PM, Catalin Marinas wrote:
+> On Tue, Jan 28, 2020 at 06:57:53AM +0530, Anshuman Khandual wrote:
+>> This gets build and run when CONFIG_DEBUG_VM_PGTABLE is selected along with
+>> CONFIG_VM_DEBUG. Architectures willing to subscribe this test also need to
+>> select CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE which for now is limited to x86 and
+>> arm64. Going forward, other architectures too can enable this after fixing
+>> build or runtime problems (if any) with their page table helpers.
 > 
-> We need to specify that RV32 uses a 64-bit time_t. The generic ones
-> don't do that for 32-bit arches.
+> It may be worth posting the next version to linux-arch to reach out to
+> other arch maintainers.
 
-Right. It pains to see that each new port (despite using asm-generic syscall ABI)
-will have to make their own copy of something so fundamental as typesizes.h where
-only a few things will change. The generic file is no longer generic :-(
-Oh well !
+Sure, will do.
 
->>> +/* Tell the libc code that off_t and off64_t are actually the same type
->>> +   for all ABI purposes, even if possibly expressed as different base types
->>> +   for C type-checking purposes.  */
->>> +# define __OFF_T_MATCHES_OFF64_T 1
->>
->> This is orthogonal to time_t but since we are on topic of newer ports, how are you
->> doing this. The asm-generic uapi defines
->>
->>         typedef __kernel_long_t __kernel_off_t;
->>
->> and types.h defines
->>
->>         typedef __kernel_off_t off_t;
->>
->> And I presume long on RV32 is 32-bits
 > 
-> Can you point me to the code? Last time I looked the kernel used the
-> 64-bit versions for the syscalls on RV32.
+> Also I've seen that you posted a v13 but it hasn't reached
+> linux-arm-kernel (likely held in moderation because of the large amount
+> of addresses cc'ed) and I don't normally follow LKML. I'm not cc'ed to
+> this patch either (which is fine as long as you post to a list that I
+> read).
 
-You are right. I got confused with the types above: asm-generic syscalls on 32-bit
-arches use struct stat64 etc which has 64-bit inode. Similarly sys_llseek uses
-low/high parts for offset.
+Right, the CC list on V13 was a disaster. I did not realize that it will
+exceed the permitted limit when the lists will start refusing to take. In
+fact, it looks like LKML did not get the email either.
 
->>> +/* Same for ino_t and ino64_t.  */
->>> +# define __INO_T_MATCHES_INO64_T 1
+> 
+> Since I started the reply on v12 about a week ago, I'll follow up here.
+> When you post a v14, please trim the people on cc only to those strictly
+> necessary (e.g. arch maintainers, linux-mm, linux-arch and lkml).
 
-I'm surprised that ARC port doesn't define this in glibc, yet we use the
-asm-generic syscall interface where this is true. I need to investigate more.
+Sure, will do.
 
-Thx,
--vineet
+> 
+>> diff --git a/Documentation/features/debug/debug-vm-pgtable/arch-support.txt b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
+>> new file mode 100644
+>> index 000000000000..f3f8111edbe3
+>> --- /dev/null
+>> +++ b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
+>> @@ -0,0 +1,35 @@
+>> +#
+>> +# Feature name:          debug-vm-pgtable
+>> +#         Kconfig:       ARCH_HAS_DEBUG_VM_PGTABLE
+>> +#         description:   arch supports pgtable tests for semantics compliance
+>> +#
+>> +    -----------------------
+>> +    |         arch |status|
+>> +    -----------------------
+>> +    |       alpha: | TODO |
+>> +    |         arc: |  ok  |
+>> +    |         arm: | TODO |
+> 
+> I'm sure you can find some arm32 hardware around (or a VM) to give this
+> a try ;).
+
+It does not build on arm32 and we dont have an agreement on how to go about
+that either, hence will disable this test on IA64 and ARM (32) in order to
+prevent the known build failures (as Andrew had requested).
+
+> 
+>> diff --git a/arch/x86/include/asm/pgtable_64.h b/arch/x86/include/asm/pgtable_64.h
+>> index 0b6c4042942a..fb0e76d254b3 100644
+>> --- a/arch/x86/include/asm/pgtable_64.h
+>> +++ b/arch/x86/include/asm/pgtable_64.h
+> [...]
+>> @@ -1197,6 +1197,7 @@ static noinline void __init kernel_init_freeable(void)
+>>  	sched_init_smp();
+>>  
+>>  	page_alloc_init_late();
+>> +	debug_vm_pgtable();
+>>  	/* Initialize page ext after all struct pages are initialized. */
+>>  	page_ext_init();
+> 
+> I guess you could even make debug_vm_pgtable() an early_initcall(). I
+> don't have a strong opinion either way.
+> 
+>> diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
+>> new file mode 100644
+>> index 000000000000..0f37f32d15f1
+>> --- /dev/null
+>> +++ b/mm/debug_vm_pgtable.c
+>> @@ -0,0 +1,388 @@
+> [...]
+>> +/*
+>> + * Basic operations
+>> + *
+>> + * mkold(entry)			= An old and not a young entry
+>> + * mkyoung(entry)		= A young and not an old entry
+>> + * mkdirty(entry)		= A dirty and not a clean entry
+>> + * mkclean(entry)		= A clean and not a dirty entry
+>> + * mkwrite(entry)		= A write and not a write protected entry
+>> + * wrprotect(entry)		= A write protected and not a write entry
+>> + * pxx_bad(entry)		= A mapped and non-table entry
+>> + * pxx_same(entry1, entry2)	= Both entries hold the exact same value
+>> + */
+>> +#define VMFLAGS	(VM_READ|VM_WRITE|VM_EXEC)
+>> +
+>> +/*
+>> + * On s390 platform, the lower 12 bits are used to identify given page table
+>> + * entry type and for other arch specific requirements. But these bits might
+>> + * affect the ability to clear entries with pxx_clear(). So while loading up
+>> + * the entries skip all lower 12 bits in order to accommodate s390 platform.
+>> + * It does not have affect any other platform.
+>> + */
+>> +#define RANDOM_ORVALUE	(0xfffffffffffff000UL)
+> 
+> I'd suggest you generate this mask with something like
+> GENMASK(BITS_PER_LONG, PAGE_SHIFT).
+
+IIRC the lower 12 bits constrains on s390 platform might not be really related
+to it's PAGE_SHIFT which can be a variable, but instead just a constant number.
+But can definitely use GENMASK or it's variants here.
+
+https://lkml.org/lkml/2019/9/5/862
+
+> 
+>> +#define RANDOM_NZVALUE	(0xff)
+>> +
+>> +static void __init pte_basic_tests(unsigned long pfn, pgprot_t prot)
+>> +{
+>> +	pte_t pte = pfn_pte(pfn, prot);
+>> +
+>> +	WARN_ON(!pte_same(pte, pte));
+>> +	WARN_ON(!pte_young(pte_mkyoung(pte)));
+>> +	WARN_ON(!pte_dirty(pte_mkdirty(pte)));
+>> +	WARN_ON(!pte_write(pte_mkwrite(pte)));
+>> +	WARN_ON(pte_young(pte_mkold(pte)));
+>> +	WARN_ON(pte_dirty(pte_mkclean(pte)));
+>> +	WARN_ON(pte_write(pte_wrprotect(pte)));
+> 
+> Given that you start with rwx permissions set,
+> some of these ops would not have any effect. For example, on arm64 at
+> least, mkwrite clears a bit already cleared here. You could try with
+
+PTE_RDONLY !
+
+> multiple rwx combinations values (e.g. all set and all cleared) or maybe
+
+Which will require running the sequence of tests multiple times, each
+time with different prot value (e.g all set or all clear). Wondering
+if that would be better than the proposed single pass.
+
+> something like below:
+> 
+> 	WARN_ON(!pte_write(pte_mkwrite(pte_wrprotect(pte))));
+
+Hmm, we should run invert functions first for each function we are
+trying to test ? That makes sense because any platform specific bit
+combination (clear or set) for the function to be tested, will first
+be flipped with it's invert function.
+
+> 
+> You could also try something like this:
+> 
+> 	WARN_ON(!pte_same(pte_wrprotect(pte), pte_wrprotect(pte_mkwrite(pte))));
+> 
+> though the above approach may not work for arm64 ptep_set_wrprotect() on
+> a dirty pte (if you extend these tests later).
+
+Okay, will use the previous method (invert function -> actual function) for
+basic tests on each level.
+
+> 
+>> +}
+>> +
+>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>> +static void __init pmd_basic_tests(unsigned long pfn, pgprot_t prot)
+>> +{
+>> +	pmd_t pmd = pfn_pmd(pfn, prot);
+>> +
+>> +	WARN_ON(!pmd_same(pmd, pmd));
+>> +	WARN_ON(!pmd_young(pmd_mkyoung(pmd)));
+>> +	WARN_ON(!pmd_dirty(pmd_mkdirty(pmd)));
+>> +	WARN_ON(!pmd_write(pmd_mkwrite(pmd)));
+>> +	WARN_ON(pmd_young(pmd_mkold(pmd)));
+>> +	WARN_ON(pmd_dirty(pmd_mkclean(pmd)));
+>> +	WARN_ON(pmd_write(pmd_wrprotect(pmd)));
+>> +	/*
+>> +	 * A huge page does not point to next level page table
+>> +	 * entry. Hence this must qualify as pmd_bad().
+>> +	 */
+>> +	WARN_ON(!pmd_bad(pmd_mkhuge(pmd)));
+>> +}
+>> +
+>> +#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+>> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot)
+>> +{
+>> +	pud_t pud = pfn_pud(pfn, prot);
+>> +
+>> +	WARN_ON(!pud_same(pud, pud));
+>> +	WARN_ON(!pud_young(pud_mkyoung(pud)));
+>> +	WARN_ON(!pud_write(pud_mkwrite(pud)));
+>> +	WARN_ON(pud_write(pud_wrprotect(pud)));
+>> +	WARN_ON(pud_young(pud_mkold(pud)));
+>> +
+>> +	if (mm_pmd_folded(mm) || __is_defined(ARCH_HAS_4LEVEL_HACK))
+>> +		return;
+>> +
+>> +	/*
+>> +	 * A huge page does not point to next level page table
+>> +	 * entry. Hence this must qualify as pud_bad().
+>> +	 */
+>> +	WARN_ON(!pud_bad(pud_mkhuge(pud)));
+>> +}
+>> +#else
+>> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot) { }
+>> +#endif
+>> +#else
+>> +static void __init pmd_basic_tests(unsigned long pfn, pgprot_t prot) { }
+>> +static void __init pud_basic_tests(unsigned long pfn, pgprot_t prot) { }
+>> +#endif
+>> +
+>> +static void __init p4d_basic_tests(unsigned long pfn, pgprot_t prot)
+>> +{
+>> +	p4d_t p4d;
+>> +
+>> +	memset(&p4d, RANDOM_NZVALUE, sizeof(p4d_t));
+>> +	WARN_ON(!p4d_same(p4d, p4d));
+>> +}
+>> +
+>> +static void __init pgd_basic_tests(unsigned long pfn, pgprot_t prot)
+>> +{
+>> +	pgd_t pgd;
+>> +
+>> +	memset(&pgd, RANDOM_NZVALUE, sizeof(pgd_t));
+>> +	WARN_ON(!pgd_same(pgd, pgd));
+>> +}
+>> +
+>> +#ifndef __ARCH_HAS_4LEVEL_HACK
+> 
+> This macro doesn't exist in the kernel anymore (it's a 5LEVEL now). But
+
+I was aware about the work to drop __ARCH_HAS_4LEVEL_HACK but did not realize
+that it has already merged.
+
+> can you not use the __PAGETABLE_PUD_FOLDED instead?
+
+Sure, will try.
+
+> 
+>> +static void __init pud_clear_tests(struct mm_struct *mm, pud_t *pudp)
+>> +{
+>> +	pud_t pud = READ_ONCE(*pudp);
+>> +
+>> +	if (mm_pmd_folded(mm))
+>> +		return;
+>> +
+>> +	pud = __pud(pud_val(pud) | RANDOM_ORVALUE);
+>> +	WRITE_ONCE(*pudp, pud);
+>> +	pud_clear(pudp);
+>> +	pud = READ_ONCE(*pudp);
+>> +	WARN_ON(!pud_none(pud));
+>> +}
+>> +
+>> +static void __init pud_populate_tests(struct mm_struct *mm, pud_t *pudp,
+>> +				      pmd_t *pmdp)
+>> +{
+>> +	pud_t pud;
+>> +
+>> +	if (mm_pmd_folded(mm))
+>> +		return;
+>> +	/*
+>> +	 * This entry points to next level page table page.
+>> +	 * Hence this must not qualify as pud_bad().
+>> +	 */
+>> +	pmd_clear(pmdp);
+>> +	pud_clear(pudp);
+>> +	pud_populate(mm, pudp, pmdp);
+>> +	pud = READ_ONCE(*pudp);
+>> +	WARN_ON(pud_bad(pud));
+>> +}
+>> +#else
+>> +static void __init pud_clear_tests(struct mm_struct *mm, pud_t *pudp) { }
+>> +static void __init pud_populate_tests(struct mm_struct *mm, pud_t *pudp,
+>> +				      pmd_t *pmdp)
+>> +{
+>> +}
+>> +#endif
+>> +
+>> +#ifndef __ARCH_HAS_5LEVEL_HACK
+> 
+> Could you use __PAGETABLE_P4D_FOLDED instead?
+
+Sure, will try.
+
+Initial tests with __PAGETABLE_PUD_FOLDED and __PAGETABLE_P4D_FOLDED
+replacement looks okay.
+ 
+> 
+>> +static void __init p4d_clear_tests(struct mm_struct *mm, p4d_t *p4dp)
+>> +{
+>> +	p4d_t p4d = READ_ONCE(*p4dp);
+>> +
+>> +	if (mm_pud_folded(mm))
+>> +		return;
+>> +
+>> +	p4d = __p4d(p4d_val(p4d) | RANDOM_ORVALUE);
+>> +	WRITE_ONCE(*p4dp, p4d);
+>> +	p4d_clear(p4dp);
+>> +	p4d = READ_ONCE(*p4dp);
+>> +	WARN_ON(!p4d_none(p4d));
+>> +}
+> 
+> Otherwise the patch looks fine. As per the comment on v13, make sure you
+> don't break the build on any architecture, so this could either be an
+> opt-in or patch those architectures before this patch is applied.
+
+We already have an opt-in method through ARCH_HAS_DEBUG_VM_PGTABLE config.
+But lately (v13) we had decided to enable the test through CONFIG_EXPERT,
+for better adaptability on non supported platforms without requiring it's
+Kconfig change. This exposed the existing build failures on IA64 and ARM.
+I will probably disable the test on those platforms as agreed upon on V13
+thread.
+
+> 
+> Thanks.
+> 
 
 _______________________________________________
 linux-snps-arc mailing list
