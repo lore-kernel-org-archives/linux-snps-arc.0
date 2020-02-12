@@ -2,74 +2,102 @@ Return-Path: <SRS0=vxQV=4A=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C4AC352A4
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 Feb 2020 17:44:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B13F2C352A4
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 Feb 2020 17:56:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E1D9F2073C
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 Feb 2020 17:44:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8C97A20661
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 Feb 2020 17:56:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K6eKeJty";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="h5iNrNPy"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E1D9F2073C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ltKAAFtz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8C97A20661
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=de.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=/BthUJZnFeFXBkjUbCT8os+b38SUPauzmm6aP2IzYjQ=; b=K6eKeJtyvINlPhyOiXu5Q1NInK
-	zefR5So1eRktaAJXECnmP4laCM/kSERLoBDOt03NvzOfMBZEG0UZrJL0AQiY4UTPVvKz3P1fjqHn7
-	yIrDDG9vqJxs8SZNbNbLXmfTNoHEmAvF9hgERICS2twLWGwxj8GwZRJlSABp0ugZ5gb2TPzNYX9/c
-	fZ6WzFqN7+Ilf/Gva/PtuCthw90Q5AhlphO8UPnu1Xo+RQLp4/hxxrJTOz7ZlA3u/sf/igWGecCv9
-	33JY7GiJG0yQMJm0MHQ3i5r2rGFA3cGTRr9iP91ePHbdz5YA1oaRjaxks6xF5JsdZS0P8s+9EL1pY
-	AoXbc7FA==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Message-Id:MIME-Version:References:
+	In-Reply-To:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=k6dD16mKp0yz48tPgw2mz+F6AXBaBYL6m5hfSzhiMwQ=; b=ltKAAFtz8xDsQM
+	rKq7ROAX+kvsxTD1PI5aSjukX+J+Egvxj+Q8FyMB/Mikz9SBq7Wd9GLW10BH9D2fqHVwv+ptyoNNZ
+	9oo2WsEK+oE1zTqflT2MtJI+5QuLjlkBJpQIBL+nkL7aQKCLCgNRjyYfnlRg5sompPMNl49cUn1Ui
+	SSQwWOCyuvieMHdNkFNr56ocqOkJG3Fnbw2Jbq9mzkErO9K8NrN1BAz134AAkae7zmF8oi/953s6Q
+	wY1kWWCEW6/lBwCb/mkvdArIVVWVRQP3Ls840K2mvcsWDT3DkiEWWScS7TY1WYeHVZSHr3AIx5PKO
+	YudquVKvHiahfT2/P6Rg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j1w4E-0008FF-AL; Wed, 12 Feb 2020 17:44:54 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1j1wF7-0005Ca-H5; Wed, 12 Feb 2020 17:56:09 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j1w4A-0008DG-3x
- for linux-snps-arc@lists.infradead.org; Wed, 12 Feb 2020 17:44:52 +0000
-Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
- [10.225.0.210])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 2A6B4C0631;
- Wed, 12 Feb 2020 17:44:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1581529488; bh=BVyotUCVpwyTgkIoEuOxKle2OgbER1Vx9ldbCp/S5Xo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h5iNrNPyn9rKQ6hYV39ZO3QJnQipmy+udwuQ6mlNXJZW/X3e0f4vzXLA+bCaltj+k
- Psf/aJZsyomc0mEXJftK7YjxO9sFZAIteWO/zgZckvlLOgLSyHFIAfFrgt/sma7O1X
- 8TKUKbGN+7y6pabt8YIk7r6fIAsGbMsykE2JVJqchYGnw9X727HNB122L6xqocyI4z
- dfp/GJ+8n0ZIVD+wHATuVMA1kKv8RH4IE/7w4TRCZF/MH3T3ATkPxDNuVHVTS3akvL
- WTUe/nYcElEH7ePUfpm4jHcRrDpPnYiWmrENpmmTNerYWj+ML/MKiA8+EDhrs6X2Pu
- M1j2cTrsJi5ww==
-Received: from ru20arcgnu1.internal.synopsys.com
- (ru20arcgnu1.internal.synopsys.com [10.121.9.48])
- by mailhost.synopsys.com (Postfix) with ESMTP id 8B18BA0076;
- Wed, 12 Feb 2020 17:44:46 +0000 (UTC)
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: u-boot@lists.denx.de
-Subject: [PATCH 3/3 v2] ARC: nsim_hs38: Add support of Virtio NET & BLK
-Date: Wed, 12 Feb 2020 20:44:43 +0300
-Message-Id: <20200212174443.37707-3-abrodkin@synopsys.com>
-X-Mailer: git-send-email 2.16.2
-In-Reply-To: <20200212174443.37707-1-abrodkin@synopsys.com>
-References: <20200212174443.37707-1-abrodkin@synopsys.com>
+ id 1j1wF4-00059t-00
+ for linux-snps-arc@lists.infradead.org; Wed, 12 Feb 2020 17:56:07 +0000
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01CHn7BQ085150
+ for <linux-snps-arc@lists.infradead.org>; Wed, 12 Feb 2020 12:56:05 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2y3yw8b6tp-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-snps-arc@lists.infradead.org>; Wed, 12 Feb 2020 12:56:04 -0500
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <linux-snps-arc@lists.infradead.org> from <gerald.schaefer@de.ibm.com>;
+ Wed, 12 Feb 2020 17:56:01 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 12 Feb 2020 17:55:51 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01CHtoBV51576916
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Feb 2020 17:55:50 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8E98CA4055;
+ Wed, 12 Feb 2020 17:55:50 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5B2C5A4057;
+ Wed, 12 Feb 2020 17:55:49 +0000 (GMT)
+Received: from thinkpad (unknown [9.152.96.168])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 12 Feb 2020 17:55:49 +0000 (GMT)
+Date: Wed, 12 Feb 2020 18:55:48 +0100
+From: Gerald Schaefer <gerald.schaefer@de.ibm.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH V12] mm/debug: Add tests validating architecture page
+ table helpers
+In-Reply-To: <b169ff9d-7b87-91f4-b3d0-e97f86680d0c@arm.com>
+References: <1580174873-18117-1-git-send-email-anshuman.khandual@arm.com>
+ <20200210153716.GB9283@E121110.arm.com>
+ <b169ff9d-7b87-91f4-b3d0-e97f86680d0c@arm.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+x-cbid: 20021217-0020-0000-0000-000003A98A3E
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20021217-0021-0000-0000-00002201718D
+Message-Id: <20200212185548.3274ec2e@thinkpad>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-12_08:2020-02-12,
+ 2020-02-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 suspectscore=0 spamscore=0 mlxscore=0
+ phishscore=0 mlxlogscore=999 priorityscore=1501 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002120131
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200212_094450_266289_1AE24AC4 
-X-CRM114-Status: GOOD (  16.07  )
+X-CRM114-CacheID: sfid-20200212_095606_049725_EC761676 
+X-CRM114-Status: GOOD (  24.49  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,204 +109,78 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-snps-arc@lists.infradead.org,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>, uboot-snps-arc@synopsys.com
-MIME-Version: 1.0
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ sparclinux@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
+ linux-s390@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Matthew Wilcox <willy@infradead.org>, Steven Price <Steven.Price@arm.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Vlastimil Babka <vbabka@suse.cz>, James Hogan <jhogan@kernel.org>,
+ linux-snps-arc@lists.infradead.org, Kees Cook <keescook@chromium.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Dan Williams <dan.j.williams@intel.com>, Mark Brown <broonie@kernel.org>,
+ "Kirill A
+ . Shutemov" <kirill@shutemov.name>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Sri Krishna chowdary <schowdary@nvidia.com>,
+ Dave Hansen <dave.hansen@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>, linux-mips@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, linux-kernel@vger.kernel.org,
+ Paul Burton <paul.burton@mips.com>, Mike Rapoport <rppt@linux.vnet.ibm.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ Martin Schwidefsky <schwidefsky@de.ibm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Given now nsim_hs38 configuration is usable on QEMU and in QEMU
-we have Virtio working perfectly fine the next logical step
-is to add support of supported & known to work net & bkl to this
-config.
+On Wed, 12 Feb 2020 15:12:54 +0530
+Anshuman Khandual <anshuman.khandual@arm.com> wrote:
 
-Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
----
+> >> +/*
+> >> + * On s390 platform, the lower 12 bits are used to identify given page table
+> >> + * entry type and for other arch specific requirements. But these bits might
+> >> + * affect the ability to clear entries with pxx_clear(). So while loading up
+> >> + * the entries skip all lower 12 bits in order to accommodate s390 platform.
+> >> + * It does not have affect any other platform.
+> >> + */
+> >> +#define RANDOM_ORVALUE	(0xfffffffffffff000UL)  
+> > 
+> > I'd suggest you generate this mask with something like
+> > GENMASK(BITS_PER_LONG, PAGE_SHIFT).  
+> 
+> IIRC the lower 12 bits constrains on s390 platform might not be really related
+> to it's PAGE_SHIFT which can be a variable, but instead just a constant number.
+> But can definitely use GENMASK or it's variants here.
+> 
+> https://lkml.org/lkml/2019/9/5/862
 
-Changes v1 -> v2:
+PAGE_SHIFT would be fine, it is 12 on s390. However, in order to be
+more precise, we do not really need all 12 bits, only the last 4 bits.
+So, something like this would work:
 
- * Instead of adding IRQ parent it might be much cleaner solution
-   to just get rid of "interrupt" properties in Virtio nodes.
-   Again that's all OK for now since we don't really sync Linux .dts
-   and U-Boot's ones. It's not that it's super good though but
-   that's what we have today :)
+#define RANDOM_ORVALUE GENMASK(BITS_PER_LONG - 1, 4)
 
- arch/arc/Kconfig                  |  4 ++--
- arch/arc/dts/nsim.dts             | 24 ++++++++++++++++++++++++
- board/synopsys/{ => nsim}/Kconfig |  3 +++
- board/synopsys/nsim/MAINTAINERS   |  6 ++++++
- board/synopsys/nsim/Makefile      |  7 +++++++
- board/synopsys/nsim/nsim.c        | 26 ++++++++++++++++++++++++++
- configs/nsim_hs38_defconfig       |  9 +++++++++
- 7 files changed, 77 insertions(+), 2 deletions(-)
- rename board/synopsys/{ => nsim}/Kconfig (74%)
- create mode 100644 board/synopsys/nsim/MAINTAINERS
- create mode 100644 board/synopsys/nsim/Makefile
- create mode 100644 board/synopsys/nsim/nsim.c
+The text in the comment could then also be changed from 12 to 4, and
+be a bit more specific on the fact that the impact on pxx_clear()
+results from the dynamic page table folding logic on s390:
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 0cb97207db..545fc3e243 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -160,7 +160,7 @@ config TARGET_TB100
- 	bool "Support tb100"
- 
- config TARGET_NSIM
--	bool "Support standalone nSIM & Free nSIM"
-+	bool "Support ARC simulation & prototyping platforms"
- 
- config TARGET_AXS101
- 	bool "Support Synopsys Designware SDP board AXS101"
-@@ -184,10 +184,10 @@ config TARGET_IOT_DEVKIT
- endchoice
- 
- source "board/abilis/tb100/Kconfig"
--source "board/synopsys/Kconfig"
- source "board/synopsys/axs10x/Kconfig"
- source "board/synopsys/emsdp/Kconfig"
- source "board/synopsys/hsdk/Kconfig"
- source "board/synopsys/iot_devkit/Kconfig"
-+source "board/synopsys/nsim/Kconfig"
- 
- endmenu
-diff --git a/arch/arc/dts/nsim.dts b/arch/arc/dts/nsim.dts
-index 43f281dfec..c2899ef2ea 100644
---- a/arch/arc/dts/nsim.dts
-+++ b/arch/arc/dts/nsim.dts
-@@ -30,4 +30,28 @@
- 		clock-frequency = <70000000>;
- 	};
- 
-+	virtio0: virtio@f0100000 {
-+		compatible = "virtio,mmio";
-+		reg = <0xf0100000 0x2000>;
-+	};
-+
-+	virtio1: virtio@f0102000 {
-+		compatible = "virtio,mmio";
-+		reg = <0xf0102000 0x2000>;
-+	};
-+
-+	virtio2: virtio@f0104000 {
-+		compatible = "virtio,mmio";
-+		reg = <0xf0104000 0x2000>;
-+	};
-+
-+	virtio3: virtio@f0106000 {
-+		compatible = "virtio,mmio";
-+		reg = <0xf0106000 0x2000>;
-+	};
-+
-+	virtio4: virtio@f0108000 {
-+		compatible = "virtio,mmio";
-+		reg = <0xf0108000 0x2000>;
-+	};
- };
-diff --git a/board/synopsys/Kconfig b/board/synopsys/nsim/Kconfig
-similarity index 74%
-rename from board/synopsys/Kconfig
-rename to board/synopsys/nsim/Kconfig
-index 27e5509b26..22287032bf 100644
---- a/board/synopsys/Kconfig
-+++ b/board/synopsys/nsim/Kconfig
-@@ -1,5 +1,8 @@
- if TARGET_NSIM
- 
-+config SYS_BOARD
-+	default "nsim"
-+
- config SYS_VENDOR
- 	default "synopsys"
- 
-diff --git a/board/synopsys/nsim/MAINTAINERS b/board/synopsys/nsim/MAINTAINERS
-new file mode 100644
-index 0000000000..ad23c8338e
---- /dev/null
-+++ b/board/synopsys/nsim/MAINTAINERS
-@@ -0,0 +1,6 @@
-+ARC SIMULATION & PROTOTYPING PLATFORMS
-+M:	Alexey Brodkin <abrodkin@synopsys.com>
-+S:	Maintained
-+F:	arch/arc/dts/nsim.dts
-+F:	board/synopsys/nsim/
-+F:	configs/nsim_*_defconfig
-diff --git a/board/synopsys/nsim/Makefile b/board/synopsys/nsim/Makefile
-new file mode 100644
-index 0000000000..6aaffffa73
---- /dev/null
-+++ b/board/synopsys/nsim/Makefile
-@@ -0,0 +1,7 @@
-+#
-+# Copyright (C) 2020 Synopsys, Inc. All rights reserved.
-+#
-+# SPDX-License-Identifier:	GPL-2.0+
-+#
-+
-+obj-y	+= nsim.o
-diff --git a/board/synopsys/nsim/nsim.c b/board/synopsys/nsim/nsim.c
-new file mode 100644
-index 0000000000..f384f707f6
---- /dev/null
-+++ b/board/synopsys/nsim/nsim.c
-@@ -0,0 +1,26 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2020 Synopsys, Inc. All rights reserved.
-+ */
-+
-+#include <common.h>
-+#include <dm/device.h>
-+#include <virtio_types.h>
-+#include <virtio.h>
-+
-+int board_early_init_r(void)
-+{
-+	/*
-+	 * Make sure virtio bus is enumerated so that peripherals
-+	 * on the virtio bus can be discovered by their drivers
-+	 */
-+	virtio_init();
-+
-+	return 0;
-+}
-+
-+int checkboard(void)
-+{
-+	printf("Board: ARC virtual or prototyping platform\n");
-+	return 0;
-+};
-diff --git a/configs/nsim_hs38_defconfig b/configs/nsim_hs38_defconfig
-index ce68de3251..6cd01a505b 100644
---- a/configs/nsim_hs38_defconfig
-+++ b/configs/nsim_hs38_defconfig
-@@ -9,14 +9,23 @@ CONFIG_DEBUG_UART=y
- CONFIG_BOOTDELAY=3
- CONFIG_USE_BOOTARGS=y
- CONFIG_BOOTARGS="console=ttyS0,115200n8"
-+CONFIG_BOARD_EARLY_INIT_R=y
- CONFIG_SYS_PROMPT="nsim# "
-+CONFIG_CMD_DM=y
- # CONFIG_CMD_SETEXPR is not set
-+CONFIG_CMD_DHCP=y
- CONFIG_OF_CONTROL=y
- CONFIG_OF_EMBED=y
- CONFIG_DEFAULT_DEVICE_TREE="nsim"
- CONFIG_SYS_RELOC_GD_ENV_ADDR=y
- CONFIG_DM=y
-+CONFIG_BLK=y
-+CONFIG_HAVE_BLOCK_DEVICE=y
-+CONFIG_DM_ETH=y
- CONFIG_DM_SERIAL=y
- CONFIG_DEBUG_UART_SHIFT=2
- CONFIG_SYS_NS16550=y
-+CONFIG_VIRTIO_MMIO=y
-+CONFIG_VIRTIO_NET=y
-+CONFIG_VIRTIO_BLK=y
- CONFIG_USE_PRIVATE_LIBGCC=y
--- 
-2.16.2
+/*
+ * On s390 platform, the lower 4 bits are used to identify given page table
+ * entry type. But these bits might affect the ability to clear entries with
+ * pxx_clear() because of how dynamic page table folding works on s390. So
+ * while loading up the entries do not change the lower 4 bits.
+ * It does not have affect any other platform.
+ */
 
 
 _______________________________________________
