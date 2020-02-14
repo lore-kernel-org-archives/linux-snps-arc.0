@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 687C1C2BA83
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Feb 2020 16:09:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C80CBC2BA83
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Feb 2020 16:34:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 067E02468A
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Feb 2020 16:09:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9FBA424696
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Feb 2020 16:34:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="j7dDmXr4";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkkF5GYL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 067E02468A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pYr/WnYm";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="OvsFMTvj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FBA424696
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,47 +25,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Wr+hDn4r8dqh6a95nbaUsVfnhmz/HbJbRJ57NBvc4VY=; b=j7dDmXr4u7c+43
-	r1MP5DhtRKFLgKWzcu7MT39fiwnz5p92Ipesuqw+SOPFteCTD0sdlo3HEkgJsABA1yBxaKzrXl/ca
-	6SONxbWupileyVoYG+KIMq8OPOJwqPgzNbnHHgQ/VQU9iaLr6ATu5yW3fzuv6by5/k7NXFvphvG9c
-	E7vzVRgWRH9PqyF9/aK4gwQVzuVFcjuBrl3f8XNuJLtEt/ix7V5doVMzaP31UHefMyaqhJQLW/lN/
-	VN+ozegaC5v2qIYW+NFEl28s3eGEscukYxN3S0A5X7+80sB+XhulQBK9bOHUJgP5K8ZkJQ+Z3LcGy
-	ceYawv4pa5FULSat2PtQ==;
+	List-Owner; bh=yfNCutvFmP0/nwKz3RHZ82mN8u17eoaCdYKeGNvGUvQ=; b=pYr/WnYmlTfd6M
+	M/o9kOtI/00t/1LWAM8WC+fASa9+zUWLdfbei9eO2+SNZcqmw4FAVV0Wid2OwRJiXYOyaTHcipu0z
+	MJEu31Ywm0NzdPq9QYdztzDnP9vzyoA2ZqfYaSl46f9E1iM0LxxRvrk1+J/TQrzDnFDvVQVprrLPb
+	FCrIUAUKzifJ3fCSNFG4DjA2VuUD35Kuv9bhazBLyfM/pWVh/OZCq0SVlLsqdOxb9OD90gejcKoF+
+	QeRfOmKYtmlXW+xZcSt/+fIfactl94/Zl3Wg57WQEPLyk7CQvo6aXRAHJVBwXkIYUqCvWU2+h8G4w
+	HOysbHruUg/qGeEnC57A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j2dWt-0000V6-Sl; Fri, 14 Feb 2020 16:09:23 +0000
+	id 1j2dui-0002dI-TH; Fri, 14 Feb 2020 16:34:00 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j2dKM-0001ij-Fv
- for linux-snps-arc@lists.infradead.org; Fri, 14 Feb 2020 15:56:31 +0000
+ id 1j2dVs-0007y7-MW
+ for linux-snps-arc@lists.infradead.org; Fri, 14 Feb 2020 16:08:21 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D0A4624649;
- Fri, 14 Feb 2020 15:56:24 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 576812467E;
+ Fri, 14 Feb 2020 16:08:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695785;
- bh=n8KnkIiWQJKChEase/Tq3j8kItHEsPafl6UZDSi8fhI=;
+ s=default; t=1581696500;
+ bh=m9OmCQrsjfjIej1QyAJMd4nXnccmf5UC5VzTK9ckWBk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OkkF5GYLoR30Kae0VTduIKv71nS5XrofCL4MPw6BCkMywDlsqeavi04iCKZIOBPXI
- Vi50Y7YPJlGMHNnEUTJAocurNCrKSOx0bp0GjuKyzlaoFRIKVJDbnwLFZHDqjGDH64
- N+qYKcsUl9Oc/hIpvfnk6YZmeNFIJF3XJctRUiLc=
+ b=OvsFMTvjs5pR0FbD+l855tVwPTzSFua1/5kXHR+S+/vbg+rUKkgS1o2HVrIdhKPI6
+ ODh+ovREU7a/3900bvecFF0jhrUdUl3cZkkn8hclBlVrcZTdBf0h6r/gS4VfbYxyce
+ 4N/5hEz2boSg5IJl+JRpKE8tuwmKJ2Nwd5utN9LU=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 349/542] ARC: [plat-axs10x]: Add missing multicast
+Subject: [PATCH AUTOSEL 5.4 304/459] ARC: [plat-axs10x]: Add missing multicast
  filter number to GMAC node
-Date: Fri, 14 Feb 2020 10:45:41 -0500
-Message-Id: <20200214154854.6746-349-sashal@kernel.org>
+Date: Fri, 14 Feb 2020 10:59:14 -0500
+Message-Id: <20200214160149.11681-304-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
-References: <20200214154854.6746-1-sashal@kernel.org>
+In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
+References: <20200214160149.11681-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200214_075626_567030_FDC15D5F 
+X-CRM114-CacheID: sfid-20200214_080820_768430_9B129C75 
 X-CRM114-Status: UNSURE (   9.20  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -104,10 +104,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index f9a5c9ddcae7d..1d109b06e7d81 100644
+index 08bcfed6b80f5..134cc223ea81b 100644
 --- a/arch/arc/boot/dts/axs10x_mb.dtsi
 +++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -78,6 +78,7 @@
+@@ -77,6 +77,7 @@
  			interrupt-names = "macirq";
  			phy-mode = "rgmii";
  			snps,pbl = < 32 >;
