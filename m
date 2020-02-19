@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0E8C3405F
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D027C3405F
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C73CA24656
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EAF7824670
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tarLOE2E";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="mWeABfyO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C73CA24656
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ccVaXHAh";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="O8OazZxy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EAF7824670
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,31 +27,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=LI9cQwxUp/b0VEk6o4eIu5OI5MM1JeaeLEV8z2GcJus=; b=tarLOE2ER/eLLM5z7vhgJ27byy
-	fretOH+O7d/eF0Fs7XGsu0nQTtmYc2zpRGk2+mIbHL5MjhSgDe+r9KK5JxF7PqDPRHPz2jIPnC9YV
-	SjA+av4FcjUlMnqkbPPOt1Xy1e7S1725TMFf7ZHCM++Nupes5Y8t6312/pQGFK0vo6t6o2ldFllpa
-	4nUxzbY6v21K3AKjr5k2iFBKWGgXEfAY/UKdLKDPigaDvOqZfEB8QNND9kFzGtDpXryedobbjyVqx
-	sEcj0sydIwWME1Kiq6zstlJWhN1TLNVK6dWFBKJfeWmMNis8Tw+WkuF+taT0Y1JRB0IQ7tXiJs4RL
-	o1PBhV1A==;
+	bh=e4/3mKn3qF1Y4v7QLrcYeJXO408f0ApB2oOo4ku53Tg=; b=ccVaXHAhPiMEkdLkTn8KdgIAH1
+	2r58VFUH1zYSNEPfskkEW+In1wcd8bXPvz5r76XMHPa39DIOkZUWFkkvLSYmPSQCl2SSYuMQ0F+/q
+	tsv3Mp4vRgSHdk8+cwMkRxfueYtFzjfFukIU2BtRX2FL85ossGG32coXmqIic3Y+5VUJoR8EDbe/Z
+	EgCkWH3z6ucASjZD3RMUDCAwxttxeHsY1LqXViI6qCdaTZu+7FbsTI7GI6JsVphP3k3lmYEOqZAVh
+	2pgLijlatTN0H8qTHb8f0Ac8PYWQM/lIL2ibNa+xOm1AuouiBSJrWuwBPfnLHRWMTRuYgBQAPJb5P
+	IW/Aij0A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j4TWX-0002Bx-5G; Wed, 19 Feb 2020 17:52:37 +0000
+	id 1j4TWl-0002ED-9S; Wed, 19 Feb 2020 17:52:51 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j4TWU-0002Bb-Hz
- for linux-snps-arc@lists.infradead.org; Wed, 19 Feb 2020 17:52:35 +0000
+ id 1j4TWj-0002Dr-2A
+ for linux-snps-arc@lists.infradead.org; Wed, 19 Feb 2020 17:52:50 +0000
 Received: from localhost.localdomain (unknown [194.230.155.125])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6BEF824672;
- Wed, 19 Feb 2020 17:52:23 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AB78B2467A;
+ Wed, 19 Feb 2020 17:52:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582134754;
- bh=HDn1c+OCg4Fxwj0uJTYLgnTqOgR4bEcc2OImuEKXcQg=;
+ s=default; t=1582134768;
+ bh=p4+U61rOL8UqXw+zdGS8TsO+9JmLa5Y9WBdlRelZRu8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mWeABfyOQaHBfM1Tl4Rl2aedyBAE8jc2SywErFB4jyNFhmM9UdvOiGm3LE3U1nkFc
- 873iQ9IusUp84dBz6YY/fHsHUBu//dBjjVwQQwc5Wp4QlJOHXM0h8vQp7TnxMb2yLh
- vk6aSGDTtV8yJjISbJPkkW9wkktuJxNSCdZTdaOY=
+ b=O8OazZxyMRidM7JJBXHHLPQaABxyydxjwKdDR5AfvFme3mNglX8t8m7XQbcjO7Q80
+ fuLH1inydzj4U4OQuJz8BKePXKeLovvgITXtVLPQwS8S3JtPQlrzu0nrehc1XwUIv9
+ FR3oL176lbNuZt7akF7YTj7Kw+33X2n8/AiGORiM=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Richard Henderson <rth@twiddle.net>,
  Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
@@ -81,16 +81,16 @@ To: Richard Henderson <rth@twiddle.net>,
  linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
  linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
  linux-arch@vger.kernel.org
-Subject: [RESEND PATCH v2 8/9] media: fsl-viu: Constify ioreadX() iomem
- argument (as in generic implementation)
-Date: Wed, 19 Feb 2020 18:50:06 +0100
-Message-Id: <20200219175007.13627-9-krzk@kernel.org>
+Subject: [RESEND PATCH v2 9/9] ath5k: Constify ioreadX() iomem argument (as in
+ generic implementation)
+Date: Wed, 19 Feb 2020 18:50:07 +0100
+Message-Id: <20200219175007.13627-10-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200219175007.13627-1-krzk@kernel.org>
 References: <20200219175007.13627-1-krzk@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200219_095234_616225_A174E268 
-X-CRM114-Status: GOOD (  12.87  )
+X-CRM114-CacheID: sfid-20200219_095249_141834_4B01B0A7 
+X-CRM114-Status: GOOD (  13.69  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,23 +117,52 @@ so they can be converted to a "const" version for const-safety and
 consistency among architectures.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Acked-by: Kalle Valo <kvalo@codeaurora.org>
 ---
- drivers/media/platform/fsl-viu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/wireless/ath/ath5k/ahb.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/fsl-viu.c b/drivers/media/platform/fsl-viu.c
-index 81a8faedbba6..991d9dc82749 100644
---- a/drivers/media/platform/fsl-viu.c
-+++ b/drivers/media/platform/fsl-viu.c
-@@ -34,7 +34,7 @@
- /* Allow building this driver with COMPILE_TEST */
- #if !defined(CONFIG_PPC) && !defined(CONFIG_MICROBLAZE)
- #define out_be32(v, a)	iowrite32be(a, (void __iomem *)v)
--#define in_be32(a)	ioread32be((void __iomem *)a)
-+#define in_be32(a)	ioread32be((const void __iomem *)a)
- #endif
+diff --git a/drivers/net/wireless/ath/ath5k/ahb.c b/drivers/net/wireless/ath/ath5k/ahb.c
+index 2c9cec8b53d9..8bd01df369fb 100644
+--- a/drivers/net/wireless/ath/ath5k/ahb.c
++++ b/drivers/net/wireless/ath/ath5k/ahb.c
+@@ -138,18 +138,18 @@ static int ath_ahb_probe(struct platform_device *pdev)
  
- #define BUFFER_TIMEOUT		msecs_to_jiffies(500)  /* 0.5 seconds */
+ 	if (bcfg->devid >= AR5K_SREV_AR2315_R6) {
+ 		/* Enable WMAC AHB arbitration */
+-		reg = ioread32((void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
++		reg = ioread32((const void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
+ 		reg |= AR5K_AR2315_AHB_ARB_CTL_WLAN;
+ 		iowrite32(reg, (void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
+ 
+ 		/* Enable global WMAC swapping */
+-		reg = ioread32((void __iomem *) AR5K_AR2315_BYTESWAP);
++		reg = ioread32((const void __iomem *) AR5K_AR2315_BYTESWAP);
+ 		reg |= AR5K_AR2315_BYTESWAP_WMAC;
+ 		iowrite32(reg, (void __iomem *) AR5K_AR2315_BYTESWAP);
+ 	} else {
+ 		/* Enable WMAC DMA access (assuming 5312 or 231x*/
+ 		/* TODO: check other platforms */
+-		reg = ioread32((void __iomem *) AR5K_AR5312_ENABLE);
++		reg = ioread32((const void __iomem *) AR5K_AR5312_ENABLE);
+ 		if (to_platform_device(ah->dev)->id == 0)
+ 			reg |= AR5K_AR5312_ENABLE_WLAN0;
+ 		else
+@@ -202,12 +202,12 @@ static int ath_ahb_remove(struct platform_device *pdev)
+ 
+ 	if (bcfg->devid >= AR5K_SREV_AR2315_R6) {
+ 		/* Disable WMAC AHB arbitration */
+-		reg = ioread32((void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
++		reg = ioread32((const void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
+ 		reg &= ~AR5K_AR2315_AHB_ARB_CTL_WLAN;
+ 		iowrite32(reg, (void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
+ 	} else {
+ 		/*Stop DMA access */
+-		reg = ioread32((void __iomem *) AR5K_AR5312_ENABLE);
++		reg = ioread32((const void __iomem *) AR5K_AR5312_ENABLE);
+ 		if (to_platform_device(ah->dev)->id == 0)
+ 			reg &= ~AR5K_AR5312_ENABLE_WLAN0;
+ 		else
 -- 
 2.17.1
 
