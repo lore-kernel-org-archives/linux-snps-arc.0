@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78468C169F9
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F062C169F9
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4D13A206DB
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DD84424672
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="s498xVNT";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="edkRajat"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D13A206DB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NjbYPWbW";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pw+9ejv7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD84424672
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,31 +27,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=mC0RzAUeGuC/KOBR1OQ3y6r70ep2KQNCijmeIol7co8=; b=s498xVNTcTViOlIOxLeKUFX9Z+
-	kAfjDbnNlgAcXTJU4T8d7eea46p2LyyH57ai1glzU/cI1jaZmv6BMXImL1CeTnZeDGtwKE5fI4bt1
-	8Ho55CpHW8FCJXcRZ/FYI27oeEUfkN5WnOyAA5wvTlfOoBQmdp+O5aQMEfaBar71sNm+081gsul0M
-	jCHm6Jn5McrUFaO/Bvh3DQkhXMbPGl7Y/LrhqNp/qU3iBM4mxqTmSDwW7ln0V0EncTLforH9s6Ohg
-	RfpL1dRsQMdo2qFtOYONk+F6ImZmbVly4ojJQcF9zfBoEGHAVqI+r0AlwM+XMjt8+d1BuBxIKOUCd
-	sRYrfoSg==;
+	bh=fcckb0yI+h4lTiO4MeeYwquXQE0ltHxGFbHHlhTlzU0=; b=NjbYPWbW0xqtsunrNHzm9Hr+oM
+	dwhXTxQwvS8v2tNAAOSBE1rZl+GBH2Bz9hpoFm4JDxQa855BeIOvTPtDKRPuFx1zhr7Jnll8neyvw
+	sb7uXb52I/Q3H5DnbaVll9m1IVEtNxL9HHT3WM2bS0vFraZT8eqj7Ygzp76b8mer6qvpF7bPnXpQ+
+	7ATGThjXhJQkIhQkHK5qErkdc1N1q2XF2LaMK95AsAMwMiKhlP0bURXLs6rlJeXbs7uKqyr61I9RH
+	cpfwcxKnHNXcoPMx+56cmXtg5C/I9aSZD7I+pCFR+Vyl/701pv+RQcQozfvdN6/UTyJiIYvQCgY8P
+	ZEXmdllQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j4TVx-000261-Lo; Wed, 19 Feb 2020 17:52:01 +0000
+	id 1j4TW7-00027f-Pv; Wed, 19 Feb 2020 17:52:11 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j4TVv-00025X-6w
- for linux-snps-arc@lists.infradead.org; Wed, 19 Feb 2020 17:52:00 +0000
+ id 1j4TW6-00027L-49
+ for linux-snps-arc@lists.infradead.org; Wed, 19 Feb 2020 17:52:11 +0000
 Received: from localhost.localdomain (unknown [194.230.155.125])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C3EF324672;
- Wed, 19 Feb 2020 17:51:48 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5864A2467D;
+ Wed, 19 Feb 2020 17:51:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582134718;
- bh=2gDbrtlrI3Wh9HVURrYGxvGcl+OexnI7Xd0KupjKyjg=;
+ s=default; t=1582134729;
+ bh=iR+Ao5saiVxRTvb2au3o6+lrJj/L8pgoUJPaqHXT/tQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=edkRajat2UNJS10RWJb/1RntpeeJvXzGEKSl8t+0qmueFy60wVKSkZY9k3um0UCWK
- BDJJRT4tj0OYJkV5EJS//0rfJOrz9S0kvr3zdTuqdKL9Dv8NVW/B+Iz2qn1Os5BqCU
- brhDmyKjHMktBxYrUCddp3CdipBpPeIOiqI/MDPs=
+ b=Pw+9ejv73mhY1CR0G17KZh3Lsqa5fiV0O/7QI6gk9U2PDs9MO3ClU02Y37BTLXByA
+ GN0d182iKI80TD2kQnS9S6hifIyWgmQDeqbf00LTAX3OWcGloRKcgGg2t8jDCWtng+
+ jSpnBjCv8a/bUDQcIr+HVIMFPZ9vmp1qxH03hhJk=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Richard Henderson <rth@twiddle.net>,
  Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
@@ -81,16 +81,16 @@ To: Richard Henderson <rth@twiddle.net>,
  linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
  linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
  linux-arch@vger.kernel.org
-Subject: [RESEND PATCH v2 5/9] arc: Constify ioreadX() iomem argument (as in
- generic implementation)
-Date: Wed, 19 Feb 2020 18:50:03 +0100
-Message-Id: <20200219175007.13627-6-krzk@kernel.org>
+Subject: [RESEND PATCH v2 6/9] drm/mgag200: Constify ioreadX() iomem argument
+ (as in generic implementation)
+Date: Wed, 19 Feb 2020 18:50:04 +0100
+Message-Id: <20200219175007.13627-7-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200219175007.13627-1-krzk@kernel.org>
 References: <20200219175007.13627-1-krzk@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200219_095159_291009_C17D959A 
-X-CRM114-Status: GOOD (  13.69  )
+X-CRM114-CacheID: sfid-20200219_095210_202231_7AA4C256 
+X-CRM114-Status: GOOD (  11.92  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,43 +112,37 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 The ioreadX() helpers have inconsistent interface.  On some architectures
 void *__iomem address argument is a pointer to const, on some not.
 
-Implementations of ioreadX() do not modify the memory under the
-address so they can be converted to a "const" version for const-safety
-and consistency among architectures.
+Implementations of ioreadX() do not modify the memory under the address
+so they can be converted to a "const" version for const-safety and
+consistency among architectures.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-Acked-by: Alexey Brodkin <abrodkin@synopsys.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 ---
 
 Changes since v1:
-1. Add Alexey's ack.
+1. Add Thomas' review.
 ---
- arch/arc/plat-axs10x/axs10x.c | 4 ++--
+ drivers/gpu/drm/mgag200/mgag200_drv.h | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arc/plat-axs10x/axs10x.c b/arch/arc/plat-axs10x/axs10x.c
-index 63ea5a606ecd..180c260a8221 100644
---- a/arch/arc/plat-axs10x/axs10x.c
-+++ b/arch/arc/plat-axs10x/axs10x.c
-@@ -84,7 +84,7 @@ static void __init axs10x_print_board_ver(unsigned int creg, const char *str)
- 		unsigned int val;
- 	} board;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+index aa32aad222c2..6512b3af4fb7 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.h
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+@@ -34,9 +34,9 @@
  
--	board.val = ioread32((void __iomem *)creg);
-+	board.val = ioread32((const void __iomem *)creg);
- 	pr_info("AXS: %s FPGA Date: %u-%u-%u\n", str, board.d, board.m,
- 		board.y);
- }
-@@ -95,7 +95,7 @@ static void __init axs10x_early_init(void)
- 	char mb[32];
+ #define MGAG200FB_CONN_LIMIT 1
  
- 	/* Determine motherboard version */
--	if (ioread32((void __iomem *) CREG_MB_CONFIG) & (1 << 28))
-+	if (ioread32((const void __iomem *) CREG_MB_CONFIG) & (1 << 28))
- 		mb_rev = 3;	/* HT-3 (rev3.0) */
- 	else
- 		mb_rev = 2;	/* HT-2 (rev2.0) */
+-#define RREG8(reg) ioread8(((void __iomem *)mdev->rmmio) + (reg))
++#define RREG8(reg) ioread8(((const void __iomem *)mdev->rmmio) + (reg))
+ #define WREG8(reg, v) iowrite8(v, ((void __iomem *)mdev->rmmio) + (reg))
+-#define RREG32(reg) ioread32(((void __iomem *)mdev->rmmio) + (reg))
++#define RREG32(reg) ioread32(((const void __iomem *)mdev->rmmio) + (reg))
+ #define WREG32(reg, v) iowrite32(v, ((void __iomem *)mdev->rmmio) + (reg))
+ 
+ #define ATTR_INDEX 0x1fc0
 -- 
 2.17.1
 
