@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F062C169F9
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CED51C169F9
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DD84424672
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A6AD724673
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Feb 2020 17:52:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NjbYPWbW";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pw+9ejv7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD84424672
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gcAyqLIS";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="nm1WAez1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A6AD724673
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,31 +27,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=fcckb0yI+h4lTiO4MeeYwquXQE0ltHxGFbHHlhTlzU0=; b=NjbYPWbW0xqtsunrNHzm9Hr+oM
-	dwhXTxQwvS8v2tNAAOSBE1rZl+GBH2Bz9hpoFm4JDxQa855BeIOvTPtDKRPuFx1zhr7Jnll8neyvw
-	sb7uXb52I/Q3H5DnbaVll9m1IVEtNxL9HHT3WM2bS0vFraZT8eqj7Ygzp76b8mer6qvpF7bPnXpQ+
-	7ATGThjXhJQkIhQkHK5qErkdc1N1q2XF2LaMK95AsAMwMiKhlP0bURXLs6rlJeXbs7uKqyr61I9RH
-	cpfwcxKnHNXcoPMx+56cmXtg5C/I9aSZD7I+pCFR+Vyl/701pv+RQcQozfvdN6/UTyJiIYvQCgY8P
-	ZEXmdllQ==;
+	bh=IywPvJdTSZK1EPYMSJT4B5hHkCSC43o93oercL83JUk=; b=gcAyqLIS3V7PHRLyhSH4uoiSgc
+	P1ChrJpd9YzfnyIx/zKct2h3u3p4wF7IfN1JT6nbtjYqnTQHn9U0raGBRQEWCSJnBwcNVjy5FGNWC
+	zLKy0u3ZYTs956Vih2F4eKqrijAa43KeubTeR8jEafpY2nqXR9ojTwy6pMiEqSR0Gowi8uJkE3AHo
+	3Eh21G93Wud/xGmqFDjCCgMVj8+xvTGTjHWnB7AoKoOx5E44s3oKKFyPgY2mTtnSet9XvSOLU2XrF
+	5D+UeQo1jNsHhiiI40ehnrtDWhPcMMaA5yMXgi0IVzb/r6437sviwg70FhFLyhDPDbnLtXuAAhK9f
+	AuT68pVg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j4TW7-00027f-Pv; Wed, 19 Feb 2020 17:52:11 +0000
+	id 1j4TWK-00029u-Vn; Wed, 19 Feb 2020 17:52:24 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j4TW6-00027L-49
- for linux-snps-arc@lists.infradead.org; Wed, 19 Feb 2020 17:52:11 +0000
+ id 1j4TWJ-00029X-3M
+ for linux-snps-arc@lists.infradead.org; Wed, 19 Feb 2020 17:52:24 +0000
 Received: from localhost.localdomain (unknown [194.230.155.125])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5864A2467D;
- Wed, 19 Feb 2020 17:51:59 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9ECE124671;
+ Wed, 19 Feb 2020 17:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582134729;
- bh=iR+Ao5saiVxRTvb2au3o6+lrJj/L8pgoUJPaqHXT/tQ=;
+ s=default; t=1582134742;
+ bh=9j4Wqmtnrm+aYUsHCZ4ooV/8lCGRX1ceFNDIpPGSnzM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Pw+9ejv73mhY1CR0G17KZh3Lsqa5fiV0O/7QI6gk9U2PDs9MO3ClU02Y37BTLXByA
- GN0d182iKI80TD2kQnS9S6hifIyWgmQDeqbf00LTAX3OWcGloRKcgGg2t8jDCWtng+
- jSpnBjCv8a/bUDQcIr+HVIMFPZ9vmp1qxH03hhJk=
+ b=nm1WAez1jNKXLSvW7J07Tbu90KQFEkmZity4oGOnVRPXsXM+hDFW5K6Tinm5MRxB0
+ WmxFTCqql9bAOnA8rju+Ll6+AjyoFTRt2mVhrLGPAW7sOr9jTILaKYuFP5x34AJbfm
+ vB/5/wk1OU7xGWOO0ZojgLGfdpGedlnCP90LLVcU=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Richard Henderson <rth@twiddle.net>,
  Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
@@ -81,16 +81,16 @@ To: Richard Henderson <rth@twiddle.net>,
  linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
  linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
  linux-arch@vger.kernel.org
-Subject: [RESEND PATCH v2 6/9] drm/mgag200: Constify ioreadX() iomem argument
+Subject: [RESEND PATCH v2 7/9] drm/nouveau: Constify ioreadX() iomem argument
  (as in generic implementation)
-Date: Wed, 19 Feb 2020 18:50:04 +0100
-Message-Id: <20200219175007.13627-7-krzk@kernel.org>
+Date: Wed, 19 Feb 2020 18:50:05 +0100
+Message-Id: <20200219175007.13627-8-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200219175007.13627-1-krzk@kernel.org>
 References: <20200219175007.13627-1-krzk@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200219_095210_202231_7AA4C256 
-X-CRM114-Status: GOOD (  11.92  )
+X-CRM114-CacheID: sfid-20200219_095223_163367_472345BC 
+X-CRM114-Status: GOOD (  13.25  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,32 +117,23 @@ so they can be converted to a "const" version for const-safety and
 consistency among architectures.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
 ---
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes since v1:
-1. Add Thomas' review.
----
- drivers/gpu/drm/mgag200/mgag200_drv.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index aa32aad222c2..6512b3af4fb7 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -34,9 +34,9 @@
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 1b62ccc57aef..d95bdd65dbca 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -613,7 +613,7 @@ nouveau_bo_rd32(struct nouveau_bo *nvbo, unsigned index)
+ 	mem += index;
  
- #define MGAG200FB_CONN_LIMIT 1
- 
--#define RREG8(reg) ioread8(((void __iomem *)mdev->rmmio) + (reg))
-+#define RREG8(reg) ioread8(((const void __iomem *)mdev->rmmio) + (reg))
- #define WREG8(reg, v) iowrite8(v, ((void __iomem *)mdev->rmmio) + (reg))
--#define RREG32(reg) ioread32(((void __iomem *)mdev->rmmio) + (reg))
-+#define RREG32(reg) ioread32(((const void __iomem *)mdev->rmmio) + (reg))
- #define WREG32(reg, v) iowrite32(v, ((void __iomem *)mdev->rmmio) + (reg))
- 
- #define ATTR_INDEX 0x1fc0
+ 	if (is_iomem)
+-		return ioread32_native((void __force __iomem *)mem);
++		return ioread32_native((const void __force __iomem *)mem);
+ 	else
+ 		return *mem;
+ }
 -- 
 2.17.1
 
