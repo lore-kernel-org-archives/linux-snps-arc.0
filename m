@@ -2,62 +2,54 @@ Return-Path: <SRS0=2k9h=4I=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9822BC5ACC4
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 20 Feb 2020 00:47:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F75C11D00
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 20 Feb 2020 08:24:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 61A702465D
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 20 Feb 2020 00:47:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CB27B208C4
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 20 Feb 2020 08:24:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="h9FfZm3Q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61A702465D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codesourcery.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="No5bekg4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB27B208C4
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
-	In-Reply-To:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fWSafWFcdFnVgz+GhXxG4o+7FsaVIlVMbv2hXDWvPpc=; b=h9FfZm3QRFkMM5
-	JAZyqqJoIiAKvDXdXWSo0ZZwsXuyEZr0zCZnCAO7bSvQaqHjVX66SKhKQBskZzl8NilJvPqpt9GJR
-	XCZq1mTMD++UYbpMWYKFm2Rg5fkR0Ph4K35IuOExCPtI7eXU8p45QdZaWJoh9fN2zb+6Odu4D0MTz
-	s5qIaaGS+VD/O/ZMIBTFFi8Gss+5ik99inD08/OQAKO73uaQSdoktwurKvArKr53zlTJENoP9MuuO
-	waUOzIDTxym2PyN3N5X3zv39q8xyA+8NuWVsW5nWRa4iDMz/5rVVRf/Bv9t/Q+SzmLjhGfusjQX6P
-	FlmSlHQ6jMx9suXedgdw==;
+	List-Owner; bh=Xq323fBN9f1Uh9Hwnq6w9y3/+1hZwfd4Jo6TicblgX0=; b=No5bekg4Sn3gu5
+	7SSXzB6PlUd8fsOUzZf9fJxwYGisiwYM0txPF/9INyaG9YBcobul9u8UAiBewXWzjq92aboHG7+Su
+	3iVcnCaO1tSVCvt5A7g31AmY2zP6sBt09REO1YX+Rp+dU8WniNKldAhIJP2ixXLCmU9udaHExY2Tm
+	cNj9MkkzCegC4/ZS2UJz3jm8bKEQ4sgIy9gfAlofoS+k62Na+vq28cNil+tVIc/VENqWT4Y51ciWN
+	pjVPWX6mEHxzapmU0/KMX9Ak+CklkgmLyFxp5rBHhaqmDn/iw4SvgZxQDBfmyEnPPl5Ck6CyYiBza
+	GscYXowrnkCEWSRW42FQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j4Zzh-0006pG-17; Thu, 20 Feb 2020 00:47:09 +0000
-Received: from esa1.mentor.iphmx.com ([68.232.129.153])
+	id 1j4h8V-0002yp-Ei; Thu, 20 Feb 2020 08:24:43 +0000
+Received: from mout.kundenserver.de ([212.227.17.10])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j4Zzd-0006oj-S4
- for linux-snps-arc@lists.infradead.org; Thu, 20 Feb 2020 00:47:07 +0000
-IronPort-SDR: F+bVL3GYqs0IzKiTpaGFXtti/6rLnxI/96Zr5Mib2InAGtXVrhrpzinJaANFy8cU/AAx2h7Nso
- owaPSq1QaGxgNJmIuJRLfuv+KznqrjsgQqEd//hISY1LnzcItCxBgM0cTjJjMlDL0xxE0Um4Xf
- BuK/EjrHNbRR1Zzd2vIDODRHxaI9lDQNO7pykXaPtZBOr07QQ1l25i65HZrYl586XEpmw0nlve
- lDKcSfcspEyx0xdVxiC90f5f6SVKWhVYd22GupBHhFk45RSJblH4aWU6K9sfQvB/t10OdgyCt/
- 2qM=
-X-IronPort-AV: E=Sophos;i="5.70,462,1574150400"; d="scan'208";a="47924545"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa1.mentor.iphmx.com with ESMTP; 19 Feb 2020 16:46:48 -0800
-IronPort-SDR: QUGxWYi4GGz8lvHHf7kmJULSSjDyc0unxfQUvMsimrzJyb4k3CrkDJdRylj3DRqHdTCMGD63uO
- 26kawwOOlOa1hjAzDcpgBFAmjAJ6uRX84kUz806e2KKSZJNuZbXD8RcP7xgfE6Ca/U+T+tAYhJ
- GVliWm2aH/4AXKbXRYMUtcvs7OWhmONxYktHUF2E3hNgaD9iiyGvfxQaIu/tl7YvnieEczGhlu
- rq4fADcZbVYgEe9QViF/WE0cqKFu7Mx6uiVUcRjZXaBXpN7C7oBOb4x5CzGy2xcwf/N9CHWsOO
- pzw=
-Date: Thu, 20 Feb 2020 00:46:41 +0000
-From: Joseph Myers <joseph@codesourcery.com>
-X-X-Sender: jsm28@digraph.polyomino.org.uk
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [RFC v6 07/23] RISC-V: Use 64-bit time_t and off_t for RV32 and
- RV64
-In-Reply-To: <de8f8e28-630f-7b87-1a96-6131588a0346@synopsys.com>
-Message-ID: <alpine.DEB.2.21.2002200044040.28780@digraph.polyomino.org.uk>
+ id 1j4h8H-0002gD-HW
+ for linux-snps-arc@lists.infradead.org; Thu, 20 Feb 2020 08:24:31 +0000
+Received: from mail-qk1-f182.google.com ([209.85.222.182]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1M1YlB-1j2E9i3XEx-0038Yr for <linux-snps-arc@lists.infradead.org>; Thu, 20
+ Feb 2020 09:24:26 +0100
+Received: by mail-qk1-f182.google.com with SMTP id c188so2799743qkg.4
+ for <linux-snps-arc@lists.infradead.org>; Thu, 20 Feb 2020 00:24:25 -0800 (PST)
+X-Gm-Message-State: APjAAAWAZb+c1MqUErO0YFFV6PNZ5K+u9VS8Z/TNFDoVPN18rWgsYnLM
+ k2Ck+Jsl1t7ZH+Ce9iQR38S3kJ2jnEVId2mPKA0=
+X-Google-Smtp-Source: APXvYqyUrdyp8m7I1pzmEWNxqHY4KSjlknkscOTxDzF1emD6ICFdbhEol1yI8AfDJ48GUkFHxsuZ9ARHZ1i6YmcTF1Y=
+X-Received: by 2002:a05:620a:909:: with SMTP id
+ v9mr26414912qkv.138.1582187064744; 
+ Thu, 20 Feb 2020 00:24:24 -0800 (PST)
+MIME-Version: 1.0
 References: <cover.1578824547.git.alistair.francis@wdc.com>
  <4e95f95966d8d7c6a8339160dc62d81c1f6a1bfb.1578824547.git.alistair.francis@wdc.com>
  <67f2298c-30ab-1508-4a10-6ee285df7ad1@synopsys.com>
@@ -66,15 +58,35 @@ References: <cover.1578824547.git.alistair.francis@wdc.com>
  <8239db87-d736-a6e2-913d-c1e5e937688f@synopsys.com>
  <20200220001822.703ee8a1@jawa>
  <de8f8e28-630f-7b87-1a96-6131588a0346@synopsys.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-05.mgc.mentorg.com (139.181.222.5) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
+ <alpine.DEB.2.21.2002200044040.28780@digraph.polyomino.org.uk>
+In-Reply-To: <alpine.DEB.2.21.2002200044040.28780@digraph.polyomino.org.uk>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Thu, 20 Feb 2020 09:24:08 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3MTQf_fnEWiGVxzexZzYNQ34h29aNxH_YApmsVzY6OsA@mail.gmail.com>
+Message-ID: <CAK8P3a3MTQf_fnEWiGVxzexZzYNQ34h29aNxH_YApmsVzY6OsA@mail.gmail.com>
+Subject: Re: [RFC v6 07/23] RISC-V: Use 64-bit time_t and off_t for RV32 and
+ RV64
+To: Joseph Myers <joseph@codesourcery.com>
+X-Provags-ID: V03:K1:hiRTltA+6YkPYosgW+mqDH5BWzZBnRwoQyDzViaTWaMmhEY+VDx
+ wz4HWfm1/cGUM/+XijDo+I/n+7ANCNCyOcdStQvBgt0H3l7Ci9KzzhP6SlOqDD8rmgoehNH
+ oBdWEiatMhOScaDK/2QeFFY7sgZpGghFb2pn5iJu5BdhZ5HMb4vYNZSzzAk/3Wl76HzyQJZ
+ jQIzvpuezAFrO7UsNYH6g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1CmWdxtMyPM=:G0M/HrdNr2m3B1kHwL9xLO
+ Vz2C4ME/S1NldLo8TdGhlZhjQpVp90d0lHDGJlMr4YIwcG7VZNlNLWL3k+e6BxP9mzANpi0Aq
+ ObgCRiSO6KQHVSfHEJl8cBvIznPmPVaB9Eo1TCFEiiV9EHXeEQ5hxCDTlEovIJHUHkeIYSwkO
+ epr8BcB4LFJmSmdZNco0EfPcxxQY4t95v4Bt9fo31YzRykwJzZ9JqiAZJVhbyvJET7GV3I3GE
+ qdWJ9ssOI1dfxYLFUkp9KFRbZUR1/nyIvlAlVPzqtSP0ALMPOWSZhQTrpXOTtT6og19xSjpkB
+ v3sgfn/rC3w/U3NbCbxYrbXICG0IjyA3Fx0q37xLPhS2iWxY5vZpx0xCkIJ241SnyrQbgjgKk
+ ebvB0Bg2jO5AGFg9whPgCt/OcD9mv6dX/crr9T2H72iCI2aUG0MRGMrlfvCB/tbG3XWyW5RzO
+ dMbayBLdeixAmBNRWDPfA7WOrld9i+nk4E161pqPnPXXEdjsOhV+SIVsz9CkRzjJHlP9jew65
+ /8HtLejFIBSeufV2yUClM2x4Rb7kFyKjTRqWXvp4hIBY6y94ePLLW14xYh4ccNQf6mYkUu6XJ
+ 9yQ1Zfwc/Hi6M9BGmTuvwbDR5e+8/DsogIgh2fON8Xgndex0oKmIzC6qUb+3O2ZvbxfhSZVs6
+ Oe4tfTi7XxqivYhaicqzahLl2VnwMhUuRJ3EickLmDpOBDvzyTwcc8Lj76VzrD9S8a1jd9HF3
+ CGSe6XDFXReqcaU8CikdE242Rht5Sut1/7kHcI67n4ZzlK53ATCwYwcVixu2Q8jsBD2Ug8ASz
+ CqDllaIuCMWGjVlKoxa0dSDCJvbkEjKXUreyMoO+c8ks+hCxKs=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200219_164705_918121_B22C1D0F 
-X-CRM114-Status: UNSURE (   4.32  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200220_002429_889165_0220260D 
+X-CRM114-Status: GOOD (  12.83  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,7 +100,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: "fweimer@redhat.com" <fweimer@redhat.com>,
  "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
- "arnd@arndb.de" <arnd@arndb.de>, Andreas Schwab <schwab@suse.de>,
+ Andreas Schwab <schwab@suse.de>, Vineet Gupta <Vineet.Gupta1@synopsys.com>,
  "palmerdabbelt@google.com" <palmerdabbelt@google.com>,
  Lukasz Majewski <lukma@denx.de>, "zongbox@gmail.com" <zongbox@gmail.com>,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -100,27 +112,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, 20 Feb 2020, Vineet Gupta wrote:
+On Thu, Feb 20, 2020 at 1:46 AM Joseph Myers <joseph@codesourcery.com> wrote:
+>
+> On Thu, 20 Feb 2020, Vineet Gupta wrote:
+>
+> > The first 4 will need more work as sym aliasing like
+> >       strong_alias (__xstat64, __xstat)
+> >
+> > will be needed in those ARM files (which in turn use i386).
+>
+> The situation for Arm is fundamentally different from that for ARC.
+>
+> For ARC, you only need a single public stat structure (using 64-bit times
+> and offsets).
+>
+> For Arm, a third public stat structure will need to be added alongside the
+> existing two, initially used internally in 64-bit-time stat functions that
+> aren't exported from glibc, eventually to be used with _TIME_BITS=64 with
+> the 64-bit-time stat interfaces exported once all the _TIME_BITS=64
+> interfaces are ready.
 
-> The first 4 will need more work as sym aliasing like
-> 	strong_alias (__xstat64, __xstat)
-> 
-> will be needed in those ARM files (which in turn use i386).
+But surely that structure layout would be the same on ARM and ARC
+as well as all other 32-bit architectures with _TIME_BITS=64, right?
 
-The situation for Arm is fundamentally different from that for ARC.
+What's wrong with having a single implementation for the most
+recent set of stat syscalls, with the older variants being only compiled
+for architectures that need them to support _TIME_BITS=32 and/or
+_FILE_OFFSET_BITS=32?
 
-For ARC, you only need a single public stat structure (using 64-bit times 
-and offsets).
-
-For Arm, a third public stat structure will need to be added alongside the 
-existing two, initially used internally in 64-bit-time stat functions that 
-aren't exported from glibc, eventually to be used with _TIME_BITS=64 with 
-the 64-bit-time stat interfaces exported once all the _TIME_BITS=64 
-interfaces are ready.
-
--- 
-Joseph S. Myers
-joseph@codesourcery.com
+        Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
