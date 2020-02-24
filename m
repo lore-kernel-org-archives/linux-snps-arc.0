@@ -1,95 +1,62 @@
-Return-Path: <SRS0=orWf=4K=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=ka13=4M=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 649A7C35669
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 22 Feb 2020 08:43:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C501C35673
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 01:59:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3312A208C3
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 22 Feb 2020 08:43:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4568A205C9
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 01:59:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ADAnFD0Q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3312A208C3
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="S1JQC5De"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4568A205C9
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=cnEk2+ycOBYff4ah3Fi7tGemfCYoWRWukGKz+VGxIt8=; b=ADAnFD0QBP7c9h
-	A/jl4gYfwfXHV8goIfNN1M1N/bD5foYQBw0CR3b9G5dvJpai1nAq/mcoxK2qYwjT4+vknncVi5XoU
-	3o85wKeG3nx2YGMHaW/mn3EuDqykpe0IuUy2Ts6nsYGZUASS+U/Pcjf9xTgeCnwsKHw2BYsE1Cyb9
-	RfyFKE0NdK7QGJ9eblcfRSqVTcOBsNQaaYPrLyVf2e5ivagjBTX9mjidRtvUELYF7K5F7fRsf7MWk
-	ILJycxFQmsZ2l1RXUwUB0W5qP1ZKjHJxqGDcJr/tjTuk28rPQ8e84jq3zmaAzsvs+7CI7MRg14H4u
-	FLgToRFklAb8I+M41AlQ==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=mXBX/vpwnOopT72FeYh9/hIRenaz+1UaPx/Or0tvG2k=; b=S1JQC5DeuxmkYc
+	tUA3VHYPhv7NdosIGVQXvDZzXYSTvOYsFnJTgJsDqXsx1WPjVZyG+vgVCeNcffBhpqfZZzUZzCQp+
+	NUBH8AzQqElS6AY/nPn/1zUEaoeWsxE/z7LKn+aXv7XmMRflBvkchcVPRPJsoWF9X8J9qBVGwABvB
+	4YkVl0ZfYiEHhNfNaPaHxKWtEgfQ7zvkj8OccwiiZCBLSnnz1sLDuvbG4EPH6iHj87OW3h7kJDRiX
+	1WHMAm9XN4gaFBE6S9ou6c06DWN7mME7NNJO9yGepBYArrS2IRjyejygsowjjndMEE2/aWbTa2Ii5
+	ikvtbZYg4uZxbd1rk3gQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j5QNN-0000Ov-RZ; Sat, 22 Feb 2020 08:43:05 +0000
-Received: from mout.kundenserver.de ([212.227.126.130])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j5QNL-0000OZ-2f
- for linux-snps-arc@lists.infradead.org; Sat, 22 Feb 2020 08:43:05 +0000
-Received: from mail-qk1-f181.google.com ([209.85.222.181]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1Mj8a5-1jbTnj0n3N-00fDYM for <linux-snps-arc@lists.infradead.org>; Sat, 22
- Feb 2020 09:42:58 +0100
-Received: by mail-qk1-f181.google.com with SMTP id 11so118074qkd.1
- for <linux-snps-arc@lists.infradead.org>; Sat, 22 Feb 2020 00:42:56 -0800 (PST)
-X-Gm-Message-State: APjAAAWC/ZKEQ6omJb3ivEhPPzpuc+fjafoizNMUkZkvG0wr1tXKNJ/c
- BxKyU42M3tB6HUDpl9DyE6IJxkSigecCqsDIXkM=
-X-Google-Smtp-Source: APXvYqzdf7qDgvBfOyUcK60taKavJhXx5pdJkhD02mhP1sS6incDiD6X7KcZ2ivIxldD7tHZYwjk2o+7tAkrZQlb1/U=
-X-Received: by 2002:a05:620a:909:: with SMTP id
- v9mr37452996qkv.138.1582360975994; 
- Sat, 22 Feb 2020 00:42:55 -0800 (PST)
+	id 1j631a-0001tB-2N; Mon, 24 Feb 2020 01:59:10 +0000
+Received: from foss.arm.com ([217.140.110.172])
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j631M-0001ft-Rd; Mon, 24 Feb 2020 01:58:58 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E20D41FB;
+ Sun, 23 Feb 2020 17:58:53 -0800 (PST)
+Received: from [10.162.16.95] (p8cg001049571a15.blr.arm.com [10.162.16.95])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 97E1F3F6CF;
+ Sun, 23 Feb 2020 17:58:46 -0800 (PST)
+Subject: Re: [PATCH V14] mm/debug: Add tests validating architecture page
+ table helpers
+To: linux-mm@kvack.org
+References: <1581909460-19148-1-git-send-email-anshuman.khandual@arm.com>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+Message-ID: <fac4f03a-0cd3-29ad-b5e2-9aca2dd07b39@arm.com>
+Date: Mon, 24 Feb 2020 07:28:46 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <cover.1578824547.git.alistair.francis@wdc.com>
- <4e95f95966d8d7c6a8339160dc62d81c1f6a1bfb.1578824547.git.alistair.francis@wdc.com>
- <00574bfb-981a-3a1c-cbdf-b2fee4eddc32@gmail.com>
- <CAKmqyKMyf2psPp+-EHoidvbPbSXv0=dP26GjVQnT5BUriLc1gA@mail.gmail.com>
- <alpine.DEB.2.21.2002120123230.3988@digraph.polyomino.org.uk>
- <CAKmqyKOgFRfMOws_-48GqMnuS3ygmN9A4DzLg6UtEjRXVoM82A@mail.gmail.com>
- <8a9784b3-fc52-adc3-4595-33142b059388@synopsys.com>
- <20200220001136.2f14236e@jawa>
- <CAK8P3a1b73K+RjfHONWLy_dFUucXxwd+0jTnHmkf6YqwRjit4w@mail.gmail.com>
- <20200220103716.2f526933@jawa>
-In-Reply-To: <20200220103716.2f526933@jawa>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Sat, 22 Feb 2020 09:42:39 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2n6fRm4C5Ywyk5ys92jSOAc5SwvBVZyFOY9=4rB2pyjw@mail.gmail.com>
-Message-ID: <CAK8P3a2n6fRm4C5Ywyk5ys92jSOAc5SwvBVZyFOY9=4rB2pyjw@mail.gmail.com>
-Subject: Re: switching ARC to 64-bit time_t (Re: [RFC v6 07/23] RISC-V: Use
- 64-bit time_t and off_t for RV32 and RV64)
-To: Lukasz Majewski <lukma@denx.de>
-X-Provags-ID: V03:K1:ojApY1eGg1I4pAcyCNevWVDv0FkuDGR3liplh1agaU0B8TwHEik
- 0ZZrtCA6p9ZzUXcNFkAWji29BGoOoORiGHFp/WPFOzTg0CxqBkN9UVivvMecGemud5tqSwi
- ryjoUNksoUFxPxW0vHizhySZTXqDb2pqU1WCoHqMs82Jj1hz7KlvEZnfcCuFnF07MB4fE9q
- kqNqmYzo7e49bzMpFO11w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:W8ncxF8RI1Q=:bBYOdmoaSoF+eCK1NTw1r9
- Zkr+9Y6Wg1nm1tbZKgVFeTZa07KjS7FcuI0BwxhSPhAoVBOdGBL1yNshflK5Av2HiYSmGJPH8
- jjTvthJYHWq83v/wx2GnxZDx3thsL+HhuKiFsJfU7fJmklUtl/MBjPAY9bqrPT6J1A5Ew4icF
- jETBXwzVW6nJphYvsSNFQVwxa2Xx0+SISl9JxEYfs8PzZ6hjSq5rQs4WVQwznzTpeIyeBni0U
- pbS/OQFVf1xjgkeQbY74O7DXLbJKb4ptFygNt1VlFVU8/bc8kMu7HtqXisyTC7IZ4xQQL1F9U
- VvJeh2XyEFASUbdyW0beM06s/K7OTkHlxLlRz0+B7Qq+Ag63JTtKg6OtDuC+sGk4TDuAdlpzd
- MdbUHb0lxXLj0G5f1nIOvlaTR4wnez5E3mEf9ia6AZBRLpYDawT14qc8tYYcPigGnBp3sNvO5
- IqpY6Hy7POLAUPSySWnRZ1dn6Jbuktdin2WNNwP67P9pxVuGYIFM1EACdnpVK0mK1Y9N+2phu
- CoWWPFPMuBPgEyTB3/4Z0iepr+Z7Cl1wtXRmCkB4tbgajoderf4DzynvBP9/5cs9F3+FAGhUX
- yp4V/IVLQZy9g5LpqJYlI5DwzaVveeu9f1QpJr9JQUs32iZy8Fr4d3MdtJNvl5m2VpZ3gju+l
- UWuiOZDFZ3SOpV213JiAw4N+q9B559kvinF/B81GsvCdGzzGXMQobausqVDTEJ7veHa2MBHDn
- h4QEMVxFucGBD4KYzFgSybG25O2HilLcvSx+A/GYwxBbiWKNshkNE5fpc9gD/YWAWvub3DClU
- RzQHrFTsBzE4YlezS+lW640Jus52Ji8PrULHqb6JoJMw+gjrx0=
+In-Reply-To: <1581909460-19148-1-git-send-email-anshuman.khandual@arm.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200222_004303_415169_C9BA5B92 
-X-CRM114-Status: UNSURE (   8.88  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200223_175856_939307_9ACEF481 
+X-CRM114-Status: GOOD (  15.32  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,71 +68,60 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Helmut Grohne <helmutg@debian.org>,
- GNU C Library <libc-alpha@sourceware.org>,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- Palmer Dabbelt <palmerdabbelt@google.com>, Zong Li <zongbox@gmail.com>,
- debian-arm@lists.debian.org, Alistair Francis <alistair.francis@wdc.com>,
- Adhemerval Zanella <adhemerval.zanella@linaro.org>,
- "Maciej W. Rozycki" <macro@wdc.com>, Alistair Francis <alistair23@gmail.com>,
- arcml <linux-snps-arc@lists.infradead.org>,
- Joseph Myers <joseph@codesourcery.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, linux-riscv@lists.infradead.org,
+ Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Mike Rapoport <rppt@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ linux-snps-arc@lists.infradead.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Borislav Petkov <bp@alien8.de>, Paul Walmsley <paul.walmsley@sifive.com>,
+ "Kirill A . Shutemov" <kirill@shutemov.name>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 20, 2020 at 10:37 AM Lukasz Majewski <lukma@denx.de> wrote:
+On 02/17/2020 08:47 AM, Anshuman Khandual wrote:
+> This adds a test validation for architecture exported page table helpers.
+> Patch adds basic transformation tests at various levels of the page table.
+> 
+> This test was originally suggested by Catalin during arm64 THP migration
+> RFC discussion earlier. Going forward it can include more specific tests
+> with respect to various generic MM functions like THP, HugeTLB etc and
+> platform specific tests.
+> 
+> https://lore.kernel.org/linux-mm/20190628102003.GA56463@arrakis.emea.arm.com/
+> 
+> Needs to be applied on linux V5.6-rc2
+> 
+> Changes in V14:
+> 
+> - Disabled DEBUG_VM_PGFLAGS for IA64 and ARM (32 Bit) per Andrew and Christophe
+> - Updated DEBUG_VM_PGFLAGS documentation wrt EXPERT and disabled platforms
+> - Updated RANDOM_[OR|NZ]VALUE open encodings with GENMASK() per Catalin
+> - Updated s390 constraint bits from 12 to 4 (S390_MASK_BITS) per Gerald
+> - Updated in-code documentation for RANDOM_ORVALUE per Gerald
+> - Updated pxx_basic_tests() to use invert functions first per Catalin
+> - Dropped ARCH_HAS_4LEVEL_HACK check from pud_basic_tests()
+> - Replaced __ARCH_HAS_[4|5]LEVEL_HACK with __PAGETABLE_[PUD|P4D]_FOLDED per Catalin
+> - Trimmed the CC list on the commit message per Catalin
 
-> [2] - https://github.com/lmajewski/y2038_glibc/commits/y2038_edge
+Hello Andrew,
 
-I tried packaging this into a .deb package for use with rebootstrap, but
-ran into a couple of test failures from glibc itself, when testing the i386
-version while running on an older x86_64 kernel (4.15):
+As there are no further comments on this patch from last week, wondering
+if you would possibly consider this patch. But if you feel there is still
+something which need to be taken care here, please do let me know.
 
-+---------------------------------------------------------------------+
-|     Encountered regressions that don't match expected failures.     |
-+---------------------------------------------------------------------+
-FAIL: elf/check-localplt
-FAIL: nptl/tst-cancel19
-FAIL: rt/tst-mqueue2
-make: *** [debian/rules.d/build.mk:116:
-/home/arnd/glibc-2.31/stamp-dir/check_i386] Error 1
+Thank you.
 
-elf/check-localplt complains about the newly added symbols
-
-Extra PLT reference: libc.so: __lutimes64
-Extra PLT reference: libc.so: __wait4_time64
-Extra PLT reference: libc.so: __setitimer64
-Extra PLT reference: libc.so: __utime64
-Extra PLT reference: libc.so: __timerfd_gettime64
-Extra PLT reference: libc.so: __clock_settime64
-Extra PLT reference: libc.so: __utimes64
-Extra PLT reference: libc.so: __gettimeofday64
-Extra PLT reference: libc.so: __clock_gettime64
-Extra PLT reference: libc.so: __futimesat64
-Extra PLT reference: libc.so: __clock_getres64
-Extra PLT reference: libc.so: __futimes64
-Extra PLT reference: libc.so: __futimens64
-Extra PLT reference: libc.so: __utimensat64
-Extra PLT reference: libc.so: __getrusage64
-Extra PLT reference: libc.so: __timespec_get64
-Extra PLT reference: libc.so: __getitimer64
-Extra PLT reference: libc.so: __ppoll64
-Extra PLT reference: libc.so: __timerfd_settime64
-Extra PLT reference: libc.so: __clock_nanosleep_time64
-Extra PLT reference: libc.so: __sched_rr_get_interval64
-Extra PLT reference: libc.so: __settimeofday64
-Extra PLT reference: librt.so: __timer_gettime64
-Extra PLT reference: librt.so: __mq_timedreceive_time64
-Extra PLT reference: librt.so: __mq_timedsend_time64
-Extra PLT reference: librt.so: __timer_settime64
-
-which seems a bug in the test suite. The other two get a segfault
-that I have not debugged, but I guess this is likely a problem in your
-patches. Have you seen the same thing?
-
-       Arnd
+- Anshuman
 
 _______________________________________________
 linux-snps-arc mailing list
