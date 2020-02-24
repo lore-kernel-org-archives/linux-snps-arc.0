@@ -6,57 +6,93 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C501C35673
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 01:59:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 968C9C35673
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 02:49:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4568A205C9
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 01:59:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 61BE220658
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 02:49:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="S1JQC5De"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4568A205C9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ppk/pQuz";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="adlGMnFj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61BE220658
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=mXBX/vpwnOopT72FeYh9/hIRenaz+1UaPx/Or0tvG2k=; b=S1JQC5DeuxmkYc
-	tUA3VHYPhv7NdosIGVQXvDZzXYSTvOYsFnJTgJsDqXsx1WPjVZyG+vgVCeNcffBhpqfZZzUZzCQp+
-	NUBH8AzQqElS6AY/nPn/1zUEaoeWsxE/z7LKn+aXv7XmMRflBvkchcVPRPJsoWF9X8J9qBVGwABvB
-	4YkVl0ZfYiEHhNfNaPaHxKWtEgfQ7zvkj8OccwiiZCBLSnnz1sLDuvbG4EPH6iHj87OW3h7kJDRiX
-	1WHMAm9XN4gaFBE6S9ou6c06DWN7mME7NNJO9yGepBYArrS2IRjyejygsowjjndMEE2/aWbTa2Ii5
-	ikvtbZYg4uZxbd1rk3gQ==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=vbTo7lR8os7tgqTZMTYv5l1S96qE9JaKMbt04xKt+ms=; b=Ppk/pQuzFUmeul
+	S0gDFehQBs6w7OSLySziMyOvEh7ckRpvgR2C1+rEKlLMjy2lkwKkEeVVxbn3qmYC/LonGFyI5/ywg
+	zI3Nbht3GtsREWjILLHvf3TSZwf1p8makthRacrUcASY6tMZ0kW2sAhc9U2T7JtZ+KjMTQol4OV0m
+	PZlQv9exV92XsUFv9TUqnsqXA5PPHhQvWxYBIbyP/WbhyVVl2ukeDEji7YnZIE5OIEikaug64CuQ2
+	W+HwXFvh9JPAadzY6CTPvbhcwFysBU+/OyBWP+R1N+ljTeC4ZD0Jjz08N8GRn3Cdg9Fdc0SREeEhU
+	QUS9YfEqMhoxsG1WfQEQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j631a-0001tB-2N; Mon, 24 Feb 2020 01:59:10 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j631M-0001ft-Rd; Mon, 24 Feb 2020 01:58:58 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E20D41FB;
- Sun, 23 Feb 2020 17:58:53 -0800 (PST)
-Received: from [10.162.16.95] (p8cg001049571a15.blr.arm.com [10.162.16.95])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 97E1F3F6CF;
- Sun, 23 Feb 2020 17:58:46 -0800 (PST)
-Subject: Re: [PATCH V14] mm/debug: Add tests validating architecture page
- table helpers
-To: linux-mm@kvack.org
-References: <1581909460-19148-1-git-send-email-anshuman.khandual@arm.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <fac4f03a-0cd3-29ad-b5e2-9aca2dd07b39@arm.com>
-Date: Mon, 24 Feb 2020 07:28:46 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+	id 1j63no-0000yg-23; Mon, 24 Feb 2020 02:49:00 +0000
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j63nk-0000yG-VP
+ for linux-snps-arc@lists.infradead.org; Mon, 24 Feb 2020 02:48:58 +0000
+Received: by mail-pg1-x542.google.com with SMTP id z12so4353024pgl.4
+ for <linux-snps-arc@lists.infradead.org>; Sun, 23 Feb 2020 18:48:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=xsz8xL2wJJTN4qKvVnxibwQhu1sj9znZn/PM2AywkQc=;
+ b=adlGMnFjGtQW3IbdLbTjBUmeSMxqqu6fEnOT1++/qxKKYw/n1cNKPzPxSAQP4TRxpJ
+ oVP03ZHwPuZHXay/1lLsMe9bps7ZzsQ9P9ZIp/kIcF/iST8ZSwTbOmxOMNNGJ40BOH08
+ 9nAnIfYB/EW5o/idX0G5xC+BhhIiAoSngzfeICotPlpI7mII4SUBJG8NYTmoTyd+/o1e
+ QUW2TwdOpV7XkF1aUwuYjaqb8SBUB0kJK0VQWoIpJJAcVvLB5nGT55sdXoQYZvEiGlin
+ LakfwZfAb0lqTm3JjnbEG6yl8HhrwrG+2Bxi5rh/Xu8UIIyBfSTyYBwdWuEJRqY58GPE
+ lsWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=xsz8xL2wJJTN4qKvVnxibwQhu1sj9znZn/PM2AywkQc=;
+ b=pEt/AucqwXwzmjDa6cyGkiPnQMf7DpHjhBfaELeBHJH9+swlenpigJTgV2Z5bMWYg7
+ E86OC+lzp2/Ui4rQTP3eEl4VPZjUeEBKrajaDPIaP5yCuXUg9OVynke/goPg78bbIeSq
+ DcoPzdqnUKbr7EiQP3UdvkLOU+LYknK6KcQzVxGeAsQsjJdaMeoztkDzxCUApVXe6VJl
+ tCZ6js30ljsQefZsHy2jG6pG8RXBOB4p/H6HCYDBi/9mhfyEkYsKuD0Q2ltZ/isprwPc
+ uKD5nvAk4yBGsPPUrJ0ntwqsmZ9z2pdMr20xVKPn8pOW7Xo0DoMsMhUfX9iuG84pmMud
+ RWVQ==
+X-Gm-Message-State: APjAAAVrR4DVnCWgCy3ZPVG+dtEk15eLl4LLhYRG7hp7fUWmw8mnb/9C
+ n//5Ua+XJtQ1edGGG4lszsLJAw==
+X-Google-Smtp-Source: APXvYqyBsttEWyjWJvFTyMlc9Sfoa7H7+tN/zSEhKXdlkysLm4tCpiJ0cBl3XCM9zTupEpGX+om8sQ==
+X-Received: by 2002:aa7:94a4:: with SMTP id a4mr48876286pfl.178.1582512534904; 
+ Sun, 23 Feb 2020 18:48:54 -0800 (PST)
+Received: from localhost ([223.226.55.170])
+ by smtp.gmail.com with ESMTPSA id z4sm10080968pfn.42.2020.02.23.18.48.53
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 23 Feb 2020 18:48:54 -0800 (PST)
+Date: Mon, 24 Feb 2020 08:18:52 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: switching ARC to 64-bit time_t (Re: [RFC v6 07/23] RISC-V: Use
+ 64-bit time_t and off_t for RV32 and RV64)
+Message-ID: <20200224024852.75jketuczmeptadr@vireshk-i7>
+References: <CAKmqyKMyf2psPp+-EHoidvbPbSXv0=dP26GjVQnT5BUriLc1gA@mail.gmail.com>
+ <alpine.DEB.2.21.2002120123230.3988@digraph.polyomino.org.uk>
+ <CAKmqyKOgFRfMOws_-48GqMnuS3ygmN9A4DzLg6UtEjRXVoM82A@mail.gmail.com>
+ <8a9784b3-fc52-adc3-4595-33142b059388@synopsys.com>
+ <20200220001136.2f14236e@jawa>
+ <CAK8P3a1b73K+RjfHONWLy_dFUucXxwd+0jTnHmkf6YqwRjit4w@mail.gmail.com>
+ <20200220103716.2f526933@jawa>
+ <CAK8P3a1nte0nGMw8_aeS__iJsTvsSGYYuKivAYBdiGH-GjVGew@mail.gmail.com>
+ <20200220141451.3fa2fc3f@jawa>
+ <CAK8P3a2qLZBAuP-YT2=KZoP+V23TAKvw5W1_2t7rEr2RobLsWw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1581909460-19148-1-git-send-email-anshuman.khandual@arm.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a2qLZBAuP-YT2=KZoP+V23TAKvw5W1_2t7rEr2RobLsWw@mail.gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200223_175856_939307_9ACEF481 
-X-CRM114-Status: GOOD (  15.32  )
+X-CRM114-CacheID: sfid-20200223_184857_042323_BB6B5703 
+X-CRM114-Status: GOOD (  12.08  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,60 +104,42 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- x86@kernel.org, Mike Rapoport <rppt@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- linux-snps-arc@lists.infradead.org, Vasily Gorbik <gor@linux.ibm.com>,
- Borislav Petkov <bp@alien8.de>, Paul Walmsley <paul.walmsley@sifive.com>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Christophe Leroy <christophe.leroy@c-s.fr>, Vineet Gupta <vgupta@synopsys.com>,
- linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Cc: Florian Weimer <fweimer@redhat.com>, Helmut Grohne <helmutg@debian.org>,
+ GNU C Library <libc-alpha@sourceware.org>, Viresh Kumar <vireshk@kernel.org>,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ Palmer Dabbelt <palmerdabbelt@google.com>, Lukasz Majewski <lukma@denx.de>,
+ Zong Li <zongbox@gmail.com>, debian-arm@lists.debian.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Adhemerval Zanella <adhemerval.zanella@linaro.org>,
+ "Maciej W. Rozycki" <macro@wdc.com>, Alistair Francis <alistair23@gmail.com>,
+ arcml <linux-snps-arc@lists.infradead.org>,
+ Joseph Myers <joseph@codesourcery.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 02/17/2020 08:47 AM, Anshuman Khandual wrote:
-> This adds a test validation for architecture exported page table helpers.
-> Patch adds basic transformation tests at various levels of the page table.
-> 
-> This test was originally suggested by Catalin during arm64 THP migration
-> RFC discussion earlier. Going forward it can include more specific tests
-> with respect to various generic MM functions like THP, HugeTLB etc and
-> platform specific tests.
-> 
-> https://lore.kernel.org/linux-mm/20190628102003.GA56463@arrakis.emea.arm.com/
-> 
-> Needs to be applied on linux V5.6-rc2
-> 
-> Changes in V14:
-> 
-> - Disabled DEBUG_VM_PGFLAGS for IA64 and ARM (32 Bit) per Andrew and Christophe
-> - Updated DEBUG_VM_PGFLAGS documentation wrt EXPERT and disabled platforms
-> - Updated RANDOM_[OR|NZ]VALUE open encodings with GENMASK() per Catalin
-> - Updated s390 constraint bits from 12 to 4 (S390_MASK_BITS) per Gerald
-> - Updated in-code documentation for RANDOM_ORVALUE per Gerald
-> - Updated pxx_basic_tests() to use invert functions first per Catalin
-> - Dropped ARCH_HAS_4LEVEL_HACK check from pud_basic_tests()
-> - Replaced __ARCH_HAS_[4|5]LEVEL_HACK with __PAGETABLE_[PUD|P4D]_FOLDED per Catalin
-> - Trimmed the CC list on the commit message per Catalin
+On 20-02-20, 15:44, Arnd Bergmann wrote:
+> On Thu, Feb 20, 2020 at 2:15 PM Lukasz Majewski <lukma@denx.de> wrote:
+> > > On Thu, Feb 20, 2020 at 10:37 AM Lukasz Majewski <lukma@denx.de>
+> > > > > On Thu, Feb 20, 2020 at 12:11 AM Lukasz Majewski <lukma@denx.de>
 
-Hello Andrew,
+> > > There is also some work
+> > > in Linaro to ensure that LTP tests the low-level syscall interfaces
+> > > in both the time32 and time64 variants.
+> >
+> > Interesting. Is this work now publicly available?
+> 
+> I think this is currently in the planning stage, but once patches
+> are available, they would be posted to the ltp mailing list. Viresh
+> should have more details on this.
 
-As there are no further comments on this patch from last week, wondering
-if you would possibly consider this patch. But if you feel there is still
-something which need to be taken care here, please do let me know.
+What you said is correct Arnd. It is in very early stage of planning
+right now, no guarantees on when will we start working on it as of
+now.
 
-Thank you.
-
-- Anshuman
+-- 
+viresh
 
 _______________________________________________
 linux-snps-arc mailing list
