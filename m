@@ -2,49 +2,66 @@ Return-Path: <SRS0=ka13=4M=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F737C3567B
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 10:23:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA59BC35679
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 10:37:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3217520828
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 10:23:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A4CAD20732
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 10:37:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="neYtpIms"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3217520828
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uSwMTAtb"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A4CAD20732
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=denx.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:
-	Date:References:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SRvJviF7VVTFBW62z+jTtFsscQYgszJ6hVH9evPNEuE=; b=neYtpImsK/0J++
-	6un3+/y4bu4eexN61LQ51pkSSD+EGMVcId+v3FlvyHwGVWZw1Vax2KRIHb5PwOfu2oRwPaWBnkEP/
-	d32j9E9LqBsFrMdYwHKwTAIpSinKZQZkLNdrIhJm2t6avEi1q5ld73J+q4MFpY/ppL3vKax4txoJ4
-	9qafMmyM/Y35ec4CtS1gB6K5klg/9gl63K8y1+WrrApC3wryeYLOAai2sTyOCeHxvVpSV4NndP0zD
-	S79R1T/0QNvPQaNCyfE+/jKLzRz9v8A31Ruv7734Xdo9LFZTRfgcULp6RFEl9ucoJz9oKqt9PHClj
-	V3Y1dw0GWGthSCOeEUCg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:Cc:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	MIME-Version:References:In-Reply-To:Message-ID:Subject:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=G3zQCTf0nZE+EX4Tuxyp98jDWn3neO9nxfB92U5WBBA=; b=uSwMTAtbWH7fP2OWkjRz41blJ
+	0JEzO1eo4sVOFDqXQBamAqam8zX/N6gJmJ7SWdAlsU7pRs6y2YSrV0Qhl9XPeMcGXHIXh1RO5XqQi
+	PYgmaL5eg84dABlzTEYueK1ItdCp2vf+EGz9TY6k+ISUtxQKA+JrAImZRAZGuQTX09nXtyUQIDp+D
+	DuS0VeqTbhx2zunwyrEKEt9pmZuIu0gKgyoJcatrI9bbwqlTh9AXv0tye78lehvl/63axzS0fyKL2
+	c1R1sxWFVIkzCgG2idoN6jtYnL3PWMVCOLlSgVyHfTXh0hDUv72QY4OlGgc8aupgyVU3SEssfGRvw
+	q+Tbvf7lA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j6Au4-0000Is-Uf; Mon, 24 Feb 2020 10:23:56 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1j6B6w-0008Qc-Qt; Mon, 24 Feb 2020 10:37:14 +0000
+Received: from mail-out.m-online.net ([212.18.0.9])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6Au2-0000IW-KY
- for linux-snps-arc@lists.infradead.org; Mon, 24 Feb 2020 10:23:55 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id B4F97AD2A;
- Mon, 24 Feb 2020 10:23:52 +0000 (UTC)
-From: Andreas Schwab <schwab@suse.de>
-To: Lukasz Majewski <lukma@denx.de>
+ id 1j6B6t-0008QH-P6
+ for linux-snps-arc@lists.infradead.org; Mon, 24 Feb 2020 10:37:13 +0000
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 48Qz5f2FW2z1qqkV;
+ Mon, 24 Feb 2020 11:37:10 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 48Qz5f0ZQ7z1qqkr;
+ Mon, 24 Feb 2020 11:37:10 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id RkE2g6dM2n10; Mon, 24 Feb 2020 11:37:04 +0100 (CET)
+X-Auth-Info: 2/ftWhMQRA1ttXTTlUxNQyApY9Z9nGN11GmhcYh5Hu0=
+Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Mon, 24 Feb 2020 11:37:04 +0100 (CET)
+Date: Mon, 24 Feb 2020 11:36:58 +0100
+From: Lukasz Majewski <lukma@denx.de>
+To: Andreas Schwab <schwab@suse.de>
 Subject: Re: switching ARC to 64-bit time_t (Re: [RFC v6 07/23] RISC-V: Use
  64-bit time_t and off_t for RV32 and RV64)
+Message-ID: <20200224113658.275ea702@jawa>
+In-Reply-To: <mvmh7zgxozs.fsf@suse.de>
 References: <cover.1578824547.git.alistair.francis@wdc.com>
  <4e95f95966d8d7c6a8339160dc62d81c1f6a1bfb.1578824547.git.alistair.francis@wdc.com>
  <00574bfb-981a-3a1c-cbdf-b2fee4eddc32@gmail.com>
@@ -57,18 +74,13 @@ References: <cover.1578824547.git.alistair.francis@wdc.com>
  <20200220103716.2f526933@jawa>
  <CAK8P3a2n6fRm4C5Ywyk5ys92jSOAc5SwvBVZyFOY9=4rB2pyjw@mail.gmail.com>
  <20200224100051.2511d797@jawa> <mvmpne4xqpb.fsf@suse.de>
- <20200224111424.33759b2e@jawa>
-X-Yow: How's the wife?  Is she at home enjoying capitalism?
-Date: Mon, 24 Feb 2020 11:23:51 +0100
-In-Reply-To: <20200224111424.33759b2e@jawa> (Lukasz Majewski's message of
- "Mon, 24 Feb 2020 11:14:24 +0100")
-Message-ID: <mvmh7zgxozs.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ <20200224111424.33759b2e@jawa> <mvmh7zgxozs.fsf@suse.de>
+Organization: denx.de
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200224_022354_815635_D60FE123 
-X-CRM114-Status: UNSURE (   9.36  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200224_023712_114323_A64A79BA 
+X-CRM114-Status: GOOD (  12.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,28 +102,89 @@ Cc: Florian Weimer <fweimer@redhat.com>,
  "Maciej W. Rozycki" <macro@wdc.com>, Alistair Francis <alistair23@gmail.com>,
  arcml <linux-snps-arc@lists.infradead.org>,
  Joseph Myers <joseph@codesourcery.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============8315695001084116911=="
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Feb 24 2020, Lukasz Majewski wrote:
+--===============8315695001084116911==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/FGv9mqzvCevHzySEZ8_xv=d"; protocol="application/pgp-signature"
 
-> If I add those functions as hidden_alias then those would be accessible
-> inside glibc without PLT, but will not be exported (and redirection for
-> Y2038 will not work).
+--Sig_/FGv9mqzvCevHzySEZ8_xv=d
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-They aren't?  PLT avoidance is about internal references, and uses a
-different name then the exported sybmol.
+On Mon, 24 Feb 2020 11:23:51 +0100
+Andreas Schwab <schwab@suse.de> wrote:
 
-Andreas.
+> On Feb 24 2020, Lukasz Majewski wrote:
+>=20
+> > If I add those functions as hidden_alias then those would be
+> > accessible inside glibc without PLT, but will not be exported (and
+> > redirection for Y2038 will not work). =20
+>=20
+> They aren't?  PLT avoidance is about internal references, and uses a
+> different name then the exported sybmol.
+>=20
 
--- 
-Andreas Schwab, SUSE Labs, schwab@suse.de
-GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
-"And now for something completely different."
+I'm probably not aware of something - but as done in the following
+patch:
+
+https://github.com/lmajewski/y2038_glibc/commit/c96eeb73175961c4ac80fdd3b6a=
+dc132805387c9
+
+I do need to remove librt_hidden_proto / librt_hidden_def to have
+proper symbols visible when I do want to use redirections.
+
+(the same issue is with libc_hidden_proto / libc_hidden_def):
+https://github.com/lmajewski/y2038_glibc/commit/361f05e38c0d5c6673914af330e=
+766c2ed4f9a8a
+
+> Andreas.
+>=20
+
+
+
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/FGv9mqzvCevHzySEZ8_xv=d
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl5Tp0oACgkQAR8vZIA0
+zr3r3QgAm+WVCc79CJIeu35KV2ClkmFBRDZ/Wmy6oScWcNpguJ5Ml62/nggIdfws
++H8DXv+Xn44MwI7U1FggYlISIlPHfIH+5Cma4pZvKIZZYpLod/s0kWo5WwqNlLwJ
+y1W9KOWjkLeD1N5/Lw0PRiJQbs4na+4IIWkevYiv0Ouunca545xvkbSPzrkUlt9R
+Z6NyvjRyfeWwGFf4jXjF61nTU8iHDZW41yGkBzs/VhCBo8kbwuUdYxe7sWvqLgQJ
+xC54s7G3muGw8pGqi/QgLJ+1CIXKAtjAXHhT1wiCLORJEYmp5UDATAHiSrNjIbvQ
+B6hgr6ust8OzfVhJ0vTWaKs2IlbIKQ==
+=2+y9
+-----END PGP SIGNATURE-----
+
+--Sig_/FGv9mqzvCevHzySEZ8_xv=d--
+
+
+--===============8315695001084116911==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+
+--===============8315695001084116911==--
+
