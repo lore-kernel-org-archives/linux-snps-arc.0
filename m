@@ -2,105 +2,75 @@ Return-Path: <SRS0=ka13=4M=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 334F6C38BE2
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 21:17:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CA7CC38BF9
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 22:15:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 039C420CC7
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 21:17:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C5D5F218AC
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 22:15:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OBxqwEk8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 039C420CC7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Z4hUpgwQ";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Yj0mxw5Y"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C5D5F218AC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:To:From:Subject:
-	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=nqE09vwuCywG3Y3A9bmX9DALXlOE+uZMQbyrNPs5n7o=; b=OBx
-	qwEk8Sbbx/EPQ9kt1AWWMCxPZAnE1hz+4XyOXp5BrALYHdiDQz7ieh8e9E4dqDL4dM6fe711D7b2h
-	cITsUKHYBqTppLR9NrKcAE6v2RIUhTwAZ8Ea7vZB8ZC12Xpv6xMvGm98AOYy2U86ty40EDeyOC4jw
-	X/U+OyM1XAUDsJnXCeLH9xNyRScMtfK0OUmmCTtTbml7gr/pUTqNrmwUITUTwr4fKfTgyTXFf6M6w
-	iP8oydzYQLcNessbsAAZ7D80bRvBaHqU40IPtnlKxpIYIkS6gpIMMzMct3ZGSP23BqHqQSqLwm2CK
-	cpK+kAXm6BGgS3YRvF9AAQOR9N2Pj4Q==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Lyt9Xhycu+FB1x9QqjJ4bYLSsIrhLOLGd4Qm4xm+NlM=; b=Z4hUpgwQIQq5r3
+	XVwi9r7a9Qb+EnNXqp4wIormDxqkEBW5cNaa43UzA2140gEZ9zugDB5byoNLf8w0vkbOKlSyb2VtD
+	eMJ3XFFblWPDwmYZk4YWI6lqOUH2dxFuW01w0l5X45/jaA4PSigt+SzSm4XG3Thvj6XMLkODd9E8t
+	s3Es2imMTQHuKgZ+xPbQjMCjNWRrR8E8s4TvOZDrICTleWISPzcM93a9JGzecsKHxMS/XC/Jl1rku
+	9EcuA2ciWGP+EOZNRt7w4htds9Ecb3GwcHWkcCH0EpXm+nPTZX/rsakSrv1Q/cZseFH3bfwEnJ27i
+	4mdlch7gbjNiwqXq7ryA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j6L6C-0005Zv-9S; Mon, 24 Feb 2020 21:17:08 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+	id 1j6M0m-000779-Mj; Mon, 24 Feb 2020 22:15:36 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6L66-0005YB-CL
- for linux-snps-arc@lists.infradead.org; Mon, 24 Feb 2020 21:17:07 +0000
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01OLDnun116762
- for <linux-snps-arc@lists.infradead.org>; Mon, 24 Feb 2020 16:17:01 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yaxt7m72e-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-snps-arc@lists.infradead.org>; Mon, 24 Feb 2020 16:17:01 -0500
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <linux-snps-arc@lists.infradead.org> from <noreply@ellerman.id.au>;
- Mon, 24 Feb 2020 21:16:59 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 24 Feb 2020 21:16:58 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 01OLGvk746137660
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 21:16:57 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DC9ADA4054;
- Mon, 24 Feb 2020 21:16:57 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 885FAA405F;
- Mon, 24 Feb 2020 21:16:57 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 24 Feb 2020 21:16:57 +0000 (GMT)
-Received: from bran.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
- by ozlabs.au.ibm.com (Postfix) with ESMTP id DCB90A01C4;
- Tue, 25 Feb 2020 08:16:52 +1100 (AEDT)
-Received: from 03820ad8799d (ka2.ozlabs.ibm.com [10.61.145.21])
- by bran.ozlabs.ibm.com (Postfix) with ESMTP id 6672EE00F6;
- Tue, 25 Feb 2020 08:16:56 +1100 (AEDT)
+ id 1j6M0i-000766-NI
+ for linux-snps-arc@lists.infradead.org; Mon, 24 Feb 2020 22:15:34 +0000
+Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com
+ [10.205.2.131])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 7D469404FD;
+ Mon, 24 Feb 2020 22:15:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1582582531; bh=JK1cZr7ds3PnyNazziWs7i3chvu1HgqOIDoOezBTuP4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Yj0mxw5YT02SbW6l3F/381e4a+EkeFV5GcEkD/usOQnJpzmd4WABOT0L6Qi9GlmBP
+ d2rskzq5sMYChYQiaIYiZG5PGZlTtaXh2H6qS8uMTRYdOA39HrTB9qBM0QG0yG/dOP
+ wbC6f44nBLYfFCSKM3yReZ6Gff7zlPT5QcWECaba0O0oDjrSbmBvR3Ew+PnsD6bze6
+ 0OO2rABh3PPmXRMrLqB8WYHcBB7xdAoS9VHOMWGn6opkKe4ybgxOrvrLEPLEJz9KM2
+ yA1XviUo72nzdow4slHmBnm5xPJspx69MwGaurYIVqBg8qViZccQEeyPJj98LqZlFr
+ usdinVlvmFHcQ==
+Received: from vineetg-Latitude-E7450.internal.synopsys.com
+ (vineetg-latitude-e7450.internal.synopsys.com [10.10.161.26])
+ by mailhost.synopsys.com (Postfix) with ESMTP id 22F67A005E;
+ Mon, 24 Feb 2020 22:15:31 +0000 (UTC)
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: libc-alpha@sourceware.org
+Subject: [PATCH v2] asm-generic ABI: Allow statx syscall despite fstatat64,
+ fstat64
+Date: Mon, 24 Feb 2020 14:15:30 -0800
+Message-Id: <20200224221530.12928-1-vgupta@synopsys.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <87pne3lqrh.fsf@oldenburg2.str.redhat.com>
+References: <87pne3lqrh.fsf@oldenburg2.str.redhat.com>
 MIME-Version: 1.0
-Subject: kisskb: OK linus/axs101_defconfig/arcompact Tue Feb 25, 08:15
-From: noreply@ellerman.id.au
-To: Vineet.Gupta1@synopsys.com, Alexey.Brodkin@synopsys.com,
- linux-snps-arc@lists.infradead.org
-Date: Mon, 24 Feb 2020 21:16:56 -0000
-X-TM-AS-GCONF: 00
-x-cbid: 20022421-0020-0000-0000-000003AD37C5
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20022421-0021-0000-0000-000022054B32
-Message-Id: <20200224211656.1.17880@03820ad8799d>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-24_11:2020-02-21,
- 2020-02-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 mlxscore=0
- adultscore=0 phishscore=0 priorityscore=1501 suspectscore=2
- impostorscore=0 bulkscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
- mlxlogscore=818 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240157
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200224_131705_521140_EF0AA3AA 
-X-CRM114-Status: GOOD (  11.96  )
+X-CRM114-CacheID: sfid-20200224_141532_772990_BFB2F06B 
+X-CRM114-Status: GOOD (  14.20  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,27 +82,388 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Cc: alistair23@gmail.com, Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ linux-snps-arc@lists.infradead.org, alistair.francis@wdc.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-OK linus/axs101_defconfig/arcompact Tue Feb 25, 08:15
+An old version of asm-generic syscall ABI (e.g. ARC 2013) provided
+fstat[at]64 syscalls for implementing the stat family.
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/14151568/
+These sycalls are passthru (no interworking/itemized-copy needed
+between kernel and user structs since they are binary comaptible).
+However with switch to 64-bit time_t the compatibily goes away so we
+need explicit interworking. Luckily such code already exists albeit it
+uses the statx syscall.
 
-Commit:   Merge tag 'linux-watchdog-5.6-rc3' of git://www.linux-watchdog.org/linux-watchdog
-          0c0ddd6ae47c9238c18f475bcca675ca74c9dc31
-Compiler: arc-buildroot-linux-uclibc-gcc (Buildroot 2015.08.1) 4.8.4 / GNU ld (GNU Binutils) 2.23.2
+So this patch reworks the asm-generic based stat functions to use the
+statx code-path if the arch so desires. It essentially reworks the commit
+6bbfc5c09fc5b5e3 ("Add statx conditionals for wordsize-32 *xstat.c")
 
-No errors found in log
+This will be used by ARC port for 64-bit time_t. But it has no real
+bearing on 64-bit and can just be independently opted-in by an arch port
+provided the ABI supports it.
 
-Possible warnings (3)
-----------------------
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+---
+Changes since v1
+  * make the toggle #if style rather than #ifdef style
+  * define to 0 in all arches which don't use it
+---
+ sysdeps/unix/sysv/linux/alpha/kernel_stat.h            |  1 +
+ sysdeps/unix/sysv/linux/fxstat64.c                     |  8 ++++----
+ sysdeps/unix/sysv/linux/fxstatat64.c                   |  6 +++---
+ sysdeps/unix/sysv/linux/generic/kernel_stat.h          |  7 +++++++
+ sysdeps/unix/sysv/linux/generic/wordsize-32/fxstat.c   |  6 +++---
+ sysdeps/unix/sysv/linux/generic/wordsize-32/fxstatat.c |  6 +++---
+ sysdeps/unix/sysv/linux/generic/wordsize-32/lxstat.c   | 10 +++++-----
+ sysdeps/unix/sysv/linux/generic/wordsize-32/lxstat64.c |  8 ++++----
+ sysdeps/unix/sysv/linux/generic/wordsize-32/xstat.c    |  6 +++---
+ sysdeps/unix/sysv/linux/generic/wordsize-32/xstat64.c  |  6 +++---
+ sysdeps/unix/sysv/linux/hppa/kernel_stat.h             |  1 +
+ sysdeps/unix/sysv/linux/ia64/kernel_stat.h             |  1 +
+ sysdeps/unix/sysv/linux/kernel_stat.h                  |  1 +
+ sysdeps/unix/sysv/linux/microblaze/kernel_stat.h       |  1 +
+ sysdeps/unix/sysv/linux/mips/kernel_stat.h             |  1 +
+ .../unix/sysv/linux/powerpc/powerpc32/kernel_stat.h    |  1 +
+ .../unix/sysv/linux/powerpc/powerpc64/kernel_stat.h    |  1 +
+ sysdeps/unix/sysv/linux/s390/s390-64/kernel_stat.h     |  1 +
+ sysdeps/unix/sysv/linux/sparc/sparc32/kernel_stat.h    |  1 +
+ sysdeps/unix/sysv/linux/sparc/sparc64/kernel_stat.h    |  1 +
+ sysdeps/unix/sysv/linux/statx_cp.c                     |  2 +-
+ sysdeps/unix/sysv/linux/x86_64/kernel_stat.h           |  1 +
+ 22 files changed, 48 insertions(+), 29 deletions(-)
 
-drivers/gpu/drm/drm_dp_mst_topology.c:5400:9: warning: missing braces around initializer [-Wmissing-braces]
-drivers/gpu/drm/drm_dp_mst_topology.c:5400:9: warning: (near initialization for 'desc.ident') [-Wmissing-braces]
-net/ipv4/tcp_input.c:4398:49: warning: array subscript is above array bounds [-Warray-bounds]
+diff --git a/sysdeps/unix/sysv/linux/alpha/kernel_stat.h b/sysdeps/unix/sysv/linux/alpha/kernel_stat.h
+index d637e099cfe4..437b56098ecd 100644
+--- a/sysdeps/unix/sysv/linux/alpha/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/alpha/kernel_stat.h
+@@ -87,3 +87,4 @@ struct glibc21_stat
+ 
+ #define XSTAT_IS_XSTAT64 1
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/fxstat64.c b/sysdeps/unix/sysv/linux/fxstat64.c
+index 9133a0a29b8e..93394c450f1c 100644
+--- a/sysdeps/unix/sysv/linux/fxstat64.c
++++ b/sysdeps/unix/sysv/linux/fxstat64.c
+@@ -33,15 +33,15 @@ int
+ ___fxstat64 (int vers, int fd, struct stat64 *buf)
+ {
+   int result;
+-#ifdef __NR_fstat64
+-  result = INLINE_SYSCALL (fstat64, 2, fd, buf);
+-#else
++# if STAT64_IS_NOT_KERNEL_STAT64 || !defined(__NR_fstat64)
+   struct statx tmp;
+   result = INLINE_SYSCALL (statx, 5, fd, "", AT_EMPTY_PATH, STATX_BASIC_STATS,
+                            &tmp);
+   if (result == 0)
+     __cp_stat64_statx (buf, &tmp);
+-#endif
++# else
++  result = INLINE_SYSCALL (fstat64, 2, fd, buf);
++# endif
+   return result;
+ }
+ 
+diff --git a/sysdeps/unix/sysv/linux/fxstatat64.c b/sysdeps/unix/sysv/linux/fxstatat64.c
+index e24b456604ff..090d4af65988 100644
+--- a/sysdeps/unix/sysv/linux/fxstatat64.c
++++ b/sysdeps/unix/sysv/linux/fxstatat64.c
+@@ -38,15 +38,15 @@ __fxstatat64 (int vers, int fd, const char *file, struct stat64 *st, int flag)
+ 
+   int result;
+ 
+-#ifdef __NR_fstatat64
+-  result = INTERNAL_SYSCALL_CALL (fstatat64, fd, file, st, flag);
+-#else
++# if STAT64_IS_NOT_KERNEL_STAT64 || !defined(__NR_fstatat64)
+   struct statx tmp;
+ 
+   result = INTERNAL_SYSCALL_CALL (statx, fd, file, AT_NO_AUTOMOUNT | flag,
+ 				  STATX_BASIC_STATS, &tmp);
+   if (result == 0)
+     __cp_stat64_statx (st, &tmp);
++#else
++  result = INTERNAL_SYSCALL_CALL (fstatat64, fd, file, st, flag);
+ #endif
+   if (!__glibc_likely (INTERNAL_SYSCALL_ERROR_P (result)))
+     return 0;
+diff --git a/sysdeps/unix/sysv/linux/generic/kernel_stat.h b/sysdeps/unix/sysv/linux/generic/kernel_stat.h
+index 2eed3596c0ed..fb97832f213f 100644
+--- a/sysdeps/unix/sysv/linux/generic/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/generic/kernel_stat.h
+@@ -28,3 +28,10 @@
+ #endif
+ 
+ #define STATFS_IS_STATFS64 0
++
++/* Allows asm-generic ABI ports with fstat64 syscall to use statx syscall for
++   implement stat* wrappers. This is needed when glibc stat64 is not compatible
++   with kernel stat64 (due to 64-bit time_t). By default it is off unless
++   arch opts-in.  */
++
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/generic/wordsize-32/fxstat.c b/sysdeps/unix/sysv/linux/generic/wordsize-32/fxstat.c
+index 850450e1e8a1..67194194b632 100644
+--- a/sysdeps/unix/sysv/linux/generic/wordsize-32/fxstat.c
++++ b/sysdeps/unix/sysv/linux/generic/wordsize-32/fxstat.c
+@@ -36,14 +36,14 @@ __fxstat (int vers, int fd, struct stat *buf)
+ {
+   if (vers == _STAT_VER_KERNEL)
+     {
+-# ifdef __NR_fstat64
+-      int rc = INLINE_SYSCALL (fstat64, 2, fd, buf);
+-# else
++# if STAT64_IS_NOT_KERNEL_STAT64 || !defined(__NR_fstat64)
+       struct statx tmp;
+       int rc = INLINE_SYSCALL (statx, 5, fd, "", AT_EMPTY_PATH,
+                                STATX_BASIC_STATS, &tmp);
+       if (rc == 0)
+         __cp_stat64_statx ((struct stat64 *)buf, &tmp);
++# else
++      int rc = INLINE_SYSCALL (fstat64, 2, fd, buf);
+ # endif
+       return rc ?: stat_overflow (buf);
+     }
+diff --git a/sysdeps/unix/sysv/linux/generic/wordsize-32/fxstatat.c b/sysdeps/unix/sysv/linux/generic/wordsize-32/fxstatat.c
+index 8df65ebea084..38fd2b7791bc 100644
+--- a/sysdeps/unix/sysv/linux/generic/wordsize-32/fxstatat.c
++++ b/sysdeps/unix/sysv/linux/generic/wordsize-32/fxstatat.c
+@@ -36,15 +36,15 @@ __fxstatat (int vers, int fd, const char *file, struct stat *buf, int flag)
+ {
+   if (vers == _STAT_VER_KERNEL)
+     {
+-# ifdef __NR_fstatat64
+-      int rc = INLINE_SYSCALL (fstatat64, 4, fd, file, buf, flag);
+-# else
++# if STAT64_IS_NOT_KERNEL_STAT64 || !defined(__NR_fstat64)
+       struct statx tmp;
+       int rc = INLINE_SYSCALL (statx, 5, fd, file,
+                                AT_NO_AUTOMOUNT | flag,
+                                STATX_BASIC_STATS, &tmp);
+       if (rc == 0)
+         __cp_stat64_statx ((struct stat64 *)buf, &tmp);
++# else
++      int rc = INLINE_SYSCALL (fstatat64, 4, fd, file, buf, flag);
+ # endif
+       return rc ?: stat_overflow (buf);
+     }
+diff --git a/sysdeps/unix/sysv/linux/generic/wordsize-32/lxstat.c b/sysdeps/unix/sysv/linux/generic/wordsize-32/lxstat.c
+index bd02631d68cd..fc4998e75c36 100644
+--- a/sysdeps/unix/sysv/linux/generic/wordsize-32/lxstat.c
++++ b/sysdeps/unix/sysv/linux/generic/wordsize-32/lxstat.c
+@@ -35,17 +35,17 @@ __lxstat (int vers, const char *name, struct stat *buf)
+ {
+   if (vers == _STAT_VER_KERNEL)
+     {
+-#ifdef __NR_fstatat64
+-      int rc = INLINE_SYSCALL (fstatat64, 4, AT_FDCWD, name, buf,
+-                               AT_SYMLINK_NOFOLLOW);
+-#else
++# if STAT64_IS_NOT_KERNEL_STAT64 || !defined(__NR_fstat64)
+       struct statx tmp;
+       int rc = INLINE_SYSCALL (statx, 5, AT_FDCWD, name,
+                                AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW,
+                                STATX_BASIC_STATS, &tmp);
+       if (rc == 0)
+         __cp_stat64_statx ((struct stat64 *)buf, &tmp);
+-#endif
++# else
++      int rc = INLINE_SYSCALL (fstatat64, 4, AT_FDCWD, name, buf,
++                               AT_SYMLINK_NOFOLLOW);
++# endif
+       return rc ?: stat_overflow (buf);
+     }
+   errno = EINVAL;
+diff --git a/sysdeps/unix/sysv/linux/generic/wordsize-32/lxstat64.c b/sysdeps/unix/sysv/linux/generic/wordsize-32/lxstat64.c
+index 3eab0a184751..83ea74cd09ed 100644
+--- a/sysdeps/unix/sysv/linux/generic/wordsize-32/lxstat64.c
++++ b/sysdeps/unix/sysv/linux/generic/wordsize-32/lxstat64.c
+@@ -40,10 +40,7 @@ __lxstat64 (int vers, const char *name, struct stat64 *buf)
+ {
+   if (vers == _STAT_VER_KERNEL)
+     {
+-#ifdef __NR_fstatat64
+-      return INLINE_SYSCALL (fstatat64, 4, AT_FDCWD, name, buf,
+-                             AT_SYMLINK_NOFOLLOW);
+-#else
++# if STAT64_IS_NOT_KERNEL_STAT64 || !defined(__NR_fstat64)
+       struct statx tmp;
+       int rc = INLINE_SYSCALL (statx, 5, AT_FDCWD, name,
+                                AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW,
+@@ -51,6 +48,9 @@ __lxstat64 (int vers, const char *name, struct stat64 *buf)
+       if (rc == 0)
+         __cp_stat64_statx (buf, &tmp);
+       return rc;
++#else
++      return INLINE_SYSCALL (fstatat64, 4, AT_FDCWD, name, buf,
++                             AT_SYMLINK_NOFOLLOW);
+ #endif
+     }
+ 
+diff --git a/sysdeps/unix/sysv/linux/generic/wordsize-32/xstat.c b/sysdeps/unix/sysv/linux/generic/wordsize-32/xstat.c
+index a4a921c1ea6c..9a155ee4a757 100644
+--- a/sysdeps/unix/sysv/linux/generic/wordsize-32/xstat.c
++++ b/sysdeps/unix/sysv/linux/generic/wordsize-32/xstat.c
+@@ -35,14 +35,14 @@ __xstat (int vers, const char *name, struct stat *buf)
+ {
+   if (vers == _STAT_VER_KERNEL)
+     {
+-# ifdef __NR_fstatat64
+-      int rc = INLINE_SYSCALL (fstatat64, 4, AT_FDCWD, name, buf, 0);
+-# else
++# if STAT64_IS_NOT_KERNEL_STAT64 || !defined(__NR_fstat64)
+       struct statx tmp;
+       int rc = INLINE_SYSCALL (statx, 5, AT_FDCWD, name, AT_NO_AUTOMOUNT,
+                                STATX_BASIC_STATS, &tmp);
+       if (rc == 0)
+         __cp_stat64_statx ((struct stat64 *)buf, &tmp);
++# else
++      int rc = INLINE_SYSCALL (fstatat64, 4, AT_FDCWD, name, buf, 0);
+ # endif
+       return rc ?: stat_overflow (buf);
+     }
+diff --git a/sysdeps/unix/sysv/linux/generic/wordsize-32/xstat64.c b/sysdeps/unix/sysv/linux/generic/wordsize-32/xstat64.c
+index 0848b5a4b4b1..1bbcbeefc428 100644
+--- a/sysdeps/unix/sysv/linux/generic/wordsize-32/xstat64.c
++++ b/sysdeps/unix/sysv/linux/generic/wordsize-32/xstat64.c
+@@ -40,15 +40,15 @@ __xstat64 (int vers, const char *name, struct stat64 *buf)
+ {
+   if (vers == _STAT_VER_KERNEL)
+     {
+-#ifdef __NR_fstatat64
+-      return INLINE_SYSCALL (fstatat64, 4, AT_FDCWD, name, buf, 0);
+-#else
++# if STAT64_IS_NOT_KERNEL_STAT64 || !defined(__NR_fstat64)
+       struct statx tmp;
+       int rc = INLINE_SYSCALL (statx, 5, AT_FDCWD, name, AT_NO_AUTOMOUNT,
+                                STATX_BASIC_STATS, &tmp);
+       if (rc == 0)
+         __cp_stat64_statx (buf, &tmp);
+       return rc;
++#else
++      return INLINE_SYSCALL (fstatat64, 4, AT_FDCWD, name, buf, 0);
+ #endif
+     }
+   errno = EINVAL;
+diff --git a/sysdeps/unix/sysv/linux/hppa/kernel_stat.h b/sysdeps/unix/sysv/linux/hppa/kernel_stat.h
+index a3ac53a1ef2f..93802c4257c0 100644
+--- a/sysdeps/unix/sysv/linux/hppa/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/hppa/kernel_stat.h
+@@ -32,3 +32,4 @@ struct kernel_stat {
+ 
+ #define XSTAT_IS_XSTAT64 0
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/ia64/kernel_stat.h b/sysdeps/unix/sysv/linux/ia64/kernel_stat.h
+index b38bf741d37b..6965d95e9529 100644
+--- a/sysdeps/unix/sysv/linux/ia64/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/ia64/kernel_stat.h
+@@ -19,3 +19,4 @@
+ #define STAT_IS_KERNEL_STAT 1
+ #define XSTAT_IS_XSTAT64 1
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/kernel_stat.h b/sysdeps/unix/sysv/linux/kernel_stat.h
+index eecc962de390..3ff0882c51a2 100644
+--- a/sysdeps/unix/sysv/linux/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/kernel_stat.h
+@@ -36,3 +36,4 @@ struct kernel_stat
+ 
+ #define XSTAT_IS_XSTAT64 0
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/microblaze/kernel_stat.h b/sysdeps/unix/sysv/linux/microblaze/kernel_stat.h
+index 765e0dca6763..64d4b11ee6da 100644
+--- a/sysdeps/unix/sysv/linux/microblaze/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/microblaze/kernel_stat.h
+@@ -50,3 +50,4 @@ struct kernel_stat
+ 
+ #define XSTAT_IS_XSTAT64 0
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/mips/kernel_stat.h b/sysdeps/unix/sysv/linux/mips/kernel_stat.h
+index 388df1bfffec..fd221c632fac 100644
+--- a/sysdeps/unix/sysv/linux/mips/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/mips/kernel_stat.h
+@@ -58,3 +58,4 @@ struct kernel_stat
+ 
+ #define XSTAT_IS_XSTAT64 0
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/kernel_stat.h b/sysdeps/unix/sysv/linux/powerpc/powerpc32/kernel_stat.h
+index c5948a4d3c1c..4e389cb2ff80 100644
+--- a/sysdeps/unix/sysv/linux/powerpc/powerpc32/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/kernel_stat.h
+@@ -49,3 +49,4 @@ struct kernel_stat
+ 
+ #define XSTAT_IS_XSTAT64 0
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/kernel_stat.h b/sysdeps/unix/sysv/linux/powerpc/powerpc64/kernel_stat.h
+index 5c10da3356f2..b48dbc15227d 100644
+--- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/kernel_stat.h
+@@ -19,3 +19,4 @@
+ #define STAT_IS_KERNEL_STAT 1
+ #define XSTAT_IS_XSTAT64 1
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/s390/s390-64/kernel_stat.h b/sysdeps/unix/sysv/linux/s390/s390-64/kernel_stat.h
+index b38bf741d37b..6965d95e9529 100644
+--- a/sysdeps/unix/sysv/linux/s390/s390-64/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/s390/s390-64/kernel_stat.h
+@@ -19,3 +19,4 @@
+ #define STAT_IS_KERNEL_STAT 1
+ #define XSTAT_IS_XSTAT64 1
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/sparc/sparc32/kernel_stat.h b/sysdeps/unix/sysv/linux/sparc/sparc32/kernel_stat.h
+index a4416009f1bc..17ac63b753e5 100644
+--- a/sysdeps/unix/sysv/linux/sparc/sparc32/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/sparc/sparc32/kernel_stat.h
+@@ -33,3 +33,4 @@ struct kernel_stat
+ 
+ #define XSTAT_IS_XSTAT64 0
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/sparc/sparc64/kernel_stat.h b/sysdeps/unix/sysv/linux/sparc/sparc64/kernel_stat.h
+index 30afb553b9b8..4912a98529a4 100644
+--- a/sysdeps/unix/sysv/linux/sparc/sparc64/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/sparc/sparc64/kernel_stat.h
+@@ -46,3 +46,4 @@ struct kernel_stat64
+ 
+ #define XSTAT_IS_XSTAT64 1
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+diff --git a/sysdeps/unix/sysv/linux/statx_cp.c b/sysdeps/unix/sysv/linux/statx_cp.c
+index cc6e17929ea0..b68d233a2963 100644
+--- a/sysdeps/unix/sysv/linux/statx_cp.c
++++ b/sysdeps/unix/sysv/linux/statx_cp.c
+@@ -22,7 +22,7 @@
+ 
+ #include <statx_cp.h>
+ 
+-#if !defined(__NR_fstat64) || !defined(__NR_fstatat64)
++#if !defined(__NR_fstat64) || !defined(__NR_fstatat64) || STAT64_IS_NOT_KERNEL_STAT64
+ void
+ __cp_stat64_statx (struct stat64 *to, struct statx *from)
+ {
+diff --git a/sysdeps/unix/sysv/linux/x86_64/kernel_stat.h b/sysdeps/unix/sysv/linux/x86_64/kernel_stat.h
+index b38bf741d37b..6965d95e9529 100644
+--- a/sysdeps/unix/sysv/linux/x86_64/kernel_stat.h
++++ b/sysdeps/unix/sysv/linux/x86_64/kernel_stat.h
+@@ -19,3 +19,4 @@
+ #define STAT_IS_KERNEL_STAT 1
+ #define XSTAT_IS_XSTAT64 1
+ #define STATFS_IS_STATFS64 0
++#define STAT64_IS_NOT_KERNEL_STAT64 0
+-- 
+2.20.1
 
 
 _______________________________________________
