@@ -2,87 +2,80 @@ Return-Path: <SRS0=ka13=4M=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B225C35671
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 12:41:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E54CC35671
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 12:47:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0B7B62072D
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 12:41:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 051EB2072D
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Feb 2020 12:47:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gVMSsN+C"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B7B62072D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=denx.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uX1ktX68"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 051EB2072D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	MIME-Version:References:In-Reply-To:Message-ID:Subject:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=TyTGbcZPyflBaf4+Lt2JwtkTVPE2BT50y5dbuQIg1dQ=; b=gVMSsN+Cv+dEbHvT/LEbPTEOh
-	83dxmSfjfIQ/JX8Mv4slaRPAm8u1yO3uZDAoETR6dFNzEaDoLtInJ2jTE5h1f2vJ8Kz93rR7OSf1J
-	zB9MFVK1gZlVP9wLvzKjvgFZArN9nWQpR3Dngmygps7tN59SLnU5+V3gzH4OgVnRG+CwlmFACofXY
-	JZbobksgcRWd3kSVMm5JH0HsATI0ZE9br/C/QPvV+PJTM5MLqy7epdU5jGsWvixCWx60FLgctPFwF
-	/yFskwT38QpbxNkCslV65Y247RKW3BhUbL0fz4+XFoE1ho/PlnOXFV1lLccPmT2qMJ2y/1dyeG0xk
-	AeEfHqEvA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=h13MhI2CY/vEBDzCK7fLp3SK9Kss+43FJ83qMzU6fEI=; b=uX1ktX68Mrbsf0
+	EuSXoVBLZWElIxGs+Jdsj+PSsseeh/Snj4MrbhQELZL2icZh3eyW97JS3NivoSyma48+MdOTB8MXs
+	5RnVHWBInpO+twV09gJNXfTJXa0Wsb9Opz/2fksxc2I8ZL+hxsliD+o9N7pq+N1b4dz1eKXrsCFs+
+	BdjMFnVmnNKdACOqIhyQFzjaW+JRLqC8vMsfJNukylHEinYWVOnW5SVdyfldB7SCS/8DlrcGeaVty
+	DU7eSY3Ffm2JOmQCXRLu+F03zH8+px1yqVgdxTZ8KiQWzGmeh2wVgCQubHXDZpBd3jSP4bWLj1nV5
+	hy2QpNBmuYk4O4xaL3Lw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j6D3a-00032I-BU; Mon, 24 Feb 2020 12:41:54 +0000
-Received: from mail-out.m-online.net ([212.18.0.10])
+	id 1j6D9N-0005EI-OA; Mon, 24 Feb 2020 12:47:53 +0000
+Received: from mail-ed1-f68.google.com ([209.85.208.68])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6D3X-00031F-7K
- for linux-snps-arc@lists.infradead.org; Mon, 24 Feb 2020 12:41:53 +0000
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 48R1sQ4m9wz1rY5L;
- Mon, 24 Feb 2020 13:41:46 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 48R1sQ3D7Lz1qql2;
- Mon, 24 Feb 2020 13:41:46 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id kVpceWkbFm6w; Mon, 24 Feb 2020 13:41:43 +0100 (CET)
-X-Auth-Info: Pk4cHACPKeiCvvtgttRbMpOnQH9FkBucQkHdzhq3BgQ=
-Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Mon, 24 Feb 2020 13:41:43 +0100 (CET)
-Date: Mon, 24 Feb 2020 13:41:37 +0100
-From: Lukasz Majewski <lukma@denx.de>
-To: Andreas Schwab <schwab@suse.de>
-Subject: Re: switching ARC to 64-bit time_t (Re: [RFC v6 07/23] RISC-V: Use
- 64-bit time_t and off_t for RV32 and RV64)
-Message-ID: <20200224134137.59249311@jawa>
-In-Reply-To: <20200224121325.6b2fff1d@jawa>
-References: <cover.1578824547.git.alistair.francis@wdc.com>
- <4e95f95966d8d7c6a8339160dc62d81c1f6a1bfb.1578824547.git.alistair.francis@wdc.com>
- <00574bfb-981a-3a1c-cbdf-b2fee4eddc32@gmail.com>
- <CAKmqyKMyf2psPp+-EHoidvbPbSXv0=dP26GjVQnT5BUriLc1gA@mail.gmail.com>
- <alpine.DEB.2.21.2002120123230.3988@digraph.polyomino.org.uk>
- <CAKmqyKOgFRfMOws_-48GqMnuS3ygmN9A4DzLg6UtEjRXVoM82A@mail.gmail.com>
- <8a9784b3-fc52-adc3-4595-33142b059388@synopsys.com>
- <20200220001136.2f14236e@jawa>
- <CAK8P3a1b73K+RjfHONWLy_dFUucXxwd+0jTnHmkf6YqwRjit4w@mail.gmail.com>
- <20200220103716.2f526933@jawa>
- <CAK8P3a2n6fRm4C5Ywyk5ys92jSOAc5SwvBVZyFOY9=4rB2pyjw@mail.gmail.com>
- <20200224100051.2511d797@jawa> <mvmpne4xqpb.fsf@suse.de>
- <20200224111424.33759b2e@jawa> <mvmh7zgxozs.fsf@suse.de>
- <20200224113658.275ea702@jawa> <mvmd0a4xo4w.fsf@suse.de>
- <20200224121325.6b2fff1d@jawa>
-Organization: denx.de
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ id 1j6D9L-0005Dz-Hg
+ for linux-snps-arc@lists.infradead.org; Mon, 24 Feb 2020 12:47:52 +0000
+Received: by mail-ed1-f68.google.com with SMTP id v28so11705551edw.12
+ for <linux-snps-arc@lists.infradead.org>; Mon, 24 Feb 2020 04:47:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=6p1Rm/cgq3FqTcHGA+7QXUNsBMb6waSsaCWakkpOhMI=;
+ b=o+fzU7ScSNWmDD/rvzUXByxiLzP57T4wLp+6lufEb+8ZiuTh8ILgMWwoGyhZVuGVCX
+ LLTsy2iOQejlTqjxxY9JboCdbgpomxXIEybJyt+uS45oFgpmk6nMrleMOXUj+8C9diz3
+ cyHq8XfXPXqXcbrvsFNktPyofiQ59Ni/eEvsNJDkMkSbtVHywBhu/ZXaK+YQKRRqZbJ3
+ MzZQeGU9q4RiJYHLTYIH5OUOlIk6YRPS+5qjkJ/4Xblh1sUvhQe/8IN/AXXa7mYvC0de
+ VGxZxGRkiTR2GgAb2SZ6Agcigk8YSIuGUhimHwSOZFclxSCQut3XAwmXt5kEoerIZY7q
+ XCCA==
+X-Gm-Message-State: APjAAAWuFT8w+ijd9cT7hI8d64masSgRcXR34DaZnNVnckOhibr03wZ+
+ fLf9/AYFfslJ96fti8J+r8U=
+X-Google-Smtp-Source: APXvYqxOCnjuqHzZ8w9dppB5X8CKpWu3LAO4qx3F7JuCo/1tjWWY0qRzHXx7PYmPGsjZ1wOThemeng==
+X-Received: by 2002:a17:906:7fd0:: with SMTP id
+ r16mr45290488ejs.319.1582548468870; 
+ Mon, 24 Feb 2020 04:47:48 -0800 (PST)
+Received: from pi3 ([194.230.155.125])
+ by smtp.googlemail.com with ESMTPSA id n19sm944550edy.9.2020.02.24.04.47.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Feb 2020 04:47:48 -0800 (PST)
+Date: Mon, 24 Feb 2020 13:47:44 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jiri Slaby <jirislaby@gmail.com>
+Subject: Re: [RESEND PATCH v2 9/9] ath5k: Constify ioreadX() iomem argument
+ (as in generic implementation)
+Message-ID: <20200224124744.GA1949@pi3>
+References: <20200219175007.13627-1-krzk@kernel.org>
+ <20200219175007.13627-10-krzk@kernel.org>
+ <518a9023-f802-17b3-fca5-582400bc34ae@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <518a9023-f802-17b3-fca5-582400bc34ae@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200224_044151_573070_ECF8C3F4 
-X-CRM114-Status: GOOD (  21.52  )
+X-CRM114-CacheID: sfid-20200224_044751_587331_4B4592B2 
+X-CRM114-Status: GOOD (  19.30  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,154 +87,67 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- GNU C Library <libc-alpha@sourceware.org>, Arnd Bergmann <arnd@arndb.de>,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>, Helmut Grohne <helmutg@debian.org>,
- Zong Li <zongbox@gmail.com>, debian-arm@lists.debian.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Adhemerval Zanella <adhemerval.zanella@linaro.org>,
- "Maciej W. Rozycki" <macro@wdc.com>, Alistair Francis <alistair23@gmail.com>,
- arcml <linux-snps-arc@lists.infradead.org>,
- Joseph Myers <joseph@codesourcery.com>
-Content-Type: multipart/mixed; boundary="===============5282390453383259304=="
+Cc: Rich Felker <dalias@libc.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Jason Wang <jasowang@redhat.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ netdev@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+ linux-arch@vger.kernel.org, Dave Jiang <dave.jiang@intel.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
+ linux-sh@vger.kernel.org, Alexey Brodkin <abrodkin@synopsys.com>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>, Matt Turner <mattst88@gmail.com>,
+ linux-snps-arc@lists.infradead.org, Nick Kossifidis <mickflemm@gmail.com>,
+ Allen Hubbe <allenbh@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ linux-alpha@vger.kernel.org, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ Richard Henderson <rth@twiddle.net>, linux-parisc@vger.kernel.org,
+ Vineet Gupta <vgupta@synopsys.com>, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Jon Mason <jdmason@kudzu.us>,
+ linux-ntb@googlegroups.com, Andrew Morton <akpm@linux-foundation.org>,
+ linux-media@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
---===============5282390453383259304==
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/lJ1qP9IGvdry7RVmPm0p.KQ"; protocol="application/pgp-signature"
-
---Sig_/lJ1qP9IGvdry7RVmPm0p.KQ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Dear All,
-
-> On Mon, 24 Feb 2020 11:42:23 +0100
-> Andreas Schwab <schwab@suse.de> wrote:
->=20
-> > On Feb 24 2020, Lukasz Majewski wrote:
-> >  =20
-> > > On Mon, 24 Feb 2020 11:23:51 +0100
-> > > Andreas Schwab <schwab@suse.de> wrote:
-> > >   =20
-> > >> On Feb 24 2020, Lukasz Majewski wrote:
-> > >>    =20
-> > >> > If I add those functions as hidden_alias then those would be
-> > >> > accessible inside glibc without PLT, but will not be exported
-> > >> > (and redirection for Y2038 will not work).     =20
-> > >>=20
-> > >> They aren't?  PLT avoidance is about internal references, and
-> > >> uses a different name then the exported sybmol.
-> > >>    =20
-> > >
-> > > I'm probably not aware of something - but as done in the following
-> > > patch:
-> > >
-> > > https://github.com/lmajewski/y2038_glibc/commit/c96eeb73175961c4ac80f=
-dd3b6adc132805387c9
-> > >
-> > > I do need to remove librt_hidden_proto / librt_hidden_def to have
-> > > proper symbols visible when I do want to use redirections.   =20
-> >=20
-> > You cannot redirect to GLIBC_PRIVATE symbols, they are not suposed
-> > to be used by public interfaces.  All public interfaces need to use
-> > official versioned symbols.
-> >  =20
->=20
-> I've put those symbols to GLIBC_PRIVATE as up till now many more
-> functions in glibc needs conversion to support 64 bit time. I need
-> exported symbols to test if the redirection (and Y2038 safeness on ARM
-> in general) works.
->=20
-> I also do guess that when we will be heading to expose _TIME_BITS=3D=3D64
-> to outside word I would need to add:
->=20
->   GLIBC_2.3X {
-> 	clock_settime64;
-
-	^^^^^^^ - it should be __clock_settime64
-
->   }
->=20
-> for clock_settime64
->=20
-> and then:
->=20
-> #ifdef __USE_TIME_BITS64
-> # if defined(__REDIRECT_NTH)
-> extern int __REDIRECT_NTH (clock_settime, (clockid_t __clock_id, const
-> struct timespec *__tp), clock_settime64);
-			  ^^^^^^ - __clock_settime64
-
-> # else
-> # define clock_settime clock_settime64
-			 ^^^^^^ - __clock_settime64
-
-> # endif
-> #endif
->=20
->=20
-> Am I correct ?
->=20
-> > Andreas.
-> >  =20
->=20
->=20
-> Best regards,
->=20
-> Lukasz Majewski
->=20
-> --
->=20
-> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
-> lukma@denx.de
-
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/lJ1qP9IGvdry7RVmPm0p.KQ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl5TxIEACgkQAR8vZIA0
-zr19swgA23uxN7WJy4D2/YGZuK8vigx2hg7nI0aykGy4W681UuOzRmbOBu9WHq9W
-qC1RrtLc8AEOvcF99pghbqsrfkg3S8GRUxQtNFcfnvWhHLpnBHhT9IRxYfqILjCX
-zrTM7Kllv3l3MOwv/T2GyCdrUpd/64eq7w2dcUqFyxoo/9gEGTJ0BjrGzZtT3LoD
-8wHpI+fNPKo7grXMhhcPhLpmSJqMNmL2nmxqk5VB76O4untu3she2hrh2EuWtT/3
-Did5ELDXZShrCNgz61n6R0ZQbigzM0kiDQGBkA0H1pw0VWp1x5UT9sb9ke+uePkW
-+FmYclDbMMZKRz01U/mnu2EoCTWe6A==
-=XHQi
------END PGP SIGNATURE-----
-
---Sig_/lJ1qP9IGvdry7RVmPm0p.KQ--
-
-
---===============5282390453383259304==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
---===============5282390453383259304==--
-
+T24gVGh1LCBGZWIgMjAsIDIwMjAgYXQgMTA6NDg6MzNBTSArMDEwMCwgSmlyaSBTbGFieSB3cm90
+ZToKPiBPbiAxOS4gMDIuIDIwLCAxODo1MCwgS3J6eXN6dG9mIEtvemxvd3NraSB3cm90ZToKPiA+
+IFRoZSBpb3JlYWRYKCkgaGVscGVycyBoYXZlIGluY29uc2lzdGVudCBpbnRlcmZhY2UuICBPbiBz
+b21lIGFyY2hpdGVjdHVyZXMKPiA+IHZvaWQgKl9faW9tZW0gYWRkcmVzcyBhcmd1bWVudCBpcyBh
+IHBvaW50ZXIgdG8gY29uc3QsIG9uIHNvbWUgbm90Lgo+ID4gCj4gPiBJbXBsZW1lbnRhdGlvbnMg
+b2YgaW9yZWFkWCgpIGRvIG5vdCBtb2RpZnkgdGhlIG1lbW9yeSB1bmRlciB0aGUgYWRkcmVzcwo+
+ID4gc28gdGhleSBjYW4gYmUgY29udmVydGVkIHRvIGEgImNvbnN0IiB2ZXJzaW9uIGZvciBjb25z
+dC1zYWZldHkgYW5kCj4gPiBjb25zaXN0ZW5jeSBhbW9uZyBhcmNoaXRlY3R1cmVzLgo+ID4gCj4g
+PiBTaWduZWQtb2ZmLWJ5OiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+Cj4g
+PiBBY2tlZC1ieTogS2FsbGUgVmFsbyA8a3ZhbG9AY29kZWF1cm9yYS5vcmc+Cj4gPiAtLS0KPiA+
+ICBkcml2ZXJzL25ldC93aXJlbGVzcy9hdGgvYXRoNWsvYWhiLmMgfCAxMCArKysrKy0tLS0tCj4g
+PiAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKPiA+IAo+
+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L3dpcmVsZXNzL2F0aC9hdGg1ay9haGIuYyBiL2Ry
+aXZlcnMvbmV0L3dpcmVsZXNzL2F0aC9hdGg1ay9haGIuYwo+ID4gaW5kZXggMmM5Y2VjOGI1M2Q5
+Li44YmQwMWRmMzY5ZmIgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL25ldC93aXJlbGVzcy9hdGgv
+YXRoNWsvYWhiLmMKPiA+ICsrKyBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL2F0aC9hdGg1ay9haGIu
+Ywo+ID4gQEAgLTEzOCwxOCArMTM4LDE4IEBAIHN0YXRpYyBpbnQgYXRoX2FoYl9wcm9iZShzdHJ1
+Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4gIAo+ID4gIAlpZiAoYmNmZy0+ZGV2aWQgPj0g
+QVI1S19TUkVWX0FSMjMxNV9SNikgewo+ID4gIAkJLyogRW5hYmxlIFdNQUMgQUhCIGFyYml0cmF0
+aW9uICovCj4gPiAtCQlyZWcgPSBpb3JlYWQzMigodm9pZCBfX2lvbWVtICopIEFSNUtfQVIyMzE1
+X0FIQl9BUkJfQ1RMKTsKPiA+ICsJCXJlZyA9IGlvcmVhZDMyKChjb25zdCB2b2lkIF9faW9tZW0g
+KikgQVI1S19BUjIzMTVfQUhCX0FSQl9DVEwpOwo+IAo+IFdoaWxlIEkgdW5kZXJzdGFuZCB3aHkg
+dGhlIHBhcmFtZXRlciBvZiBpb3JlYWQzMiBzaG91bGQgYmUgY29uc3QsIEkKPiBkb24ndCBzZWUg
+YSByZWFzb24gZm9yIHRoZXNlIGNhc3RzIG9uIHRoZSB1c2Vycycgc2lkZS4gV2hhdCBkb2VzIGl0
+Cj4gYnJpbmcgZXhjZXB0IGxvbmdlciBjb2RlIHRvIHJlYWQ/CgpCZWNhdXNlIHRoZSBhcmd1bWVu
+dCBpcyBhbiBpbnQ6Cgpkcml2ZXJzL25ldC93aXJlbGVzcy9hdGgvYXRoNWsvYWhiLmM6IEluIGZ1
+bmN0aW9uIOKAmGF0aF9haGJfcHJvYmXigJk6CmRyaXZlcnMvbmV0L3dpcmVsZXNzL2F0aC9hdGg1
+ay9haGIuYzoxNDE6MTg6IHdhcm5pbmc6IHBhc3NpbmcgYXJndW1lbnQgMSBvZiDigJhpb3JlYWQz
+MuKAmSBtYWtlcyBwb2ludGVyIGZyb20gaW50ZWdlciB3aXRob3V0IGEgY2FzdCBbLVdpbnQtY29u
+dmVyc2lvbl0KICAgcmVnID0gaW9yZWFkMzIoQVI1S19BUjIzMTVfQUhCX0FSQl9DVEwpOwoKQmVz
+dCByZWdhcmRzLApLcnp5c3p0b2YKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
+bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
