@@ -1,151 +1,90 @@
-Return-Path: <SRS0=AhAi=4N=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=BbR1=4O=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF000C35E04
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 25 Feb 2020 16:56:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08747C4BA10
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 26 Feb 2020 13:19:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 45D772084E
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 25 Feb 2020 16:56:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B61082467D
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 26 Feb 2020 13:19:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MArW3/oB";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="M1kWhqlV";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="M1qA4f+A"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45D772084E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XIyDgnVQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B61082467D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=denx.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DFjhpct413eAjYMKly96/ZnVEuxsBVR9uaarXtZbVnM=; b=MArW3/oBiPQRQ6
-	QHku619l2OjVKORgJTSey5ooD3C9scbPPb4z/Hz5fso12wkymQ6J7xGJiAK871QdVxiRATd9Wr/4B
-	hZTPYvcSGFTZ1C5KnyH474nkdAtLNeZrQso4tcF8S9eMZOGBCzd5NFkr4Z441mmFPS0n8EcSYcaaZ
-	x8BshIFBNmv5CrDBnsDteECTq0LRGCHt55Ns67TPx3adNhZLGJ7qjq39ogsPLnnpMwqecwgLI3Dn0
-	HQev9+p7nslhUT54ivZmaxl22YJdlyMjizP9B+4v1ooIqDdQH6qeoieTE+KENm8yyrKCztwar5TkB
-	9iEaQHTssZVG6Xvb/7Bg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:Cc:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	MIME-Version:References:In-Reply-To:Message-ID:Subject:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=8cUT4nrxx6sA5uLrmecfUYK72GYj2ZMzQpr3x/UD/dc=; b=XIyDgnVQdQ6/FKE4DSI8r+foN
+	2SqQaNZRAGW9/0WO4dChQ+8JrHTy6KIcbqSz5Ti6u2bqhT2MjjrbinTTE2kQZgQxqEM8heomil7N1
+	ULDrbqHhAErt1VMDv5oKqrOV1a7U7YhMpqW8Rte59PQ2aQD8+1A6a/1Cn2yg2YvmImGdYzhJ7ZJEE
+	WzFluJgU4z3RykZupv9UiT+AlHRLZgzYgCDxFBWWafEQnV8+psffNE8D34XmqWzB1YOzClebJ9IKS
+	hMrPySOd4qys8sR1kac2eeI675SOAHzcJbsUQON8JgOXLxypdaU0gcNoSjBU4b9CJfueSkkEYM/C5
+	Qce813ZJA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j6dV8-0008PZ-VD; Tue, 25 Feb 2020 16:56:06 +0000
-Received: from us03-smtprelay2.synopsys.com ([149.117.87.133]
- helo=smtprelay-out1.synopsys.com)
+	id 1j6wae-0007F8-BQ; Wed, 26 Feb 2020 13:19:04 +0000
+Received: from mail-out.m-online.net ([212.18.0.10])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6dV5-0008Ou-UZ
- for linux-snps-arc@lists.infradead.org; Tue, 25 Feb 2020 16:56:05 +0000
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
- [10.192.0.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ id 1j6wab-0007Ef-A3
+ for linux-snps-arc@lists.infradead.org; Wed, 26 Feb 2020 13:19:03 +0000
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 48SGbH3N7Dz1rj66;
+ Wed, 26 Feb 2020 14:18:51 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 48SGbH1Vtrz1qyDr;
+ Wed, 26 Feb 2020 14:18:51 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id 0PgKTKFDofRy; Wed, 26 Feb 2020 14:18:48 +0100 (CET)
+X-Auth-Info: q6irsfcOr7jBL7aPgdJwXouKptuNvFf1dp32QfEr338=
+Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 503FBC0F11;
- Tue, 25 Feb 2020 16:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1582649761; bh=B5eavFaxnVdHgnhCYaAGdpRRpEXBwcPyFVP+pajvjno=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=M1kWhqlVJP1JWiKmkIqcmMSN1gKl420upB53K1pJb0CbYPXOkB2z5SL+MYrialtEB
- eIJg8kMiEv+0eqh6xnZY9ZtSVV6povZ1trrYHlHilOJDQFEDoPDR4TriavhXlaP8ee
- E9vgX0P9WRsXKeCOyjRrbFwniPOaqYXm2h0wQqH1FsSaLQJ97tCPDXkrLp0qo4ZCiT
- tO6mC+CV/8oIHI+UF5vFvlSJig3+p+0jIxLa+5CdOjQj1nKs1jDtRcETYThpFMqg3o
- E9OaPnhWeUMpkIpE+d0doNBOAxbNsVvYzq4ZN48fce5lr/WW4jWsU1zDijaQDOvlIU
- pS/bWGgFE23DA==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 9DDB2A0086;
- Tue, 25 Feb 2020 16:55:58 +0000 (UTC)
-Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Tue, 25 Feb 2020 08:55:51 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Tue, 25 Feb 2020 08:55:50 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M8g0bVmN5Dj/CpjMcvtmzPW39EYOzsO8xJPfKh0nh8sxtFL9Af4OcWS5l4W553aPWSlMcCmvY43Yp6QoaCY5pbZMPluA1h0sPOW/UDvlqEtim7M5LsXDXgAhmJQjhtFQEG1k47cUcE5J0Hs87R2vBXSylJoe79mLA9W6cPTGwuPyYR7cFDb1QfEfEb8eAkZC6tkwIGc0ir40HKQap2h2vu2DOTqiJVfgm+j+Qg1TVuknvmkYLsJopJqO4bLZcCy37Fz+kxU5QpmqqY6DI7asV9l6J6G+ffFNzDw1cZaRxq0eKRNy796bZeyX9h/gAqbXHIq9B/cdMXUs3zr2+jipIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B5eavFaxnVdHgnhCYaAGdpRRpEXBwcPyFVP+pajvjno=;
- b=Ngqa81TnYbF/CfO8vc2vmdPuznk/JCmZPGM02z0x2yQ9htFvhWQbBTmBwzjsD3kRKuRiFKD5VjVukm1WlDFblT/W037ZsN2wu49Cs10tPyNFo9xz/TcTV1gTHYxc/KQo9OZSQmQ1N1yG9WVsDIFpbgVds/r5bbVCDA3NF2qQJ3Yr0VqC8H4YFQMu4AAMa1arUi08NzCwB6vbb0+sypIPx8VMbMcYvVsTHsuN1jOqcpae06Ibbp8fDwTxbJuNDgMJMEy6VIJUSz7K1RVyNymzcNe6tX7xc6O9/0G8PZ1LW13GCy+mpz8+aeNMcP09oqr7dXa44Yutqc4jqMGQ4PnozA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B5eavFaxnVdHgnhCYaAGdpRRpEXBwcPyFVP+pajvjno=;
- b=M1qA4f+AHXFxQ3JPkDduYsMbUthhX6498tuWo/z+0WbxDawNOCLj7GOv0NoApiTWqWBlyqlvXuWK2iP6Ps9SpRo7fwIHVrQ9NMkbB5rwoz7ST5YWe9vtq59F1BP246AOkRa0mh0LmE25lPUN0rANeE2fH/3pwc/XQnCUZYT0ZUY=
-Received: from BYAPR12MB3592.namprd12.prod.outlook.com (2603:10b6:a03:db::25)
- by BYAPR12MB2984.namprd12.prod.outlook.com (2603:10b6:a03:da::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2750.21; Tue, 25 Feb
- 2020 16:55:49 +0000
-Received: from BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::a45a:6a41:3fe5:2eb7]) by BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::a45a:6a41:3fe5:2eb7%7]) with mapi id 15.20.2750.021; Tue, 25 Feb 2020
- 16:55:49 +0000
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Wed, 26 Feb 2020 14:18:48 +0100 (CET)
+Date: Wed, 26 Feb 2020 14:18:42 +0100
+From: Lukasz Majewski <lukma@denx.de>
 To: Joseph Myers <joseph@codesourcery.com>
-Subject: Re: [PATCH v3] asm-generic ABI: Allow statx syscall despite
- fstatat64, fstat64
-Thread-Topic: [PATCH v3] asm-generic ABI: Allow statx syscall despite
- fstatat64, fstat64
-Thread-Index: AQHV6/xu0M3nqLDqfESav1XaP04H0Q==
-Date: Tue, 25 Feb 2020 16:55:49 +0000
-Message-ID: <164d39b4-4d5b-a0a5-1939-af25e7eca47d@synopsys.com>
-References: <alpine.DEB.2.21.2002250008160.23654@digraph.polyomino.org.uk>
- <20200225002941.20951-1-vgupta@synopsys.com>
- <df3e9d71-7d5b-a03b-7b6f-4aa034684307@gmail.com>
- <alpine.DEB.2.21.2002251609090.25788@digraph.polyomino.org.uk>
-In-Reply-To: <alpine.DEB.2.21.2002251609090.25788@digraph.polyomino.org.uk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vgupta@synopsys.com; 
-x-originating-ip: [149.117.75.11]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cf59e1f2-691b-48d2-8aa9-08d7ba13912a
-x-ms-traffictypediagnostic: BYAPR12MB2984:
-x-microsoft-antispam-prvs: <BYAPR12MB29843F3224D1DE3273BE446CB6ED0@BYAPR12MB2984.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
-x-forefront-prvs: 0324C2C0E2
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(346002)(39860400002)(396003)(136003)(366004)(376002)(199004)(189003)(5660300002)(8936002)(81156014)(81166006)(31696002)(316002)(2906002)(6486002)(86362001)(54906003)(4744005)(71200400001)(8676002)(6512007)(186003)(36756003)(4326008)(2616005)(6916009)(66446008)(66556008)(66946007)(66476007)(6506007)(64756008)(478600001)(76116006)(53546011)(26005)(31686004)(41533002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR12MB2984;
- H:BYAPR12MB3592.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DqlmkmXBz5aPZ4naWHXHFZHziJZ3m0R5fuRx7EdEn3vBFdvy2VlxY1F03VkaWT7acT07roZbR2WdK0My+4zBLWHy2zL3hED8ArnSK71t8qIcPEbc8rgjgeopUsJGWJjD37vPfeqQ1pyEwYajJtsXqiWfvWVjH0v1qo35+0hbUHD555aDaWLD9S3rgiU8BFoaEsnpg+S3obLFYcKvDsQcGiOk7VgStsNi8bpdpRNTE7ocMkRuP4PFWG9QbZPOo+5rzm/cx1GtF6ti2UT07wpTOGbRQ92mO4jfxucihspgGXsE8S8iOFmO2lsb9QMBtIV9G58uo/FJpFfb98Lsi5rERQMaO8MTMS7PkCB7hgxGWGKRocB6Q0o9J2NofcDqQbONRoAqcw8kxdd2Xxci3jfbLQ8zWw8ln/mCrysxplbG9VcqCO76movcRBUAq7Aq4NmEK23g9PrUXwFg/t/8SSSjf7NXOg/ffCtA3ZtbcWjmToFwWyfvvBoHFuswtRkJEKhE
-x-ms-exchange-antispam-messagedata: 2UmfUabYpIUi4yQoXUYqtPSkVtsc83kpOBAgEO4qUPqoWakgz6GXfwLeQIzU9BfeMb7GL1sXEy+VStOFuUqvC+XkkgtcK2oy9o6l5UZyMp7Uva/k4J/KeDEJJC63VrncHQ//CbOIJF7HMFDoELsHgQ==
-x-ms-exchange-transport-forked: True
-Content-ID: <632F2AB70DEE3F49B233C98C0E80A69F@namprd12.prod.outlook.com>
+Subject: Re: switching ARC to 64-bit time_t (Re: [RFC v6 07/23] RISC-V: Use
+ 64-bit time_t and off_t for RV32 and RV64)
+Message-ID: <20200226141842.652ebbcc@jawa>
+In-Reply-To: <alpine.DEB.2.21.2002251427240.25788@digraph.polyomino.org.uk>
+References: <cover.1578824547.git.alistair.francis@wdc.com>
+ <4e95f95966d8d7c6a8339160dc62d81c1f6a1bfb.1578824547.git.alistair.francis@wdc.com>
+ <00574bfb-981a-3a1c-cbdf-b2fee4eddc32@gmail.com>
+ <CAKmqyKMyf2psPp+-EHoidvbPbSXv0=dP26GjVQnT5BUriLc1gA@mail.gmail.com>
+ <alpine.DEB.2.21.2002120123230.3988@digraph.polyomino.org.uk>
+ <CAKmqyKOgFRfMOws_-48GqMnuS3ygmN9A4DzLg6UtEjRXVoM82A@mail.gmail.com>
+ <8a9784b3-fc52-adc3-4595-33142b059388@synopsys.com>
+ <20200220001136.2f14236e@jawa>
+ <CAK8P3a1b73K+RjfHONWLy_dFUucXxwd+0jTnHmkf6YqwRjit4w@mail.gmail.com>
+ <20200220103716.2f526933@jawa>
+ <CAK8P3a2n6fRm4C5Ywyk5ys92jSOAc5SwvBVZyFOY9=4rB2pyjw@mail.gmail.com>
+ <20200224100051.2511d797@jawa> <mvmpne4xqpb.fsf@suse.de>
+ <20200224111424.33759b2e@jawa> <mvmh7zgxozs.fsf@suse.de>
+ <20200224113658.275ea702@jawa>
+ <alpine.DEB.2.21.2002242353570.23654@digraph.polyomino.org.uk>
+ <20200225123945.10ec1c25@jawa>
+ <alpine.DEB.2.21.2002251427240.25788@digraph.polyomino.org.uk>
+Organization: denx.de
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf59e1f2-691b-48d2-8aa9-08d7ba13912a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Feb 2020 16:55:49.7114 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aJ/Z5p9cQ6cohsqQ1lDnK/wbvAZZZqZ/lVF229f9lBfSLaSlHsh9/GkoxQc3Ky9Wte5dSeKd7j1LTTDwCbejjg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2984
-X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200225_085604_104367_ED3E1D22 
-X-CRM114-Status: GOOD (  10.87  )
+X-CRM114-CacheID: sfid-20200226_051901_655824_C0CE44FE 
+X-CRM114-Status: GOOD (  21.08  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,27 +96,166 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "alistair23@gmail.com" <alistair23@gmail.com>,
- "alistair.francis@wdc.com" <alistair.francis@wdc.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Florian Weimer <fweimer@redhat.com>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ GNU C Library <libc-alpha@sourceware.org>, Arnd Bergmann <arnd@arndb.de>,
+ Andreas Schwab <schwab@suse.de>, Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ Helmut Grohne <helmutg@debian.org>, Zong Li <zongbox@gmail.com>,
+ debian-arm@lists.debian.org, Alistair Francis <alistair.francis@wdc.com>,
+ Adhemerval Zanella <adhemerval.zanella@linaro.org>,
+ "Maciej W. Rozycki" <macro@wdc.com>, Alistair Francis <alistair23@gmail.com>,
+ arcml <linux-snps-arc@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============3856635888143852893=="
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 2/25/20 8:10 AM, Joseph Myers wrote:
-> On Mon, 24 Feb 2020, Vineet Gupta wrote:
-> 
->> Oh wait. Can we avoid this churn by simply undef __NR_fstat64 and __NR_fstatat64
->> from ARC sysdep.h ? And it will then automatically fallback to statx code !
->
-> If all files needing this information include sysdep.h, that might well 
-> work.
+--===============3856635888143852893==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/W/n/Gh52yK_3LtKYX5qtGxS"; protocol="application/pgp-signature"
 
-I agree that this is a valid concern. If we really want to make it water tight we
-could have the build system enforce this with -include or some such ?
+--Sig_/W/n/Gh52yK_3LtKYX5qtGxS
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi Joseph,
+
+> On Tue, 25 Feb 2020, Lukasz Majewski wrote:
+>=20
+> > Lets consider for example __mq_timedsend_time64.
+> >=20
+> > With lib<name>_hidden_def/proto kept (NOT removed as in [1]):
+> > GDB:
+> > __GI___mq_timedsend_time64   [*]
+> >=20
+> > (No build errors, linking with test setup works as expected). =20
+>=20
+> What is the actual testcase, and the exact command line used to
+> compile it?
+
+The test case is a separate program [1] compiled with [2] (the
+test_y2038 make target)
+
+The glibc under test is installed on rootfs run by QEMU for ARM.
+
+The lack of redirection, when I keep lib<name>_hidden_proto/
+lib<name>_hidden_def for __mq_timedsend_time64, is seen when I debug
+with GDB the 'test_y2038' program.
+
+The glibc compiles correctly.
+
+>=20
+> _TIME_BITS=3D64 redirection is only relevant for programs built with
+> glibc, using the installed headers - not for building glibc itself.
+>=20
+> lib<name>_hidden_proto is only relevant for building glibc, with its=20
+> internal headers - not for programs built with glibc.
+
+It seems like not removing lib<name>_hidden_proto/ lib<name>_hidden_def
+for __mq_timedsend_time64 in glibc sources prevents the redirection on
+installed glibc / headers when 'test_y2038' program is run.
+
+>=20
+> If you're talking about a glibc testcase, such tests should be in
+> tests not tests-internal, so _ISOMAC is defined when they are built,
+> so the glibc internal headers just wrap the public ones without
+> defining anything else.  In particular, the asm redirections from
+> public headers should be in effect when tests are compiled, but not
+> the lib<name>_hidden_proto redirections (but even for internal tests,
+> lib<name>_hidden_proto shouldn't do anything because the build
+> process knows they are tests not part of libc).
+
+Unfortunately, mine Y2038 tests are a set of compiled programs (it is a
+'legacy' code) and have nothing in common with glibc test suite.
+
+The workflow is as follows (standard Yocto/OE):
+
+1. Built the glibc and prepare "package" for other recipes.
+
+2. For tests get the glibc "package" as a prerequisite. Use its
+exported headers and libraries to build tests. Prepare test "package"
+
+3. Install both above packages to rootfs
+
+4. Run the rootfs with QEMU.
+
+>=20
+> You should look at the preprocessed source from building the test
+> with -save-temps and find out why the asm redirection from the public
+> header isn't being effective (or if it is effective in the .o file
+> for the test, look at what happens afterwards in glibc).  Since
+> lib<name>_hidden_proto should not be called in the parts of headers
+> included when building a test, its presence or absence should have no
+> effect on the preprocessed source of the test.
+
+Ok. I will dig the object files and generated temp files.
+
+>=20
+> > hidden_def (__mq_timedsend)
+> > weak_alias (__mq_timedsend, mq_timedsend) [**]
+> > hidden_weak (mq_timedsend) =20
+>=20
+> If you have lib<name>_hidden_weak note you also need a corresponding=20
+> lib<name>_hidden_proto, for the name of the weak alias.  But you
+> probably don't need to have lib<name>_hidden* for the weak alias at
+> all, just make sure internal calls use the internal name.
+
+As fair as I can tell the weak_alias () is necessary for correct
+operation of mq_timedsend when external programs call it.
+
+Glibc internally defines __mq_timedsend (also for archs with
+__WORDSIZE=3D=3D64), but it exports mq_timedsend (and user space programs
+call it). One needs an alias (at least a weak one) between mq_timedsend
+and __mq_timedsend{_time}. Am I correct?
+
+
+>=20
+
+Links:
+
+[1] -
+https://github.com/lmajewski/y2038-tests/blob/master/test_mq_timedsend.c#L25
+
+[2] - https://github.com/lmajewski/y2038-tests/blob/master/Makefile
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/W/n/Gh52yK_3LtKYX5qtGxS
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl5WcDIACgkQAR8vZIA0
+zr2FBggAzbU3++V1Vs6n/L6uxpWcuHhIsaEg1h/ZeP7cMdJFfaAA2pA8vq/2/tR2
+6yzCCmE7IX71tcrXV+1HnF41XkSbZ785+IqjalK8ZSsgw9W1ClLxizDHOJ5gfDCK
+ldGuJ/xNyAjFqSGdQ9r6wZ9l4kQYdlmth5tsKBZFJ2tJRvKNGlDC/X+aiucQ9PCC
+y2nVlBpSAbeI1+utk6ZniN3U9k0BwbCrosSehOHTfJgR4PWiplzJoZ4Pncc9Hzb0
+cs52dvY6mmZYBgL5Swg713e4vUc1nbL0s+a3tLJUIet7WkeRoBeyCluEzqfQbPTg
+6uTTKN498Ji2G54mKEyICTvaXMUFaw==
+=p4A5
+-----END PGP SIGNATURE-----
+
+--Sig_/W/n/Gh52yK_3LtKYX5qtGxS--
+
+
+--===============3856635888143852893==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+
+--===============3856635888143852893==--
+
