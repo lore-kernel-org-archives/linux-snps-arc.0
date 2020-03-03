@@ -2,91 +2,60 @@ Return-Path: <SRS0=SdHy=4U=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A248DC3F2CD
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Mar 2020 06:00:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7971C3F2C6
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Mar 2020 17:25:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 712D9214D8
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Mar 2020 06:00:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9929D208C3
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Mar 2020 17:25:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="W8ekNcO7";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=c-s.fr header.i=@c-s.fr header.b="sXKIwD1R"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 712D9214D8
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=c-s.fr
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Uka0zOTk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9929D208C3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=dvIn9kZWU0X8PfczT7ZFPxYJl+QrbFLRF0urAZpYaMM=; b=W8ekNcO7ejxmX+nkWzor31fvG
-	0dIMJt7xE2LBTP8LNSZy0sf5Q1lTsioaZCOFqeVEqrXufL6+zpcSelcncK3KnzWr5oItrdYkqwKUV
-	qpDyOmsfFz+X/4u1my+sp/iadUSWK1xZG24aTDf9qCnNhq/9Ep2cvsx0DY76jLwDHcJ9cqu3MFoYm
-	DD9kAFdkkRb+k00PucuTE0gGLFt/cLLmYf6V5fVNMa5I73vcb1CZ4YU46LIlDNZK1q6lueJWvw4sV
-	akJ3BVXUArdWYuiY4UZETQ471oZ4N8Bq7aRpat7jcYHsqGwT84oqkiJeQQ9RD8Q/TVcyzPzMBvifk
-	KctOLYdAQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Heme5XhpXzizEj565qR+Dsckb9Ew6w2pr3ekqo9nKC4=; b=Uka0zOTkF4KDIE
+	isjlGFG1LOFsiBbxp9R313hY+tupNjUf2VF++RCM1wp8NA/r0wSKzzku1bL7BaHPmvLwPGzlWTKGo
+	flcRB5wtX1Ye8dK4IeyNXfqwFC8SssDQc29AJpYPJzvNPpTvtWkLzJXGbRzWGv8dUxUH2/yxhabuj
+	lTon21oOU1jnxHR4D4RfhpeD/fFnyH1xdWVp46NcPbZarDzAWjzanEdOXzk+Z7y7yy2UPg1U5W4LW
+	Ktpm6S29DnrRK2kjiaYsa/NfP0LKpeI3gK+FxF8ACiGBPdfDvEKe/j99GO1IKt6MFeMkVUkDeeXwG
+	MwhuiowEDuyfe6BFCXwQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j90bF-00021Y-Nf; Tue, 03 Mar 2020 06:00:13 +0000
-Received: from pegase1.c-s.fr ([93.17.236.30])
+	id 1j9BIW-0001RB-6B; Tue, 03 Mar 2020 17:25:36 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j90ar-0000b8-Lx; Tue, 03 Mar 2020 05:59:52 +0000
-Received: from localhost (mailhub1-int [192.168.12.234])
- by localhost (Postfix) with ESMTP id 48WmYt2NC7z9tyyX;
- Tue,  3 Mar 2020 06:59:46 +0100 (CET)
-Authentication-Results: localhost; dkim=pass
- reason="1024-bit key; insecure key"
- header.d=c-s.fr header.i=@c-s.fr header.b=sXKIwD1R; dkim-adsp=pass;
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
- by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
- with ESMTP id UVZtmD4b7vsp; Tue,  3 Mar 2020 06:59:46 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase1.c-s.fr (Postfix) with ESMTP id 48WmYt108kz9tyyS;
- Tue,  3 Mar 2020 06:59:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
- t=1583215186; bh=ocYA26gERwg/bGzKOX6R9AQoOaFWREyAef/Kd9zo+5s=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=sXKIwD1RD3BLfW6HS5aTsLH2zDt5HeqokUB+K7FsxVkoJhvVgR9r7Ff79VBf3fPhg
- IjF4WeUvoHflMO8+N2ifkTwV8WIp6KloKV0XCSvcbUBFZYWyK3co0cvATpqgmD7E3m
- B5ViAb14Ei63PR4Qy3/Ndcwn06LEcho6L0JaXjUc=
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id D1E5C8B79A;
- Tue,  3 Mar 2020 06:59:46 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id b_l-0DSpkXO5; Tue,  3 Mar 2020 06:59:46 +0100 (CET)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 081278B755;
- Tue,  3 Mar 2020 06:59:44 +0100 (CET)
-Subject: Re: [PATCH V14] mm/debug: Add tests validating architecture page
- table helpers
-To: Qian Cai <cai@lca.pw>, Anshuman Khandual <anshuman.khandual@arm.com>,
- linux-mm@kvack.org
-References: <1581909460-19148-1-git-send-email-anshuman.khandual@arm.com>
- <1582726182.7365.123.camel@lca.pw>
- <7c707b7f-ce3d-993b-8042-44fdc1ed28bf@c-s.fr>
- <1582732318.7365.129.camel@lca.pw> <1583178042.7365.146.camel@lca.pw>
-From: Christophe Leroy <christophe.leroy@c-s.fr>
-Message-ID: <6757aa1d-7951-69ef-de93-50a7b7b172e0@c-s.fr>
-Date: Tue, 3 Mar 2020 06:59:39 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ id 1j9BIL-0001FM-75; Tue, 03 Mar 2020 17:25:27 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id BED26ACB8;
+ Tue,  3 Mar 2020 17:25:16 +0000 (UTC)
+Subject: Re: [RFC 1/3] mm/vma: Define a default value for VM_DATA_DEFAULT_FLAGS
+To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
+References: <1583131666-15531-1-git-send-email-anshuman.khandual@arm.com>
+ <1583131666-15531-2-git-send-email-anshuman.khandual@arm.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <b243be54-7b5e-c6e9-fb68-46369d7d7aa4@suse.cz>
+Date: Tue, 3 Mar 2020 18:25:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <1583178042.7365.146.camel@lca.pw>
-Content-Language: fr
+In-Reply-To: <1583131666-15531-2-git-send-email-anshuman.khandual@arm.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200302_215950_021492_2D6B1CF3 
-X-CRM114-Status: GOOD (  19.41  )
+X-CRM114-CacheID: sfid-20200303_092525_552611_A054EF5A 
+X-CRM114-Status: GOOD (  16.93  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,114 +67,130 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- x86@kernel.org, Mike Rapoport <rppt@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- linux-snps-arc@lists.infradead.org, Vasily Gorbik <gor@linux.ibm.com>,
- Borislav Petkov <bp@alien8.de>, Paul Walmsley <paul.walmsley@sifive.com>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+Cc: Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Guo Ren <guoren@kernel.org>, sparclinux@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Jonas Bonn <jonas@southpole.se>, linux-s390@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-c6x-dev@linux-c6x.org,
+ Brian Cain <bcain@codeaurora.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Russell King <linux@armlinux.org.uk>, Ley Foon Tan <ley.foon.tan@intel.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-parisc@vger.kernel.org,
+ Mark Salter <msalter@redhat.com>, Paul Burton <paulburton@kernel.org>,
+ uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
+ Jeff Dike <jdike@addtoit.com>, linux-um@lists.infradead.org,
+ linux-m68k@lists.linux-m68k.org, openrisc@lists.librecores.org,
+ Paul Walmsley <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Guan Xuetao <gxt@pku.edu.cn>, linux-arm-kernel@lists.infradead.org,
+ Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
+ Michal Simek <monstr@monstr.eu>, Tony Luck <tony.luck@intel.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Nick Hu <nickhu@andestech.com>,
  Vineet Gupta <vgupta@synopsys.com>, linux-kernel@vger.kernel.org,
- Palmer Dabbelt <palmer@dabbelt.com>, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ Ralf Baechle <ralf@linux-mips.org>, linux-alpha@vger.kernel.org,
+ nios2-dev@lists.rocketboards.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-CgpMZSAwMi8wMy8yMDIwIMOgIDIwOjQwLCBRaWFuIENhaSBhIMOpY3JpdMKgOgo+IE9uIFdlZCwg
-MjAyMC0wMi0yNiBhdCAxMDo1MSAtMDUwMCwgUWlhbiBDYWkgd3JvdGU6Cj4+IE9uIFdlZCwgMjAy
-MC0wMi0yNiBhdCAxNTo0NSArMDEwMCwgQ2hyaXN0b3BoZSBMZXJveSB3cm90ZToKPj4+Cj4+PiBM
-ZSAyNi8wMi8yMDIwIMOgIDE1OjA5LCBRaWFuIENhaSBhIMOpY3JpdMKgOgo+Pj4+IE9uIE1vbiwg
-MjAyMC0wMi0xNyBhdCAwODo0NyArMDUzMCwgQW5zaHVtYW4gS2hhbmR1YWwgd3JvdGU6Cj4+Pj4+
-IFRoaXMgYWRkcyB0ZXN0cyB3aGljaCB3aWxsIHZhbGlkYXRlIGFyY2hpdGVjdHVyZSBwYWdlIHRh
-YmxlIGhlbHBlcnMgYW5kCj4+Pj4+IG90aGVyIGFjY2Vzc29ycyBpbiB0aGVpciBjb21wbGlhbmNl
-IHdpdGggZXhwZWN0ZWQgZ2VuZXJpYyBNTSBzZW1hbnRpY3MuCj4+Pj4+IFRoaXMgd2lsbCBoZWxw
-IHZhcmlvdXMgYXJjaGl0ZWN0dXJlcyBpbiB2YWxpZGF0aW5nIGNoYW5nZXMgdG8gZXhpc3RpbmcK
-Pj4+Pj4gcGFnZSB0YWJsZSBoZWxwZXJzIG9yIGFkZGl0aW9uIG9mIG5ldyBvbmVzLgo+Pj4+Pgo+
-Pj4+PiBUaGlzIHRlc3QgY292ZXJzIGJhc2ljIHBhZ2UgdGFibGUgZW50cnkgdHJhbnNmb3JtYXRp
-b25zIGluY2x1ZGluZyBidXQgbm90Cj4+Pj4+IGxpbWl0ZWQgdG8gb2xkLCB5b3VuZywgZGlydHks
-IGNsZWFuLCB3cml0ZSwgd3JpdGUgcHJvdGVjdCBldGMgYXQgdmFyaW91cwo+Pj4+PiBsZXZlbCBh
-bG9uZyB3aXRoIHBvcHVsYXRpbmcgaW50ZXJtZWRpYXRlIGVudHJpZXMgd2l0aCBuZXh0IHBhZ2Ug
-dGFibGUgcGFnZQo+Pj4+PiBhbmQgdmFsaWRhdGluZyB0aGVtLgo+Pj4+Pgo+Pj4+PiBUZXN0IHBh
-Z2UgdGFibGUgcGFnZXMgYXJlIGFsbG9jYXRlZCBmcm9tIHN5c3RlbSBtZW1vcnkgd2l0aCByZXF1
-aXJlZCBzaXplCj4+Pj4+IGFuZCBhbGlnbm1lbnRzLiBUaGUgbWFwcGVkIHBmbnMgYXQgcGFnZSB0
-YWJsZSBsZXZlbHMgYXJlIGRlcml2ZWQgZnJvbSBhCj4+Pj4+IHJlYWwgcGZuIHJlcHJlc2VudGlu
-ZyBhIHZhbGlkIGtlcm5lbCB0ZXh0IHN5bWJvbC4gVGhpcyB0ZXN0IGdldHMgY2FsbGVkCj4+Pj4+
-IGluc2lkZSBrZXJuZWxfaW5pdCgpIHJpZ2h0IGFmdGVyIGFzeW5jX3N5bmNocm9uaXplX2Z1bGwo
-KS4KPj4+Pj4KPj4+Pj4gVGhpcyB0ZXN0IGdldHMgYnVpbHQgYW5kIHJ1biB3aGVuIENPTkZJR19E
-RUJVR19WTV9QR1RBQkxFIGlzIHNlbGVjdGVkLiBBbnkKPj4+Pj4gYXJjaGl0ZWN0dXJlLCB3aGlj
-aCBpcyB3aWxsaW5nIHRvIHN1YnNjcmliZSB0aGlzIHRlc3Qgd2lsbCBuZWVkIHRvIHNlbGVjdAo+
-Pj4+PiBBUkNIX0hBU19ERUJVR19WTV9QR1RBQkxFLiBGb3Igbm93IHRoaXMgaXMgbGltaXRlZCB0
-byBhcmMsIGFybTY0LCB4ODYsIHMzOTAKPj4+Pj4gYW5kIHBwYzMyIHBsYXRmb3JtcyB3aGVyZSB0
-aGUgdGVzdCBpcyBrbm93biB0byBidWlsZCBhbmQgcnVuIHN1Y2Nlc3NmdWxseS4KPj4+Pj4gR29p
-bmcgZm9yd2FyZCwgb3RoZXIgYXJjaGl0ZWN0dXJlcyB0b28gY2FuIHN1YnNjcmliZSB0aGUgdGVz
-dCBhZnRlciBmaXhpbmcKPj4+Pj4gYW55IGJ1aWxkIG9yIHJ1bnRpbWUgcHJvYmxlbXMgd2l0aCB0
-aGVpciBwYWdlIHRhYmxlIGhlbHBlcnMuIE1lYW53aGlsZSBmb3IKPj4+Pj4gYmV0dGVyIHBsYXRm
-b3JtIGNvdmVyYWdlLCB0aGUgdGVzdCBjYW4gYWxzbyBiZSBlbmFibGVkIHdpdGggQ09ORklHX0VY
-UEVSVAo+Pj4+PiBldmVuIHdpdGhvdXQgQVJDSF9IQVNfREVCVUdfVk1fUEdUQUJMRS4KPj4+Pj4K
-Pj4+Pj4gRm9sa3MgaW50ZXJlc3RlZCBpbiBtYWtpbmcgc3VyZSB0aGF0IGEgZ2l2ZW4gcGxhdGZv
-cm0ncyBwYWdlIHRhYmxlIGhlbHBlcnMKPj4+Pj4gY29uZm9ybSB0byBleHBlY3RlZCBnZW5lcmlj
-IE1NIHNlbWFudGljcyBzaG91bGQgZW5hYmxlIHRoZSBhYm92ZSBjb25maWcKPj4+Pj4gd2hpY2gg
-d2lsbCBqdXN0IHRyaWdnZXIgdGhpcyB0ZXN0IGR1cmluZyBib290LiBBbnkgbm9uIGNvbmZvcm1p
-dHkgaGVyZSB3aWxsCj4+Pj4+IGJlIHJlcG9ydGVkIGFzIGFuIHdhcm5pbmcgd2hpY2ggd291bGQg
-bmVlZCB0byBiZSBmaXhlZC4gVGhpcyB0ZXN0IHdpbGwgaGVscAo+Pj4+PiBjYXRjaCBhbnkgY2hh
-bmdlcyB0byB0aGUgYWdyZWVkIHVwb24gc2VtYW50aWNzIGV4cGVjdGVkIGZyb20gZ2VuZXJpYyBN
-TSBhbmQKPj4+Pj4gZW5hYmxlIHBsYXRmb3JtcyB0byBhY2NvbW1vZGF0ZSBpdCB0aGVyZWFmdGVy
-Lgo+Pj4+Cj4+Pj4gSG93IHVzZWZ1bCBpcyB0aGlzIHRoYXQgc3RyYWlnaHRseSBjcmFzaCB0aGUg
-cG93ZXJwYz8KPj4+Pgo+Pj4+IFvCoMKgwqAyMy4yNjM0MjVdW8KgwqDCoMKgVDFdIGRlYnVnX3Zt
-X3BndGFibGU6IGRlYnVnX3ZtX3BndGFibGU6IFZhbGlkYXRpbmcKPj4+PiBhcmNoaXRlY3R1cmUg
-cGFnZSB0YWJsZSBoZWxwZXJzCj4+Pj4gW8KgwqDCoDIzLjI2MzYyNV1bwqDCoMKgwqBUMV0gLS0t
-LS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tCj4+Pj4gW8KgwqDCoDIzLjI2MzY0OV1b
-wqDCoMKgwqBUMV0ga2VybmVsIEJVRyBhdCBhcmNoL3Bvd2VycGMvbW0vcGd0YWJsZS5jOjI3NCEK
-Pj4+Cj4+PiBUaGUgcHJvYmxlbSBvbiBQUEM2NCBpcyBrbm93biBhbmQgaGFzIHRvIGJlIGludmVz
-dGlnYXRlZCBhbmQgZml4ZWQuCj4+Cj4+IEl0IG1pZ2h0IGJlIGludGVyZXN0aW5nIHRvIGhlYXIg
-d2hhdCBwb3dlcnBjNjQgbWFpbnRhaW5lcnMgd291bGQgc2F5IGFib3V0IGl0Cj4+IGFuZCBpZiBp
-dCBpcyBhY3R1YWxseSB3b3J0aCAiZml4aW5nIiBpbiB0aGUgYXJjaCBjb2RlLCBidXQgdGhhdCBC
-VUdfT04oKSB3YXMKPj4gdGhlcmUgc2luY2UgMjAwOSBhbmQgaGFkIG5vdCBiZWVuIGV4cG9zZWQg
-dW50aWwgdGhpcyBwYXRjaCBjb21lcyBhbG9uZT8KPiAKPiBUaGlzIHBhdGNoIGJlbG93IG1ha2Vz
-IGl0IHdvcmtzIG9uIHBvd2VycGM2NCBpbiBvcmRlciB0byBkb2RnZSB0aGUgQlVHX09OKClzIGlu
-Cj4gYXNzZXJ0X3B0ZV9sb2NrZWQoKSB0cmlnZ2VyZWQgYnkgcHRlX2NsZWFyX3Rlc3RzKCkuCj4g
-Cj4gCj4gZGlmZiAtLWdpdCBhL21tL2RlYnVnX3ZtX3BndGFibGUuYyBiL21tL2RlYnVnX3ZtX3Bn
-dGFibGUuYwo+IGluZGV4IDk2ZGQ3ZDU3NGNlZi4uNTBiMzg1MjMzOTcxIDEwMDY0NAo+IC0tLSBh
-L21tL2RlYnVnX3ZtX3BndGFibGUuYwo+ICsrKyBiL21tL2RlYnVnX3ZtX3BndGFibGUuYwo+IEBA
-IC01NSw2ICs1NSw4IEBACj4gIMKgI2RlZmluZSBSQU5ET01fT1JWQUxVRQlHRU5NQVNLKEJJVFNf
-UEVSX0xPTkcgLSAxLCBTMzkwX01BU0tfQklUUykKPiAgwqAjZGVmaW5lIFJBTkRPTV9OWlZBTFVF
-CUdFTk1BU0soNywgMCkKPiAgIAo+ICt1bnNpZ25lZCBsb25nIHZhZGRyOwo+ICsKCkNhbiB3ZSBh
-dm9pZCBnbG9iYWwgdmFyID8KCj4gIMKgc3RhdGljIHZvaWQgX19pbml0IHB0ZV9iYXNpY190ZXN0
-cyh1bnNpZ25lZCBsb25nIHBmbiwgcGdwcm90X3QgcHJvdCkKPiAgwqB7Cj4gIMKgCXB0ZV90IHB0
-ZSA9IHBmbl9wdGUocGZuLCBwcm90KTsKPiBAQCAtMjU2LDcgKzI1OCw3IEBAIHN0YXRpYyB2b2lk
-IF9faW5pdCBwdGVfY2xlYXJfdGVzdHMoc3RydWN0IG1tX3N0cnVjdCAqbW0sCj4gcHRlX3QgKnB0
-ZXApCj4gICAKPiAgwqAJcHRlID0gX19wdGUocHRlX3ZhbChwdGUpIHwgUkFORE9NX09SVkFMVUUp
-Owo+ICDCoAlXUklURV9PTkNFKCpwdGVwLCBwdGUpOwo+IC0JcHRlX2NsZWFyKG1tLCAwLCBwdGVw
-KTsKPiArCXB0ZV9jbGVhcihtbSwgdmFkZHIsIHB0ZXApOwo+ICDCoAlwdGUgPSBSRUFEX09OQ0Uo
-KnB0ZXApOwo+ICDCoAlXQVJOX09OKCFwdGVfbm9uZShwdGUpKTsKPiAgwqB9Cj4gQEAgLTMxMCw4
-ICszMTIsOSBAQCB2b2lkIF9faW5pdCBkZWJ1Z192bV9wZ3RhYmxlKHZvaWQpCj4gIMKgCXBndGFi
-bGVfdCBzYXZlZF9wdGVwOwo+ICDCoAlwZ3Byb3RfdCBwcm90Owo+ICDCoAlwaHlzX2FkZHJfdCBw
-YWRkcjsKPiAtCXVuc2lnbmVkIGxvbmcgdmFkZHIsIHB0ZV9hbGlnbmVkLCBwbWRfYWxpZ25lZDsK
-CkNhbiB3ZSBwYXNzIGxvY2FsIHZhZGRyIHRvIHB0ZV9jbGVhcl90ZXN0cygpIGluc3RlYWQgb2Yg
-bWFraW5nIGl0IGEgCmdsb2JhbCB2YXIgPwoKPiArCXVuc2lnbmVkIGxvbmcgcHRlX2FsaWduZWQs
-IHBtZF9hbGlnbmVkOwo+ICDCoAl1bnNpZ25lZCBsb25nIHB1ZF9hbGlnbmVkLCBwNGRfYWxpZ25l
-ZCwgcGdkX2FsaWduZWQ7Cj4gKwlzcGlubG9ja190ICpwdGw7Cj4gICAKPiAgwqAJcHJfaW5mbygi
-VmFsaWRhdGluZyBhcmNoaXRlY3R1cmUgcGFnZSB0YWJsZSBoZWxwZXJzXG4iKTsKPiAgwqAJcHJv
-dCA9IHZtX2dldF9wYWdlX3Byb3QoVk1GTEFHUyk7Cj4gQEAgLTM0NCw3ICszNDcsNyBAQCB2b2lk
-IF9faW5pdCBkZWJ1Z192bV9wZ3RhYmxlKHZvaWQpCj4gIMKgCXA0ZHAgPSBwNGRfYWxsb2MobW0s
-IHBnZHAsIHZhZGRyKTsKPiAgwqAJcHVkcCA9IHB1ZF9hbGxvYyhtbSwgcDRkcCwgdmFkZHIpOwo+
-ICDCoAlwbWRwID0gcG1kX2FsbG9jKG1tLCBwdWRwLCB2YWRkcik7Cj4gLQlwdGVwID0gcHRlX2Fs
-bG9jX21hcChtbSwgcG1kcCwgdmFkZHIpOwo+ICsJcHRlcCA9IHB0ZV9hbGxvY19tYXBfbG9jayht
-bSwgcG1kcCwgdmFkZHIsICZwdGwpOwo+ICAgCj4gIMKgCS8qCj4gIMKgCcKgKiBTYXZlIGFsbCB0
-aGUgcGFnZSB0YWJsZSBwYWdlIGFkZHJlc3NlcyBhcyB0aGUgcGFnZSB0YWJsZQo+IEBAIC0zNzAs
-NyArMzczLDcgQEAgdm9pZCBfX2luaXQgZGVidWdfdm1fcGd0YWJsZSh2b2lkKQo+ICDCoAlwNGRf
-Y2xlYXJfdGVzdHMobW0sIHA0ZHApOwo+ICDCoAlwZ2RfY2xlYXJfdGVzdHMobW0sIHBnZHApOwo+
-ICAgCj4gLQlwdGVfdW5tYXAocHRlcCk7Cj4gKwlwdGVfdW5tYXBfdW5sb2NrKHB0ZXAsIHB0bCk7
-Cj4gICAKPiAgwqAJcG1kX3BvcHVsYXRlX3Rlc3RzKG1tLCBwbWRwLCBzYXZlZF9wdGVwKTsKPiAg
-wqAJcHVkX3BvcHVsYXRlX3Rlc3RzKG1tLCBwdWRwLCBzYXZlZF9wbWRwKTsKPiAKCkNocmlzdG9w
-aGUKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4
-LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3Jn
-Cmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1h
-cmMK
+On 3/2/20 7:47 AM, Anshuman Khandual wrote:
+> There are many platforms with exact same value for VM_DATA_DEFAULT_FLAGS
+> This creates a default value for VM_DATA_DEFAULT_FLAGS in line with the
+> existing VM_STACK_DEFAULT_FLAGS. While here, also define some more macros
+> with standard VMA access flag combinations that are used frequently across
+> many platforms. Apart from simplification, this reduces code duplication
+> as well.
+> 
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Vineet Gupta <vgupta@synopsys.com>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Mark Salter <msalter@redhat.com>
+> Cc: Guo Ren <guoren@kernel.org>
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Brian Cain <bcain@codeaurora.org>
+> Cc: Tony Luck <tony.luck@intel.com>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Michal Simek <monstr@monstr.eu>
+> Cc: Ralf Baechle <ralf@linux-mips.org>
+> Cc: Paul Burton <paulburton@kernel.org>
+> Cc: Nick Hu <nickhu@andestech.com>
+> Cc: Ley Foon Tan <ley.foon.tan@intel.com>
+> Cc: Jonas Bonn <jonas@southpole.se>
+> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Paul Walmsley <paul.walmsley@sifive.com>
+> Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
+> Cc: Rich Felker <dalias@libc.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Guan Xuetao <gxt@pku.edu.cn>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Jeff Dike <jdike@addtoit.com>
+> Cc: Chris Zankel <chris@zankel.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-alpha@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-snps-arc@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-c6x-dev@linux-c6x.org
+> Cc: uclinux-h8-devel@lists.sourceforge.jp
+> Cc: linux-hexagon@vger.kernel.org
+> Cc: linux-ia64@vger.kernel.org
+> Cc: linux-m68k@lists.linux-m68k.org
+> Cc: linux-mips@vger.kernel.org
+> Cc: nios2-dev@lists.rocketboards.org
+> Cc: openrisc@lists.librecores.org
+> Cc: linux-parisc@vger.kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-riscv@lists.infradead.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: linux-sh@vger.kernel.org
+> Cc: sparclinux@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+> Cc: linux-xtensa@linux-xtensa.org
+> Cc: linux-mm@kvack.org
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+
+Nit:
+
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index b0e53ef13ff1..7a764ae6ab68 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -342,6 +342,21 @@ extern unsigned int kobjsize(const void *objp);
+>  /* Bits set in the VMA until the stack is in its final location */
+>  #define VM_STACK_INCOMPLETE_SETUP	(VM_RAND_READ | VM_SEQ_READ)
+>  
+> +#define TASK_EXEC ((current->personality & READ_IMPLIES_EXEC) ? VM_EXEC : 0)
+> +
+> +/* Common data flag combinations */
+> +#define VM_DATA_FLAGS_TSK_EXEC	(VM_READ | VM_WRITE | TASK_EXEC | \
+> +				 VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC)
+> +#define VM_DATA_FLAGS_NON_EXEC	(VM_READ | VM_WRITE | VM_MAYREAD | \
+> +				 VM_MAYWRITE | VM_MAYEXEC)
+> +#define VM_DATA_FLAGS_EXEC	(VM_READ | VM_WRITE | VM_EXEC | \
+> +				 VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC)
+> +
+> +#ifndef VM_DATA_DEFAULT_FLAGS		/* arch can override this */
+> +#define VM_DATA_DEFAULT_FLAGS	(VM_READ | VM_WRITE | VM_EXEC | \
+> +				 VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC)
+
+Should you use VM_DATA_FLAGS_EXEC here? Yeah one more macro to expand, but it's
+right above this.
+
+> +#endif
+> +
+>  #ifndef VM_STACK_DEFAULT_FLAGS		/* arch can override this */
+>  #define VM_STACK_DEFAULT_FLAGS VM_DATA_DEFAULT_FLAGS
+>  #endif
+> 
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
