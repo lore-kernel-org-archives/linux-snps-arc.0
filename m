@@ -6,84 +6,141 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A51C3F2CD
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Mar 2020 11:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1361C3F2D1
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Mar 2020 11:52:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7511F20848
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Mar 2020 11:29:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C76EB20842
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Mar 2020 11:52:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="egaaMMut";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="qUya1I+I"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7511F20848
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lca.pw
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gk5pjdj1";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="OjEfSere";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="F5mgBpq0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C76EB20842
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:In-Reply-To:References:Message-Id:
-	Date:Subject:Mime-Version:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Kezl49Fn/Xmk5yF1pN+3L3P5fq2ya69G57MdJf6sxFY=; b=egaaMMutqG47UH
-	bY/P1tC/fDZAM9dub4VwaRBv3nHCCdXXLsa6RkBbpfjQK5iQJStIe9H3sDwidbo/id6sEj7B80Qst
-	qMmy/qpTK8kZuGGrZxytHgR2q6YJ/TnvEoHLGjEfs7FHz5DRZyKPuKJipE5+q5QM1uHvb2yDDowBK
-	8Giz1SqBCvwJVTjCAgNQ51W0OBK1E1/9GCgS5abvDrnwfM1GU48VesC2nwU6MZpWWnJvM3wsNoScH
-	0AETqGpGuSrZxqotJ83k6tpS0hK3GhPnvGczJLv/tXx/5D5BYj5S9jabx/Oh2Xn9miER/QBHPlRSB
-	SJCIB7I+GRUEbPigRRpQ==;
+	List-Owner; bh=9yx9vrtZlq8Cwz/D1t9T2WJbFK/Dknhg8wK9rQO1qlg=; b=gk5pjdj1ODTwar
+	caaYZdDWpvWZuXd7/VtVcCjHnjBUp02sptGQkCd+61GZ2WmFI5yUuRbkWiC7XdOTh4lgKkIZVnHBX
+	Gu6ib0y+SFBx+mN3sO7gpwINGtN1GyOBhAQLr9+xMVr/LQKblWuC93N9RbJnkuHG9GdGf/H8sOhTY
+	JfcgfSOzSEeaZggdeGuLoqZMlyikW7uy6bbdAIMJR9T5LSxtAsaifXg2L1QCX+atPCQ4K8tZhGMQP
+	UxR1gKWWgS+m5xE7nmwHuikzCKjvSe0zEcPqlICirRzMWAozysXBJ3qR+6rcbRrqCg+LJBw29r8Ag
+	ZFHMw+XGHuoDtGISLkrQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j9SDT-0000ac-9r; Wed, 04 Mar 2020 11:29:31 +0000
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743])
+	id 1j9SZi-0000hv-Qz; Wed, 04 Mar 2020 11:52:30 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j9SDP-0000Z4-9Z
- for linux-snps-arc@lists.infradead.org; Wed, 04 Mar 2020 11:29:30 +0000
-Received: by mail-qk1-x743.google.com with SMTP id j7so929699qkd.5
- for <linux-snps-arc@lists.infradead.org>; Wed, 04 Mar 2020 03:29:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
- h=content-transfer-encoding:from:mime-version:subject:date:message-id
- :references:cc:in-reply-to:to;
- bh=Jx+iSwpjH1MMUgtvqiqrwQ2sYugCQ9UmLyXay35eB1Q=;
- b=qUya1I+ID7bIC0Bkj4Q0zp0EdHdSdO6ykJWvMXw4HKDFjWyXV8ds3Bs9MArm+vdQdc
- RpunjqglWR6mGJe2Lv7g9advYS1SvRo9LA3gCW5QqI/AMIgsHiHRUFAsdYeij2rtzyTk
- sNSh4wHESGW+6lSzw7OKW4psbfNeqxjoimBZufpM/BoHmrYBRoQNs3Xc2GtPgWnsfXPf
- igl3aC/5VPWbzpP3KfCNQ0wpC8Mh4VlwHq19u+9gw6f3Ulw8FCMZG8YCqNbscon2aj4Z
- WYfZ5PGzedI3tG7vyVtTX+unDExTi5VMHoWYOeG+xlDzhECpmkCqkM7aufo6LUVMsIwj
- NApA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=Jx+iSwpjH1MMUgtvqiqrwQ2sYugCQ9UmLyXay35eB1Q=;
- b=lLUtTiJwAp2SxJodPqNbKWthiI16/EC3v2DA8WkQ2/N6IMrXDVS+YWZe3ZpyLPs8TZ
- gGl/mhopZNAwUN4Z7jZAI85nw+qqIF+z/DQy6z+keij5afhBK+F0SXEI7xB80RN7QhaZ
- w6C9TcnpR+BjX+nBymO8PkusrlbBj07sQRJHUXUF6s1dhl0ZH3MS738H36AuV2SC/6Sp
- MzIryMVHgWMvCxzqJnxNwyE4ACGJnQ1KVDni+mKsxZowuMATiKhazxG0ioiMkRBO6xa6
- LwscOE6jXXEyv8FjOOKQYv3vd71hz7X/Z+DEeSx4GPv3HTgSaoEe6U464Luk0x63/38c
- hBtQ==
-X-Gm-Message-State: ANhLgQ2sciwL8ZHaSyJ5QSLIpsYfU/4OqGLYYgkQ+leGnJZrsbZpbHO8
- i8KB3mlxS4wHqqSWscCDEAJOQQ==
-X-Google-Smtp-Source: ADFU+vsraAELUldtqJkt+JLHLEkp9XWZWryntOEccYsrwg70reKk2W+439zfYVSLClVswo3lxz5LLw==
-X-Received: by 2002:a37:6115:: with SMTP id v21mr2464683qkb.105.1583321365177; 
- Wed, 04 Mar 2020 03:29:25 -0800 (PST)
-Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net.
- [71.184.117.43])
- by smtp.gmail.com with ESMTPSA id u48sm85943qtc.79.2020.03.04.03.29.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Mar 2020 03:29:24 -0800 (PST)
-From: Qian Cai <cai@lca.pw>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH V14] mm/debug: Add tests validating architecture page
- table helpers
-Date: Wed, 4 Mar 2020 06:29:23 -0500
-Message-Id: <11F41980-97CF-411F-8120-41287DC1A382@lca.pw>
-References: <c022e863-0807-fab1-cd41-3c320381f448@c-s.fr>
-In-Reply-To: <c022e863-0807-fab1-cd41-3c320381f448@c-s.fr>
-To: Christophe Leroy <christophe.leroy@c-s.fr>
-X-Mailer: iPhone Mail (17D50)
+ id 1j9SZg-0000eM-5C
+ for linux-snps-arc@lists.infradead.org; Wed, 04 Mar 2020 11:52:29 +0000
+Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
+ [10.192.0.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 8BC5243BC3;
+ Wed,  4 Mar 2020 11:52:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1583322746; bh=gUJfZOqxMZHRvVSob4pNXeapdizLwyfXwoq+HitBwtM=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=OjEfSereqBi9Sms9A2vR2sy0grPYWgu5aSfKAU6RuSGhAbp1NT77WorAAGRuVhPu+
+ TgilfSB/EZsl8seCpyPjSERZYPoso/I28SPfkR1o3cYswlwX+2+2B+jZJJJlBs8YpB
+ n+EQp77LX801kg1rcvOvrZaqTcEhZQAq1ZSWLWXO7tln/ueoBslwKXabiz4vepvmM/
+ QK8Gp+FNx7qQ0xPBBGjLAoS4Zw2swrGVp9BOZEMY/v84emxwZ5UDyRQEmaG3tm43gB
+ /ZnhdYmDlEOTn/g1WPoh06Efa23pXaSOIdgtLBJhultGj+05hI+NsbVzilZ/D6R2W+
+ 2k9V8tcHQIk8w==
+Received: from US01WEHTC3.internal.synopsys.com
+ (us01wehtc3.internal.synopsys.com [10.15.84.232])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 2C595A0067;
+ Wed,  4 Mar 2020 11:52:12 +0000 (UTC)
+Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Wed, 4 Mar 2020 03:51:20 -0800
+Received: from NAM04-BN3-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Wed, 4 Mar 2020 03:51:19 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UCW0RTVHBHyDRvCI5bdhdeTQhHcs8q+9jk0iTaosRLdlsJpNe8y0q+UIUOLsf99+sVaiECzvfNBL2xA3VhhndCKB6CcC/kpuC+wlTCwYVQgmETjYfzHT30DD1wZLZ4clGy3zeXtYY+0PIxXiI+pCMLAcW6oqvsj2Ue9TbB8072B06R5qUwxjGyds4mlN7XiD8QtIuYE79PoVTNPzStL+CNxnqHbCigNxkuNDrCcslhe4q6CvVQshkM0hHl7hO/Vl1LK2pJoWLMrZ4J9dO3e3BLqYtKWdOaF7UuCnJ2Bt1G8sr8rtT0KpvPKuzSoWv0XvgZTIwrK7zGWiwuyhBDW3xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9KGD6X7hDFtBjHnyiVjjRUbFoPV0Wrc7KFRr18idBWQ=;
+ b=Q9+Z5mxKU60OciVBYnbH4mG/tue7uIEE1+HtTLEIBrMxVK2j3kz5Fe9ahKZmE9S3pzKyycW0RrbtYeU4jGZr7oduEx1TRwk2ejjUCcQ7wTluMLHj7dErsYDoAAKDRwbAmWLn1e36n8OWH04dFEJ9aU7cAGVSTVbMMYxZRKHGC1hAJaL5FALWQxKMvEFR51YkngyMvEP8ieFBXc8e2fW4vzIeDG1eJE8XZlXntiqIQ2OunoMZLMZAk9PFNADANpgOsOyYLtWDZdVMJ6ZCf17CqiGvuo32sEQgQIs88vjdpMDLl34EQPhOb0zv8P2Rm1j3sCTNRXF5rJmaBRW7PPQx4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9KGD6X7hDFtBjHnyiVjjRUbFoPV0Wrc7KFRr18idBWQ=;
+ b=F5mgBpq0mrhTQHonBprPaPapqntF/zLBCBFqyhc9anlWs33Kt/gJTS9fqJ4seXjbxlhpEVxxcm9R2vey3Uxx7OzY9tH7SrIEQlOO6dnwA0CTqOUzskpUzn/Tn4vMYOjQDkVAK9R+0PZFRpcM532Zw4cHqL0yUA9evHTC8gU6Yo8=
+Received: from BY5PR12MB4034.namprd12.prod.outlook.com (2603:10b6:a03:205::9)
+ by BY5PR12MB4033.namprd12.prod.outlook.com (2603:10b6:a03:213::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.16; Wed, 4 Mar
+ 2020 11:51:17 +0000
+Received: from BY5PR12MB4034.namprd12.prod.outlook.com
+ ([fe80::3531:93d8:93db:207a]) by BY5PR12MB4034.namprd12.prod.outlook.com
+ ([fe80::3531:93d8:93db:207a%5]) with mapi id 15.20.2772.019; Wed, 4 Mar 2020
+ 11:51:17 +0000
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Subject: Re: [PATCH 4/5] ARC: add support for DSP-enabled userspace
+ applications
+Thread-Topic: [PATCH 4/5] ARC: add support for DSP-enabled userspace
+ applications
+Thread-Index: AQHVvOALEgJG1jhHKUKrXAMj7igcXqfflg6AgFkkVq8=
+Date: Wed, 4 Mar 2020 11:51:17 +0000
+Message-ID: <BY5PR12MB4034D0D8EDD029E90642012EDEE50@BY5PR12MB4034.namprd12.prod.outlook.com>
+References: <20191227180347.3579-1-Eugeniy.Paltsev@synopsys.com>
+ <20191227180347.3579-5-Eugeniy.Paltsev@synopsys.com>,
+ <a3890ccb-e948-6ad6-c2ea-5b77b9d3a289@synopsys.com>
+In-Reply-To: <a3890ccb-e948-6ad6-c2ea-5b77b9d3a289@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=paltsev@synopsys.com; 
+x-originating-ip: [84.204.78.101]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7a6a5b96-e023-4643-2928-08d7c0325971
+x-ms-traffictypediagnostic: BY5PR12MB4033:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR12MB40334D9403AE9E1E3556CA0ADEE50@BY5PR12MB4033.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0332AACBC3
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(39860400002)(366004)(376002)(136003)(396003)(189003)(199004)(2906002)(55016002)(9686003)(186003)(76116006)(91956017)(66946007)(107886003)(7696005)(8676002)(81166006)(8936002)(81156014)(478600001)(110136005)(66556008)(66446008)(54906003)(66476007)(64756008)(86362001)(6506007)(316002)(4326008)(71200400001)(26005)(52536014)(33656002)(5660300002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BY5PR12MB4033;
+ H:BY5PR12MB4034.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Ef9YTNImupAEO5xR6Xf4xCqGeKweYdqkEh63twaGWBiqq8Z/H0Wp66QhBY56HPVmfFFvKPhygrM7aamRzSmqaAVoj4JvjOJ8Ax5YKSEDt64Ya+E2HX66FpF7C0FfITXD76PoqJMLTmB+38zg/8nIlyVGdytrF9oy/V+3n0kJmjiZ3PU7dxa9dsgdGPp+SwwDXMK2cpr+xaJzsWmZgp3/BgGHsEQnWYOr3nkzxfsB1S7H0+YAQktuF3KSVCcR/63VyWo3rT3QwPbVPJvYAOfWnQxiqtIB8xs7IpJBHevAiK/UKd5gkNIvW582t7RsR2GRn1GsNPhB4SMG/hJN+43xZy+88aqMddD+eu6JQFKcbjtqzVkfGtpgSH8oZ9dr8eQcqcpPTJru4hf9Cd0Pnc49RezhHk6HNCjSLJxLsQivcjhnN/VxFgtkeIZU+yoRR0gt
+x-ms-exchange-antispam-messagedata: H7lpur3VdtiSxLPk+BWWGZITTQUw7Iwoo4EUvl4dHF4CLeCQK0bT5oyFDCvVZWeJgc3+LzoEhejfJeACk+FNio3Nvkyzb3JuSWcbngXjOhIxZ5UluMTAs9igHhzOdCNihec/e7K4RDN8NKgSFH4adw==
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a6a5b96-e023-4643-2928-08d7c0325971
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2020 11:51:17.5281 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BtN7uGzzC//AYCc4m+UOI/qOxduZ11ce+88THlwkfGPwjl197czqE57CRft+hFzYMczbFYW8cP5tLVwY9LAUoQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4033
+X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200304_032927_339901_438E1F9D 
-X-CRM114-Status: UNSURE (   6.99  )
+X-CRM114-CacheID: sfid-20200304_035228_314805_D9773E8D 
+X-CRM114-Status: UNSURE (   8.02  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -96,38 +153,54 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Heiko Carstens <heiko.carstens@de.ibm.com>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>,
- the arch/x86 maintainers <x86@kernel.org>, Mike Rapoport <rppt@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, linux-snps-arc@lists.infradead.org,
- Vasily Gorbik <gor@linux.ibm.com>,
- Anshuman Khandual <Anshuman.Khandual@arm.com>, Borislav Petkov <bp@alien8.de>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+Cc: Alexey  Brodkin <Alexey.Brodkin@synopsys.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+Hi Vineet,
 
+>From: Vineet Gupta <vgupta@synopsys.com>
+>Sent: Tuesday, January 7, 2020 21:25
+>To: Eugeniy Paltsev; linux-snps-arc@lists.infradead.org
+>Cc: linux-kernel@vger.kernel.org; Alexey Brodkin
+>Subject: Re: [PATCH 4/5] ARC: add support for DSP-enabled userspace applications
+>> +/*
+>> + * As we save new and restore old AUX register value in the same place we
+>> + * can optimize a bit and use AEX instruction (swap contents of an auxiliary
+>> + * register with a core register) instead of LR + SR pair.
+>> + */
+>> +#define AUX_SAVE_RESTORE(_saveto, _readfrom, _offt, _aux, _scratch)  \
+>> +do {                                                                 \
+>> +     __asm__ __volatile__(                                           \
+>> +             "ld     %0, [%2, %4]                    \n"             \
+>> +             "aex    %0, [%3]                        \n"             \
+>> +             "st     %0, [%1, %4]                    \n"             \
+>> +             :                                                       \
+>> +               "=&r" (_scratch)      /* must be early clobber */     \
+>> +             :                                                       \
+>> +                "r" (_saveto),                                       \
+>> +                "r" (_readfrom),                                     \
+>> +                "I" (_aux),                                          \
+>> +                "I" (_offt)                                          \
+>> +             :                                                       \
+>
+>AEX with "I" constraint will likely be an 8 byte instructions always. Best to give
+>compiler wiggle room with "Ir"
 
-> On Mar 4, 2020, at 1:49 AM, Christophe Leroy <christophe.leroy@c-s.fr> wrote:
-> 
-> AFAIU, you are not taking an interrupt here. You are stuck in the pte_update(), most likely due to nested locks. Try with LOCKDEP ?
+Could you please explain how "Ir" will work in this case?
+Does this mean that compiler can pass the value either as constant ('I') or
+via register ('r')?
 
-Not exactly sure what did you mean here, but the kernel has all lockdep enabled and did not flag anything here.
+Note that in this case both _aux and _offt are compile-time constants -
+_aux comes from define and _offt comes from offsetof().
+
+>> +               "memory"                                              \
+>> +     );                                                              \
+>> +} while (0)
+>> +
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
