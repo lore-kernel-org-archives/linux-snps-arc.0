@@ -2,65 +2,57 @@ Return-Path: <SRS0=flIm=4W=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C29CC3F2D1
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Mar 2020 06:23:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 515C5C3F2CD
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Mar 2020 06:50:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 52CF6207FD
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Mar 2020 06:23:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2532320870
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Mar 2020 06:50:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rPmQQuq8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 52CF6207FD
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tA4FuJXR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2532320870
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=mDw+6JJIhySzsMdC84pU9UjO4g5sZsR7c9bNwEpyIF8=; b=rPmQQuq8xR2y2w
-	nPaqLouCEJOKMQtCpFKmr3u9a5zGEsP5gaOJs/KDwGFTVptPANbFwv/2dlyKsla89dkzy34kfHmXB
-	y4A+9KLPQWYmCoN8NGvrYaYU8XA8MKgVkjAwvTMcqOHS6LWrRzI901r8/WyQKO4toaAkRNbP+W1XT
-	ds/GPjzWc34W2OWUOJRfeRyHym75D5O1JsxvvmfozaKyrlP2y04txbvxQ4EzN9CGuBk0+8ywt3PIv
-	UejPRwjwCRZ7wTJNvP21Msh/7rn34Q4kZ5XVIGgZKxfVIg8wvElMRzRTemMmi7m30XSCZhMdD/kZj
-	qhs/5yFN6EFvDJMfSgyA==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=ows15/LYB5q7j4D0reUHLbWujMmAufroyQ3kEjbM8Z0=; b=tA4
+	FuJXR/JaWv4yfEUlfTd5RetySNwn7dr2aZeur5faJu6/iueYO0cf5At9ETbmCHr4BXYDyc2C4LqUW
+	+L3QrXJRMht6EdPrX5GoWZBoI9TAF5YXyMzRtf/U1huKxq0jyy5zCfM0QYO2Nq4GLvS4X2JNvupRh
+	ljxJefAVYDmnKvnMsgNm6q1qljJBOlz63qM9NVbM/Ba9YXzywmPP0EHtSy9k7gT4qj+Iapi6TY9Ob
+	lY8yKgxVsAr5Bk631mp8T13/7BIH3ZNi1RzNICRGJwcvDC2/jP1oDmmsmyehJ35aDS+C35L1HsqrX
+	P9ANA82iy/VStwNRf2Z0aPK9EXTD5+Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j9jv2-0006oZ-C7; Thu, 05 Mar 2020 06:23:40 +0000
+	id 1j9kLH-0008AJ-1A; Thu, 05 Mar 2020 06:50:47 +0000
 Received: from foss.arm.com ([217.140.110.172])
  by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j9jup-0006cO-JV; Thu, 05 Mar 2020 06:23:29 +0000
+ id 1j9kL7-0007zS-1p; Thu, 05 Mar 2020 06:50:39 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 17EB71FB;
- Wed,  4 Mar 2020 22:23:23 -0800 (PST)
-Received: from [10.163.1.88] (unknown [10.163.1.88])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4D1843F534;
- Wed,  4 Mar 2020 22:27:09 -0800 (PST)
-Subject: Re: [PATCH V14] mm/debug: Add tests validating architecture page
- table helpers
-To: Christophe Leroy <christophe.leroy@c-s.fr>, Qian Cai <cai@lca.pw>
-References: <c022e863-0807-fab1-cd41-3c320381f448@c-s.fr>
- <11F41980-97CF-411F-8120-41287DC1A382@lca.pw>
- <57a3bc61-bbd5-e251-9621-7bc28f7901a1@arm.com>
- <bcba7b7f-f351-4ee7-d74e-004a0bfbee47@c-s.fr>
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A9561FB;
+ Wed,  4 Mar 2020 22:50:36 -0800 (PST)
+Received: from p8cg001049571a15.arm.com (unknown [10.163.1.88])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E134A3F534;
+ Wed,  4 Mar 2020 22:54:23 -0800 (PST)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <d198fc5a-5337-c346-a21c-1ff133202e68@arm.com>
-Date: Thu, 5 Mar 2020 11:53:12 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <bcba7b7f-f351-4ee7-d74e-004a0bfbee47@c-s.fr>
-Content-Language: en-US
+To: linux-mm@kvack.org
+Subject: [PATCH 0/2]  mm/vma: some new flags
+Date: Thu,  5 Mar 2020 12:20:12 +0530
+Message-Id: <1583391014-8170-1-git-send-email-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.7.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200304_222327_688084_C37DEE1F 
-X-CRM114-Status: GOOD (  15.27  )
+X-CRM114-CacheID: sfid-20200304_225037_446236_57826403 
+X-CRM114-Status: UNSURE (   8.82  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,60 +64,122 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Heiko Carstens <heiko.carstens@de.ibm.com>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>,
- the arch/x86 maintainers <x86@kernel.org>, Mike Rapoport <rppt@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, linux-snps-arc@lists.infradead.org,
- Vasily Gorbik <gor@linux.ibm.com>, Borislav Petkov <bp@alien8.de>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-mips@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, linux-hexagon@vger.kernel.org, hughd@google.com,
+ vbabka@suse.cz, linux-snps-arc@lists.infradead.org,
+ uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
+ Anshuman Khandual <anshuman.khandual@arm.com>, linux-um@lists.infradead.org,
+ linux-m68k@lists.linux-m68k.org, openrisc@lists.librecores.org,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAwMy8wNS8yMDIwIDExOjEzIEFNLCBDaHJpc3RvcGhlIExlcm95IHdyb3RlOgo+IAo+IAo+
-IExlIDA1LzAzLzIwMjAgw6AgMDE6NTQsIEFuc2h1bWFuIEtoYW5kdWFsIGEgw6ljcml0wqA6Cj4+
-Cj4+Cj4+IE9uIDAzLzA0LzIwMjAgMDQ6NTkgUE0sIFFpYW4gQ2FpIHdyb3RlOgo+Pj4KPj4+Cj4+
-Pj4gT24gTWFyIDQsIDIwMjAsIGF0IDE6NDkgQU0sIENocmlzdG9waGUgTGVyb3kgPGNocmlzdG9w
-aGUubGVyb3lAYy1zLmZyPiB3cm90ZToKPj4+Pgo+Pj4+IEFGQUlVLCB5b3UgYXJlIG5vdCB0YWtp
-bmcgYW4gaW50ZXJydXB0IGhlcmUuIFlvdSBhcmUgc3R1Y2sgaW4gdGhlIHB0ZV91cGRhdGUoKSwg
-bW9zdCBsaWtlbHkgZHVlIHRvIG5lc3RlZCBsb2Nrcy4gVHJ5IHdpdGggTE9DS0RFUCA/Cj4+Pgo+
-Pj4gTm90IGV4YWN0bHkgc3VyZSB3aGF0IGRpZCB5b3UgbWVhbiBoZXJlLCBidXQgdGhlIGtlcm5l
-bCBoYXMgYWxsIGxvY2tkZXAgZW5hYmxlZCBhbmQgZGlkIG5vdCBmbGFnIGFueXRoaW5nIGhlcmUu
-Cj4+Cj4+IEFzIHRoZSBwYXRjaCBoYXMgYmVlbiBkcm9wcGVkIGZyb20gTGludXggbmV4dCAobmV4
-dC0yMDIwMDMwNCkgcGVyaGFwcyBpbgo+PiBvcmRlciB0byBmb2xkIGJhY2sgdGhlIF9fcGFfc3lt
-Ym9sKCkgZml4IFsxXSwgc28gSSBhbSBwbGFubmluZyB0byByZXNwaW4KPj4gdGhlIG9yaWdpbmFs
-IHBhdGNoIG9uY2UgbW9yZSBhcyBWMTUgd2hpbGUgYWRkaW5nIFFpYW4ncyBzaWduZWQgb2ZmIGJ5
-IGZvcgo+PiB0aGUgcG93ZXJwYyBwYXJ0LiBGb3Igbm93IGxldHMgZW5hYmxlIHJhZGl4IE1NVSBw
-cGM2NCBhbG9uZyB3aXRoIGV4aXN0aW5nCj4+IHBwYzMyLiBBcyBQUENfUkFESVhfTU1VIGRlcGVu
-ZHMgb24gUFBDX0JPT0szU182NCwgdGhlIGZvbGxvd2luZyBjaGFuZ2UKPj4gc2hvdWxkIGJlIGdv
-b2QgZW5vdWdoID8KPiAKPiBJIGRvbid0IHRoaW5rIHNvLCBldmVuIGlmIHlvdSBoYXZlIHRoZSBS
-YWRpeCBNTVUgY29tcGlsZWQgaW4sIGhhc2ggTU1VIGlzIHVzZWQgd2hlbiBSYWRpeCBpcyBub3Qg
-YXZhaWxhYmxlIG9yIGRpc2FibGVkLiBTbyB1bnRpbCB0aGUgSGFzaCBNTVUgcHJvYmxlbSBpcyBm
-aXhlZCwgeW91IGNhbm5vdCBlbmFibGUgaXQgYnkgZGVmYXVsdC4KClNvIHRoaXMgaW1wbGllcywg
-dGhhdCB3aXRoIERFQlVHX1ZNIGdpdmVuIGtlcm5lbCBjb21waWxlZCB3aXRoIFJhZGl4IE1NVSB3
-aWxsCmdldCBzdHVjayBpbiBzb2Z0IGxvY2sgdXAgd2hlbiBmb3JjZWQgdG8gdXNlIGhhc2ggTU1V
-IGluIGNhc2VzIHdoZXJlIFJhZGl4IE1NVQppcyBlaXRoZXIgbm90IGF2YWlsYWJsZSBvciBpcyBk
-aXNhYmxlZC4gSGVuY2UsIHdlIGNhbm5vdCBlbmFibGUgdGhhdC4KCkkgd2lsbCBzdGlsbCBmb2xk
-IHRoZSBjaGFuZ2VzIGZyb20gUWlhbiB3aXRob3V0IGVuYWJsaW5nIHBwYzY0IFJhZGl4IE1NVSBh
-bmQKcmVzcGluIFYxNS4gVGhlc2UgbmV3IGNoYW5nZXMgZG9udCBodXJ0LCBidWlsZCBldmVyeSB3
-aGVyZSBhbmQgd29ya3MgZ29vZApvbiBhcm02NCBhbmQgeDg2IHBsYXRmb3Jtcy4gTW9yZSBvdmVy
-IHdlIGtub3cgdGhhdCB0aGV5IGFsc28gZml4IGEgcHJvYmxlbQpmb3IgcHBjNjQgUmFkaXggTU1V
-IHBsYXRmb3Jtcy4gSGVuY2UgdW5sZXNzIHRoZXJlIGFyZSBzb21lIG90aGVyIGNvbmNlcm5zIHdl
-CnNob3VsZCBmb2xkIHRoZW0gaW4uCgo+IAo+IENocmlzdG9waGUKPiAKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcg
-bGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZy
-YWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+The motivation here is to consolidate VMA flag combinations commonly used
+across platforms and reduce code duplication while making it uncluttered
+in general.
+
+This first introduces a default VM_DATA_DEFAULT_FLAGS which platforms can
+easily fall back on without requiring to define any similar data flag
+combinations as they currently do. This also adds some more common data
+flag combinations which are generally used when the platforms decide to
+override the default.
+
+The second patch consolidates VM_READ, VM_WRITE, VM_EXEC as VM_ACCESS_FLAGS
+extending the existing VMA accessibility concept via vma_is_accessibility().
+VM_ACCESS_FLAGS replaces many other instances which used check all three
+VMA access flags simultaneously.
+
+This series is based on v5.6-rc4 after applying these.
+
+1. https://patchwork.kernel.org/cover/11399319/
+2. https://patchwork.kernel.org/patch/11399379/
+
+Changes in V1:
+
+- Dropped the [PATCH 3/3] which was adding more vma_is_* wrappers
+- Used VM_DATA_FLAGS_EXEC for VM_DATA_DEFAULT_FLAGS instead per Vlastimil
+- Dropped init use cases for VM_ACCESS_FLAGS as suggested by Vlastimil
+
+Changes in RFC: (https://patchwork.kernel.org/project/linux-mm/list/?series=249733)
+
+Cc: linux-alpha@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-c6x-dev@linux-c6x.org
+Cc: uclinux-h8-devel@lists.sourceforge.jp
+Cc: linux-hexagon@vger.kernel.org
+Cc: linux-ia64@vger.kernel.org
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: nios2-dev@lists.rocketboards.org
+Cc: openrisc@lists.librecores.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: linux-um@lists.infradead.org
+Cc: linux-xtensa@linux-xtensa.org
+Cc: linux-mm@kvack.org
+
+Anshuman Khandual (2):
+  mm/vma: Define a default value for VM_DATA_DEFAULT_FLAGS
+  mm/vma: Introduce VM_ACCESS_FLAGS
+
+ arch/alpha/include/asm/page.h        |  3 ---
+ arch/arc/include/asm/page.h          |  2 +-
+ arch/arm/include/asm/page.h          |  4 +---
+ arch/arm/mm/fault.c                  |  2 +-
+ arch/arm64/include/asm/page.h        |  4 +---
+ arch/arm64/mm/fault.c                |  2 +-
+ arch/c6x/include/asm/page.h          |  5 +----
+ arch/csky/include/asm/page.h         |  3 ---
+ arch/h8300/include/asm/page.h        |  2 --
+ arch/hexagon/include/asm/page.h      |  3 +--
+ arch/ia64/include/asm/page.h         |  5 +----
+ arch/m68k/include/asm/page.h         |  3 ---
+ arch/microblaze/include/asm/page.h   |  2 --
+ arch/mips/include/asm/page.h         |  5 +----
+ arch/nds32/include/asm/page.h        |  3 ---
+ arch/nds32/mm/fault.c                |  2 +-
+ arch/nios2/include/asm/page.h        |  3 +--
+ arch/openrisc/include/asm/page.h     |  5 -----
+ arch/parisc/include/asm/page.h       |  3 ---
+ arch/powerpc/include/asm/page.h      |  9 ++-------
+ arch/powerpc/include/asm/page_64.h   |  7 ++-----
+ arch/powerpc/mm/book3s64/pkeys.c     |  2 +-
+ arch/riscv/include/asm/page.h        |  3 +--
+ arch/s390/include/asm/page.h         |  3 +--
+ arch/s390/mm/fault.c                 |  2 +-
+ arch/sh/include/asm/page.h           |  3 ---
+ arch/sparc/include/asm/page_32.h     |  3 ---
+ arch/sparc/include/asm/page_64.h     |  3 ---
+ arch/unicore32/include/asm/page.h    |  3 ---
+ arch/unicore32/mm/fault.c            |  2 +-
+ arch/x86/include/asm/page_types.h    |  4 +---
+ arch/x86/mm/pkeys.c                  |  2 +-
+ arch/x86/um/asm/vm-flags.h           | 10 ++--------
+ arch/xtensa/include/asm/page.h       |  3 ---
+ drivers/staging/gasket/gasket_core.c |  2 +-
+ include/linux/mm.h                   | 20 +++++++++++++++++++-
+ mm/mmap.c                            |  2 +-
+ mm/mprotect.c                        |  4 ++--
+ 38 files changed, 47 insertions(+), 101 deletions(-)
+
+-- 
+2.20.1
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
