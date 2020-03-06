@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48610C10DCE
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 815CFC10F00
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1A06D20665
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 54CEC20665
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hlt/rdYx";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="J6Z8Il0w"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A06D20665
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qb+ri6xq";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="EVwKVyTM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54CEC20665
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,50 +26,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=biEnUDZ9RSUFWc5rLDsBHD2YtSw3augLCYQ/seJhMqY=; b=hlt/rdYxtAtG/0
-	q7aBr0nAjEvGZvVaBah7Zr5BEo081o+aL0d4vQKgnl1YDD/A/JedN+CxLoQEz1YeVOv2K0fYKo/AT
-	CBjbjCLAD/AYDIfrnl0dpJAgGnNG/AtQ6bTrCa73fPtE8whEPVFM3faFt2dfKtVLsXEsvuZTm0ZQ/
-	W/SuSvyHEZyjwsrEXnT/Nzv5SZrP0funJGPCWRMinHHR+M3iWXeX6bFCUzQNe63L3HEjx04brjBiM
-	TLtabRoQSgCUXXsQ6lzlgcOGFoui14nE8BDu4vK5decvDX0SLJ6sAKJInC2iknBGf6b72tRZywxFc
-	inyHcL+oVozYKnHsTt8w==;
+	List-Owner; bh=JHwnQVnmY3Ummjw2JSz7EPbZqubs9MNYiUL5HHUOLmg=; b=Qb+ri6xq/OBYFG
+	kqLl6y6cr1EV/T/X8lH8mDIyjWjdLstQVygbOpT91G3sOHLCh6zmxiuHH4yC2b64tU9in+d50qWV1
+	GkrQ/Ymp7EIBetO8S8bjj/NUNrF/8pUWi+vLntjJ3l4PJGXyJPaYHLdk9ICaMhwDxziAKsM26zpa9
+	62phmNzGX7QiIzQ0+oQX59vQLblWkiQZtGczRx+/EKJD4Ik/qoJ63BE8KXJPwZYFefp/H3j0Zqzor
+	zCSbyada93EJKxoN8hhcBbtvgZ3/DZrO1ZkC7UizhGo/b4HYCWFPDz32csMPv6g+Jz+tVKGvKtgIS
+	n9PP/MlbMQGOUR6yUEWA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jAHeQ-0001bD-AW; Fri, 06 Mar 2020 18:24:46 +0000
+	id 1jAHeS-0001cN-Iu; Fri, 06 Mar 2020 18:24:48 +0000
 Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jAHeD-0001St-AE
- for linux-snps-arc@lists.infradead.org; Fri, 06 Mar 2020 18:24:45 +0000
+ id 1jAHeD-0001Ss-8t
+ for linux-snps-arc@lists.infradead.org; Fri, 06 Mar 2020 18:24:46 +0000
 Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
  [10.205.2.132])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 29B7640381;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 26D8A40363;
  Fri,  6 Mar 2020 18:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1583519073; bh=LnDahFqudsskirurbatywFIwOcV7VkIkbMmhixtOOT0=;
+ t=1583519073; bh=f7RPzLW4iJCwuHSdOMCGN+ubBQVBJUZpJBiRioN/HVA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J6Z8Il0wTTw/xOjohkNbm04nnrFN3+YWuF1w23r8qA9rOO5Ibdn9NpVa7lBHwH13f
- rRGX38heW2s6sA4uAse7CoWtltUi0RZC6eXpHDwOQoHmOk3HWVm9sekzbThTS/GhrW
- RFxZmgLeY2A3WcUEpUrZBqIhMwntrTH/ccPDnfb0n0c8evxdbYI9iWlbjgh/RpvF6v
- pU8qo68L9n44sh8zM43Gekh2wa4DdbdmMWqxQWjOVgrtiJ28YZQb5p4lKWq3e0Pj5d
- Zla+CYhbVIyXV2SBIFCyFDJY0Waq6iODOdPyPLV84C89OeCXTjXGFvoLEYQDbPjmfr
- OROVCBmmqQwFg==
+ b=EVwKVyTM2lJAJWWa3QU2yzVFSYym+L9zPKUecRtUScVYCuBoUbqfHd1Axp/+yN5Ms
+ FNQ6PdIweL8kmK55Fze1tWzc1mc/vqpVidpxwOU5GuQ0pCmYBPI9NBrk9f4Jkg9fgs
+ EI7oJM52gDkcJwpXK85Me0tk1Hhd+MqxLwF3pULu9WtmYvgOOAxo/7X0lFRzQEAJGV
+ 0PyOp+5whDMukQr9Nx0N1vLMDYjklNjzysUwce5xPVk6/maiTNTw5lTRs1TGYcq/ry
+ k8NLB/jknqsc/WWfnay1mVZWgNWAJxXtv3Ku/eFpMmP5e+COWv1xnBweedGEYGwWVO
+ TUcG2lGIbjyxg==
 Received: from vineetg-Latitude-E7450.internal.synopsys.com
  (vineetg-latitude-e7450.internal.synopsys.com [10.10.161.28])
- by mailhost.synopsys.com (Postfix) with ESMTP id 13E4EA008C;
+ by mailhost.synopsys.com (Postfix) with ESMTP id 05F8FA006F;
  Fri,  6 Mar 2020 18:24:28 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v3 10/17] ARC: Linux ABI
-Date: Fri,  6 Mar 2020 10:24:12 -0800
-Message-Id: <20200306182419.13945-11-vgupta@synopsys.com>
+Subject: [PATCH v3 09/17] ARC: Linux Syscall Interface
+Date: Fri,  6 Mar 2020 10:24:11 -0800
+Message-Id: <20200306182419.13945-10-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200306182419.13945-1-vgupta@synopsys.com>
 References: <20200306182419.13945-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200306_102433_416266_8D2217D2 
-X-CRM114-Status: GOOD (  17.52  )
+X-CRM114-CacheID: sfid-20200306_102433_356868_D07D9AD3 
+X-CRM114-Status: GOOD (  13.84  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,208 +90,393 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- sysdeps/arc/nptl/pthreaddef.h                 | 32 +++++++
- sysdeps/unix/sysv/linux/arc/bits/procfs.h     | 35 +++++++
- .../sysv/linux/arc/bits/types/__sigset_t.h    | 12 +++
- sysdeps/unix/sysv/linux/arc/getcontext.S      | 63 +++++++++++++
- sysdeps/unix/sysv/linux/arc/makecontext.c     | 75 +++++++++++++++
- sysdeps/unix/sysv/linux/arc/setcontext.S      | 92 +++++++++++++++++++
- sysdeps/unix/sysv/linux/arc/sigcontextinfo.h  | 28 ++++++
- sysdeps/unix/sysv/linux/arc/swapcontext.S     | 92 +++++++++++++++++++
- sysdeps/unix/sysv/linux/arc/sys/cachectl.h    | 36 ++++++++
- sysdeps/unix/sysv/linux/arc/sys/ucontext.h    | 63 +++++++++++++
- sysdeps/unix/sysv/linux/arc/sys/user.h        | 31 +++++++
- sysdeps/unix/sysv/linux/arc/ucontext-macros.h | 29 ++++++
- sysdeps/unix/sysv/linux/arc/ucontext_i.sym    | 20 ++++
- 13 files changed, 608 insertions(+)
- create mode 100644 sysdeps/arc/nptl/pthreaddef.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/bits/procfs.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/bits/types/__sigset_t.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/getcontext.S
- create mode 100644 sysdeps/unix/sysv/linux/arc/makecontext.c
- create mode 100644 sysdeps/unix/sysv/linux/arc/setcontext.S
- create mode 100644 sysdeps/unix/sysv/linux/arc/sigcontextinfo.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/swapcontext.S
- create mode 100644 sysdeps/unix/sysv/linux/arc/sys/cachectl.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/sys/ucontext.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/sys/user.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/ucontext-macros.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/ucontext_i.sym
+ sysdeps/arc/nptl/tls.h                        |  14 +-
+ sysdeps/unix/sysv/linux/arc/arch-syscall.h    | 317 ++++++++++++++++++
+ .../sysv/linux/arc/bits/socket-constants.h    |  38 +++
+ sysdeps/unix/sysv/linux/arc/clone.S           |  98 ++++++
+ sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h  |   6 +
+ sysdeps/unix/sysv/linux/arc/kernel-features.h |  28 ++
+ sysdeps/unix/sysv/linux/arc/mmap_internal.h   |  27 ++
+ sysdeps/unix/sysv/linux/arc/pt-vfork.S        |   1 +
+ sysdeps/unix/sysv/linux/arc/sigaction.c       |  31 ++
+ sysdeps/unix/sysv/linux/arc/sigrestorer.S     |  29 ++
+ sysdeps/unix/sysv/linux/arc/syscall.S         |  38 +++
+ sysdeps/unix/sysv/linux/arc/syscalls.list     |   3 +
+ sysdeps/unix/sysv/linux/arc/sysdep.c          |  33 ++
+ sysdeps/unix/sysv/linux/arc/sysdep.h          | 207 ++++++++++++
+ sysdeps/unix/sysv/linux/arc/vfork.S           |  42 +++
+ 15 files changed, 905 insertions(+), 7 deletions(-)
+ create mode 100644 sysdeps/unix/sysv/linux/arc/arch-syscall.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/clone.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/kernel-features.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/mmap_internal.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/pt-vfork.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sigaction.c
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sigrestorer.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/syscall.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/syscalls.list
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sysdep.c
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sysdep.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/vfork.S
 
-diff --git a/sysdeps/arc/nptl/pthreaddef.h b/sysdeps/arc/nptl/pthreaddef.h
+diff --git a/sysdeps/arc/nptl/tls.h b/sysdeps/arc/nptl/tls.h
+index d6b166c1f92b..10c7117527ff 100644
+--- a/sysdeps/arc/nptl/tls.h
++++ b/sysdeps/arc/nptl/tls.h
+@@ -77,13 +77,13 @@ register struct pthread *__thread_self __asm__("r25");
+   (((tcbhead_t *) (tcbp))->dtv)
+ 
+ /* Code to initially initialize the thread pointer.  */
+-# define TLS_INIT_TP(tcbp)			\
+-  ({                                            \
+-	long result_var;			\
+-	__builtin_set_thread_pointer(tcbp);     \
+-	result_var = INTERNAL_SYSCALL (arc_settls, err, 1, (tcbp));	\
+-	INTERNAL_SYSCALL_ERROR_P (result_var, err)			\
+-	? "unknown error" : NULL;		\
++# define TLS_INIT_TP(tcbp)					\
++  ({                                            		\
++	long result_var;					\
++	__builtin_set_thread_pointer(tcbp);     		\
++	result_var = INTERNAL_SYSCALL (arc_settls, 1, (tcbp));	\
++	INTERNAL_SYSCALL_ERROR_P (result_var)			\
++	? "settls syscall error" : NULL;			\
+    })
+ 
+ /* Value passed to 'clone' for initialization of the thread register.  */
+diff --git a/sysdeps/unix/sysv/linux/arc/arch-syscall.h b/sysdeps/unix/sysv/linux/arc/arch-syscall.h
 new file mode 100644
-index 000000000000..b265bf1a052c
+index 000000000000..db25a17ad077
 --- /dev/null
-+++ b/sysdeps/arc/nptl/pthreaddef.h
-@@ -0,0 +1,32 @@
-+/* pthread machine parameter definitions, ARC version.
-+   Copyright (C) 2002-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+/* Default stack size.  */
-+#define ARCH_STACK_DEFAULT_SIZE	(2 * 1024 * 1024)
-+
-+/* Required stack pointer alignment at beginning.  */
-+#define STACK_ALIGN		4
-+
-+/* Minimal stack size after allocating thread descriptor and guard size.  */
-+#define MINIMAL_REST_STACK	2048
-+
-+/* Alignment requirement for TCB.  */
-+#define TCB_ALIGNMENT		4
-+
-+/* Location of current stack frame.  */
-+#define CURRENT_STACK_FRAME	__builtin_frame_address (0)
-diff --git a/sysdeps/unix/sysv/linux/arc/bits/procfs.h b/sysdeps/unix/sysv/linux/arc/bits/procfs.h
++++ b/sysdeps/unix/sysv/linux/arc/arch-syscall.h
+@@ -0,0 +1,317 @@
++/* AUTOGENERATED by update-syscall-lists.py.  */
++#define __NR_accept 202
++#define __NR_accept4 242
++#define __NR_acct 89
++#define __NR_add_key 217
++#define __NR_adjtimex 171
++#define __NR_arc_gettls 246
++#define __NR_arc_settls 245
++#define __NR_arc_usr_cmpxchg 248
++#define __NR_bind 200
++#define __NR_bpf 280
++#define __NR_brk 214
++#define __NR_cacheflush 244
++#define __NR_capget 90
++#define __NR_capset 91
++#define __NR_chdir 49
++#define __NR_chroot 51
++#define __NR_clock_adjtime 266
++#define __NR_clock_adjtime64 405
++#define __NR_clock_getres 114
++#define __NR_clock_getres_time64 406
++#define __NR_clock_gettime 113
++#define __NR_clock_gettime64 403
++#define __NR_clock_nanosleep 115
++#define __NR_clock_nanosleep_time64 407
++#define __NR_clock_settime 112
++#define __NR_clock_settime64 404
++#define __NR_clone 220
++#define __NR_clone3 435
++#define __NR_close 57
++#define __NR_connect 203
++#define __NR_copy_file_range 285
++#define __NR_delete_module 106
++#define __NR_dup 23
++#define __NR_dup3 24
++#define __NR_epoll_create1 20
++#define __NR_epoll_ctl 21
++#define __NR_epoll_pwait 22
++#define __NR_eventfd2 19
++#define __NR_execve 221
++#define __NR_execveat 281
++#define __NR_exit 93
++#define __NR_exit_group 94
++#define __NR_faccessat 48
++#define __NR_fadvise64_64 223
++#define __NR_fallocate 47
++#define __NR_fanotify_init 262
++#define __NR_fanotify_mark 263
++#define __NR_fchdir 50
++#define __NR_fchmod 52
++#define __NR_fchmodat 53
++#define __NR_fchown 55
++#define __NR_fchownat 54
++#define __NR_fcntl64 25
++#define __NR_fdatasync 83
++#define __NR_fgetxattr 10
++#define __NR_finit_module 273
++#define __NR_flistxattr 13
++#define __NR_flock 32
++#define __NR_fremovexattr 16
++#define __NR_fsconfig 431
++#define __NR_fsetxattr 7
++#define __NR_fsmount 432
++#define __NR_fsopen 430
++#define __NR_fspick 433
++#define __NR_fstat64 80
++#define __NR_fstatat64 79
++#define __NR_fstatfs64 44
++#define __NR_fsync 82
++#define __NR_ftruncate64 46
++#define __NR_futex 98
++#define __NR_futex_time64 422
++#define __NR_get_mempolicy 236
++#define __NR_get_robust_list 100
++#define __NR_getcpu 168
++#define __NR_getcwd 17
++#define __NR_getdents64 61
++#define __NR_getegid 177
++#define __NR_geteuid 175
++#define __NR_getgid 176
++#define __NR_getgroups 158
++#define __NR_getitimer 102
++#define __NR_getpeername 205
++#define __NR_getpgid 155
++#define __NR_getpid 172
++#define __NR_getppid 173
++#define __NR_getpriority 141
++#define __NR_getrandom 278
++#define __NR_getresgid 150
++#define __NR_getresuid 148
++#define __NR_getrlimit 163
++#define __NR_getrusage 165
++#define __NR_getsid 156
++#define __NR_getsockname 204
++#define __NR_getsockopt 209
++#define __NR_gettid 178
++#define __NR_gettimeofday 169
++#define __NR_getuid 174
++#define __NR_getxattr 8
++#define __NR_init_module 105
++#define __NR_inotify_add_watch 27
++#define __NR_inotify_init1 26
++#define __NR_inotify_rm_watch 28
++#define __NR_io_cancel 3
++#define __NR_io_destroy 1
++#define __NR_io_getevents 4
++#define __NR_io_pgetevents 292
++#define __NR_io_pgetevents_time64 416
++#define __NR_io_setup 0
++#define __NR_io_submit 2
++#define __NR_io_uring_enter 426
++#define __NR_io_uring_register 427
++#define __NR_io_uring_setup 425
++#define __NR_ioctl 29
++#define __NR_ioprio_get 31
++#define __NR_ioprio_set 30
++#define __NR_kcmp 272
++#define __NR_kexec_file_load 294
++#define __NR_kexec_load 104
++#define __NR_keyctl 219
++#define __NR_kill 129
++#define __NR_lgetxattr 9
++#define __NR_linkat 37
++#define __NR_listen 201
++#define __NR_listxattr 11
++#define __NR_llistxattr 12
++#define __NR_llseek 62
++#define __NR_lookup_dcookie 18
++#define __NR_lremovexattr 15
++#define __NR_lsetxattr 6
++#define __NR_madvise 233
++#define __NR_mbind 235
++#define __NR_membarrier 283
++#define __NR_memfd_create 279
++#define __NR_migrate_pages 238
++#define __NR_mincore 232
++#define __NR_mkdirat 34
++#define __NR_mknodat 33
++#define __NR_mlock 228
++#define __NR_mlock2 284
++#define __NR_mlockall 230
++#define __NR_mmap2 222
++#define __NR_mount 40
++#define __NR_move_mount 429
++#define __NR_move_pages 239
++#define __NR_mprotect 226
++#define __NR_mq_getsetattr 185
++#define __NR_mq_notify 184
++#define __NR_mq_open 180
++#define __NR_mq_timedreceive 183
++#define __NR_mq_timedreceive_time64 419
++#define __NR_mq_timedsend 182
++#define __NR_mq_timedsend_time64 418
++#define __NR_mq_unlink 181
++#define __NR_mremap 216
++#define __NR_msgctl 187
++#define __NR_msgget 186
++#define __NR_msgrcv 188
++#define __NR_msgsnd 189
++#define __NR_msync 227
++#define __NR_munlock 229
++#define __NR_munlockall 231
++#define __NR_munmap 215
++#define __NR_name_to_handle_at 264
++#define __NR_nanosleep 101
++#define __NR_nfsservctl 42
++#define __NR_open_by_handle_at 265
++#define __NR_open_tree 428
++#define __NR_openat 56
++#define __NR_perf_event_open 241
++#define __NR_personality 92
++#define __NR_pidfd_open 434
++#define __NR_pidfd_send_signal 424
++#define __NR_pipe2 59
++#define __NR_pivot_root 41
++#define __NR_pkey_alloc 289
++#define __NR_pkey_free 290
++#define __NR_pkey_mprotect 288
++#define __NR_ppoll 73
++#define __NR_ppoll_time64 414
++#define __NR_prctl 167
++#define __NR_pread64 67
++#define __NR_preadv 69
++#define __NR_preadv2 286
++#define __NR_prlimit64 261
++#define __NR_process_vm_readv 270
++#define __NR_process_vm_writev 271
++#define __NR_pselect6 72
++#define __NR_pselect6_time64 413
++#define __NR_ptrace 117
++#define __NR_pwrite64 68
++#define __NR_pwritev 70
++#define __NR_pwritev2 287
++#define __NR_quotactl 60
++#define __NR_read 63
++#define __NR_readahead 213
++#define __NR_readlinkat 78
++#define __NR_readv 65
++#define __NR_reboot 142
++#define __NR_recvfrom 207
++#define __NR_recvmmsg 243
++#define __NR_recvmmsg_time64 417
++#define __NR_recvmsg 212
++#define __NR_remap_file_pages 234
++#define __NR_removexattr 14
++#define __NR_renameat 38
++#define __NR_renameat2 276
++#define __NR_request_key 218
++#define __NR_restart_syscall 128
++#define __NR_rseq 293
++#define __NR_rt_sigaction 134
++#define __NR_rt_sigpending 136
++#define __NR_rt_sigprocmask 135
++#define __NR_rt_sigqueueinfo 138
++#define __NR_rt_sigreturn 139
++#define __NR_rt_sigsuspend 133
++#define __NR_rt_sigtimedwait 137
++#define __NR_rt_sigtimedwait_time64 421
++#define __NR_rt_tgsigqueueinfo 240
++#define __NR_sched_get_priority_max 125
++#define __NR_sched_get_priority_min 126
++#define __NR_sched_getaffinity 123
++#define __NR_sched_getattr 275
++#define __NR_sched_getparam 121
++#define __NR_sched_getscheduler 120
++#define __NR_sched_rr_get_interval 127
++#define __NR_sched_rr_get_interval_time64 423
++#define __NR_sched_setaffinity 122
++#define __NR_sched_setattr 274
++#define __NR_sched_setparam 118
++#define __NR_sched_setscheduler 119
++#define __NR_sched_yield 124
++#define __NR_seccomp 277
++#define __NR_semctl 191
++#define __NR_semget 190
++#define __NR_semop 193
++#define __NR_semtimedop 192
++#define __NR_semtimedop_time64 420
++#define __NR_sendfile64 71
++#define __NR_sendmmsg 269
++#define __NR_sendmsg 211
++#define __NR_sendto 206
++#define __NR_set_mempolicy 237
++#define __NR_set_robust_list 99
++#define __NR_set_tid_address 96
++#define __NR_setdomainname 162
++#define __NR_setfsgid 152
++#define __NR_setfsuid 151
++#define __NR_setgid 144
++#define __NR_setgroups 159
++#define __NR_sethostname 161
++#define __NR_setitimer 103
++#define __NR_setns 268
++#define __NR_setpgid 154
++#define __NR_setpriority 140
++#define __NR_setregid 143
++#define __NR_setresgid 149
++#define __NR_setresuid 147
++#define __NR_setreuid 145
++#define __NR_setrlimit 164
++#define __NR_setsid 157
++#define __NR_setsockopt 208
++#define __NR_settimeofday 170
++#define __NR_setuid 146
++#define __NR_setxattr 5
++#define __NR_shmat 196
++#define __NR_shmctl 195
++#define __NR_shmdt 197
++#define __NR_shmget 194
++#define __NR_shutdown 210
++#define __NR_sigaltstack 132
++#define __NR_signalfd4 74
++#define __NR_socket 198
++#define __NR_socketpair 199
++#define __NR_splice 76
++#define __NR_statfs64 43
++#define __NR_statx 291
++#define __NR_swapoff 225
++#define __NR_swapon 224
++#define __NR_symlinkat 36
++#define __NR_sync 81
++#define __NR_sync_file_range 84
++#define __NR_syncfs 267
++#define __NR_sysfs 247
++#define __NR_sysinfo 179
++#define __NR_syslog 116
++#define __NR_tee 77
++#define __NR_tgkill 131
++#define __NR_timer_create 107
++#define __NR_timer_delete 111
++#define __NR_timer_getoverrun 109
++#define __NR_timer_gettime 108
++#define __NR_timer_gettime64 408
++#define __NR_timer_settime 110
++#define __NR_timer_settime64 409
++#define __NR_timerfd_create 85
++#define __NR_timerfd_gettime 87
++#define __NR_timerfd_gettime64 410
++#define __NR_timerfd_settime 86
++#define __NR_timerfd_settime64 411
++#define __NR_times 153
++#define __NR_tkill 130
++#define __NR_truncate64 45
++#define __NR_umask 166
++#define __NR_umount2 39
++#define __NR_uname 160
++#define __NR_unlinkat 35
++#define __NR_unshare 97
++#define __NR_userfaultfd 282
++#define __NR_utimensat 88
++#define __NR_utimensat_time64 412
++#define __NR_vhangup 58
++#define __NR_vmsplice 75
++#define __NR_wait4 260
++#define __NR_waitid 95
++#define __NR_write 64
++#define __NR_writev 66
+diff --git a/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h b/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
 new file mode 100644
-index 000000000000..e217e94eb6c0
+index 000000000000..053b5cee399a
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/bits/procfs.h
-@@ -0,0 +1,35 @@
-+/* Types for registers for sys/procfs.h.  ARC version.
-+   Copyright (C) 1996-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef _SYS_PROCFS_H
-+# error "Never include <bits/procfs.h> directly; use <sys/procfs.h> instead."
-+#endif
-+
-+#include <sys/ucontext.h>
-+
-+/* And the whole bunch of them.  We could have used `struct
-+   user_regs' directly in the typedef, but tradition says that
-+   the register set is an array, which does have some peculiar
-+   semantics, so leave it that way.  */
-+#define ELF_NGREG (sizeof (struct user_regs_struct) / sizeof(elf_greg_t))
-+
-+typedef unsigned long int elf_greg_t;
-+typedef unsigned long int elf_gregset_t[ELF_NGREG];
-+
-+/* There's no seperate floating point reg file in ARCv2.  */
-+typedef struct { } elf_fpregset_t;
-diff --git a/sysdeps/unix/sysv/linux/arc/bits/types/__sigset_t.h b/sysdeps/unix/sysv/linux/arc/bits/types/__sigset_t.h
-new file mode 100644
-index 000000000000..795638a30bd3
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/bits/types/__sigset_t.h
-@@ -0,0 +1,12 @@
-+/* Architecture-specific __sigset_t definition.  ARC version.  */
-+#ifndef ____sigset_t_defined
-+#define ____sigset_t_defined
-+
-+/* Linux asm-generic syscall ABI expects sigset_t to hold 64 signals.  */
-+#define _SIGSET_NWORDS (64 / (8 * sizeof (unsigned long int)))
-+typedef struct
-+{
-+  unsigned long int __val[_SIGSET_NWORDS];
-+} __sigset_t;
-+
-+#endif
-diff --git a/sysdeps/unix/sysv/linux/arc/getcontext.S b/sysdeps/unix/sysv/linux/arc/getcontext.S
-new file mode 100644
-index 000000000000..e00aeb1a6931
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/getcontext.S
-@@ -0,0 +1,63 @@
-+/* Save current context for ARC.
-+   Copyright (C) 2009-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include "ucontext-macros.h"
-+
-+/* int getcontext (ucontext_t *ucp)
-+   Save machine context in @ucp and return 0 on success, -1 on error
-+    - saves callee saved registers only
-+    - layout mandated by uncontext_t:m_context (hence different from setjmp).  */
-+
-+ENTRY (__getcontext)
-+
-+	/* Callee saved registers.  */
-+	SAVE_REG (r13,   r0, 37)
-+	SAVE_REG (r14,   r0, 36)
-+	SAVE_REG (r15,   r0, 35)
-+	SAVE_REG (r16,   r0, 34)
-+	SAVE_REG (r17,   r0, 33)
-+	SAVE_REG (r18,   r0, 32)
-+	SAVE_REG (r19,   r0, 31)
-+	SAVE_REG (r20,   r0, 30)
-+	SAVE_REG (r21,   r0, 29)
-+	SAVE_REG (r22,   r0, 28)
-+	SAVE_REG (r23,   r0, 27)
-+	SAVE_REG (r24,   r0, 26)
-+	SAVE_REG (r25,   r0, 25)
-+
-+	SAVE_REG (blink, r0,  7)
-+	SAVE_REG (fp,    r0,  8)
-+	SAVE_REG (sp,    r0, 23)
-+
-+	/* Save 0 in r0 placeholder to return 0 when this @ucp activated.  */
-+	mov r9, 0
-+	SAVE_REG (r9,    r0, 22)
-+
-+	/* rt_sigprocmask (SIG_BLOCK, NULL, &ucp->uc_sigmask, _NSIG8).  */
-+	mov r3, _NSIG8
-+	add r2, r0, UCONTEXT_SIGMASK
-+	mov r1, 0
-+	mov r0, SIG_BLOCK
-+	mov r8, __NR_rt_sigprocmask
-+	ARC_TRAP_INSN
-+	brhi    r0, -1024, .Lcall_syscall_err
-+	j.d	[blink]
-+	mov r0, 0	/* Success, error handled in .Lcall_syscall_err.  */
-+
-+PSEUDO_END (__getcontext)
-+weak_alias (__getcontext, getcontext)
-diff --git a/sysdeps/unix/sysv/linux/arc/makecontext.c b/sysdeps/unix/sysv/linux/arc/makecontext.c
-new file mode 100644
-index 000000000000..dacf4289b025
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/makecontext.c
-@@ -0,0 +1,75 @@
-+/* Create new context for ARC.
-+   Copyright (C) 2015-2020 Free Software Foundation, Inc.
++++ b/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
+@@ -0,0 +1,38 @@
++/* Socket constants which vary among Linux architectures.  Version for ARC.
++   Copyright (C) 2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
@@ -308,72 +493,36 @@ index 000000000000..dacf4289b025
 +   License along with the GNU C Library; if not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#include <sysdep.h>
-+#include <stdarg.h>
-+#include <stdint.h>
-+#include <sys/ucontext.h>
++#ifndef _SYS_SOCKET_H
++# error "Never include <bits/socket-constants.h> directly; use <sys/socket.h> instead."
++#endif
 +
-+void
-+__makecontext (ucontext_t *ucp, void (*func) (void), int argc, ...)
-+{
-+  extern void __startcontext (void) attribute_hidden;
-+  unsigned long int sp, *r;
-+  va_list vl;
-+  int i, reg_args, stack_args;
-+
-+  sp = ((unsigned long int) ucp->uc_stack.ss_sp + ucp->uc_stack.ss_size) & ~7;
-+
-+  ucp->uc_mcontext.__scratch.__sp = sp;
-+  ucp->uc_mcontext.__scratch.__fp = 0;
-+
-+  /* __startcontext is sort of trampoline to invoke @func
-+     From setcontext() pov, the resume address is __startcontext,
-+     set it up in BLINK place holder.  */
-+
-+  ucp->uc_mcontext.__scratch.__blink = (unsigned long int) &__startcontext;
-+
-+  /* __startcontext passed 2 types of args
-+       - args to @func setup in canonical r0-r7
-+       - @func itself in r9, and next function in r10.   */
-+
-+  ucp->uc_mcontext.__callee.__r13 = (unsigned long int) func;
-+  ucp->uc_mcontext.__callee.__r14 = (unsigned long int) ucp->uc_link;
-+
-+  r = &ucp->uc_mcontext.__scratch.__r0;
-+
-+  va_start (vl, argc);
-+
-+  reg_args = argc > 8 ? 8 : argc;
-+  for (i = 0; i < reg_args; i++) {
-+      *r-- = va_arg(vl, unsigned long int);
-+  }
-+
-+  stack_args = argc - reg_args;
-+
-+  if (__glibc_unlikely (stack_args > 0)) {
-+
-+    sp -=  stack_args * sizeof (unsigned long int);
-+    ucp->uc_mcontext.__scratch.__sp = sp;
-+    r = (unsigned long int *)sp;
-+
-+    for (i = 0; i < stack_args; i++) {
-+        *r++ = va_arg(vl, unsigned long int);
-+    }
-+  }
-+
-+  va_end (vl);
-+}
-+
-+weak_alias (__makecontext, makecontext)
-diff --git a/sysdeps/unix/sysv/linux/arc/setcontext.S b/sysdeps/unix/sysv/linux/arc/setcontext.S
++#define SOL_SOCKET 1
++#define SO_ACCEPTCONN 30
++#define SO_BROADCAST 6
++#define SO_DONTROUTE 5
++#define SO_ERROR 4
++#define SO_KEEPALIVE 9
++#define SO_LINGER 13
++#define SO_OOBINLINE 10
++#define SO_RCVBUF 8
++#define SO_RCVLOWAT 18
++#define SO_RCVTIMEO 20
++#define SO_REUSEADDR 2
++#define SO_SNDBUF 7
++#define SO_SNDLOWAT 19
++# define SO_SNDTIMEO 21
++#define SO_TYPE 3
+diff --git a/sysdeps/unix/sysv/linux/arc/clone.S b/sysdeps/unix/sysv/linux/arc/clone.S
 new file mode 100644
-index 000000000000..45525e727998
+index 000000000000..c5ba38541163
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/setcontext.S
-@@ -0,0 +1,92 @@
-+/* Set current context for ARC.
-+   Copyright (C) 2009-2020 Free Software Foundation, Inc.
++++ b/sysdeps/unix/sysv/linux/arc/clone.S
+@@ -0,0 +1,98 @@
++/* clone() implementation for ARC.
++   Copyright (C) 2008-2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
++   Contributed by Andrew Jenner <andrew@codesourcery.com>, 2008.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
 +   modify it under the terms of the GNU Lesser General Public
@@ -386,125 +535,111 @@ index 000000000000..45525e727998
 +   Lesser General Public License for more details.
 +
 +   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
++   License along with the GNU C Library; if not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#include "ucontext-macros.h"
 +
-+/* int setcontext (const ucontext_t *ucp)
-+     - Restores the machine context in @ucp and resumes execution
-+       (doesn't return to caller).  */
++#include <sysdep.h>
++#define _ERRNO_H	1
++#include <bits/errno.h>
++#include <tcb-offsets.h>
 +
-+ENTRY (__setcontext)
++#define CLONE_SETTLS		0x00080000
 +
-+	mov  r9, r0	/* Stash @ucp across syscall.  */
++/* int clone(int (*fn)(void *), void *child_stack,
++           int flags, void *arg, ...
++           < pid_t *ptid, struct user_desc *tls, pid_t *ctid > );
 +
-+	/* rt_sigprocmask (SIG_SETMASK, &ucp->uc_sigmask, NULL, _NSIG8) */
-+	mov  r3, _NSIG8
-+	mov  r2, 0
-+	add  r1, r0, UCONTEXT_SIGMASK
-+	mov  r0, SIG_SETMASK
-+	mov  r8, __NR_rt_sigprocmask
++ NOTE: I'm assuming that the last 3 args are NOT var-args and in case all
++	3 are not relevant, caller will nevertheless pass those as NULL.
++
++ clone syscall in kernel (ABI: CONFIG_CLONE_BACKWARDS)
++
++  int sys_clone(unsigned long int clone_flags,
++	        unsigned long int newsp,
++		int __user *parent_tidptr,
++		void *tls,
++		int __user *child_tidptr).  */
++
++ENTRY (__clone)
++	cmp	r0, 0		; @fn can't be NULL
++	cmp.ne	r1, 0		; @child_stack can't be NULL
++	bz	.L__sys_err
++
++	; save some of the orig args
++	; r0 containg @fn will be clobbered AFTER syscall (with ret val)
++	; rest are clobbered BEFORE syscall due to different arg ordering
++	mov	r10, r0		; @fn
++	mov	r11, r3		; @args
++	mov	r12, r2		; @clone_flags
++	mov	r9,  r5		; @tls
++
++	; adjust libc args for syscall
++
++	mov 	r0, r2		; libc @flags is 1st syscall arg
++	mov	r2, r4		; libc @ptid
++	mov	r3, r5		; libc @tls
++	mov	r4, r6		; libc @ctid
++	mov	r8, __NR_clone
 +	ARC_TRAP_INSN
-+	brhi r0, -1024, .Lcall_syscall_err
 +
-+	/* Restore scratch/arg regs for makecontext() case.  */
-+	LOAD_REG (r0,    r9, 22)
-+	LOAD_REG (r1,    r9, 21)
-+	LOAD_REG (r2,    r9, 20)
-+	LOAD_REG (r3,    r9, 19)
-+	LOAD_REG (r4,    r9, 18)
-+	LOAD_REG (r5,    r9, 17)
-+	LOAD_REG (r6,    r9, 16)
-+	LOAD_REG (r7,    r9, 15)
++	cmp	r0, 0		; return code : 0 new process, !0 parent
++	blt	.L__sys_err2	; < 0 (signed) error
++	jnz	[blink]		; Parent returns
 +
-+	/* Restore callee saved registers.  */
-+	LOAD_REG (r13,   r9, 37)
-+	LOAD_REG (r14,   r9, 36)
-+	LOAD_REG (r15,   r9, 35)
-+	LOAD_REG (r16,   r9, 34)
-+	LOAD_REG (r17,   r9, 33)
-+	LOAD_REG (r18,   r9, 32)
-+	LOAD_REG (r19,   r9, 31)
-+	LOAD_REG (r20,   r9, 30)
-+	LOAD_REG (r21,   r9, 29)
-+	LOAD_REG (r22,   r9, 28)
-+	LOAD_REG (r23,   r9, 27)
-+	LOAD_REG (r24,   r9, 26)
-+	LOAD_REG (r25,   r9, 25)
++	; ----- child starts here ---------
 +
-+	LOAD_REG (blink, r9,  7)
-+	LOAD_REG (fp,    r9,  8)
-+	LOAD_REG (sp,    r9, 23)
++	; Setup TP register (only recent kernels v4.19+ do that)
++	and.f	0, r12, CLONE_SETTLS
++	mov.nz	r25, r9
 +
-+	j    [blink]
++	; child jumps off to @fn with @arg as argument, and returns here
++	jl.d	[r10]
++	mov	r0, r11
 +
-+PSEUDO_END (__setcontext)
-+weak_alias (__setcontext, setcontext)
++	; exit() with result from @fn (already in r0)
++	mov	r8, __NR_exit
++	ARC_TRAP_INSN
++	; In case it ever came back
++	flag	1
 +
-+
-+/* Helper for activating makecontext() created context
-+     - r13 has @func, r14 has uc_link.  */
-+
-+ENTRY (__startcontext)
-+
-+	.cfi_label .Ldummy
-+	cfi_undefined (blink)
-+
-+        /* Call user @func, loaded in r13 by setcontext().  */
-+        jl   [r13]
-+
-+        /* If uc_link (r14) call setcontext with that.  */
-+        mov  r0, r14
-+        breq r0, 0, 1f
-+
-+        bl   __setcontext
-+1:
-+        /* Exit with status 0.  */
-+        b    HIDDEN_JUMPTARGET(exit)
-+END (__startcontext)
-diff --git a/sysdeps/unix/sysv/linux/arc/sigcontextinfo.h b/sysdeps/unix/sysv/linux/arc/sigcontextinfo.h
++.L__sys_err:
++	mov	r0, -EINVAL
++.L__sys_err2:
++	; (1) No need to make -ve kernel error code as positive errno
++	;   __syscall_error expects the -ve error code returned by kernel
++	; (2) r0 still had orig -ve kernel error code
++	; (3) Tail call to __syscall_error so we dont have to come back
++	;     here hence instead of jmp-n-link (reg push/pop) we do jmp
++	; (4) No need to route __syscall_error via PLT, B is inherently
++	;     position independent
++	b   __syscall_error
++PSEUDO_END (__clone)
++libc_hidden_def (__clone)
++weak_alias (__clone, clone)
+diff --git a/sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h b/sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h
 new file mode 100644
-index 000000000000..551b4c9c1d2b
+index 000000000000..6c129398483a
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/sigcontextinfo.h
++++ b/sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h
+@@ -0,0 +1,6 @@
++#define JMP_BUF_SIZE		(32 + 1 + 64/(8 * sizeof (unsigned long int))) * sizeof (unsigned long int)
++#define SIGJMP_BUF_SIZE		(32 + 1 + 64/(8 * sizeof (unsigned long int))) * sizeof (unsigned long int)
++#define JMP_BUF_ALIGN		__alignof__ (unsigned long int)
++#define SIGJMP_BUF_ALIGN	__alignof__ (unsigned long int)
++#define MASK_WAS_SAVED_OFFSET	(32 * sizeof (unsigned long int))
++#define SAVED_MASK_OFFSET	(33 * sizeof (unsigned long int))
+diff --git a/sysdeps/unix/sysv/linux/arc/kernel-features.h b/sysdeps/unix/sysv/linux/arc/kernel-features.h
+new file mode 100644
+index 000000000000..c038764e62a4
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/kernel-features.h
 @@ -0,0 +1,28 @@
-+/* ARC definitions for signal handling calling conventions.
-+   Copyright (C) 2017-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
++/* Set flags signalling availability of kernel features based on given
++   kernel version number.
 +
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef _SIGCONTEXTINFO_H
-+#define _SIGCONTEXTINFO_H
-+
-+static inline uintptr_t
-+sigcontext_get_pc (const ucontext_t *ctx)
-+{
-+  return ctx->uc_mcontext.__scratch.__ret;
-+}
-+
-+#endif
-diff --git a/sysdeps/unix/sysv/linux/arc/swapcontext.S b/sysdeps/unix/sysv/linux/arc/swapcontext.S
-new file mode 100644
-index 000000000000..80ae73975af9
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/swapcontext.S
-@@ -0,0 +1,92 @@
-+/* Save and set current context for ARC.
 +   Copyright (C) 2009-2020 Free Software Foundation, Inc.
++
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
@@ -518,90 +653,23 @@ index 000000000000..80ae73975af9
 +   Lesser General Public License for more details.
 +
 +   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
++   License along with the GNU C Library; if not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#include "ucontext-macros.h"
++/* The minimum supported kernel version for ARC is 3.9,
++   guaranteeing many kernel features.  */
 +
-+/* int swapcontext (ucontext_t *oucp, const ucontext_t *ucp).  */
++#include_next <kernel-features.h>
 +
-+ENTRY (__swapcontext)
-+
-+	/* Save context into @oucp pointed to by r0.  */
-+
-+	SAVE_REG (r13,   r0, 37)
-+	SAVE_REG (r14,   r0, 36)
-+	SAVE_REG (r15,   r0, 35)
-+	SAVE_REG (r16,   r0, 34)
-+	SAVE_REG (r17,   r0, 33)
-+	SAVE_REG (r18,   r0, 32)
-+	SAVE_REG (r19,   r0, 31)
-+	SAVE_REG (r20,   r0, 30)
-+	SAVE_REG (r21,   r0, 29)
-+	SAVE_REG (r22,   r0, 28)
-+	SAVE_REG (r23,   r0, 27)
-+	SAVE_REG (r24,   r0, 26)
-+	SAVE_REG (r25,   r0, 25)
-+
-+	SAVE_REG (blink, r0,  7)
-+	SAVE_REG (fp,    r0,  8)
-+	SAVE_REG (sp,    r0, 23)
-+
-+	/* Save 0 in r0 placeholder to return 0 when @oucp activated.  */
-+	mov r9, 0
-+	SAVE_REG (r9,    r0, 22)
-+
-+	/* Load context from @ucp.  */
-+
-+	mov r9, r1	/* Safekeep @ucp across syscall.  */
-+
-+	/* rt_sigprocmask (SIG_SETMASK, &ucp->uc_sigmask, &oucp->uc_sigmask, _NSIG8) */
-+	mov r3, _NSIG8
-+	add r2, r0, UCONTEXT_SIGMASK
-+	add r1, r1, UCONTEXT_SIGMASK
-+	mov r0, SIG_SETMASK
-+	mov r8, __NR_rt_sigprocmask
-+	ARC_TRAP_INSN
-+	brhi r0, -1024, .Lcall_syscall_err
-+
-+	LOAD_REG (r0,    r9, 22)
-+	LOAD_REG (r1,    r9, 21)
-+	LOAD_REG (r2,    r9, 20)
-+	LOAD_REG (r3,    r9, 19)
-+	LOAD_REG (r4,    r9, 18)
-+	LOAD_REG (r5,    r9, 17)
-+	LOAD_REG (r6,    r9, 16)
-+	LOAD_REG (r7,    r9, 15)
-+
-+	LOAD_REG (r13,   r9, 37)
-+	LOAD_REG (r14,   r9, 36)
-+	LOAD_REG (r15,   r9, 35)
-+	LOAD_REG (r16,   r9, 34)
-+	LOAD_REG (r17,   r9, 33)
-+	LOAD_REG (r18,   r9, 32)
-+	LOAD_REG (r19,   r9, 31)
-+	LOAD_REG (r20,   r9, 30)
-+	LOAD_REG (r21,   r9, 29)
-+	LOAD_REG (r22,   r9, 28)
-+	LOAD_REG (r23,   r9, 27)
-+	LOAD_REG (r24,   r9, 26)
-+	LOAD_REG (r25,   r9, 25)
-+
-+	LOAD_REG (blink, r9,  7)
-+	LOAD_REG (fp,    r9,  8)
-+	LOAD_REG (sp,    r9, 23)
-+
-+	j    [blink]
-+
-+PSEUDO_END (__swapcontext)
-+weak_alias (__swapcontext, swapcontext)
-diff --git a/sysdeps/unix/sysv/linux/arc/sys/cachectl.h b/sysdeps/unix/sysv/linux/arc/sys/cachectl.h
++#undef __ASSUME_CLONE_DEFAULT
++#define __ASSUME_CLONE_BACKWARDS 1
+diff --git a/sysdeps/unix/sysv/linux/arc/mmap_internal.h b/sysdeps/unix/sysv/linux/arc/mmap_internal.h
 new file mode 100644
-index 000000000000..1acb4018ae69
+index 000000000000..19aa078dd45e
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/sys/cachectl.h
-@@ -0,0 +1,36 @@
-+/* cacheflush - flush contents of instruction and/or data cache.
++++ b/sysdeps/unix/sysv/linux/arc/mmap_internal.h
+@@ -0,0 +1,27 @@
++/* mmap - map files or devices into memory.  Linux/ARC version.
 +   Copyright (C) 2017-2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
@@ -616,141 +684,33 @@ index 000000000000..1acb4018ae69
 +   Lesser General Public License for more details.
 +
 +   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
++   License along with the GNU C Library; if not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#ifndef _SYS_CACHECTL_H
-+#define _SYS_CACHECTL_H 1
++#ifndef MMAP_ARC_INTERNAL_H
++#define MMAP_ARC_INTERNAL_H
 +
-+#include <features.h>
++/* 8K is default but determine the shift dynamically with getpagesize.  */
++#define MMAP2_PAGE_UNIT -1
 +
-+/* Get the kernel definition for the op bits.  */
-+#include <asm/cachectl.h>
++#include_next <mmap_internal.h>
 +
-+__BEGIN_DECLS
-+
-+#ifdef __USE_MISC
-+extern int cacheflush (void *__addr, const int __nbytes, const int __op) __THROW;
 +#endif
-+extern int _flush_cache (char *__addr, const int __nbytes, const int __op) __THROW;
-+
-+__END_DECLS
-+
-+#endif /* sys/cachectl.h */
-diff --git a/sysdeps/unix/sysv/linux/arc/sys/ucontext.h b/sysdeps/unix/sysv/linux/arc/sys/ucontext.h
+diff --git a/sysdeps/unix/sysv/linux/arc/pt-vfork.S b/sysdeps/unix/sysv/linux/arc/pt-vfork.S
 new file mode 100644
-index 000000000000..ac4a32f76e55
+index 000000000000..1cc893170070
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/sys/ucontext.h
-@@ -0,0 +1,63 @@
-+/* struct ucontext definition, ARC version.
-+   Copyright (C) 2017-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+/* System V/ARC ABI compliant context switching support.  */
-+
-+#ifndef _SYS_UCONTEXT_H
-+#define _SYS_UCONTEXT_H	1
-+
-+#include <features.h>
-+
-+#include <bits/types/sigset_t.h>
-+#include <bits/types/stack_t.h>
-+
-+typedef struct
-+  {
-+    unsigned long int __pad;
-+    struct {
-+      unsigned long int __bta;
-+      unsigned long int __lp_start, __lp_end, __lp_count;
-+      unsigned long int __status32, __ret, __blink;
-+      unsigned long int __fp, __gp;
-+      unsigned long int __r12, __r11, __r10, __r9, __r8, __r7;
-+      unsigned long int __r6, __r5, __r4, __r3, __r2, __r1, __r0;
-+      unsigned long int __sp;
-+    } __scratch;
-+    unsigned long int __pad2;
-+    struct {
-+      unsigned long int __r25, __r24, __r23, __r22, __r21, __r20;
-+      unsigned long int __r19, __r18, __r17, __r16, __r15, __r14, __r13;
-+    } __callee;
-+    unsigned long int __efa;
-+    unsigned long int __stop_pc;
-+    unsigned long int __r30, __r58, __r59;
-+  } mcontext_t;
-+
-+/* Userlevel context.  */
-+typedef struct ucontext_t
-+  {
-+    unsigned long int __uc_flags;
-+    struct ucontext_t *uc_link;
-+    stack_t uc_stack;
-+    mcontext_t uc_mcontext;
-+    sigset_t uc_sigmask;
-+  } ucontext_t;
-+
-+#undef __ctx
-+
-+#endif /* sys/ucontext.h */
-diff --git a/sysdeps/unix/sysv/linux/arc/sys/user.h b/sysdeps/unix/sysv/linux/arc/sys/user.h
++++ b/sysdeps/unix/sysv/linux/arc/pt-vfork.S
+@@ -0,0 +1 @@
++/* Not needed.  */
+diff --git a/sysdeps/unix/sysv/linux/arc/sigaction.c b/sysdeps/unix/sysv/linux/arc/sigaction.c
 new file mode 100644
-index 000000000000..a556d2113d9c
+index 000000000000..2613eb883fb1
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/sys/user.h
++++ b/sysdeps/unix/sysv/linux/arc/sigaction.c
 @@ -0,0 +1,31 @@
-+/* ptrace register data format definitions.
-+   Copyright (C) 1998-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef _SYS_USER_H
-+#define _SYS_USER_H	1
-+
-+/* Struct user_regs_struct is exported by kernel header
-+   However apps like strace also expect a struct user, so it's better to
-+   have a dummy implementation.  */
-+#include <asm/ptrace.h>
-+
-+struct user {
-+	int dummy;
-+};
-+
-+#endif  /* sys/user.h */
-diff --git a/sysdeps/unix/sysv/linux/arc/ucontext-macros.h b/sysdeps/unix/sysv/linux/arc/ucontext-macros.h
-new file mode 100644
-index 000000000000..4427be5dedd6
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/ucontext-macros.h
-@@ -0,0 +1,29 @@
-+/* Macros for ucontext routines, ARC version.
-+   Copyright (C) 2017-2020 Free Software Foundation, Inc.
++/* ARC specific sigaction.
++   Copyright (C) 1997-2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
@@ -767,43 +727,407 @@ index 000000000000..4427be5dedd6
 +   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#ifndef _LINUX_ARC_UCONTEXT_MACROS_H
-+#define _LINUX_ARC_UCONTEXT_MACROS_H
++#define SA_RESTORER	0x04000000
++
++extern void __default_rt_sa_restorer (void);
++
++#define SET_SA_RESTORER(kact, act)				\
++ ({								\
++   (kact)->sa_restorer = __default_rt_sa_restorer;		\
++   (kact)->sa_flags |= SA_RESTORER;				\
++ })
++
++#define RESET_SA_RESTORER(act, kact)
++
++#include <sysdeps/unix/sysv/linux/sigaction.c>
+diff --git a/sysdeps/unix/sysv/linux/arc/sigrestorer.S b/sysdeps/unix/sysv/linux/arc/sigrestorer.S
+new file mode 100644
+index 000000000000..cc3c1a0d09ff
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/sigrestorer.S
+@@ -0,0 +1,29 @@
++/* Default sigreturn stub for ARC Linux.
++   Copyright (C) 2005-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include <sys/syscall.h>
++#include <sysdep.h>
++#include <tcb-offsets.h>
++
++/* Note the NOP has to be outside body.  */
++	nop
++ENTRY (__default_rt_sa_restorer)
++	mov r8, __NR_rt_sigreturn
++	ARC_TRAP_INSN
++	j_s     [blink]
++PSEUDO_END_NOERRNO (__default_rt_sa_restorer)
+diff --git a/sysdeps/unix/sysv/linux/arc/syscall.S b/sysdeps/unix/sysv/linux/arc/syscall.S
+new file mode 100644
+index 000000000000..d15ff2ed0cae
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/syscall.S
+@@ -0,0 +1,38 @@
++/* syscall - indirect system call.
++   Copyright (C) 2017-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
 +
 +#include <sysdep.h>
 +
-+#include "ucontext_i.h"
-+
-+#define SAVE_REG(reg, rbase, off)	st  reg, [rbase, UCONTEXT_MCONTEXT + off * 4]
-+#define LOAD_REG(reg, rbase, off)	ld  reg, [rbase, UCONTEXT_MCONTEXT + off * 4]
-+
++ENTRY (syscall)
++	mov_s	r8, r0
++	mov_s	r0, r1
++	mov_s	r1, r2
++	mov_s	r2, r3
++	mov_s	r3, r4
++#ifdef __ARC700__
++	mov	r4, r5
++	mov	r5, r6
++#else
++	mov_s	r4, r5
++	mov_s	r5, r6
 +#endif
-diff --git a/sysdeps/unix/sysv/linux/arc/ucontext_i.sym b/sysdeps/unix/sysv/linux/arc/ucontext_i.sym
++
++	ARC_TRAP_INSN
++	brhi	r0, -1024, .Lcall_syscall_err
++	j	[blink]
++PSEUDO_END (syscall)
+diff --git a/sysdeps/unix/sysv/linux/arc/syscalls.list b/sysdeps/unix/sysv/linux/arc/syscalls.list
 new file mode 100644
-index 000000000000..d84e92f9f543
+index 000000000000..d0ef5977ee06
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/ucontext_i.sym
-@@ -0,0 +1,20 @@
-+#include <inttypes.h>
-+#include <signal.h>
-+#include <stddef.h>
-+#include <sys/ucontext.h>
++++ b/sysdeps/unix/sysv/linux/arc/syscalls.list
+@@ -0,0 +1,3 @@
++# File name	Caller	Syscall name	Args	Strong name	Weak names
 +
-+SIG_BLOCK
-+SIG_SETMASK
++cacheflush	-	cacheflush	i:pii	_flush_cache	cacheflush
+diff --git a/sysdeps/unix/sysv/linux/arc/sysdep.c b/sysdeps/unix/sysv/linux/arc/sysdep.c
+new file mode 100644
+index 000000000000..a07fc035e6e5
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/sysdep.c
+@@ -0,0 +1,33 @@
++/* ARC wrapper for setting errno.
++   Copyright (C) 1997-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
 +
-+-- sizeof(sigset_t) expected by kernel: see comment in ARC sigaction.c for details
-+_NSIG8				(_NSIG / 8)
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
 +
-+-- Offsets of the fields in the ucontext_t structure.
-+#define ucontext(member)	offsetof (ucontext_t, member)
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
 +
-+UCONTEXT_FLAGS			ucontext (__uc_flags)
-+UCONTEXT_LINK			ucontext (uc_link)
-+UCONTEXT_STACK			ucontext (uc_stack)
-+UCONTEXT_MCONTEXT		ucontext (uc_mcontext)
-+UCONTEXT_SIGMASK		ucontext (uc_sigmask)
-+UCONTEXT_SIZE			sizeof (ucontext_t)
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include <sysdep.h>
++#include <errno.h>
++
++/* All syscall handler come here to avoid generated code bloat due to
++   GOT reference  to errno_location or it's equivalent.  */
++int
++__syscall_error(int err_no)
++{
++  __set_errno(-err_no);
++  return -1;
++}
++
++#if IS_IN (libc)
++hidden_def (__syscall_error)
++#endif
+diff --git a/sysdeps/unix/sysv/linux/arc/sysdep.h b/sysdeps/unix/sysv/linux/arc/sysdep.h
+new file mode 100644
+index 000000000000..77d815e882e5
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/sysdep.h
+@@ -0,0 +1,207 @@
++/* Assembler macros for ARC.
++   Copyright (C) 2000-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _LINUX_ARC_SYSDEP_H
++#define _LINUX_ARC_SYSDEP_H 1
++
++#include <sysdeps/arc/sysdep.h>
++#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
++
++/* For RTLD_PRIVATE_ERRNO.  */
++#include <dl-sysdep.h>
++
++#include <tls.h>
++
++#undef SYS_ify
++#define SYS_ify(syscall_name)   __NR_##syscall_name
++
++#ifdef __ASSEMBLER__
++
++/* This is a "normal" system call stub: if there is an error,
++   it returns -1 and sets errno.  */
++
++# undef PSEUDO
++# define PSEUDO(name, syscall_name, args)			\
++  PSEUDO_NOERRNO(name, syscall_name, args)	ASM_LINE_SEP	\
++    brhi   r0, -1024, .Lcall_syscall_err	ASM_LINE_SEP
++
++# define ret	j  [blink]
++
++# undef PSEUDO_END
++# define PSEUDO_END(name)					\
++  SYSCALL_ERROR_HANDLER				ASM_LINE_SEP	\
++  END (name)
++
++/* --------- Helper for SYSCALL_NOERRNO -----------
++   This kind of system call stub never returns an error.
++   We return the return value register to the caller unexamined.  */
++
++# undef PSEUDO_NOERRNO
++# define PSEUDO_NOERRNO(name, syscall_name, args)		\
++  .text						ASM_LINE_SEP	\
++  ENTRY (name)					ASM_LINE_SEP	\
++    DO_CALL (syscall_name, args)		ASM_LINE_SEP	\
++
++/* Return the return value register unexamined. Since r0 is both
++   syscall return reg and function return reg, no work needed.  */
++# define ret_NOERRNO						\
++  j_s  [blink]		ASM_LINE_SEP
++
++# undef PSEUDO_END_NOERRNO
++# define PSEUDO_END_NOERRNO(name)				\
++  END (name)
++
++/* --------- Helper for SYSCALL_ERRVAL -----------
++   This kind of system call stub returns the errno code as its return
++   value, or zero for success.  We may massage the kernel's return value
++   to meet that ABI, but we never set errno here.  */
++
++# undef PSEUDO_ERRVAL
++# define PSEUDO_ERRVAL(name, syscall_name, args)		\
++  PSEUDO_NOERRNO(name, syscall_name, args)	ASM_LINE_SEP
++
++/* Don't set errno, return kernel error (in errno form) or zero.  */
++# define ret_ERRVAL						\
++  rsub   r0, r0, 0				ASM_LINE_SEP	\
++  ret_NOERRNO
++
++# undef PSEUDO_END_ERRVAL
++# define PSEUDO_END_ERRVAL(name)				\
++  END (name)
++
++
++/* To reduce the code footprint, we confine the actual errno access
++   to single place in __syscall_error().
++   This takes raw kernel error value, sets errno and returns -1.  */
++# if IS_IN (libc)
++#  define CALL_ERRNO_SETTER_C	bl     PLTJMP(HIDDEN_JUMPTARGET(__syscall_error))
++# else
++#  define CALL_ERRNO_SETTER_C	bl     PLTJMP(__syscall_error)
++# endif
++
++# define SYSCALL_ERROR_HANDLER					\
++.Lcall_syscall_err:				ASM_LINE_SEP	\
++    st.a   blink, [sp, -4]			ASM_LINE_SEP	\
++    cfi_adjust_cfa_offset (4)			ASM_LINE_SEP	\
++    cfi_rel_offset (blink, 0)			ASM_LINE_SEP	\
++    CALL_ERRNO_SETTER_C				ASM_LINE_SEP	\
++    ld.ab  blink, [sp, 4]			ASM_LINE_SEP	\
++    cfi_adjust_cfa_offset (-4)			ASM_LINE_SEP	\
++    cfi_restore (blink)				ASM_LINE_SEP	\
++    j      [blink]
++
++# define DO_CALL(syscall_name, args)				\
++    mov    r8, SYS_ify (syscall_name)		ASM_LINE_SEP	\
++    ARC_TRAP_INSN				ASM_LINE_SEP
++
++# define ARC_TRAP_INSN	trap_s 0
++
++#else  /* !__ASSEMBLER__ */
++
++# define SINGLE_THREAD_BY_GLOBAL		1
++
++# if IS_IN (libc)
++extern int __syscall_error (int);
++hidden_proto (__syscall_error)
++# endif
++
++# define ARC_TRAP_INSN	"trap_s 0	\n\t"
++
++# undef INTERNAL_SYSCALL_NCS
++# define INTERNAL_SYSCALL_NCS(number, nr_args, args...)	\
++  ({								\
++    /* Per ABI, r0 is 1st arg and return reg.  */		\
++    register int __ret __asm__("r0");				\
++    register int _sys_num __asm__("r8");			\
++								\
++    LOAD_ARGS_##nr_args (number, args)				\
++								\
++    __asm__ volatile (						\
++                      ARC_TRAP_INSN				\
++                      : "+r" (__ret)				\
++                      : "r"(_sys_num) ASM_ARGS_##nr_args	\
++                      : "memory");				\
++                                                                \
++    __ret; })
++
++# undef INTERNAL_SYSCALL
++# define INTERNAL_SYSCALL(name, nr, args...) 	\
++  INTERNAL_SYSCALL_NCS(SYS_ify(name), nr, args)
++
++/* Macros for setting up inline __asm__ input regs.  */
++# define ASM_ARGS_0
++# define ASM_ARGS_1	ASM_ARGS_0, "r" (__ret)
++# define ASM_ARGS_2	ASM_ARGS_1, "r" (_arg2)
++# define ASM_ARGS_3	ASM_ARGS_2, "r" (_arg3)
++# define ASM_ARGS_4	ASM_ARGS_3, "r" (_arg4)
++# define ASM_ARGS_5	ASM_ARGS_4, "r" (_arg5)
++# define ASM_ARGS_6	ASM_ARGS_5, "r" (_arg6)
++# define ASM_ARGS_7	ASM_ARGS_6, "r" (_arg7)
++
++/* Macros for converting sys-call wrapper args into sys call args.  */
++# define LOAD_ARGS_0(nm, arg)				\
++  _sys_num = (int) (nm);
++
++# define LOAD_ARGS_1(nm, arg1)				\
++  __ret = (int) (arg1);					\
++  LOAD_ARGS_0 (nm, arg1)
++
++/* Note that the use of _tmpX might look superflous, however it is needed
++   to ensure that register variables are not clobbered if arg happens to be
++   a function call itself. e.g. sched_setaffinity() calling getpid() for arg2
++   Also this specific order of recursive calling is important to segregate
++   the tmp args evaluation (function call case described above) and assigment
++   of register variables.  */
++
++# define LOAD_ARGS_2(nm, arg1, arg2)			\
++  int _tmp2 = (int) (arg2);				\
++  LOAD_ARGS_1 (nm, arg1)				\
++  register int _arg2 __asm__ ("r1") = _tmp2;
++
++# define LOAD_ARGS_3(nm, arg1, arg2, arg3)		\
++  int _tmp3 = (int) (arg3);				\
++  LOAD_ARGS_2 (nm, arg1, arg2)				\
++  register int _arg3 __asm__ ("r2") = _tmp3;
++
++#define LOAD_ARGS_4(nm, arg1, arg2, arg3, arg4)		\
++  int _tmp4 = (int) (arg4);				\
++  LOAD_ARGS_3 (nm, arg1, arg2, arg3)			\
++  register int _arg4 __asm__ ("r3") = _tmp4;
++
++# define LOAD_ARGS_5(nm, arg1, arg2, arg3, arg4, arg5)	\
++  int _tmp5 = (int) (arg5);				\
++  LOAD_ARGS_4 (nm, arg1, arg2, arg3, arg4)		\
++  register int _arg5 __asm__ ("r4") = _tmp5;
++
++# define LOAD_ARGS_6(nm,  arg1, arg2, arg3, arg4, arg5, arg6)\
++  int _tmp6 = (int) (arg6);				\
++  LOAD_ARGS_5 (nm, arg1, arg2, arg3, arg4, arg5)	\
++  register int _arg6 __asm__ ("r5") = _tmp6;
++
++# define LOAD_ARGS_7(nm, arg1, arg2, arg3, arg4, arg5, arg6, arg7)\
++  int _tmp7 = (int) (arg7);				\
++  LOAD_ARGS_6 (nm, arg1, arg2, arg3, arg4, arg5, arg6)	\
++  register int _arg7 __asm__ ("r6") = _tmp7;
++
++/* Pointer mangling not yet supported.  */
++# define PTR_MANGLE(var) (void) (var)
++# define PTR_DEMANGLE(var) (void) (var)
++
++#endif /* !__ASSEMBLER__ */
++
++#endif /* linux/arc/sysdep.h */
+diff --git a/sysdeps/unix/sysv/linux/arc/vfork.S b/sysdeps/unix/sysv/linux/arc/vfork.S
+new file mode 100644
+index 000000000000..ac1cce5258e0
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/vfork.S
+@@ -0,0 +1,42 @@
++/* vfork for ARC Linux.
++   Copyright (C) 2005-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include <sys/syscall.h>
++#include <sysdep.h>
++#include <tcb-offsets.h>
++#define _SIGNAL_H
++#include <bits/signum.h>       /* For SIGCHLD */
++
++#define CLONE_VM		0x00000100
++#define CLONE_VFORK		0x00004000
++#define CLONE_FLAGS_FOR_VFORK	(CLONE_VM|CLONE_VFORK|SIGCHLD)
++
++ENTRY (__vfork)
++	mov	r0, CLONE_FLAGS_FOR_VFORK
++	mov_s	r1, sp
++	mov	r8, __NR_clone
++	ARC_TRAP_INSN
++
++	cmp	r0, 0
++	jge	[blink]	; child continues
++
++	b   __syscall_error
++PSEUDO_END (__vfork)
++libc_hidden_def (__vfork)
++
++weak_alias (__vfork, vfork)
 -- 
 2.20.1
 
