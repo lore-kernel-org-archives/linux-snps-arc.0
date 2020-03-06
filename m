@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 639FBC10DCE
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50A0AC3F2D6
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0794720665
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 23DB420665
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="F5XqRAEp";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="TvlWr74R"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0794720665
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K9ns+gmz";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="IJN8KpTa"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23DB420665
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,50 +26,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7JjtH6O8q+HApvugTF0l4tbsKdqJ/YqRn9JqQK9M25I=; b=F5XqRAEpEC/tun
-	mE6L0xxMMa6pgYfdXMH6iRWNnjKVkVUvoUPyjW3o3mEM3UP4VGFuSk7A8Lu3GdOb2woSkY4YppGV+
-	YmVW8j4DYYlosA0uzgch17LQrPjIcuY00CLTyC9P+p4z0SXR5rWU76dD2YoYiMf6cE0yqIjs0g/lp
-	+7L47pqaO5ktNvC+otp+xRhleoM7hkk5XdcZJU2a93pTPDIZZch5vGfmFSuoXGosaGYJ1rE6Zb6UZ
-	mtLoazpJ3Kp1zxSfFwBQc4zjZAntw13P2XTC464NC8/1kMB8elOoHA8zWghgAxfvKHI9e2r0rAME0
-	GDd7G9RNozN3mgyBtNLA==;
+	List-Owner; bh=Roc0Xhu4+0fKqHrEBNagys+TnOnTcIl2Lla/zd2+/Fw=; b=K9ns+gmzuzx9C3
+	dFH8znoZfHpDUm8k4OEgAscuXV3FUFDpCgwk0bNMFGd1X49szJSnBObFJUJcl7cQcldyoSmCjacf+
+	KM6zduC/yOgkZxnBd3j7tS7QwAqie+StAhSDvoB/BVKJ9C6Eb9dl/szLgFl3PQvrHQGYpHP03NZ2H
+	fb4ipCQxXg3Su5Xkdv5tWzE7xaubfQvpuIO9/SfDk/H4SY1HrR5CSNqZ0vJZiCSv7ge8McKSq1FMk
+	PlUV99nwZP5FSvl4Bzvhg/Y3o9+cmmBmePQk6kik6Lt8w2vVHMUwKsZ/C3Z8jBF4AhCRSiPO2TtJs
+	kfQv7ZUHRUkk6xzFIdHA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jAHeL-0001YO-IG; Fri, 06 Mar 2020 18:24:41 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1jAHeH-0001Vo-SC; Fri, 06 Mar 2020 18:24:37 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jAHeA-0001P0-4z
- for linux-snps-arc@lists.infradead.org; Fri, 06 Mar 2020 18:24:38 +0000
+ id 1jAHeA-0001P2-A8
+ for linux-snps-arc@lists.infradead.org; Fri, 06 Mar 2020 18:24:34 +0000
 Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
  [10.205.2.132])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 2221AC00E0;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 9E7404033D;
  Fri,  6 Mar 2020 18:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1583519068; bh=BjLBfKHCVwdg/IJOOmdqmeWrXteeKpsFOB2oiSCV//g=;
+ t=1583519068; bh=bLPhwK/uyXv5STMjWdMbYozeJaQn/2CfXOn2ABQU+zQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TvlWr74RNxp7j6aZxGedLtaiMe/KXvk8uBwQxALuR9erY5gOuakGp8qJCsTTb+STD
- TPsgkNh4sbbn8L9LpUlGyOhgy1IT8VHqmOb0kQi3dJK7hG1aA1Lr/9LK0WYpQZnSIp
- k2b76IUtERYN19pOK6PTX8K89tHdf9wrAxdxsEuvrmSpxTEUQsCT3BFftUQMJxB7OE
- Yb8cCpDf2zSXYnJIlSXknLjMYD2N8lq1ILwxtKSUvT+vXh8XuJzPJuUN5+UdN2XCgI
- 6uDc77KsL2lB2PiVNVFJAphk3uCIgkriquCRh9Wm5Tji7++q0gNBxkicKUXT/NG+Ko
- HQIpvR6uIpHlA==
+ b=IJN8KpTanhzIwUiSJqMKhsJJbyb3/GXASBP+QsuXM3LhtCt0vfR3l8K2SLQE4Kay3
+ Utj97rkeSD1eeLYw2zPDW09b7dBhUK6isFt4o/9m6SC7F2xg6nXVEuEqtaXaOPiWRr
+ Nrg8Kjf0HBRizL7nzJZa9fjEsMWEpstOXyc3B4wrwyQvRKGi4OyYHxQLyuNnDt8xmP
+ Y10x7r14Xtf4PPeJCG9Y+w81bSV9tFdkGuSqMCtAHyT+CajUH/6kF/wLFopR4UtgU3
+ QNosS6lMEuolY4h4s5c+xFUpFqOBqMsDY2efsKVEiT4oiww9vBI/oOQG/XoSPjCdcl
+ z1mlWUx5HvLNw==
 Received: from vineetg-Latitude-E7450.internal.synopsys.com
  (vineetg-latitude-e7450.internal.synopsys.com [10.10.161.28])
- by mailhost.synopsys.com (Postfix) with ESMTP id D3D4AA0087;
- Fri,  6 Mar 2020 18:24:27 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 76D6DA0075;
+ Fri,  6 Mar 2020 18:24:28 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v3 07/17] ARC: math soft float support
-Date: Fri,  6 Mar 2020 10:24:09 -0800
-Message-Id: <20200306182419.13945-8-vgupta@synopsys.com>
+Subject: [PATCH v3 17/17] ARC: changes to enable 64-bit time_t, off_t,
+ ino_t etc
+Date: Fri,  6 Mar 2020 10:24:19 -0800
+Message-Id: <20200306182419.13945-18-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200306182419.13945-1-vgupta@synopsys.com>
 References: <20200306182419.13945-1-vgupta@synopsys.com>
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200306_102430_287377_F234C064 
-X-CRM114-Status: GOOD (  15.36  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,25 +88,143 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- sysdeps/arc/bits/fenv.h                   | 72 ++++++++++++++++++++++
- sysdeps/arc/nofpu/Implies                 |  1 +
- sysdeps/arc/nofpu/math-tests-exceptions.h | 27 +++++++++
- sysdeps/arc/nofpu/math-tests-rounding.h   | 27 +++++++++
- sysdeps/arc/sfp-machine.h                 | 73 +++++++++++++++++++++++
- 5 files changed, 200 insertions(+)
- create mode 100644 sysdeps/arc/bits/fenv.h
- create mode 100644 sysdeps/arc/nofpu/Implies
- create mode 100644 sysdeps/arc/nofpu/math-tests-exceptions.h
- create mode 100644 sysdeps/arc/nofpu/math-tests-rounding.h
- create mode 100644 sysdeps/arc/sfp-machine.h
+ .../sysv/linux/arc/bits/socket-constants.h    |  4 +--
+ sysdeps/unix/sysv/linux/arc/bits/timesize.h   | 21 +++++++++++++++
+ sysdeps/unix/sysv/linux/arc/c++-types.data    | 16 ++++++------
+ sysdeps/unix/sysv/linux/arc/configure         |  2 +-
+ sysdeps/unix/sysv/linux/arc/configure.ac      |  2 +-
+ sysdeps/unix/sysv/linux/arc/kernel_stat.h     | 26 +++++++++++++++++++
+ sysdeps/unix/sysv/linux/arc/libc.abilist      |  6 ++---
+ sysdeps/unix/sysv/linux/arc/sysdep.h          | 12 +++++++++
+ 8 files changed, 74 insertions(+), 15 deletions(-)
+ create mode 100644 sysdeps/unix/sysv/linux/arc/bits/timesize.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/kernel_stat.h
 
-diff --git a/sysdeps/arc/bits/fenv.h b/sysdeps/arc/bits/fenv.h
+diff --git a/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h b/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
+index 053b5cee399a..74b0c06edb36 100644
+--- a/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
++++ b/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
+@@ -30,9 +30,9 @@
+ #define SO_OOBINLINE 10
+ #define SO_RCVBUF 8
+ #define SO_RCVLOWAT 18
+-#define SO_RCVTIMEO 20
++#define SO_RCVTIMEO 66
+ #define SO_REUSEADDR 2
+ #define SO_SNDBUF 7
+ #define SO_SNDLOWAT 19
+-# define SO_SNDTIMEO 21
++# define SO_SNDTIMEO 67
+ #define SO_TYPE 3
+diff --git a/sysdeps/unix/sysv/linux/arc/bits/timesize.h b/sysdeps/unix/sysv/linux/arc/bits/timesize.h
 new file mode 100644
-index 000000000000..547f0103a53d
+index 000000000000..1259077c6412
 --- /dev/null
-+++ b/sysdeps/arc/bits/fenv.h
-@@ -0,0 +1,72 @@
-+/* Copyright (C) 2012-2020 Free Software Foundation, Inc.
++++ b/sysdeps/unix/sysv/linux/arc/bits/timesize.h
+@@ -0,0 +1,21 @@
++/* Bit size of the time_t type at glibc build time, general case.
++   Copyright (C) 2019-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <bits/wordsize.h>
++
++#define __TIMESIZE	64
+diff --git a/sysdeps/unix/sysv/linux/arc/c++-types.data b/sysdeps/unix/sysv/linux/arc/c++-types.data
+index 303f4570c8ee..0fb0143ae746 100644
+--- a/sysdeps/unix/sysv/linux/arc/c++-types.data
++++ b/sysdeps/unix/sysv/linux/arc/c++-types.data
+@@ -1,5 +1,5 @@
+ blkcnt64_t:x
+-blkcnt_t:l
++blkcnt_t:x
+ blksize_t:i
+ caddr_t:Pc
+ clockid_t:i
+@@ -8,14 +8,14 @@ daddr_t:i
+ dev_t:y
+ fd_mask:l
+ fsblkcnt64_t:y
+-fsblkcnt_t:m
++fsblkcnt_t:y
+ fsfilcnt64_t:y
+-fsfilcnt_t:m
++fsfilcnt_t:y
+ fsid_t:8__fsid_t
+ gid_t:j
+ id_t:j
+ ino64_t:y
+-ino_t:m
++ino_t:y
+ int16_t:s
+ int32_t:i
+ int64_t:x
+@@ -26,7 +26,7 @@ loff_t:x
+ mode_t:j
+ nlink_t:j
+ off64_t:x
+-off_t:l
++off_t:x
+ pid_t:i
+ pthread_attr_t:14pthread_attr_t
+ pthread_barrier_t:17pthread_barrier_t
+@@ -44,13 +44,13 @@ pthread_t:m
+ quad_t:x
+ register_t:i
+ rlim64_t:y
+-rlim_t:m
++rlim_t:y
+ sigset_t:10__sigset_t
+ size_t:j
+ socklen_t:j
+ ssize_t:i
+-suseconds_t:l
+-time_t:l
++suseconds_t:x
++time_t:x
+ u_char:h
+ uid_t:j
+ uint:j
+diff --git a/sysdeps/unix/sysv/linux/arc/configure b/sysdeps/unix/sysv/linux/arc/configure
+index f74fa7cb0259..56ec14357507 100644
+--- a/sysdeps/unix/sysv/linux/arc/configure
++++ b/sysdeps/unix/sysv/linux/arc/configure
+@@ -1,4 +1,4 @@
+ # This file is generated from configure.in by Autoconf.  DO NOT EDIT!
+  # Local configure fragment for sysdeps/unix/sysv/linux/arc.
+ 
+-arch_minimum_kernel=3.9.0
++arch_minimum_kernel=5.1.0
+diff --git a/sysdeps/unix/sysv/linux/arc/configure.ac b/sysdeps/unix/sysv/linux/arc/configure.ac
+index a9528032d32a..8af5a12cc248 100644
+--- a/sysdeps/unix/sysv/linux/arc/configure.ac
++++ b/sysdeps/unix/sysv/linux/arc/configure.ac
+@@ -1,4 +1,4 @@
+ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
+ # Local configure fragment for sysdeps/unix/sysv/linux/arc.
+ 
+-arch_minimum_kernel=3.9.0
++arch_minimum_kernel=5.1.0
+diff --git a/sysdeps/unix/sysv/linux/arc/kernel_stat.h b/sysdeps/unix/sysv/linux/arc/kernel_stat.h
+new file mode 100644
+index 000000000000..8fdd86b9e843
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/kernel_stat.h
+@@ -0,0 +1,26 @@
++/* Copyright (C) 2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
@@ -125,213 +241,53 @@ index 000000000000..547f0103a53d
 +   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#ifndef _FENV_H
-+# error "Never use <bits/fenv.h> directly; include <fenv.h> instead."
-+#endif
++#include <bits/wordsize.h>
 +
-+enum
-+  {
-+    FE_INVALID   =
-+# define FE_INVALID	(0x01)
-+      FE_INVALID,
-+    FE_DIVBYZERO =
-+# define FE_DIVBYZERO	(0x02)
-+      FE_DIVBYZERO,
-+    FE_OVERFLOW  =
-+# define FE_OVERFLOW	(0x04)
-+      FE_OVERFLOW,
-+    FE_UNDERFLOW =
-+# define FE_UNDERFLOW	(0x08)
-+      FE_UNDERFLOW,
-+    FE_INEXACT   =
-+# define FE_INEXACT	(0x10)
-+      FE_INEXACT
-+  };
++/* Needed to elide the itemized copy code in common xstatconv.c.  */
++#define STAT_IS_KERNEL_STAT 1
 +
-+# define FE_ALL_EXCEPT \
-+	(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW | FE_UNDERFLOW | FE_INEXACT)
++/* Nice side-effect of 64-bit time_t switch is these are same.  */
++#define XSTAT_IS_XSTAT64 1
 +
-+enum
-+  {
-+    FE_TOWARDZERO =
-+# define FE_TOWARDZERO	(0x0)
-+      FE_TOWARDZERO,
-+    FE_TONEAREST  =
-+# define FE_TONEAREST	(0x1)
-+      FE_TONEAREST,
-+    FE_UPWARD     =
-+# define FE_UPWARD	(0x2)
-+      FE_UPWARD,
-+    FE_DOWNWARD   =
-+# define FE_DOWNWARD	(0x3)
-+      FE_DOWNWARD
-+  };
++#define STATFS_IS_STATFS64 0
+diff --git a/sysdeps/unix/sysv/linux/arc/libc.abilist b/sysdeps/unix/sysv/linux/arc/libc.abilist
+index a95b31434496..1e554c5be072 100644
+--- a/sysdeps/unix/sysv/linux/arc/libc.abilist
++++ b/sysdeps/unix/sysv/linux/arc/libc.abilist
+@@ -1,7 +1,7 @@
+ GLIBC_2.32 _Exit F
+-GLIBC_2.32 _IO_2_1_stderr_ D 0x98
+-GLIBC_2.32 _IO_2_1_stdin_ D 0x98
+-GLIBC_2.32 _IO_2_1_stdout_ D 0x98
++GLIBC_2.32 _IO_2_1_stderr_ D 0x9c
++GLIBC_2.32 _IO_2_1_stdin_ D 0x9c
++GLIBC_2.32 _IO_2_1_stdout_ D 0x9c
+ GLIBC_2.32 _IO_adjust_column F
+ GLIBC_2.32 _IO_adjust_wcolumn F
+ GLIBC_2.32 _IO_default_doallocate F
+diff --git a/sysdeps/unix/sysv/linux/arc/sysdep.h b/sysdeps/unix/sysv/linux/arc/sysdep.h
+index 77d815e882e5..9cd12a86a950 100644
+--- a/sysdeps/unix/sysv/linux/arc/sysdep.h
++++ b/sysdeps/unix/sysv/linux/arc/sysdep.h
+@@ -22,6 +22,18 @@
+ #include <sysdeps/arc/sysdep.h>
+ #include <sysdeps/unix/sysv/linux/generic/sysdep.h>
+ 
++/* ARC's version of asm-generic syscall ABI does provide fstat64 and fstatat64
++   but it not compatible with glibc 64-bit time_t based stat64. So undef them
++   to allow generic code to pick up statx syscall based wrappers which do the
++   explict interworking.
++   Similarly futex32 exists and works but we'd rather use futex64. But lll code
++   using futex expects __NR_futex hence the forced redefine
++   */
++#undef __NR_fstat64
++#undef __NR_fstatat64
++#undef __NR_futex
++#define __NR_futex __NR_futex_time64
 +
-+typedef unsigned int fexcept_t;
-+typedef unsigned int fenv_t;
-+
-+/* If the default argument is used we use this value.  */
-+#define FE_DFL_ENV	((const fenv_t *) -1)
-+
-+#if __GLIBC_USE (IEC_60559_BFP_EXT)
-+/* Type representing floating-point control modes.  */
-+typedef unsigned int femode_t;
-+
-+/* Default floating-point control modes.  */
-+# define FE_DFL_MODE	((const femode_t *) -1L)
-+#endif
-diff --git a/sysdeps/arc/nofpu/Implies b/sysdeps/arc/nofpu/Implies
-new file mode 100644
-index 000000000000..abcbadb25f22
---- /dev/null
-+++ b/sysdeps/arc/nofpu/Implies
-@@ -0,0 +1 @@
-+ieee754/soft-fp
-diff --git a/sysdeps/arc/nofpu/math-tests-exceptions.h b/sysdeps/arc/nofpu/math-tests-exceptions.h
-new file mode 100644
-index 000000000000..7d74720db94b
---- /dev/null
-+++ b/sysdeps/arc/nofpu/math-tests-exceptions.h
-@@ -0,0 +1,27 @@
-+/* Configuration for math tests. exceptions support ARC version.
-+   Copyright (C) 2017-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef ARC_NOFPU_MATH_TESTS_EXCEPTIONS_H
-+#define ARC_NOFPU_MATH_TESTS_EXCEPTIONS_H 1
-+
-+/* Soft-float doesnot support exceptions.  */
-+#define EXCEPTION_TESTS_float		0
-+#define EXCEPTION_TESTS_double		0
-+#define EXCEPTION_TESTS_long_double	0
-+
-+#endif
-diff --git a/sysdeps/arc/nofpu/math-tests-rounding.h b/sysdeps/arc/nofpu/math-tests-rounding.h
-new file mode 100644
-index 000000000000..6e5376cb35b5
---- /dev/null
-+++ b/sysdeps/arc/nofpu/math-tests-rounding.h
-@@ -0,0 +1,27 @@
-+/* Configuration for math tests: rounding mode support.  ARC version.
-+   Copyright (C) 2017-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef ARC_NOFPU_MATH_TESTS_ROUNDING_H
-+#define ARC_NOFPU_MATH_TESTS_ROUNDING_H 1
-+
-+/* Soft-float only supports to-nearest rounding mode.  */
-+#define ROUNDING_TESTS_float(MODE)		((MODE) == FE_TONEAREST)
-+#define ROUNDING_TESTS_double(MODE)		((MODE) == FE_TONEAREST)
-+#define ROUNDING_TESTS_long_double(MODE)	((MODE) == FE_TONEAREST)
-+
-+#endif
-diff --git a/sysdeps/arc/sfp-machine.h b/sysdeps/arc/sfp-machine.h
-new file mode 100644
-index 000000000000..c58615461deb
---- /dev/null
-+++ b/sysdeps/arc/sfp-machine.h
-@@ -0,0 +1,73 @@
-+/* Machine-dependent software floating-point definitions.  ARC version.
-+   Copyright (C) 2004-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+   Contributed by Richard Henderson (rth@cygnus.com),
-+		  Jakub Jelinek (jj@ultra.linux.cz) and
-+		  David S. Miller (davem@redhat.com).
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+
-+#define _FP_W_TYPE_SIZE		32
-+#define _FP_W_TYPE		unsigned long
-+#define _FP_WS_TYPE		signed long
-+#define _FP_I_TYPE		long
-+
-+#define _FP_MUL_MEAT_S(R,X,Y)				\
-+  _FP_MUL_MEAT_1_wide(_FP_WFRACBITS_S,R,X,Y,umul_ppmm)
-+#define _FP_MUL_MEAT_D(R,X,Y)				\
-+  _FP_MUL_MEAT_2_wide(_FP_WFRACBITS_D,R,X,Y,umul_ppmm)
-+#define _FP_MUL_MEAT_Q(R,X,Y)				\
-+  _FP_MUL_MEAT_4_wide(_FP_WFRACBITS_Q,R,X,Y,umul_ppmm)
-+
-+#define _FP_MUL_MEAT_DW_S(R,X,Y)				\
-+  _FP_MUL_MEAT_DW_1_wide(_FP_WFRACBITS_S,R,X,Y,umul_ppmm)
-+#define _FP_MUL_MEAT_DW_D(R,X,Y)				\
-+  _FP_MUL_MEAT_DW_2_wide(_FP_WFRACBITS_D,R,X,Y,umul_ppmm)
-+#define _FP_MUL_MEAT_DW_Q(R,X,Y)				\
-+  _FP_MUL_MEAT_DW_4_wide(_FP_WFRACBITS_Q,R,X,Y,umul_ppmm)
-+
-+#define _FP_DIV_MEAT_S(R,X,Y)	_FP_DIV_MEAT_1_loop(S,R,X,Y)
-+#define _FP_DIV_MEAT_D(R,X,Y)	_FP_DIV_MEAT_2_udiv(D,R,X,Y)
-+#define _FP_DIV_MEAT_Q(R,X,Y)	_FP_DIV_MEAT_4_udiv(Q,R,X,Y)
-+
-+#define _FP_NANFRAC_S		((_FP_QNANBIT_S << 1) - 1)
-+#define _FP_NANFRAC_D		((_FP_QNANBIT_D << 1) - 1), -1
-+#define _FP_NANFRAC_Q		((_FP_QNANBIT_Q << 1) - 1), -1, -1, -1
-+#define _FP_NANSIGN_S		0
-+#define _FP_NANSIGN_D		0
-+#define _FP_NANSIGN_Q		0
-+
-+#define _FP_KEEPNANFRACP 1
-+#define _FP_QNANNEGATEDP 0
-+
-+/* This is arbitrarily taken from the PowerPC version.  */
-+#define _FP_CHOOSENAN(fs, wc, R, X, Y, OP)			\
-+  do {								\
-+    if ((_FP_FRAC_HIGH_RAW_##fs(X) & _FP_QNANBIT_##fs)		\
-+	&& !(_FP_FRAC_HIGH_RAW_##fs(Y) & _FP_QNANBIT_##fs))	\
-+      {								\
-+	R##_s = Y##_s;						\
-+	_FP_FRAC_COPY_##wc(R,Y);				\
-+      }								\
-+    else							\
-+      {								\
-+	R##_s = X##_s;						\
-+	_FP_FRAC_COPY_##wc(R,X);				\
-+      }								\
-+    R##_c = FP_CLS_NAN;						\
-+  } while (0)
-+
-+#define _FP_TININESS_AFTER_ROUNDING 0
+ /* For RTLD_PRIVATE_ERRNO.  */
+ #include <dl-sysdep.h>
+ 
 -- 
 2.20.1
 
