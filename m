@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1B3DC10F00
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC89C10DCE
 	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:36 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 66A7F20665
+	by mail.kernel.org (Postfix) with ESMTPS id 66B4E2067C
 	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lgmvIYiH";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="WGrU80nN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 66A7F20665
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KselmhtI";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="TsnFmg+n"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 66B4E2067C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,47 +26,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=k5Oa5w8VQoexFN4EqEngQJSO0UtiW0vbtUK0kYFLRHQ=; b=lgmvIYiHIEFLsv
-	DwFdR+O+OvVxuOXdlFC1JzTb2msL79aIdtvWKIgXtUViNlU/j0Xv6DB4BE1Rnv57+NO7KOUH457Qa
-	FfRQd+GNw4GTESoRy3NdzvsEJsCp5AwqUqaiV2XcAKaO01+jEpYQ5YTNAvdQQEcJ8l38P0OWPfLGh
-	Xzwd/O77RUknBUvWA79SL0baAWxbZIY7dJhNsmKvtroJ2iK2x4VlnhBG71qWg72JzIeAsiiTMmGgK
-	cK4o/QH6YZnw+nkGNmfUHQjcJO/NBzTtaKoCOviSOmQymGL2jYTcRmkm8PqIp1O5s+lbGU5udYRVq
-	PYcJ0y4mQd4vgbUc6wtw==;
+	List-Owner; bh=w8t7U9dCwjuCyWeKLHPKuSlnfVx6QI2YL7YYddmJgR4=; b=KselmhtIOJTWKw
+	FGTCT4EZVaUNhqolft4Elka1s8X6it3sBZUU2VAnRIswUf3KtgcgEfjabIQmDS7RWhl4ZCXvlnExG
+	IYw0TJRLEnQkJDxvoTvH6LH9vWv3zniJ7pbBNHDtQs9j1M0SuAgshFgu7RHIoQr6xjEEZYaG4d39c
+	KBtVWjfuSpJAgGSjNq6F3pEcmkKYr7FUlgqC0w6ZT1u9biIOD2I8G2iQmybF4VnMsXOexnax8NK2A
+	e5H6bBqMH7RnbrOgoubjd0BQHC6nqzexivu/9Ira5ke/O3V2fF3vi/5xUP88E2IKhug8m5Cqk/kwm
+	RYD3AZoaQKd4DHUOh7Yg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jAHeD-0001Tf-O6; Fri, 06 Mar 2020 18:24:33 +0000
+	id 1jAHeD-0001Tt-Uo; Fri, 06 Mar 2020 18:24:33 +0000
 Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jAHeA-0001P4-Ae
+ id 1jAHeA-0001P3-AQ
  for linux-snps-arc@lists.infradead.org; Fri, 06 Mar 2020 18:24:32 +0000
 Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
  [10.205.2.132])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 7B471402EE;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 8BC85402FD;
  Fri,  6 Mar 2020 18:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1583519068; bh=ihQ1698NNIVP41Yi1yz+GD4LkKgoWQY3B6kXKGGmPLM=;
+ t=1583519068; bh=AJHvkrxICBWLX6S9YC3k68T727Rgh08Zogp5+ZQSeRA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WGrU80nN1Njm6T+/VPEZx5PPprGsUb98GWW3M84VSg96C4ZaBjJQgpDrcTvY7Pd4a
- At5RlnfOV+EfwsqqtcSR2DRJ5bo2FU1PAZO33VgtlJvrLFAxi7vqW8aVfLXwypxQXW
- /ufgNNw3V6t/OV+1dnfQrYRsTF3jojLD3zKn48QsMP9AGthI7viNPW7+eF3QxAyh6U
- bJUibvcncb26n7xq9yOXcQQ4r3eVY29fWOsoTNwVWaoiEOv00dbLeKN789dPi4rPnn
- kvg6pLU8dwLrW3cq7O6V7QXFc14NfWuCOfURRkChwTyUL6lsWH5FYLHGwrle04v8S3
- wuVajrZcHFqsg==
+ b=TsnFmg+n5/Cm4QoaIVuEmpvVN1gZkdmawBzdkk67aHBzK2+SbglyBokoWofDqOxhn
+ pcmSelDg1nLIN3lf9qLH55fMfGSGcFqbgGtl2QtHjAEmcawdY9L9jZ38OASoD93/Oo
+ RGZgvoewNM6+gA4TFe9aHpoqSkbo6BZ7hsFEy7RO1k7xryi09m6FOXTqBp1HOwbG2d
+ s4Sy/17fzY0kAK8Un3apRh/dy8xK47j8maSQTlCHCfZeXcGHrh+IWZ5J890kWXoXia
+ 3Mp+MuejFcUWeTvCONrBMUEd/5nNPVeEiavXJsV2Wl9NzdrDinQ6/AY7HFWXk7Gkrk
+ GYTwPxeM7mgEA==
 Received: from vineetg-Latitude-E7450.internal.synopsys.com
  (vineetg-latitude-e7450.internal.synopsys.com [10.10.161.28])
- by mailhost.synopsys.com (Postfix) with ESMTP id 595A2A0073;
+ by mailhost.synopsys.com (Postfix) with ESMTP id 67F31A0087;
  Fri,  6 Mar 2020 18:24:28 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v3 15/17] build-many-glibcs.py: Enable ARC builds
-Date: Fri,  6 Mar 2020 10:24:17 -0800
-Message-Id: <20200306182419.13945-16-vgupta@synopsys.com>
+Subject: [PATCH v3 16/17] NEWS: mention ARC port
+Date: Fri,  6 Mar 2020 10:24:18 -0800
+Message-Id: <20200306182419.13945-17-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200306182419.13945-1-vgupta@synopsys.com>
 References: <20200306182419.13945-1-vgupta@synopsys.com>
 MIME-Version: 1.0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200306_102430_378047_44F237E3 
+X-CRM114-Status: UNSURE (   7.04  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,34 +91,26 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- scripts/build-many-glibcs.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ NEWS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/scripts/build-many-glibcs.py b/scripts/build-many-glibcs.py
-index 0f6c4a5e3a08..011a30494e1a 100755
---- a/scripts/build-many-glibcs.py
-+++ b/scripts/build-many-glibcs.py
-@@ -162,6 +162,12 @@ class Context(object):
-                                        'cfg': ['--disable-multi-arch']}])
-         self.add_config(arch='aarch64_be',
-                         os_name='linux-gnu')
-+        self.add_config(arch='arc',
-+                        os_name='linux-gnu',
-+                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38'])
-+        self.add_config(arch='arc',
-+                        os_name='linux-gnuhf',
-+                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38_linux'])
-         self.add_config(arch='alpha',
-                         os_name='linux-gnu')
-         self.add_config(arch='arm',
-@@ -1239,6 +1245,7 @@ def install_linux_headers(policy, cmdlist):
-     """Install Linux kernel headers."""
-     arch_map = {'aarch64': 'arm64',
-                 'alpha': 'alpha',
-+                'arc': 'arc',
-                 'arm': 'arm',
-                 'csky': 'csky',
-                 'hppa': 'parisc',
+diff --git a/NEWS b/NEWS
+index 58ab5a89e894..923dd18d1478 100644
+--- a/NEWS
++++ b/NEWS
+@@ -17,6 +17,12 @@ Major new features:
+     - rv32imafdc ilp32
+     - rv32imafdc ilp32d
+ 
++* Support for ARC HS cores running Linux has been contributed by Synopsys.
++  Port requires atleast
++    - binutils-2.31 (binutils-2_31-branch: commit 6ce881c15fc4, 2018-10-04)
++    - gcc 8.2 (gcc-8-stable: commit 0d5ba57508c5, 2019-01-29)
++    - Linux kernel 5.1+
++
+ Deprecated and removed features, and other changes affecting compatibility:
+ 
+   [Add deprecations, removals and changes affecting compatibility here]
 -- 
 2.20.1
 
