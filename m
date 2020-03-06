@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50A0AC3F2D6
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E553EC10F26
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 23DB420665
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B83A420665
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Mar 2020 18:24:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K9ns+gmz";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="IJN8KpTa"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23DB420665
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sYX/dkR5";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="PhGfbVoF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B83A420665
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,48 +26,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Roc0Xhu4+0fKqHrEBNagys+TnOnTcIl2Lla/zd2+/Fw=; b=K9ns+gmzuzx9C3
-	dFH8znoZfHpDUm8k4OEgAscuXV3FUFDpCgwk0bNMFGd1X49szJSnBObFJUJcl7cQcldyoSmCjacf+
-	KM6zduC/yOgkZxnBd3j7tS7QwAqie+StAhSDvoB/BVKJ9C6Eb9dl/szLgFl3PQvrHQGYpHP03NZ2H
-	fb4ipCQxXg3Su5Xkdv5tWzE7xaubfQvpuIO9/SfDk/H4SY1HrR5CSNqZ0vJZiCSv7ge8McKSq1FMk
-	PlUV99nwZP5FSvl4Bzvhg/Y3o9+cmmBmePQk6kik6Lt8w2vVHMUwKsZ/C3Z8jBF4AhCRSiPO2TtJs
-	kfQv7ZUHRUkk6xzFIdHA==;
+	List-Owner; bh=keVOY3FUrGqKlBJTJuqi446+70TDpRTdSowzlJqBdeE=; b=sYX/dkR5rBDwUt
+	C5OROtjJF2o+xclx36tSA5PESxsywNR6yNVxbK9KLACUrRaaIketQQH7FhZRPhQXXKLDrBu9ntqkQ
+	VtrbnUxINAlG//Ar5nLavCW8uJ6witKN3LZDhDFmH4FS8p/leEBsM95BcyZinLu/1XGmcG/ZyRfMK
+	mhYS3at9nH5Sa4RNCbjGGlJ/vtZakMLYZuT9o+zbTny9iOUSwOxXBruje4Zy7pwrfHv/u3H8Arb8I
+	o31AxCaHN5Nw8kXNyJkS4ShUYttfhl3ZPAC1Db57qr4YdxhMG4dh/Xn8GACEJHn21O0/yyhE+oj8B
+	DMq9C/COIKECkNOen+aw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jAHeH-0001Vo-SC; Fri, 06 Mar 2020 18:24:37 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1jAHeM-0001ZH-Ug; Fri, 06 Mar 2020 18:24:42 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jAHeA-0001P2-A8
- for linux-snps-arc@lists.infradead.org; Fri, 06 Mar 2020 18:24:34 +0000
+ id 1jAHeA-0001Ov-4h
+ for linux-snps-arc@lists.infradead.org; Fri, 06 Mar 2020 18:24:39 +0000
 Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
  [10.205.2.132])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 9E7404033D;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 047D6C00CC;
  Fri,  6 Mar 2020 18:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1583519068; bh=bLPhwK/uyXv5STMjWdMbYozeJaQn/2CfXOn2ABQU+zQ=;
+ t=1583519068; bh=Bh17Bz4wYiIlEQ5IKpFYO0f8T25LjZRcgqEI7wxuuXg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IJN8KpTanhzIwUiSJqMKhsJJbyb3/GXASBP+QsuXM3LhtCt0vfR3l8K2SLQE4Kay3
- Utj97rkeSD1eeLYw2zPDW09b7dBhUK6isFt4o/9m6SC7F2xg6nXVEuEqtaXaOPiWRr
- Nrg8Kjf0HBRizL7nzJZa9fjEsMWEpstOXyc3B4wrwyQvRKGi4OyYHxQLyuNnDt8xmP
- Y10x7r14Xtf4PPeJCG9Y+w81bSV9tFdkGuSqMCtAHyT+CajUH/6kF/wLFopR4UtgU3
- QNosS6lMEuolY4h4s5c+xFUpFqOBqMsDY2efsKVEiT4oiww9vBI/oOQG/XoSPjCdcl
- z1mlWUx5HvLNw==
+ b=PhGfbVoFaIHZYn3DJG0hWyrByeDU0aNQaMIrtaINT/WAOt4eq0mi1LBRkH58tWQAF
+ z3WsszAKl4wIyuHpV5bJJz98KFe73xIb1iKW7aLLtQCSwlHZDWPn+SjlCtdYsEcAcF
+ Ve427Xg7bbxxtfvV4bsfN5O1Qb6RKf7PQpFuJhV4PLLLa2GQ8Hu1acjoTEnM2ZsUdZ
+ dNMJ29zF7fFR0zXtekwCOde49eqsHftFx2DWC2H7ODUdONraidTCJdoUXD19fjM6Kf
+ /U8FC5v6Ga1u9P8hA9aPZSH9BDruyvQoOa1hxDmzBMmzEyHN/cBDnGuJ00J05V1AN1
+ j098SCm2hAPjg==
 Received: from vineetg-Latitude-E7450.internal.synopsys.com
  (vineetg-latitude-e7450.internal.synopsys.com [10.10.161.28])
- by mailhost.synopsys.com (Postfix) with ESMTP id 76D6DA0075;
- Fri,  6 Mar 2020 18:24:28 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id BC95BA0082;
+ Fri,  6 Mar 2020 18:24:27 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v3 17/17] ARC: changes to enable 64-bit time_t, off_t,
- ino_t etc
-Date: Fri,  6 Mar 2020 10:24:19 -0800
-Message-Id: <20200306182419.13945-18-vgupta@synopsys.com>
+Subject: [PATCH v3 05/17] ARC: Thread Local Storage support
+Date: Fri,  6 Mar 2020 10:24:07 -0800
+Message-Id: <20200306182419.13945-6-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200306182419.13945-1-vgupta@synopsys.com>
 References: <20200306182419.13945-1-vgupta@synopsys.com>
 MIME-Version: 1.0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200306_102430_292979_7CD2B1DC 
+X-CRM114-Status: GOOD (  16.58  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,145 +88,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+This includes all 4 TLS addressing models
+
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- .../sysv/linux/arc/bits/socket-constants.h    |  4 +--
- sysdeps/unix/sysv/linux/arc/bits/timesize.h   | 21 +++++++++++++++
- sysdeps/unix/sysv/linux/arc/c++-types.data    | 16 ++++++------
- sysdeps/unix/sysv/linux/arc/configure         |  2 +-
- sysdeps/unix/sysv/linux/arc/configure.ac      |  2 +-
- sysdeps/unix/sysv/linux/arc/kernel_stat.h     | 26 +++++++++++++++++++
- sysdeps/unix/sysv/linux/arc/libc.abilist      |  6 ++---
- sysdeps/unix/sysv/linux/arc/sysdep.h          | 12 +++++++++
- 8 files changed, 74 insertions(+), 15 deletions(-)
- create mode 100644 sysdeps/unix/sysv/linux/arc/bits/timesize.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/kernel_stat.h
+ sysdeps/arc/dl-tls.h             |  30 +++++++
+ sysdeps/arc/libc-tls.c           |  27 ++++++
+ sysdeps/arc/nptl/tcb-offsets.sym |  11 +++
+ sysdeps/arc/nptl/tls.h           | 150 +++++++++++++++++++++++++++++++
+ sysdeps/arc/stackinfo.h          |  33 +++++++
+ 5 files changed, 251 insertions(+)
+ create mode 100644 sysdeps/arc/dl-tls.h
+ create mode 100644 sysdeps/arc/libc-tls.c
+ create mode 100644 sysdeps/arc/nptl/tcb-offsets.sym
+ create mode 100644 sysdeps/arc/nptl/tls.h
+ create mode 100644 sysdeps/arc/stackinfo.h
 
-diff --git a/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h b/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
-index 053b5cee399a..74b0c06edb36 100644
---- a/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
-+++ b/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
-@@ -30,9 +30,9 @@
- #define SO_OOBINLINE 10
- #define SO_RCVBUF 8
- #define SO_RCVLOWAT 18
--#define SO_RCVTIMEO 20
-+#define SO_RCVTIMEO 66
- #define SO_REUSEADDR 2
- #define SO_SNDBUF 7
- #define SO_SNDLOWAT 19
--# define SO_SNDTIMEO 21
-+# define SO_SNDTIMEO 67
- #define SO_TYPE 3
-diff --git a/sysdeps/unix/sysv/linux/arc/bits/timesize.h b/sysdeps/unix/sysv/linux/arc/bits/timesize.h
+diff --git a/sysdeps/arc/dl-tls.h b/sysdeps/arc/dl-tls.h
 new file mode 100644
-index 000000000000..1259077c6412
+index 000000000000..2269ac6c3daa
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/bits/timesize.h
-@@ -0,0 +1,21 @@
-+/* Bit size of the time_t type at glibc build time, general case.
-+   Copyright (C) 2019-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <http://www.gnu.org/licenses/>.  */
-+
-+#include <bits/wordsize.h>
-+
-+#define __TIMESIZE	64
-diff --git a/sysdeps/unix/sysv/linux/arc/c++-types.data b/sysdeps/unix/sysv/linux/arc/c++-types.data
-index 303f4570c8ee..0fb0143ae746 100644
---- a/sysdeps/unix/sysv/linux/arc/c++-types.data
-+++ b/sysdeps/unix/sysv/linux/arc/c++-types.data
-@@ -1,5 +1,5 @@
- blkcnt64_t:x
--blkcnt_t:l
-+blkcnt_t:x
- blksize_t:i
- caddr_t:Pc
- clockid_t:i
-@@ -8,14 +8,14 @@ daddr_t:i
- dev_t:y
- fd_mask:l
- fsblkcnt64_t:y
--fsblkcnt_t:m
-+fsblkcnt_t:y
- fsfilcnt64_t:y
--fsfilcnt_t:m
-+fsfilcnt_t:y
- fsid_t:8__fsid_t
- gid_t:j
- id_t:j
- ino64_t:y
--ino_t:m
-+ino_t:y
- int16_t:s
- int32_t:i
- int64_t:x
-@@ -26,7 +26,7 @@ loff_t:x
- mode_t:j
- nlink_t:j
- off64_t:x
--off_t:l
-+off_t:x
- pid_t:i
- pthread_attr_t:14pthread_attr_t
- pthread_barrier_t:17pthread_barrier_t
-@@ -44,13 +44,13 @@ pthread_t:m
- quad_t:x
- register_t:i
- rlim64_t:y
--rlim_t:m
-+rlim_t:y
- sigset_t:10__sigset_t
- size_t:j
- socklen_t:j
- ssize_t:i
--suseconds_t:l
--time_t:l
-+suseconds_t:x
-+time_t:x
- u_char:h
- uid_t:j
- uint:j
-diff --git a/sysdeps/unix/sysv/linux/arc/configure b/sysdeps/unix/sysv/linux/arc/configure
-index f74fa7cb0259..56ec14357507 100644
---- a/sysdeps/unix/sysv/linux/arc/configure
-+++ b/sysdeps/unix/sysv/linux/arc/configure
-@@ -1,4 +1,4 @@
- # This file is generated from configure.in by Autoconf.  DO NOT EDIT!
-  # Local configure fragment for sysdeps/unix/sysv/linux/arc.
- 
--arch_minimum_kernel=3.9.0
-+arch_minimum_kernel=5.1.0
-diff --git a/sysdeps/unix/sysv/linux/arc/configure.ac b/sysdeps/unix/sysv/linux/arc/configure.ac
-index a9528032d32a..8af5a12cc248 100644
---- a/sysdeps/unix/sysv/linux/arc/configure.ac
-+++ b/sysdeps/unix/sysv/linux/arc/configure.ac
-@@ -1,4 +1,4 @@
- GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
- # Local configure fragment for sysdeps/unix/sysv/linux/arc.
- 
--arch_minimum_kernel=3.9.0
-+arch_minimum_kernel=5.1.0
-diff --git a/sysdeps/unix/sysv/linux/arc/kernel_stat.h b/sysdeps/unix/sysv/linux/arc/kernel_stat.h
-new file mode 100644
-index 000000000000..8fdd86b9e843
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/kernel_stat.h
-@@ -0,0 +1,26 @@
-+/* Copyright (C) 2020 Free Software Foundation, Inc.
++++ b/sysdeps/arc/dl-tls.h
+@@ -0,0 +1,30 @@
++/* Thread-local storage handling in the ELF dynamic linker.  ARC version.
++   Copyright (C) 2012-2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
@@ -241,53 +128,263 @@ index 000000000000..8fdd86b9e843
 +   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#include <bits/wordsize.h>
 +
-+/* Needed to elide the itemized copy code in common xstatconv.c.  */
-+#define STAT_IS_KERNEL_STAT 1
++/* Type used for the representation of TLS information in the GOT.  */
++typedef struct
++{
++  unsigned long int ti_module;
++  unsigned long int ti_offset;
++} tls_index;
 +
-+/* Nice side-effect of 64-bit time_t switch is these are same.  */
-+#define XSTAT_IS_XSTAT64 1
++extern void *__tls_get_addr (tls_index *ti);
 +
-+#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/arc/libc.abilist b/sysdeps/unix/sysv/linux/arc/libc.abilist
-index a95b31434496..1e554c5be072 100644
---- a/sysdeps/unix/sysv/linux/arc/libc.abilist
-+++ b/sysdeps/unix/sysv/linux/arc/libc.abilist
-@@ -1,7 +1,7 @@
- GLIBC_2.32 _Exit F
--GLIBC_2.32 _IO_2_1_stderr_ D 0x98
--GLIBC_2.32 _IO_2_1_stdin_ D 0x98
--GLIBC_2.32 _IO_2_1_stdout_ D 0x98
-+GLIBC_2.32 _IO_2_1_stderr_ D 0x9c
-+GLIBC_2.32 _IO_2_1_stdin_ D 0x9c
-+GLIBC_2.32 _IO_2_1_stdout_ D 0x9c
- GLIBC_2.32 _IO_adjust_column F
- GLIBC_2.32 _IO_adjust_wcolumn F
- GLIBC_2.32 _IO_default_doallocate F
-diff --git a/sysdeps/unix/sysv/linux/arc/sysdep.h b/sysdeps/unix/sysv/linux/arc/sysdep.h
-index 77d815e882e5..9cd12a86a950 100644
---- a/sysdeps/unix/sysv/linux/arc/sysdep.h
-+++ b/sysdeps/unix/sysv/linux/arc/sysdep.h
-@@ -22,6 +22,18 @@
- #include <sysdeps/arc/sysdep.h>
- #include <sysdeps/unix/sysv/linux/generic/sysdep.h>
- 
-+/* ARC's version of asm-generic syscall ABI does provide fstat64 and fstatat64
-+   but it not compatible with glibc 64-bit time_t based stat64. So undef them
-+   to allow generic code to pick up statx syscall based wrappers which do the
-+   explict interworking.
-+   Similarly futex32 exists and works but we'd rather use futex64. But lll code
-+   using futex expects __NR_futex hence the forced redefine
-+   */
-+#undef __NR_fstat64
-+#undef __NR_fstatat64
-+#undef __NR_futex
-+#define __NR_futex __NR_futex_time64
++/* Value used for dtv entries for which the allocation is delayed.  */
++#define TLS_DTV_UNALLOCATED	((void *) -1l)
+diff --git a/sysdeps/arc/libc-tls.c b/sysdeps/arc/libc-tls.c
+new file mode 100644
+index 000000000000..ec88282de60e
+--- /dev/null
++++ b/sysdeps/arc/libc-tls.c
+@@ -0,0 +1,27 @@
++/* Thread-local storage handling in the ELF dynamic linker.  ARC version.
++   Copyright (C) 2005-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
 +
- /* For RTLD_PRIVATE_ERRNO.  */
- #include <dl-sysdep.h>
- 
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include <csu/libc-tls.c>
++#include <dl-tls.h>
++
++void *
++__tls_get_addr (tls_index *ti)
++{
++  dtv_t *dtv = THREAD_DTV ();
++  return (char *) dtv[1].pointer.val + ti->ti_offset;
++}
+diff --git a/sysdeps/arc/nptl/tcb-offsets.sym b/sysdeps/arc/nptl/tcb-offsets.sym
+new file mode 100644
+index 000000000000..56950e0676ed
+--- /dev/null
++++ b/sysdeps/arc/nptl/tcb-offsets.sym
+@@ -0,0 +1,11 @@
++#include <sysdep.h>
++#include <tls.h>
++
++-- Derive offsets relative to the thread register.
++#define thread_offsetof(mem)	(long)(offsetof(struct pthread, mem) - sizeof(struct pthread))
++
++MULTIPLE_THREADS_OFFSET		offsetof (struct pthread, header.multiple_threads)
++TLS_PRE_TCB_SIZE		sizeof (struct pthread)
++TLS_TCB_SIZE            	sizeof(tcbhead_t)
++
++PTHREAD_TID			offsetof(struct pthread, tid)
+diff --git a/sysdeps/arc/nptl/tls.h b/sysdeps/arc/nptl/tls.h
+new file mode 100644
+index 000000000000..d6b166c1f92b
+--- /dev/null
++++ b/sysdeps/arc/nptl/tls.h
+@@ -0,0 +1,150 @@
++/* Definition for thread-local data handling.  NPTL/ARC version.
++   Copyright (C) 2012-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _ARC_NPTL_TLS_H
++#define _ARC_NPTL_TLS_H	1
++
++#include <dl-sysdep.h>
++
++#ifndef __ASSEMBLER__
++# include <stdbool.h>
++# include <stddef.h>
++# include <stdint.h>
++
++#include <dl-dtv.h>
++
++/* Get system call information.  */
++# include <sysdep.h>
++
++/* The TLS blocks start right after the TCB.  */
++# define TLS_DTV_AT_TP	1
++# define TLS_TCB_AT_TP	0
++
++/* Get the thread descriptor definition.  */
++# include <nptl/descr.h>
++
++typedef struct
++{
++  dtv_t *dtv;
++  uintptr_t pointer_guard;
++} tcbhead_t;
++
++register struct pthread *__thread_self __asm__("r25");
++
++/* This is the size of the initial TCB.  */
++# define TLS_INIT_TCB_SIZE	sizeof (tcbhead_t)
++
++/* Alignment requirements for the initial TCB.  */
++# define TLS_INIT_TCB_ALIGN	__alignof__ (struct pthread)
++
++/* This is the size of the TCB.  */
++#ifndef TLS_TCB_SIZE
++# define TLS_TCB_SIZE		sizeof (tcbhead_t)
++#endif
++
++/* Alignment requirements for the TCB.  */
++# define TLS_TCB_ALIGN		__alignof__ (struct pthread)
++
++/* This is the size we need before TCB.  */
++# define TLS_PRE_TCB_SIZE	sizeof (struct pthread)
++
++/* Install the dtv pointer.  The pointer passed is to the element with
++   index -1 which contain the length.  */
++# define INSTALL_DTV(tcbp, dtvp) \
++  (((tcbhead_t *) (tcbp))->dtv = (dtvp) + 1)
++
++/* Install new dtv for current thread.  */
++# define INSTALL_NEW_DTV(dtv) \
++  (THREAD_DTV() = (dtv))
++
++/* Return dtv of given thread descriptor.  */
++# define GET_DTV(tcbp) \
++  (((tcbhead_t *) (tcbp))->dtv)
++
++/* Code to initially initialize the thread pointer.  */
++# define TLS_INIT_TP(tcbp)			\
++  ({                                            \
++	long result_var;			\
++	__builtin_set_thread_pointer(tcbp);     \
++	result_var = INTERNAL_SYSCALL (arc_settls, err, 1, (tcbp));	\
++	INTERNAL_SYSCALL_ERROR_P (result_var, err)			\
++	? "unknown error" : NULL;		\
++   })
++
++/* Value passed to 'clone' for initialization of the thread register.  */
++# define TLS_DEFINE_INIT_TP(tp, pd) void *tp = (pd) + 1
++
++/* Return the address of the dtv for the current thread.  */
++# define THREAD_DTV() \
++  (((tcbhead_t *) __builtin_thread_pointer ())->dtv)
++
++/* Return the thread descriptor for the current thread.  */
++# define THREAD_SELF \
++ ((struct pthread *)__builtin_thread_pointer () - 1)
++
++/* Magic for libthread_db to know how to do THREAD_SELF.  */
++# define DB_THREAD_SELF \
++  CONST_THREAD_AREA (32, sizeof (struct pthread))
++
++/* Access to data in the thread descriptor is easy.  */
++# define THREAD_GETMEM(descr, member) \
++  descr->member
++# define THREAD_GETMEM_NC(descr, member, idx) \
++  descr->member[idx]
++# define THREAD_SETMEM(descr, member, value) \
++  descr->member = (value)
++# define THREAD_SETMEM_NC(descr, member, idx, value) \
++  descr->member[idx] = (value)
++
++/* Get and set the global scope generation counter in struct pthread.  */
++#define THREAD_GSCOPE_IN_TCB      1
++#define THREAD_GSCOPE_FLAG_UNUSED 0
++#define THREAD_GSCOPE_FLAG_USED   1
++#define THREAD_GSCOPE_FLAG_WAIT   2
++#define THREAD_GSCOPE_RESET_FLAG() \
++  do									     \
++    { int __res								     \
++	= atomic_exchange_rel (&THREAD_SELF->header.gscope_flag,	     \
++			       THREAD_GSCOPE_FLAG_UNUSED);		     \
++      if (__res == THREAD_GSCOPE_FLAG_WAIT)				     \
++	lll_futex_wake (&THREAD_SELF->header.gscope_flag, 1, LLL_PRIVATE);   \
++    }									     \
++  while (0)
++#define THREAD_GSCOPE_SET_FLAG() \
++  do									     \
++    {									     \
++      THREAD_SELF->header.gscope_flag = THREAD_GSCOPE_FLAG_USED;	     \
++      atomic_write_barrier ();						     \
++    }									     \
++  while (0)
++#define THREAD_GSCOPE_WAIT() \
++  GL(dl_wait_lookup_done) ()
++
++#else
++
++# include <tcb-offsets.h>
++
++# r25 is dedicated TLS register for ARC
++.macro THREAD_SELF reg
++	# struct pthread is just ahead of TCB
++	sub     \reg, r25, TLS_PRE_TCB_SIZE
++.endm
++
++#endif /* __ASSEMBLER__ */
++
++#endif	/* tls.h */
+diff --git a/sysdeps/arc/stackinfo.h b/sysdeps/arc/stackinfo.h
+new file mode 100644
+index 000000000000..911efd928675
+--- /dev/null
++++ b/sysdeps/arc/stackinfo.h
+@@ -0,0 +1,33 @@
++/* Stack environment definitions for ARC.
++   Copyright (C) 2012-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++/* This file contains a bit of information about the stack allocation
++   of the processor.  */
++
++#ifndef _STACKINFO_H
++#define _STACKINFO_H	1
++
++#include <elf.h>
++
++/* On ARC the stack grows down.  */
++#define _STACK_GROWS_DOWN	1
++
++/* Default to a non-executable stack.  */
++#define DEFAULT_STACK_PERMS (PF_R|PF_W)
++
++#endif	/* stackinfo.h */
 -- 
 2.20.1
 
