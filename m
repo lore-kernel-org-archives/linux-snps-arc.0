@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8552C10DCE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC808C2BB1D
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Mar 2020 03:04:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4956920716
+	by mail.kernel.org (Postfix) with ESMTPS id 4E20C2071C
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Mar 2020 03:04:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="baD40noG";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ln/bH/m+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4956920716
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FvR+lY6h";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="loqinvs/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E20C2071C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,50 +26,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=NRsZhRU8ddkgFj8G4r7UaEVeyg3y4+HE37wL7o9Ifio=; b=baD40noGuT0Aib
-	RKNE77Qk8QHb+1SaLqhaKlIXYWOvvepDKqLnV1mtO3rIq/e2SiMSaDClLmkUpnus2tTRuRQnwmZyH
-	OsqtiLVT7J7s0n4QzFkY0UZQRCNxtTvIgTveuC4QdWCQJrPeInqG8dNWCv0vOWHjfEyjm0MSaWRXl
-	c8E+v2jTTmqDyfbSnG2y0nqysX38QcjReTtWI5bNbUlZomi/3qXAkIWihQ/hZcx/6O8pRGnZSZyLa
-	0tohOCclLbUFy9MlvkCobNPVVkkvh3wOCIITiNUn9ufGzzhjkpxvv8lVt0JBDoQiYKGUP6JlMzvLd
-	HI2mFROgAPLiogDn58BQ==;
+	List-Owner; bh=2llHVhFEp4lnbe1mdL3isymzzLH+DAMo29hpFpPjej0=; b=FvR+lY6hT8nsX1
+	zJf4HLNzD/G1Owy2QAaKwYe801MybyK8UnUyQ1Aw6sQj7M22h/icZV9PiZnMyLLO8OtRnN2G+Hq26
+	KSn1hE3cMfidxMukxN/2AspxMaU3gDOK+k3CbhKRLoJAEVmAK9xhVdCudTb+vtyybtekygFzZHHyY
+	FX4xW2S/55w7ooqfOLTbJpUpFbvt2ohP5NB18zAU6Ff+SwzfudRASme2VPWY+15dWf1v1AJ5rBi3x
+	TmW4NSFPgzvmqoo5ChC3jtKoMxUFFAg+5liS2N6hwU/flfp2koQQpcMmihZbRIwq3YaBw1ygsQQ0v
+	hg4MpNk3fmOLeFNy/yAg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jCacn-0003Vw-Mq; Fri, 13 Mar 2020 03:04:37 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1jCacl-0003Uz-55; Fri, 13 Mar 2020 03:04:35 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jCaci-0003RV-1X
- for linux-snps-arc@lists.infradead.org; Fri, 13 Mar 2020 03:04:35 +0000
+ id 1jCaci-0003Ra-1C
+ for linux-snps-arc@lists.infradead.org; Fri, 13 Mar 2020 03:04:34 +0000
 Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
  [10.205.2.132])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 90289C0F93;
- Fri, 13 Mar 2020 03:04:30 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C37BA40216;
+ Fri, 13 Mar 2020 03:04:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1584068670; bh=XzFb4IuvvCGoe9eR97CdUcms/QcI3Ijj19X3a+vZnB8=;
+ t=1584068671; bh=DQ7Wp8SF/Yprpmt1Qbl/218IapMHdSTTFFCI4epvKtI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ln/bH/m+/vZEpiayKE+Hscd7F+m9wU/Z92k0knFWCx8Sv/y6wUWtMZnJhMxK1N10G
- ger1qZZZdchTa3x3MjRqVvho5/tCeRtlu3t3wDE/xg8wwDI6jk+msd29imClOQarVd
- KO0AaM5hCbcU6BCw2F1nShsQJ21fqsxF/td/C6HRneIpKCrV8axwBIVD9RBQnOfBHx
- xyBvEoDTwJ/wR9Y6UTnjmCHCs15FiW5J383NsSm5aLeVszIFMIAV0I6a3yMrhXu98o
- I6jMCSNh4QXwXiZUmNGCaDnb9ryvrs6FMlxgizHc+ZImEh0DhoJ5DKt6XgoHIgimx8
- JQbXp657Yvl4w==
+ b=loqinvs/MaMFucFAPtJC7PX5XFpPcRExmV1iL0g5mT6xWMo6NcIME/lpptJYsY9pO
+ K0kvafG3CyaNn5JgBHycyK3Q5iXo1ci8BJvrwgUHhUr9vuSmBX3RJsBMw1TFWG09bl
+ tY/+BFrJHnbk1RyAkKI1Nrnv238O879xVmx0EOYiKx7y1oNty0XuXDyZxlZhNIswyT
+ HMEgw289LWJSqSLCXXk2RsxSvAooNKSSE5lMLUXip6DHvcbAUzBVRea981vvp4MJ8C
+ kIRjc/hJSh8B/Dygyx2BV+gQvOy/OOQxR++Z1BS0XPz5CBu4MIX/mWRCxADja2U4jl
+ Qtym76EBWBt+Q==
 Received: from vineetg-Latitude-E7450.internal.synopsys.com (unknown
  [10.13.182.230])
- by mailhost.synopsys.com (Postfix) with ESMTP id 4AB72A007D;
- Fri, 13 Mar 2020 03:04:30 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 92780A0082;
+ Fri, 13 Mar 2020 03:04:31 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v4 05/15] ARC: Atomics and Locking primitives
-Date: Thu, 12 Mar 2020 20:04:09 -0700
-Message-Id: <20200313030419.15843-6-vgupta@synopsys.com>
+Subject: [PATCH v4 10/15] ARC: Linux Startup and Dynamic Loading
+Date: Thu, 12 Mar 2020 20:04:14 -0700
+Message-Id: <20200313030419.15843-11-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200313030419.15843-1-vgupta@synopsys.com>
 References: <20200313030419.15843-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200312_200432_162374_B83E145D 
-X-CRM114-Status: GOOD (  12.72  )
+X-CRM114-CacheID: sfid-20200312_200432_111151_26A9D1C0 
+X-CRM114-Status: GOOD (  17.46  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,20 +90,61 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- sysdeps/arc/atomic-machine.h      | 73 +++++++++++++++++++++++++++++++
- sysdeps/arc/nptl/bits/semaphore.h | 32 ++++++++++++++
- 2 files changed, 105 insertions(+)
- create mode 100644 sysdeps/arc/atomic-machine.h
- create mode 100644 sysdeps/arc/nptl/bits/semaphore.h
+ sysdeps/arc/start.S                     | 15 +++--
+ sysdeps/unix/sysv/linux/arc/dl-static.c | 84 +++++++++++++++++++++++++
+ sysdeps/unix/sysv/linux/arc/ldsodefs.h  | 32 ++++++++++
+ 3 files changed, 125 insertions(+), 6 deletions(-)
+ create mode 100644 sysdeps/unix/sysv/linux/arc/dl-static.c
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ldsodefs.h
 
-diff --git a/sysdeps/arc/atomic-machine.h b/sysdeps/arc/atomic-machine.h
+diff --git a/sysdeps/arc/start.S b/sysdeps/arc/start.S
+index e006453dcd1f..25e43d71da9e 100644
+--- a/sysdeps/arc/start.S
++++ b/sysdeps/arc/start.S
+@@ -18,6 +18,8 @@
+ 
+ #define __ASSEMBLY__ 1
+ #include <entry.h>
++#include <sysdep.h>
++
+ #ifndef ENTRY_POINT
+ # error ENTRY_POINT needs to be defined for ARC
+ #endif
+@@ -31,11 +33,12 @@
+         env[0...N]      environment variables (pointers)
+         NULL.  */
+ 
+-	.text
+-	.align 4
+-	.global __start
+-	.type __start,@function
+-__start:
++ENTRY (ENTRY_POINT)
++
++	/* Needed to make gdb backtraces stop here.  */
++	.cfi_label .Ldummy
++	cfi_undefined (blink)
++
+ 	mov	fp, 0
+ 	ld_s	r1, [sp]	; argc
+ 
+@@ -60,7 +63,7 @@ __start:
+ 
+ 	/* Should never get here.  */
+ 	flag    1
+-	.size  __start,.-__start
++END (ENTRY_POINT)
+ 
+ /* Define a symbol for the first piece of initialized data.  */
+ 	.data
+diff --git a/sysdeps/unix/sysv/linux/arc/dl-static.c b/sysdeps/unix/sysv/linux/arc/dl-static.c
 new file mode 100644
-index 000000000000..ae16c607dcc4
+index 000000000000..24c31b27fc11
 --- /dev/null
-+++ b/sysdeps/arc/atomic-machine.h
-@@ -0,0 +1,73 @@
-+/* Low-level functions for atomic operations. ARC version.
-+   Copyright (C) 2012-2020 Free Software Foundation, Inc.
++++ b/sysdeps/unix/sysv/linux/arc/dl-static.c
+@@ -0,0 +1,84 @@
++/* Variable initialization.  ARC version.
++   Copyright (C) 2001-2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
@@ -120,69 +161,80 @@ index 000000000000..ae16c607dcc4
 +   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#ifndef _ARC_BITS_ATOMIC_H
-+#define _ARC_BITS_ATOMIC_H 1
++#include <ldsodefs.h>
 +
-+#include <stdint.h>
++#ifdef SHARED
 +
-+typedef int32_t atomic32_t;
-+typedef uint32_t uatomic32_t;
-+typedef int_fast32_t atomic_fast32_t;
-+typedef uint_fast32_t uatomic_fast32_t;
++void
++_dl_var_init (void *array[])
++{
++  /* It has to match "variables" below. */
++  enum
++    {
++      DL_PAGESIZE = 0
++    };
 +
-+typedef intptr_t atomicptr_t;
-+typedef uintptr_t uatomicptr_t;
-+typedef intmax_t atomic_max_t;
-+typedef uintmax_t uatomic_max_t;
++  GLRO(dl_pagesize) = *((size_t *) array[DL_PAGESIZE]);
++}
 +
-+#define __HAVE_64B_ATOMICS 0
-+#define USE_ATOMIC_COMPILER_BUILTINS 1
-+
-+/* ARC does have legacy atomic EX reg, [mem] instruction but the micro-arch
-+   is not as optimal as LLOCK/SCOND specially for SMP.  */
-+#define ATOMIC_EXCHANGE_USES_CAS 1
-+
-+#define __arch_compare_and_exchange_bool_8_acq(mem, newval, oldval)	\
-+  (abort (), 0)
-+#define __arch_compare_and_exchange_bool_16_acq(mem, newval, oldval)	\
-+  (abort (), 0)
-+#define __arch_compare_and_exchange_bool_64_acq(mem, newval, oldval)	\
-+  (abort (), 0)
-+
-+#define __arch_compare_and_exchange_val_8_int(mem, newval, oldval, model)	\
-+  (abort (), (__typeof (*mem)) 0)
-+#define __arch_compare_and_exchange_val_16_int(mem, newval, oldval, model)	\
-+  (abort (), (__typeof (*mem)) 0)
-+#define __arch_compare_and_exchange_val_64_int(mem, newval, oldval, model)	\
-+  (abort (), (__typeof (*mem)) 0)
-+
-+#define __arch_compare_and_exchange_val_32_int(mem, newval, oldval, model)	\
-+  ({										\
-+    typeof (*mem) __oldval = (oldval);                                  	\
-+    __atomic_compare_exchange_n (mem, (void *) &__oldval, newval, 0,    	\
-+                                 model, __ATOMIC_RELAXED);              	\
-+    __oldval;                                                           	\
-+  })
-+
-+#define atomic_compare_and_exchange_val_acq(mem, new, old)		\
-+  __atomic_val_bysize (__arch_compare_and_exchange_val, int,		\
-+		       mem, new, old, __ATOMIC_ACQUIRE)
-+
-+#ifdef __ARC700__
-+#define atomic_full_barrier()  ({ asm volatile ("sync":::"memory"); })
 +#else
-+#define atomic_full_barrier()  ({ asm volatile ("dmb 3":::"memory"); })
-+#endif
 +
-+#endif /* _ARC_BITS_ATOMIC_H */
-diff --git a/sysdeps/arc/nptl/bits/semaphore.h b/sysdeps/arc/nptl/bits/semaphore.h
++static void *variables[] =
++{
++  &GLRO(dl_pagesize)
++};
++
++static void
++_dl_unprotect_relro (struct link_map *l)
++{
++  ElfW(Addr) start = ((l->l_addr + l->l_relro_addr)
++		      & ~(GLRO(dl_pagesize) - 1));
++  ElfW(Addr) end = ((l->l_addr + l->l_relro_addr + l->l_relro_size)
++		    & ~(GLRO(dl_pagesize) - 1));
++
++  if (start != end)
++    __mprotect ((void *) start, end - start, PROT_READ | PROT_WRITE);
++}
++
++void
++_dl_static_init (struct link_map *l)
++{
++  struct link_map *rtld_map = l;
++  struct r_scope_elem **scope;
++  const ElfW(Sym) *ref = NULL;
++  lookup_t loadbase;
++  void (*f) (void *[]);
++  size_t i;
++
++  loadbase = _dl_lookup_symbol_x ("_dl_var_init", l, &ref, l->l_local_scope,
++				  NULL, 0, 1, NULL);
++
++  for (scope = l->l_local_scope; *scope != NULL; scope++)
++    for (i = 0; i < (*scope)->r_nlist; i++)
++      if ((*scope)->r_list[i] == loadbase)
++	{
++	  rtld_map = (*scope)->r_list[i];
++	  break;
++	}
++
++  if (ref != NULL)
++    {
++      f = (void (*) (void *[])) DL_SYMBOL_ADDRESS (loadbase, ref);
++      _dl_unprotect_relro (rtld_map);
++      f (variables);
++      _dl_protect_relro (rtld_map);
++    }
++}
++
++#endif
+diff --git a/sysdeps/unix/sysv/linux/arc/ldsodefs.h b/sysdeps/unix/sysv/linux/arc/ldsodefs.h
 new file mode 100644
-index 000000000000..772dc4cb9b01
+index 000000000000..9eef836168be
 --- /dev/null
-+++ b/sysdeps/arc/nptl/bits/semaphore.h
++++ b/sysdeps/unix/sysv/linux/arc/ldsodefs.h
 @@ -0,0 +1,32 @@
-+/* Machine-specific POSIX semaphore type layouts.  ARC version.
-+   Copyright (C) 2002-2020 Free Software Foundation, Inc.
++/* Run-time dynamic linker data structures for loaded ELF shared objects. ARC
++   Copyright (C) 2001-2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
@@ -199,20 +251,20 @@ index 000000000000..772dc4cb9b01
 +   License along with the GNU C Library; if not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#ifndef _SEMAPHORE_H
-+# error "Never use <bits/semaphore.h> directly; include <semaphore.h> instead."
-+#endif
++#ifndef	_LDSODEFS_H
 +
-+#define __SIZEOF_SEM_T	16
++/* Get the real definitions.  */
++#include_next <ldsodefs.h>
 +
-+/* Value returned if `sem_open' failed.  */
-+#define SEM_FAILED      ((sem_t *) 0)
++/* Now define our stuff.  */
 +
-+typedef union
-+{
-+  char __size[__SIZEOF_SEM_T];
-+  long int __align;
-+} sem_t;
++/* We need special support to initialize DSO loaded for statically linked
++   binaries.  */
++extern void _dl_static_init (struct link_map *map);
++#undef DL_STATIC_INIT
++#define DL_STATIC_INIT(map) _dl_static_init (map)
++
++#endif /* ldsodefs.h */
 -- 
 2.20.1
 
