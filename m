@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AADA5C1975A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8552C10DCE
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Mar 2020 03:04:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 491D5206F7
+	by mail.kernel.org (Postfix) with ESMTPS id 4956920716
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Mar 2020 03:04:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jKQ/D3c+";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="F1CSU7uB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 491D5206F7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="baD40noG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ln/bH/m+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4956920716
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,51 +26,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Rp/u6JRnRbgIOo/rRich0cyCNAw4iNsb/0tqNTJe66o=; b=jKQ/D3c+WP4tUY
-	cMK07A1hhwVzavvByo0plAfMPsGInbGb4hpo5yMmW20g9XC/f+e/sE3boNZK3TKdLvRgZXF5qz9Bs
-	Lpt+jY3MzEcvaQfmIz6OgVM3h3ARLoCP4KgHOW7ifC8Hj8cEVDCZfnI2slXl71FlmjQVhwcPsW8gg
-	rnWv2DAV97HyWQo5i0DLAtOsKTEi9xnyTFvLpAuprNXCHrkKdDR5RYCjNP6F/CorOsyjiTR74x4PD
-	TLDzSCbY0rssVN8UUBnD5aHIcZyZADJ7l4p254k+161hTSdaStf78oPmPqHaT2X5P5A43forYgn7R
-	tPsztPKILMpVpgeilnSw==;
+	List-Owner; bh=NRsZhRU8ddkgFj8G4r7UaEVeyg3y4+HE37wL7o9Ifio=; b=baD40noGuT0Aib
+	RKNE77Qk8QHb+1SaLqhaKlIXYWOvvepDKqLnV1mtO3rIq/e2SiMSaDClLmkUpnus2tTRuRQnwmZyH
+	OsqtiLVT7J7s0n4QzFkY0UZQRCNxtTvIgTveuC4QdWCQJrPeInqG8dNWCv0vOWHjfEyjm0MSaWRXl
+	c8E+v2jTTmqDyfbSnG2y0nqysX38QcjReTtWI5bNbUlZomi/3qXAkIWihQ/hZcx/6O8pRGnZSZyLa
+	0tohOCclLbUFy9MlvkCobNPVVkkvh3wOCIITiNUn9ufGzzhjkpxvv8lVt0JBDoQiYKGUP6JlMzvLd
+	HI2mFROgAPLiogDn58BQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jCacn-0003Vk-Cj; Fri, 13 Mar 2020 03:04:37 +0000
+	id 1jCacn-0003Vw-Mq; Fri, 13 Mar 2020 03:04:37 +0000
 Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jCaci-0003RR-1S
+ id 1jCaci-0003RV-1X
  for linux-snps-arc@lists.infradead.org; Fri, 13 Mar 2020 03:04:35 +0000
 Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
  [10.205.2.132])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 7FAD4C0F91;
- Fri, 13 Mar 2020 03:04:29 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 90289C0F93;
+ Fri, 13 Mar 2020 03:04:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1584068669; bh=ZI+Y0xP27VBHwlN7LGoTrXWU2OXhUz+BiGK0rlFr//o=;
+ t=1584068670; bh=XzFb4IuvvCGoe9eR97CdUcms/QcI3Ijj19X3a+vZnB8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=F1CSU7uBpAQ0RN15YB6t2kr6A47wJUaSnVdXEICKCCD0HDrxNGfhNbrPoMT8p3R/w
- /tbAu6JrvhAJXHDivWNMGaYiLZZ7W232GLH9qY7fTy9XpqtJsz+d/xr9STNkxiksa5
- hqZ1wuQ79nXoMDdRxPzb3phmIYvU8gdVNEPvm5OeBmTF3X2t+XY0hh/zmx4V3dgJwj
- iDFC1VoCbE+8P5WZ34Fw/8g+D1YaZJYL9BmIdh0DFfOSS3Cf5ossfPkXuOx8nv62+x
- fePLWhkGQuUay7+Isn5Iu3B7X8/5EtTce1LK9EJDcTqn6ZqZKKcQKwvaSD1En59NrV
- 7QuV+Nb5RDNKQ==
+ b=ln/bH/m+/vZEpiayKE+Hscd7F+m9wU/Z92k0knFWCx8Sv/y6wUWtMZnJhMxK1N10G
+ ger1qZZZdchTa3x3MjRqVvho5/tCeRtlu3t3wDE/xg8wwDI6jk+msd29imClOQarVd
+ KO0AaM5hCbcU6BCw2F1nShsQJ21fqsxF/td/C6HRneIpKCrV8axwBIVD9RBQnOfBHx
+ xyBvEoDTwJ/wR9Y6UTnjmCHCs15FiW5J383NsSm5aLeVszIFMIAV0I6a3yMrhXu98o
+ I6jMCSNh4QXwXiZUmNGCaDnb9ryvrs6FMlxgizHc+ZImEh0DhoJ5DKt6XgoHIgimx8
+ JQbXp657Yvl4w==
 Received: from vineetg-Latitude-E7450.internal.synopsys.com (unknown
  [10.13.182.230])
- by mailhost.synopsys.com (Postfix) with ESMTP id 2F9F0A0075;
- Fri, 13 Mar 2020 03:04:28 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 4AB72A007D;
+ Fri, 13 Mar 2020 03:04:30 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v4 01/15] ARC: add definitions to elf/elf.h
-Date: Thu, 12 Mar 2020 20:04:05 -0700
-Message-Id: <20200313030419.15843-2-vgupta@synopsys.com>
+Subject: [PATCH v4 05/15] ARC: Atomics and Locking primitives
+Date: Thu, 12 Mar 2020 20:04:09 -0700
+Message-Id: <20200313030419.15843-6-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200313030419.15843-1-vgupta@synopsys.com>
 References: <20200313030419.15843-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200312_200432_241692_4C2A2FC6 
-X-CRM114-Status: UNSURE (   8.01  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200312_200432_162374_B83E145D 
+X-CRM114-Status: GOOD (  12.72  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,97 +90,129 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- elf/elf.h | 70 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 69 insertions(+), 1 deletion(-)
+ sysdeps/arc/atomic-machine.h      | 73 +++++++++++++++++++++++++++++++
+ sysdeps/arc/nptl/bits/semaphore.h | 32 ++++++++++++++
+ 2 files changed, 105 insertions(+)
+ create mode 100644 sysdeps/arc/atomic-machine.h
+ create mode 100644 sysdeps/arc/nptl/bits/semaphore.h
 
-diff --git a/elf/elf.h b/elf/elf.h
-index ab8930463c67..51e9968405ff 100644
---- a/elf/elf.h
-+++ b/elf/elf.h
-@@ -330,7 +330,7 @@ typedef struct
- #define EM_CLOUDSHIELD	192	/* CloudShield */
- #define EM_COREA_1ST	193	/* KIPO-KAIST Core-A 1st gen. */
- #define EM_COREA_2ND	194	/* KIPO-KAIST Core-A 2nd gen. */
--#define EM_ARC_COMPACT2	195	/* Synopsys ARCompact V2 */
-+#define EM_ARCV2	195	/* Synopsys ARCv2 ISA.  */
- #define EM_OPEN8	196	/* Open8 RISC */
- #define EM_RL78		197	/* Renesas RL78 */
- #define EM_VIDEOCORE5	198	/* Broadcom VideoCore V */
-@@ -4028,6 +4028,74 @@ enum
- #define R_NDS32_TLS_TPOFF	102
- #define R_NDS32_TLS_DESC	119
- 
-+/* ARCompact/ARCv2 specific relocs.  */
-+#define R_ARC_NONE		0x0
-+#define R_ARC_8			0x1
-+#define R_ARC_16		0x2
-+#define R_ARC_24		0x3
-+#define R_ARC_32		0x4
-+#define R_ARC_B26		0x5
-+#define R_ARC_B22_PCREL		0x6
-+#define R_ARC_H30		0x7
-+#define R_ARC_N8		0x8
-+#define R_ARC_N16		0x9
-+#define R_ARC_N24		0xA
-+#define R_ARC_N32		0xB
-+#define R_ARC_SDA		0xC
-+#define R_ARC_SECTOFF		0xD
-+#define R_ARC_S21H_PCREL	0xE
-+#define R_ARC_S21W_PCREL	0xF
-+#define R_ARC_S25H_PCREL	0x10
-+#define R_ARC_S25W_PCREL	0x11
-+#define R_ARC_SDA32		0x12
-+#define R_ARC_SDA_LDST		0x13
-+#define R_ARC_SDA_LDST1		0x14
-+#define R_ARC_SDA_LDST2		0x15
-+#define R_ARC_SDA16_LD		0x16
-+#define R_ARC_SDA16_LD1		0x17
-+#define R_ARC_SDA16_LD2		0x18
-+#define R_ARC_S13_PCREL		0x19
-+#define R_ARC_W			0x1A
-+#define R_ARC_32_ME		0x1B
-+#define R_ARC_N32_ME		0x1C
-+#define R_ARC_SECTOFF_ME	0x1D
-+#define R_ARC_SDA32_ME		0x1E
-+#define R_ARC_W_ME		0x1F
-+#define R_ARC_H30_ME		0x20
-+#define R_ARC_SECTOFF_U8	0x21
-+#define R_ARC_SECTOFF_S9	0x22
-+#define R_AC_SECTOFF_U8		0x23
-+#define R_AC_SECTOFF_U8_1	0x24
-+#define R_AC_SECTOFF_U8_2	0x25
-+#define R_AC_SECTOFF_S9		0x26
-+#define R_AC_SECTOFF_S9_1	0x27
-+#define R_AC_SECTOFF_S9_2	0x28
-+#define R_ARC_SECTOFF_ME_1	0x29
-+#define R_ARC_SECTOFF_ME_2	0x2A
-+#define R_ARC_SECTOFF_1		0x2B
-+#define R_ARC_SECTOFF_2		0x2C
-+#define R_ARC_PC32		0x32
-+#define R_ARC_GOTPC32		0x33
-+#define R_ARC_PLT32		0x34
-+#define R_ARC_COPY		0x35
-+#define R_ARC_GLOB_DAT		0x36
-+#define R_ARC_JUMP_SLOT		0x37
-+#define R_ARC_RELATIVE		0x38
-+#define R_ARC_GOTOFF		0x39
-+#define R_ARC_GOTPC		0x3A
-+#define R_ARC_GOT32		0x3B
+diff --git a/sysdeps/arc/atomic-machine.h b/sysdeps/arc/atomic-machine.h
+new file mode 100644
+index 000000000000..ae16c607dcc4
+--- /dev/null
++++ b/sysdeps/arc/atomic-machine.h
+@@ -0,0 +1,73 @@
++/* Low-level functions for atomic operations. ARC version.
++   Copyright (C) 2012-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
 +
-+#define R_ARC_TLS_DTPMOD	0x42
-+#define R_ARC_TLS_DTPOFF	0x43
-+#define R_ARC_TLS_TPOFF		0x44
-+#define R_ARC_TLS_GD_GOT	0x45
-+#define R_ARC_TLS_GD_LD	        0x46
-+#define R_ARC_TLS_GD_CALL	0x47
-+#define R_ARC_TLS_IE_GOT	0x48
-+#define R_ARC_TLS_DTPOFF_S9	0x4a
-+#define R_ARC_TLS_LE_S9		0x4a
-+#define R_ARC_TLS_LE_32		0x4b
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
 +
- __END_DECLS
- 
- #endif	/* elf.h */
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _ARC_BITS_ATOMIC_H
++#define _ARC_BITS_ATOMIC_H 1
++
++#include <stdint.h>
++
++typedef int32_t atomic32_t;
++typedef uint32_t uatomic32_t;
++typedef int_fast32_t atomic_fast32_t;
++typedef uint_fast32_t uatomic_fast32_t;
++
++typedef intptr_t atomicptr_t;
++typedef uintptr_t uatomicptr_t;
++typedef intmax_t atomic_max_t;
++typedef uintmax_t uatomic_max_t;
++
++#define __HAVE_64B_ATOMICS 0
++#define USE_ATOMIC_COMPILER_BUILTINS 1
++
++/* ARC does have legacy atomic EX reg, [mem] instruction but the micro-arch
++   is not as optimal as LLOCK/SCOND specially for SMP.  */
++#define ATOMIC_EXCHANGE_USES_CAS 1
++
++#define __arch_compare_and_exchange_bool_8_acq(mem, newval, oldval)	\
++  (abort (), 0)
++#define __arch_compare_and_exchange_bool_16_acq(mem, newval, oldval)	\
++  (abort (), 0)
++#define __arch_compare_and_exchange_bool_64_acq(mem, newval, oldval)	\
++  (abort (), 0)
++
++#define __arch_compare_and_exchange_val_8_int(mem, newval, oldval, model)	\
++  (abort (), (__typeof (*mem)) 0)
++#define __arch_compare_and_exchange_val_16_int(mem, newval, oldval, model)	\
++  (abort (), (__typeof (*mem)) 0)
++#define __arch_compare_and_exchange_val_64_int(mem, newval, oldval, model)	\
++  (abort (), (__typeof (*mem)) 0)
++
++#define __arch_compare_and_exchange_val_32_int(mem, newval, oldval, model)	\
++  ({										\
++    typeof (*mem) __oldval = (oldval);                                  	\
++    __atomic_compare_exchange_n (mem, (void *) &__oldval, newval, 0,    	\
++                                 model, __ATOMIC_RELAXED);              	\
++    __oldval;                                                           	\
++  })
++
++#define atomic_compare_and_exchange_val_acq(mem, new, old)		\
++  __atomic_val_bysize (__arch_compare_and_exchange_val, int,		\
++		       mem, new, old, __ATOMIC_ACQUIRE)
++
++#ifdef __ARC700__
++#define atomic_full_barrier()  ({ asm volatile ("sync":::"memory"); })
++#else
++#define atomic_full_barrier()  ({ asm volatile ("dmb 3":::"memory"); })
++#endif
++
++#endif /* _ARC_BITS_ATOMIC_H */
+diff --git a/sysdeps/arc/nptl/bits/semaphore.h b/sysdeps/arc/nptl/bits/semaphore.h
+new file mode 100644
+index 000000000000..772dc4cb9b01
+--- /dev/null
++++ b/sysdeps/arc/nptl/bits/semaphore.h
+@@ -0,0 +1,32 @@
++/* Machine-specific POSIX semaphore type layouts.  ARC version.
++   Copyright (C) 2002-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _SEMAPHORE_H
++# error "Never use <bits/semaphore.h> directly; include <semaphore.h> instead."
++#endif
++
++#define __SIZEOF_SEM_T	16
++
++/* Value returned if `sem_open' failed.  */
++#define SEM_FAILED      ((sem_t *) 0)
++
++typedef union
++{
++  char __size[__SIZEOF_SEM_T];
++  long int __align;
++} sem_t;
 -- 
 2.20.1
 
