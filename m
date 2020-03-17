@@ -1,70 +1,78 @@
-Return-Path: <SRS0=C9XM=5B=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=S7jJ=5C=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 132AFC0044D
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 16 Mar 2020 15:08:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 087D5C0044D
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 17 Mar 2020 00:52:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D219920663
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 16 Mar 2020 15:08:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BA2D3206C0
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 17 Mar 2020 00:52:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iDkOwjiU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D219920663
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hWwk83Uu";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="PiDufGef"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA2D3206C0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3sh10k+o/Unlc/CpXQwZiWIn1PVx0frSn6O7iRKfl3A=; b=iDkOwjiU5cyW/v
-	qm7S/d8xKbvRC0l1sY2yJ/6dM4mjQSpAYsHLTevuqps6zIBNFX51NX29DUK7Mn8S4EK121K3ECG++
-	gESJYoyxWCT30TeS9Sj9o/7C7E1tU4rPEwn6pPy3Wroe4tWHTiE1fcN7As6RxU19hN6M5XUQAV6TU
-	wI9aThFFIt/vEQkagdhLQ+XwS2jAELxmF7gG+FeO1WC6hx5unKBUacOnIMdySZ0mSqFRSkh57V8xI
-	/lGyfqWGoxRCkexou4RoUMIk+lykyEjoEwwLbPkBrrNbuIF18O6jcMi6DXh6pIpGO7B26SNS+pBr8
-	VtDwvWI7InmYjegDpgpQ==;
+	List-Owner; bh=QKawiw2NnCmh6ifhcBco5A5d0UepFtlmO58Ymimid8w=; b=hWwk83Uu+2o5lJ
+	S0dAxRysir3sOL+rlNtgLRgpMkIWQa3IomMO0hUKEGNEljeuaCLxfTERxuCal5xAN+DGtQaP7k19f
+	7MgPBLRZrZtzPQVlUfp/l093u2myTz4aUuXdwHo2AtAiA8a2euEPA9aEc7HUrJ3MlL66IcR8v1ln6
+	LbdFXSl99iLo/0zBeX4yAt7ZMGezIXctt9AvrYa0cfwyyXD1luE7TGfiksRJUBkdAfbmC4WtYV+M9
+	oX/7U5RhMsMpyucFJNQ+uvdgVGv3CCdQl0YTJ5Xt7jf+0Jc6WrACjU+OxmJZVVUv+Z84vDmVla9fn
+	4baYgdOM8cupr8FwO9ZQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jDrLc-00029t-U8; Mon, 16 Mar 2020 15:08:08 +0000
-Received: from asavdk3.altibox.net ([109.247.116.14])
+	id 1jE0TK-0001qy-WD; Tue, 17 Mar 2020 00:52:43 +0000
+Received: from conssluserg-06.nifty.com ([210.131.2.91])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jDrJa-0007zd-Bd
- for linux-snps-arc@lists.infradead.org; Mon, 16 Mar 2020 15:06:04 +0000
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id AFEF32003B;
- Mon, 16 Mar 2020 16:05:50 +0100 (CET)
-Date: Mon, 16 Mar 2020 16:05:48 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Subject: Re: [PATCH 2/2] dt-bindings: Document the Synopsys ARC HDMI TX
- bindings
-Message-ID: <20200316150548.GA25294@ravnborg.org>
-References: <20200316144647.10416-1-Eugeniy.Paltsev@synopsys.com>
- <20200316144647.10416-3-Eugeniy.Paltsev@synopsys.com>
+ id 1jE0TH-0001qI-Fy
+ for linux-snps-arc@lists.infradead.org; Tue, 17 Mar 2020 00:52:41 +0000
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
+ [209.85.217.49]) (authenticated)
+ by conssluserg-06.nifty.com with ESMTP id 02H0qAjb023264
+ for <linux-snps-arc@lists.infradead.org>; Tue, 17 Mar 2020 09:52:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 02H0qAjb023264
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1584406333;
+ bh=bTisUi+CZu/g6bO8aAotHn/SP8Hi7R+MiDzAL3ZUAfI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=PiDufGefZuRu9e4zxb5+ExqdLDSk0FSpoRlJFUMPfGReoch32f+wSOhf/UeprSgeQ
+ 4ZiU90DJ8qTTFluuDP1sep+qVS9491BwThD1yRTG7PBg2VN713zwKKdHKmRphb3r5B
+ yDS2dRwTpG1A62F18mb63LRgDy1rXfSWi5WtRapaJZKieRZLUyGOZ/vL9XQnjAmoSN
+ m9xKbjNiPqCP4MC7oP8iiDtDvnxRIa6EujvCSCNkDr9UCoQJGztdF5zGA0hcx+YqKw
+ nu9QPAFDpDf5muPsekFs0sq+8QXKrGb1WdVqxw4mWRYJMh8VxJzKe3fh9UHuZYQp+E
+ R4uoY4ucjZKJA==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id i25so12743468vsq.9
+ for <linux-snps-arc@lists.infradead.org>; Mon, 16 Mar 2020 17:52:10 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ1hVYMYxzkGlDQCs/iWac0PQzBrfokCej6XFiqHpJgmy8wZiaZB
+ zZZATaM3qggj3eb0iNEhKOjNXgboyemklu6ALjk=
+X-Google-Smtp-Source: ADFU+vuYWhTKUDP6HaM3wuCYIV2TyqZ3Q6nfU58hUxaICMBE++bLTwLXAhjLlI1bkSpqjl4rONmhLJUtIcpDgx2iSMk=
+X-Received: by 2002:a67:8745:: with SMTP id j66mr1824203vsd.181.1584406329863; 
+ Mon, 16 Mar 2020 17:52:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200316144647.10416-3-Eugeniy.Paltsev@synopsys.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=jIQo8A4GAAAA:8
- a=e5mUnYsNAAAA:8 a=M7aO59fNJ6i23PoMEtIA:9 a=OoSG_5CIhO75MOo9:21
- a=GlqmvLfQ7YiL8mw-:21 a=CjuIK1q_8ugA:10 a=Lf5xNeLK5dgiOs8hzIjU:22
- a=Vxmtnl_E_bksehYqCbjh:22
+References: <20200316112519.4375-1-Eugeniy.Paltsev@synopsys.com>
+In-Reply-To: <20200316112519.4375-1-Eugeniy.Paltsev@synopsys.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 17 Mar 2020 09:51:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATL1wApAN4uta_YQsdHmOAvRg1z7P1fun9Y8t0QjwBYxQ@mail.gmail.com>
+Message-ID: <CAK7LNATL1wApAN4uta_YQsdHmOAvRg1z7P1fun9Y8t0QjwBYxQ@mail.gmail.com>
+Subject: Re: [PATCH v2] initramfs: restore default compression behavior
+To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200316_080602_850710_E29E3A23 
-X-CRM114-Status: GOOD (  17.92  )
+X-CRM114-CacheID: sfid-20200316_175239_747021_45F0C1F9 
+X-CRM114-Status: GOOD (  18.51  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,119 +84,96 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-snps-arc@lists.infradead.org
+Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ arcml <linux-snps-arc@lists.infradead.org>,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Eugeniy.
-
-On Mon, Mar 16, 2020 at 05:46:47PM +0300, Eugeniy Paltsev wrote:
-> This patch adds documentation of device tree bindings for the Synopsys
-> HDMI 2.0 TX encoder driver for ARC SoCs.
-> 
+On Mon, Mar 16, 2020 at 8:25 PM Eugeniy Paltsev
+<Eugeniy.Paltsev@synopsys.com> wrote:
+>
+> Even though INITRAMFS_SOURCE kconfig option isn't set in most of
+> defconfigs it is used (set) extensively by various build systems.
+> Commit f26661e12765 ("initramfs: make initramfs compression choice
+> non-optional") has changed default compression mode. Previously we
+> compress initramfs using available compression algorithm. Now
+> we don't use any compression at all by default.
+> It significantly increases the image size in case of build system
+> chooses embedded initramfs. Initially I faced with this issue while
+> using buildroot.
+>
+> As of today it's not possible to set preferred compression mode
+> in target defconfig as this option depends on INITRAMFS_SOURCE
+> being set. Modification of all build systems either doesn't look
+> like good option.
+>
+> Let's instead rewrite initramfs compression mode choices list
+> the way that "INITRAMFS_COMPRESSION_NONE" will be the last option
+> in the list. In that case it will be chosen only if all other
+> options (which implements any compression) are not available.
+>
 > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+
+
+Applied to linux-kbuild.
+Thanks.
+
+
+
 > ---
->  .../display/bridge/snps,arc-dw-hdmi.txt       | 73 +++++++++++++++++++
-
-New bindings in DT Schema format please (.yaml files).
-We are working on migrating all bindings to DT Schema format.
-
-	Sam
-
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.txt
-> new file mode 100644
-> index 000000000000..d5e006b392cc
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.txt
-> @@ -0,0 +1,73 @@
-> +Synopsys DesignWare HDMI 2.0 TX encoder driver for ARC SoCs
-> +================================
+>  usr/Kconfig | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+>
+> diff --git a/usr/Kconfig b/usr/Kconfig
+> index bdf5bbd40727..96afb03b65f9 100644
+> --- a/usr/Kconfig
+> +++ b/usr/Kconfig
+> @@ -124,17 +124,6 @@ choice
+>
+>           If in doubt, select 'None'
+>
+> -config INITRAMFS_COMPRESSION_NONE
+> -       bool "None"
+> -       help
+> -         Do not compress the built-in initramfs at all. This may sound wasteful
+> -         in space, but, you should be aware that the built-in initramfs will be
+> -         compressed at a later stage anyways along with the rest of the kernel,
+> -         on those architectures that support this. However, not compressing the
+> -         initramfs may lead to slightly higher memory consumption during a
+> -         short time at boot, while both the cpio image and the unpacked
+> -         filesystem image will be present in memory simultaneously
+> -
+>  config INITRAMFS_COMPRESSION_GZIP
+>         bool "Gzip"
+>         depends on RD_GZIP
+> @@ -207,4 +196,15 @@ config INITRAMFS_COMPRESSION_LZ4
+>           If you choose this, keep in mind that most distros don't provide lz4
+>           by default which could cause a build failure.
+>
+> +config INITRAMFS_COMPRESSION_NONE
+> +       bool "None"
+> +       help
+> +         Do not compress the built-in initramfs at all. This may sound wasteful
+> +         in space, but, you should be aware that the built-in initramfs will be
+> +         compressed at a later stage anyways along with the rest of the kernel,
+> +         on those architectures that support this. However, not compressing the
+> +         initramfs may lead to slightly higher memory consumption during a
+> +         short time at boot, while both the cpio image and the unpacked
+> +         filesystem image will be present in memory simultaneously
 > +
-> +The HDMI transmitter is a Synopsys DesignWare HDMI 2.0 TX controller IP
-> +with a companion of Synopsys DesignWare HDMI 2.0 TX PHY IP.
-> +
-> +These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
-> +Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
-> +with the following device-specific properties.
-> +
-> +
-> +Required properties:
-> +
-> +- compatible : Shall contain
-> +  - "snps,dw-hdmi-hsdk" for HSDK4xD compatible HDMI TX
-> +
-> +- reg: See dw_hdmi.txt.
-> +- interrupts: HDMI interrupt number.
-> +- clocks: See dw_hdmi.txt.
-> +- clock-names: Must contain "iahb" and "isfr" as defined in dw_hdmi.txt.
-> +- ports: See dw_hdmi.txt. The DWC HDMI shall have one port numbered 0
-> +  corresponding to the video input of the controller and one port numbered 1
-> +  corresponding to its HDMI output.
-> +
-> +Example:
-> +
-> +hdmi: hdmi@0x10000 {
-> +	compatible = "snps,dw-hdmi-hsdk";
-> +	reg = <0x10000 0x10000>;
-> +	reg-io-width = <4>;
-> +	interrupts = <14>;
-> +	clocks = <&apbclk>, <&hdmi_pix_clk>;
-> +	clock-names = "iahb", "isfr";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		port@0 {
-> +			reg = <0>;
-> +			hdmi_enc_input: endpoint {
-> +				remote-endpoint = <&pgu_output>;
-> +			};
-> +		};
-> +
-> +		port@1 {
-> +			reg = <1>;
-> +			hdmi_enc_out: endpoint {
-> +				remote-endpoint = <&hdmi_con>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +hdmi-out {
-> +	...
-> +
-> +	port {
-> +		hdmi_con: endpoint {
-> +			remote-endpoint = <&hdmi_enc_out>;
-> +		};
-> +	};
-> +};
-> +
-> +pgu {
-> +	...
-> +
-> +	port_o: port {
-> +		pgu_output: endpoint {
-> +			remote-endpoint = <&hdmi_enc_input>;
-> +		};
-> +	};
-> +};
-> -- 
+>  endchoice
+> --
 > 2.21.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
 
 _______________________________________________
 linux-snps-arc mailing list
