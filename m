@@ -4,57 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E4B7C4332B
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Mar 2020 04:55:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2ACFC4332E
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Mar 2020 16:38:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3D8A12072D
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Mar 2020 04:55:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5899B20709
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Mar 2020 16:38:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pMJdX1J8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D8A12072D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YvLp387x";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="VpIfv+BA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5899B20709
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=kySu4GYkjHxAO/cEYL9a5ZlxqVN9TjxskN4aUQMElvY=; b=pMJdX1J8pMBDPDuL1a+K7V+5FL
-	T/9JEmRzahmpI9w5Azkm32n7zK5jycqSIO6DAZ/uJ1RYD0+QWFCaHr29xdE/Hg8Q2cDGcvJnDHY3g
-	Hw86MLnL8mK+ac9g9xgxsCLgoGb6KqAt84WNta5C4IKWyVaAA4KUGSk9ADtS38wtPLyPq2jEARGNl
-	gQbFbH759EP+j4N7sVm89UQQErQ4hQtiWE18OfLnnJLhzzFo8DgADPaswBfAbBCivqIRsn/gssDXo
-	1j3ZzozMcPmU7Bd+iTjHCwcvBfPn9xBS63IdqO3IHyXhUFygS/80VB57hT0gU8h7v58HOxkuk+xwk
-	bfJKWurw==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=axk7HbIA0ZwqKrhLCdCi4py73qA9GnrCFlOTQqJHIlU=; b=YvLp387x3wNfvV
+	Vx1RwnjS9bw5xkKQa6crRQ5k43fbLrtujmei7pikVrV3VX1NPqnxf1Cg3aTrX3oLh4tfymcK//RnP
+	YuZ+33Jq6J+HLpLjzhFzlovtQoovINIez7HmhtmYgU1pHKYHweUAfqr1BfD6pSJOynO6Voz7CC1VY
+	61vWNlLpIPIVCJB+4EprimI8qIEOAt5nmWrYRnHorBXpEZ/F8fr14M1smJ3k5gmcKrGFiSwWqnTXc
+	ueJYe/Y8ZrOLmlbTT9vnDtsjpkGzRi/Wpg7oPHfj97MQ14YFbdTq1LwEHdt4wnCd9NxlC+Io8t6+X
+	5J/eKsv2EDtgukvhlC/Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jF9gn-0006on-Ao; Fri, 20 Mar 2020 04:55:21 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jF9gE-0006Iu-HN; Fri, 20 Mar 2020 04:54:49 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0289101E;
- Thu, 19 Mar 2020 21:54:45 -0700 (PDT)
-Received: from p8cg001049571a15.arm.com (unknown [10.163.1.20])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7AE3D3F52E;
- Thu, 19 Mar 2020 21:54:38 -0700 (PDT)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: linux-mm@kvack.org
-Subject: [PATCH 2/2] mm/thp: Rename pmd_mknotpresent() as pmd_mknotvalid()
-Date: Fri, 20 Mar 2020 10:24:17 +0530
-Message-Id: <1584680057-13753-3-git-send-email-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1584680057-13753-1-git-send-email-anshuman.khandual@arm.com>
-References: <1584680057-13753-1-git-send-email-anshuman.khandual@arm.com>
+	id 1jFKfO-0006JK-RQ; Fri, 20 Mar 2020 16:38:39 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jFKfL-0006EQ-GC
+ for linux-snps-arc@lists.infradead.org; Fri, 20 Mar 2020 16:38:36 +0000
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
+ [10.225.0.210])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 52670C0F9A;
+ Fri, 20 Mar 2020 16:38:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1584722313; bh=10wN9a/vbwkP9MYpMvBYvkmljEVONcmw91uzR0wyj/M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=VpIfv+BAWMtFx93ncYHA+vqxtTMSfgcadnIw3g1kDWEZKpVbNcgUdA7vCUQ4x83mG
+ kVyZyONds3g3N9xwrkfQRxwlzPk8yQbcEqZZ1SZzEZkcYX7mcKQL7wYdsCbPAZFiaa
+ bnSNDzGtLRwmzxG00/JKL6MBtuhVE9rsMJakq+vx575Ak/WUCoEcp92Hn+FZ6vE2aL
+ 5ToaHRwtXyyc6LeHH41MvQng6+y570GNDIQk+1m65+YdNU9dCHG4pvqFe+1KgQEqX6
+ JbicR6+mvAnQVX1Ofcfp4ebtWhVvbviGEYASfO8AOCE5VGNTF4NXqMSz2tW6jLRrwl
+ RmA0MUwCCahYQ==
+Received: from paltsev-e7480.internal.synopsys.com
+ (ru20-e7250.internal.synopsys.com [10.225.48.220])
+ by mailhost.synopsys.com (Postfix) with ESMTP id BB583A0065;
+ Fri, 20 Mar 2020 16:38:19 +0000 (UTC)
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+To: Tom Rini <trini@konsulko.com>
+Subject: [PATCH] CMD: random: fix return code
+Date: Fri, 20 Mar 2020 19:38:17 +0300
+Message-Id: <20200320163817.8628-1-Eugeniy.Paltsev@synopsys.com>
+X-Mailer: git-send-email 2.21.1
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200319_215446_689068_6C4B8A49 
-X-CRM114-Status: GOOD (  13.84  )
+X-CRM114-CacheID: sfid-20200320_093835_600167_DA669624 
+X-CRM114-Status: GOOD (  10.62  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,171 +79,56 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: x86@kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- linux-kernel@vger.kernel.org, Anshuman Khandual <anshuman.khandual@arm.com>,
- Peter Zijlstra <peterz@infradead.org>, Vineet Gupta <vgupta@synopsys.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Russell King <linux@armlinux.org.uk>,
- Steven Rostedt <rostedt@goodmis.org>, linux-mips@vger.kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, nouveau@lists.freedesktop.org,
- Thomas Gleixner <tglx@linutronix.de>, linux-snps-arc@lists.infradead.org,
- Will Deacon <will@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org
-MIME-Version: 1.0
+Cc: Simon Glass <sjg@chromium.org>,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>, uboot-snps-arc@synopsys.com,
+ u-boot@lists.denx.de, linux-snps-arc@lists.infradead.org,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-pmd_present() is expected to test positive after pmdp_mknotpresent() as the
-PMD entry still points to a valid huge page in memory. pmdp_mknotpresent()
-implies that given PMD entry is just invalidated from MMU perspective while
-still holding on to pmd_page() referred valid huge page thus also clearing
-pmd_present() test. This creates the following situation which is counter
-intuitive.
+As of today 'random' command return 1 (CMD_RET_FAILURE) in case
+of successful execution and 0 (CMD_RET_SUCCESS) in case of bad
+arguments. Fix that.
 
-[pmd_present(pmd_mknotpresent(pmd)) = true]
+NOTE: we remove printing usage information from command body
+so it won't print twice.
 
-This renames pmd_mknotpresent() as pmd_mknotvalid() reflecting the helper's
-functionality more accurately while changing the above mentioned situation
-as follows. This does not create any functional change.
-
-[pmd_present(pmd_mknotvalid(pmd)) = true]
-
-This is not applicable for platforms that define own pmdp_invalidate() via
-__HAVE_ARCH_PMDP_INVALIDATE. Suggestion for renaming came during a previous
-discussion here.
-
-https://patchwork.kernel.org/patch/11019637/
-
-Cc: Vineet Gupta <vgupta@synopsys.com>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: nouveau@lists.freedesktop.org
-Cc: linux-snps-arc@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-mips@vger.kernel.org
-Cc: x86@kernel.org
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
-
-Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 ---
- arch/arc/include/asm/hugepage.h       | 2 +-
- arch/arm/include/asm/pgtable-3level.h | 2 +-
- arch/arm64/include/asm/pgtable.h      | 2 +-
- arch/mips/include/asm/pgtable.h       | 2 +-
- arch/x86/include/asm/pgtable.h        | 2 +-
- arch/x86/mm/kmmio.c                   | 2 +-
- mm/pgtable-generic.c                  | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
+ cmd/mem.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arc/include/asm/hugepage.h b/arch/arc/include/asm/hugepage.h
-index 30ac40fed2c5..98d56267050f 100644
---- a/arch/arc/include/asm/hugepage.h
-+++ b/arch/arc/include/asm/hugepage.h
-@@ -26,7 +26,7 @@ static inline pmd_t pte_pmd(pte_t pte)
- #define pmd_mkold(pmd)		pte_pmd(pte_mkold(pmd_pte(pmd)))
- #define pmd_mkyoung(pmd)	pte_pmd(pte_mkyoung(pmd_pte(pmd)))
- #define pmd_mkhuge(pmd)		pte_pmd(pte_mkhuge(pmd_pte(pmd)))
--#define pmd_mknotpresent(pmd)	pte_pmd(pte_mknotpresent(pmd_pte(pmd)))
-+#define pmd_mknotvalid(pmd)	pte_pmd(pte_mknotpresent(pmd_pte(pmd)))
- #define pmd_mkclean(pmd)	pte_pmd(pte_mkclean(pmd_pte(pmd)))
+diff --git a/cmd/mem.c b/cmd/mem.c
+index 6d54f195272..6b4897dfd94 100644
+--- a/cmd/mem.c
++++ b/cmd/mem.c
+@@ -1102,10 +1102,8 @@ static int do_random(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+ 	unsigned char *buf8;
+ 	unsigned int i;
  
- #define pmd_write(pmd)		pte_write(pmd_pte(pmd))
-diff --git a/arch/arm/include/asm/pgtable-3level.h b/arch/arm/include/asm/pgtable-3level.h
-index ad55ab068dbf..2943cdf2828b 100644
---- a/arch/arm/include/asm/pgtable-3level.h
-+++ b/arch/arm/include/asm/pgtable-3level.h
-@@ -241,7 +241,7 @@ PMD_BIT_FUNC(mkyoung,   |= PMD_SECT_AF);
- #define pmdp_establish generic_pmdp_establish
+-	if (argc < 3 || argc > 4) {
+-		printf("usage: %s <addr> <len> [<seed>]\n", argv[0]);
+-		return 0;
+-	}
++	if (argc < 3 || argc > 4)
++		return CMD_RET_USAGE;
  
- /* represent a notpresent pmd by faulting entry, this is used by pmdp_invalidate */
--static inline pmd_t pmd_mknotpresent(pmd_t pmd)
-+static inline pmd_t pmd_mknotvalid(pmd_t pmd)
- {
- 	return __pmd(pmd_val(pmd) & ~L_PMD_SECT_VALID);
+ 	len = simple_strtoul(argv[2], NULL, 16);
+ 	addr = simple_strtoul(argv[1], NULL, 16);
+@@ -1132,7 +1130,8 @@ static int do_random(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+ 
+ 	unmap_sysmem(start);
+ 	printf("%lu bytes filled with random data\n", len);
+-	return 1;
++
++	return CMD_RET_SUCCESS;
  }
-diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index 538c85e62f86..28cdd97578a5 100644
---- a/arch/arm64/include/asm/pgtable.h
-+++ b/arch/arm64/include/asm/pgtable.h
-@@ -366,7 +366,7 @@ static inline int pmd_protnone(pmd_t pmd)
- #define pmd_mkclean(pmd)	pte_pmd(pte_mkclean(pmd_pte(pmd)))
- #define pmd_mkdirty(pmd)	pte_pmd(pte_mkdirty(pmd_pte(pmd)))
- #define pmd_mkyoung(pmd)	pte_pmd(pte_mkyoung(pmd_pte(pmd)))
--#define pmd_mknotpresent(pmd)	(__pmd(pmd_val(pmd) & ~PMD_SECT_VALID))
-+#define pmd_mknotvalid(pmd)	(__pmd(pmd_val(pmd) & ~PMD_SECT_VALID))
+ #endif
  
- #define pmd_thp_or_huge(pmd)	(pmd_huge(pmd) || pmd_trans_huge(pmd))
- 
-diff --git a/arch/mips/include/asm/pgtable.h b/arch/mips/include/asm/pgtable.h
-index aef5378f909c..2a66dee3a9b8 100644
---- a/arch/mips/include/asm/pgtable.h
-+++ b/arch/mips/include/asm/pgtable.h
-@@ -615,7 +615,7 @@ static inline pmd_t pmd_modify(pmd_t pmd, pgprot_t newprot)
- 	return pmd;
- }
- 
--static inline pmd_t pmd_mknotpresent(pmd_t pmd)
-+static inline pmd_t pmd_mknotvalid(pmd_t pmd)
- {
- 	pmd_val(pmd) &= ~(_PAGE_PRESENT | _PAGE_VALID | _PAGE_DIRTY);
- 
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index 7e118660bbd9..6279668d430f 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -589,7 +589,7 @@ static inline pud_t pfn_pud(unsigned long page_nr, pgprot_t pgprot)
- 	return __pud(pfn | check_pgprot(pgprot));
- }
- 
--static inline pmd_t pmd_mknotpresent(pmd_t pmd)
-+static inline pmd_t pmd_mknotvalid(pmd_t pmd)
- {
- 	return pfn_pmd(pmd_pfn(pmd),
- 		      __pgprot(pmd_flags(pmd) & ~(_PAGE_PRESENT|_PAGE_PROTNONE)));
-diff --git a/arch/x86/mm/kmmio.c b/arch/x86/mm/kmmio.c
-index 49d7814b59a9..f9f61b934475 100644
---- a/arch/x86/mm/kmmio.c
-+++ b/arch/x86/mm/kmmio.c
-@@ -130,7 +130,7 @@ static void clear_pmd_presence(pmd_t *pmd, bool clear, pmdval_t *old)
- 	pmdval_t v = pmd_val(*pmd);
- 	if (clear) {
- 		*old = v;
--		new_pmd = pmd_mknotpresent(*pmd);
-+		new_pmd = pmd_mknotvalid(*pmd);
- 	} else {
- 		/* Presume this has been called with clear==true previously */
- 		new_pmd = __pmd(*old);
-diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
-index 3d7c01e76efc..5b8055ef4120 100644
---- a/mm/pgtable-generic.c
-+++ b/mm/pgtable-generic.c
-@@ -194,7 +194,7 @@ pgtable_t pgtable_trans_huge_withdraw(struct mm_struct *mm, pmd_t *pmdp)
- pmd_t pmdp_invalidate(struct vm_area_struct *vma, unsigned long address,
- 		     pmd_t *pmdp)
- {
--	pmd_t old = pmdp_establish(vma, address, pmdp, pmd_mknotpresent(*pmdp));
-+	pmd_t old = pmdp_establish(vma, address, pmdp, pmd_mknotvalid(*pmdp));
- 	flush_pmd_tlb_range(vma, address, address + HPAGE_PMD_SIZE);
- 	return old;
- }
 -- 
-2.20.1
+2.21.1
 
 
 _______________________________________________
