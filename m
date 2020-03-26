@@ -2,22 +2,22 @@ Return-Path: <SRS0=yFMY=5L=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0523C43331
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 02:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E00AFC43331
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 02:45:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 92F0520714
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 02:40:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AF3E520737
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 02:45:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="A+nqwkJF";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AOdWJkyA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92F0520714
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pf81NwaF";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J5AeVRMx"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF3E520737
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,59 +26,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
 	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=34YruJk/Um2tRtW+d8VPaCc+HvG8uypaYTzBw5NrqSQ=; b=A+nqwkJFfv/PBh
-	n3TZEpEvh22E0vD7PitH2ofAnTMjjicnBynTWjiLHXMC0Nb6kmCxiWKxv5gCtV4RxqHQ8Oqylqr0r
-	Zn3Wjecbzt1a1/B2BO8Gb6/LbcYRjsVQIhzEdO/eXEQKMqkOAaJtCPbcIpAxJ4T8CygIc4KhQJ7OL
-	8kaRg+k1jdrnIQjpFqYAlbR7v7vMQ4lzZ/RpydLEV3w9iCL2qAZ7Fn4yXatyGjkkS3vZhyVhgfcPG
-	/F9TMkQSpY8tt7O6XNsEUNF5hdIYTF3daSK1YbJ1Q+W+nhGthHG+2onS6MBPbbZseqo7KejTtTpn2
-	1fSTuHRAwrahpwGtcMUw==;
+	List-Owner; bh=kqZ+odyxYwVTTff3PT5saF7R/CTKRGlJSjx0d3jdZbA=; b=pf81NwaFwj/0xH
+	C5I1+/2Q5KmNLjzN2Wc5nLVMY2UhZEohnlnb4UrwhZdVcpUdyQBJPSEYi7McV4XgR9ViSToIgEdAK
+	YiYrS/wWaRekNBaHNMKvymr1AzVxLN34r+FKYCJm9xWx2WauiEo9yPYpfflwJDMgaU9eUxgdPxV9G
+	yjkfwk0ATADJXIW68cKnvVHK4WIYynTQt7w8Mh+52Wrf8ESSE3ow+hNkGJ1emn6s9ogsmgdSCYBFn
+	zKVaOrnc2lR5sXWq4KLtj1J2cP7DnKWh3OIr1Guz+iIu6KYJTHC+28blXAOmQc8IoQtPVonsNjSAS
+	Wuw1m7pOpncajLzD1PdA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHIRA-0006Ae-Rf; Thu, 26 Mar 2020 02:40:04 +0000
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
+	id 1jHIW3-0008N8-M6; Thu, 26 Mar 2020 02:45:07 +0000
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHIR4-0005ob-VS
- for linux-snps-arc@lists.infradead.org; Thu, 26 Mar 2020 02:40:03 +0000
-Received: by mail-pf1-x443.google.com with SMTP id j10so2022277pfi.12
- for <linux-snps-arc@lists.infradead.org>; Wed, 25 Mar 2020 19:39:58 -0700 (PDT)
+ id 1jHIW0-0007nf-Kf
+ for linux-snps-arc@lists.infradead.org; Thu, 26 Mar 2020 02:45:05 +0000
+Received: by mail-pl1-x642.google.com with SMTP id g18so1599811plq.0
+ for <linux-snps-arc@lists.infradead.org>; Wed, 25 Mar 2020 19:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8kDUkoJavIyeuZQz6nDvGSb+5SnyQwPZeqxawk/jqqg=;
- b=AOdWJkyAEdB+FiQxGYxGUchl78cYj7dMRvQxxqzbb8/zuVTjWlLV2LhQdZuBi4xVMM
- Ybc/VUTMBDtXMn0HufvJD4igZ3qjWQDS1Rcy42JH6CNm871582xqzOfwffjne8c2i452
- DWt2jxSFrNLrhRfOJuUnTWo2YxImL50xkTkZACVDKaZ/ZtjbhpIRUJS4CUHZuxmnCjLJ
- V8S4LYLNBiSE4t2WrcuPOLit618rFIX/v9i9D8AxLJmc1KQadwCHjntcSi8aozhrIiKf
- 3mgmu9V91mTJ8zUYRR+J2xNC7v5OxDzAkpHAbiZ2F6nKVim0r05miH7sxbxMFgN33lph
- 7Cpg==
+ bh=5bknFHXBUh25hakSjGOXPtTSd/Ity3/PxD1ml3nlJRI=;
+ b=J5AeVRMx0mBDrMg8x9NsGW5xtnNB/XEGdwHknaKxv82tSoW3Y4yT8XeW8HyVRIchzh
+ Qo3Ox0YzM7KJDIg4UHT5R0PRZC+a6psMTD2H7IS5LSVr/6urW6z5dIwflI3LFqDVE7P4
+ cU7ZFD5zyqI5bc8VBWkZwfvrUimPwenMQVYZvZycRKIINRQdxzKEV6DvAiTG/0fm75wt
+ hNx9dHqL42pw+F5Mtfkx5TYk2Ymv4oWvfNHB972dn3uanpuVJUoBNG3hk/jbokfouc4E
+ BiQgbcJccMdWttpOvcXAmflSx4Z9Aek3szlgklo4hndTmNMhWxXQBsZ7lwGE0jFnJhc7
+ anug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=8kDUkoJavIyeuZQz6nDvGSb+5SnyQwPZeqxawk/jqqg=;
- b=LOvJQAG5NfiyP7YAwqNyCjf08f/pdNfqn6wR0hRy1vBaWhoNHR3aDQIUCs79plpzXN
- yaMc6TPigazKHL6n3OLlosUbC3waFnSDAxDJoQD9rTEgXXUlPh091DJQZclqMUHSDqMi
- lRSTswu5I0duk9UZ5MjNGP6bgaRgy+aYkn3hFyyfrDp4ULICyBMFC6WFXdQSv48dExvs
- GL2eYJX3WEWbIHJzjX5ghHrgZi373OT1HEMXAR3uFMYLNZ0sPmVBfyH86tKlvB38OWpe
- gliraSLIrcTyj9Fvo+2B2b230WgeL4pD1kAX1ILHxryl1lBIc0HYXZIXqPfRggOfIuy3
- 8e/Q==
-X-Gm-Message-State: ANhLgQ3CSglGbDtlBe4PCikKDIqLOhFn7knTL6RvyDRYMtrrKS/8yuiA
- dCBR0RUL3vr7v6FNJnqJKWe7kDCzGYo=
-X-Google-Smtp-Source: ADFU+vvuAwkC4LKfL3WYVTYWjvohoKhpAckq2QToq0/4qnHw47ceuTHf6Fx6iJg8rwNlneDt2JuXSQ==
-X-Received: by 2002:a62:b613:: with SMTP id j19mr6865772pff.90.1585190398081; 
- Wed, 25 Mar 2020 19:39:58 -0700 (PDT)
+ bh=5bknFHXBUh25hakSjGOXPtTSd/Ity3/PxD1ml3nlJRI=;
+ b=juL6KF1V5LBBt2yP1vUFubWtUY2rbvynIxCWW+7M08EfrC2xNvzXKXo2uaBJzYyIWx
+ FSD9/JY0wjpi7BYu9ihnMPxRjQjGUulT682F5VgLXkGct93AOxp0ZatdETEzu8QI6i3j
+ HyTJ14ygEnK1yLYG+vAzl3aMwYpjj6SOmScfc76a2INUmkV/zUiqx3K2od6SnNs6x5Yf
+ WVuC6IVcqBq4rJVburO8RY0/3+onANQ5piEj6ITf27QLruXksk3ibDQb/7eteU2BDmUi
+ 2dIt7SJUjytBGG60G9svFMgEdmaWhMvo8cyetfS7HvVe8PyuKgz2AlcwTWV3X+DqeoAB
+ chnQ==
+X-Gm-Message-State: ANhLgQ0JFfZLNcJ0fOVGQPpc1omx/EOOE+pW+Vn3OKdx/QFmRU3AcHU4
+ fzIriKDg8Sn90KzFAURXoaQ=
+X-Google-Smtp-Source: ADFU+vuuekroSuXruGHBXXfm1KHAFhCix04IYAYzHL4qOcsdBCH3x9SxXOBcSBVcktUp4apLFPJtSw==
+X-Received: by 2002:a17:90a:2710:: with SMTP id
+ o16mr698437pje.110.1585190703810; 
+ Wed, 25 Mar 2020 19:45:03 -0700 (PDT)
 Received: from ?IPv6:2601:641:c100:83a0:24c5:8a14:3f19:e6c8?
  ([2601:641:c100:83a0:24c5:8a14:3f19:e6c8])
- by smtp.gmail.com with ESMTPSA id q185sm404813pfb.154.2020.03.25.19.39.56
+ by smtp.gmail.com with ESMTPSA id y18sm426862pfe.19.2020.03.25.19.45.02
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 25 Mar 2020 19:39:57 -0700 (PDT)
-Subject: Re: [PATCH v4 02/15] ARC: ABI Implementation
+ Wed, 25 Mar 2020 19:45:02 -0700 (PDT)
+Subject: Re: [PATCH v4 03/15] ARC: startup and dynamic linking code
 To: Joseph Myers <joseph@codesourcery.com>
 References: <20200313030419.15843-1-vgupta@synopsys.com>
- <20200313030419.15843-3-vgupta@synopsys.com>
- <alpine.DEB.2.21.2003260138130.31593@digraph.polyomino.org.uk>
+ <20200313030419.15843-4-vgupta@synopsys.com>
+ <alpine.DEB.2.21.2003260155160.31593@digraph.polyomino.org.uk>
 From: Vineet Gupta <vineetg76@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=vineetg76@gmail.com; prefer-encrypt=mutual; keydata=
@@ -124,16 +125,17 @@ Autocrypt: addr=vineetg76@gmail.com; prefer-encrypt=mutual; keydata=
  ukgWa2otyae8BC7qBYFbm6uk9wMbYSN3yYBmbiAULMrBKA33iWlE0rIKMv91a2DVjp4NiOSu
  gyyFD9n83Sn4lcyjdLvBUCn9zgY4TwufG/ozyF2hSmO3iIzqt0GxmpQ+pBXk/m51D/UoTWGl
  deE0Dvw98SWmZSNtdOPnJZ0D
-Message-ID: <7a3df848-1ef6-9e54-3b5a-9cdfcaf436a7@gmail.com>
-Date: Wed, 25 Mar 2020 19:39:55 -0700
+Message-ID: <13766854-7189-86c2-798f-bedc8dba321c@gmail.com>
+Date: Wed, 25 Mar 2020 19:45:01 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.2003260138130.31593@digraph.polyomino.org.uk>
+In-Reply-To: <alpine.DEB.2.21.2003260155160.31593@digraph.polyomino.org.uk>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200325_193959_042485_F18EDC4D 
-X-CRM114-Status: GOOD (  22.74  )
+X-CRM114-CacheID: sfid-20200325_194504_711310_98DA0D7D 
+X-CRM114-Status: UNSURE (   7.76  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,106 +153,10 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 3/25/20 6:52 PM, Joseph Myers wrote:
-> On Thu, 12 Mar 2020, Vineet Gupta via Libc-alpha wrote:
->> +/* ARC has selectable endianness.  */
->> +#ifdef __BIG_ENDIAN__
->> +# define __BYTE_ORDER __BIG_ENDIAN
->> +#else
->> +# define __BYTE_ORDER __LITTLE_ENDIAN
->> +#endif
-> 
-> Elsewhere you say the port is little-endian only.  In such cases we 
-> generally have an error somewhere if you attempt to build glibc for the 
-> other endianness, to avoid an other-endian configuration accidentally 
-> building but not working and having a broken ABI.  For example, see what 
-> Nios II does: sysdeps/nios2/bits/endianness.h handles both endiannesses, 
-> but sysdeps/nios2/configure.ac produces an error for big-endian.
-
-Hardware-wise, ARC can be configured to be LE or BE and software supports that
-(cfr Linux or uClibc). The initial glibc port was only aiming LE but we ended up
-with BE as well due to a customer engagement. And given much of ARC port is
-currently generic (minimal asm), no real change was needed except enabling it in
-this header. We do plan to officially support it so I guess we need some more
-changes in Documentation / ABI listing etc.
-
-> 
->> +/* PLT jump into resolver passes PC of PLTn, while _dl_fixup expects the
->> +   address of corresponding .rela.plt entry.  */
->> +
->> +#ifdef __A7__
->> +# define ARC_PLT_SIZE	12
->> +#else
->> +# define ARC_PLT_SIZE	16
->> +#endif
-> 
-> Is this some sort of ABI difference between two incompatible ABIs?  (The 
-> ABI document you pointed to only seems to mention 12-byte PLT entries.)
-
-Right, we've had 2 ARC ISA: current generation ARCv2 (basis for HS3x and HS4x
-processors) and the older ARCompact (ARC700 cores which run Linux and still
-supported e.g. in Mellanox NPS cores). From instruction set pov they are very
-similar (although not binary compatible).
-
-ARCompact PLT entry is 12 bytes
-    b18c:	ld    r12,[pcl,0x00065584]	#8
-    b194:	j_s.d [r12]			#2
-    b196:	mov_s r12,pcl			#2
-
-ARCv2 prohibits--> mov_s with PCL and thus we have
-    b18c:	ld    r12,[pcl,0x00065584]	#8
-    b194:	j.d   [r12]			#4
-    b198:	mov   r12,pcl			#4
-
-Again this is the only change needed for *testing* a ARCompact build as rest is
-all taken care by how gcc is configured etc (and generates __A7__). This has also
-been tested and boots Linux fine. We can add the necessary elaborations for
-supporting it officially.
-
->> +#define reloc_index						\
->> +({								\
->> +  unsigned long int plt0 = D_PTR (l, l_info[DT_PLTGOT]);	\
->> +  unsigned long int pltn = reloc_arg;				\
->> +  /* Exclude PL0 and PLT1.  */					\
-> 
-> Should PL0 be PLT0 here?
+On 3/25/20 6:55 PM, Joseph Myers wrote:
+> Do you mean DTPOFF?  Otherwise I'm not sure what DTSOFF is.
 
 Fixed.
-
->> +  unsigned long int idx = (pltn - plt0)/ARC_PLT_SIZE - 2;	\
-> 
-> Missing spaces around '/'.
-
-Fixed.
-
-> 
->> diff --git a/sysdeps/arc/gmp-mparam.h b/sysdeps/arc/gmp-mparam.h
->> new file mode 100644
-
-[snip...]
-
->> +
->> +#define IEEE_DOUBLE_BIG_ENDIAN 0
-> 
-> Plenty of architectures that have, or support, little-endian floating 
-> point do not have gmp-mparam.h at all.  IEEE_DOUBLE_BIG_ENDIAN is only 
-> used to define union ieee_double_extract, which is nowhere used in glibc.  
-> So I don't think you need this header at all 
-
-Removed now.
-
-(and it shows up the scope
-> for a more general cleanup possible for other ports, I suspect only the 
-> x32 and mips64 versions of this header, the ones that define 
-> _LONG_LONG_LIMB for ILP32 configurations with 64-bit registers, are the 
-> only non-generic ones that do anything useful - but you don't need to do 
-> that cleanup).
-
-Thx for taking a look.
-
--Vineet
-
-
 
 _______________________________________________
 linux-snps-arc mailing list
