@@ -2,87 +2,83 @@ Return-Path: <SRS0=yFMY=5L=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 315B8C2D0E5
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 15:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA59C2D0E5
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 17:08:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 06EE920748
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 15:24:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 08FCF20714
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 17:08:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Wl/vQrZd";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=c-s.fr header.i=@c-s.fr header.b="QJhesD4w"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 06EE920748
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=c-s.fr
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ItTaTiQn";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="XCHGyHXT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08FCF20714
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:Cc:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lBE1Xta8PlAEBYPF/yWjxFeJVW+YWIdONGtyxpINsHI=; b=Wl/vQrZd7yCqWqMIuSRRZJitk
-	ayaxRtWGaAgQwy/fhxo7vm34IsbGGYaYYFcYS9OT15STmTdfzkbVGC+PxgwfnrMbE/eSxQ/mr3e/x
-	rGo3W1CQ6yNprdqGPKTMjOI2VZ8a7q1A1CTSf17agpQBfJSLX64Iz5MU9i4zvs3Ra3CZnIYVrWEdT
-	Rux0UK+p7+S41GKaTJNnUnx3BKj6IjuUIAea2j2Dy8sQEQbQS/9ZZojUINVuziDoZcakCbvhLs8Lk
-	O+9d4XlHTLAgpJrFjyxZi05f5fLNR/GL3WxLJKPP0dhnKFFYdbtEbfKVkjDjYfgL7Y/qccgfig7Ck
-	HY0+WaE5g==;
+	 bh=G1ZQnoSa2tU2VfERuOslQoLt/tCHl1/NOA5g4RXy8+w=; b=ItTaTiQnx1WJzVNfCTOqRvgvT
+	BuIQkdTgWmAJscj0A8QmeBC6GpvZJelMyCTFKSxxVBTgvEAtysyX3dQpVjJ9vUcVAyvfXViJFuvNO
+	7y+6xIqet/kVwDQK5+7w6ktX7r5U2uF9egUFhgWwkLmiREAHefds2oA4fxrWDNcirTFjAxsRm9gLL
+	R4TofGnTJ7B6PxURoWSmALv8jqlJ7UnfVJrNHaaAD1/malUF9LAy8C5FKY5DGVuALnmCpXzwK9eUo
+	tw2G+rmTsEMyhMh7Bpt/+Gd7alvTOPmCROCXL+rDDwLLJ9/gcN2mAKzV4NaUaTaSKYwQQXFww6u9b
+	9ABnRBpTw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHUN3-00034X-Ft; Thu, 26 Mar 2020 15:24:37 +0000
-Received: from pegase1.c-s.fr ([93.17.236.30])
+	id 1jHVzs-0001HZ-Ty; Thu, 26 Mar 2020 17:08:48 +0000
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHUMr-0002st-EE; Thu, 26 Mar 2020 15:24:27 +0000
-Received: from localhost (mailhub1-int [192.168.12.234])
- by localhost (Postfix) with ESMTP id 48p80G6F1Wz9txjy;
- Thu, 26 Mar 2020 16:23:58 +0100 (CET)
-Authentication-Results: localhost; dkim=pass
- reason="1024-bit key; insecure key"
- header.d=c-s.fr header.i=@c-s.fr header.b=QJhesD4w; dkim-adsp=pass;
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
- by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
- with ESMTP id NWGJWPMaCs17; Thu, 26 Mar 2020 16:23:58 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase1.c-s.fr (Postfix) with ESMTP id 48p80G4yWsz9txhw;
- Thu, 26 Mar 2020 16:23:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
- t=1585236238; bh=CZedNiiqJ0UJZqFGucqz7RH9S4VZ89sV2dm5t35m/bE=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=QJhesD4wQa2bJoneY1MwenUCwgUwqSk2wALQ4yKJw1XPxljgbdfEt2iVUC9DtiB+7
- Qp03KQsLcMtvm5iloRRcoXG4f/w4u0Ph+bkyIf3LO/PICDIkvttB2JptzPRNVcj3XJ
- QgjL01MGEvkgL+EWDjA6KH2h4clUrwIDk63DVcjQ=
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 2ED0F8B7AB;
- Thu, 26 Mar 2020 16:24:00 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id H0WwrU9lWfFS; Thu, 26 Mar 2020 16:24:00 +0100 (CET)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 343758B756;
- Thu, 26 Mar 2020 16:23:58 +0100 (CET)
-Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
-To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
+ id 1jHVzp-0001Gr-Gt; Thu, 26 Mar 2020 17:08:47 +0000
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e7ce16a0001>; Thu, 26 Mar 2020 10:07:55 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 26 Mar 2020 10:08:41 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Thu, 26 Mar 2020 10:08:41 -0700
+Received: from [10.2.169.181] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 26 Mar
+ 2020 17:08:37 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH V2 1/3] mm/debug: Add tests validating arch page table
+ helpers for core features
+Date: Thu, 26 Mar 2020 13:08:34 -0400
+X-Mailer: MailMate (1.13.1r5680)
+Message-ID: <CEB780BF-ECB6-4304-8C04-3DCBAF931492@nvidia.com>
+In-Reply-To: <5b188e44-73d5-673c-8df1-f2c42b556cf9@arm.com>
 References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
- <2bb4badc-2b7a-e15d-a99b-b1bd38c9d9bf@arm.com>
-From: Christophe Leroy <christophe.leroy@c-s.fr>
-Message-ID: <a46d18ed-8911-1ec3-c32f-58b6e0d959d7@c-s.fr>
-Date: Thu, 26 Mar 2020 16:23:58 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ <1585027375-9997-2-git-send-email-anshuman.khandual@arm.com>
+ <89E72C74-A32F-4A5B-B5F3-8A63428507A5@nvidia.com>
+ <5b188e44-73d5-673c-8df1-f2c42b556cf9@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <2bb4badc-2b7a-e15d-a99b-b1bd38c9d9bf@arm.com>
-Content-Language: fr
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1585242475; bh=BwfOtD07idSpmJyy+vvL0tN3O7NJQEs+p7kB7u/XKe0=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:X-Mailer:Message-ID:
+ In-Reply-To:References:MIME-Version:X-Originating-IP:
+ X-ClientProxiedBy:Content-Type;
+ b=XCHGyHXTrciWgn4hhrAArAkDizTNQ5oimD1MYGqqCVi9MwP/e19yTLd9sETkgDpy2
+ WwCCnIGl9XY8oUofP95CbGwz2gKEai3i7yvHL1kHCCaq/F8xviikO3AlcQHDhNXWZV
+ NYAiYM5+39HNU5efw66SB9d2cP8AGoA/RF6a1dplpFgnVpyNLDhH3VHdKLxE0sEWTO
+ w2IdcvddX5jqXCtLrXpfEM/mC8ozh0jWxzjuKGVcFOrFpyYIPhTm/4EqSYZgcrMUoe
+ TnZjOk7iVlWLNX83evNjzYxARN+95+Wb0QtZtoYqpT+Q1lqgp+0WEMVBgu4LQWk80n
+ 4jMAPs7pUcNUw==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200326_082425_829439_BB33E7AC 
-X-CRM114-Status: GOOD (  11.86  )
+X-CRM114-CacheID: sfid-20200326_100845_573588_2A5A2E3B 
+X-CRM114-Status: GOOD (  20.03  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,12 +90,11 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, linux-mm@kvack.org,
+ Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
  Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
  Mike Rapoport <rppt@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
@@ -108,55 +103,442 @@ Cc: linux-doc@vger.kernel.org,
  Paul Walmsley <paul.walmsley@sifive.com>,
  "Kirill A . Shutemov" <kirill@shutemov.name>,
  Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Vineet Gupta <vgupta@synopsys.com>, linux-kernel@vger.kernel.org,
- Palmer Dabbelt <palmer@dabbelt.com>, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ christophe.leroy@c-s.fr, Vineet Gupta <vgupta@synopsys.com>,
+ linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Content-Type: multipart/mixed; boundary="===============7566222203940951301=="
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-CgpMZSAyNi8wMy8yMDIwIMOgIDAzOjIzLCBBbnNodW1hbiBLaGFuZHVhbCBhIMOpY3JpdMKgOgo+
-IAo+IAo+IE9uIDAzLzI0LzIwMjAgMTA6NTIgQU0sIEFuc2h1bWFuIEtoYW5kdWFsIHdyb3RlOgo+
-PiBUaGlzIHNlcmllcyBhZGRzIG1vcmUgYXJjaCBwYWdlIHRhYmxlIGhlbHBlciB0ZXN0cy4gVGhl
-IG5ldyB0ZXN0cyBoZXJlIGFyZQo+PiBlaXRoZXIgcmVsYXRlZCB0byBjb3JlIG1lbW9yeSBmdW5j
-dGlvbnMgYW5kIGFkdmFuY2VkIGFyY2ggcGd0YWJsZSBoZWxwZXJzLgo+PiBUaGlzIGFsc28gY3Jl
-YXRlcyBhIGRvY3VtZW50YXRpb24gZmlsZSBlbmxpc3RpbmcgYWxsIGV4cGVjdGVkIHNlbWFudGlj
-cyBhcwo+PiBzdWdnZXN0ZWQgYnkgTWlrZSBSYXBvcG9ydCAoaHR0cHM6Ly9sa21sLm9yZy9sa21s
-LzIwMjAvMS8zMC80MCkuCj4+Cj4+IFRoaXMgc2VyaWVzIGhhcyBiZWVuIHRlc3RlZCBvbiBhcm02
-NCBhbmQgeDg2IHBsYXRmb3Jtcy4KPiAKPiBJZiBmb2xrcyBjYW4gdGVzdCB0aGVzZSBwYXRjaGVz
-IG91dCBvbiByZW1haW5pbmcgQVJDSF9IQVNfREVCVUdfVk1fUEdUQUJMRQo+IGVuYWJsZWQgcGxh
-dGZvcm1zIGkuZSBzMzkwLCBhcmMsIHBvd2VycGMgKDMyIGFuZCA2NCksIHRoYXQgd2lsbCBiZSBy
-ZWFsbHkKPiBhcHByZWNpYXRlZC4gVGhhbmsgeW91Lgo+IAoKT24gcG93ZXJwYyA4eHggKFBQQzMy
-KSwgSSBnZXQ6CgpbICAgNTMuMzM4MzY4XSBkZWJ1Z192bV9wZ3RhYmxlOiBkZWJ1Z192bV9wZ3Rh
-YmxlOiBWYWxpZGF0aW5nIAphcmNoaXRlY3R1cmUgcGFnZSB0YWJsZSBoZWxwZXJzClsgICA1My4z
-NDc0MDNdIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQpbICAgNTMuMzUxODMy
-XSBXQVJOSU5HOiBDUFU6IDAgUElEOiAxIGF0IG1tL2RlYnVnX3ZtX3BndGFibGUuYzo2NDcgCmRl
-YnVnX3ZtX3BndGFibGUrMHgyODAvMHgzZjQKWyAgIDUzLjM2MDE0MF0gQ1BVOiAwIFBJRDogMSBD
-b21tOiBzd2FwcGVyIE5vdCB0YWludGVkIAo1LjYuMC1yYzctczNrLWRldi0wMTA5MC1nOTI3MTBl
-OTk4ODFmICMzNTQ0ClsgICA1My4zNjg3MThdIE5JUDogIGMwNzc3YzA0IExSOiBjMDc3N2JiOCBD
-VFI6IDAwMDAwMDAwClsgICA1My4zNzM3MjBdIFJFR1M6IGM5MDIzZGYwIFRSQVA6IDA3MDAgICBO
-b3QgdGFpbnRlZCAKKDUuNi4wLXJjNy1zM2stZGV2LTAxMDkwLWc5MjcxMGU5OTg4MWYpClsgICA1
-My4zODIwNDJdIE1TUjogIDAwMDI5MDMyIDxFRSxNRSxJUixEUixSST4gIENSOiAyMjAwMDIyMiAg
-WEVSOiAyMDAwMDAwMApbICAgNTMuMzg4NjY3XQpbICAgNTMuMzg4NjY3XSBHUFIwMDogYzA3Nzdi
-YjggYzkwMjNlYTggYzYxMjAwMDAgMDAwMDAwMDEgMWU0MTAwMDAgCjAwMDAwMDAwIDAwMDAwMDAw
-IDAwNzY0MWM5ClsgICA1My4zODg2NjddIEdQUjA4OiAwMDAwMDAwMCAwMDAwMDAwMSAwMDAwMDAw
-MCBmZmZmZmZmZiA4MjAwMDIyMiAKMDAwMDAwMDAgYzAwMDM5YjggMDAwMDAwMDAKWyAgIDUzLjM4
-ODY2N10gR1BSMTY6IDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDAwIGZmZmZmZmYwIDA2NWZjMDAw
-IAoxZTQxMDAwMCBjNjYwMDAwMCAwMDAwMDFlNApbICAgNTMuMzg4NjY3XSBHUFIyNDogMDAwMDAx
-ZDkgYzA2MmQxNGMgYzY1ZmMwMDAgYzY0MmQ0NDggMDAwMDA2YzkgCjAwMDAwMDAwIGM2NWY4MDAw
-IGM2NWZjMDQwClsgICA1My40MjM0MDBdIE5JUCBbYzA3NzdjMDRdIGRlYnVnX3ZtX3BndGFibGUr
-MHgyODAvMHgzZjQKWyAgIDUzLjQyODU1OV0gTFIgW2MwNzc3YmI4XSBkZWJ1Z192bV9wZ3RhYmxl
-KzB4MjM0LzB4M2Y0ClsgICA1My40MzM1OTNdIENhbGwgVHJhY2U6ClsgICA1My40MzYwNDhdIFtj
-OTAyM2VhOF0gW2MwNzc3YmI4XSBkZWJ1Z192bV9wZ3RhYmxlKzB4MjM0LzB4M2Y0IAoodW5yZWxp
-YWJsZSkKWyAgIDUzLjQ0MjkzNl0gW2M5MDIzZjI4XSBbYzAwMDM5ZTBdIGtlcm5lbF9pbml0KzB4
-MjgvMHgxMjQKWyAgIDUzLjQ0ODE4NF0gW2M5MDIzZjM4XSBbYzAwMGYxNzRdIHJldF9mcm9tX2tl
-cm5lbF90aHJlYWQrMHgxNC8weDFjClsgICA1My40NTQyNDVdIEluc3RydWN0aW9uIGR1bXA6Clsg
-ICA1My40NTcxODBdIDQxYTIwMDA4IDRiZWEzZWQ5IDYyODkwMDIxIDdkMzZiOTJlIDdkMzZiODJl
-IDcxMjkwZmQwIAozMTQ5ZmZmZiA3ZDJhNDkxMApbICAgNTMuNDY0ODM4XSAwZjA5MDAwMCA1Nzg5
-MDc3ZSAzMTQ5ZmZmZiA3ZDJhNDkxMCA8MGYwOTAwMDA+IDM4YzAwMDAwIAozOGEwMDAwMCAzODgw
-MDAwMApbICAgNTMuNDcyNjcxXSAtLS1bIGVuZCB0cmFjZSBmZDVkZDkyNzQ0ZGMwMDY1IF0tLS0K
-WyAgIDUzLjUxOTc3OF0gRnJlZWluZyB1bnVzZWQga2VybmVsIG1lbW9yeTogNjA4SwoKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJj
-IG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9s
-aXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+--===============7566222203940951301==
+Content-Type: multipart/signed;
+	boundary="=_MailMate_2ACBE892-258B-474F-BA87-40148258F45E_=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+
+--=_MailMate_2ACBE892-258B-474F-BA87-40148258F45E_=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On 25 Mar 2020, at 22:18, Anshuman Khandual wrote:
+
+> External email: Use caution opening links or attachments
+>
+>
+> On 03/24/2020 06:59 PM, Zi Yan wrote:
+>> On 24 Mar 2020, at 1:22, Anshuman Khandual wrote:
+>>
+>>> This adds new tests validating arch page table helpers for these foll=
+owing
+>>> core memory features. These tests create and test specific mapping ty=
+pes at
+>>> various page table levels.
+>>>
+>>> 1. SPECIAL mapping
+>>> 2. PROTNONE mapping
+>>> 3. DEVMAP mapping
+>>> 4. SOFTDIRTY mapping
+>>> 5. SWAP mapping
+>>> 6. MIGRATION mapping
+>>> 7. HUGETLB mapping
+>>> 8. THP mapping
+>>>
+>>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>>> Cc: Mike Rapoport <rppt@linux.ibm.com>
+>>> Cc: Vineet Gupta <vgupta@synopsys.com>
+>>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>>> Cc: Will Deacon <will@kernel.org>
+>>> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+>>> Cc: Paul Mackerras <paulus@samba.org>
+>>> Cc: Michael Ellerman <mpe@ellerman.id.au>
+>>> Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
+>>> Cc: Vasily Gorbik <gor@linux.ibm.com>
+>>> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+>>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>>> Cc: Ingo Molnar <mingo@redhat.com>
+>>> Cc: Borislav Petkov <bp@alien8.de>
+>>> Cc: "H. Peter Anvin" <hpa@zytor.com>
+>>> Cc: Kirill A. Shutemov <kirill@shutemov.name>
+>>> Cc: Paul Walmsley <paul.walmsley@sifive.com>
+>>> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+>>> Cc: linux-snps-arc@lists.infradead.org
+>>> Cc: linux-arm-kernel@lists.infradead.org
+>>> Cc: linuxppc-dev@lists.ozlabs.org
+>>> Cc: linux-s390@vger.kernel.org
+>>> Cc: linux-riscv@lists.infradead.org
+>>> Cc: x86@kernel.org
+>>> Cc: linux-arch@vger.kernel.org
+>>> Cc: linux-kernel@vger.kernel.org
+>>> Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+>>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>>> ---
+>>>  mm/debug_vm_pgtable.c | 291 ++++++++++++++++++++++++++++++++++++++++=
++-
+>>>  1 file changed, 290 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
+>>> index 98990a515268..15055a8f6478 100644
+>>> --- a/mm/debug_vm_pgtable.c
+>>> +++ b/mm/debug_vm_pgtable.c
+>>> @@ -289,6 +289,267 @@ static void __init pmd_populate_tests(struct mm=
+_struct *mm, pmd_t *pmdp,
+>>>      WARN_ON(pmd_bad(pmd));
+>>>  }
+>>>
+>>> +static void __init pte_special_tests(unsigned long pfn, pgprot_t pro=
+t)
+>>> +{
+>>> +    pte_t pte =3D pfn_pte(pfn, prot);
+>>> +
+>>> +    if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL))
+>>> +            return;
+>>> +
+>>> +    WARN_ON(!pte_special(pte_mkspecial(pte)));
+>>> +}
+>>> +
+>>> +static void __init pte_protnone_tests(unsigned long pfn, pgprot_t pr=
+ot)
+>>> +{
+>>> +    pte_t pte =3D pfn_pte(pfn, prot);
+>>> +
+>>> +    if (!IS_ENABLED(CONFIG_NUMA_BALANCING))
+>>> +            return;
+>>> +
+>>> +    WARN_ON(!pte_protnone(pte));
+>>> +    WARN_ON(!pte_present(pte));
+>>> +}
+>>> +
+>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>> +static void __init pmd_protnone_tests(unsigned long pfn, pgprot_t pr=
+ot)
+>>> +{
+>>> +    pmd_t pmd =3D pfn_pmd(pfn, prot);
+>>> +
+>>> +    if (!IS_ENABLED(CONFIG_NUMA_BALANCING))
+>>> +            return;
+>>> +
+>>> +    WARN_ON(!pmd_protnone(pmd));
+>>> +    WARN_ON(!pmd_present(pmd));
+>>> +}
+>>> +#else
+>>> +static void __init pmd_protnone_tests(unsigned long pfn, pgprot_t pr=
+ot) { }
+>>> +#endif
+>>> +
+>>> +#ifdef CONFIG_ARCH_HAS_PTE_DEVMAP
+>>> +static void __init pte_devmap_tests(unsigned long pfn, pgprot_t prot=
+)
+>>> +{
+>>> +    pte_t pte =3D pfn_pte(pfn, prot);
+>>> +
+>>> +    WARN_ON(!pte_devmap(pte_mkdevmap(pte)));
+>>> +}
+>>> +
+>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>> +static void __init pmd_devmap_tests(unsigned long pfn, pgprot_t prot=
+)
+>>> +{
+>>> +    pmd_t pmd =3D pfn_pmd(pfn, prot);
+>>> +
+>>> +    WARN_ON(!pmd_devmap(pmd_mkdevmap(pmd)));
+>>> +}
+>>> +
+>>> +#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+>>> +static void __init pud_devmap_tests(unsigned long pfn, pgprot_t prot=
+)
+>>> +{
+>>> +    pud_t pud =3D pfn_pud(pfn, prot);
+>>> +
+>>> +    WARN_ON(!pud_devmap(pud_mkdevmap(pud)));
+>>> +}
+>>> +#else
+>>> +static void __init pud_devmap_tests(unsigned long pfn, pgprot_t prot=
+) { }
+>>> +#endif
+>>> +#else
+>>> +static void __init pmd_devmap_tests(unsigned long pfn, pgprot_t prot=
+) { }
+>>> +static void __init pud_devmap_tests(unsigned long pfn, pgprot_t prot=
+) { }
+>>> +#endif
+>>> +#else
+>>> +static void __init pte_devmap_tests(unsigned long pfn, pgprot_t prot=
+) { }
+>>> +static void __init pmd_devmap_tests(unsigned long pfn, pgprot_t prot=
+) { }
+>>> +static void __init pud_devmap_tests(unsigned long pfn, pgprot_t prot=
+) { }
+>>> +#endif
+>>> +
+>>> +static void __init pte_soft_dirty_tests(unsigned long pfn, pgprot_t =
+prot)
+>>> +{
+>>> +    pte_t pte =3D pfn_pte(pfn, prot);
+>>> +
+>>> +    if (!IS_ENABLED(CONFIG_HAVE_ARCH_SOFT_DIRTY))
+>>> +            return;
+>>> +
+>>> +    WARN_ON(!pte_soft_dirty(pte_mksoft_dirty(pte)));
+>>> +    WARN_ON(pte_soft_dirty(pte_clear_soft_dirty(pte)));
+>>> +}
+>>> +
+>>> +static void __init pte_swap_soft_dirty_tests(unsigned long pfn, pgpr=
+ot_t prot)
+>>> +{
+>>> +    pte_t pte =3D pfn_pte(pfn, prot);
+>>> +
+>>> +    if (!IS_ENABLED(CONFIG_HAVE_ARCH_SOFT_DIRTY))
+>>> +            return;
+>>> +
+>>> +    WARN_ON(!pte_swp_soft_dirty(pte_swp_mksoft_dirty(pte)));
+>>> +    WARN_ON(pte_swp_soft_dirty(pte_swp_clear_soft_dirty(pte)));
+>>> +}
+>>> +
+>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>> +static void __init pmd_soft_dirty_tests(unsigned long pfn, pgprot_t =
+prot)
+>>> +{
+>>> +    pmd_t pmd =3D pfn_pmd(pfn, prot);
+>>> +
+>>> +    if (!IS_ENABLED(CONFIG_HAVE_ARCH_SOFT_DIRTY))
+>>> +            return;
+>>> +
+>>> +    WARN_ON(!pmd_soft_dirty(pmd_mksoft_dirty(pmd)));
+>>> +    WARN_ON(pmd_soft_dirty(pmd_clear_soft_dirty(pmd)));
+>>> +}
+>>> +
+>>> +static void __init pmd_swap_soft_dirty_tests(unsigned long pfn, pgpr=
+ot_t prot)
+>>> +{
+>>> +    pmd_t pmd =3D pfn_pmd(pfn, prot);
+>>> +
+>>> +    if (!IS_ENABLED(CONFIG_HAVE_ARCH_SOFT_DIRTY) ||
+>>> +            !IS_ENABLED(CONFIG_ARCH_ENABLE_THP_MIGRATION))
+>>> +            return;
+>>> +
+>>> +    WARN_ON(!pmd_swp_soft_dirty(pmd_swp_mksoft_dirty(pmd)));
+>>> +    WARN_ON(pmd_swp_soft_dirty(pmd_swp_clear_soft_dirty(pmd)));
+>>> +}
+>>> +#else
+>>> +static void __init pmd_soft_dirty_tests(unsigned long pfn, pgprot_t =
+prot) { }
+>>> +static void __init pmd_swap_soft_dirty_tests(unsigned long pfn, pgpr=
+ot_t prot)
+>>> +{
+>>> +}
+>>> +#endif
+>>> +
+>>> +static void __init pte_swap_tests(unsigned long pfn, pgprot_t prot)
+>>> +{
+>>> +    swp_entry_t swp;
+>>> +    pte_t pte;
+>>> +
+>>> +    pte =3D pfn_pte(pfn, prot);
+>>> +    swp =3D __pte_to_swp_entry(pte);
+>>> +    WARN_ON(!pte_same(pte, __swp_entry_to_pte(swp)));
+>>> +}
+>>> +
+>>> +#ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
+>>> +static void __init pmd_swap_tests(unsigned long pfn, pgprot_t prot)
+>>> +{
+>>> +    swp_entry_t swp;
+>>> +    pmd_t pmd;
+>>> +
+>>> +    pmd =3D pfn_pmd(pfn, prot);
+>>> +    swp =3D __pmd_to_swp_entry(pmd);
+>>> +    WARN_ON(!pmd_same(pmd, __swp_entry_to_pmd(swp)));
+>>> +}
+>>> +#else
+>>> +static void __init pmd_swap_tests(unsigned long pfn, pgprot_t prot) =
+{ }
+>>> +#endif
+>>> +
+>>> +static void __init swap_migration_tests(void)
+>>> +{
+>>> +    struct page *page;
+>>> +    swp_entry_t swp;
+>>> +
+>>> +    if (!IS_ENABLED(CONFIG_MIGRATION))
+>>> +            return;
+>>> +    /*
+>>> +     * swap_migration_tests() requires a dedicated page as it needs =
+to
+>>> +     * be locked before creating a migration entry from it. Locking =
+the
+>>> +     * page that actually maps kernel text ('start_kernel') can be r=
+eal
+>>> +     * problematic. Lets allocate a dedicated page explicitly for th=
+is
+>>> +     * purpose that will be freed subsequently.
+>>> +     */
+>>> +    page =3D alloc_page(GFP_KERNEL);
+>>> +    if (!page) {
+>>> +            pr_err("page allocation failed\n");
+>>> +            return;
+>>> +    }
+>>> +
+>>> +    /*
+>>> +     * make_migration_entry() expects given page to be
+>>> +     * locked, otherwise it stumbles upon a BUG_ON().
+>>> +     */
+>>> +    __SetPageLocked(page);
+>>> +    swp =3D make_migration_entry(page, 1);
+>>> +    WARN_ON(!is_migration_entry(swp));
+>>> +    WARN_ON(!is_write_migration_entry(swp));
+>>> +
+>>> +    make_migration_entry_read(&swp);
+>>> +    WARN_ON(!is_migration_entry(swp));
+>>> +    WARN_ON(is_write_migration_entry(swp));
+>>> +
+>>> +    swp =3D make_migration_entry(page, 0);
+>>> +    WARN_ON(!is_migration_entry(swp));
+>>> +    WARN_ON(is_write_migration_entry(swp));
+>>> +    __ClearPageLocked(page);
+>>> +    __free_page(page);
+>>> +}
+>>> +
+>>> +#ifdef CONFIG_HUGETLB_PAGE
+>>> +static void __init hugetlb_basic_tests(unsigned long pfn, pgprot_t p=
+rot)
+>>> +{
+>>> +    struct page *page;
+>>> +    pte_t pte;
+>>> +
+>>> +    /*
+>>> +     * Accessing the page associated with the pfn is safe here,
+>>> +     * as it was previously derived from a real kernel symbol.
+>>> +     */
+>>> +    page =3D pfn_to_page(pfn);
+>>> +    pte =3D mk_huge_pte(page, prot);
+>>> +
+>>> +    WARN_ON(!huge_pte_dirty(huge_pte_mkdirty(pte)));
+>>> +    WARN_ON(!huge_pte_write(huge_pte_mkwrite(huge_pte_wrprotect(pte)=
+)));
+>>> +    WARN_ON(huge_pte_write(huge_pte_wrprotect(huge_pte_mkwrite(pte))=
+));
+>>> +
+>>> +#ifdef CONFIG_ARCH_WANT_GENERAL_HUGETLB
+>>> +    pte =3D pfn_pte(pfn, prot);
+>>> +
+>>> +    WARN_ON(!pte_huge(pte_mkhuge(pte)));
+>>> +#endif
+>>> +}
+>>> +#else
+>>> +static void __init hugetlb_basic_tests(unsigned long pfn, pgprot_t p=
+rot) { }
+>>> +#endif
+>>> +
+>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>> +static void __init pmd_thp_tests(unsigned long pfn, pgprot_t prot)
+>>> +{
+>>> +    pmd_t pmd;
+>>> +
+>>> +    /*
+>>> +     * pmd_trans_huge() and pmd_present() must return positive
+>>> +     * after MMU invalidation with pmd_mknotpresent().
+>>> +     */
+>>> +    pmd =3D pfn_pmd(pfn, prot);
+>>> +    WARN_ON(!pmd_trans_huge(pmd_mkhuge(pmd)));
+>>> +
+>>> +#ifndef __HAVE_ARCH_PMDP_INVALIDATE
+>>> +    WARN_ON(!pmd_trans_huge(pmd_mknotpresent(pmd_mkhuge(pmd))));
+>>> +    WARN_ON(!pmd_present(pmd_mknotpresent(pmd_mkhuge(pmd))));
+>>> +#endif
+>>
+>> I think we need a better comment here, because requiring pmd_trans_hug=
+e() and
+>> pmd_present() returning true after pmd_mknotpresent() is not straightf=
+orward.
+>
+> Thats right.
+>
+>>
+>> According to Andrea Arcangeli=E2=80=99s email (https://lore.kernel.org=
+/linux-mm/20181017020930.GN30832@redhat.com/),
+>> This behavior is an optimization for transparent huge page.
+>> pmd_trans_huge() must be true if pmd_page() returns you a valid THP to=
+ avoid
+>> taking the pmd_lock when others walk over non transhuge pmds (i.e. the=
+re are no
+>> THP allocated). Especially when we split a THP, removing the present b=
+it from
+>> the pmd, pmd_trans_huge() still needs to return true. pmd_present() sh=
+ould
+>> be true whenever pmd_trans_huge() returns true.
+>
+> Sure, will modify the existing comment here like this.
+>
+>         /*
+>          * pmd_trans_huge() and pmd_present() must return positive afte=
+r
+>          * MMU invalidation with pmd_mknotpresent(). This behavior is a=
+n
+>          * optimization for transparent huge page. pmd_trans_huge() mus=
+t
+>          * be true if pmd_page() returns a valid THP to avoid taking th=
+e
+>          * pmd_lock when others walk over non transhuge pmds (i.e. ther=
+e
+>          * are no THP allocated). Especially when splitting a THP and
+>          * removing the present bit from the pmd, pmd_trans_huge() stil=
+l
+>          * needs to return true. pmd_present() should be true whenever
+>          * pmd_trans_huge() returns true.
+>          */
+>
+>>
+>> I think it is also worth either putting Andres=E2=80=99s email or the =
+link to it
+>> in the rst file in your 3rd patch. It is a good documentation for this=
+ special
+>> case.
+>
+> Makes sense. Will update Andrea's email link in the .rst file as well.
+>
+
+Look good to me. Thanks.
+
+Reviewed-by: Zi Yan <ziy@nvidia.com>
+
+=E2=80=94
+Best Regards,
+Yan Zi
+
+--=_MailMate_2ACBE892-258B-474F-BA87-40148258F45E_=
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJDBAEBCgAtFiEEh7yFAW3gwjwQ4C9anbJR82th+ooFAl584ZIPHHppeUBudmlk
+aWEuY29tAAoJEJ2yUfNrYfqKdy4P/3ofw7nekR6lj+F67bUoA1kamVe7nB1GPlMF
+gplxJACEyMz8W/H+UrHswz53iUk5KgB1Bbi1M2ZPJ7iYPGj0CvHyNTKqCMHHz0aW
+Bokl7IHbH04B5ISX11DtWPe6BJvH0VU8rVoLAI4HIASjFm3MpyJ/ZfeO9b4/LInH
+1P2gusknbYf2e8L7e5vm9miYGny0a9Tab2PQHB3CNRAORcyYUOON8z2Y3hZpuuXY
+pZDvALP7JzmSlZVsvQvPzfnefIqj7tTOD5/lTEHC3Y1HDbwMKqzmTWqgehHm2nux
+IkVja3DFoDDkRxxSYSH2hiBl5x0Z+qluDV9SAMZD6Jj3XGkpVrjgNAhlah6SXjGp
+UjW1XnXCrsCGvF+UykRAVT02MopL+VdNBv4r66+Z8OEAV2olX3V2TdHzxwdITf7a
+GL/dQ+I8di+wjOCqKHnfKBoqSHbP1P1P7UtRogKsXU47Fn4or1Uxqj/XB6TyYCYB
+I0A1cIFWyIPO4TuvpGsHXM1IewapQWf4Pv4T4xPG0Fs9Gk4dKBstEbfxrATQ1wNr
+OTliq9iSeRIhXnsAgENPcZjk1ZBGCw7ZdZ71eI5kZYmanGAoha+mONcnixD6aVQ8
+mCyt/2qwFsNJ2ZmCGjvGHYbf6u0fkPSSVGzarakQyrkVfdfCy6LGBC1GIcP18lOD
+ySDekypB
+=GWeO
+-----END PGP SIGNATURE-----
+
+--=_MailMate_2ACBE892-258B-474F-BA87-40148258F45E_=--
+
+
+--===============7566222203940951301==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+
+--===============7566222203940951301==--
+
