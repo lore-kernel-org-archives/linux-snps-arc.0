@@ -2,20 +2,21 @@ Return-Path: <SRS0=yFMY=5L=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25808C43331
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 23:23:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC552C43331
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 23:53:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C743B20663
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 23:23:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8AA4520719
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 23:53:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qf/h4Mcm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C743B20663
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ex/zFzJp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8AA4520719
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codesourcery.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,50 +25,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
 	In-Reply-To:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=e6TBrvx5bv0g+NHPsJCkR8vkg+P3BkLUmuAsVa7DUyU=; b=Qf/h4Mcm25y0fw
-	ZO/Izi4KUXmv6ioj4IZsAs/LYhT/x5K2TQvmM2cWi2zOv8qUEQgcYAvtW/XQNZ8PSMFhTDpmp3+xT
-	HZ8X0u0OlH8BRlpu/9ksi++1r2zstCTNCdJqydr1e2eQkqA0pM64xy7vF22SPdFx8dxoGF6OPna5a
-	1iSgI5z+76Fwtmc7R0QI0fImMtpLh5OfVlVgHF04yR9WFw/C6Asvu3Rc5nGOaFOmia/gQLqeSMgtj
-	Zdadl8XhxZav2fF+4wzgzVtXCjD7rAIUZznRRaO89KNeXRXfSuEFZA4XfOCHPEv3JBH0RJ7lVSpuy
-	ZwdmzzqYMuxhxHWspFFQ==;
+	List-Owner; bh=SQPfbqY/OTslSV1wTZPx6SKNgXwWcTNK6Yp+tXMPe8A=; b=Ex/zFzJprofz2D
+	vvll+PVytAuntgvOb0KOfJl6L0cy2lcRqcu1omkKX2gujqLPt5/eqGo7e0srMyKBcDfeS/EtqqPXf
+	8G62lnQtkznC32JtBKzdG1ZO7yuo7mtotqgNijZjA1fHFj82ZtCWjTnioaBvoPfUZJW0ECbhcuLtr
+	LfXcKZm44oV9HCC6KrGGATAIoCJKj9cL2phtu8mrQtd2Rpy48NpFnETqxk/qDHxb8L/fS6MMOoA39
+	QuaM+FBwvUX7pzfTsfAwAaLaNd0dIN/4P85dFgUkHyOaM6hCHEdodCxG7H4j8kmio0fLDEKOCpZ6I
+	WBAwDOfZAmj6Tj5vEmJw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHbq0-0000qo-Er; Thu, 26 Mar 2020 23:23:00 +0000
-Received: from esa1.mentor.iphmx.com ([68.232.129.153])
+	id 1jHcJ6-0004cJ-C5; Thu, 26 Mar 2020 23:53:04 +0000
+Received: from esa2.mentor.iphmx.com ([68.232.141.98])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHbpx-0000pw-7j
- for linux-snps-arc@lists.infradead.org; Thu, 26 Mar 2020 23:22:58 +0000
-IronPort-SDR: 4Fbadb9iefzFI7Xw31TS4/wL51ay5kypf+WNYSu5lsAWDCxZeU+LOYIAjY0WrmAMDEz2TAoN28
- Cj5La7soT6eCmOjHecknjZ+smj+c79CBR6bdOSzuguzVsdM1KuhanFBixGgIKVJYSvVCgPPuKn
- WTviElEsvQC+8846Zg69ex2NSZMg2h4txpSnrKfaOrqjdljBdGoWMb8MP1zFdOLSODjUJUBRnU
- 7r/Y9dKmr2VGeyUWxIok0LEqh9Kse8xMKi46AT4N7Z0LMUkZjEYgl1vqOpVJGlbE9w9I/W2nis
- K9U=
-X-IronPort-AV: E=Sophos;i="5.72,310,1580803200"; d="scan'208";a="49126169"
+ id 1jHcJ3-0004bl-D4
+ for linux-snps-arc@lists.infradead.org; Thu, 26 Mar 2020 23:53:03 +0000
+IronPort-SDR: U525wWdIYRqTu6krx0y64yuBJe7Nu473bIsMz5Nl4KaaTivtWQWd9ZEMYP4rz8ATcTq5wWwCl8
+ awU5aF/y4xgjyRe7kD1eEcX8s382MjNb78bnj0fqs4oDoxrj1JglM6bH7YhnIRCiW0BKTp07il
+ cIWDDRym4VKlwQUJY9prDEBYEqAR0BvOswangSOkU6QO+8plE8ZGrasIZm5PUOAcOKNuAEBeac
+ +5QzUPr/KWis47ri2G0IBqGU+qYAuVETS9xoEdInUPyOXkZfvlJL0sUVoNKR4/v2nsv8wnyS2o
+ iLw=
+X-IronPort-AV: E=Sophos;i="5.72,310,1580803200"; d="scan'208";a="47074817"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa1.mentor.iphmx.com with ESMTP; 26 Mar 2020 15:22:56 -0800
-IronPort-SDR: wDtVXZ9BljizMhptC+AB+Qb9STVo9at23j6lbZYuWl2fQmmI5+ibC013sQBZmUhwvSbVkCkqOG
- gQw1sqgw4Y81ciM1uyHIaxXRbW4l9VwWflnNEPlgCeihpFcwZkwy9JwNC0mmAfJKamDvL1Kyeu
- bilpKJEMNQ8e52xMcAJGUb94KQds5ra65l5dfxdN0QjrTwh4JV2tzEjouz5B6cvXUnFjCNGpmh
- +NEgQ4yMUzjHVNgQw5/d2xLk6z5Diyh5EuP6qcvIFI27UZbJZvbAIpTLqayd/um6D2oEXYus44
- r80=
-Date: Thu, 26 Mar 2020 23:22:51 +0000
+ by esa2.mentor.iphmx.com with ESMTP; 26 Mar 2020 15:53:00 -0800
+IronPort-SDR: 7Mf2oF574lKj5G1P6EchZ4IFsDvBPdKGrjNRcLzW6yg1sg1Ykq1Hwv60oXNKGUBZjNuN/nqPd1
+ K2IE2iNuGirkvxqXyq/dK94tfOg3MKCJxxcjLyP/nJ8zNp9wdZxitCJpxWqKNvSUigobYPihGS
+ Sp9UCQ3zCXxNPAGDywoN0r9KYLv0/E0VXMfVkOHXjRyLFhy0QRa8c1ws9t1kXXyKjrsi7o0A5Y
+ LyS4y/Mr8OVPdb6DoTzCUDGfKkkBxichtsb6SJpK2qIP9119GWxexQCSvhvr+X4nptGQA+h6jp
+ 64o=
+Date: Thu, 26 Mar 2020 23:52:55 +0000
 From: Joseph Myers <joseph@codesourcery.com>
 X-X-Sender: jsm28@digraph.polyomino.org.uk
 To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [PATCH v4 07/15] ARC: hardware floating point support
-In-Reply-To: <20200313030419.15843-8-vgupta@synopsys.com>
-Message-ID: <alpine.DEB.2.21.2003262311330.24611@digraph.polyomino.org.uk>
+Subject: Re: [PATCH v4 08/15] ARC: Linux Syscall Interface
+In-Reply-To: <20200313030419.15843-9-vgupta@synopsys.com>
+Message-ID: <alpine.DEB.2.21.2003262342490.24611@digraph.polyomino.org.uk>
 References: <20200313030419.15843-1-vgupta@synopsys.com>
- <20200313030419.15843-8-vgupta@synopsys.com>
+ <20200313030419.15843-9-vgupta@synopsys.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
+X-ClientProxiedBy: SVR-IES-MBX-08.mgc.mentorg.com (139.181.222.8) To
  SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200326_162257_286415_29FD998E 
-X-CRM114-Status: UNSURE (   9.63  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200326_165301_451042_FA558305 
+X-CRM114-Status: GOOD (  11.91  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,71 +87,58 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 On Thu, 12 Mar 2020, Vineet Gupta via Libc-alpha wrote:
 
+> diff --git a/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h b/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
+> new file mode 100644
+> index 000000000000..74b0c06edb36
+> --- /dev/null
+> +++ b/sysdeps/unix/sysv/linux/arc/bits/socket-constants.h
+
+As far as I can see, the only reason for having this header is to use 
+appropriate values of SO_RCVTIMEO and SO_SNDTIMEO for 64-bit time.
+
+It's best not to need a separate version of this header for all future 
+32-bit architectures.  So I'd suggest putting the conditionals on the size 
+of time_t in the default sysdeps/unix/sysv/linux/bits/socket-constants.h 
+instead.
+
+Should the choice of values of these macros, for normal user programs, be 
+based on the time_t for the current compilation (as affected by _TIME_BITS 
+in future) or on the time_t for the default ABI in glibc?  If the latter, 
+it would be a __TIMESIZE conditional in the header (that is, a conditional 
+based on __TIMESIZE == __SYSCALL_WORDSIZE, or using __WORDSIZE when 
+__SYSCALL_WORDSIZE is not defined, since the actual kernel conditional is 
+about whether using the same time_t size as kernel "long").  If the 
+former, it might use __TIMESIZE right now, but that would need to change 
+when _TIME_BITS is supported to a different macro meaning the time_t size 
+for the current compilation.
+
+> diff --git a/sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h b/sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h
+> new file mode 100644
+> index 000000000000..6c129398483a
+> --- /dev/null
+> +++ b/sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h
+> @@ -0,0 +1,6 @@
+> +#define JMP_BUF_SIZE		(32 + 1 + 64/(8 * sizeof (unsigned long int))) * sizeof (unsigned long int)
+> +#define SIGJMP_BUF_SIZE		(32 + 1 + 64/(8 * sizeof (unsigned long int))) * sizeof (unsigned long int)
+
+Missing spaces around '/'.
+
+> +/* The minimum supported kernel version for ARC is 3.9,
+> +   guaranteeing many kernel features.  */
+
+But actually it's 5.1 at present.
+
+> +/* All syscall handler come here to avoid generated code bloat due to
+> +   GOT reference  to errno_location or it's equivalent.  */
 > +int
-> +fegetmode (femode_t *modep)
+> +__syscall_error(int err_no)
+
+Missing space before '('
+
 > +{
-> +  unsigned int fpcr;
-> +
-> +  _FPU_GETCW (fpcr);
-> +  *modep = fpcr >> __FPU_RND_SHIFT;
+> +  __set_errno(-err_no);
 
-The bits to enable exception traps look like dynamic control mode bits to 
-me.  In general fegetmode should only need to mask off bits on 
-architectures where the same register has both control and status bits, 
-not on architectures where those are separate registers and fegetmode / 
-fesetmode can work with the whole control register.
-
-> +int
-> +__fesetround (int round)
-> +{
-> +  unsigned int fpcr;
-> +
-> +  _FPU_GETCW (fpcr);
-> +
-> +  if (__glibc_unlikely (((fpcr >> __FPU_RND_SHIFT) & FE_DOWNWARD) != round))
-> +    {
-> +      fpcr = (fpcr & ~(FE_DOWNWARD << __FPU_RND_SHIFT)) | (round << __FPU_RND_SHIFT);
-> +      _FPU_SETCW (fpcr);
-> +    }
-
-I don't think the use of __glibc_unlikely is appropriate here.  It's not 
-at all clear to me that the normal fesetround case is setting the rounding 
-mode to the value it already has, as the use of __glibc_unlikely would 
-suggest.
-
-> +int
-> +__feupdateenv (const fenv_t *envp)
-> +{
-> +  unsigned int fpcr;
-> +  unsigned int fpsr;
-> +
-> +  _FPU_GETCW (fpcr);
-> +  _FPU_GETS (fpsr);
-> +
-> +  /* rounding mode set to what is in env.  */
-> +  fpcr = envp->__fpcr;
-> +
-> +  /* currently raised exceptions are OR'ed with env.  */
-> +  fpsr |= envp->__fpsr;
-
-This looks like it wouldn't work for FE_DFL_ENV, which is a valid argument 
-to feupdateenv.  It looks like we're missing test coverage for feupdateenv 
-(FE_DFL_ENV) (we have coverage for feupdateenv (FE_NOMASK_ENV) and 
-fesetenv (FE_DFL_ENV)).
-
-> +static inline int
-> +get_rounding_mode (void)
-> +{
-> +#if defined(__ARC_FPU_SP__) ||  defined(__ARC_FPU_DP__)
-> +  unsigned int fpcr;
-> +  _FPU_GETCW (fpcr);
-> +
-> +  return fpcr >> __FPU_RND_SHIFT;
-
-Both here and in fegetround you're not doing anything to mask off high 
-bits of the control register.  That seems unsafe to me, should future 
-processors add new control bits in the high bits that might sometimes be 
-nonzero.
+Likewise.
 
 -- 
 Joseph S. Myers
