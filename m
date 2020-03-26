@@ -2,74 +2,72 @@ Return-Path: <SRS0=yFMY=5L=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 661B5C43331
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 19:10:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25808C43331
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 23:23:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 34D76206E6
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 19:10:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C743B20663
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 23:23:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MWJQzQvY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 34D76206E6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=csclub.uwaterloo.ca
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qf/h4Mcm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C743B20663
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codesourcery.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:From:In-Reply-To:MIME-Version:
-	References:Message-ID:Subject:To:Date:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=KeftoTGTABu0bC+lCUm1F2jNyGyb6n01aJvLCNhbdCM=; b=MWJQzQvYmPondVOEsarU4XFll2
-	FrwbACRP8z1wuleXU9+K2HeihAOJfPIwVHhKmquf45LONOuSPT0n3yczpssLNWGZWzOyZxrUIfRaf
-	CfOGIhbHAne7FGsW7t4AgcOZcbFu28ssaYv2jxseTczPvbfRYOd6gVpbNHbtNWmpOqgmaEBzowNel
-	KKuRFNcsIe6p4/+dUb6Eh5VboijoxlpjxKwyKi5S/BnDsXURdstOtkx73G5BM1OmMPJ8/4SdzY/NG
-	ytmOTEHiEFLprwP9WI/6Iu2tvV9FKkzvrURqvzFkPG7DVLvtPlpv3ITwo63EJuR0Q0nf0WVga0zf2
-	Di2k90rA==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
+	In-Reply-To:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=e6TBrvx5bv0g+NHPsJCkR8vkg+P3BkLUmuAsVa7DUyU=; b=Qf/h4Mcm25y0fw
+	ZO/Izi4KUXmv6ioj4IZsAs/LYhT/x5K2TQvmM2cWi2zOv8qUEQgcYAvtW/XQNZ8PSMFhTDpmp3+xT
+	HZ8X0u0OlH8BRlpu/9ksi++1r2zstCTNCdJqydr1e2eQkqA0pM64xy7vF22SPdFx8dxoGF6OPna5a
+	1iSgI5z+76Fwtmc7R0QI0fImMtpLh5OfVlVgHF04yR9WFw/C6Asvu3Rc5nGOaFOmia/gQLqeSMgtj
+	Zdadl8XhxZav2fF+4wzgzVtXCjD7rAIUZznRRaO89KNeXRXfSuEFZA4XfOCHPEv3JBH0RJ7lVSpuy
+	ZwdmzzqYMuxhxHWspFFQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHXtp-0007P1-Hc; Thu, 26 Mar 2020 19:10:41 +0000
-Received: from caffeine.csclub.uwaterloo.ca ([129.97.134.17])
+	id 1jHbq0-0000qo-Er; Thu, 26 Mar 2020 23:23:00 +0000
+Received: from esa1.mentor.iphmx.com ([68.232.129.153])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHXtn-0007OS-IX
- for linux-snps-arc@lists.infradead.org; Thu, 26 Mar 2020 19:10:40 +0000
-Received: by caffeine.csclub.uwaterloo.ca (Postfix, from userid 20367)
- id 0387B46166D; Thu, 26 Mar 2020 15:04:28 -0400 (EDT)
-Date: Thu, 26 Mar 2020 15:04:28 -0400
-To: Helmut Grohne <helmut@subdivi.de>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- "debian-arm@lists.debian.org" <debian-arm@lists.debian.org>,
- arcml <linux-snps-arc@lists.infradead.org>,
- GNU C Library <libc-alpha@sourceware.org>,
- Vineet Gupta <vineetg76@gmail.com>,
- Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: ARC rebootstrap prereq (was Re: switching ARC to 64-bit time_t )
-Message-ID: <20200326190428.dxgq6vetirgq5ixy@csclub.uwaterloo.ca>
-References: <8a9784b3-fc52-adc3-4595-33142b059388@synopsys.com>
- <20200220001136.2f14236e@jawa>
- <CAK8P3a1b73K+RjfHONWLy_dFUucXxwd+0jTnHmkf6YqwRjit4w@mail.gmail.com>
- <20200220162735.GA26634@alf.mars>
- <2c3d76a7-fa94-d16e-2803-a98a4761e427@gmail.com>
- <20200326055408.GA31088@alf.mars>
- <CY4PR1201MB0120B23B823811B061CFCCFDA1CF0@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <20200326122401.GA5669@alf.mars>
- <CY4PR1201MB01202B2FF493C221420F422DA1CF0@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <20200326142836.GA24503@alf.mars>
+ id 1jHbpx-0000pw-7j
+ for linux-snps-arc@lists.infradead.org; Thu, 26 Mar 2020 23:22:58 +0000
+IronPort-SDR: 4Fbadb9iefzFI7Xw31TS4/wL51ay5kypf+WNYSu5lsAWDCxZeU+LOYIAjY0WrmAMDEz2TAoN28
+ Cj5La7soT6eCmOjHecknjZ+smj+c79CBR6bdOSzuguzVsdM1KuhanFBixGgIKVJYSvVCgPPuKn
+ WTviElEsvQC+8846Zg69ex2NSZMg2h4txpSnrKfaOrqjdljBdGoWMb8MP1zFdOLSODjUJUBRnU
+ 7r/Y9dKmr2VGeyUWxIok0LEqh9Kse8xMKi46AT4N7Z0LMUkZjEYgl1vqOpVJGlbE9w9I/W2nis
+ K9U=
+X-IronPort-AV: E=Sophos;i="5.72,310,1580803200"; d="scan'208";a="49126169"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+ by esa1.mentor.iphmx.com with ESMTP; 26 Mar 2020 15:22:56 -0800
+IronPort-SDR: wDtVXZ9BljizMhptC+AB+Qb9STVo9at23j6lbZYuWl2fQmmI5+ibC013sQBZmUhwvSbVkCkqOG
+ gQw1sqgw4Y81ciM1uyHIaxXRbW4l9VwWflnNEPlgCeihpFcwZkwy9JwNC0mmAfJKamDvL1Kyeu
+ bilpKJEMNQ8e52xMcAJGUb94KQds5ra65l5dfxdN0QjrTwh4JV2tzEjouz5B6cvXUnFjCNGpmh
+ +NEgQ4yMUzjHVNgQw5/d2xLk6z5Diyh5EuP6qcvIFI27UZbJZvbAIpTLqayd/um6D2oEXYus44
+ r80=
+Date: Thu, 26 Mar 2020 23:22:51 +0000
+From: Joseph Myers <joseph@codesourcery.com>
+X-X-Sender: jsm28@digraph.polyomino.org.uk
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Subject: Re: [PATCH v4 07/15] ARC: hardware floating point support
+In-Reply-To: <20200313030419.15843-8-vgupta@synopsys.com>
+Message-ID: <alpine.DEB.2.21.2003262311330.24611@digraph.polyomino.org.uk>
+References: <20200313030419.15843-1-vgupta@synopsys.com>
+ <20200313030419.15843-8-vgupta@synopsys.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200326142836.GA24503@alf.mars>
-User-Agent: NeoMutt/20170113 (1.7.2)
-From: lsorense@csclub.uwaterloo.ca (Lennart Sorensen)
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
+ SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200326_121039_680825_90D42C23 
-X-CRM114-Status: GOOD (  10.37  )
+X-CRM114-CacheID: sfid-20200326_162257_286415_29FD998E 
+X-CRM114-Status: UNSURE (   9.63  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,37 +79,83 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Cc: linux-snps-arc@lists.infradead.org, libc-alpha@sourceware.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 26, 2020 at 03:28:36PM +0100, Helmut Grohne wrote:
-> One part of the question here is "why do we need libatomic-ops?". The
-> answer to that is, because libgc uses it and libgc is used by e.g.  gcc,
-> gnutls, guile, and make. Possibly, some of these could be built without
-> libgc, but this is how they are packaged for Debian at present.  Package
-> dependencies currently say that we need libatomic-ops.
-> 
-> The other part is "what is missing in libatomic-ops"? If you look at a
-> more recent implementation, such as riscv, you see that it basically
-> says "trust gcc". So I guess all you need here is an arc-specific
-> implementation that says "gcc knows what it is doing, use its
-> primitives".
-> 
-> Given sufficient work, I guess libatomic-ops could be removed in favour
-> of using the gcc built-ins directly. Not sure whether that'd fly with
-> libgc upstream though.
-> 
-> So no, this is not a stupid question. Thank you for asking.
+On Thu, 12 Mar 2020, Vineet Gupta via Libc-alpha wrote:
 
-The way I read the details on libatomic is that it provides functions
-to implement the things a given architecture can't do with intrinsics
-in gcc directly.  So on some architectures it does nothing and on others
-it implements missing bits for atomic operations.
+> +int
+> +fegetmode (femode_t *modep)
+> +{
+> +  unsigned int fpcr;
+> +
+> +  _FPU_GETCW (fpcr);
+> +  *modep = fpcr >> __FPU_RND_SHIFT;
+
+The bits to enable exception traps look like dynamic control mode bits to 
+me.  In general fegetmode should only need to mask off bits on 
+architectures where the same register has both control and status bits, 
+not on architectures where those are separate registers and fegetmode / 
+fesetmode can work with the whole control register.
+
+> +int
+> +__fesetround (int round)
+> +{
+> +  unsigned int fpcr;
+> +
+> +  _FPU_GETCW (fpcr);
+> +
+> +  if (__glibc_unlikely (((fpcr >> __FPU_RND_SHIFT) & FE_DOWNWARD) != round))
+> +    {
+> +      fpcr = (fpcr & ~(FE_DOWNWARD << __FPU_RND_SHIFT)) | (round << __FPU_RND_SHIFT);
+> +      _FPU_SETCW (fpcr);
+> +    }
+
+I don't think the use of __glibc_unlikely is appropriate here.  It's not 
+at all clear to me that the normal fesetround case is setting the rounding 
+mode to the value it already has, as the use of __glibc_unlikely would 
+suggest.
+
+> +int
+> +__feupdateenv (const fenv_t *envp)
+> +{
+> +  unsigned int fpcr;
+> +  unsigned int fpsr;
+> +
+> +  _FPU_GETCW (fpcr);
+> +  _FPU_GETS (fpsr);
+> +
+> +  /* rounding mode set to what is in env.  */
+> +  fpcr = envp->__fpcr;
+> +
+> +  /* currently raised exceptions are OR'ed with env.  */
+> +  fpsr |= envp->__fpsr;
+
+This looks like it wouldn't work for FE_DFL_ENV, which is a valid argument 
+to feupdateenv.  It looks like we're missing test coverage for feupdateenv 
+(FE_DFL_ENV) (we have coverage for feupdateenv (FE_NOMASK_ENV) and 
+fesetenv (FE_DFL_ENV)).
+
+> +static inline int
+> +get_rounding_mode (void)
+> +{
+> +#if defined(__ARC_FPU_SP__) ||  defined(__ARC_FPU_DP__)
+> +  unsigned int fpcr;
+> +  _FPU_GETCW (fpcr);
+> +
+> +  return fpcr >> __FPU_RND_SHIFT;
+
+Both here and in fegetround you're not doing anything to mask off high 
+bits of the control register.  That seems unsafe to me, should future 
+processors add new control bits in the high bits that might sometimes be 
+nonzero.
 
 -- 
-Len Sorensen
+Joseph S. Myers
+joseph@codesourcery.com
 
 _______________________________________________
 linux-snps-arc mailing list
