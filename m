@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E00AFC43331
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 02:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E125C43331
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 02:47:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AF3E520737
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 02:45:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 28DF120737
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 02:47:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pf81NwaF";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J5AeVRMx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF3E520737
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KL3A2Rb4";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vzqs90GT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 28DF120737
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,60 +26,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
 	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kqZ+odyxYwVTTff3PT5saF7R/CTKRGlJSjx0d3jdZbA=; b=pf81NwaFwj/0xH
-	C5I1+/2Q5KmNLjzN2Wc5nLVMY2UhZEohnlnb4UrwhZdVcpUdyQBJPSEYi7McV4XgR9ViSToIgEdAK
-	YiYrS/wWaRekNBaHNMKvymr1AzVxLN34r+FKYCJm9xWx2WauiEo9yPYpfflwJDMgaU9eUxgdPxV9G
-	yjkfwk0ATADJXIW68cKnvVHK4WIYynTQt7w8Mh+52Wrf8ESSE3ow+hNkGJ1emn6s9ogsmgdSCYBFn
-	zKVaOrnc2lR5sXWq4KLtj1J2cP7DnKWh3OIr1Guz+iIu6KYJTHC+28blXAOmQc8IoQtPVonsNjSAS
-	Wuw1m7pOpncajLzD1PdA==;
+	List-Owner; bh=L2rGTO2a4QpcmfST0Qk18rUhG/si6pkX3PvqvX1al0w=; b=KL3A2Rb4yV/l9x
+	VEJiz9atyC00NzrA/nJ2fURtDAaz2Iz3V9X+G/uzWayEbTe2lIbMPWK1l4MwD129XdXgQI+enR5x0
+	OhL8bCE+qrV99HNcG24C3QmPH3a6Y8VclNqiOYvJB0wVFaiq6Ubas31nv4hxARu4Tq0J6/VhnAW2c
+	fHmAcgpQfSZo53kOAK///NZjwzlzUiJg9wAEvXqdkcFtIQWSkViP1mn409zDfSPp0Sbn1mk7w6VFs
+	/6LWzWCnguaBfJ/dxBFTdz5TeHon1DPH32vxsKkJY93YpPaSWCjldNrOZLiNdpizBfiPSqV3JC5+x
+	5nUT89xpj+pAlBdFX99g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHIW3-0008N8-M6; Thu, 26 Mar 2020 02:45:07 +0000
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
+	id 1jHIYH-0000Kh-7K; Thu, 26 Mar 2020 02:47:25 +0000
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHIW0-0007nf-Kf
- for linux-snps-arc@lists.infradead.org; Thu, 26 Mar 2020 02:45:05 +0000
-Received: by mail-pl1-x642.google.com with SMTP id g18so1599811plq.0
- for <linux-snps-arc@lists.infradead.org>; Wed, 25 Mar 2020 19:45:04 -0700 (PDT)
+ id 1jHIYE-0000KE-FR
+ for linux-snps-arc@lists.infradead.org; Thu, 26 Mar 2020 02:47:23 +0000
+Received: by mail-pl1-x643.google.com with SMTP id b9so1573988pls.12
+ for <linux-snps-arc@lists.infradead.org>; Wed, 25 Mar 2020 19:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5bknFHXBUh25hakSjGOXPtTSd/Ity3/PxD1ml3nlJRI=;
- b=J5AeVRMx0mBDrMg8x9NsGW5xtnNB/XEGdwHknaKxv82tSoW3Y4yT8XeW8HyVRIchzh
- Qo3Ox0YzM7KJDIg4UHT5R0PRZC+a6psMTD2H7IS5LSVr/6urW6z5dIwflI3LFqDVE7P4
- cU7ZFD5zyqI5bc8VBWkZwfvrUimPwenMQVYZvZycRKIINRQdxzKEV6DvAiTG/0fm75wt
- hNx9dHqL42pw+F5Mtfkx5TYk2Ymv4oWvfNHB972dn3uanpuVJUoBNG3hk/jbokfouc4E
- BiQgbcJccMdWttpOvcXAmflSx4Z9Aek3szlgklo4hndTmNMhWxXQBsZ7lwGE0jFnJhc7
- anug==
+ bh=ZC2JWDC93IXxm3DiT5pIOsVgm+udWK1Q92i+faS6l8I=;
+ b=Vzqs90GToQunkcucIUeGNBIHE5XoHRcEpG53o4w8v0I7EEGAVXrNp0At/WFB5ziWQZ
+ zjGV6AFdE5/PPL0ptTr0zclPMo9H4FRiv3kSy6enfcPIWGR66AdAr6l3ycJajq+i3QOM
+ WabwcG6j6QyKLQWe7tMeEGQvgm5f/3hOSszNQhRJ51gchIG8pnyeOVWzQSRPlznE9NoQ
+ LdD9c+syZktf1pYCtoRdTTi9JonkM41+6b0Z0/pXwv9Gn/Jv+g6CKJWZamPKz3o4Ybz+
+ /VTCJPRUE4wDmxy0zDmnJn0YLDKqT+KZMeHb2nlI2NXdQYRQk0U8UvlfJ/SrO54XXF39
+ 4jfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=5bknFHXBUh25hakSjGOXPtTSd/Ity3/PxD1ml3nlJRI=;
- b=juL6KF1V5LBBt2yP1vUFubWtUY2rbvynIxCWW+7M08EfrC2xNvzXKXo2uaBJzYyIWx
- FSD9/JY0wjpi7BYu9ihnMPxRjQjGUulT682F5VgLXkGct93AOxp0ZatdETEzu8QI6i3j
- HyTJ14ygEnK1yLYG+vAzl3aMwYpjj6SOmScfc76a2INUmkV/zUiqx3K2od6SnNs6x5Yf
- WVuC6IVcqBq4rJVburO8RY0/3+onANQ5piEj6ITf27QLruXksk3ibDQb/7eteU2BDmUi
- 2dIt7SJUjytBGG60G9svFMgEdmaWhMvo8cyetfS7HvVe8PyuKgz2AlcwTWV3X+DqeoAB
- chnQ==
-X-Gm-Message-State: ANhLgQ0JFfZLNcJ0fOVGQPpc1omx/EOOE+pW+Vn3OKdx/QFmRU3AcHU4
- fzIriKDg8Sn90KzFAURXoaQ=
-X-Google-Smtp-Source: ADFU+vuuekroSuXruGHBXXfm1KHAFhCix04IYAYzHL4qOcsdBCH3x9SxXOBcSBVcktUp4apLFPJtSw==
-X-Received: by 2002:a17:90a:2710:: with SMTP id
- o16mr698437pje.110.1585190703810; 
- Wed, 25 Mar 2020 19:45:03 -0700 (PDT)
+ bh=ZC2JWDC93IXxm3DiT5pIOsVgm+udWK1Q92i+faS6l8I=;
+ b=nAojuG5ao5dviLK/REzx39h0VHifRNEtKu8VLfwXCIkA1AQSaHdd4FpZJNDk42IBv2
+ Cjpek3oZgW1fCVm3Am5a6nOzZgrpuEL4zYqelB2x1TnNQDlgOjHrYdFIoA86TZX3Oy8I
+ URGnxbZ7CGM2qIZPJ82M6GokUHLtYtq9lhj12Ldxgq2hGFO5OF+Ws2Uy4KWCG06kH9uT
+ Vm9BWDJoB1olD4ni19LgMPsYxpLGh69t3+j78SOih5dKEfE0ffy+vxVChbftYxzxcp6Q
+ TKsU8eMrGG90ICxywUUb+0LZuGWqyNaexBNDbtIayuDXlyZl9Vocb7O7dp8sJKs7IBYb
+ GZow==
+X-Gm-Message-State: ANhLgQ0IURRroaHedd+om2exxqCH7raZp2I85SDsuTiRL6WvT84sJia/
+ HfUF2iGCAnifpg4UvB4qu/A=
+X-Google-Smtp-Source: ADFU+vuem3ixNDxcPQayi6gtROW1HNvcbcrfj1nz59TKboaz3UkUFif3Qai27a7YOeQgSkb9XBwKNQ==
+X-Received: by 2002:a17:90a:3acc:: with SMTP id
+ b70mr629367pjc.179.1585190841884; 
+ Wed, 25 Mar 2020 19:47:21 -0700 (PDT)
 Received: from ?IPv6:2601:641:c100:83a0:24c5:8a14:3f19:e6c8?
  ([2601:641:c100:83a0:24c5:8a14:3f19:e6c8])
- by smtp.gmail.com with ESMTPSA id y18sm426862pfe.19.2020.03.25.19.45.02
+ by smtp.gmail.com with ESMTPSA id a3sm413730pfg.172.2020.03.25.19.47.20
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 25 Mar 2020 19:45:02 -0700 (PDT)
-Subject: Re: [PATCH v4 03/15] ARC: startup and dynamic linking code
+ Wed, 25 Mar 2020 19:47:21 -0700 (PDT)
+Subject: Re: [PATCH v4 04/15] ARC: Thread Local Storage support
 To: Joseph Myers <joseph@codesourcery.com>
 References: <20200313030419.15843-1-vgupta@synopsys.com>
- <20200313030419.15843-4-vgupta@synopsys.com>
- <alpine.DEB.2.21.2003260155160.31593@digraph.polyomino.org.uk>
+ <20200313030419.15843-5-vgupta@synopsys.com>
+ <alpine.DEB.2.21.2003260157030.31593@digraph.polyomino.org.uk>
 From: Vineet Gupta <vineetg76@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=vineetg76@gmail.com; prefer-encrypt=mutual; keydata=
@@ -125,16 +125,16 @@ Autocrypt: addr=vineetg76@gmail.com; prefer-encrypt=mutual; keydata=
  ukgWa2otyae8BC7qBYFbm6uk9wMbYSN3yYBmbiAULMrBKA33iWlE0rIKMv91a2DVjp4NiOSu
  gyyFD9n83Sn4lcyjdLvBUCn9zgY4TwufG/ozyF2hSmO3iIzqt0GxmpQ+pBXk/m51D/UoTWGl
  deE0Dvw98SWmZSNtdOPnJZ0D
-Message-ID: <13766854-7189-86c2-798f-bedc8dba321c@gmail.com>
-Date: Wed, 25 Mar 2020 19:45:01 -0700
+Message-ID: <cdd84736-2966-c5b4-a4b4-1705c44f3c69@gmail.com>
+Date: Wed, 25 Mar 2020 19:47:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.2003260155160.31593@digraph.polyomino.org.uk>
+In-Reply-To: <alpine.DEB.2.21.2003260157030.31593@digraph.polyomino.org.uk>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200325_194504_711310_98DA0D7D 
-X-CRM114-Status: UNSURE (   7.76  )
+X-CRM114-CacheID: sfid-20200325_194722_518325_A9127BF8 
+X-CRM114-Status: UNSURE (   9.04  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -153,10 +153,26 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 3/25/20 6:55 PM, Joseph Myers wrote:
-> Do you mean DTPOFF?  Otherwise I'm not sure what DTSOFF is.
+On 3/25/20 6:57 PM, Joseph Myers wrote:
+> On Thu, 12 Mar 2020, Vineet Gupta via Libc-alpha wrote:
+> 
+>> +-- Derive offsets relative to the thread register.
+>> +#define thread_offsetof(mem)	(long)(offsetof(struct pthread, mem) - sizeof(struct pthread))
+> 
+> Missing spaces before '(' in calls to offsetof and sizeof.
 
 Fixed.
+
+> 
+>> +TLS_TCB_SIZE            	sizeof(tcbhead_t)
+>> +
+>> +PTHREAD_TID			offsetof(struct pthread, tid)
+> 
+> Likewise.
+> 
+
+Fixed.
+
 
 _______________________________________________
 linux-snps-arc mailing list
