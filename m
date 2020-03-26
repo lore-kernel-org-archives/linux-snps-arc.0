@@ -2,22 +2,22 @@ Return-Path: <SRS0=yFMY=5L=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65798C43331
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 02:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 932FCC43331
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 03:19:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 08BA020737
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 02:49:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 55D9C20772
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 Mar 2020 03:19:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iYvisFgF";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CwyxfkAn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08BA020737
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qn+Xd1mG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pKR1BoHe"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55D9C20772
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,59 +26,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
 	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Ul5FKuBkjwTLBrV+zBR5VeOiyfA/e5keJXLoivats6E=; b=iYvisFgFUCTQEI
-	AAr354+urgNZzR4mawk71oeK2bo94c1VH092ZfDSfhTVbab0qdt0evvsEczPNs590b2/n7631vbjy
-	j0ESbR5kGUNHiG4qFLK5rbGCzR1RjsuNQnqh8onwzKTL6+kqfqt+bBqvKLE+DHmezfY9zT0xzdQey
-	BLt5IZ22/pNKtaEtevh0Lp34KWvKl3weZz4vXbvNu9QpJhv6bM17fVWhL60rpNlauEQAJsOuIMeUA
-	kFi+TlfA9rIThUkFmCfLxt/0Afgp6d4NEVbJhU7jCeVeY5A+L0Sdx7E413DhiA8gEDx8V41kdGcRC
-	scUI/SmNywFeKbR6Mp6Q==;
+	List-Owner; bh=EK/RSgBewzk3xt9h9fvyxMK+GEqcdSHiBEh3PG63uUE=; b=Qn+Xd1mGi6eWeg
+	7uJN7ZKmpusp7Mj77RdkWH8pBXanr5Hsp3Dc4uyQYVMeWMBXmaPejuVFtieEhvL12mbyFWB7aAb80
+	gGFqvBFggeiklsXatbcRh9J091dwhlqA318BXgYGv9p+ej5KuZdcsLeOrOhwEYL1srX2eNElKchVs
+	E10Nkg6ncN5ZtW4+aHAa8LFZHg3OUmv4QdUmtqThUQDrADO+W0mtp94jo6JupZHe7wTqS0YTddJFr
+	M3pUbVv8p3UxQHGH9W2S1kPjsX6JNDqAeEwzf1EieO3aZeT6lxjgp08eBvF7iXiFjtFfKqvUOEDO1
+	OqzfGZR4+SWG1yUm0zxA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHIZs-0000Nh-GQ; Thu, 26 Mar 2020 02:49:04 +0000
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+	id 1jHJ3K-0002YT-SG; Thu, 26 Mar 2020 03:19:30 +0000
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHIZp-0000NJ-UI
- for linux-snps-arc@lists.infradead.org; Thu, 26 Mar 2020 02:49:03 +0000
-Received: by mail-pg1-x534.google.com with SMTP id 142so2132936pgf.11
- for <linux-snps-arc@lists.infradead.org>; Wed, 25 Mar 2020 19:49:00 -0700 (PDT)
+ id 1jHJ3I-0002XD-JK
+ for linux-snps-arc@lists.infradead.org; Thu, 26 Mar 2020 03:19:29 +0000
+Received: by mail-pj1-x1044.google.com with SMTP id o12so1852009pjs.2
+ for <linux-snps-arc@lists.infradead.org>; Wed, 25 Mar 2020 20:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=D+Bij44yBZUOP+wl/SOdeQryO95Duv/cbvaviaaRHgU=;
- b=CwyxfkAnTMOwRP/N/pleY+11E7VUfRm9DbWpExJXTk72XqCLU/xzgd2Uc8f0sxg+Ww
- xsRk7Rf6nFDeMNgCi7rK3gP55s6Q+lTnnBLzGrjPmHEgIgLLpPQxapQq6ZyyuuYeUqcq
- vWuAhPI8Y2sdP9A3IT/acvMgS/vo8rJgQpyNSMRQ3YeOlVlSee8+oWoYgQYOUFLpTe1o
- tBo+ORXtdVcP/XzEeYYdXO2PwdmCpN5dQGMdfdE1b5Xn0GIaIj/arnksiA1uqhlknUZ9
- kbPBwz5+awfQEFMPfEfXsJtWTRTkhtFYMnI1quWWDrW/706lpy5npzDyTFftKOUPRyYO
- Mgzw==
+ bh=GOSy5+PIACtqzxmtM41Zc00Bl+dFeIniq7nMnBTrz1U=;
+ b=pKR1BoHesOiUTHaTtlMduTYdVTeXciD28A5fDQ7iZxGfJwbg6GABRdYDUT+E9BAxp0
+ E+5+TVcoa2SK+NNsSExJCGsZmkoA2s+spv0YPZOUMbZD0B6JZYHLp5XqYPYkp2WCpHo3
+ QXnh2mTDQQ8NmlsZEFygGytOInJ+HI4oY3W+PxDEFtMURnPitywOfMoSbeKLIbnipyxD
+ CIxx9Xen/89wtbPNdls6uEHFEfxdWwD5N+FweDMdkm2N/5AMaIueyvTyfB6+ybqAcTLG
+ Z6+05boe2QvNKaNoLBCZwsr07LerfwGTeKFoA8rWeca9xgKKYPTA44xX9nAwe256wM+V
+ PkGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=D+Bij44yBZUOP+wl/SOdeQryO95Duv/cbvaviaaRHgU=;
- b=XJUp6GwtkkP2eUiUnSE5znwDrLDIslBIN2xvUsW09Yg5Eh0MhPLUn+DhxJC737j+8c
- 0xRhJVea+Ml0ARGFvpTNRPeqB362LJ920LUIILu2v7cVOzxB/3w4g5wPoEB70/qrSLxC
- DwQ3076pskKiO5mDsLcG2d1FvNgGDhiOtwvE9j9ubwtQzJYGCQoRm+SnSG8dRdgNI3S+
- 3MNFg7tTICpHljg127+RsdKpIEcvmpKWSEAGksUDqpIymedt0IZWWvQMg5Qq/oOvnp4U
- zUjLCctGzz2svnh2EYKEJzxADldPErbX720jWPQmlbCdrJjzIa3A5JWRn9+VU/nD/myZ
- PKgQ==
-X-Gm-Message-State: ANhLgQ3ZjExJ28gJfJJJzWkL9KqBjMGQ0HeNLK+C8EzYJS6hI07IiD1g
- 7PN7pP9hGZE83ODYzFLbZr3SS1QiDiI=
-X-Google-Smtp-Source: ADFU+vtXdz6R0UsSy8PXsOUKBBibvT98bYtxSKCckYTPn6PmTajuOcq5LJ8jDAo8o54lxZyI/8UxGA==
-X-Received: by 2002:a63:ee12:: with SMTP id e18mr6150730pgi.33.1585190940059; 
- Wed, 25 Mar 2020 19:49:00 -0700 (PDT)
+ bh=GOSy5+PIACtqzxmtM41Zc00Bl+dFeIniq7nMnBTrz1U=;
+ b=r+0KCqbhntjElva89lTURbVcb+m1Q2F0iZbs47A6ifLmCc0B5r9MDEgE0j6YGKNb0Y
+ Yqu1gscJCvkXOAXYGIU02aYGzjeLunh/bSzWPxDvP12qprd+hbsFZ2IRpKEc03iOGaWB
+ 7xBxX7wMCrv7yCS1jxCBm3bwdzyv+q5D+rx9pGTIBH+TGUfQrZIO2zFo07xybGF4Kd6O
+ pM+taeVdVN1URcF5PHDoap/pLsiEtoEaXFunDLth5C9PYcAXxi0SxhjZR26XIu6TnA7e
+ GajCQaRD8jLDr+t9JlOztBZIsbe/cIPulvI3fcfKNJWI0q+M9knE5NV85yr7N7BU0jut
+ 3KUg==
+X-Gm-Message-State: ANhLgQ3+FW1ZW7dYxiCi8lpCkhf7nuKMVYeBD+DIek+JpNRFdJx74WhL
+ 7+VlFI3wAWgEFVhog2d3bio=
+X-Google-Smtp-Source: ADFU+vsyM4DpRXEy7XDRa+KaipbVVbYSsPLIHHcc2eQVIvgvLNo1UpI1fwt8Gxg5KThAdw/nnkWvpQ==
+X-Received: by 2002:a17:90a:304:: with SMTP id 4mr831280pje.28.1585192767628; 
+ Wed, 25 Mar 2020 20:19:27 -0700 (PDT)
 Received: from ?IPv6:2601:641:c100:83a0:24c5:8a14:3f19:e6c8?
  ([2601:641:c100:83a0:24c5:8a14:3f19:e6c8])
- by smtp.gmail.com with ESMTPSA id y18sm431824pfe.19.2020.03.25.19.48.58
+ by smtp.gmail.com with ESMTPSA id o5sm426551pgm.70.2020.03.25.20.19.26
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 25 Mar 2020 19:48:59 -0700 (PDT)
-Subject: Re: [PATCH v4 06/15] ARC: math soft float support
+ Wed, 25 Mar 2020 20:19:26 -0700 (PDT)
+Subject: Re: [PATCH v4 07/15] ARC: hardware floating point support
 To: Joseph Myers <joseph@codesourcery.com>
 References: <20200313030419.15843-1-vgupta@synopsys.com>
- <20200313030419.15843-7-vgupta@synopsys.com>
- <alpine.DEB.2.21.2003260159100.31593@digraph.polyomino.org.uk>
+ <20200313030419.15843-8-vgupta@synopsys.com>
+ <alpine.DEB.2.21.2003260201510.31593@digraph.polyomino.org.uk>
 From: Vineet Gupta <vineetg76@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=vineetg76@gmail.com; prefer-encrypt=mutual; keydata=
@@ -124,17 +124,16 @@ Autocrypt: addr=vineetg76@gmail.com; prefer-encrypt=mutual; keydata=
  ukgWa2otyae8BC7qBYFbm6uk9wMbYSN3yYBmbiAULMrBKA33iWlE0rIKMv91a2DVjp4NiOSu
  gyyFD9n83Sn4lcyjdLvBUCn9zgY4TwufG/ozyF2hSmO3iIzqt0GxmpQ+pBXk/m51D/UoTWGl
  deE0Dvw98SWmZSNtdOPnJZ0D
-Message-ID: <5e066ca5-982b-376f-14e1-d644c6912346@gmail.com>
-Date: Wed, 25 Mar 2020 19:48:57 -0700
+Message-ID: <2fdc9bab-21db-528b-034c-0d52e2e9b960@gmail.com>
+Date: Wed, 25 Mar 2020 20:19:25 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.2003260159100.31593@digraph.polyomino.org.uk>
+In-Reply-To: <alpine.DEB.2.21.2003260201510.31593@digraph.polyomino.org.uk>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200325_194901_977933_7ECE4A54 
-X-CRM114-Status: UNSURE (   7.31  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200325_201928_658243_9861DB3E 
+X-CRM114-Status: GOOD (  17.55  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,18 +145,55 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-snps-arc@lists.infradead.org, libc-alpha@sourceware.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ linux-snps-arc@lists.infradead.org, libc-alpha@sourceware.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 3/25/20 6:59 PM, Joseph Myers wrote:
+On 3/25/20 7:06 PM, Joseph Myers wrote:
+> On Thu, 12 Mar 2020, Vineet Gupta via Libc-alpha wrote:
+> 
+>> diff --git a/sysdeps/arc/bits/fenv.h b/sysdeps/arc/bits/fenv.h
+> 
+> This is another example of one patch fixing up another.  You're using the 
+> same ABI for both hard and soft float, so the first patch adding a 
+> bits/fenv.h header should be using that ABI for fenv_t, rather than one 
+> patch adding it with one ABI then a subsequent patch changing the 
+> definition of that type.
 
->> +/* Soft-float doesnot support exceptions.  */
-> Missing space, should be "does not".
+Sorry about that. Indeed its a different mindset how we things do in glibc and I'm
+learning that slowly. I've fixed soft-float so this file is not touched anymore
+for hard-float.
 
-Fixed.
+>> diff --git a/sysdeps/arc/fpu/libm-test-ulps b/sysdeps/arc/fpu/libm-test-ulps
+> 
+> This will need updating for the recent changes to remove separate inline 
+> function testing (so there should be no ifloat or idouble entries any 
+> more).
+
+OK. FWIW I'm counting on Alistair's 64-bit stuff (and his frequent rebases) to be
+able to pick up latest upstream and then do the adjustments in ARC port. His
+changes seem rock solid in my ARC testing and I was hoping they get merged sooner.
+
+
+>> diff --git a/sysdeps/arc/tininess.h b/sysdeps/arc/tininess.h
+>> new file mode 100644
+>> index 000000000000..1db37790f881
+>> --- /dev/null
+>> +++ b/sysdeps/arc/tininess.h
+>> @@ -0,0 +1 @@
+>> +#define TININESS_AFTER_ROUNDING	1
+> 
+> In the soft-float patch you define _FP_TININESS_AFTER_ROUNDING to 0.  
+> Formally it doesn't really matter since you aren't supporting exceptions 
+> for soft-float anyway.  But typically I'd expect the definition of 
+> _FP_TININESS_AFTER_ROUNDING, on architecture with support for both hard 
+> and soft float, to match the architecture's rule for tininess detection 
+> for hard-float.
+
+OK I've updated soft-float.
 
 Thx,
 -Vineet
