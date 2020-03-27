@@ -2,146 +2,62 @@ Return-Path: <SRS0=+IpF=5M=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C483C43331
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 27 Mar 2020 04:46:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D28FC2D0E8
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 27 Mar 2020 06:47:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C093C20675
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 27 Mar 2020 04:46:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 07EE920714
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 27 Mar 2020 06:47:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FDDfFoDb";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ic+YLGL9";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="DKc/mbVk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C093C20675
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Pnqnrgze"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 07EE920714
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Yuz5TW4dDDGx4h+xq07cdSLjQc7i3V3xb89e1IHrPFw=; b=FDDfFoDbS4IvAu
-	jzgAq/79FxkOdxKPGOm5yD5KqjT0rLh01kbhC0tvVaSUXpnOLKDJld5AUkOFq1etrY3Nb6vEpoIAk
-	RsiA2CA9ZDOGsRzgf6RmqJFpkHMRK5OGF43+p0Ud8ITCpg7vm/205hx6c9S69v2bb4ELdCeWcY/33
-	K8NcHQrtmTJctOwrtnHwOkqhN6uuLMOm84O+NRYqmF+v9QXAwmSn58PoK46hfgeFCWq9MMpbNQ8nl
-	zq651RQbr6padQYNw6YE9XERanyFHXX5IqfgtlWM4FBVzogk5/OQV561HbEdAo4uq6zHTVsAQJk/r
-	tjHAPB2Z1GVAFFDL+Jjg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Fz1FMEV5wSuvTRu6BIyDalUwbTkuukrE7qEI/JEqqK8=; b=PnqnrgzestTay9
+	jGp+dZCyF2/dq3maxgeO04TpSWKUvU5iY785nWaKtjvBhCnLGzU/fWAUGXyht1PkYZUBh2S4rAoBC
+	Mx2JePYVperGe5jp1NUIGQXkI82acREcWfdKt8rE+FU34DkEezDlUer8ahj2qsWcvhtm678zv/Wqj
+	TJtLihUqH5etNRmZuO01FEEEv6Vpl/tjkfSX1Tg9DMxr2ga+6eAtkfk97a8zwTPClvmzOJAZIUOHt
+	W80lcT16UCli2A0GDneqBvGdEiQWfuykaUz/C0ROKJEm+FTTsvDg+1JSFUl9RDDGrdE1SSkqzZDtZ
+	PsNhAt1jxMas+XNYyXSA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHgsb-0004Xo-HN; Fri, 27 Mar 2020 04:46:01 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHgsY-0004XK-5n
- for linux-snps-arc@lists.infradead.org; Fri, 27 Mar 2020 04:45:59 +0000
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
- [10.192.0.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C1010C0F96;
- Fri, 27 Mar 2020 04:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1585284357; bh=TfR4YEhCkWutRm00mJO8FQR9yQCa7VzzrCrrDxFxnaU=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=ic+YLGL92/SoBy1V1FPthpvf86rKTBxBrla4MqIbkFEZ3xOJ3McvD+OY0MKl3QoUY
- qqfk+qpnIkWD5bIi+K7FUtQlHqrI94Kk+ioVHAgAWBTfyjos1sgsrSwcwAtNh3Mk2m
- nX4bfjIDOC0sD33ypv8ohjesUunyyKz0SS5Yd+P4u0pBG+DVS4o8haBnSkaMqAE1rB
- 3MOS3/z2FnSAXZ7uLGfX/2AG7uHyLmVXdGIy/NoiWTLVMSBOLoIt+VfPS1D33OO6RK
- OzC6aL7AQE1UfXMSgwbvlGS2AtAEvOWvn1/M0Z5jLfA0yh5rR+HVXAZygb5Izc3urh
- psQ9GiWrAVofw==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 5EDFDA006C;
- Fri, 27 Mar 2020 04:45:57 +0000 (UTC)
-Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 26 Mar 2020 21:45:56 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Thu, 26 Mar 2020 21:45:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AQXvHQk64vTf5gn+RdHWwdwcLtYRrGhQlsCw/oluCfd8dMvEsRLQmahHuOberPyUrh1h8UqUOFgD0l929fxmfbuzPI5pJAWwPHRWQ/ZFUIUGAtg6LrNJJl6ZyhCS/vosjHkrhWRBRyupvxBit5eSa9VXwIWG6PiVHJGQyoTQnO8M0YKqBWdoK8Ib2F+1utz3efPD3NxHP6RGy1HlWNO5wSTiAcO8Xp9zGbbTGAn8r0Ijjo5d5uNDfKZC6ylVuEfUhyR+24tHTeNURArCtiToScrBqko1n/LC7B9AeVpib3N0z5C8fQfx2O1ly8j9xh+zfRX0QKKzw4oFKU1Q6qkesA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TfR4YEhCkWutRm00mJO8FQR9yQCa7VzzrCrrDxFxnaU=;
- b=PexBM7JtRO+6DSMSJPuWaY6FDkiJQl2R/0czsqdNfHuy/MYVZl5b0EF0nUtFc4prKWHHwp1BUKB7FI8gj6S3c4hCPhXIowuA8Jb1gIb9jgcHWOeLPX+835TNxfIEcr8FDhvfBB2ZhWiRj/nhp4dF7Ou1TxSSKTu1wgVYYCKxQOyn5AUQtbkpGN6u1DFihl4SCZwjPOISwr7hpfvIwgmbczCUbGFT2NQ5utM1rsAFZtPadEdVMTko2wA6DByDJVSDPIlRnjV+8YDrNSL7QpHUBQUF5iVa6mqJxqpR2KKYJcwEjFEg9xam+6XYlLJDu3Lib+/XyPWtsLodUVU7jN76AA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TfR4YEhCkWutRm00mJO8FQR9yQCa7VzzrCrrDxFxnaU=;
- b=DKc/mbVkIRBYUo+qIH6AAWPA7/MIcESmgjU4ttTE57dxjRKr8v0+ZDPLrFMi7SFsX/ebtqQ4nPNCJ8saCnY+ps+wadp831YAWMlOf22tMw74OBzmvnX8iLMqXh/6J3iSjF879VvXwkRJO9ge2YkJUg9HPlku1gGx48qNrPdoHgs=
-Received: from BYAPR12MB3592.namprd12.prod.outlook.com (2603:10b6:a03:db::25)
- by BYAPR12MB2728.namprd12.prod.outlook.com (2603:10b6:a03:61::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.18; Fri, 27 Mar
- 2020 04:45:53 +0000
-Received: from BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::a45a:6a41:3fe5:2eb7]) by BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::a45a:6a41:3fe5:2eb7%7]) with mapi id 15.20.2835.023; Fri, 27 Mar 2020
- 04:45:53 +0000
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Joseph Myers <joseph@codesourcery.com>
-Subject: Re: [PATCH v4 09/15] ARC: Linux ABI
-Thread-Topic: [PATCH v4 09/15] ARC: Linux ABI
-Thread-Index: AQHWA9AjRdhpD8CbOU+T0hL6KJn87Khb3Y8A
-Date: Fri, 27 Mar 2020 04:45:53 +0000
-Message-ID: <25c894a9-f389-200f-7f8e-2ed9da677eac@synopsys.com>
-References: <20200313030419.15843-1-vgupta@synopsys.com>
- <20200313030419.15843-10-vgupta@synopsys.com>
- <alpine.DEB.2.21.2003270035170.24611@digraph.polyomino.org.uk>
-In-Reply-To: <alpine.DEB.2.21.2003270035170.24611@digraph.polyomino.org.uk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vgupta@synopsys.com; 
-x-originating-ip: [2601:641:c100:83a0:24c5:8a14:3f19:e6c8]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5a1d9382-19b2-48d4-728c-08d7d209bb34
-x-ms-traffictypediagnostic: BYAPR12MB2728:
-x-microsoft-antispam-prvs: <BYAPR12MB272881072242AD46C550B5F3B6CC0@BYAPR12MB2728.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3276;
-x-forefront-prvs: 0355F3A3AE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(376002)(39860400002)(346002)(136003)(396003)(31686004)(36756003)(186003)(6512007)(81166006)(4326008)(8676002)(8936002)(6506007)(5660300002)(316002)(6486002)(2616005)(53546011)(81156014)(478600001)(2906002)(86362001)(31696002)(6916009)(54906003)(64756008)(66446008)(76116006)(66476007)(66556008)(66946007)(71200400001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR12MB2728;
- H:BYAPR12MB3592.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: O8Oc/RiR8HLylzerjv0aFD10sq69eHeQECMDxS342/oTmBGxplTHUSSfJ6nOe0ziYBDKOiARgr0+yzddOQdrUJ/i1y/eXV6oyj+cU5tjZVuE7ENH/TSnTNhCEyPbuk7EKQ6SiUOuUTfbVrKVOBW7o3KkZ85WdxMzWq4BM8AKXzpkutS+2/K/Nyvpv9NBVB4+UJ3d4PFAMTVE6UtY6Ba06bLgW4Y7wqHbm+ECJ1ycIPMGiYZQ1Rq2Rori56dKrd2eU8jhBAo3VIinHzMceM1koA4kAjGXCQUhmGiHn6Zu1M6jXMR7PhxeUNN+GTwWUxZhZwmFK+N0eNFeZRLnD0+VBuJiFp0gEBbkSFTn2ddWbJnAk+Bzuq2+BHIv1GwotCm6aSakiDC3k4t2sw2AkFa0GQ+2m4puBH0rWnChLTBWVg+Zq+sdSTrnWRhgxL7zZZnU
-x-ms-exchange-antispam-messagedata: iiUCe7zo3Z+vDx8aRZc1hS4Jn3BJnUI4RwlhWp8Vz0qR+JYDpX+yp4DpZY4FfAKm20PCFdsqTj8zioxGepUOVoxm1s8fCMsoSE3C4yR7QdwuZWtO1Noc7icd1V6nFTaGqEPLBTMJ7dmIpRIjl8pal7lATPcZMqSxk8xBy7RtSv4pZxRXciOOu+U4Ts45nK3f5FtkQt0vP5inBdgS1MB4FA==
-x-ms-exchange-transport-forked: True
-Content-ID: <112349E67A45EB4CBC272036D1111A78@namprd12.prod.outlook.com>
+	id 1jHiln-0000lQ-38; Fri, 27 Mar 2020 06:47:07 +0000
+Received: from foss.arm.com ([217.140.110.172])
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jHila-0000Zi-F9; Fri, 27 Mar 2020 06:46:56 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC7317FA;
+ Thu, 26 Mar 2020 23:46:50 -0700 (PDT)
+Received: from [10.163.1.31] (unknown [10.163.1.31])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6B53F3F71F;
+ Thu, 26 Mar 2020 23:50:47 -0700 (PDT)
+Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
+To: Christophe Leroy <christophe.leroy@c-s.fr>, linux-mm@kvack.org
+References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
+ <2bb4badc-2b7a-e15d-a99b-b1bd38c9d9bf@arm.com>
+ <a46d18ed-8911-1ec3-c32f-58b6e0d959d7@c-s.fr>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+Message-ID: <9675882f-0ec5-5e46-551f-dd3aa38bf8d8@arm.com>
+Date: Fri, 27 Mar 2020 12:16:34 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a1d9382-19b2-48d4-728c-08d7d209bb34
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Mar 2020 04:45:53.2870 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BKAmILA3nZ8JtjNMEKkmjrZGCwxVntKKY5bYUNuUkzuVLrrcdSZfF7Izu53pJJO5R05JHbtGqq7ZymGApsSbzA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2728
-X-OriginatorOrg: synopsys.com
+In-Reply-To: <a46d18ed-8911-1ec3-c32f-58b6e0d959d7@c-s.fr>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200326_214558_291328_EE572156 
-X-CRM114-Status: GOOD (  15.30  )
+X-CRM114-CacheID: sfid-20200326_234654_596930_8CFBCDF9 
+X-CRM114-Status: GOOD (  15.21  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,69 +69,92 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-doc@vger.kernel.org,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, linux-riscv@lists.infradead.org,
+ Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+ Mike Rapoport <rppt@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, linux-snps-arc@lists.infradead.org,
+ Vasily Gorbik <gor@linux.ibm.com>, Borislav Petkov <bp@alien8.de>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ "Kirill A . Shutemov" <kirill@shutemov.name>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Vineet Gupta <vgupta@synopsys.com>, linux-kernel@vger.kernel.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 3/26/20 5:38 PM, Joseph Myers wrote:
-> On Thu, 12 Mar 2020, Vineet Gupta via Libc-alpha wrote:
-> 
->> +/* And the whole bunch of them.  We could have used `struct
->> +   user_regs' directly in the typedef, but tradition says that
->> +   the register set is an array, which does have some peculiar
->> +   semantics, so leave it that way.  */
->> +#define ELF_NGREG (sizeof (struct user_regs_struct) / sizeof(elf_greg_t))
-> 
-> Missing space after second sizeof.
-
-Fixed.
-
-
->> +  /* __startcontext is sort of trampoline to invoke @func
->> +     From setcontext() pov, the resume address is __startcontext,
->> +     set it up in BLINK place holder.  */
-> 
-> GNU standard is that you don't use parentheses after the name of a 
-> function in documentation (including comments) just to indicate that it's 
-> a function; empty parentheses after the name of a function indicate a call 
-> with no arguments.  Likewise elsewhere in this patch.
-
-Ok fixed patch wide.
-
->> +  reg_args = argc > 8 ? 8 : argc;
->> +  for (i = 0; i < reg_args; i++) {
->> +      *r-- = va_arg(vl, unsigned long int);
->> +  }
-> 
-> Bad formatting; the open brace goes on its own line, indented two columns.  
-
-Removed the { } here.
-
-> Missing space after va_arg.
-> 
->> +  if (__glibc_unlikely (stack_args > 0)) {
-> 
-> Likewise.
-
-Fixed.
-
->> +    for (i = 0; i < stack_args; i++) {
->> +        *r++ = va_arg(vl, unsigned long int);
-> 
-> Likewise.
-
-Fixed. Removed { }, added space.
-
->> +#undef __ctx
-> 
-> You don't seem to have a macro __ctx, so no need to undefine it.
-> 
-
-Ok. removed.
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+Ck9uIDAzLzI2LzIwMjAgMDg6NTMgUE0sIENocmlzdG9waGUgTGVyb3kgd3JvdGU6Cj4gCj4gCj4g
+TGUgMjYvMDMvMjAyMCDDoCAwMzoyMywgQW5zaHVtYW4gS2hhbmR1YWwgYSDDqWNyaXTCoDoKPj4K
+Pj4KPj4gT24gMDMvMjQvMjAyMCAxMDo1MiBBTSwgQW5zaHVtYW4gS2hhbmR1YWwgd3JvdGU6Cj4+
+PiBUaGlzIHNlcmllcyBhZGRzIG1vcmUgYXJjaCBwYWdlIHRhYmxlIGhlbHBlciB0ZXN0cy4gVGhl
+IG5ldyB0ZXN0cyBoZXJlIGFyZQo+Pj4gZWl0aGVyIHJlbGF0ZWQgdG8gY29yZSBtZW1vcnkgZnVu
+Y3Rpb25zIGFuZCBhZHZhbmNlZCBhcmNoIHBndGFibGUgaGVscGVycy4KPj4+IFRoaXMgYWxzbyBj
+cmVhdGVzIGEgZG9jdW1lbnRhdGlvbiBmaWxlIGVubGlzdGluZyBhbGwgZXhwZWN0ZWQgc2VtYW50
+aWNzIGFzCj4+PiBzdWdnZXN0ZWQgYnkgTWlrZSBSYXBvcG9ydCAoaHR0cHM6Ly9sa21sLm9yZy9s
+a21sLzIwMjAvMS8zMC80MCkuCj4+Pgo+Pj4gVGhpcyBzZXJpZXMgaGFzIGJlZW4gdGVzdGVkIG9u
+IGFybTY0IGFuZCB4ODYgcGxhdGZvcm1zLgo+Pgo+PiBJZiBmb2xrcyBjYW4gdGVzdCB0aGVzZSBw
+YXRjaGVzIG91dCBvbiByZW1haW5pbmcgQVJDSF9IQVNfREVCVUdfVk1fUEdUQUJMRQo+PiBlbmFi
+bGVkIHBsYXRmb3JtcyBpLmUgczM5MCwgYXJjLCBwb3dlcnBjICgzMiBhbmQgNjQpLCB0aGF0IHdp
+bGwgYmUgcmVhbGx5Cj4+IGFwcHJlY2lhdGVkLiBUaGFuayB5b3UuCj4+Cj4gCj4gT24gcG93ZXJw
+YyA4eHggKFBQQzMyKSwgSSBnZXQ6Cj4gCj4gW8KgwqAgNTMuMzM4MzY4XSBkZWJ1Z192bV9wZ3Rh
+YmxlOiBkZWJ1Z192bV9wZ3RhYmxlOiBWYWxpZGF0aW5nIGFyY2hpdGVjdHVyZSBwYWdlIHRhYmxl
+IGhlbHBlcnMKPiBbwqDCoCA1My4zNDc0MDNdIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0t
+LS0tLS0tLQo+IFvCoMKgIDUzLjM1MTgzMl0gV0FSTklORzogQ1BVOiAwIFBJRDogMSBhdCBtbS9k
+ZWJ1Z192bV9wZ3RhYmxlLmM6NjQ3IGRlYnVnX3ZtX3BndGFibGUrMHgyODAvMHgzZjQKCm1tL2Rl
+YnVnX3ZtX3BndGFibGUuYzo2NDcgPwoKV2l0aCB0aGUgZm9sbG93aW5nIGNvbW1pdHMgaW4gcGxh
+Y2UKCjUzYTgzMzhjZSAoSEVBRCkgRG9jdW1lbnRhdGlvbi9tbTogQWRkIGRlc2NyaXB0aW9ucyBm
+b3IgYXJjaCBwYWdlIHRhYmxlIGhlbHBlcgo1ZDQ5MTNmYzEgbW0vZGVidWc6IEFkZCB0ZXN0cyB2
+YWxpZGF0aW5nIGFyY2ggYWR2YW5jZWQgcGFnZSB0YWJsZSBoZWxwZXJzCmJjYWYxMjBhNyBtbS9k
+ZWJ1ZzogQWRkIHRlc3RzIHZhbGlkYXRpbmcgYXJjaCBwYWdlIHRhYmxlIGhlbHBlcnMgZm9yIGNv
+cmUgZmVhdHVyZXMKZDZlZDVhNGE1IHg4Ni9tZW1vcnk6IERyb3AgcHVkX21rbm90cHJlc2VudCgp
+CjA3MzlkMWY4ZCBtbS9kZWJ1ZzogQWRkIHRlc3RzIHZhbGlkYXRpbmcgYXJjaGl0ZWN0dXJlIHBh
+Z2UgdGFibGUgaGVscGVycwoxNmZiZjc5YjAgKHRhZzogdjUuNi1yYzcpIExpbnV4IDUuNi1yYzcK
+Cm1tL2RlYnVnX3ZtX3BndGFibGUuYzo2NDcgaXMgaGVyZS4KCiNpZmRlZiBDT05GSUdfQVJDSF9F
+TkFCTEVfVEhQX01JR1JBVElPTgpzdGF0aWMgdm9pZCBfX2luaXQgcG1kX3N3YXBfdGVzdHModW5z
+aWduZWQgbG9uZyBwZm4sIHBncHJvdF90IHByb3QpCnsKICAgICAgICBzd3BfZW50cnlfdCBzd3A7
+CiAgICAgICAgcG1kX3QgcG1kOyAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0+IExpbmUg
+IzY0NwoKICAgICAgICBwbWQgPSBwZm5fcG1kKHBmbiwgcHJvdCk7CiAgICAgICAgc3dwID0gX19w
+bWRfdG9fc3dwX2VudHJ5KHBtZCk7CiAgICAgICAgV0FSTl9PTighcG1kX3NhbWUocG1kLCBfX3N3
+cF9lbnRyeV90b19wbWQoc3dwKSkpOwp9CiNlbHNlCnN0YXRpYyB2b2lkIF9faW5pdCBwbWRfc3dh
+cF90ZXN0cyh1bnNpZ25lZCBsb25nIHBmbiwgcGdwcm90X3QgcHJvdCkgeyB9CiNlbmQKCkRpZCBJ
+IG1pc3Mgc29tZXRoaW5nID8KCj4gW8KgwqAgNTMuMzYwMTQwXSBDUFU6IDAgUElEOiAxIENvbW06
+IHN3YXBwZXIgTm90IHRhaW50ZWQgNS42LjAtcmM3LXMzay1kZXYtMDEwOTAtZzkyNzEwZTk5ODgx
+ZiAjMzU0NAo+IFvCoMKgIDUzLjM2ODcxOF0gTklQOsKgIGMwNzc3YzA0IExSOiBjMDc3N2JiOCBD
+VFI6IDAwMDAwMDAwCj4gW8KgwqAgNTMuMzczNzIwXSBSRUdTOiBjOTAyM2RmMCBUUkFQOiAwNzAw
+wqDCoCBOb3QgdGFpbnRlZCAoNS42LjAtcmM3LXMzay1kZXYtMDEwOTAtZzkyNzEwZTk5ODgxZikK
+PiBbwqDCoCA1My4zODIwNDJdIE1TUjrCoCAwMDAyOTAzMiA8RUUsTUUsSVIsRFIsUkk+wqAgQ1I6
+IDIyMDAwMjIywqAgWEVSOiAyMDAwMDAwMAo+IFvCoMKgIDUzLjM4ODY2N10KPiBbwqDCoCA1My4z
+ODg2NjddIEdQUjAwOiBjMDc3N2JiOCBjOTAyM2VhOCBjNjEyMDAwMCAwMDAwMDAwMSAxZTQxMDAw
+MCAwMDAwMDAwMCAwMDAwMDAwMCAwMDc2NDFjOQo+IFvCoMKgIDUzLjM4ODY2N10gR1BSMDg6IDAw
+MDAwMDAwIDAwMDAwMDAxIDAwMDAwMDAwIGZmZmZmZmZmIDgyMDAwMjIyIDAwMDAwMDAwIGMwMDAz
+OWI4IDAwMDAwMDAwCj4gW8KgwqAgNTMuMzg4NjY3XSBHUFIxNjogMDAwMDAwMDAgMDAwMDAwMDAg
+MDAwMDAwMDAgZmZmZmZmZjAgMDY1ZmMwMDAgMWU0MTAwMDAgYzY2MDAwMDAgMDAwMDAxZTQKPiBb
+wqDCoCA1My4zODg2NjddIEdQUjI0OiAwMDAwMDFkOSBjMDYyZDE0YyBjNjVmYzAwMCBjNjQyZDQ0
+OCAwMDAwMDZjOSAwMDAwMDAwMCBjNjVmODAwMCBjNjVmYzA0MAo+IFvCoMKgIDUzLjQyMzQwMF0g
+TklQIFtjMDc3N2MwNF0gZGVidWdfdm1fcGd0YWJsZSsweDI4MC8weDNmNAo+IFvCoMKgIDUzLjQy
+ODU1OV0gTFIgW2MwNzc3YmI4XSBkZWJ1Z192bV9wZ3RhYmxlKzB4MjM0LzB4M2Y0Cj4gW8KgwqAg
+NTMuNDMzNTkzXSBDYWxsIFRyYWNlOgo+IFvCoMKgIDUzLjQzNjA0OF0gW2M5MDIzZWE4XSBbYzA3
+NzdiYjhdIGRlYnVnX3ZtX3BndGFibGUrMHgyMzQvMHgzZjQgKHVucmVsaWFibGUpCj4gW8KgwqAg
+NTMuNDQyOTM2XSBbYzkwMjNmMjhdIFtjMDAwMzllMF0ga2VybmVsX2luaXQrMHgyOC8weDEyNAo+
+IFvCoMKgIDUzLjQ0ODE4NF0gW2M5MDIzZjM4XSBbYzAwMGYxNzRdIHJldF9mcm9tX2tlcm5lbF90
+aHJlYWQrMHgxNC8weDFjCj4gW8KgwqAgNTMuNDU0MjQ1XSBJbnN0cnVjdGlvbiBkdW1wOgo+IFvC
+oMKgIDUzLjQ1NzE4MF0gNDFhMjAwMDggNGJlYTNlZDkgNjI4OTAwMjEgN2QzNmI5MmUgN2QzNmI4
+MmUgNzEyOTBmZDAgMzE0OWZmZmYgN2QyYTQ5MTAKPiBbwqDCoCA1My40NjQ4MzhdIDBmMDkwMDAw
+IDU3ODkwNzdlIDMxNDlmZmZmIDdkMmE0OTEwIDwwZjA5MDAwMD4gMzhjMDAwMDAgMzhhMDAwMDAg
+Mzg4MDAwMDAKPiBbwqDCoCA1My40NzI2NzFdIC0tLVsgZW5kIHRyYWNlIGZkNWRkOTI3NDRkYzAw
+NjUgXS0tLQpDb3VsZCB5b3UgcGxlYXNlIHBvaW50IG1lIHRvIHRoZSBleGFjdCB0ZXN0IHdoaWNo
+IGlzIGZhaWxpbmcgPwoKPiBbwqDCoCA1My41MTk3NzhdIEZyZWVpbmcgdW51c2VkIGtlcm5lbCBt
+ZW1vcnk6IDYwOEsKPiAKPiAKU28gSSBhc3N1bWUgdGhhdCB0aGUgc3lzdGVtIHNob3VsZCBoYXZl
+IGNvbWUgdGlsbCBydW50aW1lIGp1c3QgZmluZSBhcGFydCBmcm9tCnRoZSBhYm92ZSB3YXJuaW5n
+IG1lc3NhZ2UgYmVjYXVzZS4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0
+cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGlu
+Zm8vbGludXgtc25wcy1hcmMK
