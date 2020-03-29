@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B2D6C43331
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 29 Mar 2020 00:05:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A69C43331
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 29 Mar 2020 04:16:29 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B8108206F2
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 29 Mar 2020 00:05:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A3E3620733
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 29 Mar 2020 04:16:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UJUu1NGY";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="YEc79yVd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8108206F2
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="G49hMYa4";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="AnYw3bYs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A3E3620733
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,48 +26,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=9c+wiATY7nn19BGa3uLf4v9rV9trOYYEZkdDa91tB9c=; b=UJUu1NGY6xpaP0
-	GnvLCePvKtHLzOKZYN32IiiIBda4TcIWL8b9S2omMtLUsXSheIhAsmsVXYx6vKcXu1c4Go9OXJHRa
-	6aX0ssS3Va12bnQ6Q6NX86dSJ2qYK4WAekGhRN++aICuFlr0aervNkpF3EQri+ZM4LlegJsXBLrcA
-	treje+GjXS4/LWsQMYgZixg5zt6+eSDjSta8HimAcyzbSTOZLUHAwsSvbWwihwopWd0IYf4muRbW0
-	ksoCCYfbtt2CjlVB2JE9kAs+5BHG2WrOwY/8rHoj4Z3YVCjw6DXL2OtIoFinYUupUHt6GEqgpTRKZ
-	estg8RGhprkJjUP7WmPQ==;
+	List-Owner; bh=7uA3johOIR3gZp/KYKWiQFxOW645n5mffp36U6tZpWY=; b=G49hMYa4MgcCLx
+	Aw8klspZnM7n90bxCQbntZ3M3b0ZQAVF8FzdxpPfOOLO9saTacA9qcgSAVsbQJTiP+sOTARgB+Sh6
+	aKQQp3nV8m19egLC82zbyfHLFhMJU0ewMtctDsTnUxbXaiILSZvNsqGa96vWVhtx1V4bpg06vdZe6
+	N6K6rL+p9rSgIz5rSOV707TS2nzwEDMLmO87QS8s9ehlGUwikNFIuRLC6pfhfbqyEg6HxBzqNeAMn
+	ntKWR4LMf3HHm5QYvU0xycVr+G1dHRJqH8l/AkCej3hLXzLkUINdT6TLXxdFwwwtBzLEfNbYKz73A
+	UV0yGUPLH+z7Nl/3OImg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jILRy-0001RO-P5; Sun, 29 Mar 2020 00:05:14 +0000
+	id 1jIPN3-0008UX-BO; Sun, 29 Mar 2020 04:16:25 +0000
 Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jILRv-0001R4-SR
- for linux-snps-arc@lists.infradead.org; Sun, 29 Mar 2020 00:05:13 +0000
-Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com
- [10.205.2.133])
+ id 1jIPN1-0008Tn-50
+ for linux-snps-arc@lists.infradead.org; Sun, 29 Mar 2020 04:16:24 +0000
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
+ [10.205.2.132])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 7EE4D426A8;
- Sun, 29 Mar 2020 00:05:10 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 56F8D40570;
+ Sun, 29 Mar 2020 04:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1585440311; bh=APZkSypiiGEccWyXyP/nbJuIrVqJBrhvxngr5DzP900=;
+ t=1585455382; bh=65n8aFtN734bVs9xTJXK19tmxPqznoqzwE4dJ33iTjk=;
  h=From:To:Cc:Subject:Date:From;
- b=YEc79yVd4I0Xye5TAsTVsALshWbkeu03lVnx1aAnLzQxrGsjMc9GdoXzUejF1TbSb
- GnpMsu6cRWpzWNscPlG/EDzYS556p71pwkzqBuC176YnF+K0F2wBIvlnMHLrkWB/S5
- yAToAfy7Oz9S+eWdD7JE8zj0t9qK3/2x8v62ZwtD8pZIxbZhMEX/JYp4GE3PLZTmTr
- JEu7lAIrkVCOZI3dTJGFew6Q2InJS471js3EwPXjRJgs5iAnXtsDO37TiAzKRDWKAv
- iM4i3b1NGjDr+H1OYYmt0HO5jA9KTgB5PLnCgHeIISm6r8yEsFJNyNg47LeVMolhuV
- +2UHGpPwS8lOg==
+ b=AnYw3bYs+dprlFyfF7XLEgwp1ZcwaONFEfkTvtQuLpA/BKIbPX/3bw4DO6HLM3xPi
+ BChyclZPj9OzVBzgd4BqvnyghDQQo/uVpcojTyBwtivXnrmF2PhNyTrn+1b2zbY8gB
+ fet41sbEzp0aLZkNvam6s+LfH9oJDFdp1XjJ/SMRn1FcGeX5me6haXSWnMBlZQ/8oR
+ asGcOtnErkx4/OJaDQivp4gfpklQEd1OJ18A01nJcAvWAcqR1liFfa3VE7iXbKzJL+
+ 51Jdq+bBhpA6LnppdkV96/t845qHVPG9pu3DRp32NaFexev/+PezAs0bqWtTAAz/ai
+ 2k3DUQCHDgnGQ==
 Received: from vineetg-Latitude-E7450.internal.synopsys.com (unknown
  [10.13.182.230])
- by mailhost.synopsys.com (Postfix) with ESMTP id 9E706A00B3;
- Sun, 29 Mar 2020 00:05:04 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 43D4AA0077;
+ Sun, 29 Mar 2020 04:16:13 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: gcc-patches@gcc.gnu.org
-Subject: [PATCH] [ARC] Allow more ABIs in GLIBC_DYNAMIC_LINKER
-Date: Sat, 28 Mar 2020 17:05:03 -0700
-Message-Id: <20200329000503.27897-1-vgupta@synopsys.com>
+To: libc-alpha@sourceware.org
+Subject: [PATCH] provide y2038 safe socket constants
+Date: Sat, 28 Mar 2020 21:16:12 -0700
+Message-Id: <20200329041612.4071-1-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200328_170511_929946_B31293CD 
-X-CRM114-Status: UNSURE (   9.23  )
+X-CRM114-CacheID: sfid-20200328_211623_202540_6DDD5448 
+X-CRM114-Status: UNSURE (   8.11  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -80,55 +80,54 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- linux-snps-arc@lists.infradead.org, andrew.burgess@embecosm.com,
- Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>
+Cc: Stepan Golosunov <stepan@golosunov.pp.ru>,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>, linux-snps-arc@lists.infradead.org,
+ Alistair Francis <alistair.francis@wdc.com>, Lukasz Majewski <lukma@denx.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Enable big-endian suffixed dynamic linker per glibc multi-abi support.
-
-And to avoid a future churn and version pairingi hassles, also allow
-arc700 although glibc for ARC currently doesn't support it.
-
-gcc/
-xxxx-xx-xx  Vineet Gupta <vgupta@synopsys.com>
-+
-+       * config/arc/linux.h: GLIBC_DYNAMIC_LINKER support BE/arc700
+These will be used by upcoming RV32 and ARC ports and any future ports
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- gcc/ChangeLog          | 4 ++++
- gcc/config/arc/linux.h | 2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ sysdeps/unix/sysv/linux/bits/socket-constants.h | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/gcc/ChangeLog b/gcc/ChangeLog
-index 86ad683a6cb0..c26a748fd51b 100644
---- a/gcc/ChangeLog
-+++ b/gcc/ChangeLog
-@@ -1,3 +1,7 @@
-+2020-03-28  Vineet Gupta <vgupta@synopsys.com>
+diff --git a/sysdeps/unix/sysv/linux/bits/socket-constants.h b/sysdeps/unix/sysv/linux/bits/socket-constants.h
+index 9dcc19cd5380..8a48ae7d0ca2 100644
+--- a/sysdeps/unix/sysv/linux/bits/socket-constants.h
++++ b/sysdeps/unix/sysv/linux/bits/socket-constants.h
+@@ -20,6 +20,8 @@
+ # error "Never include <bits/socket-constants.h> directly; use <sys/socket.h> instead."
+ #endif
+ 
++#include <bits/timesize.h>
 +
-+	* config/arc/linux.h: GLIBC_DYNAMIC_LINKER support BE/arc700
-+
- 2020-03-28  Jakub Jelinek  <jakub@redhat.com>
- 
- 	PR c/93573
-diff --git a/gcc/config/arc/linux.h b/gcc/config/arc/linux.h
-index 0b99da3fcdaf..1bbeccee7115 100644
---- a/gcc/config/arc/linux.h
-+++ b/gcc/config/arc/linux.h
-@@ -29,7 +29,7 @@ along with GCC; see the file COPYING3.  If not see
-     }						\
-   while (0)
- 
--#define GLIBC_DYNAMIC_LINKER   "/lib/ld-linux-arc.so.2"
-+#define GLIBC_DYNAMIC_LINKER   "/lib/ld-linux-arc%{mbig-endian:eb}%{mcpu=arc700:700}.so.2"
- #define UCLIBC_DYNAMIC_LINKER  "/lib/ld-uClibc.so.0"
- 
- /* Note that the default is to link against dynamic libraries, if they are
+ #define SOL_SOCKET 1
+ #define SO_ACCEPTCONN 30
+ #define SO_BROADCAST 6
+@@ -30,9 +32,17 @@
+ #define SO_OOBINLINE 10
+ #define SO_RCVBUF 8
+ #define SO_RCVLOWAT 18
+-#define SO_RCVTIMEO 20
++#if __TIMESIZE == 64 && __WORDSIZE == 32
++# define SO_RCVTIMEO 66
++#else
++# define SO_RCVTIMEO 20
++#endif
+ #define SO_REUSEADDR 2
+ #define SO_SNDBUF 7
+ #define SO_SNDLOWAT 19
+-#define SO_SNDTIMEO 21
++#if __TIMESIZE == 64 && __WORDSIZE == 32
++# define SO_SNDTIMEO 67
++#else
++# define SO_SNDTIMEO 21
++#endif
+ #define SO_TYPE 3
 -- 
 2.20.1
 
