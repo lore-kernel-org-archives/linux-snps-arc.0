@@ -2,116 +2,218 @@ Return-Path: <SRS0=nidH=5Q=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E0F9C43331
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 31 Mar 2020 15:42:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3372BC43331
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 31 Mar 2020 16:27:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E183E20848
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 31 Mar 2020 15:42:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E263920784
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 31 Mar 2020 16:27:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DHi3FGVQ";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TxWehygB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E183E20848
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=de.ibm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JDmCixhS";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="BDw8aRDZ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Qy+gFq9+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E263920784
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Message-Id:MIME-Version:References:
-	In-Reply-To:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Nc0vyHiXCIjNNsVW4eN84XlITCU9ZHNQOEL+8OUdf9o=; b=DHi3FGVQmcTj7u
-	GdptZoiXsSO58t39CVpAeg9DbYdD0k0q1Qvk+K8EEA694jlAz5kwv6JP+uhpJJYJNU+H/dXwQOzC0
-	KdNWQrtbJO8WTjy7csz/5yRvcNKjZG56RLHnAM5rH4+cVA6m+YDDNtxaZMg9JI0P/ehd5cYRK8ZUx
-	zYAAB/g4R8y2FQfRYlJEroj5nSdGFfKG/x6eieqzrqIcAfxFJx9/wGV08GWRgsPcybUQ/BVdiQbwA
-	Y3VDuqpOvZvBPjOv2SkOhcbmbOGqMTYolnLUYxYv67GnffkD2azeyGmc9mEO1qJ8c9shsyEtcZW4d
-	hJQZZw1+BBhHwbRRSBTg==;
+	List-Owner; bh=fwfJcP+2QKQKmHe2z5TdR1cJuqSFW8vSGkCX+nUjtrg=; b=JDmCixhS0n/87V
+	ghz6w8Ctjaf0ctQ0ztymS+uDweK+YxbIpAsEYd/YD4bBO+e1rXZXXAy5sb0sWWWesM7hcPmbssHBT
+	pPLLAh7rLanwxHVcoyNG/7stXwEZF/URDXKr18Y/E8o9O6rln09X2kbBbMaAepH9d4HpWnvwOdwZ7
+	4ETrs0e+Ct2EuNdbZwc3CjpQPsdedwFhQuDjXQJkV30nj9M7CwX+gnFwAbaqap34mLXzw3W9o0MHn
+	wwmRsxtygSa4lBwzKEc3/4bYCdSCfVC88weXIF0uATU4pxunVfh0zc8aI1YsadiGl+iH0vf0P5IeN
+	QbyFpZtnOsyoljVjFERA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jJJ2J-0008F6-Vk; Tue, 31 Mar 2020 15:42:43 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1jJJk4-0007rE-Qq; Tue, 31 Mar 2020 16:27:56 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jJJ1V-0007hR-7N
- for linux-snps-arc@bombadil.infradead.org; Tue, 31 Mar 2020 15:41:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Message-Id:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=//6eCYgsYeYOWiJApDsSOZhoZTw9Nur4ZMVSxHb7KVU=; b=TxWehygB9ru0SxKOVi3Uk9jYWq
- xdZpXxM9mZ0W0rAaolqLHnzzRS7h+P8EiD4V5aJrf1qLASOXRj3lMN008wFMXkp1x+Z1onfuWXoUu
- Zc8W9sqCrrAMTCf0cNpr0/cqMBSKDvi8OZi53NzuwaAJ73HjDrFyslgTdYMT6NpoS+AIK8bQSBgsc
- 9y8gGB0keRru5jyWxnyAYYJKtjp+eQeX3wQv8FMu/Z/jYBhnd8EklyZC8+8BX3bptDZs7HYaCBYo2
- AszEu5iGAMBqRX4DkvEkCnK6QZW/dVTpTiAyX3xOEkNkOnViGJBT+v+VGgsnpDBInjUidCZ4InZY+
- ACnqjfMw==;
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jJG35-0008Ik-0O
- for linux-snps-arc@lists.infradead.org; Tue, 31 Mar 2020 12:31:22 +0000
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02VC4IXw108738
- for <linux-snps-arc@lists.infradead.org>; Tue, 31 Mar 2020 08:31:13 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0b-001b2d01.pphosted.com with ESMTP id 303vwj6aaq-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-snps-arc@lists.infradead.org>; Tue, 31 Mar 2020 08:31:12 -0400
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <linux-snps-arc@lists.infradead.org> from <gerald.schaefer@de.ibm.com>;
- Tue, 31 Mar 2020 13:30:55 +0100
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 31 Mar 2020 13:30:49 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02VCV29E45285796
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 31 Mar 2020 12:31:02 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EFFED4C050;
- Tue, 31 Mar 2020 12:31:01 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 11E484C04A;
- Tue, 31 Mar 2020 12:31:01 +0000 (GMT)
-Received: from thinkpad (unknown [9.145.170.245])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 31 Mar 2020 12:31:01 +0000 (GMT)
-Date: Tue, 31 Mar 2020 14:30:59 +0200
-From: Gerald Schaefer <gerald.schaefer@de.ibm.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
-In-Reply-To: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
-References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ id 1jJJj8-0006zT-Gp
+ for linux-snps-arc@lists.infradead.org; Tue, 31 Mar 2020 16:27:11 +0000
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
+ [10.192.0.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 9C38CC0F72;
+ Tue, 31 Mar 2020 16:26:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1585672016; bh=RjWyLQkc00C77sN4GS/pWGvcdYIgZCeQdlOIIDqq4+I=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=BDw8aRDZ1RPUSixLK/jGMirIV+QmRjiY1VILRZ3tGZFZO2ol/sFUD8zXoLzqYbP6I
+ sHRuE6V8RlxiejkgR7bw6FdIkD2xy90NhSdiltk07+O4zhMoS5vps3Krjn1KB1OuRi
+ zlAP3JCPSiiAoeWEPWcNUpNYRO81Xgq0pfW7Zi/YF+4EaLFt5EJnqFRD7wlIG+yeUV
+ N/v59eV74xYJTS0sgt0hLqb3ZN1nZ6Mbe8QMvr2V3SdhHLcWTCXRQRzX0xS22gUIkl
+ 8fBJKu79csVFrRjWlDsAfVrcz5jT4R9s1w9U9lE+8YbQe8DjSIb6imFOzD7KK+MhFN
+ TYiyXfqjhNGAA==
+Received: from US01WEHTC3.internal.synopsys.com
+ (us01wehtc3.internal.synopsys.com [10.15.84.232])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id C6C6EA007F;
+ Tue, 31 Mar 2020 16:26:55 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 31 Mar 2020 09:26:35 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Tue, 31 Mar 2020 09:26:35 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bcaMt8en/3vCP0WpnXYR9Jquz9NcLrl8+0DLwFx11e4bPvI1Ulgpr7cKvO0xRzswAFOl0RrQtujPrRh+rKYXbFAeBym+k2Onb1Cj7ENzJWEYu8MBjJTD+xgNiL3XLJhbLxp8fFLMbSEjEw+4Tzs5ePehJ/YQZF5vu1oXC5m/kiaz8mzJmtiRJV58uMzneEoWVNIfLrDM0u+cWlgzHKc88IaLUSex5A09YH6rp+xYO4yM2mR/8DF5kSubgMnWOdBlXB0RpDdh2JlVOKcutIqRB8gMLpg/kQ3R6Kd3wNdNfXC3Yu0fqfNUVLOyFNj9lFJO3LRbr/m1a0yjYMyeYvBqxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RjWyLQkc00C77sN4GS/pWGvcdYIgZCeQdlOIIDqq4+I=;
+ b=GlBsy0RGErt2XwZzSdQHFXLjeAbYPeLtGD1wYrEsiaGWKNRjZ25BjQHdZbtIP4x6vROn5yrSB3WqVvm0i8jlY7x+7JTPeVqvB3Hn1h/cZTC4tzFvmWrs+Jorl+PmVrc8JnbCpp9txsOp1LU1QsmI3DFQk84neIvYT9P0o2ve22j/zxvDSP5pIb488d97+fxLFDMhB2sfcutatjRC1K4zjzAQSTUtQWWY7OBJQhQKIaIaRDPHGu1gN7y+i6ajNvncQyWdppKIKD88bJ7Zy08zCrwCSLjOdfKXXzOp+JgUFtqfPHk1oLGPnPdcrbZY04708Nbj1Umg0kWIkfiB1aQCwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RjWyLQkc00C77sN4GS/pWGvcdYIgZCeQdlOIIDqq4+I=;
+ b=Qy+gFq9+6CPwjRxgRDE1akhZwflmlCiQKTs1o/qJ5KhzYlY8MNMbLDkPHU1sCYruEFyYF6RfEhXO/aBvLkz08nzeF6exT0oS0pZaksV6vLvWyXncLUsHQ6lOArdJFVNmVoS1czomouuv9ztTKqOQMOPar7PKQqgN+CKKOmT4UPw=
+Received: from CY4PR1201MB0120.namprd12.prod.outlook.com (10.172.78.14) by
+ CY4PR1201MB0087.namprd12.prod.outlook.com (10.172.77.150) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2856.20; Tue, 31 Mar 2020 16:26:33 +0000
+Received: from CY4PR1201MB0120.namprd12.prod.outlook.com
+ ([fe80::744c:4e95:39be:9d44]) by CY4PR1201MB0120.namprd12.prod.outlook.com
+ ([fe80::744c:4e95:39be:9d44%12]) with mapi id 15.20.2856.019; Tue, 31 Mar
+ 2020 16:26:33 +0000
+From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+To: Claudiu Zissulescu Ianculescu <claziss@gmail.com>
+Subject: RE: [PATCH] [ARC] Allow more ABIs in GLIBC_DYNAMIC_LINKER
+Thread-Topic: [PATCH] [ARC] Allow more ABIs in GLIBC_DYNAMIC_LINKER
+Thread-Index: AQHWBV3WXZZeHXAyNUiCf5cx1VuaZqhifWKAgABp7IA=
+Date: Tue, 31 Mar 2020 16:26:33 +0000
+Message-ID: <CY4PR1201MB012004563CBA85075C153D99A1C80@CY4PR1201MB0120.namprd12.prod.outlook.com>
+References: <20200329000503.27897-1-vgupta@synopsys.com>
+ <CAL0iMy0f0tt6UtBRyT1hn=FsvF5tBYVKmcxHq57rDbc9YEtO0A@mail.gmail.com>
+In-Reply-To: <CAL0iMy0f0tt6UtBRyT1hn=FsvF5tBYVKmcxHq57rDbc9YEtO0A@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWJyb2RraW5c?=
+ =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
+ =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy02MGMwMjRkYS03MzZjLTExZWEtODAzOC04OGIx?=
+ =?us-ascii?Q?MTFjZGUyMTdcYW1lLXRlc3RcNjBjMDI0ZGMtNzM2Yy0xMWVhLTgwMzgtODhi?=
+ =?us-ascii?Q?MTExY2RlMjE3Ym9keS50eHQiIHN6PSI2NDEiIHQ9IjEzMjMwMTQ1NTkxNTE5?=
+ =?us-ascii?Q?NTYwOCIgaD0iV3BvN0Rjc3ptYUxrRWU3K2J0dE0xRnQ5K3c0PSIgaWQ9IiIg?=
+ =?us-ascii?Q?Ymw9IjAiIGJvPSIxIiBjaT0iY0FBQUFFUkhVMVJTUlVGTkNnVUFBQlFKQUFE?=
+ =?us-ascii?Q?WW5CY2plUWZXQVI1cCt0dWFPcG1qSG1uNjI1bzZtYU1PQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUhBQUFBQ2tDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUVBQVFBQkFBQUFNakxzMmdBQUFBQUFBQUFBQUFBQUFKNEFBQUJtQUdrQWJn?=
+ =?us-ascii?Q?QmhBRzRBWXdCbEFGOEFjQUJzQUdFQWJnQnVBR2tBYmdCbkFGOEFkd0JoQUhR?=
+ =?us-ascii?Q?QVpRQnlBRzBBWVFCeUFHc0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?RUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtBWHdC?=
+ =?us-ascii?Q?d0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCbkFHWUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFDQUFB?=
+ =?us-ascii?Q?QUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFiZ0Js?=
+ =?us-ascii?Q?QUhJQWN3QmZBSE1BWVFCdEFITUFkUUJ1QUdjQVh3QmpBRzhBYmdCbUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1BRzhB?=
+ =?us-ascii?Q?ZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWN3QmhB?=
+ =?us-ascii?Q?RzBBY3dCMUFHNEFad0JmQUhJQVpRQnpBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFIa0FY?=
+ =?us-ascii?Q?d0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0J6QUcwQWFRQmpBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNB?=
+ =?us-ascii?Q?QUFBQUFDZUFBQUFaZ0J2QUhVQWJnQmtBSElBZVFCZkFIQUFZUUJ5QUhRQWJn?=
+ =?us-ascii?Q?QmxBSElBY3dCZkFITUFkQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFCbUFH?=
+ =?us-ascii?Q?OEFkUUJ1QUdRQWNnQjVBRjhBY0FCaEFISUFkQUJ1QUdVQWNnQnpBRjhBZEFC?=
+ =?us-ascii?Q?ekFHMEFZd0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR1lBYndCMUFHNEFaQUJ5QUhr?=
+ =?us-ascii?Q?QVh3QndBR0VBY2dCMEFHNEFaUUJ5QUhNQVh3QjFBRzBBWXdBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFB?=
+ =?us-ascii?Q?Q0FBQUFBQUNlQUFBQVp3QjBBSE1BWHdCd0FISUFid0JrQUhVQVl3QjBBRjhB?=
+ =?us-ascii?Q?ZEFCeUFHRUFhUUJ1QUdrQWJnQm5BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJ6?=
+ =?us-ascii?Q?QUdFQWJBQmxBSE1BWHdCaEFHTUFZd0J2QUhVQWJnQjBBRjhBY0FCc0FHRUFi?=
+ =?us-ascii?Q?Z0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFITUFZUUJzQUdVQWN3QmZB?=
+ =?us-ascii?Q?SEVBZFFCdkFIUUFaUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFB?=
+ =?us-ascii?Q?QUFDQUFBQUFBQ2VBQUFBY3dCdUFIQUFjd0JmQUd3QWFRQmpBR1VBYmdCekFH?=
+ =?us-ascii?Q?VUFYd0IwQUdVQWNnQnRBRjhBTVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFB?=
+ =?us-ascii?Q?QnpBRzRBY0FCekFGOEFiQUJwQUdNQVpRQnVBSE1BWlFCZkFIUUFaUUJ5QUcw?=
+ =?us-ascii?Q?QVh3QnpBSFFBZFFCa0FHVUFiZ0IwQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUhZQVp3QmZBR3NBWlFC?=
+ =?us-ascii?Q?NUFIY0Fid0J5QUdRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFB?=
+ =?us-ascii?Q?QUFBQUNBQUFBQUFBPSIvPjwvbWV0YT4=3D?=
+x-dg-rorf: true
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=abrodkin@synopsys.com; 
+x-originating-ip: [198.182.37.200]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7edf2954-3d37-429e-434f-08d7d59046a2
+x-ms-traffictypediagnostic: CY4PR1201MB0087:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR1201MB0087A890574154F8373F51F1A1C80@CY4PR1201MB0087.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-forefront-prvs: 0359162B6D
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR1201MB0120.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(366004)(33656002)(71200400001)(8676002)(4744005)(55016002)(9686003)(53546011)(107886003)(7696005)(4326008)(6506007)(81156014)(81166006)(8936002)(6916009)(52536014)(2906002)(5660300002)(86362001)(54906003)(66476007)(186003)(26005)(66556008)(66446008)(64756008)(498600001)(66946007)(76116006);
+ DIR:OUT; SFP:1102; 
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: V7mkVK+Sxa9oSwLobQXTBS0ZYjKJ54umRKgtKOqgNoCL9T5NjdIh4B//kaNgk8dxuRE5II7pDI6fLAwo4Oci2JQ6Ua8ODpnYN9A/HJxwBnBl8/azhsS2bWpQhi6XG1P4wxzSG9Y0H6ti+zCQz1Q98XwxZ3NLa/WcdRGCOEohRxpD63PtBzgLqxtd/DE0w8EAKtN3HS9yD9kDZDoJuWbwoMd8+q1D3BwhYzW1KuQYDiRmCIyHX2BLwkEYh2MwLNa7OoNPimWLqf2VLxoRWUMo3S6u+9piNeUpfHgzfsll2U2ykRITWTHfGiWD3qu5RvuREBx8jc2mCloJ7jxNVfDjr/ck+aL2/vNKnR7GUK98l3+O0en18ghKwXe3gJMxtDjdaMzGWBkM0aUZbxY1jh2/UXZ1ZHVLZcudKQzkkkgXFDEGtJIY23NvPbB5TOWLZxFN
+x-ms-exchange-antispam-messagedata: uPafpRk/cQftY09qUHYStLF6W5x71881I7xS+ww80uEz4Ww/qS8MgNfC2h7+lcfcsH4FiSDoY90fU16/jxa5asjYuxmuOa1ZidWt2TzxUTT95S4dEhf1gA+6jnX2nwk5JNDEhCN/9OlDyloWxtHaMg==
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-x-cbid: 20033112-0020-0000-0000-000003BEEC78
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20033112-0021-0000-0000-000022178CDF
-Message-Id: <20200331143059.29fca8fa@thinkpad>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-03-31_04:2020-03-31,
- 2020-03-31 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- clxscore=1011 priorityscore=1501 lowpriorityscore=0 spamscore=0
- malwarescore=0 impostorscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003310106
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7edf2954-3d37-429e-434f-08d7d59046a2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2020 16:26:33.2101 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oDWO7NfrKnMrvF2BgJenmeWMNVSyX1IYapKl/EGaUgDBXNI3TTqQU7Dq/dE5rOXLFOvCPSm8DA8F900KBk3YEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0087
+X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200331_133119_567904_E53C7383 
-X-CRM114-Status: GOOD (  40.60  )
+X-CRM114-CacheID: sfid-20200331_092658_889549_D8D3FA49 
+X-CRM114-Status: UNSURE (   7.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,163 +225,33 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, linux-mm@kvack.org,
- Paul Mackerras <paulus@samba.org>, "H. Peter
- Anvin" <hpa@zytor.com>, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Mike Rapoport <rppt@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, linux-snps-arc@lists.infradead.org,
- Vasily Gorbik <gor@linux.ibm.com>, Borislav Petkov <bp@alien8.de>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- christophe.leroy@c-s.fr, Vineet Gupta <vgupta@synopsys.com>,
- linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ "gcc-patches@gcc.gnu.org" <gcc-patches@gcc.gnu.org>,
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, 24 Mar 2020 10:52:52 +0530
-Anshuman Khandual <anshuman.khandual@arm.com> wrote:
+Hi Claus,
 
-> This series adds more arch page table helper tests. The new tests here are
-> either related to core memory functions and advanced arch pgtable helpers.
-> This also creates a documentation file enlisting all expected semantics as
-> suggested by Mike Rapoport (https://lkml.org/lkml/2020/1/30/40).
+> -----Original Message-----
+> From: linux-snps-arc <linux-snps-arc-bounces@lists.infradead.org> On Behalf Of Claudiu Zissulescu
+> Ianculescu
+> Sent: Tuesday, March 31, 2020 1:07 PM
+> To: Vineet Gupta <vgupta@synopsys.com>
+> Cc: linux-snps-arc@lists.infradead.org; gcc-patches@gcc.gnu.org; Claudiu Zissulescu
+> <claziss@synopsys.com>
+> Subject: Re: [PATCH] [ARC] Allow more ABIs in GLIBC_DYNAMIC_LINKER
 > 
-> This series has been tested on arm64 and x86 platforms. There is just one
-> expected failure on arm64 that will be fixed when we enable THP migration.
-> 
-> [   21.741634] WARNING: CPU: 0 PID: 1 at mm/debug_vm_pgtable.c:782
-> 
-> which corresponds to
-> 
-> WARN_ON(!pmd_present(pmd_mknotpresent(pmd_mkhuge(pmd))))
-> 
-> There are many TRANSPARENT_HUGEPAGE and ARCH_HAS_TRANSPARENT_HUGEPAGE_PUD
-> ifdefs scattered across the test. But consolidating all the fallback stubs
-> is not very straight forward because ARCH_HAS_TRANSPARENT_HUGEPAGE_PUD is
-> not explicitly dependent on ARCH_HAS_TRANSPARENT_HUGEPAGE.
-> 
-> This series has been build tested on many platforms including the ones that
-> subscribe the test through ARCH_HAS_DEBUG_VM_PGTABLE.
-> 
+> Pushed.
 
-Hi Anshuman,
+Is this one eligible for being back-ported to older GCCs?
+At least GCC 9.x would be really good.
 
-thanks for the update. There are a couple of issues on s390, some might
-also affect other archs.
-
-1) The pxd_huge_tests are using pxd_set/clear_huge, which defaults to
-returning 0 if !CONFIG_HAVE_ARCH_HUGE_VMAP. As result, the checks for
-!pxd_test/clear_huge in the pxd_huge_tests will always trigger the
-warning. This should affect all archs w/o CONFIG_HAVE_ARCH_HUGE_VMAP.
-Could be fixed like this:
-
-@@ -923,8 +923,10 @@ void __init debug_vm_pgtable(void)
-        pmd_leaf_tests(pmd_aligned, prot);
-        pud_leaf_tests(pud_aligned, prot);
+-Alexey
  
--       pmd_huge_tests(pmdp, pmd_aligned, prot);
--       pud_huge_tests(pudp, pud_aligned, prot);
-+       if (IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMAP)) {
-+               pmd_huge_tests(pmdp, pmd_aligned, prot);
-+               pud_huge_tests(pudp, pud_aligned, prot);
-+       }
- 
-        pte_savedwrite_tests(pte_aligned, prot);
-        pmd_savedwrite_tests(pmd_aligned, prot);
-
-BTW, please add some comments to the various #ifdef/#else stuff, especially
-when the different parts are far away and/or nested.
-
-2) The hugetlb_advanced_test will fail because it directly de-references
-huge *ptep pointers instead of using huge_ptep_get() for this. We have
-very different pagetable entry layout for pte and (large) pmd on s390,
-and unfortunately the whole hugetlbfs code is using pte_t instead of pmd_t
-like THP. For this reason, huge_ptep_get() was introduced, which will
-return a "converted" pte, because directly reading from a *ptep (pointing
-to a large pmd) will not return a proper pte. Only ARM has also an
-implementation of huge_ptep_get(), so they could be affected, depending
-on what exactly they need it for.
-
-Could be fixed like this (the first de-reference is a bit special,
-because at that point *ptep does not really point to a large (pmd) entry
-yet, it is initially an invalid pte entry, which breaks our huge_ptep_get()
-conversion logic. I also added PMD_MASK alignment for RANDOM_ORVALUE,
-because we do have some special bits there in our large pmds. It seems
-to also work w/o that alignment, but it feels a bit wrong):
-
-@@ -731,26 +731,26 @@ static void __init hugetlb_advanced_test
-                                          unsigned long vaddr, pgprot_t prot)
- {
-        struct page *page = pfn_to_page(pfn);
--       pte_t pte = READ_ONCE(*ptep);
-+       pte_t pte;
-
--       pte = __pte(pte_val(pte) | RANDOM_ORVALUE);
-+       pte = pte_mkhuge(mk_pte_phys(RANDOM_ORVALUE & PMD_MASK, prot));
-        set_huge_pte_at(mm, vaddr, ptep, pte);
-        barrier();
-        WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
-        huge_pte_clear(mm, vaddr, ptep, PMD_SIZE);
--       pte = READ_ONCE(*ptep);
-+       pte = huge_ptep_get(ptep);
-        WARN_ON(!huge_pte_none(pte));
- 
-        pte = mk_huge_pte(page, prot);
-        set_huge_pte_at(mm, vaddr, ptep, pte);
-        huge_ptep_set_wrprotect(mm, vaddr, ptep);
--       pte = READ_ONCE(*ptep);
-+       pte = huge_ptep_get(ptep);
-        WARN_ON(huge_pte_write(pte));
- 
-        pte = mk_huge_pte(page, prot);
-        set_huge_pte_at(mm, vaddr, ptep, pte);
-        huge_ptep_get_and_clear(mm, vaddr, ptep);
--       pte = READ_ONCE(*ptep);
-+       pte = huge_ptep_get(ptep);
-        WARN_ON(!huge_pte_none(pte));
- 
-        pte = mk_huge_pte(page, prot);
-@@ -759,7 +759,7 @@ static void __init hugetlb_advanced_test
-        pte = huge_pte_mkwrite(pte);
-        pte = huge_pte_mkdirty(pte);
-        huge_ptep_set_access_flags(vma, vaddr, ptep, pte, 1);
--       pte = READ_ONCE(*ptep);
-+       pte = huge_ptep_get(ptep);
-        WARN_ON(!(huge_pte_write(pte) && huge_pte_dirty(pte)));
- }
- #else
-
-3) The pmd_protnone_tests() has an issue, because it passes a pmd to
-pmd_protnone() which has not been marked as large. We check for large
-pmd in the s390 implementation of pmd_protnone(), and will fail if a
-pmd is not large. We had similar issues before, in other helpers, where
-I changed the logic on s390 to not require the pmd large check, but I'm
-not so sure in this case. Is there a valid use case for doing
-pmd_protnone() on "normal" pmds? Or could this be changed like this:
-
-@@ -537,7 +537,7 @@ static void __init pte_protnone_tests(un
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
- static void __init pmd_protnone_tests(unsigned long pfn, pgprot_t prot)
- {
--       pmd_t pmd = pfn_pmd(pfn, prot);
-+       pmd_t pmd = mk_huge_pmd(pfn_to_page(pfn), prot);
-
-        if (!IS_ENABLED(CONFIG_NUMA_BALANCING))
-                return;
-
-Regards,
-Gerald
-
 
 _______________________________________________
 linux-snps-arc mailing list
