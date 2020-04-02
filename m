@@ -2,61 +2,73 @@ Return-Path: <SRS0=zcuS=5S=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11203C43331
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Apr 2020 17:53:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03339C43331
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Apr 2020 17:54:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D29D22074D
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Apr 2020 17:53:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CAD8D2078B
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Apr 2020 17:54:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Wizps+A/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D29D22074D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XJ70kBKi";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="iAI14Xp7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAD8D2078B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=4lNQDzHYS9lG4OeuErrZQ7rvxGFEJWAzb3ogDGunSvM=; b=Wizps+A/4dGs6B
-	YVwLd7pqWob9OJl2MT9bl+ezOtAjiE2gyWobeiagED4Yx5m4VnmEM7FLCssUXfmnmfUSrhrNDT/4Y
-	E7sTmafjG7BZx+kDI8WRHKDnKFdBC3Y/mH2GgJ44zAnVrZuXP5h4OZUHNkfAoEK8MQbLPHlJ8KLBA
-	vrPx7BGFPd837NaRQdJXLKfe36OcjLVyCPXBhU4Fv4U25dvJMRztLRekomsDq6Zdyv9hyZCTY2zFQ
-	QLQ1ui9GSW3+p6jHn0tcRgXlQNjQotDIKgUhKufk61Dxho5j0Isxt+gaYsn0WFvQMPl4Zzn7ZsOjW
-	leWahtKrUd0OO54fqMig==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=FoEPr/PjjxvzmwTp7I+93ubgrCwaK4L2ifJ22GDUYi4=; b=XJ70kBKikYqbSz
+	eXiWMc9Wr5XqKYm+zN2TLCorALcwxkwRc8E92mgE/h/MrcYW6rRQ6xUyWhVeF9AywakB6+k89ECzW
+	frF4WXnsMGiwPEJWN0/nMWJL5yEt2YSYK6pf4mYtMHF3vl2ytLMlxG+oSY0pJx1wrD92zyUFx9LfY
+	ArI0XLj/nmh41OCMsrHUifHELz83H8ffG1zzVpspr3YTA5G+qxxPiSIYbeBwtn8loEALlShYER32l
+	uwklHpjmcQ0nfJp35zMcXptDfX6oKMNz7gjUDnL29N3ysV9MMuFeCPA/I+/bL13684f2qnD+Dj3db
+	eLLmzGUFUmo3J02xkL4w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jK41Y-0002f9-Uv; Thu, 02 Apr 2020 17:53:04 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1jK436-0002wM-2q; Thu, 02 Apr 2020 17:54:40 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jK41V-0002dm-OZ
- for linux-snps-arc@lists.infradead.org; Thu, 02 Apr 2020 17:53:03 +0000
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
- [66.24.58.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ id 1jK433-0002v9-3R
+ for linux-snps-arc@lists.infradead.org; Thu, 02 Apr 2020 17:54:38 +0000
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
+ [10.225.0.210])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EF9B82077D;
- Thu,  2 Apr 2020 17:52:59 +0000 (UTC)
-Date: Thu, 2 Apr 2020 13:52:57 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [RFC] ARC: initial ftrace support
-Message-ID: <20200402135257.7dd14f36@gandalf.local.home>
-In-Reply-To: <fe7ae84c-745a-04b4-dcc0-5df8cc35ee0c@synopsys.com>
-References: <20200327155355.18668-1-Eugeniy.Paltsev@synopsys.com>
- <20200327131020.79e68313@gandalf.local.home>
- <fe7ae84c-745a-04b4-dcc0-5df8cc35ee0c@synopsys.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 6C68DC1019;
+ Thu,  2 Apr 2020 17:54:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1585850073; bh=A6dv7G90AhKWjf3KYGvIpGmSKXRCP5AsEJzU1ocQAr0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=iAI14Xp7CVsv8UiCjv7hmFQeL/cgN74d88K+zZ62nL/dCg3abStvz+23MzKa/oJdC
+ T2BsFTGFEx2oCEtKJK55ACJnzpXzx+gdHWA3WJR43h8+NNbDR63CmWuC9NU3T43kxY
+ WZs2E0v8g7AnstXzWQWtpOOPOLSAWd0sY+wwXuqPiU8mujCHyxIrhsGZIkNUqO6Opy
+ y5N7eq0vrcPkh29vnzosB598D7CNKk8KLti4THiZY6GXR+O+KPI3XKhnvinA6EHAlJ
+ 9np7ZBXohxoGnQIKxzfW0CdN8ccfPgfMryUZ3I9T5Fik2im0/v2O9GPhjP2SN9zLkn
+ WVe1acC4kOgiw==
+Received: from paltsev-e7480.internal.synopsys.com
+ (ru20-e7250.internal.synopsys.com [10.225.50.89])
+ by mailhost.synopsys.com (Postfix) with ESMTP id F26EAA005C;
+ Thu,  2 Apr 2020 17:54:30 +0000 (UTC)
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+To: linux-snps-arc@lists.infradead.org,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Subject: [PATCH] ARC: Fix ICCM & DCCM runtime size checks
+Date: Thu,  2 Apr 2020 20:54:28 +0300
+Message-Id: <20200402175428.18823-1-Eugeniy.Paltsev@synopsys.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200402_105301_817108_76F549F1 
-X-CRM114-Status: GOOD (  17.50  )
+X-CRM114-CacheID: sfid-20200402_105437_176250_A80A7B82 
+X-CRM114-Status: GOOD (  11.17  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,101 +80,55 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Claudiu Zissulescu <claziss@gmail.com>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Ingo Molnar <mingo@redhat.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+Cc: Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, 2 Apr 2020 01:17:01 +0000
-Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
+As of today the ICCM and DCCM size checks are incorrectly using
+mismatched units (KiB checked against bytes). The CONFIG_ARC_DCCM_SZ
+and CONFIG_ARC_ICCM_SZ are in KiB, but the size calculated in
+runtime and stored in cpu->dccm.sz and cpu->iccm.sz is in bytes.
 
-> +CC Claudiu
-> 
-> On 3/27/20 10:10 AM, Steven Rostedt wrote:
-> > On Fri, 27 Mar 2020 18:53:55 +0300
-> > Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com> wrote:  
-> 
-> Maybe add a comment that gcc does the heavy lifting: I have following in glibc
-> 
-> +/* this is very simple as gcc does all the heavy lifting at _mcount call site
-> + *  - sets up caller's blink in r0, so frompc is setup correctly
-> + *  - preserve argument registers for original call */
-> 
-> >> +noinline void _mcount(unsigned long parent_ip)
-> >> +{
-> >> +	unsigned long ip = (unsigned long)__builtin_return_address(0);
-> >> +
-> >> +	if (unlikely(ftrace_trace_function != ftrace_stub))
-> >> +		ftrace_trace_function(ip - MCOUNT_INSN_SIZE, parent_ip,
-> >> +				      NULL, NULL);
-> >> +}
-> >> +EXPORT_SYMBOL(_mcount);  
-> > 
-> > So, ARCv2 allows the _mcount code to be written in C? Nice!  
-> 
-> Yeah, the gcc backend for -pg was overhauled recently so it is a first class "lib
-> call" meaning we get all the register save/restore for free as well as caller PC
-> (blink) as explicit argument to _mcount
-> 
-> void bar(int a, int b, int c) {
-> 	printf("%d\n", a, b, c);
-> }
-> 
-> bar:
-> 	push_s	blink
-> 	std.a r14,[sp,-8]
-> 	push_s	r13
-> 	mov_s	r14,r1
-> 	mov_s	r13,r0
-> 	mov_s	r0,blink
-> 	bl.d @_mcount
-> 	mov_s	r15,r2
-> 
-> 	mov_s	r3,r15   <-- restore args for call
+Fix that.
 
-We really don't want this. :-/
+Reported-by: Paul Greco <pmgreco@us.ibm.com>
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+---
+ arch/arc/kernel/setup.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-This will make it really difficult to implement the dynamic ftrace, and
-this causes more overhead when tracing is not enabled.
-
-Also, ftrace is much more complex, and this will make it difficult to have
-function graph tracing and other features.
-
-Gcc has an "instrument-functions" which people asked me why I didn't go
-that route, as it lets you do the same (call C code), and its because of
-the overhead it adds to each function that I turned it down.
-
--- Steve
-
-
-
-> 	mov_s	r2,r14
-> 	mov_s	r1,r13
-> 	mov_s	r0,@.LC0
-> 	ld	blink,[sp,12]
-> 	pop_s	r13
-> 	b.d	@printf
-> 	ldd.ab r14,[sp,12]
-> 
-> @Eugeniy, this patch looks ok to me, but a word of caution. This won't work with
-> elf32 toolchain which some of the build systems tend to use (Alexey ?)
-> 
-> The above _mcount semantics is only implemented for the linux tool-chains.
-> elf32-gcc generates "legacy" __mcount (2 underscores, blink not provided as arg)
-> likely done by Claudiu to keep newlib stuff unchanged. Perhaps elf32 gcc can add a
-> toggle to get new _mcount.
-> 
-> And this is conditional to ARCv2 due to future ties into dynamic ftrace and
-> instruction fudging etc ? We may have to revisit that for BE anyhow given such a
-> customer lining up.
-> 
-> -Vineet
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index aa41af6ef4ac..efdedf83b954 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -11,6 +11,7 @@
+ #include <linux/clocksource.h>
+ #include <linux/console.h>
+ #include <linux/module.h>
++#include <linux/sizes.h>
+ #include <linux/cpu.h>
+ #include <linux/of_clk.h>
+ #include <linux/of_fdt.h>
+@@ -409,12 +410,12 @@ static void arc_chk_core_config(void)
+ 	if ((unsigned int)__arc_dccm_base != cpu->dccm.base_addr)
+ 		panic("Linux built with incorrect DCCM Base address\n");
+ 
+-	if (CONFIG_ARC_DCCM_SZ != cpu->dccm.sz)
++	if (CONFIG_ARC_DCCM_SZ * SZ_1K != cpu->dccm.sz)
+ 		panic("Linux built with incorrect DCCM Size\n");
+ #endif
+ 
+ #ifdef CONFIG_ARC_HAS_ICCM
+-	if (CONFIG_ARC_ICCM_SZ != cpu->iccm.sz)
++	if (CONFIG_ARC_ICCM_SZ * SZ_1K != cpu->iccm.sz)
+ 		panic("Linux built with incorrect ICCM Size\n");
+ #endif
+ 
+-- 
+2.21.1
 
 
 _______________________________________________
