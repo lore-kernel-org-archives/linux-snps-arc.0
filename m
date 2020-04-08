@@ -2,91 +2,63 @@ Return-Path: <SRS0=uFJY=5Y=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D2A8C2BB1D
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Apr 2020 01:59:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBDBAC2D0EA
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Apr 2020 07:12:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E4DB62074F
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Apr 2020 01:59:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B068220747
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Apr 2020 07:12:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FIE8+hVF";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dGUK0v3Q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4DB62074F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TmUUCH65"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B068220747
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=NBP5WSzpvTp+cCl/HbWvNbwvIVG5imPfhqC3dmm7XGw=; b=FIE8+hVFDM970R
-	p4SS1bkzwXJKGT3zXc5qdHsMedR6UEUgoDli7qnn2BB3LTlu9JY9BQ8Vbi+EXN10nIfh4wrBocoo3
-	C5GQnkJtwOnJj/KQkxpaH9iO07nZyl4Aw7vbj5xAxd0fjAliq+owI5Dy0ggIwT4D6KKi+9ms/YhnK
-	E2DPhYz6oOKN0a1JGjCl9S7Cpafy9F5QflhP1hm4wpPFjlfO9O4IgqxamjNzyGAe5NGZkjPHCvv9V
-	HM7W0MHRlSctT5sh+VN4HjTMQ+HAs5dOvNTktptuRxGE/K66lP2AQfA2izklvS+DCwv9RVP69849b
-	h2quh1SMsKeYe2p+EVMw==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:References:To:Subject:From:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=sfs4uswtEEHp0rJ/QuG6eysJK9Er3xTowAvqc54wsMc=; b=TmUUCH65mKBZZz
+	qHYX9PC8N4aBnTlnrwflvPB/Rj9kqphlkus3hIRRSkTOf+NElYwE+OYYAELeM52CwRIiYy4UolVnN
+	hjphZWiMS62kj1XZtMZ7hDioWT4P6ysmsVlSP886AQvYSrBRIMK8ufaK+7nUWNLFXLdPcs8RXt3gx
+	Ef28Fnz406YqJ70njvtdAP4Afwisk39XcAlsbEdDd1QgiaO/SF5TnrPrNy44EPDJ2SnFS9y1wDSrS
+	y7n9rzeea4te+tTGQEaLdgfW2nR4PdCFm2bvZAm2Ch+VZ37SGGKvz2p2cA6yv52V86hOctw9JU60b
+	H0DTTnbDsL3/gsZ63iOg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jM00Q-0006s8-FP; Wed, 08 Apr 2020 01:59:54 +0000
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jM00O-0006rn-P9
- for linux-snps-arc@lists.infradead.org; Wed, 08 Apr 2020 01:59:54 +0000
-Received: by mail-ot1-x344.google.com with SMTP id 22so5332660otf.0
- for <linux-snps-arc@lists.infradead.org>; Tue, 07 Apr 2020 18:59:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=F/UEX/qu552SCPFaaat1hu6i9S00M212yRB97ZlFyqw=;
- b=dGUK0v3QQ28XF/v/4rttw4NK/ilYlCaYkXrMBehOnMI3WsTobhpVFN2tErUSmvtD6J
- MNpwr0w8TltTkwPqLmOxkQTU9IkmlhEXWM0Sn1ILNxdD1JyifDauV4pZhVNvA189Tltd
- IJvU0fmMImx+hgrgtBqWcnad8EC5/zmWB6PTauFyXUUBfYZIwHqcQ+cGJ6rr4qfOvobO
- YoLU7oTh+GsyIzRoseGo01fJ65VodPSGb4PQFQfvE8fcAXmkYk7i46pVO90c5tIbzSbO
- u7KdV45BleSxjj6NShhMGJdTsubQ5c+NUx5HHalLU3sU9flTKyR2l9ruCEE2EQzcL/M/
- f+BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=F/UEX/qu552SCPFaaat1hu6i9S00M212yRB97ZlFyqw=;
- b=Z+CVhHoORD3OHyZu2e3DslT0mr/WHBxF+jDHQASz7VYyFv0LE1d2FmSFHGgmU9x8mU
- usQcuLB5kMs7cAubVet5WqKjR8p4ujVE7TiQ0gap925hjDFQRHWILgIF9j+ZdBkdy2lX
- shx7xcx47WKavjePrsQXmqSs8wMu72WkRxqpV/BXQrU4X6DAzxMM3uhUA16r2TKnefEc
- wYBk1kGLhS2ANBBbzMqMCDQxl86ijKo1i77IZIoTr3UWAZXHyuUGnSfTeRYEEKGtiMnp
- m8q4CEBJqEGvjtQSFqgKHCTtKEWFqSb5vWazzGhm11OPi1a5qO/US9qtbfrkuujTmjgz
- /0Tw==
-X-Gm-Message-State: AGi0PuZ/vFZHjzXp9ea9/dCn28Z9SGrLreBX6IWVuRMa/GndAc0qUdsP
- uJx9TLFMQUeIzIG7jEcCqQk=
-X-Google-Smtp-Source: APiQypJGBjWcy1K64T6QMq8WocCCTCUCqLf6FUlZTIYYZdEbAk6ISTQSX178vh57adpTgRUPbM6P+g==
-X-Received: by 2002:a05:6830:1495:: with SMTP id
- s21mr4225254otq.35.1586311191582; 
- Tue, 07 Apr 2020 18:59:51 -0700 (PDT)
-Received: from ubuntu-s3-xlarge-x86 ([2604:1380:4111:8b00::3])
- by smtp.gmail.com with ESMTPSA id f184sm3221012oib.26.2020.04.07.18.59.50
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 07 Apr 2020 18:59:51 -0700 (PDT)
-Date: Tue, 7 Apr 2020 18:59:49 -0700
-From: Nathan Chancellor <natechancellor@gmail.com>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Subject: Re: [PATCH] ARC: [plat-hsdk]: fix USB regression
-Message-ID: <20200408015949.GA40360@ubuntu-s3-xlarge-x86>
-References: <20200407161933.10874-1-Eugeniy.Paltsev@synopsys.com>
- <20200408012028.GA40613@ubuntu-s3-xlarge-x86>
+	id 1jM4st-000338-Dj; Wed, 08 Apr 2020 07:12:27 +0000
+Received: from foss.arm.com ([217.140.110.172])
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jM4sj-0002vK-Lq; Wed, 08 Apr 2020 07:12:19 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AED131B;
+ Wed,  8 Apr 2020 00:12:15 -0700 (PDT)
+Received: from [10.163.1.2] (unknown [10.163.1.2])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 246B63F68F;
+ Wed,  8 Apr 2020 00:16:17 -0700 (PDT)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
+To: Gerald Schaefer <gerald.schaefer@de.ibm.com>
+References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
+ <20200331143059.29fca8fa@thinkpad>
+ <e3e35885-6852-16aa-3889-e22750a0cc87@arm.com>
+ <20200407175440.41cc00a5@thinkpad>
+Message-ID: <253cf5c8-e43e-5737-24e8-3eda3b6ba7b3@arm.com>
+Date: Wed, 8 Apr 2020 12:41:51 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200408012028.GA40613@ubuntu-s3-xlarge-x86>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200407175440.41cc00a5@thinkpad>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200407_185952_839519_3F1761CF 
-X-CRM114-Status: GOOD (  17.82  )
+X-CRM114-CacheID: sfid-20200408_001217_800534_94D46558 
+X-CRM114-Status: GOOD (  45.32  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,55 +70,260 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-snps-arc@lists.infradead.org,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Cc: linux-doc@vger.kernel.org,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, linux-mm@kvack.org,
+ Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Mike Rapoport <rppt@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, linux-snps-arc@lists.infradead.org,
+ Vasily Gorbik <gor@linux.ibm.com>, Borislav Petkov <bp@alien8.de>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ "Kirill A . Shutemov" <kirill@shutemov.name>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ christophe.leroy@c-s.fr, Vineet Gupta <vgupta@synopsys.com>,
+ linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 07, 2020 at 06:20:28PM -0700, Nathan Chancellor wrote:
-> On Tue, Apr 07, 2020 at 07:19:33PM +0300, Eugeniy Paltsev wrote:
-> > As of today the CONFIG_USB isn't explicitly present in HSDK defconfig
-> > as it is implicitly forcibly enabled by UDL driver which selects CONFIG_USB
-> > in its kconfig.
-> > The commit 5d50bd440bc2 ("drm/udl: Make udl driver depend on CONFIG_USB")
-> > reverse the dependencies between UDL and USB so UDL now depends on
-> > CONFIG_USB and not selects it. This introduces regression for ARC HSDK
-> > board as HSDK defconfig wasn't adjusted and now it misses USB support
-> > due to lack of CONFIG_USB enabled.
-> > 
-> > Fix that.
-> > 
-> > Fixes: 5d50bd440bc2 ("drm/udl: Make udl driver depend on CONFIG_USB")
-> > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-> > ---
-> >  arch/arc/configs/hsdk_defconfig | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-> > index 0974226fab55..f79c15892704 100644
-> > --- a/arch/arc/configs/hsdk_defconfig
-> > +++ b/arch/arc/configs/hsdk_defconfig
-> > @@ -65,6 +65,7 @@ CONFIG_DRM_UDL=y
-> >  CONFIG_DRM_ETNAVIV=y
-> >  CONFIG_FB=y
-> >  CONFIG_FRAMEBUFFER_CONSOLE=y
-> > +CONFIG_USB
-> 
-> Shouldn't this be CONFIG_USB=y?
-> 
-> As it stands, this patch does nothing.
-> 
-> Cheers,
-> Nathan
 
-Nevermind, I came across v2 on the mailing list, sorry for the noise.
+On 04/07/2020 09:24 PM, Gerald Schaefer wrote:
+> On Sun, 5 Apr 2020 17:58:14 +0530
+> Anshuman Khandual <anshuman.khandual@arm.com> wrote:
+> 
+> [...]
+>>>
+>>> Could be fixed like this (the first de-reference is a bit special,
+>>> because at that point *ptep does not really point to a large (pmd) entry
+>>> yet, it is initially an invalid pte entry, which breaks our huge_ptep_get()  
+>>
+>> There seems to be an inconsistency on s390 platform. Even though it defines
+>> a huge_ptep_get() override, it does not subscribe __HAVE_ARCH_HUGE_PTEP_GET
+>> which should have forced it fallback on generic huge_ptep_get() but it does
+>> not :) Then I realized that __HAVE_ARCH_HUGE_PTEP_GET only makes sense when
+>> an arch uses <asm-generic/hugetlb.h>. s390 does not use that and hence gets
+>> away with it's own huge_ptep_get() without __HAVE_ARCH_HUGE_PTEP_GET. Sounds
+>> confusing ? But I might not have the entire context here.
+> 
+> Yes, that sounds very confusing. Also a bit ironic, since huge_ptep_get()
+> was initially introduced because of s390, and now we don't select
+> __HAVE_ARCH_HUGE_PTEP_GET...
+> 
+> As you realized, I guess this is because we do not use generic hugetlb.h.
+> And when __HAVE_ARCH_HUGE_PTEP_GET was introduced with commit 544db7597ad
+> ("hugetlb: introduce generic version of huge_ptep_get"), that was probably
+> the reason why we did not get our share of __HAVE_ARCH_HUGE_PTEP_GET.
 
-Cheers,
-Nathan
+Understood.
+
+> 
+> Nothing really wrong with that, but yes, very confusing. Maybe we could
+> also select it for s390, even though it wouldn't have any functional
+> impact (so far), just for less confusion. Maybe also thinking about
+> using the generic hugetlb.h, not sure if the original reasons for not
+> doing so would still apply. Now I only need to find the time...
+
+Seems like something worth to explore if we could remove this confusion.
+
+> 
+>>
+>>> conversion logic. I also added PMD_MASK alignment for RANDOM_ORVALUE,
+>>> because we do have some special bits there in our large pmds. It seems
+>>> to also work w/o that alignment, but it feels a bit wrong):  
+>>
+>> Sure, we can accommodate that.
+>>
+>>>
+>>> @@ -731,26 +731,26 @@ static void __init hugetlb_advanced_test
+>>>                                           unsigned long vaddr, pgprot_t prot)
+>>>  {
+>>>         struct page *page = pfn_to_page(pfn);
+>>> -       pte_t pte = READ_ONCE(*ptep);
+>>> +       pte_t pte;
+>>>
+>>> -       pte = __pte(pte_val(pte) | RANDOM_ORVALUE);
+>>> +       pte = pte_mkhuge(mk_pte_phys(RANDOM_ORVALUE & PMD_MASK, prot));  
+>>
+>> So that keeps the existing value in 'ptep' pointer at bay and instead
+>> construct a PTE from scratch. I would rather have READ_ONCE(*ptep) at
+>> least provide the seed that can be ORed with RANDOM_ORVALUE before
+>> being masked with PMD_MASK. Do you see any problem ?
+> 
+> Yes, unfortunately. The problem is that the resulting pte is not marked
+> as present. The conversion pte -> (huge) pmd, which is done in
+> set_huge_pte_at() for s390, will establish an empty pmd for non-present
+> ptes, all the RANDOM_ORVALUE stuff is lost. And a subsequent
+> huge_ptep_get() will not result in the same original pte value. If you
+
+Ohh.
+
+> want to preserve and check the RANDOM_ORVALUE, it has to be a present
+> pte, hence the mk_pte(_phys).
+
+Understood and mk_pte() is also available on all platforms.
+
+> 
+>>
+>> Some thing like this instead.
+>>
+>> pte_t pte = READ_ONCE(*ptep);
+>> pte = pte_mkhuge(__pte((pte_val(pte) | RANDOM_ORVALUE) & PMD_MASK));
+>>
+>> We cannot use mk_pte_phys() as it is defined only on some platforms
+>> without any generic fallback for others.
+> 
+> Oh, didn't know that, sorry. What about using mk_pte() instead, at least
+> it would result in a present pte:
+> 
+> pte = pte_mkhuge(mk_pte(phys_to_page(RANDOM_ORVALUE & PMD_MASK), prot));
+
+Lets use mk_pte() here but can we do this instead
+
+paddr = (__pfn_to_phys(pfn) | RANDOM_ORVALUE) & PMD_MASK;
+pte = pte_mkhuge(mk_pte(phys_to_page(paddr), prot));
+
+> 
+> And if you also want to do some with the existing value, which seems
+> to be an empty pte, then maybe just check if writing and reading that
+> value with set_huge_pte_at() / huge_ptep_get() returns the same,
+> i.e. initially w/o RANDOM_ORVALUE.
+> 
+> So, in combination, like this (BTW, why is the barrier() needed, it
+> is not used for the other set_huge_pte_at() calls later?):
+
+Ahh missed, will add them. Earlier we faced problem without it after
+set_pte_at() for a test on powerpc (64) platform. Hence just added it
+here to be extra careful.
+
+> 
+> @@ -733,24 +733,28 @@ static void __init hugetlb_advanced_test
+>         struct page *page = pfn_to_page(pfn);
+>         pte_t pte = READ_ONCE(*ptep);
+>  
+> -       pte = __pte(pte_val(pte) | RANDOM_ORVALUE);
+> +       set_huge_pte_at(mm, vaddr, ptep, pte);
+> +       WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
+> +
+> +       pte = pte_mkhuge(mk_pte(phys_to_page(RANDOM_ORVALUE & PMD_MASK), prot));
+>         set_huge_pte_at(mm, vaddr, ptep, pte);
+>         barrier();
+>         WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
+> 
+> This would actually add a new test "write empty pte with
+> set_huge_pte_at(), then verify with huge_ptep_get()", which happens
+> to trigger a warning on s390 :-)
+
+On arm64 as well which checks for pte_present() in set_huge_pte_at().
+But PTE present check is not really present in each set_huge_pte_at()
+implementation especially without __HAVE_ARCH_HUGE_SET_HUGE_PTE_AT.
+Hence wondering if we should add this new test here which will keep
+giving warnings on s390 and arm64 (at the least).
+
+> 
+> That (new) warning actually points to misbehavior on s390, we do not
+> write a correct empty pmd in this case, but one that is empty and also
+> marked as large. huge_ptep_get() will then not correctly recognize it
+> as empty and do wrong conversion. It is also not consistent with
+> huge_ptep_get_and_clear(), where we write the empty pmd w/o marking
+> as large. Last but not least it would also break our pmd_protnone()
+> logic (see below). Another nice finding on s390 :-)
+
+:) 
+
+> 
+> I don't think this has any effect in practice (yet), but I will post a
+> fix for that, just in case you will add / change this test.
+
+Okay.
+
+> 
+>>
+>>>         set_huge_pte_at(mm, vaddr, ptep, pte);
+>>>         barrier();
+>>>         WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
+>>>         huge_pte_clear(mm, vaddr, ptep, PMD_SIZE);
+>>> -       pte = READ_ONCE(*ptep);
+>>> +       pte = huge_ptep_get(ptep);
+>>>         WARN_ON(!huge_pte_none(pte));
+>>>  
+>>>         pte = mk_huge_pte(page, prot);
+>>>         set_huge_pte_at(mm, vaddr, ptep, pte);
+>>>         huge_ptep_set_wrprotect(mm, vaddr, ptep);
+>>> -       pte = READ_ONCE(*ptep);
+>>> +       pte = huge_ptep_get(ptep);
+>>>         WARN_ON(huge_pte_write(pte));
+>>>  
+>>>         pte = mk_huge_pte(page, prot);
+>>>         set_huge_pte_at(mm, vaddr, ptep, pte);
+>>>         huge_ptep_get_and_clear(mm, vaddr, ptep);
+>>> -       pte = READ_ONCE(*ptep);
+>>> +       pte = huge_ptep_get(ptep);
+>>>         WARN_ON(!huge_pte_none(pte));
+>>>  
+>>>         pte = mk_huge_pte(page, prot);
+>>> @@ -759,7 +759,7 @@ static void __init hugetlb_advanced_test
+>>>         pte = huge_pte_mkwrite(pte);
+>>>         pte = huge_pte_mkdirty(pte);
+>>>         huge_ptep_set_access_flags(vma, vaddr, ptep, pte, 1);
+>>> -       pte = READ_ONCE(*ptep);
+>>> +       pte = huge_ptep_get(ptep);
+>>>         WARN_ON(!(huge_pte_write(pte) && huge_pte_dirty(pte)));
+>>>  }
+>>>  #else
+>>>
+>>> 3) The pmd_protnone_tests() has an issue, because it passes a pmd to
+>>> pmd_protnone() which has not been marked as large. We check for large
+>>> pmd in the s390 implementation of pmd_protnone(), and will fail if a
+>>> pmd is not large. We had similar issues before, in other helpers, where
+>>> I changed the logic on s390 to not require the pmd large check, but I'm
+>>> not so sure in this case. Is there a valid use case for doing
+>>> pmd_protnone() on "normal" pmds? Or could this be changed like this:  
+>>
+>> That is a valid question. IIUC, all existing callers for pmd_protnone()
+>> ensure that it is indeed a huge PMD. But even assuming otherwise should
+>> not the huge PMD requirement get checked in the caller itself rather than
+>> in the arch helper which is just supposed to check the existence of the
+>> dedicated PTE bit(s) for this purpose. Purely from a helper perspective
+>> pmd_protnone() should not really care about being large even though it
+>> might never get used without one.
+>>
+>> Also all platforms (except s390) derive the pmd_protnone() from their
+>> respective pte_protnone(). I wonder why should s390 be any different
+>> unless it is absolutely necessary.
+> 
+> This is again because of our different page table entry layouts for
+> pte/pmd and (large) pmd. The bits we check for pmd_protnone() are
+> not valid for normal pmd/pte, and we would return undefined result for
+> normal entries.
+> 
+> Of course, we could rely on nobody calling pmd_protnone() on normal
+> pmds, but in this case we also use pmd_large() check in pmd_protnone()
+> for indication if the pmd is present. W/o that, we would return
+> true for empty pmds, that doesn't sound right. Not sure if we also
+> want to rely on nobody calling pmd_protnone() on empty pmds.
+
+That might be problematic.
+
+> 
+> Anyway, if in practice it is not correct to use pmd_protnone()
+> on normal pmds, then I would suggest that your tests should also
+> not do / test it. And I strongly assume that it is not correct, at
+> least I cannot think of a valid case, and of course s390 would
+> already be broken if there was such a case.
+
+Okay, will use huge PMD here as you had suggested earlier.
+
+> 
+> Regards,
+> Gerald
+> 
+> 
 
 _______________________________________________
 linux-snps-arc mailing list
