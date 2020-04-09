@@ -2,66 +2,74 @@ Return-Path: <SRS0=Kc19=5Z=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 672CCC2BA80
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Apr 2020 01:07:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65E36C2BA80
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Apr 2020 02:56:42 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3A1D22084D
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Apr 2020 01:07:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F37C6208E4
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Apr 2020 02:56:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aOrQ8NBB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A1D22084D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dRAkG84F";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ZKQwDIO8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F37C6208E4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:References:To:Subject:From:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8sWra+5ldvjoZdQ0yGuzB+p130mdf0K6Slboeopkirs=; b=aOrQ8NBBDC8GZg
-	3riFANrXQRzh8WStbzRz+GvBHfAEtg0zqgAJuw+EvEw3y/qfUnOi4lN5MThJdU8r8YdKzTffQ0Qs9
-	VRrDS+M5w/lmhdfJGT7Z2soNIqpta6p6J8dvPz+2yXbva7MnmtPrtiyTaYJSaGhOupUdb7jel88l4
-	SBlwdfcMg1+YE6R6c24nNFriQxs7Q4UjUoilVx5U6UTQLUObPrAUYao9Zlcc3v8vhy+uHJmhp04iW
-	M5yy7RbmbP7bQfSSb4UN1IoM3XBGJsTfxhn3xc5OPJ+zHl2NYkGKXLNMcv2B2piJj/qLckFs78WDG
-	jOcPxLMqdaOPn/M5/iyQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=L5QK01N2/thYiUcYk5nt1KjD5MfSDseLx9PuCNBEJyc=; b=dRAkG84F+qMU4S
+	7cbdwimy4e6AGttS4dODdb607TFhUrYIYcA/HFsCSE86HiU+psPNcH/W8BkFj9kkDjgMXDcXrHN7R
+	ouIPXCEz+6dGwZF/Q6MrPqWD49ONxIsxNnwr2qDn8i0h3nTgZ3m1fi2EYxsf3EcKI33hojHBllmY7
+	oLLitGTcryCxvuBy5WnRUF6OxVcUL/xWPO8oLWxqUtjLD/pcRhTTf3QBzYPwdnNnKaai5aDzqHaJ7
+	VFOwck5aTJpb7mGd08U7qY4rcNR0qPKsSZjzvIKSe6rTiqxjwtSbsP2dGn26+kdiR+5QmlRqEHYgo
+	p3eiT47/ymx0HQMl0xng==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jMLei-0002rE-GW; Thu, 09 Apr 2020 01:06:56 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jMLeZ-0002ii-2B; Thu, 09 Apr 2020 01:06:48 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 371301FB;
- Wed,  8 Apr 2020 18:06:43 -0700 (PDT)
-Received: from [10.163.1.2] (unknown [10.163.1.2])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 16C383F73D;
- Wed,  8 Apr 2020 18:06:32 -0700 (PDT)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH V2 0/3] mm/debug: Add more arch page table helper tests
-To: Gerald Schaefer <gerald.schaefer@de.ibm.com>
-References: <1585027375-9997-1-git-send-email-anshuman.khandual@arm.com>
- <20200331143059.29fca8fa@thinkpad>
- <e3e35885-6852-16aa-3889-e22750a0cc87@arm.com>
- <20200407175440.41cc00a5@thinkpad>
- <253cf5c8-e43e-5737-24e8-3eda3b6ba7b3@arm.com>
- <20200408141500.75b2e1a7@thinkpad>
-Message-ID: <b35210ec-7084-9c77-bdf5-820cfc7f96bc@arm.com>
-Date: Thu, 9 Apr 2020 06:36:23 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+	id 1jMNMq-0005ZZ-MP; Thu, 09 Apr 2020 02:56:36 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jMNMn-0005Wi-4h
+ for linux-snps-arc@lists.infradead.org; Thu, 09 Apr 2020 02:56:35 +0000
+Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com
+ [10.205.2.133])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id E4A0C406A4;
+ Thu,  9 Apr 2020 02:56:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1586400992; bh=QAf2agrVgPLUdXhdIp6OKDjJRxSPnSL3NIZoJ1Sa54E=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ZKQwDIO8MCIvHUgV+BYP/7ypQ7aaAb1hyKmv/tKsMcgOw6EXBfXD7EgWJpYmE2mCD
+ dJrO65QYXGrLLWYoBFN152LPMcFDivGh5rI6j7oiLKdg2w5dopwCSJWXGrkujl35CT
+ 4dI6Z8uqDH0dvwfMD6xKEf2puAuyODpkEltWjpC3Wr+O1M12LD17b3GP/m4+M2X11+
+ 2negOOksan61PdVtiyRmPJ7sMHSx3yBy3WvcRf6Ys4CbiPoAr+qmq5xrLFfPStcMGE
+ HRmCGKJ3ujTjFK+vy4B7ln5MbkPjtNcERMmU3ro3Qy9sYtK2gv7CcIjHpVrstG5xX5
+ 3DiPgxZIWXVYA==
+Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
+ [10.13.183.89])
+ by mailhost.synopsys.com (Postfix) with ESMTP id B7BFEA00CF;
+ Thu,  9 Apr 2020 02:56:32 +0000 (UTC)
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: libc-alpha@sourceware.org
+Subject: [PATCH v5 05/14] ARC: math soft float support
+Date: Wed,  8 Apr 2020 19:56:06 -0700
+Message-Id: <20200409025615.27003-6-vgupta@synopsys.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200409025615.27003-1-vgupta@synopsys.com>
+References: <20200409025615.27003-1-vgupta@synopsys.com>
 MIME-Version: 1.0
-In-Reply-To: <20200408141500.75b2e1a7@thinkpad>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200408_180647_192496_5509EB8B 
-X-CRM114-Status: GOOD (  26.22  )
+X-CRM114-CacheID: sfid-20200408_195633_198767_1298A67E 
+X-CRM114-Status: GOOD (  16.36  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,158 +81,265 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, linux-mm@kvack.org,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
- x86@kernel.org, Mike Rapoport <rppt@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, linux-snps-arc@lists.infradead.org,
- Vasily Gorbik <gor@linux.ibm.com>, Borislav Petkov <bp@alien8.de>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- christophe.leroy@c-s.fr, Vineet Gupta <vgupta@synopsys.com>,
- linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ linux-snps-arc@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+---
+ sysdeps/arc/bits/fenv.h                   | 77 +++++++++++++++++++++++
+ sysdeps/arc/nofpu/Implies                 |  1 +
+ sysdeps/arc/nofpu/math-tests-exceptions.h | 27 ++++++++
+ sysdeps/arc/nofpu/math-tests-rounding.h   | 27 ++++++++
+ sysdeps/arc/sfp-machine.h                 | 73 +++++++++++++++++++++
+ 5 files changed, 205 insertions(+)
+ create mode 100644 sysdeps/arc/bits/fenv.h
+ create mode 100644 sysdeps/arc/nofpu/Implies
+ create mode 100644 sysdeps/arc/nofpu/math-tests-exceptions.h
+ create mode 100644 sysdeps/arc/nofpu/math-tests-rounding.h
+ create mode 100644 sysdeps/arc/sfp-machine.h
 
-On 04/08/2020 05:45 PM, Gerald Schaefer wrote:
-> On Wed, 8 Apr 2020 12:41:51 +0530
-> Anshuman Khandual <anshuman.khandual@arm.com> wrote:
-> 
-> [...]
->>>   
->>>>
->>>> Some thing like this instead.
->>>>
->>>> pte_t pte = READ_ONCE(*ptep);
->>>> pte = pte_mkhuge(__pte((pte_val(pte) | RANDOM_ORVALUE) & PMD_MASK));
->>>>
->>>> We cannot use mk_pte_phys() as it is defined only on some platforms
->>>> without any generic fallback for others.  
->>>
->>> Oh, didn't know that, sorry. What about using mk_pte() instead, at least
->>> it would result in a present pte:
->>>
->>> pte = pte_mkhuge(mk_pte(phys_to_page(RANDOM_ORVALUE & PMD_MASK), prot));  
->>
->> Lets use mk_pte() here but can we do this instead
->>
->> paddr = (__pfn_to_phys(pfn) | RANDOM_ORVALUE) & PMD_MASK;
->> pte = pte_mkhuge(mk_pte(phys_to_page(paddr), prot));
->>
-> 
-> Sure, that will also work.
-> 
-> BTW, this RANDOM_ORVALUE is not really very random, the way it is
-> defined. For s390 we already changed it to mask out some arch bits,
-> but I guess there are other archs and bits that would always be
-> set with this "not so random" value, and I wonder if/how that would
-> affect all the tests using this value, see also below.
+diff --git a/sysdeps/arc/bits/fenv.h b/sysdeps/arc/bits/fenv.h
+new file mode 100644
+index 000000000000..80afa50db9c6
+--- /dev/null
++++ b/sysdeps/arc/bits/fenv.h
+@@ -0,0 +1,77 @@
++/* Copyright (C) 2012-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _FENV_H
++# error "Never use <bits/fenv.h> directly; include <fenv.h> instead."
++#endif
++
++enum
++  {
++    FE_INVALID   =
++# define FE_INVALID	(0x01)
++      FE_INVALID,
++    FE_DIVBYZERO =
++# define FE_DIVBYZERO	(0x02)
++      FE_DIVBYZERO,
++    FE_OVERFLOW  =
++# define FE_OVERFLOW	(0x04)
++      FE_OVERFLOW,
++    FE_UNDERFLOW =
++# define FE_UNDERFLOW	(0x08)
++      FE_UNDERFLOW,
++    FE_INEXACT   =
++# define FE_INEXACT	(0x10)
++      FE_INEXACT
++  };
++
++# define FE_ALL_EXCEPT \
++	(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW | FE_UNDERFLOW | FE_INEXACT)
++
++enum
++  {
++    FE_TOWARDZERO =
++# define FE_TOWARDZERO	(0x0)
++      FE_TOWARDZERO,
++    FE_TONEAREST  =
++# define FE_TONEAREST	(0x1)	/* default */
++      FE_TONEAREST,
++    FE_UPWARD     =
++# define FE_UPWARD	(0x2)
++      FE_UPWARD,
++    FE_DOWNWARD   =
++# define FE_DOWNWARD	(0x3)
++      FE_DOWNWARD
++  };
++
++typedef unsigned int fexcept_t;
++
++typedef struct
++{
++  unsigned int __fpcr;
++  unsigned int __fpsr;
++} fenv_t;
++
++/* If the default argument is used we use this value.  */
++#define FE_DFL_ENV	((const fenv_t *) -1)
++
++#if __GLIBC_USE (IEC_60559_BFP_EXT)
++/* Type representing floating-point control modes.  */
++typedef unsigned int femode_t;
++
++/* Default floating-point control modes.  */
++# define FE_DFL_MODE	((const femode_t *) -1L)
++#endif
+diff --git a/sysdeps/arc/nofpu/Implies b/sysdeps/arc/nofpu/Implies
+new file mode 100644
+index 000000000000..abcbadb25f22
+--- /dev/null
++++ b/sysdeps/arc/nofpu/Implies
+@@ -0,0 +1 @@
++ieee754/soft-fp
+diff --git a/sysdeps/arc/nofpu/math-tests-exceptions.h b/sysdeps/arc/nofpu/math-tests-exceptions.h
+new file mode 100644
+index 000000000000..2ec58e088ebf
+--- /dev/null
++++ b/sysdeps/arc/nofpu/math-tests-exceptions.h
+@@ -0,0 +1,27 @@
++/* Configuration for math tests. exceptions support ARC version.
++   Copyright (C) 2017-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef ARC_NOFPU_MATH_TESTS_EXCEPTIONS_H
++#define ARC_NOFPU_MATH_TESTS_EXCEPTIONS_H 1
++
++/* Soft-float does not support exceptions.  */
++#define EXCEPTION_TESTS_float		0
++#define EXCEPTION_TESTS_double		0
++#define EXCEPTION_TESTS_long_double	0
++
++#endif
+diff --git a/sysdeps/arc/nofpu/math-tests-rounding.h b/sysdeps/arc/nofpu/math-tests-rounding.h
+new file mode 100644
+index 000000000000..6e5376cb35b5
+--- /dev/null
++++ b/sysdeps/arc/nofpu/math-tests-rounding.h
+@@ -0,0 +1,27 @@
++/* Configuration for math tests: rounding mode support.  ARC version.
++   Copyright (C) 2017-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef ARC_NOFPU_MATH_TESTS_ROUNDING_H
++#define ARC_NOFPU_MATH_TESTS_ROUNDING_H 1
++
++/* Soft-float only supports to-nearest rounding mode.  */
++#define ROUNDING_TESTS_float(MODE)		((MODE) == FE_TONEAREST)
++#define ROUNDING_TESTS_double(MODE)		((MODE) == FE_TONEAREST)
++#define ROUNDING_TESTS_long_double(MODE)	((MODE) == FE_TONEAREST)
++
++#endif
+diff --git a/sysdeps/arc/sfp-machine.h b/sysdeps/arc/sfp-machine.h
+new file mode 100644
+index 000000000000..b2bfd33e944c
+--- /dev/null
++++ b/sysdeps/arc/sfp-machine.h
+@@ -0,0 +1,73 @@
++/* Machine-dependent software floating-point definitions.  ARC version.
++   Copyright (C) 2004-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++   Contributed by Richard Henderson (rth@cygnus.com),
++		  Jakub Jelinek (jj@ultra.linux.cz) and
++		  David S. Miller (davem@redhat.com).
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++
++#define _FP_W_TYPE_SIZE		32
++#define _FP_W_TYPE		unsigned long
++#define _FP_WS_TYPE		signed long
++#define _FP_I_TYPE		long
++
++#define _FP_MUL_MEAT_S(R,X,Y)				\
++  _FP_MUL_MEAT_1_wide(_FP_WFRACBITS_S,R,X,Y,umul_ppmm)
++#define _FP_MUL_MEAT_D(R,X,Y)				\
++  _FP_MUL_MEAT_2_wide(_FP_WFRACBITS_D,R,X,Y,umul_ppmm)
++#define _FP_MUL_MEAT_Q(R,X,Y)				\
++  _FP_MUL_MEAT_4_wide(_FP_WFRACBITS_Q,R,X,Y,umul_ppmm)
++
++#define _FP_MUL_MEAT_DW_S(R,X,Y)				\
++  _FP_MUL_MEAT_DW_1_wide(_FP_WFRACBITS_S,R,X,Y,umul_ppmm)
++#define _FP_MUL_MEAT_DW_D(R,X,Y)				\
++  _FP_MUL_MEAT_DW_2_wide(_FP_WFRACBITS_D,R,X,Y,umul_ppmm)
++#define _FP_MUL_MEAT_DW_Q(R,X,Y)				\
++  _FP_MUL_MEAT_DW_4_wide(_FP_WFRACBITS_Q,R,X,Y,umul_ppmm)
++
++#define _FP_DIV_MEAT_S(R,X,Y)	_FP_DIV_MEAT_1_loop(S,R,X,Y)
++#define _FP_DIV_MEAT_D(R,X,Y)	_FP_DIV_MEAT_2_udiv(D,R,X,Y)
++#define _FP_DIV_MEAT_Q(R,X,Y)	_FP_DIV_MEAT_4_udiv(Q,R,X,Y)
++
++#define _FP_NANFRAC_S		((_FP_QNANBIT_S << 1) - 1)
++#define _FP_NANFRAC_D		((_FP_QNANBIT_D << 1) - 1), -1
++#define _FP_NANFRAC_Q		((_FP_QNANBIT_Q << 1) - 1), -1, -1, -1
++#define _FP_NANSIGN_S		0
++#define _FP_NANSIGN_D		0
++#define _FP_NANSIGN_Q		0
++
++#define _FP_KEEPNANFRACP 1
++#define _FP_QNANNEGATEDP 0
++
++/* This is arbitrarily taken from the PowerPC version.  */
++#define _FP_CHOOSENAN(fs, wc, R, X, Y, OP)			\
++  do {								\
++    if ((_FP_FRAC_HIGH_RAW_##fs(X) & _FP_QNANBIT_##fs)		\
++	&& !(_FP_FRAC_HIGH_RAW_##fs(Y) & _FP_QNANBIT_##fs))	\
++      {								\
++	R##_s = Y##_s;						\
++	_FP_FRAC_COPY_##wc(R,Y);				\
++      }								\
++    else							\
++      {								\
++	R##_s = X##_s;						\
++	_FP_FRAC_COPY_##wc(R,X);				\
++      }								\
++    R##_c = FP_CLS_NAN;						\
++  } while (0)
++
++#define _FP_TININESS_AFTER_ROUNDING 1
+-- 
+2.20.1
 
-RANDOM_ORVALUE is a constant which was added in order to make sure
-that the page table entries should have some non-zero value before
-getting called with pxx_clear() and followed by a pxx_none() check.
-This is currently used only in pxx_clear_tests() tests. Hence there
-is no impact for the existing tests.
-
-> 
->>>
->>> And if you also want to do some with the existing value, which seems
->>> to be an empty pte, then maybe just check if writing and reading that
->>> value with set_huge_pte_at() / huge_ptep_get() returns the same,
->>> i.e. initially w/o RANDOM_ORVALUE.
->>>
->>> So, in combination, like this (BTW, why is the barrier() needed, it
->>> is not used for the other set_huge_pte_at() calls later?):  
->>
->> Ahh missed, will add them. Earlier we faced problem without it after
->> set_pte_at() for a test on powerpc (64) platform. Hence just added it
->> here to be extra careful.
->>
->>>
->>> @@ -733,24 +733,28 @@ static void __init hugetlb_advanced_test
->>>         struct page *page = pfn_to_page(pfn);
->>>         pte_t pte = READ_ONCE(*ptep);
->>>  
->>> -       pte = __pte(pte_val(pte) | RANDOM_ORVALUE);
->>> +       set_huge_pte_at(mm, vaddr, ptep, pte);
->>> +       WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
->>> +
->>> +       pte = pte_mkhuge(mk_pte(phys_to_page(RANDOM_ORVALUE & PMD_MASK), prot));
->>>         set_huge_pte_at(mm, vaddr, ptep, pte);
->>>         barrier();
->>>         WARN_ON(!pte_same(pte, huge_ptep_get(ptep)));
->>>
->>> This would actually add a new test "write empty pte with
->>> set_huge_pte_at(), then verify with huge_ptep_get()", which happens
->>> to trigger a warning on s390 :-)  
->>
->> On arm64 as well which checks for pte_present() in set_huge_pte_at().
->> But PTE present check is not really present in each set_huge_pte_at()
->> implementation especially without __HAVE_ARCH_HUGE_SET_HUGE_PTE_AT.
->> Hence wondering if we should add this new test here which will keep
->> giving warnings on s390 and arm64 (at the least).
-> 
-> Hmm, interesting. I forgot about huge swap / migration, which is not
-> (and probably cannot be) supported on s390. The pte_present() check
-> on arm64 seems to check for such huge swap / migration entries,
-> according to the comment.
-> 
-> The new test "write empty pte with set_huge_pte_at(), then verify
-> with huge_ptep_get()" would then probably trigger the
-> WARN_ON(!pte_present(pte)) in arm64 code. So I guess "writing empty
-> ptes with set_huge_pte_at()" is not really a valid use case in practice,
-> or else you would have seen this warning before. In that case, it
-> might not be a good idea to add this test.
-
-Got it.
-
-> 
-> I also do wonder now, why the original test with
-> "pte = __pte(pte_val(pte) | RANDOM_ORVALUE);"
-> did not also trigger that warning on arm64. On s390 this test failed
-> exactly because the constructed pte was not present (initially empty,
-> or'ing RANDOM_ORVALUE does not make it present for s390). I guess this
-> just worked by chance on arm64, because the bits from RANDOM_ORVALUE
-> also happened to mark the pte present for arm64.
-
-That is correct. RANDOM_ORVALUE has got PTE_PROT_NONE bit set that makes
-the PTE test for pte_present().
-
-On arm64 platform,
-
-#define pte_present(pte)  (!!(pte_val(pte) & (PTE_VALID | PTE_PROT_NONE)))
-
-> 
-> This brings us back to the question above, regarding the "randomness"
-> of RANDOM_ORVALUE. Not really sure what the intention behind that was,
-> but maybe it would make sense to restrict this RANDOM_ORVALUE to
-> non-arch-specific bits, i.e. only bits that would be part of the
-> address value within a page table entry? Or was it intentionally
-> chosen to also mess with other bits?
-
-As mentioned before, RANDOM_ORVALUE just helped make a given page table
-entry contain non-zero values before getting cleared. AFAICS we should
-not need RANDOM_ORVALUE for HugeTLB test here. I believe the following
-'paddr' construct will just be fine instead.
-
-paddr = __pfn_to_phys(pfn) & PMD_MASK;
-pte = pte_mkhuge(mk_pte(phys_to_page(paddr), prot));
-
-> 
-> Regards,
-> Gerald
-> 
-> 
 
 _______________________________________________
 linux-snps-arc mailing list
