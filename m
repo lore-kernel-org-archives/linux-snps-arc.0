@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 370E9C2BA2B
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Apr 2020 02:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5159AC2BB1D
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Apr 2020 02:56:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0409E20757
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Apr 2020 02:56:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1A80720757
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Apr 2020 02:56:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="l8SUXtaX";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="gJVPfUVo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0409E20757
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="N2s+gUms";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="PZklu0ir"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A80720757
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,50 +26,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Y7KKBHOmFkx8qGpyCo+No60nXHSSwFxXo8IFPm63fgU=; b=l8SUXtaX31mAGg
-	sVeoMVj+Llyd7TwcTtFL4ePkCD/8mAJuuAnf2FkVorlI2dl5asTLxjkDcOoeeLBDztwz9ul+K/bg7
-	BIHNFhFh3BpR+5qboGD/K+HfjZ/diRBBiQjuvEEvRJzeME91tKxwovLkTdp7UszdvMSAImIQWOyev
-	CxiboD9TtQCL4AgBUsteg9KzYtP3gSpFPUAzQjY6VkAZipT5plKozmXTiV/S4lnms9xe7x7NrVlW+
-	tqWarpD9/ELWU5sH2CLkQCVXBYFDQtcql76YMxJAKVSBUUSlnzFRofkTY3yJbbJ5/czHvCrF9Ni52
-	/XZH73IEDBlhASPIHjpg==;
+	List-Owner; bh=PwGQSSV1c3M2Dvr6JeS7wIA2TjXVB29t7o5lGiI7Lco=; b=N2s+gUmsxvtuUk
+	68uGdgiNkk+aksk4kQNin8FAV8q3GrOF//oA5F9cPS/rHge7FHeT/VwON6KdHNFZ+b4wNHbohP8hy
+	SZwvBsiNWRr5jrR/CNfBPKD0E2kKQpTE6V0cJ5hGmLdbciZ+RwGEWmXMPWlasE1ZYbX0qhnA7UDd7
+	i2BBrfmYbE8MfLxxKKuldwr6JFDmLTp+ZYfeCOgBI+JVH9LT2CRxCRVtUBIdwLOH0/Q7RIxZm9m+B
+	aJJWOIRjdSBMheh7u7Vd67AwD4a5I0UKXBAmqEGXsD+RPkfaXPmdoNr1aPIIQT3fQ5N4XvhX8+6SA
+	Q/pBaN0PdyyN1SiV6fhg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jMNMy-0005eS-PL; Thu, 09 Apr 2020 02:56:44 +0000
+	id 1jMNN3-0005hP-7n; Thu, 09 Apr 2020 02:56:49 +0000
 Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jMNMn-0005Y3-NN
- for linux-snps-arc@lists.infradead.org; Thu, 09 Apr 2020 02:56:41 +0000
+ id 1jMNMq-0005Yu-CH
+ for linux-snps-arc@lists.infradead.org; Thu, 09 Apr 2020 02:56:45 +0000
 Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com
  [10.205.2.133])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 91AE8406A9;
- Thu,  9 Apr 2020 02:56:33 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4573340658;
+ Thu,  9 Apr 2020 02:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1586400993; bh=RGjgoMhlEok/BmUlk6KLEjk2j3H0TZfpuS54YCIPa/g=;
+ t=1586400996; bh=09wsIJR4GSpOKhDoLcWQlJEy7PUqkkkXOh+3Ts8DIk4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gJVPfUVosD1TgnwAIaNs9jHNqSImIWcwvMYatRrtWjx2LYAYUsbEEW+MX7vCdAJ32
- 1c7x+A4UItMA8OH2Jx1DCfrPhnrDaGb1T/1Bm5JlkFMU/HNF/WbeFfv27QE19ZO++D
- hgdTxScbP+WTVzuKjXKVlL/Kp9VUtwVE9QGy0OTtXssPzTBEHvpvh5e26cEjRCeXbN
- eDV182Cw60S7CtPtzAIJfFVyGYr/1dchbEg6RUYQUW+60eGJfEnFzK2LoqpaBLly1C
- H5/7ioklQ1RqiFGcZGRNm/mnd4yLPYRY4kYJzOeHGp++4oro3S45FnG2MKCmFKcF49
- NGz/qfhjCj4aQ==
+ b=PZklu0irX/dtbJqst2BqrB1LX9FFfZqgf9o/oKxC8/aWfGm81SLiOliXBV6zIxyUT
+ eDTvpS9sB9gBqkMFxvqc5yNsJLHt2Wu/0q0pjbJj/+ONEZO4WS7V7fHgTmU4bmQ3d0
+ n8mcmwdLqXsJXiuT4B+cpoa3Etc+MkQ9dqOTQLNsKBE8a04tZPpg7PTXsKGar7ItgH
+ dcvas73YRz+Ft0cP3sIaN3GV+LavH/2Idxrbbqm9kxA/NQg9LFF7Y/UXvJG49tPEqp
+ Sq4UWKqK9KpPizsOgBS5uEtdLIjTN4AHD4ZV4YK419OHE80aZO1OqDYf7bLKeynyAZ
+ a8x/cDctBPjww==
 Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
  [10.13.183.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id 2A34AA00BB;
- Thu,  9 Apr 2020 02:56:32 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 9A0BAA00BD;
+ Thu,  9 Apr 2020 02:56:35 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v5 06/14] ARC: hardware floating point support
-Date: Wed,  8 Apr 2020 19:56:07 -0700
-Message-Id: <20200409025615.27003-7-vgupta@synopsys.com>
+Subject: [PATCH v5 12/14] ARC: Build Infrastructure
+Date: Wed,  8 Apr 2020 19:56:13 -0700
+Message-Id: <20200409025615.27003-13-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200409025615.27003-1-vgupta@synopsys.com>
 References: <20200409025615.27003-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200408_195633_770736_5DD0A812 
-X-CRM114-Status: GOOD (  14.66  )
+X-CRM114-CacheID: sfid-20200408_195636_448446_BBEF765E 
+X-CRM114-Status: GOOD (  18.45  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,962 +90,484 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- sysdeps/arc/fpu/e_sqrt.c        |  27 +++++++++
- sysdeps/arc/fpu/e_sqrtf.c       |  27 +++++++++
- sysdeps/arc/fpu/fclrexcpt.c     |  36 +++++++++++
- sysdeps/arc/fpu/fegetenv.c      |  37 ++++++++++++
- sysdeps/arc/fpu/fegetmode.c     |  31 ++++++++++
- sysdeps/arc/fpu/fegetround.c    |  32 ++++++++++
- sysdeps/arc/fpu/feholdexcpt.c   |  43 ++++++++++++++
- sysdeps/arc/fpu/fesetenv.c      |  48 +++++++++++++++
- sysdeps/arc/fpu/fesetexcept.c   |  32 ++++++++++
- sysdeps/arc/fpu/fesetmode.c     |  40 +++++++++++++
- sysdeps/arc/fpu/fesetround.c    |  40 +++++++++++++
- sysdeps/arc/fpu/feupdateenv.c   |  51 ++++++++++++++++
- sysdeps/arc/fpu/fgetexcptflg.c  |  31 ++++++++++
- sysdeps/arc/fpu/fraiseexcpt.c   |  39 ++++++++++++
- sysdeps/arc/fpu/fsetexcptflg.c  |  38 ++++++++++++
- sysdeps/arc/fpu/ftestexcept.c   |  33 +++++++++++
- sysdeps/arc/fpu/s_fma.c         |  28 +++++++++
- sysdeps/arc/fpu/s_fmaf.c        |  28 +++++++++
- sysdeps/arc/fpu_control.h       | 102 ++++++++++++++++++++++++++++++++
- sysdeps/arc/get-rounding-mode.h |  38 ++++++++++++
- sysdeps/arc/math-tests-trap.h   |  27 +++++++++
- sysdeps/arc/tininess.h          |   1 +
- 22 files changed, 809 insertions(+)
- create mode 100644 sysdeps/arc/fpu/e_sqrt.c
- create mode 100644 sysdeps/arc/fpu/e_sqrtf.c
- create mode 100644 sysdeps/arc/fpu/fclrexcpt.c
- create mode 100644 sysdeps/arc/fpu/fegetenv.c
- create mode 100644 sysdeps/arc/fpu/fegetmode.c
- create mode 100644 sysdeps/arc/fpu/fegetround.c
- create mode 100644 sysdeps/arc/fpu/feholdexcpt.c
- create mode 100644 sysdeps/arc/fpu/fesetenv.c
- create mode 100644 sysdeps/arc/fpu/fesetexcept.c
- create mode 100644 sysdeps/arc/fpu/fesetmode.c
- create mode 100644 sysdeps/arc/fpu/fesetround.c
- create mode 100644 sysdeps/arc/fpu/feupdateenv.c
- create mode 100644 sysdeps/arc/fpu/fgetexcptflg.c
- create mode 100644 sysdeps/arc/fpu/fraiseexcpt.c
- create mode 100644 sysdeps/arc/fpu/fsetexcptflg.c
- create mode 100644 sysdeps/arc/fpu/ftestexcept.c
- create mode 100644 sysdeps/arc/fpu/s_fma.c
- create mode 100644 sysdeps/arc/fpu/s_fmaf.c
- create mode 100644 sysdeps/arc/fpu_control.h
- create mode 100644 sysdeps/arc/get-rounding-mode.h
- create mode 100644 sysdeps/arc/math-tests-trap.h
- create mode 100644 sysdeps/arc/tininess.h
+ config.h.in                                |   3 +
+ scripts/build-many-glibcs.py               |   9 +
+ sysdeps/arc/Implies                        |   3 +
+ sysdeps/arc/Makefile                       |  21 +++
+ sysdeps/arc/Versions                       |   8 +
+ sysdeps/arc/configure                      | 182 +++++++++++++++++++++
+ sysdeps/arc/configure.ac                   |  26 +++
+ sysdeps/arc/nptl/Makefile                  |  22 +++
+ sysdeps/arc/preconfigure                   |  14 ++
+ sysdeps/unix/sysv/linux/arc/Implies        |   3 +
+ sysdeps/unix/sysv/linux/arc/Makefile       |  29 ++++
+ sysdeps/unix/sysv/linux/arc/Versions       |  16 ++
+ sysdeps/unix/sysv/linux/arc/configure      |   4 +
+ sysdeps/unix/sysv/linux/arc/configure.ac   |   4 +
+ sysdeps/unix/sysv/linux/arc/ldconfig.h     |  27 +++
+ sysdeps/unix/sysv/linux/arc/shlib-versions |   7 +
+ 16 files changed, 378 insertions(+)
+ create mode 100644 sysdeps/arc/Implies
+ create mode 100644 sysdeps/arc/Makefile
+ create mode 100644 sysdeps/arc/Versions
+ create mode 100644 sysdeps/arc/configure
+ create mode 100644 sysdeps/arc/configure.ac
+ create mode 100644 sysdeps/arc/nptl/Makefile
+ create mode 100644 sysdeps/arc/preconfigure
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Implies
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Makefile
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Versions
+ create mode 100644 sysdeps/unix/sysv/linux/arc/configure
+ create mode 100644 sysdeps/unix/sysv/linux/arc/configure.ac
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ldconfig.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/shlib-versions
 
-diff --git a/sysdeps/arc/fpu/e_sqrt.c b/sysdeps/arc/fpu/e_sqrt.c
+diff --git a/config.h.in b/config.h.in
+index dea43df438f6..08962dfed075 100644
+--- a/config.h.in
++++ b/config.h.in
+@@ -109,6 +109,9 @@
+ /* AArch64 big endian ABI */
+ #undef HAVE_AARCH64_BE
+ 
++/* ARC big endian ABI */
++#undef HAVE_ARC_BE
++
+ /* C-SKY ABI version.  */
+ #undef CSKYABI
+ 
+diff --git a/scripts/build-many-glibcs.py b/scripts/build-many-glibcs.py
+index 942a2227806a..64a836c52ea9 100755
+--- a/scripts/build-many-glibcs.py
++++ b/scripts/build-many-glibcs.py
+@@ -162,6 +162,15 @@ class Context(object):
+                                        'cfg': ['--disable-multi-arch']}])
+         self.add_config(arch='aarch64_be',
+                         os_name='linux-gnu')
++        self.add_config(arch='arc',
++                        os_name='linux-gnu',
++                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38'])
++        self.add_config(arch='arc',
++                        os_name='linux-gnuhf',
++                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38_linux'])
++        self.add_config(arch='arceb',
++                        os_name='linux-gnu',
++                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38'])
+         self.add_config(arch='alpha',
+                         os_name='linux-gnu')
+         self.add_config(arch='arm',
+diff --git a/sysdeps/arc/Implies b/sysdeps/arc/Implies
 new file mode 100644
-index 000000000000..abb67ef7b061
+index 000000000000..780c4e246769
 --- /dev/null
-+++ b/sysdeps/arc/fpu/e_sqrt.c
-@@ -0,0 +1,27 @@
-+/* Square root of floating point number.
-+   Copyright (C) 2015-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
++++ b/sysdeps/arc/Implies
+@@ -0,0 +1,3 @@
++wordsize-32
++ieee754/flt-32
++ieee754/dbl-64
+diff --git a/sysdeps/arc/Makefile b/sysdeps/arc/Makefile
+new file mode 100644
+index 000000000000..56ac503bfe43
+--- /dev/null
++++ b/sysdeps/arc/Makefile
+@@ -0,0 +1,21 @@
++# ARC Makefile
++# Copyright (C) 1993-2020 Free Software Foundation, Inc.
++# This file is part of the GNU C Library.
 +
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
++# The GNU C Library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
 +
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
++# The GNU C Library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
 +
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
++# You should have received a copy of the GNU Lesser General Public
++# License along with the GNU C Library.  If not, see
++# <https://www.gnu.org/licenses/>.
 +
-+#include <math_private.h>
-+#include <libm-alias-finite.h>
-+
-+double
-+__ieee754_sqrt (double d)
-+{
-+  return __builtin_sqrt (d);
++# We don't support long doubles as a distinct type.  We don't need to set
++# this variable; it's here mostly for documentational purposes.
++long-double-fcts = no
+diff --git a/sysdeps/arc/Versions b/sysdeps/arc/Versions
+new file mode 100644
+index 000000000000..6ac7b8e49505
+--- /dev/null
++++ b/sysdeps/arc/Versions
+@@ -0,0 +1,8 @@
++libc {
++  GLIBC_2.32 {
++    __mcount;
++  }
++  GLIBC_PRIVATE {
++    __syscall_error;
++  }
 +}
-+libm_alias_finite (__ieee754_sqrt, __sqrt)
-diff --git a/sysdeps/arc/fpu/e_sqrtf.c b/sysdeps/arc/fpu/e_sqrtf.c
+diff --git a/sysdeps/arc/configure b/sysdeps/arc/configure
 new file mode 100644
-index 000000000000..13008a4f45d6
+index 000000000000..5820017d6505
 --- /dev/null
-+++ b/sysdeps/arc/fpu/e_sqrtf.c
-@@ -0,0 +1,27 @@
-+/* Single-precision floating point square root.
-+   Copyright (C) 2015-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
++++ b/sysdeps/arc/configure
+@@ -0,0 +1,182 @@
++# This file is generated from configure.ac by Autoconf.  DO NOT EDIT!
++ # Local configure fragment for sysdeps/arc.
 +
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
++$as_echo "#define PI_STATIC_AND_HIDDEN 1" >>confdefs.h
 +
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
++libc_cv_have_sdata_section=no
 +
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
++# For ARC, historically ; was used for comments and not newline
++# Later # also got added to comment list, but ; couldn't be switched to
++# canonical newline as there's lots of code out there which will break
++libc_cv_asm_line_sep='`'
++cat >>confdefs.h <<_ACEOF
++#define ASM_LINE_SEP $libc_cv_asm_line_sep
++_ACEOF
 +
-+#include <math_private.h>
-+#include <libm-alias-finite.h>
 +
-+float
-+__ieee754_sqrtf (float s)
-+{
-+  return __builtin_sqrtf (s);
-+}
-+libm_alias_finite (__ieee754_sqrtf, __sqrtf)
-diff --git a/sysdeps/arc/fpu/fclrexcpt.c b/sysdeps/arc/fpu/fclrexcpt.c
++# For big endian ABI, generate a symbol for selecting right dynamic linker
++
++
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
++$as_echo_n "checking for grep that handles long lines and -e... " >&6; }
++if ${ac_cv_path_GREP+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  if test -z "$GREP"; then
++  ac_path_GREP_found=false
++  # Loop through the user's path and test for each of PROGNAME-LIST
++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
++do
++  IFS=$as_save_IFS
++  test -z "$as_dir" && as_dir=.
++    for ac_prog in grep ggrep; do
++    for ac_exec_ext in '' $ac_executable_extensions; do
++      ac_path_GREP="$as_dir/$ac_prog$ac_exec_ext"
++      as_fn_executable_p "$ac_path_GREP" || continue
++# Check for GNU ac_path_GREP and select it if it is found.
++  # Check for GNU $ac_path_GREP
++case `"$ac_path_GREP" --version 2>&1` in
++*GNU*)
++  ac_cv_path_GREP="$ac_path_GREP" ac_path_GREP_found=:;;
++*)
++  ac_count=0
++  $as_echo_n 0123456789 >"conftest.in"
++  while :
++  do
++    cat "conftest.in" "conftest.in" >"conftest.tmp"
++    mv "conftest.tmp" "conftest.in"
++    cp "conftest.in" "conftest.nl"
++    $as_echo 'GREP' >> "conftest.nl"
++    "$ac_path_GREP" -e 'GREP$' -e '-(cannot match)-' < "conftest.nl" >"conftest.out" 2>/dev/null || break
++    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
++    as_fn_arith $ac_count + 1 && ac_count=$as_val
++    if test $ac_count -gt ${ac_path_GREP_max-0}; then
++      # Best one so far, save it but keep looking for a better one
++      ac_cv_path_GREP="$ac_path_GREP"
++      ac_path_GREP_max=$ac_count
++    fi
++    # 10*(2^10) chars as input seems more than enough
++    test $ac_count -gt 10 && break
++  done
++  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
++esac
++
++      $ac_path_GREP_found && break 3
++    done
++  done
++  done
++IFS=$as_save_IFS
++  if test -z "$ac_cv_path_GREP"; then
++    as_fn_error $? "no acceptable grep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
++  fi
++else
++  ac_cv_path_GREP=$GREP
++fi
++
++fi
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_GREP" >&5
++$as_echo "$ac_cv_path_GREP" >&6; }
++ GREP="$ac_cv_path_GREP"
++
++
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for egrep" >&5
++$as_echo_n "checking for egrep... " >&6; }
++if ${ac_cv_path_EGREP+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  if echo a | $GREP -E '(a|b)' >/dev/null 2>&1
++   then ac_cv_path_EGREP="$GREP -E"
++   else
++     if test -z "$EGREP"; then
++  ac_path_EGREP_found=false
++  # Loop through the user's path and test for each of PROGNAME-LIST
++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
++do
++  IFS=$as_save_IFS
++  test -z "$as_dir" && as_dir=.
++    for ac_prog in egrep; do
++    for ac_exec_ext in '' $ac_executable_extensions; do
++      ac_path_EGREP="$as_dir/$ac_prog$ac_exec_ext"
++      as_fn_executable_p "$ac_path_EGREP" || continue
++# Check for GNU ac_path_EGREP and select it if it is found.
++  # Check for GNU $ac_path_EGREP
++case `"$ac_path_EGREP" --version 2>&1` in
++*GNU*)
++  ac_cv_path_EGREP="$ac_path_EGREP" ac_path_EGREP_found=:;;
++*)
++  ac_count=0
++  $as_echo_n 0123456789 >"conftest.in"
++  while :
++  do
++    cat "conftest.in" "conftest.in" >"conftest.tmp"
++    mv "conftest.tmp" "conftest.in"
++    cp "conftest.in" "conftest.nl"
++    $as_echo 'EGREP' >> "conftest.nl"
++    "$ac_path_EGREP" 'EGREP$' < "conftest.nl" >"conftest.out" 2>/dev/null || break
++    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
++    as_fn_arith $ac_count + 1 && ac_count=$as_val
++    if test $ac_count -gt ${ac_path_EGREP_max-0}; then
++      # Best one so far, save it but keep looking for a better one
++      ac_cv_path_EGREP="$ac_path_EGREP"
++      ac_path_EGREP_max=$ac_count
++    fi
++    # 10*(2^10) chars as input seems more than enough
++    test $ac_count -gt 10 && break
++  done
++  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
++esac
++
++      $ac_path_EGREP_found && break 3
++    done
++  done
++  done
++IFS=$as_save_IFS
++  if test -z "$ac_cv_path_EGREP"; then
++    as_fn_error $? "no acceptable egrep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
++  fi
++else
++  ac_cv_path_EGREP=$EGREP
++fi
++
++   fi
++fi
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_EGREP" >&5
++$as_echo "$ac_cv_path_EGREP" >&6; }
++ EGREP="$ac_cv_path_EGREP"
++
++
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for big endian" >&5
++$as_echo_n "checking for big endian... " >&6; }
++if ${libc_cv_arc_be+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++/* end confdefs.h.  */
++#ifdef __BIG_ENDIAN__
++                      yes
++                     #endif
++
++_ACEOF
++if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
++  $EGREP "yes" >/dev/null 2>&1; then :
++  libc_cv_arc_be=yes
++else
++  libc_cv_arc_be=no
++fi
++rm -f conftest*
++
++fi
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_arc_be" >&5
++$as_echo "$libc_cv_arc_be" >&6; }
++if test $libc_cv_arc_be = yes; then
++  # For shlib-versions.
++  $as_echo "#define HAVE_ARC_BE 1" >>confdefs.h
++
++  config_vars="$config_vars
++default-abi = ilp32_be"
++else
++  config_vars="$config_vars
++default-abi = ilp32"
++fi
+diff --git a/sysdeps/arc/configure.ac b/sysdeps/arc/configure.ac
 new file mode 100644
-index 000000000000..549968dcd465
+index 000000000000..d5bcd2a58cdc
 --- /dev/null
-+++ b/sysdeps/arc/fpu/fclrexcpt.c
-@@ -0,0 +1,36 @@
-+/* Clear given exceptions in current floating-point environment.
-+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
++++ b/sysdeps/arc/configure.ac
+@@ -0,0 +1,26 @@
++GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
++# Local configure fragment for sysdeps/arc.
 +
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
++AC_DEFINE(PI_STATIC_AND_HIDDEN)
++libc_cv_have_sdata_section=no
 +
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
++# For ARC, historically ; was used for comments and not newline
++# Later # also got added to comment list, but ; couldn't be switched to
++# canonical newline as there's lots of code out there which will break
++libc_cv_asm_line_sep='`'
++AC_DEFINE_UNQUOTED(ASM_LINE_SEP, $libc_cv_asm_line_sep)
 +
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+
-+int
-+feclearexcept (int excepts)
-+{
-+  unsigned int fpsr;
-+
-+  _FPU_GETS (fpsr);
-+
-+  /* Clear the relevant bits, FWE is preserved.  */
-+  fpsr &= ~excepts;
-+
-+  _FPU_SETS (fpsr);
-+
-+  return 0;
-+}
-+libm_hidden_def (feclearexcept)
-diff --git a/sysdeps/arc/fpu/fegetenv.c b/sysdeps/arc/fpu/fegetenv.c
++# For big endian ABI, generate a symbol for selecting right dynamic linker
++AC_CACHE_CHECK([for big endian],
++  [libc_cv_arc_be],
++  [AC_EGREP_CPP(yes,[#ifdef __BIG_ENDIAN__
++                      yes
++                     #endif
++  ], libc_cv_arc_be=yes, libc_cv_arc_be=no)])
++if test $libc_cv_arc_be = yes; then
++  # For shlib-versions.
++  AC_DEFINE(HAVE_ARC_BE)
++  LIBC_CONFIG_VAR([default-abi], [ilp32_be])
++else
++  LIBC_CONFIG_VAR([default-abi], [ilp32])
++fi
+diff --git a/sysdeps/arc/nptl/Makefile b/sysdeps/arc/nptl/Makefile
 new file mode 100644
-index 000000000000..058652aeb685
+index 000000000000..6f387c53905d
 --- /dev/null
-+++ b/sysdeps/arc/fpu/fegetenv.c
-@@ -0,0 +1,37 @@
-+/* Store current floating-point environment.
-+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
++++ b/sysdeps/arc/nptl/Makefile
+@@ -0,0 +1,22 @@
++# NPTL makefile fragment for ARC.
++# Copyright (C) 2005-2020 Free Software Foundation, Inc.
++#
++# This file is part of the GNU C Library.
++#
++# The GNU C Library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
++#
++# The GNU C Library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with the GNU C Library.  If not, see
++# <https://www.gnu.org/licenses/>.
 +
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+
-+int
-+__fegetenv (fenv_t *envp)
-+{
-+  unsigned int fpcr;
-+  unsigned int fpsr;
-+
-+  _FPU_GETCW (fpcr);
-+  _FPU_GETS (fpsr);
-+  envp->__fpcr = fpcr;
-+  envp->__fpsr = fpsr;
-+
-+  return 0;
-+}
-+libm_hidden_def (__fegetenv)
-+weak_alias (__fegetenv, fegetenv)
-+libm_hidden_weak (fegetenv)
-diff --git a/sysdeps/arc/fpu/fegetmode.c b/sysdeps/arc/fpu/fegetmode.c
++ifeq ($(subdir),csu)
++gen-as-const-headers += tcb-offsets.sym
++endif
+diff --git a/sysdeps/arc/preconfigure b/sysdeps/arc/preconfigure
 new file mode 100644
-index 000000000000..1f04c2d745fa
+index 000000000000..a79db0239ae6
 --- /dev/null
-+++ b/sysdeps/arc/fpu/fegetmode.c
-@@ -0,0 +1,31 @@
-+/* Store current floating-point control modes.
-+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
++++ b/sysdeps/arc/preconfigure
+@@ -0,0 +1,14 @@
++case "$machine" in
++arc*)
++  base_machine=arc
++  machine=arc
 +
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+
-+int
-+fegetmode (femode_t *modep)
-+{
-+  unsigned int fpcr;
-+
-+  _FPU_GETCW (fpcr);
-+  *modep = fpcr;
-+
-+  return 0;
-+}
-diff --git a/sysdeps/arc/fpu/fegetround.c b/sysdeps/arc/fpu/fegetround.c
-new file mode 100644
-index 000000000000..99d4aeee31b7
---- /dev/null
-+++ b/sysdeps/arc/fpu/fegetround.c
-@@ -0,0 +1,32 @@
-+/* Return current rounding direction.
-+   Copyright (C) 1998-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fenv_private.h>
-+
-+int
-+__fegetround (void)
-+{
-+  unsigned int fpcr;
-+  _FPU_GETCW (fpcr);
-+
-+  return (fpcr >> __FPU_RND_SHIFT) & __FPU_RND_MASK;
-+}
-+libm_hidden_def (__fegetround)
-+weak_alias (__fegetround, fegetround)
-+libm_hidden_weak (fegetround)
-diff --git a/sysdeps/arc/fpu/feholdexcpt.c b/sysdeps/arc/fpu/feholdexcpt.c
-new file mode 100644
-index 000000000000..4b849a3cf05b
---- /dev/null
-+++ b/sysdeps/arc/fpu/feholdexcpt.c
-@@ -0,0 +1,43 @@
-+/* Store current floating-point environment and clear exceptions.
-+   Copyright (C) 2000-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fenv_private.h>
-+
-+int
-+__feholdexcept (fenv_t *envp)
-+{
-+  unsigned int fpcr;
-+  unsigned int fpsr;
-+
-+  _FPU_GETCW (fpcr);
-+  _FPU_GETS (fpsr);
-+
-+  envp->__fpcr = fpcr;
-+  envp->__fpsr = fpsr;
-+
-+  fpsr &= ~FE_ALL_EXCEPT;
-+
-+  _FPU_SETCW (fpcr);
-+  _FPU_SETS (fpsr);
-+
-+  return 0;
-+}
-+libm_hidden_def (__feholdexcept)
-+weak_alias (__feholdexcept, feholdexcept)
-+libm_hidden_weak (feholdexcept)
-diff --git a/sysdeps/arc/fpu/fesetenv.c b/sysdeps/arc/fpu/fesetenv.c
-new file mode 100644
-index 000000000000..828b51cf8afa
---- /dev/null
-+++ b/sysdeps/arc/fpu/fesetenv.c
-@@ -0,0 +1,48 @@
-+/* Install given floating-point environment (doesnot raise exceptions).
-+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+
-+int
-+__fesetenv (const fenv_t *envp)
-+{
-+  unsigned int fpcr;
-+  unsigned int fpsr;
-+
-+  if (envp == FE_DFL_ENV)
-+    {
-+      fpcr = _FPU_DEFAULT;
-+      fpsr = _FPU_FPSR_DEFAULT;
-+    }
++  gccfloat=`$CC $CFLAGS $CPPFLAGS -E -dM -xc /dev/null | grep __ARC_FPU_| wc -l`
++  if test "$gccfloat" != "0"; then
++    with_fp_cond=1
 +  else
-+    {
-+      /* No need to mask out reserved bits as they are IoW.  */
-+      fpcr = envp->__fpcr;
-+      fpsr = envp->__fpsr;
-+    }
++    with_fp_cond=0
++  fi
++  ;;
 +
-+  _FPU_SETCW (fpcr);
-+  _FPU_SETS (fpsr);
++esac
+diff --git a/sysdeps/unix/sysv/linux/arc/Implies b/sysdeps/unix/sysv/linux/arc/Implies
+new file mode 100644
+index 000000000000..7f739a0340b6
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/Implies
+@@ -0,0 +1,3 @@
++arc/nptl
++unix/sysv/linux/generic/wordsize-32
++unix/sysv/linux/generic
+diff --git a/sysdeps/unix/sysv/linux/arc/Makefile b/sysdeps/unix/sysv/linux/arc/Makefile
+new file mode 100644
+index 000000000000..7958625f6d5c
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/Makefile
+@@ -0,0 +1,29 @@
++ifeq ($(subdir),stdlib)
++gen-as-const-headers += ucontext_i.sym
++endif
 +
-+  /* Success.  */
-+  return 0;
++ifeq ($(subdir),signal)
++sysdep_routines += sigrestorer
++endif
++
++ifeq ($(subdir),misc)
++# MIPS/Tile-style cacheflush routine
++sysdep_headers += sys/cachectl.h
++sysdep_routines += cacheflush
++endif
++
++ifeq ($(subdir),elf)
++ifeq ($(build-shared),yes)
++# This is needed for DSO loading from static binaries.
++sysdep-dl-routines += dl-static
++endif
++endif
++
++abi-variants := ilp32 ilp32_be
++
++ifeq (,$(filter $(default-abi),$(abi-variants)))
++$(error Unknown ABI $(default-abi), must be one of $(abi-variants))
++endif
++
++abi-ilp32-condition	:= !defined __BIG_ENDIAN__
++abi-ilp32_be-condition	:= defined __BIG_ENDIAN__
+diff --git a/sysdeps/unix/sysv/linux/arc/Versions b/sysdeps/unix/sysv/linux/arc/Versions
+new file mode 100644
+index 000000000000..292f1974b02a
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/Versions
+@@ -0,0 +1,16 @@
++ld {
++  GLIBC_PRIVATE {
++    # used for loading by static libraries
++    _dl_var_init;
++  }
 +}
-+libm_hidden_def (__fesetenv)
-+weak_alias (__fesetenv, fesetenv)
-+libm_hidden_weak (fesetenv)
-diff --git a/sysdeps/arc/fpu/fesetexcept.c b/sysdeps/arc/fpu/fesetexcept.c
-new file mode 100644
-index 000000000000..0a1bcf763bee
---- /dev/null
-+++ b/sysdeps/arc/fpu/fesetexcept.c
-@@ -0,0 +1,32 @@
-+/* Set given exception flags.
-+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+
-+int
-+fesetexcept (int excepts)
-+{
-+  unsigned int fpsr;
-+
-+  _FPU_GETS (fpsr);
-+  fpsr |= excepts;
-+  _FPU_SETS (fpsr);
-+
-+  return 0;
++libc {
++  GLIBC_2.32 {
++    _flush_cache;
++    cacheflush;
++  }
++  GLIBC_PRIVATE {
++    # A copy of sigaction lives in libpthread, and needs these.
++    __default_rt_sa_restorer;
++  }
 +}
-diff --git a/sysdeps/arc/fpu/fesetmode.c b/sysdeps/arc/fpu/fesetmode.c
+diff --git a/sysdeps/unix/sysv/linux/arc/configure b/sysdeps/unix/sysv/linux/arc/configure
 new file mode 100644
-index 000000000000..2fedaedb9e01
+index 000000000000..56ec14357507
 --- /dev/null
-+++ b/sysdeps/arc/fpu/fesetmode.c
-@@ -0,0 +1,40 @@
-+/* Install given floating-point control modes.
-+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
++++ b/sysdeps/unix/sysv/linux/arc/configure
+@@ -0,0 +1,4 @@
++# This file is generated from configure.in by Autoconf.  DO NOT EDIT!
++ # Local configure fragment for sysdeps/unix/sysv/linux/arc.
 +
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+
-+int
-+fesetmode (const femode_t *modep)
-+{
-+  unsigned int fpcr;
-+
-+  if (modep == FE_DFL_MODE)
-+    {
-+      fpcr = _FPU_DEFAULT;
-+    }
-+  else
-+    {
-+      /* No need to mask out reserved bits as they are IoW.  */
-+      fpcr = *modep;
-+    }
-+
-+  _FPU_SETCW (fpcr);
-+
-+  return 0;
-+}
-diff --git a/sysdeps/arc/fpu/fesetround.c b/sysdeps/arc/fpu/fesetround.c
++arch_minimum_kernel=5.1.0
+diff --git a/sysdeps/unix/sysv/linux/arc/configure.ac b/sysdeps/unix/sysv/linux/arc/configure.ac
 new file mode 100644
-index 000000000000..7a3526112e30
+index 000000000000..8af5a12cc248
 --- /dev/null
-+++ b/sysdeps/arc/fpu/fesetround.c
-@@ -0,0 +1,40 @@
-+/* Set current rounding direction.
-+   Copyright (C) 1998-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
++++ b/sysdeps/unix/sysv/linux/arc/configure.ac
+@@ -0,0 +1,4 @@
++GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
++# Local configure fragment for sysdeps/unix/sysv/linux/arc.
 +
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fenv_private.h>
-+
-+int
-+__fesetround (int round)
-+{
-+  unsigned int fpcr;
-+
-+  _FPU_GETCW (fpcr);
-+
-+  if (((fpcr >> __FPU_RND_SHIFT) & __FPU_RND_MASK) != round)
-+    {
-+      fpcr &= ~(__FPU_RND_MASK << __FPU_RND_SHIFT);
-+      fpcr |= (round & __FPU_RND_MASK) << __FPU_RND_SHIFT;
-+      _FPU_SETCW (fpcr);
-+    }
-+
-+  return 0;
-+}
-+libm_hidden_def (__fesetround)
-+weak_alias (__fesetround, fesetround)
-+libm_hidden_weak (fesetround)
-diff --git a/sysdeps/arc/fpu/feupdateenv.c b/sysdeps/arc/fpu/feupdateenv.c
++arch_minimum_kernel=5.1.0
+diff --git a/sysdeps/unix/sysv/linux/arc/ldconfig.h b/sysdeps/unix/sysv/linux/arc/ldconfig.h
 new file mode 100644
-index 000000000000..f2729e732499
+index 000000000000..4896ec005c8e
 --- /dev/null
-+++ b/sysdeps/arc/fpu/feupdateenv.c
-@@ -0,0 +1,51 @@
-+/* Install given floating-point environment and raise exceptions,
-+   without clearing currently raised exceptions.
-+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+
-+int
-+__feupdateenv (const fenv_t *envp)
-+{
-+  unsigned int fpcr;
-+  unsigned int fpsr;
-+
-+  _FPU_GETS (fpsr);
-+
-+  if (envp == FE_DFL_ENV)
-+    {
-+      fpcr = _FPU_DEFAULT;
-+    }
-+  else
-+    {
-+      fpcr = envp->__fpcr;
-+
-+      /* currently raised exceptions need to be preserved.  */
-+      fpsr |= envp->__fpsr;
-+    }
-+
-+  _FPU_SETCW (fpcr);
-+  _FPU_SETS (fpsr);
-+
-+  /* Success.  */
-+  return 0;
-+}
-+libm_hidden_def (__feupdateenv)
-+weak_alias (__feupdateenv, feupdateenv)
-+libm_hidden_weak (feupdateenv)
-diff --git a/sysdeps/arc/fpu/fgetexcptflg.c b/sysdeps/arc/fpu/fgetexcptflg.c
-new file mode 100644
-index 000000000000..9d1423eaeecb
---- /dev/null
-+++ b/sysdeps/arc/fpu/fgetexcptflg.c
-@@ -0,0 +1,31 @@
-+/* Store current representation for exceptions, ARC version.
-+   Copyright (C) 1998-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fenv_private.h>
-+
-+int
-+fegetexceptflag (fexcept_t *flagp, int excepts)
-+{
-+  unsigned int fpsr;
-+
-+  _FPU_GETS (fpsr);
-+  *flagp = fpsr & excepts;
-+
-+  return 0;
-+}
-diff --git a/sysdeps/arc/fpu/fraiseexcpt.c b/sysdeps/arc/fpu/fraiseexcpt.c
-new file mode 100644
-index 000000000000..9b9d6a951f42
---- /dev/null
-+++ b/sysdeps/arc/fpu/fraiseexcpt.c
-@@ -0,0 +1,39 @@
-+/* Raise given exceptions.
-+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+#include <float.h>
-+#include <math.h>
-+
-+int
-+__feraiseexcept (int excepts)
-+{
-+  unsigned int fpsr;
-+
-+  /* currently raised exceptions are not cleared.  */
-+  _FPU_GETS (fpsr);
-+  fpsr |= excepts;
-+
-+  _FPU_SETS (fpsr);
-+
-+  return 0;
-+}
-+libm_hidden_def (__feraiseexcept)
-+weak_alias (__feraiseexcept, feraiseexcept)
-+libm_hidden_weak (feraiseexcept)
-diff --git a/sysdeps/arc/fpu/fsetexcptflg.c b/sysdeps/arc/fpu/fsetexcptflg.c
-new file mode 100644
-index 000000000000..b8e495692145
---- /dev/null
-+++ b/sysdeps/arc/fpu/fsetexcptflg.c
-@@ -0,0 +1,38 @@
-+/* Set floating-point environment exception handling, ARC version.
-+   Copyright (C) 1998-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+
-+int
-+fesetexceptflag (const fexcept_t *flagp, int excepts)
-+{
-+  unsigned int fpsr;
-+
-+  _FPU_GETS (fpsr);
-+
-+  /* Clear the bits first.  */
-+  fpsr &= ~excepts;
-+
-+  /* Now set those bits, copying them over from @flagp.  */
-+  fpsr |= *flagp & excepts;
-+
-+  _FPU_SETS (fpsr);
-+
-+  return 0;
-+}
-diff --git a/sysdeps/arc/fpu/ftestexcept.c b/sysdeps/arc/fpu/ftestexcept.c
-new file mode 100644
-index 000000000000..84fd3cf0469c
---- /dev/null
-+++ b/sysdeps/arc/fpu/ftestexcept.c
-@@ -0,0 +1,33 @@
-+/* Test exception in current environment.
-+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+#include <fenv_private.h>
-+#include <stdio.h>
-+
-+int
-+fetestexcept (int excepts)
-+{
-+  unsigned int fpsr;
-+
-+  _FPU_GETS (fpsr);
-+
-+  return fpsr & excepts;
-+}
-+libm_hidden_def (fetestexcept)
-diff --git a/sysdeps/arc/fpu/s_fma.c b/sysdeps/arc/fpu/s_fma.c
-new file mode 100644
-index 000000000000..48bb40482dc9
---- /dev/null
-+++ b/sysdeps/arc/fpu/s_fma.c
-@@ -0,0 +1,28 @@
-+/* Copyright (C) 1996-2020 Free Software Foundation, Inc.
-+
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <math.h>
-+#include <libm-alias-double.h>
-+
-+double
-+__fma (double x, double y, double z)
-+{
-+  return __builtin_fma (x, y, z);
-+}
-+
-+libm_alias_double (__fma, fma)
-diff --git a/sysdeps/arc/fpu/s_fmaf.c b/sysdeps/arc/fpu/s_fmaf.c
-new file mode 100644
-index 000000000000..544f32e27aec
---- /dev/null
-+++ b/sysdeps/arc/fpu/s_fmaf.c
-@@ -0,0 +1,28 @@
-+/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
-+
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public License as
-+   published by the Free Software Foundation; either version 2.1 of the
-+   License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <math.h>
-+#include <libm-alias-float.h>
-+
-+float
-+__fmaf (float x, float y, float z)
-+{
-+  return __builtin_fmaf (x, y, z);
-+}
-+
-+libm_alias_float (__fma, fma)
-diff --git a/sysdeps/arc/fpu_control.h b/sysdeps/arc/fpu_control.h
-new file mode 100644
-index 000000000000..a7cf99557b8f
---- /dev/null
-+++ b/sysdeps/arc/fpu_control.h
-@@ -0,0 +1,102 @@
-+/* FPU control word bits.  ARC version.
-+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef _FPU_CONTROL_H
-+#define _FPU_CONTROL_H
-+
-+/* ARC FPU control register bits.
-+
-+  [  0] -> IVE: Enable invalid operation exception.
-+           if 0, soft exception: status register IV flag set.
-+           if 1, hardware exception trap (not supported in Linux yet).
-+  [  1] -> DZE: Enable division by zero exception.
-+           if 0, soft exception: status register IV flag set.
-+           if 1, hardware exception: (not supported in Linux yet).
-+  [9:8] -> RM: Rounding Mode:
-+           00 - Rounding toward zero.
-+           01 - Rounding to nearest (default).
-+           10 - Rounding (up) toward plus infinity.
-+           11 - Rounding (down)toward minus infinity.
-+
-+   ARC FPU status register bits.
-+
-+   [ 0]  -> IV: flag invalid operation.
-+   [ 1]  -> DZ: flag division by zero.
-+   [ 2]  -> OV: flag Overflow operation.
-+   [ 3]  -> UV: flag Underflow operation.
-+   [ 4]  -> IX: flag Inexact operation.
-+   [31]  -> FWE: Flag Write Enable.
-+            If 1, above flags writable explicitly (clearing),
-+            else IoW and only writable indirectly via bits [12:7].  */
-+
-+#include <features.h>
-+
-+#if !defined(__ARC_FPU_SP__) &&  !defined(__ARC_FPU_DP__)
-+
-+# define _FPU_RESERVED 0xffffffff
-+# define _FPU_DEFAULT  0x00000000
-+typedef unsigned int fpu_control_t;
-+# define _FPU_GETCW(cw) (cw) = 0
-+# define _FPU_SETCW(cw) (void) (cw)
-+# define _FPU_GETS(cw) (cw) = 0
-+# define _FPU_SETS(cw) (void) (cw)
-+extern fpu_control_t __fpu_control;
-+
-+#else
-+
-+#define _FPU_RESERVED		0
-+
-+/* The fdlibm code requires strict IEEE double precision arithmetic,
-+   and no interrupts for exceptions, rounding to nearest.
-+   So only RM set to b'01.  */
-+# define _FPU_DEFAULT		0x00000100
-+
-+/* Actually default needs to have FWE bit as 1 but that is already
-+   ingrained into _FPU_SETS macro below.  */
-+#define  _FPU_FPSR_DEFAULT	0x00000000
-+
-+#define __FPU_RND_SHIFT		8
-+#define __FPU_RND_MASK		0x3
-+
-+/* Type of the control word.  */
-+typedef unsigned int fpu_control_t;
-+
-+/* Macros for accessing the hardware control word.  */
-+#  define _FPU_GETCW(cw) __asm__ volatile ("lr %0, [0x300]" : "=r" (cw))
-+#  define _FPU_SETCW(cw) __asm__ volatile ("sr %0, [0x300]" : : "r" (cw))
-+
-+/*  Macros for accessing the hardware status word.
-+    FWE bit is special as it controls if actual status bits could be wrritten
-+    explicitly (other than FPU instructions). We handle it here to keep the
-+    callers agnostic of it:
-+      - clear it out when reporting status bits
-+      - always set it when changing status bits.  */
-+#  define _FPU_GETS(cw) __asm__ volatile ("lr   %0, [0x301]	\r\n" \
-+                                          "bclr %0, %0, 31	\r\n" \
-+                                          : "=r" (cw))
-+
-+#  define _FPU_SETS(cw) __asm__ volatile ("bset %0, %0, 31	\r\n" \
-+					  "sr   %0, [0x301]	\r\n" \
-+                                          : : "r" (cw))
-+
-+/* Default control word set at startup.  */
-+extern fpu_control_t __fpu_control;
-+
-+#endif
-+
-+#endif /* fpu_control.h */
-diff --git a/sysdeps/arc/get-rounding-mode.h b/sysdeps/arc/get-rounding-mode.h
-new file mode 100644
-index 000000000000..cfa5c34473ac
---- /dev/null
-+++ b/sysdeps/arc/get-rounding-mode.h
-@@ -0,0 +1,38 @@
-+/* Determine floating-point rounding mode within libc.  ARC version.
-+   Copyright (C) 1998-2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef _ARC_GET_ROUNDING_MODE_H
-+#define _ARC_GET_ROUNDING_MODE_H	1
-+
-+#include <fenv.h>
-+#include <fpu_control.h>
-+
-+static inline int
-+get_rounding_mode (void)
-+{
-+#if defined(__ARC_FPU_SP__) ||  defined(__ARC_FPU_DP__)
-+  unsigned int fpcr;
-+  _FPU_GETCW (fpcr);
-+
-+  return (fpcr >> __FPU_RND_SHIFT) & __FPU_RND_MASK;
-+#else
-+  return FE_TONEAREST;
-+#endif
-+}
-+
-+#endif /* get-rounding-mode.h */
-diff --git a/sysdeps/arc/math-tests-trap.h b/sysdeps/arc/math-tests-trap.h
-new file mode 100644
-index 000000000000..1a3581396573
---- /dev/null
-+++ b/sysdeps/arc/math-tests-trap.h
++++ b/sysdeps/unix/sysv/linux/arc/ldconfig.h
 @@ -0,0 +1,27 @@
-+/* Configuration for math tests: support for enabling exception traps.
-+   ARC version.
-+   Copyright (C) 2014-2020 Free Software Foundation, Inc.
++/* ldconfig default paths and libraries.  Linux/RISC-V version.
++   Copyright (C) 2001-2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
@@ -1059,24 +581,31 @@ index 000000000000..1a3581396573
 +   Lesser General Public License for more details.
 +
 +   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
++   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#ifndef ARC_MATH_TESTS_TRAP_H
-+#define ARC_MATH_TESTS_TRAP_H 1
++#include <sysdeps/generic/ldconfig.h>
 +
-+/* Trapping exceptions are optional on ARC
-+   and not supported in Linux kernel just yet.  */
-+#define EXCEPTION_ENABLE_SUPPORTED(EXCEPT)	((EXCEPT) == 0)
++#define SYSDEP_KNOWN_INTERPRETER_NAMES 		\
++  { "/lib/ld-linux-arc.so.2", FLAG_ELF_LIBC6 },	\
++  { "/lib/ld-linux-arceb.so.2", FLAG_ELF_LIBC6 },
 +
-+#endif /* math-tests-trap.h.  */
-diff --git a/sysdeps/arc/tininess.h b/sysdeps/arc/tininess.h
++#define SYSDEP_KNOWN_LIBRARY_NAMES 	\
++  { "libc.so.6", FLAG_ELF_LIBC6 },	\
++  { "libm.so.6", FLAG_ELF_LIBC6 },
+diff --git a/sysdeps/unix/sysv/linux/arc/shlib-versions b/sysdeps/unix/sysv/linux/arc/shlib-versions
 new file mode 100644
-index 000000000000..1db37790f881
+index 000000000000..343c0a04500e
 --- /dev/null
-+++ b/sysdeps/arc/tininess.h
-@@ -0,0 +1 @@
-+#define TININESS_AFTER_ROUNDING	1
++++ b/sysdeps/unix/sysv/linux/arc/shlib-versions
+@@ -0,0 +1,7 @@
++DEFAULT                 GLIBC_2.32
++
++%ifdef HAVE_ARC_BE
++ld=ld-linux-arceb.so.2
++%else
++ld=ld-linux-arc.so.2
++%endif
 -- 
 2.20.1
 
