@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5159AC2BB1D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7D85C2BB55
 	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Apr 2020 02:56:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1A80720757
+	by mail.kernel.org (Postfix) with ESMTPS id 735AB20757
 	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Apr 2020 02:56:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="N2s+gUms";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="PZklu0ir"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A80720757
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KkbyssOV";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="l099ryMo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 735AB20757
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,50 +26,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=PwGQSSV1c3M2Dvr6JeS7wIA2TjXVB29t7o5lGiI7Lco=; b=N2s+gUmsxvtuUk
-	68uGdgiNkk+aksk4kQNin8FAV8q3GrOF//oA5F9cPS/rHge7FHeT/VwON6KdHNFZ+b4wNHbohP8hy
-	SZwvBsiNWRr5jrR/CNfBPKD0E2kKQpTE6V0cJ5hGmLdbciZ+RwGEWmXMPWlasE1ZYbX0qhnA7UDd7
-	i2BBrfmYbE8MfLxxKKuldwr6JFDmLTp+ZYfeCOgBI+JVH9LT2CRxCRVtUBIdwLOH0/Q7RIxZm9m+B
-	aJJWOIRjdSBMheh7u7Vd67AwD4a5I0UKXBAmqEGXsD+RPkfaXPmdoNr1aPIIQT3fQ5N4XvhX8+6SA
-	Q/pBaN0PdyyN1SiV6fhg==;
+	List-Owner; bh=p9Ea6DozzZBTXud39KwORh9UrJMzICbVXeSe0Knuo4Q=; b=KkbyssOVvF+pm0
+	aZI6mj3b1Tk/vmfa06JysAapSKux0Woo/hWhfPE/QmJL4CzR7+IleEdrFOXhj47apa5qTjmRPUFEM
+	fuCtnG+2eYr2T7y7QZ+eTSz7hAA+JKJN+2180Gntc3+Kqgq+IC9HZohgSutMXFV137m4lp1x5JGqP
+	xeHCpG58nGh/1E91WUjFqh2XWFwlvGFuocWev2dUoBk0hLGsA+TjZqYr4ueBFzrQ241It6oOEWpl1
+	KjCdTeI3pRjSxvAF5GpDKwvvpBb1rCyyGfcQtbYyj2pwVWdUlBHdKQFOmELzLVKrEOTNIzNIrdHqx
+	P39kZrd5GN1hwchgcMfQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jMNN3-0005hP-7n; Thu, 09 Apr 2020 02:56:49 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1jMNN3-0005he-EO; Thu, 09 Apr 2020 02:56:49 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jMNMq-0005Yu-CH
- for linux-snps-arc@lists.infradead.org; Thu, 09 Apr 2020 02:56:45 +0000
+ id 1jMNMq-0005Yo-AS
+ for linux-snps-arc@lists.infradead.org; Thu, 09 Apr 2020 02:56:46 +0000
 Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com
  [10.205.2.133])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4573340658;
- Thu,  9 Apr 2020 02:56:36 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 326DAC0090;
+ Thu,  9 Apr 2020 02:56:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1586400996; bh=09wsIJR4GSpOKhDoLcWQlJEy7PUqkkkXOh+3Ts8DIk4=;
+ t=1586400995; bh=vl7GKI8ntlQdl3dyEAhMFSFhVtdiSf7qZF73bZpNHck=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PZklu0irX/dtbJqst2BqrB1LX9FFfZqgf9o/oKxC8/aWfGm81SLiOliXBV6zIxyUT
- eDTvpS9sB9gBqkMFxvqc5yNsJLHt2Wu/0q0pjbJj/+ONEZO4WS7V7fHgTmU4bmQ3d0
- n8mcmwdLqXsJXiuT4B+cpoa3Etc+MkQ9dqOTQLNsKBE8a04tZPpg7PTXsKGar7ItgH
- dcvas73YRz+Ft0cP3sIaN3GV+LavH/2Idxrbbqm9kxA/NQg9LFF7Y/UXvJG49tPEqp
- Sq4UWKqK9KpPizsOgBS5uEtdLIjTN4AHD4ZV4YK419OHE80aZO1OqDYf7bLKeynyAZ
- a8x/cDctBPjww==
+ b=l099ryMoC6LSkprvM886QmepwM6ycXD66sxlRp3z80ET3SVPHiR7Q4y8TJ0LlOeM6
+ hNu6kQbyvrDaRWPf1Ij1lqxsJ0vOdfXAyY74zNE9oFg+A4gTUAX+KFPA2It8gL4ODq
+ OmGa8HnOyYhKbdxdOVP3/L4oC2LbNDSnEp3MaY3po3v4ohC0B1kDfvSnYYfPcFUYAT
+ 2lj+i/H/LWpTR4H1eiXbAMVH6hdGZ0ucZg32f9CKr+tZuLVXewToZR4qa14k1ckAAf
+ k7JBPr33B2hsQbsCIwNd8wT8nyZ6nr+C+apNlVThbl50qYsFLjxSkbRMCUkfyZZw0h
+ F0p9kfk/JDeow==
 Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
  [10.13.183.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id 9A0BAA00BD;
- Thu,  9 Apr 2020 02:56:35 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 72FC8A00C0;
+ Thu,  9 Apr 2020 02:56:34 +0000 (UTC)
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v5 12/14] ARC: Build Infrastructure
-Date: Wed,  8 Apr 2020 19:56:13 -0700
-Message-Id: <20200409025615.27003-13-vgupta@synopsys.com>
+Subject: [PATCH v5 08/14] ARC: Linux ABI
+Date: Wed,  8 Apr 2020 19:56:09 -0700
+Message-Id: <20200409025615.27003-9-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200409025615.27003-1-vgupta@synopsys.com>
 References: <20200409025615.27003-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200408_195636_448446_BBEF765E 
-X-CRM114-Status: GOOD (  18.45  )
+X-CRM114-CacheID: sfid-20200408_195636_452951_1809447A 
+X-CRM114-Status: GOOD (  17.73  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,484 +90,42 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- config.h.in                                |   3 +
- scripts/build-many-glibcs.py               |   9 +
- sysdeps/arc/Implies                        |   3 +
- sysdeps/arc/Makefile                       |  21 +++
- sysdeps/arc/Versions                       |   8 +
- sysdeps/arc/configure                      | 182 +++++++++++++++++++++
- sysdeps/arc/configure.ac                   |  26 +++
- sysdeps/arc/nptl/Makefile                  |  22 +++
- sysdeps/arc/preconfigure                   |  14 ++
- sysdeps/unix/sysv/linux/arc/Implies        |   3 +
- sysdeps/unix/sysv/linux/arc/Makefile       |  29 ++++
- sysdeps/unix/sysv/linux/arc/Versions       |  16 ++
- sysdeps/unix/sysv/linux/arc/configure      |   4 +
- sysdeps/unix/sysv/linux/arc/configure.ac   |   4 +
- sysdeps/unix/sysv/linux/arc/ldconfig.h     |  27 +++
- sysdeps/unix/sysv/linux/arc/shlib-versions |   7 +
- 16 files changed, 378 insertions(+)
- create mode 100644 sysdeps/arc/Implies
- create mode 100644 sysdeps/arc/Makefile
- create mode 100644 sysdeps/arc/Versions
- create mode 100644 sysdeps/arc/configure
- create mode 100644 sysdeps/arc/configure.ac
- create mode 100644 sysdeps/arc/nptl/Makefile
- create mode 100644 sysdeps/arc/preconfigure
- create mode 100644 sysdeps/unix/sysv/linux/arc/Implies
- create mode 100644 sysdeps/unix/sysv/linux/arc/Makefile
- create mode 100644 sysdeps/unix/sysv/linux/arc/Versions
- create mode 100644 sysdeps/unix/sysv/linux/arc/configure
- create mode 100644 sysdeps/unix/sysv/linux/arc/configure.ac
- create mode 100644 sysdeps/unix/sysv/linux/arc/ldconfig.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/shlib-versions
+ sysdeps/arc/nptl/pthreaddef.h                 | 32 +++++++
+ sysdeps/unix/sysv/linux/arc/bits/procfs.h     | 35 +++++++
+ .../sysv/linux/arc/bits/types/__sigset_t.h    | 12 +++
+ sysdeps/unix/sysv/linux/arc/getcontext.S      | 63 +++++++++++++
+ sysdeps/unix/sysv/linux/arc/makecontext.c     | 73 +++++++++++++++
+ sysdeps/unix/sysv/linux/arc/setcontext.S      | 92 +++++++++++++++++++
+ sysdeps/unix/sysv/linux/arc/sigcontextinfo.h  | 28 ++++++
+ sysdeps/unix/sysv/linux/arc/swapcontext.S     | 92 +++++++++++++++++++
+ sysdeps/unix/sysv/linux/arc/sys/cachectl.h    | 36 ++++++++
+ sysdeps/unix/sysv/linux/arc/sys/ucontext.h    | 61 ++++++++++++
+ sysdeps/unix/sysv/linux/arc/sys/user.h        | 31 +++++++
+ sysdeps/unix/sysv/linux/arc/ucontext-macros.h | 29 ++++++
+ sysdeps/unix/sysv/linux/arc/ucontext_i.sym    | 20 ++++
+ 13 files changed, 604 insertions(+)
+ create mode 100644 sysdeps/arc/nptl/pthreaddef.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/bits/procfs.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/bits/types/__sigset_t.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/getcontext.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/makecontext.c
+ create mode 100644 sysdeps/unix/sysv/linux/arc/setcontext.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sigcontextinfo.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/swapcontext.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sys/cachectl.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sys/ucontext.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sys/user.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ucontext-macros.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ucontext_i.sym
 
-diff --git a/config.h.in b/config.h.in
-index dea43df438f6..08962dfed075 100644
---- a/config.h.in
-+++ b/config.h.in
-@@ -109,6 +109,9 @@
- /* AArch64 big endian ABI */
- #undef HAVE_AARCH64_BE
- 
-+/* ARC big endian ABI */
-+#undef HAVE_ARC_BE
-+
- /* C-SKY ABI version.  */
- #undef CSKYABI
- 
-diff --git a/scripts/build-many-glibcs.py b/scripts/build-many-glibcs.py
-index 942a2227806a..64a836c52ea9 100755
---- a/scripts/build-many-glibcs.py
-+++ b/scripts/build-many-glibcs.py
-@@ -162,6 +162,15 @@ class Context(object):
-                                        'cfg': ['--disable-multi-arch']}])
-         self.add_config(arch='aarch64_be',
-                         os_name='linux-gnu')
-+        self.add_config(arch='arc',
-+                        os_name='linux-gnu',
-+                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38'])
-+        self.add_config(arch='arc',
-+                        os_name='linux-gnuhf',
-+                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38_linux'])
-+        self.add_config(arch='arceb',
-+                        os_name='linux-gnu',
-+                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38'])
-         self.add_config(arch='alpha',
-                         os_name='linux-gnu')
-         self.add_config(arch='arm',
-diff --git a/sysdeps/arc/Implies b/sysdeps/arc/Implies
+diff --git a/sysdeps/arc/nptl/pthreaddef.h b/sysdeps/arc/nptl/pthreaddef.h
 new file mode 100644
-index 000000000000..780c4e246769
+index 000000000000..b265bf1a052c
 --- /dev/null
-+++ b/sysdeps/arc/Implies
-@@ -0,0 +1,3 @@
-+wordsize-32
-+ieee754/flt-32
-+ieee754/dbl-64
-diff --git a/sysdeps/arc/Makefile b/sysdeps/arc/Makefile
-new file mode 100644
-index 000000000000..56ac503bfe43
---- /dev/null
-+++ b/sysdeps/arc/Makefile
-@@ -0,0 +1,21 @@
-+# ARC Makefile
-+# Copyright (C) 1993-2020 Free Software Foundation, Inc.
-+# This file is part of the GNU C Library.
-+
-+# The GNU C Library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2.1 of the License, or (at your option) any later version.
-+
-+# The GNU C Library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with the GNU C Library.  If not, see
-+# <https://www.gnu.org/licenses/>.
-+
-+# We don't support long doubles as a distinct type.  We don't need to set
-+# this variable; it's here mostly for documentational purposes.
-+long-double-fcts = no
-diff --git a/sysdeps/arc/Versions b/sysdeps/arc/Versions
-new file mode 100644
-index 000000000000..6ac7b8e49505
---- /dev/null
-+++ b/sysdeps/arc/Versions
-@@ -0,0 +1,8 @@
-+libc {
-+  GLIBC_2.32 {
-+    __mcount;
-+  }
-+  GLIBC_PRIVATE {
-+    __syscall_error;
-+  }
-+}
-diff --git a/sysdeps/arc/configure b/sysdeps/arc/configure
-new file mode 100644
-index 000000000000..5820017d6505
---- /dev/null
-+++ b/sysdeps/arc/configure
-@@ -0,0 +1,182 @@
-+# This file is generated from configure.ac by Autoconf.  DO NOT EDIT!
-+ # Local configure fragment for sysdeps/arc.
-+
-+$as_echo "#define PI_STATIC_AND_HIDDEN 1" >>confdefs.h
-+
-+libc_cv_have_sdata_section=no
-+
-+# For ARC, historically ; was used for comments and not newline
-+# Later # also got added to comment list, but ; couldn't be switched to
-+# canonical newline as there's lots of code out there which will break
-+libc_cv_asm_line_sep='`'
-+cat >>confdefs.h <<_ACEOF
-+#define ASM_LINE_SEP $libc_cv_asm_line_sep
-+_ACEOF
-+
-+
-+# For big endian ABI, generate a symbol for selecting right dynamic linker
-+
-+
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
-+$as_echo_n "checking for grep that handles long lines and -e... " >&6; }
-+if ${ac_cv_path_GREP+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  if test -z "$GREP"; then
-+  ac_path_GREP_found=false
-+  # Loop through the user's path and test for each of PROGNAME-LIST
-+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-+for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
-+do
-+  IFS=$as_save_IFS
-+  test -z "$as_dir" && as_dir=.
-+    for ac_prog in grep ggrep; do
-+    for ac_exec_ext in '' $ac_executable_extensions; do
-+      ac_path_GREP="$as_dir/$ac_prog$ac_exec_ext"
-+      as_fn_executable_p "$ac_path_GREP" || continue
-+# Check for GNU ac_path_GREP and select it if it is found.
-+  # Check for GNU $ac_path_GREP
-+case `"$ac_path_GREP" --version 2>&1` in
-+*GNU*)
-+  ac_cv_path_GREP="$ac_path_GREP" ac_path_GREP_found=:;;
-+*)
-+  ac_count=0
-+  $as_echo_n 0123456789 >"conftest.in"
-+  while :
-+  do
-+    cat "conftest.in" "conftest.in" >"conftest.tmp"
-+    mv "conftest.tmp" "conftest.in"
-+    cp "conftest.in" "conftest.nl"
-+    $as_echo 'GREP' >> "conftest.nl"
-+    "$ac_path_GREP" -e 'GREP$' -e '-(cannot match)-' < "conftest.nl" >"conftest.out" 2>/dev/null || break
-+    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
-+    as_fn_arith $ac_count + 1 && ac_count=$as_val
-+    if test $ac_count -gt ${ac_path_GREP_max-0}; then
-+      # Best one so far, save it but keep looking for a better one
-+      ac_cv_path_GREP="$ac_path_GREP"
-+      ac_path_GREP_max=$ac_count
-+    fi
-+    # 10*(2^10) chars as input seems more than enough
-+    test $ac_count -gt 10 && break
-+  done
-+  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
-+esac
-+
-+      $ac_path_GREP_found && break 3
-+    done
-+  done
-+  done
-+IFS=$as_save_IFS
-+  if test -z "$ac_cv_path_GREP"; then
-+    as_fn_error $? "no acceptable grep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
-+  fi
-+else
-+  ac_cv_path_GREP=$GREP
-+fi
-+
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_GREP" >&5
-+$as_echo "$ac_cv_path_GREP" >&6; }
-+ GREP="$ac_cv_path_GREP"
-+
-+
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for egrep" >&5
-+$as_echo_n "checking for egrep... " >&6; }
-+if ${ac_cv_path_EGREP+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  if echo a | $GREP -E '(a|b)' >/dev/null 2>&1
-+   then ac_cv_path_EGREP="$GREP -E"
-+   else
-+     if test -z "$EGREP"; then
-+  ac_path_EGREP_found=false
-+  # Loop through the user's path and test for each of PROGNAME-LIST
-+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-+for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
-+do
-+  IFS=$as_save_IFS
-+  test -z "$as_dir" && as_dir=.
-+    for ac_prog in egrep; do
-+    for ac_exec_ext in '' $ac_executable_extensions; do
-+      ac_path_EGREP="$as_dir/$ac_prog$ac_exec_ext"
-+      as_fn_executable_p "$ac_path_EGREP" || continue
-+# Check for GNU ac_path_EGREP and select it if it is found.
-+  # Check for GNU $ac_path_EGREP
-+case `"$ac_path_EGREP" --version 2>&1` in
-+*GNU*)
-+  ac_cv_path_EGREP="$ac_path_EGREP" ac_path_EGREP_found=:;;
-+*)
-+  ac_count=0
-+  $as_echo_n 0123456789 >"conftest.in"
-+  while :
-+  do
-+    cat "conftest.in" "conftest.in" >"conftest.tmp"
-+    mv "conftest.tmp" "conftest.in"
-+    cp "conftest.in" "conftest.nl"
-+    $as_echo 'EGREP' >> "conftest.nl"
-+    "$ac_path_EGREP" 'EGREP$' < "conftest.nl" >"conftest.out" 2>/dev/null || break
-+    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
-+    as_fn_arith $ac_count + 1 && ac_count=$as_val
-+    if test $ac_count -gt ${ac_path_EGREP_max-0}; then
-+      # Best one so far, save it but keep looking for a better one
-+      ac_cv_path_EGREP="$ac_path_EGREP"
-+      ac_path_EGREP_max=$ac_count
-+    fi
-+    # 10*(2^10) chars as input seems more than enough
-+    test $ac_count -gt 10 && break
-+  done
-+  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
-+esac
-+
-+      $ac_path_EGREP_found && break 3
-+    done
-+  done
-+  done
-+IFS=$as_save_IFS
-+  if test -z "$ac_cv_path_EGREP"; then
-+    as_fn_error $? "no acceptable egrep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
-+  fi
-+else
-+  ac_cv_path_EGREP=$EGREP
-+fi
-+
-+   fi
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_EGREP" >&5
-+$as_echo "$ac_cv_path_EGREP" >&6; }
-+ EGREP="$ac_cv_path_EGREP"
-+
-+
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for big endian" >&5
-+$as_echo_n "checking for big endian... " >&6; }
-+if ${libc_cv_arc_be+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+/* end confdefs.h.  */
-+#ifdef __BIG_ENDIAN__
-+                      yes
-+                     #endif
-+
-+_ACEOF
-+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-+  $EGREP "yes" >/dev/null 2>&1; then :
-+  libc_cv_arc_be=yes
-+else
-+  libc_cv_arc_be=no
-+fi
-+rm -f conftest*
-+
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_arc_be" >&5
-+$as_echo "$libc_cv_arc_be" >&6; }
-+if test $libc_cv_arc_be = yes; then
-+  # For shlib-versions.
-+  $as_echo "#define HAVE_ARC_BE 1" >>confdefs.h
-+
-+  config_vars="$config_vars
-+default-abi = ilp32_be"
-+else
-+  config_vars="$config_vars
-+default-abi = ilp32"
-+fi
-diff --git a/sysdeps/arc/configure.ac b/sysdeps/arc/configure.ac
-new file mode 100644
-index 000000000000..d5bcd2a58cdc
---- /dev/null
-+++ b/sysdeps/arc/configure.ac
-@@ -0,0 +1,26 @@
-+GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
-+# Local configure fragment for sysdeps/arc.
-+
-+AC_DEFINE(PI_STATIC_AND_HIDDEN)
-+libc_cv_have_sdata_section=no
-+
-+# For ARC, historically ; was used for comments and not newline
-+# Later # also got added to comment list, but ; couldn't be switched to
-+# canonical newline as there's lots of code out there which will break
-+libc_cv_asm_line_sep='`'
-+AC_DEFINE_UNQUOTED(ASM_LINE_SEP, $libc_cv_asm_line_sep)
-+
-+# For big endian ABI, generate a symbol for selecting right dynamic linker
-+AC_CACHE_CHECK([for big endian],
-+  [libc_cv_arc_be],
-+  [AC_EGREP_CPP(yes,[#ifdef __BIG_ENDIAN__
-+                      yes
-+                     #endif
-+  ], libc_cv_arc_be=yes, libc_cv_arc_be=no)])
-+if test $libc_cv_arc_be = yes; then
-+  # For shlib-versions.
-+  AC_DEFINE(HAVE_ARC_BE)
-+  LIBC_CONFIG_VAR([default-abi], [ilp32_be])
-+else
-+  LIBC_CONFIG_VAR([default-abi], [ilp32])
-+fi
-diff --git a/sysdeps/arc/nptl/Makefile b/sysdeps/arc/nptl/Makefile
-new file mode 100644
-index 000000000000..6f387c53905d
---- /dev/null
-+++ b/sysdeps/arc/nptl/Makefile
-@@ -0,0 +1,22 @@
-+# NPTL makefile fragment for ARC.
-+# Copyright (C) 2005-2020 Free Software Foundation, Inc.
-+#
-+# This file is part of the GNU C Library.
-+#
-+# The GNU C Library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2.1 of the License, or (at your option) any later version.
-+#
-+# The GNU C Library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+#
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with the GNU C Library.  If not, see
-+# <https://www.gnu.org/licenses/>.
-+
-+ifeq ($(subdir),csu)
-+gen-as-const-headers += tcb-offsets.sym
-+endif
-diff --git a/sysdeps/arc/preconfigure b/sysdeps/arc/preconfigure
-new file mode 100644
-index 000000000000..a79db0239ae6
---- /dev/null
-+++ b/sysdeps/arc/preconfigure
-@@ -0,0 +1,14 @@
-+case "$machine" in
-+arc*)
-+  base_machine=arc
-+  machine=arc
-+
-+  gccfloat=`$CC $CFLAGS $CPPFLAGS -E -dM -xc /dev/null | grep __ARC_FPU_| wc -l`
-+  if test "$gccfloat" != "0"; then
-+    with_fp_cond=1
-+  else
-+    with_fp_cond=0
-+  fi
-+  ;;
-+
-+esac
-diff --git a/sysdeps/unix/sysv/linux/arc/Implies b/sysdeps/unix/sysv/linux/arc/Implies
-new file mode 100644
-index 000000000000..7f739a0340b6
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/Implies
-@@ -0,0 +1,3 @@
-+arc/nptl
-+unix/sysv/linux/generic/wordsize-32
-+unix/sysv/linux/generic
-diff --git a/sysdeps/unix/sysv/linux/arc/Makefile b/sysdeps/unix/sysv/linux/arc/Makefile
-new file mode 100644
-index 000000000000..7958625f6d5c
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/Makefile
-@@ -0,0 +1,29 @@
-+ifeq ($(subdir),stdlib)
-+gen-as-const-headers += ucontext_i.sym
-+endif
-+
-+ifeq ($(subdir),signal)
-+sysdep_routines += sigrestorer
-+endif
-+
-+ifeq ($(subdir),misc)
-+# MIPS/Tile-style cacheflush routine
-+sysdep_headers += sys/cachectl.h
-+sysdep_routines += cacheflush
-+endif
-+
-+ifeq ($(subdir),elf)
-+ifeq ($(build-shared),yes)
-+# This is needed for DSO loading from static binaries.
-+sysdep-dl-routines += dl-static
-+endif
-+endif
-+
-+abi-variants := ilp32 ilp32_be
-+
-+ifeq (,$(filter $(default-abi),$(abi-variants)))
-+$(error Unknown ABI $(default-abi), must be one of $(abi-variants))
-+endif
-+
-+abi-ilp32-condition	:= !defined __BIG_ENDIAN__
-+abi-ilp32_be-condition	:= defined __BIG_ENDIAN__
-diff --git a/sysdeps/unix/sysv/linux/arc/Versions b/sysdeps/unix/sysv/linux/arc/Versions
-new file mode 100644
-index 000000000000..292f1974b02a
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/Versions
-@@ -0,0 +1,16 @@
-+ld {
-+  GLIBC_PRIVATE {
-+    # used for loading by static libraries
-+    _dl_var_init;
-+  }
-+}
-+libc {
-+  GLIBC_2.32 {
-+    _flush_cache;
-+    cacheflush;
-+  }
-+  GLIBC_PRIVATE {
-+    # A copy of sigaction lives in libpthread, and needs these.
-+    __default_rt_sa_restorer;
-+  }
-+}
-diff --git a/sysdeps/unix/sysv/linux/arc/configure b/sysdeps/unix/sysv/linux/arc/configure
-new file mode 100644
-index 000000000000..56ec14357507
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/configure
-@@ -0,0 +1,4 @@
-+# This file is generated from configure.in by Autoconf.  DO NOT EDIT!
-+ # Local configure fragment for sysdeps/unix/sysv/linux/arc.
-+
-+arch_minimum_kernel=5.1.0
-diff --git a/sysdeps/unix/sysv/linux/arc/configure.ac b/sysdeps/unix/sysv/linux/arc/configure.ac
-new file mode 100644
-index 000000000000..8af5a12cc248
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/configure.ac
-@@ -0,0 +1,4 @@
-+GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
-+# Local configure fragment for sysdeps/unix/sysv/linux/arc.
-+
-+arch_minimum_kernel=5.1.0
-diff --git a/sysdeps/unix/sysv/linux/arc/ldconfig.h b/sysdeps/unix/sysv/linux/arc/ldconfig.h
-new file mode 100644
-index 000000000000..4896ec005c8e
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/ldconfig.h
-@@ -0,0 +1,27 @@
-+/* ldconfig default paths and libraries.  Linux/RISC-V version.
-+   Copyright (C) 2001-2020 Free Software Foundation, Inc.
++++ b/sysdeps/arc/nptl/pthreaddef.h
+@@ -0,0 +1,32 @@
++/* pthread machine parameter definitions, ARC version.
++   Copyright (C) 2002-2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
@@ -584,28 +142,664 @@ index 000000000000..4896ec005c8e
 +   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#include <sysdeps/generic/ldconfig.h>
++/* Default stack size.  */
++#define ARCH_STACK_DEFAULT_SIZE	(2 * 1024 * 1024)
 +
-+#define SYSDEP_KNOWN_INTERPRETER_NAMES 		\
-+  { "/lib/ld-linux-arc.so.2", FLAG_ELF_LIBC6 },	\
-+  { "/lib/ld-linux-arceb.so.2", FLAG_ELF_LIBC6 },
++/* Required stack pointer alignment at beginning.  */
++#define STACK_ALIGN		4
 +
-+#define SYSDEP_KNOWN_LIBRARY_NAMES 	\
-+  { "libc.so.6", FLAG_ELF_LIBC6 },	\
-+  { "libm.so.6", FLAG_ELF_LIBC6 },
-diff --git a/sysdeps/unix/sysv/linux/arc/shlib-versions b/sysdeps/unix/sysv/linux/arc/shlib-versions
++/* Minimal stack size after allocating thread descriptor and guard size.  */
++#define MINIMAL_REST_STACK	2048
++
++/* Alignment requirement for TCB.  */
++#define TCB_ALIGNMENT		4
++
++/* Location of current stack frame.  */
++#define CURRENT_STACK_FRAME	__builtin_frame_address (0)
+diff --git a/sysdeps/unix/sysv/linux/arc/bits/procfs.h b/sysdeps/unix/sysv/linux/arc/bits/procfs.h
 new file mode 100644
-index 000000000000..343c0a04500e
+index 000000000000..465c40c71bbd
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/shlib-versions
-@@ -0,0 +1,7 @@
-+DEFAULT                 GLIBC_2.32
++++ b/sysdeps/unix/sysv/linux/arc/bits/procfs.h
+@@ -0,0 +1,35 @@
++/* Types for registers for sys/procfs.h.  ARC version.
++   Copyright (C) 1996-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
 +
-+%ifdef HAVE_ARC_BE
-+ld=ld-linux-arceb.so.2
-+%else
-+ld=ld-linux-arc.so.2
-+%endif
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _SYS_PROCFS_H
++# error "Never include <bits/procfs.h> directly; use <sys/procfs.h> instead."
++#endif
++
++#include <sys/ucontext.h>
++
++/* And the whole bunch of them.  We could have used `struct
++   user_regs' directly in the typedef, but tradition says that
++   the register set is an array, which does have some peculiar
++   semantics, so leave it that way.  */
++#define ELF_NGREG (sizeof (struct user_regs_struct) / sizeof (elf_greg_t))
++
++typedef unsigned long int elf_greg_t;
++typedef unsigned long int elf_gregset_t[ELF_NGREG];
++
++/* There's no seperate floating point reg file in ARCv2.  */
++typedef struct { } elf_fpregset_t;
+diff --git a/sysdeps/unix/sysv/linux/arc/bits/types/__sigset_t.h b/sysdeps/unix/sysv/linux/arc/bits/types/__sigset_t.h
+new file mode 100644
+index 000000000000..795638a30bd3
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/bits/types/__sigset_t.h
+@@ -0,0 +1,12 @@
++/* Architecture-specific __sigset_t definition.  ARC version.  */
++#ifndef ____sigset_t_defined
++#define ____sigset_t_defined
++
++/* Linux asm-generic syscall ABI expects sigset_t to hold 64 signals.  */
++#define _SIGSET_NWORDS (64 / (8 * sizeof (unsigned long int)))
++typedef struct
++{
++  unsigned long int __val[_SIGSET_NWORDS];
++} __sigset_t;
++
++#endif
+diff --git a/sysdeps/unix/sysv/linux/arc/getcontext.S b/sysdeps/unix/sysv/linux/arc/getcontext.S
+new file mode 100644
+index 000000000000..e00aeb1a6931
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/getcontext.S
+@@ -0,0 +1,63 @@
++/* Save current context for ARC.
++   Copyright (C) 2009-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include "ucontext-macros.h"
++
++/* int getcontext (ucontext_t *ucp)
++   Save machine context in @ucp and return 0 on success, -1 on error
++    - saves callee saved registers only
++    - layout mandated by uncontext_t:m_context (hence different from setjmp).  */
++
++ENTRY (__getcontext)
++
++	/* Callee saved registers.  */
++	SAVE_REG (r13,   r0, 37)
++	SAVE_REG (r14,   r0, 36)
++	SAVE_REG (r15,   r0, 35)
++	SAVE_REG (r16,   r0, 34)
++	SAVE_REG (r17,   r0, 33)
++	SAVE_REG (r18,   r0, 32)
++	SAVE_REG (r19,   r0, 31)
++	SAVE_REG (r20,   r0, 30)
++	SAVE_REG (r21,   r0, 29)
++	SAVE_REG (r22,   r0, 28)
++	SAVE_REG (r23,   r0, 27)
++	SAVE_REG (r24,   r0, 26)
++	SAVE_REG (r25,   r0, 25)
++
++	SAVE_REG (blink, r0,  7)
++	SAVE_REG (fp,    r0,  8)
++	SAVE_REG (sp,    r0, 23)
++
++	/* Save 0 in r0 placeholder to return 0 when this @ucp activated.  */
++	mov r9, 0
++	SAVE_REG (r9,    r0, 22)
++
++	/* rt_sigprocmask (SIG_BLOCK, NULL, &ucp->uc_sigmask, _NSIG8).  */
++	mov r3, _NSIG8
++	add r2, r0, UCONTEXT_SIGMASK
++	mov r1, 0
++	mov r0, SIG_BLOCK
++	mov r8, __NR_rt_sigprocmask
++	ARC_TRAP_INSN
++	brhi    r0, -1024, .Lcall_syscall_err
++	j.d	[blink]
++	mov r0, 0	/* Success, error handled in .Lcall_syscall_err.  */
++
++PSEUDO_END (__getcontext)
++weak_alias (__getcontext, getcontext)
+diff --git a/sysdeps/unix/sysv/linux/arc/makecontext.c b/sysdeps/unix/sysv/linux/arc/makecontext.c
+new file mode 100644
+index 000000000000..b3a352ce8414
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/makecontext.c
+@@ -0,0 +1,73 @@
++/* Create new context for ARC.
++   Copyright (C) 2015-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include <sysdep.h>
++#include <stdarg.h>
++#include <stdint.h>
++#include <sys/ucontext.h>
++
++void
++__makecontext (ucontext_t *ucp, void (*func) (void), int argc, ...)
++{
++  extern void __startcontext (void) attribute_hidden;
++  unsigned long int sp, *r;
++  va_list vl;
++  int i, reg_args, stack_args;
++
++  sp = ((unsigned long int) ucp->uc_stack.ss_sp + ucp->uc_stack.ss_size) & ~7;
++
++  ucp->uc_mcontext.__scratch.__sp = sp;
++  ucp->uc_mcontext.__scratch.__fp = 0;
++
++  /* __startcontext is sort of trampoline to invoke @func
++     From setcontext pov, the resume address is __startcontext,
++     set it up in BLINK place holder.  */
++
++  ucp->uc_mcontext.__scratch.__blink = (unsigned long int) &__startcontext;
++
++  /* __startcontext passed 2 types of args
++       - args to @func setup in canonical r0-r7
++       - @func itself in r9, and next function in r10.   */
++
++  ucp->uc_mcontext.__callee.__r13 = (unsigned long int) func;
++  ucp->uc_mcontext.__callee.__r14 = (unsigned long int) ucp->uc_link;
++
++  r = &ucp->uc_mcontext.__scratch.__r0;
++
++  va_start (vl, argc);
++
++  reg_args = argc > 8 ? 8 : argc;
++  for (i = 0; i < reg_args; i++)
++    *r-- = va_arg (vl, unsigned long int);
++
++  stack_args = argc - reg_args;
++
++  if (__glibc_unlikely (stack_args > 0))
++    {
++      sp -=  stack_args * sizeof (unsigned long int);
++      ucp->uc_mcontext.__scratch.__sp = sp;
++      r = (unsigned long int *)sp;
++
++      for (i = 0; i < stack_args; i++)
++        *r++ = va_arg(vl, unsigned long int);
++    }
++
++  va_end (vl);
++}
++
++weak_alias (__makecontext, makecontext)
+diff --git a/sysdeps/unix/sysv/linux/arc/setcontext.S b/sysdeps/unix/sysv/linux/arc/setcontext.S
+new file mode 100644
+index 000000000000..0cc496be1060
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/setcontext.S
+@@ -0,0 +1,92 @@
++/* Set current context for ARC.
++   Copyright (C) 2009-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include "ucontext-macros.h"
++
++/* int setcontext (const ucontext_t *ucp)
++     - Restores the machine context in @ucp and resumes execution
++       (doesn't return to caller).  */
++
++ENTRY (__setcontext)
++
++	mov  r9, r0	/* Stash @ucp across syscall.  */
++
++	/* rt_sigprocmask (SIG_SETMASK, &ucp->uc_sigmask, NULL, _NSIG8) */
++	mov  r3, _NSIG8
++	mov  r2, 0
++	add  r1, r0, UCONTEXT_SIGMASK
++	mov  r0, SIG_SETMASK
++	mov  r8, __NR_rt_sigprocmask
++	ARC_TRAP_INSN
++	brhi r0, -1024, .Lcall_syscall_err
++
++	/* Restore scratch/arg regs for makecontext case.  */
++	LOAD_REG (r0,    r9, 22)
++	LOAD_REG (r1,    r9, 21)
++	LOAD_REG (r2,    r9, 20)
++	LOAD_REG (r3,    r9, 19)
++	LOAD_REG (r4,    r9, 18)
++	LOAD_REG (r5,    r9, 17)
++	LOAD_REG (r6,    r9, 16)
++	LOAD_REG (r7,    r9, 15)
++
++	/* Restore callee saved registers.  */
++	LOAD_REG (r13,   r9, 37)
++	LOAD_REG (r14,   r9, 36)
++	LOAD_REG (r15,   r9, 35)
++	LOAD_REG (r16,   r9, 34)
++	LOAD_REG (r17,   r9, 33)
++	LOAD_REG (r18,   r9, 32)
++	LOAD_REG (r19,   r9, 31)
++	LOAD_REG (r20,   r9, 30)
++	LOAD_REG (r21,   r9, 29)
++	LOAD_REG (r22,   r9, 28)
++	LOAD_REG (r23,   r9, 27)
++	LOAD_REG (r24,   r9, 26)
++	LOAD_REG (r25,   r9, 25)
++
++	LOAD_REG (blink, r9,  7)
++	LOAD_REG (fp,    r9,  8)
++	LOAD_REG (sp,    r9, 23)
++
++	j    [blink]
++
++PSEUDO_END (__setcontext)
++weak_alias (__setcontext, setcontext)
++
++
++/* Helper for activating makecontext created context
++     - r13 has @func, r14 has uc_link.  */
++
++ENTRY (__startcontext)
++
++	.cfi_label .Ldummy
++	cfi_undefined (blink)
++
++        /* Call user @func, loaded in r13 by setcontext.  */
++        jl   [r13]
++
++        /* If uc_link (r14) call setcontext with that.  */
++        mov  r0, r14
++        breq r0, 0, 1f
++
++        bl   __setcontext
++1:
++        /* Exit with status 0.  */
++        b    HIDDEN_JUMPTARGET(exit)
++END (__startcontext)
+diff --git a/sysdeps/unix/sysv/linux/arc/sigcontextinfo.h b/sysdeps/unix/sysv/linux/arc/sigcontextinfo.h
+new file mode 100644
+index 000000000000..551b4c9c1d2b
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/sigcontextinfo.h
+@@ -0,0 +1,28 @@
++/* ARC definitions for signal handling calling conventions.
++   Copyright (C) 2017-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _SIGCONTEXTINFO_H
++#define _SIGCONTEXTINFO_H
++
++static inline uintptr_t
++sigcontext_get_pc (const ucontext_t *ctx)
++{
++  return ctx->uc_mcontext.__scratch.__ret;
++}
++
++#endif
+diff --git a/sysdeps/unix/sysv/linux/arc/swapcontext.S b/sysdeps/unix/sysv/linux/arc/swapcontext.S
+new file mode 100644
+index 000000000000..80ae73975af9
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/swapcontext.S
+@@ -0,0 +1,92 @@
++/* Save and set current context for ARC.
++   Copyright (C) 2009-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include "ucontext-macros.h"
++
++/* int swapcontext (ucontext_t *oucp, const ucontext_t *ucp).  */
++
++ENTRY (__swapcontext)
++
++	/* Save context into @oucp pointed to by r0.  */
++
++	SAVE_REG (r13,   r0, 37)
++	SAVE_REG (r14,   r0, 36)
++	SAVE_REG (r15,   r0, 35)
++	SAVE_REG (r16,   r0, 34)
++	SAVE_REG (r17,   r0, 33)
++	SAVE_REG (r18,   r0, 32)
++	SAVE_REG (r19,   r0, 31)
++	SAVE_REG (r20,   r0, 30)
++	SAVE_REG (r21,   r0, 29)
++	SAVE_REG (r22,   r0, 28)
++	SAVE_REG (r23,   r0, 27)
++	SAVE_REG (r24,   r0, 26)
++	SAVE_REG (r25,   r0, 25)
++
++	SAVE_REG (blink, r0,  7)
++	SAVE_REG (fp,    r0,  8)
++	SAVE_REG (sp,    r0, 23)
++
++	/* Save 0 in r0 placeholder to return 0 when @oucp activated.  */
++	mov r9, 0
++	SAVE_REG (r9,    r0, 22)
++
++	/* Load context from @ucp.  */
++
++	mov r9, r1	/* Safekeep @ucp across syscall.  */
++
++	/* rt_sigprocmask (SIG_SETMASK, &ucp->uc_sigmask, &oucp->uc_sigmask, _NSIG8) */
++	mov r3, _NSIG8
++	add r2, r0, UCONTEXT_SIGMASK
++	add r1, r1, UCONTEXT_SIGMASK
++	mov r0, SIG_SETMASK
++	mov r8, __NR_rt_sigprocmask
++	ARC_TRAP_INSN
++	brhi r0, -1024, .Lcall_syscall_err
++
++	LOAD_REG (r0,    r9, 22)
++	LOAD_REG (r1,    r9, 21)
++	LOAD_REG (r2,    r9, 20)
++	LOAD_REG (r3,    r9, 19)
++	LOAD_REG (r4,    r9, 18)
++	LOAD_REG (r5,    r9, 17)
++	LOAD_REG (r6,    r9, 16)
++	LOAD_REG (r7,    r9, 15)
++
++	LOAD_REG (r13,   r9, 37)
++	LOAD_REG (r14,   r9, 36)
++	LOAD_REG (r15,   r9, 35)
++	LOAD_REG (r16,   r9, 34)
++	LOAD_REG (r17,   r9, 33)
++	LOAD_REG (r18,   r9, 32)
++	LOAD_REG (r19,   r9, 31)
++	LOAD_REG (r20,   r9, 30)
++	LOAD_REG (r21,   r9, 29)
++	LOAD_REG (r22,   r9, 28)
++	LOAD_REG (r23,   r9, 27)
++	LOAD_REG (r24,   r9, 26)
++	LOAD_REG (r25,   r9, 25)
++
++	LOAD_REG (blink, r9,  7)
++	LOAD_REG (fp,    r9,  8)
++	LOAD_REG (sp,    r9, 23)
++
++	j    [blink]
++
++PSEUDO_END (__swapcontext)
++weak_alias (__swapcontext, swapcontext)
+diff --git a/sysdeps/unix/sysv/linux/arc/sys/cachectl.h b/sysdeps/unix/sysv/linux/arc/sys/cachectl.h
+new file mode 100644
+index 000000000000..1acb4018ae69
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/sys/cachectl.h
+@@ -0,0 +1,36 @@
++/* cacheflush - flush contents of instruction and/or data cache.
++   Copyright (C) 2017-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _SYS_CACHECTL_H
++#define _SYS_CACHECTL_H 1
++
++#include <features.h>
++
++/* Get the kernel definition for the op bits.  */
++#include <asm/cachectl.h>
++
++__BEGIN_DECLS
++
++#ifdef __USE_MISC
++extern int cacheflush (void *__addr, const int __nbytes, const int __op) __THROW;
++#endif
++extern int _flush_cache (char *__addr, const int __nbytes, const int __op) __THROW;
++
++__END_DECLS
++
++#endif /* sys/cachectl.h */
+diff --git a/sysdeps/unix/sysv/linux/arc/sys/ucontext.h b/sysdeps/unix/sysv/linux/arc/sys/ucontext.h
+new file mode 100644
+index 000000000000..efbb9b2d20a7
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/sys/ucontext.h
+@@ -0,0 +1,61 @@
++/* struct ucontext definition, ARC version.
++   Copyright (C) 2017-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++/* System V/ARC ABI compliant context switching support.  */
++
++#ifndef _SYS_UCONTEXT_H
++#define _SYS_UCONTEXT_H	1
++
++#include <features.h>
++
++#include <bits/types/sigset_t.h>
++#include <bits/types/stack_t.h>
++
++typedef struct
++  {
++    unsigned long int __pad;
++    struct {
++      unsigned long int __bta;
++      unsigned long int __lp_start, __lp_end, __lp_count;
++      unsigned long int __status32, __ret, __blink;
++      unsigned long int __fp, __gp;
++      unsigned long int __r12, __r11, __r10, __r9, __r8, __r7;
++      unsigned long int __r6, __r5, __r4, __r3, __r2, __r1, __r0;
++      unsigned long int __sp;
++    } __scratch;
++    unsigned long int __pad2;
++    struct {
++      unsigned long int __r25, __r24, __r23, __r22, __r21, __r20;
++      unsigned long int __r19, __r18, __r17, __r16, __r15, __r14, __r13;
++    } __callee;
++    unsigned long int __efa;
++    unsigned long int __stop_pc;
++    unsigned long int __r30, __r58, __r59;
++  } mcontext_t;
++
++/* Userlevel context.  */
++typedef struct ucontext_t
++  {
++    unsigned long int __uc_flags;
++    struct ucontext_t *uc_link;
++    stack_t uc_stack;
++    mcontext_t uc_mcontext;
++    sigset_t uc_sigmask;
++  } ucontext_t;
++
++#endif /* sys/ucontext.h */
+diff --git a/sysdeps/unix/sysv/linux/arc/sys/user.h b/sysdeps/unix/sysv/linux/arc/sys/user.h
+new file mode 100644
+index 000000000000..a556d2113d9c
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/sys/user.h
+@@ -0,0 +1,31 @@
++/* ptrace register data format definitions.
++   Copyright (C) 1998-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _SYS_USER_H
++#define _SYS_USER_H	1
++
++/* Struct user_regs_struct is exported by kernel header
++   However apps like strace also expect a struct user, so it's better to
++   have a dummy implementation.  */
++#include <asm/ptrace.h>
++
++struct user {
++	int dummy;
++};
++
++#endif  /* sys/user.h */
+diff --git a/sysdeps/unix/sysv/linux/arc/ucontext-macros.h b/sysdeps/unix/sysv/linux/arc/ucontext-macros.h
+new file mode 100644
+index 000000000000..4427be5dedd6
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/ucontext-macros.h
+@@ -0,0 +1,29 @@
++/* Macros for ucontext routines, ARC version.
++   Copyright (C) 2017-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _LINUX_ARC_UCONTEXT_MACROS_H
++#define _LINUX_ARC_UCONTEXT_MACROS_H
++
++#include <sysdep.h>
++
++#include "ucontext_i.h"
++
++#define SAVE_REG(reg, rbase, off)	st  reg, [rbase, UCONTEXT_MCONTEXT + off * 4]
++#define LOAD_REG(reg, rbase, off)	ld  reg, [rbase, UCONTEXT_MCONTEXT + off * 4]
++
++#endif
+diff --git a/sysdeps/unix/sysv/linux/arc/ucontext_i.sym b/sysdeps/unix/sysv/linux/arc/ucontext_i.sym
+new file mode 100644
+index 000000000000..d84e92f9f543
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/ucontext_i.sym
+@@ -0,0 +1,20 @@
++#include <inttypes.h>
++#include <signal.h>
++#include <stddef.h>
++#include <sys/ucontext.h>
++
++SIG_BLOCK
++SIG_SETMASK
++
++-- sizeof(sigset_t) expected by kernel: see comment in ARC sigaction.c for details
++_NSIG8				(_NSIG / 8)
++
++-- Offsets of the fields in the ucontext_t structure.
++#define ucontext(member)	offsetof (ucontext_t, member)
++
++UCONTEXT_FLAGS			ucontext (__uc_flags)
++UCONTEXT_LINK			ucontext (uc_link)
++UCONTEXT_STACK			ucontext (uc_stack)
++UCONTEXT_MCONTEXT		ucontext (uc_mcontext)
++UCONTEXT_SIGMASK		ucontext (uc_sigmask)
++UCONTEXT_SIZE			sizeof (ucontext_t)
 -- 
 2.20.1
 
