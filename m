@@ -4,19 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BFBCC2D0EC
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 12 Apr 2020 19:52:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7218CC2BB86
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 12 Apr 2020 19:53:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7679F20739
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 12 Apr 2020 19:52:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4BBCE20739
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 12 Apr 2020 19:53:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="b7buHZOp";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="M03jHDXj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7679F20739
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AMMaS2bk";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="h2BnsmPG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4BBCE20739
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,42 +25,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RpmgEZv6O35JISr41rHEOGx5sVelAbTRzT60AQf6zMw=; b=b7buHZOpOUJVm4
-	P8k3gVuOmm3ixxV3QoLZzQdkpEYLw7UNPPoSNSyrFzwrfdxTVIpijjL2Q1UBT8zmEMOFifCcg1CXU
-	k+BeMkDkVmFNl92aKRALEAViSS78SgvBcl815zp7OLff48jt05O+fTrNQvoyixk5aIO3GrtJGGg3p
-	a5mzaTXSZhEgRlxDJ4Ia7uZtc6k04JsRtm1jHzqmunca2x3gD5cVkUSk+9OBiu0tkRGSZLX5nUxhJ
-	Iq5ri23QKoUVOXp5zm722JQzSOcehEYeAEFsxJsE2f/oFFHzoF6tyZk3o/DCWDz33NURCdWSSnyZr
-	BkgiXiMqVaDFR4yX0RKg==;
+	List-Owner; bh=N03p7zhQKcu4pyxD2FMZVUdm//jWxPR3HrRUHBc6uyY=; b=AMMaS2bkk9537B
+	qyZt3SGUpwmJr9NFOjK+qFIYkVoWgcpvlE9HTEsC7LwfbSFRlcoS8tefwr+vd+vMJzJmOydcXDhp5
+	Hm8DbjJkN+s/qrqU1zlCyL+1AWpH/unyJltN7S1CSmyVAl22rRc39OWOZFEWnt5TXCiXoByJKbnnS
+	1F+5F4OqgRJUR1sgOsjHgQtIcIUCNOow9FDzTjxFIH0n8qqEgiWIyyvqMFc9M1wke6onIqL7D8T4c
+	bzzIiWOziGgoTnYaYyEzQNxgDIu4p6I/v129vUQ2zPAABWYpJ5jSIujjB1a9SqOckRMrwGh1XxrJ8
+	0NcubviC97KJkjlYgJ4w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jNiev-0004Mu-ON; Sun, 12 Apr 2020 19:52:49 +0000
+	id 1jNifA-0004TY-Uu; Sun, 12 Apr 2020 19:53:04 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jNies-0004L4-7x; Sun, 12 Apr 2020 19:52:47 +0000
+ id 1jNif6-0004RN-Lc; Sun, 12 Apr 2020 19:53:02 +0000
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E51FF2084D;
- Sun, 12 Apr 2020 19:52:31 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 74DEF2082E;
+ Sun, 12 Apr 2020 19:52:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586721165;
- bh=kg4dZKJ579N986CAoZmLROmIpOcRvYn6L1WsJDxOIl8=;
+ s=default; t=1586721180;
+ bh=JfG1Siyfl/JGxyNzE0ZLQzUhIkyLD5V0oBKSDMAbENY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M03jHDXjV3O72ZpMby0hutf5uyRC1PKMh5Up9F7+dMgi3d5b/SM0V7rzcP3iMzTI8
- 3JkXkIjXkrlZSXxjUt9xlmS4iLXB2oSwrPflLocjX5KHIdgMKTiTQivjIGtjXdJ36v
- mKibE3Tjm6gd7jGsV4TErO9jVxTXOdHVgsjyb7xw=
+ b=h2BnsmPGm8Cfa+kc9o8EOpWn0BOw67teRHCCzEkMS26EarC59737FlnTapIdTxqRs
+ Z9YlT+5wouIjTX+/tVSAr8/AiZFcWvYuR6+XoHgUrAI7qcRq7EA9dz2P0lWXUvqps7
+ AwdXw0rVSj2ugoYT6SmhsdRc64B0sLh/VGd+jLmU=
 From: Mike Rapoport <rppt@kernel.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 14/21] xtensa: simplify detection of memory zone boundaries
-Date: Sun, 12 Apr 2020 22:48:52 +0300
-Message-Id: <20200412194859.12663-15-rppt@kernel.org>
+Subject: [PATCH 15/21] mm: memmap_init: iterate over memblock regions rather
+ that check each PFN
+Date: Sun, 12 Apr 2020 22:48:53 +0300
+Message-Id: <20200412194859.12663-16-rppt@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200412194859.12663-1-rppt@kernel.org>
 References: <20200412194859.12663-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200412_125246_324448_A62BB811 
-X-CRM114-Status: GOOD (  10.73  )
+X-CRM114-CacheID: sfid-20200412_125300_751486_B03342E8 
+X-CRM114-Status: GOOD (  13.50  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,45 +109,71 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Mike Rapoport <rppt@linux.ibm.com>
+From: Baoquan He <bhe@redhat.com>
 
-The free_area_init() function only requires the definition of maximal PFN
-for each of the supported zone rater than calculation of actual zone sizes
-and the sizes of the holes between the zones.
+When called during boot the memmap_init_zone() function checks if each PFN
+is valid and actually belongs to the node being initialized using
+early_pfn_valid() and early_pfn_in_nid().
 
-After removal of CONFIG_HAVE_MEMBLOCK_NODE_MAP the free_area_init() is
-available to all architectures.
+Each such check may cost up to O(log(n)) where n is the number of memory
+banks, so for large amount of memory overall time spent in early_pfn*()
+becomes substantial.
 
-Using this function instead of free_area_init_node() simplifies the zone
-detection.
+Since the information is anyway present in memblock, we can iterate over
+memblock memory regions in memmap_init() and only call memmap_init_zone()
+for PFN ranges that are know to be valid and in the appropriate node.
 
+Signed-off-by: Baoquan He <bhe@redhat.com>
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/xtensa/mm/init.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ mm/page_alloc.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/arch/xtensa/mm/init.c b/arch/xtensa/mm/init.c
-index 19c625e6d81f..a05b306cf371 100644
---- a/arch/xtensa/mm/init.c
-+++ b/arch/xtensa/mm/init.c
-@@ -70,13 +70,13 @@ void __init bootmem_init(void)
- void __init zones_init(void)
- {
- 	/* All pages are DMA-able, so we put them all in the DMA zone. */
--	unsigned long zones_size[MAX_NR_ZONES] = {
--		[ZONE_NORMAL] = max_low_pfn - ARCH_PFN_OFFSET,
-+	unsigned long max_zone_pfn[MAX_NR_ZONES] = {
-+		[ZONE_NORMAL] = max_low_pfn,
- #ifdef CONFIG_HIGHMEM
--		[ZONE_HIGHMEM] = max_pfn - max_low_pfn,
-+		[ZONE_HIGHMEM] = max_pfn,
- #endif
- 	};
--	free_area_init_node(0, zones_size, ARCH_PFN_OFFSET, NULL);
-+	free_area_init(max_zone_pfn);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 7f6a3081edb8..c43ce8709457 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -5995,14 +5995,6 @@ void __meminit memmap_init_zone(unsigned long size, int nid, unsigned long zone,
+ 		 * function.  They do not exist on hotplugged memory.
+ 		 */
+ 		if (context == MEMMAP_EARLY) {
+-			if (!early_pfn_valid(pfn)) {
+-				pfn = next_pfn(pfn);
+-				continue;
+-			}
+-			if (!early_pfn_in_nid(pfn, nid)) {
+-				pfn++;
+-				continue;
+-			}
+ 			if (overlap_memmap_init(zone, &pfn))
+ 				continue;
+ 			if (defer_init(nid, pfn, end_pfn))
+@@ -6118,9 +6110,23 @@ static void __meminit zone_init_free_lists(struct zone *zone)
  }
  
- #ifdef CONFIG_HIGHMEM
+ void __meminit __weak memmap_init(unsigned long size, int nid,
+-				  unsigned long zone, unsigned long start_pfn)
++				  unsigned long zone,
++				  unsigned long range_start_pfn)
+ {
+-	memmap_init_zone(size, nid, zone, start_pfn, MEMMAP_EARLY, NULL);
++	unsigned long start_pfn, end_pfn;
++	unsigned long range_end_pfn = range_start_pfn + size;
++	int i;
++
++	for_each_mem_pfn_range(i, nid, &start_pfn, &end_pfn, NULL) {
++		start_pfn = clamp(start_pfn, range_start_pfn, range_end_pfn);
++		end_pfn = clamp(end_pfn, range_start_pfn, range_end_pfn);
++
++		if (end_pfn > start_pfn) {
++			size = end_pfn - start_pfn;
++			memmap_init_zone(size, nid, zone, start_pfn,
++					 MEMMAP_EARLY, NULL);
++		}
++	}
+ }
+ 
+ static int zone_batchsize(struct zone *zone)
 -- 
 2.25.1
 
