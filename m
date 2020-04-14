@@ -1,24 +1,24 @@
-Return-Path: <SRS0=aZIh=55=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=oiN1=56=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5570C2BA2B
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 13 Apr 2020 21:12:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD65C2BBC7
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Apr 2020 01:19:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9FBAB206DA
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 13 Apr 2020 21:12:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1293C2075E
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Apr 2020 01:19:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CdOSeTci";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="aLphxtL5";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="jTQnTDZO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FBAB206DA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Z8l17taN";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="L40tEEcj";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="iUWJLBuL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1293C2075E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,83 +27,87 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
 	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+odSOyBNITYsWsQ3Wmm2cbin37UUYOifixPG0KLZ3Ac=; b=CdOSeTciNn3VXt
-	xAZwH/59irexXjp1+K4vcWCby94VCxCpdTRPVYTyZtmKhEWvkmsteK7fXnx9gdKTBzn3+T/BbdUHf
-	H+EYEF3oZtg966uKpMZ+vvBKWcn+24kHmtEU3juwGN65Rop0POeRssxw/3IFavIKFC4xxsLkYVNeG
-	coKEZEsn7XZTT7c5ThMrZU9mqgbpWfwjQbX0h0n+2MBo8MMfzYysle4JXDDQlpiW/rkuLXfHY3TwA
-	cWqVjNNjKzdgQSPGBNl4j1rv8HaEPE5BEwOKifsspvSOJwbp3mnDMg46NZRdg4QiusxziWtCCBZq0
-	fuQEmmo5jgRn89H/xYdQ==;
+	List-Owner; bh=I+QUNm5ZAuLaEHiavud4HVGg2gxMNKgO8UV/qrY+A+4=; b=Z8l17taNJ9x/l9
+	/zaL2oBvYIpvPYCwZ5VHAn2R9jeGG6wpWRCoxWTnfp5dI+6mC2wOB/joNlATE+Oj+4Br+dWbEOO80
+	NAT60Y8H+bDlbCM4KnsrtX4LWFndBUbuzkETTCq4xuDgpfb/OD1KoqQ+ww1L34x4NBfeQGOxa9j6k
+	LUbD3tumPDsAUBC/OcOoK3MOZbgqbwDNSWUci6L5qqGpqBQRYEBhzcX0ssi7Gclhb6MbiFL5Og2iD
+	5SSpgL3B9qFS1oXhxzjpXntctVXVd1UIvuwnEJtNc674h8lAtvLPmNv5YTnHyNBVMzDG81Q+RVX6b
+	kYzo+MgNyciHMtXIDVgg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jO6No-00078k-UN; Mon, 13 Apr 2020 21:12:44 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1jOAET-0006WO-16; Tue, 14 Apr 2020 01:19:21 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jO6Nm-00078I-B6
- for linux-snps-arc@lists.infradead.org; Mon, 13 Apr 2020 21:12:43 +0000
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
- [10.192.0.18])
+ id 1jOAEL-0006R7-4d; Tue, 14 Apr 2020 01:19:14 +0000
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
+ [10.192.0.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 36A904006E;
- Mon, 13 Apr 2020 21:12:42 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 0637BC0086;
+ Tue, 14 Apr 2020 01:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1586812362; bh=pN6o4eidmOSfuwpFcPj7r23yFKVFx/DJiW2aj2C163M=;
+ t=1586827152; bh=PtnNdaOntwdHe1x8AQMVgdwjxEA0YmKVoPX/egM36AI=;
  h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=aLphxtL546t8/ROnb86rBA9BENTTL0aI6fYZzlJl3J5xEk21imBBuOa8bc2TgIQga
- ZrfW/Iwdfx4gh38rVhkw62bKP9eMN4LTKLPGYeRskdPdduRm1HYFUpdSmAbh3ieG72
- 58pa36h0VAgh+0Xm1ctk54I+R8uRMnd1dMaMdyNHIvPg/itdO20+5RXxvFK/u30cDn
- meXrqNOYwwyj3GSzyoORYdQfZZEOrBe7YqrQRR258Ve/yWjTcWTyD7X21bUhBwg+3I
- PEUAXLp9mFsF6TLNsPOqLlugMKVHAEx6E14UDRUn8m9jEZUgX6ui9kBpLMPn6l95yN
- YkwDaQJ4Qh/WQ==
+ b=L40tEEcj8js+c/LfcUuj8oYD6t2NzrdrvodZzEPgqB6JSUsSFFZVYZq7qwRQoeZ8V
+ QJmKCw7x3CA2uG+nX2BPZGe1iGRw6nfKyZZLoeyC9Eew2sTwwV0JhBUuuUwPKoZbS1
+ o+nOto/jFMuaWrzz8+fxVjAot1DUDIwT1fWOEirk7jEallxL1fW9xSknRO1rPKgtVy
+ yECAORCxLLoJwaG6rDpI4o5UT3Zr4ET6dLB0zvTDTtrol1SRNX35fFppI1vEDNzUay
+ x70drAXgvIRvowzCS1O6GH+iBXM9qVihHFNID30D5gqbvkvbv7Z59ShWt2k/KcEupX
+ 5JptU47mUh0Yw==
 Received: from US01WEHTC3.internal.synopsys.com
  (us01wehtc3.internal.synopsys.com [10.15.84.232])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 21A58A0069;
- Mon, 13 Apr 2020 21:12:42 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 1FFA8A008A;
+ Tue, 14 Apr 2020 01:19:09 +0000 (UTC)
 Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
  US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 13 Apr 2020 14:12:42 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
+ (TLS) id 14.3.408.0; Mon, 13 Apr 2020 18:19:09 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
  mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Mon, 13 Apr 2020 14:12:41 -0700
+ 14.3.408.0; Mon, 13 Apr 2020 18:19:08 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lBF80YPSd0WtngspOprgnsCm4CgNYsW6+hf2CzRcp2GC2/poY4V9Wpt+tI/a92Sx+zO8GFdaFjUHFItZezpqOqJ16WkyaKcFo95XzWSk2rdGjPtDcMzK4hrtfRs1DahmjDxotP7QDGzVH9gK7HC3Yiw9IbdwbWobrxI5Pl4T/abqGWOp3BLv3qpYAXTxHNBYDN5SGFwLRnvID3Q806LMtudzwgQEvBWD6edx/+qSZqCVlSPBz9CosYYAI36u6Wl8JaPiKBPmKwJjdqgKKdeOjgzIVrsv6PlB88UO1WczX3ML78Hp0IkewrW4OUjyeRxp33t9NbX4DAoeRmeOQCiAsA==
+ b=dram8n0p9fsEiHJXQ7MJn/y+p1/xQ8mFWoI6UKmWuRCiB4o76edUbEyKw2Z/kQ1pdjdgqkeRlFYyoNkO7CsWo8atGrj/UDksWLq5LHl1SyVQmMjOF00RBASz+ERCK+KHR17ssetGVj1lgfF44XydIc8UGDRVnzoWGLeqwR7SmVbg+DQY11RTAqwgbGrXi11Q8GAoeCJiyUrKGhWtRufC3VPY7qc0nYf+sLD/BOqcsAPOlLJif9bYz6oOywAgZbq1wcpdHQja+5VPcVr84afeDlvsDu8AJC7mO1epS08DF7cY8aDkhf1TyzZCMl/9AFsl6Dk95CGfsZwKrTTzqgP44w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pN6o4eidmOSfuwpFcPj7r23yFKVFx/DJiW2aj2C163M=;
- b=cDNtyJsBxRKyjhBU9MYWqDtjA0QPmovmMzvNGFRWUYsY0Y2bVv+uMOMT1ktdwrNv8M4scgE786xV3P4bekBxK/xvoEEuvRD2PbUEauOQXttN1WH1w+zAiDS6F40w/qpmVCrEuyaAAZ4gh7LkSHJ2qL3+aLAAjNCxOO0zNaOuoRUEAPvQwV2m7nW9Yn97iarK0ixsCi2Hp6Oc7YQQn0hu2B2mJJgEdNixYiews6tBASbKOj+OQtbHEqzCjgBjuTsuuLWq0VN0P2Qs/bc9QUKkf4LJH9flLppbx0nNFdUugfy88afQnAXFtKnyTeLh9J2+QDZpmgGKxG2f3JGSBFwZkg==
+ bh=PtnNdaOntwdHe1x8AQMVgdwjxEA0YmKVoPX/egM36AI=;
+ b=OLYosYi860YW27coSBrN5rIjzR5I9OqI/dtX/dYizIHE6O08sjPYNcREBmM1bfsCAFkuVDpJqFGiY3DCt/DZG/B8pIhp4IQtTnebfGJuKXY9YrIS3cdeDiFr24OxYeoc0RNzAyDzVDC/R1zO4XbqkNtvvruARKIdaUbCtn1hQQZJFg9tQz5Dc7ubrbJflVSvMYf5FNss0iY9OExpCZBt/q/bokIkPJnuoN8vcdSsPja4IWpaXogkuNK8XSvB98tiKSwnu/8DWqm/dBRp/D+55MTP4R0ehPM0KL1rGAYLgdno5ct13YFDnZBVS4VuRFbZZh2dWEm1udENN2qgoZ+JiQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
  dkim=pass header.d=synopsys.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pN6o4eidmOSfuwpFcPj7r23yFKVFx/DJiW2aj2C163M=;
- b=jTQnTDZOCP8LsZ+ygImmzcyGUDjfVemgd9N1Oonn5QJhGdzMZqJEvyDqIikOL7ZY18WctQvZHH1e1XUo5SPVURhSTMxBcqKKNAGqMNqbS7QVVvm4tnlwjn6HMNpRxZMOICzX7hec3tRLcGiLrXlgwh/7a8Msorgrlk2YPxF6ogk=
+ bh=PtnNdaOntwdHe1x8AQMVgdwjxEA0YmKVoPX/egM36AI=;
+ b=iUWJLBuL87yJEKe3aZIlvQ2ioyjA2BTD7A8uMecezjMfamfwh8bhlhgqwpJtH6BGz/vuwUNVP8sZrfONEOBqgHld8D07cm92/uQv3st76Qo5F+vs0wv7akxe/Q6OPwAd/IteKexiAspLNV+i38kbbFx5rVv96keizTlPOoL1igE=
 Received: from BYAPR12MB3592.namprd12.prod.outlook.com (2603:10b6:a03:db::25)
- by BYAPR12MB3351.namprd12.prod.outlook.com (2603:10b6:a03:de::24)
+ by BYAPR12MB2613.namprd12.prod.outlook.com (2603:10b6:a03:69::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.26; Mon, 13 Apr
- 2020 21:12:40 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.28; Tue, 14 Apr
+ 2020 01:19:07 +0000
 Received: from BYAPR12MB3592.namprd12.prod.outlook.com
  ([fe80::a45a:6a41:3fe5:2eb7]) by BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::a45a:6a41:3fe5:2eb7%7]) with mapi id 15.20.2900.028; Mon, 13 Apr 2020
- 21:12:40 +0000
+ ([fe80::a45a:6a41:3fe5:2eb7%7]) with mapi id 15.20.2900.028; Tue, 14 Apr 2020
+ 01:19:07 +0000
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-Subject: Re: [PATCH v3] Make any 32-bit time based syscalls unavailable for
- TIMESIZE==64
-Thread-Topic: [PATCH v3] Make any 32-bit time based syscalls unavailable for
- TIMESIZE==64
-Thread-Index: AQHWB6YXXY4j5+K2H0eFv1trJub2pqhsekUAgAsm9IA=
-Date: Mon, 13 Apr 2020 21:12:40 +0000
-Message-ID: <9eda9480-d0d5-07ec-3a99-83e61b076a2a@synopsys.com>
-References: <20200312183325.594-1-vgupta@synopsys.com>
- <20200331214717.23902-1-vgupta@synopsys.com>
- <c87dd5b4-8be6-714f-3210-4cbfbe89a069@synopsys.com>
-In-Reply-To: <c87dd5b4-8be6-714f-3210-4cbfbe89a069@synopsys.com>
+To: Peter Zijlstra <peterz@infradead.org>, Will Deacon <will.deacon@arm.com>
+Subject: Re: Patch "asm-generic/bitops/lock.h: Rewrite using atomic_fetch_"
+ causes kernel crash
+Thread-Topic: Patch "asm-generic/bitops/lock.h: Rewrite using atomic_fetch_"
+ causes kernel crash
+Thread-Index: AQHWEfqwZ/jjxftyLUC7pQJHdoRBAw==
+Date: Tue, 14 Apr 2020 01:19:06 +0000
+Message-ID: <d9b26292-4b40-f282-b1f6-5ee238358f0e@synopsys.com>
+References: <1535567633.4465.23.camel@synopsys.com>
+ <C2D7FE5348E1B147BCA15975FBA23075012B090BEA@us01wembx1.internal.synopsys.com>
+ <20180830094411.GX24124@hirez.programming.kicks-ass.net>
+ <20180830095148.GB5942@arm.com> <1535629996.4465.44.camel@synopsys.com>
+ <20180830141713.GN24082@hirez.programming.kicks-ass.net>
+ <20180830142354.GB13005@arm.com>
+ <20180830142920.GO24082@hirez.programming.kicks-ass.net>
+ <20180830144344.GW24142@hirez.programming.kicks-ass.net>
+In-Reply-To: <20180830144344.GW24142@hirez.programming.kicks-ass.net>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -114,36 +118,36 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=vgupta@synopsys.com; 
 x-originating-ip: [2601:641:c100:83a0:7c06:2fd:ae14:dd9]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d5349b32-57ff-43df-4f79-08d7dfef665c
-x-ms-traffictypediagnostic: BYAPR12MB3351:
-x-microsoft-antispam-prvs: <BYAPR12MB335115F67944BCBC011E1343B6DD0@BYAPR12MB3351.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1013;
-x-forefront-prvs: 037291602B
+x-ms-office365-filtering-correlation-id: 4a8791ee-ab26-413b-57f3-08d7e011d3ec
+x-ms-traffictypediagnostic: BYAPR12MB2613:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR12MB2613A32DC0F7B058476891A5B6DA0@BYAPR12MB2613.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3044;
+x-forefront-prvs: 0373D94D15
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR12MB3592.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(10019020)(39860400002)(396003)(376002)(346002)(136003)(366004)(36756003)(66446008)(64756008)(66946007)(54906003)(478600001)(76116006)(53546011)(6512007)(66476007)(316002)(2906002)(66556008)(6506007)(5660300002)(31696002)(31686004)(81156014)(2616005)(186003)(6486002)(71200400001)(8676002)(86362001)(4326008)(8936002)(6916009);
+ SFS:(10019020)(346002)(376002)(396003)(366004)(39860400002)(136003)(6486002)(36756003)(186003)(31686004)(6512007)(478600001)(71200400001)(31696002)(64756008)(66446008)(66556008)(76116006)(81156014)(66946007)(54906003)(8676002)(66476007)(110136005)(6506007)(8936002)(86362001)(4326008)(2906002)(2616005)(5660300002)(316002)(53546011)(41533002);
  DIR:OUT; SFP:1102; 
 received-spf: None (protection.outlook.com: synopsys.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XY51Ryng/YMzgAFGqpmg+7HKrRRFiY8/e3RQPGE1Ux3r4fvCxH4dFPqKAUy1f5IivW1eWfjXnCEJkggQTzmi8PP5/iaApYOftekW3oEB8N+47jkMb/BG0cBUrRp1kj72xDvz5XR+S93yZjFnF8XsuUVPlFcn6nfLSX2iNSFOtJIvUuqzqRol0S3Hp65X2FFjvtzyMZeS4oBWBic3XwP4E4UqOlMTNI+Qh40qRuYoVf2oWS6rDIUwWDBlrI1eUUmOdq2EQci/ByTu0sv1/wCLx339odC+Kn/x5cv4p9qqZnDh0DZSGyJjsa6wIVdhStcPQgBwebIoWidAUysYsW3QwLj4ToAVq8qUQa1sH+5P/8HCnW5AFgDhxqj8v2c1GmmFuXV0ba4el0zgZL7WugI3oWyluJRkOPpaNsNi5tID5Lg903Z+Ykx8an5yebVMXqyvT4R/gajVYrF5QVxQvr6XtEYP3T+vPyFh9hB4hiMExboR4aQyR+2agk2INyftGCzCFS/PkyDzA9s3vc1QcUdm3Q==
-x-ms-exchange-antispam-messagedata: uUUrcI08rne2fj2WomsjsS5mezh4AOTWd+20zXOTsM6DE6OIA4k/pR5K/v5Jgb+hHr8A5BndTIhynBGSbK9GPw/J18ekyTPd4jKM1zJFQfRJqiu6wwBF2jBliiByYKGutits/LmBTj4bi8RHFd7XCWE6daN3LRBcX/OFG+KUmCO2V66nCT31AiemBI/6Lud/kB+a8DUidO9ykUup4BRYsg==
-x-ms-exchange-transport-forked: True
-Content-ID: <7DC746D36B370B46A1C355C8F9647DF3@namprd12.prod.outlook.com>
+x-microsoft-antispam-message-info: UARJD4GPPkQ65xp2YZluSm5OiNRLu3loQItdibZg/LlYv2Ma1Eg3F3po140zpdNSJ7snJZovh5wUCdArblAK4V3/3QWwa15rHSR4mIRKSOwWSdCt3p9M/0gSFhV0W9E//V99k7gfxsLfILjVIXOTGosJk3OsSCFLmD0ZylitsIlNUgS9KgeWLcAWWCdQNvIxACvFqFWktDn2rg2Z1121YNJ+CbjQd51EC4j0YxnTCdRZX1WKFXK47nGtkfbb2FLWcVyUehOeYH20nd1FbXjDYK7VFQqwRiacNy+q/JQkCwrDaFs2vxdFJWOVDoC3MazSXUwEnznqCLOk9zoC5c5q6HD8nWM7joupP1g4LBdAJwXq/nrkejSRgv3dZqVXnqLJv+NDHUUHWRdnQBa3T9fbYst6hJ5jfYbx50EpXbkvHM0iJhisdXK02VmdwpcPD5eKtMhQLRv0bLYA48AmPtAGI0hjtOzi6QH+b1g9EYa5uJf04Gsx2TLHTc36H1dBwgAp
+x-ms-exchange-antispam-messagedata: Z8CqEliFiUJL3sEsnYRPsv44mciXNfc2q/o7cP9SbhuowYTrY82YaEjvuUKHlDb9y0xwboCeNhClqzK5v8/rM0b05bmTwjbeRZ6uHug0zkE23SzQ8lH7jVKgEhmKWt93sTN90o6Q1QhAavdyDPvHE18qMyRL/m9aYd2cstPoVqj55wYwYRCg7SVpgOSVgTJNGdCe1wAIiGMDhccpVwxGZg==
+Content-ID: <D1A41C114C659A49A5C62FC67F388E00@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5349b32-57ff-43df-4f79-08d7dfef665c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2020 21:12:40.2068 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a8791ee-ab26-413b-57f3-08d7e011d3ec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2020 01:19:06.8703 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XCyg1vK/OhuIkgaLGbTgRhoIQx6t63g9xhI+BfQ4nQvXw4lvEC64cDYobnoh7PEkxtSJTG4YiOz4QnypjPNxgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3351
+X-MS-Exchange-CrossTenant-userprincipalname: YjH0t/sZeR0JTDOCZqAuED7NEGeqSyPo7QU4Veo/YhpCk77It0JEjqvwfKZv4feLkr8AoECQfalnabW2cdyyJg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2613
 X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200413_141242_389652_9ED977DC 
-X-CRM114-Status: GOOD (  13.03  )
+X-CRM114-CacheID: sfid-20200413_181913_330959_039C65E7 
+X-CRM114-Status: GOOD (  16.74  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,79 +159,133 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Stepan Golosunov <stepan@golosunov.pp.ru>,
+Cc: "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
  "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- Alistair Francis <alistair.francis@wdc.com>
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ "mingo@kernel.org" <mingo@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 4/6/20 11:54 AM, Vineet Gupta wrote:
-> On 3/31/20 2:47 PM, Vineet Gupta via Libc-alpha wrote:
->> From: Vineet Gupta via Libc-alpha <libc-alpha@sourceware.org>
->>
->> An older asm-generic syscall ABI may have kernel provide 32-bit
->> time syscalls, so undef them to not mix 32/64 in 64-bit time regime.
->>
->> Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
-> 
-> ping !
+On 8/30/18 7:43 AM, Peter Zijlstra wrote:
+> On Thu, Aug 30, 2018 at 04:29:20PM +0200, Peter Zijlstra wrote:
+>
+>> Also, once it all works, they should look at switching to _relaxed
+>> atomics for LL/SC.
+> A little something like so.. should save a few smp_mb().
 
-ping ^2 !
+Finally got to this - time for some spring cleaning ;-)
 
 
-> 
->> ---
->> Changes since v2
->>   - Made x32 safe
->>
->> Changes since v1
->>   - don't redirect these to 64-bit variants
->> ---
->>  sysdeps/unix/sysv/linux/generic/sysdep.h | 24 ++++++++++++++++++++++++
->>  1 file changed, 24 insertions(+)
->>
->> diff --git a/sysdeps/unix/sysv/linux/generic/sysdep.h b/sysdeps/unix/sysv/linux/generic/sysdep.h
->> index 40b4b955ca1b..b83e17e1c9d1 100644
->> --- a/sysdeps/unix/sysv/linux/generic/sysdep.h
->> +++ b/sysdeps/unix/sysv/linux/generic/sysdep.h
->> @@ -17,6 +17,7 @@
->>     <https://www.gnu.org/licenses/>.  */
->>  
->>  #include <bits/wordsize.h>
->> +#include <bits/timesize.h>
->>  #include <kernel-features.h>
->>  #include <sysdeps/unix/sysdep.h>
->>  #include <sysdeps/unix/sysv/linux/sysdep.h>
->> @@ -25,3 +26,26 @@
->>  #ifdef __NR_llseek
->>  # define __NR__llseek __NR_llseek
->>  #endif
->> +
->> +#if (__TIMESIZE == 64 && __WORDSIZE == 32 \
->> +     && (!defined __SYSCALL_WORDSIZE || __SYSCALL_WORDSIZE == 32))
->> +
->> +/* Don't provide 32-bit time syscalls even if the kernel ABI provides
->> +   them (Older variants of asm-generic ABIs e.g. ARC).  */
->> +
->> +# undef __NR_futex
->> +# undef __NR_rt_sigtimedwait
->> +# undef __NR_ppoll
->> +# undef __NR_utimensat
->> +# undef __NR_pselect6
->> +# undef __NR_recvmmsg
->> +# undef __NR_semtimedop
->> +# undef __NR_mq_timedreceive
->> +# undef __NR_mq_timedsend
->> +# undef __NR_clock_getres
->> +# undef __NR_timerfd_settime
->> +# undef __NR_timerfd_gettime
->> +# undef __NR_sched_rr_get_interval
->> +# undef __NR_clock_adjtime
->> +
->> +#endif
->>
+> ---
+>
+> diff --git a/arch/arc/include/asm/atomic.h b/arch/arc/include/asm/atomic.h
+> index 4e0072730241..714b54c308b0 100644
+> --- a/arch/arc/include/asm/atomic.h
+> +++ b/arch/arc/include/asm/atomic.h
+> @@ -44,7 +44,7 @@ static inline void atomic_##op(int i, atomic_t *v)			\
+>  }									\
+>  
+>  #define ATOMIC_OP_RETURN(op, c_op, asm_op)				\
+> -static inline int atomic_##op##_return(int i, atomic_t *v)		\
+> +static inline int atomic_##op##_return_relaxed(int i, atomic_t *v)	\
+>  {									\
+
+This being relaxed, shoudn't it also remove the smp_mb() before the operation and
+leave the generic code to add one / more smp_mb() as appropriate for fully
+ordered, acquire and release variants ?
+
+>  	unsigned int val;						\
+>  									\
+> @@ -69,8 +69,11 @@ static inline int atomic_##op##_return(int i, atomic_t *v)		\
+>  	return val;							\
+>  }
+>  
+> +#define atomic_add_return_relaxed	atomic_add_return_relaxed
+> +#define atomic_sub_return_relaxed	atomic_sub_return_relaxed
+> +
+>  #define ATOMIC_FETCH_OP(op, c_op, asm_op)				\
+> -static inline int atomic_fetch_##op(int i, atomic_t *v)			\
+> +static inline int atomic_fetch_##op##_relaxed(int i, atomic_t *v)	\
+>  {									\
+>  	unsigned int val, orig;						\
+>  									\
+> @@ -96,6 +99,14 @@ static inline int atomic_fetch_##op(int i, atomic_t *v)			\
+>  	return orig;							\
+>  }
+>  
+> +#define atomic_fetch_add_relaxed	atomic_fetch_add_relaxed
+> +#define atomic_fetch_sub_relaxed	atomic_fetch_sub_relaxed
+> +
+> +#define atomic_fetch_and_relaxed	atomic_fetch_and_relaxed
+> +#define atomic_fetch_andnot_relaxed	atomic_fetch_andnot_relaxed
+> +#define atomic_fetch_or_relaxed		atomic_fetch_or_relaxed
+> +#define atomic_fetch_xor_relaxed	atomic_fetch_xor_relaxed
+> +
+>  #else	/* !CONFIG_ARC_HAS_LLSC */
+>  
+>  #ifndef CONFIG_SMP
+> @@ -379,7 +390,7 @@ static inline void atomic64_##op(long long a, atomic64_t *v)		\
+>  }									\
+>  
+>  #define ATOMIC64_OP_RETURN(op, op1, op2)		        	\
+> -static inline long long atomic64_##op##_return(long long a, atomic64_t *v)	\
+> +static inline long long atomic64_##op##_return_relaxed(long long a, atomic64_t *v)	\
+>  {									\
+>  	unsigned long long val;						\
+>  									\
+> @@ -401,8 +412,11 @@ static inline long long atomic64_##op##_return(long long a, atomic64_t *v)	\
+>  	return val;							\
+>  }
+>  
+> +#define atomic64_add_return_relaxed	atomic64_add_return_relaxed
+> +#define atomic64_sub_return_relaxed	atomic64_sub_return_relaxed
+> +
+>  #define ATOMIC64_FETCH_OP(op, op1, op2)		        		\
+> -static inline long long atomic64_fetch_##op(long long a, atomic64_t *v)	\
+> +static inline long long atomic64_fetch_##op##_relaxed(long long a, atomic64_t *v)	\
+>  {									\
+>  	unsigned long long val, orig;					\
+>  									\
+> @@ -424,6 +438,14 @@ static inline long long atomic64_fetch_##op(long long a, atomic64_t *v)	\
+>  	return orig;							\
+>  }
+>  
+> +#define atomic64_fetch_add_relaxed	atomic64_fetch_add_relaxed
+> +#define atomic64_fetch_sub_relaxed	atomic64_fetch_sub_relaxed
+> +
+> +#define atomic64_fetch_and_relaxed	atomic64_fetch_and_relaxed
+> +#define atomic64_fetch_andnot_relaxed	atomic64_fetch_andnot_relaxed
+> +#define atomic64_fetch_or_relaxed	atomic64_fetch_or_relaxed
+> +#define atomic64_fetch_xor_relaxed	atomic64_fetch_xor_relaxed
+> +
+>  #define ATOMIC64_OPS(op, op1, op2)					\
+>  	ATOMIC64_OP(op, op1, op2)					\
+>  	ATOMIC64_OP_RETURN(op, op1, op2)				\
+> @@ -434,6 +456,12 @@ static inline long long atomic64_fetch_##op(long long a, atomic64_t *v)	\
+>  
+>  ATOMIC64_OPS(add, add.f, adc)
+>  ATOMIC64_OPS(sub, sub.f, sbc)
+> +
+> +#undef ATOMIC64_OPS
+> +#define ATOMIC64_OPS(op, op1, op2)					\
+> +	ATOMIC64_OP(op, op1, op2)					\
+> +	ATOMIC64_FETCH_OP(op, op1, op2)
+> +
+
+For clarity I split off this hunk into a seperate patch as it elides generation of
+unused bitwise ops.
+
+>  ATOMIC64_OPS(and, and, and)
+>  ATOMIC64_OPS(andnot, bic, bic)
+>  ATOMIC64_OPS(or, or, or)
+>
 
 _______________________________________________
 linux-snps-arc mailing list
