@@ -5,19 +5,19 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A436C38A2B
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Apr 2020 14:44:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AED07C38A2C
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Apr 2020 14:44:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6D2282078B
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Apr 2020 14:44:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8597F2085B
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Apr 2020 14:44:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GhPxxt8z";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ZjpJwCvj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D2282078B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oyIOLHcb";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="EBzaK+3S"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8597F2085B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,50 +26,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=sZY5mSgibA0MCxLSMzSk1z0NXPjQU/1Z2ug3/tUiofU=; b=GhPxxt8zqoD7vB
-	DlKVNMkciL028VS0Kkq5HL+18Ic+QX8MUiz2hOCOT7y+K6Qhk+QHBQxbPfVCm9vQ9SprgeZdG8CCb
-	kGtOCo6PFGtLCL/wQ7GYwNLsqgnfLmPA5hE9enU6GK1t3wyyHx9+PJj4hgUyOWNCJXKhyy04VB4Ma
-	8ABDidjmW3wkrTtRMetSIFWeATPPr2xwvZrVDVcUKmeEor366GGj5VGVlVPgefAsh2Cs5ZqcEyGB0
-	gwB8uFyB1x+VNy7ey65ymBdg0znCUmr/l21cqR05Pg3vUo4BptRaHODuxl6d7gPWP7grbUZm9DThq
-	Wij99DL466fdd9WZQv4Q==;
+	List-Owner; bh=e071Ust5iDxm0GuaaqKo9en9eHcs7mK2h3vgbG6016E=; b=oyIOLHcb7cUDF+
+	09Xxv8gERDU5cGKip3wlS9s+p96cnOAtxpML71MqkqgiUjXbL8FWamXd+pL9PodMAm5UDKMVPSZbw
+	Fslj01Rs2+Fgvrr0yDumr3k9JQp0UDJG5wLS8WfvntAaIxZ7Q2VnL5NTxz6xDLMRX5KbPdtc2wGmR
+	hs0PpJRi5B8Rrx/DAWSZFaXFALYsRsO7KBFMVaBbxL1vZ8kgBRr/wd825HyoclmvJKkdM1eHksol5
+	TkyMUWXINLRMnqCERr1WItgArr44AOXa29QGYGRoo9GZS+B3Nxa2PB6h67iK4IprSrK2G4io/6Cl5
+	SCh9lRtRnrMJhcfSHGww==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jOMnN-0000Fr-LO; Tue, 14 Apr 2020 14:44:13 +0000
+	id 1jOMnO-0000GJ-Qp; Tue, 14 Apr 2020 14:44:14 +0000
 Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jOMnL-0000EB-FD
+ id 1jOMnL-0000EC-F8
  for linux-snps-arc@lists.infradead.org; Tue, 14 Apr 2020 14:44:13 +0000
 Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
  [10.225.0.210])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 98B2F40484;
- Tue, 14 Apr 2020 14:44:08 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id EA6994047D;
+ Tue, 14 Apr 2020 14:44:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1586875449; bh=eIIjCzTpeJMIfjiUtE1G7XmBmAu7WJWsaBPpYxUyTbY=;
+ t=1586875449; bh=fOFAIwfV92Nxl+N2d1KwfN84aJoQPKpCZ6SCsZMgqQM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZjpJwCvjTZ21Cw6M82VbKtkgqmtUwYkUiWoPlLLJG+DfRoun9E8cp9Xvx8Itvp3wt
- LlC9t4GqFfRUGGr6le6HQNBMia/TtaTMPbNX9fVX3FuA6ekNnOiH1QRKYgpMa/75MH
- DKdRc6xdsas3aQyo9kmM+0t9Nbs+LEF6vMjz61MYT5rEu3xtZ+S1rzaJJWe85jaLh8
- ZFWvMB3i6OkPlPdgdB/DySbCKVKRo90Pu7d92gpl3nihdJ7dgji/68V4/GHsGyxS6W
- PW5qWMekRh4C/2HlCgCL5ENxJer93//39vyh0ueus1G988FsoofGhWeL4HGSlWYRTm
- vPELGrUEnHjNQ==
+ b=EBzaK+3SOYURUIXN7oZK4SO48aMksclGaqUwH8mu10O6Hve8AWUjpseUvWt0oo9Kk
+ I5Cw24Ot0RcIVlAXKtg5nq5MsNrqCBxi/I5ALCaw/DrjHs/jrpTi6k4CCuGkTr0LVO
+ 2jXp3bwl+VL5PAa8Z9Lb7aicnOR0hrPcA1X12DtI1KdWRfVc66fUu+oMCfACy30gSk
+ gUVrgkncM0TBu0jPMbKSft0uhmU65f3OPLa5qdSwz5G7WXGcM/5+9xt1Quj7kyI365
+ Dia8H2nq2z95M3vfzKFriy4M8B77Guzyx3wgHoAgC6tlL9POrFWs+bLL0WGk451AZC
+ 66mdyG7GRpz2g==
 Received: from paltsev-e7480.internal.synopsys.com (unknown [10.225.48.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id D6D14A0065;
+ by mailhost.synopsys.com (Postfix) with ESMTP id 39016A0062;
  Tue, 14 Apr 2020 14:44:06 +0000 (UTC)
 From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 To: dri-devel@lists.freedesktop.org,
  Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-Subject: [PATCH v2 2/2] dt-bindings: Document the Synopsys ARC HDMI TX bindings
-Date: Tue, 14 Apr 2020 17:44:02 +0300
-Message-Id: <20200414144402.27643-3-Eugeniy.Paltsev@synopsys.com>
+Subject: [PATCH v2 1/2] DRM: ARC: add HDMI 2.0 TX encoder support
+Date: Tue, 14 Apr 2020 17:44:01 +0300
+Message-Id: <20200414144402.27643-2-Eugeniy.Paltsev@synopsys.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200414144402.27643-1-Eugeniy.Paltsev@synopsys.com>
 References: <20200414144402.27643-1-Eugeniy.Paltsev@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200414_074411_519466_905C818F 
-X-CRM114-Status: GOOD (  13.41  )
+X-CRM114-CacheID: sfid-20200414_074411_527554_0DC6A44F 
+X-CRM114-Status: GOOD (  15.46  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,152 +92,206 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This patch adds documentation of device tree bindings for the Synopsys
-HDMI 2.0 TX encoder driver for ARC SoCs.
+The Synopsys ARC SoCs (like HSDK4xD) include on-chip DesignWare HDMI
+encoders. Support them with a platform driver to provide platform glue
+data to the dw-hdmi driver.
 
 Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 ---
- .../display/bridge/snps,arc-dw-hdmi.yaml      | 131 ++++++++++++++++++
- 1 file changed, 131 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
+ MAINTAINERS                       |   6 ++
+ drivers/gpu/drm/Makefile          |   2 +-
+ drivers/gpu/drm/arc/Kconfig       |   7 ++
+ drivers/gpu/drm/arc/Makefile      |   1 +
+ drivers/gpu/drm/arc/arc-dw-hdmi.c | 126 ++++++++++++++++++++++++++++++
+ 5 files changed, 141 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/arc/arc-dw-hdmi.c
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a6fbdf354d34..2aaed1190370 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1258,6 +1258,12 @@ S:	Supported
+ F:	drivers/gpu/drm/arc/
+ F:	Documentation/devicetree/bindings/display/snps,arcpgu.txt
+ 
++ARC DW HDMI DRIVER
++M:	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
++S:	Supported
++F:	drivers/gpu/drm/arc/arc-dw-hdmi.c
++F:	Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
++
+ ARCNET NETWORK LAYER
+ M:	Michael Grzeschik <m.grzeschik@pengutronix.de>
+ L:	netdev@vger.kernel.org
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 6493088a0fdd..5b0bcf7f45cd 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -109,7 +109,7 @@ obj-y			+= panel/
+ obj-y			+= bridge/
+ obj-$(CONFIG_DRM_FSL_DCU) += fsl-dcu/
+ obj-$(CONFIG_DRM_ETNAVIV) += etnaviv/
+-obj-$(CONFIG_DRM_ARCPGU)+= arc/
++obj-y			+= arc/
+ obj-y			+= hisilicon/
+ obj-$(CONFIG_DRM_ZTE)	+= zte/
+ obj-$(CONFIG_DRM_MXSFB)	+= mxsfb/
+diff --git a/drivers/gpu/drm/arc/Kconfig b/drivers/gpu/drm/arc/Kconfig
+index e8f3d63e0b91..baec9d2a4fba 100644
+--- a/drivers/gpu/drm/arc/Kconfig
++++ b/drivers/gpu/drm/arc/Kconfig
+@@ -8,3 +8,10 @@ config DRM_ARCPGU
+ 	  Choose this option if you have an ARC PGU controller.
+ 
+ 	  If M is selected the module will be called arcpgu.
++
++config DRM_ARC_DW_HDMI
++	tristate "ARC DW HDMI"
++	depends on DRM && OF
++	select DRM_DW_HDMI
++	help
++	  Synopsys DW HDMI driver for various ARC development boards
+diff --git a/drivers/gpu/drm/arc/Makefile b/drivers/gpu/drm/arc/Makefile
+index c7028b7427b3..7a156d8c2c3c 100644
+--- a/drivers/gpu/drm/arc/Makefile
++++ b/drivers/gpu/drm/arc/Makefile
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ arcpgu-y := arcpgu_crtc.o arcpgu_hdmi.o arcpgu_sim.o arcpgu_drv.o
+ obj-$(CONFIG_DRM_ARCPGU) += arcpgu.o
++obj-$(CONFIG_DRM_ARC_DW_HDMI) += arc-dw-hdmi.o
+diff --git a/drivers/gpu/drm/arc/arc-dw-hdmi.c b/drivers/gpu/drm/arc/arc-dw-hdmi.c
 new file mode 100644
-index 000000000000..f52fc3b114b0
+index 000000000000..4869dd668a51
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
-@@ -0,0 +1,131 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/snps,arc-dw-hdmi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/arc/arc-dw-hdmi.c
+@@ -0,0 +1,126 @@
++// SPDX-License-Identifier: GPL-2.0+
++//
++// Synopsys DW HDMI driver for various ARC development boards
++//
++// Copyright (C) 2020 Synopsys
++// Author: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 +
-+title: Synopsys DesignWare HDMI 2.0 TX encoder driver
++#include <linux/component.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++#include <drm/bridge/dw_hdmi.h>
++#include <drm/drm_crtc_helper.h>
++#include <drm/drm_edid.h>
++#include <drm/drm_encoder_slave.h>
++#include <drm/drm_of.h>
 +
-+maintainers:
-+  - Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
++static const struct dw_hdmi_mpll_config snps_hdmi_mpll_cfg[] = {
++	{
++		27000000, {
++			{ 0x00B3, 0x0000 },
++			{ 0x00B3, 0x0000 },
++			{ 0x00B3, 0x0000 }
++		},
++	}, {
++		74250000, {
++			{ 0x0072, 0x0001},
++			{ 0x0072, 0x0001},
++			{ 0x0072, 0x0001}
++		},
++	}, {
++		148500000, {
++			{ 0x0051, 0x0002},
++			{ 0x0051, 0x0002},
++			{ 0x0051, 0x0002}
++		},
++	}, {
++		~0UL, {
++			{ 0x00B3, 0x0000 },
++			{ 0x00B3, 0x0000 },
++			{ 0x00B3, 0x0000 },
++		},
++	}
++};
 +
-+description: |
-+  The HDMI transmitter is a Synopsys DesignWare HDMI 2.0 TX controller IP
-+  with a companion of Synopsys DesignWare HDMI 2.0 TX PHY IP.
++static const struct dw_hdmi_curr_ctrl snps_hdmi_cur_ctr[] = {
++	/* pixelclk    bpp8    bpp10   bpp12 */
++	{ 27000000,  { 0x0000, 0x0000, 0x0000 }, },
++	{ 74250000,  { 0x0008, 0x0008, 0x0008 }, },
++	{ 148500000, { 0x001b, 0x001b, 0x001b }, },
++	{ ~0UL,      { 0x0000, 0x0000, 0x0000 }, }
++};
 +
-+  These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
-+  Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
-+  with the following device-specific properties.
 +
-+properties:
-+  compatible:
-+    const: snps,dw-hdmi-hsdk
++static const struct dw_hdmi_phy_config snps_hdmi_phy_config[] = {
++	/* pixelclk   symbol  term    vlev */
++	{ 27000000,   0x8009, 0x0004, 0x0232},
++	{ 74250000,   0x8009, 0x0004, 0x0232},
++	{ 148500000,  0x8009, 0x0004, 0x0232},
++	{ ~0UL,       0x8009, 0x0004, 0x0232}
++};
 +
-+  reg:
-+    maxItems: 1
-+    description: |
-+      Memory mapped base address and length of the DWC HDMI TX registers.
++static enum drm_mode_status snps_dw_hdmi_mode_valid(struct drm_connector *con,
++						    const struct drm_display_mode *mode)
++{
++	return MODE_OK;
++}
 +
-+  clocks:
-+    items:
-+      - description: The bus clock for AHB / APB
-+      - description: The internal register configuration clock
++static struct dw_hdmi_plat_data snps_dw_hdmi_drv_data = {
++	.mpll_cfg   = snps_hdmi_mpll_cfg,
++	.cur_ctr    = snps_hdmi_cur_ctr,
++	.phy_config = snps_hdmi_phy_config,
++	.mode_valid = snps_dw_hdmi_mode_valid,
++};
 +
-+  clock-names:
-+    items:
-+      - const: iahb
-+      - const: isfr
++static const struct of_device_id snps_dw_hdmi_dt_ids[] = {
++	{
++		.compatible = "snps,dw-hdmi-hsdk",
++		.data = &snps_dw_hdmi_drv_data
++	}, { /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, snps_dw_hdmi_dt_ids);
 +
-+  reg-io-width:
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - enum: [1, 4]
-+        description:
-+          Width of the registers specified by the reg property. The
-+          value is expressed in bytes and must be equal to 1 or 4 if specified.
-+          The register width defaults to 1 if the property is not present.
++static int snps_dw_hdmi_probe(struct platform_device *pdev)
++{
++	const struct dw_hdmi_plat_data *plat_data;
++	const struct of_device_id *match;
++	struct dw_hdmi *hdmi;
 +
-+  ports:
-+    type: object
-+    description: |
-+      A ports node with endpoint definitions as defined in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt
++	if (!pdev->dev.of_node)
++		return -ENODEV;
 +
-+    properties:
-+      "#address-cells":
-+        const: 1
++	match = of_match_node(snps_dw_hdmi_dt_ids, pdev->dev.of_node);
++	plat_data = match->data;
 +
-+      "#size-cells":
-+        const: 0
++	hdmi = dw_hdmi_probe(pdev, plat_data);
++	if (IS_ERR(hdmi))
++		return PTR_ERR(hdmi);
 +
-+      port@0:
-+        type: object
-+        description: |
-+          Video input endpoints of the controller.
-+          Usually the associated with PGU.
++	platform_set_drvdata(pdev, hdmi);
 +
-+      port@1:
-+        type: object
-+        description: |
-+          Output endpoints of the controller. HDMI connector.
++	return 0;
++}
 +
-+    required:
-+      - "#address-cells"
-+      - "#size-cells"
-+      - port@0
-+      - port@1
++static int snps_dw_hdmi_remove(struct platform_device *pdev)
++{
++	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
 +
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - ports
++	dw_hdmi_remove(hdmi);
 +
-+additionalProperties: false
++	return 0;
++}
 +
-+examples:
-+  - |
-+    hdmi: hdmi@0x10000 {
-+        compatible = "snps,dw-hdmi-hsdk";
-+        reg = <0x10000 0x10000>;
-+        reg-io-width = <4>;
-+        interrupts = <14>;
-+        clocks = <&apbclk>, <&hdmi_pix_clk>;
-+        clock-names = "iahb", "isfr";
++static struct platform_driver snps_dw_hdmi_platform_driver = {
++	.probe  = snps_dw_hdmi_probe,
++	.remove = snps_dw_hdmi_remove,
++	.driver = {
++		.name = KBUILD_MODNAME,
++		.of_match_table = snps_dw_hdmi_dt_ids,
++	},
++};
++module_platform_driver(snps_dw_hdmi_platform_driver);
 +
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                hdmi_enc_input: endpoint {
-+                    remote-endpoint = <&pgu_output>;
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+                hdmi_enc_out: endpoint {
-+                    remote-endpoint = <&hdmi_con>;
-+                };
-+            };
-+        };
-+    };
-+
-+    hdmi-out {
-+        port {
-+            hdmi_con: endpoint {
-+                remote-endpoint = <&hdmi_enc_out>;
-+            };
-+        };
-+    };
-+
-+    pgu {
-+        port_o: port {
-+            pgu_output: endpoint {
-+                remote-endpoint = <&hdmi_enc_input>;
-+            };
-+        };
-+    };
++MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("ARC specific DW-HDMI driver extension");
++MODULE_AUTHOR("Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>");
 -- 
 2.21.1
 
