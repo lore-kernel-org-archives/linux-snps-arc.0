@@ -2,82 +2,73 @@ Return-Path: <SRS0=oiN1=56=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A26C2BB1D
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Apr 2020 21:44:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BD96C38A29
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Apr 2020 23:29:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3795820767
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Apr 2020 21:44:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 00CC42064A
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Apr 2020 23:29:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Sa8XSuLe"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3795820767
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rY/lANNy";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="I9YbktXP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 00CC42064A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=r0IIvJROvw47B2ImlCaM2vipQEtqO/s5mz5yCKJ0dVo=; b=Sa8XSuLecsTBTO
-	S8vHi4rAT/N23CzhjgxKC9SFZAVu8rUrp2QwCzGwFdtMzQLHgxc1F0tuA9wNqXqGeGWp37Xf1s9W/
-	qzzM8xiRh1h2oRFBRszBblJeWLjV+nEtIix6HmpBQrBziFyug6/1i2SHGr28PATVFRC9/utZgIcwy
-	BT2GaMCGNlIp6Uwv4eDXI6AsJCqqUb93EApKA3TczbXLS7hnqHmXVRA1oNNN2FCH9TjXtJr2W/c4u
-	l6c3fIRndsF6izqkuY53H5TgPu8F2HZTYDPiOU0YR72r8qecOXnDyXMhFop5kHg0qb3hLRFdqTdKn
-	Nibe3YekBSxyjafxPvnw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=K9vxR1Tr8kdeZ82wlzmWEINhgnznhDbpzD3tmXtnK7s=; b=rY/lANNyxCnwp2
+	oaKTuhTD48Yg1tP/xfL9s83JhCs+rdA9wx/1rIi/03QSoIx5pMQky8PjHfp39U86Df0PlqXmPP6Wp
+	mXYmKJqPrvsWL7UN8w+ZGxG5mJOn7VTSssJgnP4XnbTfzlVSJwhK475FjFjSWGzh0rTdCQs7sERrY
+	KV97QBL+ufsvFtGykf0g9mvyXxYnTjofcFqUG9STyrqk9tQTGK3xHiTB/RUzpdQNGve4z96F2Zcuo
+	kjungzvia16TeMXl6Ak21DUt5gwIq4VDEWwQWyL2qRFD3664dqMjXjDd7WKWG/EXD615YbX1d967A
+	6SbVDy9ulneuV3u1ZCzw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jOTME-0002q1-Ah; Tue, 14 Apr 2020 21:44:38 +0000
-Received: from mail-ot1-f67.google.com ([209.85.210.67])
+	id 1jOV00-0003hB-Vx; Tue, 14 Apr 2020 23:29:48 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jOTMB-0002mW-Tq
- for linux-snps-arc@lists.infradead.org; Tue, 14 Apr 2020 21:44:37 +0000
-Received: by mail-ot1-f67.google.com with SMTP id m2so1363599otr.1
- for <linux-snps-arc@lists.infradead.org>; Tue, 14 Apr 2020 14:44:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=1rbtN7N+ptVDeQQdbAIqZEIk2V0QAROfk/PV0WHMjRE=;
- b=K2qPuAg7TpdYdIcH0u9YdgKcL2xS1kJx5weOXhM/VP0tI1+O5FE4hC19dW9kD+rW06
- UlSu4Q18s7RBMPBu1t21sed8XgqQPy6v6M6aozMTYyKTCqL+o2eM3lKQNzuAH2OJqYQY
- xjdT4i/xdn6YP4L3wiBSlpP5z2Vdmht/kqHJEqexABa0D+Tq9eZbAjuTjLJMebDHhk/A
- I3kdFuM0Zbkjm7MLdQIFhjF5Q4dzVlhA6wLrv5S2Y716CiBCCDEkvY8ETo9sMDjGyz9N
- gjFpTx9xwnQ6MeaBXXZ417euMh2kkkyp5nFvBQwfy6y0FRYrVdnELgzNf2bS1LnJdP5j
- CY0A==
-X-Gm-Message-State: AGi0PubJ+mFhtUchFnSzM2ajmdDgt3SifLuZAPNMXmFgp5uLPvu7Jd19
- WezEH6U79YPzklqbUiaetrXI3IE=
-X-Google-Smtp-Source: APiQypL96hB6UYPUf5qDgTbGQ//SKC8rB0d/g8MUB8WJ16O3Kia4xlS7p8LgovR0p7mxbY0QwQJLCw==
-X-Received: by 2002:a9d:3988:: with SMTP id y8mr10467743otb.352.1586900675157; 
- Tue, 14 Apr 2020 14:44:35 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id r67sm5788491oie.19.2020.04.14.14.44.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 14:44:34 -0700 (PDT)
-Received: (nullmailer pid 10522 invoked by uid 1000);
- Tue, 14 Apr 2020 21:44:33 -0000
-Date: Tue, 14 Apr 2020 16:44:33 -0500
-From: Rob Herring <robh@kernel.org>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: Document the Synopsys ARC HDMI TX
- bindings
-Message-ID: <20200414214433.GA10013@bogus>
-References: <20200414144402.27643-1-Eugeniy.Paltsev@synopsys.com>
- <20200414144402.27643-3-Eugeniy.Paltsev@synopsys.com>
+ id 1jOUzv-0003fI-Me
+ for linux-snps-arc@lists.infradead.org; Tue, 14 Apr 2020 23:29:47 +0000
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
+ [10.225.0.210])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id D0DC6C00CC;
+ Tue, 14 Apr 2020 23:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1586906982; bh=cbwVPNBBMDU3Qsse2SdkAJsbA5fiCp4ztKxUhtvleWQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=I9YbktXPbOUEqFICj4aMMImlRJrFxMgJgrPXue5z/GF4twcfeXC/PudnuBQn/VckG
+ UR6hyiuapJKc6nnZJDCLPw9BhOl2EvPC3lUesbR3nRrOEupwJl/JhCZI0Qq3qpqaSi
+ s3vpDOALJcUmc5XQnImHE2OW97N8JMnMhcns0wW8/Yz4A5AJQsu6X42DHNof/xPm3T
+ vU79f60Ouz3TYNOu9mPeLnfLmNjj/l9XwNgQDGTO9ny9ZV32AtbPMnqeYa7v96JpZ7
+ NjleVLXs3Rs23sIhNZkjNnuwq5KLIDG+s6ITwpIUXowkS/VvMPE62/Vd3Rm7Jd3IrZ
+ x3+BBCnZoG6uQ==
+Received: from paltsev-e7480.internal.synopsys.com
+ (ru20-e7250.internal.synopsys.com [10.225.48.89])
+ by mailhost.synopsys.com (Postfix) with ESMTP id C1FB0A005C;
+ Tue, 14 Apr 2020 23:29:35 +0000 (UTC)
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+To: dri-devel@lists.freedesktop.org,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+Subject: [PATCH v3 0/2] DRM: ARC: add HDMI 2.0 TX encoder support
+Date: Wed, 15 Apr 2020 02:29:27 +0300
+Message-Id: <20200414232929.22788-1-Eugeniy.Paltsev@synopsys.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200414144402.27643-3-Eugeniy.Paltsev@synopsys.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200414_144435_962765_343B4F37 
-X-CRM114-Status: UNSURE (   8.74  )
+X-CRM114-CacheID: sfid-20200414_162943_780102_E2E7313E 
+X-CRM114-Status: UNSURE (   7.85  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -92,40 +83,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
  Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
  linux-snps-arc@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, 14 Apr 2020 17:44:02 +0300, Eugeniy Paltsev wrote:
-> This patch adds documentation of device tree bindings for the Synopsys
-> HDMI 2.0 TX encoder driver for ARC SoCs.
-> 
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-> ---
->  .../display/bridge/snps,arc-dw-hdmi.yaml      | 131 ++++++++++++++++++
->  1 file changed, 131 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
-> 
+Changes v1->v2:
+ * use DT Schema format please (.yaml files) for DT bindings
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Changes v2->v3:
+ * Add missing 'interrupts' property in DT bindings
+ * Drop dummy 'dw_hdmi_bridge_mode_valid'
+ * Change bracing format of 'of_device_id' structure
+ * Change compatible string to "snps,arc-dw-hdmi-hsdk"
+   Now DT binding file is snps,arc-dw-hdmi.yaml and compatible is
+   "snps,arc-dw-hdmi-<soc/board>"
+ * Minor fixes
 
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.example.dt.yaml: example-0: 'hdmi@0x10000' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.example.dt.yaml: hdmi@0x10000: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+Eugeniy Paltsev (2):
+  DRM: ARC: add HDMI 2.0 TX encoder support
+  dt-bindings: Document the Synopsys ARC HDMI TX bindings
 
-See https://patchwork.ozlabs.org/patch/1270389
+ .../display/bridge/snps,arc-dw-hdmi.yaml      | 136 ++++++++++++++++++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/Makefile                      |   2 +-
+ drivers/gpu/drm/arc/Kconfig                   |   7 +
+ drivers/gpu/drm/arc/Makefile                  |   1 +
+ drivers/gpu/drm/arc/arc-dw-hdmi.c             | 116 +++++++++++++++
+ 6 files changed, 267 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
+ create mode 100644 drivers/gpu/drm/arc/arc-dw-hdmi.c
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
+-- 
+2.21.1
 
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-
-Please check and re-submit.
 
 _______________________________________________
 linux-snps-arc mailing list
