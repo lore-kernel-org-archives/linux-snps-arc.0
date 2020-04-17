@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B41C2BB1D
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 17 Apr 2020 22:59:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 329DAC2BB1D
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 17 Apr 2020 23:02:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2747A214D8
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 17 Apr 2020 22:59:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0112E214D8
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 17 Apr 2020 23:02:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qGKj+RLV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2747A214D8
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UHSK2in9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0112E214D8
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codesourcery.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,49 +24,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
 	In-Reply-To:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=waWZN07WFtT5Nueos3LT6QZPDuwf6azFxeVaBa7vwIQ=; b=qGKj+RLVHBM/E4
-	0p6t7NKO+djb3+/e4CsG7k3MTStf9IUMzLaYGGxuj+mJiqFxfWDEEp/eXjCqso7AKcXuOc9SAtvS7
-	J2RyxvGYDPcmjsNQKOnbQFBz/ULgyGw+U8oSAYRIKlqEbXvMrYM1JalHEzP6u6e1IlF4TsKzl1yRg
-	Oy2Mw1KIfI0cZyTdOzZi1EHYTZbtbJRLKd8WmCJPcP6C5z9jrdY6uJdPplG9x4ktEJKqCIg6/lSAS
-	1nA/JQ7cRU3lCBs7gZ6Yqm8n7GZ9dA9K1aLywz3IGBQPxY8JzY5pYSUjOE+yG2kFIcQJYQbk8K0Lq
-	ctNE8XevUo8QcYXHzecA==;
+	List-Owner; bh=fECV9yaTrU2hHpj4pKBQIeZs9aIGbtYhO/aYCMiwghA=; b=UHSK2in9rHkxOg
+	jALYDf2xbp/H54M3DW+NXA2NmFvYN6HRaPp1od5iwux0jqkPX6suBGJzX8Ybc8lwag4KiRA67s1sp
+	l98KD5+MDlIFwq40lhm5cMDskp9dxY5YIhA2l32HSDsWzzGkQwKuGK9L/FnjQ4D18Pl40LafqBBHB
+	R7WMp9VTpwOoc4rjjDETmk5goDG2JCaxc1RsQra+ERQYHIv8OEGGeLfXZ3Ttsh+BIR08F/m8uqdq2
+	Xh7OxwDg76x5+mzMsMQw1SwdVizwpL4QpJQasVdtCwOcuhT4VLfoZAdryuhpt+CziC9o4CVUAFrrG
+	WrfyPbTasEOM2nFNE2rQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jPZxk-0003pz-Ee; Fri, 17 Apr 2020 22:59:56 +0000
-Received: from esa3.mentor.iphmx.com ([68.232.137.180])
+	id 1jPZzw-0006Nm-P3; Fri, 17 Apr 2020 23:02:12 +0000
+Received: from esa1.mentor.iphmx.com ([68.232.129.153])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jPZxi-0003pd-Eb
- for linux-snps-arc@lists.infradead.org; Fri, 17 Apr 2020 22:59:55 +0000
-IronPort-SDR: jRNYclMcNCiOmUcEhfZoh5lLhblbOFdlkZe6nxQ6Q6bTuqiKz1cROLNT6E7prlERhibYtBn6lQ
- gVabNfyhx18NyDEcBW1/0IKG/wPOCxsj73toC5t+KWYifice6+8n27Cza6VUg3BuxcaCrrcrOa
- 9IPYyGnbsFa25VU5PeIOhhOh1zCnPxvUFruXgqt+c6pxOMNuQrcMdmIu1vnvtyQAYoMMXYWjpx
- 48/KkHWDFl6qVGxqNk9j6b261AGNUPTKvw/CLZHLCvhphZ11aM9JK8y1bt0YT6D5l5cvwjxRZU
- o5s=
-X-IronPort-AV: E=Sophos;i="5.72,395,1580803200"; d="scan'208";a="47930023"
+ id 1jPZzu-0006NI-31
+ for linux-snps-arc@lists.infradead.org; Fri, 17 Apr 2020 23:02:11 +0000
+IronPort-SDR: 71v9m2x0jDZ1/pf05OAK+aAb/OQq9Vzhmu2aiOqR3NbO+c0NgsbpfQzTXgY1XW8l6f/vV2du6C
+ fXoJc7mnWEBPLXIDC+YeQPCM9C2pIxfZKbrBsr6JU1RScW7Oj75MlIAPppmBGIBsjA9O1WD3W1
+ Ke/FB13lSC+w4FlLvd/o0EwOagiKrsDfezxgcdbZeaGs/kWyx0r6kHetq5uX5G8uz+v1leLAoQ
+ zjoW7VV1L5Yp4IxXD6Iz7+ApnKzf1yi9hOdnkW8Q570MohzSoAgXUXX3yvuWtxxRzUv5fQXvru
+ N+A=
+X-IronPort-AV: E=Sophos;i="5.72,395,1580803200"; d="scan'208";a="49929632"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa3.mentor.iphmx.com with ESMTP; 17 Apr 2020 14:59:53 -0800
-IronPort-SDR: 1fBlcDF9qTgemxD3uc6Dda3ALaKUknKpQlP17zUZZW5Pzm0aWdqX7MVUdKiZF7kgXH7v0w2Yll
- WJB5V4z59ilHL65THdZ5jJyM1yGF4l5uC4vEOVz4tQyb0Yn3koCd9MbwVANa0c8xZ16PQ4qNmL
- oH1Suuw/m6t+EJ2Gv5oCHtUVad66SUjF/NEYsBfdkRyEbI4y1R0Ff9T80WEe9KCzZe1b0mzUrZ
- uJpwCmckKAP7XO9c3BlOfjhgx3mkGh+E4Btkb2q/XJx4UD6xYpVbhZ2Fn1+nBOVfFvejvxqnRv
- C4I=
-Date: Fri, 17 Apr 2020 22:59:48 +0000
+ by esa1.mentor.iphmx.com with ESMTP; 17 Apr 2020 15:02:06 -0800
+IronPort-SDR: 4QhPrMGc2Cw5lb4V6std/80o7kMPDx5KJ0OeacPfNtoBEfSUvwwF+XZardQnCJJoNvI6jBr5nF
+ 7C7fTlNKWLKZMtesmBcNs3fK3yj7XgWoZOvzuKzDtpzfkUGiBhWJ4GPoMO+qw0aPGetseklzjg
+ u72EGu1yLUZaMXdfMwgXsqX6NPjjMl1P0J9v2Nfs4DuXIAynG4mPQdrZJo5afB2cLDWohfMknU
+ RjSbNP7pamyY/94+HMqxptSfZfSsMfT/+YECWKnt6LPnoF3srFXvNoieVgNcEJlduvDdXoVGZm
+ gFg=
+Date: Fri, 17 Apr 2020 23:02:01 +0000
 From: Joseph Myers <joseph@codesourcery.com>
 X-X-Sender: jsm28@digraph.polyomino.org.uk
 To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [PATCH v5 06/14] ARC: hardware floating point support
-In-Reply-To: <20200409025615.27003-7-vgupta@synopsys.com>
-Message-ID: <alpine.DEB.2.21.2004172254500.1082@digraph.polyomino.org.uk>
+Subject: Re: [PATCH v5 08/14] ARC: Linux ABI
+In-Reply-To: <20200409025615.27003-9-vgupta@synopsys.com>
+Message-ID: <alpine.DEB.2.21.2004172301140.1082@digraph.polyomino.org.uk>
 References: <20200409025615.27003-1-vgupta@synopsys.com>
- <20200409025615.27003-7-vgupta@synopsys.com>
+ <20200409025615.27003-9-vgupta@synopsys.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-06.mgc.mentorg.com (139.181.222.6) To
+X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
  svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200417_155954_537231_EA95C185 
-X-CRM114-Status: UNSURE (   3.75  )
+X-CRM114-CacheID: sfid-20200417_160210_135247_D93F1E38 
+X-CRM114-Status: UNSURE (   2.55  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -87,20 +87,10 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 On Wed, 8 Apr 2020, Vineet Gupta via Libc-alpha wrote:
 
-> +#  define _FPU_SETS(cw) __asm__ volatile ("bset %0, %0, 31	\r\n" \
-> +					  "sr   %0, [0x301]	\r\n" \
-> +                                          : : "r" (cw))
+> +      for (i = 0; i < stack_args; i++)
+> +        *r++ = va_arg(vl, unsigned long int);
 
-This asm doesn't look safe; it's modifying an input operand.  I think the 
-compiler will assume the register it puts %0 in is unmodified by the asm, 
-because it's listed as an input.
-
-As an architecture-specific interface, it's not very clear if the 
-interface for _FPU_SETS should be that it modifies the variable passed as 
-an argument, but I'd guess not.  My suggestion would be to define the 
-macro (using do { ... } while (0)) to copy the argument to a temporary 
-variable, and do the bit-set operation in C code on that temporary 
-variable rather than as part of the asm.
+Missing space before '(' in call to va_arg.
 
 -- 
 Joseph S. Myers
