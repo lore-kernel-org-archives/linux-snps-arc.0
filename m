@@ -3,64 +3,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3680C38A29
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Apr 2020 16:50:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D37DBC352BE
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Apr 2020 20:20:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C790621D6C
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Apr 2020 16:50:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 04F7D221F7
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Apr 2020 20:20:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="c7J+TLYD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C790621D6C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deneb.enyo.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="D02Xi0dl";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=arista.com header.i=@arista.com header.b="NtWMGxm5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 04F7D221F7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=arista.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:
-	Date:References:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=uvnlnQyvIDoU2xokvtDgbQsf4BvrY7e7gJr/rjxyoaE=; b=c7J+TLYDaUYpGZ
-	hd+jJxDBuhmcYjVHspGPDNeR5s4C6XpuQgH9Rd6NjsxMIiC5OXyjrhVpGXAVMLxOSDIbC1TeDuG2P
-	ltrVQ6TuozzstKicb7UqRq9wF8kjfF3HBMTSv++eCTttWlrHz1puYw0Jxb1UK0bDgkbyrbsPKuY2A
-	Y0R2x12TibNpLGHZLrHlnweokS0yeFfbRH2mgS5tbaOC0LLZtODmtd3ZRGXLbuqc4jCzSfojCuXPc
-	sL05Qs21ADt/xXxruNQ/zXza+oXcEStt8MUQb7dw6iVfu/eCxUWBgwTbmUdyRJhhkw3JMF/oXcw91
-	vA7gPHKFqU1T+Na0T+9w==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Xcwu4PBPmuWIzjRVILvz35FijdQInsXlFK+JO082qxI=; b=D02Xi0dl2mLpdw
+	gac3H6lMjSC4Cl8KIwO5OlnQ5vUQ2BSfgsTNOVCP1XvyKT8/KrxrbE2eyOKcJ1NZ/aLOUUIp+LaL1
+	bQfGIB4QAYdovGBOG3xQMMndaZrRLiKiINJXSiHuGyPnrsOoYuAbUV4PNEuoFw2legdLSwuvO5BQ3
+	XW5FhKaTpda99aesUrfhVYxspErjwHNh+A3xKJECwfBlUkq8W73atNYmHDWKeDZbspQRemrZblBIW
+	1L22JcRH12pyELwGB+dyNgh7BFMPsykOEBzdXd/it16FJUB+dcgrdAidGa5os2g9BENkye112Fb/U
+	2d2qNiR1nv3bou9FqPIw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jPqfn-00071n-AG; Sat, 18 Apr 2020 16:50:31 +0000
-Received: from albireo.enyo.de ([37.24.231.21])
+	id 1jPtwT-0001Th-B1; Sat, 18 Apr 2020 20:19:57 +0000
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jPqfj-00070o-0d
- for linux-snps-arc@lists.infradead.org; Sat, 18 Apr 2020 16:50:30 +0000
-Received: from [172.17.203.2] (helo=deneb.enyo.de)
- by albireo.enyo.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- id 1jPqfb-0003BC-EQ; Sat, 18 Apr 2020 16:50:19 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.92)
- (envelope-from <fw@deneb.enyo.de>)
- id 1jPqfb-0006ZH-Am; Sat, 18 Apr 2020 18:50:19 +0200
-From: Florian Weimer <fw@deneb.enyo.de>
-To: Vineet Gupta via Libc-alpha <libc-alpha@sourceware.org>
-Subject: Re: [PATCH v3] Make any 32-bit time based syscalls unavailable for
- TIMESIZE==64
-References: <20200312183325.594-1-vgupta@synopsys.com>
- <20200331214717.23902-1-vgupta@synopsys.com>
- <c87dd5b4-8be6-714f-3210-4cbfbe89a069@synopsys.com>
- <9eda9480-d0d5-07ec-3a99-83e61b076a2a@synopsys.com>
- <46b17be4-da49-a6d3-3a07-accf406302b7@synopsys.com>
-Date: Sat, 18 Apr 2020 18:50:19 +0200
-In-Reply-To: <46b17be4-da49-a6d3-3a07-accf406302b7@synopsys.com> (Vineet Gupta
- via Libc-alpha's message of "Sat, 18 Apr 2020 00:28:30 +0000")
-Message-ID: <87y2qs68ms.fsf@mid.deneb.enyo.de>
+ id 1jPtwO-0001RR-Hh
+ for linux-snps-arc@lists.infradead.org; Sat, 18 Apr 2020 20:19:55 +0000
+Received: by mail-wm1-x341.google.com with SMTP id x4so6503237wmj.1
+ for <linux-snps-arc@lists.infradead.org>; Sat, 18 Apr 2020 13:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=arista.com; s=googlenew;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jZu2SG2CC0n9e6bY0OW4NrZkgCkX838M7bfDqNvau2s=;
+ b=NtWMGxm5Z5KL60IcA5G6+HePF4i0/+hybqLX4fP2XMV4pk2XK/oJgFwY9QTP7vjDcS
+ 5rwxVW1+vHKUvZUBrN7R1Jm5os3oCs5jvHX41VQ5J2K9Y+GI66NfmYOUEkhyxC+rjZg7
+ 2GfsY1ICyicOKD9p22ci+KNPTEheYKJMkOJUNpoxfOXV+MY7Nfvt7+EMftdBGU8cAV7Z
+ Hc5O1LA9T9GP/asJoaPI+CZlJFXlG6W/t2lsj8SpH+N8Lys5LxM4YnccVfQhfWVsNDrM
+ t9gj0wsuKk0zluKdzjzbtHVloZk5oDJD4LvQFErIsDvme+gEa5teq5SfPrxjPtC9exZQ
+ O63A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jZu2SG2CC0n9e6bY0OW4NrZkgCkX838M7bfDqNvau2s=;
+ b=VNuLJ3kD4fVPB5du7HCvExNAmiRHBNZMAD86I38kqOLkRI6G3zz2ZajQvvOZscHcWM
+ 84m13VDkKXZzpUKedXM+dmp1sYv/hdgZBV4C6BidH8c/qmLxrcl+6K+iEthkFRP5A0nH
+ NkuFtE5ZcA3UKvXaae2emNVEwF+GL+5Gau7bFmBdcBlDl2fDlHnj1woSPCp+6Pl2jptp
+ NnI/7Mrtzk+3h+JiGJyKVekNQ017l3ij5DSJIWNrbtboil4a5VnHZgH+1I2uaSCy+pNV
+ ZyAAukC9g7NMyHkxbbytOmgMkAcrlwfQt3xPZTKWGTha0e0h5Q0NDKRo+M7rBf/J539b
+ cvtQ==
+X-Gm-Message-State: AGi0PuYn11cQNqzb01NNC6P5787qsHfxG6+xwT5j9AYjOp/lzXkvLR6t
+ n0OvCzl+/RBBlxkGjwWiDfu4ww==
+X-Google-Smtp-Source: APiQypIu9Ehl1Z9anj4NXd+uZnvSgH6ch0y3g33ZANXWX1DjUHPmY1LH5q1VbQfnVR586X/qqwr8lw==
+X-Received: by 2002:a05:600c:210c:: with SMTP id
+ u12mr10004137wml.135.1587241189836; 
+ Sat, 18 Apr 2020 13:19:49 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8084:e84:2480:228:f8ff:fe6f:83a8])
+ by smtp.gmail.com with ESMTPSA id
+ m1sm31735255wro.64.2020.04.18.13.19.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 18 Apr 2020 13:19:48 -0700 (PDT)
+From: Dmitry Safonov <dima@arista.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCHv3 00/50] Add log level to show_stack()
+Date: Sat, 18 Apr 2020 21:18:54 +0100
+Message-Id: <20200418201944.482088-1-dima@arista.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200418_095027_055968_7FB2C1A9 
-X-CRM114-Status: UNSURE (   4.97  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200418_131952_752672_0C323FF2 
+X-CRM114-Status: GOOD (  16.95  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,38 +95,253 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- Joseph Myers <joseph@codesourcery.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-sh@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Ben Segall <bsegall@google.com>,
+ Guo Ren <guoren@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Dmitry Safonov <dima@arista.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Mel Gorman <mgorman@suse.de>,
+ Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
+ uclinux-h8-devel@lists.sourceforge.jp, Len Brown <len.brown@intel.com>,
+ linux-pm@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, Ralf Baechle <ralf@linux-mips.org>,
+ Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-ia64@vger.kernel.org, Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ James Hogan <jhogan@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-hexagon@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
+ linux-m68k@lists.linux-m68k.org, Stafford Horne <shorne@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Tony Luck <tony.luck@intel.com>, Douglas Anderson <dianders@chromium.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dmitry Safonov <0x7f454c46@gmail.com>, Will Deacon <will@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Brian Cain <bcain@codeaurora.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ kgdb-bugreport@lists.sourceforge.net, linux-snps-arc@lists.infradead.org,
+ Fenghua Yu <fenghua.yu@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Jeff Dike <jdike@addtoit.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Greentime Hu <green.hu@gmail.com>,
+ Guan Xuetao <gxt@pku.edu.cn>, linux-parisc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
+ "David S. Miller" <davem@davemloft.net>, Rich Felker <dalias@libc.org>,
+ Petr Mladek <pmladek@suse.com>, Peter Zijlstra <peterz@infradead.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jonas Bonn <jonas@southpole.se>, Richard Weinberger <richard@nod.at>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
+ Mark Salter <msalter@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ openrisc@lists.librecores.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ Michal Simek <monstr@monstr.eu>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-mips@vger.kernel.org, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Jason Wessel <jason.wessel@windriver.com>,
+ nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-* Vineet Gupta via Libc-alpha:
+Changes to v3:
+- Collected more architectual Acks and Reviewed-by
+- Fixed compilation on sparc64
 
-> On 4/13/20 2:12 PM, Vineet Gupta via Libc-alpha wrote:
->> On 4/6/20 11:54 AM, Vineet Gupta wrote:
->>> On 3/31/20 2:47 PM, Vineet Gupta via Libc-alpha wrote:
->>>> From: Vineet Gupta via Libc-alpha <libc-alpha@sourceware.org>
->>>>
->>>> An older asm-generic syscall ABI may have kernel provide 32-bit
->>>> time syscalls, so undef them to not mix 32/64 in 64-bit time regime.
->>>>
->>>> Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
->>>
->>> ping !
->> 
->> ping ^2 !
->
-> If this is not suitable for common code, I'd still like to add this
-> as part of ARC port to safe guard against future snafus.
+Changes to v2:
+- Removed excessive pr_cont("\n") (nits by Senozhatsky)
+- Leave backtrace debugging messages with pr_debug()
+  (noted by Russell King and Will Deacon)
+- Correct microblaze_unwind_inner() declaration
+  (Thanks to Michal Simek and kbuild test robot)
+- Fix copy'n'paste typo in show_stack_loglvl() for sparc
+  (kbuild robot)
+- Fix backtrace output on xtensa
+  (Thanks Max Filippov)
+- Add loglevel to show_stack() on s390 (kbuild robot)
+- Collected all Reviewed-by and Acked-by (thanks!)
 
-Have you tried to add the #undefs to fixup-asm-unistd.h?
-See sysdeps/unix/sysv/linux/arm/fixup-asm-unistd.h for an example.
+v2: https://lore.kernel.org/linux-riscv/20200316143916.195608-1-dima@arista.com/
+v1: https://lore.kernel.org/linux-riscv/20191106030542.868541-1-dima@arista.com/
 
-I have not tried if #undefs work there, but they should.  If not, we
-can fix that.
+Add log level argument to show_stack().
+Done in three stages:
+1. Introducing show_stack_loglvl() for every architecture
+2. Migrating old users with an explicit log level
+3. Renaming show_stack_loglvl() into show_stack()
+
+Justification:
+o It's a design mistake to move a business-logic decision
+  into platform realization detail.
+o I have currently two patches sets that would benefit from this work:
+  Removing console_loglevel jumps in sysrq driver [1]
+  Hung task warning before panic [2] - suggested by Tetsuo (but he
+  probably didn't realise what it would involve).
+o While doing (1), (2) the backtraces were adjusted to headers
+  and other messages for each situation - so there won't be a situation
+  when the backtrace is printed, but the headers are missing because
+  they have lesser log level (or the reverse).
+o As the result in (2) plays with console_loglevel for kdb are removed.
+
+The least important for upstream, but maybe still worth to note that
+every company I've worked in so far had an off-list patch to print
+backtrace with the needed log level (but only for the architecture they
+cared about).
+If you have other ideas how you will benefit from show_stack() with
+a log level - please, reply to this cover letter.
+
+See also discussion on v1:
+https://lore.kernel.org/linux-riscv/20191106083538.z5nlpuf64cigxigh@pathway.suse.cz/
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: Jiri Slaby <jslaby@suse.com>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+
+Thanks,
+Dmitry
+
+[1]: https://lore.kernel.org/lkml/20190528002412.1625-1-dima@arista.com/T/#u
+[2]: https://lkml.kernel.org/r/41fd7652-df1f-26f6-aba0-b87ebae07db6@i-love.sakura.ne.jp
+
+Dmitry Safonov (50):
+  kallsyms/printk: Add loglvl to print_ip_sym()
+  alpha: Add show_stack_loglvl()
+  arc: Add show_stack_loglvl()
+  arm/asm: Add loglvl to c_backtrace()
+  arm: Add loglvl to unwind_backtrace()
+  arm: Add loglvl to dump_backtrace()
+  arm: Wire up dump_backtrace_{entry,stm}
+  arm: Add show_stack_loglvl()
+  arm64: Add loglvl to dump_backtrace()
+  arm64: Add show_stack_loglvl()
+  c6x: Add show_stack_loglvl()
+  csky: Add show_stack_loglvl()
+  h8300: Add show_stack_loglvl()
+  hexagon: Add show_stack_loglvl()
+  ia64: Pass log level as arg into ia64_do_show_stack()
+  ia64: Add show_stack_loglvl()
+  m68k: Add show_stack_loglvl()
+  microblaze: Add loglvl to microblaze_unwind_inner()
+  microblaze: Add loglvl to microblaze_unwind()
+  microblaze: Add show_stack_loglvl()
+  mips: Add show_stack_loglvl()
+  nds32: Add show_stack_loglvl()
+  nios2: Add show_stack_loglvl()
+  openrisc: Add show_stack_loglvl()
+  parisc: Add show_stack_loglvl()
+  powerpc: Add show_stack_loglvl()
+  riscv: Add show_stack_loglvl()
+  s390: Add show_stack_loglvl()
+  sh: Add loglvl to dump_mem()
+  sh: Remove needless printk()
+  sh: Add loglvl to printk_address()
+  sh: Add loglvl to show_trace()
+  sh: Add show_stack_loglvl()
+  sparc: Add show_stack_loglvl()
+  um/sysrq: Remove needless variable sp
+  um: Add show_stack_loglvl()
+  unicore32: Remove unused pmode argument in c_backtrace()
+  unicore32: Add loglvl to c_backtrace()
+  unicore32: Add show_stack_loglvl()
+  x86: Add missing const qualifiers for log_lvl
+  x86: Add show_stack_loglvl()
+  xtensa: Add loglvl to show_trace()
+  xtensa: Add show_stack_loglvl()
+  sysrq: Use show_stack_loglvl()
+  x86/amd_gart: Print stacktrace for a leak with KERN_ERR
+  power: Use show_stack_loglvl()
+  kdb: Don't play with console_loglevel
+  sched: Print stack trace with KERN_INFO
+  kernel: Use show_stack_loglvl()
+  kernel: Rename show_stack_loglvl() => show_stack()
+
+ arch/alpha/kernel/traps.c            | 22 +++++++--------
+ arch/arc/include/asm/bug.h           |  3 ++-
+ arch/arc/kernel/stacktrace.c         | 17 +++++++-----
+ arch/arc/kernel/troubleshoot.c       |  2 +-
+ arch/arm/include/asm/bug.h           |  3 ++-
+ arch/arm/include/asm/traps.h         |  3 ++-
+ arch/arm/include/asm/unwind.h        |  3 ++-
+ arch/arm/kernel/traps.c              | 39 +++++++++++++++------------
+ arch/arm/kernel/unwind.c             |  5 ++--
+ arch/arm/lib/backtrace-clang.S       |  9 +++++--
+ arch/arm/lib/backtrace.S             | 14 +++++++---
+ arch/arm64/include/asm/stacktrace.h  |  3 ++-
+ arch/arm64/kernel/process.c          |  2 +-
+ arch/arm64/kernel/traps.c            | 17 ++++++------
+ arch/c6x/kernel/traps.c              | 16 ++++++-----
+ arch/csky/kernel/dumpstack.c         |  9 ++++---
+ arch/csky/kernel/ptrace.c            |  4 +--
+ arch/h8300/kernel/traps.c            | 12 ++++-----
+ arch/hexagon/kernel/traps.c          | 25 ++++++++---------
+ arch/ia64/include/asm/ptrace.h       |  1 -
+ arch/ia64/kernel/mca.c               |  2 +-
+ arch/ia64/kernel/process.c           | 17 ++++++------
+ arch/m68k/kernel/traps.c             | 13 ++++-----
+ arch/microblaze/include/asm/unwind.h |  3 ++-
+ arch/microblaze/kernel/stacktrace.c  |  4 +--
+ arch/microblaze/kernel/traps.c       | 12 ++++-----
+ arch/microblaze/kernel/unwind.c      | 40 +++++++++++++++++-----------
+ arch/mips/kernel/traps.c             | 35 ++++++++++++------------
+ arch/nds32/kernel/traps.c            | 15 ++++++-----
+ arch/nios2/kernel/traps.c            | 17 ++++++------
+ arch/openrisc/kernel/traps.c         | 12 +++++----
+ arch/parisc/kernel/traps.c           | 24 ++++++++---------
+ arch/powerpc/kernel/process.c        | 15 ++++++-----
+ arch/powerpc/kernel/stacktrace.c     |  2 +-
+ arch/riscv/kernel/stacktrace.c       |  9 ++++---
+ arch/s390/kernel/dumpstack.c         | 13 ++++-----
+ arch/sh/include/asm/kdebug.h         |  6 +++--
+ arch/sh/include/asm/processor_32.h   |  2 +-
+ arch/sh/kernel/dumpstack.c           | 36 ++++++++++++-------------
+ arch/sh/kernel/process_32.c          |  2 +-
+ arch/sh/kernel/process_64.c          |  3 +--
+ arch/sh/kernel/traps.c               |  4 +--
+ arch/sh/mm/fault.c                   |  2 +-
+ arch/sparc/kernel/process_32.c       | 10 +++----
+ arch/sparc/kernel/process_64.c       |  2 +-
+ arch/sparc/kernel/traps_64.c         |  9 ++++---
+ arch/um/drivers/mconsole_kern.c      |  2 +-
+ arch/um/kernel/sysrq.c               | 23 ++++++++--------
+ arch/unicore32/kernel/setup.h        |  2 +-
+ arch/unicore32/kernel/traps.c        | 34 +++++++++++------------
+ arch/unicore32/lib/backtrace.S       | 24 +++++++++++------
+ arch/x86/include/asm/stacktrace.h    |  2 +-
+ arch/x86/kernel/amd_gart_64.c        |  2 +-
+ arch/x86/kernel/dumpstack.c          |  9 ++++---
+ arch/xtensa/kernel/traps.c           | 22 ++++++++-------
+ drivers/base/power/main.c            |  2 +-
+ drivers/tty/sysrq.c                  |  2 +-
+ include/linux/kallsyms.h             |  4 +--
+ include/linux/sched/debug.h          |  3 ++-
+ kernel/debug/kdb/kdb_bt.c            | 15 ++++++-----
+ kernel/locking/lockdep.c             |  4 +--
+ kernel/locking/rtmutex-debug.c       |  2 +-
+ kernel/sched/core.c                  |  8 +++---
+ kernel/trace/ftrace.c                |  8 +++---
+ lib/dump_stack.c                     |  2 +-
+ tools/include/linux/kallsyms.h       |  2 +-
+ 66 files changed, 375 insertions(+), 315 deletions(-)
+
+-- 
+2.26.0
+
 
 _______________________________________________
 linux-snps-arc mailing list
