@@ -2,82 +2,62 @@ Return-Path: <SRS0=KDTa=6E=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AA49C55181
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Apr 2020 21:25:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F5D0C54FCC
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Apr 2020 23:28:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 477EE207FC
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Apr 2020 21:25:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4B851206D9
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Apr 2020 23:28:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="G3JnwjI8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 477EE207FC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mtCKMhNN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B851206D9
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SIAwa/WkOdGN4OiZASFxqyyfap5dj7hD6qTFXuRPf3w=; b=G3JnwjI86j6WQY
-	UVEbMlVBOoAdq0OQFjquzJk1U7RFR+J4N2AzoIj0pbFuVvQJyPSRQVgIDiIG5Tk+/E0jqho9SCNMX
-	5YpIh0ggkHnBHEUe0KAnFJwPj1t873R75hZVP58kRfMPfdYhJndg99+3lOgg5SFczsYRSEtdvpXyB
-	xDoN+PFGkrP4ZUFJuVmnX7j7zBAfdLMP4l+i0wgS0e6KKD0EfA4Z2G5uhgLtIlNX+sQkW1h7klsO+
-	IJVLjZ3a1g65K83et22Lzyo0eFRzbidwVypYiqaddDMlhp7oqokeSNF74SYGz6oa/RlxIL/odnBLJ
-	BG87v7CLhCRZ1cZYTSEA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:References:To:Subject:From:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=S6H1Rk+AvZmWxW0weikXQuchDOEg9SKUjs3nNOkIUQc=; b=mtCKMhNNRFbVY2
+	eM0Z+NK45fL0JoHcFJdtZ6sXSAMSX17+ESUC+edww0AenrqsxXx/IMm2eAcss8B02fQaywTe2jx8/
+	qG4aEVTvEmAXUYa2LORvZf1SecyHFY5Tm89mklki7U0YiWizA+qtO3UosCPXOBa8FalVIADTK7ZH7
+	MizZsOJO6H7zd7kZ2vCFesJdbht4yhrAKyL9YZd4bHaW5jycZh6GyFRSiM/mFXBHxicjytQW2vDmo
+	AkMba/5Ke/Fjm+tG2p979Bd9H3c0uSgGf4PjdNeWaATTr3hXQfXEDidFNcXKZ6AGkaSv+xaOmv1wI
+	FQaU0iB2l+nFkNxG764A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jQduV-0002YD-FW; Mon, 20 Apr 2020 21:24:59 +0000
-Received: from mail-ot1-f67.google.com ([209.85.210.67])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jQduR-0002XB-UW
- for linux-snps-arc@lists.infradead.org; Mon, 20 Apr 2020 21:24:57 +0000
-Received: by mail-ot1-f67.google.com with SMTP id i27so9463001ota.7
- for <linux-snps-arc@lists.infradead.org>; Mon, 20 Apr 2020 14:24:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=/PYRUd145uwywq6C1mfwPkvq46x3zUYySJRsVBrwgD0=;
- b=piCzEuayCrvMFWTsZLhIzTNOTbgN4V20CLfHC4LG2SrFeP7CTOAvJCYCORn2wNgGa7
- o0VphlC9oQBZG979fI0pyw1lcU9cVVy+LsuINu1Q3jXRbRJ1woB2AtLapZ2neDxqOt5C
- XPWQodmpMelVUvWGz87UAnYrysZswPFAtv1jVxxYsvL1kqoMn2J3eoMKGnHiBSyjRvz5
- SAfOBmgEp/kmYoJmuH8MsK8xOmehUfvI2EAl72PqOAun/L5iGfogG7Ru8R103cEZR78r
- k9PBk631xvBClUTq6hVcQVcd3RW17Xz6NzgpA8gbKkIp0hhsxNYYYQ4Z33XNa17Cjz45
- x+Tg==
-X-Gm-Message-State: AGi0PubEDGRgA2Mqbug5U2sgkfABUAiqOvB1LRQW7pb97lXVk3a7bXo4
- VlNfGJMf+caygWSLlHgHzA==
-X-Google-Smtp-Source: APiQypKHGZeotSvJnLU+HKhQIe9WZ4T519yDeefcTOMv5aOAD9cDz6Px0Xs8V3iP/9aejEJL9YmFXQ==
-X-Received: by 2002:a9d:72c2:: with SMTP id d2mr11805918otk.260.1587417891893; 
- Mon, 20 Apr 2020 14:24:51 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id q206sm172423oib.2.2020.04.20.14.24.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 14:24:51 -0700 (PDT)
-Received: (nullmailer pid 6994 invoked by uid 1000);
- Mon, 20 Apr 2020 21:24:50 -0000
-Date: Mon, 20 Apr 2020 16:24:50 -0500
-From: Rob Herring <robh@kernel.org>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Subject: Re: [PATCH v3 2/2] dt-bindings: Document the Synopsys ARC HDMI TX
- bindings
-Message-ID: <20200420212450.GA16835@bogus>
-References: <20200414232929.22788-1-Eugeniy.Paltsev@synopsys.com>
- <20200414232929.22788-3-Eugeniy.Paltsev@synopsys.com>
+	id 1jQfpV-0004WY-Mt; Mon, 20 Apr 2020 23:27:57 +0000
+Received: from foss.arm.com ([217.140.110.172])
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jQfpN-0004Ov-Ni; Mon, 20 Apr 2020 23:27:51 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3DF641FB;
+ Mon, 20 Apr 2020 16:27:45 -0700 (PDT)
+Received: from [192.168.0.129] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6918F3F73D;
+ Mon, 20 Apr 2020 16:27:39 -0700 (PDT)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH 2/2] mm/thp: Rename pmd_mknotpresent() as pmd_mknotvalid()
+To: Will Deacon <will@kernel.org>
+References: <1584680057-13753-1-git-send-email-anshuman.khandual@arm.com>
+ <1584680057-13753-3-git-send-email-anshuman.khandual@arm.com>
+ <20200420210354.GD29998@willie-the-truck>
+Message-ID: <78fee884-78fc-6102-1a37-12106dc21336@arm.com>
+Date: Tue, 21 Apr 2020 04:57:26 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200414232929.22788-3-Eugeniy.Paltsev@synopsys.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200420210354.GD29998@willie-the-truck>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200420_142455_981795_93FD3CE4 
-X-CRM114-Status: GOOD (  19.91  )
+X-CRM114-CacheID: sfid-20200420_162749_815072_69A726B3 
+X-CRM114-Status: GOOD (  12.79  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,202 +69,55 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- linux-snps-arc@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>
+Cc: x86@kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ linux-kernel@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Russell King <linux@armlinux.org.uk>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
+ nouveau@lists.freedesktop.org, Thomas Gleixner <tglx@linutronix.de>,
+ linux-snps-arc@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 15, 2020 at 02:29:29AM +0300, Eugeniy Paltsev wrote:
-> This patch adds documentation of device tree bindings for the Synopsys
-> HDMI 2.0 TX encoder driver for ARC SoCs.
 
-You're going to need to base this on top of Laurent's conversion of 
-dw_hdmi.txt to schema.
+
+On 04/21/2020 02:33 AM, Will Deacon wrote:
+> On Fri, Mar 20, 2020 at 10:24:17AM +0530, Anshuman Khandual wrote:
+>> pmd_present() is expected to test positive after pmdp_mknotpresent() as the
+>> PMD entry still points to a valid huge page in memory. pmdp_mknotpresent()
+>> implies that given PMD entry is just invalidated from MMU perspective while
+>> still holding on to pmd_page() referred valid huge page thus also clearing
+>> pmd_present() test. This creates the following situation which is counter
+>> intuitive.
+>>
+>> [pmd_present(pmd_mknotpresent(pmd)) = true]
+>>
+>> This renames pmd_mknotpresent() as pmd_mknotvalid() reflecting the helper's
+>> functionality more accurately while changing the above mentioned situation
+>> as follows. This does not create any functional change.
+>>
+>> [pmd_present(pmd_mknotvalid(pmd)) = true]
+>>
+>> This is not applicable for platforms that define own pmdp_invalidate() via
+>> __HAVE_ARCH_PMDP_INVALIDATE. Suggestion for renaming came during a previous
+>> discussion here.
+> 
+> Bikeshed alert: maybe pmd_mkinvalid() would be better, given that this is
+> a one-trick pony for pmdp_invalidate()?
+
+I had thought about making it pmd_mkinvalid() earlier. But as we were replacing
+pmd_mknotpresent(), hence went with similar pattern pmd_mknotvalid() which was
+originally suggested by Catalin. There is an existing pte_mknotpresent() in arc
+platform as well. I dont have a very strong opinion either way, will be happy
+to rename. But then still wondering if we really need to.
 
 > 
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-> ---
->  .../display/bridge/snps,arc-dw-hdmi.yaml      | 136 ++++++++++++++++++
->  1 file changed, 136 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
-> new file mode 100644
-> index 000000000000..9b2fdfecd5b3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
-> @@ -0,0 +1,136 @@
-> +# SPDX-License-Identifier: GPL-2.0
-
-Dual license new bindings please:
-
-(GPL-2.0-only OR BSD-2-Clause)
-
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/snps,arc-dw-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Synopsys DesignWare HDMI 2.0 TX encoder driver
-
-Bindings are for h/w blocks, not drivers.
-
-> +
-> +maintainers:
-> +  - Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-> +
-> +description: |
-> +  The HDMI transmitter is a Synopsys DesignWare HDMI 2.0 TX controller IP
-> +  with a companion of Synopsys DesignWare HDMI 2.0 TX PHY IP.
-
-Sounds like 2 blocks?
-
-> +
-> +  These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
-> +  Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
-> +  with the following device-specific properties.
-> +
-> +properties:
-> +  compatible:
-> +    const: snps,arc-dw-hdmi-hsdk
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: |
-> +      Memory mapped base address and length of the DWC HDMI TX registers.
-
-Can drop.
-
-> +
-> +  clocks:
-> +    items:
-> +      - description: The bus clock for AHB / APB
-> +      - description: The internal register configuration clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: iahb
-> +      - const: isfr
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description: Reference to the DWC HDMI TX interrupt
-
-Can drop.
-
-> +
-> +  reg-io-width:
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [1, 4]
-> +        description: |
-> +          Width of the registers specified by the reg property. The
-> +          value is expressed in bytes and must be equal to 1 or 4 if specified.
-> +          The register width defaults to 1 if the property is not present.
-
-default: 1
-
-The description is pretty much a plain text version of the constraints, 
-so all but the first sentence can be dropped.
-
-> +
-> +  ports:
-> +    type: object
-> +    description: |
-> +      A ports node with endpoint definitions as defined in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-
-Can drop. That's all 'ports'.
-
-> +
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +      port@0:
-> +        type: object
-> +        description: |
-> +          Video input endpoints of the controller.
-> +          Usually it is associated with ARC PGU.
-> +
-> +      port@1:
-> +        type: object
-> +        description: |
-> +          Output endpoints of the controller. HDMI connector.
-> +
-> +    required:
-> +      - "#address-cells"
-> +      - "#size-cells"
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    hdmi@10000 {
-> +        compatible = "snps,arc-dw-hdmi-hsdk";
-> +        reg = <0x10000 0x10000>;
-> +        reg-io-width = <4>;
-> +        interrupts = <14>;
-> +        clocks = <&apbclk>, <&hdmi_pix_clk>;
-> +        clock-names = "iahb", "isfr";
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +                hdmi_enc_input: endpoint {
-> +                    remote-endpoint = <&pgu_output>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +                hdmi_enc_out: endpoint {
-> +                    remote-endpoint = <&hdmi_con>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +    hdmi-out {
-> +        port {
-> +            hdmi_con: endpoint {
-> +                remote-endpoint = <&hdmi_enc_out>;
-> +            };
-> +        };
-> +    };
-> +
-> +    pgu {
-> +        port_o: port {
-> +            pgu_output: endpoint {
-> +                remote-endpoint = <&hdmi_enc_input>;
-> +            };
-> +        };
-> +    };
-> -- 
-> 2.21.1
+> Will
 > 
 
 _______________________________________________
