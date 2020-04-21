@@ -2,83 +2,152 @@ Return-Path: <SRS0=oiin=6F=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2185DC2BA19
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Apr 2020 09:45:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3881CC55184
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Apr 2020 15:55:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E45D82070B
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Apr 2020 09:45:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0ACF02070B
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Apr 2020 15:55:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lziUxBmJ";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="atP9ejV6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E45D82070B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LBCM/NC0";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="t3ugB6ac"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0ACF02070B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=p/yoCA2EtNy7GzJCObaY62DfxwavawXjiLL5GdsNYc8=; b=lziUxBmJwv6zhM
-	1Zu+j2TUcuelipd7CnDyV5w9phokWsjo4oGvDNT/Zg/yty5tCFMPlvMVsYO/TpUYWMD8RzMRLW+i9
-	IoJjiUF53tn1tK2t+M8gAXvKXsQBhBVK09ODammDEGMQd2VpEytldHC6FjFC7dn0jjueaYjubX2wr
-	y7AH4lcUd3Ro4I0RFE6eh0JRsvN6eEoq1nQjTorDsrrJT63mTry+xJ6YnLGgSXQ33UTJwEIDI85qs
-	Upjg/vKO/10dWIU+4RXPMnh6Ziw+WnnqcI2M6NEr+hWa7opZxs8qW8N2Lj2+LSbN1RX5DI4fWxfOc
-	AnJkDwPMPpRbUwJHqgjQ==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=X9HIeQM0QJIjXQjXIa5xpHl4NDhyHd5dFu9sB1KNYLs=; b=LBCM/NC08Ieu/Ff9F9ZkKgJj7n
+	5Ja+nrFJdl3K8Wh/EV2WgPFiaGekn6ETttDQRpm1jSfXEqu0XREJS0zYfUTYrJqUNFUr7Aegrsi9o
+	raWE79v++ssdcoN6p2jluQORhyr346eccS5orvSRft/71tqFiW1FyRhYtaX4VctDBtmKHHtU2uVw1
+	savhi7yCANkPCZqsdcNAk7H3xlkd8Ch6LXquC3co5zmv0v9QT628ZVd+DNYxk5aV09MRoXe8iztpF
+	Gfb2GAChgn0RiADr11PtYLRdLU0vxHJmAbAojjqi/W1AWsSkG0jUZnyp6cu5/CpnmBwEoyavg7TME
+	qEoSWVEQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jQpTT-0000n7-U3; Tue, 21 Apr 2020 09:45:51 +0000
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1jQvFR-0002Uo-VP; Tue, 21 Apr 2020 15:55:45 +0000
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jQpTO-0000jH-D6
- for linux-snps-arc@lists.infradead.org; Tue, 21 Apr 2020 09:45:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587462344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7YlUzjQkLo0H5BYCcvwstFbEoHwY4ih6fNxbEHyBvX0=;
- b=atP9ejV6+7ImGI2CQjkNd+hjE4h9niqedtb9W+X951SScJgC4xa2WDwSHc/fUeQWEPfGI9
- F89Vl1Ff1sbbdf/ONqEzATdrWg6Sprq0L1wzB5NGepR8o9ESUWzJUy6D61jNYwVfMTaLsm
- 6eANUeh8XmySQJ6IDIzF3navxM0OrDQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-NpLGHwzBPpWwI4QPRhx8dw-1; Tue, 21 Apr 2020 05:45:41 -0400
-X-MC-Unique: NpLGHwzBPpWwI4QPRhx8dw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E26281005509;
- Tue, 21 Apr 2020 09:45:35 +0000 (UTC)
-Received: from localhost (ovpn-12-34.pek2.redhat.com [10.72.12.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C3A51001938;
- Tue, 21 Apr 2020 09:45:33 +0000 (UTC)
-Date: Tue, 21 Apr 2020 17:45:30 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH 03/21] mm: remove CONFIG_HAVE_MEMBLOCK_NODE_MAP option
-Message-ID: <20200421094530.GB29658@MiWiFi-R3L-srv>
-References: <20200412194859.12663-1-rppt@kernel.org>
- <20200412194859.12663-4-rppt@kernel.org>
- <20200421042316.GQ4247@MiWiFi-R3L-srv>
- <20200421090908.GC14260@kernel.org>
+ id 1jQvFO-0002U5-Ep
+ for linux-snps-arc@lists.infradead.org; Tue, 21 Apr 2020 15:55:44 +0000
+Received: by mail-wm1-x343.google.com with SMTP id e26so4112915wmk.5
+ for <linux-snps-arc@lists.infradead.org>; Tue, 21 Apr 2020 08:55:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:references:from:autocrypt:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GhBIbUior2q4TR3qEaeoVKdQqxLMwUKQTHJUIa/lPXs=;
+ b=t3ugB6acScgCP8RAjyWoQEynvqJskpkreswJE7RDBWAu32LmrxGaX/YoSAIssmJjv5
+ XLbD0NmslPejCm+oX/GCtBEf7lcTvsyKO4OsEHK5TPECp7FFr/lGSOrSLr7gTGLXF1aF
+ DiyhflZB0wbWcasEomQFwzWlr92HgozAiBIVy03/02oQtUUcsZKV6p73g4gMqVWMLJ0L
+ /PPgp9A6ER4xqxJLHGw+W2mk0cr6jQz3lJQLKb9lHSmz+KRA3ec9Z/zAWa0lR1q9Vpmm
+ wkH7QCJrWSCurP5BGVZ6z7lcLeDjoZ2w7M07pCtvw7+ejaSZ9XgiLKrqZWxVr3podGgL
+ AfWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=GhBIbUior2q4TR3qEaeoVKdQqxLMwUKQTHJUIa/lPXs=;
+ b=DULIa0SHXCd7eMQqTlak81SX5tQ663Shg0jwmLR8gJ1lmvcZCdYz4DG9+hcTwQhwtb
+ OE9g2ubJuutW/sn40dCG+4j05ubbWwJBgOWGCKFTJyJSmktSUxDDkCoMsFWPvzXpqqxi
+ gjRzgKfR9x6VBGaoigvnq6Bs2yCyTo65ZGiuIoVmDqRu61CL9XzGS0sFgF63FMVBXxjU
+ ep+YMzdduBBX9ojquGAOMHUtdeJ1UUq7wNoSbM3JAiy0XTpoWZU0JDQeP3srQ6OMNxl3
+ VT/0kh0E1R6ZX6pxmzSVWfINKXWReLZWUM04NuHHpC4emSdFyrZNsJooim5DO/o7za51
+ mL7g==
+X-Gm-Message-State: AGi0PuZDR/cDKUFLnOjbsIMi9zHOJ55PzzNNT469Jjt3lg2zSmq1pchv
+ e0Fxtp1LGgtVcpOIN/ogCrkcLA==
+X-Google-Smtp-Source: APiQypLOt2BmWNbj65l6Ky1ouFJm3HDOTWIkjJwALfa4V5NO7uAyB5tHLaW7XMTRFJVBexe3hN6k4Q==
+X-Received: by 2002:a1c:790e:: with SMTP id l14mr5426387wme.174.1587484540962; 
+ Tue, 21 Apr 2020 08:55:40 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:39cc:a07:8b48:cc56?
+ ([2a01:e35:2ec0:82b0:39cc:a07:8b48:cc56])
+ by smtp.gmail.com with ESMTPSA id h6sm4140261wmf.31.2020.04.21.08.55.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Apr 2020 08:55:39 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] DRM: ARC: add HDMI 2.0 TX encoder support
+To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ dri-devel@lists.freedesktop.org, Alexey Brodkin
+ <Alexey.Brodkin@synopsys.com>, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+References: <20200414232929.22788-1-Eugeniy.Paltsev@synopsys.com>
+ <20200414232929.22788-2-Eugeniy.Paltsev@synopsys.com>
+ <20200415173320.GG3456981@phenom.ffwll.local>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <267d49d8-a73a-0317-cb50-0f63f0ced049@baylibre.com>
+Date: Tue, 21 Apr 2020 17:55:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200421090908.GC14260@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200415173320.GG3456981@phenom.ffwll.local>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200421_024546_620194_09332404 
-X-CRM114-Status: GOOD (  29.12  )
+X-CRM114-CacheID: sfid-20200421_085542_525728_82349A3C 
+X-CRM114-Status: GOOD (  30.51  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,333 +159,250 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
- linux-doc@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
- linux-csky@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-riscv@lists.infradead.org, Greg Ungerer <gerg@linux-m68k.org>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-c6x-dev@linux-c6x.org,
- Brian Cain <bcain@codeaurora.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-sh@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Helge Deller <deller@gmx.de>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, Ley Foon Tan <ley.foon.tan@intel.com>,
- Mike Rapoport <rppt@linux.ibm.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-arm-kernel@lists.infradead.org, Mark Salter <msalter@redhat.com>,
- Matt Turner <mattst88@gmail.com>, linux-mips@vger.kernel.org,
- uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
- linux-alpha@vger.kernel.org, linux-um@lists.infradead.org,
- linux-m68k@lists.linux-m68k.org, Tony Luck <tony.luck@intel.com>,
- Greentime Hu <green.hu@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
- Stafford Horne <shorne@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>,
- Hoan Tran <Hoan@os.amperecomputing.com>, Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Nick Hu <nickhu@andestech.com>,
- linux-mm@kvack.org, Vineet Gupta <vgupta@synopsys.com>,
- linux-kernel@vger.kernel.org, openrisc@lists.librecores.org,
- Richard Weinberger <richard@nod.at>, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 04/21/20 at 12:09pm, Mike Rapoport wrote:
-> > > diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> > > index fc0aad0bc1f5..e67dc501576a 100644
-> > > --- a/mm/memory_hotplug.c
-> > > +++ b/mm/memory_hotplug.c
-> > > @@ -1372,11 +1372,7 @@ check_pages_isolated_cb(unsigned long start_pfn, unsigned long nr_pages,
-> > >  
-> > >  static int __init cmdline_parse_movable_node(char *p)
-> > >  {
-> > > -#ifdef CONFIG_HAVE_MEMBLOCK_NODE_MAP
-> > >  	movable_node_enabled = true;
-> > > -#else
-> > > -	pr_warn("movable_node parameter depends on CONFIG_HAVE_MEMBLOCK_NODE_MAP to work properly\n");
-> > > -#endif
-> > 
-> > Wondering if this change will impact anything. Before, those ARCHes with
-> > CONFIG_HAVE_MEMBLOCK_NODE_MAP support movable_node. With this patch
-> > applied, those ARCHes which don't support CONFIG_HAVE_MEMBLOCK_NODE_MAP
-> > can also have 'movable_node' specified in kernel cmdline.
-> > 
-> > >  	return 0;
-> > >  }
-> > >  early_param("movable_node", cmdline_parse_movable_node);
-> > > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > > index 1ac775bfc9cf..4530e9cfd9f7 100644
-> > > --- a/mm/page_alloc.c
-> > > +++ b/mm/page_alloc.c
-> > > @@ -335,7 +335,6 @@ static unsigned long nr_kernel_pages __initdata;
-> > >  static unsigned long nr_all_pages __initdata;
-> > >  static unsigned long dma_reserve __initdata;
-> > >  
-> > > -#ifdef CONFIG_HAVE_MEMBLOCK_NODE_MAP
-> > >  static unsigned long arch_zone_lowest_possible_pfn[MAX_NR_ZONES] __initdata;
-> > >  static unsigned long arch_zone_highest_possible_pfn[MAX_NR_ZONES] __initdata;
-> > >  static unsigned long required_kernelcore __initdata;
-> > 
-> > Does it mean those ARCHes which don't support
-> > CONFIG_HAVE_MEMBLOCK_NODE_MAP before, will have 'kernelcore=' and
-> > 'movablecore=' now, and will have MOVABLE zone?
+On 15/04/2020 19:33, Daniel Vetter wrote:
+> On Wed, Apr 15, 2020 at 02:29:28AM +0300, Eugeniy Paltsev wrote:
+>> The Synopsys ARC SoCs (like HSDK4xD) include on-chip DesignWare HDMI
+>> encoders. Support them with a platform driver to provide platform glue
+>> data to the dw-hdmi driver.
+>>
+>> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+>> ---
+>>  MAINTAINERS                       |   6 ++
+>>  drivers/gpu/drm/Makefile          |   2 +-
+>>  drivers/gpu/drm/arc/Kconfig       |   7 ++
+>>  drivers/gpu/drm/arc/Makefile      |   1 +
+>>  drivers/gpu/drm/arc/arc-dw-hdmi.c | 116 ++++++++++++++++++++++++++++++
+>>  5 files changed, 131 insertions(+), 1 deletion(-)
+>>  create mode 100644 drivers/gpu/drm/arc/arc-dw-hdmi.c
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index a6fbdf354d34..2aaed1190370 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1258,6 +1258,12 @@ S:	Supported
+>>  F:	drivers/gpu/drm/arc/
+>>  F:	Documentation/devicetree/bindings/display/snps,arcpgu.txt
+>>  
+>> +ARC DW HDMI DRIVER
+>> +M:	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+>> +S:	Supported
+>> +F:	drivers/gpu/drm/arc/arc-dw-hdmi.c
+>> +F:	Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
+>> +
+>>  ARCNET NETWORK LAYER
+>>  M:	Michael Grzeschik <m.grzeschik@pengutronix.de>
+>>  L:	netdev@vger.kernel.org
+>> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+>> index 6493088a0fdd..5b0bcf7f45cd 100644
+>> --- a/drivers/gpu/drm/Makefile
+>> +++ b/drivers/gpu/drm/Makefile
+>> @@ -109,7 +109,7 @@ obj-y			+= panel/
+>>  obj-y			+= bridge/
+>>  obj-$(CONFIG_DRM_FSL_DCU) += fsl-dcu/
+>>  obj-$(CONFIG_DRM_ETNAVIV) += etnaviv/
+>> -obj-$(CONFIG_DRM_ARCPGU)+= arc/
+>> +obj-y			+= arc/
+>>  obj-y			+= hisilicon/
+>>  obj-$(CONFIG_DRM_ZTE)	+= zte/
+>>  obj-$(CONFIG_DRM_MXSFB)	+= mxsfb/
+>> diff --git a/drivers/gpu/drm/arc/Kconfig b/drivers/gpu/drm/arc/Kconfig
+>> index e8f3d63e0b91..baec9d2a4fba 100644
+>> --- a/drivers/gpu/drm/arc/Kconfig
+>> +++ b/drivers/gpu/drm/arc/Kconfig
+>> @@ -8,3 +8,10 @@ config DRM_ARCPGU
+>>  	  Choose this option if you have an ARC PGU controller.
+>>  
+>>  	  If M is selected the module will be called arcpgu.
+>> +
+>> +config DRM_ARC_DW_HDMI
+>> +	tristate "ARC DW HDMI"
+>> +	depends on DRM && OF
+>> +	select DRM_DW_HDMI
+>> +	help
+>> +	  Synopsys DW HDMI driver for various ARC development boards
+>> diff --git a/drivers/gpu/drm/arc/Makefile b/drivers/gpu/drm/arc/Makefile
+>> index c7028b7427b3..7a156d8c2c3c 100644
+>> --- a/drivers/gpu/drm/arc/Makefile
+>> +++ b/drivers/gpu/drm/arc/Makefile
+>> @@ -1,3 +1,4 @@
+>>  # SPDX-License-Identifier: GPL-2.0-only
+>>  arcpgu-y := arcpgu_crtc.o arcpgu_hdmi.o arcpgu_sim.o arcpgu_drv.o
+>>  obj-$(CONFIG_DRM_ARCPGU) += arcpgu.o
+>> +obj-$(CONFIG_DRM_ARC_DW_HDMI) += arc-dw-hdmi.o
+>> diff --git a/drivers/gpu/drm/arc/arc-dw-hdmi.c b/drivers/gpu/drm/arc/arc-dw-hdmi.c
+>> new file mode 100644
+>> index 000000000000..46a6ee09b302
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/arc/arc-dw-hdmi.c
+>> @@ -0,0 +1,116 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +//
+>> +// Synopsys DW HDMI driver for various ARC development boards
+>> +//
+>> +// Copyright (C) 2020 Synopsys
+>> +// Author: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+>> +
+>> +#include <linux/component.h>
+>> +#include <linux/module.h>
+>> +#include <linux/platform_device.h>
+>> +#include <drm/bridge/dw_hdmi.h>
+>> +#include <drm/drm_crtc_helper.h>
+>> +#include <drm/drm_edid.h>
+>> +#include <drm/drm_encoder_slave.h>
+>> +#include <drm/drm_of.h>
+>> +
+>> +static const struct dw_hdmi_mpll_config snps_hdmi_mpll_cfg[] = {
+>> +	{
+>> +		27000000, {
+>> +			{ 0x00B3, 0x0000 },
+>> +			{ 0x00B3, 0x0000 },
+>> +			{ 0x00B3, 0x0000 }
+>> +		},
+>> +	}, {
+>> +		74250000, {
+>> +			{ 0x0072, 0x0001},
+>> +			{ 0x0072, 0x0001},
+>> +			{ 0x0072, 0x0001}
+>> +		},
+>> +	}, {
+>> +		148500000, {
+>> +			{ 0x0051, 0x0002},
+>> +			{ 0x0051, 0x0002},
+>> +			{ 0x0051, 0x0002}
+>> +		},
+>> +	}, {
+>> +		~0UL, {
+>> +			{ 0x00B3, 0x0000 },
+>> +			{ 0x00B3, 0x0000 },
+>> +			{ 0x00B3, 0x0000 },
+>> +		},
+>> +	}
+>> +};
+>> +
+>> +static const struct dw_hdmi_curr_ctrl snps_hdmi_cur_ctr[] = {
+>> +	/* pixelclk    bpp8    bpp10   bpp12 */
+>> +	{ 27000000,  { 0x0000, 0x0000, 0x0000 }, },
+>> +	{ 74250000,  { 0x0008, 0x0008, 0x0008 }, },
+>> +	{ 148500000, { 0x001b, 0x001b, 0x001b }, },
+>> +	{ ~0UL,      { 0x0000, 0x0000, 0x0000 }, }
+>> +};
+>> +
+>> +
+>> +static const struct dw_hdmi_phy_config snps_hdmi_phy_config[] = {
+>> +	/* pixelclk   symbol  term    vlev */
+>> +	{ 27000000,   0x8009, 0x0004, 0x0232},
+>> +	{ 74250000,   0x8009, 0x0004, 0x0232},
+>> +	{ 148500000,  0x8009, 0x0004, 0x0232},
+>> +	{ ~0UL,       0x8009, 0x0004, 0x0232}
+>> +};
+>> +
+>> +static struct dw_hdmi_plat_data snps_dw_hdmi_drv_data = {
+>> +	.mpll_cfg   = snps_hdmi_mpll_cfg,
+>> +	.cur_ctr    = snps_hdmi_cur_ctr,
+>> +	.phy_config = snps_hdmi_phy_config,
+>> +};
+>> +
+>> +static const struct of_device_id snps_dw_hdmi_dt_ids[] = {
+>> +	{ .compatible = "snps,arc-dw-hdmi-hsdk", .data = &snps_dw_hdmi_drv_data },
+>> +	{ /* sentinel */ }
+>> +};
+>> +MODULE_DEVICE_TABLE(of, snps_dw_hdmi_dt_ids);
+>> +
+>> +static int snps_dw_hdmi_probe(struct platform_device *pdev)
+>> +{
+>> +	const struct dw_hdmi_plat_data *plat_data;
+>> +	const struct of_device_id *match;
+>> +	struct dw_hdmi *hdmi;
+>> +
+>> +	if (!pdev->dev.of_node)
+>> +		return -ENODEV;
+>> +
+>> +	match = of_match_node(snps_dw_hdmi_dt_ids, pdev->dev.of_node);
+>> +	plat_data = match->data;
+>> +
+>> +	hdmi = dw_hdmi_probe(pdev, plat_data);
 > 
-> I hesitated a lot about whether to hide the kernelcore/movablecore and
-> related code behind an #ifdef.
-> In the end I've decided to keep the code compiled unconditionally as it
-> is anyway __init and no sane person would pass "kernelcore=" to the
-> kernel on a UMA system.
+> So this is kinda not how bridge drivers are supposed to be done nowadays,
+> direct calling into the driver was the old way, and dw-hdmi still works
+> like that. Modern way is roughly
+> - bridge drivers bind automatically to any bridge they support
+> - bridge drivers publish a bridge with drm_bridge_add()
+> - the driver using the bridge fishes out with dt magic using
+>   of_drm_find_bridge() or another of the related of_ functions
 
-I see. Then maybe can do something if someone complains about it
-in the future, e.g warn out with a message in
-cmdline_parse_movable_node(), cmdline_parse_kernelcore().
+dw-hdmi is an IP, with some platform specific code and arrays to make it work
+on very different systems, thus we can't use this scheme everywhere....
+
+Some platforms (like r-car) uses the "right" model because the IP is integrated
+as-is with the default PHY and as an independent IP on the system.
+
+It's definitely not the case on Rockchip/Amlogic/Allwinner systems,
+and even worse on Amlogic system having a glue on top of the IP, and a
+custom PHY instead of the Synopsys PHY.
+
+Thus it would be great this would be the case on a Synopsys SoC... but like
+other platforms they have platform specific parameters.
+
+All this has been discussed and reviewed a few years ago, I would
+personally prefer "fishing out a bridge using dt magic" instead having
+1k glue code around the IP.
+
+Neil
 
 > 
-> > > @@ -348,7 +347,6 @@ static bool mirrored_kernelcore __meminitdata;
-> > >  /* movable_zone is the "real" zone pages in ZONE_MOVABLE are taken from */
-> > >  int movable_zone;
-> > >  EXPORT_SYMBOL(movable_zone);
-> > > -#endif /* CONFIG_HAVE_MEMBLOCK_NODE_MAP */
-> > >  
-> > >  #if MAX_NUMNODES > 1
-> > >  unsigned int nr_node_ids __read_mostly = MAX_NUMNODES;
-> > > @@ -1499,8 +1497,7 @@ void __free_pages_core(struct page *page, unsigned int order)
-> > >  	__free_pages(page, order);
-> > >  }
-> > >  
-> > > -#if defined(CONFIG_HAVE_ARCH_EARLY_PFN_TO_NID) || \
-> > > -	defined(CONFIG_HAVE_MEMBLOCK_NODE_MAP)
-> > > +#ifdef CONFIG_NEED_MULTIPLE_NODES
-> > >  
-> > >  static struct mminit_pfnnid_cache early_pfnnid_cache __meminitdata;
-> > >  
-> > > @@ -1542,7 +1539,7 @@ int __meminit early_pfn_to_nid(unsigned long pfn)
-> > >  
-> > >  	return nid;
-> > >  }
-> > > -#endif
-> > > +#endif /* CONFIG_NEED_MULTIPLE_NODES */
-> > >  
-> > >  #ifdef CONFIG_NODES_SPAN_OTHER_NODES
-> > >  /* Only safe to use early in boot when initialisation is single-threaded */
-> > > @@ -5924,7 +5921,6 @@ void __ref build_all_zonelists(pg_data_t *pgdat)
-> > >  static bool __meminit
-> > >  overlap_memmap_init(unsigned long zone, unsigned long *pfn)
-> > >  {
-> > > -#ifdef CONFIG_HAVE_MEMBLOCK_NODE_MAP
-> > >  	static struct memblock_region *r;
-> > >  
-> > >  	if (mirrored_kernelcore && zone == ZONE_MOVABLE) {
-> > > @@ -5940,7 +5936,6 @@ overlap_memmap_init(unsigned long zone, unsigned long *pfn)
-> > >  			return true;
-> > >  		}
-> > >  	}
-> > > -#endif
-> > >  	return false;
-> > >  }
-> > >  
-> > > @@ -6573,8 +6568,7 @@ static unsigned long __init zone_absent_pages_in_node(int nid,
-> > >  	return nr_absent;
-> > >  }
-> > >  
-> > > -#else /* CONFIG_HAVE_MEMBLOCK_NODE_MAP */
-> > > -static inline unsigned long __init zone_spanned_pages_in_node(int nid,
-> > > +static inline unsigned long __init compat_zone_spanned_pages_in_node(int nid,
-> > 
-> > Is it compact zone which has continuous memory region, and the
-> > compat here is typo? Or it's compatible zone? The name seems a little
-> > confusing, or I miss something.
+> I know a bit late, just spotted this because you brought your series here
+> up in my arc cleanup series, but can you pls look into adjusting
+> accordingly?
 > 
-> It's 'compat' from 'compatibility'. This is kinda "the old way" and the
-> version that was defined when CONFIG_HAVE_MEMBLOCK_NODE_MAP=y is the
-> "new way", so I picked 'compat' for backwards compatibility. 
-> Anyway, it will go away later in pacth 19. 
-
-Got it, thanks for telling.
-
+> I shouldn't take more than moving this binding here into the dw-hdmi
+> driver, and switching arc itself over to the of_drm_find_bridge() call.
+> That way we could slowly work to transform old bridge drivers like dw-hdmi
+> to the new way, instead of adding more cases that will never get
+> converted.
 > 
-> > >  					unsigned long zone_type,
-> > >  					unsigned long node_start_pfn,
-> > >  					unsigned long node_end_pfn,
-> > > @@ -6593,7 +6587,7 @@ static inline unsigned long __init zone_spanned_pages_in_node(int nid,
-> > >  	return zones_size[zone_type];
-> > >  }
-> > >  
-> > > -static inline unsigned long __init zone_absent_pages_in_node(int nid,
-> > > +static inline unsigned long __init compat_zone_absent_pages_in_node(int nid,
-> > >  						unsigned long zone_type,
-> > >  						unsigned long node_start_pfn,
-> > >  						unsigned long node_end_pfn,
-> > > @@ -6605,13 +6599,12 @@ static inline unsigned long __init zone_absent_pages_in_node(int nid,
-> > >  	return zholes_size[zone_type];
-> > >  }
-> > >  
-> > > -#endif /* CONFIG_HAVE_MEMBLOCK_NODE_MAP */
-> > > -
-> > >  static void __init calculate_node_totalpages(struct pglist_data *pgdat,
-> > >  						unsigned long node_start_pfn,
-> > >  						unsigned long node_end_pfn,
-> > >  						unsigned long *zones_size,
-> > > -						unsigned long *zholes_size)
-> > > +						unsigned long *zholes_size,
-> > > +						bool compat)
-> > >  {
-> > >  	unsigned long realtotalpages = 0, totalpages = 0;
-> > >  	enum zone_type i;
-> > > @@ -6619,17 +6612,38 @@ static void __init calculate_node_totalpages(struct pglist_data *pgdat,
-> > >  	for (i = 0; i < MAX_NR_ZONES; i++) {
-> > >  		struct zone *zone = pgdat->node_zones + i;
-> > >  		unsigned long zone_start_pfn, zone_end_pfn;
-> > > +		unsigned long spanned, absent;
-> > >  		unsigned long size, real_size;
-> > >  
-> > > -		size = zone_spanned_pages_in_node(pgdat->node_id, i,
-> > > -						  node_start_pfn,
-> > > -						  node_end_pfn,
-> > > -						  &zone_start_pfn,
-> > > -						  &zone_end_pfn,
-> > > -						  zones_size);
-> > > -		real_size = size - zone_absent_pages_in_node(pgdat->node_id, i,
-> > > -						  node_start_pfn, node_end_pfn,
-> > > -						  zholes_size);
-> > > +		if (compat) {
-> > > +			spanned = compat_zone_spanned_pages_in_node(
-> > > +						pgdat->node_id, i,
-> > > +						node_start_pfn,
-> > > +						node_end_pfn,
-> > > +						&zone_start_pfn,
-> > > +						&zone_end_pfn,
-> > > +						zones_size);
-> > > +			absent = compat_zone_absent_pages_in_node(
-> > > +						pgdat->node_id, i,
-> > > +						node_start_pfn,
-> > > +						node_end_pfn,
-> > > +						zholes_size);
-> > > +		} else {
-> > > +			spanned = zone_spanned_pages_in_node(pgdat->node_id, i,
-> > > +						node_start_pfn,
-> > > +						node_end_pfn,
-> > > +						&zone_start_pfn,
-> > > +						&zone_end_pfn,
-> > > +						zones_size);
-> > > +			absent = zone_absent_pages_in_node(pgdat->node_id, i,
-> > > +						node_start_pfn,
-> > > +						node_end_pfn,
-> > > +						zholes_size);
-> > > +		}
-> > > +
-> > > +		size = spanned;
-> > > +		real_size = size - absent;
-> > > +
-> > >  		if (size)
-> > >  			zone->zone_start_pfn = zone_start_pfn;
-> > >  		else
-> > > @@ -6929,10 +6943,8 @@ static void __ref alloc_node_mem_map(struct pglist_data *pgdat)
-> > >  	 */
-> > >  	if (pgdat == NODE_DATA(0)) {
-> > >  		mem_map = NODE_DATA(0)->node_mem_map;
-> > > -#if defined(CONFIG_HAVE_MEMBLOCK_NODE_MAP) || defined(CONFIG_FLATMEM)
-> > >  		if (page_to_pfn(mem_map) != pgdat->node_start_pfn)
-> > >  			mem_map -= offset;
-> > > -#endif /* CONFIG_HAVE_MEMBLOCK_NODE_MAP */
-> > >  	}
-> > >  #endif
-> > >  }
-> > > @@ -6949,9 +6961,10 @@ static inline void pgdat_set_deferred_range(pg_data_t *pgdat)
-> > >  static inline void pgdat_set_deferred_range(pg_data_t *pgdat) {}
-> > >  #endif
-> > >  
-> > > -void __init free_area_init_node(int nid, unsigned long *zones_size,
-> > > -				   unsigned long node_start_pfn,
-> > > -				   unsigned long *zholes_size)
-> > > +static void __init __free_area_init_node(int nid, unsigned long *zones_size,
-> > > +					 unsigned long node_start_pfn,
-> > > +					 unsigned long *zholes_size,
-> > > +					 bool compat)
-> > >  {
-> > >  	pg_data_t *pgdat = NODE_DATA(nid);
-> > >  	unsigned long start_pfn = 0;
-> > > @@ -6963,16 +6976,16 @@ void __init free_area_init_node(int nid, unsigned long *zones_size,
-> > >  	pgdat->node_id = nid;
-> > >  	pgdat->node_start_pfn = node_start_pfn;
-> > >  	pgdat->per_cpu_nodestats = NULL;
-> > > -#ifdef CONFIG_HAVE_MEMBLOCK_NODE_MAP
-> > > -	get_pfn_range_for_nid(nid, &start_pfn, &end_pfn);
-> > > -	pr_info("Initmem setup node %d [mem %#018Lx-%#018Lx]\n", nid,
-> > > -		(u64)start_pfn << PAGE_SHIFT,
-> > > -		end_pfn ? ((u64)end_pfn << PAGE_SHIFT) - 1 : 0);
-> > > -#else
-> > > -	start_pfn = node_start_pfn;
-> > > -#endif
-> > > +	if (!compat) {
-> > > +		get_pfn_range_for_nid(nid, &start_pfn, &end_pfn);
-> > > +		pr_info("Initmem setup node %d [mem %#018Lx-%#018Lx]\n", nid,
-> > > +			(u64)start_pfn << PAGE_SHIFT,
-> > > +			end_pfn ? ((u64)end_pfn << PAGE_SHIFT) - 1 : 0);
-> > > +	} else {
-> > > +		start_pfn = node_start_pfn;
-> > > +	}
-> > >  	calculate_node_totalpages(pgdat, start_pfn, end_pfn,
-> > > -				  zones_size, zholes_size);
-> > > +				  zones_size, zholes_size, compat);
-> > >  
-> > >  	alloc_node_mem_map(pgdat);
-> > >  	pgdat_set_deferred_range(pgdat);
-> > > @@ -6980,6 +6993,14 @@ void __init free_area_init_node(int nid, unsigned long *zones_size,
-> > >  	free_area_init_core(pgdat);
-> > >  }
-> > >  
-> > > +void __init free_area_init_node(int nid, unsigned long *zones_size,
-> > > +				unsigned long node_start_pfn,
-> > > +				unsigned long *zholes_size)
-> > > +{
-> > > +	__free_area_init_node(nid, zones_size, node_start_pfn, zholes_size,
-> > > +			      true);
-> > > +}
-> > > +
-> > >  #if !defined(CONFIG_FLAT_NODE_MEM_MAP)
-> > >  /*
-> > >   * Initialize all valid struct pages in the range [spfn, epfn) and mark them
-> > > @@ -7063,8 +7084,6 @@ static inline void __init init_unavailable_mem(void)
-> > >  }
-> > >  #endif /* !CONFIG_FLAT_NODE_MEM_MAP */
-> > >  
-> > > -#ifdef CONFIG_HAVE_MEMBLOCK_NODE_MAP
-> > > -
-> > >  #if MAX_NUMNODES > 1
-> > >  /*
-> > >   * Figure out the number of possible node ids.
-> > > @@ -7493,8 +7512,8 @@ void __init free_area_init_nodes(unsigned long *max_zone_pfn)
-> > >  	init_unavailable_mem();
-> > >  	for_each_online_node(nid) {
-> > >  		pg_data_t *pgdat = NODE_DATA(nid);
-> > > -		free_area_init_node(nid, NULL,
-> > > -				find_min_pfn_for_node(nid), NULL);
-> > > +		__free_area_init_node(nid, NULL,
-> > > +				      find_min_pfn_for_node(nid), NULL, false);
-> > >  
-> > >  		/* Any memory on that node */
-> > >  		if (pgdat->node_present_pages)
-> > > @@ -7559,8 +7578,6 @@ static int __init cmdline_parse_movablecore(char *p)
-> > >  early_param("kernelcore", cmdline_parse_kernelcore);
-> > >  early_param("movablecore", cmdline_parse_movablecore);
-> > >  
-> > > -#endif /* CONFIG_HAVE_MEMBLOCK_NODE_MAP */
-> > > -
-> > >  void adjust_managed_page_count(struct page *page, long count)
-> > >  {
-> > >  	atomic_long_add(count, &page_zone(page)->managed_pages);
-> > > -- 
-> > > 2.25.1
-> > > 
-> > 
+> Other upside is that arc stays a neat&tiny driver :-)
 > 
-> -- 
-> Sincerely yours,
-> Mike.
+> Thanks, Daniel
+> 
+>> +	if (IS_ERR(hdmi))
+>> +		return PTR_ERR(hdmi);
+>> +
+>> +	platform_set_drvdata(pdev, hdmi);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int snps_dw_hdmi_remove(struct platform_device *pdev)
+>> +{
+>> +	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
+>> +
+>> +	dw_hdmi_remove(hdmi);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static struct platform_driver snps_dw_hdmi_platform_driver = {
+>> +	.probe  = snps_dw_hdmi_probe,
+>> +	.remove = snps_dw_hdmi_remove,
+>> +	.driver = {
+>> +		.name = KBUILD_MODNAME,
+>> +		.of_match_table = snps_dw_hdmi_dt_ids,
+>> +	},
+>> +};
+>> +module_platform_driver(snps_dw_hdmi_platform_driver);
+>> +
+>> +MODULE_LICENSE("GPL v2");
+>> +MODULE_DESCRIPTION("ARC specific DW-HDMI driver extension");
+>> +MODULE_AUTHOR("Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>");
+>> -- 
+>> 2.21.1
+>>
 > 
 
 
