@@ -1,63 +1,83 @@
-Return-Path: <SRS0=KDTa=6E=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=oiin=6F=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F5D0C54FCC
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Apr 2020 23:28:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A755DC54FCB
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Apr 2020 02:06:29 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4B851206D9
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Apr 2020 23:28:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7D73820722
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Apr 2020 02:06:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mtCKMhNN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B851206D9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Vlkbt5VP";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SaCdoY7l"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D73820722
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:References:To:Subject:From:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=S6H1Rk+AvZmWxW0weikXQuchDOEg9SKUjs3nNOkIUQc=; b=mtCKMhNNRFbVY2
-	eM0Z+NK45fL0JoHcFJdtZ6sXSAMSX17+ESUC+edww0AenrqsxXx/IMm2eAcss8B02fQaywTe2jx8/
-	qG4aEVTvEmAXUYa2LORvZf1SecyHFY5Tm89mklki7U0YiWizA+qtO3UosCPXOBa8FalVIADTK7ZH7
-	MizZsOJO6H7zd7kZ2vCFesJdbht4yhrAKyL9YZd4bHaW5jycZh6GyFRSiM/mFXBHxicjytQW2vDmo
-	AkMba/5Ke/Fjm+tG2p979Bd9H3c0uSgGf4PjdNeWaATTr3hXQfXEDidFNcXKZ6AGkaSv+xaOmv1wI
-	FQaU0iB2l+nFkNxG764A==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=F02uVhFDDPWzEvREFMXsjZaBFTGmQXSuNf4JfA0jJ3o=; b=Vlkbt5VPLgVGoy
+	ghIqSCBrMYfHS1ebAt2eW8Pt4bmpcG/Tfzau8Extln+I0s3IO6/g5uTBVsT92YbWD9xuznFFMRxvD
+	ocPguvYsK7laEId0Ujyq4dcHZ43JKTvy4SJVGyy1B5SusmRd6KimXhpmEoV3CrXj4kfT0KQvttUDu
+	tHIHeedbxEHmw+HXFjRlzLLQs/yZTodjQsF4xhqkJi/WxXOdQjGXdi7Xcf3HApf2VYzH5/X+vPfw/
+	/mmDfswqz/N0iWVhLOWZN4pe+trj6IGubAOHceJqALnxu7DJUUN9thfDIga3fpoqKVlbPe8mMxYnl
+	zUz4EhmtvfUYY501ds+A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jQfpV-0004WY-Mt; Mon, 20 Apr 2020 23:27:57 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jQfpN-0004Ov-Ni; Mon, 20 Apr 2020 23:27:51 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3DF641FB;
- Mon, 20 Apr 2020 16:27:45 -0700 (PDT)
-Received: from [192.168.0.129] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6918F3F73D;
- Mon, 20 Apr 2020 16:27:39 -0700 (PDT)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH 2/2] mm/thp: Rename pmd_mknotpresent() as pmd_mknotvalid()
-To: Will Deacon <will@kernel.org>
-References: <1584680057-13753-1-git-send-email-anshuman.khandual@arm.com>
- <1584680057-13753-3-git-send-email-anshuman.khandual@arm.com>
- <20200420210354.GD29998@willie-the-truck>
-Message-ID: <78fee884-78fc-6102-1a37-12106dc21336@arm.com>
-Date: Tue, 21 Apr 2020 04:57:26 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+	id 1jQiIu-0002nm-GO; Tue, 21 Apr 2020 02:06:28 +0000
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]
+ helo=us-smtp-delivery-1.mimecast.com)
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jQiIr-0002jw-1a
+ for linux-snps-arc@lists.infradead.org; Tue, 21 Apr 2020 02:06:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587434782;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NeOgQkZsDdoMNz10q5IMbsxGpqUOFvMFdq6FjujHkZg=;
+ b=SaCdoY7l299J9vjZ35BwGG6/62d0fDj48GmbWnFzq8cbXVK4pHkiJuhl7lc0OPUUtZ54GO
+ jZsHZi8lSDwXNHAQqfQ+G8D8qG2Cn4EccagjrkE1Z3kjpxURi9+h1QfMVrCG6VEqWrhKGf
+ Ke73MnEvD7BL9e0prQg4TkD4PfLzWgA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-MsTbvPRrM-CWA6xKfn_0bw-1; Mon, 20 Apr 2020 22:06:20 -0400
+X-MC-Unique: MsTbvPRrM-CWA6xKfn_0bw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E29813FE;
+ Tue, 21 Apr 2020 02:06:14 +0000 (UTC)
+Received: from localhost (ovpn-12-34.pek2.redhat.com [10.72.12.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9AE6A18A0;
+ Tue, 21 Apr 2020 02:06:05 +0000 (UTC)
+Date: Tue, 21 Apr 2020 10:06:03 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH 01/21] mm: memblock: replace dereferences of
+ memblock_region.nid with API calls
+Message-ID: <20200421020603.GO4247@MiWiFi-R3L-srv>
+References: <20200412194859.12663-1-rppt@kernel.org>
+ <20200412194859.12663-2-rppt@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200420210354.GD29998@willie-the-truck>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200412194859.12663-2-rppt@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200420_162749_815072_69A726B3 
-X-CRM114-Status: GOOD (  12.79  )
+X-CRM114-CacheID: sfid-20200420_190625_309857_76728B77 
+X-CRM114-Status: GOOD (  20.37  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,56 +89,165 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: x86@kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- linux-kernel@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Russell King <linux@armlinux.org.uk>, Steven Rostedt <rostedt@goodmis.org>,
- linux-mips@vger.kernel.org, linux-mm@kvack.org, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
- nouveau@lists.freedesktop.org, Thomas Gleixner <tglx@linutronix.de>,
- linux-snps-arc@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
+ linux-doc@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
+ linux-csky@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Greg Ungerer <gerg@linux-m68k.org>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-c6x-dev@linux-c6x.org,
+ Brian Cain <bcain@codeaurora.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-sh@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org,
+ Russell King <linux@armlinux.org.uk>, Ley Foon Tan <ley.foon.tan@intel.com>,
+ Mike Rapoport <rppt@linux.ibm.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-arm-kernel@lists.infradead.org, Mark Salter <msalter@redhat.com>,
+ Matt Turner <mattst88@gmail.com>, linux-mips@vger.kernel.org,
+ uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
+ linux-alpha@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-m68k@lists.linux-m68k.org, Tony Luck <tony.luck@intel.com>,
+ Greentime Hu <green.hu@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Stafford Horne <shorne@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>,
+ Hoan Tran <Hoan@os.amperecomputing.com>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Nick Hu <nickhu@andestech.com>,
+ linux-mm@kvack.org, Vineet Gupta <vgupta@synopsys.com>,
+ linux-kernel@vger.kernel.org, openrisc@lists.librecores.org,
+ Richard Weinberger <richard@nod.at>, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
-
-On 04/21/2020 02:33 AM, Will Deacon wrote:
-> On Fri, Mar 20, 2020 at 10:24:17AM +0530, Anshuman Khandual wrote:
->> pmd_present() is expected to test positive after pmdp_mknotpresent() as the
->> PMD entry still points to a valid huge page in memory. pmdp_mknotpresent()
->> implies that given PMD entry is just invalidated from MMU perspective while
->> still holding on to pmd_page() referred valid huge page thus also clearing
->> pmd_present() test. This creates the following situation which is counter
->> intuitive.
->>
->> [pmd_present(pmd_mknotpresent(pmd)) = true]
->>
->> This renames pmd_mknotpresent() as pmd_mknotvalid() reflecting the helper's
->> functionality more accurately while changing the above mentioned situation
->> as follows. This does not create any functional change.
->>
->> [pmd_present(pmd_mknotvalid(pmd)) = true]
->>
->> This is not applicable for platforms that define own pmdp_invalidate() via
->> __HAVE_ARCH_PMDP_INVALIDATE. Suggestion for renaming came during a previous
->> discussion here.
+On 04/12/20 at 10:48pm, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
 > 
-> Bikeshed alert: maybe pmd_mkinvalid() would be better, given that this is
-> a one-trick pony for pmdp_invalidate()?
-
-I had thought about making it pmd_mkinvalid() earlier. But as we were replacing
-pmd_mknotpresent(), hence went with similar pattern pmd_mknotvalid() which was
-originally suggested by Catalin. There is an existing pte_mknotpresent() in arc
-platform as well. I dont have a very strong opinion either way, will be happy
-to rename. But then still wondering if we really need to.
-
+> There are several places in the code that directly dereference
+> memblock_region.nid despite this field being defined only when
+> CONFIG_HAVE_MEMBLOCK_NODE_MAP=y.
 > 
-> Will
+> Replace these with calls to memblock_get_region_nid() to improve code
+> robustness and to avoid possible breakage when
+> CONFIG_HAVE_MEMBLOCK_NODE_MAP will be removed.
 > 
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>  arch/arm64/mm/numa.c | 9 ++++++---
+>  arch/x86/mm/numa.c   | 6 ++++--
+>  mm/memblock.c        | 8 +++++---
+>  mm/page_alloc.c      | 4 ++--
+>  4 files changed, 17 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/arm64/mm/numa.c b/arch/arm64/mm/numa.c
+> index 4decf1659700..aafcee3e3f7e 100644
+> --- a/arch/arm64/mm/numa.c
+> +++ b/arch/arm64/mm/numa.c
+> @@ -350,13 +350,16 @@ static int __init numa_register_nodes(void)
+>  	struct memblock_region *mblk;
+>  
+>  	/* Check that valid nid is set to memblks */
+> -	for_each_memblock(memory, mblk)
+> -		if (mblk->nid == NUMA_NO_NODE || mblk->nid >= MAX_NUMNODES) {
+> +	for_each_memblock(memory, mblk) {
+> +		int mblk_nid = memblock_get_region_node(mblk);
+> +
+> +		if (mblk_nid == NUMA_NO_NODE || mblk_nid >= MAX_NUMNODES) {
+>  			pr_warn("Warning: invalid memblk node %d [mem %#010Lx-%#010Lx]\n",
+> -				mblk->nid, mblk->base,
+> +				mblk_nid, mblk->base,
+>  				mblk->base + mblk->size - 1);
+>  			return -EINVAL;
+>  		}
+> +	}
+>  
+>  	/* Finally register nodes. */
+>  	for_each_node_mask(nid, numa_nodes_parsed) {
+> diff --git a/arch/x86/mm/numa.c b/arch/x86/mm/numa.c
+> index 59ba008504dc..fe024b2ac796 100644
+> --- a/arch/x86/mm/numa.c
+> +++ b/arch/x86/mm/numa.c
+> @@ -517,8 +517,10 @@ static void __init numa_clear_kernel_node_hotplug(void)
+>  	 *   reserve specific pages for Sandy Bridge graphics. ]
+>  	 */
+>  	for_each_memblock(reserved, mb_region) {
+> -		if (mb_region->nid != MAX_NUMNODES)
+> -			node_set(mb_region->nid, reserved_nodemask);
+> +		int nid = memblock_get_region_node(mb_region);
+> +
+> +		if (nid != MAX_NUMNODES)
+> +			node_set(nid, reserved_nodemask);
+>  	}
+>  
+>  	/*
+> diff --git a/mm/memblock.c b/mm/memblock.c
+> index c79ba6f9920c..43e2fd3006c1 100644
+> --- a/mm/memblock.c
+> +++ b/mm/memblock.c
+> @@ -1207,13 +1207,15 @@ void __init_memblock __next_mem_pfn_range(int *idx, int nid,
+>  {
+>  	struct memblock_type *type = &memblock.memory;
+>  	struct memblock_region *r;
+> +	int r_nid;
+>  
+>  	while (++*idx < type->cnt) {
+>  		r = &type->regions[*idx];
+> +		r_nid = memblock_get_region_node(r);
+>  
+>  		if (PFN_UP(r->base) >= PFN_DOWN(r->base + r->size))
+>  			continue;
+> -		if (nid == MAX_NUMNODES || nid == r->nid)
+> +		if (nid == MAX_NUMNODES || nid == r_nid)
+>  			break;
+>  	}
+>  	if (*idx >= type->cnt) {
+> @@ -1226,7 +1228,7 @@ void __init_memblock __next_mem_pfn_range(int *idx, int nid,
+>  	if (out_end_pfn)
+>  		*out_end_pfn = PFN_DOWN(r->base + r->size);
+>  	if (out_nid)
+> -		*out_nid = r->nid;
+> +		*out_nid = r_nid;
+>  }
+>  
+>  /**
+> @@ -1810,7 +1812,7 @@ int __init_memblock memblock_search_pfn_nid(unsigned long pfn,
+>  	*start_pfn = PFN_DOWN(type->regions[mid].base);
+>  	*end_pfn = PFN_DOWN(type->regions[mid].base + type->regions[mid].size);
+>  
+> -	return type->regions[mid].nid;
+> +	return memblock_get_region_node(&type->regions[mid]);
+>  }
+>  #endif
+>  
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 69827d4fa052..0d012eda1694 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -7208,7 +7208,7 @@ static void __init find_zone_movable_pfns_for_nodes(void)
+>  			if (!memblock_is_hotpluggable(r))
+>  				continue;
+>  
+> -			nid = r->nid;
+> +			nid = memblock_get_region_node(r);
+>  
+>  			usable_startpfn = PFN_DOWN(r->base);
+>  			zone_movable_pfn[nid] = zone_movable_pfn[nid] ?
+> @@ -7229,7 +7229,7 @@ static void __init find_zone_movable_pfns_for_nodes(void)
+>  			if (memblock_is_mirror(r))
+>  				continue;
+>  
+> -			nid = r->nid;
+> +			nid = memblock_get_region_node(r);
+>  
+>  			usable_startpfn = memblock_region_memory_base_pfn(r);
+
+Looks good to me.
+
+Reviewed-by: Baoquan He <bhe@redhat.com>
+
 
 _______________________________________________
 linux-snps-arc mailing list
