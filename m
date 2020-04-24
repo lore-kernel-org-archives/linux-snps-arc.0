@@ -2,85 +2,128 @@ Return-Path: <SRS0=VylK=6I=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81807C54FCB
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Apr 2020 00:34:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 332CBC5518A
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Apr 2020 07:23:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 593CA20724
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Apr 2020 00:34:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0439C20774
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Apr 2020 07:23:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EXbMG4dQ";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eTmMEfXZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 593CA20724
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WMDjKo/D";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Txedu1JY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0439C20774
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=9m/PLRiL7OIezusxDNcJ7QFAo2KgBK+JT8qvh/waCEM=; b=EXbMG4dQy+brBU
-	5AdTiDmCVEEV9JBaUuxt2R8V1UI8FtVu7PwgFKoWtMabTRcftvyOJcaR3AmlZkrcJL4mk+8qtzN3x
-	8X+rMnZGM97k6sSqbJ4EISKNGqwjRLxdHuYV8QLdZhazg4OGJ1ZdNZDyH8wMoNn6iNOnKf9pwrZo+
-	O2FrgL4dOibRkcykSYZcylkkJ0qTAAQqSBKX4hDzCnJCq348ZUFYTixSXRTImuoW03L1VmQW/yJyj
-	ZC6I0iRlVRRVmJjuCrnU2I5trIriiem4aD0jG4LdlxeGgAckkusRNmkjrKt55sQW/fW7gpeatVzwi
-	wtcZKKSJMO+YTpU/S2LA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=YeQse1ybr0gScYW8taf0X9S+V5iRwavfyXYfzFiJNI8=; b=WMDjKo/D0dY44X
+	7BqjqqfltnrSGf3m3Dq8NXmM39JXek0Tu55/tEsmWEQ0RQz3kIzyNxvFsaarohPXyHQ8lv7hEWkwg
+	5TEtDQAydiZysgDrwmUM9Kp5wZI+H6CyN82Ti0KXK2XWsFjTAdwmG4YzITWNdl4orECVIeHtf5PaZ
+	R2Au0atA4rVydsZMd38uNKe/XGkmqDeWxlAa4KtzDQhHBCBTw+jlNW75d7sFNh9eLHKeytN+XwpSL
+	f7au6kn/xB+Ax40rNphc7HcOa2p303ZkyqKp7dFK1d6gWDnjeRmsjttvjMwPFpeQsbEB1Ms+kLnCf
+	SpDarqnhxyQVLN2SKQfw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jRmIO-0001HH-Ed; Fri, 24 Apr 2020 00:34:20 +0000
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]
+	id 1jRsg1-0004KA-0d; Fri, 24 Apr 2020 07:23:09 +0000
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]
  helo=us-smtp-1.mimecast.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jRmIK-0001E2-FQ
- for linux-snps-arc@lists.infradead.org; Fri, 24 Apr 2020 00:34:18 +0000
+ id 1jRsfw-0004HT-VQ
+ for linux-snps-arc@lists.infradead.org; Fri, 24 Apr 2020 07:23:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587688453;
+ s=mimecast20190719; t=1587712981;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=n2dWJbdFmIc0aMZ8wHTt5vQhPaXxDdsL9ipp25mLNTI=;
- b=eTmMEfXZAwNiRciPiT/2R4efctZxwysLoOEOVLuaQHYhsgs+1nUUTTIEa+GlWs6BinkhT+
- GfUhNQ8DNAE0D6d0zVFRyY9zaj8EMII0AeZucu/vOBaRqeQ3D6MuU+W7O44hk21hfwtXzR
- wI1FCE8+Cgg4ZzF6/fyI+Gl7eBnY4EU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=mSCwKGFsRo1tURSlR3wqOWq4Aw66HvWN2vcc7P0apK8=;
+ b=Txedu1JYK7SGF0/kgaxzqXoXsdlAANtJzqfDJOwKFG++GT93IEnJs1ssehPmsdXcvBMeoS
+ 76HyNOVxUhcpMDvLcpqOjsZEAPEwJ/6GRMQc2kJGxkHJYP1d+VaPjyaAZNmyV8Ey89bulJ
+ ja6AWqMLPO4vG/Nqc6uWKOVddiMFbqI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-PdLkUA6CP7mzy-z_Ga33bw-1; Thu, 23 Apr 2020 20:34:09 -0400
-X-MC-Unique: PdLkUA6CP7mzy-z_Ga33bw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-428-oyPtM_plPTaEdOOdHnoQOw-1; Fri, 24 Apr 2020 03:22:54 -0400
+X-MC-Unique: oyPtM_plPTaEdOOdHnoQOw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 087DD800D24;
- Fri, 24 Apr 2020 00:34:03 +0000 (UTC)
-Received: from localhost (ovpn-12-92.pek2.redhat.com [10.72.12.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ACFBF1C957;
- Fri, 24 Apr 2020 00:33:58 +0000 (UTC)
-Date: Fri, 24 Apr 2020 08:33:56 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH 17/21] mm: free_area_init: allow defining max_zone_pfn in
- descending order
-Message-ID: <20200424003356.GA10119@MiWiFi-R3L-srv>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 110B81902EA0;
+ Fri, 24 Apr 2020 07:22:47 +0000 (UTC)
+Received: from [10.36.113.138] (ovpn-113-138.ams2.redhat.com [10.36.113.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C9605D70B;
+ Fri, 24 Apr 2020 07:22:33 +0000 (UTC)
+Subject: Re: [PATCH 15/21] mm: memmap_init: iterate over memblock regions
+ rather that check each PFN
+To: Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org
 References: <20200412194859.12663-1-rppt@kernel.org>
- <20200412194859.12663-18-rppt@kernel.org>
- <20200423025311.GZ4247@MiWiFi-R3L-srv>
- <20200423025720.GA4247@MiWiFi-R3L-srv>
- <20200423055559.GF14260@kernel.org>
+ <20200412194859.12663-16-rppt@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <9143538a-4aaa-ca1d-9c8f-72ac949cf593@redhat.com>
+Date: Fri, 24 Apr 2020 09:22:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200423055559.GF14260@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200412194859.12663-16-rppt@kernel.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200423_173416_596587_013CBFC3 
-X-CRM114-Status: GOOD (  17.49  )
+X-CRM114-CacheID: sfid-20200424_002305_109782_082F280A 
+X-CRM114-Status: GOOD (  19.36  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,20 +138,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
 Cc: Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
  linux-doc@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
  Heiko Carstens <heiko.carstens@de.ibm.com>, Michal Hocko <mhocko@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
  Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
  linux-csky@vger.kernel.org, linux-parisc@vger.kernel.org,
  sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-riscv@lists.infradead.org, Greg Ungerer <gerg@linux-m68k.org>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-c6x-dev@linux-c6x.org,
- Brian Cain <bcain@codeaurora.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-riscv@lists.infradead.org, Mike Rapoport <rppt@linux.ibm.com>,
+ Greg Ungerer <gerg@linux-m68k.org>, linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-c6x-dev@linux-c6x.org,
+ Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
  linux-sh@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
  Helge Deller <deller@gmx.de>, x86@kernel.org,
  Russell King <linux@armlinux.org.uk>, Ley Foon Tan <ley.foon.tan@intel.com>,
- Mike Rapoport <rppt@linux.ibm.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
  linux-arm-kernel@lists.infradead.org, Mark Salter <msalter@redhat.com>,
- Matt Turner <mattst88@gmail.com>, linux-mips@vger.kernel.org,
+ Matt Turner <mattst88@gmail.com>, linux-snps-arc@lists.infradead.org,
  uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
  linux-alpha@vger.kernel.org, linux-um@lists.infradead.org,
  linux-m68k@lists.linux-m68k.org, Tony Luck <tony.luck@intel.com>,
@@ -116,9 +160,9 @@ Cc: Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
  Stafford Horne <shorne@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>,
  Hoan Tran <Hoan@os.amperecomputing.com>, Michal Simek <monstr@monstr.eu>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Nick Hu <nickhu@andestech.com>,
+ Brian Cain <bcain@codeaurora.org>, Nick Hu <nickhu@andestech.com>,
  linux-mm@kvack.org, Vineet Gupta <vgupta@synopsys.com>,
- linux-kernel@vger.kernel.org, openrisc@lists.librecores.org,
+ linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
  Richard Weinberger <richard@nod.at>, Andrew Morton <akpm@linux-foundation.org>,
  linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
@@ -126,41 +170,56 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 04/23/20 at 08:55am, Mike Rapoport wrote:
-> On Thu, Apr 23, 2020 at 10:57:20AM +0800, Baoquan He wrote:
-> > On 04/23/20 at 10:53am, Baoquan He wrote:
-> > > On 04/12/20 at 10:48pm, Mike Rapoport wrote:
-> > > > From: Mike Rapoport <rppt@linux.ibm.com>
-> > > > 
-> > > > Some architectures (e.g. ARC) have the ZONE_HIGHMEM zone below the
-> > > > ZONE_NORMAL. Allowing free_area_init() parse max_zone_pfn array even it is
-> > > > sorted in descending order allows using free_area_init() on such
-> > > > architectures.
-> > > > 
-> > > > Add top -> down traversal of max_zone_pfn array in free_area_init() and use
-> > > > the latter in ARC node/zone initialization.
-> > > 
-> > > Or maybe leave ARC as is. The change in this patchset doesn't impact
-> > > ARC's handling about zone initialization, leaving it as is can reduce
-> > > the complication in implementation of free_area_init(), which is a
-> > > common function. So I personally don't see a strong motivation to have
-> > > this patch.
-> > 
-> > OK, seems this patch is prepared to simplify free_area_init_node(), so
-> > take back what I said at above.
-> > 
-> > Then this looks necessary, even though it introduces special case into
-> > common function free_area_init().
+On 12.04.20 21:48, Mike Rapoport wrote:
+> From: Baoquan He <bhe@redhat.com>
 > 
-> The idea is to have a single free_area_init() for all architectures
-> without keeping two completely different ways of calculating the zone
-> extents.
-> Another thing, is that with this we could eventually switch ARC from
-> DISCONTIGMEM.
+> When called during boot the memmap_init_zone() function checks if each PFN
+> is valid and actually belongs to the node being initialized using
+> early_pfn_valid() and early_pfn_in_nid().
+> 
+> Each such check may cost up to O(log(n)) where n is the number of memory
+> banks, so for large amount of memory overall time spent in early_pfn*()
+> becomes substantial.
+> 
+> Since the information is anyway present in memblock, we can iterate over
+> memblock memory regions in memmap_init() and only call memmap_init_zone()
+> for PFN ranges that are know to be valid and in the appropriate node.
+> 
+> Signed-off-by: Baoquan He <bhe@redhat.com>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>  mm/page_alloc.c | 26 ++++++++++++++++----------
+>  1 file changed, 16 insertions(+), 10 deletions(-)
+> 
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 7f6a3081edb8..c43ce8709457 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -5995,14 +5995,6 @@ void __meminit memmap_init_zone(unsigned long size, int nid, unsigned long zone,
+>  		 * function.  They do not exist on hotplugged memory.
+>  		 */
 
-Yeah, I think uniting them into a single free_area_init() is a great
-idea. Even though I had been through this patchset, when looked into
-each of them, still may forget the detail in later patch :)
+After this change, the comment above is stale. the "holes in boot-time
+mem_map" are handled by the caller now AFAIKs.
+
+>  		if (context == MEMMAP_EARLY) {
+> -			if (!early_pfn_valid(pfn)) {
+> -				pfn = next_pfn(pfn);
+> -				continue;
+> -			}
+> -			if (!early_pfn_in_nid(pfn, nid)) {
+> -				pfn++;
+> -				continue;
+> -			}
+>  			if (overlap_memmap_init(zone, &pfn))
+>  				continue;
+>  			if (defer_init(nid, pfn, end_pfn))
+
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
 _______________________________________________
