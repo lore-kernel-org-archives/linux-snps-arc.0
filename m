@@ -2,67 +2,65 @@ Return-Path: <SRS0=h8bZ=6K=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 718F9C2BA1A
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Apr 2020 05:55:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05665C2BA1A
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Apr 2020 05:55:34 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EC71C206BF
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Apr 2020 05:55:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7CF07206BF
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Apr 2020 05:55:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qFDXVw9o"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EC71C206BF
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BODjUiex"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7CF07206BF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=B7nH5M4W38rv2sHGtBWTk6WsSdtcg0OggllGWYn16yI=; b=qFDXVw9o+s4aC8
-	6MGer2k3LAoWynaT0SHhx1BovHaQYt28LPF2w8lk10EX/WJRVwAreN3z64waCo8zJ7EloZybC3Wdf
-	94oWZIndzkeGsbfYPfNJTfuaaMC8naDI08T4pIJXrGZIqmNGABDTFtX61wLIo1MNouXHdmMp1G5wp
-	tzmGe8JiSKeK7VPhSMS/unP8+7RuhH1RlYNTDKjo4otD5BOqz8+AvoNgSItg+3SWTwH8/rbBDA/Hp
-	M0YSsylkp7YJcUFXLbARoJTn4Jn/Cyyqcor6Lt/mvaq3A3GwadVj4ZVvsuZfI9KKSA409SnWwqlgi
-	9IOTGpv/FN7AQgFzX1+A==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=r9M6P646IB4cUWyCPS4lIK6Ce5AdF/rM1KwS2ccWd4A=; b=BODjUiexm6kvCN
+	pmi6siXwW+OvfJWV38LuaFkcfB9MwgcRFWbUQbtToCJX1QO6WQM7nHyvzZeJidUTpT+PfnY04Zq08
+	iTvJiEotXipUsqSNzB/SSwM8ft9Rgw+AfbwpBvPjCpjzVbRIYSuYn1PaTelR4movgsmwj2vymWIku
+	+WMAq5VIGvRH4bxXTLdbG5f1iXpak9eUYjVxZIooVtjiBuOSea8xAPcrNMwCmjHHc/o7J8Gb7dAPm
+	QDMcGwj58OF9FZ3PdKqEVYMwHXQojbcHoSU3FfDhOYtMiQqm7/CQ2NpJQqPIbK/udHhmGl4zkX79E
+	pIFudTD7hwMoumCOZGTg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jSaFo-0004Ok-Vm; Sun, 26 Apr 2020 05:55:01 +0000
-Received: from mga06.intel.com ([134.134.136.31])
+	id 1jSaGI-00073I-IJ; Sun, 26 Apr 2020 05:55:30 +0000
+Received: from mga09.intel.com ([134.134.136.24])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jSaFH-0003rz-Am; Sun, 26 Apr 2020 05:54:28 +0000
-IronPort-SDR: ZgoeIZ50wETB7EmEch6hZsJCCTbOrOiWK4qgSudL67A/dzLkFQpYCz51aIoCZUdubWTam/yb7y
- dstQ28Sf1xqQ==
+ id 1jSaFI-0003ra-0k; Sun, 26 Apr 2020 05:54:30 +0000
+IronPort-SDR: wLzHAPwMFQfyRBghPP8C0WhGJRPcOohD5IkidTZVR9jntd4piSPmZ+M85/fQtnL+lSFqCXcjoF
+ NQ1L2dBKjrLQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2020 22:54:24 -0700
-IronPort-SDR: ULIPpftXlRuZVncLUHSwuauSzU7AMt8SQ3FSLW4e25oH6OANV+RbXbJFufO4yzakpq0D15kNUU
- 6n3sFI9wk+2w==
-X-IronPort-AV: E=Sophos;i="5.73,319,1583222400"; d="scan'208";a="245732999"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2020 22:54:21 -0700
+IronPort-SDR: /cZ3umTa8B8PLh9tjA9EP3+bxl80qczghY2Si7yQnbojuyuxqol2zAYPUansPdHYwpezKRfg9s
+ EcpTlSW8XTMQ==
+X-IronPort-AV: E=Sophos;i="5.73,319,1583222400"; d="scan'208";a="281313737"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2020 22:54:23 -0700
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2020 22:54:20 -0700
 From: ira.weiny@intel.com
 To: linux-kernel@vger.kernel.org,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 5/5] arch/kunmap_atomic: Consolidate duplicate code
-Date: Sat, 25 Apr 2020 22:54:06 -0700
-Message-Id: <20200426055406.134198-6-ira.weiny@intel.com>
+Subject: [PATCH 0/5] Remove duplicated kmap code
+Date: Sat, 25 Apr 2020 22:54:01 -0700
+Message-Id: <20200426055406.134198-1-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200426055406.134198-1-ira.weiny@intel.com>
-References: <20200426055406.134198-1-ira.weiny@intel.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200425_225427_430708_58BD6C03 
-X-CRM114-Status: GOOD (  12.05  )
+X-CRM114-CacheID: sfid-20200425_225428_104207_2F8CED01 
+X-CRM114-Status: UNSURE (   8.82  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,11 +78,11 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
  Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
  "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
  Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
  Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
  linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
  linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
  linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
@@ -96,208 +94,44 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-Every single architecture (including !CONFIG_HIGHMEM) calls...
+The kmap infrastructure has been copied almost verbatim to every architecture.
+This series consolidates obvious duplicated code.  (k[un]map_atmoic has some
+additional duplication between some of the architectures but the differences
+were such to not warrant further changes.)
 
-	pagefault_enable();
-	preempt_enable();
+0day built successfully to cover all the architectures I can't readily build.
 
-... before returning from __kunmap_atomic().  Lift this code into the
-kunmap_atomic() macro.
+Ira Weiny (5):
+  arch/kmap: Remove BUG_ON()
+  arch/kmap: Remove redundant arch specific kmaps
+  arch/kunmap: Remove duplicate kunmap implementations
+  arch/kmap_atomic: Consolidate duplicate code
+  arch/kunmap_atomic: Consolidate duplicate code
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
----
- arch/arc/mm/highmem.c                | 3 ---
- arch/arm/mm/highmem.c                | 2 --
- arch/csky/mm/highmem.c               | 5 +----
- arch/microblaze/mm/highmem.c         | 2 --
- arch/mips/mm/highmem.c               | 2 --
- arch/nds32/mm/highmem.c              | 2 --
- arch/parisc/include/asm/cacheflush.h | 2 --
- arch/powerpc/mm/highmem.c            | 2 --
- arch/sparc/mm/highmem.c              | 2 --
- arch/x86/mm/highmem_32.c             | 3 ---
- arch/xtensa/mm/highmem.c             | 3 ---
- include/linux/highmem.h              | 6 ++++--
- 12 files changed, 5 insertions(+), 29 deletions(-)
+ arch/arc/include/asm/highmem.h        | 11 -------
+ arch/arc/mm/highmem.c                 | 20 ++-----------
+ arch/arm/include/asm/highmem.h        |  3 --
+ arch/arm/mm/highmem.c                 | 28 ++----------------
+ arch/csky/include/asm/highmem.h       |  3 +-
+ arch/csky/mm/highmem.c                | 28 ++++--------------
+ arch/microblaze/include/asm/highmem.h | 17 -----------
+ arch/microblaze/mm/highmem.c          | 10 ++-----
+ arch/mips/include/asm/highmem.h       |  3 +-
+ arch/mips/mm/highmem.c                | 25 +++-------------
+ arch/nds32/include/asm/highmem.h      |  3 --
+ arch/nds32/mm/highmem.c               | 31 ++------------------
+ arch/parisc/include/asm/cacheflush.h  |  2 --
+ arch/powerpc/include/asm/highmem.h    | 17 -----------
+ arch/powerpc/mm/highmem.c             |  9 ++----
+ arch/sparc/include/asm/highmem.h      | 17 -----------
+ arch/sparc/mm/highmem.c               |  9 ++----
+ arch/x86/include/asm/highmem.h        |  4 ---
+ arch/x86/mm/highmem_32.c              | 30 ++------------------
+ arch/xtensa/include/asm/highmem.h     | 14 +--------
+ arch/xtensa/mm/highmem.c              | 10 ++-----
+ include/linux/highmem.h               | 41 +++++++++++++++++++++++++--
+ 22 files changed, 75 insertions(+), 260 deletions(-)
 
-diff --git a/arch/arc/mm/highmem.c b/arch/arc/mm/highmem.c
-index 1cae4b911a33..0725fc56b016 100644
---- a/arch/arc/mm/highmem.c
-+++ b/arch/arc/mm/highmem.c
-@@ -91,9 +91,6 @@ void __kunmap_atomic(void *kv)
- 
- 		kmap_atomic_idx_pop();
- 	}
--
--	pagefault_enable();
--	preempt_enable();
- }
- EXPORT_SYMBOL(__kunmap_atomic);
- 
-diff --git a/arch/arm/mm/highmem.c b/arch/arm/mm/highmem.c
-index 4a629f616a6a..4983bf18ec32 100644
---- a/arch/arm/mm/highmem.c
-+++ b/arch/arm/mm/highmem.c
-@@ -98,8 +98,6 @@ void __kunmap_atomic(void *kvaddr)
- 		/* this address was obtained through kmap_high_get() */
- 		kunmap_high(pte_page(pkmap_page_table[PKMAP_NR(vaddr)]));
- 	}
--	pagefault_enable();
--	preempt_enable();
- }
- EXPORT_SYMBOL(__kunmap_atomic);
- 
-diff --git a/arch/csky/mm/highmem.c b/arch/csky/mm/highmem.c
-index 1191f57f53ae..106fa6773084 100644
---- a/arch/csky/mm/highmem.c
-+++ b/arch/csky/mm/highmem.c
-@@ -50,7 +50,7 @@ void __kunmap_atomic(void *kvaddr)
- 	int idx;
- 
- 	if (vaddr < FIXADDR_START)
--		goto out;
-+		return;
- 
- #ifdef CONFIG_DEBUG_HIGHMEM
- 	idx = KM_TYPE_NR*smp_processor_id() + kmap_atomic_idx();
-@@ -63,9 +63,6 @@ void __kunmap_atomic(void *kvaddr)
- 	(void) idx; /* to kill a warning */
- #endif
- 	kmap_atomic_idx_pop();
--out:
--	pagefault_enable();
--	preempt_enable();
- }
- EXPORT_SYMBOL(__kunmap_atomic);
- 
-diff --git a/arch/microblaze/mm/highmem.c b/arch/microblaze/mm/highmem.c
-index 99fdf826edc2..d382c6821747 100644
---- a/arch/microblaze/mm/highmem.c
-+++ b/arch/microblaze/mm/highmem.c
-@@ -81,7 +81,5 @@ void __kunmap_atomic(void *kvaddr)
- 	local_flush_tlb_page(NULL, vaddr);
- 
- 	kmap_atomic_idx_pop();
--	pagefault_enable();
--	preempt_enable();
- }
- EXPORT_SYMBOL(__kunmap_atomic);
-diff --git a/arch/mips/mm/highmem.c b/arch/mips/mm/highmem.c
-index ba03ca75d4a1..5a3fc7e84e66 100644
---- a/arch/mips/mm/highmem.c
-+++ b/arch/mips/mm/highmem.c
-@@ -79,8 +79,6 @@ void __kunmap_atomic(void *kvaddr)
- 	}
- #endif
- 	kmap_atomic_idx_pop();
--	pagefault_enable();
--	preempt_enable();
- }
- EXPORT_SYMBOL(__kunmap_atomic);
- 
-diff --git a/arch/nds32/mm/highmem.c b/arch/nds32/mm/highmem.c
-index 4aabde586489..b8862aafa189 100644
---- a/arch/nds32/mm/highmem.c
-+++ b/arch/nds32/mm/highmem.c
-@@ -49,8 +49,6 @@ void __kunmap_atomic(void *kvaddr)
- 		ptep = pte_offset_kernel(pmd_off_k(vaddr), vaddr);
- 		set_pte(ptep, 0);
- 	}
--	pagefault_enable();
--	preempt_enable();
- }
- 
- EXPORT_SYMBOL(__kunmap_atomic);
-diff --git a/arch/parisc/include/asm/cacheflush.h b/arch/parisc/include/asm/cacheflush.h
-index 0c83644bfa5c..c8458491b9af 100644
---- a/arch/parisc/include/asm/cacheflush.h
-+++ b/arch/parisc/include/asm/cacheflush.h
-@@ -125,8 +125,6 @@ static inline void *kmap_atomic(struct page *page)
- static inline void __kunmap_atomic(void *addr)
- {
- 	flush_kernel_dcache_page_addr(addr);
--	pagefault_enable();
--	preempt_enable();
- }
- 
- #define kmap_atomic_prot(page, prot)	kmap_atomic(page)
-diff --git a/arch/powerpc/mm/highmem.c b/arch/powerpc/mm/highmem.c
-index cdf5b716801a..7dfccf519621 100644
---- a/arch/powerpc/mm/highmem.c
-+++ b/arch/powerpc/mm/highmem.c
-@@ -76,7 +76,5 @@ void __kunmap_atomic(void *kvaddr)
- 	}
- 
- 	kmap_atomic_idx_pop();
--	pagefault_enable();
--	preempt_enable();
- }
- EXPORT_SYMBOL(__kunmap_atomic);
-diff --git a/arch/sparc/mm/highmem.c b/arch/sparc/mm/highmem.c
-index 178641805567..7a99a1097f67 100644
---- a/arch/sparc/mm/highmem.c
-+++ b/arch/sparc/mm/highmem.c
-@@ -130,7 +130,5 @@ void __kunmap_atomic(void *kvaddr)
- #endif
- 
- 	kmap_atomic_idx_pop();
--	pagefault_enable();
--	preempt_enable();
- }
- EXPORT_SYMBOL(__kunmap_atomic);
-diff --git a/arch/x86/mm/highmem_32.c b/arch/x86/mm/highmem_32.c
-index 34770499b0ff..b20e81b2b833 100644
---- a/arch/x86/mm/highmem_32.c
-+++ b/arch/x86/mm/highmem_32.c
-@@ -78,9 +78,6 @@ void __kunmap_atomic(void *kvaddr)
- 		BUG_ON(vaddr >= (unsigned long)high_memory);
- 	}
- #endif
--
--	pagefault_enable();
--	preempt_enable();
- }
- EXPORT_SYMBOL(__kunmap_atomic);
- 
-diff --git a/arch/xtensa/mm/highmem.c b/arch/xtensa/mm/highmem.c
-index 38c14e0b578c..9a49263e4cd6 100644
---- a/arch/xtensa/mm/highmem.c
-+++ b/arch/xtensa/mm/highmem.c
-@@ -77,9 +77,6 @@ void __kunmap_atomic(void *kvaddr)
- 
- 		kmap_atomic_idx_pop();
- 	}
--
--	pagefault_enable();
--	preempt_enable();
- }
- EXPORT_SYMBOL(__kunmap_atomic);
- 
-diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index eee53e151900..94145d4200ab 100644
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -133,8 +133,8 @@ static inline void *kmap_atomic(struct page *page)
- 
- static inline void __kunmap_atomic(void *addr)
- {
--	pagefault_enable();
--	preempt_enable();
-+	/* Nothing to do in the CONFIG_HIGHMEM=n case as kunmap_atomic()
-+	 * handles re-enabling faults + preemption */
- }
- 
- #define kmap_atomic_pfn(pfn)	kmap_atomic(pfn_to_page(pfn))
-@@ -185,6 +185,8 @@ static inline void kmap_atomic_idx_pop(void)
- do {                                                            \
- 	BUILD_BUG_ON(__same_type((addr), struct page *));       \
- 	__kunmap_atomic(addr);                                  \
-+	pagefault_enable();                                     \
-+	preempt_enable();                                       \
- } while (0)
- 
- 
 -- 
 2.25.1
 
