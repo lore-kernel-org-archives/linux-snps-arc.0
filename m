@@ -2,21 +2,21 @@ Return-Path: <SRS0=h8bZ=6K=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F201EC55191
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Apr 2020 07:26:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D701C55194
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Apr 2020 22:23:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C15302084D
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Apr 2020 07:26:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5EB192070A
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Apr 2020 22:23:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="E6UTxZ8E"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C15302084D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="O888pevC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5EB192070A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -24,27 +24,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=OENs1M/tg4vHJBZS1yEvCCt4ahpwb3vA/XGM2WMOEE8=; b=E6UTxZ8EAW9Reu
-	cc96RjJu1fFUIWYTTUIQXfj10zffSgfobIup/pG9y+q8V7JI+fm/vzqpXEZTysIGl+7FYSiueHKPG
-	z42TLAR+tCdiU8v7zF3zhP9RD1Zshc+0I1QsQlCzrDA7yAct0spQI9Cm6VEheQS4IyfBbsfW7in86
-	1f2tfnnUZi2NmHgkwyDWWkU8m53HlpqS8nPE3RefojGfZvDsk9aMiGd0eXZgznBIj2BsWm5yn4B8M
-	IIX4j0NfIjovKwkose8XiL7WxJRGJjCHt07Qzoq48kmHidFjtE8wqsqPlyhNweRt4MBY/wDbJtg84
-	o3CnJINY0K5NiL3aTY2A==;
+	List-Owner; bh=l1s36VQz0LJfJw3guth5XdTtiB/A9deAJGlDjmymJEA=; b=O888pevCkyiQTW
+	uk5rpUABVFFITwMXpN318aClfNbrD6eoNcrRsjuHjsXxHSZpYszq0RxDazURYkbpOo64Znp9kLsCV
+	1pusRltPaGVC0p4KAUzYeASglEz3T28VnSGrwJxds+KXrgoOvGVJ0kprLgGN5CpyzLZTu1HEVtztI
+	25bm2NcGbQL7ZrcedTGtYYUHRFgNWj6ChRwDgfgai0OkA3gOVnDWl+PMOKpFx12tVoNKD2FPASzuS
+	N75qW2cpBQmTkU86KcTimgpOSmuS7hsj2DvwyjVHYnlCAmsXwzoXoCEQ0aKJOczYzqzMC3yCk1NSQ
+	Di3dFU9HIk9inPsUSk5g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jSbga-00048e-CD; Sun, 26 Apr 2020 07:26:44 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
- Hat Linux)) id 1jSbgY-00048J-Cx; Sun, 26 Apr 2020 07:26:42 +0000
-Date: Sun, 26 Apr 2020 00:26:42 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: ira.weiny@intel.com
-Subject: Re: [PATCH 4/5] arch/kmap_atomic: Consolidate duplicate code
-Message-ID: <20200426072642.GB22024@infradead.org>
+	id 1jSpgj-00085P-1X; Sun, 26 Apr 2020 22:23:49 +0000
+Received: from mga06.intel.com ([134.134.136.31])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jSpgZ-0007xd-Oa; Sun, 26 Apr 2020 22:23:40 +0000
+IronPort-SDR: 5+hmhhoTKSyZawn0uQLLUVGWSPnJtUDXaNgMY7R/f54X4hEgv3Hs5IKDAiz3m3VDmFDHQkUtwF
+ 49vD/MSWnyeA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2020 15:23:35 -0700
+IronPort-SDR: 8yV2Y6IG5lNoT1jn6/HH2CElcZY0fcyD0N/RoyhP0ObnAngZTUc4uRHLGC5CCH89hOtD39Sa16
+ WtvX0Mtzph+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,321,1583222400"; d="scan'208";a="458601785"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by fmsmga006.fm.intel.com with ESMTP; 26 Apr 2020 15:23:34 -0700
+Date: Sun, 26 Apr 2020 15:23:34 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH 2/5] arch/kmap: Remove redundant arch specific kmaps
+Message-ID: <20200426222333.GA135929@iweiny-DESK2.sc.intel.com>
 References: <20200426055406.134198-1-ira.weiny@intel.com>
- <20200426055406.134198-5-ira.weiny@intel.com>
+ <20200426055406.134198-3-ira.weiny@intel.com>
+ <20200426071715.GA22024@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200426055406.134198-5-ira.weiny@intel.com>
+In-Reply-To: <20200426071715.GA22024@infradead.org>
+User-Agent: Mutt/1.11.1 (2018-12-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200426_152339_847672_AA10E6A6 
+X-CRM114-Status: GOOD (  12.79  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,28 +95,21 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-> diff --git a/arch/arc/mm/highmem.c b/arch/arc/mm/highmem.c
-> index 4db13a6b9f3b..1cae4b911a33 100644
-> --- a/arch/arc/mm/highmem.c
-> +++ b/arch/arc/mm/highmem.c
-> @@ -53,11 +53,10 @@ void *kmap_atomic(struct page *page)
->  {
->  	int idx, cpu_idx;
->  	unsigned long vaddr;
-> +	void *addr = kmap_atomic_fast(page);
->  
-> -	preempt_disable();
-> -	pagefault_disable();
-> -	if (!PageHighMem(page))
-> -		return page_address(page);
-> +	if (addr)
-> +		return addr;
+On Sun, Apr 26, 2020 at 12:17:15AM -0700, Christoph Hellwig wrote:
+> On Sat, Apr 25, 2020 at 10:54:03PM -0700, ira.weiny@intel.com wrote:
+> > From: Ira Weiny <ira.weiny@intel.com>
+> > 
+> > The kmap code for all the architectures is almost 100% identical.
+> > 
+> > Lift the common code to the core.  Use ARCH_HAS_KMAP to indicate if an
+> > arch needs a special kmap.
+> 
+> Can you add a kmap_flush_tlb hook that csky and mips define, and the
+> just entirely consolidate the code instead?
 
-Wouldn't it make sense to just move kmap_atomic itelf to common code,
-and call out to a kmap_atomic_high for the highmem case, following the
-scheme in kmap?  Same for the unmap side.  That might require to support
-kmap_atomic_prot everywhere first, which sounds like a really good
-idea anyway, and would avoid the need for strange workaround in drm.
+Sure that seems to work.
+
+Ira
 
 _______________________________________________
 linux-snps-arc mailing list
