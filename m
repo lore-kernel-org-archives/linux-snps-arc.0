@@ -1,145 +1,99 @@
-Return-Path: <SRS0=FD3D=6L=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=82UL=6M=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AD36C82A41
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Apr 2020 22:13:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97CD7C83007
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Apr 2020 10:19:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED21120661
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Apr 2020 22:13:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6C270206C0
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Apr 2020 10:19:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oX0EQ4Fu";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="IKAw8qt5";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="c4sL2Ti/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED21120661
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="IydthCyW";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="kgKO0cBP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C270206C0
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KzmzvUmEp2ehq+/QpuxZcMoT37qGTjOkB56SZC9URF8=; b=oX0EQ4Fuwu4RHG
-	y6pTx+2KlykTZLKKLGA9z6XaJk7bWY57iG9XSCnH2qawd4OnfQk9YKdjHAk2c+lI3+jGAT3GCwais
-	NDRpDBjLuWlXMjviFfyamLUpO+Ffoy4R298KsRCGwn+4C0nlr0IWafLWTYgqfMlFd2cShipIyqz5Z
-	lVJfrhLcqMYsI0Pvpy3ergtsEExOVqQNZmwpo6EZU7U+vER7W98jkp9+FVaPYd0yiZtVJ3xXFKjR2
-	mkNnp5aGNau6//xar0J9CLW39sNL3UhCrbs7yy1XoWV6SU5uJdZcEbf5Tj7sCEUNIxEiH9xcfvQgn
-	6Bq77iRzRqs98xwrEyrQ==;
+	List-Owner; bh=tFkqbeda3UJhAF1YdWHyUOP0heiFfSTsq3UQ3fPn+i4=; b=IydthCyW01nbIz
+	QBzp2vvQu+c3GHLv7beyevH1Z+kUZ2QF1LvRkiMnmShmO4b/CgG8VBkU7CJyLgkUf/hqH4gFj7bBa
+	lZFMRBW1fnRoi8sR5Ok3LddrE1Mi70NgbSD/DWl+/oLTFaCal7X9MuQhPs512SIg8sJ2Uvrc2AAoZ
+	82c/pia0wJX/b27lVUsT0lUFnBDZDopEzUAjA7OaEgOXBEBoa2tKPByV6lMvhZnVJ1iZO1j0HAlzz
+	jOxqq0asyUryOsGA0sd9qsEolU2LxN6CasBXR84k4f08zF/cA6QVE5FC9jC0wSCZO8RTUDSoy15mk
+	mbAwnv47gNqKwIbx0hgg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jTC0W-00009P-26; Mon, 27 Apr 2020 22:13:44 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1jTNKW-0003YK-Tw; Tue, 28 Apr 2020 10:19:08 +0000
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jTC0T-00008F-Os
- for linux-snps-arc@lists.infradead.org; Mon, 27 Apr 2020 22:13:43 +0000
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
- [10.192.0.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 383D5C0350;
- Mon, 27 Apr 2020 22:13:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1588025618; bh=feMbBUwyOuKo/R2D8Xa/AWD3IFNuUVkGmEhxoO9dNeA=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=IKAw8qt5YNo2F6hmewgjZ5gJVfMexA7EtdJsU5z9bw7nhNUiuiosoEIyi+LAOidn6
- eoODAHI4D4eEsM5X+irD5gGC13crGdn5GwRkcgOlNNcpFQNfPEs3VNKAcXB4P+wxc+
- aQNJKmM7TH88q+uoXpGN0QbnQ6SPr6RANZPpytv3Z+FJY8vwHEP7jx+vAESqBJ9qhn
- Ib/cNqaOp6NOXYZ1Q8KRnEKwc0w3W7gUZBHjtIX8thR5iHr8Zsg98Y6sTxXsIJJtbx
- 23eSHx8ssOUflfe63OegEHmmbx20VY5/B8xdl8InTXMlqJyIJl1FTLaDBNsiT3YdO0
- hY4z1ekjKNpPA==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 5AD58A0067;
- Mon, 27 Apr 2020 22:13:33 +0000 (UTC)
-Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 27 Apr 2020 15:13:34 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
- 14.3.487.0; Mon, 27 Apr 2020 15:13:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UPfUM5CBPxDXtVStWAAGxLEWlQzlCivpZnaUIYUC2mJwHpbuHzTSP7K5y5L6Dss7fGVUC/Yvl29i4idCWOao0b0dObRXqyO++QqnfWUuP9A2O7CUSMyqtlUm7opUETX6cvq0/wV2SvPa+bXxiZ74XFgRl9+leQ96FsI+2qTx/o3ex3hXfq58YMhwvzYKW/+OPOAtdUnFqE9niisYLqyKIrijVace55/g1W6uTQ62FqAy5ybanfqnEqLbMmtW5Sh0klJyv4P8Do4xLq8fv9XIbIbXzSGrCPdJrwYkXUtg8kYWAc/pvI5qbXdMy7lp+zM1DKBK83itPXJMdLiiIGLUdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=feMbBUwyOuKo/R2D8Xa/AWD3IFNuUVkGmEhxoO9dNeA=;
- b=a6OUY0FaxgTO4vhN+uepitOlvycrKsLXvir3bRyDXt8ce5gBQVhvnwQUxr1eCJA20qKKzv9uoRvbi4OylFSNrEcJK+fPZiINd9o8scl0XleUwUyLN8O7OB8vJ2J3g1GQ/f713oI3tvSiTI+0ReFzJYp7x8U8OSJ88W+kuS8LI3BrdnSH/GB6NNgRxPfUdoZdJsMdZL21eGWv16KAxbVb6pbwaNmgG6NEEcYH+lMEFHwjzrmtXMeNnqOU2TbB4nlvCi9O1qG5zhAY4COwnr0hThtFL+HtyC6hh4p9jwqpm2w/44GZW5XZVeoC9S4w+U5z5aO9g2Df5eL2Q4Np4ehTIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=feMbBUwyOuKo/R2D8Xa/AWD3IFNuUVkGmEhxoO9dNeA=;
- b=c4sL2Ti/Hrrec21JIK/aoCf98Ys1ms3zlKwbpQY/ifjwIHDOHKBRFzhSzV6qPum3ksuyCWly3nM9iRzQ4QYptajLT/oyOiv4dAPyR/Him5egCwNM3R/554kpmtAd+VR9bZIsKXu59yaA/hBqc/yy+3DxKUUm5Psav0xYTN/pcwA=
-Received: from BYAPR12MB3592.namprd12.prod.outlook.com (2603:10b6:a03:db::25)
- by BYAPR12MB3640.namprd12.prod.outlook.com (2603:10b6:a03:aa::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Mon, 27 Apr
- 2020 22:13:32 +0000
-Received: from BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::a45a:6a41:3fe5:2eb7]) by BYAPR12MB3592.namprd12.prod.outlook.com
- ([fe80::a45a:6a41:3fe5:2eb7%7]) with mapi id 15.20.2937.023; Mon, 27 Apr 2020
- 22:13:32 +0000
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-Subject: Re: [PATCH] semaphore: consolidate arch headers into a generic one
-Thread-Topic: [PATCH] semaphore: consolidate arch headers into a generic one
-Thread-Index: AQHWHN86ZIIk/t9jLEuG1kf02EfpF6iNiGyA
-Date: Mon, 27 Apr 2020 22:13:32 +0000
-Message-ID: <51c925b3-0f4f-7d5d-f170-6f0b0ae3906f@synopsys.com>
-References: <03f4a9b3-b1ca-90fa-0b6a-609a3135267d@linaro.org>
- <20200427215938.14136-1-vgupta@synopsys.com>
-In-Reply-To: <20200427215938.14136-1-vgupta@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vgupta@synopsys.com; 
-x-originating-ip: [24.7.46.224]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8131075f-de32-4ae5-9bcf-08d7eaf838fa
-x-ms-traffictypediagnostic: BYAPR12MB3640:
-x-microsoft-antispam-prvs: <BYAPR12MB3640E732160E075CCC49FBD6B6AF0@BYAPR12MB3640.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0386B406AA
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3592.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(39860400002)(366004)(376002)(346002)(136003)(396003)(66556008)(66446008)(64756008)(66476007)(8936002)(6486002)(6506007)(6916009)(76116006)(53546011)(186003)(66946007)(31686004)(26005)(81156014)(8676002)(31696002)(2616005)(2906002)(4326008)(86362001)(316002)(6512007)(36756003)(478600001)(71200400001)(5660300002)(41533002);
- DIR:OUT; SFP:1102; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3L+ICcNeeiVuWkCOvEqNAIVIdjGGVmpoEnkfQ1uQJ1DOpsDz1naAslbTG5XY9PfUVVGr3CwwUal54c6wdgi4LazYPpug2vbQtjVHi7zxPhXgLdBRRKvqakVn67Ct1gswYm4SyZVQQMuWtbeDnBFWPF6PwsT+bHhbpn1b+hwicw54yQo/0711PPMCO/z9RjFW34/zsmCd5YTSoiogAeBTmfsRIU8yu77rAZW8pIuLKJgGRfmZ+u8d/GEVGKYl96M/8TrR0EgoqTZaPO9vS4aKwn1+mafjWSuQgyafsjLZbe9XuFXFGqatYr9yjPdGUwtXXB20jz/yrTfRpgJ0/0dnaGGzs8/5VLdkQ1QN7keTz9SwORFQUUv9XN8eNzr7TX7eRCHSYpLf9lxg1bCQYMXDx3iRgYsGB+IXadx8McEAbwHCSw8yMLNPqYYultKAxGzQz5htuXlCqMGCUGop+IieXwu2bXRA+ftrhiJZDLTLnyI=
-x-ms-exchange-antispam-messagedata: FcqoAI04DZU3ZgeoIPXXaePTZIT/RlERbwK2SVwNJKKtNSWu1b5Y+ElCm79sFH9ma1VMnaagNnGdS+T02xUodiAEs/YDKRBG4iPZWkXMGMZ3UYDCDMou2lRE3vNVHlruSyb64hF6wNHkEiuZidh3nVLv2tuUkHO1g9Yr4KGrP1K1u6I/DeckQRw/M/tvroZgoe/NMukIS1p5bRX4c0ZaBQEzu0bqQ1Hykuv0+d9B4DR/qu2O1CKZTsrJrLa3DNEVeeRCfZ82cHur7p1O/DjoPfMnVUNtqBgSktm1LgnVygP3WC1y90H48lqKzXA1wiVGkW7Pg+ELdgC+KXE6hOAMFpyOx7cpkJtZJKLCtRbAEn0OSueqCsGvEQ99mkR3dz/j5Mr54gtsKpWgB9kjve9QZs5s3M5HXlR4dA1LvFDJltUv5wPPJxEK0SQrlZO8dUdjjrpYW7EL/jyj5+COqZr6Cu+uX3R653t/2K7qIWtpb4AMhcgKltacb2vW3tFRdfHEsmFEva0oe5yDROfQaC0FCcm45Cm8H6V99KkEOQRUCILSF6z7gnFT3q5wzPJ+C788muge5jhOSLEBvK/YTJJ0UzrnKqUyUYh1y+NX4oQgWs2R8YTobkrwcti+ZMZbryiBn/Dg5yLKV2WbjZzSf7QaodjGCCrYItbH5mtMBrTDvcFMhQHl99Zn7F9UjbRK/dQiRuImtW4XnuJmTSVPDobHJWPu/apXTp8W3j/52XXHtYe0CU1O613YS1cIjBbYp69nVuDSDIA7FhjUvToWFdW+ldn5ApBEU8aPD9O0FMMmVhY=
-x-ms-exchange-transport-forked: True
-Content-ID: <4931B53751EC8248B71417C414998893@namprd12.prod.outlook.com>
+ id 1jTNKT-0003QF-Rv
+ for linux-snps-arc@lists.infradead.org; Tue, 28 Apr 2020 10:19:07 +0000
+Received: by mail-wm1-x343.google.com with SMTP id u127so2225877wmg.1
+ for <linux-snps-arc@lists.infradead.org>; Tue, 28 Apr 2020 03:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kG3pAr197zg/lS7mr8VNmBDpYyQu9IqibYfSDpBEn7k=;
+ b=kgKO0cBP5Bssi7//kT69CO7mZYdf7AyFI1rR8/f/GDrUOTsB4qJ+hKHVFiJ9XtAS/o
+ qP+mV4FkHAYXgBQdP2KVdASCvVYZOtS4NY0qKQYpCQ4aOLNXho1KhTsnQToVN3oudcCY
+ PExtKt2Fx6dhe7iJ0BX5OyWPtd3rl8z+CcTqw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=kG3pAr197zg/lS7mr8VNmBDpYyQu9IqibYfSDpBEn7k=;
+ b=P+7oFb8Zds+5ZkSoyjo/WFvS21lrhNJurhtNE8cYpWrr5sDpWZvCCId8Nvz7i9fsOn
+ 68LDC6yLNuDmTbH2lLePV3IcVX4Z8/SlDk9phGLpYhKBG4IueNly43s8rCLxuJnQrSgB
+ OT0pVwpSq6ySgvnAa6NQF7P8g9dcvcYix3wHnE/jyR0h0KVRMka4okQ/Ws9G9Fnl716o
+ lEvdxAnzwHGVL7KKL171D6SBtv7hh4wOWK9L2GywDP+UKv+RKquabnAHOQ64Wu5jrFZT
+ GwVGU3jh7NlM6x2c/wlIHgF1AZ9rhMsQ/xNPO6gM46FnHjiapT9cuGpiD70gRf7rOeFB
+ amVg==
+X-Gm-Message-State: AGi0PuZIZo+4EIQ6jKDpJ+PCZKtezsBrtsYhX5uED+xAkSPJa7lmsLJS
+ IcBkiTCAENavFTOq8s1RH3sjZw==
+X-Google-Smtp-Source: APiQypKo38IfQ2C40mSf8kIDZj3p6vDuj6I8VfusT2k9k8ZJbwXy1/pntxWf3JXgC9wEVd95IwAP8w==
+X-Received: by 2002:a1c:a90a:: with SMTP id s10mr3498028wme.99.1588069142896; 
+ Tue, 28 Apr 2020 03:19:02 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id w18sm24063758wrn.55.2020.04.28.03.19.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Apr 2020 03:19:02 -0700 (PDT)
+Date: Tue, 28 Apr 2020 12:19:00 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH v3 1/2] DRM: ARC: add HDMI 2.0 TX encoder support
+Message-ID: <20200428101900.GG3456981@phenom.ffwll.local>
+Mail-Followup-To: Neil Armstrong <narmstrong@baylibre.com>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ dri-devel@lists.freedesktop.org,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+References: <20200414232929.22788-1-Eugeniy.Paltsev@synopsys.com>
+ <20200414232929.22788-2-Eugeniy.Paltsev@synopsys.com>
+ <20200415173320.GG3456981@phenom.ffwll.local>
+ <267d49d8-a73a-0317-cb50-0f63f0ced049@baylibre.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8131075f-de32-4ae5-9bcf-08d7eaf838fa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2020 22:13:32.4002 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SAzgvrBUmtaSYGPHsPP9LlzC2dMs8u2TzxM1yyk2p/CbzmXUpCGYTFp/8XI5V0Q9qZC6vYWUQwh3FIacJadozw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3640
-X-OriginatorOrg: synopsys.com
+Content-Disposition: inline
+In-Reply-To: <267d49d8-a73a-0317-cb50-0f63f0ced049@baylibre.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200427_151341_952621_6461E235 
-X-CRM114-Status: GOOD (  11.96  )
+X-CRM114-CacheID: sfid-20200428_031905_910375_38D138B1 
+X-CRM114-Status: GOOD (  38.48  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,60 +105,293 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: arcml <linux-snps-arc@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Sam Ravnborg <sam@ravnborg.org>, Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ linux-snps-arc@lists.infradead.org,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 4/27/20 2:59 PM, Vineet Gupta via Libc-alpha wrote:
-> This consolidates the copy-pasted arch specific semaphore header into
-> single version (based on s390) which suffices 32-bit and and 64-bit
-> arch/ABI based on the canonical WORDSIZE.
+On Tue, Apr 21, 2020 at 05:55:38PM +0200, Neil Armstrong wrote:
+> On 15/04/2020 19:33, Daniel Vetter wrote:
+> > On Wed, Apr 15, 2020 at 02:29:28AM +0300, Eugeniy Paltsev wrote:
+> >> The Synopsys ARC SoCs (like HSDK4xD) include on-chip DesignWare HDMI
+> >> encoders. Support them with a platform driver to provide platform glue
+> >> data to the dw-hdmi driver.
+> >>
+> >> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> >> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+> >> ---
+> >>  MAINTAINERS                       |   6 ++
+> >>  drivers/gpu/drm/Makefile          |   2 +-
+> >>  drivers/gpu/drm/arc/Kconfig       |   7 ++
+> >>  drivers/gpu/drm/arc/Makefile      |   1 +
+> >>  drivers/gpu/drm/arc/arc-dw-hdmi.c | 116 ++++++++++++++++++++++++++++++
+> >>  5 files changed, 131 insertions(+), 1 deletion(-)
+> >>  create mode 100644 drivers/gpu/drm/arc/arc-dw-hdmi.c
+> >>
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index a6fbdf354d34..2aaed1190370 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -1258,6 +1258,12 @@ S:	Supported
+> >>  F:	drivers/gpu/drm/arc/
+> >>  F:	Documentation/devicetree/bindings/display/snps,arcpgu.txt
+> >>  
+> >> +ARC DW HDMI DRIVER
+> >> +M:	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+> >> +S:	Supported
+> >> +F:	drivers/gpu/drm/arc/arc-dw-hdmi.c
+> >> +F:	Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
+> >> +
+> >>  ARCNET NETWORK LAYER
+> >>  M:	Michael Grzeschik <m.grzeschik@pengutronix.de>
+> >>  L:	netdev@vger.kernel.org
+> >> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> >> index 6493088a0fdd..5b0bcf7f45cd 100644
+> >> --- a/drivers/gpu/drm/Makefile
+> >> +++ b/drivers/gpu/drm/Makefile
+> >> @@ -109,7 +109,7 @@ obj-y			+= panel/
+> >>  obj-y			+= bridge/
+> >>  obj-$(CONFIG_DRM_FSL_DCU) += fsl-dcu/
+> >>  obj-$(CONFIG_DRM_ETNAVIV) += etnaviv/
+> >> -obj-$(CONFIG_DRM_ARCPGU)+= arc/
+> >> +obj-y			+= arc/
+> >>  obj-y			+= hisilicon/
+> >>  obj-$(CONFIG_DRM_ZTE)	+= zte/
+> >>  obj-$(CONFIG_DRM_MXSFB)	+= mxsfb/
+> >> diff --git a/drivers/gpu/drm/arc/Kconfig b/drivers/gpu/drm/arc/Kconfig
+> >> index e8f3d63e0b91..baec9d2a4fba 100644
+> >> --- a/drivers/gpu/drm/arc/Kconfig
+> >> +++ b/drivers/gpu/drm/arc/Kconfig
+> >> @@ -8,3 +8,10 @@ config DRM_ARCPGU
+> >>  	  Choose this option if you have an ARC PGU controller.
+> >>  
+> >>  	  If M is selected the module will be called arcpgu.
+> >> +
+> >> +config DRM_ARC_DW_HDMI
+> >> +	tristate "ARC DW HDMI"
+> >> +	depends on DRM && OF
+> >> +	select DRM_DW_HDMI
+> >> +	help
+> >> +	  Synopsys DW HDMI driver for various ARC development boards
+> >> diff --git a/drivers/gpu/drm/arc/Makefile b/drivers/gpu/drm/arc/Makefile
+> >> index c7028b7427b3..7a156d8c2c3c 100644
+> >> --- a/drivers/gpu/drm/arc/Makefile
+> >> +++ b/drivers/gpu/drm/arc/Makefile
+> >> @@ -1,3 +1,4 @@
+> >>  # SPDX-License-Identifier: GPL-2.0-only
+> >>  arcpgu-y := arcpgu_crtc.o arcpgu_hdmi.o arcpgu_sim.o arcpgu_drv.o
+> >>  obj-$(CONFIG_DRM_ARCPGU) += arcpgu.o
+> >> +obj-$(CONFIG_DRM_ARC_DW_HDMI) += arc-dw-hdmi.o
+> >> diff --git a/drivers/gpu/drm/arc/arc-dw-hdmi.c b/drivers/gpu/drm/arc/arc-dw-hdmi.c
+> >> new file mode 100644
+> >> index 000000000000..46a6ee09b302
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/arc/arc-dw-hdmi.c
+> >> @@ -0,0 +1,116 @@
+> >> +// SPDX-License-Identifier: GPL-2.0+
+> >> +//
+> >> +// Synopsys DW HDMI driver for various ARC development boards
+> >> +//
+> >> +// Copyright (C) 2020 Synopsys
+> >> +// Author: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+> >> +
+> >> +#include <linux/component.h>
+> >> +#include <linux/module.h>
+> >> +#include <linux/platform_device.h>
+> >> +#include <drm/bridge/dw_hdmi.h>
+> >> +#include <drm/drm_crtc_helper.h>
+> >> +#include <drm/drm_edid.h>
+> >> +#include <drm/drm_encoder_slave.h>
+> >> +#include <drm/drm_of.h>
+> >> +
+> >> +static const struct dw_hdmi_mpll_config snps_hdmi_mpll_cfg[] = {
+> >> +	{
+> >> +		27000000, {
+> >> +			{ 0x00B3, 0x0000 },
+> >> +			{ 0x00B3, 0x0000 },
+> >> +			{ 0x00B3, 0x0000 }
+> >> +		},
+> >> +	}, {
+> >> +		74250000, {
+> >> +			{ 0x0072, 0x0001},
+> >> +			{ 0x0072, 0x0001},
+> >> +			{ 0x0072, 0x0001}
+> >> +		},
+> >> +	}, {
+> >> +		148500000, {
+> >> +			{ 0x0051, 0x0002},
+> >> +			{ 0x0051, 0x0002},
+> >> +			{ 0x0051, 0x0002}
+> >> +		},
+> >> +	}, {
+> >> +		~0UL, {
+> >> +			{ 0x00B3, 0x0000 },
+> >> +			{ 0x00B3, 0x0000 },
+> >> +			{ 0x00B3, 0x0000 },
+> >> +		},
+> >> +	}
+> >> +};
+> >> +
+> >> +static const struct dw_hdmi_curr_ctrl snps_hdmi_cur_ctr[] = {
+> >> +	/* pixelclk    bpp8    bpp10   bpp12 */
+> >> +	{ 27000000,  { 0x0000, 0x0000, 0x0000 }, },
+> >> +	{ 74250000,  { 0x0008, 0x0008, 0x0008 }, },
+> >> +	{ 148500000, { 0x001b, 0x001b, 0x001b }, },
+> >> +	{ ~0UL,      { 0x0000, 0x0000, 0x0000 }, }
+> >> +};
+> >> +
+> >> +
+> >> +static const struct dw_hdmi_phy_config snps_hdmi_phy_config[] = {
+> >> +	/* pixelclk   symbol  term    vlev */
+> >> +	{ 27000000,   0x8009, 0x0004, 0x0232},
+> >> +	{ 74250000,   0x8009, 0x0004, 0x0232},
+> >> +	{ 148500000,  0x8009, 0x0004, 0x0232},
+> >> +	{ ~0UL,       0x8009, 0x0004, 0x0232}
+> >> +};
+> >> +
+> >> +static struct dw_hdmi_plat_data snps_dw_hdmi_drv_data = {
+> >> +	.mpll_cfg   = snps_hdmi_mpll_cfg,
+> >> +	.cur_ctr    = snps_hdmi_cur_ctr,
+> >> +	.phy_config = snps_hdmi_phy_config,
+> >> +};
+> >> +
+> >> +static const struct of_device_id snps_dw_hdmi_dt_ids[] = {
+> >> +	{ .compatible = "snps,arc-dw-hdmi-hsdk", .data = &snps_dw_hdmi_drv_data },
+> >> +	{ /* sentinel */ }
+> >> +};
+> >> +MODULE_DEVICE_TABLE(of, snps_dw_hdmi_dt_ids);
+> >> +
+> >> +static int snps_dw_hdmi_probe(struct platform_device *pdev)
+> >> +{
+> >> +	const struct dw_hdmi_plat_data *plat_data;
+> >> +	const struct of_device_id *match;
+> >> +	struct dw_hdmi *hdmi;
+> >> +
+> >> +	if (!pdev->dev.of_node)
+> >> +		return -ENODEV;
+> >> +
+> >> +	match = of_match_node(snps_dw_hdmi_dt_ids, pdev->dev.of_node);
+> >> +	plat_data = match->data;
+> >> +
+> >> +	hdmi = dw_hdmi_probe(pdev, plat_data);
+> > 
+> > So this is kinda not how bridge drivers are supposed to be done nowadays,
+> > direct calling into the driver was the old way, and dw-hdmi still works
+> > like that. Modern way is roughly
+> > - bridge drivers bind automatically to any bridge they support
+> > - bridge drivers publish a bridge with drm_bridge_add()
+> > - the driver using the bridge fishes out with dt magic using
+> >   of_drm_find_bridge() or another of the related of_ functions
 > 
-> For now I've left out arches which use alternate defines to choose for
-> 32 vs 64-bit builds (aarch64, mips) which in theory can also use the same
-> header.
+> dw-hdmi is an IP, with some platform specific code and arrays to make it work
+> on very different systems, thus we can't use this scheme everywhere....
 > 
-> Passes build-many for
->   aarch64-linux-gnu arm-linux-gnueabi arm-linux-gnueabihf
->   riscv64-linux-gnu-rv64imac-lp64 riscv64-linux-gnu-rv64imafdc-lp64
->   x86_64-linux-gnu microblaze-linux-gnu nios2-linux-gnu
+> Some platforms (like r-car) uses the "right" model because the IP is integrated
+> as-is with the default PHY and as an independent IP on the system.
 > 
-> Suggested-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-> ---
->  sysdeps/arm/nptl/bits/semaphore.h             | 34 ----------------
->  sysdeps/csky/nptl/bits/semaphore.h            | 35 ----------------
->  sysdeps/hppa/nptl/bits/semaphore.h            | 31 --------------
->  sysdeps/ia64/nptl/bits/semaphore.h            | 35 ----------------
->  sysdeps/microblaze/nptl/bits/semaphore.h      | 32 ---------------
->  sysdeps/nios2/nptl/bits/semaphore.h           | 32 ---------------
->  sysdeps/riscv/nptl/bits/semaphore.h           | 33 ---------------
->  sysdeps/sh/nptl/bits/semaphore.h              | 35 ----------------
->  sysdeps/sparc/nptl/bits/semaphore.h           | 40 -------------------
->  .../unix/sysv/linux/alpha/bits/semaphore.h    | 33 ---------------
->  .../nptl => unix/sysv/linux}/bits/semaphore.h |  0
->  .../unix/sysv/linux/powerpc/bits/semaphore.h  | 40 -------------------
->  sysdeps/x86/bits/semaphore.h                  | 40 -------------------
->  13 files changed, 420 deletions(-)
->  delete mode 100644 sysdeps/arm/nptl/bits/semaphore.h
->  delete mode 100644 sysdeps/csky/nptl/bits/semaphore.h
->  delete mode 100644 sysdeps/hppa/nptl/bits/semaphore.h
->  delete mode 100644 sysdeps/ia64/nptl/bits/semaphore.h
->  delete mode 100644 sysdeps/microblaze/nptl/bits/semaphore.h
->  delete mode 100644 sysdeps/nios2/nptl/bits/semaphore.h
->  delete mode 100644 sysdeps/riscv/nptl/bits/semaphore.h
->  delete mode 100644 sysdeps/sh/nptl/bits/semaphore.h
->  delete mode 100644 sysdeps/sparc/nptl/bits/semaphore.h
->  delete mode 100644 sysdeps/unix/sysv/linux/alpha/bits/semaphore.h
->  rename sysdeps/{s390/nptl => unix/sysv/linux}/bits/semaphore.h (100%)
->  delete mode 100644 sysdeps/unix/sysv/linux/powerpc/bits/semaphore.h
->  delete mode 100644 sysdeps/x86/bits/semaphore.h
+> It's definitely not the case on Rockchip/Amlogic/Allwinner systems,
+> and even worse on Amlogic system having a glue on top of the IP, and a
+> custom PHY instead of the Synopsys PHY.
+> 
+> Thus it would be great this would be the case on a Synopsys SoC... but like
+> other platforms they have platform specific parameters.
+> 
+> All this has been discussed and reviewed a few years ago, I would
+> personally prefer "fishing out a bridge using dt magic" instead having
+> 1k glue code around the IP.
 
-I just noticed that this also needs an entry in sysdep_headers in
-sysdeps/unix/sysv/linux/Makefile
+I'm not opposed to the per-instance glue code, that seems required. I'm
+kinda questioning where it is.
 
-but the build still works for such arches ?
+Current design is that the glue code is in the drm_device driver side of
+things, with the drm_bridge somewhat awkward in-between. That doesn't seem
+very clean.
+
+I think more suitable for drm_bridge would be to push all the glue behind
+the drm_bridge (maybe into separate files in a drm/bridge/dw-hdmi/
+directory), and the drm_device driver side simply grabs a drm_bridge and
+that's it. Then the drm_bridge abstraction lines up with the code
+organization again. Atm it's a bit a confusing state of things.
+
+Plan B would be to give up dw-hdmi being a drm_bridge, and rework dw-hdmi
+to be some kind of helper library to build a driver for a specific dw-hdmi
+instance. I think that would also be a clean design.
+
+But right now we kinda have a bit of both, so not really abstracted, but
+also not really a clean helper without midlayer either, and that doesn't
+look great.
+-Daniel
+
+> 
+> Neil
+> 
+> > 
+> > I know a bit late, just spotted this because you brought your series here
+> > up in my arc cleanup series, but can you pls look into adjusting
+> > accordingly?
+> > 
+> > I shouldn't take more than moving this binding here into the dw-hdmi
+> > driver, and switching arc itself over to the of_drm_find_bridge() call.
+> > That way we could slowly work to transform old bridge drivers like dw-hdmi
+> > to the new way, instead of adding more cases that will never get
+> > converted.
+> > 
+> > Other upside is that arc stays a neat&tiny driver :-)
+> > 
+> > Thanks, Daniel
+> > 
+> >> +	if (IS_ERR(hdmi))
+> >> +		return PTR_ERR(hdmi);
+> >> +
+> >> +	platform_set_drvdata(pdev, hdmi);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int snps_dw_hdmi_remove(struct platform_device *pdev)
+> >> +{
+> >> +	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
+> >> +
+> >> +	dw_hdmi_remove(hdmi);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static struct platform_driver snps_dw_hdmi_platform_driver = {
+> >> +	.probe  = snps_dw_hdmi_probe,
+> >> +	.remove = snps_dw_hdmi_remove,
+> >> +	.driver = {
+> >> +		.name = KBUILD_MODNAME,
+> >> +		.of_match_table = snps_dw_hdmi_dt_ids,
+> >> +	},
+> >> +};
+> >> +module_platform_driver(snps_dw_hdmi_platform_driver);
+> >> +
+> >> +MODULE_LICENSE("GPL v2");
+> >> +MODULE_DESCRIPTION("ARC specific DW-HDMI driver extension");
+> >> +MODULE_AUTHOR("Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>");
+> >> -- 
+> >> 2.21.1
+> >>
+> > 
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
