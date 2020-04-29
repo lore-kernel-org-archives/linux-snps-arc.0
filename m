@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D4A9C83003
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 12:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0EA9C83004
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 12:16:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6CD282192A
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 12:16:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7F16E21BE5
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 12:16:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="B+uKiBkF";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="MVapj8Ss"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6CD282192A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iT1fmj6t";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="WoeR0IMj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F16E21BE5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,42 +26,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7vjSq2ILnw/jEyoi9hLXhg5tKHOTVZXGF4X8a2yehBg=; b=B+uKiBkFwbVI0u
-	5vF1WZbTP4L0RxZjcEajuXU2clE2X6i0d+Z3NNr7WZi68xfbAvNQ/fpGA3weJfdLNEmqu9WNCQJVF
-	TK/iIOeDTFtdsldgcPoVcNQ4DXa6FXYSgnBrJqg5k25WrA2wN5Tu88nnfFFsT1un4dUMoUVsnwudt
-	JAhHdCBVVx9usOD/xZrZeFzxBbcUIOXb3BGhvXGQVAyr5yufkurFC9iNstsVy0zeOisH+QzUC1GJL
-	vJ6/VVs/E7XrYoVVdaNp9fixUqM41d67pWOWBViIetdIKkp8UCVKaedPR/YC3tHYVI6V3YGhbivyL
-	saOzpAd8P9qXSiSFBtfw==;
+	List-Owner; bh=wdE9i09KXngoaFHJiMr/KDJJIT+7vbTCUaEvjkVqRKA=; b=iT1fmj6tkBmZsr
+	pMvqz1270NepKahgr79rI4aDFhKHjlzaXF6bkmAqEfpUQdZBinxsl946RhRNsQ4eutHeRV6xJIrx9
+	ohnoYV12KBXQcr+8VosrTEDjTYyNSbnR3vCMu9IcWVrWJtMeo4sy10NZ8Kp99/my79RoKAmVmRQfg
+	fJwTWfXhRZUb1epLZH/9UxhBVcAR/4C3NIOaz6Sqp2SLHlA1o63GmF8u/HyTeWAhautlOXVVaeWqT
+	v44QJCof6hNl58EjfwpKuYyzt/ucYkq0YWgqIlILueyrHJGmIDrr+XheGRMuKJqxwJMcVokv1/HDW
+	OP21+C2Rrz/T5b2sreRg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jTldl-0004LE-GP; Wed, 29 Apr 2020 12:16:37 +0000
+	id 1jTldy-0004TK-6w; Wed, 29 Apr 2020 12:16:50 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jTldf-0004Hs-8Q; Wed, 29 Apr 2020 12:16:32 +0000
+ id 1jTldt-0004Pj-8z; Wed, 29 Apr 2020 12:16:46 +0000
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5E60E21D79;
- Wed, 29 Apr 2020 12:16:17 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 72BB621D7B;
+ Wed, 29 Apr 2020 12:16:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588162590;
- bh=xtQCR6+gW45a9s1aGOZwforC/OBYLweyw2X6q9DWFXw=;
+ s=default; t=1588162604;
+ bh=vSBPyOKwrmQNqt7kyNkBHr9JqpNBLG1f44P+yYUwAD0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MVapj8SsT30fKxBTn0Apttu/7GlrjJjZcmdh9WMLTiB0JUywWX/5AiqxRuTxFgHIP
- rH3NYqL9b59R3mLsf+fOR9qhHN+nTDuBaQCgt9S53tDcsPNYMgGQBBBsfSwJqTxHKT
- WeCUAPnHsp222zaSZwX12ykRwSykBzBR1RFvBA+4=
+ b=WoeR0IMjhESnMKZLgeFQpYaSM1Q0137VRdB9oM2DfU/SAAkdUyrTXqjy5uqkDMB4w
+ A8OD0E3zWwQv5BZXvU0pC1x6W2MSkHROGVWsKhh68IOVd1n7tuhS5R+cHwtxzXCZoH
+ XZaE67z9A52A2FknRpk/21Qqx9xMcUu4+BgH8q4Q=
 From: Mike Rapoport <rppt@kernel.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 19/20] mm: simplify find_min_pfn_with_active_regions()
-Date: Wed, 29 Apr 2020 15:11:25 +0300
-Message-Id: <20200429121126.17989-20-rppt@kernel.org>
+Subject: [PATCH v2 20/20] docs/vm: update memory-models documentation
+Date: Wed, 29 Apr 2020 15:11:26 +0300
+Message-Id: <20200429121126.17989-21-rppt@kernel.org>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200429121126.17989-1-rppt@kernel.org>
 References: <20200429121126.17989-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200429_051631_352533_385485D5 
-X-CRM114-Status: GOOD (  13.48  )
+X-CRM114-CacheID: sfid-20200429_051645_363861_6A10F7FD 
+X-CRM114-Status: GOOD (  11.23  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,57 +111,33 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-The find_min_pfn_with_active_regions() calls find_min_pfn_for_node() with
-nid parameter set to MAX_NUMNODES. This makes the find_min_pfn_for_node()
-traverse all memblock memory regions although the first PFN in the system
-can be easily found with memblock_start_of_DRAM().
-
-Use memblock_start_of_DRAM() in find_min_pfn_with_active_regions() and drop
-now unused find_min_pfn_for_node().
+to reflect the updates to free_area_init() family of functions.
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- mm/page_alloc.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+ Documentation/vm/memory-model.rst | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 30d171451d4c..b990e9734474 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -7045,24 +7045,6 @@ unsigned long __init node_map_pfn_alignment(void)
- 	return ~accl_mask + 1;
- }
+diff --git a/Documentation/vm/memory-model.rst b/Documentation/vm/memory-model.rst
+index 58a12376b7df..91228044ed16 100644
+--- a/Documentation/vm/memory-model.rst
++++ b/Documentation/vm/memory-model.rst
+@@ -46,11 +46,10 @@ maps the entire physical memory. For most architectures, the holes
+ have entries in the `mem_map` array. The `struct page` objects
+ corresponding to the holes are never fully initialized.
  
--/* Find the lowest pfn for a node */
--static unsigned long __init find_min_pfn_for_node(int nid)
--{
--	unsigned long min_pfn = ULONG_MAX;
--	unsigned long start_pfn;
--	int i;
--
--	for_each_mem_pfn_range(i, nid, &start_pfn, NULL, NULL)
--		min_pfn = min(min_pfn, start_pfn);
--
--	if (min_pfn == ULONG_MAX) {
--		pr_warn("Could not find start_pfn for node %d\n", nid);
--		return 0;
--	}
--
--	return min_pfn;
--}
--
- /**
-  * find_min_pfn_with_active_regions - Find the minimum PFN registered
-  *
-@@ -7071,7 +7053,7 @@ static unsigned long __init find_min_pfn_for_node(int nid)
-  */
- unsigned long __init find_min_pfn_with_active_regions(void)
- {
--	return find_min_pfn_for_node(MAX_NUMNODES);
-+	return PHYS_PFN(memblock_start_of_DRAM());
- }
+-To allocate the `mem_map` array, architecture specific setup code
+-should call :c:func:`free_area_init_node` function or its convenience
+-wrapper :c:func:`free_area_init`. Yet, the mappings array is not
+-usable until the call to :c:func:`memblock_free_all` that hands all
+-the memory to the page allocator.
++To allocate the `mem_map` array, architecture specific setup code should
++call :c:func:`free_area_init` function. Yet, the mappings array is not
++usable until the call to :c:func:`memblock_free_all` that hands all the
++memory to the page allocator.
  
- /*
+ If an architecture enables `CONFIG_ARCH_HAS_HOLES_MEMORYMODEL` option,
+ it may free parts of the `mem_map` array that do not cover the
 -- 
 2.26.1
 
