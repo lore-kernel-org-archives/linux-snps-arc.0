@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7959C83003
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 12:14:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC45C83003
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 12:14:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 78F4E20731
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 12:14:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AF0DE20731
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 12:14:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hfXo1dcM";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fybm+idu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78F4E20731
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HNBa+zsH";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="o/CQ8cvT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF0DE20731
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,43 +26,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ndtLm3WqSDfr7W59d72DevLZ5LuksMa4S/U6h/6drPc=; b=hfXo1dcMYlhPHM
-	mrZMG7nx8s3EmYUhakgpzYostMnyRgCpBRFI1lIJhqEX+VlUVdA1Pz6FRkyMsgkgJ/DPZEBRIL415
-	bieC8iChkljyKtw+KEGSHI/SdjvDN8LOS6U0bGacnCk3G7T1H548Rv19YgsHTBHD5t7RDvEQnzuUH
-	Q/C+dtrV2tkDGr6orVcFd9IrDemwBi3UUVBPauT1sDWtdD+GFs81VE0QBGiqdLybp9F+kOftLTVab
-	zUsjBhg6FAbyYXmcs0cVCZ3rUJQ74skhSjeiVDtW5Z09iduxGwyCcc5wH/SYzgRqLq9CGVGtehXLI
-	m387dtcAvdX0ocSbdHeA==;
+	List-Owner; bh=fcMAC+DuOTbL04/VaTEMMfV2zWomMGM4BDerIeyacqI=; b=HNBa+zsHQiciBO
+	huSBfb3Bc9XQt4DbpkCK4++9AkKDYHU6UlZGelq8XkNLbyb9G8F3xU58f5enIdRg9cA3ZdqbkXoHx
+	P1wk+9wHBdkPSehlwxOk3elC4w+J2HFYNMRuEPG4qyAEn63BFcQDdKM5WsMbxwoBEdzYD0QuC+Cwg
+	N1q4MD8UrsNu6itL290tyheimpPHyIeubULw01EUlVLMF2AalneaDxQNrKhXR+OkiHhwGedsbUmsu
+	fnHDYgoT55S6RO2WXNsGHDl2IxnMSVjHRk8/ZWHhJ0TGJ9LtdGhg6WOs/4wLqOZ1x+UX7I0SIfmug
+	AmvG7whv7xeFDpOpWCew==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jTlbi-0000Uq-Dy; Wed, 29 Apr 2020 12:14:30 +0000
+	id 1jTlbw-0000fi-RR; Wed, 29 Apr 2020 12:14:44 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jTlbd-0000Rp-Nm; Wed, 29 Apr 2020 12:14:27 +0000
+ id 1jTlbr-0000bU-IX; Wed, 29 Apr 2020 12:14:40 +0000
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 198FD2176D;
- Wed, 29 Apr 2020 12:14:11 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E771C2173E;
+ Wed, 29 Apr 2020 12:14:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588162465;
- bh=v3pg5rQCKSDgBrwUBSTJ3WMqlUUMT1AhZF5bxYsaQHw=;
+ s=default; t=1588162479;
+ bh=qgI7K92iBwIDZAkAJTDuYND4mLS1M8WKNioq+QvWTss=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Fybm+idutOMmODZKIQU7tOi+El/wu/r765kUoGW+1ITFejKgicXc/K0HXwplkaEfO
- 7tBMtpoc+y3mNxUQHK78fVWvc4NW0/WU/iDDUTgkQ8nln/22zZWXxuO3mVONFVxeGf
- TqGlRUIc/YkLqOeO+k+bGnsOXDppbS5/xHPEOEkI=
+ b=o/CQ8cvTdcUHi88smrvHJeF3wNwRqis+twFo/lxOi6JLDwvnV1MEivPLtYemrGA+I
+ b7p0HPTuKGtMpp6lyp2Pv1yjiFSicakH4VDa5ZKj37DEty/Hv/u+97BFUBwB0P8+es
+ BNLNjRKzuXHmcQKBsqrZ5ONTBmPAB7I6i6e/Z8GY=
 From: Mike Rapoport <rppt@kernel.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/20] m68k: mm: simplify detection of memory zone
- boundaries
-Date: Wed, 29 Apr 2020 15:11:16 +0300
-Message-Id: <20200429121126.17989-11-rppt@kernel.org>
+Subject: [PATCH v2 11/20] parisc: simplify detection of memory zone boundaries
+Date: Wed, 29 Apr 2020 15:11:17 +0300
+Message-Id: <20200429121126.17989-12-rppt@kernel.org>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200429121126.17989-1-rppt@kernel.org>
 References: <20200429121126.17989-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200429_051425_814915_16A97AC8 
-X-CRM114-Status: GOOD (  13.11  )
+X-CRM114-CacheID: sfid-20200429_051439_651796_EC296B27 
+X-CRM114-Status: GOOD (  13.26  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,69 +123,44 @@ detection.
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/m68k/mm/motorola.c | 11 +++++------
- arch/m68k/mm/sun3mmu.c  | 10 +++-------
- 2 files changed, 8 insertions(+), 13 deletions(-)
+ arch/parisc/mm/init.c | 22 +++-------------------
+ 1 file changed, 3 insertions(+), 19 deletions(-)
 
-diff --git a/arch/m68k/mm/motorola.c b/arch/m68k/mm/motorola.c
-index 84ab5963cabb..904c2a663977 100644
---- a/arch/m68k/mm/motorola.c
-+++ b/arch/m68k/mm/motorola.c
-@@ -365,7 +365,7 @@ static void __init map_node(int node)
-  */
- void __init paging_init(void)
+diff --git a/arch/parisc/mm/init.c b/arch/parisc/mm/init.c
+index 5224fb38d766..02d2fdb85dcc 100644
+--- a/arch/parisc/mm/init.c
++++ b/arch/parisc/mm/init.c
+@@ -675,27 +675,11 @@ static void __init gateway_init(void)
+ 
+ static void __init parisc_bootmem_free(void)
  {
 -	unsigned long zones_size[MAX_NR_ZONES] = { 0, };
-+	unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0, };
- 	unsigned long min_addr, max_addr;
- 	unsigned long addr;
- 	int i;
-@@ -448,11 +448,10 @@ void __init paging_init(void)
- #ifdef DEBUG
- 	printk ("before free_area_init\n");
- #endif
--	for (i = 0; i < m68k_num_memory; i++) {
--		zones_size[ZONE_DMA] = m68k_memory[i].size >> PAGE_SHIFT;
--		free_area_init_node(i, zones_size,
--				    m68k_memory[i].addr >> PAGE_SHIFT, NULL);
-+	for (i = 0; i < m68k_num_memory; i++)
- 		if (node_present_pages(i))
- 			node_set_state(i, N_NORMAL_MEMORY);
+-	unsigned long holes_size[MAX_NR_ZONES] = { 0, };
+-	unsigned long mem_start_pfn = ~0UL, mem_end_pfn = 0, mem_size_pfn = 0;
+-	int i;
+-
+-	for (i = 0; i < npmem_ranges; i++) {
+-		unsigned long start = pmem_ranges[i].start_pfn;
+-		unsigned long size = pmem_ranges[i].pages;
+-		unsigned long end = start + size;
+-
+-		if (mem_start_pfn > start)
+-			mem_start_pfn = start;
+-		if (mem_end_pfn < end)
+-			mem_end_pfn = end;
+-		mem_size_pfn += size;
 -	}
-+
-+	max_zone_pfn[ZONE_DMA] = memblock_end_of_DRAM();
-+	free_area_init(max_zone_pfn);
- }
-diff --git a/arch/m68k/mm/sun3mmu.c b/arch/m68k/mm/sun3mmu.c
-index eca1c46bb90a..5d8d956d9329 100644
---- a/arch/m68k/mm/sun3mmu.c
-+++ b/arch/m68k/mm/sun3mmu.c
-@@ -42,7 +42,7 @@ void __init paging_init(void)
- 	unsigned long address;
- 	unsigned long next_pgtable;
- 	unsigned long bootmem_end;
--	unsigned long zones_size[MAX_NR_ZONES] = { 0, };
 +	unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0, };
- 	unsigned long size;
  
- 	empty_zero_page = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
-@@ -89,14 +89,10 @@ void __init paging_init(void)
- 	current->mm = NULL;
+-	zones_size[0] = mem_end_pfn - mem_start_pfn;
+-	holes_size[0] = zones_size[0] - mem_size_pfn;
++	max_zone_pfn[0] = memblock_end_of_DRAM();
  
- 	/* memory sizing is a hack stolen from motorola.c..  hope it works for us */
--	zones_size[ZONE_DMA] = ((unsigned long)high_memory - PAGE_OFFSET) >> PAGE_SHIFT;
-+	max_zone_pfn[ZONE_DMA] = ((unsigned long)high_memory) >> PAGE_SHIFT;
- 
- 	/* I really wish I knew why the following change made things better...  -- Sam */
--/*	free_area_init(zones_size); */
--	free_area_init_node(0, zones_size,
--			    (__pa(PAGE_OFFSET) >> PAGE_SHIFT) + 1, NULL);
+-	free_area_init_node(0, zones_size, mem_start_pfn, holes_size);
 +	free_area_init(max_zone_pfn);
- 
- 
  }
--
--
+ 
+ void __init paging_init(void)
 -- 
 2.26.1
 
