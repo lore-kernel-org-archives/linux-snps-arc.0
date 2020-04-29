@@ -2,21 +2,22 @@ Return-Path: <SRS0=xF7R=6N=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41837C83004
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 14:17:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 092B7C83000
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 14:34:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 17B3420B80
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 14:17:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CDB68206F0
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Apr 2020 14:34:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fXah6Zb7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 17B3420B80
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="q5tao0oC";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="r0MyUrcN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CDB68206F0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -24,28 +25,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=21m/t7HJQGMC3vgtA6hO5Xt0fbKtdsHbZN0Why9IqYY=; b=fXah6Zb7TeiWNv
-	2Yk6TutMvZvP0Dv2YfqyJy6j8P50/6zJ8GdvMOtJLGfStstTzHCBEJIDrWuDPyzQYh5G+gaIycIJH
-	Ll47xnbEseXidfMuHJe+6oy4ZImdTQOuktD5HBXdxzKnUaRo1jbAVmpvquQQ9rlrTpqyoNWzAg8XE
-	colWeu7C0hHfSMRflVFvLcUSnPVaYKht/H2wr5TnvbIlTMkWGr43bUPGKZxA3vUISmSA/N1CZiNe3
-	D0hsTCFKs5389+gum2Y3H1+1TWOchXedRIPwdqm39GX4OFIxDcabLUTwtwWvO3SXImPx9xpNysU8f
-	wXMT+B1hyXYD0OaQ4NrA==;
+	List-Owner; bh=QrdviS7ywZ8j21Ds0kDffxxdeSRpD6CFf49VGzBTqRo=; b=q5tao0oCvwcs0Y
+	KYHEn5x3blWdBAiJQblkDYTO50SSnLNupBNJCHWLDCWe1ok4hCUkBwZZi1v03/OyliJeX4Ct2FZoQ
+	eoBl+c2HvxkcL5I4nSG3QqatHg+ozxuhEPe17J8Y5cC0rDxFW8TZZXdDJklnGRfsiD7ooa4IBJS+2
+	Lxbie6Vgr2sTfVbpDjL7W9XGDraa9UyFRrBqrp5wjuchBkMbYOaaIZl6tzSDge+inMXdL+NY2IHQ/
+	4jbBuxG6RZORKTQliMzeohd2PcNA1itFvjCphkZdhcXWVla12Djd3XPwDqABqR6SVw/Tm4kBejnpX
+	mkt6z9bdYRQ7ORNEGsAQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jTnWW-0001bW-4I; Wed, 29 Apr 2020 14:17:16 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
- Hat Linux)) id 1jTnWM-0001Yh-RC; Wed, 29 Apr 2020 14:17:06 +0000
-Date: Wed, 29 Apr 2020 07:17:06 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Mike Rapoport <rppt@kernel.org>
+	id 1jTnn5-0000Ai-Pd; Wed, 29 Apr 2020 14:34:23 +0000
+Received: from mail.kernel.org ([198.145.29.99])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jTnmu-0008Uw-LU; Wed, 29 Apr 2020 14:34:19 +0000
+Received: from kernel.org (unknown [87.70.161.124])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 796F52074A;
+ Wed, 29 Apr 2020 14:33:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588170852;
+ bh=WWPVYLJB8cF1eh/bgOa7kKMnwvq4kKVMrtpQ0105+PI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=r0MyUrcNByfv40BqZMDUz9VgJFeWUeRjo2JW4VKDF1h/7I/qQIsmP3r+XczFilNcB
+ ++CDc2aMtj2e1Vvw7mqelm0S/yNPEGrXgzqXPqqXmHsIltvr+DFp/+T/wSjD9ztS+C
+ LzUl9esAqrKIQvImRO0XfT4341bJ3x0mFvf4a1wc=
+Date: Wed, 29 Apr 2020 17:33:46 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
 Subject: Re: [PATCH v2 16/20] mm: remove early_pfn_in_nid() and
  CONFIG_NODES_SPAN_OTHER_NODES
-Message-ID: <20200429141706.GA25142@infradead.org>
+Message-ID: <20200429143346.GI14260@kernel.org>
 References: <20200429121126.17989-1-rppt@kernel.org>
  <20200429121126.17989-17-rppt@kernel.org>
+ <20200429141706.GA25142@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200429121126.17989-17-rppt@kernel.org>
+In-Reply-To: <20200429141706.GA25142@infradead.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200429_073412_753958_29AFA563 
+X-CRM114-Status: GOOD (  14.35  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,17 +110,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 29, 2020 at 03:11:22PM +0300, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
+On Wed, Apr 29, 2020 at 07:17:06AM -0700, Christoph Hellwig wrote:
+> On Wed, Apr 29, 2020 at 03:11:22PM +0300, Mike Rapoport wrote:
+> > From: Mike Rapoport <rppt@linux.ibm.com>
+> > 
+> > The commit f47ac088c406 ("mm: memmap_init: iterate over memblock regions
+> > rather that check each PFN") made early_pfn_in_nid() obsolete and since
+> > CONFIG_NODES_SPAN_OTHER_NODES is only used to pick a stub or a real
+> > implementation of early_pfn_in_nid() it is also not needed anymore.
 > 
-> The commit f47ac088c406 ("mm: memmap_init: iterate over memblock regions
-> rather that check each PFN") made early_pfn_in_nid() obsolete and since
-> CONFIG_NODES_SPAN_OTHER_NODES is only used to pick a stub or a real
-> implementation of early_pfn_in_nid() it is also not needed anymore.
+> I don't think you can quote a commit id for something that hasn't been
+> commited to mainline yet.i
 
-I don't think you can quote a commit id for something that hasn't been
-commited to mainline yet.  Then again I would have just merged this
-patch into the one that obsoleted early_pfn_in_nid anyway.
+Ouch, that was one of the things I've indented to fix in v2...
+
+> Then again I would have just merged this
+> patch into the one that obsoleted early_pfn_in_nid anyway.
+
+I've kept these commits separate to preserve the authorship.
+I'll update the changelog so that it won't mention commit id.
+
+-- 
+Sincerely yours,
+Mike.
 
 _______________________________________________
 linux-snps-arc mailing list
