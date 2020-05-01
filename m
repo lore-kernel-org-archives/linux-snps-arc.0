@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 157C5C47253
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 08:39:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDA9EC47254
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 08:39:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DBC9B206D9
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 08:39:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 942E6206D9
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 08:39:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WqZqP3Ky"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DBC9B206D9
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="O3HoAjZ9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 942E6206D9
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,27 +24,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ClkIg5e6bMHqxTqEmPNmsECYQZPWUKe3qAk1Iwt6mwE=; b=WqZqP3Ky+IRSKn
-	Z72YadE9O9K5/ugfJWLlWLfBLRagTcbetNMtr8PjhN+uJ+0jOslmb9Ynn/mmupbZyRAvnOSa1ws28
-	RHdh6wMNRFjlMyeFk7YEIBMN0XDR1TIJYWpTjWsgH41vN2c3Tq0gPzikZAxLOooWeBCQQKuTNR+iN
-	9Ho85CirveW2QEEKlHmPPVY3gewiyZ2OlHXqmYszmfzo2ghnASBMeW5Jdag3sDaoHPodm9RxsFUMW
-	M0UaonVBNZu53ob7BKcE4IpUfmMBonU/aAYynlaqpXgeLJn+M7HwPBp6Iyr2gqZShc96LC2PLEXig
-	eZ6Jxu3yaW/JqVVzZfxg==;
+	List-Owner; bh=4FF7jDgKDl0OS5hhWYopYyL8FTPKqMhT70hpoNG/qBQ=; b=O3HoAjZ97bR4dh
+	c44cmnJk8gUPAcnA6tfbXF+lTxQeElvSY7zS3g5QKkpypLUudET1AejbzPsQGlOPoHGT2TDCm69tZ
+	jyE5Hm+JcbGJCDqyiqxu1/CpCwYLglN+pZ2pQzvHQf+OMwMVrcSgi5URqwR0XpbhB0HOY0NQNEV8C
+	OT38NcFa06uJ7SHTTAsfop5op2ioA/1h4nXmDKGKO7IXIka+gxH2dV+8Ec6aNvqXX6J1Gd9JvlyLD
+	rWCMSKRwtSUEguS0mhjbgkHX+vViN3vUBIncx246yIpmG/eIv6F0ko0Mdg05lV+z8le678Sz4dUQi
+	1Dt/2fbToCP6aBfPT/AA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jURCe-00055g-37; Fri, 01 May 2020 08:39:24 +0000
+	id 1jURD1-0005Ow-8p; Fri, 01 May 2020 08:39:47 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
- Hat Linux)) id 1jURCc-000555-Ra; Fri, 01 May 2020 08:39:22 +0000
-Date: Fri, 1 May 2020 01:39:22 -0700
+ Hat Linux)) id 1jURCz-0005OZ-MM; Fri, 01 May 2020 08:39:45 +0000
+Date: Fri, 1 May 2020 01:39:45 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: ira.weiny@intel.com
-Subject: Re: [PATCH V1 05/10] arch/kmap_atomic: Consolidate duplicate code
-Message-ID: <20200501083922.GE27858@infradead.org>
+Subject: Re: [PATCH V1 06/10] arch/kunmap_atomic: Consolidate duplicate code
+Message-ID: <20200501083945.GF27858@infradead.org>
 References: <20200430203845.582900-1-ira.weiny@intel.com>
- <20200430203845.582900-6-ira.weiny@intel.com>
+ <20200430203845.582900-7-ira.weiny@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200430203845.582900-6-ira.weiny@intel.com>
+In-Reply-To: <20200430203845.582900-7-ira.weiny@intel.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,18 +77,23 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 30, 2020 at 01:38:40PM -0700, ira.weiny@intel.com wrote:
+On Thu, Apr 30, 2020 at 01:38:41PM -0700, ira.weiny@intel.com wrote:
 > From: Ira Weiny <ira.weiny@intel.com>
 > 
-> Every arch has the same code to ensure atomic operations and a check for
-> !HIGHMEM page.
+> Every single architecture (including !CONFIG_HIGHMEM) calls...
 > 
-> Remove the duplicate code by defining a core kmap_atomic() which only
-> calls the arch specific kmap_atomic_high() when the page is high memory.
+> 	pagefault_enable();
+> 	preempt_enable();
+> 
+> ... before returning from __kunmap_atomic().  Lift this code into the
+> kunmap_atomic() macro.
+> 
+> While we are at it rename __kunmap_atomic() to kunmap_atomic_high() to
+> be consistent.
 > 
 > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-Looks good:
+Looks good,
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 
