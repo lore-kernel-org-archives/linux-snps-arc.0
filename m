@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E6DC4724C
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 08:49:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A63BC4725B
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 08:55:00 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7AE77208C3
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 08:49:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3AFBE208C3
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 08:55:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SQt9nzfm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7AE77208C3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OJ16Ic8e"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3AFBE208C3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,27 +24,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DAFe1aEIz+amqn3twxmx3wbD1YQFopEIYBcRHS17M5w=; b=SQt9nzfm4xAGB6
-	N7hiS//u4xHODE+nuApy1Sis1HCKV5TB+ExbEDPuLn5jBsUy6H8J+52h60rbzHJOgeljYY8S2mNDX
-	d2Pn3fH5dzq+hf5vobDCVqdNJ3JBNcpB1t8r90ZH4/LCIjiMuyKwvnVueJWrbocqoKFhu4kwTzq8O
-	XQWkcEn+vovgUVffKNxaB9jMKKqLahqYM0wK/Zw2qRxRe8m3GiZD/Au/2+L/Uqba6tnvCbBWSgGev
-	rnFkty8GFfEL9nbLIEOcXjsfkXT15t1MnNNojVqH1WUfcbtghSex7maN79uojLpes9tYKpvUIzfZM
-	YarX0znad6T33ry8TbZA==;
+	List-Owner; bh=WqHFHqftRNnrhiBdSWg+U0crd/SOGgDnFTGffIXdwX8=; b=OJ16Ic8ePBoPlo
+	1CEJ+XCUf9Zdd1eKnfV6nroQSvplNT58da2MCxbAdfAVJQsMMxXNYE1W5D7y1I9fxfXfwSpxSUufv
+	Ox45u5MPHEC8GvXE9Fp3a03QKk6sNl3WnvVp58sDOxePK0+8fJjMPFI3q6E32CRAcI2QdnSFVAECX
+	Az4xggapsVQQfyfTCrpQdlBb3ANmxeW6HgZXR2HiDYUjz/QcINMuIG1Yb4vX3NY6Xc/blBjbUcL/C
+	w+nCN6jptMMO9URkNAYOSTr2WAeuYQvT/doCywkEIrk0G25qFIpWkTJ4YJa+T+jwDZPA33jevzvhe
+	2JWLAv1vIfgoONMeTJUA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jURMS-00040U-Cn; Fri, 01 May 2020 08:49:32 +0000
+	id 1jURRi-0007ju-Ng; Fri, 01 May 2020 08:54:58 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
- Hat Linux)) id 1jURMQ-000405-Hl; Fri, 01 May 2020 08:49:30 +0000
-Date: Fri, 1 May 2020 01:49:30 -0700
+ Hat Linux)) id 1jURRg-0007jI-Hu; Fri, 01 May 2020 08:54:56 +0000
+Date: Fri, 1 May 2020 01:54:56 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: ira.weiny@intel.com
-Subject: Re: [PATCH V1 10/10] drm: Remove drm specific kmap_atomic code
-Message-ID: <20200501084930.GK27858@infradead.org>
+Subject: Re: [PATCH V1 00/10] Remove duplicated kmap code
+Message-ID: <20200501085456.GL27858@infradead.org>
 References: <20200430203845.582900-1-ira.weiny@intel.com>
- <20200430203845.582900-11-ira.weiny@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200430203845.582900-11-ira.weiny@intel.com>
+In-Reply-To: <20200430203845.582900-1-ira.weiny@intel.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,9 +76,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Looks good,
+In addition to the work already it the series, it seems like
+LAST_PKMAP_MASK, PKMAP_ADDR and PKMAP_NR can also be consolidated
+to common code.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Also kmap_atomic_high_prot / kmap_atomic_pfn could move into common
+code, maybe keyed off a symbol selected by the actual users that
+need it.  It also seems like it doesn't actually ever need to be
+exported.
+
+This in turn would lead to being able to allow io_mapping_map_atomic_wc
+on all architectures, which might make nouveau and qxl happy, but maybe
+that can be left for another series.
 
 _______________________________________________
 linux-snps-arc mailing list
