@@ -1,68 +1,57 @@
-Return-Path: <SRS0=Mnmr=6O=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=ERPa=6P=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D24DC47254
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Apr 2020 20:43:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED2FC4724C
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 02:09:54 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1F102206C0
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Apr 2020 20:43:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5C9712073E
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 02:09:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K+RD4bd+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1F102206C0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QcrQWiQi"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C9712073E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=6fVKJgUpikoVyqIIi+LKGYL19UElA9tHqjn+LsyCMfo=; b=K+RD4bd+0F6Vjt
-	YUmIaBpbWFtao9thi/WH33fGvLqPjtVN2VZRlw0ZR/l8MvyM/fGb2HAO1oScAzoqWZXKb+TgJjrVe
-	Y48aBlOrPgD8xQG3T65SHgW1LAsLAy+vHQCJ2bPLhU8uaoUcJYbAURmlKw3bXFPyyyDPoTHvecIG5
-	nx5rhlR+A4S0U+BG736k2Ij3TV4OqQHtc75fuXSY3yYNBwQPK5lzH+e86HUhP88/QmV47ktUCxEoF
-	7cYCILPZ+eb/I5AkvPnXsPtz5wV36WL+1NeMFTHbvkMggHA7Q/7o4ok568M5UgciWuklIF7CGJ3ry
-	c9bDbts6Oyzb5EdL2jEQ==;
+	List-Owner; bh=Wv7DUtd6LmnlBlykEixyMJjvVZWFtQT9gdsO/JR8PHQ=; b=QcrQWiQiXmIQUB
+	jvjLMsjHFSlFhyu/JCGu3ASDC8I9BvM7vSH/BLwk/s915ioQUiRd7G6bFdCsTC052b7eTKHvFV8ZH
+	S9WeZzuzKd0Gvc5Xk9usyI3Fbpj4C3UCzmUud/yVwRxQKWix6igTAfEEWkO0U0BfLEjxuaTolmPtE
+	WyzcxzaF4gFb1wFDopR2WeZdwH0o8C1+mxZYAI9qs5/qGED32Bjh3JSQUtb1N7nAXGQeQHhig2z7z
+	cDSqDXbxQ98Viom+4imkksGJzJ0XymcGHllsJ1NkoWOHdjK7uqQHY1KYNA+0WX02IOPU/nPk3JHZ9
+	yNt5lFD1Ds0UmX66xYEA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jUG1d-0005ce-C5; Thu, 30 Apr 2020 20:43:17 +0000
-Received: from mga03.intel.com ([134.134.136.65])
+	id 1jUL7f-0000n5-QM; Fri, 01 May 2020 02:09:51 +0000
+Received: from [2002:c35c:fd02::1] (helo=ZenIV.linux.org.uk)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jUFxW-0000Pg-St; Thu, 30 Apr 2020 20:39:05 +0000
-IronPort-SDR: Y4z6r+OvNmb2iYC2JcXU0mCapKn0n1TCjrVeza5ONqag7S/wtn77tiQIkNVubJZuHxC2Xt3GW1
- 1NK7A0EaUIGQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2020 13:38:55 -0700
-IronPort-SDR: 0v5WU/J533ee4y+5SA+Dowis1/MjIxGJivQZyaHuUpwOAaojT4wltT4p26tZJXU5lSvDdujsg+
- 34qII3tcyt9Q==
-X-IronPort-AV: E=Sophos;i="5.73,337,1583222400"; d="scan'208";a="405537474"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2020 13:38:54 -0700
-From: ira.weiny@intel.com
-To: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>
-Subject: [PATCH V1 07/10] arch/kmap: Ensure kmap_prot visibility
-Date: Thu, 30 Apr 2020 13:38:42 -0700
-Message-Id: <20200430203845.582900-8-ira.weiny@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200430203845.582900-1-ira.weiny@intel.com>
+ id 1jUL7c-0000mU-O2; Fri, 01 May 2020 02:09:50 +0000
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat
+ Linux)) id 1jUL72-00FWOz-Ta; Fri, 01 May 2020 02:09:13 +0000
+Date: Fri, 1 May 2020 03:09:12 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: ira.weiny@intel.com
+Subject: Re: [PATCH V1 05/10] arch/kmap_atomic: Consolidate duplicate code
+Message-ID: <20200501020912.GD23230@ZenIV.linux.org.uk>
 References: <20200430203845.582900-1-ira.weiny@intel.com>
+ <20200430203845.582900-6-ira.weiny@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200430203845.582900-6-ira.weiny@intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200430_133903_131475_0D6E7EAF 
-X-CRM114-Status: GOOD (  11.97  )
+X-CRM114-CacheID: sfid-20200430_190948_782608_7382257F 
+X-CRM114-Status: UNSURE (   7.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,125 +66,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
 Cc: Peter Zijlstra <peterz@infradead.org>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Ira Weiny <ira.weiny@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
+ Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ sparclinux@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
  Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
  Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
  linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
  linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Ira Weiny <ira.weiny@intel.com>
+On Thu, Apr 30, 2020 at 01:38:40PM -0700, ira.weiny@intel.com wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
+> 
+> Every arch has the same code to ensure atomic operations and a check for
+> !HIGHMEM page.
+> 
+> Remove the duplicate code by defining a core kmap_atomic() which only
+> calls the arch specific kmap_atomic_high() when the page is high memory.
 
-We want to support kmap_atomic_prot() on all architectures and it makes
-sense to define kmap_atomic() to use the default kmap_prot.
+Err....  AFAICS, you've just silently changed the semantics for
+kmap_atomic_prot() here.  And while most of the callers are converted,
+drivers/gpu/drm/ttm/ttm_bo_util.c one is not, so at the very least it's
+a bisect hazard...
 
-So we ensure all arch's have a globally available kmap_prot either as a
-define or exported symbol.
-
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
----
- arch/microblaze/include/asm/highmem.h | 2 +-
- arch/microblaze/mm/init.c             | 3 ---
- arch/powerpc/include/asm/highmem.h    | 2 +-
- arch/powerpc/mm/mem.c                 | 3 ---
- arch/sparc/mm/highmem.c               | 1 +
- 5 files changed, 3 insertions(+), 8 deletions(-)
-
-diff --git a/arch/microblaze/include/asm/highmem.h b/arch/microblaze/include/asm/highmem.h
-index 5fc56b0107be..66521fdc3a47 100644
---- a/arch/microblaze/include/asm/highmem.h
-+++ b/arch/microblaze/include/asm/highmem.h
-@@ -25,8 +25,8 @@
- #include <linux/uaccess.h>
- #include <asm/fixmap.h>
- 
-+#define kmap_prot		PAGE_KERNEL
- extern pte_t *kmap_pte;
--extern pgprot_t kmap_prot;
- extern pte_t *pkmap_page_table;
- 
- /*
-diff --git a/arch/microblaze/mm/init.c b/arch/microblaze/mm/init.c
-index 1ffbfa96b9b8..a467686c13af 100644
---- a/arch/microblaze/mm/init.c
-+++ b/arch/microblaze/mm/init.c
-@@ -49,8 +49,6 @@ unsigned long lowmem_size;
- #ifdef CONFIG_HIGHMEM
- pte_t *kmap_pte;
- EXPORT_SYMBOL(kmap_pte);
--pgprot_t kmap_prot;
--EXPORT_SYMBOL(kmap_prot);
- 
- static inline pte_t *virt_to_kpte(unsigned long vaddr)
- {
-@@ -68,7 +66,6 @@ static void __init highmem_init(void)
- 	pkmap_page_table = virt_to_kpte(PKMAP_BASE);
- 
- 	kmap_pte = virt_to_kpte(__fix_to_virt(FIX_KMAP_BEGIN));
--	kmap_prot = PAGE_KERNEL;
- }
- 
- static void highmem_setup(void)
-diff --git a/arch/powerpc/include/asm/highmem.h b/arch/powerpc/include/asm/highmem.h
-index 1845fbd7ce61..d264aebcaa9b 100644
---- a/arch/powerpc/include/asm/highmem.h
-+++ b/arch/powerpc/include/asm/highmem.h
-@@ -29,8 +29,8 @@
- #include <asm/page.h>
- #include <asm/fixmap.h>
- 
-+#define kmap_prot		PAGE_KERNEL
- extern pte_t *kmap_pte;
--extern pgprot_t kmap_prot;
- extern pte_t *pkmap_page_table;
- 
- /*
-diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
-index 041ed7cfd341..3f642b058731 100644
---- a/arch/powerpc/mm/mem.c
-+++ b/arch/powerpc/mm/mem.c
-@@ -64,8 +64,6 @@ bool init_mem_is_free;
- #ifdef CONFIG_HIGHMEM
- pte_t *kmap_pte;
- EXPORT_SYMBOL(kmap_pte);
--pgprot_t kmap_prot;
--EXPORT_SYMBOL(kmap_prot);
- #endif
- 
- pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
-@@ -245,7 +243,6 @@ void __init paging_init(void)
- 	pkmap_page_table = virt_to_kpte(PKMAP_BASE);
- 
- 	kmap_pte = virt_to_kpte(__fix_to_virt(FIX_KMAP_BEGIN));
--	kmap_prot = PAGE_KERNEL;
- #endif /* CONFIG_HIGHMEM */
- 
- 	printk(KERN_DEBUG "Top of RAM: 0x%llx, Total RAM: 0x%llx\n",
-diff --git a/arch/sparc/mm/highmem.c b/arch/sparc/mm/highmem.c
-index 469786bc430f..9f06d75e88e1 100644
---- a/arch/sparc/mm/highmem.c
-+++ b/arch/sparc/mm/highmem.c
-@@ -33,6 +33,7 @@
- #include <asm/vaddrs.h>
- 
- pgprot_t kmap_prot;
-+EXPORT_SYMBOL(kmap_prot);
- 
- static pte_t *kmap_pte;
- 
--- 
-2.25.1
-
+And I would argue that having kmap_atomic() differ from kmap_atomic_prot()
+wrt disabling preempt is asking for trouble.
 
 _______________________________________________
 linux-snps-arc mailing list
