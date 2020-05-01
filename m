@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9921BC4724C
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 02:38:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF237C4724C
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 03:20:57 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6E99820857
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 02:38:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7D06D206B8
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 03:20:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EGAAeEER"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6E99820857
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="l+BFvDGi"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D06D206B8
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,35 +24,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SfmQiqnbkKM+9EMthMnnCf+3A6HO75OQjfLa/OhIC0Q=; b=EGAAeEER4ao3CW
-	2defB9dDc6gAkKeRXcDB1zMUvjWUqr2d4+1kmRzsIsYjyvGJ64rStjOiQHTLOIRlH27x5AODV9gXv
-	oJ9bIrgN+/vOw31LSH/E4boLdDNsqsvcvi41Q38FMEs4q5JCx0bqNaVAw5flQlhRYLnCNjgqI4v/v
-	bcsJ+hHG4AXmJoBJR/dsbOqPIH4yvr3FV90paJEhIA4RDW0joeYLFcwIowI6i67g40gFEKB6bZT6a
-	IyW5G5i9lIQmdxoHtzSKO7P0BqylGRvwy6JBlew1fnIyZWWRrYlbv9KFk+q3noobW0ghxbEjXOrDh
-	ze9ONDsSQPGtAnZCcabQ==;
+	List-Owner; bh=m4YMUWfvwM7zJp2Q+l9c78GUdeEL7WwESllP3y1Nl8M=; b=l+BFvDGinnY23T
+	ex7b7JNZFBvTw9WSv1cD1dzmSoEWzfUpu1qO+fL7/e7XNqsgEwTV2riKX2of+6ZEcS3VjRA7/ajdm
+	HfI388EMPaa/CZECQwO9ffGdIUcIwRN5P9gisV60/oSzDVWQD3fp/qZURliqh3sC8yNzpYWuWpxIQ
+	kaOmTmSb4exIK4P50/qfWMzyOYh7tm4nBcDzpNM1HFQ962rBZq3PE6eGKUC+gIHkUgLz20AWngmV4
+	8jAuemQOmznzIBkGgK4vZmPO4EdWgK/FQVwkys99fcNxG/VoT1goztL12DIgWgRK8TkNn52pq150w
+	fybjpYcVsfSNAlhSdy8Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jULYv-0002dO-EO; Fri, 01 May 2020 02:38:01 +0000
+	id 1jUMEP-0007hs-VQ; Fri, 01 May 2020 03:20:53 +0000
 Received: from [2002:c35c:fd02::1] (helo=ZenIV.linux.org.uk)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jULYt-0002cv-5C; Fri, 01 May 2020 02:38:00 +0000
+ id 1jUMEN-0007gV-9R; Fri, 01 May 2020 03:20:52 +0000
 Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1jULYU-00FXQg-6F; Fri, 01 May 2020 02:37:34 +0000
-Date: Fri, 1 May 2020 03:37:34 +0100
+ Linux)) id 1jUMDs-00FZCv-Qj; Fri, 01 May 2020 03:20:20 +0000
+Date: Fri, 1 May 2020 04:20:20 +0100
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: ira.weiny@intel.com
 Subject: Re: [PATCH V1 09/10] arch/kmap: Define kmap_atomic_prot() for all
  arch's
-Message-ID: <20200501023734.GF23230@ZenIV.linux.org.uk>
+Message-ID: <20200501032020.GG23230@ZenIV.linux.org.uk>
 References: <20200430203845.582900-1-ira.weiny@intel.com>
  <20200430203845.582900-10-ira.weiny@intel.com>
+ <20200501023734.GF23230@ZenIV.linux.org.uk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200430203845.582900-10-ira.weiny@intel.com>
+In-Reply-To: <20200501023734.GF23230@ZenIV.linux.org.uk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200430_193759_199145_FB15ADB4 
-X-CRM114-Status: UNSURE (   7.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200430_202051_327382_8F1FA413 
+X-CRM114-Status: GOOD (  10.48  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,22 +86,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 30, 2020 at 01:38:44PM -0700, ira.weiny@intel.com wrote:
+On Fri, May 01, 2020 at 03:37:34AM +0100, Al Viro wrote:
+> On Thu, Apr 30, 2020 at 01:38:44PM -0700, ira.weiny@intel.com wrote:
+> 
+> > -static inline void *kmap_atomic(struct page *page)
+> > +static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
+> >  {
+> >  	preempt_disable();
+> >  	pagefault_disable();
+> >  	if (!PageHighMem(page))
+> >  		return page_address(page);
+> > -	return kmap_atomic_high(page);
+> > +	return kmap_atomic_high_prot(page, prot);
+> >  }
+> > +#define kmap_atomic(page)	kmap_atomic_prot(page, kmap_prot)
+> 
+> OK, so it *was* just a bisect hazard - you return to original semantics
+> wrt preempt_disable()...
 
-> -static inline void *kmap_atomic(struct page *page)
-> +static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
->  {
->  	preempt_disable();
->  	pagefault_disable();
->  	if (!PageHighMem(page))
->  		return page_address(page);
-> -	return kmap_atomic_high(page);
-> +	return kmap_atomic_high_prot(page, prot);
->  }
-> +#define kmap_atomic(page)	kmap_atomic_prot(page, kmap_prot)
+FWIW, how about doing the following: just before #5/10 have a patch
+that would touch only microblaze, ppc and x86 splitting their
+kmap_atomic_prot() into an inline helper + kmap_atomic_high_prot().
+Then your #5 would leave their kmap_atomic_prot() as-is (it would
+use kmap_atomic_prot_high() instead).  The rest of the series plays
+out pretty much the same way it does now, and wrappers on those
+3 architectures would go away when an identical generic one is
+introduced in this commit (#9/10).
 
-OK, so it *was* just a bisect hazard - you return to original semantics
-wrt preempt_disable()...
+AFAICS, that would avoid the bisect hazard and might even end
+up with less noise in the patches...
 
 _______________________________________________
 linux-snps-arc mailing list
