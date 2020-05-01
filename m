@@ -2,21 +2,20 @@ Return-Path: <SRS0=ERPa=6P=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF38C4724C
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 15:36:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19301C47253
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 17:18:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CA84024953
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 15:36:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9AC642137B
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 May 2020 17:18:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pn/+OB1r"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CA84024953
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AskKqmDr"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9AC642137B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,47 +24,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3vSm+AuktW30C8ZxVAHA+vCsWtgSL7/ql9PKTVVRMgc=; b=pn/+OB1rlakq1g
-	u7SmtPArLp7cBOg/51usTPK4P/deYTsxpT1mjHuFpT1gEw9Bvn+kCIdFIhHp5IjMiwjXSe9B4Kb/c
-	c82tF5470WZgtKnvOcjNvORC/BIiAZjPqhN61YzIEWeVLfO2diZv565885omX06OXRkyEn/6RTDbo
-	LkLB50rQo8Nwme+nyV+fpf+6n0Rju+XTA0PLph34oWs8Z3HYGxTpEB5XqdQKrPKzK+a6PJSa9IqK6
-	XmSV6jSGOri9pNuJb4enLiqKG4XOwKnQu2TIx5gKldEGLOr44F42r++WNwZMsbJT6uMyMqDgjw4NW
-	yd+OCGjPAsy0u/He9x5A==;
+	List-Owner; bh=1SAow6VtF5A9cqwU/SycMAYI1mCJsBH7sQhreBLjdb0=; b=AskKqmDr/a9ndx
+	DK/IXHXO2Xte5FHEliUt71rHik9wWM3h1dTM77UZVVJxQ3FOFFPrcthVlxQKw3ApTyGnNm7M3iztG
+	Jj/l65GHKxyJ+il9FyDtlyC+hup947BMMhrbGPyj1MCoF9O72QKk7s/2Q5sHr8eDxD3poaUun2Rxi
+	h/oYYp054QxUPbCJ6Am4Yji5UVlV3ZPTSIjPxwvuIRXwOcmWqVqkbDEJeV4ONe/tuYbXIPI8kr0RW
+	SrP4eGJtKiXHgL9nT+/z+lVj6RkXUDkkwlgn9uj/PdaApsudmvK9zqI/lHICQo7qHxKulInrOmJU6
+	paD2V5/zoYGwOurvKGmQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jUXhs-0006sc-Sf; Fri, 01 May 2020 15:36:04 +0000
-Received: from mga07.intel.com ([134.134.136.100])
+	id 1jUZJE-0000xH-I9; Fri, 01 May 2020 17:18:44 +0000
+Received: from mga05.intel.com ([192.55.52.43])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jUXhi-0006e9-4p; Fri, 01 May 2020 15:35:55 +0000
-IronPort-SDR: yOd3a9LxZxyXr+FBnH7fP0+GBno2+UKwwNsJcMy7vKv0kGvNbuu8mTHYmuAZbyV7TkS2oQvTAI
- dQJnFSpcVY5w==
+ id 1jUZJ7-0000of-Lb; Fri, 01 May 2020 17:18:38 +0000
+IronPort-SDR: aNuWQTq7K/mYheI/uMXM0TzLg5mDRPcNjhl7BlE9lnpcBkQIRdp6eYClPlC7ypncVGedaXSxnE
+ 33Yp9WRcpKVQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 May 2020 08:35:52 -0700
-IronPort-SDR: eiOWyZIKI7vO19DR7OCFr64BqstCK2TpjbIFtfZ8MAqSSlMpCoVlOTcj7hUJ1GBJabMYzWffE+
- Y8JGzvryIPoA==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 May 2020 10:18:29 -0700
+IronPort-SDR: R2OHZlJ5m4ujiSXIVvaGSStL0azGkDVM04Moca/qctbpNzEmR/lPEzkfc2x5+KowINCeguMIHy
+ 4dEJuDVXUKuw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,339,1583222400"; d="scan'208";a="460295055"
+X-IronPort-AV: E=Sophos;i="5.73,340,1583222400"; d="scan'208";a="405797056"
 Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
- by fmsmga006.fm.intel.com with ESMTP; 01 May 2020 08:35:52 -0700
-Date: Fri, 1 May 2020 08:35:52 -0700
+ by orsmga004.jf.intel.com with ESMTP; 01 May 2020 10:18:28 -0700
+Date: Fri, 1 May 2020 10:18:28 -0700
 From: Ira Weiny <ira.weiny@intel.com>
 To: Christoph Hellwig <hch@infradead.org>
-Subject: Re: sparc-related comment, to Re: [PATCH V1 07/10] arch/kmap: Ensure
- kmap_prot visibility
-Message-ID: <20200501153551.GA673107@iweiny-DESK2.sc.intel.com>
+Subject: Re: [PATCH V1 00/10] Remove duplicated kmap code
+Message-ID: <20200501171828.GA673260@iweiny-DESK2.sc.intel.com>
 References: <20200430203845.582900-1-ira.weiny@intel.com>
- <20200430203845.582900-8-ira.weiny@intel.com>
- <20200501084446.GG27858@infradead.org>
+ <20200501085456.GL27858@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200501084446.GG27858@infradead.org>
+In-Reply-To: <20200501085456.GL27858@infradead.org>
 User-Agent: Mutt/1.11.1 (2018-12-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200501_083554_236639_EE4DBC54 
-X-CRM114-Status: GOOD (  14.56  )
+X-CRM114-CacheID: sfid-20200501_101837_774843_92E52D0C 
+X-CRM114-Status: GOOD (  14.78  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,39 +95,32 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 01, 2020 at 01:44:46AM -0700, Christoph Hellwig wrote:
-> > --- a/arch/sparc/mm/highmem.c
-> > +++ b/arch/sparc/mm/highmem.c
-> > @@ -33,6 +33,7 @@
-> >  #include <asm/vaddrs.h>
-> >  
-> >  pgprot_t kmap_prot;
-> > +EXPORT_SYMBOL(kmap_prot);
-> 
-> Btw, I don't see why sparc needs this as a variable, as there is just
-> a single assignment to it.
+On Fri, May 01, 2020 at 01:54:56AM -0700, Christoph Hellwig wrote:
+> In addition to the work already it the series, it seems like
+> LAST_PKMAP_MASK, PKMAP_ADDR and PKMAP_NR can also be consolidated
+> to common code.
 
-Because sparc uses non-standard defines which I'm not familiar with.
-
-        kmap_prot = __pgprot(SRMMU_ET_PTE | SRMMU_PRIV | SRMMU_CACHE);
-
-SRMMU_ET_PTE and friends are defined in 
-
-arch/sparc/include/asm/pgtsrmmu.h
-
-Since I can't readily test sparc this was easier to put out than let 0-day
-crank on the entire series checking if including that header in the common
-header chain would be an issue.
+Agreed, I mentioned in the cover letter there are similarities...
 
 > 
-> If sparc is sorted out we can always make it a define, and use a define
-> for kmap_prot that defaults to PAGE_KERNEL, avoiding a little
-> more duplication.
+> Also kmap_atomic_high_prot / kmap_atomic_pfn could move into common
+> code, maybe keyed off a symbol selected by the actual users that
+> need it.  It also seems like it doesn't actually ever need to be
+> exported.
 
-Agreed.  But it seems easier as a follow up (for me with 0-day).  Perhaps
-someone from sparc can weigh in on the specifics of those defines and why they
-are different from the normal ones?  Or even provide a follow on patch?
+...  but these are not as readily obvious, at least to me.  I do see a pattern
+but the differences seemed subtle enough that it would take a while to ensure
+correctness.  So I'd like to see this series go in and build on it.
 
+> 
+> This in turn would lead to being able to allow io_mapping_map_atomic_wc
+> on all architectures, which might make nouveau and qxl happy, but maybe
+> that can be left for another series.
+
+I agree, that this should be follow on patches.  I still need to fix the
+bisect-ability and I don't want to bog down 0-day with a longer series.
+
+Thanks for the review!
 Ira
 
 
