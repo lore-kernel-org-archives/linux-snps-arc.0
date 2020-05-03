@@ -2,22 +2,23 @@ Return-Path: <SRS0=Sn49=6R=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C5AFC3A5A9
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  3 May 2020 03:11:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E19C47256
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  3 May 2020 17:41:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2E29B2098B
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  3 May 2020 03:11:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1B094206B8
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  3 May 2020 17:41:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="F9hwmoY6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E29B2098B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cBTB4lTa";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rAOPFuXg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B094206B8
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -25,48 +26,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=wXiVfPy7T2Ry7svz+JX4Kp0CI/5GGmRaDKXvP+h3duM=; b=F9hwmoY6ozOmT/
-	DYE3HkxmzjUcjDQPC3jCmaIi1jeS6fSP0ASF8aIwrXMfjUyGIGG9u9+uqahaOPtSOVqkTehsfL5ny
-	HLpExcEnGxJkClJcclxeS6dAe0bdXeORYO5Sj2buqd6DPz6TM6YPq/cVNOHg5k2M1sJ8NVC2FUkj7
-	BgA/UurBCghl8FZREM1mYwKzGrTmxDS1GkFtBINCKLMtiTpFEn+mGm86REiFQbmdVykexgYUMu9Hk
-	N/6DXp/ouZEsZqid/URsi2iKJTd4BD8BXFdTC8z+r8SZIm5fYyHoQ4rdJnQqzB/3KwgvzvbxhK/at
-	POcPyCwNFi3Ck5rE+SlA==;
+	List-Owner; bh=NPPfGTFF/Tl+pCQIm5+6FxpTiw5NK4XLnDKKAFH5RNE=; b=cBTB4lTaSYZC7a
+	/7kxhyk4mXv3mldza3JKxP9ZL6oCI7gD5wTZ6lBJfCVNJaMqfswWC3Bx0T2KMs8ssHl0XGL+3KbAI
+	WZ8mZDuuXhcR6unlF9cAQwGoqAYITHGOoZpq+oZgL+zoJe02h5gXInu24cVyC3MPROyIANkNgrl+y
+	bNdjf7Cy77a50cyL+ceaNO6w9WOlyBih3o4Ycwcp3VgwAnRL8rw04m/h+ulAt+IAsqZf9nb0ZZ5YT
+	qhoTK2BGYiIzr5JguxnTLaea+HAes5TgAhbr/yP2W+IwUek1jtXNgtV67PfC5WWboE8zkKsoeI7Gx
+	Fo3kV1TLNupAmUnGPp1g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jV52b-0007Mh-0i; Sun, 03 May 2020 03:11:41 +0000
-Received: from mga04.intel.com ([192.55.52.120])
+	id 1jVIca-0000UL-JE; Sun, 03 May 2020 17:41:44 +0000
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jV52V-0007Do-8f; Sun, 03 May 2020 03:11:36 +0000
-IronPort-SDR: EJCt76eWZ5nPKHX/2krFIouUdX3O7LR7d1hthLJTYZGFngCRkMjrOrVCvgc7a1q4jkJVtHZSf6
- HBVZ29ScU2zA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2020 20:11:29 -0700
-IronPort-SDR: BDCSOhfLrIbfj7Y5Tw0emibzPffaFEcH6uyQOaSnsa+CYyRQvgFcoRzXLtMv2aSaIMshzi3s7v
- wmHP1NS0G8+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,346,1583222400"; d="scan'208";a="262468221"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
- by orsmga006.jf.intel.com with ESMTP; 02 May 2020 20:11:28 -0700
-Date: Sat, 2 May 2020 20:11:28 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH V1 09/10] arch/kmap: Define kmap_atomic_prot() for all
- arch's
-Message-ID: <20200503031127.GA685597@iweiny-DESK2.sc.intel.com>
-References: <20200430203845.582900-1-ira.weiny@intel.com>
- <20200430203845.582900-10-ira.weiny@intel.com>
- <20200501023734.GF23230@ZenIV.linux.org.uk>
- <20200501032020.GG23230@ZenIV.linux.org.uk>
+ id 1jVIcW-0000Sl-S1; Sun, 03 May 2020 17:41:42 +0000
+Received: by mail-pf1-x443.google.com with SMTP id v63so4393472pfb.10;
+ Sun, 03 May 2020 10:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=E/mr9ZyjU5f7Vr/0eufu9euRQzca2mWViEzdzXjAhKM=;
+ b=rAOPFuXgQJ2mpINJ4bZeTHDkrsZEQFsbwUGlrvdK6kp/tJs9EcLfnaWFpQLaMjvlTN
+ PpGRnjbVlR/AVFM9AVMPY1HNoRLD+rgpHPyTxpKKlbrj05rCKcKZtY2qpz5bcSW3rVBO
+ IocR5gWdH3gQT2RwWqhl/NTjprRC2CBth012R+d19kLQzVIHkQC7ljzq6SUBEAwz0CS8
+ BnEP6HirMkFO0ICbg+hSwf+E0KnuOsGeUCXZA18VmuCvpAorlqiIGznMmafOkyr6R+Rc
+ Q2PQDp8BGjLWDFmIAM1Oj/Qg5ff8e5fmuTqOOSGH41UE65MVi0GaoynoX/HwzIYTjpMy
+ UfXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=E/mr9ZyjU5f7Vr/0eufu9euRQzca2mWViEzdzXjAhKM=;
+ b=J4BzmFjGkg8WXvV/Q2K45+Edx2SqJou0+YyRc1DZh994PMl4g+C8LvUK1x8AXm/tM+
+ QinLZxtKsHrfz+KtWJRIPnYTiUDfslHpkJWqzCOPcognehKjqUaa49Kw+Av/RRiZfaU0
+ TeuevbwfH7lDz9MnpaV/47P7v12yjFxu2/ENqrYK3kVSOZpIoYsba0d/jAqNxJYfmAAV
+ EfZkrXpSBk0uliAz+kpwlzzmF0+9oNukiWRzASTv7ZrHLYxBemfzN1jmgLup+vmBpIDr
+ NtIOo4YJFHYl27lZz79HIdYRKYDOZ0TtccfZGIT/czKIg8dXbrHnCUXSlMZXBtFrzeme
+ Jnqg==
+X-Gm-Message-State: AGi0PuYaRmlEH+hNaqk9Xuh5DAZ5OkAgAbQyA9ZiMzVk1z63ki2aawFZ
+ bQWdL/fJjNdr+kjZ4sDzUXg=
+X-Google-Smtp-Source: APiQypKe5f9UYzoGgygyTvemhYSAj5fxly1sdtXiMOKzeUqRJYW2ZGXxYUOZH0ANd9Z0qgzTnrAvVw==
+X-Received: by 2002:aa7:9093:: with SMTP id i19mr13366500pfa.152.1588527699823; 
+ Sun, 03 May 2020 10:41:39 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id q97sm4982611pjb.7.2020.05.03.10.41.38
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Sun, 03 May 2020 10:41:39 -0700 (PDT)
+Date: Sun, 3 May 2020 10:41:38 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH v2 17/20] mm: free_area_init: allow defining max_zone_pfn
+ in descending order
+Message-ID: <20200503174138.GA114085@roeck-us.net>
+References: <20200429121126.17989-1-rppt@kernel.org>
+ <20200429121126.17989-18-rppt@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200501032020.GG23230@ZenIV.linux.org.uk>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <20200429121126.17989-18-rppt@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200502_201135_323574_92531046 
-X-CRM114-Status: GOOD (  14.12  )
+X-CRM114-CacheID: sfid-20200503_104140_925621_E17DD97B 
+X-CRM114-Status: UNSURE (   9.33  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,21 +97,35 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- sparclinux@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+Cc: Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
+ linux-doc@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, x86@kernel.org,
+ Michal Hocko <mhocko@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
+ Ley Foon Tan <ley.foon.tan@intel.com>, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Greg Ungerer <gerg@linux-m68k.org>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Baoquan He <bhe@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-hexagon@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, linux-sh@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Mike Rapoport <rppt@linux.ibm.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Hoan Tran <Hoan@os.amperecomputing.com>, Mark Salter <msalter@redhat.com>,
+ Matt Turner <mattst88@gmail.com>, linux-snps-arc@lists.infradead.org,
+ uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
+ Nick Hu <nickhu@andestech.com>, linux-alpha@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-mips@vger.kernel.org,
+ Richard Weinberger <richard@nod.at>, linux-m68k@lists.linux-m68k.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Qian Cai <cai@lca.pw>,
+ Greentime Hu <green.hu@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Stafford Horne <shorne@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>,
+ linux-arm-kernel@lists.infradead.org, Michal Simek <monstr@monstr.eu>,
+ Tony Luck <tony.luck@intel.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-parisc@vger.kernel.org, linux-mm@kvack.org,
+ Vineet Gupta <vgupta@synopsys.com>, Brian Cain <bcain@codeaurora.org>,
+ linux-kernel@vger.kernel.org, openrisc@lists.librecores.org,
+ Michael Ellerman <mpe@ellerman.id.au>,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
@@ -100,42 +133,70 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 01, 2020 at 04:20:20AM +0100, Al Viro wrote:
-> On Fri, May 01, 2020 at 03:37:34AM +0100, Al Viro wrote:
-> > On Thu, Apr 30, 2020 at 01:38:44PM -0700, ira.weiny@intel.com wrote:
-> > 
-> > > -static inline void *kmap_atomic(struct page *page)
-> > > +static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
-> > >  {
-> > >  	preempt_disable();
-> > >  	pagefault_disable();
-> > >  	if (!PageHighMem(page))
-> > >  		return page_address(page);
-> > > -	return kmap_atomic_high(page);
-> > > +	return kmap_atomic_high_prot(page, prot);
-> > >  }
-> > > +#define kmap_atomic(page)	kmap_atomic_prot(page, kmap_prot)
-> > 
-> > OK, so it *was* just a bisect hazard - you return to original semantics
-> > wrt preempt_disable()...
+Hi,
+
+On Wed, Apr 29, 2020 at 03:11:23PM +0300, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
 > 
-> FWIW, how about doing the following: just before #5/10 have a patch
-> that would touch only microblaze, ppc and x86 splitting their
-> kmap_atomic_prot() into an inline helper + kmap_atomic_high_prot().
-> Then your #5 would leave their kmap_atomic_prot() as-is (it would
-> use kmap_atomic_prot_high() instead).  The rest of the series plays
-> out pretty much the same way it does now, and wrappers on those
-> 3 architectures would go away when an identical generic one is
-> introduced in this commit (#9/10).
+> Some architectures (e.g. ARC) have the ZONE_HIGHMEM zone below the
+> ZONE_NORMAL. Allowing free_area_init() parse max_zone_pfn array even it is
+> sorted in descending order allows using free_area_init() on such
+> architectures.
 > 
-> AFAICS, that would avoid the bisect hazard and might even end
-> up with less noise in the patches...
+> Add top -> down traversal of max_zone_pfn array in free_area_init() and use
+> the latter in ARC node/zone initialization.
+> 
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 
-This works.  V2 coming out shortly.
+This patch causes my microblazeel qemu boot test in linux-next to fail.
+Reverting it fixes the problem.
 
-Thanks for catching this,
-Ira
+qemu command line:
 
+qemu-system-microblazeel -M petalogix-ml605 -m 256 \
+	-kernel arch/microblaze/boot/linux.bin -no-reboot \
+	-initrd rootfs.cpio \
+	-append 'panic=-1 slub_debug=FZPUA rdinit=/sbin/init console=ttyS0,115200' \
+	-monitor none -serial stdio -nographic
+
+initrd:
+	https://github.com/groeck/linux-build-test/blob/master/rootfs/microblazeel/rootfs.cpio.gz
+configuration:
+	https://github.com/groeck/linux-build-test/blob/master/rootfs/microblazeel/qemu_microblazeel_ml605_defconfig
+
+Bisect log is below.
+
+Guenter
+
+---
+# bad: [fb9d670f57e3f6478602328bbbf71138be06ca4f] Add linux-next specific files for 20200501
+# good: [6a8b55ed4056ea5559ebe4f6a4b247f627870d4c] Linux 5.7-rc3
+git bisect start 'HEAD' 'v5.7-rc3'
+# good: [068b80b68a670f0b17288c8a3d1ee751f35162ab] Merge remote-tracking branch 'drm/drm-next'
+git bisect good 068b80b68a670f0b17288c8a3d1ee751f35162ab
+# good: [46c70fc6a3ac35cd72ddad248dcbe4eee716d2a5] Merge remote-tracking branch 'drivers-x86/for-next'
+git bisect good 46c70fc6a3ac35cd72ddad248dcbe4eee716d2a5
+# good: [f39c4ad479a2f005f972a2b941b40efa6b9c9349] Merge remote-tracking branch 'rpmsg/for-next'
+git bisect good f39c4ad479a2f005f972a2b941b40efa6b9c9349
+# bad: [165d3ee0162fe28efc2c8180176633e33515df15] ipc-convert-ipcs_idr-to-xarray-update
+git bisect bad 165d3ee0162fe28efc2c8180176633e33515df15
+# good: [001f1d211ed2ed0f005838dc4390993930bbbd69] mm: remove early_pfn_in_nid() and CONFIG_NODES_SPAN_OTHER_NODES
+git bisect good 001f1d211ed2ed0f005838dc4390993930bbbd69
+# bad: [aaad7401bd32f10c1d591dd886b3a9b9595c6d77] mm/vmsan: fix some typos in comment
+git bisect bad aaad7401bd32f10c1d591dd886b3a9b9595c6d77
+# bad: [09f9d0ab1fbed85623b283995aa7a7d78daa1611] khugepaged: allow to collapse PTE-mapped compound pages
+git bisect bad 09f9d0ab1fbed85623b283995aa7a7d78daa1611
+# bad: [c942fc8a3e5088407bc32d94f554bab205175f8a] mm/vmstat.c: do not show lowmem reserve protection information of empty zone
+git bisect bad c942fc8a3e5088407bc32d94f554bab205175f8a
+# bad: [b29358d269ace3826d8521bea842fc2984cfc11b] mm/page_alloc.c: rename free_pages_check() to check_free_page()
+git bisect bad b29358d269ace3826d8521bea842fc2984cfc11b
+# bad: [be0fb591a1f1df20a00c8f023f9ca4891f177b0d] mm: simplify find_min_pfn_with_active_regions()
+git bisect bad be0fb591a1f1df20a00c8f023f9ca4891f177b0d
+# bad: [c17422a008d36dcf3e9f51469758c5762716cb0a] mm: rename free_area_init_node() to free_area_init_memoryless_node()
+git bisect bad c17422a008d36dcf3e9f51469758c5762716cb0a
+# bad: [51a2f644fd020d5f090044825c388444d11029d5] mm: free_area_init: allow defining max_zone_pfn in descending order
+git bisect bad 51a2f644fd020d5f090044825c388444d11029d5
+# first bad commit: [51a2f644fd020d5f090044825c388444d11029d5] mm: free_area_init: allow defining max_zone_pfn in descending order
 
 _______________________________________________
 linux-snps-arc mailing list
