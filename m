@@ -2,80 +2,70 @@ Return-Path: <SRS0=eyJ8=6S=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03FE7C3A5A9
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  4 May 2020 11:19:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3A6C3A5A9
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  4 May 2020 15:39:29 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C30A120721
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  4 May 2020 11:19:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 528A020721
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  4 May 2020 15:39:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XRwbaTOy";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="glUcsG5W"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C30A120721
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NZqzNpRg";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="r4eFD/8M"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 528A020721
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=WLGSsbYHxetZLAioOvtqBXv7pxntu7cdp4PaZuHhL4E=; b=XRwbaTOyKmFYQL
-	oRQsROTNQzkXXidGBBx6eFEztBJPYrfTrwl4e7AcCCDSH6oSJ9V/3XBhfm3qOhskV5RjqIEg67S+S
-	9PAyGuSq/HyY+iRD8sZGTsKpn+gPuOuHDMRJXjWU6C2RpKVEQBK82IrtZZ/EPUaOlz/J4X6uqW1qL
-	nqR56KN77NErl3SVjL/yLv6atK2G1eTL1b7lFTgUF630jcRuReFp3UU+1JHrvG8s1EfwWasfvtrrR
-	JceAR8RXQ1nRDbCVvEJxq1h1bVySiiT/nWXdE7e6w3T7mCm8N1BMYSfe3v0fR5XkGW9+WvQGfu624
-	6+ZrxBSajMHoyeQHPG2w==;
+	List-Owner; bh=eOdEw1RpFkW2t7LenYuKsS1FFX/HGHheIA+yHH1j7VM=; b=NZqzNpRg6h1xzg
+	MClILn54wDpW+23jUJV9m6yxr8XZLtlyM90N1wXtAw7IMZKO/wvcDCJiQKmvW5snp2gS7A2JnHwjo
+	V9IhY0LYGWY5aMv+tV2XY10J7p6frD3Bq7iUn6VvyvPRxbQ9bD/B17gy8J2CYqIP6POSBWqav6qv6
+	ItdCLBxRgt2ce1HuNhFG1maWPy3CJ1rolmy4QaZI/W+htneh42n7PpwuK/woi+H0qHOTPjPwcF2PX
+	kYgDosRMorrBRRVgs9UIID+D03EWC8gNAtpxG6cUe+c0ofF3iyqTuN+szMoGjVnHIySyrh60u0BFd
+	ikFCK6jk1o6LH6iTlaRQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jVZ7z-00015j-04; Mon, 04 May 2020 11:19:15 +0000
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341])
+	id 1jVdBm-00032d-C9; Mon, 04 May 2020 15:39:26 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jVZ7o-0000rW-9A
- for linux-snps-arc@lists.infradead.org; Mon, 04 May 2020 11:19:06 +0000
-Received: by mail-ot1-x341.google.com with SMTP id g14so8494483otg.10
- for <linux-snps-arc@lists.infradead.org>; Mon, 04 May 2020 04:19:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=deBFpZDyD7Ytv7er+9351gbbtNrttVAi3jZjoadiPO4=;
- b=glUcsG5WwYRnt+lJPOtXI4u2+uV8cO9bdXvRZGvTV68eBEUcNwFHztrwdHRujYdHDs
- za+2QmAIcNuBiVZoHk5c2TrjPwt7XJeqrhwOA5f0z/BkNND1OxBYATl7dOYGOc4jL0aM
- OrNogdlgitlS26m/bpcotVxSFTKnDWeAr50F4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=deBFpZDyD7Ytv7er+9351gbbtNrttVAi3jZjoadiPO4=;
- b=su4DMvH4AFTzgxlNr3cmCMtKbjLs05ZDlW4TAS+ArAkEsRvoTUmEL14Uk/zAdjoLXy
- +pbJmoIYvPpZyOMp7/8hqp/aEHIuYuWncS4zt2ApZrA2noFr9XnwG1izsfgjyLqbjGqI
- EIMjqS+Li+xPOJMRg6rHUD9cEm8wL3f+VMTe9nQnstYKQ+2j4LNzMiBpkN1M4fAKCAh7
- Hrybi53+vFPBBWlsLhyrXSgjVkjmerdCiLU2vsB9R4VPdBOXFAHwH1LFjbFhQ9DWcFPc
- wR1Ek+6Af5AEzXtUSyG6hlGwdjIO5t/V6+heSm0ERn+MnGG/8E5elHgOqYv6OGDDOqV2
- xO5A==
-X-Gm-Message-State: AGi0PuZxVHVJtX4SsVcAd+ngYa2gNB/PfZb/ucAklxAYpLmrOJHR0LOO
- I8phbYGTPgFZf5FeEne1c5fVasDvVIGemPO7yTrVyg==
-X-Google-Smtp-Source: APiQypLa3Y84foLnht3d7ZcPNR2FZ3H6bsD5C/40pRpZ5N6wW+C1v22NLJcYfxdC783HNctofY9OsgbQwCLqMroI8Ls=
-X-Received: by 2002:a9d:7c92:: with SMTP id q18mr7889489otn.281.1588591141860; 
- Mon, 04 May 2020 04:19:01 -0700 (PDT)
+ id 1jVdBi-00030U-Ak; Mon, 04 May 2020 15:39:24 +0000
+Received: from kernel.org (unknown [87.71.57.30])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BB3FF206D7;
+ Mon,  4 May 2020 15:39:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588606761;
+ bh=K3AQD4/kSurqTKgiy9tnhsUhrYGtu7oPwWRQzafMBDk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=r4eFD/8M6rkpVhWGJCM/XtjuL/CEeeN7FuJSwVNx6NS+9s41kdKOpAfrpyLGuvIjw
+ Dsuxy71lGNPG6A1BQVCQEZ5Cg17/+/r+5sTXhGv9TOpm3Ji63adplTBcIG0ncWkgZc
+ n7BzNcKe3WYWVs/gQPxwA3v+UREC5VfAHR93vTCo=
+Date: Mon, 4 May 2020 18:39:01 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 17/20] mm: free_area_init: allow defining max_zone_pfn
+ in descending order
+Message-ID: <20200504153901.GM14260@kernel.org>
+References: <20200429121126.17989-1-rppt@kernel.org>
+ <20200429121126.17989-18-rppt@kernel.org>
+ <20200503174138.GA114085@roeck-us.net>
+ <20200503184300.GA154219@roeck-us.net>
 MIME-Version: 1.0
-References: <20200504010912.982044-1-ira.weiny@intel.com>
- <20200504010912.982044-12-ira.weiny@intel.com>
-In-Reply-To: <20200504010912.982044-12-ira.weiny@intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 4 May 2020 13:18:51 +0200
-Message-ID: <CAKMK7uF4fd3upBYSQEzs==Nx7osn=wZPnxoKLKm9HTxwU_sZ+w@mail.gmail.com>
-Subject: Re: [PATCH V2 11/11] drm: Remove drm specific kmap_atomic code
-To: Ira Weiny <ira.weiny@intel.com>
+Content-Disposition: inline
+In-Reply-To: <20200503184300.GA154219@roeck-us.net>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200504_041904_320422_5A5E285B 
-X-CRM114-Status: GOOD (  21.08  )
+X-CRM114-CacheID: sfid-20200504_083922_413940_962DECD3 
+X-CRM114-Status: GOOD (  20.60  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,158 +77,199 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
+Cc: Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
+ linux-doc@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, x86@kernel.org,
+ Michal Hocko <mhocko@kernel.org>,
  "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- sparclinux@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Helge Deller <deller@gmx.de>, X86 ML <x86@kernel.org>,
- linux-csky@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
- arcml <linux-snps-arc@lists.infradead.org>, linux-xtensa@linux-xtensa.org,
- Dan Williams <dan.j.williams@intel.com>, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
+ Ley Foon Tan <ley.foon.tan@intel.com>, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Greg Ungerer <gerg@linux-m68k.org>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Baoquan He <bhe@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-hexagon@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, linux-sh@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Mike Rapoport <rppt@linux.ibm.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Hoan Tran <Hoan@os.amperecomputing.com>, Mark Salter <msalter@redhat.com>,
+ Matt Turner <mattst88@gmail.com>, linux-snps-arc@lists.infradead.org,
+ uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
+ Nick Hu <nickhu@andestech.com>, linux-alpha@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-mips@vger.kernel.org,
+ Richard Weinberger <richard@nod.at>, linux-m68k@lists.linux-m68k.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Qian Cai <cai@lca.pw>,
+ Greentime Hu <green.hu@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Stafford Horne <shorne@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>,
+ linux-arm-kernel@lists.infradead.org, Michal Simek <monstr@monstr.eu>,
+ Tony Luck <tony.luck@intel.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-parisc@vger.kernel.org, linux-mm@kvack.org,
+ Vineet Gupta <vgupta@synopsys.com>, Brian Cain <bcain@codeaurora.org>,
+ linux-kernel@vger.kernel.org, openrisc@lists.librecores.org,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gTW9uLCBNYXkgNCwgMjAyMCBhdCAzOjA5IEFNIDxpcmEud2VpbnlAaW50ZWwuY29tPiB3cm90
-ZToKPgo+IEZyb206IElyYSBXZWlueSA8aXJhLndlaW55QGludGVsLmNvbT4KPgo+IGttYXBfYXRv
-bWljX3Byb3QoKSBpcyBub3cgZXhwb3J0ZWQgYnkgYWxsIGFyY2hpdGVjdHVyZXMuICBVc2UgdGhp
-cwo+IGZ1bmN0aW9uIHJhdGhlciB0aGFuIG9wZW4gY29kaW5nIGEgZHJpdmVyIHNwZWNpZmljIGtt
-YXBfYXRvbWljLgo+Cj4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5r
-b2VuaWdAYW1kLmNvbT4KPiBSZXZpZXdlZC1ieTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3Qu
-ZGU+Cj4gU2lnbmVkLW9mZi1ieTogSXJhIFdlaW55IDxpcmEud2VpbnlAaW50ZWwuY29tPgoKSSdt
-IGFzc3VtaW5nIHRoaXMgbGFuZHMgdGhyb3VnaCBzb21lIG90aGVyIHRyZWUgb3IgYSB0b3BpYyBi
-cmFuY2ggb3Igd2hhdGV2ZXIuCgpBY2tlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRl
-ckBmZndsbC5jaD4KCkNoZWVycywgRGFuaWVsCgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vdHRt
-L3R0bV9ib191dGlsLmMgICAgfCA1NiArKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGRy
-aXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2JsaXQuYyB8IDE2ICsrKystLS0tCj4gIGluY2x1
-ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmggICAgICAgICB8ICA0IC0tCj4gIDMgZmlsZXMgY2hhbmdl
-ZCwgMTIgaW5zZXJ0aW9ucygrKSwgNjQgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
-Ym9fdXRpbC5jCj4gaW5kZXggNTJkMmI3MWYxNTg4Li5mMDliMDk2YmE0ZmQgMTAwNjQ0Cj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jCj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3R0bS90dG1fYm9fdXRpbC5jCj4gQEAgLTI1Nyw1NCArMjU3LDYgQEAgc3RhdGljIGludCB0
-dG1fY29weV9pb19wYWdlKHZvaWQgKmRzdCwgdm9pZCAqc3JjLCB1bnNpZ25lZCBsb25nIHBhZ2Up
-Cj4gICAgICAgICByZXR1cm4gMDsKPiAgfQo+Cj4gLSNpZmRlZiBDT05GSUdfWDg2Cj4gLSNkZWZp
-bmUgX190dG1fa21hcF9hdG9taWNfcHJvdChfX3BhZ2UsIF9fcHJvdCkga21hcF9hdG9taWNfcHJv
-dChfX3BhZ2UsIF9fcHJvdCkKPiAtI2RlZmluZSBfX3R0bV9rdW5tYXBfYXRvbWljKF9fYWRkcikg
-a3VubWFwX2F0b21pYyhfX2FkZHIpCj4gLSNlbHNlCj4gLSNkZWZpbmUgX190dG1fa21hcF9hdG9t
-aWNfcHJvdChfX3BhZ2UsIF9fcHJvdCkgdm1hcCgmX19wYWdlLCAxLCAwLCAgX19wcm90KQo+IC0j
-ZGVmaW5lIF9fdHRtX2t1bm1hcF9hdG9taWMoX19hZGRyKSB2dW5tYXAoX19hZGRyKQo+IC0jZW5k
-aWYKPiAtCj4gLQo+IC0vKioKPiAtICogdHRtX2ttYXBfYXRvbWljX3Byb3QgLSBFZmZpY2llbnQg
-a2VybmVsIG1hcCBvZiBhIHNpbmdsZSBwYWdlIHdpdGgKPiAtICogc3BlY2lmaWVkIHBhZ2UgcHJv
-dGVjdGlvbi4KPiAtICoKPiAtICogQHBhZ2U6IFRoZSBwYWdlIHRvIG1hcC4KPiAtICogQHByb3Q6
-IFRoZSBwYWdlIHByb3RlY3Rpb24uCj4gLSAqCj4gLSAqIFRoaXMgZnVuY3Rpb24gbWFwcyBhIFRU
-TSBwYWdlIHVzaW5nIHRoZSBrbWFwX2F0b21pYyBhcGkgaWYgYXZhaWxhYmxlLAo+IC0gKiBvdGhl
-cndpc2UgZmFsbHMgYmFjayB0byB2bWFwLiBUaGUgdXNlciBtdXN0IG1ha2Ugc3VyZSB0aGF0IHRo
-ZQo+IC0gKiBzcGVjaWZpZWQgcGFnZSBkb2VzIG5vdCBoYXZlIGFuIGFsaWFzZWQgbWFwcGluZyB3
-aXRoIGEgZGlmZmVyZW50IGNhY2hpbmcKPiAtICogcG9saWN5IHVubGVzcyB0aGUgYXJjaGl0ZWN0
-dXJlIGV4cGxpY2l0bHkgYWxsb3dzIGl0LiBBbHNvIG1hcHBpbmcgYW5kCj4gLSAqIHVubWFwcGlu
-ZyB1c2luZyB0aGlzIGFwaSBtdXN0IGJlIGNvcnJlY3RseSBuZXN0ZWQuIFVubWFwcGluZyBzaG91
-bGQKPiAtICogb2NjdXIgaW4gdGhlIHJldmVyc2Ugb3JkZXIgb2YgbWFwcGluZy4KPiAtICovCj4g
-LXZvaWQgKnR0bV9rbWFwX2F0b21pY19wcm90KHN0cnVjdCBwYWdlICpwYWdlLCBwZ3Byb3RfdCBw
-cm90KQo+IC17Cj4gLSAgICAgICBpZiAocGdwcm90X3ZhbChwcm90KSA9PSBwZ3Byb3RfdmFsKFBB
-R0VfS0VSTkVMKSkKPiAtICAgICAgICAgICAgICAgcmV0dXJuIGttYXBfYXRvbWljKHBhZ2UpOwo+
-IC0gICAgICAgZWxzZQo+IC0gICAgICAgICAgICAgICByZXR1cm4gX190dG1fa21hcF9hdG9taWNf
-cHJvdChwYWdlLCBwcm90KTsKPiAtfQo+IC1FWFBPUlRfU1lNQk9MKHR0bV9rbWFwX2F0b21pY19w
-cm90KTsKPiAtCj4gLS8qKgo+IC0gKiB0dG1fa3VubWFwX2F0b21pY19wcm90IC0gVW5tYXAgYSBw
-YWdlIHRoYXQgd2FzIG1hcHBlZCB1c2luZwo+IC0gKiB0dG1fa21hcF9hdG9taWNfcHJvdC4KPiAt
-ICoKPiAtICogQGFkZHI6IFRoZSB2aXJ0dWFsIGFkZHJlc3MgZnJvbSB0aGUgbWFwLgo+IC0gKiBA
-cHJvdDogVGhlIHBhZ2UgcHJvdGVjdGlvbi4KPiAtICovCj4gLXZvaWQgdHRtX2t1bm1hcF9hdG9t
-aWNfcHJvdCh2b2lkICphZGRyLCBwZ3Byb3RfdCBwcm90KQo+IC17Cj4gLSAgICAgICBpZiAocGdw
-cm90X3ZhbChwcm90KSA9PSBwZ3Byb3RfdmFsKFBBR0VfS0VSTkVMKSkKPiAtICAgICAgICAgICAg
-ICAga3VubWFwX2F0b21pYyhhZGRyKTsKPiAtICAgICAgIGVsc2UKPiAtICAgICAgICAgICAgICAg
-X190dG1fa3VubWFwX2F0b21pYyhhZGRyKTsKPiAtfQo+IC1FWFBPUlRfU1lNQk9MKHR0bV9rdW5t
-YXBfYXRvbWljX3Byb3QpOwo+IC0KPiAgc3RhdGljIGludCB0dG1fY29weV9pb190dG1fcGFnZShz
-dHJ1Y3QgdHRtX3R0ICp0dG0sIHZvaWQgKnNyYywKPiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIHVuc2lnbmVkIGxvbmcgcGFnZSwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHBncHJvdF90IHByb3QpCj4gQEAgLTMxNiwxMyArMjY4LDEzIEBAIHN0YXRpYyBpbnQgdHRt
-X2NvcHlfaW9fdHRtX3BhZ2Uoc3RydWN0IHR0bV90dCAqdHRtLCB2b2lkICpzcmMsCj4gICAgICAg
-ICAgICAgICAgIHJldHVybiAtRU5PTUVNOwo+Cj4gICAgICAgICBzcmMgPSAodm9pZCAqKSgodW5z
-aWduZWQgbG9uZylzcmMgKyAocGFnZSA8PCBQQUdFX1NISUZUKSk7Cj4gLSAgICAgICBkc3QgPSB0
-dG1fa21hcF9hdG9taWNfcHJvdChkLCBwcm90KTsKPiArICAgICAgIGRzdCA9IGttYXBfYXRvbWlj
-X3Byb3QoZCwgcHJvdCk7Cj4gICAgICAgICBpZiAoIWRzdCkKPiAgICAgICAgICAgICAgICAgcmV0
-dXJuIC1FTk9NRU07Cj4KPiAgICAgICAgIG1lbWNweV9mcm9taW8oZHN0LCBzcmMsIFBBR0VfU0la
-RSk7Cj4KPiAtICAgICAgIHR0bV9rdW5tYXBfYXRvbWljX3Byb3QoZHN0LCBwcm90KTsKPiArICAg
-ICAgIGt1bm1hcF9hdG9taWMoZHN0KTsKPgo+ICAgICAgICAgcmV0dXJuIDA7Cj4gIH0KPiBAQCAt
-MzM4LDEzICsyOTAsMTMgQEAgc3RhdGljIGludCB0dG1fY29weV90dG1faW9fcGFnZShzdHJ1Y3Qg
-dHRtX3R0ICp0dG0sIHZvaWQgKmRzdCwKPiAgICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9NRU07
-Cj4KPiAgICAgICAgIGRzdCA9ICh2b2lkICopKCh1bnNpZ25lZCBsb25nKWRzdCArIChwYWdlIDw8
-IFBBR0VfU0hJRlQpKTsKPiAtICAgICAgIHNyYyA9IHR0bV9rbWFwX2F0b21pY19wcm90KHMsIHBy
-b3QpOwo+ICsgICAgICAgc3JjID0ga21hcF9hdG9taWNfcHJvdChzLCBwcm90KTsKPiAgICAgICAg
-IGlmICghc3JjKQo+ICAgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPgo+ICAgICAgICAg
-bWVtY3B5X3RvaW8oZHN0LCBzcmMsIFBBR0VfU0laRSk7Cj4KPiAtICAgICAgIHR0bV9rdW5tYXBf
-YXRvbWljX3Byb3Qoc3JjLCBwcm90KTsKPiArICAgICAgIGt1bm1hcF9hdG9taWMoc3JjKTsKPgo+
-ICAgICAgICAgcmV0dXJuIDA7Cj4gIH0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Zt
-d2dmeC92bXdnZnhfYmxpdC5jIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfYmxpdC5j
-Cj4gaW5kZXggYmI0NmNhMGM0NThmLi45NGQ0NTZhMWQxYTkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfYmxpdC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Zt
-d2dmeC92bXdnZnhfYmxpdC5jCj4gQEAgLTM3NCwxMiArMzc0LDEyIEBAIHN0YXRpYyBpbnQgdm13
-X2JvX2NwdV9ibGl0X2xpbmUoc3RydWN0IHZtd19ib19ibGl0X2xpbmVfZGF0YSAqZCwKPiAgICAg
-ICAgICAgICAgICAgY29weV9zaXplID0gbWluX3QodTMyLCBjb3B5X3NpemUsIFBBR0VfU0laRSAt
-IHNyY19wYWdlX29mZnNldCk7Cj4KPiAgICAgICAgICAgICAgICAgaWYgKHVubWFwX3NyYykgewo+
-IC0gICAgICAgICAgICAgICAgICAgICAgIHR0bV9rdW5tYXBfYXRvbWljX3Byb3QoZC0+c3JjX2Fk
-ZHIsIGQtPnNyY19wcm90KTsKPiArICAgICAgICAgICAgICAgICAgICAgICBrdW5tYXBfYXRvbWlj
-KGQtPnNyY19hZGRyKTsKPiAgICAgICAgICAgICAgICAgICAgICAgICBkLT5zcmNfYWRkciA9IE5V
-TEw7Cj4gICAgICAgICAgICAgICAgIH0KPgo+ICAgICAgICAgICAgICAgICBpZiAodW5tYXBfZHN0
-KSB7Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgdHRtX2t1bm1hcF9hdG9taWNfcHJvdChkLT5k
-c3RfYWRkciwgZC0+ZHN0X3Byb3QpOwo+ICsgICAgICAgICAgICAgICAgICAgICAgIGt1bm1hcF9h
-dG9taWMoZC0+ZHN0X2FkZHIpOwo+ICAgICAgICAgICAgICAgICAgICAgICAgIGQtPmRzdF9hZGRy
-ID0gTlVMTDsKPiAgICAgICAgICAgICAgICAgfQo+Cj4gQEAgLTM4OCw4ICszODgsOCBAQCBzdGF0
-aWMgaW50IHZtd19ib19jcHVfYmxpdF9saW5lKHN0cnVjdCB2bXdfYm9fYmxpdF9saW5lX2RhdGEg
-KmQsCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsKPgo+
-ICAgICAgICAgICAgICAgICAgICAgICAgIGQtPmRzdF9hZGRyID0KPiAtICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHR0bV9rbWFwX2F0b21pY19wcm90KGQtPmRzdF9wYWdlc1tkc3RfcGFn
-ZV0sCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBkLT5kc3RfcHJvdCk7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBrbWFwX2F0
-b21pY19wcm90KGQtPmRzdF9wYWdlc1tkc3RfcGFnZV0sCj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGQtPmRzdF9wcm90KTsKPiAgICAgICAgICAgICAg
-ICAgICAgICAgICBpZiAoIWQtPmRzdF9hZGRyKQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgcmV0dXJuIC1FTk9NRU07Cj4KPiBAQCAtNDAxLDggKzQwMSw4IEBAIHN0YXRpYyBpbnQg
-dm13X2JvX2NwdV9ibGl0X2xpbmUoc3RydWN0IHZtd19ib19ibGl0X2xpbmVfZGF0YSAqZCwKPiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+Cj4gICAgICAg
-ICAgICAgICAgICAgICAgICAgZC0+c3JjX2FkZHIgPQo+IC0gICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgdHRtX2ttYXBfYXRvbWljX3Byb3QoZC0+c3JjX3BhZ2VzW3NyY19wYWdlXSwKPiAt
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGQtPnNy
-Y19wcm90KTsKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGttYXBfYXRvbWljX3By
-b3QoZC0+c3JjX3BhZ2VzW3NyY19wYWdlXSwKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgZC0+c3JjX3Byb3QpOwo+ICAgICAgICAgICAgICAgICAgICAg
-ICAgIGlmICghZC0+c3JjX2FkZHIpCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBy
-ZXR1cm4gLUVOT01FTTsKPgo+IEBAIC00OTksOSArNDk5LDkgQEAgaW50IHZtd19ib19jcHVfYmxp
-dChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmRzdCwKPiAgICAgICAgIH0KPiAgb3V0Ogo+ICAg
-ICAgICAgaWYgKGQuc3JjX2FkZHIpCj4gLSAgICAgICAgICAgICAgIHR0bV9rdW5tYXBfYXRvbWlj
-X3Byb3QoZC5zcmNfYWRkciwgZC5zcmNfcHJvdCk7Cj4gKyAgICAgICAgICAgICAgIGt1bm1hcF9h
-dG9taWMoZC5zcmNfYWRkcik7Cj4gICAgICAgICBpZiAoZC5kc3RfYWRkcikKPiAtICAgICAgICAg
-ICAgICAgdHRtX2t1bm1hcF9hdG9taWNfcHJvdChkLmRzdF9hZGRyLCBkLmRzdF9wcm90KTsKPiAr
-ICAgICAgICAgICAgICAga3VubWFwX2F0b21pYyhkLmRzdF9hZGRyKTsKPgo+ICAgICAgICAgcmV0
-dXJuIHJldDsKPiAgfQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5o
-IGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaAo+IGluZGV4IDBhOWQwNDJlMDc1YS4uZGUx
-Y2NkY2Q1NzAzIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKPiAr
-KysgYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5oCj4gQEAgLTY2OCwxMCArNjY4LDYgQEAg
-aW50IHR0bV9ib19tbWFwX29iaihzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwgc3RydWN0IHR0
-bV9idWZmZXJfb2JqZWN0ICpibyk7Cj4gIGludCB0dG1fYm9fbW1hcChzdHJ1Y3QgZmlsZSAqZmls
-cCwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCj4gICAgICAgICAgICAgICAgIHN0cnVjdCB0
-dG1fYm9fZGV2aWNlICpiZGV2KTsKPgo+IC12b2lkICp0dG1fa21hcF9hdG9taWNfcHJvdChzdHJ1
-Y3QgcGFnZSAqcGFnZSwgcGdwcm90X3QgcHJvdCk7Cj4gLQo+IC12b2lkIHR0bV9rdW5tYXBfYXRv
-bWljX3Byb3Qodm9pZCAqYWRkciwgcGdwcm90X3QgcHJvdCk7Cj4gLQo+ICAvKioKPiAgICogdHRt
-X2JvX2lvCj4gICAqCj4gLS0KPiAyLjI1LjEKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBF
-bmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KKzQxICgwKSA3OSAzNjUgNTcgNDggLSBodHRwOi8v
-YmxvZy5mZndsbC5jaAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
-aW51eC1zbnBzLWFyYwo=
+On Sun, May 03, 2020 at 11:43:00AM -0700, Guenter Roeck wrote:
+> On Sun, May 03, 2020 at 10:41:38AM -0700, Guenter Roeck wrote:
+> > Hi,
+> > 
+> > On Wed, Apr 29, 2020 at 03:11:23PM +0300, Mike Rapoport wrote:
+> > > From: Mike Rapoport <rppt@linux.ibm.com>
+> > > 
+> > > Some architectures (e.g. ARC) have the ZONE_HIGHMEM zone below the
+> > > ZONE_NORMAL. Allowing free_area_init() parse max_zone_pfn array even it is
+> > > sorted in descending order allows using free_area_init() on such
+> > > architectures.
+> > > 
+> > > Add top -> down traversal of max_zone_pfn array in free_area_init() and use
+> > > the latter in ARC node/zone initialization.
+> > > 
+> > > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> > 
+> > This patch causes my microblazeel qemu boot test in linux-next to fail.
+> > Reverting it fixes the problem.
+> > 
+> The same problem is seen with s390 emulations.
+
+Yeah, this patch breaks some others as well :(
+
+My assumption that max_zone_pfn defines architectural limit for maximal
+PFN that can belong to a zone was over-optimistic. Several arches
+actually do that, but others do
+
+	max_zone_pfn[ZONE_DMA] = MAX_DMA_PFN;
+	max_zone_pfn[ZONE_NORMAL] = max_pfn;
+
+where MAX_DMA_PFN is build-time constrain and max_pfn is run time limit
+for the current system.
+
+So, when max_pfn is lower than MAX_DMA_PFN, the free_init_area() will
+consider max_zone_pfn as descending and will wrongly calculate zone
+extents.
+
+That said, instead of trying to create a generic way to special case
+ARC, I suggest to simply use the below patch instead.
+
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index 41eb9be1653c..386959bac3d2 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -77,6 +77,11 @@ void __init early_init_dt_add_memory_arch(u64 base, u64 size)
+ 		base, TO_MB(size), !in_use ? "Not used":"");
+ }
+ 
++bool arch_has_descending_max_zone_pfns(void)
++{
++	return true;
++}
++
+ /*
+  * First memory setup routine called from setup_arch()
+  * 1. setup swapper's mm @init_mm
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index b990e9734474..114f0e027144 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -7307,6 +7307,15 @@ static void check_for_memory(pg_data_t *pgdat, int nid)
+ 	}
+ }
+ 
++/*
++ * Some architecturs, e.g. ARC may have ZONE_HIGHMEM below ZONE_NORMAL. For
++ * such cases we allow max_zone_pfn sorted in the descending order
++ */
++bool __weak arch_has_descending_max_zone_pfns(void)
++{
++	return false;
++}
++
+ /**
+  * free_area_init - Initialise all pg_data_t and zone data
+  * @max_zone_pfn: an array of max PFNs for each zone
+@@ -7324,7 +7333,7 @@ void __init free_area_init(unsigned long *max_zone_pfn)
+ {
+ 	unsigned long start_pfn, end_pfn;
+ 	int i, nid, zone;
+-	bool descending = false;
++	bool descending;
+ 
+ 	/* Record where the zone boundaries are */
+ 	memset(arch_zone_lowest_possible_pfn, 0,
+@@ -7333,14 +7342,7 @@ void __init free_area_init(unsigned long *max_zone_pfn)
+ 				sizeof(arch_zone_highest_possible_pfn));
+ 
+ 	start_pfn = find_min_pfn_with_active_regions();
+-
+-	/*
+-	 * Some architecturs, e.g. ARC may have ZONE_HIGHMEM below
+-	 * ZONE_NORMAL. For such cases we allow max_zone_pfn sorted in the
+-	 * descending order
+-	 */
+-	if (MAX_NR_ZONES > 1 && max_zone_pfn[0] > max_zone_pfn[1])
+-		descending = true;
++	descending = arch_has_descending_max_zone_pfns();
+ 
+ 	for (i = 0; i < MAX_NR_ZONES; i++) {
+ 		if (descending)
+
+> Guenter
+> 
+> > qemu command line:
+> > 
+> > qemu-system-microblazeel -M petalogix-ml605 -m 256 \
+> > 	-kernel arch/microblaze/boot/linux.bin -no-reboot \
+> > 	-initrd rootfs.cpio \
+> > 	-append 'panic=-1 slub_debug=FZPUA rdinit=/sbin/init console=ttyS0,115200' \
+> > 	-monitor none -serial stdio -nographic
+> > 
+> > initrd:
+> > 	https://github.com/groeck/linux-build-test/blob/master/rootfs/microblazeel/rootfs.cpio.gz
+> > configuration:
+> > 	https://github.com/groeck/linux-build-test/blob/master/rootfs/microblazeel/qemu_microblazeel_ml605_defconfig
+> > 
+> > Bisect log is below.
+> > 
+> > Guenter
+> > 
+> > ---
+> > # bad: [fb9d670f57e3f6478602328bbbf71138be06ca4f] Add linux-next specific files for 20200501
+> > # good: [6a8b55ed4056ea5559ebe4f6a4b247f627870d4c] Linux 5.7-rc3
+> > git bisect start 'HEAD' 'v5.7-rc3'
+> > # good: [068b80b68a670f0b17288c8a3d1ee751f35162ab] Merge remote-tracking branch 'drm/drm-next'
+> > git bisect good 068b80b68a670f0b17288c8a3d1ee751f35162ab
+> > # good: [46c70fc6a3ac35cd72ddad248dcbe4eee716d2a5] Merge remote-tracking branch 'drivers-x86/for-next'
+> > git bisect good 46c70fc6a3ac35cd72ddad248dcbe4eee716d2a5
+> > # good: [f39c4ad479a2f005f972a2b941b40efa6b9c9349] Merge remote-tracking branch 'rpmsg/for-next'
+> > git bisect good f39c4ad479a2f005f972a2b941b40efa6b9c9349
+> > # bad: [165d3ee0162fe28efc2c8180176633e33515df15] ipc-convert-ipcs_idr-to-xarray-update
+> > git bisect bad 165d3ee0162fe28efc2c8180176633e33515df15
+> > # good: [001f1d211ed2ed0f005838dc4390993930bbbd69] mm: remove early_pfn_in_nid() and CONFIG_NODES_SPAN_OTHER_NODES
+> > git bisect good 001f1d211ed2ed0f005838dc4390993930bbbd69
+> > # bad: [aaad7401bd32f10c1d591dd886b3a9b9595c6d77] mm/vmsan: fix some typos in comment
+> > git bisect bad aaad7401bd32f10c1d591dd886b3a9b9595c6d77
+> > # bad: [09f9d0ab1fbed85623b283995aa7a7d78daa1611] khugepaged: allow to collapse PTE-mapped compound pages
+> > git bisect bad 09f9d0ab1fbed85623b283995aa7a7d78daa1611
+> > # bad: [c942fc8a3e5088407bc32d94f554bab205175f8a] mm/vmstat.c: do not show lowmem reserve protection information of empty zone
+> > git bisect bad c942fc8a3e5088407bc32d94f554bab205175f8a
+> > # bad: [b29358d269ace3826d8521bea842fc2984cfc11b] mm/page_alloc.c: rename free_pages_check() to check_free_page()
+> > git bisect bad b29358d269ace3826d8521bea842fc2984cfc11b
+> > # bad: [be0fb591a1f1df20a00c8f023f9ca4891f177b0d] mm: simplify find_min_pfn_with_active_regions()
+> > git bisect bad be0fb591a1f1df20a00c8f023f9ca4891f177b0d
+> > # bad: [c17422a008d36dcf3e9f51469758c5762716cb0a] mm: rename free_area_init_node() to free_area_init_memoryless_node()
+> > git bisect bad c17422a008d36dcf3e9f51469758c5762716cb0a
+> > # bad: [51a2f644fd020d5f090044825c388444d11029d5] mm: free_area_init: allow defining max_zone_pfn in descending order
+> > git bisect bad 51a2f644fd020d5f090044825c388444d11029d5
+> > # first bad commit: [51a2f644fd020d5f090044825c388444d11029d5] mm: free_area_init: allow defining max_zone_pfn in descending order
+
+-- 
+Sincerely yours,
+Mike.
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
