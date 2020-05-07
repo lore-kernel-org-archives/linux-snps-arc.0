@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05199C38A24
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 May 2020 15:02:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD8AC47247
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 May 2020 15:03:16 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C2D4620857
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 May 2020 15:02:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 86CAC2083B
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 May 2020 15:03:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K3KwmOpM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2D4620857
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="T49/r/g0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86CAC2083B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,44 +25,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=sxHdnjAhDVZyA1WtmsqX2e3U+qY1ZiZayK4GdRbCe/A=; b=K3KwmOpM0Ln4lu
-	7vUOV2Thn0hZGZmvJAnj+IJYREC7yAiFYePSIRyaPevxlEL4/lJSEnfy1U8gG5g3AF8ecEyU16MzZ
-	3wlU73R0qZ2WDlzPmtVXv7o25d5IR4wSTTe5GAmwJumnMKJ4PfUQkAFJ5KfzcagRftHQ6Uas7EMPR
-	51c6QM72ga3bH1o50d5CNKqYE/FqNdjDg8CyDn0PgxvsHQwf0UVU6zG/bXMtbmwxOugFHqpqfyeZI
-	qjiunX19PKgkdWa/fmgDUoMb5CvqIj+0vgn40vKe1XDMxfJAS/sgAdcW+3SpsxJRBZxaBd/Btqg+r
-	TFCJY6q0sP0sYR4yu0/Q==;
+	List-Owner; bh=KQ0A8EEmlbp0VjFWneS/UELZ/Lb8j7UFGn2sN75/VYU=; b=T49/r/g0GCbhQQ
+	5UbM+2fbyqGEqgnDe6Zd+opaRW1aatSY7sd96N+v9LKUZH4lZidBG5x4mWpvg+53SnDuzpPu3hYOd
+	RD9CB2kx8ghXtEF3GvF5pIieD235gF4prEFs0SCiotRMuIyMgTAxl7Hq9bYuh+RqqAlHL1dP+gxKJ
+	cWhREX2BJ/Kgqgj0VimOQ+zqvXoMs3N8wAQzJk+TjegSMlQj/dYbidhnQahP3EmDecvWVM5mhaYMM
+	PfRSfcZ3sSYsR6Z00U+CyFGet1cy49NxilJIbzvu78zb97jGUOEaie3WJiawvXzNO17yY3QHe4hgZ
+	jzwFr5pH+LMfz2t3Aj3g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jWi2W-0006Sx-NC; Thu, 07 May 2020 15:02:20 +0000
-Received: from mga12.intel.com ([192.55.52.136])
+	id 1jWi3N-0007HK-Jp; Thu, 07 May 2020 15:03:13 +0000
+Received: from mga04.intel.com ([192.55.52.120])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jWi0V-0002im-V7; Thu, 07 May 2020 15:00:22 +0000
-IronPort-SDR: gK+NFi94U9Hc+YObjmHl3shxuGry2gv6Q6LcxLEuHeLrQ2zM1biq24GH1eo4qgV5/fbQzQFbPO
- /isrX8YESSGw==
+ id 1jWi0a-0002U9-1z; Thu, 07 May 2020 15:00:27 +0000
+IronPort-SDR: 5OidfqTaj/KR8+wblwxaRV7rUu2xjZ9iWx+Ja9y0+ms7oGJB9BEIRs0CPxh9phRf5zIqGILx8G
+ myQsRXIsvKyA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2020 08:00:14 -0700
-IronPort-SDR: BTwvR97I8LXfqDUGgPJtG8Z2PdNHYPjzVQqsA46SCsXUAF0WmTf8XjhxN+0aPS4/xTQEFI+1Ei
- rEXpludsrXLw==
-X-IronPort-AV: E=Sophos;i="5.73,364,1583222400"; d="scan'208";a="305142671"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2020 08:00:19 -0700
+IronPort-SDR: Cy4UofL/ZGlxBiwM8d7yBPac+s1xeopmMiYRGd1bsbjvN9m3oMzJUzzLiZDzQ9TZkKicsB3vdJ
+ vg2mxCRP3g1g==
+X-IronPort-AV: E=Sophos;i="5.73,364,1583222400"; d="scan'208";a="296559905"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2020 08:00:13 -0700
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2020 08:00:18 -0700
 From: ira.weiny@intel.com
 To: linux-kernel@vger.kernel.org,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH V3 06/15] arch/kmap_atomic: Consolidate duplicate code
-Date: Thu,  7 May 2020 07:59:54 -0700
-Message-Id: <20200507150004.1423069-7-ira.weiny@intel.com>
+Subject: [PATCH V3 11/15] drm: Remove drm specific kmap_atomic code
+Date: Thu,  7 May 2020 07:59:59 -0700
+Message-Id: <20200507150004.1423069-12-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200507150004.1423069-1-ira.weiny@intel.com>
 References: <20200507150004.1423069-1-ira.weiny@intel.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200507_080016_155269_38F1BB21 
-X-CRM114-Status: GOOD (  16.75  )
+X-CRM114-CacheID: sfid-20200507_080020_223374_4849AF0B 
+X-CRM114-Status: GOOD (  13.99  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,537 +75,125 @@ List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: Peter Zijlstra <peterz@infradead.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
  Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
  "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Ira Weiny <ira.weiny@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ira Weiny <ira.weiny@intel.com>, Christoph Hellwig <hch@lst.de>,
  Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, Ingo Molnar <mingo@redhat.com>,
+ Ingo Molnar <mingo@redhat.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
- Borislav Petkov <bp@alien8.de>, Al Viro <viro@zeniv.linux.org.uk>,
- Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Dan Williams <dan.j.williams@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-mips@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ linux-mips@vger.kernel.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Ira Weiny <ira.weiny@intel.com>
-
-Every arch has the same code to ensure atomic operations and a check for
-!HIGHMEM page.
-
-Remove the duplicate code by defining a core kmap_atomic() which only
-calls the arch specific kmap_atomic_high() when the page is high memory.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-
----
-Changes from V1:
-	Adjust to preserve bisect-ability
-	Remove unneeded kmap_atomic_high declarations
----
- arch/arc/include/asm/highmem.h        |  1 -
- arch/arc/mm/highmem.c                 |  9 ++-------
- arch/arm/include/asm/highmem.h        |  1 -
- arch/arm/mm/highmem.c                 |  9 ++-------
- arch/csky/include/asm/highmem.h       |  1 -
- arch/csky/mm/highmem.c                |  9 ++-------
- arch/microblaze/include/asm/highmem.h |  4 ++--
- arch/mips/include/asm/highmem.h       |  1 -
- arch/mips/mm/cache.c                  |  2 +-
- arch/mips/mm/highmem.c                | 18 ++----------------
- arch/nds32/include/asm/highmem.h      |  1 -
- arch/nds32/mm/highmem.c               |  9 ++-------
- arch/powerpc/include/asm/highmem.h    |  4 ++--
- arch/powerpc/mm/highmem.c             |  6 ------
- arch/sparc/include/asm/highmem.h      |  1 -
- arch/sparc/mm/highmem.c               |  9 ++-------
- arch/x86/include/asm/highmem.h        |  5 ++++-
- arch/x86/mm/highmem_32.c              | 14 --------------
- arch/xtensa/include/asm/highmem.h     |  1 -
- arch/xtensa/mm/highmem.c              |  9 ++-------
- include/linux/highmem.h               | 23 +++++++++++++++++++++++
- 21 files changed, 46 insertions(+), 91 deletions(-)
-
-diff --git a/arch/arc/include/asm/highmem.h b/arch/arc/include/asm/highmem.h
-index 8387a5596a91..db425cd38545 100644
---- a/arch/arc/include/asm/highmem.h
-+++ b/arch/arc/include/asm/highmem.h
-@@ -30,7 +30,6 @@
- 
- #include <asm/cacheflush.h>
- 
--extern void *kmap_atomic(struct page *page);
- extern void __kunmap_atomic(void *kvaddr);
- 
- extern void kmap_init(void);
-diff --git a/arch/arc/mm/highmem.c b/arch/arc/mm/highmem.c
-index 4db13a6b9f3b..0964b011c29f 100644
---- a/arch/arc/mm/highmem.c
-+++ b/arch/arc/mm/highmem.c
-@@ -49,16 +49,11 @@
- extern pte_t * pkmap_page_table;
- static pte_t * fixmap_page_table;
- 
--void *kmap_atomic(struct page *page)
-+void *kmap_atomic_high(struct page *page)
- {
- 	int idx, cpu_idx;
- 	unsigned long vaddr;
- 
--	preempt_disable();
--	pagefault_disable();
--	if (!PageHighMem(page))
--		return page_address(page);
--
- 	cpu_idx = kmap_atomic_idx_push();
- 	idx = cpu_idx + KM_TYPE_NR * smp_processor_id();
- 	vaddr = FIXMAP_ADDR(idx);
-@@ -68,7 +63,7 @@ void *kmap_atomic(struct page *page)
- 
- 	return (void *)vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic);
-+EXPORT_SYMBOL(kmap_atomic_high);
- 
- void __kunmap_atomic(void *kv)
- {
-diff --git a/arch/arm/include/asm/highmem.h b/arch/arm/include/asm/highmem.h
-index 736f65283e7b..8c80bfe18a34 100644
---- a/arch/arm/include/asm/highmem.h
-+++ b/arch/arm/include/asm/highmem.h
-@@ -60,7 +60,6 @@ static inline void *kmap_high_get(struct page *page)
-  * when CONFIG_HIGHMEM is not set.
-  */
- #ifdef CONFIG_HIGHMEM
--extern void *kmap_atomic(struct page *page);
- extern void __kunmap_atomic(void *kvaddr);
- extern void *kmap_atomic_pfn(unsigned long pfn);
- #endif
-diff --git a/arch/arm/mm/highmem.c b/arch/arm/mm/highmem.c
-index c700b32350ee..075fdc235091 100644
---- a/arch/arm/mm/highmem.c
-+++ b/arch/arm/mm/highmem.c
-@@ -31,18 +31,13 @@ static inline pte_t get_fixmap_pte(unsigned long vaddr)
- 	return *ptep;
- }
- 
--void *kmap_atomic(struct page *page)
-+void *kmap_atomic_high(struct page *page)
- {
- 	unsigned int idx;
- 	unsigned long vaddr;
- 	void *kmap;
- 	int type;
- 
--	preempt_disable();
--	pagefault_disable();
--	if (!PageHighMem(page))
--		return page_address(page);
--
- #ifdef CONFIG_DEBUG_HIGHMEM
- 	/*
- 	 * There is no cache coherency issue when non VIVT, so force the
-@@ -76,7 +71,7 @@ void *kmap_atomic(struct page *page)
- 
- 	return (void *)vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic);
-+EXPORT_SYMBOL(kmap_atomic_high);
- 
- void __kunmap_atomic(void *kvaddr)
- {
-diff --git a/arch/csky/include/asm/highmem.h b/arch/csky/include/asm/highmem.h
-index be11c5b67122..8ceee12f9bc1 100644
---- a/arch/csky/include/asm/highmem.h
-+++ b/arch/csky/include/asm/highmem.h
-@@ -32,7 +32,6 @@ extern pte_t *pkmap_page_table;
- 
- #define ARCH_HAS_KMAP_FLUSH_TLB
- extern void kmap_flush_tlb(unsigned long addr);
--extern void *kmap_atomic(struct page *page);
- extern void __kunmap_atomic(void *kvaddr);
- extern void *kmap_atomic_pfn(unsigned long pfn);
- extern struct page *kmap_atomic_to_page(void *ptr);
-diff --git a/arch/csky/mm/highmem.c b/arch/csky/mm/highmem.c
-index e9952211264b..63d74b47eee6 100644
---- a/arch/csky/mm/highmem.c
-+++ b/arch/csky/mm/highmem.c
-@@ -21,16 +21,11 @@ EXPORT_SYMBOL(kmap_flush_tlb);
- 
- EXPORT_SYMBOL(kmap);
- 
--void *kmap_atomic(struct page *page)
-+void *kmap_atomic_high(struct page *page)
- {
- 	unsigned long vaddr;
- 	int idx, type;
- 
--	preempt_disable();
--	pagefault_disable();
--	if (!PageHighMem(page))
--		return page_address(page);
--
- 	type = kmap_atomic_idx_push();
- 	idx = type + KM_TYPE_NR*smp_processor_id();
- 	vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
-@@ -42,7 +37,7 @@ void *kmap_atomic(struct page *page)
- 
- 	return (void *)vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic);
-+EXPORT_SYMBOL(kmap_atomic_high);
- 
- void __kunmap_atomic(void *kvaddr)
- {
-diff --git a/arch/microblaze/include/asm/highmem.h b/arch/microblaze/include/asm/highmem.h
-index c38d920a1171..f7c5467df5ad 100644
---- a/arch/microblaze/include/asm/highmem.h
-+++ b/arch/microblaze/include/asm/highmem.h
-@@ -63,9 +63,9 @@ static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
- }
- extern void __kunmap_atomic(void *kvaddr);
- 
--static inline void *kmap_atomic(struct page *page)
-+static inline void *kmap_atomic_high(struct page *page)
- {
--	return kmap_atomic_prot(page, kmap_prot);
-+	return kmap_atomic_high_prot(page, kmap_prot);
- }
- 
- #define flush_cache_kmaps()	{ flush_icache(); flush_dcache(); }
-diff --git a/arch/mips/include/asm/highmem.h b/arch/mips/include/asm/highmem.h
-index 24e7e7e5cc7b..8bdbbfc322ad 100644
---- a/arch/mips/include/asm/highmem.h
-+++ b/arch/mips/include/asm/highmem.h
-@@ -48,7 +48,6 @@ extern pte_t *pkmap_page_table;
- 
- #define ARCH_HAS_KMAP_FLUSH_TLB
- extern void kmap_flush_tlb(unsigned long addr);
--extern void *kmap_atomic(struct page *page);
- extern void __kunmap_atomic(void *kvaddr);
- extern void *kmap_atomic_pfn(unsigned long pfn);
- 
-diff --git a/arch/mips/mm/cache.c b/arch/mips/mm/cache.c
-index 33b409391ddb..f015bb51fab0 100644
---- a/arch/mips/mm/cache.c
-+++ b/arch/mips/mm/cache.c
-@@ -14,9 +14,9 @@
- #include <linux/sched.h>
- #include <linux/syscalls.h>
- #include <linux/mm.h>
-+#include <linux/highmem.h>
- 
- #include <asm/cacheflush.h>
--#include <asm/highmem.h>
- #include <asm/processor.h>
- #include <asm/cpu.h>
- #include <asm/cpu-features.h>
-diff --git a/arch/mips/mm/highmem.c b/arch/mips/mm/highmem.c
-index eb8ec8493f2f..2bda56372995 100644
---- a/arch/mips/mm/highmem.c
-+++ b/arch/mips/mm/highmem.c
-@@ -18,25 +18,11 @@ void kmap_flush_tlb(unsigned long addr)
- }
- EXPORT_SYMBOL(kmap_flush_tlb);
- 
--/*
-- * kmap_atomic/kunmap_atomic is significantly faster than kmap/kunmap because
-- * no global lock is needed and because the kmap code must perform a global TLB
-- * invalidation when the kmap pool wraps.
-- *
-- * However when holding an atomic kmap is is not legal to sleep, so atomic
-- * kmaps are appropriate for short, tight code paths only.
-- */
--
--void *kmap_atomic(struct page *page)
-+void *kmap_atomic_high(struct page *page)
- {
- 	unsigned long vaddr;
- 	int idx, type;
- 
--	preempt_disable();
--	pagefault_disable();
--	if (!PageHighMem(page))
--		return page_address(page);
--
- 	type = kmap_atomic_idx_push();
- 	idx = type + KM_TYPE_NR*smp_processor_id();
- 	vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
-@@ -48,7 +34,7 @@ void *kmap_atomic(struct page *page)
- 
- 	return (void*) vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic);
-+EXPORT_SYMBOL(kmap_atomic_high);
- 
- void __kunmap_atomic(void *kvaddr)
- {
-diff --git a/arch/nds32/include/asm/highmem.h b/arch/nds32/include/asm/highmem.h
-index c93c7368bb3f..a3970e566ede 100644
---- a/arch/nds32/include/asm/highmem.h
-+++ b/arch/nds32/include/asm/highmem.h
-@@ -51,7 +51,6 @@ extern void kmap_init(void);
-  * when CONFIG_HIGHMEM is not set.
-  */
- #ifdef CONFIG_HIGHMEM
--extern void *kmap_atomic(struct page *page);
- extern void __kunmap_atomic(void *kvaddr);
- extern void *kmap_atomic_pfn(unsigned long pfn);
- extern struct page *kmap_atomic_to_page(void *ptr);
-diff --git a/arch/nds32/mm/highmem.c b/arch/nds32/mm/highmem.c
-index f9348bec0ecb..f5f3a21460c4 100644
---- a/arch/nds32/mm/highmem.c
-+++ b/arch/nds32/mm/highmem.c
-@@ -10,18 +10,13 @@
- #include <asm/fixmap.h>
- #include <asm/tlbflush.h>
- 
--void *kmap_atomic(struct page *page)
-+void *kmap_atomic_high(struct page *page)
- {
- 	unsigned int idx;
- 	unsigned long vaddr, pte;
- 	int type;
- 	pte_t *ptep;
- 
--	preempt_disable();
--	pagefault_disable();
--	if (!PageHighMem(page))
--		return page_address(page);
--
- 	type = kmap_atomic_idx_push();
- 
- 	idx = type + KM_TYPE_NR * smp_processor_id();
-@@ -37,7 +32,7 @@ void *kmap_atomic(struct page *page)
- 	return (void *)vaddr;
- }
- 
--EXPORT_SYMBOL(kmap_atomic);
-+EXPORT_SYMBOL(kmap_atomic_high);
- 
- void __kunmap_atomic(void *kvaddr)
- {
-diff --git a/arch/powerpc/include/asm/highmem.h b/arch/powerpc/include/asm/highmem.h
-index d049806a8354..74fa2c726fde 100644
---- a/arch/powerpc/include/asm/highmem.h
-+++ b/arch/powerpc/include/asm/highmem.h
-@@ -71,9 +71,9 @@ static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
- }
- extern void __kunmap_atomic(void *kvaddr);
- 
--static inline void *kmap_atomic(struct page *page)
-+static inline void *kmap_atomic_high(struct page *page)
- {
--	return kmap_atomic_prot(page, kmap_prot);
-+	return kmap_atomic_high_prot(page, kmap_prot);
- }
- 
- 
-diff --git a/arch/powerpc/mm/highmem.c b/arch/powerpc/mm/highmem.c
-index f075cef6d663..67aaa5217f7f 100644
---- a/arch/powerpc/mm/highmem.c
-+++ b/arch/powerpc/mm/highmem.c
-@@ -24,12 +24,6 @@
- #include <linux/highmem.h>
- #include <linux/module.h>
- 
--/*
-- * The use of kmap_atomic/kunmap_atomic is discouraged - kmap/kunmap
-- * gives a more generic (and caching) interface. But kmap_atomic can
-- * be used in IRQ contexts, so in some (very limited) cases we need
-- * it.
-- */
- void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
- {
- 	unsigned long vaddr;
-diff --git a/arch/sparc/include/asm/highmem.h b/arch/sparc/include/asm/highmem.h
-index 4bdb79fed02c..458210c5bc38 100644
---- a/arch/sparc/include/asm/highmem.h
-+++ b/arch/sparc/include/asm/highmem.h
-@@ -50,7 +50,6 @@ void kmap_init(void) __init;
- 
- #define PKMAP_END (PKMAP_ADDR(LAST_PKMAP))
- 
--void *kmap_atomic(struct page *page);
- void __kunmap_atomic(void *kvaddr);
- 
- #define flush_cache_kmaps()	flush_cache_all()
-diff --git a/arch/sparc/mm/highmem.c b/arch/sparc/mm/highmem.c
-index d4a80adea7e5..b53070ab6a31 100644
---- a/arch/sparc/mm/highmem.c
-+++ b/arch/sparc/mm/highmem.c
-@@ -53,16 +53,11 @@ void __init kmap_init(void)
-         kmap_prot = __pgprot(SRMMU_ET_PTE | SRMMU_PRIV | SRMMU_CACHE);
- }
- 
--void *kmap_atomic(struct page *page)
-+void *kmap_atomic_high(struct page *page)
- {
- 	unsigned long vaddr;
- 	long idx, type;
- 
--	preempt_disable();
--	pagefault_disable();
--	if (!PageHighMem(page))
--		return page_address(page);
--
- 	type = kmap_atomic_idx_push();
- 	idx = type + KM_TYPE_NR*smp_processor_id();
- 	vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
-@@ -87,7 +82,7 @@ void *kmap_atomic(struct page *page)
- 
- 	return (void*) vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic);
-+EXPORT_SYMBOL(kmap_atomic_high);
- 
- void __kunmap_atomic(void *kvaddr)
- {
-diff --git a/arch/x86/include/asm/highmem.h b/arch/x86/include/asm/highmem.h
-index 61f47fef40e5..9393d55a2adb 100644
---- a/arch/x86/include/asm/highmem.h
-+++ b/arch/x86/include/asm/highmem.h
-@@ -68,7 +68,10 @@ static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
- 
- 	return kmap_atomic_high_prot(page, prot);
- }
--void *kmap_atomic(struct page *page);
-+static inline void *kmap_atomic_high(struct page *page)
-+{
-+	return kmap_atomic_high_prot(page, kmap_prot);
-+}
- void __kunmap_atomic(void *kvaddr);
- void *kmap_atomic_pfn(unsigned long pfn);
- void *kmap_atomic_prot_pfn(unsigned long pfn, pgprot_t prot);
-diff --git a/arch/x86/mm/highmem_32.c b/arch/x86/mm/highmem_32.c
-index 48b56b1af902..c3e272a759e0 100644
---- a/arch/x86/mm/highmem_32.c
-+++ b/arch/x86/mm/highmem_32.c
-@@ -4,14 +4,6 @@
- #include <linux/swap.h> /* for totalram_pages */
- #include <linux/memblock.h>
- 
--/*
-- * kmap_atomic/kunmap_atomic is significantly faster than kmap/kunmap because
-- * no global lock is needed and because the kmap code must perform a global TLB
-- * invalidation when the kmap pool wraps.
-- *
-- * However when holding an atomic kmap it is not legal to sleep, so atomic
-- * kmaps are appropriate for short, tight code paths only.
-- */
- void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
- {
- 	unsigned long vaddr;
-@@ -28,12 +20,6 @@ void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
- }
- EXPORT_SYMBOL(kmap_atomic_high_prot);
- 
--void *kmap_atomic(struct page *page)
--{
--	return kmap_atomic_prot(page, kmap_prot);
--}
--EXPORT_SYMBOL(kmap_atomic);
--
- /*
-  * This is the same as kmap_atomic() but can map memory that doesn't
-  * have a struct page associated with it.
-diff --git a/arch/xtensa/include/asm/highmem.h b/arch/xtensa/include/asm/highmem.h
-index 5a481f7def0b..1e6aa15c4bdf 100644
---- a/arch/xtensa/include/asm/highmem.h
-+++ b/arch/xtensa/include/asm/highmem.h
-@@ -68,7 +68,6 @@ static inline void flush_cache_kmaps(void)
- 	flush_cache_all();
- }
- 
--void *kmap_atomic(struct page *page);
- void __kunmap_atomic(void *kvaddr);
- 
- void kmap_init(void);
-diff --git a/arch/xtensa/mm/highmem.c b/arch/xtensa/mm/highmem.c
-index da734a2ed641..90b85a897cb0 100644
---- a/arch/xtensa/mm/highmem.c
-+++ b/arch/xtensa/mm/highmem.c
-@@ -37,16 +37,11 @@ static inline enum fixed_addresses kmap_idx(int type, unsigned long color)
- 		color;
- }
- 
--void *kmap_atomic(struct page *page)
-+void *kmap_atomic_high(struct page *page)
- {
- 	enum fixed_addresses idx;
- 	unsigned long vaddr;
- 
--	preempt_disable();
--	pagefault_disable();
--	if (!PageHighMem(page))
--		return page_address(page);
--
- 	idx = kmap_idx(kmap_atomic_idx_push(),
- 		       DCACHE_ALIAS(page_to_phys(page)));
- 	vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
-@@ -57,7 +52,7 @@ void *kmap_atomic(struct page *page)
- 
- 	return (void *)vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic);
-+EXPORT_SYMBOL(kmap_atomic_high);
- 
- void __kunmap_atomic(void *kvaddr)
- {
-diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index ae6e8cb81043..86b93dee758a 100644
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -32,6 +32,7 @@ static inline void invalidate_kernel_vmap_range(void *vaddr, int size)
- #include <asm/kmap_types.h>
- 
- #ifdef CONFIG_HIGHMEM
-+extern void *kmap_atomic_high(struct page *page);
- #include <asm/highmem.h>
- 
- #ifndef ARCH_HAS_KMAP_FLUSH_TLB
-@@ -61,6 +62,28 @@ static inline void kunmap(struct page *page)
- 	kunmap_high(page);
- }
- 
-+/*
-+ * kmap_atomic/kunmap_atomic is significantly faster than kmap/kunmap because
-+ * no global lock is needed and because the kmap code must perform a global TLB
-+ * invalidation when the kmap pool wraps.
-+ *
-+ * However when holding an atomic kmap is is not legal to sleep, so atomic
-+ * kmaps are appropriate for short, tight code paths only.
-+ *
-+ * The use of kmap_atomic/kunmap_atomic is discouraged - kmap/kunmap
-+ * gives a more generic (and caching) interface. But kmap_atomic can
-+ * be used in IRQ contexts, so in some (very limited) cases we need
-+ * it.
-+ */
-+static inline void *kmap_atomic(struct page *page)
-+{
-+	preempt_disable();
-+	pagefault_disable();
-+	if (!PageHighMem(page))
-+		return page_address(page);
-+	return kmap_atomic_high(page);
-+}
-+
- /* declarations for linux/mm/highmem.c */
- unsigned int nr_free_highpages(void);
- extern atomic_long_t _totalhigh_pages;
--- 
-2.25.1
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RnJvbTogSXJhIFdlaW55IDxpcmEud2VpbnlAaW50ZWwuY29tPgoKa21hcF9hdG9taWNfcHJvdCgp
+IGlzIG5vdyBleHBvcnRlZCBieSBhbGwgYXJjaGl0ZWN0dXJlcy4gIFVzZSB0aGlzCmZ1bmN0aW9u
+IHJhdGhlciB0aGFuIG9wZW4gY29kaW5nIGEgZHJpdmVyIHNwZWNpZmljIGttYXBfYXRvbWljLgoK
+QWNrZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+ClJldmlld2Vk
+LWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClJldmlld2Vk
+LWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KU2lnbmVkLW9mZi1ieTogSXJhIFdl
+aW55IDxpcmEud2VpbnlAaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Jv
+X3V0aWwuYyAgICB8IDU2ICsrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1
+L2RybS92bXdnZngvdm13Z2Z4X2JsaXQuYyB8IDE2ICsrKystLS0tCiBpbmNsdWRlL2RybS90dG0v
+dHRtX2JvX2FwaS5oICAgICAgICAgfCAgNCAtLQogMyBmaWxlcyBjaGFuZ2VkLCAxMiBpbnNlcnRp
+b25zKCspLCA2NCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRt
+L3R0bV9ib191dGlsLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMKaW5kZXgg
+NTJkMmI3MWYxNTg4Li5mMDliMDk2YmE0ZmQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90
+dG0vdHRtX2JvX3V0aWwuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMK
+QEAgLTI1Nyw1NCArMjU3LDYgQEAgc3RhdGljIGludCB0dG1fY29weV9pb19wYWdlKHZvaWQgKmRz
+dCwgdm9pZCAqc3JjLCB1bnNpZ25lZCBsb25nIHBhZ2UpCiAJcmV0dXJuIDA7CiB9CiAKLSNpZmRl
+ZiBDT05GSUdfWDg2Ci0jZGVmaW5lIF9fdHRtX2ttYXBfYXRvbWljX3Byb3QoX19wYWdlLCBfX3By
+b3QpIGttYXBfYXRvbWljX3Byb3QoX19wYWdlLCBfX3Byb3QpCi0jZGVmaW5lIF9fdHRtX2t1bm1h
+cF9hdG9taWMoX19hZGRyKSBrdW5tYXBfYXRvbWljKF9fYWRkcikKLSNlbHNlCi0jZGVmaW5lIF9f
+dHRtX2ttYXBfYXRvbWljX3Byb3QoX19wYWdlLCBfX3Byb3QpIHZtYXAoJl9fcGFnZSwgMSwgMCwg
+IF9fcHJvdCkKLSNkZWZpbmUgX190dG1fa3VubWFwX2F0b21pYyhfX2FkZHIpIHZ1bm1hcChfX2Fk
+ZHIpCi0jZW5kaWYKLQotCi0vKioKLSAqIHR0bV9rbWFwX2F0b21pY19wcm90IC0gRWZmaWNpZW50
+IGtlcm5lbCBtYXAgb2YgYSBzaW5nbGUgcGFnZSB3aXRoCi0gKiBzcGVjaWZpZWQgcGFnZSBwcm90
+ZWN0aW9uLgotICoKLSAqIEBwYWdlOiBUaGUgcGFnZSB0byBtYXAuCi0gKiBAcHJvdDogVGhlIHBh
+Z2UgcHJvdGVjdGlvbi4KLSAqCi0gKiBUaGlzIGZ1bmN0aW9uIG1hcHMgYSBUVE0gcGFnZSB1c2lu
+ZyB0aGUga21hcF9hdG9taWMgYXBpIGlmIGF2YWlsYWJsZSwKLSAqIG90aGVyd2lzZSBmYWxscyBi
+YWNrIHRvIHZtYXAuIFRoZSB1c2VyIG11c3QgbWFrZSBzdXJlIHRoYXQgdGhlCi0gKiBzcGVjaWZp
+ZWQgcGFnZSBkb2VzIG5vdCBoYXZlIGFuIGFsaWFzZWQgbWFwcGluZyB3aXRoIGEgZGlmZmVyZW50
+IGNhY2hpbmcKLSAqIHBvbGljeSB1bmxlc3MgdGhlIGFyY2hpdGVjdHVyZSBleHBsaWNpdGx5IGFs
+bG93cyBpdC4gQWxzbyBtYXBwaW5nIGFuZAotICogdW5tYXBwaW5nIHVzaW5nIHRoaXMgYXBpIG11
+c3QgYmUgY29ycmVjdGx5IG5lc3RlZC4gVW5tYXBwaW5nIHNob3VsZAotICogb2NjdXIgaW4gdGhl
+IHJldmVyc2Ugb3JkZXIgb2YgbWFwcGluZy4KLSAqLwotdm9pZCAqdHRtX2ttYXBfYXRvbWljX3By
+b3Qoc3RydWN0IHBhZ2UgKnBhZ2UsIHBncHJvdF90IHByb3QpCi17Ci0JaWYgKHBncHJvdF92YWwo
+cHJvdCkgPT0gcGdwcm90X3ZhbChQQUdFX0tFUk5FTCkpCi0JCXJldHVybiBrbWFwX2F0b21pYyhw
+YWdlKTsKLQllbHNlCi0JCXJldHVybiBfX3R0bV9rbWFwX2F0b21pY19wcm90KHBhZ2UsIHByb3Qp
+OwotfQotRVhQT1JUX1NZTUJPTCh0dG1fa21hcF9hdG9taWNfcHJvdCk7Ci0KLS8qKgotICogdHRt
+X2t1bm1hcF9hdG9taWNfcHJvdCAtIFVubWFwIGEgcGFnZSB0aGF0IHdhcyBtYXBwZWQgdXNpbmcK
+LSAqIHR0bV9rbWFwX2F0b21pY19wcm90LgotICoKLSAqIEBhZGRyOiBUaGUgdmlydHVhbCBhZGRy
+ZXNzIGZyb20gdGhlIG1hcC4KLSAqIEBwcm90OiBUaGUgcGFnZSBwcm90ZWN0aW9uLgotICovCi12
+b2lkIHR0bV9rdW5tYXBfYXRvbWljX3Byb3Qodm9pZCAqYWRkciwgcGdwcm90X3QgcHJvdCkKLXsK
+LQlpZiAocGdwcm90X3ZhbChwcm90KSA9PSBwZ3Byb3RfdmFsKFBBR0VfS0VSTkVMKSkKLQkJa3Vu
+bWFwX2F0b21pYyhhZGRyKTsKLQllbHNlCi0JCV9fdHRtX2t1bm1hcF9hdG9taWMoYWRkcik7Ci19
+Ci1FWFBPUlRfU1lNQk9MKHR0bV9rdW5tYXBfYXRvbWljX3Byb3QpOwotCiBzdGF0aWMgaW50IHR0
+bV9jb3B5X2lvX3R0bV9wYWdlKHN0cnVjdCB0dG1fdHQgKnR0bSwgdm9pZCAqc3JjLAogCQkJCXVu
+c2lnbmVkIGxvbmcgcGFnZSwKIAkJCQlwZ3Byb3RfdCBwcm90KQpAQCAtMzE2LDEzICsyNjgsMTMg
+QEAgc3RhdGljIGludCB0dG1fY29weV9pb190dG1fcGFnZShzdHJ1Y3QgdHRtX3R0ICp0dG0sIHZv
+aWQgKnNyYywKIAkJcmV0dXJuIC1FTk9NRU07CiAKIAlzcmMgPSAodm9pZCAqKSgodW5zaWduZWQg
+bG9uZylzcmMgKyAocGFnZSA8PCBQQUdFX1NISUZUKSk7Ci0JZHN0ID0gdHRtX2ttYXBfYXRvbWlj
+X3Byb3QoZCwgcHJvdCk7CisJZHN0ID0ga21hcF9hdG9taWNfcHJvdChkLCBwcm90KTsKIAlpZiAo
+IWRzdCkKIAkJcmV0dXJuIC1FTk9NRU07CiAKIAltZW1jcHlfZnJvbWlvKGRzdCwgc3JjLCBQQUdF
+X1NJWkUpOwogCi0JdHRtX2t1bm1hcF9hdG9taWNfcHJvdChkc3QsIHByb3QpOworCWt1bm1hcF9h
+dG9taWMoZHN0KTsKIAogCXJldHVybiAwOwogfQpAQCAtMzM4LDEzICsyOTAsMTMgQEAgc3RhdGlj
+IGludCB0dG1fY29weV90dG1faW9fcGFnZShzdHJ1Y3QgdHRtX3R0ICp0dG0sIHZvaWQgKmRzdCwK
+IAkJcmV0dXJuIC1FTk9NRU07CiAKIAlkc3QgPSAodm9pZCAqKSgodW5zaWduZWQgbG9uZylkc3Qg
+KyAocGFnZSA8PCBQQUdFX1NISUZUKSk7Ci0Jc3JjID0gdHRtX2ttYXBfYXRvbWljX3Byb3Qocywg
+cHJvdCk7CisJc3JjID0ga21hcF9hdG9taWNfcHJvdChzLCBwcm90KTsKIAlpZiAoIXNyYykKIAkJ
+cmV0dXJuIC1FTk9NRU07CiAKIAltZW1jcHlfdG9pbyhkc3QsIHNyYywgUEFHRV9TSVpFKTsKIAot
+CXR0bV9rdW5tYXBfYXRvbWljX3Byb3Qoc3JjLCBwcm90KTsKKwlrdW5tYXBfYXRvbWljKHNyYyk7
+CiAKIAlyZXR1cm4gMDsKIH0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
+Z2Z4X2JsaXQuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2JsaXQuYwppbmRleCBi
+YjQ2Y2EwYzQ1OGYuLjk0ZDQ1NmExZDFhOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Zt
+d2dmeC92bXdnZnhfYmxpdC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Js
+aXQuYwpAQCAtMzc0LDEyICszNzQsMTIgQEAgc3RhdGljIGludCB2bXdfYm9fY3B1X2JsaXRfbGlu
+ZShzdHJ1Y3Qgdm13X2JvX2JsaXRfbGluZV9kYXRhICpkLAogCQljb3B5X3NpemUgPSBtaW5fdCh1
+MzIsIGNvcHlfc2l6ZSwgUEFHRV9TSVpFIC0gc3JjX3BhZ2Vfb2Zmc2V0KTsKIAogCQlpZiAodW5t
+YXBfc3JjKSB7Ci0JCQl0dG1fa3VubWFwX2F0b21pY19wcm90KGQtPnNyY19hZGRyLCBkLT5zcmNf
+cHJvdCk7CisJCQlrdW5tYXBfYXRvbWljKGQtPnNyY19hZGRyKTsKIAkJCWQtPnNyY19hZGRyID0g
+TlVMTDsKIAkJfQogCiAJCWlmICh1bm1hcF9kc3QpIHsKLQkJCXR0bV9rdW5tYXBfYXRvbWljX3By
+b3QoZC0+ZHN0X2FkZHIsIGQtPmRzdF9wcm90KTsKKwkJCWt1bm1hcF9hdG9taWMoZC0+ZHN0X2Fk
+ZHIpOwogCQkJZC0+ZHN0X2FkZHIgPSBOVUxMOwogCQl9CiAKQEAgLTM4OCw4ICszODgsOCBAQCBz
+dGF0aWMgaW50IHZtd19ib19jcHVfYmxpdF9saW5lKHN0cnVjdCB2bXdfYm9fYmxpdF9saW5lX2Rh
+dGEgKmQsCiAJCQkJcmV0dXJuIC1FSU5WQUw7CiAKIAkJCWQtPmRzdF9hZGRyID0KLQkJCQl0dG1f
+a21hcF9hdG9taWNfcHJvdChkLT5kc3RfcGFnZXNbZHN0X3BhZ2VdLAotCQkJCQkJICAgICBkLT5k
+c3RfcHJvdCk7CisJCQkJa21hcF9hdG9taWNfcHJvdChkLT5kc3RfcGFnZXNbZHN0X3BhZ2VdLAor
+CQkJCQkJIGQtPmRzdF9wcm90KTsKIAkJCWlmICghZC0+ZHN0X2FkZHIpCiAJCQkJcmV0dXJuIC1F
+Tk9NRU07CiAKQEAgLTQwMSw4ICs0MDEsOCBAQCBzdGF0aWMgaW50IHZtd19ib19jcHVfYmxpdF9s
+aW5lKHN0cnVjdCB2bXdfYm9fYmxpdF9saW5lX2RhdGEgKmQsCiAJCQkJcmV0dXJuIC1FSU5WQUw7
+CiAKIAkJCWQtPnNyY19hZGRyID0KLQkJCQl0dG1fa21hcF9hdG9taWNfcHJvdChkLT5zcmNfcGFn
+ZXNbc3JjX3BhZ2VdLAotCQkJCQkJICAgICBkLT5zcmNfcHJvdCk7CisJCQkJa21hcF9hdG9taWNf
+cHJvdChkLT5zcmNfcGFnZXNbc3JjX3BhZ2VdLAorCQkJCQkJIGQtPnNyY19wcm90KTsKIAkJCWlm
+ICghZC0+c3JjX2FkZHIpCiAJCQkJcmV0dXJuIC1FTk9NRU07CiAKQEAgLTQ5OSw5ICs0OTksOSBA
+QCBpbnQgdm13X2JvX2NwdV9ibGl0KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqZHN0LAogCX0K
+IG91dDoKIAlpZiAoZC5zcmNfYWRkcikKLQkJdHRtX2t1bm1hcF9hdG9taWNfcHJvdChkLnNyY19h
+ZGRyLCBkLnNyY19wcm90KTsKKwkJa3VubWFwX2F0b21pYyhkLnNyY19hZGRyKTsKIAlpZiAoZC5k
+c3RfYWRkcikKLQkJdHRtX2t1bm1hcF9hdG9taWNfcHJvdChkLmRzdF9hZGRyLCBkLmRzdF9wcm90
+KTsKKwkJa3VubWFwX2F0b21pYyhkLmRzdF9hZGRyKTsKIAogCXJldHVybiByZXQ7CiB9CmRpZmYg
+LS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5oIGIvaW5jbHVkZS9kcm0vdHRtL3R0
+bV9ib19hcGkuaAppbmRleCAwYTlkMDQyZTA3NWEuLmRlMWNjZGNkNTcwMyAxMDA2NDQKLS0tIGEv
+aW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaAorKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX2Jv
+X2FwaS5oCkBAIC02NjgsMTAgKzY2OCw2IEBAIGludCB0dG1fYm9fbW1hcF9vYmooc3RydWN0IHZt
+X2FyZWFfc3RydWN0ICp2bWEsIHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8pOwogaW50IHR0
+bV9ib19tbWFwKHN0cnVjdCBmaWxlICpmaWxwLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwK
+IAkJc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYpOwogCi12b2lkICp0dG1fa21hcF9hdG9taWNf
+cHJvdChzdHJ1Y3QgcGFnZSAqcGFnZSwgcGdwcm90X3QgcHJvdCk7Ci0KLXZvaWQgdHRtX2t1bm1h
+cF9hdG9taWNfcHJvdCh2b2lkICphZGRyLCBwZ3Byb3RfdCBwcm90KTsKLQogLyoqCiAgKiB0dG1f
+Ym9faW8KICAqCi0tIAoyLjI1LjEKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
+bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
