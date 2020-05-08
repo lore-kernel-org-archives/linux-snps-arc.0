@@ -2,137 +2,149 @@ Return-Path: <SRS0=84Jg=6W=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EACEAC38A2A
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 May 2020 13:32:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D165FC38A2A
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 May 2020 18:49:34 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BCF7E206D6
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 May 2020 13:32:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9EF94207DD
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 May 2020 18:49:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DDSPFIea";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RiaE2E5t"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCF7E206D6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Du2LtYkU";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="HkZcqSHQ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="dXgkC6UM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9EF94207DD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:Subject:From:References:To:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Rjh/RFNbrFoCmdaIolpuYBux2l8sN7GHCag4tIZIfGc=; b=DDSPFIeaBlig1b
-	cRKdUolNS7eytlPhGac1oiqRQ12kVPtRIx8bs8eh7CUrwf1t0ju1eRwCE64wqwd5EvQAfTxtNONbZ
-	+anh+2Jy4HVJedHpy7cMzpIOc45GxP8nsj/NJ7dfrAH0FWLqD0ZyJFa9dvuFDcUDP0X5S8gXRmkdM
-	c+y52biPlcq+ckPgN3B+yROjYo3CuMbqYTf3SARHr3ik9Aq+exwyO4vFnJ88ZK2TAaAcvfk5Z5GMA
-	Yc9HLOb36HU3IdJqhd29BmRUTj12RGvaCcb10cmoZAlsFqIGKI768Ze4Vo71ng665Gi44nCQz7Lb1
-	oOnmGJXUmX0FfaRPIeUQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=2/M33pTY3Q/OhtJ0mFgBod9kyE9uU/olzXoxMq4NvFg=; b=Du2LtYkUkI12gg
+	LWt4quz40Z1PVQxAwL26YW/S29dpb84Irb2T2yT5sc93LbvfHk2n1FqgWEuamehshLN9CpN8X7RnB
+	skuwkOdmbX4FIQ4x7M6vyofvu3q2LvOPcbFDYgQPm854YS8QguHOHoiOV2xK/SMKNJhLAYF3xFjWb
+	aFL3KDQdd3isgE13zzE6Ulzj9UDy2b5ENmqQhl4xtG6XSW5Jp7U+2DCva7y+PTCHxgceEFPXDyfWt
+	Zs/plUMW0GTZ4N4HLrGk344s0owPMxA0VQK34gJr4Zw+yfWYKv/uISb8YBjNkeyZEg2aUCUhOHG5T
+	9CDtyO5VfYstMEhXV2kA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jX36o-0004W5-AU; Fri, 08 May 2020 13:32:10 +0000
-Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43])
+	id 1jX83w-0001hP-DJ; Fri, 08 May 2020 18:49:32 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jX36l-0004VV-Qo
- for linux-snps-arc@lists.infradead.org; Fri, 08 May 2020 13:32:09 +0000
-Received: by mail-qv1-xf43.google.com with SMTP id r3so714135qvm.1
- for <linux-snps-arc@lists.infradead.org>; Fri, 08 May 2020 06:32:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:cc:references:from:autocrypt:subject:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=C6G+eq6IVxwMm7qG+lFUcvmO2qSwrp1ezRNxI93wIGk=;
- b=RiaE2E5t3FkFdNfSzmVtaPfyI2zG+bPWZ6P6cIzSZpmTbNMAbP0Vu03Ku9e0VUmKkl
- oIuOxZEfDVcMA13VwXmgT4gMfLpTXWwdqxDy58Yvk4n00TLGOpGk/C2Z0DAEYeVBd6DG
- KYCPDFG2AS5hpie8BB/BdTrb6KjRvftFAJJquieQrVUekssl83/+VjIvOZqMW50HOIqu
- bfNSWOKgSvXLc2D+kq3C5hupl8TBEKZE/MdASpeU/FqAi9x9lR6iw8hVYHFdTfR0u6ZM
- volaCV+Tzd1hv+Az+iLU9Yqy3+n0AnwheX2KEtHoli95g/4mdGX74u+SzSDaJ9L89xRn
- dilw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:autocrypt:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=C6G+eq6IVxwMm7qG+lFUcvmO2qSwrp1ezRNxI93wIGk=;
- b=itZlU+Uy7M9Pbxqit8xtDTXB9nSXgLLB59jJ/xHYaMr5Bh7b5fsxCDfw1/d3+MQIYE
- K+eAQ90eT1O0anxjVRbqFa7mbuYh5afwg/Wzky2yfxfQ4A5yTtM2A1NcrgIF6sXCJyZb
- 1Fbs2fVtlVUJXpAxkTVX1A/HKuDFqY4SDUx3p/bgxJ3KflcbJQTp/+ubnu8mVb2n6uHy
- qRp9Z4F2dQAkW+nG7WaD9FLw3BJfiL1ygVGtMq3pshfYjnlR2MPRDl7xcTY9w9KLk56q
- o8L8AL+cn/PAuMQndm5+BYe0bak6nTVrXslfQ6H9rBmbdl8+2QiNZZosihIdBEYXquMg
- krTA==
-X-Gm-Message-State: AGi0PuapTmahjWKjwC+EijAx4wpM58MGPhwPtMwxpIbBkNkwBKKGFn3Q
- KVT8eRr6uE+vqIyFfhsUgW46lhETIlk=
-X-Google-Smtp-Source: APiQypKOzGFpUz8UH/hEq/vhDu5FP9t0h4XyqoiNrabXR+hSpoRgtV+yUnkvYdrchZWuXMMlf8lKxg==
-X-Received: by 2002:a0c:fd8c:: with SMTP id p12mr2859518qvr.163.1588944726108; 
- Fri, 08 May 2020 06:32:06 -0700 (PDT)
-Received: from [192.168.1.4] ([177.194.48.209])
- by smtp.googlemail.com with ESMTPSA id k2sm1420201qte.16.2020.05.08.06.32.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 May 2020 06:32:05 -0700 (PDT)
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-References: <03f4a9b3-b1ca-90fa-0b6a-609a3135267d@linaro.org>
- <20200427215938.14136-1-vgupta@synopsys.com>
- <ac93c301-36d3-b20a-d31c-50c1f3264c68@linaro.org>
- <9b8f822b-0df7-d3b2-eb6e-eaa07216a589@synopsys.com>
-From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH] semaphore: consolidate arch headers into a generic one
-Message-ID: <c13250ef-0a59-703b-f4b9-9a96fb3dfb5a@linaro.org>
-Date: Fri, 8 May 2020 10:32:03 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <9b8f822b-0df7-d3b2-eb6e-eaa07216a589@synopsys.com>
+ id 1jX83t-0001fz-G9
+ for linux-snps-arc@lists.infradead.org; Fri, 08 May 2020 18:49:30 +0000
+Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
+ [10.192.0.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 65EC640170;
+ Fri,  8 May 2020 18:49:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1588963767; bh=xqwzx0B/mVGSGPJQNWge3cab2t/OCKoXwjsvVgvKMos=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=HkZcqSHQ2zz4dxHc+CITwTWRhWG/GaJrJIvcqKr9hsw8d0lJPBXjpNeN1fmsG4KJ4
+ inGWGtMlPj8r8BO1/HvgcRdBqSbVCc+i9lrpv61z/9sARWig8o5v/xl/yCfeRirdif
+ cFKhiYsAe4XvNKiEAULkhXvZwvn5A3TQj2O60c397IqJJ6eepKc6VkypESvlvKnt4Y
+ gnKj4TPJhfelfkLSotYKpwAXX30xoSSAwAfpULrdfvWC1d0T01FWxlf/R1IG3Lo7PM
+ 5wlYzH8CP7nvqG4miBP8AYySnFsifG0xd8ivU14Z+zBhZcC2D7a4ju/KpOTvuUNXZB
+ FMxjEmmVjuy/g==
+Received: from US01WEHTC3.internal.synopsys.com
+ (us01wehtc3.internal.synopsys.com [10.15.84.232])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id EC97BA006E;
+ Fri,  8 May 2020 18:49:22 +0000 (UTC)
+Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 8 May 2020 11:49:20 -0700
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
+ 14.3.487.0; Fri, 8 May 2020 11:49:20 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nuHCu2Am/7XuZH8QAfT6p5WTtB5ktdnVO+UQ+6cqtL4buSZg3Tnjd8G4o9AIr9ekp936iBiFBrUv9bRMKZQukMpvBc09NvrBenKOOTehzH9gKzUzdUNHIbm/xJDv23sUHKzJy6R4Qti8fMgWvTgSWuIuPAm8Gl/eqrkr50LOh+KwOlBhMQ/WF5yf6H9EWz/DPAWgOE5XXxv2rNOpINUcVUfHpSVulAdQBNzJQfBH7yhiGZR4wsHoN4rSispS9RTgjrg4O6dvBpJ0deTiyjIJpBbEtCMFwjwx0zlZsrHFkQ8xlT5dcp6g5Wc104rK/YQgZ/SpsVWVvzUiUCMXAiSWRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xqwzx0B/mVGSGPJQNWge3cab2t/OCKoXwjsvVgvKMos=;
+ b=cbmiGECbDjQrdO+ST3cVp2PC585u6+VU6INOa8n3yJWPAUFPnK3h0O4ZSw2Kl+8I9aOzuYwABwSaWTAH+XiaQFxC7hOLaxZp1yuEYdzpxFpsKZ8Ezw3Ds/vFX3p0py0xXB6HZnJilcVTMbS+XSRgmx0WjdmKHo9cdWdnSmtJOuodvmkLQTI7NoAMdEAyb/YVpYTbrAEPvLw60lq6FWQnWXBTkdL/cxkqYj2y9xjnoqS48cIThCG9vsDe4wd7gVrzj0q7PwvtaICysZ0F5iK2BKCuc88olCovDuz9Gdx0HD2r5uLLQOGWHRtZ0/YQhnVI7H/d9AyraKqObfi2+b7h8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xqwzx0B/mVGSGPJQNWge3cab2t/OCKoXwjsvVgvKMos=;
+ b=dXgkC6UMpaAkAATuU7wTnSIrcqD2aqXqq62szoPYpb5wrQ3ZENGfVqfarhalWO8hgoRloFMYdyiHw5+acUCkfcEDhU+VxqktWQb89NNDldWw65bF92fzlV6W/uuMd2mcGtakJ6LWxsqn5eg9pxd6AZbxXCfv6+FNszaObLUtCbw=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BYAPR12MB2680.namprd12.prod.outlook.com (2603:10b6:a03:63::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Fri, 8 May
+ 2020 18:49:19 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::a43a:7392:6fa:c6af]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::a43a:7392:6fa:c6af%6]) with mapi id 15.20.2979.033; Fri, 8 May 2020
+ 18:49:19 +0000
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Serge Semin
+ <Sergey.Semin@baikalelectronics.ru>
+Subject: Re: [PATCH v2 3/6] dmaengine: dw: Set DMA device max segment size
+ parameter
+Thread-Topic: [PATCH v2 3/6] dmaengine: dw: Set DMA device max segment size
+ parameter
+Thread-Index: AQHWJSrw/8Ye7R9luE+OOOxxh6OCIqieiGqA
+Date: Fri, 8 May 2020 18:49:18 +0000
+Message-ID: <5c83eabd-08c9-fdae-d13f-49c177b6c5bf@synopsys.com>
+References: <20200306131048.ADBE18030797@mail.baikalelectronics.ru>
+ <20200508105304.14065-1-Sergey.Semin@baikalelectronics.ru>
+ <20200508105304.14065-4-Sergey.Semin@baikalelectronics.ru>
+ <20200508112152.GI185537@smile.fi.intel.com>
+In-Reply-To: <20200508112152.GI185537@smile.fi.intel.com>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+authentication-results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none
+ header.from=synopsys.com;
+x-originating-ip: [2601:641:c100:83a0:fee2:8ed0:e900:96d1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d92a22ad-818d-4af4-f5e8-08d7f38083f7
+x-ms-traffictypediagnostic: BYAPR12MB2680:
+x-microsoft-antispam-prvs: <BYAPR12MB2680E66C4F5126BAFD44542EB6A20@BYAPR12MB2680.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 039735BC4E
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZRJZBk0RSoMWEK/Ovbs5Hr2urzZHIBIL1n9lBq2Ibtd54PjKQRytMfN0UhZ/tbUcLnNpnNcoey7AxQhw7QCAJgOfahWbQ3WPftSK4U5IgzoWfzqTZA+3XbiupZQuqFypZLsVhQGlVwgVh9lc3JicBj+6xa6vQoZqCaal57prPr1ufSZHTDNk3AY973yl59PTlzdqaJ7vvcC+AtH/SbuE4vNtancfvh4zvl9m8xOG3mes748nO60Z3FuSf9Hxsiju2LfYzbys2M6R8xDhHGnZ6NM24wrir9vYOJSsWZ/j9jC+2E4fuRnW0JoBVc9wr0WFph5Qe0k+UZjqQ+s3TZUewD64Ms7TTrkNQsjCEU2Fo6MxNiLMhfkY4g8gRbzivwHOZ3JYigNhJmlMVbYMj+5aAT/dfq8iOVXUziJ6Gbmo0ILQv8iOmxLIm2F+W0cGQ6YndBUFq2kC7neNcZCYRlraHhQ229Em0O9iXRDH0vKbP7QjQyU/YGwyWK7DyK38OAG9PwHTsdbFwO5t9rUvU4wSfdVzMtURkJKxYl9MYLdbcx9CO5aaFpI/vKtDBCw9Qiey
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(366004)(376002)(39860400002)(396003)(136003)(346002)(33430700001)(76116006)(53546011)(31696002)(2616005)(6512007)(54906003)(8936002)(66556008)(66446008)(64756008)(66476007)(316002)(86362001)(83310400001)(83320400001)(8676002)(83280400001)(186003)(83290400001)(83300400001)(110136005)(33440700001)(6506007)(31686004)(478600001)(7416002)(4326008)(66946007)(4744005)(36756003)(2906002)(6486002)(71200400001)(5660300002)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: /jhRnt5d92+leREvrFefCc7VDhGlvsPYPBIsZmOhGCh9UK8n80jyS5j0iR81Y3aZrZXtUzBgeCpfbbuoej7GuOMpD23g2Qv2KtkKvNYjfKqek9oReEFpm3wJ6HsyT2sg6Q8i9TKSaCZHgrtlANr8PCDbkyZ/lLVrG/f9zUpAzIItYprXL2Go7k7OlwwqXHqe3m8p8tNFZ2klEQPx6fT01giMi7Bk7XV7nnPctZvQLXEAwDZba9hm2IQh66ibwsNa3QD2lkc3AyNvNm3PHdLQFGbEeF8k31z9eK5m310tmpcBXcUKrIQjZW8TH0bPPPv54xDjgHUI6cnLCIXgzly++RWszkeB025Y8j9VUUi2redh3Watptko0139Q2TneTnuAlRXGVD2kswfBF9556aP0IZQeQF0Tpoig7D/PebminCP5RR6RA7G08t1+0qBJZPhxxEfClayDDPZNWf9M1rX+thvVsCHlC9VRRmnVfYaM4be4mdeJXFhZwgYNaqGVjtG2Cz2hlElSUGiDvDTnmRX1vTdma2Ch72XxhdBlP1URCQOC+JF4dBNEgFJ1ZbOW+6O
+x-ms-exchange-transport-forked: True
+Content-ID: <AD6AF4D0863D1640A034D2357E6B3148@namprd12.prod.outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: d92a22ad-818d-4af4-f5e8-08d7f38083f7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 May 2020 18:49:18.9534 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: S6glSDpyDhtzzkvSjHzSz+0+iPDoRtYF9KXt24DdH46V6yAnZ/u9vdwMXLEAeNwKuorqg1jFOMKdU8OX+Awn6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2680
+X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200508_063207_898476_B0F76CE2 
-X-CRM114-Status: GOOD (  11.17  )
+X-CRM114-CacheID: sfid-20200508_114929_632586_716564B5 
+X-CRM114-Status: GOOD (  13.73  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,38 +156,38 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: arcml <linux-snps-arc@lists.infradead.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Arnd Bergmann <arnd@arndb.de>,
+ Paul Burton <paulburton@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ Serge Semin <fancer.lancer@gmail.com>,
+ Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>, Ralf
+ Baechle <ralf@linux-mips.org>,
+ "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>, Dan
+ Williams <dan.j.williams@intel.com>, arcml <linux-snps-arc@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+On 5/8/20 4:21 AM, Andy Shevchenko wrote:
+> Yeah, I have locally something like this and I didn't dare to upstream because
+> there is an issue. We have this information per DMA controller, while we
+> actually need this on per DMA channel basis.
+>
+> Above will work only for synthesized DMA with all channels having same block
+> size. That's why above conditional is not needed anyway.
+>
+> OTOH, I never saw the DesignWare DMA to be synthesized differently (I remember
+> that Intel Medfield has interesting settings, but I don't remember if DMA
+> channels are different inside the same controller).
+>
+> Vineet, do you have any information that Synopsys customers synthesized DMA
+> controllers with different channel characteristics inside one DMA IP?
 
-
-On 05/05/2020 19:59, Vineet Gupta wrote:
-> On 5/5/20 12:05 PM, Adhemerval Zanella via Libc-alpha wrote:
->>> diff --git a/sysdeps/s390/nptl/bits/semaphore.h b/sysdeps/unix/sysv/linux/bits/semaphore.h
->>> similarity index 100%
->>> rename from sysdeps/s390/nptl/bits/semaphore.h
->>> rename to sysdeps/unix/sysv/linux/bits/semaphore.h
->>
->> Ok, although I think we should handle as a new file: add a online description and
->> remove any 'Contributed by' line.
-> 
-> Ok did explicit add/del but still git rename detection triggers, this time
-> matching it to x86 version (with 90% similarity). I'm pretty sure in the past
-> delete/add used to elide renames, perhaps the heuristics have gotten better. AFAIK
-> there is no gitconfig setting to disable the rename detection.
-> 
-> ...
->  sysdeps/{x86 => unix/sysv/linux}/bits/semaphore.h |  5 ++---
->  sysdeps/unix/sysv/linux/powerpc/bits/semaphore.h  | 40
-> 
-
-I use both -C (detect copies as well as renames) and -M (detect renames)
-with git format-patch and send-email to try avoid such issues. Sometimes
-it is required to change the -M threshold to get the rename right.
-
+The IP drivers are done by different teams, but I can try and ask around.
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
