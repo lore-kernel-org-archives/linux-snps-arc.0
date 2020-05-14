@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87418C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 14 May 2020 17:05:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9D2C433E1
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 14 May 2020 17:05:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 592212065D
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 14 May 2020 17:05:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1BC4E2065D
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 14 May 2020 17:05:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GXh6W73q";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="cVcX2vcK"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 592212065D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YkDZeoYF";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="MsXf+YHL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1BC4E2065D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,43 +26,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=IchNIrpkspRsBweWMENN5J6Fhi8RhNE+BGEmuar/MgU=; b=GXh6W73qwEed7b
-	Nt3YnbT4FoPtmDk0umftGv4mONKexSpeVrowAuBLGFRALh95kDHxWs6CO2HfWiBS6GEZVBqLWctVt
-	rciloggV3Pk4kpboDjObuPvNNIJCHCq7dIK/Qg4UWms1C+x86tA7gUrdwrCSg2MTSqb7nH5VwR0Ca
-	GCyjDjnTVY0CmsdcXq+QVFTWlQI9gJ0ia1KQds25nYL26RcK+rQTa2SbzV1N4UAdW5bxFDlBk7n6d
-	0d0irrR0A0E7BkTkQ9BUWX3K939r1b9O6DSwSElUma4tVQ977Y0Ur17VKNbhDCVYE/EAB6og/sk5A
-	Y4XBg2A7UfbR98Av38+g==;
+	List-Owner; bh=3uHjzzazA7mCvrZXbN6BMFYMeu2FwIdaybR5+0mcaVs=; b=YkDZeoYFvWbG4i
+	wNzRccodeVgBs55h9vw9dx7sFVZwRf14MFiaw5Q6m/CLA4XsCGaFU/src9LzAi/wE0AhqmgqhAM/P
+	FKP46X56h70w/0rR7oorIHmPTnBQc2qHrEvdCYU9akqOqEvZ35SBWxfoja5NWcN9Jqv2Ouq2r5kfX
+	aOM06bFMGCRZ0I5Uz7V/yk7vEa/xdfmSA8xYu0JmfA4DwNaAly4AiyeRqHo6fQ0u0HL2B0aeleu8m
+	cIvWNV2devUi1tcneFCgq+LqO8x50lSbHJeZOi2Jjc9Gci1lGXeh4GF0kNvrTuO829soDYsDTOg8u
+	gLMM1Z35Twfkhx21VUzw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jZHIH-0004iI-Ti; Thu, 14 May 2020 17:05:13 +0000
+	id 1jZHIU-00056E-UG; Thu, 14 May 2020 17:05:26 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jZHI7-00031N-VA; Thu, 14 May 2020 17:05:05 +0000
+ id 1jZHIM-00051x-Df; Thu, 14 May 2020 17:05:22 +0000
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9D208206D8;
- Thu, 14 May 2020 17:04:49 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 21FF0206F1;
+ Thu, 14 May 2020 17:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589475903;
- bh=44XXBwqf7ZdJi139qXlwO51vvXhQ450CmPWvc64Elpk=;
+ s=default; t=1589475918;
+ bh=yCvMg9jE76Q0mBLXp3JtaX9kPYeAaa6ImoilPHaVKJo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cVcX2vcKsPsKDmMAS87dHuEJJ8eUvdSGajlPhYwFuiRJfueaw2+fisGXnor5syKhU
- 9h3N5W4e4o2uV5ohsNoh5KyYV/kirPUl7kHdzkprgJKtt717KeE0Fo99VHdYAjovTc
- rK2nhnvnaVjaC2DT2klZJ/7NiWCQPaPFfNLpXbUg=
+ b=MsXf+YHLiMI+6nfVDWOloety14o6JtNlRYn5C4NpDZVRH90TiJvlFuFoUuAZuA9+K
+ HZhIg1NTYiA/9LFiictyIBYEvruIwYzYcqZJyQuCYfPaGccEozO27Q88Ag+LaopJp/
+ uY8eQCnE5yZhTWiArvI3ABGMenLhVbfIKS966Dkg=
 From: Mike Rapoport <rppt@kernel.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/12] m68k/mm/motorola: move comment about page table
- allocation funcitons
-Date: Thu, 14 May 2020 20:03:20 +0300
-Message-Id: <20200514170327.31389-6-rppt@kernel.org>
+Subject: [PATCH v2 06/12] m68k/mm: move {cache,
+ nocahe}_page() definitions close to their user
+Date: Thu, 14 May 2020 20:03:21 +0300
+Message-Id: <20200514170327.31389-7-rppt@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200514170327.31389-1-rppt@kernel.org>
 References: <20200514170327.31389-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200514_100504_067869_F0762604 
-X-CRM114-Status: GOOD (  12.57  )
+X-CRM114-CacheID: sfid-20200514_100518_666024_379DFD1F 
+X-CRM114-Status: GOOD (  13.19  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,52 +111,182 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-The comment about page table allocation functions resides in
-include/asm/motorola_pgtable.h while the functions live in
-include/asm/motorola_pgaloc.h.
+The cache_page() and nocache_page() functions are only used by the motorola
+MMU variant for setting caching attributes for the page table pages.
 
-Move the comment close to the code.
+Move the definitions of these functions from
+arch/m68k/include/asm/motorola_pgtable.h closer to their usage in
+arch/m68k/mm/motorola.c and drop unused definition in
+arch/m68k/include/asm/mcf_pgtable.h.
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+Acked-by: Greg Ungerer <gerg@linux-m68k.org>
 ---
- arch/m68k/include/asm/motorola_pgalloc.h | 6 ++++++
- arch/m68k/include/asm/motorola_pgtable.h | 6 ------
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ arch/m68k/include/asm/mcf_pgtable.h      | 40 ---------------------
+ arch/m68k/include/asm/motorola_pgtable.h | 44 ------------------------
+ arch/m68k/mm/motorola.c                  | 43 +++++++++++++++++++++++
+ 3 files changed, 43 insertions(+), 84 deletions(-)
 
-diff --git a/arch/m68k/include/asm/motorola_pgalloc.h b/arch/m68k/include/asm/motorola_pgalloc.h
-index c66e42917912..f3cb453a07b7 100644
---- a/arch/m68k/include/asm/motorola_pgalloc.h
-+++ b/arch/m68k/include/asm/motorola_pgalloc.h
-@@ -18,6 +18,12 @@ extern void init_pointer_table(void *table, int type);
- extern void *get_pointer_table(int type);
- extern int free_pointer_table(void *table, int type);
+diff --git a/arch/m68k/include/asm/mcf_pgtable.h b/arch/m68k/include/asm/mcf_pgtable.h
+index 0031cd387b75..737e826294f3 100644
+--- a/arch/m68k/include/asm/mcf_pgtable.h
++++ b/arch/m68k/include/asm/mcf_pgtable.h
+@@ -328,46 +328,6 @@ extern pgd_t kernel_pg_dir[PTRS_PER_PGD];
+ #define pte_offset_kernel(dir, address) \
+ 	((pte_t *) __pmd_page(*(dir)) + __pte_offset(address))
  
-+/*
-+ * Allocate and free page tables. The xxx_kernel() versions are
-+ * used to allocate a kernel page table - this turns on ASN bits
-+ * if any.
-+ */
-+
- static inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
- {
- 	return get_pointer_table(TABLE_PTE);
+-/*
+- * Disable caching for page at given kernel virtual address.
+- */
+-static inline void nocache_page(void *vaddr)
+-{
+-	pgd_t *dir;
+-	p4d_t *p4dp;
+-	pud_t *pudp;
+-	pmd_t *pmdp;
+-	pte_t *ptep;
+-	unsigned long addr = (unsigned long) vaddr;
+-
+-	dir = pgd_offset_k(addr);
+-	p4dp = p4d_offset(dir, addr);
+-	pudp = pud_offset(p4dp, addr);
+-	pmdp = pmd_offset(pudp, addr);
+-	ptep = pte_offset_kernel(pmdp, addr);
+-	*ptep = pte_mknocache(*ptep);
+-}
+-
+-/*
+- * Enable caching for page at given kernel virtual address.
+- */
+-static inline void cache_page(void *vaddr)
+-{
+-	pgd_t *dir;
+-	p4d_t *p4dp;
+-	pud_t *pudp;
+-	pmd_t *pmdp;
+-	pte_t *ptep;
+-	unsigned long addr = (unsigned long) vaddr;
+-
+-	dir = pgd_offset_k(addr);
+-	p4dp = p4d_offset(dir, addr);
+-	pudp = pud_offset(p4dp, addr);
+-	pmdp = pmd_offset(pudp, addr);
+-	ptep = pte_offset_kernel(pmdp, addr);
+-	*ptep = pte_mkcache(*ptep);
+-}
+-
+ /*
+  * Encode and de-code a swap entry (must be !pte_none(e) && !pte_present(e))
+  */
 diff --git a/arch/m68k/include/asm/motorola_pgtable.h b/arch/m68k/include/asm/motorola_pgtable.h
-index 48f19f0ab1e7..9e5a3de21e15 100644
+index 9e5a3de21e15..e1594acf7c7e 100644
 --- a/arch/m68k/include/asm/motorola_pgtable.h
 +++ b/arch/m68k/include/asm/motorola_pgtable.h
-@@ -227,12 +227,6 @@ static inline pte_t *pte_offset_kernel(pmd_t *pmdp, unsigned long address)
+@@ -227,50 +227,6 @@ static inline pte_t *pte_offset_kernel(pmd_t *pmdp, unsigned long address)
  #define pte_offset_map(pmdp,address) ((pte_t *)__pmd_page(*pmdp) + (((address) >> PAGE_SHIFT) & (PTRS_PER_PTE - 1)))
  #define pte_unmap(pte)		((void)0)
  
--/*
-- * Allocate and free page tables. The xxx_kernel() versions are
-- * used to allocate a kernel page table - this turns on ASN bits
-- * if any.
+-/* Prior to calling these routines, the page should have been flushed
+- * from both the cache and ATC, or the CPU might not notice that the
+- * cache setting for the page has been changed. -jskov
 - */
+-static inline void nocache_page(void *vaddr)
+-{
+-	unsigned long addr = (unsigned long)vaddr;
 -
- /* Prior to calling these routines, the page should have been flushed
-  * from both the cache and ATC, or the CPU might not notice that the
-  * cache setting for the page has been changed. -jskov
+-	if (CPU_IS_040_OR_060) {
+-		pgd_t *dir;
+-		p4d_t *p4dp;
+-		pud_t *pudp;
+-		pmd_t *pmdp;
+-		pte_t *ptep;
+-
+-		dir = pgd_offset_k(addr);
+-		p4dp = p4d_offset(dir, addr);
+-		pudp = pud_offset(p4dp, addr);
+-		pmdp = pmd_offset(pudp, addr);
+-		ptep = pte_offset_kernel(pmdp, addr);
+-		*ptep = pte_mknocache(*ptep);
+-	}
+-}
+-
+-static inline void cache_page(void *vaddr)
+-{
+-	unsigned long addr = (unsigned long)vaddr;
+-
+-	if (CPU_IS_040_OR_060) {
+-		pgd_t *dir;
+-		p4d_t *p4dp;
+-		pud_t *pudp;
+-		pmd_t *pmdp;
+-		pte_t *ptep;
+-
+-		dir = pgd_offset_k(addr);
+-		p4dp = p4d_offset(dir, addr);
+-		pudp = pud_offset(p4dp, addr);
+-		pmdp = pmd_offset(pudp, addr);
+-		ptep = pte_offset_kernel(pmdp, addr);
+-		*ptep = pte_mkcache(*ptep);
+-	}
+-}
+-
+ /* Encode and de-code a swap entry (must be !pte_none(e) && !pte_present(e)) */
+ #define __swp_type(x)		(((x).val >> 4) & 0xff)
+ #define __swp_offset(x)		((x).val >> 12)
+diff --git a/arch/m68k/mm/motorola.c b/arch/m68k/mm/motorola.c
+index 904c2a663977..8e5e74121a78 100644
+--- a/arch/m68k/mm/motorola.c
++++ b/arch/m68k/mm/motorola.c
+@@ -45,6 +45,49 @@ unsigned long mm_cachebits;
+ EXPORT_SYMBOL(mm_cachebits);
+ #endif
+ 
++/* Prior to calling these routines, the page should have been flushed
++ * from both the cache and ATC, or the CPU might not notice that the
++ * cache setting for the page has been changed. -jskov
++ */
++static inline void nocache_page(void *vaddr)
++{
++	unsigned long addr = (unsigned long)vaddr;
++
++	if (CPU_IS_040_OR_060) {
++		pgd_t *dir;
++		p4d_t *p4dp;
++		pud_t *pudp;
++		pmd_t *pmdp;
++		pte_t *ptep;
++
++		dir = pgd_offset_k(addr);
++		p4dp = p4d_offset(dir, addr);
++		pudp = pud_offset(p4dp, addr);
++		pmdp = pmd_offset(pudp, addr);
++		ptep = pte_offset_kernel(pmdp, addr);
++		*ptep = pte_mknocache(*ptep);
++	}
++}
++
++static inline void cache_page(void *vaddr)
++{
++	unsigned long addr = (unsigned long)vaddr;
++
++	if (CPU_IS_040_OR_060) {
++		pgd_t *dir;
++		p4d_t *p4dp;
++		pud_t *pudp;
++		pmd_t *pmdp;
++		pte_t *ptep;
++
++		dir = pgd_offset_k(addr);
++		p4dp = p4d_offset(dir, addr);
++		pudp = pud_offset(p4dp, addr);
++		pmdp = pmd_offset(pudp, addr);
++		ptep = pte_offset_kernel(pmdp, addr);
++		*ptep = pte_mkcache(*ptep);
++	}
++}
+ 
+ /*
+  * Motorola 680x0 user's manual recommends using uncached memory for address
 -- 
 2.26.2
 
