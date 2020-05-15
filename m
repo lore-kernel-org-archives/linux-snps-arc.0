@@ -1,68 +1,145 @@
-Return-Path: <SRS0=BK+7=64=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=+1Ow=65=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96298C433E2
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 14 May 2020 17:06:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BEB7C433E1
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 15 May 2020 00:45:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 406E5206F1
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 14 May 2020 17:06:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 03891206B6
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 15 May 2020 00:45:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rf8JOffH";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="dUZXTQMh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 406E5206F1
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Hkcxgaz+";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="CneDxtE5";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="i4iQxJ29"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 03891206B6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Dk28g4SEyQOhqfb7XgNNkA3qPclpsmLnRvvU3hfJhwk=; b=rf8JOffHG4S43A
-	quCb55gTvQ5XFCwPtpiyBT4egQXUcLzx9ROiimAskpJkBeLC6xyxplzbnI4xwDFEEVnbtDst3Zgcx
-	i9qskKRRqt7GyMJrvkauWeNFiVDx0EapFgo7IDzQM+Bs2Wy1Vn1JK56e/Yao5EGiQ1wCaPBqRttb8
-	2hDVz94Dmm1rFyWNF/Ai+ch5iuGoBXnHr9dI2wPx16LunnKl3lWG42OuzabM2npKH/zyxlK838Yez
-	CkVs3DrWzG2vtdJPP/3a7LxSpTArNFLpUNFxNEXfXP6dYg6anhg6aXMXCH5YiqPqA5GVvnhs3ZKXl
-	GwDVHzSk5eIxALpyCEXA==;
+	List-Owner; bh=nHAzlplR1moe/sVs9QIbsyXBmpcY/1ItsWSlPASxOt8=; b=Hkcxgaz+CxLJos
+	YmrOLvHgaVd92dM7fnM69YxV/2ktQzClRaCG91L6vINFYCbc77WZxwH65HeZZY4ei8/iXxFbXJKHB
+	zk2RL1qb+UWFkLX07hxu+lbxMB4DBf6Jyom+HyhcrDyg27tk9suFXOeB19HJn4f9QUbJgtO+Lm8kn
+	9xRKi7mFah3h6X+ULpa9AZMKGtY9HapkTNC/U2VBKAzHYvOMv2HxjmPi/fUTkOnyoL+v3KLpyq5sY
+	vXu0O6WZtuOp6tbcYSmYLezOv2b4g7sgOEd8dIJdOwMF6vSLV1SMio0fsRUf4zMC3ic/oOcpu3Yd6
+	uBsfBCqVo8qkZ6zP2ieQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jZHJu-0005vT-Gf; Thu, 14 May 2020 17:06:54 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1jZOTW-0005Jz-3m; Fri, 15 May 2020 00:45:18 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jZHJm-0005sf-D3; Thu, 14 May 2020 17:06:50 +0000
-Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ id 1jZOTP-0004cJ-Ir
+ for linux-snps-arc@lists.infradead.org; Fri, 15 May 2020 00:45:16 +0000
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
+ [10.192.0.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D275A20767;
- Thu, 14 May 2020 17:06:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589476006;
- bh=j7oiVzXSjvBXHJnUzsYYohsPpXrbXDP0q1fLbgvZfJ4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dUZXTQMhOfwr+pt2yuVp7ZGiMYARuxBUDJp5ZyIqox2Eh2ftaIANdQYGpRGbctzN+
- Aj9BL4Csa/W4e6CaLFVEMAOUUw9jpLXpwGI/CJMQEFRTDMQCRdILbX3ERaCALGTHF3
- pNPDY0aK+MT/etNJ4LT+dxx3ZCKwUEWSP8R78Tvo=
-From: Mike Rapoport <rppt@kernel.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/12] mm: consolidate pgd_index() and pgd_offset{_k}()
- definitions
-Date: Thu, 14 May 2020 20:03:27 +0300
-Message-Id: <20200514170327.31389-13-rppt@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200514170327.31389-1-rppt@kernel.org>
-References: <20200514170327.31389-1-rppt@kernel.org>
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id DE2D840081;
+ Fri, 15 May 2020 00:45:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1589503509; bh=OAwJQhkdV8O6/KPvQg1j+d9LRQbrgJoXQFrubHm8PdM=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=CneDxtE5kFFUu+aBfMqMicuzcZ+7O3gJ2NURgM7fj10n24IcZBKnBjdjDME2fpm3s
+ vCof7Vk9n1gQVKVysBqcKhIlPW3ASzTkjKFeO81emQ7pmWHuUFTSjsMi7baIgvdfa9
+ rFWqnT8qxCXzH2BXNOEZL8PlxXbGgf6x8IgBH/CtxOpkU8QeFwvhM0/cA1/KC80agQ
+ iAA0UWS46msxpvMEFibj22krS23QaKhhOwJzlhgXzbNU/pFd0Q4GakNdORaC4w46H0
+ rdm4cJoVwInUD1x3yMEme5rB4KwxoqJxyaVHkAZxV2jfcanNmbdnAb0qiLo0z4FBdW
+ nBzDMYkV3j6eg==
+Received: from US01WEHTC3.internal.synopsys.com
+ (us01wehtc3.internal.synopsys.com [10.15.84.232])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 3077EA0071;
+ Fri, 15 May 2020 00:45:05 +0000 (UTC)
+Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Thu, 14 May 2020 17:45:05 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
+ 14.3.487.0; Thu, 14 May 2020 17:45:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hFgFY2WvJ10Sj9StAzlTZaPRl/sAhVttGOu7gZUppxe7+Grir8Y712oUhYhrBIdvJGllr39CTbe/LVfaBhVugDhtDnkHWrDQFup04d1b63bP+3jv+CxGO8D9Du01WHqmwNHdU5flf5Sc88CZPRYGUz2Zm9Qpg0lp1jbX8TfiSAxZ6XQEQSopYSrdyE7AsHzENtEuVZmsGHGleyiiJVqe5YBvTLDE7ZVFPv2WpPvcoUnykZB6DqPVPGD6pFl6/604qziYC21DX0Z+L4fh7X6tA/HEME/JYGHb42b3jXcTODPO3Gq7aAq1n+F0o/HA/ia4Gei7LDjPVIb5SInF+LXGeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OAwJQhkdV8O6/KPvQg1j+d9LRQbrgJoXQFrubHm8PdM=;
+ b=FKwLhIzF5a8vuTPzS6/bIeNi5oILGBs6BUuXtAAgukeQFpswYShWBUI270/U7BH4hIQ0g33qQRyB4Yp9ti5Y/W5NvZeDQ3UZysTAt3YQDAKcRWXQxA19qbFdigqdUC6yJJQU5YR440E+ltb1Tx1usEX8YRugg2qb+76aZJzIPNnljooM/oTEppZKEO2LVB0C7BkfBLJv5sUzrQdpSGqPj8Prt3W4JqTITErW2LbGKloqBEgUGtNNZcaYJnKTNcOhGYWd8xO/jtv+bg3dz4RlQ6PnEP+yOb4Ql6B+MKpGcYOTkmz4FC9t3q/CehvrnHX4v356mv0IPML2mdEaYlaJhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OAwJQhkdV8O6/KPvQg1j+d9LRQbrgJoXQFrubHm8PdM=;
+ b=i4iQxJ29xaEUfP6TuDQBE4WHHNI+aZxqbTBUMDchjk2zewAAJhCkdWki5ydynODu+VK1SopErs+4o2IMXcs+kK+qT81FzNqdcMymKNdujQTFB1+BsjJigYVPgYYweg4KegepTYr3HISjnlZIV290S1mtI8LondIu9KULwuEmfns=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BYAPR12MB3352.namprd12.prod.outlook.com (2603:10b6:a03:a8::25)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.33; Fri, 15 May
+ 2020 00:45:02 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::a43a:7392:6fa:c6af]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::a43a:7392:6fa:c6af%6]) with mapi id 15.20.3000.022; Fri, 15 May 2020
+ 00:45:02 +0000
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
+Subject: Re: [PATCH v6 00/13] glibc port to ARC processors
+Thread-Topic: [PATCH v6 00/13] glibc port to ARC processors
+Thread-Index: AQHWKlIRP4r4qWPT3k6aK8fkXwvGwA==
+Date: Fri, 15 May 2020 00:45:02 +0000
+Message-ID: <6bfc68c3-4b95-bf5a-3e12-23bf7c492df7@synopsys.com>
+References: <20200423014126.10417-1-vgupta@synopsys.com>
+ <d171cd4e-f74c-bf7b-5db9-5ad737e4a5bb@synopsys.com>
+In-Reply-To: <d171cd4e-f74c-bf7b-5db9-5ad737e4a5bb@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+authentication-results: sourceware.org; dkim=none (message not signed)
+ header.d=none;sourceware.org; dmarc=none action=none
+ header.from=synopsys.com;
+x-originating-ip: [2601:641:c100:83a0:fee2:8ed0:e900:96d1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bc96dfcb-6a0d-4310-3070-08d7f8693445
+x-ms-traffictypediagnostic: BYAPR12MB3352:
+x-microsoft-antispam-prvs: <BYAPR12MB3352D444E8E831F4BEA3F037B6BD0@BYAPR12MB3352.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:608;
+x-forefront-prvs: 04041A2886
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: oWI1exvhu1J8s6IxT87yxhz2L6VbX5G+zUDoT3N49Ea/u9djiJj5WxOARMkUQdStBDfm7EF+7cY9YTJj0tCb03Ol01uWDwThhKQtxCkcCdc5Ei/F3Vbe9QqOYpROiRtoC92KyjtqQh7Oew67wBt8EGlo74DjCBpLl8f5D1RX5oXKxpdRZwiy/+aOLE1djhodjcUHoIR9BWinUA3zzwVNQhMr6VqzA4euoPRZ74d93rqwx7a92IYp4owCnEzHrh9qGbDe1vXG7J/r99y0I4Wag9nwv6l4xuKV0+iWwoUD/0yPaS/d76XWwIhxUYahFYETA9WGUn3+VTkBAOu+bbK5/P+NkIImuDSwcy/j9J+bhBau7j+177ZT/8WFEX9IuKEJli2rgJDb4Xz7+RQ4fuid/cf8rp6B/NWlkR628z1abiUVY1SZWSls5jnUwzdr9S6ILJ+GBIrjoOECrtyQqMMe0eqMVyHYLzOI4jZZBdGyuF2gkvKoenWBeSD9lMHsAAAMAK5v2TyB8LgYbIBkLpjsQwKdu2KfXHXoiv1DkW3ofnY1bzu3VnEMJ82f1m4JUH5nht6iNsyULwxlDn/NTW3FXg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(376002)(396003)(136003)(346002)(39860400002)(366004)(66446008)(4326008)(66946007)(31686004)(478600001)(6512007)(30864003)(76116006)(6486002)(5660300002)(6916009)(31696002)(66476007)(66556008)(966005)(186003)(2616005)(8936002)(71200400001)(86362001)(36756003)(64756008)(2906002)(53546011)(316002)(6506007)(16799955002)(8676002)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: nTGCMf1iBeG7fKOvj3mUELy752CFMJ4ldAj+YQh5At5NGw482v5RYt6izchogKF1Eo7Uselwi6MOAXIdwjDuu7RphxrotXoijx5zeNfZo7gqkdu9DUZjNE6jgIeVfDfWyVhGYbrNiqwXaBjIXYVRQGadrzGdAB1JjRjDBXaH/WpLGVZSf0KZhCr63ujWuJhgD9HDzq/LvGouwQt8Ze4PSJXA1/N7EkMnPfkn+7HMlednPXk+WCnE4dRswps8OFPpM+8T945ht2PPVFVkanG9vKfD4+NEyYJpVbPc8PrnUxHXKp+O+Diy5ZaawT7CxvAVhZ15mWsFIfkL2hhIqiLGUkTVon6DzpVz+x60/f4H/wlEoXi4QLxhHZY8GsCllbA8bmCaqhqmWXoMXTn+saORg3KIpA9hcDRV21MlVDknfJq7ZrMsouIvsllAxPmehMVBfN+Bk+mJvQDzzWFPTzg2+Q3bF16F2pM7P7DeChymOLz+WO3roxVzZ8DfrO0nkGPovOw5/F5QZZrNXrgpPqUkYxCT0sZaOCjFsNscPd0ctFXxZ9J4bawHCqyXCJEzf1A6
+x-ms-exchange-transport-forked: True
+Content-ID: <40EE73D11CD15B4498D5867A8C9CF1AF@namprd12.prod.outlook.com>
 MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc96dfcb-6a0d-4310-3070-08d7f8693445
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2020 00:45:02.6859 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tbAeS17oTtdGHQW60rgvp4keRnF+woH+fKscqzakLeU5KgiQvgLG12D/oSbHPJ8aM9qTu8PYh+QbQPVjjW8Yzg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3352
+X-OriginatorOrg: synopsys.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200514_100646_490173_EC5E7B9E 
-X-CRM114-Status: GOOD (  18.81  )
+X-CRM114-CacheID: sfid-20200514_174511_719840_6BED904A 
+X-CRM114-Status: GOOD (  12.00  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,1015 +151,403 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Guo Ren <guoren@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-riscv@lists.infradead.org, Vincent Chen <deanbo422@gmail.com>,
- Will Deacon <will@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-c6x-dev@linux-c6x.org, Brian Cain <bcain@codeaurora.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, Russell King <linux@armlinux.org.uk>,
- Ley Foon Tan <ley.foon.tan@intel.com>, Mike Rapoport <rppt@linux.ibm.com>,
- Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-parisc@vger.kernel.org, Mark Salter <msalter@redhat.com>,
- Matt Turner <mattst88@gmail.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
- linux-alpha@vger.kernel.org, linux-um@lists.infradead.org,
- linux-m68k@lists.linux-m68k.org, Tony Luck <tony.luck@intel.com>,
- Borislav Petkov <bp@alien8.de>, Greentime Hu <green.hu@gmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Stafford Horne <shorne@gmail.com>,
- linux-csky@vger.kernel.org, Guan Xuetao <gxt@pku.edu.cn>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Nick Hu <nickhu@andestech.com>,
- linux-mm@kvack.org, Vineet Gupta <vgupta@synopsys.com>,
- linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
- Thomas Gleixner <tglx@linutronix.de>, Richard Weinberger <richard@nod.at>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>, Mike Rapoport <rppt@kernel.org>
+Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Mike Rapoport <rppt@linux.ibm.com>
+On 5/4/20 2:21 PM, Vineet Gupta wrote:
+> On 4/22/20 6:41 PM, Vineet Gupta wrote:
+>> Hi,
+>>
+>> This patchset implements glibc port to ARC HS48x processor from Synopsys.
+> 
+> ping !
 
-All architectures tables define pgd_offset() as an entry in the array of
-PGDs indexed by the pgd_index(), where pgd_index() is
+ping ^2
 
-	(address >> PGD_SHIFT) & (PTRS_PER_PGD - 1)
+I have rebased and adjusted the v6 patch for semaphore header unification. Would
+appreciate more technincal review.
 
-For the most cases, the pgd_offset() uses mm->pgd as the pointer to the
-top-level page directory and the pgd_offset_k() is a helper that presumes
-that mm == &init_mm.
 
-Use x86 implementation as the generic one and remove redundant definitions
-of PGD accessors in most of arch/*/include/asm/pgtable.h
-
-The generic implementation can be overridden by an architecture and this
-ability is currently in use by there architectures:
-* ia64 has custom implementation of pgd_index()
-* s390 has custom definitions of all page table accessors
-
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
- arch/alpha/include/asm/pgtable.h             |  9 ----
- arch/arc/include/asm/pgtable.h               |  7 ---
- arch/arm/include/asm/pgtable.h               |  8 ----
- arch/arm64/include/asm/pgtable.h             | 10 ----
- arch/arm64/kernel/hibernate.c                |  4 +-
- arch/arm64/mm/kasan_init.c                   |  2 +-
- arch/arm64/mm/mmu.c                          |  8 ++--
- arch/csky/include/asm/pgtable.h              | 11 -----
- arch/hexagon/include/asm/pgtable.h           | 18 -------
- arch/ia64/include/asm/pgtable.h              | 14 +-----
- arch/m68k/include/asm/mcf_pgtable.h          | 11 -----
- arch/m68k/include/asm/motorola_pgtable.h     | 16 -------
- arch/m68k/include/asm/sun3_pgtable.h         |  9 ----
- arch/microblaze/include/asm/pgtable.h        |  7 ---
- arch/mips/include/asm/pgtable-32.h           |  8 ----
- arch/mips/include/asm/pgtable-64.h           |  8 ----
- arch/nds32/include/asm/pgtable.h             |  6 ---
- arch/nios2/include/asm/pgtable.h             |  8 ----
- arch/openrisc/include/asm/pgtable.h          | 10 ----
- arch/parisc/include/asm/pgtable.h            |  9 ----
- arch/powerpc/include/asm/book3s/32/pgtable.h |  7 ---
- arch/powerpc/include/asm/book3s/64/pgtable.h | 13 -----
- arch/powerpc/include/asm/nohash/32/pgtable.h |  7 ---
- arch/powerpc/include/asm/nohash/64/pgtable.h | 12 -----
- arch/riscv/include/asm/pgtable.h             | 10 ----
- arch/riscv/mm/init.c                         | 12 ++---
- arch/s390/include/asm/pgtable.h              |  1 -
- arch/sh/include/asm/pgtable_32.h             |  7 ---
- arch/sh/include/asm/pgtable_64.h             | 11 -----
- arch/sparc/include/asm/pgtable_32.h          |  8 ----
- arch/sparc/include/asm/pgtable_64.h          |  7 ---
- arch/um/include/asm/pgtable.h                | 50 ++++++--------------
- arch/unicore32/include/asm/pgtable.h         |  8 ----
- arch/x86/include/asm/pgtable.h               | 24 ----------
- arch/xtensa/include/asm/pgtable.h            |  8 ----
- include/linux/pgtable.h                      | 26 ++++++++++
- 36 files changed, 55 insertions(+), 339 deletions(-)
-
-diff --git a/arch/alpha/include/asm/pgtable.h b/arch/alpha/include/asm/pgtable.h
-index 314973d2810d..162c17b2631f 100644
---- a/arch/alpha/include/asm/pgtable.h
-+++ b/arch/alpha/include/asm/pgtable.h
-@@ -276,15 +276,6 @@ extern inline pte_t pte_mkwrite(pte_t pte)	{ pte_val(pte) &= ~_PAGE_FOW; return
- extern inline pte_t pte_mkdirty(pte_t pte)	{ pte_val(pte) |= __DIRTY_BITS; return pte; }
- extern inline pte_t pte_mkyoung(pte_t pte)	{ pte_val(pte) |= __ACCESS_BITS; return pte; }
- 
--#define PAGE_DIR_OFFSET(tsk,address) pgd_offset((tsk),(address))
--
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address) pgd_offset(&init_mm, (address))
--
--/* to find an entry in a page-table-directory. */
--#define pgd_index(address)	(((address) >> PGDIR_SHIFT) & (PTRS_PER_PGD-1))
--#define pgd_offset(mm, address)	((mm)->pgd+pgd_index(address))
--
- /*
-  * The smp_read_barrier_depends() in the following functions are required to
-  * order the load of *dir (the pointer in the top level page table) with any
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index 1146905f594b..f1ed17edb085 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -316,13 +316,6 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
- 	set_pte(ptep, pteval);
- }
- 
--/*
-- * All kernel related VM pages are in init's mm.
-- */
--#define pgd_offset_k(address)	pgd_offset(&init_mm, address)
--#define pgd_index(addr)		((addr) >> PGDIR_SHIFT)
--#define pgd_offset(mm, addr)	(((mm)->pgd)+pgd_index(addr))
--
- /*
-  * Macro to quickly access the PGD entry, utlising the fact that some
-  * arch may cache the pointer to Page Directory of "current" task
-diff --git a/arch/arm/include/asm/pgtable.h b/arch/arm/include/asm/pgtable.h
-index 41543bc47660..c02f24400369 100644
---- a/arch/arm/include/asm/pgtable.h
-+++ b/arch/arm/include/asm/pgtable.h
-@@ -166,14 +166,6 @@ extern struct page *empty_zero_page;
- 
- extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
- 
--/* to find an entry in a page-table-directory */
--#define pgd_index(addr)		((addr) >> PGDIR_SHIFT)
--
--#define pgd_offset(mm, addr)	((mm)->pgd + pgd_index(addr))
--
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(addr)	pgd_offset(&init_mm, addr)
--
- #define pmd_none(pmd)		(!pmd_val(pmd))
- 
- static inline pte_t *pmd_page_vaddr(pmd_t pmd)
-diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index c0155814b374..6dbd267ab931 100644
---- a/arch/arm64/include/asm/pgtable.h
-+++ b/arch/arm64/include/asm/pgtable.h
-@@ -659,16 +659,6 @@ static inline unsigned long p4d_page_vaddr(p4d_t p4d)
- 
- #define pgd_ERROR(pgd)		__pgd_error(__FILE__, __LINE__, pgd_val(pgd))
- 
--/* to find an entry in a page-table-directory */
--#define pgd_index(addr)		(((addr) >> PGDIR_SHIFT) & (PTRS_PER_PGD - 1))
--
--#define pgd_offset_raw(pgd, addr)	((pgd) + pgd_index(addr))
--
--#define pgd_offset(mm, addr)	(pgd_offset_raw((mm)->pgd, (addr)))
--
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(addr)	pgd_offset(&init_mm, addr)
--
- #define pgd_set_fixmap(addr)	((pgd_t *)set_fixmap_offset(FIX_PGD, addr))
- #define pgd_clear_fixmap()	clear_fixmap(FIX_PGD)
- 
-diff --git a/arch/arm64/kernel/hibernate.c b/arch/arm64/kernel/hibernate.c
-index 668903c94a2b..68e14152d6e9 100644
---- a/arch/arm64/kernel/hibernate.c
-+++ b/arch/arm64/kernel/hibernate.c
-@@ -188,7 +188,7 @@ static int trans_pgd_map_page(pgd_t *trans_pgd, void *page,
- 	pmd_t *pmdp;
- 	pte_t *ptep;
- 
--	pgdp = pgd_offset_raw(trans_pgd, dst_addr);
-+	pgdp = pgd_offset_pgd(trans_pgd, dst_addr);
- 	if (pgd_none(READ_ONCE(*pgdp))) {
- 		pudp = (void *)get_safe_page(GFP_ATOMIC);
- 		if (!pudp)
-@@ -490,7 +490,7 @@ static int copy_page_tables(pgd_t *dst_pgdp, unsigned long start,
- 	unsigned long addr = start;
- 	pgd_t *src_pgdp = pgd_offset_k(start);
- 
--	dst_pgdp = pgd_offset_raw(dst_pgdp, start);
-+	dst_pgdp = pgd_offset_pgd(dst_pgdp, start);
- 	do {
- 		next = pgd_addr_end(addr, end);
- 		if (pgd_none(READ_ONCE(*src_pgdp)))
-diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-index ca77eb8a0ccd..7291b26ce788 100644
---- a/arch/arm64/mm/kasan_init.c
-+++ b/arch/arm64/mm/kasan_init.c
-@@ -190,7 +190,7 @@ void __init kasan_copy_shadow(pgd_t *pgdir)
- 
- 	pgdp = pgd_offset_k(KASAN_SHADOW_START);
- 	pgdp_end = pgd_offset_k(KASAN_SHADOW_END);
--	pgdp_new = pgd_offset_raw(pgdir, KASAN_SHADOW_START);
-+	pgdp_new = pgd_offset_pgd(pgdir, KASAN_SHADOW_START);
- 	do {
- 		set_pgd(pgdp_new, READ_ONCE(*pgdp));
- 	} while (pgdp++, pgdp_new++, pgdp != pgdp_end);
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index e7fbc6275329..990929c8837e 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -341,7 +341,7 @@ static void __create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
- 				 int flags)
- {
- 	unsigned long addr, end, next;
--	pgd_t *pgdp = pgd_offset_raw(pgdir, virt);
-+	pgd_t *pgdp = pgd_offset_pgd(pgdir, virt);
- 
- 	/*
- 	 * If the virtual and physical address don't have the same offset
-@@ -663,13 +663,13 @@ static void __init map_kernel(pgd_t *pgdp)
- 			   &vmlinux_initdata, 0, VM_NO_GUARD);
- 	map_kernel_segment(pgdp, _data, _end, PAGE_KERNEL, &vmlinux_data, 0, 0);
- 
--	if (!READ_ONCE(pgd_val(*pgd_offset_raw(pgdp, FIXADDR_START)))) {
-+	if (!READ_ONCE(pgd_val(*pgd_offset_pgd(pgdp, FIXADDR_START)))) {
- 		/*
- 		 * The fixmap falls in a separate pgd to the kernel, and doesn't
- 		 * live in the carveout for the swapper_pg_dir. We can simply
- 		 * re-use the existing dir for the fixmap.
- 		 */
--		set_pgd(pgd_offset_raw(pgdp, FIXADDR_START),
-+		set_pgd(pgd_offset_pgd(pgdp, FIXADDR_START),
- 			READ_ONCE(*pgd_offset_k(FIXADDR_START)));
- 	} else if (CONFIG_PGTABLE_LEVELS > 3) {
- 		pgd_t *bm_pgdp;
-@@ -682,7 +682,7 @@ static void __init map_kernel(pgd_t *pgdp)
- 		 * entry instead.
- 		 */
- 		BUG_ON(!IS_ENABLED(CONFIG_ARM64_16K_PAGES));
--		bm_pgdp = pgd_offset_raw(pgdp, FIXADDR_START);
-+		bm_pgdp = pgd_offset_pgd(pgdp, FIXADDR_START);
- 		bm_p4dp = p4d_offset(bm_pgdp, FIXADDR_START);
- 		bm_pudp = pud_set_fixmap_offset(bm_p4dp, FIXADDR_START);
- 		pud_populate(&init_mm, bm_pudp, lm_alias(bm_pmd));
-diff --git a/arch/csky/include/asm/pgtable.h b/arch/csky/include/asm/pgtable.h
-index c5ab20970857..2002cb7f1053 100644
---- a/arch/csky/include/asm/pgtable.h
-+++ b/arch/csky/include/asm/pgtable.h
-@@ -220,11 +220,6 @@ static inline pte_t pte_mkyoung(pte_t pte)
- 	return pte;
- }
- 
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address)	pgd_offset(&init_mm, address)
--
--#define pgd_index(address)	((address) >> PGDIR_SHIFT)
--
- #define __HAVE_PHYS_MEM_ACCESS_PROT
- struct file;
- extern pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
-@@ -268,12 +263,6 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
- 		     (pgprot_val(newprot)));
- }
- 
--/* to find an entry in a page-table-directory */
--static inline pgd_t *pgd_offset(struct mm_struct *mm, unsigned long address)
--{
--	return mm->pgd + pgd_index(address);
--}
--
- extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
- extern void paging_init(void);
- 
-diff --git a/arch/hexagon/include/asm/pgtable.h b/arch/hexagon/include/asm/pgtable.h
-index eb95e9f60cf0..dbb22b80b8c4 100644
---- a/arch/hexagon/include/asm/pgtable.h
-+++ b/arch/hexagon/include/asm/pgtable.h
-@@ -206,24 +206,6 @@ static inline void pte_clear(struct mm_struct *mm, unsigned long addr,
- 	pte_val(*ptep) = _NULL_PTE;
- }
- 
--/**
-- * pgd_index - returns the index of the entry in the PGD page
-- * which would control the given virtual address
-- *
-- * This returns the *index* for the address in the pgd_t
-- */
--#define pgd_index(address) (((address) >> PGDIR_SHIFT) & (PTRS_PER_PGD-1))
--
--/*
-- * pgd_offset - find an offset in a page-table-directory
-- */
--#define pgd_offset(mm, addr) ((mm)->pgd + pgd_index(addr))
--
--/*
-- * pgd_offset_k - get kernel (init_mm) pgd entry pointer for addr
-- */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
- /**
-  * pmd_none - check if pmd_entry is mapped
-  * @pmd_entry:  pmd entry
-diff --git a/arch/ia64/include/asm/pgtable.h b/arch/ia64/include/asm/pgtable.h
-index 4c24e5e18bff..10850897a91c 100644
---- a/arch/ia64/include/asm/pgtable.h
-+++ b/arch/ia64/include/asm/pgtable.h
-@@ -364,19 +364,7 @@ pgd_index (unsigned long address)
- 
- 	return (region << (PAGE_SHIFT - 6)) | l1index;
- }
--
--/* The offset in the 1-level directory is given by the 3 region bits
--   (61..63) and the level-1 bits.  */
--static inline pgd_t*
--pgd_offset (const struct mm_struct *mm, unsigned long address)
--{
--	return mm->pgd + pgd_index(address);
--}
--
--/* In the kernel's mapped region we completely ignore the region number
--   (since we know it's in region number 5). */
--#define pgd_offset_k(addr) \
--	(init_mm.pgd + (((addr) >> PGDIR_SHIFT) & (PTRS_PER_PGD - 1)))
-+#define pgd_index pgd_index
- 
- /* Look up a pgd entry in the gate area.  On IA-64, the gate-area
-    resides in the kernel-mapped segment, hence we use pgd_offset_k()
-diff --git a/arch/m68k/include/asm/mcf_pgtable.h b/arch/m68k/include/asm/mcf_pgtable.h
-index 59f7d5fca378..8d4ec05996c5 100644
---- a/arch/m68k/include/asm/mcf_pgtable.h
-+++ b/arch/m68k/include/asm/mcf_pgtable.h
-@@ -310,17 +310,6 @@ static inline pte_t pte_mkcache(pte_t pte)
- #define swapper_pg_dir kernel_pg_dir
- extern pgd_t kernel_pg_dir[PTRS_PER_PGD];
- 
--/*
-- * Find an entry in a pagetable directory.
-- */
--#define pgd_index(address)	((address) >> PGDIR_SHIFT)
--#define pgd_offset(mm, address)	((mm)->pgd + pgd_index(address))
--
--/*
-- * Find an entry in a kernel pagetable directory.
-- */
--#define pgd_offset_k(address)	pgd_offset(&init_mm, address)
--
- /*
-  * Encode and de-code a swap entry (must be !pte_none(e) && !pte_present(e))
-  */
-diff --git a/arch/m68k/include/asm/motorola_pgtable.h b/arch/m68k/include/asm/motorola_pgtable.h
-index eb97ea70886e..8076467eff4b 100644
---- a/arch/m68k/include/asm/motorola_pgtable.h
-+++ b/arch/m68k/include/asm/motorola_pgtable.h
-@@ -192,25 +192,9 @@ static inline pte_t pte_mkcache(pte_t pte)
- 	return pte;
- }
- 
--#define PAGE_DIR_OFFSET(tsk,address) pgd_offset((tsk),(address))
--
--#define pgd_index(address)     ((address) >> PGDIR_SHIFT)
--
--/* to find an entry in a page-table-directory */
--static inline pgd_t *pgd_offset(const struct mm_struct *mm,
--				unsigned long address)
--{
--	return mm->pgd + pgd_index(address);
--}
--
- #define swapper_pg_dir kernel_pg_dir
- extern pgd_t kernel_pg_dir[128];
- 
--static inline pgd_t *pgd_offset_k(unsigned long address)
--{
--	return kernel_pg_dir + (address >> PGDIR_SHIFT);
--}
--
- /* Encode and de-code a swap entry (must be !pte_none(e) && !pte_present(e)) */
- #define __swp_type(x)		(((x).val >> 4) & 0xff)
- #define __swp_offset(x)		((x).val >> 12)
-diff --git a/arch/m68k/include/asm/sun3_pgtable.h b/arch/m68k/include/asm/sun3_pgtable.h
-index 1414fc363743..5b24283a0a42 100644
---- a/arch/m68k/include/asm/sun3_pgtable.h
-+++ b/arch/m68k/include/asm/sun3_pgtable.h
-@@ -174,15 +174,6 @@ static inline pte_t pte_mkcache(pte_t pte)	{ return pte; }
- extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
- extern pgd_t kernel_pg_dir[PTRS_PER_PGD];
- 
--/* Find an entry in a pagetable directory. */
--#define pgd_index(address)     ((address) >> PGDIR_SHIFT)
--
--#define pgd_offset(mm, address) \
--((mm)->pgd + pgd_index(address))
--
--/* Find an entry in a kernel pagetable directory. */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
- /* Macros to (de)construct the fake PTEs representing swap pages. */
- #define __swp_type(x)		((x).val & 0x7F)
- #define __swp_offset(x)		(((x).val) >> 7)
-diff --git a/arch/microblaze/include/asm/pgtable.h b/arch/microblaze/include/asm/pgtable.h
-index 927ccba161ec..3fa1df90925e 100644
---- a/arch/microblaze/include/asm/pgtable.h
-+++ b/arch/microblaze/include/asm/pgtable.h
-@@ -445,13 +445,6 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
- /* returns struct *page of the pmd entry*/
- #define pmd_page(pmd)	(pfn_to_page(__pa(pmd_val(pmd)) >> PAGE_SHIFT))
- 
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
--/* to find an entry in a page-table-directory */
--#define pgd_index(address)	 ((address) >> PGDIR_SHIFT)
--#define pgd_offset(mm, address)	 ((mm)->pgd + pgd_index(address))
--
- /* Find an entry in the third-level page table.. */
- 
- extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
-diff --git a/arch/mips/include/asm/pgtable-32.h b/arch/mips/include/asm/pgtable-32.h
-index 9c0e7a5ffc75..a950fc1ddb4d 100644
---- a/arch/mips/include/asm/pgtable-32.h
-+++ b/arch/mips/include/asm/pgtable-32.h
-@@ -195,14 +195,6 @@ static inline pte_t pfn_pte(unsigned long pfn, pgprot_t prot)
- 
- #define pte_page(x)		pfn_to_page(pte_pfn(x))
- 
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
--#define pgd_index(address)	(((address) >> PGDIR_SHIFT) & (PTRS_PER_PGD-1))
--
--/* to find an entry in a page-table-directory */
--#define pgd_offset(mm, addr)	((mm)->pgd + pgd_index(addr))
--
- #if defined(CONFIG_CPU_R3K_TLB)
- 
- /* Swap entries must have VALID bit cleared. */
-diff --git a/arch/mips/include/asm/pgtable-64.h b/arch/mips/include/asm/pgtable-64.h
-index 38170fdac5bf..1e7d6ce9d8d6 100644
---- a/arch/mips/include/asm/pgtable-64.h
-+++ b/arch/mips/include/asm/pgtable-64.h
-@@ -313,14 +313,6 @@ static inline void pud_clear(pud_t *pudp)
- #define pfn_pmd(pfn, prot)	__pmd(((pfn) << _PFN_SHIFT) | pgprot_val(prot))
- #endif
- 
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
--#define pgd_index(address)	(((address) >> PGDIR_SHIFT) & (PTRS_PER_PGD-1))
--
--/* to find an entry in a page-table-directory */
--#define pgd_offset(mm, addr)	((mm)->pgd + pgd_index(addr))
--
- #ifndef __PAGETABLE_PMD_FOLDED
- static inline unsigned long pud_page_vaddr(pud_t pud)
- {
-diff --git a/arch/nds32/include/asm/pgtable.h b/arch/nds32/include/asm/pgtable.h
-index fc97480cbdd5..419f984eef70 100644
---- a/arch/nds32/include/asm/pgtable.h
-+++ b/arch/nds32/include/asm/pgtable.h
-@@ -340,12 +340,6 @@ static inline pmd_t __mk_pmd(pte_t * ptep, unsigned long prot)
-  *
- */
- 
--/* to find an entry in a page-table-directory */
--#define pgd_index(address)      (((address) >> PGDIR_SHIFT) & (PTRS_PER_PGD - 1))
--#define pgd_offset(mm, address)	((mm)->pgd + pgd_index(address))
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(addr)      pgd_offset(&init_mm, addr)
--
- static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
- {
- 	const unsigned long mask = 0xfff;
-diff --git a/arch/nios2/include/asm/pgtable.h b/arch/nios2/include/asm/pgtable.h
-index e93e17caf965..2600d76c310c 100644
---- a/arch/nios2/include/asm/pgtable.h
-+++ b/arch/nios2/include/asm/pgtable.h
-@@ -102,10 +102,6 @@ static inline void set_pmd(pmd_t *pmdptr, pmd_t pmdval)
- 	*pmdptr = pmdval;
- }
- 
--/* to find an entry in a page-table-directory */
--#define pgd_index(addr)		(((addr) >> PGDIR_SHIFT) & (PTRS_PER_PGD - 1))
--#define pgd_offset(mm, addr)	((mm)->pgd + pgd_index(addr))
--
- static inline int pte_write(pte_t pte)		\
- 	{ return pte_val(pte) & _PAGE_WRITE; }
- static inline int pte_dirty(pte_t pte)		\
-@@ -248,10 +244,6 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
- 	return pmd_val(pmd);
- }
- 
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(addr)	pgd_offset(&init_mm, addr)
--
--
- #define pte_ERROR(e) \
- 	pr_err("%s:%d: bad pte %08lx.\n", \
- 		__FILE__, __LINE__, pte_val(e))
-diff --git a/arch/openrisc/include/asm/pgtable.h b/arch/openrisc/include/asm/pgtable.h
-index 7de061304b6d..9425bedab4fc 100644
---- a/arch/openrisc/include/asm/pgtable.h
-+++ b/arch/openrisc/include/asm/pgtable.h
-@@ -369,16 +369,6 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
- 	return ((unsigned long) __va(pmd_val(pmd) & PAGE_MASK));
- }
- 
--/* to find an entry in a page-table-directory. */
--#define pgd_index(address)      ((address >> PGDIR_SHIFT) & (PTRS_PER_PGD-1))
--
--#define __pgd_offset(address)   pgd_index(address)
--
--#define pgd_offset(mm, address) ((mm)->pgd+pgd_index(address))
--
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
- #define __pmd_offset(address) \
- 	(((address) >> PMD_SHIFT) & (PTRS_PER_PMD-1))
- 
-diff --git a/arch/parisc/include/asm/pgtable.h b/arch/parisc/include/asm/pgtable.h
-index 76488809a111..097d19007f2e 100644
---- a/arch/parisc/include/asm/pgtable.h
-+++ b/arch/parisc/include/asm/pgtable.h
-@@ -437,15 +437,6 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
- #define __pmd_page(pmd) ((unsigned long) __va(pmd_address(pmd)))
- #define pmd_page(pmd)	virt_to_page((void *)__pmd_page(pmd))
- 
--#define pgd_index(address) ((address) >> PGDIR_SHIFT)
--
--/* to find an entry in a page-table-directory */
--#define pgd_offset(mm, address) \
--((mm)->pgd + ((address) >> PGDIR_SHIFT))
--
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
- /* Find an entry in the second-level page table.. */
- 
- extern void paging_init (void);
-diff --git a/arch/powerpc/include/asm/book3s/32/pgtable.h b/arch/powerpc/include/asm/book3s/32/pgtable.h
-index fc54227363b5..9756a6d657c5 100644
---- a/arch/powerpc/include/asm/book3s/32/pgtable.h
-+++ b/arch/powerpc/include/asm/book3s/32/pgtable.h
-@@ -354,13 +354,6 @@ static inline void __ptep_set_access_flags(struct vm_area_struct *vma,
- #define pmd_page(pmd)		\
- 	pfn_to_page(pmd_val(pmd) >> PAGE_SHIFT)
- 
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
--/* to find an entry in a page-table-directory */
--#define pgd_index(address)	 ((address) >> PGDIR_SHIFT)
--#define pgd_offset(mm, address)	 ((mm)->pgd + pgd_index(address))
--
- /*
-  * Encode and decode a swap entry.
-  * Note that the bits we use in a PTE for representing a swap entry
-diff --git a/arch/powerpc/include/asm/book3s/64/pgtable.h b/arch/powerpc/include/asm/book3s/64/pgtable.h
-index fffe28d52c02..27a884624304 100644
---- a/arch/powerpc/include/asm/book3s/64/pgtable.h
-+++ b/arch/powerpc/include/asm/book3s/64/pgtable.h
-@@ -1008,19 +1008,6 @@ extern struct page *p4d_page(p4d_t p4d);
- #define pud_page_vaddr(pud)	__va(pud_val(pud) & ~PUD_MASKED_BITS)
- #define p4d_page_vaddr(p4d)	__va(p4d_val(p4d) & ~P4D_MASKED_BITS)
- 
--#define pgd_index(address) (((address) >> (PGDIR_SHIFT)) & (PTRS_PER_PGD - 1))
--
--/*
-- * Find an entry in a page-table-directory.  We combine the address region
-- * (the high order N bits) and the pgd portion of the address.
-- */
--
--#define pgd_offset(mm, address)	 ((mm)->pgd + pgd_index(address))
--
--/* to find an entry in a kernel page-table-directory */
--/* This now only contains the vmalloc pages */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
- #define pte_ERROR(e) \
- 	pr_err("%s:%d: bad pte %08lx.\n", __FILE__, __LINE__, pte_val(e))
- #define pmd_ERROR(e) \
-diff --git a/arch/powerpc/include/asm/nohash/32/pgtable.h b/arch/powerpc/include/asm/nohash/32/pgtable.h
-index cc2ed08d6424..889feaec0a0e 100644
---- a/arch/powerpc/include/asm/nohash/32/pgtable.h
-+++ b/arch/powerpc/include/asm/nohash/32/pgtable.h
-@@ -358,13 +358,6 @@ static inline int pte_young(pte_t pte)
- 	pfn_to_page((__pa(pmd_val(pmd)) >> PAGE_SHIFT))
- #endif
- 
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
--/* to find an entry in a page-table-directory */
--#define pgd_index(address)	 ((address) >> PGDIR_SHIFT)
--#define pgd_offset(mm, address)	 ((mm)->pgd + pgd_index(address))
--
- /*
-  * Encode and decode a swap entry.
-  * Note that the bits we use in a PTE for representing a swap entry
-diff --git a/arch/powerpc/include/asm/nohash/64/pgtable.h b/arch/powerpc/include/asm/nohash/64/pgtable.h
-index 210e064ede54..9dd9df567efb 100644
---- a/arch/powerpc/include/asm/nohash/64/pgtable.h
-+++ b/arch/powerpc/include/asm/nohash/64/pgtable.h
-@@ -182,18 +182,6 @@ static inline void p4d_set(p4d_t *p4dp, unsigned long val)
- 	*p4dp = __p4d(val);
- }
- 
--/*
-- * Find an entry in a page-table-directory.  We combine the address region
-- * (the high order N bits) and the pgd portion of the address.
-- */
--#define pgd_index(address) (((address) >> (PGDIR_SHIFT)) & (PTRS_PER_PGD - 1))
--
--#define pgd_offset(mm, address)	 ((mm)->pgd + pgd_index(address))
--
--/* to find an entry in a kernel page-table-directory */
--/* This now only contains the vmalloc pages */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
- /* Atomic PTE updates */
- static inline unsigned long pte_update(struct mm_struct *mm,
- 				       unsigned long addr,
-diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index 8daa362419d8..04fb583769b4 100644
---- a/arch/riscv/include/asm/pgtable.h
-+++ b/arch/riscv/include/asm/pgtable.h
-@@ -173,16 +173,6 @@ static inline unsigned long _pgd_pfn(pgd_t pgd)
- 	return pgd_val(pgd) >> _PAGE_PFN_SHIFT;
- }
- 
--#define pgd_index(addr) (((addr) >> PGDIR_SHIFT) & (PTRS_PER_PGD - 1))
--
--/* Locate an entry in the page global directory */
--static inline pgd_t *pgd_offset(const struct mm_struct *mm, unsigned long addr)
--{
--	return mm->pgd + pgd_index(addr);
--}
--/* Locate an entry in the kernel page global directory */
--#define pgd_offset_k(addr)      pgd_offset(&init_mm, (addr))
--
- static inline struct page *pmd_page(pmd_t pmd)
- {
- 	return pfn_to_page(pmd_val(pmd) >> _PAGE_PFN_SHIFT);
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 1c8698ff1a94..078b629750c0 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -325,21 +325,21 @@ static void __init create_pgd_mapping(pgd_t *pgdp,
- {
- 	pgd_next_t *nextp;
- 	phys_addr_t next_phys;
--	uintptr_t pgd_index = pgd_index(va);
-+	uintptr_t pgd_idx = pgd_index(va);
- 
- 	if (sz == PGDIR_SIZE) {
--		if (pgd_val(pgdp[pgd_index]) == 0)
--			pgdp[pgd_index] = pfn_pgd(PFN_DOWN(pa), prot);
-+		if (pgd_val(pgdp[pgd_idx]) == 0)
-+			pgdp[pgd_idx] = pfn_pgd(PFN_DOWN(pa), prot);
- 		return;
- 	}
- 
--	if (pgd_val(pgdp[pgd_index]) == 0) {
-+	if (pgd_val(pgdp[pgd_idx]) == 0) {
- 		next_phys = alloc_pgd_next(va);
--		pgdp[pgd_index] = pfn_pgd(PFN_DOWN(next_phys), PAGE_TABLE);
-+		pgdp[pgd_idx] = pfn_pgd(PFN_DOWN(next_phys), PAGE_TABLE);
- 		nextp = get_pgd_next_virt(next_phys);
- 		memset(nextp, 0, PAGE_SIZE);
- 	} else {
--		next_phys = PFN_PHYS(_pgd_pfn(pgdp[pgd_index]));
-+		next_phys = PFN_PHYS(_pgd_pfn(pgdp[pgd_idx]));
- 		nextp = get_pgd_next_virt(next_phys);
- 	}
- 
-diff --git a/arch/s390/include/asm/pgtable.h b/arch/s390/include/asm/pgtable.h
-index e1eef67a0877..19d603bd1f36 100644
---- a/arch/s390/include/asm/pgtable.h
-+++ b/arch/s390/include/asm/pgtable.h
-@@ -1259,7 +1259,6 @@ static inline pgd_t *pgd_offset_raw(pgd_t *pgd, unsigned long address)
- }
- 
- #define pgd_offset(mm, address) pgd_offset_raw(READ_ONCE((mm)->pgd), address)
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
- 
- static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
- {
-diff --git a/arch/sh/include/asm/pgtable_32.h b/arch/sh/include/asm/pgtable_32.h
-index ccc032e89f75..41be43e99cff 100644
---- a/arch/sh/include/asm/pgtable_32.h
-+++ b/arch/sh/include/asm/pgtable_32.h
-@@ -408,13 +408,6 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
- 
- #define pmd_page(pmd)		(virt_to_page(pmd_val(pmd)))
- 
--/* to find an entry in a page-table-directory. */
--#define pgd_index(address)	(((address) >> PGDIR_SHIFT) & (PTRS_PER_PGD-1))
--#define pgd_offset(mm, address)	((mm)->pgd + pgd_index(address))
--
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address)	pgd_offset(&init_mm, address)
--
- #ifdef CONFIG_X2TLB
- #define pte_ERROR(e) \
- 	printk("%s:%d: bad pte %p(%08lx%08lx).\n", __FILE__, __LINE__, \
-diff --git a/arch/sh/include/asm/pgtable_64.h b/arch/sh/include/asm/pgtable_64.h
-index 60aef1191784..50335686f1e5 100644
---- a/arch/sh/include/asm/pgtable_64.h
-+++ b/arch/sh/include/asm/pgtable_64.h
-@@ -40,17 +40,6 @@ static __inline__ void set_pte(pte_t *pteptr, pte_t pteval)
- }
- #define set_pte_at(mm,addr,ptep,pteval) set_pte(ptep,pteval)
- 
--/*
-- * PGD defines. Top level.
-- */
--
--/* To find an entry in a generic PGD. */
--#define pgd_index(address) (((address) >> PGDIR_SHIFT) & (PTRS_PER_PGD-1))
--#define pgd_offset(mm, address) ((mm)->pgd+pgd_index(address))
--
--/* To find an entry in a kernel PGD. */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
- /*
-  * PMD level access routines. Same notes as above.
-  */
-diff --git a/arch/sparc/include/asm/pgtable_32.h b/arch/sparc/include/asm/pgtable_32.h
-index ae45812336ed..823099fb32d3 100644
---- a/arch/sparc/include/asm/pgtable_32.h
-+++ b/arch/sparc/include/asm/pgtable_32.h
-@@ -309,14 +309,6 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
- 		pgprot_val(newprot));
- }
- 
--#define pgd_index(address) ((address) >> PGDIR_SHIFT)
--
--/* to find an entry in a page-table-directory */
--#define pgd_offset(mm, address) ((mm)->pgd + pgd_index(address))
--
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
- struct seq_file;
- void mmu_info(struct seq_file *m);
- 
-diff --git a/arch/sparc/include/asm/pgtable_64.h b/arch/sparc/include/asm/pgtable_64.h
-index f546ea46d41b..7ef6affa105e 100644
---- a/arch/sparc/include/asm/pgtable_64.h
-+++ b/arch/sparc/include/asm/pgtable_64.h
-@@ -889,13 +889,6 @@ static inline unsigned long pud_pfn(pud_t pud)
- #define p4d_set(p4dp, pudp)	\
- 	(p4d_val(*(p4dp)) = (__pa((unsigned long) (pudp))))
- 
--/* to find an entry in a page-table-directory. */
--#define pgd_index(address)	(((address) >> PGDIR_SHIFT) & (PTRS_PER_PGD - 1))
--#define pgd_offset(mm, address)	((mm)->pgd + pgd_index(address))
--
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
- /* We cannot include <linux/mm_types.h> at this point yet: */
- extern struct mm_struct init_mm;
- 
-diff --git a/arch/um/include/asm/pgtable.h b/arch/um/include/asm/pgtable.h
-index ea2d3e6f46dd..def376194dce 100644
---- a/arch/um/include/asm/pgtable.h
-+++ b/arch/um/include/asm/pgtable.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--/* 
-+/*
-  * Copyright (C) 2000 - 2007 Jeff Dike (jdike@{addtoit,linux.intel}.com)
-  * Copyright 2003 PathScale, Inc.
-  * Derived from include/asm-i386/pgtable.h
-@@ -131,7 +131,7 @@ static inline int pte_none(pte_t pte)
-  * Undefined behaviour if not..
-  */
- static inline int pte_read(pte_t pte)
--{ 
-+{
- 	return((pte_get_bits(pte, _PAGE_USER)) &&
- 	       !(pte_get_bits(pte, _PAGE_PROTNONE)));
- }
-@@ -163,7 +163,7 @@ static inline int pte_newpage(pte_t pte)
- }
- 
- static inline int pte_newprot(pte_t pte)
--{ 
-+{
- 	return(pte_present(pte) && (pte_get_bits(pte, _PAGE_NEWPROT)));
- }
- 
-@@ -185,31 +185,31 @@ static inline pte_t pte_mkclean(pte_t pte)
- 	return(pte);
- }
- 
--static inline pte_t pte_mkold(pte_t pte)	
--{ 
-+static inline pte_t pte_mkold(pte_t pte)
-+{
- 	pte_clear_bits(pte, _PAGE_ACCESSED);
- 	return(pte);
- }
- 
- static inline pte_t pte_wrprotect(pte_t pte)
--{ 
-+{
- 	if (likely(pte_get_bits(pte, _PAGE_RW)))
- 		pte_clear_bits(pte, _PAGE_RW);
- 	else
- 		return pte;
--	return(pte_mknewprot(pte)); 
-+	return(pte_mknewprot(pte));
- }
- 
- static inline pte_t pte_mkread(pte_t pte)
--{ 
-+{
- 	if (unlikely(pte_get_bits(pte, _PAGE_USER)))
- 		return pte;
- 	pte_set_bits(pte, _PAGE_USER);
--	return(pte_mknewprot(pte)); 
-+	return(pte_mknewprot(pte));
- }
- 
- static inline pte_t pte_mkdirty(pte_t pte)
--{ 
-+{
- 	pte_set_bits(pte, _PAGE_DIRTY);
- 	return(pte);
- }
-@@ -220,20 +220,20 @@ static inline pte_t pte_mkyoung(pte_t pte)
- 	return(pte);
- }
- 
--static inline pte_t pte_mkwrite(pte_t pte)	
-+static inline pte_t pte_mkwrite(pte_t pte)
- {
- 	if (unlikely(pte_get_bits(pte,  _PAGE_RW)))
- 		return pte;
- 	pte_set_bits(pte, _PAGE_RW);
--	return(pte_mknewprot(pte)); 
-+	return(pte_mknewprot(pte));
- }
- 
--static inline pte_t pte_mkuptodate(pte_t pte)	
-+static inline pte_t pte_mkuptodate(pte_t pte)
- {
- 	pte_clear_bits(pte, _PAGE_NEWPAGE);
- 	if(pte_present(pte))
- 		pte_clear_bits(pte, _PAGE_NEWPROT);
--	return(pte); 
-+	return(pte);
- }
- 
- static inline pte_t pte_mknewpage(pte_t pte)
-@@ -288,29 +288,9 @@ static inline int pte_same(pte_t pte_a, pte_t pte_b)
- static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
- {
- 	pte_set_val(pte, (pte_val(pte) & _PAGE_CHG_MASK), newprot);
--	return pte; 
-+	return pte;
- }
- 
--/*
-- * the pgd page can be thought of an array like this: pgd_t[PTRS_PER_PGD]
-- *
-- * this macro returns the index of the entry in the pgd page which would
-- * control the given virtual address
-- */
--#define pgd_index(address) (((address) >> PGDIR_SHIFT) & (PTRS_PER_PGD-1))
--
--/*
-- * pgd_offset() returns a (pgd_t *)
-- * pgd_index() is used get the offset into the pgd page's array of pgd_t's;
-- */
--#define pgd_offset(mm, address) ((mm)->pgd+pgd_index(address))
--
--/*
-- * a shortcut which implies the use of the kernel's pgd, instead
-- * of a process's
-- */
--#define pgd_offset_k(address) pgd_offset(&init_mm, address)
--
- /*
-  * the pmd page can be thought of an array like this: pmd_t[PTRS_PER_PMD]
-  *
-diff --git a/arch/unicore32/include/asm/pgtable.h b/arch/unicore32/include/asm/pgtable.h
-index a2b264cc8c68..97f564c8ecba 100644
---- a/arch/unicore32/include/asm/pgtable.h
-+++ b/arch/unicore32/include/asm/pgtable.h
-@@ -215,14 +215,6 @@ PTE_BIT_FUNC(mkyoung,   |= PTE_YOUNG);
-  */
- #define mk_pte(page, prot)	pfn_pte(page_to_pfn(page), prot)
- 
--/* to find an entry in a page-table-directory */
--#define pgd_index(addr)		((addr) >> PGDIR_SHIFT)
--
--#define pgd_offset(mm, addr)	((mm)->pgd+pgd_index(addr))
--
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(addr)	pgd_offset(&init_mm, addr)
--
- static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
- {
- 	const unsigned long mask = PTE_EXEC | PTE_WRITE | PTE_READ;
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index 97efdc62e740..a2692cf1c8c3 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -989,30 +989,6 @@ static inline int pgd_none(pgd_t pgd)
- 
- #endif	/* __ASSEMBLY__ */
- 
--/*
-- * the pgd page can be thought of an array like this: pgd_t[PTRS_PER_PGD]
-- *
-- * this macro returns the index of the entry in the pgd page which would
-- * control the given virtual address
-- */
--#define pgd_index(address) (((address) >> PGDIR_SHIFT) & (PTRS_PER_PGD - 1))
--
--/*
-- * pgd_offset() returns a (pgd_t *)
-- * pgd_index() is used get the offset into the pgd page's array of pgd_t's;
-- */
--#define pgd_offset_pgd(pgd, address) (pgd + pgd_index((address)))
--/*
-- * a shortcut to get a pgd_t in a given mm
-- */
--#define pgd_offset(mm, address) pgd_offset_pgd((mm)->pgd, (address))
--/*
-- * a shortcut which implies the use of the kernel's pgd, instead
-- * of a process's
-- */
--#define pgd_offset_k(address) pgd_offset(&init_mm, (address))
--
--
- #define KERNEL_PGD_BOUNDARY	pgd_index(PAGE_OFFSET)
- #define KERNEL_PGD_PTRS		(PTRS_PER_PGD - KERNEL_PGD_BOUNDARY)
- 
-diff --git a/arch/xtensa/include/asm/pgtable.h b/arch/xtensa/include/asm/pgtable.h
-index d08b7be6649e..fa054a1772e1 100644
---- a/arch/xtensa/include/asm/pgtable.h
-+++ b/arch/xtensa/include/asm/pgtable.h
-@@ -359,14 +359,6 @@ ptep_set_wrprotect(struct mm_struct *mm, unsigned long addr, pte_t *ptep)
- 	update_pte(ptep, pte_wrprotect(pte));
- }
- 
--/* to find an entry in a kernel page-table-directory */
--#define pgd_offset_k(address)	pgd_offset(&init_mm, address)
--
--/* to find an entry in a page-table-directory */
--#define pgd_offset(mm,address)	((mm)->pgd + pgd_index(address))
--
--#define pgd_index(address)	((address) >> PGDIR_SHIFT)
--
- /*
-  * Encode and decode a swap and file entry.
-  */
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 09b86ce20a65..b8da67ac4075 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -61,6 +61,14 @@ static inline unsigned long pud_index(unsigned long address)
- #define pud_index pud_index
- #endif
- 
-+#ifndef pgd_index
-+static inline unsigned long pgd_index(unsigned long address)
-+{
-+	return ((address >> PGDIR_SHIFT) & (PTRS_PER_PGD - 1));
-+}
-+#define pgd_index pgd_index
-+#endif
-+
- #ifndef pte_offset_kernel
- static inline pte_t *pte_offset_kernel(pmd_t *pmd, unsigned long address)
- {
-@@ -96,6 +104,24 @@ static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
- #define pud_offset pud_offset
- #endif
- 
-+static inline pgd_t *pgd_offset_pgd(pgd_t *pgd, unsigned long address)
-+{
-+	return (pgd + pgd_index(address));
-+};
-+
-+/*
-+ * a shortcut to get a pgd_t in a given mm
-+ */
-+#ifndef pgd_offset
-+#define pgd_offset(mm, address)		pgd_offset_pgd((mm)->pgd, (address))
-+#endif
-+
-+/*
-+ * a shortcut which implies the use of the kernel's pgd, instead
-+ * of a process's
-+ */
-+#define pgd_offset_k(address)		pgd_offset(&init_mm, (address))
-+
- /*
-  * In many cases it is known that a virtual address is mapped at PMD or PTE
-  * level, so instead of traversing all the page table levels, we can get a
--- 
-2.26.2
-
+> 
+>>
+>> This still needs a couple of inflight 64-time, offset patches.
+>>
+>> git@github.com:foss-for-synopsys-dwc-arc-processors/glibc.git  upstream-v6
+>>
+>> v6:
+>>    * Dropped 11/14: merged upstream
+>>    * _FPU_SETS() inline asm reworked
+>>    * Introduce fixup-asm-unistd.h to elide 32-bit time, offset syscalls and
+>>      regenerate arch-syscall.h
+>>    * Fix snafu in updating build-many-glibcs for ARC
+>>    * More code sytle fixes flagged by Joseph
+>> v5:
+>>    * Big Endian formally supported as multi-ABI
+>>    * Removed code for ARC700 processors
+>>    * Hard-float code updates: fegetmode, fesetround, feupdateenv
+>>    * socket-constant.h update for 64-bit ABI spun off as standalone patch
+>>    * __syscall_error made glibc_private
+>>    * math ulps regen
+>>    * gmp-mparam.h removed
+>>    * lint fixes as flagged by Joseph
+>> v4:
+>>    * Dropped 1/17: Merged upstream
+>>    * Dropped 17/17:
+>>        - 64-bit time/offset code chunked up into respective patches
+>>    * sysctl removed
+>>    * Updated README for arc gnu triplet
+>>    * Updated install files for ARC gcc/binutils requirements
+>>    * Updated NEWS with brief ISA/ABI info
+>>
+>> v3:
+>>    * Support for Hardware Floating Point
+>>    * 64-bit time and offsets ABI (although all such changes are confined
+>>      to a single patch)
+>>
+>> v5: https://sourceware.org/pipermail/libc-alpha/2020-April/112657.html
+>> v4: https://sourceware.org/pipermail/libc-alpha/2020-March/111855.html
+>> v3: https://sourceware.org/legacy-ml/libc-alpha/2020-03/msg00167.html
+>> v2: https://sourceware.org/legacy-ml/libc-alpha/2019-01/msg00681.html
+>> v1: https://sourceware.org/legacy-ml/libc-alpha/2018-12/msg00678.html
+>>
+>> Documentation:
+>> --------------
+>>
+>> (a) ABI doc:
+>> https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/wiki/files/ARCv2_ABI.pdf
+>>
+>> (b) Programmer's Reference Manual (PRM) : needs a download request to be filled
+>> https://www.synopsys.com/dw/ipdir.php?ds=arc-hs44-hs46-hs48
+>> https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manual-ARC-HS.pdf
+>>
+>> Test Results:
+>> --------------
+>> (a) build-many-glibcs.py
+>>
+>> | Summary of test results:
+>> |   1251 PASS
+>> |     15 XFAIL
+>>
+>>
+>> (b) Full testsuite ran in a cross compile setup using buildroot on HSDK development
+>>     platform. Bulk of failures come from cross testing setup and I
+>>     intend to improve things with native testing going forward.
+>>
+>> | Summary of test results:
+>> |     30 FAIL   (-3)
+>> |
+>> | FAIL: csu/test-as-const-tcb-offsets
+>> + FAIL: elf/tst-audit14
+>> + FAIL: elf/tst-audit15
+>> + FAIL: elf/tst-audit16
+>> | FAIL: elf/tst-ldconfig-ld_so_conf-update # not true: dlopen
+>> | FAIL: iconv/test-iconvconfig		# Needs gconv installed
+>> - FAIL: iconv/tst-gconv-init-failure
+>> | FAIL: io/ftwtest			# Requires execution by non-root
+>> - FAIL: io/tst-futimesat
+>> | FAIL: io/tst-lockf
+>> | FAIL: libio/tst-wfile-sync
+>> | FAIL: locale/tst-C-locale
+>> | FAIL: locale/tst-duplocale
+>> | FAIL: locale/tst-locale-locpath
+>> | FAIL: locale/tst-locname
+>> | FAIL: localedata/sort-test
+>> | FAIL: nptl/test-cond-printers		# needs Python3 and target GDB on target
+>> | FAIL: nptl/test-condattr-printers	#    ditto
+>> | FAIL: nptl/test-mutex-printers	#    ditto
+>> | FAIL: nptl/test-mutexattr-printers	#    ditto
+>> | FAIL: nptl/test-rwlock-printers	#    ditto
+>> | FAIL: nptl/test-rwlockattr-printers	#    ditto
+>> | FAIL: nptl/tst-umask1			# passes if run natively on target (NFS ACLv3 support needed)
+>> | FAIL: nss/bug-erange
+>> | FAIL: nss/tst-nss-files-hosts-getent	# Timed out
+>> | FAIL: nss/tst-nss-files-hosts-multi	# Timed out
+>> | FAIL: posix/bug-ga2			# DNS issue: google DNS vs. SNPS
+>> | FAIL: posix/globtest			# require same user on target and host
+>> | FAIL: posix/tst-getaddrinfo5		# passes outside corporate network
+>> - FAIL: resolv/tst-resolv-basic
+>> - FAIL: resolv/tst-resolv-edns
+>> - FAIL: resolv/tst-resolv-rotate
+>> - FAIL: resolv/tst-resolv-search
+>> | FAIL: stdio-common/bug22		# Needs more RAM: 2 GB memory
+>> | FAIL: sunrpc/bug20790			# missing cpp on target
+>> | FAIL: timezone/tst-tzset		# passes outside corporate network
+>>
+>>
+>> kindly review.
+>>
+>> Thx,
+>> -Vineet
+>>
+>> Vineet Gupta (13):
+>>   ARC: ABI Implementation
+>>   ARC: startup and dynamic linking code
+>>   ARC: Thread Local Storage support
+>>   ARC: Atomics and Locking primitives
+>>   ARC: math soft float support
+>>   ARC: hardware floating point support
+>>   ARC: Linux Syscall Interface
+>>   ARC: Linux ABI
+>>   ARC: Linux Startup and Dynamic Loading
+>>   ARC: ABI lists
+>>   ARC: Build Infrastructure
+>>   build-many-glibcs.py: Enable ARC builds
+>>   Documentation for ARC port
+>>
+>>  NEWS                                          |    9 +
+>>  README                                        |    1 +
+>>  config.h.in                                   |    3 +
+>>  manual/install.texi                           |    4 +
+>>  scripts/build-many-glibcs.py                  |   10 +
+>>  sysdeps/arc/Implies                           |    3 +
+>>  sysdeps/arc/Makefile                          |   21 +
+>>  sysdeps/arc/Versions                          |    8 +
+>>  sysdeps/arc/__longjmp.S                       |   50 +
+>>  sysdeps/arc/abort-instr.h                     |    2 +
+>>  sysdeps/arc/atomic-machine.h                  |   69 +
+>>  sysdeps/arc/bits/endianness.h                 |   15 +
+>>  sysdeps/arc/bits/fenv.h                       |   77 +
+>>  sysdeps/arc/bits/link.h                       |   52 +
+>>  sysdeps/arc/bits/setjmp.h                     |   26 +
+>>  sysdeps/arc/bsd-_setjmp.S                     |    1 +
+>>  sysdeps/arc/bsd-setjmp.S                      |    1 +
+>>  sysdeps/arc/configure                         |  182 ++
+>>  sysdeps/arc/configure.ac                      |   26 +
+>>  sysdeps/arc/dl-machine.h                      |  340 +++
+>>  sysdeps/arc/dl-runtime.c                      |   33 +
+>>  sysdeps/arc/dl-sysdep.h                       |   25 +
+>>  sysdeps/arc/dl-tls.h                          |   30 +
+>>  sysdeps/arc/dl-trampoline.S                   |   80 +
+>>  sysdeps/arc/entry.h                           |    5 +
+>>  sysdeps/arc/fpu/e_sqrt.c                      |   27 +
+>>  sysdeps/arc/fpu/e_sqrtf.c                     |   27 +
+>>  sysdeps/arc/fpu/fclrexcpt.c                   |   36 +
+>>  sysdeps/arc/fpu/fegetenv.c                    |   37 +
+>>  sysdeps/arc/fpu/fegetmode.c                   |   31 +
+>>  sysdeps/arc/fpu/fegetround.c                  |   32 +
+>>  sysdeps/arc/fpu/feholdexcpt.c                 |   43 +
+>>  sysdeps/arc/fpu/fesetenv.c                    |   48 +
+>>  sysdeps/arc/fpu/fesetexcept.c                 |   32 +
+>>  sysdeps/arc/fpu/fesetmode.c                   |   40 +
+>>  sysdeps/arc/fpu/fesetround.c                  |   40 +
+>>  sysdeps/arc/fpu/feupdateenv.c                 |   51 +
+>>  sysdeps/arc/fpu/fgetexcptflg.c                |   31 +
+>>  sysdeps/arc/fpu/fraiseexcpt.c                 |   39 +
+>>  sysdeps/arc/fpu/fsetexcptflg.c                |   38 +
+>>  sysdeps/arc/fpu/ftestexcept.c                 |   33 +
+>>  sysdeps/arc/fpu/libm-test-ulps                | 1140 +++++++++
+>>  sysdeps/arc/fpu/libm-test-ulps-name           |    1 +
+>>  sysdeps/arc/fpu/s_fma.c                       |   28 +
+>>  sysdeps/arc/fpu/s_fmaf.c                      |   28 +
+>>  sysdeps/arc/fpu_control.h                     |  106 +
+>>  sysdeps/arc/gccframe.h                        |   21 +
+>>  sysdeps/arc/get-rounding-mode.h               |   38 +
+>>  sysdeps/arc/jmpbuf-offsets.h                  |   47 +
+>>  sysdeps/arc/jmpbuf-unwind.h                   |   47 +
+>>  sysdeps/arc/ldsodefs.h                        |   43 +
+>>  sysdeps/arc/libc-tls.c                        |   27 +
+>>  sysdeps/arc/machine-gmon.h                    |   35 +
+>>  sysdeps/arc/math-tests-trap.h                 |   27 +
+>>  sysdeps/arc/memusage.h                        |   23 +
+>>  sysdeps/arc/nofpu/Implies                     |    1 +
+>>  sysdeps/arc/nofpu/libm-test-ulps              |  270 +++
+>>  sysdeps/arc/nofpu/libm-test-ulps-name         |    1 +
+>>  sysdeps/arc/nofpu/math-tests-exceptions.h     |   27 +
+>>  sysdeps/arc/nofpu/math-tests-rounding.h       |   27 +
+>>  sysdeps/arc/nptl/Makefile                     |   22 +
+>>  sysdeps/arc/nptl/bits/semaphore.h             |   32 +
+>>  sysdeps/arc/nptl/pthreaddef.h                 |   32 +
+>>  sysdeps/arc/nptl/tcb-offsets.sym              |   11 +
+>>  sysdeps/arc/nptl/tls.h                        |  150 ++
+>>  sysdeps/arc/preconfigure                      |   14 +
+>>  sysdeps/arc/setjmp.S                          |   66 +
+>>  sysdeps/arc/sfp-machine.h                     |   73 +
+>>  sysdeps/arc/sotruss-lib.c                     |   51 +
+>>  sysdeps/arc/stackinfo.h                       |   33 +
+>>  sysdeps/arc/start.S                           |   74 +
+>>  sysdeps/arc/sysdep.h                          |   48 +
+>>  sysdeps/arc/tininess.h                        |    1 +
+>>  sysdeps/arc/tls-macros.h                      |   47 +
+>>  sysdeps/arc/tst-audit.h                       |   23 +
+>>  sysdeps/unix/sysv/linux/arc/Implies           |    3 +
+>>  sysdeps/unix/sysv/linux/arc/Makefile          |   29 +
+>>  sysdeps/unix/sysv/linux/arc/Versions          |   16 +
+>>  sysdeps/unix/sysv/linux/arc/arch-syscall.h    |  303 +++
+>>  sysdeps/unix/sysv/linux/arc/bits/procfs.h     |   35 +
+>>  sysdeps/unix/sysv/linux/arc/bits/timesize.h   |   21 +
+>>  .../sysv/linux/arc/bits/types/__sigset_t.h    |   12 +
+>>  sysdeps/unix/sysv/linux/arc/c++-types.data    |   67 +
+>>  sysdeps/unix/sysv/linux/arc/clone.S           |   98 +
+>>  sysdeps/unix/sysv/linux/arc/configure         |    4 +
+>>  sysdeps/unix/sysv/linux/arc/configure.ac      |    4 +
+>>  sysdeps/unix/sysv/linux/arc/dl-static.c       |   84 +
+>>  .../unix/sysv/linux/arc/fixup-asm-unistd.h    |   41 +
+>>  sysdeps/unix/sysv/linux/arc/getcontext.S      |   63 +
+>>  sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h  |    6 +
+>>  sysdeps/unix/sysv/linux/arc/kernel-features.h |   28 +
+>>  sysdeps/unix/sysv/linux/arc/kernel_stat.h     |   26 +
+>>  sysdeps/unix/sysv/linux/arc/ld.abilist        |    5 +
+>>  sysdeps/unix/sysv/linux/arc/ldconfig.h        |   27 +
+>>  sysdeps/unix/sysv/linux/arc/ldsodefs.h        |   32 +
+>>  .../sysv/linux/arc/libBrokenLocale.abilist    |    1 +
+>>  sysdeps/unix/sysv/linux/arc/libanl.abilist    |    4 +
+>>  sysdeps/unix/sysv/linux/arc/libc.abilist      | 2082 +++++++++++++++++
+>>  sysdeps/unix/sysv/linux/arc/libcrypt.abilist  |    2 +
+>>  sysdeps/unix/sysv/linux/arc/libdl.abilist     |    9 +
+>>  sysdeps/unix/sysv/linux/arc/libm.abilist      |  699 ++++++
+>>  .../unix/sysv/linux/arc/libpthread.abilist    |  216 ++
+>>  sysdeps/unix/sysv/linux/arc/libresolv.abilist |   79 +
+>>  sysdeps/unix/sysv/linux/arc/librt.abilist     |   35 +
+>>  .../unix/sysv/linux/arc/libthread_db.abilist  |   40 +
+>>  sysdeps/unix/sysv/linux/arc/libutil.abilist   |    6 +
+>>  sysdeps/unix/sysv/linux/arc/localplt.data     |   12 +
+>>  sysdeps/unix/sysv/linux/arc/makecontext.c     |   73 +
+>>  sysdeps/unix/sysv/linux/arc/mmap_internal.h   |   27 +
+>>  sysdeps/unix/sysv/linux/arc/pt-vfork.S        |    1 +
+>>  sysdeps/unix/sysv/linux/arc/setcontext.S      |   92 +
+>>  sysdeps/unix/sysv/linux/arc/shlib-versions    |    7 +
+>>  sysdeps/unix/sysv/linux/arc/sigaction.c       |   31 +
+>>  sysdeps/unix/sysv/linux/arc/sigcontextinfo.h  |   28 +
+>>  sysdeps/unix/sysv/linux/arc/sigrestorer.S     |   29 +
+>>  sysdeps/unix/sysv/linux/arc/swapcontext.S     |   92 +
+>>  sysdeps/unix/sysv/linux/arc/sys/cachectl.h    |   36 +
+>>  sysdeps/unix/sysv/linux/arc/sys/ucontext.h    |   61 +
+>>  sysdeps/unix/sysv/linux/arc/sys/user.h        |   31 +
+>>  sysdeps/unix/sysv/linux/arc/syscall.S         |   33 +
+>>  sysdeps/unix/sysv/linux/arc/syscalls.list     |    3 +
+>>  sysdeps/unix/sysv/linux/arc/sysctl.mk         |    1 +
+>>  sysdeps/unix/sysv/linux/arc/sysdep.c          |   33 +
+>>  sysdeps/unix/sysv/linux/arc/sysdep.h          |  224 ++
+>>  sysdeps/unix/sysv/linux/arc/ucontext-macros.h |   29 +
+>>  sysdeps/unix/sysv/linux/arc/ucontext_i.sym    |   20 +
+>>  sysdeps/unix/sysv/linux/arc/vfork.S           |   42 +
+>>  127 files changed, 9254 insertions(+)
+>>  create mode 100644 sysdeps/arc/Implies
+>>  create mode 100644 sysdeps/arc/Makefile
+>>  create mode 100644 sysdeps/arc/Versions
+>>  create mode 100644 sysdeps/arc/__longjmp.S
+>>  create mode 100644 sysdeps/arc/abort-instr.h
+>>  create mode 100644 sysdeps/arc/atomic-machine.h
+>>  create mode 100644 sysdeps/arc/bits/endianness.h
+>>  create mode 100644 sysdeps/arc/bits/fenv.h
+>>  create mode 100644 sysdeps/arc/bits/link.h
+>>  create mode 100644 sysdeps/arc/bits/setjmp.h
+>>  create mode 100644 sysdeps/arc/bsd-_setjmp.S
+>>  create mode 100644 sysdeps/arc/bsd-setjmp.S
+>>  create mode 100644 sysdeps/arc/configure
+>>  create mode 100644 sysdeps/arc/configure.ac
+>>  create mode 100644 sysdeps/arc/dl-machine.h
+>>  create mode 100644 sysdeps/arc/dl-runtime.c
+>>  create mode 100644 sysdeps/arc/dl-sysdep.h
+>>  create mode 100644 sysdeps/arc/dl-tls.h
+>>  create mode 100644 sysdeps/arc/dl-trampoline.S
+>>  create mode 100644 sysdeps/arc/entry.h
+>>  create mode 100644 sysdeps/arc/fpu/e_sqrt.c
+>>  create mode 100644 sysdeps/arc/fpu/e_sqrtf.c
+>>  create mode 100644 sysdeps/arc/fpu/fclrexcpt.c
+>>  create mode 100644 sysdeps/arc/fpu/fegetenv.c
+>>  create mode 100644 sysdeps/arc/fpu/fegetmode.c
+>>  create mode 100644 sysdeps/arc/fpu/fegetround.c
+>>  create mode 100644 sysdeps/arc/fpu/feholdexcpt.c
+>>  create mode 100644 sysdeps/arc/fpu/fesetenv.c
+>>  create mode 100644 sysdeps/arc/fpu/fesetexcept.c
+>>  create mode 100644 sysdeps/arc/fpu/fesetmode.c
+>>  create mode 100644 sysdeps/arc/fpu/fesetround.c
+>>  create mode 100644 sysdeps/arc/fpu/feupdateenv.c
+>>  create mode 100644 sysdeps/arc/fpu/fgetexcptflg.c
+>>  create mode 100644 sysdeps/arc/fpu/fraiseexcpt.c
+>>  create mode 100644 sysdeps/arc/fpu/fsetexcptflg.c
+>>  create mode 100644 sysdeps/arc/fpu/ftestexcept.c
+>>  create mode 100644 sysdeps/arc/fpu/libm-test-ulps
+>>  create mode 100644 sysdeps/arc/fpu/libm-test-ulps-name
+>>  create mode 100644 sysdeps/arc/fpu/s_fma.c
+>>  create mode 100644 sysdeps/arc/fpu/s_fmaf.c
+>>  create mode 100644 sysdeps/arc/fpu_control.h
+>>  create mode 100644 sysdeps/arc/gccframe.h
+>>  create mode 100644 sysdeps/arc/get-rounding-mode.h
+>>  create mode 100644 sysdeps/arc/jmpbuf-offsets.h
+>>  create mode 100644 sysdeps/arc/jmpbuf-unwind.h
+>>  create mode 100644 sysdeps/arc/ldsodefs.h
+>>  create mode 100644 sysdeps/arc/libc-tls.c
+>>  create mode 100644 sysdeps/arc/machine-gmon.h
+>>  create mode 100644 sysdeps/arc/math-tests-trap.h
+>>  create mode 100644 sysdeps/arc/memusage.h
+>>  create mode 100644 sysdeps/arc/nofpu/Implies
+>>  create mode 100644 sysdeps/arc/nofpu/libm-test-ulps
+>>  create mode 100644 sysdeps/arc/nofpu/libm-test-ulps-name
+>>  create mode 100644 sysdeps/arc/nofpu/math-tests-exceptions.h
+>>  create mode 100644 sysdeps/arc/nofpu/math-tests-rounding.h
+>>  create mode 100644 sysdeps/arc/nptl/Makefile
+>>  create mode 100644 sysdeps/arc/nptl/bits/semaphore.h
+>>  create mode 100644 sysdeps/arc/nptl/pthreaddef.h
+>>  create mode 100644 sysdeps/arc/nptl/tcb-offsets.sym
+>>  create mode 100644 sysdeps/arc/nptl/tls.h
+>>  create mode 100644 sysdeps/arc/preconfigure
+>>  create mode 100644 sysdeps/arc/setjmp.S
+>>  create mode 100644 sysdeps/arc/sfp-machine.h
+>>  create mode 100644 sysdeps/arc/sotruss-lib.c
+>>  create mode 100644 sysdeps/arc/stackinfo.h
+>>  create mode 100644 sysdeps/arc/start.S
+>>  create mode 100644 sysdeps/arc/sysdep.h
+>>  create mode 100644 sysdeps/arc/tininess.h
+>>  create mode 100644 sysdeps/arc/tls-macros.h
+>>  create mode 100644 sysdeps/arc/tst-audit.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/Implies
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/Makefile
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/Versions
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/arch-syscall.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/bits/procfs.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/bits/timesize.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/bits/types/__sigset_t.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/c++-types.data
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/clone.S
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/configure
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/configure.ac
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/dl-static.c
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/fixup-asm-unistd.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/getcontext.S
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/kernel-features.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/kernel_stat.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/ld.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/ldconfig.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/ldsodefs.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/libBrokenLocale.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/libanl.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/libc.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/libcrypt.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/libdl.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/libm.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/libpthread.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/libresolv.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/librt.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/libthread_db.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/libutil.abilist
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/localplt.data
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/makecontext.c
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/mmap_internal.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/pt-vfork.S
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/setcontext.S
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/shlib-versions
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/sigaction.c
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/sigcontextinfo.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/sigrestorer.S
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/swapcontext.S
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/sys/cachectl.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/sys/ucontext.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/sys/user.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/syscall.S
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/syscalls.list
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/sysctl.mk
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/sysdep.c
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/sysdep.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/ucontext-macros.h
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/ucontext_i.sym
+>>  create mode 100644 sysdeps/unix/sysv/linux/arc/vfork.S
+>>
 
 _______________________________________________
 linux-snps-arc mailing list
