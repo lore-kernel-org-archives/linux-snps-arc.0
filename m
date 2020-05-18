@@ -2,22 +2,21 @@ Return-Path: <SRS0=uiT2=7A=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9CF0C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 May 2020 04:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BEE0C433DF
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 May 2020 16:11:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 71BED20787
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 May 2020 04:29:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 025E020674
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 May 2020 16:11:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AvdK+LRt";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LimDPPmi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71BED20787
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NYuFKCHL";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GET0otAd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 025E020674
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,55 +25,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=NzkkR+34spf5zlG3kUM2JW712+pe1bgGPOEhXwtw0Cg=; b=AvdK+LRtwRd+5i
-	NmlK+PXZSut1b/02EC8ZJzKxOf0qadKSwaLFeCkrrCU4z65/JH69o8gQiqF++8xLhxj00ORYQ4Cjj
-	6yGAtTH2iBgSmKD7Z9qKWo2j69yVfogD/nZt1FU3nZ7DwvsiQzJbN21vkyoXCKNcYO4EeWPqakDjl
-	0REsjXCODmpd/G0wr4eQ7xvHk0//41j80J7mw1fwKTMq3uIkSDXQxbeNIRTXoUQvwPjQvr808rM3J
-	28aIb5kuovTCl4x7rEi/+/eK9CQsYQVlBGSwJPJf/kpRAUOyGLGZfNWvdNuWrnEn4pRVYg/16WhES
-	887TRLKxrfyL8GnOnIyA==;
+	List-Owner; bh=QJ74ZjR97dv6qTzgEiZvRE334Tz4lVrD7E05PW8hpeI=; b=NYuFKCHLSIr1Ob
+	rKCXCzUZJgvZwp9jy85FMpXnNsqyuh0C8n/RRqx4f8yfCW+NPyNQdsfk9Qi+Dd0k/pT+2u41E7yDf
+	Mfh8SAxkGlQKjkgGeJXKoCRwHX6p/az+A84JPIlvaphjZrUTJtZ/Twq5IPRlTGFLi8jesVox+7peM
+	IVl4CBFaBIb2ou9nH0Vff1ZS9aqaVW2qgJ8TflC35jC9lcPhUfUqLhP6eL9myWp5GnBYTASe8/T0K
+	QLvlazFVZlJy4klLqO7Y9+JMEshv8JgFgpp9SjpQNP4dAOGMdJPOe61P/1oY27ibDZoxZVrgnhd4x
+	NwxQbr+VzBM9MkyiPSmg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jaXPG-00075B-5z; Mon, 18 May 2020 04:29:38 +0000
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
+	id 1jaiMk-0003Qx-8u; Mon, 18 May 2020 16:11:46 +0000
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jaXPD-00074C-7R; Mon, 18 May 2020 04:29:36 +0000
-Received: by mail-pg1-x542.google.com with SMTP id b8so4223802pgi.11;
- Sun, 17 May 2020 21:29:34 -0700 (PDT)
+ id 1jaiMY-00037w-OA; Mon, 18 May 2020 16:11:36 +0000
+Received: by mail-pl1-x641.google.com with SMTP id b12so4397736plz.13;
+ Mon, 18 May 2020 09:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=7bbx1vjAcGJU7o+yFip4EyC/ilyC7OBp4VPSqw3/c2c=;
- b=LimDPPmibz9vtWmb0MKZHn8c9RdWix1P/AFk6SDLaoXlBVdMlC7Hfce2We+MkFAz4E
- R/2Wy61j9gG0ixy9mMyHuhS77QZ+W2IqUs+cNkzrG6dQaDcMMpIgqWZr6ft8gTO/HSMB
- oF3oavsgnI2fjkM2QAjIyKAHhhOTcnWFH16xKUZkqjczHwsm/iprxuSgfWtVik27j84r
- 5n8U7fFfETauYry76p+6vX2RXQib8sKv+lhcWS2IP1EZ6KlTna+BQg/FRhPkbiW1PxTM
- QM0E7X94qZuWMPHXEPUx2ysbg6/oZL89r6bgB9KXLUanLbbSlSBCGfqIrn7x7qAQncoA
- /GCQ==
+ bh=PZweTdyCTeKAMxoHO6mO1oUT3tSSWyHLqvLyIKGeBVY=;
+ b=GET0otAdKNcL69ksN3IiyWVrfDMA5oTmg2ORXQXg1dxMLmeJHGcqKUPueDZ892Waqk
+ LiahGzxVvAOb6eviKgbVMqpqH2xTB2Jmjekr265F2YTq8WGVTbTdHDJqMl0wXrOFGznR
+ /ndT2roEGwCQ/iQPRVIOevzp+C4dHL7DUiGmL/Du2l5bOwMSnizD6OXLURl/+Bmh0CrV
+ cSMqAO24vnPf3FXPRoGy9nntgG7zwj7eHXcOGf/gUHHXIQkUmuqSD2TACIHoLCzpICsI
+ E//FSD44Fk7xhaRAKeOGCz7JAFGzEWqiq8lgebRBy1KrqTyGOmYukDswhUiC3e2tvmjo
+ Hr2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
  :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=7bbx1vjAcGJU7o+yFip4EyC/ilyC7OBp4VPSqw3/c2c=;
- b=M4My+a+kuv/J8grEz4VDRybdC5WjM+3TUK3vMZUFHMwt/GIqy2YaKGBCAcAOG0vkth
- 3fiwFqEMlbwVKnYWUdsikgxb6oLipAXs+aHXICvwI6Usm9TwUvdPjAG0UVAlIpwZGOve
- 7BjxCvNzxufgikc5CHUDvvxP6vBQfJnZtj6FReNoRkIjuZkUQtm5HzlU86ZqRpS8v93M
- hPS8t8ngRyC4iLKWditKDUiLFscx3nbRXDxD5LFweY3Z4uAaciL37Zf5fFhs/cC7HX0E
- R1K8wQHE11sIdpmRQVLNqT/KkG8Ck2GGtah6suVmoMVdS0+Fr3OJnfwO6EbZ80I53plh
- M8HA==
-X-Gm-Message-State: AOAM531kX+8BTracYrLG8ayupCwIWinbyaXxZw5sAwlRbLDAezJVTaZ1
- 8AmXpSPg9iL7P0iQy/c/2hM=
-X-Google-Smtp-Source: ABdhPJxbJqkFB3G+mfP7Q58PJuzXycNotbRv9vDLFxrEQ/xV/2+VRINR3zhBhOzJGROFI8CL8Y8+Lg==
-X-Received: by 2002:aa7:9a96:: with SMTP id w22mr15841791pfi.199.1589776174113; 
- Sun, 17 May 2020 21:29:34 -0700 (PDT)
+ bh=PZweTdyCTeKAMxoHO6mO1oUT3tSSWyHLqvLyIKGeBVY=;
+ b=Rz8CpyNAa9anY4VikrZhNWgkHYYPna8cEeVcNsl5eZVrbetz05VXnhQOZHvXu/+D32
+ Inj/xqp/oi0Apacbdj9sZfq2Z1JxM3/MHNpD2rlj1abf76NoKZHdMg8DvBnode44dSPY
+ JIxPXVGNIhZLyhafcUQB7HrEQUNL2BgHh3BeoBUVhBakZNwY0H8GrHAXTtwOn9K96Bo4
+ bI3uKKmB5kTsS7qz8j9s/hIp16r+Q+ce8ZN7WQcWFeaC0y+89dcIYeeu+CUk/103R1qQ
+ AopT0D/kdUYRETbK5+AdDk48iKqgmzT1bckCaxhoyO3aN9OURFJeXZS1qG/aeGZnpusH
+ sv4g==
+X-Gm-Message-State: AOAM533RV80n8cGjwjj6w+bOeXmpc0hVW3QyZHLYOqCFAwo2zP29x8C7
+ UWHX7+gF8cWKuyPhY7/DCbY=
+X-Google-Smtp-Source: ABdhPJyiyoD11kFujK6YPCyAvn3cJt1s0JbqDvxe/z4TQ6/BdwXltCUrMAiNJwcIIoiI8qiWwb2Mbg==
+X-Received: by 2002:a17:902:228:: with SMTP id
+ 37mr17432610plc.105.1589818294182; 
+ Mon, 18 May 2020 09:11:34 -0700 (PDT)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id 62sm7548040pfc.204.2020.05.17.21.29.32
+ by smtp.gmail.com with ESMTPSA id k3sm13299pjc.38.2020.05.18.09.11.33
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 17 May 2020 21:29:33 -0700 (PDT)
-Date: Sun, 17 May 2020 21:29:32 -0700
+ Mon, 18 May 2020 09:11:33 -0700 (PDT)
+Date: Mon, 18 May 2020 09:11:32 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Ira Weiny <ira.weiny@intel.com>
 Subject: Re: [PATCH V3 07/15] arch/kunmap_atomic: Consolidate duplicate code
-Message-ID: <20200518042932.GA59205@roeck-us.net>
+Message-ID: <20200518161132.GB66689@roeck-us.net>
 References: <20200507150004.1423069-1-ira.weiny@intel.com>
  <20200507150004.1423069-8-ira.weiny@intel.com>
  <20200516223306.GA161252@roeck-us.net>
@@ -84,8 +84,8 @@ Content-Disposition: inline
 In-Reply-To: <20200518034938.GA3023182@iweiny-DESK2.sc.intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200517_212935_286775_A17FCA0A 
-X-CRM114-Status: GOOD (  16.99  )
+X-CRM114-CacheID: sfid-20200518_091134_784891_62D12A10 
+X-CRM114-Status: GOOD (  10.84  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,133 +121,51 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 On Sun, May 17, 2020 at 08:49:39PM -0700, Ira Weiny wrote:
-> On Sat, May 16, 2020 at 03:33:06PM -0700, Guenter Roeck wrote:
-> > On Thu, May 07, 2020 at 07:59:55AM -0700, ira.weiny@intel.com wrote:
-> > > From: Ira Weiny <ira.weiny@intel.com>
-> > > 
-> > > Every single architecture (including !CONFIG_HIGHMEM) calls...
-> > > 
-> > > 	pagefault_enable();
-> > > 	preempt_enable();
-> > > 
-> > > ... before returning from __kunmap_atomic().  Lift this code into the
-> > > kunmap_atomic() macro.
-> > > 
-> > > While we are at it rename __kunmap_atomic() to kunmap_atomic_high() to
-> > > be consistent.
-> > > 
-> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> > 
-> > This patch results in:
-> > 
-> > Starting init: /bin/sh exists but couldn't execute it (error -14)
-> > 
-> > when trying to boot microblazeel:petalogix-ml605 in qemu.
-> 
-> Thanks for the report.  I'm not readily seeing the issue.
-> 
-> Do you have a kernel config?  Specifically is CONFIG_HIGHMEM set?
-> 
-See below. Yes, CONFIG_HIGHMEM is set.
 
-The scripts used to build and boot the image are at:
+[ ... ]
 
-https://github.com/groeck/linux-build-test/tree/master/rootfs/microblazeel
+> > 
+> > ---
+> > # bad: [bdecf38f228bcca73b31ada98b5b7ba1215eb9c9] Add linux-next specific files for 20200515
+> > # good: [2ef96a5bb12be62ef75b5828c0aab838ebb29cb8] Linux 5.7-rc5
+> > git bisect start 'HEAD' 'v5.7-rc5'
+> > # good: [3674d7aa7a8e61d993886c2fb7c896c5ef85e988] Merge remote-tracking branch 'crypto/master'
+> > git bisect good 3674d7aa7a8e61d993886c2fb7c896c5ef85e988
+> > # good: [87f6f21783522e6d62127cf33ae5e95f50874beb] Merge remote-tracking branch 'spi/for-next'
+> > git bisect good 87f6f21783522e6d62127cf33ae5e95f50874beb
+> > # good: [5c428e8277d5d97c85126387d4e00aa5adde4400] Merge remote-tracking branch 'staging/staging-next'
+> > git bisect good 5c428e8277d5d97c85126387d4e00aa5adde4400
+> > # good: [f68de67ed934e7bdef4799fd7777c86f33f14982] Merge remote-tracking branch 'hyperv/hyperv-next'
+> > git bisect good f68de67ed934e7bdef4799fd7777c86f33f14982
+> > # bad: [54acd2dc52b069da59639eea0d0c92726f32fb01] mm/memblock: fix a typo in comment "implict"->"implicit"
+> > git bisect bad 54acd2dc52b069da59639eea0d0c92726f32fb01
+> > # good: [784a17aa58a529b84f7cc50f351ed4acf3bd11f3] mm: remove the pgprot argument to __vmalloc
+> > git bisect good 784a17aa58a529b84f7cc50f351ed4acf3bd11f3
+> > # good: [6cd8137ff37e9a37aee2d2a8889c8beb8eab192f] khugepaged: replace the usage of system(3) in the test
+> > git bisect good 6cd8137ff37e9a37aee2d2a8889c8beb8eab192f
+> > # bad: [6987da379826ed01b8a1cf046b67cc8cc10117cc] sparc: remove unnecessary includes
+> > git bisect bad 6987da379826ed01b8a1cf046b67cc8cc10117cc
+> > # good: [bc17b545388f64c09e83e367898e28f60277c584] mm/hugetlb: define a generic fallback for is_hugepage_only_range()
+> > git bisect good bc17b545388f64c09e83e367898e28f60277c584
+> > # bad: [9b5aa5b43f957f03a1f4a9aff5f7924e2ebbc011] arch-kmap_atomic-consolidate-duplicate-code-checkpatch-fixes
+> > git bisect bad 9b5aa5b43f957f03a1f4a9aff5f7924e2ebbc011
+> > # good: [0941a38ff0790c1004270f952067a5918a4ba32d] arch/kmap: remove redundant arch specific kmaps
+> > git bisect good 0941a38ff0790c1004270f952067a5918a4ba32d
+> > # good: [56e635a64c2cbfa815c851af10e0f811e809977b] arch-kunmap-remove-duplicate-kunmap-implementations-fix
+> > git bisect good 56e635a64c2cbfa815c851af10e0f811e809977b
+> > # bad: [60f96b2233c790d4f1c49317643051f1670bcb29] arch/kmap_atomic: consolidate duplicate code
+> > git bisect bad 60f96b2233c790d4f1c49317643051f1670bcb29
+> > # good: [7b3708dc3bf72a647243064fe7ddf9a76248ddfd] {x86,powerpc,microblaze}/kmap: move preempt disable
+> > git bisect good 7b3708dc3bf72a647243064fe7ddf9a76248ddfd
+> > # first bad commit: [60f96b2233c790d4f1c49317643051f1670bcb29] arch/kmap_atomic: consolidate duplicate code
+> 
+> I'm confused by this.  This points to an earlier commit being bad?
+> 
 
-Hope this helps,
+Yes, you are correct. I was looking up the wrong commit; it had a similar
+subject line. Sorry for the confusion.
 
 Guenter
-
----
-CONFIG_SYSVIPC=y
-CONFIG_POSIX_MQUEUE=y
-CONFIG_AUDIT=y
-CONFIG_IKCONFIG=y
-CONFIG_IKCONFIG_PROC=y
-CONFIG_SYSFS_DEPRECATED=y
-CONFIG_SYSFS_DEPRECATED_V2=y
-CONFIG_BLK_DEV_INITRD=y
-# CONFIG_BASE_FULL is not set
-CONFIG_KALLSYMS_ALL=y
-CONFIG_EMBEDDED=y
-CONFIG_SLAB=y
-CONFIG_KERNEL_BASE_ADDR=0x50000000
-CONFIG_XILINX_MICROBLAZE0_USE_MSR_INSTR=1
-CONFIG_XILINX_MICROBLAZE0_USE_PCMP_INSTR=1
-CONFIG_XILINX_MICROBLAZE0_USE_BARREL=1
-CONFIG_XILINX_MICROBLAZE0_USE_DIV=1
-CONFIG_XILINX_MICROBLAZE0_USE_HW_MUL=2
-CONFIG_XILINX_MICROBLAZE0_USE_FPU=2
-CONFIG_XILINX_MICROBLAZE0_HW_VER="10.0.a"
-CONFIG_HZ_100=y
-CONFIG_MMU=y
-CONFIG_HIGHMEM=y
-CONFIG_PCI_XILINX=y
-CONFIG_MODULES=y
-CONFIG_MODULE_UNLOAD=y
-# CONFIG_BLK_DEV_BSG is not set
-CONFIG_PARTITION_ADVANCED=y
-# CONFIG_EFI_PARTITION is not set
-CONFIG_NET=y
-CONFIG_PACKET=y
-CONFIG_UNIX=y
-CONFIG_INET=y
-# CONFIG_IPV6 is not set
-CONFIG_BRIDGE=m
-CONFIG_PCI=y
-CONFIG_DEVTMPFS=y
-CONFIG_DEVTMPFS_MOUNT=y
-CONFIG_MTD=y
-CONFIG_MTD_CFI=y
-CONFIG_MTD_CFI_INTELEXT=y
-CONFIG_MTD_CFI_AMDSTD=y
-CONFIG_BLK_DEV_RAM=y
-CONFIG_BLK_DEV_RAM_SIZE=8192
-CONFIG_NETDEVICES=y
-CONFIG_XILINX_EMACLITE=y
-CONFIG_XILINX_LL_TEMAC=y
-# CONFIG_INPUT is not set
-# CONFIG_SERIO is not set
-# CONFIG_VT is not set
-CONFIG_SERIAL_8250=y
-CONFIG_SERIAL_8250_CONSOLE=y
-CONFIG_SERIAL_OF_PLATFORM=y
-CONFIG_SERIAL_UARTLITE=y
-CONFIG_SERIAL_UARTLITE_CONSOLE=y
-# CONFIG_HW_RANDOM is not set
-CONFIG_XILINX_HWICAP=y
-CONFIG_I2C=y
-CONFIG_I2C_XILINX=y
-CONFIG_SPI=y
-CONFIG_SPI_XILINX=y
-CONFIG_GPIOLIB=y
-CONFIG_GPIO_SYSFS=y
-CONFIG_GPIO_XILINX=y
-# CONFIG_HWMON is not set
-CONFIG_WATCHDOG=y
-CONFIG_XILINX_WATCHDOG=y
-CONFIG_FB=y
-CONFIG_FB_XILINX=y
-# CONFIG_USB_SUPPORT is not set
-CONFIG_UIO=y
-CONFIG_UIO_PDRV_GENIRQ=y
-CONFIG_UIO_DMEM_GENIRQ=y
-CONFIG_EXT2_FS=y
-# CONFIG_DNOTIFY is not set
-CONFIG_CRAMFS=y
-CONFIG_ROMFS_FS=y
-CONFIG_NFS_FS=y
-CONFIG_CIFS=y
-CONFIG_CIFS_STATS2=y
-CONFIG_ENCRYPTED_KEYS=y
-CONFIG_DEBUG_INFO=y
-CONFIG_KGDB=y
-CONFIG_KGDB_TESTS=y
-CONFIG_KGDB_KDB=y
-CONFIG_DEBUG_SLAB=y
-CONFIG_DETECT_HUNG_TASK=y
-CONFIG_DEBUG_SPINLOCK=y
 
 _______________________________________________
 linux-snps-arc mailing list
