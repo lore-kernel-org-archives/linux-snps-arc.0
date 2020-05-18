@@ -2,93 +2,71 @@ Return-Path: <SRS0=uiT2=7A=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D997EC433DF
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 May 2020 16:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E29FC433DF
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 May 2020 18:11:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AEE9620657
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 May 2020 16:21:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2F1B220829
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 May 2020 18:11:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ew9boETu";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jbwPB+32"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AEE9620657
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oL3ZnUbu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F1B220829
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ArL4I7z3mdtBLf2wReKlCWh2i96uFs0FAku84vBfj1U=; b=ew9boETuKSNY29
-	sKBQb0W+TV7zTPnLUCjduyvZQKFI0A69BXpUDZPwJcEf94Ht8sV9fCfRqhhI0brYhokCGOP5mfKtX
-	v8KOY5Gvzw0ipURcbVqcdBqmBMMrSp6jz20lYkIWV4E/QNsFiQZqAaJzktigJcf9DEIfHqQis3uM7
-	vT00V0n1br4XsWl7k5bdwxqOISkBgLgogibYnoJuPN6DpcKyiM5MjOcrFL9C49nn6xRHnhNk3/Dri
-	X64gp2CvFVTZ1zgsll+mOu9t7dg37Ygrm+yIuAkyabalzAag4bmxNAoA+cuAcfYxsZhdG9PklH+3x
-	Kden81xmoxeGIhRpTPMQ==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=9P9HG4xOr6b58GYEeRmnrE0vZEOtSx3NCMKkN0s/rEI=; b=oL3ZnUbu81iypd
+	ab7YNDfSzDm19ZjrtSTo8swt6nEp6scj7FdvSIwabdO/jR0NPrzmsHzSLuy/yKbqg3MI/iFNIcgiJ
+	V5NeeIKWXoEGcxyfXojRxCpkQr58uCQhFOPOoeUPJ4m+vAumnzKDwCeOTy0npYbNEG4eNVvrs525K
+	3/Q5TCjNSUIe87sD5Hson++aRyNHKPIaCO63kqZsMJcTJ+U+VtrCYlQUHW3QfPpWpYyCRHCBfZc85
+	xaYJtsDMwDYqE+18wfa2x4+MUXPDpp/BnC+rhbdzCKWCDAAQq/KyuVikZuKMQCRNHGf6QsybpGEqZ
+	K0Ick8frCI6G7fBW3AYg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jaiWJ-0003KW-Rk; Mon, 18 May 2020 16:21:39 +0000
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441])
+	id 1jakEj-0006yC-BD; Mon, 18 May 2020 18:11:37 +0000
+Received: from mga04.intel.com ([192.55.52.120])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jaiWH-0003JC-Mb
- for linux-snps-arc@lists.infradead.org; Mon, 18 May 2020 16:21:39 +0000
-Received: by mail-wr1-x441.google.com with SMTP id l18so12589726wrn.6
- for <linux-snps-arc@lists.infradead.org>; Mon, 18 May 2020 09:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mPan/iOK3FlJrRcEPq0sqHhm0unuccyfQDLEwiWdKUY=;
- b=jbwPB+32E8dRbvJ2wuQ2JG0caMLHZmmizHiGemUQmDcbJFiV+TvTZGRDL3d8PDtLsY
- 2ofvAnRHxEjj2ccKFu/Y5AQ4iCGeV1QxDIb1SuzLFLi9OIJdiJas6gQG5cCvWSMPOGBU
- x/V/WqmQj0E7HnKvep4LT6igUvk+nrxoUYNON3dPkrUZJ9KDQUPW6Har3ir+HmcgWsqf
- alrdsuwFyryYBcb3FZss6FzqoR50INrutQ/9FhINws5OiGc6tiKlOXePO31DMMzaYdT8
- /Y2of1GPQsIZoDVqZozjtvQotHRUsqHUJo+Fk8R0XnV0TubHTbxg8/nwPjxSaIXvslXu
- PaVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mPan/iOK3FlJrRcEPq0sqHhm0unuccyfQDLEwiWdKUY=;
- b=qNAXebfIqKZ+eKd1hrFCOk3W/EgTBFgDVW6OiPF1fyhhrI7Tch7UGfpgVib5QdXK8V
- FE3RPehO+oNn4TcGQkRQp0GcP3ZB8DVysUwmskFbUfUlqx4z4+QB7vPOqWzcMbKmx+Ka
- zBIKYeSKPrSNl86JW7A30QNUY3HfcUJrKOquJcyJt0D/LFpbeCg7zpfj08k6VY5PAgKi
- tDCBhaIAd4n4QAI1b9xR5IxnWRTmcpIvrBS03ops5taYe698OdqxRMmS0smOzLqg713U
- oDyJFixhuzvvbLFZxPVUFvrqGneuMw0bH0R/eZ3PbQCV8Ffbwg9OONRKZThlcKeavMJK
- pV9g==
-X-Gm-Message-State: AOAM530qv7ITOodzpQyddi+EkIQYtiA2j4Y1Da6RKQldCcZmQ9qhtLl/
- p4spW1BHC99PuveII3nV641kr9I8WWA=
-X-Google-Smtp-Source: ABdhPJyiDuft1ud8pm340dhXzBtCA6hZi5QfdvTeiEMwEovwvB9rBLz7UQdecu8ItPbWcTbrcrKeiQ==
-X-Received: by 2002:adf:f40a:: with SMTP id g10mr21964592wro.117.1589818896319; 
- Mon, 18 May 2020 09:21:36 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:9e7:3ac5:a930:2cd8?
- ([2a01:e34:ed2f:f020:9e7:3ac5:a930:2cd8])
- by smtp.googlemail.com with ESMTPSA id i74sm17145474wri.49.2020.05.18.09.21.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 May 2020 09:21:35 -0700 (PDT)
-Subject: Re: [PATCH v1] clocksource: arc_timer: remove duplicate error message
-To: Dejin Zheng <zhengdejin5@gmail.com>, vgupta@synopsys.com,
- tglx@linutronix.de, linux-snps-arc@lists.infradead.org
-References: <20200429151223.3120-1-zhengdejin5@gmail.com>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <54f33384-2d2e-ce84-4242-d15286f65dfa@linaro.org>
-Date: Mon, 18 May 2020 18:21:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ id 1jakEI-0006e5-4x; Mon, 18 May 2020 18:11:18 +0000
+IronPort-SDR: 8piZpjbGY+05Y4+vi3/DwTjnZ3To1faasOJS0ruNM52JibSsrD+sH8mbFdVqPgYuAnmNMjHleF
+ Aadk93CnxLlA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2020 11:11:08 -0700
+IronPort-SDR: 4PTj0JCNuHA2KBITWxMsHBG0lvanYZRK6CkXelcZuJd9rLLbOv9o5Xe4vuYLc2cXwOltPBKNMq
+ LeWae4iARKuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,407,1583222400"; d="scan'208";a="308177709"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by FMSMGA003.fm.intel.com with ESMTP; 18 May 2020 11:11:08 -0700
+Date: Mon, 18 May 2020 11:11:08 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH V3 07/15] arch/kunmap_atomic: Consolidate duplicate code
+Message-ID: <20200518181107.GC3025231@iweiny-DESK2.sc.intel.com>
+References: <20200507150004.1423069-1-ira.weiny@intel.com>
+ <20200507150004.1423069-8-ira.weiny@intel.com>
+ <20200516223306.GA161252@roeck-us.net>
+ <20200518034938.GA3023182@iweiny-DESK2.sc.intel.com>
+ <20200518042932.GA59205@roeck-us.net>
 MIME-Version: 1.0
-In-Reply-To: <20200429151223.3120-1-zhengdejin5@gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200518042932.GA59205@roeck-us.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200518_092137_736061_38D03EEA 
-X-CRM114-Status: UNSURE (   8.34  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200518_111110_211658_C4A89837 
+X-CRM114-Status: GOOD (  20.35  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,21 +78,103 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gMjkvMDQvMjAyMCAxNzoxMiwgRGVqaW4gWmhlbmcgd3JvdGU6Cj4gaXQgd2lsbCBwcmludCBh
-biBlcnJvciBtZXNzYWdlIGJ5IGl0c2VsZiB3aGVuIGFyY19nZXRfdGltZXJfY2xrKCkKPiBnb2Vz
-IHdyb25nLiBzbyByZW1vdmUgdGhlIGR1cGxpY2F0ZSBlcnJvciBtZXNzYWdlLgo+IAo+IFNpZ25l
-ZC1vZmYtYnk6IERlamluIFpoZW5nIDx6aGVuZ2RlamluNUBnbWFpbC5jb20+CgpBcHBsaWVkLCB0
-aGFua3MKCgotLSAKPGh0dHA6Ly93d3cubGluYXJvLm9yZy8+IExpbmFyby5vcmcg4pSCIE9wZW4g
-c291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwoKRm9sbG93IExpbmFybzogIDxodHRwOi8vd3d3
-LmZhY2Vib29rLmNvbS9wYWdlcy9MaW5hcm8+IEZhY2Vib29rIHwKPGh0dHA6Ly90d2l0dGVyLmNv
-bS8jIS9saW5hcm9vcmc+IFR3aXR0ZXIgfAo8aHR0cDovL3d3dy5saW5hcm8ub3JnL2xpbmFyby1i
-bG9nLz4gQmxvZwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJh
-ZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51
-eC1zbnBzLWFyYwo=
+On Sun, May 17, 2020 at 09:29:32PM -0700, Guenter Roeck wrote:
+> On Sun, May 17, 2020 at 08:49:39PM -0700, Ira Weiny wrote:
+> > On Sat, May 16, 2020 at 03:33:06PM -0700, Guenter Roeck wrote:
+> > > On Thu, May 07, 2020 at 07:59:55AM -0700, ira.weiny@intel.com wrote:
+> > > > From: Ira Weiny <ira.weiny@intel.com>
+> > > > 
+> > > > Every single architecture (including !CONFIG_HIGHMEM) calls...
+> > > > 
+> > > > 	pagefault_enable();
+> > > > 	preempt_enable();
+> > > > 
+> > > > ... before returning from __kunmap_atomic().  Lift this code into the
+> > > > kunmap_atomic() macro.
+> > > > 
+> > > > While we are at it rename __kunmap_atomic() to kunmap_atomic_high() to
+> > > > be consistent.
+> > > > 
+> > > > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > > 
+> > > This patch results in:
+> > > 
+> > > Starting init: /bin/sh exists but couldn't execute it (error -14)
+> > > 
+> > > when trying to boot microblazeel:petalogix-ml605 in qemu.
+> > 
+> > Thanks for the report.  I'm not readily seeing the issue.
+> > 
+> > Do you have a kernel config?  Specifically is CONFIG_HIGHMEM set?
+> > 
+> See below. Yes, CONFIG_HIGHMEM is set.
+> 
+> The scripts used to build and boot the image are at:
+> 
+> https://github.com/groeck/linux-build-test/tree/master/rootfs/microblazeel
+> 
+> Hope this helps,
+
+Thank you ...
+
+Could you try the following patch?
+
+
+commit 82c284b2bb74ca195dfcd35b70a175f010b9fd46 (HEAD -> lm-kmap17)
+Author: Ira Weiny <ira.weiny@intel.com>
+Date:   Mon May 18 11:01:10 2020 -0700
+
+    microblaze/kmap: Don't enable pagefault/preempt twice
+    
+    The kunmap_atomic clean up failed to remove the pagefault/preempt
+    enables on this path.
+    
+    Fixes: bee2128a09e6 ("arch/kunmap_atomic: consolidate duplicate code")
+    Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+
+diff --git a/arch/microblaze/mm/highmem.c b/arch/microblaze/mm/highmem.c
+index ee8a422b2b76..92e0890416c9 100644
+--- a/arch/microblaze/mm/highmem.c
++++ b/arch/microblaze/mm/highmem.c
+@@ -57,11 +57,8 @@ void kunmap_atomic_high(void *kvaddr)
+        int type;
+        unsigned int idx;
+ 
+-       if (vaddr < __fix_to_virt(FIX_KMAP_END)) {
+-               pagefault_enable();
+-               preempt_enable();
++       if (vaddr < __fix_to_virt(FIX_KMAP_END))
+                return;
+-       }
+ 
+        type = kmap_atomic_idx();
+ 
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
