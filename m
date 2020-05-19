@@ -2,90 +2,69 @@ Return-Path: <SRS0=mq+M=7B=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 572CCC433DF
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 May 2020 12:19:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06400C433E1
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 May 2020 13:48:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 281592081A
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 May 2020 12:19:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C4F2A207FB
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 May 2020 13:48:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DZJqTS2B";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fNDVxX4v"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 281592081A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hJH8Bygv"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C4F2A207FB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
-	References:Message-ID:Subject:To:From:Date:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ejogiA0nfgu2tfhZNKpJYypwbVaT6pOMfWicxzIjxH4=; b=DZJqTS2Bdm0XHv
-	0Uk6kLfCUE4k1b2T4BS2ceVitvTV/HlmbQWAzyuiz9R1QDYcvv4vJ8FUXtisXhULJX2mfYSfCcTTP
-	txjsk3ZCyII1fpceb6+xj1IgJS8E+RoiIVKVneso47tqVAm/+LWXGXstIVP/0+vVfzskMiROlh0ss
-	1F5wkhcMQO7Tfz+e/qMl5Io8u7f7V0499ICwz/ETgBulRldx+s1hXNlFInLH3nUDlnAXIqH5Ce4ve
-	MulM6bxqz9yalMNJOC8vCYkPl1BC6nlpTdhVfaJsOAsvVeCwsK5qduFSlNjcJXDVQjmeLtU1dI9UC
-	LjH23yzMGYQq1jZ15XuQ==;
+	List-Owner; bh=490JO/4Wr2C/JAMLnats0hFv94taAd5ChR35I8+/jhM=; b=hJH8BygvXI3hii
+	bltT3waNz41mnJu9wRCc6DbEOK2kImoWYwqE3C8evsN4QtKuf4US77TSgA0A7rI9rXWXsgVSjGK6j
+	j+KFO5yplvQtqf1HV5vXmuXmFkP0yjsltQYJIiqhq5O4UrF1fGpBcP86GWDqEZJaPPVdBGVYxVQL1
+	Qw4WiPTc3WAQubHHlwDfflm+WlAO5gwqlYdE0cLBc79rqiN+0FqR5X+ZKXgYlRmm5zDelAtxdIDPs
+	ffeRWz3TfAVZ0m/x9AKq0pnwx8Vy5dGSe4iT4++bnVfR1yQUmqX1xDmXgYAzkD09xHSzKPoqyLEYM
+	gU6CIKQc4nMC+hpopX7g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jb1Dn-0007ce-2f; Tue, 19 May 2020 12:19:47 +0000
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342])
+	id 1jb2bx-0004DL-1m; Tue, 19 May 2020 13:48:49 +0000
+Received: from mga18.intel.com ([134.134.136.126])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jb1D9-0006xR-Gb
- for linux-snps-arc@lists.infradead.org; Tue, 19 May 2020 12:19:09 +0000
-Received: by mail-wm1-x342.google.com with SMTP id m12so2851853wmc.0
- for <linux-snps-arc@lists.infradead.org>; Tue, 19 May 2020 05:19:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
- :content-disposition:in-reply-to;
- bh=p60TB+Tyypr34A8h+yZQiNDu/fhAf7U+hPUWshuyPPQ=;
- b=fNDVxX4v/9yZjo6Ka/JZWCNnCthl0wRZ7qHbp9YiiWJnDSCwAOJZrvnfS2IBFci2iT
- GxDcpsIq4HJ26zb2iLdrWraDMFawnKOHbxfRGif5vGQtBb95kjErhuREsyAvTHO8xXw+
- 0IlbCky1b86HJu+2SMmZNwPpQGd3YCCKsqPlXZW7vt2XbFOMkdGhn2UL9FlN8cGUvdYj
- RHSdcxZYOqZoKHJF4CjKWwMcUMYyuSV3pE0Bx793YSlWsSRMm0zn0B2O+7DIv1ZcQtMB
- K39A2AS5//Yv8xUYflkIsmUnlswZeMit//r6ivmRZIBVy8fmvcB2kyHQnZP2wNIFPY+F
- LvRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :references:mime-version:content-disposition:in-reply-to;
- bh=p60TB+Tyypr34A8h+yZQiNDu/fhAf7U+hPUWshuyPPQ=;
- b=PlQxmxLMJYXzro2KN4URKW5xN6l4R5VSjsRLqdrg6vhPEC5xYyTOgf3SOHEtWrSWuy
- vhM91cJHwVgVp6JE32qGrp90PsoV661Ig33m+hbr09hdXj2nKcAYes62yxDFwJ7anJ0e
- CkTgKgNnSamw4TwQFmF2D/bhpaks2/ZLYarC+2DKFFCod5l9fuSXXYnI/9YNUph8xBaN
- vVMmt9JTJ8Fv9Bmd3Gs9XL3He62fRc02S6qy8SFFtpMLfbOrAydjTTjI3sCEKYyLPQql
- O5lS9q2OZJP4bXGesrCQpHTLRfAJLaVnSexROVUS0VrGU8Z4rl2aDTq5B4TWXHOd4dF2
- +XtQ==
-X-Gm-Message-State: AOAM5306/flsPW9M8R2KglgTXYCqV8uiK40K9qXRZhHBgBrsy8jkHG2O
- so1BP1MOlSstHpHdc/VS8B8=
-X-Google-Smtp-Source: ABdhPJxF9SfebJ0+Qelp9N3dfeat3xZSDZwELOBS8RqyzDKPS9DM4f79WmvUaB+iKCUi2iTKDF69fw==
-X-Received: by 2002:a1c:4088:: with SMTP id n130mr4994461wma.43.1589890746219; 
- Tue, 19 May 2020 05:19:06 -0700 (PDT)
-Received: from dell5510 ([62.201.25.198])
- by smtp.gmail.com with ESMTPSA id d9sm3763163wmd.10.2020.05.19.05.19.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 05:19:05 -0700 (PDT)
-Date: Tue, 19 May 2020 14:19:03 +0200
-From: Petr Vorel <petr.vorel@gmail.com>
+ id 1jb2bt-0004CV-Ms
+ for linux-snps-arc@lists.infradead.org; Tue, 19 May 2020 13:48:46 +0000
+IronPort-SDR: eEdAnnN8wPIhjbjIqJH8FoF59a96GrBfB6Z5G/L2ROZygxk9FUMhJeTUi/IxBjxr0TxErzmtP/
+ Bh1z96BP0xzA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2020 06:48:44 -0700
+IronPort-SDR: H/JFjAHMwzZmTTusqpdysvxKXqFJF23mHNOpHPdTHd356dHLXcuk5QvGRbP68bBgYzBfk6LPVq
+ nS0/01vIj02w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="343140365"
+Received: from joelin3-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.249.42.57])
+ by orsmga001.jf.intel.com with ESMTP; 19 May 2020 06:48:39 -0700
+Date: Tue, 19 May 2020 16:48:38 +0300
+From: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 To: Nikita Sobolev <Nikita.Sobolev@synopsys.com>
-Subject: Re: [PATCH v2] Kernel selftests: Add check if tpm devices are
- supported
-Message-ID: <20200519121903.GB26265@dell5510>
-References: <20200519120743.41358-1-Nikita.Sobolev@synopsys.com>
+Subject: Re: [PATCH] Kernel selftests: Add check if tpm devices are supported
+Message-ID: <20200519134838.GA17129@linux.intel.com>
+References: <20200518213934.23156-1-Nikita.Sobolev@synopsys.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200519120743.41358-1-Nikita.Sobolev@synopsys.com>
+In-Reply-To: <20200518213934.23156-1-Nikita.Sobolev@synopsys.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200519_051907_585960_E9DA4B56 
-X-CRM114-Status: UNSURE (   7.11  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200519_064845_786830_A26EC0A9 
+X-CRM114-Status: GOOD (  13.86  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,13 +76,11 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
 Cc: linux-kselftest@vger.kernel.org, Tadeusz Struk <tadeusz.struk@intel.com>,
  Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
  Alexey Brodkin <Alexey.Brodkin@synopsys.com>, linux-kernel@vger.kernel.org,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
  Jason Gunthorpe <jgg@ziepe.ca>, Joey Pabalinas <joeypabalinas@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-integrity@vger.kernel.org,
+ Petr Vorel <petr.vorel@gmail.com>, linux-integrity@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, Shuah Khan <shuah@kernel.org>,
  Peter Huewe <peterhuewe@gmx.de>
 Content-Type: text/plain; charset="us-ascii"
@@ -111,19 +88,80 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+On Tue, May 19, 2020 at 12:39:34AM +0300, Nikita Sobolev wrote:
 > tpm2 tests set uses /dev/tpm0 and /dev/tpmrm0 without check if they
 > are available. In case, when these devices are not available test
-> fails, but expected behaviour is skipped test.
-
+> fails, but expected behaviour is test to be skipped.
+> 
 > Signed-off-by: Nikita Sobolev <Nikita.Sobolev@synopsys.com>
-OK, I see it was also reverted by Jarkko
 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20200518&id=aaa2d92efe1f972567f1691b423ab8dc606ab3a9
+tpm2 tests set -> TPM2 test suite
 
-I wonder if only wrong shell syntax (self.flags = flags) is a problem.
+Fixes tag is also required.
 
-Kind regards,
-Petr
+There is nothing cool writing acronyms in lower case, so lets
+just always write them correctly.
+
+> ---
+>  tools/testing/selftests/tpm2/test_smoke.sh | 11 +++++++++--
+>  tools/testing/selftests/tpm2/test_space.sh |  9 ++++++++-
+>  2 files changed, 17 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/tpm2/test_smoke.sh b/tools/testing/selftests/tpm2/test_smoke.sh
+> index 8155c2ea7ccb..e55d3e400666 100755
+> --- a/tools/testing/selftests/tpm2/test_smoke.sh
+> +++ b/tools/testing/selftests/tpm2/test_smoke.sh
+> @@ -1,8 +1,15 @@
+>  #!/bin/bash
+>  # SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
+>  
+> -python -m unittest -v tpm2_tests.SmokeTest
+> -python -m unittest -v tpm2_tests.AsyncTest
+> +# Kselftest framework requirement - SKIP code is 4.
+> +ksft_skip=4
+> +
+> +if [ -f /dev/tpm0 ] ; then
+> +	python -m unittest -v tpm2_tests.SmokeTest
+> +	python -m unittest -v tpm2_tests.AsyncTest
+> +else
+> +	exit $ksft_skip
+> +fi
+>  
+>  CLEAR_CMD=$(which tpm2_clear)
+>  if [ -n $CLEAR_CMD ]; then
+> diff --git a/tools/testing/selftests/tpm2/test_space.sh b/tools/testing/selftests/tpm2/test_space.sh
+> index a6f5e346635e..180b469c53b4 100755
+> --- a/tools/testing/selftests/tpm2/test_space.sh
+> +++ b/tools/testing/selftests/tpm2/test_space.sh
+> @@ -1,4 +1,11 @@
+>  #!/bin/bash
+>  # SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
+>  
+> -python -m unittest -v tpm2_tests.SpaceTest
+> +# Kselftest framework requirement - SKIP code is 4.
+> +ksft_skip=4
+> +
+> +if [ -f /dev/tpmrm0 ] ; then
+> +	python -m unittest -v tpm2_tests.SpaceTest
+> +else
+> +	exit $ksft_skip
+> +fi
+> -- 
+> 2.16.2
+> 
+
+This would make the change more compact:
+
+# Kselftest framework requirement - SKIP code is 4.
+if [ ! -f /dev/tpmrm0 ] ; then
+	exit 4
+fi
+
+python -m unittest -v tpm2_tests.SpaceTest
+
+(also for /dev/tpm0)
+
+/Jarkko
 
 _______________________________________________
 linux-snps-arc mailing list
