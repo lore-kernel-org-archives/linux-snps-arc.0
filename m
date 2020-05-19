@@ -2,22 +2,22 @@ Return-Path: <SRS0=mq+M=7B=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06400C433E1
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 May 2020 13:48:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 258DAC433E2
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 May 2020 16:30:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C4F2A207FB
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 May 2020 13:48:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5DF822081A
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 May 2020 16:30:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hJH8Bygv"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C4F2A207FB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="i+zXgpu+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5DF822081A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -25,46 +25,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=490JO/4Wr2C/JAMLnats0hFv94taAd5ChR35I8+/jhM=; b=hJH8BygvXI3hii
-	bltT3waNz41mnJu9wRCc6DbEOK2kImoWYwqE3C8evsN4QtKuf4US77TSgA0A7rI9rXWXsgVSjGK6j
-	j+KFO5yplvQtqf1HV5vXmuXmFkP0yjsltQYJIiqhq5O4UrF1fGpBcP86GWDqEZJaPPVdBGVYxVQL1
-	Qw4WiPTc3WAQubHHlwDfflm+WlAO5gwqlYdE0cLBc79rqiN+0FqR5X+ZKXgYlRmm5zDelAtxdIDPs
-	ffeRWz3TfAVZ0m/x9AKq0pnwx8Vy5dGSe4iT4++bnVfR1yQUmqX1xDmXgYAzkD09xHSzKPoqyLEYM
-	gU6CIKQc4nMC+hpopX7g==;
+	List-Owner; bh=p21CA+9CTlKsyorvA2IzvHtuwASxCMXRLNjLwBPy/XY=; b=i+zXgpu+WBNUiQ
+	MyEUi5peCxpNE0TuPnthZAWL8rUpz0Ggw05uDzIM3+d2FyZx7waVCxNE5D5U8/1P1aOCvgPmF+FXm
+	eOgxs4bXOiu+1bRUg5+AP47ZUYWJZFxmtPAVq+bvYp4h72HoY5w+rWg9yQWXPx2ZGQ8xZgh50xbdy
+	oqppxORYKmUbdpmbA2cuW0Bciohlwyueg6XWEMUkCvgkmNlaKX5iPzyFEbz9V9M44gC8ZVleleqz7
+	pc3Sc3lzAJWqJJZLFmpCMR6P7dmXtvqyNVvoxxgWj+bxOusWsrWVEo0X+WORYZtMANCcKZ2LHp5Wa
+	H1Zy1WONxv0/cJwXfcTw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jb2bx-0004DL-1m; Tue, 19 May 2020 13:48:49 +0000
-Received: from mga18.intel.com ([134.134.136.126])
+	id 1jb58K-0000wk-En; Tue, 19 May 2020 16:30:24 +0000
+Received: from mga04.intel.com ([192.55.52.120])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jb2bt-0004CV-Ms
- for linux-snps-arc@lists.infradead.org; Tue, 19 May 2020 13:48:46 +0000
-IronPort-SDR: eEdAnnN8wPIhjbjIqJH8FoF59a96GrBfB6Z5G/L2ROZygxk9FUMhJeTUi/IxBjxr0TxErzmtP/
- Bh1z96BP0xzA==
+ id 1jb578-0005ut-NP; Tue, 19 May 2020 16:29:13 +0000
+IronPort-SDR: qzCZPZac9iI8/b2rMrwci462/T9k3ZmQSP7iaKk97TmVV8ZkzZYp0TWUwHhnLEO24TAKZ0OTzQ
+ /nktjbM4vSdg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 06:48:44 -0700
-IronPort-SDR: H/JFjAHMwzZmTTusqpdysvxKXqFJF23mHNOpHPdTHd356dHLXcuk5QvGRbP68bBgYzBfk6LPVq
- nS0/01vIj02w==
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2020 09:29:06 -0700
+IronPort-SDR: wMgiwHen2OPFlYyzOEz7g2rJdzh5JJtN4dIY2VFB92QqQMm8kp4VvGIH/smvNQpDVMcoLkKqX3
+ R44n5eaK0YwQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="343140365"
-Received: from joelin3-mobl.gar.corp.intel.com (HELO localhost)
- ([10.249.42.57])
- by orsmga001.jf.intel.com with ESMTP; 19 May 2020 06:48:39 -0700
-Date: Tue, 19 May 2020 16:48:38 +0300
-From: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To: Nikita Sobolev <Nikita.Sobolev@synopsys.com>
-Subject: Re: [PATCH] Kernel selftests: Add check if tpm devices are supported
-Message-ID: <20200519134838.GA17129@linux.intel.com>
-References: <20200518213934.23156-1-Nikita.Sobolev@synopsys.com>
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="343188490"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by orsmga001.jf.intel.com with ESMTP; 19 May 2020 09:29:05 -0700
+Date: Tue, 19 May 2020 09:29:05 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH V3 07/15] arch/kunmap_atomic: Consolidate duplicate code
+Message-ID: <20200519162904.GA3356843@iweiny-DESK2.sc.intel.com>
+References: <20200507150004.1423069-1-ira.weiny@intel.com>
+ <20200507150004.1423069-8-ira.weiny@intel.com>
+ <20200516223306.GA161252@roeck-us.net>
+ <20200518034938.GA3023182@iweiny-DESK2.sc.intel.com>
+ <20200518042932.GA59205@roeck-us.net>
+ <20200519000352.GF3025231@iweiny-DESK2.sc.intel.com>
+ <47757f51-15f2-3abe-9035-abdb3ba5816e@roeck-us.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200518213934.23156-1-Nikita.Sobolev@synopsys.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <47757f51-15f2-3abe-9035-abdb3ba5816e@roeck-us.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200519_064845_786830_A26EC0A9 
-X-CRM114-Status: GOOD (  13.86  )
+X-CRM114-CacheID: sfid-20200519_092910_808753_F7F8680F 
+X-CRM114-Status: GOOD (  26.75  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,92 +80,136 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, Tadeusz Struk <tadeusz.struk@intel.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>, linux-kernel@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Joey Pabalinas <joeypabalinas@gmail.com>,
- Petr Vorel <petr.vorel@gmail.com>, linux-integrity@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, Shuah Khan <shuah@kernel.org>,
- Peter Huewe <peterhuewe@gmx.de>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 19, 2020 at 12:39:34AM +0300, Nikita Sobolev wrote:
-> tpm2 tests set uses /dev/tpm0 and /dev/tpmrm0 without check if they
-> are available. In case, when these devices are not available test
-> fails, but expected behaviour is test to be skipped.
+On Mon, May 18, 2020 at 07:50:36PM -0700, Guenter Roeck wrote:
+> Hi Ira,
 > 
-> Signed-off-by: Nikita Sobolev <Nikita.Sobolev@synopsys.com>
+> On 5/18/20 5:03 PM, Ira Weiny wrote:
+> > On Sun, May 17, 2020 at 09:29:32PM -0700, Guenter Roeck wrote:
+> >> On Sun, May 17, 2020 at 08:49:39PM -0700, Ira Weiny wrote:
+> >>> On Sat, May 16, 2020 at 03:33:06PM -0700, Guenter Roeck wrote:
+> >>>> On Thu, May 07, 2020 at 07:59:55AM -0700, ira.weiny@intel.com wrote:
+> >>>>> From: Ira Weiny <ira.weiny@intel.com>
+> >>>>>
+> >>>
 
-tpm2 tests set -> TPM2 test suite
+Sorry for the delay I missed this email last night...  I blame outlook...  ;-)
 
-Fixes tag is also required.
+...
 
-There is nothing cool writing acronyms in lower case, so lets
-just always write them correctly.
-
-> ---
->  tools/testing/selftests/tpm2/test_smoke.sh | 11 +++++++++--
->  tools/testing/selftests/tpm2/test_space.sh |  9 ++++++++-
->  2 files changed, 17 insertions(+), 3 deletions(-)
+> >>> Do you have a kernel config?  Specifically is CONFIG_HIGHMEM set?
+> >>>
+> >> See below. Yes, CONFIG_HIGHMEM is set.
+> >>
+> >> The scripts used to build and boot the image are at:
+> >>
+> >> https://github.com/groeck/linux-build-test/tree/master/rootfs/microblazeel
+> > 
+> > Despite finding the obvious error earlier today I've still been trying to get
+> > this to work.
+> > 
+> > I had to make some slight modifications to use the 0-day cross compile build
+> > and my local qemu build.  But those were pretty minor modifications.  I'm
+> > running on x86_64 host.
+> > 
+> > With those slight mods to the scripts I get the following error even without my
+> > patch set on 5.7-rc4.  I have 1 cpu pegged at 100% while it is running...  Is
+> > there anything I can do to get more debug output?  Perhaps I just need to let
+> > it run longer?
+> > 
 > 
-> diff --git a/tools/testing/selftests/tpm2/test_smoke.sh b/tools/testing/selftests/tpm2/test_smoke.sh
-> index 8155c2ea7ccb..e55d3e400666 100755
-> --- a/tools/testing/selftests/tpm2/test_smoke.sh
-> +++ b/tools/testing/selftests/tpm2/test_smoke.sh
-> @@ -1,8 +1,15 @@
->  #!/bin/bash
->  # SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
->  
-> -python -m unittest -v tpm2_tests.SmokeTest
-> -python -m unittest -v tpm2_tests.AsyncTest
-> +# Kselftest framework requirement - SKIP code is 4.
-> +ksft_skip=4
-> +
-> +if [ -f /dev/tpm0 ] ; then
-> +	python -m unittest -v tpm2_tests.SmokeTest
-> +	python -m unittest -v tpm2_tests.AsyncTest
-> +else
-> +	exit $ksft_skip
-> +fi
->  
->  CLEAR_CMD=$(which tpm2_clear)
->  if [ -n $CLEAR_CMD ]; then
-> diff --git a/tools/testing/selftests/tpm2/test_space.sh b/tools/testing/selftests/tpm2/test_space.sh
-> index a6f5e346635e..180b469c53b4 100755
-> --- a/tools/testing/selftests/tpm2/test_space.sh
-> +++ b/tools/testing/selftests/tpm2/test_space.sh
-> @@ -1,4 +1,11 @@
->  #!/bin/bash
->  # SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
->  
-> -python -m unittest -v tpm2_tests.SpaceTest
-> +# Kselftest framework requirement - SKIP code is 4.
-> +ksft_skip=4
-> +
-> +if [ -f /dev/tpmrm0 ] ; then
-> +	python -m unittest -v tpm2_tests.SpaceTest
-> +else
-> +	exit $ksft_skip
-> +fi
-> -- 
-> 2.16.2
+> I don't think so. Try running it with "-d" parameter (run-qemu-microblazeel.sh
+> -d petalogix-s3adsp1800); that gives you the qemu command line. Once it says
+> "running", abort the script and execute qemu directly.
+
+FYI Minor nit...  a simple copy/paste failed...  that print of the cmd line
+did not include quotes around the -append text:
+
+09:06:03 > /home/iweiny/dev/qemu/microblazeel-softmmu/qemu-system-microblazeel
+   -M petalogix-s3adsp1800 -m 256 -kernel arch/microblaze/boot/linux.bin
+   -no-reboot -initrd /tmp/buildbot-cache/microblazeel/rootfs.cpio -append
+   panic=-1 slub_debug=FZPUA rdinit=/sbin/init console=ttyUL0,115200 -monitor
+   none -serial stdio -nographic
+
+qemu-system-microblazeel: slub_debug=FZPUA: Could not open 'slub_debug=FZPUA': No such file or directory
+
+> Oh, and please update
+> the repository; turns out I didn't push for a while and made a number of
+> changes.
+
+Cool beans...  I've updated.
+
 > 
+> My compiler was compiled with buildroot (a long time ago). I don't recall if
+> it needed something special in the configuration, unfortunately.
 
-This would make the change more compact:
+AFAICT the compile is working...  It is running from the command line now...  I
+expected it to be slow so I have also increased the timeouts last night.  So
+far it still fails.  I did notice that there is a new 'R' in the wait output.
 
-# Kselftest framework requirement - SKIP code is 4.
-if [ ! -f /dev/tpmrm0 ] ; then
-	exit 4
-fi
+<quote>
+.........................R......................... failed (silent)
+------------
+qemu log:
+qemu-system-microblazeel: terminating on signal 15 from pid 3357146 (/bin/bash)
+</quote>
 
-python -m unittest -v tpm2_tests.SpaceTest
+I was hoping that meant it found qemu 'running' but looks like that was just a
+retry...  :-(
 
-(also for /dev/tpm0)
+Last night I increased some of the timeouts I could find.
 
-/Jarkko
+<quote>
+ LOOPTIME=5     # Wait time before checking status
+ -MAXTIME=150    # Maximum wait time for qemu session to complete
+ -MAXSTIME=60    # Maximum wait time for qemu session to generate output
+ +#MAXTIME=150   # Maximum wait time for qemu session to complete
+ +#MAXSTIME=60   # Maximum wait time for qemu session to generate output
+ +MAXTIME=300    # Maximum wait time for qemu session to complete
+ +MAXSTIME=120   # Maximum wait time for qemu session to generate output
+</quote>
+
+But thanks to the qemu command line hint I can see these were not nearly
+enough...  (It has been running for > 20 minutes...  and I'm not getting
+output...)  Or I've done something really wrong.  Shouldn't qemu be at least
+showing something on the terminal by now?  I normally run qemu with different
+display options (and my qemu foo is weak) so I'm not sure what I should be
+seeing with this command line.
+
+09:06:28 > /home/iweiny/dev/qemu/microblazeel-softmmu/qemu-system-microblazeel
+  -M petalogix-s3adsp1800 -m 256 -kernel arch/microblaze/boot/linux.bin
+  -no-reboot -initrd /tmp/buildbot-cache/microblazeel/rootfs.cpio -append
+  "panic=-1 slub_debug=FZPUA rdinit=/sbin/init console=ttyUL0,115200" -monitor
+  none -serial stdio -nographic
+
+Maybe I just have too slow of a machine...  :-/
+
+My qemu was built back in March.  I'm updating that now...
+
+Sorry for being so dense...
+Ira
 
 _______________________________________________
 linux-snps-arc mailing list
