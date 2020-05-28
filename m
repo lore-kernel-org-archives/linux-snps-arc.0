@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 425BDC433E1
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 11:56:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 905D1C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 11:57:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 18E6E20757
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 11:56:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6751621582
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 11:57:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oqwJoNyG";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Un11iNc8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 18E6E20757
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HrsEy6k4";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="nqCp70AP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6751621582
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,45 +26,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=fhlse/Mo+CQnIRJAQEwjPyJd7iiXybBzgrsAdmXek0w=; b=oqwJoNyGdCDhos
-	9dxRbbAF2COcdb6W+npMB14ffzBJc9lLEu32f3U9xiIfwnaXt6XEgRzUnqA5N8JPRe2np1phEzD7D
-	7DTjP3Of13gIp0Ywehr4UKdz6jdl1nh+b+7h8o64qMmmYRO/X7d7N31GWV+nNJluhcW7A7KeSWMkO
-	vfmtCTdRDmSc2e9GSf20+gOOjYGhkTvielHnmVgSXPChJ8UUfpL5lJKnl2o/JGT02ByBMGmsFMlZ/
-	LHe7aL2GeJVFizzdXpR+KjgFM/KJNecI38F8VYkjwscJxRUMaLe5HYfnkTQvDbucEDLHnitYZ5Ze7
-	AuQo2oeYm6kP6ShGIunA==;
+	List-Owner; bh=/iVjLkqjJPQCpeLrp9ID8g7gthxamYj8ViQfca7Kits=; b=HrsEy6k40Weu1x
+	7lwoWj3IneWFGSKDuhRDS+DE0BgYlH6hSMEBBMxvvYeT0DTe4oK5awu46O2v1FhosZhOhlmyyuAHD
+	Jd4hQW+1y0fFImuJVBKQAZ0IISjAsArjRr4NLOK1tdnqSUuO43Fe4ZuFJQLXgvPwBYVj0+PHmvCJg
+	z6ROCmIc9nVJYiBXWMprWKlIN94cgbwfPjyj9ab7i3yFYMa8yyVHnxALqV171wG5DWd470qFDtPRi
+	VKsoCjLrE/NSZneQ2EuffVk12gYFMsAqjWV7/Hd0eDyDRuO+oWKoQPRUTGNJj/HpdfIeqjEZbF0Lh
+	x9LGPwdLTvas76VLeaiQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jeH8s-0003OI-4f; Thu, 28 May 2020 11:56:10 +0000
+	id 1jeH9k-0003cV-5G; Thu, 28 May 2020 11:57:04 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jeH8l-0003NP-Em
- for linux-snps-arc@lists.infradead.org; Thu, 28 May 2020 11:56:06 +0000
+ id 1jeH9c-0003VY-O3
+ for linux-snps-arc@lists.infradead.org; Thu, 28 May 2020 11:56:58 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1F8822074B;
- Thu, 28 May 2020 11:56:02 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AD7A0207D3;
+ Thu, 28 May 2020 11:56:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590666962;
- bh=6lfb7wQDy8XOEZ/WYA0tSYBztD39KIGmFvRx0mhnJ4I=;
+ s=default; t=1590667016;
+ bh=e457R5kMuQc+J3OvEFDOmILElJ0iUqvdT1p4JmF0cjI=;
  h=From:To:Cc:Subject:Date:From;
- b=Un11iNc8BIRTa2BM2RYESzieHWAxGnY96wdWqVg1xr1le/ExaFA8HluM6TEZ8Ln6w
- gyAKqZV4GNjCKC0IC79JoFIe1BFuTv+mCDrbM7RUChvHZAhz4ufNNusJSdMuKg9fNk
- eIsLfkecp1SGpjh8XSnlMAAntuoPoWgdtCGhS7RQ=
+ b=nqCp70APADuOHgxczf5TvoOt8ku9bfpzFM8EplT4FKwgCF90cqL/zTmRTAQ2bFXc8
+ K4ky83J+jI6dS7XSw/lZvMiJ94EbTjJJB2Et8U0MydTj+YWUp6Oz/jQbvpDwGknTJZ
+ nrpI09YAliVHxleZG9URzd3pW4VQuOxH4zbObZsM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 01/47] ARC: Fix ICCM & DCCM runtime size checks
-Date: Thu, 28 May 2020 07:55:14 -0400
-Message-Id: <20200528115600.1405808-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 01/26] ARC: Fix ICCM & DCCM runtime size checks
+Date: Thu, 28 May 2020 07:56:29 -0400
+Message-Id: <20200528115654.1406165-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200528_045603_517723_E3A076A6 
-X-CRM114-Status: UNSURE (   9.70  )
+X-CRM114-CacheID: sfid-20200528_045656_837715_EA8DFD81 
+X-CRM114-Status: UNSURE (   9.40  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -106,17 +106,17 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index aa41af6ef4ac..efdedf83b954 100644
+index 7ee89dc61f6e..23dc002aa574 100644
 --- a/arch/arc/kernel/setup.c
 +++ b/arch/arc/kernel/setup.c
-@@ -11,6 +11,7 @@
+@@ -12,6 +12,7 @@
  #include <linux/clocksource.h>
  #include <linux/console.h>
  #include <linux/module.h>
 +#include <linux/sizes.h>
  #include <linux/cpu.h>
- #include <linux/of_clk.h>
  #include <linux/of_fdt.h>
+ #include <linux/of.h>
 @@ -409,12 +410,12 @@ static void arc_chk_core_config(void)
  	if ((unsigned int)__arc_dccm_base != cpu->dccm.base_addr)
  		panic("Linux built with incorrect DCCM Base address\n");
