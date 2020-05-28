@@ -4,19 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9062C433E1
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 11:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC37DC433DF
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 11:57:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7A4F82176B
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 11:57:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7FAF9215A4
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 11:57:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PzjySePt";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VFiZrXOr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A4F82176B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AXMhGcOu";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="hPDNkJoe"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7FAF9215A4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,44 +26,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=PUCBfTlbq+cTDymzuk4jDE66VbSN6wdwJ8H+iQNSimA=; b=PzjySePtvduvuc
-	U6TmnOOhk4mfhhx6MDPlxb/kqx3jbbVqhUa0VVnAqI/s7Nb3ZJ0kM4gW/dlJuA29RH8eIExze57wd
-	GRMrysCqnqd5Wu3S2AGWAO1/Kgy0qGwvEne8W8TIbzNu4ocg1sNTcOj5g+sx3bUqljQ8LPHRgf5+f
-	7bXmILKGY3jdapCUv14lZxC/9UNxeD6jf0ws9Ae2C75CInd6A+0rCFLcT0nOz4vf1/tiEDLef4UGu
-	dyr9pKAuIcgoky4Mu8/0X/aE0RE8X+AjqKrMoXbAHsCub7QixkJkkqj5utbWYdN6VmFT/3uIthNg9
-	SBwM6F5AQJLmUZ7Tz4Mg==;
+	List-Owner; bh=oHwf6y+/gPScY4FCnB1Z5YM1qnAXwRL7wptbgbfcnHc=; b=AXMhGcOuXcnrgT
+	Ms7rUgIJNjZxVPy2QlqRAAuaXmVuX4K6f2e5tOMNBR26xHWQ32lpX4TMqXHEttbku6nuBikNR0oXL
+	i20Ot1OvGtqKNfKkFovXMNYLzflgoI25XgaJxEqQridvgG0adzQk9vFxLNq7FP0suaNOufc0CNKTZ
+	gqB6u+PYGNfRYJhUdqPIeYn50AP2xzSf3wdHQzhftkNyhAzqrMwozOo2fkbgjPzeqmrn5g3Sy4oB2
+	hpx9VRGcrFAN/K5Sx9OS3IaBzRmtsGJUOItID4nvJgvKsGd1EDOUvABcI0LPqrh/X1M5KnhPfcTff
+	HZNPBaVi1jOggjpDX0Wg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jeHA9-0003jH-CC; Thu, 28 May 2020 11:57:29 +0000
+	id 1jeHAS-0003lc-MC; Thu, 28 May 2020 11:57:48 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jeHA6-0003ib-UX
- for linux-snps-arc@lists.infradead.org; Thu, 28 May 2020 11:57:28 +0000
+ id 1jeHAQ-0003kq-Ud
+ for linux-snps-arc@lists.infradead.org; Thu, 28 May 2020 11:57:48 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DD3D2215A4;
- Thu, 28 May 2020 11:57:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E321F21655;
+ Thu, 28 May 2020 11:57:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590667046;
- bh=FChClqYkiuV4A8OekspLUFM4lEYxDi5MB0nw7pVIs/E=;
+ s=default; t=1590667066;
+ bh=Ha8hus8kNUcxNjEXYLlcqZknjg8ABCTXWAqD0vvPCzk=;
  h=From:To:Cc:Subject:Date:From;
- b=VFiZrXOraUJbN3JOXtp8mayvWZq6LRxc5K0x4lskPJxkJKuba1tvxyWqLu+800W9n
- tnCA/fNE2yY8k9H9fMojCtAV1tm1VVIW2X9PZbawrJHjGq5VCaN9P/xZztBtXlmypy
- 4dnIIdW8FhQPkkzmve4ElWyDQgibxSEuYwqS0kaQ=
+ b=hPDNkJoePK97g0COAqqWOI7vnFhSyhpSyJiCtBKzz2FWdvEeFLut6CyRGVO0l7mM7
+ qSI0I4UfWgmkOgUj6i/MqR9VqjlsF3jStY07VY78wHQiJ2ucYLjO2NDkvlCTSLPFD/
+ g22D+3MGwbat057kuZm/4/VwLiRbFQcfI1TChI1E=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 01/17] ARC: Fix ICCM & DCCM runtime size checks
-Date: Thu, 28 May 2020 07:57:08 -0400
-Message-Id: <20200528115724.1406376-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 01/13] ARC: Fix ICCM & DCCM runtime size checks
+Date: Thu, 28 May 2020 07:57:32 -0400
+Message-Id: <20200528115744.1406533-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200528_045727_004024_594218C5 
+X-CRM114-CacheID: sfid-20200528_045747_006921_159C7B2C 
 X-CRM114-Status: UNSURE (   9.40  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -105,7 +106,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 89c97dcfa360..c10994daee39 100644
+index 6b8d106e0d53..11c2c4a3fe69 100644
 --- a/arch/arc/kernel/setup.c
 +++ b/arch/arc/kernel/setup.c
 @@ -15,6 +15,7 @@
@@ -116,7 +117,7 @@ index 89c97dcfa360..c10994daee39 100644
  #include <linux/cpu.h>
  #include <linux/of_fdt.h>
  #include <linux/of.h>
-@@ -406,12 +407,12 @@ static void arc_chk_core_config(void)
+@@ -355,12 +356,12 @@ static void arc_chk_core_config(void)
  	if ((unsigned int)__arc_dccm_base != cpu->dccm.base_addr)
  		panic("Linux built with incorrect DCCM Base address\n");
  
