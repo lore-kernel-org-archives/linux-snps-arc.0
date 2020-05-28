@@ -2,23 +2,23 @@ Return-Path: <SRS0=radI=7K=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A71C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 11:58:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69082C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 19:44:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 289E421941
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 11:58:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 33A272078C
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 May 2020 19:44:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HU9g9AUH";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJvgUhJj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 289E421941
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TiVcAxoU";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ceYSo+gi"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33A272078C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -26,46 +26,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=MUpj8hC3z+yijuggUNPNZaKzOniErfepU4CvLa8BIOI=; b=HU9g9AUH72uyEk
-	5xQwFL/8nouEOA+XyZA+99AMk2Qze7nS+GWMU96DU19QoMGhV9x+gEjf7RP1NTSbQ1vckW5E4Pdf6
-	GlqG5kTrVP536KPmf5G2C0clM0Q2L/8b8tBNf7St16pylcaxUEo1GF8UbC3msBZ656Skp/WUrm4RR
-	nEBaAoVz4LPyGKk9/NvwfJhdl16sYd7liuUkIjjE26IDiea1uipZ9/3HLfkmnyqh6eM8I0Qzisz++
-	+3D07o4eV7lnCsBrAGlccDN6BgqoQQqVqNJUevG1JcyIoiiF91FHxkBOqbmLsN2ewdKV3R/sYuPRp
-	pGNehSwJtC8QOijYUzVQ==;
+	List-Owner; bh=ZmkoVJBAjcycmzleCXyat0H0Ds1uelJxZMNhYVKbsPI=; b=TiVcAxoUa6dOoU
+	IzwGjlitNZ6kb3ClurEgbg43wdcmD8MaQNYbBRHBPj9zubvs3BCPcUf0ZHy9CjE7db/mCbINyrZlX
+	Hk8XGDtO0YLgO+HN6IoD4IZgRoIFDo0UjqRvyJ9+dPQGANP8qNNQlE6B3NyavNAdJaExjSkAASGPt
+	2kAl1F7iA4u5PBN9N/ZGmewIKqJwkhg+UZFnGZO63FXTF+R1gn7bNT/GG7XYt+vim1UFjUTsenMPH
+	5xr54jbneWMUnnGD0k3l2iHLnXghSbFqsFEvFQd4AwI8HzUUhzySxChwnD+F/4hjuMQlnkh7FDKCd
+	eq/ibGgXjftSzeSKhH9A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jeHAu-00042T-I7; Thu, 28 May 2020 11:58:17 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1jeORj-0001QV-FI; Thu, 28 May 2020 19:44:07 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jeHAs-00041Y-1F
- for linux-snps-arc@lists.infradead.org; Thu, 28 May 2020 11:58:15 +0000
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ id 1jeORg-0001Pr-A7
+ for linux-snps-arc@lists.infradead.org; Thu, 28 May 2020 19:44:05 +0000
+Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com
+ [10.205.2.134])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DED3121835;
- Thu, 28 May 2020 11:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590667093;
- bh=zB/WZwl5Lv9DzA8ZRU7nN5IaoD3oyLoA2VH4IaYLapk=;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id D3D3EC03BF;
+ Thu, 28 May 2020 19:44:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1590695041; bh=/hoeVq0YrRMcvb7Rjn9k4KyM/xpTkw+Q20U1LgWUXtw=;
  h=From:To:Cc:Subject:Date:From;
- b=TJvgUhJjOg720X1OTfC4vJMZvtdFHtHPUZb/MW68VjS+WCGEAai7OfUIOjhZ1NekU
- EGnGqOQeeoNzYprV23/9+qRQGwZTW5reHZiI7zOS7jIVA1YWu+q7MgF4Pd9Bn7fFUG
- qhIlPP1++7VLF9cYzK3TXwat5qa+5tyK31NYGlEM=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 1/7] ARC: Fix ICCM & DCCM runtime size checks
-Date: Thu, 28 May 2020 07:58:05 -0400
-Message-Id: <20200528115811.1406810-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
+ b=ceYSo+giitDVKDAVo+qtJxkYwMGpfjmAl473Bblopj+MuDePXUzwq6cRHzNEYPJR/
+ 8oHvPoKPFrmt3DbgjAnaGHIUfaTGvdVR4wR7ZQ8lw+VouAnNw3thprfmaecGByfd4S
+ Ez/cmyUhLAogQxu8SNWfZZvdFu/oFU5Eb8yZXjwn6ZL1t828A8UOYG6/7gtlNwAuku
+ VDobujDewd/rHX/Fd9ZJxNBnSp+kDQ+PKFQ7GzupEOWfOJGPVqfcXC4/QzWsBfqSVJ
+ V0G9AxLAa9thi+0EHbOtmYOT0eDzwe2MRExbWefGsJ3UqkSHZPweuD/BAD1NamSSpg
+ ZBr6RX7LLCQ1w==
+Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
+ [10.13.183.89])
+ by mailhost.synopsys.com (Postfix) with ESMTP id 0C040A009C;
+ Thu, 28 May 2020 19:43:56 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: libc-alpha@sourceware.org
+Subject: [PATCH] dl-runtime: reloc_{offset,
+ index} now functions arch overide'able
+Date: Thu, 28 May 2020 12:43:45 -0700
+Message-Id: <20200528194345.9829-1-vgupta@synopsys.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200528_045814_117014_FF04575E 
-X-CRM114-Status: UNSURE (   9.40  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200528_124404_419358_615E1B46 
+X-CRM114-Status: GOOD (  15.48  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,63 +81,223 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Paul Greco <pmgreco@us.ibm.com>, Vineet Gupta <vgupta@synopsys.com>,
+Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
  linux-snps-arc@lists.infradead.org,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Sasha Levin <sashal@kernel.org>
+ Adhemerval Zanella <adhemerval.zanella@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+The existing macros are fragile and expect local variables with a
+certain name. Fix this by defining them as functions with defaul
+timplementation in a new header dl-runtime.h which arches can overrid
+eif need be.
 
-[ Upstream commit 43900edf67d7ef3ac8909854d75b8a1fba2d570c ]
+This came up during ARC port review.
 
-As of today the ICCM and DCCM size checks are incorrectly using
-mismatched units (KiB checked against bytes). The CONFIG_ARC_DCCM_SZ
-and CONFIG_ARC_ICCM_SZ are in KiB, but the size calculated in
-runtime and stored in cpu->dccm.sz and cpu->iccm.sz is in bytes.
+This patch potentially only affects hppa/x86 ports,
+build tested for both those configs and a few more.
 
-Fix that.
-
-Reported-by: Paul Greco <pmgreco@us.ibm.com>
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Suggested-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 ---
- arch/arc/kernel/setup.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ elf/dl-runtime.c                              | 24 +++++++-------
+ elf/dl-runtime.h                              | 30 ++++++++++++++++++
+ sysdeps/hppa/dl-runtime.c                     |  4 ---
+ sysdeps/hppa/dl-runtime.h                     | 31 +++++++++++++++++++
+ sysdeps/x86_64/{dl-runtime.c => dl-runtime.h} | 13 ++++++--
+ 5 files changed, 84 insertions(+), 18 deletions(-)
+ create mode 100644 elf/dl-runtime.h
+ create mode 100644 sysdeps/hppa/dl-runtime.h
+ rename sysdeps/x86_64/{dl-runtime.c => dl-runtime.h} (60%)
 
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 3013f3f82b95..66e4dc8bce1d 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -12,6 +12,7 @@
- #include <linux/root_dev.h>
- #include <linux/console.h>
- #include <linux/module.h>
-+#include <linux/sizes.h>
- #include <linux/cpu.h>
- #include <linux/clk-provider.h>
- #include <linux/of_fdt.h>
-@@ -308,12 +309,12 @@ static void arc_chk_core_config(void)
- 	if ((unsigned int)__arc_dccm_base != cpu->dccm.base_addr)
- 		panic("Linux built with incorrect DCCM Base address\n");
+diff --git a/elf/dl-runtime.c b/elf/dl-runtime.c
+index cf5f1d3e82e1..62f90579370b 100644
+--- a/elf/dl-runtime.c
++++ b/elf/dl-runtime.c
+@@ -27,6 +27,7 @@
+ #include "dynamic-link.h"
+ #include <tls.h>
+ #include <dl-irel.h>
++#include <dl-runtime.h>
  
--	if (CONFIG_ARC_DCCM_SZ != cpu->dccm.sz)
-+	if (CONFIG_ARC_DCCM_SZ * SZ_1K != cpu->dccm.sz)
- 		panic("Linux built with incorrect DCCM Size\n");
+ 
+ #if (!ELF_MACHINE_NO_RELA && !defined ELF_MACHINE_PLT_REL) \
+@@ -42,13 +43,6 @@
+ # define ARCH_FIXUP_ATTRIBUTE
  #endif
  
- #ifdef CONFIG_ARC_HAS_ICCM
--	if (CONFIG_ARC_ICCM_SZ != cpu->iccm.sz)
-+	if (CONFIG_ARC_ICCM_SZ * SZ_1K != cpu->iccm.sz)
- 		panic("Linux built with incorrect ICCM Size\n");
- #endif
+-#ifndef reloc_offset
+-# define reloc_offset reloc_arg
+-# define reloc_index  reloc_arg / sizeof (PLTREL)
+-#endif
+-
+-
+-
+ /* This function is called through a special trampoline from the PLT the
+    first time each PLT entry is called.  We must perform the relocation
+    specified in the PLT of the given shared object, and return the resolved
+@@ -68,8 +62,11 @@ _dl_fixup (
+     = (const void *) D_PTR (l, l_info[DT_SYMTAB]);
+   const char *strtab = (const void *) D_PTR (l, l_info[DT_STRTAB]);
  
++  const uintptr_t pltgot = (uintptr_t) D_PTR (l, l_info[DT_PLTGOT]);
++
+   const PLTREL *const reloc
+-    = (const void *) (D_PTR (l, l_info[DT_JMPREL]) + reloc_offset);
++    = (const void *) (D_PTR (l, l_info[DT_JMPREL])
++		      + reloc_offset (pltgot, reloc_arg));
+   const ElfW(Sym) *sym = &symtab[ELFW(R_SYM) (reloc->r_info)];
+   const ElfW(Sym) *refsym = sym;
+   void *const rel_addr = (void *)(l->l_addr + reloc->r_offset);
+@@ -182,7 +179,8 @@ _dl_profile_fixup (
+ 
+   /* This is the address in the array where we store the result of previous
+      relocations.  */
+-  struct reloc_result *reloc_result = &l->l_reloc_result[reloc_index];
++  struct reloc_result *reloc_result
++    = &l->l_reloc_result[reloc_index (reloc_arg, sizeof (PLTREL))];
+ 
+  /* CONCURRENCY NOTES:
+ 
+@@ -219,8 +217,11 @@ _dl_profile_fixup (
+ 	= (const void *) D_PTR (l, l_info[DT_SYMTAB]);
+       const char *strtab = (const char *) D_PTR (l, l_info[DT_STRTAB]);
+ 
++      const uintptr_t pltgot = (uintptr_t) D_PTR (l, l_info[DT_PLTGOT]);
++
+       const PLTREL *const reloc
+-	= (const void *) (D_PTR (l, l_info[DT_JMPREL]) + reloc_offset);
++	= (const void *) (D_PTR (l, l_info[DT_JMPREL])
++			  + reloc_offset (pltgot, reloc_arg));
+       const ElfW(Sym) *refsym = &symtab[ELFW(R_SYM) (reloc->r_info)];
+       const ElfW(Sym) *defsym = refsym;
+       lookup_t result;
+@@ -489,7 +490,8 @@ _dl_call_pltexit (struct link_map *l, ElfW(Word) reloc_arg,
+      relocations.  */
+   // XXX Maybe the bound information must be stored on the stack since
+   // XXX with bind_not a new value could have been stored in the meantime.
+-  struct reloc_result *reloc_result = &l->l_reloc_result[reloc_index];
++  struct reloc_result *reloc_result =
++    &l->l_reloc_result[reloc_index (reloc_arg, sizeof (PLTREL))];
+   ElfW(Sym) *defsym = ((ElfW(Sym) *) D_PTR (reloc_result->bound,
+ 					    l_info[DT_SYMTAB])
+ 		       + reloc_result->boundndx);
+diff --git a/elf/dl-runtime.h b/elf/dl-runtime.h
+new file mode 100644
+index 000000000000..ed5db3ba51b7
+--- /dev/null
++++ b/elf/dl-runtime.h
+@@ -0,0 +1,30 @@
++/* Helpers for On-demand PLT fixup for shared objects, Generic version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, write to the Free
++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
++   02111-1307 USA.  */
++
++static inline uintptr_t
++reloc_offset (uintptr_t plt0, uintptr_t pltn)
++{
++  return pltn;
++}
++
++static inline uintptr_t
++reloc_index (uintptr_t pltn, size_t size)
++{
++  return pltn / size;
++}
+diff --git a/sysdeps/hppa/dl-runtime.c b/sysdeps/hppa/dl-runtime.c
+index 885a3f1837cb..2d061b150f06 100644
+--- a/sysdeps/hppa/dl-runtime.c
++++ b/sysdeps/hppa/dl-runtime.c
+@@ -17,10 +17,6 @@
+    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+    02111-1307 USA.  */
+ 
+-/* Clear PA_GP_RELOC bit in relocation offset.  */
+-#define reloc_offset (reloc_arg & ~PA_GP_RELOC)
+-#define reloc_index  (reloc_arg & ~PA_GP_RELOC) / sizeof (PLTREL)
+-
+ #include <elf/dl-runtime.c>
+ 
+ /* The caller has encountered a partially relocated function descriptor.
+diff --git a/sysdeps/hppa/dl-runtime.h b/sysdeps/hppa/dl-runtime.h
+new file mode 100644
+index 000000000000..cfde0ec991e3
+--- /dev/null
++++ b/sysdeps/hppa/dl-runtime.h
+@@ -0,0 +1,31 @@
++/* Helpers for On-demand PLT fixup for shared objects, HPAA version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, write to the Free
++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
++   02111-1307 USA.  */
++
++/* Clear PA_GP_RELOC bit in relocation offset.  */
++static inline uintptr_t
++reloc_offset (uintptr_t plt0, uintptr_t pltn)
++{
++  return pltn & ~PA_GP_RELOC;
++}
++
++static inline uintptr_t
++reloc_index (uintptr_t pltn, size_t size)
++{
++  return (pltn & ~PA_GP_RELOC )/ size;
++}
+diff --git a/sysdeps/x86_64/dl-runtime.c b/sysdeps/x86_64/dl-runtime.h
+similarity index 60%
+rename from sysdeps/x86_64/dl-runtime.c
+rename to sysdeps/x86_64/dl-runtime.h
+index b625d1e88257..494ff47b7091 100644
+--- a/sysdeps/x86_64/dl-runtime.c
++++ b/sysdeps/x86_64/dl-runtime.h
+@@ -3,7 +3,14 @@
+    also use the index.  Therefore it is wasteful to compute the offset
+    in the trampoline just to reverse the operation immediately
+    afterwards.  */
+-#define reloc_offset reloc_arg * sizeof (PLTREL)
+-#define reloc_index  reloc_arg
++static inline uintptr_t
++reloc_offset (uintptr_t plt0, uintptr_t pltn)
++{
++  return pltn * sizeof (ElfW(Rela));
++}
+ 
+-#include <elf/dl-runtime.c>
++static inline uintptr_t
++reloc_index (uintptr_t pltn, size_t size)
++{
++  return pltn;
++}
 -- 
-2.25.1
+2.20.1
 
 
 _______________________________________________
