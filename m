@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 948B5C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 29 May 2020 04:07:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E32C433DF
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 29 May 2020 04:07:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6097920723
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 29 May 2020 04:07:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 95A9920723
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 29 May 2020 04:07:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="X/mPBi9M";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="uODfEoK4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6097920723
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tcfIUtft";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="eg7zg5GZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 95A9920723
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,44 +25,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Message-ID:Date:To:From:Subject:
 	References:In-Reply-To:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UDq0VW3sTmvKVz7FiVqbtYr1ydWLMU6+qQKlPPVVssE=; b=X/mPBi9M+I3JU8
-	h+qosa1h0nA5+PqibTisoyyCNA8V13UuhkT0B1ixfaTOgk00oq0a/1blo7H+sqVKejCdDJhZRabc9
-	N+fmyx0jLNX/7mcQWXpCD/qdPIdfj5Jkg3cTtwmrOXR3p5eb9xLsWXfzJIyi4vgRU3FdGT+/HjTeT
-	dB8xNCHi/BYXlZoqaX/D24av3bdMLjlSgwMz1pGxlV6tuNEGWQsrMQUTM64UfttcvqMZb8/ZFuDIN
-	vdA5jkfUihJ/MYabR0I0hmw431bL2N5t4eqUSDQucIIiHutBzPu+uZKeMUIo77dA7SKD9tHkBcFa5
-	+JCO+tB4e75LadRXIJ2Q==;
+	List-Owner; bh=eayrZrEd22N2pWMVr+sOGv+XqfwTAQ8Mc5idi9bODKQ=; b=tcfIUtftxLoeId
+	wN1+4teQ61S7z0yw0ONLICeU3j97lDARRL5AV38iPkscqwlzfPvmJfNbRQtYeFRKZM6fGT1/JcCPv
+	8FhHqtge2k9Z77swVQsZDWfCJ/shrRq0iaz9TDtjh/73LlNtY/weu3TKHZbVPBydR9poe1sIpbP1S
+	1CXbALbUwhfZaatNqp9N05nyYIs7zGpeucxRka8gR+jhff1JiILVngALif0iT5+vkNXNoX0ug0CIG
+	8+0TwRDiDikNR+qYXY3kDZpUEuKUtMKUsnDgB/xhgsXWy3fzAVyuqUZDYdKlRB3JC+o4SDR7MtyAq
+	ycZrg2Sd+2w3qeQlBtaw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jeWIr-0008CW-R0; Fri, 29 May 2020 04:07:29 +0000
+	id 1jeWIu-0008DW-V3; Fri, 29 May 2020 04:07:32 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jeWIp-0008BF-GC
- for linux-snps-arc@lists.infradead.org; Fri, 29 May 2020 04:07:28 +0000
+ id 1jeWIs-0008Cw-Qz
+ for linux-snps-arc@lists.infradead.org; Fri, 29 May 2020 04:07:31 +0000
 Received: from kernel.org (unknown [104.132.0.74])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 22B7620723;
- Fri, 29 May 2020 04:07:27 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6D6E52072D;
+ Fri, 29 May 2020 04:07:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590725247;
- bh=UZKGsMHoRTCUxYj44XYyE1RuxSoMSD6kQH1W+kIDIhU=;
+ s=default; t=1590725250;
+ bh=FQn45qgKvIYKTKJhdW3v228CfAspxcLkSY3po02npIM=;
  h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=uODfEoK4QcZIZYSfP0ytkPrcmiCmgeSYmg46w3rpGlhqR9RbvjK5ga4rTg1QyyGib
- HaZ3SQrU3Smz/dn3dgf63RE4B8sY0ieuzM/vHaOdxJuPi8GPSrk6XGJCcU74pyApVh
- u2KJ8jFL+zb3rjqca/OCNTA8c1VYaAD2kvzrefJY=
+ b=eg7zg5GZrpoOAJuzFeZpFF0aW8OsE98BzawVzJN/avMg7OrDWqnJMvT4tH9e0SgaO
+ ZWmgUUetUEx3vVqdab3G4+f3R0RcJIuO0sI5TOco2k5ReHcMvu6798MTq8gAKjO3w6
+ vhkP2j0IlHc6WjkfebBywp6B5MuPddjEpAfJz3SQ=
 MIME-Version: 1.0
-In-Reply-To: <20200311134115.13257-3-Eugeniy.Paltsev@synopsys.com>
+In-Reply-To: <20200311134115.13257-4-Eugeniy.Paltsev@synopsys.com>
 References: <20200311134115.13257-1-Eugeniy.Paltsev@synopsys.com>
- <20200311134115.13257-3-Eugeniy.Paltsev@synopsys.com>
-Subject: Re: [PATCH 2/3] CLK: HSDK: CGU: support PLL bypassing
+ <20200311134115.13257-4-Eugeniy.Paltsev@synopsys.com>
+Subject: Re: [PATCH 3/3] CLK: HSDK: CGU: add support for 148.5MHz clock
 From: Stephen Boyd <sboyd@kernel.org>
 To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-clk@vger.kernel.org
-Date: Thu, 28 May 2020 21:07:26 -0700
-Message-ID: <159072524643.69627.17142536778465322331@swboyd.mtv.corp.google.com>
+Date: Thu, 28 May 2020 21:07:29 -0700
+Message-ID: <159072524956.69627.10946881962902731416@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200528_210727_557996_2BBE041B 
-X-CRM114-Status: UNSURE (   4.93  )
+X-CRM114-CacheID: sfid-20200528_210730_893363_4CDCD61F 
+X-CRM114-Status: UNSURE (   5.42  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -84,9 +84,8 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Quoting Eugeniy Paltsev (2020-03-11 06:41:14)
-> Support setting PLL to bypass mode to support output frequency
-> equal to input one.
+Quoting Eugeniy Paltsev (2020-03-11 06:41:15)
+> Add support for 148.5MHz clock for HDMI PLL
 > 
 > Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 > ---
