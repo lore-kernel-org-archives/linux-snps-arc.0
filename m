@@ -2,146 +2,134 @@ Return-Path: <SRS0=GdQW=7L=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18757C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 29 May 2020 12:11:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 392E9C433DF
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 29 May 2020 12:58:35 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D34D42074D
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 29 May 2020 12:11:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 07EE2207F5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 29 May 2020 12:58:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sePftFWc";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="a79vdBoU";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="rf0OM4U0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D34D42074D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mSwiP79/";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YXVljGFm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 07EE2207F5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ozm/AdB3aI6Eu5fp9n12bhvv+7RSU8FJ3ijmVX3fhcQ=; b=sePftFWcgYLqDB
-	UeYXHE9ReW2TOsjm0U4Zb9VWXleEWyOabDFZIg7rZgBdc7kJrlgqrec2ITM1meyeane/bJvV8wfl4
-	ngs37oTs2myY4vT3rOjrCtUT2lsKZlCkagYATwTR7D8vNI4IaeoUdkiP9cwT5kzMVSYKP3PDlOBQS
-	9oA6WqqXc2WnluRKtsv5pV2ecV2UUjLtMkIeMdhjAg2ZYHLSYPzojt8kikeu66wCleW9B8IelgeP7
-	1inirvNVkIq/oqyekS+H+gW5xnzWHOyelGytJpQTrMgEcKK7tE1u8Za2Ebca1bhLGjaOp26cLVi3u
-	8r2jxzly+6/yZ5oYIqsA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:Subject:From:References:To:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=gLqHbDom6YGf6KOh03baG7vmkJhdlJe32EBMN1NfifM=; b=mSwiP79/5OHWyd
+	GZJsUxkgPuIRS1SkITPSR40y1rqspn/63CpOTpM4DoKmw3a71CDCGxW8E1s3561IunBWZy4UaYUzI
+	QrdfbFoL2tbKlxrK1xQuPysZK3bj+FigqfP73l+1L8XZRwqSH7cY5L0sRfU8k+Jg5fkcjML55nmIV
+	ESAAljDllmgVOAKEZdLRMZ1KzcuTDEKI3sDmE7S2dD5nEtK0uWT6H2WVa5U+78AC/u9VbGJiTA2M6
+	0t4uwB8ONdAUc+e9k/pnX30S3MaGlLxh+b0ZYdfaUkWjCQCfkKZQNSW+7ICSCpEbxQA/MHRscpHn2
+	eB3W366NYozjGxmrS1Nw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jedqq-0000Uu-Qt; Fri, 29 May 2020 12:11:04 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1jeean-0004n5-Hq; Fri, 29 May 2020 12:58:33 +0000
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jedqo-0000UQ-Dm
- for linux-snps-arc@lists.infradead.org; Fri, 29 May 2020 12:11:03 +0000
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
- [10.192.0.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A8F43400C5;
- Fri, 29 May 2020 12:11:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1590754261; bh=+55pFRiW4soVyXlol/9RbbKCR7NNoqJSnWQfcQT3YJQ=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=a79vdBoUQsfQLbcYkxVktUBPqrT2FEfunqkFNCzw9gHLZ7euIn6P5CwefOuwXcmYO
- 8UpDbZpX13JQ82EN2IT/JtfMMpiGLlV5yscPocJq7NSz4XncDWt1JLqZNvPacZ4ojC
- x8128UWtEqQsptq9m7kWlY7Ebajnwk2MTiDifK3r2GTG5VVx23sf6kHThFmdncXcv8
- JljUc5nu0ELD8Szmy3BD37x8oTQqdL0v2FZlWUZ4Ki7uf26aenGSnjkeF9yNCaYdO5
- /Xz5xGAAEHnKP/rJlvbUfavCM96oZNtEmdz/yjaDO8oFmvb3rC2e/PrWywabulrk7L
- x7yEp/37KIHSw==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 3740BA0079;
- Fri, 29 May 2020 12:10:57 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 29 May 2020 05:10:23 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.487.0; Fri, 29 May 2020 05:10:23 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aEd669l4XSwcZZsYU3BiMD467REERbUVa3TsRI4P/6w0Q4s6nybIu3QkUVV66ehzPYxVYs4MVAJvG/Ba47OtdKqDeRiTPciePc23nXV7AI8xFlV94yL+XzFN1tA3k3NWNyBA7RCOyJIFcDuJpUdHiJTRySkwosJ53WtQGHm0zM/9zXWJ9BKVX8VIuUM8g5gLXK0F3JVhNuz+eO9DLJpfLsbfbUcJZMggzrm+ygcrpDHgocUOPqIhAI06HBUsZYDwKBpd97qYbl68rR5PiUKnHputQMRNgtxAlvhATO9LJk1GxxOy5G/hJ12S32gncRGLpWqVv/NU6vT9Bhf4I0ly2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gTDPNJwEQlV1kzk4zw/bPZ2maPd0nwfHnvckKZW+HfM=;
- b=KNWmKysu+V2C5NekT134Tq7xLMGa2XumRmqRRFaohk2F/tpVVRb7OeOVvbK7sS1OPtRS2H3/Y4haeq/qKI/VTOdiGzFnG/U3ODhisPlYTR/KiNIxaoZnw4HRP3IiNLL88gh4K8c3Wj8S7nkz7IhPS+IQTqBF91n4a8ri0xWj3Q+eDUqUk7yvwFPdpTGdANfmAT/BQjkMZr4Yno2RaTSkKkVW6Be/5q7gNPTfvo/O78LeHr9Itd4z4T97UjNIHvGfufgJNQlI6BgGRgHmgVfJy18orJrVpdsgO/5/P3FWCr4qU6dvanR5M22rEk/3h8CJHVA9G2wFbvIz7Cm4xMve1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gTDPNJwEQlV1kzk4zw/bPZ2maPd0nwfHnvckKZW+HfM=;
- b=rf0OM4U0SOExGI98kG23ewQy9FJxcYpyLvkhnwnKoXrD2gklrxtMmjyM3Loh4Qe4mipJK+YklLgK1sj0RfzgYRHdnh1eEaKzWd1OIqqzIXD5hmvbe/XjGXF0PmYYNdvrJ19uSb+l22onJJujYBybYIC0sY7z6JhXb70520pndLw=
-Received: from CY4PR1201MB0136.namprd12.prod.outlook.com
- (2603:10b6:910:1a::19) by CY4PR1201MB2469.namprd12.prod.outlook.com
- (2603:10b6:903:d5::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.21; Fri, 29 May
- 2020 12:10:22 +0000
-Received: from CY4PR1201MB0136.namprd12.prod.outlook.com
- ([fe80::b1bf:dda1:dd1e:8e30]) by CY4PR1201MB0136.namprd12.prod.outlook.com
- ([fe80::b1bf:dda1:dd1e:8e30%5]) with mapi id 15.20.3045.018; Fri, 29 May 2020
- 12:10:22 +0000
-X-SNPS-Relay: synopsys.com
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-To: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>, 
- Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [PATCH private 1/3] ARC: allow to overwrite default mcpu compiler
- flag
-Thread-Topic: [PATCH private 1/3] ARC: allow to overwrite default mcpu
- compiler flag
-Thread-Index: AQHWNbAtvWfDMoTb5Eu1W2a2wecORai+9ZDP
-Date: Fri, 29 May 2020 12:10:21 +0000
-Message-ID: <CY4PR1201MB01368C541FED4F50C3ECF8DDDE8F0@CY4PR1201MB0136.namprd12.prod.outlook.com>
-References: <20200529115534.22883-1-Eugeniy.Paltsev@synopsys.com>,
- <20200529115534.22883-3-Eugeniy.Paltsev@synopsys.com>
-In-Reply-To: <20200529115534.22883-3-Eugeniy.Paltsev@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lists.infradead.org; dkim=none (message not signed)
- header.d=none;lists.infradead.org; dmarc=none action=none
- header.from=synopsys.com;
-x-originating-ip: [198.182.37.200]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f3793a6e-1285-4917-4341-08d803c94309
-x-ms-traffictypediagnostic: CY4PR1201MB2469:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR1201MB2469030A6260271B105DE8E1DE8F0@CY4PR1201MB2469.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 04180B6720
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /ApZypS48TI8qu/ddNKYDajdKtmbci2/0fb1QX0/MtQ9PYm+sbEoDyulqsoaemF8/cDQsK5h15DGed9kTWCLjvjXVokSoFQKLcSdSwh+HU+BcZXBkoxAutykjJiMdPxTvSQCwHY1ajF/jv16Pcu4J0PJcG2fuimIbiDWmOZ7moOxyRavt62J/T+Th5cKt+T0l1p1lF0u0BeIHYKSbNoICYyTizpuOdvtR/euC9ndmjN6E4c+Thn7da3yv7PxJBgyROczmAPApUjSQN7vvofi2VRlcxDYtQ1GgVUWX2mYaXiTPiaGVVp31foX0fg4nUZ8cI/8rcJ8YUDPggHkIaBBGPBEHZFy4plxaz8iVFEPDvQCX5M8wUrWAskTdZpWayIN
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR1201MB0136.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(346002)(366004)(136003)(396003)(376002)(39860400002)(5660300002)(66476007)(66946007)(7696005)(66556008)(64756008)(66446008)(8676002)(8936002)(33656002)(55016002)(52536014)(4326008)(76116006)(9686003)(91956017)(107886003)(186003)(110136005)(2906002)(71200400001)(478600001)(86362001)(83380400001)(6506007)(53546011)(6636002)(316002)(26005)(54906003)(21314003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: eiCIVS6+1YQUqJOft9xw9XVFt0XMfd/ZloBeFqHuar83AcLyjdUlNTWCdDTG7xb8E4xOvOMwK2FWc8wbz+SdHQXjqxAWTBJkIvTW/q0BNoQUgmEfOwdYQXgLfMhcERSYC+ywviMGG0Nog6TIYCwRKQ4CvWDsw+9fJFFINjoBEn7v+TI9S6GRDm/4b53M4Ow8C9G1+S15kXd522yVJaE2JxSEv5J6EfydBGksXw0rkzOI5qE+kzMNY7G3buXgN00s2Kri+Et3iV+bS/5TLHUlgnbw93B4Ahz7pKJeMAUJ4cewF99En2Q1aOI0hw7LtsNfBMvnQw9Jkkdja/HmACuF+E2GPhoTdM7dbwdcbRX+xov++q08C/ceWlUNxoURXd5N5Zpib1V4v/FJVPvaqn7Y6A0fDm/ThHaDTfioUiM/anpjWvwp4t3oHvdPEKOAr/mVDIVwJLJ4Yqm38yv4jfTX4CPbMuUWeXFji6+EDgT89y/hJXC9FaKt2uSd+4XPTl/Y
+ id 1jeeak-0004mV-6S
+ for linux-snps-arc@lists.infradead.org; Fri, 29 May 2020 12:58:31 +0000
+Received: by mail-qk1-x742.google.com with SMTP id w3so2026356qkb.6
+ for <linux-snps-arc@lists.infradead.org>; Fri, 29 May 2020 05:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=to:cc:references:from:autocrypt:subject:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mRlYgfMas7zfkENmUnmjUPKm81MLGXKIWiWfBhtf8xY=;
+ b=YXVljGFmCV5ifY/NY6VXep00jXCZkQuNfsOsKPJwRFig8LyclyfUMJP6OoTOsYun6F
+ xSvmp7FBGmyRNzNYrlm+vwzo21cxrTW23t6lhSP/7Nr3hlLYNuYF9agR/KIMBqpt400O
+ 3ZdnH9ATGox/e6VMuAGYI3SZVaLBGqbjGowoUojlSaRN+zmTLoGV5/r43yHB2NRGCkiV
+ W9Dh0sRKPY5+rZVRnW3xwMbiLGBYF8oQxmkVVTnz9NIriMwOBw3axpFo79YrB02VArYA
+ yJ4pO0r8kRDM2ZohYlI3Z+GAkuPdheeQx4/D5f4uvkvJINOuMbDWqHeU1yTAhallMbY6
+ n1Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:autocrypt:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=mRlYgfMas7zfkENmUnmjUPKm81MLGXKIWiWfBhtf8xY=;
+ b=IWBqodbmnfMUFtMOfclB9Kcpc9QF+EMVptBIN2s+fNEtxxetazmfxi4zmPXDoiBGN8
+ uoj6fSCY3KJEx+wBFN8o/muiQTELd2lO8HR6lut79njvu6kEej8+YPqXNr0mMjH2CCeL
+ h6Lmfb2pBeChsbd8cvxF4Pe1PZ5b12hlR0gRTSZJWDrB48L/RvYMV/k6ASAKdVzQ3wpB
+ aNruVVpyyRZVqMRji4pNJhBNFJ2FLH1IxaDW26aTikRilnEdrPGOQ9Kxdh6kIEgyWmKF
+ Ka5k6Ydqhckn/pBG2es5vHHUiuAzB18aUoWc3mgCYU458VnAPeTKnybFpmo67c0K+dDO
+ VQUg==
+X-Gm-Message-State: AOAM530ukcBCC39V32uV3QRl6u/XCD6yFlyFi6HvxNY3jz4nRvwAqYp1
+ LA6wpwjp9R580dOK/85vmC/oFy5TgCw=
+X-Google-Smtp-Source: ABdhPJxkcjx+qP45QxDAlWVUNLj4QHGSeuWedHUn8oKqkK1Lw2wqkoQXPwGLTrHBMY4svUIN256dEQ==
+X-Received: by 2002:a37:6fc6:: with SMTP id k189mr7320997qkc.289.1590757107054; 
+ Fri, 29 May 2020 05:58:27 -0700 (PDT)
+Received: from [192.168.1.4] ([177.194.48.209])
+ by smtp.googlemail.com with ESMTPSA id q34sm7566334qtd.89.2020.05.29.05.58.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 May 2020 05:58:26 -0700 (PDT)
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>, libc-alpha@sourceware.org
+References: <20200528194345.9829-1-vgupta@synopsys.com>
+From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
+Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+Subject: Re: [PATCH] dl-runtime: reloc_{offset,index} now functions arch
+ overide'able
+Message-ID: <4c346276-085a-6e2d-16a4-c2b88252a74d@linaro.org>
+Date: Fri, 29 May 2020 09:58:23 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3793a6e-1285-4917-4341-08d803c94309
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2020 12:10:21.9046 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vBuz5g+coKSmOWZSqVzv51GgsnmYOyQknZ5yHpZsArOyeZ1Y0oc8rIBFYduyo0e1e8OYzfKHeugmMNM4pKlA3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2469
-X-OriginatorOrg: synopsys.com
+In-Reply-To: <20200528194345.9829-1-vgupta@synopsys.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200529_051102_555010_965068C0 
-X-CRM114-Status: UNSURE (   9.74  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200529_055830_271021_5839260F 
+X-CRM114-Status: GOOD (  23.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,81 +141,252 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Alexey  Brodkin <Alexey.Brodkin@synopsys.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: linux-snps-arc@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Oooops, this one is duplicate and should be dropped.
-
----
- Eugeniy Paltsev
 
 
-________________________________________
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Sent: Friday, May 29, 2020 14:55
-To: linux-snps-arc@lists.infradead.org; Vineet Gupta
-Cc: linux-kernel@vger.kernel.org; Alexey Brodkin; Eugeniy Paltsev
-Subject: [PATCH private 1/3] ARC: allow to overwrite default mcpu compiler flag
+On 28/05/2020 16:43, Vineet Gupta wrote:
+> The existing macros are fragile and expect local variables with a
+> certain name. Fix this by defining them as functions with defaul
+> timplementation in a new header dl-runtime.h which arches can overrid
+> eif need be.
+> 
+> This came up during ARC port review.
+> 
+> This patch potentially only affects hppa/x86 ports,
+> build tested for both those configs and a few more.
+> 
+> Suggested-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 
-By default we set -mcpu=xxx compiler flag depending on the CPU ISA
-version. It's good starting point, however that may be not enough
-as for some platforms we may want to use some specific 'mcpu'
-options for better optimization or to workaround HW issues.
+LGTM, thanks.
 
-We are going to use this option for HSDK-4xD board support.
-In addition it also allows to awoid patching 'mcpu' in ARC Makefile
-when we building Linux for some non-standard simulation or FPGA-based
-platforms.
+Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
----
- arch/arc/Kconfig  | 7 +++++++
- arch/arc/Makefile | 4 ++++
- 2 files changed, 11 insertions(+)
+> ---
+>  elf/dl-runtime.c                              | 24 +++++++-------
+>  elf/dl-runtime.h                              | 30 ++++++++++++++++++
+>  sysdeps/hppa/dl-runtime.c                     |  4 ---
+>  sysdeps/hppa/dl-runtime.h                     | 31 +++++++++++++++++++
+>  sysdeps/x86_64/{dl-runtime.c => dl-runtime.h} | 13 ++++++--
+>  5 files changed, 84 insertions(+), 18 deletions(-)
+>  create mode 100644 elf/dl-runtime.h
+>  create mode 100644 sysdeps/hppa/dl-runtime.h
+>  rename sysdeps/x86_64/{dl-runtime.c => dl-runtime.h} (60%)
+> 
+> diff --git a/elf/dl-runtime.c b/elf/dl-runtime.c
+> index cf5f1d3e82e1..62f90579370b 100644
+> --- a/elf/dl-runtime.c
+> +++ b/elf/dl-runtime.c
+> @@ -27,6 +27,7 @@
+>  #include "dynamic-link.h"
+>  #include <tls.h>
+>  #include <dl-irel.h>
+> +#include <dl-runtime.h>
+>  
+>  
+>  #if (!ELF_MACHINE_NO_RELA && !defined ELF_MACHINE_PLT_REL) \
+> @@ -42,13 +43,6 @@
+>  # define ARCH_FIXUP_ATTRIBUTE
+>  #endif
+>  
+> -#ifndef reloc_offset
+> -# define reloc_offset reloc_arg
+> -# define reloc_index  reloc_arg / sizeof (PLTREL)
+> -#endif
+> -
+> -
+> -
+>  /* This function is called through a special trampoline from the PLT the
+>     first time each PLT entry is called.  We must perform the relocation
+>     specified in the PLT of the given shared object, and return the resolved
+> @@ -68,8 +62,11 @@ _dl_fixup (
+>      = (const void *) D_PTR (l, l_info[DT_SYMTAB]);
+>    const char *strtab = (const void *) D_PTR (l, l_info[DT_STRTAB]);
+>  
+> +  const uintptr_t pltgot = (uintptr_t) D_PTR (l, l_info[DT_PLTGOT]);
+> +
+>    const PLTREL *const reloc
+> -    = (const void *) (D_PTR (l, l_info[DT_JMPREL]) + reloc_offset);
+> +    = (const void *) (D_PTR (l, l_info[DT_JMPREL])
+> +		      + reloc_offset (pltgot, reloc_arg));
+>    const ElfW(Sym) *sym = &symtab[ELFW(R_SYM) (reloc->r_info)];
+>    const ElfW(Sym) *refsym = sym;
+>    void *const rel_addr = (void *)(l->l_addr + reloc->r_offset);
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index ff306246d0f8..e7805db10f7a 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -377,6 +377,13 @@ config ARC_HAS_SWAPE
-        bool "Insn: SWAPE (endian-swap)"
-        default y
+Ok (it should be dead code eliminated by compiler if reloc_offset does not
+use the pltgot field, as for default implementation).
 
-+config ARC_MCPU_OVERWRITE
-+       string "Overwrite default -mcpu compiler flag"
-+       default ""
-+       help
-+         Overwrite default -mcpu=xxx compiler flag (which is set depending on
-+         the ISA version) with the specified value.
-+
- if ISA_ARCV2
+> @@ -182,7 +179,8 @@ _dl_profile_fixup (
+>  
+>    /* This is the address in the array where we store the result of previous
+>       relocations.  */
+> -  struct reloc_result *reloc_result = &l->l_reloc_result[reloc_index];
+> +  struct reloc_result *reloc_result
+> +    = &l->l_reloc_result[reloc_index (reloc_arg, sizeof (PLTREL))];
+>  
+>   /* CONCURRENCY NOTES:
+>  
+> @@ -219,8 +217,11 @@ _dl_profile_fixup (
+>  	= (const void *) D_PTR (l, l_info[DT_SYMTAB]);
+>        const char *strtab = (const char *) D_PTR (l, l_info[DT_STRTAB]);
+>  
+> +      const uintptr_t pltgot = (uintptr_t) D_PTR (l, l_info[DT_PLTGOT]);
+> +
+>        const PLTREL *const reloc
+> -	= (const void *) (D_PTR (l, l_info[DT_JMPREL]) + reloc_offset);
+> +	= (const void *) (D_PTR (l, l_info[DT_JMPREL])
+> +			  + reloc_offset (pltgot, reloc_arg));
+>        const ElfW(Sym) *refsym = &symtab[ELFW(R_SYM) (reloc->r_info)];
+>        const ElfW(Sym) *defsym = refsym;
+>        lookup_t result;
+> @@ -489,7 +490,8 @@ _dl_call_pltexit (struct link_map *l, ElfW(Word) reloc_arg,
+>       relocations.  */
+>    // XXX Maybe the bound information must be stored on the stack since
+>    // XXX with bind_not a new value could have been stored in the meantime.
+> -  struct reloc_result *reloc_result = &l->l_reloc_result[reloc_index];
+> +  struct reloc_result *reloc_result =
+> +    &l->l_reloc_result[reloc_index (reloc_arg, sizeof (PLTREL))];
+>    ElfW(Sym) *defsym = ((ElfW(Sym) *) D_PTR (reloc_result->bound,
+>  					    l_info[DT_SYMTAB])
+>  		       + reloc_result->boundndx);
 
- config ARC_USE_UNALIGNED_MEM_ACCESS
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 20e9ab6cc521..1b37e44d9b57 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -10,8 +10,12 @@ CROSS_COMPILE := $(call cc-cross-prefix, arc-linux- arceb-linux-)
- endif
+Ok.
 
- cflags-y       += -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
-+ifeq ($(CONFIG_ARC_MCPU_OVERWRITE),"")
- cflags-$(CONFIG_ISA_ARCOMPACT) += -mA7
- cflags-$(CONFIG_ISA_ARCV2)     += -mcpu=hs38
-+else
-+cflags-y                       += $(shell echo $(CONFIG_ARC_MCPU_OVERWRITE))
-+endif
+> diff --git a/elf/dl-runtime.h b/elf/dl-runtime.h
+> new file mode 100644
+> index 000000000000..ed5db3ba51b7
+> --- /dev/null
+> +++ b/elf/dl-runtime.h
+> @@ -0,0 +1,30 @@
+> +/* Helpers for On-demand PLT fixup for shared objects, Generic version.
 
- ifdef CONFIG_ARC_CURR_IN_REG
- # For a global register defintion, make sure it gets passed to every file
---
-2.21.3
+Maybe period here?
 
+> +   Copyright (C) 2020 Free Software Foundation, Inc.
+> +   This file is part of the GNU C Library.
+> +
+> +   The GNU C Library is free software; you can redistribute it and/or
+> +   modify it under the terms of the GNU Lesser General Public
+> +   License as published by the Free Software Foundation; either
+> +   version 2.1 of the License, or (at your option) any later version.
+> +
+> +   The GNU C Library is distributed in the hope that it will be useful,
+> +   but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> +   Lesser General Public License for more details.
+> +
+> +   You should have received a copy of the GNU Lesser General Public
+> +   License along with the GNU C Library; if not, write to the Free
+> +   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+> +   02111-1307 USA.  */
+> +
+> +static inline uintptr_t
+> +reloc_offset (uintptr_t plt0, uintptr_t pltn)
+> +{
+> +  return pltn;
+> +}
+> +
+> +static inline uintptr_t
+> +reloc_index (uintptr_t pltn, size_t size)
+> +{
+> +  return pltn / size;
+> +}
+
+Ok.
+
+> diff --git a/sysdeps/hppa/dl-runtime.c b/sysdeps/hppa/dl-runtime.c
+> index 885a3f1837cb..2d061b150f06 100644
+> --- a/sysdeps/hppa/dl-runtime.c
+> +++ b/sysdeps/hppa/dl-runtime.c
+> @@ -17,10 +17,6 @@
+>     Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+>     02111-1307 USA.  */
+>  
+> -/* Clear PA_GP_RELOC bit in relocation offset.  */
+> -#define reloc_offset (reloc_arg & ~PA_GP_RELOC)
+> -#define reloc_index  (reloc_arg & ~PA_GP_RELOC) / sizeof (PLTREL)
+> -
+>  #include <elf/dl-runtime.c>
+>  
+>  /* The caller has encountered a partially relocated function descriptor.
+
+Ok.
+
+> diff --git a/sysdeps/hppa/dl-runtime.h b/sysdeps/hppa/dl-runtime.h
+> new file mode 100644
+> index 000000000000..cfde0ec991e3
+> --- /dev/null
+> +++ b/sysdeps/hppa/dl-runtime.h
+> @@ -0,0 +1,31 @@
+> +/* Helpers for On-demand PLT fixup for shared objects, HPAA version.
+
+Maybe period instead of comma here?
+
+> +   Copyright (C) 2020 Free Software Foundation, Inc.
+> +   This file is part of the GNU C Library.
+> +
+> +   The GNU C Library is free software; you can redistribute it and/or
+> +   modify it under the terms of the GNU Lesser General Public
+> +   License as published by the Free Software Foundation; either
+> +   version 2.1 of the License, or (at your option) any later version.
+> +
+> +   The GNU C Library is distributed in the hope that it will be useful,
+> +   but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> +   Lesser General Public License for more details.
+> +
+> +   You should have received a copy of the GNU Lesser General Public
+> +   License along with the GNU C Library; if not, write to the Free
+> +   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+> +   02111-1307 USA.  */
+> +
+> +/* Clear PA_GP_RELOC bit in relocation offset.  */
+> +static inline uintptr_t
+> +reloc_offset (uintptr_t plt0, uintptr_t pltn)
+> +{
+> +  return pltn & ~PA_GP_RELOC;
+> +}
+> +
+> +static inline uintptr_t
+> +reloc_index (uintptr_t pltn, size_t size)
+> +{
+> +  return (pltn & ~PA_GP_RELOC )/ size;
+> +}
+
+Ok.
+
+> diff --git a/sysdeps/x86_64/dl-runtime.c b/sysdeps/x86_64/dl-runtime.h
+> similarity index 60%
+> rename from sysdeps/x86_64/dl-runtime.c
+> rename to sysdeps/x86_64/dl-runtime.h
+> index b625d1e88257..494ff47b7091 100644
+> --- a/sysdeps/x86_64/dl-runtime.c
+> +++ b/sysdeps/x86_64/dl-runtime.h
+> @@ -3,7 +3,14 @@
+>     also use the index.  Therefore it is wasteful to compute the offset
+>     in the trampoline just to reverse the operation immediately
+>     afterwards.  */
+> -#define reloc_offset reloc_arg * sizeof (PLTREL)
+> -#define reloc_index  reloc_arg
+> +static inline uintptr_t
+> +reloc_offset (uintptr_t plt0, uintptr_t pltn)
+> +{
+> +  return pltn * sizeof (ElfW(Rela));
+> +}
+>  
+> -#include <elf/dl-runtime.c>
+> +static inline uintptr_t
+> +reloc_index (uintptr_t pltn, size_t size)
+> +{
+> +  return pltn;
+> +}
+> 
+
+Ok.
 
 _______________________________________________
 linux-snps-arc mailing list
