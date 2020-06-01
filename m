@@ -7,75 +7,77 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 371A6C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 14:20:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 560FAC433DF
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 14:42:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EC2392068D
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 14:20:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 25FDA207BC
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 14:42:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Aq+2H7tY";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EJaM/peP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EC2392068D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ga9Dr7ag";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cQcK/5yy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 25FDA207BC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:Subject:From:References:To:Reply-To:Content-ID:Content-Description
+	Message-ID:Subject:References:To:From:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=u/B6Jim2619gx7Govrrj12FZmaJEiaZr/ijjrNRq0Ks=; b=Aq+2H7tY17SXfN
-	ci6lyViB5T5o410mzCSXlT7EJZjmEuyXGUUflHbf5pB8vHwBgGDMVnLKey6VYcRUIg2LZgPf/lrAq
-	uUjpn6GEOq5ACvPLQxmB2ez3WF+CTV6loyvDxIdktF59/gtuErDdBnrJ97QLpzyURY+95k5HpVOPu
-	gG/0EC/h8BTwrXXtUoV6lXnPUs2J9oMpez8ITATZhLjVz2kKae3/kO7RytGJ5Fjubecg5cKfK+xud
-	44JPUN+1ekjhbc3gGYub+TBaFQp4syQ3HXJoeban+oy4QnwNm3Ud+PaSxS7jwFQs0Ip/1KBWrmswi
-	Tn+qeYmNw/jHmB/v3Ldw==;
+	List-Owner; bh=bDkhgN1zdT9sJdvIknLOUd+7Grn6GWVhgE7VRXP5nRg=; b=ga9Dr7agxcU5gb
+	xZGNa3AbQ5tAtrgamHKRGwRl2F0Y4qY17U6LFvO9Vrouy5Hp5CTma8cKg5qjtDvz9zIuMhPUhlYjM
+	PmSisVJ+mQyYcKB+Qz6UtVVYEyUZgbLHDg47p0XkYwYRBTb4NbUvt4b/Z92Qb0Xvoc2PKoce4qTbG
+	Qcymx76IRFHsCFdd4DiciQZbW4+LH46c7Bo2NGwTcJvDMf9xf2QtxwsrdlU3RqOY7a6dIHP1123cs
+	lpSiEmwuOvZPcFM5JPbU3IG0VvHZYuu4Mq3VLdZeJeFSu5MxTKuZZLJXQIS+EQPepcVfoALYzTMnP
+	sa+kdZDWQuFoxpTimdxg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jflIU-0008Vw-19; Mon, 01 Jun 2020 14:20:14 +0000
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744])
+	id 1jfldk-0005Th-RG; Mon, 01 Jun 2020 14:42:12 +0000
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jflIR-0008Qv-7P
- for linux-snps-arc@lists.infradead.org; Mon, 01 Jun 2020 14:20:12 +0000
-Received: by mail-qk1-x744.google.com with SMTP id s1so9128666qkf.9
- for <linux-snps-arc@lists.infradead.org>; Mon, 01 Jun 2020 07:20:10 -0700 (PDT)
+ id 1jfldi-0005Sw-Mh
+ for linux-snps-arc@lists.infradead.org; Mon, 01 Jun 2020 14:42:12 +0000
+Received: by mail-qt1-x842.google.com with SMTP id x29so7849979qtv.4
+ for <linux-snps-arc@lists.infradead.org>; Mon, 01 Jun 2020 07:42:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:cc:references:from:autocrypt:subject:message-id:date:user-agent
+ h=from:to:cc:references:autocrypt:subject:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0eOr+yJKBl/C7NJIaNE0ZTdBbQe8/1Gb47yUJslRToI=;
- b=EJaM/peP1DOiB5zgjYZKc2vsSkd2d4j1Y6aBmHdnwQh3PIDDSgMIVgkHj6QY3r0vxR
- 19blxgzPVu2Sy2AWQ4q0U2+JsY7WxI9MTL0yamLNIsG08smGour/o3USFSEsrpVliAcZ
- WxXa+mvwWNvtjrtWwWi8wHNZGdiXtkS6EBhQKSEUDLiZHakvVWwRk+SYid9IshlxI9oN
- ULTdwDSmSD9AxCcAMPHq5SO3WGOTk0nL3z1HY7y89Q8IumUNkrNwiDG0x+AXeOxfdr+W
- WJOiLd9Nf3nNETWTsR/WVXQMQcI4/nqmyV8aow4fnwyyL6vdgxDEvOBQ3KB57ilHo4P/
- XWvg==
+ bh=eBVMOX9FeD3RuS37GZ6ae6+f6aAoRYNzkpYFDetY5rM=;
+ b=cQcK/5yy0IsUk9ZFmOH87fLJ5h2jn9Kpo2hK67R7CWi6YVDH80iLZtTDsTQPQ2+zj+
+ 8Hv4l+kFPJlUhgu/03b0KAlTxjltsGwOe5J1peBmxiV/UbOxe1+SvRAo6ZpnPn2tEQb3
+ MxB5OKymxktqI02jojmmiYCTMgiPO6G/pvn7PmGooZDVfE5eb6oK36sdd9zIqYF1EpF1
+ 5MywXCcssDr/FKyvDTn3GOE9x0OkmynHvW5gUlPvdn5NZo638zex8lWMEYJRyndUIYX3
+ tYFPgVB/kFlDqvkmWFOzEIYSmFZVfQ66iUeCM2TirtFxw+A22PcsmjHoKCNizSWSHu+I
+ D/CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:autocrypt:subject
+ h=x-gm-message-state:from:to:cc:references:autocrypt:subject
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=0eOr+yJKBl/C7NJIaNE0ZTdBbQe8/1Gb47yUJslRToI=;
- b=mMEvkHa0NeIHDc3fyaqEnOcRlETXVUfZcl2Kx0hf0TcDYdfL9YqXBGsnyHHngvYBuV
- uWFuhaVbYA+rt147/B6Qxnzsy2H9q8M+ucb/n0YsW30rwHeHLagbhIlMP7+UDrvQfWFp
- m46imaWFKrJ1ErS09hKULeHhtRZ/UlOKdS1gp/FYl5xXB3IiSdbZJN5IFi3HE08iBGOc
- S7TGjMzjdmW0ddgfFvBtuEZCiOvV6FQ+WR9JkITv6GAww/DdLGD36CvNBZSKu5vCN6Tg
- GrAG3jpFT9g7cWdXs9oEcaLt0G6K4+RiZlfv/labOJ2v/6k6k1vLqwCQNS6+gMYMPLT0
- gujw==
-X-Gm-Message-State: AOAM532gU6LRUdA6aBMuQvUCAJL7OunMSMtivVfW2sTiMPcnTBcRbHrm
- mfnTSLphs37H1oqKWlgKB0De1hopPsM=
-X-Google-Smtp-Source: ABdhPJx5wPp0wE1Z5iABHk8TzFzDprLt1+mUfD2HeMdMUMC+vyOE/bY93VtzubUAk7mL/Nj2eQpXmA==
-X-Received: by 2002:a37:9645:: with SMTP id y66mr20444477qkd.280.1591021209815; 
- Mon, 01 Jun 2020 07:20:09 -0700 (PDT)
+ bh=eBVMOX9FeD3RuS37GZ6ae6+f6aAoRYNzkpYFDetY5rM=;
+ b=dhkUTmeJV671jhXzdGYMeRTrJpZnrtUc8tyK81GaSJAynKXPax3Z7TPIxp5OlsHEEG
+ bvhIYcEZL1RN+yB3C05EPbch/fI0QZmxL3uEytfwujCUl7LRN67FgB1KGyIs50HkBr20
+ REP4xuocJJIjxvKv66Yib28+o+IMdo6o+8ytP0V9p+qXCmxVC/Z13ORaoW8152Knw7cs
+ skKEbg6SRKXn3Xfas2fHnfC+/q1WHavn50Ho4BPpFJwzKPqH7AXjZFzPK+WZjQvJQl6R
+ z3u3qTaw4g2qcJIBYT1f2lH1oy0GxtS/yepK5RpzxUM3mjQnhYNmzOVYyq5/vg69+4cT
+ GeNQ==
+X-Gm-Message-State: AOAM531ptXex1f6sYgSf2Q/2GELUOC8HWayc8B62kaTKW7B8AAxePUv/
+ wdlZVo5IAOQ5fpmAwndLuPuYj3QDH+8=
+X-Google-Smtp-Source: ABdhPJyITE3WgD3Gr3GzyMLHynJN/AUL2bVPHM9jUnOx4l5ABA6i1IThDwlLbdXscFqgMmGl/C0BFQ==
+X-Received: by 2002:ac8:60b:: with SMTP id d11mr16914018qth.218.1591022528925; 
+ Mon, 01 Jun 2020 07:42:08 -0700 (PDT)
 Received: from [192.168.1.4] ([177.194.48.209])
- by smtp.googlemail.com with ESMTPSA id t75sm10432903qke.35.2020.06.01.07.20.08
+ by smtp.googlemail.com with ESMTPSA id
+ a188sm14410338qkg.11.2020.06.01.07.42.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Jun 2020 07:20:09 -0700 (PDT)
+ Mon, 01 Jun 2020 07:42:08 -0700 (PDT)
+From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 To: Vineet Gupta <Vineet.Gupta1@synopsys.com>, libc-alpha@sourceware.org
 References: <20200530020047.5490-1-vgupta@synopsys.com>
- <20200530020047.5490-4-vgupta@synopsys.com>
-From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
+ <20200530020047.5490-3-vgupta@synopsys.com>
+ <1f8c98ba-481c-1463-29ff-c0dec7add324@linaro.org>
 Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
  mQINBFcVGkoBEADiQU2x/cBBmAVf5C2d1xgz6zCnlCefbqaflUBw4hB/bEME40QsrVzWZ5Nq
  8kxkEczZzAOKkkvv4pRVLlLn/zDtFXhlcvQRJ3yFMGqzBjofucOrmdYkOGo0uCaoJKPT186L
@@ -119,18 +121,18 @@ Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
  7vJwKcyHJGxsCLU+Et0mryX8qZwqibJIzu7kUJQdQDljbRPDFd/xmGUFCQiQAncSilYOcxNU
  EMVCXPAQTteqkvA+gNqSaK1NM9tY0eQ4iJpo+aoX8HAcn4sZzt2pfUB9vQMTBJ2d4+m/qO6+
  cFTAceXmIoFsN8+gFN3i8Is3u12u8xGudcBPvpoy4OoG
-Subject: Re: [PATCH 3/5] iee754: prvoide gcc builtins based generic fma
+Subject: Re: [PATCH 2/5] iee754: prvoide gcc builtins based generic sqrt
  functions
-Message-ID: <a2fc9a69-1e40-f121-7ca5-d783dba93918@linaro.org>
-Date: Mon, 1 Jun 2020 11:20:06 -0300
+Message-ID: <45540801-e568-54ef-ad29-c3c2130eddb5@linaro.org>
+Date: Mon, 1 Jun 2020 11:42:06 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200530020047.5490-4-vgupta@synopsys.com>
+In-Reply-To: <1f8c98ba-481c-1463-29ff-c0dec7add324@linaro.org>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200601_072011_277881_DC7B77A6 
-X-CRM114-Status: GOOD (  14.09  )
+X-CRM114-CacheID: sfid-20200601_074210_777032_4276F1FD 
+X-CRM114-Status: GOOD (  14.94  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,150 +152,140 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 
 
-On 29/05/2020 23:00, Vineet Gupta wrote:
-
-Ok with the fixes below.
-
-Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
-
-> ---
->  sysdeps/generic/math-use-builtins.h         | 4 ++++
->  sysdeps/ieee754/dbl-64/s_fma.c              | 6 ++++++
->  sysdeps/ieee754/dbl-64/s_fmaf.c             | 6 ++++++
->  sysdeps/ieee754/float128/float128_private.h | 2 ++
->  sysdeps/ieee754/ldbl-128/s_fmal.c           | 5 +++++
->  5 files changed, 23 insertions(+)
+On 01/06/2020 11:13, Adhemerval Zanella wrote:
 > 
-> diff --git a/sysdeps/generic/math-use-builtins.h b/sysdeps/generic/math-use-builtins.h
-> index fc724c824a17..9e96807a3370 100644
-> --- a/sysdeps/generic/math-use-builtins.h
-> +++ b/sysdeps/generic/math-use-builtins.h
-> @@ -63,4 +63,8 @@
->  #define USE_SQRT_BUILTIN 0
->  #define USE_SQRTF_BUILTIN 0
->  
-> +#define USE_FMA_BUILTIN 0
-> +#define USE_FMAF_BUILTIN 0
-> +#define USE_FMAL_BUILTIN 0
-> +
->  #endif /* math-use-builtins.h */
+> 
+> On 29/05/2020 23:00, Vineet Gupta wrote:
+> 
+> LGTM, thanks.
+> 
+> Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
+> 
+>> ---
+>>  sysdeps/generic/math-use-builtins.h | 3 +++
+>>  sysdeps/ieee754/dbl-64/e_sqrt.c     | 6 ++++++
+>>  sysdeps/ieee754/flt-32/e_sqrtf.c    | 6 ++++++
+>>  3 files changed, 15 insertions(+)
+>>
+>> diff --git a/sysdeps/generic/math-use-builtins.h b/sysdeps/generic/math-use-builtins.h
+>> index 8a39ef58bc95..fc724c824a17 100644
+>> --- a/sysdeps/generic/math-use-builtins.h
+>> +++ b/sysdeps/generic/math-use-builtins.h
+>> @@ -60,4 +60,7 @@
+>>  # define USE_COPYSIGNF128_BUILTIN 0
+>>  #endif
+>>  
+>> +#define USE_SQRT_BUILTIN 0
+>> +#define USE_SQRTF_BUILTIN 0
+>> +
+>>  #endif /* math-use-builtins.h */
+> 
+> Ok.
+> 
+>> diff --git a/sysdeps/ieee754/dbl-64/e_sqrt.c b/sysdeps/ieee754/dbl-64/e_sqrt.c
+>> index d42a1a4eb6e9..518a8ae5cdaf 100644
+>> --- a/sysdeps/ieee754/dbl-64/e_sqrt.c
+>> +++ b/sysdeps/ieee754/dbl-64/e_sqrt.c
+>> @@ -41,6 +41,7 @@
+>>  #include <math_private.h>
+>>  #include <fenv_private.h>
+>>  #include <libm-alias-finite.h>
+>> +#include <math-use-builtins.h>
+>>  
+>>  /*********************************************************************/
+>>  /* An ultimate sqrt routine. Given an IEEE double machine number x   */
+> 
+> Ok.
+> 
+>> @@ -50,6 +51,10 @@
+>>  double
+>>  __ieee754_sqrt (double x)
+>>  {
+>> +#if USE_SQRT_BUILTIN
+>> +  return __builtin_sqrt (x);
+>> +#else
+>> +  /* Use generic implementation.  */
+>>    static const double
+>>      rt0 = 9.99999999859990725855365213134618E-01,
+>>      rt1 = 4.99999999495955425917856814202739E-01,
+>> @@ -138,6 +143,7 @@ __ieee754_sqrt (double x)
+>>  	return (x - x) / (x - x); /* sqrt(-ve)=sNaN */
+>>        return 0x1p-256 * __ieee754_sqrt (x * 0x1p512);
+>>      }
+>> +#endif /* ! USE_SQRT_BUILTIN  */
+>>  }
+>>  #ifndef __ieee754_sqrt
+>>  libm_alias_finite (__ieee754_sqrt, __sqrt)
+> 
+> Ok.
+> 
+>> diff --git a/sysdeps/ieee754/flt-32/e_sqrtf.c b/sysdeps/ieee754/flt-32/e_sqrtf.c
+>> index b339444301aa..68fc80e1e1ee 100644
+>> --- a/sysdeps/ieee754/flt-32/e_sqrtf.c
+>> +++ b/sysdeps/ieee754/flt-32/e_sqrtf.c
+>> @@ -16,12 +16,17 @@
+>>  #include <math.h>
+>>  #include <math_private.h>
+>>  #include <libm-alias-finite.h>
+>> +#include <math-use-builtins.h>
+>>  
+>>  static	const float	one	= 1.0, tiny=1.0e-30;
 
-For float128 support it should also contain a:
+You will need to move this definitions inside the !USE_SQRTF_BUILTIN
+to avoid defined by not used warnings.  Current practice is to just
+open code the constants and let compiler optimize the constant pool:
 
-  #define USE_FMAF128_BUILTIN
+diff --git a/sysdeps/ieee754/flt-32/e_sqrtf.c b/sysdeps/ieee754/flt-32/e_sqrtf.c
+index 68fc80e..d85a041 100644
+--- a/sysdeps/ieee754/flt-32/e_sqrtf.c
++++ b/sysdeps/ieee754/flt-32/e_sqrtf.c
+@@ -18,8 +18,6 @@
+ #include <libm-alias-finite.h>
+ #include <math-use-builtins.h>
+ 
+-static const float     one     = 1.0, tiny=1.0e-30;
+-
+ float
+ __ieee754_sqrtf(float x)
+ {
+@@ -75,10 +73,10 @@ __ieee754_sqrtf(float x)
+ 
+     /* use floating add to find out rounding direction */
+        if(ix!=0) {
+-           z = one-tiny; /* trigger inexact flag */
+-           if (z>=one) {
+-               z = one+tiny;
+-               if (z>one)
++           z = 0x1p0 - 0x1.4484cp-100; /* trigger inexact flag */
++           if (z >= 0x1p0) {
++               z = 0x1p0 + 0x1.4484cp-100;
++               if (z > 0x1p0)
+                    q += 2;
+                else
+                    q += (q&1);
 
-> diff --git a/sysdeps/ieee754/dbl-64/s_fma.c b/sysdeps/ieee754/dbl-64/s_fma.c
-> index 876df6e78bdc..1e4b2da1511d 100644
-> --- a/sysdeps/ieee754/dbl-64/s_fma.c
-> +++ b/sysdeps/ieee754/dbl-64/s_fma.c
-> @@ -25,6 +25,7 @@
->  #include <fenv_private.h>
->  #include <libm-alias-double.h>
->  #include <tininess.h>
-> +#include <math-use-builtins.h>
->  
->  /* This implementation uses rounding to odd to avoid problems with
->     double rounding.  See a paper by Boldo and Melquiond:
-> @@ -33,6 +34,10 @@
->  double
->  __fma (double x, double y, double z)
->  {
-> +#if USE_FMA_BUILTIN
-> +  return __builtin_fma (x);
-
-It should be:
-
-  return __builtin_fma (x, y, z);
-
-Same for float and long double variant.
-
-> +#else
-> +  /* Use generic implementation.  */
->    union ieee754_double u, v, w;
->    int adjust = 0;
->    u.d = x;
-> @@ -292,6 +297,7 @@ __fma (double x, double y, double z)
->        v.ieee.mantissa1 |= j;
->        return v.d * 0x1p-108;
->      }
-> +#endif /* ! USE_FMA_BUILTIN  */
->  }
->  #ifndef __fma
->  libm_alias_double (__fma, fma)> diff --git a/sysdeps/ieee754/dbl-64/s_fmaf.c b/sysdeps/ieee754/dbl-64/s_fmaf.c
-> index 57329d0a87fe..f15b18262124 100644
-> --- a/sysdeps/ieee754/dbl-64/s_fmaf.c
-> +++ b/sysdeps/ieee754/dbl-64/s_fmaf.c
-> @@ -23,6 +23,7 @@
->  #include <math-barriers.h>
->  #include <fenv_private.h>
->  #include <libm-alias-float.h>
-> +#include <math-use-builtins.h>
->  
->  /* This implementation relies on double being more than twice as
->     precise as float and uses rounding to odd in order to avoid problems
-> @@ -33,6 +34,10 @@
->  float
->  __fmaf (float x, float y, float z)
->  {
-> +#if USE_FMAF_BUILTIN
-> +  return __builtin_fmaf (x);
-> +#else
-> +  /* Use generic implementation.  */
->    fenv_t env;
->  
->    /* Multiplication is always exact.  */
-> @@ -60,6 +65,7 @@ __fmaf (float x, float y, float z)
->  
->    /* And finally truncation with round to nearest.  */
->    return (float) u.d;
-> +#endif /* ! USE_FMAF_BUILTIN  */
->  }
->  #ifndef __fmaf
->  libm_alias_float (__fma, fma)> diff --git a/sysdeps/ieee754/float128/float128_private.h b/sysdeps/ieee754/float128/float128_private.h
-> index f97463d9dc1b..a697a7c29038 100644
-> --- a/sysdeps/ieee754/float128/float128_private.h
-> +++ b/sysdeps/ieee754/float128/float128_private.h
-> @@ -154,6 +154,8 @@
->  #define USE_ROUNDL_BUILTIN USE_ROUNDF128_BUILTIN
->  #undef USE_COPYSIGNL_BUILTIN
->  #define USE_COPYSIGNL_BUILTIN USE_COPYSIGNF128_BUILTIN
-> +#undef USE_FMAL_BUILTIN
-> +#define USE_FMAL_BUILTIN USE_FMA128_BUILTIN
->  
->  /* IEEE function renames.  */
->  #define __ieee754_acoshl __ieee754_acoshf128
-
-Ok.
-
-> diff --git a/sysdeps/ieee754/ldbl-128/s_fmal.c b/sysdeps/ieee754/ldbl-128/s_fmal.c
-> index 7475015bcec6..1403734a5aeb 100644
-> --- a/sysdeps/ieee754/ldbl-128/s_fmal.c
-> +++ b/sysdeps/ieee754/ldbl-128/s_fmal.c
-> @@ -25,6 +25,7 @@
->  #include <math_private.h>
->  #include <libm-alias-ldouble.h>
->  #include <tininess.h>
-> +#include <math-use-builtins.h>
->  
->  /* This implementation uses rounding to odd to avoid problems with
->     double rounding.  See a paper by Boldo and Melquiond:
-> @@ -33,6 +34,9 @@
->  _Float128
->  __fmal (_Float128 x, _Float128 y, _Float128 z)
->  {
-> +#if USE_FMAL_BUILTIN
-> +  return __builtin_fmal (x);
-> +#else
->    union ieee854_long_double u, v, w;
->    int adjust = 0;
->    u.d = x;
-> @@ -296,5 +300,6 @@ __fmal (_Float128 x, _Float128 y, _Float128 z)
->        v.ieee.mantissa3 |= j;
->        return v.d * L(0x1p-228);
->      }
-> +#endif /* ! USE_FMAL_BUILTIN  */
->  }
->  libm_alias_ldouble (__fma, fma)
+>>  
+>>  float
+>>  __ieee754_sqrtf(float x)
+>>  {
+>> +#if USE_SQRTF_BUILTIN
+>> +	return __builtin_sqrtf (x);
+>> +#else
+>> +	/* Use generic implementation.  */
+>>  	float z;
+>>  	int32_t sign = (int)0x80000000;
+>>  	int32_t ix,s,q,m,t,i;
+>> @@ -83,6 +88,7 @@ __ieee754_sqrtf(float x)
+>>  	ix += (m <<23);
+>>  	SET_FLOAT_WORD(z,ix);
+>>  	return z;
+>> +#endif /* ! USE_SQRTF_BUILTIN  */
+>>  }
+>>  #ifndef __ieee754_sqrtf
+>>  libm_alias_finite (__ieee754_sqrtf, __sqrtf)
+>>
+> 
+> Ok.
 > 
 
 _______________________________________________
