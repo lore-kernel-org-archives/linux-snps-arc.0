@@ -2,84 +2,82 @@ Return-Path: <SRS0=EH8H=7O=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75EA2C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 18:33:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A83B0C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 18:53:35 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 47D852074B
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 18:33:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7C51B206C3
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 18:53:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DSZqvOLG";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MClL+BXh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 47D852074B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="n1SLYyFq";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JAVJEIWG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C51B206C3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	Message-ID:Subject:From:References:To:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=W3Bgd0P6rc27QY3th5JK5K5NQvgnRmeHJxTILSW+dyE=; b=DSZqvOLGY2wSyI
-	IWv/qzZF5XXm10GC9n+QaezBF/4IylO0OXibnAgnANkBxWLwP1a9ur0A6q7F0tM9wRgmenSE/C+rt
-	11AkW8DbMPYIZ6b3DBEzhtISPxFzeMPRpS7nTPkXwrniwUdiIRCEtD12P+RhxUHrULPQlcmLmJwdd
-	RL6rsKmVKb8iCL0T6dCsPFOee7O/lOhquh4AWM/z3ubDHk4DGSjoFg0M+t9SGSOOMA/QrrOref7re
-	Gp54ZR9CvnG+o4KthLgdoAOrbX1bvgnIFny+u9YKYlURrk/huEYkGHA6I0Dcz0oKsy7rlQ9sQtows
-	QW1x4yTWjb4+iTWMUMqw==;
+	List-Owner; bh=UZxss0Ni0jwVu1zM4neEBB6fzNSG+zLhwseYx8vDJiQ=; b=n1SLYyFqbS6OTw
+	s1l18YqQg0cR6wFVL5Ve/y2gPpRs8YvUeuwkPOlFXJmos04KXls+wzZCk1xOJWNaNIWAFBumOxDqH
+	KPGIxxB+scMREvbb6vafbBDYfKWaPHsRSkuHClts5jrk9yMNbqgR18NuNSemPTWnS9niIzqip9xsf
+	/Iwh2lSVmHVwgrqYbwzfv5qT7XPefAa34RBxHC0tCtC7v78FAM7hcCz9E7YVVInEbf+BMPrCW+irn
+	N9lOAbeHXRXqGHeYN48axDZJQsVCwmAGC+V5rvlb8xcM+UGV2+UqUJANYV60IwPrPAEqlrr3Aaa9W
+	PcOK9AidhdSOojfixfFg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jfpFA-0005sX-29; Mon, 01 Jun 2020 18:33:04 +0000
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44])
+	id 1jfpZ0-0003pj-PF; Mon, 01 Jun 2020 18:53:34 +0000
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jfpF7-0005sC-VR
- for linux-snps-arc@lists.infradead.org; Mon, 01 Jun 2020 18:33:03 +0000
-Received: by mail-qv1-xf44.google.com with SMTP id y9so511104qvs.4
- for <linux-snps-arc@lists.infradead.org>; Mon, 01 Jun 2020 11:33:01 -0700 (PDT)
+ id 1jfpYx-0003pD-Ri
+ for linux-snps-arc@lists.infradead.org; Mon, 01 Jun 2020 18:53:33 +0000
+Received: by mail-qk1-x744.google.com with SMTP id w3so10099397qkb.6
+ for <linux-snps-arc@lists.infradead.org>; Mon, 01 Jun 2020 11:53:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+ h=to:cc:references:from:autocrypt:subject:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sjBuPnPDPWJQ0Kb9xGy57pRa9Ly5c+AUH3macAbvczA=;
- b=MClL+BXhXqB8jjkN6WKSv8YLcCjZKJYNif48UH0k+qVCOtAG+ESKJBBP9KhH6lcSFd
- 0C3gXJ9Z2jX4PnZgXsYgKT7ta1DY//N1kHLdH6tzjIaD43SzmPG9fcY4kSU3Jkqd5kv2
- unqetaIV+8eDPlQJExerZKa2F37kRdpMK47FsBknnMwViGn88rCgTzVH08o8OZvQZdzI
- xQqDBTQ+O88CY53+G0uCq3S0ei0ur8C1XoRFw1fyiAgB59SxafNZxIjaCYnFGqqa8sG/
- RJLxIImZpadpQHI2IHtr9ahesbbkv+QW4Xn4hcfik76NJevsmdBTm/cigEtKNe0hQdcR
- ecQw==
+ bh=GlX8fRInifAflyVbuvZBN/174txPocZ1vwPU4q/EfUc=;
+ b=JAVJEIWGO/heID6uCGw3i77TsWk1WCQGF4tfy2iHfJ3wOBSFfKPqZnzrIP0O5Jua+x
+ 9rBH2i/iJCIXpA34UiG/Pbmk5++egZpVOJZ3Ucjl0eNahaJK57JpWwz1A+L6bikBJxPp
+ XdOouSYJ3eObsnxMPNaEPVCNuxoshOlG2RWQsTUqm7ZZGgxQ/UL7N0KiDllHIc2K2NUi
+ 0i9mlTiGDMSBJVqzl0zxnEJUDHVxt10nEP4tnVMT2i0AUmkHGNk8Mzqll7t653ahsfNj
+ mBUztXK7RERMNrHit+HKAknyK6Mboii8a0gfmi34cBsoJ8mKXRPWT+LXlIDHmVzVI/P0
+ QFhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ h=x-gm-message-state:to:cc:references:from:autocrypt:subject
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=sjBuPnPDPWJQ0Kb9xGy57pRa9Ly5c+AUH3macAbvczA=;
- b=MpPvw65d+KILMmc5IbW1WiKBWQS2e2aqFLRZkKvVXF5eRYZINsc6WLwvIV/11kMUl4
- kvPyL2zAk4dlpJpsCb+LsBYWPBOsZh/cZHIqxSd+Oqdry4wd08fPZCNIKuaSy5swQ8SL
- e1hHQsxMuLhDcXKsUKM2CVDvtg+zhbaFn+Lp1qaKmirVFiDk8hgQWfL5G8tZ+79AyIr+
- etmcqA7Glg7nJS2QAQV3LqrTHTYMHpPBkdPXSdhThSVstqYLEQDfzJYYaRR5SpSeoBg/
- +CY+9WCXkG1L+kDbT/N8JTxTf8Wace0dlGNUTcM2N8o26MAejZBb5p27wt+kyMYtFIZB
- x6+Q==
-X-Gm-Message-State: AOAM532/KKNZr8bEKXeosYF6fqcrV4T345lGuUUoSqntZwwFFNwK4e8D
- 9tqaX8qhT78+j3+vz1kDMiY16SKNEE4=
-X-Google-Smtp-Source: ABdhPJydxMuHFjFaQ1T0FAYl0VFJa9Hq+T+3p/s+GEsDpfRN6ZD06IqWxenNlhUYddUUN6ppPvDXpg==
-X-Received: by 2002:a0c:f944:: with SMTP id i4mr20885227qvo.230.1591036380364; 
- Mon, 01 Jun 2020 11:33:00 -0700 (PDT)
+ bh=GlX8fRInifAflyVbuvZBN/174txPocZ1vwPU4q/EfUc=;
+ b=EE9fL47GyCnvGSRzYUWHKDwubvUWFDK336kbvG26ZPg0ARDCpb+8OdIaRallAjQNif
+ H8Vee4/6xMJTKR2gnE5gp79qMVRtG7L/G/Hu4t+uiEbwCZ4BuKFvNImxTz62Dz5ZhBvC
+ kDWh/Nlr8gxNPvJEfKzlgl6OLA8Y+vbwY4Q8vVSkIxagXJr0DqC0jNfoOlAMfUL8ssVR
+ vb3CMrb5JMfVYnZOREABW8UhqnDCAHEC0UDafWinaWkCyXxCSKcib63hoWmBI83DI+vi
+ TcAoDFegBsU7coE+qTY1BdbVhZ/Uzwja+77IQljQFEALt2rWgPZ3OIOBttcrLK3JGi0h
+ hbBw==
+X-Gm-Message-State: AOAM533pxCCNA8a1wdnCyuSNtPHhHANnnUaFU5trhVKCMVtCv0xXsVpD
+ wzPtrZs9dJbg/+6oQljS8CtYe3junjA=
+X-Google-Smtp-Source: ABdhPJw3cycMO7hgdi69Ql05eY/coNzSrtnMfDdwksVjUbXdC2thUobtQ7MZnB7hnibwzLo249VpDg==
+X-Received: by 2002:a37:486:: with SMTP id 128mr20035458qke.187.1591037610182; 
+ Mon, 01 Jun 2020 11:53:30 -0700 (PDT)
 Received: from [192.168.1.4] ([177.194.48.209])
- by smtp.googlemail.com with ESMTPSA id j3sm41867qkf.9.2020.06.01.11.32.58
+ by smtp.googlemail.com with ESMTPSA id d78sm53865qkg.106.2020.06.01.11.53.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Jun 2020 11:33:00 -0700 (PDT)
-Subject: Re: [PATCH 2/5] iee754: prvoide gcc builtins based generic sqrt
- functions
+ Mon, 01 Jun 2020 11:53:29 -0700 (PDT)
 To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
  "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-References: <20200530020047.5490-1-vgupta@synopsys.com>
- <20200530020047.5490-3-vgupta@synopsys.com>
- <1f8c98ba-481c-1463-29ff-c0dec7add324@linaro.org>
- <45540801-e568-54ef-ad29-c3c2130eddb5@linaro.org>
- <6dc09d6c-e957-eeb5-34e7-089d3d608cd8@synopsys.com>
+References: <20200423014126.10417-1-vgupta@synopsys.com>
+ <20200423014126.10417-4-vgupta@synopsys.com>
+ <4f7a67fb-6f96-57e6-b827-d1ab5dd6733f@linaro.org>
+ <18a9ff31-baea-c916-4377-76b77976c169@synopsys.com>
 From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
  mQINBFcVGkoBEADiQU2x/cBBmAVf5C2d1xgz6zCnlCefbqaflUBw4hB/bEME40QsrVzWZ5Nq
@@ -124,16 +122,17 @@ Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
  7vJwKcyHJGxsCLU+Et0mryX8qZwqibJIzu7kUJQdQDljbRPDFd/xmGUFCQiQAncSilYOcxNU
  EMVCXPAQTteqkvA+gNqSaK1NM9tY0eQ4iJpo+aoX8HAcn4sZzt2pfUB9vQMTBJ2d4+m/qO6+
  cFTAceXmIoFsN8+gFN3i8Is3u12u8xGudcBPvpoy4OoG
-Message-ID: <48e1cf71-fb16-da08-d94f-6a2281c84039@linaro.org>
-Date: Mon, 1 Jun 2020 15:32:57 -0300
+Subject: Re: [PATCH v6 03/13] ARC: Thread Local Storage support
+Message-ID: <65de7a88-593f-faa0-4ce6-c62b91b04249@linaro.org>
+Date: Mon, 1 Jun 2020 15:53:27 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <6dc09d6c-e957-eeb5-34e7-089d3d608cd8@synopsys.com>
+In-Reply-To: <18a9ff31-baea-c916-4377-76b77976c169@synopsys.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200601_113302_043685_C778758C 
-X-CRM114-Status: GOOD (  10.62  )
+X-CRM114-CacheID: sfid-20200601_115331_900973_8AAE2429 
+X-CRM114-Status: GOOD (  14.99  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,7 +144,7 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Cc: arcml <linux-snps-arc@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
@@ -153,18 +152,55 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 
 
-On 01/06/2020 15:12, Vineet Gupta wrote:
-> On 6/1/20 7:42 AM, Adhemerval Zanella via Libc-alpha wrote:
->> You will need to move this definitions inside the !USE_SQRTF_BUILTIN
->> to avoid defined by not used warnings.  Current practice is to just
->> open code the constants and let compiler optimize the constant pool:
+On 27/05/2020 22:36, Vineet Gupta wrote:
+> On 5/27/20 12:17 PM, Adhemerval Zanella via Libc-alpha wrote:
+>>
+>>
+>> On 22/04/2020 22:41, Vineet Gupta via Libc-alpha wrote:
+>>> This includes all 4 TLS addressing models
+>>>
+>>> Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+>>
+>> As prior patch we do not use DCO, but rather copyright assignment.
+>>
+>> Looks ok in general, with some comments below.
 > 
-> Won't it be better to keep the const variable and trust the compiler to subsume it
-> instead of open coding in multiple places. Makes it more readable ?
+>>> +
+>>> +register struct pthread *__thread_self __asm__("r25");
+>>
+>> This is used on other ports, but I am not sure if this is a valid definition
+>> for a global variable. 
+> 
+> Not valid from gcc implementation POV ? The syntax seems to work alright in ARC
+> linux kernel where we use r25 to cache the current task pointer.
 
-I don't have a strong preference, it is just the recent math optimizations
-use the constant directly in the hex format instead of trying to factoring
-them out.
+The gcc documentation [1] does specify register global variables, but it
+also states that 
+
+"[...] it is recommended that you choose a register that is normally saved and 
+restored by function calls on your machine, so that calls to library routines
+will not clobber it."
+
+So I see that the semantic of global register is kind fragile and since
+it is usage is solely for asm inline argument I don't see a very compelling
+reason to keep using it.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Local-Register-Variables.html
+
+> 
+>> Usually the register specifier is used as an input 
+>> for inline assembly.  Do we really need this global on ARC port? Couldn't
+>> we replace it with __builtin_thread_pointer where applicable?
+> 
+> We do use __builtin_thread_pointer and actually __thread_self is not used in ARC
+> port :-) so I can just drop it
+
+Ack.
+
+> 
+> Many thx for reviewing.
+> -Vineet
+> 
 
 _______________________________________________
 linux-snps-arc mailing list
