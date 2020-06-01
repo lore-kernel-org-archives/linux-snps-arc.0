@@ -6,143 +6,134 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B272C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 18:13:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75EA2C433DF
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 18:33:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 298A02065C
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 18:13:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 47D852074B
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Jun 2020 18:33:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="a8mJlBdb";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="WLGiGuG6";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="vcZAJ/JI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 298A02065C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DSZqvOLG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MClL+BXh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 47D852074B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=gbbHsJ12w1zJUimW1gyNX5QSqtfJD/cc6qUKsJD8/MA=; b=a8mJlBdbYnVwcS
-	yf6DWW7Ei8GllTzHmn8UHnJWU37ROWGCb3wjIAJLLMMoAGG+466pPY74N10tYtPx76O7GlKZ4BrDP
-	HgSZCZpL2UnzjFxCIT25oPItltZrmPCSqFPLfeNhWB9mA4HiEJNhW4fAjrYrL3R5pogrmpfSjgvSZ
-	2zIZQFK2ij+oit4SvjUqti/LT4/Z1nEHj3Y8AWDvkkL1DRAlWhVsZReath0sjCcTAPcItyHe7Y20G
-	lkOWKi+71gcS3/RpxQeT48bEnU6rYg2o4Z4IDLKvTyO7quH9qpbTUtooRzGeSmgGFAGvpOq1ne43E
-	YzADABKm+/isEyEp0e7A==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=W3Bgd0P6rc27QY3th5JK5K5NQvgnRmeHJxTILSW+dyE=; b=DSZqvOLGY2wSyI
+	IWv/qzZF5XXm10GC9n+QaezBF/4IylO0OXibnAgnANkBxWLwP1a9ur0A6q7F0tM9wRgmenSE/C+rt
+	11AkW8DbMPYIZ6b3DBEzhtISPxFzeMPRpS7nTPkXwrniwUdiIRCEtD12P+RhxUHrULPQlcmLmJwdd
+	RL6rsKmVKb8iCL0T6dCsPFOee7O/lOhquh4AWM/z3ubDHk4DGSjoFg0M+t9SGSOOMA/QrrOref7re
+	Gp54ZR9CvnG+o4KthLgdoAOrbX1bvgnIFny+u9YKYlURrk/huEYkGHA6I0Dcz0oKsy7rlQ9sQtows
+	QW1x4yTWjb4+iTWMUMqw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jfovs-0001Qh-G1; Mon, 01 Jun 2020 18:13:08 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1jfpFA-0005sX-29; Mon, 01 Jun 2020 18:33:04 +0000
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jfovp-0001Pm-Rt
- for linux-snps-arc@lists.infradead.org; Mon, 01 Jun 2020 18:13:07 +0000
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
- [10.192.0.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id D6BC6C0081;
- Mon,  1 Jun 2020 18:12:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1591035183; bh=3A/p0m0aHcLGvW60pSFhdCxNZLdwuvpMYxWJBkubQxg=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=WLGiGuG6ar4u8gJE7F0QXGft5mgII2isoWM3X6dEAV1dTYa1XnrNHqpjCZJzgafEX
- 1AVXJCjcUGDurP6mbWO6Lz7n0Ne4GTOFtM/wZggyIXr3kXmWIvwzRIfqvf3Rcei/yC
- BcYjB2iZZOQwB2G7RzE+C1S3AhL/QOkPEsDqlvDYY6VuASdARihvj5ov4sA3/KcVg2
- Oq6HcRnFanSbFP26skzlzndPMpZG1530iDG+xgeDgiKyWQb5gEL3bnKs4UZ+STt5kQ
- UmynPGQeFdWfV1OveDXQ8mN219/tNniJsfA2NZc2TC4UvgJFhxQ6SbObPjwDC/Z0ox
- 8E8NCuJpq7IJw==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id B2575A0071;
- Mon,  1 Jun 2020 18:12:56 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 1 Jun 2020 11:12:56 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.487.0; Mon, 1 Jun 2020 11:12:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N5VCATYZbfPjIS8KfBa3ZMjCo7xuc8iCabafOE3uVAVexbwAEqb3O3LbbXzV7zzaDZxjdF3DDEHDQ9IP/qfWZs1iu9CXXefj5DbHTQIaP4RPcdV/g4RicgkpZ+wr9ep37laMPfl5hsZEv8icreMMXn3+dyxJ8/Ssa0ptyA/HaPFQlMQ5/FumZD16K+k2Ky01fgdK9MEPMD7/Dc+rZOv+yN+g1tXa9Uw174VWrMZSoGcx6D+3E3p5O2RLa8vq17iDBHbY9BB0PigwomOPIXHhc4Oefdlppp6oJFY7s0tPhKKbi/55morVTdk/IwEOOczHIwySH1+oOGgy9oWy5ZpN9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3A/p0m0aHcLGvW60pSFhdCxNZLdwuvpMYxWJBkubQxg=;
- b=lh4w9D3KqurlXEmHvOi29i5fq5YcmwkZJJJmWBgO6ZT/c0LX7dfEubUuwYMcrjUQMyVouZemXciYAW0GbCqG2H6/oeVcrEDyjrYO8nlNQsM0DmSykYwUMf68wUJQGTHOylbjgcXeQOcv/pzx5mvyTfPquouDhuh0k+rcAwd6Q6jsCPvV6CrIFXHrqF4uEhezY2bWo2QfzngFhryUGSil29GSVGVUDmdqnWYjPJRQz1l8AtjovAdfeCUbuvcVLhZLc9hioPeE/CzsVf8YGail3uQe/HyUsn71TI22MBGR/BeXUBkqHi3hRdyHg1HE31hNZQjtBp/QBJH4e2Coqjsr8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3A/p0m0aHcLGvW60pSFhdCxNZLdwuvpMYxWJBkubQxg=;
- b=vcZAJ/JIadaewAQJzKO13y3fXLnxPWYLX3TmTSNSmP+mOa0qYS6Qe9kB79WwAHn4ypt6WegNtPIkIVyWzmQ3zd6m0Q4k/5l4e7s6KWWbRSJO21rbIb5VMdoJuwvXKMtntc36pUZAAyLBZoSRZfiYXijZGVq6hO6Gebe5FLHpWk4=
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
- by BYAPR12MB3254.namprd12.prod.outlook.com (2603:10b6:a03:137::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.18; Mon, 1 Jun
- 2020 18:12:54 +0000
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::a43a:7392:6fa:c6af]) by BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::a43a:7392:6fa:c6af%6]) with mapi id 15.20.3045.024; Mon, 1 Jun 2020
- 18:12:54 +0000
-X-SNPS-Relay: synopsys.com
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Florian Weimer <fw@deneb.enyo.de>
+ id 1jfpF7-0005sC-VR
+ for linux-snps-arc@lists.infradead.org; Mon, 01 Jun 2020 18:33:03 +0000
+Received: by mail-qv1-xf44.google.com with SMTP id y9so511104qvs.4
+ for <linux-snps-arc@lists.infradead.org>; Mon, 01 Jun 2020 11:33:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sjBuPnPDPWJQ0Kb9xGy57pRa9Ly5c+AUH3macAbvczA=;
+ b=MClL+BXhXqB8jjkN6WKSv8YLcCjZKJYNif48UH0k+qVCOtAG+ESKJBBP9KhH6lcSFd
+ 0C3gXJ9Z2jX4PnZgXsYgKT7ta1DY//N1kHLdH6tzjIaD43SzmPG9fcY4kSU3Jkqd5kv2
+ unqetaIV+8eDPlQJExerZKa2F37kRdpMK47FsBknnMwViGn88rCgTzVH08o8OZvQZdzI
+ xQqDBTQ+O88CY53+G0uCq3S0ei0ur8C1XoRFw1fyiAgB59SxafNZxIjaCYnFGqqa8sG/
+ RJLxIImZpadpQHI2IHtr9ahesbbkv+QW4Xn4hcfik76NJevsmdBTm/cigEtKNe0hQdcR
+ ecQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=sjBuPnPDPWJQ0Kb9xGy57pRa9Ly5c+AUH3macAbvczA=;
+ b=MpPvw65d+KILMmc5IbW1WiKBWQS2e2aqFLRZkKvVXF5eRYZINsc6WLwvIV/11kMUl4
+ kvPyL2zAk4dlpJpsCb+LsBYWPBOsZh/cZHIqxSd+Oqdry4wd08fPZCNIKuaSy5swQ8SL
+ e1hHQsxMuLhDcXKsUKM2CVDvtg+zhbaFn+Lp1qaKmirVFiDk8hgQWfL5G8tZ+79AyIr+
+ etmcqA7Glg7nJS2QAQV3LqrTHTYMHpPBkdPXSdhThSVstqYLEQDfzJYYaRR5SpSeoBg/
+ +CY+9WCXkG1L+kDbT/N8JTxTf8Wace0dlGNUTcM2N8o26MAejZBb5p27wt+kyMYtFIZB
+ x6+Q==
+X-Gm-Message-State: AOAM532/KKNZr8bEKXeosYF6fqcrV4T345lGuUUoSqntZwwFFNwK4e8D
+ 9tqaX8qhT78+j3+vz1kDMiY16SKNEE4=
+X-Google-Smtp-Source: ABdhPJydxMuHFjFaQ1T0FAYl0VFJa9Hq+T+3p/s+GEsDpfRN6ZD06IqWxenNlhUYddUUN6ppPvDXpg==
+X-Received: by 2002:a0c:f944:: with SMTP id i4mr20885227qvo.230.1591036380364; 
+ Mon, 01 Jun 2020 11:33:00 -0700 (PDT)
+Received: from [192.168.1.4] ([177.194.48.209])
+ by smtp.googlemail.com with ESMTPSA id j3sm41867qkf.9.2020.06.01.11.32.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Jun 2020 11:33:00 -0700 (PDT)
 Subject: Re: [PATCH 2/5] iee754: prvoide gcc builtins based generic sqrt
  functions
-Thread-Topic: [PATCH 2/5] iee754: prvoide gcc builtins based generic sqrt
- functions
-Thread-Index: AQHWNiY9GLXczNbRUEKgmTtm//wKWajD0uFIgABBW4A=
-Date: Mon, 1 Jun 2020 18:12:54 +0000
-Message-ID: <86ca83af-7e4f-b33a-6d7a-83a5b61f02b2@synopsys.com>
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
 References: <20200530020047.5490-1-vgupta@synopsys.com>
  <20200530020047.5490-3-vgupta@synopsys.com>
- <87pnaiyimm.fsf@mid.deneb.enyo.de>
-In-Reply-To: <87pnaiyimm.fsf@mid.deneb.enyo.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ <1f8c98ba-481c-1463-29ff-c0dec7add324@linaro.org>
+ <45540801-e568-54ef-ad29-c3c2130eddb5@linaro.org>
+ <6dc09d6c-e957-eeb5-34e7-089d3d608cd8@synopsys.com>
+From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
+Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
+ mQINBFcVGkoBEADiQU2x/cBBmAVf5C2d1xgz6zCnlCefbqaflUBw4hB/bEME40QsrVzWZ5Nq
+ 8kxkEczZzAOKkkvv4pRVLlLn/zDtFXhlcvQRJ3yFMGqzBjofucOrmdYkOGo0uCaoJKPT186L
+ NWp53SACXguFJpnw4ODI64ziInzXQs/rUJqrFoVIlrPDmNv/LUv1OVPKz20ETjgfpg8MNwG6
+ iMizMefCl+RbtXbIEZ3TE/IaDT/jcOirjv96lBKrc/pAL0h/O71Kwbbp43fimW80GhjiaN2y
+ WGByepnkAVP7FyNarhdDpJhoDmUk9yfwNuIuESaCQtfd3vgKKuo6grcKZ8bHy7IXX1XJj2X/
+ BgRVhVgMHAnDPFIkXtP+SiarkUaLjGzCz7XkUn4XAGDskBNfbizFqYUQCaL2FdbW3DeZqNIa
+ nSzKAZK7Dm9+0VVSRZXP89w71Y7JUV56xL/PlOE+YKKFdEw+gQjQi0e+DZILAtFjJLoCrkEX
+ w4LluMhYX/X8XP6/C3xW0yOZhvHYyn72sV4yJ1uyc/qz3OY32CRy+bwPzAMAkhdwcORA3JPb
+ kPTlimhQqVgvca8m+MQ/JFZ6D+K7QPyvEv7bQ7M+IzFmTkOCwCJ3xqOD6GjX3aphk8Sr0dq3
+ 4Awlf5xFDAG8dn8Uuutb7naGBd/fEv6t8dfkNyzj6yvc4jpVxwARAQABtElBZGhlbWVydmFs
+ IFphbmVsbGEgTmV0dG8gKExpbmFybyBWUE4gS2V5KSA8YWRoZW1lcnZhbC56YW5lbGxhQGxp
+ bmFyby5vcmc+iQI3BBMBCAAhBQJXFRpKAhsDBQsJCAcDBRUKCQgLBRYCAwEAAh4BAheAAAoJ
+ EKqx7BSnlIjv0e8P/1YOYoNkvJ+AJcNUaM5a2SA9oAKjSJ/M/EN4Id5Ow41ZJS4lUA0apSXW
+ NjQg3VeVc2RiHab2LIB4MxdJhaWTuzfLkYnBeoy4u6njYcaoSwf3g9dSsvsl3mhtuzm6aXFH
+ /Qsauav77enJh99tI4T+58rp0EuLhDsQbnBic/ukYNv7sQV8dy9KxA54yLnYUFqH6pfH8Lly
+ sTVAMyi5Fg5O5/hVV+Z0Kpr+ZocC1YFJkTsNLAW5EIYSP9ftniqaVsim7MNmodv/zqK0IyDB
+ GLLH1kjhvb5+6ySGlWbMTomt/or/uvMgulz0bRS+LUyOmlfXDdT+t38VPKBBVwFMarNuREU2
+ 69M3a3jdTfScboDd2ck1u7l+QbaGoHZQ8ZNUrzgObltjohiIsazqkgYDQzXIMrD9H19E+8fw
+ kCNUlXxjEgH/Kg8DlpoYJXSJCX0fjMWfXywL6ZXc2xyG/hbl5hvsLNmqDpLpc1CfKcA0BkK+
+ k8R57fr91mTCppSwwKJYO9T+8J+o4ho/CJnK/jBy1pWKMYJPvvrpdBCWq3MfzVpXYdahRKHI
+ ypk8m4QlRlbOXWJ3TDd/SKNfSSrWgwRSg7XCjSlR7PNzNFXTULLB34sZhjrN6Q8NQZsZnMNs
+ TX8nlGOVrKolnQPjKCLwCyu8PhllU8OwbSMKskcD1PSkG6h3r0AquQINBFcVGkoBEACgAdbR
+ Ck+fsfOVwT8zowMiL3l9a2DP3Eeak23ifdZG+8Avb/SImpv0UMSbRfnw/N81IWwlbjkjbGTu
+ oT37iZHLRwYUFmA8fZX0wNDNKQUUTjN6XalJmvhdz9l71H3WnE0wneEM5ahu5V1L1utUWTyh
+ VUwzX1lwJeV3vyrNgI1kYOaeuNVvq7npNR6t6XxEpqPsNc6O77I12XELic2+36YibyqlTJIQ
+ V1SZEbIy26AbC2zH9WqaKyGyQnr/IPbTJ2Lv0dM3RaXoVf+CeK7gB2B+w1hZummD21c1Laua
+ +VIMPCUQ+EM8W9EtX+0iJXxI+wsztLT6vltQcm+5Q7tY+HFUucizJkAOAz98YFucwKefbkTp
+ eKvCfCwiM1bGatZEFFKIlvJ2QNMQNiUrqJBlW9nZp/k7pbG3oStOjvawD9ZbP9e0fnlWJIsj
+ 6c7pX354Yi7kxIk/6gREidHLLqEb/otuwt1aoMPg97iUgDV5mlNef77lWE8vxmlY0FBWIXuZ
+ yv0XYxf1WF6dRizwFFbxvUZzIJp3spAao7jLsQj1DbD2s5+S1BW09A0mI/1DjB6EhNN+4bDB
+ SJCOv/ReK3tFJXuj/HbyDrOdoMt8aIFbe7YFLEExHpSk+HgN05Lg5TyTro8oW7TSMTk+8a5M
+ kzaH4UGXTTBDP/g5cfL3RFPl79ubXwARAQABiQIfBBgBCAAJBQJXFRpKAhsMAAoJEKqx7BSn
+ lIjvI/8P/jg0jl4Tbvg3B5kT6PxJOXHYu9OoyaHLcay6Cd+ZrOd1VQQCbOcgLFbf4Yr+rE9l
+ mYsY67AUgq2QKmVVbn9pjvGsEaz8UmfDnz5epUhDxC6yRRvY4hreMXZhPZ1pbMa6A0a/WOSt
+ AgFj5V6Z4dXGTM/lNManr0HjXxbUYv2WfbNt3/07Db9T+GZkpUotC6iknsTA4rJi6u2ls0W9
+ 1UIvW4o01vb4nZRCj4rni0g6eWoQCGoVDk/xFfy7ZliR5B+3Z3EWRJcQskip/QAHjbLa3pml
+ xAZ484fVxgeESOoaeC9TiBIp0NfH8akWOI0HpBCiBD5xaCTvR7ujUWMvhsX2n881r/hNlR9g
+ fcE6q00qHSPAEgGr1bnFv74/1vbKtjeXLCcRKk3Ulw0bY1OoDxWQr86T2fZGJ/HIZuVVBf3+
+ gaYJF92GXFynHnea14nFFuFgOni0Mi1zDxYH/8yGGBXvo14KWd8JOW0NJPaCDFJkdS5hu0VY
+ 7vJwKcyHJGxsCLU+Et0mryX8qZwqibJIzu7kUJQdQDljbRPDFd/xmGUFCQiQAncSilYOcxNU
+ EMVCXPAQTteqkvA+gNqSaK1NM9tY0eQ4iJpo+aoX8HAcn4sZzt2pfUB9vQMTBJ2d4+m/qO6+
+ cFTAceXmIoFsN8+gFN3i8Is3u12u8xGudcBPvpoy4OoG
+Message-ID: <48e1cf71-fb16-da08-d94f-6a2281c84039@linaro.org>
+Date: Mon, 1 Jun 2020 15:32:57 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
-authentication-results: deneb.enyo.de; dkim=none (message not signed)
- header.d=none; deneb.enyo.de; dmarc=none action=none header.from=synopsys.com; 
-x-originating-ip: [2601:641:c100:83a0:fee2:8ed0:e900:96d1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: febe1523-3373-4dc0-e5e5-08d8065767d1
-x-ms-traffictypediagnostic: BYAPR12MB3254:
-x-microsoft-antispam-prvs: <BYAPR12MB325426217B77E5E94A32D2D2B68A0@BYAPR12MB3254.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:82;
-x-forefront-prvs: 0421BF7135
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: VNKDgBIMXmm10TXM7zDd4igMmbEEfbMTcfn3nUS5i7zuzVXQ4Vw7wOgYv+3goIaxvOs2TE7PQLw8GlHXsOcvM4mSzGMAOsj8F251aebLESqwZvt6zK7yS6PdLEMlUiUZH5sugmq1lighqW5rFEbwnLS/u5x1rZODNDC8+6xFqxnr1jYdrp8/g0Q+5ZgIeNaF95qln7sm5bDmLNAqoRM0F1J1pYqep+uzIPv9zLXq36a63UeAOwZkoj6zG5vf9bTAdPabblVy/LUryIoua7DNcKX0ssFF6jAeJxKclySmABnRsSfFeNb35IYgpZYqgKuqpa3MFb+q4A6krKZVHlAv6Jnru5We7hULtAtI7iYb191sbiWEC7GgIkR850QyaguYl2A79ea1zkg0HHlAaW3CWw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(39860400002)(396003)(136003)(366004)(346002)(376002)(76116006)(66946007)(66446008)(64756008)(66556008)(8936002)(66476007)(6512007)(316002)(8676002)(2616005)(2906002)(478600001)(6486002)(86362001)(31696002)(53546011)(31686004)(36756003)(558084003)(4326008)(71200400001)(54906003)(186003)(5660300002)(6916009)(6506007)(41533002)(43740500002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: epHvdWmPsrlH07fOobj+2P4Ldg8BfUOwg3lpnHje/vjFzQE+l0Z61HkmsI6x4kg71yG3WsGEsTYU/sUVL/w7AWLaitGGPHBIBc560AsIkRg5HDxV18lR2BmQfqsk0Ey4EoedoQ1rppMNDabh7S1Nk467RdPJQ5X7ZAYDceGTnBw+vMo3Y3FA/tny9r1/jsO6+5b7BiB4XAH6sssxNBDCg2QOvrw8d5SBjYp3JwshyxQQl6huEHb4OvogVwzVCn9Us2Sc2I70dPCbox2/cOPP4FnfMa5rlwpPWCwzhc7Xnt4O1Sgapjjdbs9NOM13qOn+LgEzGTULYE5XbHCpwvIoo1uDIYrKyCEaDCSa7q3OkbIQ0tx+bTObYV2qtFRwAczjvLWAAiQhxYXjvD9LRScbleeQqga3+2154aq7tVWiO3r8u9wMIumzYa9j7Fo4ioNb1XCaJ6CpV38c8H3CvX/HBRjYJH4xUFebWWsvCPiDwadl12pAMfYi8sZB6EFzxILO+LG10rEcPcz1gbSIbI1Uo+6Z+h2I+jYAMQAvOuzjULuz9j+bpZnAcWDVjFFemHlb
-x-ms-exchange-transport-forked: True
-Content-ID: <C8C26831F398D8418F1984ACA75B6C3A@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: febe1523-3373-4dc0-e5e5-08d8065767d1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2020 18:12:54.5226 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jmKAWGcAbhtFQpsVv1//fOWLq2NK4Kk4gI/UUzKr7ekmDI4izUPgmwCxVCuQ7cu1ZiqBEKx6VLRJQ7hiuQAGig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3254
-X-OriginatorOrg: synopsys.com
+In-Reply-To: <6dc09d6c-e957-eeb5-34e7-089d3d608cd8@synopsys.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200601_111305_972766_40A3B8A5 
-X-CRM114-Status: UNSURE (   8.57  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200601_113302_043685_C778758C 
+X-CRM114-Status: GOOD (  10.62  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,16 +145,28 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "libc-alpha @ sourceware . org" <libc-alpha@sourceware.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gNi8xLzIwIDc6MTggQU0sIEZsb3JpYW4gV2VpbWVyIHdyb3RlOg0KPiBUaGVyZSdzIGEgdHlw
-byBpbiBjb21taXQgc3ViamVjdDog4oCccHJ2b2lkZeKAnS4NCg0Kb29wcyBzb3JyeSwgZml4ZWQg
-bm93Lg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGlu
-dXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5v
-cmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBz
-LWFyYwo=
+
+
+On 01/06/2020 15:12, Vineet Gupta wrote:
+> On 6/1/20 7:42 AM, Adhemerval Zanella via Libc-alpha wrote:
+>> You will need to move this definitions inside the !USE_SQRTF_BUILTIN
+>> to avoid defined by not used warnings.  Current practice is to just
+>> open code the constants and let compiler optimize the constant pool:
+> 
+> Won't it be better to keep the const variable and trust the compiler to subsume it
+> instead of open coding in multiple places. Makes it more readable ?
+
+I don't have a strong preference, it is just the recent math optimizations
+use the constant directly in the hex format instead of trying to factoring
+them out.
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
