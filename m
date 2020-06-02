@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1B75C433E2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F33CDC433E3
 	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Jun 2020 00:35:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B9D69207D5
+	by mail.kernel.org (Postfix) with ESMTPS id C3AC2207DF
 	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Jun 2020 00:35:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="p4r1Y9eA";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="g5PRrYdu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B9D69207D5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HimKxhLQ";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="QdLE88Vc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C3AC2207DF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,53 +26,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=JHDaFHCNhBhHV4Z1TsBaGTcwnqCZ9jl2xSP0O4tAXmA=; b=p4r1Y9eAotglgz
-	EyNFE2R9MlsUJcVrp9KaAbwU7HdKMInMewTdWLURm/Ya8dp/+K3+5D7jX0NxI7bXv0SIb8R1zsVmw
-	HKjw0eyWKbDcst5nAB422PggfEiQgZigzhelaKQNvgZA7jrQWdKXvT1xaAlgv28Wij7ysjn4QiAVL
-	Vo3kRPMf/JTOjdW17vLUIcObYoLpohEIVhDrurS+b6TbLJfatqhYBXaEUluAl2B8KHKUMzdpWpoA8
-	l0WEQK7A4YFtjIlrzVmqITFxr0F6MQQ5IMxxDtB395ruGgpXt1XxdiG174QLmtNYp6Ehgt7vK1SyV
-	82hOM6QQWgIzwVa+jbnQ==;
+	List-Owner; bh=ILgO9JtSjKHjY2YllaKMUOWrprMBAUrIC9OHOfVjzVw=; b=HimKxhLQLojz77
+	hbWGYOz+Z6G7PDJfmhE8VR/kVKoP8Nt2chh4u2a68inYyeIUpKgxX0q+qTXBu/RT4OXkwQ8CXaxIL
+	wyISEPx5MShrpuHV3rqBu4C++YMNwy9f+KwOIQEMNaeoNqfMSLG83MnoglR0e0cjarsd0Xn1XcAXX
+	G/WMm9GEO2EkrSBZcgcmJFSQQXG4RbVJq+SblYjPjKrEhHy0YIL5G743CejEvXVMKlpbI3WdjnnyK
+	/+RibiuC1tmOZVNZBBADep+EE0qoagzajeeGAG1y1uvqwtkpicUSqbpcF5enMhZzRkz/tCdS1OyYU
+	T+BUtzbos64nPvmRIf0w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jfuuH-00075Q-8k; Tue, 02 Jun 2020 00:35:53 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1jfuuJ-00076x-PY; Tue, 02 Jun 2020 00:35:55 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jfuuE-00073t-2f
- for linux-snps-arc@lists.infradead.org; Tue, 02 Jun 2020 00:35:51 +0000
+ id 1jfuuF-00074V-J2
+ for linux-snps-arc@lists.infradead.org; Tue, 02 Jun 2020 00:35:54 +0000
 Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com
  [10.205.2.134])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 23B5C401D8;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 8DE06C008F;
  Tue,  2 Jun 2020 00:35:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1591058149; bh=xTMFIgc+KQhcXZ7i2UXZaKAcRPTyMGPRCsEqCE5Ab4o=;
+ t=1591058149; bh=RInbKHOIe9ey7HzYvloKRGhmGYBw7UjsqeUex7AI1Bo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=g5PRrYdu1nMOrQZ/3AuanwhsOMiuYFykh8YrhPNJhLuOOG+iQB/WCmhw9fAGy8DyN
- KuqD/3QMwORdeIWYO/WYHGT/j2b2T5HShxzHBj90WJbofDY+bSf84eWx1MSSyMkE+V
- MBpwH3qQs9Yx4nc7uTxV45SLhGArphMmXvvo9zaDitTvQCQef/gYuQQsA50qgQI7EA
- sAVd27gdpzd8kWrslT4EMyNtd+MVXitv06DxI3ymVaVqs/xmZU5qzm3XBjnIb1XB1v
- UDak30m4lgbd2LV4oh6nfheWkXV8RhCBjFILmCJMwrwpTkcnyPmSf9LIw2uGxH2vr7
- ZUGGvx6v+yr6Q==
+ b=QdLE88VcTa6LwNre2iapyzU9Ve3L0Z3VOsBB6hi+x8TyoE3SGJr6gaovCHi1COHqS
+ XfnbVPeNVAeira/WaEsC1GhrC+BSuiOVx76Lsjnv3dRIJWQtdmkvpWCvhNhs2WMkpW
+ Zsr/ms016+bTMZRAU6q838VqoE8dtCCFgPo6GoC+gT80SPibVgvPUPs10dYv6+jMZ7
+ PBjCyfGf/Dip+9pNtfYajLkDb8+PTJXDUOmaOMM6ycUIpGOOKYflgivGwje1NCu0HR
+ j6KbE9Ny2ngikpT+sy+kFY0BQc7QExIZdQK2Y56WTdp+SWTMTaikcLbj0HZP3CkEtK
+ d3Mva551f390A==
 Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
  [10.13.183.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id D0BE7A00A3;
- Tue,  2 Jun 2020 00:35:48 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 289D2A00A2;
+ Tue,  2 Jun 2020 00:35:49 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v2 2/4] iee754: provide gcc builtins based generic fma
- functions
-Date: Mon,  1 Jun 2020 17:35:39 -0700
-Message-Id: <20200602003541.21005-3-vgupta@synopsys.com>
+Subject: [PATCH v2 3/4] aarch/fpu: use generic builtins based math functions
+Date: Mon,  1 Jun 2020 17:35:40 -0700
+Message-Id: <20200602003541.21005-4-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200602003541.21005-1-vgupta@synopsys.com>
 References: <20200602003541.21005-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200601_173550_133040_2C74E499 
-X-CRM114-Status: UNSURE (   8.77  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200601_173551_744358_CC1301C1 
+X-CRM114-Status: GOOD (  13.57  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,132 +90,608 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
----
- sysdeps/generic/math-use-builtins.h         | 5 +++++
- sysdeps/ieee754/dbl-64/s_fma.c              | 6 ++++++
- sysdeps/ieee754/dbl-64/s_fmaf.c             | 6 ++++++
- sysdeps/ieee754/float128/float128_private.h | 2 ++
- sysdeps/ieee754/ldbl-128/s_fmal.c           | 5 +++++
- 5 files changed, 24 insertions(+)
+introduce sysdep header math-use-builtins.h to replace aarch64
+impementations with corresponding generic ones
 
-diff --git a/sysdeps/generic/math-use-builtins.h b/sysdeps/generic/math-use-builtins.h
-index fc724c824a17..cf25ed8a2138 100644
---- a/sysdeps/generic/math-use-builtins.h
-+++ b/sysdeps/generic/math-use-builtins.h
-@@ -63,4 +63,9 @@
- #define USE_SQRT_BUILTIN 0
- #define USE_SQRTF_BUILTIN 0
- 
-+#define USE_FMA_BUILTIN 0
-+#define USE_FMAF_BUILTIN 0
+ - newly inroduced generic sqrt{,f}, fma{,f}
+ - existing floor{,f}, nearbyint{,f}, rint{,f}, round{,f}, trunc{,f}
+ - Note that generic copysign was already enabled (via generic
+   math-use-builtins.h) now thru sysdep header
+
+This is supposed to be a non functional change
+Passes build-many for aarch64-linux-gnu
+---
+ sysdeps/aarch64/fpu/e_sqrt.c            | 27 ----------
+ sysdeps/aarch64/fpu/e_sqrtf.c           | 27 ----------
+ sysdeps/aarch64/fpu/math-use-builtins.h | 71 +++++++++++++++++++++++++
+ sysdeps/aarch64/fpu/s_floor.c           | 29 ----------
+ sysdeps/aarch64/fpu/s_floorf.c          | 29 ----------
+ sysdeps/aarch64/fpu/s_fma.c             | 28 ----------
+ sysdeps/aarch64/fpu/s_fmaf.c            | 28 ----------
+ sysdeps/aarch64/fpu/s_nearbyint.c       | 28 ----------
+ sysdeps/aarch64/fpu/s_nearbyintf.c      | 28 ----------
+ sysdeps/aarch64/fpu/s_rint.c            | 29 ----------
+ sysdeps/aarch64/fpu/s_rintf.c           | 29 ----------
+ sysdeps/aarch64/fpu/s_round.c           | 29 ----------
+ sysdeps/aarch64/fpu/s_roundf.c          | 29 ----------
+ sysdeps/aarch64/fpu/s_trunc.c           | 29 ----------
+ sysdeps/aarch64/fpu/s_truncf.c          | 29 ----------
+ 15 files changed, 71 insertions(+), 398 deletions(-)
+ delete mode 100644 sysdeps/aarch64/fpu/e_sqrt.c
+ delete mode 100644 sysdeps/aarch64/fpu/e_sqrtf.c
+ create mode 100644 sysdeps/aarch64/fpu/math-use-builtins.h
+ delete mode 100644 sysdeps/aarch64/fpu/s_floor.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_floorf.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_fma.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_fmaf.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_nearbyint.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_nearbyintf.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_rint.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_rintf.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_round.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_roundf.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_trunc.c
+ delete mode 100644 sysdeps/aarch64/fpu/s_truncf.c
+
+diff --git a/sysdeps/aarch64/fpu/e_sqrt.c b/sysdeps/aarch64/fpu/e_sqrt.c
+deleted file mode 100644
+index abb67ef7b061..000000000000
+--- a/sysdeps/aarch64/fpu/e_sqrt.c
++++ /dev/null
+@@ -1,27 +0,0 @@
+-/* Square root of floating point number.
+-   Copyright (C) 2015-2020 Free Software Foundation, Inc.
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public
+-   License as published by the Free Software Foundation; either
+-   version 2.1 of the License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#include <math_private.h>
+-#include <libm-alias-finite.h>
+-
+-double
+-__ieee754_sqrt (double d)
+-{
+-  return __builtin_sqrt (d);
+-}
+-libm_alias_finite (__ieee754_sqrt, __sqrt)
+diff --git a/sysdeps/aarch64/fpu/e_sqrtf.c b/sysdeps/aarch64/fpu/e_sqrtf.c
+deleted file mode 100644
+index 13008a4f45d6..000000000000
+--- a/sysdeps/aarch64/fpu/e_sqrtf.c
++++ /dev/null
+@@ -1,27 +0,0 @@
+-/* Single-precision floating point square root.
+-   Copyright (C) 2015-2020 Free Software Foundation, Inc.
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public
+-   License as published by the Free Software Foundation; either
+-   version 2.1 of the License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#include <math_private.h>
+-#include <libm-alias-finite.h>
+-
+-float
+-__ieee754_sqrtf (float s)
+-{
+-  return __builtin_sqrtf (s);
+-}
+-libm_alias_finite (__ieee754_sqrtf, __sqrtf)
+diff --git a/sysdeps/aarch64/fpu/math-use-builtins.h b/sysdeps/aarch64/fpu/math-use-builtins.h
+new file mode 100644
+index 000000000000..50a1ba0db5ea
+--- /dev/null
++++ b/sysdeps/aarch64/fpu/math-use-builtins.h
+@@ -0,0 +1,71 @@
++/* Using math gcc builtins instead of generic implementation.  aarch64 version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef MATH_USE_BUILTINS_H
++#define MATH_USE_BUILTINS_H	1
++
++#include <features.h> /* For __GNUC_PREREQ.  */
++
++/* Define these macros to 1 to use __builtin_xyz instead of the
++   generic implementation.  */
++#define USE_NEARBYINT_BUILTIN 1
++#define USE_NEARBYINTF_BUILTIN 1
++#define USE_NEARBYINTL_BUILTIN 0
++#define USE_NEARBYINTF128_BUILTIN 0
++
++#define USE_RINT_BUILTIN 1
++#define USE_RINTF_BUILTIN 1
++#define USE_RINTL_BUILTIN 0
++#define USE_RINTF128_BUILTIN 0
++
++#define USE_FLOOR_BUILTIN 1
++#define USE_FLOORF_BUILTIN 1
++#define USE_FLOORL_BUILTIN 0
++#define USE_FLOORF128_BUILTIN 0
++
++#define USE_CEIL_BUILTIN 1
++#define USE_CEILF_BUILTIN 1
++#define USE_CEILL_BUILTIN 0
++#define USE_CEILF128_BUILTIN 0
++
++#define USE_TRUNC_BUILTIN 1
++#define USE_TRUNCF_BUILTIN 1
++#define USE_TRUNCL_BUILTIN 0
++#define USE_TRUNCF128_BUILTIN 0
++
++#define USE_ROUND_BUILTIN 1
++#define USE_ROUNDF_BUILTIN 1
++#define USE_ROUNDL_BUILTIN 0
++#define USE_ROUNDF128_BUILTIN 0
++
++#define USE_COPYSIGNL_BUILTIN 1
++#if __GNUC_PREREQ (7, 0)
++# define USE_COPYSIGNF128_BUILTIN 1
++#else
++# define USE_COPYSIGNF128_BUILTIN 0
++#endif
++
++#define USE_SQRT_BUILTIN 1
++#define USE_SQRTF_BUILTIN 1
++
++#define USE_FMA_BUILTIN 1
++#define USE_FMAF_BUILTIN 1
 +#define USE_FMAL_BUILTIN 0
 +#define USE_FMAF128_BUILTIN 0
 +
- #endif /* math-use-builtins.h */
-diff --git a/sysdeps/ieee754/dbl-64/s_fma.c b/sysdeps/ieee754/dbl-64/s_fma.c
-index 876df6e78bdc..9dc5b132b9ee 100644
---- a/sysdeps/ieee754/dbl-64/s_fma.c
-+++ b/sysdeps/ieee754/dbl-64/s_fma.c
-@@ -25,6 +25,7 @@
- #include <fenv_private.h>
- #include <libm-alias-double.h>
- #include <tininess.h>
-+#include <math-use-builtins.h>
- 
- /* This implementation uses rounding to odd to avoid problems with
-    double rounding.  See a paper by Boldo and Melquiond:
-@@ -33,6 +34,10 @@
- double
- __fma (double x, double y, double z)
- {
-+#if USE_FMA_BUILTIN
-+  return __builtin_fma (x, y, z);
-+#else
-+  /* Use generic implementation.  */
-   union ieee754_double u, v, w;
-   int adjust = 0;
-   u.d = x;
-@@ -292,6 +297,7 @@ __fma (double x, double y, double z)
-       v.ieee.mantissa1 |= j;
-       return v.d * 0x1p-108;
-     }
-+#endif /* ! USE_FMA_BUILTIN  */
- }
- #ifndef __fma
- libm_alias_double (__fma, fma)
-diff --git a/sysdeps/ieee754/dbl-64/s_fmaf.c b/sysdeps/ieee754/dbl-64/s_fmaf.c
-index 57329d0a87fe..93b8660d5242 100644
---- a/sysdeps/ieee754/dbl-64/s_fmaf.c
-+++ b/sysdeps/ieee754/dbl-64/s_fmaf.c
-@@ -23,6 +23,7 @@
- #include <math-barriers.h>
- #include <fenv_private.h>
- #include <libm-alias-float.h>
-+#include <math-use-builtins.h>
- 
- /* This implementation relies on double being more than twice as
-    precise as float and uses rounding to odd in order to avoid problems
-@@ -33,6 +34,10 @@
- float
- __fmaf (float x, float y, float z)
- {
-+#if USE_FMAF_BUILTIN
-+  return __builtin_fmaf (x, y, z);
-+#else
-+  /* Use generic implementation.  */
-   fenv_t env;
- 
-   /* Multiplication is always exact.  */
-@@ -60,6 +65,7 @@ __fmaf (float x, float y, float z)
- 
-   /* And finally truncation with round to nearest.  */
-   return (float) u.d;
-+#endif /* ! USE_FMAF_BUILTIN  */
- }
- #ifndef __fmaf
- libm_alias_float (__fma, fma)
-diff --git a/sysdeps/ieee754/float128/float128_private.h b/sysdeps/ieee754/float128/float128_private.h
-index f97463d9dc1b..ab6fc9f3c9cf 100644
---- a/sysdeps/ieee754/float128/float128_private.h
-+++ b/sysdeps/ieee754/float128/float128_private.h
-@@ -154,6 +154,8 @@
- #define USE_ROUNDL_BUILTIN USE_ROUNDF128_BUILTIN
- #undef USE_COPYSIGNL_BUILTIN
- #define USE_COPYSIGNL_BUILTIN USE_COPYSIGNF128_BUILTIN
-+#undef USE_FMAL_BUILTIN
-+#define USE_FMAL_BUILTIN USE_FMAF128_BUILTIN
- 
- /* IEEE function renames.  */
- #define __ieee754_acoshl __ieee754_acoshf128
-diff --git a/sysdeps/ieee754/ldbl-128/s_fmal.c b/sysdeps/ieee754/ldbl-128/s_fmal.c
-index 7475015bcec6..a610499e47c7 100644
---- a/sysdeps/ieee754/ldbl-128/s_fmal.c
-+++ b/sysdeps/ieee754/ldbl-128/s_fmal.c
-@@ -25,6 +25,7 @@
- #include <math_private.h>
- #include <libm-alias-ldouble.h>
- #include <tininess.h>
-+#include <math-use-builtins.h>
- 
- /* This implementation uses rounding to odd to avoid problems with
-    double rounding.  See a paper by Boldo and Melquiond:
-@@ -33,6 +34,9 @@
- _Float128
- __fmal (_Float128 x, _Float128 y, _Float128 z)
- {
-+#if USE_FMAL_BUILTIN
-+  return __builtin_fmal (x, y, z);
-+#else
-   union ieee854_long_double u, v, w;
-   int adjust = 0;
-   u.d = x;
-@@ -296,5 +300,6 @@ __fmal (_Float128 x, _Float128 y, _Float128 z)
-       v.ieee.mantissa3 |= j;
-       return v.d * L(0x1p-228);
-     }
-+#endif /* ! USE_FMAL_BUILTIN  */
- }
- libm_alias_ldouble (__fma, fma)
++#endif
+diff --git a/sysdeps/aarch64/fpu/s_floor.c b/sysdeps/aarch64/fpu/s_floor.c
+deleted file mode 100644
+index d7d3e9336a6e..000000000000
+--- a/sysdeps/aarch64/fpu/s_floor.c
++++ /dev/null
+@@ -1,29 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#define NO_MATH_REDIRECT
+-#include <math.h>
+-#include <libm-alias-double.h>
+-
+-double
+-__floor (double x)
+-{
+-  return __builtin_floor (x);
+-}
+-
+-libm_alias_double (__floor, floor)
+diff --git a/sysdeps/aarch64/fpu/s_floorf.c b/sysdeps/aarch64/fpu/s_floorf.c
+deleted file mode 100644
+index 625ff4375702..000000000000
+--- a/sysdeps/aarch64/fpu/s_floorf.c
++++ /dev/null
+@@ -1,29 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#define NO_MATH_REDIRECT
+-#include <math.h>
+-#include <libm-alias-float.h>
+-
+-float
+-__floorf (float x)
+-{
+-  return __builtin_floorf (x);
+-}
+-
+-libm_alias_float (__floor, floor)
+diff --git a/sysdeps/aarch64/fpu/s_fma.c b/sysdeps/aarch64/fpu/s_fma.c
+deleted file mode 100644
+index 48bb40482dc9..000000000000
+--- a/sysdeps/aarch64/fpu/s_fma.c
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/* Copyright (C) 1996-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public
+-   License as published by the Free Software Foundation; either
+-   version 2.1 of the License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#include <math.h>
+-#include <libm-alias-double.h>
+-
+-double
+-__fma (double x, double y, double z)
+-{
+-  return __builtin_fma (x, y, z);
+-}
+-
+-libm_alias_double (__fma, fma)
+diff --git a/sysdeps/aarch64/fpu/s_fmaf.c b/sysdeps/aarch64/fpu/s_fmaf.c
+deleted file mode 100644
+index 544f32e27aec..000000000000
+--- a/sysdeps/aarch64/fpu/s_fmaf.c
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#include <math.h>
+-#include <libm-alias-float.h>
+-
+-float
+-__fmaf (float x, float y, float z)
+-{
+-  return __builtin_fmaf (x, y, z);
+-}
+-
+-libm_alias_float (__fma, fma)
+diff --git a/sysdeps/aarch64/fpu/s_nearbyint.c b/sysdeps/aarch64/fpu/s_nearbyint.c
+deleted file mode 100644
+index 59a57dd39ba1..000000000000
+--- a/sysdeps/aarch64/fpu/s_nearbyint.c
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#include <math.h>
+-#include <libm-alias-double.h>
+-
+-double
+-__nearbyint (double x)
+-{
+-  return __builtin_nearbyint (x);
+-}
+-
+-libm_alias_double (__nearbyint, nearbyint)
+diff --git a/sysdeps/aarch64/fpu/s_nearbyintf.c b/sysdeps/aarch64/fpu/s_nearbyintf.c
+deleted file mode 100644
+index f52968ae2bbd..000000000000
+--- a/sysdeps/aarch64/fpu/s_nearbyintf.c
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#include <math.h>
+-#include <libm-alias-float.h>
+-
+-float
+-__nearbyintf (float x)
+-{
+-  return __builtin_nearbyintf (x);
+-}
+-
+-libm_alias_float (__nearbyint, nearbyint)
+diff --git a/sysdeps/aarch64/fpu/s_rint.c b/sysdeps/aarch64/fpu/s_rint.c
+deleted file mode 100644
+index bdd757167e0c..000000000000
+--- a/sysdeps/aarch64/fpu/s_rint.c
++++ /dev/null
+@@ -1,29 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#define NO_MATH_REDIRECT
+-#include <math.h>
+-#include <libm-alias-double.h>
+-
+-double
+-__rint (double x)
+-{
+-  return __builtin_rint (x);
+-}
+-
+-libm_alias_double (__rint, rint)
+diff --git a/sysdeps/aarch64/fpu/s_rintf.c b/sysdeps/aarch64/fpu/s_rintf.c
+deleted file mode 100644
+index 8cf7c63d6dda..000000000000
+--- a/sysdeps/aarch64/fpu/s_rintf.c
++++ /dev/null
+@@ -1,29 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#define NO_MATH_REDIRECT
+-#include <math.h>
+-#include <libm-alias-float.h>
+-
+-float
+-__rintf (float x)
+-{
+-  return __builtin_rintf (x);
+-}
+-
+-libm_alias_float (__rint, rint)
+diff --git a/sysdeps/aarch64/fpu/s_round.c b/sysdeps/aarch64/fpu/s_round.c
+deleted file mode 100644
+index d2fd5f34117a..000000000000
+--- a/sysdeps/aarch64/fpu/s_round.c
++++ /dev/null
+@@ -1,29 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#define NO_MATH_REDIRECT
+-#include <math.h>
+-#include <libm-alias-double.h>
+-
+-double
+-__round (double x)
+-{
+-  return __builtin_round (x);
+-}
+-
+-libm_alias_double (__round, round)
+diff --git a/sysdeps/aarch64/fpu/s_roundf.c b/sysdeps/aarch64/fpu/s_roundf.c
+deleted file mode 100644
+index e51214e86cd2..000000000000
+--- a/sysdeps/aarch64/fpu/s_roundf.c
++++ /dev/null
+@@ -1,29 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#define NO_MATH_REDIRECT
+-#include <math.h>
+-#include <libm-alias-float.h>
+-
+-float
+-__roundf (float x)
+-{
+-  return __builtin_roundf (x);
+-}
+-
+-libm_alias_float (__round, round)
+diff --git a/sysdeps/aarch64/fpu/s_trunc.c b/sysdeps/aarch64/fpu/s_trunc.c
+deleted file mode 100644
+index bac23a5e269d..000000000000
+--- a/sysdeps/aarch64/fpu/s_trunc.c
++++ /dev/null
+@@ -1,29 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#define NO_MATH_REDIRECT
+-#include <math.h>
+-#include <libm-alias-double.h>
+-
+-double
+-__trunc (double x)
+-{
+-  return __builtin_trunc (x);
+-}
+-
+-libm_alias_double (__trunc, trunc)
+diff --git a/sysdeps/aarch64/fpu/s_truncf.c b/sysdeps/aarch64/fpu/s_truncf.c
+deleted file mode 100644
+index 6a025c084a5a..000000000000
+--- a/sysdeps/aarch64/fpu/s_truncf.c
++++ /dev/null
+@@ -1,29 +0,0 @@
+-/* Copyright (C) 2011-2020 Free Software Foundation, Inc.
+-
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public License as
+-   published by the Free Software Foundation; either version 2.1 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#define NO_MATH_REDIRECT
+-#include <math.h>
+-#include <libm-alias-float.h>
+-
+-float
+-__truncf (float x)
+-{
+-  return __builtin_truncf (x);
+-}
+-
+-libm_alias_float (__trunc, trunc)
 -- 
 2.20.1
 
