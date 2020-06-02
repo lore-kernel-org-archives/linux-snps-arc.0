@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6CD6C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Jun 2020 17:51:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B9FBC433E0
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Jun 2020 18:12:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B995320734
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Jun 2020 17:51:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C66772068D
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Jun 2020 18:12:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mNayMIKD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B995320734
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Lpv2HlrW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C66772068D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codesourcery.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,52 +25,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
 	In-Reply-To:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=JtpGSzmEMPvdz5S5GrRP33JYSAsgcH8Ien4Y5XA4Ing=; b=mNayMIKDJfM1EP
-	0U3z3j/3F8LFJhnCISkAU/1D2UmnGbTjgdecvpfGvs+z1xJBjCi0ZDxV3U0G6NNe2KPu0FYT27nwU
-	W1KSZASJ941DLlCyAer29XeW5dEaNg6XjnAbmh/1pEtAXkUCIgnYK8YPQrJp4fZkoCrRVw1LbBUnc
-	wDvSjNJ21TFLNIn/up+zr8r6KXJj9UCPj4sgXebcdQs719i7iVj2kGbWhfDR0AopdcK59HrFfwvaL
-	5ClukfN6z+CGyKodDe2EN/yZgPQo6MJ9L65oYHqHz3jCXm/7oS+MZqJ2x9ttDpEdSNPOVA6HiAaIk
-	aCE3bA8xn2hTrAemnsLQ==;
+	List-Owner; bh=3/8G8gl957+H84u+8QisNXz6+i6FzpLdYBQlG9RoPF8=; b=Lpv2HlrWkNl1Vm
+	5MzlE29samSX3tmGTd0/FhuRte6WkASSpraKV7GEkg29XMnzbkqm2wwZtAIRXHJ2hM0IjubNS5urd
+	OMftl+HmuX/oaEghk/bArMz3CcRbbW182xGEZ8CC7pk5rfpRbDdk2OBrfIwTUuu3QfKjzkCEXyUlb
+	VEK4I394KjGYcY1hApDdpNLXK/LGGotm9at4/fJoZ12f1O3/Iaie+0PGIYjQ8DAeWaBb9KDcsnRrR
+	bM03h5mtGbYF7Ov2SGT2as59y4dMFwAoqhH+twvY/b7cGfU4/8OSTBcT7n9bZMA3d5yQzOHLJdJWw
+	8MGhU2C/jAs7VNeHRbsw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jgB4V-00047D-VW; Tue, 02 Jun 2020 17:51:31 +0000
-Received: from esa4.mentor.iphmx.com ([68.232.137.252])
+	id 1jgBOw-0001XL-CB; Tue, 02 Jun 2020 18:12:38 +0000
+Received: from esa1.mentor.iphmx.com ([68.232.129.153])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jgB4T-00046i-VD
- for linux-snps-arc@lists.infradead.org; Tue, 02 Jun 2020 17:51:31 +0000
-IronPort-SDR: PktXmUJsV97bXP13DRZ1+QoiXPjRtZjLHJ5G+OpPxcbWeT56M5ATrd/Gmg4Iy2eGMPWu6bTGOv
- uVTAcqoRxhpb4/WFQZTeDbXd75yDvkb6OdbCJTEQdxOJH653fLHBoojpM3n61n44D6IEptOWdC
- 4tC0hl6MPBa96SPR297/G96QfX8osPH865SOeNSnbzPU3AJoy5haHCoUnSGj0g1ByRdhDoyUv/
- eTdcY73DYTW+AFwDnnS/KAqpz6+rMJo9FoVZ+EW67CqX6Pj3ua8/wmmiS3G+k2T6LmuInKLQuv
- 22s=
-X-IronPort-AV: E=Sophos;i="5.73,465,1583222400"; d="scan'208";a="49502241"
+ id 1jgBOu-0001Wv-2f
+ for linux-snps-arc@lists.infradead.org; Tue, 02 Jun 2020 18:12:37 +0000
+IronPort-SDR: /GnfyjloUA6gXVq2yNaeiUopClqp9YLkZk0JVnQzVaVE5LWVyGp7l78Cm30V8vYLL9Bf9gC+8u
+ 1+1KKbRcGpS1x8Um7mG+DXjKPKBvvZvG8UpfLOnQJ/oHSbNV18Dz5lABKREOOcNGP6yFX0awY1
+ ezrp2vEkK1+iUaSIUvcP4eFEuMSwi/bkoiRtDD+whc7tsYxlOG+SKlLRDiqcZS9q8qlgwPYY5r
+ 6G6C2vK3Z3cFDFrFNNR7ep8xnOd5lkM1/Ikp5wTXXty767vU/xoSuq3UP4Bg3AMgqGxF9fYx+i
+ eHM=
+X-IronPort-AV: E=Sophos;i="5.73,465,1583222400"; d="scan'208";a="51493186"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa4.mentor.iphmx.com with ESMTP; 02 Jun 2020 09:51:29 -0800
-IronPort-SDR: 72gMF+gqzZq5R5aySRaFbNX6QANRzUzDMcY6fqgbjJba3zq6jhoxZ34SS8PWDvQiYcclTifyGk
- +RT9qxEC0KjLfy/ORRrJcP77JcEJLxB9Tp7Z65QxDy+kg87aP+t1gnWBhe7mkMilFLILGDKfwU
- wslM3TJ/qQ5bhLsd/qSgy6+4SCk8ljZoXHuPYpNYzKNW0RzOZ5QfknopiQk3LDSoVt5v/oLR7o
- ufllhdIdeNw1w/hsJcc5VsxrxFHZ/c+XXnfH+/zu0b1fhldFMsEIODNUzJR9VP04u6rqKfI9uN
- h98=
-Date: Tue, 2 Jun 2020 17:51:23 +0000
+ by esa1.mentor.iphmx.com with ESMTP; 02 Jun 2020 10:12:35 -0800
+IronPort-SDR: 1UrNGQ+G3s6LQ+0eI0AhBXXT8BfDfyE4UxWmDgar+Y3SI9faLZN4FVcDIHuFrYVjcEon4yQWzh
+ dkdWj8ZBmsMqYVa/wbuuL7eUvHmZJqX3iieMSJCHeDvRKrqrRxD/k7rDUFV2Gaehfnk8+uTD4G
+ jVua3JY/I8yWkAxhRFNC5A4EiYsxZD/6B3q3llH3rAJ+6eNg8BSX4K010xle9S5ooL82aCALSB
+ E8QvHpyIiVF/DzwIpEbA7NVkPFUIascqJ2azLHBx/J2zXpb/CCSJpyC1mBkaWoJn3s23rWPykv
+ 6Lg=
+Date: Tue, 2 Jun 2020 18:12:30 +0000
 From: Joseph Myers <joseph@codesourcery.com>
 X-X-Sender: jsm28@digraph.polyomino.org.uk
 To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [PATCH v6 06/13] ARC: hardware floating point support
-In-Reply-To: <5b06914d-acb3-4404-4ff2-93bb7a04f8f5@synopsys.com>
-Message-ID: <alpine.DEB.2.21.2006021749170.3673@digraph.polyomino.org.uk>
-References: <20200423014126.10417-1-vgupta@synopsys.com>
- <20200423014126.10417-7-vgupta@synopsys.com>
- <de8975a0-bb03-8cec-be97-56f8c4e2a2f3@linaro.org>
- <91c2aba8-bff5-5ddc-7a95-c93c90883150@synopsys.com>
- <5b06914d-acb3-4404-4ff2-93bb7a04f8f5@synopsys.com>
+Subject: Re: [PATCH 4/5] aarch/fpu: use generic sqrt, fma functions
+In-Reply-To: <e6b5ba39-dfd4-abe3-5743-ae1bf1b8e9a9@synopsys.com>
+Message-ID: <alpine.DEB.2.21.2006021811230.3673@digraph.polyomino.org.uk>
+References: <20200530020047.5490-1-vgupta@synopsys.com>
+ <20200530020047.5490-5-vgupta@synopsys.com>
+ <c20755dc-bd3c-2ef6-c0ce-665529a62243@linaro.org>
+ <e6b5ba39-dfd4-abe3-5743-ae1bf1b8e9a9@synopsys.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
+X-ClientProxiedBy: SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) To
  svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200602_105130_062580_DDF1FC44 
-X-CRM114-Status: UNSURE (   4.61  )
+X-CRM114-CacheID: sfid-20200602_111236_130568_56308AAD 
+X-CRM114-Status: UNSURE (   4.20  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -91,26 +90,19 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, 29 May 2020, Vineet Gupta via Libc-alpha wrote:
+On Mon, 1 Jun 2020, Vineet Gupta via Libc-alpha wrote:
 
-> Something like below ?
+> Also I don't understand one thing. Both the generic and aarch64 code have this
 > 
-> +# define _FPU_FPSR_FWE		0x80000000
-> +
-> -#  define _FPU_GETCW(cw) __asm__ volatile ("lr %0, [0x300]" : "=r" (cw))
-> -#  define _FPU_SETCW(cw) __asm__ volatile ("sr %0, [0x300]" : : "r" (cw))
-> +static inline unsigned int arc_fpu_getcw(void)
-> +{
-> +  unsigned int cw;
+> float
+> __rintf (float x)
+> ...
+> libm_alias_float (__rint, rint)
+> 
+> The alias arg 1 __rint seems to lack suffix 'f' ?
 
-Even for a header that's not defined in any standard, as an installed 
-header you should avoid names in the user's namespace that are not 
-explicitly part of the API for the user to use.  That is, unless you 
-actually intend the name arc_fpu_getcw to be a supported interface for 
-users including <fpu_control.h>, you should name it __arc_fpu_getcw, and 
-you should use __cw to avoid conflicting with any user macro called sw.  
-(Function definitions also need to be in GNU style - function name at the 
-start of a line, space before '('.)
+Please see the comments in sysdeps/generic/libm-alias-float.h.  The 
+arguments are *unsuffixed* names.
 
 -- 
 Joseph S. Myers
