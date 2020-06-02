@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FCCDC433DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 746A5C433E4
 	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Jun 2020 21:32:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2FD82207FB
+	by mail.kernel.org (Postfix) with ESMTPS id 2AA14206E2
 	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Jun 2020 21:32:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UuSgcg7h";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="TSHtH1zu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2FD82207FB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nbBmlzEP";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="WjuaX3+/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2AA14206E2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,53 +26,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/uSuvrYxqyOo7d5y4Q5eukPqdMyFDOqrD9O3/H8cSb0=; b=UuSgcg7homJLfD
-	5Y3ot12XmwMqlzrTahwqCGi+W8XrkUK3mby9jLxx7PZUq/8bwQkUJaq4T7FOIqgb7cnHF0uQhZu1j
-	2xMLDEW76fz/6U3e1yEsvkql2pOXZR+EC8G9RAbBudNy425ra9FqiZTCnFexHC421ItoyS3Pxysj/
-	pOUHk76oFD96jZ/2pkHOWX2R1zsbrrQhmEHqftay8CeVaz9cPBAm6YhqBEGICR14ji1lJXDrLY0OC
-	IiwFB+O6pvKY1cFipKQfzDT3fL4oMLbgcC44KohOd+OaxMBbKHZ1hDM9iFGhsrn6H02aDtM3qm1RK
-	yESDnlUQbZzoty96eEjA==;
+	List-Owner; bh=RXDSkOEE5ETq0rlzuXlBmW8gghY817ZnthC0U9hMU7Y=; b=nbBmlzEP8Bl9nX
+	Jmk1sHms67u8NXetz7yICyfDAZ6XKq7thS+CI6zNL3BoxfNPtrrhzUFokoXdbOvPNaH5xTTvEakPW
+	DRDSN+b1nA3+jXlHEseb1+ZlN2JLqbGoiziHYKrnSgvqfJ322aUK58W2hS9y8rfwp84teqnit4ojz
+	BMSeu7EZAU4XuKEVQz6RjCoyOdzCXOXNlDSFz7emxyoUZ3uO9UFIGTMGarVkqtprLZf2b6wUExDpO
+	H6cjpkDkCnicEjWDvodhT/b+G19Xj1DLeeLOzc9KI6YujNA1QJqwsFRguju0eEN3oN7GKxhFkJUNC
+	ce+T39bDuzsg1B0NO9Pg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jgEWR-0005r9-5i; Tue, 02 Jun 2020 21:32:35 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1jgEWP-0005qY-NN; Tue, 02 Jun 2020 21:32:33 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jgEWK-0005o2-ET
- for linux-snps-arc@lists.infradead.org; Tue, 02 Jun 2020 21:32:33 +0000
+ id 1jgEWK-0005o3-FF
+ for linux-snps-arc@lists.infradead.org; Tue, 02 Jun 2020 21:32:31 +0000
 Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com
  [10.205.2.134])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id B0A7AC041E;
- Tue,  2 Jun 2020 21:32:23 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 96329406F7;
+ Tue,  2 Jun 2020 21:32:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1591133544; bh=aQv1Yi9jCBXSfwZmH8wJD9uuH0q5pMyK17z1Z8frnz4=;
+ t=1591133544; bh=wMmnj7PG67rqSqhgCZzNXwGSVm5Ujqna+wg6DUW2Hmo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TSHtH1zuYjXE+lUZ267YqUN/4Cmc07W99+YxfcbNHXTaTSJETP4jdjTtFlM2tTb7F
- Fr/iScESMaY/6wISNmyV+H+2IRZTswYLdqrBwH/KJO/xcstTTXoNI+T8KasNolFJq8
- 2GeBdNO0DE7kx54pUly/A4XoOWHxjbA0xN1zmis35vaeHnXCdgw8gX4214nLW+l2Cj
- 36qppDFbh0c944DyNfgbrowv7RLeUenNPMrCWzQUcp2PvKKuwgOSfAcENUjRZttXMc
- Rt+oXM0KXYkYwzlXsHW3+GiYGuu34wih4TGi8AWMblxp0H+DDBE3ZQYhR9HurFmfTo
- NuJQjKKneWxjg==
+ b=WjuaX3+/xBOg1xkyRK56taeQj/C/XdNICEBZZiR0TBTi6vMR/ksqrOPpSbrqxGSNd
+ oEPihqjVYzV5kdR5FhYmclegPhOqv5/ytIwQF0p/DWTMVgq2TCU19yKuGWhPbc+wTR
+ 97zJnG8gRNl3sp9lhYqiG/VWO/UioKXyyO0pMBl5xzFUfiUdrPr9sDhpN8trC8nccP
+ xNi0YzSKeg7UQx/qTcRXOHZ5CbJuXWkTRhkGnBAeKxeNpCb1epOjzQyuRkhD5zhyC0
+ rCTfqdnO0TxAZ4heiCtUH3GFPfD8vj8GLFVFmn8GMnv8/zKG9TR+6kVmCc3JwiYhDc
+ ve/LE6acXoDVQ==
 Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
  [10.13.183.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id 4AC98A00A2;
- Tue,  2 Jun 2020 21:32:23 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 21B67A00A2;
+ Tue,  2 Jun 2020 21:32:24 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v3 2/4] iee754: provide gcc builtins based generic fma
- functions
-Date: Tue,  2 Jun 2020 14:32:18 -0700
-Message-Id: <20200602213220.6201-3-vgupta@synopsys.com>
+Subject: [PATCH v3 4/4] powerpc/fpu: use generic fma functions
+Date: Tue,  2 Jun 2020 14:32:20 -0700
+Message-Id: <20200602213220.6201-5-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200602213220.6201-1-vgupta@synopsys.com>
 References: <20200602213220.6201-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200602_143228_550349_44A7692D 
-X-CRM114-Status: UNSURE (   8.89  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200602_143228_521235_4016D3D6 
+X-CRM114-Status: GOOD (  13.06  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,179 +90,193 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+Tested with build-many-glibcs for powerpc-linux-gnu
+
+This is a non functional change and powerpc libm before/after was
+byte invariant as compared below:
+
+| cd /SCRATCH/vgupta/gnu/install-glibc-A-baseline
+| for i in `find . -name libm-2.31.9000.so`; do
+|   echo $i; diff $i /SCRATCH/vgupta/gnu/install-glibc-C-reduce-scope/$i ;
+|   echo $?;
+| done
+
+| ./aarch64-linux-gnu/lib64/libm-2.31.9000.so
+| 0
+| ./arm-linux-gnueabi/lib/libm-2.31.9000.so
+| 0
+| ./x86_64-linux-gnu/lib64/libm-2.31.9000.so
+| 0
+| ./arm-linux-gnueabihf/lib/libm-2.31.9000.so
+| 0
+| ./riscv64-linux-gnu-rv64imac-lp64/lib64/lp64/libm-2.31.9000.so
+| 0
+| ./riscv64-linux-gnu-rv64imafdc-lp64/lib64/lp64/libm-2.31.9000.so
+| 0
+| ./powerpc-linux-gnu/lib/libm-2.31.9000.so
+| 0
+| ./microblaze-linux-gnu/lib/libm-2.31.9000.so
+| 0
+| ./nios2-linux-gnu/lib/libm-2.31.9000.so
+| 0
+| ./hppa-linux-gnu/lib/libm-2.31.9000.so
+| 0
+| ./s390x-linux-gnu/lib64/libm-2.31.9000.so
+| 0
+
+Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
+
 Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
 ---
- sysdeps/generic/math-use-builtins.h         | 5 +++++
- sysdeps/ieee754/dbl-64/s_fma.c              | 6 ++++++
- sysdeps/ieee754/dbl-64/s_fmaf.c             | 6 ++++++
- sysdeps/ieee754/float128/float128_private.h | 2 ++
- sysdeps/ieee754/ldbl-128/s_fma.c            | 5 +++++
- sysdeps/ieee754/ldbl-128/s_fmal.c           | 5 +++++
- sysdeps/s390/fpu/math-use-builtins.h        | 5 +++++
- 7 files changed, 34 insertions(+)
+ sysdeps/powerpc/fpu/math-use-builtins.h | 69 +++++++++++++++++++++++++
+ sysdeps/powerpc/fpu/s_fma.c             | 27 ----------
+ sysdeps/powerpc/fpu/s_fmaf.c            | 27 ----------
+ 3 files changed, 69 insertions(+), 54 deletions(-)
+ create mode 100644 sysdeps/powerpc/fpu/math-use-builtins.h
+ delete mode 100644 sysdeps/powerpc/fpu/s_fma.c
+ delete mode 100644 sysdeps/powerpc/fpu/s_fmaf.c
 
-diff --git a/sysdeps/generic/math-use-builtins.h b/sysdeps/generic/math-use-builtins.h
-index fc724c824a17..cf25ed8a2138 100644
---- a/sysdeps/generic/math-use-builtins.h
-+++ b/sysdeps/generic/math-use-builtins.h
-@@ -63,4 +63,9 @@
- #define USE_SQRT_BUILTIN 0
- #define USE_SQRTF_BUILTIN 0
- 
-+#define USE_FMA_BUILTIN 0
-+#define USE_FMAF_BUILTIN 0
-+#define USE_FMAL_BUILTIN 0
-+#define USE_FMAF128_BUILTIN 0
+diff --git a/sysdeps/powerpc/fpu/math-use-builtins.h b/sysdeps/powerpc/fpu/math-use-builtins.h
+new file mode 100644
+index 000000000000..4780934379ba
+--- /dev/null
++++ b/sysdeps/powerpc/fpu/math-use-builtins.h
+@@ -0,0 +1,69 @@
++/* Using math gcc builtins instead of generic implementation.  PowerPC version.
++   Copyright (C) 2019-2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
 +
- #endif /* math-use-builtins.h */
-diff --git a/sysdeps/ieee754/dbl-64/s_fma.c b/sysdeps/ieee754/dbl-64/s_fma.c
-index 876df6e78bdc..9dc5b132b9ee 100644
---- a/sysdeps/ieee754/dbl-64/s_fma.c
-+++ b/sysdeps/ieee754/dbl-64/s_fma.c
-@@ -25,6 +25,7 @@
- #include <fenv_private.h>
- #include <libm-alias-double.h>
- #include <tininess.h>
-+#include <math-use-builtins.h>
- 
- /* This implementation uses rounding to odd to avoid problems with
-    double rounding.  See a paper by Boldo and Melquiond:
-@@ -33,6 +34,10 @@
- double
- __fma (double x, double y, double z)
- {
-+#if USE_FMA_BUILTIN
-+  return __builtin_fma (x, y, z);
-+#else
-+  /* Use generic implementation.  */
-   union ieee754_double u, v, w;
-   int adjust = 0;
-   u.d = x;
-@@ -292,6 +297,7 @@ __fma (double x, double y, double z)
-       v.ieee.mantissa1 |= j;
-       return v.d * 0x1p-108;
-     }
-+#endif /* ! USE_FMA_BUILTIN  */
- }
- #ifndef __fma
- libm_alias_double (__fma, fma)
-diff --git a/sysdeps/ieee754/dbl-64/s_fmaf.c b/sysdeps/ieee754/dbl-64/s_fmaf.c
-index 57329d0a87fe..93b8660d5242 100644
---- a/sysdeps/ieee754/dbl-64/s_fmaf.c
-+++ b/sysdeps/ieee754/dbl-64/s_fmaf.c
-@@ -23,6 +23,7 @@
- #include <math-barriers.h>
- #include <fenv_private.h>
- #include <libm-alias-float.h>
-+#include <math-use-builtins.h>
- 
- /* This implementation relies on double being more than twice as
-    precise as float and uses rounding to odd in order to avoid problems
-@@ -33,6 +34,10 @@
- float
- __fmaf (float x, float y, float z)
- {
-+#if USE_FMAF_BUILTIN
-+  return __builtin_fmaf (x, y, z);
-+#else
-+  /* Use generic implementation.  */
-   fenv_t env;
- 
-   /* Multiplication is always exact.  */
-@@ -60,6 +65,7 @@ __fmaf (float x, float y, float z)
- 
-   /* And finally truncation with round to nearest.  */
-   return (float) u.d;
-+#endif /* ! USE_FMAF_BUILTIN  */
- }
- #ifndef __fmaf
- libm_alias_float (__fma, fma)
-diff --git a/sysdeps/ieee754/float128/float128_private.h b/sysdeps/ieee754/float128/float128_private.h
-index f97463d9dc1b..ab6fc9f3c9cf 100644
---- a/sysdeps/ieee754/float128/float128_private.h
-+++ b/sysdeps/ieee754/float128/float128_private.h
-@@ -154,6 +154,8 @@
- #define USE_ROUNDL_BUILTIN USE_ROUNDF128_BUILTIN
- #undef USE_COPYSIGNL_BUILTIN
- #define USE_COPYSIGNL_BUILTIN USE_COPYSIGNF128_BUILTIN
-+#undef USE_FMAL_BUILTIN
-+#define USE_FMAL_BUILTIN USE_FMAF128_BUILTIN
- 
- /* IEEE function renames.  */
- #define __ieee754_acoshl __ieee754_acoshf128
-diff --git a/sysdeps/ieee754/ldbl-128/s_fma.c b/sysdeps/ieee754/ldbl-128/s_fma.c
-index 13f8ed3b87eb..0feff0a71cd1 100644
---- a/sysdeps/ieee754/ldbl-128/s_fma.c
-+++ b/sysdeps/ieee754/ldbl-128/s_fma.c
-@@ -21,6 +21,7 @@
- #include <fenv.h>
- #include <ieee754.h>
- #include <libm-alias-double.h>
-+#include <math-use-builtins.h>
- 
- /* This implementation relies on long double being more than twice as
-    precise as double and uses rounding to odd in order to avoid problems
-@@ -31,6 +32,9 @@
- double
- __fma (double x, double y, double z)
- {
-+#if USE_FMA_BUILTIN
-+  return __builtin_fma (x, y, z);
-+#else
-   fenv_t env;
-   /* Multiplication is always exact.  */
-   long double temp = (long double) x * (long double) y;
-@@ -50,6 +54,7 @@ __fma (double x, double y, double z)
-   feupdateenv (&env);
-   /* And finally truncation with round to nearest.  */
-   return (double) u.d;
-+#endif /* ! USE_FMA_BUILTIN  */
- }
- #ifndef __fma
- libm_alias_double (__fma, fma)
-diff --git a/sysdeps/ieee754/ldbl-128/s_fmal.c b/sysdeps/ieee754/ldbl-128/s_fmal.c
-index 7475015bcec6..a610499e47c7 100644
---- a/sysdeps/ieee754/ldbl-128/s_fmal.c
-+++ b/sysdeps/ieee754/ldbl-128/s_fmal.c
-@@ -25,6 +25,7 @@
- #include <math_private.h>
- #include <libm-alias-ldouble.h>
- #include <tininess.h>
-+#include <math-use-builtins.h>
- 
- /* This implementation uses rounding to odd to avoid problems with
-    double rounding.  See a paper by Boldo and Melquiond:
-@@ -33,6 +34,9 @@
- _Float128
- __fmal (_Float128 x, _Float128 y, _Float128 z)
- {
-+#if USE_FMAL_BUILTIN
-+  return __builtin_fmal (x, y, z);
-+#else
-   union ieee854_long_double u, v, w;
-   int adjust = 0;
-   u.d = x;
-@@ -296,5 +300,6 @@ __fmal (_Float128 x, _Float128 y, _Float128 z)
-       v.ieee.mantissa3 |= j;
-       return v.d * L(0x1p-228);
-     }
-+#endif /* ! USE_FMAL_BUILTIN  */
- }
- libm_alias_ldouble (__fma, fma)
-diff --git a/sysdeps/s390/fpu/math-use-builtins.h b/sysdeps/s390/fpu/math-use-builtins.h
-index eb87b6b0b16b..3a80f86b2e29 100644
---- a/sysdeps/s390/fpu/math-use-builtins.h
-+++ b/sysdeps/s390/fpu/math-use-builtins.h
-@@ -111,4 +111,9 @@
- #define USE_SQRT_BUILTIN 0
- #define USE_SQRTF_BUILTIN 0
- 
-+#define USE_FMA_BUILTIN 0
-+#define USE_FMAF_BUILTIN 0
-+#define USE_FMAL_BUILTIN 0
-+#define USE_FMAF128_BUILTIN 0
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
 +
- #endif /* math-use-builtins.h */
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef MATH_USE_BUILTINS_H
++#define MATH_USE_BUILTINS_H	1
++
++#include <features.h> /* For __GNUC_PREREQ.  */
++
++/* Define these macros to 1 to use __builtin_xyz instead of the
++   generic implementation.  */
++#define USE_NEARBYINT_BUILTIN 0
++#define USE_NEARBYINTF_BUILTIN 0
++#define USE_NEARBYINTL_BUILTIN 0
++#define USE_NEARBYINTF128_BUILTIN 0
++
++#define USE_RINT_BUILTIN 0
++#define USE_RINTF_BUILTIN 0
++#define USE_RINTL_BUILTIN 0
++#define USE_RINTF128_BUILTIN 0
++
++#define USE_FLOOR_BUILTIN 0
++#define USE_FLOORF_BUILTIN 0
++#define USE_FLOORL_BUILTIN 0
++#define USE_FLOORF128_BUILTIN 0
++
++#define USE_CEIL_BUILTIN 0
++#define USE_CEILF_BUILTIN 0
++#define USE_CEILL_BUILTIN 0
++#define USE_CEILF128_BUILTIN 0
++
++#define USE_TRUNC_BUILTIN 0
++#define USE_TRUNCF_BUILTIN 0
++#define USE_TRUNCL_BUILTIN 0
++#define USE_TRUNCF128_BUILTIN 0
++
++#define USE_ROUND_BUILTIN 0
++#define USE_ROUNDF_BUILTIN 0
++#define USE_ROUNDL_BUILTIN 0
++#define USE_ROUNDF128_BUILTIN 0
++
++#define USE_COPYSIGNL_BUILTIN 1
++#if __GNUC_PREREQ (7, 0)
++# define USE_COPYSIGNF128_BUILTIN 1
++#else
++# define USE_COPYSIGNF128_BUILTIN 0
++#endif
++
++#define USE_SQRT_BUILTIN 0
++#define USE_SQRTF_BUILTIN 0
++
++#define USE_FMA_BUILTIN 1
++#define USE_FMAF_BUILTIN 1
++
++#endif
+diff --git a/sysdeps/powerpc/fpu/s_fma.c b/sysdeps/powerpc/fpu/s_fma.c
+deleted file mode 100644
+index 9ddd13253485..000000000000
+--- a/sysdeps/powerpc/fpu/s_fma.c
++++ /dev/null
+@@ -1,27 +0,0 @@
+-/* Compute x * y + z as ternary operation.  PowerPC version.
+-   Copyright (C) 2019-2020 Free Software Foundation, Inc.
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public
+-   License as published by the Free Software Foundation; either
+-   version 2.1 of the License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#include <sysdep.h>
+-#include <libm-alias-double.h>
+-
+-double
+-__fma (double x, double y, double z)
+-{
+-  return __builtin_fma (x, y, z);
+-}
+-libm_alias_double (__fma, fma)
+diff --git a/sysdeps/powerpc/fpu/s_fmaf.c b/sysdeps/powerpc/fpu/s_fmaf.c
+deleted file mode 100644
+index d132c20125bb..000000000000
+--- a/sysdeps/powerpc/fpu/s_fmaf.c
++++ /dev/null
+@@ -1,27 +0,0 @@
+-/* Compute x * y + z as ternary operation.  PowerPC version.
+-   Copyright (C) 2019-2020 Free Software Foundation, Inc.
+-   This file is part of the GNU C Library.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public
+-   License as published by the Free Software Foundation; either
+-   version 2.1 of the License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#include <sysdep.h>
+-#include <libm-alias-float.h>
+-
+-float
+-__fmaf (float x, float y, float z)
+-{
+-  return __builtin_fmaf (x, y, z);
+-}
+-libm_alias_float (__fma, fma)
 -- 
 2.20.1
 
