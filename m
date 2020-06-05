@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07B73C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  5 Jun 2020 20:16:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FCCC433DF
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  5 Jun 2020 20:26:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C882220810
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  5 Jun 2020 20:16:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E066F207D0
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  5 Jun 2020 20:26:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="N9ShEKEG";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HmXCMpVq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C882220810
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UTFaD7r5";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RiAO1YiH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E066F207D0
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,55 +26,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
 	Message-ID:Subject:From:References:To:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=93p8aOUAB4RIEJxog4KIDBDDiAtdL12H657iJhzFr3s=; b=N9ShEKEG1XuQPm
-	gIAISrKnXp137FXSGHofr7hIRahi6h3yYoh7xRgZ5dTzrOp5p1TBE1YK5a+xcvSFcTjY873GV0yUW
-	GixKkX7juUDwIfXEea5UBsLDQ7vrKZZQEnx/MMczl0sWhfnGlStT65Mp6DP6iBEhFTktIpB08kjHk
-	bFS0Qyl3tNfkgMefzMnvml43svq9WwrPub7VQeIe5MI/u1mM13767T5gIBVmezTLOvrw2aLWCHQqX
-	vM5drY15K/PdJ9A1DLJP59e/7CfCTJx0QAzHP+nenTlK5IFkTeEebifTt2Pt1bPntH51B49hRzYym
-	dHPHUP6ksaeN5xiTJAkA==;
+	List-Owner; bh=JHO0nWsu6hA7PMouY0gPY76paCN8SKMgkJtbZI0MuXY=; b=UTFaD7r5uR7y7i
+	ohdSf/niuJvHeucSqoMeobIgvBSWsgdI6zmWbvDAH2B8GJ7xrfHH5bXIJ/lVHHbbxQxuw3jVc0QDL
+	FSUHhLyOzeq6uxaflShgauehfnd036HY81QhkRiHz8tC2lTu/FEpIarGN4pVQBPu824M55sPe/Xm8
+	LMmYyydAFgXifs+xhAEz6r44sVDvG4YV/4tNCwffWWuH9J5xcClc16vDR/L6VoKqz07+RsifA7ePA
+	glNDDHfNWhkgioUvOoI+XXaoRywKRT8jWX6zHuQFds5lWFYtWQWQylQ7G3hG8OdlqENDaeubtKaY7
+	WNPBqx3k3uwjtx3RpeKQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jhIl8-0003Yz-Np; Fri, 05 Jun 2020 20:16:10 +0000
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842])
+	id 1jhIuw-0000rV-Ed; Fri, 05 Jun 2020 20:26:18 +0000
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jhIl6-0003Ya-91
- for linux-snps-arc@lists.infradead.org; Fri, 05 Jun 2020 20:16:10 +0000
-Received: by mail-qt1-x842.google.com with SMTP id d27so9627543qtg.4
- for <linux-snps-arc@lists.infradead.org>; Fri, 05 Jun 2020 13:16:07 -0700 (PDT)
+ id 1jhIut-0000qo-Ed
+ for linux-snps-arc@lists.infradead.org; Fri, 05 Jun 2020 20:26:17 +0000
+Received: by mail-qk1-x743.google.com with SMTP id c12so11069034qkk.13
+ for <linux-snps-arc@lists.infradead.org>; Fri, 05 Jun 2020 13:26:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=to:cc:references:from:autocrypt:subject:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yC9/IlyOcVnoybvqoeo2L0PgnISEjr7Dr/iVb7oKsFg=;
- b=HmXCMpVqBqikuSzSq/K7CEmrYEynh4eBmc6r8GmiLXAvuG0SWLnrxWmhpnENSyJ5/k
- xcSogFF+HvV0Br46/ySiQK43WfPaxw0xW75So30ffAHjwy0nyqjqG6KCiUAZUzkdOKo+
- gUK1OAi5DtlgKSuK+o5/XmSMxZX9IVI2g8gUv7ZMo405U8B2MZCeblaJ0Il1bAMfLS3U
- 10jXZppCMZ/prESP1AVsMKkY5WdgYW2LxaYIgXX9v8zLCQGOwfhwek+rwxoWUkTVMmRV
- tP0JXcbJYsRiUBxkqLax8mxoV4KcEsgHdbw+IyXzmCDuV8e0F58nhOohWaymgbIuzKEb
- dJMw==
+ bh=m8MWSr/bTJx0RC8kSTVPJYpzR9DWJ4T/iqNAh41Dfm0=;
+ b=RiAO1YiH3IjH8OK8CY4JzGy7wLLCb2Wv1apjMLCvcS9nGjQXGHl3MAiKUueNQwEpR3
+ 6yPFkx+85kri4YlyeYw1O5rLvVLF5tjzHR3NzN+HS5mbJ9UVJjwyifKd7Xq7NzRZbdoZ
+ 3ouuFNBFpuNpmlvot4MveqVkk+P6cVWyitluXI9Wz+jfxTzTMKHShpN4Sb/alHHLdYhe
+ 4DwOlf534oLEeDxm8bRIuwlgFxU67fDXyQH4r0wupLYKrnlkl6do4tIQYNlZKHJXtey1
+ grYJ8R7Hy8BJ3sSfGHpwEhTnzzk/6Ru7ifDiesfp01Twr9VoNYLx6p4KWqVEe8i4Gn3c
+ aqIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:to:cc:references:from:autocrypt:subject
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=yC9/IlyOcVnoybvqoeo2L0PgnISEjr7Dr/iVb7oKsFg=;
- b=Wvt+GkXEsgaj9uIWOKLvlTczj3fu8lVM9KBepZI7g9Qy8aTCUqvwesLozq7oSjVaga
- IkdUJswDTWeIo9IbVckfn/5ml6sh8aC3CJPaMogiafIlkdJ8Qbm9bd/f1a97ulzMzbV0
- oHhtwNAeRBf/6Jg7SV0Ke3zh9XHc+DlGuttShH6UrgKplih8Wkv7FnYzddkppsZy+1ao
- FrFmmu1VkzScjkzZen5LwPPFyDAI1U8MRj52v6+UWt/KuMwHFaOYLV7O2sAlIB2++V6g
- uxQcFMRLy0AhfHl4UOiiVtsSa1AmYANd+4rqWqIvTQ9982hwMahW4lXrDBwa56+MGyOH
- jwEw==
-X-Gm-Message-State: AOAM530MF4PDFr6cLEt5j9QgvU4fKer3fVZBObGRWUV3ads4mecMB70W
- jIrO3FnnAcj8+R4eKByCCp5Ddb5xgrY=
-X-Google-Smtp-Source: ABdhPJxy/UargPdElKZNfkx6hlUjQGK4QU2HB5//0QCbVvfyyeoS8/CCvQY97YgpcsUfEuVEeNvpHw==
-X-Received: by 2002:aed:3f17:: with SMTP id p23mr12051692qtf.346.1591388166512; 
- Fri, 05 Jun 2020 13:16:06 -0700 (PDT)
+ bh=m8MWSr/bTJx0RC8kSTVPJYpzR9DWJ4T/iqNAh41Dfm0=;
+ b=UYGD+2g+oYGevLuMyxm26gkLK5NhD1Bub8U+RtZcHOyjZgAljalbkT8hVQS3udgonl
+ sat7dU5wKzQvLHxnDVmB9CKEPhOqWnAOEXCZy0f2fbv2AHEnkRMKvOVRexDLBgIG70EM
+ 2AhmH587ONdlMCvdmm0IkDkPVGJanmukte0pzvqz6xCj0atDenyK0Goufu2BPPA4p8zP
+ N/QEEQY8KQRN7FFjkZXY/nUnn5O+9jBDbSU6MX4ZnQvq9hA6vMsQ2N30apHHvUk5tknm
+ M4uaHCi6SaW57JM+N68SgHQ1Yz8sXc1GXPv6D/YddkELzL5uNXXH9uspgmOn5UomttQi
+ BZzQ==
+X-Gm-Message-State: AOAM5327IQMWkni/Olxo5o/2mTAUZCv1OeUoa9m0XW7wPfePTLThIezN
+ aJXoJWD1njV+eTD1rMP5EkChghcOV4g=
+X-Google-Smtp-Source: ABdhPJzGAYENFc7p2wlkw8jcO6brdTqarX4hJposuhoeOZWmDBHZLMFsCMvmg/9mx1kw70gojSmHkg==
+X-Received: by 2002:a37:b883:: with SMTP id
+ i125mr11576948qkf.392.1591388773944; 
+ Fri, 05 Jun 2020 13:26:13 -0700 (PDT)
 Received: from [192.168.1.4] ([177.194.48.209])
- by smtp.googlemail.com with ESMTPSA id d16sm796244qte.49.2020.06.05.13.16.04
+ by smtp.googlemail.com with ESMTPSA id v3sm743805qkh.130.2020.06.05.13.26.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Jun 2020 13:16:06 -0700 (PDT)
+ Fri, 05 Jun 2020 13:26:13 -0700 (PDT)
 To: Vineet Gupta <Vineet.Gupta1@synopsys.com>, libc-alpha@sourceware.org
 References: <20200601221823.17861-1-vgupta@synopsys.com>
- <20200601221823.17861-2-vgupta@synopsys.com>
+ <20200601221823.17861-3-vgupta@synopsys.com>
 From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
  mQINBFcVGkoBEADiQU2x/cBBmAVf5C2d1xgz6zCnlCefbqaflUBw4hB/bEME40QsrVzWZ5Nq
@@ -119,18 +120,17 @@ Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
  7vJwKcyHJGxsCLU+Et0mryX8qZwqibJIzu7kUJQdQDljbRPDFd/xmGUFCQiQAncSilYOcxNU
  EMVCXPAQTteqkvA+gNqSaK1NM9tY0eQ4iJpo+aoX8HAcn4sZzt2pfUB9vQMTBJ2d4+m/qO6+
  cFTAceXmIoFsN8+gFN3i8Is3u12u8xGudcBPvpoy4OoG
-Subject: Re: [PATCH v2 1/2] dl-runtime: reloc_{offset,index} now functions
- arch overide'able
-Message-ID: <34af7ce6-e0a2-1391-3be3-a4df7fc10ecd@linaro.org>
-Date: Fri, 5 Jun 2020 17:16:03 -0300
+Subject: Re: [PATCH v2 2/2] ARC/dl-runtime helper macros
+Message-ID: <6df84bde-8a21-c485-7cfa-3c2a00755ed2@linaro.org>
+Date: Fri, 5 Jun 2020 17:26:10 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200601221823.17861-2-vgupta@synopsys.com>
+In-Reply-To: <20200601221823.17861-3-vgupta@synopsys.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200605_131608_387232_10BEC209 
-X-CRM114-Status: GOOD (  24.15  )
+X-CRM114-CacheID: sfid-20200605_132615_526769_8A5E7E3B 
+X-CRM114-Status: GOOD (  19.49  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,148 +151,36 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 
 On 01/06/2020 19:18, Vineet Gupta wrote:
-> The existing macros are fragile and expect local variables with a
-> certain name. Fix this by defining them as functions with default
-> implementation in a new header dl-runtime.h which arches can override
-> if need be.
-> 
-> This came up during ARC port review, hence the need for argument pltgot
-> in reloc_index() which is not needed by existing ports.
-> 
-> This patch potentially only affects hppa/x86 ports,
-> build tested for both those configs and a few more.
-> 
-> Suggested-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
+> This is purely for review purposes to attest the interface defined
+> in prior patch
 
-LGTM, thanks.  There are just style nits in the one-line comment
-for new files.
+LGTM with some style nits, however I think it should be pushed along with 
+the ARC patchset.
 
 Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 
 > ---
->  elf/dl-runtime.c            | 28 +++++++++++++++++-----------
->  elf/dl-runtime.h            | 30 ++++++++++++++++++++++++++++++
->  sysdeps/hppa/dl-runtime.c   |  4 ----
->  sysdeps/hppa/dl-runtime.h   | 31 +++++++++++++++++++++++++++++++
->  sysdeps/x86_64/dl-runtime.c |  9 ---------
->  sysdeps/x86_64/dl-runtime.h | 35 +++++++++++++++++++++++++++++++++++
->  6 files changed, 113 insertions(+), 24 deletions(-)
->  create mode 100644 elf/dl-runtime.h
->  create mode 100644 sysdeps/hppa/dl-runtime.h
->  delete mode 100644 sysdeps/x86_64/dl-runtime.c
->  create mode 100644 sysdeps/x86_64/dl-runtime.h
+>  sysdeps/arc/dl-runtime.h | 42 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+>  create mode 100644 sysdeps/arc/dl-runtime.h
 > 
-> diff --git a/elf/dl-runtime.c b/elf/dl-runtime.c
-> index cf5f1d3e82e1..85a229f6f019 100644
-> --- a/elf/dl-runtime.c
-> +++ b/elf/dl-runtime.c
-> @@ -27,6 +27,7 @@
->  #include "dynamic-link.h"
->  #include <tls.h>
->  #include <dl-irel.h>
-> +#include <dl-runtime.h>
->  
->  
->  #if (!ELF_MACHINE_NO_RELA && !defined ELF_MACHINE_PLT_REL) \
-> @@ -42,13 +43,6 @@
->  # define ARCH_FIXUP_ATTRIBUTE
->  #endif
->  
-> -#ifndef reloc_offset
-> -# define reloc_offset reloc_arg
-> -# define reloc_index  reloc_arg / sizeof (PLTREL)
-> -#endif
-> -
-> -
-> -
->  /* This function is called through a special trampoline from the PLT the
->     first time each PLT entry is called.  We must perform the relocation
->     specified in the PLT of the given shared object, and return the resolved
-> @@ -68,8 +62,11 @@ _dl_fixup (
->      = (const void *) D_PTR (l, l_info[DT_SYMTAB]);
->    const char *strtab = (const void *) D_PTR (l, l_info[DT_STRTAB]);
->  
-> +  const uintptr_t pltgot = (uintptr_t) D_PTR (l, l_info[DT_PLTGOT]);
-> +
->    const PLTREL *const reloc
-> -    = (const void *) (D_PTR (l, l_info[DT_JMPREL]) + reloc_offset);
-> +    = (const void *) (D_PTR (l, l_info[DT_JMPREL])
-> +		      + reloc_offset (pltgot, reloc_arg));
->    const ElfW(Sym) *sym = &symtab[ELFW(R_SYM) (reloc->r_info)];
->    const ElfW(Sym) *refsym = sym;
->    void *const rel_addr = (void *)(l->l_addr + reloc->r_offset);
-
-Ok.
-
-> @@ -180,9 +177,12 @@ _dl_profile_fixup (
->  			l, reloc_arg);
->      }
->  
-> +  const uintptr_t pltgot = (uintptr_t) D_PTR (l, l_info[DT_PLTGOT]);
-> +
->    /* This is the address in the array where we store the result of previous
->       relocations.  */
-> -  struct reloc_result *reloc_result = &l->l_reloc_result[reloc_index];
-> +  struct reloc_result *reloc_result
-> +    = &l->l_reloc_result[reloc_index (pltgot, reloc_arg, sizeof (PLTREL))];
->  
->   /* CONCURRENCY NOTES:
->  
-
-
-Ok.
-> @@ -219,8 +219,11 @@ _dl_profile_fixup (
->  	= (const void *) D_PTR (l, l_info[DT_SYMTAB]);
->        const char *strtab = (const char *) D_PTR (l, l_info[DT_STRTAB]);
->  
-> +      const uintptr_t pltgot = (uintptr_t) D_PTR (l, l_info[DT_PLTGOT]);
-> +
->        const PLTREL *const reloc
-> -	= (const void *) (D_PTR (l, l_info[DT_JMPREL]) + reloc_offset);
-> +	= (const void *) (D_PTR (l, l_info[DT_JMPREL])
-> +			  + reloc_offset (pltgot, reloc_arg));
->        const ElfW(Sym) *refsym = &symtab[ELFW(R_SYM) (reloc->r_info)];
->        const ElfW(Sym) *defsym = refsym;
->        lookup_t result;
-
-Ok.
-
-> @@ -485,11 +488,14 @@ _dl_call_pltexit (struct link_map *l, ElfW(Word) reloc_arg,
->  		  const void *inregs, void *outregs)
->  {
->  #ifdef SHARED
-> +  const uintptr_t pltgot = (uintptr_t) D_PTR (l, l_info[DT_PLTGOT]);
-> +
->    /* This is the address in the array where we store the result of previous
->       relocations.  */
->    // XXX Maybe the bound information must be stored on the stack since
->    // XXX with bind_not a new value could have been stored in the meantime.
-> -  struct reloc_result *reloc_result = &l->l_reloc_result[reloc_index];
-> +  struct reloc_result *reloc_result =
-> +    &l->l_reloc_result[reloc_index (pltgot, reloc_arg, sizeof (PLTREL))];
->    ElfW(Sym) *defsym = ((ElfW(Sym) *) D_PTR (reloc_result->bound,
->  					    l_info[DT_SYMTAB])
->  		       + reloc_result->boundndx);
-
-Ok.
-
-> diff --git a/elf/dl-runtime.h b/elf/dl-runtime.h
+> diff --git a/sysdeps/arc/dl-runtime.h b/sysdeps/arc/dl-runtime.h
 > new file mode 100644
-> index 000000000000..dd87d799465e
+> index 000000000000..529d49f5d0a1
 > --- /dev/null
-> +++ b/elf/dl-runtime.h
-> @@ -0,0 +1,30 @@
-> +/* Helpers for On-demand PLT fixup for shared objects. Generic version.
+> +++ b/sysdeps/arc/dl-runtime.h
+> @@ -0,0 +1,42 @@
+> +/* Helpers for On-demand PLT fixup for shared objects. ARC version.
 
 Double space after period.
 
-> +   Copyright (C) 2020 Free Software Foundation, Inc.
+> +   Copyright (C) 2017-2020 Free Software Foundation, Inc.
 > +   This file is part of the GNU C Library.
 > +
 > +   The GNU C Library is free software; you can redistribute it and/or
-> +   modify it under the terms of the GNU Lesser General Public
-> +   License as published by the Free Software Foundation; either
-> +   version 2.1 of the License, or (at your option) any later version.
+> +   modify it under the terms of the GNU Lesser General Public License as
+> +   published by the Free Software Foundation; either version 2.1 of the
+> +   License, or (at your option) any later version.
 > +
 > +   The GNU C Library is distributed in the hope that it will be useful,
 > +   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -300,150 +188,40 @@ Double space after period.
 > +   Lesser General Public License for more details.
 > +
 > +   You should have received a copy of the GNU Lesser General Public
-> +   License along with the GNU C Library; if not, write to the Free
-> +   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-> +   02111-1307 USA.  */
+> +   License along with the GNU C Library.  If not, see
+> +   <https://www.gnu.org/licenses/>.  */
+> +
+> +/* PLT jump into resolver passes PC of PLTn, while _dl_fixup expects the
+> +   address of corresponding .rela.plt entry.
+> +
+> +    - @plt0: runtime pc of first plt entry (DT_PLTGOT)
+> +    - @pltn: runtime pc of plt entry being resolved
+> +    - @size: size of .plt.rela entry (unused).  */
+> +static inline uintptr_t
+> +reloc_index (uintptr_t plt0, uintptr_t pltn, size_t size)
+> +{
+> +  unsigned long int idx = (unsigned long)pltn - (unsigned long)plt0;
+
+I don't think the explicit cast is required here.
+
+> +
+> +  /* PLT trampoline is 16 bytes. */
+> +  idx /= 16;
+> +
+> +  /* Exclude PLT0 and PLT1.  */
+> +  return idx - 2;
+> +}
 > +
 > +static inline uintptr_t
 > +reloc_offset (uintptr_t plt0, uintptr_t pltn)
 > +{
-> +  return pltn;
-> +}
-> +
-> +static inline uintptr_t
-> +reloc_index (uintptr_t plt0, uintptr_t pltn, size_t size)
-> +{
-> +  return pltn / size;
-> +}
+> +  size_t sz = sizeof (ElfW(Rela));
+> +  return reloc_index(plt0, pltn, sz) * sz;
 
-Ok.
+Space before parenthesis.
 
-> diff --git a/sysdeps/hppa/dl-runtime.c b/sysdeps/hppa/dl-runtime.c
-> index 885a3f1837cb..2d061b150f06 100644
-> --- a/sysdeps/hppa/dl-runtime.c
-> +++ b/sysdeps/hppa/dl-runtime.c
-> @@ -17,10 +17,6 @@
->     Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
->     02111-1307 USA.  */
->  
-> -/* Clear PA_GP_RELOC bit in relocation offset.  */
-> -#define reloc_offset (reloc_arg & ~PA_GP_RELOC)
-> -#define reloc_index  (reloc_arg & ~PA_GP_RELOC) / sizeof (PLTREL)
-> -
->  #include <elf/dl-runtime.c>
->  
->  /* The caller has encountered a partially relocated function descriptor.
-
-Ok.
-
-> diff --git a/sysdeps/hppa/dl-runtime.h b/sysdeps/hppa/dl-runtime.h
-> new file mode 100644
-> index 000000000000..be3bc929c74c
-> --- /dev/null
-> +++ b/sysdeps/hppa/dl-runtime.h
-> @@ -0,0 +1,31 @@
-> +/* Helpers for On-demand PLT fixup for shared objects. HPAA version.
-
-Double space after period.
-
-> +   Copyright (C) 2020 Free Software Foundation, Inc.
-> +   This file is part of the GNU C Library.
-> +
-> +   The GNU C Library is free software; you can redistribute it and/or
-> +   modify it under the terms of the GNU Lesser General Public
-> +   License as published by the Free Software Foundation; either
-> +   version 2.1 of the License, or (at your option) any later version.
-> +
-> +   The GNU C Library is distributed in the hope that it will be useful,
-> +   but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> +   Lesser General Public License for more details.
-> +
-> +   You should have received a copy of the GNU Lesser General Public
-> +   License along with the GNU C Library; if not, write to the Free
-> +   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-> +   02111-1307 USA.  */
-> +
-> +/* Clear PA_GP_RELOC bit in relocation offset.  */
-> +static inline uintptr_t
-> +reloc_offset (uintptr_t plt0, uintptr_t pltn)
-> +{
-> +  return pltn & ~PA_GP_RELOC;
-> +}
-> +
-> +static inline uintptr_t
-> +reloc_index (uintptr_t plt0, uintptr_t pltn, size_t size)
-> +{
-> +  return (pltn & ~PA_GP_RELOC )/ size;
-> +}
-
-Ok,
-
-> diff --git a/sysdeps/x86_64/dl-runtime.c b/sysdeps/x86_64/dl-runtime.c
-> deleted file mode 100644
-> index b625d1e88257..000000000000
-> --- a/sysdeps/x86_64/dl-runtime.c
-> +++ /dev/null
-> @@ -1,9 +0,0 @@
-> -/* The ABI calls for the PLT stubs to pass the index of the relocation
-> -   and not its offset.  In _dl_profile_fixup and _dl_call_pltexit we
-> -   also use the index.  Therefore it is wasteful to compute the offset
-> -   in the trampoline just to reverse the operation immediately
-> -   afterwards.  */
-> -#define reloc_offset reloc_arg * sizeof (PLTREL)
-> -#define reloc_index  reloc_arg
-> -
-> -#include <elf/dl-runtime.c>
-
-Ok.
-
-> diff --git a/sysdeps/x86_64/dl-runtime.h b/sysdeps/x86_64/dl-runtime.h
-> new file mode 100644
-> index 000000000000..b82fdce8367d
-> --- /dev/null
-> +++ b/sysdeps/x86_64/dl-runtime.h
-> @@ -0,0 +1,35 @@
-> +/* Helpers for On-demand PLT fixup for shared objects. x86_64 version.
-
-Double space after period.
-
-> +   Copyright (C) 2020 Free Software Foundation, Inc.
-> +   This file is part of the GNU C Library.
-> +
-> +   The GNU C Library is free software; you can redistribute it and/or
-> +   modify it under the terms of the GNU Lesser General Public
-> +   License as published by the Free Software Foundation; either
-> +   version 2.1 of the License, or (at your option) any later version.
-> +
-> +   The GNU C Library is distributed in the hope that it will be useful,
-> +   but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> +   Lesser General Public License for more details.
-> +
-> +   You should have received a copy of the GNU Lesser General Public
-> +   License along with the GNU C Library; if not, write to the Free
-> +   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-> +   02111-1307 USA.  */
-> +
-> +/* The ABI calls for the PLT stubs to pass the index of the relocation
-> +   and not its offset.  In _dl_profile_fixup and _dl_call_pltexit we
-> +   also use the index.  Therefore it is wasteful to compute the offset
-> +   in the trampoline just to reverse the operation immediately
-> +   afterwards.  */
-> +static inline uintptr_t
-> +reloc_offset (uintptr_t plt0, uintptr_t pltn)
-> +{
-> +  return pltn * sizeof (ElfW(Rela));
-> +}
-> +
-> +static inline uintptr_t
-> +reloc_index (uintptr_t plt0, uintptr_t pltn, size_t size)
-> +{
-> +  return pltn;
 > +}
 > 
-
-Ok.
 
 _______________________________________________
 linux-snps-arc mailing list
