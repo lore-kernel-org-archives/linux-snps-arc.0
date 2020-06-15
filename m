@@ -2,75 +2,73 @@ Return-Path: <SRS0=fi28=74=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6B35C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 Jun 2020 20:14:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BA41C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 Jun 2020 20:14:58 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7C936206F1
+	by mail.kernel.org (Postfix) with ESMTPS id 00CD5206F1
 	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 Jun 2020 20:14:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="V43+nmEK";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="FGtJHMLx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C936206F1
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FRSVfiFy";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="abqRLA+C"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 00CD5206F1
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=l0bFz/yRYKOo9pUcyUWAZIExbtlhpwz9Fiv2fZHM4JQ=; b=V43+nmEKjoIifU
-	xp+ckOCBub1RwFNjpTReayMGRb3L0G4LcisW+DViji//Celi7cdkssTm7bgBpE4EjLffPeVdWcQpB
-	F0hXZD2zr8TYVhlRlP7Wu35i8CXnMvDbxQyKqZZmk1lQ6gKAos9JeiQ6ZH9rlSedyA9oZ94yY/Fh+
-	GCKheTMJEM2yGaNE9cg1BO+e98gpO7I9nYl55BsvunIKiNWLLi85FLeU/3zUEheN0BqBPcTJzEsal
-	cPcvRK4H7v2zTxW3ct3mWM5VWq7cspQc6NJK9dpVd3akxk7RhEibSyXgSqnozry4KWh+1BHyxqM9R
-	daUlv45sN86qwyQUDzKA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=fufVhSzlCEIpnrmp6iaSFo44H7kd/i/pvwGCxt00O+k=; b=FRSVfiFyC1Olvz
+	8XvbuxF53A30eI7pLLLmE8HpMI0ffxiMqgcmfdZVTY3ZnjViNTEMcjiiosOMcTs/CW46FgdO+5fne
+	VYJavTIm/JbMfOFxY7OdU4/HLllXPMZQNbcoayMffS46EWtu8pkthvOCmg5FaXyt/fcqLX/w/rGxY
+	7XE/jsNH9r/hQg0gjW/kBpHnVcRUR9QMZXpzJZDKeVN+TFBdJCn+REk3DLTdeKIGHS5EUNfIg2FoV
+	CcN9XdPfH2W92ncBxQB8iWwQUZKIwUovjWKGGOGPplCq6vjNcg/dAA+sU0AmpRsIkktcuhYMdRigZ
+	a2baoyWPmd69Pbf632Tg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jkvVQ-0003do-DE; Mon, 15 Jun 2020 20:14:56 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1jkvVQ-0003e5-Vx; Mon, 15 Jun 2020 20:14:57 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jkvVH-0003WX-Ex
- for linux-snps-arc@lists.infradead.org; Mon, 15 Jun 2020 20:14:53 +0000
+ id 1jkvVK-0003WU-9r
+ for linux-snps-arc@lists.infradead.org; Mon, 15 Jun 2020 20:14:55 +0000
 Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com
  [10.205.2.133])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 84B2DC0BAE;
- Mon, 15 Jun 2020 20:14:46 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 1A07A400FC;
+ Mon, 15 Jun 2020 20:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1592252086; bh=WEzEV9lRILvFoFfCBsTd+4RtTd+4GUWQGYIyDAoZVbw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FGtJHMLxRfe7xLKWo0BUohEMV+tYEedEj4qSJ8Tlb0bOcH3/Jk/RsVWDSJCmiN3sK
- 5E8nwmGlwhmYTyJw2efo6Ue5rt17H/Y6OTyYyWgev7EvR6b9amWwc+dYwDDeZFLaPw
- pwVrlBHI5pvzRn/oilWECYL6q6107B5gslUZNjdH9fk0FiIsFufOj75qRHQE/qGV7C
- OSez42eeuYlUBe59DddhWCVGFP3eCPbXNkUOuwR84dIBLBH0UHx632MNWNIXeuptO2
- TsCL5jXh2Q/zvq4Hjx0UKh9gPmPoREcisG7cPz8gS45P7DJIiZ6mCjlneNIilNPptW
- KmRp1+un/ZM0w==
+ t=1592252086; bh=79e8wHBvCEF4KXqiH9aQ7IbErmlmguGowymmoIiiaVA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=abqRLA+Cm1TwJL47xAaSyiJqx/dwJJrh6DHteLEoQ5mIb8Z8jsRipjEym1JFC57fw
+ 0xbkj12pZRDbtbrUZM+hlybVzKBFr5CNrQVW0VhNLW7RTVCXe6RZt1/FbqnpUC4P9I
+ nuZZA5C4tmVlzsvrzrmYw06v90aFAnwbCZPNrIKNpEv4dR0eIAR6yQQWpgNINUWmP9
+ REJpADOtktSPbUK0KK8vV7xBvRwiRa2nrwPcDw6wUuVEEJSOD50g3//8Sb8jrq/Zf9
+ sfPVPaVnXroXWKJ1oZqS0o8BZYBEC3cQWrpwHYfcnpuWa96T89wI2indNRICo+pUws
+ k2HgIIxdUW+Kg==
 Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
  [10.13.183.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id 392FCA00A1;
- Mon, 15 Jun 2020 20:14:46 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 98555A00A0;
+ Mon, 15 Jun 2020 20:14:43 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH v7 02/13] ARC: startup and dynamic linking code
-Date: Mon, 15 Jun 2020 13:14:30 -0700
-Message-Id: <20200615201441.31820-3-vgupta@synopsys.com>
+Subject: [PATCH v7 00/13] glibc port to ARC processors
+Date: Mon, 15 Jun 2020 13:14:28 -0700
+Message-Id: <20200615201441.31820-1-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200615201441.31820-1-vgupta@synopsys.com>
-References: <20200615201441.31820-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200615_131447_582105_E7085F19 
-X-CRM114-Status: GOOD (  23.76  )
+X-CRM114-CacheID: sfid-20200615_131450_359933_E278356D 
+X-CRM114-Status: GOOD (  11.10  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,654 +87,387 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Code for C runtime startup and dynamic loading including PLT layout.
----
- sysdeps/arc/bits/link.h   |  52 ++++++
- sysdeps/arc/dl-machine.h  | 341 ++++++++++++++++++++++++++++++++++++++
- sysdeps/arc/entry.h       |   5 +
- sysdeps/arc/ldsodefs.h    |  43 +++++
- sysdeps/arc/sotruss-lib.c |  50 ++++++
- sysdeps/arc/start.S       |  74 +++++++++
- sysdeps/arc/tst-audit.h   |  23 +++
- 7 files changed, 588 insertions(+)
- create mode 100644 sysdeps/arc/bits/link.h
- create mode 100644 sysdeps/arc/dl-machine.h
- create mode 100644 sysdeps/arc/entry.h
- create mode 100644 sysdeps/arc/ldsodefs.h
- create mode 100644 sysdeps/arc/sotruss-lib.c
- create mode 100644 sysdeps/arc/start.S
- create mode 100644 sysdeps/arc/tst-audit.h
+Hi,
 
-diff --git a/sysdeps/arc/bits/link.h b/sysdeps/arc/bits/link.h
-new file mode 100644
-index 000000000000..b687250a7a07
---- /dev/null
-+++ b/sysdeps/arc/bits/link.h
-@@ -0,0 +1,52 @@
-+/* Machine-specific declarations for dynamic linker interface, ARC version.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef	_LINK_H
-+# error "Never include <bits/link.h> directly; use <link.h> instead."
-+#endif
-+
-+/* Registers for entry into PLT on ARC.  */
-+typedef struct La_arc_regs
-+{
-+  uint32_t lr_reg[8]; /* r0 through r7 (upto 8 args).  */
-+} La_arc_regs;
-+
-+/* Return values for calls from PLT on ARC.  */
-+typedef struct La_arc_retval
-+{
-+  /* For ARCv2, a 64-bit integer return value can use 2 regs.  */
-+  uint32_t lrv_reg[2];
-+} La_arc_retval;
-+
-+__BEGIN_DECLS
-+
-+extern ElfW(Addr) la_arc_gnu_pltenter (ElfW(Sym) *__sym, unsigned int __ndx,
-+					 uintptr_t *__refcook,
-+					 uintptr_t *__defcook,
-+					 La_arc_regs *__regs,
-+					 unsigned int *__flags,
-+					 const char *__symname,
-+					 long int *__framesizep);
-+extern unsigned int la_arc_gnu_pltexit (ElfW(Sym) *__sym, unsigned int __ndx,
-+					  uintptr_t *__refcook,
-+					  uintptr_t *__defcook,
-+					  const La_arc_regs *__inregs,
-+					  La_arc_retval *__outregs,
-+					  const char *symname);
-+
-+__END_DECLS
-diff --git a/sysdeps/arc/dl-machine.h b/sysdeps/arc/dl-machine.h
-new file mode 100644
-index 000000000000..82940d8a701e
---- /dev/null
-+++ b/sysdeps/arc/dl-machine.h
-@@ -0,0 +1,341 @@
-+/* Machine-dependent ELF dynamic relocation inline functions.  ARC version.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef dl_machine_h
-+#define dl_machine_h
-+
-+#define ELF_MACHINE_NAME "arc"
-+
-+#include <entry.h>
-+
-+#ifndef ENTRY_POINT
-+# error ENTRY_POINT needs to be defined for ARC
-+#endif
-+
-+#include <string.h>
-+#include <link.h>
-+#include <dl-tls.h>
-+
-+/* Dynamic Linking ABI for ARCv2 ISA.
-+
-+                        PLT
-+          --------------------------------	<---- DT_PLTGOT
-+          |  ld r11, [pcl, off-to-GOT[1] |  0
-+          |                              |  4
-+   plt0   |  ld r10, [pcl, off-to-GOT[2] |  8
-+          |                              | 12
-+          |  j [r10]                     | 16
-+          --------------------------------
-+          |    Base address of GOT       | 20
-+          --------------------------------
-+          |  ld r12, [pcl, off-to-GOT[3] | 24
-+   plt1   |                              |
-+          |  j.d    [r12]                | 32
-+          |  mov    r12, pcl             | 36
-+          --------------------------------
-+          |                              | 40
-+          ~                              ~
-+          ~                              ~
-+          |                              |
-+          --------------------------------
-+
-+               .got
-+          --------------
-+          |    [0]     |
-+          |    ...     |  Runtime address for data symbols
-+          |    [n]     |
-+          --------------
-+
-+            .got.plt
-+          --------------
-+          |    [0]     |  Build address of .dynamic
-+          --------------
-+          |    [1]     |  Module info - setup by ld.so
-+          --------------
-+          |    [2]     |  resolver entry point
-+          --------------
-+          |    [3]     |
-+          |    ...     |  Runtime address for function symbols
-+          |    [f]     |
-+          --------------
-+
-+   For ARCompact, the PLT is 12 bytes due to short instructions
-+
-+          --------------------------------
-+          |  ld r12, [pcl, off-to-GOT[3] | 24   (12 bytes each)
-+   plt1   |                              |
-+          |  j_s.d  [r12]                | 32
-+          |  mov_s  r12, pcl             | 34
-+          --------------------------------
-+          |                              | 36  */
-+
-+/* Return nonzero iff ELF header is compatible with the running host.  */
-+static inline int
-+elf_machine_matches_host (const Elf32_Ehdr *ehdr)
-+{
-+  return (ehdr->e_machine == EM_ARCV2		 /* ARC HS.  */
-+	  || ehdr->e_machine == EM_ARC_COMPACT); /* ARC 700.  */
-+}
-+
-+/* Get build time address of .dynamic as setup in GOT[0]
-+   This is called very early in _dl_start so it has not been relocated to
-+   runtime value.  */
-+static inline ElfW(Addr)
-+elf_machine_dynamic (void)
-+{
-+  extern const ElfW(Addr) _GLOBAL_OFFSET_TABLE_[] attribute_hidden;
-+  return _GLOBAL_OFFSET_TABLE_[0];
-+}
-+
-+
-+/* Return the run-time load address of the shared object.  */
-+static inline ElfW(Addr)
-+elf_machine_load_address (void)
-+{
-+  ElfW(Addr) build_addr, run_addr;
-+
-+  /* For build address, below generates
-+     ld  r0, [pcl, _GLOBAL_OFFSET_TABLE_@pcl].  */
-+  build_addr = elf_machine_dynamic ();
-+  __asm__ ("add %0, pcl, _DYNAMIC@pcl	\n" : "=r" (run_addr));
-+
-+  return run_addr - build_addr;
-+}
-+
-+/* Set up the loaded object described by L so its unrelocated PLT
-+   entries will jump to the on-demand fixup code in dl-runtime.c.  */
-+
-+static inline int
-+__attribute__ ((always_inline))
-+elf_machine_runtime_setup (struct link_map *l, int lazy, int profile)
-+{
-+  extern void _dl_runtime_resolve (Elf32_Word);
-+
-+  if (l->l_info[DT_JMPREL] && lazy)
-+    {
-+      /* On ARC DT_PLTGOT point to .plt whose 5th word (after the PLT header)
-+         contains the address of .got.  */
-+      ElfW(Addr) *plt_base = (ElfW(Addr) *) D_PTR (l, l_info[DT_PLTGOT]);
-+      ElfW(Addr) *got = (ElfW(Addr) *) (plt_base[5] + l->l_addr);
-+
-+      got[1] = (ElfW(Addr)) l;	/* Identify this shared object.  */
-+
-+      /* This function will get called to fix up the GOT entry indicated by
-+	 the offset on the stack, and then jump to the resolved address.  */
-+      got[2] = (ElfW(Addr)) &_dl_runtime_resolve;
-+    }
-+
-+  return lazy;
-+}
-+
-+/* What this code does:
-+    -ldso starts execution here when kernel returns from execve
-+    -calls into generic ldso entry point _dl_start
-+    -optionally adjusts argc for executable if exec passed as cmd
-+    -calls into app main with address of finaliser.  */
-+
-+#define RTLD_START asm ("\
-+.text									\n\
-+.globl __start								\n\
-+.type __start, @function						\n\
-+__start:								\n\
-+	/* (1). bootstrap ld.so.  */					\n\
-+	bl.d    _dl_start                                       	\n\
-+	mov_s   r0, sp  /* pass ptr to aux vector tbl.    */    	\n\
-+	mov r13, r0	/* safekeep app elf entry point.  */		\n\
-+									\n\
-+	/* (2). If ldso ran with executable as arg.       */		\n\
-+	/*      skip the extra args calc by dl_start.     */		\n\
-+	ld_s    r1, [sp]       /* orig argc.  */			\n\
-+	ld      r12, [pcl, _dl_skip_args@pcl]                   	\n\
-+	breq	r12, 0, 1f						\n\
-+									\n\
-+	add2    sp, sp, r12 /* discard argv entries from stack.  */	\n\
-+	sub_s   r1, r1, r12 /* adjusted argc on stack.  */      	\n\
-+	st_s    r1, [sp]                                        	\n\
-+	add	r2, sp, 4						\n\
-+	/* intermediate LD for ST emcoding limitations.  */		\n\
-+	ld	r3, [pcl, _dl_argv@gotpc]    				\n\
-+	st	r2, [r3]						\n\
-+1:									\n\
-+	/* (3). call preinit stuff.  */					\n\
-+	ld	r0, [pcl, _rtld_local@pcl]				\n\
-+	add	r2, sp, 4	; argv					\n\
-+	add2	r3, r2, r1						\n\
-+	add	r3, r3, 4	; env					\n\
-+	bl	_dl_init@plt						\n\
-+									\n\
-+	/* (4) call app elf entry point.  */				\n\
-+	add     r0, pcl, _dl_fini@pcl					\n\
-+	j	[r13]							\n\
-+									\n\
-+	.size  __start,.-__start                               		\n\
-+	.previous                                               	\n\
-+");
-+
-+/* ELF_RTYPE_CLASS_PLT iff TYPE describes relocation of a PLT entry, so
-+   PLT entries should not be allowed to define the value.
-+   ELF_RTYPE_CLASS_NOCOPY iff TYPE should not be allowed to resolve to one
-+   of the main executable's symbols, as for a COPY reloc.  */
-+#define elf_machine_type_class(type)				\
-+  ((((type) == R_ARC_JUMP_SLOT					\
-+     || (type) == R_ARC_TLS_DTPMOD				\
-+     || (type) == R_ARC_TLS_DTPOFF				\
-+     || (type) == R_ARC_TLS_TPOFF) * ELF_RTYPE_CLASS_PLT)	\
-+   | (((type) == R_ARC_COPY) * ELF_RTYPE_CLASS_COPY))
-+
-+/* A reloc type used for ld.so cmdline arg lookups to reject PLT entries.  */
-+#define ELF_MACHINE_JMP_SLOT  R_ARC_JUMP_SLOT
-+
-+/* ARC uses Elf32_Rela relocations.  */
-+#define ELF_MACHINE_NO_REL 1
-+#define ELF_MACHINE_NO_RELA 0
-+
-+/* Fixup a PLT entry to bounce directly to the function at VALUE.  */
-+
-+static inline ElfW(Addr)
-+elf_machine_fixup_plt (struct link_map *map, lookup_t t,
-+		       const ElfW(Sym) *refsym, const ElfW(Sym) *sym,
-+		       const Elf32_Rela *reloc,
-+		       ElfW(Addr) *reloc_addr, ElfW(Addr) value)
-+{
-+  return *reloc_addr = value;
-+}
-+
-+/* Return the final value of a plt relocation.  */
-+static inline ElfW(Addr)
-+elf_machine_plt_value (struct link_map *map, const Elf32_Rela *reloc,
-+                       ElfW(Addr) value)
-+{
-+  return value;
-+}
-+
-+/* Names of the architecture-specific auditing callback functions.  */
-+#define ARCH_LA_PLTENTER arc_gnu_pltenter
-+#define ARCH_LA_PLTEXIT arc_gnu_pltexit
-+
-+#endif /* dl_machine_h */
-+
-+#ifdef RESOLVE_MAP
-+
-+inline void
-+__attribute__ ((always_inline))
-+elf_machine_rela (struct link_map *map, const ElfW(Rela) *reloc,
-+                  const ElfW(Sym) *sym, const struct r_found_version *version,
-+                  void *const reloc_addr_arg, int skip_ifunc)
-+{
-+  ElfW(Addr) *const reloc_addr = reloc_addr_arg;
-+  const unsigned int r_type = ELF32_R_TYPE (reloc->r_info);
-+
-+  if (__glibc_unlikely (r_type == R_ARC_RELATIVE))
-+    *reloc_addr += map->l_addr;
-+  else if (__glibc_unlikely (r_type == R_ARC_NONE))
-+    return;
-+  else
-+    {
-+      const ElfW(Sym) *const refsym = sym;
-+      struct link_map *sym_map = RESOLVE_MAP (&sym, version, r_type);
-+      ElfW(Addr) value = SYMBOL_ADDRESS (sym_map, sym, true);
-+
-+      switch (r_type)
-+	{
-+        case R_ARC_COPY:
-+	  if (__glibc_unlikely (sym == NULL))
-+            /* This can happen in trace mode if an object could not be
-+               found.  */
-+            break;
-+
-+	  size_t size = sym->st_size;
-+          if (__glibc_unlikely (size != refsym->st_size))
-+            {
-+	    const char *strtab = (const void *) D_PTR (map, l_info[DT_STRTAB]);
-+	    if (sym->st_size > refsym->st_size)
-+	      size = refsym->st_size;
-+	    if (sym->st_size > refsym->st_size || GLRO(dl_verbose))
-+	      _dl_error_printf ("\
-+  %s: Symbol `%s' has different size in shared object, consider re-linking\n",
-+				rtld_progname ?: "<program name unknown>",
-+				strtab + refsym->st_name);
-+            }
-+
-+          memcpy (reloc_addr_arg, (void *) value, size);
-+          break;
-+	case R_ARC_GLOB_DAT:
-+	case R_ARC_JUMP_SLOT:
-+            *reloc_addr = value;
-+          break;
-+        case R_ARC_TLS_DTPMOD:
-+          if (sym_map != NULL)
-+            /* Get the information from the link map returned by the
-+               resolv function.  */
-+            *reloc_addr = sym_map->l_tls_modid;
-+          break;
-+
-+        case R_ARC_TLS_DTPOFF:
-+          if (sym != NULL)
-+            /* Offset set by the linker in the GOT entry would be overwritten
-+               by dynamic loader instead of added to the symbol location.
-+               Other target have the same approach on DTPOFF relocs.  */
-+            *reloc_addr += sym->st_value;
-+          break;
-+
-+        case R_ARC_TLS_TPOFF:
-+          if (sym != NULL)
-+            {
-+              CHECK_STATIC_TLS (map, sym_map);
-+              *reloc_addr = sym_map->l_tls_offset + sym->st_value + reloc->r_addend;
-+            }
-+          break;
-+        case R_ARC_32:
-+          *reloc_addr += value + reloc->r_addend;
-+          break;
-+
-+        case R_ARC_PC32:
-+          *reloc_addr += value + reloc->r_addend - (unsigned long int) reloc_addr;
-+          break;
-+
-+	default:
-+          _dl_reloc_bad_type (map, r_type, 0);
-+          break;
-+	}
-+    }
-+}
-+
-+inline void
-+__attribute__ ((always_inline))
-+elf_machine_rela_relative (ElfW(Addr) l_addr, const ElfW(Rela) *reloc,
-+			   void *const reloc_addr_arg)
-+{
-+  ElfW(Addr) *const reloc_addr = reloc_addr_arg;
-+  *reloc_addr += l_addr;
-+}
-+
-+inline void
-+__attribute__ ((always_inline))
-+elf_machine_lazy_rel (struct link_map *map,
-+		      ElfW(Addr) l_addr, const ElfW(Rela) *reloc,
-+		      int skip_ifunc)
-+{
-+  ElfW(Addr) *const reloc_addr = (void *) (l_addr + reloc->r_offset);
-+  if (ELF32_R_TYPE (reloc->r_info) == R_ARC_JUMP_SLOT)
-+    *reloc_addr += l_addr;
-+  else
-+    _dl_reloc_bad_type (map, ELF32_R_TYPE (reloc->r_info), 1);
-+}
-+
-+#endif /* RESOLVE_MAP */
-diff --git a/sysdeps/arc/entry.h b/sysdeps/arc/entry.h
-new file mode 100644
-index 000000000000..adb01d981afd
---- /dev/null
-+++ b/sysdeps/arc/entry.h
-@@ -0,0 +1,5 @@
-+#ifndef __ASSEMBLY__
-+extern void __start (void) attribute_hidden;
-+#endif
-+
-+#define ENTRY_POINT __start
-diff --git a/sysdeps/arc/ldsodefs.h b/sysdeps/arc/ldsodefs.h
-new file mode 100644
-index 000000000000..cf1df36f6ccd
---- /dev/null
-+++ b/sysdeps/arc/ldsodefs.h
-@@ -0,0 +1,43 @@
-+/* Run-time dynamic linker data structures for loaded ELF shared objects.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef _ARC_LDSODEFS_H
-+#define _ARC_LDSODEFS_H 1
-+
-+#include <elf.h>
-+
-+struct La_arc_regs;
-+struct La_arc_retval;
-+
-+#define ARCH_PLTENTER_MEMBERS						\
-+    ElfW(Addr) (*arc_gnu_pltenter) (ElfW(Sym) *, unsigned int,	\
-+				      uintptr_t *, uintptr_t *,		\
-+				      const struct La_arc_regs *,	\
-+				      unsigned int *, const char *,	\
-+				      long int *);
-+
-+#define ARCH_PLTEXIT_MEMBERS						\
-+    unsigned int (*arc_gnu_pltexit) (ElfW(Sym) *, unsigned int,	\
-+				       uintptr_t *, uintptr_t *,	\
-+				       const struct La_arc_regs *,	\
-+				       struct La_arc_retval *,	\
-+				       const char *);
-+
-+#include_next <ldsodefs.h>
-+
-+#endif
-diff --git a/sysdeps/arc/sotruss-lib.c b/sysdeps/arc/sotruss-lib.c
-new file mode 100644
-index 000000000000..dfb0f0ee8d12
---- /dev/null
-+++ b/sysdeps/arc/sotruss-lib.c
-@@ -0,0 +1,50 @@
-+/* Override generic sotruss-lib.c to define actual functions for ARC.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#define HAVE_ARCH_PLTENTER
-+#define HAVE_ARCH_PLTEXIT
-+
-+#include <elf/sotruss-lib.c>
-+
-+ElfW(Addr)
-+la_arc_gnu_pltenter (ElfW(Sym) *sym __attribute__ ((unused)),
-+		       unsigned int ndx __attribute__ ((unused)),
-+		       uintptr_t *refcook, uintptr_t *defcook,
-+		       La_arc_regs *regs, unsigned int *flags,
-+		       const char *symname, long int *framesizep)
-+{
-+  print_enter (refcook, defcook, symname,
-+	       regs->lr_reg[0], regs->lr_reg[1], regs->lr_reg[2],
-+	       *flags);
-+
-+  /* No need to copy anything, we will not need the parameters in any case.  */
-+  *framesizep = 0;
-+
-+  return sym->st_value;
-+}
-+
-+unsigned int
-+la_arc_gnu_pltexit (ElfW(Sym) *sym, unsigned int ndx, uintptr_t *refcook,
-+		      uintptr_t *defcook,
-+		      const struct La_arc_regs *inregs,
-+		      struct La_arc_retval *outregs, const char *symname)
-+{
-+  print_exit (refcook, defcook, symname, outregs->lrv_reg[0]);
-+
-+  return 0;
-+}
-diff --git a/sysdeps/arc/start.S b/sysdeps/arc/start.S
-new file mode 100644
-index 000000000000..83dd5308bd5e
---- /dev/null
-+++ b/sysdeps/arc/start.S
-@@ -0,0 +1,74 @@
-+/* Startup code for ARC.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#define __ASSEMBLY__ 1
-+#include <entry.h>
-+#include <sysdep.h>
-+
-+#ifndef ENTRY_POINT
-+# error ENTRY_POINT needs to be defined for ARC
-+#endif
-+
-+/* When we enter this piece of code, the program stack looks like this:
-+        argc            argument counter (integer)
-+        argv[0]         program name (pointer)
-+        argv[1...N]     program args (pointers)
-+        argv[argc-1]    end of args (integer)
-+	NULL
-+        env[0...N]      environment variables (pointers)
-+        NULL.  */
-+
-+ENTRY (ENTRY_POINT)
-+
-+	/* Needed to make gdb backtraces stop here.  */
-+	.cfi_label .Ldummy
-+	cfi_undefined (blink)
-+
-+	mov	fp, 0
-+	ld_s	r1, [sp]	/* argc.  */
-+
-+	mov_s	r5, r0		/* rltd_fini.  */
-+	add_s	r2, sp, 4	/* argv.  */
-+	and	sp, sp, -8
-+	mov	r6, sp
-+
-+	/* __libc_start_main (main, argc, argv, init, fini, rtld_fini, stack_end).  */
-+
-+#ifdef SHARED
-+	ld	r0, [pcl, @main@gotpc]
-+	ld	r3, [pcl, @__libc_csu_init@gotpc]
-+	ld	r4, [pcl, @__libc_csu_fini@gotpc]
-+	bl	__libc_start_main@plt
-+#else
-+	mov_s	r0, main
-+	mov_s	r3, __libc_csu_init
-+	mov	r4, __libc_csu_fini
-+	bl	__libc_start_main
-+#endif
-+
-+	/* Should never get here.  */
-+	flag    1
-+END (ENTRY_POINT)
-+
-+/* Define a symbol for the first piece of initialized data.  */
-+	.data
-+	.globl __data_start
-+__data_start:
-+	.long 0
-+	.weak data_start
-+	data_start = __data_start
-diff --git a/sysdeps/arc/tst-audit.h b/sysdeps/arc/tst-audit.h
-new file mode 100644
-index 000000000000..0b8f0b9c2f3f
---- /dev/null
-+++ b/sysdeps/arc/tst-audit.h
-@@ -0,0 +1,23 @@
-+/* Definitions for testing PLT entry/exit auditing.  ARC version.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#define pltenter la_arc_gnu_pltenter
-+#define pltexit la_arc_gnu_pltexit
-+#define La_regs La_arc_regs
-+#define La_retval La_arc_retval
-+#define int_retval lrv_reg[0]
+This patchset implements glibc port to ARC HS48x processor from Synopsys.
+
+git@github.com:foss-for-synopsys-dwc-arc-processors/glibc.git  upstream-v7
+
+v7:
+   * Addresses review comments from Adhemerval Zanella and Florian
+     Weimer (many thx to you both)
+   * Dropped ARC specific semaphore.h (following upstream 1270fbaaeebe)
+   * ARC specific dl-runtime.h (following upstream 8dbb7a08ec52)
+   * ARC specific math-use-builtins.h and dropped ARC specific sqrt/fma
+     routines (math-use-builtins.h will be disintegrated once done upstream)
+   * setjmp/longjmp to save GP, no need to save r25 (thread pointer)
+   * makecontext/startcontext use r14/r15 (vs. r13/r14)
+   * flatten out register file in mcontext_t (remove scratch/callee)
+   * Use of 'C' comments in asm code, LDR/STR macros
+   * Use of L (..) in asm code
+   * Dropped asm global register r25 specification for thread pointer
+     and rely on __builtin_thread_pointer
+   * NEWS update rewording
+   * Sweeping update of Copyright year 2020
+v6:
+   * Dropped 11/14: merged upstream
+   * _FPU_SETS() inline asm reworked
+   * Introduce fixup-asm-unistd.h to elide 32-bit time, offset syscalls and
+     regenerate arch-syscall.h
+   * Fix snafu in updating build-many-glibcs for ARC
+   * More code sytle fixes flagged by Joseph
+v5:
+   * Big Endian formally supported as multi-ABI
+   * Removed code for ARC700 processors
+   * Hard-float code updates: fegetmode, fesetround, feupdateenv
+   * socket-constant.h update for 64-bit ABI spun off as standalone patch
+   * __syscall_error made glibc_private
+   * math ulps regen
+   * gmp-mparam.h removed
+   * lint fixes as flagged by Joseph
+v4:
+   * Dropped 1/17: Merged upstream
+   * Dropped 17/17:
+       - 64-bit time/offset code chunked up into respective patches
+   * sysctl removed
+   * Updated README for arc gnu triplet
+   * Updated install files for ARC gcc/binutils requirements
+   * Updated NEWS with brief ISA/ABI info
+
+v3:
+   * Support for Hardware Floating Point
+   * 64-bit time and offsets ABI (although all such changes are confined
+     to a single patch)
+
+v5: https://sourceware.org/pipermail/libc-alpha/2020-April/112657.html
+v4: https://sourceware.org/pipermail/libc-alpha/2020-March/111855.html
+v3: https://sourceware.org/legacy-ml/libc-alpha/2020-03/msg00167.html
+v2: https://sourceware.org/legacy-ml/libc-alpha/2019-01/msg00681.html
+v1: https://sourceware.org/legacy-ml/libc-alpha/2018-12/msg00678.html
+
+Documentation:
+--------------
+
+(a) ABI doc:
+https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/wiki/files/ARCv2_ABI.pdf
+
+(b) Programmer's Reference Manual (PRM) : needs a download request to be filled
+https://www.synopsys.com/dw/ipdir.php?ds=arc-hs44-hs46-hs48
+https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manual-ARC-HS.pdf
+
+Test Results:
+--------------
+(a) build-many-glibcs.py
+
+| Summary of test results:
+|   1251 PASS
+|     15 XFAIL
+
+
+(b) Full testsuite ran in a cross compile setup using buildroot on HSDK development
+    platform. Bulk of failures come from cross testing setup and I
+    intend to improve things with native testing going forward.
+
+| Summary of test results:
+|     30 FAIL   (-3)
+|
+| FAIL: csu/test-as-const-tcb-offsets
++ FAIL: elf/tst-audit14
++ FAIL: elf/tst-audit15
++ FAIL: elf/tst-audit16
+| FAIL: elf/tst-ldconfig-ld_so_conf-update # not true: dlopen
+| FAIL: iconv/test-iconvconfig		# Needs gconv installed
+- FAIL: iconv/tst-gconv-init-failure
+| FAIL: io/ftwtest			# Requires execution by non-root
+- FAIL: io/tst-futimesat
+| FAIL: io/tst-lockf
+| FAIL: libio/tst-wfile-sync
+| FAIL: locale/tst-C-locale
+| FAIL: locale/tst-duplocale
+| FAIL: locale/tst-locale-locpath
+| FAIL: locale/tst-locname
+| FAIL: localedata/sort-test
+| FAIL: nptl/test-cond-printers		# needs Python3 and target GDB on target
+| FAIL: nptl/test-condattr-printers	#    ditto
+| FAIL: nptl/test-mutex-printers	#    ditto
+| FAIL: nptl/test-mutexattr-printers	#    ditto
+| FAIL: nptl/test-rwlock-printers	#    ditto
+| FAIL: nptl/test-rwlockattr-printers	#    ditto
+| FAIL: nptl/tst-umask1			# passes if run natively on target (NFS ACLv3 support needed)
+| FAIL: nss/bug-erange
+| FAIL: nss/tst-nss-files-hosts-getent	# Timed out
+| FAIL: nss/tst-nss-files-hosts-multi	# Timed out
+| FAIL: posix/bug-ga2			# DNS issue: google DNS vs. SNPS
+| FAIL: posix/globtest			# require same user on target and host
+| FAIL: posix/tst-getaddrinfo5		# passes outside corporate network
+- FAIL: resolv/tst-resolv-basic
+- FAIL: resolv/tst-resolv-edns
+- FAIL: resolv/tst-resolv-rotate
+- FAIL: resolv/tst-resolv-search
+| FAIL: stdio-common/bug22		# Needs more RAM: 2 GB memory
+| FAIL: sunrpc/bug20790			# missing cpp on target
+| FAIL: timezone/tst-tzset		# passes outside corporate network
+
+
+kindly review.
+
+Thx,
+-Vineet
+
+Vineet Gupta (13):
+  ARC: ABI Implementation
+  ARC: startup and dynamic linking code
+  ARC: Thread Local Storage support
+  ARC: Atomics and Locking primitives
+  ARC: math soft float support
+  ARC: hardware floating point support
+  ARC: Linux Syscall Interface
+  ARC: Linux ABI
+  ARC: Linux Startup and Dynamic Loading
+  ARC: ABI lists
+  ARC: Build Infrastructure
+  build-many-glibcs.py: Enable ARC builds
+  Documentation for ARC port
+
+ NEWS                                          |   11 +
+ README                                        |    1 +
+ config.h.in                                   |    3 +
+ manual/install.texi                           |    4 +
+ scripts/build-many-glibcs.py                  |   10 +
+ sysdeps/arc/Implies                           |    3 +
+ sysdeps/arc/Makefile                          |   21 +
+ sysdeps/arc/Versions                          |    8 +
+ sysdeps/arc/__longjmp.S                       |   49 +
+ sysdeps/arc/abort-instr.h                     |    2 +
+ sysdeps/arc/atomic-machine.h                  |   69 +
+ sysdeps/arc/bits/endianness.h                 |   15 +
+ sysdeps/arc/bits/fenv.h                       |   78 +
+ sysdeps/arc/bits/link.h                       |   52 +
+ sysdeps/arc/bits/setjmp.h                     |   26 +
+ sysdeps/arc/bsd-_setjmp.S                     |    1 +
+ sysdeps/arc/bsd-setjmp.S                      |    1 +
+ sysdeps/arc/configure                         |  182 ++
+ sysdeps/arc/configure.ac                      |   26 +
+ sysdeps/arc/dl-machine.h                      |  341 +++
+ sysdeps/arc/dl-runtime.h                      |   42 +
+ sysdeps/arc/dl-sysdep.h                       |   25 +
+ sysdeps/arc/dl-tls.h                          |   30 +
+ sysdeps/arc/dl-trampoline.S                   |   72 +
+ sysdeps/arc/entry.h                           |    5 +
+ sysdeps/arc/fpu/fclrexcpt.c                   |   36 +
+ sysdeps/arc/fpu/fegetenv.c                    |   37 +
+ sysdeps/arc/fpu/fegetmode.c                   |   31 +
+ sysdeps/arc/fpu/fegetround.c                  |   32 +
+ sysdeps/arc/fpu/feholdexcpt.c                 |   43 +
+ sysdeps/arc/fpu/fesetenv.c                    |   48 +
+ sysdeps/arc/fpu/fesetexcept.c                 |   32 +
+ sysdeps/arc/fpu/fesetmode.c                   |   40 +
+ sysdeps/arc/fpu/fesetround.c                  |   40 +
+ sysdeps/arc/fpu/feupdateenv.c                 |   51 +
+ sysdeps/arc/fpu/fgetexcptflg.c                |   31 +
+ sysdeps/arc/fpu/fraiseexcpt.c                 |   39 +
+ sysdeps/arc/fpu/fsetexcptflg.c                |   38 +
+ sysdeps/arc/fpu/ftestexcept.c                 |   33 +
+ sysdeps/arc/fpu/libm-test-ulps                | 1140 +++++++++
+ sysdeps/arc/fpu/libm-test-ulps-name           |    1 +
+ sysdeps/arc/fpu/math-use-builtins.h           |   70 +
+ sysdeps/arc/fpu_control.h                     |  106 +
+ sysdeps/arc/gccframe.h                        |   21 +
+ sysdeps/arc/get-rounding-mode.h               |   38 +
+ sysdeps/arc/jmpbuf-offsets.h                  |   22 +
+ sysdeps/arc/jmpbuf-unwind.h                   |   47 +
+ sysdeps/arc/ldsodefs.h                        |   43 +
+ sysdeps/arc/libc-tls.c                        |   27 +
+ sysdeps/arc/machine-gmon.h                    |   35 +
+ sysdeps/arc/math-tests-trap.h                 |   27 +
+ sysdeps/arc/memusage.h                        |   23 +
+ sysdeps/arc/nofpu/Implies                     |    1 +
+ sysdeps/arc/nofpu/libm-test-ulps              |  270 +++
+ sysdeps/arc/nofpu/libm-test-ulps-name         |    1 +
+ sysdeps/arc/nofpu/math-tests-exceptions.h     |   27 +
+ sysdeps/arc/nofpu/math-tests-rounding.h       |   27 +
+ sysdeps/arc/nptl/Makefile                     |   22 +
+ sysdeps/arc/nptl/pthreaddef.h                 |   32 +
+ sysdeps/arc/nptl/tcb-offsets.sym              |   11 +
+ sysdeps/arc/nptl/tls.h                        |  148 ++
+ sysdeps/arc/preconfigure                      |   14 +
+ sysdeps/arc/setjmp.S                          |   66 +
+ sysdeps/arc/sfp-machine.h                     |   70 +
+ sysdeps/arc/sotruss-lib.c                     |   50 +
+ sysdeps/arc/stackinfo.h                       |   33 +
+ sysdeps/arc/start.S                           |   74 +
+ sysdeps/arc/sysdep.h                          |   53 +
+ sysdeps/arc/tininess.h                        |    1 +
+ sysdeps/arc/tls-macros.h                      |   47 +
+ sysdeps/arc/tst-audit.h                       |   23 +
+ sysdeps/unix/sysv/linux/arc/Implies           |    3 +
+ sysdeps/unix/sysv/linux/arc/Makefile          |   29 +
+ sysdeps/unix/sysv/linux/arc/Versions          |   16 +
+ sysdeps/unix/sysv/linux/arc/arch-syscall.h    |  303 +++
+ sysdeps/unix/sysv/linux/arc/bits/procfs.h     |   35 +
+ sysdeps/unix/sysv/linux/arc/bits/timesize.h   |   21 +
+ .../sysv/linux/arc/bits/types/__sigset_t.h    |   12 +
+ sysdeps/unix/sysv/linux/arc/c++-types.data    |   67 +
+ sysdeps/unix/sysv/linux/arc/clone.S           |   93 +
+ sysdeps/unix/sysv/linux/arc/configure         |    4 +
+ sysdeps/unix/sysv/linux/arc/configure.ac      |    4 +
+ sysdeps/unix/sysv/linux/arc/dl-static.c       |   84 +
+ .../unix/sysv/linux/arc/fixup-asm-unistd.h    |   41 +
+ sysdeps/unix/sysv/linux/arc/getcontext.S      |   64 +
+ sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h  |    6 +
+ sysdeps/unix/sysv/linux/arc/kernel-features.h |   27 +
+ sysdeps/unix/sysv/linux/arc/kernel_stat.h     |   26 +
+ sysdeps/unix/sysv/linux/arc/ld.abilist        |    5 +
+ sysdeps/unix/sysv/linux/arc/ldconfig.h        |   27 +
+ sysdeps/unix/sysv/linux/arc/ldsodefs.h        |   32 +
+ .../sysv/linux/arc/libBrokenLocale.abilist    |    1 +
+ sysdeps/unix/sysv/linux/arc/libanl.abilist    |    4 +
+ sysdeps/unix/sysv/linux/arc/libc.abilist      | 2084 +++++++++++++++++
+ sysdeps/unix/sysv/linux/arc/libcrypt.abilist  |    2 +
+ sysdeps/unix/sysv/linux/arc/libdl.abilist     |    9 +
+ sysdeps/unix/sysv/linux/arc/libm.abilist      |  699 ++++++
+ .../unix/sysv/linux/arc/libpthread.abilist    |  213 ++
+ sysdeps/unix/sysv/linux/arc/libresolv.abilist |   79 +
+ sysdeps/unix/sysv/linux/arc/librt.abilist     |   35 +
+ .../unix/sysv/linux/arc/libthread_db.abilist  |   40 +
+ sysdeps/unix/sysv/linux/arc/libutil.abilist   |    6 +
+ sysdeps/unix/sysv/linux/arc/localplt.data     |   12 +
+ sysdeps/unix/sysv/linux/arc/makecontext.c     |   73 +
+ sysdeps/unix/sysv/linux/arc/mmap_internal.h   |   27 +
+ sysdeps/unix/sysv/linux/arc/setcontext.S      |   93 +
+ sysdeps/unix/sysv/linux/arc/shlib-versions    |    7 +
+ sysdeps/unix/sysv/linux/arc/sigaction.c       |   31 +
+ sysdeps/unix/sysv/linux/arc/sigcontextinfo.h  |   28 +
+ sysdeps/unix/sysv/linux/arc/sigrestorer.S     |   29 +
+ sysdeps/unix/sysv/linux/arc/swapcontext.S     |   94 +
+ sysdeps/unix/sysv/linux/arc/sys/cachectl.h    |   35 +
+ sysdeps/unix/sysv/linux/arc/sys/ucontext.h    |   57 +
+ sysdeps/unix/sysv/linux/arc/sys/user.h        |   31 +
+ sysdeps/unix/sysv/linux/arc/syscall.S         |   33 +
+ sysdeps/unix/sysv/linux/arc/syscalls.list     |    3 +
+ sysdeps/unix/sysv/linux/arc/sysdep.c          |   33 +
+ sysdeps/unix/sysv/linux/arc/sysdep.h          |  224 ++
+ sysdeps/unix/sysv/linux/arc/ucontext-macros.h |   25 +
+ sysdeps/unix/sysv/linux/arc/ucontext_i.sym    |   20 +
+ sysdeps/unix/sysv/linux/arc/vfork.S           |   42 +
+ 121 files changed, 9146 insertions(+)
+ create mode 100644 sysdeps/arc/Implies
+ create mode 100644 sysdeps/arc/Makefile
+ create mode 100644 sysdeps/arc/Versions
+ create mode 100644 sysdeps/arc/__longjmp.S
+ create mode 100644 sysdeps/arc/abort-instr.h
+ create mode 100644 sysdeps/arc/atomic-machine.h
+ create mode 100644 sysdeps/arc/bits/endianness.h
+ create mode 100644 sysdeps/arc/bits/fenv.h
+ create mode 100644 sysdeps/arc/bits/link.h
+ create mode 100644 sysdeps/arc/bits/setjmp.h
+ create mode 100644 sysdeps/arc/bsd-_setjmp.S
+ create mode 100644 sysdeps/arc/bsd-setjmp.S
+ create mode 100644 sysdeps/arc/configure
+ create mode 100644 sysdeps/arc/configure.ac
+ create mode 100644 sysdeps/arc/dl-machine.h
+ create mode 100644 sysdeps/arc/dl-runtime.h
+ create mode 100644 sysdeps/arc/dl-sysdep.h
+ create mode 100644 sysdeps/arc/dl-tls.h
+ create mode 100644 sysdeps/arc/dl-trampoline.S
+ create mode 100644 sysdeps/arc/entry.h
+ create mode 100644 sysdeps/arc/fpu/fclrexcpt.c
+ create mode 100644 sysdeps/arc/fpu/fegetenv.c
+ create mode 100644 sysdeps/arc/fpu/fegetmode.c
+ create mode 100644 sysdeps/arc/fpu/fegetround.c
+ create mode 100644 sysdeps/arc/fpu/feholdexcpt.c
+ create mode 100644 sysdeps/arc/fpu/fesetenv.c
+ create mode 100644 sysdeps/arc/fpu/fesetexcept.c
+ create mode 100644 sysdeps/arc/fpu/fesetmode.c
+ create mode 100644 sysdeps/arc/fpu/fesetround.c
+ create mode 100644 sysdeps/arc/fpu/feupdateenv.c
+ create mode 100644 sysdeps/arc/fpu/fgetexcptflg.c
+ create mode 100644 sysdeps/arc/fpu/fraiseexcpt.c
+ create mode 100644 sysdeps/arc/fpu/fsetexcptflg.c
+ create mode 100644 sysdeps/arc/fpu/ftestexcept.c
+ create mode 100644 sysdeps/arc/fpu/libm-test-ulps
+ create mode 100644 sysdeps/arc/fpu/libm-test-ulps-name
+ create mode 100644 sysdeps/arc/fpu/math-use-builtins.h
+ create mode 100644 sysdeps/arc/fpu_control.h
+ create mode 100644 sysdeps/arc/gccframe.h
+ create mode 100644 sysdeps/arc/get-rounding-mode.h
+ create mode 100644 sysdeps/arc/jmpbuf-offsets.h
+ create mode 100644 sysdeps/arc/jmpbuf-unwind.h
+ create mode 100644 sysdeps/arc/ldsodefs.h
+ create mode 100644 sysdeps/arc/libc-tls.c
+ create mode 100644 sysdeps/arc/machine-gmon.h
+ create mode 100644 sysdeps/arc/math-tests-trap.h
+ create mode 100644 sysdeps/arc/memusage.h
+ create mode 100644 sysdeps/arc/nofpu/Implies
+ create mode 100644 sysdeps/arc/nofpu/libm-test-ulps
+ create mode 100644 sysdeps/arc/nofpu/libm-test-ulps-name
+ create mode 100644 sysdeps/arc/nofpu/math-tests-exceptions.h
+ create mode 100644 sysdeps/arc/nofpu/math-tests-rounding.h
+ create mode 100644 sysdeps/arc/nptl/Makefile
+ create mode 100644 sysdeps/arc/nptl/pthreaddef.h
+ create mode 100644 sysdeps/arc/nptl/tcb-offsets.sym
+ create mode 100644 sysdeps/arc/nptl/tls.h
+ create mode 100644 sysdeps/arc/preconfigure
+ create mode 100644 sysdeps/arc/setjmp.S
+ create mode 100644 sysdeps/arc/sfp-machine.h
+ create mode 100644 sysdeps/arc/sotruss-lib.c
+ create mode 100644 sysdeps/arc/stackinfo.h
+ create mode 100644 sysdeps/arc/start.S
+ create mode 100644 sysdeps/arc/sysdep.h
+ create mode 100644 sysdeps/arc/tininess.h
+ create mode 100644 sysdeps/arc/tls-macros.h
+ create mode 100644 sysdeps/arc/tst-audit.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Implies
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Makefile
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Versions
+ create mode 100644 sysdeps/unix/sysv/linux/arc/arch-syscall.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/bits/procfs.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/bits/timesize.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/bits/types/__sigset_t.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/c++-types.data
+ create mode 100644 sysdeps/unix/sysv/linux/arc/clone.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/configure
+ create mode 100644 sysdeps/unix/sysv/linux/arc/configure.ac
+ create mode 100644 sysdeps/unix/sysv/linux/arc/dl-static.c
+ create mode 100644 sysdeps/unix/sysv/linux/arc/fixup-asm-unistd.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/getcontext.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/kernel-features.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/kernel_stat.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ld.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ldconfig.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ldsodefs.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/libBrokenLocale.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/libanl.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/libc.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/libcrypt.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/libdl.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/libm.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/libpthread.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/libresolv.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/librt.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/libthread_db.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/libutil.abilist
+ create mode 100644 sysdeps/unix/sysv/linux/arc/localplt.data
+ create mode 100644 sysdeps/unix/sysv/linux/arc/makecontext.c
+ create mode 100644 sysdeps/unix/sysv/linux/arc/mmap_internal.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/setcontext.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/shlib-versions
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sigaction.c
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sigcontextinfo.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sigrestorer.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/swapcontext.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sys/cachectl.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sys/ucontext.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sys/user.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/syscall.S
+ create mode 100644 sysdeps/unix/sysv/linux/arc/syscalls.list
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sysdep.c
+ create mode 100644 sysdeps/unix/sysv/linux/arc/sysdep.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ucontext-macros.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ucontext_i.sym
+ create mode 100644 sysdeps/unix/sysv/linux/arc/vfork.S
+
 -- 
 2.20.1
 
