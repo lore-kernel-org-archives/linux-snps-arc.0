@@ -1,153 +1,104 @@
-Return-Path: <SRS0=GG3y=75=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=jTRH=76=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5210BC433E0
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 16 Jun 2020 22:12:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D18C433DF
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 17 Jun 2020 10:03:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 210C72082E
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 16 Jun 2020 22:12:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 779AF208B3
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 17 Jun 2020 10:03:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gzXnPdQM";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="TR9p7xmL";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="rV69cR0V"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 210C72082E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ft0h9hN0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 779AF208B3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=R6pg7m5QMZxqacJDG576gMHYuqofWHNtVVWupv55etc=; b=gzXnPdQM18BM1U
-	ecIYh8K9LPU6mXAWNqPUYFq2TVK0LAt9Rumgm2tE0bgV2ZMrcpVds5OKNEQYg4to0rzvx7F14pPT2
-	2yIQBQJreZp0JrcYheQuz+OQh/tcwhX5ITxPzoE8Yzh/g5b4eF0SYNoY+pIpQVqkCI9c1vgRyDQbD
-	vmBT8syKODbXHn/5/iPlnDFxdgILafHNsicoozkrO2Mr9Rn1Q+XdAGDLjRMJikjBdd7xFRWfVx3yC
-	4zGc7SQ7ZgwWt0fuf8z3dnPXeS4+xA89Kh8WB/N3K0x+RmbX7vzRi1HXyHbwuRMRMjXd0Z41lq+0o
-	PKOZmQcw+btOHyJcK7Ww==;
+	List-Owner; bh=6femPngLamAqi9FBR0RDxt68njV5OL4kshYlFf/gE4s=; b=Ft0h9hN0C162Y8
+	4qOhEfV+qwnGfGoKu1WlbCqq3wxdoFcofD2kosLyPA0K+Pxxr6l7kmd6hkNl8NY5K5feUeS3wWR36
+	t3djbY5Gy9RimaCOhIwJmqea1sHxrI/0mIsA6y+D54AcEbMCqI1Qn1SVvSJkI1OecoUew6JEc9/B3
+	DA5DNLKCKFgVTt9UeOKJU3+CHG6b6Yl9H+AH82lGL9dCxazjm/QZYY12I8xDXYj2HDhww/FR4Av5s
+	et8HzTUTjXEu1TlUgbhkObJ5Mdi3KqpaE2Fjq3yWDGVuq6kCSqc8HNu9i87QGtIqP6ZVGOYxebXU7
+	0ivrLYvNh6D1ZwapOo5Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jlJow-0006xx-Ul; Tue, 16 Jun 2020 22:12:42 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1jlUuv-0004Lv-BI; Wed, 17 Jun 2020 10:03:37 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jlJov-0006xO-0a
- for linux-snps-arc@lists.infradead.org; Tue, 16 Jun 2020 22:12:42 +0000
-Received: from mailhost.synopsys.com (us03-mailhost1.synopsys.com [10.4.17.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 1F8DB400FE;
- Tue, 16 Jun 2020 22:12:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1592345558; bh=cIgxyxJfZmw2K/kPsENvaFYyaf5ltuTCVNhxf50TUdU=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=TR9p7xmLOx7FjihvSVmUz+hrS/Y1+GYNjD2CoJv9Jc70ZF6KZG1cQRqYB/tfGdZtC
- NSSYaZW7snQ/152/FS1yKoAZcxL01Hm1NU4qLnOGUZSeqmVzSAae58Ply9BMFbn0li
- BGOM6JlWQ6vjMDic3vATHuQeKhWtSTSRPVn83BOMQs8c49i3+HU0UbrYB6+/Jeph5e
- HA566IqEs1BIuHE7zAA8/sgLOi1uiHpuKRSJoyjuh6phLBqOlchByfKlg6+hEAMwS1
- RheEnOTwpnOPZmN8vhjSDcaVTjwa/ynv3EEOHhyNXQqrkyahKEiNFy4ePcWNhmHMk+
- YRhjyggTjLv2w==
-Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com
- [10.202.1.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id CF4A7A0077;
- Tue, 16 Jun 2020 22:12:31 +0000 (UTC)
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
- (mail-cys01nam02lp2054.outbound.protection.outlook.com [104.47.37.54])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.protection.outlook.com",
- Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
- by o365relay-in.synopsys.com (Postfix) with ESMTPS id B809F400BB;
- Tue, 16 Jun 2020 22:12:28 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com;
- dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
- spf=pass smtp.mailfrom=vgupta@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
- unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="rV69cR0V";
- dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aaQlKxrzoVVesT8PIz0wfujUel7gun/IxCjFNUQ4/u1Vc2ZKUSslrkT2wTfIRbf+amLSAQdU+8buoN7+W2iGNQ0tYHWVXgIJPv6ffEFdeGrZf7uao6PAG5soWsW+jVh5ur4vdlrbnrIvjJha7Eubnm7D9h48jUy9eZ947RL2B5pGe14+4Sgs0KTki8flm2csW1xaH4yr5+Fdt5HHzGi26Xab+Z5YwfD9cIm9GtYT5gpjEkwM6PPphM69vDT8YHtRU+pgcXfrd4ozvJoOAbCxRMv1rBbKvFlqAy9TYxtuwEP5nQObDxTWOhu4RLyE2SqROj/CgT94J/Uq2zmEECsjnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cIgxyxJfZmw2K/kPsENvaFYyaf5ltuTCVNhxf50TUdU=;
- b=n2DAs+uLYJZRUKK5SpkCsFWZedOiGdldpDO9GW3+1Dcg3jKqyICy10G0L5dbuHFCtXRJBgXgOeyknl309HmyK+g5dPAi1Vh059DrLQw/2hOFwdb+EyCPfxUtsRZ6MolXCuVVeyM1e3WF2izBIZLZpC8o2xYKrsIWWQzIOEnLeC3NF3Q9jyix+GLGYX65uX03+vrskQHFpEEqrTjmLAgRdBpjRWJaiw7hujTr6553oDAdbWcCwkKGyTCjZ/o1Poq+50exTbzVCZIlR/iAc2F3T7XcLB6xxjbF6YOfVfS1fDmYj9Ea2rArPA+elDwuxBgdyCtFsUwKPXHZlr9QcJdatw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cIgxyxJfZmw2K/kPsENvaFYyaf5ltuTCVNhxf50TUdU=;
- b=rV69cR0Vx8HhHjwsjUAIF84lAmKAqBdQH0vRmZKol68Fq9pg3nW2ZL+KcelJaw0NtZFCqaLONvrAGt0xns1copiE/7lzJ7lMn4qSjy0wyIIw1LIoSS54/wiwEkDFUnvj4cpRQtNsGHRJr6DSNDCYLnKkBknAoy87hP0UpAViOIA=
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
- by BYAPR12MB3397.namprd12.prod.outlook.com (2603:10b6:a03:db::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.23; Tue, 16 Jun
- 2020 22:12:27 +0000
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::a43a:7392:6fa:c6af]) by BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::a43a:7392:6fa:c6af%6]) with mapi id 15.20.3088.029; Tue, 16 Jun 2020
- 22:12:27 +0000
-X-SNPS-Relay: synopsys.com
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Subject: Re: [PATCH v2 1/4] ARC: allow to override default mcpu compiler flag
-Thread-Topic: [PATCH v2 1/4] ARC: allow to override default mcpu compiler flag
-Thread-Index: AQHWOpc7/dFMmbTnfUuNOuuCbmnhSajJ2F2AgBII4wA=
-Date: Tue, 16 Jun 2020 22:12:27 +0000
-Message-ID: <f3f54ba2-c050-83a2-ea93-dc147fd4bcfe@synopsys.com>
-References: <20200604173927.23127-1-Eugeniy.Paltsev@synopsys.com>
- <20200604173927.23127-2-Eugeniy.Paltsev@synopsys.com>
- <MWHPR1201MB0046338E4B38598FFB5DBCB9A1860@MWHPR1201MB0046.namprd12.prod.outlook.com>
-In-Reply-To: <MWHPR1201MB0046338E4B38598FFB5DBCB9A1860@MWHPR1201MB0046.namprd12.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-authentication-results: synopsys.com; dkim=none (message not signed)
- header.d=none;synopsys.com; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [73.222.250.45]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 502f862d-251b-4cec-f041-08d812425ab8
-x-ms-traffictypediagnostic: BYAPR12MB3397:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB339708081998F929916236F6B69D0@BYAPR12MB3397.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-forefront-prvs: 04362AC73B
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6T4YIyfZ96UlCJ95h+3sugQPf9k38Ob+Z/cMZE6MJQy8UA4FT6HW3ftOiBr1ds63vJkPyWe8UYj0hi8TDoxcTEuEEKcxMR3J0OjzW2tmW6eJsn4vLbYCZe11CGeb67POqC/SCnhXsfdSiy/cvA8PlSLdWXqV1hKkhqzfpKyMFNpnBjHJ0h4Y0y4vTbz2DSL/rWQszH7WBDScq2wBxWKnkidfOP1WcLjEC3eOgfyDThMm8kVN5jw3M1hmHDCTYCR/yu7yJiFgGxZhtdmuCe2j+/Z414Y5DpBhuzeycGZLCPA1TApYuBPhvTyCGgxaguJlOttx4gnHc/rkOm1R8ntgkISJZR4Pl1RM3UozB26kMF5/++d8UqxTl1TvatWnz149
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(136003)(366004)(346002)(396003)(376002)(39860400002)(64756008)(66446008)(71200400001)(83380400001)(478600001)(86362001)(66556008)(316002)(76116006)(66476007)(6486002)(26005)(2906002)(2616005)(6636002)(8676002)(5660300002)(53546011)(6512007)(6506007)(31686004)(36756003)(31696002)(54906003)(8936002)(186003)(66946007)(110136005)(4326008)(43740500002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: dix0BNwtL9LHGC2A2pRIDd+EdaFXaiaQh2HfQMDHcgobkvukxVVh3TiYny+GqJIDhAtSUropazud6htYpGLtcmPA7EgPpguWi6f8MxdfQSTR/9h6SGIZ141F1+mNWKg+M9yrJC6MZbWuuFxgBr2XKXtKQ1PM+2xN8yR3erv6iSj5RS0gp945im69SERp0u0hyR/uH1gOjGdWggU7Zwr/FAb58mDwQQfX1oS+3r0SJQ1aXlTRrfLviChBIa6GxQzlt5Ll39ptXije1zN5FAbddNxhiJPxNqHWdK7G4vZ61wWWCrA6WxxpuoOTOSXvjpJUm49huQUh7ECXyf75rfaH/BCFSs+CgbxvFvC/omW/PO+Ht2lxtm/6O1c2PlbOjmcb/zp5T2K98x1cDVODQNMaYVlb5Vsb6i/41s7ibYXt0V2rwlp4nYk4QGmF8Tn+JmVfiHg4MshnTOCMvd9mqv9EoGPYmSdooIuaHsxJsjTqT+o=
-Content-ID: <8453CB6498572E4F8B26DE363F00D09B@namprd12.prod.outlook.com>
+ id 1jlUud-00045z-NQ; Wed, 17 Jun 2020 10:03:21 +0000
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05HA2KAQ121051; Wed, 17 Jun 2020 06:02:56 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31q6hvq6ew-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Jun 2020 06:02:55 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05HA2QE4121283;
+ Wed, 17 Jun 2020 06:02:38 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31q6hvq5rr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Jun 2020 06:02:38 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05HA1nGG006382;
+ Wed, 17 Jun 2020 10:01:50 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 31q6ch8t8m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Jun 2020 10:01:49 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 05HA1lRV64815568
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 17 Jun 2020 10:01:47 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 079CCA4053;
+ Wed, 17 Jun 2020 10:01:47 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AA8EBA4059;
+ Wed, 17 Jun 2020 10:01:43 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.148.204.35])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Wed, 17 Jun 2020 10:01:43 +0000 (GMT)
+Date: Wed, 17 Jun 2020 13:01:41 +0300
+From: Mike Rapoport <rppt@linux.ibm.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH V3 4/4] Documentation/mm: Add descriptions for arch page
+ table helpers
+Message-ID: <20200617100141.GC6493@linux.ibm.com>
+References: <1592192277-8421-1-git-send-email-anshuman.khandual@arm.com>
+ <1592192277-8421-5-git-send-email-anshuman.khandual@arm.com>
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 502f862d-251b-4cec-f041-08d812425ab8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2020 22:12:27.0557 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YC9/sHVt5/ODcdkzPs0TG7T3YgoQuU9XhnmU73OGy5h0G8d5Yu3PxhLNRKO8hhoezli2IPEXlJpaAP1coD4SZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3397
+Content-Disposition: inline
+In-Reply-To: <1592192277-8421-5-git-send-email-anshuman.khandual@arm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-17_03:2020-06-16,
+ 2020-06-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=1
+ spamscore=0 clxscore=1011 mlxscore=0 lowpriorityscore=0 bulkscore=0
+ mlxlogscore=999 cotscore=-2147483648 adultscore=0 phishscore=0
+ priorityscore=1501 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006170075
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200616_151241_092372_D68E88C8 
-X-CRM114-Status: GOOD (  16.50  )
+X-CRM114-CacheID: sfid-20200617_030319_878787_228EA945 
+X-CRM114-Status: GOOD (  14.58  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,60 +110,74 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: linux-doc@vger.kernel.org,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, linux-mm@kvack.org,
+ Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ Ingo Molnar <mingo@redhat.com>, linux-arm-kernel@lists.infradead.org,
+ ziy@nvidia.com, Catalin Marinas <catalin.marinas@arm.com>,
+ linux-snps-arc@lists.infradead.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Borislav Petkov <bp@alien8.de>, Paul Walmsley <paul.walmsley@sifive.com>,
+ "Kirill A . Shutemov" <kirill@shutemov.name>,
+ Thomas Gleixner <tglx@linutronix.de>, gerald.schaefer@de.ibm.com,
+ christophe.leroy@c-s.fr, Vineet Gupta <vgupta@synopsys.com>,
+ linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 6/5/20 3:47 AM, Alexey Brodkin wrote:
-> Hi Eugeniy,
+On Mon, Jun 15, 2020 at 09:07:57AM +0530, Anshuman Khandual wrote:
+> This adds a specific description file for all arch page table helpers which
+> is in sync with the semantics being tested via CONFIG_DEBUG_VM_PGTABLE. All
+> future changes either to these descriptions here or the debug test should
+> always remain in sync.
 > 
-> A couple of minor notes below.
-> 
->> -----Original Message-----
->> From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
->> Sent: Thursday, June 4, 2020 8:39 PM
->> To: linux-snps-arc@lists.infradead.org; Vineet Gupta <vgupta@synopsys.com>
->> Cc: linux-kernel@vger.kernel.org; Alexey Brodkin <abrodkin@synopsys.com>; Eugeniy Paltsev
->> <paltsev@synopsys.com>
->> Subject: [PATCH v2 1/4] ARC: allow to override default mcpu compiler flag
->>
->> Kernel builds set their own default -mcpu for a given ISA build.
-> 
-> We used to use a default "-mcpu" per ARC ISA version (one for ARCompact
-> and one for ARCv2).
-> 
->> But that gets in the way of "custom" -mcpu flags from propagating
->> into kernel build.
-> 
-> But with more versions of CPUs & SoCs becoming available we want to
-> be able to fine-tune generated code more precise.
-> 
->> This will also be used in next patches for HSDK-4xD board support which
->> uses a different -mcpu to effect dual issue scheduling.
-> 
-> "...for utilization of the new CPU's dual-issue capabilities"?
-> 
->> +++ b/arch/arc/Makefile
->> @@ -10,8 +10,25 @@ CROSS_COMPILE := $(call cc-cross-prefix, arc-linux- arceb-linux-)
->>  endif
->>
->>  cflags-y	+= -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
->> -cflags-$(CONFIG_ISA_ARCOMPACT)	+= -mA7
->> -cflags-$(CONFIG_ISA_ARCV2)	+= -mcpu=hs38
->> +
->> +tune-mcpu-def-$(CONFIG_ISA_ARCOMPACT)	:= -mA7
-> 
-> I'd suggest to either swap "-mA7" which is being obsoleted with "-mcpu=arc700"
-> right here or as a separate change, otherwise we may soon get ATC700 builds
-> broken with newer compilers.
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Mike Rapoport <rppt@linux.ibm.com>
+> Cc: Vineet Gupta <vgupta@synopsys.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
+> Cc: Vasily Gorbik <gor@linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: Kirill A. Shutemov <kirill@shutemov.name>
+> Cc: Paul Walmsley <paul.walmsley@sifive.com>
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Cc: linux-snps-arc@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: linux-riscv@lists.infradead.org
+> Cc: x86@kernel.org
+> Cc: linux-arch@vger.kernel.org
+> Cc: linux-mm@kvack.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Suggested-by: Mike Rapoport <rppt@kernel.org>
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> ---
+>  Documentation/vm/arch_pgtable_helpers.rst | 258 ++++++++++++++++++++++
+>  mm/debug_vm_pgtable.c                     |   6 +
+>  2 files changed, 264 insertions(+)
+>  create mode 100644 Documentation/vm/arch_pgtable_helpers.rst
 
-FWIW I've added a modified variant of this patch to for-curr as we need it for
-ongoing ARC64 port as well.
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
 
--Vineet
+
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
