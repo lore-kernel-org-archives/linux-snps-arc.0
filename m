@@ -1,154 +1,99 @@
-Return-Path: <SRS0=Jfgr=77=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=d2VE=AA=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE665C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 18 Jun 2020 20:00:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01203C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Jun 2020 16:05:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A8BA2208C3
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 18 Jun 2020 20:00:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CAACB207FC
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Jun 2020 16:05:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TGuSIwj4";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Ly98240X";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="NE4haLM4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A8BA2208C3
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lMHLPC2o";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SHPN9+D3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAACB207FC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1ZLGPGHxVVGdlTJIkCIcaZMn5zBPYVR3nxVu3bqKbT8=; b=TGuSIwj42ibJTi
-	ITatPPwTRylVYrUvH61ZwMM1vU+JQamf7ScCCVkzWEHNnyJFKRRmZs69TWYGvaiM783JznrvU+R6a
-	gfPXeegv++UPkqkXmY19HqYAlCg8cJMhKDic323MU1tPncnWGDFIf3Ez00OBHGTZB4mVmCYFFA5PG
-	UewLx0FTudmVJ2c+4pfA/Qlko7vGDjhQFxZBRQOni+/chFKQLyQitT77EE4PUM5zhV917+5q1Gaqs
-	Pu91WO7YVraZMkzkxAwSoq/Y4kl5BvI0e9lIDaHIrVgng6ePeRy+HXl5iHJOLXEiTlNuWAXIrnVxO
-	CrZn44jH2IOgBceZuK1g==;
+	List-Owner; bh=v/cXLN3KYE4Mu4q2smiwgsWwlB11j6Xl+whOomZgFIs=; b=lMHLPC2oGAFEhA
+	lhp8XyRpWnN2g6W2sAW3nC3DjTs3nzhA5ZGfth4SrUCenG/UDCyK9vGXoa53BdqgL0h/MXYn+SWZq
+	i1d2vpi6cJRZSzC/riumxBLHrMxJRRbnGS8Yyn8Uf8u6RyseIR2bjrUt1aa7/GdHeB31adlHSGd5E
+	yCdhAQqLRXg5N63FtbVYU7WpdaKdAO9zhM8a8Snj2A+Jcu7AzA2pqREYP3oTmjDZFlC3PZOIoh9xQ
+	z8x8hslOU5I2b5KFP+PXYbn1C3/uPrp2i+yW+X4qKpDBCc76dmO077i/uGGIMlPVyYLJYmaPr6pWp
+	paKuWZrYFmDeRSxUIQzA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jm0hy-0001T4-KJ; Thu, 18 Jun 2020 20:00:22 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1jmJWf-0007Ov-Nk; Fri, 19 Jun 2020 16:05:57 +0000
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]
+ helo=us-smtp-delivery-1.mimecast.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jm0hu-0001G3-Tf
- for linux-snps-arc@lists.infradead.org; Thu, 18 Jun 2020 20:00:20 +0000
-Received: from mailhost.synopsys.com (us03-mailhost2.synopsys.com [10.4.17.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 3FF17C00A4;
- Thu, 18 Jun 2020 20:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1592510416; bh=mhiDFpD0ojrj/5WT3pWw8gK0XfkkDDZ0iphPJ8WNfmw=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=Ly98240XaczqLnhGgpl0Aad+4Fv/6Bs3PT+eOFre0v9nTPL5Gszhj6Or7e4CK4VHO
- agsnjaq8FfArKit7Y+8bJ2HVl5drBESjJVoHcogaEgZBcPAHrhGwEGV/zsrDkN+Uvy
- Pma4UNw0gYBm61cJy/SQJJB4uL4UPQdAaS74hAQPQrSnWWOhm0WpKSPsjnySJSU4mq
- lvwwSh2DAtanqS4yHTKmC7SK6vV3f9pGtHcyXJcHeICDRJBuG/PJy2iDjd/imlIWMT
- 2u3Z13JuHO4bkxDpB6ebn9nVdApDnhDiUbJrdKEp2TVgPozCXJwKKTe1XB8dFTKgSR
- uFa4eRGYhVMmQ==
-Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com
- [10.202.1.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id B2C9AA0087;
- Thu, 18 Jun 2020 20:00:11 +0000 (UTC)
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.protection.outlook.com",
- Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
- by o365relay-in.synopsys.com (Postfix) with ESMTPS id 1972A400B7;
- Thu, 18 Jun 2020 20:00:10 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com;
- dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
- spf=pass smtp.mailfrom=vgupta@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
- unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="NE4haLM4";
- dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hNVpUu2iZA2X6v38BC0dtoYa/YRDp6vay1kZb8X/S9DC0ULWqvlpytjOn06TK/NeOL5IPuHvArzp7z2A9Mrg9AJ2zDICjk8Y7h05blC0AYhL/E6duWAGKcCIqMvORhXVW3vy9Mpa5Wbmz2C6KlSBF12ciA5bv2zTg+tRmcuMzeivQDnLZiFDEs7Uxkb3RDK9J0oFZxMIn2c/+ZqfD3SdfLluBVFP4L9w7TaPSahAhDdejMDYCrv12ldk7J5JtzHxUsQQ5eKC0AA7yrVBhDR/CWkQsubU6OpEMkrGOC/BdO2CWPE7CjYl3EEPfFC88prw1Ke5uQ+7+cAxDa+4hEQdNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mhiDFpD0ojrj/5WT3pWw8gK0XfkkDDZ0iphPJ8WNfmw=;
- b=XrmmOItvQAHs4t+BD/2fsbJ35mm1r58Dly1IxE570wauTQlnrAHuL6DPPLwYq5rC9Z5k0w7z8c4frucnywqG7mD/K/n+uXPqfmhxoUi97WteyHNRMFSaMKyIVUH/TDo5giu4iZqDKAKQfQ8N2NmShVjgZpYQFNFCdZ/JypeU4nGweno1a/ikn41ZWyDrnq7yx8NfK78CW5z78skNOqbgZcBOEbLJA4du7oelg6TnaU/jHWnqVMf2Muqg1QtklHbEn7jkwyZuTCtRlH8rGm8p5p+8mur8S7bDrpTqHlQMPb1uBhdxfwp1ZWLN7G2M7pP1Rt9KHwIha/mHINkax71Y+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mhiDFpD0ojrj/5WT3pWw8gK0XfkkDDZ0iphPJ8WNfmw=;
- b=NE4haLM4/QITK/X/s8Zl/auDuZh1OHkJoJ0w2YbBLNyXUC60/vyJYd8LV74EJCBUkqIOnBo43eTcyAS4syb6enHzyRSxZ2zaw00oonSYXNTDt17fgBduBRw/QDzoqWMzNABBtCydi2V1+uA5XkM1Nf5KuHz99X1NI4Ld6dCFpBg=
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
- by BYAPR12MB2710.namprd12.prod.outlook.com (2603:10b6:a03:68::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.24; Thu, 18 Jun
- 2020 20:00:09 +0000
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::a43a:7392:6fa:c6af]) by BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::a43a:7392:6fa:c6af%6]) with mapi id 15.20.3109.021; Thu, 18 Jun 2020
- 20:00:09 +0000
-X-SNPS-Relay: synopsys.com
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
-Subject: Re: [PATCH v2 2/4] ARC: ARCv2: support loop buffer (LPB) disabling
-Thread-Topic: [PATCH v2 2/4] ARC: ARCv2: support loop buffer (LPB) disabling
-Thread-Index: AQHWOpc4cHjIBgRVG0W8gJZ90tyziKje3mEAgAACkgA=
-Date: Thu, 18 Jun 2020 20:00:08 +0000
-Message-ID: <d22bf697-b23d-d0a8-9db7-1f0bba4b2b82@synopsys.com>
-References: <20200604173927.23127-1-Eugeniy.Paltsev@synopsys.com>
- <20200604173927.23127-3-Eugeniy.Paltsev@synopsys.com>
- <CY4PR1201MB0136B3C5A25EA943379FFCD0DE9B0@CY4PR1201MB0136.namprd12.prod.outlook.com>
-In-Reply-To: <CY4PR1201MB0136B3C5A25EA943379FFCD0DE9B0@CY4PR1201MB0136.namprd12.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-authentication-results: synopsys.com; dkim=none (message not signed)
- header.d=none;synopsys.com; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [73.222.250.45]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 823d02df-e5a4-4f4b-221b-08d813c2340d
-x-ms-traffictypediagnostic: BYAPR12MB2710:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB2710190F057A432225788BC2B69B0@BYAPR12MB2710.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0438F90F17
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kDtaqV7OWnmLVgiw9pROwSNLRAVGnPSc/adycUAf6ilFQkJ+NnH5S7LUEUSaq80CsBQ+b6ndo4LnGrC1aGiY2ru3jtB5cvU5IzuqCF9jWIlAduAXOOLuoyw6DzuTPsdJFx26+oRajdMqUBoqxro/U6Tm41/Xqs75+kPDQhbV+njP3DLf8AVgmtVQBtC0HTZBD1D2dbGeKpEMnILadWx6UnvbtfmuseU5sQNp98hRUJYSiZ7wHZg3ta1I78K9XOt//qK6vFLy+X8cgQBrOPMcUAqOGiMdeVuWkrP/pxqSK5F3zSiacPqVkKyzBN+RZU8iIozBafQ7MwDdaHx4JuK8iMsA1iGQAuZfThbr3KiAkDIqUTYK+c4fa1OzQ1fZ3Mop
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(366004)(136003)(376002)(346002)(396003)(39860400002)(316002)(76116006)(6506007)(31696002)(53546011)(26005)(66946007)(86362001)(8676002)(64756008)(6512007)(107886003)(36756003)(66556008)(66446008)(66476007)(6486002)(8936002)(71200400001)(2616005)(54906003)(478600001)(31686004)(2906002)(5660300002)(186003)(4326008)(558084003)(110136005)(43740500002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: HbIEM3PY9uVVhN9pD7mgUJIdp1GNFdqGSHPizucHgBRVVrATxN5myYgPKpBS0juLKhNbEJ3MbQW7s2JM8MG5/iC7HIwoM0q2OVtx49/NnlY+SvX66A1HYGDfR6cht7PTVPywr/7YtP1hXdxfFTGpm6sz7J+aYFnkI5nmczLYQfYLpKKpFl4D+vhS3/eOLPKsFEc1uMlLDsNvqrNltbn88u7M/JCSGybdVtshvewkEdIJXGxrsLPNhQSdd5p/lDnzpGaQ/SW5t2asLDl5Yt6NpZeSDl9ZTI7SLLMcuWgBa7Taxrvnr3COe2RObAoRZq+bTrCFhkcdeG0KMf3XVfN4eUtoJQEAiQgX1awk75EEgRJHWAuYsJgk0MkWYXjd/6qC981JODu7tr5DxlTuBp9qZQ+9XlpbP+hjzpc3qx0NOaHSQbZdgFYTO2Dd+n8Sm6yUJozPB0wwF37NpHpRMGIkukC/4wlBK84xay2/SljXavU=
-Content-ID: <1C1FA016376AEB42BE9FC75E4F62F87B@namprd12.prod.outlook.com>
+ id 1jmJWb-0007Nf-0u
+ for linux-snps-arc@lists.infradead.org; Fri, 19 Jun 2020 16:05:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592582752;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZrEBS+6D6tr7sKM8RKvuVARuC8ujPdG5Fi1hrXsWHAc=;
+ b=SHPN9+D331+uSrDn2oOFymtyjPGhu6LHYltB1CqdNzsGJBeZ+2xwKKTZSVgLcXBj7Nw6C7
+ QaaPV+WV/2zLS/CRJ+9LIEvsr6WMbs3vN7lZhDy4EJWzkRXSBDwv95IlGtWyD4U+M59ggX
+ JZGBSeiqmxlRY6Hic2jdHmPMk72Dhe4=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-AWc1CxRhPGiyBNIW3PRRJA-1; Fri, 19 Jun 2020 12:05:45 -0400
+X-MC-Unique: AWc1CxRhPGiyBNIW3PRRJA-1
+Received: by mail-qk1-f197.google.com with SMTP id 204so7439810qki.20
+ for <linux-snps-arc@lists.infradead.org>; Fri, 19 Jun 2020 09:05:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZrEBS+6D6tr7sKM8RKvuVARuC8ujPdG5Fi1hrXsWHAc=;
+ b=QiWr60K4xK6O55YDx3y5Qsao9t47SMg0AQ0sWA9b67pxK5o28GtXYvrcjSBm6/al9Q
+ h3Of00D6qVCITs31GAp+d0WcAL915AEiI7TFzimsjLN12Dxl7dni8Z1uLrTPSZYhq2ni
+ szVsDa1KDHTl1eAQFG105jekuE2T3NcXx7DPmmpNvanPoaT80dHFhE2QoPUXTWxRPzKU
+ trPqMYLBOm0cMPkwtx+NxZh/qblJNfTWY09vNgd4oZD724grJQ3f6DqQZY2jj6VuYwN6
+ WMfHmIkfwjdEq+2A1HcqHJMTqxVPdB4nQwAoLx20BNFTc0oJfGmcEcIpmBXvAjNrJwXw
+ G5uw==
+X-Gm-Message-State: AOAM5320K1KkZQwDkJhMqPbvgQcFHi9GZXrYLf32T8SJ1ZjsHy71Jg9U
+ Ktu7cpQzIliqmKO7RAnY/eO1Z7rv49IDiGx6DhGELIBZYyuyh2rf/A6RYaiZTDCM3qlM/o9VNcj
+ aM31+GoslA2kw1TAoVXglTXi9XNyR9DBs
+X-Received: by 2002:a37:6d4:: with SMTP id 203mr1558334qkg.62.1592582745381;
+ Fri, 19 Jun 2020 09:05:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw1Ah5qSbhiFYhHGzi97I57hEEaVVSsMBbZi7Nga0UAUiVp9Ck6HGvQPSjZ83MKPB5TgG3lyw==
+X-Received: by 2002:a37:6d4:: with SMTP id 203mr1558310qkg.62.1592582745151;
+ Fri, 19 Jun 2020 09:05:45 -0700 (PDT)
+Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id g11sm6412604qkk.123.2020.06.19.09.05.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Jun 2020 09:05:44 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 03/26] mm/arc: Use general page fault accounting
+Date: Fri, 19 Jun 2020 12:05:15 -0400
+Message-Id: <20200619160538.8641-4-peterx@redhat.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200619160538.8641-1-peterx@redhat.com>
+References: <20200619160538.8641-1-peterx@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 823d02df-e5a4-4f4b-221b-08d813c2340d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2020 20:00:08.9564 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TwFxYrSzBmDy015rhvCwsBFjNE7s7+d3CB9AjKsLDhd7ioJpdSKwPFrsdLzgKLHyWpfdtgJxViME9m2QT9UDtA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2710
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200618_130019_027489_D30A924D 
-X-CRM114-Status: GOOD (  11.99  )
+X-CRM114-CacheID: sfid-20200619_090553_131531_383E558D 
+X-CRM114-Status: GOOD (  10.82  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,25 +105,79 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: Andrea Arcangeli <aarcange@redhat.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, peterx@redhat.com,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Vineet Gupta <vgupta@synopsys.com>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-snps-arc@lists.infradead.org, Will Deacon <will@kernel.org>,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 6/18/20 12:50 PM, Eugeniy Paltsev wrote:
-> Hi Vineet,
->
-> could you also peek this patch to for-curr as we don't have any disagreement about it?
->
-> I'll respin the rest of the patches later. Thanks.
-> ---
->  Eugeniy Paltsev
+Use the general page fault accounting by passing regs into handle_mm_fault().
+It naturally solve the issue of multiple page fault accounting when page fault
+retry happened.
 
-Added !
+Fix PERF_COUNT_SW_PAGE_FAULTS perf event manually for page fault retries, by
+moving it before taking mmap_sem.
 
--Vineet
+CC: Vineet Gupta <vgupta@synopsys.com>
+CC: linux-snps-arc@lists.infradead.org
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ arch/arc/mm/fault.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
+
+diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
+index 34380139e7a2..68e6849cf086 100644
+--- a/arch/arc/mm/fault.c
++++ b/arch/arc/mm/fault.c
+@@ -106,6 +106,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 	if (write)
+ 		flags |= FAULT_FLAG_WRITE;
+ 
++	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+ retry:
+ 	down_read(&mm->mmap_sem);
+ 
+@@ -131,7 +132,7 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 		goto bad_area;
+ 	}
+ 
+-	fault = handle_mm_fault(vma, address, flags, NULL);
++	fault = handle_mm_fault(vma, address, flags, regs);
+ 
+ 	/* Quick path to respond to signals */
+ 	if (fault_signal_pending(fault, regs)) {
+@@ -156,22 +157,9 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
+ 	 * Major/minor page fault accounting
+ 	 * (in case of retry we only land here once)
+ 	 */
+-	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+-
+-	if (likely(!(fault & VM_FAULT_ERROR))) {
+-		if (fault & VM_FAULT_MAJOR) {
+-			tsk->maj_flt++;
+-			perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MAJ, 1,
+-				      regs, address);
+-		} else {
+-			tsk->min_flt++;
+-			perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MIN, 1,
+-				      regs, address);
+-		}
+-
++	if (likely(!(fault & VM_FAULT_ERROR)))
+ 		/* Normal return path: fault Handled Gracefully */
+ 		return;
+-	}
+ 
+ 	if (!user_mode(regs))
+ 		goto no_context;
+-- 
+2.26.2
+
 
 _______________________________________________
 linux-snps-arc mailing list
