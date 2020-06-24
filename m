@@ -4,55 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 614B1C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Jun 2020 03:13:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF733C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Jun 2020 11:06:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2AFA620CC7
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Jun 2020 03:13:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 90D822082F
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Jun 2020 11:06:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qW1av5Qd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2AFA620CC7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KjzEoSff"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 90D822082F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Vhk5RKaMdNMP/hPucqPMuVBOjb9fjbrw9q+Kbw6sa/8=; b=qW1av5QdWQ58wYns90V56rhaD
-	s9txJWuaZ6KLg+XTYTMk1JWhuzaboGmpguH2DicjL+TbfrUm1kRiQ0cp3ueAJH3R77PB6tPVfahAf
-	cB3+n2UjFEZT54qWkw9xMJO0oT8AvXNu4z9S/PDVCPhPlsxoSE8p0QyfTSYRS0TX4hI1iMs5EyP8A
-	fD5e/J3mf01e7zzla8195Z5Hl/QMx3euu0FIIfo7fx0xqJqqtKhJ8/ZIkXvTXUaqMRSfsR+jtzy9g
-	sdfK1rS8F/c+AL/NuNgME9iePMa55BVdzGyU0oaKdggvSLnUL0/1G9m+rdliPMeEiVpuf8MmNBoUd
-	IrhLU5irg==;
+	 bh=gWk1LrkioObYcVv5+qsEoUXAeXnvW+2Oq9N//bw2Kp8=; b=KjzEoSffPLacPT1PqfMqRU7fb
+	RTIdEcTyQuRVjRyUHzHVaxw6AUIN0c/GuXcUBnGE6FpGS5kSPXfxNfW1qg3xJAMwSaY8j6+VCD9fK
+	JrSDEIwTI6+wvm9B+ObMRXS1k4vyVOAIICndhlWLKVUqhRMsbi5EBjokr6zrl5gYcyeVKp/eBSNrt
+	FCqdEzuLx9urKmVOUp5k4ENfoqeoEREcd8/WFXcLQkJrfj+SUOf8j4X9YYZvUPWiW1Wsyj54jLFgd
+	5/Ytkg3RNGe9JC6wS1pRiM5UDalbqZ7TEAqHpBBn7avT+iFJXU5bV+9k6f8Zhn8vaKpuUnqEhCvGr
+	MN377Zl0g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jnvqy-0004a8-9U; Wed, 24 Jun 2020 03:13:36 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jnvqr-0004Uh-Ps; Wed, 24 Jun 2020 03:13:30 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D1A01FB;
- Tue, 23 Jun 2020 20:13:29 -0700 (PDT)
-Received: from [10.163.82.47] (unknown [10.163.82.47])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C237B3F71E;
- Tue, 23 Jun 2020 20:13:19 -0700 (PDT)
+	id 1jo3Ed-0002nK-Tp; Wed, 24 Jun 2020 11:06:31 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jo3EY-0002jZ-P5; Wed, 24 Jun 2020 11:06:27 +0000
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05OB2xsi037997; Wed, 24 Jun 2020 07:05:50 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31uwysn1kn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Jun 2020 07:05:50 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05OB3ocl041599;
+ Wed, 24 Jun 2020 07:05:49 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31uwysn1gp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Jun 2020 07:05:49 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05OB1RS2005458;
+ Wed, 24 Jun 2020 11:05:46 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 31uusjgh6c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Jun 2020 11:05:45 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05OB5hJk55050438
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 24 Jun 2020 11:05:43 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ED895AE04D;
+ Wed, 24 Jun 2020 11:05:42 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 380B0AE063;
+ Wed, 24 Jun 2020 11:05:41 +0000 (GMT)
+Received: from oc3871087118.ibm.com (unknown [9.145.59.63])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Wed, 24 Jun 2020 11:05:41 +0000 (GMT)
+Date: Wed, 24 Jun 2020 13:05:39 +0200
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
 Subject: Re: [PATCH V3 0/4] mm/debug_vm_pgtable: Add some more tests
-To: linux-mm@kvack.org
+Message-ID: <20200624110539.GC24934@oc3871087118.ibm.com>
 References: <1592192277-8421-1-git-send-email-anshuman.khandual@arm.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <70ddc7dd-b688-b73e-642a-6363178c8cdd@arm.com>
-Date: Wed, 24 Jun 2020 08:43:10 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ <70ddc7dd-b688-b73e-642a-6363178c8cdd@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <1592192277-8421-1-git-send-email-anshuman.khandual@arm.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <70ddc7dd-b688-b73e-642a-6363178c8cdd@arm.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-24_06:2020-06-24,
+ 2020-06-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ cotscore=-2147483648 mlxlogscore=812 spamscore=0 adultscore=0
+ clxscore=1011 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006240081
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,12 +109,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: linux-doc@vger.kernel.org,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, linux-mm@kvack.org,
+ Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Christophe Leroy <christophe.leroy@csgroup.eu>,
  Mike Rapoport <rppt@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
  linux-arm-kernel@lists.infradead.org, ziy@nvidia.com,
@@ -88,51 +131,20 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+On Wed, Jun 24, 2020 at 08:43:10AM +0530, Anshuman Khandual wrote:
 
+[...]
 
-On 06/15/2020 09:07 AM, Anshuman Khandual wrote:
-> This series adds some more arch page table helper validation tests which
-> are related to core and advanced memory functions. This also creates a
-> documentation, enlisting expected semantics for all page table helpers as
-> suggested by Mike Rapoport previously (https://lkml.org/lkml/2020/1/30/40).
+> Hello Gerald/Christophe/Vineet,
 > 
-> There are many TRANSPARENT_HUGEPAGE and ARCH_HAS_TRANSPARENT_HUGEPAGE_PUD
-> ifdefs scattered across the test. But consolidating all the fallback stubs
-> is not very straight forward because ARCH_HAS_TRANSPARENT_HUGEPAGE_PUD is
-> not explicitly dependent on ARCH_HAS_TRANSPARENT_HUGEPAGE.
-> 
-> Tested on arm64, x86 platforms but only build tested on all other enabled
-> platforms through ARCH_HAS_DEBUG_VM_PGTABLE i.e powerpc, arc, s390. The
-> following failure on arm64 still exists which was mentioned previously. It
-> will be fixed with the upcoming THP migration on arm64 enablement series.
-> 
-> WARNING .... mm/debug_vm_pgtable.c:860 debug_vm_pgtable+0x940/0xa54
-> WARN_ON(!pmd_present(pmd_mkinvalid(pmd_mkhuge(pmd))))
-> 
-> This series is based on v5.8-rc1.
-> 
-> Changes in V3:
-> 
-> - Replaced HAVE_ARCH_SOFT_DIRTY with MEM_SOFT_DIRTY
-> - Added HAVE_ARCH_HUGE_VMAP checks in pxx_huge_tests() per Gerald
-> - Updated documentation for pmd_thp_tests() per Zi Yan
-> - Replaced READ_ONCE() with huge_ptep_get() per Gerald
-> - Added pte_mkhuge() and masking with PMD_MASK per Gerald
-> - Replaced pte_same() with holding pfn check in pxx_swap_tests()
-> - Added documentation for all (#ifdef #else #endif) per Gerald
-> - Updated pmd_protnone_tests() per Gerald
-> - Updated HugeTLB PTE creation in hugetlb_advanced_tests() per Gerald
-> - Replaced [pmd|pud]_mknotpresent() with [pmd|pud]_mkinvalid()
-> - Added has_transparent_hugepage() check for PMD and PUD tests
-> - Added a patch which debug prints all individual tests being executed
-> - Updated documentation for renamed [pmd|pud]_mkinvalid() helpers
+> It would be really great if you could give this series a quick test
+> on s390/ppc/arc platforms respectively. Thank you.
 
-Hello Gerald/Christophe/Vineet,
+That worked for me with the default and debug s390 configurations.
+Would you like to try with some particular options or combinations
+of the options?
 
-It would be really great if you could give this series a quick test
-on s390/ppc/arc platforms respectively. Thank you.
-
-- Anshuman
+> - Anshuman
 
 _______________________________________________
 linux-snps-arc mailing list
