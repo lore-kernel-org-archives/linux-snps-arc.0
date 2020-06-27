@@ -4,20 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD87EC433E1
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 27 Jun 2020 14:35:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A268C433DF
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 27 Jun 2020 14:35:45 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7131B21927
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 27 Jun 2020 14:35:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DBE1120FC3
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 27 Jun 2020 14:35:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WaPK9e9x";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ek8QEdXM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7131B21927
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Mj11wukW";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="kGeCaidI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DBE1120FC3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,35 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/uX4bdOkRc/YWFxGMT+UMoFZnqp9M7ZRDHzaqFVCYHY=; b=WaPK9e9xQCyH/nBc/14HbKzt9
-	jn7owE4IDcl2GwXX0r2oV4iIsg2HB+DrM+H9zC+ECDSbMgxzyHkdrCVyZ9IYkQB2W8UhXuh19Je/b
-	fAvCnK9sGap2FXT08IB8k9VsduzUHS11/neyizZnMoWiNCYJ9VlJxZaHODdYAHTsTMoJRZP/hZ6cu
-	/55kI7JIAqQ0FJcm4koWU97ENpLi2j9MgXk3p91IH4bV15xcH2fn6G+F3R9XPK/nfhwvr8FHXynMa
-	p8TXZuuzhXX+jz0UwtaYQKHmFk2IIjUrbxh7ybv8nRdcPW4FGooZhWJlf0h1py7tJKuy01tPRx7hW
-	jF8DgcRRA==;
+	 bh=a8eEQuiGL0CYoNCog7DpyJ56EHB/PtKPGy3Wc9EcxEE=; b=Mj11wukW+BIwBJZeeyhXAuXUy
+	AjSQa8oYlZZZmjGMZP4f6A9+U2Q3Ino2ycu5o5pSd2IgYc2d63BlZEBjYy/vS3rPwa2PpDbwMuT7e
+	gGc5HJzQzjLAcwajGzIKayMPYO3y9WUyVvgCpU0WqYKRWgDGcm1IkVei3jiVJkZJ0e1LFm2L6BbH8
+	0q1tAT9P0XIDfhlVqM+1QMgSPLuSGBFP65kNICi8stCEW1tvkt9XOyjA6sRFyd3lMuA8xMf80AQPl
+	MOPdlImthaimqvUZ6zcZgF14dxYbKrN4EXHFL7KQDP4/7WL28qKGN6j9IpsML9TtnsHPGGR3q90UD
+	fwPJ1ztZw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jpBvY-0004sl-MD; Sat, 27 Jun 2020 14:35:32 +0000
+	id 1jpBvj-0004x3-VH; Sat, 27 Jun 2020 14:35:44 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpBvP-0004p1-F8; Sat, 27 Jun 2020 14:35:26 +0000
+ id 1jpBvY-0004sD-22; Sat, 27 Jun 2020 14:35:34 +0000
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D79F6218AC;
- Sat, 27 Jun 2020 14:35:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5920C20885;
+ Sat, 27 Jun 2020 14:35:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593268522;
- bh=j94cy4Zc9VoAiVFldgIblMVG+C+RlEUAxelXYBM5V1E=;
+ s=default; t=1593268531;
+ bh=ug/zgldkEF9Y1EOWxCdQbFhq6W6AubLqDruRfdpZtCU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ek8QEdXMUbv9KKSK2LO459tQ221aD0KjlKMk1ToADOdG/uJKMVv/jtHxcWdJhNcN8
- o2tkvKqcdxmxF97yGBYIjMzGcuUvsJiSUsavJlTRHEP3WjzNvHM9r2ZzK7wYmT6lf3
- hkjM8fAe/c2W6Sj9fa9FBRdCl4fvh7sbcdd3EiIg=
+ b=kGeCaidImTPJgGt9S6wijt8HSPaAsXufRU8Bw3R+Jenx9IwSCz19tOS+s33DYy3Fd
+ IcDlElpk6m8c8IYERIfYCh6px/euMBEW7PkfFZkG6NsKEPz+Lcoqc14NcBs88W/xGZ
+ 9cQUVwRq1YyhbGySMR8ZhKm3fhDosCXptMIYyEmY=
 From: Mike Rapoport <rppt@kernel.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 2/8] opeinrisc: switch to generic version of pte allocation
-Date: Sat, 27 Jun 2020 17:34:47 +0300
-Message-Id: <20200627143453.31835-3-rppt@kernel.org>
+Subject: [PATCH 3/8] xtensa: switch to generic version of pte allocation
+Date: Sat, 27 Jun 2020 17:34:48 +0300
+Message-Id: <20200627143453.31835-4-rppt@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200627143453.31835-1-rppt@kernel.org>
 References: <20200627143453.31835-1-rppt@kernel.org>
@@ -94,71 +93,99 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-Replace pte_alloc_one(), pte_free() and pte_free_kernel() with the generic
-implementation. The only actual functional change is the addition of
-__GFP_ACCOUT for the allocation of the user page tables.
+xtensa clears PTEs during allocation of the page tables and pte_clear()
+sets the PTE to a non-zero value. Splitting ptes_clear() helper out of
+pte_alloc_one() and pte_alloc_one_kernel() allows reuse of base generic
+allocation methods (__pte_alloc_one() and __pte_alloc_one_kernel()) and the
+common GFP mask for page table allocations.
 
-The pte_alloc_one_kernel() is kept back because its implementation on
-openrisc is different than the generic one.
+The pte_free() and pte_free_kernel() implementations on xtensa are
+identical to the generic ones and can be dropped.
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/openrisc/include/asm/pgalloc.h | 33 +++--------------------------
- 1 file changed, 3 insertions(+), 30 deletions(-)
+ arch/xtensa/include/asm/pgalloc.h | 41 ++++++++++++++-----------------
+ 1 file changed, 19 insertions(+), 22 deletions(-)
 
-diff --git a/arch/openrisc/include/asm/pgalloc.h b/arch/openrisc/include/asm/pgalloc.h
-index da12a4c38c4b..88820299ecc4 100644
---- a/arch/openrisc/include/asm/pgalloc.h
-+++ b/arch/openrisc/include/asm/pgalloc.h
-@@ -20,6 +20,9 @@
- #include <linux/mm.h>
- #include <linux/memblock.h>
+diff --git a/arch/xtensa/include/asm/pgalloc.h b/arch/xtensa/include/asm/pgalloc.h
+index 1d38f0e755ba..60ee94b42850 100644
+--- a/arch/xtensa/include/asm/pgalloc.h
++++ b/arch/xtensa/include/asm/pgalloc.h
+@@ -8,9 +8,14 @@
+ #ifndef _XTENSA_PGALLOC_H
+ #define _XTENSA_PGALLOC_H
+ 
++#ifdef CONFIG_MMU
+ #include <linux/highmem.h>
+ #include <linux/slab.h>
  
 +#define __HAVE_ARCH_PTE_ALLOC_ONE_KERNEL
++#define __HAVE_ARCH_PTE_ALLOC_ONE
 +#include <asm-generic/pgalloc.h>
 +
- extern int mem_init_done;
- 
- #define pmd_populate_kernel(mm, pmd, pte) \
-@@ -61,38 +64,8 @@ extern inline pgd_t *pgd_alloc(struct mm_struct *mm)
+ /*
+  * Allocating and freeing a pmd is trivial: the 1-entry pmd is
+  * inside the pgd, so has no extra memory associated with it.
+@@ -33,45 +38,37 @@ static inline void pgd_free(struct mm_struct *mm, pgd_t *pgd)
+ 	free_page((unsigned long)pgd);
  }
- #endif
  
--static inline void pgd_free(struct mm_struct *mm, pgd_t *pgd)
--{
--	free_page((unsigned long)pgd);
--}
--
- extern pte_t *pte_alloc_one_kernel(struct mm_struct *mm);
++static inline void ptes_clear(pte_t *ptep)
++{
++	int i;
++
++	for (i = 0; i < PTRS_PER_PTE; i++)
++		pte_clear(NULL, 0, ptep + i);
++}
++
+ static inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
+ {
+ 	pte_t *ptep;
+-	int i;
  
--static inline struct page *pte_alloc_one(struct mm_struct *mm)
--{
--	struct page *pte;
--	pte = alloc_pages(GFP_KERNEL, 0);
+-	ptep = (pte_t *)__get_free_page(GFP_KERNEL);
++	ptep = (pte_t *)__pte_alloc_one_kernel(mm);
+ 	if (!ptep)
+ 		return NULL;
+-	for (i = 0; i < 1024; i++)
+-		pte_clear(NULL, 0, ptep + i);
++	ptes_clear(ptep);
+ 	return ptep;
+ }
+ 
+ static inline pgtable_t pte_alloc_one(struct mm_struct *mm)
+ {
+-	pte_t *pte;
+ 	struct page *page;
+ 
+-	pte = pte_alloc_one_kernel(mm);
 -	if (!pte)
 -		return NULL;
--	clear_page(page_address(pte));
--	if (!pgtable_pte_page_ctor(pte)) {
--		__free_page(pte);
--		return NULL;
+-	page = virt_to_page(pte);
+-	if (!pgtable_pte_page_ctor(page)) {
+-		__free_page(page);
++	page = __pte_alloc_one(mm, GFP_PGTABLE_USER);
++	if (!page)
+ 		return NULL;
 -	}
--	return pte;
--}
--
++	ptes_clear(page_address(page));
+ 	return page;
+ }
+ 
 -static inline void pte_free_kernel(struct mm_struct *mm, pte_t *pte)
 -{
 -	free_page((unsigned long)pte);
 -}
 -
--static inline void pte_free(struct mm_struct *mm, struct page *pte)
+-static inline void pte_free(struct mm_struct *mm, pgtable_t pte)
 -{
 -	pgtable_pte_page_dtor(pte);
 -	__free_page(pte);
 -}
--
- #define __pte_free_tlb(tlb, pte, addr)	\
- do {					\
- 	pgtable_pte_page_dtor(pte);	\
+ #define pmd_pgtable(pmd) pmd_page(pmd)
++#endif CONFIG_MMU
+ 
+ #endif /* _XTENSA_PGALLOC_H */
 -- 
 2.26.2
 
