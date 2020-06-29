@@ -2,63 +2,77 @@ Return-Path: <SRS0=5kko=AK=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0476BC433DF
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 29 Jun 2020 08:33:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5FF2C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 29 Jun 2020 14:01:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C57D823359
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 29 Jun 2020 08:32:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7A63923D5A
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 29 Jun 2020 14:01:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rlMgZJNq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C57D823359
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KoIyfJis";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KsYeoNtN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A63923D5A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=o41e2+l6/NLJl51wWmAuHeefPjirHj6hHQq5LbX3HTc=; b=rlMgZJNqq1SU3P01STs7XJuAB
-	P1P/wRZkwPnnTSZAq9TSqL9YlDpbsOgqAufARW+IctzuMfhY7Cf0R1xNhDm2xQDHcuXUw149DAGnr
-	U/3xWs4UKBCgfUGJSxMv3Xj1EJqgLkVbDWnjDb5fTV7D5zhVx8J9Cv+drrlwh+7pER96CqGGkfh2i
-	arNr+P15UAq132H7MJ/7NjAuH0nE5rZ83jM3cLuEk+ucklOOhv2//05mIes83PF5ZT7T4iRBwmi0+
-	y8mUxkTn1q/jxE9Rz4VVTtX2QKysv/WzbnQvr0szE3hydlGit1jof2QLN9QpfyhpFjobUgMBOMcYS
-	T0vlz3TpQ==;
+	 bh=Ya/0r0mSnilLJ/RAPZT+GNviE+BifAEAAZ8NxAOhccA=; b=KoIyfJisGQ8dGWzmPP/01ssnH
+	OqVnL4kDN1HnLPP41oTDTG//cKLheY200RHY3ySEhmJAZN3R/cxeIpft9doTTIpE6PNMCtZf6vS8Q
+	OeNyuCvCEZCAjNpkEgHGlIrQX75uTOTmjeplQtgwgAz+39Q3RZRQAPfA75kAS5zHYVmX7k9TZmpP8
+	1dFJ6C/cCe2o/vedqRkk/dJ1kTXgSK87dOKbjVV/6Lzsqz58+K2S9VcL/xqf5aV1DBebyA7xBamBT
+	REWZC7GFfvhsFWTlQIzoLA+9Re7bKgifKhRCfauprSCG2lhn4dSg9VwTcw3afR+rYOGJMmuAOUw12
+	9vK+n35qg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jppDm-00060l-Rm; Mon, 29 Jun 2020 08:32:58 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jppDh-0005zT-GW; Mon, 29 Jun 2020 08:32:54 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 77D68D6E;
- Mon, 29 Jun 2020 01:32:52 -0700 (PDT)
-Received: from [10.163.83.176] (unknown [10.163.83.176])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 94C2D3F71E;
- Mon, 29 Jun 2020 01:32:41 -0700 (PDT)
-Subject: Re: [PATCH V3 0/4] mm/debug_vm_pgtable: Add some more tests
-To: Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>
-References: <1592192277-8421-1-git-send-email-anshuman.khandual@arm.com>
- <70ddc7dd-b688-b73e-642a-6363178c8cdd@arm.com>
- <20200624110539.GC24934@oc3871087118.ibm.com>
- <20200624134808.0c460862@thinkpad>
- <20200624144015.GD24934@oc3871087118.ibm.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <c4a8b4fe-b9f4-b2ec-12ea-7143e4ca0464@arm.com>
-Date: Mon, 29 Jun 2020 14:02:31 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+	id 1jpuLm-0003dW-TK; Mon, 29 Jun 2020 14:01:34 +0000
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jpuLh-0003cL-EG; Mon, 29 Jun 2020 14:01:30 +0000
+Received: by mail-qv1-xf44.google.com with SMTP id di5so2732947qvb.11;
+ Mon, 29 Jun 2020 07:01:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8FrjxWdY/Gjwce8t0JyeJsnYTMhQlskObJO/oLUWzfo=;
+ b=KsYeoNtN/hmKD60koJPvKXhY1HT5rh0BdsIymjK2OY+Ah5csm67fWOMInZoSB5MyiF
+ z81tpEOU7gbEs2Eu9dK1IU73/ldLFTcOuXQ4NQt1zxjMaUlUH9xpuPmQkDZyG2XpHE5A
+ z0rDQ6F3p6odfLFvjQ20/v+vqn3osPhCyUtrTurdqBrAHPO36wwugYL1OqGKXGdazN2M
+ p5mNNLqMsIqkd1lea0NNKZvGNZ4NvI4uksXON6N73LrjpsMxdX6M9+heVdl/zTyGvkYj
+ tkHXxI8XU7hiVfWyn9RhwdGCF2zdf8eMUPHFh6FNadOyOkvVyTEcnpjW7aa7VVLEWYLN
+ vdxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8FrjxWdY/Gjwce8t0JyeJsnYTMhQlskObJO/oLUWzfo=;
+ b=bldrx9R97zz65eteFHckQ3NpK1pd52B28cVw4IwvzdLfsSOyKXDyd3esBNfQcxzCKP
+ jJ08K7p2NPhy9wHJyvWkr/a0XefGOshD8BcXK7Ert+XGQ59OxysMpT2enRgR3DxyGrIc
+ c1dxq3U4J/aYEtHPU4E1kjTRrNOKRtDaadtFG53eYm5NcEw46sJqxmF2U+ctAfdsd9nx
+ D/vdVZI5Z2H52A3P3aYw4KRlpxIE0AZlKzhrUCo9edSPvj52lncsH2h8Mar3Ckt4PNaJ
+ TFT4ZbxS2vfvedKXR+630cggAGsh0K4+X2Nnv32FsAJ68U1PIcy32YkZ0gwwRZ0jRGFY
+ qRKA==
+X-Gm-Message-State: AOAM530U1+27UESa6JoYNjC9hdgsEcS0pbkE/GNIFjXIFua4Sd6FGOw+
+ 2KaVCQPwZetmld9HxtZWkVurQgdc/Bljpms7ULg=
+X-Google-Smtp-Source: ABdhPJwRvnHK4e9FuZZ286EO2eHunvWxUS+jw1hxD70l+wfbFL9aDwHZRKLC21a2KPKCyOwmNUkOhP18WuRSaAVXDjg=
+X-Received: by 2002:ad4:4cc3:: with SMTP id i3mr8130354qvz.114.1593439286277; 
+ Mon, 29 Jun 2020 07:01:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200624144015.GD24934@oc3871087118.ibm.com>
-Content-Language: en-US
+References: <20200627143453.31835-1-rppt@kernel.org>
+In-Reply-To: <20200627143453.31835-1-rppt@kernel.org>
+From: Pekka Enberg <penberg@gmail.com>
+Date: Mon, 29 Jun 2020 17:01:14 +0300
+Message-ID: <CAOJsxLE47WP9aMY3nh=E7C1a_esHt=sBFWCnsVA2umZ7TZ6TTA@mail.gmail.com>
+Subject: Re: [PATCH 0/8] mm: cleanup usage of <asm/pgalloc.h>
+To: Mike Rapoport <rppt@kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,73 +84,43 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, linux-mm@kvack.org,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
- x86@kernel.org, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Mike Rapoport <rppt@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- ziy@nvidia.com, Catalin Marinas <catalin.marinas@arm.com>,
- linux-snps-arc@lists.infradead.org, Vasily Gorbik <gor@linux.ibm.com>,
- Borislav Petkov <bp@alien8.de>, Paul Walmsley <paul.walmsley@sifive.com>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- christophe.leroy@c-s.fr, Vineet Gupta <vgupta@synopsys.com>,
- linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
+Cc: ia64 <linux-ia64@vger.kernel.org>, linux-sh@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, linux-mips@vger.kernel.org,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>, linux-csky@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ "list@ebiederm.org:DOCUMENTATION <linux-doc@vger.kernel.org>,
+ list@ebiederm.org:MEMORY MANAGEMENT <linux-mm@kvack.org>,
+ " <linux-arch@vger.kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ linux-hexagon@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Mike Rapoport <rppt@linux.ibm.com>, Abdul Haleem <abdhalee@linux.vnet.ibm.com>,
+ linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-s390@vger.kernel.org,
+ linux-um@lists.infradead.org, Steven Rostedt <rostedt@goodmis.org>,
+ linux-m68k@lists.linux-m68k.org, openrisc@lists.librecores.org,
+ Andy Lutomirski <luto@kernel.org>, Stafford Horne <shorne@gmail.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-parisc@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-alpha@vger.kernel.org,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+On Sat, Jun 27, 2020 at 5:35 PM Mike Rapoport <rppt@kernel.org> wrote:
+> Most architectures have very similar versions of pXd_alloc_one() and
+> pXd_free_one() for intermediate levels of page table.
+> These patches add generic versions of these functions in
+> <asm-generic/pgalloc.h> and enable use of the generic functions where
+> appropriate.
 
+Very nice cleanup series to the page table code!
 
-On 06/24/2020 08:10 PM, Alexander Gordeev wrote:
-> On Wed, Jun 24, 2020 at 01:48:08PM +0200, Gerald Schaefer wrote:
->> On Wed, 24 Jun 2020 13:05:39 +0200
->> Alexander Gordeev <agordeev@linux.ibm.com> wrote:
->>
->>> On Wed, Jun 24, 2020 at 08:43:10AM +0530, Anshuman Khandual wrote:
->>>
->>> [...]
->>>
->>>> Hello Gerald/Christophe/Vineet,
->>>>
->>>> It would be really great if you could give this series a quick test
->>>> on s390/ppc/arc platforms respectively. Thank you.
->>>
->>> That worked for me with the default and debug s390 configurations.
->>> Would you like to try with some particular options or combinations
->>> of the options?
->>
->> It will be enabled automatically on all archs that set
->> ARCH_HAS_DEBUG_VM_PGTABLE, which we do for s390 unconditionally.
->> Also, DEBUG_VM has to be set, which we have only in the debug config.
->> So only the s390 debug config will have it enabled, you can check
->> dmesg for "debug_vm_pgtable" to see when / where it was run, and if it
->> triggered any warnings.
-> 
-> Yes, that is what I did ;)
-> 
-> I should have been more clear. I wonder whether Anshuman has in
-> mind other options which possibly makes sense to set or unset
-> and check how it goes with non-standard configurations.
+FWIW:
 
-After enabling CONFIG_DEBUG_VM either explicitly or via DEBUG_VM, ideally
-any memory config combination on s390 which can change platform page table
-helpers (validated with CONFIG_DEBUG_VM) should also get tested. Recently,
-there was a kernel crash on ppc64 [1] and a build failure on ppc32 [2] for
-some particular configs. Hence it will be great if you could run this test
-on multiple s390 configurations.
-
-[1] 787d563b8642f35c5 ("mm/debug_vm_pgtable: fix kernel crash by checking for THP support")
-[2] 9449c9cb420b249eb ("mm/debug_vm_pgtable: fix build failure with powerpc 8xx")
-
-- Anshuman
+Reviewed-by: Pekka Enberg <penberg@kernel.org>
 
 _______________________________________________
 linux-snps-arc mailing list
