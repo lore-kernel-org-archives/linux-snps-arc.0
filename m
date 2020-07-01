@@ -2,137 +2,151 @@ Return-Path: <SRS0=/nRw=AM=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A310C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  1 Jul 2020 19:46:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9C69C433DF
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  1 Jul 2020 20:10:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CF31220760
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  1 Jul 2020 19:46:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 470F32082F
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  1 Jul 2020 20:10:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bADt2rCD";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZHFFI03E"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CF31220760
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="3JRUDQJe";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="gGOyu/D6";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="dg2tnT5T"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 470F32082F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7T/6axeLze6qqJsAlJQOBOjVVcxcC+Th+omsImTxk9I=; b=bADt2rCDUFeYOldhPGXBn3NN7
-	tY6W7kyUKdoj2Wy1xHk2kZ07G4Uvjgymqy1V4U44WQVtBiF12VuGkEaVw84qFuXhT/xjJQhPngkVn
-	LRqjS+ggAqU1dLKktwMd0LkAwCRL4dvWrLnfx/Z/Zqfzmv5qrU590rADcrJnVeu4j6bKflLnsISJW
-	xTivh8wetC9GveW91iYtkOEGQ3rc+OGwNhS75pEyWp1bQpdfrh3QD7u9yb6FW6PAIRYjdArf2vJ0b
-	wugF3s0FEsx2jlUwBXYRFvoejgSahSl0YQt0PMuKTPnNFjZZQD1OdktvXj8PpRhOBRJS0Jq/GB8ha
-	9MzB25X7A==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:Content-ID:Message-ID:Date:Subject:To:From:Reply-To:Cc:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Cx98MPfS1EoePDkmLY4ryk/jsMLMNxZhJzZfAVFnd7M=; b=3JRUDQJeJJzpIN3jFmKOY519Qc
+	S9sXcFDOf555pbgCIvqJEmO8RB46Y7kMIXRE8LUNuLo8hQLqQkyJP+Wp2cg+43OI5moeJdce9oazM
+	YMRaJYJW9gi47Lc2tEp9V9DT0JdrCELt7xMzKQO+6dDmXHqf8jaRipvj4jzgnIsxno85zUgKXaU9M
+	Q0mFzfD9npT31y0gBffqqbQaGHdqGYMwjAbu3nl7N4CX+I9kP+gQCIn9RBJ44W0YzdlbiwYjJSlsc
+	XrHtqKADei503exEJObK/HOXIbb0CxxfG8aRZ+T24G+24CmVm3woMlLbRpLCgaMv0ULgbBgNTu50E
+	uPm8zijw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jqigE-0000HE-AH; Wed, 01 Jul 2020 19:46:02 +0000
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844])
+	id 1jqj3T-0001qt-HP; Wed, 01 Jul 2020 20:10:03 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jqigC-0000Gd-5h
- for linux-snps-arc@lists.infradead.org; Wed, 01 Jul 2020 19:46:01 +0000
-Received: by mail-qt1-x844.google.com with SMTP id d27so19425575qtg.4
- for <linux-snps-arc@lists.infradead.org>; Wed, 01 Jul 2020 12:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=c4zpncRf/53Fw9b9WE/YB69yuU0m4G/4KFqvY9EzQz4=;
- b=ZHFFI03EkAJoTrFrhjztPadokihcFc5EaTlQ32yH4snA9Rhf+o9vR+ddypcPqnl133
- uqkT7s68ADcLF+y1n5YSvzbhlCdMd0JtEqdNQm0cF/h91ZfrC5xxF8K7o5bK8y5cjinS
- 7tOolnYOvZUNbMWXVatbVKq4g4ZsJTdc3+w1IkuDDEwN63gFPoph9Wafgm9Gu3FOpJyv
- 8GYv+VeEcbcTsQln+F/WSSSzrqWEdH0fhkXhccUtbM3yhccfhhsC+3Iq+bMUWWq9zgrY
- zrt4IXtXCkiJx1K3CD7zCkyV6ypAnmn8l+dlkwlEyoULKIeacXiX8KyWGXCJ3Dk+Ezlt
- +t4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=c4zpncRf/53Fw9b9WE/YB69yuU0m4G/4KFqvY9EzQz4=;
- b=WkxCHScn6Uu0Ofhx5zlt15h7TA9pk34eZzRSLrQ+gRYtH42g9xIZduId3Q7WpeSqNo
- ebswUjuq3Mfz0aO9yuLVVieAfueWn1+vr9m9sC/OWqLgRoU6YDfZuUeCq5PQVUfzjsx2
- sV8ln4PvbNcchpCJ1NMMtAID0k/4FYyGDs8rQIDrXX247qHj9hN3kACtwdt+HfcF3xoO
- pd2I+mvYC1/wFWeGuCDf9Z6sjJUEo0wa9KHetsvCKIBuQd0ie2GftFNp88qSloQ23I/r
- QnYdvfmpET0FzxzOw4e2prVPrnNqtafNAIpqpjlPWTg48YDW6qebmKPmKwzXLStqWui8
- Hziw==
-X-Gm-Message-State: AOAM5318DjIZXb0SKsilIeaAds6EsHzbhg8oWawZ8Y7rYM5fPCYpGwgN
- hgz/gvk2QZPVNPooYh6Bg3rvzf+CFZg=
-X-Google-Smtp-Source: ABdhPJxNWtKA+bnt9TEuEfdPWlOEHLq7bf+HDcuo9fedZUFGwWW8/xALI71e/NSpWSOVwzhoOp2dNw==
-X-Received: by 2002:ac8:7a69:: with SMTP id w9mr28217718qtt.179.1593632757894; 
- Wed, 01 Jul 2020 12:45:57 -0700 (PDT)
-Received: from [192.168.1.4] ([177.194.48.209])
- by smtp.googlemail.com with ESMTPSA id x14sm6242635qki.65.2020.07.01.12.45.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 12:45:57 -0700 (PDT)
-Subject: Re: [PATCH v7.1 01/13] ARC: ABI Implementation
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-References: <20200615201441.31820-2-vgupta@synopsys.com>
- <20200701000643.14065-1-vgupta@synopsys.com>
- <b6322150-240a-5f06-b700-83e3eb79deec@linaro.org>
- <96a79297-9161-89a2-25d6-473979525367@synopsys.com>
-From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
- mQINBFcVGkoBEADiQU2x/cBBmAVf5C2d1xgz6zCnlCefbqaflUBw4hB/bEME40QsrVzWZ5Nq
- 8kxkEczZzAOKkkvv4pRVLlLn/zDtFXhlcvQRJ3yFMGqzBjofucOrmdYkOGo0uCaoJKPT186L
- NWp53SACXguFJpnw4ODI64ziInzXQs/rUJqrFoVIlrPDmNv/LUv1OVPKz20ETjgfpg8MNwG6
- iMizMefCl+RbtXbIEZ3TE/IaDT/jcOirjv96lBKrc/pAL0h/O71Kwbbp43fimW80GhjiaN2y
- WGByepnkAVP7FyNarhdDpJhoDmUk9yfwNuIuESaCQtfd3vgKKuo6grcKZ8bHy7IXX1XJj2X/
- BgRVhVgMHAnDPFIkXtP+SiarkUaLjGzCz7XkUn4XAGDskBNfbizFqYUQCaL2FdbW3DeZqNIa
- nSzKAZK7Dm9+0VVSRZXP89w71Y7JUV56xL/PlOE+YKKFdEw+gQjQi0e+DZILAtFjJLoCrkEX
- w4LluMhYX/X8XP6/C3xW0yOZhvHYyn72sV4yJ1uyc/qz3OY32CRy+bwPzAMAkhdwcORA3JPb
- kPTlimhQqVgvca8m+MQ/JFZ6D+K7QPyvEv7bQ7M+IzFmTkOCwCJ3xqOD6GjX3aphk8Sr0dq3
- 4Awlf5xFDAG8dn8Uuutb7naGBd/fEv6t8dfkNyzj6yvc4jpVxwARAQABtElBZGhlbWVydmFs
- IFphbmVsbGEgTmV0dG8gKExpbmFybyBWUE4gS2V5KSA8YWRoZW1lcnZhbC56YW5lbGxhQGxp
- bmFyby5vcmc+iQI3BBMBCAAhBQJXFRpKAhsDBQsJCAcDBRUKCQgLBRYCAwEAAh4BAheAAAoJ
- EKqx7BSnlIjv0e8P/1YOYoNkvJ+AJcNUaM5a2SA9oAKjSJ/M/EN4Id5Ow41ZJS4lUA0apSXW
- NjQg3VeVc2RiHab2LIB4MxdJhaWTuzfLkYnBeoy4u6njYcaoSwf3g9dSsvsl3mhtuzm6aXFH
- /Qsauav77enJh99tI4T+58rp0EuLhDsQbnBic/ukYNv7sQV8dy9KxA54yLnYUFqH6pfH8Lly
- sTVAMyi5Fg5O5/hVV+Z0Kpr+ZocC1YFJkTsNLAW5EIYSP9ftniqaVsim7MNmodv/zqK0IyDB
- GLLH1kjhvb5+6ySGlWbMTomt/or/uvMgulz0bRS+LUyOmlfXDdT+t38VPKBBVwFMarNuREU2
- 69M3a3jdTfScboDd2ck1u7l+QbaGoHZQ8ZNUrzgObltjohiIsazqkgYDQzXIMrD9H19E+8fw
- kCNUlXxjEgH/Kg8DlpoYJXSJCX0fjMWfXywL6ZXc2xyG/hbl5hvsLNmqDpLpc1CfKcA0BkK+
- k8R57fr91mTCppSwwKJYO9T+8J+o4ho/CJnK/jBy1pWKMYJPvvrpdBCWq3MfzVpXYdahRKHI
- ypk8m4QlRlbOXWJ3TDd/SKNfSSrWgwRSg7XCjSlR7PNzNFXTULLB34sZhjrN6Q8NQZsZnMNs
- TX8nlGOVrKolnQPjKCLwCyu8PhllU8OwbSMKskcD1PSkG6h3r0AquQINBFcVGkoBEACgAdbR
- Ck+fsfOVwT8zowMiL3l9a2DP3Eeak23ifdZG+8Avb/SImpv0UMSbRfnw/N81IWwlbjkjbGTu
- oT37iZHLRwYUFmA8fZX0wNDNKQUUTjN6XalJmvhdz9l71H3WnE0wneEM5ahu5V1L1utUWTyh
- VUwzX1lwJeV3vyrNgI1kYOaeuNVvq7npNR6t6XxEpqPsNc6O77I12XELic2+36YibyqlTJIQ
- V1SZEbIy26AbC2zH9WqaKyGyQnr/IPbTJ2Lv0dM3RaXoVf+CeK7gB2B+w1hZummD21c1Laua
- +VIMPCUQ+EM8W9EtX+0iJXxI+wsztLT6vltQcm+5Q7tY+HFUucizJkAOAz98YFucwKefbkTp
- eKvCfCwiM1bGatZEFFKIlvJ2QNMQNiUrqJBlW9nZp/k7pbG3oStOjvawD9ZbP9e0fnlWJIsj
- 6c7pX354Yi7kxIk/6gREidHLLqEb/otuwt1aoMPg97iUgDV5mlNef77lWE8vxmlY0FBWIXuZ
- yv0XYxf1WF6dRizwFFbxvUZzIJp3spAao7jLsQj1DbD2s5+S1BW09A0mI/1DjB6EhNN+4bDB
- SJCOv/ReK3tFJXuj/HbyDrOdoMt8aIFbe7YFLEExHpSk+HgN05Lg5TyTro8oW7TSMTk+8a5M
- kzaH4UGXTTBDP/g5cfL3RFPl79ubXwARAQABiQIfBBgBCAAJBQJXFRpKAhsMAAoJEKqx7BSn
- lIjvI/8P/jg0jl4Tbvg3B5kT6PxJOXHYu9OoyaHLcay6Cd+ZrOd1VQQCbOcgLFbf4Yr+rE9l
- mYsY67AUgq2QKmVVbn9pjvGsEaz8UmfDnz5epUhDxC6yRRvY4hreMXZhPZ1pbMa6A0a/WOSt
- AgFj5V6Z4dXGTM/lNManr0HjXxbUYv2WfbNt3/07Db9T+GZkpUotC6iknsTA4rJi6u2ls0W9
- 1UIvW4o01vb4nZRCj4rni0g6eWoQCGoVDk/xFfy7ZliR5B+3Z3EWRJcQskip/QAHjbLa3pml
- xAZ484fVxgeESOoaeC9TiBIp0NfH8akWOI0HpBCiBD5xaCTvR7ujUWMvhsX2n881r/hNlR9g
- fcE6q00qHSPAEgGr1bnFv74/1vbKtjeXLCcRKk3Ulw0bY1OoDxWQr86T2fZGJ/HIZuVVBf3+
- gaYJF92GXFynHnea14nFFuFgOni0Mi1zDxYH/8yGGBXvo14KWd8JOW0NJPaCDFJkdS5hu0VY
- 7vJwKcyHJGxsCLU+Et0mryX8qZwqibJIzu7kUJQdQDljbRPDFd/xmGUFCQiQAncSilYOcxNU
- EMVCXPAQTteqkvA+gNqSaK1NM9tY0eQ4iJpo+aoX8HAcn4sZzt2pfUB9vQMTBJ2d4+m/qO6+
- cFTAceXmIoFsN8+gFN3i8Is3u12u8xGudcBPvpoy4OoG
-Message-ID: <7b8f6b61-c75c-b0b5-d2fc-89a6fa007569@linaro.org>
-Date: Wed, 1 Jul 2020 16:45:54 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <96a79297-9161-89a2-25d6-473979525367@synopsys.com>
+ id 1jqj3R-0001qM-E6
+ for linux-snps-arc@lists.infradead.org; Wed, 01 Jul 2020 20:10:02 +0000
+Received: from mailhost.synopsys.com (us03-mailhost1.synopsys.com [10.4.17.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 47CA2406A5
+ for <linux-snps-arc@lists.infradead.org>; Wed,  1 Jul 2020 20:10:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1593634200; bh=kCc0CVYOz0RQvm3odMx0k54rvwgf+jCJ1blcGJ75LkM=;
+ h=From:To:Subject:Date:From;
+ b=gGOyu/D6Un5qMpfAOXulE/jAvPElSE6IBR1UYphobborkHUDgpig/cCkutAi0aNiq
+ FFjOtM/RJL9TtmIJjzXRjf28bPCgARckQnrYfOIWLNkNtL9mtQ6dXL1r1XkJrjjj06
+ RJ3WpRpmB1YLdWhh4/oGnP4ewsP4AhZl7BTJ3k8CkqbyWhRc4EnJBqFIrsvhC3tFih
+ H3e3vVptA2aRA2w3yxyH+kLfGyKQV7MUo/7Vftc2f6WM6vtyUbrvjB/WV5IPz1bhT3
+ 9cJFMFkd41zRNrV0MHzC0Uvjf/fM/WFYocc6x5pBkIGaWe7m8mB1X0admdx6H0S1us
+ v/LpQZu6byPsg==
+Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com
+ [10.4.161.139])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id EF8F2A0077
+ for <linux-snps-arc@lists.infradead.org>; Wed,  1 Jul 2020 20:09:59 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02lp2057.outbound.protection.outlook.com [104.47.36.57])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id 57AD08111C
+ for <linux-snps-arc@lists.infradead.org>; Wed,  1 Jul 2020 20:09:58 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=vgupta@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="dg2tnT5T";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EniV9aghwkKaUd6lop+Ut8OXFGd/UYbNqVUWKXYExb13HlXgp08MBVURE8nHz6gFbi6hJr4jYaVz8a65s3Urk6cYS7C0SQrkzyePjMyr7aw7OXFuMeZoCEvxHlg576QCxEarwRcCrBzeDcNtNa+fQtBeBnQ0teXKQq/gVvHEjs/lxqyXwf02gDln0yzJ6IpJYdABjfwNGAi9gYEaPkbd/yFFezz4S4Q04qPJGOdWdDJ+za/e6vy1cjmgNxsO8IK9a6O8jZgov0FffEIwAw3zUSFA3Sk251lhFA8RQaGkKSYVKi2Ph3CcfDV27dbui8jg4PCqtZDXVVJ37NAgafEeqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kCc0CVYOz0RQvm3odMx0k54rvwgf+jCJ1blcGJ75LkM=;
+ b=oCDHlVKv1iNphjr1cZUanEJF0R5O3KqzTTWnsG/N5woQqxDRuQzL3FrM23KihhVFpBw+xCfL19A4nGzWsFjigIGZ15wNU+PrDRQg1p6fzaPvKypP9IXS7H9gxafUh3LgA7kpqH/2sJA4mX76Vf3vzX77pls2WxXBqgG2SbMmbkXA6ltDfRk7I8ChpIvlMSKguy8Z2NaW2tLXqpqMUZlnU6EHVP2USAm1uIlSloFx/Ej5Tv0XHYJfXqnTWPxnTcDcEa6Vtwmv8wEu96uzQeO/yRe5bJ5V5vmDsmlQJ4/QzVrZAm3zLNJ2ABDYa1VbZx9cGEp776Pcks0xUbD/OW2LxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kCc0CVYOz0RQvm3odMx0k54rvwgf+jCJ1blcGJ75LkM=;
+ b=dg2tnT5T9F8TpndQ3WRK0KxbFbN/zNhxWPv4i4eM4+wmtKkW0uTchU8Gii5Z98pAKskUW/LBwrLL9TjAvL/FKbSk0Chf2H+7/vYev27A2Hks3pkSaQpeoSmpOsSG4Acofi59AIslEAEJD7DePAnFwlNMb3YosF8MNV8HR6OlfaY=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BY5PR12MB3938.namprd12.prod.outlook.com (2603:10b6:a03:1af::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.21; Wed, 1 Jul
+ 2020 20:09:55 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::3d4f:7ae8:8767:75a4]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::3d4f:7ae8:8767:75a4%7]) with mapi id 15.20.3153.020; Wed, 1 Jul 2020
+ 20:09:55 +0000
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: arcml <linux-snps-arc@lists.infradead.org>
+Subject: list messages lost due to disk failure
+Thread-Topic: list messages lost due to disk failure
+Thread-Index: AQHWT+OWmk5Kn2DRHky8deZFMPOv8Q==
+Date: Wed, 1 Jul 2020 20:09:55 +0000
+Message-ID: <e8229fd5-3ef1-112b-fe0c-1daf8a4ec785@synopsys.com>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+authentication-results: lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=none action=none
+ header.from=synopsys.com;
+x-originating-ip: [2601:641:c100:83a0:fee2:8ed0:e900:96d1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: be3ad521-ae3c-4e05-e47f-08d81dfab90a
+x-ms-traffictypediagnostic: BY5PR12MB3938:
+x-microsoft-antispam-prvs: <BY5PR12MB39383E983ED0E0171704D5BEB66C0@BY5PR12MB3938.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 04519BA941
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8/FPKQhPM8PN/VM7dmyXU3fHYFgDRXoJVfGadXs7ph72CoP5h20ltrF2hgxP+faqQ40zy/jRuCgKXBiRCsZSzBAct+4YMKkHFnKx45dZgps16F8x+tJ+ZCWuB/6A8pVqKsIHp7zwNlnzB6pm2JaJXCPMFdZlkyF/FUnQYzbTWL3LYyBzftFsznIUkEcLoJnj15Mc4+lm2eMPCMq2WGKMJW1CMcaZiKbxi0N6lHpuv04TZJGJWlVvAW1yWNYTD9fDeX5eArp8z+kvM5doaA3FKITUhMuNBTB5cSHl/R0geaNspwnOVfbjRCaIAq/U13hbdesy9TEKJsof3IZzNL6Y9FQwLtUMYfABFJES3hx5tAYLr3Qx5lK06JDi1Yfm+bVA
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(346002)(376002)(39860400002)(396003)(366004)(136003)(186003)(83380400001)(31686004)(31696002)(8676002)(8936002)(86362001)(478600001)(316002)(6512007)(6916009)(4744005)(2906002)(6506007)(36756003)(15650500001)(6486002)(2616005)(66446008)(76116006)(66556008)(64756008)(5660300002)(66476007)(66946007)(71200400001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: zSa3Nl+EqpiLehdu/FHy/eDx39P25+57CqBY6doHps/nZjcNAN9A0oiZ1IGyxfm6S7EnX45hQ2zoR6Iv/hGkobZv7D/VNRhYIZfGmTywdX1OpkIpe6fuUCOn94vOGL8/PW0oJK44N5gs9VqtvS4nR1DXDo4jxR2tsqUuHViIrOFdOkV0InBL/lv0ixFusVHUpZQmWCBURWJBqsR1HQSVsMM/aPs5aF677xzOO2udWbqk69NP718B3matJGUfSyUqaX2HTbF6jrF4afzsxVt2lu3ogd/AZGVi8v656p3QrEcDtfwPMm/zRBPVB74I+oi/BufkzUrZz7MDa5DI7nEUDwiEnG7bEmGHoCD2gR4wynej7VpWHb8frBLdB/zDwqGdKrOcdD9CunUUYwYXlFkVYjtA+wJoWeWEdFzxU/SRFFuS7Y50IU0nTSJ0VYZ7Ku2glIeGfQVbDpEZrwZrHuMu9YsELG39Bt7mpden2UfZz7ye/UQLXdm1trlsQB9Ti8X98xA2ARRuTKJedaJNmOKLCQ8bmwO4mIbcxNjx0eBhzCRsChjlrtb3rqPdpLxY9uzz
+x-ms-exchange-transport-forked: True
+Content-ID: <C9345D7293F95E4F9D36E9912E1974EB@namprd12.prod.outlook.com>
+MIME-Version: 1.0
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be3ad521-ae3c-4e05-e47f-08d81dfab90a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2020 20:09:55.5873 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xKPCZrhPQac5YT7vkAK0deya0AkojExW2CbrO+dfspHMbKduY0+1h2BsuUIpLDM2nJE9su+6X2JZNlikJ0P9sg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3938
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200701_154600_542664_E1C03E86 
-X-CRM114-Status: GOOD (  18.48  )
+X-CRM114-CacheID: sfid-20200701_161001_752186_75DA484E 
+X-CRM114-Status: UNSURE (   8.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,108 +158,23 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: arcml <linux-snps-arc@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+Hi,
 
+The machine hosting lists.infradead.org suffered a total disk failure last weekend
+and a new machine has been drafted into service, unfortunately using the latest
+backup from May 2018. I've provided the missing messages to site maintainers so
+things should be back to normal in near future.
 
-On 01/07/2020 16:36, Vineet Gupta wrote:
-> On 7/1/20 9:50 AM, Adhemerval Zanella via Libc-alpha wrote:
->>
->>
->> On 30/06/2020 21:06, Vineet Gupta via Libc-alpha wrote:
->>> This code deals with the ARC ABI.
->>> ---
->>>    Changes since v7:
->>>      - Used void * (iso int *) in tls-macros.h
->>
->> LGTM, with just a couple of syntax nits below.
->>
->> Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
-> 
-> Thx. I suppose the process for new ports is to have a Reviewed-by on all patches,
-> squash them and push in 1 go (although in past I was asked to push the ARC elf
-> header patch).
+Also anyone who has subscribed or unsubscribed since then will need to do so
+again, and the list archives are missing.
 
-I think there is no need to squash them up in one commit, but I think
-it would be better to commit them at the same time.
-
-> Also do we need more than 1 Reviewed-by for this to be "push worthy" ?
-
-I don't think so, unless someone raise some questioning on the review
-itself.
-
-I plan to finish them up by the end of the week.
-
-> 
->>> +ENTRY (__longjmp)
->>> +
->>> +	LDR (blink, r0,  0)
->>> +	LDR (sp,    r0,  1)
->>> +	LDR (fp,    r0,  2)
->>> +	LDR (gp,    r0,  3)
->>> +
->>> +	LDR (r13,   r0,  4)
->>> +	LDR (r14,   r0,  5)
->>> +	LDR (r15,   r0,  6)
->>> +	LDR (r16,   r0,  7)
->>> +	LDR (r17,   r0,  8)
->>> +	LDR (r18,   r0,  9)
->>> +	LDR (r19,   r0, 10)
->>> +	LDR (r20,   r0, 11)
->>> +	LDR (r21,   r0, 12)
->>> +	LDR (r22,   r0, 13)
->>> +	LDR (r23,   r0, 14)
->>> +	LDR (r24,   r0, 15)
->>> +
->>> +	mov.f  r0, r1
->>> +	j.d    [blink]
->>> +	mov.z  r0, 1	/* don't return 0 to setjmp callsite from longjmp.  */
->>> +
->>> +END (__longjmp)
->>
->> Ok, you have removed r25 save as pre previous discussion.
-> 
-> Right, and GP is being saved now.
-> 
->>> diff --git a/sysdeps/arc/bits/setjmp.h b/sysdeps/arc/bits/setjmp.h
->>> new file mode 100644
->>> index 000000000000..6bba95fafe0f
->>> --- /dev/null
->>> +++ b/sysdeps/arc/bits/setjmp.h
->>> @@ -0,0 +1,26 @@
->>> +/* Define the machine-dependent type `jmp_buf'.  ARC version.
->>
->> I think current trend is to just use apostrophe instead of the grave
->> accent in such cases.
-> 
-> Ok changed.
-> 
->>> +reloc_index (uintptr_t plt0, uintptr_t pltn, size_t size)
->>> +{
->>> +  unsigned long int idx = pltn - plt0;
->>> +
->>> +  /* PLT trampoline is 16 bytes. */
->>
->> Double space after period.
-> 
-> Fixed.
-> 
->>> +#define _JMPBUF_UNWINDS_ADJ(_jmpbuf, _address, _adj) \
->>> +  ((uintptr_t) (_address) - (_adj) < (uintptr_t) (_jmpbuf_sp (_jmpbuf) - (_adj)))
->>> +
->>> +/* We use the normal longjmp for unwinding.  */
->>> +#define __libc_unwind_longjmp(buf, val) __libc_longjmp (buf, val)
->>
->> Ok. As a side note teh jmpbuf-unwind.h is candidate for some consolidation
->> (the same macros are replicated in each architecture).
-> 
-> OK.
-> 
-
+Thx,
+-Vineet
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
