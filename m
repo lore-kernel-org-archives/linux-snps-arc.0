@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 946EBC433E0
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  3 Jul 2020 17:37:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C54CFC433DF
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  3 Jul 2020 17:38:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 642F42084C
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  3 Jul 2020 17:37:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 96F9C2084C
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  3 Jul 2020 17:38:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0XlzDZZ3";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W5exd1NM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 642F42084C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MgJAGHYo";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Tmk7tTdQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96F9C2084C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,56 +26,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=DaSPMAVVyJoeRj8mOlD6If5F1TOpOb4CQ/2wkxwlQnA=; b=0XlzDZZ3TX1i7s0BTIoMWtgsA
-	ENV5OEIeak7VBKyLs2QrJssgytuvvB5JLtvbZ2hnNFc/pmhG+gbCvP5NmIp6X1XaLHa2bbA+oOq4S
-	nYaItszCNzoO8MnRnzkNZv9yVrYOFWma1FVP6K8piQTT7xSdqRPXJWX+p86osRWoXZeFQ2zZTURSC
-	Qtl2qqUxIYkR1ydzI/SMzW3O4J9e+a5ARTuxBDvT1ho8faXpqSKaFtXLmNGFJQ8qS9hM/b3wxFapx
-	0A1HyCnYY/T1zFCn2OkIbmk8Dior4qxOFEcY8Au2wrs3xwE+nLnHMX56aLF9Soae81ftPJpKoFDDk
-	5G7UKayEA==;
+	 bh=vHcXRXA4+tUh5yALUoqJkh6dCnoPNzM5oVXocVMeR5E=; b=MgJAGHYoXMlCSIOtqV53e2Zfs
+	d4Cz/gChATQNj47SGGNLhkpHpJ4YyWpU2iKXhaux/SmZDzfWjvKgaWeiVcXUlXn6bllHKEF26I3xg
+	Yyva8NH6MRinR0+dTAoAyV2IuWlOSzZkzvYYVO8e9ndFITteZ3VBKbuSumEunBMPjNvAxgmVUu77l
+	sZCCBSbD/oY/SjzaKogFbnjLu81Y+TU912XKgaKNBw2SC8cj5hMIcq6g+TMY6dxJn9pAqDyDS0AEz
+	EcFtpchrxCoWDkIT4IIISn+0yQ+oaOJjXTnQak7iVff4FhbmWPDh/aRFxzxtBiKr2ws2d+8ne8TzH
+	S52+WmNKA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jrPd3-0001Dh-Qt; Fri, 03 Jul 2020 17:37:37 +0000
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844])
+	id 1jrPe7-0001Vz-15; Fri, 03 Jul 2020 17:38:43 +0000
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jrPd0-0001CW-SO
- for linux-snps-arc@lists.infradead.org; Fri, 03 Jul 2020 17:37:35 +0000
-Received: by mail-qt1-x844.google.com with SMTP id j10so24375275qtq.11
- for <linux-snps-arc@lists.infradead.org>; Fri, 03 Jul 2020 10:37:34 -0700 (PDT)
+ id 1jrPe4-0001VF-K9
+ for linux-snps-arc@lists.infradead.org; Fri, 03 Jul 2020 17:38:41 +0000
+Received: by mail-qt1-x842.google.com with SMTP id j10so24377645qtq.11
+ for <linux-snps-arc@lists.infradead.org>; Fri, 03 Jul 2020 10:38:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZmZGFK8YuGC/lqjqzKjs6D4zicXenwib9jonqNLwTcE=;
- b=W5exd1NMutGhyU8FcqO4qoPE+oIHDH7lLiNA547RT50O9sb4zdu6Aw/WmK5kakEvde
- sZjnkojSn+MrUs9FSiOc0Srq6UGHaoDN6rkU9d2wyB15Al2f2ISVlXY2P/jK1JnsapD9
- 9FnQlcc44Maa+b2t/F5mSkZjF2f1HbhRBAlZa9JJFfmytYXMBzk9x3sW0AKWGzodE8QN
- 50Y8CsX9T1ETguoLvhTn9kzLYo5+eQkzqNyU3B0/MoA0OAM7OHdDE6pqVc49d/sXTRgk
- LJsM1cXViIxjfZjwG0V7JATFuKu6ZKrd1xx2cBiJzVpD4KCG5c6JXI74bRR9G79J0ti5
- yRxQ==
+ bh=v++m5JBC+M9T3f9r2HI29LQqG6HL0NjkaA4gmFeh4vE=;
+ b=Tmk7tTdQ8n5UPOzDlYEa4B8oSZmeao4GAN+tNIodi02CK0ajaH/t6mQxhg/sTXe/gq
+ dwzdWqP8PKPAIXpcqWRxZ1yzIUawGm/8sVb/oz9RXxN2TMPW45f7CA896uP18n8vz4Mm
+ 8ZTsziAjzDeyjoCQYx9SgVDQ5QDkHaYwhhyDJo06fOBmq6sHC2jBKqlc6Ripwj8/AIRn
+ Pq73eUj+7682DmUxLNiSEL3DlvqDiZomaJPi6wKpjBTD/du8J14/YTbHjKhyVoXlQotp
+ fa+fq1R7F+l51nAr8R+p/TmOP6aJ8lnltDMG1ATDaMng3sCAs5PfeKh9adfoLjd9g1T0
+ wqhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=ZmZGFK8YuGC/lqjqzKjs6D4zicXenwib9jonqNLwTcE=;
- b=ExJ+PMa/cUs/+DpdzOUTFH9PRHpSeEiuS4GaZqYv1IC9Bl/sH5tagjrS2JO2sqYzq2
- JZzfK9D8xNdF6FVEe6k2ErI62q8s8QbDBv2Xc5Vw6T5m3CKMTC786vUSXNq/U/kACzq/
- 2jiCsa+ZWirmCOCmrfSyxSv+gcllff7A6qwfmq23KA9dSRgYWX/0fvTCURDL3IdEfWIl
- HYQnG32XGY8aD74QKvrGj0eEID4J0jw5YhsH4mTMVgHhPVaAWo3GxsaYmy+V6jokKhZo
- WRbuyvqJOmR1oxqFLZTHlVLP18qngKFUtPv62Khv0Yx1mhygYeU7E9ZEo7u2cwS548I6
- S9BA==
-X-Gm-Message-State: AOAM530A9yJLudOloxxxU5fQJllliT5hgJkcv+BLSc3uoFn/EA1vRnMw
- kNGLxMKTS3VwEZQ9Zl8nU6KpaKJ9R20=
-X-Google-Smtp-Source: ABdhPJx4OPQd4ZmI7sAkd2rLyLDb5NwpAzB+k9AbBi4VonYZ2yNnE0PrMjstrzOJZX5O5OZvzsmtWQ==
-X-Received: by 2002:ac8:5516:: with SMTP id j22mr39759167qtq.62.1593797853078; 
- Fri, 03 Jul 2020 10:37:33 -0700 (PDT)
+ bh=v++m5JBC+M9T3f9r2HI29LQqG6HL0NjkaA4gmFeh4vE=;
+ b=EEnDHSVyUNSWlXX7lmpY32Sh4Hz+p1u86qD4TCRqOicShpKaM2/c5CBIG8WyDBUkpP
+ aLu7to+TWT/9++yNJKZtrsTnYLHQ8E3CG6w4SRO2XWzHTneBzTXnr6F7SKLettv8m9++
+ 44pEFgeJjan4p/gqQyU7foe+n8qXdmXycGv4IbEd31wsS3dvka/EURdkP7VBf9JiIx+D
+ fW9rqHPkEM+p0CD/ma+i5VMGs/YUOlylFoQT/E7vFctCgFETtrSCQmxmKpmH3+9VTZWp
+ G3P/FHyHUyQHsIUpl9Pz6PBSndX/E5JP8KOFLmadbeWL1nzDnHD6mDsUcdjoa32Jj8Aw
+ tcXg==
+X-Gm-Message-State: AOAM531gW+dw3ZXexkxGbDT3rs5g2kuSxUu0Tu5eDPjP6tPECWZVX3lQ
+ 71fkGHIzV6DYDzJxBuR73VS2mEB0i5M=
+X-Google-Smtp-Source: ABdhPJxr/2ZFELV8duPzlEd5YuLdgvKjeDNWOMaMQdYbRtWqUZy8erPxB3rTrzfpRc0dHAPo9p1vVQ==
+X-Received: by 2002:ac8:7343:: with SMTP id q3mr39641129qtp.165.1593797918800; 
+ Fri, 03 Jul 2020 10:38:38 -0700 (PDT)
 Received: from [192.168.1.4] ([177.194.48.209])
- by smtp.googlemail.com with ESMTPSA id 72sm11153115qkh.136.2020.07.03.10.37.31
+ by smtp.googlemail.com with ESMTPSA id m7sm11696022qti.6.2020.07.03.10.38.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jul 2020 10:37:32 -0700 (PDT)
-Subject: Re: [PATCH v7 12/13] build-many-glibcs.py: Enable ARC builds
+ Fri, 03 Jul 2020 10:38:38 -0700 (PDT)
+Subject: Re: [PATCH v7 13/13] Documentation for ARC port
 To: Vineet Gupta <Vineet.Gupta1@synopsys.com>, libc-alpha@sourceware.org
 References: <20200615201441.31820-1-vgupta@synopsys.com>
- <20200615201441.31820-13-vgupta@synopsys.com>
+ <20200615201441.31820-14-vgupta@synopsys.com>
 From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
  mQINBFcVGkoBEADiQU2x/cBBmAVf5C2d1xgz6zCnlCefbqaflUBw4hB/bEME40QsrVzWZ5Nq
@@ -120,16 +120,16 @@ Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
  7vJwKcyHJGxsCLU+Et0mryX8qZwqibJIzu7kUJQdQDljbRPDFd/xmGUFCQiQAncSilYOcxNU
  EMVCXPAQTteqkvA+gNqSaK1NM9tY0eQ4iJpo+aoX8HAcn4sZzt2pfUB9vQMTBJ2d4+m/qO6+
  cFTAceXmIoFsN8+gFN3i8Is3u12u8xGudcBPvpoy4OoG
-Message-ID: <b6fa7d50-5f08-1dcf-4125-28690dedaf7f@linaro.org>
-Date: Fri, 3 Jul 2020 14:37:30 -0300
+Message-ID: <7013feb9-4d86-97d2-6e19-8e5b83400f54@linaro.org>
+Date: Fri, 3 Jul 2020 14:38:36 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200615201441.31820-13-vgupta@synopsys.com>
+In-Reply-To: <20200615201441.31820-14-vgupta@synopsys.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200703_133734_939434_CB9E37B6 
-X-CRM114-Status: GOOD (  10.97  )
+X-CRM114-CacheID: sfid-20200703_133840_694452_266E3277 
+X-CRM114-Status: GOOD (  19.21  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,43 +151,81 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 On 15/06/2020 17:14, Vineet Gupta via Libc-alpha wrote:
 > ---
->  scripts/build-many-glibcs.py | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  NEWS                | 11 +++++++++++
+>  README              |  1 +
+>  manual/install.texi |  4 ++++
 
 LGTM, thanks.
 
 Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 
+>  3 files changed, 16 insertions(+)
 > 
-> diff --git a/scripts/build-many-glibcs.py b/scripts/build-many-glibcs.py
-> index 6c6615b200d9..64f5713530bd 100755
-> --- a/scripts/build-many-glibcs.py
-> +++ b/scripts/build-many-glibcs.py
-> @@ -162,6 +162,15 @@ class Context(object):
->                                         'cfg': ['--disable-multi-arch']}])
->          self.add_config(arch='aarch64_be',
->                          os_name='linux-gnu')
-> +        self.add_config(arch='arc',
-> +                        os_name='linux-gnu',
-> +                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38'])
-> +        self.add_config(arch='arc',
-> +                        os_name='linux-gnuhf',
-> +                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38_linux'])
-> +        self.add_config(arch='arceb',
-> +                        os_name='linux-gnu',
-> +                        gcc_cfg=['--disable-multilib', '--with-cpu=hs38'])
->          self.add_config(arch='alpha',
->                          os_name='linux-gnu')
->          self.add_config(arch='arm',
-> @@ -1224,6 +1233,7 @@ def install_linux_headers(policy, cmdlist):
->      """Install Linux kernel headers."""
->      arch_map = {'aarch64': 'arm64',
->                  'alpha': 'alpha',
-> +                'arc': 'arc',
->                  'arm': 'arm',
->                  'csky': 'csky',
->                  'hppa': 'parisc',
+> diff --git a/NEWS b/NEWS
+> index a660fc59a89e..db65fea8b6ec 100644
+> --- a/NEWS
+> +++ b/NEWS
+> @@ -15,6 +15,17 @@ Major new features:
+>  
+>  * New locale added: ckb_IQ (Kurdish/Sorani spoken in Iraq)
+>  
+> +* Support for Synopsys ARC HS cores (ARCv2 ISA) running Linux has been
+> +  added. This port requires at least binutils-2.32, gcc-8.3 and Linux-5.1.
+> +  Three ABIs are supported:
+> +
+> +     - arc-linux-gnu
+> +     - arc-linux-gnuhf
+> +     - arceb-linux-gnu
+> +
+> +  The arc* ABI is little-endian while arceb is big-endian. All ABIs use
+> +  64-bit time (y2038 safe) and 64-bit file offsets (LFS default).
+> +
+>  * The GNU C Library now loads audit modules listed in the DT_AUDIT and
+>    DT_DEPAUDIT dynamic section entries of the main executable.
+>  
+
+Ok.
+
+> diff --git a/README b/README
+> index 31c5da0405bd..903f07e4840a 100644
+> --- a/README
+> +++ b/README
+> @@ -24,6 +24,7 @@ The GNU C Library supports these configurations for using Linux kernels:
+>  
+>  	aarch64*-*-linux-gnu
+>  	alpha*-*-linux-gnu
+> +	arc*-*-linux-gnu
+>  	arm-*-linux-gnueabi
+>  	csky-*-linux-gnuabiv2
+>  	hppa-*-linux-gnu
+
+Ok.
+
+> diff --git a/manual/install.texi b/manual/install.texi
+> index c1e49a94fed3..74cb90a91331 100644
+> --- a/manual/install.texi
+> +++ b/manual/install.texi
+> @@ -522,6 +522,8 @@ Library with support for IEEE long double.
+>  @c powerpc64le performs an autoconf test to verify the compiler compiles with
+>  @c commands like "$CC -c foo.c -mabi=ibmlongdouble -mlong-double-128".
+>  
+> +For ARC architecture builds, GCC 8.3 or higher is needed.
+> +
+>  For multi-arch support it is recommended to use a GCC which has been built with
+>  support for GNU indirect functions.  This ensures that correct debugging
+>  information is generated for functions selected by IFUNC resolvers.  This
+> @@ -547,6 +549,8 @@ For PowerPC 64-bits little-endian (powerpc64le), @command{objcopy} is required
+>  to support @option{--update-section}.  This option requires binutils 2.26 or
+>  newer.
+>  
+> +ARC architecture needs @code{binutils} 2.32 or higher for TLS related fixes.
+> +
+>  @item
+>  GNU @code{texinfo} 4.7 or later
+>  
 > 
+
+Ok.
 
 _______________________________________________
 linux-snps-arc mailing list
