@@ -2,137 +2,153 @@ Return-Path: <SRS0=D8Vs=AR=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FF24C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Jul 2020 13:21:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0220AC433E1
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Jul 2020 22:58:51 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DFEFA2070C
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Jul 2020 13:21:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7AD132067D
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Jul 2020 22:58:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lsUY38vV";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c20802t3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DFEFA2070C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="q0k60P8v";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="APw1vFRm";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="LxJZia2o"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7AD132067D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:Subject:
-	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=F4tT64yN2dRfs3HmuZ7L0z9Sd+o4ZCMZ7dlXQ3gA2CM=; b=lsUY38vV5l0bD+6udEiBR/JX0
-	eoBqHMnnnysUwJmnrsF/g/LTHGlCnsK6RSRgRsYpNzK6bvd+/kfimJpR0QVK1v/cGrgcoXTNljD6a
-	pw/HLpUCa4c47ETBo14Dg6sbvVLS/vQdwOxIpisfhBc61coy28pUKLl4Simnz9id0UtBJ5IG6xTM/
-	nrlylAi3yuXUlYL9mOa534qVr6OUcbX9NlHCv/qnWKcOmzYGCy9p89mzzpE0+GEIWex0ppfKl6ezO
-	SkmkUbTiouyc8kT/mgtAYp0M5LE/tpaT5Tz+fk3iBWJMzUA3IVt8lQEf1B3RkOoxjK8gKP0Q3dli7
-	EiKOyDHkA==;
+	 bh=8BBMwLka4zeEAkc6Z0IVxmPwXLdn09ICpvx62Y1FbFM=; b=q0k60P8vfMgGEPfyGViED3j2W
+	ybV6JbYTEACA3IJLBMlDYRqZT6RJujuK66DPN5HsTxCuPwQ/YbcxBzY7gw//IAQzueVsZy9eBMXVp
+	12l4bw4vgXTDzNivw5YpQ/u8FpGYqIZ8tN9L9pCFXTTpaC746MtQ3s3hRBqiZ5jhF/jg3jtPaiRTx
+	dc0Wd9kq2uyjMfvtoYvpnpFz2unXxkObIwPub8vjoWuelXz/dLSICOjT/6Jkud597jpgcO5yZGCLA
+	SjnV8b63QX1Qn5IzZ3fmPk7+gT/J7ktkG4V3QUFhk/WONPlXy+4yLwer8tZgZKdUWL0l0th60Lb7W
+	G/Ckv4oRQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jsR3T-0006J7-5i; Mon, 06 Jul 2020 13:21:07 +0000
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41])
+	id 1jsa4W-0004kl-7S; Mon, 06 Jul 2020 22:58:48 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jsR3P-0006IA-Ea
- for linux-snps-arc@lists.infradead.org; Mon, 06 Jul 2020 13:21:05 +0000
-Received: by mail-qv1-xf41.google.com with SMTP id t7so17132702qvl.8
- for <linux-snps-arc@lists.infradead.org>; Mon, 06 Jul 2020 06:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:cc:references:from:autocrypt:subject:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YYG3+3UXLTrOTbhst0xJCuarG5GQbLDXZNBD7M13g6A=;
- b=c20802t3he2g9jCx+OeCv6xyih8hqa0G36/M/gXpYYa9/sdKL/6CFxhHWj8DZKNlm0
- zz+YsGPpa17om6mcsokObVqvRx2cmjds6EVNs5mmr0LAYy2xvtc7oM9VrcEYjeaek0an
- qd66syXkjC5BUE9f0//DXXnxYz2hu2+FNtFBjwxrc4jMW3HcLoDUXAtrCn0UiFo+DFZE
- etkLjghLGnTuTQbJq0XyoagPuBRbJ94xEK7luN8V5phlXruqR6P+nOE+8zj5tceJKUMI
- 51fJZjpj2tR+6tjP6h/4aIm1S34xLyMiCU16hEmte/K6a/VyXQ2KdVdRHzBrwDKj1w5l
- TaHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:autocrypt:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=YYG3+3UXLTrOTbhst0xJCuarG5GQbLDXZNBD7M13g6A=;
- b=PEMcRoEJ14VWkcRZ0UK5liDOT/AuuL+QmR704Ta/jKISmP4hAXmnc355DUW/eUUeeB
- dvi7NNTNzCw/LUD62JU9P6kJioMmfkcmWK9KwVpYTj0qRaBwJGJtRPSgm/S3gj5/5aFm
- G/nGgfW3fSqSJsUk8/nSoAy6jGDvpkGJUo+dXWr6ca2S6CqLeuvs3WEPqkiGfXCGm8+w
- 9uXIyg9jUYLBzquwsdAvybLU75Gs/eGQhUBGEN62gJb4rj1bY2BQOiPNswE7vgLaXXT7
- XKAj5t0C3SmEnslFcPMPCYIXm7aIJHfjibBTIFQxtLYVJXPFK0jyzC6Yg87IRzc313Ve
- bJdw==
-X-Gm-Message-State: AOAM53333XpdK1dubCXK2kUkl3axs8tAfw18HSjuq9eckfxOLM6XMDCu
- ZMB0wLVvx1M+ZVPCopSX7yctCeu4UDg=
-X-Google-Smtp-Source: ABdhPJwQhrseykJV3rcgrZetzDsp7mq5Puhj8aECiX+/q8/A4u8nzgS5+nDBhrQSRd1p0OaWBP6N+w==
-X-Received: by 2002:a0c:e78e:: with SMTP id x14mr29885034qvn.65.1594041659687; 
- Mon, 06 Jul 2020 06:20:59 -0700 (PDT)
-Received: from [192.168.1.4] ([177.194.48.209])
- by smtp.googlemail.com with ESMTPSA id a6sm19399781qkd.69.2020.07.06.06.20.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jul 2020 06:20:59 -0700 (PDT)
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-References: <20200615201441.31820-8-vgupta@synopsys.com>
- <20200701000848.20492-1-vgupta@synopsys.com>
- <e9e2ae28-cd78-5924-c1fa-52b1499c245a@linaro.org>
- <64e18e52-9dc6-6d14-3e15-8c5ff1c0cdc2@synopsys.com>
-From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-Autocrypt: addr=adhemerval.zanella@linaro.org; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH v7.1 07/13] ARC: Linux Syscall Interface
-Message-ID: <a56d0e2a-cbc1-9a2b-b145-0d59318426d4@linaro.org>
-Date: Mon, 6 Jul 2020 10:20:55 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <64e18e52-9dc6-6d14-3e15-8c5ff1c0cdc2@synopsys.com>
+ id 1jsa4T-0004kC-7W
+ for linux-snps-arc@lists.infradead.org; Mon, 06 Jul 2020 22:58:46 +0000
+Received: from mailhost.synopsys.com (us03-mailhost2.synopsys.com [10.4.17.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 22A59C06E1;
+ Mon,  6 Jul 2020 22:58:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1594076320; bh=csGRtcBMbag7r5UFTsfA2t1A6HSdNTiUdKqLdIjdvoI=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=APw1vFRmLz9kcwZkmhaDuEF50qYlBH2hxAHj0KNPKXqKbmOnbXEf1qU14mjNX0RSm
+ amx/l31eaaHTmHyXpzq9n7FWz3UDO8dRRNHqoiM+bB+wUY+4Obu9yt0IokyQQNEPXP
+ 5tShMCGfYol+Os7KpxZ7BOxtyyWj8KybmvQp/wpLEDxLBtyZ7Zdqbk+sFBrbZrIhLJ
+ o75MD7273GSqQsDlJFMcjS4R2VcgGEXco5q+YVF/mI2NzWqC/rr1VwAgJXAl/JmOjd
+ ut6dsFKR4FwXCsxMQrgYGcTDKpUHabRdFcciT4a2LXuQVzJsC+jBoIc4vowYFucTDw
+ ba5Ifln99dUIA==
+Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com
+ [10.4.161.139])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 2C3A3A0081;
+ Mon,  6 Jul 2020 22:58:32 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id D320581141;
+ Mon,  6 Jul 2020 22:58:29 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=vgupta@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="LxJZia2o";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Lgugf0t3nSCWxydkf6Q0hc/An3MpUIb8cp/iClJwDX9HVV4nBQzjSmM40bOYXwlx+H1IIdPDb+EKhXA6XNYL+xWRCscesoAiMCAPXA8DRjzFqwJoIufxuxQqLyGrrlap+qarjpYvbHPNnG0X0+fKdRCxf9HxF5pd1B4VX2mBN28dCcR2KS8X0X3Co9S+WbG0YTTLAIX8WXYeT2HhCBmHQxgaIl5XK/yqtwXM9OlsNAGB1BsGP1S4moBIvenoGebkfYrYHfdtzvE84mbbNmYes8RRefUrDFPwBqN1puUKMECGEBW/0JprS/D8GHgOPCiJquw+nD3leDmSXnogJRbXNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=csGRtcBMbag7r5UFTsfA2t1A6HSdNTiUdKqLdIjdvoI=;
+ b=PWOI+yddtuU61onDaLq1OKFAWRu4E4o2Z0EkTRE0V2t/fImp5pl+9iS8/lTCK0/NXSd6oyxAy1mrt+wpnG4Gdd1Fgxi8zcy2Bfeo1QVO9GLfSgjfPVH3NpQyA0fuvtfSqmfVZgNRCn9/DuIMuSL3dMrJfaaZisbzj/3gvCSBQtfHgz65jxunheXsoURAbLMehj0i/D5N90xe3uRqUL0MN/VpZRiU1ScwgosHhMKL/YizxSqoqL0ZGzFeuuFbPqBvzXnYXnX/9DY0AxKjnwk5PwKHbkbd3fZydB5dPje9yaQTMGZvD437KaqE3Q16uVokClzAB4HyF6oWqHtkmCR0hQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=csGRtcBMbag7r5UFTsfA2t1A6HSdNTiUdKqLdIjdvoI=;
+ b=LxJZia2oS9tfQkiuN20ERVspFKsU3B8J5O83kEplBA8Yn5ygTAXz6IVdpcCouv4VNBGr3smpJo2Ynn6JT48EjKmdPpgKR04BIXfbp1RAJmLkygAcqf1NfAipbKVKH0C2doo4daIRZSGB96A5OMNUJaRp6wUfOz4AideuzsiZ2X0=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BYAPR12MB2807.namprd12.prod.outlook.com (2603:10b6:a03:6d::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.22; Mon, 6 Jul
+ 2020 22:58:27 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::3d4f:7ae8:8767:75a4]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::3d4f:7ae8:8767:75a4%7]) with mapi id 15.20.3153.029; Mon, 6 Jul 2020
+ 22:58:27 +0000
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: Lukasz Majewski <lukma@denx.de>
+Subject: Re: [PATCH 1/3] y2038: linux: Provide __futimes64 implementation
+Thread-Topic: [PATCH 1/3] y2038: linux: Provide __futimes64 implementation
+Thread-Index: AQHWU+jzY9adT1jb60CTbjG6pNTOPA==
+Date: Mon, 6 Jul 2020 22:58:27 +0000
+Message-ID: <347a5a21-c308-4fae-5b80-34ee22fe8c78@synopsys.com>
+References: <20200217131735.18180-1-lukma@denx.de>
+ <20200217131735.18180-2-lukma@denx.de>
+In-Reply-To: <20200217131735.18180-2-lukma@denx.de>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+authentication-results: denx.de; dkim=none (message not signed)
+ header.d=none;denx.de; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [2601:641:c100:83a0:fee2:8ed0:e900:96d1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 16edf763-2826-459c-9f34-08d822001840
+x-ms-traffictypediagnostic: BYAPR12MB2807:
+x-microsoft-antispam-prvs: <BYAPR12MB280794D7424833E9502A8D7CB6690@BYAPR12MB2807.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 04569283F9
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pCvLzJ0z8+TE32KXZBFBbnAL26+CLFB4WcUuwMngKps8AALdRn/HJB4OKdcOODWNCh/6Z3LUdGxU+iCAB2hYcxvrzYA1O0rubvB5jsqX9QLTSHGkDQI0xBTHKmjua66Hg/ZZASlL13W61jATAT/VKNBhbNfqoH5FwbINqsEVBg/SsrKdyfwPmaw7MQK9KruHxaPW1ei74ERMx1XyjaLcFLdpCmSvJdrZ8U54OjUVoTkCyW6fRXRsiMsVtyyfKkch35Gl8Btv09KP6lHfkHbyU0XjahvB2iJ31pN/Y77ABCsXJX6kvtG3559L89jmZCdaYFUfTFIf+TbEikhwm4smjZK7qUMq/oTOJ1gFGn5XJ92WoOzFq4l48LT07LSw+6XpiCnQJkj7Y19YRGz3lRop6Fr4ZW5EkS9s5xVJIcCTxi4xP2ARYRHuaE0oX7vKa7Ij8KcxqCGwUsYu4KJqh81kig==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(346002)(39860400002)(136003)(396003)(366004)(376002)(186003)(71200400001)(31686004)(54906003)(86362001)(8676002)(6916009)(966005)(2906002)(6512007)(66476007)(6486002)(66446008)(6506007)(64756008)(66946007)(53546011)(66556008)(83380400001)(36756003)(76116006)(31696002)(8936002)(4326008)(5660300002)(316002)(2616005)(478600001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: cJcLON+Ld0IxswWeLIWU3Zc6aVHTuihoR60hI7JE5jbAGKv0FvAWEvCzjwEOYd6MeutZ/850Fwi6p+YBTk6dgW9vYB3i7jMWeg0vKjMOjEGUZDjElTzEon3/zNgLvfAGhm3mjJl6m+zRQGG7N/i+bqCbvFeK7n07IHpZVkwl0T9mWuLfdoZls6Zuy63oRlbvoM/N4KBvH1rvuIGZLU1IhFIRXoPOeKxFd7zXNM4cBva4yabXvZn9X4ojcA0y4I/T29PmGL5L6PaaCs5SgS3vINlKUFzJcKxQ38ZjPi54ROxD/dYNbcREf6s8WfmB8xQOUOkc2TOA+va4u1RCnVO35cTjX/sPfPdbiR1FU3jI+wU1VnyzKPRWpgeexnwIz4LJW/e8oJkNepFYNCUg3ROSqSs48HzV84UnauZAOLUZi6Ep+1AuDiVjrPhECarYcVwcMhwS5nCmFWsAE8iIWSX+rO6iPxEsh4P7ds9RfvXwPRU0qYYfTHZvVVgQdKj6UmAe7hbd4CTacwcDV23+f4pmngaTWwhCatRG2dCSYuSnwLcDNXw59a37jAjRTLhKFxsJ
+x-ms-exchange-transport-forked: True
+Content-ID: <04636933ACAD1C43AE5D09FFC78F85E6@namprd12.prod.outlook.com>
+MIME-Version: 1.0
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16edf763-2826-459c-9f34-08d822001840
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2020 22:58:27.3568 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QC+8D2K4/BYcPUZz6h25GavPH5eFZqGKBSdintiYwe5HBv2cvO+5S6e0tNrjIU2K9PB2DVT6vHmjnlKd1TxqEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2807
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200706_092103_522357_83AA3028 
-X-CRM114-Status: GOOD (  26.62  )
+X-CRM114-CacheID: sfid-20200706_185845_698482_63E869EE 
+X-CRM114-Status: GOOD (  31.99  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,190 +160,138 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: arcml <linux-snps-arc@lists.infradead.org>
+Cc: arcml <linux-snps-arc@lists.infradead.org>,
+ GNU C Library <libc-alpha@sourceware.org>,
+ Adhemerval Zanella <adhemerval.zanella@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+Hi Lukasz,
 
+On 2/17/20 5:17 AM, Lukasz Majewski wrote:
+> This patch provides new __futimes64 explicit 64 bit function for setting file's
+> 64 bit attributes for access and modification time (by specifying file
+> descriptor number).
+> 
+> Internally, the __utimensat64_helper function is used. This patch is necessary
+> for having architectures with __WORDSIZE == 32 Y2038 safe.
+> 
+> Moreover, a 32 bit version - __futimes has been refactored to internally use
+> __futimes64.
+> 
+> The __futimes is now supposed to be used on systems still supporting 32
+> bit time (__TIMESIZE != 64) - hence the necessary conversion of struct timeval
+> to 64 bit struct __timeval64.
+> 
+> The check if struct timevals' usec fields are in the range between 0 and 1000000
+> has been removed as Linux kernel performs it internally in the implementation
+> of utimensat (the conversion between struct __timeval64 and __timespec64 is not
+> relevant for this particular check).
+> 
+> Last but not least, checks for tvp{64} not being NULL have been preserved from
+> the original code as some legacy user space programs may rely on it.
+> 
+> Build tests:
+> ./src/scripts/build-many-glibcs.py glibcs
+> 
+> Run-time tests:
+> - Run specific tests on ARM/x86 32bit systems (qemu):
+>   https://github.com/lmajewski/meta-y2038 and run tests:
+>   https://github.com/lmajewski/y2038-tests/commits/master
+> 
+> Above tests were performed with Y2038 redirection applied as well as without to
+> test the proper usage of both __futimes64 and __futimes.
+> ---
+>  include/time.h                    |  3 +++
+>  sysdeps/unix/sysv/linux/futimes.c | 42 +++++++++++++++++--------------
 
-On 04/07/2020 00:54, Vineet Gupta wrote:
-> On 7/2/20 7:47 PM, Adhemerval Zanella via Libc-alpha wrote:
->>
->>
->> On 30/06/2020 21:08, Vineet Gupta via Libc-alpha wrote:
->>> ---
->>>    Changes since v7:
->>>      - used long int (iso int) in sysdep.h/syscall_error for handling registers
->>
->> Patch looks ok, but I have question on the __NR_* undef/define. 
->>
-> 
->>> diff --git a/sysdeps/unix/sysv/linux/arc/arch-syscall.h b/sysdeps/unix/sysv/linux/arc/arch-syscall.h
-> ...
->>> +#define __NR_write 64
->>> +#define __NR_writev 66
->>
->> Looks good. As side note I think an improvement would be to add
->> an annotation on update-syscall-lists.py to specify which kernel
->> version it used.
-> 
-> Very good idea indeed. I've asked myself the very question atleast once.
-> 
-> 
->>> diff --git a/sysdeps/unix/sysv/linux/arc/clone.S b/sysdeps/unix/sysv/linux/arc/clone.S
-> ..
->>> +
->>> +	; adjust libc args for syscall
->>
->> Use the C comment style for constency with rest of the file.
-> 
-> Done.
-> 
->>> diff --git a/sysdeps/unix/sysv/linux/arc/fixup-asm-unistd.h b/sysdeps/unix/sysv/linux/arc/fixup-asm-unistd.h
-> 
->>> +
->>> +/* Adjustments to ARC asm-generic syscall ABI (3.9 kernel) for 64-bit time_t
->>> +   support.  */
->>> +
->>> +/* fstat64 and fstatat64 need to be replaced with statx.  */
->>> +
->>> +#undef __NR_fstat64
->>> +#undef __NR_fstatat64
-> 
-> This is certainly needed as they are present in ARC arch-syscall.h but we need to
-> use statx.
-> 
->>> +/* Replace all other 32-bit time syscalls with 64-bit variants.  */
->>> +
->>> +# undef __NR_clock_adjtime
->>> +# undef __NR_clock_getres
->>> +# undef __NR_futex
->>> +# undef __NR_mq_timedreceive
->>> +# undef __NR_mq_timedsend
->>> +# undef __NR_ppoll
->>> +# undef __NR_pselect6
->>> +# undef __NR_recvmmsg
->>> +# undef __NR_rt_sigtimedwait
->>> +# undef __NR_sched_rr_get_interval
->>> +# undef __NR_semtimedop
->>> +# undef __NR_timerfd_settime
->>> +# undef __NR_timerfd_gettime
->>> +# undef __NR_utimensat
->>
->> I am trying to understand why these are required since arc does not define 
->> them in arch-syscall.h.
-> 
-> arch-syscall.h doesn't define them precisely due to these being here. When
-> update-syscalls is run, the 32-bit syscalls are generated for ARC (since kernel
-> ABI provides these because that was v3.9 circa 2013). Adding them
-> fixup-asm-unistd.h removes them (perhaps I need to add this in changelog to
-> clarify - atleast for myself).
-> 
->> And the generic implementation should handle the time64 variant.  If they
->> are not this is something we need to handle it.
-> 
-> At the time we we doing this, arch-syscall.h generation was not yet in place,
-> however I tried to undef in generic/sysdep.h for TIMESIZE==64. However I was asked
-> me to add this to ARC specific fixup-asm-unistd.h
-> https://sourceware.org/pipermail/libc-alpha/2020-March/112395.html
-> https://sourceware.org/pipermail/libc-alpha/2020-April/112909.html
+ARC is 32-bit + TIMESIZE==64 but the new code is not getting built (instead
+generic variant is). How do I override the generic fiel to be built instead ?
 
-My confusion here, I forgot that this header is only used glibcsyscalls.py
-to actually generate arch-syscall.h.
-
-You changes does look correct.
-
+>  2 files changed, 26 insertions(+), 19 deletions(-)
 > 
->>> diff --git a/sysdeps/unix/sysv/linux/arc/kernel_stat.h b/sysdeps/unix/sysv/linux/arc/kernel_stat.h
-> ...
->>> +#define STATFS_IS_STATFS64 0
->>
->> Ok.
+> diff --git a/include/time.h b/include/time.h
+> index b81ecd5e6e..c24066bf3a 100644
+> --- a/include/time.h
+> +++ b/include/time.h
+> @@ -210,8 +210,11 @@ extern int __utimensat64_helper (int fd, const char *file,
+>  libc_hidden_proto (__utimensat64_helper);
+>  
+>  #if __TIMESIZE == 64
+> +# define __futimes64 __futimes
+>  # define __futimens64 __futimens
+>  #else
+> +extern int __futimes64 (int fd, const struct __timeval64 tvp64[2]);
+> +libc_hidden_proto (__futimes64);
+>  extern int __futimens64 (int fd, const struct __timespec64 tsp[2]);
+>  libc_hidden_proto (__futimens64);
+>  #endif
+> diff --git a/sysdeps/unix/sysv/linux/futimes.c b/sysdeps/unix/sysv/linux/futimes.c
+> index 4bea864470..21b41e4138 100644
+> --- a/sysdeps/unix/sysv/linux/futimes.c
+> +++ b/sysdeps/unix/sysv/linux/futimes.c
+> @@ -17,35 +17,39 @@
+>     <https://www.gnu.org/licenses/>.  */
+>  
+>  #include <errno.h>
+> -#include <sysdep.h>
+> -#include <string.h>
+>  #include <time.h>
+> -#include <utime.h>
+> -#include <sys/time.h>
+> -#include <_itoa.h>
+> -#include <fcntl.h>
+> -
+>  
+>  /* Change the access time of the file associated with FD to TVP[0] and
+> -   the modification time of FILE to TVP[1].
+> +   the modification time of FILE to TVP[1].  */
+> +int
+> +__futimes64 (int fd, const struct __timeval64 tvp64[2])
+> +{
+> +  /* The utimensat system call expects timespec not timeval.  */
+> +  struct __timespec64 ts64[2];
+> +  if (tvp64 != NULL)
+> +    {
+> +      ts64[0] = timeval64_to_timespec64 (tvp64[0]);
+> +      ts64[1] = timeval64_to_timespec64 (tvp64[1]);
+> +    }
+> +
+> +  return __utimensat64_helper (fd, NULL, tvp64 ? &ts64[0] : NULL, 0);
+> +}
+> +
+> +#if __TIMESIZE != 64
+> +libc_hidden_def (__futimes64)
+>  
+> -   Starting with 2.6.22 the Linux kernel has the utimensat syscall which
+> -   can be used to implement futimes.  */
+>  int
+>  __futimes (int fd, const struct timeval tvp[2])
+>  {
+> -  /* The utimensat system call expects timespec not timeval.  */
+> -  struct timespec ts[2];
+> +  struct __timeval64 tv64[2];
+> +
+>    if (tvp != NULL)
+>      {
+> -      if (tvp[0].tv_usec < 0 || tvp[0].tv_usec >= 1000000
+> -          || tvp[1].tv_usec < 0 || tvp[1].tv_usec >= 1000000)
+> -	return INLINE_SYSCALL_ERROR_RETURN_VALUE (EINVAL);
+> -
+> -      TIMEVAL_TO_TIMESPEC (&tvp[0], &ts[0]);
+> -      TIMEVAL_TO_TIMESPEC (&tvp[1], &ts[1]);
+> +      tv64[0] = valid_timeval_to_timeval64 (tvp[0]);
+> +      tv64[1] = valid_timeval_to_timeval64 (tvp[1]);
+>      }
+>  
+> -  return INLINE_SYSCALL (utimensat, 4, fd, NULL, tvp ? &ts : NULL, 0);
+> +  return __futimes64 (fd, tvp ? &tv64[0] : NULL);
+>  }
+> +#endif
+>  weak_alias (__futimes, futimes)
 > 
-> This specific one is actually dead code. I did post a patch to this effect and
-> followed up with supporting data that enabling it on 64-bit arches doesn't lead to
-> any changes in generated code.
-> 
-> https://sourceware.org/pipermail/libc-alpha/2020-February/111259.html
-> https://sourceware.org/pipermail/libc-alpha/2020-June/115217.html
-> 
-
-Ack.
-
-> 
->>> diff --git a/sysdeps/unix/sysv/linux/arc/sysdep.h b/sysdeps/unix/sysv/linux/arc/sysdep.h
-> 
-> ...
-> 
->>> +/* 32-bit time syscalls are not available, but the redefines allow generic
->>> +   wrappers to work.  */
->>> +#define __NR_clock_adjtime	__NR_clock_adjtime64
->>> +#define __NR_clock_getres	__NR_clock_getres_time64
->>> +#define __NR_futex		__NR_futex_time64
->>> +#define __NR_mq_timedreceive	__NR_mq_timedreceive_time64
->>> +#define __NR_mq_timedsend	__NR_mq_timedsend_time64
->>> +#define __NR_ppoll		__NR_ppoll_time64
->>> +#define __NR_pselect6		__NR_pselect6_time64
->>> +#define __NR_recvmmsg		__NR_recvmmsg_time64
->>> +#define __NR_rt_sigtimedwait	__NR_rt_sigtimedwait_time64
->>> +#define __NR_sched_rr_get_interval	__NR_sched_rr_get_interval_time64
->>> +#define __NR_semtimedop		__NR_semtimedop_time64
->>> +#define __NR_timerfd_gettime	__NR_timerfd_gettime64
->>> +#define __NR_timerfd_settime	__NR_timerfd_settime64
->>> +#define __NR_utimensat		__NR_utimensat_time64
->>
->> As for the fixup-asm-unistd.h, the generic implementation should handle it
->> without the requirement of the ABI to add such tricks.
-> 
-> fixup-asm-unistd.h is different, but this could be avoided. I know for sure that
-> ll code literally expects __NR_futex (atleast used to). But I can remove this and
-> see what comes out.
-> 
->>
->> However it seems that we are still missing support for pselect 
->> (__NR_pselect6_time64), recvmmsg (__NR_recvmmsg_time64), sigtimedwait 
->> (__NR_rt_sigtimedwait_time64), and semtimeop (__NR_semtimedop_time64).
->>
->> I think we can add the redefine hack only the aforementioned symbols for
->> now and removed them once we implement the y2038 support on such symbols
->> (since the expected ABI won't change for ARC, only for old ABIs with
->> 32 time_t support).
-> 
-> Sorry /me horribly confused here.
-
-Sorry for the confusion, I meant that some of these re-defines are superfluous 
-and I would like to have the minimum required re-define to enable the ARC 
-support, so we can cleanup these later once we enable time64_t support on 
-old ABIs as well.
-
-(ignore my comment about fixup-asm-unistd.h, it is related to my confusion
-about its internal usage).
-
-> 
->>> +
->>> +#undef SYS_ify
->>> +#define SYS_ify(syscall_name)   __NR_##syscall_name
->>
->> The code mixes __NR_* and SYS_ify macro. This macro is really superflous
->> and I am preparing some patches to cleanup this up along with C asm
->> macros to generate syscall.  So I would suggest to just use the __NR_*
->> way and drop this definition.
-> 
-> I don't mind, but it seems that the wrapper was a simply way to avoid open-coding
-> the macro concatenation. e.g.
-> 
-> # define DO_CALL(syscall_name, args)                    \
-> -    mov    r8, SYS_ify (syscall_name)  ASM_LINE_SEP    \
-> +    mov    r8, __NR__##syscall_name  ASM_LINE_SEP    \
->      ARC_TRAP_INSN
-> 
-
-My understand was in fact parametrized way to define syscall numbers when
-glibc added support to future multiple Unix implementation (which never
-actually happened).  I don't have a strong opinion here in fact, any is
-fine in the end.
 
 _______________________________________________
 linux-snps-arc mailing list
