@@ -2,152 +2,74 @@ Return-Path: <SRS0=Wyqd=AS=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7550DC433E0
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2020 06:19:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7CB4C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2020 07:21:36 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3D04020739
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2020 06:19:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8986F2065D
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2020 07:21:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="o4iOBAip";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="hxB2BjMi";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="D/Y6oxCT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D04020739
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ClNPdspQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8986F2065D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=denx.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Content-ID:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ZsSaE80QTI1N5i75cj7yQl54X2m94ZT1loNHVLS8ERs=; b=o4iOBAip27+6zBEKxE5yr+pIV+
-	/51tpFlyF7CVV3XjV/4dLOCUAV5UimPhAyp9L483uEL08NAYWDKkonmxfTT6ODPAlrxquQGCsC2yM
-	UZNuKOczOSzd29jIm8MSQ1sM7y92gbFV+7hclkQtttGfoXtG/90/R6F3mHMdmAGRZ5EJrxEnNDoac
-	Kovre/AfTeLdD+RTgxQlAT9z6jv/R3J09PkxgPsazzcrnCs+MuaL0WCALbHRTa+KpxItYT0FGeL2C
-	xW2HYXfmH2DgGr92UEA1ouwjD59XY3/LkbazzCiT3uulv0aNADpDS2BP1hvNFOQNx94E43j6QgjqV
-	AH45rZiw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	MIME-Version:References:In-Reply-To:Message-ID:Subject:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=l7uDfwLUfSPPG8KW34mXxyeEAHqHqBU+F1lziBzax9g=; b=ClNPdspQRvuQf8wb+vPGynZFb
+	v92MXyEUKd5xEWLpWdpdfXuXbl88OJ7hRsw0J53+zoF3CAe4Lizy1p69vWgESaQZ8sHu+zvorjQxD
+	T8RTSQMQ8wJTX5GbEzDjz+d0+xvcVUC58/fYvVbi+UTxEa/xZX/HTG74TuC5jTOmELVwR42Cs214m
+	2xfdqepjjtKXFGCrqXBFXqpNxvpCidNktITdvbT55WmgghCkLI+pnQ4HbLR8xodvaeRHA+hgaSYjd
+	oI/pniPKKfXGuoMH7AdfHdFuNUc3uWUijVRRdGkAOE7ysv8Ye13oD3XHc83PGitvYyUudblqDljWJ
+	lBadCK0uw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jsgwl-0001T4-Kw; Tue, 07 Jul 2020 06:19:15 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1jshv6-0002tZ-0C; Tue, 07 Jul 2020 07:21:36 +0000
+Received: from mail-out.m-online.net ([2001:a60:0:28:0:1:25:1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jsgwj-0001Rz-6T
- for linux-snps-arc@lists.infradead.org; Tue, 07 Jul 2020 06:19:14 +0000
-Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com
- [10.205.2.133])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5498BC06E7;
- Tue,  7 Jul 2020 06:19:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1594102745; bh=ZebGz6GftpERu/PvkwKEw0X/h4wvM+LAMepUQzJz4E8=;
- h=From:To:CC:Subject:Date:From;
- b=hxB2BjMiiRTIZTdHcni0lmwP/XhP14KqmBt56C1uk03SN8C91TDu710E71bkh016s
- a1+3cIzcIFnk+SvcaJJQQ0A02Z+HngrbGljru/a+lkMWkx68l1ko1DUIj+Z+xhO0mX
- Ab9yLziVByF50nJVbBSJSrtKYdPCTc96kDFyqalpxNoAFFv41BeLEw9M7WzL53VyF5
- Xm4Ack62Sa5H6yHAjCuyacf4M0Huk18s49TU8tV/iEnXvaZDocCYbdPa0uLN1CPnoj
- 3Xsw6fuwlRu9WMglISNNQ270YU006Bk/xiK6NFYtiu1GoFs9mqpHRSrkVhy6uDr/C5
- NVwN4MmyI3HBQ==
-Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com
- [10.4.161.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id EF0BBA0096;
- Tue,  7 Jul 2020 06:19:02 +0000 (UTC)
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
+ id 1jshv3-0002t8-9j
+ for linux-snps-arc@lists.infradead.org; Tue, 07 Jul 2020 07:21:34 +0000
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4B1DQ132Ytz1rvxy;
+ Tue,  7 Jul 2020 09:21:29 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4B1DQ12bVSz1r56p;
+ Tue,  7 Jul 2020 09:21:29 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id H4JCz6NCyfCk; Tue,  7 Jul 2020 09:21:27 +0200 (CEST)
+X-Auth-Info: 0I9NcZfKkWQ4HGQyQZpBz0a9m7ltvSvHWH3k/edcKBk=
+Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.protection.outlook.com",
- Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
- by o365relay-in.synopsys.com (Postfix) with ESMTPS id ADDC281113;
- Tue,  7 Jul 2020 06:19:00 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com;
- dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
- spf=pass smtp.mailfrom=vgupta@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
- unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="D/Y6oxCT";
- dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ELqKZy37Oo1zUxggGoIbiB7xi/aSGcQrpH03PlRLy219c1bh+hun73+9sdPwhK5mS503IGd9iE4zKAycGdCFXBvz0cn0fI06FaSrGD/6pW8paSW8SN3V3ocbjOlnoM7nIyPSLJ2pm26v0rm4GtBYvjSwkbJ+ZbCIBmlcnGUE5WAtzDfzgFxz5gJnNZj9DBHgbgUyfWl1kRJ8clvTFL4ELgegsHngO/YhlY37Rct9FWibf+MublRSgOFw7ft1mdXH4NZ5N+Jc72xpsm9CKu93IToxvcUb1xYHg4ta6NN58xWxRwHLs+tbODftM/gUQIAf/S+f5j6HdNCacEXkL88TMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZebGz6GftpERu/PvkwKEw0X/h4wvM+LAMepUQzJz4E8=;
- b=Ec+5ZKek+hTGKTg9Wy+xxH5tPiQcE6LVd8yGtxqhsy7Y3W7PI/lF2oGg4q2Unlwoce6b8iOmnFCiBrv8j+r8y0O59yMJI4Ce6VAbK0RlLgd/9youwz/uGXgWTCDG6HNpc1PVwjozjGD8+sKwqzIW9VsNboc+vI7O4ZAtlGTQ4cV4o2DyFgfrL7T0DXw8D7esuKeubJ8HaGD5Xkz0ezx6oR9TeG00EGtsY2MOGE7POGFkatG+SHtys4sZjgMFN73CrlTTG244muzRzYXRDYIlxQmTeudzSe0cYPvpgSnG5Lqor0Jy/OHrx5O+DqblP6ckArnOX4zhtq8MGY1t4cbujw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZebGz6GftpERu/PvkwKEw0X/h4wvM+LAMepUQzJz4E8=;
- b=D/Y6oxCTHcIYeOeuhUoHGqjDJ6yKybrHOA8Tpo1voY18Di8JnUPk0AINfWPDmKmcBH8VfAE/FzxfRaNkHKEPzTb2hBjR6xX7TCcdYA1uTh2AwlJR8Osp7p9z4aOBS76HVXxgF3tUYXvfFLHmFpj/LVw7uWMoFZpFdTQtl0+PHw0=
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
- by BYAPR12MB2711.namprd12.prod.outlook.com (2603:10b6:a03:63::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.29; Tue, 7 Jul
- 2020 06:18:57 +0000
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::3d4f:7ae8:8767:75a4]) by BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::3d4f:7ae8:8767:75a4%7]) with mapi id 15.20.3153.029; Tue, 7 Jul 2020
- 06:18:57 +0000
-X-SNPS-Relay: synopsys.com
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [GIT PULL] ARC updates for 5.8-rc5
-Thread-Topic: [GIT PULL] ARC updates for 5.8-rc5
-Thread-Index: AQHWVCZ/k4RVpwcvkEWm69xGWcjetQ==
-Date: Tue, 7 Jul 2020 06:18:57 +0000
-Message-ID: <41052a3e-c51d-a0d8-06ea-af1e30fb097a@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-authentication-results: linux-foundation.org; dkim=none (message not signed)
- header.d=none;linux-foundation.org; dmarc=none action=none
- header.from=synopsys.com;
-x-originating-ip: [2601:641:c100:83a0:fee2:8ed0:e900:96d1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 32234454-a250-4c9f-97a0-08d8223da1ec
-x-ms-traffictypediagnostic: BYAPR12MB2711:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB27112E3D1B10BF17EFC73276B6660@BYAPR12MB2711.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:422;
-x-forefront-prvs: 0457F11EAF
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ccBsa58fh+nS3Epg7Ylk3WwrtuULQv7UzFUIE6rgGFomYhxb4SWDwz0hN/c3bnbNsj13L047W/IGY04O3+03mrd5T1aHtdu0gufKLutcs8sszvwUZomgKGK95KU1vBMAIL6NR/OjyUZ5iISVumu46efZMsAe9pxRxlM+0Im6jZ/03cteH3DNuQVXnaPd9GZ9s4mfEoRqNRD50/qp5ZbUufGVCMxpkTg00RUTgk5o1T61LHcCcrRC1k75l4mqwaVAcQiwupJVVdUV+LoRJ9eOk5cqu0mr1GgbgDL9Au1ZqoRVWISKRJ42K3bc6gdNYGLy2eEPVru0jVDRFFNbOZBmy8q7JPUwDnm0r0OTzZ9fjzY7fQtPtI0X4/Ck2gjELmJY
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(39860400002)(346002)(136003)(366004)(396003)(376002)(4326008)(6512007)(83380400001)(54906003)(107886003)(31696002)(8936002)(2616005)(2906002)(316002)(6486002)(86362001)(8676002)(5660300002)(15650500001)(186003)(478600001)(76116006)(66446008)(6506007)(6916009)(71200400001)(66946007)(36756003)(64756008)(66476007)(66556008)(31686004)(43740500002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: Ses8fXS2Gak5sPSrK4Bpf4gM0u9vXDs8BkyUMQLdnH74d0xCzSLrywgdwhRfOR3Gn62cwd4NdPbOIKn3KNGSc00iDUBZPivA6IIMMVLD2fDqlyIZ1LvGNvm6HDc8yXQd1KaVm7nw7huuZ9unrzvcHQ3YFnvpTmJYEKPcmmqQ/hptqWMJVn6J8B9QrifoMshMFMVpzIV1EhV1XrhkHeMoR4OLvKp3vVYJFBs63OcaqIXQpGaSWUixqdBbTFo7YH9YptjO/HDgA11K9JoGuP1T+MZ+rZvho2p2zolJMlJ8VISBjW1esPv7oufVug9x/KCyw8gpIlvrma3E3aTSujh3C593EUbJZUV/KYjEilL43sIKGg8NSBbejM+8wVNcosZx7bt9AHuhpNh+bx0OYSKxScidOKbVa5d3/mLDKxhFiiodisuUc0dEi1HaU5vTtzzMHd3k9p/2D1buwcHLJ7MuyHp1jTSpQkfg7sx81ikdcQQDoNjo89SadqdaEGKerHtp2NArOXyv6X6a7YItptkCpXB8FsOeGiV/kpCP52q2UsXhkk4HJ0Twjie915XX0Z2S
-Content-ID: <0F9C4726F4119E40BFB0FF61879CAFB2@namprd12.prod.outlook.com>
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Tue,  7 Jul 2020 09:21:27 +0200 (CEST)
+Date: Tue, 7 Jul 2020 09:21:20 +0200
+From: Lukasz Majewski <lukma@denx.de>
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Subject: Re: [PATCH 1/3] y2038: linux: Provide __futimes64 implementation
+Message-ID: <20200707092120.071d5157@jawa>
+In-Reply-To: <347a5a21-c308-4fae-5b80-34ee22fe8c78@synopsys.com>
+References: <20200217131735.18180-1-lukma@denx.de>
+ <20200217131735.18180-2-lukma@denx.de>
+ <347a5a21-c308-4fae-5b80-34ee22fe8c78@synopsys.com>
+Organization: denx.de
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32234454-a250-4c9f-97a0-08d8223da1ec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2020 06:18:57.6632 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6dkFkiQlZklRgMAoMwGBbCRRzH3iUrfnqvRmJtZIlDZlv/al1uhPjc64+f4Jv3ZsuGhfiRMdqZbuXmMAMrdlDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2711
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200707_021913_399272_454A385F 
-X-CRM114-Status: GOOD (  11.92  )
+X-CRM114-CacheID: sfid-20200707_032133_573087_FE62A506 
+X-CRM114-Status: GOOD (  36.81  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,67 +82,216 @@ List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: arcml <linux-snps-arc@lists.infradead.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ GNU C Library <libc-alpha@sourceware.org>,
+ Adhemerval Zanella <adhemerval.zanella@linaro.org>
+Content-Type: multipart/mixed; boundary="===============8323058356700602475=="
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Linus,
+--===============8323058356700602475==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/sBwCDnm+p0OyByzfgvcjwAe"; protocol="application/pgp-signature"
 
-Please pull ARC fixes/ for 5.8-rc5.
+--Sig_/sBwCDnm+p0OyByzfgvcjwAe
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thx,
--Vineet
+On Mon, 6 Jul 2020 22:58:27 +0000
+Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
 
----------------->
-The following changes since commit b3a9e3b9622ae10064826dccb4f7a52bd88c7407:
+> Hi Lukasz,
+>=20
+> On 2/17/20 5:17 AM, Lukasz Majewski wrote:
+> > This patch provides new __futimes64 explicit 64 bit function for
+> > setting file's 64 bit attributes for access and modification time
+> > (by specifying file descriptor number).
+> >=20
+> > Internally, the __utimensat64_helper function is used. This patch
+> > is necessary for having architectures with __WORDSIZE =3D=3D 32 Y2038
+> > safe.
+> >=20
+> > Moreover, a 32 bit version - __futimes has been refactored to
+> > internally use __futimes64.
+> >=20
+> > The __futimes is now supposed to be used on systems still
+> > supporting 32 bit time (__TIMESIZE !=3D 64) - hence the necessary
+> > conversion of struct timeval to 64 bit struct __timeval64.
+> >=20
+> > The check if struct timevals' usec fields are in the range between
+> > 0 and 1000000 has been removed as Linux kernel performs it
+> > internally in the implementation of utimensat (the conversion
+> > between struct __timeval64 and __timespec64 is not relevant for
+> > this particular check).
+> >=20
+> > Last but not least, checks for tvp{64} not being NULL have been
+> > preserved from the original code as some legacy user space programs
+> > may rely on it.
+> >=20
+> > Build tests:
+> > ./src/scripts/build-many-glibcs.py glibcs
+> >=20
+> > Run-time tests:
+> > - Run specific tests on ARM/x86 32bit systems (qemu):
+> >   https://github.com/lmajewski/meta-y2038 and run tests:
+> >   https://github.com/lmajewski/y2038-tests/commits/master
+> >=20
+> > Above tests were performed with Y2038 redirection applied as well
+> > as without to test the proper usage of both __futimes64 and
+> > __futimes. ---
+> >  include/time.h                    |  3 +++
+> >  sysdeps/unix/sysv/linux/futimes.c | 42
+> > +++++++++++++++++-------------- =20
+>=20
+> ARC is 32-bit + TIMESIZE=3D=3D64 but the new code is not getting built
+> (instead generic variant is). How do I override the generic fiel to
+> be built instead ?
 
-  Linux 5.8-rc1 (2020-06-14 12:45:04 -0700)
+The futimes.c from sysdeps/unix/sysv/linux/ shall be built.=20
 
-are available in the Git repository at:
+The futimes.c is defined in following locations:
+y2038-glibc/misc
+y2038-glibc/sysdeps/unix/sysv/linux
+y2038-glibc/sysdeps/mach/hurd
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.8-rc5
+The first one is a stub. The last one is for hurd.
+ARC shall use the middle one as well.
 
-for you to fetch changes up to 10011f7d95dea311c0f2a3ea6725b5a2e97015a8:
+When I'm in doubt (or when for example code is auto generated to wrap a
+syscall) I do use
+https://github.com/lmajewski/meta-y2038/blob/master/README
 
-  ARCv2: support loop buffer (LPB) disabling (2020-06-18 13:07:24 -0700)
+with gdb to check which function is called. Maybe it would help you too?
 
-----------------------------------------------------------------
-ARC updates for 5.8-rc5
+>=20
+> >  2 files changed, 26 insertions(+), 19 deletions(-)
+> >=20
+> > diff --git a/include/time.h b/include/time.h
+> > index b81ecd5e6e..c24066bf3a 100644
+> > --- a/include/time.h
+> > +++ b/include/time.h
+> > @@ -210,8 +210,11 @@ extern int __utimensat64_helper (int fd, const
+> > char *file, libc_hidden_proto (__utimensat64_helper);
+> > =20
+> >  #if __TIMESIZE =3D=3D 64
+> > +# define __futimes64 __futimes
+> >  # define __futimens64 __futimens
+> >  #else
+> > +extern int __futimes64 (int fd, const struct __timeval64 tvp64[2]);
+> > +libc_hidden_proto (__futimes64);
+> >  extern int __futimens64 (int fd, const struct __timespec64 tsp[2]);
+> >  libc_hidden_proto (__futimens64);
+> >  #endif
+> > diff --git a/sysdeps/unix/sysv/linux/futimes.c
+> > b/sysdeps/unix/sysv/linux/futimes.c index 4bea864470..21b41e4138
+> > 100644 --- a/sysdeps/unix/sysv/linux/futimes.c
+> > +++ b/sysdeps/unix/sysv/linux/futimes.c
+> > @@ -17,35 +17,39 @@
+> >     <https://www.gnu.org/licenses/>.  */
+> > =20
+> >  #include <errno.h>
+> > -#include <sysdep.h>
+> > -#include <string.h>
+> >  #include <time.h>
+> > -#include <utime.h>
+> > -#include <sys/time.h>
+> > -#include <_itoa.h>
+> > -#include <fcntl.h>
+> > -
+> > =20
+> >  /* Change the access time of the file associated with FD to TVP[0]
+> > and
+> > -   the modification time of FILE to TVP[1].
+> > +   the modification time of FILE to TVP[1].  */
+> > +int
+> > +__futimes64 (int fd, const struct __timeval64 tvp64[2])
+> > +{
+> > +  /* The utimensat system call expects timespec not timeval.  */
+> > +  struct __timespec64 ts64[2];
+> > +  if (tvp64 !=3D NULL)
+> > +    {
+> > +      ts64[0] =3D timeval64_to_timespec64 (tvp64[0]);
+> > +      ts64[1] =3D timeval64_to_timespec64 (tvp64[1]);
+> > +    }
+> > +
+> > +  return __utimensat64_helper (fd, NULL, tvp64 ? &ts64[0] : NULL,
+> > 0); +}
+> > +
+> > +#if __TIMESIZE !=3D 64
+> > +libc_hidden_def (__futimes64)
+> > =20
+> > -   Starting with 2.6.22 the Linux kernel has the utimensat syscall
+> > which
+> > -   can be used to implement futimes.  */
+> >  int
+> >  __futimes (int fd, const struct timeval tvp[2])
+> >  {
+> > -  /* The utimensat system call expects timespec not timeval.  */
+> > -  struct timespec ts[2];
+> > +  struct __timeval64 tv64[2];
+> > +
+> >    if (tvp !=3D NULL)
+> >      {
+> > -      if (tvp[0].tv_usec < 0 || tvp[0].tv_usec >=3D 1000000
+> > -          || tvp[1].tv_usec < 0 || tvp[1].tv_usec >=3D 1000000)
+> > -	return INLINE_SYSCALL_ERROR_RETURN_VALUE (EINVAL);
+> > -
+> > -      TIMEVAL_TO_TIMESPEC (&tvp[0], &ts[0]);
+> > -      TIMEVAL_TO_TIMESPEC (&tvp[1], &ts[1]);
+> > +      tv64[0] =3D valid_timeval_to_timeval64 (tvp[0]);
+> > +      tv64[1] =3D valid_timeval_to_timeval64 (tvp[1]);
+> >      }
+> > =20
+> > -  return INLINE_SYSCALL (utimensat, 4, fd, NULL, tvp ? &ts : NULL,
+> > 0);
+> > +  return __futimes64 (fd, tvp ? &tv64[0] : NULL);
+> >  }
+> > +#endif
+> >  weak_alias (__futimes, futimes)
+> >  =20
+>=20
 
- - User build systems to pass -mcpu
 
- - Fix potential EFA clobber in syscall handler
 
- - Fix ARCompact 2 levels of interrupts build
 
- - Detect newer HS CPU releases
+Best regards,
 
- - miscll other fixes
+Lukasz Majewski
 
-----------------------------------------------------------------
-Eugeniy Paltsev (2):
-      ARC: build: allow users to specify -mcpu
-      ARCv2: support loop buffer (LPB) disabling
+--
 
-Vineet Gupta (5):
-      ARC: entry: fix potential EFA clobber when TIF_SYSCALL_TRACE
-      ARC: [arcompact] fix bitrot with 2 levels of interrupt
-      ARC: elf: use right ELF_ARCH
-      ARCv2: boot log: detect newer/upconing HS3x/HS4x releases
-      ARC: build: remove deprecated toggle for arc700 builds
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
 
- arch/arc/Kconfig                        | 15 +++++++++++++++
- arch/arc/Makefile                       | 21 +++++++++++++++++++--
- arch/arc/include/asm/elf.h              |  2 +-
- arch/arc/include/asm/irqflags-compact.h |  5 ++++-
- arch/arc/kernel/entry.S                 | 16 +++++-----------
- arch/arc/kernel/head.S                  |  8 ++++++++
- arch/arc/kernel/setup.c                 | 19 +++++++------------
- 7 files changed, 59 insertions(+), 27 deletions(-)
+--Sig_/sBwCDnm+p0OyByzfgvcjwAe
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl8EInAACgkQAR8vZIA0
+zr0BCgf/cetEYjG1eciGuOY4V46JVa3+qcBgAdhLnwu7pdMBrJrJn7j1zgVANsZt
+s73UCXRQAmiEmZZMYO3g0bQCW3STNlBpP4yKaWpzvRCxp6lG0n0hz+5Lt6qfBs3u
+cHR4ekllAl9YkcirACfJYWAqV1ccrdnppTCEC6+5OnU/GUENCwnWn3EVGIqOHNLa
+QkF0WlA97hDE6z9jYh1fGhbjWEQ072p40h6WvtRDopcYMytOcLnEA0/bVnj68Fn3
+KFkJYMSf5k0VPDy7uhbSUzgneXo/vvgaMDLB9qB/dc3QHgqTm4dBPFgLbKuOQPml
+9sEq/14JgPCML0kPi1NhlCGTRftCoQ==
+=L+ho
+-----END PGP SIGNATURE-----
+
+--Sig_/sBwCDnm+p0OyByzfgvcjwAe--
+
+
+--===============8323058356700602475==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+
+--===============8323058356700602475==--
+
