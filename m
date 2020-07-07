@@ -2,74 +2,256 @@ Return-Path: <SRS0=Wyqd=AS=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7CB4C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2020 07:21:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F37BC433E0
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2020 12:59:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8986F2065D
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2020 07:21:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A7A2620708
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2020 12:59:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ClNPdspQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8986F2065D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=denx.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="IXWouX+5";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="OVA3HoaQ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="fBSFhJRo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7A2620708
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	MIME-Version:References:In-Reply-To:Message-ID:Subject:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=l7uDfwLUfSPPG8KW34mXxyeEAHqHqBU+F1lziBzax9g=; b=ClNPdspQRvuQf8wb+vPGynZFb
-	v92MXyEUKd5xEWLpWdpdfXuXbl88OJ7hRsw0J53+zoF3CAe4Lizy1p69vWgESaQZ8sHu+zvorjQxD
-	T8RTSQMQ8wJTX5GbEzDjz+d0+xvcVUC58/fYvVbi+UTxEa/xZX/HTG74TuC5jTOmELVwR42Cs214m
-	2xfdqepjjtKXFGCrqXBFXqpNxvpCidNktITdvbT55WmgghCkLI+pnQ4HbLR8xodvaeRHA+hgaSYjd
-	oI/pniPKKfXGuoMH7AdfHdFuNUc3uWUijVRRdGkAOE7ysv8Ye13oD3XHc83PGitvYyUudblqDljWJ
-	lBadCK0uw==;
+	 bh=bDX8WD257VBEXT0z0AYOcphzrP0SpolkEF9jMsFqokk=; b=IXWouX+50SM6FvUO081LMjYMO
+	rQmSe4lY1ybjL3Poa1mphDhhAkkaoaWBRIEEq8zfD81oQbse0Ryy2AAbMekMIsOy118ZFpTNzKU1u
+	UmQOx516dnaWsM90mJI0nXNwReoNw0syI13+YVhHDtPkoY0RZSJJWoiPgScKRNTiMCCi6J68VYzDV
+	Dn1H4BUfr86xGPofRsQ9jIlotjGYCwaXAoEYik/q545rgQDz6tnNEGYmG9lvg5mCrN1HEPC8yU1bj
+	gtjiNlwPkDxJQWal0PfWVwz8zuf4Ra7V/yuaAtD2wokhF0J58ON6jq6/uqFUSCIjGPVq2+F7L3TU3
+	nPEg8fW1w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jshv6-0002tZ-0C; Tue, 07 Jul 2020 07:21:36 +0000
-Received: from mail-out.m-online.net ([2001:a60:0:28:0:1:25:1])
+	id 1jsnC3-00072z-Gf; Tue, 07 Jul 2020 12:59:27 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jshv3-0002t8-9j
- for linux-snps-arc@lists.infradead.org; Tue, 07 Jul 2020 07:21:34 +0000
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4B1DQ132Ytz1rvxy;
- Tue,  7 Jul 2020 09:21:29 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4B1DQ12bVSz1r56p;
- Tue,  7 Jul 2020 09:21:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id H4JCz6NCyfCk; Tue,  7 Jul 2020 09:21:27 +0200 (CEST)
-X-Auth-Info: 0I9NcZfKkWQ4HGQyQZpBz0a9m7ltvSvHWH3k/edcKBk=
-Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ id 1jsnBw-0006yA-SU
+ for linux-snps-arc@lists.infradead.org; Tue, 07 Jul 2020 12:59:23 +0000
+Received: from mailhost.synopsys.com (us03-mailhost1.synopsys.com [10.4.17.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Tue,  7 Jul 2020 09:21:27 +0200 (CEST)
-Date: Tue, 7 Jul 2020 09:21:20 +0200
-From: Lukasz Majewski <lukma@denx.de>
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [PATCH 1/3] y2038: linux: Provide __futimes64 implementation
-Message-ID: <20200707092120.071d5157@jawa>
-In-Reply-To: <347a5a21-c308-4fae-5b80-34ee22fe8c78@synopsys.com>
-References: <20200217131735.18180-1-lukma@denx.de>
- <20200217131735.18180-2-lukma@denx.de>
- <347a5a21-c308-4fae-5b80-34ee22fe8c78@synopsys.com>
-Organization: denx.de
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id CD916C06EA;
+ Tue,  7 Jul 2020 12:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1594126758; bh=Do9X420cnR10sioWAuNfM9Tqfdi6iovVfPYAb8C9ca4=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=OVA3HoaQpuG80DJZ3NGWo9Z03z2eW1RJzBkIYuD21HUAFA8xQaAvKb/PTeB7UefzL
+ QBdFSsVkr3GZYnD/mjI7U3CsR9aW6m/YvXRuutmF+j2yxKU0/1NonSOFrkHUv8Xbbs
+ VDvfGdDXHPzh3NKfAK9y1Fdo1W2eFfy6QSwkruopoQnSyGv1CspbngdVo1wTcNVpRn
+ mYpIacYf1R2vT20PlxLnXrrjIyL8W7n4dkAaDiRnSE6m0xDEen3UVLF0d83+Jc26ks
+ VekJdukzdERh079Ho6taJg31fyq11huwDn+uc6e9FkdtcbA4It3XZjrgVtBfx8xSty
+ unPg+gCJxtUaQ==
+Received: from o365relay-in.synopsys.com (sv2-o365relay3.synopsys.com
+ [10.202.1.139])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 6B7C1A0077;
+ Tue,  7 Jul 2020 12:59:15 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02lp2052.outbound.protection.outlook.com [104.47.36.52])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id C795F4013F;
+ Tue,  7 Jul 2020 12:59:13 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=didin@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="fBSFhJRo";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l3twEwYVvVRDjVewx8D9ut60iF3dp8HMHD0HfMpwI8g+fGTxENjY3a8btXmKdFCGarOiL5HBfQRZOU+VK+CEPVFguHzilaSJK14orxww9XILl7f5dwm1TP3VQ7VjWuZHzY0MDkhbCshHavB4uudMzfstqGTNvXTCoDY1DT3LBFagrntaBk1BXGMG+HTGykQ+bNuvJmzmZ5qlpddsD286uPY01i7tC9Cv2onP3HY4yh8nvty4Ms4DDOhl39+8tXitMHcwepLVRxaGa1IGYsnKSbvN0kN4BAh/U/n+G8fcJCFotsRdTAf2KJJsfjBgm9wqkxaxwDrort/xxDi4pO1lpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Do9X420cnR10sioWAuNfM9Tqfdi6iovVfPYAb8C9ca4=;
+ b=W+jM5YHto8YwG92MxKcwrPg3qYctbNwSgxMGBgGArz9GR4fs11kJC0PargVnp/12eo/cREZCj4gCNeuIopnxYBovrxm3IxXbCLZRX1eI8L/MXD5LOhgRxjJ3jIcIugOScotuXVGeEKjJnjWeWCVHeKfCd4GPYfmIZak9cdacbyCei4xoFG3uXPTeYLCXZ8CtmT1r9nPbw2LsdhK8U3aqCjPIz2MWA8W/T36k4RHJx/VSyFq4r8SOj32vb7Nbpka7yEnk+4YbVv6JPGAFbPL19GhmuYRf+IpPUIrj6itQQYqb7de9xCAhnIR/a7SWF8+3rrjR/hEAvuhUSePU+eKENA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Do9X420cnR10sioWAuNfM9Tqfdi6iovVfPYAb8C9ca4=;
+ b=fBSFhJRoZmGOVSP98mWHfTRUGOVVv59oNp2Ij5p41RgwZKhOHjYVqM5bppGWxaytGoXOqNcmZuARIlt05N671LugrTgJkF8jZuSjgH0rDT7cHRBXDBpR5tFgtLC17+WBdAewebFRJ3HechTqCQENOaXxYjSgJuUJi/0CcdBxgDU=
+Received: from CH2PR12MB4104.namprd12.prod.outlook.com (2603:10b6:610:a4::12)
+ by CH2PR12MB4214.namprd12.prod.outlook.com (2603:10b6:610:aa::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23; Tue, 7 Jul
+ 2020 12:59:11 +0000
+Received: from CH2PR12MB4104.namprd12.prod.outlook.com
+ ([fe80::6cfc:8fa:41af:2f21]) by CH2PR12MB4104.namprd12.prod.outlook.com
+ ([fe80::6cfc:8fa:41af:2f21%9]) with mapi id 15.20.3174.020; Tue, 7 Jul 2020
+ 12:59:11 +0000
+X-SNPS-Relay: synopsys.com
+From: Evgeniy Didin <Evgeniy.Didin@synopsys.com>
+To: Oleksij Rempel <linux@rempel-privat.de>
+Subject: RE: Linux kernel commit "add phy-mode support for the KSZ9031 PHY"
+ broke ETH for Synopsys HSDK board.
+Thread-Topic: Linux kernel commit "add phy-mode support for the KSZ9031 PHY"
+ broke ETH for Synopsys HSDK board.
+Thread-Index: AdZQw58XMiLOAIpuSJOPBGaJzFKoGAANbKAAANi7dhA=
+Date: Tue, 7 Jul 2020 12:59:11 +0000
+Message-ID: <CH2PR12MB41043173D45D80E9E6867CDED9660@CH2PR12MB4104.namprd12.prod.outlook.com>
+References: <DM6PR12MB41060B53C1B81BD0A2D49ED0D96D0@DM6PR12MB4106.namprd12.prod.outlook.com>
+ <1feb8e17-c92d-c7b4-dbe4-7ff0a23dface@rempel-privat.de>
+In-Reply-To: <1feb8e17-c92d-c7b4-dbe4-7ff0a23dface@rempel-privat.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
+ =?utf-8?B?bk5jWkdsa2FXNWNZWEJ3WkdGMFlWeHliMkZ0YVc1blhEQTVaRGcwT1dJMkxU?=
+ =?utf-8?B?TXlaRE10TkdFME1DMDROV1ZsTFRaaU9EUmlZVEk1WlRNMVlseHRjMmR6WEcx?=
+ =?utf-8?B?elp5MWhOVEV3WW1ObFpTMWpNRFV4TFRFeFpXRXRZbVUyWmkwMVkyVXdZelV5?=
+ =?utf-8?B?TjJRM09ESmNZVzFsTFhSbGMzUmNZVFV4TUdKalpqQXRZekExTVMweE1XVmhM?=
+ =?utf-8?B?V0psTm1ZdE5XTmxNR00xTWpka056Z3lZbTlrZVM1MGVIUWlJSE42UFNJek16?=
+ =?utf-8?B?TTVJaUIwUFNJeE16SXpPRFl3TURNME9USTNOVFkyT0RjaUlHZzlJbTlTTW5S?=
+ =?utf-8?B?NlQyOXFhbUpKWTI5T1RWSmtlbGt4YkRkMWQyeHdORDBpSUdsa1BTSWlJR0pz?=
+ =?utf-8?B?UFNJd0lpQmliejBpTVNJZ1kyazlJbU5CUVVGQlJWSklWVEZTVTFKVlJrNURa?=
+ =?utf-8?B?MVZCUVVKUlNrRkJSRkJZUjNSdVdHeFVWMEZaUzFScGFIUnVUR1ZhU21kd1Qw?=
+ =?utf-8?B?dEhNbU4wTld0clQwRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?SVFVRkJRVU5yUTBGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZG?=
+ =?utf-8?B?UVVGUlFVSkJRVUZCTWtsRlMweFJRVUZCUVVGQlFVRkJRVUZCUVVGQlNqUkJR?=
+ =?utf-8?B?VUZDYlVGSGEwRmlaMEpvUVVjMFFWbDNRbXhCUmpoQlkwRkNjMEZIUlVGaVow?=
+ =?utf-8?B?SjFRVWRyUVdKblFtNUJSamhCWkhkQ2FFRklVVUZhVVVKNVFVY3dRVmxSUW5s?=
+ =?utf-8?B?QlIzTkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVVZCUVVGQlFVRkJRVUZCWjBG?=
+ =?utf-8?B?QlFVRkJRVzVuUVVGQlIxbEJZbmRDTVVGSE5FRmFRVUo1UVVoclFWaDNRbmRC?=
+ =?utf-8?B?UjBWQlkyZENNRUZITkVGYVVVSjVRVWhOUVZoM1FtNUJSMWxCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGUlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlEwRkJRVUZCUVVObFFVRkJRVnBuUW5aQlNGVkJZbWRDYTBGSVNV?=
+ =?utf-8?B?RmxVVUptUVVoQlFWbFJRbmxCU0ZGQlltZENiRUZJU1VGamQwSm1RVWhOUVZs?=
+ =?utf-8?B?UlFuUkJTRTFCWkZGQ2RVRkhZMEZZZDBKcVFVYzRRV0puUW0xQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkNRVUZCUVVGQlFVRkJRVWxCUVVGQlFVRktORUZCUVVKdFFVYzRRV1JS?=
+ =?utf-8?B?UW5WQlIxRkJZMmRDTlVGR09FRmpRVUpvUVVoSlFXUkJRblZCUjFWQlkyZENl?=
+ =?utf-8?B?a0ZHT0VGamQwSm9RVWN3UVdOM1FqRkJSelJCV25kQ1prRklTVUZhVVVKNlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUlVGQlFVRkJRVUZCUVVGblFVRkJRVUZCYm1kQlFV?=
+ =?utf-8?B?RkhXVUZpZDBJeFFVYzBRVnBCUW5sQlNHdEJXSGRDZDBGSFJVRmpaMEl3UVVj?=
+ =?utf-8?B?MFFWcFJRbmxCU0UxQldIZENla0ZITUVGaFVVSnFRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFWRkJRVUZCUVVGQlFVRkRRVUZC?=
+ =?utf-8?B?UVVGQlEyVkJRVUZCV21kQ2RrRklWVUZpWjBKclFVaEpRV1ZSUW1aQlNFRkJX?=
+ =?utf-8?B?VkZDZVVGSVVVRmlaMEpzUVVoSlFXTjNRbVpCU0UxQlpFRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUpCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCU1VGQlFVRkJRVW8wUVVGQlFtMUJSemhCWkZGQ2RVRkhVVUZqWjBJ?=
+ =?utf-8?B?MVFVWTRRV05CUW1oQlNFbEJaRUZDZFVGSFZVRmpaMEo2UVVZNFFXUkJRbnBC?=
+ =?utf-8?B?UnpCQldYZEJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGRlFVRkJRVUZCUVVGQlFXZEJRVUZCUVVGdVowRkJRVWRaUVdKM1FqRkJS?=
+ =?utf-8?B?elJCV2tGQ2VVRklhMEZZZDBKM1FVZEZRV05uUWpCQlJ6UkJXbEZDZVVGSVRV?=
+ =?utf-8?B?RllkMEl4UVVjd1FWbDNRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJVVUZCUVVGQlFVRkJRVU5CUVVGQlFVRkRaVUZCUVVG?=
+ =?utf-8?B?YWQwSXdRVWhOUVZoM1FuZEJTRWxCWW5kQ2EwRklWVUZaZDBJd1FVWTRRV1JC?=
+ =?utf-8?B?UW5sQlIwVkJZVkZDZFVGSGEwRmlaMEp1UVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUWtGQlFVRkJRVUZCUVVGSlFVRkJR?=
+ =?utf-8?B?VUZCU2pSQlFVRkNla0ZIUlVGaVFVSnNRVWhOUVZoM1FtaEJSMDFCV1hkQ2Rr?=
+ =?utf-8?B?RklWVUZpWjBJd1FVWTRRV05CUW5OQlIwVkJZbWRCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVVkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJaMEZCUVVGQlFXNW5RVUZCU0UxQldWRkNjMEZIVlVGamQwSm1RVWhG?=
+ =?utf-8?B?UVdSUlFuWkJTRkZCV2xGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZSUVVGQlFVRkJRVUZCUTBGQlFVRkJRVU5sUVVGQlFXTjNRblZCU0VGQlkz?=
+ =?utf-8?B?ZENaa0ZIZDBGaFVVSnFRVWRWUVdKblFucEJSMVZCV0hkQ01FRkhWVUZqWjBK?=
+ =?utf-8?B?MFFVWTRRVTFSUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQ1FVRkJRVUZCUVVGQlFVbEJRVUZCUVVGS05FRkJRVUo2?=
+ =?utf-8?B?UVVjMFFXTkJRbnBCUmpoQllrRkNjRUZIVFVGYVVVSjFRVWhOUVZwUlFtWkJT?=
+ =?utf-8?B?RkZCV2xGQ2VVRkhNRUZZZDBKNlFVaFJRV1JSUW10QlIxVkJZbWRDTUVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJSVUZCUVVGQlFVRkJRVUZuUVVGQlFV?=
+ =?utf-8?B?RkJibWRCUVVGSVdVRmFkMEptUVVkelFWcFJRalZCU0dOQlluZENlVUZIVVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVZGQlFVRkJRVUZC?=
+ =?utf-8?Q?QUFDQUFBQUFBQT0iLz48L21ldGE+?=
+x-dg-rorf: true
+authentication-results: rempel-privat.de; dkim=none (message not signed)
+ header.d=none;rempel-privat.de; dmarc=none action=none
+ header.from=synopsys.com;
+x-originating-ip: [188.243.162.47]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2134f2fd-df9a-4f6f-8b4c-08d822758b6d
+x-ms-traffictypediagnostic: CH2PR12MB4214:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CH2PR12MB4214A99992516B38ED9652E9D9660@CH2PR12MB4214.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3826;
+x-forefront-prvs: 0457F11EAF
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: h7k6o2EdpabTx6g5uYEOVzJ0rZPsjeqnEcwgSBfW/UEL09PTxuKu/r4k1Qn/E10+oDmyEgz7dLJuFX/b4GSqNnk915r+0mjlBtjLSQPNOsDPAEREQAX9sSn+4d2bxWjyKu3+ZS6jibpV8adqfR7r6Iy4Yv+R95fAOHUacY8Tmen+G+5fW+8TYnhKGYwBu9EqFMgW0l50DVpAlZBDAcV5E2V7DBsIZK2U/UYnT0Q1CUlF/Wr0cXKxvLuveseIN9z7ZCfCQrYrFkAPcLY0kUbCiNpXgQorGtbprD5a8QU2qAqimenK71zJyfp4LhM+9AOUtGuwl1ec7hUxSx5FUBBNlscPLyLjHWkEaFklun7g5hi6V+vPL8TFwj8oVEjYQWq0GeMl/mXiJcYd6GJlmnw7ow==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB4104.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(376002)(346002)(39860400002)(136003)(366004)(396003)(76116006)(52536014)(8936002)(478600001)(54906003)(86362001)(8676002)(71200400001)(316002)(55016002)(9686003)(6916009)(966005)(64756008)(66556008)(66946007)(4326008)(6506007)(66446008)(53546011)(66476007)(2906002)(186003)(33656002)(26005)(107886003)(83380400001)(7696005)(5660300002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: cYobZqZAvvQyznxYKZEHXUdARN9qurt2S0yjKKKJksM+DcvxeezwZifqZilBiPLq1YAR/ebYeulvBp5Hq5+96Y6NdRnF/pqTyKBVXkgU3YoBsU7DF20xBJrrX84vWXsNpR0z59TMRp2xX5G28x6NsqG/vXUOOmuXm0t/eAbyxGfWZ3ZnqFv8HNYYA0UH+Pmx1jZkuPeACusvfz64a/08sDJXLQ3OsLvy3mnA/MLJc994edrpKUuDx6GV7eIIpEG5Ln1X+oI82MP+dzrR0VoLiK92QnrmjOh8Z94xZxuN0sz9dY4UNJRxlQu7/UeEbW3QYQiPB+Zo4ApFgOvlsPneV60rapmFsyHXCIYyewVb7w/E9gqaRpWdYE5ERBoO6cIy7/ElzItaDvpS+OYOaQ6OLccyY0quYgFrahDhvDuW1dDIndpdwCEPllGxs9rSKPNuN0EaNrHio4Nr70fdzhFkZJUrgGCBBzsFa2BBBe6rxgDDDNsDVjaMNflKtfp5/RbW
 MIME-Version: 1.0
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4104.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2134f2fd-df9a-4f6f-8b4c-08d822758b6d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2020 12:59:11.6992 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8LapMRvgOBRkzZb1HF2tiGrLCF84ig+ETEdbHBwif31lYWc2YHXszY0KqzmkoPSGyK29DWNlkqXwNjN9LX+2TQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4214
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200707_032133_573087_FE62A506 
-X-CRM114-Status: GOOD (  36.81  )
+X-CRM114-CacheID: sfid-20200707_085921_391458_99EBABE5 
+X-CRM114-Status: UNSURE (   6.65  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,217 +263,72 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: arcml <linux-snps-arc@lists.infradead.org>,
- GNU C Library <libc-alpha@sourceware.org>,
- Adhemerval Zanella <adhemerval.zanella@linaro.org>
-Content-Type: multipart/mixed; boundary="===============8323058356700602475=="
+Cc: Jose Abreu <Jose.Abreu@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
---===============8323058356700602475==
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/sBwCDnm+p0OyByzfgvcjwAe"; protocol="application/pgp-signature"
-
---Sig_/sBwCDnm+p0OyByzfgvcjwAe
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 6 Jul 2020 22:58:27 +0000
-Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
-
-> Hi Lukasz,
->=20
-> On 2/17/20 5:17 AM, Lukasz Majewski wrote:
-> > This patch provides new __futimes64 explicit 64 bit function for
-> > setting file's 64 bit attributes for access and modification time
-> > (by specifying file descriptor number).
-> >=20
-> > Internally, the __utimensat64_helper function is used. This patch
-> > is necessary for having architectures with __WORDSIZE =3D=3D 32 Y2038
-> > safe.
-> >=20
-> > Moreover, a 32 bit version - __futimes has been refactored to
-> > internally use __futimes64.
-> >=20
-> > The __futimes is now supposed to be used on systems still
-> > supporting 32 bit time (__TIMESIZE !=3D 64) - hence the necessary
-> > conversion of struct timeval to 64 bit struct __timeval64.
-> >=20
-> > The check if struct timevals' usec fields are in the range between
-> > 0 and 1000000 has been removed as Linux kernel performs it
-> > internally in the implementation of utimensat (the conversion
-> > between struct __timeval64 and __timespec64 is not relevant for
-> > this particular check).
-> >=20
-> > Last but not least, checks for tvp{64} not being NULL have been
-> > preserved from the original code as some legacy user space programs
-> > may rely on it.
-> >=20
-> > Build tests:
-> > ./src/scripts/build-many-glibcs.py glibcs
-> >=20
-> > Run-time tests:
-> > - Run specific tests on ARM/x86 32bit systems (qemu):
-> >   https://github.com/lmajewski/meta-y2038 and run tests:
-> >   https://github.com/lmajewski/y2038-tests/commits/master
-> >=20
-> > Above tests were performed with Y2038 redirection applied as well
-> > as without to test the proper usage of both __futimes64 and
-> > __futimes. ---
-> >  include/time.h                    |  3 +++
-> >  sysdeps/unix/sysv/linux/futimes.c | 42
-> > +++++++++++++++++-------------- =20
->=20
-> ARC is 32-bit + TIMESIZE=3D=3D64 but the new code is not getting built
-> (instead generic variant is). How do I override the generic fiel to
-> be built instead ?
-
-The futimes.c from sysdeps/unix/sysv/linux/ shall be built.=20
-
-The futimes.c is defined in following locations:
-y2038-glibc/misc
-y2038-glibc/sysdeps/unix/sysv/linux
-y2038-glibc/sysdeps/mach/hurd
-
-The first one is a stub. The last one is for hurd.
-ARC shall use the middle one as well.
-
-When I'm in doubt (or when for example code is auto generated to wrap a
-syscall) I do use
-https://github.com/lmajewski/meta-y2038/blob/master/README
-
-with gdb to check which function is called. Maybe it would help you too?
-
->=20
-> >  2 files changed, 26 insertions(+), 19 deletions(-)
-> >=20
-> > diff --git a/include/time.h b/include/time.h
-> > index b81ecd5e6e..c24066bf3a 100644
-> > --- a/include/time.h
-> > +++ b/include/time.h
-> > @@ -210,8 +210,11 @@ extern int __utimensat64_helper (int fd, const
-> > char *file, libc_hidden_proto (__utimensat64_helper);
-> > =20
-> >  #if __TIMESIZE =3D=3D 64
-> > +# define __futimes64 __futimes
-> >  # define __futimens64 __futimens
-> >  #else
-> > +extern int __futimes64 (int fd, const struct __timeval64 tvp64[2]);
-> > +libc_hidden_proto (__futimes64);
-> >  extern int __futimens64 (int fd, const struct __timespec64 tsp[2]);
-> >  libc_hidden_proto (__futimens64);
-> >  #endif
-> > diff --git a/sysdeps/unix/sysv/linux/futimes.c
-> > b/sysdeps/unix/sysv/linux/futimes.c index 4bea864470..21b41e4138
-> > 100644 --- a/sysdeps/unix/sysv/linux/futimes.c
-> > +++ b/sysdeps/unix/sysv/linux/futimes.c
-> > @@ -17,35 +17,39 @@
-> >     <https://www.gnu.org/licenses/>.  */
-> > =20
-> >  #include <errno.h>
-> > -#include <sysdep.h>
-> > -#include <string.h>
-> >  #include <time.h>
-> > -#include <utime.h>
-> > -#include <sys/time.h>
-> > -#include <_itoa.h>
-> > -#include <fcntl.h>
-> > -
-> > =20
-> >  /* Change the access time of the file associated with FD to TVP[0]
-> > and
-> > -   the modification time of FILE to TVP[1].
-> > +   the modification time of FILE to TVP[1].  */
-> > +int
-> > +__futimes64 (int fd, const struct __timeval64 tvp64[2])
-> > +{
-> > +  /* The utimensat system call expects timespec not timeval.  */
-> > +  struct __timespec64 ts64[2];
-> > +  if (tvp64 !=3D NULL)
-> > +    {
-> > +      ts64[0] =3D timeval64_to_timespec64 (tvp64[0]);
-> > +      ts64[1] =3D timeval64_to_timespec64 (tvp64[1]);
-> > +    }
-> > +
-> > +  return __utimensat64_helper (fd, NULL, tvp64 ? &ts64[0] : NULL,
-> > 0); +}
-> > +
-> > +#if __TIMESIZE !=3D 64
-> > +libc_hidden_def (__futimes64)
-> > =20
-> > -   Starting with 2.6.22 the Linux kernel has the utimensat syscall
-> > which
-> > -   can be used to implement futimes.  */
-> >  int
-> >  __futimes (int fd, const struct timeval tvp[2])
-> >  {
-> > -  /* The utimensat system call expects timespec not timeval.  */
-> > -  struct timespec ts[2];
-> > +  struct __timeval64 tv64[2];
-> > +
-> >    if (tvp !=3D NULL)
-> >      {
-> > -      if (tvp[0].tv_usec < 0 || tvp[0].tv_usec >=3D 1000000
-> > -          || tvp[1].tv_usec < 0 || tvp[1].tv_usec >=3D 1000000)
-> > -	return INLINE_SYSCALL_ERROR_RETURN_VALUE (EINVAL);
-> > -
-> > -      TIMEVAL_TO_TIMESPEC (&tvp[0], &ts[0]);
-> > -      TIMEVAL_TO_TIMESPEC (&tvp[1], &ts[1]);
-> > +      tv64[0] =3D valid_timeval_to_timeval64 (tvp[0]);
-> > +      tv64[1] =3D valid_timeval_to_timeval64 (tvp[1]);
-> >      }
-> > =20
-> > -  return INLINE_SYSCALL (utimensat, 4, fd, NULL, tvp ? &ts : NULL,
-> > 0);
-> > +  return __futimes64 (fd, tvp ? &tv64[0] : NULL);
-> >  }
-> > +#endif
-> >  weak_alias (__futimes, futimes)
-> >  =20
->=20
-
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/sBwCDnm+p0OyByzfgvcjwAe
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl8EInAACgkQAR8vZIA0
-zr0BCgf/cetEYjG1eciGuOY4V46JVa3+qcBgAdhLnwu7pdMBrJrJn7j1zgVANsZt
-s73UCXRQAmiEmZZMYO3g0bQCW3STNlBpP4yKaWpzvRCxp6lG0n0hz+5Lt6qfBs3u
-cHR4ekllAl9YkcirACfJYWAqV1ccrdnppTCEC6+5OnU/GUENCwnWn3EVGIqOHNLa
-QkF0WlA97hDE6z9jYh1fGhbjWEQ072p40h6WvtRDopcYMytOcLnEA0/bVnj68Fn3
-KFkJYMSf5k0VPDy7uhbSUzgneXo/vvgaMDLB9qB/dc3QHgqTm4dBPFgLbKuOQPml
-9sEq/14JgPCML0kPi1NhlCGTRftCoQ==
-=L+ho
------END PGP SIGNATURE-----
-
---Sig_/sBwCDnm+p0OyByzfgvcjwAe--
-
-
---===============8323058356700602475==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
---===============8323058356700602475==--
-
+SGkgT2xla3NpaiwNCg0KVGhhbmtzIGEgbG90IGZvciBhIGRldGFpbGVkIGV4cGxhbmF0aW9uIGFu
+ZCBhZHZpY2VzISAgDQpDaGFuZ2luZyBwaHktbW9kZSB0byAicmdtaWktaWQiIHNvbHZlZCB0aGUg
+aXNzdWUuDQpUaGFuayB5b3UgZm9yIGhlbHAhDQoNCkJlc3QgcmVnYXJkcywNCkV2Z2VuaXkgRGlk
+aW4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IE9sZWtzaWogUmVtcGVsIDxs
+aW51eEByZW1wZWwtcHJpdmF0LmRlPiANClNlbnQ6IEZyaWRheSwgSnVseSAzLCAyMDIwIDg6MTgg
+QU0NClRvOiBFdmdlbml5IERpZGluIDxkaWRpbkBzeW5vcHN5cy5jb20+DQpDYzogQWxleGV5IEJy
+b2RraW4gPGFicm9ka2luQHN5bm9wc3lzLmNvbT47IEV1Z2VuaXkgUGFsdHNldiA8cGFsdHNldkBz
+eW5vcHN5cy5jb20+OyBsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnOyBKb3NlIEFi
+cmV1IDxqb2FicmV1QHN5bm9wc3lzLmNvbT4NClN1YmplY3Q6IFJlOiBMaW51eCBrZXJuZWwgY29t
+bWl0ICJhZGQgcGh5LW1vZGUgc3VwcG9ydCBmb3IgdGhlIEtTWjkwMzEgUEhZIiBicm9rZSBFVEgg
+Zm9yIFN5bm9wc3lzIEhTREsgYm9hcmQuDQoNCkhpIEV2Z2VuaXksDQoNCkFtIDAzLjA3LjIwIHVt
+IDAxOjI4IHNjaHJpZWIgRXZnZW5peSBEaWRpbjoNCj4gSGkgT2xla3NpaiwNCj4gDQo+IFN5bm9w
+c3lzIEFSQyBIU0RLIGJvYXJkIGhhcyDigJxNaWNyZWwgS1NaOTAzMSBHaWdhYml0IFBIWeKAnSBj
+aGlwIG9uIGl0LCBib290IGxvZzoNCj4+IFN0YXJ0aW5nIG5ldHdvcms6IHN0bW1hY2V0aCBmMDAw
+ODAwMC5ldGhlcm5ldCBldGgwOiBQSFkgW3N0bW1hYy0wOjAwXSANCj4+IGRyaXZlciBbTWljcmVs
+IEtTWjkwMzENCj4gR2lnYWJpdCBQSFldIChpcnE9UE9MTCkNCj4gV2l0aCByZWNlbnQgY29tbWl0
+IGJjZjM0NDBjNmRkICgibmV0OiBwaHk6IG1pY3JlbDogYWRkIHBoeS1tb2RlIA0KPiBzdXBwb3J0
+IGZvciB0aGUgS1NaOTAzMSBQSFkiKSBFdGhlcm5ldCBzdG9wcGVkDQo+IA0KPiB3b3JraW5nIG9u
+IEhTREsgYm9hcmQuDQo+IA0KPiANCj4gSXQgc2VlbXMgdGhhdCB0aGVyZSBpcyBhIGxhY2sgb2Yg
+KnBoeSogY29uZmlndXJhdGlvbiBpbiBoc2RrLmR0cyBmaWxlLCBzZWU6DQo+IGh0dHBzOi8vZ2l0
+Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3N0YWJsZS9saW51eC5naXQvdHJl
+ZS8NCj4gYXJjaC9hcmMvYm9vdC9kdHMvaHNkay5kdHMjbjIyOQ0KPiANCj4gV2hhdCBmaWVsZHMg
+ZG8geW91IHRoaW5rIHdlIHNob3VsZCBhZGQgdG8gdGhlICpldGhlcm5ldC1waHlAMCogY29uZmln
+dXJhdGlvbj8NCj4gT3IgbWF5YmUgc29tZXRoaW5nIGVsc2UgaXMgY2F1c2luZyB0aGUgZXRoIGlz
+c3VlPyBEbyB5b3UgaGF2ZSBhbnkgdGhvdWdodHMgb24gdGhpcz8NCg0KU2hvcnQgYW5zd2VyOg0K
+bWFjOiBldGhlcm5ldEA4MDAwIHsNCiAgLi4uDQogIHBoeS1tb2RlID0gInJnbWlpLWlkIjsgKG9y
+ICJyZ21paS1yeGlkIikNCiAgLi4uDQp9DQoNCkxvbmcgYW5zd2VyOg0KQWNjb3JkaW5nIHRvIHRo
+ZSBSR01JSSB2MS4yIHNwZWNpZmljYXRpb246ICJQQyBib2FyZCBkZXNpZ24gd2lsbCByZXF1aXJl
+IGNsb2NrcyB0byBiZSByb3V0ZWQgc3VjaCB0aGF0IGFuIGFkZGl0aW9uYWwgdHJhY2UgZGVsYXkg
+b2YgZ3JlYXRlciB0aGFuIDEuNW5zIGFuZCBsZXNzIHRoYW4gMi4wbnMiDQoNClVzdWFsbHksIHRv
+IGdldCB0aGlzIGtpbmQgb2YgZGVsYXkgb24gdGhlIGNsb2NrIGxpbmUsIHlvdSBzaG91bGQgbWFr
+ZSB0aGUgY2xvY2sgbGluZSAxMC0xNWNtIGxvbmdlciB0aGVuIHRoZSBkYXRhIGxpbmVzLg0KDQpT
+aW5jZSBpdCBpcyBraW5kIG9mIGNvbXBsaWNhdGVkLCB0byBhZGQgdGhpcyBsb25nIHRyYWNlcyB0
+byBhIHRpbnkgZW1iZWRkZWQgYm9hcmQsIHdhcyBpbnRyb2R1Y2VkIHNwZWNpZmljYXRpb24gUkdN
+SUkgdjIuMC4gSXQgYWxsb3dzIGZvciBNQUMgYW5kL29yIFBIWSB0byBoYXZlIGludGVybmFsIGRl
+bGF5LiBBIGRldmljZSB3aXRoIGludGVybmFsIGRlbGF5IHdpbGwgYmUgY2FsbGVkICJyZ21paS1p
+ZCIuIEluIHRoZSBrZXJuZWwgaXQgaXMgcHJlZmZlcmVkIHRvIGFkZCB0aGlzIGRlbGF5IGJ5IHRo
+ZSBQSFksIG5vdCBNQUMuIE90aGVyd2lzZSBpdCB3aWxsIGJlIGEgYnVnIGFuZCBzaG91bGQgYmUg
+Zml4ZWQuDQoNClNpbmNlIG1vc3Qgb2YgZW1iZWRkZWQgYm9hcmRzIGRvIG5vdCBoYXZlIHJvb20g
+Zm9yIDE1Y20gY2xvY2sgdHJhY2VzLCB0aGVuIGluIG1vc3QgY2FzZXMgJ3BoeS1tb2RlID0gInJn
+bWlpIicgaXMgbm90IGNvcnJlY3QuIEl0IHdpbGwgd29yayBhcyBsb25nIGFzIFBIWSBkcml2ZXIg
+d2lsbCBiZSBmaXhlZC4gTGlrZSBpbiB0aGlzIGNhc2UuDQoNClBlciBkZWZhdWx0IEtTWjkwMzEg
+d2FzIGNvbmZpZ3VyZWQgYXMgInJnbWlpLXJ4aWQiOg0KLSBubyBkZWxheSBvbiBUWCBwYXRoIChN
+QUMgdG8gUEhZKQ0KLSAxLjJucyBkZWxheSBvbiBSWCBwYXRoIChQSFkgdG8gTUFDKQ0KDQpJZiBp
+dCB3YXMgd29ya2luZyBvbiB5b3VyIGJvYXJkIGluICJyZ21paS1yeGlkIiBtb2RlLCB0aGVuOg0K
+LSB0aGUgTUFDIGFkZGVkIHNvbWUgZGVsYXkuIGluIHRoaXMgY2FzZSwgbW9zdCBwcm9iYWJseSBp
+dCBpcyBhIGJ1ZyBhbmQgc2hvdWxkIGJlIGZpeGVkIGluIHRoZSBNQUMgZHJpdmVyLg0KLSB0aGVy
+ZSB3YXMgbm8gVFggZGVsYXkgYW5kIHRoZSBQSFkgd2FzIHdvcmtpbmcgYnkgYWNjaWRlbnQgb24g
+dGhlIGVkZ2Ugb2Ygc3BlY2lmaWNhdGlvbi4gRGlkIHlvdSBoYWQgc29tZSBraW5kIG9mIHJhbmRv
+bSBwYWNrZXQgZHJvcHM/DQotIFRoZSBjbG9jayBsaW5lIGlzIGFjdHVhbGx5IDEwLTE1Y20gbG9u
+Z2VyIHRoZW4gZGF0YSBsaW5lcy4NCg0KQmVzaWRlLCBwaHkwIG9uIHRoaXMgYm9hcmQgaXMgYm9v
+dHN0cmFwcGVkIHRvIHRoZSBhZGRyZXNzIDAsIHdoaWNoIGlzIGJyb2FkY2FzdCBhZGRyZXNzIG9u
+IHRoZSBNRElPIGJ1cy4gUGxlYXNlIGRvbid0IHVzZSB0aGlzIGFkZHJlc3MgaWYgcG9zc2libGUu
+IEFuZCwgaXQgaXMgcHJvYmFibHkgYSBnb29kIGlkZWEgdG8gYWRkIGluIHRoZSBjb21tZW50IHRo
+ZSBwYXJ0IG5hbWUgb2YgdGhlIFBIWS4g0JFlY2F1c2UgcGF0Y2hpbmcgUEhZIGRyaXZlcnMgaXMg
+dXN1YWxseSBkb25lIGxpa2U6ICLRgtGD0YjQuCDRgdCy0LXRgiwg0LHRgNC+0YHQsNC5INCz0YDQ
+sNC90LDRgtGDIiA7KQ0KDQotLQ0KUmVnYXJkcywNCk9sZWtzaWoNCg0KX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBs
+aXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJh
+ZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
