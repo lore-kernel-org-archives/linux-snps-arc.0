@@ -2,62 +2,93 @@ Return-Path: <SRS0=2YWT=AV=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9120BC433E1
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 06:47:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 052B6C433E1
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 09:29:14 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CE252076A
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 06:47:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CACA320725
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 09:29:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eYSmFTMY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CE252076A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EqD/cjTm";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f6AaVHMD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CACA320725
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:Date:References:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=dcoruIOTQX/S2Egjdyb137sg3G59utnlI+xG5d4Hnv8=; b=eYSmFTMY+Fs2x6xWNA9Az8+YR
-	dvxFL8gpNS/3uRSVZiQku04Y2O8uGEeTaIfji5Q6EvlqBTafcZnd7QhDd7wXNvofurBUeJV9htrNU
-	arvCo9tIVkdLK8wd/+wSe9xq1+MfVkQnKdKO3yX9VqSu1ty79IYkeXqRXrsBZxsWoP/7qrirs2+nB
-	dGTuGuqlknRY72cgX3SqKziU+QDOkM/xzeflgBfCjm90wBVLr1u6bplRaA+Df++t1Y2ApV7p3WEeo
-	Vce2qRnN0/PJ6CKcb7PGKjZb9vkTZfpRs3YRjBiAh6L57MveI8dLGuG6vqELNWsIFDW+xzL7yzvgL
-	pIR1n8hiQ==;
+	 bh=jRtEm4DkwkpoBrLsUi8VKXYUfNY8um5fjUAzUwrnbIY=; b=EqD/cjTmhmGMqFC1TjgN/XL/F
+	9bD1DpkpRO1WJfkYPDNIMs1lQZbLRjgAFr6RBwrW8jJfizk3D20mMGsW+8bYWir0jLYkWrlo3HWmQ
+	mNl2G9E6dUyF6//8NWbbVCaLlAvWoX4blamPEccWfDFKJVyRik31rI/jTjv2LGZ7QYB47nFyAip0J
+	HTY3mOj3IK+XCA43xYCKQ78d87HKm8VFa3wO7njChni/Q3tOWIl5b4qWBrgmU1wOetYsSjGj0IbYS
+	19p0Rppj2mzN3HMjyAvL++hNkCLJ8dZOPk2QNtpG8St77pmKGqlZoHDOIUaE3JODyy/voosYCfNn4
+	qwzapLUiA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jtmp8-0005pv-JN; Fri, 10 Jul 2020 06:47:54 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jtmp2-0005nz-S6; Fri, 10 Jul 2020 06:47:50 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC759C0A;
- Thu,  9 Jul 2020 23:47:47 -0700 (PDT)
-Received: from [10.163.87.77] (unknown [10.163.87.77])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 878B63F887;
- Thu,  9 Jul 2020 23:47:38 -0700 (PDT)
-Subject: Re: [mm/debug_vm_pgtable] a97a171093:
- BUG:unable_to_handle_page_fault_for_address
-To: kernel test robot <lkp@intel.com>
-References: <20200709061122.GN3874@shao2-debian>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <686d83dc-d49f-77f2-1581-8f2be1a5fc60@arm.com>
-Date: Fri, 10 Jul 2020 12:17:14 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+	id 1jtpLE-00025C-TM; Fri, 10 Jul 2020 09:29:12 +0000
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]
+ helo=us-smtp-1.mimecast.com)
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jtpLC-000245-G0
+ for linux-snps-arc@lists.infradead.org; Fri, 10 Jul 2020 09:29:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594373349;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=28wdBkLSro1dSR8WxXNX8ILziydhQ/VL4v0ZhMAJMp0=;
+ b=f6AaVHMD88N3wQ1uQszHxf8sPU7N0jGPDzgX0ZX0vPIZ0zt8VT901cKNBMMab5xvr/0gsy
+ WCKBKtlpyIuUdkqHkezcKXmF7fU/hPhG6r47Uo27zzvtZgbTJsXL85hs2F5Mg/SkWDbJ7P
+ hJ7J+yxOSTqfLUK3h3p7dLgprm8p+I8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-PFbSRcfFOD-FRkjLpWrvEA-1; Fri, 10 Jul 2020 05:28:31 -0400
+X-MC-Unique: PFbSRcfFOD-FRkjLpWrvEA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94498800401;
+ Fri, 10 Jul 2020 09:28:30 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-113-118.ams2.redhat.com
+ [10.36.113.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 728FB5C1D3;
+ Fri, 10 Jul 2020 09:28:28 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Alistair Francis via Libc-alpha <libc-alpha@sourceware.org>
+Subject: Re: ARC testsuite regressions (was Re: [PATCH v7.2 07/13] ARC: Linux
+ Syscall Interface)
+References: <8ec1c7a1-dd77-5f1f-a2a4-11d214152a0d@linaro.org>
+ <20200707205506.31537-1-vgupta@synopsys.com>
+ <b64d0df1-4229-d619-0ab1-ded287323775@linaro.org>
+ <dce392e8-4e16-6a9e-d173-ea64ac375014@synopsys.com>
+ <273d42de-dc2b-2101-8705-04b399bd46cc@linaro.org>
+ <2c7b73bd-d738-6af8-90b0-514ad22d929f@synopsys.com>
+ <130fbd5a-cec8-4930-0b5e-da53d8d582ea@synopsys.com>
+ <5f20da5f-8612-099b-3257-56c18f10cfa0@synopsys.com>
+ <CAKmqyKM4pgF=E6bzCdFqYkboGQWURjcVmAz-V5KVqTZts8otug@mail.gmail.com>
+Date: Fri, 10 Jul 2020 11:28:27 +0200
+In-Reply-To: <CAKmqyKM4pgF=E6bzCdFqYkboGQWURjcVmAz-V5KVqTZts8otug@mail.gmail.com>
+ (Alistair Francis via Libc-alpha's message of "Thu, 9 Jul 2020
+ 15:01:02 -0700")
+Message-ID: <87o8on4t38.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200709061122.GN3874@shao2-debian>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200710_024749_048726_EC786DD5 
-X-CRM114-Status: GOOD (  15.33  )
+X-CRM114-CacheID: sfid-20200710_052910_585650_25CF4BE1 
+X-CRM114-Status: UNSURE (   9.48  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,100 +100,49 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, linux-mm@kvack.org,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Mike Rapoport <rppt@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, linux-snps-arc@lists.infradead.org,
- Vasily Gorbik <gor@linux.ibm.com>, lkp@lists.01.org,
- Borislav Petkov <bp@alien8.de>, Paul Walmsley <paul.walmsley@sifive.com>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Vineet Gupta <vgupta@synopsys.com>, linux-kernel@vger.kernel.org,
- Palmer Dabbelt <palmer@dabbelt.com>, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org
+Cc: Alistair Francis <alistair23@gmail.com>,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ arcml <linux-snps-arc@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+* Alistair Francis via Libc-alpha:
 
+> On Thu, Jul 9, 2020 at 2:36 PM Vineet Gupta via Libc-alpha
+> <libc-alpha@sourceware.org> wrote:
+>>
+>> On 7/9/20 2:13 PM, Vineet Gupta via Libc-alpha wrote:
+>> >> Rebased ARC port on master and fired a build-many-glibcs <glibcs> now (expect some
+>> >> abilist updates). Will do a full testsuite run
+>> >
+>> > No regressions in sysvipc tests !
+>>
+>> But quite a few regressions. Baseline is ARC port off of upstream 81b1c8cbb5b4
+>> "(hurd: Simplify usleep timeout computation)" and failures below seen in ARC port
+>> off of today's master ffd178c651b8 "(sysv: linux: Add 64-bit time_t variant for
+>> shmctl)"
+>>
+>> FAIL: dlfcn/tststatic
+>> FAIL: dlfcn/tststatic2
+>> FAIL: dlfcn/tststatic3
+>> FAIL: dlfcn/tststatic4
+>> FAIL: dlfcn/tststatic5
+>> FAIL: elf/tst-libc_dlvsym
+>> FAIL: elf/tst-libc_dlvsym-static
+>> FAIL: elf/tst-single_threaded-static-dlopen
+>> FAIL: elf/tst-tls9-static
+>
+> I see the same recent-ish regressions for RV32.
 
-On 07/09/2020 11:41 AM, kernel test robot wrote:
-> [   94.349598] BUG: unable to handle page fault for address: ffffed10a7ffddff
-> [   94.351039] #PF: supervisor read access in kernel mode
-> [   94.352172] #PF: error_code(0x0000) - not-present page
-> [   94.353256] PGD 43ffed067 P4D 43ffed067 PUD 43fdee067 PMD 0 
-> [   94.354484] Oops: 0000 [#1] SMP KASAN
-> [   94.355238] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc4-00002-ga97a17109332c #1
-> [   94.360456] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
-> [   94.361950] RIP: 0010:hugetlb_advanced_tests+0x137/0x699
-> [   94.363026] Code: 8b 13 4d 85 f6 75 0b 48 ff 05 2c e4 6a 01 31 ed eb 41 bf f8 ff ff ff ba ff ff 37 00 4c 01 f7 48 c1 e2 2a 48 89 f9 48 c1 e9 03 <80> 3c 11 00 74 05 e8 cd c0 67 fa ba f8 ff ff ff 49 8b 2c 16 48 85
-> [   94.366592] RSP: 0000:ffffc90000047d30 EFLAGS: 00010a06
-> [   94.367693] RAX: 1ffffffff1049b80 RBX: ffff888380525308 RCX: 1ffff110a7ffddff
-> [   94.369215] RDX: dffffc0000000000 RSI: 1ffff11087ffdc00 RDI: ffff88853ffeeff8
-> [   94.370693] RBP: 000000000018e510 R08: 0000000000000025 R09: 0000000000000001
-> [   94.372165] R10: ffff888380523c07 R11: ffffed10700a4780 R12: ffff88843208e510
-> [   94.373674] R13: 0000000000000025 R14: ffff88843ffef000 R15: 000031e01ae61000
-> [   94.375147] FS:  0000000000000000(0000) GS:ffff8883a3800000(0000) knlGS:0000000000000000
-> [   94.376883] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   94.378051] CR2: ffffed10a7ffddff CR3: 0000000004e15000 CR4: 00000000000406a0
-> [   94.379522] Call Trace:
-> [   94.380073]  debug_vm_pgtable+0xd81/0x2029
-> [   94.380871]  ? pmd_advanced_tests+0x621/0x621
-> [   94.381819]  do_one_initcall+0x1eb/0xbd0
-> [   94.382551]  ? trace_event_raw_event_initcall_finish+0x240/0x240
-> [   94.383634]  ? rcu_read_lock_sched_held+0xb9/0x110
-> [   94.388727]  ? rcu_read_lock_held+0xd0/0xd0
-> [   94.389604]  ? __kasan_check_read+0x1d/0x30
-> [   94.390485]  kernel_init_freeable+0x430/0x4f8
-> [   94.391416]  ? rest_init+0x3f8/0x3f8
-> [   94.392185]  kernel_init+0x14/0x1e8
-> [   94.392918]  ret_from_fork+0x22/0x30
-> [   94.393662] Modules linked in:
-> [   94.394289] CR2: ffffed10a7ffddff
-> [   94.395000] ---[ end trace 8ca5a1655dfb8c39 ]---
+Did you rebuild from scratch?  After the libc.so/ld.so ABI changes that
+went in recently, it could be the result of incomplete make
+dependencies.
 
-This bug is caused from here.
+Thanks,
+Florian
 
-static inline struct mem_section *__nr_to_section(unsigned long nr)
-{
-#ifdef CONFIG_SPARSEMEM_EXTREME
-        if (!mem_section)
-                return NULL;
-#endif
-        if (!mem_section[SECTION_NR_TO_ROOT(nr)]) <-------- BUG
-                return NULL;
-        return &mem_section[SECTION_NR_TO_ROOT(nr)][nr & SECTION_ROOT_MASK];
-}
-
-static inline struct mem_section *__pfn_to_section(unsigned long pfn)
-{
-        return __nr_to_section(pfn_to_section_nr(pfn));
-}
-
-#define __pfn_to_page(pfn)                              \
-({      unsigned long __pfn = (pfn);                    \
-        struct mem_section *__sec = __pfn_to_section(__pfn);    \
-        __section_mem_map_addr(__sec) + __pfn;          \
-})
-
-which is called via hugetlb_advanced_tests().
-
-paddr = (__pfn_to_phys(pfn) | RANDOM_ORVALUE) & PMD_MASK;
-pte = pte_mkhuge(mk_pte(pfn_to_page(PHYS_PFN(paddr)), prot));
-
-Primary reason being RANDOM_ORVALUE, which is added to the paddr before
-being masked with PMD_MASK. This clobbers up the pfn value which cannot
-be searched in relevant memory sections. This problem stays hidden on
-other configs where pfn_to_page() does not go via memory section search.
-Dropping off RANDOM_ORVALUE solves the problem. Probably, just wanted to
-drop that off during V2 series (https://lkml.org/lkml/2020/4/8/997) but
-dont remember why ended up keeping it again.
 
 _______________________________________________
 linux-snps-arc mailing list
