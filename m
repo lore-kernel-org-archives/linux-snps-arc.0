@@ -2,94 +2,75 @@ Return-Path: <SRS0=2YWT=AV=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B862C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 21:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5CABC433E0
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 23:38:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C39E420748
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 21:06:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8F9A120657
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 23:38:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kYH9A4Ia";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="earKH3nB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C39E420748
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fWjFym9L";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="gMFU7dk1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8F9A120657
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=oeVd8DZqJAFcTQofF/IrM166c0JXgDb5+eo4yKjvWhU=; b=kYH9A4Iav4NuP0xCvFdKBQx4F
-	ZaOTp6gg0Mq7fkyUoaK87R7Sh+NOzghSCCBE8IDR8ahY3lAO9VD4MJH6N3kiTy0ZkGgFBLVNEiY0k
-	k5hG+7vRW1faF86JWW3sRYUt4mMjKgfp9lgmv7CKDtdAz3sUUzwdLx0v9ZucnTr3WpG36mTScRAC+
-	q8VmdVCvlyB3x4g+lmNyH+I/MTJJgSt+06KCESnlszrANRFsowAl33wiulvkYeyETc9dUcEJEawjk
-	WAvNsmN6yqLOkcamhaRdjIKH3/RO4OlIDey0BPCh9Tw3eV+CjNejScy7uHdfmSdhx3q/AD9+UM3J9
-	4U3eDe0Lw==;
+	 bh=MIPXpa0i10AvsyNmjxfAtgRMpuauaCR0pKnz9byLGG4=; b=fWjFym9LUImcVkOKw4W1gAsNy
+	lemDy3bg0ZyrN8t3rk4T81TOQUk/+iWBPYT7aKBVQFCP0P7L77LVIS+/98sJ2EG5xGiu51lq8RyX9
+	paRNDvGkMakmU9jTEv6eTnLOuusKHrILvDh4DcHYB/WVRGGuqFxZS9xLbgVep1ntS9N7kJMQJqEYI
+	XQXgcsx3aKCBZjX0MgcPQPNlyaqzVIkJv5TReRHUDkhzIxehr41MlH6rc5fL7GL6/k+p8HI4wwhP9
+	MlhuxuA7uTzFoACnbWjg0TRtadfnZtUJsrMpTP3kNv0OiTgDYf4aw5YVX7BGpWI8S361NSDxReydZ
+	gfo5R6Eeg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ju0E8-0004zu-8B; Fri, 10 Jul 2020 21:06:36 +0000
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41])
+	id 1ju2ay-0008Bg-UR; Fri, 10 Jul 2020 23:38:20 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ju0E6-0004zQ-G8
- for linux-snps-arc@lists.infradead.org; Fri, 10 Jul 2020 21:06:35 +0000
-Received: by mail-io1-xd41.google.com with SMTP id c16so7439353ioi.9
- for <linux-snps-arc@lists.infradead.org>; Fri, 10 Jul 2020 14:06:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fOxAPCG7HixRWmgLU8HHZ+Gs8LneAQngMAPueAugdtY=;
- b=earKH3nBBtpHATcH+rGoqVxKcq6d5J7P9HvZuhsmubxVwSXYcBwKxF8sZAZrvCkd29
- b9rsR1phyn+j+nJKyOlQY698owEFgvQBgmWHfOZ1+7Sha5T1sgQQ2m44QZndlPCy98Jf
- 39L4e4Wqr1XGn5kLrHr5Eh7NRbFUDkdY+p0jVvAlZwuFb81IdM/fSYeMlddWp1ZN7vbi
- LIDnlN4jY1ZxlXxGS8VkWpx6gHdf543h9R5gMAgRu1zGwDpqdyU/iTSayRzTHkXPUOhl
- kU9p0FiroKz52eCqALPWySf8cPqHF1Qf0L/Ez+di8F3aGSuPSnUuWsdu74wpKW4dgjkh
- U1aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fOxAPCG7HixRWmgLU8HHZ+Gs8LneAQngMAPueAugdtY=;
- b=VFwYWVeNbjYjgdvS+R0NEzYa7dtgKYQU9X9RIgDemmgVdaoaFNXnzspia1eU2RpmSS
- WVu4c3wTh2yXSsg9XC8oLjPLFib93MCUNPHkY9rYaP5RsH9s/xGmX6Zja8ta3PIOfukG
- LdeSu7PRKno/MCXxR1+w8fc/6jskLNX9NTwAPSBknwYldhnmMWt9gnNtBYFpImhFEP2x
- 22CNZERQ+HrPVvvE9ajtsNVFs2fahoHd5zU8csduOBfSPUUSHaaSgXGIY8Ks/cIxKNc9
- Tb4wb7YrFSlF6AiJbje54nQZdmWMCF+nD2k2Zud9QvMjl72PQjbvt0BuI81FfS7VdBJp
- g3iQ==
-X-Gm-Message-State: AOAM531szwSXJOWIANZlv7n3tVHbZeEAayYXDJ0CAPq8yQm5BZ5J7NWg
- /ylhYpyX/G3b+m62wyVoD/EYkNE9/KOW/lsTiHM=
-X-Google-Smtp-Source: ABdhPJydvy1JLr/UTZKqR/dLEE40Zjd/184DVHjfp/IszoZAGko2qkgnLoTsco8SrvXQ8E8ADMyVO7RtlRNAW/JgTnk=
-X-Received: by 2002:a02:6c4c:: with SMTP id w73mr81328674jab.26.1594415192647; 
- Fri, 10 Jul 2020 14:06:32 -0700 (PDT)
+ id 1ju2at-00088Q-QB
+ for linux-snps-arc@lists.infradead.org; Fri, 10 Jul 2020 23:38:18 +0000
+Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com
+ [10.205.2.134])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C30D940A37;
+ Fri, 10 Jul 2020 23:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1594424294; bh=E7xtzvE/Jk9qs/8mxFtQl9I4gzziI7KXzPlncCwZQaE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gMFU7dk1KhB+q3VTxQXpj+P9Nz4pnGy7imdRRojAalwtTj9s4dw5Qw6Bv+zY5Ag/x
+ tyYjOP+9BKJfQbKymdRVs0b2L7EWUAT7F1aYAC3UgaOr1OU5J+KO48MWDCjVhxPRER
+ HHhsdhyLOv8JA8SB/6/ueA4ag2pBJDQzeXpltzmsgU/hoDpFhF/uQnRUSW/itsBLjw
+ aGkx8DdXzYK0glKID+eLt0jHLErb0Pnpt5QcYw9GCVr/U1Sp/4RZU1+IwnPq8Z+QzJ
+ WRq1NjVA3z4BP52zxfyQF6sp0oJmh6T0BTDhVFq8zh3qGytPOl8IuQdQPQYle46Id8
+ U2Mo7ts1fkQow==
+Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
+ [10.13.183.89])
+ by mailhost.synopsys.com (Postfix) with ESMTP id 79511A00A1;
+ Fri, 10 Jul 2020 23:38:13 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: libc-alpha@sourceware.org
+Subject: [COMMITTED 02/13] ARC: startup and dynamic linking code
+Date: Fri, 10 Jul 2020 16:37:59 -0700
+Message-Id: <20200710233810.18720-2-vgupta@synopsys.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200710233810.18720-1-vgupta@synopsys.com>
+References: <20200710233810.18720-1-vgupta@synopsys.com>
 MIME-Version: 1.0
-References: <8ec1c7a1-dd77-5f1f-a2a4-11d214152a0d@linaro.org>
- <20200707205506.31537-1-vgupta@synopsys.com>
- <b64d0df1-4229-d619-0ab1-ded287323775@linaro.org>
- <dce392e8-4e16-6a9e-d173-ea64ac375014@synopsys.com>
- <273d42de-dc2b-2101-8705-04b399bd46cc@linaro.org>
- <2c7b73bd-d738-6af8-90b0-514ad22d929f@synopsys.com>
- <130fbd5a-cec8-4930-0b5e-da53d8d582ea@synopsys.com>
- <5f20da5f-8612-099b-3257-56c18f10cfa0@synopsys.com>
- <CAKmqyKM4pgF=E6bzCdFqYkboGQWURjcVmAz-V5KVqTZts8otug@mail.gmail.com>
- <87o8on4t38.fsf@oldenburg2.str.redhat.com>
- <cf8e41c7-8a58-f9bc-ab6a-ca5099bf6b46@synopsys.com>
- <CAKmqyKMoq7A_n-i8ho-RSLK_0zu-eipxcOj9xJfFu_e61EVt=A@mail.gmail.com>
- <87mu47w1od.fsf@oldenburg2.str.redhat.com>
-In-Reply-To: <87mu47w1od.fsf@oldenburg2.str.redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 10 Jul 2020 13:56:39 -0700
-Message-ID: <CAKmqyKM9sM3OwYGJ=XRNuBhWBVOJaEMD9W+fvzCM5xwUTYg2-w@mail.gmail.com>
-Subject: Re: ARC testsuite regressions (was Re: [PATCH v7.2 07/13] ARC: Linux
- Syscall Interface)
-To: Florian Weimer <fweimer@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200710_170634_569592_CE92EC38 
-X-CRM114-Status: GOOD (  19.94  )
+X-CRM114-CacheID: sfid-20200710_193816_171743_D79F0843 
+X-CRM114-Status: GOOD (  28.62  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,87 +83,669 @@ List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- arcml <linux-snps-arc@lists.infradead.org>,
- Alistair Francis via Libc-alpha <libc-alpha@sourceware.org>
+ linux-snps-arc@lists.infradead.org,
+ Adhemerval Zanella <adhemerval.zanella@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 10, 2020 at 1:33 PM Florian Weimer <fweimer@redhat.com> wrote:
->
-> * Alistair Francis:
->
-> > On Fri, Jul 10, 2020 at 8:55 AM Vineet Gupta via Libc-alpha
-> > <libc-alpha@sourceware.org> wrote:
-> >>
-> >> On 7/10/20 2:28 AM, Florian Weimer via Libc-alpha wrote:
-> >> > * Alistair Francis via Libc-alpha:
-> >> >
-> >> >> On Thu, Jul 9, 2020 at 2:36 PM Vineet Gupta via Libc-alpha
-> >> >> <libc-alpha@sourceware.org> wrote:
-> >> >>>
-> >> >>> On 7/9/20 2:13 PM, Vineet Gupta via Libc-alpha wrote:
-> >> >>>>> Rebased ARC port on master and fired a build-many-glibcs <glibcs> now (expect some
-> >> >>>>> abilist updates). Will do a full testsuite run
-> >> >>>>
-> >> >>>> No regressions in sysvipc tests !
-> >> >>>
-> >> >>> But quite a few regressions. Baseline is ARC port off of upstream 81b1c8cbb5b4
-> >> >>> "(hurd: Simplify usleep timeout computation)" and failures below seen in ARC port
-> >> >>> off of today's master ffd178c651b8 "(sysv: linux: Add 64-bit time_t variant for
-> >> >>> shmctl)"
-> >> >>>
-> >> >>> FAIL: dlfcn/tststatic
-> >> >>> FAIL: dlfcn/tststatic2
-> >> >>> FAIL: dlfcn/tststatic3
-> >> >>> FAIL: dlfcn/tststatic4
-> >> >>> FAIL: dlfcn/tststatic5
-> >> >>> FAIL: elf/tst-libc_dlvsym
-> >> >>> FAIL: elf/tst-libc_dlvsym-static
-> >> >>> FAIL: elf/tst-single_threaded-static-dlopen
-> >> >>> FAIL: elf/tst-tls9-static
-> >> >>
-> >> >> I see the same recent-ish regressions for RV32.
-> >> >
-> >> > Did you rebuild from scratch?  After the libc.so/ld.so ABI changes that
-> >> > went in recently, it could be the result of incomplete make
-> >> > dependencies.
-> >>
-> >> From scratch meaning glibc alone or the whole toolchain. I used buildroot and
-> >> glibc-dirclean to nuke entire glibc but gcc was not rebuilt. I can try that too.
-> >
-> > That's the same with me. The toolchain wasn't rebuilt but glibc was
-> > built from a clean directory. I am rebuilding now with a rebuilt
-> > toolchain.
-> >
-> >>
-> >> Some of the failed tests have prints about static TLS block ... so I'm wondering
-> >> if they could be related ?
-> >
-> > I see the same messages.
-> >
-> >>
-> >> | $ cat dlfcn/tststatic.out
-> >> | .../build/libc.so.6: cannot allocate memory in static TLS block
-> >
-> > That's what I see as well.
->
-> Sorry, my fault.  I posted a patch that should fix static dlopen:
->
->   <https://sourceware.org/pipermail/libc-alpha/2020-July/116143.html>
->
-> Would you mind testing it?
+Code for C runtime startup and dynamic loading including PLT layout.
 
-Yep, I'm currently in the middle of a different test. When that
-finishes I'll test again, that'll take around 48 hours though
+Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
+---
+ sysdeps/arc/bits/link.h   |  52 ++++++
+ sysdeps/arc/dl-machine.h  | 344 ++++++++++++++++++++++++++++++++++++++
+ sysdeps/arc/entry.h       |   5 +
+ sysdeps/arc/ldsodefs.h    |  43 +++++
+ sysdeps/arc/sotruss-lib.c |  50 ++++++
+ sysdeps/arc/start.S       |  74 ++++++++
+ sysdeps/arc/tst-audit.h   |  23 +++
+ 7 files changed, 591 insertions(+)
+ create mode 100644 sysdeps/arc/bits/link.h
+ create mode 100644 sysdeps/arc/dl-machine.h
+ create mode 100644 sysdeps/arc/entry.h
+ create mode 100644 sysdeps/arc/ldsodefs.h
+ create mode 100644 sysdeps/arc/sotruss-lib.c
+ create mode 100644 sysdeps/arc/start.S
+ create mode 100644 sysdeps/arc/tst-audit.h
 
-Alistair
+diff --git a/sysdeps/arc/bits/link.h b/sysdeps/arc/bits/link.h
+new file mode 100644
+index 000000000000..b687250a7a07
+--- /dev/null
++++ b/sysdeps/arc/bits/link.h
+@@ -0,0 +1,52 @@
++/* Machine-specific declarations for dynamic linker interface, ARC version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef	_LINK_H
++# error "Never include <bits/link.h> directly; use <link.h> instead."
++#endif
++
++/* Registers for entry into PLT on ARC.  */
++typedef struct La_arc_regs
++{
++  uint32_t lr_reg[8]; /* r0 through r7 (upto 8 args).  */
++} La_arc_regs;
++
++/* Return values for calls from PLT on ARC.  */
++typedef struct La_arc_retval
++{
++  /* For ARCv2, a 64-bit integer return value can use 2 regs.  */
++  uint32_t lrv_reg[2];
++} La_arc_retval;
++
++__BEGIN_DECLS
++
++extern ElfW(Addr) la_arc_gnu_pltenter (ElfW(Sym) *__sym, unsigned int __ndx,
++					 uintptr_t *__refcook,
++					 uintptr_t *__defcook,
++					 La_arc_regs *__regs,
++					 unsigned int *__flags,
++					 const char *__symname,
++					 long int *__framesizep);
++extern unsigned int la_arc_gnu_pltexit (ElfW(Sym) *__sym, unsigned int __ndx,
++					  uintptr_t *__refcook,
++					  uintptr_t *__defcook,
++					  const La_arc_regs *__inregs,
++					  La_arc_retval *__outregs,
++					  const char *symname);
++
++__END_DECLS
+diff --git a/sysdeps/arc/dl-machine.h b/sysdeps/arc/dl-machine.h
+new file mode 100644
+index 000000000000..e47f19905f1f
+--- /dev/null
++++ b/sysdeps/arc/dl-machine.h
+@@ -0,0 +1,344 @@
++/* Machine-dependent ELF dynamic relocation inline functions.  ARC version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef dl_machine_h
++#define dl_machine_h
++
++#define ELF_MACHINE_NAME "arc"
++
++#include <entry.h>
++
++#ifndef ENTRY_POINT
++# error ENTRY_POINT needs to be defined for ARC
++#endif
++
++#include <string.h>
++#include <link.h>
++#include <dl-tls.h>
++
++/* Dynamic Linking ABI for ARCv2 ISA.
++
++                        PLT
++          --------------------------------	<---- DT_PLTGOT
++          |  ld r11, [pcl, off-to-GOT[1] |  0
++          |                              |  4
++   plt0   |  ld r10, [pcl, off-to-GOT[2] |  8
++          |                              | 12
++          |  j [r10]                     | 16
++          --------------------------------
++          |    Base address of GOT       | 20
++          --------------------------------
++          |  ld r12, [pcl, off-to-GOT[3] | 24
++   plt1   |                              |
++          |  j.d    [r12]                | 32
++          |  mov    r12, pcl             | 36
++          --------------------------------
++          |                              | 40
++          ~                              ~
++          ~                              ~
++          |                              |
++          --------------------------------
++
++               .got
++          --------------
++          |    [0]     |
++          |    ...     |  Runtime address for data symbols
++          |    [n]     |
++          --------------
++
++            .got.plt
++          --------------
++          |    [0]     |  Build address of .dynamic
++          --------------
++          |    [1]     |  Module info - setup by ld.so
++          --------------
++          |    [2]     |  resolver entry point
++          --------------
++          |    [3]     |
++          |    ...     |  Runtime address for function symbols
++          |    [f]     |
++          --------------
++
++   For ARCompact, the PLT is 12 bytes due to short instructions
++
++          --------------------------------
++          |  ld r12, [pcl, off-to-GOT[3] | 24   (12 bytes each)
++   plt1   |                              |
++          |  j_s.d  [r12]                | 32
++          |  mov_s  r12, pcl             | 34
++          --------------------------------
++          |                              | 36  */
++
++/* Return nonzero iff ELF header is compatible with the running host.  */
++static inline int
++elf_machine_matches_host (const Elf32_Ehdr *ehdr)
++{
++  return (ehdr->e_machine == EM_ARCV2		 /* ARC HS.  */
++	  || ehdr->e_machine == EM_ARC_COMPACT); /* ARC 700.  */
++}
++
++/* Get build time address of .dynamic as setup in GOT[0]
++   This is called very early in _dl_start so it has not been relocated to
++   runtime value.  */
++static inline ElfW(Addr)
++elf_machine_dynamic (void)
++{
++  extern const ElfW(Addr) _GLOBAL_OFFSET_TABLE_[] attribute_hidden;
++  return _GLOBAL_OFFSET_TABLE_[0];
++}
++
++
++/* Return the run-time load address of the shared object.  */
++static inline ElfW(Addr)
++elf_machine_load_address (void)
++{
++  ElfW(Addr) build_addr, run_addr;
++
++  /* For build address, below generates
++     ld  r0, [pcl, _GLOBAL_OFFSET_TABLE_@pcl].  */
++  build_addr = elf_machine_dynamic ();
++  __asm__ ("add %0, pcl, _DYNAMIC@pcl	\n" : "=r" (run_addr));
++
++  return run_addr - build_addr;
++}
++
++/* Set up the loaded object described by L so its unrelocated PLT
++   entries will jump to the on-demand fixup code in dl-runtime.c.  */
++
++static inline int
++__attribute__ ((always_inline))
++elf_machine_runtime_setup (struct link_map *l, int lazy, int profile)
++{
++  extern void _dl_runtime_resolve (Elf32_Word);
++
++  if (l->l_info[DT_JMPREL] && lazy)
++    {
++      /* On ARC DT_PLTGOT point to .plt whose 5th word (after the PLT header)
++         contains the address of .got.  */
++      ElfW(Addr) *plt_base = (ElfW(Addr) *) D_PTR (l, l_info[DT_PLTGOT]);
++      ElfW(Addr) *got = (ElfW(Addr) *) (plt_base[5] + l->l_addr);
++
++      got[1] = (ElfW(Addr)) l;	/* Identify this shared object.  */
++
++      /* This function will get called to fix up the GOT entry indicated by
++	 the offset on the stack, and then jump to the resolved address.  */
++      got[2] = (ElfW(Addr)) &_dl_runtime_resolve;
++    }
++
++  return lazy;
++}
++
++/* What this code does:
++    -ldso starts execution here when kernel returns from execve
++    -calls into generic ldso entry point _dl_start
++    -optionally adjusts argc for executable if exec passed as cmd
++    -calls into app main with address of finaliser.  */
++
++#define RTLD_START asm ("\
++.text									\n\
++.globl __start								\n\
++.type __start, @function						\n\
++__start:								\n\
++	/* (1). bootstrap ld.so.  */					\n\
++	bl.d    _dl_start                                       	\n\
++	mov_s   r0, sp  /* pass ptr to aux vector tbl.    */    	\n\
++	mov r13, r0	/* safekeep app elf entry point.  */		\n\
++									\n\
++	/* (2). If ldso ran with executable as arg.       */		\n\
++	/*      skip the extra args calc by dl_start.     */		\n\
++	ld_s    r1, [sp]       /* orig argc.  */			\n\
++	ld      r12, [pcl, _dl_skip_args@pcl]                   	\n\
++	breq	r12, 0, 1f						\n\
++									\n\
++	add2    sp, sp, r12 /* discard argv entries from stack.  */	\n\
++	sub_s   r1, r1, r12 /* adjusted argc on stack.  */      	\n\
++	st_s    r1, [sp]                                        	\n\
++	add	r2, sp, 4						\n\
++	/* intermediate LD for ST emcoding limitations.  */		\n\
++	ld	r3, [pcl, _dl_argv@gotpc]    				\n\
++	st	r2, [r3]						\n\
++1:									\n\
++	/* (3). call preinit stuff.  */					\n\
++	ld	r0, [pcl, _rtld_local@pcl]				\n\
++	add	r2, sp, 4	; argv					\n\
++	add2	r3, r2, r1						\n\
++	add	r3, r3, 4	; env					\n\
++	bl	_dl_init@plt						\n\
++									\n\
++	/* (4) call app elf entry point.  */				\n\
++	add     r0, pcl, _dl_fini@pcl					\n\
++	j	[r13]							\n\
++									\n\
++	.size  __start,.-__start                               		\n\
++	.previous                                               	\n\
++");
++
++/* ELF_RTYPE_CLASS_PLT iff TYPE describes relocation of a PLT entry, so
++   PLT entries should not be allowed to define the value.
++   ELF_RTYPE_CLASS_NOCOPY iff TYPE should not be allowed to resolve to one
++   of the main executable's symbols, as for a COPY reloc.  */
++#define elf_machine_type_class(type)				\
++  ((((type) == R_ARC_JUMP_SLOT					\
++     || (type) == R_ARC_TLS_DTPMOD				\
++     || (type) == R_ARC_TLS_DTPOFF				\
++     || (type) == R_ARC_TLS_TPOFF) * ELF_RTYPE_CLASS_PLT)	\
++   | (((type) == R_ARC_COPY) * ELF_RTYPE_CLASS_COPY))
++
++/* A reloc type used for ld.so cmdline arg lookups to reject PLT entries.  */
++#define ELF_MACHINE_JMP_SLOT  R_ARC_JUMP_SLOT
++
++/* ARC uses Elf32_Rela relocations.  */
++#define ELF_MACHINE_NO_REL 1
++#define ELF_MACHINE_NO_RELA 0
++
++/* Fixup a PLT entry to bounce directly to the function at VALUE.  */
++
++static inline ElfW(Addr)
++elf_machine_fixup_plt (struct link_map *map, lookup_t t,
++		       const ElfW(Sym) *refsym, const ElfW(Sym) *sym,
++		       const Elf32_Rela *reloc,
++		       ElfW(Addr) *reloc_addr, ElfW(Addr) value)
++{
++  return *reloc_addr = value;
++}
++
++/* Return the final value of a plt relocation.  */
++static inline ElfW(Addr)
++elf_machine_plt_value (struct link_map *map, const Elf32_Rela *reloc,
++                       ElfW(Addr) value)
++{
++  return value;
++}
++
++/* Names of the architecture-specific auditing callback functions.  */
++#define ARCH_LA_PLTENTER arc_gnu_pltenter
++#define ARCH_LA_PLTEXIT arc_gnu_pltexit
++
++#endif /* dl_machine_h */
++
++#ifdef RESOLVE_MAP
++
++inline void
++__attribute__ ((always_inline))
++elf_machine_rela (struct link_map *map, const ElfW(Rela) *reloc,
++                  const ElfW(Sym) *sym, const struct r_found_version *version,
++                  void *const reloc_addr_arg, int skip_ifunc)
++{
++  ElfW(Addr) *const reloc_addr = reloc_addr_arg;
++  const unsigned int r_type = ELF32_R_TYPE (reloc->r_info);
++
++  if (__glibc_unlikely (r_type == R_ARC_RELATIVE))
++    *reloc_addr += map->l_addr;
++  else if (__glibc_unlikely (r_type == R_ARC_NONE))
++    return;
++  else
++    {
++      const ElfW(Sym) *const refsym = sym;
++      struct link_map *sym_map = RESOLVE_MAP (&sym, version, r_type);
++      ElfW(Addr) value = SYMBOL_ADDRESS (sym_map, sym, true);
++
++      switch (r_type)
++        {
++        case R_ARC_COPY:
++          if (__glibc_unlikely (sym == NULL))
++            /* This can happen in trace mode if an object could not be
++               found.  */
++            break;
++
++          size_t size = sym->st_size;
++          if (__glibc_unlikely (size != refsym->st_size))
++            {
++              const char *strtab = (const void *) D_PTR (map, l_info[DT_STRTAB]);
++              if (sym->st_size > refsym->st_size)
++                size = refsym->st_size;
++              if (sym->st_size > refsym->st_size || GLRO(dl_verbose))
++                _dl_error_printf ("\
++  %s: Symbol `%s' has different size in shared object, consider re-linking\n",
++                                  rtld_progname ?: "<program name unknown>",
++                                  strtab + refsym->st_name);
++            }
++
++          memcpy (reloc_addr_arg, (void *) value, size);
++          break;
++
++        case R_ARC_GLOB_DAT:
++        case R_ARC_JUMP_SLOT:
++            *reloc_addr = value;
++          break;
++
++        case R_ARC_TLS_DTPMOD:
++          if (sym_map != NULL)
++            /* Get the information from the link map returned by the
++               resolv function.  */
++            *reloc_addr = sym_map->l_tls_modid;
++          break;
++
++        case R_ARC_TLS_DTPOFF:
++          if (sym != NULL)
++            /* Offset set by the linker in the GOT entry would be overwritten
++               by dynamic loader instead of added to the symbol location.
++               Other target have the same approach on DTPOFF relocs.  */
++            *reloc_addr += sym->st_value;
++          break;
++
++        case R_ARC_TLS_TPOFF:
++          if (sym != NULL)
++            {
++              CHECK_STATIC_TLS (map, sym_map);
++              *reloc_addr = sym_map->l_tls_offset + sym->st_value + reloc->r_addend;
++            }
++          break;
++
++        case R_ARC_32:
++          *reloc_addr += value + reloc->r_addend;
++          break;
++
++        case R_ARC_PC32:
++          *reloc_addr += value + reloc->r_addend - (unsigned long int) reloc_addr;
++          break;
++
++        default:
++          _dl_reloc_bad_type (map, r_type, 0);
++          break;
++        }
++    }
++}
++
++inline void
++__attribute__ ((always_inline))
++elf_machine_rela_relative (ElfW(Addr) l_addr, const ElfW(Rela) *reloc,
++                           void *const reloc_addr_arg)
++{
++  ElfW(Addr) *const reloc_addr = reloc_addr_arg;
++  *reloc_addr += l_addr;
++}
++
++inline void
++__attribute__ ((always_inline))
++elf_machine_lazy_rel (struct link_map *map, ElfW(Addr) l_addr,
++                      const ElfW(Rela) *reloc, int skip_ifunc)
++{
++  ElfW(Addr) *const reloc_addr = (void *) (l_addr + reloc->r_offset);
++
++  if (ELF32_R_TYPE (reloc->r_info) == R_ARC_JUMP_SLOT)
++    *reloc_addr += l_addr;
++  else
++    _dl_reloc_bad_type (map, ELF32_R_TYPE (reloc->r_info), 1);
++}
++
++#endif /* RESOLVE_MAP */
+diff --git a/sysdeps/arc/entry.h b/sysdeps/arc/entry.h
+new file mode 100644
+index 000000000000..adb01d981afd
+--- /dev/null
++++ b/sysdeps/arc/entry.h
+@@ -0,0 +1,5 @@
++#ifndef __ASSEMBLY__
++extern void __start (void) attribute_hidden;
++#endif
++
++#define ENTRY_POINT __start
+diff --git a/sysdeps/arc/ldsodefs.h b/sysdeps/arc/ldsodefs.h
+new file mode 100644
+index 000000000000..cf1df36f6ccd
+--- /dev/null
++++ b/sysdeps/arc/ldsodefs.h
+@@ -0,0 +1,43 @@
++/* Run-time dynamic linker data structures for loaded ELF shared objects.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _ARC_LDSODEFS_H
++#define _ARC_LDSODEFS_H 1
++
++#include <elf.h>
++
++struct La_arc_regs;
++struct La_arc_retval;
++
++#define ARCH_PLTENTER_MEMBERS						\
++    ElfW(Addr) (*arc_gnu_pltenter) (ElfW(Sym) *, unsigned int,	\
++				      uintptr_t *, uintptr_t *,		\
++				      const struct La_arc_regs *,	\
++				      unsigned int *, const char *,	\
++				      long int *);
++
++#define ARCH_PLTEXIT_MEMBERS						\
++    unsigned int (*arc_gnu_pltexit) (ElfW(Sym) *, unsigned int,	\
++				       uintptr_t *, uintptr_t *,	\
++				       const struct La_arc_regs *,	\
++				       struct La_arc_retval *,	\
++				       const char *);
++
++#include_next <ldsodefs.h>
++
++#endif
+diff --git a/sysdeps/arc/sotruss-lib.c b/sysdeps/arc/sotruss-lib.c
+new file mode 100644
+index 000000000000..dfb0f0ee8d12
+--- /dev/null
++++ b/sysdeps/arc/sotruss-lib.c
+@@ -0,0 +1,50 @@
++/* Override generic sotruss-lib.c to define actual functions for ARC.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#define HAVE_ARCH_PLTENTER
++#define HAVE_ARCH_PLTEXIT
++
++#include <elf/sotruss-lib.c>
++
++ElfW(Addr)
++la_arc_gnu_pltenter (ElfW(Sym) *sym __attribute__ ((unused)),
++		       unsigned int ndx __attribute__ ((unused)),
++		       uintptr_t *refcook, uintptr_t *defcook,
++		       La_arc_regs *regs, unsigned int *flags,
++		       const char *symname, long int *framesizep)
++{
++  print_enter (refcook, defcook, symname,
++	       regs->lr_reg[0], regs->lr_reg[1], regs->lr_reg[2],
++	       *flags);
++
++  /* No need to copy anything, we will not need the parameters in any case.  */
++  *framesizep = 0;
++
++  return sym->st_value;
++}
++
++unsigned int
++la_arc_gnu_pltexit (ElfW(Sym) *sym, unsigned int ndx, uintptr_t *refcook,
++		      uintptr_t *defcook,
++		      const struct La_arc_regs *inregs,
++		      struct La_arc_retval *outregs, const char *symname)
++{
++  print_exit (refcook, defcook, symname, outregs->lrv_reg[0]);
++
++  return 0;
++}
+diff --git a/sysdeps/arc/start.S b/sysdeps/arc/start.S
+new file mode 100644
+index 000000000000..3c4144bd20d4
+--- /dev/null
++++ b/sysdeps/arc/start.S
+@@ -0,0 +1,74 @@
++/* Startup code for ARC.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#define __ASSEMBLY__ 1
++#include <entry.h>
++#include <sysdep.h>
++
++#ifndef ENTRY_POINT
++# error ENTRY_POINT needs to be defined for ARC
++#endif
++
++/* When we enter this piece of code, the program stack looks like this:
++        argc            argument counter (integer)
++        argv[0]         program name (pointer)
++        argv[1...N]     program args (pointers)
++        argv[argc-1]    end of args (integer)
++        NULL
++        env[0...N]      environment variables (pointers)
++        NULL.  */
++
++ENTRY (ENTRY_POINT)
++
++	/* Needed to make gdb backtraces stop here.  */
++	.cfi_label .Ldummy
++	cfi_undefined (blink)
++
++	mov	fp, 0
++	ld_s	r1, [sp]	/* argc.  */
++
++	mov_s	r5, r0		/* rltd_fini.  */
++	add_s	r2, sp, 4	/* argv.  */
++	and	sp, sp, -8
++	mov	r6, sp
++
++	/* __libc_start_main (main, argc, argv, init, fini, rtld_fini, stack_end).  */
++
++#ifdef SHARED
++	ld	r0, [pcl, @main@gotpc]
++	ld	r3, [pcl, @__libc_csu_init@gotpc]
++	ld	r4, [pcl, @__libc_csu_fini@gotpc]
++	bl	__libc_start_main@plt
++#else
++	mov_s	r0, main
++	mov_s	r3, __libc_csu_init
++	mov	r4, __libc_csu_fini
++	bl	__libc_start_main
++#endif
++
++	/* Should never get here.  */
++	flag    1
++END (ENTRY_POINT)
++
++/* Define a symbol for the first piece of initialized data.  */
++	.data
++	.globl __data_start
++__data_start:
++	.long 0
++	.weak data_start
++	data_start = __data_start
+diff --git a/sysdeps/arc/tst-audit.h b/sysdeps/arc/tst-audit.h
+new file mode 100644
+index 000000000000..0b8f0b9c2f3f
+--- /dev/null
++++ b/sysdeps/arc/tst-audit.h
+@@ -0,0 +1,23 @@
++/* Definitions for testing PLT entry/exit auditing.  ARC version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#define pltenter la_arc_gnu_pltenter
++#define pltexit la_arc_gnu_pltexit
++#define La_regs La_arc_regs
++#define La_retval La_arc_retval
++#define int_retval lrv_reg[0]
+-- 
+2.20.1
 
->
-> Thanks,
-> Florian
->
 
 _______________________________________________
 linux-snps-arc mailing list
