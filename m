@@ -7,70 +7,68 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5CABC433E0
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 23:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14323C433E2
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 23:38:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8F9A120657
+	by mail.kernel.org (Postfix) with ESMTPS id CC26C2077D
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 23:38:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fWjFym9L";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="gMFU7dk1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8F9A120657
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EWfMZyvc";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="TBogw9NW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC26C2077D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=MIPXpa0i10AvsyNmjxfAtgRMpuauaCR0pKnz9byLGG4=; b=fWjFym9LUImcVkOKw4W1gAsNy
-	lemDy3bg0ZyrN8t3rk4T81TOQUk/+iWBPYT7aKBVQFCP0P7L77LVIS+/98sJ2EG5xGiu51lq8RyX9
-	paRNDvGkMakmU9jTEv6eTnLOuusKHrILvDh4DcHYB/WVRGGuqFxZS9xLbgVep1ntS9N7kJMQJqEYI
-	XQXgcsx3aKCBZjX0MgcPQPNlyaqzVIkJv5TReRHUDkhzIxehr41MlH6rc5fL7GL6/k+p8HI4wwhP9
-	MlhuxuA7uTzFoACnbWjg0TRtadfnZtUJsrMpTP3kNv0OiTgDYf4aw5YVX7BGpWI8S361NSDxReydZ
-	gfo5R6Eeg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=RSPMaGpqQa8QFdsK4BOa2SKz8bc9VPW3INfvkVXaqEM=; b=EWfMZyvc0cyWBkHMoKd3YU5gG0
+	Kv7tKYe1iXQM2oyxZT9gl7ifBjbgnIMYwtGJqCE+93blWRmLMen9jIGiF+UQlfwZgWxRFaXBd/SZL
+	kLeAOt3q/CobKk965PS8P1bdJS/UqmcrCsvvr52IP6NBxs4Zn8bQnmzHjYv1ZdLUL44uGt6NLY31a
+	nn0cPCiF8r4V2v/c56hhpzRjmLpxo+VadTPAC+I+gIjYqp/2qrgUMzRSegP4c2HpqYuv4J8ovVxhr
+	ZPg30QyzWui0wPqMIULOnAID9B6dbYy3PzAW8/FL+CnYHc9rxCMlPTYuZfpDVa1109sfuh1a4MQ+M
+	f17NdEcA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ju2ay-0008Bg-UR; Fri, 10 Jul 2020 23:38:20 +0000
+	id 1ju2az-0008Br-6c; Fri, 10 Jul 2020 23:38:21 +0000
 Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ju2at-00088Q-QB
+ id 1ju2at-00088N-QC
  for linux-snps-arc@lists.infradead.org; Fri, 10 Jul 2020 23:38:18 +0000
 Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com
  [10.205.2.134])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C30D940A37;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id BB95940066;
  Fri, 10 Jul 2020 23:38:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1594424294; bh=E7xtzvE/Jk9qs/8mxFtQl9I4gzziI7KXzPlncCwZQaE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gMFU7dk1KhB+q3VTxQXpj+P9Nz4pnGy7imdRRojAalwtTj9s4dw5Qw6Bv+zY5Ag/x
- tyYjOP+9BKJfQbKymdRVs0b2L7EWUAT7F1aYAC3UgaOr1OU5J+KO48MWDCjVhxPRER
- HHhsdhyLOv8JA8SB/6/ueA4ag2pBJDQzeXpltzmsgU/hoDpFhF/uQnRUSW/itsBLjw
- aGkx8DdXzYK0glKID+eLt0jHLErb0Pnpt5QcYw9GCVr/U1Sp/4RZU1+IwnPq8Z+QzJ
- WRq1NjVA3z4BP52zxfyQF6sp0oJmh6T0BTDhVFq8zh3qGytPOl8IuQdQPQYle46Id8
- U2Mo7ts1fkQow==
+ t=1594424294; bh=/TqS7EiNIpLlrIBlCui/5FUnj3bZVgAEyS4qEKSgpnY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=TBogw9NW1p0BTezf181517YBbbcK+KpBSAJ+5WHDaxMdWRhUgxe22fIQ2/dY8nBjK
+ yd1H5ABKU5hXLDQAe+ASIid8YjaKIhw2jonnfGsIZp7Z+hSlmV8vJvmni039PyloJ8
+ UDv6HxsN96WVRk3l5xPsdbhd0Ih6r+k6xzJoyPCqFlLKnjYsQ047ndE4AmIr0mf10u
+ ylSdT+Q7eC16S6ws1WXstrd3fiSFcJLTGSfJD9sg5ZohPS3TrRFXuGzOcp6rlulADZ
+ 3THESDClw6OmoSiKsH6Az4MLGUUvNB8wiFRTh6JYoqll4x8miDTi4Q6T+AT8uEF26W
+ rQCxCBgGtPQhw==
 Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
  [10.13.183.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id 79511A00A1;
- Fri, 10 Jul 2020 23:38:13 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id B7E1DA005A;
+ Fri, 10 Jul 2020 23:38:12 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [COMMITTED 02/13] ARC: startup and dynamic linking code
-Date: Fri, 10 Jul 2020 16:37:59 -0700
-Message-Id: <20200710233810.18720-2-vgupta@synopsys.com>
+Subject: [COMMITTED 01/13] ARC: ABI Implementation
+Date: Fri, 10 Jul 2020 16:37:58 -0700
+Message-Id: <20200710233810.18720-1-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200710233810.18720-1-vgupta@synopsys.com>
-References: <20200710233810.18720-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200710_193816_171743_D79F0843 
-X-CRM114-Status: GOOD (  28.62  )
+X-CRM114-CacheID: sfid-20200710_193816_129121_8713E7BB 
+X-CRM114-Status: GOOD (  17.64  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,40 +88,60 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Code for C runtime startup and dynamic loading including PLT layout.
+This code deals with the ARC ABI.
 
 Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
 ---
- sysdeps/arc/bits/link.h   |  52 ++++++
- sysdeps/arc/dl-machine.h  | 344 ++++++++++++++++++++++++++++++++++++++
- sysdeps/arc/entry.h       |   5 +
- sysdeps/arc/ldsodefs.h    |  43 +++++
- sysdeps/arc/sotruss-lib.c |  50 ++++++
- sysdeps/arc/start.S       |  74 ++++++++
- sysdeps/arc/tst-audit.h   |  23 +++
- 7 files changed, 591 insertions(+)
- create mode 100644 sysdeps/arc/bits/link.h
- create mode 100644 sysdeps/arc/dl-machine.h
- create mode 100644 sysdeps/arc/entry.h
- create mode 100644 sysdeps/arc/ldsodefs.h
- create mode 100644 sysdeps/arc/sotruss-lib.c
- create mode 100644 sysdeps/arc/start.S
- create mode 100644 sysdeps/arc/tst-audit.h
+ sysdeps/arc/__longjmp.S       | 49 ++++++++++++++++++++++++
+ sysdeps/arc/abort-instr.h     |  2 +
+ sysdeps/arc/bits/endianness.h | 15 ++++++++
+ sysdeps/arc/bits/setjmp.h     | 26 +++++++++++++
+ sysdeps/arc/bsd-_setjmp.S     |  1 +
+ sysdeps/arc/bsd-setjmp.S      |  1 +
+ sysdeps/arc/dl-runtime.h      | 42 ++++++++++++++++++++
+ sysdeps/arc/dl-sysdep.h       | 25 ++++++++++++
+ sysdeps/arc/dl-trampoline.S   | 72 +++++++++++++++++++++++++++++++++++
+ sysdeps/arc/gccframe.h        | 21 ++++++++++
+ sysdeps/arc/jmpbuf-offsets.h  | 22 +++++++++++
+ sysdeps/arc/jmpbuf-unwind.h   | 47 +++++++++++++++++++++++
+ sysdeps/arc/machine-gmon.h    | 35 +++++++++++++++++
+ sysdeps/arc/memusage.h        | 23 +++++++++++
+ sysdeps/arc/setjmp.S          | 66 ++++++++++++++++++++++++++++++++
+ sysdeps/arc/sysdep.h          | 53 ++++++++++++++++++++++++++
+ sysdeps/arc/tls-macros.h      | 47 +++++++++++++++++++++++
+ 17 files changed, 547 insertions(+)
+ create mode 100644 sysdeps/arc/__longjmp.S
+ create mode 100644 sysdeps/arc/abort-instr.h
+ create mode 100644 sysdeps/arc/bits/endianness.h
+ create mode 100644 sysdeps/arc/bits/setjmp.h
+ create mode 100644 sysdeps/arc/bsd-_setjmp.S
+ create mode 100644 sysdeps/arc/bsd-setjmp.S
+ create mode 100644 sysdeps/arc/dl-runtime.h
+ create mode 100644 sysdeps/arc/dl-sysdep.h
+ create mode 100644 sysdeps/arc/dl-trampoline.S
+ create mode 100644 sysdeps/arc/gccframe.h
+ create mode 100644 sysdeps/arc/jmpbuf-offsets.h
+ create mode 100644 sysdeps/arc/jmpbuf-unwind.h
+ create mode 100644 sysdeps/arc/machine-gmon.h
+ create mode 100644 sysdeps/arc/memusage.h
+ create mode 100644 sysdeps/arc/setjmp.S
+ create mode 100644 sysdeps/arc/sysdep.h
+ create mode 100644 sysdeps/arc/tls-macros.h
 
-diff --git a/sysdeps/arc/bits/link.h b/sysdeps/arc/bits/link.h
+diff --git a/sysdeps/arc/__longjmp.S b/sysdeps/arc/__longjmp.S
 new file mode 100644
-index 000000000000..b687250a7a07
+index 000000000000..fcbf1bb6c0e2
 --- /dev/null
-+++ b/sysdeps/arc/bits/link.h
-@@ -0,0 +1,52 @@
-+/* Machine-specific declarations for dynamic linker interface, ARC version.
++++ b/sysdeps/arc/__longjmp.S
+@@ -0,0 +1,49 @@
++/* longjmp for ARC.
 +   Copyright (C) 2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
 +   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
++   modify it under the terms of the GNU Lesser General Public License as
++   published by the Free Software Foundation; either version 2.1 of the
++   License, or (at your option) any later version.
 +
 +   The GNU C Library is distributed in the hope that it will be useful,
 +   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -134,408 +152,73 @@ index 000000000000..b687250a7a07
 +   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#ifndef	_LINK_H
-+# error "Never include <bits/link.h> directly; use <link.h> instead."
++#include <sysdep.h>
++#include <jmpbuf-offsets.h>
++
++/* @ r0 = jump buffer from which regs will be restored
++   @ r1 = value that setjmp( ) will return due to this longjmp.  */
++
++ENTRY (__longjmp)
++
++	LDR (blink, r0,  0)
++	LDR (sp,    r0,  1)
++	LDR (fp,    r0,  2)
++	LDR (gp,    r0,  3)
++
++	LDR (r13,   r0,  4)
++	LDR (r14,   r0,  5)
++	LDR (r15,   r0,  6)
++	LDR (r16,   r0,  7)
++	LDR (r17,   r0,  8)
++	LDR (r18,   r0,  9)
++	LDR (r19,   r0, 10)
++	LDR (r20,   r0, 11)
++	LDR (r21,   r0, 12)
++	LDR (r22,   r0, 13)
++	LDR (r23,   r0, 14)
++	LDR (r24,   r0, 15)
++
++	mov.f  r0, r1
++	j.d    [blink]
++	mov.z  r0, 1	/* don't return 0 to setjmp callsite from longjmp.  */
++
++END (__longjmp)
+diff --git a/sysdeps/arc/abort-instr.h b/sysdeps/arc/abort-instr.h
+new file mode 100644
+index 000000000000..49f33613c404
+--- /dev/null
++++ b/sysdeps/arc/abort-instr.h
+@@ -0,0 +1,2 @@
++/* FLAG 1 is privilege mode only instruction, hence will crash any program.  */
++#define ABORT_INSTRUCTION asm ("flag 1")
+diff --git a/sysdeps/arc/bits/endianness.h b/sysdeps/arc/bits/endianness.h
+new file mode 100644
+index 000000000000..8f17ca84b485
+--- /dev/null
++++ b/sysdeps/arc/bits/endianness.h
+@@ -0,0 +1,15 @@
++#ifndef _BITS_ENDIANNESS_H
++#define _BITS_ENDIANNESS_H 1
++
++#ifndef _BITS_ENDIAN_H
++# error "Never use <bits/endian.h> directly; include <endian.h> instead."
 +#endif
 +
-+/* Registers for entry into PLT on ARC.  */
-+typedef struct La_arc_regs
-+{
-+  uint32_t lr_reg[8]; /* r0 through r7 (upto 8 args).  */
-+} La_arc_regs;
-+
-+/* Return values for calls from PLT on ARC.  */
-+typedef struct La_arc_retval
-+{
-+  /* For ARCv2, a 64-bit integer return value can use 2 regs.  */
-+  uint32_t lrv_reg[2];
-+} La_arc_retval;
-+
-+__BEGIN_DECLS
-+
-+extern ElfW(Addr) la_arc_gnu_pltenter (ElfW(Sym) *__sym, unsigned int __ndx,
-+					 uintptr_t *__refcook,
-+					 uintptr_t *__defcook,
-+					 La_arc_regs *__regs,
-+					 unsigned int *__flags,
-+					 const char *__symname,
-+					 long int *__framesizep);
-+extern unsigned int la_arc_gnu_pltexit (ElfW(Sym) *__sym, unsigned int __ndx,
-+					  uintptr_t *__refcook,
-+					  uintptr_t *__defcook,
-+					  const La_arc_regs *__inregs,
-+					  La_arc_retval *__outregs,
-+					  const char *symname);
-+
-+__END_DECLS
-diff --git a/sysdeps/arc/dl-machine.h b/sysdeps/arc/dl-machine.h
-new file mode 100644
-index 000000000000..e47f19905f1f
---- /dev/null
-+++ b/sysdeps/arc/dl-machine.h
-@@ -0,0 +1,344 @@
-+/* Machine-dependent ELF dynamic relocation inline functions.  ARC version.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef dl_machine_h
-+#define dl_machine_h
-+
-+#define ELF_MACHINE_NAME "arc"
-+
-+#include <entry.h>
-+
-+#ifndef ENTRY_POINT
-+# error ENTRY_POINT needs to be defined for ARC
++/* ARC has selectable endianness.  */
++#ifdef __BIG_ENDIAN__
++# define __BYTE_ORDER __BIG_ENDIAN
++#else
++# define __BYTE_ORDER __LITTLE_ENDIAN
 +#endif
 +
-+#include <string.h>
-+#include <link.h>
-+#include <dl-tls.h>
-+
-+/* Dynamic Linking ABI for ARCv2 ISA.
-+
-+                        PLT
-+          --------------------------------	<---- DT_PLTGOT
-+          |  ld r11, [pcl, off-to-GOT[1] |  0
-+          |                              |  4
-+   plt0   |  ld r10, [pcl, off-to-GOT[2] |  8
-+          |                              | 12
-+          |  j [r10]                     | 16
-+          --------------------------------
-+          |    Base address of GOT       | 20
-+          --------------------------------
-+          |  ld r12, [pcl, off-to-GOT[3] | 24
-+   plt1   |                              |
-+          |  j.d    [r12]                | 32
-+          |  mov    r12, pcl             | 36
-+          --------------------------------
-+          |                              | 40
-+          ~                              ~
-+          ~                              ~
-+          |                              |
-+          --------------------------------
-+
-+               .got
-+          --------------
-+          |    [0]     |
-+          |    ...     |  Runtime address for data symbols
-+          |    [n]     |
-+          --------------
-+
-+            .got.plt
-+          --------------
-+          |    [0]     |  Build address of .dynamic
-+          --------------
-+          |    [1]     |  Module info - setup by ld.so
-+          --------------
-+          |    [2]     |  resolver entry point
-+          --------------
-+          |    [3]     |
-+          |    ...     |  Runtime address for function symbols
-+          |    [f]     |
-+          --------------
-+
-+   For ARCompact, the PLT is 12 bytes due to short instructions
-+
-+          --------------------------------
-+          |  ld r12, [pcl, off-to-GOT[3] | 24   (12 bytes each)
-+   plt1   |                              |
-+          |  j_s.d  [r12]                | 32
-+          |  mov_s  r12, pcl             | 34
-+          --------------------------------
-+          |                              | 36  */
-+
-+/* Return nonzero iff ELF header is compatible with the running host.  */
-+static inline int
-+elf_machine_matches_host (const Elf32_Ehdr *ehdr)
-+{
-+  return (ehdr->e_machine == EM_ARCV2		 /* ARC HS.  */
-+	  || ehdr->e_machine == EM_ARC_COMPACT); /* ARC 700.  */
-+}
-+
-+/* Get build time address of .dynamic as setup in GOT[0]
-+   This is called very early in _dl_start so it has not been relocated to
-+   runtime value.  */
-+static inline ElfW(Addr)
-+elf_machine_dynamic (void)
-+{
-+  extern const ElfW(Addr) _GLOBAL_OFFSET_TABLE_[] attribute_hidden;
-+  return _GLOBAL_OFFSET_TABLE_[0];
-+}
-+
-+
-+/* Return the run-time load address of the shared object.  */
-+static inline ElfW(Addr)
-+elf_machine_load_address (void)
-+{
-+  ElfW(Addr) build_addr, run_addr;
-+
-+  /* For build address, below generates
-+     ld  r0, [pcl, _GLOBAL_OFFSET_TABLE_@pcl].  */
-+  build_addr = elf_machine_dynamic ();
-+  __asm__ ("add %0, pcl, _DYNAMIC@pcl	\n" : "=r" (run_addr));
-+
-+  return run_addr - build_addr;
-+}
-+
-+/* Set up the loaded object described by L so its unrelocated PLT
-+   entries will jump to the on-demand fixup code in dl-runtime.c.  */
-+
-+static inline int
-+__attribute__ ((always_inline))
-+elf_machine_runtime_setup (struct link_map *l, int lazy, int profile)
-+{
-+  extern void _dl_runtime_resolve (Elf32_Word);
-+
-+  if (l->l_info[DT_JMPREL] && lazy)
-+    {
-+      /* On ARC DT_PLTGOT point to .plt whose 5th word (after the PLT header)
-+         contains the address of .got.  */
-+      ElfW(Addr) *plt_base = (ElfW(Addr) *) D_PTR (l, l_info[DT_PLTGOT]);
-+      ElfW(Addr) *got = (ElfW(Addr) *) (plt_base[5] + l->l_addr);
-+
-+      got[1] = (ElfW(Addr)) l;	/* Identify this shared object.  */
-+
-+      /* This function will get called to fix up the GOT entry indicated by
-+	 the offset on the stack, and then jump to the resolved address.  */
-+      got[2] = (ElfW(Addr)) &_dl_runtime_resolve;
-+    }
-+
-+  return lazy;
-+}
-+
-+/* What this code does:
-+    -ldso starts execution here when kernel returns from execve
-+    -calls into generic ldso entry point _dl_start
-+    -optionally adjusts argc for executable if exec passed as cmd
-+    -calls into app main with address of finaliser.  */
-+
-+#define RTLD_START asm ("\
-+.text									\n\
-+.globl __start								\n\
-+.type __start, @function						\n\
-+__start:								\n\
-+	/* (1). bootstrap ld.so.  */					\n\
-+	bl.d    _dl_start                                       	\n\
-+	mov_s   r0, sp  /* pass ptr to aux vector tbl.    */    	\n\
-+	mov r13, r0	/* safekeep app elf entry point.  */		\n\
-+									\n\
-+	/* (2). If ldso ran with executable as arg.       */		\n\
-+	/*      skip the extra args calc by dl_start.     */		\n\
-+	ld_s    r1, [sp]       /* orig argc.  */			\n\
-+	ld      r12, [pcl, _dl_skip_args@pcl]                   	\n\
-+	breq	r12, 0, 1f						\n\
-+									\n\
-+	add2    sp, sp, r12 /* discard argv entries from stack.  */	\n\
-+	sub_s   r1, r1, r12 /* adjusted argc on stack.  */      	\n\
-+	st_s    r1, [sp]                                        	\n\
-+	add	r2, sp, 4						\n\
-+	/* intermediate LD for ST emcoding limitations.  */		\n\
-+	ld	r3, [pcl, _dl_argv@gotpc]    				\n\
-+	st	r2, [r3]						\n\
-+1:									\n\
-+	/* (3). call preinit stuff.  */					\n\
-+	ld	r0, [pcl, _rtld_local@pcl]				\n\
-+	add	r2, sp, 4	; argv					\n\
-+	add2	r3, r2, r1						\n\
-+	add	r3, r3, 4	; env					\n\
-+	bl	_dl_init@plt						\n\
-+									\n\
-+	/* (4) call app elf entry point.  */				\n\
-+	add     r0, pcl, _dl_fini@pcl					\n\
-+	j	[r13]							\n\
-+									\n\
-+	.size  __start,.-__start                               		\n\
-+	.previous                                               	\n\
-+");
-+
-+/* ELF_RTYPE_CLASS_PLT iff TYPE describes relocation of a PLT entry, so
-+   PLT entries should not be allowed to define the value.
-+   ELF_RTYPE_CLASS_NOCOPY iff TYPE should not be allowed to resolve to one
-+   of the main executable's symbols, as for a COPY reloc.  */
-+#define elf_machine_type_class(type)				\
-+  ((((type) == R_ARC_JUMP_SLOT					\
-+     || (type) == R_ARC_TLS_DTPMOD				\
-+     || (type) == R_ARC_TLS_DTPOFF				\
-+     || (type) == R_ARC_TLS_TPOFF) * ELF_RTYPE_CLASS_PLT)	\
-+   | (((type) == R_ARC_COPY) * ELF_RTYPE_CLASS_COPY))
-+
-+/* A reloc type used for ld.so cmdline arg lookups to reject PLT entries.  */
-+#define ELF_MACHINE_JMP_SLOT  R_ARC_JUMP_SLOT
-+
-+/* ARC uses Elf32_Rela relocations.  */
-+#define ELF_MACHINE_NO_REL 1
-+#define ELF_MACHINE_NO_RELA 0
-+
-+/* Fixup a PLT entry to bounce directly to the function at VALUE.  */
-+
-+static inline ElfW(Addr)
-+elf_machine_fixup_plt (struct link_map *map, lookup_t t,
-+		       const ElfW(Sym) *refsym, const ElfW(Sym) *sym,
-+		       const Elf32_Rela *reloc,
-+		       ElfW(Addr) *reloc_addr, ElfW(Addr) value)
-+{
-+  return *reloc_addr = value;
-+}
-+
-+/* Return the final value of a plt relocation.  */
-+static inline ElfW(Addr)
-+elf_machine_plt_value (struct link_map *map, const Elf32_Rela *reloc,
-+                       ElfW(Addr) value)
-+{
-+  return value;
-+}
-+
-+/* Names of the architecture-specific auditing callback functions.  */
-+#define ARCH_LA_PLTENTER arc_gnu_pltenter
-+#define ARCH_LA_PLTEXIT arc_gnu_pltexit
-+
-+#endif /* dl_machine_h */
-+
-+#ifdef RESOLVE_MAP
-+
-+inline void
-+__attribute__ ((always_inline))
-+elf_machine_rela (struct link_map *map, const ElfW(Rela) *reloc,
-+                  const ElfW(Sym) *sym, const struct r_found_version *version,
-+                  void *const reloc_addr_arg, int skip_ifunc)
-+{
-+  ElfW(Addr) *const reloc_addr = reloc_addr_arg;
-+  const unsigned int r_type = ELF32_R_TYPE (reloc->r_info);
-+
-+  if (__glibc_unlikely (r_type == R_ARC_RELATIVE))
-+    *reloc_addr += map->l_addr;
-+  else if (__glibc_unlikely (r_type == R_ARC_NONE))
-+    return;
-+  else
-+    {
-+      const ElfW(Sym) *const refsym = sym;
-+      struct link_map *sym_map = RESOLVE_MAP (&sym, version, r_type);
-+      ElfW(Addr) value = SYMBOL_ADDRESS (sym_map, sym, true);
-+
-+      switch (r_type)
-+        {
-+        case R_ARC_COPY:
-+          if (__glibc_unlikely (sym == NULL))
-+            /* This can happen in trace mode if an object could not be
-+               found.  */
-+            break;
-+
-+          size_t size = sym->st_size;
-+          if (__glibc_unlikely (size != refsym->st_size))
-+            {
-+              const char *strtab = (const void *) D_PTR (map, l_info[DT_STRTAB]);
-+              if (sym->st_size > refsym->st_size)
-+                size = refsym->st_size;
-+              if (sym->st_size > refsym->st_size || GLRO(dl_verbose))
-+                _dl_error_printf ("\
-+  %s: Symbol `%s' has different size in shared object, consider re-linking\n",
-+                                  rtld_progname ?: "<program name unknown>",
-+                                  strtab + refsym->st_name);
-+            }
-+
-+          memcpy (reloc_addr_arg, (void *) value, size);
-+          break;
-+
-+        case R_ARC_GLOB_DAT:
-+        case R_ARC_JUMP_SLOT:
-+            *reloc_addr = value;
-+          break;
-+
-+        case R_ARC_TLS_DTPMOD:
-+          if (sym_map != NULL)
-+            /* Get the information from the link map returned by the
-+               resolv function.  */
-+            *reloc_addr = sym_map->l_tls_modid;
-+          break;
-+
-+        case R_ARC_TLS_DTPOFF:
-+          if (sym != NULL)
-+            /* Offset set by the linker in the GOT entry would be overwritten
-+               by dynamic loader instead of added to the symbol location.
-+               Other target have the same approach on DTPOFF relocs.  */
-+            *reloc_addr += sym->st_value;
-+          break;
-+
-+        case R_ARC_TLS_TPOFF:
-+          if (sym != NULL)
-+            {
-+              CHECK_STATIC_TLS (map, sym_map);
-+              *reloc_addr = sym_map->l_tls_offset + sym->st_value + reloc->r_addend;
-+            }
-+          break;
-+
-+        case R_ARC_32:
-+          *reloc_addr += value + reloc->r_addend;
-+          break;
-+
-+        case R_ARC_PC32:
-+          *reloc_addr += value + reloc->r_addend - (unsigned long int) reloc_addr;
-+          break;
-+
-+        default:
-+          _dl_reloc_bad_type (map, r_type, 0);
-+          break;
-+        }
-+    }
-+}
-+
-+inline void
-+__attribute__ ((always_inline))
-+elf_machine_rela_relative (ElfW(Addr) l_addr, const ElfW(Rela) *reloc,
-+                           void *const reloc_addr_arg)
-+{
-+  ElfW(Addr) *const reloc_addr = reloc_addr_arg;
-+  *reloc_addr += l_addr;
-+}
-+
-+inline void
-+__attribute__ ((always_inline))
-+elf_machine_lazy_rel (struct link_map *map, ElfW(Addr) l_addr,
-+                      const ElfW(Rela) *reloc, int skip_ifunc)
-+{
-+  ElfW(Addr) *const reloc_addr = (void *) (l_addr + reloc->r_offset);
-+
-+  if (ELF32_R_TYPE (reloc->r_info) == R_ARC_JUMP_SLOT)
-+    *reloc_addr += l_addr;
-+  else
-+    _dl_reloc_bad_type (map, ELF32_R_TYPE (reloc->r_info), 1);
-+}
-+
-+#endif /* RESOLVE_MAP */
-diff --git a/sysdeps/arc/entry.h b/sysdeps/arc/entry.h
++#endif /* bits/endianness.h */
+diff --git a/sysdeps/arc/bits/setjmp.h b/sysdeps/arc/bits/setjmp.h
 new file mode 100644
-index 000000000000..adb01d981afd
+index 000000000000..9136bdba34ea
 --- /dev/null
-+++ b/sysdeps/arc/entry.h
-@@ -0,0 +1,5 @@
-+#ifndef __ASSEMBLY__
-+extern void __start (void) attribute_hidden;
-+#endif
-+
-+#define ENTRY_POINT __start
-diff --git a/sysdeps/arc/ldsodefs.h b/sysdeps/arc/ldsodefs.h
-new file mode 100644
-index 000000000000..cf1df36f6ccd
---- /dev/null
-+++ b/sysdeps/arc/ldsodefs.h
-@@ -0,0 +1,43 @@
-+/* Run-time dynamic linker data structures for loaded ELF shared objects.
++++ b/sysdeps/arc/bits/setjmp.h
+@@ -0,0 +1,26 @@
++/* Define the machine-dependent type 'jmp_buf'.  ARC version.
 +   Copyright (C) 2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
@@ -553,38 +236,83 @@ index 000000000000..cf1df36f6ccd
 +   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#ifndef _ARC_LDSODEFS_H
-+#define _ARC_LDSODEFS_H 1
++#ifndef _ARC_BITS_SETJMP_H
++#define _ARC_BITS_SETJMP_H 1
 +
-+#include <elf.h>
-+
-+struct La_arc_regs;
-+struct La_arc_retval;
-+
-+#define ARCH_PLTENTER_MEMBERS						\
-+    ElfW(Addr) (*arc_gnu_pltenter) (ElfW(Sym) *, unsigned int,	\
-+				      uintptr_t *, uintptr_t *,		\
-+				      const struct La_arc_regs *,	\
-+				      unsigned int *, const char *,	\
-+				      long int *);
-+
-+#define ARCH_PLTEXIT_MEMBERS						\
-+    unsigned int (*arc_gnu_pltexit) (ElfW(Sym) *, unsigned int,	\
-+				       uintptr_t *, uintptr_t *,	\
-+				       const struct La_arc_regs *,	\
-+				       struct La_arc_retval *,	\
-+				       const char *);
-+
-+#include_next <ldsodefs.h>
++/* Saves r13-r25 (callee-saved), fp (frame pointer), sp (stack pointer),
++   blink (branch-n-link).  */
++typedef long int __jmp_buf[32];
 +
 +#endif
-diff --git a/sysdeps/arc/sotruss-lib.c b/sysdeps/arc/sotruss-lib.c
+diff --git a/sysdeps/arc/bsd-_setjmp.S b/sysdeps/arc/bsd-_setjmp.S
 new file mode 100644
-index 000000000000..dfb0f0ee8d12
+index 000000000000..90b99cd8c3e0
 --- /dev/null
-+++ b/sysdeps/arc/sotruss-lib.c
-@@ -0,0 +1,50 @@
-+/* Override generic sotruss-lib.c to define actual functions for ARC.
++++ b/sysdeps/arc/bsd-_setjmp.S
+@@ -0,0 +1 @@
++/* _setjmp is in setjmp.S.  */
+diff --git a/sysdeps/arc/bsd-setjmp.S b/sysdeps/arc/bsd-setjmp.S
+new file mode 100644
+index 000000000000..d3b823c118bc
+--- /dev/null
++++ b/sysdeps/arc/bsd-setjmp.S
+@@ -0,0 +1 @@
++/* setjmp is in setjmp.S.  */
+diff --git a/sysdeps/arc/dl-runtime.h b/sysdeps/arc/dl-runtime.h
+new file mode 100644
+index 000000000000..6597d93bace5
+--- /dev/null
++++ b/sysdeps/arc/dl-runtime.h
+@@ -0,0 +1,42 @@
++/* Helpers for On-demand PLT fixup for shared objects.  ARC version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public License as
++   published by the Free Software Foundation; either version 2.1 of the
++   License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++/* PLT jump into resolver passes PC of PLTn, while _dl_fixup expects the
++   address of corresponding .rela.plt entry.
++
++    - @plt0: runtime pc of first plt entry (DT_PLTGOT)
++    - @pltn: runtime pc of plt entry being resolved
++    - @size: size of .plt.rela entry (unused).  */
++static inline uintptr_t
++reloc_index (uintptr_t plt0, uintptr_t pltn, size_t size)
++{
++  unsigned long int idx = pltn - plt0;
++
++  /* PLT trampoline is 16 bytes.  */
++  idx /= 16;
++
++  /* Exclude PLT0 and PLT1.  */
++  return idx - 2;
++}
++
++static inline uintptr_t
++reloc_offset (uintptr_t plt0, uintptr_t pltn)
++{
++  size_t sz = sizeof (ElfW(Rela));
++  return reloc_index (plt0, pltn, sz) * sz;
++}
+diff --git a/sysdeps/arc/dl-sysdep.h b/sysdeps/arc/dl-sysdep.h
+new file mode 100644
+index 000000000000..aefec2ba056a
+--- /dev/null
++++ b/sysdeps/arc/dl-sysdep.h
+@@ -0,0 +1,25 @@
++/* System-specific settings for dynamic linker code.  ARC version.
 +   Copyright (C) 2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
@@ -602,45 +330,20 @@ index 000000000000..dfb0f0ee8d12
 +   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#define HAVE_ARCH_PLTENTER
-+#define HAVE_ARCH_PLTEXIT
++#include_next <dl-sysdep.h>
 +
-+#include <elf/sotruss-lib.c>
++/* _dl_argv cannot be attribute_relro, because _dl_start_user
++   might write into it after _dl_start returns.  */
++#define DL_ARGV_NOT_RELRO 1
 +
-+ElfW(Addr)
-+la_arc_gnu_pltenter (ElfW(Sym) *sym __attribute__ ((unused)),
-+		       unsigned int ndx __attribute__ ((unused)),
-+		       uintptr_t *refcook, uintptr_t *defcook,
-+		       La_arc_regs *regs, unsigned int *flags,
-+		       const char *symname, long int *framesizep)
-+{
-+  print_enter (refcook, defcook, symname,
-+	       regs->lr_reg[0], regs->lr_reg[1], regs->lr_reg[2],
-+	       *flags);
-+
-+  /* No need to copy anything, we will not need the parameters in any case.  */
-+  *framesizep = 0;
-+
-+  return sym->st_value;
-+}
-+
-+unsigned int
-+la_arc_gnu_pltexit (ElfW(Sym) *sym, unsigned int ndx, uintptr_t *refcook,
-+		      uintptr_t *defcook,
-+		      const struct La_arc_regs *inregs,
-+		      struct La_arc_retval *outregs, const char *symname)
-+{
-+  print_exit (refcook, defcook, symname, outregs->lrv_reg[0]);
-+
-+  return 0;
-+}
-diff --git a/sysdeps/arc/start.S b/sysdeps/arc/start.S
++#define DL_EXTERN_PROTECTED_DATA
+diff --git a/sysdeps/arc/dl-trampoline.S b/sysdeps/arc/dl-trampoline.S
 new file mode 100644
-index 000000000000..3c4144bd20d4
+index 000000000000..eb2a030046d6
 --- /dev/null
-+++ b/sysdeps/arc/start.S
-@@ -0,0 +1,74 @@
-+/* Startup code for ARC.
++++ b/sysdeps/arc/dl-trampoline.S
+@@ -0,0 +1,72 @@
++/* PLT trampolines.  ARC version.
 +   Copyright (C) 2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
@@ -658,69 +361,216 @@ index 000000000000..3c4144bd20d4
 +   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#define __ASSEMBLY__ 1
-+#include <entry.h>
++#include <sysdep.h>
++#include <libc-symbols.h>
++
++#include <sysdep.h>
++#include <sys/syscall.h>
++
++/* resolver has atypical calling ABI (r11 and r12)
++        PLTn which lands us here, sets up
++	r11 = Module info (tpnt pointer as expected by resolver)
++	r12 = PC of the PLTn itself - needed by resolver to find
++	      corresponding .rela.plt entry.  */
++
++ENTRY (_dl_runtime_resolve)
++
++	/* save args to func being resolved before entering resolver.  */
++	push_s	r0
++	push_s	r1
++	push_s	r2
++	push_s	r3
++	st.a	r4, [sp, -4]
++	st.a	r5, [sp, -4]
++	st.a	r6, [sp, -4]
++	st.a	r7, [sp, -4]
++	st.a	r8, [sp, -4]
++	st.a	r9, [sp, -4]
++	cfi_adjust_cfa_offset (40)
++	push_s	blink
++	cfi_adjust_cfa_offset (4)
++	cfi_rel_offset (blink, 0)
++
++	mov_s 	r1, r12
++	bl.d  	_dl_fixup
++	mov   	r0, r11
++
++	/* restore regs back.  */
++	ld.ab	blink,[sp, 4]
++	cfi_adjust_cfa_offset (-4)
++	cfi_restore (blink)
++	ld.ab	r9, [sp, 4]
++	ld.ab	r8, [sp, 4]
++	ld.ab	r7, [sp, 4]
++	ld.ab	r6, [sp, 4]
++	ld.ab	r5, [sp, 4]
++	ld.ab	r4, [sp, 4]
++	pop_s   r3
++	pop_s   r2
++	pop_s   r1
++	cfi_adjust_cfa_offset (-36)
++
++	j_s.d   [r0]    /* r0 has resolved function addr.  */
++	pop_s   r0      /* restore first arg to resolved call.  */
++	cfi_adjust_cfa_offset (-4)
++	cfi_restore (r0)
++END (_dl_runtime_resolve)
+diff --git a/sysdeps/arc/gccframe.h b/sysdeps/arc/gccframe.h
+new file mode 100644
+index 000000000000..296857ba9ccc
+--- /dev/null
++++ b/sysdeps/arc/gccframe.h
+@@ -0,0 +1,21 @@
++/* Definition of object in frame unwind info.  ARC version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#define FIRST_PSEUDO_REGISTER 40
++
++#include <sysdeps/generic/gccframe.h>
+diff --git a/sysdeps/arc/jmpbuf-offsets.h b/sysdeps/arc/jmpbuf-offsets.h
+new file mode 100644
+index 000000000000..e7551cad3b47
+--- /dev/null
++++ b/sysdeps/arc/jmpbuf-offsets.h
+@@ -0,0 +1,22 @@
++/* Private macros for accessing __jmp_buf contents.  ARC version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#define JB_SP	1
++
++/* Helper for generic ____longjmp_chk.  */
++#define JB_FRAME_ADDRESS(buf) ((void *) (unsigned long int) (buf[JB_SP]))
+diff --git a/sysdeps/arc/jmpbuf-unwind.h b/sysdeps/arc/jmpbuf-unwind.h
+new file mode 100644
+index 000000000000..697d3e2ee5e5
+--- /dev/null
++++ b/sysdeps/arc/jmpbuf-unwind.h
+@@ -0,0 +1,47 @@
++/* Examine __jmp_buf for unwinding frames.  ARC version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include <setjmp.h>
++#include <jmpbuf-offsets.h>
++#include <stdint.h>
++#include <unwind.h>
++
++/* Test if longjmp to JMPBUF would unwind the frame
++   containing a local variable at ADDRESS.  */
++
++#define _JMPBUF_UNWINDS(jmpbuf, address, demangle) \
++  ((void *) (address) < (void *) demangle (jmpbuf[JB_SP]))
++
++#define _JMPBUF_CFA_UNWINDS_ADJ(_jmpbuf, _context, _adj) \
++  _JMPBUF_UNWINDS_ADJ (_jmpbuf, (void *) _Unwind_GetCFA (_context), _adj)
++
++static inline uintptr_t __attribute__ ((unused))
++_jmpbuf_sp (__jmp_buf jmpbuf)
++{
++  uintptr_t sp = jmpbuf[JB_SP];
++#ifdef PTR_DEMANGLE
++  PTR_DEMANGLE (sp);
++#endif
++  return sp;
++}
++
++#define _JMPBUF_UNWINDS_ADJ(_jmpbuf, _address, _adj) \
++  ((uintptr_t) (_address) - (_adj) < (uintptr_t) (_jmpbuf_sp (_jmpbuf) - (_adj)))
++
++/* We use the normal longjmp for unwinding.  */
++#define __libc_unwind_longjmp(buf, val) __libc_longjmp (buf, val)
+diff --git a/sysdeps/arc/machine-gmon.h b/sysdeps/arc/machine-gmon.h
+new file mode 100644
+index 000000000000..a0d4e95a945d
+--- /dev/null
++++ b/sysdeps/arc/machine-gmon.h
+@@ -0,0 +1,35 @@
++/* Machine-dependent definitions for profiling support.  ARC version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
 +#include <sysdep.h>
 +
-+#ifndef ENTRY_POINT
-+# error ENTRY_POINT needs to be defined for ARC
-+#endif
++#define _MCOUNT_DECL(frompc, selfpc)					\
++static void								\
++__mcount_internal (unsigned long int frompc, unsigned long int selfpc)
 +
-+/* When we enter this piece of code, the program stack looks like this:
-+        argc            argument counter (integer)
-+        argv[0]         program name (pointer)
-+        argv[1...N]     program args (pointers)
-+        argv[argc-1]    end of args (integer)
-+        NULL
-+        env[0...N]      environment variables (pointers)
-+        NULL.  */
++/* This is very simple as gcc does all the heavy lifting at _mcount call site
++    - sets up caller's blink in r0, so frompc is setup correctly
++    - preserve argument registers for original call.  */
 +
-+ENTRY (ENTRY_POINT)
-+
-+	/* Needed to make gdb backtraces stop here.  */
-+	.cfi_label .Ldummy
-+	cfi_undefined (blink)
-+
-+	mov	fp, 0
-+	ld_s	r1, [sp]	/* argc.  */
-+
-+	mov_s	r5, r0		/* rltd_fini.  */
-+	add_s	r2, sp, 4	/* argv.  */
-+	and	sp, sp, -8
-+	mov	r6, sp
-+
-+	/* __libc_start_main (main, argc, argv, init, fini, rtld_fini, stack_end).  */
-+
-+#ifdef SHARED
-+	ld	r0, [pcl, @main@gotpc]
-+	ld	r3, [pcl, @__libc_csu_init@gotpc]
-+	ld	r4, [pcl, @__libc_csu_fini@gotpc]
-+	bl	__libc_start_main@plt
-+#else
-+	mov_s	r0, main
-+	mov_s	r3, __libc_csu_init
-+	mov	r4, __libc_csu_fini
-+	bl	__libc_start_main
-+#endif
-+
-+	/* Should never get here.  */
-+	flag    1
-+END (ENTRY_POINT)
-+
-+/* Define a symbol for the first piece of initialized data.  */
-+	.data
-+	.globl __data_start
-+__data_start:
-+	.long 0
-+	.weak data_start
-+	data_start = __data_start
-diff --git a/sysdeps/arc/tst-audit.h b/sysdeps/arc/tst-audit.h
++#define MCOUNT								\
++void									\
++_mcount (void *frompc)							\
++{									\
++  __mcount_internal ((unsigned long int) frompc,			\
++		     (unsigned long int) __builtin_return_address (0));	\
++}
+diff --git a/sysdeps/arc/memusage.h b/sysdeps/arc/memusage.h
 new file mode 100644
-index 000000000000..0b8f0b9c2f3f
+index 000000000000..724bc4de1312
 --- /dev/null
-+++ b/sysdeps/arc/tst-audit.h
++++ b/sysdeps/arc/memusage.h
 @@ -0,0 +1,23 @@
-+/* Definitions for testing PLT entry/exit auditing.  ARC version.
++/* Machine-specific definitions for memory usage profiling, ARC version.
 +   Copyright (C) 2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
@@ -738,11 +588,195 @@ index 000000000000..0b8f0b9c2f3f
 +   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#define pltenter la_arc_gnu_pltenter
-+#define pltexit la_arc_gnu_pltexit
-+#define La_regs La_arc_regs
-+#define La_retval La_arc_retval
-+#define int_retval lrv_reg[0]
++#define GETSP() ({ register uintptr_t stack_ptr asm ("sp"); stack_ptr; })
++
++#define uatomic32_t unsigned int
++
++#include <sysdeps/generic/memusage.h>
+diff --git a/sysdeps/arc/setjmp.S b/sysdeps/arc/setjmp.S
+new file mode 100644
+index 000000000000..01cc3af98237
+--- /dev/null
++++ b/sysdeps/arc/setjmp.S
+@@ -0,0 +1,66 @@
++/* setjmp for ARC.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++
++#include <sysdep.h>
++
++/* Upon entry r0 = jump buffer into which regs will be saved.  */
++ENTRY (setjmp)
++	b.d	__sigsetjmp
++	mov	r1, 1		/* save signals.  */
++END (setjmp)
++
++/* Upon entry r0 = jump buffer into which regs will be saved.  */
++ENTRY (_setjmp)
++	b.d	__sigsetjmp
++	mov	r1, 0		/* don't save signals.  */
++END (_setjmp)
++libc_hidden_def (_setjmp)
++
++/* Upon entry
++   r0 = jump buffer into which regs will be saved
++   r1 = do we need to save signals.  */
++ENTRY (__sigsetjmp)
++
++	/* Make a note of where longjmp will return to.
++	   that will be right next to this setjmp call-site in BLINK
++	   since "C" caller of this routine will do a branch-n-link.  */
++
++	STR (blink, r0,  0)
++	STR (sp,    r0,  1)
++	STR (fp,    r0,  2)
++	STR (gp,    r0,  3)
++
++	STR (r13,   r0,  4)
++	STR (r14,   r0,  5)
++	STR (r15,   r0,  6)
++	STR (r16,   r0,  7)
++	STR (r17,   r0,  8)
++	STR (r18,   r0,  9)
++	STR (r19,   r0, 10)
++	STR (r20,   r0, 11)
++	STR (r21,   r0, 12)
++	STR (r22,   r0, 13)
++	STR (r23,   r0, 14)
++	STR (r24,   r0, 15)
++
++	b    __sigjmp_save
++
++END (__sigsetjmp)
++
++libc_hidden_def (__sigsetjmp)
+diff --git a/sysdeps/arc/sysdep.h b/sysdeps/arc/sysdep.h
+new file mode 100644
+index 000000000000..9ac295bdf35b
+--- /dev/null
++++ b/sysdeps/arc/sysdep.h
+@@ -0,0 +1,53 @@
++/* Assembler macros for ARC.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public License as
++   published by the Free Software Foundation; either version 2.1 of the
++   License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include <sysdeps/generic/sysdep.h>
++
++#ifdef	__ASSEMBLER__
++
++/* Syntactic details of assembler.
++   ; is not newline but comment, # is also for comment.  */
++# define ASM_SIZE_DIRECTIVE(name) .size name,.-name
++
++# define ENTRY(name)						\
++	.align 4				ASM_LINE_SEP	\
++	.globl C_SYMBOL_NAME(name)		ASM_LINE_SEP	\
++	.type C_SYMBOL_NAME(name),%function	ASM_LINE_SEP	\
++	C_LABEL(name)				ASM_LINE_SEP	\
++	cfi_startproc				ASM_LINE_SEP	\
++	CALL_MCOUNT
++
++# undef  END
++# define END(name)						\
++	cfi_endproc				ASM_LINE_SEP	\
++	ASM_SIZE_DIRECTIVE(name)
++
++# ifdef SHARED
++#  define PLTJMP(_x)	_x##@plt
++# else
++#  define PLTJMP(_x)	_x
++# endif
++
++# define L(label) .L##label
++
++# define CALL_MCOUNT		/* Do nothing for now.  */
++
++# define STR(reg, rbase, off)	st  reg, [rbase, off * 4]
++# define LDR(reg, rbase, off)	ld  reg, [rbase, off * 4]
++
++#endif	/* __ASSEMBLER__ */
+diff --git a/sysdeps/arc/tls-macros.h b/sysdeps/arc/tls-macros.h
+new file mode 100644
+index 000000000000..7a076182b977
+--- /dev/null
++++ b/sysdeps/arc/tls-macros.h
+@@ -0,0 +1,47 @@
++/* Macros to support TLS testing in times of missing compiler support.  ARC version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library.  If not, see
++   <https://www.gnu.org/licenses/>.  */
++
++
++/* For now.  */
++#define TLS_LD(x)	TLS_IE(x)
++
++#define TLS_GD(x)					\
++  ({ void *__result;					\
++     __asm__ ("add r0, pcl, @" #x "@tlsgd      \n"     	\
++	  ".tls_gd_ld " #x "`bl __tls_get_addr@plt \n"	\
++	  "mov %0, r0                    \n"		\
++	  : "=&r" (__result)				\
++	  ::"r0","r1","r2","r3","r4","r5","r6","r7",	\
++	    "r8","r9","r10","r11","r12");		\
++     __result; })
++
++#define TLS_LE(x)					\
++  ({ void *__result;					\
++     void *tp = __builtin_thread_pointer ();		\
++     __asm__ ("add %0, %1, @" #x "@tpoff   \n"		\
++	  : "=r" (__result) : "r"(tp));	        	\
++     __result; })
++
++#define TLS_IE(x)					\
++  ({ void *__result;					\
++     void *tp = __builtin_thread_pointer ();		\
++     __asm__ ("ld %0, [pcl, @" #x "@tlsie]      \n"     \
++	  "add %0, %1, %0                       \n"	\
++	  : "=&r" (__result) : "r" (tp));		\
++     __result; })
 -- 
 2.20.1
 
