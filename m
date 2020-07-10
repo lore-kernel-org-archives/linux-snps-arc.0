@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 178A4C433ED
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 23:38:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CBFFC433EC
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 23:38:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C171D20657
+	by mail.kernel.org (Postfix) with ESMTPS id 0CDE320657
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jul 2020 23:38:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ogDgpWkV";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="R7RqqkfE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C171D20657
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bpvGkowG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="mWHnrU6F"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CDE320657
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,51 +26,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=V257k/YFWqHed5jBH9PjJ19JhW0ssP6lmOcFPcHf8aE=; b=ogDgpWkVLFW8ZWPB3ncxoC7Er
-	N62p4TNI9uJcfocG27JS47HA8ryk/2SVm8h+FEQLmZIIALCGtL/u1bvdRJVUEsesRZXeR3C39lzAB
-	9FF7/277zrQt2AX04CDugO2608YvCol2Wi8UUtU6jbDHrSgshvB9/qBQJqRyRndtrRoKze0mvoEUC
-	sJRsBALNmMPNEuMWY/zD56h7YCLiydAPnOz60olCmTsuX5OGznIuCYOT1e9k70yHF0zbhroya+usu
-	kwOG5UFRw8rE1egc3/nPeP+Q8ZSYFfRz0N9VRtTM4zlA5wPfaPMKuxSlKUHPHXT2JOmBuLfTNE/eY
-	35ZYZqXUg==;
+	 bh=aFAWk5drz0JhUkdr0cvH5mm93x6eKnXkBZWsOaaaBR4=; b=bpvGkowG4uzYKiux5geE6BflN
+	P7ZTfsBAkPIsMyImkTSJoHPah3rqLgjpwCvURaNURPdNvAEDnqRIL8pykAQoL3F4b/2BhYGrjmTEe
+	wGWybdDmrw03TQ0E2H3PWtUH/rDA42av5OIHl0ckH9H7OfHWxAlp3MqNO+9GaPMmuj1aTFkgijFIu
+	g2MXD1bU2bQXYdUYk0eCQOvX4Rilib4SGi8USRyqi44+mxpfi2wbBN+76wizfQfJf/98AS1lqItD5
+	6bR7+S6dVQULYvyOh3MdqcPMHt+tFI44TTNCw8SRClB1eCU4n7idg8tN3V7SDOreEV9zXRB99clTl
+	Si3lYZnLA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ju2bC-0008Gn-PS; Fri, 10 Jul 2020 23:38:34 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1ju2bC-0008Gb-3x; Fri, 10 Jul 2020 23:38:34 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ju2au-00088X-9s
+ id 1ju2av-0008Ad-J6
  for linux-snps-arc@lists.infradead.org; Fri, 10 Jul 2020 23:38:30 +0000
 Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com
  [10.205.2.134])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 95A04C04BE;
- Fri, 10 Jul 2020 23:38:15 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 07C1740A3C;
+ Fri, 10 Jul 2020 23:38:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1594424295; bh=gnJxLnmfVXxfLqcIew8ROPYnIbwr55Gov4nqa+0DaxE=;
+ t=1594424297; bh=XCvNDf5u9XU5E66DfEboP0SExTT1kf9MiqdgIRNA3fE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R7RqqkfEsZb/YlpRbVbSsbAfkpQoTLxbUIJ/ZHHrGZ0pj2CImwHja/MipB9tMw4BZ
- suGkdYHt9nK12iXtBmb8fW2vTiscu3mjwahPo6UYvu5CdSBMs3fZrqvc44T2lyKGol
- SSnvXJgYPFeNGEveoOVSlrNOVZoy/n4x7mrWnWUgbu+9gfIKkkYwsqnChiQEkOTkmZ
- QTPa2Ma+DQp34c6FjCLlSdarDgszikeVWd441mI12zW6YaCkUTQKroCArFK1+a6pHH
- ZRQn11iPRZe8ly8Qjt6FTi9eq6uUOVph3hRD7GcDdj1Cvuyv8dfPcQO+gVWs7nOZ3M
- 96BgKmqOHSXmw==
+ b=mWHnrU6FvhXQTP6gQSjaUMLfeRJGNEjlxxSQvnU5YbaorXjYevkfb6fPKz7wcJrjJ
+ DSYygt7h1bq1T2nrfDlAGbtEZE8yZG0CXkvWRzh2Yw82am7f0DSStHaq7Rnly1Co05
+ Qb0TVVD3HmQhayp2zlf9HrW0mYOcBbM15WE9qHmbLBJW7CpmZYMwuGBms8hjDi5ixu
+ ceI1fp0bS+4CaumCxo0DjDJBP0QIW6nqXbMXGvwxESY0nf1l6E0Y2mxF5wjYca8iSR
+ mBrgO+PfR06PghGGENIepFsK7++qktXcNUlZmLmUfNLw3aujkWLhr1NX53wrG9tZNT
+ 00k0HOV7fQlyQ==
 Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
  [10.13.183.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id 385DFA005A;
- Fri, 10 Jul 2020 23:38:14 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id C38D6A0099;
+ Fri, 10 Jul 2020 23:38:16 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [COMMITTED 07/13] ARC: Linux Syscall Interface
-Date: Fri, 10 Jul 2020 16:38:04 -0700
-Message-Id: <20200710233810.18720-7-vgupta@synopsys.com>
+Subject: [COMMITTED 11/13] ARC: Build Infrastructure
+Date: Fri, 10 Jul 2020 16:38:08 -0700
+Message-Id: <20200710233810.18720-11-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200710233810.18720-1-vgupta@synopsys.com>
 References: <20200710233810.18720-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200710_193816_790839_83888CE0 
-X-CRM114-Status: GOOD (  16.34  )
+X-CRM114-CacheID: sfid-20200710_193817_820765_50452257 
+X-CRM114-Status: GOOD (  19.80  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,796 +92,462 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
 ---
- sysdeps/unix/sysv/linux/arc/arch-syscall.h    | 298 ++++++++++++++++++
- sysdeps/unix/sysv/linux/arc/bits/timesize.h   |  21 ++
- sysdeps/unix/sysv/linux/arc/clone.S           |  93 ++++++
- .../unix/sysv/linux/arc/fixup-asm-unistd.h    |  46 +++
- sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h  |   6 +
- sysdeps/unix/sysv/linux/arc/kernel-features.h |  27 ++
- sysdeps/unix/sysv/linux/arc/kernel_stat.h     |  26 ++
- sysdeps/unix/sysv/linux/arc/mmap_internal.h   |  27 ++
- sysdeps/unix/sysv/linux/arc/sigaction.c       |  31 ++
- sysdeps/unix/sysv/linux/arc/sigrestorer.S     |  29 ++
- sysdeps/unix/sysv/linux/arc/syscall.S         |  33 ++
- sysdeps/unix/sysv/linux/arc/syscalls.list     |   3 +
- sysdeps/unix/sysv/linux/arc/sysdep.c          |  33 ++
- sysdeps/unix/sysv/linux/arc/sysdep.h          | 226 +++++++++++++
- sysdeps/unix/sysv/linux/arc/vfork.S           |  42 +++
- 15 files changed, 941 insertions(+)
- create mode 100644 sysdeps/unix/sysv/linux/arc/arch-syscall.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/bits/timesize.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/clone.S
- create mode 100644 sysdeps/unix/sysv/linux/arc/fixup-asm-unistd.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/kernel-features.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/kernel_stat.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/mmap_internal.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/sigaction.c
- create mode 100644 sysdeps/unix/sysv/linux/arc/sigrestorer.S
- create mode 100644 sysdeps/unix/sysv/linux/arc/syscall.S
- create mode 100644 sysdeps/unix/sysv/linux/arc/syscalls.list
- create mode 100644 sysdeps/unix/sysv/linux/arc/sysdep.c
- create mode 100644 sysdeps/unix/sysv/linux/arc/sysdep.h
- create mode 100644 sysdeps/unix/sysv/linux/arc/vfork.S
+ config.h.in                                |   3 +
+ sysdeps/arc/Implies                        |   3 +
+ sysdeps/arc/Makefile                       |  21 +++
+ sysdeps/arc/Versions                       |   8 +
+ sysdeps/arc/configure                      | 182 +++++++++++++++++++++
+ sysdeps/arc/configure.ac                   |  26 +++
+ sysdeps/arc/nptl/Makefile                  |  22 +++
+ sysdeps/arc/preconfigure                   |  14 ++
+ sysdeps/unix/sysv/linux/arc/Implies        |   3 +
+ sysdeps/unix/sysv/linux/arc/Makefile       |  29 ++++
+ sysdeps/unix/sysv/linux/arc/Versions       |  16 ++
+ sysdeps/unix/sysv/linux/arc/configure      |   4 +
+ sysdeps/unix/sysv/linux/arc/configure.ac   |   4 +
+ sysdeps/unix/sysv/linux/arc/ldconfig.h     |  27 +++
+ sysdeps/unix/sysv/linux/arc/shlib-versions |   7 +
+ 15 files changed, 369 insertions(+)
+ create mode 100644 sysdeps/arc/Implies
+ create mode 100644 sysdeps/arc/Makefile
+ create mode 100644 sysdeps/arc/Versions
+ create mode 100644 sysdeps/arc/configure
+ create mode 100644 sysdeps/arc/configure.ac
+ create mode 100644 sysdeps/arc/nptl/Makefile
+ create mode 100644 sysdeps/arc/preconfigure
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Implies
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Makefile
+ create mode 100644 sysdeps/unix/sysv/linux/arc/Versions
+ create mode 100644 sysdeps/unix/sysv/linux/arc/configure
+ create mode 100644 sysdeps/unix/sysv/linux/arc/configure.ac
+ create mode 100644 sysdeps/unix/sysv/linux/arc/ldconfig.h
+ create mode 100644 sysdeps/unix/sysv/linux/arc/shlib-versions
 
-diff --git a/sysdeps/unix/sysv/linux/arc/arch-syscall.h b/sysdeps/unix/sysv/linux/arc/arch-syscall.h
+diff --git a/config.h.in b/config.h.in
+index 8dea97f625cc..4693234552d9 100644
+--- a/config.h.in
++++ b/config.h.in
+@@ -118,6 +118,9 @@
+ /* AArch64 PAC-RET code generation is enabled.  */
+ #define HAVE_AARCH64_PAC_RET 0
+ 
++/* ARC big endian ABI */
++#undef HAVE_ARC_BE
++
+ /* C-SKY ABI version.  */
+ #undef CSKYABI
+ 
+diff --git a/sysdeps/arc/Implies b/sysdeps/arc/Implies
 new file mode 100644
-index 000000000000..58cd927da81b
+index 000000000000..780c4e246769
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/arch-syscall.h
-@@ -0,0 +1,298 @@
-+/* AUTOGENERATED by update-syscall-lists.py.  */
-+#define __NR_accept 202
-+#define __NR_accept4 242
-+#define __NR_acct 89
-+#define __NR_add_key 217
-+#define __NR_adjtimex 171
-+#define __NR_arc_gettls 246
-+#define __NR_arc_settls 245
-+#define __NR_arc_usr_cmpxchg 248
-+#define __NR_bind 200
-+#define __NR_bpf 280
-+#define __NR_brk 214
-+#define __NR_cacheflush 244
-+#define __NR_capget 90
-+#define __NR_capset 91
-+#define __NR_chdir 49
-+#define __NR_chroot 51
-+#define __NR_clock_adjtime64 405
-+#define __NR_clock_getres_time64 406
-+#define __NR_clock_gettime64 403
-+#define __NR_clock_nanosleep_time64 407
-+#define __NR_clock_settime64 404
-+#define __NR_clone 220
-+#define __NR_clone3 435
-+#define __NR_close 57
-+#define __NR_connect 203
-+#define __NR_copy_file_range 285
-+#define __NR_delete_module 106
-+#define __NR_dup 23
-+#define __NR_dup3 24
-+#define __NR_epoll_create1 20
-+#define __NR_epoll_ctl 21
-+#define __NR_epoll_pwait 22
-+#define __NR_eventfd2 19
-+#define __NR_execve 221
-+#define __NR_execveat 281
-+#define __NR_exit 93
-+#define __NR_exit_group 94
-+#define __NR_faccessat 48
-+#define __NR_fadvise64_64 223
-+#define __NR_fallocate 47
-+#define __NR_fanotify_init 262
-+#define __NR_fanotify_mark 263
-+#define __NR_fchdir 50
-+#define __NR_fchmod 52
-+#define __NR_fchmodat 53
-+#define __NR_fchown 55
-+#define __NR_fchownat 54
-+#define __NR_fcntl64 25
-+#define __NR_fdatasync 83
-+#define __NR_fgetxattr 10
-+#define __NR_finit_module 273
-+#define __NR_flistxattr 13
-+#define __NR_flock 32
-+#define __NR_fremovexattr 16
-+#define __NR_fsconfig 431
-+#define __NR_fsetxattr 7
-+#define __NR_fsmount 432
-+#define __NR_fsopen 430
-+#define __NR_fspick 433
-+#define __NR_fstatfs64 44
-+#define __NR_fsync 82
-+#define __NR_ftruncate64 46
-+#define __NR_futex_time64 422
-+#define __NR_get_mempolicy 236
-+#define __NR_get_robust_list 100
-+#define __NR_getcpu 168
-+#define __NR_getcwd 17
-+#define __NR_getdents64 61
-+#define __NR_getegid 177
-+#define __NR_geteuid 175
-+#define __NR_getgid 176
-+#define __NR_getgroups 158
-+#define __NR_getitimer 102
-+#define __NR_getpeername 205
-+#define __NR_getpgid 155
-+#define __NR_getpid 172
-+#define __NR_getppid 173
-+#define __NR_getpriority 141
-+#define __NR_getrandom 278
-+#define __NR_getresgid 150
-+#define __NR_getresuid 148
-+#define __NR_getrlimit 163
-+#define __NR_getrusage 165
-+#define __NR_getsid 156
-+#define __NR_getsockname 204
-+#define __NR_getsockopt 209
-+#define __NR_gettid 178
-+#define __NR_gettimeofday 169
-+#define __NR_getuid 174
-+#define __NR_getxattr 8
-+#define __NR_init_module 105
-+#define __NR_inotify_add_watch 27
-+#define __NR_inotify_init1 26
-+#define __NR_inotify_rm_watch 28
-+#define __NR_io_cancel 3
-+#define __NR_io_destroy 1
-+#define __NR_io_getevents 4
-+#define __NR_io_pgetevents 292
-+#define __NR_io_pgetevents_time64 416
-+#define __NR_io_setup 0
-+#define __NR_io_submit 2
-+#define __NR_io_uring_enter 426
-+#define __NR_io_uring_register 427
-+#define __NR_io_uring_setup 425
-+#define __NR_ioctl 29
-+#define __NR_ioprio_get 31
-+#define __NR_ioprio_set 30
-+#define __NR_kcmp 272
-+#define __NR_kexec_file_load 294
-+#define __NR_kexec_load 104
-+#define __NR_keyctl 219
-+#define __NR_kill 129
-+#define __NR_lgetxattr 9
-+#define __NR_linkat 37
-+#define __NR_listen 201
-+#define __NR_listxattr 11
-+#define __NR_llistxattr 12
-+#define __NR_llseek 62
-+#define __NR_lookup_dcookie 18
-+#define __NR_lremovexattr 15
-+#define __NR_lsetxattr 6
-+#define __NR_madvise 233
-+#define __NR_mbind 235
-+#define __NR_membarrier 283
-+#define __NR_memfd_create 279
-+#define __NR_migrate_pages 238
-+#define __NR_mincore 232
-+#define __NR_mkdirat 34
-+#define __NR_mknodat 33
-+#define __NR_mlock 228
-+#define __NR_mlock2 284
-+#define __NR_mlockall 230
-+#define __NR_mmap2 222
-+#define __NR_mount 40
-+#define __NR_move_mount 429
-+#define __NR_move_pages 239
-+#define __NR_mprotect 226
-+#define __NR_mq_getsetattr 185
-+#define __NR_mq_notify 184
-+#define __NR_mq_open 180
-+#define __NR_mq_timedreceive_time64 419
-+#define __NR_mq_timedsend_time64 418
-+#define __NR_mq_unlink 181
-+#define __NR_mremap 216
-+#define __NR_msgctl 187
-+#define __NR_msgget 186
-+#define __NR_msgrcv 188
-+#define __NR_msgsnd 189
-+#define __NR_msync 227
-+#define __NR_munlock 229
-+#define __NR_munlockall 231
-+#define __NR_munmap 215
-+#define __NR_name_to_handle_at 264
-+#define __NR_nanosleep 101
-+#define __NR_nfsservctl 42
-+#define __NR_open_by_handle_at 265
-+#define __NR_open_tree 428
-+#define __NR_openat 56
-+#define __NR_openat2 437
-+#define __NR_perf_event_open 241
-+#define __NR_personality 92
-+#define __NR_pidfd_getfd 438
-+#define __NR_pidfd_open 434
-+#define __NR_pidfd_send_signal 424
-+#define __NR_pipe2 59
-+#define __NR_pivot_root 41
-+#define __NR_pkey_alloc 289
-+#define __NR_pkey_free 290
-+#define __NR_pkey_mprotect 288
-+#define __NR_ppoll_time64 414
-+#define __NR_prctl 167
-+#define __NR_pread64 67
-+#define __NR_preadv 69
-+#define __NR_preadv2 286
-+#define __NR_prlimit64 261
-+#define __NR_process_vm_readv 270
-+#define __NR_process_vm_writev 271
-+#define __NR_pselect6_time64 413
-+#define __NR_ptrace 117
-+#define __NR_pwrite64 68
-+#define __NR_pwritev 70
-+#define __NR_pwritev2 287
-+#define __NR_quotactl 60
-+#define __NR_read 63
-+#define __NR_readahead 213
-+#define __NR_readlinkat 78
-+#define __NR_readv 65
-+#define __NR_reboot 142
-+#define __NR_recvfrom 207
-+#define __NR_recvmmsg_time64 417
-+#define __NR_recvmsg 212
-+#define __NR_remap_file_pages 234
-+#define __NR_removexattr 14
-+#define __NR_renameat 38
-+#define __NR_renameat2 276
-+#define __NR_request_key 218
-+#define __NR_restart_syscall 128
-+#define __NR_rseq 293
-+#define __NR_rt_sigaction 134
-+#define __NR_rt_sigpending 136
-+#define __NR_rt_sigprocmask 135
-+#define __NR_rt_sigqueueinfo 138
-+#define __NR_rt_sigreturn 139
-+#define __NR_rt_sigsuspend 133
-+#define __NR_rt_sigtimedwait_time64 421
-+#define __NR_rt_tgsigqueueinfo 240
-+#define __NR_sched_get_priority_max 125
-+#define __NR_sched_get_priority_min 126
-+#define __NR_sched_getaffinity 123
-+#define __NR_sched_getattr 275
-+#define __NR_sched_getparam 121
-+#define __NR_sched_getscheduler 120
-+#define __NR_sched_rr_get_interval_time64 423
-+#define __NR_sched_setaffinity 122
-+#define __NR_sched_setattr 274
-+#define __NR_sched_setparam 118
-+#define __NR_sched_setscheduler 119
-+#define __NR_sched_yield 124
-+#define __NR_seccomp 277
-+#define __NR_semctl 191
-+#define __NR_semget 190
-+#define __NR_semop 193
-+#define __NR_semtimedop_time64 420
-+#define __NR_sendfile64 71
-+#define __NR_sendmmsg 269
-+#define __NR_sendmsg 211
-+#define __NR_sendto 206
-+#define __NR_set_mempolicy 237
-+#define __NR_set_robust_list 99
-+#define __NR_set_tid_address 96
-+#define __NR_setdomainname 162
-+#define __NR_setfsgid 152
-+#define __NR_setfsuid 151
-+#define __NR_setgid 144
-+#define __NR_setgroups 159
-+#define __NR_sethostname 161
-+#define __NR_setitimer 103
-+#define __NR_setns 268
-+#define __NR_setpgid 154
-+#define __NR_setpriority 140
-+#define __NR_setregid 143
-+#define __NR_setresgid 149
-+#define __NR_setresuid 147
-+#define __NR_setreuid 145
-+#define __NR_setrlimit 164
-+#define __NR_setsid 157
-+#define __NR_setsockopt 208
-+#define __NR_settimeofday 170
-+#define __NR_setuid 146
-+#define __NR_setxattr 5
-+#define __NR_shmat 196
-+#define __NR_shmctl 195
-+#define __NR_shmdt 197
-+#define __NR_shmget 194
-+#define __NR_shutdown 210
-+#define __NR_sigaltstack 132
-+#define __NR_signalfd4 74
-+#define __NR_socket 198
-+#define __NR_socketpair 199
-+#define __NR_splice 76
-+#define __NR_statfs64 43
-+#define __NR_statx 291
-+#define __NR_swapoff 225
-+#define __NR_swapon 224
-+#define __NR_symlinkat 36
-+#define __NR_sync 81
-+#define __NR_sync_file_range 84
-+#define __NR_syncfs 267
-+#define __NR_sysfs 247
-+#define __NR_sysinfo 179
-+#define __NR_syslog 116
-+#define __NR_tee 77
-+#define __NR_tgkill 131
-+#define __NR_timer_create 107
-+#define __NR_timer_delete 111
-+#define __NR_timer_getoverrun 109
-+#define __NR_timer_gettime64 408
-+#define __NR_timer_settime64 409
-+#define __NR_timerfd_create 85
-+#define __NR_timerfd_gettime64 410
-+#define __NR_timerfd_settime64 411
-+#define __NR_times 153
-+#define __NR_tkill 130
-+#define __NR_truncate64 45
-+#define __NR_umask 166
-+#define __NR_umount2 39
-+#define __NR_uname 160
-+#define __NR_unlinkat 35
-+#define __NR_unshare 97
-+#define __NR_userfaultfd 282
-+#define __NR_utimensat_time64 412
-+#define __NR_vhangup 58
-+#define __NR_vmsplice 75
-+#define __NR_wait4 260
-+#define __NR_waitid 95
-+#define __NR_write 64
-+#define __NR_writev 66
-diff --git a/sysdeps/unix/sysv/linux/arc/bits/timesize.h b/sysdeps/unix/sysv/linux/arc/bits/timesize.h
-new file mode 100644
-index 000000000000..bf44f09f7619
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/bits/timesize.h
-@@ -0,0 +1,21 @@
-+/* Bit size of the time_t type at glibc build time, general case.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <http://www.gnu.org/licenses/>.  */
-+
-+#include <bits/wordsize.h>
-+
-+#define __TIMESIZE	64
-diff --git a/sysdeps/unix/sysv/linux/arc/clone.S b/sysdeps/unix/sysv/linux/arc/clone.S
-new file mode 100644
-index 000000000000..f14a5d336309
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/clone.S
-@@ -0,0 +1,93 @@
-+/* clone() implementation for ARC.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+   Contributed by Andrew Jenner <andrew@codesourcery.com>, 2008.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+
-+#include <sysdep.h>
-+#define _ERRNO_H	1
-+#include <bits/errno.h>
-+#include <tcb-offsets.h>
-+
-+#define CLONE_SETTLS		0x00080000
-+
-+/* int clone(int (*fn)(void *), void *child_stack,
-+           int flags, void *arg, ...
-+           < pid_t *ptid, struct user_desc *tls, pid_t *ctid > );
-+
-+ NOTE: I'm assuming that the last 3 args are NOT var-args and in case all
-+	3 are not relevant, caller will nevertheless pass those as NULL.
-+
-+ clone syscall in kernel (ABI: CONFIG_CLONE_BACKWARDS)
-+
-+  int sys_clone(unsigned long int clone_flags,
-+	        unsigned long int newsp,
-+		int __user *parent_tidptr,
-+		void *tls,
-+		int __user *child_tidptr).  */
-+
-+ENTRY (__clone)
-+	cmp	r0, 0		/* @fn can't be NULL.  */
-+	cmp.ne	r1, 0		/* @child_stack can't be NULL.  */
-+	bz	L (__sys_err)
-+
-+	/* save some of the orig args
-+	   r0 containg @fn will be clobbered AFTER syscall (with ret val)
-+	   rest are clobbered BEFORE syscall due to different arg ordering.  */
-+	mov	r10, r0		/* @fn.  */
-+	mov	r11, r3		/* @args.  */
-+	mov	r12, r2		/* @clone_flags.  */
-+	mov	r9,  r5		/* @tls.  */
-+
-+	/* adjust libc args for syscall.  */
-+
-+	mov 	r0, r2		/* libc @flags is 1st syscall arg.  */
-+	mov	r2, r4		/* libc @ptid.  */
-+	mov	r3, r5		/* libc @tls.  */
-+	mov	r4, r6		/* libc @ctid.  */
-+	mov	r8, __NR_clone
-+	ARC_TRAP_INSN
-+
-+	cmp	r0, 0		/* return code : 0 new process, !0 parent.  */
-+	blt	L (__sys_err2)	/* < 0 (signed) error.  */
-+	jnz	[blink]		/* Parent returns.  */
-+
-+	/* child jumps off to @fn with @arg as argument
-+           TP register already set by kernel.  */
-+	jl.d	[r10]
-+	mov	r0, r11
-+
-+	/* exit() with result from @fn (already in r0).  */
-+	mov	r8, __NR_exit
-+	ARC_TRAP_INSN
-+	/* In case it ever came back.  */
-+	flag	1
-+
-+L (__sys_err):
-+	mov	r0, -EINVAL
-+L (__sys_err2):
-+	/* (1) No need to make -ve kernel error code as positive errno
-+	       __syscall_error expects the -ve error code returned by kernel
-+	   (2) r0 still had orig -ve kernel error code
-+	   (3) Tail call to __syscall_error so we dont have to come back
-+	       here hence instead of jmp-n-link (reg push/pop) we do jmp
-+	   (4) No need to route __syscall_error via PLT, B is inherently
-+	       position independent.  */
-+	b   __syscall_error
-+PSEUDO_END (__clone)
-+libc_hidden_def (__clone)
-+weak_alias (__clone, clone)
-diff --git a/sysdeps/unix/sysv/linux/arc/fixup-asm-unistd.h b/sysdeps/unix/sysv/linux/arc/fixup-asm-unistd.h
-new file mode 100644
-index 000000000000..d353ea045dd8
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/fixup-asm-unistd.h
-@@ -0,0 +1,46 @@
-+/* Regularize <asm/unistd.h> definitions.  ARC version.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <http://www.gnu.org/licenses/>.  */
-+
-+/* Adjustments to ARC asm-generic syscall ABI (3.9 kernel) for 64-bit time_t
-+   support.  */
-+
-+/* fstat64 and fstatat64 need to be replaced with statx.  */
-+
-+#undef __NR_fstat64
-+#undef __NR_fstatat64
-+
-+/* Elide all other 32-bit time_t syscalls.  */
-+
-+# undef __NR_clock_adjtime
-+# undef __NR_clock_getres
-+# undef __NR_clock_gettime
-+# undef __NR_clock_nanosleep
-+# undef __NR_clock_settime
-+# undef __NR_futex
-+# undef __NR_mq_timedreceive
-+# undef __NR_mq_timedsend
-+# undef __NR_ppoll
-+# undef __NR_pselect6
-+# undef __NR_recvmmsg
-+# undef __NR_rt_sigtimedwait
-+# undef __NR_sched_rr_get_interval
-+# undef __NR_semtimedop
-+# undef __NR_timer_gettime
-+# undef __NR_timer_settime
-+# undef __NR_timerfd_gettime
-+# undef __NR_timerfd_settime
-+# undef __NR_utimensat
-diff --git a/sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h b/sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h
-new file mode 100644
-index 000000000000..296f3197ee31
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/jmp_buf-macros.h
-@@ -0,0 +1,6 @@
-+#define JMP_BUF_SIZE		(32 + 1 + 64 / (8 * sizeof (unsigned long int))) * sizeof (unsigned long int)
-+#define SIGJMP_BUF_SIZE		(32 + 1 + 64 / (8 * sizeof (unsigned long int))) * sizeof (unsigned long int)
-+#define JMP_BUF_ALIGN		__alignof__ (unsigned long int)
-+#define SIGJMP_BUF_ALIGN	__alignof__ (unsigned long int)
-+#define MASK_WAS_SAVED_OFFSET	(32 * sizeof (unsigned long int))
-+#define SAVED_MASK_OFFSET	(33 * sizeof (unsigned long int))
-diff --git a/sysdeps/unix/sysv/linux/arc/kernel-features.h b/sysdeps/unix/sysv/linux/arc/kernel-features.h
-new file mode 100644
-index 000000000000..0a5c9e21fbf2
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/kernel-features.h
-@@ -0,0 +1,27 @@
-+/* Set flags signalling availability of kernel features based on given
-+   kernel version number.
-+
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+/* The minimum supported kernel version for ARC is 5.1 (64-bit time, offsets),
-+   although the asm-generic ABI is from 3.9 (when Linux port was merged).  */
-+
-+#include_next <kernel-features.h>
-+
-+#undef __ASSUME_CLONE_DEFAULT
-+#define __ASSUME_CLONE_BACKWARDS 1
-diff --git a/sysdeps/unix/sysv/linux/arc/kernel_stat.h b/sysdeps/unix/sysv/linux/arc/kernel_stat.h
-new file mode 100644
-index 000000000000..8fdd86b9e843
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/kernel_stat.h
-@@ -0,0 +1,26 @@
-+/* Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <bits/wordsize.h>
-+
-+/* Needed to elide the itemized copy code in common xstatconv.c.  */
-+#define STAT_IS_KERNEL_STAT 1
-+
-+/* Nice side-effect of 64-bit time_t switch is these are same.  */
-+#define XSTAT_IS_XSTAT64 1
-+
-+#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/arc/mmap_internal.h b/sysdeps/unix/sysv/linux/arc/mmap_internal.h
-new file mode 100644
-index 000000000000..5293d670adaa
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/mmap_internal.h
-@@ -0,0 +1,27 @@
-+/* mmap - map files or devices into memory.  Linux/ARC version.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#ifndef MMAP_ARC_INTERNAL_H
-+#define MMAP_ARC_INTERNAL_H
-+
-+/* 8K is default but determine the shift dynamically with getpagesize.  */
-+#define MMAP2_PAGE_UNIT -1
-+
-+#include_next <mmap_internal.h>
-+
-+#endif
-diff --git a/sysdeps/unix/sysv/linux/arc/sigaction.c b/sysdeps/unix/sysv/linux/arc/sigaction.c
-new file mode 100644
-index 000000000000..dd590ecb6dd7
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/sigaction.c
-@@ -0,0 +1,31 @@
-+/* ARC specific sigaction.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library.  If not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#define SA_RESTORER	0x04000000
-+
-+extern void __default_rt_sa_restorer (void);
-+
-+#define SET_SA_RESTORER(kact, act)				\
-+ ({								\
-+   (kact)->sa_restorer = __default_rt_sa_restorer;		\
-+   (kact)->sa_flags |= SA_RESTORER;				\
-+ })
-+
-+#define RESET_SA_RESTORER(act, kact)
-+
-+#include <sysdeps/unix/sysv/linux/sigaction.c>
-diff --git a/sysdeps/unix/sysv/linux/arc/sigrestorer.S b/sysdeps/unix/sysv/linux/arc/sigrestorer.S
-new file mode 100644
-index 000000000000..eaabef505ec2
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/sigrestorer.S
-@@ -0,0 +1,29 @@
-+/* Default sigreturn stub for ARC Linux.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <sys/syscall.h>
-+#include <sysdep.h>
-+#include <tcb-offsets.h>
-+
-+/* Note the NOP has to be outside body.  */
-+	nop
-+ENTRY (__default_rt_sa_restorer)
-+	mov r8, __NR_rt_sigreturn
-+	ARC_TRAP_INSN
-+	j_s     [blink]
-+PSEUDO_END_NOERRNO (__default_rt_sa_restorer)
-diff --git a/sysdeps/unix/sysv/linux/arc/syscall.S b/sysdeps/unix/sysv/linux/arc/syscall.S
-new file mode 100644
-index 000000000000..6227dbf49917
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/syscall.S
-@@ -0,0 +1,33 @@
-+/* syscall - indirect system call.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
-+
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <sysdep.h>
-+
-+ENTRY (syscall)
-+	mov_s	r8, r0
-+	mov_s	r0, r1
-+	mov_s	r1, r2
-+	mov_s	r2, r3
-+	mov_s	r3, r4
-+	mov_s	r4, r5
-+	mov_s	r5, r6
-+
-+	ARC_TRAP_INSN
-+	brhi	r0, -4096, L (call_syscall_err)
-+	j	[blink]
-+PSEUDO_END (syscall)
-diff --git a/sysdeps/unix/sysv/linux/arc/syscalls.list b/sysdeps/unix/sysv/linux/arc/syscalls.list
-new file mode 100644
-index 000000000000..d0ef5977ee06
---- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/syscalls.list
++++ b/sysdeps/arc/Implies
 @@ -0,0 +1,3 @@
-+# File name	Caller	Syscall name	Args	Strong name	Weak names
-+
-+cacheflush	-	cacheflush	i:pii	_flush_cache	cacheflush
-diff --git a/sysdeps/unix/sysv/linux/arc/sysdep.c b/sysdeps/unix/sysv/linux/arc/sysdep.c
++wordsize-32
++ieee754/flt-32
++ieee754/dbl-64
+diff --git a/sysdeps/arc/Makefile b/sysdeps/arc/Makefile
 new file mode 100644
-index 000000000000..f33d64679886
+index 000000000000..d5a702e29e58
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/sysdep.c
-@@ -0,0 +1,33 @@
-+/* ARC wrapper for setting errno.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
++++ b/sysdeps/arc/Makefile
+@@ -0,0 +1,21 @@
++# ARC Makefile
++# Copyright (C) 2020 Free Software Foundation, Inc.
++# This file is part of the GNU C Library.
 +
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
++# The GNU C Library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
 +
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
++# The GNU C Library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
 +
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
++# You should have received a copy of the GNU Lesser General Public
++# License along with the GNU C Library.  If not, see
++# <https://www.gnu.org/licenses/>.
 +
-+#include <sysdep.h>
-+#include <errno.h>
-+
-+/* All syscall handlers land here to avoid generated code bloat due to
-+   GOT reference  to errno_location or it's equivalent.  */
-+long int
-+__syscall_error (long int err_no)
-+{
-+  __set_errno (-err_no);
-+  return -1;
++# We don't support long doubles as a distinct type.  We don't need to set
++# this variable; it's here mostly for documentational purposes.
++long-double-fcts = no
+diff --git a/sysdeps/arc/Versions b/sysdeps/arc/Versions
+new file mode 100644
+index 000000000000..6ac7b8e49505
+--- /dev/null
++++ b/sysdeps/arc/Versions
+@@ -0,0 +1,8 @@
++libc {
++  GLIBC_2.32 {
++    __mcount;
++  }
++  GLIBC_PRIVATE {
++    __syscall_error;
++  }
 +}
-+
-+#if IS_IN (libc)
-+hidden_def (__syscall_error)
-+#endif
-diff --git a/sysdeps/unix/sysv/linux/arc/sysdep.h b/sysdeps/unix/sysv/linux/arc/sysdep.h
+diff --git a/sysdeps/arc/configure b/sysdeps/arc/configure
 new file mode 100644
-index 000000000000..8465a2f62380
+index 000000000000..bce7d3c3773d
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/sysdep.h
-@@ -0,0 +1,226 @@
-+/* Assembler macros for ARC.
++++ b/sysdeps/arc/configure
+@@ -0,0 +1,182 @@
++# This file is generated from configure.ac by Autoconf.  DO NOT EDIT!
++ # Local configure fragment for sysdeps/arc.
++
++$as_echo "#define PI_STATIC_AND_HIDDEN 1" >>confdefs.h
++
++libc_cv_have_sdata_section=no
++
++# For ARC, historically ; was used for comments and not newline
++# Later # also got added to comment list, but ; couldn't be switched to
++# canonical newline as there's lots of code out there which will break
++libc_cv_asm_line_sep='`'
++cat >>confdefs.h <<_ACEOF
++#define ASM_LINE_SEP $libc_cv_asm_line_sep
++_ACEOF
++
++
++# For big endian ABI, generate a symbol for selecting right dynamic linker
++
++
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
++$as_echo_n "checking for grep that handles long lines and -e... " >&6; }
++if ${ac_cv_path_GREP+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  if test -z "$GREP"; then
++  ac_path_GREP_found=false
++  # Loop through the user's path and test for each of PROGNAME-LIST
++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
++do
++  IFS=$as_save_IFS
++  test -z "$as_dir" && as_dir=.
++    for ac_prog in grep ggrep; do
++    for ac_exec_ext in '' $ac_executable_extensions; do
++      ac_path_GREP="$as_dir/$ac_prog$ac_exec_ext"
++      as_fn_executable_p "$ac_path_GREP" || continue
++# Check for GNU ac_path_GREP and select it if it is found.
++  # Check for GNU $ac_path_GREP
++case `"$ac_path_GREP" --version 2>&1` in
++*GNU*)
++  ac_cv_path_GREP="$ac_path_GREP" ac_path_GREP_found=:;;
++*)
++  ac_count=0
++  $as_echo_n 0123456789 >"conftest.in"
++  while :
++  do
++    cat "conftest.in" "conftest.in" >"conftest.tmp"
++    mv "conftest.tmp" "conftest.in"
++    cp "conftest.in" "conftest.nl"
++    $as_echo 'GREP' >> "conftest.nl"
++    "$ac_path_GREP" -e 'GREP$' -e '-(cannot match)-' < "conftest.nl" >"conftest.out" 2>/dev/null || break
++    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
++    as_fn_arith $ac_count + 1 && ac_count=$as_val
++    if test $ac_count -gt ${ac_path_GREP_max-0}; then
++      # Best one so far, save it but keep looking for a better one
++      ac_cv_path_GREP="$ac_path_GREP"
++      ac_path_GREP_max=$ac_count
++    fi
++    # 10*(2^10) chars as input seems more than enough
++    test $ac_count -gt 10 && break
++  done
++  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
++esac
++
++      $ac_path_GREP_found && break 3
++    done
++  done
++  done
++IFS=$as_save_IFS
++  if test -z "$ac_cv_path_GREP"; then
++    as_fn_error $? "no acceptable grep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
++  fi
++else
++  ac_cv_path_GREP=$GREP
++fi
++
++fi
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_GREP" >&5
++$as_echo "$ac_cv_path_GREP" >&6; }
++ GREP="$ac_cv_path_GREP"
++
++
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for egrep" >&5
++$as_echo_n "checking for egrep... " >&6; }
++if ${ac_cv_path_EGREP+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  if echo a | $GREP -E '(a|b)' >/dev/null 2>&1
++   then ac_cv_path_EGREP="$GREP -E"
++   else
++     if test -z "$EGREP"; then
++  ac_path_EGREP_found=false
++  # Loop through the user's path and test for each of PROGNAME-LIST
++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
++do
++  IFS=$as_save_IFS
++  test -z "$as_dir" && as_dir=.
++    for ac_prog in egrep; do
++    for ac_exec_ext in '' $ac_executable_extensions; do
++      ac_path_EGREP="$as_dir/$ac_prog$ac_exec_ext"
++      as_fn_executable_p "$ac_path_EGREP" || continue
++# Check for GNU ac_path_EGREP and select it if it is found.
++  # Check for GNU $ac_path_EGREP
++case `"$ac_path_EGREP" --version 2>&1` in
++*GNU*)
++  ac_cv_path_EGREP="$ac_path_EGREP" ac_path_EGREP_found=:;;
++*)
++  ac_count=0
++  $as_echo_n 0123456789 >"conftest.in"
++  while :
++  do
++    cat "conftest.in" "conftest.in" >"conftest.tmp"
++    mv "conftest.tmp" "conftest.in"
++    cp "conftest.in" "conftest.nl"
++    $as_echo 'EGREP' >> "conftest.nl"
++    "$ac_path_EGREP" 'EGREP$' < "conftest.nl" >"conftest.out" 2>/dev/null || break
++    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
++    as_fn_arith $ac_count + 1 && ac_count=$as_val
++    if test $ac_count -gt ${ac_path_EGREP_max-0}; then
++      # Best one so far, save it but keep looking for a better one
++      ac_cv_path_EGREP="$ac_path_EGREP"
++      ac_path_EGREP_max=$ac_count
++    fi
++    # 10*(2^10) chars as input seems more than enough
++    test $ac_count -gt 10 && break
++  done
++  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
++esac
++
++      $ac_path_EGREP_found && break 3
++    done
++  done
++  done
++IFS=$as_save_IFS
++  if test -z "$ac_cv_path_EGREP"; then
++    as_fn_error $? "no acceptable egrep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
++  fi
++else
++  ac_cv_path_EGREP=$EGREP
++fi
++
++   fi
++fi
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_EGREP" >&5
++$as_echo "$ac_cv_path_EGREP" >&6; }
++ EGREP="$ac_cv_path_EGREP"
++
++
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for big endian" >&5
++$as_echo_n "checking for big endian... " >&6; }
++if ${libc_cv_arc_be+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++/* end confdefs.h.  */
++#ifdef __BIG_ENDIAN__
++                      yes
++                     #endif
++
++_ACEOF
++if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
++  $EGREP "yes" >/dev/null 2>&1; then :
++  libc_cv_arc_be=yes
++else
++  libc_cv_arc_be=no
++fi
++rm -f conftest*
++
++fi
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_arc_be" >&5
++$as_echo "$libc_cv_arc_be" >&6; }
++if test $libc_cv_arc_be = yes; then
++  # For shlib-versions.
++  $as_echo "#define HAVE_ARC_BE 1" >>confdefs.h
++
++  config_vars="$config_vars
++default-abi = arcbe"
++else
++  config_vars="$config_vars
++default-abi = arcle"
++fi
+diff --git a/sysdeps/arc/configure.ac b/sysdeps/arc/configure.ac
+new file mode 100644
+index 000000000000..cb490e47b356
+--- /dev/null
++++ b/sysdeps/arc/configure.ac
+@@ -0,0 +1,26 @@
++GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
++# Local configure fragment for sysdeps/arc.
++
++AC_DEFINE(PI_STATIC_AND_HIDDEN)
++libc_cv_have_sdata_section=no
++
++# For ARC, historically ; was used for comments and not newline
++# Later # also got added to comment list, but ; couldn't be switched to
++# canonical newline as there's lots of code out there which will break
++libc_cv_asm_line_sep='`'
++AC_DEFINE_UNQUOTED(ASM_LINE_SEP, $libc_cv_asm_line_sep)
++
++# For big endian ABI, generate a symbol for selecting right dynamic linker
++AC_CACHE_CHECK([for big endian],
++  [libc_cv_arc_be],
++  [AC_EGREP_CPP(yes,[#ifdef __BIG_ENDIAN__
++                      yes
++                     #endif
++  ], libc_cv_arc_be=yes, libc_cv_arc_be=no)])
++if test $libc_cv_arc_be = yes; then
++  # For shlib-versions.
++  AC_DEFINE(HAVE_ARC_BE)
++  LIBC_CONFIG_VAR([default-abi], [arcbe])
++else
++  LIBC_CONFIG_VAR([default-abi], [arcle])
++fi
+diff --git a/sysdeps/arc/nptl/Makefile b/sysdeps/arc/nptl/Makefile
+new file mode 100644
+index 000000000000..42be62451749
+--- /dev/null
++++ b/sysdeps/arc/nptl/Makefile
+@@ -0,0 +1,22 @@
++# NPTL makefile fragment for ARC.
++# Copyright (C) 2020 Free Software Foundation, Inc.
++#
++# This file is part of the GNU C Library.
++#
++# The GNU C Library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
++#
++# The GNU C Library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with the GNU C Library.  If not, see
++# <https://www.gnu.org/licenses/>.
++
++ifeq ($(subdir),csu)
++gen-as-const-headers += tcb-offsets.sym
++endif
+diff --git a/sysdeps/arc/preconfigure b/sysdeps/arc/preconfigure
+new file mode 100644
+index 000000000000..a79db0239ae6
+--- /dev/null
++++ b/sysdeps/arc/preconfigure
+@@ -0,0 +1,14 @@
++case "$machine" in
++arc*)
++  base_machine=arc
++  machine=arc
++
++  gccfloat=`$CC $CFLAGS $CPPFLAGS -E -dM -xc /dev/null | grep __ARC_FPU_| wc -l`
++  if test "$gccfloat" != "0"; then
++    with_fp_cond=1
++  else
++    with_fp_cond=0
++  fi
++  ;;
++
++esac
+diff --git a/sysdeps/unix/sysv/linux/arc/Implies b/sysdeps/unix/sysv/linux/arc/Implies
+new file mode 100644
+index 000000000000..7f739a0340b6
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/Implies
+@@ -0,0 +1,3 @@
++arc/nptl
++unix/sysv/linux/generic/wordsize-32
++unix/sysv/linux/generic
+diff --git a/sysdeps/unix/sysv/linux/arc/Makefile b/sysdeps/unix/sysv/linux/arc/Makefile
+new file mode 100644
+index 000000000000..25d7bbecac07
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/Makefile
+@@ -0,0 +1,29 @@
++ifeq ($(subdir),stdlib)
++gen-as-const-headers += ucontext_i.sym
++endif
++
++ifeq ($(subdir),signal)
++sysdep_routines += sigrestorer
++endif
++
++ifeq ($(subdir),misc)
++# MIPS/Tile-style cacheflush routine
++sysdep_headers += sys/cachectl.h
++sysdep_routines += cacheflush
++endif
++
++ifeq ($(subdir),elf)
++ifeq ($(build-shared),yes)
++# This is needed for DSO loading from static binaries.
++sysdep-dl-routines += dl-static
++endif
++endif
++
++abi-variants := arcle arcbe
++
++ifeq (,$(filter $(default-abi),$(abi-variants)))
++$(error Unknown ABI $(default-abi), must be one of $(abi-variants))
++endif
++
++abi-arcle-condition := !defined __BIG_ENDIAN__
++abi-arcbe-condition := defined __BIG_ENDIAN__
+diff --git a/sysdeps/unix/sysv/linux/arc/Versions b/sysdeps/unix/sysv/linux/arc/Versions
+new file mode 100644
+index 000000000000..292f1974b02a
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/Versions
+@@ -0,0 +1,16 @@
++ld {
++  GLIBC_PRIVATE {
++    # used for loading by static libraries
++    _dl_var_init;
++  }
++}
++libc {
++  GLIBC_2.32 {
++    _flush_cache;
++    cacheflush;
++  }
++  GLIBC_PRIVATE {
++    # A copy of sigaction lives in libpthread, and needs these.
++    __default_rt_sa_restorer;
++  }
++}
+diff --git a/sysdeps/unix/sysv/linux/arc/configure b/sysdeps/unix/sysv/linux/arc/configure
+new file mode 100644
+index 000000000000..56ec14357507
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/configure
+@@ -0,0 +1,4 @@
++# This file is generated from configure.in by Autoconf.  DO NOT EDIT!
++ # Local configure fragment for sysdeps/unix/sysv/linux/arc.
++
++arch_minimum_kernel=5.1.0
+diff --git a/sysdeps/unix/sysv/linux/arc/configure.ac b/sysdeps/unix/sysv/linux/arc/configure.ac
+new file mode 100644
+index 000000000000..8af5a12cc248
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/configure.ac
+@@ -0,0 +1,4 @@
++GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
++# Local configure fragment for sysdeps/unix/sysv/linux/arc.
++
++arch_minimum_kernel=5.1.0
+diff --git a/sysdeps/unix/sysv/linux/arc/ldconfig.h b/sysdeps/unix/sysv/linux/arc/ldconfig.h
+new file mode 100644
+index 000000000000..0d6368e4df02
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/ldconfig.h
+@@ -0,0 +1,27 @@
++/* ldconfig default paths and libraries.  Linux/RISC-V version.
 +   Copyright (C) 2020 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
 +
@@ -896,265 +562,31 @@ index 000000000000..8465a2f62380
 +   Lesser General Public License for more details.
 +
 +   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
++   License along with the GNU C Library.  If not, see
 +   <https://www.gnu.org/licenses/>.  */
 +
-+#ifndef _LINUX_ARC_SYSDEP_H
-+#define _LINUX_ARC_SYSDEP_H 1
++#include <sysdeps/generic/ldconfig.h>
 +
-+#include <sysdeps/arc/sysdep.h>
-+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
++#define SYSDEP_KNOWN_INTERPRETER_NAMES 		\
++  { "/lib/ld-linux-arc.so.2", FLAG_ELF_LIBC6 },	\
++  { "/lib/ld-linux-arceb.so.2", FLAG_ELF_LIBC6 },
 +
-+/* "workarounds" for generic code needing to handle 64-bit time_t.  */
-+
-+/* Fix sysdeps/unix/sysv/linux/clock_getcpuclockid.c.  */
-+#define __NR_clock_getres	__NR_clock_getres_time64
-+/* Fix sysdeps/nptl/lowlevellock-futex.h.  */
-+#define __NR_futex		__NR_futex_time64
-+/* Fix sysdeps/unix/sysv/linux/pause.c.  */
-+#define __NR_ppoll		__NR_ppoll_time64
-+/* Fix sysdeps/unix/sysv/linux/select.c.  */
-+#define __NR_pselect6		__NR_pselect6_time64
-+/* Fix sysdeps/unix/sysv/linux/recvmmsg.c.  */
-+#define __NR_recvmmsg		__NR_recvmmsg_time64
-+/* Fix sysdeps/unix/sysv/linux/sigtimedwait.c.  */
-+#define __NR_rt_sigtimedwait	__NR_rt_sigtimedwait_time64
-+/* Fix sysdeps/unix/sysv/linux/semtimedop.c.  */
-+#define __NR_semtimedop		__NR_semtimedop_time64
-+/* Hack sysdeps/unix/sysv/linux/generic/utimes.c.  */
-+#define __NR_utimensat		__NR_utimensat_time64
-+
-+/* For RTLD_PRIVATE_ERRNO.  */
-+#include <dl-sysdep.h>
-+
-+#include <tls.h>
-+
-+#undef SYS_ify
-+#define SYS_ify(syscall_name)   __NR_##syscall_name
-+
-+#ifdef __ASSEMBLER__
-+
-+/* This is a "normal" system call stub: if there is an error,
-+   it returns -1 and sets errno.  */
-+
-+# undef PSEUDO
-+# define PSEUDO(name, syscall_name, args)			\
-+  PSEUDO_NOERRNO(name, syscall_name, args)	ASM_LINE_SEP	\
-+    brhi   r0, -4096, L (call_syscall_err)	ASM_LINE_SEP
-+
-+# define ret	j_s  [blink]
-+
-+# undef PSEUDO_END
-+# define PSEUDO_END(name)					\
-+  SYSCALL_ERROR_HANDLER				ASM_LINE_SEP	\
-+  END (name)
-+
-+/* --------- Helper for SYSCALL_NOERRNO -----------
-+   This kind of system call stub never returns an error.
-+   We return the return value register to the caller unexamined.  */
-+
-+# undef PSEUDO_NOERRNO
-+# define PSEUDO_NOERRNO(name, syscall_name, args)		\
-+  .text						ASM_LINE_SEP	\
-+  ENTRY (name)					ASM_LINE_SEP	\
-+    DO_CALL (syscall_name, args)		ASM_LINE_SEP	\
-+
-+/* Return the return value register unexamined. Since r0 is both
-+   syscall return reg and function return reg, no work needed.  */
-+# define ret_NOERRNO						\
-+  j_s  [blink]		ASM_LINE_SEP
-+
-+# undef PSEUDO_END_NOERRNO
-+# define PSEUDO_END_NOERRNO(name)				\
-+  END (name)
-+
-+/* --------- Helper for SYSCALL_ERRVAL -----------
-+   This kind of system call stub returns the errno code as its return
-+   value, or zero for success.  We may massage the kernel's return value
-+   to meet that ABI, but we never set errno here.  */
-+
-+# undef PSEUDO_ERRVAL
-+# define PSEUDO_ERRVAL(name, syscall_name, args)		\
-+  PSEUDO_NOERRNO(name, syscall_name, args)	ASM_LINE_SEP
-+
-+/* Don't set errno, return kernel error (in errno form) or zero.  */
-+# define ret_ERRVAL						\
-+  rsub   r0, r0, 0				ASM_LINE_SEP	\
-+  ret_NOERRNO
-+
-+# undef PSEUDO_END_ERRVAL
-+# define PSEUDO_END_ERRVAL(name)				\
-+  END (name)
-+
-+
-+/* To reduce the code footprint, we confine the actual errno access
-+   to single place in __syscall_error().
-+   This takes raw kernel error value, sets errno and returns -1.  */
-+# if IS_IN (libc)
-+#  define CALL_ERRNO_SETTER_C	bl     PLTJMP(HIDDEN_JUMPTARGET(__syscall_error))
-+# else
-+#  define CALL_ERRNO_SETTER_C	bl     PLTJMP(__syscall_error)
-+# endif
-+
-+# define SYSCALL_ERROR_HANDLER				\
-+L (call_syscall_err):			ASM_LINE_SEP	\
-+    push_s   blink			ASM_LINE_SEP	\
-+    cfi_adjust_cfa_offset (4)		ASM_LINE_SEP	\
-+    cfi_rel_offset (blink, 0)		ASM_LINE_SEP	\
-+    CALL_ERRNO_SETTER_C			ASM_LINE_SEP	\
-+    pop_s  blink			ASM_LINE_SEP	\
-+    cfi_adjust_cfa_offset (-4)		ASM_LINE_SEP	\
-+    cfi_restore (blink)			ASM_LINE_SEP	\
-+    j_s      [blink]
-+
-+# define DO_CALL(syscall_name, args)			\
-+    mov    r8, __NR_##syscall_name	ASM_LINE_SEP	\
-+    ARC_TRAP_INSN			ASM_LINE_SEP
-+
-+# define ARC_TRAP_INSN	trap_s 0
-+
-+#else  /* !__ASSEMBLER__ */
-+
-+# define SINGLE_THREAD_BY_GLOBAL		1
-+
-+# if IS_IN (libc)
-+extern long int __syscall_error (long int);
-+hidden_proto (__syscall_error)
-+# endif
-+
-+# define ARC_TRAP_INSN	"trap_s 0	\n\t"
-+
-+# undef INTERNAL_SYSCALL_NCS
-+# define INTERNAL_SYSCALL_NCS(number, nr_args, args...)	\
-+  ({								\
-+    /* Per ABI, r0 is 1st arg and return reg.  */		\
-+    register long int __ret __asm__("r0");			\
-+    register long int _sys_num __asm__("r8");			\
-+								\
-+    LOAD_ARGS_##nr_args (number, args)				\
-+								\
-+    __asm__ volatile (						\
-+                      ARC_TRAP_INSN				\
-+                      : "+r" (__ret)				\
-+                      : "r"(_sys_num) ASM_ARGS_##nr_args	\
-+                      : "memory");				\
-+                                                                \
-+    __ret; })
-+
-+# undef INTERNAL_SYSCALL
-+# define INTERNAL_SYSCALL(name, nr, args...) 	\
-+  INTERNAL_SYSCALL_NCS(__NR_##name, nr, args)
-+
-+/* Macros for setting up inline __asm__ input regs.  */
-+# define ASM_ARGS_0
-+# define ASM_ARGS_1	ASM_ARGS_0, "r" (__ret)
-+# define ASM_ARGS_2	ASM_ARGS_1, "r" (_arg2)
-+# define ASM_ARGS_3	ASM_ARGS_2, "r" (_arg3)
-+# define ASM_ARGS_4	ASM_ARGS_3, "r" (_arg4)
-+# define ASM_ARGS_5	ASM_ARGS_4, "r" (_arg5)
-+# define ASM_ARGS_6	ASM_ARGS_5, "r" (_arg6)
-+# define ASM_ARGS_7	ASM_ARGS_6, "r" (_arg7)
-+
-+/* Macros for converting sys-call wrapper args into sys call args.  */
-+# define LOAD_ARGS_0(nm, arg)				\
-+  _sys_num = (long int) (nm);
-+
-+# define LOAD_ARGS_1(nm, arg1)				\
-+  __ret = (long int) (arg1);					\
-+  LOAD_ARGS_0 (nm, arg1)
-+
-+/* Note that the use of _tmpX might look superflous, however it is needed
-+   to ensure that register variables are not clobbered if arg happens to be
-+   a function call itself. e.g. sched_setaffinity() calling getpid() for arg2
-+   Also this specific order of recursive calling is important to segregate
-+   the tmp args evaluation (function call case described above) and assigment
-+   of register variables.  */
-+
-+# define LOAD_ARGS_2(nm, arg1, arg2)			\
-+  long int _tmp2 = (long int) (arg2);			\
-+  LOAD_ARGS_1 (nm, arg1)				\
-+  register long int _arg2 __asm__ ("r1") = _tmp2;
-+
-+# define LOAD_ARGS_3(nm, arg1, arg2, arg3)		\
-+  long int _tmp3 = (long int) (arg3);			\
-+  LOAD_ARGS_2 (nm, arg1, arg2)				\
-+  register long int _arg3 __asm__ ("r2") = _tmp3;
-+
-+#define LOAD_ARGS_4(nm, arg1, arg2, arg3, arg4)		\
-+  long int _tmp4 = (long int) (arg4);			\
-+  LOAD_ARGS_3 (nm, arg1, arg2, arg3)			\
-+  register long int _arg4 __asm__ ("r3") = _tmp4;
-+
-+# define LOAD_ARGS_5(nm, arg1, arg2, arg3, arg4, arg5)	\
-+  long int _tmp5 = (long int) (arg5);			\
-+  LOAD_ARGS_4 (nm, arg1, arg2, arg3, arg4)		\
-+  register long int _arg5 __asm__ ("r4") = _tmp5;
-+
-+# define LOAD_ARGS_6(nm,  arg1, arg2, arg3, arg4, arg5, arg6)\
-+  long int _tmp6 = (long int) (arg6);			\
-+  LOAD_ARGS_5 (nm, arg1, arg2, arg3, arg4, arg5)	\
-+  register long int _arg6 __asm__ ("r5") = _tmp6;
-+
-+# define LOAD_ARGS_7(nm, arg1, arg2, arg3, arg4, arg5, arg6, arg7)\
-+  long int _tmp7 = (int) (arg7);				\
-+  LOAD_ARGS_6 (nm, arg1, arg2, arg3, arg4, arg5, arg6)	\
-+  register long int _arg7 __asm__ ("r6") = _tmp7;
-+
-+/* Pointer mangling not yet supported.  */
-+# define PTR_MANGLE(var) (void) (var)
-+# define PTR_DEMANGLE(var) (void) (var)
-+
-+#endif /* !__ASSEMBLER__ */
-+
-+#endif /* linux/arc/sysdep.h */
-diff --git a/sysdeps/unix/sysv/linux/arc/vfork.S b/sysdeps/unix/sysv/linux/arc/vfork.S
++#define SYSDEP_KNOWN_LIBRARY_NAMES 	\
++  { "libc.so.6", FLAG_ELF_LIBC6 },	\
++  { "libm.so.6", FLAG_ELF_LIBC6 },
+diff --git a/sysdeps/unix/sysv/linux/arc/shlib-versions b/sysdeps/unix/sysv/linux/arc/shlib-versions
 new file mode 100644
-index 000000000000..4f12b9fccfab
+index 000000000000..343c0a04500e
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/arc/vfork.S
-@@ -0,0 +1,42 @@
-+/* vfork for ARC Linux.
-+   Copyright (C) 2020 Free Software Foundation, Inc.
-+   This file is part of the GNU C Library.
++++ b/sysdeps/unix/sysv/linux/arc/shlib-versions
+@@ -0,0 +1,7 @@
++DEFAULT                 GLIBC_2.32
 +
-+   The GNU C Library is free software; you can redistribute it and/or
-+   modify it under the terms of the GNU Lesser General Public
-+   License as published by the Free Software Foundation; either
-+   version 2.1 of the License, or (at your option) any later version.
-+
-+   The GNU C Library is distributed in the hope that it will be useful,
-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+   Lesser General Public License for more details.
-+
-+   You should have received a copy of the GNU Lesser General Public
-+   License along with the GNU C Library; if not, see
-+   <https://www.gnu.org/licenses/>.  */
-+
-+#include <sys/syscall.h>
-+#include <sysdep.h>
-+#include <tcb-offsets.h>
-+#define _SIGNAL_H
-+#include <bits/signum-arch.h>       /* For SIGCHLD */
-+
-+#define CLONE_VM		0x00000100
-+#define CLONE_VFORK		0x00004000
-+#define CLONE_FLAGS_FOR_VFORK	(CLONE_VM|CLONE_VFORK|SIGCHLD)
-+
-+ENTRY (__vfork)
-+	mov	r0, CLONE_FLAGS_FOR_VFORK
-+	mov_s	r1, sp
-+	mov	r8, __NR_clone
-+	ARC_TRAP_INSN
-+
-+	cmp	r0, 0
-+	jge	[blink]	; child continues
-+
-+	b   __syscall_error
-+PSEUDO_END (__vfork)
-+libc_hidden_def (__vfork)
-+
-+weak_alias (__vfork, vfork)
++%ifdef HAVE_ARC_BE
++ld=ld-linux-arceb.so.2
++%else
++ld=ld-linux-arc.so.2
++%endif
 -- 
 2.20.1
 
