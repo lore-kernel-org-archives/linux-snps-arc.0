@@ -1,63 +1,78 @@
-Return-Path: <SRS0=pJgN=B7=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=xDVn=CC=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLACK,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1702C433DF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 21 Aug 2020 08:52:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A52CC433E1
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Aug 2020 09:58:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ACB1F208DB
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 21 Aug 2020 08:52:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 435C220639
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Aug 2020 09:58:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="D30KxU6o"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ACB1F208DB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="N5IPOc/w";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zQK29oix";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2UjFVzZI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 435C220639
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=uxmBqEIgPl13wzNV50CjWK8BgcdNOT/OlY/HJb6lhxM=; b=D30KxU6o1sSxzazm/eCfeDajJ
-	5IRTPsELZLhDAjs2SOYReyeMWMCXQWIZRSTvPhyg+CE646KheWOCvH2nSQDElWND6Wk/6HDBB0HDm
-	8ghg42tWywWLMRsgUIRtx2mZLjUJEpybpMYbUTrKzfZTbfMTCFiBO2VwP6+uWspce0gHEpP0OPmgn
-	rt57q8nZHzs7N9uOb5o/6ZNpuj9l2DlYQqC6rSO+TbG/EMB4rg9+hJYY3ADZlxL534oCn0VHYXv5t
-	IY27vKvYrKZHj5fjm3LsGYh8aFmovxnsVWm0aeCrICB+uDFBIvAl5wxcR5zDBgfTX8huZQPdCjkqF
-	8iiJeXOCw==;
+	 bh=wyHNLo8YR7Mh+4dFAC3IfYNgf65FwocGWZeCE5cEdB4=; b=N5IPOc/w/ATNSdj5jWiyVPf9v
+	FEThtPNw9ejfHKCI9d6b40gzbOkkMdsi79E7W6vBvHCcAp4EIyVx/kq2ScjiOQ1epqPB/2ASuj/Xt
+	2bSuTiz3r+jpCi77/2cyWqba4AeH34LtaNmJa7/CMlyeaYPd6qNZIue9l7RGnE9qRKzHDQy1Ls/UY
+	vpdA6E9YdF/mjaYLHAR+Mf7pOsyXYyXJBJmhocO97gASxPJHLEMeIVopd811VF07PFCSGrtjjs7Cv
+	nUH1nYydbaWYIA/Wd6VHjLt7B+gGpjilVd1aOXWvVrL6p0GX39IgTA1KV9YVuYu3UicVY2cINDDQ0
+	NkyOhl1YQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k92mT-0008AI-1p; Fri, 21 Aug 2020 08:52:13 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k92mN-00088P-Ok; Fri, 21 Aug 2020 08:52:10 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BDEF030E;
- Fri, 21 Aug 2020 01:52:03 -0700 (PDT)
-Received: from [10.163.67.49] (unknown [10.163.67.49])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFDDB3F66B;
- Fri, 21 Aug 2020 01:51:58 -0700 (PDT)
-Subject: Re: [PATCH v2 00/13] mm/debug_vm_pgtable fixes
-To: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, linux-mm@kvack.org,
- akpm@linux-foundation.org
-References: <20200819130107.478414-1-aneesh.kumar@linux.ibm.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <52e9743e-fa2f-3fd2-f50e-2c6c38464b96@arm.com>
-Date: Fri, 21 Aug 2020 14:21:27 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+	id 1kA9FT-0007Qd-Nm; Mon, 24 Aug 2020 09:58:46 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kA9FP-0007Nz-As
+ for linux-snps-arc@lists.infradead.org; Mon, 24 Aug 2020 09:58:40 +0000
+Date: Mon, 24 Aug 2020 11:58:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1598263113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VBtkaB/urMRjE3KDZiHlShNfLKbL53xdqqZJYFhzB6U=;
+ b=zQK29oix1xwa06jMXLKYr+zKUzHU699aC1Y7GbINccUZlofpr3TVjS229SPdTOywDmRmKR
+ NNq9UoeBjWaX/R0F6hxFHm8jAhzoNfGfnpSw2mp7P9jQG9M97ORA3QzC/jsF8D6S6Y5e1B
+ ne7B3kt63HE45NchLkJPB+UXmLbYw80+j6TftpzTPGbjGe04I5GnFsUgkLuNb64Lb3jfiQ
+ HbgRSoBno6ntZfeDAc7O0Zsfs6uKaQJorFtdJjLx+iRcyW76iysPwWEn9vTdvdGWpIgLLU
+ HBO8tdEm3he973k81nulL2wfvZ9fWZPsghPqTMMzRVj4qbJCkzBzl3OBROYdhA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1598263113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VBtkaB/urMRjE3KDZiHlShNfLKbL53xdqqZJYFhzB6U=;
+ b=2UjFVzZIp1GezRNJ7apJWJOzysrfRYWMPEkSSV724oBmU7zCnuPfW2s/wjn2aPmKMOQayW
+ BxglsF10dTFJCpAw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: kernel test robot <lkp@intel.com>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-snps-arc@lists.infradead.org
+Subject: Re: {standard input}:5973: Error: operand out of range (512 is not
+ between -512 and 511)
+Message-ID: <20200824095831.5lpkmkafelnvlpi2@linutronix.de>
+References: <202008241018.RkyIlLKd%lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200819130107.478414-1-aneesh.kumar@linux.ibm.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <202008241018.RkyIlLKd%lkp@intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200821_045207_922102_1A9B1CDD 
-X-CRM114-Status: GOOD (  20.42  )
+X-CRM114-CacheID: sfid-20200824_055839_517703_1B185E04 
+X-CRM114-Status: GOOD (  14.54  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,82 +84,73 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Linux-Arch <linux-arch@vger.kernel.org>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- Christophe Leroy <christophe.leroy@c-s.fr>, mpe@ellerman.id.au,
- "x86@kernel.org" <x86@kernel.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Mike Rapoport <rppt@linux.ibm.com>, Qian Cai <cai@lca.pw>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- Vineet Gupta <vgupta@synopsys.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- linuxppc-dev@lists.ozlabs.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
+ kbuild-all@lists.01.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
-On 08/19/2020 06:30 PM, Aneesh Kumar K.V wrote:
-> This patch series includes fixes for debug_vm_pgtable test code so that
-> they follow page table updates rules correctly. The first two patches introduce
-> changes w.r.t ppc64. The patches are included in this series for completeness. We can
-> merge them via ppc64 tree if required.
+On 2020-08-24 10:17:19 [+0800], kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   d012a7190fc1fd72ed48911e77ca97ba4521bccd
+> commit: de8f5e4f2dc1f032b46afda0a78cab5456974f89 lockdep: Introduce wait-type checks
+> date:   5 months ago
+> config: arc-randconfig-r004-20200824 (attached as .config)
+> compiler: arc-elf-gcc (GCC) 9.3.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         git checkout de8f5e4f2dc1f032b46afda0a78cab5456974f89
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=arc 
 > 
-> Hugetlb test is disabled on ppc64 because that needs larger change to satisfy
-> page table update rules.
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
 > 
-> Changes from V1:
-> * Address review feedback
-> * drop test specific pfn_pte and pfn_pmd.
-> * Update ppc64 page table helper to add _PAGE_PTE 
+> All errors (new ones prefixed by >>):
 > 
-> Aneesh Kumar K.V (13):
->   powerpc/mm: Add DEBUG_VM WARN for pmd_clear
->   powerpc/mm: Move setting pte specific flags to pfn_pte
->   mm/debug_vm_pgtable/ppc64: Avoid setting top bits in radom value
->   mm/debug_vm_pgtables/hugevmap: Use the arch helper to identify huge
->     vmap support.
->   mm/debug_vm_pgtable/savedwrite: Enable savedwrite test with
->     CONFIG_NUMA_BALANCING
->   mm/debug_vm_pgtable/THP: Mark the pte entry huge before using
->     set_pmd/pud_at
->   mm/debug_vm_pgtable/set_pte/pmd/pud: Don't use set_*_at to update an
->     existing pte entry
->   mm/debug_vm_pgtable/thp: Use page table depost/withdraw with THP
->   mm/debug_vm_pgtable/locks: Move non page table modifying test together
->   mm/debug_vm_pgtable/locks: Take correct page table lock
->   mm/debug_vm_pgtable/pmd_clear: Don't use pmd/pud_clear on pte entries
->   mm/debug_vm_pgtable/hugetlb: Disable hugetlb test on ppc64
->   mm/debug_vm_pgtable: populate a pte entry before fetching it
-> 
->  arch/powerpc/include/asm/book3s/64/pgtable.h |  29 +++-
->  arch/powerpc/include/asm/nohash/pgtable.h    |   5 -
->  arch/powerpc/mm/book3s64/pgtable.c           |   2 +-
->  arch/powerpc/mm/pgtable.c                    |   5 -
->  include/linux/io.h                           |  12 ++
->  mm/debug_vm_pgtable.c                        | 151 +++++++++++--------
->  6 files changed, 127 insertions(+), 77 deletions(-)
+>    {standard input}: Assembler messages:
+> >> {standard input}:5973: Error: operand out of range (512 is not between -512 and 511)
 > 
 
-Changes proposed here will impact other enabled platforms as well.
-Adding the following folks and mailing lists, and hoping to get a
-broader review and test coverage. Please do include them in the
-next iteration as well.
+I have here gcc 10 and the output is:
+|  CC      arch/arc/kernel/signal.o
+|arch/arc/include/asm/bitops.h: Assembler messages:
+|arch/arc/include/asm/bitops.h:236: Error: junk at end of line, first unrecognized character is `0'
+|arch/arc/include/asm/bitops.h:236: Error: junk at end of line, first unrecognized character is `0'
+|make[3]: *** [scripts/Makefile.build:283: arch/arc/kernel/signal.o] Error 1
+|make[2]: *** [scripts/Makefile.build:500: arch/arc/kernel] Error 2
+|make[1]: *** [Makefile:1788: arch/arc] Error 2
 
-+ linux-arm-kernel@lists.infradead.org
-+ linux-s390@vger.kernel.org
-+ linux-snps-arc@lists.infradead.org
-+ x86@kernel.org
-+ linux-arch@vger.kernel.org
+the reason is that:
+| #ifndef CONFIG_ARC_PLAT_EZNPS
+| BIT_OPS(set, |, bset)
+| BIT_OPS(clear, & ~, bclr)
+| BIT_OPS(change, ^, bxor)
+| #else
+| BIT_OPS(set, |, CTOP_INST_AOR_DI_R2_R2_R3)
+| BIT_OPS(clear, & ~, CTOP_INST_AAND_DI_R2_R2_R3)
+| BIT_OPS(change, ^, CTOP_INST_AXOR_DI_R2_R2_R3)
+| #endif
 
-+ Gerald Schaefer <gerald.schaefer@de.ibm.com>
-+ Christophe Leroy <christophe.leroy@c-s.fr>
-+ Christophe Leroy <christophe.leroy@csgroup.eu>
-+ Vineet Gupta <vgupta@synopsys.com>
-+ Mike Rapoport <rppt@linux.ibm.com>
-+ Qian Cai <cai@lca.pw>
+and the config supplied does not accept CTOP_INST_AAND_DI_R2_R2_R3
+(which is
+	#define CTOP_INST_AAND_DI_R2_R2_R3              0x4A664C04
+)
+and the assembler does not like that.
+After the removal CONFIG_ARC_PLAT_EZNPS I got to stage 2:
+|drivers/irqchip/irq-eznps.c:80:16: error: 'CTOP_AUX_IACK' undeclared (first use in this function)
+|   80 |  write_aux_reg(CTOP_AUX_IACK, 1 << irq);
+
+so I removed CONFIG_EZNPS_GIC. And then I ended with:
+|  LD      vmlinux.o
+|arc-linux-ld: gcc-10.1.0-nolibc/arc-linux/bin/../lib/gcc/arc-linux/10.1.0/arc700/libgcc.a(_muldi3.o): compiled for a little endian system and target is big endian
+|arc-linux-ld: failed to merge target specific data of file gcc-10.1.0-nolibc/arc-linux/bin/../lib/gcc/arc-linux/10.1.0/arc700/libgcc.a(_muldi3.o)
+
+Please update CI and ARC.
+
+Sebastian
 
 _______________________________________________
 linux-snps-arc mailing list
