@@ -4,75 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B6A9C433E1
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 27 Aug 2020 07:01:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AB26C433DF
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 27 Aug 2020 08:05:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D9D4D22B49
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 27 Aug 2020 07:01:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 492C022BF5
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 27 Aug 2020 08:05:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EU1YxrpR";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="G2uSblVi";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oZT0Hngx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D9D4D22B49
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RKw6/xef";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Cypc7oHP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 492C022BF5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=BnhVZt7t3kNujXxzWBoiNkimUR3MjNcv8W6vPs2+ZR0=; b=EU1YxrpRYFWYz2VwhDaDagk7u
-	nClxkMsjs4p2y+EDihdZJcVCzGMA5vqQECfDbpP5kLSP35ZQ95GaXcMNEg7UVl/+ybv9RMoYkKZFK
-	RLTOMxOt0pcIMoGBCKyD5yI/QI1LXBN9Klc3ciNSz7YAztLf2sl0VnxFdyWfD2SARVezioCMdIuc6
-	J5kfU9bea5Hmcp9mNhZhyRNdxNzvUbqOQT/CH7t5xhUao5ZYwcE+h1ddLNXEN1m5Ry0yax6eOoC0t
-	u1GfEDhhAbO9uflY2vKagA5+q/mhX9rRYkzVfDuC00OLXHZChxAYedDGf6pmHPa6BZOxIXE+RpwsH
-	7rl76J4XQ==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=P/D2o0OB9Vwj2WHzM909PSZHWi3x7L+cktely7JvIH4=; b=RKw6/xefvFNmTWZF7Me4T73aQB
+	zZS/LdZMZgFbVAubW5wKYox1uEnSwyANdqaxPDjCgMP8zi+Yfwy+aNsUKXqxcSfero1rU4tKdiKwV
+	A8VpulIEkHhrSnWbmNxPWKI32jL5x1mN6N7H8e+pcS90szdvuJvkCWlx9kWUIAFt0IrCtuR/Y39vZ
+	Z8h0PGYvgg4pQThGZmm4fD+OXg1maTYSagnpYGxtu8tG3LsdD2ke+uu43FBOtLjjQ9RvLzW9Oc+6h
+	whyK0KrhzJQ2Z1Oas1bd2aDdzEYGsCX2wGIKewXXU/bC/zerudVahV2rgj6qLhaxajf2Fo2Rq52Ip
+	dqCrpECg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kBBuY-0003P4-9x; Thu, 27 Aug 2020 07:01:26 +0000
-Received: from galois.linutronix.de ([193.142.43.55])
+	id 1kBCuD-0004OQ-MB; Thu, 27 Aug 2020 08:05:09 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kBBuV-0003O7-Sr
- for linux-snps-arc@lists.infradead.org; Thu, 27 Aug 2020 07:01:24 +0000
-Date: Thu, 27 Aug 2020 09:01:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1598511678;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=itEhm3ICnTlf61Ty9BCh/7cEb9lcU3yOuFeK2GhTwb4=;
- b=G2uSblVikAoFcxDsI9Sm/BYHrpRdQ5YAGhD8SVJfhDxEFkdIG2+a6yy16t1gUsz4ZtG+zR
- o4kL5Tt9U5TSNVX24kqXLpi21nPQIYkF5+IK0wvWqD+ut9R8hRqfcCOXWizpWcTSqxBzjk
- 6WhWWNOnnVeR0d4Nu1ywg38v/E27VDDDQm6pCjnmAbZtbYAZmOwAA5VeRplpXqZRsx2v96
- 0pFnTja2EjQyeNhPh73EIFIgNNV0lJEEvawvQLgv9GAejJ8nFw2DT/KGw7KRI30Qa3eZan
- 3E4egBGJD4gzL1p7Ls0quPWptINF6Sd9sG7wsHy8FPYJu4rncCmYFlq6d1kGcA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1598511678;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=itEhm3ICnTlf61Ty9BCh/7cEb9lcU3yOuFeK2GhTwb4=;
- b=oZT0HngxFDUsOO9emAWLUc7TaJbw9jcadPk/yXL5zjhzfAassSApVT4p0v3Vy15S9Vhvv8
- KwpFcxlcM5bl4fCw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [PATCH v2] irqchip/eznps: Fix build error for !ARC700 builds
-Message-ID: <20200827070117.fdmu4wxulop43mam@linutronix.de>
-References: <20200825072152.725jmtlcqah5oos4@linutronix.de>
- <20200825180518.25300-1-vgupta@synopsys.com>
+ id 1kBCuB-0004MV-2j; Thu, 27 Aug 2020 08:05:07 +0000
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07R82NPd019894; Thu, 27 Aug 2020 04:04:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Jd8o/QGIRyQ/TUB5l2muLN6OnK4kcqeFLiQvLDATR58=;
+ b=Cypc7oHPrVvO7n4dWsWKGenlnp2TnMbhEPdV1kdVRv5Ak0jE9ZAbFromUeV14TQJ5bKw
+ XUKNhcYDNiwFGYu6gTUi6O3CHaUOj57vSzR5LxbcyGEGIjfgCPxqsEx6KKALcPyY3c/+
+ yxzH1E1wOTaV5WgztasjNfLQ06Z29qzi2T5sAkrR8xUEnYug86BXa0HE9d//Yvi8PixG
+ Vec9B7r02Ys0Hfv2fyjAAGykXj2VQEWz4MXmF4DHZCtP7EU9tU5eajqPMx825RsiGfWZ
+ Qx+5LuNbdADP9om8gzMUJkQ3i2vbKOuYIJ6y2WHYM+NF3qr2ZU5uPpYzgjMDmqEwD4pM cg== 
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3368qv8j9y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Aug 2020 04:04:52 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07R82xEo026953;
+ Thu, 27 Aug 2020 08:04:51 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma04wdc.us.ibm.com with ESMTP id 332ujf0byk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Aug 2020 08:04:51 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 07R84oWl51315094
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Aug 2020 08:04:50 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1ABEE78064;
+ Thu, 27 Aug 2020 08:04:50 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2D4AC7805F;
+ Thu, 27 Aug 2020 08:04:45 +0000 (GMT)
+Received: from skywalker.ibmuc.com (unknown [9.102.17.9])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 27 Aug 2020 08:04:44 +0000 (GMT)
+From: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+To: linux-mm@kvack.org, akpm@linux-foundation.org
+Subject: [PATCH v3 00/13] mm/debug_vm_pgtable fixes
+Date: Thu, 27 Aug 2020 13:34:25 +0530
+Message-Id: <20200827080438.315345-1-aneesh.kumar@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200825180518.25300-1-vgupta@synopsys.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-27_02:2020-08-27,
+ 2020-08-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ mlxscore=0 mlxlogscore=537 priorityscore=1501 suspectscore=0 phishscore=0
+ impostorscore=0 spamscore=0 clxscore=1011 bulkscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008270057
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200827_030124_040127_D743AB72 
-X-CRM114-Status: UNSURE (   9.82  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200827_040507_181604_12D657BE 
+X-CRM114-Status: GOOD (  19.04  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,35 +110,66 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel test robot <lkp@intel.com>
+Cc: linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ Anshuman Khandual <anshuman.khandual@arm.com>, mpe@ellerman.id.au,
+ "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, x86@kernel.org,
+ Mike Rapoport <rppt@linux.ibm.com>, Qian Cai <cai@lca.pw>,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ Christophe Leroy <christophe.leroy@c-s.fr>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 2020-08-25 11:05:18 [-0700], Vineet Gupta wrote:
-> eznps driver is supposed to be platform independent however it ends up
-> including stuff from inside arch/arc headers leading to rand config
-> build errors.
-> 
-> Fix this specific reported error as quick hacks as the correct fixes are
-> too much work:
->  - copy AUX_IENABLE from arch/arc header
->  - move CTOP_AUX_IACK from platform header
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Link: https://lkml.kernel.org/r/20200824095831.5lpkmkafelnvlpi2@linutronix.de
-> Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+This patch series includes fixes for debug_vm_pgtable test code so that
+they follow page table updates rules correctly. The first two patches introduce
+changes w.r.t ppc64. The patches are included in this series for completeness. We can
+merge them via ppc64 tree if required.
 
-Thank you.
+Hugetlb test is disabled on ppc64 because that needs larger change to satisfy
+page table update rules.
 
-Acked-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+The patches are on top of 15bc20c6af4ceee97a1f90b43c0e386643c071b4 (linus/master)
 
-in case it is not too late :)
+Changes from v2:
+* Fix build failure with different configs and architecture.
 
-Sebastian
+Changes from v1:
+* Address review feedback
+* drop test specific pfn_pte and pfn_pmd.
+* Update ppc64 page table helper to add _PAGE_PTE 
+
+
+Aneesh Kumar K.V (13):
+  powerpc/mm: Add DEBUG_VM WARN for pmd_clear
+  powerpc/mm: Move setting pte specific flags to pfn_pte
+  mm/debug_vm_pgtable/ppc64: Avoid setting top bits in radom value
+  mm/debug_vm_pgtables/hugevmap: Use the arch helper to identify huge
+    vmap support.
+  mm/debug_vm_pgtable/savedwrite: Enable savedwrite test with
+    CONFIG_NUMA_BALANCING
+  mm/debug_vm_pgtable/THP: Mark the pte entry huge before using
+    set_pmd/pud_at
+  mm/debug_vm_pgtable/set_pte/pmd/pud: Don't use set_*_at to update an
+    existing pte entry
+  mm/debug_vm_pgtable/thp: Use page table depost/withdraw with THP
+  mm/debug_vm_pgtable/locks: Move non page table modifying test together
+  mm/debug_vm_pgtable/locks: Take correct page table lock
+  mm/debug_vm_pgtable/pmd_clear: Don't use pmd/pud_clear on pte entries
+  mm/debug_vm_pgtable/hugetlb: Disable hugetlb test on ppc64
+  mm/debug_vm_pgtable: populate a pte entry before fetching it
+
+ arch/powerpc/include/asm/book3s/64/pgtable.h |  29 +++-
+ arch/powerpc/include/asm/nohash/pgtable.h    |   5 -
+ arch/powerpc/mm/pgtable.c                    |   5 -
+ mm/debug_vm_pgtable.c                        | 170 ++++++++++++-------
+ 4 files changed, 131 insertions(+), 78 deletions(-)
+
+-- 
+2.26.2
+
 
 _______________________________________________
 linux-snps-arc mailing list
