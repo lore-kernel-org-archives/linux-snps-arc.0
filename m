@@ -1,70 +1,65 @@
-Return-Path: <SRS0=NLdX=CH=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=/aUE=CJ=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFECDC433E2
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 29 Aug 2020 12:49:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72270C433E2
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 31 Aug 2020 06:47:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AAB452076D
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 29 Aug 2020 12:49:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3B7582072D
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 31 Aug 2020 06:47:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rdEiDaxW";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fp5ElYe3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AAB452076D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZOvuPL1a";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="pymHDF1f"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B7582072D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=IFBpVLGI+oQLzRKrNw0DycOrH/iD2seO3LsDtQy6d9s=; b=rdEiDaxWTBQ7gggHK2gg9+ESf
-	36aCKarR8ULS0SVFqUMVBWbhxEduuyYoGPGNiKOtX4KFj3+u4+YjqjhpNNLF+/dGlMflfhXlFntj2
-	+eDZowh5jNRQGMuo/oaQT+WNtq+9KSNPC50OCLNZ8h3gwVEGr8+GLuHJuxgz9Vwm6G8SaSbbENXpH
-	U4Wfm4/bE42gdNH+aYCXwCOJpTzK2fjpceko5ZZ4UMJ1nv9ZQUa2eilZVWPjdNFrJUVsEu1hJ5Euo
-	L3DjG0aq7O20kK0Z+MLKmG//pxNmJ1hLXeo0ppMh9XSxtkmLWYn2A1y4idAa2RVIvQsaf5iKICVOv
-	4rRyTCQ1g==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2+BEdQ2JSbD24i6qGLEtJPmBoa0d9ri/wceIfg11anM=; b=ZOvuPL1ayAu6zUHOCakIrYhBvh
+	GYovJljvk38tGyD2L3N9H8Mux85mx7Asc6tegYN5tvnXetilRXIAhBswSPkCvRpGdADTEkZ/oEoUP
+	G8uR5kM+LuepP4qz1jUr0zTrXFW/gxNr1LMoQF+DAhBM+/wqu+lUSm/WKDdkJ3UV8gmMnlHQbqh2e
+	tSQ/gv7B3iflSXkI2nUXyZWPygatwtQBBE86Cgs3A2EVwCiJzMjmoxTOXRNPAJq3m8/aAdnBbjbNJ
+	TaupwxFpomhD6MG+CzQku2whaBhljHo+Rp1TSKhIHZB8r+mVRKmR29wxof8qecRTQMPS+bBwk3fRe
+	tLdM8yVA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kC0Im-0006Qz-0F; Sat, 29 Aug 2020 12:49:48 +0000
+	id 1kCdb9-0005ZW-HW; Mon, 31 Aug 2020 06:47:23 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kC0Ij-0006QM-Na
- for linux-snps-arc@lists.infradead.org; Sat, 29 Aug 2020 12:49:46 +0000
-Received: from kernel.org (unknown [87.70.91.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ id 1kCdb6-0005Yw-Ur
+ for linux-snps-arc@lists.infradead.org; Mon, 31 Aug 2020 06:47:22 +0000
+Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 81F632076D;
- Sat, 29 Aug 2020 12:49:43 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 31FD42072D;
+ Mon, 31 Aug 2020 06:47:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598705384;
- bh=k3j6O2PJb0vk0vB1utniG9jS/JNcBt1nSQmcyDZTxCw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Fp5ElYe3V0tNNYpfnbellfFzvYFhu/hM6TDdL6MLzB7lB6xJFfBdT3twyM3Ik9KF4
- qW/L9lOfjkxhTAp1ClFSWecSw7q3I6BPL7fNizx6Zk7MjanQ8xOIcpJ0n/rBAULZUf
- Wnzl/OyhxuFFh4scxt16q5UFwEoufAwPOrAl+okE=
-Date: Sat, 29 Aug 2020 15:49:37 +0300
+ s=default; t=1598856440;
+ bh=s6E5dk62F/7tkZOxFbrZuEem/3lQqvI4/Tqsfx9toRY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=pymHDF1fBg8yfx6PAVz2IaxBvAtw/ssY3kRW7rngUMVuKBv0R81LSCghvTmpLikhh
+ YI4JyMU7M+1fkeNgqj0V055RXTx46A256q2xujr1KGwPMXaCe+rFVi4Ygnt6xms6be
+ 9GT5j4qKwJyRrND1qSVBiN22fJ2pj7nDjZFcAUA4=
 From: Mike Rapoport <rppt@kernel.org>
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [PATCH] arc: fix memory initialization for systems with two
- memory banks
-Message-ID: <20200829124937.GH69706@kernel.org>
-References: <20200828163902.4548-1-rppt@kernel.org>
- <5595f585-810d-c84d-3562-34398eccce10@synopsys.com>
+To: Vineet Gupta <vgupta@synopsys.com>
+Subject: [RFC/RFT PATCH v3 0/1] arc: add sparsemem support
+Date: Mon, 31 Aug 2020 09:47:13 +0300
+Message-Id: <20200831064714.16562-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5595f585-810d-c84d-3562-34398eccce10@synopsys.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200829_084945_948954_608FEFC0 
-X-CRM114-Status: GOOD (  32.84  )
+X-CRM114-CacheID: sfid-20200831_024721_172215_5D3CAD48 
+X-CRM114-Status: GOOD (  12.60  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,177 +71,105 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Mike Rapoport <rppt@linux.ibm.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-snps-arc@lists.infradead.org,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-kernel@vger.kernel.org,
+ Mike Rapoport <rppt@kernel.org>, Mike Rapoport <rppt@linux.ibm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 28, 2020 at 10:17:28PM +0000, Vineet Gupta wrote:
-> Hi Mike,
-> =
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-> On 8/28/20 9:39 AM, Mike Rapoport wrote:
-> > From: Mike Rapoport <rppt@linux.ibm.com>
-> >
-> > Rework if memory map initialization broke initialization of ARC systems
-> > with two memory banks. Before these changes, memblock was not aware of
-> > nodes configuration and the memory map was always allocated from the
-> > "lowmem" bank. After the addition of node information to memblock, the =
-core
-> > mm attempts to allocate the memory map for the "highmem" bank from its
-> > node. The access to this memory using __va() fails because it can be on=
-ly
-> > accessed using kmap.
-> >
-> > Anther problem that was uncovered is that {min,max}_high_pfn are calcul=
-ated
-> > from u64 high_mem_start variable which prevents truncation to 32-bit
-> > physical address and the PFN values are above the node and zone boundar=
-ies.
-> =
+Hi,
 
-> Not sure if I quite follow this part. We should not be relying on truncat=
-ion: the
-> pfn should be derived off of zone addresses ?
+This is yet another attempt to enable SPARSEMEM on ARC.
 
-Before the refactoring of the memmap initialization, we used
+I've boot tested it on nSIM with haps_hs_defconfig with highmem and
+sparsemem enabled.
 
-	free_area_init_node(1, zones_size, min_high_pfn, zones_holes);
+With sparsemem the kernel text becomes a bit smaller, but bss and data are
+slightly increased:
 
-With min_high_pfn being u64, min_node_pfn would be 0x80000 (presuming 8k
-page and haps_hs.dts). But since we explicitly passed the min_node_pfn,
-it will be eventually used at zone->zone_start_pfn, so HIGHMEM zone
-would span from 0x80000.
+$ size discontig/vmlinux sparse/vmlinux
+   text	   data	    bss	    dec	    hex	filename
+4429390	 785456	 244580	5459426	 534de2	discontig/vmlinux
+4415099	 786224	 244844	5446167	 531a17	sparse/vmlinux
 
-After the refactoring, we use memblock information and architectural
-limits for zone extents to detect actual zone span. Memblock uses
-phys_addr_t to represent memory banks and if we still calculate
-min_high_pfn using u64 there is a mismatch between pfn (0x80000) and
-physicall address (0x0).
+I've also added a dummy global functions to wrap pfn_valid(), page_to_pfn()
+and pfn_to_page(). Judging by objdump, sparsemem is a bit more efficient:
 
-> > Use phys_addr_t type for high_mem_start and high_mem_size to ensure
-> > correspondence between PFNs and highmem zone boundaries and reserve the
-> > entire highmem bank until mem_init() to avoid accesses to it before hig=
-hmem
-> > is enabled.
-> >
-> > Fixes: 51930df5801e ("mm: free_area_init: allow defining max_zone_pfn i=
-n descend ing order")
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> =
+	DISCONTIGMEM			SPARSEMEM
+<pfn_to_page>:
+	seths	r2,0x3ffff,r0		lsr	r2,r0,0xe
+	mpy	r2,r2,1896		mpy	r0,r0,0x24
+	add	r3,r2,0x8050066c	add3	r2,0x80529d1c,r2
+	add_s	r2,r2,0x80500668	ld_s	r2,[r2,0]
+	ld_s	r3,[r3,0]		bmskn	r2,r2,0x3
+	sub_s	r0,r0,r3		j_s.d	[blink]
+	ld_s	r2,[r2,0]		add_s	r0,r0,r2
+	mpy	r0,r0,0x24		nop_s
+	j_s.d	[blink]
+	add_s	r0,r0,r2
 
-> Thx for the fix. I verified that a 2 mem bank system with HIGHMEM enabled=
- now
-> works again.
-> And I've also added a couple of lines to changelog to describe how to tes=
-t such a
-> config.
-> =
+<page_to_pfn>:
+	ld_s	r2,[r0,0]		ld_s	r2,[r0,0]
+	lsr_s	r2,r2,0x1f	 	lsr_s	r2,r2,0x1b
+	mpy	r2,r2,1896	 	add3	r2,0x80529d1c,r2
+	add	r3,r2,0x80500668 	ld_s	r2,[r2,0]
+	add_s	r2,r2,0x8050066c 	bmskn	r2,r2,0x3
+	ld_s	r3,[r3,0]	 	sub_s	r0,r0,r2
+	sub_s	r0,r0,r3	 	asr_s	r0,r0,0x2
+	ld_s	r2,[r2,0]	 	mpy	r0,r0,0x38e38e39
+	asr_s	r0,r0,0x2	 	j_s	[blink]
+	mpy	r0,r0,0x38e38e39
+	j_s.d	[blink]
+	add_s	r0,r0,r2
+	nop_s
 
-> |=A0=A0=A0 To test this:
-> |=A0=A0=A0 1. Enable HIGHMEM in ARC config
-> |=A0=A0=A0 2. Enable 2 memory banks in haps_hs.dts (uncomment the 2nd ban=
-k)
+<pfn_valid>:
+	cmp_s	r0,0x3ffff		lsr_s	r0,r0,0xe
+	mov_s	r2,0			brhs.nt	r0,0x20,24
+	mov.ls	r2,0x768		add3	r0,0x80529d1c,r0
+	add_s	r2,r2,0x80500814	breq_s	r0,0,12
+	ld.as	r3,[r2,-106]		ld_s	r0,[r0,0]
+	ld.as	r2,[r2,-104]		j_s.d	[blink]
+	add_s	r2,r2,r3		xbfu	r0,r0,0x1
+	j_s.d	[blink]			j_s.d	[blink]
+	seths	r0,r2,r0		mov_s	r0,0
+	nop_s
 
-The second bank already enabled in the dts ;-)
+Still, SPARSEMEM has an issue with potentially wasted memory allocated for
+the memory map. The memory maps are allocated for each present section,
+which means that if part of the section is not populated we'll have a bunch
+of unused 'struct page' objects. The smaller the section size, the smaller
+is memory overhead, but the section size cannot be much smaller than the
+physical address because 
 
-I think its worthwhile adding this to the wiki [1] since it's not likely
-people could dig this from the kernel log.
+	MAX_PHYSMEM_BITS - SECTION_SIZE_BITS
 
-[1] https://github.com/foss-for-synopsys-dwc-arc-processors/linux/wiki/How-=
-to-run-ARC-Linux-kernel-and-debug-(with-MetaWare-Debugger)
+has to fit into page flags and the room there is limited.
 
-> > ---
-> >  arch/arc/mm/init.c | 27 ++++++++++++++++-----------
-> >  1 file changed, 16 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-> > index f886ac69d8ad..3a35b82a718e 100644
-> > --- a/arch/arc/mm/init.c
-> > +++ b/arch/arc/mm/init.c
-> > @@ -26,8 +26,8 @@ static unsigned long low_mem_sz;
-> >  =
+There is yet another possibility to support separate banks. It is possible
+to use FLATMEM and free the memmap allocated for the hole, like, for
+instance, ARM does [1]. This will require ARC's override for pfn_valid()
+that takes into account the actual memory configuration rather than relies
+on the memmap.
 
-> >  #ifdef CONFIG_HIGHMEM
-> >  static unsigned long min_high_pfn, max_high_pfn;
-> > -static u64 high_mem_start;
-> > -static u64 high_mem_sz;
-> > +static phys_addr_t high_mem_start;
-> > +static phys_addr_t high_mem_sz;
-> >  #endif
-> >  =
+[1] https://elixir.bootlin.com/linux/latest/source/arch/arm/mm/init.c#L305
 
-> >  #ifdef CONFIG_DISCONTIGMEM
-> > @@ -69,6 +69,7 @@ void __init early_init_dt_add_memory_arch(u64 base, u=
-64 size)
-> >  		high_mem_sz =3D size;
-> >  		in_use =3D 1;
-> >  		memblock_add_node(base, size, 1);
-> > +		memblock_reserve(base, size);
-> >  #endif
-> >  	}
-> >  =
+Mike Rapoport (1):
+  arc: add sparsemem support
 
-> > @@ -157,7 +158,7 @@ void __init setup_arch_memory(void)
-> >  	min_high_pfn =3D PFN_DOWN(high_mem_start);
-> >  	max_high_pfn =3D PFN_DOWN(high_mem_start + high_mem_sz);
-> >  =
+ arch/arc/Kconfig                 | 10 ++++++++++
+ arch/arc/include/asm/sparsemem.h | 13 +++++++++++++
+ arch/arc/mm/init.c               |  6 +++++-
+ 3 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arc/include/asm/sparsemem.h
 
-> > -	max_zone_pfn[ZONE_HIGHMEM] =3D max_high_pfn;
-> > +	max_zone_pfn[ZONE_HIGHMEM] =3D min_low_pfn;
-> >  =
+-- 
+2.26.2
 
-> >  	high_memory =3D (void *)(min_high_pfn << PAGE_SHIFT);
-> >  	kmap_init();
-> > @@ -166,22 +167,26 @@ void __init setup_arch_memory(void)
-> >  	free_area_init(max_zone_pfn);
-> >  }
-> >  =
-
-> > -/*
-> > - * mem_init - initializes memory
-> > - *
-> > - * Frees up bootmem
-> > - * Calculates and displays memory available/used
-> > - */
-> > -void __init mem_init(void)
-> > +static void __init highmem_init(void)
-> >  {
-> >  #ifdef CONFIG_HIGHMEM
-> >  	unsigned long tmp;
-> >  =
-
-> > -	reset_all_zones_managed_pages();
-> > +	memblock_free(high_mem_start, high_mem_sz);
-> >  	for (tmp =3D min_high_pfn; tmp < max_high_pfn; tmp++)
-> >  		free_highmem_page(pfn_to_page(tmp));
-> >  #endif
-> > +}
-> >  =
-
-> > +/*
-> > + * mem_init - initializes memory
-> > + *
-> > + * Frees up bootmem
-> > + * Calculates and displays memory available/used
-> > + */
-> > +void __init mem_init(void)
-> > +{
-> >  	memblock_free_all();
-> > +	highmem_init();
-> >  	mem_init_print_info(NULL);
-> >  }
-> =
-
-
--- =
-
-Sincerely yours,
-Mike.
 
 _______________________________________________
 linux-snps-arc mailing list
