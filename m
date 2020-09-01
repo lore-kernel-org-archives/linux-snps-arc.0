@@ -8,16 +8,16 @@ X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D50C433E2
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Sep 2020 03:14:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E169C433E2
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Sep 2020 03:16:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AF9A5207EA
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Sep 2020 03:14:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2603920719
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Sep 2020 03:16:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VfjGrj51"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF9A5207EA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZDqCTz23"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2603920719
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,41 +26,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
 	To:Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=k13MiW/ylKYtUSBPd0vHhv+RQcV1LD3O42iAUwaGlQI=; b=VfjGrj51afSORB0mvOAZ9lsjz
-	mktHVik2lX4EVnDEFHX53lMY3LuWY25j2sQ0Fm0bM4sP+8gWsf0XRSKMKQsROZCtrG5ePcZW5YPzW
-	kFin2Mv/eRk2UOoBrqWK8YDd8GAX0SGDn7zKu8Wi12SLon4N8x4Qq9vLILYz37mm8Q4rLAyyjAFx6
-	F6H92ycIhcCyKoRrrmg1hVASkzFAeSPUExkGkKkHc1Hk1zi8DNle2DsXwBl3hGcOb7Vd/E+sjfrt3
-	sFfTImVSCldCu4WC2OZk1TP8S6Eozlc8A9+kc8Qn3Jt+0UFyKS2hXafn74h4voHJguk4Z1IEDzKPU
-	k/BllvR4A==;
+	 bh=W4Tg+o7i/4v/YaU6ghAZ5PEEd89mXC1bjoQEoPsMam8=; b=ZDqCTz23PfHmb6rnZdH03x76x
+	kB/Io4z3HtKpvvQvs7pHe981nrVctl0b+2IDM8LNqXs17a59C83AhkzuZHmJvTFTSLuhF9jIodwEY
+	UKBKGAiQ6sqtwL+iE3TbsoZbpW3qZDOb9yFGWt+IsvPf+mo8Y1ABuzvtCQWpA3Nx8jyR7Hn79LsvM
+	rLroRa7ZbsiGX9/Udkl3dPbXZ9ZP85CFwYAzcb0aDHm9Q4Yt8Y1TaMRu5d5s53kz15PIDEC8+Adoy
+	Epnluf1GeLy2O/TSyfDuCgMkFW8/KOSkAhhCjClf/QKVlV3WMqt1Zz4x2U1/tqK0DS1ZUdNRpSb+3
+	TxMMA7mtg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kCwkY-0008Nx-6K; Tue, 01 Sep 2020 03:14:22 +0000
+	id 1kCwmO-0000jC-5o; Tue, 01 Sep 2020 03:16:16 +0000
 Received: from foss.arm.com ([217.140.110.172])
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kCwkL-0008Ix-Mj; Tue, 01 Sep 2020 03:14:11 +0000
+ id 1kCwm4-0000ci-Jv; Tue, 01 Sep 2020 03:16:05 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3115330E;
- Mon, 31 Aug 2020 20:14:05 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A61C630E;
+ Mon, 31 Aug 2020 20:15:55 -0700 (PDT)
 Received: from [192.168.0.130] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6FCD53F68F;
- Mon, 31 Aug 2020 20:14:00 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1AFB03F68F;
+ Mon, 31 Aug 2020 20:15:50 -0700 (PDT)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH v3 02/13] powerpc/mm: Move setting pte specific flags to
- pfn_pte
+Subject: Re: [PATCH v3 03/13] mm/debug_vm_pgtable/ppc64: Avoid setting top
+ bits in radom value
 To: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, linux-mm@kvack.org,
  akpm@linux-foundation.org
 References: <20200827080438.315345-1-aneesh.kumar@linux.ibm.com>
- <20200827080438.315345-3-aneesh.kumar@linux.ibm.com>
-Message-ID: <5b3f0db6-09f6-3f40-c9fc-911814d691bb@arm.com>
-Date: Tue, 1 Sep 2020 08:43:28 +0530
+ <20200827080438.315345-4-aneesh.kumar@linux.ibm.com>
+Message-ID: <3a0b0101-e6ec-26c5-e104-5b0bb95c3e51@arm.com>
+Date: Tue, 1 Sep 2020 08:45:14 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20200827080438.315345-3-aneesh.kumar@linux.ibm.com>
+In-Reply-To: <20200827080438.315345-4-aneesh.kumar@linux.ibm.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200831_231409_967567_A08D014C 
-X-CRM114-Status: GOOD (  25.57  )
+X-CRM114-CacheID: sfid-20200831_231556_850573_D93D5822 
+X-CRM114-Status: GOOD (  21.40  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,111 +86,81 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 
 On 08/27/2020 01:34 PM, Aneesh Kumar K.V wrote:
-> powerpc used to set the pte specific flags in set_pte_at(). This is different
-> from other architectures. To be consistent with other architecture update
-> pfn_pte to set _PAGE_PTE on ppc64. Also, drop now unused pte_mkpte.
-> 
-> We add a VM_WARN_ON() to catch the usage of calling set_pte_at() without setting
-> _PAGE_PTE bit. We will remove that after a few releases.
-> 
-> With respect to huge pmd entries, pmd_mkhuge() takes care of adding the
-> _PAGE_PTE bit.
+> ppc64 use bit 62 to indicate a pte entry (_PAGE_PTE). Avoid setting that bit in
+> random value.
 > 
 > Signed-off-by: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
 > ---
->  arch/powerpc/include/asm/book3s/64/pgtable.h | 15 +++++++++------
->  arch/powerpc/include/asm/nohash/pgtable.h    |  5 -----
->  arch/powerpc/mm/pgtable.c                    |  5 -----
->  3 files changed, 9 insertions(+), 16 deletions(-)
+>  mm/debug_vm_pgtable.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/powerpc/include/asm/book3s/64/pgtable.h b/arch/powerpc/include/asm/book3s/64/pgtable.h
-> index 079211968987..2382fd516f6b 100644
-> --- a/arch/powerpc/include/asm/book3s/64/pgtable.h
-> +++ b/arch/powerpc/include/asm/book3s/64/pgtable.h
-> @@ -619,7 +619,7 @@ static inline pte_t pfn_pte(unsigned long pfn, pgprot_t pgprot)
->  	VM_BUG_ON(pfn >> (64 - PAGE_SHIFT));
->  	VM_BUG_ON((pfn << PAGE_SHIFT) & ~PTE_RPN_MASK);
+> diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
+> index 086309fb9b6f..bbf9df0e64c6 100644
+> --- a/mm/debug_vm_pgtable.c
+> +++ b/mm/debug_vm_pgtable.c
+> @@ -44,10 +44,17 @@
+>   * entry type. But these bits might affect the ability to clear entries with
+>   * pxx_clear() because of how dynamic page table folding works on s390. So
+>   * while loading up the entries do not change the lower 4 bits. It does not
+> - * have affect any other platform.
+> + * have affect any other platform. Also avoid the 62nd bit on ppc64 that is
+> + * used to mark a pte entry.
+>   */
+> -#define S390_MASK_BITS	4
+> -#define RANDOM_ORVALUE	GENMASK(BITS_PER_LONG - 1, S390_MASK_BITS)
+> +#define S390_SKIP_MASK		GENMASK(3, 0)
+> +#ifdef CONFIG_PPC_BOOK3S_64
+> +#define PPC64_SKIP_MASK		GENMASK(62, 62)
+> +#else
+> +#define PPC64_SKIP_MASK		0x0
+> +#endif
+
+Please drop the #ifdef CONFIG_PPC_BOOK3S_64 here. We already accommodate skip
+bits for a s390 platform requirement and can also do so for ppc64 as well. As
+mentioned before, please avoid adding any platform specific constructs in the
+test.
+
+> +#define ARCH_SKIP_MASK (S390_SKIP_MASK | PPC64_SKIP_MASK)
+> +#define RANDOM_ORVALUE (GENMASK(BITS_PER_LONG - 1, 0) & ~ARCH_SKIP_MASK)
+>  #define RANDOM_NZVALUE	GENMASK(7, 0)
+
+Please fix the alignments here. Feel free to consider following changes after
+this patch.
+
+diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
+index 122416464e0f..f969031152bb 100644
+--- a/mm/debug_vm_pgtable.c
++++ b/mm/debug_vm_pgtable.c
+@@ -48,14 +48,11 @@
+  * have affect any other platform. Also avoid the 62nd bit on ppc64 that is
+  * used to mark a pte entry.
+  */
+-#define S390_SKIP_MASK         GENMASK(3, 0)
+-#ifdef CONFIG_PPC_BOOK3S_64
+-#define PPC64_SKIP_MASK                GENMASK(62, 62)
+-#else
+-#define PPC64_SKIP_MASK                0x0
+-#endif
+-#define ARCH_SKIP_MASK (S390_SKIP_MASK | PPC64_SKIP_MASK)
+-#define RANDOM_ORVALUE (GENMASK(BITS_PER_LONG - 1, 0) & ~ARCH_SKIP_MASK)
++#define S390_SKIP_MASK GENMASK(3, 0)
++#define PPC64_SKIP_MASK        GENMASK(62, 62)
++#define ARCH_SKIP_MASK (S390_SKIP_MASK | PPC64_SKIP_MASK)
++#define RANDOM_ORVALUE (GENMASK(BITS_PER_LONG - 1, 0) & ~ARCH_SKIP_MASK)
++
+ #define RANDOM_NZVALUE GENMASK(7, 0)
+ 
 >  
-> -	return __pte(((pte_basic_t)pfn << PAGE_SHIFT) | pgprot_val(pgprot));
-> +	return __pte(((pte_basic_t)pfn << PAGE_SHIFT) | pgprot_val(pgprot) | _PAGE_PTE);
->  }
->  
->  static inline unsigned long pte_pfn(pte_t pte)
-> @@ -655,11 +655,6 @@ static inline pte_t pte_mkexec(pte_t pte)
->  	return __pte_raw(pte_raw(pte) | cpu_to_be64(_PAGE_EXEC));
->  }
->  
-> -static inline pte_t pte_mkpte(pte_t pte)
-> -{
-> -	return __pte_raw(pte_raw(pte) | cpu_to_be64(_PAGE_PTE));
-> -}
-> -
->  static inline pte_t pte_mkwrite(pte_t pte)
->  {
->  	/*
-> @@ -823,6 +818,14 @@ static inline int pte_none(pte_t pte)
->  static inline void __set_pte_at(struct mm_struct *mm, unsigned long addr,
->  				pte_t *ptep, pte_t pte, int percpu)
->  {
-> +
-> +	VM_WARN_ON(!(pte_raw(pte) & cpu_to_be64(_PAGE_PTE)));
-> +	/*
-> +	 * Keep the _PAGE_PTE added till we are sure we handle _PAGE_PTE
-> +	 * in all the callers.
-> +	 */
-> +	 pte = __pte_raw(pte_raw(pte) | cpu_to_be64(_PAGE_PTE));
-> +
->  	if (radix_enabled())
->  		return radix__set_pte_at(mm, addr, ptep, pte, percpu);
->  	return hash__set_pte_at(mm, addr, ptep, pte, percpu);
-> diff --git a/arch/powerpc/include/asm/nohash/pgtable.h b/arch/powerpc/include/asm/nohash/pgtable.h
-> index 4b7c3472eab1..6277e7596ae5 100644
-> --- a/arch/powerpc/include/asm/nohash/pgtable.h
-> +++ b/arch/powerpc/include/asm/nohash/pgtable.h
-> @@ -140,11 +140,6 @@ static inline pte_t pte_mkold(pte_t pte)
->  	return __pte(pte_val(pte) & ~_PAGE_ACCESSED);
->  }
->  
-> -static inline pte_t pte_mkpte(pte_t pte)
-> -{
-> -	return pte;
-> -}
-> -
->  static inline pte_t pte_mkspecial(pte_t pte)
->  {
->  	return __pte(pte_val(pte) | _PAGE_SPECIAL);
-> diff --git a/arch/powerpc/mm/pgtable.c b/arch/powerpc/mm/pgtable.c
-> index 9c0547d77af3..ab57b07ef39a 100644
-> --- a/arch/powerpc/mm/pgtable.c
-> +++ b/arch/powerpc/mm/pgtable.c
-> @@ -184,9 +184,6 @@ void set_pte_at(struct mm_struct *mm, unsigned long addr, pte_t *ptep,
->  	 */
->  	VM_WARN_ON(pte_hw_valid(*ptep) && !pte_protnone(*ptep));
->  
-> -	/* Add the pte bit when trying to set a pte */
-> -	pte = pte_mkpte(pte);
-> -
->  	/* Note: mm->context.id might not yet have been assigned as
->  	 * this context might not have been activated yet when this
->  	 * is called.
-> @@ -275,8 +272,6 @@ void set_huge_pte_at(struct mm_struct *mm, unsigned long addr, pte_t *ptep, pte_
->  	 */
->  	VM_WARN_ON(pte_hw_valid(*ptep) && !pte_protnone(*ptep));
->  
-> -	pte = pte_mkpte(pte);
-> -
->  	pte = set_pte_filter(pte);
->  
->  	val = pte_val(pte);
+>  static void __init pte_basic_tests(unsigned long pfn, pgprot_t prot)
 > 
 
-There is one checkpatch.pl warning for this patch.
+Besides, there is also one checkpatch.pl warning here.
 
 WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-#6: 
-powerpc used to set the pte specific flags in set_pte_at(). This is different
+#7: 
+ppc64 use bit 62 to indicate a pte entry (_PAGE_PTE). Avoid setting that bit in
 
-total: 0 errors, 1 warnings, 61 lines checked
+total: 0 errors, 1 warnings, 20 lines checked
 
 _______________________________________________
 linux-snps-arc mailing list
