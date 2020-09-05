@@ -1,107 +1,151 @@
-Return-Path: <SRS0=H8mr=CN=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=8xpS=CO=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C785AC43461
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Sep 2020 18:23:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D055C433E2
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Sep 2020 01:09:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2E9AC204EC
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Sep 2020 18:23:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 81D2E20578
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Sep 2020 01:09:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FYOnGPsV";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="X2/XgrWs"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E9AC204EC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FF9KFUY1";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="VGsWHbYl";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="XMP0j6Y/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 81D2E20578
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=olXe0M5aZxJt07q6VDSQT3nfnrjeWvcHjvFdQlQBC3w=; b=FYOnGPsVkXScwdDkAGWVBjGfl
-	l4Ht87dlqhsSUF/8LHvr1ioG0fCMrfKgIK+NbCTmzysDHgwQ8pV9jkXdygTHPtCEI3xCr19CAoj2y
-	9QvAwXe5F27jWOZDb7jypKy7Qpev5WvSORCEW6544xFpQKg2UFCJnID1VtrEwencDCKyaz63Mc9gm
-	bnXygcmdoaKBBF6BSpg4tU8MELHJdf0rrsWqUSyBUtWvXNIV1eSy0Ycl01mYOpfWEr4p36rgqqiXZ
-	8VUWvmh9AKyswWpapDSk1afyqozm++INe3yQEprLz2bYQtMLqjOAX5LLRSZzcmnOxWNG0QNpsVJ46
-	KNjZ2NiOw==;
+	List-Unsubscribe:List-Id:MIME-Version:Content-ID:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Vm5m+gZu1DMiMFVug5KIYAyLRklSclmx1ta+1d8Enjw=; b=FF9KFUY18/rVQ6FeJwDoUhrLUJ
+	tCHmG5bMbsxaXRcvtGetfbRhqQAYO9jydwL91NP4Mh7ukm0lv42VmJx+fTq1baHZNLYBOP40sSZ3X
+	jY/TAujOEijxFf/6yYQkwp3ErTe5T2jsR5trcwdF2XsAvzQihW+GLXJJ4MphOXgxHIAcFTu2RiG25
+	Cdo77xFv1Ysuzdyv+IiLwnGrjjxrPT5K3hDmUW/kLBnAR2QWjCzh5PPQ53VaGJymAxYfWnc02mGre
+	lAHaTDr6mXtLt2+GwmKI2AKPznjHAe0nKIp3PpE/dQzLL4cDjVJ4hoWAx+fDVtCk8Ieq+eK7X6bd/
+	ko+SzMtQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kEFuX-0007wQ-J2; Fri, 04 Sep 2020 17:54:05 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+	id 1kEMhd-0004nf-H8; Sat, 05 Sep 2020 01:09:13 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kEFuV-0007vc-Kb; Fri, 04 Sep 2020 17:54:04 +0000
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 084Hnsb4052673; Fri, 4 Sep 2020 13:53:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=yUwiUsR+8pfCd8/Oe3nJOgCQnOxguf1sT1Io3v31IJI=;
- b=X2/XgrWsAIL9UepV8yC8rmfRQCostHAfJWqAgQ2YKvbl2k5130EJSY6mRo+3Qi9+TsA1
- pu9bBzajqg0j/nORa5Mu7IlgbM5cmJfSGAGCSmRMZHdKYEsVnQPZGRkkykexxYGM3i5y
- PuprY2NbTQVuP4Mx2Chb3iB0owf38SJFVClXhaNVMi0bj2j7Hm0JJkQNJOLVDOJyN9dg
- vdYjIPk6yz0ZpBO5a010NXWKtgI369URywPCoHRwmYsl2cCu0G4vtnmVEViAldqT4jM/
- 3xCzf+vnqKmRiZg+Nzd36O0+FYntPcXkjKJmiuJGWzgnsFTmi/eXIs1uRr/xGBEtXufP Gg== 
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 33btay82hx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Sep 2020 13:53:53 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 084HgfTB014554;
- Fri, 4 Sep 2020 17:53:51 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03fra.de.ibm.com with ESMTP id 33act59ds3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Sep 2020 17:53:51 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 084HrmGj51249538
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Sep 2020 17:53:48 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 64D2452050;
- Fri,  4 Sep 2020 17:53:48 +0000 (GMT)
-Received: from thinkpad (unknown [9.171.24.200])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id EB5535204F;
- Fri,  4 Sep 2020 17:53:47 +0000 (GMT)
-Date: Fri, 4 Sep 2020 19:53:46 +0200
-From: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH v4 00/13] mm/debug_vm_pgtable fixes
-Message-ID: <20200904195346.6d57ff9f@thinkpad>
-In-Reply-To: <20200904180115.07ee5f00@thinkpad>
-References: <20200902114222.181353-1-aneesh.kumar@linux.ibm.com>
- <bb0f3427-e2bd-f713-3ea8-d264be0e690b@arm.com>
- <20200904172647.002113d3@thinkpad>
- <20200904180115.07ee5f00@thinkpad>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ id 1kEMhZ-0004mk-V5
+ for linux-snps-arc@lists.infradead.org; Sat, 05 Sep 2020 01:09:11 +0000
+Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
+ [10.192.0.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 25ADC407CE;
+ Sat,  5 Sep 2020 01:09:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1599268146; bh=tAhiQLjKbj7leVrjYmKWpjwcsxMlPjE+ajKcF4f4qyo=;
+ h=From:To:CC:Subject:Date:From;
+ b=VGsWHbYl/tFUvaVa953ycQiUAPf1n67jNPtxZOx4jsYZX6+zI5OO7KXKe2NT6FWpl
+ J0JT5dJFh0PmpKblqLaq8ziikzVsLym1fovP0tUvfnCRY1Zk2jjluglwBimo6+6FgS
+ MXO4VU8+WvosYz0TXS991FXFs6aSmMdZQb4AFHoBU6A2zHnFY6OYWbCtDz5+0Anf6T
+ wH7zRKSbj+3x1bQT631yySHbDq8uQ604uCBjHKEdXsb67/Xn3VdwWbzfAiKqBjbRt7
+ wZqXyeGmBRbPJ5rTGxQLFR8Yw/xVWga10bJ1vHrc5W6e50vtQpbr2O0vi/LZ37Yzaz
+ DHUWGo/6nvuRQ==
+Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com
+ [10.4.161.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id A40ACA006E;
+ Sat,  5 Sep 2020 01:09:03 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2103.outbound.protection.outlook.com [104.47.70.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id E9E3A80F76;
+ Sat,  5 Sep 2020 01:09:00 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=vgupta@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="XMP0j6Y/";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e1+gBWRWLECi6gpFf733ZW27pxL1y3ZaSXJq5HRxD6gaIY74SzZM1+bIs+GRFqUBe1fFNl2ePDuO5OvaLcQyTz7J7280AjQbBOTVFnrVTeeQj3++zCBm4AVZWllxAQS1XFpvtaOhj+cg/NwXJaWG4co7vScctQPpmhpLZXYxYenLeSlBbZt7nM1QOXNNzquQqz6Is6YnJLAMx/Gl+P775gYQyyV+1ku2EJGszLCQ6c7A1YxnDWSU9E4ZfLKzxzdH6GQgQwwYhuMTaFfSzQFMTDgWYiM+QiMr279MYvDd61aDMbDshqtOksvu5dP/DwqUCM7dUgnVJDpbp4n/Tr9Y6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tAhiQLjKbj7leVrjYmKWpjwcsxMlPjE+ajKcF4f4qyo=;
+ b=U8QEGm0M9xkkfJhtFAkHe/tFUguHHfEOP1EIo97ushFV9HKpGcUom/KJqZuFtqdK/F2NbR587ayX5yMAY1D5/4AGHSm+WZGmCvO+yBqRJS644v49jXZ95vcsB/k7B3wGg+TBTgq7IV1OZ18aOxia3txK5an0sg73yc8tg88KwI3MCzXWpFbynBsk+jFu7ZwEYstr0HIu2aLOkgAXF7WbxL2OzPw4dO3qq3wOvfYmg5C+6kmApyLCkOWEyYxtfJRW6zd6p7Ed+dHmOH/KZMA3Bu4m6RD6KdeVNxloKsbXvoKWqPOtheht6MNa0zfX9yxgM7Os9Lo1kUZSQscET3Sdqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tAhiQLjKbj7leVrjYmKWpjwcsxMlPjE+ajKcF4f4qyo=;
+ b=XMP0j6Y/21poenub5jbqlM/M2H65DarzJ6s21d4t7Lp2NUrx19oL4YsDfA5D8LzO/FgXBLpEiMiQrm+3GxenofTS2hXPbj+z4DATB7F4uh8PL9+Hp/4avbD6wivhQtpNjGphkFy6mP21ipUWMgTw0U1f7z9kMYUodq/kRr/dhIA=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BY5PR12MB4178.namprd12.prod.outlook.com (2603:10b6:a03:20e::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Sat, 5 Sep
+ 2020 01:08:56 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::19e1:33b2:5f25:5c5e]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::19e1:33b2:5f25:5c5e%5]) with mapi id 15.20.3348.016; Sat, 5 Sep 2020
+ 01:08:56 +0000
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [GIT PULL] ARC updates for 5.9-rc4
+Thread-Topic: [GIT PULL] ARC updates for 5.9-rc4
+Thread-Index: AQHWgyEgQk4ef6lCzUO46l9cpBqINA==
+Date: Sat, 5 Sep 2020 01:08:56 +0000
+Message-ID: <0724a4d3-7f69-040e-2a76-67ceefe9e745@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+authentication-results: linux-foundation.org; dkim=none (message not signed)
+ header.d=none;linux-foundation.org; dmarc=none action=none
+ header.from=synopsys.com;
+x-originating-ip: [107.3.145.184]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c710f20a-70f3-44ab-5609-08d85138437f
+x-ms-traffictypediagnostic: BY5PR12MB4178:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR12MB41786768A5B785E7AF5DEEAAB62A0@BY5PR12MB4178.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1728;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZnzHIpF+vmiXC5SjVkq+/j3cx2jMhBZCsfyCN86LpJagSkEC1TjaZ8dKgtb1XCDIT6AH0mVx5fGf+iKKrGKpC7lc8dDa1oVQaJxobDutYDX3mBWbkhZlb7IQ0DZ/S3hqFVVCYVRuYLgbwuO765Swx4fOVJw1KlpDP6Ea4BP45EaIXkheEuzQWe7tHM6OEvbXxOkKUEGvyB4A3IsxVCAoFlkjD4pYjhZo0N+cnL8XAqOLFzlJmPHTQa9J0iswB0b1zKyey7BgkyPvHBdXHTs2OeAP9Vi9mNn1XNu+8yasaohVcRAK8ApVrUyfAP8/3GqJvD9CHJbrb0Mu5Cfp3nMMbMWjmUQFz7eF0wRYvfXTelNKFdAMCh3dioOBX0jdqEHk
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(136003)(376002)(346002)(366004)(39860400002)(71200400001)(4326008)(8676002)(66476007)(66946007)(66446008)(66556008)(64756008)(83380400001)(76116006)(6506007)(26005)(86362001)(107886003)(31696002)(15650500001)(5660300002)(8936002)(6486002)(54906003)(2906002)(36756003)(31686004)(316002)(186003)(6916009)(6512007)(2616005)(478600001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: OieM4mMO5K3wAQqmwquJEXYlo4WQHIKRs4yxXxGxQIxoXPbTgX9iNQuO1JiMOWUDCwNa+2L2Kff5n/MrDokfnXBYE3nTPpMzEDnudq0bIXhW+W7hDOu62YD4Q8TVjYdJspjIwpSsbclG9RIPFhFEwppq9udET5PEtvQ00jMEZp4EqmA7qRTP1NtziJR/99IwcpB3yN5JYt0MMd5Aa809S71Tbs2oMv57ad9EyBqcTRAa25NXLTP4vbMM3cndRASPk1NAfXL6y3Z/N/oxW1xfQql/kto6h8E77+fu0cuG/g+fOstNLjF5z2UmB4bCNLNoOtmS8E2zVINojvIPuwkXInRmodm6wCAR7makV9FbmsngW3PtpXQbScOaevkZW28YzUtwQJt+fQgPOFD0w+2NH0vKtOjUCMMCmV/SETJre1tPOh25Dxh4GHdYN2WK0pLW55BvhXW/OwVdFxUwn+ito/ic5MpwvyZ2Xi4ICCTiCzZlTTGh7KlZFDgqAYqJ9/hx6d6/JGELcX0SEZdf175D5ooCeZq/HlMkrnIzM7EhqfweYt7ccxHOOwAT0JGBgf6U5hHCOXRneBmpdx03CqPdwJ0KSRKRhQbDsFIdFxQcZtd0kgj/WCpVqw8DTR/8jLxLjc6hbXzrIWQaKMwDXhfzAA==
+Content-ID: <E08F6F5C938D4146B369465926922C93@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-04_11:2020-09-04,
- 2020-09-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 mlxlogscore=999 malwarescore=0 impostorscore=0 suspectscore=0
- clxscore=1015 phishscore=0 adultscore=0 priorityscore=1501 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009040147
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c710f20a-70f3-44ab-5609-08d85138437f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2020 01:08:56.4222 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5P92lZjEqjit3JJwNDc/Tucf3Jps2IY+J8qyANdiHx61l02EuY32Dug0j4iEiPzH39ajtPTFKiLYJljXM+McAg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4178
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200904_135403_746013_76351916 
-X-CRM114-Status: GOOD (  45.39  )
+X-CRM114-CacheID: sfid-20200904_210910_297942_9C968DA6 
+X-CRM114-Status: GOOD (  12.67  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,151 +157,71 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, linux-mm@kvack.org,
- Vineet Gupta <vgupta@synopsys.com>, mpe@ellerman.id.au,
- akpm@linux-foundation.org,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- linuxppc-dev@lists.ozlabs.org, linux-riscv <linux-riscv@lists.infradead.org>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>
+Cc: Evgeniy Didin <Evgeniy.Didin@synopsys.com>,
+ arcml <linux-snps-arc@lists.infradead.org>,
+ Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
+ Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, 4 Sep 2020 18:01:15 +0200
-Gerald Schaefer <gerald.schaefer@linux.ibm.com> wrote:
+Hi Linus,
 
-> On Fri, 4 Sep 2020 17:26:47 +0200
-> Gerald Schaefer <gerald.schaefer@linux.ibm.com> wrote:
-> 
-> > On Fri, 4 Sep 2020 12:18:05 +0530
-> > Anshuman Khandual <anshuman.khandual@arm.com> wrote:
-> > 
-> > > 
-> > > 
-> > > On 09/02/2020 05:12 PM, Aneesh Kumar K.V wrote:
-> > > > This patch series includes fixes for debug_vm_pgtable test code so that
-> > > > they follow page table updates rules correctly. The first two patches introduce
-> > > > changes w.r.t ppc64. The patches are included in this series for completeness. We can
-> > > > merge them via ppc64 tree if required.
-> > > > 
-> > > > Hugetlb test is disabled on ppc64 because that needs larger change to satisfy
-> > > > page table update rules.
-> > > > 
-> > > > These tests are broken w.r.t page table update rules and results in kernel
-> > > > crash as below. 
-> > > > 
-> > > > [   21.083519] kernel BUG at arch/powerpc/mm/pgtable.c:304!
-> > > > cpu 0x0: Vector: 700 (Program Check) at [c000000c6d1e76c0]
-> > > >     pc: c00000000009a5ec: assert_pte_locked+0x14c/0x380
-> > > >     lr: c0000000005eeeec: pte_update+0x11c/0x190
-> > > >     sp: c000000c6d1e7950
-> > > >    msr: 8000000002029033
-> > > >   current = 0xc000000c6d172c80
-> > > >   paca    = 0xc000000003ba0000   irqmask: 0x03   irq_happened: 0x01
-> > > >     pid   = 1, comm = swapper/0
-> > > > kernel BUG at arch/powerpc/mm/pgtable.c:304!
-> > > > [link register   ] c0000000005eeeec pte_update+0x11c/0x190
-> > > > [c000000c6d1e7950] 0000000000000001 (unreliable)
-> > > > [c000000c6d1e79b0] c0000000005eee14 pte_update+0x44/0x190
-> > > > [c000000c6d1e7a10] c000000001a2ca9c pte_advanced_tests+0x160/0x3d8
-> > > > [c000000c6d1e7ab0] c000000001a2d4fc debug_vm_pgtable+0x7e8/0x1338
-> > > > [c000000c6d1e7ba0] c0000000000116ec do_one_initcall+0xac/0x5f0
-> > > > [c000000c6d1e7c80] c0000000019e4fac kernel_init_freeable+0x4dc/0x5a4
-> > > > [c000000c6d1e7db0] c000000000012474 kernel_init+0x24/0x160
-> > > > [c000000c6d1e7e20] c00000000000cbd0 ret_from_kernel_thread+0x5c/0x6c
-> > > > 
-> > > > With DEBUG_VM disabled
-> > > > 
-> > > > [   20.530152] BUG: Kernel NULL pointer dereference on read at 0x00000000
-> > > > [   20.530183] Faulting instruction address: 0xc0000000000df330
-> > > > cpu 0x33: Vector: 380 (Data SLB Access) at [c000000c6d19f700]
-> > > >     pc: c0000000000df330: memset+0x68/0x104
-> > > >     lr: c00000000009f6d8: hash__pmdp_huge_get_and_clear+0xe8/0x1b0
-> > > >     sp: c000000c6d19f990
-> > > >    msr: 8000000002009033
-> > > >    dar: 0
-> > > >   current = 0xc000000c6d177480
-> > > >   paca    = 0xc00000001ec4f400   irqmask: 0x03   irq_happened: 0x01
-> > > >     pid   = 1, comm = swapper/0
-> > > > [link register   ] c00000000009f6d8 hash__pmdp_huge_get_and_clear+0xe8/0x1b0
-> > > > [c000000c6d19f990] c00000000009f748 hash__pmdp_huge_get_and_clear+0x158/0x1b0 (unreliable)
-> > > > [c000000c6d19fa10] c0000000019ebf30 pmd_advanced_tests+0x1f0/0x378
-> > > > [c000000c6d19fab0] c0000000019ed088 debug_vm_pgtable+0x79c/0x1244
-> > > > [c000000c6d19fba0] c0000000000116ec do_one_initcall+0xac/0x5f0
-> > > > [c000000c6d19fc80] c0000000019a4fac kernel_init_freeable+0x4dc/0x5a4
-> > > > [c000000c6d19fdb0] c000000000012474 kernel_init+0x24/0x160
-> > > > [c000000c6d19fe20] c00000000000cbd0 ret_from_kernel_thread+0x5c/0x6c
-> > > > 
-> > > > Changes from v3:
-> > > > * Address review feedback
-> > > > * Move page table depost and withdraw patch after adding pmdlock to avoid bisect failure.
-> > > 
-> > > This version
-> > > 
-> > > - Builds on x86, arm64, s390, arc, powerpc and riscv (defconfig with DEBUG_VM_PGTABLE)
-> > > - Runs on arm64 and x86 without any regression, atleast nothing that I have noticed
-> > > - Will be great if this could get tested on s390, arc, riscv, ppc32 platforms as well
-> > 
-> > When I quickly tested v3, it worked fine, but now it turned out to
-> > only work fine "sometimes", both v3 and v4. I need to look into it
-> > further, but so far it seems related to the hugetlb_advanced_tests().
-> > 
-> > I guess there was already some discussion on this test, but we did
-> > not receive all of the thread(s). Please always add at least
-> > linux-s390@vger.kernel.org and maybe myself and Vasily Gorbik <gor@linux.ibm.com>
-> > for further discussions.
-> 
-> BTW, with myself I mean the new address gerald.schaefer@linux.ibm.com.
-> The old gerald.schaefer@de.ibm.com seems to work (again), but is not
-> very reliable.
-> 
-> BTW2, a quick test with this change (so far) made the issues on s390
-> go away:
-> 
-> @@ -1069,7 +1074,7 @@ static int __init debug_vm_pgtable(void)
->         spin_unlock(ptl);
-> 
->  #ifndef CONFIG_PPC_BOOK3S_64
-> -       hugetlb_advanced_tests(mm, vma, ptep, pte_aligned, vaddr, prot);
-> +       hugetlb_advanced_tests(mm, vma, (pte_t *) pmdp, pmd_aligned, vaddr, prot);
->  #endif
-> 
->         spin_lock(&mm->page_table_lock);
-> 
-> That would more match the "pte_t pointer" usage for hugetlb code,
-> i.e. just cast a pmd_t pointer to it. Also changed to pmd_aligned,
-> but I think the root cause is the pte_t pointer.
-> 
-> Not entirely sure though if that would really be the correct fix.
-> I somehow lost whatever little track I had about what these tests
-> really want to check, and if that would still be valid with that
-> change.
+Please pull.
 
-Another potential issue, apparently not for s390, but maybe for
-others, is that the vaddr passed to hugetlb_advanced_tests() is
-also not pmd/pud size aligned, like you did in pmd/pud_advanced_tests().
+Thx,
+-Vineet
+------------------->
+The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
-I guess for the hugetlb_advanced_tests() you need to choose if
-you want to test pmd or pud hugepages, and accordingly prepare
-the *ptep, pfn and vaddr input. If you only check for CONFIG_HUGETLB_PAGE,
-then probably only pmd hugepages would be safe, there might be
-architectures only supporting one hugepage size.
+  Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
 
-So, for s390, at least the ptep input value is a problem. Still
-need to better understand how it goes wrong, but it seems to be
-fixed when using proper pmdp, and also works with pudp.
+are available in the Git repository at:
 
-For others, especially the apparent issues on ppc64, the other
-non-hugepage aligned input pfn and vaddr might also be an issue,
-e.g. power at least seems to use the vaddr in its set_huge_pte_at()
-implementation for some pmd_off(mm, addr) calculation.
+  git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-5.9-rc4
 
-Again, sorry if this was already discussed, I missed most of it
-and honestly didn't properly look at the scarce mails that we did
-receive...
+for you to fetch changes up to 26907eb605fbc3ba9dbf888f21d9d8d04471271d:
 
+  ARC: [plat-hsdk]: Switch ethernet phy-mode to rgmii-id (2020-09-01 11:59:04 -0700)
+
+----------------------------------------------------------------
+ARC fixes for 5.9-rc4
+
+ - HSDK-4xd Dev system: perf driver updates for sampling interrupt
+
+ - HSDK* Dev System : Ethernet broken	[Evgeniy Didin]
+
+ - HIGHMEM broken (2 memory banks)	[Mike Rapoport]
+
+ - show_regs() rewrite once and for all
+
+ - Other minor fixes
+
+----------------------------------------------------------------
+Evgeniy Didin (1):
+      ARC: [plat-hsdk]: Switch ethernet phy-mode to rgmii-id
+
+Mike Rapoport (1):
+      arc: fix memory initialization for systems with two memory banks
+
+Randy Dunlap (1):
+      ARC: pgalloc.h: delete a duplicated word + other fixes
+
+Vineet Gupta (4):
+      ARC: perf: don't bail setup if pct irq missing in device-tree
+      ARC: HSDK: wireup perf irq
+      ARC: show_regs: fix r12 printing and simplify
+      irqchip/eznps: Fix build error for !ARC700 builds
+
+ arch/arc/boot/dts/hsdk.dts              |  6 ++-
+ arch/arc/include/asm/pgalloc.h          |  4 +-
+ arch/arc/kernel/perf_event.c            | 14 ++----
+ arch/arc/kernel/troubleshoot.c          | 77 +++++++++++++--------------------
+ arch/arc/mm/init.c                      | 27 +++++++-----
+ arch/arc/plat-eznps/include/plat/ctop.h |  1 -
+ include/soc/nps/common.h                |  6 +++
+ 7 files changed, 62 insertions(+), 73 deletions(-)
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
