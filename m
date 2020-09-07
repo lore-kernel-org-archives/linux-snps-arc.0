@@ -4,21 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6F2C433E2
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Sep 2020 16:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1493EC43461
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Sep 2020 17:45:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 86B48207DE
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Sep 2020 16:56:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BCB05206E7
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Sep 2020 17:45:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Vi0j/Kh8";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ivzOBAA9";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="pXRyDLfD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86B48207DE
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uAmQ5WzJ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Go/rIFwG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCB05206E7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,62 +26,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=CAfSui/ViPU/0BwdaWUZL0/IAFJCFHBAx5IZq39Ksoo=; b=Vi0j/Kh8ljzYib3FzUuJyFIo5
-	3zSyhVR4eDTNW/F3+Wr4mdCIiZfnplrGruKblst/PLeZrZJIlhW/VYachg5mByA0mP+0IGnrHxgBm
-	WMiD29fmuDhLDnTxYpSqFB/rBBV78I40mO3pmMHsUJND95jhJOPXycPbSvBy2EOGJOZIjlvrQJpWJ
-	91inP0fjs4ns4S2SeXSQ4qa5THIy1t/Lr4RYyQJkGSuzkuOF9cyqDjUQVjtq5ORep7Pj1dEmE7ybZ
-	aVaSU9ZZEvk8kuHU2KjzG4WpIhRMVIlzhIseFYw9f3kecPMD+lNVio/TnH7YupNLjH+BTHtNbIlRs
-	HJvVpUTGg==;
+	 bh=EB0kShipOJtazB8gFNq/GxFr0m2tHhtGM3XbhBtRLiw=; b=uAmQ5WzJbm7ItBqtqF3pxOkXD
+	khR6ZXSssZs+Rw4whpOhnYvM+CTLi74YTY0QhoKpjlnWoMp5AsZjqFOngC9SUmew5x9d3HNlNJvhD
+	eraBUz5C59QkyU5zAnSlHCOeeHXFpEYK8UFG4HwronBYj9hvcPBS6oHH4o3Y7SEIGNHJBDMDopGE2
+	8FUTAehIIlLUu4qTBQ+LBd68KsKaGpxd7qQozmDgslLI4O9oTCFFsGFAJWyoMuZwuPrBGr/m8yBpB
+	SyGJPs92YybPEA9p6OprMFLg0GwGHFnuWA4tHDVd7dbPtT3xkg4GNMrG+3f7zpQmSKUk7CIvLrh3l
+	HuPgFhaZw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFKRt-0004E2-VA; Mon, 07 Sep 2020 16:56:58 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFKRt-00049w-Ij
- for linux-snps-arc@merlin.infradead.org; Mon, 07 Sep 2020 16:56:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=U+/TBQmDVn/IzT17eBXGEYWXzqkvkgNOU1G16kLcla4=; b=ivzOBAA9eoL33tv3H8bGmmehnx
- Wr+bEwQtPIyCpQDMLH9/QVGfASqhQmjBZo2oOj69EeOroAnAwQGIRuRISqvDVP8uK2WidagUu+FR0
- aiW+n7ab8hnFlxeqnlnG1NuNpKDX4KYpEgrPxF9mozcMPemCZnOkgRBYoM+OlSV5BAkhWvG0j4gnb
- vH8r2V+N5lDYadISqcwD9B7u5jm6RT//wszFfYmZoFSXW0MLdeuG45uji4EpC0OvrA4gu85StRifd
- w7yUvFVgJkAA5Ps2wKLcMCoLGT3LivqCPH+eoxAJX6na4BaZtTJO+Gyt4f2Mgv1N6c9Enj4PJPLVU
- klGnwFPA==;
+	id 1kFLCq-0002uI-6v; Mon, 07 Sep 2020 17:45:28 +0000
 Received: from mail.kernel.org ([198.145.29.99])
- by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFK6c-0000y0-6d
- for linux-snps-arc@lists.infradead.org; Mon, 07 Sep 2020 16:35:03 +0000
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kFK6u-0006ND-Ks
+ for linux-snps-arc@lists.infradead.org; Mon, 07 Sep 2020 16:35:21 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BB6C321D7D;
- Mon,  7 Sep 2020 16:34:49 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D8F7621927;
+ Mon,  7 Sep 2020 16:35:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599496490;
- bh=jOSBKhDLd+6i8GNAQCzE5l4teo3KLijO8Md8xp1oEGQ=;
+ s=default; t=1599496515;
+ bh=Y7DfL2QIoK+7AlOig5I7K0jPWLIoatifmL4WfTHq3TM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pXRyDLfDr46j6hzuvPNBw8wb23zX/5PYmlv/E1av0N5wWYNR4kiTfUGQhfPNM9nIz
- ZFPFRR1STmrlXWoCVaW++eN5GTs8ZYt0Bjs1xOFr3TrM6L0yjg1xcJoq3PbBdSmivj
- DUWyFgdWo7iRoGrqGdsctmA/NEPjj4NcnRnf7xCM=
+ b=Go/rIFwGEny1ceyX7/Dgv2e8x5WMjmQVldY7RmpN1Poj5NlFjA/0FJjctVQRsIgwn
+ ImIE4cQ7X6hePwoE8wP+1euK7TEuNaYVb7iDU8VIOb+Bz0aS7BbJi5jSNzSy7yiiVp
+ EwM1kpijUrxCxWqaNs/0GlesuWpI4TTHUaBrNOIw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 19/26] ARC: [plat-hsdk]: Switch ethernet phy-mode
- to rgmii-id
-Date: Mon,  7 Sep 2020 12:34:19 -0400
-Message-Id: <20200907163426.1281284-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 11/17] irqchip/eznps: Fix build error for !ARC700
+ builds
+Date: Mon,  7 Sep 2020 12:34:54 -0400
+Message-Id: <20200907163500.1281543-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200907163426.1281284-1-sashal@kernel.org>
-References: <20200907163426.1281284-1-sashal@kernel.org>
+In-Reply-To: <20200907163500.1281543-1-sashal@kernel.org>
+References: <20200907163500.1281543-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200907_173458_462576_E49637B5 
-X-CRM114-Status: GOOD (  13.00  )
+X-CRM114-CacheID: sfid-20200907_123516_803610_C78CE621 
+X-CRM114-Status: GOOD (  14.12  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,60 +79,66 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, devicetree@vger.kernel.org,
- Vineet Gupta <vgupta@synopsys.com>, Alexey Brodkin <abrodkin@synopsys.com>,
- Evgeniy Didin <Evgeniy.Didin@synopsys.com>, linux-snps-arc@lists.infradead.org,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+Cc: Sasha Levin <sashal@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-snps-arc@lists.infradead.org, kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Evgeniy Didin <Evgeniy.Didin@synopsys.com>
+From: Vineet Gupta <vgupta@synopsys.com>
 
-[ Upstream commit 26907eb605fbc3ba9dbf888f21d9d8d04471271d ]
+[ Upstream commit 89d29997f103d08264b0685796b420d911658b96 ]
 
-HSDK board has Micrel KSZ9031, recent commit
-bcf3440c6dd ("net: phy: micrel: add phy-mode support for the KSZ9031 PHY")
-caused a breakdown of Ethernet.
-Using 'phy-mode = "rgmii"' is not correct because accodring RGMII
-specification it is necessary to have delay on RX (PHY to MAX)
-which is not generated in case of "rgmii".
-Using "rgmii-id" adds necessary delay and solves the issue.
+eznps driver is supposed to be platform independent however it ends up
+including stuff from inside arch/arc headers leading to rand config
+build errors.
 
-Also adding name of PHY placed on HSDK board.
+The quick hack to fix this (proper fix is too much chrun for non active
+user-base) is to add following to nps platform agnostic header.
+ - copy AUX_IENABLE from arch/arc header
+ - move CTOP_AUX_IACK from arch/arc/plat-eznps/*/**
 
-Signed-off-by: Evgeniy Didin <Evgeniy.Didin@synopsys.com>
-Cc: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Cc: Alexey Brodkin <abrodkin@synopsys.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Link: https://lkml.kernel.org/r/20200824095831.5lpkmkafelnvlpi2@linutronix.de
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arc/boot/dts/hsdk.dts | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arc/plat-eznps/include/plat/ctop.h | 1 -
+ include/soc/nps/common.h                | 6 ++++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index ab01b75bfa67d..f6b6e3c9ca8aa 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -175,7 +175,7 @@ gmac: ethernet@8000 {
- 			reg = <0x8000 0x2000>;
- 			interrupts = <10>;
- 			interrupt-names = "macirq";
--			phy-mode = "rgmii";
-+			phy-mode = "rgmii-id";
- 			snps,pbl = <32>;
- 			snps,multicast-filter-bins = <256>;
- 			clocks = <&gmacclk>;
-@@ -193,7 +193,7 @@ mdio {
- 				#address-cells = <1>;
- 				#size-cells = <0>;
- 				compatible = "snps,dwmac-mdio";
--				phy0: ethernet-phy@0 {
-+				phy0: ethernet-phy@0 { /* Micrel KSZ9031 */
- 					reg = <0>;
- 					ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
- 					ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
+diff --git a/arch/arc/plat-eznps/include/plat/ctop.h b/arch/arc/plat-eznps/include/plat/ctop.h
+index 4f6a1673b3a6e..ddfca2c3357a0 100644
+--- a/arch/arc/plat-eznps/include/plat/ctop.h
++++ b/arch/arc/plat-eznps/include/plat/ctop.h
+@@ -43,7 +43,6 @@
+ #define CTOP_AUX_DPC				(CTOP_AUX_BASE + 0x02C)
+ #define CTOP_AUX_LPC				(CTOP_AUX_BASE + 0x030)
+ #define CTOP_AUX_EFLAGS				(CTOP_AUX_BASE + 0x080)
+-#define CTOP_AUX_IACK				(CTOP_AUX_BASE + 0x088)
+ #define CTOP_AUX_GPA1				(CTOP_AUX_BASE + 0x08C)
+ #define CTOP_AUX_UDMC				(CTOP_AUX_BASE + 0x300)
+ 
+diff --git a/include/soc/nps/common.h b/include/soc/nps/common.h
+index 9b1d43d671a3f..8c18dc6d3fde5 100644
+--- a/include/soc/nps/common.h
++++ b/include/soc/nps/common.h
+@@ -45,6 +45,12 @@
+ #define CTOP_INST_MOV2B_FLIP_R3_B1_B2_INST	0x5B60
+ #define CTOP_INST_MOV2B_FLIP_R3_B1_B2_LIMM	0x00010422
+ 
++#ifndef AUX_IENABLE
++#define AUX_IENABLE				0x40c
++#endif
++
++#define CTOP_AUX_IACK				(0xFFFFF800 + 0x088)
++
+ #ifndef __ASSEMBLY__
+ 
+ /* In order to increase compilation test coverage */
 -- 
 2.25.1
 
