@@ -7,64 +7,67 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E26C43461
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Sep 2020 16:33:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECAD4C2BB84
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Sep 2020 16:34:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8E74321927
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Sep 2020 16:33:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 93E3621D7D
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Sep 2020 16:34:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="W9URIOCX";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="mrkucNY3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8E74321927
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="btHJDn2Y";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="aF64WdgI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93E3621D7D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UlVkHEEB6Lm4cekjqExkQmIQdpj34T0yOeZiFCWW+/A=; b=W9URIOCXdCfzFoHhcBel6pLkdu
-	CpXDMjPjb3JJuOBFT0BCDYWnkB0+qPkIJiHgwuk/ToLjQ44il280Jvk+eNh8Wv7uxd30US3ER//bk
-	a5iw/uUUPiMMoX8UPu9TbVmiibOtvBaOA4/rwsMh0+hJg6gMI0AT8Xsuic8xUP7nxzUHPorGj3RYn
-	+vTsm1iu9hkWlHk9pwtKqDS5BH28k2RFyFw9PlA6Gxo8pY+MfYmp1UqhDnTITedaeegK7cLxAMig1
-	89LcX64NByTyLc/ucsjTVwtEmrpsiXGLuziwMPd+TquecjH513A90Egc+WoAnAS9nrVDHpJggBB3w
-	de9EY43w==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=Y8OYFXGRGKCJL6ZS9Aeg8jhPYmmjqXLEa8sULpFvcmY=; b=btHJDn2YvSGkkNbCrAUJUiE9x
+	JV7kpurb0ngtDrxYXNXmquwazB0Q8kGhozoXS6vH7MuaTxReN4iodHXRIdMBtxZiai5jiRWegh6fK
+	cRcKsbMQRohAMQMvM00WCuGAxHxgHMsVORKbHlqXDeEeAhWCRhj0O9sF/3l0rfoFhyTzy8H8UMZAa
+	uA1QGYGMQty52lgSgOuwkT9dHEZW/ilrMFIjoE0cKYIsVQzUtPs67qngZOH+kzegyN8/TIWo/KvhD
+	tAFw/Wh9nYah3cMuSlMN1pdRAaz9OUFq+YQvdeEzgfTJHHbCHHAn6eXne3wiGOuRPp1hRiK/le1Qm
+	T0Ow01J8g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFK5J-0005YT-Pn; Mon, 07 Sep 2020 16:33:37 +0000
+	id 1kFK64-0005vC-7O; Mon, 07 Sep 2020 16:34:24 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFK5E-0005UV-41
- for linux-snps-arc@lists.infradead.org; Mon, 07 Sep 2020 16:33:33 +0000
+ id 1kFK5c-0005hJ-40
+ for linux-snps-arc@lists.infradead.org; Mon, 07 Sep 2020 16:34:02 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6D28021775;
- Mon,  7 Sep 2020 16:33:30 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 97B3B21973;
+ Mon,  7 Sep 2020 16:33:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599496411;
- bh=yMbMn15d5ZsiLdDFzu3UAxbc1BWdVwiu6fvD5PtYG3U=;
- h=From:To:Cc:Subject:Date:From;
- b=mrkucNY3C0HMttDSUlfdbjGVeP1fAoeqxTd6kN57tRYv/LN5Sp39tnB6ssl3wztAH
- GxmJXXNjzkd2JE5Sf3Jy48+1gddVUcP0YuH1fGYkz0mwi2Bm4Ki/1b5wwtqMMvdxQC
- vZ6/1gm8f+83XXYJfKiITfKfsQ1mI6N5Wc9cHb4k=
+ s=default; t=1599496435;
+ bh=Q/p0TMUryxX77+CV/KVWZ+Q4CYue+xeVAxSZstCpHeU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=aF64WdgI0aEQvtJkDDMwLqLl02wTSKQfyujxHc+ApyDXtoYs19A2R/HUd2LThl4WM
+ IbCm37l92vHJNrmPOpTwqmJgjlNlMRwLSTD8wq/fkSrTupwPURYF2sv+wvzmS0tAqy
+ tc2gv68Eae7kq7dfdYv+Xzp5ewqVhpNjhGSYvuxg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 01/43] ARC: HSDK: wireup perf irq
-Date: Mon,  7 Sep 2020 12:32:47 -0400
-Message-Id: <20200907163329.1280888-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 19/43] irqchip/eznps: Fix build error for !ARC700
+ builds
+Date: Mon,  7 Sep 2020 12:33:05 -0400
+Message-Id: <20200907163329.1280888-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200907163329.1280888-1-sashal@kernel.org>
+References: <20200907163329.1280888-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200907_123332_259088_FEC9B8A1 
-X-CRM114-Status: GOOD (  11.85  )
+X-CRM114-CacheID: sfid-20200907_123356_253531_87FDC413 
+X-CRM114-Status: GOOD (  14.12  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,7 +80,8 @@ List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
- linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-snps-arc@lists.infradead.org, kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
@@ -85,32 +89,56 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Vineet Gupta <vgupta@synopsys.com>
 
-[ Upstream commit fe81d927b78c4f0557836661d32e41ebc957b024 ]
+[ Upstream commit 89d29997f103d08264b0685796b420d911658b96 ]
 
-Newer version of HSDK aka HSDK-4xD (with dual issue HS48x4 CPU) wired up
-the perf interrupt, so enable that in DT.
-This is OK for old HSDK where this irq is ignored because pct irq is not
-wired up in hardware.
+eznps driver is supposed to be platform independent however it ends up
+including stuff from inside arch/arc headers leading to rand config
+build errors.
 
+The quick hack to fix this (proper fix is too much chrun for non active
+user-base) is to add following to nps platform agnostic header.
+ - copy AUX_IENABLE from arch/arc header
+ - move CTOP_AUX_IACK from arch/arc/plat-eznps/*/**
+
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Link: https://lkml.kernel.org/r/20200824095831.5lpkmkafelnvlpi2@linutronix.de
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arc/boot/dts/hsdk.dts | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arc/plat-eznps/include/plat/ctop.h | 1 -
+ include/soc/nps/common.h                | 6 ++++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index 9acbeba832c0b..5d64a5a940ee6 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -88,6 +88,8 @@ idu_intc: idu-interrupt-controller {
+diff --git a/arch/arc/plat-eznps/include/plat/ctop.h b/arch/arc/plat-eznps/include/plat/ctop.h
+index a4a61531c7fb9..77712c5ffe848 100644
+--- a/arch/arc/plat-eznps/include/plat/ctop.h
++++ b/arch/arc/plat-eznps/include/plat/ctop.h
+@@ -33,7 +33,6 @@
+ #define CTOP_AUX_DPC				(CTOP_AUX_BASE + 0x02C)
+ #define CTOP_AUX_LPC				(CTOP_AUX_BASE + 0x030)
+ #define CTOP_AUX_EFLAGS				(CTOP_AUX_BASE + 0x080)
+-#define CTOP_AUX_IACK				(CTOP_AUX_BASE + 0x088)
+ #define CTOP_AUX_GPA1				(CTOP_AUX_BASE + 0x08C)
+ #define CTOP_AUX_UDMC				(CTOP_AUX_BASE + 0x300)
  
- 	arcpct: pct {
- 		compatible = "snps,archs-pct";
-+		interrupt-parent = <&cpu_intc>;
-+		interrupts = <20>;
- 	};
+diff --git a/include/soc/nps/common.h b/include/soc/nps/common.h
+index 9b1d43d671a3f..8c18dc6d3fde5 100644
+--- a/include/soc/nps/common.h
++++ b/include/soc/nps/common.h
+@@ -45,6 +45,12 @@
+ #define CTOP_INST_MOV2B_FLIP_R3_B1_B2_INST	0x5B60
+ #define CTOP_INST_MOV2B_FLIP_R3_B1_B2_LIMM	0x00010422
  
- 	/* TIMER0 with interrupt for clockevent */
++#ifndef AUX_IENABLE
++#define AUX_IENABLE				0x40c
++#endif
++
++#define CTOP_AUX_IACK				(0xFFFFF800 + 0x088)
++
+ #ifndef __ASSEMBLY__
+ 
+ /* In order to increase compilation test coverage */
 -- 
 2.25.1
 
