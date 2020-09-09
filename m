@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C35C43461
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 02:55:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F63C433E2
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 03:32:27 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 91A1220C09
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 02:55:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 372BA20EDD
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 03:32:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gwG8VVON";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Dzp8K99q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 91A1220C09
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="R/WW9N+u";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Z7tsJS+I"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 372BA20EDD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,50 +26,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=iZEAIV2+iQdtRpRTbIe8Dz8Lox+Jepgn+INfFPFXuqE=; b=gwG8VVONPzdfEpNF1veNPuaryM
-	n+PtZo4stMd3cCsDNme/RL+6DRJPeq3dwkUzL16FFS33AmY01dFtqIdlQITv4x3KfUKEL/VzSXtAc
-	ej9Em42IUxYkQAKAraFOhZd3P1jJcInmoFngEFA3G3BX9U6CmffSRdRHuHbe0XXWMkmh0E+FyOiwn
-	e7yLEUdYMah5Mn5Z2hLN+XJBDEkmyS02gLBvLT3Ris4HU0wtnQAyUfWrtQaUDZn0UW3fg13ZZUo3u
-	v2Ax9T0IRCm1bQI1+LbLhcEkiGzXxdjOwaS59JpPWE8VFEv9+CuqWSo3/K82KK2ZjZtTDqW53tlE3
-	BloNCkNw==;
+	bh=Ciklx1+PzFDpHd94xmQBDyhqR7iy7a8oqH0KzUBmnI8=; b=R/WW9N+uqe3zvc5+QDes8L7jRR
+	qCqH9FZuzWzV699I4M23nctAlwDfOBXwarUrB+29u4tr9Gp4slicFRzgkxRLOpIOIkT3lfpRrSFfW
+	D+BWplla2MBix2Fhk0Q98cTeu8SbDvGdnljOYSoxNWrKoXR7Oy48GGAxPdwHC0/UExlD0wsZ4r090
+	PdKoTfeQalQN2NNxXWbENUAnS4j39WQiE2XqIkO26nQ4TUn0OrywKKZ+3Qa6fzemJco4htxYzQyYB
+	mmF+Jj5UAM1rQRwwh6yt/o4sW61YpSeXoPJE8mptyWHcxXJYC49sqlyoxAj/Xaqubqbm2ewA1vUef
+	Wuu0X7ig==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFqGT-0000uH-AB; Wed, 09 Sep 2020 02:55:17 +0000
+	id 1kFqqQ-00040X-JK; Wed, 09 Sep 2020 03:32:26 +0000
 Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFqGQ-0000ti-Si
- for linux-snps-arc@lists.infradead.org; Wed, 09 Sep 2020 02:55:16 +0000
+ id 1kFqqO-000407-9S
+ for linux-snps-arc@lists.infradead.org; Wed, 09 Sep 2020 03:32:25 +0000
 Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com
  [10.205.2.134])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4FA7140104;
- Wed,  9 Sep 2020 02:55:13 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id EE7B940194;
+ Wed,  9 Sep 2020 03:32:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1599620113; bh=zLvQJ+kQoDIF2uQuvXGqlXS0JMeKNvoKNavVibUI96Y=;
+ t=1599622343; bh=pY9pJjWL9a50maoWNrVjfTwURhusUfH/NsLeFHDVXdk=;
  h=From:To:Cc:Subject:Date:From;
- b=Dzp8K99q3xUg4gYlo+lM/ZxCWxO7rj/rSGTefXttwXFX5CvCmYq+bkhzXQAeVXRy/
- b61qecW1oTix9yXbr3+1R2NsyKPS04SbUpJMxNUFGAvO64x+clH7hn9pUbm4djuijo
- QSbmuqRjQxzFsIwaYG37eYKptbvONiFGTp79aLkpCvzbnJOs/H25QOnG8ZXHWDzGG8
- mjwgMsg0RZK03Mzdpvv6qNLINm8OC9ecBxeLSR668+k3E6Kyk6MInZcdknCfFKuYLx
- pPNYedYXafalaXffAVu22Rjqli7EmCQr9Q4c8Weh6fsAVRiY/SnpDbpsCodhrhC+Tv
- 3SdiQuhnZX0Hg==
+ b=Z7tsJS+IMov6jvuWwTXjUXOYXKFTMNtjI8HAHI0mCuPevO8ZFY6eRk/bzEHQzhaoT
+ 47E6bUCzhuY0Gz4CWN9/lBaPJe7SQAPu0mq81m6obksieAYGF6kVEa2fZzXLG60eJ7
+ Qe2hy8Vi8hXbQ2yPGDtEoh6kg4o+0cx98wA3VIkHTeWBOaGSENdjJ0ePR8uSGHgLOt
+ zznavXn8T3WuodwAs3T2Q6OSwTDnIGimSYuCcQlG6vERT9Cg8NG539xXOz/0xa/9nM
+ Kwm9gmE8oCeiUQ0kWcFJugngvYA+iPMJKUysGZkJ4T66MCa0O+iFQH5ivBAhy5Otcu
+ L0hbBLCHPDa5A==
 Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
  [10.13.183.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id 674DFA0099;
- Wed,  9 Sep 2020 02:48:29 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id ACBB9A0096;
+ Wed,  9 Sep 2020 03:32:22 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH] Remove STATFS_IS_STATFS64 conditional as it is zero in all
- ports
-Date: Tue,  8 Sep 2020 19:48:26 -0700
-Message-Id: <20200909024826.3377653-1-vgupta@synopsys.com>
+Subject: [PATCH] support: user more portable atomic wrappers
+Date: Tue,  8 Sep 2020 20:32:21 -0700
+Message-Id: <20200909033221.3549140-1-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200908_225515_154446_224B007E 
-X-CRM114-Status: GOOD (  11.33  )
+X-CRM114-CacheID: sfid-20200908_233224_468672_90512270 
+X-CRM114-Status: GOOD (  12.01  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,240 +87,65 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-
-This seems to be dead code, so remove it.
+This came up in a nascent arc64 port, lacking gcc atomics for now
 ---
- sysdeps/unix/sysv/linux/alpha/kernel_stat.h       |  1 -
- sysdeps/unix/sysv/linux/fstatfs64.c               | 14 --------------
- sysdeps/unix/sysv/linux/generic/kernel_stat.h     |  2 --
- .../unix/sysv/linux/generic/wordsize-32/fstatfs.c |  2 --
- .../unix/sysv/linux/generic/wordsize-32/statfs.c  |  2 --
- sysdeps/unix/sysv/linux/hppa/kernel_stat.h        |  1 -
- sysdeps/unix/sysv/linux/ia64/kernel_stat.h        |  1 -
- sysdeps/unix/sysv/linux/kernel_stat.h             |  1 -
- sysdeps/unix/sysv/linux/microblaze/kernel_stat.h  |  1 -
- sysdeps/unix/sysv/linux/mips/kernel_stat.h        |  1 -
- .../sysv/linux/powerpc/powerpc32/kernel_stat.h    |  1 -
- .../sysv/linux/powerpc/powerpc64/kernel_stat.h    |  1 -
- .../unix/sysv/linux/s390/s390-64/kernel_stat.h    |  1 -
- .../unix/sysv/linux/sparc/sparc32/kernel_stat.h   |  1 -
- .../unix/sysv/linux/sparc/sparc64/kernel_stat.h   |  1 -
- sysdeps/unix/sysv/linux/statfs64.c                | 15 ---------------
- sysdeps/unix/sysv/linux/x86_64/kernel_stat.h      |  1 -
- 17 files changed, 47 deletions(-)
+ support/support_record_failure.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/sysdeps/unix/sysv/linux/alpha/kernel_stat.h b/sysdeps/unix/sysv/linux/alpha/kernel_stat.h
-index d637e099cfe4..670841140765 100644
---- a/sysdeps/unix/sysv/linux/alpha/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/alpha/kernel_stat.h
-@@ -86,4 +86,3 @@ struct glibc21_stat
-   };
+diff --git a/support/support_record_failure.c b/support/support_record_failure.c
+index f766c0623683..65e576c6e901 100644
+--- a/support/support_record_failure.c
++++ b/support/support_record_failure.c
+@@ -25,6 +25,7 @@
+ #include <stdlib.h>
+ #include <sys/mman.h>
+ #include <unistd.h>
++#include <atomic.h>
  
- #define XSTAT_IS_XSTAT64 1
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/fstatfs64.c b/sysdeps/unix/sysv/linux/fstatfs64.c
-index 9d22fa228fa5..4a339b548aa7 100644
---- a/sysdeps/unix/sysv/linux/fstatfs64.c
-+++ b/sysdeps/unix/sysv/linux/fstatfs64.c
-@@ -22,15 +22,6 @@
- #include <sysdep.h>
- #include <kernel_stat.h>
- 
--/* Hide the prototypes for __fstatfs and fstatfs so that GCC will not
--   complain about the different function signatures if they are aliased
--   to  __fstat64.  If STATFS_IS_STATFS64 is not zero then the statfs and
--   statfs64 structures have an identical layout but different type names.  */
--
--#if STATFS_IS_STATFS64
--# define __fstatfs __fstatfs_disable
--# define fstatfs fstatfs_disable
--#endif
- #include <sys/statfs.h>
- 
- #include <kernel-features.h>
-@@ -85,8 +76,3 @@ weak_alias (__fstatfs64, fstatfs64)
- 
- #undef __fstatfs
- #undef fstatfs
--
--#if STATFS_IS_STATFS64
--weak_alias (__fstatfs64, __fstatfs)
--weak_alias (__fstatfs64, fstatfs)
--#endif
-diff --git a/sysdeps/unix/sysv/linux/generic/kernel_stat.h b/sysdeps/unix/sysv/linux/generic/kernel_stat.h
-index 2eed3596c0ed..5a600f188320 100644
---- a/sysdeps/unix/sysv/linux/generic/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/generic/kernel_stat.h
-@@ -26,5 +26,3 @@
- #else
- # define XSTAT_IS_XSTAT64 0
- #endif
--
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/generic/wordsize-32/fstatfs.c b/sysdeps/unix/sysv/linux/generic/wordsize-32/fstatfs.c
-index 93d9d94a0a61..bacc1543013a 100644
---- a/sysdeps/unix/sysv/linux/generic/wordsize-32/fstatfs.c
-+++ b/sysdeps/unix/sysv/linux/generic/wordsize-32/fstatfs.c
-@@ -21,7 +21,6 @@
- #include <kernel_stat.h>
- #include <stddef.h>
- 
--#if !STATFS_IS_STATFS64
- #include "overflow.h"
- 
- /* Return information about the filesystem on which FD resides.  */
-@@ -32,4 +31,3 @@ __fstatfs (int fd, struct statfs *buf)
-   return rc ?: statfs_overflow (buf);
+ /* This structure keeps track of test failures.  The counter is
+    incremented on each failure.  The failed member is set to true if a
+@@ -66,8 +67,8 @@ support_record_failure (void)
+     }
+   /* Relaxed MO is sufficient because we are only interested in the
+      values themselves, in isolation.  */
+-  __atomic_store_n (&state->failed, 1, __ATOMIC_RELEASE);
+-  __atomic_add_fetch (&state->counter, 1, __ATOMIC_RELEASE);
++  atomic_store_release (&state->failed, 1);
++  atomic_fetch_add_release (&state->counter, 1);
  }
- weak_alias (__fstatfs, fstatfs)
--#endif
-diff --git a/sysdeps/unix/sysv/linux/generic/wordsize-32/statfs.c b/sysdeps/unix/sysv/linux/generic/wordsize-32/statfs.c
-index 7421501b4a40..a678e96058ce 100644
---- a/sysdeps/unix/sysv/linux/generic/wordsize-32/statfs.c
-+++ b/sysdeps/unix/sysv/linux/generic/wordsize-32/statfs.c
-@@ -21,7 +21,6 @@
- #include <kernel_stat.h>
- #include <stddef.h>
  
--#if !STATFS_IS_STATFS64
- #include "overflow.h"
+ int
+@@ -84,10 +85,10 @@ support_report_failure (int status)
+      assumes that exiting from the main thread happens before the
+      error reporting via support_record_failure, which requires some
+      form of external synchronization.  */
+-  bool failed = __atomic_load_n (&state->failed, __ATOMIC_RELAXED);
++  bool failed = atomic_load_relaxed (&state->failed);
+   if (failed)
+     printf ("error: %u test failures\n",
+-            __atomic_load_n (&state->counter, __ATOMIC_RELAXED));
++            atomic_load_relaxed (&state->counter));
  
- /* Return information about the filesystem on which FILE resides.  */
-@@ -33,4 +32,3 @@ __statfs (const char *file, struct statfs *buf)
+   if ((status == 0 || status == EXIT_UNSUPPORTED) && failed)
+     /* If we have a recorded failure, it overrides a non-failure
+@@ -101,8 +102,8 @@ support_record_failure_reset (void)
+ {
+   /* Only used for testing the test framework, with external
+      synchronization, but use release MO for consistency.  */
+-  __atomic_store_n (&state->failed, 0, __ATOMIC_RELAXED);
+-  __atomic_add_fetch (&state->counter, 0, __ATOMIC_RELAXED);
++  atomic_store_relaxed (&state->failed, 0);
++  atomic_fetch_add_release (&state->counter, 0);
  }
- libc_hidden_def (__statfs)
- weak_alias (__statfs, statfs)
--#endif
-diff --git a/sysdeps/unix/sysv/linux/hppa/kernel_stat.h b/sysdeps/unix/sysv/linux/hppa/kernel_stat.h
-index a3ac53a1ef2f..9ffa3ba638ea 100644
---- a/sysdeps/unix/sysv/linux/hppa/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/hppa/kernel_stat.h
-@@ -31,4 +31,3 @@ struct kernel_stat {
- #define _HAVE_STAT64_NSEC
  
- #define XSTAT_IS_XSTAT64 0
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/ia64/kernel_stat.h b/sysdeps/unix/sysv/linux/ia64/kernel_stat.h
-index b38bf741d37b..da8e2a91eff7 100644
---- a/sysdeps/unix/sysv/linux/ia64/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/ia64/kernel_stat.h
-@@ -18,4 +18,3 @@
- 
- #define STAT_IS_KERNEL_STAT 1
- #define XSTAT_IS_XSTAT64 1
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/kernel_stat.h b/sysdeps/unix/sysv/linux/kernel_stat.h
-index eecc962de390..4354d14f76e9 100644
---- a/sysdeps/unix/sysv/linux/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/kernel_stat.h
-@@ -35,4 +35,3 @@ struct kernel_stat
- #define _HAVE_STAT64_NSEC
- 
- #define XSTAT_IS_XSTAT64 0
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/microblaze/kernel_stat.h b/sysdeps/unix/sysv/linux/microblaze/kernel_stat.h
-index 765e0dca6763..159870d9d5a7 100644
---- a/sysdeps/unix/sysv/linux/microblaze/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/microblaze/kernel_stat.h
-@@ -49,4 +49,3 @@ struct kernel_stat
- };
- 
- #define XSTAT_IS_XSTAT64 0
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/mips/kernel_stat.h b/sysdeps/unix/sysv/linux/mips/kernel_stat.h
-index 388df1bfffec..a41d15f95cfa 100644
---- a/sysdeps/unix/sysv/linux/mips/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/mips/kernel_stat.h
-@@ -57,4 +57,3 @@ struct kernel_stat
- #endif
- 
- #define XSTAT_IS_XSTAT64 0
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/kernel_stat.h b/sysdeps/unix/sysv/linux/powerpc/powerpc32/kernel_stat.h
-index c5948a4d3c1c..c28ad2dbc165 100644
---- a/sysdeps/unix/sysv/linux/powerpc/powerpc32/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/kernel_stat.h
-@@ -48,4 +48,3 @@ struct kernel_stat
- #define _HAVE_STAT64_NSEC
- 
- #define XSTAT_IS_XSTAT64 0
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/kernel_stat.h b/sysdeps/unix/sysv/linux/powerpc/powerpc64/kernel_stat.h
-index 5c10da3356f2..b764efe1a625 100644
---- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/kernel_stat.h
-@@ -18,4 +18,3 @@
- 
- #define STAT_IS_KERNEL_STAT 1
- #define XSTAT_IS_XSTAT64 1
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/s390/s390-64/kernel_stat.h b/sysdeps/unix/sysv/linux/s390/s390-64/kernel_stat.h
-index b38bf741d37b..da8e2a91eff7 100644
---- a/sysdeps/unix/sysv/linux/s390/s390-64/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/s390/s390-64/kernel_stat.h
-@@ -18,4 +18,3 @@
- 
- #define STAT_IS_KERNEL_STAT 1
- #define XSTAT_IS_XSTAT64 1
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/sparc/sparc32/kernel_stat.h b/sysdeps/unix/sysv/linux/sparc/sparc32/kernel_stat.h
-index a4416009f1bc..eb6023692955 100644
---- a/sysdeps/unix/sysv/linux/sparc/sparc32/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/sparc/sparc32/kernel_stat.h
-@@ -32,4 +32,3 @@ struct kernel_stat
- #define _HAVE_STAT64_NSEC
- 
- #define XSTAT_IS_XSTAT64 0
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/sparc/sparc64/kernel_stat.h b/sysdeps/unix/sysv/linux/sparc/sparc64/kernel_stat.h
-index 30afb553b9b8..2a26a78d9c19 100644
---- a/sysdeps/unix/sysv/linux/sparc/sparc64/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/sparc/sparc64/kernel_stat.h
-@@ -45,4 +45,3 @@ struct kernel_stat64
-   };
- 
- #define XSTAT_IS_XSTAT64 1
--#define STATFS_IS_STATFS64 0
-diff --git a/sysdeps/unix/sysv/linux/statfs64.c b/sysdeps/unix/sysv/linux/statfs64.c
-index c9411286375b..153654ac318f 100644
---- a/sysdeps/unix/sysv/linux/statfs64.c
-+++ b/sysdeps/unix/sysv/linux/statfs64.c
-@@ -22,15 +22,6 @@
- #include <sysdep.h>
- #include <kernel_stat.h>
- 
--/* Hide the prototypes for __statfs and statfs so that GCC will not
--   complain about the different function signatures if they are aliased
--   to  __stat64.  If STATFS_IS_STATFS64 is not zero then the statfs and
--   statfs64 structures have an identical layout but different type names.  */
--
--#if STATFS_IS_STATFS64
--# define __statfs __statfs_disable
--# define statfs statfs_disable
--#endif
- #include <sys/statfs.h>
- 
- #include <kernel-features.h>
-@@ -87,9 +78,3 @@ weak_alias (__statfs64, statfs64)
- 
- #undef __statfs
- #undef statfs
--
--#if STATFS_IS_STATFS64
--weak_alias (__statfs64, __statfs)
--weak_alias (__statfs64, statfs)
--libc_hidden_ver (__statfs64, __statfs)
--#endif
-diff --git a/sysdeps/unix/sysv/linux/x86_64/kernel_stat.h b/sysdeps/unix/sysv/linux/x86_64/kernel_stat.h
-index b38bf741d37b..da8e2a91eff7 100644
---- a/sysdeps/unix/sysv/linux/x86_64/kernel_stat.h
-+++ b/sysdeps/unix/sysv/linux/x86_64/kernel_stat.h
-@@ -18,4 +18,3 @@
- 
- #define STAT_IS_KERNEL_STAT 1
- #define XSTAT_IS_XSTAT64 1
--#define STATFS_IS_STATFS64 0
+ int
+@@ -110,5 +111,5 @@ support_record_failure_is_failed (void)
+ {
+   /* Relaxed MO is sufficient because we need (blocking) external
+      synchronization for reliable test error reporting anyway.  */
+-  return __atomic_load_n (&state->failed, __ATOMIC_RELAXED);
++  return atomic_load_relaxed (&state->failed);
+ }
 -- 
 2.25.1
 
