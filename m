@@ -2,64 +2,86 @@ Return-Path: <SRS0=Ntev=CS=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2C20C43461
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 08:39:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33479C43461
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 10:19:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 10F37215A4
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 08:39:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B804B21D7A
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 10:19:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GTkXRiJ2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 10F37215A4
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WZ19eyqi";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AcyXkOSC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B804B21D7A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:Date:References:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=stG8anrsZOpyhfldYuXxYXl3Lk5RKxkB1lwz5wWcXZ8=; b=GTkXRiJ2lViR8VK0ltiZTkYwT
-	tXq494EmDbKTXO7WFWGk84/JKgRcjDvp7G02oefBepAnpxlgjsvYmrHX2XGkTrGOP+7UD9vCfYEKC
-	VpF4XaLbxHzEERVSMG5W1lO5ph3KUDw38i/BY7PwUulnSL5o5kk1i3kLY23PDk1yzp3a35xmxCGJR
-	3CrCWtuHW7/o+wM8Wdg3A/dVczykGh8jE7Us6OlmjHWKIqQBRe8MptMyW+crkAIbZS62b3a/gSxHV
-	U8BGWGftGC8pu1XyjDcBVV0vxtuDXk7hmFfxRW73w9tMHlRArOPdfbuS7/ife3zFDbFp8WwJEttjL
-	qGb+ZYVgg==;
+	 bh=qqBlZIZ9bjl/7Vx5eiTdJFVTn9lel6/wFm+A4wwcQNY=; b=WZ19eyqiJ4zsRBPh2uBg9fTYy
+	8fQQHM6fH6Cgx9LXnnIOzSK7wj/hFhxSYHclnkrXNQvkMCInYtYBOkmjPkye0MMjTHub4oKWWGx02
+	wtFo0zaptW4sQEQjc4KXGeGcXib9g/KpibhHfXg3cuLC1rAmM8GWUExL+xUhZPcH348dhydo4flVM
+	rE263dkMluQr0Qo4I/YeHJli0VXIGB6CcBd1kNTebv688DWaWEJivqCfqZgL8sqqJ0V834cCZEHdH
+	jTPYakO2Gq8Km3MrIAMzsgpgR8T69IO4gs4UaGclJfknMu369BSlmE7/B2oRJadvVow6FCiqgFQxA
+	AZTxdAeJA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFvdf-0006oW-Ch; Wed, 09 Sep 2020 08:39:35 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFvda-0006mV-Q2; Wed, 09 Sep 2020 08:39:31 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2AAA11FB;
- Wed,  9 Sep 2020 01:39:30 -0700 (PDT)
-Received: from [10.163.71.250] (unknown [10.163.71.250])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1F9E33F66E;
- Wed,  9 Sep 2020 01:39:26 -0700 (PDT)
-Subject: Re: [PATCH v4 00/13] mm/debug_vm_pgtable fixes
-To: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-References: <20200902114222.181353-1-aneesh.kumar@linux.ibm.com>
- <bb0f3427-e2bd-f713-3ea8-d264be0e690b@arm.com>
- <20200904172647.002113d3@thinkpad> <20200904180115.07ee5f00@thinkpad>
- <20200904195346.6d57ff9f@thinkpad>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <c6f4857e-4523-ad32-cbc1-fee417fc3f37@arm.com>
-Date: Wed, 9 Sep 2020 14:08:55 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+	id 1kFxC8-0006lP-CS; Wed, 09 Sep 2020 10:19:16 +0000
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]
+ helo=us-smtp-delivery-1.mimecast.com)
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kFxC6-0006ks-2i
+ for linux-snps-arc@lists.infradead.org; Wed, 09 Sep 2020 10:19:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599646753;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wxOxLDtiqIK0JP/pqmW7fzgflOjd6ogWcA5vwWbvIgo=;
+ b=AcyXkOSCPEsaVVh1IDxiL8r6Rz8IXxZCbmKSZDa1FgdwcV/3b1OVjQtYnqXi9o9nSfiofK
+ YFBAz8QueHoSWiPpslENzgBk3kAP6/i58ivLEnXUPIAWCxuEs0xzYL5aifIoOpXvyd1jEn
+ coV72oeEUaOH9XsF2fP2F3XTnvAhR5Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-NIoJTHUxPFqFIusWiug-nw-1; Wed, 09 Sep 2020 06:19:11 -0400
+X-MC-Unique: NIoJTHUxPFqFIusWiug-nw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02ECA1007467;
+ Wed,  9 Sep 2020 10:19:10 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-112-83.ams2.redhat.com
+ [10.36.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1149A7E8DA;
+ Wed,  9 Sep 2020 10:19:08 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Vineet Gupta via Libc-alpha <libc-alpha@sourceware.org>
+Subject: Re: [PATCH] support: user more portable atomic wrappers
+References: <20200909033221.3549140-1-vgupta@synopsys.com>
+Date: Wed, 09 Sep 2020 12:19:07 +0200
+In-Reply-To: <20200909033221.3549140-1-vgupta@synopsys.com> (Vineet Gupta via
+ Libc-alpha's message of "Tue, 8 Sep 2020 20:32:21 -0700")
+Message-ID: <87v9gnb6ck.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200904195346.6d57ff9f@thinkpad>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=fweimer@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200909_043930_952456_F4D7E9CE 
-X-CRM114-Status: GOOD (  33.12  )
+X-CRM114-CacheID: sfid-20200909_061914_160187_7FCD07EC 
+X-CRM114-Status: UNSURE (   9.05  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,157 +93,29 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, linux-mm@kvack.org,
- Vineet Gupta <vgupta@synopsys.com>, mpe@ellerman.id.au,
- akpm@linux-foundation.org,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- linuxppc-dev@lists.ozlabs.org, linux-riscv <linux-riscv@lists.infradead.org>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>
+Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ linux-snps-arc@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 09/04/2020 11:23 PM, Gerald Schaefer wrote:
-> On Fri, 4 Sep 2020 18:01:15 +0200
-> Gerald Schaefer <gerald.schaefer@linux.ibm.com> wrote:
-> 
->> On Fri, 4 Sep 2020 17:26:47 +0200
->> Gerald Schaefer <gerald.schaefer@linux.ibm.com> wrote:
->>
->>> On Fri, 4 Sep 2020 12:18:05 +0530
->>> Anshuman Khandual <anshuman.khandual@arm.com> wrote:
->>>
->>>>
->>>>
->>>> On 09/02/2020 05:12 PM, Aneesh Kumar K.V wrote:
->>>>> This patch series includes fixes for debug_vm_pgtable test code so that
->>>>> they follow page table updates rules correctly. The first two patches introduce
->>>>> changes w.r.t ppc64. The patches are included in this series for completeness. We can
->>>>> merge them via ppc64 tree if required.
->>>>>
->>>>> Hugetlb test is disabled on ppc64 because that needs larger change to satisfy
->>>>> page table update rules.
->>>>>
->>>>> These tests are broken w.r.t page table update rules and results in kernel
->>>>> crash as below. 
->>>>>
->>>>> [   21.083519] kernel BUG at arch/powerpc/mm/pgtable.c:304!
->>>>> cpu 0x0: Vector: 700 (Program Check) at [c000000c6d1e76c0]
->>>>>     pc: c00000000009a5ec: assert_pte_locked+0x14c/0x380
->>>>>     lr: c0000000005eeeec: pte_update+0x11c/0x190
->>>>>     sp: c000000c6d1e7950
->>>>>    msr: 8000000002029033
->>>>>   current = 0xc000000c6d172c80
->>>>>   paca    = 0xc000000003ba0000   irqmask: 0x03   irq_happened: 0x01
->>>>>     pid   = 1, comm = swapper/0
->>>>> kernel BUG at arch/powerpc/mm/pgtable.c:304!
->>>>> [link register   ] c0000000005eeeec pte_update+0x11c/0x190
->>>>> [c000000c6d1e7950] 0000000000000001 (unreliable)
->>>>> [c000000c6d1e79b0] c0000000005eee14 pte_update+0x44/0x190
->>>>> [c000000c6d1e7a10] c000000001a2ca9c pte_advanced_tests+0x160/0x3d8
->>>>> [c000000c6d1e7ab0] c000000001a2d4fc debug_vm_pgtable+0x7e8/0x1338
->>>>> [c000000c6d1e7ba0] c0000000000116ec do_one_initcall+0xac/0x5f0
->>>>> [c000000c6d1e7c80] c0000000019e4fac kernel_init_freeable+0x4dc/0x5a4
->>>>> [c000000c6d1e7db0] c000000000012474 kernel_init+0x24/0x160
->>>>> [c000000c6d1e7e20] c00000000000cbd0 ret_from_kernel_thread+0x5c/0x6c
->>>>>
->>>>> With DEBUG_VM disabled
->>>>>
->>>>> [   20.530152] BUG: Kernel NULL pointer dereference on read at 0x00000000
->>>>> [   20.530183] Faulting instruction address: 0xc0000000000df330
->>>>> cpu 0x33: Vector: 380 (Data SLB Access) at [c000000c6d19f700]
->>>>>     pc: c0000000000df330: memset+0x68/0x104
->>>>>     lr: c00000000009f6d8: hash__pmdp_huge_get_and_clear+0xe8/0x1b0
->>>>>     sp: c000000c6d19f990
->>>>>    msr: 8000000002009033
->>>>>    dar: 0
->>>>>   current = 0xc000000c6d177480
->>>>>   paca    = 0xc00000001ec4f400   irqmask: 0x03   irq_happened: 0x01
->>>>>     pid   = 1, comm = swapper/0
->>>>> [link register   ] c00000000009f6d8 hash__pmdp_huge_get_and_clear+0xe8/0x1b0
->>>>> [c000000c6d19f990] c00000000009f748 hash__pmdp_huge_get_and_clear+0x158/0x1b0 (unreliable)
->>>>> [c000000c6d19fa10] c0000000019ebf30 pmd_advanced_tests+0x1f0/0x378
->>>>> [c000000c6d19fab0] c0000000019ed088 debug_vm_pgtable+0x79c/0x1244
->>>>> [c000000c6d19fba0] c0000000000116ec do_one_initcall+0xac/0x5f0
->>>>> [c000000c6d19fc80] c0000000019a4fac kernel_init_freeable+0x4dc/0x5a4
->>>>> [c000000c6d19fdb0] c000000000012474 kernel_init+0x24/0x160
->>>>> [c000000c6d19fe20] c00000000000cbd0 ret_from_kernel_thread+0x5c/0x6c
->>>>>
->>>>> Changes from v3:
->>>>> * Address review feedback
->>>>> * Move page table depost and withdraw patch after adding pmdlock to avoid bisect failure.
->>>>
->>>> This version
->>>>
->>>> - Builds on x86, arm64, s390, arc, powerpc and riscv (defconfig with DEBUG_VM_PGTABLE)
->>>> - Runs on arm64 and x86 without any regression, atleast nothing that I have noticed
->>>> - Will be great if this could get tested on s390, arc, riscv, ppc32 platforms as well
->>>
->>> When I quickly tested v3, it worked fine, but now it turned out to
->>> only work fine "sometimes", both v3 and v4. I need to look into it
->>> further, but so far it seems related to the hugetlb_advanced_tests().
->>>
->>> I guess there was already some discussion on this test, but we did
->>> not receive all of the thread(s). Please always add at least
->>> linux-s390@vger.kernel.org and maybe myself and Vasily Gorbik <gor@linux.ibm.com>
->>> for further discussions.
->>
->> BTW, with myself I mean the new address gerald.schaefer@linux.ibm.com.
->> The old gerald.schaefer@de.ibm.com seems to work (again), but is not
->> very reliable.
->>
->> BTW2, a quick test with this change (so far) made the issues on s390
->> go away:
->>
->> @@ -1069,7 +1074,7 @@ static int __init debug_vm_pgtable(void)
->>         spin_unlock(ptl);
->>
->>  #ifndef CONFIG_PPC_BOOK3S_64
->> -       hugetlb_advanced_tests(mm, vma, ptep, pte_aligned, vaddr, prot);
->> +       hugetlb_advanced_tests(mm, vma, (pte_t *) pmdp, pmd_aligned, vaddr, prot);
->>  #endif
->>
->>         spin_lock(&mm->page_table_lock);
->>
->> That would more match the "pte_t pointer" usage for hugetlb code,
->> i.e. just cast a pmd_t pointer to it. Also changed to pmd_aligned,
->> but I think the root cause is the pte_t pointer.
->>
->> Not entirely sure though if that would really be the correct fix.
->> I somehow lost whatever little track I had about what these tests
->> really want to check, and if that would still be valid with that
->> change.
-> 
-> Another potential issue, apparently not for s390, but maybe for
-> others, is that the vaddr passed to hugetlb_advanced_tests() is
-> also not pmd/pud size aligned, like you did in pmd/pud_advanced_tests().
-> 
-> I guess for the hugetlb_advanced_tests() you need to choose if
-> you want to test pmd or pud hugepages, and accordingly prepare
-> the *ptep, pfn and vaddr input. If you only check for CONFIG_HUGETLB_PAGE,
-> then probably only pmd hugepages would be safe, there might be
-> architectures only supporting one hugepage size.
+* Vineet Gupta via Libc-alpha:
 
-I guess preparing for PMD based HugeTLB tests should be sufficient
-for now, which can be improved later on to cover other levels.
+> This came up in a nascent arc64 port, lacking gcc atomics for now
 
-> 
-> So, for s390, at least the ptep input value is a problem. Still
-> need to better understand how it goes wrong, but it seems to be
-> fixed when using proper pmdp, and also works with pudp.
-> 
-> For others, especially the apparent issues on ppc64, the other
-> non-hugepage aligned input pfn and vaddr might also be an issue,
-> e.g. power at least seems to use the vaddr in its set_huge_pte_at()
-> implementation for some pmd_off(mm, addr) calculation.
-> 
-> Again, sorry if this was already discussed, I missed most of it
-> and honestly didn't properly look at the scarce mails that we did
-> receive...
+Can you please change the GCC port to provide atomics instead?
 
-Sure, will consider these points and try improve tests afterwards.
+It does not make sense to maintain those atomics in many projects
+separately.
+
+Thanks,
+Florian
+-- 
+Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
+Commercial register: Amtsgericht Muenchen, HRB 153243,
+Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'Neill
+
 
 _______________________________________________
 linux-snps-arc mailing list
