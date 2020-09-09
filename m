@@ -7,81 +7,100 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33479C43461
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 10:19:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B93BC10DAA
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 10:27:36 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B804B21D7A
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 10:19:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4C2C121D81
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 10:27:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WZ19eyqi";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AcyXkOSC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B804B21D7A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fP8/yMWe";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="RrZs/nyX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C2C121D81
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:Date:References:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=qqBlZIZ9bjl/7Vx5eiTdJFVTn9lel6/wFm+A4wwcQNY=; b=WZ19eyqiJ4zsRBPh2uBg9fTYy
-	8fQQHM6fH6Cgx9LXnnIOzSK7wj/hFhxSYHclnkrXNQvkMCInYtYBOkmjPkye0MMjTHub4oKWWGx02
-	wtFo0zaptW4sQEQjc4KXGeGcXib9g/KpibhHfXg3cuLC1rAmM8GWUExL+xUhZPcH348dhydo4flVM
-	rE263dkMluQr0Qo4I/YeHJli0VXIGB6CcBd1kNTebv688DWaWEJivqCfqZgL8sqqJ0V834cCZEHdH
-	jTPYakO2Gq8Km3MrIAMzsgpgR8T69IO4gs4UaGclJfknMu369BSlmE7/B2oRJadvVow6FCiqgFQxA
-	AZTxdAeJA==;
+	 bh=lVWE99J690uVfCZgLLXbr9uImjUm04f8afb7fEzVyqk=; b=fP8/yMWeaXDHeZa7uO1vFYeLx
+	DCypBX0EZN7SUxB7EJFkCl/2Xsv+tk761hFjObWRaIIM93cLcJgQ9yX7qe1TGwWrKkzBB18iL+nPK
+	/XhdL0ZIlSNRhjEWKzPB/3nwDzV1F0MWhxxkPawGUoXN8DtihmSOr5VZtz2LgPwvpSo5nsyLPpqEk
+	78DhNjwwvcTcc13Sjofd5YPRynean6FRuueurAuwc8fbGO09CZ1iAWP8pDtyK/wuVD0YOuJqFO3h5
+	U7hYcysU1VKUTbNBLAnWxPoiEgh9p3ZMlMl/rdHgvObVxwqTAu4a+7Puwu3BdilyKrt2rOHgQRgpV
+	QRLvQT3qw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFxC8-0006lP-CS; Wed, 09 Sep 2020 10:19:16 +0000
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1kFxKB-0007bF-EX; Wed, 09 Sep 2020 10:27:35 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFxC6-0006ks-2i
- for linux-snps-arc@lists.infradead.org; Wed, 09 Sep 2020 10:19:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599646753;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wxOxLDtiqIK0JP/pqmW7fzgflOjd6ogWcA5vwWbvIgo=;
- b=AcyXkOSCPEsaVVh1IDxiL8r6Rz8IXxZCbmKSZDa1FgdwcV/3b1OVjQtYnqXi9o9nSfiofK
- YFBAz8QueHoSWiPpslENzgBk3kAP6/i58ivLEnXUPIAWCxuEs0xzYL5aifIoOpXvyd1jEn
- coV72oeEUaOH9XsF2fP2F3XTnvAhR5Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-NIoJTHUxPFqFIusWiug-nw-1; Wed, 09 Sep 2020 06:19:11 -0400
-X-MC-Unique: NIoJTHUxPFqFIusWiug-nw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02ECA1007467;
- Wed,  9 Sep 2020 10:19:10 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-112-83.ams2.redhat.com
- [10.36.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1149A7E8DA;
- Wed,  9 Sep 2020 10:19:08 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Vineet Gupta via Libc-alpha <libc-alpha@sourceware.org>
-Subject: Re: [PATCH] support: user more portable atomic wrappers
-References: <20200909033221.3549140-1-vgupta@synopsys.com>
-Date: Wed, 09 Sep 2020 12:19:07 +0200
-In-Reply-To: <20200909033221.3549140-1-vgupta@synopsys.com> (Vineet Gupta via
- Libc-alpha's message of "Tue, 8 Sep 2020 20:32:21 -0700")
-Message-ID: <87v9gnb6ck.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ id 1kFxK9-0007aV-II; Wed, 09 Sep 2020 10:27:34 +0000
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 089A2ZCv195896; Wed, 9 Sep 2020 06:27:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=YEpZ1XyTfdUWIVWwW3Ff4Nf6q12vIx7sVHOKBnj6u8g=;
+ b=RrZs/nyXQlGRttvQhgHGbvKfOEZGoDCilws/V+4CwBDa44UhPDRAaxyY3jjivUF5MXjG
+ /UTt3JbpYT1z3iOXfBkMc33Sr+MyuWVhywIJ5++70gLu30j1DNFnGFTkYTOsBvbHh+ZN
+ 0wCqUQanHg1LW8vapxWNSBS+1HIuPCcCbB2vPLvrdHu3UbJXE/8r9zioC+W9NHh/C8aU
+ +oHiIpos0DStadvKQ2TywX3i+81CE0v2IS3MUWD/JbzFVMdPjqSGiO1y8eUZndBYtDEm
+ 9PCrsfziZ8+CtnCa06ouY37h/5vB9ImP2vPO2tbvtt/5te/dVS7V2qaIXjfXbyRq2Mp+ Uw== 
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33evv38y7q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 09 Sep 2020 06:27:07 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 089ADJ3t012978;
+ Wed, 9 Sep 2020 10:27:06 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03wdc.us.ibm.com with ESMTP id 33cebutt38-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 09 Sep 2020 10:27:06 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 089AR6iG60686618
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 9 Sep 2020 10:27:06 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EF3336E050;
+ Wed,  9 Sep 2020 10:27:05 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3E60D6E04E;
+ Wed,  9 Sep 2020 10:27:01 +0000 (GMT)
+Received: from skywalker.linux.ibm.com (unknown [9.85.93.29])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  9 Sep 2020 10:27:00 +0000 (GMT)
+X-Mailer: emacs 27.1 (via feedmail 11-beta-1 I)
+From: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+To: Matthew Wilcox <willy@infradead.org>, linux-arch@vger.kernel.org
+Subject: Re: Flushing transparent hugepages
+In-Reply-To: <20200818150736.GQ17456@casper.infradead.org>
+References: <20200818150736.GQ17456@casper.infradead.org>
+Date: Wed, 09 Sep 2020 15:56:58 +0530
+Message-ID: <87tuw74559.fsf@linux.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=fweimer@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-09_03:2020-09-08,
+ 2020-09-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=521 adultscore=0
+ mlxscore=0 suspectscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
+ malwarescore=0 clxscore=1011 priorityscore=1501 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009090085
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200909_061914_160187_7FCD07EC 
-X-CRM114-Status: UNSURE (   9.05  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200909_062733_665245_A63CF401 
+X-CRM114-Status: GOOD (  25.35  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,29 +112,57 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- linux-snps-arc@lists.infradead.org
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Will Deacon <will@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
+ Russell King <linux@armlinux.org.uk>, linux-mips@vger.kernel.org,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, sparclinux@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-* Vineet Gupta via Libc-alpha:
+Matthew Wilcox <willy@infradead.org> writes:
 
-> This came up in a nascent arc64 port, lacking gcc atomics for now
+> PowerPC has special handling of hugetlbfs pages.  Well, that's what
+> the config option says, but actually it handles THP as well.  If
+> the config option is enabled.
+>
+> #ifdef CONFIG_HUGETLB_PAGE
+>         if (PageCompound(page)) {
+>                 flush_dcache_icache_hugepage(page);
+>                 return;
+>         }
+> #endif
 
-Can you please change the GCC port to provide atomics instead?
+I do have a change posted sometime back to avoid that confusion.
+http://patchwork.ozlabs.org/project/linuxppc-dev/patch/20200320103256.229365-1-aneesh.kumar@linux.ibm.com/
 
-It does not make sense to maintain those atomics in many projects
-separately.
+But IIUC we use the head page flags (PG_arch_1) to track whether we need
+the flush or not.
 
-Thanks,
-Florian
--- 
-Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
-Commercial register: Amtsgericht Muenchen, HRB 153243,
-Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'Neill
-
+>
+> By the way, THPs can be mapped askew -- that is, at an offset which
+> means you can't use a PMD to map a PMD sized page.
+>
+> Anyway, we don't really have consensus between the various architectures
+> on how to handle either THPs or hugetlb pages.  It's not contemplated
+> in Documentation/core-api/cachetlb.rst so there's no real surprise
+> we've diverged.
+>
+> What would you _like_ to see?  Would you rather flush_dcache_page()
+> were called once for each subpage, or would you rather maintain
+> the page-needs-flushing state once per compound page?  We could also
+> introduce flush_dcache_thp() if some architectures would prefer it one
+> way and one the other, although that brings into question what to do
+> for hugetlbfs pages.
+>
+> It might not be a bad idea to centralise the handling of all this stuff
+> somewhere.  Sounds like the kind of thing Arnd would like to do ;-) I'll
+> settle for getting enough clear feedback about what the various arch
+> maintainers want that I can write a documentation update for cachetlb.rst.
 
 _______________________________________________
 linux-snps-arc mailing list
