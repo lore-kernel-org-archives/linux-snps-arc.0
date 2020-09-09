@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C669C433E2
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 11:10:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B43C43461
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 11:16:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E8F51207DE
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 11:10:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4509921D7A
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2020 11:16:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lgePJYwC";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="n0WYgDx4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E8F51207DE
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ljgnS8Lm";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="iaMEMAKO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4509921D7A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,71 +26,71 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=0dgQ1HnhUCr801vmEnsU2/tgLdMAuqbcwsws0cTUDy4=; b=lgePJYwCcpd/ITmWA3SEblo2m
-	VKJScJCsdydFZvTrrGEyKZIf9JPOZ1a+XpXUU/FLFeoesF+eLsjqPDtH4OAU9cqfy+FgQ6BQewmU2
-	/LgsnyxP8EBmO+wEsjVhia6H4Z5p8IUEAH7sMY22mH8cuw+NsFnCapEWBF2aDOR+YNNF7y0wMnzqt
-	45N/aEB7mEoirASuUISHwdtagFqawv4z0G97//RZSUZcdniVbFxgGBe8qW2ongnf04b/5EIoeHoaS
-	NBhJuvonjdHHVUuc2CYa2u2edALm7P41wM7ptDMy4MHPFK/5wIwVX/Hwwj9Z3ycpaj6SOxhU4LoKh
-	wwUA/Kz8Q==;
+	 bh=tdqun2eS7gSvU7HFBikKnDTZxHRyfywUCvO9vypLf7g=; b=ljgnS8Lma1Lf1CJSk+aOVVkUs
+	FCVWc1wBLbXNUf5E2hJEykCY8SOMJBCszcY7nDYGytVaEsi85LUo2GQbGIzOfjfW/7abXE8Ej8K8/
+	eSuoRPsUiish8KuKyS57qY4tupaGpuoVuVL8favOf4016yiCS8dv4jdrb5eSr26LiinwsVnL3mNxP
+	sxOzb0AqK7cFxxS/Zg92gZg9Jkp2H93IwumDWTH+1Jg9E5fHme/JHYrWPhpnnG+v7s1RwdGNhZgGF
+	mpJWgxuaUJMTqh15xcpFVxTk3BYYNJB52ud5wSnp7mC9LljkgvNR8pDm4Ket3KTVFufHUy6py5ToD
+	jUFpuCtPA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFxzX-0003uT-7k; Wed, 09 Sep 2020 11:10:19 +0000
+	id 1kFy5w-0004rg-A0; Wed, 09 Sep 2020 11:16:56 +0000
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
  helo=mx0a-001b2d01.pphosted.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFxzV-0003tZ-UF; Wed, 09 Sep 2020 11:10:18 +0000
+ id 1kFy5t-0004qu-SP; Wed, 09 Sep 2020 11:16:54 +0000
 Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 089B2lLN092037; Wed, 9 Sep 2020 07:10:08 -0400
+ 089B2nJd092122; Wed, 9 Sep 2020 07:16:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=date : from : to : cc :
  subject : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=pp1;
- bh=sCHf8+v1z0J9ln9975zsHf4Oi+ryxNbRmCK/IUzVPlo=;
- b=n0WYgDx4uS2LNO7C+UIA2TZ22DbWM1GT9lLU8O+eGJ8EkiyNNal6g/0ThLsc/C6Rmzfe
- lpgpyDs5PNaThrXdsyVpAm07LWFOOJ62tOp0GvkOg+zng8xQcVRHLOREBohB3ON4UHe8
- GBfS82XxbRWbJ/LSmkLeWlQLMPucHolgawl2glM4CU+v/C82dRTbQqek2bVf+xHHDNu4
- zXm7fgSNIjYOOonwco9THzE2MlHGB8mcmrL82poROQ01AFon74J7fKmcRBRlv0jUBSLj
- Fd8zfv3DF6qXZYHkfBzceUAEgcW/fKsVWu4MgKMfdd4N7TSoNB3hqFKG+iFK/UHma7f1 5w== 
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0b-001b2d01.pphosted.com with ESMTP id 33ewhcgtxg-1
+ bh=riUQZa+/LVXf6Ou5pnmw20PmDmt4IrioJwwAUmCDr/A=;
+ b=iaMEMAKOq6a3SWW/R67/MPK2hEPA6LY1MbfVPorsKPvvZqLyV4KVRlECm01bDKqCgCFI
+ aQcFM56KMHBk6Ag+PZe8M+OmEOLRP5UZ2og3ghQt92WVO5VrPLEc/B6tb30lxK69nOrm
+ ZLBFHmuS4Uya0/LsIj6cz7rOGDz0Mi87rZQR3vxr5AcRrk+Sr8qI9sEL4dXi677v/Tjg
+ WsOOZYW29FyRlSW8VbDq8b+oPR25QhUBYzL0QGTypHVWA0OmxZX47z7COkOpgaUq2gaM
+ FVofmX6Dh2vuGbS4IEWvMWvLPrJU91EeRJW2kyKT2x5bYd7+AFOZgO3Oth1TPKWrb3oR mg== 
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33ewhch1ue-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Sep 2020 07:10:08 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 089B8GXS032086;
- Wed, 9 Sep 2020 11:10:06 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04fra.de.ibm.com with ESMTP id 33cm5hj7b0-1
+ Wed, 09 Sep 2020 07:16:46 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 089BDUkw021098;
+ Wed, 9 Sep 2020 11:16:44 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06fra.de.ibm.com with ESMTP id 33e5gmrput-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Sep 2020 11:10:06 +0000
+ Wed, 09 Sep 2020 11:16:44 +0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 089BA3eJ64881038
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 089BGfxa35062080
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 9 Sep 2020 11:10:03 GMT
+ Wed, 9 Sep 2020 11:16:41 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A7C8EAE055;
- Wed,  9 Sep 2020 11:10:03 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3A47AAE057;
+ Wed,  9 Sep 2020 11:16:41 +0000 (GMT)
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 33122AE053;
- Wed,  9 Sep 2020 11:10:03 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 9FE6EAE045;
+ Wed,  9 Sep 2020 11:16:40 +0000 (GMT)
 Received: from thinkpad (unknown [9.171.79.102])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed,  9 Sep 2020 11:10:03 +0000 (GMT)
-Date: Wed, 9 Sep 2020 13:10:01 +0200
+ Wed,  9 Sep 2020 11:16:40 +0000 (GMT)
+Date: Wed, 9 Sep 2020 13:16:38 +0200
 From: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
+To: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
 Subject: Re: [PATCH v4 00/13] mm/debug_vm_pgtable fixes
-Message-ID: <20200909131001.7b733b3e@thinkpad>
-In-Reply-To: <ac85fd77-bca1-3318-de0e-eea40558cbbd@arm.com>
+Message-ID: <20200909131638.4a95e806@thinkpad>
+In-Reply-To: <87wo134h3s.fsf@linux.ibm.com>
 References: <20200902114222.181353-1-aneesh.kumar@linux.ibm.com>
  <bb0f3427-e2bd-f713-3ea8-d264be0e690b@arm.com>
  <20200904172647.002113d3@thinkpad>
  <20200904180115.07ee5f00@thinkpad>
- <ac85fd77-bca1-3318-de0e-eea40558cbbd@arm.com>
+ <20200908173906.30fffaa0@thinkpad> <87wo134h3s.fsf@linux.ibm.com>
 X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
@@ -99,13 +99,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  2020-09-09 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  adultscore=0 clxscore=1015
- priorityscore=1501 mlxscore=0 mlxlogscore=627 bulkscore=0 impostorscore=0
+ priorityscore=1501 mlxscore=0 mlxlogscore=999 bulkscore=0 impostorscore=0
  suspectscore=0 phishscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2009090095
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200909_071018_038466_6B4DAA9D 
-X-CRM114-Status: GOOD (  21.07  )
+X-CRM114-CacheID: sfid-20200909_071654_002599_E45B06E4 
+X-CRM114-Status: GOOD (  26.79  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,8 +118,8 @@ List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, linux-mm@kvack.org,
- Vineet Gupta <vgupta@synopsys.com>, mpe@ellerman.id.au,
+ Anshuman Khandual <anshuman.khandual@arm.com>, mpe@ellerman.id.au,
+ linux-mm@kvack.org, Vineet Gupta <vgupta@synopsys.com>,
  akpm@linux-foundation.org,
  "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
  linuxppc-dev@lists.ozlabs.org, linux-riscv <linux-riscv@lists.infradead.org>,
@@ -129,34 +129,53 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, 9 Sep 2020 13:45:48 +0530
-Anshuman Khandual <anshuman.khandual@arm.com> wrote:
+On Wed, 09 Sep 2020 11:38:39 +0530
+"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com> wrote:
 
-[...]
-> > 
-> > That would more match the "pte_t pointer" usage for hugetlb code,
-> > i.e. just cast a pmd_t pointer to it. Also changed to pmd_aligned,
-> > but I think the root cause is the pte_t pointer.
+> Gerald Schaefer <gerald.schaefer@linux.ibm.com> writes:
 > 
-> Ideally, the pte_t pointer used here should be from huge_pte_alloc()
-> not from pte_alloc_map_lock() as the case currently.
+> > On Fri, 4 Sep 2020 18:01:15 +0200
+> > Gerald Schaefer <gerald.schaefer@linux.ibm.com> wrote:
+> >
+> > [...]
+> >> 
+> >> BTW2, a quick test with this change (so far) made the issues on s390
+> >> go away:
+> >> 
+> >> @@ -1069,7 +1074,7 @@ static int __init debug_vm_pgtable(void)
+> >>         spin_unlock(ptl);
+> >> 
+> >>  #ifndef CONFIG_PPC_BOOK3S_64
+> >> -       hugetlb_advanced_tests(mm, vma, ptep, pte_aligned, vaddr, prot);
+> >> +       hugetlb_advanced_tests(mm, vma, (pte_t *) pmdp, pmd_aligned, vaddr, prot);
+> >>  #endif
+> >> 
+> >>         spin_lock(&mm->page_table_lock);
+> >> 
+> >> That would more match the "pte_t pointer" usage for hugetlb code,
+> >> i.e. just cast a pmd_t pointer to it. Also changed to pmd_aligned,
+> >> but I think the root cause is the pte_t pointer.
+> >> 
+> >> Not entirely sure though if that would really be the correct fix.
+> >> I somehow lost whatever little track I had about what these tests
+> >> really want to check, and if that would still be valid with that
+> >> change.
+> >
+> > Uh oh, wasn't aware that this (or some predecessor) already went
+> > upstream, and broke our debug kernel today.
+> 
+> Not sure i followed the above. Are you finding that s390 kernel crash
+> after this patch series or the original patchset? As noted in my patch
+> the hugetlb test is broken and we should fix that. A quick fix is to
+> comment out that test for s390 too as i have done for PPC64.
 
-Ah, good point. I assumed that this would also always return casted
-pmd etc. pointers, and never pte pointers. Unfortunately, that doesn't
-seem to be true for all architectures, e.g. ia64, parisc, (some) powerpc,
-where they really do a pte_alloc_map() for some reason.
+We see it with both, it basically is broken since there is a hugetlb
+test using real pte pointers. It doesn't always show, depending on
+random vaddr, so it slipped through earlier testing.
 
-I guess that means you cannot simply cast the pmd pointer, as suggested,
-although I really do not understand how any architecture can work with
-real ptes for hugepages. But that's fair, s390 also does some things that
-nobody would expect or understand for other architectures...
-
-So, for using huge_pte_alloc() you'd also need some size, maybe
-iterating over hstates with for_each_hstate() could be an option,
-if they are already initialized at that point. Then you have the
-size(s) with huge_page_size(hstate) and can actually call the
-hugetlb tests for all supported sizes, and with proper pointer
-from huge_pte_alloc().
+I guess we also would have had one or the other chance to notice
+that earlier, through better review, or better reading of previous
+mails. I must admit that I neglected this a bit.
 
 _______________________________________________
 linux-snps-arc mailing list
