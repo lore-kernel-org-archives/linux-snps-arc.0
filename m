@@ -7,60 +7,88 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A84C43464
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 19 Sep 2020 17:39:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE4FC43464
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 19 Sep 2020 19:20:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 380CA207BB
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 19 Sep 2020 17:39:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 553692075E
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 19 Sep 2020 19:20:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ePfaAA0N";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GA8JmFgA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 380CA207BB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="h/OtbMih";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="SNvzyY/D"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 553692075E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=qu9UKQ7UyOth2BcDsnpBunalZrmLkJX1J8n6YYrmFbA=; b=ePfaAA0NgOq526bwLsFqYmVC0
-	6VrLVd8TOpYJoXJ5beRipPwhhksBlaIjHl15rN3isBaYjHlP7l4LRmU0NGQ4tMKNpeOPv6m9Cm+Sf
-	H6eWfQ4UT61plNvKzVv1yKBadjI+YQ5nv4I/EqHW03+ZbXEENakHMVs4QaPQ5ubG0voU4AuyP/LLu
-	GAVz1QvzMfZVQwI9Mc14q+1/AjmvcYhSgkaYR3Uln3qIybCMOEIhvn8eao9j5U6D31pLGOz0U5tra
-	gNLKJ+Pmx6RizkATLKhbwtJsdteAn5LU8M0zhAWg6eVk7mjcRPfO7/axyrCcv5uwmrr3R88n/oUfq
-	YQ9oOS5iQ==;
+	 bh=YL7nbrYqH8ZqpL3eE6A64UXeq0x/QW1RJ5GjZjwb5hQ=; b=h/OtbMih2hFkXG43+18/FKbR+
+	8GtCHWkbzEJu1bV9MtIAlvZA5NCWY7BBnPF/6EAOgpvxrxcIqVX2DgT+4ZulhP7fwxM2WYAW7VOqW
+	uTnRxFVpBN7fiRk3eLinZRDd96L+9+ZCSx7vKckXiKGbP3ELXU7HcefAUpNWLi5bXRIc2gk8kJr0+
+	zVK8YilGKfms5Yo2c3NKFQF6tLumuvcJuH8cjW5YUd9SdyIFvRubDHwtQ8WBaih0L9asjJk2zc2vf
+	VSDbvIgG8MtWtvoUifjs+22LqaVoQoGqSsH3hZf6xqM2l88a+sxPW1QpLb7VZzbFRh+cYhq8VWThH
+	5XGnpp5Eg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kJgpW-0006wp-BL; Sat, 19 Sep 2020 17:39:22 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1kJiPN-0002b2-E5; Sat, 19 Sep 2020 19:20:29 +0000
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kJgpS-0006wQ-Py; Sat, 19 Sep 2020 17:39:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=K7cFTcsHe45qv1JJ+UknwUT4mvbkrB+z2Jy5+goIZf0=; b=GA8JmFgANuCgqfeQ26a1OMpRZE
- ZlbdTi1XaGMnZkdmimNhxcmAfB4GoKEHChTyR/daa8IK0MpK+Ph2ryH9b//aJ7p80Ibs7l4BswfKA
- sIzYu18LtoXosTxZAkge/rc7Gjb4PaaE+FfoSKec+IBx6JDUvF50gAZCGBJozVv3Q9TlSsMTvnq4U
- keH99iWU1/g/8GqcgNItUNMFJkFHNg8zhSjOTYLGYkT6E6wJJ/7Hz/Yg8vF2N30AJY+JgAxJpcH7t
- m+E+NNmErAuLXNLlz9CT3fJe5cNWm4y9wNwF8wRjFWgpkB/kQEiLyYiDCjBe1dWILsbbqWV9yJF6I
- kDktgdcw==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red
- Hat Linux)) id 1kJgpG-0007zK-4s; Sat, 19 Sep 2020 17:39:06 +0000
-Date: Sat, 19 Sep 2020 18:39:06 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
- kmap_atomic & friends
-Message-ID: <20200919173906.GQ32101@casper.infradead.org>
+ id 1kJiPL-0002aZ-JP
+ for linux-snps-arc@lists.infradead.org; Sat, 19 Sep 2020 19:20:28 +0000
+Received: by mail-ed1-x541.google.com with SMTP id ay8so9149901edb.8
+ for <linux-snps-arc@lists.infradead.org>; Sat, 19 Sep 2020 12:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=10sVGN8u2TwfCpnAq/jp4iLrESxL2PzGGvVZbBHI37U=;
+ b=SNvzyY/D28nrQ/9in1B6Dzi002SQEpeIWQ8e1hzmI9hVRDCDcHjzeJE8AlbYJKjj8B
+ G7NnpY7h0luEeygyoDxqLDk2AWGbQCdyloo3Y9XIxWLvxZdXjZ/NeK2kaD/mL0YWoior
+ T+0jhpZUK76WT2Sz7na41qAPiBNog2OUpnoIA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=10sVGN8u2TwfCpnAq/jp4iLrESxL2PzGGvVZbBHI37U=;
+ b=qwbmn0LyCJG1BRjNT6H2E/m87BdX0nyX+3v2UTLrI4PojP2dF4UJ06NdBYXQJrgGrl
+ 5zSUV+9cpfDNYsUQ8ClJ/LBqcvdbX56BARlSFGgawhB4XxcDTsKwT8Py1rEIBvjJ1tXU
+ mUWaTjoPytQZJI0HatWSAB/A7PgNIiQzpIr8qAIUQzjk9VxillmigeDuheIEdedj8779
+ F1j1xmcvKz18rWEV4pBJX8JHbZbwbxCkWh3CkdtI4h6Q8P26w2SJm1SyE3Xq+O/RrDfD
+ /G4JDopk6ihelq77sWE2awkfePxhq4xqb2dnebCK54LS2tP86jkHq1pxMrhuo+rYjT2U
+ 3nJg==
+X-Gm-Message-State: AOAM531VbNOwn6PA3zCwRAWs3v1xIcKFlnGwRdS/GV2a4SBUI4EawQXy
+ Wmv9VJjQ0O9WCzKoMbO8fpeETSk3SB1K+Q==
+X-Google-Smtp-Source: ABdhPJyQ/5M2N6PLGTkKkjJGc7QlxeqssiFgrsFlTsbLHUtyg7Pyu2+74qq4cFbHKoMEWs47BkCJPQ==
+X-Received: by 2002:aa7:d88a:: with SMTP id u10mr45216868edq.217.1600543226265; 
+ Sat, 19 Sep 2020 12:20:26 -0700 (PDT)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com.
+ [209.85.208.53])
+ by smtp.gmail.com with ESMTPSA id x6sm4965558ejf.59.2020.09.19.12.20.25
+ for <linux-snps-arc@lists.infradead.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 19 Sep 2020 12:20:26 -0700 (PDT)
+Received: by mail-ed1-f53.google.com with SMTP id l17so9113383edq.12
+ for <linux-snps-arc@lists.infradead.org>; Sat, 19 Sep 2020 12:20:25 -0700 (PDT)
+X-Received: by 2002:a19:8907:: with SMTP id l7mr12464193lfd.105.1600542797553; 
+ Sat, 19 Sep 2020 12:13:17 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200919091751.011116649@linutronix.de>
  <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
+ <20200919173906.GQ32101@casper.infradead.org>
+In-Reply-To: <20200919173906.GQ32101@casper.infradead.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sat, 19 Sep 2020 12:13:01 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgyVxGaYkL71DhHgmyU=tE=4rEHgAkOYRq=1-9+q_adAw@mail.gmail.com>
+Message-ID: <CAHk-=wgyVxGaYkL71DhHgmyU=tE=4rEHgAkOYRq=1-9+q_adAw@mail.gmail.com>
+Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
+ kmap_atomic & friends
+To: Matthew Wilcox <willy@infradead.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200919_152027_652258_BABA84D9 
+X-CRM114-Status: GOOD (  16.41  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,53 +137,17 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, Sep 19, 2020 at 10:18:54AM -0700, Linus Torvalds wrote:
-> On Sat, Sep 19, 2020 at 2:50 AM Thomas Gleixner <tglx@linutronix.de> wrote:
-> >
-> > this provides a preemptible variant of kmap_atomic & related
-> > interfaces. This is achieved by:
-> 
-> Ack. This looks really nice, even apart from the new capability.
-> 
-> The only thing I really reacted to is that the name doesn't make sense
-> to me: "kmap_temporary()" seems a bit odd.
-> 
-> Particularly for an interface that really is basically meant as a
-> better replacement of "kmap_atomic()" (but is perhaps also a better
-> replacement for "kmap()").
-> 
-> I think I understand how the name came about: I think the "temporary"
-> is there as a distinction from the "longterm" regular kmap(). So I
-> think it makes some sense from an internal implementation angle, but I
-> don't think it makes a lot of sense from an interface name.
-> 
-> I don't know what might be a better name, but if we want to emphasize
-> that it's thread-private and a one-off, maybe "local" would be a
-> better naming, and make it distinct from the "global" nature of the
-> old kmap() interface?
-> 
-> However, another solution might be to just use this new preemptible
-> "local" kmap(), and remove the old global one entirely. Yes, the old
-> global one caches the page table mapping and that sounds really
-> efficient and nice. But it's actually horribly horribly bad, because
-> it means that we need to use locking for them. Your new "temporary"
-> implementation seems to be fundamentally better locking-wise, and only
-> need preemption disabling as locking (and is equally fast for the
-> non-highmem case).
-> 
-> So I wonder if the single-page TLB flush isn't a better model, and
-> whether it wouldn't be a lot simpler to just get rid of the old
-> complex kmap() entirely, and replace it with this?
-> 
-> I agree we can't replace the kmap_atomic() version, because maybe
-> people depend on the preemption disabling it also implied. But what
-> about replacing the non-atomic kmap()?
+On Sat, Sep 19, 2020 at 10:39 AM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> My concern with that is people might use kmap() and then pass the address
+> to a different task.  So we need to audit the current users of kmap()
+> and convert any that do that into using vmap() instead.
 
-My concern with that is people might use kmap() and then pass the address
-to a different task.  So we need to audit the current users of kmap()
-and convert any that do that into using vmap() instead.
+Ahh. Yes, I guess they might do that. It sounds strange, but not
+entirely crazy - I could imagine some "PIO thread" that does IO to a
+page that has been set up by somebody else using kmap(). Or similar.
 
-I like kmap_local().  Or kmap_thread().
+                Linus
 
 _______________________________________________
 linux-snps-arc mailing list
