@@ -1,68 +1,73 @@
-Return-Path: <SRS0=3D0g=C3=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=Kv/D=C4=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32453C43463
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Sep 2020 11:23:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB1BC47426
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 19 Sep 2020 09:50:39 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CDD3721D42
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Sep 2020 11:23:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2879A20DD4
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 19 Sep 2020 09:50:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bge4H8Oo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CDD3721D42
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GgFqakJa";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="U6fqw0lO";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YU/1SbOA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2879A20DD4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=JlvieTROqvjyK+Zje9HCTdSzgldCqk5a0PIwgMQL+yQ=; b=bge4H8OoPDNbHhR2ipiBgtKSL
-	GhLJcW3v70XFAaL+qjlNiuabYWhZzsM3HQVeQBTViCnodE6NoZogWkFlnv319bY7K1/0amdsCFSUe
-	fdE4qQiDXYNeZKR5z/BS+6/hWRlMM20IzWgR+lz0+scW7B6x8BeWYC/+C9C8lELBlTpuNqI0tk0Z4
-	gHehlPOD0o+XuGx/OQMjTbGh5R2c/ntNAcVNLq0SsM5mpnDYYSKEjvFW9ol4NV/Xd5Rq6jsMLhqUc
-	VrqT1CCzWUQZ26G59tvK6n71AXWy2rYZ9lcps6gtNNRR+xW2fKd0tWjjbu2R9JypLca47Y5baFDvd
-	m92FFkv2w==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Subject:To:From:Date:
+	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=HDq644u6T70vAIEUCwPJaO0Kv4qr7OpyqqyD+XR1lQQ=; b=GgFqakJakvM0i5ok1XIkJzxN2
+	qfqa1GqLPZbNZhtU8kOYn12iX/FNGcVR24byzn1hftgc62A+bnMq4hFwEKBrIC6GLWtpJ4ImyoF/j
+	jYZriFL8nckWu+QoFQPVg2l3hdCoq5/QTlKEcTjMn4OPU1orBNgvhHVWuuq8J6pbBGtOwRIXjHg21
+	7y995RJO1lAxJpsvaddjQGqTCX2/LbJSoaHElTJflkVl7nqg1ZC9RiOnIUQqJYD7vy1kqiR+0Y/ez
+	+e8ctekyi9qthFAVAFrB7ek6095KmcWP9oWRzjU3pUbDCG6bqfDF1b8QC02P2GmMessF85u6o++EE
+	Ri7F4xMbA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kJETu-00020O-7M; Fri, 18 Sep 2020 11:23:10 +0000
-Received: from szxga04-in.huawei.com ([45.249.212.190] helo=huawei.com)
+	id 1kJZVr-0003TB-IB; Sat, 19 Sep 2020 09:50:36 +0000
+Received: from galois.linutronix.de ([193.142.43.55])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kJETq-0001wF-Ri
- for linux-snps-arc@lists.infradead.org; Fri, 18 Sep 2020 11:23:08 +0000
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 5271EADEF9CA90532B09;
- Fri, 18 Sep 2020 19:22:57 +0800 (CST)
-Received: from thunder-town.china.huawei.com (10.174.177.253) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 18 Sep 2020 19:22:47 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Jason Cooper <jason@lakedaemon.net>, 
- Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Alexey
- Brodkin" <abrodkin@synopsys.com>, Vineet Gupta <vgupta@synopsys.com>,
- devicetree <devicetree@vger.kernel.org>, linux-snps-arc
- <linux-snps-arc@lists.infradead.org>, linux-kernel
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 3/6] irqchip: dw-apb-ictl: support hierarchy irq domain
-Date: Fri, 18 Sep 2020 19:21:59 +0800
-Message-ID: <20200918112202.3418-4-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20200918112202.3418-1-thunder.leizhen@huawei.com>
-References: <20200918112202.3418-1-thunder.leizhen@huawei.com>
+ id 1kJZVL-0003B9-RG; Sat, 19 Sep 2020 09:50:04 +0000
+Message-Id: <20200919092615.879315697@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1600509001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:  references:references;
+ bh=H19N93lyCWKUFrJfknJveCBx/SKVmbFW8Yl82i7bCJA=;
+ b=U6fqw0lOwRRvIGe/7IzbGf1Hqghw0ykyVeiK7gVdoSzy4eqGuEga+Id5p+KPktWpCVdzmK
+ aV0Z4FPPg7rGCSmfQXi1uk2t8w2P29Uep6GMCn47Sn6S/JkyDkBodYAl//JRgWDPBzL2mU
+ WcC0bRk2IQjTTMHKXJiFVz+5C0MTTLHH4a1alauXsy5v4plgP/T1tIfQZXGbV2jMc4rbfz
+ Y3BE6uq25uZJkKeGmxAKWr9klMDY4mJbZgTnEgGGhqJ+FZWjm2MjP1C9JNxPwHqYoIC8Io
+ nA1UXQDNDtnvjnQ/ivPlJLT+094/Nqjbl9461P5VTyE1ySxcWJb/J/q3UB0Ytg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1600509001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:  references:references;
+ bh=H19N93lyCWKUFrJfknJveCBx/SKVmbFW8Yl82i7bCJA=;
+ b=YU/1SbOA+qMlJhFqk1C7pS2Lm8Q3mBHsYZZQkFTg+LuWwrYQJ/Kqfx66UoYa85NJCFtsm9
+ MelcZbcHhGbfVZBA==
+Date: Sat, 19 Sep 2020 11:17:52 +0200
+From: Thomas Gleixner <tglx@linutronix.de>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [patch RFC 01/15] mm/highmem: Un-EXPORT __kmap_atomic_idx()
+References: <20200919091751.011116649@linutronix.de>
 MIME-Version: 1.0
-X-Originating-IP: [10.174.177.253]
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200918_072307_665408_600E08E9 
-X-CRM114-Status: GOOD (  18.36  )
+X-CRM114-CacheID: sfid-20200919_055004_001090_36CC4476 
+X-CRM114-Status: GOOD (  11.34  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,154 +79,59 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Haoyu Lv <lvhaoyu@huawei.com>, Kefeng Wang <wangkefeng.wang@huawei.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Libin <huawei.libin@huawei.com>, Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
+ sparclinux@vger.kernel.org, Vincent Chen <deanbo422@gmail.com>,
+ Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ linux-arch@vger.kernel.org, Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Mel Gorman <mgorman@suse.de>,
+ linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+ Paul McKenney <paulmck@kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, linuxppc-dev@lists.ozlabs.org,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Linus Torvalds <torvalds@linuxfoundation.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
+ Vineet Gupta <vgupta@synopsys.com>, linux-mips@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Greentime Hu <green.hu@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Add support to use dw-apb-ictl as primary interrupt controller.
+Nothing in modules can use that.
 
-Suggested-by: Marc Zyngier <maz@kernel.org>
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-Tested-by: Haoyu Lv <lvhaoyu@huawei.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
- drivers/irqchip/Kconfig           |  2 +-
- drivers/irqchip/irq-dw-apb-ictl.c | 74 ++++++++++++++++++++++++++++++++++-----
- 2 files changed, 67 insertions(+), 9 deletions(-)
+ mm/highmem.c |    2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index bfc9719dbcdc31c..7c2d1c8fa551a66 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -148,7 +148,7 @@ config DAVINCI_CP_INTC
- config DW_APB_ICTL
- 	bool
- 	select GENERIC_IRQ_CHIP
--	select IRQ_DOMAIN
-+	select IRQ_DOMAIN_HIERARCHY
+--- a/mm/highmem.c
++++ b/mm/highmem.c
+@@ -108,8 +108,6 @@ static inline wait_queue_head_t *get_pkm
+ atomic_long_t _totalhigh_pages __read_mostly;
+ EXPORT_SYMBOL(_totalhigh_pages);
  
- config FARADAY_FTINTC010
- 	bool
-diff --git a/drivers/irqchip/irq-dw-apb-ictl.c b/drivers/irqchip/irq-dw-apb-ictl.c
-index 5458004242e9d20..418183b9983dfad 100644
---- a/drivers/irqchip/irq-dw-apb-ictl.c
-+++ b/drivers/irqchip/irq-dw-apb-ictl.c
-@@ -17,6 +17,7 @@
- #include <linux/irqchip/chained_irq.h>
- #include <linux/of_address.h>
- #include <linux/of_irq.h>
-+#include <linux/interrupt.h>
- 
- #define APB_INT_ENABLE_L	0x00
- #define APB_INT_ENABLE_H	0x04
-@@ -26,6 +27,27 @@
- #define APB_INT_FINALSTATUS_H	0x34
- #define APB_INT_BASE_OFFSET	0x04
- 
-+/* irq domain of the primary interrupt controller. */
-+static struct irq_domain *dw_apb_ictl_irq_domain;
-+
-+static void __irq_entry dw_apb_ictl_handle_irq(struct pt_regs *regs)
-+{
-+	struct irq_domain *d = dw_apb_ictl_irq_domain;
-+	int n;
-+
-+	for (n = 0; n < d->revmap_size; n += 32) {
-+		struct irq_chip_generic *gc = irq_get_domain_generic_chip(d, n);
-+		u32 stat = readl_relaxed(gc->reg_base + APB_INT_FINALSTATUS_L);
-+
-+		while (stat) {
-+			u32 hwirq = ffs(stat) - 1;
-+
-+			handle_domain_irq(d, hwirq, regs);
-+			stat &= ~BIT(hwirq);
-+		}
-+	}
-+}
-+
- static void dw_apb_ictl_handle_irq_cascaded(struct irq_desc *desc)
- {
- 	struct irq_domain *d = irq_desc_get_handler_data(desc);
-@@ -50,6 +72,30 @@ static void dw_apb_ictl_handle_irq_cascaded(struct irq_desc *desc)
- 	chained_irq_exit(chip, desc);
- }
- 
-+static int dw_apb_ictl_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
-+				unsigned int nr_irqs, void *arg)
-+{
-+	int i, ret;
-+	irq_hw_number_t hwirq;
-+	unsigned int type = IRQ_TYPE_NONE;
-+	struct irq_fwspec *fwspec = arg;
-+
-+	ret = irq_domain_translate_onecell(domain, fwspec, &hwirq, &type);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < nr_irqs; i++)
-+		irq_map_generic_chip(domain, virq + i, hwirq + i);
-+
-+	return 0;
-+}
-+
-+static const struct irq_domain_ops dw_apb_ictl_irq_domain_ops = {
-+	.translate = irq_domain_translate_onecell,
-+	.alloc = dw_apb_ictl_irq_domain_alloc,
-+	.free = irq_domain_free_irqs_top,
-+};
-+
- #ifdef CONFIG_PM
- static void dw_apb_ictl_resume(struct irq_data *d)
- {
-@@ -75,13 +121,20 @@ static int __init dw_apb_ictl_init(struct device_node *np,
- 	void __iomem *iobase;
- 	int ret, nrirqs, parent_irq, i;
- 	u32 reg;
--	const struct irq_domain_ops *domain_ops = &irq_generic_chip_ops;
+-EXPORT_PER_CPU_SYMBOL(__kmap_atomic_idx);
 -
--	/* Map the parent interrupt for the chained handler */
--	parent_irq = irq_of_parse_and_map(np, 0);
--	if (parent_irq <= 0) {
--		pr_err("%pOF: unable to parse irq\n", np);
--		return -EINVAL;
-+	const struct irq_domain_ops *domain_ops;
-+
-+	if (!parent || (np == parent)) {
-+		/* It's used as the primary interrupt controller */
-+		parent_irq = 0;
-+		domain_ops = &dw_apb_ictl_irq_domain_ops;
-+	} else {
-+		/* Map the parent interrupt for the chained handler */
-+		parent_irq = irq_of_parse_and_map(np, 0);
-+		if (parent_irq <= 0) {
-+			pr_err("%pOF: unable to parse irq\n", np);
-+			return -EINVAL;
-+		}
-+		domain_ops = &irq_generic_chip_ops;
- 	}
- 
- 	ret = of_address_to_resource(np, 0, &r);
-@@ -146,8 +199,13 @@ static int __init dw_apb_ictl_init(struct device_node *np,
- 		gc->chip_types[0].chip.irq_resume = dw_apb_ictl_resume;
- 	}
- 
--	irq_set_chained_handler_and_data(parent_irq,
-+	if (parent_irq) {
-+		irq_set_chained_handler_and_data(parent_irq,
- 				dw_apb_ictl_handle_irq_cascaded, domain);
-+	} else {
-+		dw_apb_ictl_irq_domain = domain;
-+		set_handle_irq(dw_apb_ictl_handle_irq);
-+	}
- 
- 	return 0;
- 
--- 
-1.8.3
-
+ unsigned int nr_free_highpages (void)
+ {
+ 	struct zone *zone;
 
 
 _______________________________________________
