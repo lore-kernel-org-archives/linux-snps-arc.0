@@ -4,73 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCBCCC43466
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 20 Sep 2020 08:49:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FADEC43465
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 20 Sep 2020 16:58:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3504C20897
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 20 Sep 2020 08:49:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8EB9020EDD
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 20 Sep 2020 16:58:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0GN+3j7f";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="h8jv+ylt";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZMmhQ6D7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3504C20897
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DhsDKbLR";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="O7YDY5EZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8EB9020EDD
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=AaTt3mw3W8kuVyCvjrHZUOAufROf4KA6IFTF3wL9WRU=; b=0GN+3j7f6NKpRrkIEeBFci41C
-	JngRXQd2rR8kbxLVUAYahyQb52LkHef+ZHAWMWmaZ62BU/iV1vDTw9eJCMqjsCFYpkroAop17AVXb
-	eGpO9mp34ZODdq2FhdftyKtNN+1UCa2+Q7A/9l6hA0pJzPCSPiDMygn5Na828KN0gSXYGxEd0QZe1
-	di4QtfBT2xiIgpNbPUaXqX72EqfEs4VxyeM5KPqLsVMcx+IYe6hs4WNfTfeBG2A0IL5kN32CFccOO
-	hpRbj+Sy++50bCiL+D8Wie8SGGPHeJ8TR3aj66gNOQl8eB/4r+ciH6Vfg6Cf7qI7P43Zn1LD8mRhf
-	45Ka545jQ==;
+	 bh=JH0Tum3fBMc+lZT2tw2vx7fc1F7xGF9sS9NAqvBqYmY=; b=DhsDKbLRKg/V/YUqOD5eVq48q
+	wkwV7takrOXmJIy29OkIlaw+Bh8Hr5p0Rc6cRTnZ1YPBbfp5+bhebNyp0fmF6u9AXxsBuq2hI4ia1
+	hMHBbY1fhpaDxonmz5T6ktmUum/zzv8rAxYNub+p1dGK46WoqvH8yEX3+zVW8Vc8ndEAP4cwzWH0B
+	HN0KSO4+3FACT5Bvvr8HZ+vWX/04Q4lyO9V62ow/iceugC+6283gHLq0E9PO/a2j5K9QFr2F+RZ+1
+	ywAVVj38cYOA/KeChexvZAMS+vgKtHcIiIeq611QiOhqs0sb90yFZAJ/ksbINpwVwdZe4f0QzcmkB
+	MDcQa37qA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kJv2I-0003Jp-8p; Sun, 20 Sep 2020 08:49:30 +0000
-Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+	id 1kK2f8-0005G1-Af; Sun, 20 Sep 2020 16:58:06 +0000
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kJv2D-0003HS-2B; Sun, 20 Sep 2020 08:49:25 +0000
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1600591762;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yl4SJva1ZaL/QSosb5XX7oiMR9yOUZ2hryRMeN6gUOs=;
- b=h8jv+yltDHIngnBBGJjPbxbwRp4WWvfUYCE010JZcD8mxV4UaeO8dLdDu13Q2cG+LY8JOQ
- h6npHbPhilGj3v1VUqWxvnxWjS/ksALdSUA+5C9fXgz9TR+62SaZPqFm9CDQlxwGmO5sxH
- Og/nMSeW9my8zlDQTOZZtLu/e9zkMmPgdx5NK5E8Rcfn4iS1ni7EpBlci97FKZLWMkER3O
- +JFJopKrMaT622cTfw+fq7PTs6AJTMpiNhuh5DlxWwRcA1+vumWCIqGRFavPq8Rwh2wOji
- LMGpm7pbhOs/2HMUMaIGkJEZas3RBbG5QRgXaIHLQPqkcnXaia1X2M3U1G452Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1600591762;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yl4SJva1ZaL/QSosb5XX7oiMR9yOUZ2hryRMeN6gUOs=;
- b=ZMmhQ6D75ka6LNiomg7OC2DwIv8yEqOFqmHU4LlJlX/duWyJlSPDqvfBsTbUq7MYp5KhFm
- dW4ZRnByLA6ZBcCQ==
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
- kmap_atomic & friends
-In-Reply-To: <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
+ id 1kK2f5-0005Ei-N5
+ for linux-snps-arc@lists.infradead.org; Sun, 20 Sep 2020 16:58:05 +0000
+Received: by mail-lj1-x243.google.com with SMTP id k25so9158621ljk.0
+ for <linux-snps-arc@lists.infradead.org>; Sun, 20 Sep 2020 09:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Govkq2c7yVsAEyCudSuE8qhnS6+zy4O8TiKkmkv2nIk=;
+ b=O7YDY5EZgHd0ux+0JI623n4+xCNSLKkbNn75HK0PfnOR4wlB9CfHJM9R8MpDNxC4Bt
+ StinnqnJ77DBvptD2dta7OTELHl1G548xZdBUVNIayCFE6KgnVNuKWIqgtvMj+8UMN/e
+ 7pSxwfkCe8prPQ3KSbQLetFJedeblKFxQgFMg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Govkq2c7yVsAEyCudSuE8qhnS6+zy4O8TiKkmkv2nIk=;
+ b=h04+0x1Z+2YfuzPFUZvVp+xxbQhAI89FpDU3YW+WVpdKMorADJDxM6hlTvCzM1H4Yl
+ k3QVCv4eaHtFq833frLciuj/DX1tjL9n8H7YXQG2r3Io0rbe4Q4Q7brpIpP+yOLdNB3g
+ W6z1bxHJ/LwIbQ9LvFaoc3MR2XWYnhMbJbB0kHikp+fpsZgxeGamU23Mtuj8UHLX+7hr
+ dChoNwbtlTLijSzPwy38Rv4e/94GmBwHC9nOzaM8gMQpmExnaJJaWuaKhUUCz69nh7lu
+ QFxcQ/It/8V3u8sYbqfi9hpxgamfXyZrkQktULAni1ZWVjuJaFmjEcH9yyQZpPzjEMmv
+ bUZw==
+X-Gm-Message-State: AOAM531NR4CiKh8zh7HBs1pMAV0Wj0QqWHmnlw8P38uMaDR2HOWw/6Tl
+ gNOP9aCn0bW6sroDZRdUg5KFzThq6P0z2g==
+X-Google-Smtp-Source: ABdhPJwfrZeu60AN4uwl9fy9NHpCM9m1ZCcPOosz+p5rfE6zeWgRMGVx3KzmlWND2sv/FGsucengUA==
+X-Received: by 2002:a05:651c:124b:: with SMTP id
+ h11mr15636888ljh.172.1600621080282; 
+ Sun, 20 Sep 2020 09:58:00 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
+ [209.85.167.53])
+ by smtp.gmail.com with ESMTPSA id q21sm1172658lfo.219.2020.09.20.09.57.58
+ for <linux-snps-arc@lists.infradead.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 20 Sep 2020 09:57:59 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id z17so11402485lfi.12
+ for <linux-snps-arc@lists.infradead.org>; Sun, 20 Sep 2020 09:57:58 -0700 (PDT)
+X-Received: by 2002:ac2:5594:: with SMTP id v20mr15170982lfg.344.1600621076988; 
+ Sun, 20 Sep 2020 09:57:56 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200919091751.011116649@linutronix.de>
  <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
  <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
-Date: Sun, 20 Sep 2020 10:49:21 +0200
-Message-ID: <87k0wode9a.fsf@nanos.tec.linutronix.de>
-MIME-Version: 1.0
+ <87k0wode9a.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <87k0wode9a.fsf@nanos.tec.linutronix.de>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 20 Sep 2020 09:57:40 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
+Message-ID: <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
+Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
+ kmap_atomic & friends
+To: Thomas Gleixner <tglx@linutronix.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200920_044925_215643_EF3905FF 
-X-CRM114-Status: GOOD (  17.17  )
+X-CRM114-CacheID: sfid-20200920_125803_829035_CFE9DA92 
+X-CRM114-Status: GOOD (  24.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,38 +139,115 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sun, Sep 20 2020 at 08:41, Thomas Gleixner wrote:
-> On Sat, Sep 19 2020 at 10:18, Linus Torvalds wrote:
->> Maybe I've missed something.  Is it because the new interface still
->> does "pagefault_disable()" perhaps?
->>
->> But does it even need the pagefault_disable() at all? Yes, the
->> *atomic* one obviously needed it. But why does this new one need to
->> disable page faults?
+On Sun, Sep 20, 2020 at 1:49 AM Thomas Gleixner <tglx@linutronix.de> wrote:
 >
-> It disables pagefaults because it can be called from atomic and
-> non-atomic context. That was the point to get rid of
->
->          if (preeemptible())
->          	kmap();
->          else
->                 kmap_atomic();
->
-> If it does not disable pagefaults, then it's just a lightweight variant
-> of kmap() for short lived mappings.
+> Actually most usage sites of kmap atomic do not need page faults to be
+> disabled at all.
 
-Actually most usage sites of kmap atomic do not need page faults to be
-disabled at all. As Daniel pointed out the implicit pagefault disable
-enforces copy_from_user_inatomic() even in places which are clearly
-preemptible task context.
+Right. I think the pagefault disabling has (almost) nothing at all to
+do with the kmap() itself - it comes from the "atomic" part, not the
+"kmap" part.
 
-As we need to look at each instance anyway we can add the PF disable
-explicitely to the very few places which actually need it.
+I say *almost*, because there is one issue that needs some thought:
+the amount of kmap nesting.
 
-Thanks,
+The kmap_atomic() interface - and your local/temporary/whatever
+versions of it - depends very much inherently on being strictly
+nesting. In fact, it depends so much on it that maybe that should be
+part of the new name?
 
-        tglx
+It's very wrong to do
 
+    addr1 = kmap_atomic();
+    addr2 = kmap_atomic();
+    ..do something with addr 1..
+    kunmap_atomic(addr1);
+    .. do something with addr 2..
+    kunmap_atomic(addr2);
+
+because the way we allocate the slots is by using a percpu-atomic
+inc-return (and we deallocate using dec).
+
+So it's fundamentally a stack.
+
+And that's perfectly fine for page faults - if they do any kmaps,
+those will obviously nest.
+
+So the only issue with page faults might be that the stack grows
+_larger_. And that might need some thought. We already make the kmap
+stack bigger for CONFIG_DEBUG_HIGHMEM, and it's possibly that if we
+allow page faults we need to make the kmap stack bigger still.
+
+Btw, looking at the stack code, Ithink your new implementation of it
+is a bit scary:
+
+   static inline int kmap_atomic_idx_push(void)
+   {
+  -       int idx = __this_cpu_inc_return(__kmap_atomic_idx) - 1;
+  +       int idx = current->kmap_ctrl.idx++;
+
+and now that 'current->kmap_ctrl.idx' is not atomic wrt
+
+ (a) NMI's (this may be ok, maybe we never do kmaps in NMIs, and with
+nesting I think it's fine anyway - the NMI will undo whatever it did)
+
+ (b) the prev/next switch
+
+And that (b) part worries me. You do the kmap_switch_temporary() to
+switch the entries, but you do that *separately* from actually
+switching 'current' to the new value.
+
+So kmap_switch_temporary() looks safe, but I don't think it actually
+is. Because while it first unmaps the old entries and then remaps the
+new ones, an interrupt can come in, and at that point it matters what
+is *CURRENT*.
+
+And regardless of whether 'current' is 'prev' or 'next', that
+kmap_switch_temporary() loop may be doing the wrong thing, depending
+on which one had the deeper stack. The interrupt will be using
+whatever "current->kmap_ctrl.idx" is, but that might overwrite entries
+that are in the process of being restored (if current is still 'prev',
+but kmap_switch_temporary() is in the "restore @next's kmaps" pgase),
+or it might stomp on entries that have been pte_clear()'ed by the
+'prev' thing.
+
+I dunno. The latter may be one of those "it works anyway, it
+overwrites things we don't care about", but the former will most
+definitely not work.
+
+And it will be completely impossible to debug, because it will depend
+on an interrupt that uses kmap_local/atomic/whatever() coming in
+_just_ at the right point in the scheduler, and only when the
+scheduler has been entered with the right number of kmap entries on
+the prev/next stack.
+
+And no developer will ever see this with any amount of debug code
+enabled, because it will only hit on legacy platforms that do this
+kmap anyway.
+
+So honestly, that code scares me. I think it's buggy. And even if it
+"happens to work", it does so for all the wrong reasons, and is very
+fragile.
+
+So I would suggest:
+
+ - continue to use an actual per-cpu kmap_atomic_idx
+
+ - make the switching code save the old idx, then unmap the old
+entries one by one (while doing the proper "pop" action), and then map
+the new entries one by one (while doing the proper "push" action).
+
+which would mean that the only index that is actually ever *USED* is
+the percpu one, and it's always up-to-date and pushed/popped for
+individual entries, rather than this - imho completely bogus -
+optimization where you use "p->kmap_ctrl.idx" directly and very very
+unsafely.
+
+Alternatively, that process counter would need about a hundred lines
+of commentary about exactly why it's safe. Because I don't think it
+is.
+
+                   Linus
 
 _______________________________________________
 linux-snps-arc mailing list
