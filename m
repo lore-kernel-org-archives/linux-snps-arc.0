@@ -7,73 +7,92 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A751C43465
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 20 Sep 2020 17:40:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05A16C43463
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 20 Sep 2020 17:50:38 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BC6CE20829
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 20 Sep 2020 17:40:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9201B20866
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 20 Sep 2020 17:50:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UcIV7+X5";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QNCArf/v";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pomJJyR0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BC6CE20829
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="n33WPHaC";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="cBDZkiv4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9201B20866
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sEJ52QI4bcD44qhH8JyywdxxtHQEaevhf6h+zsCqa38=; b=UcIV7+X5OAHDorIa3Kx625uw2
-	uNnmKr0khCRF0V8WebMw72tQCgp6BySl7Bxnywmc91uEJGvjA4VTK9GKgut+yOJ1YyBeM5MCbERu2
-	iMTzM++oh3Bapovxu5ytXYFjLSqUzmTwfHaU0UTcC7IjCJYteNGSHwP6LQo4mBuFbnOV7+pmFKSi4
-	TaOvSdnjh/2QTsvcl3PgtTGH9iwY5HPn2MHykvmQiwtavxeu4MwaE1NjYuQ6fZayQdeEeYl74Hj88
-	0TrzB8a52NKBMc3O4h2hBCTg8dBGgasmifuTT2pZU8HkovfEm1K1gL3rOp63p0gCZrNkiOSV+6XQv
-	vQO8ezXyQ==;
+	 bh=kRA9J2VkczBHr4+Thtll1ApSMpFOc25wGP7vkWlWDNc=; b=n33WPHaC/STqbMyVqm2VN4o3e
+	Kdz3RyNjT/YUJAFIW6/f8gEEuKJwxRft299SVKcor2waT1udZ6i/ti2tVvzpp60jbMq2kDZtyuxG+
+	k11dmbEOjnc2hhad4W8CBkYQ2cpsbSoM5JxP5kL+ryEHrqZWI/yJw/K7utAC64vWGVdaD34AoJP9k
+	IjXpoMaXoupwP7p3L7E1f5z3fEbz/WKIKFSs26qd7YfZhmGgEgNMzthgacvtKYDb1KfkT1JH2P+zO
+	Y8s3fNO+qJp6SKZB/nUAdG/xdS50tae/O32xqBEOLY+IbXjm+uNrXPJCva0+zQ0a9qld0ZhhUbpaK
+	+WlGBfvgA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kK3KR-0007Uh-RE; Sun, 20 Sep 2020 17:40:47 +0000
-Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+	id 1kK3Tw-00087Y-Rh; Sun, 20 Sep 2020 17:50:36 +0000
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kK3KN-0007TL-Rp; Sun, 20 Sep 2020 17:40:45 +0000
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1600623642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9ka0n+28OJXKPQLIVVR5Idhk3egkf6ni8LHSNLSNto8=;
- b=QNCArf/vGifXO0hggd/oZT3co789XMX68FBpCZc9ELpUzjSb976p4qnrJXsUs4Wtn54Oe5
- cREp7rnAnzQ2lkpB3S51Szog5eqcRviWtdYmN6anOoL9fmTtcQqDtDSWpVqORSo+xe9eNI
- ov8P0XhtU/ulbV28ywMlU0xr6kjRfIcVtmCVZ2FKw+DGK6aL/ezJuFiklF8NhXvAMiIh49
- yrsZFHHw6uzr03zNYpu3ftPmTuZ7RyM2m1FWCRDFflQbJ/wuC7iq3YbPgWy/7QFdvivYSQ
- /Lqxr0wjpHyMFoiBEk4JJ16r2HL2cAu9GKsxBmw9WWw39VkpbDCGdel1jZCIGw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1600623642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9ka0n+28OJXKPQLIVVR5Idhk3egkf6ni8LHSNLSNto8=;
- b=pomJJyR0iiUjZA6jjfbK7rYJBQcHpFL04sHLhdkrrobwFUG9h3ONNeKC4FHSzSIeasL6F6
- 5LIRCzwKaerEOICg==
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
- kmap_atomic & friends
-In-Reply-To: <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
+ id 1kK3Tv-00087B-5l
+ for linux-snps-arc@lists.infradead.org; Sun, 20 Sep 2020 17:50:35 +0000
+Received: by mail-ej1-x644.google.com with SMTP id p9so14647618ejf.6
+ for <linux-snps-arc@lists.infradead.org>; Sun, 20 Sep 2020 10:50:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ejz/GOVvBNgiciatH4EjBRwlfy2MnL1tDSObr2BrKeg=;
+ b=cBDZkiv4uiqeUChUbmqRPD8tkvllq4angLGjbI6fcWbyt0pYNQ1SGMQdEdmcewXaXT
+ IE5S9J/GFuNXr/rpY1dC/0Yf7uyzIPTs0u+8f3gLaQ3BI+ak5trluGhkQvuTa+ZLZ3HS
+ UcueGtftJ4Q3p1fqvR6MgwdAfAMUTTFhAr56U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ejz/GOVvBNgiciatH4EjBRwlfy2MnL1tDSObr2BrKeg=;
+ b=JJM7BA2KO9upjvXT4Ac5KM5+K4BWQOQ8qe/XI/UrcSdt1TcysurLsVyliefcHyvqrS
+ 1aRFzeRV0TZAFtO85vewY1CxoYbl05HOFtRa+3cTGMMWJbT/7BUXhfgnn2EeKXB7uweX
+ /aaU3UfFbpISPvIjzvKPnBkAFaPUqVQqa9WbG6WgAQe5TeU7oBM1lYk9XUHtaTOCOcy8
+ R9BudqB47zg0hjiIbhQ1Pc/5YRFRJ3pM5hzkmWSGglEMSRuAWS6Ho23vzvr0qNoZwCj3
+ J44dV7oEXM+oJ8s6Bp3sV4ppqMT3p6Av8Rz3WDPdg29I0ORKixGjI+X1FnrLC+O033XD
+ cUrA==
+X-Gm-Message-State: AOAM531nBWXq5m62CnJekAmV1/Dw88LUNv8TxSV3z0MdpPTasRUS1cHe
+ NfQfRLW9lLWg6ugdnRLw446zS//tGrNamw==
+X-Google-Smtp-Source: ABdhPJwt2Zdf8wuHVUgwbMrqfXswlnsQ998tvC4swj2mDxLtXossPQP/lrJhg/3B0GQEaSmaIcHp3w==
+X-Received: by 2002:a17:907:2173:: with SMTP id
+ rl19mr45406946ejb.514.1600624233756; 
+ Sun, 20 Sep 2020 10:50:33 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com.
+ [209.85.208.49])
+ by smtp.gmail.com with ESMTPSA id p17sm6959956ejw.125.2020.09.20.10.50.33
+ for <linux-snps-arc@lists.infradead.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 20 Sep 2020 10:50:33 -0700 (PDT)
+Received: by mail-ed1-f49.google.com with SMTP id w1so10705608edr.3
+ for <linux-snps-arc@lists.infradead.org>; Sun, 20 Sep 2020 10:50:33 -0700 (PDT)
+X-Received: by 2002:a2e:84d6:: with SMTP id q22mr13708479ljh.70.1600623791519; 
+ Sun, 20 Sep 2020 10:43:11 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200919091751.011116649@linutronix.de>
  <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
  <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
  <87k0wode9a.fsf@nanos.tec.linutronix.de>
  <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
-Date: Sun, 20 Sep 2020 19:40:41 +0200
-Message-ID: <87eemwcpnq.fsf@nanos.tec.linutronix.de>
-MIME-Version: 1.0
+ <87eemwcpnq.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <87eemwcpnq.fsf@nanos.tec.linutronix.de>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 20 Sep 2020 10:42:55 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
+Message-ID: <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
+Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
+ kmap_atomic & friends
+To: Thomas Gleixner <tglx@linutronix.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200920_134044_132938_8710F304 
-X-CRM114-Status: GOOD (  24.60  )
+X-CRM114-CacheID: sfid-20200920_135035_228832_77051461 
+X-CRM114-Status: GOOD (  11.97  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,74 +141,22 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sun, Sep 20 2020 at 09:57, Linus Torvalds wrote:
-> On Sun, Sep 20, 2020 at 1:49 AM Thomas Gleixner <tglx@linutronix.de> wrote:
-> Btw, looking at the stack code, Ithink your new implementation of it
-> is a bit scary:
+On Sun, Sep 20, 2020 at 10:40 AM Thomas Gleixner <tglx@linutronix.de> wrote:
 >
->    static inline int kmap_atomic_idx_push(void)
->    {
->   -       int idx = __this_cpu_inc_return(__kmap_atomic_idx) - 1;
->   +       int idx = current->kmap_ctrl.idx++;
+> I think the more obvious solution is to split the whole exercise:
 >
-> and now that 'current->kmap_ctrl.idx' is not atomic wrt
+>   schedule()
+>      prepare_switch()
+>         unmap()
 >
->  (a) NMI's (this may be ok, maybe we never do kmaps in NMIs, and with
-> nesting I think it's fine anyway - the NMI will undo whatever it did)
-
-Right. Nesting should be a non issue, but I don't think we have
-kmap_atomic() in NMI context.
-
->  (b) the prev/next switch
+>     switch_to()
 >
-> And that (b) part worries me. You do the kmap_switch_temporary() to
-> switch the entries, but you do that *separately* from actually
-> switching 'current' to the new value.
->
-> So kmap_switch_temporary() looks safe, but I don't think it actually
-> is. Because while it first unmaps the old entries and then remaps the
-> new ones, an interrupt can come in, and at that point it matters what
-> is *CURRENT*.
->
-> And regardless of whether 'current' is 'prev' or 'next', that
-> kmap_switch_temporary() loop may be doing the wrong thing, depending
-> on which one had the deeper stack. The interrupt will be using
-> whatever "current->kmap_ctrl.idx" is, but that might overwrite entries
-> that are in the process of being restored (if current is still 'prev',
-> but kmap_switch_temporary() is in the "restore @next's kmaps" pgase),
-> or it might stomp on entries that have been pte_clear()'ed by the
-> 'prev' thing.
+>     finish_switch()
+>         map()
 
-Duh yes. Never thought about that.
+Yeah, that looks much easier to explain. Ack.
 
-> Alternatively, that process counter would need about a hundred lines
-> of commentary about exactly why it's safe. Because I don't think it
-> is.
-
-I think the more obvious solution is to split the whole exercise:
-
-
-  schedule()
-     prepare_switch()
-        unmap()
-
-    switch_to()
-
-    finish_switch()
-        map()
-
-That's safe because neither the unmap() nor the map() code changes
-kmap_ctrl.idx. So if there is an interrupt coming in between unmap() and
-switch_to() then a kmap_local() there will use the next entry. So we
-could even do the unmap() with interrupts enabled (preemption disabled).
-Same for the map() part.
-
-To explain that we need only a few lines of commentry methinks.
-
-Thanks,
-
-        tglx
-
+               Linus
 
 _______________________________________________
 linux-snps-arc mailing list
