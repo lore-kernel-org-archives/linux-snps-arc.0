@@ -2,22 +2,22 @@ Return-Path: <SRS0=/NyP=C6=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C5CC43464
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Sep 2020 06:23:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B1E6C43464
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Sep 2020 06:28:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CBCAA20735
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Sep 2020 06:23:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2F58F20739
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Sep 2020 06:28:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kmXlmiui";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RTAohrKQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CBCAA20735
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="F45dAzpU";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eHeD509S"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F58F20739
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,40 +26,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ziSh4G4B+4BYmRS19UFnbb52Q5wr+J0fh6Vjt8IImDo=; b=kmXlmiui5YfJ1DZMP7CzNTu/g
-	MShaWFcriBmrWPOwBD9PyEsSvAATVEmIH+98Qgct1GTIOXsquYtFt+nturbQgRxpmhmdPMK9Ciuhq
-	YWQDEtgx5Sqf/+Et2RdkSVkjikzStDHiJajOllNmkjgM5aVGhQf1tQO8jhJn6U1asNxa5lB2nE5n/
-	IhxiWC3Ti4UxS4LYs9b916QhRav6eNUm04faA4x+C1HsUy2YLJTGWL9/QJ0UQ4qZQnXeR0Di7QPqj
-	vFMv2YOYvQmcpICgHc/cQ4DYzfsJCWSj6oGounhJI4SXh5vDJjYGwXt8Jh7178y2uX8Jco1gIlAE2
-	X0AMWganQ==;
+	 bh=HNlRSYAJzhGMDf459ohpzpFqHnARirP1rcg/yAIEBjA=; b=F45dAzpUnjmpbQLcOuHAT+vDb
+	m9oM/vCGi0qAFaBt7fFD69ai1ZEa9jvaOvfeKdLAHmJqApM8UN3hFm7qPYK5kZ3lydQN6MPLR9vN2
+	wW1XKsfsBkEAvzar8k8IHHY8u/d3Td4ydK9oZUif5Bxti3xtYDRptP+NAi0scLoxVGxGYcnqYG2+5
+	XiB1HleJzrHN/wmReb6qZ38BQvAt0HsYUcctUknbYCuce2ekQu/RACni6fyIsDhFp4hUVrF+0B12B
+	z/AKENs4zPQlWq5Q6o0KbekUgb/hhV1MKzBxfB0y7bYR+Ym4CgdPUt1ZuOhWclmWzvqMaACVNfV/X
+	ZpeMIHL4g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kKFEu-0005Na-77; Mon, 21 Sep 2020 06:23:52 +0000
+	id 1kKFJR-0007MZ-IG; Mon, 21 Sep 2020 06:28:33 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kKFEr-0005NF-09; Mon, 21 Sep 2020 06:23:49 +0000
+ id 1kKFJG-0007Gg-4o; Mon, 21 Sep 2020 06:28:22 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
  References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=xTLh23wHPG4TqC3FM8xjFZG4IFBTa9u/cbF3kBwK6Ds=; b=RTAohrKQEJ4d/+2FHmYCSfnjaU
- 3Y1oN0bX+qNiXFWWNQ5Bx+rNc3TH1ppQwCVDi8zlXDOxk4uSGN0o6OjNUqN5ZaH5p/UcdOos6uaKX
- vllToVdZRo/76JFQ3wTCiQ471CZFaX1BccaWpPpcB/IeKOoZaf90ILoLhkgXiVEZjCJAlFIHYK7cC
- 2Idpp6EiVC1risOlIyV1ZZZgUcMQYapM6jn/nD1nDGMIF9n70bKhqPEdll9S2tBpls2hjZ8pj53jo
- 5fqdSa3anAUXYCJg0H/nKgdpbgaLvqoX/s5XchLK7sAQ11cFqoLoPDGi8F3iJ/WzUGnXg/GC/FoHK
- JVE5YMag==;
+ bh=Tci2tqg3leIbmrKKmdytiLIb3svt+yq3AUhipK0JnoY=; b=eHeD509SDxyAiHGiTwo9U9RK6O
+ BdV0ol0+bUl0JcuR4cH5K4iJppCvrjMC+FXmd1lF9otzHdHbgaqWCPBbYEVccspM4hNb0ELFrDX41
+ s330N9PwkKFmY1+L4xtZqC6TuuZXPpHTsXwNy2mxRh6hHZxeOvX7QA3hIrIh11xqjXXtgY0KOrH1g
+ TAa/FH4UUQzLwOqDXwmFk20iXdkTE1C5bNJ47X+kA8GBuFsMKdIwnr8VE2F05aYZUn3BWrCVUA/8S
+ mbIk+BpzsIVAf7vJcwgjD0vdvWTXz3H9YwI8DG/vud/142FwM17JAPgxfqgTAucNSaDR8ooXWbNYe
+ L6UrCpkA==;
 Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1kKFEf-0000LF-P3; Mon, 21 Sep 2020 06:23:37 +0000
-Date: Mon, 21 Sep 2020 07:23:37 +0100
+ Linux)) id 1kKFJD-0000eG-TH; Mon, 21 Sep 2020 06:28:19 +0000
+Date: Mon, 21 Sep 2020 07:28:19 +0100
 From: Christoph Hellwig <hch@infradead.org>
 To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch RFC 01/15] mm/highmem: Un-EXPORT __kmap_atomic_idx()
-Message-ID: <20200921062337.GA32081@infradead.org>
+Subject: Re: [patch RFC 02/15] highmem: Provide generic variant of kmap_atomic*
+Message-ID: <20200921062819.GB32081@infradead.org>
 References: <20200919091751.011116649@linutronix.de>
- <20200919092615.879315697@linutronix.de>
+ <20200919092615.990731525@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200919092615.879315697@linutronix.de>
+In-Reply-To: <20200919092615.990731525@linutronix.de>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -109,14 +109,52 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, Sep 19, 2020 at 11:17:52AM +0200, Thomas Gleixner wrote:
-> Nothing in modules can use that.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> +# ifndef ARCH_NEEDS_KMAP_HIGH_GET
+> +static inline void *arch_kmap_temporary_high_get(struct page *page)
+> +{
+> +	return NULL;
+> +}
+> +# endif
 
-Looks good,
+Turn this into a macro and use #ifndef on the symbol name?
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+> +static inline void __kunmap_atomic(void *addr)
+> +{
+> +	kumap_atomic_indexed(addr);
+> +}
+> +
+> +
+> +#endif /* CONFIG_KMAP_ATOMIC_GENERIC */
+
+Stange double empty line above the endif.
+
+> -#define kunmap_atomic(addr)                                     \
+> -do {                                                            \
+> -	BUILD_BUG_ON(__same_type((addr), struct page *));       \
+> -	kunmap_atomic_high(addr);                                  \
+> -	pagefault_enable();                                     \
+> -	preempt_enable();                                       \
+> -} while (0)
+> -
+> +#define kunmap_atomic(addr)						\
+> +	do {								\
+> +		BUILD_BUG_ON(__same_type((addr), struct page *));	\
+> +		__kunmap_atomic(addr);					\
+> +		preempt_enable();					\
+> +	} while (0)
+
+Why the strange re-indent to a form that is much less common and less
+readable?
+
+> +void *kmap_atomic_pfn_prot(unsigned long pfn, pgprot_t prot)
+> +{
+> +	pagefault_disable();
+> +	return __kmap_atomic_pfn_prot(pfn, prot);
+> +}
+> +EXPORT_SYMBOL(kmap_atomic_pfn_prot);
+
+The existing kmap_atomic_pfn & co implementation is EXPORT_SYMBOL_GPL,
+and this stuff should preferably stay that way.
 
 _______________________________________________
 linux-snps-arc mailing list
