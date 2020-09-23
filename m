@@ -2,70 +2,79 @@ Return-Path: <SRS0=efrZ=DA=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FDCCC2D0A8
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2020 15:53:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E92C4727F
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2020 20:49:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B9016235F7
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2020 15:53:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1D3602376E
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2020 20:49:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NNLUrbRd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B9016235F7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fTuoE63o"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1D3602376E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=U1Z9w4dWqqxn8QJKT7LfpU7iolQmevwT7mqQRWUaa0A=; b=NNLUrbRdnKuBcCHddVf6oz4cO
-	jS76tyKrMeuzhcCVNSV41KOAmevtV2lWd4vIBfwUrodRkmYjIwOCN/3muwLsEb2fivFIlcDFcaCsh
-	98gisHurcLVc+2OPdXdol+GYu4w18anbQSSS+HT1YbSxRFVnKCCTyZK2/b2QvMw/NKg80Ov0DbkdG
-	xSy28uSFlZ/36vigm8o/dSS6m+jlKzDdE4uN9OeW7832FB/5iaXVXFtkHOhogi4cpUxk6k8B/V4Po
-	urSSMYahQK5XPG4A1nFFCIuJuzsGKxVD0GXluOSwSpUQ/KcK9muEIg7iUd6OlR3GdZv8lTod7t6gf
-	485YQk4ug==;
+	 bh=O/bor9oS21nDEyc+kkP67hVQShCbHme41uDTZ19ft6U=; b=fTuoE63o4zNLttHo8ExA0DNLQ
+	hGEJgz/BGjiDsiGnwj7aSx+TF9f3CdN42TWk5p0I/xDeqSxRI9Kj4U5hDBREBNO7vYR7HMT84D8FK
+	veYWfkmyImkmuQx74gQBksQH7UcvNyHNz352cQ2Ql14X1zM/uZbeiTohfeLXAGhztM2Kh6Ic6Qr2g
+	wyuKnVEx7n9yAoUti6tv3Y+oVIUuuc91d0ROBKnJsuh9nyr8CgIN8/FD8tz2dMVOS7EmQAWv/FLaP
+	Ibn64dNqhIBBMj1KYL5iWgDHvbJVdfPmEVRXFmaQNI0Mba3bj1SDyDbEVNoSASjiwHwOrT5l0VEmj
+	72hw+Wglw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kL74x-0007DJ-1H; Wed, 23 Sep 2020 15:53:11 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kLBhU-0008Vg-66; Wed, 23 Sep 2020 20:49:16 +0000
+Received: from mail-il1-f193.google.com ([209.85.166.193])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kL74r-0007Aq-TE; Wed, 23 Sep 2020 15:53:07 +0000
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com
- [66.24.58.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 492262223E;
- Wed, 23 Sep 2020 15:52:54 +0000 (UTC)
-Date: Wed, 23 Sep 2020 11:52:51 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: peterz@infradead.org
-Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
- kmap_atomic & friends
-Message-ID: <20200923115251.7cc63a7e@oasis.local.home>
-In-Reply-To: <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
-References: <20200919091751.011116649@linutronix.de>
- <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
- <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
- <87k0wode9a.fsf@nanos.tec.linutronix.de>
- <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
- <87eemwcpnq.fsf@nanos.tec.linutronix.de>
- <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
- <87a6xjd1dw.fsf@nanos.tec.linutronix.de>
- <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
- <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
- <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ id 1kLBhS-0008VG-21
+ for linux-snps-arc@lists.infradead.org; Wed, 23 Sep 2020 20:49:15 +0000
+Received: by mail-il1-f193.google.com with SMTP id s88so948404ilb.6
+ for <linux-snps-arc@lists.infradead.org>; Wed, 23 Sep 2020 13:49:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hbPN0IsTe/AzYliyDTAEb4gLEMtnTq3id+26NLSo9hs=;
+ b=YJhlSf99LriFOyXNe0XXBXJiZsp3lpywztvpIcqJDd22vNs/HnXN0ZR6Dawc4xqfhz
+ 6g30PD4F1ZTwtQ15Ipj7NmBZViu8CTLQf/7f2j2PmUlO5LRpJjGHuDunlHlLwX+mhGj5
+ 5xeQj7CGrFDJPesXFmUZrKKsVyVEFUR2QtHiJGA9EE9ipjeqkjqdYitFv9gMrdjRzICD
+ 9u54ysDldTAKOiy9PjPiETkUFR+rfteEjTnGu8sL4xFnOHNEVtUMGzwUR+x3zEFsOSJc
+ A5Df+IA/OuOMCwYFZkr9Xpt77XqPcw9aQ285hmDKHQm7JDSLXahye3rciTj5yZj5vMJs
+ xTcw==
+X-Gm-Message-State: AOAM530L8FHc8oM0AFKqBmQngLsR9l0sZMp9hL58QOi856lQm08C6XSr
+ tsmMhUV9kDFF0ryENpbKmQ==
+X-Google-Smtp-Source: ABdhPJx2NYFLXdhLRlVGU3qRt4AeTTUVd5Jg+bpArf4OM3OVNhdYph/XlROi4NQ5tYzY7v5uuT+5eA==
+X-Received: by 2002:a92:405d:: with SMTP id n90mr1372340ila.58.1600894153546; 
+ Wed, 23 Sep 2020 13:49:13 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id r8sm409462iot.51.2020.09.23.13.49.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Sep 2020 13:49:12 -0700 (PDT)
+Received: (nullmailer pid 1281407 invoked by uid 1000);
+ Wed, 23 Sep 2020 20:49:11 -0000
+Date: Wed, 23 Sep 2020 14:49:11 -0600
+From: Rob Herring <robh@kernel.org>
+To: Zhen Lei <thunder.leizhen@huawei.com>
+Subject: Re: [PATCH v5 5/6] dt-bindings: dw-apb-ictl: convert to json-schema
+Message-ID: <20200923204911.GA1271664@bogus>
+References: <20200918112202.3418-1-thunder.leizhen@huawei.com>
+ <20200918112202.3418-6-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200918112202.3418-6-thunder.leizhen@huawei.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200923_115306_079404_E5372779 
-X-CRM114-Status: GOOD (  17.37  )
+X-CRM114-CacheID: sfid-20200923_164914_124132_E2E9E4F1 
+X-CRM114-Status: GOOD (  25.89  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,72 +86,183 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
- Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Guo Ren <guoren@kernel.org>, linux-sparc <sparclinux@vger.kernel.org>,
- Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Michael Ellerman <mpe@ellerman.id.au>,
- the arch/x86 maintainers <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- Mel Gorman <mgorman@suse.de>,
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Jani Nikula <jani.nikula@linux.intel.com>, Greentime Hu <green.hu@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@synopsys.com>,
- Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- "David S. Miller" <davem@davemloft.net>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>, Jason Cooper <jason@lakedaemon.net>,
+ Marc Zyngier <maz@kernel.org>, Alexey Brodkin <abrodkin@synopsys.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Libin <huawei.libin@huawei.com>,
+ Vineet Gupta <vgupta@synopsys.com>, Haoyu Lv <lvhaoyu@huawei.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ linux-snps-arc <linux-snps-arc@lists.infradead.org>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, 23 Sep 2020 10:40:32 +0200
-peterz@infradead.org wrote:
+On Fri, Sep 18, 2020 at 07:22:01PM +0800, Zhen Lei wrote:
+> Convert the Synopsys DesignWare APB interrupt controller (dw_apb_ictl)
+> binding to DT schema format using json-schema.
+> 
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> ---
+>  .../interrupt-controller/snps,dw-apb-ictl.txt      | 43 -------------
+>  .../interrupt-controller/snps,dw-apb-ictl.yaml     | 75 ++++++++++++++++++++++
+>  2 files changed, 75 insertions(+), 43 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.txt
+>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.txt b/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.txt
+> deleted file mode 100644
+> index 2db59df9408f4c6..000000000000000
+> --- a/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.txt
+> +++ /dev/null
+> @@ -1,43 +0,0 @@
+> -Synopsys DesignWare APB interrupt controller (dw_apb_ictl)
+> -
+> -Synopsys DesignWare provides interrupt controller IP for APB known as
+> -dw_apb_ictl. The IP is used as secondary interrupt controller in some SoCs with
+> -APB bus, e.g. Marvell Armada 1500. It can also be used as primary interrupt
+> -controller in some SoCs, e.g. Hisilicon SD5203.
+> -
+> -Required properties:
+> -- compatible: shall be "snps,dw-apb-ictl"
+> -- reg: physical base address of the controller and length of memory mapped
+> -  region starting with ENABLE_LOW register
+> -- interrupt-controller: identifies the node as an interrupt controller
+> -- #interrupt-cells: number of cells to encode an interrupt-specifier, shall be 1
+> -
+> -Additional required property when it's used as secondary interrupt controller:
+> -- interrupts: interrupt reference to primary interrupt controller
+> -
+> -The interrupt sources map to the corresponding bits in the interrupt
+> -registers, i.e.
+> -- 0 maps to bit 0 of low interrupts,
+> -- 1 maps to bit 1 of low interrupts,
+> -- 32 maps to bit 0 of high interrupts,
+> -- 33 maps to bit 1 of high interrupts,
+> -- (optional) fast interrupts start at 64.
+> -
+> -Example:
+> -	/* dw_apb_ictl is used as secondary interrupt controller */
+> -	aic: interrupt-controller@3000 {
+> -		compatible = "snps,dw-apb-ictl";
+> -		reg = <0x3000 0xc00>;
+> -		interrupt-controller;
+> -		#interrupt-cells = <1>;
+> -		interrupt-parent = <&gic>;
+> -		interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
+> -	};
+> -
+> -	/* dw_apb_ictl is used as primary interrupt controller */
+> -	vic: interrupt-controller@10130000 {
+> -		compatible = "snps,dw-apb-ictl";
+> -		reg = <0x10130000 0x1000>;
+> -		interrupt-controller;
+> -		#interrupt-cells = <1>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.yaml b/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.yaml
+> new file mode 100644
+> index 000000000000000..70c12979c843bf0
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.yaml
+> @@ -0,0 +1,75 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/interrupt-controller/snps,dw-apb-ictl.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Synopsys DesignWare APB interrupt controller (dw_apb_ictl)
+> +
+> +maintainers:
+> +  - Marc Zyngier <marc.zyngier@arm.com>
 
-> However, with migrate_disable() we can have each task preempted in a
-> migrate_disable() region, worse we can stack them all on the _same_ CPU
-> (super ridiculous odds, sure). And then we end up only able to run one
-> task, with the rest of the CPUs picking their nose.
+Usually this would be an owner for this IP block, not the subsystem 
+maintainer.
 
-What if we just made migrate_disable() a local_lock() available for !RT?
+> +
+> +description:
+> +  Synopsys DesignWare provides interrupt controller IP for APB known as
+> +  dw_apb_ictl. The IP is used as secondary interrupt controller in some SoCs
+> +  with APB bus, e.g. Marvell Armada 1500. It can also be used as primary
+> +  interrupt controller in some SoCs, e.g. Hisilicon SD5203.
+> +
+> +allOf:
+> +  - $ref: /schemas/interrupt-controller.yaml#
 
-I mean make it a priority inheritance PER CPU lock.
+You can drop this, it's already applied based on node name.
 
-That is, no two tasks could do a migrate_disable() on the same CPU? If
-one task does a migrate_disable() and then gets preempted and the
-preempting task does a migrate_disable() on the same CPU, it will block
-and wait for the first task to do a migrate_enable().
+> +
+> +properties:
+> +  compatible:
+> +    const: snps,dw-apb-ictl
+> +
+> +  interrupt-controller: true
+> +
+> +  reg:
+> +    description:
+> +      Physical base address of the controller and length of memory mapped
+> +      region starting with ENABLE_LOW register.
 
-No two tasks on the same CPU could enter the migrate_disable() section
-simultaneously, just like no two tasks could enter a preempt_disable()
-section.
+Need to define how many reg regions (maxItems: 1).
 
-In essence, we just allow local_lock() to be used for both RT and !RT.
+> +
+> +  interrupts:
+> +    description:
+> +      Interrupt reference to primary interrupt controller.
+> +
+> +      The interrupt sources map to the corresponding bits in the interrupt
+> +      registers, i.e.
+> +      - 0 maps to bit 0 of low interrupts,
+> +      - 1 maps to bit 1 of low interrupts,
+> +      - 32 maps to bit 0 of high interrupts,
+> +      - 33 maps to bit 1 of high interrupts,
+> +      - (optional) fast interrupts start at 64.
+> +    minItems: 1
+> +    maxItems: 65
 
-Perhaps make migrate_disable() an anonymous local_lock()?
+65 connections to the primary interrupt controller? I think this is for 
+the child interrupts? If so, move to #interrupt-cells description 
+instead.
 
-This should lower the SHC in theory, if you can't have stacked migrate
-disables on the same CPU.
+> +
+> +  "#interrupt-cells":
+> +    description:
+> +      Number of cells to encode an interrupt-specifier.
 
--- Steve
+Drop. No need to redefine common properties.
+
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupt-controller
+> +  - '#interrupt-cells'
+> +
+> +examples:
+> +  - |
+> +    /* dw_apb_ictl is used as secondary interrupt controller */
+> +    aic: interrupt-controller@3000 {
+> +        compatible = "snps,dw-apb-ictl";
+> +        reg = <0x3000 0xc00>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <1>;
+> +        interrupt-parent = <&gic>;
+> +        interrupts = <0 3 4>;
+> +    };
+> +
+> +    /* dw_apb_ictl is used as primary interrupt controller */
+> +    vic: interrupt-controller@10130000 {
+> +        compatible = "snps,dw-apb-ictl";
+> +        reg = <0x10130000 0x1000>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <1>;
+> +    };
+> -- 
+> 1.8.3
+> 
+> 
 
 _______________________________________________
 linux-snps-arc mailing list
