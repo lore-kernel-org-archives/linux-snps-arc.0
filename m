@@ -7,66 +7,71 @@ X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA33C4363D
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 13:58:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F351C4363D
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 17:55:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6B79E20888
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 13:58:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0A00A2311B
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 17:55:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GU7aTifA";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JsDPpGvH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6B79E20888
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Us2SH28j";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="R1sSPNYU";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="80WsylEK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0A00A2311B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Dgm4DH1VacAhlSyczp40AKNTXDuhk2aFvDUM0R17teQ=; b=GU7aTifAVWpCCT+p0ocE5sLIT
-	/E0mBGTbyeNz7HJTmDfTOl0xQPpH5c9DGY4xORgUyU/hNlF7TDYfxCbczHtMdHEpLjcWbAFOzWOgF
-	/kjdHy26i8Cqef+ef0E4TZtBhRuL4IQ8A4hcQSzQY8liRS/dtFL7LaLYEpnQPHYZ0rxfcJ4ftipvr
-	Gs/U7XwX4y8DeXJtKGuENpIaPphgNkyTFbBTLQxs9IP+WU6HkKku4zDgbsJocKe+3Ly/hBgggM63C
-	lQDxVSiah3Hf9hqhF+SLDTl/bicOXles7bWKKNQbiWTHMU+DkqXNaRVMFubNk/A2ZLjW3X2TiIgUJ
-	hRuOXjFjg==;
+	 bh=tfpFRQ8y34yEkT/6tugaEvMF0Q95AxBkY/6y7pxeVLc=; b=Us2SH28jizTQWGaech1PWVRsm
+	tFqYuCopuWiokZx8LeTxfmfGNF8OaG3RxGE938/ZWvoCls0qtfbieJXJzpe5BmOsJ3VSc4MqQ8HeC
+	uxV41V18JgTAEZ6mXGFdU9dwHx9yrFdryDpReBt+qAcgaF8uQh6m+ZpRTgPufgx1j0/pAsF5Vr0xt
+	eNp8iYkdY8a3XChw/yoY0mUnnvV5fV7Ov+ha77Q3lLQIdxxdj3XxxdVRr5fLGu/FElY9/m2btm1dP
+	ZDExgTU/6Fa8c5YYZijKgC0xNiGtcGFoXXX9NU5SxvGUfmgNvgA4BG061A2CeINbJ91oThJzm+qP7
+	eu0LN3Zew==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kLRlQ-0001tI-Ij; Thu, 24 Sep 2020 13:58:24 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1kLVSi-0002oV-0c; Thu, 24 Sep 2020 17:55:20 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLRlM-0001sv-Hx; Thu, 24 Sep 2020 13:58:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=MOgC9OGGeZJDv1+n6/wlwMjXb8lCrwqJ2Nw3weXr+Qc=; b=JsDPpGvHCaRJKTjEp4jfBvIc6f
- pXZLbwXBu5W8wOQFQmAslu3rcVo3QzDGQFkjChuW6FIVMUFcn9IGZif/AfN2U01WzpkVAz+KFjobU
- 0jWaSlW3Xn2GQ84V721qkLjzWf+wjf87oufz3kW5JH8rWv+6T3T3JVoKiDNY9dD7MOcGuNMH2PZBs
- SnzOi2M6Zof+/P1qbt2Khez267c1eK7X/9CbdBAMVey/kVf/aLifYALWXQaU/QkCvZXO+P5xD/kVr
- VMyquwF/LWZfEYgUe0JzptxCjKKCYhp2fTxOVreYNbgMOT1pBTJrHrmgCpfvBdVmz9xgyChNoHSwP
- aldNLPLA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLRlA-0003sC-Q7; Thu, 24 Sep 2020 13:58:08 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 671203007CD;
- Thu, 24 Sep 2020 15:58:05 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 51F872010B5FA; Thu, 24 Sep 2020 15:58:05 +0200 (CEST)
-Date: Thu, 24 Sep 2020 15:58:05 +0200
-From: Peter Zijlstra <peterz@infradead.org>
+ id 1kLVSc-0002lY-8U; Thu, 24 Sep 2020 17:55:15 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1600970110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YRlGrH6qHmnud4V/lnVcV5vqfU+DBGnkWu7EgTdSlr8=;
+ b=R1sSPNYUxHYkL72kHsFR+TjF2/2XwUg3yHnnvqS04QAoOSx3FfOe7kjlz2P4SBE6pJNUIa
+ hdR8ztc2Y876w4EM4LOexnHM/7SZoZmxV1htzbXf7EKpktR4oJ6+4mHuXWjkPH1VY/l3WA
+ BDZuq2kCxBWA+lBGZas1gx2m7Dv1Mr9TuyMtHCzHwnqPd7pEkH0IPycsMRDeGzIT+LhH/P
+ fD5rejTsusYZl+6oPjNSvlWEGFuSs+dru2lqmqS0eQyEjsJRaoi/QioZZsY52Jx0mxP/yt
+ DHX2BsnUtXH095ARER7BX2h+L097buboL3NLI28knfxP0+LsVtWbo4iS7mzumg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1600970110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YRlGrH6qHmnud4V/lnVcV5vqfU+DBGnkWu7EgTdSlr8=;
+ b=80WsylEKjzTs3/b8Ys3ZZODQN3enPjmHtostMFWbuTS0dOkCPecrcEXoDR2lpjy5cNRqVe
+ 3kVR1EQtT/FXXFAg==
 To: Steven Rostedt <rostedt@goodmis.org>
 Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
  kmap_atomic & friends
-Message-ID: <20200924135805.GN2628@hirez.programming.kicks-ass.net>
-References: <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
+In-Reply-To: <20200924083241.314f2102@gandalf.local.home>
+References: <20200919091751.011116649@linutronix.de>
+ <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
+ <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
+ <87k0wode9a.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
+ <87eemwcpnq.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
+ <87a6xjd1dw.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
  <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
  <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
  <20200923115251.7cc63a7e@oasis.local.home>
@@ -74,11 +79,12 @@ References: <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
  <20200923171234.0001402d@oasis.local.home>
  <871riracgf.fsf@nanos.tec.linutronix.de>
  <20200924083241.314f2102@gandalf.local.home>
- <20200924124241.GK2628@hirez.programming.kicks-ass.net>
- <20200924095138.5318d242@oasis.local.home>
+Date: Thu, 24 Sep 2020 19:55:10 +0200
+Message-ID: <875z8383gh.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200924095138.5318d242@oasis.local.home>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200924_135514_542505_21163EAB 
+X-CRM114-Status: GOOD (  24.06  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,7 +96,7 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
+Cc: Juri Lelli <juri.lelli@redhat.com>, peterz@infradead.org,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -104,13 +110,13 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
  Michael Ellerman <mpe@ellerman.id.au>,
  the arch/x86 maintainers <x86@kernel.org>,
  Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- Mel Gorman <mgorman@suse.de>,
+ David Airlie <airlied@linux.ie>, Mel Gorman <mgorman@suse.de>,
  "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
  linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
  linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
  Jani Nikula <jani.nikula@linux.intel.com>, Greentime Hu <green.hu@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Dietmar Eggemann <dietmar.eggemann@arm.com>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>,
  Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
@@ -127,23 +133,81 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 24, 2020 at 09:51:38AM -0400, Steven Rostedt wrote:
+On Thu, Sep 24 2020 at 08:32, Steven Rostedt wrote:
+> On Thu, 24 Sep 2020 08:57:52 +0200
+> Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+>> > Now as for migration disabled nesting, at least now we would have
+>> > groupings of this, and perhaps the theorists can handle that. I mean,
+>> > how is this much different that having a bunch of tasks blocked on a
+>> > mutex with the owner is pinned on a CPU?
+>> >
+>> > migrate_disable() is a BKL of pinning affinity.  
+>> 
+>> No. That's just wrong. preempt disable is a concurrency control,
+>
+> I think you totally misunderstood what I was saying. The above wasn't about
+> comparing preempt_disable to migrate_disable. It was comparing
+> migrate_disable to a chain of tasks blocked on mutexes where the top owner
+> has preempt_disable set. You still have a bunch of tasks that can't move to
+> other CPUs.
 
-> > It turns out, that getting selected for pull-balance is exactly that
-> > condition, and clearly a migrate_disable() task cannot be pulled, but we
-> > can use that signal to try and pull away the running task that's in the
-> > way.
-> 
-> Unless of course that running task is in a migrate disable section
-> itself ;-)
+What? The top owner does not prevent any task from moving. The tasks
+cannot move because they are blocked on the mutex, which means they are
+not runnable and non runnable tasks are not migrated at all.
 
-See my ramblings here:
+I really don't understand what you are trying to say.
 
-  https://lkml.kernel.org/r/20200924082717.GA1362448@hirez.programming.kicks-ass.net
+>> > If we only have local_lock() available (even on !RT), then it makes
+>> > the blocking in groups. At least this way you could grep for all the
+>> > different local_locks in the system and plug that into the algorithm
+>> > for WCS, just like one would with a bunch of mutexes.  
+>> 
+>> You cannot do that on RT at all where migrate disable is substituting
+>> preempt disable in spin and rw locks. The result would be the same as
+>> with a !RT kernel just with horribly bad performance.
+>
+> Note, the spin and rwlocks already have a lock associated with them. Why
+> would it be any different on RT? I wasn't suggesting adding another lock
+> inside a spinlock. Why would I recommend THAT? I wasn't recommending
+> blindly replacing migrate_disable() with local_lock(). I just meant expose
+> local_lock() but not migrate_disable().
 
-My plan was to have the migrate_enable() of the running task trigger the
-migration in that case.
+We already exposed local_lock() to non RT and it's for places which do
+preempt_disable() or local_irq_disable() without having a lock
+associated. But both primitives are scope less and therefore behave like
+CPU local BKLs. What local_lock() provides in these cases is:
 
+  - Making the protection scope clear by associating a named local
+    lock which is coverred by lockdep.
+
+  - It still maps to preempt_disable() or local_irq_disable() in !RT
+    kernels
+
+  - The scope and the named lock allows RT kernels to substitute with
+    real (recursion aware) locking primitives which keep preemption and
+    interupts enabled, but provide the fine grained protection for the
+    scoped critical section.
+  
+So how would you substitute migrate_disable() with a local_lock()? You
+can't. Again migrate_disable() is NOT a concurrency control and
+therefore it cannot be substituted by any concurrency control primitive.
+
+>> That means the stacking problem has to be solved anyway.
+>> 
+>> So why on earth do you want to create yet another special duct tape case
+>> for kamp_local() which proliferates inconsistency instead of aiming for
+>> consistency accross all preemption models?
+>
+> The idea was to help with the scheduling issue.
+
+I don't see how mixing concepts and trying to duct tape a problem which
+is clearly in the realm of the scheduler, i.e. load balancing and
+placing algorithms, is helpful.
+
+Thanks,
+
+        tglx
 
 _______________________________________________
 linux-snps-arc mailing list
