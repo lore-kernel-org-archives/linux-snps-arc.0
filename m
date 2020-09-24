@@ -2,57 +2,57 @@ Return-Path: <SRS0=2kue=DB=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EECC5C4346E
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 08:27:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0619CC4363D
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 12:33:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6A0B6221EB
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 08:27:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 72560221EB
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 12:33:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="n3dtAzLY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A0B6221EB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HJXl1o7A"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 72560221EB
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=2ciCgC1M37ygTZouGl2ojjejNnxddv/+76OgltCP8ng=; b=n3dtAzLYCFwN0ref9w1QSoWOy
-	49VBxvLlaoOgZdc3dgUx1VTnUJ2/Qd6z+ZCR6DPCvaHDDm0yCwBWC9wiGYDTh9egB+Ceqg+TJtvKJ
-	JLcKYcRG+GF7rwx0k61jzECVgRadR0RS885Qdm9vUeqxVB8byf55O2Lutox5uoC8M/WsZKIydx/24
-	Vp1J/UALojXyk1OWNp6F0sI8fkWTVAsqmeccllF3GnzK9W09nLxmoOWS1vcGeIEtG6j/axA5Gc1LV
-	QJfEP99Ht0QZPHH0KLulFcei8K34aTJGyQIJi1gNBF/bppEsjQdMN35sGUmCI8OVE4/UfXThexPFA
-	T4akHQsyQ==;
+	 bh=B3xSKGK46CRi/bF2gtDC6GAz1USZbWsRYDNR4gWV2Kc=; b=HJXl1o7ApoMN3K8/thiG2KJW6
+	4hKdB+n7PhKL5m34mH5TVqcRfXUzeuBU+mNRXpGWT71/Dk8PRtJbDQkERPfRzP5PmBklSOJ51dCN9
+	rS+T2k43F1pSMc/jPe+S6bXySRhUihx4YE4r8lILuZec2/sAnOSFBGOdmtSNr3tf215Yr2gSez7uC
+	2JvQcbgionUjvdJNCLnAGRc/WlR9/3qsXhF0t4CNT3Y8UqoOZWCQFUlVUGCBCLJtIN09KTIGg74IJ
+	WcQUvGGJ7KB/lprUukxV6S57lxihqbAejGNPbGGtc7qTNZeotYrQ8yrLGLqNtwlw0MaIaLzJCPAbM
+	XEx6nxvZA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kLMbB-0003ll-Fn; Thu, 24 Sep 2020 08:27:29 +0000
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLMb4-0003jy-6l; Thu, 24 Sep 2020 08:27:22 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
+	id 1kLQQr-0001zu-8J; Thu, 24 Sep 2020 12:33:05 +0000
+Received: from mail.kernel.org ([198.145.29.99])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kLQQb-0001qU-Rz; Thu, 24 Sep 2020 12:32:51 +0000
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
+ [66.24.58.225])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CD73C3059DE;
- Thu, 24 Sep 2020 10:27:17 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id ACF8A2BC141E8; Thu, 24 Sep 2020 10:27:17 +0200 (CEST)
-Date: Thu, 24 Sep 2020 10:27:17 +0200
-From: peterz@infradead.org
-To: Steven Rostedt <rostedt@goodmis.org>
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3E4EA205F4;
+ Thu, 24 Sep 2020 12:32:43 +0000 (UTC)
+Date: Thu, 24 Sep 2020 08:32:41 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Thomas Gleixner <tglx@linutronix.de>
 Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
  kmap_atomic & friends
-Message-ID: <20200924082717.GA1362448@hirez.programming.kicks-ass.net>
-References: <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
+Message-ID: <20200924083241.314f2102@gandalf.local.home>
+In-Reply-To: <871riracgf.fsf@nanos.tec.linutronix.de>
+References: <20200919091751.011116649@linutronix.de>
+ <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
+ <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
  <87k0wode9a.fsf@nanos.tec.linutronix.de>
  <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
  <87eemwcpnq.fsf@nanos.tec.linutronix.de>
@@ -62,9 +62,14 @@ References: <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
  <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
  <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
  <20200923115251.7cc63a7e@oasis.local.home>
+ <874kno9pr9.fsf@nanos.tec.linutronix.de>
+ <20200923171234.0001402d@oasis.local.home>
+ <871riracgf.fsf@nanos.tec.linutronix.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200923115251.7cc63a7e@oasis.local.home>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200924_083250_025499_D62EE835 
+X-CRM114-Status: GOOD (  26.57  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,7 +81,7 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
+Cc: Juri Lelli <juri.lelli@redhat.com>, peterz@infradead.org,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -90,13 +95,13 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
  Michael Ellerman <mpe@ellerman.id.au>,
  the arch/x86 maintainers <x86@kernel.org>,
  Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- Mel Gorman <mgorman@suse.de>,
+ David Airlie <airlied@linux.ie>, Mel Gorman <mgorman@suse.de>,
  "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
  linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
  linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
  Jani Nikula <jani.nikula@linux.intel.com>, Greentime Hu <green.hu@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Dietmar Eggemann <dietmar.eggemann@arm.com>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>,
  Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
@@ -113,87 +118,62 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 23, 2020 at 11:52:51AM -0400, Steven Rostedt wrote:
-> On Wed, 23 Sep 2020 10:40:32 +0200
-> peterz@infradead.org wrote:
+On Thu, 24 Sep 2020 08:57:52 +0200
+Thomas Gleixner <tglx@linutronix.de> wrote:
+
+> > Now as for migration disabled nesting, at least now we would have
+> > groupings of this, and perhaps the theorists can handle that. I mean,
+> > how is this much different that having a bunch of tasks blocked on a
+> > mutex with the owner is pinned on a CPU?
+> >
+> > migrate_disable() is a BKL of pinning affinity.  
 > 
-> > However, with migrate_disable() we can have each task preempted in a
-> > migrate_disable() region, worse we can stack them all on the _same_ CPU
-> > (super ridiculous odds, sure). And then we end up only able to run one
-> > task, with the rest of the CPUs picking their nose.
+> No. That's just wrong. preempt disable is a concurrency control,
+
+I think you totally misunderstood what I was saying. The above wasn't about
+comparing preempt_disable to migrate_disable. It was comparing
+migrate_disable to a chain of tasks blocked on mutexes where the top owner
+has preempt_disable set. You still have a bunch of tasks that can't move to
+other CPUs.
+
+
+> > If we only have local_lock() available (even on !RT), then it makes
+> > the blocking in groups. At least this way you could grep for all the
+> > different local_locks in the system and plug that into the algorithm
+> > for WCS, just like one would with a bunch of mutexes.  
 > 
-> What if we just made migrate_disable() a local_lock() available for !RT?
+> You cannot do that on RT at all where migrate disable is substituting
+> preempt disable in spin and rw locks. The result would be the same as
+> with a !RT kernel just with horribly bad performance.
 
-Can't, neiter migrate_disable() nor migrate_enable() are allowed to
-block -- which is what makes their implementation so 'interesting'.
+Note, the spin and rwlocks already have a lock associated with them. Why
+would it be any different on RT? I wasn't suggesting adding another lock
+inside a spinlock. Why would I recommend THAT? I wasn't recommending
+blindly replacing migrate_disable() with local_lock(). I just meant expose
+local_lock() but not migrate_disable().
 
-> This should lower the SHC in theory, if you can't have stacked migrate
-> disables on the same CPU.
+> 
+> That means the stacking problem has to be solved anyway.
+> 
+> So why on earth do you want to create yet another special duct tape case
+> for kamp_local() which proliferates inconsistency instead of aiming for
+> consistency accross all preemption models?
 
-See this email in that other thread (you're on Cc too IIRC):
+The idea was to help with the scheduling issue.
 
-  https://lkml.kernel.org/r/20200923170809.GY1362448@hirez.programming.kicks-ass.net
+Anyway, instead of blocking. What about having a counter of number of
+migrate disabled tasks per cpu, and when taking a migrate_disable(), and there's
+already another task with migrate_disabled() set, and the current task has
+an affinity greater than 1, it tries to migrate to another CPU?
 
-I think that is we 'frob' the balance PULL, we'll end up with something
-similar.
+This way migrate_disable() is less likely to have a bunch of tasks blocked
+on one CPU serialized by each task exiting the migrate_disable() section.
 
-Whichever way around we turn this thing, the migrate_disable() runtime
-(we'll have to add a tracer for that), will be an interference term on
-the lower priority task, exactly like preempt_disable() would be. We'll
-just not exclude a higher priority task from running.
+Yes, there's more overhead, but it only happens if multiple tasks are in a
+migrate disable section on the same CPU.
 
+-- Steve
 
-AFAICT; the best case is a single migrate_disable() nesting, where a
-higher priority task preempts in a migrate_disable() section -- this is
-per design.
-
-When this preempted task becomes elegible to run under the ideal model
-(IOW it becomes one of the M highest priority tasks), it might still
-have to wait for the preemptee's migrate_disable() section to complete.
-Thereby suffering interference in the exact duration of
-migrate_disable() section.
-
-Per this argument, the change from preempt_disable() to
-migrate_disable() gets us:
-
- - higher priority tasks gain reduced wake-up latency
- - lower priority tasks are unchanged and are subject to the exact same
-   interference term as if the higher priority task were using
-   preempt_disable().
-
-Since we've already established this term is unbounded, any task but the
-highest priority task is basically buggered.
-
-TL;DR, if we get balancing fixed and achieve (near) the optimal case
-above, migrate_disable() is an over-all win. But it's provably
-non-deterministic as long as the migrate_disable() sections are
-non-deterministic.
-
-
-The reason this all mostly works in practise is (I think) because:
-
- - People care most about the higher prio RT tasks and craft them to
-   mostly avoid the migrate_disable() infected code.
-
- - The preemption scenario is most pronounced at higher utilization
-   scenarios, and I suspect this is fairly rare to begin with.
-
- - And while many of these migrate_disable() regions are unbound in
-   theory, in practise they're often fairly reasonable.
-
-
-So my current todo list is:
-
- - Change RT PULL
- - Change DL PULL
- - Add migrate_disable() tracer; exactly like preempt/irqoff, except
-   measuring task-runtime instead of cpu-time.
- - Add a mode that measures actual interference.
- - Add a traceevent to detect preemption in migrate_disable().
-
-
-And then I suppose I should twist Daniel's arm to update his model to
-include these scenarios and numbers.
 
 _______________________________________________
 linux-snps-arc mailing list
