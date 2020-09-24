@@ -2,67 +2,69 @@ Return-Path: <SRS0=2kue=DB=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF175C47423
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 07:19:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EECC5C4346E
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 08:27:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 18A6E235F7
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 07:19:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6A0B6221EB
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 08:27:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="IXlu2bq5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 18A6E235F7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="n3dtAzLY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A0B6221EB
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=JlvieTROqvjyK+Zje9HCTdSzgldCqk5a0PIwgMQL+yQ=; b=IXlu2bq53Q3tS3DxgG99LsCXL
-	MqZ523n0vXElQfnNxA7moAO/lTDW6YF3TQoAr9TWolJGeL1yBHS+4yzO0gTVCNl0hdp5A1D/htHo0
-	Evu9/A2SL7liPFmBB8bsCfQyzBqaIK7pJKHMgacrDcWSCyc8tiH9OZKrWEW0R/rFztVygG5UAavG/
-	umZPKFEHuISMxu1Bp2OztvbN/QiL8Aq07LuyrYBHieAFpmQLIT1S3J4k1CM9v2l/hKaOHnS/PDtYV
-	4YTCZXfNWrnwBbg+xzgPhMYVn2/9CxJNMy5FIq7Q4zqUcZEg9gqiX3mY0/49QmYS4uLCsR351NAP3
-	dM03LKQ+A==;
+	 bh=2ciCgC1M37ygTZouGl2ojjejNnxddv/+76OgltCP8ng=; b=n3dtAzLYCFwN0ref9w1QSoWOy
+	49VBxvLlaoOgZdc3dgUx1VTnUJ2/Qd6z+ZCR6DPCvaHDDm0yCwBWC9wiGYDTh9egB+Ceqg+TJtvKJ
+	JLcKYcRG+GF7rwx0k61jzECVgRadR0RS885Qdm9vUeqxVB8byf55O2Lutox5uoC8M/WsZKIydx/24
+	Vp1J/UALojXyk1OWNp6F0sI8fkWTVAsqmeccllF3GnzK9W09nLxmoOWS1vcGeIEtG6j/axA5Gc1LV
+	QJfEP99Ht0QZPHH0KLulFcei8K34aTJGyQIJi1gNBF/bppEsjQdMN35sGUmCI8OVE4/UfXThexPFA
+	T4akHQsyQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kLLXg-0004XC-Bw; Thu, 24 Sep 2020 07:19:48 +0000
-Received: from szxga07-in.huawei.com ([45.249.212.35] helo=huawei.com)
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLLXa-0004TD-6a
- for linux-snps-arc@lists.infradead.org; Thu, 24 Sep 2020 07:19:45 +0000
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id B988C2E19A2E1A700331;
- Thu, 24 Sep 2020 15:19:37 +0800 (CST)
-Received: from thunder-town.china.huawei.com (10.174.177.253) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 24 Sep 2020 15:19:27 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Jason Cooper <jason@lakedaemon.net>, 
- Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Alexey
- Brodkin" <abrodkin@synopsys.com>, Vineet Gupta <vgupta@synopsys.com>,
- devicetree <devicetree@vger.kernel.org>, linux-snps-arc
- <linux-snps-arc@lists.infradead.org>, linux-kernel
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 3/6] irqchip: dw-apb-ictl: support hierarchy irq domain
-Date: Thu, 24 Sep 2020 15:17:51 +0800
-Message-ID: <20200924071754.4509-4-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20200924071754.4509-1-thunder.leizhen@huawei.com>
-References: <20200924071754.4509-1-thunder.leizhen@huawei.com>
+	id 1kLMbB-0003ll-Fn; Thu, 24 Sep 2020 08:27:29 +0000
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kLMb4-0003jy-6l; Thu, 24 Sep 2020 08:27:22 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CD73C3059DE;
+ Thu, 24 Sep 2020 10:27:17 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id ACF8A2BC141E8; Thu, 24 Sep 2020 10:27:17 +0200 (CEST)
+Date: Thu, 24 Sep 2020 10:27:17 +0200
+From: peterz@infradead.org
+To: Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
+ kmap_atomic & friends
+Message-ID: <20200924082717.GA1362448@hirez.programming.kicks-ass.net>
+References: <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
+ <87k0wode9a.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
+ <87eemwcpnq.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
+ <87a6xjd1dw.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
+ <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
+ <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
+ <20200923115251.7cc63a7e@oasis.local.home>
 MIME-Version: 1.0
-X-Originating-IP: [10.174.177.253]
-X-CFilter-Loop: Reflected
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200924_031942_581103_106C75F2 
-X-CRM114-Status: GOOD (  18.53  )
+Content-Disposition: inline
+In-Reply-To: <20200923115251.7cc63a7e@oasis.local.home>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,155 +76,124 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Haoyu Lv <lvhaoyu@huawei.com>, Kefeng Wang <wangkefeng.wang@huawei.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Libin <huawei.libin@huawei.com>, Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
+ Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Guo Ren <guoren@kernel.org>, linux-sparc <sparclinux@vger.kernel.org>,
+ Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Mel Gorman <mgorman@suse.de>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Greentime Hu <green.hu@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@synopsys.com>,
+ Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Add support to use dw-apb-ictl as primary interrupt controller.
+On Wed, Sep 23, 2020 at 11:52:51AM -0400, Steven Rostedt wrote:
+> On Wed, 23 Sep 2020 10:40:32 +0200
+> peterz@infradead.org wrote:
+> 
+> > However, with migrate_disable() we can have each task preempted in a
+> > migrate_disable() region, worse we can stack them all on the _same_ CPU
+> > (super ridiculous odds, sure). And then we end up only able to run one
+> > task, with the rest of the CPUs picking their nose.
+> 
+> What if we just made migrate_disable() a local_lock() available for !RT?
 
-Suggested-by: Marc Zyngier <maz@kernel.org>
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-Tested-by: Haoyu Lv <lvhaoyu@huawei.com>
----
- drivers/irqchip/Kconfig           |  2 +-
- drivers/irqchip/irq-dw-apb-ictl.c | 74 ++++++++++++++++++++++++++++++++++-----
- 2 files changed, 67 insertions(+), 9 deletions(-)
+Can't, neiter migrate_disable() nor migrate_enable() are allowed to
+block -- which is what makes their implementation so 'interesting'.
 
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index bfc9719dbcdc31c..7c2d1c8fa551a66 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -148,7 +148,7 @@ config DAVINCI_CP_INTC
- config DW_APB_ICTL
- 	bool
- 	select GENERIC_IRQ_CHIP
--	select IRQ_DOMAIN
-+	select IRQ_DOMAIN_HIERARCHY
- 
- config FARADAY_FTINTC010
- 	bool
-diff --git a/drivers/irqchip/irq-dw-apb-ictl.c b/drivers/irqchip/irq-dw-apb-ictl.c
-index 5458004242e9d20..418183b9983dfad 100644
---- a/drivers/irqchip/irq-dw-apb-ictl.c
-+++ b/drivers/irqchip/irq-dw-apb-ictl.c
-@@ -17,6 +17,7 @@
- #include <linux/irqchip/chained_irq.h>
- #include <linux/of_address.h>
- #include <linux/of_irq.h>
-+#include <linux/interrupt.h>
- 
- #define APB_INT_ENABLE_L	0x00
- #define APB_INT_ENABLE_H	0x04
-@@ -26,6 +27,27 @@
- #define APB_INT_FINALSTATUS_H	0x34
- #define APB_INT_BASE_OFFSET	0x04
- 
-+/* irq domain of the primary interrupt controller. */
-+static struct irq_domain *dw_apb_ictl_irq_domain;
-+
-+static void __irq_entry dw_apb_ictl_handle_irq(struct pt_regs *regs)
-+{
-+	struct irq_domain *d = dw_apb_ictl_irq_domain;
-+	int n;
-+
-+	for (n = 0; n < d->revmap_size; n += 32) {
-+		struct irq_chip_generic *gc = irq_get_domain_generic_chip(d, n);
-+		u32 stat = readl_relaxed(gc->reg_base + APB_INT_FINALSTATUS_L);
-+
-+		while (stat) {
-+			u32 hwirq = ffs(stat) - 1;
-+
-+			handle_domain_irq(d, hwirq, regs);
-+			stat &= ~BIT(hwirq);
-+		}
-+	}
-+}
-+
- static void dw_apb_ictl_handle_irq_cascaded(struct irq_desc *desc)
- {
- 	struct irq_domain *d = irq_desc_get_handler_data(desc);
-@@ -50,6 +72,30 @@ static void dw_apb_ictl_handle_irq_cascaded(struct irq_desc *desc)
- 	chained_irq_exit(chip, desc);
- }
- 
-+static int dw_apb_ictl_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
-+				unsigned int nr_irqs, void *arg)
-+{
-+	int i, ret;
-+	irq_hw_number_t hwirq;
-+	unsigned int type = IRQ_TYPE_NONE;
-+	struct irq_fwspec *fwspec = arg;
-+
-+	ret = irq_domain_translate_onecell(domain, fwspec, &hwirq, &type);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < nr_irqs; i++)
-+		irq_map_generic_chip(domain, virq + i, hwirq + i);
-+
-+	return 0;
-+}
-+
-+static const struct irq_domain_ops dw_apb_ictl_irq_domain_ops = {
-+	.translate = irq_domain_translate_onecell,
-+	.alloc = dw_apb_ictl_irq_domain_alloc,
-+	.free = irq_domain_free_irqs_top,
-+};
-+
- #ifdef CONFIG_PM
- static void dw_apb_ictl_resume(struct irq_data *d)
- {
-@@ -75,13 +121,20 @@ static int __init dw_apb_ictl_init(struct device_node *np,
- 	void __iomem *iobase;
- 	int ret, nrirqs, parent_irq, i;
- 	u32 reg;
--	const struct irq_domain_ops *domain_ops = &irq_generic_chip_ops;
--
--	/* Map the parent interrupt for the chained handler */
--	parent_irq = irq_of_parse_and_map(np, 0);
--	if (parent_irq <= 0) {
--		pr_err("%pOF: unable to parse irq\n", np);
--		return -EINVAL;
-+	const struct irq_domain_ops *domain_ops;
-+
-+	if (!parent || (np == parent)) {
-+		/* It's used as the primary interrupt controller */
-+		parent_irq = 0;
-+		domain_ops = &dw_apb_ictl_irq_domain_ops;
-+	} else {
-+		/* Map the parent interrupt for the chained handler */
-+		parent_irq = irq_of_parse_and_map(np, 0);
-+		if (parent_irq <= 0) {
-+			pr_err("%pOF: unable to parse irq\n", np);
-+			return -EINVAL;
-+		}
-+		domain_ops = &irq_generic_chip_ops;
- 	}
- 
- 	ret = of_address_to_resource(np, 0, &r);
-@@ -146,8 +199,13 @@ static int __init dw_apb_ictl_init(struct device_node *np,
- 		gc->chip_types[0].chip.irq_resume = dw_apb_ictl_resume;
- 	}
- 
--	irq_set_chained_handler_and_data(parent_irq,
-+	if (parent_irq) {
-+		irq_set_chained_handler_and_data(parent_irq,
- 				dw_apb_ictl_handle_irq_cascaded, domain);
-+	} else {
-+		dw_apb_ictl_irq_domain = domain;
-+		set_handle_irq(dw_apb_ictl_handle_irq);
-+	}
- 
- 	return 0;
- 
--- 
-1.8.3
+> This should lower the SHC in theory, if you can't have stacked migrate
+> disables on the same CPU.
+
+See this email in that other thread (you're on Cc too IIRC):
+
+  https://lkml.kernel.org/r/20200923170809.GY1362448@hirez.programming.kicks-ass.net
+
+I think that is we 'frob' the balance PULL, we'll end up with something
+similar.
+
+Whichever way around we turn this thing, the migrate_disable() runtime
+(we'll have to add a tracer for that), will be an interference term on
+the lower priority task, exactly like preempt_disable() would be. We'll
+just not exclude a higher priority task from running.
 
 
+AFAICT; the best case is a single migrate_disable() nesting, where a
+higher priority task preempts in a migrate_disable() section -- this is
+per design.
+
+When this preempted task becomes elegible to run under the ideal model
+(IOW it becomes one of the M highest priority tasks), it might still
+have to wait for the preemptee's migrate_disable() section to complete.
+Thereby suffering interference in the exact duration of
+migrate_disable() section.
+
+Per this argument, the change from preempt_disable() to
+migrate_disable() gets us:
+
+ - higher priority tasks gain reduced wake-up latency
+ - lower priority tasks are unchanged and are subject to the exact same
+   interference term as if the higher priority task were using
+   preempt_disable().
+
+Since we've already established this term is unbounded, any task but the
+highest priority task is basically buggered.
+
+TL;DR, if we get balancing fixed and achieve (near) the optimal case
+above, migrate_disable() is an over-all win. But it's provably
+non-deterministic as long as the migrate_disable() sections are
+non-deterministic.
+
+
+The reason this all mostly works in practise is (I think) because:
+
+ - People care most about the higher prio RT tasks and craft them to
+   mostly avoid the migrate_disable() infected code.
+
+ - The preemption scenario is most pronounced at higher utilization
+   scenarios, and I suspect this is fairly rare to begin with.
+
+ - And while many of these migrate_disable() regions are unbound in
+   theory, in practise they're often fairly reasonable.
+
+
+So my current todo list is:
+
+ - Change RT PULL
+ - Change DL PULL
+ - Add migrate_disable() tracer; exactly like preempt/irqoff, except
+   measuring task-runtime instead of cpu-time.
+ - Add a mode that measures actual interference.
+ - Add a traceevent to detect preemption in migrate_disable().
+
+
+And then I suppose I should twist Daniel's arm to update his model to
+include these scenarios and numbers.
 
 _______________________________________________
 linux-snps-arc mailing list
