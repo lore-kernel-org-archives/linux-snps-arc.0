@@ -5,64 +5,64 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE21CC4346E
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 03:27:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE716C2D0E2
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 04:18:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4291F23600
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 03:27:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CB1B320888
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2020 04:18:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PKxGAR8k"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4291F23600
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LpbN7B2D"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB1B320888
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
+	To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=u7HS0dsEu+rp9Uc/yrpsv6yEBZj9lrVUlbhoC2bq+Uo=; b=PKxGAR8k+SnAiHk2UvxK/926Y
-	HmoDHkIYSTdNgfe0tkwZGXOxQzcYtAszg+bRGAOrVR7Kl+rNeLaabGQGtr+BrIqyYXsEQFB8bCwAi
-	nXzJ/hSold7ol9aw8UPq+JEehq37TmGMydjcXsKQFToZ4V9cS14Bhs/XgbpqVoelvaL705u7rELS2
-	nFo8WDJfab3LzkeNsohh8cOLbGLaXswOI1OvRVoehf5Bz1NxDHV4VADGY1Hcw/Gk78DlDTmiPJ0rU
-	VQfois35MDMJ2lqqH1oEHULQB1Ba4P+EjXoBF11vbOvRDsbsH6vCZFq3uZ4Fb+SZGZSUm4wtGxi5b
-	IpXpfVgNg==;
+	 bh=0QyfLmAe1RDu+FMPzrodVdD0vsnn+RkIYcyDJA3NyLk=; b=LpbN7B2DVrucToe0pA7m3HwBh
+	FUM5lKBT2vjXx6zojZN03sL6IslgLIAnWrj8+Tc1Ghf/ZfxlLRsH/LC6HX4xJeWMz+jPPlUX0vXo2
+	S/CZhUMWIUGHqE4k4SF8Ag9QHn7lK+10afnSnspAHgBosff7tACobMEeTA7r6wELu2suRPDRZkU9D
+	A0fV4DTAzgnzVrySOJYULL2uQd6v3J9gFz2EbPPLd2+sxx2CLos3jEPTp3xUMGrvcgSALOn78HM3h
+	ImD5Y3qfDiRiuGFQ2tos2KG/QaVCEgMw1Q4gfmgi38n+8ykP42Vp8yGQNku+3Y36XQX4XTe7/+xg/
+	SdDgiOsvg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kLHud-0002Ed-LY; Thu, 24 Sep 2020 03:27:15 +0000
-Received: from szxga07-in.huawei.com ([45.249.212.35] helo=huawei.com)
+	id 1kLIhm-00084v-UL; Thu, 24 Sep 2020 04:18:02 +0000
+Received: from szxga06-in.huawei.com ([45.249.212.32] helo=huawei.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLHuW-0002DN-Gp
- for linux-snps-arc@lists.infradead.org; Thu, 24 Sep 2020 03:27:13 +0000
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id BAD5DE1925281BB33692;
- Thu, 24 Sep 2020 11:26:55 +0800 (CST)
-Received: from [127.0.0.1] (10.174.177.253) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0;
- Thu, 24 Sep 2020 11:26:45 +0800
+ id 1kLIhk-00083g-Fn
+ for linux-snps-arc@lists.infradead.org; Thu, 24 Sep 2020 04:18:02 +0000
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 61A8BD468DB62FD34F31;
+ Thu, 24 Sep 2020 12:17:56 +0800 (CST)
+Received: from [127.0.0.1] (10.174.177.253) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0;
+ Thu, 24 Sep 2020 12:17:49 +0800
 Subject: Re: [PATCH v5 5/6] dt-bindings: dw-apb-ictl: convert to json-schema
+From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
 To: Rob Herring <robh@kernel.org>
 References: <20200918112202.3418-1-thunder.leizhen@huawei.com>
  <20200918112202.3418-6-thunder.leizhen@huawei.com>
  <20200923204911.GA1271664@bogus>
-From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <c5ba167c-2c66-66ec-9d0c-fe6a5755166f@huawei.com>
-Date: Thu, 24 Sep 2020 11:26:44 +0800
+ <c5ba167c-2c66-66ec-9d0c-fe6a5755166f@huawei.com>
+Message-ID: <a132b0cc-6299-6c96-ce07-bd4c5dd84bc1@huawei.com>
+Date: Thu, 24 Sep 2020 12:17:47 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200923204911.GA1271664@bogus>
+In-Reply-To: <c5ba167c-2c66-66ec-9d0c-fe6a5755166f@huawei.com>
 Content-Language: en-US
 X-Originating-IP: [10.174.177.253]
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200923_232712_325219_59B97BD1 
-X-CRM114-Status: GOOD (  27.26  )
+X-CRM114-CacheID: sfid-20200924_001801_037249_DD6CF0FF 
+X-CRM114-Status: GOOD (  26.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,211 +82,141 @@ Cc: devicetree <devicetree@vger.kernel.org>,
  Thomas Gleixner <tglx@linutronix.de>,
  linux-snps-arc <linux-snps-arc@lists.infradead.org>,
  Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2020/9/24 4:49, Rob Herring wrote:
-> On Fri, Sep 18, 2020 at 07:22:01PM +0800, Zhen Lei wrote:
->> Convert the Synopsys DesignWare APB interrupt controller (dw_apb_ictl)
->> binding to DT schema format using json-schema.
->>
->> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
->> ---
->>  .../interrupt-controller/snps,dw-apb-ictl.txt      | 43 -------------
->>  .../interrupt-controller/snps,dw-apb-ictl.yaml     | 75 ++++++++++++++++++++++
->>  2 files changed, 75 insertions(+), 43 deletions(-)
->>  delete mode 100644 Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.txt
->>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.txt b/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.txt
->> deleted file mode 100644
->> index 2db59df9408f4c6..000000000000000
->> --- a/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.txt
->> +++ /dev/null
->> @@ -1,43 +0,0 @@
->> -Synopsys DesignWare APB interrupt controller (dw_apb_ictl)
->> -
->> -Synopsys DesignWare provides interrupt controller IP for APB known as
->> -dw_apb_ictl. The IP is used as secondary interrupt controller in some SoCs with
->> -APB bus, e.g. Marvell Armada 1500. It can also be used as primary interrupt
->> -controller in some SoCs, e.g. Hisilicon SD5203.
->> -
->> -Required properties:
->> -- compatible: shall be "snps,dw-apb-ictl"
->> -- reg: physical base address of the controller and length of memory mapped
->> -  region starting with ENABLE_LOW register
->> -- interrupt-controller: identifies the node as an interrupt controller
->> -- #interrupt-cells: number of cells to encode an interrupt-specifier, shall be 1
->> -
->> -Additional required property when it's used as secondary interrupt controller:
->> -- interrupts: interrupt reference to primary interrupt controller
->> -
->> -The interrupt sources map to the corresponding bits in the interrupt
->> -registers, i.e.
->> -- 0 maps to bit 0 of low interrupts,
->> -- 1 maps to bit 1 of low interrupts,
->> -- 32 maps to bit 0 of high interrupts,
->> -- 33 maps to bit 1 of high interrupts,
->> -- (optional) fast interrupts start at 64.
->> -
->> -Example:
->> -	/* dw_apb_ictl is used as secondary interrupt controller */
->> -	aic: interrupt-controller@3000 {
->> -		compatible = "snps,dw-apb-ictl";
->> -		reg = <0x3000 0xc00>;
->> -		interrupt-controller;
->> -		#interrupt-cells = <1>;
->> -		interrupt-parent = <&gic>;
->> -		interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
->> -	};
->> -
->> -	/* dw_apb_ictl is used as primary interrupt controller */
->> -	vic: interrupt-controller@10130000 {
->> -		compatible = "snps,dw-apb-ictl";
->> -		reg = <0x10130000 0x1000>;
->> -		interrupt-controller;
->> -		#interrupt-cells = <1>;
->> -	};
->> diff --git a/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.yaml b/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.yaml
->> new file mode 100644
->> index 000000000000000..70c12979c843bf0
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/interrupt-controller/snps,dw-apb-ictl.yaml
->> @@ -0,0 +1,75 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/interrupt-controller/snps,dw-apb-ictl.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Synopsys DesignWare APB interrupt controller (dw_apb_ictl)
->> +
->> +maintainers:
->> +  - Marc Zyngier <marc.zyngier@arm.com>
-> 
-> Usually this would be an owner for this IP block, not the subsystem 
-> maintainer.
-
-OK, I will change it to the author of the file "snps,dw-apb-ictl.txt".
-
-
-> 
->> +
->> +description:
->> +  Synopsys DesignWare provides interrupt controller IP for APB known as
->> +  dw_apb_ictl. The IP is used as secondary interrupt controller in some SoCs
->> +  with APB bus, e.g. Marvell Armada 1500. It can also be used as primary
->> +  interrupt controller in some SoCs, e.g. Hisilicon SD5203.
->> +
->> +allOf:
->> +  - $ref: /schemas/interrupt-controller.yaml#
-> 
-> You can drop this, it's already applied based on node name.
-But if we drop this, the "snps,dw-apb-ictl.yaml" can not require that the node name
-must match '^interrupt-controller(@[0-9a-f,]+)*$'. The problem of Patch 6/6 was
-discovered by this.
-
-> 
->> +
->> +properties:
->> +  compatible:
->> +    const: snps,dw-apb-ictl
->> +
->> +  interrupt-controller: true
->> +
->> +  reg:
->> +    description:
->> +      Physical base address of the controller and length of memory mapped
->> +      region starting with ENABLE_LOW register.
-> 
-> Need to define how many reg regions (maxItems: 1).
-
-OK, I will add it.
-
-> 
->> +
->> +  interrupts:
->> +    description:
->> +      Interrupt reference to primary interrupt controller.
->> +
->> +      The interrupt sources map to the corresponding bits in the interrupt
->> +      registers, i.e.
->> +      - 0 maps to bit 0 of low interrupts,
->> +      - 1 maps to bit 1 of low interrupts,
->> +      - 32 maps to bit 0 of high interrupts,
->> +      - 33 maps to bit 1 of high interrupts,
->> +      - (optional) fast interrupts start at 64.
->> +    minItems: 1
->> +    maxItems: 65
-> 
-> 65 connections to the primary interrupt controller? I think this is for 
-> the child interrupts? If so, move to #interrupt-cells description 
-> instead.
-Oh, yes. The property "interrupts" here describes which interrupts are used in the
-primary interrupt controller. We don't known how many will be connected but at least one.
-I will remove "maxItems: 65", it's my mistake.
-
-Property "#interrupt-cells" describes how many cells of one "interrupts" item. So I will
-move these descriptions under the top property "properties:"
-
-> 
->> +
->> +  "#interrupt-cells":
->> +    description:
->> +      Number of cells to encode an interrupt-specifier.
-> 
-> Drop. No need to redefine common properties.
-
-This is useful. See below, I add "const: 1" to require that the value of
-"#interrupt-cells" can only be one.
-
-#interrupt-cells = <1>;
-
-I followed the description in "snps,dw-apb-ictl.txt".
--- #interrupt-cells: number of cells to encode an interrupt-specifier, shall be 1
-
-> 
->> +    const: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupt-controller
->> +  - '#interrupt-cells'
->> +
->> +examples:
->> +  - |
->> +    /* dw_apb_ictl is used as secondary interrupt controller */
->> +    aic: interrupt-controller@3000 {
->> +        compatible = "snps,dw-apb-ictl";
->> +        reg = <0x3000 0xc00>;
->> +        interrupt-controller;
->> +        #interrupt-cells = <1>;
->> +        interrupt-parent = <&gic>;
->> +        interrupts = <0 3 4>;
->> +    };
->> +
->> +    /* dw_apb_ictl is used as primary interrupt controller */
->> +    vic: interrupt-controller@10130000 {
->> +        compatible = "snps,dw-apb-ictl";
->> +        reg = <0x10130000 0x1000>;
->> +        interrupt-controller;
->> +        #interrupt-cells = <1>;
->> +    };
->> -- 
->> 1.8.3
->>
->>
-> 
-> .
-> 
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpPbiAyMDIwLzkvMjQgMTE6MjYsIExlaXpoZW4gKFRodW5kZXJUb3duKSB3cm90ZToKPiAKPiAK
+PiBPbiAyMDIwLzkvMjQgNDo0OSwgUm9iIEhlcnJpbmcgd3JvdGU6Cj4+IE9uIEZyaSwgU2VwIDE4
+LCAyMDIwIGF0IDA3OjIyOjAxUE0gKzA4MDAsIFpoZW4gTGVpIHdyb3RlOgo+Pj4gQ29udmVydCB0
+aGUgU3lub3BzeXMgRGVzaWduV2FyZSBBUEIgaW50ZXJydXB0IGNvbnRyb2xsZXIgKGR3X2FwYl9p
+Y3RsKQo+Pj4gYmluZGluZyB0byBEVCBzY2hlbWEgZm9ybWF0IHVzaW5nIGpzb24tc2NoZW1hLgo+
+Pj4KPj4+IFNpZ25lZC1vZmYtYnk6IFpoZW4gTGVpIDx0aHVuZGVyLmxlaXpoZW5AaHVhd2VpLmNv
+bT4KPj4+IC0tLQo+Pj4gIC4uLi9pbnRlcnJ1cHQtY29udHJvbGxlci9zbnBzLGR3LWFwYi1pY3Rs
+LnR4dCAgICAgIHwgNDMgLS0tLS0tLS0tLS0tLQo+Pj4gIC4uLi9pbnRlcnJ1cHQtY29udHJvbGxl
+ci9zbnBzLGR3LWFwYi1pY3RsLnlhbWwgICAgIHwgNzUgKysrKysrKysrKysrKysrKysrKysrKwo+
+Pj4gIDIgZmlsZXMgY2hhbmdlZCwgNzUgaW5zZXJ0aW9ucygrKSwgNDMgZGVsZXRpb25zKC0pCj4+
+PiAgZGVsZXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9p
+bnRlcnJ1cHQtY29udHJvbGxlci9zbnBzLGR3LWFwYi1pY3RsLnR4dAo+Pj4gIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvaW50ZXJydXB0LWNvbnRy
+b2xsZXIvc25wcyxkdy1hcGItaWN0bC55YW1sCj4+Pgo+Pj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnRlcnJ1cHQtY29udHJvbGxlci9zbnBzLGR3LWFw
+Yi1pY3RsLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnRlcnJ1cHQt
+Y29udHJvbGxlci9zbnBzLGR3LWFwYi1pY3RsLnR4dAo+Pj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAw
+NjQ0Cj4+PiBpbmRleCAyZGI1OWRmOTQwOGY0YzYuLjAwMDAwMDAwMDAwMDAwMAo+Pj4gLS0tIGEv
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2ludGVycnVwdC1jb250cm9sbGVyL3Nu
+cHMsZHctYXBiLWljdGwudHh0Cj4+PiArKysgL2Rldi9udWxsCj4+PiBAQCAtMSw0MyArMCwwIEBA
+Cj4+PiAtU3lub3BzeXMgRGVzaWduV2FyZSBBUEIgaW50ZXJydXB0IGNvbnRyb2xsZXIgKGR3X2Fw
+Yl9pY3RsKQo+Pj4gLQo+Pj4gLVN5bm9wc3lzIERlc2lnbldhcmUgcHJvdmlkZXMgaW50ZXJydXB0
+IGNvbnRyb2xsZXIgSVAgZm9yIEFQQiBrbm93biBhcwo+Pj4gLWR3X2FwYl9pY3RsLiBUaGUgSVAg
+aXMgdXNlZCBhcyBzZWNvbmRhcnkgaW50ZXJydXB0IGNvbnRyb2xsZXIgaW4gc29tZSBTb0NzIHdp
+dGgKPj4+IC1BUEIgYnVzLCBlLmcuIE1hcnZlbGwgQXJtYWRhIDE1MDAuIEl0IGNhbiBhbHNvIGJl
+IHVzZWQgYXMgcHJpbWFyeSBpbnRlcnJ1cHQKPj4+IC1jb250cm9sbGVyIGluIHNvbWUgU29Dcywg
+ZS5nLiBIaXNpbGljb24gU0Q1MjAzLgo+Pj4gLQo+Pj4gLVJlcXVpcmVkIHByb3BlcnRpZXM6Cj4+
+PiAtLSBjb21wYXRpYmxlOiBzaGFsbCBiZSAic25wcyxkdy1hcGItaWN0bCIKPj4+IC0tIHJlZzog
+cGh5c2ljYWwgYmFzZSBhZGRyZXNzIG9mIHRoZSBjb250cm9sbGVyIGFuZCBsZW5ndGggb2YgbWVt
+b3J5IG1hcHBlZAo+Pj4gLSAgcmVnaW9uIHN0YXJ0aW5nIHdpdGggRU5BQkxFX0xPVyByZWdpc3Rl
+cgo+Pj4gLS0gaW50ZXJydXB0LWNvbnRyb2xsZXI6IGlkZW50aWZpZXMgdGhlIG5vZGUgYXMgYW4g
+aW50ZXJydXB0IGNvbnRyb2xsZXIKPj4+IC0tICNpbnRlcnJ1cHQtY2VsbHM6IG51bWJlciBvZiBj
+ZWxscyB0byBlbmNvZGUgYW4gaW50ZXJydXB0LXNwZWNpZmllciwgc2hhbGwgYmUgMQo+Pj4gLQo+
+Pj4gLUFkZGl0aW9uYWwgcmVxdWlyZWQgcHJvcGVydHkgd2hlbiBpdCdzIHVzZWQgYXMgc2Vjb25k
+YXJ5IGludGVycnVwdCBjb250cm9sbGVyOgo+Pj4gLS0gaW50ZXJydXB0czogaW50ZXJydXB0IHJl
+ZmVyZW5jZSB0byBwcmltYXJ5IGludGVycnVwdCBjb250cm9sbGVyCj4+PiAtCj4+PiAtVGhlIGlu
+dGVycnVwdCBzb3VyY2VzIG1hcCB0byB0aGUgY29ycmVzcG9uZGluZyBiaXRzIGluIHRoZSBpbnRl
+cnJ1cHQKPj4+IC1yZWdpc3RlcnMsIGkuZS4KPj4+IC0tIDAgbWFwcyB0byBiaXQgMCBvZiBsb3cg
+aW50ZXJydXB0cywKPj4+IC0tIDEgbWFwcyB0byBiaXQgMSBvZiBsb3cgaW50ZXJydXB0cywKPj4+
+IC0tIDMyIG1hcHMgdG8gYml0IDAgb2YgaGlnaCBpbnRlcnJ1cHRzLAo+Pj4gLS0gMzMgbWFwcyB0
+byBiaXQgMSBvZiBoaWdoIGludGVycnVwdHMsCj4+PiAtLSAob3B0aW9uYWwpIGZhc3QgaW50ZXJy
+dXB0cyBzdGFydCBhdCA2NC4KPj4+IC0KPj4+IC1FeGFtcGxlOgo+Pj4gLQkvKiBkd19hcGJfaWN0
+bCBpcyB1c2VkIGFzIHNlY29uZGFyeSBpbnRlcnJ1cHQgY29udHJvbGxlciAqLwo+Pj4gLQlhaWM6
+IGludGVycnVwdC1jb250cm9sbGVyQDMwMDAgewo+Pj4gLQkJY29tcGF0aWJsZSA9ICJzbnBzLGR3
+LWFwYi1pY3RsIjsKPj4+IC0JCXJlZyA9IDwweDMwMDAgMHhjMDA+Owo+Pj4gLQkJaW50ZXJydXB0
+LWNvbnRyb2xsZXI7Cj4+PiAtCQkjaW50ZXJydXB0LWNlbGxzID0gPDE+Owo+Pj4gLQkJaW50ZXJy
+dXB0LXBhcmVudCA9IDwmZ2ljPjsKPj4+IC0JCWludGVycnVwdHMgPSA8R0lDX1NQSSAzIElSUV9U
+WVBFX0xFVkVMX0hJR0g+Owo+Pj4gLQl9Owo+Pj4gLQo+Pj4gLQkvKiBkd19hcGJfaWN0bCBpcyB1
+c2VkIGFzIHByaW1hcnkgaW50ZXJydXB0IGNvbnRyb2xsZXIgKi8KPj4+IC0JdmljOiBpbnRlcnJ1
+cHQtY29udHJvbGxlckAxMDEzMDAwMCB7Cj4+PiAtCQljb21wYXRpYmxlID0gInNucHMsZHctYXBi
+LWljdGwiOwo+Pj4gLQkJcmVnID0gPDB4MTAxMzAwMDAgMHgxMDAwPjsKPj4+IC0JCWludGVycnVw
+dC1jb250cm9sbGVyOwo+Pj4gLQkJI2ludGVycnVwdC1jZWxscyA9IDwxPjsKPj4+IC0JfTsKPj4+
+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvaW50ZXJydXB0
+LWNvbnRyb2xsZXIvc25wcyxkdy1hcGItaWN0bC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL2ludGVycnVwdC1jb250cm9sbGVyL3NucHMsZHctYXBiLWljdGwueWFtbAo+
+Pj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPj4+IGluZGV4IDAwMDAwMDAwMDAwMDAwMC4uNzBjMTI5
+NzljODQzYmYwCj4+PiAtLS0gL2Rldi9udWxsCj4+PiArKysgYi9Eb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvaW50ZXJydXB0LWNvbnRyb2xsZXIvc25wcyxkdy1hcGItaWN0bC55YW1s
+Cj4+PiBAQCAtMCwwICsxLDc1IEBACj4+PiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogKEdQ
+TC0yLjAtb25seSBPUiBCU0QtMi1DbGF1c2UpCj4+PiArJVlBTUwgMS4yCj4+PiArLS0tCj4+PiAr
+JGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9pbnRlcnJ1cHQtY29udHJvbGxlci9z
+bnBzLGR3LWFwYi1pY3RsLnlhbWwjCj4+PiArJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3Jn
+L21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjCj4+PiArCj4+PiArdGl0bGU6IFN5bm9wc3lzIERlc2ln
+bldhcmUgQVBCIGludGVycnVwdCBjb250cm9sbGVyIChkd19hcGJfaWN0bCkKPj4+ICsKPj4+ICtt
+YWludGFpbmVyczoKPj4+ICsgIC0gTWFyYyBaeW5naWVyIDxtYXJjLnp5bmdpZXJAYXJtLmNvbT4K
+Pj4KPj4gVXN1YWxseSB0aGlzIHdvdWxkIGJlIGFuIG93bmVyIGZvciB0aGlzIElQIGJsb2NrLCBu
+b3QgdGhlIHN1YnN5c3RlbSAKPj4gbWFpbnRhaW5lci4KPiAKPiBPSywgSSB3aWxsIGNoYW5nZSBp
+dCB0byB0aGUgYXV0aG9yIG9mIHRoZSBmaWxlICJzbnBzLGR3LWFwYi1pY3RsLnR4dCIuCj4gCj4g
+Cj4+Cj4+PiArCj4+PiArZGVzY3JpcHRpb246Cj4+PiArICBTeW5vcHN5cyBEZXNpZ25XYXJlIHBy
+b3ZpZGVzIGludGVycnVwdCBjb250cm9sbGVyIElQIGZvciBBUEIga25vd24gYXMKPj4+ICsgIGR3
+X2FwYl9pY3RsLiBUaGUgSVAgaXMgdXNlZCBhcyBzZWNvbmRhcnkgaW50ZXJydXB0IGNvbnRyb2xs
+ZXIgaW4gc29tZSBTb0NzCj4+PiArICB3aXRoIEFQQiBidXMsIGUuZy4gTWFydmVsbCBBcm1hZGEg
+MTUwMC4gSXQgY2FuIGFsc28gYmUgdXNlZCBhcyBwcmltYXJ5Cj4+PiArICBpbnRlcnJ1cHQgY29u
+dHJvbGxlciBpbiBzb21lIFNvQ3MsIGUuZy4gSGlzaWxpY29uIFNENTIwMy4KPj4+ICsKPj4+ICth
+bGxPZjoKPj4+ICsgIC0gJHJlZjogL3NjaGVtYXMvaW50ZXJydXB0LWNvbnRyb2xsZXIueWFtbCMK
+Pj4KPj4gWW91IGNhbiBkcm9wIHRoaXMsIGl0J3MgYWxyZWFkeSBhcHBsaWVkIGJhc2VkIG9uIG5v
+ZGUgbmFtZS4KPiBCdXQgaWYgd2UgZHJvcCB0aGlzLCB0aGUgInNucHMsZHctYXBiLWljdGwueWFt
+bCIgY2FuIG5vdCByZXF1aXJlIHRoYXQgdGhlIG5vZGUgbmFtZQo+IG11c3QgbWF0Y2ggJ15pbnRl
+cnJ1cHQtY29udHJvbGxlcihAWzAtOWEtZixdKykqJCcuIFRoZSBwcm9ibGVtIG9mIFBhdGNoIDYv
+NiB3YXMKPiBkaXNjb3ZlcmVkIGJ5IHRoaXMuCj4gCj4+Cj4+PiArCj4+PiArcHJvcGVydGllczoK
+Pj4+ICsgIGNvbXBhdGlibGU6Cj4+PiArICAgIGNvbnN0OiBzbnBzLGR3LWFwYi1pY3RsCj4+PiAr
+Cj4+PiArICBpbnRlcnJ1cHQtY29udHJvbGxlcjogdHJ1ZQo+Pj4gKwo+Pj4gKyAgcmVnOgo+Pj4g
+KyAgICBkZXNjcmlwdGlvbjoKPj4+ICsgICAgICBQaHlzaWNhbCBiYXNlIGFkZHJlc3Mgb2YgdGhl
+IGNvbnRyb2xsZXIgYW5kIGxlbmd0aCBvZiBtZW1vcnkgbWFwcGVkCj4+PiArICAgICAgcmVnaW9u
+IHN0YXJ0aW5nIHdpdGggRU5BQkxFX0xPVyByZWdpc3Rlci4KPj4KPj4gTmVlZCB0byBkZWZpbmUg
+aG93IG1hbnkgcmVnIHJlZ2lvbnMgKG1heEl0ZW1zOiAxKS4KPiAKPiBPSywgSSB3aWxsIGFkZCBp
+dC4KPiAKPj4KPj4+ICsKPj4+ICsgIGludGVycnVwdHM6Cj4+PiArICAgIGRlc2NyaXB0aW9uOgo+
+Pj4gKyAgICAgIEludGVycnVwdCByZWZlcmVuY2UgdG8gcHJpbWFyeSBpbnRlcnJ1cHQgY29udHJv
+bGxlci4KPj4+ICsKPj4+ICsgICAgICBUaGUgaW50ZXJydXB0IHNvdXJjZXMgbWFwIHRvIHRoZSBj
+b3JyZXNwb25kaW5nIGJpdHMgaW4gdGhlIGludGVycnVwdAo+Pj4gKyAgICAgIHJlZ2lzdGVycywg
+aS5lLgo+Pj4gKyAgICAgIC0gMCBtYXBzIHRvIGJpdCAwIG9mIGxvdyBpbnRlcnJ1cHRzLAo+Pj4g
+KyAgICAgIC0gMSBtYXBzIHRvIGJpdCAxIG9mIGxvdyBpbnRlcnJ1cHRzLAo+Pj4gKyAgICAgIC0g
+MzIgbWFwcyB0byBiaXQgMCBvZiBoaWdoIGludGVycnVwdHMsCj4+PiArICAgICAgLSAzMyBtYXBz
+IHRvIGJpdCAxIG9mIGhpZ2ggaW50ZXJydXB0cywKPj4+ICsgICAgICAtIChvcHRpb25hbCkgZmFz
+dCBpbnRlcnJ1cHRzIHN0YXJ0IGF0IDY0Lgo+Pj4gKyAgICBtaW5JdGVtczogMQo+Pj4gKyAgICBt
+YXhJdGVtczogNjUKPj4KPj4gNjUgY29ubmVjdGlvbnMgdG8gdGhlIHByaW1hcnkgaW50ZXJydXB0
+IGNvbnRyb2xsZXI/IEkgdGhpbmsgdGhpcyBpcyBmb3IgCj4+IHRoZSBjaGlsZCBpbnRlcnJ1cHRz
+PyBJZiBzbywgbW92ZSB0byAjaW50ZXJydXB0LWNlbGxzIGRlc2NyaXB0aW9uIAo+PiBpbnN0ZWFk
+Lgo+IE9oLCB5ZXMuIFRoZSBwcm9wZXJ0eSAiaW50ZXJydXB0cyIgaGVyZSBkZXNjcmliZXMgd2hp
+Y2ggaW50ZXJydXB0cyBhcmUgdXNlZCBpbiB0aGUKPiBwcmltYXJ5IGludGVycnVwdCBjb250cm9s
+bGVyLiBXZSBkb24ndCBrbm93biBob3cgbWFueSB3aWxsIGJlIGNvbm5lY3RlZCBidXQgYXQgbGVh
+c3Qgb25lLgo+IEkgd2lsbCByZW1vdmUgIm1heEl0ZW1zOiA2NSIsIGl0J3MgbXkgbWlzdGFrZS4K
+Ck9oLCBJIHRoaW5rIEkgc2hvdWxkIGNoYW5nZSAibWluSXRlbXM6IDEiIHRvICJtYXhJdGVtczog
+MSIgZnVydGhlcu+8jCBiZWNhdXNlIHRoZXJlIGlzIG9ubHkgb25lCmNvbm5lY3Rpb24gY3VycmVu
+dGx5LgoKPiAKPiBQcm9wZXJ0eSAiI2ludGVycnVwdC1jZWxscyIgZGVzY3JpYmVzIGhvdyBtYW55
+IGNlbGxzIG9mIG9uZSAiaW50ZXJydXB0cyIgaXRlbS4gU28gSSB3aWxsCj4gbW92ZSB0aGVzZSBk
+ZXNjcmlwdGlvbnMgdW5kZXIgdGhlIHRvcCBwcm9wZXJ0eSAicHJvcGVydGllczoiCj4gCj4+Cj4+
+PiArCj4+PiArICAiI2ludGVycnVwdC1jZWxscyI6Cj4+PiArICAgIGRlc2NyaXB0aW9uOgo+Pj4g
+KyAgICAgIE51bWJlciBvZiBjZWxscyB0byBlbmNvZGUgYW4gaW50ZXJydXB0LXNwZWNpZmllci4K
+Pj4KPj4gRHJvcC4gTm8gbmVlZCB0byByZWRlZmluZSBjb21tb24gcHJvcGVydGllcy4KPiAKPiBU
+aGlzIGlzIHVzZWZ1bC4gU2VlIGJlbG93LCBJIGFkZCAiY29uc3Q6IDEiIHRvIHJlcXVpcmUgdGhh
+dCB0aGUgdmFsdWUgb2YKPiAiI2ludGVycnVwdC1jZWxscyIgY2FuIG9ubHkgYmUgb25lLgo+IAo+
+ICNpbnRlcnJ1cHQtY2VsbHMgPSA8MT47Cj4gCj4gSSBmb2xsb3dlZCB0aGUgZGVzY3JpcHRpb24g
+aW4gInNucHMsZHctYXBiLWljdGwudHh0Ii4KPiAtLSAjaW50ZXJydXB0LWNlbGxzOiBudW1iZXIg
+b2YgY2VsbHMgdG8gZW5jb2RlIGFuIGludGVycnVwdC1zcGVjaWZpZXIsIHNoYWxsIGJlIDEKPiAK
+Pj4KPj4+ICsgICAgY29uc3Q6IDEKPj4+ICsKPj4+ICtyZXF1aXJlZDoKPj4+ICsgIC0gY29tcGF0
+aWJsZQo+Pj4gKyAgLSByZWcKPj4+ICsgIC0gaW50ZXJydXB0LWNvbnRyb2xsZXIKPj4+ICsgIC0g
+JyNpbnRlcnJ1cHQtY2VsbHMnCj4+PiArCj4+PiArZXhhbXBsZXM6Cj4+PiArICAtIHwKPj4+ICsg
+ICAgLyogZHdfYXBiX2ljdGwgaXMgdXNlZCBhcyBzZWNvbmRhcnkgaW50ZXJydXB0IGNvbnRyb2xs
+ZXIgKi8KPj4+ICsgICAgYWljOiBpbnRlcnJ1cHQtY29udHJvbGxlckAzMDAwIHsKPj4+ICsgICAg
+ICAgIGNvbXBhdGlibGUgPSAic25wcyxkdy1hcGItaWN0bCI7Cj4+PiArICAgICAgICByZWcgPSA8
+MHgzMDAwIDB4YzAwPjsKPj4+ICsgICAgICAgIGludGVycnVwdC1jb250cm9sbGVyOwo+Pj4gKyAg
+ICAgICAgI2ludGVycnVwdC1jZWxscyA9IDwxPjsKPj4+ICsgICAgICAgIGludGVycnVwdC1wYXJl
+bnQgPSA8JmdpYz47Cj4+PiArICAgICAgICBpbnRlcnJ1cHRzID0gPDAgMyA0PjsKPj4+ICsgICAg
+fTsKPj4+ICsKPj4+ICsgICAgLyogZHdfYXBiX2ljdGwgaXMgdXNlZCBhcyBwcmltYXJ5IGludGVy
+cnVwdCBjb250cm9sbGVyICovCj4+PiArICAgIHZpYzogaW50ZXJydXB0LWNvbnRyb2xsZXJAMTAx
+MzAwMDAgewo+Pj4gKyAgICAgICAgY29tcGF0aWJsZSA9ICJzbnBzLGR3LWFwYi1pY3RsIjsKPj4+
+ICsgICAgICAgIHJlZyA9IDwweDEwMTMwMDAwIDB4MTAwMD47Cj4+PiArICAgICAgICBpbnRlcnJ1
+cHQtY29udHJvbGxlcjsKPj4+ICsgICAgICAgICNpbnRlcnJ1cHQtY2VsbHMgPSA8MT47Cj4+PiAr
+ICAgIH07Cj4+PiAtLSAKPj4+IDEuOC4zCj4+Pgo+Pj4KPj4KPj4gLgo+PgoKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxp
+bmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5p
+bmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
