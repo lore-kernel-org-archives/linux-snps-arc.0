@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35AD2C47425
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A773CC4727C
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:47:03 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BA42C2071E
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:47:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4F1422071E
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:47:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JKTHqPXV";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tYyqtCqA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA42C2071E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YoWBLJHs";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I2nmI33V"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4F1422071E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,63 +27,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=QwFhWvI8uhupAAjrbqn4NjrNqUTFahgM1P5+fw1MwvU=; b=JKTHqPXVFM2PAxUzBJEeTtu8b
-	pkuNLIU3ATiZXafFcqFG9MIhcOtJy9RsnUkSm/2X/XWPi0su4qu4QOtY1GBYQdtx2YL9nF+R0MFvx
-	IHhGQG6doBLC62phPPk3MBa3YudYmU5p2hPTlalDc4YvNmblBlSCAjNWrf6wAUtwJOsT6IDZa/ZY6
-	keS1T1fR1ioTq0FozYRVQKv8DFpKwIvzcctJOGonms1wgKj6T+lckPf5sXsjS27B+uW0xObvnCyc3
-	6RBpqwQMhdzrc0ZtIycCq6wstlupiZoENnpv9y5XthAL6R+1BIT2+/QEHIvLXFBcIpDo5wBpzDCQq
-	VKbfV17hQ==;
+	 bh=r9Sfq5AboG33/lPVB074xSD0jIG7nwen2Po7ac49KB4=; b=YoWBLJHsTraUjfzsDYDAUEEMo
+	JjQfCBvIkWiNX/UAms1MaC7QrceVa0KtvOwQ0vn/LjOMOU5P8B3UdwdJHH8R//mYLRSOzMDE5jwZU
+	T4tbWqErHa3j23D+5i+zOKtF3lCH9R2U348C1LZ9DPhGOV0P8qGAW2R6xYPk13dQumfyc8GOcO2Ci
+	qPd7S23MbzHy3h4orAB5JJHG8S8IT8tHPF92MHxMBXJfzygBHUg6Ptcy4OV/eoBep8yBd0pN+exwQ
+	C51Y7UGWPHYpJlXsfGuBcqWJnZUdkI7+VQWP9z8n+MoRQ29XmM2aBV+QlVAAQOc4NAh6RLlPNSN7p
+	fifUn30sg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNj07-0004mT-IR; Wed, 30 Sep 2020 20:46:59 +0000
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+	id 1kNj0A-0004ni-Ad; Wed, 30 Sep 2020 20:47:02 +0000
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNizu-0004gB-Gl
- for linux-snps-arc@lists.infradead.org; Wed, 30 Sep 2020 20:46:57 +0000
-Received: by mail-wm1-x32e.google.com with SMTP id t17so839081wmi.4
- for <linux-snps-arc@lists.infradead.org>; Wed, 30 Sep 2020 13:46:46 -0700 (PDT)
+ id 1kNj00-0004jJ-Jv
+ for linux-snps-arc@lists.infradead.org; Wed, 30 Sep 2020 20:46:59 +0000
+Received: by mail-wm1-x344.google.com with SMTP id d4so813364wmd.5
+ for <linux-snps-arc@lists.infradead.org>; Wed, 30 Sep 2020 13:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T30PQRbG5c+x4h/vprfOn4o+/kj2pbFw+SxHgbkuaBk=;
- b=tYyqtCqAF3zlRXsO+icQIHQp0PNaCDopsEMC7e9GOo9NqkGfujKa2tp8e2/TwaUFaE
- QNKVJQ14IaJWrWNR/xEhF2JtIcwidUSUDH+Jws4R7fTik/s0j+MJQHUtq28m51WMUpFp
- VPYwRPrMk3FvpGereqMuSmkCeL8hHpN9jrM5D8XrnbaO3l0ocIgKAvahc3/MtqbsjzJl
- s2jKxwgmquxE5wSoih05tR4evB4aq9KeL/Zjg/uBFzvSEPhOzWb5tjaTBuJ1xtbo26df
- KKjl915oLL/XRSgsWx+AKVShm5rLeI5R83y/7zsGIyw9GjullzFUMs3Nc0OWXLKF9/k6
- ZqWw==
+ bh=eZilmCoTEUwUIRJHegLI6wDNSXk+HaCJru/l+G4hcvQ=;
+ b=I2nmI33VYZJUzNi3m5HCCtbYIqg6Nv2Jw9/bpcdnlQbNpscVU2UB8gYQ+l1lfiGlxo
+ HMryDwGryJygk/a8KxBpQG6/y6T7R1hWX1KAsIomvn0fs1GvQnKvVfF0WTU6KffUddSb
+ aQVsa/7qHSQNBSK2xJepZC5C8NwbXX+7g+szYSzOerSksi+rKWqEuMW+1mx0gjX4b+d7
+ 3gPwkLS4W45sAZGVEowENymSs8f8gQ6wLY0edmqh1Okk6JyXzbzK1V8/l6DIVDikv0jo
+ Pvr2923XO7kLhqKP6t7+JyDqXPxBEzlnf7shum5B5BJgomXFjJkV+z+x/BulI6K8ijXP
+ Afhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T30PQRbG5c+x4h/vprfOn4o+/kj2pbFw+SxHgbkuaBk=;
- b=I8dno5W7vV0/xP8AIm3kRqBVYDfQGcjFoCEiYJxb4V/DM8FGZIQCJFRYUvn/+gXhRP
- 4+6YCM0foDUHuQYX6m/TK81Q5BjjSqmJC3gEIT9xnhH/wAwXk66KAH6AT5XJKUA1ozg1
- Gjh9Z0zRp+ujIbpNfJzDEGRQDeS6TmnzyrGYB6TY/zzMmXJFLvEwO8H+jwPRBhKXGFqV
- BJrpqXMFuLnNPm3+UIOykutqk6PJIStqkjcgYQQUUzjIpw4chruHXTfdhDgZt0ba0iJO
- sCc43v8lPHs2vgoaCrPEf/NGrap9CEyQoeA8rJ7VS1COOer1CHy+op2/Sr4GRDLOitND
- Ro7w==
-X-Gm-Message-State: AOAM532x2ppP4a8dW37CUyPtpmbQu6UZVQsxNj0Qt2EBMSxy6m8ttDUx
- IY0ArnKlenUHQdF/ugfliTc=
-X-Google-Smtp-Source: ABdhPJxk9h2uRVp8Y6gS9xOLPSi83JqGh54EG8EWTOrM0OFtG67XpvR1shAFFhFdkgCGevQ140RmCQ==
-X-Received: by 2002:a1c:4c05:: with SMTP id z5mr4628993wmf.47.1601498804899;
- Wed, 30 Sep 2020 13:46:44 -0700 (PDT)
+ bh=eZilmCoTEUwUIRJHegLI6wDNSXk+HaCJru/l+G4hcvQ=;
+ b=nlIzbFVmBk1MZKTBNA4nQBTq0b/QzJBDgiXBB3UTD65Q04VPDFHSQpf9riy0iQVu30
+ 4PscRb7tmTQ5y5TUPI/3aw5xP8OxrXFAKIDIaAwvVTm3jtQYFbdpIvPws6FzE626U9RB
+ RAgOaS5bJnQHdwSHLrxlcZld6f/aYAWLTK6k4GDUO4I0voAUwLo9lUaQmfxAHNGLs2DN
+ 0SkuR9WM7BuJPX1wOTuLwjqBauGx0XPjl/YZ/H3G2rVw+rs7ny+tfivisHmw+vYDZyYu
+ wSptYMrueLieOH84iYGxw244qlSBjwRZEiiQKwIK5KicIxSMGi316113JxfIG8el49qJ
+ HhHQ==
+X-Gm-Message-State: AOAM5302h9kAqvGQqNcdnmLZXs7R8g8/e7q7cUytk6m5oysRkZE2HE0c
+ 9WtCn2BxHFs8ymAbEq7ontHZynwG8biiVg==
+X-Google-Smtp-Source: ABdhPJwziJuRTyoOoLVNiY8/XlF9OqVsfu6UO8lSSPi+p2Cqt2TcUy/S+UHtCnNZRDRORD7mIqwEeg==
+X-Received: by 2002:a1c:7f14:: with SMTP id a20mr4898998wmd.95.1601498811663; 
+ Wed, 30 Sep 2020 13:46:51 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain ([188.251.240.167])
- by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.43
+ by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 13:46:44 -0700 (PDT)
+ Wed, 30 Sep 2020 13:46:51 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/14] arc: Add IRQ and timer subsystem support
-Date: Wed, 30 Sep 2020 21:45:58 +0100
-Message-Id: <20200930204604.20663-9-cupertinomiranda@gmail.com>
+Subject: [PATCH 13/14] arc: Add support for ARCv2
+Date: Wed, 30 Sep 2020 21:46:03 +0100
+Message-Id: <20200930204604.20663-14-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200930204604.20663-1-cupertinomiranda@gmail.com>
 References: <20200930204604.20663-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200930_164646_599380_8D3AC9AC 
-X-CRM114-Status: GOOD (  24.03  )
+X-CRM114-CacheID: sfid-20200930_164652_715519_B4776643 
+X-CRM114-Status: GOOD (  19.36  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,1227 +105,220 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Claudiu Zissulescu <claziss@synopsys.com>
+From: Shahab Vahedi <shahab@synopsys.com>
 
-Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
+Add remaining bits of the Synopsys ARCv2 (EM/HS) support into QEMU,
+configure bits, arch_init and configuration files for softmmu (hardware
+emulation).
+
+Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
 ---
- target/arc/irq.c   | 658 +++++++++++++++++++++++++++++++++++++++++++++
- target/arc/irq.h   |  37 +++
- target/arc/timer.c | 456 +++++++++++++++++++++++++++++++
- target/arc/timer.h |  32 +++
- 4 files changed, 1183 insertions(+)
- create mode 100644 target/arc/irq.c
- create mode 100644 target/arc/irq.h
- create mode 100644 target/arc/timer.c
- create mode 100644 target/arc/timer.h
+ configure                       |  5 +++++
+ default-configs/arc-softmmu.mak |  5 +++++
+ disas.c                         |  2 ++
+ disas/meson.build               |  1 +
+ hw/meson.build                  |  1 +
+ include/disas/dis-asm.h         | 10 +++++++++-
+ include/elf.h                   |  3 +++
+ include/exec/poison.h           |  2 ++
+ include/sysemu/arch_init.h      |  1 +
+ meson.build                     |  3 ++-
+ softmmu/arch_init.c             |  2 ++
+ target/meson.build              |  1 +
+ 12 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 default-configs/arc-softmmu.mak
 
-diff --git a/target/arc/irq.c b/target/arc/irq.c
+diff --git a/configure b/configure
+index ecc8e90e8b..65862d8371 100755
+--- a/configure
++++ b/configure
+@@ -7570,6 +7570,9 @@ case "$target_name" in
+     mttcg="yes"
+     TARGET_SYSTBL_ABI=common
+   ;;
++  arc)
++    gdb_xml_files="arc-core-v2.xml arc-aux-minimal.xml arc-aux-other.xml"
++  ;;
+   arm|armeb)
+     TARGET_ARCH=arm
+     TARGET_SYSTBL_ABI=common,oabi
+@@ -7852,8 +7855,10 @@ DIRS="$DIRS docs docs/interop fsdev scsi"
+ DIRS="$DIRS pc-bios/optionrom pc-bios/s390-ccw"
+ DIRS="$DIRS roms/seabios"
+ DIRS="$DIRS contrib/plugins/"
++#DIRS="$DIRS tests/tcg/arc"
+ LINKS="Makefile"
+ LINKS="$LINKS tests/tcg/lm32/Makefile"
++#LINKS="$LINKS tests/tcg/arc/Makefile.target"
+ LINKS="$LINKS tests/tcg/Makefile.target"
+ LINKS="$LINKS pc-bios/optionrom/Makefile"
+ LINKS="$LINKS pc-bios/s390-ccw/Makefile"
+diff --git a/default-configs/arc-softmmu.mak b/default-configs/arc-softmmu.mak
 new file mode 100644
-index 0000000000..ebbb2e1442
+index 0000000000..4300a90c93
 --- /dev/null
-+++ b/target/arc/irq.c
-@@ -0,0 +1,658 @@
-+/*
-+ * QEMU ARC CPU - IRQ subsystem
-+ *
-+ * Copyright (c) 2020
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
-+#include "hw/irq.h"
-+#include "cpu.h"
-+#include "qemu/main-loop.h"
-+#include "irq.h"
-+#include "exec/cpu_ldst.h"
-+#include "translate.h"
-+#include "qemu/host-utils.h"
-+
-+/* Static functions and variables. */
-+
-+static uint32_t save_reg_pair_32[] = {
-+    0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30
-+};
-+
-+static uint32_t save_reg_pair_16[] = {
-+    0, 2, 10, 12, 14, 26, 28, 30
-+};
-+
-+bool enabled_interrupts = false;
-+
-+/* Given a struct STATUS_R, pack it to 32 bit. */
-+uint32_t pack_status32(status_t *status_r)
-+{
-+    uint32_t res = 0x00000000;
-+
-+    res |= (status_r->IEf & 0x1) << 31;
-+    res |= (status_r->USf & 0x1) << 20;
-+    res |= (status_r->ADf & 0x1) << 19;
-+    res |= (status_r->RBf & 0x7) << 16;
-+    res |= (status_r->ESf & 0x1) << 15;
-+    res |= (status_r->SCf & 0x1) << 14;
-+    res |= (status_r->DZf & 0x1) << 13;
-+    res |= (status_r->Lf  & 0x1) << 12;
-+    res |= (status_r->Zf  & 0x1) << 11;
-+    res |= (status_r->Nf  & 0x1) << 10;
-+    res |= (status_r->Cf  & 0x1) << 9;
-+    res |= (status_r->Vf  & 0x1) << 8;
-+    res |= (status_r->Uf  & 0x1) << 7;
-+    res |= (status_r->DEf & 0x1) << 6;
-+    res |= (status_r->AEf & 0x1) << 5;
-+    res |= (status_r->Ef  & 0xf) << 1;
-+
-+    return res;
-+}
-+
-+/* Reverse of the above function. */
-+void unpack_status32(status_t *status_r, uint32_t value)
-+{
-+    status_r->IEf = ((value >> 31) & 0x1);
-+    status_r->USf = ((value >> 20) & 0x1);
-+    status_r->ADf = ((value >> 19) & 0x1);
-+    status_r->RBf = ((value >> 16) & 0x7);
-+    status_r->ESf = ((value >> 15) & 0x1);
-+    status_r->SCf = ((value >> 14) & 0x1);
-+    status_r->DZf = ((value >> 13) & 0x1);
-+    status_r->Lf  = ((value >> 12) & 0x1);
-+    status_r->Zf  = ((value >> 11) & 0x1);
-+    status_r->Nf  = ((value >> 10) & 0x1);
-+    status_r->Cf  = ((value >> 9)  & 0x1);
-+    status_r->Vf  = ((value >> 8)  & 0x1);
-+    status_r->Uf  = ((value >> 7)  & 0x1);
-+    status_r->DEf = ((value >> 6)  & 0x1);
-+    status_r->AEf = ((value >> 5)  & 0x1);
-+    status_r->Ef  = ((value >> 1)  & 0xf);
-+}
-+
-+/* Return from fast interrupts. */
-+
-+static void arc_rtie_firq(CPUARCState *env)
-+{
-+    assert(env->stat.AEf == 0);
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] exit firq: U=%d, AUX_IRQ_ACT.U=%d\n",
-+                  env->stat.Uf, env->aux_irq_act >> 31);
-+
-+    /* Clear currently active interrupt. */
-+    env->aux_irq_act &= 0xfffffffe;
-+
-+    /* Check if we need to restore userland SP. */
-+    if (((env->aux_irq_act & 0xFFFF) == 0) && (env->aux_irq_act & 0x80000000)) {
-+        switchSP(env);
-+    }
-+
-+    env->stat = env->stat_l1; /* FIXME use status32_p0 reg. */
-+    env->aux_irq_act &= ~(env->stat.Uf << 31); /* Keep U-bit in sync. */
-+
-+    /* FIXME! fix current reg bank if RB bit is changed. */
-+
-+    CPU_PCL(env) = CPU_ILINK(env);
-+    env->pc = CPU_ILINK(env);
-+}
-+
-+/* Implements a pop operation from the CPU stack. */
-+static uint32_t irq_pop(CPUARCState *env, const char *str)
-+{
-+    uint32_t rval;
-+    rval = cpu_ldl_data(env, CPU_SP(env));
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] Pop [SP:0x%08x] => 0x%08x (%s)\n",
-+                  CPU_SP(env), rval, str ? str : "unk");
-+    CPU_SP(env) += 4;
-+    return rval;
-+}
-+
-+/* Return from regular interrupts. */
-+
-+static void arc_rtie_irq(CPUARCState *env)
-+{
-+    uint32_t tmp;
-+    ARCCPU *cpu = env_archcpu(env);
-+
-+    assert((env->aux_irq_act & 0xFFFF) != 0);
-+    assert(env->stat.AEf == 0);
-+
-+    /* Clear currently active interrupt. */
-+    tmp = ctz32(env->aux_irq_act & 0xffff);
-+
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[IRQ] exit irq:%d IRQ_ACT:0x%08x PRIO:%d\n",
-+                  env->icause[tmp], env->aux_irq_act, tmp);
-+
-+    /*
-+     * FIXME! I assume the current active interrupt is the one which is
-+     * the highest in the aux_irq_act register.
-+     */
-+    env->aux_irq_act &= ~(1 << tmp);
-+
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[IRQ] exit irq:%d U:%d AE:%d IE:%d E:%d IRQ_ACT:0x%08x\n",
-+                  env->icause[tmp], env->stat.Uf, env->stat.AEf, env->stat.IEf,
-+                  env->stat.Ef, env->aux_irq_act);
-+
-+    if (((env->aux_irq_act & 0xffff) == 0) &&
-+        (env->aux_irq_act & 0x80000000) && (env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Pop requested number of registers. */
-+    /* FIXME! select rf16 when needed. */
-+    uint32_t *save_reg_pair = save_reg_pair_32;
-+    char regname[6];
-+    uint32_t i;
-+    for (i = 0; i < (env->aux_irq_ctrl & 0x1F); ++i) {
-+        sprintf(regname, "r%d", save_reg_pair[i]);
-+        env->r[save_reg_pair[i]] = irq_pop(env, (const char *) regname);
-+        sprintf(regname, "r%d", save_reg_pair[i] + 1);
-+        env->r[save_reg_pair[i] + 1] = irq_pop(env, (const char *) regname);
-+    }
-+
-+    /* Pop BLINK */
-+    if (env->aux_irq_ctrl & (1 << 9) && ((env->aux_irq_ctrl & 0x1F) != 16)) {
-+        CPU_BLINK(env) = irq_pop(env, "blink");
-+    }
-+
-+    /* Pop lp_end, lp_start, lp_count if aux_irq_ctrl.l bit is set. */
-+    if (env->aux_irq_ctrl & (1 << 10)) {
-+        env->lpe = irq_pop(env, "LP_END");
-+        env->lps = irq_pop(env, "LP_START");
-+        CPU_LP(env) = irq_pop(env, "lp");
-+    }
-+
-+    /*
-+     * Pop EI_BASE, JLI_BASE, LDI_BASE if LP bit is set and Code
-+     * Density feature is enabled. FIXME!
-+     */
-+    if (cpu->cfg.code_density && (env->aux_irq_ctrl & (1 << 13))) {
-+        /* FIXME! env->aux_ei_base  = irq_pop(env); */
-+        /* FIXME! env->aux_ldi_base = irq_pop(env); */
-+        /* FIXME! env->aux_jli_base = irq_pop(env); */
-+        irq_pop(env, "dummy EI_BASE");
-+        irq_pop(env, "dummy LDI_BASE");
-+        irq_pop(env, "dummy JLI_BASE");
-+    }
-+
-+    CPU_ILINK(env) = irq_pop(env, "PC"); /* CPU PC*/
-+    uint32_t tmp_stat = irq_pop(env, "STATUS32"); /* status. */
-+    unpack_status32(&env->stat, tmp_stat);
-+
-+    /* Late switch to Kernel SP if previously in User thread. */
-+    if (((env->aux_irq_act & 0xffff) == 0)
-+        && env->stat.Uf && !(env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    env->aux_irq_act &= ~(env->stat.Uf << 31); /* Keep U-bit in sync. */
-+    CPU_PCL(env) = CPU_ILINK(env);
-+    env->pc = CPU_ILINK(env);
-+}
-+
-+/* Helper, implements entering in a fast irq. */
-+static void arc_enter_firq(ARCCPU *cpu, uint32_t vector)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    assert(env->stat.DEf == 0);
-+    assert(env->stat.is_delay_slot_instruction == 0);
-+
-+    /* Reset RTC state machine -> AUX_RTC_CTRL &= 0x3fffffff */
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[IRQ] enter firq:%d U:%d AE:%d IE:%d E:%d\n",
-+                  vector, env->stat.Uf, env->stat.AEf, env->stat.IEf,
-+                  env->stat.Ef);
-+
-+    /* Switch SP with AUX_SP. */
-+    if (env->stat.Uf) {
-+        switchSP(env);
-+    }
-+
-+    /* Clobber ILINK with address of interrupting instruction. */
-+    CPU_ILINK(env) = env->pc & 0xfffffffe;
-+    env->stat_l1 = env->stat;
-+
-+    /* Set stat {Z = U; U = 0; L = 1; ES = 0; DZ = 0; DE = 0;} */
-+    env->stat.Lf = 1;
-+    env->stat.Zf = env->stat.Uf; /* Old User/Kernel bit. */
-+    env->stat.Uf = 0;
-+    env->stat.ESf = 0;
-+    env->stat.DZf = 0;
-+    env->stat.DEf = 0;
-+    env->stat.is_delay_slot_instruction = 0;
-+
-+    /* Set .RB to 1 if additional register banks are specified. */
-+    if (cpu->cfg.rgf_num_banks > 0) {
-+        env->stat.RBf = 1;
-+        /* FIXME! Switch to first register bank. */
-+    }
-+}
-+
-+/* Implements a push operation to the CPU stack. */
-+static void irq_push(CPUARCState *env, uint32_t regval, const char *str)
-+{
-+    CPU_SP(env) -= 4;
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] Push [SP:0x%08x] <= 0x%08x (%s)\n",
-+                  CPU_SP(env), regval, str ? str : "unk");
-+    uint32_t uf = env->stat.Uf;
-+    env->stat.Uf = 0;
-+    cpu_stl_data(env, CPU_SP(env), regval);
-+    env->stat.Uf = uf;
-+}
-+
-+/* Helper, implements the steps required to enter a simple interrupt. */
-+static void arc_enter_irq(ARCCPU *cpu, uint32_t vector)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    assert(env->stat.DEf == 0);
-+    assert(env->stat.is_delay_slot_instruction == 0);
-+
-+    /* Reset RTC state machine -> AUX_RTC_CTRL &= 0x3fffffff */
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] enter irq:%d U:%d AE:%d IE:%d E:%d\n",
-+                  vector, env->stat.Uf, env->stat.AEf, env->stat.IEf,
-+                  env->stat.Ef);
-+
-+    /* Early switch to kernel sp if previously in user thread */
-+    if (env->stat.Uf && !(env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Clobber ILINK with address of interrupting instruction. */
-+    CPU_ILINK(env) = env->pc & 0xfffffffe;
-+
-+    /* Start pushing regs and stat. */
-+    irq_push(env, pack_status32(&env->stat), "STATUS32");
-+    irq_push(env, env->pc, "PC");
-+
-+    /*
-+     * Push EI_BASE, JLI_BASE, LDI_BASE if LP bit is set and Code
-+     * Density feature is enabled.
-+     */
-+    if (cpu->cfg.code_density && (env->aux_irq_ctrl & (1 << 13))) {
-+        /* FIXME! irq_push(env, env->aux_jli_base, "JLI_BASE"); */
-+        /* FIXME! irq_push(env, env->aux_ldi_base, "LDI_BASE""); */
-+        /* FIXME! irq_push(env, env->aux_ei_base, "EI_BASE"); */
-+        irq_push(env, 0xdeadbeef, "dummy JLI_BASE");
-+        irq_push(env, 0xdeadbeef, "dummy LDI_BASE");
-+        irq_push(env, 0xdeadbeef, "dummy EI_BASE");
-+    }
-+
-+    /* Push LP_COUNT, LP_START, LP_END registers if required. */
-+    if (env->aux_irq_ctrl & (1 << 10)) {
-+        irq_push(env, CPU_LP(env), "lp");
-+        irq_push(env, env->lps, "LP_START");
-+        irq_push(env, env->lpe, "LP_END");
-+    }
-+
-+    /* Push BLINK register if required */
-+    if (env->aux_irq_ctrl & (1 << 9) && ((env->aux_irq_ctrl & 0x1F) != 16)) {
-+        irq_push(env, CPU_BLINK(env), "blink");
-+    }
-+
-+    /* Push selected AUX_IRQ_CTRL.NR of registers onto stack. */
-+    uint32_t *save_reg_pair = cpu->cfg.rgf_num_regs == 32 ?
-+        save_reg_pair_32 : save_reg_pair_16;
-+    const uint32_t regspair = (cpu->cfg.rgf_num_regs == 32 ? 16 : 8);
-+    const uint32_t upperlimit = (env->aux_irq_ctrl & 0x1F) < regspair ?
-+        env->aux_irq_ctrl & 0x1F : regspair;
-+    char regname[6];
-+    uint32_t i;
-+
-+    for (i = upperlimit; i > 0; --i) {
-+        sprintf(regname, "r%d", save_reg_pair[i - 1] + 1);
-+        irq_push(env, env->r[save_reg_pair[i - 1] + 1], (const char *) regname);
-+        sprintf(regname, "r%d", save_reg_pair[i - 1]);
-+        irq_push(env, env->r[save_reg_pair[i - 1]], (const char *) regname);
-+    }
-+
-+    /* Late switch to Kernel SP if previously in User thread. */
-+    if (env->stat.Uf && (env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Set STATUS bits */
-+    env->stat.Zf = env->stat.Uf; /* Old User/Kernel mode. */
-+    env->stat.Lf = 1;
-+    env->stat.ESf = 0;
-+    env->stat.DZf = 0;
-+    env->stat.DEf  = 0;
-+    env->stat.Uf = 0;
-+}
-+
-+/* Function implementation for reading the IRQ related aux regs. */
-+uint32_t aux_irq_get(const struct arc_aux_reg_detail *aux_reg_detail,
-+                     void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    uint32_t tmp;
-+
-+    /* extract selected IRQ. */
-+    const uint32_t irq = env->irq_select;
-+    const arc_irq_t *irq_bank = &env->irq_bank[irq];
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_irq_pending:
-+        return irq_bank->pending | (irq > 15 ? (env->aux_irq_hint == irq) : 0);
-+
-+    case AUX_ID_irq_select:
-+        return env->irq_select;
-+
-+    case AUX_ID_irq_priority:
-+        return irq_bank->priority;
-+
-+    case AUX_ID_irq_trigger:
-+        return irq_bank->trigger;
-+
-+    case AUX_ID_irq_status:
-+        return (irq_bank->priority
-+                | irq_bank->enable << 4
-+                | irq_bank->trigger << 5
-+                | (irq_bank->pending
-+                   | (irq > 15 ? ((env->aux_irq_hint == irq) << 31) : 0)));
-+
-+    case AUX_ID_aux_irq_act:
-+        return env->aux_irq_act;
-+
-+    case AUX_ID_aux_irq_ctrl:
-+        return env->aux_irq_ctrl;
-+
-+    case AUX_ID_icause:
-+        if ((env->aux_irq_act & 0xffff) == 0) {
-+            return 0;
-+        }
-+        tmp = ctz32(env->aux_irq_act & 0xffff);
-+        return env->icause[tmp];
-+
-+    case AUX_ID_irq_build:
-+        return env->irq_build;
-+
-+    case AUX_ID_int_vector_base:
-+        return env->intvec;
-+
-+    case AUX_ID_vecbase_ac_build:
-+        return env->vecbase_build;
-+        break;
-+
-+    case AUX_ID_aux_user_sp:
-+        return env->aux_user_sp;
-+
-+    case AUX_ID_aux_irq_hint:
-+        return env->aux_irq_hint;
-+
-+    default:
-+        break;
-+    }
-+    return 0;
-+}
-+
-+/* Function implementation for writing the IRQ related aux regs. */
-+void aux_irq_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                 uint32_t val, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    const uint32_t irq = env->irq_select;
-+    arc_irq_t *irq_bank = &env->irq_bank[irq];
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] set aux_reg: %s, with 0x%08x\n",
-+                  arc_aux_reg_name[aux_reg_detail->id],
-+                  val);
-+
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_irq_select:
-+        if (val <= (16 + ((env->irq_build >> 8) & 0xff)))
-+            env->irq_select = val;
-+        else
-+            qemu_log_mask(LOG_UNIMP,
-+                          "[IRQ] Invalid write 0x%08x to IRQ_SELECT aux reg.\n",
-+                          val);
-+        break;
-+
-+    case AUX_ID_aux_irq_hint:
-+        qemu_mutex_lock_iothread();
-+        if (val == 0) {
-+            qemu_irq_lower(env->irq[env->aux_irq_hint]);
-+        } else if (val >= 16) {
-+            qemu_irq_raise(env->irq[val]);
-+            env->aux_irq_hint = val;
-+        }
-+        qemu_mutex_unlock_iothread();
-+        break;
-+
-+    case AUX_ID_irq_pulse_cancel:
-+        irq_bank->pending = irq_bank->trigger ? (val & 0x01) : 0;
-+        break;
-+
-+    case AUX_ID_irq_trigger:
-+        irq_bank->trigger = val & 0x01;
-+        break;
-+
-+    case AUX_ID_irq_priority:
-+        if (val <= ((env->irq_build >> 24) & 0x0f)) {
-+            irq_bank->priority = val & 0x0f;
-+        } else {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "[IRQ] Invalid write 0x%08x to IRQ_PRIORITY aux reg.\n",
-+                          val);
-+        }
-+        break;
-+
-+    case AUX_ID_aux_irq_ctrl:
-+        env->aux_irq_ctrl = val & 0x2e1f;
-+        break;
-+
-+    case AUX_ID_irq_enable:
-+        irq_bank->enable = val & 0x01;
-+        break;
-+
-+    case AUX_ID_aux_irq_act:
-+        env->aux_irq_act = val & 0x8000ffff;
-+        break;
-+
-+    case AUX_ID_int_vector_base:
-+        env->intvec = val;
-+        break;
-+
-+    case AUX_ID_aux_user_sp:
-+        env->aux_user_sp = val;
-+        break;
-+
-+    default:
-+        break;
-+    }
-+}
-+
-+/* Check if we can interrupt the cpu. */
-+
-+bool arc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-+{
-+    ARCCPU *cpu = ARC_CPU(cs);
-+    CPUARCState *env = &cpu->env;
-+    bool found = false;
-+    uint32_t vectno = 0;
-+    uint32_t offset, priority;
-+
-+    /* Check if we should execute this interrupt. */
-+    if (env->stat.Hf
-+        /* The interrupts are enabled. */
-+        || (env->stat.IEf == 0)
-+        /* We are not in an exception. */
-+        || env->stat.AEf
-+        /* Disable interrupts to happen after MissI exceptions. */
-+        || enabled_interrupts == false
-+        /* In a delay slot of branch */
-+        || env->stat.is_delay_slot_instruction
-+        || env->stat.DEf
-+        || (!(interrupt_request & CPU_INTERRUPT_HARD))) {
-+        return false;
-+    }
-+
-+    /* Check if any interrupts are pending. */
-+    if (!env->irq_priority_pending
-+        /* Or we are serving at the same priority level. */
-+        || (ctz32(env->irq_priority_pending) >= ctz32(env->aux_irq_act))) {
-+        return false;
-+    }
-+
-+    /* Find the first IRQ to serve. */
-+    priority = 0;
-+    do {
-+        for (vectno = 0;
-+             vectno < cpu->cfg.number_of_interrupts; vectno++) {
-+            if (env->irq_bank[16 + vectno].priority == priority
-+                && env->irq_bank[16 + vectno].enable
-+                && env->irq_bank[16 + vectno].pending) {
-+                found = true;
-+                break;
-+            }
-+        }
-+    } while (!found && ((++priority) <= env->stat.Ef));
-+
-+    /* No valid interrupt has been found. */
-+    if (!found) {
-+        return false;
-+    }
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] interrupt at pc=0x%08x\n", env->pc);
-+
-+    /* Adjust vector number. */
-+    vectno += 16;
-+
-+    /* Set the AUX_IRQ_ACT. */
-+    if ((env->aux_irq_act & 0xffff) == 0) {
-+        env->aux_irq_act |= env->stat.Uf << 31;
-+    }
-+    env->aux_irq_act |= 1 << priority;
-+
-+    /* Set ICAUSE register. */
-+    env->icause[priority] = vectno;
-+
-+    /* Do FIRQ if possible. */
-+    if (cpu->cfg.firq_option && priority == 0) {
-+        arc_enter_firq(cpu, vectno);
-+    } else {
-+        arc_enter_irq(cpu, vectno);
-+    }
-+
-+    /* XX. The PC is set with the appropriate exception vector. */
-+    offset = vectno << 2;
-+    env->pc = cpu_ldl_code(env, env->intvec + offset);
-+    CPU_PCL(env) = env->pc & 0xfffffffe;
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] isr=0x%08x vec=0x%08x, priority=0x%04x\n",
-+                  env->pc, offset, priority);
-+
-+    return true;
-+}
-+
-+/* To be called in the RTIE helper. */
-+
-+bool arc_rtie_interrupts(CPUARCState *env)
-+{
-+    ARCCPU *cpu = env_archcpu(env);
-+
-+    if (env->stat.AEf || ((env->aux_irq_act & 0xffff) == 0)) {
-+        return false;
-+    }
-+
-+    /* FIXME! Reset RTC state. */
-+
-+    if ((env->aux_irq_act & 0xffff) == 1 && cpu->cfg.firq_option) {
-+        arc_rtie_firq(env);
-+    } else {
-+        arc_rtie_irq(env);
-+    }
-+    return true;
-+}
-+
-+/* Switch between AUX USER SP and CPU's SP. */
-+void switchSP(CPUARCState *env)
-+{
-+    uint32_t tmp;
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[%s] swap: r28 = 0x%08x  AUX_USER_SP = 0x%08x\n",
-+                  (env->aux_irq_act & 0xFFFF) ? "IRQ" : "EXCP",
-+                  CPU_SP(env), env->aux_user_sp);
-+
-+    tmp = env->aux_user_sp;
-+    env->aux_user_sp = CPU_SP(env);
-+    CPU_SP(env) = tmp;
-+    /*
-+     * TODO: maybe we need to flush the tcg buffer to switch into
-+     * kernel mode.
-+     */
-+}
-+
-+/* Reset the IRQ subsytem. */
-+void arc_resetIRQ(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+    uint32_t i;
-+
-+    if (!cpu->cfg.has_interrupts) {
-+        return;
-+    }
-+
-+    for (i = 0; i < (cpu->cfg.number_of_interrupts & 0xff); i++) {
-+        env->irq_bank[16 + i].enable = 1;
-+    }
-+
-+    if (cpu->cfg.has_timer_0) {
-+        /* FIXME! add build default timer0 priority. */
-+        env->irq_bank[16].priority = 0;
-+    }
-+
-+    if (cpu->cfg.has_timer_1) {
-+        /* FIXME! add build default timer1 priority. */
-+        env->irq_bank[17].priority = 0;
-+    }
-+
-+    qemu_log_mask(CPU_LOG_RESET, "[IRQ] Reset the IRQ subsystem.");
-+}
-+
-+/* Initializing the IRQ subsystem. */
-+void arc_initializeIRQ(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+    uint32_t i;
-+
-+    if (cpu->cfg.has_interrupts) {
-+        /* FIXME! add N (NMI) bit. */
-+        env->irq_build = 0x01 | ((cpu->cfg.number_of_interrupts & 0xff) << 8) |
-+            ((cpu->cfg.external_interrupts & 0xff) << 16) |
-+            ((cpu->cfg.number_of_levels & 0x0f) << 24) |
-+            (cpu->cfg.firq_option ? (1 << 28) : 0);
-+
-+        for (i = 0; i < (cpu->cfg.number_of_interrupts & 0xff); i++) {
-+            env->irq_bank[16 + i].enable = 1;
-+        }
-+
-+        env->vecbase_build = (cpu->cfg.intvbase_preset & (~0x3ffff))
-+            | (0x04 << 2);
-+        env->intvec = cpu->cfg.intvbase_preset & (~0x3ffff);
-+    } else {
-+        env->irq_build = 0;
-+    }
-+}
-diff --git a/target/arc/irq.h b/target/arc/irq.h
-new file mode 100644
-index 0000000000..a248c5d20c
---- /dev/null
-+++ b/target/arc/irq.h
-@@ -0,0 +1,37 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2019
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+#ifndef __IRQ_H__
-+#define __IRQ_H__
-+
-+#include "target/arc/regs.h"
-+#include "cpu.h"
-+
-+uint32_t aux_irq_get(const struct arc_aux_reg_detail *, void *);
-+void aux_irq_set(const struct arc_aux_reg_detail *, uint32_t, void *);
-+bool arc_cpu_exec_interrupt(CPUState *, int);
-+bool arc_rtie_interrupts(CPUARCState *);
-+void switchSP(CPUARCState *);
-+void arc_initializeIRQ(ARCCPU *);
-+void arc_resetIRQ(ARCCPU *);
-+uint32_t pack_status32(status_t *);
-+void unpack_status32(status_t *, uint32_t);
-+
-+#endif
-diff --git a/target/arc/timer.c b/target/arc/timer.c
-new file mode 100644
-index 0000000000..a3a626beb2
---- /dev/null
-+++ b/target/arc/timer.c
-@@ -0,0 +1,456 @@
-+/*
-+ * QEMU ARC CPU-timer support
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/timer.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "hw/irq.h"
-+#include "hw/arc/cpudevs.h"
-+#include "timer.h"
-+#include "qemu/main-loop.h"
-+
-+#define TIMER_PERIOD(hz) (1000000000LL / (hz))
-+#define TIMEOUT_LIMIT 1000000
-+
-+#define T_PERIOD (TIMER_PERIOD(env->freq_hz))
-+#define T_COUNT(T)                                                      \
-+    ((uint32_t) ((qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) -               \
-+                  env->timer[T].last_clk) / T_PERIOD))
-+
-+/* Update the next timeout time as difference between Count and Limit */
-+static void cpu_arc_timer_update(CPUARCState *env, uint32_t timer)
-+{
-+    uint32_t delta;
-+    uint32_t t_count = T_COUNT(timer);
-+    uint64_t now =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+    uint32_t period = T_PERIOD;
-+
-+    delta = env->timer[timer].T_Limit - t_count - 1;
-+
-+    /*
-+     * Artificially limit timeout rate to something achievable under
-+     * QEMU. Otherwise, QEMU spends all its time generating timer
-+     * interrupts, and there is no forward progress. About ten
-+     * microseconds is the fastest that really works on the current
-+     * generation of host machines.
-+     */
-+    if ((delta * period) < TIMEOUT_LIMIT) {
-+        delta = TIMEOUT_LIMIT / period;
-+    }
-+
-+    timer_mod(env->cpu_timer[timer], now + ((uint64_t)delta * period));
-+
-+    qemu_log_mask(LOG_UNIMP,
-+                  "[TMR%d] Timer update in 0x%08x - 0x%08x = 0x%08x "\
-+                  "(ctrl:0x%08x @ %d Hz)\n",
-+                  timer, env->timer[timer].T_Limit,
-+                  t_count, delta, env->timer[timer].T_Cntrl, env->freq_hz);
-+}
-+
-+/* Expire the timer function. Rise an interrupt if required. */
-+
-+static void cpu_arc_timer_expire(CPUARCState *env, uint32_t timer)
-+{
-+    assert(timer == 1 || timer == 0);
-+    qemu_log_mask(LOG_UNIMP, "[TMR%d] Timer expired\n", timer);
-+
-+    uint32_t overflow = env->timer[timer].T_Cntrl & TMR_IP;
-+    /* Set the IP bit. */
-+
-+    bool unlocked = !qemu_mutex_iothread_locked();
-+    if (unlocked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+    env->timer[timer].T_Cntrl |= TMR_IP;
-+    env->timer[timer].last_clk =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+    if (unlocked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+
-+    /* Raise an interrupt if enabled. */
-+    if ((env->timer[timer].T_Cntrl & TMR_IE) && !overflow) {
-+        qemu_log_mask(CPU_LOG_INT, "[TMR%d] Rising IRQ\n", timer);
-+        qemu_irq_raise(env->irq[TIMER0_IRQ + (timer & 0x01)]);
-+    }
-+}
-+
-+/*
-+ * This callback should occur when the counter is exactly equal to the
-+ * limit value. Offset the count by one to avoid immediately
-+ * retriggering the callback before any virtual time has passed.
-+ */
-+
-+static void arc_timer0_cb(void *opaque)
-+{
-+    CPUARCState *env = (CPUARCState *) opaque;
-+
-+    if (!(env->timer_build & TB_T0)) {
-+        return;
-+    }
-+
-+    cpu_arc_timer_expire(env, 0);
-+    cpu_arc_timer_update(env, 0);
-+}
-+
-+/* Like the above function but for TIMER1. */
-+static void arc_timer1_cb(void *opaque)
-+{
-+    CPUARCState *env = (CPUARCState *) opaque;
-+
-+    if (!(env->timer_build & TB_T1)) {
-+        return;
-+    }
-+
-+    cpu_arc_timer_expire(env, 1);
-+    cpu_arc_timer_update(env, 1);
-+}
-+
-+/* RTC counter update. */
-+static void cpu_rtc_count_update(CPUARCState *env)
-+{
-+    uint64_t now;
-+    uint64_t llreg;
-+
-+    assert((env->timer_build & TB_RTC) && env->cpu_rtc);
-+    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+
-+    if (!(env->aux_rtc_ctrl & 0x01)) {
-+        return;
-+    }
-+
-+    llreg = ((now - env->last_clk_rtc) / TIMER_PERIOD(env->freq_hz));
-+    llreg += env->aux_rtc_low + ((uint64_t)env->aux_rtc_high << 32);
-+    env->aux_rtc_high = llreg >> 32;
-+    env->aux_rtc_low = (uint32_t) llreg;
-+
-+    env->last_clk_rtc = now;
-+    qemu_log_mask(LOG_UNIMP, "[RTC] RTC count-regs update\n");
-+}
-+
-+/* Update the next timeout time as difference between Count and Limit */
-+static void cpu_rtc_update(CPUARCState *env)
-+{
-+    uint64_t wait = 0;
-+    uint64_t now, next, period;
-+
-+    assert(env->cpu_rtc);
-+    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+
-+    if (!(env->aux_rtc_ctrl & 0x01)) {
-+        return;
-+    }
-+
-+    period = TIMER_PERIOD(env->freq_hz);
-+    wait = UINT64_MAX - ((((uint64_t) env->aux_rtc_high) << 32)
-+                       + env->aux_rtc_low);
-+    wait -= (now - env->last_clk_rtc) / period;
-+
-+    /* Limit timeout rate. */
-+    if ((wait * period) < TIMEOUT_LIMIT) {
-+        period = TIMEOUT_LIMIT / wait;
-+    }
-+
-+    next = now + (uint64_t) wait * period;
-+    timer_mod(env->cpu_rtc, next);
-+    qemu_log_mask(LOG_UNIMP, "[RTC] RTC update\n");
-+}
-+
-+/* RTC call back routine. */
-+static void arc_rtc_cb(void *opaque)
-+{
-+    CPUARCState *env = (CPUARCState *) opaque;
-+
-+    if (!(env->timer_build & TB_RTC)) {
-+        return;
-+    }
-+
-+    qemu_log_mask(LOG_UNIMP, "[RTC] RTC expired\n");
-+
-+    env->aux_rtc_high = 0;
-+    env->aux_rtc_low = 0;
-+    env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    cpu_rtc_update(env);
-+}
-+
-+/* Helper used when resetting the system. */
-+static void cpu_arc_count_reset(CPUARCState *env, uint32_t timer)
-+{
-+    assert(timer == 0 || timer == 1);
-+    env->timer[timer].T_Cntrl = 0;
-+    env->timer[timer].T_Limit = 0x00ffffff;
-+}
-+
-+/* Get the counter value. */
-+static uint32_t cpu_arc_count_get(CPUARCState *env, uint32_t timer)
-+{
-+    uint32_t count = T_COUNT(timer);
-+    qemu_log_mask(LOG_UNIMP, "[TMR%d] Timer count %d.\n", timer, count);
-+    return count;
-+}
-+
-+/* Set the counter value. */
-+static void cpu_arc_count_set(CPUARCState *env, uint32_t timer, uint32_t val)
-+{
-+    assert(timer == 0 || timer == 1);
-+    bool unlocked = !qemu_mutex_iothread_locked();
-+    if (unlocked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+    env->timer[timer].last_clk =
-+        ((qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) + val) * T_PERIOD;
-+    if (unlocked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+    cpu_arc_timer_update(env, timer);
-+}
-+
-+/* Store the counter limit. */
-+static void cpu_arc_store_limit(CPUARCState *env,
-+                                uint32_t timer, uint32_t value)
-+{
-+    switch (timer) {
-+    case 0:
-+        if (!(env->timer_build & TB_T0)) {
-+            return;
-+        }
-+        break;
-+    case 1:
-+        if (!(env->timer_build & TB_T1)) {
-+            return;
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+    env->timer[timer].T_Limit = value;
-+    cpu_arc_timer_update(env, timer);
-+}
-+
-+/* Set the timer control bits. */
-+static void cpu_arc_control_set(CPUARCState *env,
-+                                uint32_t timer, uint32_t value)
-+{
-+    assert(timer == 1 || timer == 0);
-+    bool unlocked = !qemu_mutex_iothread_locked();
-+    if (unlocked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+    if ((env->timer[timer].T_Cntrl & TMR_IP) && !(value & TMR_IP)) {
-+        qemu_irq_lower(env->irq[TIMER0_IRQ + (timer)]);
-+    }
-+    env->timer[timer].T_Cntrl = value & 0x1f;
-+    if (unlocked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+}
-+
-+/* Get The RTC count value. */
-+static uint32_t arc_rtc_count_get(CPUARCState *env, bool lower)
-+{
-+    cpu_rtc_count_update(env);
-+    return lower ? env->aux_rtc_low : env->aux_rtc_high;
-+}
-+
-+/* Set the RTC control bits. */
-+static void arc_rtc_ctrl_set(CPUARCState *env, uint32_t val)
-+{
-+    assert(env->stat.Uf == 0);
-+
-+    if (val & 0x02) {
-+        env->aux_rtc_low = 0;
-+        env->aux_rtc_high = 0;
-+        env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    }
-+    if (!(val & 0x01)) {
-+        timer_del(env->cpu_rtc);
-+    }
-+
-+    /* Restart RTC, update last clock. */
-+    if ((env->aux_rtc_ctrl & 0x01) == 0 && (val & 0x01)) {
-+        env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    }
-+
-+    env->aux_rtc_ctrl = 0xc0000000 | (val & 0x01);
-+    cpu_rtc_update(env);
-+}
-+
-+/* Init procedure, called in platform. */
-+
-+void
-+cpu_arc_clock_init(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    if (env->timer_build & TB_T0) {
-+        env->cpu_timer[0] =
-+            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_timer0_cb, env);
-+    }
-+
-+    if (env->timer_build & TB_T1) {
-+        env->cpu_timer[1] =
-+            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_timer1_cb, env);
-+    }
-+
-+    if (env->timer_build & TB_RTC) {
-+        env->cpu_rtc =
-+            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_rtc_cb, env);
-+    }
-+
-+    env->timer[0].last_clk =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+    env->timer[1].last_clk =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+}
-+
-+void
-+arc_initializeTIMER(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    /* FIXME! add default timer priorities. */
-+    env->timer_build = 0x04 | (cpu->cfg.has_timer_0 ? TB_T0 : 0) |
-+                       (cpu->cfg.has_timer_1 ? TB_T1 : 0) |
-+                       (cpu->cfg.rtc_option ? TB_RTC : 0);
-+}
-+
-+void
-+arc_resetTIMER(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    if (env->timer_build & TB_T0) {
-+        cpu_arc_count_reset(env, 0);
-+    }
-+
-+    if (env->timer_build & TB_T1) {
-+        cpu_arc_count_reset(env, 1);
-+    }
-+}
-+
-+/* Function implementation for reading/writing aux regs. */
-+uint32_t
-+aux_timer_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_control0:
-+        return env->timer[0].T_Cntrl;
-+        break;
-+
-+    case AUX_ID_control1:
-+        return env->timer[1].T_Cntrl;
-+        break;
-+
-+    case AUX_ID_count0:
-+        return cpu_arc_count_get(env, 0);
-+        break;
-+
-+    case AUX_ID_count1:
-+        return cpu_arc_count_get(env, 1);
-+        break;
-+
-+    case AUX_ID_limit0:
-+        return env->timer[0].T_Limit;
-+        break;
-+
-+    case AUX_ID_limit1:
-+        return env->timer[1].T_Limit;
-+        break;
-+
-+    case AUX_ID_timer_build:
-+        return env->timer_build;
-+        break;
-+
-+    case AUX_ID_aux_rtc_low:
-+        return arc_rtc_count_get(env, true);
-+        break;
-+
-+    case AUX_ID_aux_rtc_high:
-+        return arc_rtc_count_get(env, false);
-+        break;
-+
-+    case AUX_ID_aux_rtc_ctrl:
-+        return env->aux_rtc_ctrl;
-+        break;
-+
-+    default:
-+        break;
-+    }
-+    return 0;
-+}
-+
-+void aux_timer_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                   uint32_t val, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+
-+    qemu_log_mask(LOG_UNIMP, "[TMRx] AUX[%s] <= 0x%08x\n",
-+                  aux_reg_detail->name, val);
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_control0:
-+        if (env->timer_build & TB_T0) {
-+            cpu_arc_control_set(env, 0, val);
-+        }
-+        break;
-+
-+    case AUX_ID_control1:
-+        if (env->timer_build & TB_T1) {
-+            cpu_arc_control_set(env, 1, val);
-+        }
-+        break;
-+
-+    case AUX_ID_count0:
-+        if (env->timer_build & TB_T0) {
-+            cpu_arc_count_set(env, 0, val);
-+        }
-+        break;
-+
-+    case AUX_ID_count1:
-+        if (env->timer_build & TB_T1) {
-+            cpu_arc_count_set(env, 1, val);
-+        }
-+        break;
-+
-+    case AUX_ID_limit0:
-+        cpu_arc_store_limit(env, 0, val);
-+        break;
-+
-+    case AUX_ID_limit1:
-+        cpu_arc_store_limit(env, 1, val);
-+        break;
-+
-+    case AUX_ID_aux_rtc_ctrl:
-+        arc_rtc_ctrl_set(env, val);
-+        break;
-+
-+    default:
-+        break;
-+    }
-+}
-+
-+
-+/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
-+/* vim: set ts=4 sw=4 et: */
-diff --git a/target/arc/timer.h b/target/arc/timer.h
-new file mode 100644
-index 0000000000..0bcc58fc1e
---- /dev/null
-+++ b/target/arc/timer.h
-@@ -0,0 +1,32 @@
-+/*
-+ * QEMU ARC CPU-timer support
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef __ARC_TIMER_H__
-+#define __ARC_TIMER_H__
-+
-+void arc_initializeTIMER(ARCCPU *);
-+void arc_resetTIMER(ARCCPU *);
-+
-+void aux_timer_set(const struct arc_aux_reg_detail *, uint32_t, void *);
-+uint32_t aux_timer_get(const struct arc_aux_reg_detail *, void *);
-+
-+#endif
++++ b/default-configs/arc-softmmu.mak
+@@ -0,0 +1,5 @@
++# Default configuration for arc-softmmu
++
++CONFIG_VIRTIO_MMIO=y
++CONFIG_SERIAL=y
++CONFIG_OPENCORES_ETH=y
+diff --git a/disas.c b/disas.c
+index c1397d3933..41aabbca63 100644
+--- a/disas.c
++++ b/disas.c
+@@ -671,6 +671,8 @@ void disas(FILE *out, void *code, unsigned long size, const char *note)
+     print_insn = print_insn_s390;
+ #elif defined(__hppa__)
+     print_insn = print_insn_hppa;
++#elif defined(__arc__)
++    print_insn = print_insn_arc;
+ #endif
+ 
+     if (s.info.cap_arch >= 0 && cap_disas_host(&s.info, code, size, note)) {
+diff --git a/disas/meson.build b/disas/meson.build
+index bde8280c73..47ff300d0f 100644
+--- a/disas/meson.build
++++ b/disas/meson.build
+@@ -4,6 +4,7 @@ subdir('libvixl')
+ common_ss.add(when: 'CONFIG_ALPHA_DIS', if_true: files('alpha.c'))
+ common_ss.add(when: 'CONFIG_ARM_A64_DIS', if_true: files('arm-a64.cc'))
+ common_ss.add_all(when: 'CONFIG_ARM_A64_DIS', if_true: libvixl_ss)
++common_ss.add(when: 'CONFIG_ARC_DIS', if_true: files('arc.c'))
+ common_ss.add(when: 'CONFIG_ARM_DIS', if_true: files('arm.c'))
+ common_ss.add(when: 'CONFIG_CRIS_DIS', if_true: files('cris.c'))
+ common_ss.add(when: 'CONFIG_HPPA_DIS', if_true: files('hppa.c'))
+diff --git a/hw/meson.build b/hw/meson.build
+index 010de7219c..e2b14a9ed8 100644
+--- a/hw/meson.build
++++ b/hw/meson.build
+@@ -43,6 +43,7 @@ subdir('xen')
+ subdir('xenpv')
+ 
+ subdir('alpha')
++subdir('arc')
+ subdir('arm')
+ subdir('avr')
+ subdir('cris')
+diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+index 9856bf7921..621164c510 100644
+--- a/include/disas/dis-asm.h
++++ b/include/disas/dis-asm.h
+@@ -206,7 +206,14 @@ enum bfd_architecture
+   bfd_arch_v850,       /* NEC V850 */
+ #define bfd_mach_v850          0
+   bfd_arch_arc,        /* Argonaut RISC Core */
+-#define bfd_mach_arc_base 0
++#define bfd_mach_arc_a4        0
++#define bfd_mach_arc_a5        1
++#define bfd_mach_arc_arc600    2
++#define bfd_mach_arc_arc601    4
++#define bfd_mach_arc_arc700    3
++#define bfd_mach_arc_arcv2     5
++#define bfd_mach_arc_arcv2em   6
++#define bfd_mach_arc_arcv2hs   7
+   bfd_arch_m32r,       /* Mitsubishi M32R/D */
+ #define bfd_mach_m32r          0  /* backwards compatibility */
+   bfd_arch_mn10200,    /* Matsushita MN10200 */
+@@ -460,6 +467,7 @@ int print_insn_xtensa           (bfd_vma, disassemble_info*);
+ int print_insn_riscv32          (bfd_vma, disassemble_info*);
+ int print_insn_riscv64          (bfd_vma, disassemble_info*);
+ int print_insn_rx(bfd_vma, disassemble_info *);
++int print_insn_arc              (bfd_vma, disassemble_info*);
+ 
+ #if 0
+ /* Fetch the disassembler for a given BFD, if that support is available.  */
+diff --git a/include/elf.h b/include/elf.h
+index c117a4d1ab..5f6165da37 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -201,6 +201,9 @@ typedef struct mips_elf_abiflags_v0 {
+ 
+ #define EM_TILEGX   191 /* TILE-Gx */
+ 
++#define EM_ARC_COMPACT  93  /* Synopsys ARCompact */
++#define EM_ARC_COMPACT2 195 /* Synopsys ARCompact V2 */
++
+ #define EM_MOXIE           223     /* Moxie processor family */
+ #define EM_MOXIE_OLD       0xFEED
+ 
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index 7b9ac361dc..635ccc66a1 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -9,6 +9,7 @@
+ #pragma GCC poison TARGET_X86_64
+ #pragma GCC poison TARGET_AARCH64
+ #pragma GCC poison TARGET_ALPHA
++#pragma GCC poison TARGET_ARC
+ #pragma GCC poison TARGET_ARM
+ #pragma GCC poison TARGET_CRIS
+ #pragma GCC poison TARGET_HPPA
+@@ -70,6 +71,7 @@
+ 
+ #pragma GCC poison CONFIG_ALPHA_DIS
+ #pragma GCC poison CONFIG_ARM_A64_DIS
++#pragma GCC poison CONFIG_ARC_DIS
+ #pragma GCC poison CONFIG_ARM_DIS
+ #pragma GCC poison CONFIG_CRIS_DIS
+ #pragma GCC poison CONFIG_HPPA_DIS
+diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
+index 54f069d491..5fbedebcb0 100644
+--- a/include/sysemu/arch_init.h
++++ b/include/sysemu/arch_init.h
+@@ -26,6 +26,7 @@ enum {
+     QEMU_ARCH_RISCV = (1 << 19),
+     QEMU_ARCH_RX = (1 << 20),
+     QEMU_ARCH_AVR = (1 << 21),
++    QEMU_ARCH_ARC = (1 << 22),
+ 
+     QEMU_ARCH_NONE = (1 << 31),
+ };
+diff --git a/meson.build b/meson.build
+index 5b586afc38..81f42b7429 100644
+--- a/meson.build
++++ b/meson.build
+@@ -36,7 +36,7 @@ python = import('python').find_installation()
+ 
+ supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
+ supported_cpus = ['ppc', 'ppc64', 's390x', 'sparc64', 'riscv32', 'riscv64', 'x86', 'x86_64',
+-  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
++  'arc', 'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
+ 
+ cpu = host_machine.cpu_family()
+ targetos = host_machine.system()
+@@ -482,6 +482,7 @@ config_target_mak = {}
+ 
+ disassemblers = {
+   'alpha' : ['CONFIG_ALPHA_DIS'],
++  'arc' : ['CONFIG_ARC_DIS'],
+   'arm' : ['CONFIG_ARM_DIS'],
+   'avr' : ['CONFIG_AVR_DIS'],
+   'cris' : ['CONFIG_CRIS_DIS'],
+diff --git a/softmmu/arch_init.c b/softmmu/arch_init.c
+index 7fd5c09b2b..27faed5edd 100644
+--- a/softmmu/arch_init.c
++++ b/softmmu/arch_init.c
+@@ -92,6 +92,8 @@ int graphic_depth = 32;
+ #define QEMU_ARCH QEMU_ARCH_XTENSA
+ #elif defined(TARGET_AVR)
+ #define QEMU_ARCH QEMU_ARCH_AVR
++#elif defined(TARGET_ARC)
++#define QEMU_ARCH QEMU_ARCH_ARC
+ #endif
+ 
+ const uint32_t arch_type = QEMU_ARCH;
+diff --git a/target/meson.build b/target/meson.build
+index 9f0ae93b75..f4a3a6425c 100644
+--- a/target/meson.build
++++ b/target/meson.build
+@@ -1,4 +1,5 @@
+ subdir('alpha')
++subdir('arc')
+ subdir('arm')
+ subdir('avr')
+ subdir('cris')
 -- 
 2.20.1
 
