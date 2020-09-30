@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39820C47426
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:47:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E5BAC4741F
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:47:05 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D78AE2071E
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:47:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CBDB82071E
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:47:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vdxRDcFS";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BHviVrMN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D78AE2071E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="g6yNWFUi";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UFzQHOPQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CBDB82071E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,63 +27,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=xVhg8NnOkTj3DTrIMKA2Mzh5zoQ3asopwVHPVo+9ACk=; b=vdxRDcFSweNON0EVjAFKKrcjE
-	CQkmm7WaUBi6LuKrhnRm8TtNAgx4+ww2ev0xrj71mP/qyUVWWABDVAyNwGKg2eFcX9quJTffQdexk
-	HIdLbTFkXfKW3TyEHYiGQDTJ26j9/XYGvOFvYkfeQJqUKBcdIqO1ach/ywWQNfb3PVUlfUIgMpbnY
-	mbxxLFlOIJc+fxdYnnZTRO8Kuu82o/hNrYxMVPORJKpfL5/kkf7be2m3KHbPRl4EJg+wOdY9STyjv
-	E5VMRtdum+p0YhgPt8Ze0i4ifidwk+p2lgMm0qzoaCI53vwdW8CwA1XOR/qGmD3evaU9LZ44tmeAF
-	TVdrg/5cg==;
+	 bh=JmOTEvdE/FnoEH3eO8QhYjrZHG+Y6t6WgAIdUefynnE=; b=g6yNWFUimVDV9dk5/EogD8qUN
+	rWqIJBho3kWEnCCHwanicWtYalJ5/ElbYlNQlELaLxHz9ODnTIPNkHaaWyEd0/mfe96ouXMArUP1U
+	ABDhQ63fSEo+BTKVKK7XQCD7cJbcuipR4tBO/FKdRELNf5yi0Eq6BtA3Hvb/bxQmfjpOj+xLg6117
+	ru+GC6JOu5nxPQAm81Not5QIzMqAgrLOQRbACv7cx9f4/yZZ0vhV6B8O1TphhdQwbzRmVijUvsNFQ
+	Lmr3ClZgetoPq41rgiKunl7xEIgEBMah2tGheUpQ/jntuM5Kx8DkZIUdslUNImnnifLzvM6IsfvyH
+	YVmKMN6qw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNj08-0004ml-Ia; Wed, 30 Sep 2020 20:47:00 +0000
+	id 1kNj0B-0004oE-Tz; Wed, 30 Sep 2020 20:47:03 +0000
 Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNizy-0004hw-6e
- for linux-snps-arc@lists.infradead.org; Wed, 30 Sep 2020 20:46:57 +0000
-Received: by mail-wr1-x441.google.com with SMTP id o5so3244647wrn.13
- for <linux-snps-arc@lists.infradead.org>; Wed, 30 Sep 2020 13:46:49 -0700 (PDT)
+ id 1kNizz-0004io-Kx
+ for linux-snps-arc@lists.infradead.org; Wed, 30 Sep 2020 20:47:00 +0000
+Received: by mail-wr1-x441.google.com with SMTP id m6so3270461wrn.0
+ for <linux-snps-arc@lists.infradead.org>; Wed, 30 Sep 2020 13:46:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DpnWaHg4hzEO5NtJtUfCCrOkV5UyFXzK6KVmdaf7Hck=;
- b=BHviVrMNJ3O52cjKYDmG9HWTj4DaRtxbwk7wKTla+jEqJ+HvrthuSZfockGKyBqt+d
- L/znlK55/E9x9MMnvIFPoqdAmcm0A2y9HMz8Oxod1euSWL0C63BvFFxj7wamnoSY9+vF
- ebXXlXIEJWZoK0YDkShjioxsinXRXW8samGLCW07VIVL84hnwz0jYTAN/NdjLAlCw2yU
- OGDrEpb3ONhhB1tGnymfj61NTuU0mwnzZSFfKrrYedzWvZXDSbeXEFLPK3PCSawTFqnd
- uLnwQ4Yf6NWnfQUB6E3YbUNkHEnchKuAroNcPT305YrRAywnb0QB5/2aVvpD+YpJKFV+
- X7/A==
+ bh=2m2QIN27HwhTmB66/ss8RaiC9gI8ni4SCkFU9KWqeNo=;
+ b=UFzQHOPQ5WxvDit+/js3Yd7J0IpFtp9PA5SasVnOTab5Ue2C3pMfAgVdFOXq4OpKX5
+ QUh82CkNN3mtyTKB+gc/nU4D1dxLzSEV+by4p03l3MyY8PxwxoUoeh/Br0kUp0Jo9zRR
+ I/k44yuvt1WioMObvFG3AYsegEaecFk6exc9oJdR9/eHAfY5OXgAWmUcaRf6VDNL1Phd
+ atjaO6uYzCeyo6R3Fupf3CmgWblw2WNfnrTAwIVJBNbA7iYJkB3sQBw9f9qo1TfA7KdE
+ QEOGN9y1WGj642MMN+n17RR4Crz+qLGOTbNnHVdCPNf31Ra+doNYQmHka8kcusY7XCs6
+ etmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DpnWaHg4hzEO5NtJtUfCCrOkV5UyFXzK6KVmdaf7Hck=;
- b=VjlzSyLnJPTobeqHDPQfHRVnGw5TMB4AERmPUwbYDoyPF4ggEBALGZj+5wczl7dgN3
- N26GJ10F29SGX7rrVNMR4SgITzKNP61PHWCsoWGOD9IrkAXI2hCDJuCV7vOCo+jLsOvq
- ik1WhyZEkFq8us9Dql7NNCPdTHoDNAtjk6DYuXvRc3gW6zlPnd9M0IBWs52g9in4WZfH
- 8+4jn4yxlOD0HV4qH5ZVtyNewtdQ1LrJlhvmQ0g1O+YfHw/97tnk/Irbeh6FGtJrVVBz
- zy+R7TQm+M718eTwL4kdCYylg/qi3yyLoGz9NMg5TNdHnzMCR/C4O/L7nGXzldcjyG5R
- 8aAw==
-X-Gm-Message-State: AOAM533BKmsBY7ucglKXdeFx8qtCzI2DBPPDC8EycstnNIfPrKscXTIW
- 7CMqWWEDG+Ex9PHh4FYNTkM=
-X-Google-Smtp-Source: ABdhPJyapevol/p0GBILie1jWav9pMKCX4cAd8evBQVVzW4IQVubBGE/jeHgV1/6+1Ieyh36tIiExg==
-X-Received: by 2002:adf:a49d:: with SMTP id g29mr5355058wrb.219.1601498808961; 
- Wed, 30 Sep 2020 13:46:48 -0700 (PDT)
+ bh=2m2QIN27HwhTmB66/ss8RaiC9gI8ni4SCkFU9KWqeNo=;
+ b=F07NNnrK1KGmBUOqBEWtumAUBJTvkENOQokA5T01L7RXxH+39MntKBOw6escnMLfox
+ DCEDWNF3hkgeyj1C4CZUofgUncmxyvCRs6rMa4iLt7CZusfCX4ufVaCf9QDupfnN0IYo
+ DgoZUgt4wJZ/dHXvqMYxE3UxsZ4G3MgaDDlFLvTZuGh/5nIxN06pLWh8pLcGJi4KtoS8
+ ZKV1I1FET9c6Jd/F44I+a4gPAu0UMnUCUA6QwNKhevs+42Oqg+gGX41KDjdcgeAR1faN
+ /8U3lS2KVG5q6LK8owSlg8r129lJKgyrGS+EOTXX9Z1kPP6ro1qBHB5WazeD6jJMUBCS
+ ja8g==
+X-Gm-Message-State: AOAM5304Mr5ymnu3GhShI6/vTCotkM9jhNlMLL55MVvQyJruN00QDAdr
+ mq5kDikYOZlMHQP+urOSuss=
+X-Google-Smtp-Source: ABdhPJyw83X7NnFT5KoTBMjkfYAz7jmp1uL2S3uCWnd5gByXoZUn18J5sopJZ5PtY0w7ds246pK1zA==
+X-Received: by 2002:adf:91a4:: with SMTP id 33mr5355005wri.170.1601498810397; 
+ Wed, 30 Sep 2020 13:46:50 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain ([188.251.240.167])
- by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.47
+ by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 13:46:48 -0700 (PDT)
+ Wed, 30 Sep 2020 13:46:49 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/14] arc: Add gdbstub and XML for debugging support
-Date: Wed, 30 Sep 2020 21:46:01 +0100
-Message-Id: <20200930204604.20663-12-cupertinomiranda@gmail.com>
+Subject: [PATCH 12/14] arc: Add Synopsys ARC emulation boards
+Date: Wed, 30 Sep 2020 21:46:02 +0100
+Message-Id: <20200930204604.20663-13-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200930204604.20663-1-cupertinomiranda@gmail.com>
 References: <20200930204604.20663-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200930_164650_340033_1EA250C5 
-X-CRM114-Status: GOOD (  12.00  )
+X-CRM114-CacheID: sfid-20200930_164651_892505_D9E4F5CE 
+X-CRM114-Status: GOOD (  24.16  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,359 +105,966 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Shahab Vahedi <shahab@synopsys.com>
+From: Claudiu Zissulescu <claziss@synopsys.com>
 
-Register layout for the target and the mechanisms to read and set them.
+Add the Synopsys ARC boards, arc_sim for testing, sim-hs main emulation
+board using standard UART and nsim which includes a Synopsys ARC specific
+UART implementation.
 
-Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
+Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
 ---
- gdb-xml/arc-aux-minimal.xml |  32 +++
- gdb-xml/arc-aux-other.xml   | 235 ++++++++++++++++++++
- gdb-xml/arc-core-v2.xml     |  45 ++++
- target/arc/gdbstub.c        | 421 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 733 insertions(+)
- create mode 100644 gdb-xml/arc-aux-minimal.xml
- create mode 100644 gdb-xml/arc-aux-other.xml
- create mode 100644 gdb-xml/arc-core-v2.xml
- create mode 100644 target/arc/gdbstub.c
+ hw/arc/Makefile.objs      |  21 +++
+ hw/arc/arc_sim.c          | 143 ++++++++++++++++++++
+ hw/arc/arc_uart.c         | 267 ++++++++++++++++++++++++++++++++++++++
+ hw/arc/board-hsdk.c       | 107 +++++++++++++++
+ hw/arc/boot.c             |  95 ++++++++++++++
+ hw/arc/boot.h             |  21 +++
+ hw/arc/meson.build        |  13 ++
+ hw/arc/nsim.c             |  86 ++++++++++++
+ hw/arc/pic_cpu.c          | 111 ++++++++++++++++
+ hw/arc/sample.c           |  77 +++++++++++
+ hw/arc/sim-hs.c           | 107 +++++++++++++++
+ include/hw/arc/arc_uart.h |  43 ++++++
+ include/hw/arc/cpudevs.h  |  10 ++
+ 13 files changed, 1101 insertions(+)
+ create mode 100644 hw/arc/Makefile.objs
+ create mode 100644 hw/arc/arc_sim.c
+ create mode 100644 hw/arc/arc_uart.c
+ create mode 100644 hw/arc/board-hsdk.c
+ create mode 100644 hw/arc/boot.c
+ create mode 100644 hw/arc/boot.h
+ create mode 100644 hw/arc/meson.build
+ create mode 100644 hw/arc/nsim.c
+ create mode 100644 hw/arc/pic_cpu.c
+ create mode 100644 hw/arc/sample.c
+ create mode 100644 hw/arc/sim-hs.c
+ create mode 100644 include/hw/arc/arc_uart.h
+ create mode 100644 include/hw/arc/cpudevs.h
 
-diff --git a/gdb-xml/arc-aux-minimal.xml b/gdb-xml/arc-aux-minimal.xml
+diff --git a/hw/arc/Makefile.objs b/hw/arc/Makefile.objs
 new file mode 100644
-index 0000000000..7809c97a8d
+index 0000000000..28d7766cd9
 --- /dev/null
-+++ b/gdb-xml/arc-aux-minimal.xml
-@@ -0,0 +1,32 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2018 Free Software Foundation, Inc.
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
++++ b/hw/arc/Makefile.objs
+@@ -0,0 +1,21 @@
++#
++#  QEMU ARC CPU
++#
++#  Copyright (c) 2019
++#
++#  This library is free software; you can redistribute it and/or
++#  modify it under the terms of the GNU Lesser General Public
++#  License as published by the Free Software Foundation; either
++#  version 2.1 of the License, or (at your option) any later version.
++#
++#  This library is distributed in the hope that it will be useful,
++#  but WITHOUT ANY WARRANTY; without even the implied warranty of
++#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++#  Lesser General Public License for more details.
++#
++#  You should have received a copy of the GNU Lesser General Public
++#  License along with this library; if not, see
++#  http://www.gnu.org/licenses/lgpl-2.1.html
++#
 +
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.arc.aux-minimal">
-+  <flags id="status32_type" size="4">
-+      <field name="H"   start="0"  end="0"/>
-+      <field name="E"   start="1"  end="4"/>
-+      <field name="AE"  start="5"  end="5"/>
-+      <field name="DE"  start="6"  end="6"/>
-+      <field name="U"   start="7"  end="7"/>
-+      <field name="V"   start="8"  end="8"/>
-+      <field name="C"   start="9"  end="9"/>
-+      <field name="N"   start="10" end="10"/>
-+      <field name="Z"   start="11" end="11"/>
-+      <field name="L"   start="12" end="12"/>
-+      <field name="DZ"  start="13" end="13"/>
-+      <field name="SC"  start="14" end="14"/>
-+      <field name="ES"  start="15" end="15"/>
-+      <field name="RB"  start="16" end="18"/>
-+      <field name="AD"  start="19" end="19"/>
-+      <field name="US"  start="20" end="20"/>
-+      <field name="IE"  start="31" end="31"/>
-+  </flags>
-+  <reg name="pc"       bitsize="32" regnum="36" type="code_ptr"      group="general"/>
-+  <reg name="lp_start" bitsize="32" regnum="37" type="code_ptr"      group="general"/>
-+  <reg name="lp_end"   bitsize="32" regnum="38" type="code_ptr"      group="general"/>
-+  <reg name="status32" bitsize="32" regnum="39" type="status32_type" group="general"/>
-+</feature>
-diff --git a/gdb-xml/arc-aux-other.xml b/gdb-xml/arc-aux-other.xml
++obj-y   = arc_sim.o arc_uart.o sample.o pic_cpu.o boot.o board-hsdk.o sim-hs.o nsim.o
+diff --git a/hw/arc/arc_sim.c b/hw/arc/arc_sim.c
 new file mode 100644
-index 0000000000..86b114af98
+index 0000000000..8020a03d85
 --- /dev/null
-+++ b/gdb-xml/arc-aux-other.xml
-@@ -0,0 +1,235 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2018 Free Software Foundation, Inc.
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
++++ b/hw/arc/arc_sim.c
+@@ -0,0 +1,143 @@
++/*
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.arc.aux-other">
-+  <flags id="timer_build_type" size="4">
-+    <field name="version" start="0"  end="7"/>
-+    <field name="t0"      start="8"  end="8"/>
-+    <field name="t1"      start="9"  end="9"/>
-+    <field name="rtc"     start="10" end="10"/>
-+    <field name="p0"      start="16" end="19"/>
-+    <field name="p1"      start="20" end="23"/>
-+  </flags>
-+  <flags id="irq_build_type" size="4">
-+    <field name="version" start="0"  end="7"/>
-+    <field name="IRQs"    start="8"  end="15"/>
-+    <field name="exts"    start="16" end="23"/>
-+    <field name="p"       start="24" end="27"/>
-+    <field name="f"       start="28" end="28"/>
-+  </flags>
-+  <flags id="mpy_build_type" size="4">
-+    <field name="version32x32" start="0"  end="7"/>
-+    <field name="type"         start="8"  end="9"/>
-+    <field name="cyc"          start="10" end="11"/>
-+    <field name="DSP"          start="12" end="15"/>
-+    <field name="version16x16" start="16" end="23"/>
-+  </flags>
-+  <flags id="vecbase_build_type" size="4">
-+    <field name="version" start="2"  end="9"/>
-+    <field name="addr"    start="10" end="31"/>
-+  </flags>
-+  <flags id="isa_config_type" size="4">
-+    <field name="version"   start="0"  end="7"/>
-+    <field name="pc_size"   start="8"  end="11"/>
-+    <field name="lpc_size"  start="12" end="15"/>
-+    <field name="addr_size" start="16" end="19"/>
-+    <field name="b"         start="20" end="20"/>
-+    <field name="a"         start="21" end="21"/>
-+    <field name="n"         start="22" end="22"/>
-+    <field name="l"         start="23" end="23"/>
-+    <field name="c"         start="24" end="27"/>
-+    <field name="d"         start="28" end="31"/>
-+  </flags>
-+  <flags id="timer_ctrl_type" size="4">
-+    <field name="ie" start="0" end="0"/>
-+    <field name="nh" start="1" end="1"/>
-+    <field name="w"  start="2" end="2"/>
-+    <field name="ip" start="3" end="3"/>
-+    <field name="pd" start="4" end="4"/>
-+  </flags>
-+  <flags id="tlbpd0_type" size="4">
-+    <field name="a"   start="0"  end="7"  type="uint8"/>
-+    <field name="g"   start="8"  end="8"  type="bool"/>
-+    <field name="v"   start="9"  end="9"  type="bool"/>
-+    <field name="sz " start="10" end="10" type="bool"/>
-+    <field name="vpn" start="12" end="30" type="uint32"/>
-+    <field name="s"   start="31" end="31" type="bool"/>
-+  </flags>
-+  <flags id="tlbpd1_type" size="4">
-+    <field name="fc"  start="0"  end="0"/>
-+    <field name="eu"  start="1"  end="1"/>
-+    <field name="wu"  start="2"  end="2"/>
-+    <field name="ru"  start="3"  end="3"/>
-+    <field name="ek"  start="4"  end="4"/>
-+    <field name="wk"  start="5"  end="5"/>
-+    <field name="rk"  start="6"  end="6"/>
-+    <field name="ppn" start="12" end="31"/>
-+  </flags>
-+  <flags id="tlbindex_type" size="4">
-+    <field name="index" start="0"  end="12"/>
-+    <field name="rc"    start="28" end="30"/>
-+    <field name="e"     start="31" end="31"/>
-+  </flags>
-+  <flags id="tlbcmd_type" size="4">
-+    <field name="cmd" start="0" end="5"/>
-+  </flags>
-+  <flags id="pid_type" size="4">
-+    <field name="p" start="0"  end="7" />
-+    <field name="s" start="29" end="29"/>
-+    <field name="t" start="31" end="31"/>
-+  </flags>
-+  <flags id="erstatus_type" size="4">
-+    <field name="e"  start="1"  end="4" />
-+    <field name="ae" start="5"  end="5" />
-+    <field name="de" start="6"  end="6" />
-+    <field name="u"  start="7"  end="7" />
-+    <field name="v"  start="8"  end="8" />
-+    <field name="c"  start="9"  end="9" />
-+    <field name="n"  start="10" end="10"/>
-+    <field name="z"  start="11" end="11"/>
-+    <field name="l"  start="12" end="12"/>
-+    <field name="dz" start="13" end="13"/>
-+    <field name="sc" start="14" end="14"/>
-+    <field name="es" start="15" end="15"/>
-+    <field name="rb" start="16" end="18"/>
-+    <field name="ad" start="19" end="19"/>
-+    <field name="us" start="20" end="20"/>
-+    <field name="ie" start="31" end="31"/>
-+  </flags>
-+  <flags id="ecr_type" size="4">
-+    <field name="parameter"    start="0"  end="7" />
-+    <field name="causecode"    start="8"  end="15"/>
-+    <field name="vectornumber" start="16" end="23"/>
-+    <field name="u"            start="30" end="30"/>
-+    <field name="p"            start="31" end="31"/>
-+  </flags>
-+  <flags id="irq_ctrl_type" size="4">
-+    <field name="nr" start="0"  end="4"/>
-+    <field name="b"  start="9"  end="9"/>
-+    <field name="l"  start="10" end="10"/>
-+    <field name="u"  start="11" end="11"/>
-+    <field name="lp" start="13" end="13"/>
-+  </flags>
-+  <flags id="irq_act_type" size="4">
-+    <field name="active" start="0" end="15"/>
-+    <field name="u" start="31" end="31"/>
-+  </flags>
-+  <flags id="irq_status_type" size="4">
-+    <field name="p"  start="0"  end="3"/>
-+    <field name="e"  start="4"  end="4"/>
-+    <field name="t"  start="5"  end="5"/>
-+    <field name="ip" start="31" end="31"/>
-+  </flags>
-+  <flags id="mpu_build_type" size="4">
-+    <field name="version" start="0" end="7"/>
-+    <field name="regions" start="8" end="15"/>
-+  </flags>
-+  <flags id="mpuen_type" size="4">
-+    <field name="ue" start="3"  end="3"/>
-+    <field name="uw" start="4"  end="4"/>
-+    <field name="ur" start="5"  end="5"/>
-+    <field name="ke" start="6"  end="6"/>
-+    <field name="kw" start="7"  end="7"/>
-+    <field name="kr" start="8"  end="8"/>
-+    <field name="en" start="30" end="30"/>
-+  </flags>
-+  <flags id="mpuecr_type" size="4">
-+    <field name="mr"      start="0"  end="7"/>
-+    <field name="vt"      start="8"  end="9"/>
-+    <field name="ec_code" start="16" end="31"/>
-+  </flags>
-+  <flags id="mpurdb_type" size="4">
-+    <field name="v"         start="0" end="0"/>
-+    <field name="base_addr" start="5" end="31"/>
-+  </flags>
-+  <flags id="mpurdp_type" size="4">
-+    <field name="size_lower" start="0"  end="1"/>
-+    <field name="ue"         start="3"  end="3"/>
-+    <field name="uw"         start="4"  end="4"/>
-+    <field name="ur"         start="5"  end="5"/>
-+    <field name="ke"         start="6"  end="6"/>
-+    <field name="kw"         start="7"  end="7"/>
-+    <field name="kr"         start="8"  end="8"/>
-+    <field name="size_upper" start="9"  end="11"/>
-+  </flags>
-+  <!-- build registers -->
-+  <reg name="timer_build"   bitsize="32" regnum="40" type="timer_build_type"   group=""/>
-+  <reg name="irq_build"     bitsize="32" regnum="41" type="irq_build_type"     group=""/>
-+  <reg name="mpy_build"     bitsize="32" regnum="42" type="mpy_build_type"     group=""/>
-+  <reg name="vecbase_build" bitsize="32" regnum="43" type="vecbase_build_type" group=""/>
-+  <reg name="isa_config"    bitsize="32" regnum="44" type="isa_config_type"    group=""/>
-+  <!-- timer registers -->
-+  <reg name="timer_count0" bitsize="32" regnum="45"                        group="general"/>
-+  <reg name="timer_ctrl0"  bitsize="32" regnum="46" type="timer_ctrl_type" group="general"/>
-+  <reg name="timer_limit0" bitsize="32" regnum="47"                        group="general"/>
-+  <reg name="timer_count1" bitsize="32" regnum="48"                        group="general"/>
-+  <reg name="timer_ctrl1"  bitsize="32" regnum="49" type="timer_ctrl_type" group="general"/>
-+  <reg name="timer_limit1" bitsize="32" regnum="50"                        group="general"/>
-+  <!-- mmu registers -->
-+  <reg name="pid"      bitsize="32" regnum="51" type="pid_type"      group="general"/>
-+  <reg name="tlbpd0"   bitsize="32" regnum="52" type="tlbpd0_type"   group="general"/>
-+  <reg name="tlbpd1"   bitsize="32" regnum="53" type="tlbpd1_type"   group="general"/>
-+  <reg name="tlbindex" bitsize="32" regnum="54" type="tlbindex_type" group="general"/>
-+  <reg name="tlbcmd"   bitsize="32" regnum="55" type="tlbcmd_type"   group="general"/>
-+  <!-- mpu registers -->
-+  <reg name="mpu_build" bitsize="32" regnum="56"  type="mpu_build_type" group=""/>
-+  <reg name="mpuen"     bitsize="32" regnum="57"  type="mpuen_type"     group=""/>
-+  <reg name="mpuecr"    bitsize="32" regnum="58"  type="mpuecr_type"    group=""/>
-+  <reg name="mpurdb0"   bitsize="32" regnum="59"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb1"   bitsize="32" regnum="60"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb2"   bitsize="32" regnum="61"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb3"   bitsize="32" regnum="62"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb4"   bitsize="32" regnum="63"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb5"   bitsize="32" regnum="64"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb6"   bitsize="32" regnum="65"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb7"   bitsize="32" regnum="66"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb8"   bitsize="32" regnum="67"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb9"   bitsize="32" regnum="68"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb10"  bitsize="32" regnum="69"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb11"  bitsize="32" regnum="70"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb12"  bitsize="32" regnum="71"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb13"  bitsize="32" regnum="72"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb14"  bitsize="32" regnum="73"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdb15"  bitsize="32" regnum="74"  type="mpurdb_type"    group=""/>
-+  <reg name="mpurdp0"   bitsize="32" regnum="75"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp1"   bitsize="32" regnum="76"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp2"   bitsize="32" regnum="77"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp3"   bitsize="32" regnum="78"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp4"   bitsize="32" regnum="79"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp5"   bitsize="32" regnum="80"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp6"   bitsize="32" regnum="81"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp7"   bitsize="32" regnum="82"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp8"   bitsize="32" regnum="83"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp9"   bitsize="32" regnum="84"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp10"  bitsize="32" regnum="85"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp11"  bitsize="32" regnum="86"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp12"  bitsize="32" regnum="87"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp13"  bitsize="32" regnum="88"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp14"  bitsize="32" regnum="89"  type="mpurdp_type"    group=""/>
-+  <reg name="mpurdp15"  bitsize="32" regnum="90"  type="mpurdp_type"    group=""/>
-+  <!-- exception registers -->
-+  <reg name="erstatus" bitsize="32" regnum="91" type="erstatus_type" group="general"/>
-+  <reg name="erbta"    bitsize="32" regnum="92" type="code_ptr"      group="general"/>
-+  <reg name="ecr"      bitsize="32" regnum="93" type="ecr_type"      group="general"/>
-+  <reg name="eret"     bitsize="32" regnum="94" type="code_ptr"      group="general"/>
-+  <reg name="efa"      bitsize="32" regnum="95" type="uint32"        group="general"/>
-+  <!-- irq registers -->
-+  <reg name="icause"               bitsize="32" regnum="96"  type="uint8"           group="general"/>
-+  <reg name="aux_irq_ctrl"         bitsize="32" regnum="97"  type="irq_ctrl_type"   group="general"/>
-+  <reg name="aux_irq_act"          bitsize="32" regnum="98"  type="irq_act_type"    group="general"/>
-+  <reg name="irq_priority_pending" bitsize="32" regnum="99"  type="uint16"          group="general"/>
-+  <reg name="aux_irq_hint"         bitsize="32" regnum="100" type="uint8"           group="general"/>
-+  <reg name="irq_select"           bitsize="32" regnum="101" type="uint8"           group="general"/>
-+  <reg name="irq_enable"           bitsize="32" regnum="102" type="bool"            group="general"/>
-+  <reg name="irq_trigger"          bitsize="32" regnum="103" type="bool"            group="general"/>
-+  <reg name="irq_status"           bitsize="32" regnum="104" type="irq_status_type" group="general"/>
-+  <reg name="irq_pulse_cancel"     bitsize="32" regnum="105" type="bool"            group="general"/>
-+  <reg name="irq_pending"          bitsize="32" regnum="106" type="bool"            group="general"/>
-+  <reg name="irq_priority"         bitsize="32" regnum="107" type="uint8"           group="general"/>
-+  <!-- miscellaneous -->
-+  <reg name="bta" bitsize="32" regnum="108" type="code_ptr" group="general"/>
-+</feature>
-diff --git a/gdb-xml/arc-core-v2.xml b/gdb-xml/arc-core-v2.xml
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "cpu.h"
++#include "hw/hw.h"
++#include "hw/boards.h"
++#include "elf.h"
++#include "hw/char/serial.h"
++#include "net/net.h"
++#include "hw/loader.h"
++#include "exec/memory.h"
++#include "exec/address-spaces.h"
++#include "sysemu/reset.h"
++#include "sysemu/runstate.h"
++#include "sysemu/sysemu.h"
++#include "hw/sysbus.h"
++#include "hw/arc/cpudevs.h"
++#include "boot.h"
++
++static void arc_sim_net_init(MemoryRegion *address_space,
++                             hwaddr base,
++                             hwaddr descriptors,
++                             qemu_irq irq, NICInfo *nd)
++{
++    DeviceState *dev;
++    SysBusDevice *s;
++
++    dev = qdev_new("open_eth");
++    qdev_set_nic_properties(dev, nd);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++
++    s = SYS_BUS_DEVICE(dev);
++    sysbus_connect_irq(s, 0, irq);
++    memory_region_add_subregion(address_space, base,
++                                sysbus_mmio_get_region(s, 0));
++    memory_region_add_subregion(address_space, descriptors,
++                                sysbus_mmio_get_region(s, 1));
++}
++
++static uint64_t arc_io_read(void *opaque, hwaddr addr, unsigned size)
++{
++    return 0;
++}
++
++static void arc_io_write(void *opaque, hwaddr addr,
++                         uint64_t val, unsigned size)
++{
++    switch (addr) {
++    case 0x08: /* board reset. */
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++        break;
++    default:
++        break;
++    }
++}
++
++static const MemoryRegionOps arc_io_ops = {
++    .read = arc_io_read,
++    .write = arc_io_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static void arc_sim_init(MachineState *machine)
++{
++    static struct arc_boot_info boot_info;
++    unsigned int smp_cpus = machine->smp.cpus;
++    ram_addr_t ram_base = 0;
++    ram_addr_t ram_size = machine->ram_size;
++    ARCCPU *cpu = NULL;
++    MemoryRegion *ram, *system_io;
++    int n;
++
++    boot_info.ram_start = ram_base;
++    boot_info.ram_size = ram_size;
++    boot_info.kernel_filename = machine->kernel_filename;
++
++    for (n = 0; n < smp_cpus; n++) {
++        cpu = ARC_CPU(object_new(machine->cpu_type));
++        if (cpu == NULL) {
++            fprintf(stderr, "Unable to find CPU definition!\n");
++            exit(1);
++        }
++
++        /* Set the initial CPU properties. */
++        object_property_set_uint(OBJECT(cpu), "freq_hz", 1000000, &error_fatal);
++        object_property_set_bool(OBJECT(cpu), "rtc-opt", true, &error_fatal);
++        object_property_set_bool(OBJECT(cpu), "realized", true, &error_fatal);
++
++        /* Initialize internal devices. */
++        cpu_arc_pic_init(cpu);
++        cpu_arc_clock_init(cpu);
++
++        qemu_register_reset(arc_cpu_reset, cpu);
++    }
++
++    ram = g_new(MemoryRegion, 1);
++    memory_region_init_ram(ram, NULL, "arc.ram", ram_size, &error_fatal);
++    memory_region_add_subregion(get_system_memory(), ram_base, ram);
++
++    system_io = g_new(MemoryRegion, 1);
++    memory_region_init_io(system_io, NULL, &arc_io_ops, NULL, "arc.io",
++                           1024);
++    memory_region_add_subregion(get_system_memory(), 0xf0000000, system_io);
++
++    serial_mm_init(get_system_memory(), 0x90000000, 2, cpu->env.irq[20],
++                   115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
++
++    if (nd_table[0].used) {
++        arc_sim_net_init(get_system_memory(), 0x92000000,
++                         0x92000400, cpu->env.irq[4], nd_table);
++    }
++
++    arc_load_kernel(cpu, &boot_info);
++}
++
++static void arc_sim_machine_init(MachineClass *mc)
++{
++    mc->desc = "ARCxx simulation";
++    mc->init = arc_sim_init;
++    mc->max_cpus = 1;
++    mc->is_default = false;
++    mc->default_cpu_type = ARC_CPU_TYPE_NAME("archs");
++}
++
++DEFINE_MACHINE("arc-sim", arc_sim_machine_init)
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/arc_uart.c b/hw/arc/arc_uart.c
 new file mode 100644
-index 0000000000..550dae3411
+index 0000000000..ec7aad37be
 --- /dev/null
-+++ b/gdb-xml/arc-core-v2.xml
-@@ -0,0 +1,45 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2018 Free Software Foundation, Inc.
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
++++ b/hw/arc/arc_uart.c
+@@ -0,0 +1,267 @@
++/*
++ * ARC UART model for QEMU
++ * Copyright (c) 2019 Synopsys Inc.
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version
++ * 2 of the License, or (at your option) any later version.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.arc.core.v2">
-+  <reg name="r0"       bitsize="32" regnum="0"                  group="general"/>
-+  <reg name="r1"       bitsize="32" regnum="1"                  group="general"/>
-+  <reg name="r2"       bitsize="32" regnum="2"                  group="general"/>
-+  <reg name="r3"       bitsize="32" regnum="3"                  group="general"/>
-+  <reg name="r4"       bitsize="32" regnum="4"                  group="general"/>
-+  <reg name="r5"       bitsize="32" regnum="5"                  group="general"/>
-+  <reg name="r6"       bitsize="32" regnum="6"                  group="general"/>
-+  <reg name="r7"       bitsize="32" regnum="7"                  group="general"/>
-+  <reg name="r8"       bitsize="32" regnum="8"                  group="general"/>
-+  <reg name="r9"       bitsize="32" regnum="9"                  group="general"/>
-+  <reg name="r10"      bitsize="32" regnum="10"                 group="general"/>
-+  <reg name="r11"      bitsize="32" regnum="11"                 group="general"/>
-+  <reg name="r12"      bitsize="32" regnum="12"                 group="general"/>
-+  <reg name="r13"      bitsize="32" regnum="13"                 group="general"/>
-+  <reg name="r14"      bitsize="32" regnum="14"                 group="general"/>
-+  <reg name="r15"      bitsize="32" regnum="15"                 group="general"/>
-+  <reg name="r16"      bitsize="32" regnum="16"                 group="general"/>
-+  <reg name="r17"      bitsize="32" regnum="17"                 group="general"/>
-+  <reg name="r18"      bitsize="32" regnum="18"                 group="general"/>
-+  <reg name="r19"      bitsize="32" regnum="19"                 group="general"/>
-+  <reg name="r20"      bitsize="32" regnum="20"                 group="general"/>
-+  <reg name="r21"      bitsize="32" regnum="21"                 group="general"/>
-+  <reg name="r22"      bitsize="32" regnum="22"                 group="general"/>
-+  <reg name="r23"      bitsize="32" regnum="23"                 group="general"/>
-+  <reg name="r24"      bitsize="32" regnum="24"                 group="general"/>
-+  <reg name="r25"      bitsize="32" regnum="25"                 group="general"/>
-+  <reg name="gp"       bitsize="32" regnum="26" type="data_ptr" group="general"/>
-+  <reg name="fp"       bitsize="32" regnum="27" type="data_ptr" group="general"/>
-+  <reg name="sp"       bitsize="32" regnum="28" type="data_ptr" group="general"/>
-+  <reg name="ilink"    bitsize="32" regnum="29" type="code_ptr" group="general"/>
-+  <reg name="r30"      bitsize="32" regnum="30"                 group="general"/>
-+  <reg name="blink"    bitsize="32" regnum="31" type="code_ptr" group="general"/>
-+  <reg name="accl"     bitsize="32" regnum="32"                 group="general"/>
-+  <reg name="acch"     bitsize="32" regnum="33"                 group="general"/>
-+  <reg name="lp_count" bitsize="32" regnum="34" type="uint32"   group="general"/>
-+  <reg name="pcl"      bitsize="32" regnum="35" type="code_ptr" group="general"/>
-+</feature>
-diff --git a/target/arc/gdbstub.c b/target/arc/gdbstub.c
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "hw/sysbus.h"
++#include "chardev/char.h"
++#include "chardev/char-fe.h"
++#include "hw/hw.h"
++#include "hw/irq.h"
++#include "hw/arc/arc_uart.h"
++#include "qemu/log.h"
++
++#ifndef ARC_UART_ERR_DEBUG
++#define ARC_UART_ERR_DEBUG 0
++#endif
++
++#define DB_PRINT_L(lvl, fmt, args...)                \
++    do {                                             \
++        if (ARC_UART_ERR_DEBUG >= lvl) {             \
++            qemu_log("%s: " fmt, __func__, ## args); \
++        }                                            \
++    } while (0)
++
++#define DB_PRINT(fmt, args...) DB_PRINT_L(1, fmt, ## args)
++
++enum {
++    ARC_UART_REG_ID0    = 0x00,
++    ARC_UART_REG_ID1    = 0x04,
++    ARC_UART_REG_ID2    = 0x08,
++    ARC_UART_REG_ID3    = 0x0c,
++    ARC_UART_REG_DATA   = 0x10,
++    ARC_UART_REG_STATUS = 0x14,
++    ARC_UART_REG_BAUDL  = 0x18,
++    ARC_UART_REG_BAUDH  = 0x1c,
++    ARC_UART_REG_MAX    = 0x20
++};
++
++/*
++ * Bit definitions of STATUS register:
++ *
++ * UART_TXEMPTY      Transmit FIFO Empty, thus char can be written into
++ * UART_TX_IE        Transmit Interrupt Enable
++ * UART_RXEMPTY      Receive FIFO Empty: No char receivede
++ * UART_RX_FULL1     Receive FIFO has space for 1 char (tot space=4)
++ * UART_RX_FULL      Receive FIFO full
++ * UART_RX_IE        Receive Interrupt Enable
++ * UART_OVERFLOW_ERR OverFlow Err: Char recv but RXFULL still set
++ * UART_RX_FERR      Frame Error: Stop Bit not detected
++ */
++#define UART_TXEMPTY      (1 << 7)
++#define UART_TX_IE        (1 << 6)
++#define UART_RXEMPTY      (1 << 5)
++#define UART_RX_FULL1     (1 << 4)
++#define UART_RX_FULL      (1 << 3)
++#define UART_RX_IE        (1 << 2)
++#define UART_OVERFLOW_ERR (1 << 1)
++#define UART_RX_FERR      (1 << 0)
++
++static void arc_uart_update_irq(const ARC_UART_State *s)
++{
++    int cond = 0;
++
++    if ((s->rx_ie && s->rx_fifo_len) || s->tx_ie) {
++        cond = 1;
++    }
++
++    if (cond) {
++        qemu_irq_raise(s->irq);
++    } else {
++        qemu_irq_lower(s->irq);
++    }
++}
++
++static uint32_t arc_status_get(const ARC_UART_State *s)
++{
++    uint32_t status = UART_TXEMPTY;
++
++    if (!s->rx_fifo_len) {
++        status |= UART_RXEMPTY;
++    }
++
++    if (s->rx_ie) {
++        status |= UART_RX_IE;
++    }
++
++    if (s->tx_ie) {
++        status |= UART_TX_IE;
++    }
++
++    if (s->rx_fifo_len == sizeof(s->rx_fifo)) {
++        status |= UART_RX_FULL;
++    }
++
++    if (s->rx_fifo_len == (sizeof(s->rx_fifo) - 1)) {
++        status |= UART_RX_FULL1;
++    }
++
++    return status;
++}
++
++static void arc_status_set(ARC_UART_State *s, char value)
++{
++    if (value & UART_TX_IE) {
++        s->tx_ie = true;
++    } else {
++        s->tx_ie = false;
++    }
++
++    /*
++     * Tx IRQ is active if (TXIE && TXEMPTY), but since in QEMU we
++     * transmit data immediately TXEMPTY is permanently set, thus
++     * for TX IRQ state we need to check TXIE only which we do here.
++     */
++    arc_uart_update_irq(s);
++
++    if (value & UART_RX_IE) {
++        s->rx_ie = true;
++    } else {
++        s->rx_ie = false;
++    }
++}
++
++static uint64_t arc_uart_read(void *opaque, hwaddr addr, unsigned size)
++{
++    ARC_UART_State *s = opaque;
++    uint32_t c;
++
++    DB_PRINT("Read reg with offset 0x%02x\n", (unsigned int)addr);
++
++    switch (addr) {
++    case ARC_UART_REG_ID0:
++    case ARC_UART_REG_ID1:
++    case ARC_UART_REG_ID2:
++    case ARC_UART_REG_ID3:
++        return 0;
++    case ARC_UART_REG_DATA:
++        c = s->rx_fifo[0];
++        memmove(s->rx_fifo, s->rx_fifo + 1, s->rx_fifo_len - 1);
++        s->rx_fifo_len--;
++        qemu_chr_fe_accept_input(&s->chr);
++        arc_uart_update_irq(s);
++        DB_PRINT("Read char: %c\n", c);
++        return c;
++    case ARC_UART_REG_STATUS:
++        return arc_status_get(s);
++    case ARC_UART_REG_BAUDL:
++        return s->baud & 0xff;
++    case ARC_UART_REG_BAUDH:
++        return s->baud >> 8;
++    default:
++        break;
++    }
++
++    hw_error("%s@%d: Wrong register with offset 0x%02x is used!\n",
++             __func__, __LINE__, (unsigned int)addr);
++    return 0;
++}
++
++static void arc_uart_write(void *opaque, hwaddr addr,
++                           uint64_t value, unsigned size)
++{
++    ARC_UART_State *s = opaque;
++    unsigned char ch = value;
++
++    DB_PRINT("Write value 0x%02x to reg with offset 0x%02x\n",
++             ch, (unsigned int)addr);
++
++    switch (addr) {
++    case ARC_UART_REG_ID0:
++    case ARC_UART_REG_ID1:
++    case ARC_UART_REG_ID2:
++    case ARC_UART_REG_ID3:
++        break;
++    case ARC_UART_REG_DATA:
++        DB_PRINT("Write char: %c\n", ch);
++        qemu_chr_fe_write(&s->chr, &ch, 1);
++        break;
++    case ARC_UART_REG_STATUS:
++        arc_status_set(s, ch);
++        break;
++    case ARC_UART_REG_BAUDL:
++        s->baud = (s->baud & 0xff00) + value;
++        break;
++    case ARC_UART_REG_BAUDH:
++        s->baud = (s->baud & 0xff) + (value << 8);
++        break;
++    default:
++        hw_error("%s@%d: Wrong register with offset 0x%02x is used!\n",
++                 __func__, __LINE__, (unsigned int)addr);
++    }
++}
++
++static const MemoryRegionOps arc_uart_ops = {
++    .read = arc_uart_read,
++    .write = arc_uart_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 1
++    }
++};
++
++static void uart_rx(void *opaque, const uint8_t *buf, int size)
++{
++    ARC_UART_State *s = opaque;
++
++    /* Got a byte.  */
++    if (s->rx_fifo_len >= sizeof(s->rx_fifo)) {
++        DB_PRINT("Rx FIFO is full dropping the chars\n");
++        return;
++    }
++    s->rx_fifo[s->rx_fifo_len++] = *buf;
++
++    arc_uart_update_irq(s);
++}
++
++static int uart_can_rx(void *opaque)
++{
++    ARC_UART_State *s = opaque;
++
++    return s->rx_fifo_len < sizeof(s->rx_fifo);
++}
++
++static void uart_event(void *opaque, QEMUChrEvent event)
++{
++}
++
++static int uart_be_change(void *opaque)
++{
++    ARC_UART_State *s = opaque;
++
++    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
++                             uart_be_change, s, NULL, true);
++    return 0;
++}
++
++ARC_UART_State *arc_uart_create(MemoryRegion *address_space, hwaddr base,
++                                Chardev *chr, qemu_irq irq)
++{
++    ARC_UART_State *s = g_malloc0(sizeof(ARC_UART_State));
++
++    DB_PRINT("Create ARC UART\n");
++
++    s->irq = irq;
++    qemu_chr_fe_init(&s->chr, chr, &error_abort);
++    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
++                             uart_be_change, s, NULL, true);
++    memory_region_init_io(&s->mmio, NULL, &arc_uart_ops, s,
++                          TYPE_ARC_UART, ARC_UART_REG_MAX);
++    memory_region_add_subregion(address_space, base, &s->mmio);
++    return s;
++}
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/board-hsdk.c b/hw/arc/board-hsdk.c
 new file mode 100644
-index 0000000000..574e8fdf4b
+index 0000000000..5440a73c2f
 --- /dev/null
-+++ b/target/arc/gdbstub.c
-@@ -0,0 +1,421 @@
++++ b/hw/arc/board-hsdk.c
+@@ -0,0 +1,107 @@
++/*
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "boot.h"
++#include "hw/boards.h"
++#include "hw/char/serial.h"
++#include "exec/address-spaces.h"
++#include "sysemu/reset.h"
++#include "sysemu/sysemu.h"
++#include "hw/arc/cpudevs.h"
++#include "hw/sysbus.h"
++
++#define HSDK_RAM_BASE      0x80000000
++#define HSDK_RAM_SIZE      0x80000000
++#define HSDK_IO_BASE       0xf0000000
++#define HSDK_IO_SIZE       0x10000000
++#define HSDK_UART0_OFFSET  0x5000
++#define HSDK_UART0_IRQ     30
++
++/* VirtIO */
++#define HSDK_VIRTIO_NUMBER 5
++#define HSDK_VIRTIO_OFFSET 0x100000
++#define HSDK_VIRTIO_BASE   (HSDK_IO_BASE + HSDK_VIRTIO_OFFSET)
++#define HSDK_VIRTIO_SIZE   0x1000
++#define HSDK_VIRTIO_IRQ    31
++
++static void hsdk_init(MachineState *machine)
++{
++    static struct arc_boot_info boot_info;
++    unsigned int smp_cpus = machine->smp.cpus;
++    MemoryRegion *system_memory = get_system_memory();
++    MemoryRegion *system_ram;
++    MemoryRegion *system_io;
++    ARCCPU *cpu = NULL;
++    int n;
++
++    boot_info.ram_start = HSDK_RAM_BASE;
++    boot_info.ram_size = HSDK_RAM_SIZE;
++    boot_info.kernel_filename = machine->kernel_filename;
++    boot_info.kernel_cmdline = machine->kernel_cmdline;
++
++    for (n = 0; n < smp_cpus; n++) {
++        cpu = ARC_CPU(cpu_create("archs-" TYPE_ARC_CPU));
++        if (cpu == NULL) {
++            fprintf(stderr, "Unable to find CPU definition!\n");
++            exit(1);
++        }
++
++       /* Initialize internal devices. */
++        cpu_arc_pic_init(cpu);
++        cpu_arc_clock_init(cpu);
++
++        qemu_register_reset(arc_cpu_reset, cpu);
++    }
++
++    /* Init system DDR */
++    system_ram = g_new(MemoryRegion, 1);
++    memory_region_init_ram(system_ram, NULL, "arc.ram", HSDK_RAM_SIZE,
++                           &error_fatal);
++    memory_region_add_subregion(system_memory, HSDK_RAM_BASE, system_ram);
++
++    /* Init IO area */
++    system_io = g_new(MemoryRegion, 1);
++    memory_region_init_io(system_io, NULL, NULL, NULL, "arc.io",
++                          HSDK_IO_SIZE);
++    memory_region_add_subregion(system_memory, HSDK_IO_BASE, system_io);
++
++    serial_mm_init(system_io, HSDK_UART0_OFFSET, 2,
++                   cpu->env.irq[HSDK_UART0_IRQ], 115200, serial_hd(0),
++                   DEVICE_NATIVE_ENDIAN);
++
++    for (n = 0; n < HSDK_VIRTIO_NUMBER; n++) {
++        sysbus_create_simple("virtio-mmio",
++                             HSDK_VIRTIO_BASE + HSDK_VIRTIO_SIZE * n,
++                             cpu->env.irq[HSDK_VIRTIO_IRQ + n]);
++    }
++
++    arc_load_kernel(cpu, &boot_info);
++}
++
++static void hsdk_machine_init(MachineClass *mc)
++{
++    mc->desc = "ARC HSDK Emulator";
++    mc->init = hsdk_init;
++    mc->max_cpus = 1;
++    mc->is_default = false;
++}
++
++DEFINE_MACHINE("hsdk", hsdk_machine_init)
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/boot.c b/hw/arc/boot.c
+new file mode 100644
+index 0000000000..95ba3a7a56
+--- /dev/null
++++ b/hw/arc/boot.c
+@@ -0,0 +1,95 @@
++/*
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "boot.h"
++#include "elf.h"
++#include "hw/loader.h"
++#include "qemu/error-report.h"
++#include "qemu/units.h"
++
++void arc_cpu_reset(void *opaque)
++{
++    ARCCPU *cpu = opaque;
++    CPUARCState *env = &cpu->env;
++    const struct arc_boot_info *info = env->boot_info;
++
++    cpu_reset(CPU(cpu));
++
++    /*
++     * Right before start CPU gets reset wiping out everything
++     * but PC which we set on Elf load.
++     *
++     * And if we still want to pass something like U-Boot data
++     * via CPU registers we have to do it here.
++     */
++
++    if (info->kernel_cmdline && strlen(info->kernel_cmdline)) {
++        /*
++         * Load "cmdline" far enough from the kernel image.
++         * Round by MAX page size for ARC - 16 KiB.
++         */
++        hwaddr cmdline_addr = info->ram_start +
++            QEMU_ALIGN_UP(info->ram_size / 2, 16 * KiB);
++        cpu_physical_memory_write(cmdline_addr, info->kernel_cmdline,
++                                  strlen(info->kernel_cmdline));
++
++        /* We're passing "cmdline" */
++        cpu->env.r[0] = ARC_UBOOT_CMDLINE;
++        cpu->env.r[2] = cmdline_addr;
++    }
++}
++
++
++void arc_load_kernel(ARCCPU *cpu, struct arc_boot_info *info)
++{
++    hwaddr entry;
++    int elf_machine, kernel_size;
++
++    if (!info->kernel_filename) {
++        error_report("missing kernel file");
++        exit(EXIT_FAILURE);
++    }
++
++    elf_machine = cpu->env.family > 2 ? EM_ARC_COMPACT2 : EM_ARC_COMPACT;
++    kernel_size = load_elf(info->kernel_filename, NULL, NULL, NULL,
++                           &entry, NULL, NULL, NULL, ARC_ENDIANNESS_LE,
++                           elf_machine, 1, 0);
++
++    if (kernel_size < 0) {
++        int is_linux;
++
++        kernel_size = load_uimage(info->kernel_filename, &entry, NULL,
++                                  &is_linux, NULL, NULL);
++        if (!is_linux) {
++            error_report("Wrong U-Boot image, only Linux kernel is supported");
++            exit(EXIT_FAILURE);
++        }
++    }
++
++    if (kernel_size < 0) {
++        error_report("No kernel image found");
++        exit(EXIT_FAILURE);
++    }
++
++    cpu->env.boot_info = info;
++
++    /* Set CPU's PC to point to the entry-point */
++    cpu->env.pc = entry;
++}
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/boot.h b/hw/arc/boot.h
+new file mode 100644
+index 0000000000..e46aa16fc6
+--- /dev/null
++++ b/hw/arc/boot.h
+@@ -0,0 +1,21 @@
++#ifndef ARC_BOOT_H
++#define ARC_BOOT_H
++
++#include "hw/hw.h"
++#include "cpu.h"
++
++struct arc_boot_info {
++    hwaddr ram_start;
++    uint64_t ram_size;
++    const char *kernel_filename;
++    const char *kernel_cmdline;
++};
++
++void arc_cpu_reset(void *opaque);
++void arc_load_kernel(ARCCPU *cpu, struct arc_boot_info *boot_info);
++
++#endif /* ARC_BOOT_H */
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/meson.build b/hw/arc/meson.build
+new file mode 100644
+index 0000000000..6a587307a4
+--- /dev/null
++++ b/hw/arc/meson.build
+@@ -0,0 +1,13 @@
++arc_ss = ss.source_set()
++arc_ss.add(files(
++  'arc_sim.c',
++  'arc_uart.c',
++  'sample.c',
++  'pic_cpu.c',
++  'boot.c',
++  'board-hsdk.c',
++  'sim-hs.c',
++  'nsim.c',
++))
++
++hw_arch += {'arc': arc_ss}
+diff --git a/hw/arc/nsim.c b/hw/arc/nsim.c
+new file mode 100644
+index 0000000000..810b0efa1d
+--- /dev/null
++++ b/hw/arc/nsim.c
+@@ -0,0 +1,86 @@
++/*
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "boot.h"
++#include "sysemu/reset.h"
++#include "sysemu/sysemu.h"
++#include "hw/boards.h"
++#include "hw/char/serial.h"
++#include "exec/address-spaces.h"
++#include "hw/arc/arc_uart.h"
++#include "hw/arc/cpudevs.h"
++#include "hw/sysbus.h"
++
++#define NSIM_RAM_BASE        0x80000000
++#define NSIM_RAM_SIZE        0x40000000
++#define NSIM_ARC_UART_OFFSET 0xc0fc1000
++
++static void nsim_init(MachineState *machine)
++{
++    static struct arc_boot_info boot_info;
++    unsigned int smp_cpus = machine->smp.cpus;
++    MemoryRegion *system_memory = get_system_memory();
++    MemoryRegion *system_ram;
++    ARCCPU *cpu = NULL;
++    int n;
++
++    boot_info.ram_start = NSIM_RAM_BASE;
++    boot_info.ram_size = NSIM_RAM_SIZE;
++    boot_info.kernel_filename = machine->kernel_filename;
++    boot_info.kernel_cmdline = machine->kernel_cmdline;
++
++    for (n = 0; n < smp_cpus; n++) {
++        cpu = ARC_CPU (cpu_create("archs-" TYPE_ARC_CPU));
++        if (cpu == NULL) {
++            fprintf(stderr, "Unable to find CPU definition!\n");
++            exit(1);
++        }
++
++       /* Initialize internal devices. */
++        cpu_arc_pic_init(cpu);
++        cpu_arc_clock_init(cpu);
++
++        qemu_register_reset(arc_cpu_reset, cpu);
++    }
++
++    /* Init system DDR */
++    system_ram = g_new(MemoryRegion, 1);
++    memory_region_init_ram(system_ram, NULL, "arc.ram", NSIM_RAM_SIZE,
++                           &error_fatal);
++    memory_region_add_subregion(system_memory, NSIM_RAM_BASE, system_ram);
++
++    /* Init ARC UART */
++    arc_uart_create(get_system_memory(), NSIM_ARC_UART_OFFSET,
++                    serial_hd(0), cpu->env.irq[24]);
++
++    arc_load_kernel(cpu, &boot_info);
++}
++
++static void nsim_machine_init(MachineClass *mc)
++{
++    mc->desc = "ARC nSIM";
++    mc->init = nsim_init;
++    mc->max_cpus = 1;
++    mc->is_default = false;
++}
++
++DEFINE_MACHINE("nsim", nsim_machine_init)
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/pic_cpu.c b/hw/arc/pic_cpu.c
+new file mode 100644
+index 0000000000..0a29a2f803
+--- /dev/null
++++ b/hw/arc/pic_cpu.c
+@@ -0,0 +1,111 @@
++/*
++ * ARC Programmable Interrupt Controller support.
++ *
++ * Copyright (c) 2019
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "hw/hw.h"
++#include "hw/irq.h"
++#include "qemu/log.h"
++#include "hw/arc/cpudevs.h"
++
++/*
++ * ARC pic handler
++ */
++static void arc_pic_cpu_handler(void *opaque, int irq, int level)
++{
++    ARCCPU *cpu = (ARCCPU *) opaque;
++    CPUState *cs = CPU(cpu);
++    CPUARCState *env = &cpu->env;
++    int i;
++    bool clear = false;
++    uint32_t irq_bit;
++
++    /* Assert if this handler is called in a system without interrupts. */
++    assert(cpu->cfg.has_interrupts);
++
++    /* Assert if the IRQ is not within the cpu configuration bounds. */
++    assert(irq >= 16 && irq < (cpu->cfg.number_of_interrupts + 15));
++
++    irq_bit = 1 << env->irq_bank[irq].priority;
++    if (level) {
++        /*
++         * An interrupt is enabled, update irq_priority_pendig and rise
++         * the qemu interrupt line.
++         */
++        env->irq_bank[irq].pending = 1;
++        qatomic_or(&env->irq_priority_pending, irq_bit);
++        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++    } else {
++        env->irq_bank[irq].pending = 0;
++
++        /*
++         * First, check if we still have any pending interrupt at the
++         * given priority.
++         */
++        clear = true;
++        for (i = 16; i < cpu->cfg.number_of_interrupts; i++) {
++            if (env->irq_bank[i].pending
++                && env->irq_bank[i].priority == env->irq_bank[irq].priority) {
++                clear = false;
++                break;
++            }
++        }
++
++        /* If not, update (clear) irq_priority_pending. */
++        if (clear) {
++            qatomic_and(&env->irq_priority_pending, ~irq_bit);
++        }
++
++        /*
++         * If we don't have any pending priority, lower the qemu irq
++         * line. N.B. we can also check more here like IE bit, but we
++         * need to add a cpu_interrupt call when we enable the
++         * interrupts (e.g., sleep, seti).
++         */
++        if (!env->irq_priority_pending) {
++            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
++        }
++    }
++    qemu_log_mask(CPU_LOG_INT,
++                  "[IRQ] level = %d, clear = %d, irq = %d, priority = %d, "
++                  "pending = %08x, pc = %08x\n",
++                  level, clear, irq, env->irq_bank[irq].priority,
++                  env->irq_priority_pending, env->pc);
++}
++
++/*
++ * ARC PIC initialization helper
++ */
++void cpu_arc_pic_init(ARCCPU *cpu)
++{
++    CPUARCState *env = &cpu->env;
++    int i;
++    qemu_irq *qi;
++
++    qi = qemu_allocate_irqs(arc_pic_cpu_handler, cpu,
++                            16 + cpu->cfg.number_of_interrupts);
++
++    for (i = 0; i < cpu->cfg.number_of_interrupts; i++) {
++        env->irq[16 + i] = qi[16 + i];
++    }
++}
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/sample.c b/hw/arc/sample.c
+new file mode 100644
+index 0000000000..0ecc11cf15
+--- /dev/null
++++ b/hw/arc/sample.c
+@@ -0,0 +1,77 @@
 +/*
 + * QEMU ARC CPU
 + *
@@ -470,7 +1077,7 @@ index 0000000000..574e8fdf4b
 + *
 + * This library is distributed in the hope that it will be useful,
 + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 + * Lesser General Public License for more details.
 + *
 + * You should have received a copy of the GNU Lesser General Public
@@ -479,405 +1086,240 @@ index 0000000000..574e8fdf4b
 + */
 +
 +#include "qemu/osdep.h"
-+#include "exec/gdbstub.h"
-+#include "arc-common.h"
-+#include "target/arc/regs.h"
-+#include "internals.h"
-+#include "irq.h"
++#include "qapi/error.h"
++#include "qemu-common.h"
++#include "cpu.h"
++#include "hw/hw.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/qtest.h"
++#include "ui/console.h"
++#include "hw/boards.h"
++#include "hw/loader.h"
++#include "qemu/error-report.h"
++#include "exec/address-spaces.h"
++#include "include/hw/sysbus.h"
 +
-+/* gets the register address for a particular processor */
-+#define REG_ADDR(reg, processor_type) \
-+    arc_aux_reg_address_for((reg), (processor_type))
++#define SIZE_RAM 0x00020000
 +
-+int arc_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
++static void sample_init(MachineState *machine)
 +{
-+    ARCCPU *cpu = ARC_CPU(cs);
-+    CPUARCState *env = &cpu->env;
-+    uint32_t regval = 0;
++    MemoryRegion *ram;
 +
-+    switch (n) {
-+    case 0 ... 31:
-+       regval = env->r[n];
-+       break;
-+    case GDB_REG_58:
-+       regval = env->r[58];
-+       break;
-+    case GDB_REG_59:
-+       regval = env->r[59];
-+       break;
-+    case GDB_REG_60:
-+       regval = env->r[60];
-+       break;
-+    case GDB_REG_63:
-+       regval = env->r[63];
-+       break;
-+    default:
-+       assert(!"Unsupported register is being read.");
++    ARCCPU *cpu_arc ATTRIBUTE_UNUSED;
++
++    ram = g_new(MemoryRegion, 1);
++
++    cpu_arc = ARC_CPU(cpu_create("archs-" TYPE_ARC_CPU));
++
++    memory_region_init_ram(ram, NULL, "ram", SIZE_RAM, &error_fatal);
++    memory_region_add_subregion(get_system_memory(), PHYS_BASE_RAM, ram);
++
++    char const *firmware = NULL;
++    char const *filename;
++
++    if (machine->firmware) {
++        firmware = machine->firmware;
 +    }
 +
-+    return gdb_get_reg32(mem_buf, regval);
++    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware);
++    if (!filename) {
++        error_report("Could not find flash image file '%s'", firmware);
++        exit(1);
++    }
++
++    load_image_targphys(filename, PHYS_BASE_RAM + 0x100, SIZE_RAM);
 +}
 +
-+int arc_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
++static void sample_machine_init(MachineClass *mc)
 +{
-+    ARCCPU *cpu = ARC_CPU(cs);
-+    CPUARCState *env = &cpu->env;
-+    uint32_t regval = ldl_p(mem_buf);
-+
-+    switch (n) {
-+    case 0 ... 31:
-+        env->r[n] = regval;
-+        break;
-+    case GDB_REG_58:
-+        env->r[58] = regval;
-+        break;
-+    case GDB_REG_59:
-+        env->r[59] = regval;
-+        break;
-+    case GDB_REG_60:
-+        env->r[60] = regval;
-+        break;
-+    case GDB_REG_63:
-+        env->r[63] = regval;
-+        break;
-+    default:
-+        assert(!"Unsupported register is being written.");
-+    }
-+
-+    return 4;
++    mc->desc = "ARC sample/example board";
++    mc->init = sample_init;
++    mc->is_default = false;
 +}
 +
++DEFINE_MACHINE("sample", sample_machine_init)
 +
-+static int
-+arc_aux_minimal_gdb_get_reg(CPUARCState *env, GByteArray *mem_buf, int regnum)
-+{
-+    /* TODO: processor type must be set according to configuration */
-+    static const int processor = ARC_OPCODE_ARCv2HS;
-+    uint32_t regval = 0;
-+
-+    switch (regnum) {
-+    case GDB_AUX_MIN_REG_PC:
-+        regval = env->pc & 0xfffffffe;
-+        break;
-+    case GDB_AUX_MIN_REG_LPS:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_lp_start, processor));
-+        break;
-+    case GDB_AUX_MIN_REG_LPE:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_lp_end, processor));
-+        break;
-+    case GDB_AUX_MIN_REG_STATUS:
-+        regval = pack_status32(&env->stat);
-+        break;
-+    default:
-+        assert(!"Unsupported minimal auxiliary register is being read.");
-+    }
-+    return gdb_get_reg32(mem_buf, regval);
-+}
-+
-+
-+static int
-+arc_aux_minimal_gdb_set_reg(CPUARCState *env, uint8_t *mem_buf, int regnum)
-+{
-+    /* TODO: processor type must be set according to configuration */
-+    static const int processor = ARC_OPCODE_ARCv2HS;
-+    uint32_t regval = ldl_p(mem_buf);
-+    switch (regnum) {
-+    case GDB_AUX_MIN_REG_PC:
-+        env->pc = regval & 0xfffffffe;
-+        break;
-+    case GDB_AUX_MIN_REG_LPS:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_lp_start, processor));
-+        break;
-+    case GDB_AUX_MIN_REG_LPE:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_lp_end, processor));
-+        break;
-+    case GDB_AUX_MIN_REG_STATUS:
-+        unpack_status32(&env->stat, regval);
-+        break;
-+    default:
-+        assert(!"Unsupported minimal auxiliary register is being written.");
-+    }
-+    return 4;
-+}
-+
-+
-+static int
-+arc_aux_other_gdb_get_reg(CPUARCState *env, GByteArray *mem_buf, int regnum)
-+{
-+    /* TODO: processor type must be set according to configuration */
-+    static const int processor = ARC_OPCODE_ARCv2HS;
-+    uint32_t regval = 0;
-+    switch (regnum) {
-+    case GDB_AUX_OTHER_REG_TIMER_BUILD:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_timer_build, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_BUILD:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_build, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_MPY_BUILD:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_mpy_build, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_VECBASE_BUILD:
-+        regval = env->vecbase_build;
-+        break;
-+    case GDB_AUX_OTHER_REG_ISA_CONFIG:
-+        regval = env->isa_config;
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_CNT0:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_count0, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_CTRL0:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_control0, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_LIM0:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_limit0, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_CNT1:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_count1, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_CTRL1:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_control1, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_LIM1:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_limit1, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_PID:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_pid, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TLBPD0:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbpd0, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TLBPD1:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbpd1, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TLB_INDEX:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbindex, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TLB_CMD:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbcommand, processor));
-+        break;
-+    /* MPU */
-+    case GDB_AUX_OTHER_REG_MPU_BUILD:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_mpu_build, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_MPU_EN:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_mpuen, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_MPU_ECR:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_mpuic, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_MPU_BASE0 ... GDB_AUX_OTHER_REG_MPU_BASE15: {
-+        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_BASE0;
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_mpurdb0 + index, processor));
-+        break;
-+    }
-+    case GDB_AUX_OTHER_REG_MPU_PERM0 ... GDB_AUX_OTHER_REG_MPU_PERM15: {
-+        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_PERM0;
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_mpurdp0 + index, processor));
-+        break;
-+    }
-+    /* exceptions */
-+    case GDB_AUX_OTHER_REG_ERSTATUS:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_erstatus, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_ERBTA:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_erbta, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_ECR:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_ecr, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_ERET:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_eret, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_EFA:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_efa, processor));
-+        break;
-+    /* interrupt */
-+    case GDB_AUX_OTHER_REG_ICAUSE:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_icause, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_CTRL:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_ctrl, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_ACT:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_act, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_PRIO_PEND:
-+        regval = env->irq_priority_pending;
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_HINT:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_hint, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_SELECT:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_select, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_ENABLE:
-+        regval = env->irq_bank[env->irq_select & 0xff].enable;
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_TRIGGER:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_trigger, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_STATUS:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_status, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_PULSE:
-+        regval = 0; /* write only for clearing the pulse triggered interrupt */
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_PENDING:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_pending, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_PRIO:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_priority, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_BTA:
-+        regval = helper_lr(env, REG_ADDR(AUX_ID_bta, processor));
-+        break;
-+    default:
-+        assert(!"Unsupported other auxiliary register is being read.");
-+    }
-+    return gdb_get_reg32(mem_buf, regval);
-+}
-+
-+
-+static int
-+arc_aux_other_gdb_set_reg(CPUARCState *env, uint8_t *mem_buf, int regnum)
-+{
-+    /* TODO: processor type must be set according to configuration */
-+    static const int processor = ARC_OPCODE_ARCv2HS;
-+    uint32_t regval = ldl_p(mem_buf);
-+    switch (regnum) {
-+    case GDB_AUX_OTHER_REG_TIMER_BUILD:
-+    case GDB_AUX_OTHER_REG_IRQ_BUILD:
-+    case GDB_AUX_OTHER_REG_MPY_BUILD:
-+    case GDB_AUX_OTHER_REG_VECBASE_BUILD:
-+    case GDB_AUX_OTHER_REG_ISA_CONFIG:
-+    case GDB_AUX_OTHER_REG_MPU_BUILD:
-+    case GDB_AUX_OTHER_REG_MPU_ECR:
-+    case GDB_AUX_OTHER_REG_ICAUSE:
-+    case GDB_AUX_OTHER_REG_IRQ_PRIO_PEND:
-+    case GDB_AUX_OTHER_REG_IRQ_STATUS:
-+    case GDB_AUX_OTHER_REG_IRQ_PENDING:
-+        /* builds/configs/exceptions/irqs cannot be changed */
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_CNT0:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_count0, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_CTRL0:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_control0, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_LIM0:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_limit0, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_CNT1:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_count1, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_CTRL1:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_control1, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TIMER_LIM1:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_limit1, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_PID:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_pid, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TLBPD0:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbpd0, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TLBPD1:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbpd1, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TLB_INDEX:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbindex, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_TLB_CMD:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbcommand, processor));
-+        break;
-+    /* MPU */
-+    case GDB_AUX_OTHER_REG_MPU_EN:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_mpuen, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_MPU_BASE0 ... GDB_AUX_OTHER_REG_MPU_BASE15: {
-+        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_BASE0;
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_mpurdb0 + index, processor));
-+        break;
-+    }
-+    case GDB_AUX_OTHER_REG_MPU_PERM0 ... GDB_AUX_OTHER_REG_MPU_PERM15: {
-+        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_PERM0;
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_mpurdp0 + index, processor));
-+        break;
-+    }
-+    /* exceptions */
-+    case GDB_AUX_OTHER_REG_ERSTATUS:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_erstatus, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_ERBTA:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_erbta, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_ECR:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_ecr, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_ERET:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_eret, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_EFA:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_efa, processor));
-+        break;
-+    /* interrupt */
-+    case GDB_AUX_OTHER_REG_IRQ_CTRL:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_ctrl, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_ACT:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_act, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_HINT:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_hint, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_SELECT:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_select, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_ENABLE:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_enable, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_TRIGGER:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_trigger, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_PULSE:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_pulse_cancel, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_IRQ_PRIO:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_priority, processor));
-+        break;
-+    case GDB_AUX_OTHER_REG_BTA:
-+        helper_sr(env, regval, REG_ADDR(AUX_ID_bta, processor));
-+        break;
-+    default:
-+        assert(!"Unsupported other auxiliary register is being written.");
-+    }
-+    return 4;
-+}
-+
-+
-+void arc_cpu_register_gdb_regs_for_features(ARCCPU *cpu)
-+{
-+    CPUState *cs = CPU(cpu);
-+
-+    gdb_register_coprocessor(cs,
-+                             arc_aux_minimal_gdb_get_reg, /* getter */
-+                             arc_aux_minimal_gdb_set_reg, /* setter */
-+                             GDB_AUX_MIN_REG_LAST,    /* number of registers */
-+                             "arc-aux-minimal.xml",       /* feature file */
-+                             0);                      /* position in g packet */
-+
-+    gdb_register_coprocessor(cs,
-+                             arc_aux_other_gdb_get_reg,
-+                             arc_aux_other_gdb_set_reg,
-+                             GDB_AUX_OTHER_REG_LAST,
-+                             "arc-aux-other.xml",
-+                             0);
-+}
 +
 +/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
 +/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/sim-hs.c b/hw/arc/sim-hs.c
+new file mode 100644
+index 0000000000..93cd9e3826
+--- /dev/null
++++ b/hw/arc/sim-hs.c
+@@ -0,0 +1,107 @@
++/*
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "boot.h"
++#include "hw/boards.h"
++#include "hw/char/serial.h"
++#include "exec/address-spaces.h"
++#include "sysemu/reset.h"
++#include "sysemu/sysemu.h"
++#include "hw/arc/cpudevs.h"
++#include "hw/sysbus.h"
++
++#define SIMHS_RAM_BASE      0x80000000
++#define SIMHS_RAM_SIZE      0x80000000
++#define SIMHS_IO_BASE       0xf0000000
++#define SIMHS_IO_SIZE       0x10000000
++#define SIMHS_UART0_OFFSET  0x0
++#define SIMHS_UART0_IRQ     24
++
++/* VirtIO */
++#define SIMHS_VIRTIO_NUMBER 5
++#define SIMHS_VIRTIO_OFFSET 0x100000
++#define SIMHS_VIRTIO_BASE   (SIMHS_IO_BASE + SIMHS_VIRTIO_OFFSET)
++#define SIMHS_VIRTIO_SIZE   0x2000
++#define SIMHS_VIRTIO_IRQ    31
++
++static void simhs_init(MachineState *machine)
++{
++    static struct arc_boot_info boot_info;
++    unsigned int smp_cpus = machine->smp.cpus;
++    MemoryRegion *system_memory = get_system_memory();
++    MemoryRegion *system_ram;
++    MemoryRegion *system_io;
++    ARCCPU *cpu = NULL;
++    int n;
++
++    boot_info.ram_start = SIMHS_RAM_BASE;
++    boot_info.ram_size = SIMHS_RAM_SIZE;
++    boot_info.kernel_filename = machine->kernel_filename;
++    boot_info.kernel_cmdline = machine->kernel_cmdline;
++
++    for (n = 0; n < smp_cpus; n++) {
++        cpu = ARC_CPU(cpu_create("archs-" TYPE_ARC_CPU));
++        if (cpu == NULL) {
++            fprintf(stderr, "Unable to find CPU definition!\n");
++            exit(1);
++        }
++
++       /* Initialize internal devices. */
++        cpu_arc_pic_init(cpu);
++        cpu_arc_clock_init(cpu);
++
++        qemu_register_reset(arc_cpu_reset, cpu);
++    }
++
++    /* Init system DDR */
++    system_ram = g_new(MemoryRegion, 1);
++    memory_region_init_ram(system_ram, NULL, "arc.ram", SIMHS_RAM_SIZE,
++                           &error_fatal);
++    memory_region_add_subregion(system_memory, SIMHS_RAM_BASE, system_ram);
++
++    /* Init IO area */
++    system_io = g_new(MemoryRegion, 1);
++    memory_region_init_io(system_io, NULL, NULL, NULL, "arc.io",
++                          SIMHS_IO_SIZE);
++    memory_region_add_subregion(system_memory, SIMHS_IO_BASE, system_io);
++
++    serial_mm_init(system_io, SIMHS_UART0_OFFSET, 2,
++                   cpu->env.irq[SIMHS_UART0_IRQ], 115200, serial_hd(0),
++                   DEVICE_NATIVE_ENDIAN);
++
++    for (n = 0; n < SIMHS_VIRTIO_NUMBER; n++) {
++        sysbus_create_simple("virtio-mmio",
++                             SIMHS_VIRTIO_BASE + SIMHS_VIRTIO_SIZE * n,
++                             cpu->env.irq[SIMHS_VIRTIO_IRQ + n]);
++    }
++
++    arc_load_kernel(cpu, &boot_info);
++}
++
++static void simhs_machine_init(MachineClass *mc)
++{
++    mc->desc = "ARC HS Simulator";
++    mc->init = simhs_init;
++    mc->max_cpus = 1;
++    mc->is_default = true;
++}
++
++DEFINE_MACHINE("simhs", simhs_machine_init)
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/include/hw/arc/arc_uart.h b/include/hw/arc/arc_uart.h
+new file mode 100644
+index 0000000000..305f93d134
+--- /dev/null
++++ b/include/hw/arc/arc_uart.h
+@@ -0,0 +1,43 @@
++/*
++ * ARC UART model for QEMU
++ * Copyright (c) 2020 Synopsys Inc.
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version
++ * 2 of the License, or (at your option) any later version.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef ARC_UART_H
++#define ARC_UART_H
++
++#include "hw/sysbus.h"
++#include "chardev/char-fe.h"
++
++#define TYPE_ARC_UART "arc-uart"
++#define ARC_UART(obj) OBJECT_CHECK(ARC_UART_State, (obj), TYPE_ARC_UART)
++
++#define ARC_UART_RX_FIFO_LEN 4
++
++typedef struct ARC_UART_State {
++    /*< private >*/
++    SysBusDevice parent_obj;
++
++    /*< public >*/
++    MemoryRegion mmio;
++    CharBackend chr;
++    qemu_irq irq;
++    bool rx_ie, tx_ie;
++
++    uint8_t rx_fifo[ARC_UART_RX_FIFO_LEN];
++    unsigned int rx_fifo_len;
++    uint32_t baud;
++} ARC_UART_State;
++
++ARC_UART_State *arc_uart_create(MemoryRegion *address_space, hwaddr base,
++    Chardev *chr, qemu_irq irq);
++
++#endif
+diff --git a/include/hw/arc/cpudevs.h b/include/hw/arc/cpudevs.h
+new file mode 100644
+index 0000000000..52f7eaf9f4
+--- /dev/null
++++ b/include/hw/arc/cpudevs.h
+@@ -0,0 +1,10 @@
++#ifndef HW_ARC_CPUDEVS_H
++#define HW_ARC_CPUDEVS_H
++
++/* Timer service routines.  */
++extern void cpu_arc_clock_init(ARCCPU *);
++
++/* PIC service routines. */
++extern void cpu_arc_pic_init(ARCCPU *);
++
++#endif /* !HW_ARC_CPUDEVS_H */
 -- 
 2.20.1
 
