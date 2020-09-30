@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32930C47425
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:46:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EF8CC4363D
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:46:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A87452076A
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:46:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 15A7E2071E
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:46:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oswiK8C8";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XvWlTks2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A87452076A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JGE35GCh";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dybGWJJG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 15A7E2071E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,63 +27,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hcy3fUDEgnva/c9IAcO9JUtR1ozNVWivMKQaOrGAn9I=; b=oswiK8C8MmRhazal5TIMMoj+H
-	GKL3eja/7ue8d0LdqKSLsQQuhSGeTVJQ8f6Qg4ceKAg48uj+JxxWgQlHGXYicfPQpqi8q7ggxRO0X
-	jpy5zQ6/yFe12mxV3nuXeQ/t3dtJGicMHlqXn0zcMoJLIVM8CQMKM9V4/Sq/j+WmzYWEkLXOe3JQ1
-	TQKi7SLFDuBaIxoeFou6DnItNzoi7j6kpRHeUbvm4I5Afk8dEYbh+k5QN+RkM30hWKiq7onxW9ofV
-	pkHnyN3KTobQfDSmHpmwG44EXIv23vWX17WAZuQNX+VgI7KnD1sQUgO3wEAbiV+UUnCBanFAZKJkD
-	jgJjGwJGA==;
+	 bh=bql+ByQ0prejkFiUV8gYoiM3nwHNaOLRp1TnHMSVcaw=; b=JGE35GChdl2G1rMZ2xW18PXdH
+	EfnC/Aqmhxb0XJ6HJwGTh3THvb7cYVquvWSvJpI2JzvZB8KKA/NIEb499Qk8fL68sSWzQD/yVlk68
+	pKIKmc3g0ozbjX2gbWGZds6PrqjeOIzhX11LoMkERXDK3zHIgmDW3myr3JdkTaG+E3zpF4lmrWpxD
+	kjYKwmg69hCQ3zJ0/JAcdjUMeC9Ei4/HpT7lW30YKJCFzWE76bjDxn0HrmPrxt/WTaaURpeapU72m
+	TzRDwOyJE63mDPHVtmOFYRXn5tlKqWMCb0LLQ38z2JJpN5cCkb2qk87fvlSMltJFrOGzq12OJ5slD
+	rYlnC3aig==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNizo-0004e5-Vw; Wed, 30 Sep 2020 20:46:41 +0000
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344])
+	id 1kNizs-0004fR-Fn; Wed, 30 Sep 2020 20:46:45 +0000
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNizk-0004cM-8y
- for linux-snps-arc@lists.infradead.org; Wed, 30 Sep 2020 20:46:38 +0000
-Received: by mail-wm1-x344.google.com with SMTP id s13so820756wmh.4
- for <linux-snps-arc@lists.infradead.org>; Wed, 30 Sep 2020 13:46:36 -0700 (PDT)
+ id 1kNizo-0004dY-6j
+ for linux-snps-arc@lists.infradead.org; Wed, 30 Sep 2020 20:46:42 +0000
+Received: by mail-wr1-x42d.google.com with SMTP id o5so3244227wrn.13
+ for <linux-snps-arc@lists.infradead.org>; Wed, 30 Sep 2020 13:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=buS0UiDWAHgtkN7uoBPP41ehpPrnoj5TzAhRXm7R+7E=;
- b=XvWlTks2PvcT2cCyqb76JToY1qkSmBPk39EoxZR4tt5bDkezaH685iERlm7VZy5/Yd
- 8q8IkHKQj8SbVZw1ZtWrm0oMy1+soYXwgSud+Q7PQGNBS0pv4ptf0SzHLTUp0CoA+f56
- clzCEcQCstxUr9CX2NTKBkjxAgWlFWlc6sJfqA/P9Q33dfgPTxtG/w96GtHRp3Hf5Kib
- zI8ddYUfRJocPY2IcJKnUdzP+0HFJdcudSv8lnlH+8gckE6A9b1Tb4OPCfG0o3DhOiVM
- 3Wq6DdOb8GXu6UyQOTY5E99L+PRgMBwiLXAl+lcOgJt0yJKic3h/YWKKlIJu4dUkUlnT
- kqAA==
+ bh=8YGgngscO3PjFSZdhet6MLQNOVQSYNDSmxEDgfyo58Y=;
+ b=dybGWJJGgqV/C1rN6ufqzTFd2YND198bq+W2bAlS42c5MIvYV6Bq4B92pHRsRE55Mt
+ +JngAcLqvxGXdQzRP5/YZuzXCwIsR9EVx1GWPadJnZQrcb4F6uJRojJBoEieoiADurl1
+ 7uDJydfbx8brZNi57XoenT25MdTi7R21C0mquOxKOTJwi6foCpw/Onn2udT8xQNFV75d
+ K7IEdYrV2ahR2XBCUKWqdFYOkWbhdEi/TOANV64wA0hVMH72UHOvsnU/KFIV0tdayOPn
+ kmT7w+BSCGXuqygVxJnHSocX7Etj5mW71dZDCLsjbC3L3jR7XmwaVdOrgvJATBAEMicw
+ rmCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=buS0UiDWAHgtkN7uoBPP41ehpPrnoj5TzAhRXm7R+7E=;
- b=s8FQxgF5PiY9Gemfmp39BBVeGM7qMRLtQ80Bou0EUxpqosZCwCmoLbYUfobOUQV+f8
- 87KsD9sBhD4FhtsamjpqGw4ckct/NxSSin2ezcM4SudPeuCjbYdw3WKF/0BcMpBgRwQz
- cpd+ZeU0ZbG+BGE4Fc1QOs5wLAgZkDvJYcFJoWhLFNVckpDnMrIewtmkfFHzBx9x0HbD
- hitJAlHEGg6G9qFhZ/cw4LP9qlhIiz5DeMZvec7yr1hWxRXemHmUe8mI1UkbWUGqAXKn
- vNZ5WU/K8JF1+dxjZLZyVRH8F+BIxITs1DOLzhUFbsnK2BvqttcBViJuV7wEnnbuHYp1
- DjdQ==
-X-Gm-Message-State: AOAM530M3NoHB8VdZin3yUeikOmCu93FQ0Y/2uNTh2J2bhhW2d7oNzrU
- PpZ5ZNjfBUkhB1+zUddB58Rc6ubB6FvzrA==
-X-Google-Smtp-Source: ABdhPJwcfuU3JnwGgH7xVYYBSfmI620loF61t3P/YClPBePYsF10JaH5jm382zCPE4cDBFvng/JwJg==
-X-Received: by 2002:a1c:7c17:: with SMTP id x23mr5054151wmc.165.1601498794459; 
- Wed, 30 Sep 2020 13:46:34 -0700 (PDT)
+ bh=8YGgngscO3PjFSZdhet6MLQNOVQSYNDSmxEDgfyo58Y=;
+ b=sLMUcA5dL5a9enBYuGyl5/b431DipBLlJhKjrqqUBTbwkUmJ+lBmmh8QN9x7h31+9/
+ 8rtWTpuzjMY990S0gJB1DKofa3e616RsSaL9nzImQnJJ5oOhMbCUNvcbz4x0hD/uGPqh
+ tM95PUUNzOj1aOcPBTew4jLl3VUD5BiZS2+4W9hm6eBaYZYuhj4U1kna9tnfPZK0gmw0
+ tpEsNcLT6IP2KBxUYrIFcEQ2nrIiIh6f0NHaCoAFUM2bCumitpOb8JpYH07CO3AvP83Q
+ T5kTD7Muqe9/T0Lk0zXbACiwpUpzZZ1OB/lB3Vfz/ukbRHlCyPM/B3H9gFG7yPsD0Rju
+ 3DGQ==
+X-Gm-Message-State: AOAM5317QGNbv7+vkOqwvxCGihV0JOJRnqcz9vcqhdZZ9kbBmkEP1dty
+ 4p12rtpIBC6eNdqS9ZxSjq8=
+X-Google-Smtp-Source: ABdhPJyTudadwvWVNPLLiiaHU4ayORlBv+vHBIQELXGU8d552WVbxrWRPtE9EIw6VhlhoFX1cJHhpw==
+X-Received: by 2002:adf:cf01:: with SMTP id o1mr5052651wrj.421.1601498798690; 
+ Wed, 30 Sep 2020 13:46:38 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain ([188.251.240.167])
- by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.33
+ by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 13:46:33 -0700 (PDT)
+ Wed, 30 Sep 2020 13:46:38 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/14] arc: Decoder code
-Date: Wed, 30 Sep 2020 21:45:52 +0100
-Message-Id: <20200930204604.20663-3-cupertinomiranda@gmail.com>
+Subject: [PATCH 04/14] arc: TCG and decoder glue code and helpers
+Date: Wed, 30 Sep 2020 21:45:54 +0100
+Message-Id: <20200930204604.20663-5-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200930204604.20663-1-cupertinomiranda@gmail.com>
 References: <20200930204604.20663-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200930_164636_640438_402EACDD 
-X-CRM114-Status: GOOD (  28.59  )
+X-CRM114-CacheID: sfid-20200930_164640_302458_4923123F 
+X-CRM114-Status: GOOD (  25.56  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,2136 +105,1182 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Claudiu Zissulescu <claziss@synopsys.com>
+From: Cupertino Miranda <cmiranda@synopsys.com>
 
-The decoder and the disassembler inspired by ARC GNU binutils.
-
-Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
+Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
 ---
- disas/arc.c             |  460 ++++++++++++++
- target/arc/decoder.c    | 1276 +++++++++++++++++++++++++++++++++++++++
- target/arc/decoder.h    |  350 +++++++++++
- target/arc/flags.def    |   85 +++
- target/arc/operands.def |  123 ++++
- 5 files changed, 2294 insertions(+)
- create mode 100644 disas/arc.c
- create mode 100644 target/arc/decoder.c
- create mode 100644 target/arc/decoder.h
- create mode 100644 target/arc/flags.def
- create mode 100644 target/arc/operands.def
+ target/arc/extra_mapping.def   |  40 ++
+ target/arc/helper.c            | 293 +++++++++++++
+ target/arc/helper.h            |  46 ++
+ target/arc/op_helper.c         | 749 +++++++++++++++++++++++++++++++++
+ target/arc/semfunc_mapping.def | 329 +++++++++++++++
+ 5 files changed, 1457 insertions(+)
+ create mode 100644 target/arc/extra_mapping.def
+ create mode 100644 target/arc/helper.c
+ create mode 100644 target/arc/helper.h
+ create mode 100644 target/arc/op_helper.c
+ create mode 100644 target/arc/semfunc_mapping.def
 
-diff --git a/disas/arc.c b/disas/arc.c
+diff --git a/target/arc/extra_mapping.def b/target/arc/extra_mapping.def
 new file mode 100644
-index 0000000000..1041b5a5b5
+index 0000000000..6bc36d8d46
 --- /dev/null
-+++ b/disas/arc.c
-@@ -0,0 +1,460 @@
++++ b/target/arc/extra_mapping.def
+@@ -0,0 +1,40 @@
 +/*
-+ * Disassembler code for ARC.
-+ * Copyright 2020 Free Software Foundation, Inc.
-+ * Written by Claudiu Zissulescu.
++ * QEMU ARC EXTRA MAPPING
 + *
-+ * QEMU ARCv2 Disassembler.
++ * Copyright (c) 2020
 + *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2, or (at your option) any later
-+ * version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "disas/dis-asm.h"
-+#include "target/arc/arc-common.h"
-+#include "target/arc/decoder.h"
-+#include "target/arc/regs.h"
-+
-+/* Register names. */
-+
-+static const char * const regnames[64] = {
-+    "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
-+    "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15",
-+    "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
-+    "r24", "r25", "r26", "fp", "sp", "ilink", "r30", "blink",
-+
-+    "r32", "r33", "r34", "r35", "r36", "r37", "r38", "r39",
-+    "r40", "r41", "r42", "r43", "r44", "r45", "r46", "r47",
-+    "r48", "r49", "r50", "r51", "r52", "r53", "r54", "r55",
-+    "r56", "r57", "r58", "r59", "lp_count", "rezerved", "LIMM", "pcl"
-+};
-+
-+#define ARRANGE_ENDIAN(info, buf)                                       \
-+    (info->endian == BFD_ENDIAN_LITTLE ? bfd_getm32(bfd_getl32(buf))    \
-+     : bfd_getb32(buf))
-+
-+/*
-+ * Helper function to convert middle-endian data to something more
-+ * meaningful.
-+ */
-+
-+static bfd_vma bfd_getm32(unsigned int data)
-+{
-+    bfd_vma value = 0;
-+
-+    value  = (data & 0x0000ffff) << 16;
-+    value |= (data & 0xffff0000) >> 16;
-+    return value;
-+}
-+
-+/* Helper for printing instruction flags. */
-+
-+static bfd_boolean special_flag_p(const char *opname, const char *flgname)
-+{
-+    const struct arc_flag_special *flg_spec;
-+    unsigned i, j, flgidx;
-+
-+    for (i = 0; i < arc_num_flag_special; ++i) {
-+        flg_spec = &arc_flag_special_cases[i];
-+
-+        if (strcmp(opname, flg_spec->name) != 0) {
-+            continue;
-+        }
-+
-+        /* Found potential special case instruction. */
-+        for (j = 0; ; ++j) {
-+            flgidx = flg_spec->flags[j];
-+            if (flgidx == 0) {
-+                break; /* End of the array. */
-+            }
-+
-+            if (strcmp(flgname, arc_flag_operands[flgidx].name) == 0) {
-+                return TRUE;
-+            }
-+        }
-+    }
-+    return FALSE;
-+}
-+
-+/* Print instruction flags. */
-+
-+static void print_flags(const struct arc_opcode *opcode,
-+                        uint64_t insn,
-+                        struct disassemble_info *info)
-+{
-+    const unsigned char *flgidx;
-+    unsigned int value;
-+
-+    /* Now extract and print the flags. */
-+    for (flgidx = opcode->flags; *flgidx; flgidx++) {
-+        /* Get a valid flag class. */
-+        const struct arc_flag_class *cl_flags = &arc_flag_classes[*flgidx];
-+        const unsigned *flgopridx;
-+
-+        /* Check first the extensions. Not supported yet. */
-+        if (cl_flags->flag_class & F_CLASS_EXTEND) {
-+            value = insn & 0x1F;
-+        }
-+
-+        for (flgopridx = cl_flags->flags; *flgopridx; ++flgopridx) {
-+            const struct arc_flag_operand *flg_operand =
-+                &arc_flag_operands[*flgopridx];
-+
-+            /* Implicit flags are only used for the insn decoder. */
-+            if (cl_flags->flag_class & F_CLASS_IMPLICIT) {
-+                continue;
-+            }
-+
-+            if (!flg_operand->favail) {
-+                continue;
-+            }
-+
-+            value = (insn >> flg_operand->shift) &
-+                    ((1 << flg_operand->bits) - 1);
-+            if (value == flg_operand->code) {
-+                /* FIXME!: print correctly nt/t flag. */
-+                if (!special_flag_p(opcode->name, flg_operand->name)) {
-+                    (*info->fprintf_func)(info->stream, ".");
-+                }
-+                (*info->fprintf_func)(info->stream, "%s", flg_operand->name);
-+            }
-+        }
-+    }
-+}
-+
-+/*
-+ * When dealing with auxiliary registers, output the proper name if we
-+ * have it.
-+ */
-+
-+static const char *get_auxreg(const struct arc_opcode *opcode,
-+                              int value,
-+                              unsigned isa_mask)
-+{
-+    unsigned int i;
-+    const struct arc_aux_reg_detail *auxr = &arc_aux_regs_detail[0];
-+
-+    if (opcode->insn_class != AUXREG) {
-+        return NULL;
-+    }
-+
-+    for (i = 0; i < ARRAY_SIZE(arc_aux_regs); i++, auxr++) {
-+        if (!(auxr->cpu & isa_mask)) {
-+            continue;
-+        }
-+
-+        if (auxr->subclass != NONE) {
-+            return NULL;
-+        }
-+
-+        if (auxr->address == value) {
-+            return auxr->name;
-+        }
-+    }
-+    return NULL;
-+}
-+
-+/* Print the operands of an instruction. */
-+
-+static void print_operands(const struct arc_opcode *opcode,
-+                           bfd_vma memaddr,
-+                           uint64_t insn,
-+                           uint32_t isa_mask,
-+                           insn_t *pinsn,
-+                           struct disassemble_info *info)
-+{
-+    bfd_boolean need_comma  = FALSE;
-+    bfd_boolean open_braket = FALSE;
-+    int value, vpcl = 0;
-+    bfd_boolean rpcl = FALSE, rset = FALSE;
-+    const unsigned char *opidx;
-+    int i;
-+
-+    for (i = 0, opidx = opcode->operands; *opidx; opidx++) {
-+        const struct arc_operand *operand = &arc_operands[*opidx];
-+
-+        if (open_braket && (operand->flags & ARC_OPERAND_BRAKET)) {
-+            (*info->fprintf_func)(info->stream, "]");
-+            open_braket = FALSE;
-+            continue;
-+        }
-+
-+        /* Only take input from real operands. */
-+        if (ARC_OPERAND_IS_FAKE(operand)) {
-+            continue;
-+        }
-+
-+        if (need_comma) {
-+            (*info->fprintf_func)(info->stream, ",");
-+        }
-+
-+        if (!open_braket && (operand->flags & ARC_OPERAND_BRAKET)) {
-+            (*info->fprintf_func)(info->stream, "[");
-+            open_braket = TRUE;
-+            need_comma  = FALSE;
-+            continue;
-+        }
-+
-+        need_comma = TRUE;
-+
-+        /* Get the decoded */
-+        value = pinsn->operands[i++].value;
-+
-+        if ((operand->flags & ARC_OPERAND_IGNORE) &&
-+            (operand->flags & ARC_OPERAND_IR) &&
-+            value == -1) {
-+            need_comma = FALSE;
-+            continue;
-+        }
-+
-+        if (operand->flags & ARC_OPERAND_PCREL) {
-+            rpcl = TRUE;
-+            vpcl = value;
-+            rset = TRUE;
-+
-+            info->target = (bfd_vma) (memaddr & ~3) + value;
-+        } else if (!(operand->flags & ARC_OPERAND_IR)) {
-+            vpcl = value;
-+            rset = TRUE;
-+        }
-+
-+        /* Print the operand as directed by the flags. */
-+        if (operand->flags & ARC_OPERAND_IR) {
-+            const char *rname;
-+
-+            assert(value >= 0 && value < 64);
-+            rname = regnames[value];
-+            (*info->fprintf_func)(info->stream, "%s", rname);
-+            if (operand->flags & ARC_OPERAND_TRUNCATE) {
-+                /* Make sure we print only legal register pairs. */
-+                if ((value & 0x01) == 0) {
-+                    rname = regnames[value + 1];
-+                }
-+                (*info->fprintf_func)(info->stream, "%s", rname);
-+            }
-+            if (value == 63) {
-+                rpcl = TRUE;
-+            } else {
-+                rpcl = FALSE;
-+            }
-+        } else if (operand->flags & ARC_OPERAND_LIMM) {
-+            value = pinsn->limm;
-+            const char *rname = get_auxreg(opcode, value, isa_mask);
-+
-+            if (rname && open_braket) {
-+                (*info->fprintf_func)(info->stream, "%s", rname);
-+            } else {
-+                (*info->fprintf_func)(info->stream, "%#x", value);
-+            }
-+        } else if (operand->flags & ARC_OPERAND_SIGNED) {
-+            const char *rname = get_auxreg(opcode, value, isa_mask);
-+            if (rname && open_braket) {
-+                (*info->fprintf_func)(info->stream, "%s", rname);
-+            } else {
-+                (*info->fprintf_func)(info->stream, "%d", value);
-+            }
-+        } else {
-+            if (operand->flags & ARC_OPERAND_TRUNCATE   &&
-+                !(operand->flags & ARC_OPERAND_ALIGNED32) &&
-+                !(operand->flags & ARC_OPERAND_ALIGNED16) &&
-+                 value >= 0 && value <= 14) {
-+                /* Leave/Enter mnemonics. */
-+                switch (value) {
-+                case 0:
-+                    need_comma = FALSE;
-+                    break;
-+                case 1:
-+                    (*info->fprintf_func)(info->stream, "r13");
-+                    break;
-+                default:
-+                    (*info->fprintf_func)(info->stream, "r13-%s",
-+                            regnames[13 + value - 1]);
-+                    break;
-+                }
-+                rpcl = FALSE;
-+                rset = FALSE;
-+            } else {
-+                const char *rname = get_auxreg(opcode, value, isa_mask);
-+                if (rname && open_braket) {
-+                    (*info->fprintf_func)(info->stream, "%s", rname);
-+                } else {
-+                    (*info->fprintf_func)(info->stream, "%#x", value);
-+                }
-+            }
-+        }
-+    }
-+
-+    /* Pretty print extra info for pc-relative operands. */
-+    if (rpcl && rset) {
-+        if (info->flags & INSN_HAS_RELOC) {
-+            /*
-+             * If the instruction has a reloc associated with it, then
-+             * the offset field in the instruction will actually be
-+             * the addend for the reloc.  (We are using REL type
-+             * relocs).  In such cases, we can ignore the pc when
-+             * computing addresses, since the addend is not currently
-+             * pc-relative.
-+             */
-+            memaddr = 0;
-+        }
-+
-+        (*info->fprintf_func)(info->stream, "\t;");
-+        (*info->print_address_func)((memaddr & ~3) + vpcl, info);
-+    }
-+}
-+
-+/* Select the proper instructions set for the given architecture. */
-+
-+static int arc_read_mem(bfd_vma memaddr,
-+                        uint64_t *insn,
-+                        uint32_t *isa_mask,
-+                        struct disassemble_info *info)
-+{
-+    bfd_byte buffer[8];
-+    unsigned int highbyte, lowbyte;
-+    int status;
-+    int insn_len = 0;
-+
-+    highbyte = ((info->endian == BFD_ENDIAN_LITTLE) ? 1 : 0);
-+    lowbyte  = ((info->endian == BFD_ENDIAN_LITTLE) ? 0 : 1);
-+
-+    switch (info->mach) {
-+    case bfd_mach_arc_arc700:
-+        *isa_mask = ARC_OPCODE_ARC700;
-+        break;
-+
-+    case bfd_mach_arc_arc601:
-+    case bfd_mach_arc_arc600:
-+        *isa_mask = ARC_OPCODE_ARC600;
-+        break;
-+
-+    case bfd_mach_arc_arcv2em:
-+    case bfd_mach_arc_arcv2:
-+        *isa_mask = ARC_OPCODE_ARCv2EM;
-+        break;
-+    case bfd_mach_arc_arcv2hs:
-+        *isa_mask = ARC_OPCODE_ARCv2HS;
-+        break;
-+    default:
-+        *isa_mask = ARC_OPCODE_ARCv2EM;
-+        break;
-+    }
-+
-+    info->bytes_per_line  = 8;
-+    info->bytes_per_chunk = 2;
-+    info->display_endian = info->endian;
-+
-+    /* Read the insn into a host word. */
-+    status = (*info->read_memory_func)(memaddr, buffer, 2, info);
-+
-+    if (status != 0) {
-+        (*info->memory_error_func)(status, memaddr, info);
-+        return -1;
-+    }
-+
-+    insn_len = arc_insn_length((buffer[highbyte] << 8 |
-+                buffer[lowbyte]), *isa_mask);
-+
-+    switch (insn_len) {
-+    case 2:
-+        *insn = (buffer[highbyte] << 8) | buffer[lowbyte];
-+        break;
-+
-+    case 4:
-+        /* This is a long instruction: Read the remaning 2 bytes. */
-+        status = (*info->read_memory_func)(memaddr + 2, &buffer[2], 2, info);
-+        if (status != 0) {
-+            (*info->memory_error_func)(status, memaddr + 2, info);
-+            return -1;
-+        }
-+        *insn = (uint64_t) ARRANGE_ENDIAN(info, buffer);
-+        break;
-+
-+    case 6:
-+        status = (*info->read_memory_func)(memaddr + 2, &buffer[2], 4, info);
-+        if (status != 0) {
-+            (*info->memory_error_func)(status, memaddr + 2, info);
-+            return -1;
-+        }
-+        *insn  = (uint64_t) ARRANGE_ENDIAN(info, &buffer[2]);
-+        *insn |= ((uint64_t) buffer[highbyte] << 40) |
-+                 ((uint64_t) buffer[lowbyte]  << 32);
-+        break;
-+
-+    case 8:
-+        status = (*info->read_memory_func)(memaddr + 2, &buffer[2], 6, info);
-+        if (status != 0) {
-+            (*info->memory_error_func)(status, memaddr + 2, info);
-+            return -1;
-+        }
-+        *insn = ((((uint64_t) ARRANGE_ENDIAN(info, buffer)) << 32) |
-+                  ((uint64_t) ARRANGE_ENDIAN(info, &buffer[4])));
-+        break;
-+
-+    default:
-+        /* There is no instruction whose length is not 2, 4, 6, or 8. */
-+        g_assert_not_reached();
-+    }
-+    return insn_len;
-+}
-+
-+/* Disassembler main entry function. */
-+
-+int print_insn_arc(bfd_vma memaddr, struct disassemble_info *info)
-+{
-+    const struct arc_opcode *opcode = NULL;
-+    int insn_len = -1;
-+    uint64_t insn;
-+    uint32_t isa_mask;
-+    insn_t dis_insn;
-+
-+    insn_len = arc_read_mem(memaddr, &insn, &isa_mask, info);
-+
-+    if (insn_len < 2) {
-+        return -1;
-+    }
-+
-+    opcode = arc_find_format(&dis_insn, insn, insn_len, isa_mask);
-+
-+    /* If limm is required, read it. */
-+    if (dis_insn.limm_p) {
-+        bfd_byte buffer[4];
-+        int status = (*info->read_memory_func)(memaddr + insn_len, buffer,
-+                                               4, info);
-+        if (status != 0) {
-+            return -1;
-+        }
-+        dis_insn.limm = ARRANGE_ENDIAN(info, buffer);
-+        insn_len += 4;
-+    }
-+
-+    /* Print the mnemonic. */
-+    (*info->fprintf_func)(info->stream, "%s", opcode->name);
-+
-+    print_flags(opcode, insn, info);
-+
-+    if (opcode->operands[0] != 0) {
-+        (*info->fprintf_func)(info->stream, "\t");
-+    }
-+
-+    /* Now extract and print the operands. */
-+    print_operands(opcode, memaddr, insn, isa_mask, &dis_insn, info);
-+
-+    /* Say how many bytes we consumed */
-+    return insn_len;
-+}
-+
-+
-+/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
-+/* vim: set ts=4 sw=4 et: */
-diff --git a/target/arc/decoder.c b/target/arc/decoder.c
-new file mode 100644
-index 0000000000..c3cf84d6ee
---- /dev/null
-+++ b/target/arc/decoder.c
-@@ -0,0 +1,1276 @@
-+/*
-+ * QEMU Decoder for the ARC.
-+ * Copyright (C) 2020 Free Software Foundation, Inc.
-+
 + * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public License
-+ * as published by the Free Software Foundation; either version 2.1 of
-+ * the License, or (at your option) any later version.
-+
-+ * This library is distributed in the hope that it will be useful, but
-+ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
 + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 + * Lesser General Public License for more details.
-+
-+ * You should have received a copy of the GNU General Public License
-+ * along with GAS or GDB; see the file COPYING3. If not, write to
-+ * the Free Software Foundation, 51 Franklin Street - Fifth Floor, Boston,
-+ * MA 02110-1301, USA.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
 + */
 +
-+#include "target/arc/decoder.h"
++SEMANTIC_FUNCTION(SWI, 1)
++SEMANTIC_FUNCTION(SWI, 1)
++SEMANTIC_FUNCTION(UNIMP, 0)
++SEMANTIC_FUNCTION(RTIE, 0)
++SEMANTIC_FUNCTION(SLEEP, 1)
++
++MAPPING(swi, SWI, 0)
++CONSTANT(SWI, swi_s, 0, 0)
++MAPPING(swi_s, SWI, 1, 0)
++MAPPING(trap_s, TRAP, 1, 0)
++MAPPING(rtie, RTIE, 0)
++MAPPING(sleep, SLEEP, 1, 0)
++MAPPING(vadd2, VADD, 3, 0, 1, 2)
++MAPPING(vadd2h, VADD, 3, 0, 1, 2)
++MAPPING(vadd4h, VADD, 3, 0, 1, 2)
++MAPPING(vsub2, VSUB, 3, 0, 1, 2)
++MAPPING(vsub2h, VSUB, 3, 0, 1, 2)
++MAPPING(vsub4h, VSUB, 3, 0, 1, 2)
++MAPPING(mpyd, MPYD, 3, 0, 1, 2)
++MAPPING(mpydu, MPYD, 3, 0, 1, 2)
+diff --git a/target/arc/helper.c b/target/arc/helper.c
+new file mode 100644
+index 0000000000..cbc072e66b
+--- /dev/null
++++ b/target/arc/helper.c
+@@ -0,0 +1,293 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2019
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
++
 +#include "qemu/osdep.h"
-+#include "qemu/bswap.h"
++
 +#include "cpu.h"
++#include "hw/irq.h"
++#include "include/hw/sysbus.h"
++#include "include/sysemu/sysemu.h"
++#include "qemu/qemu-print.h"
++#include "exec/exec-all.h"
++#include "exec/cpu_ldst.h"
++#include "qemu/host-utils.h"
++#include "exec/helper-proto.h"
++#include "irq.h"
 +
-+/* Extract functions. */
-+static ATTRIBUTE_UNUSED int
-+extract_limm(unsigned long long insn ATTRIBUTE_UNUSED,
-+             bfd_boolean *invalid ATTRIBUTE_UNUSED)
++#if defined(CONFIG_USER_ONLY)
++
++void arc_cpu_do_interrupt(CPUState *cs)
 +{
-+  unsigned value = 0;
++    ARCCPU *cpu = ARC_CPU(cs);
++    CPUARCState *env = &cpu->env;
 +
-+  return value;
++    cs->exception_index = -1;
++    CPU_ILINK(env) = env->pc;
 +}
 +
-+/* mask = 00000000000000000000111111000000. */
-+static long long int
-+extract_uimm6_20(unsigned long long insn ATTRIBUTE_UNUSED,
-+                 bfd_boolean *invalid ATTRIBUTE_UNUSED)
++#else /* !CONFIG_USER_ONLY */
++
++void arc_cpu_do_interrupt(CPUState *cs)
 +{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 6) & 0x003f) << 0;
-+
-+  return value;
-+}
-+
-+/* mask = 00000000000000000000111111222222. */
-+static long long int
-+extract_simm12_20(unsigned long long insn ATTRIBUTE_UNUSED,
-+                  bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 6) & 0x003f) << 0;
-+  value |= ((insn >> 0) & 0x003f) << 6;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (12 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 0000011100000000. */
-+static ATTRIBUTE_UNUSED int
-+extract_simm3_5_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                  bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 8) & 0x0007) << 0;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (3 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+static ATTRIBUTE_UNUSED int
-+extract_limm_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+               bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000000011111. */
-+static long long int
-+extract_uimm7_a32_11_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                       bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 0) & 0x001f) << 2;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000001111111. */
-+static long long int
-+extract_uimm7_9_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                  bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 0) & 0x007f) << 0;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000000000111. */
-+static long long int
-+extract_uimm3_13_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                   bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 0) & 0x0007) << 0;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000111111111. */
-+static long long int
-+extract_simm11_a32_7_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                       bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 0) & 0x01ff) << 2;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (11 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000002220111. */
-+static long long int
-+extract_uimm6_13_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                   bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 0) & 0x0007) << 0;
-+  value |= ((insn >> 4) & 0x0007) << 3;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000000011111. */
-+static long long int
-+extract_uimm5_11_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                   bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 0) & 0x001f) << 0;
-+
-+  return value;
-+}
-+
-+/* mask = 00000000111111102000000000000000. */
-+static long long int
-+extract_simm9_a16_8(unsigned long long insn ATTRIBUTE_UNUSED,
-+                    bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 17) & 0x007f) << 1;
-+  value |= ((insn >> 15) & 0x0001) << 8;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (9 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 00000000000000000000111111000000. */
-+static long long int
-+extract_uimm6_8(unsigned long long insn ATTRIBUTE_UNUSED,
-+                bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 6) & 0x003f) << 0;
-+
-+  return value;
-+}
-+
-+/* mask = 00000111111111102222222222000000. */
-+static long long int
-+extract_simm21_a16_5(unsigned long long insn ATTRIBUTE_UNUSED,
-+                     bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 17) & 0x03ff) << 1;
-+  value |= ((insn >> 6) & 0x03ff) << 11;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (21 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 00000111111111102222222222003333. */
-+static long long int
-+extract_simm25_a16_5(unsigned long long insn ATTRIBUTE_UNUSED,
-+                     bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 17) & 0x03ff) << 1;
-+  value |= ((insn >> 6) & 0x03ff) << 11;
-+  value |= ((insn >> 0) & 0x000f) << 21;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (25 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000111111111. */
-+static long long int
-+extract_simm10_a16_7_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                       bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 0) & 0x01ff) << 1;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (10 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000000111111. */
-+static long long int
-+extract_simm7_a16_10_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                       bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 0) & 0x003f) << 1;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (7 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 00000111111111002222222222000000. */
-+static long long int
-+extract_simm21_a32_5(unsigned long long insn ATTRIBUTE_UNUSED,
-+                     bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 18) & 0x01ff) << 2;
-+  value |= ((insn >> 6) & 0x03ff) << 11;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (21 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 00000111111111002222222222003333. */
-+static long long int
-+extract_simm25_a32_5(unsigned long long insn ATTRIBUTE_UNUSED,
-+                     bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 18) & 0x01ff) << 2;
-+  value |= ((insn >> 6) & 0x03ff) << 11;
-+  value |= ((insn >> 0) & 0x000f) << 21;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (25 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 0000011111111111. */
-+static long long int
-+extract_simm13_a32_5_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                       bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 0) & 0x07ff) << 2;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (13 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000001111111. */
-+static long long int
-+extract_simm8_a16_9_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                      bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 0) & 0x007f) << 1;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (8 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 00000000000000000000000111000000. */
-+static long long int
-+extract_uimm3_23(unsigned long long insn ATTRIBUTE_UNUSED,
-+                 bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 6) & 0x0007) << 0;
-+
-+  return value;
-+}
-+
-+/* mask = 0000001111111111. */
-+static long long int
-+extract_uimm10_6_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                   bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 0) & 0x03ff) << 0;
-+
-+  return value;
-+}
-+
-+/* mask = 0000002200011110. */
-+static long long int
-+extract_uimm6_11_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                   bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 1) & 0x000f) << 0;
-+  value |= ((insn >> 8) & 0x0003) << 4;
-+
-+  return value;
-+}
-+
-+/* mask = 00000000111111112000000000000000. */
-+static long long int
-+extract_simm9_8(unsigned long long insn ATTRIBUTE_UNUSED,
-+                bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 16) & 0x00ff) << 0;
-+  value |= ((insn >> 15) & 0x0001) << 8;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (9 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000011111111. */
-+static long long int
-+extract_uimm10_a32_8_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                       bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 0) & 0x00ff) << 2;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000111111111. */
-+static long long int
-+extract_simm9_7_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                  bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 0) & 0x01ff) << 0;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (9 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000000011111. */
-+static long long int
-+extract_uimm6_a16_11_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                       bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 0) & 0x001f) << 1;
-+
-+  return value;
-+}
-+
-+/* mask = 0000020000011000. */
-+static long long int
-+extract_uimm5_a32_11_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                       bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 3) & 0x0003) << 2;
-+  value |= ((insn >> 10) & 0x0001) << 4;
-+
-+  return value;
-+}
-+
-+/* mask = 0000022222200111. */
-+static long long int
-+extract_simm11_a32_13_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                        bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 0) & 0x0007) << 2;
-+  value |= ((insn >> 5) & 0x003f) << 5;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (11 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000022220111. */
-+static long long int
-+extract_uimm7_13_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                   bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 0) & 0x0007) << 0;
-+  value |= ((insn >> 4) & 0x000f) << 3;
-+
-+  return value;
-+}
-+
-+/* mask = 00000000000000000000011111000000. */
-+static long long int
-+extract_uimm6_a16_21(unsigned long long insn ATTRIBUTE_UNUSED,
-+                     bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 6) & 0x001f) << 1;
-+
-+  return value;
-+}
-+
-+/* mask = 0000022200011110. */
-+static long long int
-+extract_uimm7_11_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                   bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 1) & 0x000f) << 0;
-+  value |= ((insn >> 8) & 0x0007) << 4;
-+
-+  return value;
-+}
-+
-+/* mask = 00000000000000000000111111000000. */
-+static long long int
-+extract_uimm7_a16_20(unsigned long long insn ATTRIBUTE_UNUSED,
-+                     bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 6) & 0x003f) << 1;
-+
-+  return value;
-+}
-+
-+/* mask = 00000000000000000000111111222222. */
-+static long long int
-+extract_simm13_a16_20(unsigned long long insn ATTRIBUTE_UNUSED,
-+                      bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  int value = 0;
-+
-+  value |= ((insn >> 6) & 0x003f) << 1;
-+  value |= ((insn >> 0) & 0x003f) << 7;
-+
-+  /* Extend the sign. */
-+  int signbit = 1 << (13 - 1);
-+  value = (value ^ signbit) - signbit;
-+
-+  return value;
-+}
-+
-+/* mask = 0000000011111111. */
-+static long long int
-+extract_uimm8_8_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                  bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 0) & 0x00ff) << 0;
-+
-+  return value;
-+}
-+
-+/* mask = 0000011111100000. */
-+static long long int
-+extract_uimm6_5_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                  bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  value |= ((insn >> 5) & 0x003f) << 0;
-+
-+  return value;
-+}
-+
-+/* mask = 00000000000000000000000000000000. */
-+static ATTRIBUTE_UNUSED int
-+extract_uimm6_axx_(unsigned long long insn ATTRIBUTE_UNUSED,
-+                   bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+  unsigned value = 0;
-+
-+  return value;
-+}
-+
-+static long long int extract_rb(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    int value = (((insn >> 12) & 0x07) << 3) | ((insn >> 24) & 0x07);
-+
-+    if (value == 0x3e && invalid) {
-+        *invalid = TRUE;
++    ARCCPU      *cpu    = ARC_CPU(cs);
++    CPUARCState *env    = &cpu->env;
++    uint32_t     offset = 0;
++    uint32_t     vectno;
++    const char  *name;
++
++    /*
++     * NOTE: Special LP_END exception. Immediatelly return code execution to
++     * lp_start.
++     * Now also used for delayslot MissI cases.
++     * This special exception should not execute any of the exception
++     * handling code. Instead it returns immediately after setting PC to the
++     * address passed as exception parameter.
++     */
++    if (cs->exception_index == EXCP_LPEND_REACHED
++        || cs->exception_index == EXCP_FAKE) {
++        env->pc = env->param;
++        CPU_PCL(env) = env->pc & 0xfffffffe;
++        return;
 +    }
 +
-+    return value;
-+}
-+
-+static long long int extract_rhv1(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                  bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    int value = ((insn & 0x7) << 3) | ((insn >> 5) & 0x7);
-+
-+    return value;
-+}
-+
-+static long long int extract_rhv2(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                  bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    int value = ((insn >> 5) & 0x07) | ((insn & 0x03) << 3);
-+
-+    return value;
-+}
-+
-+static long long int extract_r0(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    return 0;
-+}
-+
-+static long long int extract_r1(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    return 1;
-+}
-+
-+static long long int extract_r2(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    return 2;
-+}
-+
-+static long long int extract_r3(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    return 3;
-+}
-+
-+static long long int extract_sp(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    return 28;
-+}
-+
-+static long long int extract_gp(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    return 26;
-+}
-+
-+static long long int extract_pcl(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                 bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    return 63;
-+}
-+
-+static long long int extract_blink(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                   bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    return 31;
-+}
-+
-+static long long int extract_ilink1(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                    bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    return 29;
-+}
-+
-+static long long int extract_ilink2(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                    bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    return 30;
-+}
-+
-+static long long int extract_ras(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                 bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    int value = insn & 0x07;
-+    if (value > 3) {
-+        return value + 8;
-+    } else {
-+        return value;
++    /* If we take an exception within an exception => fatal Machine Check. */
++    if (env->stat.AEf == 1) {
++        cs->exception_index = EXCP_MACHINE_CHECK;
++        env->causecode = 0;
++        env->param = 0;
++        env->mmu.enabled = false;     /* no more MMU */
++        env->mpu.enabled = false;     /* no more MPU */
 +    }
-+}
++    vectno = cs->exception_index & 0x0F;
++    offset = vectno << 2;
 +
-+static long long int extract_rbs(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                 bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    int value = (insn >> 8) & 0x07;
-+    if (value > 3) {
-+        return value + 8;
-+    } else {
-+        return value;
++    /* Generic computation for exceptions. */
++    switch (cs->exception_index) {
++    case EXCP_RESET:
++        name = "Reset";
++        break;
++    case EXCP_MEMORY_ERROR:
++        name = "Memory Error";
++        break;
++    case EXCP_INST_ERROR:
++        name = "Instruction Error";
++        break;
++    case EXCP_MACHINE_CHECK:
++        name = "Machine Check";
++        break;
++    case EXCP_TLB_MISS_I:
++        name = "TLB Miss Instruction";
++        break;
++    case EXCP_TLB_MISS_D:
++        name = "TLB Miss Data";
++        break;
++    case EXCP_PROTV:
++        name = "Protection Violation";
++        break;
++    case EXCP_PRIVILEGEV:
++        name = "Privilege Violation";
++        break;
++    case EXCP_SWI:
++        name = "SWI";
++        break;
++    case EXCP_TRAP:
++        name = "Trap";
++        break;
++    case EXCP_EXTENSION:
++        name = "Extension";
++        break;
++    case EXCP_DIVZERO:
++        name = "DIV by Zero";
++        break;
++    case EXCP_DCERROR:
++        name = "DCError";
++        break;
++    case EXCP_MISALIGNED:
++        name = "Misaligned";
++        break;
++    case EXCP_IRQ:
++    default:
++        cpu_abort(cs, "unhandled exception/irq type=%d\n",
++                  cs->exception_index);
++        break;
 +    }
-+}
 +
-+static long long int extract_rcs(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                 bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    int value = (insn >> 5) & 0x07;
-+    if (value > 3) {
-+        return value + 8;
-+    } else {
-+        return value;
++    qemu_log_mask(CPU_LOG_INT, "[EXCP] exception %d (%s) at pc=0x%08x\n",
++                  cs->exception_index, name, env->pc);
++
++    /*
++     * 3. exception status register is loaded with the contents
++     * of STATUS32.
++     */
++    env->stat_er = env->stat;
++
++    /* 4. exception return branch target address register. */
++    env->erbta = env->bta;
++
++    /*
++     * 5. eception cause register is loaded with a code to indicate
++     * the cause of the exception.
++     */
++    env->ecr = (vectno & 0xFF) << 16;
++    env->ecr |= (env->causecode & 0xFF) << 8;
++    env->ecr |= (env->param & 0xFF);
++
++    /* 6. Set the EFA if available. */
++    if (cpu->cfg.has_mmu || cpu->cfg.has_mpu) {
++        switch (cs->exception_index) {
++        case EXCP_DCERROR:
++        case EXCP_DIVZERO:
++        case EXCP_EXTENSION:
++        case EXCP_TRAP:
++        case EXCP_SWI:
++        case EXCP_PRIVILEGEV:
++        case EXCP_MACHINE_CHECK:
++        case EXCP_INST_ERROR:
++        case EXCP_RESET:
++            /* TODO: this should move to the place raising the exception */
++            env->efa  = env->pc;
++            break;
++        default:
++            break;
++        }
 +    }
++
++    /* 7. CPU is switched to kernel mode. */
++    env->stat.Uf = 0;
++
++    if (env->stat_er.Uf) {
++        switchSP(env);
++    }
++
++    /* 8. Interrupts are disabled. */
++    env->stat.IEf = 0;
++
++    /* 9. The active exception flag is set. */
++    env->stat.AEf = 1;
++
++    /* 10-14. Other flags sets. */
++    env->stat.Zf  = env->stat_er.Uf;
++    env->stat.Lf  = 1;
++    env->stat.DEf = 0;
++    env->stat.ESf = 0;
++    env->stat.DZf = 0;
++    env->stat.SCf = 0;
++
++    /* 15. The PC is set with the appropriate exception vector. */
++    env->pc = cpu_ldl_code(env, env->intvec + offset);
++    CPU_PCL(env) = env->pc & 0xfffffffe;
++
++    qemu_log_mask(CPU_LOG_INT, "[EXCP] isr=0x%x vec=0x%x ecr=0x%08x\n",
++                  env->pc, offset, env->ecr);
++
++    /* Make sure that exception code decodes corectly */
++    env->stat.is_delay_slot_instruction = 0;
++
++    cs->exception_index = -1;
 +}
 +
-+static long long int extract_simm3s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                    bfd_boolean *invalid ATTRIBUTE_UNUSED)
++#endif
++
++
++static gint arc_cpu_list_compare(gconstpointer a, gconstpointer b)
 +{
-+    int value = (insn >> 8) & 0x07;
-+    if (value == 7) {
++    ObjectClass *class_a = (ObjectClass *)a;
++    ObjectClass *class_b = (ObjectClass *)b;
++    const char *name_a;
++    const char *name_b;
++
++    name_a = object_class_get_name(class_a);
++    name_b = object_class_get_name(class_b);
++    if (strcmp(name_a, "any-" TYPE_ARC_CPU) == 0) {
++        return 1;
++    } else if (strcmp(name_b, "any-" TYPE_ARC_CPU) == 0) {
 +        return -1;
 +    } else {
-+        return value;
++        return strcmp(name_a, name_b);
 +    }
 +}
 +
-+static long long int extract_rrange(unsigned long long insn  ATTRIBUTE_UNUSED,
-+                                    bfd_boolean * invalid  ATTRIBUTE_UNUSED)
++static void arc_cpu_list_entry(gpointer data, gpointer user_data)
 +{
-+    return (insn >> 1) & 0x0F;
++    ObjectClass *oc = data;
++    const char *typename;
++    char *name;
++
++    typename = object_class_get_name(oc);
++    name = g_strndup(typename, strlen(typename) - strlen("-" TYPE_ARC_CPU));
++    qemu_printf("  %s\n", name);
++    g_free(name);
 +}
 +
-+static long long int extract_fpel(unsigned long long insn  ATTRIBUTE_UNUSED,
-+                                  bfd_boolean * invalid  ATTRIBUTE_UNUSED)
++void arc_cpu_list(void)
 +{
-+    return (insn & 0x0100) ? 27 : -1;
++    GSList *list;
++
++    list = object_class_get_list(TYPE_ARC_CPU, false);
++    list = g_slist_sort(list, arc_cpu_list_compare);
++    qemu_printf("Available CPUs:\n");
++    g_slist_foreach(list, arc_cpu_list_entry, NULL);
++    g_slist_free(list);
 +}
 +
-+static long long int extract_blinkel(unsigned long long insn  ATTRIBUTE_UNUSED,
-+                                     bfd_boolean * invalid  ATTRIBUTE_UNUSED)
++int arc_cpu_memory_rw_debug(CPUState *cs, vaddr addr, uint8_t *buf,
++                            int len, bool is_write)
 +{
-+    return (insn & 0x0200) ? 31 : -1;
++    return cpu_memory_rw_debug(cs, addr, buf, len, is_write);
 +}
 +
-+static long long int extract_pclel(unsigned long long insn  ATTRIBUTE_UNUSED,
-+                                   bfd_boolean * invalid  ATTRIBUTE_UNUSED)
++hwaddr arc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 +{
-+    return (insn & 0x0400) ? 63 : -1;
++   ARCCPU *cpu = ARC_CPU(cs);
++   CPUARCState *env = &cpu->env;
++
++   return arc_mmu_translate(env, addr, MMU_MEM_IRRELEVANT_TYPE,
++                            NULL);
 +}
 +
-+static long long int extract_w6(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                bfd_boolean *invalid ATTRIBUTE_UNUSED)
++void helper_debug(CPUARCState *env)
 +{
-+    signed value = 0;
++   CPUState *cs = env_cpu(env);
 +
-+    value |= ((insn >> 6) & 0x003f) << 0;
++   cs->exception_index = EXCP_DEBUG;
++   cpu_loop_exit(cs);
++}
 +
-+    int signbit = 1 << 5;
-+    value = (value ^ signbit) - signbit;
++/*
++ * raises a simple exception with causecode and parameter set to 0.
++ * it also considers "pc" as the exception return address. this is
++ * not true for a software trap.
++ * it is very important that "env->host_pc" holds the recent value,
++ * else the cpu_restore_state() will not be helpful and we end up
++ * with incorrect registers in env.
++ */
++void QEMU_NORETURN arc_raise_exception(CPUARCState *env, int32_t excp_idx)
++{
++    CPUState *cs = env_cpu(env);
++    cpu_restore_state(cs, env->host_pc, true);
++    cs->exception_index = excp_idx;
++    env->causecode = env->param = 0x0;
++    env->eret  = env->pc;
++    env->erbta = env->bta;
++    cpu_loop_exit(cs);
++}
++
++
++/* vim: set ts=4 sw=4 et: */
+diff --git a/target/arc/helper.h b/target/arc/helper.h
+new file mode 100644
+index 0000000000..6277005e2d
+--- /dev/null
++++ b/target/arc/helper.h
+@@ -0,0 +1,46 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2019
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * href="http://www.gnu.org/licenses/lgpl-2.1.html
++ */
++
++DEF_HELPER_1(debug, void, env)
++DEF_HELPER_2(norm, i32, env, i32)
++DEF_HELPER_2(normh, i32, env, i32)
++DEF_HELPER_2(ffs, i32, env, i32)
++DEF_HELPER_2(fls, i32, env, i32)
++DEF_HELPER_2(lr, tl, env, i32)
++DEF_HELPER_3(sr, void, env, i32, i32)
++DEF_HELPER_2(halt, noreturn, env, i32)
++DEF_HELPER_1(rtie, void, env)
++DEF_HELPER_1(flush, void, env)
++DEF_HELPER_4(raise_exception, noreturn, env, i32, i32, i32)
++DEF_HELPER_2(zol_verify, void, env, i32)
++DEF_HELPER_2(fake_exception, void, env, i32)
++DEF_HELPER_2(set_status32, void, env, i32)
++DEF_HELPER_1(get_status32, i32, env)
++DEF_HELPER_3(carry_add_flag, i32, i32, i32, i32)
++DEF_HELPER_3(overflow_add_flag, i32, i32, i32, i32)
++DEF_HELPER_3(overflow_sub_flag, i32, i32, i32, i32)
++
++DEF_HELPER_2(enter, void, env, i32)
++DEF_HELPER_2(leave, void, env, i32)
++
++DEF_HELPER_3(mpymu, i32, env, i32, i32)
++DEF_HELPER_3(mpym, i32, env, i32, i32)
++
++DEF_HELPER_3(repl_mask, i32, i32, i32, i32)
+diff --git a/target/arc/op_helper.c b/target/arc/op_helper.c
+new file mode 100644
+index 0000000000..5e05f5f5ba
+--- /dev/null
++++ b/target/arc/op_helper.c
+@@ -0,0 +1,749 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2018 Cupertino Miranda
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/error-report.h"
++#include "cpu.h"
++#include "sysemu/runstate.h"
++#include "exec/helper-proto.h"
++#include "exec/cpu_ldst.h"
++#include "exec/ioport.h"
++#include "translate-all.h"
++#include "target/arc/regs.h"
++#include "mmu.h"
++#include "hw/arc/cpudevs.h"
++#include "qemu/main-loop.h"
++#include "irq.h"
++#include "sysemu/sysemu.h"
++
++
++static target_ulong get_status32(CPUARCState *env)
++{
++    target_ulong value = pack_status32(&env->stat);
++
++    /* TODO: Implement debug mode */
++    if (env->stat.Uf == 1) {
++        value &= 0x00000f00;
++    }
++
++    if (env->stopped) {
++        value |= BIT(0);
++    }
 +
 +    return value;
 +}
 +
-+static long long int extract_g_s(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                 bfd_boolean *invalid ATTRIBUTE_UNUSED)
++static void set_status32(CPUARCState *env, target_ulong value)
 +{
-+    int value = 0;
-+
-+    value |= ((insn >> 8) & 0x0007) << 0;
-+    value |= ((insn >> 3) & 0x0003) << 3;
-+
-+    /* Extend the sign. */
-+    int signbit = 1 << (6 - 1);
-+    value = (value ^ signbit) - signbit;
-+
-+    return value;
-+}
-+
-+static long long int extract_uimm12_20(unsigned long long insn ATTRIBUTE_UNUSED,
-+                                       bfd_boolean *invalid ATTRIBUTE_UNUSED)
-+{
-+    int value = 0;
-+
-+    value |= ((insn >> 6) & 0x003f) << 0;
-+    value |= ((insn >> 0) & 0x003f) << 6;
-+
-+    return value;
-+}
-+
-+/*
-+ * The operands table.
-+ *
-+ * The format of the operands table is:
-+ *
-+ * BITS SHIFT FLAGS EXTRACT_FUN.
-+ */
-+const struct arc_operand arc_operands[] = {
-+    { 0, 0, 0, 0 },
-+#define ARC_OPERAND(NAME, BITS, SHIFT, RELO, FLAGS, FUN)       \
-+    { BITS, SHIFT, FLAGS, FUN },
-+#include "target/arc/operands.def"
-+#undef ARC_OPERAND
-+    { 0, 0, 0, 0}
-+};
-+
-+enum arc_operands_map {
-+    OPERAND_UNUSED = 0,
-+#define ARC_OPERAND(NAME, BITS, SHIFT, RELO, FLAGS, FUN) OPERAND_##NAME,
-+#include "target/arc/operands.def"
-+#undef ARC_OPERAND
-+    OPERAND_LAST
-+};
-+
-+/*
-+ * The flag operands table.
-+ *
-+ * The format of the table is
-+ * NAME CODE BITS SHIFT FAVAIL.
-+ */
-+const struct arc_flag_operand arc_flag_operands[] = {
-+    { 0, 0, 0, 0, 0},
-+#define ARC_FLAG(NAME, MNEMONIC, CODE, BITS, SHIFT, AVAIL)      \
-+    { MNEMONIC, CODE, BITS, SHIFT, AVAIL },
-+#include "target/arc/flags.def"
-+#undef ARC_FLAG
-+    { 0, 0, 0, 0, 0}
-+};
-+
-+enum arc_flags_map {
-+    F_NULL = 0,
-+#define ARC_FLAG(NAME, MNEMONIC, CODE, BITS, SHIFT, AVAIL) F_##NAME,
-+#include "target/arc/flags.def"
-+#undef ARC_FLAG
-+    F_LAST
-+};
-+
-+/*
-+ * Table of the flag classes.
-+ *
-+ * The format of the table is
-+ * CLASS {FLAG_CODE}.
-+ */
-+const struct arc_flag_class arc_flag_classes[] = {
-+#define C_EMPTY             0
-+    { F_CLASS_NONE, { F_NULL } },
-+
-+#define C_CC_EQ             (C_EMPTY + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_COND, {F_EQUAL, F_NULL} },
-+
-+#define C_CC_GE             (C_CC_EQ + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_COND, {F_GE, F_NULL} },
-+
-+#define C_CC_GT             (C_CC_GE + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_COND, {F_GT, F_NULL} },
-+
-+#define C_CC_HI             (C_CC_GT + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_COND, {F_HI, F_NULL} },
-+
-+#define C_CC_HS             (C_CC_HI + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_COND, {F_NOTCARRY, F_NULL} },
-+
-+#define C_CC_LE             (C_CC_HS + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_COND, {F_LE, F_NULL} },
-+
-+#define C_CC_LO             (C_CC_LE + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_COND, {F_CARRY, F_NULL} },
-+
-+#define C_CC_LS             (C_CC_LO + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_COND, {F_LS, F_NULL} },
-+
-+#define C_CC_LT             (C_CC_LS + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_COND, {F_LT, F_NULL} },
-+
-+#define C_CC_NE             (C_CC_LT + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_COND, {F_NOTEQUAL, F_NULL} },
-+
-+#define C_AA_AB             (C_CC_NE + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_WB, {F_AB3, F_NULL} },
-+
-+#define C_AA_AW             (C_AA_AB + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_WB, {F_AW3, F_NULL} },
-+
-+#define C_ZZ_D              (C_AA_AW + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_ZZ, {F_SIZED, F_NULL} },
-+
-+#define C_ZZ_H              (C_ZZ_D + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_ZZ, {F_H1, F_NULL} },
-+
-+#define C_ZZ_B              (C_ZZ_H + 1)
-+    {F_CLASS_IMPLICIT | F_CLASS_ZZ, {F_SIZEB1, F_NULL} },
-+
-+#define C_CC                (C_ZZ_B + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_EXTEND | F_CLASS_COND,
-+        { F_ALWAYS, F_RA, F_EQUAL, F_ZERO, F_NOTEQUAL,
-+          F_NOTZERO, F_POZITIVE, F_PL, F_NEGATIVE, F_MINUS,
-+          F_CARRY, F_CARRYSET, F_LOWER, F_CARRYCLR,
-+          F_NOTCARRY, F_HIGHER, F_OVERFLOWSET, F_OVERFLOW,
-+          F_NOTOVERFLOW, F_OVERFLOWCLR, F_GT, F_GE, F_LT,
-+          F_LE, F_HI, F_LS, F_PNZ, F_NULL
-+        }
-+    },
-+
-+#define C_AA_ADDR3          (C_CC + 1)
-+#define C_AA27              (C_CC + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_WB, { F_A3, F_AW3, F_AB3, F_AS3, F_NULL } },
-+#define C_AA_ADDR9          (C_AA_ADDR3 + 1)
-+#define C_AA21              (C_AA_ADDR3 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_WB, { F_A9, F_AW9, F_AB9, F_AS9, F_NULL } },
-+#define C_AA_ADDR22         (C_AA_ADDR9 + 1)
-+#define C_AA8               (C_AA_ADDR9 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_WB,
-+        { F_A22, F_AW22, F_AB22, F_AS22, F_NULL }
-+    },
-+
-+#define C_F                 (C_AA_ADDR22 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_F, { F_FLAG, F_NULL } },
-+#define C_FHARD             (C_F + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_F, { F_FFAKE, F_NULL } },
-+
-+#define C_T                 (C_FHARD + 1)
-+    { F_CLASS_OPTIONAL, { F_NT, F_T, F_NULL } },
-+#define C_D                 (C_T + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_D, { F_ND, F_D, F_NULL } },
-+#define C_DNZ_D             (C_D + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_D, { F_DNZ_ND, F_DNZ_D, F_NULL } },
-+
-+#define C_DHARD             (C_DNZ_D + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_D, { F_DFAKE, F_NULL } },
-+
-+#define C_DI20              (C_DHARD + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_DI, { F_DI11, F_NULL } },
-+#define C_DI14              (C_DI20 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_DI, { F_DI14, F_NULL } },
-+#define C_DI16              (C_DI14 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_DI, { F_DI15, F_NULL } },
-+#define C_DI26              (C_DI16 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_DI, { F_DI5, F_NULL } },
-+
-+#define C_X25               (C_DI26 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_X, { F_SIGN6, F_NULL } },
-+#define C_X15               (C_X25 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_X, { F_SIGN16, F_NULL } },
-+#define C_XHARD             (C_X15 + 1)
-+#define C_X                 (C_X15 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_X, { F_SIGNX, F_NULL } },
-+
-+#define C_ZZ13              (C_X + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_ZZ, { F_SIZEB17, F_SIZEW17, F_H17, F_NULL} },
-+#define C_ZZ23              (C_ZZ13 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_ZZ, { F_SIZEB7, F_SIZEW7, F_H7, F_NULL} },
-+#define C_ZZ29              (C_ZZ23 + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_ZZ, { F_SIZEB1, F_SIZEW1, F_H1, F_NULL} },
-+
-+#define C_AS                (C_ZZ29 + 1)
-+    { F_CLASS_IMPLICIT | F_CLASS_OPTIONAL | F_CLASS_WB, { F_ASFAKE, F_NULL} },
-+
-+#define C_NE                (C_AS + 1)
-+    { F_CLASS_OPTIONAL | F_CLASS_COND, { F_NE, F_NULL} },
-+};
-+
-+/* List with special cases instructions and the applicable flags. */
-+const struct arc_flag_special arc_flag_special_cases[] = {
-+    { "b",  { F_ALWAYS, F_RA, F_EQUAL, F_ZERO, F_NOTEQUAL, F_NOTZERO,
-+              F_POZITIVE, F_PL, F_NEGATIVE, F_MINUS, F_CARRY, F_CARRYSET,
-+              F_LOWER, F_CARRYCLR, F_NOTCARRY, F_HIGHER, F_OVERFLOWSET,
-+              F_OVERFLOW, F_NOTOVERFLOW, F_OVERFLOWCLR, F_GT, F_GE, F_LT,
-+              F_LE, F_HI, F_LS, F_PNZ, F_NULL
-+            }
-+    },
-+    { "bl", { F_ALWAYS, F_RA, F_EQUAL, F_ZERO, F_NOTEQUAL, F_NOTZERO,
-+              F_POZITIVE, F_PL, F_NEGATIVE, F_MINUS, F_CARRY, F_CARRYSET,
-+              F_LOWER, F_CARRYCLR, F_NOTCARRY, F_HIGHER, F_OVERFLOWSET,
-+              F_OVERFLOW, F_NOTOVERFLOW, F_OVERFLOWCLR, F_GT, F_GE, F_LT,
-+              F_LE, F_HI, F_LS, F_PNZ, F_NULL
-+            }
-+    },
-+    { "br", { F_ALWAYS, F_RA, F_EQUAL, F_ZERO, F_NOTEQUAL, F_NOTZERO,
-+              F_POZITIVE, F_PL, F_NEGATIVE, F_MINUS, F_CARRY, F_CARRYSET,
-+              F_LOWER, F_CARRYCLR, F_NOTCARRY, F_HIGHER, F_OVERFLOWSET,
-+              F_OVERFLOW, F_NOTOVERFLOW, F_OVERFLOWCLR, F_GT, F_GE, F_LT,
-+              F_LE, F_HI, F_LS, F_PNZ, F_NULL
-+            }
-+    },
-+    { "j",  { F_ALWAYS, F_RA, F_EQUAL, F_ZERO, F_NOTEQUAL, F_NOTZERO,
-+              F_POZITIVE, F_PL, F_NEGATIVE, F_MINUS, F_CARRY, F_CARRYSET,
-+              F_LOWER, F_CARRYCLR, F_NOTCARRY, F_HIGHER, F_OVERFLOWSET,
-+              F_OVERFLOW, F_NOTOVERFLOW, F_OVERFLOWCLR, F_GT, F_GE, F_LT,
-+              F_LE, F_HI, F_LS, F_PNZ, F_NULL
-+            }
-+    },
-+    { "jl", { F_ALWAYS, F_RA, F_EQUAL, F_ZERO, F_NOTEQUAL, F_NOTZERO,
-+              F_POZITIVE, F_PL, F_NEGATIVE, F_MINUS, F_CARRY, F_CARRYSET,
-+              F_LOWER, F_CARRYCLR, F_NOTCARRY, F_HIGHER, F_OVERFLOWSET,
-+              F_OVERFLOW, F_NOTOVERFLOW, F_OVERFLOWCLR, F_GT, F_GE, F_LT,
-+              F_LE, F_HI, F_LS, F_PNZ, F_NULL
-+            }
-+    },
-+    { "lp", { F_ALWAYS, F_RA, F_EQUAL, F_ZERO, F_NOTEQUAL, F_NOTZERO,
-+              F_POZITIVE, F_PL, F_NEGATIVE, F_MINUS, F_CARRY, F_CARRYSET,
-+              F_LOWER, F_CARRYCLR, F_NOTCARRY, F_HIGHER, F_OVERFLOWSET,
-+              F_OVERFLOW, F_NOTOVERFLOW, F_OVERFLOWCLR, F_GT, F_GE, F_LT,
-+              F_LE, F_HI, F_LS, F_PNZ, F_NULL
-+            }
-+    },
-+    { "set", { F_ALWAYS, F_RA, F_EQUAL, F_ZERO, F_NOTEQUAL, F_NOTZERO,
-+               F_POZITIVE, F_PL, F_NEGATIVE, F_MINUS, F_CARRY, F_CARRYSET,
-+               F_LOWER, F_CARRYCLR, F_NOTCARRY, F_HIGHER, F_OVERFLOWSET,
-+               F_OVERFLOW, F_NOTOVERFLOW, F_OVERFLOWCLR, F_GT, F_GE, F_LT,
-+               F_LE, F_HI, F_LS, F_PNZ, F_NULL
-+             }
-+    },
-+    { "ld", { F_SIZEB17, F_SIZEW17, F_H17, F_NULL } },
-+    { "st", { F_SIZEB1, F_SIZEW1, F_H1, F_NULL } }
-+};
-+
-+const unsigned arc_num_flag_special = ARRAY_SIZE(arc_flag_special_cases);
-+
-+/*
-+ * The opcode table.
-+ *
-+ * The format of the opcode table is:
-+ *
-+ * NAME OPCODE MASK CPU CLASS SUBCLASS { OPERANDS } { FLAGS }.
-+ *
-+ * The table is organised such that, where possible, all instructions with
-+ * the same mnemonic are together in a block. When the assembler searches
-+ * for a suitable instruction the entries are checked in table order, so
-+ * more specific, or specialised cases should appear earlier in the table.
-+ *
-+ * As an example, consider two instructions 'add a,b,u6' and 'add
-+ * a,b,limm'. The first takes a 6-bit immediate that is encoded within the
-+ * 32-bit instruction, while the second takes a 32-bit immediate that is
-+ * encoded in a follow-on 32-bit, making the total instruction length
-+ * 64-bits. In this case the u6 variant must appear first in the table, as
-+ * all u6 immediates could also be encoded using the 'limm' extension,
-+ * however, we want to use the shorter instruction wherever possible.
-+ *
-+ * It is possible though to split instructions with the same mnemonic into
-+ * multiple groups. However, the instructions are still checked in table
-+ * order, even across groups. The only time that instructions with the
-+ * same mnemonic should be split into different groups is when different
-+ * variants of the instruction appear in different architectures, in which
-+ * case, grouping all instructions from a particular architecture together
-+ * might be preferable to merging the instruction into the main instruction
-+ * table.
-+ *
-+ * An example of this split instruction groups can be found with the 'sync'
-+ * instruction. The core arc architecture provides a 'sync' instruction,
-+ * while the nps instruction set extension provides 'sync.rd' and
-+ * 'sync.wr'. The rd/wr flags are instruction flags, not part of the
-+ * mnemonic, so we end up with two groups for the sync instruction, the
-+ * first within the core arc instruction table, and the second within the
-+ * nps extension instructions.
-+ */
-+static const struct arc_opcode arc_opcodes[] = {
-+#include "target/arc/opcodes.def"
-+    { NULL, 0, 0, 0, 0, 0, { 0 }, { 0 } }
-+};
-+
-+/* Return length of an opcode in bytes. */
-+static uint8_t arc_opcode_len(const struct arc_opcode *opcode)
-+{
-+    if (opcode->mask < 0x10000ull) {
-+        return 2;
++    /* TODO: Implement debug mode. */
++    bool debug_mode = false;
++    if (env->stat.Uf == 1) {
++        value &= 0x00000f00;
++    } else if (!debug_mode) {
++        value &= 0xffff6f3f;
 +    }
 +
-+    if (opcode->mask < 0x100000000ull) {
-+        return 4;
++    if (((env->stat.Uf >> 7)  & 0x1) != ((value >> 7)  & 0x1)) {
++        tlb_flush(env_cpu(env));
 +    }
 +
-+    if (opcode->mask < 0x1000000000000ull) {
-+        return 6;
++    unpack_status32(&env->stat, value);
++
++    /* Implement HALT functionality.  */
++    if (value & 0x01) {
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++    }
++}
++
++static void do_exception_no_delayslot(CPUARCState *env, uint32_t index,
++                                      uint32_t causecode, uint32_t param)
++{
++    CPUState *cs = env_cpu(env);
++    cpu_restore_state(cs, GETPC(), true);
++    env->eret = env->pc;
++    env->erbta = env->bta;
++
++    helper_raise_exception(env, index, causecode, param);
++}
++
++target_ulong helper_norm(CPUARCState *env, uint32_t src1)
++{
++    int i;
++    int32_t tmp = (int32_t) src1;
++    if (tmp == 0 || tmp == -1) {
++        return 0;
++    }
++    for (i = 0; i <= 31; i++) {
++        if ((tmp >> i) == 0) {
++            break;
++        }
++        if ((tmp >> i) == -1) {
++            break;
++        }
++    }
++    return i;
++}
++
++target_ulong helper_normh(CPUARCState *env, uint32_t src1)
++{
++    int i;
++    for (i = 0; i <= 15; i++) {
++        if (src1 >> i == 0) {
++            break;
++        }
++        if (src1 >> i == -1) {
++            break;
++        }
++    }
++    return i;
++}
++
++target_ulong helper_ffs(CPUARCState *env, uint32_t src)
++{
++    int i;
++    if (src == 0) {
++        return 31;
++    }
++    for (i = 0; i <= 31; i++) {
++        if (((src >> i) & 1) != 0) {
++            break;
++        }
++    }
++    return i;
++}
++
++target_ulong helper_fls(CPUARCState *env, uint32_t src)
++{
++    int i;
++    if (src == 0) {
++        return 0;
 +    }
 +
-+    return 8;
++    for (i = 31; i >= 0; i--) {
++        if (((src >> i) & 1) != 0) {
++            break;
++        }
++    }
++    return i;
 +}
 +
-+/*Helper for arc_find_format. */
-+static const struct arc_opcode *find_format(insn_t *pinsn,
-+                                            uint64_t insn,
-+                                            uint8_t insn_len,
-+                                            uint32_t isa_mask)
++static void report_aux_reg_error(uint32_t aux)
 +{
-+    uint32_t i = 0;
-+    const struct arc_opcode *opcode = NULL;
-+    const uint8_t *opidx;
-+    const uint8_t *flgidx;
-+    bool has_limm = false;
++    if (((aux >= ARC_BCR1_START) && (aux <= ARC_BCR1_END)) ||
++        ((aux >= ARC_BCR2_START) && (aux <= ARC_BCR2_END))) {
++        qemu_log_mask(LOG_UNIMP, "Undefined BCR 0x%03x\n", aux);
++    }
 +
-+    do {
-+        bool invalid = false;
-+        uint32_t noperands = 0;
-+
-+        opcode = &arc_opcodes[i++];
-+        memset(pinsn, 0, sizeof(*pinsn));
-+
-+        if (!(opcode->cpu & isa_mask)) {
-+            continue;
-+        }
-+
-+        if (arc_opcode_len(opcode) != (int) insn_len) {
-+            continue;
-+        }
-+
-+        if ((insn & opcode->mask) != opcode->opcode) {
-+            continue;
-+        }
-+
-+        has_limm = false;
-+
-+        /* Possible candidate, check the operands. */
-+        for (opidx = opcode->operands; *opidx; ++opidx) {
-+            int value, limmind;
-+            const struct arc_operand *operand = &arc_operands[*opidx];
-+
-+            if (operand->flags & ARC_OPERAND_FAKE) {
-+                continue;
-+            }
-+
-+            if (operand->extract) {
-+                value = (*operand->extract)(insn, &invalid);
-+            } else {
-+                value = (insn >> operand->shift) & ((1 << operand->bits) - 1);
-+            }
-+
-+            /*
-+             * Check for LIMM indicator. If it is there, then make sure
-+             * we pick the right format.
-+             */
-+            limmind = (isa_mask & ARC_OPCODE_ARCV2) ? 0x1E : 0x3E;
-+            if (operand->flags & ARC_OPERAND_IR &&
-+                !(operand->flags & ARC_OPERAND_LIMM)) {
-+                if ((value == 0x3E && insn_len == 4) ||
-+                    (value == limmind && insn_len == 2)) {
-+                    invalid = TRUE;
-+                    break;
-+                }
-+            }
-+
-+            if (operand->flags & ARC_OPERAND_LIMM &&
-+                !(operand->flags & ARC_OPERAND_DUPLICATE)) {
-+                has_limm = true;
-+            }
-+
-+            pinsn->operands[noperands].value = value;
-+            pinsn->operands[noperands].type = operand->flags;
-+            noperands += 1;
-+            pinsn->n_ops = noperands;
-+        }
-+
-+        /* Check the flags. */
-+        for (flgidx = opcode->flags; *flgidx; ++flgidx) {
-+            /* Get a valid flag class. */
-+            const struct arc_flag_class *cl_flags = &arc_flag_classes[*flgidx];
-+            const unsigned *flgopridx;
-+            bool foundA = false, foundB = false;
-+            unsigned int value;
-+
-+            /* FIXME! Add check for EXTENSION flags. */
-+
-+            for (flgopridx = cl_flags->flags; *flgopridx; ++flgopridx) {
-+                const struct arc_flag_operand *flg_operand =
-+                &arc_flag_operands[*flgopridx];
-+
-+                /* Check for the implicit flags. */
-+                if (cl_flags->flag_class & F_CLASS_IMPLICIT) {
-+                    if (cl_flags->flag_class & F_CLASS_COND) {
-+                        pinsn->cc = flg_operand->code;
-+                    } else if (cl_flags->flag_class & F_CLASS_WB) {
-+                        pinsn->aa = flg_operand->code;
-+                    } else if (cl_flags->flag_class & F_CLASS_ZZ) {
-+                        pinsn->zz = flg_operand->code;
-+                    }
-+                    continue;
-+                }
-+
-+                value = (insn >> flg_operand->shift) &
-+                        ((1 << flg_operand->bits) - 1);
-+                if (value == flg_operand->code) {
-+                    if (cl_flags->flag_class & F_CLASS_ZZ) {
-+                        switch (flg_operand->name[0]) {
-+                        case 'b':
-+                            pinsn->zz = 1;
-+                            break;
-+                        case 'h':
-+                        case 'w':
-+                            pinsn->zz = 2;
-+                            break;
-+                        default:
-+                            pinsn->zz = 4;
-+                            break;
-+                        }
-+                    }
-+
-+                    /*
-+                     * TODO: This has a problem: instruction "b label"
-+                     * sets this to true.
-+                     */
-+                    if (cl_flags->flag_class & F_CLASS_D) {
-+                        pinsn->d = value ? true : false;
-+                        if (cl_flags->flags[0] == F_DFAKE) {
-+                            pinsn->d = true;
-+                        }
-+                    }
-+
-+                    if (cl_flags->flag_class & F_CLASS_COND) {
-+                        pinsn->cc = value;
-+                    }
-+
-+                    if (cl_flags->flag_class & F_CLASS_WB) {
-+                        pinsn->aa = value;
-+                    }
-+
-+                    if (cl_flags->flag_class & F_CLASS_F) {
-+                        pinsn->f = true;
-+                    }
-+
-+                    if (cl_flags->flag_class & F_CLASS_DI) {
-+                        pinsn->di = true;
-+                    }
-+
-+                    if (cl_flags->flag_class & F_CLASS_X) {
-+                        pinsn->x = true;
-+                    }
-+
-+                    foundA = true;
-+                }
-+                if (value) {
-+                    foundB = true;
-+                }
-+            }
-+
-+            if (!foundA && foundB) {
-+                invalid = TRUE;
-+                break;
-+            }
-+        }
-+
-+        if (invalid) {
-+            continue;
-+        }
-+
-+        /* The instruction is valid. */
-+        pinsn->limm_p = has_limm;
-+        pinsn->class = (uint32_t) opcode->insn_class;
-+
-+        /*
-+         * FIXME: here add extra info about the instruction
-+         * e.g. delay slot, data size, write back, etc.
-+         */
-+        return opcode;
-+    } while (opcode->mask);
-+
-+    memset(pinsn, 0, sizeof(*pinsn));
-+    return NULL;
++    error_report("Undefined AUX register 0x%03x, aborting", aux);
++    exit(EXIT_FAILURE);
 +}
 +
-+/* Main entry point for this file. */
-+const struct arc_opcode *arc_find_format(insn_t *insnd,
-+                                         uint64_t insn,
-+                                         uint8_t insn_len,
-+                                         uint32_t isa_mask)
++void helper_sr(CPUARCState *env, uint32_t val, uint32_t aux)
 +{
-+    memset(insnd, 0, sizeof(*insnd));
-+    return find_format(insnd, insn, insn_len, isa_mask);
++    struct arc_aux_reg_detail *aux_reg_detail =
++        arc_aux_reg_struct_for_address(aux, ARC_OPCODE_ARCv2HS);
++
++    if (aux_reg_detail == NULL) {
++        report_aux_reg_error(aux);
++    }
++
++    /* saving return address in case an exception must be raised later */
++    env->host_pc = GETPC();
++
++    switch (aux_reg_detail->id) {
++    case AUX_ID_lp_start:
++        env->lps = val;
++        break;
++
++    case AUX_ID_lp_end:
++        env->lpe = val;
++        break;
++
++    case AUX_ID_status32:
++        set_status32(env, val);
++        break;
++
++    case AUX_ID_eret:
++        env->eret = val;
++        break;
++
++    case AUX_ID_erbta:
++        env->erbta = val;
++        break;
++
++    case AUX_ID_bta:
++        env->bta = val;
++        break;
++
++    case AUX_ID_erstatus:
++        unpack_status32(&env->stat_er, val);
++        break;
++
++    case AUX_ID_ecr:
++        env->ecr = val;
++        break;
++
++    case AUX_ID_efa:
++        env->efa = val;
++        break;
++
++    default:
++        if (aux_reg_detail->aux_reg->set_func != NULL) {
++            aux_reg_detail->aux_reg->set_func(aux_reg_detail, val,
++                                              (void *) env);
++        } else {
++            /* setting a register that does not provide one is not allowed */
++            arc_raise_exception(env, EXCP_INST_ERROR);
++            /* TODO: are lr and sr possible delayslot instructions ? */
++            /* TODO: what is this? can it be removed? */
++            do_exception_no_delayslot(env, EXCP_INST_ERROR, 0, 0);
++        }
++        break;
++    }
++    cpu_outl(aux, val);
 +}
 +
-+/*
-+ * Calculate the instruction length for an instruction starting with
-+ * MSB and LSB, the most and least significant byte. The ISA_MASK is
-+ * used to filter the instructions considered to only those that are
-+ * part of the current architecture.
-+ *
-+ * The instruction lengths are calculated from the ARC_OPCODE table,
-+ * and cached for later use.
-+ */
-+unsigned int arc_insn_length(uint16_t insn, uint16_t cpu_type)
++static target_ulong get_debug(CPUARCState *env)
 +{
-+    uint8_t major_opcode;
-+    uint8_t msb, lsb;
++    target_ulong res = 0x00000000;
 +
-+    msb = (uint8_t)(insn >> 8);
-+    lsb = (uint8_t)(insn & 0xFF);
-+    major_opcode = msb >> 3;
++    res |= (env->debug.LD) ? BIT(31) : 0;
++    res |= (env->debug.SH) ? BIT(30) : 0;
++    res |= (env->debug.BH) ? BIT(29) : 0;
++    res |= (env->debug.UB) ? BIT(28) : 0;
++    res |= (env->debug.ZZ) ? BIT(27) : 0;
++    res |= (env->debug.RA) ? BIT(22) : 0;
++    res |= (env->debug.IS) ? BIT(11) : 0;
++    res |= (env->debug.FH) ? BIT(1)  : 0;
++    res |= (env->debug.SS) ? BIT(0)  : 0;
 +
-+    switch (cpu_type) {
++    return res;
++}
++
++static target_ulong get_identity(CPUARCState *env)
++{
++    target_ulong chipid = 0xffff, arcnum = 0, arcver, res;
++
++    switch (env->family) {
 +    case ARC_OPCODE_ARC700:
-+        if (major_opcode == 0xb) {
-+            uint8_t minor_opcode = lsb & 0x1f;
-+
-+            if (minor_opcode < 4) {
-+                return 6;
-+            } else if (minor_opcode == 0x10 || minor_opcode == 0x11) {
-+                return 8;
-+            }
-+        }
-+        if (major_opcode == 0xa) {
-+            return 8;
-+        }
-+        /* Fall through. */
-+    case ARC_OPCODE_ARC600:
-+        return (major_opcode > 0xb) ? 2 : 4;
++        arcver = 0x34;
 +        break;
 +
 +    case ARC_OPCODE_ARCv2EM:
++        arcver = 0x44;
++        break;
++
 +    case ARC_OPCODE_ARCv2HS:
-+        return (major_opcode > 0x7) ? 2 : 4;
++        arcver = 0x54;
 +        break;
 +
 +    default:
-+        g_assert_not_reached();
++        arcver = 0;
++
++    }
++
++    /* TODO: in SMP, arcnum depends on the cpu instance. */
++    res = ((chipid & 0xFFFF) << 16) | ((arcnum & 0xFF) << 8) | (arcver & 0xFF);
++    return res;
++}
++
++target_ulong helper_lr(CPUARCState *env, uint32_t aux)
++{
++    target_ulong result = 0;
++
++    struct arc_aux_reg_detail *aux_reg_detail =
++        arc_aux_reg_struct_for_address(aux, ARC_OPCODE_ARCv2HS);
++
++    if (aux_reg_detail == NULL) {
++        report_aux_reg_error(aux);
++    }
++
++    /* saving return address in case an exception must be raised later */
++    env->host_pc = GETPC();
++
++    switch (aux_reg_detail->id) {
++    case AUX_ID_aux_volatile:
++        result = 0xc0000000;
++        break;
++
++    case AUX_ID_lp_start:
++        result = env->lps;
++        break;
++
++    case AUX_ID_lp_end:
++        result = env->lpe;
++        break;
++
++    case AUX_ID_identity:
++        result = get_identity(env);
++        break;
++
++    case AUX_ID_exec_ctrl:
++        result = 0;
++        break;
++
++    case AUX_ID_debug:
++        result = get_debug(env);
++        break;
++
++    case AUX_ID_pc:
++        result = env->pc & 0xfffffffe;
++        break;
++
++    case AUX_ID_status32:
++        result = get_status32(env);
++        break;
++
++    case AUX_ID_mpy_build:
++            result = env->mpy_build;
++            break;
++
++    case AUX_ID_isa_config:
++        result = env->isa_config;
++        break;
++
++    case AUX_ID_eret:
++        result = env->eret;
++        break;
++
++    case AUX_ID_erbta:
++        result = env->erbta;
++        break;
++
++    case AUX_ID_erstatus:
++        if (is_user_mode(env)) {
++            arc_raise_exception(env, EXCP_PRIVILEGEV);
++        }
++        result = pack_status32(&env->stat_er);
++        break;
++
++    case AUX_ID_ecr:
++        result = env->ecr;
++        break;
++
++    case AUX_ID_efa:
++        result = env->efa;
++        break;
++
++    case AUX_ID_bta:
++        result = env->bta;
++        break;
++
++    case AUX_ID_bta_l1:
++        result = env->bta_l1;
++        break;
++
++    case AUX_ID_bta_l2:
++        result = env->bta_l2;
++        break;
++
++    default:
++        if (aux_reg_detail->aux_reg->get_func != NULL) {
++            result = aux_reg_detail->aux_reg->get_func(aux_reg_detail,
++                                                       (void *) env);
++        } else {
++            /* TODO: is lr and sr possible delayslot instructions ? */
++            assert(0);
++            arc_raise_exception(env, EXCP_INST_ERROR);
++            do_exception_no_delayslot(env, EXCP_INST_ERROR, 0, 0);
++        }
++        break;
++    }
++
++    return result;
++}
++
++void QEMU_NORETURN helper_halt(CPUARCState *env, uint32_t npc)
++{
++    CPUState *cs = env_cpu(env);
++    if (env->stat.Uf) {
++        cs->exception_index = EXCP_PRIVILEGEV;
++        env->causecode = 0;
++        env->param = 0;
++         /* Restore PC such that we point at the faulty instruction.  */
++        env->eret = env->pc;
++    } else {
++        env->pc = npc;
++        cs->halted = 1;
++        cs->exception_index = EXCP_HLT;
++    }
++    cpu_loop_exit(cs);
++}
++
++void helper_rtie(CPUARCState *env)
++{
++    CPUState *cs = env_cpu(env);
++    if (env->stat.Uf) {
++        cs->exception_index = EXCP_PRIVILEGEV;
++        env->causecode = 0;
++        env->param = 0;
++         /* Restore PC such that we point at the faulty instruction.  */
++        env->eret = env->pc;
++        cpu_loop_exit(cs);
++        return;
++    }
++
++    if (env->stat.AEf || (env->aux_irq_act & 0xFFFF) == 0) {
++        assert(env->stat.Uf == 0);
++
++        CPU_PCL(env) = env->eret;
++        env->pc = env->eret;
++
++        env->stat = env->stat_er;
++        env->bta = env->erbta;
++
++        /* If returning to userland, restore SP.  */
++        if (env->stat.Uf) {
++            switchSP(env);
++        }
++
++        qemu_log_mask(CPU_LOG_INT, "[EXCP] RTIE @0x%08x ECR:0x%08x\n",
++                      env->r[63], env->ecr);
++    } else {
++        arc_rtie_interrupts(env);
++        qemu_log_mask(CPU_LOG_INT, "[IRQ] RTIE @0x%08x STATUS32:0x%08x\n",
++                      env->r[63], pack_status32(&env->stat));
++    }
++
++    helper_zol_verify(env, env->pc);
++}
++
++void helper_flush(CPUARCState *env)
++{
++    tb_flush((CPUState *)env_archcpu(env));
++}
++
++/*
++ * This should only be called from translate, via gen_raise_exception.
++ * We expect that ENV->PC has already been updated.
++ */
++
++void QEMU_NORETURN helper_raise_exception(CPUARCState *env,
++                                          uint32_t index,
++                                          uint32_t causecode,
++                                          uint32_t param)
++{
++    CPUState *cs = env_cpu(env);
++    /* Cannot restore state here. */
++    /* cpu_restore_state(cs, GETPC(), true); */
++    cs->exception_index = index;
++    env->causecode = causecode;
++    env->param = param;
++    cpu_loop_exit(cs);
++}
++
++void helper_zol_verify(CPUARCState *env, uint32_t npc)
++{
++    if (npc == env->lpe) {
++        if (env->r[60] > 1) {
++            env->r[60] -= 1;
++            helper_raise_exception(env, (uint32_t) EXCP_LPEND_REACHED, 0,
++                                   env->lps);
++        } else {
++            env->r[60] = 0;
++        }
++    }
++}
++void helper_fake_exception(CPUARCState *env, uint32_t pc)
++{
++    helper_raise_exception(env, (uint32_t) EXCP_FAKE, 0, pc);
++}
++
++uint32_t helper_get_status32(CPUARCState *env)
++{
++    return get_status32(env);
++}
++
++void helper_set_status32(CPUARCState *env, uint32_t value)
++{
++    set_status32(env, value);
++}
++
++uint32_t helper_carry_add_flag(uint32_t dest, uint32_t b, uint32_t c)
++{
++    uint32_t t1, t2, t3;
++
++    t1 = b & c;
++    t2 = b & (~dest);
++    t3 = c & (~dest);
++    t1 = t1 | t2 | t3;
++    return (t1 >> 31) & 1;
++}
++
++uint32_t helper_overflow_add_flag(uint32_t dest, uint32_t b, uint32_t c)
++{
++    dest >>= 31;
++    b >>= 31;
++    c >>= 31;
++    if ((dest == 0 && b == 1 && c == 1)
++        || (dest == 1 && b == 0 && c == 0)) {
++        return 1;
++    } else {
++        return 0;
 +    }
 +}
 +
++uint32_t helper_overflow_sub_flag(uint32_t dest, uint32_t b, uint32_t c)
++{
++    dest >>= 31;
++    b >>= 31;
++    c >>= 31;
++    if ((dest == 1 && b == 0 && c == 1)
++        || (dest == 0 && b == 1 && c == 0)) {
++        return 1;
++    } else {
++        return 0;
++    }
++}
++
++uint32_t helper_repl_mask(uint32_t dest, uint32_t src, uint32_t mask)
++{
++    uint32_t ret = dest & (~mask);
++    ret |= (src & mask);
++
++    return ret;
++}
++
++uint32_t helper_mpymu(CPUARCState *env, uint32_t b, uint32_t c)
++{
++    uint64_t _b = (uint64_t) b;
++    uint64_t _c = (uint64_t) c;
++
++    return (uint32_t) ((_b * _c) >> 32);
++}
++
++uint32_t helper_mpym(CPUARCState *env, uint32_t b, uint32_t c)
++{
++    int64_t _b = (int64_t) ((int32_t) b);
++    int64_t _c = (int64_t) ((int32_t) c);
++
++    /*
++     * fprintf(stderr, "B = 0x%llx, C = 0x%llx, result = 0x%llx\n",
++     *         _b, _c, _b * _c);
++     */
++    return (_b * _c) >> 32;
++}
++
++
++/*
++ * throw "illegal instruction" exception if more than available
++ * registers are asked to be saved/restore.
++ */
++static void check_enter_leave_nr_regs(CPUARCState *env,
++                                      uint8_t      regs,
++                                      uintptr_t    host_pc)
++{
++    const uint8_t rgf_num_regs = env_archcpu(env)->cfg.rgf_num_regs;
++    if ((rgf_num_regs == 32 && regs > 14) ||
++        (rgf_num_regs == 16 && regs >  3)) {
++        CPUState *cs = env_cpu(env);
++        cpu_restore_state(cs, host_pc, true);
++        cs->exception_index = EXCP_INST_ERROR;
++        env->causecode      = 0x00;
++        env->param          = 0x00;
++        env->eret           = env->pc;
++        env->erbta          = env->bta;
++        cpu_loop_exit(cs);
++    }
++}
++
++/*
++ * throw "illegal instruction sequence" exception if we are in a
++ * delay/execution slot.
++ */
++static void check_delay_or_execution_slot(CPUARCState *env,
++                                          uintptr_t    host_pc)
++{
++    if (env->stat.DEf || env->stat.ESf) {
++        CPUState *cs = env_cpu(env);
++        cpu_restore_state(cs, host_pc, true);
++        cs->exception_index = EXCP_INST_ERROR;
++        env->causecode      = 0x01;
++        env->param          = 0x00;
++        env->eret           = env->pc;
++        env->erbta          = env->bta;
++        cpu_loop_exit(cs);
++    }
++}
++
++/*
++ * Throw "misaligned" exception if 'addr' is not 32-bit aligned.
++ * This check is done irrelevant of status32.AD bit.
++ */
++static void check_addr_is_word_aligned(CPUARCState *env,
++                                       target_ulong addr,
++                                       uintptr_t    host_pc)
++{
++    if (addr & 0x3) {
++        CPUState *cs = env_cpu(env);
++        cpu_restore_state(cs, host_pc, true);
++        cs->exception_index = EXCP_MISALIGNED;
++        env->causecode      = 0x00;
++        env->param          = 0x00;
++        env->efa            = addr;
++        env->eret           = env->pc;
++        env->erbta          = env->bta;
++        cpu_loop_exit(cs);
++    }
++}
++
++/*
++ * helper for enter_s instruction.
++ * after we are done, stack layout would be:
++ * ,- top -.
++ * | blink |
++ * | r13   |
++ * | r14   |
++ * | ...   |
++ * | r26   |
++ * | fp    |
++ * `-------'
++ */
++void helper_enter(CPUARCState *env, uint32_t u6)
++{
++    /* nothing to do? then bye-bye! */
++    if (!u6) {
++        return;
++    }
++
++    uint8_t regs       = u6 & 0x0f; /* u[3:0] determines registers to save */
++    bool    save_fp    = u6 & 0x10; /* u[4] indicates if fp must be saved  */
++    bool    save_blink = u6 & 0x20; /* u[5] indicates saving of blink      */
++    uint8_t stack_size = 4 * (regs + save_fp + save_blink);
++
++    /* number of regs to be saved must be sane */
++    check_enter_leave_nr_regs(env, regs, GETPC());
++
++    /* this cannot be executed in a delay/execution slot */
++    check_delay_or_execution_slot(env, GETPC());
++
++    /* stack must be a multiple of 4 (32 bit aligned) */
++    check_addr_is_word_aligned(env, CPU_SP(env) - stack_size, GETPC());
++
++    uint32_t tmp_sp = CPU_SP(env);
++
++    if (save_fp) {
++        tmp_sp -= 4;
++        cpu_stl_data(env, tmp_sp, CPU_FP(env));
++    }
++
++    for (uint8_t gpr = regs; gpr >= 1; --gpr) {
++        tmp_sp -= 4;
++        cpu_stl_data(env, tmp_sp, env->r[13 + gpr - 1]);
++    }
++
++    if (save_blink) {
++        tmp_sp -= 4;
++        cpu_stl_data(env, tmp_sp, CPU_BLINK(env));
++    }
++
++    CPU_SP(env) = tmp_sp;
++
++    /* now that sp has been allocated, shall we write it to fp? */
++    if (save_fp) {
++        CPU_FP(env) = CPU_SP(env);
++    }
++}
++
++/*
++ * helper for leave_s instruction.
++ * a stack layout of below is assumed:
++ * ,- top -.
++ * | blink |
++ * | r13   |
++ * | r14   |
++ * | ...   |
++ * | r26   |
++ * | fp    |
++ * `-------'
++ */
++void helper_leave(CPUARCState *env, uint32_t u7)
++{
++    /* nothing to do? then bye-bye! */
++    if (!u7) {
++        return;
++    }
++
++    uint8_t regs       = u7 & 0x0f; /* u[3:0] determines registers to save */
++    bool restore_fp    = u7 & 0x10; /* u[4] indicates if fp must be saved  */
++    bool restore_blink = u7 & 0x20; /* u[5] indicates saving of blink      */
++    bool jump_to_blink = u7 & 0x40; /* u[6] should we jump to blink?       */
++
++    /* number of regs to be restored must be sane */
++    check_enter_leave_nr_regs(env, regs, GETPC());
++
++    /* this cannot be executed in a delay/execution slot */
++    check_delay_or_execution_slot(env, GETPC());
++
++    /*
++     * stack must be a multiple of 4 (32 bit aligned). we must take into
++     * account if sp is going to use fp's value or not.
++     */
++    const target_ulong addr = restore_fp ? CPU_FP(env) : CPU_SP(env);
++    check_addr_is_word_aligned(env, addr, GETPC());
++
++    /*
++     * if fp is in the picture, then first we have to use the current
++     * fp as the stack pointer for restoring.
++     */
++    if (restore_fp) {
++        CPU_SP(env) = CPU_FP(env);
++    }
++
++    uint32_t tmp_sp = CPU_SP(env);
++
++    if (restore_blink) {
++        CPU_BLINK(env) = cpu_ldl_data(env, tmp_sp);
++        tmp_sp += 4;
++    }
++
++    for (uint8_t gpr = 0; gpr < regs; ++gpr) {
++        env->r[13 + gpr] = cpu_ldl_data(env, tmp_sp);
++        tmp_sp += 4;
++    }
++
++    if (restore_fp) {
++        CPU_FP(env) = cpu_ldl_data(env, tmp_sp);
++        tmp_sp += 4;
++    }
++
++    CPU_SP(env) = tmp_sp;
++
++    /* now that we are done, should we jump to blink? */
++    if (jump_to_blink) {
++        CPU_PCL(env) = CPU_BLINK(env);
++        env->pc      = CPU_BLINK(env);
++    }
++}
++
++/*
++ * uint32_t lf_variable = 0;
++ * uint32_t helper_get_lf(void)
++ * {
++ *   return lf_variable;
++ * }
++ * void helper_set_lf(uint32_t v)
++ * {
++ *   lf_variable = v;
++ * }
++ */
++
 +/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
 +/* vim: set ts=4 sw=4 et: */
-diff --git a/target/arc/decoder.h b/target/arc/decoder.h
+diff --git a/target/arc/semfunc_mapping.def b/target/arc/semfunc_mapping.def
 new file mode 100644
-index 0000000000..62fb1a57a1
+index 0000000000..b47edb42e5
 --- /dev/null
-+++ b/target/arc/decoder.h
-@@ -0,0 +1,350 @@
++++ b/target/arc/semfunc_mapping.def
+@@ -0,0 +1,329 @@
 +/*
-+ * Decoder for the ARC.
-+ * Copyright 2020 Free Software Foundation, Inc.
-+ *
-+ * QEMU ARCv2 Decoder.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2, or (at your option) any later
-+ * version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef ARC_DECODER_H
-+#define ARC_DECODER_H
-+
-+#include "qemu/osdep.h"
-+#include "arc-common.h"
-+
-+#ifndef MAX_INSN_ARGS
-+#define MAX_INSN_ARGS     16
-+#endif
-+
-+#ifndef MAX_INSN_FLGS
-+#define MAX_INSN_FLGS     4
-+#endif
-+
-+/* Instruction Class. */
-+typedef enum {
-+    NADA = 0,
-+    ARC_ACL,
-+    ARITH,
-+    AUXREG,
-+    BBIT0,
-+    BBIT1,
-+    BI,
-+    BIH,
-+    BITOP,
-+    BITSTREAM,
-+    BMU,
-+    BRANCH,
-+    BRCC,
-+    CONTROL,
-+    DIVREM,
-+    DPI,
-+    DSP,
-+    EI,
-+    ENTER,
-+    ARC_FLOAT,
-+    INVALID,
-+    JLI,
-+    JUMP,
-+    KERNEL,
-+    LEAVE,
-+    LOAD,
-+    LOGICAL,
-+    LOOP,
-+    MEMORY,
-+    MOVE,
-+    MPY,
-+    NET,
-+    PROTOCOL_DECODE,
-+    PMU,
-+    POP,
-+    PUSH,
-+    SJLI,
-+    STORE,
-+    SUB,
-+    XY
-+} insn_class_t;
-+
-+/* Instruction Subclass. */
-+typedef enum {
-+    NONE     = 0,
-+    CVT      = (1U << 1),
-+    BTSCN    = (1U << 2),
-+    CD       = (1U << 3),
-+    CD1      = CD,
-+    CD2      = CD,
-+    COND     = (1U << 4),
-+    DIV      = (1U << 5),
-+    DP       = (1U << 6),
-+    DPA      = (1U << 7),
-+    DPX      = (1U << 8),
-+    MPY1E    = (1U << 9),
-+    MPY6E    = (1U << 10),
-+    MPY7E    = (1U << 11),
-+    MPY8E    = (1U << 12),
-+    MPY9E    = (1U << 13),
-+    QUARKSE1 = (1U << 15),
-+    QUARKSE2 = (1U << 16),
-+    SHFT1    = (1U << 17),
-+    SHFT2    = (1U << 18),
-+    SWAP     = (1U << 19),
-+    SP       = (1U << 20),
-+    SPX      = (1U << 21)
-+} insn_subclass_t;
-+
-+/* Flags class. */
-+typedef enum {
-+    F_CLASS_NONE = 0,
-+
-+    /*
-+     * At most one flag from the set of flags can appear in the
-+     * instruction.
-+     */
-+    F_CLASS_OPTIONAL = (1 << 0),
-+
-+    /*
-+     * Exactly one from from the set of flags must appear in the
-+     * instruction.
-+     */
-+    F_CLASS_REQUIRED = (1 << 1),
-+
-+    /*
-+     * The conditional code can be extended over the standard variants
-+     * via .extCondCode pseudo-op.
-+     */
-+    F_CLASS_EXTEND = (1 << 2),
-+
-+    /* Condition code flag. */
-+    F_CLASS_COND = (1 << 3),
-+
-+    /* Write back mode. */
-+    F_CLASS_WB = (1 << 4),
-+
-+    /* Data size. */
-+    F_CLASS_ZZ = (1 << 5),
-+
-+    /* Implicit flag. */
-+    F_CLASS_IMPLICIT = (1 << 6),
-+
-+    F_CLASS_F = (1 << 7),
-+
-+    F_CLASS_DI = (1 << 8),
-+
-+    F_CLASS_X = (1 << 9),
-+    F_CLASS_D = (1 << 10),
-+
-+} flag_class_t;
-+
-+/* The opcode table is an array of struct arc_opcode. */
-+struct arc_opcode {
-+    /* The opcode name. */
-+    const char *name;
-+
-+    /*
-+     * The opcode itself. Those bits which will be filled in with
-+     * operands are zeroes.
-+     */
-+    unsigned long long opcode;
-+
-+    /*
-+     * The opcode mask. This is used by the disassembler. This is a
-+     * mask containing ones indicating those bits which must match the
-+     * opcode field, and zeroes indicating those bits which need not
-+     * match (and are presumably filled in by operands).
-+     */
-+    unsigned long long mask;
-+
-+    /*
-+     * One bit flags for the opcode. These are primarily used to
-+     * indicate specific processors and environments support the
-+     * instructions. The defined values are listed below.
-+     */
-+    unsigned cpu;
-+
-+    /* The instruction class. */
-+    insn_class_t insn_class;
-+
-+    /* The instruction subclass. */
-+    insn_subclass_t subclass;
-+
-+    /*
-+     * An array of operand codes. Each code is an index into the
-+     * operand table. They appear in the order which the operands must
-+     * appear in assembly code, and are terminated by a zero.
-+     */
-+    unsigned char operands[MAX_INSN_ARGS + 1];
-+
-+    /*
-+     * An array of flag codes. Each code is an index into the flag
-+     * table. They appear in the order which the flags must appear in
-+     * assembly code, and are terminated by a zero.
-+     */
-+    unsigned char flags[MAX_INSN_FLGS + 1];
-+};
-+
-+/* The operands table is an array of struct arc_operand. */
-+struct arc_operand {
-+    /* The number of bits in the operand. */
-+    unsigned int bits;
-+
-+    /* How far the operand is left shifted in the instruction. */
-+    unsigned int shift;
-+
-+    /* One bit syntax flags. */
-+    unsigned int flags;
-+
-+    /*
-+     * Extraction function. This is used by the disassembler. To
-+     * extract this operand type from an instruction, check this
-+     * field.
-+     *
-+     * If it is NULL, compute
-+     * op = ((i) >> o->shift) & ((1 << o->bits) - 1);
-+     * if ((o->flags & ARC_OPERAND_SIGNED) != 0
-+     * && (op & (1 << (o->bits - 1))) != 0)
-+     * op -= 1 << o->bits;
-+     * (i is the instruction, o is a pointer to this structure, and op
-+     * is the result; this assumes twos complement arithmetic).
-+     *
-+     * If this field is not NULL, then simply call it with the
-+     * instruction value. It will return the value of the operand.
-+     * If the INVALID argument is not NULL, *INVALID will be set to
-+     * TRUE if this operand type can not actually be extracted from
-+     * this operand (i.e., the instruction does not match). If the
-+     * operand is valid, *INVALID will not be changed.
-+     */
-+    long long int (*extract) (unsigned long long instruction,
-+                              bool *invalid);
-+};
-+
-+extern const struct arc_operand arc_operands[];
-+
-+/* Values defined for the flags field of a struct arc_operand. */
-+
-+/*
-+ * This operand does not actually exist in the assembler input. This
-+ * is used to support extended mnemonics, for which two operands
-+ * fields are identical. The assembler should call the insert
-+ * function with any op value. The disassembler should call the
-+ * extract function, ignore the return value, and check the value
-+ * placed in the invalid argument.
-+ */
-+#define ARC_OPERAND_FAKE        0x0001
-+
-+/* This operand names an integer register. */
-+#define ARC_OPERAND_IR          0x0002
-+
-+/* This operand takes signed values. */
-+#define ARC_OPERAND_SIGNED      0x0004
-+
-+/*
-+ * This operand takes unsigned values. This exists primarily so that
-+ * a flags value of 0 can be treated as end-of-arguments.
-+ */
-+#define ARC_OPERAND_UNSIGNED    0x0008
-+
-+/* This operand takes short immediate values. */
-+#define ARC_OPERAND_SHIMM   (ARC_OPERAND_SIGNED | ARC_OPERAND_UNSIGNED)
-+
-+/* This operand takes long immediate values. */
-+#define ARC_OPERAND_LIMM        0x0010
-+
-+/* This operand is identical like the previous one. */
-+#define ARC_OPERAND_DUPLICATE   0x0020
-+
-+/* This operand is PC relative. Used for internal relocs. */
-+#define ARC_OPERAND_PCREL       0x0040
-+
-+/*
-+ * This operand is truncated. The truncation is done accordingly to
-+ * operand alignment attribute.
-+ */
-+#define ARC_OPERAND_TRUNCATE    0x0080
-+
-+/* This operand is 16bit aligned. */
-+#define ARC_OPERAND_ALIGNED16   0x0100
-+
-+/* This operand is 32bit aligned. */
-+#define ARC_OPERAND_ALIGNED32   0x0200
-+
-+/*
-+ * This operand can be ignored by matching process if it is not
-+ * present.
-+ */
-+#define ARC_OPERAND_IGNORE      0x0400
-+
-+/* Don't check the range when matching. */
-+#define ARC_OPERAND_NCHK        0x0800
-+
-+/* Mark the braket possition. */
-+#define ARC_OPERAND_BRAKET      0x1000
-+
-+/* Mask for selecting the type for typecheck purposes. */
-+#define ARC_OPERAND_TYPECHECK_MASK               \
-+    (ARC_OPERAND_IR                              \
-+     | ARC_OPERAND_LIMM     | ARC_OPERAND_SIGNED \
-+     | ARC_OPERAND_UNSIGNED | ARC_OPERAND_BRAKET)
-+
-+/* Macro to determine if an operand is a fake operand. */
-+#define ARC_OPERAND_IS_FAKE(op)                     \
-+    ((operand->flags & ARC_OPERAND_FAKE)            \
-+     && !(operand->flags & ARC_OPERAND_BRAKET))
-+
-+/* The flags structure. */
-+struct arc_flag_operand {
-+    /* The flag name. */
-+    const char *name;
-+
-+    /* The flag code. */
-+    unsigned code;
-+
-+    /* The number of bits in the operand. */
-+    unsigned int bits;
-+
-+    /* How far the operand is left shifted in the instruction. */
-+    unsigned int shift;
-+
-+    /* Available for disassembler. */
-+    unsigned char favail;
-+};
-+
-+extern const struct arc_flag_operand arc_flag_operands[];
-+
-+/* The flag's class structure. */
-+struct arc_flag_class {
-+    /* Flag class. */
-+    flag_class_t flag_class;
-+
-+    /* List of valid flags (codes). */
-+    unsigned flags[256];
-+};
-+
-+extern const struct arc_flag_class arc_flag_classes[];
-+
-+/* Structure for special cases. */
-+struct arc_flag_special {
-+    /* Name of special case instruction. */
-+    const char *name;
-+
-+    /* List of flags applicable for special case instruction. */
-+    unsigned flags[32];
-+};
-+
-+extern const struct arc_flag_special arc_flag_special_cases[];
-+extern const unsigned arc_num_flag_special;
-+
-+const struct arc_opcode *arc_find_format(insn_t*, uint64_t, uint8_t, uint32_t);
-+unsigned int arc_insn_length(uint16_t, uint16_t);
-+
-+#endif
-diff --git a/target/arc/flags.def b/target/arc/flags.def
-new file mode 100644
-index 0000000000..b6c3898698
---- /dev/null
-+++ b/target/arc/flags.def
-@@ -0,0 +1,85 @@
-+/*
-+ * QEMU ARC operands
++ * QEMU ARC SEMANTIC MAPPING.
 + *
 + * Copyright (c) 2020 Synopsys, Inc.
 + *
@@ -2251,202 +1297,317 @@ index 0000000000..b6c3898698
 + * this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+ARC_FLAG(ALWAYS, "al", 0, 0, 0, 0)
-+ARC_FLAG(RA, "ra", 0, 0, 0, 0)
-+ARC_FLAG(EQUAL, "eq", 1, 5, 0, 1)
-+ARC_FLAG(ZERO, "z", 1, 5, 0, 0)
-+ARC_FLAG(NOTEQUAL, "ne", 2, 5, 0, 1)
-+ARC_FLAG(NOTZERO, "nz", 2, 5, 0, 0)
-+ARC_FLAG(POZITIVE, "p", 3, 5, 0, 1)
-+ARC_FLAG(PL, "pl", 3, 5, 0, 0)
-+ARC_FLAG(NEGATIVE, "n", 4, 5, 0, 1)
-+ARC_FLAG(MINUS, "mi", 4, 5, 0, 0)
-+ARC_FLAG(CARRY, "c", 5, 5, 0, 1)
-+ARC_FLAG(CARRYSET, "cs", 5, 5, 0, 0)
-+ARC_FLAG(LOWER, "lo", 5, 5, 0, 0)
-+ARC_FLAG(CARRYCLR, "cc", 6, 5, 0, 0)
-+ARC_FLAG(NOTCARRY, "nc", 6, 5, 0, 1)
-+ARC_FLAG(HIGHER, "hs", 6, 5, 0, 0)
-+ARC_FLAG(OVERFLOWSET, "vs", 7, 5, 0, 0)
-+ARC_FLAG(OVERFLOW, "v", 7, 5, 0, 1)
-+ARC_FLAG(NOTOVERFLOW, "nv", 8, 5, 0, 1)
-+ARC_FLAG(OVERFLOWCLR, "vc", 8, 5, 0, 0)
-+ARC_FLAG(GT, "gt", 9, 5, 0, 1)
-+ARC_FLAG(GE, "ge", 10, 5, 0, 1)
-+ARC_FLAG(LT, "lt", 11, 5, 0, 1)
-+ARC_FLAG(LE, "le", 12, 5, 0, 1)
-+ARC_FLAG(HI, "hi", 13, 5, 0, 1)
-+ARC_FLAG(LS, "ls", 14, 5, 0, 1)
-+ARC_FLAG(PNZ, "pnz", 15, 5, 0, 1)
-+ARC_FLAG(FLAG, "f", 1, 1, 15, 1)
-+ARC_FLAG(FFAKE, "f", 0, 0, 0, 1)
-+ARC_FLAG(ND, "nd", 0, 1, 5, 0)
-+ARC_FLAG(D, "d", 1, 1, 5, 1)
-+ARC_FLAG(DFAKE, "d", 0, 0, 0, 1)
-+ARC_FLAG(DNZ_ND, "nd", 0, 1, 16, 0)
-+ARC_FLAG(DNZ_D, "d", 1, 1, 16, 1)
-+ARC_FLAG(SIZEB1, "b", 1, 2, 1, 1)
-+ARC_FLAG(SIZEB7, "b", 1, 2, 7, 1)
-+ARC_FLAG(SIZEB17, "b", 1, 2, 17, 1)
-+ARC_FLAG(SIZEW1, "w", 2, 2, 1, 0)
-+ARC_FLAG(SIZEW7, "w", 2, 2, 7, 0)
-+ARC_FLAG(SIZEW17, "w", 2, 2, 17, 0)
-+ARC_FLAG(SIGN6, "x", 1, 1, 6, 1)
-+ARC_FLAG(SIGN16, "x", 1, 1, 16, 1)
-+ARC_FLAG(SIGNX, "x", 0, 0, 0, 1)
-+ARC_FLAG(A3, "a", 1, 2, 3, 0)
-+ARC_FLAG(A9, "a", 1, 2, 9, 0)
-+ARC_FLAG(A22, "a", 1, 2, 22, 0)
-+ARC_FLAG(AW3, "aw", 1, 2, 3, 1)
-+ARC_FLAG(AW9, "aw", 1, 2, 9, 1)
-+ARC_FLAG(AW22, "aw", 1, 2, 22, 1)
-+ARC_FLAG(AB3, "ab", 2, 2, 3, 1)
-+ARC_FLAG(AB9, "ab", 2, 2, 9, 1)
-+ARC_FLAG(AB22, "ab", 2, 2, 22, 1)
-+ARC_FLAG(AS3, "as", 3, 2, 3, 1)
-+ARC_FLAG(AS9, "as", 3, 2, 9, 1)
-+ARC_FLAG(AS22, "as", 3, 2, 22, 1)
-+ARC_FLAG(ASFAKE, "as", 3, 0, 0, 1)
-+ARC_FLAG(DI5, "di", 1, 1, 5, 1)
-+ARC_FLAG(DI11, "di", 1, 1, 11, 1)
-+ARC_FLAG(DI14, "di", 1, 1, 14, 1)
-+ARC_FLAG(DI15, "di", 1, 1, 15, 1)
-+ARC_FLAG(NT, "nt", 0, 1, 3, 1)
-+ARC_FLAG(T, "t", 1, 1, 3, 1)
-+ARC_FLAG(H1, "h", 2, 2, 1, 1)
-+ARC_FLAG(H7, "h", 2, 2, 7, 1)
-+ARC_FLAG(H17, "h", 2, 2, 17, 1)
-+ARC_FLAG(SIZED, "dd", 3, 0, 0, 0)
-+ARC_FLAG(NE, "ne", 0, 0, 0, 1)
-diff --git a/target/arc/operands.def b/target/arc/operands.def
-new file mode 100644
-index 0000000000..34b15e0ec2
---- /dev/null
-+++ b/target/arc/operands.def
-@@ -0,0 +1,123 @@
-+/*
-+ * QEMU ARC operands
-+ *
-+ * Copyright (c) 2020 Synopsys, Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
++SEMANTIC_FUNCTION(FLAG, 1)
++SEMANTIC_FUNCTION(KFLAG, 1)
++SEMANTIC_FUNCTION(ADD, 3)
++SEMANTIC_FUNCTION(ADD1, 3)
++SEMANTIC_FUNCTION(ADD2, 3)
++SEMANTIC_FUNCTION(ADD3, 3)
++SEMANTIC_FUNCTION(ADC, 3)
++SEMANTIC_FUNCTION(SBC, 3)
++SEMANTIC_FUNCTION(NEG, 2)
++SEMANTIC_FUNCTION(SUB, 3)
++SEMANTIC_FUNCTION(SUB1, 3)
++SEMANTIC_FUNCTION(SUB2, 3)
++SEMANTIC_FUNCTION(SUB3, 3)
++SEMANTIC_FUNCTION(MAX, 3)
++SEMANTIC_FUNCTION(MIN, 3)
++SEMANTIC_FUNCTION(CMP, 2)
++SEMANTIC_FUNCTION(AND, 3)
++SEMANTIC_FUNCTION(OR, 3)
++SEMANTIC_FUNCTION(XOR, 3)
++SEMANTIC_FUNCTION(MOV, 2)
++SEMANTIC_FUNCTION(ASL, 3)
++SEMANTIC_FUNCTION(ASR, 3)
++SEMANTIC_FUNCTION(ASR8, 2)
++SEMANTIC_FUNCTION(ASR16, 2)
++SEMANTIC_FUNCTION(LSL16, 2)
++SEMANTIC_FUNCTION(LSL8, 2)
++SEMANTIC_FUNCTION(LSR, 3)
++SEMANTIC_FUNCTION(LSR16, 2)
++SEMANTIC_FUNCTION(LSR8, 2)
++SEMANTIC_FUNCTION(BIC, 3)
++SEMANTIC_FUNCTION(BCLR, 3)
++SEMANTIC_FUNCTION(BMSK, 3)
++SEMANTIC_FUNCTION(BMSKN, 3)
++SEMANTIC_FUNCTION(BSET, 3)
++SEMANTIC_FUNCTION(BXOR, 3)
++SEMANTIC_FUNCTION(ROL, 2)
++SEMANTIC_FUNCTION(ROL8, 2)
++SEMANTIC_FUNCTION(ROR, 3)
++SEMANTIC_FUNCTION(ROR8, 2)
++SEMANTIC_FUNCTION(RLC, 2)
++SEMANTIC_FUNCTION(RRC, 2)
++SEMANTIC_FUNCTION(SEXB, 2)
++SEMANTIC_FUNCTION(SEXH, 2)
++SEMANTIC_FUNCTION(EXTB, 2)
++SEMANTIC_FUNCTION(EXTH, 2)
++SEMANTIC_FUNCTION(BTST, 2)
++SEMANTIC_FUNCTION(TST, 2)
++SEMANTIC_FUNCTION(XBFU, 3)
++SEMANTIC_FUNCTION(AEX, 2)
++SEMANTIC_FUNCTION(LR, 2)
++SEMANTIC_FUNCTION(SR, 2)
++SEMANTIC_FUNCTION(SYNC, 0)
++SEMANTIC_FUNCTION(CLRI, 1)
++SEMANTIC_FUNCTION(SETI, 1)
++SEMANTIC_FUNCTION(NOP, 0)
++SEMANTIC_FUNCTION(PREALLOC, 0)
++SEMANTIC_FUNCTION(PREFETCH, 2)
++SEMANTIC_FUNCTION(MPY, 3)
++SEMANTIC_FUNCTION(MPYMU, 3)
++SEMANTIC_FUNCTION(MPYM, 3)
++SEMANTIC_FUNCTION(MPYU, 3)
++SEMANTIC_FUNCTION(MPYUW, 3)
++SEMANTIC_FUNCTION(MPYW, 3)
++SEMANTIC_FUNCTION(DIV, 3)
++SEMANTIC_FUNCTION(DIVU, 3)
++SEMANTIC_FUNCTION(REM, 3)
++SEMANTIC_FUNCTION(REMU, 3)
++SEMANTIC_FUNCTION(MAC, 3)
++SEMANTIC_FUNCTION(MACU, 3)
++SEMANTIC_FUNCTION(MACD, 3)
++SEMANTIC_FUNCTION(MACDU, 3)
++SEMANTIC_FUNCTION(ABS, 2)
++SEMANTIC_FUNCTION(SWAP, 2)
++SEMANTIC_FUNCTION(SWAPE, 2)
++SEMANTIC_FUNCTION(NOT, 2)
++SEMANTIC_FUNCTION(BI, 1)
++SEMANTIC_FUNCTION(BIH, 1)
++SEMANTIC_FUNCTION(B, 1)
++SEMANTIC_FUNCTION(B_S, 1)
++SEMANTIC_FUNCTION(BBIT0, 3)
++SEMANTIC_FUNCTION(BBIT1, 3)
++SEMANTIC_FUNCTION(BL, 1)
++SEMANTIC_FUNCTION(J, 1)
++SEMANTIC_FUNCTION(JL, 1)
++SEMANTIC_FUNCTION(SETEQ, 3)
++SEMANTIC_FUNCTION(BREQ, 3)
++SEMANTIC_FUNCTION(SETNE, 3)
++SEMANTIC_FUNCTION(BRNE, 3)
++SEMANTIC_FUNCTION(SETLT, 3)
++SEMANTIC_FUNCTION(BRLT, 3)
++SEMANTIC_FUNCTION(SETGE, 3)
++SEMANTIC_FUNCTION(BRGE, 3)
++SEMANTIC_FUNCTION(SETLE, 3)
++SEMANTIC_FUNCTION(SETGT, 3)
++SEMANTIC_FUNCTION(BRLO, 3)
++SEMANTIC_FUNCTION(SETLO, 3)
++SEMANTIC_FUNCTION(BRHS, 3)
++SEMANTIC_FUNCTION(SETHS, 3)
++SEMANTIC_FUNCTION(EX, 2)
++SEMANTIC_FUNCTION(LLOCK, 2)
++SEMANTIC_FUNCTION(LLOCKD, 2)
++SEMANTIC_FUNCTION(SCOND, 2)
++SEMANTIC_FUNCTION(SCONDD, 2)
++SEMANTIC_FUNCTION(DMB, 1)
++SEMANTIC_FUNCTION(LD, 3)
++SEMANTIC_FUNCTION(LDD, 3)
++SEMANTIC_FUNCTION(ST, 3)
++SEMANTIC_FUNCTION(STD, 3)
++SEMANTIC_FUNCTION(ENTER_S, 1)
++SEMANTIC_FUNCTION(LEAVE_S, 1)
++SEMANTIC_FUNCTION(POP, 1)
++SEMANTIC_FUNCTION(PUSH, 1)
++SEMANTIC_FUNCTION(LP, 1)
++SEMANTIC_FUNCTION(NORM, 2)
++SEMANTIC_FUNCTION(NORMH, 2)
++SEMANTIC_FUNCTION(FLS, 2)
++SEMANTIC_FUNCTION(FFS, 2)
 +
-+ARC_OPERAND(IGNORED, 0, 0, 0, ARC_OPERAND_IGNORE | ARC_OPERAND_UNSIGNED | ARC_OPERAND_NCHK, 0)
-+ARC_OPERAND(RA, 6, 0, 0, ARC_OPERAND_IR, 0)
-+ARC_OPERAND(RA_CHK, 6, 0, 0, ARC_OPERAND_IR, 0)
-+ARC_OPERAND(RB, 6, 12, 0, ARC_OPERAND_IR, extract_rb)
-+ARC_OPERAND(RB_CHK, 6, 12, 0, ARC_OPERAND_IR, extract_rb)
-+ARC_OPERAND(RC, 6, 6, 0, ARC_OPERAND_IR, 0)
-+ARC_OPERAND(RBdup, 6, 12, 0, ARC_OPERAND_IR | ARC_OPERAND_DUPLICATE, extract_rb)
-+ARC_OPERAND(RAD, 6, 0, 0, ARC_OPERAND_IR | ARC_OPERAND_TRUNCATE, 0)
-+ARC_OPERAND(RCD, 6, 6, 0, ARC_OPERAND_IR | ARC_OPERAND_TRUNCATE, 0)
-+ARC_OPERAND(RA16, 4, 0, 0, ARC_OPERAND_IR, extract_ras)
-+ARC_OPERAND(RA_S, 4, 0, 0, ARC_OPERAND_IR, extract_ras)
-+ARC_OPERAND(RB16, 4, 8, 0, ARC_OPERAND_IR, extract_rbs)
-+ARC_OPERAND(RB_S, 4, 8, 0, ARC_OPERAND_IR, extract_rbs)
-+ARC_OPERAND(RB16dup, 4, 8, 0, ARC_OPERAND_IR | ARC_OPERAND_DUPLICATE, extract_rbs)
-+ARC_OPERAND(RB_Sdup, 4, 8, 0, ARC_OPERAND_IR | ARC_OPERAND_DUPLICATE, extract_rbs)
-+ARC_OPERAND(RC16, 4, 5, 0, ARC_OPERAND_IR, extract_rcs)
-+ARC_OPERAND(RC_S, 4, 5, 0, ARC_OPERAND_IR, extract_rcs)
-+ARC_OPERAND(R6H, 6, 5, 0, ARC_OPERAND_IR, extract_rhv1)
-+ARC_OPERAND(R5H, 5, 5, 0, ARC_OPERAND_IR, extract_rhv2)
-+ARC_OPERAND(RH_S, 5, 5, 0, ARC_OPERAND_IR, extract_rhv2)
-+ARC_OPERAND(R5Hdup, 5, 5, 0, ARC_OPERAND_IR | ARC_OPERAND_DUPLICATE, extract_rhv2)
-+ARC_OPERAND(RH_Sdup, 5, 5, 0, ARC_OPERAND_IR | ARC_OPERAND_DUPLICATE, extract_rhv2)
-+ARC_OPERAND(RG, 5, 5, 0, ARC_OPERAND_IR, extract_g_s)
-+ARC_OPERAND(G_S, 5, 5, 0, ARC_OPERAND_IR, extract_g_s)
-+ARC_OPERAND(R0, 0, 0, 0, ARC_OPERAND_IR, extract_r0)
-+ARC_OPERAND(R0_S, 0, 0, 0, ARC_OPERAND_IR, extract_r0)
-+ARC_OPERAND(R1, 1, 0, 0, ARC_OPERAND_IR, extract_r1)
-+ARC_OPERAND(R1_S, 1, 0, 0, ARC_OPERAND_IR, extract_r1)
-+ARC_OPERAND(R2, 2, 0, 0, ARC_OPERAND_IR, extract_r2)
-+ARC_OPERAND(R2_S, 2, 0, 0, ARC_OPERAND_IR, extract_r2)
-+ARC_OPERAND(R3, 2, 0, 0, ARC_OPERAND_IR, extract_r3)
-+ARC_OPERAND(R3_S, 2, 0, 0, ARC_OPERAND_IR, extract_r3)
-+ARC_OPERAND(RSP, 5, 0, 0, ARC_OPERAND_IR, extract_sp)
-+ARC_OPERAND(SP_S, 5, 0, 0, ARC_OPERAND_IR, extract_sp)
-+ARC_OPERAND(SPdup, 5, 0, 0, ARC_OPERAND_IR | ARC_OPERAND_DUPLICATE, extract_sp)
-+ARC_OPERAND(SP_Sdup, 5, 0, 0, ARC_OPERAND_IR | ARC_OPERAND_DUPLICATE, extract_sp)
-+ARC_OPERAND(GP, 5, 0, 0, ARC_OPERAND_IR, extract_gp)
-+ARC_OPERAND(GP_S, 5, 0, 0, ARC_OPERAND_IR, extract_gp)
-+ARC_OPERAND(PCL_S, 1, 0, 0, ARC_OPERAND_IR | ARC_OPERAND_NCHK, extract_pcl)
-+ARC_OPERAND(BLINK, 5, 0, 0, ARC_OPERAND_IR, extract_blink)
-+ARC_OPERAND(BLINK_S, 5, 0, 0, ARC_OPERAND_IR, extract_blink)
-+ARC_OPERAND(ILINK1, 5, 0, 0, ARC_OPERAND_IR, extract_ilink1)
-+ARC_OPERAND(ILINK2, 5, 0, 0, ARC_OPERAND_IR, extract_ilink2)
-+ARC_OPERAND(LIMM, 32, 0, 0, ARC_OPERAND_LIMM, 0)
-+ARC_OPERAND(LIMM_S, 32, 0, 0, ARC_OPERAND_LIMM, 0)
-+ARC_OPERAND(LIMMdup, 32, 0, 0, ARC_OPERAND_LIMM | ARC_OPERAND_DUPLICATE, 0)
-+ARC_OPERAND(ZA, 0, 0, 0, ARC_OPERAND_UNSIGNED, 0)
-+ARC_OPERAND(ZB, 0, 0, 0, ARC_OPERAND_UNSIGNED, 0)
-+ARC_OPERAND(ZA_S, 0, 0, 0, ARC_OPERAND_UNSIGNED, 0)
-+ARC_OPERAND(ZB_S, 0, 0, 0, ARC_OPERAND_UNSIGNED, 0)
-+ARC_OPERAND(ZC_S, 0, 0, 0, ARC_OPERAND_UNSIGNED, 0)
-+ARC_OPERAND(RRANGE_EL, 4, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_NCHK | ARC_OPERAND_TRUNCATE, extract_rrange)
-+ARC_OPERAND(R13_EL, 1, 0, 0, ARC_OPERAND_IR | ARC_OPERAND_IGNORE | ARC_OPERAND_NCHK, extract_rrange)
-+ARC_OPERAND(FP_EL, 1, 0, 0, ARC_OPERAND_IR | ARC_OPERAND_IGNORE | ARC_OPERAND_NCHK, extract_fpel)
-+ARC_OPERAND(BLINK_EL, 1, 0, 0, ARC_OPERAND_IR | ARC_OPERAND_IGNORE | ARC_OPERAND_NCHK, extract_blinkel)
-+ARC_OPERAND(PCL_EL, 1, 0, 0, ARC_OPERAND_IR | ARC_OPERAND_IGNORE | ARC_OPERAND_NCHK, extract_pclel)
-+ARC_OPERAND(BRAKET, 0, 0, 0, ARC_OPERAND_FAKE | ARC_OPERAND_BRAKET, 0)
-+ARC_OPERAND(BRAKETdup, 0, 0, 0, ARC_OPERAND_FAKE | ARC_OPERAND_BRAKET, 0)
-+ARC_OPERAND(FKT_T, 1, 3, 0, ARC_OPERAND_FAKE, 0)
-+ARC_OPERAND(FKT_NT, 1, 3, 0, ARC_OPERAND_FAKE, 0)
-+ARC_OPERAND(UIMM6_20, 6, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm6_20)
-+ARC_OPERAND(UIMM6_20R, 6, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_PCREL, extract_uimm6_20)
-+ARC_OPERAND(SIMM12_20, 12, 0, 0, ARC_OPERAND_SIGNED, extract_simm12_20)
-+ARC_OPERAND(SIMM12_20R, 12, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_PCREL, extract_simm12_20)
-+ARC_OPERAND(UIMM12_20, 12, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm12_20)
-+ARC_OPERAND(SIMM3_5_S, 3, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_NCHK, extract_simm3s)
-+ARC_OPERAND(UIMM7_A32_11_S, 7, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_ALIGNED32 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_IGNORE, extract_uimm7_a32_11_s)
-+ARC_OPERAND(UIMM7_A32_11R_S, 7, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_ALIGNED32 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_IGNORE | ARC_OPERAND_PCREL, extract_uimm7_a32_11_s)
-+ARC_OPERAND(UIMM7_9_S, 7, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm7_9_s)
-+ARC_OPERAND(UIMM3_13_S, 3, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm3_13_s)
-+ARC_OPERAND(UIMM3_13R_S, 3, 0, -UIMM3_13R_S, ARC_OPERAND_UNSIGNED | ARC_OPERAND_PCREL, extract_uimm3_13_s)
-+ARC_OPERAND(SIMM11_A32_7_S, 11, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED32 | ARC_OPERAND_TRUNCATE, extract_simm11_a32_7_s)
-+ARC_OPERAND(UIMM6_13_S, 6, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm6_13_s)
-+ARC_OPERAND(UIMM5_11_S, 5, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_IGNORE, extract_uimm5_11_s)
-+ARC_OPERAND(SIMM9_A16_8, 9, 0, -SIMM9_A16_8, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_PCREL | ARC_OPERAND_TRUNCATE, extract_simm9_a16_8)
-+ARC_OPERAND(UIMM6_8, 6, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm6_8)
-+ARC_OPERAND(SIMM21_A16_5, 21, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_simm21_a16_5)
-+ARC_OPERAND(SIMM25_A16_5, 25, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_simm25_a16_5)
-+ARC_OPERAND(SIMM10_A16_7_S, 10, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_simm10_a16_7_s)
-+ARC_OPERAND(SIMM10_A16_7_Sbis, 10, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_TRUNCATE, extract_simm10_a16_7_s)
-+ARC_OPERAND(SIMM7_A16_10_S, 7, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_simm7_a16_10_s)
-+ARC_OPERAND(SIMM21_A32_5, 21, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED32 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_simm21_a32_5)
-+ARC_OPERAND(SIMM25_A32_5, 25, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED32 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_simm25_a32_5)
-+ARC_OPERAND(SIMM13_A32_5_S, 13, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED32 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_simm13_a32_5_s)
-+ARC_OPERAND(SIMM8_A16_9_S, 8, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_simm8_a16_9_s)
-+ARC_OPERAND(UIMM10_6_S_JLIOFF, 12, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_ALIGNED32 | ARC_OPERAND_TRUNCATE, extract_uimm10_6_s)
-+ARC_OPERAND(UIMM3_23, 3, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm3_23)
-+ARC_OPERAND(UIMM10_6_S, 10, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm10_6_s)
-+ARC_OPERAND(UIMM6_11_S, 6, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm6_11_s)
-+ARC_OPERAND(SIMM9_8, 9, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_IGNORE, extract_simm9_8)
-+ARC_OPERAND(SIMM9_8R, 9, 0, -SIMM9_8R, ARC_OPERAND_SIGNED | ARC_OPERAND_IGNORE | ARC_OPERAND_PCREL, extract_simm9_8)
-+ARC_OPERAND(UIMM10_A32_8_S, 10, 0, -UIMM10_A32_8_S, ARC_OPERAND_UNSIGNED | ARC_OPERAND_ALIGNED32 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_uimm10_a32_8_s)
-+ARC_OPERAND(SIMM9_7_S, 9, 0, 0, ARC_OPERAND_SIGNED, extract_simm9_7_s)
-+ARC_OPERAND(UIMM6_A16_11_S, 6, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_IGNORE, extract_uimm6_a16_11_s)
-+ARC_OPERAND(UIMM5_A32_11_S, 5, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_ALIGNED32 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_IGNORE, extract_uimm5_a32_11_s)
-+ARC_OPERAND(SIMM11_A32_13_S, 11, 0, 0, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED32 | ARC_OPERAND_TRUNCATE, extract_simm11_a32_13_s)
-+ARC_OPERAND(UIMM7_13_S, 7, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm7_13_s)
-+ARC_OPERAND(UIMM6_A16_21, 6, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_TRUNCATE, extract_uimm6_a16_21)
-+ARC_OPERAND(UIMM7_11_S, 7, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm7_11_s)
-+ARC_OPERAND(UIMM7_A16_20, 7, 0, -UIMM7_A16_20, ARC_OPERAND_UNSIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_uimm7_a16_20)
-+ARC_OPERAND(SIMM13_A16_20, 13, 0, -SIMM13_A16_20, ARC_OPERAND_SIGNED | ARC_OPERAND_ALIGNED16 | ARC_OPERAND_TRUNCATE | ARC_OPERAND_PCREL, extract_simm13_a16_20)
-+ARC_OPERAND(UIMM8_8_S, 8, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm8_8_s)
-+ARC_OPERAND(UIMM8_8R_S, 8, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_PCREL, extract_uimm8_8_s)
-+ARC_OPERAND(W6, 6, 0, 0, ARC_OPERAND_SIGNED, extract_w6)
-+ARC_OPERAND(UIMM6_5_S, 6, 0, 0, ARC_OPERAND_UNSIGNED, extract_uimm6_5_s)
++
++MAPPING(flag, FLAG, 1, 0)
++MAPPING(kflag, KFLAG, 1, 0)
++MAPPING(add, ADD, 3, 1, 2, 0)
++MAPPING(add_s, ADD, 3, 1, 2, 0)
++MAPPING(add1, ADD1, 3, 1, 2, 0)
++MAPPING(add1_s, ADD1, 3, 1, 2, 0)
++MAPPING(add2, ADD2, 3, 1, 2, 0)
++MAPPING(add2_s, ADD2, 3, 1, 2, 0)
++MAPPING(add3, ADD3, 3, 1, 2, 0)
++MAPPING(add3_s, ADD3, 3, 1, 2, 0)
++MAPPING(adc, ADC, 3, 1, 2, 0)
++MAPPING(sbc, SBC, 3, 1, 2, 0)
++MAPPING(neg, NEG, 2, 1, 0)
++MAPPING(neg_s, NEG, 2, 1, 0)
++MAPPING(sub, SUB, 3, 1, 2, 0)
++MAPPING(sub_s, SUB, 3, 1, 2, 0)
++MAPPING(rsub, SUB, 3, 2, 1, 0)
++MAPPING(sub1, SUB1, 3, 1, 2, 0)
++MAPPING(sub2, SUB2, 3, 1, 2, 0)
++MAPPING(sub3, SUB3, 3, 1, 2, 0)
++MAPPING(max, MAX, 3, 1, 2, 0)
++MAPPING(min, MIN, 3, 1, 2, 0)
++MAPPING(cmp, CMP, 2, 0, 1)
++MAPPING(cmp_s, CMP, 2, 0, 1)
++MAPPING(rcmp, CMP, 2, 1, 0)
++MAPPING(and, AND, 3, 1, 2, 0)
++MAPPING(and_s, AND, 3, 1, 2, 0)
++MAPPING(or, OR, 3, 1, 2, 0)
++MAPPING(or_s, OR, 3, 1, 2, 0)
++MAPPING(xor, XOR, 3, 1, 2, 0)
++MAPPING(xor_s, XOR, 3, 1, 2, 0)
++MAPPING(mov, MOV, 2, 1, 0)
++MAPPING(mov_s, MOV, 2, 1, 0)
++CONSTANT(ASL, asl, 2, 268435457) /* For variable @c */
++MAPPING(asl, ASL, 3, 1, 2, 0)
++CONSTANT(ASL, asl_s, 2, 268435457) /* For variable @c */
++MAPPING(asl_s, ASL, 3, 1, 2, 0)
++CONSTANT(ASR, asr, 2, 1) /* For variable @c */
++MAPPING(asr, ASR, 3, 1, 2, 0)
++CONSTANT(ASR, asr_s, 2, 1) /* For variable @c */
++MAPPING(asr_s, ASR, 3, 1, 2, 0)
++MAPPING(asr8, ASR8, 2, 1, 0)
++MAPPING(asr16, ASR16, 2, 1, 0)
++MAPPING(lsl16, LSL16, 2, 1, 0)
++MAPPING(lsl8, LSL8, 2, 1, 0)
++CONSTANT(LSR, lsr, 2, 1) /* For variable @c */
++MAPPING(lsr, LSR, 3, 1, 2, 0)
++CONSTANT(LSR, lsr_s, 2, 1) /* For variable @c */
++MAPPING(lsr_s, LSR, 3, 1, 2, 0)
++MAPPING(lsr16, LSR16, 2, 1, 0)
++MAPPING(lsr8, LSR8, 2, 1, 0)
++MAPPING(bic, BIC, 3, 1, 2, 0)
++MAPPING(bic_s, BIC, 3, 1, 2, 0)
++MAPPING(bclr, BCLR, 3, 2, 1, 0)
++MAPPING(bclr_s, BCLR, 3, 2, 1, 0)
++MAPPING(bmsk, BMSK, 3, 2, 1, 0)
++MAPPING(bmsk_s, BMSK, 3, 2, 1, 0)
++MAPPING(bmskn, BMSKN, 3, 2, 1, 0)
++MAPPING(bset, BSET, 3, 2, 1, 0)
++MAPPING(bset_s, BSET, 3, 2, 1, 0)
++MAPPING(bxor, BXOR, 3, 2, 1, 0)
++MAPPING(rol, ROL, 2, 1, 0)
++MAPPING(rol8, ROL8, 2, 1, 0)
++CONSTANT(ROR, ror, 2, 1) /* For variable @n */
++MAPPING(ror, ROR, 3, 1, 2, 0)
++MAPPING(ror8, ROR8, 2, 1, 0)
++MAPPING(rlc, RLC, 2, 1, 0)
++MAPPING(rrc, RRC, 2, 1, 0)
++MAPPING(sexb, SEXB, 2, 0, 1)
++MAPPING(sexb_s, SEXB, 2, 0, 1)
++MAPPING(sexh, SEXH, 2, 0, 1)
++MAPPING(sexh_s, SEXH, 2, 0, 1)
++MAPPING(extb, EXTB, 2, 0, 1)
++MAPPING(extb_s, EXTB, 2, 0, 1)
++MAPPING(exth, EXTH, 2, 0, 1)
++MAPPING(exth_s, EXTH, 2, 0, 1)
++MAPPING(btst, BTST, 2, 1, 0)
++MAPPING(btst_s, BTST, 2, 1, 0)
++MAPPING(tst, TST, 2, 0, 1)
++MAPPING(tst_s, TST, 2, 0, 1)
++MAPPING(xbfu, XBFU, 3, 2, 1, 0)
++MAPPING(aex, AEX, 2, 1, 0)
++MAPPING(lr, LR, 2, 0, 1)
++MAPPING(sr, SR, 2, 1, 0)
++MAPPING(sync, SYNC, 0)
++MAPPING(clri, CLRI, 1, 0)
++MAPPING(seti, SETI, 1, 0)
++MAPPING(nop, NOP, 0)
++MAPPING(nop_s, NOP, 0)
++MAPPING(prealloc, PREALLOC, 0)
++CONSTANT(PREFETCH, prefetch, 1, 0) /* For variable @src2 */
++MAPPING(prefetch, PREFETCH, 2, 0, 1)
++CONSTANT(PREFETCH, prefetchw, 1, 0) /* For variable @src2 */
++MAPPING(prefetchw, PREFETCH, 2, 0, 1)
++MAPPING(mpy, MPY, 3, 1, 2, 0)
++MAPPING(mpy_s, MPY, 3, 1, 2, 0)
++MAPPING(mpymu, MPYMU, 3, 0, 1, 2)
++MAPPING(mpym, MPYM, 3, 0, 1, 2)
++MAPPING(mpyu, MPYU, 3, 1, 2, 0)
++MAPPING(mpyuw, MPYUW, 3, 0, 1, 2)
++MAPPING(mpyuw_s, MPYUW, 3, 0, 1, 2)
++MAPPING(mpyw, MPYW, 3, 0, 1, 2)
++MAPPING(mpyw_s, MPYW, 3, 0, 1, 2)
++MAPPING(div, DIV, 3, 2, 1, 0)
++MAPPING(divu, DIVU, 3, 2, 0, 1)
++MAPPING(rem, REM, 3, 2, 1, 0)
++MAPPING(remu, REMU, 3, 2, 0, 1)
++MAPPING(mac, MAC, 3, 1, 2, 0)
++MAPPING(macu, MACU, 3, 1, 2, 0)
++MAPPING(macd, MACD, 3, 1, 2, 0)
++MAPPING(macdu, MACDU, 3, 1, 2, 0)
++MAPPING(abs, ABS, 2, 1, 0)
++MAPPING(abs_s, ABS, 2, 1, 0)
++MAPPING(swap, SWAP, 2, 1, 0)
++MAPPING(swape, SWAPE, 2, 1, 0)
++MAPPING(not, NOT, 2, 0, 1)
++MAPPING(not_s, NOT, 2, 0, 1)
++MAPPING(bi, BI, 1, 0)
++MAPPING(bih, BIH, 1, 0)
++MAPPING(b, B, 1, 0)
++MAPPING(beq_s, B_S, 1, 0)
++MAPPING(bne_s, B_S, 1, 0)
++MAPPING(bgt_s, B_S, 1, 0)
++MAPPING(bge_s, B_S, 1, 0)
++MAPPING(blt_s, B_S, 1, 0)
++MAPPING(ble_s, B_S, 1, 0)
++MAPPING(bhi_s, B_S, 1, 0)
++MAPPING(bhs_s, B_S, 1, 0)
++MAPPING(blo_s, B_S, 1, 0)
++MAPPING(bls_s, B_S, 1, 0)
++MAPPING(b_s, B_S, 1, 0)
++MAPPING(bbit0, BBIT0, 3, 0, 1, 2)
++MAPPING(bbit1, BBIT1, 3, 0, 1, 2)
++MAPPING(bl, BL, 1, 0)
++MAPPING(bl_s, BL, 1, 0)
++MAPPING(j, J, 1, 0)
++MAPPING(j_s, J, 1, 0)
++MAPPING(jeq_s, J, 1, 0)
++MAPPING(jne_s, J, 1, 0)
++MAPPING(jl, JL, 1, 0)
++MAPPING(jl_s, JL, 1, 0)
++MAPPING(seteq, SETEQ, 3, 1, 2, 0)
++MAPPING(breq, BREQ, 3, 0, 1, 2)
++MAPPING(breq_s, BREQ, 3, 0, 1, 2)
++MAPPING(setne, SETNE, 3, 1, 2, 0)
++MAPPING(brne, BRNE, 3, 0, 1, 2)
++MAPPING(brne_s, BRNE, 3, 0, 1, 2)
++MAPPING(setlt, SETLT, 3, 1, 2, 0)
++MAPPING(brlt, BRLT, 3, 0, 1, 2)
++MAPPING(setge, SETGE, 3, 1, 2, 0)
++MAPPING(brge, BRGE, 3, 0, 1, 2)
++MAPPING(setle, SETLE, 3, 1, 2, 0)
++MAPPING(setgt, SETGT, 3, 1, 2, 0)
++MAPPING(brlo, BRLO, 3, 0, 1, 2)
++MAPPING(setlo, SETLO, 3, 1, 2, 0)
++MAPPING(brhs, BRHS, 3, 0, 1, 2)
++MAPPING(seths, SETHS, 3, 1, 2, 0)
++MAPPING(ex, EX, 2, 0, 1)
++MAPPING(llock, LLOCK, 2, 0, 1)
++MAPPING(llockd, LLOCKD, 2, 0, 1)
++MAPPING(scond, SCOND, 2, 1, 0)
++MAPPING(scondd, SCONDD, 2, 1, 0)
++MAPPING(dmb, DMB, 1, 0)
++CONSTANT(LD, ld, 2, 0) /* For variable @src2 */
++MAPPING(ld, LD, 3, 1, 2, 0)
++MAPPING(ld_s, LD, 3, 1, 2, 0)
++MAPPING(ldb_s, LD, 3, 1, 2, 0)
++MAPPING(ldh_s, LD, 3, 1, 2, 0)
++MAPPING(ldw_s, LD, 3, 1, 2, 0)
++CONSTANT(LD, ldi, 2, 0) /* For variable @src2 */
++MAPPING(ldi, LD, 3, 1, 2, 0)
++CONSTANT(LD, ldi_s, 2, 0) /* For variable @src2 */
++MAPPING(ldi_s, LD, 3, 1, 2, 0)
++CONSTANT(LDD, ldd, 2, 0) /* For variable @src2 */
++MAPPING(ldd, LDD, 3, 1, 2, 0)
++CONSTANT(ST, st, 2, 0) /* For variable @src2 */
++MAPPING(st, ST, 3, 1, 2, 0)
++MAPPING(st_s, ST, 3, 1, 2, 0)
++MAPPING(stb_s, ST, 3, 1, 2, 0)
++MAPPING(sth_s, ST, 3, 1, 2, 0)
++MAPPING(stw_s, ST, 3, 1, 2, 0)
++CONSTANT(STD, std, 2, 0) /* For variable @src2 */
++MAPPING(std, STD, 3, 1, 2, 0)
++MAPPING(enter_s, ENTER_S, 1, 0)
++MAPPING(leave_s, LEAVE_S, 1, 0)
++MAPPING(pop_s, POP, 1, 0)
++MAPPING(push_s, PUSH, 1, 0)
++MAPPING(lp, LP, 1, 0)
++MAPPING(norm, NORM, 2, 1, 0)
++MAPPING(normh, NORMH, 2, 1, 0)
++MAPPING(fls, FLS, 2, 1, 0)
++MAPPING(ffs, FFS, 2, 1, 0)
 -- 
 2.20.1
 
