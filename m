@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B6B9C4727C
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:46:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA3D9C4741F
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:46:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9824C2071E
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:46:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4061D20759
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2020 20:46:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ROykfcro";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDeTxItL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9824C2071E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Mj0DWUNk";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WowQZmfK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4061D20759
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,63 +27,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=8FeLlmytk1ObPbZFAl4FxAYfm9kfV3lcocXqacAD3M0=; b=ROykfcronizntBDjHlwMWgRhc
-	AVZfY/o5F9ba/Z9dxG0vWlKtK1QjyBmQ9Y375HRrgF1qREkwHMIrGUp0sm5k0PGSNP1SkjNJf8+Nb
-	TIqxY5gRl9q2cuBVJAJO94ubSN3vl5hmRH2SJ7YIk7zuSxI0ujjRR30lyeF7SUgRlNW52K2VC565u
-	NM7EB8yoqSmc/rHkD7atjCzDeRmpriTY8T/dkMXLPcq5Sd2YBKHpePZyZwatlkSIUl0VGYqwl7i7H
-	pCbkLZSdCrmWc5xEHVgHeVNtJx37KiOzOa9VD7sA0rMGuuH95ouQNT/BcCHt09Rd2Mjn4HBpPtJoN
-	HCol3F4oQ==;
+	 bh=TBbzIiLkD4grWqA+EZomjCG1b8BBmIJ+ULalE/gUZjY=; b=Mj0DWUNkf6V3EMIUUwNyAF/sn
+	R2mMmwcd7zbsd3RQnUhW+F+IQwAyKovq9Z1D5ScSg+JsJzeOxhyJtshmRi64IdVxf9v0BS1+4wvJX
+	SJ4z+r7F89IP5DFQR0iiNU20tnSD0wzyvgv0YDjxDW3sZ5swnPqo2rVBaSY8PNsC76g1tBer2xHju
+	bwQ7W4IS0DUo8wv9c4/7iVIxLWWp2wmqCc4bBmiXejQ9HWcm9CFrVj6IDDddz/lJSOkcoSAfNHp0h
+	ZdHA7NUbwY6n91c+VPsvtsxFVm66jE7OKGHS02T3Afudj/t2mRRDhGo2NzrmUvF7jE75GGLAUZ2w+
+	3zLJTSvGQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNizu-0004gV-LN; Wed, 30 Sep 2020 20:46:46 +0000
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+	id 1kNj00-0004jL-7M; Wed, 30 Sep 2020 20:46:52 +0000
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNizp-0004e0-Jt
- for linux-snps-arc@lists.infradead.org; Wed, 30 Sep 2020 20:46:44 +0000
-Received: by mail-wr1-x42b.google.com with SMTP id s12so3244434wrw.11
- for <linux-snps-arc@lists.infradead.org>; Wed, 30 Sep 2020 13:46:41 -0700 (PDT)
+ id 1kNizt-0004fU-34
+ for linux-snps-arc@lists.infradead.org; Wed, 30 Sep 2020 20:46:49 +0000
+Received: by mail-wr1-x444.google.com with SMTP id g4so3269109wrs.5
+ for <linux-snps-arc@lists.infradead.org>; Wed, 30 Sep 2020 13:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CSncsY+8z5bk/L4rSojhn9n1mX+1NPxP3kEsCzsTXAk=;
- b=UDeTxItL9n3KJX9xVmD3h35hBmO3XUUCNIrRiLu/cP1pt9lT35gKxefKyC211DxBA5
- XaOJUO+UXlHLYTTXEOXngrdO+zltL68c5gdEft4fqdoP5HFx2WryLuF74UBKvTlal9I6
- N6dlPIHGfLMAcjMm6I1dUuFjLEQr1f+qsMklKKCPD2Z9pfJddQ6oMyNlr0nsK/6bkHLq
- APFlbM0+XQkZvGUOLuF115V0o65h4VvV8SS9kc/5bxG92L/8XX7JFBZQBEwlSI5Jv+1l
- pBP43T5i1QORiIzIrJe2aRwyIt+v84xTIY21cytySsdWpYWPCE2Cvcwk/d9Agu61rXrw
- SMWA==
+ bh=tznGg6PahzCiTHvqBDnQdacUpiDJQTIvczl8JYGIdek=;
+ b=WowQZmfKQ+YTgzzsosUlcsOrViMtVJeYbTUaJSBJvithIRiz+kv7xRd8V02rEEaJxN
+ V+em/xclm/xww6FJYP94JyYvqFmEPpd9mmAFWLVfyjz7lPQckXFHNGKGGB7X6swMvAty
+ jHSFK/rpwwDAMZ9x6X5SaTCfSAzwPC/2vscjw0ybJkp4Ox4h7v4Y+afOINXUv6N3Elzg
+ TSK4G65ltYPBs60vKEFYs8QO9eCQN8GndqwTq3dVHTNjNi/KqjDbxhHnNZAI8i0hJuGc
+ katffUCfEIsIOjEX0TckZxiOTJgypydlAxjsQLLEBShDQXDy0YCXKB8ZlPQiNvEdfjWD
+ cDiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CSncsY+8z5bk/L4rSojhn9n1mX+1NPxP3kEsCzsTXAk=;
- b=C0v/VNB6x40ksG43S+K2NThjNiX1GIcTTn2dFwl69eUyz2c0xe9bs6I+jVqjnC2Pa8
- T6xb3osEUvY12pVNQKx3wJthQVdRkRtuVr1o/i11YBmVCNcMgG9gelB2onqvGXH0k6E1
- 9XfXjit/l0aXF0x7E9LPt8zZfptKLsE/6B7GZVlfsI4QXhslkgoQJhYxh6ijLNCTqjI0
- i/M30aG1BE2GXVNSahHgLmqgLjSBRYajTsjaBUu5RjMBi2DzDPl5ht81JqS5WjbYAzoZ
- ge0ML+/WWhPtrzsL3oEYIasVZTuh7/tEq4TxTAWkM/SGfnZpJnpRlVJkwSbihK4jWXcb
- h5Hw==
-X-Gm-Message-State: AOAM531xZUUJsruNGopzpQxO/HbboK8Js/RtbwdkClzu6ugxX4Tef88Q
- UYte8q2+WwvL13gX66CDthpbLqOdPMiqJA==
-X-Google-Smtp-Source: ABdhPJxq49Ki/UaPvANmSncbq72CMCxAyoBVmPjihASNqsJyfFbNvORm8xUL8mZJJRtxE8bW9xNuLA==
-X-Received: by 2002:a5d:4c86:: with SMTP id z6mr4801320wrs.23.1601498799973;
- Wed, 30 Sep 2020 13:46:39 -0700 (PDT)
+ bh=tznGg6PahzCiTHvqBDnQdacUpiDJQTIvczl8JYGIdek=;
+ b=fap4CtBL2wdZPIDl8fMgwslECoboW8XEyu4v1vUAEesVIUIYHvNRm9inqZRbX0gFf5
+ I+z01fvRIItffP8Q2o+ir9mmStbY4hqOeiTsFdtfikDgeZvHzHAJGqhC6JfJZbUW147b
+ hd7ZssDfh9fC4lGb+HSCIFrR2dwh6hS31zneuNW6qEMKFYuWw+/I1EKcNnk3MGvy3gAv
+ rTpkNk5TfgYtLAsHUPVYF5CO3wPknOSvNJCGgF3rJbdf+hSPNgYjmooPcefjPh6+nJi/
+ vj7dD2Nfrdlc+PF5ZoxOmaS9UP+DRbboBsPegUhPzDqTtk3qDOjs6Gr08lcH9RHWsr5d
+ +ESg==
+X-Gm-Message-State: AOAM533OyKDyjDcpATtwc4XIhOT2wKCuIc+bDf6iPKZlpWPaApqNCS1I
+ SHURZqhGPWWE4mMvMUYOeIjYynSPig/WhA==
+X-Google-Smtp-Source: ABdhPJwzgOTXjMSC91N8qABkWlL9kMTwJoc3aU6QwkuXyqd6JAINOeATJppkx4HPNQturtIqhWI7Dg==
+X-Received: by 2002:a5d:470f:: with SMTP id y15mr4953985wrq.420.1601498803549; 
+ Wed, 30 Sep 2020 13:46:43 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain ([188.251.240.167])
- by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.38
+ by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 13:46:39 -0700 (PDT)
+ Wed, 30 Sep 2020 13:46:42 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/14] arc: TCG instruction generator and hand-definitions
-Date: Wed, 30 Sep 2020 21:45:55 +0100
-Message-Id: <20200930204604.20663-6-cupertinomiranda@gmail.com>
+Subject: [PATCH 07/14] arc: Add BCR and AUX registers implementation
+Date: Wed, 30 Sep 2020 21:45:57 +0100
+Message-Id: <20200930204604.20663-8-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200930204604.20663-1-cupertinomiranda@gmail.com>
 References: <20200930204604.20663-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200930_164641_718334_C8826498 
-X-CRM114-Status: GOOD (  27.37  )
+X-CRM114-CacheID: sfid-20200930_164645_355445_FD4C46E8 
+X-CRM114-Status: GOOD (  24.31  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,1579 +105,1484 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Shahab Vahedi <shahab@synopsys.com>
+From: Cupertino Miranda <cmiranda@synopsys.com>
 
-Add the most generic parts of TCG constructions. It contains the basic infrastructure
-for fundamental ARC features, such as ZOL (zero overhead loops) and delay-slots.
-Also includes hand crafted TCG for more intricate instructions, such as vector
-instructions.
+Add the infrastructure to define build configuration (BCR) and auxiliary
+registers allowing independent modules (MMU, MPU, etc.) to use and extend
+them.
 
-Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
+Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
 ---
- target/arc/translate.c | 1344 ++++++++++++++++++++++++++++++++++++++++
- target/arc/translate.h |  202 ++++++
- 2 files changed, 1546 insertions(+)
- create mode 100644 target/arc/translate.c
- create mode 100644 target/arc/translate.h
+ target/arc/cache.c         | 180 ++++++++++++
+ target/arc/cache.h         |  42 +++
+ target/arc/regs-detail.def | 542 +++++++++++++++++++++++++++++++++++++
+ target/arc/regs.c          | 139 ++++++++++
+ target/arc/regs.def        | 399 +++++++++++++++++++++++++++
+ target/arc/regs.h          | 118 ++++++++
+ 6 files changed, 1420 insertions(+)
+ create mode 100644 target/arc/cache.c
+ create mode 100644 target/arc/cache.h
+ create mode 100644 target/arc/regs-detail.def
+ create mode 100644 target/arc/regs.c
+ create mode 100644 target/arc/regs.def
+ create mode 100644 target/arc/regs.h
 
-diff --git a/target/arc/translate.c b/target/arc/translate.c
+diff --git a/target/arc/cache.c b/target/arc/cache.c
 new file mode 100644
-index 0000000000..1d679db943
+index 0000000000..fe0921823b
 --- /dev/null
-+++ b/target/arc/translate.c
-@@ -0,0 +1,1344 @@
++++ b/target/arc/cache.c
+@@ -0,0 +1,180 @@
 +/*
-+ *  QEMU ARC CPU
-+ * Copyright (C) 2019 Free Software Foundation, Inc.
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2019 Synopsys, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program. If not, see <http://www.gnu.org/licenses/>.
++ */
 +
++#include "qemu/osdep.h"
++#include "hw/hw.h"
++#include "cpu.h"
++#include "target/arc/regs.h"
++#include "target/arc/cache.h"
++
++void arc_cache_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
++                       uint32_t val, void *data)
++{
++
++    CPUARCState *env = (CPUARCState *) data;
++    struct arc_cache *cache = &env->cache;
++
++    switch (aux_reg_detail->id) {
++    case AUX_ID_ic_ivic:
++    case AUX_ID_ic_ivil:
++    case AUX_ID_dc_ivdc:
++    case AUX_ID_dc_ivdl:
++    case AUX_ID_dc_flsh:
++    case AUX_ID_dc_fldl:
++    case AUX_ID_dc_startr:
++       /* Do nothing as we don't simulate cache memories */
++       break;
++
++    case AUX_ID_ic_ctrl:
++        cache->ic_disabled = val & 1;
++        break;
++
++    case AUX_ID_ic_ivir:
++        cache->ic_ivir = val & 0xffffff00;
++        break;
++
++    case AUX_ID_ic_endr:
++        cache->ic_endr = val & 0xffffff00;
++        break;
++
++    case AUX_ID_ic_ptag:
++        cache->ic_ptag = val;
++        break;
++
++    case AUX_ID_ic_ptag_hi:
++        cache->ic_ptag_hi = val & 0xff;
++        break;
++
++/*
++ * Description of the register content in order:
++ *   DC - Disable Cache: Enables/Disables the cache: 0 - Enabled, 1 - Disabled
++ *   IM - Invalidate Mode: Selects the invalidate type
++ */
++    case AUX_ID_dc_ctrl:
++        cache->dc_disabled = val & 1; /* DC */
++        cache->dc_inv_mode = (val >> 6) & 1; /* IM */
++        break;
++
++    case AUX_ID_dc_endr:
++        cache->dc_endr = val & 0xffffff00;
++        break;
++
++    case AUX_ID_dc_ptag_hi:
++        cache->dc_ptag_hi = val & 0xff;
++        break;
++
++    default:
++        hw_error("%s@%d: Attempt to write read-only register 0x%02x!\n",
++                 __func__, __LINE__, (unsigned int)aux_reg_detail->id);
++        break;
++    }
++
++    return;
++}
++
++uint32_t arc_cache_aux_get(const struct arc_aux_reg_detail *aux_reg_detail,
++                           void *data)
++{
++    CPUARCState *env = (CPUARCState *) data;
++    struct arc_cache *cache = &env->cache;
++    uint32_t reg = 0;
++
++    switch (aux_reg_detail->id) {
++/*
++ * Description of the register content in order.
++ * Layout:  -------- -DFFBBBB CCCCAAAA VVVVVVVV
++ *   D - indicates that IC is disabled on reset
++ *   FL - Feature level: 10b - line lock, invalidate, advanced debug features
++ *   BSize - indicates the cache block size in bytes: 0011b - 64 bytes
++ *   Cache capacity: 0111b - 64 Kbytes
++ *   Cache Associativiy: 0010b - Four-way set associative
++ *   Version number: 4 - ARCv2
++ */
++    case AUX_ID_i_cache_build:
++        reg = (0 << 22) | /* D */
++              (2 << 20) | /* FL */
++              (3 << 16) | /* BBSixe*/
++              (7 << 12) | /* Cache capacity */
++              (2 << 8)  | /* Cache Associativiy */
++              (4 << 0);   /* Version Number */
++        break;
++
++    case AUX_ID_ic_ctrl:
++        reg = cache->ic_disabled & 1;
++        break;
++
++    case AUX_ID_ic_ivir:
++        reg = cache->ic_ivir;
++        break;
++
++    case AUX_ID_ic_endr:
++        reg = cache->ic_endr;
++        break;
++
++    case AUX_ID_ic_ptag:
++        reg = cache->ic_ptag;
++        break;
++
++    case AUX_ID_ic_ptag_hi:
++        reg = cache->ic_ptag_hi;
++        break;
++
++/*
++ * Description of the register content in order:
++ *   FL - Feature level: 10b - line lock, invalidate, advanced debug features
++ *   BSize - indicates the cache block size in bytes: 0010b - 64 bytes
++ *   Cache capacity: 0111b - 64 Kbytes
++ *   Cache Associativiy: 0001b - Two-way set associative
++ *   Version number: 4 - ARCv2 with fixed number of cycles
++ */
++    case AUX_ID_d_cache_build:
++        reg = (2 << 20) | /* FL */
++              (2 << 16) | /* BSize */
++              (7 << 12) | /* Cache capacity */
++              (1 << 8)  | /* Cache Associativiy */
++              (4 << 0);   /* Version number */
++        break;
++
++/*
++ * Description of the register content in order:
++ *   DC - Disable Cache: Enables/Disables the cache: 0 - Enabled, 1 - Disabled
++ *   SB - Success Bit: of last cache operation: 1 - succeded (immediately)
++ *   IM - Invalidate Mode: Selects the invalidate type
++ */
++    case AUX_ID_dc_ctrl:
++       reg = (cache->dc_disabled & 1) << 0 |  /* DC */
++             (1 << 2) |                       /* SB */
++             (cache->dc_inv_mode & 1) << 6;   /* IM */
++        break;
++
++    case AUX_ID_dc_endr:
++        reg = cache->dc_endr;
++        break;
++
++    case AUX_ID_dc_ptag_hi:
++        reg = cache->dc_ptag_hi;
++        break;
++
++    default:
++        hw_error("%s@%d: Attempt to read write-only register 0x%02x!\n",
++                 __func__, __LINE__, (unsigned int)aux_reg_detail->id);
++        break;
++    }
++
++    return reg;
++}
+diff --git a/target/arc/cache.h b/target/arc/cache.h
+new file mode 100644
+index 0000000000..dbd8ba95ed
+--- /dev/null
++++ b/target/arc/cache.h
+@@ -0,0 +1,42 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2020 Synopsys, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef __ARC_CACHE_H__
++#define __ARC_CACHE_H__
++
++#include "target/arc/regs.h"
++
++struct arc_cache {
++    bool ic_disabled;
++    bool dc_disabled;
++    bool dc_inv_mode;
++    uint32_t ic_ivir;
++    uint32_t ic_endr;
++    uint32_t ic_ptag;
++    uint32_t ic_ptag_hi;
++    uint32_t dc_endr;
++    uint32_t dc_ptag_hi;
++};
++
++void arc_cache_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
++                       uint32_t val, void *data);
++
++uint32_t arc_cache_aux_get(const struct arc_aux_reg_detail *aux_reg_detail,
++                           void *data);
++
++#endif /* __ARC_CACHE_H__ */
+diff --git a/target/arc/regs-detail.def b/target/arc/regs-detail.def
+new file mode 100644
+index 0000000000..a28492b32c
+--- /dev/null
++++ b/target/arc/regs-detail.def
+@@ -0,0 +1,542 @@
++/*
++ * QEMU ARC Auxiliary register definitions
++ * Copyright (C) 2020 Free Software Foundation, Inc.
++ *
++ * Contributed by Claudiu Zissulescu (claziss@synopsys.com)
++ * Contributed by Cupertino Miranda (cmiranda@synopsys.com)
++ *
++ * This file is part of libopcodes.  This library is free software;
++ * you can redistribute it and/or modify it under the terms of the GNU
++ * General Public License as published by the Free Software
++ * Foundation; either version 3, or (at your option) any later
++ * version.
++ *
++ * It is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
++ * License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA
++ * 02110-1301, USA.
++ */
++
++/* INFO: this list must be kept ordered by address to allow
++ * binary search of register information based on address.
++ */
++
++DEF(0xffff,ARC_OPCODE_ARCALL,  NONE, unimp_bcr)
++DEF(0x1,   ARC_OPCODE_ARCV1,   NONE, semaphore)
++DEF(0x2,   ARC_OPCODE_ARCALL,  NONE, lp_start)
++DEF(0x3,   ARC_OPCODE_ARCALL,  NONE, lp_end)
++DEF(0x4,   ARC_OPCODE_ARCALL,  NONE, identity)
++DEF(0x5,   ARC_OPCODE_ARCALL,  NONE, debug)
++DEF(0x6,   ARC_OPCODE_ARCALL,  NONE, pc)
++DEF(0x7,   ARC_OPCODE_ARCv2HS, NONE, memseg)
++DEF(0x7,   ARC_OPCODE_ARCV1,   NONE, adcr)
++DEF(0x8,   ARC_OPCODE_ARCV1,   NONE, apcr)
++DEF(0x8,   ARC_OPCODE_ARCv2HS, NONE, exec_ctrl)
++DEF(0x9,   ARC_OPCODE_ARCV1,   NONE, acr)
++DEF(0x9,   ARC_OPCODE_ARCv2EM, NONE, sec_stat)
++DEF(0xa,   ARC_OPCODE_ARCALL,  NONE, status32)
++DEF(0xb,   ARC_OPCODE_ARCV2,   NONE, status32_p0)
++DEF(0xc,   ARC_OPCODE_ARCv2EM, NONE, sec_extra)
++DEF(0xd,   ARC_OPCODE_ARCV2,   NONE, aux_user_sp)
++DEF(0xe,   ARC_OPCODE_ARC700,  NONE, clk_enable)
++DEF(0xe,   ARC_OPCODE_ARCV2,   NONE, aux_irq_ctrl)
++DEF(0xf,   ARC_OPCODE_ARC700,  NONE, bpu_flush)
++DEF(0xf,   ARC_OPCODE_ARCv2HS, NONE, debugi)
++DEF(0x10,  ARC_OPCODE_ARCV1,   NONE, ivic)
++DEF(0x10,  ARC_OPCODE_ARCALL,  NONE, ic_ivic)
++DEF(0x11,  ARC_OPCODE_ARCV1,   NONE, che_mode)
++DEF(0x11,  ARC_OPCODE_ARCALL,  NONE, ic_ctrl)
++DEF(0x12,  ARC_OPCODE_ARC600,  NONE, mulhi)
++DEF(0x12,  ARC_OPCODE_ARCv2HS, NONE, ic_startr)
++DEF(0x13,  ARC_OPCODE_ARCV1,   NONE, lockline)
++DEF(0x13,  ARC_OPCODE_ARCV2,   NONE, ic_lil)
++DEF(0x14,  ARC_OPCODE_ARC600,  NONE, dmc_code_ram)
++DEF(0x15,  ARC_OPCODE_ARCV1,   NONE, tag_addr_mask)
++DEF(0x16,  ARC_OPCODE_ARCV1,   NONE, tag_data_mask)
++DEF(0x16,  ARC_OPCODE_ARCv2HS, NONE, ic_ivir)
++DEF(0x17,  ARC_OPCODE_ARCV1,   NONE, line_length_mask)
++DEF(0x17,  ARC_OPCODE_ARCv2HS, NONE, ic_endr)
++DEF(0x18,  ARC_OPCODE_ARC600,  NONE, aux_ldst_ram)
++DEF(0x18,  ARC_OPCODE_NONE,    NONE, aux_dccm)
++DEF(0x19,  ARC_OPCODE_ARCV1,   NONE, unlockline)
++DEF(0x19,  ARC_OPCODE_ARCALL,  NONE, ic_ivil)
++DEF(0x1a,  ARC_OPCODE_ARCALL,  NONE, ic_ram_address)
++DEF(0x1b,  ARC_OPCODE_ARCALL,  NONE, ic_tag)
++DEF(0x1c,  ARC_OPCODE_ARCALL,  NONE, ic_wp)
++DEF(0x1d,  ARC_OPCODE_ARCALL,  NONE, ic_data)
++DEF(0x1e,  ARC_OPCODE_ARCALL,  NONE, ic_ptag)
++DEF(0x1f,  ARC_OPCODE_ARCv2EM, NONE, debugi)
++DEF(0x1f,  ARC_OPCODE_ARCv2HS, NONE, ic_ptag_hi)
++DEF(0x20,  ARC_OPCODE_ARC600,  NONE, sram_seq)
++DEF(0x21,  ARC_OPCODE_ARCALL,  NONE, count0)
++DEF(0x22,  ARC_OPCODE_ARCALL,  NONE, control0)
++DEF(0x23,  ARC_OPCODE_ARCALL,  NONE, limit0)
++DEF(0x24,  ARC_OPCODE_ARCV1,   NONE, pcport)
++DEF(0x25,  ARC_OPCODE_ARC700,  NONE, int_vector_base)
++DEF(0x25,  ARC_OPCODE_ARCV2,   NONE, int_vector_base)
++DEF(0x26,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_mode)
++DEF(0x27,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_bm0)
++DEF(0x28,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_bm1)
++DEF(0x29,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_accu)
++DEF(0x2a,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_ofst)
++DEF(0x2b,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_intstat)
++DEF(0x2c,  ARC_OPCODE_ARC600,  NONE, aux_xmac0_24)
++DEF(0x2d,  ARC_OPCODE_ARC600,  NONE, aux_xmac1_24)
++DEF(0x2e,  ARC_OPCODE_ARC600,  NONE, aux_xmac2_24)
++DEF(0x2f,  ARC_OPCODE_ARC600,  NONE, aux_fbf_store_16)
++DEF(0x30,  ARC_OPCODE_ARCv2EM, NONE, acg_ctrl)
++DEF(0x30,  ARC_OPCODE_NONE,    NONE, ax0)
++DEF(0x31,  ARC_OPCODE_NONE,    NONE, ax1)
++DEF(0x32,  ARC_OPCODE_NONE,    NONE, aux_crc_poly)
++DEF(0x33,  ARC_OPCODE_NONE,    NONE, aux_crc_mode)
++DEF(0x34,  ARC_OPCODE_NONE,    NONE, mx0)
++DEF(0x35,  ARC_OPCODE_NONE,    NONE, mx1)
++DEF(0x36,  ARC_OPCODE_NONE,    NONE, my0)
++DEF(0x37,  ARC_OPCODE_NONE,    NONE, my1)
++DEF(0x38,  ARC_OPCODE_NONE,    NONE, xyconfig)
++DEF(0x38,  ARC_OPCODE_ARCv2EM, NONE, aux_kernel_sp)
++DEF(0x39,  ARC_OPCODE_NONE,    NONE, scratch_a)
++DEF(0x39,  ARC_OPCODE_ARCv2EM, NONE, aux_sec_u_sp)
++/* TODO: The commented lines are repeated for specific configurations. */
++/*
++DEF (0x3a,  ARC_OPCODE_NONE,    NONE, burstsys)
++DEF (0x3a,  ARC_OPCODE_NONE,    NONE, tsch)
++*/
++DEF(0x3a,  ARC_OPCODE_ARCv2EM, NONE, aux_sec_k_sp)
++DEF(0x3b,  ARC_OPCODE_NONE,    NONE, burstxym)
++DEF(0x3c,  ARC_OPCODE_NONE,    NONE, burstsz)
++DEF(0x3d,  ARC_OPCODE_NONE,    NONE, burstval)
++DEF(0x3e,  ARC_OPCODE_ARCv2EM, NONE, aux_sec_ctrl)
++DEF(0x3f,  ARC_OPCODE_ARCv2EM, NONE, erp_control)
++DEF(0x40,  ARC_OPCODE_ARCv2EM, NONE, rferp_status0)
++DEF(0x41,  ARC_OPCODE_ARCv2EM, NONE, rferp_status1)
++DEF(0x40,  ARC_OPCODE_ARC600,  NONE, xtp_newval)
++DEF(0x41,  ARC_OPCODE_ARCV1,   NONE, aux_macmode)
++DEF(0x42,  ARC_OPCODE_ARC600,  NONE, lsp_newval)
++DEF(0x43,  ARC_OPCODE_ARCV1,   NONE, aux_irq_lv12)
++DEF(0x43,  ARC_OPCODE_ARCV2,   NONE, aux_irq_act)
++DEF(0x44,  ARC_OPCODE_ARCV1,   NONE, aux_xmac0)
++DEF(0x45,  ARC_OPCODE_ARCV1,   NONE, aux_xmac1)
++DEF(0x46,  ARC_OPCODE_ARCV1,   NONE, aux_xmac2)
++DEF(0x47,  ARC_OPCODE_ARCALL,  NONE, dc_ivdc)
++DEF(0x48,  ARC_OPCODE_ARCALL,  NONE, dc_ctrl)
++DEF(0x49,  ARC_OPCODE_ARCALL,  NONE, dc_ldl)
++DEF(0x4a,  ARC_OPCODE_ARCALL,  NONE, dc_ivdl)
++DEF(0x4b,  ARC_OPCODE_ARCALL,  NONE, dc_flsh)
++DEF(0x4c,  ARC_OPCODE_ARCALL,  NONE, dc_fldl)
++DEF(0x4d,  ARC_OPCODE_ARCV2,   NONE, dc_startr)
++DEF(0x4e,  ARC_OPCODE_ARCV2,   NONE, dc_endr)
++DEF(0x50,  ARC_OPCODE_NONE,    NONE, hexdata)
++DEF(0x51,  ARC_OPCODE_NONE,    NONE, hexctrl)
++DEF(0x52,  ARC_OPCODE_NONE,    NONE, led)
++DEF(0x56,  ARC_OPCODE_NONE,    NONE, dilstat)
++DEF(0x57,  ARC_OPCODE_ARC600,  NONE, swstat)
++DEF(0x58,  ARC_OPCODE_ARCALL,  NONE, dc_ram_addr)
++DEF(0x59,  ARC_OPCODE_ARCALL,  NONE, dc_tag)
++DEF(0x5a,  ARC_OPCODE_ARCALL,  NONE, dc_wp)
++DEF(0x5b,  ARC_OPCODE_ARCALL,  NONE, dc_data)
++DEF(0x5c,  ARC_OPCODE_ARCALL,  NONE, dc_ptag)
++DEF(0x5e,  ARC_OPCODE_ARCv2HS, NONE, aux_volatile)
++DEF(0x5f,  ARC_OPCODE_ARCv2HS, NONE, dc_ptag_hi)
++DEF(0x80,  ARC_OPCODE_ARCALL,  NONE, ax0)
++DEF(0x81,  ARC_OPCODE_ARCALL,  NONE, ax1)
++DEF(0x82,  ARC_OPCODE_ARCALL,  NONE, ax2)
++DEF(0x83,  ARC_OPCODE_ARCALL,  NONE, ax3)
++DEF(0x84,  ARC_OPCODE_ARCALL,  NONE, ay0)
++DEF(0x85,  ARC_OPCODE_ARCALL,  NONE, ay1)
++DEF(0x86,  ARC_OPCODE_ARCALL,  NONE, ay2)
++DEF(0x87,  ARC_OPCODE_ARCALL,  NONE, ay3)
++DEF(0x88,  ARC_OPCODE_ARCALL,  NONE, mx00)
++DEF(0x89,  ARC_OPCODE_ARCALL,  NONE, mx01)
++DEF(0x8a,  ARC_OPCODE_ARCALL,  NONE, mx10)
++DEF(0x8b,  ARC_OPCODE_ARCALL,  NONE, mx11)
++DEF(0x8c,  ARC_OPCODE_ARCALL,  NONE, mx20)
++DEF(0x8d,  ARC_OPCODE_ARCALL,  NONE, mx21)
++DEF(0x8e,  ARC_OPCODE_ARCALL,  NONE, mx30)
++DEF(0x8f,  ARC_OPCODE_ARCALL,  NONE, mx31)
++DEF(0x90,  ARC_OPCODE_ARCALL,  NONE, my00)
++DEF(0x91,  ARC_OPCODE_ARCALL,  NONE, my01)
++DEF(0x92,  ARC_OPCODE_ARCALL,  NONE, my10)
++DEF(0x93,  ARC_OPCODE_ARCALL,  NONE, my11)
++DEF(0x94,  ARC_OPCODE_ARCALL,  NONE, my20)
++DEF(0x95,  ARC_OPCODE_ARCALL,  NONE, my21)
++DEF(0x96,  ARC_OPCODE_ARCALL,  NONE, my30)
++DEF(0x97,  ARC_OPCODE_ARCALL,  NONE, my31)
++DEF(0x98,  ARC_OPCODE_ARCALL,  NONE, xyconfig)
++DEF(0x99,  ARC_OPCODE_ARCALL,  NONE, burstsys)
++DEF(0x9a,  ARC_OPCODE_ARCALL,  NONE, burstxym)
++DEF(0x9b,  ARC_OPCODE_ARCALL,  NONE, burstsz)
++DEF(0x9c,  ARC_OPCODE_ARCALL,  NONE, burstval)
++DEF(0x9d,  ARC_OPCODE_ARCALL,  NONE, xylsbasex)
++DEF(0x9e,  ARC_OPCODE_ARCALL,  NONE, xylsbasey)
++DEF(0x9f,  ARC_OPCODE_ARCALL,  NONE, aux_xmaclw_h)
++DEF(0xa0,  ARC_OPCODE_ARCALL,  NONE, aux_xmaclw_l)
++DEF(0xa1,  ARC_OPCODE_ARCALL,  NONE, se_ctrl)
++DEF(0xa2,  ARC_OPCODE_ARCALL,  NONE, se_stat)
++DEF(0xa3,  ARC_OPCODE_ARCALL,  NONE, se_err)
++DEF(0xa4,  ARC_OPCODE_ARCALL,  NONE, se_eadr)
++DEF(0xa5,  ARC_OPCODE_ARCALL,  NONE, se_spc)
++DEF(0xa6,  ARC_OPCODE_ARCALL,  NONE, sdm_base)
++DEF(0xa7,  ARC_OPCODE_ARCALL,  NONE, scm_base)
++DEF(0xa8,  ARC_OPCODE_ARCALL,  NONE, se_dbg_ctrl)
++DEF(0xa9,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data0)
++DEF(0xaa,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data1)
++DEF(0xab,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data2)
++DEF(0xac,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data3)
++DEF(0xad,  ARC_OPCODE_ARCALL,  NONE, se_watch)
++DEF(0x100, ARC_OPCODE_ARCALL,  NONE, count1)
++DEF(0x101, ARC_OPCODE_ARCALL,  NONE, control1)
++DEF(0x102, ARC_OPCODE_ARCALL,  NONE, limit1)
++DEF(0x103, ARC_OPCODE_ARCV2,   NONE, aux_rtc_ctrl)
++DEF(0x104, ARC_OPCODE_ARCV2,   NONE, aux_rtc_low)
++DEF(0x105, ARC_OPCODE_ARCV2,   NONE, aux_rtc_high)
++DEF(0x200, ARC_OPCODE_ARCV1,   NONE, aux_irq_lev)
++DEF(0x200, ARC_OPCODE_ARCV2,   NONE, irq_priority_pending)
++DEF(0x201, ARC_OPCODE_ARCALL,  NONE, aux_irq_hint)
++DEF(0x202, ARC_OPCODE_ARC600,  NONE, aux_inter_core_interrupt)
++DEF(0x206, ARC_OPCODE_ARCV2,   NONE, irq_priority)
++DEF(0x210, ARC_OPCODE_ARC700,  NONE, aes_aux_0)
++DEF(0x211, ARC_OPCODE_ARC700,  NONE, aes_aux_1)
++DEF(0x212, ARC_OPCODE_ARC700,  NONE, aes_aux_2)
++DEF(0x213, ARC_OPCODE_ARC700,  NONE, aes_crypt_mode)
++DEF(0x214, ARC_OPCODE_ARC700,  NONE, aes_auxs)
++DEF(0x215, ARC_OPCODE_ARC700,  NONE, aes_auxi)
++DEF(0x216, ARC_OPCODE_ARC700,  NONE, aes_aux_3)
++DEF(0x217, ARC_OPCODE_ARC700,  NONE, aes_aux_4)
++DEF(0x218, ARC_OPCODE_ARC700,  NONE, arith_ctl_aux)
++DEF(0x219, ARC_OPCODE_ARC700,  NONE, des_aux)
++DEF(0x220, ARC_OPCODE_ARCALL,  NONE, ap_amv0)
++DEF(0x221, ARC_OPCODE_ARCALL,  NONE, ap_amm0)
++DEF(0x222, ARC_OPCODE_ARCALL,  NONE, ap_ac0)
++DEF(0x223, ARC_OPCODE_ARCALL,  NONE, ap_amv1)
++DEF(0x224, ARC_OPCODE_ARCALL,  NONE, ap_amm1)
++DEF(0x225, ARC_OPCODE_ARCALL,  NONE, ap_ac1)
++DEF(0x226, ARC_OPCODE_ARCALL,  NONE, ap_amv2)
++DEF(0x227, ARC_OPCODE_ARCALL,  NONE, ap_amm2)
++DEF(0x228, ARC_OPCODE_ARCALL,  NONE, ap_ac2)
++DEF(0x229, ARC_OPCODE_ARCALL,  NONE, ap_amv3)
++DEF(0x22a, ARC_OPCODE_ARCALL,  NONE, ap_amm3)
++DEF(0x22b, ARC_OPCODE_ARCALL,  NONE, ap_ac3)
++DEF(0x22c, ARC_OPCODE_ARCALL,  NONE, ap_amv4)
++DEF(0x22d, ARC_OPCODE_ARCALL,  NONE, ap_amm4)
++DEF(0x22e, ARC_OPCODE_ARCALL,  NONE, ap_ac4)
++DEF(0x22f, ARC_OPCODE_ARCALL,  NONE, ap_amv5)
++DEF(0x230, ARC_OPCODE_ARCALL,  NONE, ap_amm5)
++DEF(0x231, ARC_OPCODE_ARCALL,  NONE, ap_ac5)
++DEF(0x232, ARC_OPCODE_ARCALL,  NONE, ap_amv6)
++DEF(0x233, ARC_OPCODE_ARCALL,  NONE, ap_amm6)
++DEF(0x234, ARC_OPCODE_ARCALL,  NONE, ap_ac6)
++DEF(0x235, ARC_OPCODE_ARCALL,  NONE, ap_amv7)
++DEF(0x236, ARC_OPCODE_ARCALL,  NONE, ap_amm7)
++DEF(0x237, ARC_OPCODE_ARCALL,  NONE, ap_ac7)
++DEF(0x268, ARC_OPCODE_ARCv2EM, NONE, nsc_table_top)
++DEF(0x269, ARC_OPCODE_ARCv2EM, NONE, nsc_table_base)
++DEF(0x290, ARC_OPCODE_ARCV2,   NONE, jli_base)
++DEF(0x291, ARC_OPCODE_ARCV2,   NONE, ldi_base)
++DEF(0x292, ARC_OPCODE_ARCV2,   NONE, ei_base)
++DEF(0x300, ARC_OPCODE_ARCFPX,  DPX,  fp_status)
++/*
++DEF (0x301, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp1l)
++DEF (0x301, ARC_OPCODE_ARCFPX,  DPX,  d1l)
++*/
++/*
++DEF (0x302, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp1h)
++DEF (0x302, ARC_OPCODE_ARCFPX,  DPX,  d1h)
++*/
++DEF(0x302, ARC_OPCODE_ARCv2EM, DPA,  d1l)
++/*
++DEF (0x303, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp2l)
++DEF (0x303, ARC_OPCODE_ARCFPX,  DPX,  d2l)
++*/
++DEF(0x303, ARC_OPCODE_ARCv2EM, DPA,  d1h)
++/*
++DEF (0x304, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp2h)
++DEF (0x304, ARC_OPCODE_ARCFPX,  DPX,  d2h)
++*/
++DEF(0x304, ARC_OPCODE_ARCv2EM, DPA,  d2l)
++DEF(0x305, ARC_OPCODE_ARCFPX,  DPX,  dpfp_status)
++DEF(0x305, ARC_OPCODE_ARCv2EM, DPA,  d2h)
++DEF(0x400, ARC_OPCODE_ARCALL,  NONE, eret)
++DEF(0x401, ARC_OPCODE_ARCALL,  NONE, erbta)
++DEF(0x402, ARC_OPCODE_ARCALL,  NONE, erstatus)
++DEF(0x403, ARC_OPCODE_ARCALL,  NONE, ecr)
++DEF(0x404, ARC_OPCODE_ARCALL,  NONE, efa)
++DEF(0x405, ARC_OPCODE_ARC700,  NONE, tlbpd0)
++DEF(0x406, ARC_OPCODE_ARC700,  NONE, tlbpd1)
++DEF(0x406, ARC_OPCODE_ARCv2EM, NONE, ersec_stat)
++DEF(0x407, ARC_OPCODE_ARCv2EM, NONE, aux_sec_except)
++DEF(0x407, ARC_OPCODE_ARC700,  NONE, tlbindex)
++DEF(0x408, ARC_OPCODE_ARC700,  NONE, tlbcommand)
++DEF(0x409, ARC_OPCODE_ARC700,  NONE, pid)
++DEF(0x409, ARC_OPCODE_ARCALL,  NONE, mpuen)
++DEF(0x40a, ARC_OPCODE_ARCV2,   NONE, icause)
++DEF(0x40b, ARC_OPCODE_ARCV2,   NONE, irq_select)
++DEF(0x40c, ARC_OPCODE_ARCV2,   NONE, irq_enable)
++DEF(0x40d, ARC_OPCODE_ARCV2,   NONE, irq_trigger)
++DEF(0x40f, ARC_OPCODE_ARCV2,   NONE, irq_status)
++DEF(0x410, ARC_OPCODE_ARCALL,  NONE, xpu)
++DEF(0x412, ARC_OPCODE_ARCALL,  NONE, bta)
++DEF(0x413, ARC_OPCODE_ARC700,  NONE, bta_l1)
++DEF(0x414, ARC_OPCODE_ARC700,  NONE, bta_l2)
++DEF(0x415, ARC_OPCODE_ARCV2,   NONE, irq_pulse_cancel)
++DEF(0x416, ARC_OPCODE_ARCV2,   NONE, irq_pending)
++DEF(0x418, ARC_OPCODE_ARC700,  NONE, scratch_data0)
++DEF(0x420, ARC_OPCODE_ARCALL,  NONE, mpuic)
++DEF(0x421, ARC_OPCODE_ARCALL,  NONE, mpufa)
++DEF(0x422, ARC_OPCODE_ARCALL,  NONE, mpurdb0)
++DEF(0x423, ARC_OPCODE_ARCALL,  NONE, mpurdp0)
++DEF(0x424, ARC_OPCODE_ARCALL,  NONE, mpurdb1)
++DEF(0x425, ARC_OPCODE_ARCALL,  NONE, mpurdp1)
++DEF(0x426, ARC_OPCODE_ARCALL,  NONE, mpurdb2)
++DEF(0x427, ARC_OPCODE_ARCALL,  NONE, mpurdp2)
++DEF(0x428, ARC_OPCODE_ARCALL,  NONE, mpurdb3)
++DEF(0x429, ARC_OPCODE_ARCALL,  NONE, mpurdp3)
++DEF(0x42a, ARC_OPCODE_ARCALL,  NONE, mpurdb4)
++DEF(0x42b, ARC_OPCODE_ARCALL,  NONE, mpurdp4)
++DEF(0x42c, ARC_OPCODE_ARCALL,  NONE, mpurdb5)
++DEF(0x42d, ARC_OPCODE_ARCALL,  NONE, mpurdp5)
++DEF(0x42e, ARC_OPCODE_ARCALL,  NONE, mpurdb6)
++DEF(0x42f, ARC_OPCODE_ARCALL,  NONE, mpurdp6)
++DEF(0x430, ARC_OPCODE_ARCALL,  NONE, mpurdb7)
++DEF(0x431, ARC_OPCODE_ARCALL,  NONE, mpurdp7)
++DEF(0x432, ARC_OPCODE_ARCALL,  NONE, mpurdb8)
++DEF(0x433, ARC_OPCODE_ARCALL,  NONE, mpurdp8)
++DEF(0x434, ARC_OPCODE_ARCALL,  NONE, mpurdb9)
++DEF(0x435, ARC_OPCODE_ARCALL,  NONE, mpurdp9)
++DEF(0x436, ARC_OPCODE_ARCALL,  NONE, mpurdb10)
++DEF(0x437, ARC_OPCODE_ARCALL,  NONE, mpurdp10)
++DEF(0x438, ARC_OPCODE_ARCALL,  NONE, mpurdb11)
++DEF(0x439, ARC_OPCODE_ARCALL,  NONE, mpurdp11)
++DEF(0x43a, ARC_OPCODE_ARCALL,  NONE, mpurdb12)
++DEF(0x43b, ARC_OPCODE_ARCALL,  NONE, mpurdp12)
++DEF(0x43c, ARC_OPCODE_ARCALL,  NONE, mpurdb13)
++DEF(0x43d, ARC_OPCODE_ARCALL,  NONE, mpurdp13)
++DEF(0x43e, ARC_OPCODE_ARCALL,  NONE, mpurdb14)
++DEF(0x43f, ARC_OPCODE_ARCALL,  NONE, mpurdp14)
++DEF(0x440, ARC_OPCODE_ARCALL,  NONE, mpurdb15)
++DEF(0x441, ARC_OPCODE_ARCALL,  NONE, mpurdp15)
++DEF(0x450, ARC_OPCODE_ARC600,  NONE, pm_status)
++DEF(0x451, ARC_OPCODE_ARC600,  NONE, wake)
++DEF(0x452, ARC_OPCODE_ARC600,  NONE, dvfs_performance)
++DEF(0x453, ARC_OPCODE_ARC600,  NONE, pwr_ctrl)
++DEF(0x460, ARC_OPCODE_ARCv2HS, NONE, tlbpd0)
++DEF(0x461, ARC_OPCODE_ARCv2HS, NONE, tlbpd1)
++DEF(0x463, ARC_OPCODE_ARCv2HS, NONE, tlbpd1_hi)
++DEF(0x464, ARC_OPCODE_ARCv2HS, NONE, tlbindex)
++DEF(0x465, ARC_OPCODE_ARCv2HS, NONE, tlbcommand)
++DEF(0x468, ARC_OPCODE_ARCv2HS, NONE, pid)
++DEF(0x46a, ARC_OPCODE_ARCv2HS, NONE, sasid0)
++DEF(0x46b, ARC_OPCODE_ARCv2HS, NONE, sasid1)
++DEF(0x46c, ARC_OPCODE_ARCv2HS, NONE, scratch_data0)
++DEF(0x500, ARC_OPCODE_ARC700,  NONE, aux_vlc_buf_idx)
++DEF(0x501, ARC_OPCODE_ARC700,  NONE, aux_vlc_read_buf)
++DEF(0x502, ARC_OPCODE_ARC700,  NONE, aux_vlc_valid_bits)
++DEF(0x503, ARC_OPCODE_ARC700,  NONE, aux_vlc_buf_in)
++DEF(0x504, ARC_OPCODE_ARC700,  NONE, aux_vlc_buf_free)
++DEF(0x505, ARC_OPCODE_ARC700,  NONE, aux_vlc_ibuf_status)
++DEF(0x506, ARC_OPCODE_ARC700,  NONE, aux_vlc_setup)
++DEF(0x507, ARC_OPCODE_ARC700,  NONE, aux_vlc_bits)
++DEF(0x508, ARC_OPCODE_ARC700,  NONE, aux_vlc_table)
++DEF(0x509, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_symbol)
++DEF(0x50a, ARC_OPCODE_ARC700,  NONE, aux_vlc_read_symbol)
++DEF(0x510, ARC_OPCODE_ARC700,  NONE, aux_ucavlc_setup)
++DEF(0x511, ARC_OPCODE_ARC700,  NONE, aux_ucavlc_state)
++DEF(0x512, ARC_OPCODE_ARC700,  NONE, aux_cavlc_zero_left)
++DEF(0x514, ARC_OPCODE_ARC700,  NONE, aux_uvlc_i_state)
++DEF(0x51c, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_ptr)
++DEF(0x51d, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_end)
++DEF(0x51e, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_esc)
++DEF(0x51f, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_ctrl)
++DEF(0x520, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_0bit)
++DEF(0x521, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_1bit)
++DEF(0x522, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_2bit)
++DEF(0x523, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_3bit)
++DEF(0x524, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_4bit)
++DEF(0x525, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_5bit)
++DEF(0x526, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_6bit)
++DEF(0x527, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_7bit)
++DEF(0x528, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_8bit)
++DEF(0x529, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_9bit)
++DEF(0x52a, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_10bit)
++DEF(0x52b, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_11bit)
++DEF(0x52c, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_12bit)
++DEF(0x52d, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_13bit)
++DEF(0x52e, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_14bit)
++DEF(0x52f, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_15bit)
++DEF(0x530, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_16bit)
++DEF(0x531, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_17bit)
++DEF(0x532, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_18bit)
++DEF(0x533, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_19bit)
++DEF(0x534, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_20bit)
++DEF(0x535, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_21bit)
++DEF(0x536, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_22bit)
++DEF(0x537, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_23bit)
++DEF(0x538, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_24bit)
++DEF(0x539, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_25bit)
++DEF(0x53a, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_26bit)
++DEF(0x53b, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_27bit)
++DEF(0x53c, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_28bit)
++DEF(0x53d, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_29bit)
++DEF(0x53e, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_30bit)
++DEF(0x53f, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_31bit)
++DEF(0x540, ARC_OPCODE_ARC700,  NONE, aux_cabac_ctrl)
++DEF(0x541, ARC_OPCODE_ARC700,  NONE, aux_cabac_ctx_state)
++DEF(0x542, ARC_OPCODE_ARC700,  NONE, aux_cabac_cod_param)
++DEF(0x543, ARC_OPCODE_ARC700,  NONE, aux_cabac_misc0)
++DEF(0x544, ARC_OPCODE_ARC700,  NONE, aux_cabac_misc1)
++DEF(0x545, ARC_OPCODE_ARC700,  NONE, aux_cabac_misc2)
++DEF(0x700, ARC_OPCODE_ARCALL,  NONE, smart_control)
++/*
++DEF (0x701, ARC_OPCODE_ARC700,  NONE, smart_data_0)
++DEF (0x701, ARC_OPCODE_ARC600,  NONE, smart_data)
++DEF (0x701, ARC_OPCODE_ARC700,  NONE, smart_data_2)
++DEF (0x701, ARC_OPCODE_ARC700,  NONE, smart_data_3)
++*/
++
++
++/* BCR aux registers */
++DEF(0x60, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x61, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x62, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x63, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x64, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x65, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x66, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x67, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x68, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x69, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x6a, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x6b, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x6c, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x6d, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x6e, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x6f, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x70, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x71, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x72, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x73, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x74, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x75, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x76, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x77, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x78, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x79, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x7a, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x7c, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x7d, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x7e, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0x7f, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xc0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xc1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xc2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xc3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xc4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xc5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xc6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xc7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xc8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xc9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xca, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xcb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xcc, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xcd, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xce, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xcf, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xd0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xd1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xd2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xd3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xd4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xd5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xd6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xd7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xd8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xd9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xda, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xdb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xdc, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xdd, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xde, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xdf, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xe0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xe1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xe2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xe3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xe4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xe5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xe6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xe7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xe8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xe9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xea, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xeb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xec, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xed, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xee, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xef, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xf0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xf1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xf2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xf3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xf4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xf5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xf6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xf7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xf8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xf9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xfa, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xfb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xfc, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xfd, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xfe, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++DEF(0xff, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
++
++/* Actual BCR implementations */
++
++DEF(0x6d, ARC_OPCODE_ARCv2HS,  NONE, mpu_build)
++DEF(0x6f, ARC_OPCODE_ARCv2HS,  NONE, mmu_build)
++DEF(0x75,  ARC_OPCODE_ARCALL,  NONE, timer_build)
++DEF(0xf3,  ARC_OPCODE_ARCV2,   NONE, irq_build)
++DEF(0x72, ARC_OPCODE_ARCV2,    NONE, d_cache_build)
++DEF(0x77, ARC_OPCODE_ARCV2,    NONE, i_cache_build)
++DEF(0x7b, ARC_OPCODE_ARCV2,    NONE, mpy_build)
++
++/* OLD BCR definitions */
++/*
++DEF (0x61,  ARC_OPCODE_ARCALL,  NONE, dccm_base_build)
++DEF (0x63,  ARC_OPCODE_ARCALL,  NONE, bta_link_build)
++DEF (0x64,  ARC_OPCODE_ARCALL,  NONE, vbfdw_build)
++DEF (0x65,  ARC_OPCODE_ARCALL,  NONE, ea_build)
++DEF (0x66,  ARC_OPCODE_ARCALL,  NONE, dataspace)
++DEF (0x67,  ARC_OPCODE_ARCALL,  NONE, memsubsys)
++DEF (0x68,  ARC_OPCODE_ARCALL,  NONE, vecbase_ac_build)
++DEF (0x69,  ARC_OPCODE_ARCALL,  NONE, p_base_addr)
++DEF (0x6a,  ARC_OPCODE_ARCALL,  NONE, data_uncached_build)
++DEF (0x6b,  ARC_OPCODE_ARCALL,  NONE, fp_build)
++DEF (0x6c,  ARC_OPCODE_ARCALL,  NONE, dpfp_build)
++DEF (0x6d,  ARC_OPCODE_ARCALL,  NONE, mpu_build)
++DEF (0x6e,  ARC_OPCODE_ARCALL,  NONE, rf_build)
++DEF (0x6f,  ARC_OPCODE_ARCALL,  NONE, mmu_build)
++DEF (0x70,  ARC_OPCODE_ARCv2EM, NONE, sec_vecbase_build)
++DEF (0x71,  ARC_OPCODE_ARCALL,  NONE, vecbase_build)
++DEF (0x73,  ARC_OPCODE_ARCALL,  NONE, madi_build)
++
++DEF (0xc1,  ARC_OPCODE_ARC600,  NONE, arc600_build_config)
++DEF (0xc2,  ARC_OPCODE_ARCALL,  NONE, isa_config)
++DEF (0xf4,  ARC_OPCODE_ARCALL,  NONE, hwp_build)
++DEF (0xf5,  ARC_OPCODE_ARCALL,  NONE, pct_build)
++DEF (0xf6,  ARC_OPCODE_ARCALL,  NONE, cc_build)
++DEF (0xf7,  ARC_OPCODE_ARCALL,  NONE, pm_bcr)
++DEF (0xf8,  ARC_OPCODE_ARCALL,  NONE, scq_switch_build)
++DEF (0xf9,  ARC_OPCODE_ARCALL,  NONE, vraptor_build)
++DEF (0xfa,  ARC_OPCODE_ARCALL,  NONE, dma_config)
++DEF (0xfb,  ARC_OPCODE_ARCALL,  NONE, simd_config)
++DEF (0xfc,  ARC_OPCODE_ARCALL,  NONE, vlc_build)
++DEF (0xfd,  ARC_OPCODE_ARCALL,  NONE, simd_dma_build)
++DEF (0xfe,  ARC_OPCODE_ARCALL,  NONE, ifetch_queue_build)
++*/
+diff --git a/target/arc/regs.c b/target/arc/regs.c
+new file mode 100644
+index 0000000000..f433f41b57
+--- /dev/null
++++ b/target/arc/regs.c
+@@ -0,0 +1,139 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2018 Cupertino Miranda
++ *
 + * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public License
-+ * as published by the Free Software Foundation; either version 2.1 of
-+ * the License, or (at your option) any later version.
-+
-+ * This library is distributed in the hope that it will be useful, but
-+ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
 + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 + * Lesser General Public License for more details.
-+
-+ * You should have received a copy of the GNU General Public License
-+ * along with GAS or GDB; see the file COPYING3.  If not, write to
-+ * the Free Software Foundation, 51 Franklin Street - Fifth Floor, Boston,
-+ * MA 02110-1301, USA.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
 + */
 +
-+#include "translate.h"
-+#include "qemu/qemu-print.h"
-+#include "tcg/tcg-op-gvec.h"
-+#include "target/arc/semfunc.h"
-+#include "target/arc/arc-common.h"
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "qemu/error-report.h"
++#include "target/arc/regs.h"
++#include "target/arc/mmu.h"
++#include "target/arc/mpu.h"
++#include "target/arc/irq.h"
++#include "target/arc/timer.h"
++#include "target/arc/cache.h"
 +
-+/* Globals */
-+TCGv    cpu_gp;        /*  Global Pointer                      */
-+TCGv    cpu_fp;        /*  Frame Pointer                       */
-+TCGv    cpu_sp;        /*  Stack Pointer                       */
-+TCGv    cpu_ilink1;    /*  Level 1 interrupt link register     */
-+TCGv    cpu_ilink2;    /*  Level 2 interrupt link register     */
-+TCGv    cpu_blink;     /*  Branch link register                */
-+TCGv    cpu_acclo;     /*  64-bit accumulator register: low    */
-+TCGv    cpu_acchi;     /*  64-bit accumulator register: high   */
-+TCGv    cpu_limm;      /*  Long immediate data indicator       */
-+TCGv    cpu_pcl;       /*  Program Counter [31:2], read-only.  */
++struct arc_aux_reg_detail arc_aux_regs_detail[ARC_AUX_REGS_DETAIL_LAST] = {
++#define DEF(NUM, CPU, SUB, NAME) \
++  { \
++    NUM, \
++    CPU, \
++    SUB, \
++    AUX_ID_##NAME, \
++    #NAME, \
++    sizeof(#NAME) - 1, \
++    NULL, \
++    NULL, \
++  },
++#include "target/arc/regs-detail.def"
++#undef DEF
++};
 +
-+TCGv    cpu_S1f;
-+TCGv    cpu_S2f;
-+TCGv    cpu_CSf;
++struct arc_aux_reg arc_aux_regs[ARC_AUX_REGS_LAST] = {
++#define AUX_REG(NAME, GET_FUNC, SET_FUNC) \
++  { \
++    NULL, \
++    GET_FUNC, \
++    SET_FUNC \
++  },
++#include "target/arc/regs.def"
++#undef AUX_REG
++};
 +
-+TCGv    cpu_Lf;
-+TCGv    cpu_Zf;
-+TCGv    cpu_Nf;
-+TCGv    cpu_Cf;
-+TCGv    cpu_Vf;
-+TCGv    cpu_Uf;
++const char *arc_aux_reg_name[ARC_AUX_REGS_DETAIL_LAST] = {
++#define AUX_REG(NAME, GET, SET) #NAME,
++#include "target/arc/regs.def"
++#undef AUX_REG
++  "last_invalid_aux_reg"
++};
 +
-+TCGv    cpu_DEf;
-+TCGv    cpu_ESf;
-+TCGv    cpu_AEf;
-+TCGv    cpu_Hf;
-+TCGv    cpu_IEf;
-+TCGv    cpu_Ef;
 +
-+TCGv    cpu_is_delay_slot_instruction;
-+
-+TCGv    cpu_l1_Lf;
-+TCGv    cpu_l1_Zf;
-+TCGv    cpu_l1_Nf;
-+TCGv    cpu_l1_Cf;
-+TCGv    cpu_l1_Vf;
-+TCGv    cpu_l1_Uf;
-+
-+TCGv    cpu_l1_DEf;
-+TCGv    cpu_l1_AEf;
-+TCGv    cpu_l1_Hf;
-+
-+TCGv    cpu_l2_Lf;
-+TCGv    cpu_l2_Zf;
-+TCGv    cpu_l2_Nf;
-+TCGv    cpu_l2_Cf;
-+TCGv    cpu_l2_Vf;
-+TCGv    cpu_l2_Uf;
-+
-+TCGv    cpu_l2_DEf;
-+TCGv    cpu_l2_AEf;
-+TCGv    cpu_l2_Hf;
-+
-+TCGv    cpu_er_Lf;
-+TCGv    cpu_er_Zf;
-+TCGv    cpu_er_Nf;
-+TCGv    cpu_er_Cf;
-+TCGv    cpu_er_Vf;
-+TCGv    cpu_er_Uf;
-+
-+TCGv    cpu_er_DEf;
-+TCGv    cpu_er_AEf;
-+TCGv    cpu_er_Hf;
-+
-+TCGv    cpu_eret;
-+TCGv    cpu_erbta;
-+TCGv    cpu_ecr;
-+TCGv    cpu_efa;
-+
-+TCGv    cpu_bta;
-+TCGv    cpu_bta_l1;
-+TCGv    cpu_bta_l2;
-+
-+TCGv    cpu_pc;
-+TCGv    cpu_lpc;
-+/* replaced by AUX_REG array */
-+TCGv    cpu_lps;
-+TCGv    cpu_lpe;
-+
-+TCGv    cpu_r[64];
-+
-+TCGv    cpu_intvec;
-+
-+TCGv    cpu_debug_LD;
-+TCGv    cpu_debug_SH;
-+TCGv    cpu_debug_BH;
-+TCGv    cpu_debug_UB;
-+TCGv    cpu_debug_ZZ;
-+TCGv    cpu_debug_RA;
-+TCGv    cpu_debug_IS;
-+TCGv    cpu_debug_FH;
-+TCGv    cpu_debug_SS;
-+
-+TCGv    cpu_lock_lf_var;
-+
-+/* NOTE: Pseudo register required for comparison with lp_end */
-+TCGv    cpu_npc;
-+
-+/* Macros */
-+
-+#include "exec/gen-icount.h"
-+#define REG(x)  (cpu_r[x])
-+
-+/* macro used to fix middle-endianess. */
-+#define ARRANGE_ENDIAN(endianess, buf)                  \
-+    ((endianess) ? arc_getm32(buf) : bswap32(buf))
-+
-+/*
-+ * The macro to add boiler plate code for conditional execution.
-+ * It will add tcg_gen codes only if there is a condition to
-+ * be checked (ctx->insn.cc != 0). This macro assumes that there
-+ * is a "ctx" variable of type "DisasCtxt *" in context. Remember
-+ * to pair it with CC_EPILOGUE macro.
-+ */
-+#define CC_PROLOGUE                                   \
-+  TCGv cc = tcg_temp_local_new();                     \
-+  TCGLabel *done = gen_new_label();                   \
-+  do {                                                \
-+    if (ctx->insn.cc) {                               \
-+        arc_gen_verifyCCFlag(ctx, cc);                \
-+        tcg_gen_brcondi_tl(TCG_COND_NE, cc, 1, done); \
-+    }                                                 \
-+  } while (0)
-+
-+/*
-+ * The finishing counter part of CC_PROLUGE. This is supposed
-+ * to be put at the end of the function using it.
-+ */
-+#define CC_EPILOGUE          \
-+    if (ctx->insn.cc) {      \
-+        gen_set_label(done); \
-+    }                        \
-+    tcg_temp_free(cc)
-+
-+static inline bool use_goto_tb(DisasContext *dc, target_ulong dest)
-+{
-+    if (unlikely(dc->base.singlestep_enabled)) {
-+        return false;
-+    }
-+#ifndef CONFIG_USER_ONLY
-+    return (dc->base.tb->pc & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
-+#else
-+    return true;
-+#endif
-+}
-+
-+void gen_goto_tb(DisasContext *ctx, int n, TCGv dest)
-+{
-+    tcg_gen_mov_tl(cpu_pc, dest);
-+    tcg_gen_andi_tl(cpu_pcl, dest, 0xfffffffc);
-+    if (ctx->base.singlestep_enabled) {
-+        gen_helper_debug(cpu_env);
-+    }
-+    tcg_gen_exit_tb(NULL, 0);
-+}
-+
-+static void gen_gotoi_tb(DisasContext *ctx, int n, target_ulong dest)
-+{
-+    if (use_goto_tb(ctx, dest)) {
-+        tcg_gen_goto_tb(n);
-+        tcg_gen_movi_tl(cpu_pc, dest);
-+        tcg_gen_movi_tl(cpu_pcl, dest & 0xfffffffc);
-+        tcg_gen_exit_tb(ctx->base.tb, n);
-+    } else {
-+        tcg_gen_movi_tl(cpu_pc, dest);
-+        tcg_gen_movi_tl(cpu_pcl, dest & 0xfffffffc);
-+        if (ctx->base.singlestep_enabled) {
-+            gen_helper_debug(cpu_env);
-+        }
-+        tcg_gen_exit_tb(NULL, 0);
-+    }
-+}
-+
-+void arc_translate_init(void)
++void arc_aux_regs_init(void)
 +{
 +    int i;
-+    static int init_not_done = 1;
 +
-+    if (init_not_done == 0) {
-+        return;
-+    }
-+#define ARC_REG_OFFS(x) offsetof(CPUARCState, x)
-+
-+#define NEW_ARC_REG(x) \
-+        tcg_global_mem_new_i32(cpu_env, offsetof(CPUARCState, x), #x)
-+
-+    cpu_S1f = NEW_ARC_REG(macmod.S1);
-+    cpu_S2f = NEW_ARC_REG(macmod.S2);
-+    cpu_CSf = NEW_ARC_REG(macmod.CS);
-+
-+    cpu_Zf  = NEW_ARC_REG(stat.Zf);
-+    cpu_Lf  = NEW_ARC_REG(stat.Lf);
-+    cpu_Nf  = NEW_ARC_REG(stat.Nf);
-+    cpu_Cf  = NEW_ARC_REG(stat.Cf);
-+    cpu_Vf  = NEW_ARC_REG(stat.Vf);
-+    cpu_Uf  = NEW_ARC_REG(stat.Uf);
-+    cpu_DEf = NEW_ARC_REG(stat.DEf);
-+    cpu_ESf = NEW_ARC_REG(stat.ESf);
-+    cpu_AEf = NEW_ARC_REG(stat.AEf);
-+    cpu_Hf  = NEW_ARC_REG(stat.Hf);
-+    cpu_IEf = NEW_ARC_REG(stat.IEf);
-+    cpu_Ef  = NEW_ARC_REG(stat.Ef);
-+
-+    cpu_is_delay_slot_instruction = NEW_ARC_REG(stat.is_delay_slot_instruction);
-+
-+    cpu_l1_Zf = NEW_ARC_REG(stat_l1.Zf);
-+    cpu_l1_Lf = NEW_ARC_REG(stat_l1.Lf);
-+    cpu_l1_Nf = NEW_ARC_REG(stat_l1.Nf);
-+    cpu_l1_Cf = NEW_ARC_REG(stat_l1.Cf);
-+    cpu_l1_Vf = NEW_ARC_REG(stat_l1.Vf);
-+    cpu_l1_Uf = NEW_ARC_REG(stat_l1.Uf);
-+    cpu_l1_DEf = NEW_ARC_REG(stat_l1.DEf);
-+    cpu_l1_AEf = NEW_ARC_REG(stat_l1.AEf);
-+    cpu_l1_Hf = NEW_ARC_REG(stat_l1.Hf);
-+
-+    cpu_er_Zf = NEW_ARC_REG(stat_er.Zf);
-+    cpu_er_Lf = NEW_ARC_REG(stat_er.Lf);
-+    cpu_er_Nf = NEW_ARC_REG(stat_er.Nf);
-+    cpu_er_Cf = NEW_ARC_REG(stat_er.Cf);
-+    cpu_er_Vf = NEW_ARC_REG(stat_er.Vf);
-+    cpu_er_Uf = NEW_ARC_REG(stat_er.Uf);
-+    cpu_er_DEf = NEW_ARC_REG(stat_er.DEf);
-+    cpu_er_AEf = NEW_ARC_REG(stat_er.AEf);
-+    cpu_er_Hf = NEW_ARC_REG(stat_er.Hf);
-+
-+    cpu_eret = NEW_ARC_REG(eret);
-+    cpu_erbta = NEW_ARC_REG(erbta);
-+    cpu_ecr = NEW_ARC_REG(ecr);
-+    cpu_efa = NEW_ARC_REG(efa);
-+    cpu_bta = NEW_ARC_REG(bta);
-+    cpu_lps = NEW_ARC_REG(lps);
-+    cpu_lpe = NEW_ARC_REG(lpe);
-+    cpu_pc = NEW_ARC_REG(pc);
-+    cpu_npc = NEW_ARC_REG(npc);
-+
-+    cpu_bta_l1 = NEW_ARC_REG(bta_l1);
-+    cpu_bta_l2 = NEW_ARC_REG(bta_l2);
-+
-+    cpu_intvec = NEW_ARC_REG(intvec);
-+
-+    for (i = 0; i < 64; i++) {
-+        char name[16];
-+
-+        sprintf(name, "r[%d]", i);
-+
-+        cpu_r[i] = tcg_global_mem_new_i32(cpu_env,
-+                                          ARC_REG_OFFS(r[i]),
-+                                          strdup(name));
-+    }
-+
-+    cpu_gp     = cpu_r[26];
-+    cpu_fp     = cpu_r[27];
-+    cpu_sp     = cpu_r[28];
-+    cpu_ilink1 = cpu_r[29];
-+    cpu_ilink2 = cpu_r[30];
-+    cpu_blink  = cpu_r[31];
-+    cpu_acclo  = cpu_r[58];
-+    cpu_acchi  = cpu_r[59];
-+    cpu_lpc    = cpu_r[60];
-+    cpu_limm   = cpu_r[62];
-+    cpu_pcl    = cpu_r[63];
-+
-+    cpu_debug_LD = NEW_ARC_REG(debug.LD);
-+    cpu_debug_SH = NEW_ARC_REG(debug.SH);
-+    cpu_debug_BH = NEW_ARC_REG(debug.BH);
-+    cpu_debug_UB = NEW_ARC_REG(debug.UB);
-+    cpu_debug_ZZ = NEW_ARC_REG(debug.ZZ);
-+    cpu_debug_RA = NEW_ARC_REG(debug.RA);
-+    cpu_debug_IS = NEW_ARC_REG(debug.IS);
-+    cpu_debug_FH = NEW_ARC_REG(debug.FH);
-+    cpu_debug_SS = NEW_ARC_REG(debug.SS);
-+
-+    cpu_lock_lf_var = NEW_ARC_REG(lock_lf_var);
-+
-+    init_not_done = 0;
-+}
-+
-+static void arc_tr_init_disas_context(DisasContextBase *dcbase,
-+                                      CPUState *cs)
-+{
-+    DisasContext *dc = container_of(dcbase, DisasContext, base);
-+
-+    dc->base.is_jmp = DISAS_NEXT;
-+    dc->mem_idx = dc->base.tb->flags & 1;
-+}
-+static void arc_tr_tb_start(DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    /* place holder for now */
-+}
-+
-+static void arc_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    DisasContext *dc = container_of(dcbase, DisasContext, base);
-+
-+
-+    tcg_gen_insn_start(dc->base.pc_next);
-+    dc->cpc = dc->base.pc_next;
-+
-+    if (dc->base.num_insns == dc->base.max_insns &&
-+        (dc->base.tb->cflags & CF_LAST_IO)) {
-+        gen_io_start();
++    for (i = 0; i < ARC_AUX_REGS_DETAIL_LAST; i++) {
++        enum arc_aux_reg_enum id = arc_aux_regs_detail[i].id;
++        struct arc_aux_reg_detail *next = arc_aux_regs[id].first;
++        arc_aux_regs_detail[i].next = next;
++        arc_aux_regs_detail[i].aux_reg = &(arc_aux_regs[id]);
++        arc_aux_regs[id].first = &(arc_aux_regs_detail[i]);
 +    }
 +}
 +
-+static bool arc_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
-+                                    const CPUBreakpoint *bp)
++int
++arc_aux_reg_address_for(enum arc_aux_reg_enum aux_reg_def,
++                        int isa_mask)
 +{
-+    DisasContext *dc = container_of(dcbase, DisasContext, base);
-+
-+    tcg_gen_movi_tl(cpu_pc, dc->cpc);
-+    dc->base.is_jmp = DISAS_NORETURN;
-+    gen_helper_debug(cpu_env);
-+    dc->base.pc_next += 2;
-+    return true;
-+}
-+
-+static int arc_gen_INVALID(const DisasContext *ctx)
-+{
-+    fprintf(stderr, "invalid inst @:%08x\n", ctx->cpc);
-+    return DISAS_NEXT;
-+}
-+
-+extern bool enabled_interrupts;
-+
-+/* Arrange to middle endian, used by LITTLE ENDIAN systems. */
-+static uint32_t arc_getm32(uint32_t data)
-+{
-+    uint32_t value = 0;
-+
-+    value  = (data & 0x0000ffff) << 16;
-+    value |= (data & 0xffff0000) >> 16;
-+    return value;
-+}
-+
-+/*
-+ * Giving a CTX, decode it into an valid OPCODE_P if it
-+ * exists. Returns TRUE if successfully.
-+ */
-+static bool read_and_decode_context(DisasContext *ctx,
-+                                    const struct arc_opcode **opcode_p)
-+{
-+    uint16_t buffer[2];
-+    uint8_t length;
-+    uint64_t insn;
-+
-+    /* Read the first 16 bits, figure it out what kind of instruction it is. */
-+    buffer[0] = cpu_lduw_code(ctx->env, ctx->cpc);
-+    length = arc_insn_length(buffer[0], ctx->env->family);
-+
-+    switch (length) {
-+    case 2:
-+        /* 16-bit instructions. */
-+        insn = (uint64_t) buffer[0];
-+        break;
-+    case 4:
-+        /* 32-bit instructions. */
-+        buffer[1] = cpu_lduw_code(ctx->env, ctx->cpc + 2);
-+        uint32_t buf = (buffer[0] << 16) | buffer[1];
-+        insn = buf;
-+        break;
-+    default:
-+        g_assert_not_reached();
++    /* TODO: This must validate for CPU. */
++    struct arc_aux_reg_detail *detail = arc_aux_regs[aux_reg_def].first;
++    while (detail != NULL) {
++        if ((detail->cpu & isa_mask) != 0) {
++            return detail->address;
++        }
++        detail = detail->next;
 +    }
++    assert(0);
 +
-+    /*
-+     * Now, we have read the entire opcode, decode it and place the
-+     * relevant info into opcode and ctx->insn.
-+     */
-+    *opcode_p = arc_find_format(&ctx->insn, insn, length, ctx->env->family);
-+
-+    if (*opcode_p == NULL) {
-+        return false;
-+    }
-+
-+    /*
-+     * If the instruction requires long immediate, read the extra 4
-+     * bytes and initialize the relevant fields.
-+     */
-+    if (ctx->insn.limm_p) {
-+        ctx->insn.limm = ARRANGE_ENDIAN(true,
-+                                        cpu_ldl_code(ctx->env,
-+                                        ctx->cpc + length));
-+        length += 4;
-+    } else {
-+        ctx->insn.limm = 0;
-+    }
-+
-+    /* Update context. */
-+    ctx->insn.len = length;
-+    ctx->npc = ctx->cpc + length;
-+    ctx->pcl = ctx->cpc & 0xfffffffc;
-+
-+    return true;
++    /* We never get here but to accommodate -Werror ... */
++    return 0;
 +}
 +
-+/* Check if OPR is a register _and_ an even numbered one. */
-+static inline bool is_odd_numbered_register(const operand_t opr)
++struct arc_aux_reg_detail *
++arc_aux_reg_struct_for_address(int address, int isa_mask)
 +{
-+   return (opr.type & ARC_OPERAND_IR) && (opr.value & 1);
-+}
++    int i;
++    bool has_default = false;
++    struct arc_aux_reg_detail *default_ret = NULL;
 +
-+/*
-+ * Going through every operand, if any of those is a register
-+ * it is verified to be an even numbered register. Else, an
-+ * exception is put in the generated code and FALSE is returned.
-+ */
-+static bool verify_all_regs_are_even(const DisasCtxt *ctx)
-+{
-+    for (int nop = 0; nop < ctx->insn.n_ops; ++nop) {
-+        if (is_odd_numbered_register(ctx->insn.operands[nop])) {
-+            arc_gen_excp(ctx, EXCP_INST_ERROR, 0, 0);
-+            return false;
++    /* TODO: Make this a binary search or something faster. */
++    for (i = 0; i < ARC_AUX_REGS_DETAIL_LAST; i++) {
++        if (arc_aux_regs_detail[i].address == address) {
++            if (arc_aux_regs_detail[i].cpu == ARC_OPCODE_DEFAULT) {
++                has_default = true;
++                default_ret = &(arc_aux_regs_detail[i]);
++            } else if ((arc_aux_regs_detail[i].cpu & isa_mask) != 0) {
++                return &(arc_aux_regs_detail[i]);
++            }
 +        }
 +    }
-+    return true;
-+}
 +
-+/*
-+ * Verifies if the destination operand (operand 0) is a register
-+ * then it is an even numbered one. Else, an exception is put in
-+ * the generated code and FALSE is returned.
-+ */
-+static bool verify_dest_reg_is_even(const DisasCtxt *ctx)
-+{
-+    if (is_odd_numbered_register(ctx->insn.operands[0])) {
-+        arc_gen_excp(ctx, EXCP_INST_ERROR, 0, 0);
-+        return false;
++    if (has_default == true) {
++        return default_ret;
 +    }
-+    return true;
-+}
 +
-+enum arc_opcode_map {
-+    MAP_NONE = -1,
-+#define SEMANTIC_FUNCTION(...)
-+#define CONSTANT(...)
-+#define MAPPING(MNEMONIC, NAME, NOPS, ...) MAP_##MNEMONIC##_##NAME,
-+#include "target/arc/semfunc_mapping.def"
-+#include "target/arc/extra_mapping.def"
-+#undef MAPPING
-+#undef CONSTANT
-+#undef SEMANTIC_FUNCTION
-+    /* Add some include to generated files */
-+    MAP_LAST
-+};
-+
-+const char number_of_ops_semfunc[MAP_LAST + 1] = {
-+#define SEMANTIC_FUNCTION(...)
-+#define CONSTANT(...)
-+#define MAPPING(MNEMONIC, NAME, NOPS, ...) NOPS,
-+#include "target/arc/semfunc_mapping.def"
-+#include "target/arc/extra_mapping.def"
-+#undef MAPPING
-+#undef CONSTANT
-+#undef SEMANTIC_FUNCTION
-+    2
-+};
-+
-+static enum arc_opcode_map arc_map_opcode(const struct arc_opcode *opcode)
-+{
-+#define SEMANTIC_FUNCTION(...)
-+#define CONSTANT(...)
-+#define MAPPING(MNEMONIC, NAME, ...)         \
-+    if (strcmp(opcode->name, #MNEMONIC) == 0) \
-+        return MAP_##MNEMONIC##_##NAME;
-+#include "target/arc/semfunc_mapping.def"
-+#include "target/arc/extra_mapping.def"
-+#undef MAPPING
-+#undef CONSTANT
-+#undef SEMANTIC_FUNCTION
-+
-+    return MAP_NONE;
-+}
-+
-+/* Code support for constant values coming from semantic function mapping. */
-+struct constant_operands {
-+    uint8_t operand_number;
-+    uint32_t default_value;
-+    struct constant_operands *next;
-+};
-+
-+struct constant_operands *map_constant_operands[MAP_LAST];
-+
-+static void add_constant_operand(enum arc_opcode_map mapping,
-+                                 uint8_t operand_number,
-+                                 uint32_t value)
-+{
-+    struct constant_operands **t = &(map_constant_operands[mapping]);
-+    while (*t != NULL) {
-+        t = &((*t)->next);
-+    }
-+    *t = (struct constant_operands *) malloc(sizeof(struct constant_operands));
-+
-+    (*t)->operand_number = operand_number;
-+    (*t)->default_value = value;
-+    (*t)->next = NULL;
-+}
-+
-+static struct constant_operands *
-+constant_entry_for(enum arc_opcode_map mapping,
-+                   uint8_t operand_number)
-+{
-+    struct constant_operands *t = map_constant_operands[mapping];
-+    while (t != NULL) {
-+        if (t->operand_number == operand_number) {
-+            return t;
-+        }
-+        t = t->next;
-+    }
 +    return NULL;
 +}
 +
-+static void init_constants(void)
++uint32_t
++arc_regs_bcr_default_impl(const struct arc_aux_reg_detail *aux_reg,
++                          void *data)
 +{
-+#define SEMANTIC_FUNCTION(...)
-+#define MAPPING(...)
-+#define CONSTANT(NAME, MNEMONIC, OP_NUM, VALUE) \
-+  add_constant_operand(MAP_##MNEMONIC##_##NAME, OP_NUM, VALUE);
-+#include "target/arc/semfunc_mapping.def"
-+#include "target/arc/extra_mapping.def"
-+#undef MAPPING
-+#undef CONSTANT
-+#undef SEMANTIC_FUNCTION
++    return 0;
 +}
 +
-+static void arc_debug_opcode(const struct arc_opcode *opcode,
-+                             DisasContext *ctx,
-+                             const char *msg)
++/* TODO: Implement any non implemented auxs regs. */
++void TO_IMPLEMENT_SET(const struct arc_aux_reg_detail *aux_reg, uint32_t val,
++                      void *data)
 +{
-+    qemu_log_mask(LOG_UNIMP,
-+                  "%s for %s at pc=0x%08x\n",
-+                  msg, opcode->name, ctx->cpc);
-+}
-+
-+static TCGv arc_decode_operand(const struct arc_opcode *opcode,
-+                               DisasContext *ctx,
-+                               unsigned char nop,
-+                               enum arc_opcode_map mapping)
-+{
-+    TCGv ret;
-+
-+    if (nop >= ctx->insn.n_ops) {
-+        struct constant_operands *co = constant_entry_for(mapping, nop);
-+        assert(co != NULL);
-+        ret = tcg_const_local_i32(co->default_value);
-+        return ret;
-+    } else {
-+        operand_t operand = ctx->insn.operands[nop];
-+
-+        if (operand.type & ARC_OPERAND_IR) {
-+            ret = cpu_r[operand.value];
-+            if (operand.value == 63) {
-+                tcg_gen_movi_tl(cpu_pcl, ctx->pcl);
-+            }
-+      } else {
-+            int32_t limm = operand.value;
-+            if (operand.type & ARC_OPERAND_LIMM) {
-+                limm = ctx->insn.limm;
-+                tcg_gen_movi_tl(cpu_limm, limm);
-+                ret = cpu_r[62];
-+            } else {
-+                ret = tcg_const_local_i32(limm);
-+            }
-+        }
-+    }
-+
-+  return ret;
-+}
-+
-+/* See translate.h. */
-+void arc_gen_excp(const DisasCtxt *ctx,
-+                  uint32_t index,
-+                  uint32_t causecode,
-+                  uint32_t param)
-+{
-+    TCGv_i32 tcg_index = tcg_const_i32(index);
-+    TCGv_i32 tcg_cause = tcg_const_i32(causecode);
-+    TCGv_i32 tcg_param = tcg_const_i32(param);
-+
-+    tcg_gen_movi_tl(cpu_pc, ctx->cpc);
-+    tcg_gen_movi_tl(cpu_eret, ctx->cpc);
-+    tcg_gen_movi_tl(cpu_erbta, ctx->npc);
-+
-+    gen_helper_raise_exception(cpu_env, tcg_index, tcg_cause, tcg_param);
-+
-+    tcg_temp_free_i32(tcg_index);
-+    tcg_temp_free_i32(tcg_cause);
-+    tcg_temp_free_i32(tcg_param);
-+}
-+
-+/* Generate trap. */
-+static void gen_trap(DisasContext *ctx, uint32_t param)
-+{
-+    TCGv_i32 tmp0 = tcg_const_i32(EXCP_TRAP);
-+    TCGv_i32 tmp1 = tcg_const_i32(0);
-+    TCGv_i32 tmp2 = tcg_const_i32(param);
-+
-+    tcg_gen_movi_tl(cpu_pc, ctx->cpc);
-+    tcg_gen_movi_tl(cpu_eret, ctx->npc);
-+    tcg_gen_mov_tl(cpu_erbta, cpu_bta);
-+
-+    gen_helper_raise_exception(cpu_env, tmp0, tmp1, tmp2);
-+
-+    tcg_temp_free_i32(tmp0);
-+    tcg_temp_free_i32(tmp1);
-+    tcg_temp_free_i32(tmp2);
-+}
-+
-+/* Generate sleep insn. */
-+static void gen_sleep(DisasContext *ctx, TCGv opa)
-+{
-+    uint32_t param = 0;
-+
-+    if (ctx->insn.operands[0].type & ARC_OPERAND_IR) {
-+        TCGv tmp3 = tcg_temp_local_new_i32();
-+        TCGLabel *done_L = gen_new_label();
-+
-+        tcg_gen_andi_tl(tmp3, opa, 0x10);
-+        tcg_gen_brcondi_tl(TCG_COND_NE, tmp3, 0x10, done_L);
-+        tcg_gen_andi_tl(cpu_Ef, opa, 0x0f);
-+        tcg_gen_movi_tl(cpu_IEf, 1);
-+        gen_set_label(done_L);
-+
-+        tcg_temp_free_i32(tmp3);
-+    } else {
-+        param = ctx->insn.operands[0].value;
-+        if (param & 0x10) {
-+            tcg_gen_movi_tl(cpu_IEf, 1);
-+            tcg_gen_movi_tl(cpu_Ef, param & 0x0f);
-+        }
-+    }
-+    /* FIXME: setup debug registers as well. */
-+
-+    TCGv npc = tcg_temp_local_new_i32();
-+    tcg_gen_movi_tl(npc, ctx->npc);
-+    gen_helper_halt(cpu_env, npc);
-+    tcg_temp_free_i32(npc);
-+    qemu_log_mask(CPU_LOG_TB_IN_ASM,
-+                  "CPU in sleep mode, waiting for an IRQ.\n");
-+}
-+
-+/* Return from exception. */
-+static void gen_rtie(DisasContext *ctx)
-+{
-+    tcg_gen_movi_tl(cpu_pc, ctx->cpc);
-+    gen_helper_rtie(cpu_env);
-+    tcg_gen_mov_tl(cpu_pc, cpu_pcl);
-+    gen_goto_tb(ctx, 1, cpu_pc);
-+}
-+
-+/* accumulator = b32 * c32 (signed multiplication). */
-+void
-+arc_gen_mpyd(const DisasCtxt *ctx, TCGv_i32 dest,
-+              TCGv_i32 b32, TCGv_i32 c32)
-+{
-+    CC_PROLOGUE;
-+    tcg_gen_muls2_i32(cpu_acclo, cpu_acchi, b32, c32);
-+    if (ctx->insn.operands[0].type & ARC_OPERAND_IR) {
-+        tcg_gen_mov_tl(arc_gen_next_reg(ctx, dest), cpu_acchi);
-+        tcg_gen_mov_tl(dest, cpu_acclo);
-+    }
-+    if (ctx->insn.f) {
-+        setNFlag(cpu_acchi);
-+        tcg_gen_movi_tl(cpu_Vf, 0);
-+    }
-+    CC_EPILOGUE;
-+}
-+
-+/* accumulator = b32 * c32 (unsigned multiplication). */
-+void
-+arc_gen_mpydu(const DisasCtxt *ctx, TCGv_i32 dest,
-+               TCGv_i32 b32, TCGv_i32 c32)
-+{
-+    CC_PROLOGUE;
-+    tcg_gen_mulu2_i32(cpu_acclo, cpu_acchi, b32, c32);
-+    if (ctx->insn.operands[0].type & ARC_OPERAND_IR) {
-+        tcg_gen_mov_tl(arc_gen_next_reg(ctx, dest), cpu_acchi);
-+        tcg_gen_mov_tl(dest, cpu_acclo);
-+    }
-+    if (ctx->insn.f) {
-+        tcg_gen_movi_tl(cpu_Vf, 0);
-+    }
-+    CC_EPILOGUE;
-+}
-+
-+/*
-+ * Populates a 64-bit vector with register pair:
-+ *   vec64=(REGn+1,REGn)=(REGn+1_hi,REGn+1_lo,REGn_hi,REGn_lo)
-+ * REG must be refering to an even numbered register.
-+ * Do not forget to free the returned TCGv_i64 when done!
-+ */
-+static TCGv_i64 pair_reg_to_i64(const DisasCtxt *ctx, TCGv_i32 reg)
-+{
-+    TCGv_i64 vec64 = tcg_temp_new_i64();
-+    tcg_gen_concat_i32_i64(vec64, reg, arc_gen_next_reg(ctx, reg));
-+    return vec64;
-+}
-+
-+/*
-+ * Populates a 32-bit vector with repeating SHIMM:
-+ *   vec32=(0000000000u6,0000000000u6)
-+ *   vec32=(sssss12,sssss12)
-+ * It's crucial that the s12 part of an encoding is in signed
-+ * integer form while passed along in SHIMM, e.g:
-+ *   s12 = -125 (0xf803) --> 0xfffff803
-+ * Do not forget to free the returned TCGv_i32 when done!
-+ */
-+static TCGv_i32 dup_shimm_to_i32(int16_t shimm)
-+{
-+    TCGv_i32 vec32 = tcg_temp_new_i32();
-+    int32_t val = shimm;
-+    val = ((val << 16) & 0xffff0000) | (val & 0xffff);
-+    tcg_gen_movi_i32(vec32, val);
-+    return vec32;
-+}
-+
-+/*
-+ * Populates a 64-bit vector with repeating LIMM:
-+ *   vec64=(limm,limm)=(limm_hi,limm_lo,limm_hi,limm_lo)
-+ * Do not forget to free the returned TCGv_i64 when done!
-+ */
-+static TCGv_i64 dup_limm_to_i64(int32_t limm)
-+{
-+    TCGv_i64 vec64 = tcg_temp_new_i64();
-+    int64_t val = limm;
-+    val = (val << 32) | (val & 0xffffffff);
-+    tcg_gen_movi_i64(vec64, val);
-+    return vec64;
-+}
-+
-+/*
-+ * Populates a 64-bit vector with four SHIMM (u6 or s12):
-+ *   vec64=(0000000000u6,0000000000u6,0000000000u6,0000000000u6)
-+ *   vec64=(sssss12,sssss12,sssss12,sssss12)
-+ * It's crucial that the s12 part of an encoding is in signed
-+ * integer form while passed along in SHIMM, e.g:
-+ *   s12 = -125 (0xf803) --> 0xfffff803
-+ * Do not forget to free the returned TCGv_i64 when done!
-+ */
-+static TCGv_i64 quad_shimm_to_i64(int16_t shimm)
-+{
-+    TCGv_i64 vec64 = tcg_temp_new_i64();
-+    int64_t val = shimm;
-+    val = (val << 48) | ((val << 32) & 0x0000ffff00000000) |
-+          ((val << 16) & 0x00000000ffff0000) | (val & 0xffff);
-+    tcg_gen_movi_i64(vec64, val);
-+    return vec64;
-+}
-+
-+/*
-+ * gen_vec_op2 emits instructions to perform the desired operation,
-+ * defined by OP, on the inputs (B32 and C32) and returns the
-+ * result in DEST.
-+ *
-+ * vector size:     64-bit
-+ * vector elements: 2
-+ * element size:    32-bit
-+ *
-+ * (A1, A0) = (B1, B0) op (C1, C0)
-+ */
-+static void gen_vec_op2(const DisasCtxt *ctx,
-+                        void (*OP)(TCGv_i64, TCGv_i64, TCGv_i64),
-+                        TCGv_i32 dest,
-+                        TCGv_i32 b32,
-+                        TCGv_i32 c32)
-+{
-+    TCGv_i64 d64, b64, c64;
-+
-+    /* If no real register for result, then this a nop. Bail out! */
-+    if (!(ctx->insn.operands[0].type & ARC_OPERAND_IR)) {
-+        return;
-+    }
-+
-+    /* Extend B32 to B64 based on its type: {reg, limm}. */
-+    if (ctx->insn.operands[1].type & ARC_OPERAND_IR) {
-+        b64 = pair_reg_to_i64(ctx, b32);
-+    } else if (ctx->insn.operands[1].type & ARC_OPERAND_LIMM) {
-+        b64 = dup_limm_to_i64(ctx->insn.limm);
-+    } else {
-+        g_assert_not_reached();
-+    }
-+    /* Extend C32 to C64 based on its type: {reg, limm, shimm}. */
-+    if (ctx->insn.operands[2].type & ARC_OPERAND_IR) {
-+        c64 = pair_reg_to_i64(ctx, c32);
-+    } else if (ctx->insn.operands[2].type & ARC_OPERAND_LIMM) {
-+        c64 = dup_limm_to_i64(ctx->insn.limm);
-+    } else if (ctx->insn.operands[2].type & ARC_OPERAND_SHIMM) {
-+        /* At this point SHIMM is extended like LIMM. */
-+        c64 = dup_limm_to_i64(ctx->insn.operands[2].value);
-+    } else {
-+        g_assert_not_reached();
-+    }
-+    d64 = tcg_temp_new_i64();
-+
-+    (*OP)(d64, b64, c64);
-+    tcg_gen_extrl_i64_i32(dest, d64);
-+    tcg_gen_extrh_i64_i32(arc_gen_next_reg(ctx, dest), d64);
-+
-+    tcg_temp_free_i64(d64);
-+    tcg_temp_free_i64(c64);
-+    tcg_temp_free_i64(b64);
 +    return;
 +}
++uint32_t TO_IMPLEMENT_GET(const struct arc_aux_reg_detail *aux_reg, void *data)
++{
++    return 0;
++}
+diff --git a/target/arc/regs.def b/target/arc/regs.def
+new file mode 100644
+index 0000000000..3d9bba84c4
+--- /dev/null
++++ b/target/arc/regs.def
+@@ -0,0 +1,399 @@
++/*
++ * QEMU ARC Auxiliary register definitions
++ * Copyright (C) 2020 Free Software Foundation, Inc.
++ *
++ * Contributed by Claudiu Zissulescu (claziss@synopsys.com)
++ * Contributed by Cupertino Miranda (cmiranda@synopsys.com)
++ *
++ * This file is part of libopcodes.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 3, NULL,
++ * NULL) any later version.
++ *
++ * It is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
++ * License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA
++ * 02110-1301, USA.
++ */
++
++AUX_REG (unimp_bcr, arc_regs_bcr_default_impl, NULL)
++AUX_REG (acg_ctrl, NULL, NULL)
++AUX_REG (acr, NULL, NULL)
++AUX_REG (adcr, NULL, NULL)
++AUX_REG (aes_aux_0, NULL, NULL)
++AUX_REG (aes_aux_1, NULL, NULL)
++AUX_REG (aes_aux_2, NULL, NULL)
++AUX_REG (aes_aux_3, NULL, NULL)
++AUX_REG (aes_aux_4, NULL, NULL)
++AUX_REG (aes_auxi, NULL, NULL)
++AUX_REG (aes_auxs, NULL, NULL)
++AUX_REG (aes_crypt_mode, NULL, NULL)
++AUX_REG (ap_ac0, NULL, NULL)
++AUX_REG (ap_ac1, NULL, NULL)
++AUX_REG (ap_ac2, NULL, NULL)
++AUX_REG (ap_ac3, NULL, NULL)
++AUX_REG (ap_ac4, NULL, NULL)
++AUX_REG (ap_ac5, NULL, NULL)
++AUX_REG (ap_ac6, NULL, NULL)
++AUX_REG (ap_ac7, NULL, NULL)
++AUX_REG (ap_amm0, NULL, NULL)
++AUX_REG (ap_amm1, NULL, NULL)
++AUX_REG (ap_amm2, NULL, NULL)
++AUX_REG (ap_amm3, NULL, NULL)
++AUX_REG (ap_amm4, NULL, NULL)
++AUX_REG (ap_amm5, NULL, NULL)
++AUX_REG (ap_amm6, NULL, NULL)
++AUX_REG (ap_amm7, NULL, NULL)
++AUX_REG (ap_amv0, NULL, NULL)
++AUX_REG (ap_amv1, NULL, NULL)
++AUX_REG (ap_amv2, NULL, NULL)
++AUX_REG (ap_amv3, NULL, NULL)
++AUX_REG (ap_amv4, NULL, NULL)
++AUX_REG (ap_amv5, NULL, NULL)
++AUX_REG (ap_amv6, NULL, NULL)
++AUX_REG (ap_amv7, NULL, NULL)
++AUX_REG (apcr, NULL, NULL)
++AUX_REG (arc600_build_config, NULL, NULL)
++AUX_REG (arith_ctl_aux, NULL, NULL)
++AUX_REG (aux_cabac_cod_param, NULL, NULL)
++AUX_REG (aux_cabac_ctrl, NULL, NULL)
++AUX_REG (aux_cabac_ctx_state, NULL, NULL)
++AUX_REG (aux_cabac_misc0, NULL, NULL)
++AUX_REG (aux_cabac_misc1, NULL, NULL)
++AUX_REG (aux_cabac_misc2, NULL, NULL)
++AUX_REG (aux_cavlc_zero_left, NULL, NULL)
++AUX_REG (aux_crc_mode, NULL, NULL)
++AUX_REG (aux_crc_poly, NULL, NULL)
++AUX_REG (aux_dccm, NULL, NULL)
++AUX_REG (aux_dpfp1h, NULL, NULL)
++AUX_REG (aux_dpfp1l, NULL, NULL)
++AUX_REG (aux_dpfp2h, NULL, NULL)
++AUX_REG (aux_dpfp2l, NULL, NULL)
++AUX_REG (aux_fbf_store_16, NULL, NULL)
++AUX_REG (aux_inter_core_interrupt, NULL, NULL)
++AUX_REG (irq_priority, aux_irq_get, aux_irq_set)
++AUX_REG (aux_irq_act, aux_irq_get, aux_irq_set)
++AUX_REG (aux_irq_hint, aux_irq_get, aux_irq_set)
++AUX_REG (aux_irq_lev, NULL, NULL)
++AUX_REG (aux_irq_lv12, NULL, NULL)
++AUX_REG (irq_pending, aux_irq_get, NULL)
++AUX_REG (irq_pulse_cancel, NULL, aux_irq_set)
++AUX_REG (aux_irq_ctrl, aux_irq_get, aux_irq_set)
++AUX_REG (aux_kernel_sp, NULL, NULL)
++AUX_REG (aux_ldst_ram, NULL, NULL)
++AUX_REG (aux_macmode, NULL, NULL)
++AUX_REG (aux_sec_ctrl, NULL, NULL)
++AUX_REG (aux_sec_except, NULL, NULL)
++AUX_REG (aux_sec_k_sp, NULL, NULL)
++AUX_REG (aux_sec_u_sp, NULL, NULL)
++AUX_REG (aux_ucavlc_setup, NULL, NULL)
++AUX_REG (aux_ucavlc_state, NULL, NULL)
++AUX_REG (aux_user_sp, aux_irq_get, aux_irq_set)
++AUX_REG (aux_uvlc_i_state, NULL, NULL)
++AUX_REG (aux_vbfdw_accu, NULL, NULL)
++AUX_REG (aux_vbfdw_bm0, NULL, NULL)
++AUX_REG (aux_vbfdw_bm1, NULL, NULL)
++AUX_REG (aux_vbfdw_intstat, NULL, NULL)
++AUX_REG (aux_vbfdw_mode, NULL, NULL)
++AUX_REG (aux_vbfdw_ofst, NULL, NULL)
++AUX_REG (aux_volatile, NULL, NULL)
++AUX_REG (aux_vlc_bits, NULL, NULL)
++AUX_REG (aux_vlc_buf_free, NULL, NULL)
++AUX_REG (aux_vlc_buf_idx, NULL, NULL)
++AUX_REG (aux_vlc_buf_in, NULL, NULL)
++AUX_REG (aux_vlc_dma_ctrl, NULL, NULL)
++AUX_REG (aux_vlc_dma_end, NULL, NULL)
++AUX_REG (aux_vlc_dma_esc, NULL, NULL)
++AUX_REG (aux_vlc_dma_ptr, NULL, NULL)
++AUX_REG (aux_vlc_get_0bit, NULL, NULL)
++AUX_REG (aux_vlc_get_10bit, NULL, NULL)
++AUX_REG (aux_vlc_get_11bit, NULL, NULL)
++AUX_REG (aux_vlc_get_12bit, NULL, NULL)
++AUX_REG (aux_vlc_get_13bit, NULL, NULL)
++AUX_REG (aux_vlc_get_14bit, NULL, NULL)
++AUX_REG (aux_vlc_get_15bit, NULL, NULL)
++AUX_REG (aux_vlc_get_16bit, NULL, NULL)
++AUX_REG (aux_vlc_get_17bit, NULL, NULL)
++AUX_REG (aux_vlc_get_18bit, NULL, NULL)
++AUX_REG (aux_vlc_get_19bit, NULL, NULL)
++AUX_REG (aux_vlc_get_1bit, NULL, NULL)
++AUX_REG (aux_vlc_get_20bit, NULL, NULL)
++AUX_REG (aux_vlc_get_21bit, NULL, NULL)
++AUX_REG (aux_vlc_get_22bit, NULL, NULL)
++AUX_REG (aux_vlc_get_23bit, NULL, NULL)
++AUX_REG (aux_vlc_get_24bit, NULL, NULL)
++AUX_REG (aux_vlc_get_25bit, NULL, NULL)
++AUX_REG (aux_vlc_get_26bit, NULL, NULL)
++AUX_REG (aux_vlc_get_27bit, NULL, NULL)
++AUX_REG (aux_vlc_get_28bit, NULL, NULL)
++AUX_REG (aux_vlc_get_29bit, NULL, NULL)
++AUX_REG (aux_vlc_get_2bit, NULL, NULL)
++AUX_REG (aux_vlc_get_30bit, NULL, NULL)
++AUX_REG (aux_vlc_get_31bit, NULL, NULL)
++AUX_REG (aux_vlc_get_3bit, NULL, NULL)
++AUX_REG (aux_vlc_get_4bit, NULL, NULL)
++AUX_REG (aux_vlc_get_5bit, NULL, NULL)
++AUX_REG (aux_vlc_get_6bit, NULL, NULL)
++AUX_REG (aux_vlc_get_7bit, NULL, NULL)
++AUX_REG (aux_vlc_get_8bit, NULL, NULL)
++AUX_REG (aux_vlc_get_9bit, NULL, NULL)
++AUX_REG (aux_vlc_get_symbol, NULL, NULL)
++AUX_REG (aux_vlc_ibuf_status, NULL, NULL)
++AUX_REG (aux_vlc_read_buf, NULL, NULL)
++AUX_REG (aux_vlc_read_symbol, NULL, NULL)
++AUX_REG (aux_vlc_setup, NULL, NULL)
++AUX_REG (aux_vlc_table, NULL, NULL)
++AUX_REG (aux_vlc_valid_bits, NULL, NULL)
++AUX_REG (aux_xmac0_24, NULL, NULL)
++AUX_REG (aux_xmac0, NULL, NULL)
++AUX_REG (aux_xmac1_24, NULL, NULL)
++AUX_REG (aux_xmac1, NULL, NULL)
++AUX_REG (aux_xmac2_24, NULL, NULL)
++AUX_REG (aux_xmac2, NULL, NULL)
++AUX_REG (aux_xmaclw_h, NULL, NULL)
++AUX_REG (aux_xmaclw_l, NULL, NULL)
++AUX_REG (ax0, NULL, NULL)
++AUX_REG (ax1, NULL, NULL)
++AUX_REG (ax2, NULL, NULL)
++AUX_REG (ax3, NULL, NULL)
++AUX_REG (ay0, NULL, NULL)
++AUX_REG (ay1, NULL, NULL)
++AUX_REG (ay2, NULL, NULL)
++AUX_REG (ay3, NULL, NULL)
++AUX_REG (bpu_flush, NULL, NULL)
++AUX_REG (bta_l1, NULL, NULL)
++AUX_REG (bta_l2, NULL, NULL)
++AUX_REG (bta_link_build, NULL, NULL)
++AUX_REG (bta, NULL, NULL)
++AUX_REG (burstsys, NULL, NULL)
++AUX_REG (burstsz, NULL, NULL)
++AUX_REG (burstval, NULL, NULL)
++AUX_REG (burstxym, NULL, NULL)
++AUX_REG (cc_build, NULL, NULL)
++AUX_REG (che_mode, NULL, NULL)
++AUX_REG (clk_enable, NULL, NULL)
++AUX_REG (control0, aux_timer_get, aux_timer_set)
++AUX_REG (control1, aux_timer_get, aux_timer_set)
++AUX_REG (count0, aux_timer_get, aux_timer_set)
++AUX_REG (count1, aux_timer_get, aux_timer_set)
++AUX_REG (d1h, NULL, NULL)
++AUX_REG (d1l, NULL, NULL)
++AUX_REG (d2h, NULL, NULL)
++AUX_REG (d2l, NULL, NULL)
++AUX_REG (dataspace, NULL, NULL)
++AUX_REG (data_uncached_build, NULL, NULL)
++AUX_REG (dccm_base_build, NULL, NULL)
++AUX_REG (d_cache_build, arc_cache_aux_get, NULL)
++AUX_REG (dc_ctrl, arc_cache_aux_get, arc_cache_aux_set)
++AUX_REG (dc_data, NULL, NULL)
++AUX_REG (dc_fldl, NULL, arc_cache_aux_set)
++AUX_REG (dc_flsh, NULL, arc_cache_aux_set)
++AUX_REG (dc_ivdc, NULL, arc_cache_aux_set)
++AUX_REG (dc_ivdl, NULL, arc_cache_aux_set)
++AUX_REG (dc_ldl, NULL, NULL)
++AUX_REG (dc_startr, NULL, arc_cache_aux_set)
++AUX_REG (dc_endr, arc_cache_aux_get, arc_cache_aux_set)
++AUX_REG (dc_ptag, NULL, NULL)
++AUX_REG (dc_ptag_hi, arc_cache_aux_get, arc_cache_aux_set)
++AUX_REG (dc_ram_addr, NULL, NULL)
++AUX_REG (dc_tag, NULL, NULL)
++AUX_REG (dc_wp, NULL, NULL)
++AUX_REG (debugi, NULL, NULL)
++AUX_REG (debug, NULL, NULL)
++AUX_REG (des_aux, NULL, NULL)
++AUX_REG (dilstat, NULL, NULL)
++AUX_REG (dma_config, NULL, NULL)
++AUX_REG (dmc_code_ram, NULL, NULL)
++AUX_REG (dpfp_build, NULL, NULL)
++AUX_REG (dpfp_status, NULL, NULL)
++AUX_REG (dvfs_performance, NULL, NULL)
++AUX_REG (ea_build, NULL, NULL)
++AUX_REG (ecr, NULL, NULL)
++AUX_REG (efa, NULL, NULL)
++AUX_REG (ei_base, NULL, NULL)
++AUX_REG (erbta, NULL, NULL)
++AUX_REG (eret, NULL, NULL)
++AUX_REG (erp_control, NULL, NULL)
++AUX_REG (ersec_stat, NULL, NULL)
++AUX_REG (erstatus, NULL, NULL)
++AUX_REG (exec_ctrl, NULL, NULL)
++AUX_REG (fp_build, NULL, NULL)
++AUX_REG (fp_status, NULL, NULL)
++AUX_REG (hexctrl, NULL, NULL)
++AUX_REG (hexdata, NULL, NULL)
++AUX_REG (hwp_build, NULL, NULL)
++AUX_REG (icause, aux_irq_get, NULL)
++AUX_REG (irq_select, aux_irq_get, aux_irq_set)
++AUX_REG (irq_enable, aux_irq_get, aux_irq_set)
++AUX_REG (irq_trigger, aux_irq_get, aux_irq_set)
++AUX_REG (irq_status, aux_irq_get, NULL)
++AUX_REG (i_cache_build, arc_cache_aux_get, NULL)
++AUX_REG (ic_ctrl, arc_cache_aux_get, arc_cache_aux_set)
++AUX_REG (ic_data, NULL, NULL)
++AUX_REG (ic_startr, NULL, arc_cache_aux_set)
++AUX_REG (ic_endr, arc_cache_aux_get, arc_cache_aux_set)
++AUX_REG (ic_ivic, NULL, arc_cache_aux_set)
++AUX_REG (ic_ivil, NULL, arc_cache_aux_set)
++AUX_REG (ic_ivir, arc_cache_aux_get, arc_cache_aux_set)
++AUX_REG (ic_lil, NULL, NULL)
++AUX_REG (ic_ptag, arc_cache_aux_get, arc_cache_aux_set)
++AUX_REG (ic_ptag_hi, arc_cache_aux_get, arc_cache_aux_set)
++AUX_REG (ic_ram_address, NULL, NULL)
++AUX_REG (ic_tag, NULL, NULL)
++AUX_REG (ic_wp, NULL, NULL)
++AUX_REG (identity, NULL, NULL)
++AUX_REG (ifetch_queue_build, NULL, NULL)
++AUX_REG (int_vector_base, aux_irq_get, aux_irq_set)
++AUX_REG (irq_build, aux_irq_get, NULL)
++AUX_REG (irq_priority_pending, NULL, NULL)
++AUX_REG (isa_config, NULL, NULL)
++AUX_REG (ivic, NULL, NULL)
++AUX_REG (jli_base, TO_IMPLEMENT_GET, TO_IMPLEMENT_SET)
++AUX_REG (ldi_base, NULL, NULL)
++AUX_REG (led, NULL, NULL)
++AUX_REG (limit0, aux_timer_get, aux_timer_set)
++AUX_REG (limit1, aux_timer_get, aux_timer_set)
++AUX_REG (line_length_mask, NULL, NULL)
++AUX_REG (lockline, NULL, NULL)
++AUX_REG (lp_end, NULL, NULL)
++AUX_REG (lp_start, NULL, NULL)
++AUX_REG (lsp_newval, NULL, NULL)
++AUX_REG (madi_build, NULL, NULL)
++AUX_REG (memseg, NULL, NULL)
++AUX_REG (memsubsys, NULL, NULL)
++AUX_REG (mmu_build, arc_mmu_aux_get, NULL)
++AUX_REG (mpu_build, arc_mpu_aux_get, NULL)
++AUX_REG (mpuen, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpufa, NULL, NULL)
++AUX_REG (mpuic, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb0, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb1, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb2, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb3, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb4, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb5, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb6, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb7, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb8, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb9, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb10, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb11, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb12, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb13, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb14, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdb15, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp0, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp1, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp2, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp3, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp4, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp5, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp6, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp7, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp8, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp9, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp10, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp11, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp12, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp13, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp14, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpurdp15, arc_mpu_aux_get, arc_mpu_aux_set)
++AUX_REG (mpy_build, NULL, NULL)
++AUX_REG (mulhi, NULL, NULL)
++AUX_REG (mx00, NULL, NULL)
++AUX_REG (mx01, NULL, NULL)
++AUX_REG (mx0, NULL, NULL)
++AUX_REG (mx10, NULL, NULL)
++AUX_REG (mx11, NULL, NULL)
++AUX_REG (mx1, NULL, NULL)
++AUX_REG (mx20, NULL, NULL)
++AUX_REG (mx21, NULL, NULL)
++AUX_REG (mx30, NULL, NULL)
++AUX_REG (mx31, NULL, NULL)
++AUX_REG (my00, NULL, NULL)
++AUX_REG (my01, NULL, NULL)
++AUX_REG (my0, NULL, NULL)
++AUX_REG (my10, NULL, NULL)
++AUX_REG (my11, NULL, NULL)
++AUX_REG (my1, NULL, NULL)
++AUX_REG (my20, NULL, NULL)
++AUX_REG (my21, NULL, NULL)
++AUX_REG (my30, NULL, NULL)
++AUX_REG (my31, NULL, NULL)
++AUX_REG (nsc_table_base, NULL, NULL)
++AUX_REG (nsc_table_top, NULL, NULL)
++AUX_REG (p_base_addr, NULL, NULL)
++AUX_REG (pc, NULL, NULL)
++AUX_REG (pcport, NULL, NULL)
++AUX_REG (pct_build, NULL, NULL)
++AUX_REG (pid,    arc_mmu_aux_get, arc_mmu_aux_set)
++AUX_REG (sasid0, arc_mmu_aux_get, arc_mmu_aux_set)
++AUX_REG (sasid1, arc_mmu_aux_get, arc_mmu_aux_set)
++AUX_REG (pm_bcr, NULL, NULL)
++AUX_REG (pm_status, NULL, NULL)
++AUX_REG (pwr_ctrl, NULL, NULL)
++AUX_REG (rf_build, NULL, NULL)
++AUX_REG (rferp_status0, NULL, NULL)
++AUX_REG (rferp_status1, NULL, NULL)
++AUX_REG (scm_base, NULL, NULL)
++AUX_REG (scq_switch_build, NULL, NULL)
++AUX_REG (scratch_a, NULL, NULL)
++AUX_REG (scratch_data0, arc_mmu_aux_get, arc_mmu_aux_set)
++AUX_REG (sdm_base, NULL, NULL)
++AUX_REG (sec_extra, NULL, NULL)
++AUX_REG (sec_stat, NULL, NULL)
++AUX_REG (se_ctrl, NULL, NULL)
++AUX_REG (sec_vecbase_build, NULL, NULL)
++AUX_REG (se_dbg_ctrl, NULL, NULL)
++AUX_REG (se_dbg_data0, NULL, NULL)
++AUX_REG (se_dbg_data1, NULL, NULL)
++AUX_REG (se_dbg_data2, NULL, NULL)
++AUX_REG (se_dbg_data3, NULL, NULL)
++AUX_REG (se_eadr, NULL, NULL)
++AUX_REG (se_err, NULL, NULL)
++AUX_REG (semaphore, NULL, NULL)
++AUX_REG (se_spc, NULL, NULL)
++AUX_REG (se_stat, NULL, NULL)
++AUX_REG (se_watch, NULL, NULL)
++AUX_REG (simd_config, NULL, NULL)
++AUX_REG (simd_dma_build, NULL, NULL)
++AUX_REG (smart_control, NULL, NULL)
++AUX_REG (smart_data_0, NULL, NULL)
++AUX_REG (smart_data_2, NULL, NULL)
++AUX_REG (smart_data_3, NULL, NULL)
++AUX_REG (smart_data, NULL, NULL)
++AUX_REG (sram_seq, NULL, NULL)
++AUX_REG (status32, NULL, NULL)
++AUX_REG (status32_p0, NULL, NULL)
++AUX_REG (swstat, NULL, NULL)
++AUX_REG (tag_addr_mask, NULL, NULL)
++AUX_REG (tag_data_mask, NULL, NULL)
++AUX_REG (timer_build, aux_timer_get, NULL)
++AUX_REG (tlbcommand,  arc_mmu_aux_get, arc_mmu_aux_set_tlbcmd)
++AUX_REG (tlbindex,    arc_mmu_aux_get, arc_mmu_aux_set)
++AUX_REG (tlbpd0,      arc_mmu_aux_get, arc_mmu_aux_set)
++AUX_REG (tlbpd1_hi,   arc_mmu_aux_get, arc_mmu_aux_set)
++AUX_REG (tlbpd1,      arc_mmu_aux_get, arc_mmu_aux_set)
++AUX_REG (tsch, NULL, NULL)
++AUX_REG (unlockline, NULL, NULL)
++AUX_REG (vbfdw_build, NULL, NULL)
++AUX_REG (vecbase_ac_build, aux_irq_get, NULL)
++AUX_REG (vecbase_build, NULL, NULL)
++AUX_REG (vlc_build, NULL, NULL)
++AUX_REG (vraptor_build, NULL, NULL)
++AUX_REG (wake, NULL, NULL)
++AUX_REG (xpu, NULL, NULL)
++AUX_REG (xtp_newval, NULL, NULL)
++AUX_REG (xyconfig, NULL, NULL)
++AUX_REG (xylsbasex, NULL, NULL)
++AUX_REG (xylsbasey, NULL, NULL)
++AUX_REG (aux_rtc_ctrl, aux_timer_get, aux_timer_set)
++AUX_REG (aux_rtc_low, aux_timer_get, aux_timer_set)
++AUX_REG (aux_rtc_high, aux_timer_get, aux_timer_set)
+diff --git a/target/arc/regs.h b/target/arc/regs.h
+new file mode 100644
+index 0000000000..afafc60ef8
+--- /dev/null
++++ b/target/arc/regs.h
+@@ -0,0 +1,118 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2020 Cupertino Miranda (cmiranda@synopsys.com)
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
++
++#ifndef ARC_REGS_H
++#define ARC_REGS_H
++
++#include "target/arc/decoder.h"
 +
 +/*
-+ * gen_vec_op2h emits instructions to perform the desired operation,
-+ * defined by OP, on the inputs (B32 and C32) and returns the
-+ * result in DEST.
-+ *
-+ * vector size:     32-bit
-+ * vector elements: 2
-+ * element size:    16-bit
-+ *
-+ * (a1, a0) = (b1, b0) op (c1, c0)
++ * BCRs (Build configuration registers) are very special AUX regs
++ * as they are always readable even if corresponding HW module is absent.
++ * Thus we may always safely read them and learn what HW we have.
++ * All other AUX regs outside of 2 BCR areas are only readable if their
++ * HW is really implemented, otherwise "Instruction error" exception
++ * is raised by the CPU.
 + */
-+static void gen_vec_op2h(const DisasCtxt *ctx,
-+                         void (*OP)(TCGv, TCGv, TCGv),
-+                         TCGv_i32 dest,
-+                         TCGv_i32 b32,
-+                         TCGv_i32 c32)
-+{
-+    TCGv_i32 t0, t1;
 +
-+    /* If no real register for result, then this a nop. Bail out! */
-+    if (!(ctx->insn.operands[0].type & ARC_OPERAND_IR)) {
-+        return;
-+    }
++/* First BCR region. */
++#define ARC_BCR1_START          0x60
++#define ARC_BCR1_END            0x7f
++/* Second BCR region. */
++#define ARC_BCR2_START          0xc0
++#define ARC_BCR2_END            0xff
 +
-+    t0 = tcg_temp_new();
-+    tcg_gen_mov_i32(t0, b32);
-+    /*
-+     * If the last operand is a u6/s12, say 63, there is no "HI" in it.
-+     * Instead, it must be duplicated to form a pair; e.g.: (63, 63).
-+     */
-+    if (ctx->insn.operands[2].type & ARC_OPERAND_SHIMM) {
-+        t1 = dup_shimm_to_i32(ctx->insn.operands[2].value);
-+    } else {
-+        t1 = tcg_temp_new();
-+        tcg_gen_mov_i32(t1, c32);
-+    }
-+
-+    (*OP)(dest, t0, t1);
-+
-+    tcg_temp_free(t1);
-+    tcg_temp_free(t0);
-+}
-+
-+
-+/*
-+ * gen_vec_op4h emits instructions to perform the desired operation,
-+ * defined by OP, on the inputs (B32 and C32) and returns the
-+ * result in DEST.
-+ *
-+ * vector size:     64-bit
-+ * vector elements: 4
-+ * element size:    16-bit
-+ *
-+ * (a3, a2, a1, a0) = (b3, b2, b1, b0) op (c3, c2, c1, c0)
-+ */
-+static void gen_vec_op4h(const DisasCtxt *ctx,
-+                         void (*op)(TCGv_i64, TCGv_i64, TCGv_i64),
-+                         TCGv_i32 dest,
-+                         TCGv_i32 b32,
-+                         TCGv_i32 c32)
-+{
-+    TCGv_i64 d64, b64, c64;
-+
-+    /* If no real register for result, then this a nop. Bail out! */
-+    if (!(ctx->insn.operands[0].type & ARC_OPERAND_IR)) {
-+        return;
-+    }
-+
-+    /* Extend B32 to B64 based on its type: {reg, limm}. */
-+    if (ctx->insn.operands[1].type & ARC_OPERAND_IR) {
-+        b64 = pair_reg_to_i64(ctx, b32);
-+    } else if (ctx->insn.operands[1].type & ARC_OPERAND_LIMM) {
-+        b64 = dup_limm_to_i64(ctx->insn.limm);
-+    } else {
-+        g_assert_not_reached();
-+    }
-+    /* Extend C32 to C64 based on its type: {reg, limm, shimm}. */
-+    if (ctx->insn.operands[2].type & ARC_OPERAND_IR) {
-+        c64 = pair_reg_to_i64(ctx, c32);
-+    } else if (ctx->insn.operands[2].type & ARC_OPERAND_LIMM) {
-+        c64 = dup_limm_to_i64(ctx->insn.limm);
-+    } else if (ctx->insn.operands[2].type & ARC_OPERAND_SHIMM) {
-+        c64 = quad_shimm_to_i64(ctx->insn.operands[2].value);
-+    } else {
-+        g_assert_not_reached();
-+    }
-+    d64 = tcg_temp_new_i64();
-+
-+    (*op)(d64, b64, c64);
-+    tcg_gen_extrl_i64_i32(dest, d64);
-+    tcg_gen_extrh_i64_i32(arc_gen_next_reg(ctx, dest), d64);
-+
-+    tcg_temp_free_i64(d64);
-+    tcg_temp_free_i64(c64);
-+    tcg_temp_free_i64(b64);
-+    return;
-+}
-+
-+/*
-+ * To use a 32-bit adder to sum two 16-bit numbers:
-+ * 1) Mask out the 16th bit in both operands to cause no carry.
-+ * 2) Add the numbers.
-+ * 3) Put back the 16th bit sum: T0[15] ^ T1[15] ^ CARRY[14]
-+ *    (ignoring the possible carry generated)
-+ * T0 and T1 values will change. Use temporary ones.
-+ */
-+static void gen_add16(TCGv_i32 dest, TCGv_i32 t0, TCGv_i32 t1)
-+{
-+    TCGv_i32 tmp = tcg_temp_new_i32();
-+    tcg_gen_xor_i32(tmp, t0, t1);
-+    tcg_gen_andi_i32(tmp, tmp, 0x8000);
-+    tcg_gen_andi_i32(t0, t0, ~0x8000);
-+    tcg_gen_andi_i32(t1, t1, ~0x8000);
-+    tcg_gen_add_i32(t0, t0, t1);
-+    tcg_gen_xor_i32(dest, t0, tmp);
-+    tcg_temp_free_i32(tmp);
-+}
-+
-+/*
-+ * To use a 32-bit subtracter to subtract two 16-bit numbers:
-+ * 0) Record how T0[15]-T1[15] would result without other bits.
-+ * 1) Make the 16th bit for the first operand 1 and the second
-+ *    operand 0. This combination of (1 - 0) will absorb any
-+ *    possible borrow that may come from the 15th bit.
-+ * 2) Subtract the numbers.
-+ * 3) Correct the 16th bit result (1 - 0 - B):
-+ *    If the 16th bit is 1 --> no borrow was asked.
-+ *    If the 16th bit is 0 --> a  borrow was asked.
-+ *    and if a borrow was asked, the result of step 0 must be
-+ *    inverted (0 -> 1 and 1 -> 0). If not, the result of step
-+ *    0 can be used readily:
-+ *     STEP2[15] | T0[15]-T1[15] | DEST[15]
-+ *     ----------+---------------+---------
-+ *         0     |       0       |    1
-+ *         0     |       1       |    0
-+ *         1     |       0       |    0
-+ *         1     |       1       |    1
-+ *    This is a truth table for XNOR(a,b):
-+ *      NOT(XOR(a,b))=XOR(XOR(a,b),1)
-+ * This approach might seem pedantic, but it generates one less
-+ * instruction than the obvious mask-and-sub approach and requires
-+ * two less TCG variables.
-+ * T0 and T1 values will change. Use temporary ones.
-+ */
-+static void gen_sub16(TCGv_i32 dest, TCGv_i32 t0, TCGv_i32 t1)
-+{
-+    TCGv_i32 tmp = tcg_temp_new_i32();
-+    tcg_gen_xor_i32(tmp, t0, t1);          /* step 0 */
-+    tcg_gen_andi_i32(tmp, tmp, 0x8000);    /* step 0 */
-+    tcg_gen_ori_i32(t0, t0, 0x8000);       /* step 1 */
-+    tcg_gen_andi_i32(t1, t1, ~0x8000);     /* step 1 */
-+    tcg_gen_sub_i32(t0, t0, t1);           /* step 2 */
-+    tcg_gen_xor_i32(dest, t0, tmp);        /* step 3 */
-+    tcg_gen_xori_i32(dest, dest, 0x8000);  /* step 3 */
-+    tcg_temp_free_i32(tmp);
-+}
-+
-+void
-+arc_gen_vadd2(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
-+{
-+    CC_PROLOGUE;
-+    gen_vec_op2(ctx, tcg_gen_vec_add32_i64, dest, b, c);
-+    CC_EPILOGUE;
-+}
-+
-+void
-+arc_gen_vadd2h(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
-+{
-+    CC_PROLOGUE;
-+    gen_vec_op2h(ctx, gen_add16, dest, b, c);
-+    CC_EPILOGUE;
-+}
-+
-+void
-+arc_gen_vadd4h(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
-+{
-+    CC_PROLOGUE;
-+    gen_vec_op4h(ctx, tcg_gen_vec_add16_i64, dest, b, c);
-+    CC_EPILOGUE;
-+}
-+
-+void
-+arc_gen_vsub2(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
-+{
-+    CC_PROLOGUE;
-+    gen_vec_op2(ctx, tcg_gen_vec_sub32_i64, dest, b, c);
-+    CC_EPILOGUE;
-+}
-+
-+void
-+arc_gen_vsub2h(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
-+{
-+    CC_PROLOGUE;
-+    gen_vec_op2h(ctx, gen_sub16, dest, b, c);
-+    CC_EPILOGUE;
-+}
-+
-+void
-+arc_gen_vsub4h(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
-+{
-+    CC_PROLOGUE;
-+    gen_vec_op4h(ctx, tcg_gen_vec_sub16_i64, dest, b, c);
-+    CC_EPILOGUE;
-+}
-+
-+
-+/* Given a CTX, generate the relevant TCG code for the given opcode. */
-+static int arc_decode(DisasContext *ctx, const struct arc_opcode *opcode)
-+{
-+    int ret = DISAS_NEXT;
-+    enum arc_opcode_map mapping;
-+    static bool initialized = false;
-+
-+    if (initialized == false) {
-+        init_constants();
-+        initialized = true;
-+    }
-+
-+    /* Do the mapping. */
-+    mapping = arc_map_opcode(opcode);
-+    if (mapping != MAP_NONE) {
-+        TCGv ops[10];
-+        int i;
-+        for (i = 0; i < number_of_ops_semfunc[mapping]; i++) {
-+            ops[i] = arc_decode_operand(opcode, ctx, i, mapping);
-+        }
-+
-+        /*
-+         * Store some elements statically to implement less dynamic
-+         * features of instructions.  Started by the need to keep a
-+         * static reference to LP_START and LP_END.
-+         */
-+
-+#define SEMANTIC_FUNCTION_CALL_0(NAME, A)       \
-+            arc_gen_##NAME(ctx);
-+#define SEMANTIC_FUNCTION_CALL_1(NAME, A)       \
-+            arc_gen_##NAME(ctx, ops[A]);
-+#define SEMANTIC_FUNCTION_CALL_2(NAME, A, B)            \
-+            arc_gen_##NAME(ctx, ops[A], ops[B]);
-+#define SEMANTIC_FUNCTION_CALL_3(NAME, A, B, C)                 \
-+            arc_gen_##NAME(ctx, ops[A], ops[B], ops[C]);
-+#define SEMANTIC_FUNCTION_CALL_4(NAME, A, B, C, D)                      \
-+            arc_gen_##NAME(ctx, ops[A], ops[B], ops[C], ops[D]);
-+
-+#define SEMANTIC_FUNCTION(...)
-+#define CONSTANT(...)
-+#define MAPPING(MNEMONIC, NAME, NOPS, ...)                              \
-+            case MAP_##MNEMONIC##_##NAME:                               \
-+                ret = SEMANTIC_FUNCTION_CALL_##NOPS(NAME, __VA_ARGS__); \
-+                break;
-+        switch (mapping) {
-+#include "target/arc/semfunc_mapping.def"
-+
-+        case MAP_swi_SWI:
-+        case MAP_swi_s_SWI:
-+            arc_gen_excp(ctx, EXCP_SWI, 0, ctx->insn.operands[0].value);
-+            ret = DISAS_NEXT;
-+            break;
-+
-+        case MAP_trap_s_TRAP:
-+            gen_trap(ctx, ctx->insn.operands[0].value);
-+            ret = DISAS_NORETURN;
-+            break;
-+
-+        case MAP_rtie_RTIE:
-+            gen_rtie(ctx);
-+            ret = DISAS_NORETURN;
-+            break;
-+
-+        case MAP_sleep_SLEEP:
-+            gen_sleep(ctx, ops[0]);
-+            ret = DISAS_NEXT;
-+            break;
-+
-+        case MAP_vadd2_VADD:
-+            if (verify_all_regs_are_even(ctx)) {
-+                arc_gen_vadd2(ctx, ops[0], ops[1], ops[2]);
-+            }
-+            ret = DISAS_NEXT;
-+            break;
-+        case MAP_vadd2h_VADD:
-+            arc_gen_vadd2h(ctx, ops[0], ops[1], ops[2]);
-+            ret = DISAS_NEXT;
-+            break;
-+        case MAP_vadd4h_VADD:
-+            if (verify_all_regs_are_even(ctx)) {
-+                arc_gen_vadd4h(ctx, ops[0], ops[1], ops[2]);
-+            }
-+            ret = DISAS_NEXT;
-+            break;
-+
-+        case MAP_vsub2_VSUB:
-+            if (verify_all_regs_are_even(ctx)) {
-+                arc_gen_vsub2(ctx, ops[0], ops[1], ops[2]);
-+            }
-+            ret = DISAS_NEXT;
-+            break;
-+        case MAP_vsub2h_VSUB:
-+            arc_gen_vsub2h(ctx, ops[0], ops[1], ops[2]);
-+            ret = DISAS_NEXT;
-+            break;
-+        case MAP_vsub4h_VSUB:
-+            if (verify_all_regs_are_even(ctx)) {
-+                arc_gen_vsub4h(ctx, ops[0], ops[1], ops[2]);
-+            }
-+            ret = DISAS_NEXT;
-+            break;
-+
-+        case MAP_mpyd_MPYD:
-+            if (verify_dest_reg_is_even(ctx)) {
-+                arc_gen_mpyd(ctx, ops[0], ops[1], ops[2]);
-+            }
-+            ret = DISAS_NEXT;
-+            break;
-+        case MAP_mpydu_MPYD:
-+            if (verify_dest_reg_is_even(ctx)) {
-+                arc_gen_mpydu(ctx, ops[0], ops[1], ops[2]);
-+            }
-+            ret = DISAS_NEXT;
-+            break;
-+
-+        default:
-+            arc_debug_opcode(opcode, ctx, "No handle for map opcode");
-+            g_assert(!"Semantic not handled: Use -d unimp to list it.");
-+        }
-+#undef MAPPING
-+#undef CONSTANT
-+#undef SEMANTIC_FUNCTION
-+#undef SEMANTIC_FUNCTION_CALL_0
-+#undef SEMANTIC_FUNCTION_CALL_1
-+#undef SEMANTIC_FUNCTION_CALL_2
-+#undef SEMANTIC_FUNCTION_CALL_3
-+
-+        for (i = 0; i < number_of_ops_semfunc[mapping]; i++) {
-+            operand_t operand = ctx->insn.operands[i];
-+            if (!(operand.type & ARC_OPERAND_LIMM) &&
-+                !(operand.type & ARC_OPERAND_IR)) {
-+                tcg_temp_free_i32(ops[i]);
-+            }
-+        }
-+
-+    } else {
-+        arc_debug_opcode(opcode, ctx, "No mapping for opcode");
-+        g_assert(!"Semantic not found: Use -d unimp to list it.");
-+    }
-+
-+    return ret;
-+}
-+
-+void decode_opc(CPUARCState *env, DisasContext *ctx)
-+{
-+    ctx->env = env;
-+
-+    enabled_interrupts = false;
-+
-+    const struct arc_opcode *opcode = NULL;
-+    if (!read_and_decode_context(ctx, &opcode)) {
-+        ctx->base.is_jmp = arc_gen_INVALID(ctx);
-+        return;
-+    }
-+
-+    ctx->base.is_jmp = arc_decode(ctx, opcode);
-+
-+    TCGv npc = tcg_const_local_i32(ctx->npc);
-+    gen_helper_zol_verify(cpu_env, npc);
-+    tcg_temp_free(npc);
-+
-+    enabled_interrupts = true;
-+}
-+
-+static void arc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    bool in_a_delayslot_instruction = false;
-+    DisasContext *dc = container_of(dcbase, DisasContext, base);
-+    CPUARCState *env = cpu->env_ptr;
-+
-+    /* TODO (issue #62): these must be removed */
-+    dc->zero = tcg_const_local_i32(0);
-+    dc->one  = tcg_const_local_i32(1);
-+
-+    if (env->stat.is_delay_slot_instruction == 1) {
-+        in_a_delayslot_instruction = true;
-+    }
-+
-+    dc->cpc = dc->base.pc_next;
-+    decode_opc(env, dc);
-+
-+    dc->base.pc_next = dc->npc;
-+    tcg_gen_movi_tl(cpu_npc, dc->npc);
-+
-+    if (in_a_delayslot_instruction == true) {
-+        dc->base.is_jmp = DISAS_NORETURN;
-+
-+        /* Post execution delayslot logic. */
-+        TCGLabel *DEf_not_set_label1 = gen_new_label();
-+        tcg_gen_brcondi_i32(TCG_COND_NE, cpu_DEf, 1, DEf_not_set_label1);
-+        tcg_gen_movi_tl(cpu_DEf, 0);
-+        gen_goto_tb(dc, 1, cpu_bta);
-+        gen_set_label(DEf_not_set_label1);
-+        env->stat.is_delay_slot_instruction = 0;
-+    }
-+
-+    if (dc->base.is_jmp == DISAS_NORETURN) {
-+        gen_gotoi_tb(dc, 0, dc->npc);
-+    } else if (dc->base.is_jmp == DISAS_NEXT) {
-+        target_ulong page_start;
-+
-+        page_start = dc->base.pc_first & TARGET_PAGE_MASK;
-+        if (dc->base.pc_next - page_start >= TARGET_PAGE_SIZE) {
-+            dc->base.is_jmp = DISAS_TOO_MANY;
-+        }
-+    }
-+
-+    /* TODO (issue #62): these must be removed. */
-+    tcg_temp_free_i32(dc->zero);
-+    tcg_temp_free_i32(dc->one);
-+
-+    /* verify if there is any TCG temporaries leakge */
-+    translator_loop_temp_check(dcbase);
-+}
-+
-+static void arc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    DisasContext *dc = container_of(dcbase, DisasContext, base);
-+
-+    switch (dc->base.is_jmp) {
-+    case DISAS_TOO_MANY:
-+    case DISAS_UPDATE:
-+        gen_gotoi_tb(dc, 0, dc->base.pc_next);
-+        break;
-+    case DISAS_BRANCH_IN_DELAYSLOT:
-+    case DISAS_NORETURN:
-+        break;
-+    default:
-+         g_assert_not_reached();
-+    }
-+
-+    if (dc->base.num_insns == dc->base.max_insns &&
-+        (dc->base.tb->cflags & CF_LAST_IO)) {
-+        gen_io_end();
-+    }
-+}
-+
-+static void arc_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    DisasContext *dc = container_of(dcbase, DisasContext, base);
-+
-+    qemu_log("IN: %s\n", lookup_symbol(dc->base.pc_first));
-+    log_target_disas(cpu, dc->base.pc_first, dc->base.tb->size);
-+}
-+
-+
-+static const TranslatorOps arc_translator_ops = {
-+    .init_disas_context = arc_tr_init_disas_context,
-+    .tb_start           = arc_tr_tb_start,
-+    .insn_start         = arc_tr_insn_start,
-+    .breakpoint_check   = arc_tr_breakpoint_check,
-+    .translate_insn     = arc_tr_translate_insn,
-+    .tb_stop            = arc_tr_tb_stop,
-+    .disas_log          = arc_tr_disas_log,
++enum arc_aux_reg_enum {
++    ARC_AUX_REGS_INVALID = -1,
++#define AUX_REG(NAME, GET, SET) AUX_ID_##NAME,
++#include "target/arc/regs.def"
++#undef AUX_REG
++    ARC_AUX_REGS_LAST
 +};
 +
-+/* generate intermediate code for basic block 'tb'. */
-+void gen_intermediate_code(CPUState *cpu,
-+                           TranslationBlock *tb,
-+                           int max_insns)
-+{
-+    DisasContext dc;
-+    const TranslatorOps *ops = &arc_translator_ops;
-+    translator_loop(ops, &dc.base, cpu, tb, max_insns);
-+}
++enum arc_aux_reg_detail_enum {
++    ARC_AUX_REGS_DETAIL_INVALID = -1,
++#define DEF(NUM, CPU, SUB, NAME) CPU##_##NUM,
++#include "target/arc/regs-detail.def"
++#undef DEF
++    ARC_AUX_REGS_DETAIL_LAST
++};
 +
-+void restore_state_to_opc(CPUARCState *env,
-+                          TranslationBlock *tb,
-+                          target_ulong *data)
-+{
-+    env->pc = data[0];
-+}
++struct arc_aux_regs_data;
++struct arc_aux_reg_detail {
++    /* Register address. */
++    int address;
 +
-+void arc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-+{
-+    ARCCPU *cpu = ARC_CPU(cs);
-+    CPUARCState *env = &cpu->env;
-+    int i;
++    /*
++     * One bit flags for the opcode. These are primarily used to
++     * indicate specific processors and environments support the
++     * instructions.
++     */
++    enum arc_cpu_family cpu;
 +
-+    qemu_fprintf(f, "STATUS:  [ %c %c %c %c %c %c %s %s %s %s %s %s %c]\n",
-+                        env->stat.Lf ? 'L' : '-',
-+                        env->stat.Zf ? 'Z' : '-',
-+                        env->stat.Nf ? 'N' : '-',
-+                        env->stat.Cf ? 'C' : '-',
-+                        env->stat.Vf ? 'V' : '-',
-+                        env->stat.Uf ? 'U' : '-',
-+                        env->stat.DEf ? "DE" : "--",
-+                        env->stat.AEf ? "AE" : "--",
-+                        env->stat.Ef ? "E" : "--",
-+                        env->stat.DZf ? "DZ" : "--",
-+                        env->stat.SCf ? "SC" : "--",
-+                        env->stat.IEf ? "IE" : "--",
-+                        env->stat.Hf ? 'H' : '-'
-+                        );
++    /* AUX register subclass. */
++    insn_subclass_t subclass;
 +
-+    qemu_fprintf(f, "\n");
-+    for (i = 0; i < ARRAY_SIZE(env->r); i++) {
-+        qemu_fprintf(f, "R[%02d]:  %02x   ", i, env->r[i]);
++    /* Enum for aux-reg. */
++    enum arc_aux_reg_enum id;
 +
-+        if ((i % 8) == 7) {
-+            qemu_fprintf(f, "\n");
-+        }
-+    }
-+}
++    /* Register name. */
++    const char *name;
 +
++    /* Size of the string. */
++    size_t length;
 +
-+/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
-+/* vim: set ts=4 sw=4 et: */
-diff --git a/target/arc/translate.h b/target/arc/translate.h
-new file mode 100644
-index 0000000000..8237b45692
---- /dev/null
-+++ b/target/arc/translate.h
-@@ -0,0 +1,202 @@
-+/*
-+ *  QEMU ARC CPU
-+ *
-+ *  Copyright (c) 2016 Michael Rolnik
-+ *
-+ *  This library is free software; you can redistribute it and/or
-+ *  modify it under the terms of the GNU Lesser General Public
-+ *  License as published by the Free Software Foundation; either
-+ *  version 2.1 of the License, or (at your option) any later version.
-+ *
-+ *  This library is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ *  Lesser General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU Lesser General Public
-+ *  License along with this library; if not, see
-+ *  <http://www.gnu.org/licenses/lgpl-2.1.html>
-+ */
++    /* pointer to the first element in the list. */
++    struct arc_aux_reg_detail *next;
 +
-+#ifndef ARC_TRANSLATE_H_
-+#define ARC_TRANSLATE_H_
++    /* pointer to the first element in the list. */
++    struct arc_aux_reg *aux_reg;
++};
 +
++typedef void (* aux_reg_set_func)(const struct arc_aux_reg_detail *aux_reg,
++                                  uint32_t val, void *data);
++typedef uint32_t (* aux_reg_get_func)(const struct arc_aux_reg_detail *aux_reg,
++                                      void *data);
 +
-+#include "qemu/osdep.h"
-+#include "arc-common.h"
++struct arc_aux_reg {
++    /* pointer to the first element in the list. */
++    struct arc_aux_reg_detail *first;
 +
-+#include "tcg/tcg.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "disas/disas.h"
-+#include "tcg/tcg-op.h"
-+#include "exec/cpu_ldst.h"
++    /* get and set function for lr and sr helpers */
++    aux_reg_get_func get_func;
++    aux_reg_set_func set_func;
++};
 +
-+#include "exec/helper-proto.h"
-+#include "exec/helper-gen.h"
-+#include "exec/log.h"
++extern struct arc_aux_reg_detail arc_aux_regs_detail[ARC_AUX_REGS_DETAIL_LAST];
++extern struct arc_aux_reg arc_aux_regs[ARC_AUX_REGS_LAST];
++extern const char *arc_aux_reg_name[ARC_AUX_REGS_DETAIL_LAST];
 +
-+#include "exec/translator.h"
++void arc_aux_regs_init(void);
++int arc_aux_reg_address_for(enum arc_aux_reg_enum, int);
++struct arc_aux_reg_detail *arc_aux_reg_struct_for_address(int, int);
 +
-+/* signaling the end of translation block */
-+#define DISAS_UPDATE        DISAS_TARGET_0
-+#define DISAS_BRANCH_IN_DELAYSLOT DISAS_TARGET_1
++uint32_t arc_regs_bcr_default_impl(const struct arc_aux_reg_detail *aux_reg,
++                                   void *data);
 +
-+typedef struct DisasContext {
-+    DisasContextBase base;
++void TO_IMPLEMENT_SET(const struct arc_aux_reg_detail *aux_reg, uint32_t val,
++                      void *data);
++uint32_t TO_IMPLEMENT_GET(const struct arc_aux_reg_detail *aux_reg, void *data);
 +
-+    uint32_t cpc;   /*  current pc      */
-+    uint32_t npc;   /*  next pc         */
-+    uint32_t dpc;   /*  next next pc    */
-+    uint32_t pcl;
-+    uint32_t lpe;
-+    uint32_t lps;
-+
-+    unsigned ds;    /*  we are within ds*/
-+
-+    /* TODO (issue #62): these must be removed */
-+    TCGv     zero;  /*  0x00000000      */
-+    TCGv     one;   /*  0x00000001      */
-+
-+    insn_t insn;
-+
-+    CPUARCState *env;
-+
-+    uint16_t buffer[2];
-+    uint8_t  mem_idx;
-+
-+} DisasContext;
-+
-+
-+extern TCGv     cpu_gp;
-+extern TCGv     cpu_fp;
-+extern TCGv     cpu_sp;
-+extern TCGv     cpu_ilink1;
-+extern TCGv     cpu_ilink2;
-+extern TCGv     cpu_blink;
-+extern TCGv     cpu_acclo;
-+extern TCGv     cpu_acchi;
-+extern TCGv     cpu_pcl;
-+extern TCGv     cpu_limm;
-+
-+extern TCGv     cpu_S1f;
-+extern TCGv     cpu_S2f;
-+extern TCGv     cpu_CSf;
-+
-+extern TCGv     cpu_Lf;
-+extern TCGv     cpu_Zf;
-+extern TCGv     cpu_Nf;
-+extern TCGv     cpu_Cf;
-+extern TCGv     cpu_Vf;
-+extern TCGv     cpu_Uf;
-+
-+extern TCGv     cpu_DEf;
-+extern TCGv     cpu_ESf;
-+extern TCGv     cpu_AEf;
-+extern TCGv     cpu_IEf;
-+extern TCGv     cpu_Hf;
-+extern TCGv     cpu_Ef;
-+
-+extern TCGv    cpu_is_delay_slot_instruction;
-+
-+extern TCGv     cpu_l1_Lf;
-+extern TCGv     cpu_l1_Zf;
-+extern TCGv     cpu_l1_Nf;
-+extern TCGv     cpu_l1_Cf;
-+extern TCGv     cpu_l1_Vf;
-+extern TCGv     cpu_l1_Uf;
-+
-+extern TCGv     cpu_l1_DEf;
-+extern TCGv     cpu_l1_AEf;
-+extern TCGv     cpu_l1_Hf;
-+
-+extern TCGv     cpu_l2_Lf;
-+extern TCGv     cpu_l2_Zf;
-+extern TCGv     cpu_l2_Nf;
-+extern TCGv     cpu_l2_Cf;
-+extern TCGv     cpu_l2_Vf;
-+extern TCGv     cpu_l2_Uf;
-+
-+extern TCGv     cpu_l2_DEf;
-+extern TCGv     cpu_l2_AEf;
-+extern TCGv     cpu_l2_Hf;
-+
-+extern TCGv     cpu_er_Lf;
-+extern TCGv     cpu_er_Zf;
-+extern TCGv     cpu_er_Nf;
-+extern TCGv     cpu_er_Cf;
-+extern TCGv     cpu_er_Vf;
-+extern TCGv     cpu_er_Uf;
-+
-+extern TCGv     cpu_er_DEf;
-+extern TCGv     cpu_er_AEf;
-+extern TCGv     cpu_er_Hf;
-+
-+extern TCGv     cpu_eret;
-+extern TCGv     cpu_erbta;
-+extern TCGv     cpu_ecr;
-+extern TCGv     cpu_efa;
-+
-+extern TCGv     cpu_pc;
-+extern TCGv     cpu_lpc;
-+extern TCGv     cpu_lps;
-+extern TCGv     cpu_lpe;
-+
-+extern TCGv     cpu_npc;
-+
-+extern TCGv     cpu_bta;
-+extern TCGv     cpu_bta_l1;
-+extern TCGv     cpu_bta_l2;
-+
-+extern TCGv     cpu_r[64];
-+
-+extern TCGv     cpu_intvec;
-+
-+extern TCGv     cpu_debug_LD;
-+extern TCGv     cpu_debug_SH;
-+extern TCGv     cpu_debug_BH;
-+extern TCGv     cpu_debug_UB;
-+extern TCGv     cpu_debug_ZZ;
-+extern TCGv     cpu_debug_RA;
-+extern TCGv     cpu_debug_IS;
-+extern TCGv     cpu_debug_FH;
-+extern TCGv     cpu_debug_SS;
-+
-+extern TCGv     cpu_lock_lf_var;
-+
-+extern TCGv     cpu_exception_delay_slot_address;
-+
-+/* TODO: Remove DisasCtxt.  */
-+typedef struct DisasContext DisasCtxt;
-+
-+void gen_goto_tb(DisasContext *ctx, int n, TCGv dest);
-+
-+void decode_opc(CPUARCState *env, DisasContext *ctx);
-+
-+/*
-+ * Helper function to glue "rasing an exception" in the generated TCGs.
-+ *
-+ * ctx:         Disassembling context
-+ * index:       ECR's index field
-+ * causecode:   ECR's cause code filed
-+ * param:       ECR's parameter field
-+ */
-+void arc_gen_excp(const DisasCtxt *ctx, uint32_t index,
-+                  uint32_t causecode, uint32_t param);
-+
-+void arc_gen_vadd2(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c);
-+void arc_gen_vadd2h(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c);
-+void arc_gen_vadd4h(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c);
-+
-+void arc_gen_vsub2(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c);
-+void arc_gen_vsub2h(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c);
-+void arc_gen_vsub4h(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c);
-+
-+void arc_gen_mpyd(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c);
-+void arc_gen_mpydu(const DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c);
-+
-+#endif
-+
-+
-+/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
-+/* vim: set ts=4 sw=4 et: */
++#endif /* ARC_REGS_H */
 -- 
 2.20.1
 
