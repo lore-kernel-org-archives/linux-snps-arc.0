@@ -2,22 +2,22 @@ Return-Path: <SRS0=Y6oE=DO=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E50C4363C
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Oct 2020 04:14:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95862C4363C
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Oct 2020 04:31:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D50C2208C3
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Oct 2020 04:14:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A5F8220B1F
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Oct 2020 04:31:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mWl2MAx0";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qqfJiT2E"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D50C2208C3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="yzELxmve";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOraigqM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A5F8220B1F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amsat.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,68 +26,93 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XOgDpiojCTuxr0nB0T/3nH2Z7/qTs6rptZWH/iQGZnE=; b=mWl2MAx0XYfDeeRejJLbYDvwK
-	ZocizGpLxrpiqBjflAGE0kBvTGrVS426oa4+HbSYCE0JU2rVMloKRTSwgV/DWX1OlQkH06DaHY8YW
-	Jq/lSwmMaFSJeNEWtTnDWSxkXYvkPpMrQZEEIVmMnePkHx75yetA17YJcUscMG0PMRixoZlq62r2l
-	Dlh1RLqrxDVfXpQLSkUcIDf51w9cZ6E/7AtEYUGzoIH4sR4s3yUGYUVdHQ8jWoP0pZ9Ch1/0a25AL
-	Mw3kBk9oU/yxjMX37rZWupfDxHb9GFfxr7ha6TN3TQUbzk+DDuZ2WaxL/2wGEhUluQFoejGt4I7YR
-	XiW9+RBog==;
+	 bh=SPG/SA63ZFrm40jkkDwwHbKGqYwgfyVHqw4DayZ0EX0=; b=yzELxmvec8mq5pr+CYa018bjg
+	RBFC4v13jivXheZ7ZWmgnnJndBbRnZBBeD6ZmdGQjC4AMDY5rXbeZURHaHJwv0deL1WJTNYoQhDWQ
+	SvmoiN/lTxS9hOd9quP5X8jJNTHnSWiETyYI7UIp77IVusUkSCKqduDz2awY0srWdhkMf76Jv1SGD
+	/O6l1orkTk/hdDqrnAWb5eOdlVB7ZsbI6WFJo/8hUEXRZHp6iKNQftw+c65Mxe4m15zxXHKZ44LkK
+	aPYGaa+/Q+cX1HnWC7niS56GqLLlJClpoi1GUV6/hzRVBp+5PdgjgVDbJM8HFHqA580QnKvzK2xrq
+	i8EA343Tg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kQ0qp-0001JD-Pc; Wed, 07 Oct 2020 04:14:51 +0000
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342])
+	id 1kQ16Z-0002EJ-Vd; Wed, 07 Oct 2020 04:31:08 +0000
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kQ0qn-0001Iq-2J
- for linux-snps-arc@lists.infradead.org; Wed, 07 Oct 2020 04:14:50 +0000
-Received: by mail-wm1-x342.google.com with SMTP id e2so845526wme.1
- for <linux-snps-arc@lists.infradead.org>; Tue, 06 Oct 2020 21:14:48 -0700 (PDT)
+ id 1kQ16W-0002Dt-La
+ for linux-snps-arc@lists.infradead.org; Wed, 07 Oct 2020 04:31:06 +0000
+Received: by mail-wm1-x343.google.com with SMTP id d4so855386wmd.5
+ for <linux-snps-arc@lists.infradead.org>; Tue, 06 Oct 2020 21:31:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wAn7xS15a4GKezf+UjY97VnX3k65BPP67shFAVkt3q4=;
- b=qqfJiT2EMDGsZBNq0TQv3dzuGJdPxW0BS+8qH80wD5UaTGYXnIrzq3Tyex/muAJmR8
- 6zoS4w8aMaZoCWIP6pHjovpA3TaLnMG3o/e/OlkNvjt/2bEiXWEe7X2SadMQJ7ghJ6MY
- 8r3f95NlbhuMWRAAyRtUokibNXG5xbbfsy43c4kQ1uhOQFGBjXXaqvYQ7OZbd7ihAiUd
- wGyhY+TEsgKy3BqhUFD6wHBs0K4ykVY0J5Ne5Kg2qUYwwIdRfBFzYiVbJahUfdksYCIW
- SSYAb2+kHmrZ9vjnWQzDngxUEjUyNl7va3VlQen/AQ8HtXV6OIW4105iz6oJTtGnouQc
- 2NiA==
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Zao67fvGO7W5SJnpkzXhUx4O6BNW4V9xBw1R/53cnEU=;
+ b=bOraigqMOD4uSVsJLWek3xfCwTU9AIyyC1kFolYU5o3eoQVkeNniEi7qlbsu0TrDAz
+ fP/CL+XOt+k0ZDzkDVcldRxj00cePAuB74oGbHqx6Jjx8IVhE4irwZxpAA6cnUSdzDlW
+ +Vvjs/lP7N5gnevz0GbairEsOiAS/DxDZblA7jQgkGOURYzYefkc6zRampvUNHN3RHjG
+ Xmfk226LJZ6zP31wXTPj7D4qlGNbq8m1t2U0XtvDbZBMnK6UKZXVJ71Ip2I+5PLaY6e1
+ LvyvJpHpk6ZrQFXJ+iMRPeCFIHmRt+TYeOnRD+4y9Lu5ibUn89SVQ6dV5K0Ed/Sc3MVy
+ rQ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wAn7xS15a4GKezf+UjY97VnX3k65BPP67shFAVkt3q4=;
- b=OtpwMZYvzMEoHbJOeKzn56lRWBCQaT+fsLyoA4c9SMcK7epWTHmNDxswcW64xkH+bu
- J9YDlrYPKFZumb/jJLpsfduKhhhyvSNeYjwJJE1fgQkyHrYZ2r9MYc/3H3FsyYMbWFLd
- h21QoLRKnaDNTIsEw16JFtTDm68LT3L4LUJbX0fzy+r18MdqPShrXdPUEOdYfi97PqK2
- WEBAVr6f1srj3uDTHkdsMFFk0xbiBz8Xe5HNYF50U3SUHtoUMsGkZZacwAnsGfe5ASv2
- X7+O2ua8qp51xF5cAZPApZkQxoOXx9aZchIwZ0Nm76zJ0x2eZ7Lss1BKwulnHphkRJlJ
- TLgQ==
-X-Gm-Message-State: AOAM5328IGFlWW5/56C7V6qpFNaEmEdcP/cZSqsqE9nlr2dcVapcOi2w
- Kq/VkuCCnnLESeOpLKeAOqmK6wlM3nQ=
-X-Google-Smtp-Source: ABdhPJwpaEwaYYUjjlRKrauQNzHObTd7PPyFGdyOW26/Ndys3ELMcKD7m+VKgRQBMp9YyHynl2waJw==
-X-Received: by 2002:a1c:a795:: with SMTP id q143mr1059330wme.20.1602044087669; 
- Tue, 06 Oct 2020 21:14:47 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Zao67fvGO7W5SJnpkzXhUx4O6BNW4V9xBw1R/53cnEU=;
+ b=fgvTRVFV7D6Ym6iPg4Dg3bojjZL6oatFhf5PbKnPVLK+6d+jZoFu86raH9D2f1/7l/
+ eEVArmyL6ZuutqZ6jhgH8n2iEUPg4ru9veJG6vP3DnmNqugTiBdI9dPe8PXYM+1dOTvc
+ Ms/DlAHmcHV0b8XBDjls9h4U+SeB9ldiQ1MZhQCkMj6Lwv7TSPVbnrI6Vg6CJm5zM9ol
+ T6f/FOiIZYnEx8ZwrKDD+XcPh7s+s79Vx1YOIb/3OmW08jybSciPKuaTSOgJNe0zfX5V
+ NDKDwxIY7A3EHFokw3hRuKpMPLmlahQoRi6gX02OU4HdCpVpScQ3KiPXs5csx1QFwzdV
+ Ey4g==
+X-Gm-Message-State: AOAM530cnyuCyxEOJdslUxbZM5Zr1wIoAoE3nwzxz9SKw1DowdRr9yqR
+ qQFjC0cK1emuTw6IrhsfI+0=
+X-Google-Smtp-Source: ABdhPJwBba0Acm0TgayQwzqyNTQQaj/sgGz7UeGAsQ6GPcyPqXma2JmzET+D3QUQEs/tXmJ7gpwjWw==
+X-Received: by 2002:a05:600c:2246:: with SMTP id
+ a6mr1150806wmm.38.1602045063072; 
+ Tue, 06 Oct 2020 21:31:03 -0700 (PDT)
 Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id g144sm861838wmg.30.2020.10.06.21.14.46
+ by smtp.gmail.com with ESMTPSA id s17sm909367wmj.1.2020.10.06.21.31.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Oct 2020 21:14:47 -0700 (PDT)
-Subject: Re: [PATCH 13/14] arc: Add support for ARCv2
+ Tue, 06 Oct 2020 21:31:02 -0700 (PDT)
+Subject: Re: [PATCH 12/14] arc: Add Synopsys ARC emulation boards
 To: cupertinomiranda@gmail.com, qemu-devel@nongnu.org
 References: <20200930204604.20663-1-cupertinomiranda@gmail.com>
- <20200930204604.20663-14-cupertinomiranda@gmail.com>
+ <20200930204604.20663-13-cupertinomiranda@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a1282d2b-16a9-0121-a12d-7e2cd23971aa@amsat.org>
-Date: Wed, 7 Oct 2020 06:14:45 +0200
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <5c3b582c-f596-4866-3bca-da4235ec95fc@amsat.org>
+Date: Wed, 7 Oct 2020 06:31:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200930204604.20663-14-cupertinomiranda@gmail.com>
+In-Reply-To: <20200930204604.20663-13-cupertinomiranda@gmail.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201007_001449_214600_1BA4571B 
-X-CRM114-Status: GOOD (  13.80  )
+X-CRM114-CacheID: sfid-20201007_003104_757777_2E3EA243 
+X-CRM114-Status: GOOD (  34.27  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,29 +128,332 @@ Cc: Claudiu Zissulescu <claziss@gmail.com>,
  Shahab Vahedi <shahab.vahedi@gmail.com>, Shahab Vahedi <shahab@synopsys.com>,
  Cupertino Miranda <cmiranda@synopsys.com>, linux-snps-arc@lists.infradead.org,
  Claudiu Zissulescu <claziss@synopsys.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gOS8zMC8yMCAxMDo0NiBQTSwgY3VwZXJ0aW5vbWlyYW5kYUBnbWFpbC5jb20gd3JvdGU6Cj4g
-RnJvbTogU2hhaGFiIFZhaGVkaSA8c2hhaGFiQHN5bm9wc3lzLmNvbT4KPiAKPiBBZGQgcmVtYWlu
-aW5nIGJpdHMgb2YgdGhlIFN5bm9wc3lzIEFSQ3YyIChFTS9IUykgc3VwcG9ydCBpbnRvIFFFTVUs
-Cj4gY29uZmlndXJlIGJpdHMsIGFyY2hfaW5pdCBhbmQgY29uZmlndXJhdGlvbiBmaWxlcyBmb3Ig
-c29mdG1tdSAoaGFyZHdhcmUKPiBlbXVsYXRpb24pLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFNoYWhh
-YiBWYWhlZGkgPHNoYWhhYkBzeW5vcHN5cy5jb20+Cj4gLS0tCj4gIGNvbmZpZ3VyZSAgICAgICAg
-ICAgICAgICAgICAgICAgfCAgNSArKysrKwo+ICBkZWZhdWx0LWNvbmZpZ3MvYXJjLXNvZnRtbXUu
-bWFrIHwgIDUgKysrKysKPiAgZGlzYXMuYyAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICsr
-Cj4gIGRpc2FzL21lc29uLmJ1aWxkICAgICAgICAgICAgICAgfCAgMSArCj4gIGh3L21lc29uLmJ1
-aWxkICAgICAgICAgICAgICAgICAgfCAgMSArCj4gIGluY2x1ZGUvZGlzYXMvZGlzLWFzbS5oICAg
-ICAgICAgfCAxMCArKysrKysrKystCj4gIGluY2x1ZGUvZWxmLmggICAgICAgICAgICAgICAgICAg
-fCAgMyArKysKPiAgaW5jbHVkZS9leGVjL3BvaXNvbi5oICAgICAgICAgICB8ICAyICsrCj4gIGlu
-Y2x1ZGUvc3lzZW11L2FyY2hfaW5pdC5oICAgICAgfCAgMSArCj4gIG1lc29uLmJ1aWxkICAgICAg
-ICAgICAgICAgICAgICAgfCAgMyArKy0KPiAgc29mdG1tdS9hcmNoX2luaXQuYyAgICAgICAgICAg
-ICB8ICAyICsrCj4gIHRhcmdldC9tZXNvbi5idWlsZCAgICAgICAgICAgICAgfCAgMSArCj4gIDEy
-IGZpbGVzIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gIGNyZWF0
-ZSBtb2RlIDEwMDY0NCBkZWZhdWx0LWNvbmZpZ3MvYXJjLXNvZnRtbXUubWFrCgpSZXZpZXdlZC1i
-eTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPGY0YnVnQGFtc2F0Lm9yZz4KCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxp
-bmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5p
-bmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+Hi Cupertino, Claudiu,
+
+On 9/30/20 10:46 PM, cupertinomiranda@gmail.com wrote:
+> From: Claudiu Zissulescu <claziss@synopsys.com>
+> 
+> Add the Synopsys ARC boards, arc_sim for testing, sim-hs main emulation
+> board using standard UART and nsim which includes a Synopsys ARC specific
+> UART implementation.
+> 
+> Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
+> ---
+>  hw/arc/Makefile.objs      |  21 +++
+>  hw/arc/arc_sim.c          | 143 ++++++++++++++++++++
+>  hw/arc/arc_uart.c         | 267 ++++++++++++++++++++++++++++++++++++++
+>  hw/arc/board-hsdk.c       | 107 +++++++++++++++
+>  hw/arc/boot.c             |  95 ++++++++++++++
+>  hw/arc/boot.h             |  21 +++
+>  hw/arc/meson.build        |  13 ++
+>  hw/arc/nsim.c             |  86 ++++++++++++
+>  hw/arc/pic_cpu.c          | 111 ++++++++++++++++
+>  hw/arc/sample.c           |  77 +++++++++++
+>  hw/arc/sim-hs.c           | 107 +++++++++++++++
+>  include/hw/arc/arc_uart.h |  43 ++++++
+>  include/hw/arc/cpudevs.h  |  10 ++
+>  13 files changed, 1101 insertions(+)
+>  create mode 100644 hw/arc/Makefile.objs
+>  create mode 100644 hw/arc/arc_sim.c
+>  create mode 100644 hw/arc/arc_uart.c
+>  create mode 100644 hw/arc/board-hsdk.c
+>  create mode 100644 hw/arc/boot.c
+>  create mode 100644 hw/arc/boot.h
+>  create mode 100644 hw/arc/meson.build
+>  create mode 100644 hw/arc/nsim.c
+>  create mode 100644 hw/arc/pic_cpu.c
+>  create mode 100644 hw/arc/sample.c
+>  create mode 100644 hw/arc/sim-hs.c
+>  create mode 100644 include/hw/arc/arc_uart.h
+>  create mode 100644 include/hw/arc/cpudevs.h
+
+Please split in various commits:
+
+- hw/char/arc_uart
+- hw/intc/synopsys_pic or something
+- hw/arc/boot
+- hw/arc/*sim*
+- hw/arc/*hsdk*
+
+(Also it would simplify differentiating the architectural
+part of your patches from the hardware ones if you use the
+target/arc/ prefix in your previous patches).
+
+> 
+> diff --git a/hw/arc/Makefile.objs b/hw/arc/Makefile.objs
+> new file mode 100644
+> index 0000000000..28d7766cd9
+> --- /dev/null
+> +++ b/hw/arc/Makefile.objs
+> @@ -0,0 +1,21 @@
+> +#
+> +#  QEMU ARC CPU
+> +#
+> +#  Copyright (c) 2019
+> +#
+> +#  This library is free software; you can redistribute it and/or
+> +#  modify it under the terms of the GNU Lesser General Public
+> +#  License as published by the Free Software Foundation; either
+> +#  version 2.1 of the License, or (at your option) any later version.
+> +#
+> +#  This library is distributed in the hope that it will be useful,
+> +#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> +#  Lesser General Public License for more details.
+> +#
+> +#  You should have received a copy of the GNU Lesser General Public
+> +#  License along with this library; if not, see
+> +#  http://www.gnu.org/licenses/lgpl-2.1.html
+> +#
+> +
+> +obj-y   = arc_sim.o arc_uart.o sample.o pic_cpu.o boot.o board-hsdk.o sim-hs.o nsim.o
+
+We don't use Makefile anymore.
+
+> diff --git a/hw/arc/arc_sim.c b/hw/arc/arc_sim.c
+> new file mode 100644
+> index 0000000000..8020a03d85
+> --- /dev/null
+> +++ b/hw/arc/arc_sim.c
+> @@ -0,0 +1,143 @@
+> +/*
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "cpu.h"
+> +#include "hw/hw.h"
+> +#include "hw/boards.h"
+> +#include "elf.h"
+> +#include "hw/char/serial.h"
+> +#include "net/net.h"
+> +#include "hw/loader.h"
+> +#include "exec/memory.h"
+> +#include "exec/address-spaces.h"
+> +#include "sysemu/reset.h"
+> +#include "sysemu/runstate.h"
+> +#include "sysemu/sysemu.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/arc/cpudevs.h"
+> +#include "boot.h"
+> +
+> +static void arc_sim_net_init(MemoryRegion *address_space,
+> +                             hwaddr base,
+> +                             hwaddr descriptors,
+> +                             qemu_irq irq, NICInfo *nd)
+> +{
+> +    DeviceState *dev;
+> +    SysBusDevice *s;
+> +
+> +    dev = qdev_new("open_eth");
+> +    qdev_set_nic_properties(dev, nd);
+> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +
+> +    s = SYS_BUS_DEVICE(dev);
+> +    sysbus_connect_irq(s, 0, irq);
+> +    memory_region_add_subregion(address_space, base,
+> +                                sysbus_mmio_get_region(s, 0));
+> +    memory_region_add_subregion(address_space, descriptors,
+> +                                sysbus_mmio_get_region(s, 1));
+> +}
+> +
+> +static uint64_t arc_io_read(void *opaque, hwaddr addr, unsigned size)
+> +{
+> +    return 0;
+> +}
+> +
+> +static void arc_io_write(void *opaque, hwaddr addr,
+> +                         uint64_t val, unsigned size)
+> +{
+> +    switch (addr) {
+> +    case 0x08: /* board reset. */
+> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps arc_io_ops = {
+> +    .read = arc_io_read,
+> +    .write = arc_io_write,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +};
+> +
+> +static void arc_sim_init(MachineState *machine)
+> +{
+> +    static struct arc_boot_info boot_info;
+> +    unsigned int smp_cpus = machine->smp.cpus;
+> +    ram_addr_t ram_base = 0;
+> +    ram_addr_t ram_size = machine->ram_size;
+> +    ARCCPU *cpu = NULL;
+> +    MemoryRegion *ram, *system_io;
+> +    int n;
+> +
+> +    boot_info.ram_start = ram_base;
+> +    boot_info.ram_size = ram_size;
+> +    boot_info.kernel_filename = machine->kernel_filename;
+> +
+> +    for (n = 0; n < smp_cpus; n++) {
+> +        cpu = ARC_CPU(object_new(machine->cpu_type));
+> +        if (cpu == NULL) {
+> +            fprintf(stderr, "Unable to find CPU definition!\n");
+> +            exit(1);
+> +        }
+> +
+> +        /* Set the initial CPU properties. */
+> +        object_property_set_uint(OBJECT(cpu), "freq_hz", 1000000, &error_fatal);
+> +        object_property_set_bool(OBJECT(cpu), "rtc-opt", true, &error_fatal);
+> +        object_property_set_bool(OBJECT(cpu), "realized", true, &error_fatal);
+> +
+> +        /* Initialize internal devices. */
+> +        cpu_arc_pic_init(cpu);
+> +        cpu_arc_clock_init(cpu);
+> +
+> +        qemu_register_reset(arc_cpu_reset, cpu);
+> +    }
+> +
+> +    ram = g_new(MemoryRegion, 1);
+> +    memory_region_init_ram(ram, NULL, "arc.ram", ram_size, &error_fatal);
+> +    memory_region_add_subregion(get_system_memory(), ram_base, ram);
+> +
+> +    system_io = g_new(MemoryRegion, 1);
+> +    memory_region_init_io(system_io, NULL, &arc_io_ops, NULL, "arc.io",
+> +                           1024);
+> +    memory_region_add_subregion(get_system_memory(), 0xf0000000, system_io);
+> +
+> +    serial_mm_init(get_system_memory(), 0x90000000, 2, cpu->env.irq[20],
+> +                   115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
+> +
+> +    if (nd_table[0].used) {
+> +        arc_sim_net_init(get_system_memory(), 0x92000000,
+> +                         0x92000400, cpu->env.irq[4], nd_table);
+> +    }
+> +
+> +    arc_load_kernel(cpu, &boot_info);
+> +}
+> +
+> +static void arc_sim_machine_init(MachineClass *mc)
+> +{
+> +    mc->desc = "ARCxx simulation";
+> +    mc->init = arc_sim_init;
+> +    mc->max_cpus = 1;
+> +    mc->is_default = false;
+> +    mc->default_cpu_type = ARC_CPU_TYPE_NAME("archs");
+> +}
+> +
+> +DEFINE_MACHINE("arc-sim", arc_sim_machine_init)
+
+Can you share the link to the documentation of this simulator please?
+I couldn't find it on the link you provided in the cover
+(https://www.synopsys.com/designware-ip/processor-solutions.html)
+and https://www.synopsys.com/dw/ipdir.php?ds=sim_nSIM doesn't
+seem relevant.
+
+> diff --git a/hw/arc/sample.c b/hw/arc/sample.c
+> new file mode 100644
+> index 0000000000..0ecc11cf15
+> --- /dev/null
+> +++ b/hw/arc/sample.c
+> @@ -0,0 +1,77 @@
+> +/*
+> + * QEMU ARC CPU
+> + *
+> + * Copyright (c) 2016 Michael Rolnik
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see
+> + * http://www.gnu.org/licenses/lgpl-2.1.html
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu-common.h"
+> +#include "cpu.h"
+> +#include "hw/hw.h"
+> +#include "sysemu/sysemu.h"
+> +#include "sysemu/qtest.h"
+> +#include "ui/console.h"
+> +#include "hw/boards.h"
+> +#include "hw/loader.h"
+> +#include "qemu/error-report.h"
+> +#include "exec/address-spaces.h"
+> +#include "include/hw/sysbus.h"
+> +
+> +#define SIZE_RAM 0x00020000
+> +
+> +static void sample_init(MachineState *machine)
+> +{
+> +    MemoryRegion *ram;
+> +
+> +    ARCCPU *cpu_arc ATTRIBUTE_UNUSED;
+> +
+> +    ram = g_new(MemoryRegion, 1);
+> +
+> +    cpu_arc = ARC_CPU(cpu_create("archs-" TYPE_ARC_CPU));
+> +
+> +    memory_region_init_ram(ram, NULL, "ram", SIZE_RAM, &error_fatal);
+> +    memory_region_add_subregion(get_system_memory(), PHYS_BASE_RAM, ram);
+> +
+> +    char const *firmware = NULL;
+> +    char const *filename;
+> +
+> +    if (machine->firmware) {
+> +        firmware = machine->firmware;
+> +    }
+> +
+> +    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware);
+> +    if (!filename) {
+> +        error_report("Could not find flash image file '%s'", firmware);
+> +        exit(1);
+> +    }
+> +
+> +    load_image_targphys(filename, PHYS_BASE_RAM + 0x100, SIZE_RAM);
+> +}
+> +
+> +static void sample_machine_init(MachineClass *mc)
+> +{
+> +    mc->desc = "ARC sample/example board";
+> +    mc->init = sample_init;
+> +    mc->is_default = false;
+> +}
+> +
+> +DEFINE_MACHINE("sample", sample_machine_init)
+
+You don't need a "sample" board, you can use the "none" machine instead.
+
+Regards,
+
+Phil.
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
