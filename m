@@ -1,118 +1,87 @@
-Return-Path: <SRS0=Y6oE=DO=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=rigO=DU=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95862C4363C
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Oct 2020 04:31:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE86C433E7
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 13 Oct 2020 15:03:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A5F8220B1F
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Oct 2020 04:31:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 06CF8248CB
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 13 Oct 2020 15:03:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="yzELxmve";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOraigqM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A5F8220B1F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amsat.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="X01Mlbkv";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eG1/wyzN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 06CF8248CB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SPG/SA63ZFrm40jkkDwwHbKGqYwgfyVHqw4DayZ0EX0=; b=yzELxmvec8mq5pr+CYa018bjg
-	RBFC4v13jivXheZ7ZWmgnnJndBbRnZBBeD6ZmdGQjC4AMDY5rXbeZURHaHJwv0deL1WJTNYoQhDWQ
-	SvmoiN/lTxS9hOd9quP5X8jJNTHnSWiETyYI7UIp77IVusUkSCKqduDz2awY0srWdhkMf76Jv1SGD
-	/O6l1orkTk/hdDqrnAWb5eOdlVB7ZsbI6WFJo/8hUEXRZHp6iKNQftw+c65Mxe4m15zxXHKZ44LkK
-	aPYGaa+/Q+cX1HnWC7niS56GqLLlJClpoi1GUV6/hzRVBp+5PdgjgVDbJM8HFHqA580QnKvzK2xrq
-	i8EA343Tg==;
+	 bh=3f9l+OfimpMLi3Y05H8wl55mXWLf4NyNjUeBrB58cOU=; b=X01MlbkvgceQ7tWNXqy8TBS6a
+	pPdtN40wszxYIhd5I4EW+3f+95aLPAFz60e/p4YrI4gGPUWWduk8d0DQhCXE0Un3qZuFdlofwSl+9
+	R430BfUQXDVcvD7Xr/NLPgknnvZVD74nXWEzA6KvbzG6/VKgXqcm9YXX6LCADtDi+gj1Gu3S3N3bI
+	7HuuC9JAFkMjqrwN38g7tEtlSHNu0ZPNjgTOhx1IH/JweCad2piJFs6BUyPPuq7+ukkST1c2tjola
+	VlXFlR67FoJXONDUUOOVa9bL67+BHlOY+3D7sjQZ/1JhbrtYcGJ30C249c4Jk1Y5Ztb0gystyp0SV
+	VwOKUT+ew==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kQ16Z-0002EJ-Vd; Wed, 07 Oct 2020 04:31:08 +0000
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343])
+	id 1kSLqH-0000Uq-8C; Tue, 13 Oct 2020 15:03:57 +0000
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kQ16W-0002Dt-La
- for linux-snps-arc@lists.infradead.org; Wed, 07 Oct 2020 04:31:06 +0000
-Received: by mail-wm1-x343.google.com with SMTP id d4so855386wmd.5
- for <linux-snps-arc@lists.infradead.org>; Tue, 06 Oct 2020 21:31:04 -0700 (PDT)
+ id 1kSLqE-0000Th-I1
+ for linux-snps-arc@lists.infradead.org; Tue, 13 Oct 2020 15:03:55 +0000
+Received: by mail-yb1-xb42.google.com with SMTP id c3so16464757ybl.0
+ for <linux-snps-arc@lists.infradead.org>; Tue, 13 Oct 2020 08:03:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Zao67fvGO7W5SJnpkzXhUx4O6BNW4V9xBw1R/53cnEU=;
- b=bOraigqMOD4uSVsJLWek3xfCwTU9AIyyC1kFolYU5o3eoQVkeNniEi7qlbsu0TrDAz
- fP/CL+XOt+k0ZDzkDVcldRxj00cePAuB74oGbHqx6Jjx8IVhE4irwZxpAA6cnUSdzDlW
- +Vvjs/lP7N5gnevz0GbairEsOiAS/DxDZblA7jQgkGOURYzYefkc6zRampvUNHN3RHjG
- Xmfk226LJZ6zP31wXTPj7D4qlGNbq8m1t2U0XtvDbZBMnK6UKZXVJ71Ip2I+5PLaY6e1
- LvyvJpHpk6ZrQFXJ+iMRPeCFIHmRt+TYeOnRD+4y9Lu5ibUn89SVQ6dV5K0Ed/Sc3MVy
- rQ2w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=C1lIxdLSAJNZiDrZrteSbP8Votl5sLNkiRnUCw53idE=;
+ b=eG1/wyzNoWVTSYQILLVqLAbA/PweOuNe1MDe0AXPUAOIgM5BTqkFdskH2C+KDvPuBF
+ jaqoBmdylvcL/8gb/kY2UDJEgVFqvO/HayNbyfYwJ11vu1SPW8i2VRvtcrbljzCaqznd
+ eApAzVJp/rQIEtv9VGqg5L0YW6C5/NroGoME1tuEptdbviqsIWhrl1vP9po0JAPv41QN
+ HTNGWNW2oAs53dlKWv2Na7WHqJUR37B9vwueEwP4+6s+2OimBSec2U2E6RQDApJI6pa/
+ LEskNWqiJAVnMWCfc2knvkx5FAlzGmkiOMofyN7B9OYY0p7Fml5UyhSPyDdtt4h5equ0
+ ef7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Zao67fvGO7W5SJnpkzXhUx4O6BNW4V9xBw1R/53cnEU=;
- b=fgvTRVFV7D6Ym6iPg4Dg3bojjZL6oatFhf5PbKnPVLK+6d+jZoFu86raH9D2f1/7l/
- eEVArmyL6ZuutqZ6jhgH8n2iEUPg4ru9veJG6vP3DnmNqugTiBdI9dPe8PXYM+1dOTvc
- Ms/DlAHmcHV0b8XBDjls9h4U+SeB9ldiQ1MZhQCkMj6Lwv7TSPVbnrI6Vg6CJm5zM9ol
- T6f/FOiIZYnEx8ZwrKDD+XcPh7s+s79Vx1YOIb/3OmW08jybSciPKuaTSOgJNe0zfX5V
- NDKDwxIY7A3EHFokw3hRuKpMPLmlahQoRi6gX02OU4HdCpVpScQ3KiPXs5csx1QFwzdV
- Ey4g==
-X-Gm-Message-State: AOAM530cnyuCyxEOJdslUxbZM5Zr1wIoAoE3nwzxz9SKw1DowdRr9yqR
- qQFjC0cK1emuTw6IrhsfI+0=
-X-Google-Smtp-Source: ABdhPJwBba0Acm0TgayQwzqyNTQQaj/sgGz7UeGAsQ6GPcyPqXma2JmzET+D3QUQEs/tXmJ7gpwjWw==
-X-Received: by 2002:a05:600c:2246:: with SMTP id
- a6mr1150806wmm.38.1602045063072; 
- Tue, 06 Oct 2020 21:31:03 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id s17sm909367wmj.1.2020.10.06.21.31.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Oct 2020 21:31:02 -0700 (PDT)
-Subject: Re: [PATCH 12/14] arc: Add Synopsys ARC emulation boards
-To: cupertinomiranda@gmail.com, qemu-devel@nongnu.org
-References: <20200930204604.20663-1-cupertinomiranda@gmail.com>
- <20200930204604.20663-13-cupertinomiranda@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <5c3b582c-f596-4866-3bca-da4235ec95fc@amsat.org>
-Date: Wed, 7 Oct 2020 06:31:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=C1lIxdLSAJNZiDrZrteSbP8Votl5sLNkiRnUCw53idE=;
+ b=ESTePnG9cdud1ErnayLz94317YHUJmV2O3XawN05865uBeAzyoLHRCQ54xyaIFSFnp
+ f8b/an+rpkNc58rOY/F59ewY/9bTzmodtxtFLoi+HhlaHcZT4c+dsnX9u3dSOoG3zq72
+ rZTM8r35SWK7l6qJOTa2D5lXfqmLC0Wqu72dcwoV73EcA3vC7gJ8xB0w3fiaqz2nWH6H
+ SxiOKAFAOPhLQAI4dDjW5eP3VYJeAMMqJOBNfDamQf36aDvmdZaf2SXBHH5yEHWBBK/X
+ CIcD/PagLfp2mqaFziwNkMJIBqbnBca2BvwliXnLSzALCZNGzt7iJFnhNUYWDL+N942p
+ +tjw==
+X-Gm-Message-State: AOAM531PaBe2E12dt/eeeVEvxmoKSXEkjPXUSZ4/VcIXhA3Iy5cjkqTv
+ f4xiYMaXEX8p2q5PMK84GjUQe+2x+7XK8uAYmIs=
+X-Google-Smtp-Source: ABdhPJxctQQrHLm/m6EoHMGbpkIIA3Tqm8uhM3dimzVG6Cp4eYKaxwlc14gcl/+w21Vh5i3BiHwpFUrL9MMk4fkobNA=
+X-Received: by 2002:a05:6902:50e:: with SMTP id
+ x14mr341690ybs.273.1602601430798; 
+ Tue, 13 Oct 2020 08:03:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200930204604.20663-13-cupertinomiranda@gmail.com>
-Content-Language: en-US
+References: <20200930204604.20663-1-cupertinomiranda@gmail.com>
+ <20200930204604.20663-2-cupertinomiranda@gmail.com>
+ <ec923290-b6a1-00ab-030b-21676a36dae3@amsat.org>
+In-Reply-To: <ec923290-b6a1-00ab-030b-21676a36dae3@amsat.org>
+From: Cupertino Miranda <cupertinomiranda@gmail.com>
+Date: Tue, 13 Oct 2020 16:03:39 +0100
+Message-ID: <CAHW_PjJwjRqJ7stiOfb15wgUncMOeBoEsDg_GtRzEi6WOW+0Pg@mail.gmail.com>
+Subject: Re: [PATCH 01/14] arc: Add initial core cpu files
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201007_003104_757777_2E3EA243 
-X-CRM114-Status: GOOD (  34.27  )
+X-CRM114-CacheID: sfid-20201013_110354_605935_3875F577 
+X-CRM114-Status: GOOD (  28.98  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,336 +93,185 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Claudiu Zissulescu <claziss@gmail.com>,
+Cc: Claudiu Zissulescu <claziss@gmail.com>, qemu-devel@nongnu.org,
  Shahab Vahedi <shahab.vahedi@gmail.com>, Shahab Vahedi <shahab@synopsys.com>,
  Cupertino Miranda <cmiranda@synopsys.com>, linux-snps-arc@lists.infradead.org,
  Claudiu Zissulescu <claziss@synopsys.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Cupertino, Claudiu,
-
-On 9/30/20 10:46 PM, cupertinomiranda@gmail.com wrote:
-> From: Claudiu Zissulescu <claziss@synopsys.com>
-> 
-> Add the Synopsys ARC boards, arc_sim for testing, sim-hs main emulation
-> board using standard UART and nsim which includes a Synopsys ARC specific
-> UART implementation.
-> 
-> Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
-> ---
->  hw/arc/Makefile.objs      |  21 +++
->  hw/arc/arc_sim.c          | 143 ++++++++++++++++++++
->  hw/arc/arc_uart.c         | 267 ++++++++++++++++++++++++++++++++++++++
->  hw/arc/board-hsdk.c       | 107 +++++++++++++++
->  hw/arc/boot.c             |  95 ++++++++++++++
->  hw/arc/boot.h             |  21 +++
->  hw/arc/meson.build        |  13 ++
->  hw/arc/nsim.c             |  86 ++++++++++++
->  hw/arc/pic_cpu.c          | 111 ++++++++++++++++
->  hw/arc/sample.c           |  77 +++++++++++
->  hw/arc/sim-hs.c           | 107 +++++++++++++++
->  include/hw/arc/arc_uart.h |  43 ++++++
->  include/hw/arc/cpudevs.h  |  10 ++
->  13 files changed, 1101 insertions(+)
->  create mode 100644 hw/arc/Makefile.objs
->  create mode 100644 hw/arc/arc_sim.c
->  create mode 100644 hw/arc/arc_uart.c
->  create mode 100644 hw/arc/board-hsdk.c
->  create mode 100644 hw/arc/boot.c
->  create mode 100644 hw/arc/boot.h
->  create mode 100644 hw/arc/meson.build
->  create mode 100644 hw/arc/nsim.c
->  create mode 100644 hw/arc/pic_cpu.c
->  create mode 100644 hw/arc/sample.c
->  create mode 100644 hw/arc/sim-hs.c
->  create mode 100644 include/hw/arc/arc_uart.h
->  create mode 100644 include/hw/arc/cpudevs.h
-
-Please split in various commits:
-
-- hw/char/arc_uart
-- hw/intc/synopsys_pic or something
-- hw/arc/boot
-- hw/arc/*sim*
-- hw/arc/*hsdk*
-
-(Also it would simplify differentiating the architectural
-part of your patches from the hardware ones if you use the
-target/arc/ prefix in your previous patches).
-
-> 
-> diff --git a/hw/arc/Makefile.objs b/hw/arc/Makefile.objs
-> new file mode 100644
-> index 0000000000..28d7766cd9
-> --- /dev/null
-> +++ b/hw/arc/Makefile.objs
-> @@ -0,0 +1,21 @@
-> +#
-> +#  QEMU ARC CPU
-> +#
-> +#  Copyright (c) 2019
-> +#
-> +#  This library is free software; you can redistribute it and/or
-> +#  modify it under the terms of the GNU Lesser General Public
-> +#  License as published by the Free Software Foundation; either
-> +#  version 2.1 of the License, or (at your option) any later version.
-> +#
-> +#  This library is distributed in the hope that it will be useful,
-> +#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> +#  Lesser General Public License for more details.
-> +#
-> +#  You should have received a copy of the GNU Lesser General Public
-> +#  License along with this library; if not, see
-> +#  http://www.gnu.org/licenses/lgpl-2.1.html
-> +#
-> +
-> +obj-y   = arc_sim.o arc_uart.o sample.o pic_cpu.o boot.o board-hsdk.o sim-hs.o nsim.o
-
-We don't use Makefile anymore.
-
-> diff --git a/hw/arc/arc_sim.c b/hw/arc/arc_sim.c
-> new file mode 100644
-> index 0000000000..8020a03d85
-> --- /dev/null
-> +++ b/hw/arc/arc_sim.c
-> @@ -0,0 +1,143 @@
-> +/*
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "cpu.h"
-> +#include "hw/hw.h"
-> +#include "hw/boards.h"
-> +#include "elf.h"
-> +#include "hw/char/serial.h"
-> +#include "net/net.h"
-> +#include "hw/loader.h"
-> +#include "exec/memory.h"
-> +#include "exec/address-spaces.h"
-> +#include "sysemu/reset.h"
-> +#include "sysemu/runstate.h"
-> +#include "sysemu/sysemu.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/arc/cpudevs.h"
-> +#include "boot.h"
-> +
-> +static void arc_sim_net_init(MemoryRegion *address_space,
-> +                             hwaddr base,
-> +                             hwaddr descriptors,
-> +                             qemu_irq irq, NICInfo *nd)
-> +{
-> +    DeviceState *dev;
-> +    SysBusDevice *s;
-> +
-> +    dev = qdev_new("open_eth");
-> +    qdev_set_nic_properties(dev, nd);
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> +
-> +    s = SYS_BUS_DEVICE(dev);
-> +    sysbus_connect_irq(s, 0, irq);
-> +    memory_region_add_subregion(address_space, base,
-> +                                sysbus_mmio_get_region(s, 0));
-> +    memory_region_add_subregion(address_space, descriptors,
-> +                                sysbus_mmio_get_region(s, 1));
-> +}
-> +
-> +static uint64_t arc_io_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    return 0;
-> +}
-> +
-> +static void arc_io_write(void *opaque, hwaddr addr,
-> +                         uint64_t val, unsigned size)
-> +{
-> +    switch (addr) {
-> +    case 0x08: /* board reset. */
-> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps arc_io_ops = {
-> +    .read = arc_io_read,
-> +    .write = arc_io_write,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
-> +};
-> +
-> +static void arc_sim_init(MachineState *machine)
-> +{
-> +    static struct arc_boot_info boot_info;
-> +    unsigned int smp_cpus = machine->smp.cpus;
-> +    ram_addr_t ram_base = 0;
-> +    ram_addr_t ram_size = machine->ram_size;
-> +    ARCCPU *cpu = NULL;
-> +    MemoryRegion *ram, *system_io;
-> +    int n;
-> +
-> +    boot_info.ram_start = ram_base;
-> +    boot_info.ram_size = ram_size;
-> +    boot_info.kernel_filename = machine->kernel_filename;
-> +
-> +    for (n = 0; n < smp_cpus; n++) {
-> +        cpu = ARC_CPU(object_new(machine->cpu_type));
-> +        if (cpu == NULL) {
-> +            fprintf(stderr, "Unable to find CPU definition!\n");
-> +            exit(1);
-> +        }
-> +
-> +        /* Set the initial CPU properties. */
-> +        object_property_set_uint(OBJECT(cpu), "freq_hz", 1000000, &error_fatal);
-> +        object_property_set_bool(OBJECT(cpu), "rtc-opt", true, &error_fatal);
-> +        object_property_set_bool(OBJECT(cpu), "realized", true, &error_fatal);
-> +
-> +        /* Initialize internal devices. */
-> +        cpu_arc_pic_init(cpu);
-> +        cpu_arc_clock_init(cpu);
-> +
-> +        qemu_register_reset(arc_cpu_reset, cpu);
-> +    }
-> +
-> +    ram = g_new(MemoryRegion, 1);
-> +    memory_region_init_ram(ram, NULL, "arc.ram", ram_size, &error_fatal);
-> +    memory_region_add_subregion(get_system_memory(), ram_base, ram);
-> +
-> +    system_io = g_new(MemoryRegion, 1);
-> +    memory_region_init_io(system_io, NULL, &arc_io_ops, NULL, "arc.io",
-> +                           1024);
-> +    memory_region_add_subregion(get_system_memory(), 0xf0000000, system_io);
-> +
-> +    serial_mm_init(get_system_memory(), 0x90000000, 2, cpu->env.irq[20],
-> +                   115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
-> +
-> +    if (nd_table[0].used) {
-> +        arc_sim_net_init(get_system_memory(), 0x92000000,
-> +                         0x92000400, cpu->env.irq[4], nd_table);
-> +    }
-> +
-> +    arc_load_kernel(cpu, &boot_info);
-> +}
-> +
-> +static void arc_sim_machine_init(MachineClass *mc)
-> +{
-> +    mc->desc = "ARCxx simulation";
-> +    mc->init = arc_sim_init;
-> +    mc->max_cpus = 1;
-> +    mc->is_default = false;
-> +    mc->default_cpu_type = ARC_CPU_TYPE_NAME("archs");
-> +}
-> +
-> +DEFINE_MACHINE("arc-sim", arc_sim_machine_init)
-
-Can you share the link to the documentation of this simulator please?
-I couldn't find it on the link you provided in the cover
-(https://www.synopsys.com/designware-ip/processor-solutions.html)
-and https://www.synopsys.com/dw/ipdir.php?ds=sim_nSIM doesn't
-seem relevant.
-
-> diff --git a/hw/arc/sample.c b/hw/arc/sample.c
-> new file mode 100644
-> index 0000000000..0ecc11cf15
-> --- /dev/null
-> +++ b/hw/arc/sample.c
-> @@ -0,0 +1,77 @@
-> +/*
-> + * QEMU ARC CPU
-> + *
-> + * Copyright (c) 2016 Michael Rolnik
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see
-> + * http://www.gnu.org/licenses/lgpl-2.1.html
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qemu-common.h"
-> +#include "cpu.h"
-> +#include "hw/hw.h"
-> +#include "sysemu/sysemu.h"
-> +#include "sysemu/qtest.h"
-> +#include "ui/console.h"
-> +#include "hw/boards.h"
-> +#include "hw/loader.h"
-> +#include "qemu/error-report.h"
-> +#include "exec/address-spaces.h"
-> +#include "include/hw/sysbus.h"
-> +
-> +#define SIZE_RAM 0x00020000
-> +
-> +static void sample_init(MachineState *machine)
-> +{
-> +    MemoryRegion *ram;
-> +
-> +    ARCCPU *cpu_arc ATTRIBUTE_UNUSED;
-> +
-> +    ram = g_new(MemoryRegion, 1);
-> +
-> +    cpu_arc = ARC_CPU(cpu_create("archs-" TYPE_ARC_CPU));
-> +
-> +    memory_region_init_ram(ram, NULL, "ram", SIZE_RAM, &error_fatal);
-> +    memory_region_add_subregion(get_system_memory(), PHYS_BASE_RAM, ram);
-> +
-> +    char const *firmware = NULL;
-> +    char const *filename;
-> +
-> +    if (machine->firmware) {
-> +        firmware = machine->firmware;
-> +    }
-> +
-> +    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware);
-> +    if (!filename) {
-> +        error_report("Could not find flash image file '%s'", firmware);
-> +        exit(1);
-> +    }
-> +
-> +    load_image_targphys(filename, PHYS_BASE_RAM + 0x100, SIZE_RAM);
-> +}
-> +
-> +static void sample_machine_init(MachineClass *mc)
-> +{
-> +    mc->desc = "ARC sample/example board";
-> +    mc->init = sample_init;
-> +    mc->is_default = false;
-> +}
-> +
-> +DEFINE_MACHINE("sample", sample_machine_init)
-
-You don't need a "sample" board, you can use the "none" machine instead.
-
-Regards,
-
-Phil.
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+SGkgUGhpbGlwcGUsCgpUaGFuayB5b3UgZm9yIHlvdXIgdGltZSByZXZpZXdpbmcgb3VyIHBhdGNo
+ZXMuCk15IGFwb2xvZ2llcyBmb3IgcmVhY3RpbmcgdG8gaXQgc28gbGF0ZS4gOi0oCgpPbmNlIHdl
+IGRlY2lkZWQgdG8gbWFrZSB0aGlzIHBvcnQgd2Ugbm90aWNlZCB0aGF0IE1pY2hhZWwgUm9sbmlr
+IGhhZApzdWJtaXR0IGEgcG9ydCBmb3IgQVJDNzAwIHRvIFFFTVUgbWFpbGluZ2xpc3QuCkFzIHdl
+IHRlc3RlZCBpdCwgd2UgZGVjaWRlZCB0byB1c2UgaGlzIGRpcmVjdG9yeSBzdHJ1Y3R1cmUsIGFu
+ZCBmb3IKdGhhdCByZWFzb24gdGhlIG1vc3QgZ2VuZXJpYyBmaWxlcyBhcyB3ZWxsLCBhbHRob3Vn
+aCBzaWduaWZpY2FudGx5CmNoYW5naW5nIGV2ZXJ5dGhpbmcgZWxzZS4KCkFzIGEgd2F5IHRvIGNy
+ZWRpdCBoaW0gZm9yIHRoZSBpbml0aWFsIHdvcmssIHdlIGxlZnQgaGlzIGNvcHlyaWdodApoZWFk
+ZXIgaW4gdGhhdCBmaWxlLiBNYXliZSB0aGF0IHNob3VsZCBpbnN0ZWFkIG1lbnRpb24gaGltIGlu
+IHRoZQpjb21taXRzLCBvciBpbiB0aGUgY292ZXIgbGV0dGVyIGluc3RlYWQuIFBsZWFzZSBsZXQg
+bWUga25vdyBvZiB0aGUKcHJvcGVyIHdheS4KClJlZ2FyZGluZyAidW5zaWduZWQiLCBzb21lIG9m
+IHRoZXNlIHZhcmlhYmxlcyBhcmUgdXNlZCBhcyAiYXV4aWxpYXJ5CnJlZ2lzdGVycyIgYW5kIHNo
+b3VsZCBhdCBsZWFzdCBiZSAzMmJpdC4gU29tZSBvdGhlcnMgbWlnaHQgcGVyZmVjdGx5CndlbGwg
+YmUgcmVzaXplZCB0byAidW5zaWduZWQiLldlIHdpbGwgY2VydGFpbmx5IHJldmlzaXQgdGhlc2UK
+ZGVmaW5pdGlvbnMgdG8gbWFrZSBzdXJlIHdlIHVzZSB0aGUgcHJvcGVyIHR5cGVzIGZvciB0aGUg
+Y2FzZS4KClJlZ2FyZHMsCkN1cGVydGlubwoKCgpPbiBXZWQsIE9jdCA3LCAyMDIwIGF0IDU6MDkg
+QU0gUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPGY0YnVnQGFtc2F0Lm9yZz4gd3JvdGU6Cj4KPiBI
+aSBDdXBlcnRpbm8sCj4KPiBPbiA5LzMwLzIwIDEwOjQ1IFBNLCBjdXBlcnRpbm9taXJhbmRhQGdt
+YWlsLmNvbSB3cm90ZToKPiA+IEZyb206IEN1cGVydGlubyBNaXJhbmRhIDxjbWlyYW5kYUBzeW5v
+cHN5cy5jb20+Cj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogQ3VwZXJ0aW5vIE1pcmFuZGEgPGNtaXJh
+bmRhQHN5bm9wc3lzLmNvbT4KPiA+IC0tLQo+IC4uLgo+Cj4gPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0
+L2FyYy9NYWtlZmlsZS5vYmpzIGIvdGFyZ2V0L2FyYy9NYWtlZmlsZS5vYmpzCj4gPiBuZXcgZmls
+ZSBtb2RlIDEwMDY0NAo+ID4gaW5kZXggMDAwMDAwMDAwMC4uN2IyYWZkMDhlNAo+ID4gLS0tIC9k
+ZXYvbnVsbAo+ID4gKysrIGIvdGFyZ2V0L2FyYy9NYWtlZmlsZS5vYmpzCj4gPiBAQCAtMCwwICsx
+LDM0IEBACj4gPiArIwo+ID4gKyMgIFFFTVUgQVJDIENQVQo+ID4gKyMKPiA+ICsjICBDb3B5cmln
+aHQgKGMpIDIwMjAKPiA+ICsjCj4gPiArIyAgVGhpcyBsaWJyYXJ5IGlzIGZyZWUgc29mdHdhcmU7
+IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vcgo+ID4gKyMgIG1vZGlmeSBpdCB1bmRlciB0
+aGUgdGVybXMgb2YgdGhlIEdOVSBMZXNzZXIgR2VuZXJhbCBQdWJsaWMKPiA+ICsjICBMaWNlbnNl
+IGFzIHB1Ymxpc2hlZCBieSB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uOyBlaXRoZXIKPiA+
+ICsjICB2ZXJzaW9uIDIuMSBvZiB0aGUgTGljZW5zZSwgb3IgKGF0IHlvdXIgb3B0aW9uKSBhbnkg
+bGF0ZXIgdmVyc2lvbi4KPiA+ICsjCj4gPiArIyAgVGhpcyBsaWJyYXJ5IGlzIGRpc3RyaWJ1dGVk
+IGluIHRoZSBob3BlIHRoYXQgaXQgd2lsbCBiZSB1c2VmdWwsCj4gPiArIyAgYnV0IFdJVEhPVVQg
+QU5ZIFdBUlJBTlRZOyB3aXRob3V0IGV2ZW4gdGhlIGltcGxpZWQgd2FycmFudHkgb2YKPiA+ICsj
+ICBNRVJDSEFOVEFCSUxJVFkgb3IgRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UuICBT
+ZWUgdGhlIEdOVQo+ID4gKyMgIExlc3NlciBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3Jl
+IGRldGFpbHMuCj4gPiArIwo+ID4gKyMgIFlvdSBzaG91bGQgaGF2ZSByZWNlaXZlZCBhIGNvcHkg
+b2YgdGhlIEdOVSBMZXNzZXIgR2VuZXJhbCBQdWJsaWMKPiA+ICsjICBMaWNlbnNlIGFsb25nIHdp
+dGggdGhpcyBsaWJyYXJ5OyBpZiBub3QsIHNlZQo+ID4gKyMgIDxodHRwOi8vd3d3LmdudS5vcmcv
+bGljZW5zZXMvbGdwbC0yLjEuaHRtbD4KPiA+ICsjCj4gPiArCj4gPiArb2JqLXkgICArPSB0cmFu
+c2xhdGUubwo+ID4gK29iai15ICAgKz0gaGVscGVyLm8KPiA+ICtvYmoteSAgICs9IGNwdS5vCj4g
+PiArb2JqLXkgICArPSBvcF9oZWxwZXIubwo+ID4gK29iai15ICAgKz0gZ2Ric3R1Yi5vCj4gPiAr
+b2JqLXkgICArPSBkZWNvZGVyLm8KPiA+ICtvYmoteSAgICs9IHJlZ3Mubwo+ID4gK29iai15ICAg
+Kz0gc2VtZnVuYy5vCj4gPiArb2JqLXkgICArPSBzZW1mdW5jLWhlbHBlci5vCj4gPiArb2JqLXkg
+ICArPSBtbXUubwo+ID4gK29iai15ICAgKz0gbXB1Lm8KPiA+ICtvYmoteSAgICs9IHRpbWVyLm8K
+PiA+ICtvYmoteSAgICs9IGlycS5vCj4gPiArb2JqLXkgICArPSBjYWNoZS5vCj4KPiBXZSBkb24n
+dCB1c2UgTWFrZWZpbGVzIGFueW1vcmUsIGFuZCB5b3UgYWxyZWFkeSBwcm92aWRlcyBtZXNvbi5i
+dWlsZC4KPgo+ID4gZGlmZiAtLWdpdCBhL3RhcmdldC9hcmMvYXJjLWNvbW1vbi5oIGIvdGFyZ2V0
+L2FyYy9hcmMtY29tbW9uLmgKPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gPiBpbmRleCAwMDAw
+MDAwMDAwLi44MDEzZTFkMmVkCj4gPiAtLS0gL2Rldi9udWxsCj4gPiArKysgYi90YXJnZXQvYXJj
+L2FyYy1jb21tb24uaAo+ID4gQEAgLTAsMCArMSw1NSBAQAo+ID4gKy8qCj4gPiArICogIENvbW1v
+biBoZWFkZXIgZmlsZSB0byBiZSB1c2VkIGJ5IGNwdSBhbmQgZGlzYXNzZW1ibGVyLgo+ID4gKyAq
+ICBDb3B5cmlnaHQgKEMpIDIwMTcgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uLCBJbmMuCj4gPiAr
+ICoKPiA+ICsgKiAgWW91IHNob3VsZCBoYXZlIHJlY2VpdmVkIGEgY29weSBvZiB0aGUgR05VIEdl
+bmVyYWwgUHVibGljIExpY2Vuc2UKPiA+ICsgKiAgYWxvbmcgd2l0aCBHQVMgb3IgR0RCOyBzZWUg
+dGhlIGZpbGUgQ09QWUlORzMuIElmIG5vdCwgd3JpdGUgdG8KPiA+ICsgKiAgdGhlIEZyZWUgU29m
+dHdhcmUgRm91bmRhdGlvbiwgNTEgRnJhbmtsaW4gU3RyZWV0IC0gRmlmdGggRmxvb3IsIEJvc3Rv
+biwKPiA+ICsgKiAgTUEgMDIxMTAtMTMwMSwgVVNBLgo+ID4gKyAqLwo+ID4gKwo+ID4gKyNpZm5k
+ZWYgQVJDX0NPTU1PTl9ICj4gPiArI2RlZmluZSBBUkNfQ09NTU9OX0gKPiA+ICsKPiA+ICsjaW5j
+bHVkZSAicWVtdS9vc2RlcC5oIgo+IC4uLgo+Cj4gRG8gbm90IGluY2x1ZGUgInFlbXUvb3NkZXAu
+aCIgaW4gaGVhZGVycy4KPgo+ID4gKy8qLSotaW5kZW50LXRhYnMtbW9kZTpuaWw7dGFiLXdpZHRo
+OjQ7aW5kZW50LWxpbmUtZnVuY3Rpb246J2luc2VydC10YWInLSotKi8KPiA+ICsvKiB2aW06IHNl
+dCB0cz00IHN3PTQgZXQ6ICovCj4gPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L2FyYy9jcHUtcW9tLmgg
+Yi90YXJnZXQvYXJjL2NwdS1xb20uaAo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiA+IGluZGV4
+IDAwMDAwMDAwMDAuLjQxM2I2OTM1NTgKPiA+IC0tLSAvZGV2L251bGwKPiA+ICsrKyBiL3Rhcmdl
+dC9hcmMvY3B1LXFvbS5oCj4gPiBAQCAtMCwwICsxLDUzIEBACj4gPiArLyoKPiA+ICsgKiBRRU1V
+IEFSQyBDUFUKPiA+ICsgKgo+ID4gKyAqIENvcHlyaWdodCAoYykgMjAxNiBNaWNoYWVsIFJvbG5p
+awo+Cj4gPz8/Cj4KPiA+ICsgKgo+ID4gKyAqIFRoaXMgbGlicmFyeSBpcyBmcmVlIHNvZnR3YXJl
+OyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3IKPiA+ICsgKiBtb2RpZnkgaXQgdW5kZXIg
+dGhlIHRlcm1zIG9mIHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljCj4gPiArICogTGljZW5z
+ZSBhcyBwdWJsaXNoZWQgYnkgdGhlIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbjsgZWl0aGVyCj4g
+PiArICogdmVyc2lvbiAyLjEgb2YgdGhlIExpY2Vuc2UsIG9yIChhdCB5b3VyIG9wdGlvbikgYW55
+IGxhdGVyIHZlcnNpb24uCj4gPiArICoKPiA+ICsgKiBUaGlzIGxpYnJhcnkgaXMgZGlzdHJpYnV0
+ZWQgaW4gdGhlIGhvcGUgdGhhdCBpdCB3aWxsIGJlIHVzZWZ1bCwKPiA+ICsgKiBidXQgV0lUSE9V
+VCBBTlkgV0FSUkFOVFk7IHdpdGhvdXQgZXZlbiB0aGUgaW1wbGllZCB3YXJyYW50eSBvZgo+ID4g
+KyAqIE1FUkNIQU5UQUJJTElUWSBvciBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRS4g
+U2VlIHRoZSBHTlUKPiA+ICsgKiBMZXNzZXIgR2VuZXJhbCBQdWJsaWMgTGljZW5zZSBmb3IgbW9y
+ZSBkZXRhaWxzLgo+ID4gKyAqCj4gPiArICogWW91IHNob3VsZCBoYXZlIHJlY2VpdmVkIGEgY29w
+eSBvZiB0aGUgR05VIExlc3NlciBHZW5lcmFsIFB1YmxpYwo+ID4gKyAqIExpY2Vuc2UgYWxvbmcg
+d2l0aCB0aGlzIGxpYnJhcnk7IGlmIG5vdCwgc2VlCj4gPiArICogPGh0dHA6Ly93d3cuZ251Lm9y
+Zy9saWNlbnNlcy9sZ3BsLTIuMS5odG1sPgo+ID4gKyAqLwo+ID4gKwo+IC4uLgo+Cj4gPiBkaWZm
+IC0tZ2l0IGEvdGFyZ2V0L2FyYy9jcHUuYyBiL3RhcmdldC9hcmMvY3B1LmMKPiA+IG5ldyBmaWxl
+IG1vZGUgMTAwNjQ0Cj4gPiBpbmRleCAwMDAwMDAwMDAwLi5iYmNiMzcxNzYwCj4gPiAtLS0gL2Rl
+di9udWxsCj4gPiArKysgYi90YXJnZXQvYXJjL2NwdS5jCj4gPiBAQCAtMCwwICsxLDQ2OCBAQAo+
+ID4gKy8qCj4gPiArICogUUVNVSBBUkMgQ1BVCj4gPiArICoKPiA+ICsgKiBDb3B5cmlnaHQgKGMp
+IDIwMjAKPgo+IChjKSBTeW5vcHN5cz8KPgo+ID4gKyAqCj4gPiArICogVGhpcyBsaWJyYXJ5IGlz
+IGZyZWUgc29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vcgo+ID4gKyAqIG1v
+ZGlmeSBpdCB1bmRlciB0aGUgdGVybXMgb2YgdGhlIEdOVSBMZXNzZXIgR2VuZXJhbCBQdWJsaWMK
+PiA+ICsgKiBMaWNlbnNlIGFzIHB1Ymxpc2hlZCBieSB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0
+aW9uOyBlaXRoZXIKPiA+ICsgKiB2ZXJzaW9uIDIuMSBvZiB0aGUgTGljZW5zZSwgb3IgKGF0IHlv
+dXIgb3B0aW9uKSBhbnkgbGF0ZXIgdmVyc2lvbi4KPiA+ICsgKgo+ID4gKyAqIFRoaXMgbGlicmFy
+eSBpcyBkaXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLAo+ID4g
+KyAqIGJ1dCBXSVRIT1VUIEFOWSBXQVJSQU5UWTsgd2l0aG91dCBldmVuIHRoZSBpbXBsaWVkIHdh
+cnJhbnR5IG9mCj4gPiArICogTUVSQ0hBTlRBQklMSVRZIG9yIEZJVE5FU1MgRk9SIEEgUEFSVElD
+VUxBUiBQVVJQT1NFLiBTZWUgdGhlIEdOVQo+ID4gKyAqIExlc3NlciBHZW5lcmFsIFB1YmxpYyBM
+aWNlbnNlIGZvciBtb3JlIGRldGFpbHMuCj4gPiArICoKPiA+ICsgKiBZb3Ugc2hvdWxkIGhhdmUg
+cmVjZWl2ZWQgYSBjb3B5IG9mIHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljCj4gPiArICog
+TGljZW5zZSBhbG9uZyB3aXRoIHRoaXMgbGlicmFyeTsgaWYgbm90LCBzZWUKPiA+ICsgKiBodHRw
+Oi8vd3d3LmdudS5vcmcvbGljZW5zZXMvbGdwbC0yLjEuaHRtbAo+ID4gKyAqLwo+IC4uLgo+Cj4g
+PiArLyotKi1pbmRlbnQtdGFicy1tb2RlOm5pbDt0YWItd2lkdGg6NDtpbmRlbnQtbGluZS1mdW5j
+dGlvbjonaW5zZXJ0LXRhYictKi0qLwo+ID4gKy8qIHZpbTogc2V0IHRzPTQgc3c9NCBldDogKi8K
+PiA+IGRpZmYgLS1naXQgYS90YXJnZXQvYXJjL2NwdS5oIGIvdGFyZ2V0L2FyYy9jcHUuaAo+ID4g
+bmV3IGZpbGUgbW9kZSAxMDA2NDQKPiA+IGluZGV4IDAwMDAwMDAwMDAuLmU4NDQ2MzY2ZTUKPiA+
+IC0tLSAvZGV2L251bGwKPiA+ICsrKyBiL3RhcmdldC9hcmMvY3B1LmgKPiA+IEBAIC0wLDAgKzEs
+NTMyIEBACj4gPiArIC8qCj4gPiArICAqIFFFTVUgQVJDIENQVQo+ID4gKyAgKgo+ID4gKyAgKiBD
+b3B5cmlnaHQgKGMpIDIwMjAKPgo+IEFnYWluLgo+Cj4gPiArICAqCj4gPiArICAqIFRoaXMgbGli
+cmFyeSBpcyBmcmVlIHNvZnR3YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3IKPiA+
+ICsgICogbW9kaWZ5IGl0IHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VIExlc3NlciBHZW5lcmFs
+IFB1YmxpYwo+ID4gKyAgKiBMaWNlbnNlIGFzIHB1Ymxpc2hlZCBieSB0aGUgRnJlZSBTb2Z0d2Fy
+ZSBGb3VuZGF0aW9uOyBlaXRoZXIKPiA+ICsgICogdmVyc2lvbiAyLjEgb2YgdGhlIExpY2Vuc2Us
+IG9yIChhdCB5b3VyIG9wdGlvbikgYW55IGxhdGVyIHZlcnNpb24uCj4gPiArICAqCj4gPiArICAq
+IFRoaXMgbGlicmFyeSBpcyBkaXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUg
+dXNlZnVsLAo+ID4gKyAgKiBidXQgV0lUSE9VVCBBTlkgV0FSUkFOVFk7IHdpdGhvdXQgZXZlbiB0
+aGUgaW1wbGllZCB3YXJyYW50eSBvZgo+ID4gKyAgKiBNRVJDSEFOVEFCSUxJVFkgb3IgRklUTkVT
+UyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UuIFNlZSB0aGUgR05VCj4gPiArICAqIExlc3NlciBH
+ZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlIGRldGFpbHMuCj4gPiArICAqCj4gPiArICAq
+IFlvdSBzaG91bGQgaGF2ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBMZXNzZXIgR2VuZXJh
+bCBQdWJsaWMKPiA+ICsgICogTGljZW5zZSBhbG9uZyB3aXRoIHRoaXMgbGlicmFyeTsgaWYgbm90
+LCBzZWUKPiA+ICsgICogPGh0dHA6Ly93d3cuZ251Lm9yZy9saWNlbnNlcy9sZ3BsLTIuMS5odG1s
+Pgo+ID4gKyAgKi8KPiA+ICsKPiA+ICsjaWZuZGVmIENQVV9BUkNfSAo+ID4gKyNkZWZpbmUgQ1BV
+X0FSQ19ICj4gPiArCj4gLi4uCj4KPiA+ICsKPiA+ICsvKgo+ID4gKyAqIEFyY0NQVToKPiA+ICsg
+KiBAZW52OiAjQ1BVTUJTdGF0ZQo+ID4gKyAqCj4gPiArICogQW4gQVJDIENQVS4KPiA+ICsgKi8K
+PiA+ICtzdHJ1Y3QgQVJDQ1BVIHsKPiA+ICsgIC8qPCBwcml2YXRlID4qLwo+ID4gKyAgQ1BVU3Rh
+dGUgcGFyZW50X29iajsKPiA+ICsKPiA+ICsgIC8qPCBwdWJsaWMgPiovCj4gPiArCj4gPiArICAv
+KiBBUkMgQ29uZmlndXJhdGlvbiBTZXR0aW5ncy4gKi8KPiA+ICsgIHN0cnVjdCB7Cj4gPiArICAg
+IHVpbnQzMl90IGFkZHJfc2l6ZTsKPiA+ICsgICAgYm9vbCAgICAgYXBzX2ZlYXR1cmU7Cj4gPiAr
+ICAgIGJvb2wgICAgIGJ5dGVfb3JkZXI7Cj4gPiArICAgIGJvb2wgICAgIGJpdHNjYW5fb3B0aW9u
+Owo+ID4gKyAgICB1aW50MzJfdCBicl9iY19lbnRyaWVzOwo+ID4gKyAgICB1aW50MzJfdCBicl9w
+dF9lbnRyaWVzOwo+ID4gKyAgICBib29sICAgICBicl9iY19mdWxsX3RhZzsKPiA+ICsgICAgdWlu
+dDhfdCAgYnJfcnNfZW50cmllczsKPiA+ICsgICAgdWludDMyX3QgYnJfYmNfdGFnX3NpemU7Cj4g
+PiArICAgIHVpbnQ4X3QgIGJyX3Rvc3FfZW50cmllczsKPiA+ICsgICAgdWludDhfdCAgYnJfZmJf
+ZW50cmllczsKPiA+ICsgICAgYm9vbCAgICAgY29kZV9kZW5zaXR5Owo+ID4gKyAgICBib29sICAg
+ICBjb2RlX3Byb3RlY3Q7Cj4gPiArICAgIHVpbnQ4X3QgIGRjY21fbWVtX2N5Y2xlczsKPiA+ICsg
+ICAgYm9vbCAgICAgZGNjbV9wb3NlZGdlOwo+ID4gKyAgICB1aW50OF90ICBkY2NtX21lbV9iYW5j
+a3M7Cj4gPiArICAgIHVpbnQ4X3QgIGRjX21lbV9jeWNsZXM7Cj4gPiArICAgIGJvb2wgICAgIGRj
+X3Bvc2VkZ2U7Cj4gPiArICAgIGJvb2wgICAgIGRtcF91bmFsaWduZWQ7Cj4gPiArICAgIGJvb2wg
+ICAgIGVjY19leGNlcHRpb247Cj4gPiArICAgIHVpbnQzMl90IGV4dGVybmFsX2ludGVycnVwdHM7
+Cj4gPiArICAgIHVpbnQ4X3QgIGVjY19vcHRpb247Cj4gPiArICAgIGJvb2wgICAgIGZpcnFfb3B0
+aW9uOwo+ID4gKyAgICBib29sICAgICBmcHVfZHBfb3B0aW9uOwo+ID4gKyAgICBib29sICAgICBm
+cHVfZm1hX29wdGlvbjsKPiA+ICsgICAgYm9vbCAgICAgZnB1X2Rpdl9vcHRpb247Cj4gPiArICAg
+IGJvb2wgICAgIGhhc19hY3Rpb25wb2ludHM7Cj4gPiArICAgIGJvb2wgICAgIGhhc19mcHU7Cj4g
+PiArICAgIGJvb2wgICAgIGhhc19pbnRlcnJ1cHRzOwo+ID4gKyAgICBib29sICAgICBoYXNfbW11
+Owo+ID4gKyAgICBib29sICAgICBoYXNfbXB1Owo+ID4gKyAgICBib29sICAgICBoYXNfdGltZXJf
+MDsKPiA+ICsgICAgYm9vbCAgICAgaGFzX3RpbWVyXzE7Cj4gPiArICAgIGJvb2wgICAgIGhhc19w
+Y3Q7Cj4gPiArICAgIGJvb2wgICAgIGhhc19ydHQ7Cj4gPiArICAgIGJvb2wgICAgIGhhc19zbWFy
+dDsKPiA+ICsgICAgdWludDMyX3QgaW50dmJhc2VfcHJlc2V0Owo+ID4gKyAgICB1aW50MzJfdCBs
+cGNfc2l6ZTsKPiA+ICsgICAgdWludDhfdCAgbXB1X251bV9yZWdpb25zOwo+ID4gKyAgICB1aW50
+OF90ICBtcHlfb3B0aW9uOwo+ID4gKyAgICB1aW50MzJfdCBtbXVfcGFnZV9zaXplX3NlbDA7Cj4g
+PiArICAgIHVpbnQzMl90IG1tdV9wYWdlX3NpemVfc2VsMTsKPiA+ICsgICAgdWludDMyX3QgbW11
+X3BhZV9lbmFibGVkOwo+ID4gKyAgICB1aW50MzJfdCBudGxiX251bV9lbnRyaWVzOwo+ID4gKyAg
+ICB1aW50MzJfdCBudW1fYWN0aW9ucG9pbnRzOwo+ID4gKyAgICB1aW50MzJfdCBudW1iZXJfb2Zf
+aW50ZXJydXB0czsKPiA+ICsgICAgdWludDMyX3QgbnVtYmVyX29mX2xldmVsczsKPiA+ICsgICAg
+dWludDMyX3QgcGN0X2NvdW50ZXJzOwo+ID4gKyAgICB1aW50MzJfdCBwY3RfaW50ZXJydXB0Owo+
+ID4gKyAgICB1aW50MzJfdCBwY19zaXplOwo+ID4gKyAgICB1aW50MzJfdCByZ2ZfbnVtX3JlZ3M7
+Cj4KPiBNYXliZSB1c2UgJ3Vuc2lnbmVkJyBmb3IgbnVtYmVycyAodmFyaW91cyB1c2VzKS4KPgo+
+ID4gKyAgICB1aW50MzJfdCByZ2ZfYmFua2VkX3JlZ3M7Cj4gPiArICAgIHVpbnQzMl90IHJnZl9u
+dW1fYmFua3M7Cj4gPiArICAgIGJvb2wgICAgIHJ0Y19vcHRpb247Cj4gPiArICAgIHVpbnQzMl90
+IHJ0dF9mZWF0dXJlX2xldmVsOwo+ID4gKyAgICBib29sICAgICBzdGFja19jaGVja2luZzsKPiA+
+ICsgICAgYm9vbCAgICAgc3dhcF9vcHRpb247Cj4gPiArICAgIHVpbnQzMl90IHNtYXJfc3RhY2tf
+ZW50cmllczsKPiA+ICsgICAgdWludDMyX3Qgc21hcnRfaW1wbGVtZW50YXRpb247Cj4gPiArICAg
+IHVpbnQzMl90IHN0bGJfbnVtX2VudHJpZXM7Cj4gPiArICAgIHVpbnQzMl90IHNsY19zaXplOwo+
+ID4gKyAgICB1aW50MzJfdCBzbGNfbGluZV9zaXplOwo+ID4gKyAgICB1aW50MzJfdCBzbGNfd2F5
+czsKPiA+ICsgICAgdWludDMyX3Qgc2xjX3RhZ19iYW5rczsKPiA+ICsgICAgdWludDMyX3Qgc2xj
+X3RyYW1fZGVsYXk7Cj4gPiArICAgIHVpbnQzMl90IHNsY19kYmFua193aWR0aDsKPiA+ICsgICAg
+dWludDMyX3Qgc2xjX2RhdGFfYmFua3M7Cj4gPiArICAgIHVpbnQzMl90IHNsY19kcmFtX2RlbGF5
+Owo+ID4gKyAgICBib29sICAgICBzbGNfbWVtX2J1c193aWR0aDsKPiA+ICsgICAgdWludDMyX3Qg
+c2xjX2VjY19vcHRpb247Cj4gPiArICAgIGJvb2wgICAgIHNsY19kYXRhX2hhbGZjeWNsZV9zdGVh
+bDsKPiA+ICsgICAgYm9vbCAgICAgc2xjX2RhdGFfYWRkX3ByZV9waXBlbGluZTsKPiA+ICsgICAg
+Ym9vbCAgICAgdWF1eF9vcHRpb247Cj4gPiArICAgIHVpbnQzMl90IGZyZXFfaHo7IC8qIENQVSBm
+cmVxdWVuY3kgaW4gaHosIG5lZWRlZCBmb3IgdGltZXJzLiAqLwo+ID4gKyAgfSBjZmc7Cj4gPiAr
+Cj4gWy4uLl0KPiBSZWdhcmRzLAo+Cj4gUGhpbC4KCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1z
+bnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
+aWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
