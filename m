@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49603C433E7
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 13:28:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1626DC433E7
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 13:32:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBE9222201
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 13:28:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9CFEB22202
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 13:32:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XuPno+Sw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBE9222201
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WoSlMQ+2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9CFEB22202
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,56 +25,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=pxSFMsj7Uqj8FnL9AwcxqXteCTKgmvWU9e3J8OlzDgE=; b=XuPno+SwmyC573WMQ9ig3yXNl
-	VTmtg42Y8sKPjIsc1JCYWa0kVJM9c8/gqS+a7t/E+4NBPGyQcpn2yxj3/j/XNvzKtw69uv9BUow6l
-	T6+sMMDwspD6VI+UdHG51GTzQDEXchYKLSNFcCixNL35ylGM+fpAO94aNzdHxOSkm8x3kxSe0kuCZ
-	FRPwR/Vg5h+99VClzvDSS7EvrTNl9TK66qxsxsG7MDbtYnXL45HRNZOu0/GghEzRsC+NumKmiIuOg
-	SUX44zz805IDsTElgXbz0LZjbF6VKgl6hW7NqqvHzVL2XqM7xvkbeF0Mu7O3aKdrcA1izhiQuSk8G
-	5qD6MBi7A==;
+	 bh=qlDU00WqrSVjZ5ZYGOnLyrryOkcjRPAeAqMTLji+pag=; b=WoSlMQ+2MLf5MIvkhtHvACVsa
+	yD4wcvn0s7O8UGFFgqiebv6jJGo/hUGlUIlhSBzduBzz5rHPQ6H88YUwKPOKPYEL51ggA3Li8WqP1
+	mdwF3sm5xvuc83dmYB9SZb6z3PqJN0q0RNIgQtkfuwNTXrfoSRPtyEkyUH2MkKsKo0xVv2t3MXo4I
+	gBx6fwmnr2SntcZ+r4niKBHWo4GC+a7LNhQbO9qxe7ITkcTX+8p3UqwlUhxGKiefDZHtc8pTRLHOt
+	NauzfiN7fzO3RnbPlGVzkjp3K1z2E0Go8VsszTKTeMJn0PtuoGhe7SB9JCyg+VJ2v4YShv7qNeJ62
+	gk7erSETQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kSgp3-0004BQ-5w; Wed, 14 Oct 2020 13:28:06 +0000
-Received: from mail-ot1-f66.google.com ([209.85.210.66])
+	id 1kSgtH-0005az-Rb; Wed, 14 Oct 2020 13:32:27 +0000
+Received: from mail-oi1-f194.google.com ([209.85.167.194])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSgoy-00049e-6U; Wed, 14 Oct 2020 13:28:01 +0000
-Received: by mail-ot1-f66.google.com with SMTP id m22so3415729ots.4;
- Wed, 14 Oct 2020 06:27:59 -0700 (PDT)
+ id 1kSgtC-0005Z8-O0; Wed, 14 Oct 2020 13:32:23 +0000
+Received: by mail-oi1-f194.google.com with SMTP id s81so3174518oie.13;
+ Wed, 14 Oct 2020 06:32:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ZL5zSCW4abwqO0FHpIH/hdReN6zUDlAhI8F0pVQ1+U0=;
- b=Q1RANTN2Ebc9QXEUstoJYCBpiRfWD/jMRneuRb5cmyds9Jr17xYJNMvvcK9bN/QaQl
- /xShvM5mF00cOpKg0Yv4uiGXQ811HXCh5qsZ0rBteDpLCDxb1J5QyFCyrwEgOWWysqFJ
- EZy+X7ONd/QP8NgY3GfwOn7nq2n/4r5y78uY/GvFLLqohDk3CpcYyFD9LyMwoPBV29Aj
- oxIjL1uXS61/+n+ZtJt3ZvDnMbND0EYppIzVW3CvDjfqopauSB9kjl0GwTpgjvTWxMjT
- UEMppOfOSc+aZ1kewNvwqYc2elAvf7F2mQbJractv+pqEJh+zmm1VMPtP3oifZTQmON8
- a0DA==
-X-Gm-Message-State: AOAM530nsPYl5UdC2GJ1fbu2YskbDEQt+ertl3+958ReRdXqJMR7rr3N
- 53hWK4b05Uam8BNCgxOxgQ==
-X-Google-Smtp-Source: ABdhPJx7vWvJU+mgKZyS7+CbeUNCduplAaoDS6csoJj2fWAGBxKcFikhthRG5g2vB1JTOE0K/Kpwlg==
-X-Received: by 2002:a9d:bd1:: with SMTP id 75mr1500221oth.1.1602682078846;
- Wed, 14 Oct 2020 06:27:58 -0700 (PDT)
+ bh=RfUVv3fCiTl2E9POO6Buswiqzr2whvPDBuKBRK/9qXo=;
+ b=oh1FOPjDj3ZIuTAthvZ4Fr8d7J1saRSuGMRC9/K1jBIjcnMEVFmv/hN+Rl8GaeEEfR
+ /9YwvBUfafZLmLtWPytejQ6E7SFc9ZnkKZeO1jKZ7M5YuO+lPDl1GIg5+mON8Ss6GhwN
+ L4oe4QbyOibIAFfmhWQxtwrXwQJruj2HD5fzDFYW6jq2IgoRdSa6pBTGMP6FoZpM9GDv
+ xAT9+Nu+MKLisSmp+KTFDIEn9IsIxncQ8jgLfnBccCzbocEGT/AyFBz7g6J4rvz2/BT9
+ w2OWzTGPvf+pEIcmcMMvenE0jZ59MiTtQxunDWmskIS6F47LnsjE8NxbXIBfZH5Y+RmL
+ vvYQ==
+X-Gm-Message-State: AOAM530gVJkq3cP04UphVjJVaGpgwJNZfFiSBIg+JqJ7+QHhXmVUM+L1
+ 7x3zj71cX/8YiuugUUXEWw==
+X-Google-Smtp-Source: ABdhPJxd/P4qzAtPsd2916G42APosJoO+yYmHIG+zpWj3QmjNHSypnWafNQcsvqbK5VxDOltQFbAXQ==
+X-Received: by 2002:aca:ea84:: with SMTP id i126mr1059134oih.98.1602682341597; 
+ Wed, 14 Oct 2020 06:32:21 -0700 (PDT)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id h25sm1165503otj.41.2020.10.14.06.27.57
+ by smtp.gmail.com with ESMTPSA id 92sm1204900otl.1.2020.10.14.06.32.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Oct 2020 06:27:58 -0700 (PDT)
-Received: (nullmailer pid 1539238 invoked by uid 1000);
- Wed, 14 Oct 2020 13:27:56 -0000
-Date: Wed, 14 Oct 2020 08:27:56 -0500
+ Wed, 14 Oct 2020 06:32:20 -0700 (PDT)
+Received: (nullmailer pid 1546268 invoked by uid 1000);
+ Wed, 14 Oct 2020 13:32:19 -0000
+Date: Wed, 14 Oct 2020 08:32:19 -0500
 From: Rob Herring <robh@kernel.org>
 To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Subject: Re: [PATCH 04/20] dt-bindings: usb: usb-hcd: Add "tpl-support"
- property
-Message-ID: <20201014132756.GA1538723@bogus>
+Subject: Re: [PATCH 09/20] dt-bindings: usb: Convert DWC USB3 bindings to DT
+ schema
+Message-ID: <20201014133219.GA1545403@bogus>
 References: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
- <20201014101402.18271-5-Sergey.Semin@baikalelectronics.ru>
+ <20201014101402.18271-10-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201014101402.18271-5-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201014101402.18271-10-Sergey.Semin@baikalelectronics.ru>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201014_092800_255162_014E834A 
-X-CRM114-Status: GOOD (  14.08  )
+X-CRM114-CacheID: sfid-20201014_093222_813331_A606B026 
+X-CRM114-Status: GOOD (  16.96  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,70 +86,67 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
  Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
  Kevin Hilman <khilman@baylibre.com>, Andy Gross <agross@kernel.org>,
  linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org,
  Mathias Nyman <mathias.nyman@intel.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@ti.com>, Felipe Balbi <balbi@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>,
+ Felipe Balbi <balbi@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
  linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
- Serge Semin <fancer.lancer@gmail.com>, linux-kernel@vger.kernel.org,
- Manu Gautam <mgautam@codeaurora.org>, linuxppc-dev@lists.ozlabs.org
+ Serge Semin <fancer.lancer@gmail.com>, Manu Gautam <mgautam@codeaurora.org>,
+ linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, 14 Oct 2020 13:13:46 +0300, Serge Semin wrote:
-> The host controller device might be designed to work for the particular
-> products or applications. In that case its DT node is supposed to be
-> equipped with the tpl-support property.
+On Wed, 14 Oct 2020 13:13:51 +0300, Serge Semin wrote:
+> DWC USB3 DT node is supposed to be compliant with the Generic xHCI
+> Controller schema, but with additional vendor-specific properties, the
+> controller-specific reference clocks and PHYs. So let's convert the
+> currently available legacy text-based DWC USB3 bindings to the DT schema
+> and make sure the DWC USB3 nodes are also validated against the
+> usb-xhci.yaml schema.
+> 
+> Note we have to discard the nodename restriction of being prefixed with
+> "dwc3@" string, since in accordance with the usb-hcd.yaml schema USB nodes
+> are supposed to be named as "^usb(@.*)".
 > 
 > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 > 
 > ---
 > 
 > Changelog v2:
-> - Grammar fix: "s/it'/its"
-> - Discard '|' from the property description, since we don't need to preserve
->   the text formatting.
+> - Discard '|' from the descriptions, since we don't need to preserve
+>   the text formatting in any of them.
+> - Drop quotes from around the string constants.
+> - Fix the "clock-names" prop description to be referring the enumerated
+>   clock-names instead of the ones from the Databook.
 > ---
->  Documentation/devicetree/bindings/usb/usb-hcd.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  .../devicetree/bindings/usb/dwc3.txt          | 125 --------
+>  .../devicetree/bindings/usb/snps,dwc3.yaml    | 295 ++++++++++++++++++
+>  2 files changed, 295 insertions(+), 125 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/usb/dwc3.txt
+>  create mode 100644 Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 > 
 
 
 My bot found errors running 'make dt_binding_check' on your patch:
 
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-extract-example", line 45, in <module>
-    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 343, in load
-    return constructor.get_single_data()
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 111, in get_single_data
-    node = self.composer.get_single_node()
-  File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
-  File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
-  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 891, in _ruamel_yaml.CParser._compose_mapping_node
-  File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
-ruamel.yaml.scanner.ScannerError: mapping values are not allowed in this context
-  in "<unicode string>", line 27, column 14
-make[1]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/usb/usb-hcd.example.dts] Error 1
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/usb/usb-hcd.example.dts'
-make[1]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/usb/usb-hcd.yaml:27:14: [error] syntax error: mapping values are not allowed here (syntax)
-make[1]: *** [Documentation/devicetree/bindings/Makefile:59: Documentation/devicetree/bindings/processed-schema-examples.json] Error 123
-make: *** [Makefile:1366: dt_binding_check] Error 2
+./Documentation/devicetree/bindings/usb/snps,dwc3.yaml:44:4: [warning] wrong indentation: expected 4 but found 3 (indentation)
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/qcom,dwc3.example.dt.yaml: dwc3@a600000: $nodename:0: 'dwc3@a600000' does not match '^usb(@.*)?'
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.example.dt.yaml: usb@ff500000: snps,quirk-frame-length-adjustment: True is not of type 'array'
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 
 
-See https://patchwork.ozlabs.org/patch/1382001
+See https://patchwork.ozlabs.org/patch/1382003
 
 If you already ran 'make dt_binding_check' and didn't see the above
 error(s), then make sure dt-schema is up to date:
