@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D85BBC43457
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 10:17:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4739AC43457
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 10:18:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6E03520723
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 10:17:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BA7E221527
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 10:18:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qSeMSAye"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6E03520723
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DZfjjm4H"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA7E221527
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,41 +25,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=s/MGirA/RI8qJmQ9g00fMrHoxmhA5qRYz+UX739uB1I=; b=qSeMSAyeXTfJ1L0qY8Ry/hPYT
-	BJ4V1ewLgHxUhsQXj742XSX1qEcig2uuGEuHMvDl6YBgitIt092ua/Ch0mCbJIAnCkQLZfPQqymPv
-	BhYrxZCylEPjqFNTKL2sv6QYH4phk+/dsmS3HVwFOwRqKL/nlYedpyC39xnn9nsGY2KWRZsmw4t5a
-	0XwRmm6gbzcs0Lw6Kh79qG6SwdXqpItiN6mW/GURkpTCod3pheS0rmbSw79t+Tq25PgVIoK0bpFAJ
-	k6NGJfJXMZUs5a3BwcQZZ9ZoUhf1jqFKVmQCyajOBRM7HddP5fYbC/VNPmW6+PVFLz6xD0cvcLIMJ
-	YWLq4Y8/A==;
+	 bh=zJDCALHzVf2a61e2pNHRigQqXKvprcniEDy+qeEBKpg=; b=DZfjjm4HYrJrj9z8D/aAMkQvp
+	m0/e0srjdtbpPmFgLWF3x/pgX8AS3PwR+sLeNRK3mDbX9ZraLVRuPj5zEKCMmnb83msI4kZKjfYxw
+	jol2CXAdCh6lNkHVw//o10PfOUPd7wI3nq+w6vSVJA00m2/7IXVyhb1N/yFXd5gg414ZYoTrOENYp
+	58QdrRJHPBxwZkCRCjniqwYjANhXvixQogXS1UMxBk+8SC5N7Vzg8j71FR+PflqKrRHgOUupp8g8f
+	xhhSC1ZksoE1p1WZqwPLu6Tt52s5StgdRKQrTFAhbl3Fk4gDMZsnmQmhhP9pfY0zCln9LqpHX/Pzd
+	Dwry29+4g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kSdqp-0005Qq-PO; Wed, 14 Oct 2020 10:17:43 +0000
+	id 1kSdrf-0005wK-Hx; Wed, 14 Oct 2020 10:18:35 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSdnS-0003aR-UW; Wed, 14 Oct 2020 10:14:19 +0000
+ id 1kSdnU-0003bb-RQ; Wed, 14 Oct 2020 10:14:21 +0000
 Received: from localhost (unknown [127.0.0.1])
- by mail.baikalelectronics.ru (Postfix) with ESMTP id B303C80023F6;
- Wed, 14 Oct 2020 10:14:14 +0000 (UTC)
+ by mail.baikalelectronics.ru (Postfix) with ESMTP id 99950800254B;
+ Wed, 14 Oct 2020 10:14:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
  by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AK-aNZa2C8Wr; Wed, 14 Oct 2020 13:14:14 +0300 (MSK)
+ with ESMTP id bLgVXv8eo580; Wed, 14 Oct 2020 13:14:16 +0300 (MSK)
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
- <robh+dt@kernel.org>
-Subject: [PATCH 13/20] dt-bindings: usb: dwc3: Add Frame Length Adj
- restrictions
-Date: Wed, 14 Oct 2020 13:13:55 +0300
-Message-ID: <20201014101402.18271-14-Sergey.Semin@baikalelectronics.ru>
+ <robh+dt@kernel.org>, Roger Quadros <rogerq@ti.com>
+Subject: [PATCH 16/20] dt-bindings: usb: keystone-dwc3: Validate DWC3 sub-node
+Date: Wed, 14 Oct 2020 13:13:58 +0300
+Message-ID: <20201014101402.18271-17-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201014_061415_216824_91B7A668 
-X-CRM114-Status: UNSURE (   7.12  )
+X-CRM114-CacheID: sfid-20201014_061417_065523_750B52F8 
+X-CRM114-Status: UNSURE (   7.19  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -84,36 +83,42 @@ Cc: devicetree@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  Manu Gautam <mgautam@codeaurora.org>, Andy Gross <agross@kernel.org>,
  Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
  Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@ti.com>
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-In accordance with the IP core databook the
-snps,quirk-frame-length-adjustment property can be set within [0, 0x3F].
-Let's make sure the DT schema applies a correct restriction on the
-property.
+TI Keystone DWC3 compatible DT node is supposed to have a DWC USB3
+compatible sub-node to describe a fully functioning USB interface.
+Since DWC USB3 has now got a DT schema describing its DT node, let's make
+sure the TI Keystone DWC3 sub-node passes validation against it.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
----
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 307affb669aa..eafd4be03058 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -226,6 +226,8 @@ properties:
-       length adjustment when the fladj_30mhz_sdbnd signal is invalid or
-       incorrect.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 0x3f
+---
+
+Changelog v2:
+- Grammar fix: "s/it'/its"
+---
+ Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
+index c1b19fc5d0a2..ca7fbe3ed22e 100644
+--- a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
+@@ -64,9 +64,7 @@ properties:
  
-   snps,rx-thr-num-pkt-prd:
-     description:
+ patternProperties:
+   "usb@[a-f0-9]+$":
+-    type: object
+-    description: This is the node representing the DWC3 controller instance
+-      Documentation/devicetree/bindings/usb/dwc3.txt
++    $ref: snps,dwc3.yaml#
+ 
+ required:
+   - compatible
 -- 
 2.27.0
 
