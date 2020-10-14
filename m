@@ -2,21 +2,21 @@ Return-Path: <SRS0=Sdks=DV=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDBABC433DF
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 14:37:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F96C433E7
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 17:16:59 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D8E1020776
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 14:37:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 617D522227
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Oct 2020 17:16:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1XfyqaCS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D8E1020776
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gKCi3bjt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 617D522227
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,41 +25,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ZLDb1R4UsHBjlfLFOvOsruEpUxxFtzNfI+MMR8qh+mY=; b=1XfyqaCSHRleJN1zBypoqw0mh
-	UTrx2mYxoUB5950yrmTJHAkOJogk6TZAOp1l/STRWppYSE1BxD82FpL+vz6fbmeScS2vvdlIw2Izz
-	/29UQhJz367YoJxt1Bb1y4k/szPLRvWgaLDblq+N9/crmk3tN8hgYVygYf/NHDLz7xXLzjouMBByJ
-	sEP2tz9nnQsSoUJYXEzpHZUgV3QdsHaEcDrjhXV5gz0fMZWygUGr3yiNeHXKgSOzXlLBzLSki+RmH
-	bJonjr0S7gILHCABIPiWyczOykX81jRYZ0370ZNQOqrwHZ9QPhns6MIAiw+whaJoNnC/0DASud6Tp
-	4KZ7vaQhA==;
+	 bh=wjYNU40Dj69udKlss8BrOZ6jnL71SYKFT0uWScESD1g=; b=gKCi3bjtRtlZT8Drw/ecGGWLT
+	5s7hSjJgA8O6SzFJ5PuyBvZeelBUykoVQybcMhQhE0r/3gjijvgq6Gzqoiun69oZAlHAcTzCDAl6D
+	IeYozFYT/QOGSZfa5Zi1sw0pJHt9AhJt4fr68KHeGj/XMSw4Bwj/lLCjFWmAgzJlRVHS4LTL79TnI
+	+c8lQ99BOhqN5v1d1xCPrjPTwuMb6XN8pIydmzgdo5Afn5ZTWgZeABr++4atPEwJW7v63Hh1WNcr8
+	096HDgFhlSTRUHWrwK8AL6kXclp1xhdrCnAo/JPAE/JB1jORMO82KKNoRjNV2PwvLznZzXOqSyYZl
+	zF2PU4iPw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kShuF-000563-JF; Wed, 14 Oct 2020 14:37:31 +0000
+	id 1kSkOY-0005j8-IW; Wed, 14 Oct 2020 17:16:58 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kShuA-00054X-Rm; Wed, 14 Oct 2020 14:37:28 +0000
+ id 1kSkOT-0005hA-Ae; Wed, 14 Oct 2020 17:16:54 +0000
 Received: from localhost (unknown [127.0.0.1])
- by mail.baikalelectronics.ru (Postfix) with ESMTP id 0C2A5803073E;
- Wed, 14 Oct 2020 14:37:25 +0000 (UTC)
+ by mail.baikalelectronics.ru (Postfix) with ESMTP id BDEBF803073C;
+ Wed, 14 Oct 2020 17:16:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
  by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id f5w4yWjMzAZv; Wed, 14 Oct 2020 17:37:23 +0300 (MSK)
-Date: Wed, 14 Oct 2020 17:37:20 +0300
+ with ESMTP id Ys7tOGr55fWZ; Wed, 14 Oct 2020 20:16:46 +0300 (MSK)
+Date: Wed, 14 Oct 2020 20:16:40 +0300
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To: Felipe Balbi <balbi@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Subject: Re: [PATCH 20/20] arch: dts: Fix DWC USB3 DT nodes name
-Message-ID: <20201014143720.yny3jco5pkb7dr4b@mobilestation>
+Message-ID: <20201014171640.bup52mgaz4jvhtsy@mobilestation>
 References: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
  <20201014101402.18271-21-Sergey.Semin@baikalelectronics.ru>
- <878sc8lx0e.fsf@kernel.org>
+ <CAJKOXPeErocR5-3xCDqBR3-k3w_2EQ_768d71n229cbzeo4TtQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <878sc8lx0e.fsf@kernel.org>
+In-Reply-To: <CAJKOXPeErocR5-3xCDqBR3-k3w_2EQ_768d71n229cbzeo4TtQ@mail.gmail.com>
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201014_103727_173992_B3F9BE1B 
-X-CRM114-Status: GOOD (  16.29  )
+X-CRM114-CacheID: sfid-20201014_131653_626957_73733A7F 
+X-CRM114-Status: GOOD (  30.68  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,54 +73,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: Andrew Lunn <andrew@lunn.ch>, linux-usb@vger.kernel.org,
  Neil Armstrong <narmstrong@baylibre.com>, Tony Lindgren <tony@atomide.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Wei Xu <xuwei5@hisilicon.com>,
- linux-samsung-soc@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>, Andy Gross <agross@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Gregory Clement <gregory.clement@bootlin.com>, Wei Xu <xuwei5@hisilicon.com>,
+ Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+ Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org,
  Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
  devicetree@vger.kernel.org, Jason Cooper <jason@lakedaemon.net>,
- Mathias Nyman <mathias.nyman@intel.com>, linux-kernel@vger.kernel.org,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Maxime Ripard <mripard@kernel.org>,
  Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
  Rob Herring <robh+dt@kernel.org>, Santosh Shilimkar <ssantosh@kernel.org>,
  linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@ti.com>, linux-mips@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Roger Quadros <rogerq@ti.com>, Felipe Balbi <balbi@kernel.org>,
+ linux-mips@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
  linuxppc-dev@lists.ozlabs.org, Patrice Chotard <patrice.chotard@st.com>,
  Serge Semin <fancer.lancer@gmail.com>, Li Yang <leoyang.li@nxp.com>,
  Manu Gautam <mgautam@codeaurora.org>,
  =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
- Shawn Guo <shawnguo@kernel.org>,
- Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>
+ Shawn Guo <shawnguo@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 14, 2020 at 05:09:37PM +0300, Felipe Balbi wrote:
-> 
-> Hi Serge,
-> 
-> Serge Semin <Sergey.Semin@baikalelectronics.ru> writes:
+On Wed, Oct 14, 2020 at 12:33:25PM +0200, Krzysztof Kozlowski wrote:
+> On Wed, 14 Oct 2020 at 12:23, Serge Semin
+> <Sergey.Semin@baikalelectronics.ru> wrote:
+> >
 > > In accordance with the DWC USB3 bindings the corresponding node name is
 > > suppose to comply with Generic USB HCD DT schema, which requires the USB
-> 
-
-> DWC3 is not a simple HDC, though.
-
-Yeah, strictly speaking it is equipped with a lot of vendor-specific stuff,
-which are tuned by the DWC USB3 driver in the kernel. But after that the
-controller is registered as xhci-hcd device so it's serviced by the xHCI driver,
-which then registers the HCD device so the corresponding DT node is supposed
-to be compatible with the next bindings: usb/usb-hcd.yaml, usb/usb-xhci.yaml
-and usb/snps,dwc3,yaml. I've created the later one so to validate the denoted
-compatibility.
-
-> 
 > > nodes to have the name acceptable by the regexp: "^usb(@.*)?" . But a lot
 > > of the DWC USB3-compatible nodes defined in the ARM/ARM64 DTS files have
 > > name as "^dwc3@.*" or "^usb[1-3]@.*" or even "^dwusb@.*", which will cause
@@ -131,24 +119,110 @@ compatibility.
 > > arch/arm64/boot/dts/apm/{apm-storm.dtsi,apm-shadowcat.dtsi} since the
 > > in-source comment says that the nodes name need to be preserved as
 > > "^dwusb@.*" for some backward compatibility.
+> >
+> > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> >
+> > ---
+> >
+> > Please, test the patch out to make sure it doesn't brake the dependent DTS
+> > files. I did only a manual grepping of the possible nodes dependencies.
 > 
 
-> interesting, compatibility with what? Some debugfs files, perhaps? :-)
+> 1. It is you who should compare the decompiled DTS, not us. For example:
+> $ for i in dts-old/*/*dtb dts-old/*/*/*dtb; do echo $i; crosc64
+> scripts/dtc/dtx_diff ${i} dts-new/${i#dts-old/} ; done
+> 
+> $ for i in dts-old/*/*dtb dts-old/*/*/*dtb; do echo $i; crosc64
+> fdtdump ${i} > ${i}.fdt ; crosc64 fdtdump dts-new/${i#dts-old/} >
+> dts-new/${i#dts-old/}.fdt ; diff -ubB ${i}.fdt
+> dts-new/${i#dts-old/}.fdt ; done
 
-Don't really know.) In my experience the worst type of such compatibility is
-connected with some bootloader magic, which may add/remove/modify properties
-to nodes with pre-defined names.
+So basically you suggest first to compile the old and new dts files, then to
+de-compile them, then diff old and new fdt's, and visually compare the results.
+Personally it isn't that much better than what I did, since each old and new
+dtbs will for sure differ due to the node names change suggested in this patch.
+So it will lead to the visual debugging too, which isn't that effective. But
+your approach is still more demonstrative to make sure that I didn't loose any
+nodes redefinition, since in the occasion the old and new de-compiled nodes will
+differ not only by the node names but with an additional old named node.
+
+So to speak thanks for suggesting it. I'll try it to validate the proposed
+changes.
+
+Two questions:
+1) Any advise of a good inliner/command to compile all dtbs at once? Of course I
+can get all the updated dtsi'es, then find out all the dts'es which include
+them, then directly use dtc to compile the found dts'es... On the other hand I
+can just compile all dts'es, then compare old and new ones. The diff of the
+non-modified dtb'es will be just empty...
+2) What crosc64 is?
+
+> 
+> 2. Split it per arm architectures (and proper subject prefix - not
+> "arch") and subarchitectures so maintainers can pick it up.
+
+Why? The changes are simple and can be formatted as a single patch. I've seen
+tons of patches submitted like that, accepted and then merged. What you suggest
+is just much more work, which I don't see quite required.
+
+> 
+> 3. The subject title could be more accurate - there is no fix here
+> because there was no errors in the first place. Requirement of DWC
+> node names comes recently, so it is more alignment with dtschema.
+> Otherwise automatic-pickup-stable-bot might want to pick up... and it
+> should not go to stable.
+
+Actually it is a fix, because the USB DT nodes should have been named with "usb"
+prefix in the first place. Legacy DWC USB3 bindings didn't define the nodes
+naming, but implied to be "usb"-prefixed by the USB HCD schema. The Qualcomm
+DWC3 schema should have defined the sub-nodes as "dwc3@"-prefixed, which was
+wrong in the first place.
+
+Regarding automatic-pickup-stable-bot if it exists I don't think it scans all the
+emails, but most likely the stable@vger.kernel.org list only or the emails
+having the "Fixes:" tag. If I am wrong please give me a link to the bot sources
+or refer to a doc where I can read about the way it works, to take it into
+account in future commits. Just to note I submitted patches which did some fixes,
+had the word "fix" in the subject but weren't selected to be backported to the
+stable kernel.
+
+Anyway I don't really care that much about the subject text using the word "fix"
+or some else. So if you suggest some better alternative, I'd be glad to consider
+it.
 
 -Sergey
 
 > 
-> In any case, I don't have any problems with this, so I'll let other
-> folks comment.
+> Best regards,
+> Krzysztof
 > 
-> -- 
-> balbi
-
-
+> >  arch/arm/boot/dts/armada-375.dtsi              | 2 +-
+> >  arch/arm/boot/dts/exynos5250.dtsi              | 2 +-
+> >  arch/arm/boot/dts/exynos54xx.dtsi              | 4 ++--
+> >  arch/arm/boot/dts/keystone-k2e.dtsi            | 4 ++--
+> >  arch/arm/boot/dts/keystone.dtsi                | 2 +-
+> >  arch/arm/boot/dts/ls1021a.dtsi                 | 2 +-
+> >  arch/arm/boot/dts/omap5-l4.dtsi                | 2 +-
+> >  arch/arm/boot/dts/stih407-family.dtsi          | 2 +-
+> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi   | 2 +-
+> >  arch/arm64/boot/dts/exynos/exynos5433.dtsi     | 4 ++--
+> >  arch/arm64/boot/dts/exynos/exynos7.dtsi        | 2 +-
+> >  arch/arm64/boot/dts/freescale/fsl-ls1012a.dtsi | 4 ++--
+> >  arch/arm64/boot/dts/freescale/fsl-ls1043a.dtsi | 6 +++---
+> >  arch/arm64/boot/dts/freescale/fsl-ls1088a.dtsi | 4 ++--
+> >  arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi | 4 ++--
+> >  arch/arm64/boot/dts/hisilicon/hi3660.dtsi      | 2 +-
+> >  arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi   | 4 ++--
+> >  arch/arm64/boot/dts/qcom/ipq8074.dtsi          | 4 ++--
+> >  arch/arm64/boot/dts/qcom/msm8996.dtsi          | 4 ++--
+> >  arch/arm64/boot/dts/qcom/msm8998.dtsi          | 2 +-
+> >  arch/arm64/boot/dts/qcom/qcs404-evb.dtsi       | 2 +-
+> >  arch/arm64/boot/dts/qcom/qcs404.dtsi           | 4 ++--
+> >  arch/arm64/boot/dts/qcom/sc7180.dtsi           | 2 +-
+> >  arch/arm64/boot/dts/qcom/sdm845.dtsi           | 4 ++--
+> >  arch/arm64/boot/dts/qcom/sm8150.dtsi           | 2 +-
+> >  25 files changed, 38 insertions(+), 38 deletions(-)
+> >
 
 _______________________________________________
 linux-snps-arc mailing list
