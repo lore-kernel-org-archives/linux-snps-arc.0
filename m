@@ -2,68 +2,161 @@ Return-Path: <SRS0=cQSw=DW=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B9D7C43467
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 15 Oct 2020 14:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB2EFC433DF
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 15 Oct 2020 16:37:15 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BE94D20757
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 15 Oct 2020 14:15:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 24DC822210
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 15 Oct 2020 16:37:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K1X/mQjQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BE94D20757
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gFUxT2Jp";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hCNXfrGU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 24DC822210
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=nN6EfnLzTn5br2uNbol3wMO9Ld4aAlRq9t28vrOwuC0=; b=K1X/mQjQ2efPwEaLIgb3deJCp
-	/7q72C3I/3Iua3IyV8arHljQqEF3Oug0netnLdQKYBQyMiy2VGs7+F1q5uYbT40MchLoDX3wvTNTI
-	G50I1sGe7g03X0p7yZuWCkSOZhkelK73G6hJNbpKHXIDqO8LBN+8ESO8a+529V2xrFOHsVIsh2p4G
-	L26DPjsXf0BYrx1QF4leJ0PfRKWRMw08maVV4/SNYsD4J6wv/x23e2jAvonieC6XQMFP6DxYvsmoZ
-	FH3JyOWTaGnNpRZOLx0TBu+WrbVA6UFpHDPabryRpPIVfs8vFL+P0//JPynrTrvuqIrknIq8OU3UO
-	FBrhAjg+w==;
+	 bh=OVaAgb084Cr4EV2KSG7sjOR4HMf880zXqMvknA1UKTU=; b=gFUxT2Jpd+mlbMlmj07ZyhdGG
+	ajc758j4zCSdcvd0Vk/n22UxbYxT+u0K5+YA2CGq8fLILEgV47Sy5Vsc8qhVWIqcoErgO/iCL3ch1
+	X43DbRb4H+r7LUQZ1GgqPyPZj6W257DPYobMnBd45uffavg9VcsNjNRUmG33+UHGfUtZVt5wQlJaS
+	BoyelXDCNh5tuqK0+q3mwhnc4I0LgU4jSVSScYjXDCkA18Q83IqVg58Rc6FMX/msYSxTjNta8akKY
+	HM5E5cJyDCIijUuWd6IEzlo7ym592bFJWqTwIs8nhNUaFRfqFni0YFYjbfrqLWvwWkN53fcMqj7zL
+	pdgYdevzg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kT42g-0002kX-Md; Thu, 15 Oct 2020 14:15:42 +0000
-Received: from mail.baikalelectronics.com ([87.245.175.226]
- helo=mail.baikalelectronics.ru)
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kT42b-0002j2-Qv; Thu, 15 Oct 2020 14:15:38 +0000
-Received: from localhost (unknown [127.0.0.1])
- by mail.baikalelectronics.ru (Postfix) with ESMTP id 205078030719;
- Thu, 15 Oct 2020 14:15:35 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at baikalelectronics.ru
-Received: from mail.baikalelectronics.ru ([127.0.0.1])
- by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HCX0OAgYPjwG; Thu, 15 Oct 2020 17:15:34 +0300 (MSK)
-Date: Thu, 15 Oct 2020 17:15:31 +0300
-From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH 20/20] arch: dts: Fix DWC USB3 DT nodes name
-Message-ID: <20201015141531.zxmcgq6k4akm3lmo@mobilestation>
+	id 1kT6Fd-00015R-QB; Thu, 15 Oct 2020 16:37:13 +0000
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kT6FZ-000141-0c; Thu, 15 Oct 2020 16:37:09 +0000
+Received: by mail-pf1-x443.google.com with SMTP id e7so2328363pfn.12;
+ Thu, 15 Oct 2020 09:37:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YWBB1tNjSVqbpAQ46aLKFVE5AjRjWL3r4Ab3QA5/ays=;
+ b=hCNXfrGUsg7H+0N2587CoFp6PRzA1+cUtNOT/VHEx3tdTq4TU0bs3+xBIACNvvhH2L
+ w5kAlmgn1HxNTD6EiJF78B4N+5B1vuyi95gDuXvOBWtEiObTsqUqSBnT0aQ+Tfb3+KEi
+ SNl4ErMdYcQfhs4Cbk6LCY1ym2RvR1Od3sHAXN7S9sEWoDTxDjuQeKS3VkIemOxztkbd
+ w2MKCuwY5tB1vWv9+cIiLrJCNPo2Wn+DNn7xQTWCQ3MUYsHDXCKlqcRE4J9LfiNmHwdP
+ CHIMUOz7+4gPj3n1Ooc8wA0s1mnIGvPjTR/bUwk2hh+GKewjjRwJzneiAZHdLw3ZHUPO
+ 9syw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=YWBB1tNjSVqbpAQ46aLKFVE5AjRjWL3r4Ab3QA5/ays=;
+ b=XZPrni7qA4+0oA/7ZGaWPGm7Dyu+nadpXOttJhUMxTsBv7wOofRxCJaOuf+ElRNKg8
+ MSdDKhub9RZ5/7KWxDBfRSL9+FIDJBJfIJ2KNf0IotcSMrEj9WocjGLvaHxI9HXk2c3s
+ Ci+BLENg0gUTcndARB0qK8Oj0eGDxmUhDLBPCs+jyc9SOZ61Zo7Qkz7F2jkl9Zu6L4KQ
+ zWVvrzh0B2LO9e9+IQlNewVq79BXDr6/b82bVDHAd58pcH+u77KOXyfkDcUtvKpXOZJU
+ mXKnOR+ZYYjiFSiOibwjRQBqKgDfPAEz8CX+rJUWWL39YvyQCX5hjXCwUKWa81jTO5h3
+ mHxw==
+X-Gm-Message-State: AOAM532NbIBYsDvGpflrVOeUCMDZfdTsJUmsIOp3YiR7A6+L0lpJ6iXd
+ 8rhSthvakJhbYoa9Rb263oY=
+X-Google-Smtp-Source: ABdhPJwmDS3Vi5aXAC+G4xDfoACzvAax5MX+Zi2h2BRQvZdLVRnvx2/yyCqMIoUsI4TFC86wRFhuNg==
+X-Received: by 2002:aa7:94a4:0:b029:151:d786:d5c2 with SMTP id
+ a4-20020aa794a40000b0290151d786d5c2mr4673216pfl.50.1602779826806; 
+ Thu, 15 Oct 2020 09:37:06 -0700 (PDT)
+Received: from [10.67.48.230] ([192.19.223.252])
+ by smtp.googlemail.com with ESMTPSA id q21sm3700834pgg.45.2020.10.15.09.37.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Oct 2020 09:37:05 -0700 (PDT)
+Subject: Re: [PATCH 18/20] arch: dts: Fix EHCI/OHCI DT nodes name
+To: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+ Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh+dt@kernel.org>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Vineet Gupta <vgupta@synopsys.com>, Hauke Mehrtens <hauke@hauke-m.de>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+ bcm-kernel-feedback-list@broadcom.com, Wei Xu <xuwei5@hisilicon.com>,
+ Vladimir Zapolskiy <vz@mleia.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>
 References: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
- <20201014101402.18271-21-Sergey.Semin@baikalelectronics.ru>
- <CAJKOXPeErocR5-3xCDqBR3-k3w_2EQ_768d71n229cbzeo4TtQ@mail.gmail.com>
- <20201014171640.bup52mgaz4jvhtsy@mobilestation>
- <CAJKOXPcHi_=jea=0YrPNo4dh6k03+63Tc2Uo+sd0u8+XPdQjOw@mail.gmail.com>
- <20201014235105.kj4rtwiidph7gyen@mobilestation>
- <20201015061439.GA2926@kozik-lap>
+ <20201014101402.18271-19-Sergey.Semin@baikalelectronics.ru>
+From: Florian Fainelli <f.fainelli@gmail.com>
+Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+ M5kY0ACeNhCZJvZ5g4C2Lc9fcTHu8jxmEkI=
+Message-ID: <8c0f6dee-ee59-e8b4-b7b6-4ca64b342c83@gmail.com>
+Date: Thu, 15 Oct 2020 09:37:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201015061439.GA2926@kozik-lap>
-X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
+In-Reply-To: <20201014101402.18271-19-Sergey.Semin@baikalelectronics.ru>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201015_101538_271314_5041476B 
-X-CRM114-Status: GOOD (  43.59  )
+X-CRM114-CacheID: sfid-20201015_123709_123007_945F8F01 
+X-CRM114-Status: GOOD (  15.84  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,163 +168,45 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, linux-usb@vger.kernel.org,
- Neil Armstrong <narmstrong@baylibre.com>, Tony Lindgren <tony@atomide.com>,
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, Neil Armstrong <narmstrong@baylibre.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+ Serge Semin <fancer.lancer@gmail.com>, linux-kernel@vger.kernel.org,
+ Manu Gautam <mgautam@codeaurora.org>, Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Gregory Clement <gregory.clement@bootlin.com>, Wei Xu <xuwei5@hisilicon.com>,
- Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
- Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-snps-arc@lists.infradead.org,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- devicetree@vger.kernel.org, Jason Cooper <jason@lakedaemon.net>,
- Mathias Nyman <mathias.nyman@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org, linux-snps-arc@lists.infradead.org,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Maxime Ripard <mripard@kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
  Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- Rob Herring <robh+dt@kernel.org>, Santosh Shilimkar <ssantosh@kernel.org>,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@ti.com>, Felipe Balbi <balbi@kernel.org>,
- linux-mips@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linuxppc-dev@lists.ozlabs.org, Patrice Chotard <patrice.chotard@st.com>,
- Serge Semin <fancer.lancer@gmail.com>, Li Yang <leoyang.li@nxp.com>,
- Manu Gautam <mgautam@codeaurora.org>,
- =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
- Shawn Guo <shawnguo@kernel.org>
+ Roger Quadros <rogerq@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 15, 2020 at 08:14:39AM +0200, Krzysztof Kozlowski wrote:
-> On Thu, Oct 15, 2020 at 02:51:05AM +0300, Serge Semin wrote:
->  > >
-> > > > So to speak thanks for suggesting it. I'll try it to validate the proposed
-> > > > changes.
-> > > >
-> > > > Two questions:
-> > > > 1) Any advise of a good inliner/command to compile all dtbs at once? Of course I
-> > > > can get all the updated dtsi'es, then find out all the dts'es which include
-> > > > them, then directly use dtc to compile the found dts'es... On the other hand I
-> > > > can just compile all dts'es, then compare old and new ones. The diff of the
-> > > > non-modified dtb'es will be just empty...
-> > > 
-> > 
-> > > make dtbs
-> > 
-> > It's not that easy.) "make dtbs" will build dtbs only for enabled boards, which
-> > first need to be enabled in the kernel config. So I'll need to have a config
-> > with all the affected dts. The later is the same as if I just found all the
-> > affected dts and built them one-by-one by directly calling dtc.
+On 10/14/20 3:14 AM, Serge Semin wrote:
+> In accordance with the Generic EHCI/OHCI bindings the corresponding node
+> name is suppose to comply with the Generic USB HCD DT schema, which
+> requires the USB nodes to have the name acceptable by the regexp:
+> "^usb(@.*)?" . Let's fix the DTS files, which have the nodes defined with
+> incompatible names.
 > 
-> True. Sometimes allyesconfig for given arch might be helpful but not
-> always (e.g. for ARM it does not select all of ARMv4 and ARMv5 boards).
-> Most likely your approach is actually faster/more reliable.
+> Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 > 
-> > 
-> > > touch your dts or git stash pop
-> > > make dtbs
-> > > compare
-> > > diff for all unchanged will be simply empty, so easy to spot
-> > > 
-> > > > 2) What crosc64 is?
-> > > 
-> > > Ah, just an alias for cross compiling + ccache + kbuild out. I just
-> > > copied you my helpers, so you need to tweak them.
-> > > 
-> > > >
-> > > > >
-> > > > > 2. Split it per arm architectures (and proper subject prefix - not
-> > > > > "arch") and subarchitectures so maintainers can pick it up.
-> > > >
-> > > > Why? The changes are simple and can be formatted as a single patch. I've seen
-> > > > tons of patches submitted like that, accepted and then merged. What you suggest
-> > > > is just much more work, which I don't see quite required.
-> > > 
-> > 
-> > > DTS changes go separate between arm64 and arm. There is nothing
-> > > unusual here - all changes are submitted like this.
-> > > Second topic is to split by subarchitectures which is necessary if you
-> > > want it to be picked up by maintainers. It also makes it easier to
-> > > review.
-> > 
-> > The current patches are easy enough for review. The last three patches of the
-> > series is a collection of the one-type changes concerning the same type of
-> > nodes. So reviewing them won't cause any difficulty. But I assume that's not
-> > the main point in this discussion.
-> > 
-> > > Sure, without split ber subarchitectures this could be picked
-> > > up by SoC folks but you did not even CC them. So if you do not want to
-> > > split it per subarchitectures for maintainers and you do not CC SoC,
-> > > then how do you believe this should be picked up? Out of the regular
-> > > patch submission way? That's not how the changes are handled.
-> > 
-> > AFAIU there are another ways of merging comprehensive patches. If they get to collect
-> > all the Acked-by tags, they could be merged in, for instance, through Greg' or Rob'
-> > (for dts) repos, if of course they get to agree with doing that. Am I wrong?
-> > 
-> > My hope was to ask Rob or Greg to get the patches merged in when they get
-> > to collect all the ackes, since I thought it was an option in such cases. So if
-> > they refuse to do so I'll have no choice but to split the series up into a
-> > smaller patches as you say.
+> ---
 > 
+> Please, test the patch out to make sure it doesn't brake the dependent DTS
+> files. I did only a manual grepping of the possible nodes dependencies.
+> ---
 
-> This is neither Rob's nor Greg's patch to pick up, but ARM SoC (which was
-> not CCed here). And most likely they won't pick it up because judging by
-> contents it is obvious it should go via ARM SoC.
-> 
-> Sure, if there are dependencies between some patches they can go with
-> acks through unrelated trees, but this not the usual way. This is an
-> exception in the process to solve particular dependency problem.  It has
-> drawbacks - increases the chances of annoying conflicts.
-> 
-> The case here does not fall into this criteria - there is no dependency
-> of this patch on the others  Therefore there is no reason to use the
-> unusual/exceptional way of handling patches.  There is no reason why
-> this shouldn't go via either specific ARM subarchitecture maintainers or
-> via ARM SoC.
-
-Ok. I see your point. To sum it up I've studied the git log arch/ commit
-messages and it turns out even Rob has to split the cleanup changes like this
-ones. So thanks for your patience with stating your point. I'll split the last
-three patches up to be merged in via the corresponding archs/subarch'es repos.
-
--Sergey
-
-> 
-> > > > > 3. The subject title could be more accurate - there is no fix here
-> > > > > because there was no errors in the first place. Requirement of DWC
-> > > > > node names comes recently, so it is more alignment with dtschema.
-> > > > > Otherwise automatic-pickup-stable-bot might want to pick up... and it
-> > > > > should not go to stable.
-> > > >
-> > > > Actually it is a fix, because the USB DT nodes should have been named with "usb"
-> > > > prefix in the first place. Legacy DWC USB3 bindings didn't define the nodes
-> > > > naming, but implied to be "usb"-prefixed by the USB HCD schema. The Qualcomm
-> > > > DWC3 schema should have defined the sub-nodes as "dwc3@"-prefixed, which was
-> > > > wrong in the first place.
-> > > 
-> > 
-> > > Not following the naming convention of DT spec which was loosely
-> > > enforced is not an error which should be "fixed". Simply wrong title.
-> > > This is an alignment with dtschema or correcting naming convention.
-> > > Not fixing errors.
-> > 
-> > From your perspective it wasn't an error, from mine and most likely Rob' it
-> > was.) Anyway as I said I don't care that much about preserving the subject
-> > wording, so what about the next one:
-> > <arch>: <subarch>: Harmonize DWC USB3 nodes name with DT schema
-> > ?
-> 
-> Looks good.
-> 
-> Best regards,
-> Krzysztof
-> 
+>  arch/arm/boot/dts/bcm5301x.dtsi                | 4 ++--
+>  arch/arm/boot/dts/bcm53573.dtsi                | 4 ++--
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
+-- 
+Florian
 
 _______________________________________________
 linux-snps-arc mailing list
