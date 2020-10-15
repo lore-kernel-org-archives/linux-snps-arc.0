@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB2EFC433DF
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 15 Oct 2020 16:37:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 988D8C43457
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 15 Oct 2020 16:40:01 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 24DC822210
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 15 Oct 2020 16:37:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 088FD22210
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 15 Oct 2020 16:40:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gFUxT2Jp";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hCNXfrGU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 24DC822210
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sB2xpfLJ";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qQZd5xTU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 088FD22210
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,71 +27,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=OVaAgb084Cr4EV2KSG7sjOR4HMf880zXqMvknA1UKTU=; b=gFUxT2Jpd+mlbMlmj07ZyhdGG
-	ajc758j4zCSdcvd0Vk/n22UxbYxT+u0K5+YA2CGq8fLILEgV47Sy5Vsc8qhVWIqcoErgO/iCL3ch1
-	X43DbRb4H+r7LUQZ1GgqPyPZj6W257DPYobMnBd45uffavg9VcsNjNRUmG33+UHGfUtZVt5wQlJaS
-	BoyelXDCNh5tuqK0+q3mwhnc4I0LgU4jSVSScYjXDCkA18Q83IqVg58Rc6FMX/msYSxTjNta8akKY
-	HM5E5cJyDCIijUuWd6IEzlo7ym592bFJWqTwIs8nhNUaFRfqFni0YFYjbfrqLWvwWkN53fcMqj7zL
-	pdgYdevzg==;
+	 bh=Eu+URs1VWVpiWkHi+yoJRFlOi2lKIqGPSGn5xUIVDKY=; b=sB2xpfLJ7e0Zp5V6J24vkfaDn
+	5LENzjVEHBFTDcOZKOz00RAtgSwjEtLHIAS+Hbwebs2117V+PQzvbH0GqSokzfURh+/4Ev+qUg9N6
+	nHycwce+fvIahaaRhTX7LeVTSEbc3yJsNfmZjobccqgm4cZ3L0ePoq3ahexAS3pJN8Aq25D6GG+Tj
+	KdYblkcUtvY7+tT3gorAN51jESxhNW1XQlUiYQyakuQtpoim88Bbld7q4LutM24nyYEfvv5XM+L7P
+	EeT5cjZzhgOFAzQlqJUMvxfiIolS5DOOWGXECA6YqLdiHR3EPU0hYtqk+CCWj7Uwdkr9B4LMAXTXe
+	ACAC6augw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kT6Fd-00015R-QB; Thu, 15 Oct 2020 16:37:13 +0000
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
+	id 1kT6IK-0001ST-24; Thu, 15 Oct 2020 16:40:00 +0000
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kT6FZ-000141-0c; Thu, 15 Oct 2020 16:37:09 +0000
-Received: by mail-pf1-x443.google.com with SMTP id e7so2328363pfn.12;
- Thu, 15 Oct 2020 09:37:08 -0700 (PDT)
+ id 1kT6IF-0001QL-4H; Thu, 15 Oct 2020 16:39:55 +0000
+Received: by mail-pf1-x442.google.com with SMTP id e7so2332726pfn.12;
+ Thu, 15 Oct 2020 09:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YWBB1tNjSVqbpAQ46aLKFVE5AjRjWL3r4Ab3QA5/ays=;
- b=hCNXfrGUsg7H+0N2587CoFp6PRzA1+cUtNOT/VHEx3tdTq4TU0bs3+xBIACNvvhH2L
- w5kAlmgn1HxNTD6EiJF78B4N+5B1vuyi95gDuXvOBWtEiObTsqUqSBnT0aQ+Tfb3+KEi
- SNl4ErMdYcQfhs4Cbk6LCY1ym2RvR1Od3sHAXN7S9sEWoDTxDjuQeKS3VkIemOxztkbd
- w2MKCuwY5tB1vWv9+cIiLrJCNPo2Wn+DNn7xQTWCQ3MUYsHDXCKlqcRE4J9LfiNmHwdP
- CHIMUOz7+4gPj3n1Ooc8wA0s1mnIGvPjTR/bUwk2hh+GKewjjRwJzneiAZHdLw3ZHUPO
- 9syw==
+ bh=gqWIMQYBUG7yq8NtnkvmW24LTsh1QU6pWh/+ugrYrxg=;
+ b=qQZd5xTUnsF3HRylAKoGTioMFW7uqnoMXRtBLq+c1p4V/aRRTXrGb8cTFAc3nvALjp
+ aquNHctfkqLrSvEdPhxpeTSHfctsGe2UI7sEhajhMS700kAS9Y5xnWGK1BfZupaY0PWN
+ Y7Yow4982zp9cphiZsHNFyV/jjhZCQ3xy/8lxe6JoYN93I4GDpYX4OoQOteSfMdEFtQX
+ RbYeMftNCsU9AahTo+KF8hh5DeHEdWySDzZmbfS3yW3blX1ceQcfA7DfKPts1+hoSdWY
+ 15siQyc5iyGg71kJ9IQrBvubOFT2B1xxUMsoiffkxULFpacN7amxN/R35qegSCEu+VTQ
+ 6X8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=YWBB1tNjSVqbpAQ46aLKFVE5AjRjWL3r4Ab3QA5/ays=;
- b=XZPrni7qA4+0oA/7ZGaWPGm7Dyu+nadpXOttJhUMxTsBv7wOofRxCJaOuf+ElRNKg8
- MSdDKhub9RZ5/7KWxDBfRSL9+FIDJBJfIJ2KNf0IotcSMrEj9WocjGLvaHxI9HXk2c3s
- Ci+BLENg0gUTcndARB0qK8Oj0eGDxmUhDLBPCs+jyc9SOZ61Zo7Qkz7F2jkl9Zu6L4KQ
- zWVvrzh0B2LO9e9+IQlNewVq79BXDr6/b82bVDHAd58pcH+u77KOXyfkDcUtvKpXOZJU
- mXKnOR+ZYYjiFSiOibwjRQBqKgDfPAEz8CX+rJUWWL39YvyQCX5hjXCwUKWa81jTO5h3
- mHxw==
-X-Gm-Message-State: AOAM532NbIBYsDvGpflrVOeUCMDZfdTsJUmsIOp3YiR7A6+L0lpJ6iXd
- 8rhSthvakJhbYoa9Rb263oY=
-X-Google-Smtp-Source: ABdhPJwmDS3Vi5aXAC+G4xDfoACzvAax5MX+Zi2h2BRQvZdLVRnvx2/yyCqMIoUsI4TFC86wRFhuNg==
-X-Received: by 2002:aa7:94a4:0:b029:151:d786:d5c2 with SMTP id
- a4-20020aa794a40000b0290151d786d5c2mr4673216pfl.50.1602779826806; 
- Thu, 15 Oct 2020 09:37:06 -0700 (PDT)
+ bh=gqWIMQYBUG7yq8NtnkvmW24LTsh1QU6pWh/+ugrYrxg=;
+ b=h8cQr5ipgtAcqWHjUQvaOhddsGcMdIukJbKm/BZUvQ2oIJ94TapGIeT5uef6ZhbREA
+ zb9xPPuUskJSeiCnB3QmyhQIatDm/G0iryrp3+TB3A30zUvf6lJsp/E0usrJWrzrwJ2C
+ dXQYKm6OAqmPD1kxhWZXt3TvfKGI8rhS+2Vig7tEj7ZsgMjTT4JY7YDDfNWyYcE0Htel
+ MBiIoIGa+mDYHdbTEGWmPN5sRd708FvwGtKuwetgG6bACZ/6XvhW/CairsueiOdUs0e8
+ 8g1PbEdC8N2oxm5jYjoZwNj6Sps21TP/CYUUwRVgaCDh7+ISatWSZ8Qq4R9N23OK/44O
+ Qnow==
+X-Gm-Message-State: AOAM531bpiniiAEuFgMXiSyw+HFFJhW8xFt/8pf2DdPd4dShyKe/vMe5
+ OVe3HmLcgE5fj5CXPL17sBM=
+X-Google-Smtp-Source: ABdhPJwgDSuInYqELEMF2gM4bang7qs6+eCuObab8CoTswYVwtM747vlKk75TLuWENwkNpd4KmIYcw==
+X-Received: by 2002:a62:5b85:0:b029:142:2501:34e1 with SMTP id
+ p127-20020a625b850000b0290142250134e1mr4860567pfb.58.1602779993043; 
+ Thu, 15 Oct 2020 09:39:53 -0700 (PDT)
 Received: from [10.67.48.230] ([192.19.223.252])
- by smtp.googlemail.com with ESMTPSA id q21sm3700834pgg.45.2020.10.15.09.37.02
+ by smtp.googlemail.com with ESMTPSA id y5sm3858293pgo.5.2020.10.15.09.39.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Oct 2020 09:37:05 -0700 (PDT)
-Subject: Re: [PATCH 18/20] arch: dts: Fix EHCI/OHCI DT nodes name
+ Thu, 15 Oct 2020 09:39:51 -0700 (PDT)
+Subject: Re: [PATCH 07/20] dt-bindings: usb: xhci: Add Broadcom STB v2
+ compatible device
 To: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
  Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh+dt@kernel.org>, Alexey Brodkin <abrodkin@synopsys.com>,
- Vineet Gupta <vgupta@synopsys.com>, Hauke Mehrtens <hauke@hauke-m.de>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
- bcm-kernel-feedback-list@broadcom.com, Wei Xu <xuwei5@hisilicon.com>,
- Vladimir Zapolskiy <vz@mleia.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>
+ Rob Herring <robh+dt@kernel.org>
 References: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
- <20201014101402.18271-19-Sergey.Semin@baikalelectronics.ru>
+ <20201014101402.18271-8-Sergey.Semin@baikalelectronics.ru>
 From: Florian Fainelli <f.fainelli@gmail.com>
 Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
  mQGiBEjPuBIRBACW9MxSJU9fvEOCTnRNqG/13rAGsj+vJqontvoDSNxRgmafP8d3nesnqPyR
@@ -147,16 +136,16 @@ Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
  caxTGgc5zzQHeX67eMzrGomG3ZnIxmd1sAbgvJUDaD2GrYlulfwGWwWyTNbWRvMighVdPkSF
  6XFgQaosWxkV0OELLy2N485YrTr2Uq64VKyxpncLh50e2RnyAJ9Za0Dx0yyp44iD1OvHtkEI
  M5kY0ACeNhCZJvZ5g4C2Lc9fcTHu8jxmEkI=
-Message-ID: <8c0f6dee-ee59-e8b4-b7b6-4ca64b342c83@gmail.com>
-Date: Thu, 15 Oct 2020 09:37:02 -0700
+Message-ID: <385b0c37-a22f-3c13-71be-803f39c391af@gmail.com>
+Date: Thu, 15 Oct 2020 09:39:48 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201014101402.18271-19-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201014101402.18271-8-Sergey.Semin@baikalelectronics.ru>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201015_123709_123007_945F8F01 
-X-CRM114-Status: GOOD (  15.84  )
+X-CRM114-CacheID: sfid-20201015_123955_207481_85F34D98 
+X-CRM114-Status: GOOD (  13.11  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,9 +166,8 @@ Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
  Manu Gautam <mgautam@codeaurora.org>, Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- linux-mediatek@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-snps-arc@lists.infradead.org,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- linux-stm32@st-md-mailman.stormreply.com,
  Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
  Roger Quadros <rogerq@ti.com>
 Content-Type: text/plain; charset="us-ascii"
@@ -187,23 +175,13 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 10/14/20 3:14 AM, Serge Semin wrote:
-> In accordance with the Generic EHCI/OHCI bindings the corresponding node
-> name is suppose to comply with the Generic USB HCD DT schema, which
-> requires the USB nodes to have the name acceptable by the regexp:
-> "^usb(@.*)?" . Let's fix the DTS files, which have the nodes defined with
-> incompatible names.
+On 10/14/20 3:13 AM, Serge Semin wrote:
+> For some reason the "brcm,xhci-brcm-v2" compatible string has been missing
+> in the original bindings file. Add it to the Generic xHCI Controllers DT
+> schema since the controller driver expects it to be supported.
 > 
 > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> 
-> ---
-> 
-> Please, test the patch out to make sure it doesn't brake the dependent DTS
-> files. I did only a manual grepping of the possible nodes dependencies.
-> ---
 
->  arch/arm/boot/dts/bcm5301x.dtsi                | 4 ++--
->  arch/arm/boot/dts/bcm53573.dtsi                | 4 ++--
 Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
 Florian
