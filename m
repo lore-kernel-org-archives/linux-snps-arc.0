@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F7EBC433E7
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Oct 2020 18:47:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F56BC43457
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Oct 2020 18:49:27 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1F0DC207BC
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Oct 2020 18:47:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E1B76212CC
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Oct 2020 18:49:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BsL6cmbA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1F0DC207BC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vURy2niP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E1B76212CC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,56 +24,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=FpX9jBcMe6RSI/ThgfZqxSlDP6mz18ksQz15r0IbmAI=; b=BsL6cmbAwk4P9hSO7erdvOJ/1
-	qGbtMx/zUBhXHuL8pkr1qHctaQJDBs8R8VdjHqxNd0KGRaY3MCJ8gsAQSp7gNqRwhOGADOpmPRR7u
-	YXwO2b48vK7yHMZp9qGu+k6C3BO6h/b+klMceeneKSZBxNy+R1jQkGtqx9kxj6K7l9DbObiGw6rmR
-	kVkqxE+PCHcwdfkD60RWxlJGGX9PVG0zSBV+CDm/TpMJcBWVPPhwzwoLghdPt+fthNr0+1TENbizh
-	dXLzvpYrlodghZf65lnl38hONQPA53OL8GgABmHtdB7KTn8ixTWVbIdHIUnx4feY52PClx8BtNoOg
-	a8HhMixuA==;
+	 bh=was58zvEySL8INTy7hq0Z0UesZhk/xdwSOPKLFDJiLM=; b=vURy2niP0lvVQfFNcvAPz4Z27
+	uCay+PEptO88ug5HsBHdeXKa3eLue68P41CcMIuooRqnKhg6rEgVRbBb9HUZGWfPsEnt8mE1MNkh6
+	fVrKoE7yX9vBkkqnxLWKq9QoOscNMkoYx7fc8XVfqgVo3ZvGQABggUwY5hCVC/gTYiFlvfsGeLidL
+	simtfNYi0CnyShfof5QrFlYJP1xsz4k23+bABHzsLzh1v2NDZIbm1jQ45PUZBBjy0TPVMvQkJnY/A
+	FPMGNvshnjWHAlmr1URyxlUeRznX2QqEHr0uKkMQZLp0pr8EnHKZbh33RYPDtF3gJd3TeoW4Ygk+2
+	2hMMhgVzg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kTUlb-0008L6-06; Fri, 16 Oct 2020 18:47:51 +0000
-Received: from mail-oo1-f68.google.com ([209.85.161.68])
+	id 1kTUn8-0000Bp-74; Fri, 16 Oct 2020 18:49:26 +0000
+Received: from mail-oi1-f193.google.com ([209.85.167.193])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kTUlW-0008Jt-Eb; Fri, 16 Oct 2020 18:47:47 +0000
-Received: by mail-oo1-f68.google.com with SMTP id f19so856303oot.4;
- Fri, 16 Oct 2020 11:47:45 -0700 (PDT)
+ id 1kTUn5-0000AT-HH; Fri, 16 Oct 2020 18:49:24 +0000
+Received: by mail-oi1-f193.google.com with SMTP id l85so3518902oih.10;
+ Fri, 16 Oct 2020 11:49:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ah4l6QAR2mQ0/oHGxUZvIiL/bIHnlL8stCXNgxk0zPU=;
- b=PLpl2OFM4USQOJEgU+kD0usVetAdyXRV4Xqo4wOpszKITiQLptKfvVBOhuI8WbrGDf
- /I1PkKD+cK0DgMdMVbc0dkuYG/TKuCYF/8Vo5GKRi62wkqO+XZ2LEcFuIBhPeJJkDfIx
- 3pqkI32JcVFS8YQVBJJpp1OaHojiFkMt+VCseQJAuwfXYxnp6HYgP/codBu6Lpszb74h
- TYs0S9c0UYuS5tWnEdKKYFJ92qzGT05FcTqhy9p9rZ4S8lCEHvVG3Swzxr05dSo/oIqa
- vcgXztwSOWgA7GSapvknRWrFV4qC1xgof7CfRa6DKJL0ZIns/v2l4Rp702FA7ndupl3N
- 6ucA==
-X-Gm-Message-State: AOAM53379SvfyssR3XIQpTpiLLBniVn7nmt1eF6YCAxmDusRI2o6XZUu
- +uuGo2G0AdKTOc7wN6keYQ==
-X-Google-Smtp-Source: ABdhPJwi2sSg9TbyxlBb9FKSGQY3aAdhbGYA8TNts9SijJNIvpVCDN/KL4oZNOHs+2wFaZc9X3ZX/w==
-X-Received: by 2002:a4a:e592:: with SMTP id o18mr3759398oov.28.1602874065319; 
- Fri, 16 Oct 2020 11:47:45 -0700 (PDT)
+ bh=3MxugCiE5y0heSpZifDkccjElq8hTuw4iGDrR5HUSmI=;
+ b=k6tJukAnPBpFSmDC/N6x3KrLGZcgCn1y7fQYQdEMbdVPqUQNAlfXpaE3NKJEoSww71
+ tdkanV2JTECg9SNw6nRh7riw0tat8h4Iwa8w5pK32tTmQqL5wgwbeJrZu36oM628W55i
+ Jr59fSIWOv2PpJ82BEQfa8iwpVM1EmqGz6z6S24Zbg/yhVecBjaV/VsFkHUJWys7HQ5M
+ VNfcld12OEpJVau8J2gf5/WT+MH3HbNjWVPoenbR7QScnuUFN7k+SNNins0TRilKAHPF
+ L/szldhnHOa4VMRXKt2u4e/llW7v8mC0WH2tL9YSiG427sGJM7bcSMv8DFOlNw8vAgHY
+ i5nw==
+X-Gm-Message-State: AOAM532oyiT9SynpsvOXd1J/KU8l2I1x7+IRUh8pI1jzVDpSV+MHAlLG
+ X2yOCqcOsEbWtNYXdvJoBw==
+X-Google-Smtp-Source: ABdhPJxhlHWdR759W2/ZwO3kHuI+wtcySV279kCyDwV40mkUK/8z3O06wkP5ssZVrgQY5g1y7yDEXA==
+X-Received: by 2002:aca:bf82:: with SMTP id p124mr3170755oif.133.1602874162686; 
+ Fri, 16 Oct 2020 11:49:22 -0700 (PDT)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id 189sm1239683oid.40.2020.10.16.11.47.43
+ by smtp.gmail.com with ESMTPSA id d11sm1192131otf.44.2020.10.16.11.49.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 11:47:44 -0700 (PDT)
-Received: (nullmailer pid 1729968 invoked by uid 1000);
- Fri, 16 Oct 2020 18:47:43 -0000
-Date: Fri, 16 Oct 2020 13:47:43 -0500
+ Fri, 16 Oct 2020 11:49:22 -0700 (PDT)
+Received: (nullmailer pid 1732283 invoked by uid 1000);
+ Fri, 16 Oct 2020 18:49:21 -0000
+Date: Fri, 16 Oct 2020 13:49:21 -0500
 From: Rob Herring <robh@kernel.org>
 To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Subject: Re: [PATCH 05/20] dt-bindings: usb: usb-hcd: Add generic "usb-phy"
- property
-Message-ID: <20201016184743.GA1729897@bogus>
+Subject: Re: [PATCH 06/20] dt-bindings: usb: Convert xHCI bindings to DT schema
+Message-ID: <20201016184921.GA1732241@bogus>
 References: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
- <20201014101402.18271-6-Sergey.Semin@baikalelectronics.ru>
+ <20201014101402.18271-7-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201014101402.18271-6-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201014101402.18271-7-Sergey.Semin@baikalelectronics.ru>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201016_144746_536802_D0EDA025 
-X-CRM114-Status: GOOD (  15.36  )
+X-CRM114-CacheID: sfid-20201016_144923_587830_CBE2F2BF 
+X-CRM114-Status: GOOD (  17.36  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,25 +104,40 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, 14 Oct 2020 13:13:47 +0300, Serge Semin wrote:
-> Even though the Generic PHY framework is the more preferable way of
-> setting the USB PHY up, there are still many dts-files and DT bindings
-> which rely on having the legacy "usb-phy" specified to attach particular
-> USB PHYs to USB cores. Let's have the "usb-phy" property described in
-> the generic USB HCD binding file so it would be validated against the
-> nodes in which it's specified. Mark the property as deprecated to
-> discourage the developers from using it.
+On Wed, 14 Oct 2020 13:13:48 +0300, Serge Semin wrote:
+> Currently the DT bindings of Generic xHCI Controllers are described by means
+> of the legacy text file. Since such format is deprecated in favor of the
+> DT schema, let's convert the Generic xHCI Controllers bindings file to the
+> corresponding yaml files. There will be two of them: a DT schema for the
+> xHCI controllers on a generic platform and a DT schema validating a generic
+> xHCI controllers properties. The later will be used to validate the xHCI
+> controllers, which aside from some vendor-specific features support the
+> basic xHCI functionality.
+> 
+> An xHCI-compatible DT node shall support the standard USB HCD properties
+> and custom ones like: usb2-lpm-disable, usb3-lpm-capable,
+> quirk-broken-port-ped and imod-interval-ns. In addition if a generic xHCI
+> controller is being validated against the DT schema it is also supposed to
+> be equipped with mandatory compatible string, single registers range,
+> single interrupts source, and is supposed to optionally contain up to two
+> reference clocks for the controller core and CSRs.
 > 
 > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 > 
 > ---
 > 
 > Changelog v2:
-> - Discard '|' from the property description, since we don't need to preserve
->   the text formatting.
+> - Add explicit "additionalProperties: true" to the usb-xhci.yaml schema,
+>   since additionalProperties/unevaluatedProperties are going to be mandary
+>   for each binding.
 > ---
->  Documentation/devicetree/bindings/usb/usb-hcd.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  .../devicetree/bindings/usb/generic-xhci.yaml | 63 +++++++++++++++++++
+>  .../devicetree/bindings/usb/usb-xhci.txt      | 41 ------------
+>  .../devicetree/bindings/usb/usb-xhci.yaml     | 42 +++++++++++++
+>  3 files changed, 105 insertions(+), 41 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/usb/generic-xhci.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.txt
+>  create mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.yaml
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
