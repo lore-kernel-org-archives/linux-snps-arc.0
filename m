@@ -1,85 +1,68 @@
-Return-Path: <SRS0=Aepa=DX=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=kEbr=D2=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61323C43467
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Oct 2020 20:47:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A14BEC433E7
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Oct 2020 16:23:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D9CA9214DB
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Oct 2020 20:47:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 16A8621D81
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Oct 2020 16:23:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LJMkIPYf";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="YX9YE4pr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D9CA9214DB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=googlemail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="wqVE9yiy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 16A8621D81
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=4yYMhGyJG2tl5U5RK3xNvMh9S0FZy8f+2zC5/YBOTTY=; b=LJMkIPYfdRmi8Rt3Hj1/R6eco
-	hrDjIcW7JPJBYm9zUkae6Pa9DAxwGuIqWBmLi1qSkyU+x/jMsNn4RYGnnJOb2kY1gJkeSTWYZpTDc
-	qBPZHoudDR0IqYDTnzJR3WXgHms2rOr0N1FUdjyyNI/PkjdfhXErw5rJrtlG5l56LZr4em64dctgI
-	79sC0jyVO2PHLcQvldhVqLw4SdY4LwVSRJsIrwSdFHlzf6pAqjMVdiTAyBfHMxyqynEgdUAf6Qru1
-	k9t9FdbErPW0brRN7FFWZhV3YFlitJPZTeoUQUd3yxLMPkQstrbvlQzPTlmdOc4hHPQBPSUnL9YYN
-	tYVYcisUw==;
+	 bh=2qLZ4v6GL1bWU/ekfjy4Ntv5eKdevvaVpT6tuY71i+4=; b=wqVE9yiy5veu1bBvY/X/5qWq/
+	2NTAERHKaBBqosdcrM57HnThRJZXqBrBN85zDh3ynm863jcy3zSj8CSTA8wR5j0T0y8rRo9oPrd44
+	/CTDV9Qtbr5j41vfnmjnFRV9PhtP1odCa0TC4Sx7LndrYIrmaY1efDyp0wHBFiNGvY6ZYoewggIvA
+	Or0XC64nJbxrE78ObHX56NavMdp7YuapD7jTzYx5PVsiSFs3jbvUnFDIe2eoDBj9+YGOffUeFGuwU
+	U9jEcs59hATYC6MLmhgygB23rhwWx41pg2d2SqX/JNSIoFWtTbrXWpV66rhdKXfWWTJewQ1piaQFt
+	xY/pdtjig==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kTWdH-0003xh-K6; Fri, 16 Oct 2020 20:47:23 +0000
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kTWd8-0003v6-Tq; Fri, 16 Oct 2020 20:47:15 +0000
-Received: by mail-ed1-x544.google.com with SMTP id o18so3857240edq.4;
- Fri, 16 Oct 2020 13:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cM0Y06ICfSsoQ7UyBgP3+N66oWYmNuuTL9tZcHXPGCQ=;
- b=YX9YE4prYIppUA6bWnjFZ1SlFrt/2+Clwt/Y2HOaFsDQzC62RsyOpLMDHdZRq05zfT
- oI/clGG8Wwp2uI3zODlg24vIR8B/Htq8McDYf1W7QK3oGDMpWznzASoFSXWHrH01hjDt
- 9XeAgl969QeMhMjdXEfAEqQaPDHxl/FTduIQvEeC4cnXu5e1kiWb/4hD9M41+uVV4cfe
- 5H3xhmf8eHN0rg93ykx/fi1xUJpSXfnawqwK+EblahRFKhuHpDMu1dcksPXMovgNM1DQ
- fYO6fnu/GvwZsfRs2OdOMn3qipwnLIl6sZsuRxGMwuzH17TOHn5w7AdnOe24CHKjHgoF
- ZQdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cM0Y06ICfSsoQ7UyBgP3+N66oWYmNuuTL9tZcHXPGCQ=;
- b=cvo5YEGSN+bpKLOU4XBbiBPrnPTgxct5CBT4muJohNkABmZm7bwYSX0lr4qUK3qx2d
- uE2gw6uoSWDqdd6TsCW7IadNuol+oeleLMep1Ch77V861Y7hmwVHHl9AXnDWTKcfv4QH
- +lmmW8nDhzJP37bxhrrCtP2WBHsmXF2ajmLAMgS53uAZOfH9+0OzKsZvt9V+lfCdO4m7
- FqHczBN9SDY76zEgeppA9e8AZVCUR9q7Lo+AJ5dlgJNKkdNsLI9q/cz8VTQpZDpZkt5U
- rbhDNsyBDqtKHTNuQHV4qKuMq4HnSm3+Smzp93ati/AouJn0KXozdeEHQNxNrjZXQIIJ
- h4Qg==
-X-Gm-Message-State: AOAM533XJL1nDCSvv9eGugGJIbg4QVY0q5VrTdRicr5vEW+iD1U9j9hy
- 0QpIxzyzDhGUwxEZzUiuEptUcDwI8IV8DgqBNv0=
-X-Google-Smtp-Source: ABdhPJyY7U/2059vdl/trPuz5QmTks+M1tCJlzB3pZYDFJT8/0Yi++X7QL+PvBI+5qrHrP47VENdS6ZsuDkZG+Z/RX4=
-X-Received: by 2002:aa7:d690:: with SMTP id d16mr6142313edr.301.1602881233657; 
- Fri, 16 Oct 2020 13:47:13 -0700 (PDT)
-MIME-Version: 1.0
+	id 1kUXw3-0001eq-9t; Mon, 19 Oct 2020 16:22:59 +0000
+Received: from mail.baikalelectronics.com ([87.245.175.226]
+ helo=mail.baikalelectronics.ru)
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kUXvy-0001cN-Vi; Mon, 19 Oct 2020 16:22:56 +0000
+Received: from localhost (unknown [127.0.0.1])
+ by mail.baikalelectronics.ru (Postfix) with ESMTP id 060F18030865;
+ Mon, 19 Oct 2020 16:22:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at baikalelectronics.ru
+Received: from mail.baikalelectronics.ru ([127.0.0.1])
+ by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3fyZBKMOX3_k; Mon, 19 Oct 2020 19:22:47 +0300 (MSK)
+Date: Mon, 19 Oct 2020 19:22:45 +0300
+From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 11/20] dt-bindings: usb: dwc3: Add synopsys,dwc3
+ compatible string
+Message-ID: <20201019162245.j5fsvv355wchuhza@mobilestation.baikal.int>
 References: <20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru>
- <20201014101402.18271-16-Sergey.Semin@baikalelectronics.ru>
-In-Reply-To: <20201014101402.18271-16-Sergey.Semin@baikalelectronics.ru>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Fri, 16 Oct 2020 22:47:02 +0200
-Message-ID: <CAFBinCCRobE1kQhUrh3oorQTKcQZwYEJ_MaHRtr=f=sYFCoD8g@mail.gmail.com>
-Subject: Re: [PATCH 15/20] dt-bindings: usb: meson-g12a-usb: Validate
- DWC2/DWC3 sub-nodes
-To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+ <20201014101402.18271-12-Sergey.Semin@baikalelectronics.ru>
+ <20201014201818.GA6926@kozik-lap>
+ <20201014213554.turskjyuntk35syj@mobilestation>
+ <20201016185340.GA1734346@bogus>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201016185340.GA1734346@bogus>
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201016_164715_008233_8592C60D 
-X-CRM114-Status: UNSURE (   9.55  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201019_122255_151402_CFEE5BD4 
+X-CRM114-Status: GOOD (  15.56  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,38 +74,53 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
  Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>,
+ Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>,
  Andy Gross <agross@kernel.org>, linux-snps-arc@lists.infradead.org,
  devicetree@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- Rob Herring <robh+dt@kernel.org>, linux-amlogic@lists.infradead.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
  linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>,
  Felipe Balbi <balbi@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
  linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
- Serge Semin <fancer.lancer@gmail.com>, linux-kernel@vger.kernel.org,
- Manu Gautam <mgautam@codeaurora.org>, linuxppc-dev@lists.ozlabs.org
+ Serge Semin <fancer.lancer@gmail.com>, Manu Gautam <mgautam@codeaurora.org>,
+ linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 14, 2020 at 12:14 PM Serge Semin
-<Sergey.Semin@baikalelectronics.ru> wrote:
->
-> Amlogic G12A USB DT sub-nodes are supposed to be compatible with the
-> generic DWC USB2 and USB3 devices. Since now we've got DT schemas for
-> both of the later IP cores let's make sure that the Amlogic G12A USB
-> DT nodes are fully evaluated including the DWC sub-nodes.
->
-> Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+On Fri, Oct 16, 2020 at 01:53:40PM -0500, Rob Herring wrote:
+> On Thu, Oct 15, 2020 at 12:35:54AM +0300, Serge Semin wrote:
+> > On Wed, Oct 14, 2020 at 10:18:18PM +0200, Krzysztof Kozlowski wrote:
+> > > On Wed, Oct 14, 2020 at 01:13:53PM +0300, Serge Semin wrote:
+> > > > The DWC USB3 driver and some DTS files like Exynos 5250, Keystone k2e, etc
+> > > > expects the DWC USB3 DT node to have the compatible string with the
+> > > > "synopsys" vendor prefix. Let's add the corresponding compatible string to
+> > > > the controller DT schema, but mark it as deprecated seeing the Synopsys,
+> > > > Inc. is presented with just "snps" vendor prefix.
+> > > 
+> > 
+> > > Instead of adding deprecated schema just correct the DTSes to use snps.
+> > > The "synopsys" is not even in vendor prefixes.
+> > 
+> > Yeah, it's not, but the driver and some dts'es use it this way. I am not sure
+> > that the solution suggested by you is much better than mine. So let's hear the
+> > Rob'es opinion out in this matter. @Rob, what do you think?
+> 
+
+> I think we should fix the dts files given there's only 5.
+
+Ok. I'll do that.
+
+-Sergey
+
+> 
+> Rob
 
 _______________________________________________
 linux-snps-arc mailing list
