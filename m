@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 743F5C4363A
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 00:01:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01887C2D0A3
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 00:13:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2E8272151B
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 00:01:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AC32E20754
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 00:13:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PRan1wmR";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="GVq8Y4G7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E8272151B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Vz0mU7yn";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="n/IDBpwB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AC32E20754
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,47 +26,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jiRBmWhHUjPE9ne5QkwyP/qdsKgvXuPFwUVdYIwcrA4=; b=PRan1wmRHcE3vr/nP7bRIqlv1
-	Tpese+JZwuxamB5LIDeBUcZOWkBOv30YMQRX45RRnUT3Aoqh1IldugutWNR2faa0QFDUbSMijmkSO
-	tyFhXFEjR3I4ge/09yoCvi9zq+XOaW5StRW54jY8lbzTS0YNRzqaw44Yd9Vg2rVipDZpUSoN1e1XS
-	L0z/M2BtKZcJfqLOBDRj0fn8a/tvIRGdWbvlo9YWLaZsHxhXOLPT5o8XGMdkHOD/r8Du6oq8IZlFa
-	dGQI0KYJY6u7+43z9enRgUgtzYn8VCVnD/dVXlDOcnViDQyP/ZRAApO3ImywIN/jRD1BuVIO6Difs
-	hGfVzSm5g==;
+	 bh=m3MqKLoQc21juhpqxUnZPcKgG4nDVvMqgRZ0JSBVu3k=; b=Vz0mU7yntpSAr+BCzAM/WNOr5
+	wQmCb3xgLGp7xH+pfTywcwRH1NAltPQ5APME8m3ntx6ow/nv2NA6H4u3HAERRbj4T25abzW++4qBf
+	bxNg1e1R4MqpGEDV+KIJPr+xYKYm9zsTlpNGDAc3FI9fQA405alUdoDmbCHxIQrk2dGajgDDsdEZk
+	ddiyp6Ne9hVA4qmqddp36TfNxjwhtYl/642q1jdY+1PrVNZ5dN5peQdQQKYYuJjrfHSBFJ84hdwZH
+	sGlQvy8boWDu7LL2t0RCEEU4KbMnP9tHUZRaU63o5XRvUhTBmuYPZkxuTdChnttpqYBVD8EYifLUR
+	zcYTcwCkA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kXCQp-0006fq-W3; Tue, 27 Oct 2020 00:01:44 +0000
+	id 1kXCc0-0003MY-Ga; Tue, 27 Oct 2020 00:13:16 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kXCJP-0002pG-29
- for linux-snps-arc@lists.infradead.org; Mon, 26 Oct 2020 23:54:25 +0000
+ id 1kXCLh-0003tV-5u
+ for linux-snps-arc@lists.infradead.org; Mon, 26 Oct 2020 23:56:27 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9A96120882;
- Mon, 26 Oct 2020 23:54:00 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 18B2A20B1F;
+ Mon, 26 Oct 2020 23:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603756441;
- bh=B9H6nK9D552MIy0BT6AhHHXsPhBe/o6i0H01te9IGSM=;
+ s=default; t=1603756582;
+ bh=cWeSsh3qN4L40RKXSAhIjwG++878JP/Vd+vcjn7wHko=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GVq8Y4G73y1agEzyhWXkd2leo7v9iZJUEXY2Z5iWLiWczc0MOgCr3LL2Y1VNeeYAO
- 6b35YiDdUqrASwDMy/EyfVz83dp7Uf1HdudJKpddeZ6+pK4DxnugeE+U09wWElXaFU
- Paj/UpFgL0nxcx0MMw5LPbhCoXvBsHO7xTTEtLAU=
+ b=n/IDBpwB3AcnAcRS/53emNsurWkvwHxZDSjhGTyJUcYZZjckQVaB7zOjnSvYZDtHH
+ fc48a5nu2IHKlxkMKsWEL4c5+cW9A5p2mCsn4HKUAHJXWOtpVBP+QEhUIgn1+Ca4c1
+ tkixf0Uo+ylTs1Wewc2PDj1ga0cznqnN3m4PSwGY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 094/132] ARC: [dts] fix the errors detected by
+Subject: [PATCH AUTOSEL 5.4 55/80] ARC: [dts] fix the errors detected by
  dtbs_check
-Date: Mon, 26 Oct 2020 19:51:26 -0400
-Message-Id: <20201026235205.1023962-94-sashal@kernel.org>
+Date: Mon, 26 Oct 2020 19:54:51 -0400
+Message-Id: <20201026235516.1025100-55-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201026235205.1023962-1-sashal@kernel.org>
-References: <20201026235205.1023962-1-sashal@kernel.org>
+In-Reply-To: <20201026235516.1025100-1-sashal@kernel.org>
+References: <20201026235516.1025100-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201026_195403_426589_433A1C3B 
+X-CRM114-CacheID: sfid-20201026_195625_597208_408E8DE8 
 X-CRM114-Status: GOOD (  12.78  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -110,10 +110,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  5 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/arch/arc/boot/dts/axc001.dtsi b/arch/arc/boot/dts/axc001.dtsi
-index 79ec27c043c1d..2a151607b0805 100644
+index 6ec1fcdfc0d7f..92247288d0562 100644
 --- a/arch/arc/boot/dts/axc001.dtsi
 +++ b/arch/arc/boot/dts/axc001.dtsi
-@@ -91,7 +91,7 @@ arcpct0: pct {
+@@ -85,7 +85,7 @@ arcpct0: pct {
  	 * avoid duplicating the MB dtsi file given that IRQ from
  	 * this intc to cpu intc are different for axs101 and axs103
  	 */
