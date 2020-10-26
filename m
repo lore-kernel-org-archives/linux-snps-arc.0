@@ -2,63 +2,68 @@ Return-Path: <SRS0=RMGV=EB=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BDD4C55178
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 26 Oct 2020 10:17:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9390FC4363A
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 26 Oct 2020 16:47:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 863832076A
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 26 Oct 2020 10:17:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3A3E2221FC
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 26 Oct 2020 16:47:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tXCYbbpF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 863832076A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=collabora.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Kek/nQBA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A3E2221FC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hN0AYHPoGQrqv36lu2emSQVgy5HRSVL10AuRUTLl17E=; b=tXCYbbpFF99+sOK7G4QcWg5Gi
-	otg8RDeTA9GXQER6TOMn2BsaaKeASpVLstYNtn/4Pr+b3lU8oFccsUqVFP/U8TmN9mHoPHdMG+HMj
-	W9ybnAr5t5B5fp12/HH/v4W0USLekc5upLPl52zzYFw4OWIi16Yi0n4Sdp4I8drVrTQWi7CAlvyPP
-	7oPi1HJN9lUA2G5Jc00D3ytXd5QDJcVMVzIM/0mckEZnHlZMZI2KSBpJFafQIS6fe07UjxGF97TMK
-	+ZD+5f3rI4TxpsMRmc+U4SFB4QBheo2RxTEvwuya47xge2ZFWRojS6AM5OmGMnr1oK4DrCFMOjk0o
-	KVgIHRgog==;
+	 bh=gRyaqXTiJX6mCz/lXGdL5wQsY3TF/CXbZhaaW1ILMjw=; b=Kek/nQBADulLSvuwUPevOaixH
+	mq4IVxCf+llAZeAllK6vAjuB/4eFZkPHNe9jqv7BK/jX37EDpC3RAT3Mb8IHm8Df5Bzvq9qqBOCCD
+	eQjWrIKjsufL2Fz54yj8p1JlLZ/ANUbLB2XF/kifFncvTCKvkHTdPsw3TVZ+YzCTprC0lnwg7bz/J
+	51s8RtWKMV48Q12+Rbl/UqhjuMIv2y+EW5yq9sTYMtMBW5Cbplt1yDwHYTqtehh//riH/oG3FwGOw
+	k/fSxG2eC/MUdwHEkvcoI9Iv3C61cOGL6v9fiw5oEMrT/V/1s30DRa025ZtTIU+Pgusdb0019cAOl
+	LHYIdDbQg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kWzZ4-0006pa-9i; Mon, 26 Oct 2020 10:17:22 +0000
-Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kWzZ2-0006ow-B1; Mon, 26 Oct 2020 10:17:21 +0000
-Received: from [IPv6:2a00:23c5:9900:2d00:fa7c:ed23:2f0a:448d] (unknown
- [IPv6:2a00:23c5:9900:2d00:fa7c:ed23:2f0a:448d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: obbardc)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 49C851F44F40;
- Mon, 26 Oct 2020 10:17:18 +0000 (GMT)
-Subject: Re: Build regressions/improvements in v5.10-rc1
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20201026081811.3934205-1-geert@linux-m68k.org>
- <CAMuHMdXbsJPnsXg6bA_e32zJkBG1Zzqj-ja5WzHDKL0d9OcfPg@mail.gmail.com>
-From: Christopher Obbard <chris.obbard@collabora.com>
-Message-ID: <ed39a579-62c9-de88-3550-f21382b804a8@collabora.com>
-Date: Mon, 26 Oct 2020 10:17:16 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	id 1kX5eF-0003GC-IY; Mon, 26 Oct 2020 16:47:07 +0000
+Received: from mail.baikalelectronics.com ([87.245.175.226]
+ helo=mail.baikalelectronics.ru)
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kX5e9-0003EG-L1; Mon, 26 Oct 2020 16:47:02 +0000
+Received: from localhost (unknown [127.0.0.1])
+ by mail.baikalelectronics.ru (Postfix) with ESMTP id 8DD5B8030816;
+ Mon, 26 Oct 2020 16:46:53 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at baikalelectronics.ru
+Received: from mail.baikalelectronics.ru ([127.0.0.1])
+ by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HM6-zwbx_J4c; Mon, 26 Oct 2020 19:46:52 +0300 (MSK)
+Date: Mon, 26 Oct 2020 19:46:48 +0300
+From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>, Rob Herring <robh@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
+ <robh+dt@kernel.org>
+Subject: Re: [PATCH v3 01/16] dt-bindings: usb: usb-hcd: Convert generic USB
+ properties to DT schema
+Message-ID: <20201026164648.jmp6uiblwoxrqehb@mobilestation>
+References: <20201020112101.19077-1-Sergey.Semin@baikalelectronics.ru>
+ <20201020112101.19077-2-Sergey.Semin@baikalelectronics.ru>
+ <1603249236.31607.9.camel@mhfsdcap03>
+ <20201021154621.a3vtoa4lriwkpnfo@mobilestation>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdXbsJPnsXg6bA_e32zJkBG1Zzqj-ja5WzHDKL0d9OcfPg@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201021154621.a3vtoa4lriwkpnfo@mobilestation>
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201026_061720_481392_841DA3FE 
-X-CRM114-Status: GOOD (  15.01  )
+X-CRM114-CacheID: sfid-20201026_124701_947687_4A15D689 
+X-CRM114-Status: GOOD (  39.64  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,64 +75,279 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Joe Perches <joe@perches.com>, linux-um <linux-um@lists.infradead.org>,
- arcml <linux-snps-arc@lists.infradead.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+ Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Andy Gross <agross@kernel.org>, linux-snps-arc@lists.infradead.org,
+ devicetree@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>,
+ Felipe Balbi <balbi@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+ Serge Semin <fancer.lancer@gmail.com>, Manu Gautam <mgautam@codeaurora.org>,
+ linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Geert,
+Folks, any comment on my previous message below?
 
-On 26/10/2020 09:48, Geert Uytterhoeven wrote:
-> On Mon, Oct 26, 2020 at 10:46 AM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
->> Below is the list of build error/warning regressions/improvements in
->> v5.10-rc1[1] compared to v5.9[2].
->>
->> Summarized:
->>    - build errors: +3/-7
->>    - build warnings: +26/-28
->>
->> Happy fixing! ;-)
->>
->> Thanks to the linux-next team for providing the build service.
->>
->> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/3650b228f83adda7e5ee532e2b90429c03f7b9ec/ (all 192 configs)
->> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/bbf5c979011a099af5dc76498918ed7df445635b/ (all 192 configs)
->>
->>
->> *** ERRORS ***
->>
->> 3 error regressions:
->>    + /kisskb/src/arch/um/kernel/skas/clone.c: error: expected declaration specifiers or '...' before string constant:  => 24:16
-
-For me, reverting commit 33def8498fdde180023444b08e12b72a9efed41d 
-("treewide: Convert macro and uses of __section(foo) to 
-__section("foo")") fixed this compile error and one other introduced by 
-the same patch.
-Unfortunately I wasn't able to come up with a fix for that, but I have 
-CC the author of that patch.
-
-Thanks!
-Christopher Obbard
-
+On Wed, Oct 21, 2020 at 06:46:21PM +0300, Serge Semin wrote:
+> On Wed, Oct 21, 2020 at 11:00:36AM +0800, Chunfeng Yun wrote:
+> > On Tue, 2020-10-20 at 14:20 +0300, Serge Semin wrote:
+> > > The generic USB HCD properties have been described in the legacy bindings
+> > > text file: Documentation/devicetree/bindings/usb/generic.txt . Let's
+> > > convert it' content into the USB HCD DT schema properties so all USB DT
+> >           ^ its?
+> > > nodes would be validated to have them properly utilized.
+> > > 
+> > > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > 
+> > > ---
+> > > 
+> > > Changelog v2:
+> > > - Discard '|' in all the new properties, since we don't need to preserve
+> > >   the text formatting.
+> > > - Convert abbreviated form of the "maximum-speed" enum restriction into
+> > >   the multi-lined version of the list.
+> > > - Drop quotes from around the string constants.
+> > > ---
+> > >  .../devicetree/bindings/usb/generic.txt       | 57 ------------
+> > >  .../devicetree/bindings/usb/usb-hcd.yaml      | 88 +++++++++++++++++++
 > 
-> um-all{mod,yes}config
+> > Do we need change the file name or modify it's title?
+> > the title is "Generic USB Host Controller Device Tree Bindings", but
+> > some generic properties, such as, dr_mode, usb-role-switch, otg related
+> > ones, are usually used by DRD controller, this may cause some confusion.
 > 
->>    + error: hotplug-memory.c: undefined reference to `of_drconf_to_nid_single':  => .text+0x5e0)
+> Hm, good question. A problem of the naming and the properties inclusion do
+> exist here. I haven't thought that through when moved all the generic
+> properties into the usb-hcd.yaml bindings file. But I don't think it's a good
+> idea to rename the file. Most likely the best solution would be to split the
+> functionality up as follows:
 > 
-> powerpc-gcc5/pseries_le_defconfig+NO_NUMA
+> 1) usb.yaml - common USB controller with generic properties for all USB modes (host, peripheral, otg):
+>    + $nodename
+>    + phys
+>    + phy-names
+>    + usb-phy
+>    + maximum-speed
+>    + phy_type
+> 2) usb-hcd.yaml - DT schema for USB host controllers (EHCI/OHCI/UHCI):
+>    + allOf: [usb.yaml#]
+>    + companion
+> 3) usb-xhci.yaml - DT schema for USB host controllers (xHCI):
+>    + allOf: [usb-hcd.yaml#]
+>    + usb2-lpm-disable
+>    + usb3-lpm-capable
+>    + quirk-broken-port-ped
+>    + imod-interval-ns
+> 4) usb-drd.yaml - DT schema for USB OTG controllers:
+>    + otg-rev
+>    + hnp-disable
+>    + srp-disable
+>    + adp-disable
+>    + usb-role-switch
+>    + role-switch-default-mode
+>    + tpl-support
+>    + dr_mode: [host, peripheral, otg]
 > 
->>    + {standard input}: Error: inappropriate arguments for opcode 'adc':  => 170
+> So in case if an USB controller is DRD with EHCI host, then it will need
+> to pass evaluation of allOf: [usb-hcd.yaml#, usb-drd.yaml#]. If an USB
+> controller is DRD with xHCI host, then the next schema can be applied:
+> [usb-xhci.yaml#, usb-drd.yaml#]. A conditional schema is also applicable
+> here, like this:
+> allOf:
+>   - $ref: usb-drd.yaml#
+>   - if:
+>       properties:
+>         dr_mode:
+>           const: host
+>     then:
+>       $ref: usb-hcd.yaml# (or usb-xhci.yaml#)
+>     else:
+>       #ref: usb.yaml#
 > 
-> arc-gcc10/axs101_defconfig
+> What do you think? @Rob, @Greg, we need your opinion here.
 > 
-> Gr{oetje,eeting}s,
+> -Sergey
 > 
->                          Geert
-> 
+> > 
+> > >  2 files changed, 88 insertions(+), 57 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/usb/generic.txt
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/usb/generic.txt b/Documentation/devicetree/bindings/usb/generic.txt
+> > > deleted file mode 100644
+> > > index ba472e7aefc9..000000000000
+> > > --- a/Documentation/devicetree/bindings/usb/generic.txt
+> > > +++ /dev/null
+> > > @@ -1,57 +0,0 @@
+> > > -Generic USB Properties
+> > > -
+> > > -Optional properties:
+> > > - - maximum-speed: tells USB controllers we want to work up to a certain
+> > > -			speed. Valid arguments are "super-speed-plus",
+> > > -			"super-speed", "high-speed", "full-speed" and
+> > > -			"low-speed". In case this isn't passed via DT, USB
+> > > -			controllers should default to their maximum HW
+> > > -			capability.
+> > > - - dr_mode: tells Dual-Role USB controllers that we want to work on a
+> > > -			particular mode. Valid arguments are "host",
+> > > -			"peripheral" and "otg". In case this attribute isn't
+> > > -			passed via DT, USB DRD controllers should default to
+> > > -			OTG.
+> > > - - phy_type: tells USB controllers that we want to configure the core to support
+> > > -			a UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is
+> > > -			selected. Valid arguments are "utmi" and "utmi_wide".
+> > > -			In case this isn't passed via DT, USB controllers should
+> > > -			default to HW capability.
+> > > - - otg-rev: tells usb driver the release number of the OTG and EH supplement
+> > > -			with which the device and its descriptors are compliant,
+> > > -			in binary-coded decimal (i.e. 2.0 is 0200H). This
+> > > -			property is used if any real OTG features(HNP/SRP/ADP)
+> > > -			is enabled, if ADP is required, otg-rev should be
+> > > -			0x0200 or above.
+> > > - - companion: phandle of a companion
+> > > - - hnp-disable: tells OTG controllers we want to disable OTG HNP, normally HNP
+> > > -			is the basic function of real OTG except you want it
+> > > -			to be a srp-capable only B device.
+> > > - - srp-disable: tells OTG controllers we want to disable OTG SRP, SRP is
+> > > -			optional for OTG device.
+> > > - - adp-disable: tells OTG controllers we want to disable OTG ADP, ADP is
+> > > -			optional for OTG device.
+> > > - - usb-role-switch: boolean, indicates that the device is capable of assigning
+> > > -			the USB data role (USB host or USB device) for a given
+> > > -			USB connector, such as Type-C, Type-B(micro).
+> > > -			see connector/usb-connector.yaml.
+> > > - - role-switch-default-mode: indicating if usb-role-switch is enabled, the
+> > > -			device default operation mode of controller while usb
+> > > -			role is USB_ROLE_NONE. Valid arguments are "host" and
+> > > -			"peripheral". Defaults to "peripheral" if not
+> > > -			specified.
+> > > -
+> > > -
+> > > -This is an attribute to a USB controller such as:
+> > > -
+> > > -dwc3@4a030000 {
+> > > -	compatible = "synopsys,dwc3";
+> > > -	reg = <0x4a030000 0xcfff>;
+> > > -	interrupts = <0 92 4>
+> > > -	usb-phy = <&usb2_phy>, <&usb3,phy>;
+> > > -	maximum-speed = "super-speed";
+> > > -	dr_mode = "otg";
+> > > -	phy_type = "utmi_wide";
+> > > -	otg-rev = <0x0200>;
+> > > -	adp-disable;
+> > > -};
+> > > diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> > > index 7263b7f2b510..ee7ea205c71d 100644
+> > > --- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> > > +++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> > > @@ -22,9 +22,97 @@ properties:
+> > >      description:
+> > >        Name specifier for the USB PHY
+> > >  
+> > > +  maximum-speed:
+> > > +   description:
+> > > +     Tells USB controllers we want to work up to a certain speed. In case this
+> > > +     isn't passed via DT, USB controllers should default to their maximum HW
+> > > +     capability.
+> > > +   $ref: /schemas/types.yaml#/definitions/string
+> > > +   enum:
+> > > +     - low-speed
+> > > +     - full-speed
+> > > +     - high-speed
+> > > +     - super-speed
+> > > +     - super-speed-plus
+> > > +
+> > > +  dr_mode:
+> > > +    description:
+> > > +      Tells Dual-Role USB controllers that we want to work on a particular
+> > > +      mode. In case this attribute isn't passed via DT, USB DRD controllers
+> > > +      should default to OTG.
+> > > +    $ref: /schemas/types.yaml#/definitions/string
+> > > +    enum: [host, peripheral, otg]
+> > > +
+> > > +  phy_type:
+> > > +    description:
+> > > +      Tells USB controllers that we want to configure the core to support a
+> > > +      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected. In case
+> > > +      this isn't passed via DT, USB controllers should default to HW
+> > > +      capability.
+> > > +    $ref: /schemas/types.yaml#/definitions/string
+> > > +    enum: [utmi, utmi_wide]
+> > > +
+> > > +  otg-rev:
+> > > +    description:
+> > > +      Tells usb driver the release number of the OTG and EH supplement with
+> > > +      which the device and its descriptors are compliant, in binary-coded
+> > > +      decimal (i.e. 2.0 is 0200H). This property is used if any real OTG
+> > > +      features (HNP/SRP/ADP) is enabled. If ADP is required, otg-rev should be
+> > > +      0x0200 or above.
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +
+> > > +  companion:
+> > > +    description: Phandle of a companion device
+> > > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > > +
+> > > +  hnp-disable:
+> > > +    description:
+> > > +      Tells OTG controllers we want to disable OTG HNP. Normally HNP is the
+> > > +      basic function of real OTG except you want it to be a srp-capable only B
+> > > +      device.
+> > > +    type: boolean
+> > > +
+> > > +  srp-disable:
+> > > +    description:
+> > > +      Tells OTG controllers we want to disable OTG SRP. SRP is optional for OTG
+> > > +      device.
+> > > +    type: boolean
+> > > +
+> > > +  adp-disable:
+> > > +    description:
+> > > +      Tells OTG controllers we want to disable OTG ADP. ADP is optional for OTG
+> > > +      device.
+> > > +    type: boolean
+> > > +
+> > > +  usb-role-switch:
+> > > +    description:
+> > > +      Indicates that the device is capable of assigning the USB data role
+> > > +      (USB host or USB device) for a given USB connector, such as Type-C,
+> > > +      Type-B(micro). See connector/usb-connector.yaml.
+> > > +
+> > > +  role-switch-default-mode:
+> > > +    description:
+> > > +      Indicates if usb-role-switch is enabled, the device default operation
+> > > +      mode of controller while usb role is USB_ROLE_NONE.
+> > > +    $ref: /schemas/types.yaml#/definitions/string
+> > > +    enum: [host, peripheral]
+> > > +    default: peripheral
+> > > +
+> > >  examples:
+> > >    - |
+> > >      usb {
+> > >          phys = <&usb2_phy1>, <&usb3_phy1>;
+> > >          phy-names = "usb";
+> > >      };
+> > > +  - |
+> > > +    usb@4a030000 {
+> > > +        compatible = "snps,dwc3";
+> > > +        reg = <0x4a030000 0xcfff>;
+> > > +        interrupts = <0 92 4>;
+> > > +        usb-phy = <&usb2_phy>, <&usb3_phy>;
+> > > +        maximum-speed = "super-speed";
+> > > +        dr_mode = "otg";
+> > > +        phy_type = "utmi_wide";
+> > > +        otg-rev = <0x0200>;
+> > > +        adp-disable;
+> > > +    };
+> > 
 
 _______________________________________________
 linux-snps-arc mailing list
