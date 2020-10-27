@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68E6EC388F9
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:32:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F37C388F9
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:32:31 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D946A22263
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:32:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 520E52074B
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:32:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="m7uhr/MU";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="E3w7SoEr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D946A22263
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pwzAS0/p";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="AZ3uGKlw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 520E52074B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,42 +26,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=qwWaPU0Ln32IQUmGW6nMdMC+/jGat1D2VUZTsMVhNYQ=; b=m7uhr/MUph2CzyauE+ZH+sxts
-	tY0YXIgejowe1JRBnfC94y7sPgVQKtmq7t3YkfAesffFcWBrIzcv/T7aNWd8H4trGzjiLmbfb82Qs
-	B6ZbpS01D5fYccm+v2wYXzbt23f49HMC7GFXnLkdjeFPv7Xo3shHi73PQK5AACXFqYTkgn6Pj/FD0
-	VKLpCzC2UiDWPY1Pvimrp3BXGuKvGQH1frQeoEzNFSM5tqrcXGxG//xJxUFs/bboj61zUZnKAKHLs
-	mkP3wvxLwu8heyESIh2iWroyqkoPIkCPnVmS/GiIFg/luSPBQkUATIwT3okdvyzTB36iVlC1/nn9Z
-	aTerjBiEw==;
+	 bh=KXFHd4sbsLPaDD3CSB73oZ+HbnH9Mg9bz38DQjwhCA8=; b=pwzAS0/pn4K7ozSqQ5Ex6Vha7
+	JWYtGH4OBzwZkSaYHVkUmFW0TkjdFxCv0vVrcxaIVNUOvyUGrKAN/XZW+4iStB0bdbtCNU0jUEF7k
+	0TeGuf1Q0XJLWcMUB2lL7AGaP050SfFhxJFhKEmkWIzjMjlQ67f7xQKKPisgWAYO+9la84bN/fIHf
+	5e7uvevFCCGnmwDkq66jSC5uvk9tVhiZBSIZo/M2eUlNVF2SBbMs8ICX0qGvrv0yQHRaVHhIVxqpn
+	9ceq5vG/uMMRnBNBS07nzyIzTN7eMgHIr5lhQNwXaIeoltLwfgBABZgg906Q6HxcCoxK7ivWq+mus
+	brdoxOt8w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kXNDB-0003MM-TY; Tue, 27 Oct 2020 11:32:21 +0000
+	id 1kXNDJ-0003TO-6o; Tue, 27 Oct 2020 11:32:29 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kXNBL-0002ZM-EO; Tue, 27 Oct 2020 11:30:28 +0000
+ id 1kXNBS-0002cj-3U; Tue, 27 Oct 2020 11:30:35 +0000
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2671822263;
- Tue, 27 Oct 2020 11:30:19 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 03F2122283;
+ Tue, 27 Oct 2020 11:30:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603798226;
- bh=hxEOxl1IwdTpwx70FS/bBSNDVfegzJWvFNtGcxWnpK8=;
+ s=default; t=1603798233;
+ bh=UfaD/WmylipAS87Fv242yQHFr5+l5RhyHEWJxMmp2r8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=E3w7SoEr+bfUieWUtprrUKUdeSIk/mdTYkq83jXT4rLa44KxiLoDPrUXbgRlwCJUk
- /RvM+YASN1IDh/7lvbhSR/CaSXPb9U+uiK4CUciGNilyZkeYX/46tfjHPMuXAbQDMd
- spxApcgn8Sh8oDwxyZ1BH+IQOnm7p6lfMmeYQvaQ=
+ b=AZ3uGKlwmDzw01MtfzRYyVNFCrBHcj9hNEcpMvUBfVE6GXyYWgRs8+pNMO0tSpZ5n
+ oKhgEP2eGtZrAXR4Jr+NuG5k7tt55ZwBXPkLdsRajrq8dYk0EnHYeNA20jabsK6JID
+ 37xeaYZ4dJneHg8tW/gL3ZpBIbtl8c+S6BeyS9O0=
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 03/13] ia64: remove 'ifdef CONFIG_ZONE_DMA32' statements
-Date: Tue, 27 Oct 2020 13:29:45 +0200
-Message-Id: <20201027112955.14157-4-rppt@kernel.org>
+Subject: [PATCH 04/13] ia64: discontig: paging_init(): remove local max_pfn
+ calculation
+Date: Tue, 27 Oct 2020 13:29:46 +0200
+Message-Id: <20201027112955.14157-5-rppt@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201027112955.14157-1-rppt@kernel.org>
 References: <20201027112955.14157-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201027_073027_805385_3458FF1B 
-X-CRM114-Status: GOOD (  12.74  )
+X-CRM114-CacheID: sfid-20201027_073034_391650_8A174784 
+X-CRM114-Status: GOOD (  14.01  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,47 +94,44 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-After the removal of SN2 platform (commit cf07cb1ff4ea ("ia64: remove
-support for the SGI SN2 platform") IA-64 always has ZONE_DMA32 and there is
-no point to guard code with this configuration option.
+The maximal PFN in the system is calculated during find_memory() time and
+it is stored at max_low_pfn then.
 
-Remove ifdefery associated with CONFIG_ZONE_DMA32
+Use this value in paging_init() and remove the redundant detection of
+max_pfn in that function.
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/ia64/mm/contig.c    | 2 --
- arch/ia64/mm/discontig.c | 2 --
- 2 files changed, 4 deletions(-)
+ arch/ia64/mm/discontig.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/arch/ia64/mm/contig.c b/arch/ia64/mm/contig.c
-index e30e360beef8..2491aaeca90c 100644
---- a/arch/ia64/mm/contig.c
-+++ b/arch/ia64/mm/contig.c
-@@ -177,10 +177,8 @@ paging_init (void)
- 	unsigned long max_zone_pfns[MAX_NR_ZONES];
- 
- 	memset(max_zone_pfns, 0, sizeof(max_zone_pfns));
--#ifdef CONFIG_ZONE_DMA32
- 	max_dma = virt_to_phys((void *) MAX_DMA_ADDRESS) >> PAGE_SHIFT;
- 	max_zone_pfns[ZONE_DMA32] = max_dma;
--#endif
- 	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
- 
- #ifdef CONFIG_VIRTUAL_MEM_MAP
 diff --git a/arch/ia64/mm/discontig.c b/arch/ia64/mm/discontig.c
-index dbe829fc5298..d255596f52c6 100644
+index d255596f52c6..f41dcf75887b 100644
 --- a/arch/ia64/mm/discontig.c
 +++ b/arch/ia64/mm/discontig.c
-@@ -621,9 +621,7 @@ void __init paging_init(void)
+@@ -594,7 +594,6 @@ void __init paging_init(void)
+ {
+ 	unsigned long max_dma;
+ 	unsigned long pfn_offset = 0;
+-	unsigned long max_pfn = 0;
+ 	int node;
+ 	unsigned long max_zone_pfns[MAX_NR_ZONES];
+ 
+@@ -616,13 +615,11 @@ void __init paging_init(void)
+ #ifdef CONFIG_VIRTUAL_MEM_MAP
+ 		NODE_DATA(node)->node_mem_map = vmem_map + pfn_offset;
+ #endif
+-		if (mem_data[node].max_pfn > max_pfn)
+-			max_pfn = mem_data[node].max_pfn;
  	}
  
  	memset(max_zone_pfns, 0, sizeof(max_zone_pfns));
--#ifdef CONFIG_ZONE_DMA32
  	max_zone_pfns[ZONE_DMA32] = max_dma;
--#endif
- 	max_zone_pfns[ZONE_NORMAL] = max_pfn;
+-	max_zone_pfns[ZONE_NORMAL] = max_pfn;
++	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
  	free_area_init(max_zone_pfns);
  
+ 	zero_page_memmap_ptr = virt_to_page(ia64_imva(empty_zero_page));
 -- 
 2.28.0
 
