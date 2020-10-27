@@ -2,63 +2,66 @@ Return-Path: <SRS0=oLQF=EC=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBABBC388F9
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61ACBC55178
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:32:03 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6243E22263
+	by mail.kernel.org (Postfix) with ESMTPS id DA59622265
 	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:32:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jh3NihOw";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q9RaU3X/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6243E22263
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZXnFNRUI";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="t+LMUjw9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA59622265
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=bATuQWzZvNk2cocqmD6J5wdylvhcBSvOWSKaZBHO9Xo=; b=jh3NihOw94Ar5mTPKwqB72Tsdu
-	7R8sswanuw+ovK+97rD7SF+RNaR+4ph+XRhHSRWkcY9S93mvpE385/d75ISEky4fBMRkwrw4rXSDz
-	L/zTDqbXlUme5yeb+I+RMqkuOy0pRgsPtyZ/F1iG/3njpQm+Y9WyIf0dc3EV6RCCKG3yBRdewo5hf
-	4qPGGFMG/uiJRosbi6YnMgFNfemX4nLcDAds7mxg+rbQmXM8YIwyQ3h55+9ucCWkjGF5ax3qrppTC
-	gLQZDJNB5CzFlv+WqnWkCrzcgFu87n3zC7MmayWhS4/g9Vc+TTMn1nd9jurRxMlUVmmT2UZmpCcQh
-	eAZQmRug==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=X63o55IUDswYWReTeAPHWBhh3MO7wUupgbAUN4UfIQY=; b=ZXnFNRUIsr0kTXioNd8WF/cLB
+	BBFxA+E/ktgdcMEWM8Y1y984sIwBCfJZhIf9z8unqHJZoRAVGuU5StmTek+HqhhwQUoHauyu4dHks
+	KsPJXmgmyJhaAL1gEOkAgS3hnpkvioWGPcXNBy3hJbCINncwb6j9kHugjsG04evXpPurmQIF0Y77q
+	cCBsPPXJhL9Vgit1fwCzrd7dSql/Yg/ihOPIeuvCmIfyDIcxV+sJXICjTquwSnoYRODjnhEvX8e09
+	T5MytDlKxd+7j4WhZPOxEhIGYmpV05iQYyGYI9YyIMJzJrpr9d1UKeFY9X0P4Gl25aV+cQWGQNxMZ
+	9mUMqhocA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kXNCr-0003E7-1T; Tue, 27 Oct 2020 11:32:01 +0000
+	id 1kXNCr-0003EV-Q5; Tue, 27 Oct 2020 11:32:01 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kXNB1-0002Pl-2N; Tue, 27 Oct 2020 11:30:11 +0000
+ id 1kXNB8-0002Sp-Je; Tue, 27 Oct 2020 11:30:17 +0000
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BFD8B2072D;
- Tue, 27 Oct 2020 11:29:59 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 98A5922265;
+ Tue, 27 Oct 2020 11:30:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603798206;
- bh=D+57eBxZmqbGtpUmyagmHDBw1nHF2DKjanAqVX/AUkU=;
- h=From:To:Cc:Subject:Date:From;
- b=Q9RaU3X/IJD/4dR3n3h9Ry46q2+Cd8ehNOxEB9JeoN0lGPicebs+j0qlAtlVAlW8F
- F0vBvYTqv4GdHlkIa6G/HY/NJCiv0uBzWYkm4yxUz82hTQedsGnDaIAnFDeQrWUA7f
- J4FEjdA0fGYuRF4Pc52GN10CIYKMe57/A5m9zfC0=
+ s=default; t=1603798212;
+ bh=961zp8YP3Ph/5e1cBGv3GfPpdUC5CFeOssQ/7iZPL6c=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=t+LMUjw9gvdRwfg60hai+Dx7XrGks1N/SAxFmRmvRv4Cf0w5VJIiUrfQd4UOgc3TZ
+ no57/TMTg+pUB5xAbGBf9AxLjF88mu0UIFOV1fJ0EEknHpithAt3B4XUdzJsemQzxj
+ NPemjoEI236GUI0LwuZJ2NIKKXMZd3fPz0hCsUxk=
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 00/13] arch, mm: deprecate DISCONTIGMEM
-Date: Tue, 27 Oct 2020 13:29:42 +0200
-Message-Id: <20201027112955.14157-1-rppt@kernel.org>
+Subject: [PATCH 01/13] alpha: switch from DISCONTIGMEM to SPARSEMEM
+Date: Tue, 27 Oct 2020 13:29:43 +0200
+Message-Id: <20201027112955.14157-2-rppt@kernel.org>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201027112955.14157-1-rppt@kernel.org>
+References: <20201027112955.14157-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201027_073007_391290_3D099B86 
-X-CRM114-Status: GOOD (  18.53  )
+X-CRM114-CacheID: sfid-20201027_073014_993030_628DD5A6 
+X-CRM114-Status: GOOD (  20.93  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,89 +93,197 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-Hi,
+Enable SPARSEMEM support on alpha and deprecate DISCONTIGMEM.
 
-It's been a while since DISCONTIGMEM is generally considered deprecated,
-but it is still used by four architectures. This set replaces DISCONTIGMEM
-with a different way to handle holes in the memory map and marks
-DISCONTIGMEM configuration as BROKEN in Kconfigs of these architectures with
-the intention to completely remove it in several releases.
+The required changes are mostly around moving duplicated definitions of
+page access and address conversion macros to a common place and making sure
+they are available for all memory models.
 
-While for 64-bit alpha and ia64 the switch to SPARSEMEM is quite obvious
-and was a matter of moving some bits around, for smaller 32-bit arc and
-m68k SPARSEMEM is not necessarily the best thing to do.
+The DISCONTINGMEM support is marked as BROKEN an will be removed in a
+couple of releases.
 
-On 32-bit machines SPARSEMEM would require large sections to make section
-index fit in the page flags, but larger sections mean that more memory is
-wasted for unused memory map.
-
-Besides, pfn_to_page() and page_to_pfn() become less efficient, at least on
-arc.
-
-So I've decided to generalize arm's approach for freeing of unused parts of
-the memory map with FLATMEM and enable it for both arc and m68k. The
-details are in the description of patches 10 (arc) and 13 (m68k).
-
-Mike Rapoport (13):
-  alpha: switch from DISCONTIGMEM to SPARSEMEM
-  ia64: remove custom __early_pfn_to_nid()
-  ia64: remove 'ifdef CONFIG_ZONE_DMA32' statements
-  ia64: discontig: paging_init(): remove local max_pfn calculation
-  ia64: split virtual map initialization out of paging_init()
-  ia64: forbid using VIRTUAL_MEM_MAP with FLATMEM
-  ia64: make SPARSEMEM default and disable DISCONTIGMEM
-  arm: remove CONFIG_ARCH_HAS_HOLES_MEMORYMODEL
-  arm, arm64: move free_unused_memmap() to generic mm
-  arc: use FLATMEM with freeing of unused memory map instead of DISCONTIGMEM
-  m68k/mm: make node data and node setup depend on CONFIG_DISCONTIGMEM
-  m68k/mm: enable use of generic memory_model.h for !DISCONTIGMEM
-  m68k: deprecate DISCONTIGMEM
-
- Documentation/vm/memory-model.rst   |  3 +-
- arch/Kconfig                        |  3 ++
- arch/alpha/Kconfig                  |  8 +++
- arch/alpha/include/asm/mmzone.h     | 14 +----
- arch/alpha/include/asm/page.h       |  7 +--
- arch/alpha/include/asm/pgtable.h    | 12 ++---
- arch/alpha/include/asm/sparsemem.h  | 18 +++++++
- arch/alpha/kernel/setup.c           |  1 +
- arch/arc/Kconfig                    |  3 +-
- arch/arc/include/asm/page.h         | 20 ++++++--
- arch/arc/mm/init.c                  | 29 ++++++++---
- arch/arm/Kconfig                    | 10 +---
- arch/arm/mach-bcm/Kconfig           |  1 -
- arch/arm/mach-davinci/Kconfig       |  1 -
- arch/arm/mach-exynos/Kconfig        |  1 -
- arch/arm/mach-highbank/Kconfig      |  1 -
- arch/arm/mach-omap2/Kconfig         |  1 -
- arch/arm/mach-s5pv210/Kconfig       |  1 -
- arch/arm/mach-tango/Kconfig         |  1 -
- arch/arm/mm/init.c                  | 78 ----------------------------
- arch/arm64/Kconfig                  |  4 +-
- arch/arm64/mm/init.c                | 68 ------------------------
- arch/ia64/Kconfig                   | 11 ++--
- arch/ia64/include/asm/meminit.h     |  2 -
- arch/ia64/mm/contig.c               | 58 ++++++++++-----------
- arch/ia64/mm/discontig.c            | 44 ++++++++--------
- arch/ia64/mm/init.c                 | 14 -----
- arch/ia64/mm/numa.c                 | 30 -----------
- arch/m68k/Kconfig.cpu               | 32 ++++++++++--
- arch/m68k/include/asm/page.h        |  2 +
- arch/m68k/include/asm/page_mm.h     |  7 ++-
- arch/m68k/include/asm/virtconvert.h |  2 +-
- arch/m68k/mm/init.c                 |  8 +--
- fs/proc/kcore.c                     |  2 -
- include/linux/mm.h                  |  3 --
- include/linux/mmzone.h              | 42 ---------------
- mm/memblock.c                       | 80 +++++++++++++++++++++++++++++
- mm/mmzone.c                         | 14 -----
- mm/page_alloc.c                     | 16 ++++--
- mm/vmstat.c                         |  4 --
- 40 files changed, 272 insertions(+), 384 deletions(-)
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+ arch/alpha/Kconfig                 |  8 ++++++++
+ arch/alpha/include/asm/mmzone.h    | 14 ++------------
+ arch/alpha/include/asm/page.h      |  7 ++++---
+ arch/alpha/include/asm/pgtable.h   | 12 +++++-------
+ arch/alpha/include/asm/sparsemem.h | 18 ++++++++++++++++++
+ arch/alpha/kernel/setup.c          |  1 +
+ 6 files changed, 38 insertions(+), 22 deletions(-)
  create mode 100644 arch/alpha/include/asm/sparsemem.h
 
-
-base-commit: 3650b228f83adda7e5ee532e2b90429c03f7b9ec
+diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+index d6e9fc7a7b19..aedf5c296f13 100644
+--- a/arch/alpha/Kconfig
++++ b/arch/alpha/Kconfig
+@@ -40,6 +40,7 @@ config ALPHA
+ 	select CPU_NO_EFFICIENT_FFS if !ALPHA_EV67
+ 	select MMU_GATHER_NO_RANGE
+ 	select SET_FS
++	select SPARSEMEM_EXTREME if SPARSEMEM
+ 	help
+ 	  The Alpha is a 64-bit general-purpose processor designed and
+ 	  marketed by the Digital Equipment Corporation of blessed memory,
+@@ -551,12 +552,19 @@ config NR_CPUS
+ 
+ config ARCH_DISCONTIGMEM_ENABLE
+ 	bool "Discontiguous Memory Support"
++	depends on BROKEN
+ 	help
+ 	  Say Y to support efficient handling of discontiguous physical memory,
+ 	  for architectures which are either NUMA (Non-Uniform Memory Access)
+ 	  or have huge holes in the physical address space for other reasons.
+ 	  See <file:Documentation/vm/numa.rst> for more.
+ 
++config ARCH_SPARSEMEM_ENABLE
++	bool "Sparse Memory Support"
++	help
++	  Say Y to support efficient handling of discontiguous physical memory,
++	  for systems that have huge holes in the physical address space.
++
+ config NUMA
+ 	bool "NUMA Support (EXPERIMENTAL)"
+ 	depends on DISCONTIGMEM && BROKEN
+diff --git a/arch/alpha/include/asm/mmzone.h b/arch/alpha/include/asm/mmzone.h
+index 9b521c857436..86644604d977 100644
+--- a/arch/alpha/include/asm/mmzone.h
++++ b/arch/alpha/include/asm/mmzone.h
+@@ -6,6 +6,8 @@
+ #ifndef _ASM_MMZONE_H_
+ #define _ASM_MMZONE_H_
+ 
++#ifdef CONFIG_DISCONTIGMEM
++
+ #include <asm/smp.h>
+ 
+ /*
+@@ -45,8 +47,6 @@ PLAT_NODE_DATA_LOCALNR(unsigned long p, int n)
+ }
+ #endif
+ 
+-#ifdef CONFIG_DISCONTIGMEM
+-
+ /*
+  * Following are macros that each numa implementation must define.
+  */
+@@ -68,11 +68,6 @@ PLAT_NODE_DATA_LOCALNR(unsigned long p, int n)
+ /* XXX: FIXME -- nyc */
+ #define kern_addr_valid(kaddr)	(0)
+ 
+-#define virt_to_page(kaddr)	pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+-
+-#define pmd_page(pmd)		(pfn_to_page(pmd_val(pmd) >> 32))
+-#define pte_pfn(pte)		(pte_val(pte) >> 32)
+-
+ #define mk_pte(page, pgprot)						     \
+ ({								 	     \
+ 	pte_t pte;                                                           \
+@@ -95,16 +90,11 @@ PLAT_NODE_DATA_LOCALNR(unsigned long p, int n)
+ 	__xx;                                                           \
+ })
+ 
+-#define page_to_pa(page)						\
+-	(page_to_pfn(page) << PAGE_SHIFT)
+-
+ #define pfn_to_nid(pfn)		pa_to_nid(((u64)(pfn) << PAGE_SHIFT))
+ #define pfn_valid(pfn)							\
+ 	(((pfn) - node_start_pfn(pfn_to_nid(pfn))) <			\
+ 	 node_spanned_pages(pfn_to_nid(pfn)))					\
+ 
+-#define virt_addr_valid(kaddr)	pfn_valid((__pa(kaddr) >> PAGE_SHIFT))
+-
+ #endif /* CONFIG_DISCONTIGMEM */
+ 
+ #endif /* _ASM_MMZONE_H_ */
+diff --git a/arch/alpha/include/asm/page.h b/arch/alpha/include/asm/page.h
+index e241bd88880f..268f99b4602b 100644
+--- a/arch/alpha/include/asm/page.h
++++ b/arch/alpha/include/asm/page.h
+@@ -83,12 +83,13 @@ typedef struct page *pgtable_t;
+ 
+ #define __pa(x)			((unsigned long) (x) - PAGE_OFFSET)
+ #define __va(x)			((void *)((unsigned long) (x) + PAGE_OFFSET))
+-#ifndef CONFIG_DISCONTIGMEM
++
+ #define virt_to_page(kaddr)	pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
++#define virt_addr_valid(kaddr)	pfn_valid((__pa(kaddr) >> PAGE_SHIFT))
+ 
++#ifdef CONFIG_FLATMEM
+ #define pfn_valid(pfn)		((pfn) < max_mapnr)
+-#define virt_addr_valid(kaddr)	pfn_valid(__pa(kaddr) >> PAGE_SHIFT)
+-#endif /* CONFIG_DISCONTIGMEM */
++#endif /* CONFIG_FLATMEM */
+ 
+ #include <asm-generic/memory_model.h>
+ #include <asm-generic/getorder.h>
+diff --git a/arch/alpha/include/asm/pgtable.h b/arch/alpha/include/asm/pgtable.h
+index 660b14ce1317..8d856c62e22a 100644
+--- a/arch/alpha/include/asm/pgtable.h
++++ b/arch/alpha/include/asm/pgtable.h
+@@ -203,10 +203,10 @@ extern unsigned long __zero_page(void);
+  * Conversion functions:  convert a page and protection to a page entry,
+  * and a page entry and page directory to the page they refer to.
+  */
+-#ifndef CONFIG_DISCONTIGMEM
+-#define page_to_pa(page)	(((page) - mem_map) << PAGE_SHIFT)
+-
++#define page_to_pa(page)	(page_to_pfn(page) << PAGE_SHIFT)
+ #define pte_pfn(pte)	(pte_val(pte) >> 32)
++
++#ifndef CONFIG_DISCONTIGMEM
+ #define pte_page(pte)	pfn_to_page(pte_pfn(pte))
+ #define mk_pte(page, pgprot)						\
+ ({									\
+@@ -236,10 +236,8 @@ pmd_page_vaddr(pmd_t pmd)
+ 	return ((pmd_val(pmd) & _PFN_MASK) >> (32-PAGE_SHIFT)) + PAGE_OFFSET;
+ }
+ 
+-#ifndef CONFIG_DISCONTIGMEM
+-#define pmd_page(pmd)	(mem_map + ((pmd_val(pmd) & _PFN_MASK) >> 32))
+-#define pud_page(pud)	(mem_map + ((pud_val(pud) & _PFN_MASK) >> 32))
+-#endif
++#define pmd_page(pmd)	(pfn_to_page(pmd_val(pmd) >> 32))
++#define pud_page(pud)	(pfn_to_page(pud_val(pud) >> 32))
+ 
+ extern inline unsigned long pud_page_vaddr(pud_t pgd)
+ { return PAGE_OFFSET + ((pud_val(pgd) & _PFN_MASK) >> (32-PAGE_SHIFT)); }
+diff --git a/arch/alpha/include/asm/sparsemem.h b/arch/alpha/include/asm/sparsemem.h
+new file mode 100644
+index 000000000000..a0820fd2d4b1
+--- /dev/null
++++ b/arch/alpha/include/asm/sparsemem.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _ASM_ALPHA_SPARSEMEM_H
++#define _ASM_ALPHA_SPARSEMEM_H
++
++#ifdef CONFIG_SPARSEMEM
++
++#define SECTION_SIZE_BITS	27
++
++/*
++ * According to "Alpha Architecture Reference Manual" physical
++ * addresses are at most 48 bits.
++ * https://download.majix.org/dec/alpha_arch_ref.pdf
++ */
++#define MAX_PHYSMEM_BITS	48
++
++#endif /* CONFIG_SPARSEMEM */
++
++#endif /* _ASM_ALPHA_SPARSEMEM_H */
+diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
+index 916e42d74a86..03dda3beb3bd 100644
+--- a/arch/alpha/kernel/setup.c
++++ b/arch/alpha/kernel/setup.c
+@@ -648,6 +648,7 @@ setup_arch(char **cmdline_p)
+ 	/* Find our memory.  */
+ 	setup_memory(kernel_end);
+ 	memblock_set_bottom_up(true);
++	sparse_init();
+ 
+ 	/* First guess at cpu cache sizes.  Do this before init_arch.  */
+ 	determine_cpu_caches(cpu->type);
 -- 
 2.28.0
 
