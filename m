@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29E1BC388F9
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:36:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A94C55178
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:36:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A7B2A22263
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:36:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C09F522263
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Oct 2020 11:36:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="V3+XXPug";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="b99+t/zx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7B2A22263
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fZZ27l7v";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="RO9w86Zl"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C09F522263
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,43 +26,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=0uUtywVJc0d5RcGR3TMxKjWj9n539ogjFsCvOH1a8gw=; b=V3+XXPug7E3gjJqjCyLkUoD6J
-	CldK/Kftz5hE6g6s0+aQW58lBVZKhm7eHWIMwGt5tE9juERb/L11YvfzgG1RlS6FZjRzTV8onYHdx
-	iGj/ndqKH4wBvlvwVwsg4cjAAfJGV2Naly/PonrWKlHaC6bEuuwR2dW9J+pkVS/HAZE0UIBzeK5ee
-	uEfJSi6k3SacrVeMeUZRxWTNx5syGTriYWALTDEJ3q4pDaOYjOuSf6ssbuNjAwhtYf7b/9yAlO79e
-	waoGGus1GF7Hsbf+mxfTCH4iPK23Q+5BKcQQR9haflrBDr2/IgILRmxCnOmirFpB6Rq6gEox7zYIM
-	jrewBiiNg==;
+	 bh=6J+XFpZlLwIrfap5E/AOgGZPNcivlpub+aX0Y5c6G6w=; b=fZZ27l7vikxf2Z6oY8zHAMQNF
+	q73WKWhouIm3R5mCCUK+Uk2N24Qel2SZpmHXpkwWDI1AdMeQsuTfWNqY5jMVnEcaN5nAchGZkWz41
+	A6ADv7gbf1gO05ZSGYnMFWHMkBVdpr52/r3bUaJodWhb1//+pPhsdaFZfPkIW9sww2RgbBLQGnDSB
+	Zvi0VfoxV33enbygbyUtIWisRjzvszYFI+6mX0gdckOfO/ynej5yDGkQCw5XwPvd4B39We9TasMt4
+	zT/8KqXzzoYt/0KyY79uH/5F/36V11sJi1JQf3OU47JV2c6d4nY6LXlgvR2z5s7U2SkcpwVqstWaE
+	vrCTLk/jw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kXNGl-0005Cx-E6; Tue, 27 Oct 2020 11:36:03 +0000
+	id 1kXNGn-0005Ee-Ek; Tue, 27 Oct 2020 11:36:05 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kXNCE-0002yz-GU; Tue, 27 Oct 2020 11:31:32 +0000
+ id 1kXNCL-00031H-3D; Tue, 27 Oct 2020 11:31:37 +0000
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EB89C222EA;
- Tue, 27 Oct 2020 11:31:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id BD87122281;
+ Tue, 27 Oct 2020 11:31:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603798281;
- bh=vmfZroUJkM1m/TwoHTzOGMJv9COTYCqEs/vywYSaGqw=;
+ s=default; t=1603798287;
+ bh=C96/Yri0OpcfVOV1K/D1OQZYc09J0deYEZYDY/R242k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b99+t/zxGqKiY0mVd3nJ3Tgx7pRC8vULcERZWWim4VU/p2KOdYSgzDcp37EYbEZ5P
- yhNXHW5NtywekjpZmFjC59aCK4DAfJMCVRblemDs9VsDADb3t796dHIC0QTog4K72o
- 7yMQbMVOPOhuXQSLboUbgAIZVy6+GCPxbtTOy5YU=
+ b=RO9w86ZlWcBO3seuK5eFu0P2uHFkfcLlrAbPpLsunaUHodYQ3Drj7EioUxxYpgdfn
+ p3JtpqO0uBUP1PRzqijnlt/zHUT0wz4w2dKzUEzVBfQz9BTODh6dEaA1JnbOgeD4lN
+ VIdUhU32rcODYbCtB1hDzAnX2L1R5dhx9g6xBprY=
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 11/13] m68k/mm: make node data and node setup depend on
- CONFIG_DISCONTIGMEM
-Date: Tue, 27 Oct 2020 13:29:53 +0200
-Message-Id: <20201027112955.14157-12-rppt@kernel.org>
+Subject: [PATCH 12/13] m68k/mm: enable use of generic memory_model.h for
+ !DISCONTIGMEM
+Date: Tue, 27 Oct 2020 13:29:54 +0200
+Message-Id: <20201027112955.14157-13-rppt@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201027112955.14157-1-rppt@kernel.org>
 References: <20201027112955.14157-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201027_073122_877582_9540B008 
-X-CRM114-Status: GOOD (  17.49  )
+X-CRM114-CacheID: sfid-20201027_073129_403418_5E5AC989 
+X-CRM114-Status: GOOD (  14.18  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,88 +94,89 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-The pg_data_t node structures and their initialization currently depends on
-!CONFIG_SINGLE_MEMORY_CHUNK. Since they are required only for DISCONTIGMEM
-make this dependency explicit and replace usage of
-CONFIG_SINGLE_MEMORY_CHUNK with CONFIG_DISCONTIGMEM where appropriate.
-
-The CONFIG_SINGLE_MEMORY_CHUNK was implicitly disabled on the ColdFire MMU
-variant, although it always presumed a single memory bank. As there is no
-actual need for DISCONTIGMEM in this case, make sure that ColdFire MMU
-systems set CONFIG_SINGLE_MEMORY_CHUNK to 'y'.
+The pg_data_map and pg_data_table arrays as well as page_to_pfn() and
+pfn_to_page() are required only for DISCONTIGMEM. Other memory models can
+use the generic definitions in asm-generic/memory_model.h.
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/m68k/Kconfig.cpu           | 6 +++---
- arch/m68k/include/asm/page_mm.h | 2 +-
- arch/m68k/mm/init.c             | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ arch/m68k/include/asm/page.h        | 2 ++
+ arch/m68k/include/asm/page_mm.h     | 5 +++++
+ arch/m68k/include/asm/virtconvert.h | 2 +-
+ arch/m68k/mm/init.c                 | 6 +++---
+ 4 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
-index 694c4fca9f5d..3af0fca03803 100644
---- a/arch/m68k/Kconfig.cpu
-+++ b/arch/m68k/Kconfig.cpu
-@@ -20,6 +20,7 @@ choice
+diff --git a/arch/m68k/include/asm/page.h b/arch/m68k/include/asm/page.h
+index 2614a1206f2f..6116d7094292 100644
+--- a/arch/m68k/include/asm/page.h
++++ b/arch/m68k/include/asm/page.h
+@@ -62,8 +62,10 @@ extern unsigned long _ramend;
+ #include <asm/page_no.h>
+ #endif
  
- config M68KCLASSIC
- 	bool "Classic M68K CPU family support"
-+	select NEED_MULTIPLE_NODES if DISCONTIGMEM
++#ifdef CONFIG_DISCONTIGMEM
+ #define __phys_to_pfn(paddr)	((unsigned long)((paddr) >> PAGE_SHIFT))
+ #define __pfn_to_phys(pfn)	PFN_PHYS(pfn)
++#endif
  
- config COLDFIRE
- 	bool "Coldfire CPU family support"
-@@ -373,8 +374,7 @@ config RMW_INSNS
- config SINGLE_MEMORY_CHUNK
- 	bool "Use one physical chunk of memory only" if ADVANCED && !SUN3
- 	depends on MMU
--	default y if SUN3
--	select NEED_MULTIPLE_NODES
-+	default y if SUN3 || MMU_COLDFIRE
- 	help
- 	  Ignore all but the first contiguous chunk of physical memory for VM
- 	  purposes.  This will save a few bytes kernel size and may speed up
-@@ -406,7 +406,7 @@ config M68K_L2_CACHE
- config NODES_SHIFT
- 	int
- 	default "3"
--	depends on !SINGLE_MEMORY_CHUNK
-+	depends on DISCONTIGMEM
+ #include <asm-generic/getorder.h>
  
- config CPU_HAS_NO_BITFIELDS
- 	bool
 diff --git a/arch/m68k/include/asm/page_mm.h b/arch/m68k/include/asm/page_mm.h
-index e6b75992192b..0e794051d3bb 100644
+index 0e794051d3bb..7f5912af2a52 100644
 --- a/arch/m68k/include/asm/page_mm.h
 +++ b/arch/m68k/include/asm/page_mm.h
-@@ -126,7 +126,7 @@ static inline void *__va(unsigned long x)
+@@ -153,6 +153,7 @@ static inline __attribute_const__ int __virt_to_node_shift(void)
+ 	pfn_to_virt(page_to_pfn(page));					\
+ })
  
- extern int m68k_virt_to_node_shift;
++#ifdef CONFIG_DISCONTIGMEM
+ #define pfn_to_page(pfn) ({						\
+ 	unsigned long __pfn = (pfn);					\
+ 	struct pglist_data *pgdat;					\
+@@ -165,6 +166,10 @@ static inline __attribute_const__ int __virt_to_node_shift(void)
+ 	pgdat = &pg_data_map[page_to_nid(__p)];				\
+ 	((__p) - pgdat->node_mem_map) + pgdat->node_start_pfn;		\
+ })
++#else
++#define ARCH_PFN_OFFSET (m68k_memory[0].addr)
++#include <asm-generic/memory_model.h>
++#endif
  
--#ifdef CONFIG_SINGLE_MEMORY_CHUNK
-+#ifndef CONFIG_DISCONTIGMEM
- #define __virt_to_node(addr)	(&pg_data_map[0])
+ #define virt_addr_valid(kaddr)	((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
+ #define pfn_valid(pfn)		virt_addr_valid(pfn_to_virt(pfn))
+diff --git a/arch/m68k/include/asm/virtconvert.h b/arch/m68k/include/asm/virtconvert.h
+index dfe43083b579..751bb6f4aaf6 100644
+--- a/arch/m68k/include/asm/virtconvert.h
++++ b/arch/m68k/include/asm/virtconvert.h
+@@ -31,7 +31,7 @@ static inline void *phys_to_virt(unsigned long address)
+ /* Permanent address of a page. */
+ #if defined(CONFIG_MMU) && defined(CONFIG_SINGLE_MEMORY_CHUNK)
+ #define page_to_phys(page) \
+-	__pa(PAGE_OFFSET + (((page) - pg_data_map[0].node_mem_map) << PAGE_SHIFT))
++	__pa(PAGE_OFFSET + (((page) - mem_map) << PAGE_SHIFT))
  #else
- extern struct pglist_data *pg_data_table[];
+ #define page_to_phys(page)	(page_to_pfn(page) << PAGE_SHIFT)
+ #endif
 diff --git a/arch/m68k/mm/init.c b/arch/m68k/mm/init.c
-index 53040857a9ed..4b46ceace3d3 100644
+index 4b46ceace3d3..14c1e541451c 100644
 --- a/arch/m68k/mm/init.c
 +++ b/arch/m68k/mm/init.c
-@@ -47,14 +47,14 @@ EXPORT_SYMBOL(pg_data_map);
+@@ -42,12 +42,12 @@ EXPORT_SYMBOL(empty_zero_page);
  
+ #ifdef CONFIG_MMU
+ 
+-pg_data_t pg_data_map[MAX_NUMNODES];
+-EXPORT_SYMBOL(pg_data_map);
+-
  int m68k_virt_to_node_shift;
  
--#ifndef CONFIG_SINGLE_MEMORY_CHUNK
-+#ifdef CONFIG_DISCONTIGMEM
+ #ifdef CONFIG_DISCONTIGMEM
++pg_data_t pg_data_map[MAX_NUMNODES];
++EXPORT_SYMBOL(pg_data_map);
++
  pg_data_t *pg_data_table[65];
  EXPORT_SYMBOL(pg_data_table);
  #endif
- 
- void __init m68k_setup_node(int node)
- {
--#ifndef CONFIG_SINGLE_MEMORY_CHUNK
-+#ifdef CONFIG_DISCONTIGMEM
- 	struct m68k_mem_info *info = m68k_memory + node;
- 	int i, end;
- 
 -- 
 2.28.0
 
