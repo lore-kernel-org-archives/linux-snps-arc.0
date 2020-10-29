@@ -7,86 +7,70 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E2A9C4741F
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Oct 2020 23:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7E7DC2D0A3
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Oct 2020 23:41:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9C1A42076E
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Oct 2020 23:11:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2154A20739
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Oct 2020 23:41:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Nc3hCaQW";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="SyS4Sffx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9C1A42076E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gfkf/xcX";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SXAxpB4O";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bPrOV2Mu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2154A20739
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=C4gfc/2g1YmO64/MRCvQXUhiPGmNR4aJrGAsF5lm3+s=; b=Nc3hCaQWgqjVfqXX6rlvHKk3B
-	EgYzbT+N2vyGh2PmxGGyxalv03yMy+dZpMBK5D2gFnaoDRIBhsTgwfk7INz8kbyBL9ek4Cd3xEEyu
-	CywXPGmZHxhzV5KjnKrtxy0ePsRZeDHxXLiP3EjBSBNo6VFeDQfXmnGYBmsQxG7EEWO5s6pLaMI4O
-	IPLDYB3ABDc5nXyVtBOfbb45qz4fun6XutNPSvTRR9Ws0wAULXTaxGsmskI6iJ1cbSdSmb8zZEW6C
-	aXiS19IqB345lergbSxmyNP7mvv7QxLh4nqTDKlAsHL9duc8+wCYRHzjtYLxKzRV/zVFFToD7ab1F
-	S7GBJVYyw==;
+	 bh=Ne0R/BL9+fqpGu3mZJ3Hj+TkflJHPYB/icFCBW3+Zxg=; b=gfkf/xcX4V/JQghzQYvSq4lbD
+	FmZ09oIs1CqqQETg9A8whfXEmg78eS3fMOOyppksmAM/q8tnmO2jHTlnzW1tV2guzKDKql9M86Rlu
+	kVUaI7Rhbn6mSVzeoOpqcRrlr2NZh9roncx9p0P7NOHM7lZc6RTpIS62Or6zHeHt0yAXQ/PDNwc+G
+	+Nt0MtJGYmkiwMJyGwo9839w8DgX9xHFRHDgK7ICL24jjfj1v+xBBDDUpIUwBFtQrHKzWgHLeeKHs
+	RjeC91NVHe0gyuq7rWDbgDufek5Lkv3iqpVG3+UfApfQLupmMfuABGgiJhLd9mQwyJLR332TXV8i7
+	ifSU8D+tg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kYH50-0005F3-Rl; Thu, 29 Oct 2020 23:11:38 +0000
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142])
+	id 1kYHYA-0007tQ-2S; Thu, 29 Oct 2020 23:41:46 +0000
+Received: from galois.linutronix.de ([193.142.43.55])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kYH4y-0005EK-HV
- for linux-snps-arc@lists.infradead.org; Thu, 29 Oct 2020 23:11:37 +0000
-Received: by mail-lf1-x142.google.com with SMTP id a7so5460112lfk.9
- for <linux-snps-arc@lists.infradead.org>; Thu, 29 Oct 2020 16:11:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OAaBl/U7PBG+TlUp0N4qfJ0eDW1D/8YEA2bXCC674us=;
- b=SyS4SffxYsNmj61H9VhYyfV30AKVcQI02I05R1QJ0WmBmFSO+bnQWo+8WU1Xmtdngw
- /WCUakc82ksJGHGKm7uLpuzRi56V0rh71ThvreQzsj4AGwhIaWOkntvIB7PKONmne7aI
- RS+5JSoq7Rynp7XqZeCI4Lh5y/aQJhenniqh8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OAaBl/U7PBG+TlUp0N4qfJ0eDW1D/8YEA2bXCC674us=;
- b=OwWgf6pcofNWc85aQDa3NPvGd38ikEQuxnYq2ps+PoOs+N5dEbVJND4YmHPEEZjNXw
- NfRYzzIcvmwXVh1zlIwV+X1iHzjW+aFaBKdhj+H/JK6mk6aWUePsA4kn9aUqGMv0nzfp
- +32FbsB/hm9vk2U8DJCXbcJaOpWH+JXVGxeQHd/hJjFKBjlBkYfMFkZccnA0uz/qTOVA
- fExSHxxe+1CCV9w7viB05Nx888NimTpk1lDpnwV7N2lAtSQgcfEV/X3kuXpyd1KqDRAB
- BZ+HTXvuRBKUaUKWfuXOVK4pA/SzCRxy796wOIA0VfXG9L+hGp7L1HHGdP/Uxmh6bFaG
- rEGA==
-X-Gm-Message-State: AOAM5308tPm7seYLRf3n9wxIwXsLx3ZuMy2iOhvZF+Sq8FHfgH85yX6g
- s4hU4DVKEXP6yeUPYhJpdVB25qTUxzbGpw==
-X-Google-Smtp-Source: ABdhPJwrRGapbPoAM7XkGVu4nTJERHjrq/4p3BeVLxsdWWpS/uXCJJzZ8TNH0RmGfZxsYW0CHT6pkA==
-X-Received: by 2002:a19:f518:: with SMTP id j24mr2341860lfb.307.1604013094612; 
- Thu, 29 Oct 2020 16:11:34 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com.
- [209.85.208.169])
- by smtp.gmail.com with ESMTPSA id l25sm424757lfc.152.2020.10.29.16.11.29
- for <linux-snps-arc@lists.infradead.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Oct 2020 16:11:33 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id i2so4939935ljg.4
- for <linux-snps-arc@lists.infradead.org>; Thu, 29 Oct 2020 16:11:29 -0700 (PDT)
-X-Received: by 2002:a2e:8815:: with SMTP id x21mr3018764ljh.312.1604013088281; 
- Thu, 29 Oct 2020 16:11:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201029221806.189523375@linutronix.de>
-In-Reply-To: <20201029221806.189523375@linutronix.de>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 29 Oct 2020 16:11:12 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiFxxGapdOyZHE-7LbFPk+jdfoqdeeJg0zWNQ86WvJGXg@mail.gmail.com>
-Message-ID: <CAHk-=wiFxxGapdOyZHE-7LbFPk+jdfoqdeeJg0zWNQ86WvJGXg@mail.gmail.com>
+ id 1kYHY6-0007rn-3F; Thu, 29 Oct 2020 23:41:43 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1604014900;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dWuiBG8a+NnkPGmw23LTYR8bRuWLPOcTs2J9m+57N30=;
+ b=SXAxpB4OrSZM8KanRhq0SHKbbqNdcUZGBDuuY0dpE3HzYsV6X3WGBvormMPwGgBe13WqGS
+ zl+c6uDF44lRL3XYTntNDOXhWi1enb8HJyzyEjQMqxw3GSIbeAvode6e1x0/HUh1LOV13D
+ iGoRdWEQcslmNVQBlZot50CD5jCjvafIrM9wdZgJj+TIzPSwNqWmbdAFeVqjadC2jU11Tb
+ rGfBMY/MMEh+koaNaMVZhxHbfDry4hkHFhwfoBCQ7ddPNZj4c2CDLBpYqBLzdFm2N74+mY
+ zh6t2OfFuG8Sz0WmlH9mRTGpAIOiGIUlj2fJM+MCYBQBz4iunYGWpWFAsyGP3w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1604014900;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dWuiBG8a+NnkPGmw23LTYR8bRuWLPOcTs2J9m+57N30=;
+ b=bPrOV2Mu8WrqdxWFrt3BZte7XxWkrcHXKqjiK4x7RufHzyISYL2psldkYUi2DujbGIhU51
+ +7ZFtIMezAsqNiCA==
+To: Linus Torvalds <torvalds@linux-foundation.org>
 Subject: Re: [patch V2 00/18] mm/highmem: Preemptible variant of kmap_atomic &
  friends
-To: Thomas Gleixner <tglx@linutronix.de>
+In-Reply-To: <CAHk-=wiFxxGapdOyZHE-7LbFPk+jdfoqdeeJg0zWNQ86WvJGXg@mail.gmail.com>
+References: <20201029221806.189523375@linutronix.de>
+ <CAHk-=wiFxxGapdOyZHE-7LbFPk+jdfoqdeeJg0zWNQ86WvJGXg@mail.gmail.com>
+Date: Fri, 30 Oct 2020 00:41:39 +0100
+Message-ID: <87pn50ob0s.fsf@nanos.tec.linutronix.de>
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201029_191136_719222_55CFA750 
-X-CRM114-Status: GOOD (  14.74  )
+X-CRM114-CacheID: sfid-20201029_194142_270133_265D4AAE 
+X-CRM114-Status: GOOD (  17.35  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,32 +109,51 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-xtensa@linux-xtensa.org,
  Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
  Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
  Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- "David S. Miller" <davem@davemloft.net>
+ Daniel Bristot de Oliveira <bristot@redhat.com>, "David
+ S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 29, 2020 at 3:32 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+On Thu, Oct 29 2020 at 16:11, Linus Torvalds wrote:
+> On Thu, Oct 29, 2020 at 3:32 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+>>
+>> Though I wanted to share the current state of affairs before investigating
+>> that further. If there is consensus in going forward with this, I'll have a
+>> deeper look into this issue.
 >
+> Me likee. I think this looks like the right thing to do.
 >
-> Though I wanted to share the current state of affairs before investigating
-> that further. If there is consensus in going forward with this, I'll have a
-> deeper look into this issue.
+> I didn't actually apply the patches, but just from reading them it
+> _looks_ to me like you do the migrate_disable() unconditionally, even
+> if it's not a highmem page..
+>
+> That sounds like it might be a good thing for debugging, but not
+> necessarily great in general.
+>
+> Or am I misreading things?
 
-Me likee. I think this looks like the right thing to do.
+No, you're not misreading it, but doing it conditionally would be a
+complete semantical disaster. kmap_atomic*() also disables preemption
+and pagefaults unconditionaly.  If that wouldn't be the case then every
+caller would have to have conditionals like 'if (CONFIG_HIGHMEM)' or
+worse 'if (PageHighMem(page)'.
 
-I didn't actually apply the patches, but just from reading them it
-_looks_ to me like you do the migrate_disable() unconditionally, even
-if it's not a highmem page..
+Let's not go there.
 
-That sounds like it might be a good thing for debugging, but not
-necessarily great in general.
+Migrate disable is a less horrible plague than preempt and pagefault
+disable even if the scheduler people disagree due to the lack of theory
+backing that up :)
 
-Or am I misreading things?
+The charm of the new interface is that users still can rely on per
+cpuness independent of being on a highmem plagued system. For non
+highmem systems the extra migrate disable/enable is really a minor
+nuissance.
 
-                Linus
+Thanks,
+
+        tglx
 
 _______________________________________________
 linux-snps-arc mailing list
