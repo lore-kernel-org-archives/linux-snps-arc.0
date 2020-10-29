@@ -7,19 +7,19 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 371F6C2D0A3
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Oct 2020 22:52:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A219C4742C
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Oct 2020 22:53:02 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A78DA20639
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Oct 2020 22:52:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E3EE220838
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Oct 2020 22:53:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="txZ/5rL7";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cZFT4kU8";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OGd5ItDy";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TjFVp80l"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A78DA20639
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ipBUSJA4";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Gy+IK25E";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="j4Kq3J1x";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="J4VL1zNL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E3EE220838
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -28,60 +28,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Subject:To:From:Date:
 	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=lvv3Mt96Et/aROlIDQbf/RSRfRMvV2o7pC7B/K6D0Bw=; b=txZ/5rL737Npo/zR8uj1I1ZyP
-	K//QW0f+ELJbCFzL8+A9iVj7UKPg27giDhIa1U02+OOC7bbkRiareATOkLgr6ytPN5YJ/8j6dA/2k
-	umasCsOI2ivMsPgQIsFr9L5w7P9ZkfyKNd0Zko7/f4UjIMmAvjVF/f5KaRpHMxlz1ThRBwwiuvwbE
-	C/PWur8/9nY2scIPo5DmOZ8XYqliOwQ2zYTs9GPsDxBKCbnpNpLbRjdr4450V5Iie6/Y2SQRRfffR
-	8zfNZqXv8X7fAUhHuT+ihr/o0xzMswYcPDvVlcdUiwUSOt5Xl7YA46NwQ+MohS7x2JZHq1SmdmT4j
-	7z3m0tnBA==;
+	 bh=oL1fObg5fgL7JLgmyywEHlHcvH1szHxMfLDSMUE/OWc=; b=ipBUSJA4Oj6O5NJTYhQWhEmbQ
+	noJZawM1mMWY777yMN273mT08fynxNXYuVp5clQmd2fGKjJj4GqcSwylW2Am2c9te07/f5A1H1Vc0
+	uBlJBrswit29VCQSuDsYD9O6IOZzwujVneoUwmaRwvO7Amlr3obhonQU6C7sMi7PQ+dq7mo9/67xH
+	+B3SoxsqsUkDLiAtXNObzabGpSfnU6WVdHEsrHuthNw5+kTBcOVLicRsrVB5l+jIiOl+DVEcP3lHN
+	tHh1RhUXbCC0aM5b8LBZmzLIAmowRnWW4IT0KUTjsshdYzrlgBtTYuHtyJzJsWgf/cY8B97rSbDpv
+	GVtR6sYAg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kYGmQ-0001Fk-0y; Thu, 29 Oct 2020 22:52:26 +0000
+	id 1kYGmw-0001QD-7h; Thu, 29 Oct 2020 22:52:58 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kYGlm-0000zC-Kb; Thu, 29 Oct 2020 22:51:46 +0000
+ id 1kYGln-0000zC-GS; Thu, 29 Oct 2020 22:51:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-transfer-encoding:Content-Type:
  MIME-Version:References:Subject:Cc:To:From:Date:Message-Id:Sender:Reply-To:
  Content-ID:Content-Description:In-Reply-To;
- bh=u8HY47nQ1rEETIi4/9zdfAjblKurxchJCqLvsv7KpOQ=; b=cZFT4kU8kQDToKPsWq38RxljVE
- tbGSyHLR9S9tFn2eWNIrVHRrGJoQoe7WjHIrSWSXursdGnjMjW7iHSXXlO0eMQLCHAfelbm4GBLU1
- rgeCRuFgO17LE/AyzWEqXDbhzdmvrlG6EkcWW65juQvfSHTZsxV3Lq9kMSe7nMO1QQgnk1Gwd47Y8
- Mk3oxTaZuYWeppsfrdGVs24DfE4YGFzaDwyWuyOFcQ7YJsYX5KgmT+hNDFBoVfv51S8vKgS7Ft3K0
- k3ytapSxqFzkFaTaeEGHhC9Yn36FTVI8ExbvdLZF3xt0k9f2YRnMqhXJqZWFh3sDGn/+JDecuOVTn
- KfoYJzeg==;
+ bh=LufW3kO54Nr2100PGampKWimA5aEr8Imx1WFVO7xrw4=; b=Gy+IK25EWZB69kKnP67kE2gp19
+ eIkB5YJjEgSAkUsBteYYYpahDtWbHkC7dFOm0gyTe2uIh9QdjKfi+XKzxDHojPvVMNuLDgFYt6rGw
+ a+iURXkTNwAtDFFfe2HEV0HRCBZXt7roEglsATFM9weVZbxvcu44AUCKnYKnhoy393XgxF+r4M8gS
+ I0OSxS0HQuSm4n5PziMpK4wEyogzzCg9IsBQYmk55XAtmvw6jKVh7Hb7zJXdEc2CaYC7018qj9In3
+ DiSDrvo6TlnM0hpQujs57ybbRZrxJDEgtRzZjpTiPEgKLOxvy7q3C9pb9JxNsWFAbtgkwxB693Omp
+ 8TOMEIuw==;
 Received: from galois.linutronix.de ([193.142.43.55])
  by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kYGT8-0003HR-Ih; Thu, 29 Oct 2020 22:32:34 +0000
-Message-Id: <20201029222652.084086429@linutronix.de>
+ id 1kYGT4-0003GC-6k; Thu, 29 Oct 2020 22:32:32 +0000
+Message-Id: <20201029222651.885593433@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604010747;
+ s=2020; t=1604010744;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=u8HY47nQ1rEETIi4/9zdfAjblKurxchJCqLvsv7KpOQ=;
- b=OGd5ItDyZBG68g3Q+c21dg4YXqY6AU1fXntD0+4qRXFtAe9myI4S09jA8H5H52VIX6TbEw
- aripnIS0SkNeYd+9JaqJwHgPrF7G/QJzIJsmG3t8J40PuwxNo4M4l462GtszWUqe/bGtPs
- EMM+rXz872Zoer5cxsZcfpRMdIL6T2x6t1VE1Oan43+7K0ue8xxuUk5fWBdH9MPlETFuAR
- YoW9hBRdPZPiPGWDdPc/LK8Wpp0EfGM/tvtHR1KCrHHT+ZmiaZScGhfv5l6MH8jlTjGe9u
- iSt0tQstZ8WNpIvZuQfExYSsXD1wmG497Zjs0XzmNiX4irdf9nzD5T/IQuWKAw==
+ bh=LufW3kO54Nr2100PGampKWimA5aEr8Imx1WFVO7xrw4=;
+ b=j4Kq3J1xytiwogkgzVlHOciXiJ1X9e95juvY5nmiB8tzupy22IadS0O40bAyqBJmkCN9Ur
+ y0qPPUW2tXbG0Lkda23fNJOralmhD/EGP2JuAKX0QBasC9PdPQusNLgaKt33z4tbDpM9VU
+ 6PUTm98f4CRQimklmHRbrKuiRHshN4e4ADG4f4lP0gdK4odT7QjzwbtfYoKLeYcj1d6a+m
+ LNeB1MFNWX45WX7NSeq+Pgk22CsjEA91O3osOymgoANaexT9zV7bmthjqtLuA5RpPNbQ9i
+ iHKyjRVf8dRstiFVXwDT/tKcEwHUeXNL2cbIUddGM4Xmalxi84w6i4ZSXQsZJw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604010747;
+ s=2020e; t=1604010744;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=u8HY47nQ1rEETIi4/9zdfAjblKurxchJCqLvsv7KpOQ=;
- b=TjFVp80l5Qxxiam18N27u7sQ7uvrjLOllX7xFjN/pV6e7D2EkdlFHRvIYC7x8vzRhlstTr
- cTQN3Or0UpEtVZCQ==
-Date: Thu, 29 Oct 2020 23:18:21 +0100
+ bh=LufW3kO54Nr2100PGampKWimA5aEr8Imx1WFVO7xrw4=;
+ b=J4VL1zNL7oBS8xSf4hW/0svoZPMGaKoJMwK2efYvA+sVXzcWMChJ2eGLsxyFbxD64uPr9d
+ GMJEsGE96Dl8XECg==
+Date: Thu, 29 Oct 2020 23:18:19 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V2 15/18] io-mapping: Cleanup atomic iomap 
+Subject: [patch V2 13/18] xtensa/mm/highmem: Switch to generic kmap atomic
 References: <20201029221806.189523375@linutronix.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201029_223231_232729_415F37C5 
-X-CRM114-Status: GOOD (  12.41  )
+X-CRM114-CacheID: sfid-20201029_223227_074360_1260898F 
+X-CRM114-Status: GOOD (  17.66  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,11 +93,10 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, linux-xtensa@linux-xtensa.org,
- Peter Zijlstra <peterz@infradead.org>,
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Ben Segall <bsegall@google.com>, linux-mm@kvack.org,
+ Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
  Guo Ren <guoren@kernel.org>, sparclinux@vger.kernel.org,
  Vincent Chen <deanbo422@gmail.com>, Ingo Molnar <mingo@kernel.org>,
  linux-arch@vger.kernel.org, Vincent Guittot <vincent.guittot@linaro.org>,
@@ -106,17 +105,18 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-xtensa@linux-xtensa.org,
  Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
  Christoph Hellwig <hch@lst.de>, David Airlie <airlied@linux.ie>,
  Mel Gorman <mgorman@suse.de>, linux-snps-arc@lists.infradead.org,
- Ard Biesheuvel <ardb@kernel.org>, Paul McKenney <paulmck@kernel.org>,
+ linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, Steven Rostedt <rostedt@goodmis.org>,
  Linus Torvalds <torvalds@linuxfoundation.org>,
  Greentime Hu <green.hu@gmail.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
  linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
  Michal Simek <monstr@monstr.eu>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Nick Hu <nickhu@andestech.com>, linux-mm@kvack.org,
  Vineet Gupta <vgupta@synopsys.com>, linux-mips@vger.kernel.org,
  Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
- Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
  Daniel Bristot de Oliveira <bristot@redhat.com>,
  "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
@@ -124,82 +124,118 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Switch the atomic iomap implementation over to kmap_local and stick the
-preempt/pagefault mechanics into the generic code similar to the
-kmap_atomic variants.
-
-Rename the x86 map function in preparation for a non-atomic variant.
+No reason having the same code in every architecture
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
-V2: New patch to make review easier
----
- arch/x86/include/asm/iomap.h |    9 +--------
- arch/x86/mm/iomap_32.c       |    6 ++----
- include/linux/io-mapping.h   |    8 ++++++--
- 3 files changed, 9 insertions(+), 14 deletions(-)
+Cc: Chris Zankel <chris@zankel.net>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: linux-xtensa@linux-xtensa.org
 
---- a/arch/x86/include/asm/iomap.h
-+++ b/arch/x86/include/asm/iomap.h
-@@ -13,14 +13,7 @@
- #include <asm/cacheflush.h>
+---
+ arch/xtensa/Kconfig               |    1 
+ arch/xtensa/include/asm/highmem.h |    9 +++++++
+ arch/xtensa/mm/highmem.c          |   44 +++-----------------------------------
+ 3 files changed, 14 insertions(+), 40 deletions(-)
+
+--- a/arch/xtensa/Kconfig
++++ b/arch/xtensa/Kconfig
+@@ -666,6 +666,7 @@ endchoice
+ config HIGHMEM
+ 	bool "High Memory Support"
+ 	depends on MMU
++        select KMAP_LOCAL
+ 	help
+ 	  Linux can use the full amount of RAM in the system by
+ 	  default. However, the default MMUv2 setup only maps the
+--- a/arch/xtensa/include/asm/highmem.h
++++ b/arch/xtensa/include/asm/highmem.h
+@@ -68,6 +68,15 @@ static inline void flush_cache_kmaps(voi
+ 	flush_cache_all();
+ }
+ 
++enum fixed_addresses kmap_local_map_idx(int type, unsigned long pfn);
++#define arch_kmap_local_map_idx		kmap_local_map_idx
++
++enum fixed_addresses kmap_local_unmap_idx(int type, unsigned long addr);
++#define arch_kmap_local_unmap_idx	kmap_local_unmap_idx
++
++#define arch_kmap_local_post_unmap(vaddr)	\
++	local_flush_tlb_kernel_range(vaddr, vaddr + PAGE_SIZE)
++
+ void kmap_init(void);
+ 
+ #endif
+--- a/arch/xtensa/mm/highmem.c
++++ b/arch/xtensa/mm/highmem.c
+@@ -12,8 +12,6 @@
+ #include <linux/highmem.h>
  #include <asm/tlbflush.h>
  
--void __iomem *iomap_atomic_pfn_prot(unsigned long pfn, pgprot_t prot);
+-static pte_t *kmap_pte;
 -
--static inline void iounmap_atomic(void __iomem *vaddr)
--{
--	kunmap_local_indexed((void __force *)vaddr);
--	pagefault_enable();
--	preempt_enable();
--}
-+void __iomem *__iomap_local_pfn_prot(unsigned long pfn, pgprot_t prot);
- 
- int iomap_create_wc(resource_size_t base, unsigned long size, pgprot_t *prot);
- 
---- a/arch/x86/mm/iomap_32.c
-+++ b/arch/x86/mm/iomap_32.c
-@@ -44,7 +44,7 @@ void iomap_free(resource_size_t base, un
+ #if DCACHE_WAY_SIZE > PAGE_SIZE
+ unsigned int last_pkmap_nr_arr[DCACHE_N_COLORS];
+ wait_queue_head_t pkmap_map_wait_arr[DCACHE_N_COLORS];
+@@ -37,55 +35,21 @@ static inline enum fixed_addresses kmap_
+ 		color;
  }
- EXPORT_SYMBOL_GPL(iomap_free);
  
--void __iomem *iomap_atomic_pfn_prot(unsigned long pfn, pgprot_t prot)
-+void __iomem *__iomap_local_pfn_prot(unsigned long pfn, pgprot_t prot)
+-void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
++enum fixed_addresses kmap_local_map_idx(int type, unsigned long pfn)
  {
- 	/*
- 	 * For non-PAT systems, translate non-WB request to UC- just in
-@@ -60,8 +60,6 @@ void __iomem *iomap_atomic_pfn_prot(unsi
- 	/* Filter out unsupported __PAGE_KERNEL* bits: */
- 	pgprot_val(prot) &= __default_kernel_pte_mask;
- 
--	preempt_disable();
--	pagefault_disable();
- 	return (void __force __iomem *)__kmap_local_pfn_prot(pfn, prot);
+-	enum fixed_addresses idx;
+-	unsigned long vaddr;
+-
+-	idx = kmap_idx(kmap_atomic_idx_push(),
+-		       DCACHE_ALIAS(page_to_phys(page)));
+-	vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
+-#ifdef CONFIG_DEBUG_HIGHMEM
+-	BUG_ON(!pte_none(*(kmap_pte + idx)));
+-#endif
+-	set_pte(kmap_pte + idx, mk_pte(page, prot));
+-
+-	return (void *)vaddr;
++	return kmap_idx(type, DCACHE_ALIAS(pfn << PAGE_SHIFT);
  }
--EXPORT_SYMBOL_GPL(iomap_atomic_pfn_prot);
-+EXPORT_SYMBOL_GPL(__iomap_local_pfn_prot);
---- a/include/linux/io-mapping.h
-+++ b/include/linux/io-mapping.h
-@@ -69,13 +69,17 @@ io_mapping_map_atomic_wc(struct io_mappi
+-EXPORT_SYMBOL(kmap_atomic_high_prot);
  
- 	BUG_ON(offset >= mapping->size);
- 	phys_addr = mapping->base + offset;
--	return iomap_atomic_pfn_prot(PHYS_PFN(phys_addr), mapping->prot);
-+	preempt_disable();
-+	pagefault_disable();
-+	return __iomap_local_pfn_prot(PHYS_PFN(phys_addr), mapping->prot);
- }
- 
- static inline void
- io_mapping_unmap_atomic(void __iomem *vaddr)
+-void kunmap_atomic_high(void *kvaddr)
++enum fixed_addresses kmap_local_unmap_idx(int type, unsigned long addr)
  {
--	iounmap_atomic(vaddr);
-+	kunmap_local_indexed((void __force *)vaddr);
-+	pagefault_enable();
-+	preempt_enable();
+-	if (kvaddr >= (void *)FIXADDR_START &&
+-	    kvaddr < (void *)FIXADDR_TOP) {
+-		int idx = kmap_idx(kmap_atomic_idx(),
+-				   DCACHE_ALIAS((unsigned long)kvaddr));
+-
+-		/*
+-		 * Force other mappings to Oops if they'll try to access this
+-		 * pte without first remap it.  Keeping stale mappings around
+-		 * is a bad idea also, in case the page changes cacheability
+-		 * attributes or becomes a protected page in a hypervisor.
+-		 */
+-		pte_clear(&init_mm, kvaddr, kmap_pte + idx);
+-		local_flush_tlb_kernel_range((unsigned long)kvaddr,
+-					     (unsigned long)kvaddr + PAGE_SIZE);
+-
+-		kmap_atomic_idx_pop();
+-	}
++	return kmap_idx(type, DCACHE_ALIAS(addr));
  }
+-EXPORT_SYMBOL(kunmap_atomic_high);
  
- static inline void __iomem *
+ void __init kmap_init(void)
+ {
+-	unsigned long kmap_vstart;
+-
+ 	/* Check if this memory layout is broken because PKMAP overlaps
+ 	 * page table.
+ 	 */
+ 	BUILD_BUG_ON(PKMAP_BASE < TLBTEMP_BASE_1 + TLBTEMP_SIZE);
+-	/* cache the first kmap pte */
+-	kmap_vstart = __fix_to_virt(FIX_KMAP_BEGIN);
+-	kmap_pte = virt_to_kpte(kmap_vstart);
+ 	kmap_waitqueues_init();
+ }
 
 
 _______________________________________________
