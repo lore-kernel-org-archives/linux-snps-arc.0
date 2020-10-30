@@ -2,155 +2,94 @@ Return-Path: <SRS0=eli2=EF=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEDBBC55178
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 18:53:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 916F3C4741F
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 18:53:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5A0B92075E
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 18:53:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B65B32151B
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 18:53:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VImquwYH";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Zhepnxad";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="LRZF86fS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5A0B92075E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZS9qeYEm";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="wBN3visN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B65B32151B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=feFnPMEt2M6tmuoaiaCYPm6My7cmehfxs7ZqEYafle4=; b=VImquwYHGU1l/CSDIwTRM42DG
-	rH7kz8CGfszt8aMajEGhJsczpymfQZKAA1gxTkCoCLYGsppF3599oSV/+tCEhvPQZkgSj1AVXqrrW
-	7eeiVLh4YE8yIrZ70SlzZD1+TqZBPyNvFYSanNwzoReCqyvb8Ul5VfL1mUvarduysqacdz3Fg1JUL
-	OjyFw+ky1mnJRH3vm8+J+SFvhs0FlG1atpZUkO2DmGzf2qeJ6X3LCxuCJ8RSTd5mLVwsMGfaFvuM5
-	zq3ESB6RtOSzDc9kb6eenZ5W3OuOAa+pz765qaaTYgv+EQLOADg/jlxEtJkJx/eZ68hq+uQ1Ag0r6
-	5VefoUeYA==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VRT7lZRenvbs3kgTgqVzEyPo8/5/Aj4C+D4oDIAABic=; b=ZS9qeYEm/R9jEru9mnMrLjwdM4
+	2UiXVU+wjXv611IB74XuwqS0Q0dkAxXBvoNNg+6fJJmnl8FKZeqKT00SSs1Z/Tdnl9Il6rycFMifs
+	ugki96d5IovJQQrce7rUmXaEZyK/2adGXM8oLw1i31gzY5nuNTLfhwYeC5U2ILHcHmTY/5jZUG+Qa
+	m7jabpAXSKTphqA9g7wK7F/K0Yu7M+F37X0nmkTI6yyu6HeCHxUu/NrEjd1tqBCNtz0bhyBUtNHTL
+	CiT29l8u7JVC/qnUbq6a1rsXFKxtMAJxycFdSbEeA4qaE5+gpCZ0bSc+AHnH6JJCLvROFSwQ9wPtX
+	sSvj3hbw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kYZWo-0007H7-H0; Fri, 30 Oct 2020 18:53:34 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1kYZXA-0007OM-SD; Fri, 30 Oct 2020 18:53:56 +0000
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kYZWl-0007Ft-06
- for linux-snps-arc@lists.infradead.org; Fri, 30 Oct 2020 18:53:32 +0000
-Received: from mailhost.synopsys.com (us03-mailhost1.synopsys.com [10.4.17.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A1FE5C009B;
- Fri, 30 Oct 2020 18:53:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1604084009; bh=RPYxRIgv3j7I+u7ghL6uJEgTDTGt74jNGyvK4fFTLME=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=ZhepnxadODPY0G8OQhzeHb0GsQZZwdrgx4pS1/wuVFD1xgeY3ICCJodiYlZBVVwE9
- mzz1r0W9YyGU6VTMGDnmRCs5lri//JU+2LDDhLkpwks9w/BTqZt6+p2oQJrTqKMa8B
- x+A8OwwPRykIi4/vzQMiMuJ8xxpl4AaMHx+8nOwmF8TWLgAXomPTMq+JkTkiCK7tcz
- O7uVmbBwWH8NBL0FCgSSett7F5Gy0UaFe5Aihpsy/0jiKpSlbs3Pu01bQfQNOMHWt1
- SX7Zry/AFFD7R8KkGJQulZQBg4W5/Q8bJECHdf4R0/V0RCjipSbV2xi9tbyEKwFWoJ
- QAIIZw4P5dVwg==
-Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com
- [10.4.161.139])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 2ED03A0082;
- Fri, 30 Oct 2020 18:53:26 +0000 (UTC)
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2172.outbound.protection.outlook.com [104.47.57.172])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.protection.outlook.com",
- Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
- by o365relay-in.synopsys.com (Postfix) with ESMTPS id 8364B80292;
- Fri, 30 Oct 2020 18:53:23 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com;
- dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
- spf=pass smtp.mailfrom=vgupta@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
- unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="LRZF86fS";
- dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=do66VuEp2PbY7UFdJOetNwK0pQaQYfC7ErO0z6ySKnU0EVXREyMRVrE//uECo5eWUm+mJL5BEWf2SUp8SuGlK9SRDAd06QwvHAwZlcmGEQEjA+1hIGP2VfioEzMywZrEg2ZGLf7PGFZvhzo69wnQj7W94P4/q57iftDoXooJN/69SLHLFgCICruqbOeCCzjBn8FpVZVZs4PxbZs3ITnE/KN9MoY5nuixhTj7Z+Y0K65OslqhMEDn2NnfrqGaMdCqZuZZS8hOFlu6Kv/4h+aOpItOoMlmh0LKvicwgl7peB1tFOOsnCBPwHfin9SdoPD57FM5/bDxw6je6ulUm0Sj6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RPYxRIgv3j7I+u7ghL6uJEgTDTGt74jNGyvK4fFTLME=;
- b=QfrBXVeBTfewyeESh7N9EVyc5vO9tlcJ0/dQLWIbEfje6jA/m4bob8lyHb6rsCL6ycirZE75AbrQXH4w2vVJb9ED8bn1G3hlJm/1/g+x+l/SHUGyzWz/mu6d3rIZlli+1XoAMTbW498YkZhLkgRriSAowUCWWEWW2rGEu5UGpDdPpTqoCNLN10Nk/Z0Nzte34BYA00fY9XLUGi28EpQq6IbVXj55w4neTSviStAAOwrgmC5vVIf4bVIlNP6+DOGx2MeOmkZZEBRwfdYNOL+Rkwu6BkDGgEq7lo5cP3umCv5mzcOmQ4a0F3ouZv2a8bc1woO1KNrcL+ZMx72a/gCJeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RPYxRIgv3j7I+u7ghL6uJEgTDTGt74jNGyvK4fFTLME=;
- b=LRZF86fSUM+qp1BsP4m4gqsRcq5Q+0fRCWZvFyS7e0nVkM9qS9XexcjhKa0lfbU2myTDHaJh1WIlKWvRAmiy3v2E9zNriTTvb6Y11gaPYtZiIrZFWbaKb+Uc+2MuNdm7jsErjtEqjB756+cUWy+aKYWDUGWSDKsSAoX026Xx4F0=
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
- by BY5PR12MB4918.namprd12.prod.outlook.com (2603:10b6:a03:1df::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Fri, 30 Oct
- 2020 18:53:21 +0000
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::c562:e026:68d6:cd31]) by BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::c562:e026:68d6:cd31%6]) with mapi id 15.20.3477.034; Fri, 30 Oct 2020
- 18:53:21 +0000
-X-SNPS-Relay: synopsys.com
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Naresh Kamboju <naresh.kamboju@linaro.org>, Linux-Next Mailing List
- <linux-next@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "lkft-triage@lists.linaro.org" <lkft-triage@lists.linaro.org>
-Subject: Re: arc: kernel/entry.S:310: Error: inappropriate arguments for
- opcode 'and'
-Thread-Topic: arc: kernel/entry.S:310: Error: inappropriate arguments for
- opcode 'and'
-Thread-Index: AQHWrqef9Kvxgf+tSkKm76zYPuMJxqmwfo8A
-Date: Fri, 30 Oct 2020 18:53:21 +0000
-Message-ID: <5273a136-ac9c-94fc-b6e1-d7a0abf2b385@synopsys.com>
-References: <CA+G9fYth+F1TnG6GQNKtrxvChvX9m+nGa8LKFG18WCzsqNJg5w@mail.gmail.com>
-In-Reply-To: <CA+G9fYth+F1TnG6GQNKtrxvChvX9m+nGa8LKFG18WCzsqNJg5w@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ id 1kYZX7-0007Mt-Df
+ for linux-snps-arc@lists.infradead.org; Fri, 30 Oct 2020 18:53:54 +0000
+Received: by mail-il1-x144.google.com with SMTP id y17so7416288ilg.4
+ for <linux-snps-arc@lists.infradead.org>; Fri, 30 Oct 2020 11:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=yrG1MG2A4KxsXP6MXVK8fmTa4gkpV9wxJHGE0IIF07k=;
+ b=wBN3visNjUgIBU6DVFvO3NiwRnZwmQ2UsxyCtWDMkiPFzZj64voGZhQypfHgDwvbZ0
+ c9NdMRvcEt/gwILOPC/h/OIem/Ya7UYfx4up7v1Aq0CeJ8eCT8DFmNfC7oBkyUqLDX0G
+ k3hs7ndQmVfJqI0dnpHJFg9EaMssUcynDR+K6UDCsq5Ouyo26WWht0MkuW+GLHtozK2Y
+ w27UZQg7lkKRQk9YaANmxZkez6+14NNgVBn+U0u5l85Curroc43OGs0RNCKSS90mmWO0
+ oSGaE/mO9HqG+BBRo14olIoudCrPyQ3QWq8vHwcw1cGYewGA3ImGPuP4kU3miuP4Oz7r
+ Xjpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yrG1MG2A4KxsXP6MXVK8fmTa4gkpV9wxJHGE0IIF07k=;
+ b=DPtLRv1fSXqysCASCcb4zzIaxj14TFm5j97cMqrQbANKlWdhGkO745g/BY5vI6qKnB
+ nD3awZKLIYuZyd6lUnQWIqbc7/PG6bJHpYyVptpQfbRhgiYp3B7UOeLUU/cCthA68Wld
+ DkxrDCxDd/TpMkBk1WIBzJlZt6j6lu8dGT+LIFCQtpBQ9Jq10LS6vecbcuX7p9g8pQwC
+ YUc17drPrR0K3eoHrVTEfrL4ZtGkCI8TLoPtJA6SKCnaAFLPEwxcMvCsQEkVJxgzv/ti
+ /6uYJNjMnSr3a7sAw5VzhljCpPMrjnS6uKzpTzhOX+yOQN9oxwsSgdV4E68b6LPgfK1z
+ BddA==
+X-Gm-Message-State: AOAM530MJjVUYdDYOaSS2gim0vw77K4CVTyv6QyFKtYb2Rsnq27gdvPd
+ FT5LZy6vJeaEIfy3bgL765KpEkDGqOVJYw==
+X-Google-Smtp-Source: ABdhPJwp2wL8NrnZ0N0GrTwHxXQNF7UVNixxCQaRHtudIxnVOieOymCBdYwiI5Q8MoK/fnjkKuiuyg==
+X-Received: by 2002:a05:6e02:1202:: with SMTP id
+ a2mr2064753ilq.89.1604084029056; 
+ Fri, 30 Oct 2020 11:53:49 -0700 (PDT)
+Received: from [192.168.1.30] ([65.144.74.34])
+ by smtp.gmail.com with ESMTPSA id u19sm4967654ioc.10.2020.10.30.11.53.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Oct 2020 11:53:48 -0700 (PDT)
+Subject: Re: [PATCH] arc: add support for TIF_NOTIFY_SIGNAL
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+References: <6b89e805-c645-e738-794f-05ba6be68d60@kernel.dk>
+ <faa0272e-9719-8fd4-323c-b32fd4c9ccb6@synopsys.com>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <5d59c0f2-3a5e-478a-e0e4-4f487a4718a6@kernel.dk>
+Date: Fri, 30 Oct 2020 12:53:48 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [24.4.73.83]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ab3b6536-0335-4aed-ae1e-08d87d0512be
-x-ms-traffictypediagnostic: BY5PR12MB4918:
-x-microsoft-antispam-prvs: <BY5PR12MB491897B0F302F4806FBAF2B7B6150@BY5PR12MB4918.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2582;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: s9WsAdyYQRZ0tyaBloNQSup+M9sHtzgCuw8THCtNlrSJXy0hPu5s17WNwhQBHI0X0pJrJx4ORIfbMAYnWI/GA44hRODq5DnmjlvBCDXEqeNUiUxNkZbf7iURV+FqPnctv8T+k/VUq8rJtDoE0a9eUfPDM4S1bI/eaHirRkR8gImJPNAqmvO7kECIlBy7xvzkOEUs7/p6bG9GSrG7WZC75V/mWiKMiH6l1JG9p0uNNphTI8eQo6SC2OnqaHnaOgDmxTbKDgr+dYoQdAbVXNg38hsM5X0HtOklrc75u8unT6B8JLU7WmzIpqnwl5kIzeiGQVbholANMlgU4oiYyD9MCx0It9SczzNTZpC1mKf3R4W8dDvVPnusCukZOn9MsspYktIW5PYxdKKAB6JRTshuMOsFuxSE7Lx2M5iynw33rZtxE9z3cynfy0Tedlwl6l4/UZ952Z6oh97bIV3DCImG8Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(366004)(39860400002)(136003)(346002)(36756003)(31696002)(4326008)(110136005)(6512007)(54906003)(64756008)(8676002)(2906002)(7416002)(5660300002)(6506007)(66446008)(2616005)(53546011)(66476007)(66556008)(66946007)(31686004)(76116006)(186003)(26005)(83380400001)(316002)(71200400001)(478600001)(6486002)(4744005)(8936002)(86362001)(43740500002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: t8HwXeNEpCA1Jzq0fJo00ldRZSzConXAZ+e71M/ITmGSO6EauYqYJOrp5swhycykp3Qrk/rs+r/hSZwyndGr/etf/NFJ5T0GmjfENTnekkKmOIPcHnxR9uBVKeFgCMOIUVBhZKZJInUdp12LAJw0Uhe01bU6EGnL0spyjwb4L7IxO6ADqsm86q88ZEEIzZenjym1dMjun9/BTv29/ISq698RToxM7mxo7zSI5nxuau0CCtdLuJTW+HhOsYykJIyFFeF/FRzQKThOCcdGdYxozX5gBLkVfa06sD2KUFOO6pbFcAtQsteMfmVi+lZOYG3NIyguVy3BNw+FRDMuBZYnAr8Jr/QkAV/nSE9SS4JnJYSHIm9EvcO3auqwkPsHC7beK5ZPz493FSeNbE3tXdYtB7gugz+b+Hdnz/O3TvyAJ0LFBPZhO/Qk4H3BnvxkcOEV4AIGaLefuTJjWME/Uc+/nBdYuh/+1Snm91bLi3Mkd+qxKd4yD/DH5/kNusTy9wDvlSk8IBPJi7vzvPS3HTTT9Rwj7ywiPSA8+tcAJgzGSInFuekkzBxhOjL4FPuyOE5mjPIgNSOryHwlsinrq/UHpuUqnyQLrSejxO70sWi0HrnqWgBw0ixbIP7C7p3q3fkA3PsdH6D/Ms8sGteZLrD8bQ==
-x-ms-exchange-transport-forked: True
-Content-ID: <5C9EE421E3749246BC55D0CC2EE8C211@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab3b6536-0335-4aed-ae1e-08d87d0512be
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2020 18:53:21.4300 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iR7LgJj7LWqvl1Qp+NFOyZ9hk5mol369fEUcvRlb/i+ZZl82zX1cmxswP96rckxd4Pm08+s+mL9KqdRmEt1W7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4918
+In-Reply-To: <faa0272e-9719-8fd4-323c-b32fd4c9ccb6@synopsys.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201030_145331_394881_80913065 
-X-CRM114-Status: GOOD (  13.79  )
+X-CRM114-CacheID: sfid-20201030_145353_521318_DE73E562 
+X-CRM114-Status: GOOD (  25.88  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,30 +101,156 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Thomas Gleixner <tglx@linutronix.de>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Christian Brauner <christian@brauner.io>, Ingo Molnar <mingo@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-SGkgTmFyZXNoLA0KDQpPbiAxMC8zMC8yMCAzOjI5IEFNLCBOYXJlc2ggS2FtYm9qdSB3cm90ZToN
-Cj4gYXJjIGRlZmNvbmZpZyBidWlsZCBmYWlsZWQgb24gbGludXggbmV4dCAyMDIwMTAzMCB3aXRo
-IGdjYy04IGFuZCBnY2MtOS4NCj4NCj4gbWFrZSAtc2sgS0JVSUxEX0JVSUxEX1VTRVI9VHV4QnVp
-bGQgLUMvbGludXggLWoxNiBBUkNIPWFyYw0KPiBDUk9TU19DT01QSUxFPWFyYy1lbGYzMi0gSE9T
-VENDPWdjYyBDQz0ic2NjYWNoZSBhcmMtZWxmMzItZ2NjIiBPPWJ1aWxkDQo+IHVJbWFnZQ0KPiAj
-DQo+IC4uL2FyY2gvYXJjL2tlcm5lbC9lbnRyeS5TOiBBc3NlbWJsZXIgbWVzc2FnZXM6DQo+IC4u
-L2FyY2gvYXJjL2tlcm5lbC9lbnRyeS5TOjMxMDogRXJyb3I6IGluYXBwcm9wcmlhdGUgYXJndW1l
-bnRzIGZvciBvcGNvZGUgJ2FuZCcNCj4gbWFrZVszXTogKioqIFsuLi9zY3JpcHRzL01ha2VmaWxl
-LmJ1aWxkOjM2NDoNCj4gYXJjaC9hcmMva2VybmVsL2VudHJ5LWFyY3YyLm9dIEVycm9yIDENCj4N
-Cj4gUmVwb3J0ZWQtYnk6IE5hcmVzaCBLYW1ib2p1IDxuYXJlc2gua2FtYm9qdUBsaW5hcm8ub3Jn
-Pg0KDQpUaHggZm9yIHJlcG9ydGluZyB0aGlzLsKgIFRoaXMgaXMgZHVlIHRvIHRoZSBzZXJpZXMg
-QWRkIHN1cHBvcnQgZm9yIA0KVElGX05PVElGWV9TSUdOQUwgDQo8aHR0cHM6Ly9sb3JlLmtlcm5l
-bC5vcmcvaW8tdXJpbmcvMjAyMDEwMjYyMDMyMzAuMzg2MzQ4LTEtYXhib2VAa2VybmVsLmRrLyNy
-PndoZXJlIA0KQVJDIHBhdGNoIGlzIGJyb2tlbiBhbmQgSSBqdXN0IHJlcGxpZWQgdG8gSmVucyBh
-Ym91dCBpdC4gSGUgd2lsbCANCmhvcGVmdWxseSBmaXggaXQgYW5kIHB1c2ggdXBkYXRlZCBzZXJp
-ZXMgdG8gLW5leHQNCg0KVGh4LA0KLVZpbmVldA0KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNu
-cHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+On 10/30/20 12:47 PM, Vineet Gupta wrote:
+> On 10/29/20 9:09 AM, Jens Axboe wrote:
+>> Wire up TIF_NOTIFY_SIGNAL handling for arc.
+>>
+>> Cc:linux-arm-kernel@lists.infradead.org
+> 
+> 
+> Just to be clear, ARC and ARM seem to differ in 1 letter, they are in no 
+> way related :-)
+
+Oops, fat fingered that one. Will update :-)
+
+>> As part of that work, I'm adding TIF_NOTIFY_SIGNAL support to all archs,
+>> as that will enable a set of cleanups once all of them support it. I'm
+>> happy carrying this patch if need be, or it can be funelled through the
+>> arch tree. Let me know.
+> 
+> 
+> I'm fine either ways too, best to do whatever you are doing for other 
+> arches. Although this patch per se is broken, please see below.
+> 
+> 
+>>   
+>>   	GET_CURR_THR_INFO_FLAGS   r9
+>> -	bbit0  r9, TIF_SIGPENDING, .Lchk_notify_resume
+>> +	and.f  0,  r9, TIF_SIGPENDING|TIF_NOTIFY_SIGNAL, .Lchk_notify_resume
+> 
+> This is not correct, AND is a simple ALU instruction with format: AND 
+> dest, src2, src1
+> With dest 0, it won't update any register. With .f suffix it would set 
+> CC flag based on ALU operation which can subsequent used for a 
+> predicated instruction such as BZ.
+> 
+> So you need something like
+> 
+> and.f 0, r9, TIF_SIGPENDING|TIF_NOTIFY_SIGNAL
+> bz .Lchk_notify_resume
+
+Ah thanks, I'll make that change. Hard for me to test a lot of these, so
+I really appreciate someone knowledgable taking a look at it.
+
+>>   
+>>   	; Normal Trap/IRQ entry only saves Scratch (caller-saved) regs
+>>   	; in pt_reg since the "C" ABI (kernel code) will automatically
+>> diff --git a/arch/arc/kernel/signal.c b/arch/arc/kernel/signal.c
+>> index 2be55fb96d87..a78d8f745a67 100644
+>> --- a/arch/arc/kernel/signal.c
+>> +++ b/arch/arc/kernel/signal.c
+>> @@ -362,7 +362,7 @@ void do_signal(struct pt_regs *regs)
+>>   
+>>   	restart_scall = in_syscall(regs) && syscall_restartable(regs);
+>>   
+>> -	if (get_signal(&ksig)) {
+>> +	if (test_thread_flag(TIF_SIGPENDING) && get_signal(&ksig)) {
+>>   		if (restart_scall) {
+>>   			arc_restart_syscall(&ksig.ka, regs);
+>>   			syscall_wont_restart(regs);	/* No more restarts */
+> 
+> 
+> I've not seen your entire patchset, but it seems we are now hitting 
+> do_signal() for either of TIF_{SIGPENDING|NOTIFY_SIGNAL} but then only 
+> handling signal for TIF_SIGPENDING, so why even bother to come here. Do 
+> you plan to add additional arch handling later ?
+
+Nope, that's all that's needed for each arch. The behavior you describe
+is how it works. It makes it so that TIF_SIGPENDING will do the signal
+delivery and syscall restart as it always has done, but
+TIF_NOTIFY_SIGNAL will only do the syscall restart. The latter is the
+intent, hence TIF_NOTIFY_SIGNAL provides a way to interrupt a process
+and have it process task_work without going through signal delivery like
+task_work with TWA_SIGNAL does today.
+
+Updated version below:
+
+
+commit 3c6239647d95d03d1436bc826a004791c3f04617
+Author: Jens Axboe <axboe@kernel.dk>
+Date:   Mon Oct 12 07:15:37 2020 -0600
+
+    arc: add support for TIF_NOTIFY_SIGNAL
+    
+    Wire up TIF_NOTIFY_SIGNAL handling for arc.
+    
+    Cc: linux-snps-arc@lists.infradead.org
+    Signed-off-by: Jens Axboe <axboe@kernel.dk>
+
+diff --git a/arch/arc/include/asm/thread_info.h b/arch/arc/include/asm/thread_info.h
+index f9eef0e8f0b7..c0942c24d401 100644
+--- a/arch/arc/include/asm/thread_info.h
++++ b/arch/arc/include/asm/thread_info.h
+@@ -79,6 +79,7 @@ static inline __attribute_const__ struct thread_info *current_thread_info(void)
+ #define TIF_SIGPENDING		2	/* signal pending */
+ #define TIF_NEED_RESCHED	3	/* rescheduling necessary */
+ #define TIF_SYSCALL_AUDIT	4	/* syscall auditing active */
++#define TIF_NOTIFY_SIGNAL	5	/* signal notifications exist */
+ #define TIF_SYSCALL_TRACE	15	/* syscall trace active */
+ 
+ /* true if poll_idle() is polling TIF_NEED_RESCHED */
+@@ -89,11 +90,12 @@ static inline __attribute_const__ struct thread_info *current_thread_info(void)
+ #define _TIF_SIGPENDING		(1<<TIF_SIGPENDING)
+ #define _TIF_NEED_RESCHED	(1<<TIF_NEED_RESCHED)
+ #define _TIF_SYSCALL_AUDIT	(1<<TIF_SYSCALL_AUDIT)
++#define _TIF_NOTIFY_SIGNAL	(1<<TIF_NOTIFY_SIGNAL)
+ #define _TIF_MEMDIE		(1<<TIF_MEMDIE)
+ 
+ /* work to do on interrupt/exception return */
+ #define _TIF_WORK_MASK		(_TIF_NEED_RESCHED | _TIF_SIGPENDING | \
+-				 _TIF_NOTIFY_RESUME)
++				 _TIF_NOTIFY_RESUME | _TIF_NOTIFY_SIGNAL)
+ 
+ /*
+  * _TIF_ALLWORK_MASK includes SYSCALL_TRACE, but we don't need it.
+diff --git a/arch/arc/kernel/entry.S b/arch/arc/kernel/entry.S
+index ea00c8a17f07..1f5308abf36d 100644
+--- a/arch/arc/kernel/entry.S
++++ b/arch/arc/kernel/entry.S
+@@ -307,7 +307,8 @@ resume_user_mode_begin:
+ 	mov r0, sp	; pt_regs for arg to do_signal()/do_notify_resume()
+ 
+ 	GET_CURR_THR_INFO_FLAGS   r9
+-	bbit0  r9, TIF_SIGPENDING, .Lchk_notify_resume
++	and.f  0,  r9, TIF_SIGPENDING|TIF_NOTIFY_SIGNAL
++	bz .Lchk_notify_resume
+ 
+ 	; Normal Trap/IRQ entry only saves Scratch (caller-saved) regs
+ 	; in pt_reg since the "C" ABI (kernel code) will automatically
+diff --git a/arch/arc/kernel/signal.c b/arch/arc/kernel/signal.c
+index 2be55fb96d87..a78d8f745a67 100644
+--- a/arch/arc/kernel/signal.c
++++ b/arch/arc/kernel/signal.c
+@@ -362,7 +362,7 @@ void do_signal(struct pt_regs *regs)
+ 
+ 	restart_scall = in_syscall(regs) && syscall_restartable(regs);
+ 
+-	if (get_signal(&ksig)) {
++	if (test_thread_flag(TIF_SIGPENDING) && get_signal(&ksig)) {
+ 		if (restart_scall) {
+ 			arc_restart_syscall(&ksig.ka, regs);
+ 			syscall_wont_restart(regs);	/* No more restarts */
+
+-- 
+Jens Axboe
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
