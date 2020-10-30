@@ -7,70 +7,77 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C94DC00A89
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 09:40:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D3A0C4363A
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 10:30:06 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0028420724
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 09:39:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E0CD1221EB
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 10:30:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rTnkbrp4";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DJVMSRd0";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xjkTScsj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0028420724
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="s8U6OuT1";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NR8L81S9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E0CD1221EB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=QBefjeoxsIjvfRa0KQwS0bRqga2qIK1B+0OxNEvzcCU=; b=rTnkbrp4q/fxkaj7j69uwsdhz
-	PoziJh/JMhYN6r4VmQVhf5+l/3ewtkCqzIbAtcXeyfKFMC0dRyAGUJ8HK2MnLgHYILdb8abO+BRSC
-	8+AYfNOZvc7cW09f8xZKDPcji+s483MnsUuN1RzM+HtyZKT58kKQ69uGaQVnANhOEoX9Zn79En6c0
-	UsbFbi6Jguz4IBEI3AdOsu71U1/0Z5HlXG6TinY2qHF/iELBdjeQU13Gr45JHa8S28Wxg5NJLHN/1
-	H1eAzyPEAx73Yrum5w7/ndLuC3JoNWl0hbakKqvg1h4PI+z24vamIzRG2uWYjLygU63htjbBXLwv8
-	vyoQ8/xBQ==;
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:MIME-Version:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=6lKguAdHG9osu8hyTaEvMc9Tht42n1mrrTN0k0ZL82c=; b=s8U6OuT16TZoSGfwU9THUMNITc
+	CQvXcbcCiLEdDwoZnk2RlcdJHei77UVUmXJDDCWhjPtn7wT1nQ/ELIX1Cm2IEulnRh3y1GpJUmuMi
+	ZZ7d77kUY2aqBx2v7QrBAqYwb0FmfjAXqJqBcs4mO++31gsZkbHzFaDJYTddWFzbVd/836+ltumlD
+	mpeNg6pmoMcmdvCAC4DSj17NL3sIzVgBJxkHwiavpBcTy9hDNcp1nmonA8bXfw+eSVUvBKT/dJflJ
+	08Yu1/nhTBNH/QzspyQin5vCi4dW7XGqwE9UECZ8js9i61AnyheOpOCIZGMH5COXkJr0nDbkIm7wX
+	cJ/3HYWA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kYQt4-0003QW-Tk; Fri, 30 Oct 2020 09:39:58 +0000
-Received: from galois.linutronix.de ([193.142.43.55])
+	id 1kYRfX-0006b8-3M; Fri, 30 Oct 2020 10:30:03 +0000
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kYQsw-0003N2-V1; Fri, 30 Oct 2020 09:39:52 +0000
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604050789;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SAnK7jywPa1GOe2OuqwDJLyZGDzUuixXtlwihZHVsUc=;
- b=DJVMSRd0qSrh4qYCn9wA493aNBmMgpWEcC+DvdpwzaRDvlM9GLKnEgKej1q9Pjzm9R+Wbs
- SDi3g+IJ46Uix1vGIe/ZYW4m61MI+Iaw5AZAFaLpBqWgGMlssdhbZlo/f7rBhKNBzNp0ql
- AfNrswKRF+YJTa9uIYVgSjvVSA2hm+3Uo8FE2CUbADDpAaUi5+pLITUyecfHGq85dCGrM6
- ye41RcUorO4bMmTTQADOv++RFFw5xbZssFQqXyqHenRIXBZCR3WWb7IZDjqY6k6VEbvE3u
- Tfhh5ZTwPL+4DOCzh5iRmbXJG66Efnr9i/wjo97sHGpkIG/AcCkDrLPDQ7sJmw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604050789;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SAnK7jywPa1GOe2OuqwDJLyZGDzUuixXtlwihZHVsUc=;
- b=xjkTScsjovLjMF5jCfSAo4zF71pVuZpjsm7SHzu9Cw8PlE4P8sLRwcUur1ZnT3ITuwSffU
- 9R+g3a6sInOEqeDg==
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [patch V2 00/18] mm/highmem: Preemptible variant of kmap_atomic &
- friends
-In-Reply-To: <20201030072508.GA18471@lst.de>
-References: <20201029221806.189523375@linutronix.de>
- <20201030072508.GA18471@lst.de>
-Date: Fri, 30 Oct 2020 10:39:49 +0100
-Message-ID: <87a6w4njbu.fsf@nanos.tec.linutronix.de>
+ id 1kYRfU-0006ZR-H9
+ for linux-snps-arc@lists.infradead.org; Fri, 30 Oct 2020 10:30:01 +0000
+Received: by mail-il1-x12f.google.com with SMTP id g7so6023908ilr.12
+ for <linux-snps-arc@lists.infradead.org>; Fri, 30 Oct 2020 03:29:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=9sx1pWoZJXcLY5Wm9TAUSmY3vOK4DUm68sL/ca16vuM=;
+ b=NR8L81S9+Q2rXA+eNj78mO7XRQt/RQds0XcWiIlxQrVyNS5GfvcsC4N6yEaw/f8ASU
+ s1m7i8Y+7SbD4J7dAmapYnZlltdUG/gVaPWBLa5DciSelzGlDb4qFKHJxhhksIajQ3P1
+ OH23wga6hVxGgb6M9F79k86YLkAf7XIVFvrwyt9Kc8eK7/KC+hcZCMuGZzLBPO4jZG1m
+ XzFwzagCmUmBPdx62fq2AGUwhruZGjTYo6sVz7mgGW+X9iJaETPm1vsTB0wnvj1mig2g
+ MeJ0D+uWfjT8t9XQsPkACY7Mdbu3JT+qtdhKxL8YfQ48DWL0j6q07HPYCE9rNVhbYR9m
+ 1W2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=9sx1pWoZJXcLY5Wm9TAUSmY3vOK4DUm68sL/ca16vuM=;
+ b=nhEMQX4FPsFuqYmXeMrIDlnLP0KD0Ej9YzqDOvBiEWfs7OkEYlXKkF3PcN3UooyJkZ
+ MUZLc5RP1kUa1xLIcGulZSuqYI3qqG3F8+RBEOLqUvE78YL79n1IhD7xo0tZbedFhtqb
+ 3suNt7NrXOp3ZzIx4TiPTbU6s8sAaL2Jo9qHCQ4vz6RCPzc9fSR0vgdoSlTf0Zgx98lg
+ m3MPf2Ri//PXpzDP/quw1j1LLWdGXQ99cJroVNW4LJca2IUsQ4qGmO3x4bAKa1YX+EnU
+ 9hcaDusIzFY5YC+cUkqoLxIizUabEeKHOLTqbW+2opAbx8g2oluezb8bO4uviG+j7fTO
+ L2iw==
+X-Gm-Message-State: AOAM531ZotqRoOZX5lRthlehdqlkgxszfFGzG4Resh8ARuRE543+kyZ+
+ f+Gffw/3kxqIoJPN71lNMTO1wKBOP94wB0d9Z/ViUQ==
+X-Google-Smtp-Source: ABdhPJwKPzdHqKZmTe0eTTdzPBkY2P1Ps01r+uZ6c9N+iLdEzFKoIHdfBMck7ydrFn1gCt7CIdg8r7pdE9inLUPmDxw=
+X-Received: by 2002:a92:9ed1:: with SMTP id s78mr1294883ilk.71.1604053796854; 
+ Fri, 30 Oct 2020 03:29:56 -0700 (PDT)
 MIME-Version: 1.0
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Fri, 30 Oct 2020 15:59:45 +0530
+Message-ID: <CA+G9fYth+F1TnG6GQNKtrxvChvX9m+nGa8LKFG18WCzsqNJg5w@mail.gmail.com>
+Subject: arc: kernel/entry.S:310: Error: inappropriate arguments for opcode
+ 'and'
+To: Linux-Next Mailing List <linux-next@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, 
+ linux-snps-arc@lists.infradead.org, lkft-triage@lists.linaro.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201030_053951_511308_516B29FD 
-X-CRM114-Status: GOOD (  12.52  )
+X-CRM114-CacheID: sfid-20201030_063000_580950_AF6BD316 
+X-CRM114-Status: UNSURE (   4.73  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,50 +89,30 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, linux-xtensa@linux-xtensa.org,
- Peter Zijlstra <peterz@infradead.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-mips@vger.kernel.org,
- Ben Segall <bsegall@google.com>, linux-mm@kvack.org,
- Guo Ren <guoren@kernel.org>, sparclinux@vger.kernel.org,
- Vincent Chen <deanbo422@gmail.com>, Ingo Molnar <mingo@kernel.org>,
- linux-arch@vger.kernel.org, Vincent Guittot <vincent.guittot@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, David Airlie <airlied@linux.ie>,
- Mel Gorman <mgorman@suse.de>, linux-snps-arc@lists.infradead.org,
- Ard Biesheuvel <ardb@kernel.org>, Paul McKenney <paulmck@kernel.org>,
- linuxppc-dev@lists.ozlabs.org, Steven Rostedt <rostedt@goodmis.org>,
- Linus Torvalds <torvalds@linuxfoundation.org>,
- Greentime Hu <green.hu@gmail.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
- Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- "David S. Miller" <davem@davemloft.net>
+Cc: Vineet Gupta <vgupta@synopsys.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Christian Brauner <christian@brauner.io>, Ingo Molnar <mingo@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 30 2020 at 08:25, Christoph Hellwig wrote:
-> On Thu, Oct 29, 2020 at 11:18:06PM +0100, Thomas Gleixner wrote:
->>  - Consolidating all kmap atomic implementations in generic code
->
-> I think the consolidation is a winner no matter where we go next.  Maybe
-> split it out in a prep series so we can get it in ASAP?
+arc defconfig build failed on linux next 20201030 with gcc-8 and gcc-9.
 
-Yes, patch 2-15 can just go without any dependency. The only thing which
-needs a bit of thought is naming. See the other reply to Linus.
+make -sk KBUILD_BUILD_USER=TuxBuild -C/linux -j16 ARCH=arc
+CROSS_COMPILE=arc-elf32- HOSTCC=gcc CC="sccache arc-elf32-gcc" O=build
+uImage
+#
+../arch/arc/kernel/entry.S: Assembler messages:
+../arch/arc/kernel/entry.S:310: Error: inappropriate arguments for opcode 'and'
+make[3]: *** [../scripts/Makefile.build:364:
+arch/arc/kernel/entry-arcv2.o] Error 1
 
-Thanks,
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
 
-        tglx
+-- 
+Linaro LKFT
+https://lkft.linaro.org
 
 _______________________________________________
 linux-snps-arc mailing list
