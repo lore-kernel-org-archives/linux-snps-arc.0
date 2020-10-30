@@ -7,73 +7,91 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A108AC4742C
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 22:26:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26EB0C00A89
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 22:53:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 009B220797
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 22:26:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9BBAB20825
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 22:53:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hF5+shCY";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LxHJ68FH";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2rJuYiPt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 009B220797
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="wV+pfHcX";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="NSjEistX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9BBAB20825
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=gjtP2zoCgZqp2nNxxJWdHJT1D/bB5BIZ1rqdX09O8QY=; b=hF5+shCYn46QrznhWCQBEpqHa
-	9u8JeipHvBWrOGS4rfDTrfL/0Sij2FEOfYuFlm1K/Kt4XRgDutxS/gj77c6kNRVDYOUiBaxJ9ZRMZ
-	ish1YfU0LLP457+2jmMkSzXFLcVXiffyhk7hbg36NHvDkFSEpMyafTCOY7ne5jq6TjFQQaEEBZBVD
-	qjPh3/cbLO8iVmhRkbDUo1/vR4YEAYeQqZOpYfmYCBX51aX6gfFLdZ88fdIsnuSc+bWhrkLO9+s0k
-	GynGXjKEAB0zABzr0oxPqI2Xqf28+Gfi3X09SsXHqKiA3KHMmLfAoD1dQgB6jsPCBky9FXGLdPW+T
-	abI2BqTpQ==;
+	 bh=EIY3H0SrMauR4RvDwl+dcRu95d5TcV/NPIELLsMIY2Q=; b=wV+pfHcXIIrJ8A2eMSduZwuMM
+	Qd5JEA7WUCnIep5KZUwcLQ7oeo7lKS3qSvdPnGmv8ko5wAA2KzBBp85WOzwk/E1BxCYN2wNctS3EJ
+	pVnuLFtq2ob7zEDg/C0+uqv+DlK3/IWoDE/QgZafQHLsN5BCWhSwcBJ1T7hnF1uoTis+xBakzpZmt
+	VmMDNaZ+qbAKUitA2Msv1xJNPk5t1KmhnlAstiAbFQpMY/57BW97a+/gBUrNzZHoMtiClQIPl9xOm
+	2+hkOutGVtnn7hdrY3K9OpF41u3E8HKcOwx12EktNLzfXE2iCp7GaVqB64rGCUUdZD0QUdKYyfVoU
+	AkAlwXzNA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kYcr3-0004FW-HJ; Fri, 30 Oct 2020 22:26:41 +0000
-Received: from galois.linutronix.de ([193.142.43.55])
+	id 1kYdGt-0007qp-R3; Fri, 30 Oct 2020 22:53:23 +0000
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kYcqx-0004Dr-Dy; Fri, 30 Oct 2020 22:26:36 +0000
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604096793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=26Ts76LEb5dF8UM0hmSIHaJpUqiGiJWBHMp5iFf7PiU=;
- b=LxHJ68FH0YuIEFWx2pJpQimCZfTiqoGgDDau1FguLxRy0zRx9jDZctdAlFRJ324v8CuoYi
- ZcuxU/DPzAwKZjuk1f5n85YkZURSL9nRFHt8mfu6t3it4VWyE7SlneV0erS9MR7nX9FzlP
- P+HNof6Xh5RpyyaWT992LVmq2zyMt7WHQ/M2MkeRhrztzkZ4okq5IzkTTD/fUPiSmr0pHZ
- BD6hj5xP7axA2OIEeQSYPyXK4XbM9OHuPNmPWTriLFFXeAcRngKo5tuvQR0c5M5uRZiaiR
- 7vOFKe6AAtTBf3UuZjT2hn26v4yx6tPJ2p6ldMkYWP3ZaJp8ZxNVmOK4vPxpMA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604096793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=26Ts76LEb5dF8UM0hmSIHaJpUqiGiJWBHMp5iFf7PiU=;
- b=2rJuYiPt20Oowm+h+GqzEiWNX0OgtYb09gN+zSFDN57qQiTBtXhd6AncITU48GjmrMPQTD
- wElJt4hkBKleVUBg==
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [patch V2 00/18] mm/highmem: Preemptible variant of kmap_atomic &
- friends
-In-Reply-To: <CAHk-=whsJv0bwWRVZHsLoSe48ykAea6T7Oi=G+r8ckLrZ0YUpg@mail.gmail.com>
+ id 1kYdGr-0007qS-BY
+ for linux-snps-arc@lists.infradead.org; Fri, 30 Oct 2020 22:53:22 +0000
+Received: by mail-ed1-x543.google.com with SMTP id t11so8225269edj.13
+ for <linux-snps-arc@lists.infradead.org>; Fri, 30 Oct 2020 15:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FrhxrWCIONXWoPxsDWMRBR+W10EJDGZ7OkgmkAXhFNU=;
+ b=NSjEistXDK7QrUisKBKyvvsUCTs8KpdALOTDGFQa3ZlxOrfYPgQ15P5Hp32THt3kZR
+ cN7sjbd0KoMQ3npg9DHgup7Q9J8GXdmUQ8lIGjC/f9HFg6XaYw9GqJyObayLgtYOnfyC
+ +DPogaxfsLaFCM9OrmD2eUZrIvZD8sMP/wXjA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FrhxrWCIONXWoPxsDWMRBR+W10EJDGZ7OkgmkAXhFNU=;
+ b=VK/n6a2hHwy7S2EpFslW/07anEj6g09rI4l5eMkJ4N4JB0FvgmHYG8VvfRPSBhaqE8
+ r2kMHvQM/LbxPUiNaAe/SLZhsttAug0svdbHTYXZKztHBcERvL/8rERE6bD9QQEo+Ter
+ VXAc+V1ztyhtTKr2aNFQviN4dGclnZROmY4E/DZPmk9Pd96T0A2+OrP/h8qvNmWeWOAH
+ BI1r6FeyRDkovRUEqmv1ExPx2faaMOXmjI58nPjHFtQBY7OaYLWR1USg9w3/PDvmIPDZ
+ zgvJd/FVSjLVh0K5BpjpAive1zdJym2sP73X5ikTFMIs5t0bVMm4eVGiLu1t9C8hmObu
+ bCZQ==
+X-Gm-Message-State: AOAM530qc8ON2b37KbyN1o/541y9Z34RTTFm6f1AXlNOgEx60L6o6dht
+ uNKhs+RjHDLThX99mNFqn+m+KktHttxSLg==
+X-Google-Smtp-Source: ABdhPJxnT/JumrKCfxArvP4kG0zZWhUVm4CfJtw4hJ+vt2ZgIYoqSM52eNkhNVaiQLy/MRpIvWv1Jw==
+X-Received: by 2002:aa7:c2d7:: with SMTP id m23mr4946445edp.230.1604098399863; 
+ Fri, 30 Oct 2020 15:53:19 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com.
+ [209.85.208.50])
+ by smtp.gmail.com with ESMTPSA id g1sm2485537ejz.52.2020.10.30.15.53.19
+ for <linux-snps-arc@lists.infradead.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Oct 2020 15:53:19 -0700 (PDT)
+Received: by mail-ed1-f50.google.com with SMTP id p93so8284006edd.7
+ for <linux-snps-arc@lists.infradead.org>; Fri, 30 Oct 2020 15:53:19 -0700 (PDT)
+X-Received: by 2002:a19:4815:: with SMTP id v21mr1949766lfa.603.1604098002560; 
+ Fri, 30 Oct 2020 15:46:42 -0700 (PDT)
+MIME-Version: 1.0
 References: <20201029221806.189523375@linutronix.de>
  <CAHk-=wiFxxGapdOyZHE-7LbFPk+jdfoqdeeJg0zWNQ86WvJGXg@mail.gmail.com>
  <87pn50ob0s.fsf@nanos.tec.linutronix.de>
  <87blgknjcw.fsf@nanos.tec.linutronix.de>
  <CAHk-=whsJv0bwWRVZHsLoSe48ykAea6T7Oi=G+r8ckLrZ0YUpg@mail.gmail.com>
-Date: Fri, 30 Oct 2020 23:26:33 +0100
-Message-ID: <87sg9vl59i.fsf@nanos.tec.linutronix.de>
-MIME-Version: 1.0
+ <87sg9vl59i.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <87sg9vl59i.fsf@nanos.tec.linutronix.de>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 30 Oct 2020 15:46:26 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjjO9BtTUAsLraqZqdzaPGJ-qvubZfwUsmRUX896eHcGw@mail.gmail.com>
+Message-ID: <CAHk-=wjjO9BtTUAsLraqZqdzaPGJ-qvubZfwUsmRUX896eHcGw@mail.gmail.com>
+Subject: Re: [patch V2 00/18] mm/highmem: Preemptible variant of kmap_atomic &
+ friends
+To: Thomas Gleixner <tglx@linutronix.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201030_182635_632624_2FC57EEC 
-X-CRM114-Status: GOOD (  21.77  )
+X-CRM114-CacheID: sfid-20201030_185321_397794_042D965C 
+X-CRM114-Status: GOOD (  18.23  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,71 +130,55 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-xtensa@linux-xtensa.org,
  Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
  Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
  Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>, "David
- S. Miller" <davem@davemloft.net>
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 30 2020 at 13:28, Linus Torvalds wrote:
-> On Fri, Oct 30, 2020 at 2:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->>
->> But then we really should not name it kmap_local. 'local' suggests
->> locality, think local_irq*, local_bh* ... kmap_task would be more
->> accurate then.
+On Fri, Oct 30, 2020 at 3:26 PM Thomas Gleixner <tglx@linutronix.de> wrote:
 >
-> So the main reason I'd like to see it is because I think on a
-> non-highmem machine, the new kmap should be a complete no-op. IOW,
-> we'd make sure that there are no costs, no need to increment any
-> "restrict migration" counts etc.
-
-Fair enough.
-
-> It's been a bit of a pain to have kmap_atomic() have magical side
-> semantics that people might then depend on.
-
-kmap_atomic() will still have the side semantics :)
-
-> I think "local" could still work as a name, because it would have to
-> be thread-local (and maybe we'd want a debug mode where that gets
-> verified, as actual HIGHMEM machines are getting rare).
+> While at it I might have a look at that debug request from Willy in the
+> other end of this thread. Any comment on that?
 >
-> I'd avoid "task", because that implies (to me, at least) that it
-> wouldn't be good for interrupts etc that don't have a task context.
->
-> I think the main issue is that it has to be released in the same
-> context as it was created (ie no passing those things around to other
-> contexts). I think "local" is fine for that, but I could imagine other
-> names. The ones that come to mind are somewhat cumbersome, though
-> ("shortterm" or "local_ctx" or something along those lines).
+>  https://lore.kernel.org/r/87k0v7mrrd.fsf@nanos.tec.linutronix.de
 
-Yeah, not really intuitive either.
+I do think that it would be nice to have a debug mode, particularly
+since over the last few years we've really lost a lot of HIGHMEM
+coverage (to the point that I've wondered how worthwhile it really is
+to support at all any more - I think it's Arnd who argued that it's
+mainly some embedded ARM variants that will want it for the forseeable
+future).
 
-Let's stick with _local and add proper function documentation which
-clearly says, that the side effect of non-migratability applies only for
-the 32bit highmem case in order to make it work at all.
+So I'm honestly somewhat torn. I think HIGHMEM is dying, and yes that
+argues for "non-HIGHMEM had better have some debug coverage", but at
+the same time I think it doesn't even really matter any more. At some
+point those embedded ARM platforms just aren't even interesting - they
+might as well use older kernels if they are the only thing really
+arguing for HIGHMEM at all.
 
-So code which needs CPU locality cannot rely on it and we have enough
-debug stuff to catch something like:
+This is one reason why I'd like the new kmap_local() to be a no-op,
+and I'd prefer for it to have no other side effects - because I want
+to be ready to remove it entirely some day. And if we end up having
+some transition where people start rewriting "kmap_atomic()" to be
+"kmap_local() + explicit preemption disable", then I think that would
+be a good step on that whole "kmap will eventually go away" path.
 
-    kmap_local()
-    this_cpu_write(....)
-    kunmap_local()
+But I do *not* believe that we need to add _so_ much debug support
+that we'd catch Willy's "more than one page" case. And I absolutely do
+not believe for a second that we should start caring about compound
+pages. NO. kmap() is almost dead already, we're not making it worse.
 
-Let me redo the pile.
+To me, your patch series has two big advantages:
 
-While at it I might have a look at that debug request from Willy in the
-other end of this thread. Any comment on that?
+ - more common code
 
- https://lore.kernel.org/r/87k0v7mrrd.fsf@nanos.tec.linutronix.de
+ - kmap_local() becomes more of a no-op
 
-Thanks,
+and the last thing we want is to expand on kmap.
 
-        tglx
-
-
-      
+           Linus
 
 _______________________________________________
 linux-snps-arc mailing list
