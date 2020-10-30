@@ -2,95 +2,78 @@ Return-Path: <SRS0=eli2=EF=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C53AC00A89
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 20:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A108AC4742C
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 22:26:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5E7EC20791
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 20:36:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 009B220797
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2020 22:26:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2ZT8smgV";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="Jon71kR7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5E7EC20791
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hF5+shCY";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LxHJ68FH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2rJuYiPt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 009B220797
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Gtk6Or0utCPx6hr1Mfoqpq470g0K4yxPOH7vgXhcT/o=; b=2ZT8smgVYkhno9Vn7UE2ee3Ks
-	gKCP6LPvQlkoprtQNP0TWLCCdwH9Qq5uzKUsUPo6pc+Hd1IiF3Z0PtS3BpWpC5PE0lYPVgpNJ9d+f
-	QKLxXlTU380AsQQKha0DAWz9BhDl//ydtZDXiOjHwuVEyswHjSrXMiPMEDNh90wpz9wSfll1tneFh
-	cA0tyQMPkSyXtPHLNtbGoUien8L8M7/QVMUUOjQ4dcO/WwM1Nk6ACYkUFKa3JrKuFsJQi180oaPf5
-	Toj44ZkYZOzQeo6gAet90gEvF+WS0NoQGkF2IAbJB52NwEucLWtDQ9nh0PHSMtRA5qEHY36XGomVN
-	Pi5+ROhUg==;
+	 bh=gjtP2zoCgZqp2nNxxJWdHJT1D/bB5BIZ1rqdX09O8QY=; b=hF5+shCYn46QrznhWCQBEpqHa
+	9u8JeipHvBWrOGS4rfDTrfL/0Sij2FEOfYuFlm1K/Kt4XRgDutxS/gj77c6kNRVDYOUiBaxJ9ZRMZ
+	ish1YfU0LLP457+2jmMkSzXFLcVXiffyhk7hbg36NHvDkFSEpMyafTCOY7ne5jq6TjFQQaEEBZBVD
+	qjPh3/cbLO8iVmhRkbDUo1/vR4YEAYeQqZOpYfmYCBX51aX6gfFLdZ88fdIsnuSc+bWhrkLO9+s0k
+	GynGXjKEAB0zABzr0oxPqI2Xqf28+Gfi3X09SsXHqKiA3KHMmLfAoD1dQgB6jsPCBky9FXGLdPW+T
+	abI2BqTpQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kYb87-00034y-8j; Fri, 30 Oct 2020 20:36:11 +0000
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
+	id 1kYcr3-0004FW-HJ; Fri, 30 Oct 2020 22:26:41 +0000
+Received: from galois.linutronix.de ([193.142.43.55])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kYb83-00033Q-Gw
- for linux-snps-arc@lists.infradead.org; Fri, 30 Oct 2020 20:36:09 +0000
-Received: by mail-pf1-x441.google.com with SMTP id w21so6304481pfc.7
- for <linux-snps-arc@lists.infradead.org>; Fri, 30 Oct 2020 13:36:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CuRbxzDu1XDfx5yN2GvsDOIU4u128uCEzLs7t63aMYQ=;
- b=Jon71kR7/DdyiHTml27SRzpChPyiVZVNcooGCTZNITVgVaQ+eMcHZRmxWYV+WBmpNB
- AaEGy+c3dWb/NTTAS63wkKSHngdWzKBqikpEkBi/JDsPjkkXeqyFjbAyPmWR37BaTRxJ
- 074nBN79Yv3SkEhGGX5mC46fBjs6CYO/5oWYGWxQ4czpYgPyjZudtNmDwjxklZvAevDw
- j93Msn9qv8z359SuSJFEIfEiuhBkg9GfFS6Iphdpbj0azas/2nsuOz85tLUiL0/jOheu
- 81BApS0X4Fbl1Yry2eGctlKnvYfr+kI/FLxBJFxXnhDrNx+FgT973DgssNo6mI9BOTpy
- 2dzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CuRbxzDu1XDfx5yN2GvsDOIU4u128uCEzLs7t63aMYQ=;
- b=oW30jWdkUv2bQePb1P2Xp7g29K+3mzz8yDfV0q7Z+62jUffsFhiXGjNgaCRf8zgrwE
- KueZeuuKu23uE6eprofV+2KaMDGFqyjBXt7/DAme4ipAuRegLBCBKwE1nh0pFZo1RHu3
- mfqKNrzYo8wVQ/u24T8Q8Mz/ojElMSEpQt8wzJx34lgyTWIH9N7PeZRRXRbRA6Yynn+4
- USuViK1aZQWBUgwFsIQjZvbaqQVzCGde++8jX0WWm5TOIOeA4cDL6xivaTLeKfSB7LMk
- RXAadNLAdzDkyamyXZrQaR86rEUZ1+6y2hKnGvSNiQWcIpfZXnX3SxlxlrPYaFdx7Joq
- nkRw==
-X-Gm-Message-State: AOAM532cdjkEW1FIXs1BKKYEKru7x6gxsNfXtQVAaTCppjEJlC2VV+Aw
- KF6Mq3gRnN8Ix53sRK/C2a8zCeRJGxJ4iw==
-X-Google-Smtp-Source: ABdhPJwYxy7zJkLjEmNnrlWlDYOal78VkBMnMU0u9/FrqXzCgPSbCbKAMTFM/gLtVJ8FFm0WYe6cBw==
-X-Received: by 2002:a63:30d:: with SMTP id 13mr3324733pgd.301.1604090165315;
- Fri, 30 Oct 2020 13:36:05 -0700 (PDT)
-Received: from [192.168.1.134] ([66.219.217.173])
- by smtp.gmail.com with ESMTPSA id q23sm6744147pfg.192.2020.10.30.13.36.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Oct 2020 13:36:04 -0700 (PDT)
-Subject: Re: [PATCH] arc: add support for TIF_NOTIFY_SIGNAL
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
-References: <6b89e805-c645-e738-794f-05ba6be68d60@kernel.dk>
- <faa0272e-9719-8fd4-323c-b32fd4c9ccb6@synopsys.com>
- <5d59c0f2-3a5e-478a-e0e4-4f487a4718a6@kernel.dk>
- <f1a8b2c9-3a72-75c6-f504-18723689fabd@synopsys.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <fabeac37-f6a0-34e0-a521-4124f17f2008@kernel.dk>
-Date: Fri, 30 Oct 2020 14:36:02 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1kYcqx-0004Dr-Dy; Fri, 30 Oct 2020 22:26:36 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1604096793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=26Ts76LEb5dF8UM0hmSIHaJpUqiGiJWBHMp5iFf7PiU=;
+ b=LxHJ68FH0YuIEFWx2pJpQimCZfTiqoGgDDau1FguLxRy0zRx9jDZctdAlFRJ324v8CuoYi
+ ZcuxU/DPzAwKZjuk1f5n85YkZURSL9nRFHt8mfu6t3it4VWyE7SlneV0erS9MR7nX9FzlP
+ P+HNof6Xh5RpyyaWT992LVmq2zyMt7WHQ/M2MkeRhrztzkZ4okq5IzkTTD/fUPiSmr0pHZ
+ BD6hj5xP7axA2OIEeQSYPyXK4XbM9OHuPNmPWTriLFFXeAcRngKo5tuvQR0c5M5uRZiaiR
+ 7vOFKe6AAtTBf3UuZjT2hn26v4yx6tPJ2p6ldMkYWP3ZaJp8ZxNVmOK4vPxpMA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1604096793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=26Ts76LEb5dF8UM0hmSIHaJpUqiGiJWBHMp5iFf7PiU=;
+ b=2rJuYiPt20Oowm+h+GqzEiWNX0OgtYb09gN+zSFDN57qQiTBtXhd6AncITU48GjmrMPQTD
+ wElJt4hkBKleVUBg==
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [patch V2 00/18] mm/highmem: Preemptible variant of kmap_atomic &
+ friends
+In-Reply-To: <CAHk-=whsJv0bwWRVZHsLoSe48ykAea6T7Oi=G+r8ckLrZ0YUpg@mail.gmail.com>
+References: <20201029221806.189523375@linutronix.de>
+ <CAHk-=wiFxxGapdOyZHE-7LbFPk+jdfoqdeeJg0zWNQ86WvJGXg@mail.gmail.com>
+ <87pn50ob0s.fsf@nanos.tec.linutronix.de>
+ <87blgknjcw.fsf@nanos.tec.linutronix.de>
+ <CAHk-=whsJv0bwWRVZHsLoSe48ykAea6T7Oi=G+r8ckLrZ0YUpg@mail.gmail.com>
+Date: Fri, 30 Oct 2020 23:26:33 +0100
+Message-ID: <87sg9vl59i.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <f1a8b2c9-3a72-75c6-f504-18723689fabd@synopsys.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201030_163607_608986_4F33B067 
-X-CRM114-Status: GOOD (  15.84  )
+X-CRM114-CacheID: sfid-20201030_182635_632624_2FC57EEC 
+X-CRM114-Status: GOOD (  21.77  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,54 +85,98 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: open list <linux-kernel@vger.kernel.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-xtensa@linux-xtensa.org,
+ Peter Zijlstra <peterz@infradead.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-mips@vger.kernel.org,
+ Ben Segall <bsegall@google.com>, Linux-MM <linux-mm@kvack.org>,
+ Guo Ren <guoren@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ linux-sparc <sparclinux@vger.kernel.org>, Vincent Chen <deanbo422@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, David Airlie <airlied@linux.ie>,
+ Mel Gorman <mgorman@suse.de>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Paul McKenney <paulmck@kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Greentime Hu <green.hu@gmail.com>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>, "David
+ S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 10/30/20 2:08 PM, Vineet Gupta wrote:
-> On 10/30/20 11:53 AM, Jens Axboe wrote:
+On Fri, Oct 30 2020 at 13:28, Linus Torvalds wrote:
+> On Fri, Oct 30, 2020 at 2:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
 >>
->> Ah thanks, I'll make that change. Hard for me to test a lot of these, so
->> I really appreciate someone knowledgable taking a look at it.
-> 
-> Sure, glad to help, thx to you for writing the arch patches in first 
-> place. It takes a bit of daring to venture in unchartered waters ;-)
+>> But then we really should not name it kmap_local. 'local' suggests
+>> locality, think local_irq*, local_bh* ... kmap_task would be more
+>> accurate then.
+>
+> So the main reason I'd like to see it is because I think on a
+> non-highmem machine, the new kmap should be a complete no-op. IOW,
+> we'd make sure that there are no costs, no need to increment any
+> "restrict migration" counts etc.
 
-Nice to do something different for a change! And another motivation is
-that I can't drop some old dead code before all archs support
-TIF_NOTIFY_SIGNAL.
+Fair enough.
 
-> These days it is super easy to get your hands on a ARC cross toolchain. 
-> We don't have them shipping as regular distro packages just yet, but you 
-> can download a prebuilt @
-> https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/download/arc-2020.09-release/arc_gnu_2020.09_prebuilt_glibc_le_archs_linux_install.tar.gz
-> 
-> Or you can just build upstream gcc + binutils for ARC if you so prefer.
+> It's been a bit of a pain to have kmap_atomic() have magical side
+> semantics that people might then depend on.
 
-Thanks, that's very helpful. Unfortunately my distro didn't have
-gcc+binutils packaged for arc, like it did for a lot of the other
-targets.
+kmap_atomic() will still have the side semantics :)
 
->> commit 3c6239647d95d03d1436bc826a004791c3f04617
->> Author: Jens Axboe <axboe@kernel.dk>
->> Date:   Mon Oct 12 07:15:37 2020 -0600
->>
->>      arc: add support for TIF_NOTIFY_SIGNAL
->>      
->>      Wire up TIF_NOTIFY_SIGNAL handling for arc.
->>      
->>      Cc: linux-snps-arc@lists.infradead.org
->>      Signed-off-by: Jens Axboe <axboe@kernel.dk>
-> 
-> Acked-by: Vineet Gupta <vgupta@synopsys.com>
+> I think "local" could still work as a name, because it would have to
+> be thread-local (and maybe we'd want a debug mode where that gets
+> verified, as actual HIGHMEM machines are getting rare).
+>
+> I'd avoid "task", because that implies (to me, at least) that it
+> wouldn't be good for interrupts etc that don't have a task context.
+>
+> I think the main issue is that it has to be released in the same
+> context as it was created (ie no passing those things around to other
+> contexts). I think "local" is fine for that, but I could imagine other
+> names. The ones that come to mind are somewhat cumbersome, though
+> ("shortterm" or "local_ctx" or something along those lines).
 
-Added, thanks!
+Yeah, not really intuitive either.
 
--- 
-Jens Axboe
+Let's stick with _local and add proper function documentation which
+clearly says, that the side effect of non-migratability applies only for
+the 32bit highmem case in order to make it work at all.
 
+So code which needs CPU locality cannot rely on it and we have enough
+debug stuff to catch something like:
+
+    kmap_local()
+    this_cpu_write(....)
+    kunmap_local()
+
+Let me redo the pile.
+
+While at it I might have a look at that debug request from Willy in the
+other end of this thread. Any comment on that?
+
+ https://lore.kernel.org/r/87k0v7mrrd.fsf@nanos.tec.linutronix.de
+
+Thanks,
+
+        tglx
+
+
+      
 
 _______________________________________________
 linux-snps-arc mailing list
