@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4A09C4741F
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2020 17:07:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1592FC2D0A3
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2020 17:07:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8A2BC2224E
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2020 17:07:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BF31D2225C
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2020 17:07:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SYTFWcAf";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="KYNhTkLV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8A2BC2224E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iKrsD5b7";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vz7hlCOf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF31D2225C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,43 +26,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SsDJXl9qZg4ghegL0mXIpWJF8aVV+8p3hs36J2sMt2Q=; b=SYTFWcAf55iN9ppiI/XJ9LToo
-	/73BC76wjR6qtkNyujG2zfTuKxQgL+Oe4zGPT5NlAP3a7RQPhXvntGc5ZK0w1ra+OWL7X8Lwhgsd+
-	gDnxOHjVaJFrbYzm8dLfMeClQJlJ0vc5x68kg2sF/4Bnk1EJGpVMMxzuJM/vvHADPcw1UonDEpiOj
-	Eu90DWoZs22g0clYSBSkO/raagzJ+uXD76Zhu81V+cnGwX3uY/BUpglxdU42gyHaVwJ4cP6Zmc9LQ
-	evpeHQ/xeh7kV3UNLGTmOIcJf5gX19QqnWDRA6EjIeZjPpqTcFHgtadaTGfliTnWeIpTdmll4QCCV
-	/M+UjlhsQ==;
+	 bh=H7Tw2AldgB70smGOr5tlLYlVgjDJQVMLJ+JIi46Oi6I=; b=iKrsD5b7x3sTs4f/OXTPGzQBA
+	SaR6+bnoOC133y83sPowsINpr9QKDhk8mOSGeFD59stLs1MuuhRNJMyFqh3i10xOQC7T0HeUjhSeu
+	jyr1pERsUwgLxfdRNx0EH78m9FvVOsleV2tdhC+JDaFWT0MDK7EH9HTRMUzoabAIIqI86qO9LKYFp
+	0p/s9LWv71zcPQKiCRz/WNN19Cg0JibhnN639oml3G56cQ/v22h26GuGJYSD7qJ2PHjDNWXtNP6Ye
+	wEqrGTf5A2MAbR7o/tAcoRRMcubd05ScTHBlSK6h2wLPyiLIN+0S1rfkT1KX6TLgemnp6D7Zq3Ty1
+	BYXfE+pXw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZGoz-0003Dn-TL; Sun, 01 Nov 2020 17:07:13 +0000
+	id 1kZGp9-0003I8-NT; Sun, 01 Nov 2020 17:07:23 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZGo9-0002oI-1n; Sun, 01 Nov 2020 17:06:26 +0000
+ id 1kZGoF-0002rb-Ds; Sun, 01 Nov 2020 17:06:33 +0000
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 53BD12224F;
- Sun,  1 Nov 2020 17:06:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 911202223F;
+ Sun,  1 Nov 2020 17:06:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604250380;
- bh=GJTV8t7eUInQzqDc/hr5Dhpq8t96xJHg9K0YZLO71MY=;
+ s=default; t=1604250386;
+ bh=fWxkbZL/5LT7MVmydGQvto+yiZVxeeiLovyNTt2+nMQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KYNhTkLVgz7dfjqoUX4Po8ljwPSushLBVskuiQQV1Po8XLAY71xPQrdPgGX5X31A4
- 7FNo2oe9peI+aBvyRyIZn4I4gCPx6AhGkytdpLp/EFc1tfe24HIbPlZTUGbSf/OCOB
- BZ4N6/ONIQneMFZayXAwNL7t8GeCIlvJLHaXjCFY=
+ b=Vz7hlCOfEKvhdYdVx02tccXCR69Tgvys6SCSJ/AwADwwmLCxWzCZRFA3N4DSZ0TNf
+ NMj2sjlY5sUvwwkqZVyNWvWsIKsoWRy4e5mWYOTcjMU9Z7iDHW/BBbA5ZKDtLBao9Y
+ XcPPJPO0UL5x9C2pQixh7DUbitUwk4/sJ48l2D4E=
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 12/13] m68k/mm: enable use of generic memory_model.h for
- !DISCONTIGMEM
-Date: Sun,  1 Nov 2020 19:04:53 +0200
-Message-Id: <20201101170454.9567-13-rppt@kernel.org>
+Subject: [PATCH v2 13/13] m68k: deprecate DISCONTIGMEM
+Date: Sun,  1 Nov 2020 19:04:54 +0200
+Message-Id: <20201101170454.9567-14-rppt@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201101170454.9567-1-rppt@kernel.org>
 References: <20201101170454.9567-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201101_120621_324148_062457DF 
-X-CRM114-Status: GOOD (  16.92  )
+X-CRM114-CacheID: sfid-20201101_120627_656642_A0DE174C 
+X-CRM114-Status: GOOD (  22.19  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,106 +93,85 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-The pg_data_map and pg_data_table arrays as well as page_to_pfn() and
-pfn_to_page() are required only for DISCONTIGMEM. Other memory models can
-use the generic definitions in asm-generic/memory_model.h.
+DISCONTIGMEM was intended to provide more efficient support for systems
+with holes in their physical address space that FLATMEM did.
+
+Yet, it's overhead in terms of the memory consumption seems to overweight
+the savings on the unused memory map.
+
+For a ARAnyM system with 16 MBytes of FastRAM configured, the memory usage
+reported after page allocator initialization is
+
+Memory: 23828K/30720K available (3206K kernel code, 535K rwdata, 936K rodata, 768K init, 193K bss, 6892K reserved, 0K cma-reserved)
+
+and with DISCONTIGMEM disabled and with relatively large hole in the memory
+map it is:
+
+Memory: 23864K/30720K available (3197K kernel code, 516K rwdata, 936K rodata, 764K init, 179K bss, 6856K reserved, 0K cma-reserved)
+
+Moreover, since m68k already has custom pfn_valid() it is possible to
+define HAVE_ARCH_PFN_VALID to enable freeing of unused memory map. The
+minimal size of a hole that can be freed should not be less than
+MAX_ORDER_NR_PAGES so to achieve more substantial memory savings let m68k
+also define custom FORCE_MAX_ZONEORDER.
+
+With FORCE_MAX_ZONEORDER set to 9 memory usage becomes:
+
+Memory: 23880K/30720K available (3197K kernel code, 516K rwdata, 936K rodata, 764K init, 179K bss, 6840K reserved, 0K cma-reserved)
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/m68k/Kconfig.cpu               | 1 -
- arch/m68k/include/asm/page.h        | 2 ++
- arch/m68k/include/asm/page_mm.h     | 5 +++++
- arch/m68k/include/asm/virtconvert.h | 5 -----
- arch/m68k/mm/init.c                 | 6 +++---
- 5 files changed, 10 insertions(+), 9 deletions(-)
+ arch/m68k/Kconfig.cpu | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
-index e8ad721e52f6..b8884af365ae 100644
+index b8884af365ae..3e70fb7a8d83 100644
 --- a/arch/m68k/Kconfig.cpu
 +++ b/arch/m68k/Kconfig.cpu
-@@ -374,7 +374,6 @@ config SINGLE_MEMORY_CHUNK
- 	bool "Use one physical chunk of memory only" if ADVANCED && !SUN3
- 	depends on MMU
- 	default y if SUN3 || MMU_COLDFIRE
--	select NEED_MULTIPLE_NODES
+@@ -20,6 +20,7 @@ choice
+ 
+ config M68KCLASSIC
+ 	bool "Classic M68K CPU family support"
++	select HAVE_ARCH_PFN_VALID
+ 
+ config COLDFIRE
+ 	bool "Coldfire CPU family support"
+@@ -377,11 +378,34 @@ config SINGLE_MEMORY_CHUNK
  	help
  	  Ignore all but the first contiguous chunk of physical memory for VM
  	  purposes.  This will save a few bytes kernel size and may speed up
-diff --git a/arch/m68k/include/asm/page.h b/arch/m68k/include/asm/page.h
-index 2614a1206f2f..6116d7094292 100644
---- a/arch/m68k/include/asm/page.h
-+++ b/arch/m68k/include/asm/page.h
-@@ -62,8 +62,10 @@ extern unsigned long _ramend;
- #include <asm/page_no.h>
- #endif
+-	  some operations.  Say N if not sure.
++	  some operations.
++	  When this option os set to N, you may want to lower "Maximum zone
++	  order" to save memory that could be wasted for unused memory map.
++	  Say N if not sure.
  
-+#ifdef CONFIG_DISCONTIGMEM
- #define __phys_to_pfn(paddr)	((unsigned long)((paddr) >> PAGE_SHIFT))
- #define __pfn_to_phys(pfn)	PFN_PHYS(pfn)
-+#endif
+ config ARCH_DISCONTIGMEM_ENABLE
++	depends on BROKEN
+ 	def_bool MMU && !SINGLE_MEMORY_CHUNK
  
- #include <asm-generic/getorder.h>
- 
-diff --git a/arch/m68k/include/asm/page_mm.h b/arch/m68k/include/asm/page_mm.h
-index 0e794051d3bb..7f5912af2a52 100644
---- a/arch/m68k/include/asm/page_mm.h
-+++ b/arch/m68k/include/asm/page_mm.h
-@@ -153,6 +153,7 @@ static inline __attribute_const__ int __virt_to_node_shift(void)
- 	pfn_to_virt(page_to_pfn(page));					\
- })
- 
-+#ifdef CONFIG_DISCONTIGMEM
- #define pfn_to_page(pfn) ({						\
- 	unsigned long __pfn = (pfn);					\
- 	struct pglist_data *pgdat;					\
-@@ -165,6 +166,10 @@ static inline __attribute_const__ int __virt_to_node_shift(void)
- 	pgdat = &pg_data_map[page_to_nid(__p)];				\
- 	((__p) - pgdat->node_mem_map) + pgdat->node_start_pfn;		\
- })
-+#else
-+#define ARCH_PFN_OFFSET (m68k_memory[0].addr)
-+#include <asm-generic/memory_model.h>
-+#endif
- 
- #define virt_addr_valid(kaddr)	((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
- #define pfn_valid(pfn)		virt_addr_valid(pfn_to_virt(pfn))
-diff --git a/arch/m68k/include/asm/virtconvert.h b/arch/m68k/include/asm/virtconvert.h
-index eb9eb5cb23a6..ca91b32dc6ef 100644
---- a/arch/m68k/include/asm/virtconvert.h
-+++ b/arch/m68k/include/asm/virtconvert.h
-@@ -29,12 +29,7 @@ static inline void *phys_to_virt(unsigned long address)
- }
- 
- /* Permanent address of a page. */
--#if defined(CONFIG_MMU) && !defined(CONFIG_DISCONTIGMEM)
--#define page_to_phys(page) \
--	__pa(PAGE_OFFSET + (((page) - pg_data_map[0].node_mem_map) << PAGE_SHIFT))
--#else
- #define page_to_phys(page)	(page_to_pfn(page) << PAGE_SHIFT)
--#endif
- 
- /*
-  * IO bus memory addresses are 1:1 with the physical address,
-diff --git a/arch/m68k/mm/init.c b/arch/m68k/mm/init.c
-index 4b46ceace3d3..14c1e541451c 100644
---- a/arch/m68k/mm/init.c
-+++ b/arch/m68k/mm/init.c
-@@ -42,12 +42,12 @@ EXPORT_SYMBOL(empty_zero_page);
- 
- #ifdef CONFIG_MMU
- 
--pg_data_t pg_data_map[MAX_NUMNODES];
--EXPORT_SYMBOL(pg_data_map);
--
- int m68k_virt_to_node_shift;
- 
- #ifdef CONFIG_DISCONTIGMEM
-+pg_data_t pg_data_map[MAX_NUMNODES];
-+EXPORT_SYMBOL(pg_data_map);
++config FORCE_MAX_ZONEORDER
++	int "Maximum zone order" if ADVANCED
++	depends on !SINGLE_MEMORY_CHUNK
++	default "11"
++	help
++	  The kernel memory allocator divides physically contiguous memory
++	  blocks into "zones", where each zone is a power of two number of
++	  pages.  This option selects the largest power of two that the kernel
++	  keeps in the memory allocator.  If you need to allocate very large
++	  blocks of physically contiguous memory, then you may need to
++	  increase this value.
 +
- pg_data_t *pg_data_table[65];
- EXPORT_SYMBOL(pg_data_table);
- #endif
++	  For systems that have holes in their physical address space this
++	  value also defines the minimal size of the hole that allows
++	  freeing unused memory map.
++
++	  This config option is actually maximum order plus one. For example,
++	  a value of 11 means that the largest free memory block is 2^10 pages.
++
+ config 060_WRITETHROUGH
+ 	bool "Use write-through caching for 68060 supervisor accesses"
+ 	depends on ADVANCED && M68060
 -- 
 2.28.0
 
