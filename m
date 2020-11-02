@@ -1,67 +1,74 @@
-Return-Path: <SRS0=uxeU=EH=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=W5Un=EI=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1592FC2D0A3
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2020 17:07:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B3FC2D0A3
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  2 Nov 2020 01:08:41 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BF31D2225C
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2020 17:07:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 94EA22224E
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  2 Nov 2020 01:08:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iKrsD5b7";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vz7hlCOf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF31D2225C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qdHhACBZ";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XrgDk26V";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="w804GlJ3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 94EA22224E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=H7Tw2AldgB70smGOr5tlLYlVgjDJQVMLJ+JIi46Oi6I=; b=iKrsD5b7x3sTs4f/OXTPGzQBA
-	SaR6+bnoOC133y83sPowsINpr9QKDhk8mOSGeFD59stLs1MuuhRNJMyFqh3i10xOQC7T0HeUjhSeu
-	jyr1pERsUwgLxfdRNx0EH78m9FvVOsleV2tdhC+JDaFWT0MDK7EH9HTRMUzoabAIIqI86qO9LKYFp
-	0p/s9LWv71zcPQKiCRz/WNN19Cg0JibhnN639oml3G56cQ/v22h26GuGJYSD7qJ2PHjDNWXtNP6Ye
-	wEqrGTf5A2MAbR7o/tAcoRRMcubd05ScTHBlSK6h2wLPyiLIN+0S1rfkT1KX6TLgemnp6D7Zq3Ty1
-	BYXfE+pXw==;
+	 bh=JqHl9F6Sq3wspn46lusUS5332AEURetxh+/b8Yi5cwY=; b=qdHhACBZndqPWMCLvQgvdfRcu
+	lxFXIpX4BnqJfFfBoUP5eZZtaTHpk8B7PaN20fOouloFFjGfZFUkOKUPt3LyN5ux9uhiWYZyCG9qG
+	InHRXF2UgvTVc2mwXyV779nRvcGVY0sRF0YuR8fokRHbLIw8pMgzdsHtc938um2W8m3xLE1fOB00j
+	tYeh+ORrkcxPVd1uFXZ0xjb1XJYGKD4hFFHF4tXXpG0ELqUKCV7hWordhacRRy2PW27SiiqAV+6o4
+	SNtfmcdHa5XTVkudw9wNk0MGAoNsOKbLsFX5DXxsWBCPcFHRc4R6hX/hglS07yRuxMMC0Kf4MHmCC
+	qkIVaHe5Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZGp9-0003I8-NT; Sun, 01 Nov 2020 17:07:23 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kZOKt-00087d-7B; Mon, 02 Nov 2020 01:08:39 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZGoF-0002rb-Ds; Sun, 01 Nov 2020 17:06:33 +0000
-Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 911202223F;
- Sun,  1 Nov 2020 17:06:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604250386;
- bh=fWxkbZL/5LT7MVmydGQvto+yiZVxeeiLovyNTt2+nMQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Vz7hlCOfEKvhdYdVx02tccXCR69Tgvys6SCSJ/AwADwwmLCxWzCZRFA3N4DSZ0TNf
- NMj2sjlY5sUvwwkqZVyNWvWsIKsoWRy4e5mWYOTcjMU9Z7iDHW/BBbA5ZKDtLBao9Y
- XcPPJPO0UL5x9C2pQixh7DUbitUwk4/sJ48l2D4E=
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 13/13] m68k: deprecate DISCONTIGMEM
-Date: Sun,  1 Nov 2020 19:04:54 +0200
-Message-Id: <20201101170454.9567-14-rppt@kernel.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201101170454.9567-1-rppt@kernel.org>
-References: <20201101170454.9567-1-rppt@kernel.org>
+ id 1kZOKf-00085a-A7; Mon, 02 Nov 2020 01:08:32 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1604279303;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4uGtzWR3XDWVzxJPeTJwUrr+92QjqUI1P4Rl6d07MCc=;
+ b=XrgDk26VSw3lMWxT80X6p2BiIELFfSd45uXmpqg40hcbZPvcaSEbWpk3R+GxKbboSmpFo7
+ 63BVEl/BSGohNcNmokSUofaOuAyVB8TF4zkcITLfRQimdDp0/NzDabt6xoWCRv1KCKeW7F
+ JBfHL2Zd4jfQiOa73d8ngQE8XEVUJ3AcbNTfvECT7y8NW8OaNw3Ie/CbXJDQBPmopC0hi6
+ 3UpqoW4N6M5pY4xkTcBxiJGRWb665zE7gX5m+PKTKEvvjyV6Hoqyt5gxZLMHwAEcjlgo+r
+ WdCkNHrQQLMZuU+RDrUNzqVy0E0MpRf3weVrn07sYqVIDzra4XxQNgHUkZAAnw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1604279303;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4uGtzWR3XDWVzxJPeTJwUrr+92QjqUI1P4Rl6d07MCc=;
+ b=w804GlJ3cTjryaWI6xXsdwM5po9NFzF1/LMSPDCaZtr/gWtzM/1QwrA9gqRhs9hURGxtuJ
+ nFG9PzKRhgh+hKBA==
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [patch V2 00/18] mm/highmem: Preemptible variant of kmap_atomic &
+ friends
+In-Reply-To: <20201029221806.189523375@linutronix.de>
+References: <20201029221806.189523375@linutronix.de>
+Date: Mon, 02 Nov 2020 02:08:23 +0100
+Message-ID: <87k0v48t14.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201101_120627_656642_A0DE174C 
-X-CRM114-Status: GOOD (  22.19  )
+X-CRM114-CacheID: sfid-20201101_200831_615807_C44812AD 
+X-CRM114-Status: GOOD (  16.49  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,107 +80,68 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
- Catalin Marinas <catalin.marinas@arm.com>, linux-mm@kvack.org,
- Will Deacon <will@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>,
- Jonathan Corbet <corbet@lwn.net>, Meelis Roos <mroos@linux.ee>,
- Russell King <linux@armlinux.org.uk>, Mike Rapoport <rppt@linux.ibm.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Matt Turner <mattst88@gmail.com>,
- linux-snps-arc@lists.infradead.org, Alexey Dobriyan <adobriyan@gmail.com>,
- linux-m68k@lists.linux-m68k.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- linux-arm-kernel@lists.infradead.org, Michael Schmitz <schmitzmic@gmail.com>,
- Tony Luck <tony.luck@intel.com>, Vineet Gupta <vgupta@synopsys.com>,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Mike Rapoport <rppt@kernel.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-xtensa@linux-xtensa.org,
+ Peter Zijlstra <peterz@infradead.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Ben Segall <bsegall@google.com>, linux-mm@kvack.org,
+ Guo Ren <guoren@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ sparclinux@vger.kernel.org, Vincent Chen <deanbo422@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-arch@vger.kernel.org,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, David Airlie <airlied@linux.ie>,
+ Mel Gorman <mgorman@suse.de>, linux-snps-arc@lists.infradead.org,
+ Ard Biesheuvel <ardb@kernel.org>, Paul McKenney <paulmck@kernel.org>,
+ linuxppc-dev@lists.ozlabs.org, Steven Rostedt <rostedt@goodmis.org>,
+ Linus Torvalds <torvalds@linuxfoundation.org>,
+ Greentime Hu <green.hu@gmail.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Vineet Gupta <vgupta@synopsys.com>, linux-mips@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Paul Mackerras <paulus@samba.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>, "David
+ S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Mike Rapoport <rppt@linux.ibm.com>
+On Thu, Oct 29 2020 at 23:18, Thomas Gleixner wrote:
+>
+> There is also a still to be investigated question from Linus on the initial
+> posting versus the per cpu / per task mapping stack depth which might need
+> to be made larger due to the ability to take page faults within a mapping
+> region.
 
-DISCONTIGMEM was intended to provide more efficient support for systems
-with holes in their physical address space that FLATMEM did.
+I looked deeper into that and we have a stack depth of 20. That's plenty
+and I couldn't find a way to get above 10 nested ones including faults,
+interrupts, softirqs. With some stress testing I was not able to get over
+a maximum of 6 according to the traceprintk I added.
 
-Yet, it's overhead in terms of the memory consumption seems to overweight
-the savings on the unused memory map.
+For some obscure reason when CONFIG_DEBUG_HIGHMEM is enabled the stack
+depth is increased from 20 to 41. But the only thing DEBUG_HIGHMEM does
+is to enable a few BUG_ON()'s in the mapping code.
 
-For a ARAnyM system with 16 MBytes of FastRAM configured, the memory usage
-reported after page allocator initialization is
+That's a leftover from the historical mapping code which had fixed
+entries for various purposes. DEBUG_HIGHMEM inserted guard mappings
+between the map types. But that got all ditched when kmap_atomic()
+switched to a stack based map management. Though the WITH_KM_FENCE magic
+survived without being functional. All the thing does today is to
+increase the stack depth.
 
-Memory: 23828K/30720K available (3206K kernel code, 535K rwdata, 936K rodata, 768K init, 193K bss, 6892K reserved, 0K cma-reserved)
+I just made that functional again by keeping the stack depth increase
+and utilizing every second slot. That should catch Willy's mapping
+problem nicely if he bothers to test on 32bit :)
 
-and with DISCONTIGMEM disabled and with relatively large hole in the memory
-map it is:
+Thanks,
 
-Memory: 23864K/30720K available (3197K kernel code, 516K rwdata, 936K rodata, 764K init, 179K bss, 6856K reserved, 0K cma-reserved)
-
-Moreover, since m68k already has custom pfn_valid() it is possible to
-define HAVE_ARCH_PFN_VALID to enable freeing of unused memory map. The
-minimal size of a hole that can be freed should not be less than
-MAX_ORDER_NR_PAGES so to achieve more substantial memory savings let m68k
-also define custom FORCE_MAX_ZONEORDER.
-
-With FORCE_MAX_ZONEORDER set to 9 memory usage becomes:
-
-Memory: 23880K/30720K available (3197K kernel code, 516K rwdata, 936K rodata, 764K init, 179K bss, 6840K reserved, 0K cma-reserved)
-
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
- arch/m68k/Kconfig.cpu | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
-
-diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
-index b8884af365ae..3e70fb7a8d83 100644
---- a/arch/m68k/Kconfig.cpu
-+++ b/arch/m68k/Kconfig.cpu
-@@ -20,6 +20,7 @@ choice
- 
- config M68KCLASSIC
- 	bool "Classic M68K CPU family support"
-+	select HAVE_ARCH_PFN_VALID
- 
- config COLDFIRE
- 	bool "Coldfire CPU family support"
-@@ -377,11 +378,34 @@ config SINGLE_MEMORY_CHUNK
- 	help
- 	  Ignore all but the first contiguous chunk of physical memory for VM
- 	  purposes.  This will save a few bytes kernel size and may speed up
--	  some operations.  Say N if not sure.
-+	  some operations.
-+	  When this option os set to N, you may want to lower "Maximum zone
-+	  order" to save memory that could be wasted for unused memory map.
-+	  Say N if not sure.
- 
- config ARCH_DISCONTIGMEM_ENABLE
-+	depends on BROKEN
- 	def_bool MMU && !SINGLE_MEMORY_CHUNK
- 
-+config FORCE_MAX_ZONEORDER
-+	int "Maximum zone order" if ADVANCED
-+	depends on !SINGLE_MEMORY_CHUNK
-+	default "11"
-+	help
-+	  The kernel memory allocator divides physically contiguous memory
-+	  blocks into "zones", where each zone is a power of two number of
-+	  pages.  This option selects the largest power of two that the kernel
-+	  keeps in the memory allocator.  If you need to allocate very large
-+	  blocks of physically contiguous memory, then you may need to
-+	  increase this value.
-+
-+	  For systems that have holes in their physical address space this
-+	  value also defines the minimal size of the hole that allows
-+	  freeing unused memory map.
-+
-+	  This config option is actually maximum order plus one. For example,
-+	  a value of 11 means that the largest free memory block is 2^10 pages.
-+
- config 060_WRITETHROUGH
- 	bool "Use write-through caching for 68060 supervisor accesses"
- 	depends on ADVANCED && M68060
--- 
-2.28.0
+        tglx
 
 
 _______________________________________________
