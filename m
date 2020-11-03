@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29384C388F7
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 11:42:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FDD4C388F2
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 11:42:15 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A0DEF206C0
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 11:42:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 02F5A206C0
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 11:42:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HasiBhfM";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rvT54BmE";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lkKBWdK1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0DEF206C0
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YSsHSiAx";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Vi9y+RHz";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YA2lOHqn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 02F5A206C0
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,47 +27,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Subject:To:From:Date:
 	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=7pb961v+H7Fp4vCcIdjPZST0z/M3Cd1zdKQMpZENBjQ=; b=HasiBhfM0myXhSd8jvOotXwtp
-	cgnm8ZsuobxOSHUbSe4ynTAbbVoCjHvUijkB5fQVFqnUYVXn/UJA7UsgVYN2xFPB4f2ip3yBw/4kI
-	7JMD/EAWnibEjjBNKEE6IN0ZGJ+TmrBOKtcFUtk24NdCy4BToED0bW1wMZNC76HRIiphW1rceQb5H
-	6J2H6tWmXRkY0DzQtACKFPDQkymELtWwUMNIbJIj5eY/Ea+7dxzerpaYg6MxKgx40c1ln9aoItGuy
-	3UfOwGjac5EYnabcZ6W8HI+Kx7Du8dbsxuq8yHil76Fdqtxj79AsYePuLgTmfiOx9oeP9aoxsk4Iy
-	em9Upilkw==;
+	 bh=d7Zwxj3xQLPt4btHeqpUu+SAo62gbAZa1qZNL9qWa+A=; b=YSsHSiAxN/MjxBvHEenXNsYF/
+	7CLdZ5Flnru30oNVDNfGniZwBsIVipnYbs96ysVkObZ0/uSdRmPvKhGh/ijO3e8N2TYlNmwsOt9Eu
+	ndeRP2KZxPwsVsHsl0MaJsu0q3gSQvBqspdQYuFVC7ci0SyrSHqLmqcS0fmt2Prv0CqKJNeBfx5+U
+	ZYhVUUw6jqNLxFmzYUT3Knj6OQTbGq4i9mq4YcRveKhdwdmVA75nlWMREqxWxE0a5dNMMIkt2Y1RV
+	KqjuHJhhTzMJCEeFLigL8omEChBFWMOp7jZ/R7tCq6GOmH41lkt799sVLvqj60RV0ozdu5pnSRnqJ
+	U+Z7zh0KQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZuhY-00035j-NA; Tue, 03 Nov 2020 11:42:12 +0000
-Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+	id 1kZuhZ-00036H-VW; Tue, 03 Nov 2020 11:42:14 +0000
+Received: from galois.linutronix.de ([193.142.43.55])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZtd2-0002sa-KI; Tue, 03 Nov 2020 10:33:32 +0000
-Message-Id: <20201103095856.732891880@linutronix.de>
+ id 1kZtdp-0003Pa-Gi; Tue, 03 Nov 2020 10:34:28 +0000
+Message-Id: <20201103095900.158813457@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399605;
+ s=2020; t=1604399647;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=3HwBsgFv26sFcL/ZrR5QT7IdhKdyl722jNSTyAsMfhU=;
- b=rvT54BmES001fwkPfhre2195ODFh8EFwDZYAlKQRhVHUBxAXrQ4jz+GuDaq+7kANpwhtIs
- Odqznja1AON6wOyHEpYXOzN884r1utS39bCLsxNEulHhg56wkK85myPaXmlcyC0Iwy9aJH
- 7H/5d1lmCAyZsRrJM2yBsjEdO5LEmhyrq2wZg4iXyHs50gJQuJK3//uDTtWi4cGXwQajhE
- 6zcImoXr01WpyQwaIvad1lc/klKtM4lT0KI/sOHFnGRyhXmWoqmmzQFg3YIBBqGRZ2BmRY
- OjwLotmGcs5kT4ELYX86H43ZMMJAy6wm+tJXkQgUfKkVJUPub5l/USgVgx610A==
+ bh=A3FdHqqNuzF3z/0IJSCiyvv2QQDa0OsdbIUscR1rN/Q=;
+ b=Vi9y+RHz/u7318B+cqXyO0QOPlEr/gjlfn+MHQR6udcBs30/GV3fkr/dvBs0SdXzTqt8Vv
+ IAeL/EsvoNuM0npj4K3u9xxlCyOA6DjplD94CEbFwEHSbeGyUzObif2rOtWpx16GZ2FaSV
+ BFQeKovxHYQgdtDAgyF3ecey0ETZ5FDktyA4sKPZGPAmhVLw+ZE0IvGfmagwRzrtUJrhUk
+ 4BWflcJOEUxnvEGr/U26JqZvGFMUquFdL90X9KjoNtecwkKjLqCwqpsSI1UKdOGeF1Mo4K
+ JWrbecA4+rPlCbBF6yRLES8dEl5nqwwXKsLrQ6HzdsmD3u+xUHjLwf9HAaMsaA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399605;
+ s=2020e; t=1604399647;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=3HwBsgFv26sFcL/ZrR5QT7IdhKdyl722jNSTyAsMfhU=;
- b=lkKBWdK1CIWHPlUI77sykNxUAemFnakZTPVr751NgUw5N/WO+Qg52P9pTni6F4JYuE0eLl
- 4W0KlbICECLDLgCA==
-Date: Tue, 03 Nov 2020 10:27:14 +0100
+ bh=A3FdHqqNuzF3z/0IJSCiyvv2QQDa0OsdbIUscR1rN/Q=;
+ b=YA2lOHqnjQm84xDc82K5Rmbii3lOSjdMhWJxq7WAnHE1z7PUvI9sl68g7t7UUaYnQOsgX5
+ vH/eTyN9dMzQJnAA==
+Date: Tue, 03 Nov 2020 10:27:47 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 02/37] highmem: Remove unused functions
+Subject: [patch V3 35/37] drm/nouveau/device: Replace
+ io_mapping_map_atomic_wc()
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_053328_909168_7AC93A27 
-X-CRM114-Status: GOOD (  11.06  )
+X-CRM114-CacheID: sfid-20201103_053426_727658_26060CAF 
+X-CRM114-Status: GOOD (  11.96  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,26 +81,26 @@ List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
 Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
- Peter Zijlstra <peterz@infradead.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Peter Zijlstra <peterz@infradead.org>, nouveau@lists.freedesktop.org,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Ben Segall <bsegall@google.com>, Chris Mason <clm@fb.com>,
+ Ben Segall <bsegall@google.com>, linux-mm@kvack.org,
  Huang Rui <ray.huang@amd.com>, Paul Mackerras <paulus@samba.org>,
  Gerd Hoffmann <kraxel@redhat.com>,
  Daniel Bristot de Oliveira <bristot@redhat.com>, sparclinux@vger.kernel.org,
  Vincent Chen <deanbo422@gmail.com>, Christoph Hellwig <hch@lst.de>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Paul McKenney <paulmck@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- Ingo Molnar <mingo@kernel.org>, David Airlie <airlied@linux.ie>,
+ Vincent Guittot <vincent.guittot@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ linux-csky@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
+ David Airlie <airlied@linux.ie>,
  VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Mel Gorman <mgorman@suse.de>, nouveau@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Dave Airlie <airlied@redhat.com>, linux-snps-arc@lists.infradead.org,
- Ben Skeggs <bskeggs@redhat.com>, linux-xtensa@linux-xtensa.org,
- Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
+ Mel Gorman <mgorman@suse.de>, linux-xtensa@linux-xtensa.org,
+ Paul McKenney <paulmck@kernel.org>, intel-gfx@lists.freedesktop.org,
  Roland Scheidegger <sroland@vmware.com>, Josef Bacik <josef@toxicpanda.com>,
  Steven Rostedt <rostedt@goodmis.org>,
  Linus Torvalds <torvalds@linuxfoundation.org>,
@@ -110,7 +111,7 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  Jani Nikula <jani.nikula@linux.intel.com>, Chris Zankel <chris@zankel.net>,
  Michal Simek <monstr@monstr.eu>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, linux-mm@kvack.org,
+ Nick Hu <nickhu@andestech.com>, Chris Mason <clm@fb.com>,
  Vineet Gupta <vgupta@synopsys.com>, linux-mips@vger.kernel.org,
  Christian Koenig <christian.koenig@amd.com>, Benjamin LaHaise <bcrl@kvack.org>,
  Daniel Vetter <daniel@ffwll.ch>, linux-fsdevel@vger.kernel.org,
@@ -122,39 +123,49 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Nothing uses totalhigh_pages_dec() and totalhigh_pages_set().
+Neither fbmem_peek() nor fbmem_poke() require to disable pagefaults and
+preemption as a side effect of io_mapping_map_atomic_wc().
+
+Use io_mapping_map_local_wc() instead.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
 ---
 V3: New patch
 ---
- include/linux/highmem.h |   10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/gpu/drm/nouveau/nvkm/subdev/devinit/fbmem.h |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -104,21 +104,11 @@ static inline void totalhigh_pages_inc(v
- 	atomic_long_inc(&_totalhigh_pages);
- }
- 
--static inline void totalhigh_pages_dec(void)
--{
--	atomic_long_dec(&_totalhigh_pages);
--}
--
- static inline void totalhigh_pages_add(long count)
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/fbmem.h
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/fbmem.h
+@@ -60,19 +60,19 @@ fbmem_fini(struct io_mapping *fb)
+ static inline u32
+ fbmem_peek(struct io_mapping *fb, u32 off)
  {
- 	atomic_long_add(count, &_totalhigh_pages);
+-	u8 __iomem *p = io_mapping_map_atomic_wc(fb, off & PAGE_MASK);
++	u8 __iomem *p = io_mapping_map_local_wc(fb, off & PAGE_MASK);
+ 	u32 val = ioread32(p + (off & ~PAGE_MASK));
+-	io_mapping_unmap_atomic(p);
++	io_mapping_unmap_local(p);
+ 	return val;
  }
  
--static inline void totalhigh_pages_set(long val)
--{
--	atomic_long_set(&_totalhigh_pages, val);
--}
--
- void kmap_flush_unused(void);
+ static inline void
+ fbmem_poke(struct io_mapping *fb, u32 off, u32 val)
+ {
+-	u8 __iomem *p = io_mapping_map_atomic_wc(fb, off & PAGE_MASK);
++	u8 __iomem *p = io_mapping_map_local_wc(fb, off & PAGE_MASK);
+ 	iowrite32(val, p + (off & ~PAGE_MASK));
+ 	wmb();
+-	io_mapping_unmap_atomic(p);
++	io_mapping_unmap_local(p);
+ }
  
- struct page *kmap_to_page(void *addr);
+ static inline bool
 
 
 _______________________________________________
