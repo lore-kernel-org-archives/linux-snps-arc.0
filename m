@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 447BDC8263E
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:35:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A23C5DF9D
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:35:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBBEB2242A
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:35:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D2DB721D40
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:35:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JMrt832U";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1VOEfDVF";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="k835MHfI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBBEB2242A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="q1uYJG74";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qh+T7IZJ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="r11Fcy33"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D2DB721D40
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,48 +27,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Subject:To:From:Date:
 	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=yWTdySwZmXdaOnO5ks3YU2xqLisQH/jm+Tgu1NgKUUQ=; b=JMrt832UEz7qUETQYfXQyO0JI
-	9Hd7VMHtCjDDt5KiSMsDmj3c55OWafqUjkiIB0oRn05tq3PtzOxkuCa8wZQHm+RmMlV6tQuENd53O
-	iXFUJ4hfyCRifgJgI0e4HIlOHrKTBKWlcnGifcos4jIrO3SapBQXFPLwizbVArxS2oJde1RLqXloI
-	nmrGDWXwy4KEsU5BZHclpB9WhomtXGzWuj41ZfEBVQAVH4AHK1bZZwaMDNx3i0qXMSbnx1VKUkJod
-	YgoaG18dFN+JZ9ROm1LxL8P+RjdJYnMLegejMOxqL6NAa+muCvIiNQ/NDoXrXIha5NMUw5dwlBlHF
-	Rx7apfHXg==;
+	 bh=tFUtVBomuPafNoSJgdgqkPJ/2CKaFCxeY/qb5NyOA94=; b=q1uYJG74CVZ0BUgcGk+fbiDhk
+	QcYQ1pZL28yZpW22bzRO4HGY7apldtgYJI/Dz8dvo9Lsktx7vYRHf9/YdgeMX4WwfLhjAIORNjydZ
+	B45/TtZ8x3D2ZsOqo4fNjtQbqox9+trQB/B5oc9bpHusuWEX9iOFbrRJ5lEYvboiWeVHqdu5AgLNr
+	qS+9xqAz5ozizYJVEfz/xQca4p19GPdjalf+vc6VEsQu4WeNKmcNi7Z0xr4zpFKOdEpLQ23Ge41HG
+	DjrtCDxnAsdVN7ubufuRQaq1vY+TZlzgcKOG8IlVq13gHmyNlKtl7c3i10Y11ajB5fjCqlG4Tzc6K
+	ySCQ9dLtw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZteb-0003ji-PX; Tue, 03 Nov 2020 10:35:05 +0000
-Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+	id 1kZtek-0003kx-6a; Tue, 03 Nov 2020 10:35:14 +0000
+Received: from galois.linutronix.de ([193.142.43.55])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZtdV-0003AG-RA; Tue, 03 Nov 2020 10:34:10 +0000
-Message-Id: <20201103095858.928160966@linutronix.de>
+ id 1kZtdb-0003FZ-BX; Tue, 03 Nov 2020 10:34:15 +0000
+Message-Id: <20201103095859.228149242@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399631;
+ s=2020; t=1604399635;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=Sj7ujMQG8Pikgi1SaAA6FKKi3J+PrOgKR0lWBRPpqX0=;
- b=1VOEfDVFZmx2aRF7NIXJWbldvpbKmvKykyskU6rtkXPPBe5nnNLskI8lCCnqQNLk1P1c91
- 566zbE5metNSU87SvaJqZdO2LL+dj1GNHv5VXLRmIMhdOUP3rj4Dx8qV0B13wmRK1bFNxQ
- 4PLxmsGJ9vvRmK4Uu88EHppz5O8hwHizE5bXQlmqSNqaoNPB1luLQDZpvqOg9BqxoBPr/5
- K47wWQw+mNgWsMEn8ZxOVqc5BZXlwl6iZ6HvsxgxfqP3zKGi811pnavdbB0LYfzRw8LVQR
- 1EhOmQs8gjK34B0JgnnXR1HkV23Xx7Jf4rfwhSI5drdF0IeiHwORw9Crw3R5Ng==
+ bh=tAqolpusecj6Rd5JZ2LrxoX+tAqXPkBXuxrNCgE7FCw=;
+ b=qh+T7IZJ6XcRj8DNIDr8HGAfo5YvTmXHwq7DmzffZLhC0V3WhpCRSbpdXm7hhOxtFFuwbX
+ wcbVZVYetZLaKe7fxMMqkbtdTm/GbTXib0BTsgIk5kSnOSw9pXw7dXdWDZHGLuLfD8o7J5
+ iC45ybMzMZHPHXGAY6pKU82Xsx4uzeXlXRI1QCfZtr2oUImFGtEYcJEW2pZcbSXkaBhDfz
+ vpMVSLl8t8kbeOeTl0nQMa9QXaNtYJbeM0FUqyI7W0BkGez+lZ161K3tVZxVFnDyF0wgMR
+ 3UtPYUbq3j37JroTzUdlG8e/Z5n94SJYzJZktKJf9b+cElB2OmZliJy+9HhbJw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399631;
+ s=2020e; t=1604399635;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=Sj7ujMQG8Pikgi1SaAA6FKKi3J+PrOgKR0lWBRPpqX0=;
- b=k835MHfI+zh7GQNJZBNkAIxMhS3d2ArgKIVieRXtccdpV7cLYn2RAMdfkD3wEmSj1touvr
- 5EH/hsWNFwf+bWAw==
-Date: Tue, 03 Nov 2020 10:27:35 +0100
+ bh=tAqolpusecj6Rd5JZ2LrxoX+tAqXPkBXuxrNCgE7FCw=;
+ b=r11Fcy33cu1nvwv6ClgNjFFAD2Uh7JIIgyfidherdoguvpBCo73VaZrmwbm0NX6rZ9Kudo
+ xO58/+jD1GK3/sBA==
+Date: Tue, 03 Nov 2020 10:27:38 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 23/37] sched: Make migrate_disable/enable() independent of
- RT
+Subject: [patch V3 26/37] io-mapping: Provide iomap_local variant
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_053358_831429_E5EAAEB6 
-X-CRM114-Status: GOOD (  23.86  )
+X-CRM114-CacheID: sfid-20201103_053403_835594_5C1A541D 
+X-CRM114-Status: GOOD (  18.11  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,18 +87,19 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
  Ben Segall <bsegall@google.com>, Chris Mason <clm@fb.com>,
  Huang Rui <ray.huang@amd.com>, Paul Mackerras <paulus@samba.org>,
- Gerd Hoffmann <kraxel@redhat.com>, sparclinux@vger.kernel.org,
- Vincent Chen <deanbo422@gmail.com>, Ingo Molnar <mingo@kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- x86@kernel.org, Russell King <linux@armlinux.org.uk>,
- linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- David Airlie <airlied@linux.ie>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>, sparclinux@vger.kernel.org,
+ Vincent Chen <deanbo422@gmail.com>, Christoph Hellwig <hch@lst.de>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul McKenney <paulmck@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Ingo Molnar <mingo@kernel.org>, David Airlie <airlied@linux.ie>,
  VMware Graphics <linux-graphics-maintainer@vmware.com>,
  Mel Gorman <mgorman@suse.de>, nouveau@lists.freedesktop.org,
  Dave Airlie <airlied@redhat.com>, linux-snps-arc@lists.infradead.org,
  Ben Skeggs <bskeggs@redhat.com>, linux-xtensa@linux-xtensa.org,
- Paul McKenney <paulmck@kernel.org>, intel-gfx@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
  Roland Scheidegger <sroland@vmware.com>, Josef Bacik <josef@toxicpanda.com>,
  Steven Rostedt <rostedt@goodmis.org>,
  Linus Torvalds <torvalds@linuxfoundation.org>,
@@ -111,11 +111,10 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  Michal Simek <monstr@monstr.eu>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Nick Hu <nickhu@andestech.com>, linux-mm@kvack.org,
- Vineet Gupta <vgupta@synopsys.com>, linuxppc-dev@lists.ozlabs.org,
- linux-mips@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Benjamin LaHaise <bcrl@kvack.org>, Daniel Vetter <daniel@ffwll.ch>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
+ Vineet Gupta <vgupta@synopsys.com>, linux-mips@vger.kernel.org,
+ Christian Koenig <christian.koenig@amd.com>, Benjamin LaHaise <bcrl@kvack.org>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>, linux-btrfs@vger.kernel.org,
  Greentime Hu <green.hu@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
@@ -123,276 +122,176 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Now that the scheduler can deal with migrate disable properly, there is no
-real compelling reason to make it only available for RT.
-
-There are quite some code pathes which needlessly disable preemption in
-order to prevent migration and some constructs like kmap_atomic() enforce
-it implicitly.
-
-Making it available independent of RT allows to provide a preemptible
-variant of kmap_atomic() and makes the code more consistent in general.
-
-FIXME: Rework the comment in preempt.h
+Similar to kmap local provide a iomap local variant which only disables
+migration, but neither disables pagefaults nor preemption.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>
-Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ben Segall <bsegall@google.com>
-Cc: Mel Gorman <mgorman@suse.de>
-Cc: Daniel Bristot de Oliveira <bristot@redhat.com>
 ---
- include/linux/kernel.h  |   21 ++++++++++++++-------
- include/linux/preempt.h |   38 +++-----------------------------------
- include/linux/sched.h   |    2 +-
- kernel/sched/core.c     |   45 +++++++++++++++++++++++++++++++++++----------
- kernel/sched/sched.h    |    4 ++--
- lib/smp_processor_id.c  |    2 +-
- 6 files changed, 56 insertions(+), 56 deletions(-)
+V3: Restrict migrate disable to the 32bit mapping case and update documentation.
 
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -204,6 +204,7 @@ extern int _cond_resched(void);
- extern void ___might_sleep(const char *file, int line, int preempt_offset);
- extern void __might_sleep(const char *file, int line, int preempt_offset);
- extern void __cant_sleep(const char *file, int line, int preempt_offset);
-+extern void __cant_migrate(const char *file, int line);
+V2: Split out from the large combo patch and add the !IOMAP_ATOMIC variants
+---
+ Documentation/driver-api/io-mapping.rst |   76 +++++++++++++++++++-------------
+ include/linux/io-mapping.h              |   30 +++++++++++-
+ 2 files changed, 74 insertions(+), 32 deletions(-)
+
+--- a/Documentation/driver-api/io-mapping.rst
++++ b/Documentation/driver-api/io-mapping.rst
+@@ -20,55 +20,71 @@ as it would consume too much of the kern
+ mappable, while 'size' indicates how large a mapping region to
+ enable. Both are in bytes.
  
- /**
-  * might_sleep - annotation for functions that can sleep
-@@ -227,6 +228,18 @@ extern void __cant_sleep(const char *fil
- # define cant_sleep() \
- 	do { __cant_sleep(__FILE__, __LINE__, 0); } while (0)
- # define sched_annotate_sleep()	(current->task_state_change = 0)
+-This _wc variant provides a mapping which may only be used
+-with the io_mapping_map_atomic_wc or io_mapping_map_wc.
++This _wc variant provides a mapping which may only be used with
++io_mapping_map_atomic_wc(), io_mapping_map_local_wc() or
++io_mapping_map_wc().
 +
-+/**
-+ * cant_migrate - annotation for functions that cannot migrate
-+ *
-+ * Will print a stack trace if executed in code which is migratable
-+ */
-+# define cant_migrate()							\
-+	do {								\
-+		if (IS_ENABLED(CONFIG_SMP))				\
-+			__cant_migrate(__FILE__, __LINE__);		\
-+	} while (0)
++With this mapping object, individual pages can be mapped either temporarily
++or long term, depending on the requirements. Of course, temporary maps are
++more efficient. They come in two flavours::
+ 
+-With this mapping object, individual pages can be mapped either atomically
+-or not, depending on the necessary scheduling environment. Of course, atomic
+-maps are more efficient::
++	void *io_mapping_map_local_wc(struct io_mapping *mapping,
++				      unsigned long offset)
+ 
+ 	void *io_mapping_map_atomic_wc(struct io_mapping *mapping,
+ 				       unsigned long offset)
+ 
+-'offset' is the offset within the defined mapping region.
+-Accessing addresses beyond the region specified in the
+-creation function yields undefined results. Using an offset
+-which is not page aligned yields an undefined result. The
+-return value points to a single page in CPU address space.
+-
+-This _wc variant returns a write-combining map to the
+-page and may only be used with mappings created by
+-io_mapping_create_wc
++'offset' is the offset within the defined mapping region.  Accessing
++addresses beyond the region specified in the creation function yields
++undefined results. Using an offset which is not page aligned yields an
++undefined result. The return value points to a single page in CPU address
++space.
+ 
+-Note that the task may not sleep while holding this page
+-mapped.
++This _wc variant returns a write-combining map to the page and may only be
++used with mappings created by io_mapping_create_wc()
+ 
+-::
++Temporary mappings are only valid in the context of the caller. The mapping
++is not guaranteed to be globaly visible.
+ 
+-	void io_mapping_unmap_atomic(void *vaddr)
++io_mapping_map_local_wc() has a side effect on X86 32bit as it disables
++migration to make the mapping code work. No caller can rely on this side
++effect.
 +
- /**
-  * non_block_start - annotate the start of section where sleeping is prohibited
-  *
-@@ -251,6 +264,7 @@ extern void __cant_sleep(const char *fil
- 				   int preempt_offset) { }
- # define might_sleep() do { might_resched(); } while (0)
- # define cant_sleep() do { } while (0)
-+# define cant_migrate()		do { } while (0)
- # define sched_annotate_sleep() do { } while (0)
- # define non_block_start() do { } while (0)
- # define non_block_end() do { } while (0)
-@@ -258,13 +272,6 @@ extern void __cant_sleep(const char *fil
++io_mapping_map_atomic_wc() has the side effect of disabling preemption and
++pagefaults. Don't use in new code. Use io_mapping_map_local_wc() instead.
  
- #define might_sleep_if(cond) do { if (cond) might_sleep(); } while (0)
+-'vaddr' must be the value returned by the last
+-io_mapping_map_atomic_wc call. This unmaps the specified
+-page and allows the task to sleep once again.
++Nested mappings need to be undone in reverse order because the mapping
++code uses a stack for keeping track of them::
  
--#ifndef CONFIG_PREEMPT_RT
--# define cant_migrate()		cant_sleep()
--#else
--  /* Placeholder for now */
--# define cant_migrate()		do { } while (0)
--#endif
--
- /**
-  * abs - return absolute value of an argument
-  * @x: the value.  If it is unsigned type, it is converted to signed type first.
---- a/include/linux/preempt.h
-+++ b/include/linux/preempt.h
-@@ -322,7 +322,7 @@ static inline void preempt_notifier_init
+-If you need to sleep while holding the lock, you can use the non-atomic
+-variant, although they may be significantly slower.
++ addr1 = io_mapping_map_local_wc(map1, offset1);
++ addr2 = io_mapping_map_local_wc(map2, offset2);
++ ...
++ io_mapping_unmap_local(addr2);
++ io_mapping_unmap_local(addr1);
  
- #endif
- 
--#if defined(CONFIG_SMP) && defined(CONFIG_PREEMPT_RT)
-+#ifdef CONFIG_SMP
- 
- /*
-  * Migrate-Disable and why it is undesired.
-@@ -382,43 +382,11 @@ static inline void preempt_notifier_init
- extern void migrate_disable(void);
- extern void migrate_enable(void);
- 
--#elif defined(CONFIG_PREEMPT_RT)
-+#else
- 
- static inline void migrate_disable(void) { }
- static inline void migrate_enable(void) { }
- 
--#else /* !CONFIG_PREEMPT_RT */
--
--/**
-- * migrate_disable - Prevent migration of the current task
-- *
-- * Maps to preempt_disable() which also disables preemption. Use
-- * migrate_disable() to annotate that the intent is to prevent migration,
-- * but not necessarily preemption.
-- *
-- * Can be invoked nested like preempt_disable() and needs the corresponding
-- * number of migrate_enable() invocations.
-- */
--static __always_inline void migrate_disable(void)
--{
--	preempt_disable();
--}
--
--/**
-- * migrate_enable - Allow migration of the current task
-- *
-- * Counterpart to migrate_disable().
-- *
-- * As migrate_disable() can be invoked nested, only the outermost invocation
-- * reenables migration.
-- *
-- * Currently mapped to preempt_enable().
-- */
--static __always_inline void migrate_enable(void)
--{
--	preempt_enable();
--}
--
--#endif /* CONFIG_SMP && CONFIG_PREEMPT_RT */
-+#endif /* CONFIG_SMP */
- 
- #endif /* __LINUX_PREEMPT_H */
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -715,7 +715,7 @@ struct task_struct {
- 	const cpumask_t			*cpus_ptr;
- 	cpumask_t			cpus_mask;
- 	void				*migration_pending;
--#if defined(CONFIG_SMP) && defined(CONFIG_PREEMPT_RT)
-+#ifdef CONFIG_SMP
- 	unsigned short			migration_disabled;
- #endif
- 	unsigned short			migration_flags;
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -1696,8 +1696,6 @@ void check_preempt_curr(struct rq *rq, s
- 
- #ifdef CONFIG_SMP
- 
--#ifdef CONFIG_PREEMPT_RT
--
- static void
- __do_set_cpus_allowed(struct task_struct *p, const struct cpumask *new_mask, u32 flags);
- 
-@@ -1772,8 +1770,6 @@ static inline bool rq_has_pinned_tasks(s
- 	return rq->nr_pinned;
- }
- 
--#endif
--
- /*
-  * Per-CPU kthreads are allowed to run on !active && online CPUs, see
-  * __set_cpus_allowed_ptr() and select_fallback_rq().
-@@ -2841,7 +2837,7 @@ void sched_set_stop_task(int cpu, struct
- 	}
- }
- 
--#else
-+#else /* CONFIG_SMP */
- 
- static inline int __set_cpus_allowed_ptr(struct task_struct *p,
- 					 const struct cpumask *new_mask,
-@@ -2850,10 +2846,6 @@ static inline int __set_cpus_allowed_ptr
- 	return set_cpus_allowed_ptr(p, new_mask);
- }
- 
--#endif /* CONFIG_SMP */
--
--#if !defined(CONFIG_SMP) || !defined(CONFIG_PREEMPT_RT)
--
- static inline void migrate_disable_switch(struct rq *rq, struct task_struct *p) { }
- 
- static inline bool rq_has_pinned_tasks(struct rq *rq)
-@@ -2861,7 +2853,7 @@ static inline bool rq_has_pinned_tasks(s
- 	return false;
- }
- 
--#endif
-+#endif /* !CONFIG_SMP */
- 
- static void
- ttwu_stat(struct task_struct *p, int cpu, int wake_flags)
-@@ -7883,6 +7875,39 @@ void __cant_sleep(const char *file, int
- 	add_taint(TAINT_WARN, LOCKDEP_STILL_OK);
- }
- EXPORT_SYMBOL_GPL(__cant_sleep);
+-::
++The mappings are released with::
 +
-+#ifdef CONFIG_SMP
-+void __cant_migrate(const char *file, int line)
++	void io_mapping_unmap_local(void *vaddr)
++	void io_mapping_unmap_atomic(void *vaddr)
++
++'vaddr' must be the value returned by the last io_mapping_map_local_wc() or
++io_mapping_map_atomic_wc() call. This unmaps the specified mapping and
++undoes the side effects of the mapping functions.
++
++If you need to sleep while holding a mapping, you can use the regular
++variant, although this may be significantly slower::
+ 
+ 	void *io_mapping_map_wc(struct io_mapping *mapping,
+ 				unsigned long offset)
+ 
+-This works like io_mapping_map_atomic_wc except it allows
+-the task to sleep while holding the page mapped.
+-
++This works like io_mapping_map_atomic/local_wc() except it has no side
++effects and the pointer is globaly visible.
+ 
+-::
++The mappings are released with::
+ 
+ 	void io_mapping_unmap(void *vaddr)
+ 
+-This works like io_mapping_unmap_atomic, except it is used
+-for pages mapped with io_mapping_map_wc.
++Use for pages mapped with io_mapping_map_wc().
+ 
+ At driver close time, the io_mapping object must be freed::
+ 
+--- a/include/linux/io-mapping.h
++++ b/include/linux/io-mapping.h
+@@ -83,6 +83,21 @@ io_mapping_unmap_atomic(void __iomem *va
+ }
+ 
+ static inline void __iomem *
++io_mapping_map_local_wc(struct io_mapping *mapping, unsigned long offset)
 +{
-+	static unsigned long prev_jiffy;
++	resource_size_t phys_addr;
 +
-+	if (irqs_disabled())
-+		return;
-+
-+	if (is_migration_disabled(current))
-+		return;
-+
-+	if (!IS_ENABLED(CONFIG_PREEMPT_COUNT))
-+		return;
-+
-+	if (preempt_count() > 0)
-+		return;
-+
-+	if (time_before(jiffies, prev_jiffy + HZ) && prev_jiffy)
-+		return;
-+	prev_jiffy = jiffies;
-+
-+	pr_err("BUG: assuming non migratable context at %s:%d\n", file, line);
-+	pr_err("in_atomic(): %d, irqs_disabled(): %d, migration_disabled() %u pid: %d, name: %s\n",
-+	       in_atomic(), irqs_disabled(), is_migration_disabled(current),
-+	       current->pid, current->comm);
-+
-+	debug_show_held_locks(current);
-+	dump_stack();
-+	add_taint(TAINT_WARN, LOCKDEP_STILL_OK);
++	BUG_ON(offset >= mapping->size);
++	phys_addr = mapping->base + offset;
++	return __iomap_local_pfn_prot(PHYS_PFN(phys_addr), mapping->prot);
 +}
-+EXPORT_SYMBOL_GPL(__cant_migrate);
-+#endif
- #endif
++
++static inline void io_mapping_unmap_local(void __iomem *vaddr)
++{
++	kunmap_local_indexed((void __force *)vaddr);
++}
++
++static inline void __iomem *
+ io_mapping_map_wc(struct io_mapping *mapping,
+ 		  unsigned long offset,
+ 		  unsigned long size)
+@@ -101,7 +116,7 @@ io_mapping_unmap(void __iomem *vaddr)
+ 	iounmap(vaddr);
+ }
  
- #ifdef CONFIG_MAGIC_SYSRQ
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -1056,7 +1056,7 @@ struct rq {
- 	struct cpuidle_state	*idle_state;
- #endif
+-#else
++#else  /* HAVE_ATOMIC_IOMAP */
  
--#if defined(CONFIG_PREEMPT_RT) && defined(CONFIG_SMP)
-+#ifdef CONFIG_SMP
- 	unsigned int		nr_pinned;
- #endif
- 	unsigned int		push_busy;
-@@ -1092,7 +1092,7 @@ static inline int cpu_of(struct rq *rq)
+ #include <linux/uaccess.h>
  
- static inline bool is_migration_disabled(struct task_struct *p)
- {
--#if defined(CONFIG_SMP) && defined(CONFIG_PREEMPT_RT)
-+#ifdef CONFIG_SMP
- 	return p->migration_disabled;
- #else
- 	return false;
---- a/lib/smp_processor_id.c
-+++ b/lib/smp_processor_id.c
-@@ -26,7 +26,7 @@ unsigned int check_preemption_disabled(c
- 	if (current->nr_cpus_allowed == 1)
- 		goto out;
+@@ -166,7 +181,18 @@ io_mapping_unmap_atomic(void __iomem *va
+ 	preempt_enable();
+ }
  
--#if defined(CONFIG_SMP) && defined(CONFIG_PREEMPT_RT)
-+#ifdef CONFIG_SMP
- 	if (current->migration_disabled)
- 		goto out;
- #endif
+-#endif /* HAVE_ATOMIC_IOMAP */
++static inline void __iomem *
++io_mapping_map_local_wc(struct io_mapping *mapping, unsigned long offset)
++{
++	return io_mapping_map_wc(mapping, offset, PAGE_SIZE);
++}
++
++static inline void io_mapping_unmap_local(void __iomem *vaddr)
++{
++	io_mapping_unmap(vaddr);
++}
++
++#endif /* !HAVE_ATOMIC_IOMAP */
+ 
+ static inline struct io_mapping *
+ io_mapping_create_wc(resource_size_t base,
 
 
 _______________________________________________
