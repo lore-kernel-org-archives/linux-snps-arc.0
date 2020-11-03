@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE57CC64E69
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:35:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D65C64E7C
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:35:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4E62921D40
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:35:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1C3F222409
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:35:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Y0Hdrf7D";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UCiLeToK";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iNcZKx8F"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E62921D40
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eI0rv5LL";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BWJY7YL9";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="W6vWFt0H"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C3F222409
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,47 +27,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Subject:To:From:Date:
 	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=iTz+Gpuusuu/kyW1fNFJBvkcBTtznawQsCLxu6pm8L0=; b=Y0Hdrf7DTSHvTS2dmFb3UrcWW
-	t2MKXpNdBAH3jFfJpNlNgWvRq4xRLoJ15zywAKjosJw6kQkpUTgU5aTJNgHttPZyYLPy9PMoiqm7l
-	AOsW8+u+Da8n2y9W0C5GKCM+N2PccjSFhnD6gikNPS0gJ+8MbmSOjVqhI01/4oMMN8cP4pGIk+cAw
-	OlEHDltoAbpIU2N3++MyGOu6suv/+cU7HWUCbFIgfSla8toOSGIiYqt9+PlnFmR+eusqUvz0z9uKh
-	04vmQcd0QHrmyv92O3kr97fagGh7zx9eEMS7xetfcv9KPzn1FROURluCsfUWrBsdU9NQS/uLVlRy0
-	hfiXYpfdg==;
+	 bh=3OZaK28ljIUz+spNELcjbN7zZHQ7K/8GtALVFP0JeEM=; b=eI0rv5LLvmDCXH1u/gLlBZ7dt
+	1CjoxUrNW/LpCTG211aaripEN/qC7Gl/Q/Zw0ECnleJMF5N5Oi1+W0HkI3rYkF990uVVmY1umb9Mi
+	MhOYSW4wRNqn6lN7EwSAvm54CJMXhZVf7HVrRdj+swBrccElwaVn3sxywtIqGhOhwjPRMqQc01EgO
+	joGHEzLpxLv9Q3rQ8PUDhmIrY2TXokZzE6KMVV8lehd8kDhd8ebofJUUtA+rt5jqrSUeokS7eWfAU
+	tI8EoRdoIw814EPRc/qNxk20wEvuvS+hFUIOwvzw+VTRzO+eEWQ6u05nhpuKdLOdHiuUZxu4Pb6b/
+	Lc9BQyObg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZtet-0003tL-Ke; Tue, 03 Nov 2020 10:35:23 +0000
+	id 1kZtev-0003v4-Nc; Tue, 03 Nov 2020 10:35:26 +0000
 Received: from galois.linutronix.de ([193.142.43.55])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZtde-0003Hr-6q; Tue, 03 Nov 2020 10:34:18 +0000
-Message-Id: <20201103095859.538827102@linutronix.de>
+ id 1kZtdi-0003KJ-8L; Tue, 03 Nov 2020 10:34:20 +0000
+Message-Id: <20201103095859.726187546@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399639;
+ s=2020; t=1604399641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=37l2/9hMoX995irJwwZT0VNkjmk/OwZo72GhT72QTX4=;
- b=UCiLeToK4AIC+9Dmx7LG5rV2mjuvYVd6Coif2Sdjhi7Si2K86UL165usKvCu+1M57a5ZTs
- 3lGdAzYJonKcTuvyMgrOXNx+UrIY8LVcTVNso2JLtpbkE1oygEe/wl748JnAW6AS6EsTrD
- c2VWZi0Trd4Jp1S58g19SzXtzA+u8eA2qRCth6y4qBL25KfIk14Y8/pIC7Pk9xx9opLe+Y
- fYTupCtZR4FQC2/b1qBabqi8Jfeh2ZKqUrq+V0zmNc17uiUhxxjlvxwBR152OCIcLA02mF
- vb+4tkvTlRO1TXdeUxGxjDkLW4Yer0R+EYHQyA+pAWiyVIPp/wbrw75o+T0ZJw==
+ bh=r3bRNSPyDxqBB2q1RmPpZiq/s1h+pWiITk0Gb+X4YiE=;
+ b=BWJY7YL9koWIqQGO6oJX8GMg2970+m6CUIohd/XJevMmQ80PB19bJDJ6iS8RO72tFyrU5a
+ zermc/VLuhpDSGwb6AlQ+XUnPAk/ooP0r2CdnCXy7SbeJDAVykp+GhIB7O+PeOHtxIB/kQ
+ kGAzLI/8Albxroia7VjhmBhPwLPYvYm7buHcNBklvKblOslUE8GFJQxCNSKNTUzn67UA6c
+ dCL9UHwiUeuSbb9mKfvGa5CyJx9FEPWWAQv536xf3Kv7je840+HegrNr76dqY6DZp1xmcI
+ hfpxU76xevyfk1dRUoZcIUQ3vKAJLr6y/fVXGv/9UWFE20X3bXjqdNO7IqY7sQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399639;
+ s=2020e; t=1604399641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=37l2/9hMoX995irJwwZT0VNkjmk/OwZo72GhT72QTX4=;
- b=iNcZKx8Fg9QYlTcIp7Z3u6IBgHA5T+EwXNMLuSSTvrJb/3r4DH72OAUwbFyp58bawCPYfQ
- dJ5wikkjaG3JOhAw==
-Date: Tue, 03 Nov 2020 10:27:41 +0100
+ bh=r3bRNSPyDxqBB2q1RmPpZiq/s1h+pWiITk0Gb+X4YiE=;
+ b=W6vWFt0HyJmTC8mcOcU1LotSVA5E0cTby+uitrXhlUWJjwzfnwYugo9E0ZaVshQFT42zsP
+ ckJmRhJkQSF0aCCw==
+Date: Tue, 03 Nov 2020 10:27:43 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 29/37] ARM: mm: Replace kmap_atomic_pfn()
+Subject: [patch V3 31/37] drm/ttm: Replace kmap_atomic() usage
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_053406_762967_0073794D 
-X-CRM114-Status: GOOD (  16.10  )
+X-CRM114-CacheID: sfid-20201103_053410_745737_CF3F4941 
+X-CRM114-Status: GOOD (  15.69  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,21 +85,21 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Ben Segall <bsegall@google.com>, Chris Mason <clm@fb.com>,
+ Ben Segall <bsegall@google.com>, linux-mm@kvack.org,
  Huang Rui <ray.huang@amd.com>, Paul Mackerras <paulus@samba.org>,
  Gerd Hoffmann <kraxel@redhat.com>,
  Daniel Bristot de Oliveira <bristot@redhat.com>, sparclinux@vger.kernel.org,
  Vincent Chen <deanbo422@gmail.com>, Christoph Hellwig <hch@lst.de>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Paul McKenney <paulmck@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- Ingo Molnar <mingo@kernel.org>, David Airlie <airlied@linux.ie>,
+ Vincent Guittot <vincent.guittot@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ linux-csky@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
+ David Airlie <airlied@linux.ie>,
  VMware Graphics <linux-graphics-maintainer@vmware.com>,
  Mel Gorman <mgorman@suse.de>, nouveau@lists.freedesktop.org,
  Dave Airlie <airlied@redhat.com>, linux-snps-arc@lists.infradead.org,
  Ben Skeggs <bskeggs@redhat.com>, linux-xtensa@linux-xtensa.org,
- Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
+ Paul McKenney <paulmck@kernel.org>, intel-gfx@lists.freedesktop.org,
  Roland Scheidegger <sroland@vmware.com>, Josef Bacik <josef@toxicpanda.com>,
  Steven Rostedt <rostedt@goodmis.org>,
  Linus Torvalds <torvalds@linuxfoundation.org>,
@@ -110,77 +110,82 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  Jani Nikula <jani.nikula@linux.intel.com>, Chris Zankel <chris@zankel.net>,
  Michal Simek <monstr@monstr.eu>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, linux-mm@kvack.org,
+ Nick Hu <nickhu@andestech.com>, Chris Mason <clm@fb.com>,
  Vineet Gupta <vgupta@synopsys.com>, linux-mips@vger.kernel.org,
- Christian Koenig <christian.koenig@amd.com>, Benjamin LaHaise <bcrl@kvack.org>,
+ "David S. Miller" <davem@davemloft.net>, Benjamin LaHaise <bcrl@kvack.org>,
  Daniel Vetter <daniel@ffwll.ch>, linux-fsdevel@vger.kernel.org,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>, linux-btrfs@vger.kernel.org,
+ Christian Koenig <christian.koenig@amd.com>, linux-btrfs@vger.kernel.org,
  Greentime Hu <green.hu@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-There is no requirement to disable pagefaults and preemption for these
-cache management mappings.
+There is no reason to disable pagefaults and preemption as a side effect of
+kmap_atomic_prot().
 
-Replace kmap_atomic_pfn() with kmap_local_pfn(). This allows to remove
-kmap_atomic_pfn() in the next step.
+Use kmap_local_page_prot() instead and document the reasoning for the
+mapping usage with the given pgprot.
+
+Remove the NULL pointer check for the map. These functions return a valid
+address for valid pages and the return was bogus anyway as it would have
+left preemption and pagefaults disabled.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
 ---
 V3: New patch
 ---
- arch/arm/mm/cache-feroceon-l2.c |    6 +++---
- arch/arm/mm/cache-xsc3l2.c      |    4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo_util.c |   20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
---- a/arch/arm/mm/cache-feroceon-l2.c
-+++ b/arch/arm/mm/cache-feroceon-l2.c
-@@ -49,9 +49,9 @@ static inline unsigned long l2_get_va(un
- 	 * we simply install a virtual mapping for it only for the
- 	 * TLB lookup to occur, hence no need to flush the untouched
- 	 * memory mapping afterwards (note: a cache flush may happen
--	 * in some circumstances depending on the path taken in kunmap_atomic).
-+	 * in some circumstances depending on the path taken in kunmap_local).
- 	 */
--	void *vaddr = kmap_atomic_pfn(paddr >> PAGE_SHIFT);
-+	void *vaddr = kmap_local_pfn(paddr >> PAGE_SHIFT);
- 	return (unsigned long)vaddr + (paddr & ~PAGE_MASK);
- #else
- 	return __phys_to_virt(paddr);
-@@ -61,7 +61,7 @@ static inline unsigned long l2_get_va(un
- static inline void l2_put_va(unsigned long vaddr)
- {
- #ifdef CONFIG_HIGHMEM
--	kunmap_atomic((void *)vaddr);
-+	kunmap_local((void *)vaddr);
- #endif
- }
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -181,13 +181,15 @@ static int ttm_copy_io_ttm_page(struct t
+ 		return -ENOMEM;
  
---- a/arch/arm/mm/cache-xsc3l2.c
-+++ b/arch/arm/mm/cache-xsc3l2.c
-@@ -59,7 +59,7 @@ static inline void l2_unmap_va(unsigned
- {
- #ifdef CONFIG_HIGHMEM
- 	if (va != -1)
--		kunmap_atomic((void *)va);
-+		kunmap_local((void *)va);
- #endif
- }
+ 	src = (void *)((unsigned long)src + (page << PAGE_SHIFT));
+-	dst = kmap_atomic_prot(d, prot);
+-	if (!dst)
+-		return -ENOMEM;
++	/*
++	 * Ensure that a highmem page is mapped with the correct
++	 * pgprot. For non highmem the mapping is already there.
++	 */
++	dst = kmap_local_page_prot(d, prot);
  
-@@ -75,7 +75,7 @@ static inline unsigned long l2_map_va(un
- 		 * in place for it.
- 		 */
- 		l2_unmap_va(prev_va);
--		va = (unsigned long)kmap_atomic_pfn(pa >> PAGE_SHIFT);
-+		va = (unsigned long)kmap_local_pfn(pa >> PAGE_SHIFT);
- 	}
- 	return va + (pa_offset >> (32 - PAGE_SHIFT));
- #else
+ 	memcpy_fromio(dst, src, PAGE_SIZE);
+ 
+-	kunmap_atomic(dst);
++	kunmap_local(dst);
+ 
+ 	return 0;
+ }
+@@ -203,13 +205,15 @@ static int ttm_copy_ttm_io_page(struct t
+ 		return -ENOMEM;
+ 
+ 	dst = (void *)((unsigned long)dst + (page << PAGE_SHIFT));
+-	src = kmap_atomic_prot(s, prot);
+-	if (!src)
+-		return -ENOMEM;
++	/*
++	 * Ensure that a highmem page is mapped with the correct
++	 * pgprot. For non highmem the mapping is already there.
++	 */
++	src = kmap_local_page_prot(s, prot);
+ 
+ 	memcpy_toio(dst, src, PAGE_SIZE);
+ 
+-	kunmap_atomic(src);
++	kunmap_local(src);
+ 
+ 	return 0;
+ }
 
 
 _______________________________________________
